@@ -9,8 +9,8 @@ class SentenceSplitter:
 
 	ABBR_FILE = "data/abbr.txt"
 	
-	#EOS = "\001"	#fixme
-	EOS = "<>"		# for testing only
+	EOS = "\001"
+	#EOS = "<>"		# for testing only
 	P = """[\.!?]"""				## PUNCTUATION
 	AP = """(?:'|"|»|\)|\]|\})?"""	## AFTER PUNCTUATION
 	PAP = "%s%s" % (P, AP)
