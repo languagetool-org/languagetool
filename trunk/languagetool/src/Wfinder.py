@@ -176,11 +176,20 @@ class Wfinder:
 			ujlista = []
 		fdic.close()
 
-	def do_test(self,l):
+	def do_keytest(self,l):
 		if l == "":
 			return ""
 		if szodic.has_key(l):
 			return "+ %s" %l
+		else:
+			return "- %s" %l
+
+		
+	def do_test(self,l):
+		if l == "":
+			return ""
+#		if szodic.has_key(l):
+#			return "+ %s" %l
 		else:
 #			print "not found %s" %l
 			oldword = l
@@ -205,7 +214,7 @@ class Wfinder:
 					if len(appnd):
 						if l[-len(appnd):] != appnd:
 							continue
-					if len(appnd):
+#					if len(appnd):
 						restoredWord = l[0:len(l)-len(appnd)]
 					else:
 						restoredWord = l
@@ -224,11 +233,11 @@ class Wfinder:
 								break
 						if break_it:
 							continue
-					else:
-						if appnd == l[:len(appnd)]:
-							restoredWord = l[len(appnd):]
-						else:
-							continue
+#					else:
+#						if appnd == l[:len(appnd)]:
+#							restoredWord = l[len(appnd):]
+#						else:
+#							continue
 					if szodic.has_key(restoredWord):
 						flags = szodic[restoredWord]
 						if flags == "": # tktk
@@ -328,13 +337,27 @@ class Wfinder:
 			self.aff_read()
 			self.dic_read()
 			self.is_initialized = 1
-		result = self.do_test(l)
+		lcasetest = 0
+		result = self.do_keytest(l)
 		if result[0] == '-':
 			lu = l[0]
 			if lu != lu.lower():
 				l1 = lu[0].lower()+l[1:]
 				if l1 != l:
-					result = self.do_test(l1)
+					lcasetest = 1;
+					result = self.do_keytest(l1)
+					#
+					# in languages not German more likely to find
+					# a lower case word than an uppercase
+					#
+					if result[0] == '-' and self.textlanguage != 'de':
+						tmp = l1
+						l1 = l
+						l = tmp
+		if result[0] == '-':
+			result = self.do_test(l)
+		if result[0] == '-' and lcasetest == 1:
+			result = self.do_test(l1)
 		typ = ''
 		if result[0] != '-':
 			src = result.split()
@@ -383,6 +406,60 @@ class Wfinder:
 					elif typ[0] == 'N':
 						if word != oword and typ[-1:] == 'S':
 							typ = typ[0:-1]
+			if self.textlanguage == 'hu':
+#				print word+" "+oword+" "+typ
+				dif = len(oword) - len(word)
+				if (typ[0] == 'V' or typ[0:2] == 'SI') and word != oword:
+					ik = ''
+					telo = 'SI'
+					if typ[0] == 'V':
+						telo = 'V'
+					if oword[0:2] != word[0:2]:
+						ik = 'IK'
+					if oword[-3:]  in (u'iük','iuk', 'nak', 'nek','tak', 'tek') or oword[-2:] in (u'ák', u'ék'):
+						typ = ik + telo + '6'
+					elif oword[-3:]  in ('tok','tek', u'tök'):
+						typ = ik + telo + '5'
+					elif oword[-3:]  in (u'ünk','unk', u'ánk', u'énk') or oword[-2:] in ('uk', u'ük'):
+						typ = ik + telo + '4'
+					elif oword[-2:]  in ('sz','od', 'ed', u'öd',u'éd','ad',u'ád'):
+						typ = ik + telo + '2'
+					elif oword[-2:]  in ('ok','ek',u'ök','om','em',u'öm', u'ám', u'ém', 'am'):
+						typ = ik + telo + '1'
+					elif oword[-2:] in ('va', 've') or oword[-3:] in (u'ván', u'vén'):
+						typ = 'ADV'
+					elif oword[-2:]  == 'ni':
+						typ = 'INF'
+					else:
+						typ = ik + telo + '3'
+				elif typ[0:3] == 'PP4':
+					if oword != 'mi':
+						typ = 'ADV'
+				elif typ[0:3] == 'ADJ':
+					if oword[-2:]  in ('ek','ok', 'ak', u'ék', u'ák') and dif > 0 and (dif < 3 or ((word[0:1] != oword[0:1]) and dif < 9)):
+						typ = 'ADJP'
+					elif oword[-1:]  in (u'é',u'á') and dif > 0 and (dif < 5 or ((word[0:1] != oword[0:1]) and dif < 12)):
+						typ = 'ADV'
+					elif oword[-2:] in ('an', 'en', 'bb','ul',u'ül') and dif == 2:
+						typ = 'ADV'
+					elif dif != 0:
+						typ = 'ADV'
+				elif typ[0] == 'N':
+					if oword[-2:]  in ('ek','ok', 'ak', u'ék', u'ák', u'ók',u'ûk',u'õk',u'úk') and dif > 0 and dif < 3 :
+						typ = 'NP'
+					elif oword[-1:] == 'i' and dif == 1:
+						typ = 'DNA'
+					elif (oword[-1:] in(u'ú', u'û') and dif == 1) or (oword[-2:] in (u'jú', u'jû')  and dif == 2):
+						typ = 'ADJS'
+					elif typ == 'N':
+						if oword[-1] == 'k' and oword == word:
+							typ = 'NP'
+						else:
+							typ = 'NS'
+					elif  dif >= 2:
+						typ = 'N'
+				if typ[0] == 'N' and oword == word and word[-1] != 'k':
+						typ = typ+'N'
 #
 # end of language specific rules for new languages
 #

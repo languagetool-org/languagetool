@@ -1,31 +1,25 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="iso-8859-1"?>
 <!DOCTYPE rules PUBLIC "-//W3C//DTD GrammarRules 0.1//EN" "rules.dtd">
 <!--
 Rules: Grammar and Typos
 (c) 2004 Transam transam45@nospam.gmx.de
-$Id: hugrammar.xml,v 1.1 2004-05-23 21:46:20 dnaber Exp $
+$Id: hugrammar.xml,v 1.2 2004-06-13 19:22:57 tyuk Exp $
 -->
 <rules>
 	<rulegroup id="vesszo" name="vesszo szabalyok">
 	<message>vesszo szabalyok</message>
 	<rule id="bar" name="Vesszo ige utan bar,noha elott">
-		<pattern lang="hu">(V1|V2|V3|V4|V5|V6) RART</pattern>
+		<pattern lang="hu">(V1|V2|V3|V4|V5|V6|IKV1|IKV2|IKV3|IKV4|IKV5|IKV6|SI1|SI2|SI3|SI4|SI5|SI6|IKSI1|IKSI2|IKSI3|IKSI4|IKSI5|IKSI6) RART</pattern>
 		<message>Vesszo ige utan bar,noha elott</message>
 		<example type="correct">kiment<em>,</em> pedig</example>
 		<example type="incorrect">kiment pedig</example>
-	</rule>
-	<rule id="DR" name="Dr utan pontot kell tenni">
-		<pattern lang="hu">"Dr"</pattern>
-		<message>Dr utan pontot kell tenni</message>
-		<example type="correct">Dr<em>.</em> </example>
-		<example type="incorrect">Dr </example>
 	</rule>
 	</rulegroup>
 	<rulegroup id="igekoto" name="Igekotos segedige">
 	<message>meg tud irni</message>
 	<rulegroup id="Igekotos segedige" name="igekotos segedige">
 	<message>Egyes es tobbesszam hasznalata</message>
-	<rule id="ADJN" name="Igekotos segedige">
+	<rule id="IKSI" name="Igekotos segedige">
 		<pattern lang="hu">(IKSI1|IKSI2|IKSI3|IKSI4|IKSI5|IKSI6) INF</pattern>
 		<message>igekotos segedige</message>
 		<example type="correct">meg tud irni</example>
@@ -33,13 +27,13 @@ $Id: hugrammar.xml,v 1.1 2004-05-23 21:46:20 dnaber Exp $
 	</rule>
 	</rulegroup>
 	<rule id="NSV" name="Egyesszamu fonev utan ige egyesszam">
-		<pattern lang="hu">NS (V4|V5|V6)</pattern>
+		<pattern lang="hu">NSN (V4|V5|V6|IKV4|IKV5|IKV6|SI4|SI5|SI6|IKSI4|IKSI5|IKSI6)</pattern>
 		<message>Egyesszamu fonev utan ige egyesszam</message>
 		<example type="correct">eger tancol</example>
 		<example type="incorrect">eger tancolnak</example>
 	</rule>
 	<rule id="NPV" name="Tobbesszamu fonev utan ige tobbesszam">
-		<pattern lang="hu">NP (V1|V2|V3)</pattern>
+		<pattern lang="hu">NPN (V1|V2|V3|IKV1|IKV2|IKV3|SI1|SI2|SI3|IKSI1|IKSI2|IKSI3)</pattern>
 		<message>Tobbesszamu fonev utan ige tobbesszam</message>
 		<example type="correct">egerek tancolnak</example>
 		<example type="incorrect">egerek tancol</example>
@@ -48,49 +42,43 @@ $Id: hugrammar.xml,v 1.1 2004-05-23 21:46:20 dnaber Exp $
 	<rulegroup id="Igek" name="Igek es szemelyes nevmas">
 	<message>En utan egyes szam elso szemely</message>
 	<rule id="EN" name="En utan egyes szam elso szemely">
-		<pattern lang="hu">PP1 (V2|V3|V4|V5|V6)</pattern>
+		<pattern lang="hu">PP1 (V2|V3|V4|V5|V6|IKV2|IKV3|IKV4|IKV5|IKV6|SI2|SI3|SI4|SI5|SI6|IKSI2|IKSI3|IKSI4|IKSI5|IKSI6)</pattern>
 		<message>En utan egyes szam elso szemely</message>
 		<example type="correct">En megyek</example>
 		<example type="incorrect">En megy</example>
 	</rule>
 	<rule id="TE" name="Te utan egyes szam masodik szemely">
-		<pattern lang="hu">PP2 (V1|V3|V4|V5|V6)</pattern>
+		<pattern lang="hu">PP2 (V1|V3|V4|V5|V6|IKV1|IKV3|IKV4|IKV5|IKV6|SI1|SI3|SI4|SI5|SI6|IKSI1|IKSI3|IKSI4|IKSI5|IKSI6)</pattern>
 		<message>Te utan egyes szam masodik szemely</message>
 		<example type="correct">Te mesz</example>
 		<example type="incorrect">Te megy</example>
 	</rule>
 	<rule id="O" name="O utan egyes szam harmadik szemely">
-		<pattern lang="hu">PP3 (V1|V2|V4|V5|V6)</pattern>
+		<pattern lang="hu">PP3 (V1|V2|V4|V5|V6|IKV1|IKV2|IKV4|IKV5|IKV6|SI1|SI2|SI4|SI5|SI6|IKSI1|IKSI2|IKSI4|IKSI5|IKSI6)</pattern>
 		<message>O utan egyes szam harmadik szemely</message>
 		<example type="correct">o megy</example>
 		<example type="incorrect">o mesz</example>
 	</rule>
-	<rule id="MI" name="Mi utan tobbes szam elso szemely">
-		<pattern lang="hu">PP4 (V1|V2|V3|V5|V6)</pattern>
-		<message>Mi utan tobbes szam elso szemely</message>
-		<example type="correct">mi megyunk</example>
-		<example type="incorrect">mi mesz</example>
-	</rule>
 	<rule id="TI" name="Ti utan tobbes szam masodik szemely">
-		<pattern lang="hu">PP5 (V1|V2|V3|V4|V6)</pattern>
+		<pattern lang="hu">PP5 (V1|V2|V3|V4|V6|IKV1|IKV2|IKV3|IKV4|IKV6|SI1|SI2|SI3|SI4|SI6|IKSI1|IKSI2|IKSI3|IKSI4|IKSI6)</pattern>
 		<message>Ti utan tobbes szam masodik szemely</message>
 		<example type="correct">ti mentek</example>
 		<example type="incorrect">ti mesz</example>
 	</rule>
 	<rule id="OK" name="Ok utan tobbes szam harmadik szemely">
-		<pattern lang="hu">PP6 (V1|V2|V3|V4|V5)</pattern>
+		<pattern lang="hu">PP6 (V1|V2|V3|V4|V5|IKV1|IKV2|IKV3|IKV4|IKV5|SI1|SI2|SI3|SI4|SI5|IKSI1|IKSI2|IKSI3|IKSI4|IKSI5)</pattern>
 		<message>Ok utan tobbes szam harmadik szemely</message>
 		<example type="correct">ok mennek</example>
 		<example type="incorrect">ok mesz</example>
 	</rule>
 	<rule id="CRDNP" name="Szam utan egyesszamu fonev">
-		<pattern lang="hu">CRD NP</pattern>
+		<pattern lang="hu">CRD (NP|NPN)</pattern>
 		<message>Szam utan egyesszamu fonev</message>
 		<example type="correct">tiz cica</example>
 		<example type="incorrect">tiz cicak</example>
 	</rule>
 	<rule id="ADJADV" name="Melleknev hatarozo helyett">
-		<pattern lang="hu">ADJ (V1|V2|V3|V4|V5)</pattern>
+		<pattern lang="hu">ADJS (V1|V2|V3|V4|V5|V6|IKV1|IKV2|IKV3|IKV4|IKV5|IKV6)</pattern>
 		<message>Melleknev hatarozo helyett</message>
 		<example type="correct">szepen beszel</example>
 		<example type="incorrect">szep beszel</example>
@@ -130,6 +118,82 @@ $Id: hugrammar.xml,v 1.1 2004-05-23 21:46:20 dnaber Exp $
 		<message>Ok es fonevi igenev utan tobbes szam harmadik szemelyu ige</message>
 		<example type="correct">ok menni fognak</example>
 		<example type="incorrect">ok menni fogtok</example>
+	</rule>
+	<rule id="KI" name="Ki utan tobbes szamu ige">
+		<pattern lang="hu">"(ki|kicsoda|micsoda)" (V4|V5|V6|IKV4|IKV5|IKV6|SI4|SI5|SI6|IKSI4|IKSI5|IKSI6)</pattern>
+		<message>Ki, mi utan tobbes szamu ige</message>
+		<example type="correct">ki van ott</example>
+		<example type="incorrect">ki vannak ott</example>
+	</rule>
+	<rule id="KIK" name="Kik utan egyes szamu ige">
+		<pattern lang="hu">"(kik|kicsodák|mik|micsodák)" (V1|V2|V3|IKV1|IKV2|IKV3|SI1|SI2|SI3|IKSI1|IKSI2|IKSI3)</pattern>
+		<message>Kik, mik utan egyes szamu ige</message>
+		<example type="correct">kik vannak ott</example>
+		<example type="incorrect">ki vannak ott</example>
+	</rule>
+	<rule id="MEGVAN" name="megvan egybe irando">
+		<pattern lang="hu">"meg" "van" "(a|az)"</pattern>
+		<message>megvan egybe irando</message>
+		<example type="correct">megvan a toll</example>
+		<example type="incorrect">meg van a velemenyem</example>
+	</rule>
+	<rule id="NEIK" name="nem elvalo igekoto">
+		<pattern lang="hu">NEIK (V1|V2|V3|V4|V5|V6)"</pattern>
+		<message>at nem elvalo igekoto</message>
+		<example type="correct">atert</example>
+		<example type="incorrect">at ert</example>
+	</rule>
+	<rule id="HANY" name="Hany utan tobbes szamu fonev">
+		<pattern lang="hu">INTRN (NP|NPN)</pattern>
+		<message>Hany utan tobbes szamu fonev</message>
+		<example type="correct">hany ember</example>
+		<example type="incorrect">mennyi emberek</example>
+	</rule>
+	</rulegroup>
+	<rulegroup id="melleknev" name="melleknev szama">
+	<message>melleknev szama</message>
+	<rule id="MNTOBB" name="Tobbesszamu mn, tobbesszamu fn">
+		<pattern lang="hu">ADJP "(a|az)" NSN ^(ADV|NPR|NSR|N)</pattern>
+		<message>Tobbesszamu mn, tobbesszamu fn</message>
+		<example type="correct">szepek a lanyok</example>
+		<example type="correct">szepek a lany fele menok</example>
+		<example type="incorrect">szepek a lany</example>
+	</rule>
+	<rule id="FNTOBB" name="Tobbesszamu fn, tobbesszamu mn">
+		<pattern lang="hu">NPN ADJS ^(N|NP|NS|NN|NPN|NSN)</pattern>
+		<message>Tobbesszamu fn, tobbesszamu mn</message>
+		<example type="correct">lanyok szepek</example>
+		<example type="incorrect">lany szepek</example>
+	</rule>
+	<rule id="MNEGY" name="Egyesszamu mn, egyesszamu fn">
+		<pattern lang="hu">ADJS "(a|az)" NPN</pattern>
+		<message>Egyesszamu mn, egyesszamu fn</message>
+		<example type="correct">szep a lany</example>
+		<example type="incorrect">szep a lanyok</example>
+	</rule>
+	<rule id="FNEGY" name="Egyesszamu fn, egyesszamu mn">
+		<pattern lang="hu">NSN ADJP ^(N|NP|NS|NN|NPN|NSN)</pattern>
+		<message>Egyesszamu fn, egyesszamu mn</message>
+		<example type="correct">lany szep</example>
+		<example type="incorrect">lany szepek</example>
+	</rule>
+	<rule id="ADJN" name="Mennyisegjelzo utan egyes szamu fn">
+		<pattern lang="hu">ADJN (NP|NPN)</pattern>
+		<message>Mennyisegjelzo utan egyes szamu fn</message>
+		<example type="correct">sok alma</example>
+		<example type="incorrect">sok almák</example>
+	</rule>
+	<rule id="ADJN" name="Mennyisegjelzo utan egyes szamu mn">
+		<pattern lang="hu">ADJN ADJP</pattern>
+		<message>Mennyisegjelzo utan egyes szamu mn</message>
+		<example type="correct">sok ugyes</example>
+		<example type="incorrect">sok ugyesek</example>
+	</rule>
+	<rule id="kolcs" name="Kolcsonoseen, kolcsonosen keverese">
+		<pattern lang="hu">"kölcsönösén"</pattern>
+		<message>Kolcsonoseen, kolcsonosen keverese</message>
+		<example type="correct">kocsonosen</example>
+		<example type="incorrect">kolcsonoseen</example>
 	</rule>
 	</rulegroup>
 </rules>
