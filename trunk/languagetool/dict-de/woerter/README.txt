@@ -6,5 +6,5 @@ woerter_komposita* hauptsächlich Komposita, sortiert nach Anfangsbuchstaben, um 
 alt.txt Wörter der alten Rechtschreibung, muss mit den anderen Dateien zusammen benutzt
 	werden, da allein nicht vollständig
 selten.txt sehr seltene Wörter, für eine Rechtschreibliste nicht zu empfehlen
-	In dieser Liste sind fast nur selten Wörter aus woerter_gross.txt und woerter_klein.txt,
-	die Komposite-Listen haben weitere sehr selten Wörter
+	In dieser Liste sind fast nur seltene Wörter aus woerter_gross.txt und woerter_klein.txt,
+	die Komposita-Listen haben weitere sehr seltene Wörter
