@@ -189,8 +189,6 @@ def checkWords(checker, words):
 	if r > 0:
 		# fixme: escape word
 		for mistake in ispell.getMistakes():
-			#print mistake
-			#print mistake.getWord()
 			# TODO: make faster
 			pos = []
 			for p in mistake.getPositions():
@@ -198,12 +196,9 @@ def checkWords(checker, words):
 					(result, p, p+len(mistake.getWord()), \
 					unicode(mistake.getWord(), 'latin1'), \
 					unicode(str.join(',', mistake.corrections), ('latin1')))
-					#(result, p, p+len(mistake.getWord()), mistake.getWord().encode('latin1'), str.join(',', mistake.corrections).encode('latin1'))
 
 	### Grammar + Style:
-	#tx = time.time()
 	(rule_matches, res, tags) = checker.check(words)
-	#print "=>%.2f" % (time.time()-tx)
 	# FIXME: only if there's no overlap?!
 	result = result + res
 		
