@@ -29,14 +29,17 @@ import GermanTest
 import HungarianTest
 
 suite = unittest.TestSuite()
-if len(sys.argv) == 3 and sys.argv[1] == "rules" and (sys.argv[2] == "en" or sys.argv[2] == "all"):
-#	suite = unittest.TestSuite()
+did_test = 0
+if len(sys.argv) == 3 and (sys.argv[1] == "rules" or sys.argv[1] == "all") and (sys.argv[2] == "en" or sys.argv[2] == "all"):
 	suite.addTest(unittest.makeSuite(EnglishTest.EnglishTestCase))
-elif len(sys.argv) == 3 and sys.argv[1] == "rules" and (sys.argv[2] == "de" or sys.argv[2] == "all"):
+	did_test = 1
+if len(sys.argv) == 3 and (sys.argv[1] == "rules" or sys.argv[1] == "all") and (sys.argv[2] == "de" or sys.argv[2] == "all"):
  	suite.addTest(unittest.makeSuite(GermanTest.GermanTestCase))
-elif len(sys.argv) == 3 and sys.argv[1] == "rules" and (sys.argv[2] == "hu" or sys.argv[2] == "all"):
+	did_test = 1
+if len(sys.argv) == 3 and (sys.argv[1] == "rules" or sys.argv[1] == "all") and (sys.argv[2] == "hu" or sys.argv[2] == "all"):
 	suite.addTest(unittest.makeSuite(HungarianTest.HungarianTestCase))
-elif len(sys.argv) == 2 and sys.argv[1] == "all":
+	did_test = 1
+if (len(sys.argv) == 2 and sys.argv[1] == "programs")  or (len(sys.argv) == 3 and sys.argv[1] == "rules" and sys.argv[2] == "all"):
 	suite.addTest(unittest.makeSuite(ChunkerTest.ChunkerTestCase))
 	suite.addTest(unittest.makeSuite(RulesTest.RuleTestCase))
 	suite.addTest(unittest.makeSuite(RulesTest.RuleMatchTestCase))
@@ -45,7 +48,12 @@ elif len(sys.argv) == 2 and sys.argv[1] == "all":
 	# this one takes most time:
 	suite.addTest(unittest.makeSuite(TaggerTest.TaggerTestCase))
 	suite.addTest(unittest.makeSuite(EnglishTest.EnglishTestCase))
-else:
-	print "Usage: testsuite.py <all|rules| en, de, hu, or all>"
+	did_test = 1
+if did_test == 0:
+	print "Usage: testsuite.py <programs|rules en, de, hu, or all>"
+	print "example: testsuite.py programs   - do program tests"
+	print "example: testsuite.py rules all  - do all tests"
+	print "example: testsuite.py rules hu  -  do Hungarian rule tests"
+	print "example: testsuite.py rules all  - do all rule tests"
 	sys.exit()
 unittest.TextTestRunner().run(suite)
