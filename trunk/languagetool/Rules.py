@@ -1,6 +1,6 @@
 # Class for Grammar and Style Rules
 # (c) 2002,2003 Daniel Naber <daniel.naber@t-online.de>
-#$rcs = ' $Id: Rules.py,v 1.7 2003-06-21 19:49:04 dnaber Exp $ ' ;
+#$rcs = ' $Id: Rules.py,v 1.8 2003-06-22 18:36:01 dnaber Exp $ ' ;
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -28,7 +28,9 @@ import xml.dom.minidom
 class Rules:
 	"""All known style and grammar error rules (from XML and from python code)."""
 
-	rules_grammar_file = "rules/grammar.xml"
+	rule_files = [os.path.join("rules", "grammar.xml")]
+#						os.path.join("rules", "words.xml")]
+						#fixme: false friends
 	
 	def __init__(self, max_sentence_length, grammar_rules):
 		"""Parse all rules and put them in the self.rules list, together
@@ -40,15 +42,16 @@ class Rules:
 		self.rules.append(length_rule)
 		# minidom expects the DTD in the current directory, not in the
 		# documents directory, so we have to chdir to 'rules':
-		dir_temp = os.getcwd()
-		os.chdir(os.path.dirname(self.rules_grammar_file))
-		doc = xml.dom.minidom.parse(os.path.basename(self.rules_grammar_file))
-		os.chdir(dir_temp)
-		rule_nodes = doc.getElementsByTagName("rule")
-		for rule_node in rule_nodes:
-			rule = PatternRule(rule_node)
-			if grammar_rules == None or rule.rule_id in grammar_rules:
-				self.rules.append(rule)
+		for filename in self.rule_files:
+			dir_temp = os.getcwd()
+			os.chdir(os.path.dirname(filename))
+			doc = xml.dom.minidom.parse(os.path.basename(filename))
+			os.chdir(dir_temp)
+			rule_nodes = doc.getElementsByTagName("rule")
+			for rule_node in rule_nodes:
+				rule = PatternRule(rule_node)
+				if grammar_rules == None or rule.rule_id in grammar_rules:
+					self.rules.append(rule)
 		return
 
 class Rule:
@@ -103,7 +106,7 @@ class SentenceLengthRule(Rule):
 				too_long_end = text_length
 		if too_long:
 			matches.append(RuleMatch("MAX_LEN", too_long_start,
-				too_long_end, self.max_length, self.max_length+1,
+				too_long_end, 
 				"This sentence is %d words long, which exceeds the "
 				"configured limit of %d words." % (count, self.max_length)))
 		return matches
@@ -123,7 +126,18 @@ class PatternRule(Rule):
 		for token_string in token_strings:
 			token = Token(token_string)
 			self.tokens.append(token)
-		self.language = rule_node.getElementsByTagName("pattern")[0].getAttribute("lang")
+		pattern_node = rule_node.getElementsByTagName("pattern")[0]
+		self.language = pattern_node.getAttribute("lang")
+		marker_from_att = pattern_node.getAttribute("mark_from")
+		if marker_from_att:
+			self.marker_from = int(marker_from_att)
+		else:
+			self.marker_from = 0
+		marker_to_att = pattern_node.getAttribute("mark_to")
+		if marker_to_att:
+			self.marker_to = int(marker_to_att)
+		else:
+			self.marker_to = 0
 		self.case_sensitive = 0
 		if rule_node.getElementsByTagName("pattern")[0].getAttribute("case_sensitive") == 'yes':
 			#print "*** %s" % rule_node.getElementsByTagName("pattern")[0].getAttribute("case_sensitive")
@@ -132,7 +146,6 @@ class PatternRule(Rule):
 			self.message = Tools.Tools.getXML(rule_node.getElementsByTagName("message")[0])
 		else:
 			self.message = Tools.Tools.getXML(rule_node.parentNode.getElementsByTagName("message")[0])
-		self.marker_position = int(rule_node.getElementsByTagName("marker")[0].childNodes[0].data)
 		example_nodes = rule_node.getElementsByTagName("example")
 		self.example_good = ""
 		self.example_bad = ""
@@ -145,14 +158,15 @@ class PatternRule(Rule):
 		self.false_positives = rule_node.getElementsByTagName("error_rate")[0].childNodes[0].data
 		return
 
-	def setVars(self, rule_id, pattern, message, marker_position, \
+	def setVars(self, rule_id, pattern, message, marker_from, marker_to, \
 			example_good, example_bad, case_sensitive, false_positives, language):
 		"""Manually initialize the pattern rule -- for test cases only."""
 		self.rule_id = rule_id
 		self.message = message
 		self.false_positives = false_positives
 		self.language = language
-		self.marker_position = marker_position
+		self.marker_from = marker_from
+		self.marker_to = marker_to
 		self.example_good = example_good
 		self.example_bad = example_bad
 		self.case_sensitive = case_sensitive
@@ -163,15 +177,24 @@ class PatternRule(Rule):
 			self.tokens.append(token)
 		return
 		
+	def isRealWord(self, tagged_words, i):
+		if not tagged_words[i][1] and tagged_words[i][2] != 'SENT_START' and \
+			tagged_words[i][2] != 'SENT_END':
+			return 0
+		return 1
+	
 	def match(self, tagged_words, position_fix):
 		"""Check if there are rules that match the tagged_words. Returns a list
 		of RuleMatch objects."""
 		matches = []
 		ct = 0
 		tagged_words_copy = tagged_words		# no copy, just a refernce
+		last_match = None
+		
+		#print tagged_words_copy
 		for word_tag_tuple in tagged_words_copy:
 			i = ct
-			p = 0
+			p = 0		# matched position in the pattern so far
 			expected_token = None		# expected token if the pattern matches
 			found = None
 			match = 1
@@ -179,8 +202,7 @@ class PatternRule(Rule):
 
 			while match:
 				try:
-					if not tagged_words_copy[i][1] and tagged_words_copy[i][2] != 'SENT_START' and \
-						tagged_words_copy[i][2] != 'SENT_END':
+					if not self.isRealWord(tagged_words_copy, i):
 						# here's just whitespace or other un-taggable crap:
 						i = i + 1
 						ct = ct + 1
@@ -224,27 +246,39 @@ class PatternRule(Rule):
 				p = p + 1
 
 			if match and p == len(self.tokens):
-				ct_tmp = 0
-				list_match_from = 0
-				list_match_to = 0
-				from_pos = 0
-				to_pos = 0
-				for tagged_word in tagged_words_copy:
-					#print "%s [fm=%d, marker=%d, ct=%d]<br>" % (str(tagged_word), first_match, self.marker_position, ct_tmp)
-					# TODO: break
-					# fixme: not correct at end of sentence (e.g. "...don't.") etc.??
-					if ct_tmp < first_match+self.marker_position:
-						from_pos = from_pos + len(tagged_word[0])
-						list_match_from = ct_tmp+1
-					if ct_tmp < ct+self.marker_position:
-						##fixme: problem at end...??
-						to_pos = to_pos + len(tagged_word[0])
-						list_match_to = ct_tmp+1
-					ct_tmp = ct_tmp + 1
+
+				if tagged_words_copy[first_match][1] == None:
+					first_match = first_match + 1
+				#print "fm=%d (%s)" % (first_match, tagged_words_copy[first_match])
+
+				p_tmp = 0
+				i_tmp = first_match
+				for tagged_word in tagged_words_copy[first_match:]:
+					if tagged_word[1] != None:
+						p_tmp = p_tmp + 1
+					if p_tmp >= len(self.tokens) + self.marker_to:
+						last_match = i_tmp
+						break
+					i_tmp = i_tmp + 1
+
+				if not last_match:
+					last_match = len(tagged_words_copy)
+				
+				char_count = 0
+				for tagged_word in tagged_words_copy[:first_match+self.marker_from]:
+					char_count = char_count + len(tagged_word[0])
+				from_pos = char_count
+
+				char_count = 0
+				for tagged_word in tagged_words_copy[:last_match+1]:
+					char_count = char_count + len(tagged_word[0])
+				to_pos = char_count
+
+				#print "f=%d"  % from_pos
+				#print "t=%d<br>"  % to_pos
 				match = RuleMatch(self.rule_id, \
-					from_pos+position_fix, \
-					to_pos+position_fix, \
-					list_match_from, list_match_to, self.message)
+					from_pos+position_fix, to_pos+position_fix, \
+					self.message)
 				matches.append(match)
 
 			ct = ct + 1		
@@ -253,12 +287,10 @@ class PatternRule(Rule):
 class RuleMatch:
 	"""A matching rule, i.e. an error or a warning and from/to positions."""
 	
-	def __init__(self, rule_id, from_pos, to_pos, list_pos_from, list_pos_to, message):
+	def __init__(self, rule_id, from_pos, to_pos, message):
 		self.id = rule_id
 		self.from_pos = from_pos
 		self.to_pos = to_pos
-		self.list_pos_from = list_pos_from
-		self.list_pos_to = list_pos_to
 		self.message = message
 		return
 
@@ -300,8 +332,7 @@ class Token:
 		if self.token.startswith('"'):
 			self.is_word = 1
 			if not self.token.endswith('"'):
-				print >> sys.stderr, "*** Warning: token '%s' starts with quote but doesn't\
-					end with quote!" % token
+				print >> sys.stderr, "*** Warning: token '%s' starts with quote but doesn't end with quote!" % self.token
 			self.token = self.token[1:(len(self.token)-1)]	# remove quotes
 		else:
 			self.is_tag = 1
