@@ -86,7 +86,6 @@ def displayForm(form):
 		<p>Then he <span class="error">look</span> at the building.<br>
 		I definitely think <span class="error">is</span> should be less than four years.<br>
 		This allows to provide a powerful <span class="error">a</span> help system.<br>
-		John will <span class="error">goes</span> home.<br>
 		His house is as big <span class="error">like</span> mine.<br>
 		His car is larger <span class="error">then</span> mine.
 		</p>
