@@ -99,6 +99,9 @@ class SentenceSplitter:
 		#text=~s/(\s\.\s)$EOS(\s*)/$1$2/sg;
 
 		text = re.compile("(\s%s\s)%s" % (self.PAP, self.EOS), re.DOTALL).sub("\\1", text)
+
+		# extension by dnaber --commented out, doesn't help:
+		#text = re.compile("(:\s+)%s(\s*[%s])" % (self.EOS, string.lowercase), re.DOTALL).sub("\\1\\2", text)
 		return text
 
 	def split_unsplit_stuff(self, text):

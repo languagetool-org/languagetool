@@ -31,7 +31,7 @@ class SentenceSplitterTest(unittest.TestCase):
 		self.doTest("This is a sentence.")
 		self.doTest("This is a sentence. #And this is another one.")
 		self.doTest("This is a sentence. #Isn't it? #Yes, it is.")
-		self.doTest("There's e.g. Mr. Hankey, who walks slowly... #But this time he ran.")
+		self.doTest("This is e.g. Mr. Smith, who talks slowly... #But this is another sentence.")
 		self.doTest("Chanel no. 5 is groovy.")
 		self.doTest("Mrs. Jones gave Peter $4.5, to buy Chanel No 5. #He never came back.")
 		self.doTest("On p. 6 there's nothing. #Another sentence.")
@@ -49,6 +49,7 @@ class SentenceSplitterTest(unittest.TestCase):
 		self.doTest('The "." should not be a delimiter in quotes.')
 		self.doTest('"Here he comes!" she said.')
 		self.doTest('"Here he comes!", she said.')
+		self.doTest('"Here he comes." #But this is another sentence.')
 		self.doTest('"Here he comes!". #That\'s what he said.')
 		self.doTest('The sentence ends here. #(Not me.)')
 		self.doTest("He won't. #Really.")
@@ -56,6 +57,13 @@ class SentenceSplitterTest(unittest.TestCase):
 		self.doTest("He won't say no. 5 is better. #Not really.")
 		self.doTest("They met at 5 p.m. on Thursday.")
 		self.doTest("They met at 5 p.m. #It was Thursday.")
+		self.doTest("This is it: a test.")
+		# known not to work:
+		#self.doTest("This is it: #A final test.")
+		# two returns -> paragraph -> new sentence:
+		self.doTest("He won't\n\n#Really.")
+		# Some people make two spaces after sentence end:
+		self.doTest("This is a sentence.  #And this is another one.")
 		# Missing space after sentence end:
 		self.doTest("James is from the Ireland!#He lives in Spain now.")
 		# From the abbreviation list:
@@ -84,4 +92,4 @@ class SentenceSplitterTest(unittest.TestCase):
 		return
 
 if __name__ == "__main__":
-    unittest.main()
+	unittest.main()
