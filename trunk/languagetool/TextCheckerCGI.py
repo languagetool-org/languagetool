@@ -21,7 +21,6 @@ import string
 import sys
 import os
 
-import config
 os.chdir(sys.path[0])
 sys.path.append(sys.path[0])
 
