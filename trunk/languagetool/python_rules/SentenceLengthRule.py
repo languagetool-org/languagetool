@@ -1,7 +1,7 @@
 # Rule that checks for longs entences
 # (c) 2003 Daniel Naber <daniel.naber@t-online.de>
 #
-#$rcs = ' $Id: SentenceLengthRule.py,v 1.1 2003-07-27 12:47:13 dnaber Exp $ ' ;
+#$rcs = ' $Id: SentenceLengthRule.py,v 1.2 2004-03-14 15:34:08 dnaber Exp $ ' ;
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -26,7 +26,7 @@ import Rules
 class SentenceLengthRule(Rules.Rule):
 	"""Check if a sentence is 'too long'."""
 
-	max_length = 30
+	max_length = 0
 	
 	def __init__(self):
 		Rules.Rule.__init__(self, "SENTENCE_LENGTH", "This sentence is too long.", 0, None)
