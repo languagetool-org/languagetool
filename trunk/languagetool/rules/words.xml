@@ -3,7 +3,7 @@
 <!--
 Rules: Words that should not be used
 (c) 2001,2002,2003 Daniel Naber, daniel.naber@t-online.de, 2001-12-30
-$Id: words.xml,v 1.5 2003-07-28 01:39:23 dnaber Exp $
+$Id: words.xml,v 1.6 2003-08-22 20:19:58 dnaber Exp $
 -->
 <rules>
 
@@ -41,7 +41,6 @@ $Id: words.xml,v 1.5 2003-07-28 01:39:23 dnaber Exp $
 	<rule id="OR_SENT_START" name="Avoid 'Or' at the beginning of a sentence">
 		<pattern lang="en" mark_from="0" mark_to="-1">SENT_START "or"</pattern>
 		<message>Suggestion: don't start a sentence with <em>or</em>.</message>
-		<error_rate warnings="0" sentences="0">0</error_rate>
 		<example type="correct"><em>Instead</em>, one could think about other approaches.</example>
 		<example type="incorrect"><em>Or</em> one could think about other approaches.</example>
 	</rule>
@@ -49,9 +48,8 @@ $Id: words.xml,v 1.5 2003-07-28 01:39:23 dnaber Exp $
 	<rule id="BILLION" name="Avoid 'billion'">
 		<pattern lang="en">"billion"</pattern>
 		<message>Suggestion: use <em>thousand million</em> instead of billion to avoid ambiguities.</message>
-		<error_rate warnings="0" sentences="0">0</error_rate>
-		<example type="correct">Feds "Misplaced" $17.3 Thousand Million Last Year</example>
-		<example type="incorrect">Feds "Misplaced" $17.3 Billion Last Year</example>
+		<example type="correct">Feds "Misplaced" $17.3 <em>Thousand Million</em> Last Year</example>
+		<example type="incorrect">Feds "Misplaced" $17.3 <em>Billion</em> Last Year</example>
 	</rule>
 
 </rules>

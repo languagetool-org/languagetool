@@ -3,7 +3,7 @@
 <!--
 Rules: Grammar and Typos
 (c) 2001,2002,2003 Daniel Naber, daniel.naber@t-online.de
-$Id: grammar.xml,v 1.11 2003-08-05 00:07:20 dnaber Exp $
+$Id: grammar.xml,v 1.12 2003-08-22 20:20:09 dnaber Exp $
 -->
 <rules>
 
@@ -349,9 +349,7 @@ $Id: grammar.xml,v 1.11 2003-08-05 00:07:20 dnaber Exp $
 		<example type="incorrect">Then he <em>look</em> at the building.</example>
 	</rule>
 
-	<!-- fixme: "all I did was ..." : korrekt, wird aber als falsch erkannt;
-	Regel auch mit will|could|can|should|would|does
-	 -->
+	<!-- TODO: add will|could|can|should|would|does -->
 	<rule id="DID_BASE" name="Infinitive verb after 'did'">
 		<pattern lang="en">"did" (VVD|VVG|VVN|VVZ)</pattern>
 		<message>'Did' requires base form of verb.</message>
@@ -407,7 +405,6 @@ $Id: grammar.xml,v 1.11 2003-08-05 00:07:20 dnaber Exp $
 
 		<error_rate warnings="12" sentences="75900" />
 
-		<!-- TODO OLD: 65 of the 154 errors are mistaggings of "said" as in "...there is said..." -->
 		<rule>
 			<pattern lang="en" mark_from="1" mark_to="0">"is" (VVI|VVZ)</pattern>
 			<example type="correct">He is <em>walking</em> home.</example>
@@ -447,7 +444,6 @@ $Id: grammar.xml,v 1.11 2003-08-05 00:07:20 dnaber Exp $
 		<error_rate warnings="0" sentences="75900" />
 		<example type="correct">Type in the <em>form</em> on the web page.</example>
 		<example type="incorrect">Type in the <em>from</em> on the web page.</example>
-		<!-- <example type="triggers_error">...those from...</example> -->
 	</rule>
 
 	<rule id="CANNOT" name="Misspelling 'cannot'">
@@ -469,7 +465,7 @@ $Id: grammar.xml,v 1.11 2003-08-05 00:07:20 dnaber Exp $
 			<pattern lang="en" mark_from="1" mark_to="0">"(more|less)" "(then|as)"</pattern>
 			<example type="correct">The tagger will return more <em>than</em> one tag.</example>
 			<example type="incorrect">The tagger will return more <em>then</em> one tag.</example>
-			<!-- <example type="triggers_error">Think of it more <em>as</em> activity.</example> -->
+			<example type="triggers_error">Think of it more <em>as</em> activity.</example>
 		</rule>
 
 		<!-- TODO: 
@@ -480,7 +476,6 @@ $Id: grammar.xml,v 1.11 2003-08-05 00:07:20 dnaber Exp $
 			<pattern lang="en" mark_from="1" mark_to="0">(AJC) "(then|as)"</pattern>
 			<example type="correct">This house is bigger <em>than</em> mine.</example>
 			<example type="incorrect">This house is bigger <em>then</em> mine.</example>
-			<!-- <example type="triggers_error">Think of it more <em>as</em> activity.</example> -->
 		</rule>
 
 	</rulegroup>
@@ -496,7 +491,7 @@ $Id: grammar.xml,v 1.11 2003-08-05 00:07:20 dnaber Exp $
 			<pattern lang="en" mark_from="0" mark_to="-1">"its" (CJC|AT0|DT0|EX0|PRF|PRP|VM0|POS|PNP|AV0|AVP|TO0|DTQ|PNQ|DTQ|AVQ)</pattern>
 			<example type="correct"><em>It's</em> where people walk around.</example>
 			<example type="incorrect"><em>Its</em> where people walk around.</example>
-			<example type="triggers_error" reason="'every' is tagged as DT">London is a necropolis, <em>its</em> every corner the site of a murder, its soil a pudding of blood and tears.</example>
+			<example type="triggers_error" reason="'every' is tagged as AT0">London is a necropolis, <em>its</em> every corner the site of a murder, its soil a pudding of blood and tears.</example>
 		</rule>
 
 		<rule>
@@ -511,11 +506,10 @@ $Id: grammar.xml,v 1.11 2003-08-05 00:07:20 dnaber Exp $
 
 		<rule>
 			<pattern lang="en" mark_from="0" mark_to="-1">"its" "(a|the)"</pattern>
-			<!-- FIXME: this rule is triggered twice, see rule above -->
+			<!-- fixme: this rule is triggered twice, see rule above -->
 			<example type="correct"><em>It's</em> a good opportunity.</example>
 			<example type="incorrect"><em>Its</em> a good opportunity.</example>
-			<example type="triggers_error" reason="'heart' wrongly tagged as VB">Currently, there 
-				are fifteen records on <em>its</em> A list and twenty on its B list.</example>
+			<example type="triggers_error">Currently, there are fifteen records on <em>its</em> A list and twenty on its B list.</example>
 		</rule>
 
 	</rulegroup>
@@ -540,9 +534,6 @@ $Id: grammar.xml,v 1.11 2003-08-05 00:07:20 dnaber Exp $
 			<pattern lang="en" mark_to="-1">"no" (CJC|DT0|AT0|EX0|PRF|PRP|VM0|NP0|AVP|DTQ|PNQ|AVQ)</pattern>
 			<example type="correct">There's <em>now</em> a new building.</example>
 			<example type="incorrect">There's <em>no</em> a new building.</example>
-			<!--
-			<example type="triggers_error" reason="'no' tagged as DT"><em>No</em> no, he said.</example>
-			-->
 		</rule>
 
 		<rule>
