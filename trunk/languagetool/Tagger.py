@@ -181,7 +181,7 @@ class Text:
 		self.count_unambiguous = 0
 		self.count_ambiguous = 0
 		self.count_unknown = 0
-		self.nonword = re.compile("([\s,]+)")
+		self.nonword = re.compile("([\s,:;]+)")
 		self.sentence_end = re.compile("([.!?]+)$")
 		self.bnc_word_regexp = re.compile("<W\s+TYPE=\"(.*?)\".*?>(.*?)</W>", \
 			re.DOTALL|re.IGNORECASE)
@@ -276,45 +276,30 @@ class Text:
 		[(orig_word, normalised_word, [(tag, probability])]"""
 		orig_word = word
 		word = self.normalise(word)
-		###
-		#print word
+		#print "#%s<br>" % word
 		#word = re.compile("[^\w' ]", re.IGNORECASE).sub("", word)
 		if (not word) or self.nonword.match(word):
 			# word is just white space
 			return [(orig_word, None, [])]
 		# sanity check:
 		if word.count("'") > 1:
-			print >> sys.stderr, "*** What's this, more than one apostroph: '%s'!?" % word
-		short_form_pos = word.find("n't")
-		if short_form_pos != -1 and short_form_pos != 0:
-			# sanity check:
-			if not word.endswith("n't"):
-				#print >> sys.stderr, "*** What's this, negation not at the end: '%s'!?" % word
-				# it's okay, e.g. "...didn't."
-				pass
-			# Special case: BNC tags "wasn't" like this: "<w VBD>was<w XX0>n't"
-			# Call yourself, but don't indefinitely recurse.
-			# Also ignore cases where the apostroph occurs twice in a word
-			first_part = self.tagWord(word[0:short_form_pos], data_table)[0]
-			second_part = self.tagWord("n't", data_table)[0]
-			tag_results = []
-			tag_results.append((word[0:short_form_pos], first_part[1], first_part[2]))
-			tag_results.append(("n't", second_part[1], second_part[2]))
-			return tag_results
-		possesive_pos = word.find("'s")
-		if possesive_pos != -1 and possesive_pos != 0:
-			# sanity check:
-			if not word.endswith("'s"):
-				#print >> sys.stderr, "*** What's this, possesive not at the end: '%s'!?" % word
-				# it's okay, e.g. "...John's."
-				pass
-			first_part = self.tagWord(word[0:possesive_pos], data_table)[0]
-			second_part = self.tagWord("'s", data_table)[0]
-			tag_results = []
-			#FIXME: return prob:
-			tag_results.append((word[0:possesive_pos], first_part[1], first_part[2]))
-			tag_results.append(("'s", second_part[1], second_part[2]))
-			return tag_results
+			print >> sys.stderr, "*** What's this, more than one apostroph: '%s'?" % word
+
+		# Special cases: BNC tags "wasn't" like this: "<w VBD>was<w XX0>n't"
+		# Call yourself, but don't indefinitely recurse.
+		special_cases = ("n't", "'s", "'re", "'ll")
+		for special_case in special_cases:
+			special_case_pos = word.find(special_case)
+			if special_case_pos != -1 and special_case_pos != 0:
+				first_part = self.tagWord(word[0:special_case_pos], data_table)[0]
+				second_part = self.tagWord(special_case, data_table)[0]
+				tag_results = []
+				#FIXME: return prob?:
+				#print second_part
+				tag_results.append((word[0:special_case_pos], first_part[1], first_part[2]))
+				tag_results.append((special_case, second_part[1], second_part[2]))
+				return tag_results
+
 		#### fixme: ignore upper/lower case?, no -- seems to decrease precision
 		#word = word.lower()
 		if not data_table.has_key(word):
@@ -595,8 +580,9 @@ class TextToTag(Text):
 		the probabilistic tagger. Returns a (word, normalized_word, tag) triple."""
 		if prev_word and prev_word.lower() == 'it' and curr_word == "'s":
 			return (curr_word, tagged_word, 'VBZ')
-		elif prev_word and prev_word.lower() != 'it' and curr_word == "'s":
-			return (curr_word, tagged_word, 'POS')
+		#fixme: incorrectly tags "he's"
+		#elif prev_word and prev_word.lower() != 'it' and curr_word == "'s":
+		#	return (curr_word, tagged_word, 'POS')
 		return None
 
 	def applyTagRules(self, curr_word, tagged_word, curr_tag):
