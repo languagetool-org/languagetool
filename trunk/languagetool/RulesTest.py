@@ -1,7 +1,7 @@
 #!/usr/bin/python
 # Test cases for Rule.py
 # (c) 2002,2003 Daniel Naber <daniel.naber@t-online.de>
-#$rcs = ' $Id: RulesTest.py,v 1.9 2003-07-06 00:26:58 dnaber Exp $ ' ;
+#$rcs = ' $Id: RulesTest.py,v 1.10 2003-07-06 21:17:38 dnaber Exp $ ' ;
 
 import unittest
 import Rules
@@ -59,6 +59,38 @@ class RuleTestCase(unittest.TestCase):
 
 		return
 
+    def testAvsAnRule(self):
+		r = Rules.AvsAnRule()
+		# okay:
+		warnings = r.match([('A','A','DET'),(' ',None,None),('test','test','NN')])
+		self.assertEqual(len(warnings), 0)
+		warnings = r.match([('a','a','DET'),(' ',None,None),('test','test','NN')])
+		self.assertEqual(len(warnings), 0)
+		warnings = r.match([('an','an','DET'),(' ',None,None),('idea','idea','NN')])
+		self.assertEqual(len(warnings), 0)
+
+		# okay (exceptions list):
+		warnings = r.match([('a','a','DET'),(' ',None,None),('university','university','NN')])
+		self.assertEqual(len(warnings), 0)
+		warnings = r.match([('an','an','DET'),(' ',None,None),('hour','hour','NN')])
+		self.assertEqual(len(warnings), 0)
+
+		# wrong:
+		warnings = r.match([('An','An','DET'),(' ',None,None),('test','test','NN')])
+		self.assertEqual(len(warnings), 1)
+		warnings = r.match([('an','an','DET'),(' ',None,None),('test','test','NN')])
+		self.assertEqual(len(warnings), 1)
+		warnings = r.match([('a','a','DET'),(' ',None,None),('idea','idea','NN')])
+		self.assertEqual(len(warnings), 1)
+
+		# wrong (exceptions list):
+		warnings = r.match([('an','an','DET'),(' ',None,None),('university','university','NN')])
+		self.assertEqual(len(warnings), 1)
+		warnings = r.match([('a','a','DET'),(' ',None,None),('hour','hour','NN')])
+		self.assertEqual(len(warnings), 1)
+
+		return
+		
     def testWhitespaceRule(self):
 		r = Rules.WhitespaceRule()
 	

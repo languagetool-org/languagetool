@@ -1,6 +1,6 @@
 # Class for Grammar and Style Rules
 # (c) 2002,2003 Daniel Naber <daniel.naber@t-online.de>
-#$rcs = ' $Id: Rules.py,v 1.11 2003-07-06 00:28:13 dnaber Exp $ ' ;
+#$rcs = ' $Id: Rules.py,v 1.12 2003-07-06 21:17:38 dnaber Exp $ ' ;
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -44,6 +44,8 @@ class Rules:
 		if max_sentence_length != None:
 			length_rule.setMaxLength(max_sentence_length)
 		self.rules.append(length_rule)
+		a_an_rule = AvsAnRule()
+		self.rules.append(a_an_rule)
 
 		for filename in self.rule_files:
 			# minidom expects the DTD in the current directory, not in the
@@ -135,7 +137,78 @@ class SentenceLengthRule(Rule):
 			matches.append(RuleMatch(self.rule_id, too_long_start,
 				too_long_end, 
 				"This sentence is %d words long, which exceeds the "
-				"configured limit of %d words." % (count, self.max_length), 0))
+				"configured limit of %d words." % (count, self.max_length)))
+		return matches
+
+
+class AvsAnRule(Rule):
+	"""Check if the determiner (if any) before a word is:
+	-'an' if the next word starts with a vowel
+	-'a' if the next word does not start with a vowel
+	This rule knows about some exceptions (e.g. 'an hour')."""
+
+	requires_a_file = os.path.join("data", "det_a.txt")
+	requires_an_file = os.path.join("data", "det_an.txt")
+	
+	def __init__(self):
+		Rule.__init__(self, "WHITESPACE", "Insert a space character before punctuation.", 0, None)
+		self.requires_a = self.loadWords(self.requires_a_file) 
+		self.requires_an = self.loadWords(self.requires_an_file)
+		return
+
+	def loadWords(self, filename):
+		f = open(filename)
+		contents = f.read()
+		f.close()
+		l = re.split("\n", contents)
+		i = 0
+		for el in l:
+			if el.startswith("#") or el == '':
+				del l[i]
+			else:
+				l[i] = l[i].strip().lower()
+			i = i + 1
+		return l
+		
+	def match(self, tagged_words, position_fix=0):
+		matches = []
+		text_length = 0
+		i = 0
+		while 1:
+			if i >= len(tagged_words)-2:
+				break
+			org_word = tagged_words[i][0]
+			org_word_next = tagged_words[i+2][0]	# jump over whitespace
+			#print "<tt>'%s' -- '%s'</tt><br>" % (org_word, org_word_next)
+			if org_word.lower() == 'a':
+				err = 0
+				if org_word_next in self.requires_an:
+					err = 1
+				elif org_word_next[0].lower() in ('a', 'e', 'i', 'o', 'u') and \
+					not org_word_next in self.requires_a:
+					err = 1
+				if err:
+					matches.append(RuleMatch(self.rule_id,
+						text_length++position_fix, text_length+len(org_word)+position_fix, 
+						"Use <em>an</em> instead of <em>a</em> if the following "+
+						"word starts with a vowel sound, e.g. 'an article', "+
+						"'an hour'", org_word))
+			elif org_word.lower() == 'an':
+				err = 0
+				if org_word_next in self.requires_a:
+					err = 1
+				elif not org_word_next[0].lower() in ('a', 'e', 'i', 'o', 'u') and \
+					not org_word_next in self.requires_an:
+					err = 1
+				if err:
+					matches.append(RuleMatch(self.rule_id,
+						text_length++position_fix, text_length+len(org_word)+position_fix, 
+						"Use <em>a</em> instead of <em>an</em> if the following "+
+						"word doesn't start with a vowel sound, e.g. 'a test', "+
+						"'a university'", org_word))
+				pass
+			text_length = text_length + len(org_word)
+			i = i + 1
 		return matches
 
 class WhitespaceRule(Rule):
@@ -152,6 +225,8 @@ class WhitespaceRule(Rule):
 		return
 
 	def getNextTriple(self, tagged_words, pos):
+		"""Get the next triple form the tagged_words list, starting at
+		pos but ignoring all SENT_START and SENT_END tags."""
 		tag = tagged_words[pos][2]
 		while tag == 'SENT_START' or tag == 'SENT_END':
 			pos = pos + 1
@@ -160,7 +235,7 @@ class WhitespaceRule(Rule):
 			tag = tagged_words[pos][2]
 		return tagged_words[pos]
 		
-	def match(self, tagged_words, position_fix=0):
+	def match(self, tagged_words):
 		"""Check if a sentence contains whitespace/token sequences
 		that are against the 'use a space after, but not before, a token'
 		rule."""
@@ -183,11 +258,11 @@ class WhitespaceRule(Rule):
 				if word_next and (not self.after_punct_regex.match(org_word_next)) and \
 					(not self.whitespace_regex.match(org_word_next)):
 					matches.append(RuleMatch(self.rule_id, text_length, text_length + len(org_word), 
-						"Usually a space character is inserted after punctuation.", 0))
+						"Usually a space character is inserted after punctuation."))
 			elif self.whitespace_regex.match(org_word):
 				if self.punct_regex.match(org_word_next):
 					matches.append(RuleMatch(self.rule_id, text_length, text_length + len(org_word), 
-						"Usually no space character is inserted before punctuation.", 0))
+						"Usually no space character is inserted before punctuation."))
 			text_length = text_length + len(org_word)
 			i = i + 1
 		return matches
@@ -401,10 +476,6 @@ class PatternRule(Rule):
 			if match and p == len(self.tokens):
 
 				(first_match, from_pos, to_pos) = self.listPosToAbsPos(tagged_words_copy, first_match)
-				to_upper = 0
-				first_match_word = tagged_words_copy[first_match][0]
-				if first_match_word and first_match_word[0] in string.uppercase:
-					to_upper = 1
 					
 				# Let \n in a rule refer to the n'th matched word:
 				l = first_match
@@ -416,9 +487,10 @@ class PatternRule(Rule):
 						lcount = lcount + 1
 					l = l + 1
 				
+				first_match_word = tagged_words_copy[first_match][0]
 				match = RuleMatch(self.rule_id, \
 					from_pos+position_fix, to_pos+position_fix, \
-					msg, to_upper)
+					msg, first_match_word)
 				matches.append(match)
 
 			ct = ct + 1
@@ -457,12 +529,12 @@ class PatternRule(Rule):
 class RuleMatch:
 	"""A matching rule, i.e. an error or a warning and from/to positions."""
 	
-	def __init__(self, rule_id, from_pos, to_pos, message, to_upper):
+	def __init__(self, rule_id, from_pos, to_pos, message, first_match_word=None):
 		self.id = rule_id
 		self.from_pos = from_pos
 		self.to_pos = to_pos
 		self.message = message
-		if to_upper:
+		if first_match_word and first_match_word[0] in string.uppercase:
 			# Replace the first char in <em>...</em> with its uppercase
 			# variant. Useful for replacements at the beginning of the
 			# sentence
