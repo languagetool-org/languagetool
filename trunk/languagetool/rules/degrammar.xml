@@ -3,10 +3,26 @@
 <!--
 Rules: Grammar and Typos
 (c) 2004 Transam transam45@nospam.gmx.de
-$Id: degrammar.xml,v 1.7 2004-07-02 08:25:30 tyuk Exp $
+$Id: degrammar.xml,v 1.8 2004-10-31 22:45:43 dnaber Exp $
 -->
 <rules>
 
+
+	<rulegroup id="NR_GROSS_KLEIN" name="Klein-/Groﬂschreibung nach neuer Rechtschreibung (unvollst‰ndig)">
+	
+		<rule id="ANREDE_NEUE_RECHTSCHREIBUNG" name="Kleinschreibung der Anredepronomen du/dein/euch/euer...">
+			<!-- TODO: "ihr" wird noch nicht gepr¸ft, weil es in beiden F‰llen vorkommen kann:
+				1. Vielleicht kˆnnt ihr doch...
+				2. Herr Meier, Ihr Auto steht...
+			-->
+			<pattern case_sensitive="yes" lang="de">^SENT_START "(Du|Dein|Euch|Euer)"</pattern>
+			<message>Nach der neuen Rechtschreibung werden Anreden wie 'du, ihr, euch, ...' klein geschrieben (die Anrede 'Sie' wird weiterhin groﬂ geschrieben)</message>
+			<example type="correct">Lieber Klaus, willst <em>du</em>...</example>
+			<example type="incorrect">Lieber Klaus, willst <em>Du</em>...</example>
+		</rule>
+	
+	</rulegroup>
+	
 	<!-- TODO: \1 statt 'dass' benutzen, gibt aber probleme mit dem encoding -->
 	<rule id="DASS" name="Komma vor 'dass'">
 		<pattern lang="de">(V11|V12|V13|V14|V15) "dass|daﬂ"</pattern>
@@ -44,6 +60,7 @@ $Id: degrammar.xml,v 1.7 2004-07-02 08:25:30 tyuk Exp $
 			<example type="incorrect">wir gehe</example>
 		</rule>
 		<rule id="IHR" name="Nach 'ihr' Verb mit Endung 't'">
+			<!-- TODO: fehlalarm z.b. bei "Euch werde ich was sagen." -->
 			<pattern lang="de">PP5 (V11|V12|HV1|HV2)</pattern>
 			<message>Nach 'ihr' Verb mit Endung 't'</message>
 			<example type="correct">ihr geht</example>
@@ -51,6 +68,7 @@ $Id: degrammar.xml,v 1.7 2004-07-02 08:25:30 tyuk Exp $
 			<example type="incorrect">ihr gehst</example>
 		</rule>
 		<rule id="ICH2" name="Verbform vor 'Ich'">
+			<!-- TODO:  regel stimmt nicht bei Fragen -->
 			<pattern lang="de">(V12|V13|V15|HV2|HV3|HV5) PP1 </pattern>
 			<message>Vor 'ich' muss ein Verb in der ersten Person singular stehen</message>
 			<example type="correct">gehe ich</example>
