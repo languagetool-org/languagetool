@@ -1,6 +1,6 @@
 # Class for Grammar and Style Rules
 # (c) 2002,2003 Daniel Naber <daniel.naber@t-online.de>
-#$rcs = ' $Id: Rules.py,v 1.9 2003-06-23 00:20:05 dnaber Exp $ ' ;
+#$rcs = ' $Id: Rules.py,v 1.10 2003-07-05 16:48:09 dnaber Exp $ ' ;
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -22,6 +22,7 @@ import Tools
 import copy
 import os
 import re
+import string
 import sys
 import xml.dom.minidom
 
@@ -52,13 +53,19 @@ class Rules:
 				rule_nodes = doc.getElementsByTagName("rule")
 				for rule_node in rule_nodes:
 					rule = PatternRule(rule_node)
-					if grammar_rules == None or rule.rule_id in grammar_rules:
+					lang_ok = 0
+					if textlang == None or textlang == rule.language:
+						lang_ok = 1
+					if lang_ok and (grammar_rules == None or rule.rule_id in grammar_rules):
 						self.rules.append(rule)
 			elif filename.endswith("words.xml"):
 				rule_nodes = doc.getElementsByTagName("rule")
 				for rule_node in rule_nodes:
 					rule = PatternRule(rule_node)
-					if word_rules == None or rule.rule_id in word_rules:
+					lang_ok = 0
+					if textlang == None or textlang == rule.language:
+						lang_ok = 1
+					if lang_ok and (word_rules == None or rule.rule_id in word_rules):
 						self.rules.append(rule)
 			elif filename.endswith("false_friends.xml"):
 				pattern_nodes = doc.getElementsByTagName("pattern")
@@ -125,7 +132,7 @@ class SentenceLengthRule(Rule):
 			matches.append(RuleMatch("MAX_LEN", too_long_start,
 				too_long_end, 
 				"This sentence is %d words long, which exceeds the "
-				"configured limit of %d words." % (count, self.max_length)))
+				"configured limit of %d words." % (count, self.max_length), 0))
 		return matches
 
 class PatternRule(Rule):
@@ -279,7 +286,7 @@ class PatternRule(Rule):
 			expected_token = None		# expected token if the pattern matches
 			found = None
 			match = 1
-			first_match = ct	
+			first_match = None
 
 			while match:
 				try:
@@ -288,6 +295,8 @@ class PatternRule(Rule):
 						i = i + 1
 						ct = ct + 1
 						continue
+					elif not first_match:
+						first_match = ct
 				except IndexError:		# end of tagged words
 					break
 				try:
@@ -334,53 +343,78 @@ class PatternRule(Rule):
 
 			if match and p == len(self.tokens):
 
-				if tagged_words_copy[first_match][1] == None:
-					first_match = first_match + 1
-				#print "fm=%d (%s)" % (first_match, tagged_words_copy[first_match])
-
-				p_tmp = 0
-				i_tmp = first_match
-				for tagged_word in tagged_words_copy[first_match:]:
-					if tagged_word[1] != None:
-						p_tmp = p_tmp + 1
-					if p_tmp >= len(self.tokens) + self.marker_to:
-						last_match = i_tmp
-						break
-					i_tmp = i_tmp + 1
-
-				if not last_match:
-					last_match = len(tagged_words_copy)
+				(first_match, from_pos, to_pos) = self.listPosToAbsPos(tagged_words_copy, first_match)
 				
-				char_count = 0
-				for tagged_word in tagged_words_copy[:first_match+self.marker_from]:
-					char_count = char_count + len(tagged_word[0])
-				from_pos = char_count
-
-				char_count = 0
-				for tagged_word in tagged_words_copy[:last_match+1]:
-					char_count = char_count + len(tagged_word[0])
-				to_pos = char_count
-
-				#print "f=%d"  % from_pos
-				#print "t=%d<br>"  % to_pos
+				to_upper = 0
+				if tagged_words_copy[first_match][0][0] in string.uppercase:
+					to_upper = 1
+					
+				# Let \n in a rule refer to the n'th matched word:
+				l = first_match
+				lcount = 1
+				msg = self.message
+				while lcount <= len(self.tokens):
+					if self.isRealWord(tagged_words_copy, l):
+						msg = msg.replace("\\%d" % lcount, tagged_words_copy[l][0])
+						lcount = lcount + 1
+					l = l + 1
+				
 				match = RuleMatch(self.rule_id, \
 					from_pos+position_fix, to_pos+position_fix, \
-					self.message)
+					msg, to_upper)
 				matches.append(match)
 
-			ct = ct + 1		
+			ct = ct + 1
 		return matches
-		
+
+	def listPosToAbsPos(self, l, first_match):
+
+		j = first_match + 1
+		i = 0
+		mark_from_tmp = self.marker_from
+		while mark_from_tmp > 0 and j < len(l):
+			if l[j][1]:
+				mark_from_tmp = mark_from_tmp - 1
+			i = i + 1
+			j = j + 1
+		first_match = first_match + i
+
+		last_match = first_match
+		match_len = len(self.tokens)-self.marker_from+self.marker_to
+		for el in l[first_match:]:
+			if match_len == 0:
+				break
+			if el[1]:
+				match_len = match_len - 1
+			last_match = last_match + 1
+
+		from_pos = 0
+		for el in l[:first_match]:
+			from_pos = from_pos + len(el[0])
+		to_pos = 0
+		for el in l[:last_match]:
+			to_pos = to_pos + len(el[0])
+
+		return (first_match, from_pos, to_pos)
+
 class RuleMatch:
 	"""A matching rule, i.e. an error or a warning and from/to positions."""
 	
-	def __init__(self, rule_id, from_pos, to_pos, message):
+	def __init__(self, rule_id, from_pos, to_pos, message, to_upper):
 		self.id = rule_id
 		self.from_pos = from_pos
 		self.to_pos = to_pos
 		self.message = message
+		if to_upper:
+			# Replace the first char in <em>...</em> with its uppercase
+			# variant. Useful for replacements at the beginning of the
+			# sentence
+			self.message = re.compile("<em>(.)").sub(self.upper, self.message)
 		return
 
+	def upper(self, match):
+		return "<em>%s" % match.group(1)[0].upper()
+	
 	def __str__(self):
 		"""String representation of this object, equals XML representation
 		(except the stripped whit space)."""
