@@ -70,6 +70,7 @@ class TextChecker:
 			textlanguage, mothertongue)
 		self.bnc_paras = 0
 		self.bnc_sentences = 0
+		self.xml_output = 0		# default to non-XML output
 		# anything but 'C' seems to be okay to make the sentence splitter work
 		# for languages with special characters:
 		locale.setlocale(locale.LC_CTYPE, 'en_US')
