@@ -45,7 +45,7 @@ class TextChecker:
 		self.max_sentence_length = max_sentence_length
 		self.tagger = Tagger.Tagger()
 		self.tagger.bindData()
-		self.rules = Rules.Rules(self.max_sentence_length)
+		self.rules = Rules.Rules(self.max_sentence_length, self.grammar)
 		return
 		
 	def checkFile(self, filename):
@@ -184,7 +184,9 @@ def main():
 		print >> sys.stderr, "Error: ", e
 		usage()
 		sys.exit(2)
-	grammar = falsefriends = words = []
+	grammar = None
+	falsefriends = None
+	words = None
 	# todo: use?
 	builtin = []
 	textlanguage = mothertongue = None
