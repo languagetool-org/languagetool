@@ -1,1 +1,0 @@
-BASEDIR = "/home/dnaber/languagetool"
