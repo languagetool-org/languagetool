@@ -35,7 +35,7 @@ class EnglishTestCase(LanguageTest.LanguageTest):
 		self._check("A sentence without problems.", None)
 		self._check("This is bigger then blah.", ExpMatch("COMP_THAN", 15, 19))
 		self._check("English/German false friend: my chef", ExpMatch("CHEF", 32, 36))
-		self._check("Whitespace,here it's lacking.", ExpMatch("WHITESPACE", 10, 11))
+		self._check("Whitespace,here it's lacking.", ExpMatch("WHITESPACE", 11, 12))
 		
 		self._check("he good good.", ExpMatch("WORD_REPEAT", 7, 12))
 

@@ -1,6 +1,6 @@
 # -*- coding: iso-8859-1 -*-
 # Class for Grammar and Style Rules
-#$rcs = ' $Id: Rules.py,v 1.6 2004-06-20 19:09:07 dnaber Exp $ ' ;
+#$rcs = ' $Id: Rules.py,v 1.7 2004-07-11 22:27:52 dnaber Exp $ ' ;
 #
 # LanguageTool -- A Rule-Based Style and Grammar Checker
 # Copyright (C) 2002,2003,2004 Daniel Naber <daniel.naber@t-online.de>
@@ -180,24 +180,36 @@ class WhitespaceRule(Rule):
 			tag = tagged_words[pos][2]
 		return tagged_words[pos]
 		
-	def match(self, tagged_words, chunks=None):
+	def match(self, tagged_words, chunks=None, position_fix=0, line_fix=0, column_fix=0):
 		"""Check if a sentence contains whitespace/token sequences
 		that are against the 'use a space after, but not before, a token'
 		rule."""
 		matches = []
 		text_length = 0
+		line_breaks = 1
+		column = 0
 		i = 0
 		while 1:
 			if i >= len(tagged_words)-1:
 				break
 			org_word = tagged_words[i][0]
-			#if len(org_word) == 0:
-			#	i = i + 1
-			#	continue
+			line_breaks_cur = Tools.Tools.countLinebreaks(org_word) 
+			if line_breaks_cur > 0:
+				column = 0
+			line_breaks = line_breaks + line_breaks_cur
 			org_word_next = self.getNextTriple(tagged_words, i+1)
 			if org_word_next:
 				org_word_next = org_word_next[0]
-			#print "<tt>'%s' -- '%s'</tt><br>" % (org_word, org_word_next)
+			text_length = text_length + len(org_word)
+			if tagged_words[i][1] == None:
+				# ignore whitespace
+				if line_breaks_cur == 0:
+					column = column + len(org_word)
+				i = i + 1
+				continue
+			whitespace_length = len(tagged_words[i+1][0])
+			if line_breaks_cur == 0:
+				column = column + len(org_word)
 			if self.punct_regex.match(org_word):
 				word_next = tagged_words[i+1][1]
 				word_next = self.getNextTriple(tagged_words, i+1)
@@ -210,12 +222,15 @@ class WhitespaceRule(Rule):
 				if word_next and (not self.after_punct_regex.match(org_word_next)) and \
 					(not self.whitespace_regex.match(org_word_next)):
 					matches.append(RuleMatch(self.rule_id, text_length, text_length + len(org_word), 
-						0, 0, "Usually a space character is inserted after punctuation."))
+						line_breaks+line_fix,
+						column+column_fix,
+						"Usually a space character is inserted after punctuation."))
 			elif self.whitespace_regex.match(org_word):
+				# FIXME: doesn't detect "...mine , and ...":
 				if self.punct_regex.match(org_word_next):
 					matches.append(RuleMatch(self.rule_id, text_length, text_length + len(org_word),
-						0, 0, "Usually no space character is inserted before punctuation."))
-			text_length = text_length + len(org_word)
+						line_breaks+line_fix, column+column_fix,
+						"Usually no space character is inserted before punctuation."))
 			i = i + 1
 		return matches
 
