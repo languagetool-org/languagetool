@@ -1,5 +1,5 @@
 # posi.awk
-# get position from languagetool outout
+# get position from languagetool output
 # input: languagetool output with -x
 # output: first_pos second_pos text
 #  after sort -n all errors sequentially
@@ -7,6 +7,9 @@
 #  usage: python TextChecker.py -l hu -x tools/mytext.txt >tools/mytextout.txt
 #         awk -f <tools/mytextout-txt >tools/mytextout2.txt
 #         sort -n tools/mytextout.txt >tools/mytextout3.txt
+#
+# assuming, yourtext.txt is languagetool/tools
+# to simplify usage, use: sh posi.sh yourtext 
 #
 /from=/  { out = "";
           split($0, a, "from=\"");
