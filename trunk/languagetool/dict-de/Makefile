@@ -7,6 +7,7 @@
 #  make comb:  erzeuge deutsch.dic  in ergebnis
 #  make clean: lösche alles in pfad ergebnis
 #  make ordne: sortiere und ordne worte in pfad worte
+#  make cvs:   kopiere worte von cvs vom woerter nach worte
 #
 
 default: all
@@ -20,6 +21,9 @@ default: all
 ./worte/geordnet:
 	./bin/clean_worte.sh
 
+./woerter/auscvs:
+	./bin/from_cvs.sh
+
 # neu machen
 neu: ./ergebnis/deutschneu.dic
 
@@ -28,6 +32,9 @@ comb: ./ergebnis/deutsch.dic
 
 # worte ordnen
 ordne: ./worte/geordnet
+
+# worte cvs
+cvs: ./woerter/auscvs
 
 #putzen
 clean:

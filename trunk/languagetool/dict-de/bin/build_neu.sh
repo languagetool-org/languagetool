@@ -1,6 +1,6 @@
 DIR=`pwd`
 #echo $DIR/..
-WORTE=$DIR/woerter
+WORTE=$DIR/worte
 TMP=$DIR/tmp
 BIN=$DIR/bin
 AWK=$DIR/awk
@@ -14,17 +14,11 @@ export ERGEBNIS
 
 rm -rf $TMP
 mkdir $TMP
+cp -f $WORTE/deutsch* $TMP
+cp -f $WORTE/nonameortneu.txt $TMP
 
-cat $WORTE/namen.txt > $TMP/deutsch1.dic
-cat $WORTE/vornamen.txt >> $TMP/deutsch1.dic
-cat $WORTE/orte.txt >> $TMP/deutsch1.dic
-cat $WORTE/woerter_gross.txt >> $TMP/deutsch1.dic
-cat $WORTE/woerter_klein.txt >> $TMP/deutsch1.dic
-cat $WORTE/woerter_computer.txt >> $TMP/deutsch1.dic
-cat $WORTE/woerter_komposita_*.txt >> $TMP/deutsch1.dic
-cat $WORTE/neue_woerter.txt >> $TMP/deutsch1.dic
-cat $WORTE/woerter_abkuerzungen.txt >> $TMP/deutsch1.dic
-
+cat $TMP/deutsch* >> $TMP/deutsch1.dic
+cat $TMP/nonameortneu.txt >> $TMP/deutsch1.dic
 export LC_ALL=C
 sort -u $TMP/deutsch1.dic > $TMP/deutsch2.dic
 awk -f $AWK/dupl.awk < $TMP/deutsch2.dic >$TMP/deutsch1.dic
@@ -34,5 +28,8 @@ wc -l $TMP/deutsch1.dic | awk '{print $1;}' > $ERGEBNIS/deutschneu.dic
 cat $TMP/deutsch1.dic >> $ERGEBNIS/deutschneu.dic
 rm -rf $TMP/deutsch1.dic
 rm -rf $TMP/deutsch2.dic
-#rm -rf $TMP/nonameortneu.txt
+rm -rf $TMP/deutschnamen*
+rm -rf $TMP/deutschfnamen*
+rm -rf $TMP/deutschort*
+rm -rf $TMP/nonameortneu.txt
  
