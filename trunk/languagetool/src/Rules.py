@@ -1,6 +1,6 @@
 # -*- coding: iso-8859-1 -*-
 # Class for Grammar and Style Rules
-#$rcs = ' $Id: Rules.py,v 1.9 2004-10-05 22:23:27 dnaber Exp $ ' ;
+#$rcs = ' $Id: Rules.py,v 1.10 2004-10-09 20:35:14 dnaber Exp $ ' ;
 #
 # LanguageTool -- A Rule-Based Style and Grammar Checker
 # Copyright (C) 2002,2003,2004 Daniel Naber <daniel.naber@t-online.de>
@@ -160,10 +160,12 @@ class WhitespaceRule(Rule):
 	and whitespace preceding punctuation. This rule does not work
 	on sentence level, it works on complete tagged texts or paragraphs."""
 
-	punct_regex = re.compile("^[.,?!:;]+$")
+	punct = "[.,?!:;]"
+	punct_regex = re.compile("^%s+$" % punct)
 	whitespace_regex = re.compile("^\s+$")
 	after_punct_regex = re.compile("^[\"]+$")
 	number_regex = re.compile("^\d+$")
+	whitespace_before_punct = re.compile("^\s+%s" % punct)
 
 	def __init__(self):
 		Rule.__init__(self, "WHITESPACE", "Insert a space character before punctuation.", 0, None)
@@ -225,9 +227,8 @@ class WhitespaceRule(Rule):
 						line_breaks+line_fix,
 						column+column_fix,
 						"Usually a space character is inserted after punctuation."))
-			elif self.whitespace_regex.match(org_word):
-				# FIXME: doesn't detect "...mine , and ...":
-				if self.punct_regex.match(org_word_next):
+			elif self.whitespace_before_punct.match(org_word):
+				if not self.punct_regex.match(org_word_next):
 					matches.append(RuleMatch(self.rule_id, text_length, text_length + len(org_word),
 						line_breaks+line_fix, column+column_fix,
 						"Usually no space character is inserted before punctuation."))
