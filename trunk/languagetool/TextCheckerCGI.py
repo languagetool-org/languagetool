@@ -179,7 +179,8 @@ def check(form):
 				from_pos = ct
 				to_pos = ct + len(el)
 				if rule_match.to_pos <= to_pos and rule_match.to_pos >= from_pos and not end_found:
-					text_list[i] = '%s</span><span class="expl">[%s]</span>' % (text_list[i], rule_match.message)
+					text_list[i] = '%s</span><span class="expl">[%s (%s)]</span>' % (text_list[i], \
+						rule_match.message, rule_match.id)
 					end_found = 1
 				elif rule_match.from_pos <= to_pos and rule_match.from_pos >= from_pos and not start_found:
 					text_list[i] = '<span class="error">%s' % text_list[i]
