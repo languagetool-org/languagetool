@@ -1,6 +1,6 @@
 # -*- coding: iso-8859-1 -*-
 # Class for Grammar and Style Rules
-#$rcs = ' $Id: Rules.py,v 1.11 2004-10-09 20:38:57 dnaber Exp $ ' ;
+#$rcs = ' $Id: Rules.py,v 1.12 2004-10-31 22:55:23 dnaber Exp $ ' ;
 #
 # LanguageTool -- A Rule-Based Style and Grammar Checker
 # Copyright (C) 2002,2003,2004 Daniel Naber <daniel.naber@t-online.de>
@@ -453,25 +453,19 @@ class PatternRule(Rule):
 				if not found:
 					#print >> sys.stderr, "*** 'found' undefined (i=%d, %s/%s)" % (i, tagged_words_copy[i][1], tagged_words_copy[i][2])
 					break
-				else:
-					#s1 = unicode(found.lower(),"iso8859-1") #tktk
-					#s1 = replace(s1, u'�', u';szlig;')
-					#print "s1:%s" %s1
-					found = found.lower()
-				case_switch = re.IGNORECASE
+				case_sensitive = re.IGNORECASE
 				if self.case_sensitive:
-					case_switch = 0
+					case_sensitive = 0
 				if expected_token.simple_token:
 					# speed up for e.g. simple false friends rules that don't
 					# require regex matching:
-					if case_switch:
+					if case_sensitive:
 						#print "exp:%s" %expected_token
-						#match = (expected_token_str.lower() == found.lower())
-						match = (expected_token_str.lower() == found)
+						match = (expected_token_str.lower() == found.lower())
 					else:
 						match = (expected_token_str == found)
 				else:
-					match = re.compile("%s$" % expected_token_str, case_switch).match(found)
+					match = re.compile("%s$" % expected_token_str, case_sensitive).match(found)
 				#print "%s: %s/%s -> %s" % (self.rule_id, found, expected_token_str, match)
 				if expected_token.negation:
 					if not match:
