@@ -1,7 +1,7 @@
 /*
-   $Id: ConfigDialog.cc,v 1.2 2003-08-25 19:17:25 dnaber Exp $
+   $Id: ConfigDialog.cc,v 1.3 2003-08-26 01:36:43 dnaber Exp $
    This file is part of the KDE project
-   Copyright (C) 2002 Daniel Naber <daniel.naber@t-online.de>
+   Copyright (C) 2003 Daniel Naber <daniel.naber@t-online.de>
    This is a frontend to a simple 'Style and Grammar Checker': it offers a simple 
    grammar check and warns if frequently misused words or 'false friends' occur in 
    the text.
@@ -22,7 +22,11 @@
  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  ***************************************************************************/
 
-// FIXME: don't replace text with nothing if there's no error and "OK" is clicked
+/* TODO: make it possible to select options with a click on
+   their name, not only directly in the check box (thus make
+   it possible to select many options by holding down the mouse
+   button and scrollig down) -> see "fixme" in the code
+*/
 
 #include <stdlib.h>
 
