@@ -3,7 +3,7 @@
 # a rule-based extension.
 # (c) 2003 Daniel Naber <daniel.naber@t-online.de>
 #
-#$rcs = ' $Id: Tagger.py,v 1.21 2003-08-27 19:32:47 dnaber Exp $ ' ;
+#$rcs = ' $Id: Tagger.py,v 1.22 2003-08-28 23:15:09 dnaber Exp $ ' ;
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -124,7 +124,6 @@ class Tagger:
 			print >> sys.stderr, "Loading %s..." % filename
 			text = PreTaggedText(filename)
 			tagged_words.extend(text.getTaggedWords())
-		#print tagged_words
 		self.word_count = self.word_count + len(tagged_words)
 		text.addToData(tagged_words, self.data_table, self.seqs_table_followed_by, self.seqs_table_follows)
 		return
@@ -530,14 +529,6 @@ class Text:
 				count_follows[tag1] = 1
 			i = i + 1
 
-		#debug:
-		#print "FOLLOWED BY:"
-		#for k in seqs_table_followed_by.keys():
-		#	print "%s -> %s" % (k, seqs_table_followed_by[k])
-		#print "FOLLOWS:"
-		#for k in seqs_table_follows.keys():
-		#	print "%s -> %s" % (k, seqs_table_follows[k])
-
 		# Normalize to 0-1 range:
 		# TODO: do these numbers become too small, as the Qtag paper states?		
 		for t in seqs_table_followed_by.keys():
@@ -552,8 +543,8 @@ class Text:
 		#for k in seqs_table_followed_by.keys():
 		#	print "%s -> %s" % (k, seqs_table_followed_by[k])
 		#print "FOLLOWS (norm):"
-		for k in seqs_table_follows.keys():
-			print "%s -> %s" % (k, seqs_table_follows[k])
+		#for k in seqs_table_follows.keys():
+		#	print "%s -> %s" % (k, seqs_table_follows[k])
 		return
 
 
@@ -608,7 +599,6 @@ class TextToTag(Text):
 			# to out 'unknown':
 			best_tag = 'UNC'
 		guessed = 1
-		# fixme: remove, debugging only:
 		if data_table.has_key(word):
 			guessed = 0
 		if not word == word_from_bnc:
@@ -623,20 +613,21 @@ class TextToTag(Text):
 		#	print >> sys.stderr, "GOODGUESS"
 		return 0
 
-	def getStats(self, count_wrong_tags):
+	def getStats(self, count_wrong_tags, is_bnc):
 		"""Get some human-readable statistics about tagging success,
 		e.g. number and percentage of correctly tagged tokens."""
-		res = "<!-- Statistics:\n"
 		sum = self.count_unknown + self.count_unambiguous + self.count_ambiguous
+		res = ""
 		if sum > 0:
+			res = "<!-- Statistics:\n"
 			res = res + "count_unknown = %d (%.2f%%)\n" % (self.count_unknown, float(self.count_unknown)/float(sum)*100)
 			res = res + "count_unambiguous = %d (%.2f%%)\n" % (self.count_unambiguous, float(self.count_unambiguous)/float(sum)*100)
 			res = res + "count_ambiguous = %d (%.2f%%)\n" % (self.count_ambiguous, float(self.count_ambiguous)/float(sum)*100)
 			#res = res + "sum = %d\n" % sum
-			if not count_wrong_tags == "n/a":
+			if is_bnc:
 				res = res + "correct tags = %d (%.2f%%)\n" % (sum-count_wrong_tags, float(sum-count_wrong_tags)/float(sum)*100)
 				#res = res + "count_wrong_tags = %d (%.2f%%)\n" % (count_wrong_tags, float(count_wrong_tags)/float(sum)*100)
-		res = res + "-->"
+			res = res + "-->"
 		return res
 
 	def applyConstraints(self, prev_word, curr_word, next_word, tagged_tuples):
@@ -783,13 +774,12 @@ class TextToTag(Text):
 		return result_tuple_list
 
 	def selectTagsByContext(self, tagged_list, seqs_table_followed_by, \
-		seqs_table_follows, tagged_list_bnc, is_bnc, data_table):
+			seqs_table_follows, tagged_list_bnc, is_bnc, data_table):
 		
 		count_wrong_tags = 0
 		tag_probs = {}
 		i = 0
 		for tagged_triple in tagged_list:
-			#t1 = time.time()
 			if tagged_triple != None and tagged_triple[1] == None:
 				# ignore whitespace
 				i = i + 1
@@ -842,12 +832,11 @@ class TextToTag(Text):
 						three_tag_prob = None
 						if three_tag: three_tag_prob = three_tag[0]
 
-						# FIXME?!:
-						seq1 = (one_tag_prob, two_tag_prob)
-						seq2 = (two_tag_prob, three_tag_prob)
 						seq_prob = 0
-						
 						if one:
+							#print one[0],
+							#if two:
+							#	print two[0]
 							try:
 								k1 = (one_tag_prob, two_tag_prob)
 								k2 = (two_tag_prob, three_tag_prob)
@@ -857,9 +846,10 @@ class TextToTag(Text):
 							except KeyError:
 								pass
 							prob_combined = seq_prob * tag_one_prob
-							#print "  %.10f" % prob_combined
+							#print "%s, %s, %s: %.7f * %.7f = %.7f" % (one_tag_prob, two_tag_prob, \
+							#	three_tag_prob, seq_prob, tag_one_prob, prob_combined)
 							k1 = (i, one_tag[0])
-							#print "k1=%s" % str(k1)
+							#print "%s = %.7f" % (str(k1), prob_combined)
 							try:
 								tag_probs[k1] = tag_probs[k1] + prob_combined
 							except KeyError:
@@ -876,6 +866,7 @@ class TextToTag(Text):
 								tag_probs[k2] = tag_probs[k2] + prob_combined
 							except KeyError:
 								tag_probs[k2] = prob_combined
+							#print "%s = %.7f" % (str(k2), prob_combined)
 						if three:
 							try:
 								seq_prob = seqs_table_follows[(two_tag_prob, one_tag_prob)] * \
@@ -888,6 +879,7 @@ class TextToTag(Text):
 								tag_probs[k3] = tag_probs[k3] + prob_combined
 							except KeyError:
 								tag_probs[k3] = prob_combined
+							#print "%s = %.7f" % (str(k3), prob_combined)
 
 			orig_word = None
 			norm_word = None
@@ -904,7 +896,7 @@ class TextToTag(Text):
 						max_prob = tag_probs[tag_prob]
 						best_tag = tag_prob[1]
 				tagged_list[i] = (orig_word, norm_word, best_tag)
-				####print "BEST@%d: %s" % (i, best_tag)
+				#print "BEST@%d: %s" % (i, best_tag)
 			
 				# this avoids inefficiencies, it's necessary because
 				# of the tag_probs.keys() call above (which becomes
@@ -920,8 +912,7 @@ class TextToTag(Text):
 
 			i = i + 1
 
-		###
-		stat = self.getStats(count_wrong_tags)
+		stat = self.getStats(count_wrong_tags, is_bnc)
 		print >> sys.stderr, stat
 
 		# remove dummy entries:
