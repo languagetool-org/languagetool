@@ -1,6 +1,6 @@
 # Class for Grammar and Style Rules
 # (c) 2002,2003 Daniel Naber <daniel.naber@t-online.de>
-#$rcs = ' $Id: Rules.py,v 1.15 2003-07-27 13:00:27 dnaber Exp $ ' ;
+#$rcs = ' $Id: Rules.py,v 1.16 2003-07-27 19:21:23 dnaber Exp $ ' ;
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -37,9 +37,7 @@ class Rule:
 		self.language = language	# two letter code like "en" or None (= relevant for alle languages)
 		return
 
-	def match(self):
-		"""Do nothing (quasi virtual method)."""
-		return
+	# match() is not defined here, but in the sub classes
 
 class Rules:
 	"""All known style and grammar error rules (from XML and the built-in ones)."""
@@ -63,12 +61,17 @@ class Rules:
 				continue
 			filename = filename[:-3]		# cut off ".py"
 			exec("import %s" % filename)
-			exec("dynamic_rule = %s.%s()" % (filename, filename))
-			# do not use the rule if it wasn't activated 
-			# (builtin_rules == None will use all rules):
+			try:
+				exec("dynamic_rule = %s.%s()" % (filename, filename))
+			except AttributeError:
+				raise InvalidFilename(filename)
+			if not hasattr(dynamic_rule, "match"):
+				raise MissingMethod("match", "%s.py" % filename)
 			if dynamic_rule.rule_id == "SENTENCE_LENGTH" and \
 				max_sentence_length != None:
 				dynamic_rule.setMaxLength(max_sentence_length)
+			# do not use the rule if it wasn't activated 
+			# (builtin_rules == None will use all rules):
 			if not builtin_rules or dynamic_rule.rule_id in builtin_rules:
 				self.rules.append(dynamic_rule)
 
@@ -107,6 +110,27 @@ class Rules:
 							rule.rule_id in false_friend_rules):
 							self.rules.append(rule)
 		return
+
+class InvalidFilename(Exception):
+
+	def __init__(self, value):
+		self.value = value
+		return
+
+	def __str__(self):
+		s = "Constructor must be named as the file, i.e. '%s'" % self.value
+		return s
+
+class MissingMethod(Exception):
+
+	def __init__(self, value, filename):
+		self.value = value
+		self.filename = filename
+		return
+
+	def __str__(self):
+		s = "The '%s' method needs to be implemented in %s" % (self.value, self.filename)
+		return s
 
 class WhitespaceRule(Rule):
 	"""A rule that matches punctuation not followed by a whitespace
