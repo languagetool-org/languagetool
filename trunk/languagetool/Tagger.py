@@ -32,18 +32,22 @@ class Tagger:
 	elements. Words that could not be tagged have type=unknown."""
 
 	db_word_name = os.path.join("data", "words")
-	db_seq_name = os.path.join("data", "seqs")
+	db_seq_name1 = os.path.join("data", "seqs1")
+	db_seq_name2 = os.path.join("data", "seqs2")
 	#uncountable_name = os.path.join("data", "uncountable.txt")
 	
 	def __init__(self, db_word_name=None, db_seq_name=None):
 		"""Initialize the tagger, optionally using the given
 		file names that will be used to load and save data later."""
 		self.data_table = None
-		self.seqs_table = None		# tag sequences: seqs_table[tag1,tag2,tag3] = value
+		self.seqs_table_followed_by = None	# tag sequences: table[tag1,tag2] = value
+		self.seqs_table_follows = None		# tag sequences: table[tag1,tag2] = value
 		if db_word_name:
 			self.db_word_name = db_word_name
 		if db_seq_name:
 			self.db_seq_name = db_seq_name
+		#if db_seq_name:	#fixme
+		#	self.db_seq_name = db_seq_name
 		#uncountable_nouns = self.loadUncountables()
 		self.word_count = 0
 		return
@@ -70,20 +74,26 @@ class Tagger:
 			print >> sys.stderr, "No date file '%s' yet, starting with empty table." % self.db_word_name
 			self.data_table = {}
 		try:
-			self.seqs_table = cPickle.load(open(self.db_seq_name))
+			self.seqs_table_followed_by = cPickle.load(open(self.db_seq_name1))
 		except IOError:
-			print >> sys.stderr, "No date file '%s' yet, starting with empty table." % self.db_seq_name
-			self.seqs_table = {}
+			print >> sys.stderr, "No date file '%s' yet, starting with empty table." % self.db_seq_name1
+			self.seqs_table_followed_by = {}
+		try:
+			self.seqs_table_follows = cPickle.load(open(self.db_seq_name2))
+		except IOError:
+			print >> sys.stderr, "No date file '%s' yet, starting with empty table." % self.db_seq_name2
+			self.seqs_table_follows = {}
 		return
 
 	def commitData(self):
 		"""Save the word/POS tag and POS tag sequence data to disk."""
 		print >> sys.stderr, "Words = %d" % self.word_count
 		print >> sys.stderr, "Known words = %d" % len(self.data_table.keys())
-		print >> sys.stderr, "Known sequences = %d" % len(self.seqs_table.keys())
+		print >> sys.stderr, "Known sequences = %d" % len(self.seqs_table_followed_by.keys())
 		print >> sys.stderr, "Commiting results..."
 		cPickle.dump(self.data_table, open(self.db_word_name, 'w'), 1)
-		cPickle.dump(self.seqs_table, open(self.db_seq_name, 'w'), 1)
+		cPickle.dump(self.seqs_table_followed_by, open(self.db_seq_name1, 'w'), 1)
+		cPickle.dump(self.seqs_table_follows, open(self.db_seq_name2, 'w'), 1)
 		return
 	
 	def deleteData(self):
@@ -94,19 +104,26 @@ class Tagger:
 		except OSError, e:
 			print >> sys.stderr, "Note: Could not delete file: %s" % e
 		try:
-			os.remove(self.db_seq_name)
+			os.remove(self.db_seq_name1)
+		except OSError, e:
+			print >> sys.stderr, "Note: Could not delete file: %s" % e
+		try:
+			os.remove(self.db_seq_name2)
 		except OSError, e:
 			print >> sys.stderr, "Note: Could not delete file: %s" % e
 		return
 
-	def buildData(self, filename):
-		"""Load a BNC file in XML or SGML format and count the word/POS
+	def buildData(self, filenames):
+		"""Load BNC files in XML or SGML format and count the word/POS
 		occurences and the POS tag sequences."""
-		print >> sys.stderr, "Loading %s..." % filename
-		text = PreTaggedText(filename)
-		tagged_words = text.getTaggedWords()
+		tagged_words = []
+		for filename in filenames:
+			print >> sys.stderr, "Loading %s..." % filename
+			text = PreTaggedText(filename)
+			tagged_words.extend(text.getTaggedWords())
+		#print tagged_words
 		self.word_count = self.word_count + len(tagged_words)
-		text.addToData(tagged_words, self.data_table, self.seqs_table)
+		text.addToData(tagged_words, self.data_table, self.seqs_table_followed_by, self.seqs_table_follows)
 		return
 
 	def buildDataFromString(self, s):
@@ -125,7 +142,7 @@ class Tagger:
 			tag = pair[1]
 			tagged_words.append((word, tag))
 		text = TextToTag()
-		text.addToData(tagged_words, self.data_table, self.seqs_table)
+		text.addToData(tagged_words, self.data_table, self.seqs_table_followed_by, self.seqs_table_follows)
 		return
 
 	def tagFile(self, filename):
@@ -134,7 +151,7 @@ class Tagger:
 		attribute."""
 		text = TextToTag()
 		text.setFilename(filename)
-		tagged_words = text.tag(self.data_table, self.seqs_table)
+		tagged_words = text.tag(self.data_table, self.seqs_table_followed_by, self.seqs_table_follows)
 		#print tagged_words
 		xml = text.toXML(tagged_words)
 		return xml
@@ -144,7 +161,7 @@ class Tagger:
 		triples."""
 		text = TextToTag()
 		text.setText(strng)
-		tagged_words = text.tag(self.data_table, self.seqs_table)
+		tagged_words = text.tag(self.data_table, self.seqs_table_followed_by, self.seqs_table_follows)
 		return tagged_words
 
 	def tagTexttoXML(self, strng):
@@ -152,12 +169,13 @@ class Tagger:
 		triples."""
 		text = TextToTag()
 		text.setText(strng)
-		tagged_words = text.tag(self.data_table, self.seqs_table)
+		tagged_words = text.tag(self.data_table, self.seqs_table_followed_by, self.seqs_table_follows)
 		xml = text.toXML(tagged_words)
 		return xml
 
 	def tagSeq(self, triple):
 		"""Return the probability of a 3-POS-tag sequence."""
+		# FIXME
 		if len(triple) != 3:
 			#TODO?: throw exception
 			print >> sys.stderr, "Sequence does not consist of 3 tokens: '%s'" % str(seq)
@@ -176,18 +194,18 @@ class Tagger:
 		return tag
 
 	def guessTagTest(self, word):
-		"""See Text.guessTag(). For test cases only."""
+		"""See Text.guessTags(). For test cases only."""
 		text = TextToTag()
 		text.setText("")
-		tag = text.guessTag(word)
+		tag = text.guessTags(word)
 		return tag
 
 class Text:
 
 	DUMMY = None
-	number_regex = re.compile("^[0-9\W]+$")
+	number_regex = re.compile("^[0-9.,\-]+$")
 	time_regex = re.compile("\d(am|pm)$")
-	bnc_regex = re.compile("<w (.*?)>(.*?)<", re.DOTALL)
+	bnc_regex = re.compile("<(w|c) (.*?)>(.*?)<", re.DOTALL)
 
 	mapping_file = os.path.join("data", "c7toc5.txt")
 
@@ -195,6 +213,7 @@ class Text:
 		self.count_unambiguous = 0
 		self.count_ambiguous = 0
 		self.count_unknown = 0
+		self.whitespace = re.compile("\s+$")
 		self.nonword = re.compile("([\s,:;]+)")
 		self.nonword_punct = re.compile("([,:;]+)")
 		self.sentence_end = re.compile("([.!?]+)$")
@@ -203,7 +222,7 @@ class Text:
 		self.mapping = self.loadMapping()
 		return
 		
-	def loadMapping (self):
+	def loadMapping(self):
 		f = open(self.mapping_file)
 		line_count = 1
 		mapping = {}
@@ -228,6 +247,7 @@ class Text:
 		"""Take a text and expand a few selected entities. Return the same
 		text with entities expanded. (We cannot simply parse the file with 
 		DOM, as we don't have an XML DTD -- the original files were SGML.)"""
+		### TODO: use Entities module
 		text = re.compile("&amp;", re.IGNORECASE).sub("&", text)
 		# TODO: several entities are missing here:
 		#text = re.compile("&#(x..);", re.IGNORECASE).sub(self.expandHexEntities, text)
@@ -251,13 +271,15 @@ class Text:
 			m = self.bnc_regex.search(text, pos)
 			if not m:	
 				break
-			tag = m.group(1)
+			tag = m.group(2)
 			if self.mapping.has_key(tag):
 				tag = self.mapping[tag]
 			else:
 				#print "no mapping: %s" % tag
 				pass
-			l.append((tag, m.group(2).strip()))
+			if m.group(3):
+				l.append((tag, m.group(3).strip()))
+				#print "- %s/%s" % (tag, m.group(3).strip())
 			pos = m.start()+1
 		return l
 		
@@ -276,10 +298,11 @@ class Text:
 		tags = re.split("-", tag)
 		return tags
 
-	def guessTag(self, word):
-		"""Take a word and guess which POS tag it might	have and return
-		that POS tag. This considers e.g. word prefixes, suffixes and 
+	def guessTags(self, word):
+		"""Take a word and guess which POS tags it might have and return
+		those POS tags. This considers e.g. word prefixes, suffixes and 
 		capitalization. If no guess can be made, None is returned."""
+		# TODO: really return more than one tag
 
 		# £25 etc:
 		if word.startswith(u"£") or word.startswith(u"$"):
@@ -338,14 +361,15 @@ class Text:
 		[(orig_word, normalised_word, [(tag, probability])]"""
 		orig_word = word
 		word = self.normalise(word)
-		#print "#%s<br>" % word
 		#word = re.compile("[^\w' ]", re.IGNORECASE).sub("", word)
-		if word and self.nonword_punct.match(word):
-			# punctuation
-			return [(orig_word, orig_word, [])]
-		if (not word) or self.nonword.match(word):
+		
+		#if word and self.nonword_punct.match(word):
+		#	# punctuation
+		#	return [(orig_word, orig_word, [])]
+		if (not word) or self.whitespace.match(word):
 			# word is just white space
 			return [(orig_word, None, [])]
+		
 		# sanity check:
 		if word.count("'") > 1:
 			print >> sys.stderr, "*** What's this, more than one apostroph: '%s'?" % word
@@ -359,7 +383,7 @@ class Text:
 				first_part = self.tagWord(word[0:special_case_pos], data_table)[0]
 				second_part = self.tagWord(special_case, data_table)[0]
 				tag_results = []
-				#FIXME: return prob?:
+				#TODO: return probability?:
 				#print second_part
 				tag_results.append((word[0:special_case_pos], first_part[1], first_part[2]))
 				tag_results.append((special_case, second_part[1], second_part[2]))
@@ -367,11 +391,20 @@ class Text:
 
 		# TODO?: ignore upper/lower case?, no -- seems to decrease precision
 		#word = word.lower()
+		#if not data_table.has_key(word):
+		#	word = word.lower()
+		#	#if data_table.has_key(word):
+		#	#	print "lower: %s" % word
+		#if not data_table.has_key(word) and len(word) >= 1:
+		#	word = "%s%s" % (word[0].upper(), word[1:])
+		#	#if data_table.has_key(word):
+		#	#	print "upper: %s" % word
+
 		if not data_table.has_key(word):
 			# word is unknown
 			#print "unknown: '%s'" % word
 			self.count_unknown = self.count_unknown + 1
-			guess_tag = self.guessTag(word)
+			guess_tag = self.guessTags(word)
 			if guess_tag:
 				return [(orig_word, word, [(guess_tag, 1)])]
 			else:
@@ -391,49 +424,11 @@ class Text:
 				self.count_ambiguous = self.count_ambiguous + 1
 				return [(orig_word, word, tag_tuples)]
 
-	def addToData(self, tagged_words, data_table, seqs_table):
+	def addToData(self, tagged_words, data_table, seqs_table_followed_by, seqs_table_follows):
 		"""Count words and POS tags so they can later be added
 		to the persistent storage."""
 		tag_list = self.addWords(tagged_words, data_table)
-		# Normalize data_table values so they are probabilities (0 to 1):
-		for e in data_table.keys():
-			t = data_table[e].table
-			occ_all = 0
-			for occ in t.values():
-				occ_all = occ_all + occ
-			for key in t.keys():
-				t[key] = t[key] / occ_all
-		self.addTagList(tag_list, seqs_table)
-		# Normalize seqs_table values so they are probabilities (0 to 1):
-		# We normalize so that we don't divide by the number of all
-		# tag-triples, but only ny the count of sequences (X, seqs_table[key], Y)
-		keys = {}
-		tags_done = {}	#don't count a tag more than once
-		for tag in tag_list:
-			tags = self.splitBNCTag(tag)
-			for tag in tags:
-				if tags_done.has_key(tag):
-					continue
-				for key in seqs_table.keys():
-					if tag == key[1]:
-						#print "%s<->%s (%.2f)" % (tag, key, seqs_table[key])
-						try:
-							keys[tag] = keys[tag] + seqs_table[key]
-						except KeyError:
-							keys[tag] = seqs_table[key]
-						tags_done[tag] = 1	# 1 = fake value
-
-		# TODO: do these numbers become too small, as the Qtag paper states?		
-		for key in seqs_table.keys():
-			occ = 1
-			try:
-				middle_tag = key[1]
-				occ = keys[middle_tag]
-			except KeyError:
-				if middle_tag:
-					print >> sys.stderr, "Warning: number of occurences of '%s' not found" % middle_tag
-			seqs_table[key] = float(seqs_table[key]) / occ
-			#print "## seqs_table[%s] = %s / %s -> %s" % (key, float(seqs_table[key]), occ, seqs_table[key])
+		self.addTagSequences(tag_list, seqs_table_followed_by, seqs_table_follows)
 		return
 	
 	def addWords(self, tagged_words, data_table):
@@ -442,7 +437,7 @@ class Text:
 		a list of all tags."""
 		all_tags_list = []
 		for (word, tag) in tagged_words:
-			#onlex for testing if case-insensitivity is better:
+			#only for testing if case-insensitivity is better:
 			#word = word.lower()
 			all_tags_list.append(tag)
 			tag_list = self.splitBNCTag(tag)
@@ -464,61 +459,82 @@ class Text:
 					word_table[tag] = 1.0/len(tag_list)
 					#print "word_table[%s] = %f" % (tag, word_table[tag])
 				data_table[word] = WordData(word, word_table)
+		# Normalize data_table values so they are probabilities (0 to 1):
+		for e in data_table.keys():
+			t = data_table[e].table
+			occ_all = 0
+			for occ in t.values():
+				occ_all = occ_all + occ
+			for key in t.keys():
+				t[key] = t[key] / occ_all
+		# debug:
+		#for e in data_table.keys():
+		#	print "%s, %s" % (e, data_table[e])
 		return all_tags_list
 		
-	def addTagList(self, tag_list, seqs_table):
-		"""Save information about POS tag triplets to seqs_table."""
-		#TODO?: add two dummy entries *for each sentence*?!?! -> no
-		i = 0
+	def addTagSequences(self, tag_list, seqs_table_followed_by, seqs_table_follows):
+		"""Save information about POS tag tuples to seqs_table."""
+		# TODO: add dummy entries
 		if len(tag_list) == 0:
 			return
+		i = 0
+
+		### FIXME: does this work if data is added later? probably not...:
+		count_followed_by = {}
+		count_follows = {}
+		
 		while 1:
-			#print "%d, %d" % (i, len(tag_list))
-			if i >= len(tag_list) + 2:
+			if i >= len(tag_list)-1:
 				break
-			# Special cases to emulate dummy entries. We don't want
-			# to modify the list, and working on a copy might be slow,
-			# so handle 'start of list' and 'end of list' as special cases:
-			tag0 = None
-			tag1 = None
-			tag2 = None
-			if i == 0:
-				tag0 = [self.DUMMY]
-				tag1 = [self.DUMMY]
-				tag2 = self.splitBNCTag(tag_list[i])
-			elif i == 1:
-				tag0 = [self.DUMMY]
-				tag1 = self.splitBNCTag(tag_list[i-1])
-				try:
-					tag2 = self.splitBNCTag(tag_list[i])
-				except IndexError:	
-					tag2 = [self.DUMMY]
-			elif i == len(tag_list):
-				tag0 = self.splitBNCTag(tag_list[i-2])
-				tag1 = self.splitBNCTag(tag_list[i-1])
-				tag2 = [self.DUMMY]
-			elif i == len(tag_list) + 1:
-				tag0 = self.splitBNCTag(tag_list[i-2])
-				tag1 = [self.DUMMY]
-				tag2 = [self.DUMMY]
-			else:
-				tag0 = self.splitBNCTag(tag_list[i-2])
-				tag1 = self.splitBNCTag(tag_list[i-1])
-				tag2 = self.splitBNCTag(tag_list[i])
-			for t0 in tag0:
-				for t1 in tag1:
-					for t2 in tag2:
-						final_key = (t0, t1, t2)
-						val = 1.0 / (len(tag0) * len(tag1) * len(tag2))
-						#print "fK=%s -> %.2f " % (str(final_key), val)
-						if seqs_table.has_key(final_key):
-							seqs_table[final_key] = seqs_table[final_key] + val
-						else:
-							seqs_table[final_key] = val
+			tag0 = tag_list[i]
+			key = ()
+			if self.mapping.has_key(tag0):
+				tag0 = self.mapping[tag0]
+			tag1 = tag_list[i+1]
+			if self.mapping.has_key(tag1):
+				tag1 = self.mapping[tag1]
+			try:
+				seqs_table_followed_by[(tag0,tag1)] = seqs_table_followed_by[(tag0,tag1)] + 1
+			except KeyError:
+				seqs_table_followed_by[(tag0,tag1)] = 1
+			try:
+				count_followed_by[tag0] = count_followed_by[tag0] + seqs_table_followed_by[(tag0,tag1)]
+			except KeyError:
+				count_followed_by[tag0] = seqs_table_followed_by[(tag0,tag1)]
+
+			try:
+				seqs_table_follows[(tag0,tag1)] = seqs_table_follows[(tag0,tag1)] + 1
+			except KeyError:
+				seqs_table_follows[(tag0,tag1)] = 1
+			try:
+				count_follows[tag0] = count_follows[tag0] + seqs_table_follows[(tag0,tag1)]
+			except KeyError:
+				count_follows[tag0] = seqs_table_follows[(tag0,tag1)]
 			i = i + 1
+
 		#debug:
-		#for k in seqs_table.keys():
-		#	print "%s -> %s" % (k, seqs_table[k])
+		#print "FOLLOWED BY:"
+		#for k in seqs_table_followed_by.keys():
+		#	print "%s -> %s" % (k, seqs_table_followed_by[k])
+		#print "FOLLOWS:"
+		#for k in seqs_table_follows.keys():
+		#	print "%s -> %s" % (k, seqs_table_follows[k])
+
+		# Normalize to 0-1 range:
+		# TODO: do these numbers become too small, as the Qtag paper states?		
+		for t in seqs_table_followed_by.keys():
+			#print "#%s'" % t[0]
+			seqs_table_followed_by[t] = float(seqs_table_followed_by[t]) / float(count_followed_by[t[0]])
+		for t in seqs_table_follows.keys():
+			seqs_table_follows[t] = float(seqs_table_follows[t]) / float(count_follows[t[0]])
+
+		#debug:
+		#print "FOLLOWED BY (norm):"
+		#for k in seqs_table_followed_by.keys():
+		#	print "%s -> %s" % (k, seqs_table_followed_by[k])
+		#print "FOLLOWS (norm):"
+		#for k in seqs_table_follows.keys():
+		#	print "%s -> %s" % (k, seqs_table_follows[k])
 		return
 
 
@@ -572,6 +588,18 @@ class TextToTag(Text):
 				return (orig_word_tmp, next)
 		return (None, None)
 
+	def getBestTagSimple(self, prev, tag_tuples, next, seqs_table, i, tag_table):
+		"""Return the most probable tag without taking context into
+		account. Only useful for testing and checking the baseline."""
+		max_prob = 0
+		best_tag = None
+		for tag_tuples_here in tag_tuples:
+			prob = tag_tuples_here[1]
+			if prob >= max_prob:
+				max_prob = prob
+				best_tag = tag_tuples_here[0]
+		return best_tag
+
 	def getBestTag(self, prev, tag_tuples, next, seqs_table, i, tag_table):
 		"""Check the probability of all 3-tag sequences and choose that with
 		the highest combined probability."""
@@ -589,6 +617,7 @@ class TextToTag(Text):
 					except KeyError:
 						pass
 					prob_combined = seq_prob * tag_tuples_here[1]
+					#print "prob_combined = %s * %s" % (seq_prob, tag_tuples_here[1])
 					k = (i, tag_tuples_here[0])
 					try:
 						tag_table[k] = tag_table[k] + prob_combined
@@ -607,7 +636,7 @@ class TextToTag(Text):
 			best_tag = best_tag_no_context
 		return best_tag
 
-	def checkBNCMatch(self, i, tagged_list_bnc, word, best_tag):
+	def checkBNCMatch(self, i, tagged_list_bnc, word, best_tag, data_table):
 		"""Check for mismatches, i.e. POS tags that differ from the original
 		tag in BNC. Print out a warning for all those differences and return
 		1, otherwise return 0. Note that the BNC's tags are only correct 
@@ -624,12 +653,17 @@ class TextToTag(Text):
 			# 'UNC' means unclassified in BNC, assume that this corresponds
 			# to out 'unknown':
 			best_tag = 'UNC'
+		guessed = 1
+		# fixme: remove, debugging only:
+		if data_table.has_key(word):
+			guessed = 0
 		if not word == word_from_bnc:
 			print >> sys.stderr, "*** word mismatch: '%s'/'%s'" % (word, word_from_bnc)
 			#sys.exit()
-		elif not best_tag in tags_from_bnc:
-			print >> sys.stderr, "*** tag mismatch: got %s/%s, expected %s/%s" % \
-				(word, best_tag, word_from_bnc, tags_from_bnc)
+		elif not (best_tag in tags_from_bnc) and \
+				tags_from_bnc[0][0] != 'Y':		# ignore punctuation tags
+			print >> sys.stderr, "*** tag mismatch (guessed=%d): got %s/%s, expected %s/%s" % \
+				(guessed, word, best_tag, word_from_bnc, tags_from_bnc)
 			return 1
 		return 0
 
@@ -640,12 +674,12 @@ class TextToTag(Text):
 		sum = self.count_unknown + self.count_unambiguous + self.count_ambiguous
 		if sum > 0:
 			res = res + "count_unknown = %d (%.2f%%)\n" % (self.count_unknown, float(self.count_unknown)/float(sum)*100)
-			res = res + "count_unambiguous = %d (%.2f%%)\n" % (self.count_unambiguous, float(self.count_unambiguous)/float(sum)*100)
+			#res = res + "count_unambiguous = %d (%.2f%%)\n" % (self.count_unambiguous, float(self.count_unambiguous)/float(sum)*100)
 			res = res + "count_ambiguous = %d (%.2f%%)\n" % (self.count_ambiguous, float(self.count_ambiguous)/float(sum)*100)
 			#res = res + "sum = %d\n" % sum
 			if not count_wrong_tags == "n/a":
 				res = res + "correct tags = %d (%.2f%%)\n" % (sum-count_wrong_tags, float(sum-count_wrong_tags)/float(sum)*100)
-				res = res + "count_wrong_tags = %d (%.2f%%)\n" % (count_wrong_tags, float(count_wrong_tags)/float(sum)*100)
+				#res = res + "count_wrong_tags = %d (%.2f%%)\n" % (count_wrong_tags, float(count_wrong_tags)/float(sum)*100)
 		res = res + "-->"
 		return res
 
@@ -675,19 +709,16 @@ class TextToTag(Text):
 		# ...
 		return None
 
-	def tag(self, data_table, seqs_table):
+	def tag(self, data_table, seqs_table_followed_by, seqs_table_follows):
 		"""Tag self.text and return list of tuples
 		(word, normalized word, most probable tag)"""
 		self.text = self.expandEntities(self.text)
-		result_tuple_list = []
-		count_wrong_tags = "n/a"
 		is_bnc = 0
 		word_matches = self.getBNCTuples(self.text)
 		if len(word_matches) > 0:
 			# seems like this is a BNC text used for testing
 			is_bnc = 1
 			print >> sys.stderr, "BNC text detected."
-			count_wrong_tags = 0
 		else:
 			word_matches = self.nonword.split(self.text)
 			
@@ -734,6 +765,7 @@ class TextToTag(Text):
 					word = tuple_word
 					i = i + 2
 			r = Text.tagWord(self, word, data_table)
+			#print r
 			tagged_list.extend(r)
 
 			if is_bnc:
@@ -747,60 +779,15 @@ class TextToTag(Text):
 					#print "%s -> %s" % (el[0], tags)
 					tagged_list_bnc.append((el[0], tags))
 			i = i + 1
-		#print tagged_list[:15]
-		#print tagged_list_bnc[:15]
-		#return
 		
 		tagged_list.append(self.DUMMY)
 		tagged_list.append(self.DUMMY)
-		i = 0
 
-		tag_table = {}
-		for tagged in tagged_list:
-			### ********************************
-			### ***** QTag-like algorithm: *****
-			### ********************************
-			# The algorithm works on a window of 3 tokens.
-			# Always look at the middle tag, so find the 
-			# surrounding tokens (ignoring whitespace).
-			# Always look at the tag sequence of the
-			# whole 3-tag window.
-			if i == 0:			# jump over first dummy entry
-				i = i + 1
-				continue
-			next = [(None, 1)]
-			(orig_word, tagged_word, tag_tuples) = self.getTuple(tagged)
-			if not tagged_word and not tagged == None:	# tagges == None -> dummy entry
-				# ignore white space
-				i = i + 1
-				result_tuple_list.append((orig_word, tagged_word, None))
-				continue
-			if not tag_tuples:
-				tag_tuples = [(None, 1)]
-			#print "tagged_word=%s, tag_tuples=%s" % (tagged_word, str(tag_tuples))
-			prev_word, prev = self.getPrevToken(i, tagged_list)
-			if not prev:
-				prev = [(None, 1)]
-			next_word, next = self.getNextToken(i, tagged_list)
-			if not next:
-				next = [(None, 1)]
+		result_tuple_list = self.selectTagsByContext(tagged_list, seqs_table_followed_by, \
+			seqs_table_follows, tagged_list_bnc, is_bnc, data_table)
 
-			### Constraint-based part:
-			self.applyConstraints(prev_word, orig_word, next_word, tag_tuples)
-			
-			#print "##'%s', tag_tuples=%s" % (orig_word, tag_tuples)
-			best_tag = self.getBestTag(prev, tag_tuples, next, seqs_table, i, tag_table)
-
-			#print "%s\nTT=%s" % (tag_tuples, tag_table)
-			#print
-			if tagged:
-				#print "BEST: %s -> %s" % (tagged_word, best_tag)
-				result_tuple_list.append((orig_word, tagged_word, best_tag))
-			if is_bnc:
-				wrong_tags = self.checkBNCMatch(i, tagged_list_bnc, orig_word, best_tag)
-				count_wrong_tags = count_wrong_tags + wrong_tags
-			i = i + 1
-
+		print result_tuple_list
+		
 		i = 0
 		for tag_triple in result_tuple_list:
 			triple = self.applyTagRules(tag_triple[0], tag_triple[1], tag_triple[2])
@@ -811,14 +798,178 @@ class TextToTag(Text):
 				result_tuple_list[i] = (tag_triple[0], None, None)
 			i = i + 1
 		
-		#debug:
-		#for tag_triple in result_tuple_list:
-		#	print tag_triple
-
-		###
-		#stat = self.getStats(count_wrong_tags)
-		#print >> sys.stderr, stat
 		return result_tuple_list
+
+	def getName(self, x):
+		if x == None:
+			return "None"
+		else:
+			return x[0]
+	
+	def selectTagsByContext(self, tagged_list, seqs_table_followed_by, \
+		seqs_table_follows, tagged_list_bnc, is_bnc, data_table):
+		
+		# find all relevant (non-whitespace) positions:
+		i = 0
+		tagged_pos_list = []
+		for tagged in tagged_list:
+			#print tagged
+			if tagged == None or tagged[1] != None:
+				tagged_pos_list.append(i)
+				print "%d**%s<br>" % (i, str(tagged_list[i]))
+			i = i + 1
+		print "tagged_pos_list=%s" % tagged_pos_list	
+		
+		result_tuple_list = []
+		count_wrong_tags = 0
+		tag_probs = {}
+		i = 0
+		pos = -1
+		#for pos in tagged_pos_list:
+		for tagged_triple in tagged_list:
+			if not i in tagged_pos_list:
+				print "IGN(%d): %s<br>" % (i, str(tagged_triple))
+				i = i + 1
+				continue
+			print "XXX(%d): %s<br>" % (i, str(tagged_triple))
+			pos = pos + 1
+			one_pos = tagged_pos_list[pos]
+			try:
+				one = tagged_list[one_pos]
+				two = tagged_list[tagged_pos_list[pos+1]]
+				three = tagged_list[tagged_pos_list[pos+2]]
+			except IndexError:
+				print "END<br>"
+				# list end
+				break
+
+			one_tags = [None]
+			if one: one_tags = one[2]
+			two_tags = [None]
+			if two: two_tags = two[2]
+			three_tags = [None]
+			if three: three_tags = three[2]
+
+			for one_tag in one_tags:
+				tag_one_prob = 0
+				if one_tag:
+					tag_one_prob = one_tag[1]
+
+				for two_tag in two_tags:
+					tag_two_prob = 0
+					if two_tag:
+						tag_two_prob = two_tag[1]
+
+					for three_tag in three_tags:
+						tag_three_prob = 0
+						if three_tag:
+							tag_three_prob = three_tag[1]
+
+						#print "** %s/%s/%s" % (one_tag, two_tag, three_tag)
+						one_tag_prob = None
+						if one_tag: one_tag_prob = one_tag[0]
+						two_tag_prob = None
+						if two_tag: two_tag_prob = two_tag[0]
+						three_tag_prob = None
+						if three_tag: three_tag_prob = three_tag[0]
+
+						# FIXME?!:
+						seq1 = (one_tag_prob, two_tag_prob)
+						seq2 = (two_tag_prob, three_tag_prob)
+						seq_prob = 0
+						
+						if one:
+							try:
+								seq_prob = seqs_table_followed_by[(one_tag_prob, two_tag_prob)] * \
+									seqs_table_followed_by[(two_tag_prob, three_tag_prob)]
+							except KeyError:
+								pass
+								#print "key not found" 
+								
+							prob_combined = seq_prob * tag_one_prob
+							k1 = (pos, one_tag[0])
+							#if k1[0] == 9:
+							####print "k1=%s(%s), prob_combined = %s * %s = %.20f" % (k1, one[0], tag_one_prob, seq_prob, prob_combined)
+							
+							#print "K=%s -- one_tag[0] = %s" % (k1, one_tag[0])
+							try:
+								tag_probs[k1] = tag_probs[k1] + prob_combined
+							except KeyError:
+								tag_probs[k1] = prob_combined
+						if two:
+							try:
+								seq_prob = seqs_table_follows[(one_tag_prob, two_tag_prob)] * \
+									seqs_table_followed_by[(two_tag_prob, three_tag_prob)]
+							except KeyError:
+								pass
+							prob_combined = seq_prob * tag_two_prob
+							k2 = (tagged_pos_list[pos+1], two_tag[0])
+							#k2 = (tagged_pos_list[pos+1], two_tag[0])
+							#if k2[0] == 9:
+							####print "k2=%s(%s), prob_combined = %s * %s = %.20f" % (k2, two[0], tag_two_prob, seq_prob, prob_combined)
+
+							try:
+								tag_probs[k2] = tag_probs[k2] + prob_combined
+							except KeyError:
+								tag_probs[k2] = prob_combined
+						if three:
+							#FIXME: is this used at all???
+							try:
+								seq_prob = seqs_table_follows[(one_tag_prob, two_tag_prob)] * \
+									seqs_table_follows[(two_tag_prob, three_tag_prob)]
+							except KeyError:
+								pass
+							prob_combined = seq_prob * tag_three_prob
+							k3 = (tagged_pos_list[pos+2], three_tag[0])
+							#k3 = (tagged_pos_list[pos+1], two_tag[0])
+							#if k3[0] == 9:
+							####print "k3=%s(%s), prob_combined = %s * %s = %.20f" % (k3, three[0], tag_three_prob, seq_prob, prob_combined)
+
+							try:
+								tag_probs[k3] = tag_probs[k3] + prob_combined
+							except KeyError:
+								tag_probs[k3] = prob_combined
+						
+			orig_word = None
+			norm_word = None
+			# the word that falls out of the window is assigned its final tag:
+			if one:
+				orig_word = one[0]
+				norm_word = one[1]
+				keys = tag_probs.keys()
+				keys.sort()
+				max_prob = 0
+				best_tag = None
+				for tag_prob in keys:
+					if tag_prob[0] == pos and tag_probs[tag_prob] >= max_prob:
+						####print " K=%s, V=%s" % (tag_prob, tag_probs[tag_prob])
+						max_prob = tag_probs[tag_prob]
+						best_tag = tag_prob[1]
+				#result_tuple_list.append((orig_word, norm_word, best_tag))
+				tagged_list[i] = (orig_word, norm_word, best_tag)
+				####print "BEST@%d: %s" % (pos, best_tag)
+			
+
+			if is_bnc and one:
+				orig_word = one[0]
+				wrong_tags = self.checkBNCMatch(i, tagged_list_bnc, orig_word, best_tag, data_table)
+				count_wrong_tags = count_wrong_tags + wrong_tags
+
+			i = i + 1
+		###
+		stat = self.getStats(count_wrong_tags)
+		print >> sys.stderr, stat
+
+		# remove dummy entries:
+		tagged_list.pop(0)
+		tagged_list.pop(0)
+		tagged_list.pop()
+		tagged_list.pop()
+		
+		print "<br>##tagged_list=%s<p>" % tagged_list
+		#print "<br>##result_tuple_list=%s<p>" % result_tuple_list
+		
+		return tagged_list
 
 	def getTuple(self, tagged_list_elem):
 		if not tagged_list_elem:
