@@ -1,6 +1,6 @@
 # -*- coding: iso-8859-1 -*-
 # Class for Grammar and Style Rules
-#$rcs = ' $Id: Rules.py,v 1.8 2004-08-31 18:16:38 dnaber Exp $ ' ;
+#$rcs = ' $Id: Rules.py,v 1.9 2004-10-05 22:23:27 dnaber Exp $ ' ;
 #
 # LanguageTool -- A Rule-Based Style and Grammar Checker
 # Copyright (C) 2002,2003,2004 Daniel Naber <daniel.naber@t-online.de>
@@ -210,7 +210,7 @@ class WhitespaceRule(Rule):
 			whitespace_length = len(tagged_words[i+1][0])
 			if line_breaks_cur == 0:
 				column = column + len(org_word)
-			if self.punct_regex.match(org_word):
+			if self.punct_regex.match(org_word) and not (org_word.endswith("\n") or org_word.endswith("\r")):
 				word_next = tagged_words[i+1][1]
 				word_next = self.getNextTriple(tagged_words, i+1)
 				if word_next:
