@@ -25,12 +25,17 @@ import ChunkerTest
 import RulesTest
 import TaggerTest
 import EnglishTest
+import GermanTest
+import HungarianTest
 
 suite = unittest.TestSuite()
-if len(sys.argv) == 2 and sys.argv[1] == "rules":
-	suite = unittest.TestSuite()
+if len(sys.argv) == 3 and sys.argv[1] == "rules" and (sys.argv[2] == "en" or sys.argv[2] == "all"):
+#	suite = unittest.TestSuite()
 	suite.addTest(unittest.makeSuite(EnglishTest.EnglishTestCase))
-	# TODO: add German and hungarian
+elif len(sys.argv) == 3 and sys.argv[1] == "rules" and (sys.argv[2] == "de" or sys.argv[2] == "all"):
+ 	suite.addTest(unittest.makeSuite(GermanTest.GermanTestCase))
+elif len(sys.argv) == 3 and sys.argv[1] == "rules" and (sys.argv[2] == "hu" or sys.argv[2] == "all"):
+	suite.addTest(unittest.makeSuite(HungarianTest.HungarianTestCase))
 elif len(sys.argv) == 2 and sys.argv[1] == "all":
 	suite.addTest(unittest.makeSuite(ChunkerTest.ChunkerTestCase))
 	suite.addTest(unittest.makeSuite(RulesTest.RuleTestCase))
@@ -41,6 +46,6 @@ elif len(sys.argv) == 2 and sys.argv[1] == "all":
 	suite.addTest(unittest.makeSuite(TaggerTest.TaggerTestCase))
 	suite.addTest(unittest.makeSuite(EnglishTest.EnglishTestCase))
 else:
-	print "Usage: testsuite.py <all|rules>"
+	print "Usage: testsuite.py <all|rules| en, de, hu, or all>"
 	sys.exit()
 unittest.TextTestRunner().run(suite)
