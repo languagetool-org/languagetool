@@ -3,7 +3,7 @@
 <!--
 Rules: Grammar and Typos
 (c) 2001,2002,2003 Daniel Naber, daniel.naber@t-online.de
-$Id: grammar.xml,v 1.12 2003-08-22 20:20:09 dnaber Exp $
+$Id: grammar.xml,v 1.13 2003-08-25 19:18:09 dnaber Exp $
 -->
 <rules>
 
@@ -250,7 +250,7 @@ $Id: grammar.xml,v 1.12 2003-08-22 20:20:09 dnaber Exp $
 
 	<rule id="DET_DET" name="Two consecutive articles">
 		<pattern lang="en" mark_from="1" mark_to="0">AT0 AT0</pattern>
-		<message><em>Remove</em> the second determiner.</message>
+		<message><em>_Remove</em> the second determiner.</message>
 		<error_rate warnings="5" sentences="75900" />
 		<example type="correct"><em>The</em> thing is this.</example>
 		<example type="incorrect"><em>The the</em> thing is this.</example>
@@ -260,7 +260,7 @@ $Id: grammar.xml,v 1.12 2003-08-22 20:20:09 dnaber Exp $
 		-->
 	</rule>
 
-	<rule id="THAN_END" name="Confusion of than/then">
+	<rule id="THAN_END" name="Confusion of than/then at end of sentence">
 		<pattern lang="en" mark_from="0" mark_to="-1">"than" SENT_END</pattern>
 		<message>Did you mean <em>then</em>?</message>
 		<error_rate warnings="0" sentences="75900" />
@@ -307,7 +307,7 @@ $Id: grammar.xml,v 1.12 2003-08-22 20:20:09 dnaber Exp $
 
 	<rule id="MOST_COMP" name="No 'more' or 'most' before superlatives">
 		<pattern lang="en" mark_from="0" mark_to="-1">"(more|most)" AJS</pattern>
-		<message><em>Remove</em> 'most' or 'more' when you use the superlative.</message>
+		<message><em>_Remove</em> 'most' or 'more' when you use the superlative.</message>
 		<error_rate warnings="0" sentences="75900" />
 		<example type="correct">Kyoto is the <em>oldest</em> city.</example>
 		<example type="incorrect">Kyoto is the <em>most oldest</em> city.</example>
