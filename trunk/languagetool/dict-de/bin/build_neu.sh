@@ -24,8 +24,9 @@ sort -u $TMP/deutsch1.dic > $TMP/deutsch2.dic
 awk -f $AWK/dupl.awk < $TMP/deutsch2.dic >$TMP/deutsch1.dic
 awk -f $AWK/sortch.awk < $TMP/deutsch1.dic >$TMP/deutsch2.dic
 awk -f $AWK/nodupsw.awk < $TMP/deutsch2.dic >$TMP/deutsch1.dic
-wc -l $TMP/deutsch1.dic | awk '{print $1;}' > $ERGEBNIS/deutschneu.dic
-cat $TMP/deutsch1.dic >> $ERGEBNIS/deutschneu.dic
+awk -f $AWK/abtren.awk < $TMP/deutsch1.dic >$TMP/deutsch2.dic
+wc -l $TMP/deutsch2.dic | awk '{print $1;}' > $ERGEBNIS/deutschneu.dic
+cat $TMP/deutsch2.dic >> $ERGEBNIS/deutschneu.dic
 rm -rf $TMP/deutsch1.dic
 rm -rf $TMP/deutsch2.dic
 rm -rf $TMP/deutschnamen*
