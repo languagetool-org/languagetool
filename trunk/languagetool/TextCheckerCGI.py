@@ -1,4 +1,5 @@
 #!/home/dnaber/prg/python23/bin/python
+#!/usr/bin/python
 # Copyright (C) 2003 Daniel Naber <daniel.naber@t-online.de>
 
 # This program is free software; you can redistribute it and/or modify
@@ -96,6 +97,7 @@ def displayForm(form):
 	return
 	
 def check(form):
+	print "Content-Type: text/html\n\n"
 	text = form.getvalue("text")
 	if not text:
 		text = ""
@@ -105,7 +107,7 @@ def check(form):
 	words = None
 	builtin = None
 	if not form.getvalue("style"):
-		words = "NONE"
+		words = ["__NONE"]
 	textlanguage = "en"		# TODO: make this an option in the page?
 	mothertongue = "de"
 	if not form.getvalue("german_ff"):
@@ -116,7 +118,6 @@ def check(form):
 	checker = TextChecker.TextChecker(grammar, falsefriends, words, builtin, \
 		textlanguage, mothertongue, max_sentence_length)
 
-	print "Content-Type: text/html\n\n"
 	print """<html><head>
 		<title>Check result</title>
 		<style rel='stylesheet'>
