@@ -65,7 +65,7 @@ class SentenceLengthRule(Rule):
 	"""Check if a sentence is 'too' long. Use setMaxLength() to set the
 	maximum length that's still okay."""
 
-	max_length = 25
+	max_length = 30
 	
 	def __init__(self):
 		Rule.__init__(self, "SENTENCE_LENGTH", "This sentence is too long.", 0, None)
@@ -81,18 +81,34 @@ class SentenceLengthRule(Rule):
 		matches = []
 		text_length = 0
 		count = 0
+		too_long = 0
+		too_long_start = 0
+		too_long_end = 0
+		#print tagged_words
 		for (org_word, tagged_word, tagged_tag) in tagged_words:
 			text_length = text_length + len(org_word)
-			if not tagged_tag:
+			if not tagged_tag or not tagged_word:
 				# don't count whitespace etc
 				continue
-			if count >= self.max_length:
-				matches.append(RuleMatch("MAX_LEN", text_length-len(org_word),
-					text_length, count, count+1,	# fixme
-					self.message))
-				break
-			#print "Count=%d (max=%d)" % (count, self.max_length)
+			#print "counting %s" % tagged_word
 			count = count + 1
+			if count >= self.max_length and not too_long:
+				too_long = 1
+				too_long_start = text_length-len(org_word)
+				too_long_end = text_length
+		if too_long:
+			matches.append(RuleMatch("MAX_LEN", too_long_start,
+				too_long_end, self.max_length, self.max_length+1,
+				"This sentence is %d words long, which exceeds the \
+				configured limit of %d words." % (count, self.max_length)))
+			#i = 1
+			#for w in tagged_words:
+			#	if w[2]:
+			#		print "(%d)%s" % (i, w[0]),
+			#		#print w[0],
+			#		i = i + 1
+			#print
+		#print "Count=%d (max=%d)" % (count, self.max_length)
 		return matches
 
 class PatternRule(Rule):
@@ -277,6 +293,14 @@ class RuleMatch:
 	def toXML(self):
 		strng = '<error from="%d" to="%d">%s</error>' % (self.from_pos, self.to_pos, self.message)
 		return strng
+
+	def __cmp__(self, b):
+		if self.from_pos > b.from_pos:
+			return 1
+		elif self.from_pos < b.from_pos:
+			return -1
+		else:
+			return 0
 
 class Token:
 	"""A word or tag token, negated or not. Examples:
