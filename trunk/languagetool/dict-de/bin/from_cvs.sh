@@ -29,7 +29,7 @@ cat $WOERTER/woerter_komposita_umlaute.txt >>$WORTE/nonameortneu.txt
 cat $WOERTER/woerter_klein.txt >>$WORTE/nonameortneu.txt
 cat $WOERTER/woerter_gross.txt >>$WORTE/nonameortneu.txt
 cat $WOERTER/woerter_computer.txt >>$WORTE/nonameortneu.txt
-cat $WOERTER/zuform.txt >>$WORTE/nonameortneu.txt
+#cat $WOERTER/zuform.txt >>$WORTE/nonameortneu.txt
 cat $WOERTER/selten.txt >>$WORTE/nonameortneu.txt
 cat $WOERTER/neue_woerter.txt >>$WORTE/nonameortneu.txt
 
