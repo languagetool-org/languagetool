@@ -1,4 +1,5 @@
 #!/usr/bin/python
+# -*- coding: iso-8859-1 -*-
 # Copyright (C) 2003 Daniel Naber <daniel.naber@t-online.de>
 #
 # This program is free software; you can redistribute it and/or modify
@@ -162,7 +163,7 @@ class TaggerTest(unittest.TestCase):
 		tag = tagger.guessTagTest("10.10pm")
 		self.assertEqual(tag, 'AV0')
 
-		tag = tagger.guessTagTest("Großekathöfer")
+		tag = tagger.guessTagTest(u"Großekathöfer")
 		self.assertEqual(tag, 'NP0')
 
 		tag = tagger.guessTagTest("jackerfoodom")
