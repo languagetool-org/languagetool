@@ -2,6 +2,7 @@
 # posi.sh creates sorted error file for coloring/TKLSpell
 # first parameter: languagetool's home directory
 # second parameter: pathname of file to be checked
+# third parameter: language (en, de or hu)
 # result goes into languagetool/tools/checkout.txt
 # calling example:
 #sh posi.sh #/mnt/win_d/hattyu/tyuk/dtest/python/danielnaber/cvs3/languagetool #/home/en/tyuk/dtest/qt/examples/richedit2/lang/work/chk.txt

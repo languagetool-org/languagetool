@@ -29,5 +29,6 @@
 		     }
 				print out;
 			  bb[1] = "";
+			  out = "";
 			}
 

@@ -1,7 +1,7 @@
 # Rule that checks for word repeats
 # (c) 2003 Daniel Naber <daniel.naber@t-online.de>
 #
-#$rcs = ' $Id: deWordRepeatRule.py,v 1.3 2004-06-20 19:48:45 dnaber Exp $ ' ;
+#$rcs = ' $Id: deWordRepeatRule.py,v 1.4 2004-08-30 20:15:03 tyuk Exp $ ' ;
 #
 # This library is free software; you can redistribute it and/or
 # modify it under the terms of the GNU Lesser General Public
@@ -67,7 +67,7 @@ class deWordRepeatRule(Rules.Rule):
 					text_length+position_fix, 
 					text_length+whitespace_length+len(org_word_next)+position_fix, 
 					line_breaks+line_fix, column+column_fix,
-					"You repeated a word. Maybe you should <em>remove</em> one "+
-					"of the words?", org_word))
+					"<message>You repeated a word. Maybe you should <em>remove</em> one "+
+					"of the words?</message>", org_word))
 			i = i + 1
 		return matches

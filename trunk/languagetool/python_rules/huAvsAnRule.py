@@ -2,7 +2,7 @@
 # Rule that checks the use of 'a' vs. 'an'
 # (c) 2003 Daniel Naber <daniel.naber@t-online.de>
 #
-#$rcs = ' $Id: huAvsAnRule.py,v 1.6 2004-07-02 07:22:37 tyuk Exp $ ' ;
+#$rcs = ' $Id: huAvsAnRule.py,v 1.7 2004-08-30 20:15:03 tyuk Exp $ ' ;
 #
 # This library is free software; you can redistribute it and/or
 # modify it under the terms of the GNU Lesser General Public
@@ -95,8 +95,8 @@ class huAvsAnRule(Rules.Rule):
 					matches.append(Rules.RuleMatch(self.rule_id,
 						text_length+position_fix, text_length+len(org_word)+position_fix,
 						line_breaks+line_fix, column,
-						"Hasznaljon <em>az-t a</em> helyett "+
-						"ha a kovetkezo szo maganhangzoval kezdodik", org_word))
+						"<message>Hasznaljon <em>az-t a</em> helyett "+
+						"ha a kovetkezo szo maganhangzoval kezdodik</message>", org_word))
 #			elif org_word.lower() == 'az':
 #				err = 0
 #				if org_word_next.lower() in self.requires_a:

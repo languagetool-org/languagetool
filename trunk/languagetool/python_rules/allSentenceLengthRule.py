@@ -1,7 +1,7 @@
 # Rule that checks for long sentences
 # (c) 2003,2004 Daniel Naber <daniel.naber@t-online.de>
 #
-#$rcs = ' $Id: allSentenceLengthRule.py,v 1.5 2004-07-11 22:47:56 dnaber Exp $ ' ;
+#$rcs = ' $Id: allSentenceLengthRule.py,v 1.6 2004-08-30 20:15:03 tyuk Exp $ ' ;
 #
 # This library is free software; you can redistribute it and/or
 # modify it under the terms of the GNU Lesser General Public
@@ -71,6 +71,6 @@ class allSentenceLengthRule(Rules.Rule):
 		if too_long:
 			matches.append(Rules.RuleMatch(self.rule_id, too_long_start+position_fix,
 				too_long_end+position_fix, line_breaks+line_fix, column+column_fix,
-				"This sentence is %d words long, which exceeds the "
-				"configured limit of %d words." % (count, self.max_length)))
+				"<message>This sentence is %d words long, which exceeds the "
+				"configured limit of %d words.</message>" % (count, self.max_length)))
 		return matches

@@ -1,7 +1,7 @@
 # Rule that checks the use of 'a' vs. 'an' (English only)
 # (c) 2003,2004 Daniel Naber <daniel.naber@t-online.de>
 #
-#$rcs = ' $Id: enAvsAnRule.py,v 1.5 2004-06-20 19:01:30 dnaber Exp $ ' ;
+#$rcs = ' $Id: enAvsAnRule.py,v 1.6 2004-08-30 20:15:03 tyuk Exp $ ' ;
 #
 # This library is free software; you can redistribute it and/or
 # modify it under the terms of the GNU Lesser General Public
@@ -78,9 +78,9 @@ class enAvsAnRule(Rules.Rule):
 					matches.append(Rules.RuleMatch(self.rule_id,
 						text_length+position_fix, text_length+len(org_word)+position_fix, 
 						line_breaks+line_fix, column,
-						"Use <em>an</em> instead of <em>a</em> if the following "+
+						"<message>Use <em>an</em> instead of <em>a</em> if the following "+
 						"word starts with a vowel sound, e.g. 'an article', "+
-						"'an hour'", org_word))
+						"'an hour'</message>", org_word))
 			elif org_word.lower() == 'an':
 				err = 0
 				if org_word_next.lower() in self.requires_a:
@@ -94,9 +94,9 @@ class enAvsAnRule(Rules.Rule):
 						text_length+position_fix,
 						text_length+len(org_word)+position_fix,
 						line_breaks+line_fix, column,
-						"Use <em>a</em> instead of <em>an</em> if the following "+
+						"<message>Use <em>a</em> instead of <em>an</em> if the following "+
 						"word doesn't start with a vowel sound, e.g. 'a test', "+
-						"'a university'", org_word))
+						"'a university'</message>", org_word))
 				pass
 			if line_breaks_cur == 0:
 				column = column + len(org_word)
