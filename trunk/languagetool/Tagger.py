@@ -37,7 +37,7 @@ class Tagger:
 	db_seq_name2 = os.path.join("data", "seqs2")
 	#uncountable_name = os.path.join("data", "uncountable.txt")
 	
-	def __init__(self, db_word_name=None, db_seq_name=None):
+	def __init__(self, db_word_name=None, db_seq_name1=None, db_seq_name2=None):
 		"""Initialize the tagger, optionally using the given
 		file names that will be used to load and save data later."""
 		self.data_table = None
@@ -45,10 +45,10 @@ class Tagger:
 		self.seqs_table_follows = None		# tag sequences: table[tag1,tag2] = value
 		if db_word_name:
 			self.db_word_name = db_word_name
-		if db_seq_name:
-			self.db_seq_name = db_seq_name
-		#if db_seq_name:	#fixme
-		#	self.db_seq_name = db_seq_name
+		if db_seq_name1:
+			self.db_seq_name1 = db_seq_name1
+		if db_seq_name2:
+			self.db_seq_name2 = db_seq_name2
 		#uncountable_nouns = self.loadUncountables()
 		self.word_count = 0
 		return
@@ -182,6 +182,7 @@ class Tagger:
 			return None
 		try:
 			probability = self.seqs_table_followed_by[tup]
+			#probability = self.seqs_table_follows[tup]
 		except KeyError:
 			probability = 0
 		return probability
@@ -203,7 +204,7 @@ class Tagger:
 class Text:
 
 	DUMMY = None
-	number_regex = re.compile("^[0-9.,/\-]+$")
+	number_regex = re.compile("^(\d+|\d+[.,/\-]\d+)+$")
 	time_regex = re.compile("\d(am|pm)$")
 	bnc_regex = re.compile("<(w|c) (.*?)>(.*?)<", re.DOTALL)
 
@@ -560,35 +561,6 @@ class TextToTag(Text):
 		f.close()
 		return
 	
-	def getPrevToken(self, i, tagged_list):
-		"""Find the token previous to the token at position i from tagged_list,
-		ignoring whitespace tokens. Return a tuple (word, tuple_list),
-		whereas tuple_list is a list of (tag, tag_probability) tuples."""
-		j = i-1
-		while j >= 0:
-			(orig_word_tmp, tagged_word_tmp, tag_tuples_tmp) = self.getTuple(tagged_list[j])
-			j = j - 1
-			if not tagged_word_tmp:
-				continue
-			else:
-				prev = tag_tuples_tmp
-				return (orig_word_tmp, prev)
-		return (None, None)
-
-	def getNextToken(self, i, tagged_list):
-		"""Find the token next to the token at position i from tagged_list,
-		ignoring whitespace tokens. See self.getPrevToken()"""
-		j = i + 1
-		while j < len(tagged_list):
-			(orig_word_tmp, tagged_word_tmp, tag_tuples_tmp) = self.getTuple(tagged_list[j])
-			j = j + 1
-			if not tagged_word_tmp:
-				continue
-			else:
-				next = tag_tuples_tmp
-				return (orig_word_tmp, next)
-		return (None, None)
-
 	def getBestTagSimple(self, tag_tuples):
 		"""Return the most probable tag without taking context into
 		account. Only useful for testing and checking the baseline."""
@@ -599,42 +571,6 @@ class TextToTag(Text):
 			if prob >= max_prob:
 				max_prob = prob
 				best_tag = tag_tuples_here[0]
-		return best_tag
-
-	def getBestTag(self, prev, tag_tuples, next, seqs_table, i, tag_table):
-		"""Check the probability of all 3-tag sequences and choose that with
-		the highest combined probability."""
-		max_prob = 0
-		max_prob_no_context = 0		# special case, mostly for test cases
-		best_tag = None
-		for tag_tuples_prev in prev:
-			for tag_tuples_here in tag_tuples:
-				#print tag_tuples_here
-				for tag_tuples_next in next:
-					seq = (tag_tuples_prev[0], tag_tuples_here[0], tag_tuples_next[0])
-					seq_prob = 0	# sequence probability
-					try:
-						seq_prob = seqs_table[seq]
-					except KeyError:
-						pass
-					prob_combined = seq_prob * tag_tuples_here[1]
-					#print "prob_combined = %s * %s" % (seq_prob, tag_tuples_here[1])
-					k = (i, tag_tuples_here[0])
-					try:
-						tag_table[k] = tag_table[k] + prob_combined
-					except KeyError:
-						tag_table[k] = prob_combined
-					# also work if all contexts have probability == 0,
-					# use the pos tag probability without context then:
-					if tag_tuples_here[1] >= max_prob_no_context:
-						max_prob_no_context = tag_tuples_here[1]
-						best_tag_no_context = tag_tuples_here[0]
-					if prob_combined >= max_prob:
-						max_prob = prob_combined
-						best_tag = tag_tuples_here[0]
-					#print "##seq=%s, %.7f*%.2f=%f" % (str(seq), seq_prob, tag_tuples_here[1], prob_combined)
-		if max_prob == 0:
-			best_tag = best_tag_no_context
 		return best_tag
 
 	def checkBNCMatch(self, i, tagged_list_bnc, word, best_tag, data_table):
@@ -691,6 +627,7 @@ class TextToTag(Text):
 		the probabilistic tagger. Removes incorrect POS tags from tagged_tuples.
 		Returns nothing, as it works directly on tagged_tuples."""
 		# demo rule just for the test cases:
+		#print "## %s -- %s -- %s" % (prev_word, curr_word, next_word)
 		if curr_word and curr_word.lower() == 'demodemo':
 			self.constrain(tagged_tuples, 'AA')
 		# ...
@@ -802,6 +739,18 @@ class TextToTag(Text):
 		#stat = self.getStats(count_wrong_tags)
 		#print >> sys.stderr, stat
 		#print result_tuple_list
+
+		### Constraint-based part:
+		prev_word = None
+		next_word = None
+		i = 0
+		for tag_tuples in tagged_list:
+			prev_word = self.getPrevWord(i, tagged_list)
+			next_word = self.getNextWord(i, tagged_list)
+			if tag_tuples and tag_tuples[1]:
+				self.applyConstraints(prev_word, tag_tuples[0], next_word, tag_tuples[2])
+			i = i + 1
+
 		result_tuple_list = self.selectTagsByContext(tagged_list, seqs_table_followed_by, \
 			seqs_table_follows, tagged_list_bnc, is_bnc, data_table)
 		
@@ -816,6 +765,44 @@ class TextToTag(Text):
 			i = i + 1
 		
 		return result_tuple_list
+
+	def getPrevWord(self, i, tagged_list):
+		"""Find the token previous to the token at position i from tagged_list,
+		ignoring whitespace tokens. Return a tuple (word, tuple_list),
+		whereas tuple_list is a list of (tag, tag_probability) tuples."""
+		j = i-1
+		while j >= 0:
+			(orig_word_tmp, tagged_word_tmp, tag_tuples_tmp) = self.getTuple(tagged_list[j])
+			j = j - 1
+			if not tagged_word_tmp:
+				continue
+			else:
+				prev = tag_tuples_tmp
+				return orig_word_tmp
+		return None
+
+	def getNextWord(self, i, tagged_list):
+		"""Find the token next to the token at position i from tagged_list,
+		ignoring whitespace tokens. See self.getPrevToken()"""
+		j = i + 1
+		while j < len(tagged_list):
+			(orig_word_tmp, tagged_word_tmp, tag_tuples_tmp) = self.getTuple(tagged_list[j])
+			j = j + 1
+			if not tagged_word_tmp:
+				continue
+			else:
+				next = tag_tuples_tmp
+				return orig_word_tmp
+		return None
+
+	def getTuple(self, tagged_list_elem):
+		if not tagged_list_elem:
+			orig_word = None
+			tagged_word = None
+			tag_tuples = None
+		else:
+			(orig_word, tagged_word, tag_tuples) = tagged_list_elem
+		return (orig_word, tagged_word, tag_tuples)
 
 	def selectTagsByContext(self, tagged_list, seqs_table_followed_by, \
 		seqs_table_follows, tagged_list_bnc, is_bnc, data_table):
@@ -847,7 +834,8 @@ class TextToTag(Text):
 				break
 
 			one_tags = [None]
-			if one: one_tags = one[2]
+			if one: 
+				one_tags = one[2]
 			two_tags = [None]
 			if two: two_tags = two[2]
 			three_tags = [None]
@@ -883,12 +871,17 @@ class TextToTag(Text):
 						
 						if one:
 							try:
-								seq_prob = seqs_table_followed_by[(one_tag_prob, two_tag_prob)] * \
-									seqs_table_followed_by[(two_tag_prob, three_tag_prob)]
+								k1 = (one_tag_prob, two_tag_prob)
+								k2 = (two_tag_prob, three_tag_prob)
+								seq_prob = seqs_table_followed_by[k1] * \
+									seqs_table_followed_by[k2]
+								print "k1=%s, k2=%s" % (str(k1), str(k2))
 							except KeyError:
 								pass
 							prob_combined = seq_prob * tag_one_prob
+							print "  %.10f" % prob_combined
 							k1 = (i, one_tag[0])
+							#print "k1=%s" % str(k1)
 							try:
 								tag_probs[k1] = tag_probs[k1] + prob_combined
 							except KeyError:
@@ -930,7 +923,7 @@ class TextToTag(Text):
 				best_tag = None
 				for tag_prob in keys:
 					if tag_prob[0] == i and tag_probs[tag_prob] >= max_prob:
-						####print " K=%s, V=%s" % (tag_prob, tag_probs[tag_prob])
+						###print " K=%s, V=%s" % (tag_prob, tag_probs[tag_prob])
 						max_prob = tag_probs[tag_prob]
 						best_tag = tag_prob[1]
 				tagged_list[i] = (orig_word, norm_word, best_tag)
@@ -966,15 +959,6 @@ class TextToTag(Text):
 		#print "<br>##tagged_list=%s<p>" % tagged_list
 		return tagged_list
 
-	def getTuple(self, tagged_list_elem):
-		if not tagged_list_elem:
-			orig_word = None
-			tagged_word = None
-			tag_tuples = None
-		else:
-			(orig_word, tagged_word, tag_tuples) = tagged_list_elem
-		return (orig_word, tagged_word, tag_tuples)
-	
 	def toXML(self, tagged_words):
 		"Show result as XML."
 		xml_list = []
