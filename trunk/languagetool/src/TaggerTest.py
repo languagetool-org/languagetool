@@ -25,9 +25,9 @@ import os
 
 class TaggerTest(unittest.TestCase):
 
-	FILENAME_WORDS = os.path.join("data", "tag_test_words")
-	FILENAME_SEQ1 = os.path.join("data", "tag_test_sequences1")
-	FILENAME_SEQ2 = os.path.join("data", "tag_test_sequences2")
+	FILENAME_WORDS = os.path.join(sys.path[0], "data", "tag_test_words")
+	FILENAME_SEQ1 = os.path.join(sys.path[0], "data", "tag_test_sequences1")
+	FILENAME_SEQ2 = os.path.join(sys.path[0], "data", "tag_test_sequences2")
 	
 	def cleanList(self, l):
 		"""Return a copy of the list with 'None' elements (e.g. whitespace)
