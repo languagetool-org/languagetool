@@ -1,7 +1,7 @@
 #!/usr/bin/python
 # Test cases for Rule.py
 # (c) 2002,2003 Daniel Naber <daniel.naber@t-online.de>
-#$rcs = ' $Id: RulesTest.py,v 1.10 2003-07-06 21:17:38 dnaber Exp $ ' ;
+#$rcs = ' $Id: RulesTest.py,v 1.11 2003-07-26 23:47:08 dnaber Exp $ ' ;
 
 import unittest
 import Rules
@@ -62,31 +62,31 @@ class RuleTestCase(unittest.TestCase):
     def testAvsAnRule(self):
 		r = Rules.AvsAnRule()
 		# okay:
-		warnings = r.match([('A','A','DET'),(' ',None,None),('test','test','NN')])
+		warnings = r.match([('A','A','DET'),(' ',None,None),('test','test','NN')], [])
 		self.assertEqual(len(warnings), 0)
-		warnings = r.match([('a','a','DET'),(' ',None,None),('test','test','NN')])
+		warnings = r.match([('a','a','DET'),(' ',None,None),('test','test','NN')], [])
 		self.assertEqual(len(warnings), 0)
-		warnings = r.match([('an','an','DET'),(' ',None,None),('idea','idea','NN')])
+		warnings = r.match([('an','an','DET'),(' ',None,None),('idea','idea','NN')], [])
 		self.assertEqual(len(warnings), 0)
 
 		# okay (exceptions list):
-		warnings = r.match([('a','a','DET'),(' ',None,None),('university','university','NN')])
+		warnings = r.match([('a','a','DET'),(' ',None,None),('university','university','NN')], [])
 		self.assertEqual(len(warnings), 0)
-		warnings = r.match([('an','an','DET'),(' ',None,None),('hour','hour','NN')])
+		warnings = r.match([('an','an','DET'),(' ',None,None),('hour','hour','NN')], [])
 		self.assertEqual(len(warnings), 0)
 
 		# wrong:
-		warnings = r.match([('An','An','DET'),(' ',None,None),('test','test','NN')])
+		warnings = r.match([('An','An','DET'),(' ',None,None),('test','test','NN')], [])
 		self.assertEqual(len(warnings), 1)
-		warnings = r.match([('an','an','DET'),(' ',None,None),('test','test','NN')])
+		warnings = r.match([('an','an','DET'),(' ',None,None),('test','test','NN')], [])
 		self.assertEqual(len(warnings), 1)
-		warnings = r.match([('a','a','DET'),(' ',None,None),('idea','idea','NN')])
+		warnings = r.match([('a','a','DET'),(' ',None,None),('idea','idea','NN')], [])
 		self.assertEqual(len(warnings), 1)
 
 		# wrong (exceptions list):
-		warnings = r.match([('an','an','DET'),(' ',None,None),('university','university','NN')])
+		warnings = r.match([('an','an','DET'),(' ',None,None),('university','university','NN')], [])
 		self.assertEqual(len(warnings), 1)
-		warnings = r.match([('a','a','DET'),(' ',None,None),('hour','hour','NN')])
+		warnings = r.match([('a','a','DET'),(' ',None,None),('hour','hour','NN')], [])
 		self.assertEqual(len(warnings), 1)
 
 		return
@@ -173,24 +173,35 @@ class TokenTestCase(unittest.TestCase):
 		assert(not rule.negation)
 		assert(rule.is_tag)
 		assert(not rule.is_word)
+		assert(not rule.is_chunk)
 
 		rule = Rules.Token('"word"')
 		self.assertEqual(rule.token, "word")
 		assert(not rule.negation)
 		assert(not rule.is_tag)
 		assert(rule.is_word)
+		assert(not rule.is_chunk)
 
 		rule = Rules.Token("^(NN)")
 		self.assertEqual(rule.token, "(NN)")
 		assert(rule.negation)
 		assert(rule.is_tag)
 		assert(not rule.is_word)
+		assert(not rule.is_chunk)
 
 		rule = Rules.Token('^"word"')
 		self.assertEqual(rule.token, "word")
 		assert(rule.negation)
 		assert(not rule.is_tag)
 		assert(rule.is_word)
+		assert(not rule.is_chunk)
+
+		rule = Rules.Token('_NP')
+		self.assertEqual(rule.token, "NP")
+		assert(not rule.negation)
+		assert(not rule.is_tag)
+		assert(not rule.is_word)
+		assert(rule.is_chunk)
 		return
 
 if __name__ == "__main__":
