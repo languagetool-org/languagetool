@@ -614,6 +614,7 @@ class TextToTag(Text):
 		# We cannot just split on periods etc. because that would
 		# break inner-sentence tokens like "... No. 5 ...":
 		# fixme: only work on the last element (not counting white space)
+		# FIXME: doesn't work here: "I cannot , she said."
 		j = len(word_matches)-1
 		while j >= 0:
 			w = word_matches[j]
