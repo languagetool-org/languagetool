@@ -303,11 +303,12 @@ class Text:
 		"""Take a word and guess which POS tags it might have and return
 		those POS tags. This considers e.g. word prefixes, suffixes and 
 		capitalization. If no guess can be made, None is returned."""
-		# TODO: really return more than one tag
+		# TODO: return more than one tag
 
 		# £25 etc:
-		if word.startswith(u"£") or word.startswith(u"$"):
-			return 'NN0'
+		# fixme -- UnicodeDecodeError
+		#if word.startswith(u"£") or word.startswith(u"$"):
+		#	return 'NN0'
 
 		# numbers:
 		if self.number_regex.match(word):
@@ -589,7 +590,7 @@ class TextToTag(Text):
 				return (orig_word_tmp, next)
 		return (None, None)
 
-	def getBestTagSimple(self, prev, tag_tuples, next, seqs_table, i, tag_table):
+	def getBestTagSimple(self, tag_tuples):
 		"""Return the most probable tag without taking context into
 		account. Only useful for testing and checking the baseline."""
 		max_prob = 0
@@ -666,6 +667,8 @@ class TextToTag(Text):
 			print >> sys.stderr, "*** tag mismatch (guessed=%d): got %s/%s, expected %s/%s" % \
 				(guessed, word, best_tag, word_from_bnc, tags_from_bnc)
 			return 1
+		#if word == word_from_bnc and guessed:
+		#	print >> sys.stderr, "GOODGUESS"
 		return 0
 
 	def getStats(self, count_wrong_tags):
@@ -675,7 +678,7 @@ class TextToTag(Text):
 		sum = self.count_unknown + self.count_unambiguous + self.count_ambiguous
 		if sum > 0:
 			res = res + "count_unknown = %d (%.2f%%)\n" % (self.count_unknown, float(self.count_unknown)/float(sum)*100)
-			#res = res + "count_unambiguous = %d (%.2f%%)\n" % (self.count_unambiguous, float(self.count_unambiguous)/float(sum)*100)
+			res = res + "count_unambiguous = %d (%.2f%%)\n" % (self.count_unambiguous, float(self.count_unambiguous)/float(sum)*100)
 			res = res + "count_ambiguous = %d (%.2f%%)\n" % (self.count_ambiguous, float(self.count_ambiguous)/float(sum)*100)
 			#res = res + "sum = %d\n" % sum
 			if not count_wrong_tags == "n/a":
@@ -784,9 +787,25 @@ class TextToTag(Text):
 		tagged_list.append(self.DUMMY)
 		tagged_list.append(self.DUMMY)
 
+		# test only:
+		#result_tuple_list = []
+		#i = 0
+		#count_wrong_tags = 0
+		#for t in tagged_list:
+		#	#print "t=%s" % t
+		#	if t:
+		#		best_tag = self.getBestTagSimple(t[2])
+		#		if is_bnc:
+		#			wrong_tags = self.checkBNCMatch(i, tagged_list_bnc, t[0], best_tag, data_table)
+		#			count_wrong_tags = count_wrong_tags + wrong_tags
+		#		result_tuple_list.append((t[0], t[1], best_tag))
+		#	i = i + 1
+		#stat = self.getStats(count_wrong_tags)
+		#print >> sys.stderr, stat
+		#print result_tuple_list
 		result_tuple_list = self.selectTagsByContext(tagged_list, seqs_table_followed_by, \
 			seqs_table_follows, tagged_list_bnc, is_bnc, data_table)
-
+		
 		i = 0
 		for tag_triple in result_tuple_list:
 			triple = self.applyTagRules(tag_triple[0], tag_triple[1], tag_triple[2])
