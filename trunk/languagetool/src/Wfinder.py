@@ -37,6 +37,10 @@
 # play/D
 #
 # reads words from the file test.txt
+#
+# Speed up 9 times by helding different 
+#  append endings in different arrays  3.July, 2004
+#
 
 import array
 import codecs
@@ -52,8 +56,6 @@ arrtype = {}
 test_file = "test.txt"
 yesno = {}
 count = {}
-maxllen = {}
-maxveg = {}
 comment = "#"
 condlist = []
 condlist1 = []
@@ -61,6 +63,8 @@ condlist_group = []
 conddic = {}
 conddic1 = {}
 condglob = {}
+alfab_conddic = {}
+alfab_condlist_group = []
 szodic = {}
 typdic = {}
 
@@ -78,9 +82,12 @@ class Wfinder:
 	 	self.aff_file = os.path.join(sys.path[0], "data", Tagger.affFile)
 		condlist = []
 		condlist_group = []
+		alfab_condlist_group = []
 		conddic = {}
 		faff = codecs.open(self.aff_file, "r", self.encoding)
 		l = " "
+		for i in range(0,256,1):
+			alfab_conddic[i] = []
 		while l != "":
   			l = faff.readline()
   			ll =  l.split()
@@ -93,25 +100,19 @@ class Wfinder:
 				arrtype[arrname] = ll[0][0]
 				yesno[arrname] = ll[2]
 				count[arrname] = int(ll[3]);
-				maxllen[arrname] = 1;
-				maxveg[arrname] = 1;
 				for i in range(0, count[arrname]):
-#				for i in range(0, 10):
 					l = faff.readline()
 					bb = l.split()
 #					print "l:%s bb[2]:%s arrname:%s" %(l,bb[2], arrname)
-
-					if len(bb[2]) > maxllen[arrname]:
-						maxllen[arrname] = len(bb[3])
-					if len(bb[3]) > maxveg[arrname]:
-						maxveg[arrname] = len(bb[3])
 					strip = bb[2]
 					if bb[2] == '0':
 						strip = '';
 					appnd = bb[3]
 					if bb[3] == '0':
 						appnd = ''
-					numc = 0
+						appnd_last = '0'
+					else:
+						appnd_last = appnd[-1]
 					if bb[4] != '.':
 						jj = 0
 						while(jj < len(bb[4])):
@@ -136,16 +137,25 @@ class Wfinder:
 								condarr[ord(bb[4][jj])] = insbit;
 								jj = jj +1
 							condlist.append(condarr)
-							++numc
 					condlist_group.append(condlist)
 					condlist_group.append(strip)
 					condlist_group.append(appnd)
+					alfab_condlist_group.append(condlist)
+					alfab_condlist_group.append(strip)
+					alfab_condlist_group.append(appnd)
+					alfab_condlist_group.append(arrname)
 					conddic[i] = condlist_group
+					alfab_conddic[ord(appnd_last)].append(alfab_condlist_group)
+#					print "appended %s to  %s %d" %(appnd.encode('latin1'), appnd_last.encode('latin1'), ord(appnd_last))
 					condlist = []
 					condlist_group = []
+					alfab_condlist_group = []
 				condglob[arrname] = conddic
 				conddic = {}
 		faff.close()
+#		for i in range (0,255,1):
+#		  print len(alfab_conddic[i])
+#		print alfab_conddic[ord('a')]
 
 #
 # Now read the dictionary
@@ -188,27 +198,24 @@ class Wfinder:
 	def do_test(self,l):
 		if l == "":
 			return ""
-#		if szodic.has_key(l):
-#			return "+ %s" %l
 		else:
 #			print "not found %s" %l
 			oldword = l
 			found = 0
-			for key in condglob.keys():
-#				print "key: %s" %key
-				if found:
-					break
+			for windex in ord(l[-1]), ord('0'):
+				for elem in alfab_conddic[windex]:
+					key = elem[3]
+# elem0: condlist, elem1: strip elem2 = append, elem3 = arrname 
+					if found:
+						break
 			#
 			#  search first only suffixes
 			#  since prefix is optional
 			#
-				if arrtype[key] == 'P':
-					continue
-				conddic = condglob[key]
-				for k2 in conddic.keys():
-#					print "k2:%s" %k2
+					if arrtype[key] == 'P':
+						continue
 					break_it = 0
-					appnd    = conddic[k2][2]
+					appnd    = elem[2]
 					if len(appnd):
 						if l[-len(appnd):] != appnd:
 							continue
@@ -216,8 +223,8 @@ class Wfinder:
 						restoredWord = l[0:len(l)-len(appnd)]
 					else:
 						restoredWord = l
-					condlist = conddic[k2][0]
-					strip    = conddic[k2][1]
+					condlist = elem[0]
+					strip    = elem[1]
 					if len(strip):
 						restoredWord = restoredWord + strip
 					if len(condlist) > 0 and len(restoredWord) >= len(condlist): #tktk
@@ -284,40 +291,42 @@ class Wfinder:
 						return "++ %s  %s" %(l,l1)
 						found = 1
 						break
-				for key1 in condglob.keys():
-					if found:
-						break
-					if lower(yesno[key1]) == 'n':
-						continue
-					if arrtype[key1] == 'P':
-						continue
-					conddic1 = condglob[key1]
-					for k21 in conddic1.keys():
+
+
+						
+				for windex1 in ord(l1[-1]), ord('0'):
+					for elem1 in alfab_conddic[windex1]:
+						key1 = elem1[3]
+# elem0: condlist, elem1: strip elem2 = append, elem3 = arrname 
+						if found:
+							break
+			#
+			#  search first only suffixes
+			#  since prefix is optional
+			#
+						if arrtype[key1] == 'P':
+							continue
 						break_it = 0
-						appnd1    = conddic1[k21][2]
-#						print "k:%s k1:%s k21:%s str:%s app:%s l:%s l1:%s" %(key,key1,k21, strip1,appnd1, l,l1)
+						appnd1    = elem1[2]
 						if len(appnd1):
-							if l[-len(appnd1):] != appnd1:
+							if l1[-len(appnd1):] != appnd1:
 								continue
-						if len(appnd1):
+#						if len(appnd):
 							restoredWord1 = l1[0:len(l1)-len(appnd1)]
 						else:
 							restoredWord1 = l1
-						condlist1 = conddic1[k21][0]
-						strip1    = conddic1[k21][1]
+						condlist1 = elem1[0]
+						strip1    = elem1[1]
 						if len(strip1):
 							restoredWord1 = restoredWord1 + strip1
 						if len(condlist1) > 0 and len(restoredWord1) >= len(condlist1): #tktk
 							substr = restoredWord1[-len(condlist1):]
-							for i1 in range(0, len(condlist1), 1): # tktk
+							for i1 in range(0, len(condlist1), 1): #tktk
 								if condlist1[i1][ord(substr[i1])] != 1:
 									break_it = 1
 									break
 							if break_it:
 								continue
-					#
-					#  prefix and suffix
-					#
 						if szodic.has_key(restoredWord1):
 							flags1 = szodic[restoredWord1]
 							if flags1 == "": # tktk
@@ -327,9 +336,10 @@ class Wfinder:
 									continue
 								if find(flags1, key) == -1:
 									continue
-							return "+++ %s %s %s" %(l,l1,restoredWord1)
+							return "+++ %s %s %s" %(l, l1,restoredWord1)
 							found = 1
 							break
+						
 		if found == 0:
 			return "- %s" % oldword
 
