@@ -1,7 +1,7 @@
 # Rule that checks for long sentences
 # (c) 2003,2004 Daniel Naber <daniel.naber@t-online.de>
 #
-#$rcs = ' $Id: allSentenceLengthRule.py,v 1.3 2004-06-13 12:40:43 dnaber Exp $ ' ;
+#$rcs = ' $Id: allSentenceLengthRule.py,v 1.4 2004-06-20 19:09:07 dnaber Exp $ ' ;
 #
 # This library is free software; you can redistribute it and/or
 # modify it under the terms of the GNU Lesser General Public
@@ -36,10 +36,11 @@ class allSentenceLengthRule(Rules.Rule):
 		self.max_length = int(max_length)
 		return
 		
-	def match(self, tagged_words, chunks=None, position_fix=0, line_fix=0):
+	def match(self, tagged_words, chunks=None, position_fix=0, line_fix=0, column_fix=0):
 		"""Check if a sentence is too long, according to the limit set
 		by setMaxLength(). Put the warning on the first word
 		above the limit. Assumes that tagged_words is exactly one sentence."""
+		# fixme: use column_fix
 		if self.max_length == 0:		# 0 = no limit
 			return []
 		matches = []

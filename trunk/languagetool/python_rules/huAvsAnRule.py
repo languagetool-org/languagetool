@@ -2,7 +2,7 @@
 # Rule that checks the use of 'a' vs. 'an'
 # (c) 2003 Daniel Naber <daniel.naber@t-online.de>
 #
-#$rcs = ' $Id: huAvsAnRule.py,v 1.3 2004-06-20 10:40:02 tyuk Exp $ ' ;
+#$rcs = ' $Id: huAvsAnRule.py,v 1.4 2004-06-20 19:09:07 dnaber Exp $ ' ;
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -54,6 +54,7 @@ class huAvsAnRule(Rules.Rule):
 #			l.append(line.strip().lower())
 #		f.close()
 #		return l
+
 	def IsRoman(self, word):
 		i = 0
 		while i < len(word):
@@ -62,7 +63,8 @@ class huAvsAnRule(Rules.Rule):
 			i = i + 1
 		return 1 
 
-	def match(self, tagged_words, chunks, position_fix=0):
+	def match(self, tagged_words, chunks, position_fix=0, line_fix=0, column_fix=0):
+		# fixme: use line_fix and column_fix
 		matches = []
 		text_length = 0
 		i = 0

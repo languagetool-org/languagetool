@@ -1,6 +1,6 @@
 # -*- coding: iso-8859-1 -*-
 # Class for Grammar and Style Rules
-#$rcs = ' $Id: Rules.py,v 1.5 2004-06-10 22:51:41 dnaber Exp $ ' ;
+#$rcs = ' $Id: Rules.py,v 1.6 2004-06-20 19:09:07 dnaber Exp $ ' ;
 #
 # LanguageTool -- A Rule-Based Style and Grammar Checker
 # Copyright (C) 2002,2003,2004 Daniel Naber <daniel.naber@t-online.de>
@@ -365,7 +365,7 @@ class PatternRule(Rule):
 			self.tokens.append(token)
 		return
 
-	def match(self, tagged_words, chunks=None, position_fix=0, line_fix=0):
+	def match(self, tagged_words, chunks=None, position_fix=0, line_fix=0, column_fix=0):
 		"""Check if there are rules that match the tagged_words. Returns a list
 		of RuleMatch objects."""
 		matches = []
@@ -490,7 +490,7 @@ class PatternRule(Rule):
 
 				first_match_word = tagged_words_copy[first_match][0]
 				match = RuleMatch(self.rule_id, from_pos+position_fix, to_pos+position_fix, \
-					line+line_fix, column, msg, first_match_word)
+					line+line_fix, column+column_fix, msg, first_match_word)
 				matches.append(match)
 
 			ct = ct + 1

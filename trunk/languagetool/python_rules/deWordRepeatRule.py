@@ -1,7 +1,7 @@
 # Rule that checks for word repeats
 # (c) 2003 Daniel Naber <daniel.naber@t-online.de>
 #
-#$rcs = ' $Id: deWordRepeatRule.py,v 1.1 2004-06-20 10:40:01 tyuk Exp $ ' ;
+#$rcs = ' $Id: deWordRepeatRule.py,v 1.2 2004-06-20 19:09:07 dnaber Exp $ ' ;
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -35,10 +35,13 @@ class deWordRepeatRule(Rules.Rule):
 		Rules.Rule.__init__(self, "WORD_REPEAT", "A word was repeated", 0, None)
 		return
 
-	def match(self, tagged_words, chunks, position_fix=0):
+	def match(self, tagged_words, chunks, position_fix=0, line_fix=0, column_fix=0):
+		#fixme: use line_fix, column_fix
 		matches = []
 		text_length = 0
 		i = 0
+		line_breaks = 0		# FIXME
+		column = 0		 #FIXME
 		while 1:
 			if i >= len(tagged_words)-2:
 				break
@@ -64,6 +67,7 @@ class deWordRepeatRule(Rules.Rule):
 				matches.append(Rules.RuleMatch(self.rule_id,
 					text_length+position_fix, 
 					text_length+whitespace_length+len(org_word_next)+position_fix, 
+					line_breaks+line_fix, column+column_fix,
 					"You repeated a word. Maybe you should <em>remove</em> one "+
 					"of the words?", org_word))
 			i = i + 1
