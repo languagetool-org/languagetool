@@ -20,6 +20,7 @@ cat $WORTE/vornamen.txt >> $TMP/deutsch1.dic
 cat $WORTE/orte.txt >> $TMP/deutsch1.dic
 cat $WORTE/woerter_gross.txt >> $TMP/deutsch1.dic
 cat $WORTE/woerter_klein.txt >> $TMP/deutsch1.dic
+cat $WORTE/woerter_computer.txt >> $TMP/deutsch1.dic
 cat $WORTE/woerter_komposita_*.txt >> $TMP/deutsch1.dic
 
 export LC_ALL=C
