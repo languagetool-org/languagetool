@@ -162,6 +162,7 @@ def main():
 		check_result = checkWords(checker, data)
 		t2 = time.time()-t1
 		print "Replying (%.2fs) '%s'" % (t2, check_result.encode('utf8'))
+		#print "Replying (%.2fs)" % t2
 		conn.send(check_result.encode('utf8'))
 
 		conn.close()
@@ -179,7 +180,7 @@ def checkWordsTEST(words):
 	return s
 
 def checkWords(checker, words):
-	result = '<result>'
+	result = u'<result>'
 
 	### Spelling:
 	ispell = iSpell()
@@ -193,8 +194,11 @@ def checkWords(checker, words):
 			# TODO: make faster
 			pos = []
 			for p in mistake.getPositions():
-				result = '%s<error from="%d" to="%d" word="%s" corrections="%s"/>' % \
-					(result, p, p+len(mistake.getWord()), mistake.getWord(), str.join(',', mistake.corrections))
+				result = u'%s<error from="%d" to="%d" word="%s" corrections="%s"/>' % \
+					(result, p, p+len(mistake.getWord()), \
+					unicode(mistake.getWord(), 'latin1'), \
+					unicode(str.join(',', mistake.corrections), ('latin1')))
+					#(result, p, p+len(mistake.getWord()), mistake.getWord().encode('latin1'), str.join(',', mistake.corrections).encode('latin1'))
 
 	### Grammar + Style:
 	#tx = time.time()
