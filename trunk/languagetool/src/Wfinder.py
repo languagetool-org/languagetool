@@ -81,7 +81,7 @@ class Wfinder:
 		faff = codecs.open(self.aff_file, "r", self.encoding)
 		l = " "
 		while l != "":
-  			l = faff.readline().encode('latin1')
+  			l = faff.readline()
   			ll =  l.split()
   			if len(ll) <= 1:
   				continue
@@ -332,9 +332,8 @@ class Wfinder:
 			lu = l[0]
 			if lu != lu.lower():
 				l1 = lu[0].lower()+l[1:]
-				if l1.encode('iso-8859-1') != l:			# ???
-#					print "------------- checking %s" %l1
-					result = self.do_test(l1.encode('iso-8859-1'))
+				if l1 != l:
+					result = self.do_test(l1)
 		typ = ''
 		if result[0] != '-':
 			src = result.split()
