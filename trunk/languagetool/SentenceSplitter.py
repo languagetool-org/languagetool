@@ -10,7 +10,7 @@ import sys
 
 class SentenceSplitter:
 
-	ABBR_FILE = os.path.join(sys.path[0], "data/abbr.txt")
+	ABBR_FILE = os.path.join(sys.path[0], "data", "abbr.txt")
 	
 	EOS = "\001"
 	#EOS = "<>"		# for testing only
