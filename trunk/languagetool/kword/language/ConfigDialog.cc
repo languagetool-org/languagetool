@@ -1,5 +1,5 @@
 /*
-   $Id: ConfigDialog.cc,v 1.1 2003-08-24 22:36:19 dnaber Exp $
+   $Id: ConfigDialog.cc,v 1.2 2003-08-25 19:17:25 dnaber Exp $
    This file is part of the KDE project
    Copyright (C) 2002 Daniel Naber <daniel.naber@t-online.de>
    This is a frontend to a simple 'Style and Grammar Checker': it offers a simple 
@@ -21,6 +21,8 @@
  along with this program; if not, write to the Free Software
  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  ***************************************************************************/
+
+// FIXME: don't replace text with nothing if there's no error and "OK" is clicked
 
 #include <stdlib.h>
 
@@ -51,18 +53,15 @@
  * Configuration dialog *
  ***************************************************/
 
-ConfigDialog::ConfigDialog() : QObject()
+ConfigDialog::ConfigDialog() : 
+	KDialogBase(KJanusWidget::Tabbed, i18n("Style and Grammar Help Configuration"),
+		KDialogBase::Help|KDialogBase::Ok|KDialogBase::Cancel, KDialogBase::Ok)
 {
 	
 	kdDebug() << "ConfigDialog()" << endl;
-	m_dialog = new KDialogBase(KJanusWidget::Tabbed, i18n("Style and Grammar Help Configuration"),
-		KDialogBase::Help|KDialogBase::Ok|KDialogBase::Cancel, KDialogBase::Ok);
-	m_dialog->setHelp(QString::null, "languagetool");	// TODO: more exact link?
-	m_dialog->resize(500, 400);
+	setHelp(QString::null, "languagetool");	// TODO: more exact link?
+	resize(500, 400);
 
-	// TODO: build widgets in the same order as they are inserted into the layout,
-	// otherwise the tab order will be strange?!
-	
 	//
 	// load configuration
 	//
@@ -100,7 +99,7 @@ ConfigDialog::ConfigDialog() : QObject()
 	// Page 1
 	//
 	kdDebug() << "setting up page 1" << endl;
-	QFrame *page = m_dialog->addPage(i18n("&Spelling and Grammar"));
+	QFrame *page = addPage(i18n("&Spelling and Grammar"));
 	QVBoxLayout *topLayout = new QVBoxLayout(page, KDialog::marginHint(), KDialog::spacingHint());
 	listview1 = new QListView(page);
 	listview1->addColumn( i18n("Warning messages") );
@@ -112,7 +111,6 @@ ConfigDialog::ConfigDialog() : QObject()
 	// text view below:
 	listview1->setSelectionMode(QListView::NoSelection);
 	QDict<QString> items = getGrammarItems();
-	QDict<QCheckListItem> grammar_checkboxes;
 	QDictIterator<QString> it(items);
 	for( ; it.current(); ++it ) {
 		QString name = it.currentKey();
@@ -123,7 +121,7 @@ ConfigDialog::ConfigDialog() : QObject()
 		}
 		// key = ID of rule, value = QCheckListItem (we need this so we can
 		// save the user's settings):
-		grammar_checkboxes.insert(*id, item);
+		m_grammar_checkboxes.insert(*id, item);
 	}
 	check1 = new QCheckBox(i18n("&Enable these rules"), page);
 	connect(check1, SIGNAL(toggled(bool)), 
@@ -135,7 +133,7 @@ ConfigDialog::ConfigDialog() : QObject()
 	// Page 2
 	//
 	kdDebug() << "setting up page 2" << endl;
-	QFrame *page2 = m_dialog->addPage(i18n("&False Friends"));
+	QFrame *page2 = addPage(i18n("&False Friends"));
 	QVBoxLayout *topLayout2 = new QVBoxLayout(page2, KDialog::marginHint(), KDialog::spacingHint());
 	listview2 = new QListView(page2);
 	listview2->addColumn( i18n("Word") );
@@ -148,9 +146,8 @@ ConfigDialog::ConfigDialog() : QObject()
 	// TODO: enable again, so example sentences for this rule can be shown in a 
 	// text view below:
 	listview2->setSelectionMode(QListView::NoSelection);
-	QDict<QCheckListItem> false_friends_checkboxes;
 	QDict<QString> items2 = getFalseFriendsItems(listview2, false_friends_rules, 
-		false_friends_checkboxes, has_false_friends_rules);
+		m_false_friends_checkboxes, has_false_friends_rules);
 	listview2->setShowSortIndicator (true);
 	listview2->sort();		// FIXME: case-insensitive
 
@@ -160,11 +157,13 @@ ConfigDialog::ConfigDialog() : QObject()
 	topLayout2->addWidget(check2);
 
 	QHBox *hbox = new QHBox(page2);
-	QLabel label2a("Your mother tongue:", hbox);
+	QLabel *label2a = new QLabel("Your &mother tongue:", hbox);
 	combo_mother_tongue = new QComboBox(hbox);
+	label2a->setBuddy(combo_mother_tongue);
 	QHBox *hbox2 = new QHBox(page2);
-	QLabel label2b("Text language:", hbox2);
+	QLabel *label2b = new QLabel("&Text language:", hbox2);
 	combo_text_language = new QComboBox(hbox2);
+	label2b->setBuddy(combo_text_language);
 	QStringList languages;
 	languages += "en";
 	languages += "de";
@@ -180,7 +179,7 @@ ConfigDialog::ConfigDialog() : QObject()
 	// Page 3
 	//
 	kdDebug() << "setting up page 3" << endl;
-	QFrame *page3 = m_dialog->addPage(i18n("&Words"));
+	QFrame *page3 = addPage(i18n("&Words"));
 	QVBoxLayout *topLayout3 = new QVBoxLayout(page3, KDialog::marginHint(), KDialog::spacingHint());
 	listview3 = new QListView(page3);
 	listview3->addColumn( i18n("Show warnings for these words") );
@@ -192,7 +191,6 @@ ConfigDialog::ConfigDialog() : QObject()
 	// text view below:
 	listview3->setSelectionMode(QListView::NoSelection);
 	QDict<QString> items3 = getWordsItems();
-	QDict<QCheckListItem> words_checkboxes;
 	QDictIterator<QString> it3(items3);
 	for( ; it3.current(); ++it3 ) {
 		QString name = it3.currentKey();
@@ -201,7 +199,7 @@ ConfigDialog::ConfigDialog() : QObject()
 		if( words_rules.find(id->latin1()) != -1 || ! has_words_rules ) {
 			item->setOn(true);
 		}
-		words_checkboxes.insert(*id, item);
+		m_words_checkboxes.insert(*id, item);
 	}
 	check3 = new QCheckBox(i18n("&Enable these rules"), page3);
 	connect(check3, SIGNAL(toggled(bool)), 
@@ -213,16 +211,28 @@ ConfigDialog::ConfigDialog() : QObject()
 	// Page 4
 	//
 	kdDebug() << "setting up page 4" << endl;
-	QFrame *page4 = m_dialog->addPage(i18n("&Misc"));
-	QHBoxLayout *topLayout4 = new QHBoxLayout(page4, KDialog::marginHint(), KDialog::spacingHint());
-	// TODO: how to move this to the top?:
+	QFrame *page4 = addPage(i18n("&Misc"));
+	QVBoxLayout *topLayout4 = new QVBoxLayout(page4, KDialog::marginHint(), KDialog::spacingHint());
+
 	check_sentence_length = new QCheckBox(i18n("&Recommended maximum sentence length:"), page4);
 	connect(check_sentence_length, SIGNAL(toggled(bool)), 
 		this, SLOT(slotToggleSentenceLength(bool)));
 	sentence_spinbox = new QSpinBox(0, 1000, 1, page4);
 	sentence_spinbox->setSuffix(i18n(" words"));
-	topLayout4->addWidget(check_sentence_length, 0, Qt::AlignTop);
-	topLayout4->addWidget(sentence_spinbox, 0, Qt::AlignTop);
+
+	check_whitespace = new QCheckBox(i18n("Check &Whitespace"), page4);
+	connect(check_whitespace, SIGNAL(toggled(bool)), 
+		this, SLOT(slotToggleWhitespaceCheck(bool)));
+
+	check_articles = new QCheckBox(i18n("Check 'a' vs. 'an' &articles"), page4);
+	connect(check_articles, SIGNAL(toggled(bool)), 
+		this, SLOT(slotToggleArticleCheck(bool)));
+
+	topLayout4->addWidget(check_sentence_length);
+	topLayout4->addWidget(sentence_spinbox);
+	topLayout4->addWidget(check_whitespace);
+	topLayout4->addWidget(check_articles);
+	topLayout4->addStretch();
 
 	//
 	// activate configuration
@@ -236,60 +246,9 @@ ConfigDialog::ConfigDialog() : QObject()
 	// Misc page:
 	slotToggleSentenceLength(general.readBoolEntry("EnableSentenceLength", false));
 	sentence_spinbox->setValue(general.readNumEntry("MaxSentenceLength", 30));
+	slotToggleWhitespaceCheck(general.readBoolEntry("EnableWhitespaceCheck", true));
+	slotToggleArticleCheck(general.readBoolEntry("EnableArticleCheck", true));
 		
-	if( m_dialog->exec() == QDialog::Accepted ) {
-		//
-		// save configuration:
-		//
-		kdDebug() << "saving configuration" << endl;
-		general.writeEntry("EnableGrammar", check1->isOn());
-		general.writeEntry("EnableFalseFriends", check2->isOn());
-		general.writeEntry("EnableWords", check3->isOn());
-		general.writeEntry("EnableSentenceLength", check_sentence_length->isOn());
-		general.writeEntry("MaxSentenceLength", sentence_spinbox->value());
-		
-		general.writeEntry("MotherTongue", combo_mother_tongue->currentText());
-		general.writeEntry("TextLanguage", combo_text_language->currentText());
-
-		QStrList config_rules;
-		// grammar:
-		QDictIterator<QCheckListItem> it(grammar_checkboxes);
-		for( ; it.current(); ++it ) {
-			QString key = it.currentKey();
-			QCheckListItem *box = it.current();
-			if( box->isOn() ) {
-				config_rules.append(key.latin1());
-			}
-		}
-		general.writeEntry("GrammarRules", config_rules);
-		config_rules.clear();
-		
-		// false friends:
-		QDictIterator<QCheckListItem> it2(false_friends_checkboxes);
-		for( ; it2.current(); ++it2 ) {
-			QString key = it2.currentKey();
-			QCheckListItem *box = it2.current();
-			if( box->isOn() ) {
-				config_rules.append(key.latin1());
-			}
-		}
-		general.writeEntry("FalseFriendsRules", config_rules);
-		config_rules.clear();
-		
-		// words:
-		QDictIterator<QCheckListItem> it3(words_checkboxes);
-		for( ; it3.current(); ++it3 ) {
-			QString key = it3.currentKey();
-			QCheckListItem *box = it3.current();
-			if( box->isOn() ) {
-				config_rules.append(key.latin1());
-			}
-		}
-		general.writeEntry("WordsRules", config_rules);
-		config_rules.clear();
-
-		general.sync();
-	}
 }
 
 
@@ -298,6 +257,63 @@ ConfigDialog::~ConfigDialog()
 	if( m_dialog ) {
 		delete m_dialog;
 	}
+}
+
+void ConfigDialog::saveConfig()
+{
+	kdDebug() << "loading configuration" << endl;
+	KConfig general("languagetool");
+	general.setGroup("General");
+
+	general.writeEntry("EnableGrammar", check1->isOn());
+	general.writeEntry("EnableFalseFriends", check2->isOn());
+	general.writeEntry("EnableWords", check3->isOn());
+	general.writeEntry("EnableSentenceLength", check_sentence_length->isOn());
+	general.writeEntry("EnableWhitespaceCheck", check_whitespace->isOn());
+	general.writeEntry("EnableArticleCheck", check_articles->isOn());
+	general.writeEntry("MaxSentenceLength", sentence_spinbox->value());
+
+	general.writeEntry("MotherTongue", combo_mother_tongue->currentText());
+	general.writeEntry("TextLanguage", combo_text_language->currentText());
+
+	QStrList config_rules;
+	// grammar:
+	QDictIterator<QCheckListItem> it(m_grammar_checkboxes);
+	for( ; it.current(); ++it ) {
+		QString key = it.currentKey();
+		QCheckListItem *box = it.current();
+		if( box->isOn() ) {
+			config_rules.append(key.latin1());
+		}
+	}
+	general.writeEntry("GrammarRules", config_rules);
+	config_rules.clear();
+
+	// false friends:
+	QDictIterator<QCheckListItem> it2(m_false_friends_checkboxes);
+	for( ; it2.current(); ++it2 ) {
+		QString key = it2.currentKey();
+		QCheckListItem *box = it2.current();
+		if( box->isOn() ) {
+			config_rules.append(key.latin1());
+		}
+	}
+	general.writeEntry("FalseFriendsRules", config_rules);
+	config_rules.clear();
+
+	// words:
+	QDictIterator<QCheckListItem> it3(m_words_checkboxes);
+	for( ; it3.current(); ++it3 ) {
+		QString key = it3.currentKey();
+		QCheckListItem *box = it3.current();
+		if( box->isOn() ) {
+			config_rules.append(key.latin1());
+		}
+	}
+	general.writeEntry("WordsRules", config_rules);
+	config_rules.clear();
+
+	general.sync();
 }
 
 void ConfigDialog::slotToggleGrammar(bool enable)
@@ -324,6 +340,16 @@ void ConfigDialog::slotToggleSentenceLength(bool enable)
 {
 	check_sentence_length->setChecked(enable);
 	sentence_spinbox->setEnabled(enable);
+}
+
+void ConfigDialog::slotToggleWhitespaceCheck(bool enable)
+{
+	check_whitespace->setChecked(enable);
+}
+
+void ConfigDialog::slotToggleArticleCheck(bool enable)
+{
+	check_articles->setChecked(enable);
 }
 
 void ConfigDialog::slotItemClicked(QListViewItem *item)
@@ -383,26 +409,38 @@ QDict<QString> ConfigDialog::getGrammarItems()
 	
 	QDict<QString> items;
 
-	QString filename = getFullFilename("rules/rules_grammar.xml");
+	QString filename = getFullFilename("rules/grammar.xml");
 	if( filename == QString::null ) {
 		// TODO: return null?
 	}
 	QDomDocument doc = getDoc(filename);
 	QDomNodeList nodes = doc.elementsByTagName("rule");
 	uint list_length = nodes.count();
+	QString prev_id;
 	for( uint i = 0; i < list_length; i++ ) {
 		// find id:
 		QDomNode node = nodes.item(i);
 		QDomElement elem = node.toElement();
-		QString *id = new QString();
-		*id = elem.attribute("id");
-		// find name:
-		QDomNodeList sub_nodes = elem.elementsByTagName("message");
-		QDomNode sub_node = sub_nodes.item(0);	// there's only one <message>
-		QDomElement sub_elem = sub_node.toElement();
-		QString name = sub_elem.text();
+		QString id = elem.attribute("id");
+		QDomNode rule_group;
+		if( ! id ) {
+			// id in rulegroup
+			id = node.parentNode().toElement().attribute("id");
+			rule_group = node.parentNode();
+		}
+		if( prev_id == id ) {
+			// don't repeat the same name
+			prev_id = id;
+			continue;
+		}
+		prev_id = id;
+		// find user-visible name:
+		QString name = elem.attribute("name");
+		if( ! name ) {
+			name = rule_group.toElement().attribute("name");
+		}
 		// insert into list:
-		items.insert(name.simplifyWhiteSpace(), id);
+		items.insert(name.simplifyWhiteSpace(), new QString(id));
 	}
 	return items;
 }
@@ -412,7 +450,7 @@ QDict<QString> ConfigDialog::getFalseFriendsItems(QListView *listview,
 {
 	kdDebug() << "getFalseFriendsItems()" << endl;
 	
-	QString filename = getFullFilename("rules/rules_false_friends.xml");
+	QString filename = getFullFilename("rules/false_friends.xml");
 	QDomDocument doc = getDoc(filename);
 	
 	QDict<QString> items;
@@ -462,7 +500,7 @@ QDict<QString> ConfigDialog::getWordsItems()
 {
 	kdDebug() << "getWordsItems()" << endl;
 	
-	QString filename = getFullFilename("rules/rules_words.xml");
+	QString filename = getFullFilename("rules/words.xml");
 	QDomDocument doc = getDoc(filename);
 	
 	QDict<QString> items;
@@ -472,15 +510,11 @@ QDict<QString> ConfigDialog::getWordsItems()
 		// find id:
 		QDomNode node = nodes.item(i);
 		QDomElement elem = node.toElement();
-		QString *id = new QString();
-		*id = elem.attribute("id");
+		QString id = elem.attribute("id");
 		// find name:
-		QDomNodeList sub_nodes = elem.elementsByTagName("message");
-		QDomNode sub_node = sub_nodes.item(0);	// there's only one <message>
-		QDomElement sub_elem = sub_node.toElement();
-		QString name = sub_elem.text();
+		QString name = elem.attribute("name");
 		// insert into list:
-		items.insert(name.simplifyWhiteSpace(), id);
+		items.insert(name.simplifyWhiteSpace(), new QString(id));
 	}
 	return items;
 }

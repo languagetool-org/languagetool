@@ -1,5 +1,5 @@
 /*
-   $Id: ConfigDialog.h,v 1.1 2003-08-24 22:36:19 dnaber Exp $
+   $Id: ConfigDialog.h,v 1.2 2003-08-25 19:17:25 dnaber Exp $
    This file is part of the KDE project
    Copyright (C) 2002 Daniel Naber <daniel.naber@t-online.de>
 */
@@ -34,7 +34,7 @@
 
 class RuleItem;
 
-class ConfigDialog : QObject
+class ConfigDialog : public KDialogBase
 {
 
 Q_OBJECT
@@ -42,12 +42,15 @@ Q_OBJECT
 public:
 	ConfigDialog();
 	~ConfigDialog();
+	void saveConfig();
 
 protected slots:
 	void slotToggleGrammar(bool enable);
 	void slotToggleFalseFriends(bool enable);
 	void slotToggleWords(bool enable);
 	void slotToggleSentenceLength(bool enable);
+	void slotToggleWhitespaceCheck(bool enable);
+	void slotToggleArticleCheck(bool enable);
 
 	void slotItemClicked(QListViewItem *item);
 	
@@ -55,17 +58,22 @@ protected:
 	KDialogBase *m_dialog;
 
 private:
-	//QValueList<RuleItem> getGrammarItems();
+	
 	QDict<QString> getGrammarItems();
 	QDict<QString> getFalseFriendsItems(QListView *listview,
 		QStrList &rules, QDict<QCheckListItem> &checkboxes, bool has_false_friends_rules);
 	QDict<QString> getWordsItems();
+	
+	QDict<QCheckListItem> m_grammar_checkboxes;
+	QDict<QCheckListItem> m_false_friends_checkboxes;
+	QDict<QCheckListItem> m_words_checkboxes;
 
 	QString getFullFilename(QString rel_filename);
 	QDomDocument getDoc(QString filename);
 	
 	QPtrList<QCheckBox> boxes;
-	QCheckBox *check1, *check2, *check3, *check_sentence_length;
+	QCheckBox *check1, *check2, *check3, *check_sentence_length, 
+		*check_whitespace, *check_articles;
 	QSpinBox *sentence_spinbox;
 	QListView *listview1, *listview2, *listview3;
 	QComboBox *combo_mother_tongue, *combo_text_language;
