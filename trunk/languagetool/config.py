@@ -1,1 +1,1 @@
-BASEDIR = "/home/dnaber/diplom/languagetool"
+BASEDIR = "/home/dnaber/languagetool"

@@ -3,7 +3,7 @@
 # a rule-based extension.
 # (c) 2003 Daniel Naber <daniel.naber@t-online.de>
 #
-#$rcs = ' $Id: Tagger.py,v 1.22 2003-08-28 23:15:09 dnaber Exp $ ' ;
+#$rcs = ' $Id: Tagger.py,v 1.23 2004-03-07 19:03:15 dnaber Exp $ ' ;
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -34,9 +34,9 @@ class Tagger:
 	have term=None and type=None, i.e. they are inside their own <w>
 	elements. Words that could not be tagged have type=unknown."""
 
-	db_word_name = os.path.join("data", "words")
-	db_seq_name1 = os.path.join("data", "seqs1")
-	db_seq_name2 = os.path.join("data", "seqs2")
+	db_word_name = os.path.join(sys.path[0], "data", "words")
+	db_seq_name1 = os.path.join(sys.path[0], "data", "seqs1")
+	db_seq_name2 = os.path.join(sys.path[0], "data", "seqs2")
 	#uncountable_name = os.path.join("data", "uncountable.txt")
 	
 	def __init__(self, db_word_name=None, db_seq_name1=None, db_seq_name2=None):
@@ -222,7 +222,7 @@ class Text:
 	time_regex = re.compile("\d(am|pm)$")
 	bnc_regex = re.compile("<(w|c) (.*?)>(.*?)<", re.DOTALL)
 
-	mapping_file = os.path.join("data", "c7toc5.txt")
+	mapping_file = os.path.join(sys.path[0], "data", "c7toc5.txt")
 
 	def __init__(self):
 		self.count_unambiguous = 0
@@ -913,7 +913,7 @@ class TextToTag(Text):
 			i = i + 1
 
 		stat = self.getStats(count_wrong_tags, is_bnc)
-		print >> sys.stderr, stat
+		#print >> sys.stderr, stat
 
 		# remove dummy entries:
 		tagged_list.pop(0)

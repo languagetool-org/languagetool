@@ -3,12 +3,14 @@
 # Copyright (C) 2003 Daniel Naber <daniel.naber@t-online.de>
 # Based on Shlomo Yona's Perl module Lingua::EN::Sentence 0.25
 
+import os
 import string
 import re
+import sys
 
 class SentenceSplitter:
 
-	ABBR_FILE = "data/abbr.txt"
+	ABBR_FILE = os.path.join(sys.path[0], "data/abbr.txt")
 	
 	EOS = "\001"
 	#EOS = "<>"		# for testing only

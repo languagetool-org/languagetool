@@ -1,6 +1,6 @@
 # Class for Grammar and Style Rules
 # (c) 2002,2003 Daniel Naber <daniel.naber@t-online.de>
-#$rcs = ' $Id: Rules.py,v 1.21 2003-08-22 20:19:26 dnaber Exp $ ' ;
+#$rcs = ' $Id: Rules.py,v 1.22 2004-03-07 19:03:15 dnaber Exp $ ' ;
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -42,10 +42,10 @@ class Rule:
 class Rules:
 	"""All known style and grammar error rules (from XML and the built-in ones)."""
 
-	rule_files = [os.path.join("rules", "grammar.xml"),
-						os.path.join("rules", "words.xml"),
-						os.path.join("rules", "false_friends.xml")]
-	python_rules_dir = "python_rules"
+	rule_files = [os.path.join(sys.path[0], "rules", "grammar.xml"),
+						os.path.join(sys.path[0], "rules", "words.xml"),
+						os.path.join(sys.path[0], "rules", "false_friends.xml")]
+	python_rules_dir = os.path.join(sys.path[0], "python_rules")
 	
 	def __init__(self, max_sentence_length, grammar_rules, word_rules, \
 		builtin_rules, false_friend_rules, textlang, mothertongue):

@@ -18,6 +18,7 @@
 
 import os
 import re
+import sys
 
 class Chunker:
 	"""Assign chunks (like "noun phrase") to a tagged text."""
@@ -94,7 +95,7 @@ class Chunker:
 class Rules:
 	"""A container for chunking rules."""
 
-	chunk_rules = os.path.join("data", "chunks.txt")
+	chunk_rules = os.path.join(sys.path[0], "data", "chunks.txt")
 	
 	def __init__(self):
 		"""Read the chunking rules from data/chunks.txt. The rules

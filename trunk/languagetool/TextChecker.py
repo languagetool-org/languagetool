@@ -26,6 +26,7 @@ import socket
 import string
 import sys
 import time
+import xml.dom.minidom
 
 import profile
 
@@ -63,9 +64,23 @@ class TextChecker:
 	def checkFile(self, filename):
 		"""Check a text file and return the results as an XML formatted list 
 		of possible errors."""
+		text = ""
+		#print "###%s" % filename.lower()
+		#if filename.lower().endswith("xml"):
+		#	doc = xml.dom.minidom.parse(filename)
+		#	text_nodes = doc.getElementsByTagName("text:p")	# ???fixme?
+		#	for text_node in text_nodes:
+		#		#node_value = text_node.nodeValue
+		#		if text_node.firstChild:
+		#			#print "#"+str(text_node.firstChild.nodeValue)
+		#			# fixme: make faster (append):
+		#			text = "%s%s" % (text, text_node.firstChild.nodeValue)
+		#	
+		#else:
 		f = open(filename)
 		text = f.read()
 		f.close()
+		#print "--->%s" % text
 		(rule_matches, result, tagged_words) = self.check(text)
 		return (rule_matches, result, tagged_words)
 
