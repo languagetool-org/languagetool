@@ -30,7 +30,7 @@ sys.path.append(os.path.join(sys.path[0], "src"))
 import TagInfo
 import TextChecker
 
-# fixme: for debugging only
+# FIXME: for debugging only
 import cgitb
 cgitb.enable()
 
@@ -47,7 +47,7 @@ def main():
 def displayExplanation(form):
 	print "Content-Type: text/html\n\n"
 	tag = cgi.escape(form.getvalue("explain"))	# security: anti XSS
-	taginfo = TagInfo.TagInfo()
+	taginfo = TagInfo.TagInfo(form.getvalue("lang"))
 	print """<html><head>
 		<title>LanguageTool: Tag explanation for %s</title>
 		</head>
@@ -139,7 +139,7 @@ def check(form):
 			<!--
 			var data = new Array();
 			"""
-	taginfo = TagInfo.TagInfo()
+	taginfo = TagInfo.TagInfo(textlanguage)
 	print taginfo.getJavascriptCode()
 	print """
 			function info(s) {	
@@ -163,9 +163,9 @@ def check(form):
 		tag_str = ""
 		if form.getvalue("tags") and tag_triple[2]:
 			w = tag_triple[2]
-			tag_str = '<span class="tag"><a href="TextCheckerCGI.py?explain=%s" \
+			tag_str = '<span class="tag"><a href="TextCheckerCGI.py?explain=%s&amp;lang=%s" \
 				onclick="info(\'%s\');return false;">[%s]</a></span>' \
-				% (w, w, w)
+				% (w, textlanguage, w, w)
 			if tag_triple[2] == 'SENT_END':
 				tag_str = '%s<br>\n' % tag_str
 		word = cgi.escape(tag_triple[0])
