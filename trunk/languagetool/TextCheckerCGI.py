@@ -22,8 +22,8 @@ import sys
 import os
 
 import config
-os.chdir(config.BASEDIR)
-sys.path.append(config.BASEDIR)
+os.chdir(sys.path[0])
+sys.path.append(sys.path[0])
 
 import TagInfo
 import TextChecker
