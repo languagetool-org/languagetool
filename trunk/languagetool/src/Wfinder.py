@@ -193,7 +193,7 @@ class Wfinder:
 			#  since prefix is optional
 			#
 				if arrtype[key] == 'P':
-					continue;
+					continue
 				conddic = condglob[key]
 				for k2 in conddic.keys():
 #					print "k2:%s" %k2
