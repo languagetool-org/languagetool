@@ -64,7 +64,7 @@ class TaggerTest(unittest.TestCase):
 
 		return res
 
-	def testDddTagList(self):
+	def testTagList(self):
 		text = Tagger.Text()
 
 		# only one element:
@@ -216,24 +216,19 @@ class TaggerTest(unittest.TestCase):
 		self.assertEqual(r, [('A', 'DET'), ('fat', 'AJ0'), ('man', 'NN1')])
 
 		r = self.tag("""The/DET fat/AJ0 man/NN is/VB fat/AJ0 ./PP""",
-			"A fat man. He is fat.")
+			"A fat man, he is fat.")
 		self.assertEqual(r, [('A', 'unknown'), ('fat', 'AJ0'), ('man', 'NN'),
-			('He', 'unknown'), ('is', 'VB'), ('fat', 'AJ0')])
-
+			('he', 'unknown'), ('is', 'VB'), ('fat', 'AJ0')])
+		
 		return
 
-	def testRules(self):
+	def testApplyConstraints(self):
 	
-		r = self.tag("The/AT0 fat/AJ0 man/NN1 's/XX car/NN.", "A man's boat")
-		self.assertEqual(r, [('A', 'unknown'), ('man', 'NN1'),
-			('\'s', 'POS'),		# hard-coded special case
-			('boat', 'unknown')])
-
-		r = self.tag("The/AT0 fat/AJ0 man/NN1 's/XX car/NN.", "it's good")
-		self.assertEqual(r, [('it', 'unknown'), ('\'s', 'VBZ'),
-			('good', 'unknown')])
+		r = self.tag("A/X bla/X demodemo/AA demodemo/AA demodemo/BB bla/X bla/X", \
+			"demodemo")
+		self.assertEqual(r, [('demodemo', 'BB')])
 
 		return
 
 if __name__ == "__main__":
-    unittest.main()
+	unittest.main()

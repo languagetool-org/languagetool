@@ -348,7 +348,7 @@ class Text:
 				tag_results.append((special_case, second_part[1], second_part[2]))
 				return tag_results
 
-		#### fixme: ignore upper/lower case?, no -- seems to decrease precision
+		# TODO?: ignore upper/lower case?, no -- seems to decrease precision
 		#word = word.lower()
 		if not data_table.has_key(word):
 			# word is unknown
@@ -558,6 +558,7 @@ class TextToTag(Text):
 		"""Check the probability of all 3-tag sequences and choose that with
 		the highest combined probability."""
 		max_prob = 0
+		max_prob_no_context = 0		# special case, mostly for test cases
 		best_tag = None
 		for tag_tuples_prev in prev:
 			for tag_tuples_here in tag_tuples:
@@ -575,10 +576,17 @@ class TextToTag(Text):
 						tag_table[k] = tag_table[k] + prob_combined
 					except KeyError:
 						tag_table[k] = prob_combined
+					# also work if all contexts have probability == 0,
+					# use the pos tag probability without context then:
+					if tag_tuples_here[1] >= max_prob_no_context:
+						max_prob_no_context = tag_tuples_here[1]
+						best_tag_no_context = tag_tuples_here[0]
 					if prob_combined >= max_prob:
 						max_prob = prob_combined
 						best_tag = tag_tuples_here[0]
 					#print "##seq=%s, %.7f*%.2f=%f" % (str(seq), seq_prob, tag_tuples_here[1], prob_combined)
+		if max_prob == 0:
+			best_tag = best_tag_no_context
 		return best_tag
 
 	def checkBNCMatch(self, i, tagged_list_bnc, word, best_tag):
@@ -623,22 +631,30 @@ class TextToTag(Text):
 		res = res + "-->"
 		return res
 
-	def applyRules(self, prev_word, curr_word, next_word, tagged_word):
-		"""Some hard-coded and manually written rules that fix mistagging by 
-		the probabilistic tagger. Returns a (word, normalized_word, tag) triple."""
-		if prev_word and prev_word.lower() == 'it' and curr_word == "'s":
-			return (curr_word, tagged_word, 'VBZ')
-		#fixme: incorrectly tags "he's"
-		#elif prev_word and prev_word.lower() != 'it' and curr_word == "'s":
-		#	return (curr_word, tagged_word, 'POS')
-		return None
+	def applyConstraints(self, prev_word, curr_word, next_word, tagged_tuples):
+		"""Some hard-coded and manually written rules that prevent mistaggings by 
+		the probabilistic tagger. Removes incorrect POS tags from tagged_tuples.
+		Returns nothing, as it works directly on tagged_tuples."""
+		# demo rule just for the test cases:
+		if curr_word and curr_word.lower() == 'demodemo':
+			self.constrain(tagged_tuples, 'AA')
+		# ...
+		return
 
+	def constrain(self, tagged_tuples, pos_tag):
+		"""Remove the pos_tag reading from tagged_tuples. Returns nothing,
+		works directly on tagged_tuples."""
+		i = 0
+		for t in tagged_tuples:
+			if t[0] == pos_tag:
+				del tagged_tuples[i]
+			i = i + 1
+		return
+	
 	def applyTagRules(self, curr_word, tagged_word, curr_tag):
 		"""Some hard-coded and manually written rules that extent the
 		tagging. Returns a (word, normalized_word, tag) triple."""
-		#print "##%s" % curr_tag
-		#if curr_tag == 'NN1' and curr_word in self.uncountables:
-		#	return (curr_word, tagged_word, 'NN1')
+		# ...
 		return None
 
 	def tag(self, data_table, seqs_table):
@@ -673,6 +689,7 @@ class TextToTag(Text):
 					break
 				j = j - 1
 			
+		#print "word_matches=%s" % word_matches
 		i = 0
 		tagged_list = [self.DUMMY, self.DUMMY]
 		tagged_list_bnc = [self.DUMMY, self.DUMMY]
@@ -750,18 +767,14 @@ class TextToTag(Text):
 			if not next:
 				next = [(None, 1)]
 
-			### Rule-based part:
-			tuple_by_rule = self.applyRules(prev_word, orig_word, next_word, tagged_word)
-			if tuple_by_rule:
-				result_tuple_list.append(tuple_by_rule)
-				i = i + 1
-				continue
+			### Constraint-based part:
+			self.applyConstraints(prev_word, orig_word, next_word, tag_tuples)
 			
+			#print "##'%s', tag_tuples=%s" % (orig_word, tag_tuples)
 			best_tag = self.getBestTag(prev, tag_tuples, next, seqs_table, i, tag_table)
 
 			#print "%s\nTT=%s" % (tag_tuples, tag_table)
 			#print
-
 			if tagged:
 				#print "BEST: %s -> %s" % (tagged_word, best_tag)
 				result_tuple_list.append((orig_word, tagged_word, best_tag))
