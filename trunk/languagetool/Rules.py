@@ -1,5 +1,6 @@
 # Class for Grammar and Style Rules
 # (c) 2002,2003 Daniel Naber <daniel.naber@t-online.de>
+#$rcs = ' $Id: Rules.py,v 1.5 2003-06-21 19:09:50 dnaber Exp $ ' ;
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by

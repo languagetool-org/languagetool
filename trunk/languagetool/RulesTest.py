@@ -1,6 +1,7 @@
 #!/usr/bin/python
 # Test cases for Rule.py
 # (c) 2002,2003 Daniel Naber <daniel.naber@t-online.de>
+#$rcs = ' $Id: ' ;
 
 import unittest
 import Rules
