@@ -1,6 +1,6 @@
 #!/usr/bin/python
 # Test cases for Rule.py
-#$rcs = ' $Id: RulesTest.py,v 1.1 2004-05-23 21:48:15 dnaber Exp $ ' ;
+#$rcs = ' $Id: RulesTest.py,v 1.2 2004-06-13 19:02:23 dnaber Exp $ ' ;
 #
 # LanguageTool -- A Rule-Based Style and Grammar Checker
 # Copyright (C) 2002,2003,2004 Daniel Naber <daniel.naber@t-online.de>
@@ -21,16 +21,18 @@
 
 import unittest
 import Rules
+import os
 import sys
 
-sys.path.append("python_rules")
-import SentenceLengthRule
-import AvsAnRule
-import WordRepeatRule
+sys.path.append(os.path.join("..", "python_rules"))
+import allSentenceLengthRule
+import allWordRepeatRule
+import enAvsAnRule
 
 class RuleTestCase(unittest.TestCase):
 
     def setUp(self):
+		os.chdir("..")
 		self.rule = Rules.PatternRule(None)
 		self.rule.setVars("TEST1", '"word" (VB|TST)', "Test message 1.", 0, 0, \
 			"Good example.", "Bad example.", 0, 5, "en")
@@ -54,7 +56,7 @@ class RuleTestCase(unittest.TestCase):
 		return
 
     def testSentenceLengthRule(self):
-		r = SentenceLengthRule.SentenceLengthRule()
+		r = allSentenceLengthRule.allSentenceLengthRule()
 		r.setMaxLength(3)
 
 		# just below the limit:
@@ -64,7 +66,7 @@ class RuleTestCase(unittest.TestCase):
 		# just on the limit:
 		warnings = r.match([('x','x','T'),('x','x','T'),('x','x','T'),('x','x','T')])
 		self.assertEqual(len(warnings), 1)
-		assert( str(warnings[0]).startswith('<error from="3" to="4">'))
+		assert(warnings[0].toXML().startswith('<error from="3" to="4">'))
 		r.setMaxLength(60)
 		warnings = r.match([('x','x','T'),('x','x','T'),('x','x','T'),('x','x','T')])
 		self.assertEqual(len(warnings), 0)
@@ -82,7 +84,7 @@ class RuleTestCase(unittest.TestCase):
 		return
 
     def testAvsAnRule(self):
-		r = AvsAnRule.AvsAnRule()
+		r = enAvsAnRule.enAvsAnRule()
 		# okay:
 		warnings = r.match([('A','A','DET'),(' ',None,None),('test','test','NN')], [])
 		self.assertEqual(len(warnings), 0)
@@ -147,7 +149,7 @@ class RuleTestCase(unittest.TestCase):
 		return
 
     def testWordRepeat(self):
-		r = WordRepeatRule.WordRepeatRule()
+		r = allWordRepeatRule.allWordRepeatRule()
 	
 		warnings = r.match([('blah','blah','XX'),(' ',None,None),('blahbla','blahbla','YY')], [])
 		self.assertEqual(len(warnings), 0)
@@ -166,7 +168,7 @@ class RuleTestCase(unittest.TestCase):
 		res_list = self.rule.match([('', None, 'SENT_START'),
 			('word', 'word', 'XX'),(' ', None, None),('bla', 'bla', 'VB')], 0)
 		self.assertEqual(len(res_list), 1)
-		self.assertEqual(str(res_list[0]), '<error from="0" to="8">Test message 1.</error>')
+		self.assertEqual(res_list[0].toXML(), '<error from="0" to="8">Test message 1.</error>')
 
 		res_list = self.rule.match([('no', 'no', 'XX'),('foo', 'foo', 'VB')], 0)
 		self.assertEqual(len(res_list), 0)
@@ -191,10 +193,10 @@ class RuleTestCase(unittest.TestCase):
 class RuleMatchTestCase(unittest.TestCase):
 
     def testCompare(self):
-		r1 = Rules.RuleMatch("ONE", 1, 2, "fake1", 0)
-		r2 = Rules.RuleMatch("ONE", 2, 3, "fake2", 0)
+		r1 = Rules.RuleMatch("ONE", 1, 2, 0, 0, "fake1", 0)
+		r2 = Rules.RuleMatch("ONE", 2, 3, 0, 0, "fake2", 0)
 		assert(r1 < r2)
-		r3 = Rules.RuleMatch("ONE", 1, 3, "fake3", 0)
+		r3 = Rules.RuleMatch("ONE", 1, 3, 0, 0, "fake3", 0)
 		assert(r1 == r3)
 		assert(r2 > r3)
 		return
