@@ -107,6 +107,7 @@ class TextChecker:
 		all_tagged_words = []
 		line_counter = 1
 		column_counter = 0
+		prev_sentence = ""
 		for sentence in sentences:
 			#print "S='%s'" % (sentence)
 			tagged_words = self.tagger.tagText(sentence)
@@ -119,6 +120,8 @@ class TextChecker:
 			tagged_words.insert(0, ('', None, 'SENT_START'))
 			tagged_words.append(('', None, 'SENT_END'))
 			all_tagged_words.extend(tagged_words)
+			if prev_sentence.endswith("\n") or sentence.startswith("\n"):
+				column_counter = 0
 			for rule in self.rules.rules:
 				matches = rule.match(tagged_words, chunks, char_counter, line_counter, column_counter)
 				rule_matches.extend(matches)
@@ -128,6 +131,7 @@ class TextChecker:
 			if Tools.Tools.countLinebreaks(sentence):
 				column_counter = 0
 			column_counter = column_counter + len(sentence)
+			prev_sentence = sentence
 
 		if not self.builtin or "WHITESPACE" in self.builtin:
 			whitespace_rule = Rules.WhitespaceRule()
