@@ -9,12 +9,13 @@
 # TODO: remove/ignore non-word characters
 # fixme(?): needs to recognize 100% if trained on the same text (problem: special characters)
 
-import Tagger
-
 import re
 import sys
 import string
 import getopt
+
+import Tagger
+import Entities
 		
 class Controller:
 	"Main program."
@@ -85,9 +86,14 @@ class Controller:
 			tagger = Tagger.Tagger()
 			tagger.bindData()
 			for filename in rest:
-				xml = tagger.tagFile(filename)
+				f = open(filename)
+				content = f.read()
+				f.close()
+				#xml = tagger.tagFile(filename)
+				content = Entities.Entities.cleanEntities(content)
+				xml = tagger.tagTexttoXML(content)
 				self.sanityCheck(filename, xml)
-				print xml
+				###print xml
 			print >> sys.stderr, "Done."
 		elif mode == self.TAGWORD:
 			tagger = Tagger.Tagger()
