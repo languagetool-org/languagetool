@@ -54,6 +54,5 @@ if did_test == 0:
 	print "example: testsuite.py programs   - do program tests"
 	print "example: testsuite.py rules all  - do all tests"
 	print "example: testsuite.py rules hu  -  do Hungarian rule tests"
-	print "example: testsuite.py rules all  - do all rule tests"
 	sys.exit()
 unittest.TextTestRunner().run(suite)
