@@ -1,7 +1,7 @@
 # Rule that checks the use of 'a' vs. 'an'
 # (c) 2003 Daniel Naber <daniel.naber@t-online.de>
 #
-#$rcs = ' $Id: enAvsAnRule.py,v 1.1 2004-05-23 21:47:13 dnaber Exp $ ' ;
+#$rcs = ' $Id: enAvsAnRule.py,v 1.2 2004-06-10 22:51:41 dnaber Exp $ ' ;
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -52,7 +52,7 @@ class enAvsAnRule(Rules.Rule):
 		f.close()
 		return l
 		
-	def match(self, tagged_words, chunks, position_fix=0):
+	def match(self, tagged_words, chunks, position_fix=0, line_fix=0):
 		matches = []
 		text_length = 0
 		i = 0
@@ -85,8 +85,12 @@ class enAvsAnRule(Rules.Rule):
 					not org_word_next.lower() in self.requires_an:
 					err = 1
 				if err:
+					#FIXME: count lines and columns correctly!
 					matches.append(Rules.RuleMatch(self.rule_id,
-						text_length++position_fix, text_length+len(org_word)+position_fix, 
+						text_length+position_fix,
+						text_length+len(org_word)+position_fix,
+						line_fix,
+						-1,
 						"Use <em>a</em> instead of <em>an</em> if the following "+
 						"word doesn't start with a vowel sound, e.g. 'a test', "+
 						"'a university'", org_word))

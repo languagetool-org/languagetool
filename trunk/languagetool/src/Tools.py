@@ -38,3 +38,10 @@ class Tools:
 		return xmlstr
 
 	getXML = staticmethod(getXML)
+
+	def countLinebreaks(s):
+		matches = re.findall("[\n\r]", s)
+		#print "#%s -> %s" % (s, len(matches))
+		return len(matches)
+	
+	countLinebreaks = staticmethod(countLinebreaks)

@@ -37,6 +37,7 @@ import Tagger
 import Chunker
 import Rules
 import SentenceSplitter
+import Tools
 import ConfigParser
 
 class TextChecker:
@@ -75,6 +76,10 @@ class TextChecker:
 			locale.setlocale(locale.LC_CTYPE, 'hu_HU')
 		return
 
+	def setXMLOutput(self, xml_output):
+		self.xml_output = xml_output
+		return
+
 	def checkFile(self, filename):
 		"""Check a text file and return the results as an XML formatted list
 		of possible errors."""
@@ -107,7 +112,10 @@ class TextChecker:
 		rule_matches = []
 		char_counter = 0
 		all_tagged_words = []
+		line_counter = 1
 		for sentence in sentences:
+			#print "S='%s'" % (sentence)
+			# TODO: zeilenumbrüche in den bisherigen sätzen zählen und an match() übergeben
 			tagged_words = self.tagger.tagText(sentence)
 			chunks = self.chunker.chunk(tagged_words)
 			#print "CHUNKS: %s" % chunks
@@ -118,12 +126,14 @@ class TextChecker:
 			#print "time1: %.2fsec" % (time.time()-tx)
 			#tx = time.time()
 			for rule in self.rules.rules:
-				matches = rule.match(tagged_words, chunks, char_counter)
+				matches = rule.match(tagged_words, chunks, char_counter, line_counter)
 				rule_matches.extend(matches)
 				#print "time2: %.2fsec" % (time.time()-tx)
 				#tx = time.time()
 			for triple in sentence:
 				char_counter = char_counter + len(triple[0])
+			line_counter = line_counter + Tools.Tools.countLinebreaks(sentence)
+			#print "L'=%d ('%s')" % (line_counter, sentence)
 
 		if not self.builtin or "WHITESPACE" in self.builtin:
 			whitespace_rule = Rules.WhitespaceRule()
@@ -131,13 +141,31 @@ class TextChecker:
 
 		#print "###%s<p>" % str(all_tagged_words)
 		rule_match_list = []
+		context = 10
 		for rule_match in rule_matches:
-			rule_match_list.append(rule_match.toXML())
-		xml_part = "<errors>\n%s\n</errors>\n" % string.join(rule_match_list, "\n")
+			if self.xml_output:
+				rule_match_list.append(rule_match.toXML())
+				rule_match_list.append("\n")
+			else:
+				rule_match_list.append(str(rule_match))
+				rule_match_list.append("\n")
+				# FIXME:
+				#from_pos = max(rule_match.from_pos-context, 0)
+				#to_pos = min(rule_match.to_pos+context, len(text))
+				#summary = text[from_pos:to_pos]
+				#print "##### '%s'\n" % (text)
+				#print "##### %d,%d\n" % (rule_match.from_pos, rule_match.to_pos)
+				#print "  ##### %d,%d\n" % (from_pos, to_pos)
+				#summary = re.compile("[\n\r]").sub("", summary)
+				#rule_match_list.append("\n\t...%s..." % summary)
+				# FIXME: doesn't always work correctly (e.g. error at text start)
+				#rule_match_list.append("\n\t   %s^\n" % (" " * (context-1)))
+		result = string.join(rule_match_list, "")
+		if self.xml_output:
+			result = "<errors>\n%s</errors>" % result
 		#print "time3: %.2fsec" % (time.time()-tx)
 		# TODO: optionally return tagged text
-		#print "2=>%.2f" % (time.time()-tx)
-		return (rule_matches, xml_part, all_tagged_words)
+		return (rule_matches, result, all_tagged_words)
 
 	def checkBNCFiles(self, directory, checker):
 		"""Recursively load all files from a directory, extract
@@ -196,23 +224,24 @@ class TextChecker:
 def usage():
 	print "Usage: TextChecker.py [OPTION] <filename>"
 	print "  -h, --help               Show this help"
-	print "  -c, --check              Check directory with BNC files in SGML format"
+	print "  -l, --lang=...           The text's language (de, en, or hu)"
 	print "  -g, --grammar=...        Use only these grammar rules"
 	print "  -f, --falsefriends=...   Use only these false friend rules"
 	print "  -w, --words=...          Use only these style/word rules"
 	print "  -b, --builtin=...        Use only these builtin rules"
 	print "  -m, --mothertongue=...   Your native language"
-	print "  -t, --textlanguage=...   The text's language"
-	print "  -l, --sentencelength=... Maximum sentence length"
+	print "  -s, --sentencelength=... Maximum sentence length"
+	print "  -c, --check              Check directory with BNC files in SGML format"
+	print "  -x, --xml                Print out result as XML"
 	return
 
 def main():
 	options = None
 	rest = None
 	try:
-		(options, rest) = getopt.getopt(sys.argv[1:], 'hcg:f:w:b:m:t:l:', \
+		(options, rest) = getopt.getopt(sys.argv[1:], 'hcg:f:w:b:m:l:s:x', \
 			['help', 'check', 'grammar=', 'falsefriends=', 'words=', \
-			'builtin=', 'mothertongue=', 'textlanguage=', 'sentencelength='])
+			'builtin=', 'mothertongue=', 'lang=', 'sentencelength=', 'xml'])
 	except getopt.GetoptError,e :
 		print >> sys.stderr, "Error: ", e
 		usage()
@@ -226,6 +255,7 @@ def main():
 	#	print "%s %s %s" %(Tagger.dicFile, Tagger.affFile,Tagger.grammarFile)
 	#	sys.exit(0)
 	textlanguage = 'de'		# default
+	xml_output = 0
 
 	for o, a in options:
 		if o in ("-g", "--grammar"):
@@ -238,10 +268,12 @@ def main():
 			builtin = a.split(",")
 		elif o in ("-m", "--mothertongue"):
 			mothertongue = a
-		elif o in ("-t", "--textlanguage"):
+		elif o in ("-l", "--lang"):
 			textlanguage = a
-		elif o in ("-l", "--sentencelength"):
+		elif o in ("-s", "--sentencelength"):
 			max_sentence_length = a
+		elif o in ("-x", "--xml"):
+			xml_output = 1
 
 	for o, a in options:
 		if o in ("-h", "--help"):
@@ -259,6 +291,7 @@ def main():
 	if len(rest) == 1:
 		checker = TextChecker(grammar, falsefriends, words, builtin, \
 			textlanguage, mothertongue, max_sentence_length)
+		checker.setXMLOutput(xml_output)
 		(rule_matches, result, tagged_words) = checker.checkFile(rest[0])
 		if not result:
 			print >> sys.stderr, "No errors found."

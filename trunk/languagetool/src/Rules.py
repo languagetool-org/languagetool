@@ -1,6 +1,6 @@
 # -*- coding: iso-8859-1 -*-
 # Class for Grammar and Style Rules
-#$rcs = ' $Id: Rules.py,v 1.4 2004-05-31 21:51:35 dnaber Exp $ ' ;
+#$rcs = ' $Id: Rules.py,v 1.5 2004-06-10 22:51:41 dnaber Exp $ ' ;
 #
 # LanguageTool -- A Rule-Based Style and Grammar Checker
 # Copyright (C) 2002,2003,2004 Daniel Naber <daniel.naber@t-online.de>
@@ -210,11 +210,11 @@ class WhitespaceRule(Rule):
 				if word_next and (not self.after_punct_regex.match(org_word_next)) and \
 					(not self.whitespace_regex.match(org_word_next)):
 					matches.append(RuleMatch(self.rule_id, text_length, text_length + len(org_word), 
-						"Usually a space character is inserted after punctuation."))
+						0, 0, "Usually a space character is inserted after punctuation."))
 			elif self.whitespace_regex.match(org_word):
 				if self.punct_regex.match(org_word_next):
 					matches.append(RuleMatch(self.rule_id, text_length, text_length + len(org_word),
-						"Usually no space character is inserted before punctuation."))
+						0, 0, "Usually no space character is inserted before punctuation."))
 			text_length = text_length + len(org_word)
 			i = i + 1
 		return matches
@@ -244,8 +244,6 @@ class PatternRule(Rule):
 		for token_string in token_strings:
 			token = Token(token_string)
 			self.tokens.append(token)
-#		self.pattern = replace(self.pattern, u'szlig', u'�')
-#		print self.pattern # tktk
 		pattern_node = rule_node.getElementsByTagName("pattern")[0]
 		self.language = pattern_node.getAttribute("lang")
 		marker_from_att = pattern_node.getAttribute("mark_from")
@@ -367,7 +365,7 @@ class PatternRule(Rule):
 			self.tokens.append(token)
 		return
 
-	def match(self, tagged_words, chunks=None, position_fix=0):
+	def match(self, tagged_words, chunks=None, position_fix=0, line_fix=0):
 		"""Check if there are rules that match the tagged_words. Returns a list
 		of RuleMatch objects."""
 		matches = []
@@ -390,7 +388,7 @@ class PatternRule(Rule):
 			while match:
 				try:
 					if not tagged_words_copy[i][1] and tagged_words_copy[i][2] != 'SENT_START' and tagged_words_copy[i][2] != 'SENT_END':
-						# here's just whitespace or other un-taggable crap:
+						# here's just whitespace or other un-taggable stuff:
 						i = i + 1
 						ct = ct + 1
 						continue
@@ -452,7 +450,7 @@ class PatternRule(Rule):
 					# require regex matching:
 					if case_switch:
 						#print "exp:%s" %expected_token
-#						match = (expected_token_str.lower() == found.lower())
+						#match = (expected_token_str.lower() == found.lower())
 						match = (expected_token_str.lower() == found)
 					else:
 						match = (expected_token_str == found)
@@ -473,7 +471,7 @@ class PatternRule(Rule):
 
 				#print "##MATCH "+found+" " +expected_token_str
 				#FIXME: does this always mark the correct position?
-				(first_match, from_pos, to_pos) = self.listPosToAbsPos(tagged_words_copy, \
+				(first_match, from_pos, to_pos, line, column) = self.listPosToAbsPos(tagged_words_copy, \
 					first_match, 0)
 				to_pos = to_pos + chunk_corr
 
@@ -491,9 +489,8 @@ class PatternRule(Rule):
 					l = l + 1
 
 				first_match_word = tagged_words_copy[first_match][0]
-				match = RuleMatch(self.rule_id, \
-					from_pos+position_fix, to_pos+position_fix, \
-					msg, first_match_word)
+				match = RuleMatch(self.rule_id, from_pos+position_fix, to_pos+position_fix, \
+					line+line_fix, column, msg, first_match_word)
 				matches.append(match)
 
 			ct = ct + 1
@@ -521,21 +518,33 @@ class PatternRule(Rule):
 			last_match = last_match + 1
 
 		from_pos = 0
+		line = 0
+		column = 0			# FIXME!
 		for el in l[:first_match]:
+			#print "** '%s' (%d)" % (el[0], first_match)
+			matches = re.findall("[\n\r]", el[0])
+			line = line + len(matches)
+			if len(matches) > 0:
+				column = 0
+			else:
+				column = column + len(el[0])
 			from_pos = from_pos + len(el[0])
+		#print "** L=%s" % line
 		to_pos = 0
 		for el in l[:last_match]:
 			to_pos = to_pos + len(el[0])
 
-		return (first_match, from_pos, to_pos)
+		return (first_match, from_pos, to_pos, line, column)
 
 class RuleMatch:
 	"""A matching rule, i.e. an error or a warning and from/to positions."""
 
-	def __init__(self, rule_id, from_pos, to_pos, message, first_match_word=None):
+	def __init__(self, rule_id, from_pos, to_pos, line, column, message, first_match_word=None):
 		self.id = rule_id
 		self.from_pos = from_pos
 		self.to_pos = to_pos
+		self.line = line
+		self.column = column
 		self.message = message
 		# TOOD: is it okay to use 'latin1' here?:
 		if first_match_word and first_match_word[0] in unicode(string.uppercase, 'latin1'):
@@ -549,9 +558,11 @@ class RuleMatch:
 		return "<em>%s" % match.group(1)[0].upper()
 
 	def __str__(self):
-		"""String representation of this object, equals XML representation
-		(except the stripped whit space)."""
-		strng = self.toXML().strip()
+		"""String representation of this object, i.e. human readable output."""
+		msg = self.message
+		msg = re.compile("</?message>").sub("", msg)
+		msg = re.compile("</?em>").sub("'", msg)
+		strng = 'Line %d, Column %d: %s' % (self.line, self.column, msg)
 		return strng
 
 	def toXML(self):

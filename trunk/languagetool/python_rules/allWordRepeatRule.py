@@ -1,7 +1,7 @@
 # Rule that checks for word repeats
 # (c) 2003 Daniel Naber <daniel.naber@t-online.de>
 #
-#$rcs = ' $Id: allWordRepeatRule.py,v 1.1 2004-05-23 21:47:13 dnaber Exp $ ' ;
+#$rcs = ' $Id: allWordRepeatRule.py,v 1.2 2004-06-10 22:51:41 dnaber Exp $ ' ;
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -24,6 +24,7 @@ import sys
 
 sys.path.append("..")
 import Rules
+import Tools
 
 class allWordRepeatRule(Rules.Rule):
 	"""Rule that checks if a word is repeated, even if one
@@ -35,11 +36,15 @@ class allWordRepeatRule(Rules.Rule):
 		Rules.Rule.__init__(self, "WORD_REPEAT", "A word was repeated", 0, None)
 		return
 
-	def match(self, tagged_words, chunks, position_fix=0):
+	def match(self, tagged_words, chunks, position_fix=0, line_fix=0):
 		matches = []
 		text_length = 0
 		i = 0
+		line = 0
+		column = 0		# FIXME
 		while 1:
+			org_word = tagged_words[i][0]
+			line = line + Tools.Tools.countLinebreaks(org_word) 
 			if i >= len(tagged_words)-2:
 				break
 			org_tag = tagged_words[i][2]
@@ -47,7 +52,6 @@ class allWordRepeatRule(Rules.Rule):
 				# ignore numbers like "5,000,000"
 				i = i + 1
 				continue
-			org_word = tagged_words[i][0]
 			if org_word and self.punct.match(org_word):
 				# ignore punctuation
 				i = i + 1
@@ -63,7 +67,8 @@ class allWordRepeatRule(Rules.Rule):
 			if org_word.lower() == org_word_next.lower():
 				matches.append(Rules.RuleMatch(self.rule_id,
 					text_length+position_fix, 
-					text_length+whitespace_length+len(org_word_next)+position_fix, 
+					text_length+whitespace_length+len(org_word_next)+position_fix,
+					line+line_fix, column,
 					"You repeated a word. Maybe you should <em>remove</em> one "+
 					"of the words?", org_word))
 			i = i + 1
