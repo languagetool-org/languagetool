@@ -56,7 +56,7 @@ class SentenceSplitter:
 		"""Add a special break character at all places with typical sentence
 		delimiters."""
 		# Double new-line means a new sentence:
-		text = re.compile("\n\s*\n", re.DOTALL).sub(self.EOS, text)
+		text = re.compile("(\n\s*\n)", re.DOTALL).sub("\\1%s" % self.EOS, text)
 		# Punctuation followed by whitespace means a new sentence:
 		text = re.compile("(%s\s)" % self.PAP, re.DOTALL).sub("\\1%s" % self.EOS, text)
 		# New (compared to the perl module): Punctuation followed by uppercase followed
