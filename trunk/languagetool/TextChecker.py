@@ -40,7 +40,7 @@ class TextChecker:
 
 	def __init__(self, grammar, falsefriends, words, \
 		builtin, textlanguage, mothertongue, max_sentence_length):
-		# Which rules are activated (a lists of IDs):
+		# Which rules are activated (a list of IDs):
 		self.grammar = grammar
 		self.falsefriends = falsefriends
 		self.words = words
