@@ -1,5 +1,5 @@
 #!/usr/bin/python
-# daniel.naber@t-online.de, 2002-09-02
+# daniel.naber@t-online.de, 2003-05-02
 # This is just a test how a TextChecker server can be called
 
 # TODO?: add options as XML attributes to <text>
