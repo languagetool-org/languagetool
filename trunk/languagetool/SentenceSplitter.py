@@ -51,7 +51,7 @@ class SentenceSplitter:
 		return sentences
 
 	def first_sentence_breaking(self, text):
-		"""Add a special break character at all placed with typical sentence
+		"""Add a special break character at all places with typical sentence
 		delimiters."""
 		# Double new-line means a new sentence:
 		text = re.compile("\n\s*\n", re.DOTALL).sub(self.EOS, text)
@@ -91,8 +91,8 @@ class SentenceSplitter:
 			text = re.compile(s, re.DOTALL|re.IGNORECASE).sub("\\1", text)
 		
 		# Don't break after quote unless there's a capital letter:
-		# e.g.: "Here he comes!" he said.
-		text = re.compile('(["\']\s*)%s(\s*[%s])' % (self.EOS, string.lowercase), re.DOTALL|re.IGNORECASE).sub("\\1\\2", text)
+		# e.g.: "That's right!" he said.
+		text = re.compile('(["\']\s*)%s(\s*[%s])' % (self.EOS, string.lowercase), re.DOTALL).sub("\\1\\2", text)
 
 		# fixme? not sure where this should occur, leaving it commented out:
 		# don't break: text . . some more text.
@@ -117,7 +117,7 @@ class SentenceSplitter:
 		return text
 
 if __name__ == "__main__":
-	#t = "Do split me.Will you?"
+	#t = '"Do split me." Will you?'
 	#print t
 	#s = SentenceSplitter()
 	#l = s.split(t)
