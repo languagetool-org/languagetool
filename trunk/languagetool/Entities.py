@@ -27,7 +27,7 @@ class Entities:
 		"""Replace only the most common BNC entities with their
 		ASCII respresentation."""
 		entities = { 	"amp" : "&",
-						"pound": "£",		# fixme: use "£"
+						"pound": "P",		# fixme: use "£"
 						"eacute": "e",
 						"aacute": "a",
 						"bquo": "\"",
