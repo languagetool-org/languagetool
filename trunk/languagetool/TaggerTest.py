@@ -142,14 +142,16 @@ class TaggerTest(unittest.TestCase):
 		self.assertEqual(tag, 'CRD')
 		tag = tagger.guessTagTest("3123.1312")
 		self.assertEqual(tag, 'CRD')
-		tag = tagger.guessTagTest("$31.12")
-		self.assertEqual(tag, 'CRD')
 		tag = tagger.guessTagTest("00,99")
 		self.assertEqual(tag, 'CRD')
 		tag = tagger.guessTagTest("00/99")
 		self.assertEqual(tag, 'CRD')
 		tag = tagger.guessTagTest("1-99")
 		self.assertEqual(tag, 'CRD')
+
+		# BNC Sampler tags "$xx" as NNU, which is mapped to NN0 (same for £):
+		tag = tagger.guessTagTest("$31.12")
+		self.assertEqual(tag, 'NN0')
 
 		tag = tagger.guessTagTest("HIV")
 		self.assertEqual(tag, 'NN0')
@@ -218,7 +220,7 @@ class TaggerTest(unittest.TestCase):
 		r = self.tag("""The/DET fat/AJ0 man/NN is/VB fat/AJ0 ./PP""",
 			"A fat man, he is fat.")
 		self.assertEqual(r, [('A', 'unknown'), ('fat', 'AJ0'), ('man', 'NN'),
-			('he', 'unknown'), ('is', 'VB'), ('fat', 'AJ0')])
+			(', ', None), ('he', 'unknown'), ('is', 'VB'), ('fat', 'AJ0')])
 		
 		return
 
