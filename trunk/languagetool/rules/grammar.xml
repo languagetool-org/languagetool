@@ -3,60 +3,81 @@
 <!--
 Rules: Grammar and Typos
 (c) 2001,2002,2003 Daniel Naber, daniel.naber@t-online.de
-$Id: grammar.xml,v 1.1.1.1 2003-05-19 00:09:52 dnaber Exp $
+$Id: grammar.xml,v 1.2 2003-06-22 19:59:28 dnaber Exp $
 
 TODO: add a "name" for those <messages> that sound strange as config options
-
-
-
-fixme: map to new tagset
 -->
 <rules>
 
 
 	<!-- === new rules === -->
 
-		<!-- less than xxx false alarms in complete BNC -->
 		<!-- fixme: must as verb only: -->
 		<!--
 		<rule id="MUST_TO">
 			<pattern lang="en">"must" "to"</pattern>
 			<message>Omit the article <em>a</em>.</message>
 			<error_rate warnings="0" sentences="0" last_5000_file="">0</error_rate>
-			<marker>0</marker>
 			<example type="correct">This will be much work.</example>
 			<example type="incorrect">This will be a much work.</example>
 		</rule>
 		-->
 
-		<!-- less than xxx false alarms in complete BNC -->
 		<!-- 'use' mistagged as NN1
 		<rule id="ARE_VVB">
 			<pattern lang="en">"are" VVB</pattern>
 			<message>...</message>
 			<error_rate warnings="0" sentences="0" last_5000_file="">0</error_rate>
-			<marker>0</marker>
 			<example type="correct">If you are using SMTP to send your messages,...</example>
 			<example type="incorrect">If you are use SMTP to send your messages,...</example>
 		</rule>
 		-->
 
+		<!-- 
+		<rule id="TEST">
+			<pattern lang="en" mark_from="0" mark_to="-1">"xxx" "we"</pattern>
+			<message>test only</message>
+			<error_rate warnings="0" sentences="0" last_5000_file="">0</error_rate>
+			<example type="correct">I'd be eager to try out your patch.</example>
+			<example type="incorrect">I'd be eager to trying out your patch.</example>
+		</rule>
+		-->
+
+		<rule id="EAGER_TO">
+			<!-- all verb tags except VVI, VBI: -->
+			<pattern lang="en">"eager" "to" (VBB|VBD|VBG|VBN|VBZ|VDB|VDD|VDG|VDI|VDN|VDZ|VHB|VHD|VHG|VHI|VHN|VHZ|VM0|VVB|VVD|VVG|VVN|VVZ)</pattern>
+			<message>Use the base form of the verb with <em>eager to</em>.</message>
+			<error_rate warnings="0" sentences="0" last_5000_file="">0</error_rate>
+			<example type="correct">I'd be eager to try out your patch.</example>
+			<example type="incorrect">I'd be eager to trying out your patch.</example>
+		</rule>
+
+		<!-- less than xxx false alarms in complete BNC -->
+		<!-- TODO: the same for "or not"? -->
+		<rule id="OR_SENT_END">
+			<pattern lang="en">"or" SENT_END</pattern>
+			<message>Don't end a sentence with <em>or</em>. If
+				you want to ask for confirmation, use 
+				<em>isn't it</em>, <em>don't you</em> etc.</message>
+			<error_rate warnings="0" sentences="0" last_5000_file="">0</error_rate>
+			<example type="correct">I think we should meet soon, don't you?</example>
+			<example type="incorrect">I think we should meet soon, or?</example>
+		</rule>
+
 		<!-- less than xxx false alarms in complete BNC -->
 		<rule id="A_MUCH_NN1">
-			<pattern lang="en">"a" "much" NN1</pattern>
+			<pattern lang="en" mark_from="0" mark_to="-1">"a" "much" NN1</pattern>
 			<message>Omit the article <em>a</em>.</message>
 			<error_rate warnings="0" sentences="0" last_5000_file="">0</error_rate>
-			<marker>0</marker>
 			<example type="correct">This will be much work.</example>
 			<example type="incorrect">This will be a much work.</example>
 		</rule>
 
 		<!-- less than xxx false alarms in complete BNC -->
 		<rule id="MOST_COMP">
-			<pattern lang="en">"most" AJS</pattern>
+			<pattern lang="en" mark_from="0" mark_to="-1">"most" AJS</pattern>
 			<message>Omit <em>most</em> when you use the superlative.</message>
 			<error_rate warnings="0" sentences="0" last_5000_file="">0</error_rate>
-			<marker>0</marker>
 			<example type="correct">Kyoto is the oldest city.</example>
 			<example type="incorrect">Kyoto is the <em>most</em> oldest city.</example>
 		</rule>
@@ -66,27 +87,24 @@ fixme: map to new tagset
 			<pattern lang="en">"is" "should"</pattern>
 			<message>Did you mean <em>it</em>?</message>
 			<error_rate warnings="0" sentences="0" last_5000_file="">0</error_rate>
-			<marker>0</marker>
 			<example type="correct">I definitely think it should be less than four years.</example>
 			<example type="incorrect">I definitely think is should be less than four years.</example>
 		</rule>
 
 		<!-- 3 false alarms in 101331 sentences -->
 		<rule id="THE_A">
-			<pattern lang="en">"the" AJ0 AT0</pattern>
+			<pattern lang="en" mark_from="0" mark_to="0">"the" AJ0 AT0</pattern>
 			<message>The determiner 'a' might be superfluous.</message>
 			<error_rate warnings="0" sentences="0" last_5000_file="">0</error_rate>
-			<marker>1</marker>
-			<example type="correct">This allows to provide a powerful help system.</example>
-			<example type="incorrect">This allows to provide a powerful a help system.</example>
+			<example type="correct">This allows to provide the powerful help system.</example>
+			<example type="incorrect">This allows to provide the powerful a help system.</example>
 		</rule>
 
 		<!-- 0 false alarms in 190354 sentences -->
 		<rule id="A_A">
-			<pattern lang="en">"a" AJ0 "(a|the)"</pattern>
+			<pattern lang="en" mark_from="0" mark_to="0">"a" AJ0 "(a|the)"</pattern>
 			<message>The second determiner 'a' is superfluous.</message>
 			<error_rate warnings="0" sentences="0" last_5000_file="">0</error_rate>
-			<marker>1</marker>
 			<example type="correct">This allows to provide a powerful help system.</example>
 			<example type="incorrect">This allows to provide a powerful a help system.</example>
 		</rule>
@@ -96,7 +114,6 @@ fixme: map to new tagset
 			<pattern lang="en">^(VM0|VDD|VBD) PNP VVI</pattern>
 			<message>Did you forget a modal verb like <em>will</em>?</message>
 			<error_rate warnings="0" sentences="0" last_5000_file="">0</error_rate>
-			<marker>2</marker>
 			<example type="correct">s</example>
 			<example type="incorrect">s</example>
 		</rule>
@@ -115,7 +132,6 @@ fixme: map to new tagset
 			<pattern lang="en">SENTENCE_BEGIN (AJ0)</pattern>
 			<message>Adverb instead of adj...</message>
 			<error_rate warnings="0" sentences="" last_5000_file="">???</error_rate>
-			<marker>1</marker>
 			todo: "Unfortunate" kennt der tagger grossgeschrieben gar nicht
 			<example type="correct">Unfortunately, this is not the case.</example>
 			<example type="incorrect">Unfortunate, this is not the case.</example>
@@ -130,11 +146,9 @@ fixme: map to new tagset
 				"Does he captivate us?"
 		-->
 		<rule id="N_V_AGR">
-			<!-- FIXME: klappt noch nicht bei 'he' am Satzanfang -->
-			<pattern lang="en">^"(has|will|must|could|can|should|would|does|did)" "he" (VVI)</pattern>
+			<pattern lang="en" mark_from="2" mark_to="0">^"(has|will|must|could|can|should|would|does|did)" "he" (VVI|VVB)</pattern>
 			<message>Third person singular noun requires verb with '-s'.</message>
 			<error_rate warnings="212" sentences="260000" last_5000_file="xbz">0.08</error_rate>
-			<marker>2</marker>
 			<example type="correct">Then he <em>looks</em> at the building.</example>
 			<example type="incorrect">Then he <em>look</em> at the building.</example>
 		</rule>
@@ -146,7 +160,6 @@ fixme: map to new tagset
 			<pattern lang="en">"did" (VVD|VVG|VVN|VVZ)</pattern>
 			<message>'Did' requires base form of verb.</message>
 			<error_rate warnings="66" sentences="260000" last_5000_file="xbz">0.025</error_rate>
-			<marker>1</marker>
 			<!-- 'did' is used for emphasis here: -->
 			<example type="correct">Peter did <em>go</em> to the cinema.</example>
 			<example type="incorrect">Peter did <em>went</em> to the cinema.</example>
@@ -170,9 +183,8 @@ fixme: map to new tagset
 			<message>Modal verbs like 'will'/'might'/... require base form of verb.</message>
 
 			<rule>
-				<pattern lang="en">^(DT0) VM0 (VVD|VVG|VVN|VVZ)</pattern>
+				<pattern lang="en" mark_from="0" mark_to="0">^(DT0) VM0 (VVD|VVG|VVN|VVZ)</pattern>
 				<error_rate warnings="48" sentences="260000" last_5000_file="xbz">0.018</error_rate>
-				<marker>2</marker>
 				<example type="correct">John will <em>talk</em> to her.</example>
 				<!-- <example type="triggers_error" reason="'talks' tagged as NNS">John will <em>talks</em> to her.</example> -->
 				<example type="correct">John will <em>go</em> home.</example>
@@ -186,9 +198,8 @@ fixme: map to new tagset
 			</rule>
 
 			<rule>
-				<pattern lang="en">NP0 VM0 NN2</pattern>
+				<pattern lang="en" mark_from="2" mark_to="0">NP0 VM0 NN2</pattern>
 				<error_rate warnings="48" sentences="260000" last_5000_file="xbz">0.018</error_rate>
-				<marker>2</marker>
 				<example type="correct">John will <em>go</em> home.</example>
 				<example type="incorrect">John will <em>walks</em> home.</example>
 			</rule>
@@ -197,19 +208,17 @@ fixme: map to new tagset
 		
 		<!-- TODO OLD: 65 of the 154 errors are mistaggings of "said" as in "...there is said..." -->
 		<rule id="IS_V">
-			<pattern lang="en">"is" (VVI|VVD|VVZ)</pattern>
+			<pattern lang="en" mark_from="1" mark_to="0">"is" (VVI|VVD|VVZ)</pattern>
 			<message>Passive requires verb with '-ed'.</message>
 			<error_rate warnings="319" sentences="260000" last_5000_file="xbz">0.12</error_rate>
-			<marker>1</marker>
 			<example type="correct">He is <em>walking</em> home.</example>
 			<example type="incorrect">He is <em>go</em> home.</example>
 		</rule>
 
 		<rule id="WAS_V">
-			<pattern lang="en">"was" (VVI|VVZ)</pattern>
+			<pattern lang="en" mark_from="1" mark_to="0">"was" (VVI|VVZ)</pattern>
 			<message>Passive requires verb with '-ed'.</message>
 			<error_rate warnings="73" sentences="260000" last_5000_file="xbz">0.028</error_rate>
-			<marker>1</marker>
 			<example type="correct">The ball was <em>catched</em> by John.</example>
 			<example type="incorrect">The ball was <em>catch</em> by John.</example>
 			<!-- not found: 
@@ -223,10 +232,9 @@ fixme: map to new tagset
 			-"as *other* than" is okay
 		-->
 		<rule id="AS_ADJ_AS">
-			<pattern lang="en">"as" (AJ0|AV0) "(like|than|then)"</pattern>
+			<pattern lang="en" mark_from="2" mark_to="0">"as" (AJ0|AV0) "(like|than|then)"</pattern>
 			<message>Comparison requires 'as' + adj + 'as'.</message>
 			<error_rate warnings="1" sentences="260000" last_5000_file="xbz">0.0004</error_rate>
-			<marker>2</marker>
 			<example type="correct">This house is as big <em>as</em> mine.</example>
 			<example type="incorrect">This house is as big <em>like</em> mine.</example>
 			<example type="incorrect">This house is as big <em>than</em> mine.</example>
@@ -240,7 +248,6 @@ fixme: map to new tagset
 			<pattern lang="en">"more" "(then|as)"</pattern>
 			<message>Comparison requires <em>than</em>.</message>
 			<error_rate warnings="75" sentences="260000" last_5000_file="xbz">0.029</error_rate>
-			<marker>1</marker>
 			<example type="correct">The tagger will return more <em>than</em> one tag.</example>
 			<example type="incorrect">The tagger will return more <em>then</em> one tag.</example>
 			<!-- <example type="triggers_error">Think of it more <em>as</em> activity.</example> -->
@@ -250,17 +257,15 @@ fixme: map to new tagset
 			<pattern lang="en">(AJC|"more") "(then|as)"</pattern>
 			<message>Comparison requires <em>than</em>.</message>
 			<error_rate warnings="75" sentences="260000" last_5000_file="xbz">0.029</error_rate>
-			<marker>1</marker>
 			<example type="correct">This house is bigger <em>than</em> mine.</example>
 			<example type="incorrect">This house is bigger <em>then</em> mine.</example>
 			<!-- <example type="triggers_error">Think of it more <em>as</em> activity.</example> -->
 		</rule>
 
 		<rule id="DET_FORM">
-			<pattern lang="en">AT0 "from"</pattern>
+			<pattern lang="en" mark_from="2" mark_to="0">AT0 "from"</pattern>
 			<message>Did you mean <em>form</em>?</message>
 			<error_rate warnings="97" sentences="260000" last_5000_file="xbz">0.037</error_rate>
-			<marker>1</marker>
 			<example type="correct">Type in the <em>form</em> on the web page.</example>
 			<example type="incorrect">Type in the <em>from</em> on the web page.</example>
 			<!-- <example type="triggers_error">...those from...</example> -->
@@ -270,7 +275,6 @@ fixme: map to new tagset
 			<pattern lang="en">"can" "not"</pattern>
 			<message>Can + not is written as <em>cannot</em>.</message>
 			<error_rate warnings="9" sentences="260000" last_5000_file="xbz">0.0035</error_rate>
-			<marker>1</marker>
 			<example type="correct">You <em>cannot</em> use the keyboard to select an item.</example>
 			<example type="incorrect">You <em>can not</em> use the keyboard to select an item.</example>
 		</rule>
@@ -284,10 +288,8 @@ fixme: map to new tagset
 			<replacement>it is</replacement>
 
 			<rule>
-				<!-- fixme: case insensitive?!?! -->
 				<pattern lang="en">"its" (CJC|AT0|DT0|EX0|PRF|PRP|VM0|POS|PNP|AV0|AVP|TO0|DTQ|PNQ|DTQ|AVQ)</pattern>
 				<error_rate warnings="32" sentences="260000" last_5000_file="xbz">0.031</error_rate>
-				<marker>0</marker>
 				<example type="correct"><em>It's</em> where people walk around.</example>
 				<example type="incorrect"><em>Its</em> where people walk around.</example>
 				<example type="triggers_error" reason="'every' is tagged as DT">London is a necropolis, <em>its</em> every corner the site of a murder, its soil a pudding of blood and tears.</example>
@@ -298,17 +300,15 @@ fixme: map to new tagset
 					below 
 					or should only one rule from a group match at one place??
 					 -->
-				<pattern lang="en">"its" (VVI|VVZ|VVG)</pattern>
+				<pattern lang="en" mark_from="0" mark_to="-1">"its" (VVI|VVZ|VVG)</pattern>
 				<error_rate warnings="11" sentences="260000" last_5000_file="xbz">0.0042</error_rate>
-				<marker>0</marker>
 				<example type="correct"><em>It's</em> going to be difficult.</example>
 				<example type="incorrect"><em>Its</em> going to be difficult.</example>
 			</rule>
 
 			<rule>
-				<pattern lang="en">"its" "(a|the)"</pattern>
+				<pattern lang="en" mark_from="0" mark_to="-1">"its" "(a|the)"</pattern>
 				<error_rate warnings="5" sentences="260000" last_5000_file="xbz">0.002</error_rate>
-				<marker>1</marker>
 				<!-- FIXME: this rule is triggered twice, see rule above -->
 				<example type="correct"><em>It's</em> a good opportunity.</example>
 				<example type="incorrect"><em>Its</em> a good opportunity.</example>
@@ -328,7 +328,6 @@ fixme: map to new tagset
 			<rule>
 				<pattern lang="en">"no" (VM0|VVI|VVD)</pattern>
 				<error_rate warnings="30" sentences="260000" last_5000_file="xbz">0.012</error_rate>
-				<marker>0</marker>
 				<example type="correct">There <em>now</em> will be a park.</example>
 				<example type="incorrect">There <em>no</em> will be a park.</example>
 			</rule>
@@ -339,17 +338,15 @@ fixme: map to new tagset
 				-->
 				<pattern lang="en">"no" (CJC|DT0|AT0|EX0|PRF|PRP|VM0|NP0|AVP|DTQ|PNQ|AVQ)</pattern>
 				<error_rate warnings="43" sentences="260000" last_5000_file="xbz">0.017</error_rate>
-				<marker>0</marker>
 				<example type="correct">There's <em>now</em> a new building.</example>
 				<example type="incorrect">There's <em>no</em> a new building.</example>
 				<example type="triggers_error" reason="'no' tagged as DT"><em>No</em> no, he said.</example>
 			</rule>
 
 			<rule>
-				<!-- fixme: see above... -->
 				<pattern lang="en">"no" "(were|was|been|be|is)"</pattern>
+				<!-- fixme: see above -->
 				<error_rate warnings="1" sentences="260000" last_5000_file="xbz">0.0004</error_rate>
-				<marker>0</marker>
 				<example type="correct"><em>Now</em> is the the right time.</example>
 				<example type="incorrect"><em>No</em> is the the right time.</example>
 			</rule>
