@@ -3,7 +3,7 @@
 <!--
 Rules: Grammar and Typos
 (c) 2001,2002,2003 Daniel Naber, daniel.naber@t-online.de
-$Id: grammar.xml,v 1.4 2003-06-25 14:54:27 dnaber Exp $
+$Id: grammar.xml,v 1.5 2003-07-06 00:38:52 dnaber Exp $
 
 TODO: add a "name" for those <messages> that sound strange as config options
 -->
@@ -12,12 +12,24 @@ TODO: add a "name" for those <messages> that sound strange as config options
 
 	<!-- === new rules === -->
 
+		<!-- TODO: problem: "?" is ignored like whitespace
+		<rule id="OR_NOT_END">
+			<pattern lang="en">"or" "not" "?"</pattern>
+			<message>Don't end a sentence with <em>or not?</em>. If
+				you want to ask for confirmation, use 
+				<em>isn't it</em>, <em>don't you</em> etc.</message>
+			<error_rate warnings="0" sentences="0">0</error_rate>
+			<example type="correct">I think we should meet soon, don't you?</example>
+			<example type="incorrect">I think we should meet soon, <em>or not?</em></example>
+		</rule>
+		-->
+
 		<!-- fixme: must as verb only: -->
 		<!--
 		<rule id="MUST_TO">
 			<pattern lang="en">"must" "to"</pattern>
 			<message>Omit the article <em>a</em>.</message>
-			<error_rate warnings="0" sentences="0" last_5000_file="">0</error_rate>
+			<error_rate warnings="0" sentences="0">0</error_rate>
 			<example type="correct">This will be much work.</example>
 			<example type="incorrect">This will be a much work.</example>
 		</rule>
@@ -27,27 +39,301 @@ TODO: add a "name" for those <messages> that sound strange as config options
 		<rule id="ARE_VVB">
 			<pattern lang="en">"are" VVB</pattern>
 			<message>...</message>
-			<error_rate warnings="0" sentences="0" last_5000_file="">0</error_rate>
+			<error_rate warnings="0" sentences="0">0</error_rate>
 			<example type="correct">If you are using SMTP to send your messages,...</example>
 			<example type="incorrect">If you are use SMTP to send your messages,...</example>
 		</rule>
 		-->
 
-		<!-- 
+		<!-- possible new rules:
+		"to" "much"
+		"has" "too" Verb
+		"too" "many" NN2 -> viele false positives
+		"to choices" -> two
+		"to" "not" -> rel. viele false positives
+		by VVG to NN1 -> 'the' statt 'to'
+		PRP it's -> its
+		at to: 39 <> add to 1400 occurences
+		turn _ of -> off
+		here _ sound|noise -> hear
+		in cause: 7 <> in case: 2600
+		-->
+		<!-- "is" "you":
+			aber okay:
+			the/AT0 main/AJ0 thing/NN1 is/VBZ you/PNP 're/VBB here
+			it is you
+			The/AT0 problem/NN1 is/VBZ you/PNP ca/VM0 n't -->
+		<!--
 		<rule id="TEST">
-			<pattern lang="en" mark_from="0" mark_to="-1">"xxx" "we"</pattern>
-			<message>test only</message>
-			<error_rate warnings="0" sentences="0" last_5000_file="">0</error_rate>
-			<example type="correct">I'd be eager to try out your patch.</example>
-			<example type="incorrect">I'd be eager to trying out your patch.</example>
+			<pattern lang="en">V.. ".*" "can"</pattern>
+			<message>fixme</message>
+			<error_rate warnings="0" sentences="0">?</error_rate>
+			<example type="correct">xx?</example>
+			<example type="incorrect">xx?</example>
 		</rule>
 		-->
+
+		<rule id="DOES_X_CAN">
+			<pattern lang="en">"(does|did)" ".*" "can"</pattern>
+			<message>Did you mean <em>can \2</em>?</message>
+			<error_rate warnings="0" sentences="0">?</error_rate>
+			<example type="correct">Can someone reproduce that?</example>
+			<example type="incorrect">Does someone can reproduce that?</example>
+		</rule>
+
+		<rule id="MORE_A_AJ0">
+			<pattern lang="en">"more" "a" AJ0</pattern>
+			<message>Did you mean <em>a more \3</em>?</message>
+			<error_rate warnings="0" sentences="0">?</error_rate>
+			<example type="correct">I can give you more a detailed description of what's necessary.</example>
+			<example type="incorrect">I can give you more a detailed description of what's necessary.</example>
+		</rule>
+
+		<rule id="THINK_YOU_A">
+			<pattern lang="en" mark_from="1">"think" "you" "a"</pattern>
+			<message>Did you mean <em>are</em>?</message>
+			<error_rate warnings="0" sentences="0">?</error_rate>
+			<example type="correct">Some would think you are a fortunate man.</example>
+			<example type="incorrect">Some would think you a fortunate man.</example>
+		</rule>
+
+		<rule id="XXX_EXTEND">
+			<pattern lang="en" mark_from="1">"(some|certain)" "extend"</pattern>
+			<message>Did you mean <em>extent</em> ("extent" is a noun, "extend" is a verb)?</message>
+			<error_rate warnings="0" sentences="0">?</error_rate>
+			<example type="correct">Yes it is, to a certain extent.</example>
+			<example type="incorrect">Yes it is, to a certain extend.</example>
+		</rule>
+
+		<rule id="IS_WERE">
+			<pattern lang="en" mark_from="1">"is" "were"</pattern>
+			<message>Did you mean <em>where</em>?</message>
+			<error_rate warnings="0" sentences="0">?</error_rate>
+			<example type="correct">Now, this is where my ignorance sets in.</example>
+			<example type="incorrect">Now, this is were my ignorance sets in.</example>
+		</rule>
+
+		<rule id="ONE_ORE">
+			<pattern lang="en" mark_from="1">CRD "ore"</pattern>
+			<message>Did you mean <em>or</em>?</message>
+			<error_rate warnings="0" sentences="0">?</error_rate>
+			<example type="correct">Type in one or more words.</example>
+			<example type="incorrect">Type in one ore more words.</example>
+		</rule>
+
+		<rule id="THE_ONLY_ON">
+			<pattern lang="en">"the" "only" "on"</pattern>
+			<message>Did you mean <em>the only one</em>?</message>
+			<error_rate warnings="0" sentences="0">?</error_rate>
+			<example type="correct">The trash folder is the only one for me that works.</example>
+			<example type="incorrect">The trash folder is the only on for me that works.</example>
+		</rule>
+
+		<rule id="THEIR_IS">
+			<pattern lang="en" mark_to="-1">"their" "(is|are)"</pattern>
+			<message>Did you mean <em>there</em>?</message>
+			<error_rate warnings="0" sentences="0">?</error_rate>
+			<example type="correct">He noticed that there is a new test.</example>
+			<example type="incorrect">He noticed that their is a new test.</example>
+		</rule>
+
+		<rule id="I_A">
+			<pattern lang="en" mark_from="1">SENT_START "I" "a"</pattern>
+			<message>Did you mean <em>am</em> (first person of "to be")?</message>
+			<error_rate warnings="0" sentences="0">?</error_rate>
+			<example type="correct">I am not sure.</example>
+			<example type="incorrect">I a not sure.</example>
+		</rule>
+
+		<rule id="I_NEW">
+			<pattern lang="en" mark_from="1">"I" "new"</pattern>
+			<message>Did you mean <em>knew</em> (past of "to know")?</message>
+			<error_rate warnings="0" sentences="0">?</error_rate>
+			<example type="correct">Ah, I knew you would say that.</example>
+			<example type="incorrect">Ah, I new you would say that.</example>
+		</rule>
+
+		<rule id="PLEASE_NOT_THAT">
+			<pattern lang="en" mark_from="1" mark_to="-1">"please" "not" "that"</pattern>
+			<message>Did you mean <em>note</em>?</message>
+			<error_rate warnings="0" sentences="0">?</error_rate>
+			<example type="correct">Please note that saying "Open Source" does not mean very much.</example>
+			<example type="incorrect">Please not that saying "Open Source" does not mean very much.</example>
+		</rule>
+
+		<rule id="NUT_AV0-AJ0">
+			<pattern lang="en" mark_to="-1">"nut" (AV0|AJ0)</pattern>
+			<message>Did you mean <em>not</em>?</message>
+			<error_rate warnings="0" sentences="0">0</error_rate>
+			<example type="correct">I'm not sure.</example>
+			<example type="incorrect">I'm nut sure.</example>
+		</rule>
+
+		<rule id="AND_SO_ONE">
+			<pattern lang="en">"and" "so" "one"</pattern>
+			<message>Did you mean <em>and so on</em> (="etc.")?</message>
+			<error_rate warnings="25" sentences="all">?</error_rate>
+			<example type="correct">We think it helps finding bottlenecks and so on.</example>
+			<example type="incorrect">We think it helps finding bottlenecks and so one.</example>
+		</rule>
+
+		<rule id="THROUGH_AWAY">
+			<pattern lang="en" mark_to="-1">"through" "away"</pattern>
+			<message>Did you mean <em>throw</em>?</message>
+			<error_rate warnings="0" sentences="all">0</error_rate>
+			<example type="correct">Or we just throw away all bugs.</example>
+			<example type="incorrect">Or we just through away all bugs.</example>
+		</rule>
+
+		<rule id="WAY_WAS">
+			<pattern lang="en" mark_from="1" mark_to="-1">"or" "way" "(it|that|this)"</pattern>
+			<message>Did you mean <em>was</em>?</message>
+			<error_rate warnings="0" sentences="all">0</error_rate>
+			<example type="correct">Or was that a very recent change in Qt?</example>
+			<example type="incorrect">Or way that a very recent change in Qt?</example>
+		</rule>
+		
+		<rule id="AT0_RESPONDS">
+			<pattern lang="en" mark_from="1">AT0 "responds"</pattern>
+			<message>Did you mean <em>response</em>?</message>
+			<error_rate warnings="0" sentences="0">0</error_rate>
+			<example type="correct">Thanks for the response.</example>
+			<example type="incorrect">Thanks for the responds.</example>
+		</rule>
+
+		<rule id="THINK_OFF">
+			<pattern lang="en" mark_from="1">"(think|know)" "off"</pattern>
+			<message>Did you mean <em>of</em>?</message>
+			<error_rate warnings="0" sentences="0">0</error_rate>
+			<example type="correct">It's the only part of KDE I know of that uses automasking.</example>
+			<example type="incorrect">It's the only part of KDE I know off that uses automasking.</example>
+		</rule>
+
+		<rule id="VERB_US">
+			<pattern lang="en">"do" XX0 "us"</pattern>
+			<message>Did you mean <em>use</em>?</message>
+			<error_rate warnings="0" sentences="0">0</error_rate>
+			<example type="correct">Please don't use dispose.</example>
+			<example type="incorrect">Please don't us dispose.</example>
+		</rule>
+
+		<rule id="VVB_TO_USE">
+			<pattern lang="en" mark_to="-2">VVB "to" "use"</pattern>
+			<message>Use the past tense to build a sentence with "to use".</message>
+			<error_rate warnings="0" sentences="0">0</error_rate>
+			<example type="correct">Aethera used to use this.</example>
+			<example type="incorrect">Aethera use to use this.</example>
+		</rule>
+
+		<rule id="YOU_THING">
+			<!-- note: "things?" = regular expression, the "s" is optional -->
+			<pattern lang="en" mark_from="1">"(I|you|he|she|they|we)" "things?"</pattern>
+			<message>Did you mean <em>think</em>?</message>
+			<error_rate warnings="0" sentences="0">0</error_rate>
+			<example type="correct">I think that's a good idea.</example>
+			<example type="incorrect">I thing that's a good idea.</example>
+		</rule>
+
+		<rule id="WERE_VBB">
+			<pattern lang="en" mark_to="-1">"were" VBB</pattern>
+			<message>Did you mean <em>where</em> or <em>we</em>?</message>
+			<error_rate warnings="0" sentences="0">0</error_rate>
+			<example type="correct">We are in the process of implementing this.</example>
+			<example type="incorrect">Were are in the process of implementing this.</example>
+		</rule>
+
+		<rule id="VBZ_VBD">
+			<pattern lang="en" mark_to="-1">VBZ VBD</pattern>
+			<message>Did you mean <em>it</em>?</message>
+			<error_rate warnings="0" sentences="0">0</error_rate>
+			<example type="correct">...which it wasn't the last day.</example>
+			<example type="incorrect">...which is wasn't the last day.</example>
+			<!-- known problem:
+			"Now, this is were my ignorance sets in."
+			suggests 'it' insteead of 'where'
+			-->
+		</rule>
+
+		<rule id="FORE_DPS">
+			<pattern lang="en" mark_to="-1">"fore" DPS</pattern>
+			<message>Did you mean <em>for</em>?</message>
+			<error_rate warnings="0" sentences="150000">0</error_rate>
+			<example type="correct">Thanks again for your help.</example>
+			<example type="incorrect">Thanks again fore your help.</example>
+		</rule>
+
+		<rule id="NOT_TOO_END">
+			<pattern lang="en" mark_from="1">"not" "too" (SENT_END|NN1|NN0|NN2)</pattern>
+			<message>Did you mean <em>two</em>?</message>
+			<error_rate warnings="0" sentences="0">?</error_rate>
+			<example type="correct">Ideally we should have one database, not two.</example>
+			<example type="incorrect">Ideally we should have one database, not too.</example>
+		</rule>
+
+		<rule id="YOUR_VVD">
+			<pattern lang="en">"your" (VVD)</pattern>
+			<message>Did you mean <em>you're</em>?</message>
+			<error_rate warnings="0" sentences="0">?</error_rate>
+			<example type="correct">I think you're confused.</example>
+			<example type="incorrect">I think your confused.</example>
+		</rule>
+
+		<rule id="AJC_THAT">
+			<pattern lang="en" mark_from="1" mark_to="0">AJC "that"</pattern>
+			<message>Did you mean <em>than</em>?</message>
+			<error_rate warnings="0" sentences="0">?</error_rate>
+			<example type="correct">I am not wiser than you.</example>
+			<example type="incorrect">I am not wiser that you.</example>
+			<!-- known problems:
+			...
+			-->
+		</rule>
+
+		<rule id="LESS_AJ0_THEN">
+			<pattern lang="en" mark_from="2" mark_to="0">"(less|more)" (AJ0|NN1|NN0) "then"</pattern>
+			<message>Did you mean <em>than</em>?</message>
+			<error_rate warnings="0" sentences="0">0</error_rate>
+			<example type="correct">It's less controversial than one would think.</example>
+			<example type="incorrect">It's less controversial then one would think.</example>
+			<!-- known problems:
+			It's less controversial then. (made up)
+			-->
+		</rule>
+
+		<rule id="DET_DET">
+			<pattern lang="en" mark_from="1" mark_to="0">AT0 AT0</pattern>
+			<message><em>Remove</em> the second determiner.</message>
+			<error_rate warnings="0" sentences="0">0</error_rate>
+			<example type="correct">The thing is this.</example>
+			<example type="incorrect">The the thing is this.</example>
+			<!-- known problems:
+			"A the thing is this." A is tagged ZZ0 here
+			"No, the murder of Lord Woodleigh..." No is tagged AT0 here
+			-->
+		</rule>
+
+		<rule id="THAN_END">
+			<pattern lang="en" mark_from="0" mark_to="-1">"than" SENT_END</pattern>
+			<message>Did you mean <em>then</em>?</message>
+			<error_rate warnings="0" sentences="0">0</error_rate>
+			<example type="correct">I volunteer to create a testcase then.</example>
+			<example type="incorrect">I volunteer to create a testcase than.</example>
+		</rule>
+
+		<rule id="OF_CAUSE">
+			<pattern lang="en" mark_from="1" mark_to="-1">"of" "cause" ^"and"</pattern>
+			<message>Did you mean "of <em>course</em>" (=naturally)?</message>
+			<error_rate warnings="1" sentences="290000">0</error_rate>
+			<example type="correct">The law of cause and effect.</example>
+			<example type="correct">Of course all these things are relative.</example>
+			<example type="incorrect">Of cause all these things are relative.</example>
+		</rule>
 
 		<rule id="EAGER_TO">
 			<!-- all verb tags except VVI, VBI: -->
 			<pattern lang="en">"eager" "to" (VBB|VBD|VBG|VBN|VBZ|VDB|VDD|VDG|VDI|VDN|VDZ|VHB|VHD|VHG|VHI|VHN|VHZ|VM0|VVB|VVD|VVG|VVN|VVZ)</pattern>
 			<message>Use the base form of the verb with <em>eager to</em>.</message>
-			<error_rate warnings="0" sentences="0" last_5000_file="">0</error_rate>
+			<error_rate warnings="0" sentences="0">0</error_rate>
 			<example type="correct">I'd be eager to try out your patch.</example>
 			<example type="incorrect">I'd be eager to <em>trying</em> out your patch.</example>
 		</rule>
@@ -59,28 +345,16 @@ TODO: add a "name" for those <messages> that sound strange as config options
 			<message>Don't end a sentence with <em>or</em>. If
 				you want to ask for confirmation, use 
 				<em>isn't it</em>, <em>don't you</em> etc.</message>
-			<error_rate warnings="0" sentences="0" last_5000_file="">0</error_rate>
+			<error_rate warnings="0" sentences="0">0</error_rate>
 			<example type="correct">I think we should meet soon, don't you?</example>
 			<example type="incorrect">I think we should meet soon, <em>or</em>?</example>
 		</rule>
-
-		<!-- TODO: problem: "?" is ignored like whitespace
-		<rule id="OR_NOT_END">
-			<pattern lang="en">"or" "not" "?"</pattern>
-			<message>Don't end a sentence with <em>or not?</em>. If
-				you want to ask for confirmation, use 
-				<em>isn't it</em>, <em>don't you</em> etc.</message>
-			<error_rate warnings="0" sentences="0" last_5000_file="">0</error_rate>
-			<example type="correct">I think we should meet soon, don't you?</example>
-			<example type="incorrect">I think we should meet soon, <em>or not?</em></example>
-		</rule>
-		-->
 
 		<!-- less than xxx false alarms in complete BNC -->
 		<rule id="A_MUCH_NN1">
 			<pattern lang="en" mark_from="0" mark_to="-1">"a" "much" NN1</pattern>
 			<message>Omit the article <em>a</em>.</message>
-			<error_rate warnings="0" sentences="0" last_5000_file="">0</error_rate>
+			<error_rate warnings="0" sentences="0">0</error_rate>
 			<example type="correct">This will be much work.</example>
 			<example type="incorrect">This will be a much work.</example>
 		</rule>
@@ -89,34 +363,34 @@ TODO: add a "name" for those <messages> that sound strange as config options
 		<rule id="MOST_COMP">
 			<pattern lang="en" mark_from="0" mark_to="-1">"most" AJS</pattern>
 			<message>Omit <em>most</em> when you use the superlative.</message>
-			<error_rate warnings="0" sentences="0" last_5000_file="">0</error_rate>
+			<error_rate warnings="0" sentences="0">0</error_rate>
 			<example type="correct">Kyoto is the oldest city.</example>
 			<example type="incorrect">Kyoto is the <em>most</em> oldest city.</example>
 		</rule>
 
 		<!-- less than 10 false alarms in complete BNC -->
 		<rule id="IS_SHOULD">
-			<pattern lang="en">"is" "should"</pattern>
+			<pattern lang="en" mark_from="0" mark_to="-1">"is" "should"</pattern>
 			<message>Did you mean <em>it</em>?</message>
-			<error_rate warnings="0" sentences="0" last_5000_file="">0</error_rate>
+			<error_rate warnings="0" sentences="0">0</error_rate>
 			<example type="correct">I definitely think it should be less than four years.</example>
 			<example type="incorrect">I definitely think is should be less than four years.</example>
 		</rule>
 
 		<!-- 3 false alarms in 101331 sentences -->
 		<rule id="THE_A">
-			<pattern lang="en" mark_from="0" mark_to="0">"the" AJ0 AT0</pattern>
+			<pattern lang="en">"the" AJ0 AT0</pattern>
 			<message>The determiner 'a' might be superfluous.</message>
-			<error_rate warnings="0" sentences="0" last_5000_file="">0</error_rate>
+			<error_rate warnings="0" sentences="0">0</error_rate>
 			<example type="correct">This allows to provide the powerful help system.</example>
 			<example type="incorrect">This allows to provide the powerful a help system.</example>
 		</rule>
 
 		<!-- 0 false alarms in 190354 sentences -->
 		<rule id="A_A">
-			<pattern lang="en" mark_from="0" mark_to="0">"a" AJ0 "(a|the)"</pattern>
+			<pattern lang="en" mark_from="2" mark_to="0">"a" AJ0 "(a|the)"</pattern>
 			<message>The second determiner 'a' is superfluous.</message>
-			<error_rate warnings="0" sentences="0" last_5000_file="">0</error_rate>
+			<error_rate warnings="0" sentences="0">0</error_rate>
 			<example type="correct">This allows to provide a powerful help system.</example>
 			<example type="incorrect">This allows to provide a powerful a help system.</example>
 		</rule>
@@ -125,7 +399,7 @@ TODO: add a "name" for those <messages> that sound strange as config options
 		<rule id="NEW1">
 			<pattern lang="en">^(VM0|VDD|VBD) PNP VVI</pattern>
 			<message>Did you forget a modal verb like <em>will</em>?</message>
-			<error_rate warnings="0" sentences="0" last_5000_file="">0</error_rate>
+			<error_rate warnings="0" sentences="0">0</error_rate>
 			<example type="correct">s</example>
 			<example type="incorrect">s</example>
 		</rule>
@@ -143,7 +417,7 @@ TODO: add a "name" for those <messages> that sound strange as config options
 		<rule id="SENT_AJ0">
 			<pattern lang="en">SENTENCE_BEGIN (AJ0)</pattern>
 			<message>Adverb instead of adj...</message>
-			<error_rate warnings="0" sentences="" last_5000_file="">???</error_rate>
+			<error_rate warnings="0" sentences="">???</error_rate>
 			todo: "Unfortunate" kennt der tagger grossgeschrieben gar nicht
 			<example type="correct">Unfortunately, this is not the case.</example>
 			<example type="incorrect">Unfortunate, this is not the case.</example>
@@ -160,7 +434,7 @@ TODO: add a "name" for those <messages> that sound strange as config options
 		<rule id="N_V_AGR">
 			<pattern lang="en" mark_from="2" mark_to="0">^"(has|will|must|could|can|should|would|does|did)" "he" (VVI|VVB)</pattern>
 			<message>Third person singular noun requires verb with '-s'.</message>
-			<error_rate warnings="212" sentences="260000" last_5000_file="xbz">0.08</error_rate>
+			<error_rate warnings="212" sentences="260000">0.08</error_rate>
 			<example type="correct">Then he <em>looks</em> at the building.</example>
 			<example type="incorrect">Then he <em>look</em> at the building.</example>
 		</rule>
@@ -171,7 +445,7 @@ TODO: add a "name" for those <messages> that sound strange as config options
 		<rule id="DID_BASE">
 			<pattern lang="en">"did" (VVD|VVG|VVN|VVZ)</pattern>
 			<message>'Did' requires base form of verb.</message>
-			<error_rate warnings="66" sentences="260000" last_5000_file="xbz">0.025</error_rate>
+			<error_rate warnings="66" sentences="260000">0.025</error_rate>
 			<!-- 'did' is used for emphasis here: -->
 			<example type="correct">Peter did <em>go</em> to the cinema.</example>
 			<example type="incorrect">Peter did <em>went</em> to the cinema.</example>
@@ -196,7 +470,7 @@ TODO: add a "name" for those <messages> that sound strange as config options
 
 			<rule>
 				<pattern lang="en" mark_from="0" mark_to="0">^(DT0) VM0 (VVD|VVG|VVN|VVZ)</pattern>
-				<error_rate warnings="48" sentences="260000" last_5000_file="xbz">0.018</error_rate>
+				<error_rate warnings="48" sentences="260000">0.018</error_rate>
 				<example type="correct">John will <em>talk</em> to her.</example>
 				<!-- <example type="triggers_error" reason="'talks' tagged as NNS">John will <em>talks</em> to her.</example> -->
 				<example type="correct">John will <em>go</em> home.</example>
@@ -211,7 +485,7 @@ TODO: add a "name" for those <messages> that sound strange as config options
 
 			<rule>
 				<pattern lang="en" mark_from="2" mark_to="0">NP0 VM0 NN2</pattern>
-				<error_rate warnings="48" sentences="260000" last_5000_file="xbz">0.018</error_rate>
+				<error_rate warnings="48" sentences="260000">0.018</error_rate>
 				<example type="correct">John will <em>go</em> home.</example>
 				<example type="incorrect">John will <em>walks</em> home.</example>
 			</rule>
@@ -222,7 +496,7 @@ TODO: add a "name" for those <messages> that sound strange as config options
 		<rule id="IS_V">
 			<pattern lang="en" mark_from="1" mark_to="0">"is" (VVI|VVD|VVZ)</pattern>
 			<message>Passive requires verb with '-ed'.</message>
-			<error_rate warnings="319" sentences="260000" last_5000_file="xbz">0.12</error_rate>
+			<error_rate warnings="319" sentences="260000">0.12</error_rate>
 			<example type="correct">He is <em>walking</em> home.</example>
 			<example type="incorrect">He is <em>go</em> home.</example>
 		</rule>
@@ -230,7 +504,7 @@ TODO: add a "name" for those <messages> that sound strange as config options
 		<rule id="WAS_V">
 			<pattern lang="en" mark_from="1" mark_to="0">"was" (VVI|VVZ)</pattern>
 			<message>Passive requires verb with '-ed'.</message>
-			<error_rate warnings="73" sentences="260000" last_5000_file="xbz">0.028</error_rate>
+			<error_rate warnings="73" sentences="260000">0.028</error_rate>
 			<example type="correct">The ball was <em>catched</em> by John.</example>
 			<example type="incorrect">The ball was <em>catch</em> by John.</example>
 			<!-- not found: 
@@ -245,8 +519,8 @@ TODO: add a "name" for those <messages> that sound strange as config options
 		-->
 		<rule id="AS_ADJ_AS">
 			<pattern lang="en" mark_from="2" mark_to="0">"as" (AJ0|AV0) "(like|than|then)"</pattern>
-			<message>Comparison requires 'as' + adj + 'as'.</message>
-			<error_rate warnings="1" sentences="260000" last_5000_file="xbz">0.0004</error_rate>
+			<message>Comparison is written "as (adjective) <em>as</em>".</message>
+			<error_rate warnings="1" sentences="260000">0.0004</error_rate>
 			<example type="correct">This house is as big <em>as</em> mine.</example>
 			<example type="incorrect">This house is as big <em>like</em> mine.</example>
 			<example type="incorrect">This house is as big <em>than</em> mine.</example>
@@ -257,9 +531,9 @@ TODO: add a "name" for those <messages> that sound strange as config options
 	<!-- === Common misspellings === -->
 
 		<rule id="COMP_THAN1">
-			<pattern lang="en">"more" "(then|as)"</pattern>
+			<pattern lang="en" mark_from="1" mark_to="0">"more" "(then|as)"</pattern>
 			<message>Comparison requires <em>than</em>.</message>
-			<error_rate warnings="75" sentences="260000" last_5000_file="xbz">0.029</error_rate>
+			<error_rate warnings="75" sentences="260000">0.029</error_rate>
 			<example type="correct">The tagger will return more <em>than</em> one tag.</example>
 			<example type="incorrect">The tagger will return more <em>then</em> one tag.</example>
 			<!-- <example type="triggers_error">Think of it more <em>as</em> activity.</example> -->
@@ -267,9 +541,9 @@ TODO: add a "name" for those <messages> that sound strange as config options
 
 		<!-- TODO: He has more ideas then me. -->
 		<rule id="COMP_THAN2">
-			<pattern lang="en">(AJC) "(then|as)"</pattern>
+			<pattern lang="en" mark_from="1" mark_to="0">(AJC) "(then|as)"</pattern>
 			<message>Comparison requires <em>than</em>.</message>
-			<error_rate warnings="75" sentences="260000" last_5000_file="xbz">0.029</error_rate>
+			<error_rate warnings="75" sentences="260000">0.029</error_rate>
 			<example type="correct">This house is bigger <em>than</em> mine.</example>
 			<example type="incorrect">This house is bigger <em>then</em> mine.</example>
 			<!-- <example type="triggers_error">Think of it more <em>as</em> activity.</example> -->
@@ -278,7 +552,7 @@ TODO: add a "name" for those <messages> that sound strange as config options
 		<rule id="DET_FORM">
 			<pattern lang="en" mark_from="2" mark_to="0">AT0 "from"</pattern>
 			<message>Did you mean <em>form</em>?</message>
-			<error_rate warnings="97" sentences="260000" last_5000_file="xbz">0.037</error_rate>
+			<error_rate warnings="97" sentences="260000">0.037</error_rate>
 			<example type="correct">Type in the <em>form</em> on the web page.</example>
 			<example type="incorrect">Type in the <em>from</em> on the web page.</example>
 			<!-- <example type="triggers_error">...those from...</example> -->
@@ -287,7 +561,7 @@ TODO: add a "name" for those <messages> that sound strange as config options
 		<rule id="CANNOT">
 			<pattern lang="en">"can" "not"</pattern>
 			<message>Can + not is written as <em>cannot</em>.</message>
-			<error_rate warnings="9" sentences="260000" last_5000_file="xbz">0.0035</error_rate>
+			<error_rate warnings="9" sentences="260000">0.0035</error_rate>
 			<example type="correct">You <em>cannot</em> use the keyboard to select an item.</example>
 			<example type="incorrect">You <em>can not</em> use the keyboard to select an item.</example>
 		</rule>
@@ -301,8 +575,8 @@ TODO: add a "name" for those <messages> that sound strange as config options
 			<replacement>it is</replacement>
 
 			<rule>
-				<pattern lang="en">"its" (CJC|AT0|DT0|EX0|PRF|PRP|VM0|POS|PNP|AV0|AVP|TO0|DTQ|PNQ|DTQ|AVQ)</pattern>
-				<error_rate warnings="32" sentences="260000" last_5000_file="xbz">0.031</error_rate>
+				<pattern lang="en" mark_from="0" mark_to="-1">"its" (CJC|AT0|DT0|EX0|PRF|PRP|VM0|POS|PNP|AV0|AVP|TO0|DTQ|PNQ|DTQ|AVQ)</pattern>
+				<error_rate warnings="32" sentences="260000">0.031</error_rate>
 				<example type="correct"><em>It's</em> where people walk around.</example>
 				<example type="incorrect"><em>Its</em> where people walk around.</example>
 				<example type="triggers_error" reason="'every' is tagged as DT">London is a necropolis, <em>its</em> every corner the site of a murder, its soil a pudding of blood and tears.</example>
@@ -314,14 +588,14 @@ TODO: add a "name" for those <messages> that sound strange as config options
 					or should only one rule from a group match at one place??
 					 -->
 				<pattern lang="en" mark_from="0" mark_to="-1">"its" (VVI|VVZ|VVG)</pattern>
-				<error_rate warnings="11" sentences="260000" last_5000_file="xbz">0.0042</error_rate>
+				<error_rate warnings="11" sentences="260000">0.0042</error_rate>
 				<example type="correct"><em>It's</em> going to be difficult.</example>
 				<example type="incorrect"><em>Its</em> going to be difficult.</example>
 			</rule>
 
 			<rule>
 				<pattern lang="en" mark_from="0" mark_to="-1">"its" "(a|the)"</pattern>
-				<error_rate warnings="5" sentences="260000" last_5000_file="xbz">0.002</error_rate>
+				<error_rate warnings="5" sentences="260000">0.002</error_rate>
 				<!-- FIXME: this rule is triggered twice, see rule above -->
 				<example type="correct"><em>It's</em> a good opportunity.</example>
 				<example type="incorrect"><em>Its</em> a good opportunity.</example>
@@ -339,8 +613,8 @@ TODO: add a "name" for those <messages> that sound strange as config options
 			<replacement>now</replacement>
 			
 			<rule>
-				<pattern lang="en">"no" (VM0|VVI|VVD)</pattern>
-				<error_rate warnings="30" sentences="260000" last_5000_file="xbz">0.012</error_rate>
+				<pattern lang="en" mark_to="-1">"no" (VM0|VVI|VVD|VVN)</pattern>
+				<error_rate warnings="30" sentences="260000">0.012</error_rate>
 				<example type="correct">There <em>now</em> will be a park.</example>
 				<example type="incorrect">There <em>no</em> will be a park.</example>
 			</rule>
@@ -349,8 +623,8 @@ TODO: add a "name" for those <messages> that sound strange as config options
 				<!-- fixme: CJC... except 'were'... because of rule below 
 					or should only one rule from a group match at one place??
 				-->
-				<pattern lang="en">"no" (CJC|DT0|AT0|EX0|PRF|PRP|VM0|NP0|AVP|DTQ|PNQ|AVQ)</pattern>
-				<error_rate warnings="43" sentences="260000" last_5000_file="xbz">0.017</error_rate>
+				<pattern lang="en" mark_to="-1">"no" (CJC|DT0|AT0|EX0|PRF|PRP|VM0|NP0|AVP|DTQ|PNQ|AVQ)</pattern>
+				<error_rate warnings="43" sentences="260000">0.017</error_rate>
 				<example type="correct">There's <em>now</em> a new building.</example>
 				<example type="incorrect">There's <em>no</em> a new building.</example>
 				<example type="triggers_error" reason="'no' tagged as DT"><em>No</em> no, he said.</example>
@@ -358,8 +632,8 @@ TODO: add a "name" for those <messages> that sound strange as config options
 
 			<rule>
 				<!-- fixme: see above -->
-				<pattern lang="en">"no" "(were|was|been|be|is)"</pattern>
-				<error_rate warnings="1" sentences="260000" last_5000_file="xbz">0.0004</error_rate>
+				<pattern lang="en" mark_to="-1">"no" "(were|was|been|be|is)"</pattern>
+				<error_rate warnings="1" sentences="260000">0.0004</error_rate>
 				<example type="correct"><em>Now</em> is the the right time.</example>
 				<example type="incorrect"><em>No</em> is the the right time.</example>
 			</rule>
