@@ -63,9 +63,9 @@ class Controller:
 			if o in ("-h", "--help"):
 				self.usage()
 				sys.exit(0)
-			elif o in ("-h", "--tag"):
+			elif o in ("-t", "--tag"):
 				mode = self.TAG
-			elif o in ("-h", "--build"):
+			elif o in ("-b", "--build"):
 				mode = self.BUILD
 			elif o in ("-w", "--wordtag"):
 				mode = self.TAGWORD
