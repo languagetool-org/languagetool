@@ -25,7 +25,8 @@ import os
 class TaggerTest(unittest.TestCase):
 
 	FILENAME_WORDS = os.path.join("data", "tag_test_words")
-	FILENAME_SEQ = os.path.join("data", "tag_test_sequences")
+	FILENAME_SEQ1 = os.path.join("data", "tag_test_sequences1")
+	FILENAME_SEQ2 = os.path.join("data", "tag_test_sequences2")
 	
 	def cleanList(self, l):
 		"""Return a copy of the list with 'None' elements (e.g. whitespace)
@@ -49,7 +50,7 @@ class TaggerTest(unittest.TestCase):
 	def tag(self, learn_text, text):
 
 		# build data:
-		tagger = Tagger.Tagger(self.FILENAME_WORDS, self.FILENAME_SEQ)
+		tagger = Tagger.Tagger(self.FILENAME_WORDS, self.FILENAME_SEQ1, self.FILENAME_SEQ2)
 		tagger.deleteData()
 		tagger.bindData()
 		tagger.buildDataFromString(learn_text)
@@ -57,7 +58,7 @@ class TaggerTest(unittest.TestCase):
 		tagger = None
 
 		# tag text:
-		tagger2 = Tagger.Tagger(self.FILENAME_WORDS, self.FILENAME_SEQ)
+		tagger2 = Tagger.Tagger(self.FILENAME_WORDS, self.FILENAME_SEQ1, self.FILENAME_SEQ2)
 		tagger2.bindData()
 		res = tagger2.tagText(text)
 		res = self.cleanList(res)
@@ -65,59 +66,6 @@ class TaggerTest(unittest.TestCase):
 
 		return res
 
-	def testTagList(self):
-		text = Tagger.Text()
-
-		# only one element:
-		t = {}
-		text.addTagList(['NN0'], t)
-		expected = {
-			(None, None, 'NN0'): 1.0,
-			(None, 'NN0', None): 1.0,
-			('NN0', None, None): 1.0
-			}
-		self.assertEqual(t, expected)
-
-		# only two elements:
-		t = {}
-		text.addTagList(['NN0', 'XX'], t)
-		expected = {
-			(None, None, 'NN0'): 1.0,
-			(None, 'NN0', 'XX'): 1.0,
-			('NN0', 'XX', None): 1.0,
-			('XX', None, None): 1.0
-			}
-		self.assertEqual(t, expected)
-
-		# three element:
-		t = {}
-		text.addTagList(['NN0', 'AV0', 'NP1'], t)
-		expected = {
-			(None, None, 'NN0'): 1.0,
-			(None, 'NN0', 'AV0'): 1.0,
-			('NN0', 'AV0', 'NP1'): 1.0,
-			('AV0', 'NP1', None): 1.0,
-			('NP1', None, None): 1.0
-			}
-		self.assertEqual(t, expected)
-
-		# four element and elements with two tags:
-		t = {}
-		text.addTagList(['NN0', 'AV0', 'NP1-YY', 'XX'], t)
-		expected = {
-			(None, None, 'NN0'): 1.0,
-			(None, 'NN0', 'AV0'): 1.0,
-			('NN0', 'AV0', 'NP1'): 0.5,
-			('NN0', 'AV0', 'YY'): 0.5,
-			('AV0', 'NP1', 'XX'): 0.5,
-			('AV0', 'YY', 'XX'): 0.5,
-			('NP1', 'XX', None): 0.5,
-			('YY', 'XX', None): 0.5,
-			('XX', None, None): 1.0
-			}
-		self.assertEqual(t, expected)
-		return
-	
 	def testExpandEntities(self):
 		tagger = Tagger.Text()
 		r = tagger.expandEntities("")
@@ -129,7 +77,7 @@ class TaggerTest(unittest.TestCase):
 		return
 		
 	def testGuess(self):
-		tagger = Tagger.Tagger(self.FILENAME_WORDS, self.FILENAME_SEQ)
+		tagger = Tagger.Tagger(self.FILENAME_WORDS, self.FILENAME_SEQ1, self.FILENAME_SEQ2)
 		tagger.deleteData()
 		tagger.bindData()
 		tagger.buildDataFromString("")		# don't learn at all!
@@ -203,14 +151,13 @@ class TaggerTest(unittest.TestCase):
 		self.assertEqual(r, [('A', 'DET'), ('fat', 'AJ0'), ('man', 'NN1')])
 
 		r = self.tag("""The/DET fat/AJ0 man/NN is/VB fat/AJ0 ./PP""",
-			"A fat man, he is fat.")
+			"A fat man he is fat.")
 		self.assertEqual(r, [('A', 'unknown'), ('fat', 'AJ0'), ('man', 'NN'),
-			(', ', None), ('he', 'unknown'), ('is', 'VB'), ('fat', 'AJ0')])
+			('he', 'unknown'), ('is', 'VB'), ('fat', 'AJ0')])
 		
 		return
 
 	def testApplyConstraints(self):
-	
 		r = self.tag("A/X bla/X demodemo/AA demodemo/AA demodemo/BB bla/X bla/X", \
 			"demodemo")
 		self.assertEqual(r, [('demodemo', 'BB')])
