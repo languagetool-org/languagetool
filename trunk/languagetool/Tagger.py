@@ -915,12 +915,16 @@ class TextToTag(Text):
 						####print " K=%s, V=%s" % (tag_prob, tag_probs[tag_prob])
 						max_prob = tag_probs[tag_prob]
 						best_tag = tag_prob[1]
-						# this avoids inefficiencies, it's necessary because
-						# of the tag_probs.keys() call above:
-						del tag_probs[tag_prob]
 				tagged_list[i] = (orig_word, norm_word, best_tag)
 				####print "BEST@%d: %s" % (i, best_tag)
 			
+				# this avoids inefficiencies, it's necessary because
+				# of the tag_probs.keys() call above (which becomes
+				# too slow otherwise):
+				for tag_prob in keys:
+					if tag_prob[0] <= i:
+						del tag_probs[tag_prob]
+
 			if is_bnc and one:
 				orig_word = one[0]
 				wrong_tags = self.checkBNCMatch(i, tagged_list_bnc, orig_word, best_tag, data_table)
@@ -928,6 +932,8 @@ class TextToTag(Text):
 
 			i = i + 1
 			#print "time=%.2f (%d)" % (time.time()-t1, len(one_tags)*len(two_tags)*len(three_tags))
+			#print "time=%.2f (%d)" % (time.time()-t1, len(tag_probs.keys()))
+			#print "time=%.2f" % (time.time()-t1)
 			
 		###
 		stat = self.getStats(count_wrong_tags)
