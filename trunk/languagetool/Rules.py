@@ -1,6 +1,6 @@
 # Class for Grammar and Style Rules
 # (c) 2002,2003 Daniel Naber <daniel.naber@t-online.de>
-#$rcs = ' $Id: Rules.py,v 1.17 2003-07-28 01:41:04 dnaber Exp $ ' ;
+#$rcs = ' $Id: Rules.py,v 1.18 2003-07-28 20:45:40 dnaber Exp $ ' ;
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -402,12 +402,12 @@ class PatternRule(Rule):
 					except:		# text isn't that long
 						break
 				elif expected_token.is_chunk:
-					#print "chunk %s @ %d" % (expected_token.token, i)
+					#print "chunk %s@%d?" % (expected_token.token, i)
 					found = None
 					for from_pos, to_pos, chunk_name in chunks:
 						if i >= from_pos and i <= to_pos:
 							found = chunk_name
-							#print "FFF %d-%d: %s" % (from_pos, to_pos, chunk_name)
+							#print "CHUNK %d-%d: %s" % (from_pos, to_pos, chunk_name)
 							i = i + (to_pos - from_pos)
 							chunk_corr = chunk_corr + (to_pos - from_pos)
 							break
@@ -442,8 +442,10 @@ class PatternRule(Rule):
 				i = i + 1
 				p = p + 1
 
+			#print "p=%d, len(self.tokens)=%d" % (p, len(self.tokens))
 			if match and p == len(self.tokens):
 
+				#print "##MATCH"
 				(first_match, from_pos, to_pos) = self.listPosToAbsPos(tagged_words_copy, first_match)
 				to_pos = to_pos + chunk_corr
 					
@@ -462,6 +464,12 @@ class PatternRule(Rule):
 					from_pos+position_fix, to_pos+position_fix, \
 					msg, first_match_word)
 				matches.append(match)
+
+			elif p == len(self.tokens):
+				# important to get these right:
+				# a style and grammar checker are cool -> error
+				# a style and grammar checker is cool -> okay
+				break
 
 			ct = ct + 1
 		return matches
