@@ -41,4 +41,4 @@ clean:
 	rm -rf ./ergebnis/*
 
 # alles machen 
-all: neu comb
+all: cvs ordne neu comb
