@@ -1,7 +1,7 @@
 # Rule that checks for word repeats
 # (c) 2003 Daniel Naber <daniel.naber@t-online.de>
 #
-#$rcs = ' $Id: WordRepeatRule.py,v 1.2 2003-07-28 01:35:50 dnaber Exp $ ' ;
+#$rcs = ' $Id: WordRepeatRule.py,v 1.3 2003-08-05 00:09:11 dnaber Exp $ ' ;
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -19,6 +19,7 @@
 # USA
 
 import os
+import re
 import sys
 
 sys.path.append("..")
@@ -28,6 +29,8 @@ class WordRepeatRule(Rules.Rule):
 	"""Rule that checks if a word is repeated, even if one
 	word is uppercase and the other one is lowercase."""
 
+	punct = re.compile("([,:;]+)")		# copied from Tagger.Text()
+	
 	def __init__(self):
 		Rules.Rule.__init__(self, "WORD_REPEAT", "A word was repeated", 0, None)
 		return
@@ -45,7 +48,12 @@ class WordRepeatRule(Rules.Rule):
 				i = i + 1
 				continue
 			org_word = tagged_words[i][0]
+			if org_word and self.punct.match(org_word):
+				# ignore punctuation
+				i = i + 1
+				continue
 			org_word_next = tagged_words[i+2][0]	# jump over whitespace
+			#print "%s -- %s<br>" % (org_word, org_word_next)
 			text_length = text_length + len(org_word)
 			if tagged_words[i][1] == None:
 				# ignore whitespace
