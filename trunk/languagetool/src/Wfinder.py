@@ -224,7 +224,7 @@ class Wfinder:
 						substr = restoredWord[-len(condlist):]
 #						print str(k2) + " " + oldword + " " + restoredWord
 #						print condlist
-						for i in range(0, len(condlist)-1, 1):
+						for i in range(0, len(condlist), 1): #tktk
 #							print "i=%d" %i
 #							print condlist[i]
 #							print ord(substr[i])
@@ -308,7 +308,7 @@ class Wfinder:
 							restoredWord1 = restoredWord1 + strip1
 						if len(condlist1) > 0 and len(restoredWord1) >= len(condlist1): #tktk
 							substr = restoredWord1[-len(condlist1):]
-							for i1 in range(0, len(condlist1)-1, 1):
+							for i1 in range(0, len(condlist1), 1): # tktk
 								if condlist1[i1][ord(substr[i1])] != 11:
 									break_it = 1
 									break
