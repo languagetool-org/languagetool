@@ -54,19 +54,14 @@ from string import *
 import time
 import sys
 
-arrtype = {}
+
 #aff_file = "dtest.aff"
 #dic_file = "dtest.dic"
 test_file = "test.txt"
 yesno = {}
-count = {}
 comment = "#"
 condlist = []
 condlist1 = []
-condlist_group = []
-conddic = {}
-conddic1 = {}
-condglob = {}
 alfab_conddic = {}
 palfab_conddic = {}
 alfab_condlist_group = []
@@ -86,9 +81,7 @@ class Wfinder:
 	def aff_read(self):
 	 	self.aff_file = os.path.join(sys.path[0], "data", Tagger.affFile)
 		condlist = []
-		condlist_group = []
 		alfab_condlist_group = []
-		conddic = {}
 		faff = codecs.open(self.aff_file, "r", self.encoding)
 		l = " "
 		for i in range(0,256,1):
@@ -103,13 +96,11 @@ class Wfinder:
 				continue
 			if ll[0][1:3] == "FX":
 				arrname = ll[1]
-				arrtype[arrname] = ll[0][0]
 				prefix = 0
-				if arrtype[arrname] == 'P':
+				if ll[0][0] == 'P':
 					prefix = 1
 				yesno[arrname] = ll[2]
-				count[arrname] = int(ll[3]);
-				for i in range(0, count[arrname]):
+				for i in range(0, int(ll[3])):
 					l = faff.readline()
 					bb = l.split()
 #					print "l:%s bb[2]:%s arrname:%s" %(l,bb[2], arrname)
@@ -149,24 +140,17 @@ class Wfinder:
 								condarr[ord(bb[4][jj])] = insbit;
 								jj = jj +1
 							condlist.append(condarr)
-					condlist_group.append(condlist)
-					condlist_group.append(strip)
-					condlist_group.append(appnd)
 					alfab_condlist_group.append(condlist)
 					alfab_condlist_group.append(strip)
 					alfab_condlist_group.append(appnd)
 					alfab_condlist_group.append(arrname)
-					conddic[i] = condlist_group
 					if prefix == 0:
 						alfab_conddic[ord(appnd_last)].append(alfab_condlist_group)
 					else:
 						palfab_conddic[ord(appnd_last)].append(alfab_condlist_group)
 #					print "appended %s to  %s %d" %(appnd.encode('latin1'), appnd_last.encode('latin1'), ord(appnd_last))
 					condlist = []
-					condlist_group = []
 					alfab_condlist_group = []
-				condglob[arrname] = conddic
-				conddic = {}
 		faff.close()
 #		for i in range (0,255,1):
 #		  print len(alfab_conddic[i])
@@ -219,7 +203,6 @@ class Wfinder:
 			found = 0
 			for windex in ord(l[-1]), ord('0'):
 				for elem in alfab_conddic[windex]:
-					key = elem[3]
 # elem0: condlist, elem1: strip elem2 = append, elem3 = arrname 
 					if found:
 						break
@@ -253,7 +236,7 @@ class Wfinder:
 						if flags == "": # tktk
 							continue
 						else:
-							if find(flags, key) == -1:
+							if find(flags, elem[3]) == -1:
 								continue
 						return "++ %s %s" %(l,restoredWord)
 						found = 1
@@ -267,7 +250,6 @@ class Wfinder:
 			return "+found %s" %oldword
 		for windex in ord(l[0]), ord('0'):
 			for elem in palfab_conddic[windex]:
-				key = elem[3]
 				if found:
 					break
 				appnd    = elem[2]
@@ -291,16 +273,17 @@ class Wfinder:
 			#
 			# prefix without suffix
 			#
+				arrname = elem[3]
 				if szodic.has_key(l1):
 					flags1 = szodic[l1]
 					if flags1 != "":
-						if find(flags1, key) == -1:
+						if find(flags1, arrname) == -1:
 							continue
 						return "++ %s  %s" %(l,l1)
 						found = 1
 						break
 						
-				if lower(yesno[key]) == 'n':
+				if lower(yesno[arrname]) == 'n':
 					continue
 #
 #			check if this unprefixed word 
@@ -308,11 +291,11 @@ class Wfinder:
 #
 				for windex1 in ord(l1[-1]), ord('0'):
 					for elem1 in alfab_conddic[windex1]:
-						key1 = elem1[3]
 # elem0: condlist, elem1: strip elem2 = append, elem3 = arrname 
 						if found:
 							break
-						if lower(yesno[key1]) == 'n':
+						arrname1 = elem1[3]
+						if lower(yesno[arrname1]) == 'n':
 							continue
 						appnd1    = elem1[2]
 						if len(appnd1):
@@ -340,9 +323,9 @@ class Wfinder:
 							if flags1 == "": # tktk
 								continue
 							else:
-								if find(flags1, key1) == -1:
+								if find(flags1, arrname1) == -1:
 									continue
-								if find(flags1, key) == -1:
+								if find(flags1, arrname) == -1:
 									continue
 							return "+++ %s %s %s" %(l, l1,restoredWord1)
 							found = 1
@@ -390,32 +373,19 @@ class Wfinder:
 			if self.textlanguage == 'de':
 				if typ != "":
 					if typ == 'V' or typ == 'HV':
-						if oword[-4:] == 'ende':
+						if oword[-4:] == 'ende' or oword[-5:-1] == 'ende':
 							typ = 'ADJV'
-						if oword[-5:-1] == 'ende':
-							typ = 'ADJV'
-					if typ == 'V':
+					if typ == 'V' or typ == 'HV':
 						if oword[-1:] == 'e':
-							typ = 'V11'
+							typ =  typ + '11'
 						elif oword[-2:] == 'st':
-							typ = 'V12'
+							typ = typ + '12'
 						elif oword[-2:] == 'en':
-							typ = 'V14'
+							typ = typ + '14'
 						elif oword[-2:] == 'et':
-							typ = 'V15'
+							typ = typ + '15'
 						elif oword[-1:] == 't':
-							typ = 'V13'
-					if typ == 'HV':
-						if oword[-1:] == 'e':
-							typ = 'HV11'
-						elif oword[-2:] == 'st':
-							typ = 'HV12'
-						elif oword[-2:] == 'en':
-							typ = 'HV14'
-						elif oword[-2:] == 'et':
-							typ = 'HV15'
-						elif oword[-1:] == 't':
-							typ = 'HV13'
+							typ = typ + '13'
 					elif typ == 'ADJ':
 						if oword[-2:] == 'er':
 							typ = 'ADJER'
@@ -435,7 +405,7 @@ class Wfinder:
 					if typ[0] == 'N':
 						if word != oword and typ[-1:] == 'S':
 							typ = typ[0:-1]
-			if self.textlanguage == 'hu':
+			elif self.textlanguage == 'hu':
 #				print word+" "+oword+" "+typ
 				dif = len(oword) - len(word)
 				if (typ[0] == 'V' or typ[0:2] == 'SI') and word != oword:

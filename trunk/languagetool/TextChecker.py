@@ -46,7 +46,7 @@ class TextChecker:
 	context = 15			# display this many character to the right and left for error context
 
 	def __init__(self, grammar, falsefriends, words, \
-		builtin, textlanguage, mothertongue, max_sentence_length):
+		builtin, textlanguage, mothertongue, max_sentence_length, debug_mode):
 		# Which rules are activated (a list of IDs):
 		self.grammar = grammar
 		self.falsefriends = falsefriends
@@ -55,6 +55,7 @@ class TextChecker:
 		self.textlanguage = textlanguage
 		self.mothertongue = mothertongue
 		self.max_sentence_length = max_sentence_length
+		self.debug_mode = debug_mode
 		config = ConfigParser.ConfigParser()
 		config.readfp(open('TextChecker.ini'))
 		Tagger.dicFile = config.get(textlanguage, 'dicFile');
@@ -109,6 +110,8 @@ class TextChecker:
 		for sentence in sentences:
 			#print "S='%s'" % (sentence)
 			tagged_words = self.tagger.tagText(sentence)
+			if self.debug_mode:
+				print "Tw:%s" %(tagged_words)
 			chunks = self.chunker.chunk(tagged_words)
 			tagged_words.insert(0, ('', None, 'SENT_START'))
 			tagged_words.append(('', None, 'SENT_END'))
@@ -210,13 +213,14 @@ def usage():
 	#print "  -c, --check              Check directory with BNC files in SGML format"
 	print "  -e, --encoding           Input file's encoding/charset (e.g. latin1 or utf8)"
 	print "  -x, --xml                Print out result as XML"
+	print "  -d, --debug              Print out tagged words"
 	return
 
 def main():
 	options = None
 	rest = None
 	try:
-		(options, rest) = getopt.getopt(sys.argv[1:], 'hcg:f:w:b:m:l:s:e:x', \
+		(options, rest) = getopt.getopt(sys.argv[1:], 'hcg:f:w:b:m:l:s:e:x:d', \
 			['help', 'check', 'grammar=', 'falsefriends=', 'words=', \
 			'builtin=', 'mothertongue=', 'lang=', 'sentencelength=', 'encoding=', 'xml'])
 	except getopt.GetoptError,e :
@@ -233,6 +237,7 @@ def main():
 	max_sentence_length = None
 	textlanguage = 'en'
 	xml_output = 0
+	debug_mode = 0
 	input_encoding = 'latin1'
 
 	for o, a in options:
@@ -254,6 +259,8 @@ def main():
 			input_encoding = a
 		elif o in ("-x", "--xml"):
 			xml_output = 1
+		elif o in ("-d", "--debug"):
+			debug_mode = 1
 
 	for o, a in options:
 		if o in ("-h", "--help"):
@@ -261,7 +268,7 @@ def main():
 			sys.exit(0)
 		elif o in ("-c", "--check"):
 			checker = TextChecker(grammar, falsefriends, words, \
-				builtin, textlanguage, mothertongue, max_sentence_length)
+				builtin, textlanguage, mothertongue, max_sentence_length, debug_mode)
 			for filename in rest:
 				checker.checkBNCFiles(filename, checker)
 			print >> sys.stderr, "Checked %d sentences in %d paragraphs." % \
@@ -279,7 +286,7 @@ def main():
 			print "Checking '%s', file encoding %s, language %s:" % (filename, \
 				input_encoding, display_name)
 		checker = TextChecker(grammar, falsefriends, words, builtin, \
-			textlanguage, mothertongue, max_sentence_length)
+			textlanguage, mothertongue, max_sentence_length, debug_mode)
 		checker.setXMLOutput(xml_output)
 		checker.setInputEncoding(input_encoding)
 		(rule_matches, result, tagged_words) = checker.checkFile(filename)
