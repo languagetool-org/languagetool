@@ -1,7 +1,7 @@
 # Rule that checks for word repeats
 # (c) 2003 Daniel Naber <daniel.naber@t-online.de>
 #
-#$rcs = ' $Id: WordRepeatRule.py,v 1.1 2003-07-27 12:47:13 dnaber Exp $ ' ;
+#$rcs = ' $Id: WordRepeatRule.py,v 1.2 2003-07-28 01:35:50 dnaber Exp $ ' ;
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -39,6 +39,11 @@ class WordRepeatRule(Rules.Rule):
 		while 1:
 			if i >= len(tagged_words)-2:
 				break
+			org_tag = tagged_words[i][2]
+			if org_tag == "CRD":
+				# ignore numbers like "5,000,000"
+				i = i + 1
+				continue
 			org_word = tagged_words[i][0]
 			org_word_next = tagged_words[i+2][0]	# jump over whitespace
 			text_length = text_length + len(org_word)
