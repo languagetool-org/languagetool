@@ -61,11 +61,12 @@ class TextChecker:
 				}
 
 	def __init__(self, grammar, falsefriends, words, \
-		textlanguage, mothertongue, max_sentence_length):
+		builtin, textlanguage, mothertongue, max_sentence_length):
 		# Which rules are activated (a lists of IDs):
 		self.grammar = grammar
 		self.falsefriends = falsefriends
 		self.words = words
+		self.builtin = builtin
 		self.textlanguage = textlanguage
 		self.mothertongue = mothertongue
 		self.max_sentence_length = max_sentence_length
@@ -75,7 +76,8 @@ class TextChecker:
 		self.chunker.setRules(rules)
 		self.tagger.bindData()
 		self.rules = Rules.Rules(self.max_sentence_length, self.grammar,\
-			self.words, self.falsefriends, textlanguage, mothertongue)
+			self.words, self.builtin, self.falsefriends, \
+			textlanguage, mothertongue)
 		self.bnc_paras = 0
 		self.bnc_sentences = 0
 		return
@@ -117,10 +119,11 @@ class TextChecker:
 			for triple in sentence:
 				char_counter = char_counter + len(triple[0])
 
-		whitespace_rule = Rules.WhitespaceRule()
-		rule_matches.extend(whitespace_rule.match(all_tagged_words))
-		#print "###%s<p>" % str(all_tagged_words)
+		if not self.builtin or "WHITESPACE" in self.builtin:
+			whitespace_rule = Rules.WhitespaceRule()
+			rule_matches.extend(whitespace_rule.match(all_tagged_words))
 
+		#print "###%s<p>" % str(all_tagged_words)
 		rule_match_list = []
 		for rule_match in rule_matches:
 			rule_match_list.append(rule_match.toXML())
@@ -196,6 +199,8 @@ def usage():
 	print "  -c, --check              Check directory with BNC files in SGML format"
 	print "  -g, --grammar=...        Use only these grammar rules"
 	print "  -f, --falsefriends=...   Use only these false friend rules"
+	print "  -w, --words=...          Use only these style/word rules"
+	print "  -b, --builtin=...        Use only these builtin rules"
 	print "  -m, --mothertongue=...   Your native language"
 	print "  -t, --textlanguage=...   The text's language"
 	print "  -l, --sentencelength=... Maximum sentence length"
@@ -205,9 +210,9 @@ def main():
 	options = None
 	rest = None
 	try:
-		(options, rest) = getopt.getopt(sys.argv[1:], 'hcg:f:w:m:t:l:', \
+		(options, rest) = getopt.getopt(sys.argv[1:], 'hcg:f:w:b:m:t:l:', \
 			['help', 'check', 'grammar=', 'falsefriends=', 'words=', \
-			'mothertongue=', 'textlanguage=', 'sentencelength='])
+			'builtin=', 'mothertongue=', 'textlanguage=', 'sentencelength='])
 	except getopt.GetoptError,e :
 		print >> sys.stderr, "Error: ", e
 		usage()
@@ -215,6 +220,7 @@ def main():
 	grammar = None
 	falsefriends = None
 	words = None
+	builtin = None
 	textlanguage = mothertongue = None
 	max_sentence_length = None
 
@@ -225,6 +231,8 @@ def main():
 			falsefriends = a.split(",")
 		elif o in ("-w", "--words"):
 			words = a.split(",")
+		elif o in ("-b", "--builtin"):
+			builtin = a.split(",")
 		elif o in ("-m", "--mothertongue"):
 			mothertongue = a
 		elif o in ("-t", "--textlanguage"):
@@ -238,7 +246,7 @@ def main():
 			sys.exit(0)
 		elif o in ("-c", "--check"):
 			checker = TextChecker(grammar, falsefriends, words, \
-				textlanguage, mothertongue, max_sentence_length)
+				builtin, textlanguage, mothertongue, max_sentence_length)
 			for filename in rest:
 				checker.checkBNCFiles(filename, checker)
 			print >> sys.stderr, "Checked %d sentences in %d paragraphs." % \
@@ -246,7 +254,7 @@ def main():
 			sys.exit(0)
 
 	if len(rest) == 1:
-		checker = TextChecker(grammar, falsefriends, words,  \
+		checker = TextChecker(grammar, falsefriends, words, builtin, \
 			textlanguage, mothertongue, max_sentence_length)
 		(rule_matches, result, tagged_words) = checker.checkFile(rest[0])
 		if not result:
