@@ -1,7 +1,7 @@
 # -*- coding: iso-8859-1 -*-
 # A probabilistic part-of-speech tagger (see the QTag paper) with
 # a rule-based extension.
-#$rcs = ' $Id: Tagger.py,v 1.6 2004-06-13 19:22:58 tyuk Exp $ ' ;
+#$rcs = ' $Id: Tagger.py,v 1.7 2004-06-15 19:06:37 tyuk Exp $ ' ;
 #
 # LanguageTool -- A Rule-Based Style and Grammar Checker
 # Copyright (C) 2002,2003,2004 Daniel Naber <daniel.naber@t-online.de>
@@ -163,46 +163,9 @@ class Tagger:
 		return
 
 	def ReadData(self, db_word_name):
-		fd = codecs.open(db_word_name, "r", "latin1")
   		self.data_table = {}
   		self.word_table = {}
 		table = {}
-  		i = 1;
-		elemlista = []
-		l = fd.readline() # word count
-  		while 1:
-#			  print  str(i)
-			  l = fd.readline().strip('\n \t')
-#			  print l
-			  if not l:
-				break;
-			  elems = l.split("/")
-#			  print elems
-			  j = len(elems) - 3
-			  k = 2;
-			  delta = (len(elems) -1) / 2
-			  while j:
-#				print str(j) + " " + str(k);
-				self.word_table[elems[k]] = elems[k+delta];
-#     word_table.update({elems[k] : elems[k+delta]})
-				j = j -2
-				k = k + 1
-				if j <= 0 :
-#        print elems[0] + " " + elems[k-1] + " " + elems[k]
-#        print elems[0]
-#        print word_table
-					break;
-			  self.data_table[elems[0]] = WordData(elems[0], elems[1], self.word_table)
-			  elemlista.append(elems[0])
-#  data_table.update({elems[0]:word_table})
-			  self.word_table = {}
-			  i = i + 1
-#  print elems[0];
-#  print len(elems)
-#		for el in elemlista:
-#			print  "data_table:%s" % self.data_table[el]
-#			table = self.data_table[el]
-#			print "affix:%s" % table.affix
 		return
 
 
