@@ -1,7 +1,7 @@
 # Rule that checks the use of 'a' vs. 'an' (English only)
 # (c) 2003,2004 Daniel Naber <daniel.naber@t-online.de>
 #
-#$rcs = ' $Id: enAvsAnRule.py,v 1.6 2004-08-30 20:15:03 tyuk Exp $ ' ;
+#$rcs = ' $Id: enAvsAnRule.py,v 1.7 2004-08-31 21:34:19 dnaber Exp $ ' ;
 #
 # This library is free software; you can redistribute it and/or
 # modify it under the terms of the GNU Lesser General Public
@@ -52,7 +52,6 @@ class enAvsAnRule(Rules.Rule):
 		return l
 		
 	def match(self, tagged_words, chunks, position_fix=0, line_fix=0, column_fix=0):
-		# fixme: use column_fix
 		matches = []
 		text_length = 0
 		line_breaks = 0
@@ -77,7 +76,7 @@ class enAvsAnRule(Rules.Rule):
 				if err:
 					matches.append(Rules.RuleMatch(self.rule_id,
 						text_length+position_fix, text_length+len(org_word)+position_fix, 
-						line_breaks+line_fix, column,
+						line_breaks+line_fix, column+column_fix,
 						"<message>Use <em>an</em> instead of <em>a</em> if the following "+
 						"word starts with a vowel sound, e.g. 'an article', "+
 						"'an hour'</message>", org_word))
@@ -93,7 +92,7 @@ class enAvsAnRule(Rules.Rule):
 					matches.append(Rules.RuleMatch(self.rule_id,
 						text_length+position_fix,
 						text_length+len(org_word)+position_fix,
-						line_breaks+line_fix, column,
+						line_breaks+line_fix, column+column_fix,
 						"<message>Use <em>a</em> instead of <em>an</em> if the following "+
 						"word doesn't start with a vowel sound, e.g. 'a test', "+
 						"'a university'</message>", org_word))
