@@ -28,11 +28,37 @@ import sys
 import time
 
 import Tagger
+import Chunker
 import Rules
 import SentenceSplitter
 
 class TextChecker:
 	"""A rule-based style and grammar checker."""
+
+	entities = { 	"amp" : "&",
+					"pound": "P",		# fixme: use "£"
+					"eacute": "e",
+					"aacute": "a",
+					"bquo": "\"",
+					"equo": "\"",
+					"ecirc": "e",
+					"quot": "'",
+					#"deg": u"°",
+					"dollar": "$",
+					"egrave": "e",
+					"percnt": "&",
+					"ndash": "-",
+					"mdash": "--",
+					"hellip": "...",
+					"lsqb": "[",
+					"rsqb": "]",
+					"uuml": u"ü",
+					"auml": u"ä",
+					"ouml": u"ö",
+					"Uuml": u"Ü",
+					"Auml": u"Ä",
+					"Ouml": u"Ö"
+				}
 
 	def __init__(self, grammar, falsefriends, words, \
 		textlanguage, mothertongue, max_sentence_length):
@@ -44,6 +70,9 @@ class TextChecker:
 		self.mothertongue = mothertongue
 		self.max_sentence_length = max_sentence_length
 		self.tagger = Tagger.Tagger()
+		self.chunker = Chunker.Chunker()
+		rules = Chunker.Rules()
+		self.chunker.setRules(rules)
 		self.tagger.bindData()
 		self.rules = Rules.Rules(self.max_sentence_length, self.grammar,\
 			self.words, self.falsefriends, textlanguage, mothertongue)
@@ -72,13 +101,16 @@ class TextChecker:
 		all_tagged_words = []
 		for sentence in sentences:
 			tagged_words = self.tagger.tagText(sentence)
+			#print tagged_words
+			chunks = self.chunker.chunk(tagged_words)
+			#print "CHUNKS: %s" % chunks
 			tagged_words.insert(0, ('', None, 'SENT_START'))
 			tagged_words.append(('', None, 'SENT_END'))
 			all_tagged_words.extend(tagged_words)
 			#print "time1: %.2fsec" % (time.time()-tx)
 			#tx = time.time()
 			for rule in self.rules.rules:
-				matches = rule.match(tagged_words, char_counter)
+				matches = rule.match(tagged_words, chunks, char_counter)
 				rule_matches.extend(matches)
 				#print "time2: %.2fsec" % (time.time()-tx)
 				#tx = time.time()
@@ -101,32 +133,8 @@ class TextChecker:
 	def cleanEntities(self, s):
 		"""Replace only the most common BNC entities with their
 		ASCII respresentation."""
-		s = re.compile("&amp;?").sub("&", s)
-		#fixme:
-		#s = re.compile("&pound;?").sub("£", s)
-		s = re.compile("&pound;?").sub("P", s)
-		s = s.replace("&ast", "*")
-		s = s.replace("&aacute", "a")
-		s = s.replace("&agr", "a")
-		s = s.replace("&bquo", "\"")
-		s = s.replace("&equo", "\"")
-		s = s.replace("&quot", "'")
-		s = s.replace("&deg", u"°")
-		s = s.replace("&dollar", "$")
-		s = s.replace("&eacute", "e")
-		s = s.replace("&egrave", "e")
-		s = s.replace("&percnt", "&")
-		s = s.replace("&ndash", "-")
-		s = s.replace("&mdash", "--")
-		s = s.replace("&hellip", "...")
-		s = s.replace("&lsqb", "[")
-		s = s.replace("&rsqb", "]")
-		s = s.replace("&uuml", u"ü")
-		s = s.replace("&auml", u"ä")
-		s = s.replace("&ouml", u"ö")
-		s = s.replace("&Uuml", u"Ü")
-		s = s.replace("&Auml", u"Ä")
-		s = s.replace("&Ouml", u"Ö")
+		for key in self.entities:
+			s = re.compile("&%s;?" % key).sub("%s" % self.entities[key], s)
 		return s
 
 	def checkBNCFiles(self, directory, checker):
