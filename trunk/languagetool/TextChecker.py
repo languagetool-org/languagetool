@@ -19,7 +19,7 @@
 
 import getopt
 import os
-import re
+import pre as re
 import socket
 import string
 import sys
@@ -46,6 +46,7 @@ class TextChecker:
 		self.tagger = Tagger.Tagger()
 		self.tagger.bindData()
 		self.rules = Rules.Rules(self.max_sentence_length, self.grammar)
+		self.bnc_paras = 0
 		return
 		
 	def checkFile(self, filename):
@@ -91,77 +92,79 @@ class TextChecker:
 		#print "2=>%.2f" % (time.time()-tx)
 		return (rule_matches, xml_part, all_tagged_words)
 
-def cleanEntities(s):
-	"""Replace only the most common BNC entities with their
-	ASCII respresentation."""
-	s = re.compile("&amp;?").sub("&", s)
-	s = re.compile("&pound;?").sub("£", s)
-	s = s.replace("&ast", "*")
-	s = s.replace("&aacute", "a")
-	s = s.replace("&agr", "a")
-	s = s.replace("&bquo", "\"")
-	s = s.replace("&equo", "\"")
-	s = s.replace("&quot", "'")
-	s = s.replace("&deg", "°")
-	s = s.replace("&dollar", "$")
-	s = s.replace("&eacute", "e")
-	s = s.replace("&egrave", "e")
-	s = s.replace("&percnt", "&")
-	s = s.replace("&ndash", "-")
-	s = s.replace("&mdash", "--")
-	s = s.replace("&hellip", "...")
-	s = s.replace("&lsqb", "[")
-	s = s.replace("&rsqb", "]")
-	s = s.replace("&uuml", "ü")
-	s = s.replace("&auml", "ä")
-	s = s.replace("&öuml", "ö")
-	s = s.replace("&Uuml", "Ü")
-	s = s.replace("&Auml", "Ä")
-	s = s.replace("&Ouml", "Ö")
-	return s
+	def cleanEntities(self, s):
+		"""Replace only the most common BNC entities with their
+		ASCII respresentation."""
+		s = re.compile("&amp;?").sub("&", s)
+		s = re.compile("&pound;?").sub("£", s)
+		s = s.replace("&ast", "*")
+		s = s.replace("&aacute", "a")
+		s = s.replace("&agr", "a")
+		s = s.replace("&bquo", "\"")
+		s = s.replace("&equo", "\"")
+		s = s.replace("&quot", "'")
+		s = s.replace("&deg", "°")
+		s = s.replace("&dollar", "$")
+		s = s.replace("&eacute", "e")
+		s = s.replace("&egrave", "e")
+		s = s.replace("&percnt", "&")
+		s = s.replace("&ndash", "-")
+		s = s.replace("&mdash", "--")
+		s = s.replace("&hellip", "...")
+		s = s.replace("&lsqb", "[")
+		s = s.replace("&rsqb", "]")
+		s = s.replace("&uuml", "ü")
+		s = s.replace("&auml", "ä")
+		s = s.replace("&öuml", "ö")
+		s = s.replace("&Uuml", "Ü")
+		s = s.replace("&Auml", "Ä")
+		s = s.replace("&Ouml", "Ö")
+		return s
 
-def checkBNCFiles(directory, checker):
-	"""Recursively load all files from a directory, extract
-	all paragraphs and feed them to the style and grammar checker
-	one by one."""
-	para_regex = re.compile("<p>(.*?)</p>", re.DOTALL)
-	xml_regex = re.compile("<.*?>", re.DOTALL)
-	whitespace_regex = re.compile("\s+", re.DOTALL)
-	files = []
-	filemode = 0
-	if os.path.isfile(directory):		# call with a filename is okay
-		files = [directory]
-		filemode = 1
-	else:
-		files = os.listdir(directory)
-	for file in files:
-		filename = None
-		if filemode:
-			filename = file
+	def checkBNCFiles(self, directory, checker):
+		"""Recursively load all files from a directory, extract
+		all paragraphs and feed them to the style and grammar checker
+		one by one."""
+		para_regex = re.compile("<p>(.*?)</p>", re.DOTALL)
+		xml_regex = re.compile("<.*?>", re.DOTALL)
+		whitespace_regex = re.compile("\s+", re.DOTALL)
+		files = []
+		filemode = 0
+		if os.path.isfile(directory):		# call with a filename is okay
+			files = [directory]
+			filemode = 1
 		else:
-			filename = os.path.join(directory, file)
-		if os.path.isdir(filename):
-			#print filename
-			checkBNCFiles(filename, checker)
-		elif os.path.isfile(filename):
-			print "FILE=%s" % file
-			f = open(filename)
-			s = f.read()
-			f.close()
-			matches = para_regex.findall(s)
-			for match in matches:
-				s = xml_regex.sub("", match)
-				s = whitespace_regex.sub(" ", s)
-				s = cleanEntities(s)
-				s = s.strip()
-				#print s
-				(rule_matches, result, tagged_words) = checker.check(s)
-				if len(rule_matches) == 0:
-					pass
-					#print >> sys.stderr, "No errors found."
-				else:
-					print result
-	return
+			files = os.listdir(directory)
+		for file in files:
+			filename = None
+			if filemode:
+				filename = file
+			else:
+				filename = os.path.join(directory, file)
+			if os.path.isdir(filename):
+				#print filename
+				self.checkBNCFiles(filename, checker)
+			elif os.path.isfile(filename):
+				print >> sys.stderr, "FILE=%s" % file
+				f = open(filename)
+				s = f.read()
+				f.close()
+				matches = para_regex.findall(s)
+				for match in matches:
+					#print len(match)
+					self.bnc_paras = self.bnc_paras + 1
+					s = xml_regex.sub("", match)
+					s = whitespace_regex.sub(" ", s)
+					s = self.cleanEntities(s)
+					s = s.strip()
+					#print s
+					(rule_matches, result, tagged_words) = checker.check(s)
+					if len(rule_matches) == 0:
+						pass
+						#print >> sys.stderr, "No errors found."
+					else:
+						print result
+		return
 
 def usage():
 	print "Usage: TextChecker.py [OPTION] <filename>"
@@ -214,7 +217,8 @@ def main():
 			checker = TextChecker(grammar, falsefriends, words, builtin, \
 				textlanguage, mothertongue, max_sentence_length)
 			for filename in rest:
-				checkBNCFiles(filename, checker)
+				checker.checkBNCFiles(filename, checker)
+			print >> sys.stderr, "Checked %d paragraphs." % checker.bnc_paras
 			sys.exit(0)
 
 	if len(rest) == 1:
