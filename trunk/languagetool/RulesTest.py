@@ -1,10 +1,16 @@
 #!/usr/bin/python
 # Test cases for Rule.py
 # (c) 2002,2003 Daniel Naber <daniel.naber@t-online.de>
-#$rcs = ' $Id: RulesTest.py,v 1.11 2003-07-26 23:47:08 dnaber Exp $ ' ;
+#$rcs = ' $Id: RulesTest.py,v 1.12 2003-07-27 12:59:47 dnaber Exp $ ' ;
 
 import unittest
 import Rules
+import sys
+
+sys.path.append("python_rules")
+import SentenceLengthRule
+import AvsAnRule
+import WordRepeatRule
 
 class RuleTestCase(unittest.TestCase):
 
@@ -32,7 +38,7 @@ class RuleTestCase(unittest.TestCase):
 		return
 
     def testSentenceLengthRule(self):
-		r = Rules.SentenceLengthRule()
+		r = SentenceLengthRule.SentenceLengthRule()
 		r.setMaxLength(3)
 
 		# just below the limit:
@@ -60,7 +66,7 @@ class RuleTestCase(unittest.TestCase):
 		return
 
     def testAvsAnRule(self):
-		r = Rules.AvsAnRule()
+		r = AvsAnRule.AvsAnRule()
 		# okay:
 		warnings = r.match([('A','A','DET'),(' ',None,None),('test','test','NN')], [])
 		self.assertEqual(len(warnings), 0)
@@ -120,6 +126,19 @@ class RuleTestCase(unittest.TestCase):
 
 		# error - no whitespace after punctuation:
 		warnings = r.match([('blah','blah','XX'),('?',None,None),('foo','foo','YY')])
+		self.assertEqual(len(warnings), 1)
+
+		return
+
+    def testWordRepeat(self):
+		r = WordRepeatRule.WordRepeatRule()
+	
+		warnings = r.match([('blah','blah','XX'),(' ',None,None),('blahbla','blahbla','YY')], [])
+		self.assertEqual(len(warnings), 0)
+		
+		warnings = r.match([('blah','blah','XX'),(' ',None,None),('blah','blah','YY')], [])
+		self.assertEqual(len(warnings), 1)
+		warnings = r.match([('blah','blah','XX'),(' ',None,None),('BLAH','BLAH','XX')], [])
 		self.assertEqual(len(warnings), 1)
 
 		return
