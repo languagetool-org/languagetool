@@ -166,7 +166,7 @@ class Text:
 		self.count_unambiguous = 0
 		self.count_ambiguous = 0
 		self.count_unknown = 0
-		self.nonword = re.compile("([\s,.]+)")
+		self.nonword = re.compile("([\s,.!?]+)")
 		self.bnc_word_regexp = re.compile("<W\s+TYPE=\"(.*?)\".*?>(.*?)</W>", \
 			re.DOTALL|re.IGNORECASE)
 		return
@@ -578,7 +578,7 @@ class TextToTag(Text):
 		return None
 
 	def tag(self, data_table, seqs_table):
-		"""Tag self.text and returns list of tuples
+		"""Tag self.text and return list of tuples
 		(word, normalized word, most probable tag)"""
 		self.text = self.expandEntities(self.text)
 		result_tuple_list = []
