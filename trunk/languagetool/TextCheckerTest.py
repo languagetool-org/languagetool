@@ -23,6 +23,8 @@ import unittest
 class TextCheckerTest(unittest.TestCase):
 
 	def testSomeRules(self):
+		"""Some rule checks. Requires a trained tagger."""
+		
 		checker = TextChecker.TextChecker(grammar=None, falsefriends=None, \
 			words=None, builtin=None, textlanguage="en", mothertongue="de", \
 			max_sentence_length=20)
