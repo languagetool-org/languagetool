@@ -26,7 +26,7 @@ cgitb.enable()
 import cPickle
 import cgi
 import os
-import pre
+import re
 import re
 import sys
 import time
@@ -49,8 +49,7 @@ tags = re.split(",", tags_str)
 sentence_count = 0
 word_count = 0
 matches = 0
-# pre = avoid recursion limit error
-regex = pre.compile("(<S.*?</S>)", re.DOTALL)
+regex = re.compile("(<S.*?</S>)", re.DOTALL)
 words_regex = re.compile("(<[WC].*?</[WC]>)", re.DOTALL)
 type_regex = re.compile("TYPE=\"(.*?)\"")
 word_regex = re.compile(">(.*?)</[WC]>")

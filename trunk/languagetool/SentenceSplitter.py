@@ -1,4 +1,5 @@
 #!/usr/bin/python
+# -*- coding: iso-8859-1 -*-
 # Copyright (C) 2003 Daniel Naber <daniel.naber@t-online.de>
 # Based on Shlomo Yona's Perl module Lingua::EN::Sentence 0.25
 
