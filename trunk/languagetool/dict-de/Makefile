@@ -13,16 +13,19 @@
 default: all
 
 ./ergebnis/deutschneu.dic:
-	./bin/build_neu.sh
+	sh ./bin/build_neu.sh
 
 ./ergebnis/deutsch.dic:
-	./bin/build_comb.sh
+	sh ./bin/build_comb.sh
 	
 ./worte/geordnet:
-	./bin/clean_worte.sh
+	sh ./bin/clean_worte.sh
 
 ./woerter/auscvs:
-	./bin/from_cvs.sh
+	sh ./bin/from_cvs.sh
+
+./woerter/auscvsdaniel:
+	sh ./bin/from_cvs_daniel.sh
 	
 ./affix/affchk:
 	awk -f ./awk/checkaffix.awk ./affix/deutsch.aff	
@@ -39,6 +42,9 @@ ordne: ./worte/geordnet
 # worte cvs
 cvs: ./woerter/auscvs
 
+# worte cvs ohne selten
+cvsdaniel: ./woerter/auscvsdaniel
+
 # affix check
 affchk: ./affix/affchk
 
@@ -48,3 +54,5 @@ clean:
 
 # alles machen 
 all: cvs ordne neu comb affchk
+
+daniel: cvsdaniel ordne neu comb affchk
