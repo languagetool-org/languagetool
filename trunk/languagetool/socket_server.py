@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/home/dnaber/prg/python23/bin/python
 # A server that uses TextChecker.py to check text for style 
 # and grammar errors
 # Copyright (C) 2003 Daniel Naber <daniel.naber@t-online.de>
@@ -21,6 +21,7 @@
 import TextChecker
 import config
 
+import ConfigParser
 import os
 import re
 import socket
@@ -30,28 +31,108 @@ import time
 sys.path.append(os.path.join(config.BASEDIR, "snakespell-1.01"))
 from scriptfoundry.snakespell import iSpell 
 
-name = "127.0.0.1"
-port = 50100
+server_name = "127.0.0.1"
+server_port = 50100
 
-def makeChecker():
-	###fixme: these need to be set at runtime
-	grammar_cfg = None			# None = activate all rules
-	falsefriends_cfg = None
-	words_cfg = None
-	textlanguage = None
-	mothertongue = None
-	max_sentence_length = None
+def makeChecker(grammar_cfg=None, falsefriends_cfg=None, words_cfg=None, \
+		builtin_cfg=None, textlanguage=None, mothertongue=None, \
+		max_sentence_length=None):
+	"""Create a new TextChecker object and return it."""
 	checker = TextChecker.TextChecker(grammar_cfg, falsefriends_cfg, words_cfg, \
-		textlanguage, mothertongue, max_sentence_length)
+		builtin_cfg, textlanguage, mothertongue, max_sentence_length)
 	return checker
+
+def loadOptionList(config, enable_name, option_name):
+	val = None
+	if config.has_option("General", enable_name) and \
+		config.getboolean("General", enable_name):
+		if config.has_option("General", option_name):
+			val = re.split(',', config.get("General", option_name))
+	else:
+		val = ["NONE"]
+	return val
+
+def loadOptionBoolean(config, option_name):
+	if config.has_option("General", option_name) and config.getboolean("General", option_name):
+		return 1
+	return None
+
+def loadOptionString(config, option_name, default):
+	val = default
+	if config.has_option("General", option_name):
+		val = config.get("General", option_name)
+	return val
+	
+def readConfig():
+	"""Read the checker config from a KDE config file (INI style).
+	Return a checker which uses that config."""
+	config = ConfigParser.ConfigParser()
+	filename = os.path.join(os.getenv('HOME'), ".kde/share/config/languagetool")
+	config.readfp(open(filename))
+	grammar = loadOptionList(config, "EnableGrammar", "GrammarRules")
+	falsefriends = loadOptionList(config, "EnableFalseFriends", "FalseFriendsRules")
+	words = loadOptionList(config, "EnableWords", "WordsRules")
+	builtin = []
+	if loadOptionBoolean(config, "EnableArticleCheck"):
+		builtin.append("DET")
+	if loadOptionBoolean(config, "EnableWhitespaceCheck"):
+		builtin.append("WHITESPACE")
+	if len(builtin) == 0:
+		builtin = None
+	textlanguage = loadOptionString(config, "TextLanguage", "en")
+	mothertongue = loadOptionString(config, "MotherTongue", "en")
+	sentence_length = 0
+	if loadOptionBoolean(config, "EnableSentenceLength"):
+		if config.has_option("General", "MaxSentenceLength"):
+			sentence_length = config.getint("General", "MaxSentenceLength")
+	checker = makeChecker(grammar, falsefriends, words, builtin, \
+		textlanguage, mothertongue, sentence_length)
+	return checker
+
+def getConfig(data):
+	"""Get a new config in pseudo XML format from the client.
+	It needs to be at the beginning of the string that comes
+	from the client and must be of form <config ... />.
+	Returns a tuple with the a checker based on this config and 
+	the 'data' string with the config section removed."""
+	print "Receiving new config..."
+	line_end_pos = data.find("/>")
+	cfg_str = data[:line_end_pos]
+	data = data[line_end_pos+3:]
+	grammar = getConfigValue(cfg_str, "grammar")
+	falsefriends = getConfigValue(cfg_str, "falsefriends")
+	words = getConfigValue(cfg_str, "words")
+	builtin = getConfigValue(cfg_str, "builtin")
+	textlanguage = getConfigValue(cfg_str, "textlanguage")
+	if textlanguage:
+		textlanguage = textlanguage[0]
+	mothertongue = getConfigValue(cfg_str, "mothertongue")
+	if mothertongue:
+		mothertongue = mothertongue[0]
+	sentence_length = getConfigValue(cfg_str, "max-sentence-length")
+	if not sentence_length:
+		sentence_length = 0
+	else:
+		sentence_length = int(sentence_length[0])
+	checker = makeChecker(grammar, falsefriends, words, builtin, \
+		textlanguage, mothertongue, sentence_length)
+	return (checker, data)
+
+def getConfigValue(cfg_str, val):
+	m = re.compile('%s="(.*?)"' % val).search(cfg_str)
+	if not m:
+		return None
+	s = m.group(1)
+	l = re.split(',', s)
+	return l
 	
 def main():
-	print "Binding to '%s:%d'..." % (name, port)
-	s.bind((name,port))
+	print "Binding to '%s:%d'..." % (server_name, server_port)
+	s.bind((server_name, server_port))
 	print "Listening..."
 	s.listen(1)
 	print "Setting up Checker..."
-	checker = makeChecker()
+	checker = readConfig()
 	print "Ready..."
 	while 1:
 		conn, addr = s.accept()
@@ -61,16 +142,27 @@ def main():
 			continue
 		else:
 			print "Connected by '%s'" % addr[0]
-		
-		data = conn.recv(1024)
+
+		l = []
+		limit = 1024
+		while 1:
+			data = conn.recv(limit)
+			l.append(data)
+			#FIXME: need to look for separator, not just < limit!
+			if not data or len(data) < limit:
+				break
+		data = str.join('', l)
+
 		print "Received '%s'" % data
+		if data.find("<config") != -1:
+			del checker
+			(checker, data) = getConfig(data)
+			print "New config activated"
 		t1 = time.time()
 		check_result = checkWords(checker, data)
-		#if not data:
-		#	break
 		t2 = time.time()-t1
-		print "Replying (%.2fs) '%s'" % (t2, check_result)
-		conn.send(check_result)
+		print "Replying (%.2fs) '%s'" % (t2, check_result.encode('utf8'))
+		conn.send(check_result.encode('utf8'))
 
 		conn.close()
 	s.close()
