@@ -103,7 +103,7 @@ def displayForm(form):
 	
 def check(form):
 	print "Content-Type: text/html\n\n"
-	text = form.getvalue("text")
+	text = form.getvalue("text").decode('latin1')
 	if not text:
 		text = ""
 	# TODO: put options for alle these in the web page? too confusing...
