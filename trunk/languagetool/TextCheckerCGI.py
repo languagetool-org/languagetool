@@ -71,9 +71,14 @@ def displayForm(form):
 		</head>
 		<body>
 		<h1>LanguageTool Web Interface</h1>
-		Enter English text here:<br />
+		Enter text here:<br />
 		<form action="/cgi-bin/languagetool/TextCheckerCGI.py" method="post">
 			<textarea name="text" rows="8" cols="80"></textarea><br />
+			<select name="lang">
+				<option value="en">English</option>
+				<option value="de">German</option>
+				<option value="hu">Hungarian (experimental)</option>
+			</select><br />
 			<input type="checkbox" name="tags" checked="checked"> Show part-of-speech tags
 			<input type="checkbox" name="german_ff" checked="checked"> Check for false friends (for German native speakers)<br />
 			<input type="checkbox" name="style"> Check for some style issues (e.g. <em>don't</em> instead of <em>do not</em>)<br />
@@ -106,12 +111,14 @@ def check(form):
 	falsefriends = None
 	words = None
 	builtin = None
+	textlanguage = "en"
 	if not form.getvalue("style"):
 		words = ["__NONE"]
-	textlanguage = "en"		# TODO: make this an option in the page?
 	mothertongue = "de"
 	if not form.getvalue("german_ff"):
 		mothertongue = None
+	if form.getvalue("lang"):
+		textlanguage = form.getvalue("lang")
 	max_sentence_length = 0
 	if form.getvalue("sentencelength"):
 		max_sentence_length = None
