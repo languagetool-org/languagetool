@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/home/dnaber/prg/python23/bin/python
 # -*- coding: iso-8859-1 -*-
 # A rule-based style and grammar checker
 # Copyright (C) 2002,2003 Daniel Naber <daniel.naber@t-online.de>
@@ -21,11 +21,13 @@
 import codecs
 import getopt
 import os
-import pre as re
+import re
 import socket
 import string
 import sys
 import time
+
+import profile
 
 import Tagger
 import Chunker
@@ -186,6 +188,7 @@ class TextChecker:
 					s = whitespace_regex.sub(" ", s)
 					s = self.cleanEntities(s)
 					s = s.strip()
+					#continue
 					(rule_matches, result, tagged_words) = checker.check(s)
 					if len(rule_matches) == 0:
 						pass
@@ -271,4 +274,5 @@ def main():
 	return
 
 if __name__ == "__main__":
-    main()
+	main()
+	#profile.run('main()')
