@@ -1,7 +1,7 @@
 #!/usr/bin/python
 # Test cases for Rule.py
 # (c) 2002,2003 Daniel Naber <daniel.naber@t-online.de>
-#$rcs = ' $Id: RulesTest.py,v 1.8 2003-07-05 18:16:33 dnaber Exp $ ' ;
+#$rcs = ' $Id: RulesTest.py,v 1.9 2003-07-06 00:26:58 dnaber Exp $ ' ;
 
 import unittest
 import Rules
@@ -23,12 +23,12 @@ class RuleTestCase(unittest.TestCase):
 		return
 
     def testConstructor(self):
-		assert(self.rule.rule_id == "TEST1")
-		assert(len(self.rule.tokens) == 2)
-		assert(self.rule2.rule_id == "TEST2")
-		assert(len(self.rule.tokens) == 2)
-		assert(self.rule3.rule_id == "TEST3")
-		assert(len(self.rule.tokens) == 2)
+		self.assertEqual(self.rule.rule_id, "TEST1")
+		self.assertEqual(len(self.rule.tokens), 2)
+		self.assertEqual(self.rule2.rule_id, "TEST2")
+		self.assertEqual(len(self.rule.tokens), 2)
+		self.assertEqual(self.rule3.rule_id, "TEST3")
+		self.assertEqual(len(self.rule.tokens), 2)
 		return
 
     def testSentenceLengthRule(self):
@@ -37,36 +37,60 @@ class RuleTestCase(unittest.TestCase):
 
 		# just below the limit:
 		warnings = r.match([('x','x','T'),('x','x','T'),('x','x','T')])
-		assert(len(warnings) == 0)
+		self.assertEqual(len(warnings), 0)
 
 		# just on the limit:
 		warnings = r.match([('x','x','T'),('x','x','T'),('x','x','T'),('x','x','T')])
-		assert(len(warnings) == 1)
+		self.assertEqual(len(warnings), 1)
 		assert( str(warnings[0]).startswith('<error from="3" to="4">'))
 		r.setMaxLength(60)
 		warnings = r.match([('x','x','T'),('x','x','T'),('x','x','T'),('x','x','T')])
-		assert(len(warnings) == 0)
+		self.assertEqual(len(warnings), 0)
 		r.setMaxLength(3)
 
 		# whitespace is okay:
 		warnings = r.match([('  ',None,None),('x','x','T'),('x','x','T'),('x','x','T')])
-		assert(len(warnings) == 0)
+		self.assertEqual(len(warnings), 0)
 
 		# much longer than the limit:
 		warnings = r.match([('x','x','T'),('x','x','T'),('x','x','T'),('x','x','T'),\
 			('x','x','T'),('x','x','T'),('x','x','T')])
-		assert(len(warnings) == 1)
+		self.assertEqual(len(warnings), 1)
 
 		return
 
-	#fixme:
-    #def testWhitespaceRule(self):
-	#	r = Rules.SentenceLengthRule()
-	#	r.setMaxLength(3)#
-	#
-	#	# just below the limit:
-	#	warnings = r.match([('x','x','T'),('x','x','T'),('x','x','T')])
-	#	assert(len(warnings) == 0)
+    def testWhitespaceRule(self):
+		r = Rules.WhitespaceRule()
+	
+		# okay:
+		warnings = r.match([('blah','blah','XX'),('?',None,None)])
+		self.assertEqual(len(warnings), 0)
+		warnings = r.match([('3.14','3.14','XX'),('?',None,None)])
+		self.assertEqual(len(warnings), 0)
+
+		# error - whitespace before punctuation:
+		warnings = r.match([('blah','blah','XX'),(' ',None,None),('.',None,None)])
+		self.assertEqual(len(warnings), 1)
+		warnings = r.match([('blah','blah','XX'),(' ',None,None),('?',None,None)])
+		self.assertEqual(len(warnings), 1)
+		warnings = r.match([('blah','blah','XX'),(' ',None,None),('...',None,None)])
+		self.assertEqual(len(warnings), 1)
+		warnings = r.match([('blah','blah','XX'),(' ',None,None),('?!',None,None)])
+		self.assertEqual(len(warnings), 1)
+
+		# both errors
+		warnings = r.match([('blah','blah','XX'),(' ',None,None),(',',None,None),('blah','blah','XX')])
+		self.assertEqual(len(warnings), 2)
+
+		# okay:
+		warnings = r.match([('blah','blah','XX'),('?',None,None),(None,None,'SENT_END')])
+		self.assertEqual(len(warnings), 0)
+
+		# error - no whitespace after punctuation:
+		warnings = r.match([('blah','blah','XX'),('?',None,None),('foo','foo','YY')])
+		self.assertEqual(len(warnings), 1)
+
+		return
 
     def testPatternRuleMatch(self):
 
@@ -78,23 +102,23 @@ class RuleTestCase(unittest.TestCase):
 		self.assertEqual(str(res_list[0]), '<error from="0" to="8">Test message 1.</error>')
 
 		res_list = self.rule.match([('no', 'no', 'XX'),('foo', 'foo', 'VB')], 0)
-		assert(len(res_list) == 0)
+		self.assertEqual(len(res_list), 0)
 
 		res_list = self.rule.match([], 0)
-		assert(len(res_list) == 0)
+		self.assertEqual(len(res_list), 0)
 
 		res_list = self.rule.match([('word', 'word', 'XX')], 0)
-		assert(len(res_list) == 0)
+		self.assertEqual(len(res_list), 0)
 		
 		# rule 2:
 		
 		res_list = self.rule2.match([('word', 'word', 'XX'),('', None, None),('xxx', 'xxx', 'VBX')], 0)
-		assert(len(res_list) == 1)
+		self.assertEqual(len(res_list), 1)
 
 		# rule 3:
 		
 		res_list = self.rule3.match([('foo', 'foo', 'XX'),(' ', None, None),('xxx', 'xxx', 'VB')], 0)
-		assert(len(res_list) == 1)
+		self.assertEqual(len(res_list), 1)
 		return
 
 class RuleMatchTestCase(unittest.TestCase):
