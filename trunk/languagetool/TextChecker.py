@@ -20,6 +20,7 @@
 
 import codecs
 import getopt
+import locale
 import os
 import re
 import socket
@@ -68,6 +69,10 @@ class TextChecker:
 			textlanguage, mothertongue)
 		self.bnc_paras = 0
 		self.bnc_sentences = 0
+		if textlanguage == 'de':
+			locale.setlocale(locale.LC_CTYPE, 'de_DE')
+		elif textlanguage == 'hu':
+			locale.setlocale(locale.LC_CTYPE, 'hu_HU')
 		return
 
 	def checkFile(self, filename):
@@ -104,7 +109,6 @@ class TextChecker:
 		all_tagged_words = []
 		for sentence in sentences:
 			tagged_words = self.tagger.tagText(sentence)
-#			print tagged_words
 			chunks = self.chunker.chunk(tagged_words)
 			#print "CHUNKS: %s" % chunks
 			#print "CHUNKS: %s" % tagged_words[chunks[0][0]:chunks[0][1]]
@@ -114,7 +118,6 @@ class TextChecker:
 			#print "time1: %.2fsec" % (time.time()-tx)
 			#tx = time.time()
 			for rule in self.rules.rules:
-#				print rule.rule_id
 				matches = rule.match(tagged_words, chunks, char_counter)
 				rule_matches.extend(matches)
 				#print "time2: %.2fsec" % (time.time()-tx)
@@ -168,7 +171,6 @@ class TextChecker:
 				s = f.read()
 				f.close()
 				s = unicode(s, 'iso-8859-1')
-#				print s
 				s_matches = sentence_regex.findall(s)
 				self.bnc_sentences = self.bnc_sentences + len(s_matches)
 				matches = para_regex.findall(s)

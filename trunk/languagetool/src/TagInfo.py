@@ -157,6 +157,8 @@ class TagInfo:
 		UAS   indefinite article eines
 		* INT,IND,ADV sometimes mixed up in the word collection - to be corrected"""
 
+	TAG_STRING['hu'] = """TODO"""
+
 	def __init__(self, lang):
 		if not self.TAG_STRING.has_key(lang):
 			raise KeyError, "no information found for language '%s'" % lang

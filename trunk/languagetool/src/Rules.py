@@ -1,6 +1,6 @@
 # -*- coding: iso-8859-1 -*-
 # Class for Grammar and Style Rules
-#$rcs = ' $Id: Rules.py,v 1.3 2004-05-30 21:41:16 dnaber Exp $ ' ;
+#$rcs = ' $Id: Rules.py,v 1.4 2004-05-31 21:51:35 dnaber Exp $ ' ;
 #
 # LanguageTool -- A Rule-Based Style and Grammar Checker
 # Copyright (C) 2002,2003,2004 Daniel Naber <daniel.naber@t-online.de>
@@ -537,7 +537,8 @@ class RuleMatch:
 		self.from_pos = from_pos
 		self.to_pos = to_pos
 		self.message = message
-		if first_match_word and first_match_word[0] in string.uppercase:
+		# TOOD: is it okay to use 'latin1' here?:
+		if first_match_word and first_match_word[0] in unicode(string.uppercase, 'latin1'):
 			# Replace the first char in <em>...</em> with its uppercase
 			# variant. Useful for replacements at the beginning of the
 			# sentence

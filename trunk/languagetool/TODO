@@ -1,10 +1,17 @@
-False alarms German (i.e. sentences that are correct but that trigger an error message):
-
-Sie fuhren nach Hause.
-	-> Infinitiv nur mit korrektem Hilfsverb nach 'ich', 'du', 'er', 'ihr'
-Sie fahren mit den Bussen nach Hause.
-	-> 'den' mit nicht maennlichem Nomen
+German:
+	-False alarms (i.e. sentences that are correct but that trigger an error message):
+		Sie fuhren nach Hause.
+			-> Infinitiv nur mit korrektem Hilfsverb nach 'ich', 'du', 'er', 'ihr'
+		Sie fahren mit den Bussen nach Hause.
+			-> 'den' mit nicht maennlichem Nomen
+	-checks for upper/lowercase spelling would be nice (e.g. "Hin und Her")
 
 English:
 	-"You will lost all changes." ->  this used to be "will[VM0] lost[VVD]",
 		now it's "will[VM0] lost[AJ0]" -> error not found anymore
+		(this is the missing error: <error from="73" to="77"><message>Modal verbs 
+		like 'will'/'might'/... require base form of verb.</message></error>)
+
+Hungarian:
+	This error is not found anymore in tests/hutest2.txt:
+	<error from="196" to="210"><message>Tobbesszamu fonev utan ige tobbesszam</message></error>

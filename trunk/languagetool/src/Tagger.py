@@ -1,7 +1,7 @@
 # -*- coding: iso-8859-1 -*-
 # A probabilistic part-of-speech tagger (see the QTag paper) with
 # a rule-based extension.
-#$rcs = ' $Id: Tagger.py,v 1.4 2004-05-30 21:41:16 dnaber Exp $ ' ;
+#$rcs = ' $Id: Tagger.py,v 1.5 2004-05-31 21:51:34 dnaber Exp $ ' ;
 #
 # LanguageTool -- A Rule-Based Style and Grammar Checker
 # Copyright (C) 2002,2003,2004 Daniel Naber <daniel.naber@t-online.de>
@@ -420,7 +420,8 @@ class Text:
 		# at sentence start) NP0, of course that's only relevant
 		# for the test cases:
 		# English only
-		if len(word) >= 3 and word[0] in string.uppercase:	# e.g. "Jefferson"
+		# TODO: is it okay to use 'latin1' here?
+		if len(word) >= 3 and word[0] in unicode(string.uppercase, 'latin1'):	# e.g. "Jefferson"
 			return 'NP0'
 
 		# e.g. freedom, contentment, celebration, assistance, fighter,
@@ -825,16 +826,7 @@ class TextToTag(Text):
 					#print >> sys.stderr, "*** SPECIAL CASE %d '%s' ..." % (i, tuple_word)
 						word = tuple_word
 						i = i + 2
-#			print word
-#
-#      The next several (6-7) lines avoid not found words
-#       because of trailing dots.
-#
-			if len(word) >= 1 and word[-1] == '.':
-				word = word[0:-1]
-				r = Text.tagWord(self, word, data_table)
-				tagged_list.extend(r)
-				word = '.'
+
 			r = Text.tagWord(self, word, data_table)
 			tagged_list.extend(r)
 
