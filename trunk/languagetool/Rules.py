@@ -1,6 +1,6 @@
 # Class for Grammar and Style Rules
 # (c) 2002,2003 Daniel Naber <daniel.naber@t-online.de>
-#$rcs = ' $Id: Rules.py,v 1.8 2003-06-22 18:36:01 dnaber Exp $ ' ;
+#$rcs = ' $Id: Rules.py,v 1.9 2003-06-23 00:20:05 dnaber Exp $ ' ;
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -26,13 +26,14 @@ import sys
 import xml.dom.minidom
 
 class Rules:
-	"""All known style and grammar error rules (from XML and from python code)."""
+	"""All known style and grammar error rules (from XML and the built-in ones)."""
 
-	rule_files = [os.path.join("rules", "grammar.xml")]
-#						os.path.join("rules", "words.xml")]
-						#fixme: false friends
+	rule_files = [os.path.join("rules", "grammar.xml"),
+						os.path.join("rules", "words.xml"),
+						os.path.join("rules", "false_friends.xml")]
 	
-	def __init__(self, max_sentence_length, grammar_rules):
+	def __init__(self, max_sentence_length, grammar_rules, word_rules, \
+		false_friend_rules, textlang, mothertongue):
 		"""Parse all rules and put them in the self.rules list, together
 		with built-in rules like the SentenceLengthRule."""
 		self.rules = []
@@ -40,18 +41,34 @@ class Rules:
 		if max_sentence_length != None:
 			length_rule.setMaxLength(max_sentence_length)
 		self.rules.append(length_rule)
-		# minidom expects the DTD in the current directory, not in the
-		# documents directory, so we have to chdir to 'rules':
 		for filename in self.rule_files:
+			# minidom expects the DTD in the current directory, not in the
+			# documents directory, so we have to chdir to 'rules':
 			dir_temp = os.getcwd()
 			os.chdir(os.path.dirname(filename))
 			doc = xml.dom.minidom.parse(os.path.basename(filename))
 			os.chdir(dir_temp)
-			rule_nodes = doc.getElementsByTagName("rule")
-			for rule_node in rule_nodes:
-				rule = PatternRule(rule_node)
-				if grammar_rules == None or rule.rule_id in grammar_rules:
-					self.rules.append(rule)
+			if filename.endswith("grammar.xml"):
+				rule_nodes = doc.getElementsByTagName("rule")
+				for rule_node in rule_nodes:
+					rule = PatternRule(rule_node)
+					if grammar_rules == None or rule.rule_id in grammar_rules:
+						self.rules.append(rule)
+			elif filename.endswith("words.xml"):
+				rule_nodes = doc.getElementsByTagName("rule")
+				for rule_node in rule_nodes:
+					rule = PatternRule(rule_node)
+					if word_rules == None or rule.rule_id in word_rules:
+						self.rules.append(rule)
+			elif filename.endswith("false_friends.xml"):
+				pattern_nodes = doc.getElementsByTagName("pattern")
+				for pattern_node in pattern_nodes:
+					lang = pattern_node.getAttribute("lang")
+					if textlang == None or lang == textlang:
+						rule = PatternRule(pattern_node.parentNode, 1, mothertongue, textlang)
+						if rule.valid and (false_friend_rules == None or \
+							rule.rule_id in false_friend_rules):
+							self.rules.append(rule)
 		return
 
 class Rule:
@@ -114,11 +131,18 @@ class SentenceLengthRule(Rule):
 class PatternRule(Rule):
 	"""A rule that can be formalised in the XML configuration file."""
 	
-	def __init__(self, rule_node):
+	def __init__(self, node, is_false_friend_node=None, mothertongue=None, textlang=None):
 		"""Build an object by parsing an XML rule node."""
-		if rule_node == None:
+		if node == None:
 			# for the test cases. They use setVars().
 			return
+		if is_false_friend_node:
+			self.parseFalseFriendsRuleNode(node, mothertongue, textlang)
+		else:
+			self.parseRuleNode(node)
+		return
+
+	def parseRuleNode(self, rule_node):
 		self.rule_id = rule_node.getAttribute("id")
 		self.pattern = rule_node.getElementsByTagName("pattern")[0].childNodes[0].data
 		token_strings = re.split("\s+", self.pattern)
@@ -155,9 +179,66 @@ class PatternRule(Rule):
 				self.example_good = Tools.Tools.getXML(example_node.childNodes[0])
 			else:
 				self.example_bad = Tools.Tools.getXML(example_node.childNodes[0])
-		self.false_positives = rule_node.getElementsByTagName("error_rate")[0].childNodes[0].data
+		if rule_node.getElementsByTagName("error_rate"):
+			self.false_positives = rule_node.getElementsByTagName("error_rate")[0].childNodes[0].data
+		else:
+			self.false_positives = 0
 		return
 
+	def parseFalseFriendsRuleNode(self, rule_node, mothertongue, textlang):
+		# This is only called for rule nodes that have a pattern
+		# element with the relevant language. 
+		self.rule_id = rule_node.parentNode.getAttribute("id")
+		pattern_node = rule_node.getElementsByTagName("pattern")[0]
+		self.language = rule_node.getAttribute("lang")
+		# Now look for the correct translation:
+		trans_nodes = rule_node.getElementsByTagName("translation")
+		self.valid = 0		# useless object because no translation was found
+		translations = []
+		for trans_node in trans_nodes:
+			trans_lang = trans_node.getAttribute("lang")
+			if trans_lang == mothertongue:
+				self.valid = 1
+				trans_str = trans_node.childNodes[0].data
+				translations.append(trans_str)
+		if self.valid:
+			self.case_sensitive = 0
+			self.pattern = rule_node.getElementsByTagName("pattern")[0].childNodes[0].data
+			repl_word, repl_trans = self.getOtherMeaning(rule_node.parentNode, mothertongue, textlang)
+			self.message = "'%s' means %s. Did you maybe mean '%s' (%s)?" % (self.pattern, \
+				str.join(', ', translations), repl_word, str.join(', ', repl_trans))
+			#print "#%s" % self.message.encode('latin1')
+			token_strings = re.split("\s+", self.pattern)
+			self.tokens = []
+			for token_string in token_strings:
+				token = Token('"%s"' % token_string) # quotes = it's a word (not a POS tag)
+				self.tokens.append(token)
+				#print "#%s" % token
+			self.marker_from = 0
+			self.marker_to = 0
+		return
+
+	def getOtherMeaning(self, rulegroup_node, mothertongue, textlang):
+		"""Get the word (and its correct translations) that the user
+		maybe meant when he used a false friend. Returns a tuple
+		(word, [translations])."""
+		replace_nodes = rulegroup_node.getElementsByTagName("pattern")
+		word = None
+		translations = []
+		for replace_node in replace_nodes:
+			repl_lang = replace_node.getAttribute("lang")
+			if repl_lang == mothertongue:
+				word = replace_node.childNodes[0].data
+			trans_nodes = replace_node.parentNode.getElementsByTagName("translation")
+			for trans_node in trans_nodes:
+				trans_lang = trans_node.getAttribute("lang")
+				#print "#%s, %s" % (trans_lang, textlang)
+				if trans_lang == textlang:
+					self.valid = 1
+					trans_str = trans_node.childNodes[0].data
+					translations.append(trans_str)
+		return (word, translations)
+	
 	def setVars(self, rule_id, pattern, message, marker_from, marker_to, \
 			example_good, example_bad, case_sensitive, false_positives, language):
 		"""Manually initialize the pattern rule -- for test cases only."""
@@ -214,14 +295,18 @@ class PatternRule(Rule):
 				except IndexError:
 					# pattern isn't that long
 					break
+				expected_token_str = expected_token.token
 				if tagged_words_copy[i][2] == 'SENT_START':
 					found = 'SENT_START'
 				elif tagged_words_copy[i][2] == 'SENT_END':
 					found = 'SENT_END'
 				elif expected_token.is_word:
+					# TODO: some cases need to be esacped, e.g. "?", but
+					# this breaks the pipe etc.
+					#expected_token_str = re.escape(expected_token_str)
 					# look at the real word:
 					try:
-						found = tagged_words_copy[i][1]
+						found = tagged_words_copy[i][1].strip()
 					except:		# text isn't that long
 						break
 				else:
@@ -236,12 +321,14 @@ class PatternRule(Rule):
 				case_switch = re.IGNORECASE
 				if self.case_sensitive:
 					case_switch = 0
-				match = re.compile(expected_token.token+"$", case_switch).match(found)
+				match = re.compile("%s$" % expected_token_str, case_switch).match(found)
+				#print "%s: %s -- %s -%s- -> %s" % (self.rule_id, self.tokens[p], found, expected_token_str, match)
 				if expected_token.negation:
 					if not match:
 						match = 1
 					else:
 						match = None
+				#print "F=%s, m=%s, '%s'" % (found, match, re.escape(expected_token.token))
 				i = i + 1
 				p = p + 1
 
