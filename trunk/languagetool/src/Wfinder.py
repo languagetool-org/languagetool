@@ -41,6 +41,10 @@
 # Speed up 9 times by helding different 
 #  append endings in different arrays  3.July, 2004
 #
+#  Speed improvement by 30% by doing the above
+#   also with the prefixes, and by helding
+#   affixes and prefixes in different lists. 4. July, 2004
+#
 
 import array
 import codecs
@@ -64,6 +68,7 @@ conddic = {}
 conddic1 = {}
 condglob = {}
 alfab_conddic = {}
+palfab_conddic = {}
 alfab_condlist_group = []
 szodic = {}
 typdic = {}
@@ -88,6 +93,7 @@ class Wfinder:
 		l = " "
 		for i in range(0,256,1):
 			alfab_conddic[i] = []
+			palfab_conddic[i] = []
 		while l != "":
   			l = faff.readline()
   			ll =  l.split()
@@ -98,6 +104,9 @@ class Wfinder:
 			if ll[0][1:3] == "FX":
 				arrname = ll[1]
 				arrtype[arrname] = ll[0][0]
+				prefix = 0
+				if arrtype[arrname] == 'P':
+					prefix = 1
 				yesno[arrname] = ll[2]
 				count[arrname] = int(ll[3]);
 				for i in range(0, count[arrname]):
@@ -112,7 +121,10 @@ class Wfinder:
 						appnd = ''
 						appnd_last = '0'
 					else:
-						appnd_last = appnd[-1]
+						if prefix == 0:
+							appnd_last = appnd[-1]
+						else:
+							appnd_last = appnd[0]
 					if bb[4] != '.':
 						jj = 0
 						while(jj < len(bb[4])):
@@ -145,7 +157,10 @@ class Wfinder:
 					alfab_condlist_group.append(appnd)
 					alfab_condlist_group.append(arrname)
 					conddic[i] = condlist_group
-					alfab_conddic[ord(appnd_last)].append(alfab_condlist_group)
+					if prefix == 0:
+						alfab_conddic[ord(appnd_last)].append(alfab_condlist_group)
+					else:
+						palfab_conddic[ord(appnd_last)].append(alfab_condlist_group)
 #					print "appended %s to  %s %d" %(appnd.encode('latin1'), appnd_last.encode('latin1'), ord(appnd_last))
 					condlist = []
 					condlist_group = []
@@ -212,9 +227,6 @@ class Wfinder:
 			#  search first only suffixes
 			#  since prefix is optional
 			#
-					if arrtype[key] == 'P':
-						continue
-					break_it = 0
 					appnd    = elem[2]
 					if len(appnd):
 						if l[-len(appnd):] != appnd:
@@ -227,6 +239,7 @@ class Wfinder:
 					strip    = elem[1]
 					if len(strip):
 						restoredWord = restoredWord + strip
+					break_it = 0
 					if len(condlist) > 0 and len(restoredWord) >= len(condlist): #tktk
 						substr = restoredWord[-len(condlist):]
 						for i in range(0, len(condlist), 1): #tktk
@@ -252,23 +265,18 @@ class Wfinder:
 #
 		if found:
 			return "+found %s" %oldword
-		for key in condglob.keys():
-			if found:
-				break
-			if lower(yesno[key]) == 'n':
-				continue
-			if arrtype[key] != 'P':
-				continue
-			conddic = condglob[key]
-			for k2 in conddic.keys():
-				break_it = 0
-				appnd    = conddic[k2][2]
+		for windex in ord(l[0]), ord('0'):
+			for elem in palfab_conddic[windex]:
+				key = elem[3]
+				if found:
+					break
+				appnd    = elem[2]
 				if appnd == l[:len(appnd)]:  # cut the matching prefix
 					l1 = l[len(appnd):]
 				else:
 					continue
-				condlist = conddic[k2][0]
-				strip    = conddic[k2][1]
+				condlist = elem[0]
+				strip    = elem[1]
 				if len(strip):
 					l1 = strip + l1
 				break_it = 0
@@ -291,22 +299,21 @@ class Wfinder:
 						return "++ %s  %s" %(l,l1)
 						found = 1
 						break
-
-
 						
+				if lower(yesno[key]) == 'n':
+					continue
+#
+#			check if this unprefixed word 
+#				is a valid suffixed one
+#
 				for windex1 in ord(l1[-1]), ord('0'):
 					for elem1 in alfab_conddic[windex1]:
 						key1 = elem1[3]
 # elem0: condlist, elem1: strip elem2 = append, elem3 = arrname 
 						if found:
 							break
-			#
-			#  search first only suffixes
-			#  since prefix is optional
-			#
-						if arrtype[key1] == 'P':
+						if lower(yesno[key1]) == 'n':
 							continue
-						break_it = 0
 						appnd1    = elem1[2]
 						if len(appnd1):
 							if l1[-len(appnd1):] != appnd1:
@@ -319,6 +326,7 @@ class Wfinder:
 						strip1    = elem1[1]
 						if len(strip1):
 							restoredWord1 = restoredWord1 + strip1
+						break_it = 0
 						if len(condlist1) > 0 and len(restoredWord1) >= len(condlist1): #tktk
 							substr = restoredWord1[-len(condlist1):]
 							for i1 in range(0, len(condlist1), 1): #tktk
