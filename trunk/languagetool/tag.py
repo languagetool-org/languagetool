@@ -2,7 +2,7 @@
 # A frontend to a probabilistc part-of-speech tagger (see the QTag paper)
 # (c) 2003 Daniel Naber <daniel.naber@t-online.de>
 # Usage examples:
-# 1) ./tag.py --build /data/bnc/xml_data/A0[0-9A-J].xml
+# 1) ./tag.py -b /data/bnc_sampler/train/*
 #    -> produces ~3MB in data, 469.501 words, 35.129 different words
 # 2) ./tag.py --tag /data/bnc/test/AY/AYJ.xml (e.g. /data/bnc/A/A0/S.xml)
 
