@@ -151,20 +151,28 @@ def buildList(filename):
 def queryFiles(tokens, dir_name):
 	os.chdir(dir_name)
 	dir_contents = os.listdir(".")
+	dir_contents.sort()
+	c = 0
+	for filename in dir_contents:
+		if filename.endswith(".xml"):
+			c = c + 1
+	print "Found %d *.xml files in %s<br>" % (c, dir_name)
 	w = 0
 	s = 0
 	m = 0
+	f_count = 1
 	for name in dir_contents:
 		if os.path.isdir(name):
 			queryFiles(tokens, name)
 		elif name.endswith(".xml"):
-			print "<strong>%s</strong>, so far %d words, %d sentences<br>" % (name, word_count, sentence_count)
+			print "<strong>%.3d. %s</strong>, so far %d words, %d sentences<br>" % (f_count, name, word_count, sentence_count)
 			res = query(tokens, name)
 			if not res:
 				return
 			#global_file_count = global_file_count + 1
 			#print "<hr />"
 			sys.stdout.flush()
+			f_count = f_count + 1
 		# for profiling
 		#if word_count > 200000:
 		#	return
