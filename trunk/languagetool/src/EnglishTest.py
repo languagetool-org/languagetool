@@ -18,32 +18,45 @@
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 import TextChecker
+import LanguageTest
+from LanguageTest import ExpMatch
 
-import unittest
-
-class EnglishTestCase(unittest.TestCase):
+class EnglishTestCase(LanguageTest.LanguageTest):
 
 	def setUp(self):
 		self.checker = TextChecker.TextChecker(grammar=None, falsefriends=None, \
 			words=None, builtin=None, textlanguage="en", mothertongue="de", \
-			max_sentence_length=20)
+			max_sentence_length=20, debug_mode=0)
 		return
 		
 	def testSomeRules(self):
-		"""Some rule checks. Requires a trained tagger."""
-		err_count = 0
+		"""Some English rule checks. Requires a trained tagger."""
 
 		self._check("A sentence without problems.", None)
-		self._check("This is bigger then blah.", "COMP_THAN")
-		self._check("English/German false friend: my chef", "CHEF")
-		self._check("Whitespace,here it's lacking.", "WHITESPACE")
+		self._check("This is bigger then blah.", ExpMatch("COMP_THAN", 15, 19))
+		self._check("English/German false friend: my chef", ExpMatch("CHEF", 32, 36))
+		self._check("Whitespace,here it's lacking.", ExpMatch("WHITESPACE", 10, 11))
+		
+		self._check("he good good.", ExpMatch("WORD_REPEAT", 7, 12))
+
+		self._check("I ask you because of him.", None)
+		self._check("Of cause not.", ExpMatch("OF_CAUSE", 3, 8))
+		self._check("he is nice.", None)
+		
+		self._check("This is a stoopid test.", None)
+		# TODO: error not detected:
+		self._check("The baseball team are established.", None)
+		
+		self._check("I definitely think is should be less than four years.", 
+			ExpMatch("IS_SHOULD", 19, 21))
+			
+		self._check("Peter's car is bigger then mine, and this isa spelling error.",
+			ExpMatch("COMP_THAN", 22, 26))
+
+		self._check("Peter's car is bigger then mine, and and a word repeat.",
+			[ExpMatch("COMP_THAN", 22, 26), ExpMatch("WORD_REPEAT", 34, 38)])
+
 		return
 
-	def _check(self, sentence, expectedError):
-		(rule_matches, output, tagged_text) = self.checker.check(sentence)
-		if expectedError == None:
-			self.assertEqual(len(rule_matches), 0)
-		else:
-			self.assertEqual(len(rule_matches), 1)
-			self.assertEqual(rule_matches[0].id, expectedError)
-		return
+if __name__ == "__main__":
+	unittest.main()

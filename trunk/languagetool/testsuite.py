@@ -26,18 +26,21 @@ import RulesTest
 import TaggerTest
 import EnglishTest
 
-def suite():
+suite = unittest.TestSuite()
+if len(sys.argv) == 2 and sys.argv[1] == "rules":
 	suite = unittest.TestSuite()
+	suite.addTest(unittest.makeSuite(EnglishTest.EnglishTestCase))
+	# TODO: add German and hungarian
+elif len(sys.argv) == 2 and sys.argv[1] == "all":
 	suite.addTest(unittest.makeSuite(ChunkerTest.ChunkerTestCase))
 	suite.addTest(unittest.makeSuite(RulesTest.RuleTestCase))
 	suite.addTest(unittest.makeSuite(RulesTest.RuleMatchTestCase))
 	suite.addTest(unittest.makeSuite(RulesTest.TokenTestCase))
 	suite.addTest(unittest.makeSuite(SentenceSplitterTest.SentenceSplitterTestCase))
 	# this one takes most time:
-	# FIXME!!! suite.addTest(unittest.makeSuite(TaggerTest.TaggerTestCase))
+	suite.addTest(unittest.makeSuite(TaggerTest.TaggerTestCase))
 	suite.addTest(unittest.makeSuite(EnglishTest.EnglishTestCase))
-	
-	return suite
-	
-suite = suite()
+else:
+	print "Usage: testsuite.py <all|rules>"
+	sys.exit()
 unittest.TextTestRunner().run(suite)
