@@ -1,6 +1,6 @@
 # -*- coding: iso-8859-1 -*-
 # Class for Grammar and Style Rules
-#$rcs = ' $Id: Rules.py,v 1.1 2004-05-23 21:48:15 dnaber Exp $ ' ;
+#$rcs = ' $Id: Rules.py,v 1.2 2004-05-24 20:15:05 dnaber Exp $ ' ;
 #
 # LanguageTool -- A Rule-Based Style and Grammar Checker
 # Copyright (C) 2002,2003,2004 Daniel Naber <daniel.naber@t-online.de>
@@ -63,7 +63,7 @@ class Rules:
 						os.path.join(sys.path[0], "rules", wordFile),
 						os.path.join(sys.path[0], "rules", falsefriendsFile)]
 		else:
-			self.rule_files = [os.path.join("rules", grammarFile)]
+			self.rule_files = [os.path.join(sys.path[0], "rules", grammarFile)]
 		self.rules = []
 
 		# dynamically load rule files from the "python_rules" dir:
