@@ -3,7 +3,7 @@
 <!--
 Rules: Grammar and Typos
 (c) 2001,2002,2003 Daniel Naber, daniel.naber@t-online.de
-$Id: grammar.xml,v 1.7 2003-07-27 18:50:37 dnaber Exp $
+$Id: grammar.xml,v 1.8 2003-07-28 01:39:44 dnaber Exp $
 -->
 <rules>
 
@@ -16,14 +16,15 @@ $Id: grammar.xml,v 1.7 2003-07-27 18:50:37 dnaber Exp $
 		<example type="incorrect">A baseball teams were successful.</example>
 	</rule>
 
-	<rule id="NP_VHB" name="Noun/Verb agreement">
-		<!-- fixme: VHB : more -->
-		<pattern lang="en">_NP VHB</pattern>
-		<message>TEST2 MESSAGE</message>
+	<rule id="NP_INF" name="Noun/Verb agreement">
+		<pattern lang="en">_NP (VDB|VDI|VHB|VHI|VBI|VBB|VVI|VVB)</pattern>
+		<message>Use a singular verb for singular nouns.</message>
 		<error_rate warnings="?" sentences="?" />
-		<example type="correct">xxx</example>
-		<example type="incorrect">xxx</example>
+		<example type="correct">A baseball team <em>is</em> established.</example>
+		<example type="incorrect">A baseball team <em>are</em> established.</example>
 	</rule>
+	
+	<!-- <em> -->
 
 	<rule id="DOES_X_CAN" name="Word order: 'Can...'">
 		<pattern lang="en">"(does|did)" ".*" "can"</pattern>
@@ -387,7 +388,7 @@ $Id: grammar.xml,v 1.7 2003-07-27 18:50:37 dnaber Exp $
 		<message>Modal verbs like 'will'/'might'/... require base form of verb.</message>
 
 		<rule>
-			<pattern lang="en" mark_from="0" mark_to="0">^(DT0) VM0 (VVD|VVG|VVN|VVZ)</pattern>
+			<pattern lang="en" mark_from="2" mark_to="0">^(DT0) VM0 (VVD|VVG|VVN|VVZ)</pattern>
 			<error_rate warnings="48" sentences="260000" />
 			<example type="correct">John will <em>talk</em> to her.</example>
 			<!-- <example type="triggers_error" reason="'talks' tagged as NNS">John will <em>talks</em> to her.</example> -->
