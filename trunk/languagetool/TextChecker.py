@@ -73,7 +73,7 @@ class TextChecker:
 		self.xml_output = 0		# default to non-XML output
 		# anything but 'C' seems to be okay to make the sentence splitter work
 		# for languages with special characters:
-		locale.setlocale(locale.LC_CTYPE, 'en_US')
+		locale.setlocale(locale.LC_CTYPE, 'en_US.iso-8859-1')
 		return
 
 	def setXMLOutput(self, xml_output):
