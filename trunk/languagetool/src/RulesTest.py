@@ -1,6 +1,6 @@
 #!/usr/bin/python
 # Test cases for Rule.py
-#$rcs = ' $Id: RulesTest.py,v 1.3 2004-06-13 19:57:42 dnaber Exp $ ' ;
+#$rcs = ' $Id: RulesTest.py,v 1.4 2004-07-12 20:49:58 dnaber Exp $ ' ;
 #
 # LanguageTool -- A Rule-Based Style and Grammar Checker
 # Copyright (C) 2002,2003,2004 Daniel Naber <daniel.naber@t-online.de>
@@ -26,7 +26,7 @@ import sys
 
 sys.path.append(os.path.join("python_rules"))
 import allSentenceLengthRule
-import allWordRepeatRule
+import enWordRepeatRule
 import enAvsAnRule
 
 class RuleTestCase(unittest.TestCase):
@@ -148,7 +148,7 @@ class RuleTestCase(unittest.TestCase):
 		return
 
     def testWordRepeat(self):
-		r = allWordRepeatRule.allWordRepeatRule()
+		r = enWordRepeatRule.enWordRepeatRule()
 	
 		warnings = r.match([('blah','blah','XX'),(' ',None,None),('blahbla','blahbla','YY')], [])
 		self.assertEqual(len(warnings), 0)
