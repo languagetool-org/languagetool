@@ -29,6 +29,7 @@ import time
 
 import profile
 
+import Entities
 import Tagger
 import Chunker
 import Rules
@@ -36,31 +37,6 @@ import SentenceSplitter
 
 class TextChecker:
 	"""A rule-based style and grammar checker."""
-
-	entities = { 	"amp" : "&",
-					"pound": "P",		# fixme: use "£"
-					"eacute": "e",
-					"aacute": "a",
-					"bquo": "\"",
-					"equo": "\"",
-					"ecirc": "e",
-					"quot": "'",
-					#"deg": u"°",
-					"dollar": "$",
-					"egrave": "e",
-					"percnt": "&",
-					"ndash": "-",
-					"mdash": "--",
-					"hellip": "...",
-					"lsqb": "[",
-					"rsqb": "]",
-					"uuml": "u",	#fixme: use ü
-					"auml": "a",	# see above!
-					"ouml": "o",
-					"Uuml": "U",
-					"Auml": "A",
-					"Ouml": "O"
-				}
 
 	def __init__(self, grammar, falsefriends, words, \
 		builtin, textlanguage, mothertongue, max_sentence_length):
@@ -108,12 +84,14 @@ class TextChecker:
 			#print tagged_words
 			chunks = self.chunker.chunk(tagged_words)
 			#print "CHUNKS: %s" % chunks
+			#print "CHUNKS: %s" % tagged_words[chunks[0][0]:chunks[0][1]]
 			tagged_words.insert(0, ('', None, 'SENT_START'))
 			tagged_words.append(('', None, 'SENT_END'))
 			all_tagged_words.extend(tagged_words)
 			#print "time1: %.2fsec" % (time.time()-tx)
 			#tx = time.time()
 			for rule in self.rules.rules:
+				#print rule.rule_id
 				matches = rule.match(tagged_words, chunks, char_counter)
 				rule_matches.extend(matches)
 				#print "time2: %.2fsec" % (time.time()-tx)
@@ -134,17 +112,6 @@ class TextChecker:
 		# TODO: optionally return tagged text
 		#print "2=>%.2f" % (time.time()-tx)
 		return (rule_matches, xml_part, all_tagged_words)
-
-	def cleanEntities(self, s):
-		"""Replace only the most common BNC entities with their
-		ASCII respresentation."""
-		try:
-			for key in self.entities:
-				s = re.compile("&%s;?" % key).sub("%s" % self.entities[key], s)
-		except TypeError:
-			# FIXME: what to do here?!
-			print >> sys.stderr, "TypeError: '%s'" % s
-		return s
 
 	def checkBNCFiles(self, directory, checker):
 		"""Recursively load all files from a directory, extract
@@ -186,7 +153,7 @@ class TextChecker:
 					self.bnc_paras = self.bnc_paras + 1
 					s = xml_regex.sub("", match)
 					s = whitespace_regex.sub(" ", s)
-					s = self.cleanEntities(s)
+					s = Entities.Entities.cleanEntities(s)
 					s = s.strip()
 					#continue
 					(rule_matches, result, tagged_words) = checker.check(s)
@@ -196,7 +163,7 @@ class TextChecker:
 					else:
 						for rule_match in rule_matches:
 							s_mark = "%s***%s" % (s[:rule_match.from_pos], s[rule_match.from_pos:])
-							print "%s:\n<!-- %s -->\n%s" % (filename, s_mark.encode('utf8'), result.encode('utf8'))
+							print "%s:\n<!--%s: %s -->\n%s" % (rule_match.id, filename, s_mark.encode('utf8'), result.encode('utf8'))
 							#print "%s:\n<!--  -->\n%s" % (filename, result.encode('utf8'))
 		return
 
@@ -275,4 +242,4 @@ def main():
 
 if __name__ == "__main__":
 	main()
-	#profile.run('main()')
+	#profile.run('main()', 'prof')
