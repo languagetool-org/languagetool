@@ -73,7 +73,9 @@ def displayForm(form):
 		<form action="http://localhost/cgi-bin/TextCheckerCGI.py" method="POST">
 			<textarea name="text" rows="8" cols="80"></textarea><br />
 			<input type="checkbox" name="tags" checked="checked"> Show part-of-speech tags
-			<input type="checkbox" name="german_ff" checked="checked"> Check for false friends (for German native speakers)
+			<input type="checkbox" name="german_ff" checked="checked"> Check for false friends (for German native speakers)<br />
+			<input type="checkbox" name="style"> Check for some style issues (e.g. <em>don't</em> instead of <em>do not</em>)<br />
+			<input type="checkbox" name="sentencelength"> Complain about long sentences (more than 30 words)
 			<br />
 			<input type="submit" value="Check Text">
 		</form>
@@ -101,11 +103,15 @@ def check(form):
 	grammar = None
 	falsefriends = None
 	words = None
+	if not form.getvalue("style"):
+		words = "NONE"
 	textlanguage = "en"		# TODO: make this an option in the page?
 	mothertongue = "de"
 	if not form.getvalue("german_ff"):
 		mothertongue = None
-	max_sentence_length = None
+	max_sentence_length = 0
+	if form.getvalue("sentencelength"):
+		max_sentence_length = None
 	checker = TextChecker.TextChecker(grammar, falsefriends, words, \
 		textlanguage, mothertongue, max_sentence_length)
 
@@ -152,7 +158,7 @@ def check(form):
 				onclick="info(\'%s\');return false;">[%s]</a></span>' \
 				% (w, w, w)
 			if tag_triple[2] == 'SENT_END':
-				tag_str = '%s<br>' % tag_str
+				tag_str = '%s<br>\n' % tag_str
 		word = cgi.escape(tag_triple[0])
 		text_list.append(word)
 		text_list.append(tag_str)
