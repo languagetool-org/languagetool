@@ -57,7 +57,7 @@ import sys
 
 #aff_file = "dtest.aff"
 #dic_file = "dtest.dic"
-test_file = "test.txt"
+#test_file = "test.txt"
 yesno = {}
 comment = "#"
 condlist = []
@@ -65,16 +65,23 @@ condlist1 = []
 alfab_conddic = {}
 palfab_conddic = {}
 alfab_condlist_group = []
+alfab2_condlist_group = []
+alfab2_conddic = {}
+palfab2_conddic = {}
+alfab2_condlist_group = []
 szodic = {}
 typdic = {}
 
 class Wfinder:
 
 	encoding = "latin1"
-
+	doubleflags = ""
+	doubleflagList=""
+	
 	def __init__(self, textlanguage):
 #		print time.strftime('%X %x %Z')
 		self.is_initialized = 0
+		self.is_secondflag = 0
 		self.textlanguage = textlanguage
 		return
 
@@ -82,11 +89,14 @@ class Wfinder:
 	 	self.aff_file = os.path.join(sys.path[0], "data", Tagger.affFile)
 		condlist = []
 		alfab_condlist_group = []
+		alfab2_condlist_group = []
 		faff = codecs.open(self.aff_file, "r", self.encoding)
 		l = " "
 		for i in range(0,256,1):
 			alfab_conddic[i] = []
 			palfab_conddic[i] = []
+			alfab2_conddic[i] = []
+			palfab2_conddic[i] = []
 		while l != "":
   			l = faff.readline()
   			ll =  l.split()
@@ -103,6 +113,7 @@ class Wfinder:
 				for i in range(0, int(ll[3])):
 					l = faff.readline()
 					bb = l.split()
+#					print "%s %d" %(bb,len(bb))
 #					print "l:%s bb[2]:%s arrname:%s" %(l,bb[2], arrname)
 					strip = bb[2]
 					if bb[2] == '0':
@@ -140,6 +151,25 @@ class Wfinder:
 								condarr[ord(bb[4][jj])] = insbit;
 								jj = jj +1
 							condlist.append(condarr)
+					secondflag = ""
+					if len(bb) >= 7:
+						secondflag = bb[6]
+						self.is_secondflag = 1
+						if find(self.doubleflags,arrname) == -1:
+							self.doubleflags = self.doubleflags+arrname
+						for elem in secondflag:
+							if find(self.doubleflagList,elem) == -1:
+								self.doubleflagList = self.doubleflagList+elem
+#						print "is_sec:%d" % self.is_secondflag
+						alfab2_condlist_group.append(condlist)
+						alfab2_condlist_group.append(strip)
+						alfab2_condlist_group.append(appnd)
+						alfab2_condlist_group.append(arrname)
+						alfab2_condlist_group.append(secondflag)
+						if prefix == 0:
+							alfab2_conddic[ord(appnd_last)].append(alfab2_condlist_group)
+						else:
+							palfab2_conddic[ord(appnd_last)].append(alfab2_condlist_group)
 					alfab_condlist_group.append(condlist)
 					alfab_condlist_group.append(strip)
 					alfab_condlist_group.append(appnd)
@@ -151,7 +181,9 @@ class Wfinder:
 #					print "appended %s to  %s %d" %(appnd.encode('latin1'), appnd_last.encode('latin1'), ord(appnd_last))
 					condlist = []
 					alfab_condlist_group = []
+					alfab2_condlist_group = []
 		faff.close()
+#		print self.doubleflags
 #		for i in range (0,255,1):
 #		  print len(alfab_conddic[i])
 #		print alfab_conddic[ord('a')]
@@ -193,65 +225,161 @@ class Wfinder:
 		else:
 			return "- %s" %l
 
-		
-	def do_test(self,l):
-		if l == "":
-			return ""
-		else:
-#			print "not found %s" %l
-			oldword = l
-			found = 0
-			for windex in ord(l[-1]), ord('0'):
-				for elem in alfab_conddic[windex]:
-# elem0: condlist, elem1: strip elem2 = append, elem3 = arrname 
-					if found:
-						break
+	def suffix2_search(self, l, oarrname, oword):
+		retval = ""
+		found = 0
+		for windex in ord(l[-1]), ord('0'):
+			for elem in alfab2_conddic[windex]:
+			# elem0: condlist, elem1: strip elem2 = append, elem3 = arrname 
+#				print "s2_s l:%s oarr:%s elem[4]:%s  app:%s strip:%s" % (l, oarrname, elem[4],elem[2],elem[1] )
+				if found:
+					return retval
+				if find(elem[4], oarrname) == -1:
+					continue
 			#
 			#  search first only suffixes
 			#  since prefix is optional
 			#
-					appnd    = elem[2]
-					if len(appnd):
-						if l[-len(appnd):] != appnd:
-							continue
-#					if len(appnd):
-						restoredWord = l[0:len(l)-len(appnd)]
+				appnd    = elem[2]
+				if len(appnd):
+					if l[-len(appnd):] != appnd:
+						continue
+#				if len(appnd):
+					restoredWord = l[0:len(l)-len(appnd)]
+				else:
+					restoredWord = l
+				condlist = elem[0]
+				strip    = elem[1]
+				if len(strip):
+					restoredWord = restoredWord + strip
+				break_it = 0
+				if len(condlist) > 0 and len(restoredWord) >= len(condlist): #tktk
+					substr = restoredWord[-len(condlist):]
+					for i in range(0, len(condlist), 1): #tktk
+						if condlist[i][ord(substr[i])] != 1:
+							break_it = 1
+							break
+					if break_it:
+						continue
+					
+				if szodic.has_key(restoredWord):
+					flags = szodic[restoredWord]
+#					print "s22_s: %s %d %s %s %s %s %s"  % (restoredWord,szodic.has_key(restoredWord),elem[3], oarrname, elem[4], oarrname, flags)
+					if flags == "": # tktk
+						continue
 					else:
-						restoredWord = l
-					condlist = elem[0]
-					strip    = elem[1]
-					if len(strip):
-						restoredWord = restoredWord + strip
-					break_it = 0
-					if len(condlist) > 0 and len(restoredWord) >= len(condlist): #tktk
-						substr = restoredWord[-len(condlist):]
-						for i in range(0, len(condlist), 1): #tktk
-							if condlist[i][ord(substr[i])] != 1:
-								break_it = 1
-								break
-						if break_it:
+						if find(flags, elem[3]) == -1:
+							continue  
+					retval = "++ %s %s" %(oword,restoredWord)
+					found = 1
+					return retval
+		return retval
+	
+
+	def suffix_search(self, l, oldl, oarrname):
+		retval = ""
+		found = 0
+		for windex in ord(l[-1]), ord('0'):
+			for elem in alfab_conddic[windex]:
+			# elem0: condlist, elem1: strip elem2 = append, elem3 = arrname 
+				if found:
+					return retval
+			#
+			#  search first only suffixes
+			#  since prefix is optional
+			#
+				appnd    = elem[2]
+				if len(appnd):
+					if l[-len(appnd):] != appnd:
+						continue
+					restoredWord = l[0:len(l)-len(appnd)]
+				else:
+					restoredWord = l
+				condlist = elem[0]
+				strip    = elem[1]
+				if len(strip):
+					restoredWord = restoredWord + strip
+				break_it = 0
+#				print "%s %s %s %s" %(restoredWord,appnd,strip, elem[3])
+				if len(condlist) > 0 and len(restoredWord) >= len(condlist): #tktk
+					substr = restoredWord[-len(condlist):]
+					for i in range(0, len(condlist), 1): #tktk
+						if condlist[i][ord(substr[i])] != 1:
+							break_it = 1
+							break
+					if break_it:
+						continue
+				if szodic.has_key(restoredWord):
+					flags = szodic[restoredWord]
+					if flags == "": # tktk
+						continue
+					else:
+						if find(flags, elem[3]) == -1:
 							continue
-					if szodic.has_key(restoredWord):
-						flags = szodic[restoredWord]
-						if flags == "": # tktk
-							continue
-						else:
-							if find(flags, elem[3]) == -1:
-								continue
-						return "++ %s %s" %(l,restoredWord)
-						found = 1
-						break
-#
-# searched all suffixes and not found
-# now try to combine all prefixes with all suffixes
-# that allow combinations
-#
-		if found:
-			return "+found %s" %oldword
+						if oarrname != "" and find(flags, oarrname) == -1:
+							continue  
+					if oldl != "":
+						retval = "+++ %s %s %s" %(oldl, l,restoredWord)
+					else: 
+						retval = "++ %s %s" %(l,restoredWord)
+					found = 1
+					return retval
+ #		print windex
+		return retval
+	
+	def suffix22_search(self, l, oldl, oarrname):
+		retval = ""
+		found = 0
+		for windex in ord(l[-1]), ord('0'):
+			for elem in alfab_conddic[windex]:
+			# elem0: condlist, elem1: strip elem2 = append, elem3 = arrname 
+#				print "s.d:%s e3:%s app:%s str:%s" % (self.doubleflags, elem[3], elem[2],elem[1]) 
+				if find(self.doubleflagList, elem[3]) == -1:
+					continue
+				if found:
+					return retval
+			#
+			#  search first only suffixes
+			#  since prefix is optional
+			#
+#				print "s22x l:%s oldl:%s oarrname:%s appnd:%s strip:%s" % (l, oldl, oarrname, elem[2], elem[1])
+				appnd    = elem[2]
+				if len(appnd):
+					if l[-len(appnd):] != appnd:
+						continue
+					restoredWord = l[0:len(l)-len(appnd)]
+				else:
+					restoredWord = l
+				condlist = elem[0]
+				strip    = elem[1]
+				if len(strip):
+					restoredWord = restoredWord + strip
+				break_it = 0
+#				print "s22: %s %s %s %s" %(restoredWord,appnd,strip, elem[3])
+				if len(condlist) > 0 and len(restoredWord) >= len(condlist): #tktk
+					substr = restoredWord[-len(condlist):]
+					for i in range(0, len(condlist), 1): #tktk
+						if condlist[i][ord(substr[i])] != 1:
+							break_it = 1
+							break
+					if break_it:
+						continue
+#				print "s->s2, rw:%s e3:%s" % (restoredWord, elem[3])
+				rval = self.suffix2_search(restoredWord, elem[3], l)
+				if rval != "":
+					found = 1
+					retval = rval
+					return rval
+ #		print windex
+		return retval
+		
+	def prefix_search(self, l):
+		found = 0
+		retval = ""
 		for windex in ord(l[0]), ord('0'):
 			for elem in palfab_conddic[windex]:
 				if found:
-					break
+					return retval
 				appnd    = elem[2]
 				if appnd == l[:len(appnd)]:  # cut the matching prefix
 					l1 = l[len(appnd):]
@@ -279,9 +407,9 @@ class Wfinder:
 					if flags1 != "":
 						if find(flags1, arrname) == -1:
 							continue
-						return "++ %s  %s" %(l,l1)
+						retval = "++ %s  %s" %(l,l1)
 						found = 1
-						break
+						return retval
 						
 				if lower(yesno[arrname]) == 'n':
 					continue
@@ -289,49 +417,99 @@ class Wfinder:
 #			check if this unprefixed word 
 #				is a valid suffixed one
 #
-				for windex1 in ord(l1[-1]), ord('0'):
-					for elem1 in alfab_conddic[windex1]:
-# elem0: condlist, elem1: strip elem2 = append, elem3 = arrname 
-						if found:
+				retval = self.suffix_search(l1, l, arrname)
+				if retval != "":
+					found = 1
+					return retval
+		return retval
+	
+	def prefix22_search(self, l):
+		found = 0
+		retval = ""
+		for windex in ord(l[0]), ord('0'):
+			for elem in palfab_conddic[windex]:
+				if found:
+					return retval
+#				print "str:%s app:%s e3:%s dfl:%s df:%s" % (elem[1],elem[2], elem[3],self.doubleflagList,self.doubleflags)
+				if find(self.doubleflagList, elem[3]) == -1 and find(self.doubleflags, elem[3]) == -1:
+					continue
+				appnd    = elem[2]
+				if appnd == l[:len(appnd)]:  # cut the matching prefix
+					l1 = l[len(appnd):]
+				else:
+					continue
+				condlist = elem[0]
+				strip    = elem[1]
+				if len(strip):
+					l1 = strip + l1
+				break_it = 0
+				if len(condlist) > 0 and len(l1) >= len(condlist): #tktk
+					substr = l1[0:len(condlist)]
+					for i in range(0, len(condlist), 1): #tktk
+						if condlist[i][ord(substr[i])] != 1:
+							break_it = 1
 							break
-						arrname1 = elem1[3]
-						if lower(yesno[arrname1]) == 'n':
-							continue
-						appnd1    = elem1[2]
-						if len(appnd1):
-							if l1[-len(appnd1):] != appnd1:
-								continue
-#						if len(appnd):
-							restoredWord1 = l1[0:len(l1)-len(appnd1)]
-						else:
-							restoredWord1 = l1
-						condlist1 = elem1[0]
-						strip1    = elem1[1]
-						if len(strip1):
-							restoredWord1 = restoredWord1 + strip1
-						break_it = 0
-						if len(condlist1) > 0 and len(restoredWord1) >= len(condlist1): #tktk
-							substr = restoredWord1[-len(condlist1):]
-							for i1 in range(0, len(condlist1), 1): #tktk
-								if condlist1[i1][ord(substr[i1])] != 1:
-									break_it = 1
-									break
-							if break_it:
-								continue
-						if szodic.has_key(restoredWord1):
-							flags1 = szodic[restoredWord1]
-							if flags1 == "": # tktk
-								continue
-							else:
-								if find(flags1, arrname1) == -1:
-									continue
-								if find(flags1, arrname) == -1:
-									continue
-							return "+++ %s %s %s" %(l, l1,restoredWord1)
-							found = 1
-							break
+					if break_it:
+						continue
+			#
+			# prefix without suffix
+			#
+				arrname = elem[3]
+#				print "p22->s2 l1:%s e3:%s l:%s" %(l1,elem[3],l)
+				rval = self.suffix2_search(l1, elem[3],l)
+				if rval != "":
+					found = 1
+					retval = rval
+					return rval
 						
-		if found == 0:
+				if lower(yesno[arrname]) == 'n':
+					continue
+#
+#			check if this unprefixed word 
+#				is a valid suffixed one
+#
+#				print "ps l1:%s l:%s arrn:%s" % (l1, l, arrname)
+				retval = self.suffix22_search(l1, "", "")
+				if retval != "":
+					found = 1
+					return retval
+		return retval
+
+		
+	def do_test(self,l):
+		if l == "":
+			return ""
+		else:
+			oldword = l
+			found = 0
+#			print "ss l:%s" %l
+			retval = self.suffix_search(l, "", "")
+			if retval != "":
+				found = 1
+				return retval
+#
+# searched all suffixes and not found
+# now try to combine all prefixes with all suffixes
+# that allow combinations
+#
+#			print "sp l:%s" %l
+			retval = self.prefix_search(l)
+			if retval != "":
+				found = 1
+				return retval
+			
+			if self.is_secondflag:
+#				print "s22 l:%s" %l
+				retval = self.suffix22_search(l, "", "")
+				if retval != "":
+					found = 1
+					return retval
+#				print "p22 l:%s" %l
+				retval = self.prefix22_search(l)
+				if retval != "":
+					found = 1
+					return retval
+						
 			return "- %s" % oldword
 
 	def test_it(self,l):
