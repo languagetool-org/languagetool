@@ -2,28 +2,29 @@
 <!DOCTYPE rules PUBLIC "-//W3C//DTD GrammarRules 0.1//EN" "rules.dtd">
 <!--
 Rules: Words that should not be used
-(c) 2001,2002 Daniel Naber, daniel.naber@t-online.de, 2001-12-30
-$Id: words.xml,v 1.3 2003-07-06 00:46:51 dnaber Exp $
+(c) 2001,2002,2003 Daniel Naber, daniel.naber@t-online.de, 2001-12-30
+$Id: words.xml,v 1.4 2003-07-27 18:52:09 dnaber Exp $
 -->
 <rules>
 
 	<!-- fixme: add >'s< (but only as VBZ, not POS) too -->
 	<!-- the tokenizer splits "don't" into "do n't" because the tagger needs
 		it that way, so we use two tokens: -->
-	<rule id="SHORT_FORMS_NOT">
+	<rule id="SHORT_FORMS_NOT" name="Avoid short forms (don't etc.)">
 		<pattern lang="en">"(do|did|ca|could|wo|would|must|need|should|is|are|was|were)" "n't"</pattern>
 		<message>Suggestion: use a long form like <em>do not</em> instead of <em>don't</em> for formal texts.</message>
 		<example type="correct"><em>Do not</em> open the box unless you've read the instructions.</example>
 		<example type="incorrect"><em>Don't</em> open the box unless you've read the instructions.</example>
 	</rule>
-	<rule id="SHORT_FORMS_WILL">
+	
+	<rule id="SHORT_FORMS_WILL" name="Avoid short forms (I'll etc.)">
 		<pattern lang="en">".*" "'ll"</pattern>
 		<message>Suggestion: use a long form like <em>\1 will</em> instead for formal texts.</message>
 		<example type="correct"><em>He will</em> open the box.</example>
 		<example type="incorrect"><em>He'll</em> open the box.</example>
 	</rule>
 
-	<rule id="OR_SENT_START">
+	<rule id="OR_SENT_START" name="Avoid 'Or' at the beginning of a sentence">
 		<pattern lang="en" mark_from="0" mark_to="-1">SENT_START "or"</pattern>
 		<message>Suggestion: don't start a sentence with <em>or</em>.</message>
 		<error_rate warnings="0" sentences="0">0</error_rate>
@@ -31,24 +32,12 @@ $Id: words.xml,v 1.3 2003-07-06 00:46:51 dnaber Exp $
 		<example type="incorrect">Or one could think about other approaches.</example>
 	</rule>
 
-	<rule id="BILLION">
+	<rule id="BILLION" name="Avoid 'billion'">
 		<pattern lang="en">"billion"</pattern>
 		<message>Suggestion: use <em>thousand million</em> instead of billion to avoid ambiguities.</message>
 		<error_rate warnings="0" sentences="0">0</error_rate>
 		<example type="correct">Instead, one could think about other approaches.</example>
 		<example type="incorrect">Or one could think about other approaches.</example>
 	</rule>
-
-	<!-- TODO: is this really not a false friend??? -->
-	<!-- TODO: test! -->
-	<!--
-	<rule id="WORDS_NEAR">
-		<pattern lang="en">'in' 'the' 'near' 'of'</pattern>
-		<translation lang="en">near to</translation>
-		<translation lang="en">in the vicinity of</translation>
-		<message>The idiom <em>in the near of</em> doesn't exist in English.</message>
-		<example type="correct">Enter 'foobar' into the form field.</example>
-	</rule>
-	-->
 
 </rules>
