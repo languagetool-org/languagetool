@@ -1,7 +1,7 @@
 #!/usr/bin/python
 # Test cases for Rule.py
 # (c) 2002,2003 Daniel Naber <daniel.naber@t-online.de>
-#$rcs = ' $Id: RulesTest.py,v 1.4 2003-06-21 19:09:32 dnaber Exp $ ' ;
+#$rcs = ' $Id: RulesTest.py,v 1.5 2003-06-21 19:21:47 dnaber Exp $ ' ;
 
 import unittest
 import Rules
@@ -9,13 +9,16 @@ import Rules
 class RuleTestCase(unittest.TestCase):
 
     def setUp(self):
-		self.rule = Rules.PatternRule("TEST1", '"word" (VB|TST)', "Test message.", 0, \
+		self.rule = Rules.PatternRule(None)
+		self.rule.setVars("TEST1", '"word" (VB|TST)', "Test message.", 0, \
 			"Good example.", "Bad example.", 0, 5, "en")
 		# negation:
-		self.rule2 = Rules.PatternRule("TEST1", '"word" ^(VB|TST)', "Test message.", 0, \
+		self.rule2 = Rules.PatternRule(None)
+		self.rule2.setVars("TEST1", '"word" ^(VB|TST)', "Test message.", 0, \
 			"Good example.", "Bad example.", 0, 5, "en")
 		# negation at the beginning:
-		self.rule3 = Rules.PatternRule("TEST1", '^"word" (VB|TST)', "Test message.", 0, \
+		self.rule3 = Rules.PatternRule(None)
+		self.rule3.setVars("TEST1", '^"word" (VB|TST)', "Test message.", 0, \
 			"Good example.", "Bad example.", 0, 5, "en")
 		return
 

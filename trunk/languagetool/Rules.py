@@ -1,6 +1,6 @@
 # Class for Grammar and Style Rules
 # (c) 2002,2003 Daniel Naber <daniel.naber@t-online.de>
-#$rcs = ' $Id: Rules.py,v 1.5 2003-06-21 19:09:50 dnaber Exp $ ' ;
+#$rcs = ' $Id: Rules.py,v 1.6 2003-06-21 19:21:47 dnaber Exp $ ' ;
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -43,11 +43,9 @@ class Rules:
 		doc = xml.dom.minidom.parse(os.path.basename(self.rules_grammar_file))
 		os.chdir(dir_temp)
 		rule_nodes = doc.getElementsByTagName("rule")
-		# TODO: these fake rules are ugly...
 		for rule_node in rule_nodes:
-			rule = PatternRule(0, "NP VB", "", 0, "", "", 0, 0, "")	# fake values
-			rule_id = rule.parse(rule_node)
-			if grammar_rules == None or rule_id in grammar_rules:
+			rule = PatternRule(rule_node)
+			if grammar_rules == None or rule.rule_id in grammar_rules:
 				self.rules.append(rule)
 		return
 
@@ -66,7 +64,7 @@ class Rule:
 		return
 
 class SentenceLengthRule(Rule):
-	"""Check if a sentence is 'too' long. Use setMaxLength() to set the
+	"""Check if a sentence is 'too long'. Use setMaxLength() to set the
 	maximum length that's still okay. Limit 0 means no limit."""
 
 	max_length = 30
@@ -111,9 +109,47 @@ class SentenceLengthRule(Rule):
 class PatternRule(Rule):
 	"""A rule that can be formalised in the XML configuration file."""
 	
-	def __init__(self, rule_id, pattern, message, marker_position, \
-		example_good, example_bad, case_sensitive, false_positives, language):
-		Rule.__init__(self, rule_id, message, false_positives, language)
+	def __init__(self, rule_node):
+		"""Parse an XML rule node and init the object with its variables."""
+		if rule_node == None:
+			# for the test cases. They use setVars().
+			return
+		self.rule_id = rule_node.getAttribute("id")
+		self.pattern = rule_node.getElementsByTagName("pattern")[0].childNodes[0].data
+		token_strings = re.split("\s+", self.pattern)
+		self.tokens = []
+		for token_string in token_strings:
+			token = Token(token_string)
+			self.tokens.append(token)
+		self.language = rule_node.getElementsByTagName("pattern")[0].getAttribute("lang")
+		self.case_sensitive = 0
+		if rule_node.getElementsByTagName("pattern")[0].getAttribute("case_sensitive") == 'yes':
+			#print "*** %s" % rule_node.getElementsByTagName("pattern")[0].getAttribute("case_sensitive")
+			self.case_sensitive = 1
+		if rule_node.getElementsByTagName("message"):
+			self.message = Tools.Tools.getXML(rule_node.getElementsByTagName("message")[0])
+		else:
+			self.message = Tools.Tools.getXML(rule_node.parentNode.getElementsByTagName("message")[0])
+		self.marker_position = int(rule_node.getElementsByTagName("marker")[0].childNodes[0].data)
+		example_nodes = rule_node.getElementsByTagName("example")
+		self.example_good = ""
+		self.example_bad = ""
+		for example_node in example_nodes:
+			# TODO?: only one good and one bad example currently supported:
+			if example_node.getAttribute("type") == 'correct':
+				self.example_good = Tools.Tools.getXML(example_node.childNodes[0])
+			else:
+				self.example_bad = Tools.Tools.getXML(example_node.childNodes[0])
+		self.false_positives = rule_node.getElementsByTagName("error_rate")[0].childNodes[0].data
+		return
+
+	def setVars(self, rule_id, pattern, message, marker_position, \
+			example_good, example_bad, case_sensitive, false_positives, language):
+		"""Manually init the pattern rule -- for test cases only."""
+		self.rule_id = rule_id
+		self.message = message
+		self.false_positives = false_positives
+		self.language = language
 		self.marker_position = marker_position
 		self.example_good = example_good
 		self.example_bad = example_bad
@@ -125,36 +161,6 @@ class PatternRule(Rule):
 			self.tokens.append(token)
 		return
 		
-	def parse(self, dom_node):
-		"""Parse an XML rule node and init the object with its variables.
-		Return the rule's ID."""
-		rule_id = dom_node.getAttribute("id")
-		pattern = dom_node.getElementsByTagName("pattern")[0].childNodes[0].data
-		language = dom_node.getElementsByTagName("pattern")[0].getAttribute("lang")
-		case_sensitive = 0
-		if dom_node.getElementsByTagName("pattern")[0].getAttribute("case_sensitive") == 'yes':
-			print "*** %s" % dom_node.getElementsByTagName("pattern")[0].getAttribute("case_sensitive")
-			case_sensitive = 1
-		if dom_node.getElementsByTagName("message"):
-			message = Tools.Tools.getXML(dom_node.getElementsByTagName("message")[0])
-		else:
-			message = Tools.Tools.getXML(dom_node.parentNode.getElementsByTagName("message")[0])
-		marker_position = int(dom_node.getElementsByTagName("marker")[0].childNodes[0].data)
-		marker_position = int(marker_position)
-		example_nodes = dom_node.getElementsByTagName("example")
-		example_good = ""
-		example_bad = ""
-		for example_node in example_nodes:
-			# TODO?: only one good and one bad example currently supported:
-			if example_node.getAttribute("type") == 'correct':
-				example_good = Tools.Tools.getXML(example_node.childNodes[0])
-			else:
-				example_bad = Tools.Tools.getXML(example_node.childNodes[0])
-		false_positives = dom_node.getElementsByTagName("error_rate")[0].childNodes[0].data
-		self.__init__(rule_id, pattern, message, marker_position, \
-			example_good, example_bad, case_sensitive, false_positives, language)
-		return rule_id
-	
 	def match(self, tagged_words, position_fix):
 		"""Check if there are rules that match the tagged_words. Returns a list
 		of RuleMatch objects."""
