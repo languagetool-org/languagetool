@@ -17,6 +17,7 @@
 # USA
 
 import os
+import re
 
 class Chunker:
 	"""fixme-doc"""
@@ -25,33 +26,57 @@ class Chunker:
 		"""fixme-doc"""
 		return
 
+	def __getPattern(self, pattern):
+		repeat = 0
+		if pattern.endswith("+"):
+			# cut off '+':
+			pattern = pattern[0:len(pattern)-1]
+			repeat = 1
+		return (repeat, pattern)
+
 	def chunk(self, tagged_text):
 		"""fixme-doc"""
 		l = []
-		i = 0
-		# XX AT NN1 NN1 VB
-		#    AT NN1+
+		
+		#example:
+		# tagged_text:   XX AT NN1 NN1 VB
+		# rule.pattern:     AT NN1+
 		rules = Rules()
 		for rule in rules.rules:		# TODO:other way round is more efficient
 										# as only one tag is possible for each range?
 			match_start = None
 			match_end = None
+			i = 0
+			
+			#FIXME: ignore whitespace!
+			
 			for word, norm_word, tag in tagged_text:
-				print "%s, %s" % (word, tag)
 				pattern_pos = 0
+				print "%s, %s ?= %s" % (word, tag, rule.pattern[pattern_pos])
 				while tag == rule.pattern[pattern_pos]:
 					if not match_start:
 						match_start = i
-					#if rules[pattern_pos].endswith("+"):
-					#	while...:
+
+					(pattern_repeat, pattern) = self.__getPattern(rule.pattern[pattern_pos])
+
+					#FIXME: support regex like repeat operator '+':
+					if pattern_repeat:					
+						print "Repeat '%s -- %s'!++++" % (tag, pattern)
+						while tag == pattern:
+							print "~"
+							try:
+								tag = rule.pattern[pattern_pos]
+							except IndexError:
+								print "end pattern"
+
 					pattern_pos = pattern_pos + 1
-					try:
-						tag = rule.pattern[pattern_pos]
-					except IndexError:
-					#if pattern_pos == len(self.rules):
+					#try:
+					#	tag = tagged_text[i]
+					#except IndexError:
+					if pattern_pos == len(rule.pattern)-1:
 						print "match!"
 						match_end = i+1
-						l.append((match_start, match_end, rule.name))
+						l.append((match_start+1, match_end+1, rule.name))
 						break
 					i = i + 1
 		print l	####
@@ -69,7 +94,7 @@ class Rules:
 		f.close()
 		for line in lines:
 			rule = Rule(line)
-			self.rules.append(r)
+			self.rules.append(rule)
 		return
 
 class Rule:
@@ -78,6 +103,7 @@ class Rule:
 		"""Parse a chunk rule in this format:
 		name: tag1 tag2..."""
 		parts = re.split("\s+", line.strip())
-		self.name = parts[0]
+		name = parts[0]
+		self.name = name[0:len(name)-1]	# cut off colon
 		self.pattern = parts[1:]
 		return
