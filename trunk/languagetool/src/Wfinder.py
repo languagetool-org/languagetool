@@ -444,7 +444,7 @@ class Wfinder:
 					elif dif != 0:
 						typ = 'ADV'
 				elif typ[0] == 'N':
-					if oword[-2:]  in ('ek','ok', 'ak', u'ék', u'ák', u'ók',u'ûk',u'õk',u'úk') and dif > 0 and dif < 3 :
+					if oword[-1] == 'k' and oword[-2] in ('a',u'á', 'e',u'é','i',u'í','o',u'ó',u'ö',u'õ','u',u'ú',u'ü',u'û') and dif > 0 and dif < 3 :
 						typ = 'NP'
 					elif oword[-1:] == 'i' and dif == 1:
 						typ = 'DNA'
