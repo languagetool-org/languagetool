@@ -1,6 +1,6 @@
 # -*- coding: iso-8859-1 -*-
 # Class for Grammar and Style Rules
-#$rcs = ' $Id: Rules.py,v 1.7 2004-07-11 22:27:52 dnaber Exp $ ' ;
+#$rcs = ' $Id: Rules.py,v 1.8 2004-08-31 18:16:38 dnaber Exp $ ' ;
 #
 # LanguageTool -- A Rule-Based Style and Grammar Checker
 # Copyright (C) 2002,2003,2004 Daniel Naber <daniel.naber@t-online.de>
@@ -253,7 +253,7 @@ class PatternRule(Rule):
 		if not self.rule_id:
 			# FIXME? rule_id is not unique...
 			self.rule_id = rule_node.parentNode.getAttribute("id")
-		self.pattern = rule_node.getElementsByTagName("pattern")[0].childNodes[0].data
+		self.pattern = rule_node.getElementsByTagName("pattern")[0].childNodes[0].data.strip()
 		token_strings = re.split("\s+", self.pattern)
 		self.tokens = []
 		for token_string in token_strings:
@@ -319,7 +319,7 @@ class PatternRule(Rule):
 				translations.append(trans_str)
 		if self.valid:
 			self.case_sensitive = 0
-			self.pattern = rule_node.getElementsByTagName("pattern")[0].childNodes[0].data
+			self.pattern = rule_node.getElementsByTagName("pattern")[0].childNodes[0].data.strip()
 			repl_word, repl_trans = self.getOtherMeaning(rule_node.parentNode, mothertongue, textlang)
 			l = []
 			for elem in repl_trans:
