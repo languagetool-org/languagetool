@@ -22,6 +22,8 @@ cat $WORTE/woerter_gross.txt >> $TMP/deutsch1.dic
 cat $WORTE/woerter_klein.txt >> $TMP/deutsch1.dic
 cat $WORTE/woerter_computer.txt >> $TMP/deutsch1.dic
 cat $WORTE/woerter_komposita_*.txt >> $TMP/deutsch1.dic
+cat $WORTE/neue_woerter.txt >> $TMP/deutsch1.dic
+cat $WORTE/woerter_abkuerzungen.txt >> $TMP/deutsch1.dic
 
 export LC_ALL=C
 sort -u $TMP/deutsch1.dic > $TMP/deutsch2.dic

@@ -23,6 +23,8 @@ cat $WORTE/woerter_gross.txt >> $TMP/deutsch1.dic
 cat $WORTE/woerter_klein.txt >> $TMP/deutsch1.dic
 cat $WORTE/woerter_computer.txt >> $TMP/deutsch1.dic
 cat $WORTE/woerter_komposita_*.txt >> $TMP/deutsch1.dic
+cat $WORTE/neue_woerter.txt >> $TMP/deutsch1.dic
+cat $WORTE/woerter_abkuerzungen.txt >> $TMP/deutsch1.dic
 # und zusätzlich alt:
 cat $WORTE/alt.txt >> $TMP/deutsch1.dic
 
