@@ -68,9 +68,10 @@ class Wfinder:
 
 	encoding = "latin1"
 
-	def __init__(self):
+	def __init__(self, textlanguage):
 #		print time.strftime('%X %x %Z')
 		self.is_initialized = 0
+		self.textlanguage = textlanguage
 		return
 
 	def aff_read(self):
@@ -344,7 +345,7 @@ class Wfinder:
 #
 # Here are the language specific rules of each language
 #
-			if Tagger.textlanguage == 'de':
+			if self.textlanguage == 'de':
 				if typ != "":
 					if typ == 'V':
 						if oword[-1:] == 'e':

@@ -1,7 +1,7 @@
 # -*- coding: iso-8859-1 -*-
 # A probabilistic part-of-speech tagger (see the QTag paper) with
 # a rule-based extension.
-#$rcs = ' $Id: Tagger.py,v 1.3 2004-05-24 21:26:56 dnaber Exp $ ' ;
+#$rcs = ' $Id: Tagger.py,v 1.4 2004-05-30 21:41:16 dnaber Exp $ ' ;
 #
 # LanguageTool -- A Rule-Based Style and Grammar Checker
 # Copyright (C) 2002,2003,2004 Daniel Naber <daniel.naber@t-online.de>
@@ -30,10 +30,9 @@ import cPickle
 import htmlentitydefs
 import Wfinder
 
+# FIXME:
 dicFile = 'deutsch.txt'
 affFile = 'deutsch.aff'
-textlanguage = 'de'
-wfinder = Wfinder.Wfinder()
 
 class Tagger:
 	"""POS-tag any text. The result in XML can be used to re-build the original
@@ -41,9 +40,11 @@ class Tagger:
 	have term=None and type=None, i.e. they are inside their own <w>
 	elements. Words that could not be tagged have type=unknown."""
 
-	def __init__(self, db_word_name=None, db_seq_name1=None, db_seq_name2=None):
+	def __init__(self, textlanguage, db_word_name=None, db_seq_name1=None, db_seq_name2=None):
 		"""Initialize the tagger, optionally using the given
 		file names that will be used to load and save data later."""
+		self.textlanguage = textlanguage
+		self.wfinder = Wfinder.Wfinder(textlanguage)
 		db_word_name = os.path.join(sys.path[0], "data",  dicFile)
 		db_seq_name1 = os.path.join(sys.path[0], "data", "seqs1")
 		db_seq_name2 = os.path.join(sys.path[0], "data", "seqs2")
@@ -79,23 +80,23 @@ class Tagger:
 	def bindData(self):
 		"""Load the word/POS tag and POS tag sequence data from disk."""
 		try:
-			if textlanguage != 'en':
+			if self.textlanguage != 'en':
 				self.ReadData(self.db_word_name);
 			else:
 				self.data_table = cPickle.load(open(self.db_word_name, 'rb'))
 		except IOError:
-			print >> sys.stderr, "No date file '%s' yet, starting with empty table." % self.db_word_name
+			print >> sys.stderr, "No data file '%s' yet, starting with empty table." % self.db_word_name
 			self.data_table = {}
-		if textlanguage == 'en':
+		if self.textlanguage == 'en':
 			try:
 				self.seqs_table_followed_by = cPickle.load(open(self.db_seq_name1, 'rb'))
 			except IOError:
- 				print >> sys.stderr, "No date file '%s' yet, starting with empty table." % self.db_seq_name1
+ 				print >> sys.stderr, "No data file '%s' yet, starting with empty table." % self.db_seq_name1
 			self.seqs_table_followed_by = {}
 			try:
 				self.seqs_table_follows = cPickle.load(open(self.db_seq_name2, 'rb'))
 			except IOError:
-				print >> sys.stderr, "No date file '%s' yet, starting with empty table." % self.db_seq_name2
+				print >> sys.stderr, "No data file '%s' yet, starting with empty table." % self.db_seq_name2
 				self.seqs_table_follows = {}
 		else:
 			self.seqs_table_followed_by = {}
@@ -157,7 +158,7 @@ class Tagger:
 			word = pair[0]
 			tag = pair[1]
 			tagged_words.append((word, tag))
-		text = TextToTag()
+		text = TextToTag(self.textlanguage, self.wfinder)
 #		text.addToData(tagged_words, self.data_table, self.seqs_table_followed_by, self.seqs_table_follows)
 		return
 
@@ -209,7 +210,7 @@ class Tagger:
 		"""POS-tag the contents of a text file and return XML that contains
 		the original text with each word's POS tag in the "type"
 		attribute."""
-		text = TextToTag()
+		text = TextToTag(self.textlanguage, self.wfinder)
 		text.setFilename(filename)
 		tagged_words = text.tag(self.data_table, self.seqs_table_followed_by, self.seqs_table_follows)
 #		print tagged_words  # tktk
@@ -219,7 +220,7 @@ class Tagger:
 	def tagText(self, strng):   #textchecker check calls
 		"""POS-tag a string and return a list of (word, normalized word, tag)
 		triples."""
-		text = TextToTag()
+		text = TextToTag(self.textlanguage, self.wfinder)
 		text.setText(strng)
 #		print strng
 		tagged_words = text.tag(self.data_table, self.seqs_table_followed_by, self.seqs_table_follows)
@@ -229,7 +230,7 @@ class Tagger:
 	def tagTexttoXML(self, strng):
 		"""POS-tag a string and return a list of (word, normalized word, tag)
 		triples."""
-		text = TextToTag()
+		text = TextToTag(self.textlanguage, self.wfinder)
 		text.setText(strng)
 		tagged_words = text.tag(self.data_table, self.seqs_table_followed_by, self.seqs_table_follows)
 		xml = text.toXML(tagged_words)
@@ -263,14 +264,14 @@ class Tagger:
 
 	def tagWord(self, word):
 		"""See Text.tagWord()"""
-		text = TextToTag()
+		text = TextToTag(self.textlanguage, self.wfinder)
 		text.setText("")
 		tag = text.tagWord(word, self.data_table)
 		return tag
 
 	def guessTagTest(self, word):
 		"""See Text.guessTags(). For test cases only."""
-		text = TextToTag()
+		text = TextToTag(self.textlanguage, self.wfinder)
 		text.setText("")
 		tag = text.guessTags(word)
 		return tag
@@ -286,7 +287,9 @@ class Text:
 	mapping_file = os.path.join(sys.path[0], "data", "c7toc5.txt")
 	manually_tagged_file = os.path.join(sys.path[0], "data", "postags.txt")
 
-	def __init__(self):
+	def __init__(self, textlanguage, wfinder):
+		self.textlanguage = textlanguage
+		self.wfinder = wfinder
 		self.count_unambiguous = 0
 		self.count_ambiguous = 0
 		self.count_unknown = 0
@@ -347,7 +350,7 @@ class Text:
 		text = re.compile("&amp;", re.IGNORECASE).sub("&", text)
 		# TODO: several entities are missing here:
 		#text = re.compile("&#(x..);", re.IGNORECASE).sub(self.expandHexEntities, text)
-		text = re.compile("&#xA3;", re.IGNORECASE).sub("£", text)
+		text = re.compile("&#xA3;", re.IGNORECASE).sub("ï¿½", text)
 		return text
 
 	#def expandHexEntities(self, matchobj):
@@ -400,9 +403,9 @@ class Text:
 		capitalization. If no guess can be made, None is returned."""
 		# TODO: return more than one tag
 
-		# £25 etc:
+		# ï¿½25 etc:
 		# fixme -- UnicodeDecodeError
-		#if word.startswith(u"£") or word.startswith(u"$"):
+		#if word.startswith(u"ï¿½") or word.startswith(u"$"):
 		#	return 'NN0'
 
 		# numbers:
@@ -422,7 +425,7 @@ class Text:
 
 		# e.g. freedom, contentment, celebration, assistance, fighter,
 		# violinist, capacity
-		if textlanguage == 'en':
+		if self.textlanguage == 'en':
 			noun = ['dom', 'ment', 'tion', 'sion', 'ance', 'ence', 'er', 'or',
 				'ist', 'ness', 'icity']
 			for suffix in noun:
@@ -440,7 +443,7 @@ class Text:
 		# e.g. extensive, heroic, financial, portable, hairy
 		# mysterious, hopeful, powerless
 		# 'en' was left out, could also be a verb
-		if textlanguage == 'en':
+		if self.textlanguage == 'en':
 			adj = ['ive', 'ic', 'al', 'able', 'y', 'ous', 'ful', 'less']
 			for suffix in adj:
 				if word.endswith(suffix):
@@ -479,7 +482,7 @@ class Text:
 
 		# Special cases: BNC tags "wasn't" like this: "<w VBD>was<w XX0>n't"
 		# Call yourself, but don't indefinitely recurse.
-		if textlanguage == 'en':
+		if self.textlanguage == 'en':
 			special_cases = ("n't", "'s", "'re", "'ll", "'ve")
 			for special_case in special_cases:
 				special_case_pos = word.find(special_case)
@@ -504,8 +507,8 @@ class Text:
 		#	#if data_table.has_key(word):
 		#	#	print "upper: %s" % word
 
-		if textlanguage != 'en':
-			rc = wfinder.test_it(word)
+		if self.textlanguage != 'en':
+			rc = self.wfinder.test_it(word)
 			if rc[0] != '-':
 				src = rc.split()
 				#	print len(src)
@@ -662,9 +665,11 @@ class TextToTag(Text):
 
 	DUMMY = None
 
-	def __init__(self):
+	def __init__(self, textlanguage, wfinder):
+		# FIXME: not needed, is it? (done in base class):
+		self.textlanguage = textlanguage
 		self.text = None
-		Text.__init__(self)
+		Text.__init__(self, self.textlanguage, wfinder)
 		return
 
 	def setText(self, text):
@@ -812,7 +817,7 @@ class TextToTag(Text):
 				word = word_matches[i]
 				if i+1 < len(word_matches):
 					next_token = word_matches[i+1]
-			if textlanguage == 'en':
+			if self.textlanguage == 'en':
 				if i + 2 < len(word_matches): # english only
 				# BNC special case: "of course" and some others are tagged as one word!
 					tuple_word = "%s %s" % (word, word_matches[i+2])		# +2 = jump over whitespace
@@ -1025,7 +1030,7 @@ class TextToTag(Text):
 
 			if is_bnc and one:
 				orig_word = one[0]
-				if textlanguage == 'en':
+				if self.textlanguage == 'en':
 					wrong_tags = self.checkBNCMatch(i, tagged_list_bnc, orig_word, best_tag, data_table)
 					count_wrong_tags = count_wrong_tags + wrong_tags
 

@@ -1,6 +1,6 @@
 # -*- coding: iso-8859-1 -*-
 # Class for Grammar and Style Rules
-#$rcs = ' $Id: Rules.py,v 1.2 2004-05-24 20:15:05 dnaber Exp $ ' ;
+#$rcs = ' $Id: Rules.py,v 1.3 2004-05-30 21:41:16 dnaber Exp $ ' ;
 #
 # LanguageTool -- A Rule-Based Style and Grammar Checker
 # Copyright (C) 2002,2003,2004 Daniel Naber <daniel.naber@t-online.de>
@@ -30,11 +30,10 @@ import sys
 import xml.dom.minidom
 from string import *
 
+# FIXME:
 grammarFile = 'engrammar.xml'
 wordFile = 'enwords.xml'
 falsefriendsFile = 'enfalse_friends.xml'
-textlanguage = 'en'
-
 
 class Rule:
 	"""Style or grammar rule -- quasi virtual class."""
@@ -55,9 +54,10 @@ class Rules:
 	python_rules_dir = "python_rules"
 
 	def __init__(self, max_sentence_length, grammar_rules, word_rules, \
-		builtin_rules, false_friend_rules, textlang, mothertongue):
+		builtin_rules, false_friend_rules, textlanguage, mothertongue):
 		"""Parse all rules and put them in the self.rules list, together
 		with built-in rules like the SentenceLengthRule."""
+		self.textlanguage = textlanguage
 		if textlanguage == 'en':
 			self.rule_files = [os.path.join(sys.path[0], "rules", grammarFile),
 						os.path.join(sys.path[0], "rules", wordFile),
@@ -110,7 +110,7 @@ class Rules:
 				for rule_node in rule_nodes:
 					rule = PatternRule(rule_node)
 					lang_ok = 0
-					if textlang == None or textlang == rule.language:
+					if self.textlanguage == None or self.textlanguage == rule.language:
 						lang_ok = 1
 					if lang_ok and (grammar_rules == None or rule.rule_id in grammar_rules):
 						self.rules.append(rule)
@@ -119,7 +119,7 @@ class Rules:
 				for rule_node in rule_nodes:
 					rule = PatternRule(rule_node)
 					lang_ok = 0
-					if textlang == None or textlang == rule.language:
+					if self.textlanguage == None or self.textlanguage == rule.language:
 						lang_ok = 1
 					if lang_ok and (word_rules == None or rule.rule_id in word_rules):
 						self.rules.append(rule)
@@ -127,8 +127,8 @@ class Rules:
 				pattern_nodes = doc.getElementsByTagName("pattern")
 				for pattern_node in pattern_nodes:
 					lang = pattern_node.getAttribute("lang")
-					if textlang == None or lang == textlang:
-						rule = PatternRule(pattern_node.parentNode, 1, mothertongue, textlang)
+					if self.textlanguage == None or lang == self.textlanguage:
+						rule = PatternRule(pattern_node.parentNode, 1, mothertongue, textlanguage)
 						if rule.valid and (false_friend_rules == None or \
 							rule.rule_id in false_friend_rules):
 							self.rules.append(rule)
@@ -244,7 +244,7 @@ class PatternRule(Rule):
 		for token_string in token_strings:
 			token = Token(token_string)
 			self.tokens.append(token)
-#		self.pattern = replace(self.pattern, u'szlig', u'ß')
+#		self.pattern = replace(self.pattern, u'szlig', u'ï¿½')
 #		print self.pattern # tktk
 		pattern_node = rule_node.getElementsByTagName("pattern")[0]
 		self.language = pattern_node.getAttribute("lang")
@@ -441,7 +441,7 @@ class PatternRule(Rule):
 					break
 				else:
 					#s1 = unicode(found.lower(),"iso8859-1") #tktk
-					#s1 = replace(s1, u'ß', u';szlig;')
+					#s1 = replace(s1, u'ï¿½', u';szlig;')
 					#print "s1:%s" %s1
 					found = found.lower()
 				case_switch = re.IGNORECASE

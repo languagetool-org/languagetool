@@ -55,7 +55,7 @@ class TextChecker:
 		self.textlanguage = textlanguage
 		self.mothertongue = mothertongue
 		self.max_sentence_length = max_sentence_length
-		self.tagger = Tagger.Tagger()
+		self.tagger = Tagger.Tagger(textlanguage)
 		self.chunker = Chunker.Chunker()
 		rules = Chunker.Rules()
 		self.chunker.setRules(rules)
@@ -239,8 +239,8 @@ def main():
 		elif o in ("-l", "--sentencelength"):
 			max_sentence_length = a
 
-	Tagger.textlanguage = textlanguage
-	Rules.textlanguage = textlanguage
+	#Tagger.textlanguage = textlanguage
+	#Rules.textlanguage = textlanguage
 	config.readfp(open('TextChecker.ini'))
 	Tagger.dicFile = config.get(textlanguage, 'dicFile');
 	Tagger.affFile = config.get(textlanguage, 'affFile');
