@@ -18,6 +18,7 @@
 # USA
 
 import getopt
+import os
 import re
 import socket
 import string
@@ -49,7 +50,7 @@ class TextChecker:
 		self.max_sentence_length = max_sentence_length
 		self.tagger = Tagger.Tagger()
 		self.tagger.bindData()
-		self.rules = Rules.Rules()
+		self.rules = Rules.Rules(self.max_sentence_length)
 		return
 		
 	def checkFile(self, filename):
@@ -67,19 +68,19 @@ class TextChecker:
 		splitter = SentenceSplitter.SentenceSplitter()
 		sentences = splitter.split(text)
 		#print sentences
-		tx = time.time()
+		#tx = time.time()
 		rule_matches = []
 		all_tagged_words = []
 		char_counter = 0
 		for sentence in sentences:
 			tagged_words = self.tagger.tagText(sentence)
-			all_tagged_words.extend(tagged_words)
-			#print "****"
+			tagged_words.insert(0, ('', None, 'SENT_START'))
+			tagged_words.append(('', None, 'SENT_END'))
 			#print tagged_words
+			all_tagged_words.extend(tagged_words)
 			#print "time1: %.2fsec" % (time.time()-tx)
 			#tx = time.time()
 			for rule in self.rules.rules:
-				#print rule
 				matches = rule.match(tagged_words, char_counter)
 				rule_matches.extend(matches)
 				#print "time2: %.2fsec" % (time.time()-tx)
@@ -99,13 +100,82 @@ def usage():
 	print "Usage: TextChecker.py <filename>"
 	return
 
+def cleanEntities(s):
+	"""Replace only the most common BNC entities with their
+	ASCII respresentation."""
+	s = re.compile("&amp;?").sub("&", s)
+	s = re.compile("&pound;?").sub("£", s)
+	s = s.replace("&ast", "*")
+	s = s.replace("&aacute", "a")
+	s = s.replace("&agr", "a")
+	s = s.replace("&bquo", "\"")
+	s = s.replace("&equo", "\"")
+	s = s.replace("&quot", "'")
+	s = s.replace("&deg", "°")
+	s = s.replace("&dollar", "$")
+	s = s.replace("&eacute", "e")
+	s = s.replace("&egrave", "e")
+	s = s.replace("&percnt", "&")
+	s = s.replace("&ndash", "-")
+	s = s.replace("&mdash", "--")
+	s = s.replace("&hellip", "...")
+	s = s.replace("&lsqb", "[")
+	s = s.replace("&rsqb", "]")
+	s = s.replace("&uuml", "ü")
+	s = s.replace("&auml", "ä")
+	s = s.replace("&öuml", "ö")
+	s = s.replace("&Uuml", "Ü")
+	s = s.replace("&Auml", "Ä")
+	s = s.replace("&Ouml", "Ö")
+	return s
+
+def checkBNCFiles(directory, checker):
+	"""Recursively load all files from a directory, extract
+	all paragraphs and feed them to the style and grammar checker
+	one by one."""
+	para_regex = re.compile("<p>(.*?)</p>", re.DOTALL)
+	xml_regex = re.compile("<.*?>", re.DOTALL)
+	whitespace_regex = re.compile("\s+", re.DOTALL)
+	files = []
+	filemode = 0
+	if os.path.isfile(directory):		# call with a filename is okay
+		files = [directory]
+		filemode = 1
+	else:
+		files = os.listdir(directory)
+	for file in files:
+		filename = None
+		if filemode:
+			filename = file
+		else:
+			filename = os.path.join(directory, file)
+		if os.path.isdir(filename):
+			#print filename
+			checkBNCFiles(filename, checker)
+		elif os.path.isfile(filename):
+			print "FILE=%s" % file
+			f = open(filename)
+			s = f.read()
+			f.close()
+			matches = para_regex.findall(s)
+			for match in matches:
+				s = xml_regex.sub("", match)
+				s = whitespace_regex.sub(" ", s)
+				s = cleanEntities(s)
+				s = s.strip()
+				#print s
+				(rule_matches, result, tagged_words) = checker.check(s)
+				if len(rule_matches) == 0:
+					pass
+					#print >> sys.stderr, "No errors found."
+				else:
+					print result
+	return
+
 def main():
-	# todo: max sent. length
-	(options, rest) = getopt.getopt(sys.argv[1:], 'hsgfw', \
-		['help', 'server', 'grammar=', 'falsefriends=', 'words=', \
-		'mothertongue=', 'textlanguage='])
-	#print options
-	#print "rest=%s"%rest
+	(options, rest) = getopt.getopt(sys.argv[1:], 'hcsg:f:w:l:', \
+		['help', 'check', 'server', 'grammar=', 'falsefriends=', 'words=', \
+		'mothertongue=', 'textlanguage=', 'sentencelength='])
 
 	grammar = falsefriends = words = []
 	# todo: use?
@@ -124,27 +194,36 @@ def main():
 			mothertongue = a
 		elif o in ("-t", "--textlanguage"):
 			textlanguage = a
+		elif o in ("-l", "--sentencelength"):
+			max_sentence_length = a
 
 	for o, a in options:
 		if o in ("-h", "--help"):
 			usage()
-			sys.exit()
+			sys.exit(0)
 		elif o in ("-s", "--server"):
 			checker = TextChecker(grammar, falsefriends, words, builtin, \
 				textlanguage, mothertongue, max_sentence_length)
 			checker.server()
-			sys.exit()
+			sys.exit(0)
+		elif o in ("-c", "--check"):
+			checker = TextChecker(grammar, falsefriends, words, builtin, \
+				textlanguage, mothertongue, max_sentence_length)
+			for filename in rest:
+				checkBNCFiles(filename, checker)
+			sys.exit(0)
 
 	if len(rest) == 1:
 		checker = TextChecker(grammar, falsefriends, words, builtin, \
 			textlanguage, mothertongue, max_sentence_length)
 		(rule_matches, result, tagged_words) = checker.checkFile(rest[0])
 		if not result:
-			print "No errors found."
+			print >> sys.stderr, "No errors found."
 		else:
 			print result
 	else:
 		usage()
+	return
 
 if __name__ == "__main__":
     main()
