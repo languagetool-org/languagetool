@@ -55,29 +55,27 @@ class RuleTestCase(unittest.TestCase):
 
 		# rule 1:
 		
-		res_list = self.rule.match([('word', 'word', 'XX'),(' ', None, None),('bla', 'bla', 'VB')])
-		#print "###"+str(res_list[0])
+		res_list = self.rule.match([('word', 'word', 'XX'),(' ', None, None),('bla', 'bla', 'VB')], 0)
 		self.assertEqual(len(res_list), 1)
 		self.assertEqual(str(res_list[0]), '<error from="0" to="4">Test message.</error>')
 
-		res_list = self.rule.match([('no', 'XX'),('foo', 'VB')])
+		res_list = self.rule.match([('no', 'no', 'XX'),('foo', 'foo', 'VB')], 0)
 		assert(len(res_list) == 0)
 
-		res_list = self.rule.match([])
+		res_list = self.rule.match([], 0)
 		assert(len(res_list) == 0)
 
-		res_list = self.rule.match([('word', 'XX')])
+		res_list = self.rule.match([('word', 'word', 'XX')], 0)
 		assert(len(res_list) == 0)
 		
 		# rule 2:
 		
-		res_list = self.rule2.match([('word', 'word', 'XX'),('', None, None),('xxx', 'xxx', 'VBX')])
+		res_list = self.rule2.match([('word', 'word', 'XX'),('', None, None),('xxx', 'xxx', 'VBX')], 0)
 		assert(len(res_list) == 1)
 
 		# rule 3:
 		
-		res_list = self.rule3.match([('foo', 'foo', 'XX'),(' ', None, None),('xxx', 'xxx', 'VB')])
-		#print "###"+str(res_list[0])
+		res_list = self.rule3.match([('foo', 'foo', 'XX'),(' ', None, None),('xxx', 'xxx', 'VB')], 0)
 		assert(len(res_list) == 1)
 		return
 
