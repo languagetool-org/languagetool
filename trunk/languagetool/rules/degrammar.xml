@@ -3,7 +3,7 @@
 <!--
 Rules: Grammar and Typos
 (c) 2004 Transam transam45@nospam.gmx.de
-$Id: degrammar.xml,v 1.4 2004-06-10 22:51:41 dnaber Exp $
+$Id: degrammar.xml,v 1.5 2004-06-22 20:16:10 tyuk Exp $
 -->
 <rules>
 
@@ -63,13 +63,13 @@ $Id: degrammar.xml,v 1.4 2004-06-10 22:51:41 dnaber Exp $
 			<example type="incorrect">du gehen</example>
 		</rule>
 		<rule id="INFER" name="Infinitiv nur mit korrektem Hilfsverb nach 'er', 'ihr'">
-			<pattern lang="de">PP3 V14 ^(HV3|HV4)</pattern>
+			<pattern lang="de">^("(war|ist|wird)"|PRA) PP3 V14 ^(HV3|HV4)</pattern>
 			<message>Infinitiv nur mit korrektem Hilfsverb nach 'ich', 'du', 'er', 'ihr'</message>
 			<example type="correct">er gehen wird</example>
 			<example type="incorrect">er gehen</example>
 		</rule>
 		<rule id="INFIHR" name="Infinitiv nur korrektem mit Hilfsverb nach 'ihr'">
-			<pattern lang="de">PP5 V14 ^(HV4|HV5)</pattern>
+			<pattern lang="de">^(PRD|PAD) PP5 V14 ^(HV4|HV5)</pattern>
 			<message>Infinitiv nur mit korrektem Hilfsverb nach 'ihr'</message>
 			<example type="correct">ihr gehen werdet</example>
 			<example type="incorrect">ihr gehen</example>
@@ -78,7 +78,7 @@ $Id: degrammar.xml,v 1.4 2004-06-10 22:51:41 dnaber Exp $
 
 	<rulegroup id="Nomen" name="Nomen und Artikel">
 		<rule id="DER" name="'der' + Nomen">
-			<pattern lang="de">ARM (NNS|NF|NN)</pattern>
+			<pattern lang="de">ARM (NNS)</pattern>
 			<message>'der' mit nicht maennlichem nomen</message>
 			<example type="correct">der Mann</example>
 			<example type="incorrect">der Haus</example>

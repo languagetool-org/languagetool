@@ -208,8 +208,6 @@ class Wfinder:
 				for k2 in conddic.keys():
 #					print "k2:%s" %k2
 					break_it = 0
-					condlist = conddic[k2][0]
-					strip    = conddic[k2][1]
 					appnd    = conddic[k2][2]
 					if len(appnd):
 						if l[-len(appnd):] != appnd:
@@ -218,26 +216,18 @@ class Wfinder:
 						restoredWord = l[0:len(l)-len(appnd)]
 					else:
 						restoredWord = l
+					condlist = conddic[k2][0]
+					strip    = conddic[k2][1]
 					if len(strip):
 						restoredWord = restoredWord + strip
 					if len(condlist) > 0 and len(restoredWord) >= len(condlist): #tktk
 						substr = restoredWord[-len(condlist):]
-#						print str(k2) + " " + oldword + " " + restoredWord
-#						print condlist
 						for i in range(0, len(condlist), 1): #tktk
-#							print "i=%d" %i
-#							print condlist[i]
-#							print ord(substr[i])
 							if condlist[i][ord(substr[i])] != 1:
 								break_it = 1
 								break
 						if break_it:
 							continue
-#					else:
-#						if appnd == l[:len(appnd)]:
-#							restoredWord = l[len(appnd):]
-#						else:
-#							continue
 					if szodic.has_key(restoredWord):
 						flags = szodic[restoredWord]
 						if flags == "": # tktk
@@ -265,13 +255,24 @@ class Wfinder:
 			conddic = condglob[key]
 			for k2 in conddic.keys():
 				break_it = 0
-				condlist = conddic[k2][0]
-				strip    = conddic[k2][1]
 				appnd    = conddic[k2][2]
 				if appnd == l[:len(appnd)]:  # cut the matching prefix
 					l1 = l[len(appnd):]
 				else:
 					continue
+				condlist = conddic[k2][0]
+				strip    = conddic[k2][1]
+				if len(strip):
+					l1 = strip + l1
+				break_it = 0
+				if len(condlist) > 0 and len(l1) >= len(condlist): #tktk
+					substr = l1[0:len(condlist)]
+					for i in range(0, len(condlist), 1): #tktk
+						if condlist[i][ord(substr[i])] != 1:
+							break_it = 1
+							break
+					if break_it:
+						continue
 			#
 			# prefix without suffix
 			#
@@ -293,8 +294,6 @@ class Wfinder:
 					conddic1 = condglob[key1]
 					for k21 in conddic1.keys():
 						break_it = 0
-						condlist1 = conddic1[k21][0]
-						strip1    = conddic1[k21][1]
 						appnd1    = conddic1[k21][2]
 #						print "k:%s k1:%s k21:%s str:%s app:%s l:%s l1:%s" %(key,key1,k21, strip1,appnd1, l,l1)
 						if len(appnd1):
@@ -304,6 +303,8 @@ class Wfinder:
 							restoredWord1 = l1[0:len(l1)-len(appnd1)]
 						else:
 							restoredWord1 = l1
+						condlist1 = conddic1[k21][0]
+						strip1    = conddic1[k21][1]
 						if len(strip1):
 							restoredWord1 = restoredWord1 + strip1
 						if len(condlist1) > 0 and len(restoredWord1) >= len(condlist1): #tktk
