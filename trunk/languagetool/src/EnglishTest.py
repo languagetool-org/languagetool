@@ -1,4 +1,3 @@
-#!/usr/bin/python
 # -*- coding: iso-8859-1 -*-
 #
 # LanguageTool -- A Rule-Based Style and Grammar Checker
@@ -22,36 +21,29 @@ import TextChecker
 
 import unittest
 
-class TextCheckerTest(unittest.TestCase):
+class EnglishTestCase(unittest.TestCase):
 
-	def testSomeRules(self):
-		"""Some rule checks. Requires a trained tagger."""
-		
-		checker = TextChecker.TextChecker(grammar=None, falsefriends=None, \
+	def setUp(self):
+		self.checker = TextChecker.TextChecker(grammar=None, falsefriends=None, \
 			words=None, builtin=None, textlanguage="en", mothertongue="de", \
 			max_sentence_length=20)
+		return
+		
+	def testSomeRules(self):
+		"""Some rule checks. Requires a trained tagger."""
 		err_count = 0
 
-		sentence = "A sentence without problems."
-		(rule_matches, xml_err, tagged_text) = checker.check(sentence)
-		self.assertEqual(len(rule_matches), 0)
-
-		sentence = "This is bigger then blah."
-		(rule_matches, xml_err, tagged_text) = checker.check(sentence)
-		self.assertEqual(len(rule_matches), 1)
-		self.assertEqual(rule_matches[0].id, "COMP_THAN")
-
-		sentence = "English/German false friend: my chef"
-		(rule_matches, xml_err, tagged_text) = checker.check(sentence)
-		self.assertEqual(len(rule_matches), 1)
-		self.assertEqual(rule_matches[0].id, "CHEF")
-
-		sentence = "Whitespace,here it's lacking."
-		(rule_matches, xml_err, tagged_text) = checker.check(sentence)
-		self.assertEqual(len(rule_matches), 1)
-		self.assertEqual(rule_matches[0].id, "WHITESPACE")
-
+		self._check("A sentence without problems.", None)
+		self._check("This is bigger then blah.", "COMP_THAN")
+		self._check("English/German false friend: my chef", "CHEF")
+		self._check("Whitespace,here it's lacking.", "WHITESPACE")
 		return
 
-if __name__ == "__main__":
-	unittest.main()
+	def _check(self, sentence, expectedError):
+		(rule_matches, output, tagged_text) = self.checker.check(sentence)
+		if expectedError == None:
+			self.assertEqual(len(rule_matches), 0)
+		else:
+			self.assertEqual(len(rule_matches), 1)
+			self.assertEqual(rule_matches[0].id, expectedError)
+		return
