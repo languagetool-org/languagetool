@@ -29,9 +29,11 @@ class Rules:
 
 	rules_grammar_file = "rules/grammar.xml"
 	
-	def __init__(self):
+	def __init__(self, max_sentence_length):
 		self.rules = []
 		length_rule = SentenceLengthRule()
+		if max_sentence_length != None:
+			length_rule.setMaxLength(max_sentence_length)
 		self.rules.append(length_rule)
 		# minidom expects the DTD in the current directory, not in the
 		# documents directory, so we have to chdir to 'rules':
@@ -63,7 +65,7 @@ class Rule:
 
 class SentenceLengthRule(Rule):
 	"""Check if a sentence is 'too' long. Use setMaxLength() to set the
-	maximum length that's still okay."""
+	maximum length that's still okay. Limit 0 means no limit."""
 
 	max_length = 30
 	
@@ -72,42 +74,35 @@ class SentenceLengthRule(Rule):
 		return
 
 	def setMaxLength(self, max_length):
-		self.max_length = max_length
+		self.max_length = int(max_length)
 		return
 		
 	def match(self, tagged_words, fake_param):
 		"""Check if a sentence is too long. Put the warning on the first word
-		above the limit. TODO: assumes that tagged_words is exactly one sentence."""
+		above the limit. Assumes that tagged_words is exactly one sentence."""
+		if self.max_length == 0:		# 0 = no limit
+			return []
 		matches = []
 		text_length = 0
 		count = 0
 		too_long = 0
 		too_long_start = 0
 		too_long_end = 0
-		#print tagged_words
 		for (org_word, tagged_word, tagged_tag) in tagged_words:
 			text_length = text_length + len(org_word)
 			if not tagged_tag or not tagged_word:
 				# don't count whitespace etc
 				continue
-			#print "counting %s" % tagged_word
 			count = count + 1
-			if count >= self.max_length and not too_long:
+			if count > self.max_length and not too_long:
 				too_long = 1
 				too_long_start = text_length-len(org_word)
 				too_long_end = text_length
 		if too_long:
 			matches.append(RuleMatch("MAX_LEN", too_long_start,
 				too_long_end, self.max_length, self.max_length+1,
-				"This sentence is %d words long, which exceeds the \
-				configured limit of %d words." % (count, self.max_length)))
-			#i = 1
-			#for w in tagged_words:
-			#	if w[2]:
-			#		print "(%d)%s" % (i, w[0]),
-			#		#print w[0],
-			#		i = i + 1
-			#print
+				"This sentence is %d words long, which exceeds the "
+				"configured limit of %d words." % (count, self.max_length)))
 		#print "Count=%d (max=%d)" % (count, self.max_length)
 		return matches
 
@@ -166,8 +161,10 @@ class PatternRule(Rule):
 		# works, i.e. it matches the non-existing words before the
 		# sentence even begins:
 		# TODO: this copy is slow, get rid of it!
-		tagged_words_copy = copy.copy(tagged_words)
-		tagged_words_copy.insert(0, ('__fake__word__', '__fake__word__', 'FILL_TAG'))
+		tagged_words_copy = tagged_words
+		#print tagged_words
+		#tagged_words_copy = copy.copy(tagged_words)
+		#tagged_words_copy.insert(0, ('__fake__word__', '__fake__word__', 'FILL_TAG'))
 		for word_tag_tuple in tagged_words_copy:
 			#print word_tag_tuple
 			i = ct
@@ -176,12 +173,17 @@ class PatternRule(Rule):
 			found = None
 			match = 1
 			first_match = ct	
+			#print "<br>"
+			#print "%s<br>" % str(word_tag_tuple)
 			while match:
 				try:
-					if not tagged_words_copy[i][1]:
+					if not tagged_words_copy[i][1] and \
+						tagged_words_copy[i][2] != 'SENT_START' and \
+						tagged_words_copy[i][2] != 'SENT_END':
 						# here's just whitespace or other un-taggable crap:
 						i = i + 1
 						ct = ct + 1
+						#print "CONT"
 						continue
 				except IndexError:
 					# end of tagged words
@@ -192,10 +194,15 @@ class PatternRule(Rule):
 					# pattern isn't that long
 					#print >> sys.stderr, "*** IndexError"
 					break
-				if expected_token.is_word:
+				if tagged_words_copy[i][2] == 'SENT_START':
+					found = 'SENT_START'
+				elif tagged_words_copy[i][2] == 'SENT_END':
+					found = 'SENT_END'
+				elif expected_token.is_word:
 					# look at the real word:
 					try:
 						found = tagged_words_copy[i][1]
+						#print "F=%s" % found
 					except:
 						# text isn't that long
 						#print >> sys.stderr, "*** IndexError 2"
@@ -209,9 +216,9 @@ class PatternRule(Rule):
 						# text ends here
 						break
 				if not found:
-					print >> sys.stderr, "*** 'found' undefined (i=%d, %s/%s)" % (i, tagged_words_copy[i][1], tagged_words_copy[i][2])
+					#print >> sys.stderr, "*** 'found' undefined (i=%d, %s/%s)" % (i, tagged_words_copy[i][1], tagged_words_copy[i][2])
 					break
-				#print "exp: %s, found: %s" % (expected_token, found)
+				#print "exp: %s, found: %s<br>" % (expected_token, found)
 				case_switch = re.IGNORECASE
 				if self.case_sensitive:
 					case_switch = 0
@@ -224,6 +231,8 @@ class PatternRule(Rule):
 						match = None
 				else:
 					match = re.compile(expected_token.token+"$", case_switch).match(found)
+					#if match:
+					#	print "***"
 					# TODO (optimization): test equality for simply cases?:
 					#if self.case_sensitive:
 					#	match = (expected_token.token == found)
