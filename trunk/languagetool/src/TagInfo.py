@@ -1,5 +1,5 @@
-# -*- coding: iso-8859-1 -*-
 #!/usr/bin/python
+# -*- coding: iso-8859-1 -*-
 # Provide user information about BNC tags
 #
 # LanguageTool -- A Rule-Based Style and Grammar Checker
@@ -20,9 +20,12 @@
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 import re
+import sys
 
 class TagInfo:
-	TAG_STRING = """AJ0 Adjective (general or positive) (e.g. good, old, beautiful)
+
+	TAG_STRING = {}
+	TAG_STRING['en'] = """AJ0 Adjective (general or positive) (e.g. good, old, beautiful)
 		AJC Comparative adjective (e.g. better, older)
 		AJS Superlative adjective (e.g. best, oldest)
 		AT0 Article (e.g. the, a, an, no) [N.B. no is included among articles, which are defined here as determiner words which typically begin a noun phrase, but which cannot occur as the head of a noun phrase.]
@@ -92,38 +95,44 @@ class TagInfo:
 		XX0 The negative particle not or n't 
 		ZZ0 Alphabetical symbols (e.g. A, a, B, b, c, d)"""
 
-	TAG_STRING_GERMAN = """
-		ADJ Adjective (general) (e.g. gut, alt)
+	TAG_STRING['de'] = """ADJ Adjective (general) (e.g. gut, alt)
 		ADJE Comparative adjective (e.g. alte)
 		ADJER  adjective with er Ending (e.g. alter)
 		ADJES  adjective with es Ending (e.g. altes)
 		ADJEM  adjective with em Ending (e.g. altem)
 		ADJEN  adjective with en Ending (e.g. alten)
 		*ADV  Adverb like abends, morgen
+		
 		PRA  Pronoun with accusativ  wider, gegen
 		PRD  Pronoun with dativ  ab, aus
 		PRD  Pronoun with accusativ or dativ  in, über
+		
 		PP1  Personal pronoun ich, mich, mir
 		PP2  Personal pronoun du
 		PP3  Personal pronoun er, sie, es
 		PP4  Personal pronoun wir
 		PP5  Personal pronoun ihr
+		
 		*IND  oh, ah, heisa
 		*INT  Interrogating word like Wer, wo, etc...
+		
 		CNT  Number
 		CJC  Conjunctive word like und, oder, ...
+		
 		V    verb, e.g. gehen
 		V11  verb, e.g. gehe
 		V12  verb, e.g. gehst
 		V13  verb, e.g. geht
 		V14  verb, e.g. gehen
 		V15  verb, e.g. gehet
+		
 		HV   auxiliary verb, e.g. moegen
 		HV11 auxiliary verb, e.g. mag
 		HV12 auxiliary verb, e.g. magst
 		HV13 auxiliary verb, e.g. mag
 		HV14 auxiliary verb, e.g. moegen
 		HV15 auxiliary verb, e.g. moeget
+		
 		N    Noun
 		NMS  Noun male no ending, e.g. Garten
 		NFS  Noun female no ending, e.g. Frau
@@ -139,17 +148,19 @@ class TagInfo:
 		NFM Noun female or male with ending
 		NMN Noun male or neutrum with ending
 		NFMN Noun male female or neutrum with ending
+		
 		UA1   indefinite article ein
 		UAE   indefinite article eine
 		UAR   indefinite article einer
 		UAN   indefinite article einen
 		UAM   indefinite article einem
 		UAS   indefinite article eines
-		* INT,IND,ADV sometimes mixed up in the word collection
-			- to be corrected"""
+		* INT,IND,ADV sometimes mixed up in the word collection - to be corrected"""
 
-	def __init__(self):
-		tag_lines = re.split("\n", self.TAG_STRING)
+	def __init__(self, lang):
+		if not self.TAG_STRING.has_key(lang):
+			raise KeyError, "no information found for language '%s'" % lang
+		tag_lines = re.split("\n", self.TAG_STRING[lang])
 		self.tags = []		# [(short, explanation)]
 		for tag_line in tag_lines:
 			tag_line = tag_line.strip()
@@ -194,5 +205,9 @@ class TagInfo:
 
 if __name__ == "__main__":
 	# TODO: take language as parameter
-	taginfo = TagInfo()
+	if len(sys.argv) < 2:
+		print "Usage: TagInfo.py <language>"
+		print "	where <language> is a language code like en, de, ..."
+		sys.exit(1)
+	taginfo = TagInfo(sys.argv[1])
 	taginfo.printAll()
