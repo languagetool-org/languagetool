@@ -1,7 +1,7 @@
 # -*- coding: iso-8859-1 -*-
 # A probabilistic part-of-speech tagger (see the QTag paper) with
 # a rule-based extension.
-#$rcs = ' $Id: Tagger.py,v 1.8 2004-06-28 19:07:31 tyuk Exp $ ' ;
+#$rcs = ' $Id: Tagger.py,v 1.9 2004-09-12 21:49:05 dnaber Exp $ ' ;
 #
 # LanguageTool -- A Rule-Based Style and Grammar Checker
 # Copyright (C) 2002,2003,2004 Daniel Naber <daniel.naber@t-online.de>
@@ -441,8 +441,8 @@ class Text:
 			return [(orig_word, orig_word, [(self.manually_tagged[word], 1)])]
 
 		# sanity check:
-		if word.count("'") > 1:
-			print >> sys.stderr, "*** What's this, more than one apostroph: '%s'?" % word
+		#if word.count("'") > 1:
+		#	print >> sys.stderr, "*** What's this, more than one apostroph: '%s'?" % word
 
 		# Special cases: BNC tags "wasn't" like this: "<w VBD>was<w XX0>n't"
 		# Call yourself, but don't indefinitely recurse.
