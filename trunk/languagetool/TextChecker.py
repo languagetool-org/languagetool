@@ -38,8 +38,6 @@ import Rules
 import SentenceSplitter
 import ConfigParser
 
-
-
 class TextChecker:
 	"""A rule-based style and grammar checker."""
 	
@@ -55,6 +53,11 @@ class TextChecker:
 		self.textlanguage = textlanguage
 		self.mothertongue = mothertongue
 		self.max_sentence_length = max_sentence_length
+		config = ConfigParser.ConfigParser()
+		config.readfp(open('TextChecker.ini'))
+		Tagger.dicFile = config.get(textlanguage, 'dicFile');
+		Tagger.affFile = config.get(textlanguage, 'affFile');
+		Rules.grammarFile = config.get(textlanguage, 'grammarFile');
 		self.tagger = Tagger.Tagger(textlanguage)
 		self.chunker = Chunker.Chunker()
 		rules = Chunker.Rules()
@@ -204,7 +207,6 @@ def usage():
 def main():
 	options = None
 	rest = None
-	config = ConfigParser.ConfigParser()
 	try:
 		(options, rest) = getopt.getopt(sys.argv[1:], 'hcg:f:w:b:m:t:l:', \
 			['help', 'check', 'grammar=', 'falsefriends=', 'words=', \
@@ -238,13 +240,6 @@ def main():
 			textlanguage = a
 		elif o in ("-l", "--sentencelength"):
 			max_sentence_length = a
-
-	#Tagger.textlanguage = textlanguage
-	#Rules.textlanguage = textlanguage
-	config.readfp(open('TextChecker.ini'))
-	Tagger.dicFile = config.get(textlanguage, 'dicFile');
-	Tagger.affFile = config.get(textlanguage, 'affFile');
-	Rules.grammarFile = config.get(textlanguage, 'grammarFile');
 
 	for o, a in options:
 		if o in ("-h", "--help"):
