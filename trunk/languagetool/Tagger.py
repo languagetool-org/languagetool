@@ -70,17 +70,17 @@ class Tagger:
 	def bindData(self):
 		"""Load the word/POS tag and POS tag sequence data from disk."""
 		try:
-			self.data_table = cPickle.load(open(self.db_word_name))
+			self.data_table = cPickle.load(open(self.db_word_name, 'rb'))
 		except IOError:
 			print >> sys.stderr, "No date file '%s' yet, starting with empty table." % self.db_word_name
 			self.data_table = {}
 		try:
-			self.seqs_table_followed_by = cPickle.load(open(self.db_seq_name1))
+			self.seqs_table_followed_by = cPickle.load(open(self.db_seq_name1, 'rb'))
 		except IOError:
 			print >> sys.stderr, "No date file '%s' yet, starting with empty table." % self.db_seq_name1
 			self.seqs_table_followed_by = {}
 		try:
-			self.seqs_table_follows = cPickle.load(open(self.db_seq_name2))
+			self.seqs_table_follows = cPickle.load(open(self.db_seq_name2, 'rb'))
 		except IOError:
 			print >> sys.stderr, "No date file '%s' yet, starting with empty table." % self.db_seq_name2
 			self.seqs_table_follows = {}
@@ -92,9 +92,9 @@ class Tagger:
 		print >> sys.stderr, "Known words = %d" % len(self.data_table.keys())
 		print >> sys.stderr, "Known sequences = %d" % len(self.seqs_table_followed_by.keys())
 		print >> sys.stderr, "Commiting results..."
-		cPickle.dump(self.data_table, open(self.db_word_name, 'w'), 1)
-		cPickle.dump(self.seqs_table_followed_by, open(self.db_seq_name1, 'w'), 1)
-		cPickle.dump(self.seqs_table_follows, open(self.db_seq_name2, 'w'), 1)
+		cPickle.dump(self.data_table, open(self.db_word_name, 'wb'), 1)
+		cPickle.dump(self.seqs_table_followed_by, open(self.db_seq_name1, 'wb'), 1)
+		cPickle.dump(self.seqs_table_follows, open(self.db_seq_name2, 'wb'), 1)
 		return
 	
 	def deleteData(self):
