@@ -27,6 +27,8 @@ Contents:
 <BR>
 &nbsp;&nbsp;&nbsp;<a href=#r02b>The Wfinder.py module</a>
 <BR>
+&nbsp;&nbsp;&nbsp;<a href=#r02bb>The Wfhun.py and Wfdeu.py modules</a>
+<BR>
 &nbsp;&nbsp;&nbsp;<a href=#r03>Modification in TextChecker.py</a>
 <BR>
 <a href=#r03a>Language discrimination</a>
@@ -134,7 +136,14 @@ To cut the trailing dot. Otherwise valid words were not found because of the tra
   The main modification is in the TagWord method. Rather than using data_table.has_key(word) in order to find the word, it uses texts rc = wfinder.test_it(word) to find the word for non-English. Test_it is located in <i>Wfinder.py</i>. It checks the  dictionary, using the Dömölki-algorithm (also ued by myspell),  if this word is to be found. This is because words in agglutinating languages having 1000-2000 variations of each word cannot be handled by simple hash table searches like the has_key method. But using affixes reduces also the size of an English word collection by factor 2, and a German one by factor 6.
 <P>
 
-  Test_it also contains a language specific tag refinement addition. If in German a verb is found, test_it finds out -- according to the verb's ending -- which person uses the verb (me, you, he, we, they, etc..) and refines the tag V to V11...V15. It also checks for adjectives' ending and refines the ADJ tag to ADJE...ADJEM.
+  Test_it finally calls getTyp, that adjusts the word type according to the word's suffixes or prefixes.
+<P>
+<A name=r02bb></A>
+<BR>
+<h3> The Wfhun.py and Wfdeu.py module:</h3>
+<P>
+
+  These modules contain one function, getTyp, that adjusts the word type according to the word's suffixes or prefixes. If in German a verb is found, test_it finds out -- according to the verb's ending -- which person uses the verb (me, you, he, we, they, etc..) and refines the tag V to V11...V15. It also checks for adjectives' ending and refines the ADJ tag to ADJE...ADJEM. In fact it does similar functions for all supported languages.
 <P>
 
 <A name=r02a></A>
@@ -172,6 +181,8 @@ dicFile=deutsch.txt
 affFile=deutsch.aff
 <BR>
 grammarFile=degrammar.xml
+<BR>
+maxSentenceLength=90
 <P>
 
 [en]
@@ -181,6 +192,8 @@ dicFile=words
 affFile=english.aff
 <BR>
 grammarFile=engrammar.xml
+<BR>
+maxSentenceLength=30
 <P>
 
 [hu]
@@ -190,6 +203,8 @@ dicFile=hungarian.txt
 affFile=hungarian.aff
 <BR>
 grammarFile=hugrammar.xml
+<BR>
+maxSentenceLength=80
 <P>
 
 The file names are used in Tagger.py or Rules.py.
@@ -235,18 +250,25 @@ If you want to add a new language, the following actions are needed:
 
 <li>Set up a small word list that contains all the word types, your rules handle. Check the rules using this small word list and modify the word types and/or make refinements, if necessary </li>
 
-<li>If the word types need to be identified on the fly (which is very likely), enter your rules into the module Wfinder.py into the marked part:
+<li>If the word types need to be identified on the fly (which is very likely), enter your rules into the module Wfyourlan.py into the marked part. Do not forget to include Wfyourlan into Wfinder.py and initialize it using: self.wfyourlan = Wfyourlan.Wfyourlan() in the __init__ function.
 <BR>
-#
-<BR>
-# Here are the language specific rules of each language
+#  in the module Wfinder.py:
 <BR>
 #
 <BR>
 			else if Tagger.text1language == 'YourLanguage':
 <BR>
-......................--insert your rules here
+......................typ = getTyp(typ, word, oword)
 <BR>
+<BR>
+#  in the module Wfyourlan.py
+<BR>
+        def getTyp(self,typ, oword, word):
+<BR>
+# Here are the language specific rules of each language
+<BR>
+        return typ
+<br>
 # end of language specific rules for new languages.
 <BR>
 #</li>
