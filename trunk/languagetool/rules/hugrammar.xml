@@ -3,13 +3,13 @@
 <!--
 Rules: Grammar and Typos
 (c) 2004 Transam transam45@nospam.gmx.de
-$Id: hugrammar.xml,v 1.10 2004-07-16 17:39:15 tyuk Exp $
+$Id: hugrammar.xml,v 1.11 2004-08-26 19:36:24 tyuk Exp $
 -->
 <rules>
 	<rulegroup id="vesszo" name="vesszo szabalyok">
 	<message>vesszo szabalyok</message>
 	<rule id="bar" name="Vesszo ige utan bar,noha elott">
-		<pattern lang="hu">(V1|V2|V3|V4|V5|V6|IKV1|IKV2|IKV3|IKV4|IKV5|IKV6|SI1|SI2|SI3|SI4|SI5|SI6|IKSI1|IKSI2|IKSI3|IKSI4|IKSI5|IKSI6) RART</pattern>
+		<pattern lang="hu">(V1|V2|V3|V4|V5|V6|IKV1|IKV2|IKV3|IKV4|IKV5|IKV6|SI1|SI2|SI3|SI4|SI5|SI6|IKSI1|IKSI2|IKSI3|IKSI4|IKSI5|IKSI6) RART ^"(hogy|sõt)"</pattern>
 		<message>Vesszo ige utan bar,noha elott</message>
 		<example type="correct">kiment<em>,</em> pedig</example>
 		<example type="incorrect">kiment pedig</example>
@@ -125,13 +125,13 @@ $Id: hugrammar.xml,v 1.10 2004-07-16 17:39:15 tyuk Exp $
 		<example type="incorrect">ok menni fogtok</example>
 	</rule>
 	<rule id="KI" name="Ki utan tobbes szamu ige">
-		<pattern lang="hu">"(kicsoda|micsoda)" (V4|V5|V6|IKV4|IKV5|IKV6|SI4|SI5|SI6|IKSI4|IKSI5|IKSI6)</pattern>
+		<pattern lang="hu">"(kicsoda|micsoda)" (V4|V5|V6|IKV4|IKV5|IKV6) ^(VINF)</pattern>
 		<message>Ki, mi utan tobbes szamu ige</message>
 		<example type="correct">ki van ott</example>
 		<example type="incorrect">ki vannak ott</example>
 	</rule>
 	<rule id="KI2" name="Ki utan tobbes szamu ige_2">
-		<pattern lang="hu">"(ki)" (V4|V5|V6|IKV4|IKV5|IKV6|SI4|SI5|SI6|IKSI4|IKSI5|IKSI6) ^(VINF)</pattern>
+		<pattern lang="hu">"(ki)" (V4|V5|V6|IKV4|IKV5|IKV6) ^(VINF)</pattern>
 		<message>Ki, mi utan tobbes szamu ige_2</message>
 		<example type="correct">ki van ott</example>
 		<example type="incorrect">ki vannak ott</example>

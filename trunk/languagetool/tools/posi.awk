@@ -1,4 +1,5 @@
 # posi.awk
+# used by TKLSpell (posi.sh)
 # get position from languagetool output
 # input: languagetool output with -x
 # output: first_pos second_pos text
