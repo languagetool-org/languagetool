@@ -111,7 +111,10 @@ class TextChecker:
 			#print "S='%s'" % (sentence)
 			tagged_words = self.tagger.tagText(sentence)
 			if self.debug_mode:
-				print "Tw:%s" %(tagged_words)
+				print "Tw:",
+				for tagged_word in tagged_words:
+					if tagged_word[2]:
+						print "%s/%s" % (tagged_word[0], tagged_word[2]),
 			chunks = self.chunker.chunk(tagged_words)
 			tagged_words.insert(0, ('', None, 'SENT_START'))
 			tagged_words.append(('', None, 'SENT_END'))
@@ -220,9 +223,9 @@ def main():
 	options = None
 	rest = None
 	try:
-		(options, rest) = getopt.getopt(sys.argv[1:], 'hcg:f:w:b:m:l:s:e:x:d', \
-			['help', 'check', 'grammar=', 'falsefriends=', 'words=', \
-			'builtin=', 'mothertongue=', 'lang=', 'sentencelength=', 'encoding=', 'xml'])
+		(options, rest) = getopt.getopt(sys.argv[1:], 'hcxdg:f:w:b:m:l:s:e:', \
+			['help', 'check', 'xml', 'debug', 'grammar=', 'falsefriends=', 'words=', \
+			'builtin=', 'mothertongue=', 'lang=', 'sentencelength=', 'encoding='])
 	except getopt.GetoptError,e :
 		print >> sys.stderr, "Error: ", e
 		usage()
