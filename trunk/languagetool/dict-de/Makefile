@@ -23,6 +23,9 @@ default: all
 
 ./woerter/auscvs:
 	./bin/from_cvs.sh
+	
+./affix/affchk:
+	awk -f ./awk/checkaffix.awk ./affix/deutsch.aff	
 
 # neu machen
 neu: ./ergebnis/deutschneu.dic
@@ -36,9 +39,12 @@ ordne: ./worte/geordnet
 # worte cvs
 cvs: ./woerter/auscvs
 
+# affix check
+affchk: ./affix/affchk
+
 #putzen
 clean:
 	rm -rf ./ergebnis/*
 
 # alles machen 
-all: cvs ordne neu comb
+all: cvs ordne neu comb affchk
