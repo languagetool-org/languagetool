@@ -1,7 +1,7 @@
 # Rule that checks for word repeats
 # (c) 2003 Daniel Naber <daniel.naber@t-online.de>
 #
-#$rcs = ' $Id: WordRepeatRule.py,v 1.4 2003-08-22 20:23:32 dnaber Exp $ ' ;
+#$rcs = ' $Id: WordRepeatRule.py,v 1.5 2003-08-23 00:37:05 dnaber Exp $ ' ;
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -52,7 +52,7 @@ class WordRepeatRule(Rules.Rule):
 				# ignore punctuation
 				i = i + 1
 				continue
-			org_word_next = tagged_words[i+1][0]
+			org_word_next = tagged_words[i+2][0]
 			#print "%s -- %s<br>" % (org_word, org_word_next)
 			text_length = text_length + len(org_word)
 			if tagged_words[i][1] == None:
