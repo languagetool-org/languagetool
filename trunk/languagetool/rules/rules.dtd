@@ -38,7 +38,7 @@ Note for grammar rules:
 <!ATTLIST rulegroup id ID #REQUIRED>
 
 <!ELEMENT rule ( pattern,
-	((message?,error_rate?,marker?,example,example+) | 
+	((message?,error_rate?,example,example+) | 
 	(translation+,message?,example*)) )>
 <!ATTLIST rule id ID #IMPLIED>	<!-- well, required but not if there's a group -->
 <!ATTLIST rule level (0|1|2|3|4|5|6|7|8|9|10) #IMPLIED>
@@ -46,6 +46,8 @@ Note for grammar rules:
 <!ELEMENT pattern (#PCDATA)>
 <!ATTLIST pattern lang %Languages; #REQUIRED>
 <!ATTLIST pattern case_sensitive (yes|no) #IMPLIED>
+<!ATTLIST pattern mark_from CDATA #IMPLIED>
+<!ATTLIST pattern mark_to CDATA #IMPLIED>
 
 <!ELEMENT translation (#PCDATA)>
 <!ATTLIST translation lang %Languages; #REQUIRED>
@@ -61,8 +63,6 @@ Note for grammar rules:
 <!ATTLIST error_rate sentences CDATA #IMPLIED>
 <!-- last filename of the BNC files that was tested: -->
 <!ATTLIST error_rate last_5000_file CDATA #IMPLIED>
-
-<!ELEMENT marker (#PCDATA)>
 
 <!ELEMENT example (#PCDATA|em)*>
 <!ATTLIST example type (correct|incorrect|triggers_error) #REQUIRED>
