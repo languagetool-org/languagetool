@@ -27,8 +27,6 @@ class Tools:
 	def getXML(node, xmlstr=""):
 		"""Get the XML content of a node, but only elements and text."""
 		if node and node.nodeType == node.ELEMENT_NODE:
-			#print "*%s" % node.tagName
-			#xmlstr = xmlstr + "<>"
 			l = []
 			for child in node.childNodes:
 				l.append(Tools.getXML(child, xmlstr))
