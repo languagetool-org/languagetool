@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/home/dnaber/prg/python23/bin/python
 # Copyright (C) 2003 Daniel Naber <daniel.naber@t-online.de>
 
 # This program is free software; you can redistribute it and/or modify
