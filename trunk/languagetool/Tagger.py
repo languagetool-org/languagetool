@@ -27,8 +27,8 @@ import htmlentitydefs
 
 class Tagger:
 	"""POS-tag any text. The result in XML can be used to re-build the original
-	text by concatenating all contents of the <w> tags. Whitespace and non-word
-	characters have term=None and type=None, i.e. they are inside their own <w>
+	text by concatenating all contents of the <w> tags. Whitespace characters 
+	have term=None and type=None, i.e. they are inside their own <w>
 	elements. Words that could not be tagged have type=unknown."""
 
 	db_word_name = os.path.join("data", "words")
@@ -187,6 +187,7 @@ class Text:
 		self.count_ambiguous = 0
 		self.count_unknown = 0
 		self.nonword = re.compile("([\s,:;]+)")
+		self.nonword_punct = re.compile("([,:;]+)")
 		self.sentence_end = re.compile("([.!?]+)$")
 		self.bnc_word_regexp = re.compile("<W\s+TYPE=\"(.*?)\".*?>(.*?)</W>", \
 			re.DOTALL|re.IGNORECASE)
@@ -326,6 +327,9 @@ class Text:
 		word = self.normalise(word)
 		#print "#%s<br>" % word
 		#word = re.compile("[^\w' ]", re.IGNORECASE).sub("", word)
+		if word and self.nonword_punct.match(word):
+			# punctuation
+			return [(orig_word, orig_word, [])]
 		if (not word) or self.nonword.match(word):
 			# word is just white space
 			return [(orig_word, None, [])]
