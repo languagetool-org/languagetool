@@ -100,8 +100,8 @@ class Tagger:
 		return
 
 	def buildData(self, filename):
-		"""Load a BNC file in XML format and count the word/POS occurences
-		and the POS tag sequences."""
+		"""Load a BNC file in XML or SGML format and count the word/POS
+		occurences and the POS tag sequences."""
 		print >> sys.stderr, "Loading %s..." % filename
 		text = PreTaggedText(filename)
 		tagged_words = text.getTaggedWords()
@@ -242,7 +242,7 @@ class Text:
 
 	def getBNCTuples(self, text):
 		"""Return a list of (tag, word) tuples from text if
-		text is a BNC Sampler text in XML format. Otherwise
+		text is a BNC Sampler text in XML or SGML format. Otherwise
 		return an empty list. The tags are mapped from the C7 tag set
 		to the much smaller C5 tag set."""
 		l = []
@@ -282,7 +282,7 @@ class Text:
 		capitalization. If no guess can be made, None is returned."""
 
 		# £25 etc:
-		if word.startswith("£") or word.startswith("$"):
+		if word.startswith(u"£") or word.startswith(u"$"):
 			return 'NN0'
 
 		# numbers:
@@ -816,8 +816,8 @@ class TextToTag(Text):
 		#	print tag_triple
 
 		###
-		stat = self.getStats(count_wrong_tags)
-		print >> sys.stderr, stat
+		#stat = self.getStats(count_wrong_tags)
+		#print >> sys.stderr, stat
 		return result_tuple_list
 
 	def getTuple(self, tagged_list_elem):
