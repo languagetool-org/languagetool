@@ -1,6 +1,6 @@
 # Class for Grammar and Style Rules
 # (c) 2002,2003 Daniel Naber <daniel.naber@t-online.de>
-#$rcs = ' $Id: Rules.py,v 1.18 2003-07-28 20:45:40 dnaber Exp $ ' ;
+#$rcs = ' $Id: Rules.py,v 1.19 2003-07-28 21:19:28 dnaber Exp $ ' ;
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -369,6 +369,7 @@ class PatternRule(Rule):
 			match = 1
 			first_match = None
 			chunk_corr = 0
+			chunk_len = 0
 
 			while match:
 				try:
@@ -410,6 +411,7 @@ class PatternRule(Rule):
 							#print "CHUNK %d-%d: %s" % (from_pos, to_pos, chunk_name)
 							i = i + (to_pos - from_pos)
 							chunk_corr = chunk_corr + (to_pos - from_pos)
+							chunk_len = chunk_len + 1
 							break
 				else:
 					# look at the word's POS tag:
@@ -446,7 +448,9 @@ class PatternRule(Rule):
 			if match and p == len(self.tokens):
 
 				#print "##MATCH"
-				(first_match, from_pos, to_pos) = self.listPosToAbsPos(tagged_words_copy, first_match)
+				#FIXME: does this always mark the correct position?
+				(first_match, from_pos, to_pos) = self.listPosToAbsPos(tagged_words_copy, \
+					first_match, 0)
 				to_pos = to_pos + chunk_corr
 					
 				# Let \n in a rule refer to the n'th matched word:
@@ -474,7 +478,8 @@ class PatternRule(Rule):
 			ct = ct + 1
 		return matches
 
-	def listPosToAbsPos(self, l, first_match):
+	def listPosToAbsPos(self, l, first_match, chunk_corr=0):
+		#print "*%d (%d)" % (first_match, chunk_corr)
 		j = first_match + 1
 		i = 0
 		mark_from_tmp = self.marker_from
@@ -486,7 +491,7 @@ class PatternRule(Rule):
 		first_match = first_match + i
 
 		last_match = first_match
-		match_len = len(self.tokens)-self.marker_from+self.marker_to
+		match_len = len(self.tokens)-self.marker_from+self.marker_to+chunk_corr
 		for el in l[first_match:]:
 			if match_len == 0:
 				break
