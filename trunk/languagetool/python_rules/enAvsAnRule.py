@@ -1,7 +1,7 @@
 # Rule that checks the use of 'a' vs. 'an' (English only)
 # (c) 2003,2004 Daniel Naber <daniel.naber@t-online.de>
 #
-#$rcs = ' $Id: enAvsAnRule.py,v 1.4 2004-06-13 12:41:52 dnaber Exp $ ' ;
+#$rcs = ' $Id: enAvsAnRule.py,v 1.5 2004-06-20 19:01:30 dnaber Exp $ ' ;
 #
 # This library is free software; you can redistribute it and/or
 # modify it under the terms of the GNU Lesser General Public
@@ -51,7 +51,8 @@ class enAvsAnRule(Rules.Rule):
 		f.close()
 		return l
 		
-	def match(self, tagged_words, chunks, position_fix=0, line_fix=0):
+	def match(self, tagged_words, chunks, position_fix=0, line_fix=0, column_fix=0):
+		# fixme: use column_fix
 		matches = []
 		text_length = 0
 		line_breaks = 0
