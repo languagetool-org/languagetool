@@ -3,7 +3,7 @@
 <!--
 Rules: Grammar and Typos
 (c) 2001,2002,2003 Daniel Naber, daniel.naber@t-online.de
-$Id: grammar.xml,v 1.9 2003-07-28 02:01:03 dnaber Exp $
+$Id: grammar.xml,v 1.10 2003-07-28 19:09:38 dnaber Exp $
 -->
 <rules>
 
@@ -16,7 +16,7 @@ $Id: grammar.xml,v 1.9 2003-07-28 02:01:03 dnaber Exp $
 		<example type="incorrect"><em>A</em> baseball teams were successful.</example>
 	</rule>
 
-	<rule id="NP_INF" name="Noun/Verb agreement">
+	<rule id="_NP_INF" name="Noun/Verb agreement">
 		<pattern lang="en">_NP (VDB|VDI|VHB|VHI|VBI|VBB|VVI|VVB)</pattern>
 		<message>Use a singular verb for singular nouns.</message>
 		<error_rate warnings="?" sentences="?" />
@@ -24,8 +24,6 @@ $Id: grammar.xml,v 1.9 2003-07-28 02:01:03 dnaber Exp $
 		<example type="incorrect">A baseball team <em>are</em> established.</example>
 	</rule>
 	
-	<!-- <em> -->
-
 	<rule id="DOES_X_CAN" name="Word order: 'Can...'">
 		<pattern lang="en">"(does|did)" ".*" "can"</pattern>
 		<message>Did you mean <em>can \2</em>?</message>
@@ -412,7 +410,7 @@ $Id: grammar.xml,v 1.9 2003-07-28 02:01:03 dnaber Exp $
 
 		<!-- TODO OLD: 65 of the 154 errors are mistaggings of "said" as in "...there is said..." -->
 		<rule>
-			<pattern lang="en" mark_from="1" mark_to="0">"is" (VVI|VVD|VVZ)</pattern>
+			<pattern lang="en" mark_from="1" mark_to="0">"is" (VVI|VVZ)</pattern>
 			<error_rate warnings="319" sentences="260000" />
 			<example type="correct">He is <em>walking</em> home.</example>
 			<example type="incorrect">He is <em>go</em> home.</example>
