@@ -174,15 +174,14 @@ class Tagger:
 		xml = text.toXML(tagged_words)
 		return xml
 
-	def tagSeq(self, triple):
-		"""Return the probability of a 3-POS-tag sequence."""
-		# FIXME
-		if len(triple) != 3:
+	def tagSeq(self, tup):
+		"""Return the probability of a 2-POS-tag sequence."""
+		if len(tup) != 2:
 			#TODO?: throw exception
-			print >> sys.stderr, "Sequence does not consist of 3 tokens: '%s'" % str(seq)
+			print >> sys.stderr, "Sequence does not consist of 2 tokens: '%s'" % str(seq)
 			return None
 		try:
-			probability = self.seqs_table[triple]
+			probability = self.seqs_table_followed_by[tup]
 		except KeyError:
 			probability = 0
 		return probability

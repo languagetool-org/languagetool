@@ -3,11 +3,7 @@
 # (c) 2003 Daniel Naber <daniel.naber@t-online.de>
 # Usage examples:
 # 1) ./tag.py -b /data/bnc_sampler/train/*
-#    -> produces ~3MB in data, 469.501 words, 35.129 different words
-# 2) ./tag.py --tag /data/bnc/test/AY/AYJ.xml (e.g. /data/bnc/A/A0/S.xml)
-
-# TODO: remove/ignore non-word characters
-# fixme(?): needs to recognize 100% if trained on the same text (problem: special characters)
+# 2) ./tag.py -t /data/bnc_sampler/test/fcf
 
 import re
 import sys
@@ -35,7 +31,7 @@ class Controller:
 		print >> sys.stderr, " -t, --tag     tag any text files"
 		print >> sys.stderr, " -b, --build   train the tagger using BNC XML files"
 		print >> sys.stderr, " -w, --wordtag tag any word"
-		print >> sys.stderr, " -s, --seqtag  probability for any 3-tag-sequence"
+		print >> sys.stderr, " -s, --seqtag  probability for any 2-tag-sequence"
 		# TODO: better help (e.g. 'build' adds to existing index (?))
 		return
 	
@@ -105,7 +101,7 @@ class Controller:
 		elif mode == self.TAGSEQ:
 			tagger = Tagger.Tagger()
 			tagger.bindData()
-			key = (rest[0], rest[1], rest[2])
+			key = (rest[0], rest[1])
 			prob = tagger.tagSeq(key)
 			print prob
 		return
