@@ -56,6 +56,8 @@ class SentenceSplitterTest(unittest.TestCase):
 		self.doTest("He won't say no. 5 is better. #Not really.")
 		self.doTest("They met at 5 p.m. on Thursday.")
 		self.doTest("They met at 5 p.m. #It was Thursday.")
+		# Missing space after sentence end:
+		self.doTest("James is from the Ireland!#He lives in Spain now.")
 		# From the abbreviation list:
 		self.doTest("Jones Bros. have built a succesful company.")
 		# Doesn't work:

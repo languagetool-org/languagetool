@@ -56,6 +56,10 @@ class SentenceSplitter:
 		text = re.compile("\n\s*\n", re.DOTALL).sub(self.EOS, text)
 		# Punctuation followed by whitespace means a new sentence:
 		text = re.compile("(%s\s)" % self.PAP, re.DOTALL).sub("\\1%s" % self.EOS, text)
+		# New (compared to the perl module): Punctuation followed by uppercase followed
+		# by non-uppercase character (except dot) means a new sentence:
+		text = re.compile("(%s)([%s][^%s.])" % (self.PAP, string.uppercase, string.uppercase), \
+			re.DOTALL).sub("\\1%s\\2" % self.EOS, text)
 		# Break also when single letter comes before punctuation:
 		text = re.compile("(\s\w%s)" % self.P, re.DOTALL).sub("\\1%s" % self.EOS, text)
 		return text
@@ -112,7 +116,7 @@ class SentenceSplitter:
 		return text
 
 if __name__ == "__main__":
-	#t = "Don't split the U. S. A. will you?"
+	#t = "Do split me.Will you?"
 	#print t
 	#s = SentenceSplitter()
 	#l = s.split(t)
