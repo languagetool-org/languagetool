@@ -29,7 +29,7 @@ class Rules:
 
 	rules_grammar_file = "rules/grammar.xml"
 	
-	def __init__(self, max_sentence_length):
+	def __init__(self, max_sentence_length, grammar_rules):
 		self.rules = []
 		length_rule = SentenceLengthRule()
 		if max_sentence_length != None:
@@ -42,11 +42,12 @@ class Rules:
 		doc = xml.dom.minidom.parse(os.path.basename(self.rules_grammar_file))
 		os.chdir(dir_temp)
 		rule_nodes = doc.getElementsByTagName("rule")
-		# fixme: the fake rules are ugly...
+		# TODO: these fake rules are ugly...
 		for rule_node in rule_nodes:
 			rule = PatternRule(0, "NP VB", "", 0, "", "", 0, 0, "")	# fake values
-			rule.parse(rule_node)
-			self.rules.append(rule)
+			rule_id = rule.parse(rule_node)
+			if grammar_rules == None or rule_id in grammar_rules:
+				self.rules.append(rule)
 		return
 
 class Rule:
@@ -77,7 +78,7 @@ class SentenceLengthRule(Rule):
 		self.max_length = int(max_length)
 		return
 		
-	def match(self, tagged_words, fake_param):
+	def match(self, tagged_words, position_fix=0):
 		"""Check if a sentence is too long. Put the warning on the first word
 		above the limit. Assumes that tagged_words is exactly one sentence."""
 		if self.max_length == 0:		# 0 = no limit
@@ -124,7 +125,8 @@ class PatternRule(Rule):
 		return
 		
 	def parse(self, dom_node):
-		"""Parse an XML rule node and init the object with its variables."""
+		"""Parse an XML rule node and init the object with its variables.
+		Return the rule's ID."""
 		rule_id = dom_node.getAttribute("id")
 		pattern = dom_node.getElementsByTagName("pattern")[0].childNodes[0].data
 		language = dom_node.getElementsByTagName("pattern")[0].getAttribute("lang")
@@ -150,21 +152,14 @@ class PatternRule(Rule):
 		false_positives = dom_node.getElementsByTagName("error_rate")[0].childNodes[0].data
 		self.__init__(rule_id, pattern, message, marker_position, \
 			example_good, example_bad, case_sensitive, false_positives, language)
-		return
+		return rule_id
 	
 	def match(self, tagged_words, position_fix):
 		"""Check if there are rules that match the tagged_words. Returns a list
 		of RuleMatch objects."""
 		matches = []
 		ct = 0
-		# this is a hack so that negation at the start of a pattern
-		# works, i.e. it matches the non-existing words before the
-		# sentence even begins:
-		# TODO: this copy is slow, get rid of it!
-		tagged_words_copy = tagged_words
-		#print tagged_words
-		#tagged_words_copy = copy.copy(tagged_words)
-		#tagged_words_copy.insert(0, ('__fake__word__', '__fake__word__', 'FILL_TAG'))
+		tagged_words_copy = tagged_words		# no copy, just a refernce
 		for word_tag_tuple in tagged_words_copy:
 			#print word_tag_tuple
 			i = ct
@@ -255,14 +250,10 @@ class PatternRule(Rule):
 				#print "# %d" % first_match
 				#print str(tagged_words_copy)+"<br>"
 				for tagged_word in tagged_words_copy:
-					if ct_tmp == 0:	
-						# ignore fake entry:
-						ct_tmp = ct_tmp + 1
-						continue
 					#print "%s [fm=%d, marker=%d, ct=%d]<br>" % (str(tagged_word), first_match, self.marker_position, ct_tmp)
 					# TODO: break
-					# fixme: not correct at end of sentence (e.g. "...don't.") etc.
-					#print tagged_word
+					# fixme: not correct at end of sentence (e.g. "...don't.") etc.??
+					#print "####"+str(tagged_word)
 					if ct_tmp < first_match+self.marker_position:
 						#print "FM: "+tagged_word[0]+"<br>"
 						from_pos = from_pos + len(tagged_word[0])
