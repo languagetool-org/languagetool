@@ -371,6 +371,11 @@ class Wfinder:
 #
 			if self.textlanguage == 'de':
 				if typ != "":
+					if typ == 'V' or typ == 'HV':
+						if oword[-4:] == 'ende':
+							typ = 'ADJV'
+						if oword[-5:-1] == 'ende':
+							typ = 'ADJV'
 					if typ == 'V':
 						if oword[-1:] == 'e':
 							typ = 'V11'
@@ -382,7 +387,7 @@ class Wfinder:
 							typ = 'V15'
 						elif oword[-1:] == 't':
 							typ = 'V13'
-					elif typ == 'HV':
+					if typ == 'HV':
 						if oword[-1:] == 'e':
 							typ = 'HV11'
 						elif oword[-2:] == 'st':

@@ -3,7 +3,7 @@
 <!--
 Rules: Grammar and Typos
 (c) 2004 Transam transam45@nospam.gmx.de
-$Id: degrammar.xml,v 1.5 2004-06-22 20:16:10 tyuk Exp $
+$Id: degrammar.xml,v 1.6 2004-06-25 08:17:02 tyuk Exp $
 -->
 <rules>
 
@@ -50,6 +50,40 @@ $Id: degrammar.xml,v 1.5 2004-06-22 20:16:10 tyuk Exp $
 			<example type="incorrect">ihr gehe</example>
 			<example type="incorrect">ihr gehst</example>
 		</rule>
+		<rule id="ICH2" name="Verbform vor 'Ich'">
+			<pattern lang="de">(V12|V13|V15|HV2|HV3|HV5) PP1 </pattern>
+			<message>Vor 'ich' muss ein Verb in der ersten Person singular stehen</message>
+			<example type="correct">gehe ich</example>
+			<example type="incorrect">gehst ich</example>
+			<example type="incorrect">geht ich</example>
+		</rule>
+		<rule id="DU" name="Verbform vor 'du'/'wir'">
+			<pattern lang="de">(V13|V15|HV3|HV5) PP2</pattern>
+			<message>Vor 'du'/'wir' Verb nicht mit Endung 'st'</message>
+			<example type="correct">gehst du</example>
+			<example type="incorrect">geht du</example>
+			<example type="incorrect">geht wir</example>
+		</rule>
+		<rule id="ER" name="Vor 'er', 'sie', 'es' Verb mit Endung 't'">
+			<pattern lang="de">(V12|HV2) PP3</pattern>
+			<message>Vor 'er', 'sie', 'es' Verb mit Endung 't'</message>
+			<example type="correct">geht er</example>
+			<example type="incorrect">gehst er</example>
+		</rule>
+		<rule id="WIR" name="Vor 'wir' Verb mit Endung 'en'">
+			<pattern lang="de">(V11|V12|V13|V15|HV1|HV2|HV3|HV5) PP4</pattern>
+			<message>Vor 'wir' Verb mit Endung 'en'</message>
+			<example type="correct">gehen wir</example>
+			<example type="incorrect">gehst wir</example>
+			<example type="incorrect">gehe wir</example>
+		</rule>
+		<rule id="IHR" name="Vor 'ihr' Verb mit Endung 't'">
+			<pattern lang="de">(V11|V12|HV1|HV2) PP5</pattern>
+			<message>Vor 'ihr' Verb mit Endung 't'</message>
+			<example type="correct">ihr</example>
+			<example type="incorrect">gehe ihr</example>
+			<example type="incorrect">gehst ihr</example>
+		</rule>
 		<rule id="INFICH" name="Infinitiv nur mit korrektem Hilfsverb nach 'ich'">
 			<pattern lang="de">PP1 V14 ^(HV1|HV4)</pattern>
 			<message>Infinitiv nur mit korrektem Hilfsverb nach 'ich'</message>
@@ -62,14 +96,8 @@ $Id: degrammar.xml,v 1.5 2004-06-22 20:16:10 tyuk Exp $
 			<example type="correct">du gehen wirst</example>
 			<example type="incorrect">du gehen</example>
 		</rule>
-		<rule id="INFER" name="Infinitiv nur mit korrektem Hilfsverb nach 'er', 'ihr'">
-			<pattern lang="de">^("(war|ist|wird)"|PRA) PP3 V14 ^(HV3|HV4)</pattern>
-			<message>Infinitiv nur mit korrektem Hilfsverb nach 'ich', 'du', 'er', 'ihr'</message>
-			<example type="correct">er gehen wird</example>
-			<example type="incorrect">er gehen</example>
-		</rule>
 		<rule id="INFIHR" name="Infinitiv nur korrektem mit Hilfsverb nach 'ihr'">
-			<pattern lang="de">^(PRD|PAD) PP5 V14 ^(HV4|HV5)</pattern>
+			<pattern lang="de">^(PRD|PAD) PP5 V14 ^(HV4|HV5|SENT_END)</pattern>
 			<message>Infinitiv nur mit korrektem Hilfsverb nach 'ihr'</message>
 			<example type="correct">ihr gehen werdet</example>
 			<example type="incorrect">ihr gehen</example>
@@ -84,7 +112,7 @@ $Id: degrammar.xml,v 1.5 2004-06-22 20:16:10 tyuk Exp $
 			<example type="incorrect">der Haus</example>
 		</rule>
 		<rule id="DAS" name="'das' + Nomen">
-			<pattern lang="de">ARN (NFS|NMS|NM|NF|NN)</pattern>
+			<pattern lang="de">ARN (NFS|NMS|NM|NF)</pattern>
 			<message>'das' mit nicht neutralem Nomen</message>
 			<example type="correct">das Haus</example>
 			<example type="incorrect">das Frau</example>
@@ -173,7 +201,8 @@ $Id: degrammar.xml,v 1.5 2004-06-22 20:16:10 tyuk Exp $
 		<rule id="adjmix13" name="No adj mixing en es">
 			<pattern lang="de">ADJEN ADJES</pattern>
 			<message>Nach adjen (z.B. guten) muss adjen (z.b. lieben) folgen</message>
-			<example type="correct">guten alten</example>
+<!-- 			<example type="correct">gutden
+en alten</example> //-->
 			<example type="incorrect">guten altes</example>
 		</rule>
 		<rule id="adjmix14" name="No adj mixing es en">
