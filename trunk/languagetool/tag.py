@@ -1,81 +1,106 @@
 #!/usr/bin/python
-# A probabilistc part-of-speech tagger (see the QTag paper), 2002-06-15
-# (c) 2002 Daniel Naber <daniel.naber@t-online.de>
+# A frontend to a probabilistc part-of-speech tagger (see the QTag paper)
+# (c) 2003 Daniel Naber <daniel.naber@t-online.de>
+# Usage examples:
+# 1) ./tag.py --build /data/bnc/xml_data/A0[0-9A-J].xml
+#    -> produces ~3MB in data, 469.501 words, 35.129 different words
+# 2) ./tag.py --tag /data/bnc/test/AY/AYJ.xml (e.g. /data/bnc/A/A0/S.xml)
 
 # TODO: remove/ignore non-word characters
 # fixme(?): needs to recognize 100% if trained on the same text (problem: special characters)
-# Usage:
-# 1) ./tag.py -build /data/bnc/A/A0/A00.xml (bzw. /data/bnc/A/A0/A0*.xml)
-# 2) ./tag.py -tag /data/bnc/test/AY/AYJ.xml (bzw. kürzer: /data/bnc/A/A0/S.xml)
-
-# ### Speed comparison for "database":
-
-# BeeDict:
-# time ./tag.py -build /data/bnc/A/A0/A0[0-9].xml	28.00s 2,4MB + 0,3MB
-# time ./tag.py -tag test.txt >/dev/null			 0.17s
-
-# pickle:
-# time ./tag.py -build /data/bnc/A/A0/A0[0-9].xml	35.00s 2,2MB
-# time ./tag.py -tag test.txt >/dev/null			18.00s (!!!)
-
-# cPickle (binary):
-# time ./tag.py -build /data/bnc/A/A0/A0[0-9].xml	18.00s 1,3MB
-# time ./tag.py -tag test.txt >/dev/null			 1.50s
 
 import Tagger
 
 import re
 import sys
 import string
+import getopt
 		
 class Controller:
 	"Main program."
 
+	TAG = 0
+	BUILD = 1
+	TAGWORD = 2
+	TAGSEQ = 3
+	
 	def __init__(self):
 		return
 		
 	def usage(self):
-		print "Usage: ./tagger.py <-build|-tag> <filename>"
+		print >> sys.stderr, "Usage: ./tagger.py <--build|--tag|--tagword> <filename...>"
+		print >> sys.stderr, " -h, --help    this help information"
+		print >> sys.stderr, " -t, --tag     tag any text files"
+		print >> sys.stderr, " -b, --build   train the tagger using BNC XML files"
+		print >> sys.stderr, " -w, --wordtag tag any word"
+		print >> sys.stderr, " -s, --seqtag  probability for any 3-tag-sequence"
+		# TODO: better help (e.g. 'build' adds to existing index (?))
 		return
 	
+	def sanityCheck(self, filename, xml):
+		"""Sanity check: all <w>...</w> together == original file?"""
+		words = re.compile("<w.*?>(.*?)</w>", re.DOTALL).findall(xml)
+		words_string = string.join(words, "")
+		# Load original file:
+		f = open(filename)
+		orig_contents = f.read()
+		f.close()
+		if orig_contents != words_string:
+			print >> sys.stderr, "*** Warning: joined output doesn't match original file!"
+			print >> sys.stderr, "*** (can be ignored if the file is a BNC file)"
+		return
+
 	def run(self):
-		# fixme: add real options
-		if len(sys.argv) <= 2:
-			prg.usage()
-			sys.exit()
-		option = sys.argv[1]
-		filename = sys.argv[2]
-		if option == "-build":
+		try:
+			(options, rest) = getopt.getopt(sys.argv[1:], 'htbws',
+				['help', 'build', 'tag', 'wordtag', 'seqtag'])
+		except getopt.GetoptError, e:
+			print >> sys.stderr, "Error: %s" % e
+			self.usage()
+			sys.exit(1)
+		mode = self.TAG
+		for o, a in options:
+			if o in ("-h", "--help"):
+				self.usage()
+				sys.exit(0)
+			elif o in ("-h", "--tag"):
+				mode = self.TAG
+			elif o in ("-h", "--build"):
+				mode = self.BUILD
+			elif o in ("-w", "--wordtag"):
+				mode = self.TAGWORD
+			elif o in ("-s", "--seqtag"):
+				mode = self.TAGSEQ
+		if not rest:
+			self.usage()
+			sys.exit(1)
+
+		if mode == self.BUILD:
 			tagger = Tagger.Tagger()
-			# ugly hack reset the data (useful for testing) (TODO):
-			tagger.deleteData()
 			tagger.bindData()
-			filenames = sys.argv[2:]
-			for filename in filenames:
+			for filename in rest:
 				tagger.buildData(filename)
 			tagger.commitData()
-		elif option == "-tag":
+		elif mode == self.TAG:
 			tagger = Tagger.Tagger()
 			tagger.bindData()
-			xml = tagger.tagFile(filename)
-			print xml
+			for filename in rest:
+				xml = tagger.tagFile(filename)
+				self.sanityCheck(filename, xml)
+				print xml
 			print >> sys.stderr, "Done."
-			### sanity check: all <w>...</w> together == original file?
-			words = re.compile("<w.*?>(.*?)</w>", re.DOTALL).findall(xml)
-			word_list = []
-			for word in words:
-				word_list.append(word)
-			words_string = string.join(word_list, "")
-			# load original file:
-			f = open(filename)
-			orig_contents = f.read()
-			f.close()
-			if orig_contents != words_string:
-				print >> sys.stderr, "*** Warning: joined output doesn't match original file!"
-				print >> sys.stderr, "*** (can be ignored if the file is a BNC file)"
-		else:
-			print "Unknown option '%s'" % option
-			self.usage()
+		elif mode == self.TAGWORD:
+			tagger = Tagger.Tagger()
+			tagger.bindData()
+			for word in rest:
+				r = tagger.tagWord(word)
+				print r
+		elif mode == self.TAGSEQ:
+			tagger = Tagger.Tagger()
+			tagger.bindData()
+			key = (rest[0], rest[1], rest[2])
+			prob = tagger.tagSeq(key)
+			print prob
 		return
 
 ### Main program
