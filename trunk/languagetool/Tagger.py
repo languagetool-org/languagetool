@@ -32,6 +32,7 @@ class Tagger:
 
 	db_word_name = os.path.join("data", "words")
 	db_seq_name = os.path.join("data", "seqs")
+	uncountable_name = os.path.join("data", "uncountable.txt")
 	
 	def __init__(self, db_word_name=None, db_seq_name=None):
 		"""Initialize the tagger, optionally using the given
@@ -42,9 +43,23 @@ class Tagger:
 			self.db_word_name = db_word_name
 		if db_seq_name:
 			self.db_seq_name = db_seq_name
+		uncountable_nouns = self.loadUncountables()
 		self.word_count = 0
 		return
 
+	def loadUncountables(self):
+		l = []
+		f = open(self.uncountable_name)
+		while 1:
+			line = f.readline()
+			if not line:
+				break
+			line = line.strip()
+			if not line.startswith("#") and line != '':
+				l.append(line)
+		f.close()
+		return l
+		
 	def bindData(self):
 		"""Load the word/POS tag and POS tag sequence data from disk."""
 		try:
@@ -166,7 +181,8 @@ class Text:
 		self.count_unambiguous = 0
 		self.count_ambiguous = 0
 		self.count_unknown = 0
-		self.nonword = re.compile("([\s,.!?]+)")
+		self.nonword = re.compile("([\s,]+)")
+		self.sentence_end = re.compile("([.!?]+)$")
 		self.bnc_word_regexp = re.compile("<W\s+TYPE=\"(.*?)\".*?>(.*?)</W>", \
 			re.DOTALL|re.IGNORECASE)
 		return
@@ -260,18 +276,22 @@ class Text:
 		[(orig_word, normalised_word, [(tag, probability])]"""
 		orig_word = word
 		word = self.normalise(word)
+		###
+		#print word
 		#word = re.compile("[^\w' ]", re.IGNORECASE).sub("", word)
-		short_form_pos = word.find("n't")
 		if (not word) or self.nonword.match(word):
 			# word is just white space
 			return [(orig_word, None, [])]
 		# sanity check:
 		if word.count("'") > 1:
 			print >> sys.stderr, "*** What's this, more than one apostroph: '%s'!?" % word
+		short_form_pos = word.find("n't")
 		if short_form_pos != -1 and short_form_pos != 0:
 			# sanity check:
 			if not word.endswith("n't"):
-				print >> sys.stderr, "*** What's this, negation not at the end: '%s'!?" % word
+				#print >> sys.stderr, "*** What's this, negation not at the end: '%s'!?" % word
+				# it's okay, e.g. "...didn't."
+				pass
 			# Special case: BNC tags "wasn't" like this: "<w VBD>was<w XX0>n't"
 			# Call yourself, but don't indefinitely recurse.
 			# Also ignore cases where the apostroph occurs twice in a word
@@ -285,7 +305,9 @@ class Text:
 		if possesive_pos != -1 and possesive_pos != 0:
 			# sanity check:
 			if not word.endswith("'s"):
-				print >> sys.stderr, "*** What's this, possesive not at the end: '%s'!?" % word
+				#print >> sys.stderr, "*** What's this, possesive not at the end: '%s'!?" % word
+				# it's okay, e.g. "...John's."
+				pass
 			first_part = self.tagWord(word[0:possesive_pos], data_table)[0]
 			second_part = self.tagWord("'s", data_table)[0]
 			tag_results = []
@@ -293,7 +315,7 @@ class Text:
 			tag_results.append((word[0:possesive_pos], first_part[1], first_part[2]))
 			tag_results.append(("'s", second_part[1], second_part[2]))
 			return tag_results
-		#### fixme: ignore upper/lower case?, no seems to decrease precision
+		#### fixme: ignore upper/lower case?, no -- seems to decrease precision
 		#word = word.lower()
 		if not data_table.has_key(word):
 			# word is unknown
@@ -577,10 +599,19 @@ class TextToTag(Text):
 			return (curr_word, tagged_word, 'POS')
 		return None
 
+	def applyTagRules(self, curr_word, tagged_word, curr_tag):
+		"""Some hard-coded and manually written rules that extent the
+		tagging. Returns a (word, normalized_word, tag) triple."""
+		#print "##%s" % curr_tag
+		#if curr_tag == 'NN1' and curr_word in self.uncountables:
+		#	return (curr_word, tagged_word, 'NN1')
+		return None
+
 	def tag(self, data_table, seqs_table):
 		"""Tag self.text and return list of tuples
 		(word, normalized word, most probable tag)"""
 		self.text = self.expandEntities(self.text)
+		#print self.text
 		result_tuple_list = []
 		count_wrong_tags = "n/a"
 		is_bnc = 0
@@ -592,6 +623,21 @@ class TextToTag(Text):
 			count_wrong_tags = 0
 		else:
 			word_matches = self.nonword.split(self.text)
+			
+		# Put sentence end periods etc into an extra element.
+		# We cannot just split on periods etc. because that would
+		# break inner-sentence tokens like "... No. 5 ...":
+		# fixme: only work on the last element (not counting white space)
+		j = len(word_matches)-1
+		while j >= 0:
+			w = word_matches[j]
+			s_end_match = self.sentence_end.search(w)
+			if s_end_match:
+				word_matches[j] = w[:len(w)-len(s_end_match.group(1))]
+				word_matches.insert(j+1, s_end_match.group(1))
+				break
+			j = j - 1
+			
 		i = 0
 		tagged_list = [self.DUMMY, self.DUMMY]
 		tagged_list_bnc = [self.DUMMY, self.DUMMY]
@@ -618,9 +664,8 @@ class TextToTag(Text):
 					word = tuple_word
 					i = i + 2
 			r = Text.tagWord(self, word, data_table)
-			#print r
-			
 			tagged_list.extend(r)
+
 			if is_bnc:
 				for el in r:
 					# happens e.g. with this (wrong?) markup in BNC:
@@ -689,6 +734,20 @@ class TextToTag(Text):
 				wrong_tags = self.checkBNCMatch(i, tagged_list_bnc, orig_word, best_tag)
 				count_wrong_tags = count_wrong_tags + wrong_tags
 			i = i + 1
+
+		i = 0
+		for tag_triple in result_tuple_list:
+			triple = self.applyTagRules(tag_triple[0], tag_triple[1], tag_triple[2])
+			if triple:
+				result_tuple_list[i] = triple
+			if self.sentence_end.search(tag_triple[0]):
+				# make sure punctuation doesn't have tags:
+				result_tuple_list[i] = (tag_triple[0], None, None)
+			i = i + 1
+		
+		#debug:
+		#for tag_triple in result_tuple_list:
+		#	print tag_triple
 
 		stat = self.getStats(count_wrong_tags)
 		#print >> sys.stderr, stat
