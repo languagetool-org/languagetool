@@ -1,6 +1,6 @@
 # Class for Grammar and Style Rules
 # (c) 2002,2003 Daniel Naber <daniel.naber@t-online.de>
-#$rcs = ' $Id: Rules.py,v 1.13 2003-07-23 19:31:37 dnaber Exp $ ' ;
+#$rcs = ' $Id: Rules.py,v 1.14 2003-07-26 23:55:09 dnaber Exp $ ' ;
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -90,7 +90,8 @@ class Rule:
 	def __init__(self, rule_id, message, false_positives, language):
 		self.rule_id = rule_id
 		self.message = message
-		self.false_positives = false_positives	# percent of sentences that are wrongly tagged as wrong
+		# errors per 100 sentences in the BNC, i.e. mostly false positives:
+		self.false_positives = false_positives
 		self.language = language	# two letter code like "en" or None (= relevant for alle languages)
 		return
 
@@ -159,16 +160,15 @@ class AvsAnRule(Rule):
 
 	def loadWords(self, filename):
 		f = open(filename)
-		contents = f.read()
+		l = []
+		while 1:
+			line = f.readline()
+			if not line:
+				break
+			if line.startswith("#") or line.strip() == '':
+				continue
+			l.append(line.strip().lower())
 		f.close()
-		l = re.split("\n", contents)
-		i = 0
-		for el in l:
-			if el.startswith("#") or el == '':
-				del l[i]
-			else:
-				l[i] = l[i].strip().lower()
-			i = i + 1
 		return l
 		
 	def match(self, tagged_words, chunks, position_fix=0):
@@ -183,10 +183,10 @@ class AvsAnRule(Rule):
 			#print "<tt>'%s' -- '%s'</tt><br>" % (org_word, org_word_next)
 			if org_word.lower() == 'a':
 				err = 0
-				if org_word_next in self.requires_an:
+				if org_word_next.lower() in self.requires_an:
 					err = 1
 				elif len(org_word_next) > 0 and org_word_next[0].lower() in ('a', 'e', 'i', 'o', 'u') and \
-					not org_word_next in self.requires_a:
+					not org_word_next.lower() in self.requires_a:
 					err = 1
 				if err:
 					matches.append(RuleMatch(self.rule_id,
@@ -196,10 +196,11 @@ class AvsAnRule(Rule):
 						"'an hour'", org_word))
 			elif org_word.lower() == 'an':
 				err = 0
-				if org_word_next in self.requires_a:
+				if org_word_next.lower() in self.requires_a:
 					err = 1
-				elif not org_word_next[0].lower() in ('a', 'e', 'i', 'o', 'u') and \
-					not org_word_next in self.requires_an:
+				elif len(org_word_next) > 0 and \
+					(not org_word_next[0].lower() in ('a', 'e', 'i', 'o', 'u')) and \
+					not org_word_next.lower() in self.requires_an:
 					err = 1
 				if err:
 					matches.append(RuleMatch(self.rule_id,
@@ -292,6 +293,9 @@ class PatternRule(Rule):
 
 	def parseRuleNode(self, rule_node):
 		self.rule_id = rule_node.getAttribute("id")
+		if not self.rule_id:
+			# FIXME? rule_id is not unique...
+			self.rule_id = rule_node.parentNode.getAttribute("id")
 		self.pattern = rule_node.getElementsByTagName("pattern")[0].childNodes[0].data
 		token_strings = re.split("\s+", self.pattern)
 		self.tokens = []
@@ -327,10 +331,17 @@ class PatternRule(Rule):
 				self.example_good = Tools.Tools.getXML(example_node.childNodes[0])
 			else:
 				self.example_bad = Tools.Tools.getXML(example_node.childNodes[0])
+		self.false_positives = None		# None = unknown
 		if rule_node.getElementsByTagName("error_rate"):
-			self.false_positives = rule_node.getElementsByTagName("error_rate")[0].childNodes[0].data
-		else:
-			self.false_positives = 0
+			error_rate_node = rule_node.getElementsByTagName("error_rate")[0]
+			warnings = error_rate_node.getAttribute("warnings")
+			sentences = error_rate_node.getAttribute("sentences")
+			try:
+				if int(sentences) != 0:
+					error_rate = float(warnings) / float(sentences) * 100
+					self.false_positives = error_rate
+			except ValueError:
+				pass
 		return
 
 	def parseFalseFriendsRuleNode(self, rule_node, mothertongue, textlang):
@@ -353,8 +364,12 @@ class PatternRule(Rule):
 			self.case_sensitive = 0
 			self.pattern = rule_node.getElementsByTagName("pattern")[0].childNodes[0].data
 			repl_word, repl_trans = self.getOtherMeaning(rule_node.parentNode, mothertongue, textlang)
-			self.message = "'%s' means %s. Did you maybe mean '%s' (%s)?" % (self.pattern, \
-				str.join(', ', translations), repl_word, str.join(', ', repl_trans))
+			l = []
+			for elem in repl_trans:
+				l.append("<em>%s</em>" % elem)
+			repl_trans_str = str.join(', ', l)
+			self.message = "'%s' means %s. Did you maybe mean '%s', which is %s?" % (self.pattern, \
+				str.join(', ', translations), repl_word, repl_trans_str)
 			#print "#%s" % self.message.encode('latin1')
 			token_strings = re.split("\s+", self.pattern)
 			self.tokens = []
