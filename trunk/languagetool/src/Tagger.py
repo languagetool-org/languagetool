@@ -1,7 +1,7 @@
 # -*- coding: iso-8859-1 -*-
 # A probabilistic part-of-speech tagger (see the QTag paper) with
 # a rule-based extension.
-#$rcs = ' $Id: Tagger.py,v 1.7 2004-06-15 19:06:37 tyuk Exp $ ' ;
+#$rcs = ' $Id: Tagger.py,v 1.8 2004-06-28 19:07:31 tyuk Exp $ ' ;
 #
 # LanguageTool -- A Rule-Based Style and Grammar Checker
 # Copyright (C) 2002,2003,2004 Daniel Naber <daniel.naber@t-online.de>
@@ -479,7 +479,8 @@ class Text:
 				# last returned word exists in .dic file
 				# that's why this word was found
 				word =  src[len(src)-2]
-				return [(orig_word, word, [(src [len(src)-1], 1)])]
+				return [(orig_word, orig_word, [(src [len(src)-1], 1)])]
+#				return [(orig_word, word, [(src [len(src)-1], 1)])]
 			if rc[0] == '-':
 			#if not data_table.has_key(word):
 				# word is unknown
@@ -487,10 +488,12 @@ class Text:
 				self.count_unknown = self.count_unknown + 1
 				guess_tag = self.guessTags(word)
 				if guess_tag:
-					return [(orig_word, word, [(guess_tag, 1)])]
+					return [(orig_word, orig_word, [(guess_tag, 1)])]
+#					return [(orig_word, word, [(guess_tag, 1)])]
 				else:
-					return [(orig_word, word, [("unknown", 1)])]
-		else:
+					return [(orig_word, orig_word, [("unknown", 1)])]
+#					return [(orig_word, word, [("unknown", 1)])]
+		else:   # English case
 			if not data_table.has_key(word):
 				# word is unknown
 				#print "unknown: '%s'" % word
