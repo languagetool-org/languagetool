@@ -22,8 +22,9 @@ import unittest
 import Tagger
 
 import os
+import sys
 
-class TaggerTest(unittest.TestCase):
+class TaggerTestCase(unittest.TestCase):
 
 	FILENAME_WORDS = os.path.join(sys.path[0], "data", "tag_test_words")
 	FILENAME_SEQ1 = os.path.join(sys.path[0], "data", "tag_test_sequences1")
@@ -96,23 +97,14 @@ class TaggerTest(unittest.TestCase):
 
 		# BNC Sampler tags "$xx" as NNU, which is mapped to NN0 (same for £):
 		self.assertEqual(tagger.guessTagTest("$31.12"), 'NN0')
-
 		self.assertEqual(tagger.guessTagTest("HIV"), 'NN0')
-
 		self.assertEqual(tagger.guessTagTest("8.55pm"), 'AV0')
-		
 		self.assertEqual(tagger.guessTagTest("10.10pm"), 'AV0')
-
 		self.assertEqual(tagger.guessTagTest(u"Großekathöfer"), 'NP0')
-
 		self.assertEqual(tagger.guessTagTest("jackerfoodom"), 'NN1')
-
 		self.assertEqual(tagger.guessTagTest("testious"), 'AJ0')
-
 		self.assertEqual(tagger.guessTagTest("testize"), 'VVI')
-
 		self.assertEqual(tagger.guessTagTest("foofooly"), 'AV0')
-
 		self.assertEqual(tagger.guessTagTest("unguessablexxx"), None)
 		self.assertEqual(tagger.guessTagTest("verboten"), None)
 		return

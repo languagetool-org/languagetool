@@ -1,6 +1,6 @@
 #!/usr/bin/python
 # Test cases for Rule.py
-#$rcs = ' $Id: RulesTest.py,v 1.2 2004-06-13 19:02:23 dnaber Exp $ ' ;
+#$rcs = ' $Id: RulesTest.py,v 1.3 2004-06-13 19:57:42 dnaber Exp $ ' ;
 #
 # LanguageTool -- A Rule-Based Style and Grammar Checker
 # Copyright (C) 2002,2003,2004 Daniel Naber <daniel.naber@t-online.de>
@@ -24,7 +24,7 @@ import Rules
 import os
 import sys
 
-sys.path.append(os.path.join("..", "python_rules"))
+sys.path.append(os.path.join("python_rules"))
 import allSentenceLengthRule
 import allWordRepeatRule
 import enAvsAnRule
@@ -32,7 +32,6 @@ import enAvsAnRule
 class RuleTestCase(unittest.TestCase):
 
     def setUp(self):
-		os.chdir("..")
 		self.rule = Rules.PatternRule(None)
 		self.rule.setVars("TEST1", '"word" (VB|TST)', "Test message 1.", 0, 0, \
 			"Good example.", "Bad example.", 0, 5, "en")
@@ -192,7 +191,7 @@ class RuleTestCase(unittest.TestCase):
 
 class RuleMatchTestCase(unittest.TestCase):
 
-    def testCompare(self):
+	def testCompare(self):
 		r1 = Rules.RuleMatch("ONE", 1, 2, 0, 0, "fake1", 0)
 		r2 = Rules.RuleMatch("ONE", 2, 3, 0, 0, "fake2", 0)
 		assert(r1 < r2)
@@ -203,7 +202,7 @@ class RuleMatchTestCase(unittest.TestCase):
 
 class TokenTestCase(unittest.TestCase):
 
-    def testToken(self):
+	def testToken(self):
 
 		token = Rules.Token('NN')
 		self.assertEqual(token.token, "NN")
