@@ -1,6 +1,6 @@
 # Class for Grammar and Style Rules
 # (c) 2002,2003 Daniel Naber <daniel.naber@t-online.de>
-#$rcs = ' $Id: Rules.py,v 1.19 2003-07-28 21:19:28 dnaber Exp $ ' ;
+#$rcs = ' $Id: Rules.py,v 1.20 2003-08-05 00:35:48 dnaber Exp $ ' ;
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -261,7 +261,6 @@ class PatternRule(Rule):
 					self.false_positives = error_rate
 			except ValueError:
 				pass
-		self.simple_rule = 0
 		return
 
 	def parseFalseFriendsRuleNode(self, rule_node, mothertongue, textlang):
@@ -299,10 +298,6 @@ class PatternRule(Rule):
 				#print "#%s" % token
 			self.marker_from = 0
 			self.marker_to = 0
-			if self.pattern.find("|") == -1:
-				self.simple_rule = 1		# no regex required
-			else:
-				self.simple_rule = 0
 		return
 
 	def getOtherMeaning(self, rulegroup_node, mothertongue, textlang):
@@ -343,7 +338,6 @@ class PatternRule(Rule):
 		for token_string in token_strings:
 			token = Token(token_string)
 			self.tokens.append(token)
-		self.simple_rule = 0
 		return
 		
 	def isRealWord(self, tagged_words, i):
@@ -425,8 +419,8 @@ class PatternRule(Rule):
 				case_switch = re.IGNORECASE
 				if self.case_sensitive:
 					case_switch = 0
-				if self.simple_rule:
-					# speed up for simple false friends rules that don't
+				if expected_token.simple_token:
+					# speed up for e.g. simple false friends rules that don't
 					# require regex matching:
 					if case_switch:
 						match = (expected_token_str.lower() == found.lower())
@@ -560,6 +554,11 @@ class Token:
 		self.is_word = 0
 		self.is_tag = 0
 		self.is_chunk = 0
+		if self.token.find("|") != -1 or self.token.find("(") != -1 \
+			or self.token.find("[") != -1 or self.token.find(".") != -1:
+			self.simple_token = 0
+		else:
+			self.simple_token = 1		# no regex required
 		if self.token.startswith('^'):
 			self.token = token[1:]	# remove '^'
 			self.negation = 1
