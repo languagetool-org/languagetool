@@ -1,7 +1,7 @@
 # Rule that checks the use of 'a' vs. 'an'
-# (c) 2003 Daniel Naber <daniel.naber@t-online.de>
+# (c) 2003,2004 Daniel Naber <daniel.naber@t-online.de>
 #
-#$rcs = ' $Id: enAvsAnRule.py,v 1.2 2004-06-10 22:51:41 dnaber Exp $ ' ;
+#$rcs = ' $Id: enAvsAnRule.py,v 1.3 2004-06-13 12:14:45 dnaber Exp $ ' ;
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -21,8 +21,8 @@
 import os
 import sys
 
-sys.path.append("..")
 import Rules
+import Tools
 
 class enAvsAnRule(Rules.Rule):
 	"""Check if the determiner (if any) before a word is:
@@ -55,14 +55,18 @@ class enAvsAnRule(Rules.Rule):
 	def match(self, tagged_words, chunks, position_fix=0, line_fix=0):
 		matches = []
 		text_length = 0
+		line_breaks = 0
+		column = 0
 		i = 0
-		#print tagged_words
 		while 1:
 			if i >= len(tagged_words)-2:
 				break
 			org_word = tagged_words[i][0]
 			org_word_next = tagged_words[i+2][0]
-			#print "<tt>'%s' -- '%s'</tt><br>" % (org_word, org_word_next)
+			line_breaks_cur = Tools.Tools.countLinebreaks(org_word)
+			if line_breaks_cur > 0:
+				column = 0
+			line_breaks = line_breaks + line_breaks_cur
 			if org_word.lower() == 'a':
 				err = 0
 				if org_word_next.lower() in self.requires_an:
@@ -73,6 +77,7 @@ class enAvsAnRule(Rules.Rule):
 				if err:
 					matches.append(Rules.RuleMatch(self.rule_id,
 						text_length+position_fix, text_length+len(org_word)+position_fix, 
+						line_breaks+line_fix, column,
 						"Use <em>an</em> instead of <em>a</em> if the following "+
 						"word starts with a vowel sound, e.g. 'an article', "+
 						"'an hour'", org_word))
@@ -85,16 +90,16 @@ class enAvsAnRule(Rules.Rule):
 					not org_word_next.lower() in self.requires_an:
 					err = 1
 				if err:
-					#FIXME: count lines and columns correctly!
 					matches.append(Rules.RuleMatch(self.rule_id,
 						text_length+position_fix,
 						text_length+len(org_word)+position_fix,
-						line_fix,
-						-1,
+						line_breaks+line_fix, column,
 						"Use <em>a</em> instead of <em>an</em> if the following "+
 						"word doesn't start with a vowel sound, e.g. 'a test', "+
 						"'a university'", org_word))
 				pass
+			if line_breaks_cur == 0:
+				column = column + len(org_word)
 			text_length = text_length + len(org_word)
 			i = i + 1
 		return matches
