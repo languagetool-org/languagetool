@@ -143,7 +143,7 @@ class TextChecker:
 				rule_match_list.append(rule_match.toXML())
 				rule_match_list.append("\n")
 			else:
-				rule_match_list.append(str(rule_match))
+				rule_match_list.append(rule_match.__str__())
 				from_pos = max(rule_match.from_pos-self.context, 0)
 				to_pos = min(rule_match.to_pos+self.context, len(text))
 				summary = text[from_pos:to_pos]
