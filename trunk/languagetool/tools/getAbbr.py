@@ -16,7 +16,7 @@ DIR = "/data/bnc/A/"
 words = {}
 
 def workDir(directory):
-	# mat h sgml:
+	# sgml:
 	regex = re.compile("<w[^>]*>(.*?)<", re.DOTALL)
 	files = os.listdir(directory)
 	for file in files:
