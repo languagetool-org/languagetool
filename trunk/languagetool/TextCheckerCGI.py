@@ -103,6 +103,7 @@ def check(form):
 	grammar = None
 	falsefriends = None
 	words = None
+	builtin = None
 	if not form.getvalue("style"):
 		words = "NONE"
 	textlanguage = "en"		# TODO: make this an option in the page?
@@ -112,7 +113,7 @@ def check(form):
 	max_sentence_length = 0
 	if form.getvalue("sentencelength"):
 		max_sentence_length = None
-	checker = TextChecker.TextChecker(grammar, falsefriends, words, \
+	checker = TextChecker.TextChecker(grammar, falsefriends, words, builtin, \
 		textlanguage, mothertongue, max_sentence_length)
 
 	print "Content-Type: text/html\n\n"
