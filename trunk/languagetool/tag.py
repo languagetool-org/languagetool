@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/home/dnaber/prg/python23/bin/python
 # A frontend to a probabilistc part-of-speech tagger (see the QTag paper)
 # (c) 2003 Daniel Naber <daniel.naber@t-online.de>
 # Usage examples:
@@ -13,6 +13,7 @@ import re
 import sys
 import string
 import getopt
+import profile
 
 import Tagger
 import Entities
@@ -79,8 +80,7 @@ class Controller:
 		if mode == self.BUILD:
 			tagger = Tagger.Tagger()
 			tagger.bindData()
-			for filename in rest:
-				tagger.buildData(filename)
+			tagger.buildData(rest)
 			tagger.commitData()
 		elif mode == self.TAG:
 			tagger = Tagger.Tagger()
@@ -93,7 +93,8 @@ class Controller:
 				content = Entities.Entities.cleanEntities(content)
 				xml = tagger.tagTexttoXML(content)
 				self.sanityCheck(filename, xml)
-				###print xml
+				###
+				#print xml
 			print >> sys.stderr, "Done."
 		elif mode == self.TAGWORD:
 			tagger = Tagger.Tagger()
@@ -113,3 +114,4 @@ class Controller:
 
 prg = Controller()
 prg.run()
+#profile.run('prg.run()', 'fooprof')
