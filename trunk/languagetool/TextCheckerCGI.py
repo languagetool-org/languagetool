@@ -69,10 +69,12 @@ def displayForm(form):
 		</head>
 		<body>
 		<h1>LanguageTool Web Interface</h1>
-		Enter text here:<br />
+		Enter English text here:<br />
 		<form action="http://localhost/cgi-bin/TextCheckerCGI.py" method="POST">
 			<textarea name="text" rows="8" cols="80"></textarea><br />
-			<input type="checkbox" name="tags" checked="checked"> Show part-of-speech tags<br />
+			<input type="checkbox" name="tags" checked="checked"> Show part-of-speech tags
+			<input type="checkbox" name="german_ff" checked="checked"> Check for false friends (for German native speakers)
+			<br />
 			<input type="submit" value="Check Text">
 		</form>
 		<p><strong>Suggested test text</strong><br>
@@ -95,16 +97,16 @@ def check(form):
 	text = form.getvalue("text")
 	if not text:
 		text = ""
-	# fixme: make optional:
-	grammar = []			# empty list = activate all rules (?)
-	falsefriends = []
-	words = []
-	builtin = []
-	###fixme:
-	textlanguage = None
-	mothertongue = None
+	# TODO: put options for alle these in the web page? too confusing...
+	grammar = None
+	falsefriends = None
+	words = None
+	textlanguage = "en"		# TODO: make this an option in the page?
+	mothertongue = "de"
+	if not form.getvalue("german_ff"):
+		mothertongue = None
 	max_sentence_length = None
-	checker = TextChecker.TextChecker(grammar, falsefriends, words, builtin, \
+	checker = TextChecker.TextChecker(grammar, falsefriends, words, \
 		textlanguage, mothertongue, max_sentence_length)
 
 	print "Content-Type: text/html\n\n"
@@ -164,28 +166,22 @@ def check(form):
 		i = 0
 		start_found = 0
 		end_found = 0
-		#print "%d<br>" % rule_match.from_pos
 		for el in text_list:
-			#print rule_match.message
 			if not el.startswith("<span"):
 				from_pos = ct
 				to_pos = ct + len(el)
-				#print "%d in %d,%d (%s)<br>" % (rule_match.to_pos, from_pos, to_pos, rule_match.message)
-				#print "%d in %d,%d<br>" % (rule_match.from_pos, from_pos, to_pos)
 				if rule_match.to_pos <= to_pos and rule_match.to_pos >= from_pos and not end_found:
 					text_list[i] = '%s</span><span class="expl">[%s]</span>' % (text_list[i], rule_match.message)
 					end_found = 1
-					#print "***1<br>"
 				elif rule_match.from_pos <= to_pos and rule_match.from_pos >= from_pos and not start_found:
 					text_list[i] = '<span class="error">%s' % text_list[i]
 					start_found = 1
-					#print "***2<br>"
 				ct = ct + len(el)
 			if end_found and start_found:
 				break
 			i = i + 1
 	text = string.join(text_list, '')
-	print text
+	print text.encode('latin1')
 
 	if len(rule_matches) == 1:
 		print "<p>%d possible error found.</p>" % len(rule_matches)
