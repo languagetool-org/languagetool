@@ -147,6 +147,15 @@ class Tagger:
 		tagged_words = text.tag(self.data_table, self.seqs_table)
 		return tagged_words
 
+	def tagTexttoXML(self, strng):
+		"""POS-tag a string and return a list of (word, normalized word, tag)
+		triples."""
+		text = TextToTag()
+		text.setText(strng)
+		tagged_words = text.tag(self.data_table, self.seqs_table)
+		xml = text.toXML(tagged_words)
+		return xml
+
 	def tagSeq(self, triple):
 		"""Return the probability of a 3-POS-tag sequence."""
 		if len(triple) != 3:
@@ -272,6 +281,10 @@ class Text:
 		that POS tag. This considers e.g. word prefixes, suffixes and 
 		capitalization. If no guess can be made, None is returned."""
 
+		# £25 etc:
+		if word.startswith("£") or word.startswith("$"):
+			return 'NN0'
+
 		# numbers:
 		if self.number_regex.match(word):
 			return 'CRD'
@@ -356,6 +369,7 @@ class Text:
 		#word = word.lower()
 		if not data_table.has_key(word):
 			# word is unknown
+			#print "unknown: '%s'" % word
 			self.count_unknown = self.count_unknown + 1
 			guess_tag = self.guessTag(word)
 			if guess_tag:
@@ -801,8 +815,9 @@ class TextToTag(Text):
 		#for tag_triple in result_tuple_list:
 		#	print tag_triple
 
-		#stat = self.getStats(count_wrong_tags)
-		#print >> sys.stderr, stat
+		###
+		stat = self.getStats(count_wrong_tags)
+		print >> sys.stderr, stat
 		return result_tuple_list
 
 	def getTuple(self, tagged_list_elem):
