@@ -1,7 +1,7 @@
 # -*- coding: iso-8859-1 -*-
 # A probabilistic part-of-speech tagger (see the QTag paper) with
 # a rule-based extension.
-#$rcs = ' $Id: Tagger.py,v 1.2 2004-05-24 20:10:18 dnaber Exp $ ' ;
+#$rcs = ' $Id: Tagger.py,v 1.3 2004-05-24 21:26:56 dnaber Exp $ ' ;
 #
 # LanguageTool -- A Rule-Based Style and Grammar Checker
 # Copyright (C) 2002,2003,2004 Daniel Naber <daniel.naber@t-online.de>
@@ -20,6 +20,7 @@
 # License along with this library; if not, write to the Free Software
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
+import codecs
 import os
 import re
 import string
@@ -161,7 +162,7 @@ class Tagger:
 		return
 
 	def ReadData(self, db_word_name):
-  		fd = open(db_word_name, 'r')
+		fd = codecs.open(db_word_name, "r", "latin1")
   		self.data_table = {}
   		self.word_table = {}
 		table = {}
