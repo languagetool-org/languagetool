@@ -1,7 +1,7 @@
 # -*- coding: iso-8859-1 -*-
 # A probabilistic part-of-speech tagger (see the QTag paper) with
 # a rule-based extension.
-#$rcs = ' $Id: Tagger.py,v 1.1 2004-05-23 21:48:15 dnaber Exp $ ' ;
+#$rcs = ' $Id: Tagger.py,v 1.2 2004-05-24 20:10:18 dnaber Exp $ ' ;
 #
 # LanguageTool -- A Rule-Based Style and Grammar Checker
 # Copyright (C) 2002,2003,2004 Daniel Naber <daniel.naber@t-online.de>
@@ -31,7 +31,7 @@ import Wfinder
 
 dicFile = 'deutsch.txt'
 affFile = 'deutsch.aff'
-textlanguage = 'German'
+textlanguage = 'de'
 wfinder = Wfinder.Wfinder()
 
 class Tagger:
