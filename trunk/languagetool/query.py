@@ -31,7 +31,6 @@ import re
 import sys
 import time
 
-import config
 os.chdir(sys.path[0])
 sys.path.append(sys.path[0])
 import TagInfo
