@@ -1,0 +1,359 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE rules PUBLIC "-//W3C//DTD GrammarRules 0.1//EN" "rules.dtd">
+<!--
+Rules: Grammar and Typos
+(c) 2001,2002,2003 Daniel Naber, daniel.naber@t-online.de
+$Id: grammar.xml,v 1.1.1.1 2003-05-19 00:09:52 dnaber Exp $
+
+TODO: add a "name" for those <messages> that sound strange as config options
+
+
+
+fixme: map to new tagset
+-->
+<rules>
+
+
+	<!-- === new rules === -->
+
+		<!-- less than xxx false alarms in complete BNC -->
+		<!-- fixme: must as verb only: -->
+		<!--
+		<rule id="MUST_TO">
+			<pattern lang="en">"must" "to"</pattern>
+			<message>Omit the article <em>a</em>.</message>
+			<error_rate warnings="0" sentences="0" last_5000_file="">0</error_rate>
+			<marker>0</marker>
+			<example type="correct">This will be much work.</example>
+			<example type="incorrect">This will be a much work.</example>
+		</rule>
+		-->
+
+		<!-- less than xxx false alarms in complete BNC -->
+		<!-- 'use' mistagged as NN1
+		<rule id="ARE_VVB">
+			<pattern lang="en">"are" VVB</pattern>
+			<message>...</message>
+			<error_rate warnings="0" sentences="0" last_5000_file="">0</error_rate>
+			<marker>0</marker>
+			<example type="correct">If you are using SMTP to send your messages,...</example>
+			<example type="incorrect">If you are use SMTP to send your messages,...</example>
+		</rule>
+		-->
+
+		<!-- less than xxx false alarms in complete BNC -->
+		<rule id="A_MUCH_NN1">
+			<pattern lang="en">"a" "much" NN1</pattern>
+			<message>Omit the article <em>a</em>.</message>
+			<error_rate warnings="0" sentences="0" last_5000_file="">0</error_rate>
+			<marker>0</marker>
+			<example type="correct">This will be much work.</example>
+			<example type="incorrect">This will be a much work.</example>
+		</rule>
+
+		<!-- less than xxx false alarms in complete BNC -->
+		<rule id="MOST_COMP">
+			<pattern lang="en">"most" AJS</pattern>
+			<message>Omit <em>most</em> when you use the superlative.</message>
+			<error_rate warnings="0" sentences="0" last_5000_file="">0</error_rate>
+			<marker>0</marker>
+			<example type="correct">Kyoto is the oldest city.</example>
+			<example type="incorrect">Kyoto is the <em>most</em> oldest city.</example>
+		</rule>
+
+		<!-- less than 10 false alarms in complete BNC -->
+		<rule id="IS_SHOULD">
+			<pattern lang="en">"is" "should"</pattern>
+			<message>Did you mean <em>it</em>?</message>
+			<error_rate warnings="0" sentences="0" last_5000_file="">0</error_rate>
+			<marker>0</marker>
+			<example type="correct">I definitely think it should be less than four years.</example>
+			<example type="incorrect">I definitely think is should be less than four years.</example>
+		</rule>
+
+		<!-- 3 false alarms in 101331 sentences -->
+		<rule id="THE_A">
+			<pattern lang="en">"the" AJ0 AT0</pattern>
+			<message>The determiner 'a' might be superfluous.</message>
+			<error_rate warnings="0" sentences="0" last_5000_file="">0</error_rate>
+			<marker>1</marker>
+			<example type="correct">This allows to provide a powerful help system.</example>
+			<example type="incorrect">This allows to provide a powerful a help system.</example>
+		</rule>
+
+		<!-- 0 false alarms in 190354 sentences -->
+		<rule id="A_A">
+			<pattern lang="en">"a" AJ0 "(a|the)"</pattern>
+			<message>The second determiner 'a' is superfluous.</message>
+			<error_rate warnings="0" sentences="0" last_5000_file="">0</error_rate>
+			<marker>1</marker>
+			<example type="correct">This allows to provide a powerful help system.</example>
+			<example type="incorrect">This allows to provide a powerful a help system.</example>
+		</rule>
+
+		<!--
+		<rule id="NEW1">
+			<pattern lang="en">^(VM0|VDD|VBD) PNP VVI</pattern>
+			<message>Did you forget a modal verb like <em>will</em>?</message>
+			<error_rate warnings="0" sentences="0" last_5000_file="">0</error_rate>
+			<marker>2</marker>
+			<example type="correct">s</example>
+			<example type="incorrect">s</example>
+		</rule>
+		-->
+
+
+	<!-- === Grammar errors === -->
+
+		<!--
+		FIXME: VVx: zusaetzlich immer auch die tags fuer do/have/be. mit entity abkuerzen?
+		-->
+		
+		<!-- fixme:
+			wie satzanfang ansprechen??
+		<rule id="SENT_AJ0">
+			<pattern lang="en">SENTENCE_BEGIN (AJ0)</pattern>
+			<message>Adverb instead of adj...</message>
+			<error_rate warnings="0" sentences="" last_5000_file="">???</error_rate>
+			<marker>1</marker>
+			todo: "Unfortunate" kennt der tagger grossgeschrieben gar nicht
+			<example type="correct">Unfortunately, this is not the case.</example>
+			<example type="incorrect">Unfortunate, this is not the case.</example>
+		</rule>
+		 -->
+
+		<!-- old comment:
+			-often tagged wrong: put (29 erros), read (10 errors)
+			-fix handling of words with hyphen as "criss-crossed" (->languagechecker_tokenizer.pl)
+			-didn't etc missing!
+			-fixme: wird als falsch erkannt, weil 'Does' am Satzanfang (Problem in Rules.pm)!:
+				"Does he captivate us?"
+		-->
+		<rule id="N_V_AGR">
+			<!-- FIXME: klappt noch nicht bei 'he' am Satzanfang -->
+			<pattern lang="en">^"(has|will|must|could|can|should|would|does|did)" "he" (VVI)</pattern>
+			<message>Third person singular noun requires verb with '-s'.</message>
+			<error_rate warnings="212" sentences="260000" last_5000_file="xbz">0.08</error_rate>
+			<marker>2</marker>
+			<example type="correct">Then he <em>looks</em> at the building.</example>
+			<example type="incorrect">Then he <em>look</em> at the building.</example>
+		</rule>
+
+		<!-- fixme: "all I did was ..." : korrekt, wird aber als falsch erkannt;
+		Regel auch mit will|could|can|should|would|does
+		 -->
+		<rule id="DID_BASE">
+			<pattern lang="en">"did" (VVD|VVG|VVN|VVZ)</pattern>
+			<message>'Did' requires base form of verb.</message>
+			<error_rate warnings="66" sentences="260000" last_5000_file="xbz">0.025</error_rate>
+			<marker>1</marker>
+			<!-- 'did' is used for emphasis here: -->
+			<example type="correct">Peter did <em>go</em> to the cinema.</example>
+			<example type="incorrect">Peter did <em>went</em> to the cinema.</example>
+			<example type="incorrect">He did <em>walked</em> to his house.</example>
+			<!-- this is correct??? "to do a walk"?
+			<example type="incorrect">He did <em>walks</em> to his house.</example>
+			-->
+			<example type="incorrect">He did <em>walking</em> to his house.</example>
+		</rule>
+		
+		<!-- DT = work around "will" mistagged as MD when it's a noun -->
+		<!--
+		walks mistagged as NN2
+		VM0 NN2 occurences:
+		How/AVQ could/VM0 infants/NN2 develop/VVI towards/PRP such/DT0...
+		In/PRP no/AT0 circumstances/NN2 should/VM0 communications/NN2 be/VBI sent/VVN to/PRP..
+		Should/VM0 Amis/NN2 '/POS s/ZZ0 friendship/NN1...
+		-->
+		<rulegroup id="WILL_MIGHT_BASE">
+
+			<message>Modal verbs like 'will'/'might'/... require base form of verb.</message>
+
+			<rule>
+				<pattern lang="en">^(DT0) VM0 (VVD|VVG|VVN|VVZ)</pattern>
+				<error_rate warnings="48" sentences="260000" last_5000_file="xbz">0.018</error_rate>
+				<marker>2</marker>
+				<example type="correct">John will <em>talk</em> to her.</example>
+				<!-- <example type="triggers_error" reason="'talks' tagged as NNS">John will <em>talks</em> to her.</example> -->
+				<example type="correct">John will <em>go</em> home.</example>
+				<example type="incorrect">John will <em>goes</em> home.</example>
+				<example type="incorrect">John will <em>walks</em> home.</example>
+				<example type="incorrect">John will <em>walked</em> home.</example>
+				<example type="correct">Mr Kulow might <em>help</em> me.</example>
+				<example type="incorrect">Mr Kulow might <em>helps</em> me.</example>
+				<example type="correct">Mr Kulow might <em>talk</em> to me.</example>
+				<example type="incorrect">Mr Kulow might <em>talked</em> to me.</example>
+			</rule>
+
+			<rule>
+				<pattern lang="en">NP0 VM0 NN2</pattern>
+				<error_rate warnings="48" sentences="260000" last_5000_file="xbz">0.018</error_rate>
+				<marker>2</marker>
+				<example type="correct">John will <em>go</em> home.</example>
+				<example type="incorrect">John will <em>walks</em> home.</example>
+			</rule>
+
+		</rulegroup>
+		
+		<!-- TODO OLD: 65 of the 154 errors are mistaggings of "said" as in "...there is said..." -->
+		<rule id="IS_V">
+			<pattern lang="en">"is" (VVI|VVD|VVZ)</pattern>
+			<message>Passive requires verb with '-ed'.</message>
+			<error_rate warnings="319" sentences="260000" last_5000_file="xbz">0.12</error_rate>
+			<marker>1</marker>
+			<example type="correct">He is <em>walking</em> home.</example>
+			<example type="incorrect">He is <em>go</em> home.</example>
+		</rule>
+
+		<rule id="WAS_V">
+			<pattern lang="en">"was" (VVI|VVZ)</pattern>
+			<message>Passive requires verb with '-ed'.</message>
+			<error_rate warnings="73" sentences="260000" last_5000_file="xbz">0.028</error_rate>
+			<marker>1</marker>
+			<example type="correct">The ball was <em>catched</em> by John.</example>
+			<example type="incorrect">The ball was <em>catch</em> by John.</example>
+			<!-- not found: 
+			<example type="incorrect">The ball was <em>catching</em> by John.</example>
+			-->
+		</rule>
+
+		<!-- 
+		TODO: 
+			-add rule: "as" (JJR|JJS) ?
+			-"as *other* than" is okay
+		-->
+		<rule id="AS_ADJ_AS">
+			<pattern lang="en">"as" (AJ0|AV0) "(like|than|then)"</pattern>
+			<message>Comparison requires 'as' + adj + 'as'.</message>
+			<error_rate warnings="1" sentences="260000" last_5000_file="xbz">0.0004</error_rate>
+			<marker>2</marker>
+			<example type="correct">This house is as big <em>as</em> mine.</example>
+			<example type="incorrect">This house is as big <em>like</em> mine.</example>
+			<example type="incorrect">This house is as big <em>than</em> mine.</example>
+			<example type="correct">This box contains as much <em>as</em> possible.</example>
+			<example type="incorrect">This box contains as much <em>like</em> possible.</example>
+		</rule>
+
+	<!-- === Common misspellings === -->
+
+		<rule id="COMP_THAN1">
+			<pattern lang="en">"more" "(then|as)"</pattern>
+			<message>Comparison requires <em>than</em>.</message>
+			<error_rate warnings="75" sentences="260000" last_5000_file="xbz">0.029</error_rate>
+			<marker>1</marker>
+			<example type="correct">The tagger will return more <em>than</em> one tag.</example>
+			<example type="incorrect">The tagger will return more <em>then</em> one tag.</example>
+			<!-- <example type="triggers_error">Think of it more <em>as</em> activity.</example> -->
+		</rule>
+
+		<rule id="COMP_THAN2">
+			<pattern lang="en">(AJC|"more") "(then|as)"</pattern>
+			<message>Comparison requires <em>than</em>.</message>
+			<error_rate warnings="75" sentences="260000" last_5000_file="xbz">0.029</error_rate>
+			<marker>1</marker>
+			<example type="correct">This house is bigger <em>than</em> mine.</example>
+			<example type="incorrect">This house is bigger <em>then</em> mine.</example>
+			<!-- <example type="triggers_error">Think of it more <em>as</em> activity.</example> -->
+		</rule>
+
+		<rule id="DET_FORM">
+			<pattern lang="en">AT0 "from"</pattern>
+			<message>Did you mean <em>form</em>?</message>
+			<error_rate warnings="97" sentences="260000" last_5000_file="xbz">0.037</error_rate>
+			<marker>1</marker>
+			<example type="correct">Type in the <em>form</em> on the web page.</example>
+			<example type="incorrect">Type in the <em>from</em> on the web page.</example>
+			<!-- <example type="triggers_error">...those from...</example> -->
+		</rule>
+
+		<rule id="CANNOT">
+			<pattern lang="en">"can" "not"</pattern>
+			<message>Can + not is written as <em>cannot</em>.</message>
+			<error_rate warnings="9" sentences="260000" last_5000_file="xbz">0.0035</error_rate>
+			<marker>1</marker>
+			<example type="correct">You <em>cannot</em> use the keyboard to select an item.</example>
+			<example type="incorrect">You <em>can not</em> use the keyboard to select an item.</example>
+		</rule>
+
+		<rulegroup id="IT_IS">
+		
+			<message>Did you maybe mix up <em>it's</em> (=it is) and
+				<em>its</em> (=possessive pronoun)?</message>
+
+			<replacement>it's</replacement>
+			<replacement>it is</replacement>
+
+			<rule>
+				<!-- fixme: case insensitive?!?! -->
+				<pattern lang="en">"its" (CJC|AT0|DT0|EX0|PRF|PRP|VM0|POS|PNP|AV0|AVP|TO0|DTQ|PNQ|DTQ|AVQ)</pattern>
+				<error_rate warnings="32" sentences="260000" last_5000_file="xbz">0.031</error_rate>
+				<marker>0</marker>
+				<example type="correct"><em>It's</em> where people walk around.</example>
+				<example type="incorrect"><em>Its</em> where people walk around.</example>
+				<example type="triggers_error" reason="'every' is tagged as DT">London is a necropolis, <em>its</em> every corner the site of a murder, its soil a pudding of blood and tears.</example>
+			</rule>
+
+			<rule>
+				<!-- fixme: (VVI|VVZ|VVG) except 'a/the' because of the rule 
+					below 
+					or should only one rule from a group match at one place??
+					 -->
+				<pattern lang="en">"its" (VVI|VVZ|VVG)</pattern>
+				<error_rate warnings="11" sentences="260000" last_5000_file="xbz">0.0042</error_rate>
+				<marker>0</marker>
+				<example type="correct"><em>It's</em> going to be difficult.</example>
+				<example type="incorrect"><em>Its</em> going to be difficult.</example>
+			</rule>
+
+			<rule>
+				<pattern lang="en">"its" "(a|the)"</pattern>
+				<error_rate warnings="5" sentences="260000" last_5000_file="xbz">0.002</error_rate>
+				<marker>1</marker>
+				<!-- FIXME: this rule is triggered twice, see rule above -->
+				<example type="correct"><em>It's</em> a good opportunity.</example>
+				<example type="incorrect"><em>Its</em> a good opportunity.</example>
+				<example type="triggers_error" reason="'heart' wrongly tagged as VB">Currently, there 
+					are fifteen records on <em>its</em> A list and twenty on its B list.</example>
+			</rule>
+	
+		</rulegroup>
+
+		<rulegroup id="NOW">
+
+			<message>Did you maybe mix up <em>no</em> (negation) and
+				<em>now</em> (=at this moment)?</message>
+
+			<replacement>now</replacement>
+			
+			<rule>
+				<pattern lang="en">"no" (VM0|VVI|VVD)</pattern>
+				<error_rate warnings="30" sentences="260000" last_5000_file="xbz">0.012</error_rate>
+				<marker>0</marker>
+				<example type="correct">There <em>now</em> will be a park.</example>
+				<example type="incorrect">There <em>no</em> will be a park.</example>
+			</rule>
+
+			<rule>
+				<!-- fixme: CJC... except 'were'... because of rule below 
+					or should only one rule from a group match at one place??
+				-->
+				<pattern lang="en">"no" (CJC|DT0|AT0|EX0|PRF|PRP|VM0|NP0|AVP|DTQ|PNQ|AVQ)</pattern>
+				<error_rate warnings="43" sentences="260000" last_5000_file="xbz">0.017</error_rate>
+				<marker>0</marker>
+				<example type="correct">There's <em>now</em> a new building.</example>
+				<example type="incorrect">There's <em>no</em> a new building.</example>
+				<example type="triggers_error" reason="'no' tagged as DT"><em>No</em> no, he said.</example>
+			</rule>
+
+			<rule>
+				<!-- fixme: see above... -->
+				<pattern lang="en">"no" "(were|was|been|be|is)"</pattern>
+				<error_rate warnings="1" sentences="260000" last_5000_file="xbz">0.0004</error_rate>
+				<marker>0</marker>
+				<example type="correct"><em>Now</em> is the the right time.</example>
+				<example type="incorrect"><em>No</em> is the the right time.</example>
+			</rule>
+
+		</rulegroup>
+
+</rules>

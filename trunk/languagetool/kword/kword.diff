@@ -1,0 +1,204 @@
+Index: qrichtext_p.h
+===================================================================
+RCS file: /home/kde/koffice/lib/kotext/qrichtext_p.h,v
+retrieving revision 1.53
+diff -u -r1.53 qrichtext_p.h
+--- qrichtext_p.h	11 Feb 2003 21:32:58 -0000	1.53
++++ qrichtext_p.h	10 May 2003 21:12:15 -0000
+@@ -1792,6 +1792,12 @@
+     return missp;
+ }
+ 
++//dnaber:
++inline bool KoTextFormat::isStyleGrammarWarning() const
++{
++    return stylegrammar;
++}
++
+ inline KoTextFormat::VerticalAlignment KoTextFormat::vAlign() const
+ {
+     return ha;
+Index: kotextformat.h
+===================================================================
+RCS file: /home/kde/koffice/lib/kotext/kotextformat.h,v
+retrieving revision 1.54
+diff -u -r1.54 kotextformat.h
+--- kotextformat.h	29 Jan 2003 11:53:50 -0000	1.54
++++ kotextformat.h	10 May 2003 21:12:16 -0000
+@@ -77,8 +77,10 @@
+ 	Color = 32,
+ 	Misspelled = 64,
+ 	VAlign = 128,
++	// dnaber:
++	StyleGrammarWarning = 256,
+ 	Font = Bold | Italic | Underline | Family | Size,
+-	Format = Font | Color | Misspelled | VAlign
++	Format = Font | Color | Misspelled | VAlign | StyleGrammarWarning
+     };
+ 
+     enum VerticalAlignment { AlignNormal, AlignSubScript, AlignSuperScript }; // QRT now has it in another order, but it's too late, we use this order in KWord's file format now !
+@@ -96,6 +98,8 @@
+     QFont font() const;
+     int pointSize() const { return font().pointSize(); }
+     bool isMisspelled() const;
++    //dnaber:
++    bool isStyleGrammarWarning() const;
+     VerticalAlignment vAlign() const;
+     //int minLeftBearing() const;
+     //int minRightBearing() const;
+@@ -119,6 +123,8 @@
+     void setFont( const QFont &f );
+     void setColor( const QColor &c );
+     void setMisspelled( bool b );
++    //dnaber:
++    void setStyleGrammarWarning( bool b );
+     void setVAlign( VerticalAlignment a );
+ 
+     bool operator==( const KoTextFormat &f ) const;
+@@ -320,6 +326,8 @@
+     QFont fn;
+     QColor col;
+     uint missp : 1;
++    //dnaber:
++    uint stylegrammar : 1;
+     uint linkColor : 1;
+     VerticalAlignment ha;
+     KoTextFormatCollection *collection;
+Index: kotextformat.cc
+===================================================================
+RCS file: /home/kde/koffice/lib/kotext/kotextformat.cc,v
+retrieving revision 1.68
+diff -u -r1.68 kotextformat.cc
+--- kotextformat.cc	2 Apr 2003 22:31:27 -0000	1.68
++++ kotextformat.cc	10 May 2003 21:12:18 -0000
+@@ -41,6 +41,8 @@
+     linkColor = TRUE;
+     ref = 0;
+     missp = FALSE;
++    //dnaber:
++    stylegrammar = FALSE;
+     ha = AlignNormal;
+     collection = 0;
+     //// kotext: WYSIWYG works much much better with scalable fonts -> force it to be scalable
+@@ -87,6 +89,8 @@
+     //asc = fm.ascent();
+     //dsc = fm.descent();
+     missp = FALSE;
++    //dnaber:
++    stylegrammar = FALSE;
+     ha = AlignNormal;
+     //memset( widths, 0, 256 * sizeof( ushort ) );
+     //// kotext
+@@ -148,6 +152,8 @@
+     //asc = f.asc;
+     //dsc = f.dsc;
+     missp = f.missp;
++    //dnaber:
++    stylegrammar = f.stylegrammar;
+     ha = f.ha;
+     k = f.k;
+     linkColor = f.linkColor;
+@@ -209,6 +215,9 @@
+ 	col = nf.col;
+     if ( flags & KoTextFormat::Misspelled )
+ 	missp = nf.missp;
++    //dnaber:
++    if ( flags & KoTextFormat::StyleGrammarWarning )
++	stylegrammar = nf.stylegrammar;
+     if ( flags & KoTextFormat::VAlign )
+     {
+ 	ha = nf.ha;
+@@ -264,6 +273,15 @@
+     update();
+ }
+ 
++//dnaber:
++void KoTextFormat::setStyleGrammarWarning( bool b )
++{
++    if ( b == (bool)stylegrammar )
++	return;
++    stylegrammar = b;
++    update();
++}
++
+ void KoTextFormat::setVAlign( VerticalAlignment a )
+ {
+     if ( a == ha )
+@@ -346,6 +364,8 @@
+         k += QString::number( (uint)col.rgb() );
+     k += '/';
+     k += QString::number( (int)isMisspelled() ); // a digit each, no need for '/'
++    //dnaber:
++    k += QString::number( (int)isStyleGrammarWarning() );
+     k += QString::number( (int)vAlign() );
+     //// kotext addition
+     k += '/';
+Index: kotextobject.cc
+===================================================================
+RCS file: /home/kde/koffice/lib/kotext/kotextobject.cc,v
+retrieving revision 1.126
+diff -u -r1.126 kotextobject.cc
+--- kotextobject.cc	27 Mar 2003 14:51:00 -0000	1.126
++++ kotextobject.cc	10 May 2003 21:12:24 -0000
+@@ -947,6 +947,13 @@
+             fNoMisspelled.setMisspelled( false );
+             newFormat = textdoc->formatCollection()->format( &fNoMisspelled );
+         }
++        // dnaber:
++        else if ( newFormat->isStyleGrammarWarning() ) {
++            newFormat->removeRef();
++            KoTextFormat fNoStyleGrammarWarning( *newFormat );
++            fNoStyleGrammarWarning.setStyleGrammarWarning( false );
++            newFormat = textdoc->formatCollection()->format( &fNoStyleGrammarWarning );
++        }
+         if ( pCurrentFormat )
+             (*pCurrentFormat) = newFormat;
+     }
+Index: kotextparag.cc
+===================================================================
+RCS file: /home/kde/koffice/lib/kotext/kotextparag.cc,v
+retrieving revision 1.160
+diff -u -r1.160 kotextparag.cc
+--- kotextparag.cc	22 Mar 2003 21:10:43 -0000	1.160
++++ kotextparag.cc	10 May 2003 21:12:28 -0000
+@@ -879,12 +879,17 @@
+ 	// Paint a zigzag line for "wrong" background spellchecking checked words:
+     if(
+ 		painter.device()->devType() != QInternal::Printer &&
+-		format->isMisspelled() &&
++		(format->isMisspelled() || format->isStyleGrammarWarning()) &&
+ 		!textDocument()->drawingShadow() &&
+ 		textDocument()->drawingMissingSpellLine() )
+ 	{
+ 		painter.save();
+-		painter.setPen( QPen( Qt::red, 1 ) );
++		// dnaber:
++		if( format->isMisspelled() ) {
++			painter.setPen( QPen( Qt::red, 1 ) );
++		} else {
++			painter.setPen( QPen( Qt::blue, 1 ) );
++		}
+ 
+ 		// Draw 3 pixel lines with increasing offset and distance 4:
+ 		for( int zigzag_line = 0; zigzag_line < 3; ++zigzag_line )
+Index: kotextview.cc
+===================================================================
+RCS file: /home/kde/koffice/lib/kotext/kotextview.cc,v
+retrieving revision 1.107
+diff -u -r1.107 kotextview.cc
+--- kotextview.cc	2 Apr 2003 10:15:50 -0000	1.107
++++ kotextview.cc	10 May 2003 21:12:30 -0000
+@@ -907,6 +907,13 @@
+                 currentFormat()->removeRef();
+                 setCurrentFormat( textDocument()->formatCollection()->format( &fNoMisspelled ) );
+             }
++            //dnaber:
++            else if ( currentFormat()->isStyleGrammarWarning() ) {
++                KoTextFormat fNoStyleGrammarWarning( *currentFormat() );
++                fNoStyleGrammarWarning.setStyleGrammarWarning( false );
++                currentFormat()->removeRef();
++                setCurrentFormat( textDocument()->formatCollection()->format( &fNoStyleGrammarWarning ) );
++            }
+             showCurrentFormat();
+         }
+     }
