@@ -1,6 +1,6 @@
 # Class for Grammar and Style Rules
 # (c) 2002,2003 Daniel Naber <daniel.naber@t-online.de>
-#$rcs = ' $Id: Rules.py,v 1.10 2003-07-05 16:48:09 dnaber Exp $ ' ;
+#$rcs = ' $Id: Rules.py,v 1.11 2003-07-06 00:28:13 dnaber Exp $ ' ;
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -38,10 +38,13 @@ class Rules:
 		"""Parse all rules and put them in the self.rules list, together
 		with built-in rules like the SentenceLengthRule."""
 		self.rules = []
+
+		# built-in rules:
 		length_rule = SentenceLengthRule()
 		if max_sentence_length != None:
 			length_rule.setMaxLength(max_sentence_length)
 		self.rules.append(length_rule)
+
 		for filename in self.rule_files:
 			# minidom expects the DTD in the current directory, not in the
 			# documents directory, so we have to chdir to 'rules':
@@ -129,10 +132,64 @@ class SentenceLengthRule(Rule):
 				too_long_start = text_length-len(org_word)
 				too_long_end = text_length
 		if too_long:
-			matches.append(RuleMatch("MAX_LEN", too_long_start,
+			matches.append(RuleMatch(self.rule_id, too_long_start,
 				too_long_end, 
 				"This sentence is %d words long, which exceeds the "
 				"configured limit of %d words." % (count, self.max_length), 0))
+		return matches
+
+class WhitespaceRule(Rule):
+	"""A rule that matches punctuation not followed by a whitespace
+	and whitespace preceding punctuation. This rule does not work
+	on sentence level, it works on complete tagged texts or paragraphs."""
+
+	punct_regex = re.compile("^[.,?!:;]+$")
+	whitespace_regex = re.compile("^\s+$")
+	after_punct_regex = re.compile("^[\"]+$")
+	
+	def __init__(self):
+		Rule.__init__(self, "WHITESPACE", "Insert a space character before punctuation.", 0, None)
+		return
+
+	def getNextTriple(self, tagged_words, pos):
+		tag = tagged_words[pos][2]
+		while tag == 'SENT_START' or tag == 'SENT_END':
+			pos = pos + 1
+			if pos >= len(tagged_words):
+				return None
+			tag = tagged_words[pos][2]
+		return tagged_words[pos]
+		
+	def match(self, tagged_words, position_fix=0):
+		"""Check if a sentence contains whitespace/token sequences
+		that are against the 'use a space after, but not before, a token'
+		rule."""
+		matches = []
+		text_length = 0
+		i = 0
+		while 1:
+			if i >= len(tagged_words)-1:
+				break
+			org_word = tagged_words[i][0]
+			org_word_next = self.getNextTriple(tagged_words, i+1)
+			if org_word_next:
+				org_word_next = org_word_next[0]
+			#print "<tt>'%s' -- '%s'</tt><br>" % (org_word, org_word_next)
+			if self.punct_regex.match(org_word):
+				word_next = tagged_words[i+1][1]
+				word_next = self.getNextTriple(tagged_words, i+1)
+				if word_next:
+					word_next = word_next[1]
+				if word_next and (not self.after_punct_regex.match(org_word_next)) and \
+					(not self.whitespace_regex.match(org_word_next)):
+					matches.append(RuleMatch(self.rule_id, text_length, text_length + len(org_word), 
+						"Usually a space character is inserted after punctuation.", 0))
+			elif self.whitespace_regex.match(org_word):
+				if self.punct_regex.match(org_word_next):
+					matches.append(RuleMatch(self.rule_id, text_length, text_length + len(org_word), 
+						"Usually no space character is inserted before punctuation.", 0))
+			text_length = text_length + len(org_word)
+			i = i + 1
 		return matches
 
 class PatternRule(Rule):
@@ -344,16 +401,16 @@ class PatternRule(Rule):
 			if match and p == len(self.tokens):
 
 				(first_match, from_pos, to_pos) = self.listPosToAbsPos(tagged_words_copy, first_match)
-				
 				to_upper = 0
-				if tagged_words_copy[first_match][0][0] in string.uppercase:
+				first_match_word = tagged_words_copy[first_match][0]
+				if first_match_word and first_match_word[0] in string.uppercase:
 					to_upper = 1
 					
 				# Let \n in a rule refer to the n'th matched word:
 				l = first_match
 				lcount = 1
 				msg = self.message
-				while lcount <= len(self.tokens):
+				while lcount <= len(self.tokens) and l < len(tagged_words_copy):
 					if self.isRealWord(tagged_words_copy, l):
 						msg = msg.replace("\\%d" % lcount, tagged_words_copy[l][0])
 						lcount = lcount + 1

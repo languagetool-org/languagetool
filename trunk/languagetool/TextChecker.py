@@ -68,13 +68,12 @@ class TextChecker:
 		#print sentences
 		#tx = time.time()
 		rule_matches = []
-		all_tagged_words = []
 		char_counter = 0
+		all_tagged_words = []
 		for sentence in sentences:
 			tagged_words = self.tagger.tagText(sentence)
 			tagged_words.insert(0, ('', None, 'SENT_START'))
 			tagged_words.append(('', None, 'SENT_END'))
-			#print tagged_words
 			all_tagged_words.extend(tagged_words)
 			#print "time1: %.2fsec" % (time.time()-tx)
 			#tx = time.time()
@@ -85,6 +84,11 @@ class TextChecker:
 				#tx = time.time()
 			for triple in sentence:
 				char_counter = char_counter + len(triple[0])
+
+		whitespace_rule = Rules.WhitespaceRule()
+		rule_matches.extend(whitespace_rule.match(all_tagged_words))
+		#print "###%s<p>" % str(all_tagged_words)
+
 		rule_match_list = []
 		for rule_match in rule_matches:
 			rule_match_list.append(rule_match.toXML())
