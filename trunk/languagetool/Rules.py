@@ -1,6 +1,6 @@
 # Class for Grammar and Style Rules
 # (c) 2002,2003 Daniel Naber <daniel.naber@t-online.de>
-#$rcs = ' $Id: Rules.py,v 1.20 2003-08-05 00:35:48 dnaber Exp $ ' ;
+#$rcs = ' $Id: Rules.py,v 1.21 2003-08-22 20:19:26 dnaber Exp $ ' ;
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -287,8 +287,10 @@ class PatternRule(Rule):
 			for elem in repl_trans:
 				l.append("<em>%s</em>" % elem)
 			repl_trans_str = str.join(', ', l)
-			self.message = "'%s' means %s. Did you maybe mean '%s', which is %s?" % (self.pattern, \
-				str.join(', ', translations), repl_word, repl_trans_str)
+			self.message = "'%s' means %s. " % (self.pattern, str.join(', ', translations))
+			if repl_word:
+				self.message = self.message + " Did you maybe mean '%s', which is %s?" % \
+					(repl_word, repl_trans_str)
 			#print "#%s" % self.message.encode('latin1')
 			token_strings = re.split("\s+", self.pattern)
 			self.tokens = []
@@ -340,12 +342,6 @@ class PatternRule(Rule):
 			self.tokens.append(token)
 		return
 		
-	def isRealWord(self, tagged_words, i):
-		if not tagged_words[i][1] and tagged_words[i][2] != 'SENT_START' and \
-			tagged_words[i][2] != 'SENT_END':
-			return 0
-		return 1
-	
 	def match(self, tagged_words, chunks=None, position_fix=0):
 		"""Check if there are rules that match the tagged_words. Returns a list
 		of RuleMatch objects."""
@@ -354,6 +350,7 @@ class PatternRule(Rule):
 		tagged_words_copy = tagged_words		# no copy, just a refernce
 		last_match = None
 		
+		#print self.rule_id	
 		#print tagged_words_copy
 		for word_tag_tuple in tagged_words_copy:
 			i = ct
@@ -367,7 +364,7 @@ class PatternRule(Rule):
 
 			while match:
 				try:
-					if not self.isRealWord(tagged_words_copy, i):
+					if not tagged_words_copy[i][1] and tagged_words_copy[i][2] != 'SENT_START' and tagged_words_copy[i][2] != 'SENT_END':
 						# here's just whitespace or other un-taggable crap:
 						i = i + 1
 						ct = ct + 1
@@ -452,7 +449,9 @@ class PatternRule(Rule):
 				lcount = 1
 				msg = self.message
 				while lcount <= len(self.tokens) and l < len(tagged_words_copy):
-					if self.isRealWord(tagged_words_copy, l):
+					if not tagged_words_copy[l][1] and tagged_words_copy[l][2] != 'SENT_START' and tagged_words_copy[l][2] != 'SENT_END':
+						pass
+					else:
 						msg = msg.replace("\\%d" % lcount, tagged_words_copy[l][0])
 						lcount = lcount + 1
 					l = l + 1
@@ -462,12 +461,6 @@ class PatternRule(Rule):
 					from_pos+position_fix, to_pos+position_fix, \
 					msg, first_match_word)
 				matches.append(match)
-
-			elif p == len(self.tokens):
-				# important to get these right:
-				# a style and grammar checker are cool -> error
-				# a style and grammar checker is cool -> okay
-				break
 
 			ct = ct + 1
 		return matches
