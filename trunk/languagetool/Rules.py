@@ -1,6 +1,6 @@
 # Class for Grammar and Style Rules
 # (c) 2002,2003 Daniel Naber <daniel.naber@t-online.de>
-#$rcs = ' $Id: Rules.py,v 1.14 2003-07-26 23:55:09 dnaber Exp $ ' ;
+#$rcs = ' $Id: Rules.py,v 1.15 2003-07-27 13:00:27 dnaber Exp $ ' ;
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -26,12 +26,28 @@ import string
 import sys
 import xml.dom.minidom
 
+class Rule:
+	"""Style or grammar rule -- quasi virtual class."""
+	
+	def __init__(self, rule_id, message, false_positives, language):
+		self.rule_id = rule_id
+		self.message = message
+		# errors per 100 sentences in the BNC, i.e. mostly false positives:
+		self.false_positives = false_positives
+		self.language = language	# two letter code like "en" or None (= relevant for alle languages)
+		return
+
+	def match(self):
+		"""Do nothing (quasi virtual method)."""
+		return
+
 class Rules:
 	"""All known style and grammar error rules (from XML and the built-in ones)."""
 
 	rule_files = [os.path.join("rules", "grammar.xml"),
 						os.path.join("rules", "words.xml"),
 						os.path.join("rules", "false_friends.xml")]
+	python_rules_dir = "python_rules"
 	
 	def __init__(self, max_sentence_length, grammar_rules, word_rules, \
 		builtin_rules, false_friend_rules, textlang, mothertongue):
@@ -39,14 +55,22 @@ class Rules:
 		with built-in rules like the SentenceLengthRule."""
 		self.rules = []
 
-		# built-in rules:
-		length_rule = SentenceLengthRule()
-		if max_sentence_length != None:
-			length_rule.setMaxLength(max_sentence_length)
-		self.rules.append(length_rule)
-		if not builtin_rules or "DET" in builtin_rules:
-			a_an_rule = AvsAnRule()
-			self.rules.append(a_an_rule)
+		# dynamically load rule files from the "python_rules" dir:
+		sys.path.append(self.python_rules_dir)
+		dyn_files = os.listdir(self.python_rules_dir)
+		for filename in dyn_files:
+			if not filename.endswith(".py") or filename.endswith("Test.py"):
+				continue
+			filename = filename[:-3]		# cut off ".py"
+			exec("import %s" % filename)
+			exec("dynamic_rule = %s.%s()" % (filename, filename))
+			# do not use the rule if it wasn't activated 
+			# (builtin_rules == None will use all rules):
+			if dynamic_rule.rule_id == "SENTENCE_LENGTH" and \
+				max_sentence_length != None:
+				dynamic_rule.setMaxLength(max_sentence_length)
+			if not builtin_rules or dynamic_rule.rule_id in builtin_rules:
+				self.rules.append(dynamic_rule)
 
 		for filename in self.rule_files:
 			# minidom expects the DTD in the current directory, not in the
@@ -83,135 +107,6 @@ class Rules:
 							rule.rule_id in false_friend_rules):
 							self.rules.append(rule)
 		return
-
-class Rule:
-	"""Style or grammar rule -- quasi virtual class."""
-	
-	def __init__(self, rule_id, message, false_positives, language):
-		self.rule_id = rule_id
-		self.message = message
-		# errors per 100 sentences in the BNC, i.e. mostly false positives:
-		self.false_positives = false_positives
-		self.language = language	# two letter code like "en" or None (= relevant for alle languages)
-		return
-
-	def match(self):
-		"""Do nothing (quasi virtual method)."""
-		return
-
-class SentenceLengthRule(Rule):
-	"""Check if a sentence is 'too long'."""
-
-	max_length = 30
-	
-	def __init__(self):
-		Rule.__init__(self, "SENTENCE_LENGTH", "This sentence is too long.", 0, None)
-		return
-
-	def setMaxLength(self, max_length):
-		"""Set the maximum length that's still okay. Limit 0 means no limit."""
-		self.max_length = int(max_length)
-		return
-		
-	def match(self, tagged_words, chunks=None, position_fix=0):
-		"""Check if a sentence is too long, according to the limit set
-		by setMaxLength(). Put the warning on the first word
-		above the limit. Assumes that tagged_words is exactly one sentence."""
-		if self.max_length == 0:		# 0 = no limit
-			return []
-		matches = []
-		text_length = 0
-		count = 0
-		too_long = 0
-		too_long_start = 0
-		too_long_end = 0
-		for (org_word, tagged_word, tagged_tag) in tagged_words:
-			text_length = text_length + len(org_word)
-			if not tagged_tag or not tagged_word:
-				# don't count whitespace etc
-				continue
-			count = count + 1
-			if count > self.max_length and not too_long:
-				too_long = 1
-				too_long_start = text_length-len(org_word)
-				too_long_end = text_length
-		if too_long:
-			matches.append(RuleMatch(self.rule_id, too_long_start,
-				too_long_end, 
-				"This sentence is %d words long, which exceeds the "
-				"configured limit of %d words." % (count, self.max_length)))
-		return matches
-
-
-class AvsAnRule(Rule):
-	"""Check if the determiner (if any) before a word is:
-	-'an' if the next word starts with a vowel
-	-'a' if the next word does not start with a vowel
-	This rule knows about some exceptions (e.g. 'an hour')."""
-
-	requires_a_file = os.path.join("data", "det_a.txt")
-	requires_an_file = os.path.join("data", "det_an.txt")
-	
-	def __init__(self):
-		Rule.__init__(self, "DET", "Use of 'a' vs. use of 'an'.", 0, None)
-		self.requires_a = self.loadWords(self.requires_a_file) 
-		self.requires_an = self.loadWords(self.requires_an_file)
-		return
-
-	def loadWords(self, filename):
-		f = open(filename)
-		l = []
-		while 1:
-			line = f.readline()
-			if not line:
-				break
-			if line.startswith("#") or line.strip() == '':
-				continue
-			l.append(line.strip().lower())
-		f.close()
-		return l
-		
-	def match(self, tagged_words, chunks, position_fix=0):
-		matches = []
-		text_length = 0
-		i = 0
-		while 1:
-			if i >= len(tagged_words)-2:
-				break
-			org_word = tagged_words[i][0]
-			org_word_next = tagged_words[i+2][0]	# jump over whitespace
-			#print "<tt>'%s' -- '%s'</tt><br>" % (org_word, org_word_next)
-			if org_word.lower() == 'a':
-				err = 0
-				if org_word_next.lower() in self.requires_an:
-					err = 1
-				elif len(org_word_next) > 0 and org_word_next[0].lower() in ('a', 'e', 'i', 'o', 'u') and \
-					not org_word_next.lower() in self.requires_a:
-					err = 1
-				if err:
-					matches.append(RuleMatch(self.rule_id,
-						text_length++position_fix, text_length+len(org_word)+position_fix, 
-						"Use <em>an</em> instead of <em>a</em> if the following "+
-						"word starts with a vowel sound, e.g. 'an article', "+
-						"'an hour'", org_word))
-			elif org_word.lower() == 'an':
-				err = 0
-				if org_word_next.lower() in self.requires_a:
-					err = 1
-				elif len(org_word_next) > 0 and \
-					(not org_word_next[0].lower() in ('a', 'e', 'i', 'o', 'u')) and \
-					not org_word_next.lower() in self.requires_an:
-					err = 1
-				if err:
-					matches.append(RuleMatch(self.rule_id,
-						text_length++position_fix, text_length+len(org_word)+position_fix, 
-						"Use <em>a</em> instead of <em>an</em> if the following "+
-						"word doesn't start with a vowel sound, e.g. 'a test', "+
-						"'a university'", org_word))
-				pass
-			text_length = text_length + len(org_word)
-			i = i + 1
-		return matches
 
 class WhitespaceRule(Rule):
 	"""A rule that matches punctuation not followed by a whitespace
@@ -534,7 +429,6 @@ class PatternRule(Rule):
 		return matches
 
 	def listPosToAbsPos(self, l, first_match):
-
 		j = first_match + 1
 		i = 0
 		mark_from_tmp = self.marker_from
