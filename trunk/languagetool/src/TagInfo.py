@@ -93,58 +93,58 @@ class TagInfo:
 		ZZ0 Alphabetical symbols (e.g. A, a, B, b, c, d)"""
 
 	TAG_STRING_GERMAN = """
-		ADJ Adjective (general) (e.g.  gut,alt)
-		ADJE Comparative adjective (e.g.  alte)
+		ADJ Adjective (general) (e.g. gut, alt)
+		ADJE Comparative adjective (e.g. alte)
 		ADJER  adjective with er Ending (e.g. alter)
 		ADJES  adjective with es Ending (e.g. altes)
 		ADJEM  adjective with em Ending (e.g. altem)
 		ADJEN  adjective with en Ending (e.g. alten)
 		*ADV  Adverb like abends, morgen
-		PRA  Pronom with accusativ  wider, gegen
-		PRD  Pronom with dativ  ab, aus
-		PRD  Pronom with accusativ or dativ  in, über
-		PP1  Personal pronom ich, mich, mir
-		PP2  Personal pronom du
-		PP3  Personal pronom er, sie,es
-		PP4  Personal pronom wir
-		PP5  Personal pronom ihr
+		PRA  Pronoun with accusativ  wider, gegen
+		PRD  Pronoun with dativ  ab, aus
+		PRD  Pronoun with accusativ or dativ  in, über
+		PP1  Personal pronoun ich, mich, mir
+		PP2  Personal pronoun du
+		PP3  Personal pronoun er, sie, es
+		PP4  Personal pronoun wir
+		PP5  Personal pronoun ihr
 		*IND  oh, ah, heisa
 		*INT  Interrogating word like Wer, wo, etc...
 		CNT  Number
 		CJC  Conjunctive word like und, oder, ...
-		V    verb  gehen
-		V11  verb  gehe
-		V12  verb  gehst
-		V13  verb  geht
-		V14  verb  gehen
-		V15  verb  gehet
-		HV   helpverb moegen
-		HV11 helpverb mag
-		HV12 helpverb magst
-		HV13 helpverb mag
-		HV14 helpverb moegen
-		HV15 helpverb moeget
-		N    Nomen
-		NMS  Nomen male no ending  like Garten
-		NFS  Nomen female no ending like Frau
-		NNS  Nomen neutrum no ending
-		NFNS Nomen female or neutrum no ending
-		NFMS Nomen female or male no ending
-		NMNS Nomen male or neutrum no ending
-		NFMNS Nomen male female or neutrum no ending
-		NM  Nomen male with ending like Gartens
-		NF  Nomen female with ending  like Frauen
-		NN  Nomen neutrum with ending
-		NFN Nomen female or neutrum with ending
-		NFM Nomen female or male with ending
-		NMN Nomen male or neutrum with ending
-		NFMN Nomen male female or neutrum with ending
-		UA1   Undefined article ein
-		UAE   Undefined article eine
-		UAR   Undefined article einer
-		UAN   Undefined article einen
-		UAM   Undefined article einem
-		UAS   Undefined article eines
+		V    verb, e.g. gehen
+		V11  verb, e.g. gehe
+		V12  verb, e.g. gehst
+		V13  verb, e.g. geht
+		V14  verb, e.g. gehen
+		V15  verb, e.g. gehet
+		HV   auxiliary verb, e.g. moegen
+		HV11 auxiliary verb, e.g. mag
+		HV12 auxiliary verb, e.g. magst
+		HV13 auxiliary verb, e.g. mag
+		HV14 auxiliary verb, e.g. moegen
+		HV15 auxiliary verb, e.g. moeget
+		N    Noun
+		NMS  Noun male no ending, e.g. Garten
+		NFS  Noun female no ending, e.g. Frau
+		NNS  Noun neutrum no ending
+		NFNS Noun female or neutrum no ending
+		NFMS Noun female or male no ending
+		NMNS Noun male or neutrum no ending
+		NFMNS Noun male female or neutrum no ending
+		NM  Noun male with ending like Gartens
+		NF  Noun female with ending  like Frauen
+		NN  Noun neutrum with ending
+		NFN Noun female or neutrum with ending
+		NFM Noun female or male with ending
+		NMN Noun male or neutrum with ending
+		NFMN Noun male female or neutrum with ending
+		UA1   indefinite article ein
+		UAE   indefinite article eine
+		UAR   indefinite article einer
+		UAN   indefinite article einen
+		UAM   indefinite article einem
+		UAS   indefinite article eines
 		* INT,IND,ADV sometimes mixed up in the word collection
 			- to be corrected"""
 
@@ -193,5 +193,6 @@ class TagInfo:
 		return
 
 if __name__ == "__main__":
+	# TODO: take language as parameter
 	taginfo = TagInfo()
 	taginfo.printAll()
