@@ -25,8 +25,6 @@ Note for grammar rules:
   for the test cases.
 * It's often difficult to says if an error is a  grammar errors or
   'just' a typo, so we have not attribute for that.
-* error_rate = 0 means "almost zero"
-* error_rate = 100 means "too much, needs testing"
 
 -->
 
@@ -36,12 +34,14 @@ Note for grammar rules:
 
 <!ELEMENT rulegroup (message?, replacement*, rule+)>
 <!ATTLIST rulegroup id ID #REQUIRED>
+<!ATTLIST rulegroup name CDATA #IMPLIED>
 
 <!ELEMENT rule ( pattern,
 	((message?,error_rate?,example,example+) | 
 	(translation+,message?,example*)) )>
 <!ATTLIST rule id ID #IMPLIED>	<!-- well, required but not if there's a group -->
 <!ATTLIST rule level (0|1|2|3|4|5|6|7|8|9|10) #IMPLIED>
+<!ATTLIST rule name CDATA #IMPLIED>
 
 <!ELEMENT pattern (#PCDATA)>
 <!ATTLIST pattern lang %Languages; #REQUIRED>
@@ -56,10 +56,10 @@ Note for grammar rules:
 <!ELEMENT message (#PCDATA|em)*>
 
 <!-- percentage of sentences tagged as wrong in BNC: -->
-<!ELEMENT error_rate (#PCDATA)>
+<!ELEMENT error_rate EMPTY>
 <!-- number of (real or unreal) warnings when testing BNC sentences: -->
 <!ATTLIST error_rate warnings CDATA #IMPLIED>
-<!-- number of BNC sentences used to get 'warnings' and thus 'error_rate': -->
+<!-- number of BNC sentences used to get 'warnings': -->
 <!ATTLIST error_rate sentences CDATA #IMPLIED>
 
 <!ELEMENT example (#PCDATA|em)*>
