@@ -203,7 +203,7 @@ class Tagger:
 class Text:
 
 	DUMMY = None
-	number_regex = re.compile("^[0-9.,\-]+$")
+	number_regex = re.compile("^[0-9.,/\-]+$")
 	time_regex = re.compile("\d(am|pm)$")
 	bnc_regex = re.compile("<(w|c) (.*?)>(.*?)<", re.DOTALL)
 
@@ -348,7 +348,7 @@ class Text:
 
 		# e.g. publicize, publicise, activate, simplify
 		# 'en' was left out, could also be a adjective
-		verb = ['ize', 'ise', 'ate', 'ify', 'fy']
+		verb = ['ize', 'ise', 'ate', 'fy']
 		for suffix in verb:
 			if word.endswith(suffix):
 				# fixme: could also be VVB
@@ -786,8 +786,6 @@ class TextToTag(Text):
 		result_tuple_list = self.selectTagsByContext(tagged_list, seqs_table_followed_by, \
 			seqs_table_follows, tagged_list_bnc, is_bnc, data_table)
 
-		print result_tuple_list
-		
 		i = 0
 		for tag_triple in result_tuple_list:
 			triple = self.applyTagRules(tag_triple[0], tag_triple[1], tag_triple[2])
@@ -800,12 +798,6 @@ class TextToTag(Text):
 		
 		return result_tuple_list
 
-	def getName(self, x):
-		if x == None:
-			return "None"
-		else:
-			return x[0]
-	
 	def selectTagsByContext(self, tagged_list, seqs_table_followed_by, \
 		seqs_table_follows, tagged_list_bnc, is_bnc, data_table):
 		
@@ -815,10 +807,8 @@ class TextToTag(Text):
 		for tagged_triple in tagged_list:
 			if tagged_triple != None and tagged_triple[1] == None:
 				# ignore whitespace
-				print "IGN(%d): %s<br>" % (i, str(tagged_triple))
 				i = i + 1
 				continue
-			print "XXX(%d): %s<br>" % (i, str(tagged_triple))
 			try:
 				one = tagged_list[i]
 				two = tagged_list[i+1]
@@ -833,7 +823,6 @@ class TextToTag(Text):
 					whitespace_jump = whitespace_jump + 1
 				three_pos = i + 2 + whitespace_jump
 			except IndexError:
-				print "END<br>"
 				# list end
 				break
 
@@ -878,14 +867,8 @@ class TextToTag(Text):
 									seqs_table_followed_by[(two_tag_prob, three_tag_prob)]
 							except KeyError:
 								pass
-								#print "key not found" 
-								
 							prob_combined = seq_prob * tag_one_prob
 							k1 = (i, one_tag[0])
-							#if k1[0] == 9:
-							####print "k1=%s(%s), prob_combined = %s * %s = %.20f" % (k1, one[0], tag_one_prob, seq_prob, prob_combined)
-							
-							#print "K=%s -- one_tag[0] = %s" % (k1, one_tag[0])
 							try:
 								tag_probs[k1] = tag_probs[k1] + prob_combined
 							except KeyError:
@@ -934,7 +917,6 @@ class TextToTag(Text):
 				tagged_list[i] = (orig_word, norm_word, best_tag)
 				####print "BEST@%d: %s" % (i, best_tag)
 			
-
 			if is_bnc and one:
 				orig_word = one[0]
 				wrong_tags = self.checkBNCMatch(i, tagged_list_bnc, orig_word, best_tag, data_table)
@@ -952,7 +934,7 @@ class TextToTag(Text):
 		tagged_list.pop()
 		tagged_list.pop()
 		
-		print "<br>##tagged_list=%s<p>" % tagged_list
+		#print "<br>##tagged_list=%s<p>" % tagged_list
 		return tagged_list
 
 	def getTuple(self, tagged_list_elem):
