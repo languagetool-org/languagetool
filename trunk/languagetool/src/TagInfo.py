@@ -157,7 +157,68 @@ class TagInfo:
 		UAS   indefinite article eines
 		* INT,IND,ADV sometimes mixed up in the word collection - to be corrected"""
 
-	TAG_STRING['hu'] = """TODO"""
+	TAG_STRING['hu'] = """ADJS Singular adjective (e.g.  szep)
+		ADJP Plural Adjective (e.g. szepek)
+		ADJN Numeric Adjective (e.g. tizedik)
+		ADV  Adverb like szepen, jol
+		NS   Noun, singular  asztalnak
+		NSN  Noun, singular, nominativ asztal
+		NSR  Noun, singular, not nominativ asztalt
+		NP   Noun, plural asztalokat
+		NPN  Noun, plural, nominativ asztalok
+		NPR  Noun, plural, not nominativ asztalokra
+		V1   Verb, Singular, 1-st person  irok
+		V2   Verb, Singular, 2-nd person
+		V3   Verb, Singular, 3-rd person
+		V4   Verb, Plural, 1-st person
+		V5   Verb, Plural, 2-nd person
+		V6   Verb, Plural, 3-rd person
+		VINF Verb infinitiv
+		IKV1  Prefixed Verb, Singular, 1-st person megirok
+		IKV2  Prefixed Verb, Singular, 2-nd person
+		IKV3  Prefixed Verb, Singular, 3-rd person
+		IKV4  Prefixed Verb, Plural, 1-st person
+		IKV5  Prefixed Verb, Plural, 2-nd person
+		IKV6  Prefixed Verb, Plural, 3-rd person
+		VINF  Prefixed Verb infinitiv
+		SI1   Help Verb, Singular, 1-st person akarok
+		SI2   Help Verb, Singular, 2-nd person
+		SI3   Help Verb, Singular, 3-rd person
+		SI4   Help Verb, Plural, 1-st person
+		SI5   Help Verb, Plural, 2-nd person
+		SI6   Help Verb, Plural, 3-rd person
+		SIINF Help Verb infinitiv
+		IKSI1 Prefixed Help Verb, Singular, 1-st person  megvagyok
+		IKSI2 Prefixed Help Verb, Singular, 2-nd person
+		IKSI3 Prefixed Help Verb, Singular, 3-rd person
+		IKSI4 Prefixed Help Verb, Plural, 1-st person
+		IKSI5 Prefixed Help Verb, Plural, 2-nd person
+		IKSI6 Prefixed Help Verb, Plural, 3-rd person
+		IKSIINF Prefixed Help Verb infinitiv
+		NEIK  Non detachable verb prefix be, ki, le, fel, etc...
+		PP1  Personal pronom en
+		PP2  Personal pronom te
+		PP3  Personal pronom o
+		PP4  Personal pronom mi
+		PP5  Personal pronom ti
+		PP6  Personal pronom ok
+		RPP1 Owning Personal Pronom enyem
+		RPP2 Owning Personal Pronom tied
+		RPP3 Owning Personal Pronom ove
+		RPP4 Owning Personal Pronom mienk
+		RPP5 Owning Personal Pronom tietek
+		RPP6 Owning Personal Pronom ovek
+		IND  uhum
+		INT  Interrogating word like nemde etc...
+		CRD  Number tizenot
+		INTRN Numerical interrogation mennyi, etc...
+		INTR Interrogation miert, etc...
+		CJC  Conjunctive word like es vagy, ...
+		DNV  Double role, Noun and verb var
+		DAV  Double role, Adj and Verb irt
+		DNA  Double role, Noun and ADJ or ADV iro ...	
+		RART Conjunction word like de, hogy
+		"""
 
 	def __init__(self, lang):
 		if not self.TAG_STRING.has_key(lang):
