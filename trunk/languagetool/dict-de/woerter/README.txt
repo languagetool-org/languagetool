@@ -1,3 +1,4 @@
+neue_woerter.txt noch nicht eingeordnete Wörter
 woerter_gross.txt Nomen und Namen (müssen noch nach namen.txt und vornamen.txt sortiert werden)
 woerter_klein.txt Verben, Adjektive, ...
 woerter_komposita* hauptsächlich Komposita, sortiert nach Anfangsbuchstaben, um die einzelnen
