@@ -1,7 +1,7 @@
 # Rule that checks the use of 'a' vs. 'an'
 # (c) 2003 Daniel Naber <daniel.naber@t-online.de>
 #
-#$rcs = ' $Id: AvsAnRule.py,v 1.1 2003-07-27 12:47:13 dnaber Exp $ ' ;
+#$rcs = ' $Id: AvsAnRule.py,v 1.2 2003-08-22 20:21:23 dnaber Exp $ ' ;
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -56,11 +56,12 @@ class AvsAnRule(Rules.Rule):
 		matches = []
 		text_length = 0
 		i = 0
+		#print tagged_words
 		while 1:
 			if i >= len(tagged_words)-2:
 				break
 			org_word = tagged_words[i][0]
-			org_word_next = tagged_words[i+2][0]	# jump over whitespace
+			org_word_next = tagged_words[i+1][0]
 			#print "<tt>'%s' -- '%s'</tt><br>" % (org_word, org_word_next)
 			if org_word.lower() == 'a':
 				err = 0
