@@ -70,7 +70,7 @@ def displayForm(form):
 		<body>
 		<h1>LanguageTool Web Interface</h1>
 		Enter English text here:<br />
-		<form action="/cgi-bin/TextCheckerCGI.py" method="POST">
+		<form action="/cgi-bin/languagetool/TextCheckerCGI.py" method="post">
 			<textarea name="text" rows="8" cols="80"></textarea><br />
 			<input type="checkbox" name="tags" checked="checked"> Show part-of-speech tags
 			<input type="checkbox" name="german_ff" checked="checked"> Check for false friends (for German native speakers)<br />
