@@ -52,12 +52,12 @@ class TextChecker:
 					"hellip": "...",
 					"lsqb": "[",
 					"rsqb": "]",
-					"uuml": u"ü",
-					"auml": u"ä",
-					"ouml": u"ö",
-					"Uuml": u"Ü",
-					"Auml": u"Ä",
-					"Ouml": u"Ö"
+					"uuml": "u",	#fixme: use ü
+					"auml": "a",	# see above!
+					"ouml": "o",
+					"Uuml": "U",
+					"Auml": "A",
+					"Ouml": "O"
 				}
 
 	def __init__(self, grammar, falsefriends, words, \
@@ -136,8 +136,12 @@ class TextChecker:
 	def cleanEntities(self, s):
 		"""Replace only the most common BNC entities with their
 		ASCII respresentation."""
-		for key in self.entities:
-			s = re.compile("&%s;?" % key).sub("%s" % self.entities[key], s)
+		try:
+			for key in self.entities:
+				s = re.compile("&%s;?" % key).sub("%s" % self.entities[key], s)
+		except TypeError:
+			# FIXME: what to do here?!
+			print >> sys.stderr, "TypeError: '%s'" % s
 		return s
 
 	def checkBNCFiles(self, directory, checker):
