@@ -22,6 +22,7 @@ import os
 import re
 import string
 import sys
+import time
 import cPickle
 import htmlentitydefs
 
@@ -805,6 +806,7 @@ class TextToTag(Text):
 		tag_probs = {}
 		i = 0
 		for tagged_triple in tagged_list:
+			#t1 = time.time()
 			if tagged_triple != None and tagged_triple[1] == None:
 				# ignore whitespace
 				i = i + 1
@@ -898,7 +900,7 @@ class TextToTag(Text):
 								tag_probs[k3] = tag_probs[k3] + prob_combined
 							except KeyError:
 								tag_probs[k3] = prob_combined
-						
+
 			orig_word = None
 			norm_word = None
 			# the word that falls out of the window is assigned its final tag:
@@ -906,7 +908,6 @@ class TextToTag(Text):
 				orig_word = one[0]
 				norm_word = one[1]
 				keys = tag_probs.keys()
-				keys.sort()
 				max_prob = 0
 				best_tag = None
 				for tag_prob in keys:
@@ -914,6 +915,9 @@ class TextToTag(Text):
 						####print " K=%s, V=%s" % (tag_prob, tag_probs[tag_prob])
 						max_prob = tag_probs[tag_prob]
 						best_tag = tag_prob[1]
+						# this avoids inefficiencies, it's necessary because
+						# of the tag_probs.keys() call above:
+						del tag_probs[tag_prob]
 				tagged_list[i] = (orig_word, norm_word, best_tag)
 				####print "BEST@%d: %s" % (i, best_tag)
 			
@@ -923,6 +927,7 @@ class TextToTag(Text):
 				count_wrong_tags = count_wrong_tags + wrong_tags
 
 			i = i + 1
+			#print "time=%.2f (%d)" % (time.time()-t1, len(one_tags)*len(two_tags)*len(three_tags))
 			
 		###
 		stat = self.getStats(count_wrong_tags)
