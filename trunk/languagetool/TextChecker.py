@@ -1,22 +1,22 @@
 #!/usr/bin/python
 # -*- coding: iso-8859-1 -*-
-# A rule-based style and grammar checker
-# Copyright (C) 2002,2003 Daniel Naber <daniel.naber@t-online.de>
 #
-# This program is free software; you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation; either version 2 of the License, or (at
-# your option) any later version.
+# LanguageTool -- A Rule-Based Style and Grammar Checker
+# Copyright (C) 2002,2003,2004 Daniel Naber <daniel.naber@t-online.de>
 #
-# This program is distributed in the hope that it will be useful, but
-# WITHOUT ANY WARRANTY; without even the implied warranty of
+# This library is free software; you can redistribute it and/or
+# modify it under the terms of the GNU Lesser General Public
+# License as published by the Free Software Foundation; either
+# version 2.1 of the License, or (at your option) any later version.
+#
+# This library is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-# General Public License for more details.
+# Lesser General Public License for more details.
 #
-# You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307
-# USA
+# You should have received a copy of the GNU Lesser General Public
+# License along with this library; if not, write to the Free Software
+# Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 import codecs
 import getopt
@@ -30,11 +30,15 @@ import xml.dom.minidom
 
 import profile
 
+sys.path.append(os.path.join(sys.path[0], "src"))
 import Entities
 import Tagger
 import Chunker
 import Rules
 import SentenceSplitter
+import ConfigParser
+
+
 
 class TextChecker:
 	"""A rule-based style and grammar checker."""
@@ -62,9 +66,9 @@ class TextChecker:
 		self.bnc_paras = 0
 		self.bnc_sentences = 0
 		return
-		
+
 	def checkFile(self, filename):
-		"""Check a text file and return the results as an XML formatted list 
+		"""Check a text file and return the results as an XML formatted list
 		of possible errors."""
 		text = ""
 		#print "###%s" % filename.lower()
@@ -87,7 +91,7 @@ class TextChecker:
 		return (rule_matches, result, tagged_words)
 
 	def check(self, text):
-		"""Check a text string and return the results as an XML formatted list 
+		"""Check a text string and return the results as an XML formatted list
 		of possible errors."""
 		splitter = SentenceSplitter.SentenceSplitter()
 		sentences = splitter.split(text)
@@ -97,7 +101,7 @@ class TextChecker:
 		all_tagged_words = []
 		for sentence in sentences:
 			tagged_words = self.tagger.tagText(sentence)
-			#print tagged_words
+#			print tagged_words
 			chunks = self.chunker.chunk(tagged_words)
 			#print "CHUNKS: %s" % chunks
 			#print "CHUNKS: %s" % tagged_words[chunks[0][0]:chunks[0][1]]
@@ -107,7 +111,7 @@ class TextChecker:
 			#print "time1: %.2fsec" % (time.time()-tx)
 			#tx = time.time()
 			for rule in self.rules.rules:
-				#print rule.rule_id
+#				print rule.rule_id
 				matches = rule.match(tagged_words, chunks, char_counter)
 				rule_matches.extend(matches)
 				#print "time2: %.2fsec" % (time.time()-tx)
@@ -161,6 +165,7 @@ class TextChecker:
 				s = f.read()
 				f.close()
 				s = unicode(s, 'iso-8859-1')
+#				print s
 				s_matches = sentence_regex.findall(s)
 				self.bnc_sentences = self.bnc_sentences + len(s_matches)
 				matches = para_regex.findall(s)
@@ -199,6 +204,7 @@ def usage():
 def main():
 	options = None
 	rest = None
+	config = ConfigParser.ConfigParser()
 	try:
 		(options, rest) = getopt.getopt(sys.argv[1:], 'hcg:f:w:b:m:t:l:', \
 			['help', 'check', 'grammar=', 'falsefriends=', 'words=', \
@@ -213,6 +219,9 @@ def main():
 	builtin = None
 	textlanguage = mothertongue = None
 	max_sentence_length = None
+	#	print "%s %s %s" %(Tagger.dicFile, Tagger.affFile,Tagger.grammarFile)
+	#	sys.exit(0)
+	textlanguage = 'de'		# default
 
 	for o, a in options:
 		if o in ("-g", "--grammar"):
@@ -229,6 +238,13 @@ def main():
 			textlanguage = a
 		elif o in ("-l", "--sentencelength"):
 			max_sentence_length = a
+
+	Tagger.textlanguage = textlanguage
+	Rules.textlanguage = textlanguage
+	config.readfp(open('TextChecker.ini'))
+	Tagger.dicFile = config.get(textlanguage, 'dicFile');
+	Tagger.affFile = config.get(textlanguage, 'affFile');
+	Rules.grammarFile = config.get(textlanguage, 'grammarFile');
 
 	for o, a in options:
 		if o in ("-h", "--help"):
