@@ -139,49 +139,33 @@ class TaggerTest(unittest.TestCase):
 		self.assertEqual(tag, None)
 
 		# numbers = CRD:
-		tag = tagger.guessTagTest("0")
-		self.assertEqual(tag, 'CRD')
-		tag = tagger.guessTagTest("3123.1312")
-		self.assertEqual(tag, 'CRD')
-		tag = tagger.guessTagTest("00,99")
-		self.assertEqual(tag, 'CRD')
-		tag = tagger.guessTagTest("00/99")
-		self.assertEqual(tag, 'CRD')
-		tag = tagger.guessTagTest("1-99")
-		self.assertEqual(tag, 'CRD')
+		self.assertEqual(tagger.guessTagTest("0"), 'CRD')
+		self.assertEqual(tagger.guessTagTest("3123.1312"), 'CRD')
+		self.assertEqual(tagger.guessTagTest("00,99"), 'CRD')
+		self.assertEqual(tagger.guessTagTest("00/99"), 'CRD')
+		self.assertEqual(tagger.guessTagTest("1-99"), 'CRD')
 
 		# BNC Sampler tags "$xx" as NNU, which is mapped to NN0 (same for £):
-		tag = tagger.guessTagTest("$31.12")
-		self.assertEqual(tag, 'NN0')
+		self.assertEqual(tagger.guessTagTest("$31.12"), 'NN0')
 
-		tag = tagger.guessTagTest("HIV")
-		self.assertEqual(tag, 'NN0')
+		self.assertEqual(tagger.guessTagTest("HIV"), 'NN0')
 
-		tag = tagger.guessTagTest("8.55pm")
-		self.assertEqual(tag, 'AV0')
+		self.assertEqual(tagger.guessTagTest("8.55pm"), 'AV0')
 		
-		tag = tagger.guessTagTest("10.10pm")
-		self.assertEqual(tag, 'AV0')
+		self.assertEqual(tagger.guessTagTest("10.10pm"), 'AV0')
 
-		tag = tagger.guessTagTest(u"Großekathöfer")
-		self.assertEqual(tag, 'NP0')
+		self.assertEqual(tagger.guessTagTest(u"Großekathöfer"), 'NP0')
 
-		tag = tagger.guessTagTest("jackerfoodom")
-		self.assertEqual(tag, 'NN1')
+		self.assertEqual(tagger.guessTagTest("jackerfoodom"), 'NN1')
 
-		tag = tagger.guessTagTest("testious")
-		self.assertEqual(tag, 'AJ0')
+		self.assertEqual(tagger.guessTagTest("testious"), 'AJ0')
 
-		tag = tagger.guessTagTest("testize")
-		self.assertEqual(tag, 'VVI')
+		self.assertEqual(tagger.guessTagTest("testize"), 'VVI')
 
-		tag = tagger.guessTagTest("foofooly")
-		self.assertEqual(tag, 'AV0')
+		self.assertEqual(tagger.guessTagTest("foofooly"), 'AV0')
 
-		tag = tagger.guessTagTest("unguessablexxx")
-		self.assertEqual(tag, None)
-		tag = tagger.guessTagTest("verboten")
-		self.assertEqual(tag, None)
+		self.assertEqual(tagger.guessTagTest("unguessablexxx"), None)
+		self.assertEqual(tagger.guessTagTest("verboten"), None)
 		return
 
 	def testLearningAndTagging(self):
