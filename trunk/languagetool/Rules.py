@@ -1,6 +1,6 @@
 # Class for Grammar and Style Rules
 # (c) 2002,2003 Daniel Naber <daniel.naber@t-online.de>
-#$rcs = ' $Id: Rules.py,v 1.12 2003-07-06 21:17:38 dnaber Exp $ ' ;
+#$rcs = ' $Id: Rules.py,v 1.13 2003-07-23 19:31:37 dnaber Exp $ ' ;
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -34,7 +34,7 @@ class Rules:
 						os.path.join("rules", "false_friends.xml")]
 	
 	def __init__(self, max_sentence_length, grammar_rules, word_rules, \
-		false_friend_rules, textlang, mothertongue):
+		builtin_rules, false_friend_rules, textlang, mothertongue):
 		"""Parse all rules and put them in the self.rules list, together
 		with built-in rules like the SentenceLengthRule."""
 		self.rules = []
@@ -44,8 +44,9 @@ class Rules:
 		if max_sentence_length != None:
 			length_rule.setMaxLength(max_sentence_length)
 		self.rules.append(length_rule)
-		a_an_rule = AvsAnRule()
-		self.rules.append(a_an_rule)
+		if not builtin_rules or "DET" in builtin_rules:
+			a_an_rule = AvsAnRule()
+			self.rules.append(a_an_rule)
 
 		for filename in self.rule_files:
 			# minidom expects the DTD in the current directory, not in the
@@ -111,7 +112,7 @@ class SentenceLengthRule(Rule):
 		self.max_length = int(max_length)
 		return
 		
-	def match(self, tagged_words, position_fix=0):
+	def match(self, tagged_words, chunks=None, position_fix=0):
 		"""Check if a sentence is too long, according to the limit set
 		by setMaxLength(). Put the warning on the first word
 		above the limit. Assumes that tagged_words is exactly one sentence."""
@@ -151,7 +152,7 @@ class AvsAnRule(Rule):
 	requires_an_file = os.path.join("data", "det_an.txt")
 	
 	def __init__(self):
-		Rule.__init__(self, "WHITESPACE", "Insert a space character before punctuation.", 0, None)
+		Rule.__init__(self, "DET", "Use of 'a' vs. use of 'an'.", 0, None)
 		self.requires_a = self.loadWords(self.requires_a_file) 
 		self.requires_an = self.loadWords(self.requires_an_file)
 		return
@@ -170,7 +171,7 @@ class AvsAnRule(Rule):
 			i = i + 1
 		return l
 		
-	def match(self, tagged_words, position_fix=0):
+	def match(self, tagged_words, chunks, position_fix=0):
 		matches = []
 		text_length = 0
 		i = 0
@@ -184,7 +185,7 @@ class AvsAnRule(Rule):
 				err = 0
 				if org_word_next in self.requires_an:
 					err = 1
-				elif org_word_next[0].lower() in ('a', 'e', 'i', 'o', 'u') and \
+				elif len(org_word_next) > 0 and org_word_next[0].lower() in ('a', 'e', 'i', 'o', 'u') and \
 					not org_word_next in self.requires_a:
 					err = 1
 				if err:
@@ -219,6 +220,7 @@ class WhitespaceRule(Rule):
 	punct_regex = re.compile("^[.,?!:;]+$")
 	whitespace_regex = re.compile("^\s+$")
 	after_punct_regex = re.compile("^[\"]+$")
+	number_regex = re.compile("^\d+$")
 	
 	def __init__(self):
 		Rule.__init__(self, "WHITESPACE", "Insert a space character before punctuation.", 0, None)
@@ -235,7 +237,7 @@ class WhitespaceRule(Rule):
 			tag = tagged_words[pos][2]
 		return tagged_words[pos]
 		
-	def match(self, tagged_words):
+	def match(self, tagged_words, chunks=None):
 		"""Check if a sentence contains whitespace/token sequences
 		that are against the 'use a space after, but not before, a token'
 		rule."""
@@ -246,6 +248,9 @@ class WhitespaceRule(Rule):
 			if i >= len(tagged_words)-1:
 				break
 			org_word = tagged_words[i][0]
+			#if len(org_word) == 0:
+			#	i = i + 1
+			#	continue
 			org_word_next = self.getNextTriple(tagged_words, i+1)
 			if org_word_next:
 				org_word_next = org_word_next[0]
@@ -255,6 +260,10 @@ class WhitespaceRule(Rule):
 				word_next = self.getNextTriple(tagged_words, i+1)
 				if word_next:
 					word_next = word_next[1]
+					if word_next and self.number_regex.match(word_next):
+						# don't complain about "24,000" etc.
+						i = i + 1
+						continue
 				if word_next and (not self.after_punct_regex.match(org_word_next)) and \
 					(not self.whitespace_regex.match(org_word_next)):
 					matches.append(RuleMatch(self.rule_id, text_length, text_length + len(org_word), 
@@ -403,7 +412,7 @@ class PatternRule(Rule):
 			return 0
 		return 1
 	
-	def match(self, tagged_words, position_fix):
+	def match(self, tagged_words, chunks=None, position_fix=0):
 		"""Check if there are rules that match the tagged_words. Returns a list
 		of RuleMatch objects."""
 		matches = []
@@ -419,6 +428,7 @@ class PatternRule(Rule):
 			found = None
 			match = 1
 			first_match = None
+			chunk_corr = 0
 
 			while match:
 				try:
@@ -437,12 +447,13 @@ class PatternRule(Rule):
 					# pattern isn't that long
 					break
 				expected_token_str = expected_token.token
+				#print "expected_token_str=%s" % expected_token_str
 				if tagged_words_copy[i][2] == 'SENT_START':
 					found = 'SENT_START'
 				elif tagged_words_copy[i][2] == 'SENT_END':
 					found = 'SENT_END'
 				elif expected_token.is_word:
-					# TODO: some cases need to be esacped, e.g. "?", but
+					# TODO: some cases need to be escaped, e.g. "?", but
 					# this breaks the pipe etc.
 					#expected_token_str = re.escape(expected_token_str)
 					# look at the real word:
@@ -450,6 +461,16 @@ class PatternRule(Rule):
 						found = tagged_words_copy[i][1].strip()
 					except:		# text isn't that long
 						break
+				elif expected_token.is_chunk:
+					#print "chunk %s @ %d" % (expected_token.token, i)
+					found = None
+					for from_pos, to_pos, chunk_name in chunks:
+						if i >= from_pos and i <= to_pos:
+							found = chunk_name
+							#print "FFF %d-%d: %s" % (from_pos, to_pos, chunk_name)
+							i = i + (to_pos - from_pos)
+							chunk_corr = chunk_corr + (to_pos - from_pos)
+							break
 				else:
 					# look at the word's POS tag:
 					try:
@@ -463,7 +484,7 @@ class PatternRule(Rule):
 				if self.case_sensitive:
 					case_switch = 0
 				match = re.compile("%s$" % expected_token_str, case_switch).match(found)
-				#print "%s: %s -- %s -%s- -> %s" % (self.rule_id, self.tokens[p], found, expected_token_str, match)
+				#print "%s: %s/%s -> %s" % (self.rule_id, found, expected_token_str, match)
 				if expected_token.negation:
 					if not match:
 						match = 1
@@ -476,6 +497,7 @@ class PatternRule(Rule):
 			if match and p == len(self.tokens):
 
 				(first_match, from_pos, to_pos) = self.listPosToAbsPos(tagged_words_copy, first_match)
+				to_pos = to_pos + chunk_corr
 					
 				# Let \n in a rule refer to the n'th matched word:
 				l = first_match
@@ -565,10 +587,11 @@ class RuleMatch:
 			return 0
 
 class Token:
-	"""A word or tag token, negated or not. Examples:
+	"""A word, tag or chunk token, negated or not. Examples:
 	"^(has|will)",
 	"he",
-	(VB|VBP)
+	(VB|VBP),
+	_NP
 	"""
 	
 	def __init__(self, token):
@@ -576,14 +599,18 @@ class Token:
 		self.negation = 0
 		self.is_word = 0
 		self.is_tag = 0
+		self.is_chunk = 0
 		if self.token.startswith('^'):
-			self.token = token[1:len(token)]	# remove '^'
+			self.token = token[1:]	# remove '^'
 			self.negation = 1
 		if self.token.startswith('"'):
 			self.is_word = 1
 			if not self.token.endswith('"'):
 				print >> sys.stderr, "*** Warning: token '%s' starts with quote but doesn't end with quote!" % self.token
 			self.token = self.token[1:(len(self.token)-1)]	# remove quotes
+		elif self.token.startswith('_'):
+			self.token = token[1:]	# remove '_'
+			self.is_chunk = 1
 		else:
 			self.is_tag = 1
 		return
