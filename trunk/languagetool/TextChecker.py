@@ -70,10 +70,9 @@ class TextChecker:
 			textlanguage, mothertongue)
 		self.bnc_paras = 0
 		self.bnc_sentences = 0
-		if textlanguage == 'de':
-			locale.setlocale(locale.LC_CTYPE, 'de_DE')
-		elif textlanguage == 'hu':
-			locale.setlocale(locale.LC_CTYPE, 'hu_HU')
+		# anything but 'C' seems to be okay to make the sentence splitter work
+		# for languages with special characters:
+		locale.setlocale(locale.LC_CTYPE, 'en_US')
 		return
 
 	def setXMLOutput(self, xml_output):
@@ -228,10 +227,10 @@ def usage():
 	print "  -g, --grammar=...        Use only these grammar rules"
 	print "  -f, --falsefriends=...   Use only these false friend rules"
 	print "  -w, --words=...          Use only these style/word rules"
-	print "  -b, --builtin=...        Use only these builtin rules"
-	print "  -m, --mothertongue=...   Your native language"
-	print "  -s, --sentencelength=... Maximum sentence length"
-	print "  -c, --check              Check directory with BNC files in SGML format"
+	print "  -b, --builtin=...        Use only these builtin rules (currently only WHITESPACE)"
+	print "  -m, --mothertongue=...   Your native language, used with false friend checking"
+	print "  -s, --sentencelength=... Warn if a sentence is longer than this (default: never warn)"
+	#print "  -c, --check              Check directory with BNC files in SGML format"
 	print "  -x, --xml                Print out result as XML"
 	return
 
