@@ -1,7 +1,7 @@
 #!/usr/bin/python
 # Test cases for Rule.py
 # (c) 2002,2003 Daniel Naber <daniel.naber@t-online.de>
-#$rcs = ' $Id: RulesTest.py,v 1.6 2003-06-21 19:48:35 dnaber Exp $ ' ;
+#$rcs = ' $Id: RulesTest.py,v 1.7 2003-06-22 18:42:04 dnaber Exp $ ' ;
 
 import unittest
 import Rules
@@ -10,15 +10,15 @@ class RuleTestCase(unittest.TestCase):
 
     def setUp(self):
 		self.rule = Rules.PatternRule(None)
-		self.rule.setVars("TEST1", '"word" (VB|TST)', "Test message.", 0, \
+		self.rule.setVars("TEST1", '"word" (VB|TST)', "Test message.", 0, 0, \
 			"Good example.", "Bad example.", 0, 5, "en")
 		# negation:
 		self.rule2 = Rules.PatternRule(None)
-		self.rule2.setVars("TEST2", '"word" ^(VB|TST)', "Test message.", 0, \
+		self.rule2.setVars("TEST2", '"word" ^(VB|TST)', "Test message.", 0, 0, \
 			"Good example.", "Bad example.", 0, 5, "en")
 		# negation at the beginning:
 		self.rule3 = Rules.PatternRule(None)
-		self.rule3.setVars("TEST3", '^"word" (VB|TST)', "Test message.", 0, \
+		self.rule3.setVars("TEST3", '^"word" (VB|TST)', "Test message.", 0, 0, \
 			"Good example.", "Bad example.", 0, 5, "en")
 		return
 
@@ -65,7 +65,7 @@ class RuleTestCase(unittest.TestCase):
 		
 		res_list = self.rule.match([('word', 'word', 'XX'),(' ', None, None),('bla', 'bla', 'VB')], 0)
 		self.assertEqual(len(res_list), 1)
-		self.assertEqual(str(res_list[0]), '<error from="0" to="4">Test message.</error>')
+		self.assertEqual(str(res_list[0]), '<error from="0" to="8">Test message.</error>')
 
 		res_list = self.rule.match([('no', 'no', 'XX'),('foo', 'foo', 'VB')], 0)
 		assert(len(res_list) == 0)
@@ -90,10 +90,10 @@ class RuleTestCase(unittest.TestCase):
 class RuleMatchTestCase(unittest.TestCase):
 
     def testCompare(self):
-		r1 = Rules.RuleMatch("ONE", 1, 2, 55, 66, "fake1")
-		r2 = Rules.RuleMatch("ONE", 2, 3, 55, 66, "fake2")
+		r1 = Rules.RuleMatch("ONE", 1, 2, "fake1")
+		r2 = Rules.RuleMatch("ONE", 2, 3, "fake2")
 		assert(r1 < r2)
-		r3 = Rules.RuleMatch("ONE", 1, 3, 55, 66, "fake3")
+		r3 = Rules.RuleMatch("ONE", 1, 3, "fake3")
 		assert(r1 == r3)
 		assert(r2 > r3)
 		return
