@@ -34,15 +34,14 @@ name = "127.0.0.1"
 port = 50100
 
 def makeChecker():
-	grammar_cfg = []			# empty list = activate all rules (?)
-	falsefriends_cfg = []
-	words_cfg = []
-	builtin = []
-	###fixme:
+	###fixme: these need to be set at runtime
+	grammar_cfg = None			# None = activate all rules
+	falsefriends_cfg = None
+	words_cfg = None
 	textlanguage = None
 	mothertongue = None
 	max_sentence_length = None
-	checker = TextChecker.TextChecker(grammar_cfg, falsefriends_cfg, words_cfg, builtin, \
+	checker = TextChecker.TextChecker(grammar_cfg, falsefriends_cfg, words_cfg, \
 		textlanguage, mothertongue, max_sentence_length)
 	return checker
 	
@@ -53,6 +52,7 @@ def main():
 	s.listen(1)
 	print "Setting up Checker..."
 	checker = makeChecker()
+	print "Ready..."
 	while 1:
 		conn, addr = s.accept()
 		if addr[0] != "127.0.0.1":		# security
@@ -91,6 +91,7 @@ def checkWords(checker, words):
 
 	### Spelling:
 	ispell = iSpell()
+	words = words.replace("\n", " ")		# iSpell works line by line
 	r = ispell.check(words)
 	if r > 0:
 		# fixme: escape word
