@@ -1,6 +1,6 @@
 # -*- coding: iso-8859-1 -*-
 # Class for Grammar and Style Rules
-#$rcs = ' $Id: Rules.py,v 1.10 2004-10-09 20:35:14 dnaber Exp $ ' ;
+#$rcs = ' $Id: Rules.py,v 1.11 2004-10-09 20:38:57 dnaber Exp $ ' ;
 #
 # LanguageTool -- A Rule-Based Style and Grammar Checker
 # Copyright (C) 2002,2003,2004 Daniel Naber <daniel.naber@t-online.de>
@@ -499,8 +499,7 @@ class PatternRule(Rule):
 					if not tagged_words_copy[l][1] and tagged_words_copy[l][2] != 'SENT_START' and tagged_words_copy[l][2] != 'SENT_END':
 						pass
 					else:
-						#msg = msg.replace("\\%d" % lcount, tagged_words_copy[l][0])
-						msg = msg.replace("\\%d" % lcount, found)
+						msg = msg.replace("\\%d" % lcount, tagged_words_copy[l][0])
 						lcount = lcount + 1
 					l = l + 1
 
