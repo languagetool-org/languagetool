@@ -1,4 +1,5 @@
 #!/usr/bin/python
+# -*- coding: iso-8859-1 -*-
 # A rule-based style and grammar checker
 # Copyright (C) 2002,2003 Daniel Naber <daniel.naber@t-online.de>
 #
@@ -17,6 +18,7 @@
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307
 # USA
 
+import codecs
 import getopt
 import os
 import pre as re
@@ -46,6 +48,7 @@ class TextChecker:
 		self.rules = Rules.Rules(self.max_sentence_length, self.grammar,\
 			self.words, self.falsefriends, textlanguage, mothertongue)
 		self.bnc_paras = 0
+		self.bnc_sentences = 0
 		return
 		
 	def checkFile(self, filename):
@@ -95,14 +98,16 @@ class TextChecker:
 		"""Replace only the most common BNC entities with their
 		ASCII respresentation."""
 		s = re.compile("&amp;?").sub("&", s)
-		s = re.compile("&pound;?").sub("£", s)
+		#fixme:
+		#s = re.compile("&pound;?").sub("£", s)
+		s = re.compile("&pound;?").sub("P", s)
 		s = s.replace("&ast", "*")
 		s = s.replace("&aacute", "a")
 		s = s.replace("&agr", "a")
 		s = s.replace("&bquo", "\"")
 		s = s.replace("&equo", "\"")
 		s = s.replace("&quot", "'")
-		s = s.replace("&deg", "°")
+		s = s.replace("&deg", u"°")
 		s = s.replace("&dollar", "$")
 		s = s.replace("&eacute", "e")
 		s = s.replace("&egrave", "e")
@@ -112,12 +117,12 @@ class TextChecker:
 		s = s.replace("&hellip", "...")
 		s = s.replace("&lsqb", "[")
 		s = s.replace("&rsqb", "]")
-		s = s.replace("&uuml", "ü")
-		s = s.replace("&auml", "ä")
-		s = s.replace("&öuml", "ö")
-		s = s.replace("&Uuml", "Ü")
-		s = s.replace("&Auml", "Ä")
-		s = s.replace("&Ouml", "Ö")
+		s = s.replace("&uuml", u"ü")
+		s = s.replace("&auml", u"ä")
+		s = s.replace("&ouml", u"ö")
+		s = s.replace("&Uuml", u"Ü")
+		s = s.replace("&Auml", u"Ä")
+		s = s.replace("&Ouml", u"Ö")
 		return s
 
 	def checkBNCFiles(self, directory, checker):
@@ -125,6 +130,7 @@ class TextChecker:
 		all paragraphs and feed them to the style and grammar checker
 		one by one."""
 		para_regex = re.compile("<p>(.*?)</p>", re.DOTALL)
+		sentence_regex = re.compile("<s n=\d+>", re.DOTALL)
 		xml_regex = re.compile("<.*?>", re.DOTALL)
 		whitespace_regex = re.compile("\s+", re.DOTALL)
 		files = []
@@ -143,11 +149,16 @@ class TextChecker:
 			if os.path.isdir(filename):
 				#print filename
 				self.checkBNCFiles(filename, checker)
+			elif os.path.isfile(filename) and filename.find(".") != -1:
+				print >> sys.stderr, "Ignoring %s" % filename
 			elif os.path.isfile(filename):
 				print >> sys.stderr, "FILE=%s" % filename
-				f = open(filename)
+				f = open(filename, 'r')
 				s = f.read()
 				f.close()
+				s = unicode(s, 'iso-8859-1')
+				s_matches = sentence_regex.findall(s)
+				self.bnc_sentences = self.bnc_sentences + len(s_matches)
 				matches = para_regex.findall(s)
 				for match in matches:
 					#print len(match)
@@ -161,7 +172,10 @@ class TextChecker:
 						pass
 						#print >> sys.stderr, "No errors found."
 					else:
-						print "%s: %s" % (filename, result)
+						for rule_match in rule_matches:
+							s_mark = "%s***%s" % (s[:rule_match.from_pos], s[rule_match.from_pos:])
+							print "%s:\n<!-- %s -->\n%s" % (filename, s_mark.encode('utf8'), result.encode('utf8'))
+							#print "%s:\n<!--  -->\n%s" % (filename, result.encode('utf8'))
 		return
 
 def usage():
@@ -215,7 +229,8 @@ def main():
 				textlanguage, mothertongue, max_sentence_length)
 			for filename in rest:
 				checker.checkBNCFiles(filename, checker)
-			print >> sys.stderr, "Checked %d paragraphs." % checker.bnc_paras
+			print >> sys.stderr, "Checked %d sentences in %d paragraphs." % \
+				(checker.bnc_sentences, checker.bnc_paras)
 			sys.exit(0)
 
 	if len(rest) == 1:
