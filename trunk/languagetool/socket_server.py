@@ -19,7 +19,6 @@
 # USA
 
 import TextChecker
-import config
 
 import ConfigParser
 import os
@@ -28,11 +27,12 @@ import socket
 import sys
 import time
 
-sys.path.append(os.path.join(config.BASEDIR, "snakespell-1.01"))
+sys.path.append(os.path.join(sys.path[0], "snakespell-1.01"))
 from scriptfoundry.snakespell import iSpell 
 
 server_name = "127.0.0.1"
 server_port = 50100
+configfile = os.path.join(os.getenv('HOME'), ".kde/share/config/languagetool")
 
 def makeChecker(grammar_cfg=None, falsefriends_cfg=None, words_cfg=None, \
 		builtin_cfg=None, textlanguage=None, mothertongue=None, \
@@ -67,8 +67,10 @@ def readConfig():
 	"""Read the checker config from a KDE config file (INI style).
 	Return a checker which uses that config."""
 	config = ConfigParser.ConfigParser()
-	filename = os.path.join(os.getenv('HOME'), ".kde/share/config/languagetool")
-	config.readfp(open(filename))
+	try:
+		config.readfp(open(configfile))
+	except IOError:
+		print "Couldn't load config file '%s', using defaults..." % configfile
 	grammar = loadOptionList(config, "EnableGrammar", "GrammarRules")
 	falsefriends = loadOptionList(config, "EnableFalseFriends", "FalseFriendsRules")
 	words = loadOptionList(config, "EnableWords", "WordsRules")
@@ -207,7 +209,7 @@ def checkWords(checker, words):
 
 try:
 	s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-	os.chdir(config.BASEDIR)
+	os.chdir(sys.path[0])
 	main()
 except KeyboardInterrupt:
 	# TODO: close explicitely, unfortunately we still get an 
