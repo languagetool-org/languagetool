@@ -3,7 +3,7 @@
 <!--
 Rules: Words that should not be used
 (c) 2001,2002 Daniel Naber, daniel.naber@t-online.de, 2001-12-30
-$Id: words.xml,v 1.1.1.1 2003-05-19 00:09:52 dnaber Exp $
+$Id: words.xml,v 1.2 2003-06-23 00:24:04 dnaber Exp $
 -->
 <rules>
 
@@ -20,6 +20,15 @@ $Id: words.xml,v 1.1.1.1 2003-05-19 00:09:52 dnaber Exp $
 			<example type="correct"><em>Do not</em> open the box unless you've read the instructions.</example>
 			<example type="incorrect"><em>Don't</em> open the box unless you've read the instructions.</example>
 		</rule>
+
+		<rule id="OR_SENT_START">
+			<pattern lang="en" mark_from="0" mark_to="-1">SENT_START "or"</pattern>
+			<message>Don't start a sentence with <em>or</em>.</message>
+			<error_rate warnings="0" sentences="0" last_5000_file="">0</error_rate>
+			<example type="correct">Instead, one could think about other approaches.</example>
+			<example type="incorrect">Or one could think about other approaches.</example>
+		</rule>
+
 
 		<!-- TODO: is this really not a false friend??? -->
 		<!-- TODO: test! -->
