@@ -29,13 +29,8 @@ import Tagger
 import Rules
 import SentenceSplitter
 
-# TODO:
-#  --server mode that listens to a local unix sockets and expects:
-#	<text grammar="id1,id2,..."
-#		falsefriends="id1,..." words="..." (...)>Bla &lt;foo&gt; some text...</text>
-
 class TextChecker:
-	"A rule-based style and grammar checker."
+	"""A rule-based style and grammar checker."""
 
 	def __init__(self, grammar, falsefriends, words, builtin, \
 		textlanguage, mothertongue, max_sentence_length):
@@ -95,10 +90,6 @@ class TextChecker:
 		# TODO: optionally return tagged text
 		#print "2=>%.2f" % (time.time()-tx)
 		return (rule_matches, xml_part, all_tagged_words)
-
-def usage():
-	print "Usage: TextChecker.py <filename>"
-	return
 
 def cleanEntities(s):
 	"""Replace only the most common BNC entities with their
@@ -172,11 +163,27 @@ def checkBNCFiles(directory, checker):
 					print result
 	return
 
-def main():
-	(options, rest) = getopt.getopt(sys.argv[1:], 'hcsg:f:w:l:', \
-		['help', 'check', 'server', 'grammar=', 'falsefriends=', 'words=', \
-		'mothertongue=', 'textlanguage=', 'sentencelength='])
+def usage():
+	print "Usage: TextChecker.py [OPTION] <filename>"
+	print "  -h, --help               Show this help"
+	print "  -c, --check              Check directory with BNC files in SGML format"
+	print "  -g, --grammar=...        Use only these grammar rules"
+	print "  -f, --falsefriends=...   Use only these false friend rules"
+	print "  -m, --mothertongue=...   Your native language"
+	print "  -l, --sentencelength=... Maximum sentence length"
+	return
 
+def main():
+	options = None
+	rest = None
+	try:
+		(options, rest) = getopt.getopt(sys.argv[1:], 'hcg:f:w:l:', \
+			['help', 'check', 'grammar=', 'falsefriends=', 'words=', \
+			'mothertongue=', 'textlanguage=', 'sentencelength='])
+	except getopt.GetoptError,e :
+		print >> sys.stderr, "Error: ", e
+		usage()
+		sys.exit(2)
 	grammar = falsefriends = words = []
 	# todo: use?
 	builtin = []
@@ -200,11 +207,6 @@ def main():
 	for o, a in options:
 		if o in ("-h", "--help"):
 			usage()
-			sys.exit(0)
-		elif o in ("-s", "--server"):
-			checker = TextChecker(grammar, falsefriends, words, builtin, \
-				textlanguage, mothertongue, max_sentence_length)
-			checker.server()
 			sys.exit(0)
 		elif o in ("-c", "--check"):
 			checker = TextChecker(grammar, falsefriends, words, builtin, \
