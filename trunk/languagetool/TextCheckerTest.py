@@ -20,6 +20,7 @@ import TextChecker
 import Tools
 
 import re
+import sys
 import time
 import unittest
 import xml.dom.ext.reader.Sax2
@@ -48,7 +49,7 @@ class Sentence:
 	
 class TextCheckerTest(unittest.TestCase):
 
-	RULE_FILE = "../rules/grammar.xml"
+	RULE_FILE = "rules/grammar.xml"
 	ERROR_FILE = "../errors.xml"
 
 	def loadRuleExamples(self):
@@ -62,13 +63,11 @@ class TextCheckerTest(unittest.TestCase):
 				parent_node = rule_node.parentNode	# 'rulegroup'
 				expected_error_id = parent_node.getAttribute("id")
 			self.assert_(expected_error_id != '', "No 'id' attribute found")
-			
 			example_nodes = rule_node.getElementsByTagName("example")
 			for example_node in example_nodes:
 				example_type = example_node.getAttribute("type")
 				xml_sentence = Tools.Tools.getXML(example_node)
 				xml_sentence = re.compile("\s+").sub(" ", xml_sentence)
-				#print "%s (%s, %s)" % (xml_sentence, example_type, expected_error_id)
 				s = None
 				if example_type == 'correct':
 					s = Sentence(xml_sentence, None)
@@ -99,6 +98,7 @@ class TextCheckerTest(unittest.TestCase):
 					spans.append((from_pos, to_pos))
 			#print "***%s" % xml_str
 			err = Error(xml_str, corr, spans)
+			print err	###########
 			errors.append(err)
 		return errors
 
@@ -107,19 +107,6 @@ class TextCheckerTest(unittest.TestCase):
 		s = "%s%s%s" % (s[:to_pos], marker, s[to_pos:])
 		return s
 		
-	def testLengthLimit(self):
-		checker = TextChecker.TextChecker(grammar=None, \
-			falsefriends=None, words=None, builtin=None, \
-			textlanguage=None, mothertongue=None,
-			max_sentence_length=5)
-		s = "One two three four five.";
-		(rule_match, xml_err, tagged_text) = checker.check(s)
-		s = "One two three four five six.";
-		(rule_match, xml_err, tagged_text) = checker.check(s)
-		#self.assertEqual()
-		#fixme
-		return
-
 	def display(self, tagged_text):
 		l = []
 		for (org, cleaned, tag) in tagged_text:
@@ -128,22 +115,20 @@ class TextCheckerTest(unittest.TestCase):
 		return str.join(' ', l)
 	
 	def testRules(self):
+		"""Test if the style and grammar checker can find the errors in the
+		rules' examples and if it doesn't find errors in the examples which
+		are correct. If something goes wrong, this only throws an assert()
+		at the very end."""
 		examples = self.loadRuleExamples()
 		checker = TextChecker.TextChecker(grammar=None, \
 			falsefriends=None, words=None, builtin=None, \
 			textlanguage=None, mothertongue=None,
-			max_sentence_length=99)
+			max_sentence_length=0)
 		err_count = 0
-		#print "***********"
 		for sentence_obj in examples:
-			#start_time = time.time()
 			(rule_matches, xml_err, tagged_text) = checker.check(sentence_obj.sentence)
-			#print "check time=%s" % (time.time()-start_time)
 			tagged_clean = self.display(tagged_text)
 			i = 1
-			#print "'%s' (%s)" % (sentence_obj.sentence, sentence_obj.expected_error_id)
-			#fixme: use this:
-			#self.assert_(len(rule_matches) <= 1, "More than one error was found in only one sentence.")
 			if len(rule_matches) > 1:
 				errs = ""
 				for rule_match in rule_matches:
@@ -153,8 +138,6 @@ class TextCheckerTest(unittest.TestCase):
 				print "*** Error: %s" % msg
 			if len(rule_matches) == 1:
 				found_error_id = rule_matches[0].id
-				# fixme: use this:
-				#self.assertEqual(sentence_obj.expected_error_id, found_error_id)
 				msg = "Error '%s' not found, found '%s' instead. Sentence:\n%s\nTagged sentence:\n%s" % \
 					(sentence_obj.expected_error_id, found_error_id, sentence_obj.sentence, tagged_clean)
 				if sentence_obj.expected_error_id != found_error_id:
@@ -163,30 +146,22 @@ class TextCheckerTest(unittest.TestCase):
 					err_count = err_count + 1
 			else:
 				# No error was found:
-				#print "#" + str(rule_matches)
 				msg = "Error '%s' not found. Sentence:\n%s\nTagged sentence:\n%s" % \
 					(sentence_obj.expected_error_id, sentence_obj.sentence, tagged_clean)
-				#fixme: make this a real assertion
-				#self.assertEqual(sentence_obj.expected_error_id, None, msg)
 				if sentence_obj.expected_error_id != None:
 					print "*** Error: %s" % msg
 					print
 					err_count = err_count + 1
-			#for rule_match in rule_matches:
-			#	print "%d) %s, %s" % (i, rule_match.id, sentence_obj.expected_error_id)
-			#	#	self.assertEqual()
-			#	i = i + 1
-		print "%d problems (errors not detected resp. wrong error detected" % err_count
-		### fixme
-		#self.assertEqual()
+		print >> sys.stderr, "%d problems (errors not detected resp. wrong error detected)" % err_count
+		self.assertEqual(err_count, 0)
 		return
 
 	###fixme
-	def FIXMEtestExampleSentences(self):
+	def testExampleSentences(self):
 		checker = TextChecker.TextChecker(grammar=None, \
 			falsefriends=None, words=None, builtin=None, \
 			textlanguage=None, mothertongue=None,
-			max_sentence_length=99)
+			max_sentence_length=0)
 		errors = self.loadExampleSentences()
 		stat_corr_found = 0
 		stat_found = 0
@@ -215,9 +190,7 @@ class TextCheckerTest(unittest.TestCase):
 						# that's okay:
 						correctly_marked = 1
 						break
-			##
-			## #####fixme: check if a good replacement is suggested!
-			##
+			## fixme?: check if a good replacement is suggested!
 			if error_found and correctly_marked:
 				s_disp = self.addMarker(err.sentence, found_err_from, found_err_to, '*') 
 				print "Found error at right position in '%s'" % (s_disp)
