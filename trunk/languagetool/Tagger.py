@@ -3,7 +3,7 @@
 # a rule-based extension.
 # (c) 2003 Daniel Naber <daniel.naber@t-online.de>
 #
-#$rcs = ' $Id: Tagger.py,v 1.23 2004-03-07 19:03:15 dnaber Exp $ ' ;
+#$rcs = ' $Id: Tagger.py,v 1.24 2004-03-16 19:58:33 dnaber Exp $ ' ;
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -218,7 +218,7 @@ class Tagger:
 class Text:
 
 	DUMMY = None
-	number_regex = re.compile("^(\d+|\d+[.,/\-]\d+)+$")
+	number_regex = re.compile("^(\d|\d+[.,/\-]\d+)+$")
 	time_regex = re.compile("\d(am|pm)$")
 	bnc_regex = re.compile("<(w|c) (.*?)>(.*?)<", re.DOTALL)
 
