@@ -32,20 +32,19 @@ import SentenceSplitter
 class TextChecker:
 	"""A rule-based style and grammar checker."""
 
-	def __init__(self, grammar, falsefriends, words, builtin, \
+	def __init__(self, grammar, falsefriends, words, \
 		textlanguage, mothertongue, max_sentence_length):
-		# which rules are activated (lists)?
-		#fixme: not used???
+		# Which rules are activated (a lists of IDs):
 		self.grammar = grammar
 		self.falsefriends = falsefriends
 		self.words = words
-		self.builtin = builtin
 		self.textlanguage = textlanguage
 		self.mothertongue = mothertongue
 		self.max_sentence_length = max_sentence_length
 		self.tagger = Tagger.Tagger()
 		self.tagger.bindData()
-		self.rules = Rules.Rules(self.max_sentence_length, self.grammar)
+		self.rules = Rules.Rules(self.max_sentence_length, self.grammar,\
+			self.words, self.falsefriends, textlanguage, mothertongue)
 		self.bnc_paras = 0
 		return
 		
@@ -145,7 +144,7 @@ class TextChecker:
 				#print filename
 				self.checkBNCFiles(filename, checker)
 			elif os.path.isfile(filename):
-				print >> sys.stderr, "FILE=%s" % file
+				print >> sys.stderr, "FILE=%s" % filename
 				f = open(filename)
 				s = f.read()
 				f.close()
@@ -157,13 +156,12 @@ class TextChecker:
 					s = whitespace_regex.sub(" ", s)
 					s = self.cleanEntities(s)
 					s = s.strip()
-					#print s
 					(rule_matches, result, tagged_words) = checker.check(s)
 					if len(rule_matches) == 0:
 						pass
 						#print >> sys.stderr, "No errors found."
 					else:
-						print result
+						print "%s: %s" % (filename, result)
 		return
 
 def usage():
@@ -173,6 +171,7 @@ def usage():
 	print "  -g, --grammar=...        Use only these grammar rules"
 	print "  -f, --falsefriends=...   Use only these false friend rules"
 	print "  -m, --mothertongue=...   Your native language"
+	print "  -t, --textlanguage=...   The text's language"
 	print "  -l, --sentencelength=... Maximum sentence length"
 	return
 
@@ -180,7 +179,7 @@ def main():
 	options = None
 	rest = None
 	try:
-		(options, rest) = getopt.getopt(sys.argv[1:], 'hcg:f:w:l:', \
+		(options, rest) = getopt.getopt(sys.argv[1:], 'hcg:f:w:m:t:l:', \
 			['help', 'check', 'grammar=', 'falsefriends=', 'words=', \
 			'mothertongue=', 'textlanguage=', 'sentencelength='])
 	except getopt.GetoptError,e :
@@ -190,8 +189,6 @@ def main():
 	grammar = None
 	falsefriends = None
 	words = None
-	# todo: use?
-	builtin = []
 	textlanguage = mothertongue = None
 	max_sentence_length = None
 
@@ -214,7 +211,7 @@ def main():
 			usage()
 			sys.exit(0)
 		elif o in ("-c", "--check"):
-			checker = TextChecker(grammar, falsefriends, words, builtin, \
+			checker = TextChecker(grammar, falsefriends, words, \
 				textlanguage, mothertongue, max_sentence_length)
 			for filename in rest:
 				checker.checkBNCFiles(filename, checker)
@@ -222,15 +219,16 @@ def main():
 			sys.exit(0)
 
 	if len(rest) == 1:
-		checker = TextChecker(grammar, falsefriends, words, builtin, \
+		checker = TextChecker(grammar, falsefriends, words,  \
 			textlanguage, mothertongue, max_sentence_length)
 		(rule_matches, result, tagged_words) = checker.checkFile(rest[0])
 		if not result:
 			print >> sys.stderr, "No errors found."
 		else:
-			print result
+			print result.encode('latin1')
 	else:
 		usage()
+		sys.exit(1)
 	return
 
 if __name__ == "__main__":
