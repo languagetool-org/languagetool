@@ -43,5 +43,16 @@ class Tools:
 		matches = re.findall("[\n\r]", s)
 		#print "#%s -> %s" % (s, len(matches))
 		return len(matches)
-	
+
 	countLinebreaks = staticmethod(countLinebreaks)
+
+	def getLanguageName(shortName):
+		if shortName == 'en':
+			return 'English'
+		elif shortName == 'de':
+			return 'German'
+		elif shortName == 'hu':
+			return 'Hungarian'
+		return None
+		
+	getLanguageName = staticmethod(getLanguageName)

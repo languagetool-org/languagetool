@@ -43,7 +43,7 @@ import ConfigParser
 class TextChecker:
 	"""A rule-based style and grammar checker."""
 	
-	encoding = "latin1"
+	context = 15			# display this many character to the right and left for error context
 
 	def __init__(self, grammar, falsefriends, words, \
 		builtin, textlanguage, mothertongue, max_sentence_length):
@@ -79,26 +79,17 @@ class TextChecker:
 		self.xml_output = xml_output
 		return
 
+	def setInputEncoding(self, input_encoding):
+		self.input_encoding = input_encoding
+		return
+
 	def checkFile(self, filename):
 		"""Check a text file and return the results as an XML formatted list
 		of possible errors."""
 		text = ""
-		#print "###%s" % filename.lower()
-		#if filename.lower().endswith("xml"):
-		#	doc = xml.dom.minidom.parse(filename)
-		#	text_nodes = doc.getElementsByTagName("text:p")	# ???fixme?
-		#	for text_node in text_nodes:
-		#		#node_value = text_node.nodeValue
-		#		if text_node.firstChild:
-		#			#print "#"+str(text_node.firstChild.nodeValue)
-		#			# fixme: make faster (append):
-		#			text = "%s%s" % (text, text_node.firstChild.nodeValue)
-		#	
-		#else:
-		f = codecs.open(filename, "r", self.encoding)
+		f = codecs.open(filename, "r", self.input_encoding)
 		text = f.read()
 		f.close()
-		#print "--->%s" % text
 		(rule_matches, result, tagged_words) = self.check(text)
 		return (rule_matches, result, tagged_words)
 
@@ -107,63 +98,47 @@ class TextChecker:
 		of possible errors."""
 		splitter = SentenceSplitter.SentenceSplitter()
 		sentences = splitter.split(text)
-		#tx = time.time()
 		rule_matches = []
 		char_counter = 0
 		all_tagged_words = []
 		line_counter = 1
 		for sentence in sentences:
 			#print "S='%s'" % (sentence)
-			# TODO: zeilenumbrüche in den bisherigen sätzen zählen und an match() übergeben
 			tagged_words = self.tagger.tagText(sentence)
 			chunks = self.chunker.chunk(tagged_words)
-			#print "CHUNKS: %s" % chunks
-			#print "CHUNKS: %s" % tagged_words[chunks[0][0]:chunks[0][1]]
 			tagged_words.insert(0, ('', None, 'SENT_START'))
 			tagged_words.append(('', None, 'SENT_END'))
 			all_tagged_words.extend(tagged_words)
-			#print "time1: %.2fsec" % (time.time()-tx)
-			#tx = time.time()
 			for rule in self.rules.rules:
 				matches = rule.match(tagged_words, chunks, char_counter, line_counter)
 				rule_matches.extend(matches)
-				#print "time2: %.2fsec" % (time.time()-tx)
-				#tx = time.time()
 			for triple in sentence:
 				char_counter = char_counter + len(triple[0])
 			line_counter = line_counter + Tools.Tools.countLinebreaks(sentence)
-			#print "L'=%d ('%s')" % (line_counter, sentence)
 
 		if not self.builtin or "WHITESPACE" in self.builtin:
 			whitespace_rule = Rules.WhitespaceRule()
 			rule_matches.extend(whitespace_rule.match(all_tagged_words))
 
-		#print "###%s<p>" % str(all_tagged_words)
 		rule_match_list = []
-		context = 10
 		for rule_match in rule_matches:
 			if self.xml_output:
 				rule_match_list.append(rule_match.toXML())
 				rule_match_list.append("\n")
 			else:
 				rule_match_list.append(str(rule_match))
+				from_pos = max(rule_match.from_pos-self.context, 0)
+				to_pos = min(rule_match.to_pos+self.context, len(text))
+				summary = text[from_pos:to_pos]
+				summary = re.compile("[\n\r]").sub(" ", summary)
+				rule_match_list.append("\n\t...%s..." % summary)
 				rule_match_list.append("\n")
-				# FIXME:
-				#from_pos = max(rule_match.from_pos-context, 0)
-				#to_pos = min(rule_match.to_pos+context, len(text))
-				#summary = text[from_pos:to_pos]
-				#print "##### '%s'\n" % (text)
-				#print "##### %d,%d\n" % (rule_match.from_pos, rule_match.to_pos)
-				#print "  ##### %d,%d\n" % (from_pos, to_pos)
-				#summary = re.compile("[\n\r]").sub("", summary)
-				#rule_match_list.append("\n\t...%s..." % summary)
-				# FIXME: doesn't always work correctly (e.g. error at text start)
+				# TODO: use "^" to mark the *exact* position of the error:
 				#rule_match_list.append("\n\t   %s^\n" % (" " * (context-1)))
 		result = string.join(rule_match_list, "")
 		if self.xml_output:
 			result = "<errors>\n%s</errors>" % result
-		#print "time3: %.2fsec" % (time.time()-tx)
-		# TODO: optionally return tagged text
+		# TODO: optionally return tagged text?
 		return (rule_matches, result, all_tagged_words)
 
 	def checkBNCFiles(self, directory, checker):
@@ -188,7 +163,6 @@ class TextChecker:
 			else:
 				filename = os.path.join(directory, file)
 			if os.path.isdir(filename):
-				#print filename
 				self.checkBNCFiles(filename, checker)
 			elif os.path.isfile(filename) and filename.find(".") != -1:
 				print >> sys.stderr, "Ignoring %s" % filename
@@ -202,22 +176,18 @@ class TextChecker:
 				self.bnc_sentences = self.bnc_sentences + len(s_matches)
 				matches = para_regex.findall(s)
 				for match in matches:
-					#print len(match)
 					self.bnc_paras = self.bnc_paras + 1
 					s = xml_regex.sub("", match)
 					s = whitespace_regex.sub(" ", s)
 					s = Entities.Entities.cleanEntities(s)
 					s = s.strip()
-					#continue
 					(rule_matches, result, tagged_words) = checker.check(s)
 					if len(rule_matches) == 0:
 						pass
-						#print >> sys.stderr, "No errors found."
 					else:
 						for rule_match in rule_matches:
 							s_mark = "%s***%s" % (s[:rule_match.from_pos], s[rule_match.from_pos:])
 							print "%s:\n<!--%s: %s -->\n%s" % (rule_match.id, filename, s_mark.encode('utf8'), result.encode('utf8'))
-							#print "%s:\n<!--  -->\n%s" % (filename, result.encode('utf8'))
 		return
 
 def usage():
@@ -231,6 +201,7 @@ def usage():
 	print "  -m, --mothertongue=...   Your native language, used with false friend checking"
 	print "  -s, --sentencelength=... Warn if a sentence is longer than this (default: never warn)"
 	#print "  -c, --check              Check directory with BNC files in SGML format"
+	print "  -e, --encoding           Input file's encoding/charset (e.g. latin1 or utf8)"
 	print "  -x, --xml                Print out result as XML"
 	return
 
@@ -238,23 +209,24 @@ def main():
 	options = None
 	rest = None
 	try:
-		(options, rest) = getopt.getopt(sys.argv[1:], 'hcg:f:w:b:m:l:s:x', \
+		(options, rest) = getopt.getopt(sys.argv[1:], 'hcg:f:w:b:m:l:s:e:x', \
 			['help', 'check', 'grammar=', 'falsefriends=', 'words=', \
-			'builtin=', 'mothertongue=', 'lang=', 'sentencelength=', 'xml'])
+			'builtin=', 'mothertongue=', 'lang=', 'sentencelength=', 'encoding=', 'xml'])
 	except getopt.GetoptError,e :
 		print >> sys.stderr, "Error: ", e
 		usage()
 		sys.exit(2)
+		
+	# Define the variables with the default values:
 	grammar = None
 	falsefriends = None
 	words = None
 	builtin = None
 	textlanguage = mothertongue = None
 	max_sentence_length = None
-	#	print "%s %s %s" %(Tagger.dicFile, Tagger.affFile,Tagger.grammarFile)
-	#	sys.exit(0)
-	textlanguage = 'de'		# default
+	textlanguage = 'en'
 	xml_output = 0
+	input_encoding = 'latin1'
 
 	for o, a in options:
 		if o in ("-g", "--grammar"):
@@ -271,6 +243,8 @@ def main():
 			textlanguage = a
 		elif o in ("-s", "--sentencelength"):
 			max_sentence_length = a
+		elif o in ("-e", "--encoding"):
+			input_encoding = a
 		elif o in ("-x", "--xml"):
 			xml_output = 1
 
@@ -288,10 +262,20 @@ def main():
 			sys.exit(0)
 
 	if len(rest) == 1:
+		filename = rest[0]
+		if not xml_output:
+			display_name = Tools.Tools.getLanguageName(textlanguage)
+			if not display_name:
+				print >> sys.stderr, "Unknown language code '%s'" % textlanguage
+				print >> sys.stderr, "Supported languages are en, de, and hu"
+				sys.exit(2)
+			print "Checking '%s', file encoding %s, language %s:" % (filename, \
+				input_encoding, display_name)
 		checker = TextChecker(grammar, falsefriends, words, builtin, \
 			textlanguage, mothertongue, max_sentence_length)
 		checker.setXMLOutput(xml_output)
-		(rule_matches, result, tagged_words) = checker.checkFile(rest[0])
+		checker.setInputEncoding(input_encoding)
+		(rule_matches, result, tagged_words) = checker.checkFile(filename)
 		if not result:
 			print >> sys.stderr, "No errors found."
 		else:
