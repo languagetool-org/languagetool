@@ -1,7 +1,7 @@
 # Rule that checks the use of 'a' vs. 'an'
 # (c) 2003 Daniel Naber <daniel.naber@t-online.de>
 #
-#$rcs = ' $Id: AvsAnRule.py,v 1.3 2003-08-23 00:38:23 dnaber Exp $ ' ;
+#$rcs = ' $Id: AvsAnRule.py,v 1.4 2004-03-07 19:03:45 dnaber Exp $ ' ;
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -30,8 +30,8 @@ class AvsAnRule(Rules.Rule):
 	-'a' if the next word does not start with a vowel
 	This rule knows about some exceptions (e.g. 'an hour')."""
 
-	requires_a_file = os.path.join("data", "det_a.txt")
-	requires_an_file = os.path.join("data", "det_an.txt")
+	requires_a_file = os.path.join(sys.path[0], "data", "det_a.txt")
+	requires_an_file = os.path.join(sys.path[0], "data", "det_an.txt")
 	
 	def __init__(self):
 		Rules.Rule.__init__(self, "DET", "Use of 'a' vs. use of 'an'.", 0, None)
