@@ -135,6 +135,11 @@ awk -f $AWK/dupl.awk < $WOERTER/x.dic >$WOERTER/y.dic
 awk -f $AWK/sortch.awk < $WOERTER/y.dic >$WOERTER/x.dic
 awk -f $AWK/nodupsw.awk < $WOERTER/x.dic >$WOERTER/y.dic
 mv $WOERTER/y.dic $WOERTER/neue_woerter.txt
+sort -u  $WOERTER/zuform.txt >$WOERTER/x.dic
+awk -f $AWK/dupl.awk < $WOERTER/x.dic >$WOERTER/y.dic
+awk -f $AWK/sortch.awk < $WOERTER/y.dic >$WOERTER/x.dic
+awk -f $AWK/nodupsw.awk < $WOERTER/x.dic >$WOERTER/y.dic
+mv $WOERTER/y.dic $WOERTER/zuform.txt
 
 rm -f $WOERTER/x.dic
 rm -f $WOERTER/y.dic
