@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE rules PUBLIC "-//W3C//DTD GrammarRules 0.1//EN" "rules.dtd">
+<!--
+Rules: Grammar and Typos
+(c) 2004 Transam transam45@nospam.gmx.de
+$Id: hugrammar.xml,v 1.1 2004-05-23 21:46:20 dnaber Exp $
+-->
+<rules>
+	<rulegroup id="vesszo" name="vesszo szabalyok">
+	<message>vesszo szabalyok</message>
+	<rule id="bar" name="Vesszo ige utan bar,noha elott">
+		<pattern lang="hu">(V1|V2|V3|V4|V5|V6) RART</pattern>
+		<message>Vesszo ige utan bar,noha elott</message>
+		<example type="correct">kiment<em>,</em> pedig</example>
+		<example type="incorrect">kiment pedig</example>
+	</rule>
+	<rule id="DR" name="Dr utan pontot kell tenni">
+		<pattern lang="hu">"Dr"</pattern>
+		<message>Dr utan pontot kell tenni</message>
+		<example type="correct">Dr<em>.</em> </example>
+		<example type="incorrect">Dr </example>
+	</rule>
+	</rulegroup>
+	<rulegroup id="igekoto" name="Igekotos segedige">
+	<message>meg tud irni</message>
+	<rulegroup id="Igekotos segedige" name="igekotos segedige">
+	<message>Egyes es tobbesszam hasznalata</message>
+	<rule id="ADJN" name="Igekotos segedige">
+		<pattern lang="hu">(IKSI1|IKSI2|IKSI3|IKSI4|IKSI5|IKSI6) INF</pattern>
+		<message>igekotos segedige</message>
+		<example type="correct">meg tud irni</example>
+		<example type="incorrect">megtud irni</example>
+	</rule>
+	</rulegroup>
+	<rule id="NSV" name="Egyesszamu fonev utan ige egyesszam">
+		<pattern lang="hu">NS (V4|V5|V6)</pattern>
+		<message>Egyesszamu fonev utan ige egyesszam</message>
+		<example type="correct">eger tancol</example>
+		<example type="incorrect">eger tancolnak</example>
+	</rule>
+	<rule id="NPV" name="Tobbesszamu fonev utan ige tobbesszam">
+		<pattern lang="hu">NP (V1|V2|V3)</pattern>
+		<message>Tobbesszamu fonev utan ige tobbesszam</message>
+		<example type="correct">egerek tancolnak</example>
+		<example type="incorrect">egerek tancol</example>
+	</rule>
+	</rulegroup>
+	<rulegroup id="Igek" name="Igek es szemelyes nevmas">
+	<message>En utan egyes szam elso szemely</message>
+	<rule id="EN" name="En utan egyes szam elso szemely">
+		<pattern lang="hu">PP1 (V2|V3|V4|V5|V6)</pattern>
+		<message>En utan egyes szam elso szemely</message>
+		<example type="correct">En megyek</example>
+		<example type="incorrect">En megy</example>
+	</rule>
+	<rule id="TE" name="Te utan egyes szam masodik szemely">
+		<pattern lang="hu">PP2 (V1|V3|V4|V5|V6)</pattern>
+		<message>Te utan egyes szam masodik szemely</message>
+		<example type="correct">Te mesz</example>
+		<example type="incorrect">Te megy</example>
+	</rule>
+	<rule id="O" name="O utan egyes szam harmadik szemely">
+		<pattern lang="hu">PP3 (V1|V2|V4|V5|V6)</pattern>
+		<message>O utan egyes szam harmadik szemely</message>
+		<example type="correct">o megy</example>
+		<example type="incorrect">o mesz</example>
+	</rule>
+	<rule id="MI" name="Mi utan tobbes szam elso szemely">
+		<pattern lang="hu">PP4 (V1|V2|V3|V5|V6)</pattern>
+		<message>Mi utan tobbes szam elso szemely</message>
+		<example type="correct">mi megyunk</example>
+		<example type="incorrect">mi mesz</example>
+	</rule>
+	<rule id="TI" name="Ti utan tobbes szam masodik szemely">
+		<pattern lang="hu">PP5 (V1|V2|V3|V4|V6)</pattern>
+		<message>Ti utan tobbes szam masodik szemely</message>
+		<example type="correct">ti mentek</example>
+		<example type="incorrect">ti mesz</example>
+	</rule>
+	<rule id="OK" name="Ok utan tobbes szam harmadik szemely">
+		<pattern lang="hu">PP6 (V1|V2|V3|V4|V5)</pattern>
+		<message>Ok utan tobbes szam harmadik szemely</message>
+		<example type="correct">ok mennek</example>
+		<example type="incorrect">ok mesz</example>
+	</rule>
+	<rule id="CRDNP" name="Szam utan egyesszamu fonev">
+		<pattern lang="hu">CRD NP</pattern>
+		<message>Szam utan egyesszamu fonev</message>
+		<example type="correct">tiz cica</example>
+		<example type="incorrect">tiz cicak</example>
+	</rule>
+	<rule id="ADJADV" name="Melleknev hatarozo helyett">
+		<pattern lang="hu">ADJ (V1|V2|V3|V4|V5)</pattern>
+		<message>Melleknev hatarozo helyett</message>
+		<example type="correct">szepen beszel</example>
+		<example type="incorrect">szep beszel</example>
+	</rule>
+	<rule id="INFEN" name="En es fonevi igenev utan egyes szam elso szemelyu ige">
+		<pattern lang="hu">PP1 VINF ^(V1|VT1|IKV1|IKVT1|SI1|SIT1|IKSI1|IKSIT1)</pattern>
+		<message>En es fonevi igenev utan egyes szam elso szemelyu ige</message>
+		<example type="correct">en menni fogok</example>
+		<example type="incorrect">en menni fogsz</example>
+	</rule>
+	<rule id="INFTE" name="Te es fonevi igenev utan egyes szam masodik szemelyu ige">
+		<pattern lang="hu">PP2 VINF ^(V2|VT2|IKV2|IKVT2|SI2|SIT2|IKSI2|IKSIT2)</pattern>
+		<message>Te es fonevi igenev utan egyes szam masodik szemelyu ige</message>
+		<example type="correct">te menni fogsz</example>
+		<example type="incorrect">te menni fogok</example>
+	</rule>
+	<rule id="INFO" name="O es fonevi igenev utan egyes szam harmadik szemelyu ige">
+		<pattern lang="hu">PP3 VINF ^(V3|VT3|IKV3|IKVT3|SI3|SIT3|IKSI3|IKSIT3)</pattern>
+		<message>O es fonevi igenev utan egyes szam harmadik szemelyu ige</message>
+		<example type="correct">o menni fog</example>
+		<example type="incorrect">o menni fogok</example>
+	</rule>
+	<rule id="INFMI" name="Mi es fonevi igenev utan tobbes szam elso szemelyu ige">
+		<pattern lang="hu">PP4 VINF ^(V4|VT4|IKV4|IKVT4|SI4|SIT4|IKSI4|IKSIT4)</pattern>
+		<message>Mi es fonevi igenev utan tobbes szam elso szemelyu ige</message>
+		<example type="correct">mi menni fogunk</example>
+		<example type="incorrect">mi menni fogok</example>
+	</rule>
+	<rule id="INFTI" name="Ti es fonevi igenev utan tobbes szam masodik szemelyu ige">
+		<pattern lang="hu">PP5 VINF ^(V5|VT5|IKV5|IKVT5|SI5|SIT5|IKSI5|IKSIT5)</pattern>
+		<message>Ti es fonevi igenev utan tobbes szam masodik szemelyu ige</message>
+		<example type="correct">ti menni fogtok</example>
+		<example type="incorrect">ti menni fogok</example>
+	</rule>
+	<rule id="INFOK" name="Ok es fonevi igenev utan tobbes szam harmadik szemelyu ige">
+		<pattern lang="hu">PP6 VINF ^(V6|VT6|IKV6|IKVT6|SI6|SIT6|IKSI6|IKSIT6)</pattern>
+		<message>Ok es fonevi igenev utan tobbes szam harmadik szemelyu ige</message>
+		<example type="correct">ok menni fognak</example>
+		<example type="incorrect">ok menni fogtok</example>
+	</rule>
+	</rulegroup>
+</rules>
