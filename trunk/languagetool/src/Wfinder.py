@@ -409,7 +409,12 @@ class Wfinder:
 							typ = 'ADJES'
 						elif oword[-1:] == 'e':
 							typ = 'ADJE'
-					elif typ[0] == 'N':
+					elif typ == 'NMS':
+						if oword[-2:] == 'in':
+							typ = 'NFS'
+						elif oword[-5:] == 'innen':
+							typ = 'NF'
+					if typ[0] == 'N':
 						if word != oword and typ[-1:] == 'S':
 							typ = typ[0:-1]
 			if self.textlanguage == 'hu':
