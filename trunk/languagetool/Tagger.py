@@ -809,35 +809,29 @@ class TextToTag(Text):
 	def selectTagsByContext(self, tagged_list, seqs_table_followed_by, \
 		seqs_table_follows, tagged_list_bnc, is_bnc, data_table):
 		
-		# find all relevant (non-whitespace) positions:
-		i = 0
-		tagged_pos_list = []
-		for tagged in tagged_list:
-			#print tagged
-			if tagged == None or tagged[1] != None:
-				tagged_pos_list.append(i)
-				print "%d**%s<br>" % (i, str(tagged_list[i]))
-			i = i + 1
-		print "tagged_pos_list=%s" % tagged_pos_list	
-		
-		result_tuple_list = []
 		count_wrong_tags = 0
 		tag_probs = {}
 		i = 0
-		pos = -1
-		#for pos in tagged_pos_list:
 		for tagged_triple in tagged_list:
-			if not i in tagged_pos_list:
+			if tagged_triple != None and tagged_triple[1] == None:
+				# ignore whitespace
 				print "IGN(%d): %s<br>" % (i, str(tagged_triple))
 				i = i + 1
 				continue
 			print "XXX(%d): %s<br>" % (i, str(tagged_triple))
-			pos = pos + 1
-			one_pos = tagged_pos_list[pos]
 			try:
-				one = tagged_list[one_pos]
-				two = tagged_list[tagged_pos_list[pos+1]]
-				three = tagged_list[tagged_pos_list[pos+2]]
+				one = tagged_list[i]
+				two = tagged_list[i+1]
+				whitespace_jump = 0
+				if two and two[1] == None:
+					two = tagged_list[i+2]
+					whitespace_jump = whitespace_jump + 1
+				two_pos = i + 1 + whitespace_jump
+				three = tagged_list[i+2+whitespace_jump]
+				if three and three[1] == None:
+					three = tagged_list[i+3+whitespace_jump]
+					whitespace_jump = whitespace_jump + 1
+				three_pos = i + 2 + whitespace_jump
 			except IndexError:
 				print "END<br>"
 				# list end
@@ -887,7 +881,7 @@ class TextToTag(Text):
 								#print "key not found" 
 								
 							prob_combined = seq_prob * tag_one_prob
-							k1 = (pos, one_tag[0])
+							k1 = (i, one_tag[0])
 							#if k1[0] == 9:
 							####print "k1=%s(%s), prob_combined = %s * %s = %.20f" % (k1, one[0], tag_one_prob, seq_prob, prob_combined)
 							
@@ -903,11 +897,7 @@ class TextToTag(Text):
 							except KeyError:
 								pass
 							prob_combined = seq_prob * tag_two_prob
-							k2 = (tagged_pos_list[pos+1], two_tag[0])
-							#k2 = (tagged_pos_list[pos+1], two_tag[0])
-							#if k2[0] == 9:
-							####print "k2=%s(%s), prob_combined = %s * %s = %.20f" % (k2, two[0], tag_two_prob, seq_prob, prob_combined)
-
+							k2 = (two_pos, two_tag[0])
 							try:
 								tag_probs[k2] = tag_probs[k2] + prob_combined
 							except KeyError:
@@ -920,11 +910,7 @@ class TextToTag(Text):
 							except KeyError:
 								pass
 							prob_combined = seq_prob * tag_three_prob
-							k3 = (tagged_pos_list[pos+2], three_tag[0])
-							#k3 = (tagged_pos_list[pos+1], two_tag[0])
-							#if k3[0] == 9:
-							####print "k3=%s(%s), prob_combined = %s * %s = %.20f" % (k3, three[0], tag_three_prob, seq_prob, prob_combined)
-
+							k3 = (three_pos, three_tag[0])
 							try:
 								tag_probs[k3] = tag_probs[k3] + prob_combined
 							except KeyError:
@@ -941,13 +927,12 @@ class TextToTag(Text):
 				max_prob = 0
 				best_tag = None
 				for tag_prob in keys:
-					if tag_prob[0] == pos and tag_probs[tag_prob] >= max_prob:
+					if tag_prob[0] == i and tag_probs[tag_prob] >= max_prob:
 						####print " K=%s, V=%s" % (tag_prob, tag_probs[tag_prob])
 						max_prob = tag_probs[tag_prob]
 						best_tag = tag_prob[1]
-				#result_tuple_list.append((orig_word, norm_word, best_tag))
 				tagged_list[i] = (orig_word, norm_word, best_tag)
-				####print "BEST@%d: %s" % (pos, best_tag)
+				####print "BEST@%d: %s" % (i, best_tag)
 			
 
 			if is_bnc and one:
@@ -956,6 +941,7 @@ class TextToTag(Text):
 				count_wrong_tags = count_wrong_tags + wrong_tags
 
 			i = i + 1
+			
 		###
 		stat = self.getStats(count_wrong_tags)
 		print >> sys.stderr, stat
@@ -967,8 +953,6 @@ class TextToTag(Text):
 		tagged_list.pop()
 		
 		print "<br>##tagged_list=%s<p>" % tagged_list
-		#print "<br>##result_tuple_list=%s<p>" % result_tuple_list
-		
 		return tagged_list
 
 	def getTuple(self, tagged_list_elem):
