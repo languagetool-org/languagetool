@@ -3,6 +3,8 @@
 # a rule-based extension.
 # (c) 2003 Daniel Naber <daniel.naber@t-online.de>
 #
+#$rcs = ' $Id: Tagger.py,v 1.21 2003-08-27 19:32:47 dnaber Exp $ ' ;
+#
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation; either version 2 of the License, or (at
@@ -183,6 +185,19 @@ class Tagger:
 		try:
 			probability = self.seqs_table_followed_by[tup]
 			#probability = self.seqs_table_follows[tup]
+		except KeyError:
+			probability = 0
+		return probability
+
+	def tagSeq2(self, tup):
+		"""Return the probability of a 2-POS-tag sequence."""
+		if len(tup) != 2:
+			#TODO?: throw exception
+			print >> sys.stderr, "Sequence does not consist of 2 tokens: '%s'" % str(seq)
+			return None
+		try:
+			#probability = self.seqs_table_followed_by[tup]
+			probability = self.seqs_table_follows[tup]
 		except KeyError:
 			probability = 0
 		return probability
@@ -476,7 +491,7 @@ class Text:
 		
 	def addTagSequences(self, tag_list, seqs_table_followed_by, seqs_table_follows):
 		"""Save information about POS tag tuples to seqs_table."""
-		# TODO: add dummy entries
+		# TODO: add dummy entries?
 		if len(tag_list) == 0:
 			return
 		i = 0
@@ -500,18 +515,19 @@ class Text:
 			except KeyError:
 				seqs_table_followed_by[(tag0,tag1)] = 1
 			try:
-				count_followed_by[tag0] = count_followed_by[tag0] + seqs_table_followed_by[(tag0,tag1)]
+				count_followed_by[tag0] = count_followed_by[tag0] + 1
 			except KeyError:
-				count_followed_by[tag0] = seqs_table_followed_by[(tag0,tag1)]
+				count_followed_by[tag0] = 1
 
+			#print "%s/%s" % (tag1, tag0)
 			try:
-				seqs_table_follows[(tag0,tag1)] = seqs_table_follows[(tag0,tag1)] + 1
+				seqs_table_follows[(tag1,tag0)] = seqs_table_follows[(tag1,tag0)] + 1
 			except KeyError:
-				seqs_table_follows[(tag0,tag1)] = 1
+				seqs_table_follows[(tag1,tag0)] = 1
 			try:
-				count_follows[tag0] = count_follows[tag0] + seqs_table_follows[(tag0,tag1)]
+				count_follows[tag1] = count_follows[tag1] + 1
 			except KeyError:
-				count_follows[tag0] = seqs_table_follows[(tag0,tag1)]
+				count_follows[tag1] = 1
 			i = i + 1
 
 		#debug:
@@ -525,7 +541,8 @@ class Text:
 		# Normalize to 0-1 range:
 		# TODO: do these numbers become too small, as the Qtag paper states?		
 		for t in seqs_table_followed_by.keys():
-			#print "#%s'" % t[0]
+			#if t[0] == 'NN0':
+			#	print "%s=%s -- %d" % (t, seqs_table_followed_by[t], count_followed_by[t[0]])
 			seqs_table_followed_by[t] = float(seqs_table_followed_by[t]) / float(count_followed_by[t[0]])
 		for t in seqs_table_follows.keys():
 			seqs_table_follows[t] = float(seqs_table_follows[t]) / float(count_follows[t[0]])
@@ -535,8 +552,8 @@ class Text:
 		#for k in seqs_table_followed_by.keys():
 		#	print "%s -> %s" % (k, seqs_table_followed_by[k])
 		#print "FOLLOWS (norm):"
-		#for k in seqs_table_follows.keys():
-		#	print "%s -> %s" % (k, seqs_table_follows[k])
+		for k in seqs_table_follows.keys():
+			print "%s -> %s" % (k, seqs_table_follows[k])
 		return
 
 
@@ -627,7 +644,6 @@ class TextToTag(Text):
 		the probabilistic tagger. Removes incorrect POS tags from tagged_tuples.
 		Returns nothing, as it works directly on tagged_tuples."""
 		# demo rule just for the test cases:
-		#print "## %s -- %s -- %s" % (prev_word, curr_word, next_word)
 		if curr_word and curr_word.lower() == 'demodemo':
 			self.constrain(tagged_tuples, 'AA')
 		# ...
@@ -766,44 +782,6 @@ class TextToTag(Text):
 		
 		return result_tuple_list
 
-	def getPrevWord(self, i, tagged_list):
-		"""Find the token previous to the token at position i from tagged_list,
-		ignoring whitespace tokens. Return a tuple (word, tuple_list),
-		whereas tuple_list is a list of (tag, tag_probability) tuples."""
-		j = i-1
-		while j >= 0:
-			(orig_word_tmp, tagged_word_tmp, tag_tuples_tmp) = self.getTuple(tagged_list[j])
-			j = j - 1
-			if not tagged_word_tmp:
-				continue
-			else:
-				prev = tag_tuples_tmp
-				return orig_word_tmp
-		return None
-
-	def getNextWord(self, i, tagged_list):
-		"""Find the token next to the token at position i from tagged_list,
-		ignoring whitespace tokens. See self.getPrevToken()"""
-		j = i + 1
-		while j < len(tagged_list):
-			(orig_word_tmp, tagged_word_tmp, tag_tuples_tmp) = self.getTuple(tagged_list[j])
-			j = j + 1
-			if not tagged_word_tmp:
-				continue
-			else:
-				next = tag_tuples_tmp
-				return orig_word_tmp
-		return None
-
-	def getTuple(self, tagged_list_elem):
-		if not tagged_list_elem:
-			orig_word = None
-			tagged_word = None
-			tag_tuples = None
-		else:
-			(orig_word, tagged_word, tag_tuples) = tagged_list_elem
-		return (orig_word, tagged_word, tag_tuples)
-
 	def selectTagsByContext(self, tagged_list, seqs_table_followed_by, \
 		seqs_table_follows, tagged_list_bnc, is_bnc, data_table):
 		
@@ -875,11 +853,11 @@ class TextToTag(Text):
 								k2 = (two_tag_prob, three_tag_prob)
 								seq_prob = seqs_table_followed_by[k1] * \
 									seqs_table_followed_by[k2]
-								print "k1=%s, k2=%s" % (str(k1), str(k2))
+								#print "k1=%s, k2=%s" % (str(k1), str(k2))
 							except KeyError:
 								pass
 							prob_combined = seq_prob * tag_one_prob
-							print "  %.10f" % prob_combined
+							#print "  %.10f" % prob_combined
 							k1 = (i, one_tag[0])
 							#print "k1=%s" % str(k1)
 							try:
@@ -888,7 +866,7 @@ class TextToTag(Text):
 								tag_probs[k1] = prob_combined
 						if two:
 							try:
-								seq_prob = seqs_table_follows[(one_tag_prob, two_tag_prob)] * \
+								seq_prob = seqs_table_follows[(two_tag_prob, one_tag_prob)] * \
 									seqs_table_followed_by[(two_tag_prob, three_tag_prob)]
 							except KeyError:
 								pass
@@ -899,10 +877,9 @@ class TextToTag(Text):
 							except KeyError:
 								tag_probs[k2] = prob_combined
 						if three:
-							#FIXME: is this used at all???
 							try:
-								seq_prob = seqs_table_follows[(one_tag_prob, two_tag_prob)] * \
-									seqs_table_follows[(two_tag_prob, three_tag_prob)]
+								seq_prob = seqs_table_follows[(two_tag_prob, one_tag_prob)] * \
+									seqs_table_follows[(three_tag_prob, two_tag_prob)]
 							except KeyError:
 								pass
 							prob_combined = seq_prob * tag_three_prob
@@ -942,10 +919,7 @@ class TextToTag(Text):
 				count_wrong_tags = count_wrong_tags + wrong_tags
 
 			i = i + 1
-			#print "time=%.2f (%d)" % (time.time()-t1, len(one_tags)*len(two_tags)*len(three_tags))
-			#print "time=%.2f (%d)" % (time.time()-t1, len(tag_probs.keys()))
-			#print "time=%.2f" % (time.time()-t1)
-			
+
 		###
 		stat = self.getStats(count_wrong_tags)
 		print >> sys.stderr, stat
@@ -956,8 +930,46 @@ class TextToTag(Text):
 		tagged_list.pop()
 		tagged_list.pop()
 		
-		#print "<br>##tagged_list=%s<p>" % tagged_list
 		return tagged_list
+
+	def getPrevWord(self, i, tagged_list):
+		"""Find the token previous to the token at position i from tagged_list,
+		ignoring whitespace tokens. Return a tuple (word, tuple_list),
+		whereas tuple_list is a list of (tag, tag_probability) tuples."""
+		j = i-1
+		while j >= 0:
+			(orig_word_tmp, tagged_word_tmp, tag_tuples_tmp) = self.getTuple(tagged_list[j])
+			j = j - 1
+			if not tagged_word_tmp:
+				continue
+			else:
+				prev = tag_tuples_tmp
+				return orig_word_tmp
+		return None
+
+	def getNextWord(self, i, tagged_list):
+		"""Find the token next to the token at position i from tagged_list,
+		ignoring whitespace tokens. See self.getPrevToken()"""
+		j = i + 1
+		while j < len(tagged_list):
+			(orig_word_tmp, tagged_word_tmp, tag_tuples_tmp) = self.getTuple(tagged_list[j])
+			j = j + 1
+			if not tagged_word_tmp:
+				continue
+			else:
+				next = tag_tuples_tmp
+				return orig_word_tmp
+		return None
+
+	def getTuple(self, tagged_list_elem):
+		if not tagged_list_elem:
+			orig_word = None
+			tagged_word = None
+			tag_tuples = None
+		else:
+			(orig_word, tagged_word, tag_tuples) = tagged_list_elem
+		return (orig_word, tagged_word, tag_tuples)
+
 
 	def toXML(self, tagged_words):
 		"Show result as XML."
