@@ -1,10 +1,10 @@
 /*
-   $Id: main.cc,v 1.1 2003-08-24 22:36:19 dnaber Exp $
+   $Id: main.cc,v 1.2 2003-08-25 19:16:58 dnaber Exp $
    This file is part of the KDE project
    Copyright (C) 2003 Daniel Naber <daniel.naber@t-online.de>
-   This is a frontend to a simple 'Style and Grammar Checker': it offers a simple 
-   grammar check and warns if frequently misused words or 'false friends' occur in 
-   the text.
+   This is a frontend to a 'Style and Grammar Checker': it offers a simple 
+   grammar check and warns if frequently misused words or 'false friends' occur
+   in the text.
 */
 /***************************************************************************
  This program is free software; you can redistribute it and/or
@@ -23,16 +23,15 @@
  ***************************************************************************/
 
 /*
-FIXME(?):
--test configuration
+FIXME:
+-sometimes new config only gets activated when clicking on "Check"?
+-selection that starts with white space -> error marker is 1 off
 -replacement destroys markup (bold etc)
+-replacement destroys hard line breaks
 -replacement destroys paragraphs (see "fixme")
--add ignore button again
+-add ignore, last, prev buttons again
 
 TODO(?):
--re-check after configuration? start with first error then?
--use the same config no matter if called stand-alone??
- -> better declare stand-alone for testing only!?
 -automatically place cursor on first bold word
 -make the warning textbox a simple QLabel?
 */
@@ -65,6 +64,7 @@ Language::Language(QObject* parent, const char* name, const QStringList &)
 {
 	
 	m_text_has_errors = false;
+	new_config = false;
 
 	m_dialog = new KDialogBase(KJanusWidget::Plain, i18n("Style and Grammar Help"),
 		KDialogBase::Help|KDialogBase::Ok|KDialogBase::Cancel, KDialogBase::Ok);
@@ -131,8 +131,10 @@ bool Language::run(const QString& command, void* data, const QString& datatype, 
 		kdDebug(31000) << "   The command " << command << " is not accepted" << endl;
 		return FALSE;
 	}
+
+	kdDebug(31000) << "datatype=" << datatype << endl;
 	// Check whether we can accept the data
-	if ( datatype != "QString" ) {
+	if ( ! (datatype == "QString" || datatype == "KoTextString") ) {
 		kdDebug(31000) << "The language tool only accepts datatype QString" << endl;
 		return FALSE;
 	}
@@ -143,29 +145,10 @@ bool Language::run(const QString& command, void* data, const QString& datatype, 
 
 	// Get filename or data:
 	m_buffer = *((QString *)data);
-	// Escape HTML-like markup. The parser will expand these later, so this is the
-	// way it works:
-	// "&nbsp;" --here--> "&amp;nbsp;" --parser--> "&nbsp;" --processExited()--> "&amp;nbsp;"
-	// The last form can be put into an richtext widget without being interpreted.
-	// TODO: still used???
-	m_buffer.replace(QRegExp("&"), "&amp;");
-	m_buffer.replace(QRegExp("<"), "&lt;");
-	m_buffer.replace(QRegExp(">"), "&gt;");
-	//m_buffer.replace(QRegExp("\n"), "<br/>");
 
 	kdDebug(31000) << "m_buffer: '" << m_buffer << "'" << endl;
 	checkGrammar(m_buffer);
 	if( m_dialog->exec() == QDialog::Accepted ) {
-		/*
-		// build result
-		rememberCurrentSentence();
-		QString joined_sentences = "";
-		QValueList<TestedSentence>::iterator it;
-		for ( it = m_sentences.begin(); it != m_sentences.end(); ++it ) {
-			joined_sentences += (*it).getNewSentence();
-		}
-		*((QString*)data) = joined_sentences;
-		*/
 		QString s = getPlainText();
 		*((QString*)data) = s;
 	}
@@ -181,7 +164,12 @@ QString Language::getPlainText()
 	QRegExp re("<.*>");		// remove richtext
 	re.setMinimal(true);
 	s = s.replace(re, "");
-	s = s.stripWhiteSpace();
+	s = s.stripWhiteSpace();		// widget adds whitespace :-(
+	s.replace("&lt;", "<");
+	s.replace("&gt;", ">");
+	s.replace("&nbsp;", " ");
+	s.replace("&amp;", "&");
+	s.replace("<br/>", "\n");
 	return s;
 }
 
@@ -200,35 +188,6 @@ void Language::checkGrammar(QString text)
 {
 	kdDebug(31000) << "checkGrammar()" << endl;
 	QApplication::setOverrideCursor(KCursor::waitCursor());
-
-	// FIXME: use these...
-	if( ! m_text_language.isEmpty() ) {
-		//*m_proc << "--textlanguage" << m_text_language;
-	}
-	if( ! m_mother_tongue.isEmpty() ) {
-		//*m_proc << "--mothertongue" << m_mother_tongue;
-	}
-	
-	if( ! m_grammar_rules.isEmpty() ) {
-		//*m_proc << "--grammar" << m_grammar_rules;
-	} else {
-		//*m_proc << "--grammar" << "_NO_RULE";
-	}
-	if( ! m_false_friends_rules.isEmpty() ) {
-		//*m_proc << "--falsefriends" << m_false_friends_rules;
-	} else {
-		//*m_proc << "--falsefriends" << "_NO_RULE";
-	}
-	if( ! m_words_rules.isEmpty() ) {
-		//*m_proc << "--words" << m_words_rules;
-	} else {
-		//*m_proc << "--words" << "_NO_RULE";
-	}
-	
-	if( m_max_sentence_length > 0 ) {
-		//*m_proc << "--max-sentence-length" << QString::number(m_max_sentence_length);
-	}
-
 	m_msgtext->setText(i18n("Checking text..."));
 
 	m_socket->connectToHost("127.0.0.1", 50100);
@@ -242,6 +201,30 @@ void Language::checkGrammar(QString text)
 	kdDebug(31000) << "# m_mother_tongue: " << m_mother_tongue << endl;
 	kdDebug(31000) << "# textlanguage: " << m_text_language << endl;
 	kdDebug(31000) << "# m_max_sentence_length: " << m_max_sentence_length << endl;
+
+	if( new_config ) {
+		QString config;
+		config = QString("<config textlanguage=\"%1\" mothertongue=\"%2\" "
+			"grammar=\"%3\" falsefriends=\"%4\" words=\"%5\" ")
+			.arg(m_text_language).arg(m_mother_tongue).
+			arg(m_grammar_rules).arg(m_false_friends_rules).arg(m_words_rules);
+
+		config += QString(" max-sentence-length=\"%1\" ").arg(m_max_sentence_length);
+		QStringList l;
+		if( m_whitespace_rule ) {
+			l.append("WHITESPACE");
+		}
+		if( m_articles_rule ) {
+			l.append("DET");
+		}
+		config += QString(" builtin=\"%1\" ").arg(l.join(","));
+		config += " />";
+
+		os << config << "\n";
+		kdDebug(31000) << "# config: " << config << endl;
+		new_config = false;
+	}
+
 	m_buffer = text;
 }
 
@@ -287,6 +270,7 @@ void Language::slotReadyRead()
 
 }
 
+/** The checker's response has arrived, use it. */
 void Language::slotConnectionClosed()
 {
     kdDebug(31000) << "slotConnectionClosed()" << endl;
@@ -302,6 +286,16 @@ void Language::slotConnectionClosed()
 		return;
 	}
 
+	m_sentencetext->setEnabled(true);
+	QString display_text = m_buffer;
+	display_text.replace("&", "&amp;");
+	display_text.replace("<", "&lt;");
+	display_text.replace(">", "&gt;");
+	display_text.replace("\n", "<br/>");
+	display_text.replace(QRegExp("^\\s"), "&nbsp;");
+	m_sentencetext->setText("<qt>" + display_text + "</qt>");
+	//kdDebug(31000) << "###display_text: " << display_text << endl;
+
 	QDomNodeList list = doc.elementsByTagName("error");
 	uint list_length = list.count();
 	bool error_found = false;
@@ -309,8 +303,6 @@ void Language::slotConnectionClosed()
 		kdDebug(31000) << "Found node <error>" << endl;
 		QDomNode node = list.item(i);
 		QDomElement elem = node.toElement();
-
-		// FIXME/TODO: test with <, > and & etc.
 
 		if( !elem.isNull() ) {
 			error_found = true;
@@ -336,8 +328,6 @@ void Language::slotConnectionClosed()
 					error_text += "No corrections.";
 				}
 			}
-			m_sentencetext->setEnabled(true);
-			m_sentencetext->setText("<qt>" + m_buffer + "</qt>");
 			m_sentencetext->setSelection(0,from, 0,to);
 			m_sentencetext->setBold(true);
 			m_sentencetext->setColor("red");
@@ -352,7 +342,10 @@ void Language::slotConnectionClosed()
 		//prev_button->setEnabled(false);
 		//next_button->setEnabled(false);
 		m_msgtext->setText(i18n("No errors or warnings have been found."));
-		// ###FIXME: remove red parts in m_sentencetext
+		m_sentencetext->selectAll(true);
+		m_sentencetext->setBold(false);
+		m_sentencetext->setColor("black");
+		m_sentencetext->selectAll(false);
 		m_text_has_errors = false;
 	}
 
@@ -374,6 +367,9 @@ void Language::slotLinkClicked(const QString &url)
 	int from = params[0].toInt();
 	int to = params[1].toInt();
 	QString replacement = params[2];
+	if( replacement.isEmpty() ) {
+		to++;		// also remove one space
+	}
 	m_sentencetext->setSelection(0,from, 0,to);
 	m_sentencetext->removeSelectedText();
 	m_sentencetext->setBold(false);
@@ -395,12 +391,19 @@ QString Language::toText(QDomNode node, int from, int to, QString text)
 	} else if( node.isElement() ) {
 		//QDomElement el = elem.toElement();
 		QString ntext;
+		QString ntext_link;
 		for( QDomNode n = node.firstChild(); !n.isNull(); n = n.nextSibling() ) {
 			ntext += toText(n, from, to, text);
 		}
+		if( ntext.lower() == "_remove" ) {
+			ntext = ntext.right(6);	// remove underscore
+			ntext_link = "";
+		} else {
+			ntext_link = ntext;
+		}
 		if( node.nodeName() == "em" ) {
 			text = QString("<a href=\"%1,%2,%3\"><b>%4</b></a>").arg(from).
-				arg(to).arg(ntext).arg(ntext);
+				arg(to).arg(ntext_link).arg(ntext);
 		} else {
 			text += ntext;
 		}
@@ -418,14 +421,22 @@ void Language::reparseConfig()
 	// the next three options are lists, but we need them as strings:
 	if( general.readBoolEntry("EnableGrammar", true) ) {
 		m_grammar_rules = general.readEntry("GrammarRules", "");
+	} else {
+		m_grammar_rules = "";
 	}
 	if( general.readBoolEntry("EnableFalseFriends", true) ) {
 		m_false_friends_rules = general.readEntry("FalseFriendsRules", "");
+	} else {
+		m_false_friends_rules = "";
 	}
 	if( general.readBoolEntry("EnableWords", true) ) {
 		m_words_rules = general.readEntry("WordsRules", "");
+	} else {
+		m_words_rules = "";
 	}
 	m_max_sentence_length = general.readNumEntry("MaxSentenceLength", 0);
+	m_whitespace_rule = general.readBoolEntry("EnableWhitespaceCheck", true);
+	m_articles_rule = general.readBoolEntry("EnableArticleCheck", true);
 }
 
 /*
@@ -477,7 +488,13 @@ void Language::config()
 {
 	kdDebug(31000) << "config()" << endl;
 	ConfigDialog *cfg = new ConfigDialog();
-	// fixme: delete cfg?!
+	if( cfg->exec() == QDialog::Accepted ) {
+		new_config = true;
+		cfg->saveConfig();
+		reparseConfig();
+		checkGrammar();
+	}
+	//delete cfg;   with this it crashes when config is called the second time
 }
 
 /* ---------------------------------------------------------------- */

@@ -1,5 +1,5 @@
 /*
-   $Id: main.h,v 1.1 2003-08-24 22:36:19 dnaber Exp $
+   $Id: main.h,v 1.2 2003-08-25 19:16:58 dnaber Exp $
    This file is part of the KDE project
    Copyright (C) 2001,2002 Daniel Naber <daniel.naber@t-online.de>
 */
@@ -126,6 +126,8 @@ protected:
 	QString m_mother_tongue, m_text_language;
 	QString m_grammar_rules, m_false_friends_rules, m_words_rules;
 	int m_max_sentence_length;
+	bool m_whitespace_rule;
+	bool m_articles_rule;
 	
 	QValueList<TestedSentence> m_sentences;
 	QValueList<int> m_errors;
@@ -135,6 +137,7 @@ protected:
 	QSocket *m_socket;
 	QString m_reply;
 	QString m_error_text;
+	bool new_config;
 	
 };
 
