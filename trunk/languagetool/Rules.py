@@ -1,6 +1,6 @@
 # Class for Grammar and Style Rules
 # (c) 2002,2003 Daniel Naber <daniel.naber@t-online.de>
-#$rcs = ' $Id: Rules.py,v 1.16 2003-07-27 19:21:23 dnaber Exp $ ' ;
+#$rcs = ' $Id: Rules.py,v 1.17 2003-07-28 01:41:04 dnaber Exp $ ' ;
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -261,6 +261,7 @@ class PatternRule(Rule):
 					self.false_positives = error_rate
 			except ValueError:
 				pass
+		self.simple_rule = 0
 		return
 
 	def parseFalseFriendsRuleNode(self, rule_node, mothertongue, textlang):
@@ -298,6 +299,10 @@ class PatternRule(Rule):
 				#print "#%s" % token
 			self.marker_from = 0
 			self.marker_to = 0
+			if self.pattern.find("|") == -1:
+				self.simple_rule = 1		# no regex required
+			else:
+				self.simple_rule = 0
 		return
 
 	def getOtherMeaning(self, rulegroup_node, mothertongue, textlang):
@@ -338,6 +343,7 @@ class PatternRule(Rule):
 		for token_string in token_strings:
 			token = Token(token_string)
 			self.tokens.append(token)
+		self.simple_rule = 0
 		return
 		
 	def isRealWord(self, tagged_words, i):
@@ -417,7 +423,15 @@ class PatternRule(Rule):
 				case_switch = re.IGNORECASE
 				if self.case_sensitive:
 					case_switch = 0
-				match = re.compile("%s$" % expected_token_str, case_switch).match(found)
+				if self.simple_rule:
+					# speed up for simple false friends rules that don't
+					# require regex matching:
+					if case_switch:
+						match = (expected_token_str.lower() == found.lower())
+					else:
+						match = (expected_token_str == found)
+				else:
+					match = re.compile("%s$" % expected_token_str, case_switch).match(found)
 				#print "%s: %s/%s -> %s" % (self.rule_id, found, expected_token_str, match)
 				if expected_token.negation:
 					if not match:
