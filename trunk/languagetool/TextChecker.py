@@ -38,6 +38,8 @@ import SentenceSplitter
 
 class TextChecker:
 	"""A rule-based style and grammar checker."""
+	
+	encoding = "latin1"
 
 	def __init__(self, grammar, falsefriends, words, \
 		builtin, textlanguage, mothertongue, max_sentence_length):
@@ -77,7 +79,7 @@ class TextChecker:
 		#			text = "%s%s" % (text, text_node.firstChild.nodeValue)
 		#	
 		#else:
-		f = open(filename)
+		f = codecs.open(filename, "r", self.encoding)
 		text = f.read()
 		f.close()
 		#print "--->%s" % text
@@ -89,7 +91,6 @@ class TextChecker:
 		of possible errors."""
 		splitter = SentenceSplitter.SentenceSplitter()
 		sentences = splitter.split(text)
-		#print sentences
 		#tx = time.time()
 		rule_matches = []
 		char_counter = 0
