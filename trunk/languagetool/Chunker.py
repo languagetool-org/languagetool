@@ -20,90 +20,101 @@ import os
 import re
 
 class Chunker:
-	"""fixme-doc"""
+	"""Assign chunks (like "noun phrase") to a tagged text."""
 
 	def __init__(self):
-		"""fixme-doc"""
 		return
 
-	def __getPattern(self, pattern):
-		repeat = 0
-		if pattern.endswith("+"):
-			# cut off '+':
-			pattern = pattern[0:len(pattern)-1]
-			repeat = 1
-		return (repeat, pattern)
+	def setRules(self, rules):
+		"""Use the rules from this Rules object for the chunk() method."""
+		self.rules = rules
+		return
 
 	def chunk(self, tagged_text):
-		"""fixme-doc"""
+		"""Take a POS tagged text and find all its chunks. Returns
+		a list of (from, to, chunk_name) tuples where the from/to positions
+		refer to the list position. Each from/to range will only
+		have one chunk at most."""
 		l = []
 		
-		#example:
-		# tagged_text:   XX AT NN1 NN1 VB
-		# rule.pattern:     AT NN1+
-		rules = Rules()
-		for rule in rules.rules:		# TODO:other way round is more efficient
-										# as only one tag is possible for each range?
-			match_start = None
-			match_end = None
-			i = 0
-			
-			#FIXME: ignore whitespace!
-			
-			for word, norm_word, tag in tagged_text:
+		tagged_text_pos = 0
+		for word, norm_word, tag in tagged_text:
+
+			for rule in self.rules.rules:
+				#print "### %s" % rule.name
+				match_start = None
+				match_end = None
 				pattern_pos = 0
-				print "%s, %s ?= %s" % (word, tag, rule.pattern[pattern_pos])
-				while tag == rule.pattern[pattern_pos]:
-					if not match_start:
-						match_start = i
+				pos_corr = 0
 
-					(pattern_repeat, pattern) = self.__getPattern(rule.pattern[pattern_pos])
+				rule_match = 1
+				cont = 1
 
-					#FIXME: support regex like repeat operator '+':
-					if pattern_repeat:					
-						print "Repeat '%s -- %s'!++++" % (tag, pattern)
-						while tag == pattern:
-							print "~"
-							try:
-								tag = rule.pattern[pattern_pos]
-							except IndexError:
-								print "end pattern"
+				while 1:
+					#print " %d,%d,%d" % (tagged_text_pos,pattern_pos,pos_corr)
+					try:
+						tag = tagged_text[tagged_text_pos+pattern_pos+pos_corr][2]
+					except IndexError:
+						#print "index error"
+						break
+					#print "%s ?= %s (pp=%d, ttp=%d)" % (tag, rule.pattern[pattern_pos], pattern_pos, tagged_text_pos)
+					if pattern_pos == 0 and tag == None:
+						cont = 0
+						break
+					if tag == None:
+						# ignore whitespace
+						pos_corr = pos_corr + 1
+						continue
+					if tag != rule.pattern[pattern_pos]:
+						rule_match = 0
+						break
+					if match_start == None:
+						match_start = tagged_text_pos
 
 					pattern_pos = pattern_pos + 1
-					#try:
-					#	tag = tagged_text[i]
-					#except IndexError:
-					if pattern_pos == len(rule.pattern)-1:
-						print "match!"
-						match_end = i+1
-						l.append((match_start+1, match_end+1, rule.name))
+					if pattern_pos == len(rule.pattern):
+						#print "match (%s)! tagged_text_pos=%d" % (rule.name, tagged_text_pos)
+						match_end = match_start + pattern_pos + pos_corr - 1
+						l.append((match_start, match_end, rule.name))
+						cont = 0
 						break
-					i = i + 1
-		print l	####
+				if not rule_match:
+					continue		# next rule
+				if not cont:
+					break			# next word
+			tagged_text_pos = tagged_text_pos + 1
+				
+		#print l
 		return l
 
 class Rules:
+	"""A container for chunking rules."""
 
 	chunk_rules = os.path.join("data", "chunks.txt")
 	
 	def __init__(self):
-		"""fixme-doc"""
+		"""Read the chunking rules from data/chunks.txt. The rules
+		can then be access via Rules.rules."""
 		self.rules = []
 		f = open(self.chunk_rules)
 		lines = f.readlines()
 		f.close()
 		for line in lines:
-			rule = Rule(line)
+			if line.startswith("#"):	# ignore comments
+				continue
+			rule = Rule(line.strip())
 			self.rules.append(rule)
 		return
 
 class Rule:
+	"""A chunking rule, consisting of a name and a pattern. The
+	pattern is a list of POS tags."""
 
 	def __init__(self, line):
 		"""Parse a chunk rule in this format:
 		name: tag1 tag2..."""
 		parts = re.split("\s+", line.strip())
 		name = parts[0]
-		self.name = name[0:len(name)-1]	# cut off colon
+		self.name = name[0:len(name)-1]		# cut off colon
 		self.pattern = parts[1:]
 		return

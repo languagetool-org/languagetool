@@ -16,34 +16,63 @@
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307
 # USA
 
+import re
 import unittest
+
 import Chunker
+
+class LocalRules:
+
+	def __init__(self, rule_list):
+		self.rules = rule_list
+		return
 
 class ChunkerTest(unittest.TestCase):
 
+	def makeList(self, s):
+		parts = re.split("(\s+)", s)
+		l = []
+		for part in parts:
+			word = None
+			word_norm = None
+			tag = None
+			pair = re.split("/", part)
+			if len(pair) == 2:
+				word, tag = pair
+				word_norm = word
+			else:
+				word = pair[0]
+			l.append((word, word_norm, tag))
+		return l
+		
 	def testChunk(self):
 		c = Chunker.Chunker()
+		r1 = Chunker.Rule("NP1: AT0 NN1 NN1")
+		r2 = Chunker.Rule("NP2: AT0 NN1")
+		rules = LocalRules([r1, r2])
+		c.setRules(rules)
 
-		tagged_text = [('Blah','Blah','XX'),
-			('the', 'the', 'AT0'),
-			('house', 'house', 'NN1'),
-			('foo', 'foo', 'YY')]
+		tagged_text = self.makeList("Blah/XX the/AT0 house/NN1 foo/YY")
 		chunks = c.chunk(tagged_text)
-		self.assertEqual(chunks, [(1, 2, 'NP')])
-
-		tagged_text = [('Blah','Blah','XX'),
-			('house', 'house', 'NN1'),
-			('foo', 'foo', 'YY')]
+		self.assertEqual(chunks, [(2, 4, 'NP2')])
+		
+		tagged_text = self.makeList("Blah/XX house/NN1 foo/YY")
 		chunks = c.chunk(tagged_text)
 		self.assertEqual(chunks, [])
 
-		tagged_text = [('Blah','Blah','XX'),
-			('the', 'the', 'AT0'),
-			('summer', 'summer', 'NN1'),
-			('house', 'house', 'NN1'),
-			('foo', 'foo', 'YY')]
+		tagged_text = self.makeList("the/AT0 summer/NN1 house/NN1 foo/YY2")
 		chunks = c.chunk(tagged_text)
-		self.assertEqual(chunks, [(1, 3, 'NP')])
+		self.assertEqual(chunks, [(0, 4, 'NP1')])
+	
+		# more than one chunk:
+
+		tagged_text = self.makeList("the/AT0 summer/NN1 is/VB a/AT0 hit/NN1")
+		chunks = c.chunk(tagged_text)
+		self.assertEqual(chunks, [(0, 2, 'NP2'), (6, 8, 'NP2')])
+
+		tagged_text = self.makeList("the/AT0 summer/NN1 a/AT0 hit/NN1")
+		chunks = c.chunk(tagged_text)
+		self.assertEqual(chunks, [(0, 2, 'NP2'), (4, 6, 'NP2')])
 
 		return
 			
