@@ -3,7 +3,7 @@
 # a rule-based extension.
 # (c) 2003 Daniel Naber <daniel.naber@t-online.de>
 #
-#$rcs = ' $Id: Tagger.py,v 1.24 2004-03-16 19:58:33 dnaber Exp $ ' ;
+#$rcs = ' $Id: Tagger.py,v 1.25 2004-03-21 00:07:12 dnaber Exp $ ' ;
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -223,6 +223,7 @@ class Text:
 	bnc_regex = re.compile("<(w|c) (.*?)>(.*?)<", re.DOTALL)
 
 	mapping_file = os.path.join(sys.path[0], "data", "c7toc5.txt")
+	manually_tagged_file = os.path.join(sys.path[0], "data", "postags.txt")
 
 	def __init__(self):
 		self.count_unambiguous = 0
@@ -235,6 +236,7 @@ class Text:
 		self.bnc_word_regexp = re.compile("<W\s+TYPE=\"(.*?)\".*?>(.*?)</W>", \
 			re.DOTALL|re.IGNORECASE)
 		self.mapping = self.loadMapping()
+		self.manually_tagged = self.loadManuallyTagged()
 		return
 		
 	def loadMapping(self):
@@ -258,6 +260,24 @@ class Text:
 		f.close()
 		return mapping
 		
+	def loadManuallyTagged(self):
+		table = {}
+		regex = re.compile("^(.+)\s+(.+?)$")
+		f = open(self.manually_tagged_file)
+		while 1:
+			line = f.readline()
+			if not line:
+				break
+			line = line.strip()
+			if not line.startswith("#") and line != '':
+				regex_match = regex.search(line)
+				if regex_match:
+					word = regex_match.group(1)
+					postag = regex_match.group(2)
+					table[word] = postag
+		f.close()
+		return table
+
 	def expandEntities(self, text):
 		"""Take a text and expand a few selected entities. Return the same
 		text with entities expanded. (We cannot simply parse the file with 
@@ -386,6 +406,9 @@ class Text:
 			# word is just white space
 			return [(orig_word, None, [])]
 		
+		if self.manually_tagged.has_key(word):
+			return [(orig_word, orig_word, [(self.manually_tagged[word], 1)])]
+
 		# sanity check:
 		if word.count("'") > 1:
 			print >> sys.stderr, "*** What's this, more than one apostroph: '%s'?" % word
