@@ -155,6 +155,8 @@ def check(form):
 		text_list.append(word)
 		text_list.append(tag_str)
 		char_count = char_count + len(word)
+	# guarantee that the rule_matches are ordered by their position:
+	rule_matches.sort()
 	rule_matches.reverse()	# add messages from end of list to avoid count confusion
 	for rule_match in rule_matches:
 		# TODO: this produces invalid code if the rule ranges are nested!
@@ -162,15 +164,23 @@ def check(form):
 		i = 0
 		start_found = 0
 		end_found = 0
+		#print "%d<br>" % rule_match.from_pos
 		for el in text_list:
+			#print rule_match.message
 			if not el.startswith("<span"):
-				ct = ct + len(el)
-				if ct == rule_match.to_pos and not end_found:
+				from_pos = ct
+				to_pos = ct + len(el)
+				#print "%d in %d,%d (%s)<br>" % (rule_match.to_pos, from_pos, to_pos, rule_match.message)
+				#print "%d in %d,%d<br>" % (rule_match.from_pos, from_pos, to_pos)
+				if rule_match.to_pos <= to_pos and rule_match.to_pos >= from_pos and not end_found:
 					text_list[i] = '%s</span><span class="expl">[%s]</span>' % (text_list[i], rule_match.message)
 					end_found = 1
-				elif ct == rule_match.from_pos and not start_found:
+					#print "***1<br>"
+				elif rule_match.from_pos <= to_pos and rule_match.from_pos >= from_pos and not start_found:
 					text_list[i] = '<span class="error">%s' % text_list[i]
 					start_found = 1
+					#print "***2<br>"
+				ct = ct + len(el)
 			if end_found and start_found:
 				break
 			i = i + 1
