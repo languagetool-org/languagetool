@@ -85,12 +85,10 @@ class Controller:
 				f = open(filename)
 				content = f.read()
 				f.close()
-				#xml = tagger.tagFile(filename)
 				content = Entities.Entities.cleanEntities(content)
 				xml = tagger.tagTexttoXML(content)
 				self.sanityCheck(filename, xml)
-				###
-				#print xml
+				print xml
 			print >> sys.stderr, "Done."
 		elif mode == self.TAGWORD:
 			tagger = Tagger.Tagger()
@@ -101,9 +99,32 @@ class Controller:
 		elif mode == self.TAGSEQ:
 			tagger = Tagger.Tagger()
 			tagger.bindData()
-			key = (rest[0], rest[1])
-			prob = tagger.tagSeq(key)
-			print prob
+			if len(rest) > 1 and rest[1] != '*':
+				key = (rest[0], rest[1])
+				prob = tagger.tagSeq(key)
+				print prob
+			else:
+				# TODO: don't duplicate code from query.py:
+				tags_str = "AJ0,AJC,AJS,AT0,AV0,AVP,AVQ,CJC,CJS,CJT,"
+				tags_str = tags_str + "CRD,DPS,DT0,DTQ,EX0,ITJ,NN0,NN1,NN2,NP0,ORD,PNI,PNP,"
+				tags_str = tags_str + "PNQ,PNX,POS,PRF,PRP,PUL,PUN,PUQ,PUR,TO0,UNC,VBB,VBD,"
+				tags_str = tags_str + "VBG,VBI,VBN,VBZ,VDB,VDD,VDG,VDI,VDN,VDZ,VHB,VHD,VHG,"
+				tags_str = tags_str + "VHI,VHN,VHZ,VM0,VVB,VVD,VVG,VVI,VVN,VVZ,XX0,ZZ0,"
+				# these are not in query.py:
+				tags_str = tags_str + "YBL,YBR,YCOL,YCOM,YDSH,YEX,YLIP,YQUE,YQUO,YSCOL,YSTP"
+				tags = re.split(",", tags_str)
+				sum = 0
+				items = 0
+				for tag in tags:
+					key = (rest[0], tag)
+					prob = tagger.tagSeq(key)
+					prob2 = tagger.tagSeq2(key)
+					if prob > 0 or prob2 > 0:
+						sum = sum + prob
+						print "%s followed by %s -> %.10f" % (key[0], key[1], prob)
+						print "%s follows     %s -> %.10f" % (key[0], key[1], prob2)
+						items = items + 1
+				print "items=%d, sum=%.5f" % (items, sum)
 		return
 
 ### Main program
