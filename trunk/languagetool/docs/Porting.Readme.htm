@@ -21,19 +21,19 @@ Contents:
 <BR>
 <a href=#r01>What had to be changed</a>
 <BR>
-&nbsp;&nbsp;&nbsp;<a href=#r02>Code changes in Tagger.py:</a>
+&nbsp;&nbsp;&nbsp;<a href=#r02>Code changes in Tagger.py</a>
 <BR>
-&nbsp;&nbsp;&nbsp;<a href=#r02a>Code changes in Rules.py:</a>
+&nbsp;&nbsp;&nbsp;<a href=#r02a>Code changes in Rules.py</a>
 <BR>
-&nbsp;&nbsp;&nbsp;<a href=#r02b>The Wfinder.py module:</a>
+&nbsp;&nbsp;&nbsp;<a href=#r02b>The Wfinder.py module</a>
 <BR>
 &nbsp;&nbsp;&nbsp;<a href=#r03>Modification in TextChecker.py</a>
 <BR>
-<a href=#r03a>Language discrimination:</a>
+<a href=#r03a>Language discrimination</a>
 <BR>
-<a href=#r04>Still to be done:</a>
+<a href=#r04>Still to be done</a>
 <BR>
-<a href=#r05>Timing consideration:</a>
+<a href=#r05>Timing consideration</a>
 <BR>
 <a href=#r06>Adding new languages</a>
 <BR>
@@ -47,24 +47,19 @@ Contents:
 <h3>To handle other languages than English (here: German and Hungarian) the following changes needed to be done:</h3>
 <P>
 
-<li> Set up the word types that cover that language's peculiarities. Here it is important, that you look into the target language's  typical errors and formalistic rules. The description of the German word types is stored in the file TagInfo.py</li>
-<P>
+<ul>
+<li> Set up the word types that cover that language's peculiarities. Here it is important that you look into the target language's  typical errors and formalistic rules. The description of the German and Hungarian word types is stored in the file TagInfo.py</li>
 
-<li>  In German, for example for each verb the personal pronom has to be given, and the both must match. For example, ich gehe is OK, ich gehst is not OK, etc...</li>
-<P>
+<li>  In German, for example for each verb the personal pronoun has to be given, and they both must match (agreement). For example, <i>ich gehe</i> is OK, ich <i>gehst is</i> not OK, etc...</li>
 
-<li>   In German also the ending of the adjectives must follow the grammatical gender of the noun. For example, das schöne Haus is OK, das schönem Haus is not OK, der gute alter Mann is not OK, etc...</li>
-<P>
+<li>   In German also the ending of the adjectives must follow the grammatical gender of the noun. For example, <i>das schöne Haus</i> is OK, <i>das schönem Haus</i> is not OK, <i>der gute alter Mann</i> is not OK, etc...</li>
 
 <li>   Since in German the words' grammatical gender is so important, the dictionary (see next item) must be declared as a word type and  must be stored in the dictionary.</li>
-<P>
 
-<li>  Prepare a rule set in the rules path, called yourlanguagegrammar.xml, e.g degrammar.xml, that handles the tipical errors in the target language. This is the soul of the language checking, and the rules must be written and tested very carefully. Be careful, if you use non-ascii characters, python unfortunately is quite strange in this.</li>
-<BR>
+<li>  Prepare a rule set in the rules path, called yourlanguagegrammar.xml, e.g degrammar.xml, that handles the typical errors in the target language. This is the soul of the language checking, and the rules must be written and tested very carefully. Be careful if you use non-ascii characters, Python unfortunately is quite strange in this.</li>
+
 <A name=r11></A>
-<BR>
 <li>  Prepare a dictionary of the given language that contains for each word the following information:</li>
-<P>
 
    word/affixes/word type1/probability1/wordtype2/probability2/...
 <BR>
@@ -76,41 +71,39 @@ Contents:
    Abendgymnasium/Sr/NNS/1
 <BR>
    Abendhauch/EPST/NMS/1
-<P>
 
- <b>  To collect the dictionary is clearly the hardest part of the job!!</b>
-<P>
+<br> <b>Collecting the dictionary is clearly the hardest part of the job!</b>
 
 <li>  Luckily only the modules <i>Tagger.py</i> and slightly <i>Rules.py, TextChecker.py</i> and <i>TagInfo.py</i> had to be modified in order to make the the language tool a multi language one, and a word  finder and tag preparing module, <i>Wfinder.py</i> had to be added.</li>
-<P>
+</ul>
 
 <A name=r02></A>
 <BR>
 <h3>  Code changes in Tagger.py:</h3>
 <P>
 
-  Tagger.py must import Wfinder and at the very beginning create an  object, wfinder, that reads the dictionary file described above and the affix file, which is identical to the affix file, the myspell program uses. The files are in the path data, deutsch.aff and deutsch.txt.
+  Tagger.py must import Wfinder and at the very beginning create an  object, wfinder, that reads the dictionary file described above and the affix file, which is identical to the affix file used by the myspell program. The files are in data/deutsch.aff and data/deutsch.txt.
 <P>
 
   Tagger.py got some global variables, the language, the aff file name and the dict file name, since these variables are only interesting for Tagger.py and Wfinder.py.
 <P>
 
-  The methods bindData must use the ReadData method to read in the  data. I am still evaluating, if this read-in can be eliminated  altogether, since now Wfinder.py handles the dictionaries. Since there is some logic to handle tag probabilities in Tagger.py, the ReadData is still needed. BindData also does not try to read the additional tag probality files any more.
+  The methods bindData must use the ReadData method to read in the  data. I am still evaluating if this read-in can be eliminated  altogether, since now Wfinder.py handles the dictionaries. Since there is some logic to handle tag probabilities in Tagger.py, the ReadData is still needed. BindData also does not try to read the additional tag probability files any more.
 <P>
 
-  DeleteData gets an empty method, since the program does not learn while checking the text any more, and also does not modify the dictionary any more.
+  DeleteData gets an empty method, since the program does not modify the dictionary any more.
 <P>
 
-  CommitData does not pickle any more the structures onto files, just prints some informations.
+  CommitData does not pickle any more the structures onto files, just prints some information.
 <P>
 
-  ReadData reads the dictionary from a file. This could be eliminated in a next version as written at bindData.
+  ReadData is only an empty routine setting some structures to empty ones.
 <P>
 
-  guessTags has to be modified, and the rules, that apply only to English Texts, must be if-ed using if text1language == 'English':.
+  guessTags has to be modified, and the rules, that apply only to English Texts, must be if-ed using if textlanguage == 'en':.
 <P>
 
-  Also in the tag function some English only logic had to be if-ed out. In the tag function I also had to add several lines:
+  Also in the tag function some English-only logic had to be if-ed out. In the tag function I also had to add several lines:
 <P>
 
 if len(word) >= 1 and word[-1] == '.':
@@ -138,13 +131,10 @@ To cut the trailing dot. Otherwise valid words were not found because of the tra
 <P>
 
 
-  The main modification is in the TagWord method. Rather than using data_table.has_key(word) in order to find the word, it uses for non-English texts rc = wfinder.test_it(word) to find the word. Test_it is located in <i>Wfinder.py</i>. It checks the  dictionary, using the Dömölki-algorithm, also myspell uses,  if this word is to be found. This must be done like that, because words in agglutinating languages having 1000-2000 variations of each word cannot be handled by simple hash table searches like the has_key method. But using affixes reduces also the size of an English word collection by 2, and a German one by 6.
+  The main modification is in the TagWord method. Rather than using data_table.has_key(word) in order to find the word, it uses texts rc = wfinder.test_it(word) to find the word for non-English. Test_it is located in <i>Wfinder.py</i>. It checks the  dictionary, using the Dömölki-algorithm (also ued by myspell),  if this word is to be found. This is because words in agglutinating languages having 1000-2000 variations of each word cannot be handled by simple hash table searches like the has_key method. But using affixes reduces also the size of an English word collection by factor 2, and a German one by factor 6.
 <P>
 
-  Test_it also contains a language specific tag refinement addition. If in German a verb is found, test_it finds out according to the verb's ending, which person uses the verb (me, you, he, we, they, etc..) and refines the tag V to V11...V15. It also checks for adjectives' ending and refines the ADJ tag to ADJE...ADJEM.
-<P>
-
-  In Wfinder.py several encode('iso-8859-1') and unicode(string,'iso-8859-1') had to be added, otherwise the lowercase umlauts and other non ascii characters are not converted to lowercase, when the word is in uppercase as the first word of a sentence. If a target language is a non iso-8859-1 characterset language, this coding has to be changed accordingly. This is not trivial to do in python, that (unfortunately) supports ascii primarily since version 1.5.
+  Test_it also contains a language specific tag refinement addition. If in German a verb is found, test_it finds out -- according to the verb's ending -- which person uses the verb (me, you, he, we, they, etc..) and refines the tag V to V11...V15. It also checks for adjectives' ending and refines the ADJ tag to ADJE...ADJEM.
 <P>
 
 <A name=r02a></A>
@@ -152,7 +142,7 @@ To cut the trailing dot. Otherwise valid words were not found because of the tra
 <h3>  Code changes in Rules.py:</h3>
 <P>
 
-  The file names and class names  under python_rules path were modified. AvsAnRule is renamed to enAvsAnRule, since this applies only for English texts. allWordRepeat also applies to German and Hungarian, even though repeated word might be correct in German or Hungarian. It should be useful for every language. The allSentenceLength rule is pretty general for any language on the world. In <i>Rules.py</i> for each language will be now checked, if the rule applies for the active language or if it applies for all languages. Otherwise the rule will not be applied to the checked text. For English, the applied rule files and the classes must have 'en' or 'all' as the first characters, while for German 'de' or 'all'.
+  The file names and class names  under python_rules path were modified. AvsAnRule is renamed to enAvsAnRule, since this applies only for English texts. allWordRepeat had to be changed to enWordRepeat and deWordRepeat, since the world repeating rules are different in German or Hungarian.  The allSentenceLength rule is pretty general for any language on the world. In <i>Rules.py</i> for each language will be now checked, if the rule applies for the active language or if it applies for all languages. Otherwise the rule will not be applied to the checked text. For English, the applied rule files and the classes must have 'en' or 'all' as the first characters, while for German 'de' or 'all'.
 <P>
 
 
@@ -161,10 +151,10 @@ To cut the trailing dot. Otherwise valid words were not found because of the tra
 <h3>Modification in TextChecker.py</h3>
 <P>
 
-The language is set in TextChecker, the variable text1language, that is a global variable in Tagger. TextChecker reads the TextChecker.ini file, which is in the same directory, where TextChecker is, and sets up the right file names for the aff and dictionary file in the data path and the grammar file in the rules path.
+The language is set in TextChecker using the variable textlanguage, which is a global variable in Tagger. TextChecker reads the TextChecker.ini file, which is in the same directory as TextChecker.py, and sets up the right file names for the aff and dictionary file in the data path and the grammar file in the rules path.
 <P>
 
-I have also documented the German word types in TagInfo.py.
+I have also documented the German and Hungarian word types in TagInfo.py.
 <P>
 
 <A name=r03a></A>
@@ -172,10 +162,10 @@ I have also documented the German word types in TagInfo.py.
 <h3>Language discrimination:</h3>
 <P>
 
-  The language identification is done using the -x flag followed by  the language identification, which is English for English texts, German for German ones and Hungarian for Hungarian ones. TextChecker uses an initialization file, TextChecker.ini, which is in the same directory as TextChecker.py. It contains a section for each supported language. It looks now:
+  The language identification is done using the -l flag followed by  the language identification, which is 'en' for English texts, 'de' for German ones and 'hu' for Hungarian ones. TextChecker uses an initialization file, TextChecker.ini, which is in the same directory as TextChecker.py. It contains a section for each supported language. It looks now:
 <P>
 
-[German]
+[de]
 <BR>
 dicFile=deutsch.txt
 <BR>
@@ -184,7 +174,7 @@ affFile=deutsch.aff
 grammarFile=degrammar.xml
 <P>
 
-[English]
+[en]
 <BR>
 dicFile=words
 <BR>
@@ -193,7 +183,7 @@ affFile=english.aff
 grammarFile=engrammar.xml
 <P>
 
-[Hungarian]
+[hu]
 <BR>
 dicFile=hungarian.txt
 <BR>
@@ -210,19 +200,16 @@ The file names are used in Tagger.py or Rules.py.
 <h3>Still to be done:</h3>
 <P>
 
-  There are several technically unnecessary or incorrect files for other languages than English, used in the data directory: det_an.txt, det_a.txt, c7toc5.txt, abbr.txt, chunks.txt.
+  There are several unnecessary for languages other than English in the data directory: det_an.txt, det_a.txt, c7toc5.txt, abbr.txt, chunks.txt.
 <P>
 
   Chunk handling is not yet implemented for German or Hungarian, since strictly  seen it is not necessary, but a nice feature.
 <P>
 
-In German the grammatical gender of a word is determined by the last word in case of compound words. It would probably make sense, to build such a determination into Wfinder.py, and then all German words were covered by the dictionary. The disadvantages of this approach are, however, thet the last word's determination cannot be done absolutely error free, and also, that this check would be quite time consuming.
+In German the grammatical gender of a word is determined by the last word in case of compound words. It would probably make sense to build such a determination into Wfinder.py, and then all German words were covered by the dictionary. The disadvantages of this approach are, however, that the last word's determination cannot be done absolutely error free, and also that this check would be quite time consuming.
 <P>
 
 The groups adj, int and ind are not very well sorted in German, e.g. these word types are intermixed. Since the present rules don't use them, this is now no problem, but the dictionary should be tidied up later.
-<P>
-
-TagInfo.py needs to be enhanced to be able to show the tag information for any language. (At present it only shows the English tag information).
 <P>
 
 <A name=r05></A>
@@ -241,14 +228,12 @@ TagInfo.py needs to be enhanced to be able to show the tag information for any l
 If you want to add a new language, the following actions are needed:
 <P>
 
+<ul>
 <li>Check and understand the grammar rules of the target language. Check existing texts agains typical errors, and try to set up rules for them. Read the original English, German and Hungarian rules, and check, if these are applyable for the target language. Especially in the English rules there are lots of useful tips.</li>
-<P>
 
 <li>If the rules are ready, you also have the word types of the target language with them. Now get a word list for myspell, and add the word types to that list. Check the German word list, how this must be done. See the short example <a href=#r11>above</a> </li>
-<P>
 
 <li>Set up a small word list that contains all the word types, your rules handle. Check the rules using this small word list and modify the word types and/or make refinements, if necessary </li>
-<P>
 
 <li>If the word types need to be identified on the fly (which is very likely), enter your rules into the module Wfinder.py into the marked part:
 <BR>
@@ -265,13 +250,11 @@ If you want to add a new language, the following actions are needed:
 # end of language specific rules for new languages.
 <BR>
 #</li>
-<P>
 
 <li> Test your rules using TextChecker.py, refine and enrich them step by step.</li>
-<P>
 
 <li> Document your word types in the file TagInfo.py.</li>
-<P>
+</ul>
 
 <A name=r07></A>
 <BR>
@@ -281,15 +264,15 @@ If you want to add a new language, the following actions are needed:
   Simply unzip the languagetool file somewhere in your system. Go with a command window into the upper path (where the most python files are stored like TextChecker.py), and enter:
 <P>
 
- <i> python TextChecker.py -x German tests/detest1.txt.</i>
+ <i> python TextChecker.py -l de tests/detest1.txt.</i>
 <BR>
  or
 <BR>
- <i> python TextChecker.py -x Hungarian tests/hutest1.txt.</i>
+ <i> python TextChecker.py -l hu tests/hutest1.txt.</i>
 <BR>
  or
 <BR>
- <i> python TextChecker.py -x English tests/entest7.txt.</i>
+ <i> python TextChecker.py -l en tests/entest7.txt.</i>
 <P>
 
 This implies, that you must have a python interpreter installed and you must have a path to the executable python command. After a short time (0.5-2 minutes) a bunch of xml coded error messages will appear on your screen.
