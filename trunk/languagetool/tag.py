@@ -1,4 +1,4 @@
-#!/home/dnaber/prg/python23/bin/python
+#!/usr/bin/python
 # A frontend to a probabilistc part-of-speech tagger (see the QTag paper)
 # (c) 2003 Daniel Naber <daniel.naber@t-online.de>
 # Usage examples:

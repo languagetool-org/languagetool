@@ -1,4 +1,4 @@
-#!/home/dnaber/prg/python23/bin/python
+#!/usr/bin/python
 # Query BNC data files in XML format
 # Copyright (C) 2003 Daniel Naber <daniel.naber@t-online.de>
 #

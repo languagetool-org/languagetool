@@ -1,4 +1,4 @@
-#!/home/dnaber/prg/python23/bin/python
+#!/usr/bin/python
 # -*- coding: iso-8859-1 -*-
 #
 # Copyright (C) 2003 Daniel Naber <daniel.naber@t-online.de>

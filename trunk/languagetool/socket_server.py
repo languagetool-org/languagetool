@@ -1,4 +1,4 @@
-#!/home/dnaber/prg/python23/bin/python
+#!/usr/bin/python
 # A server that uses TextChecker.py to check text for style 
 # and grammar errors
 # Copyright (C) 2003 Daniel Naber <daniel.naber@t-online.de>

@@ -1,4 +1,3 @@
-#!/home/dnaber/prg/python23/bin/python
 #!/usr/bin/python
 # Copyright (C) 2003 Daniel Naber <daniel.naber@t-online.de>
 
