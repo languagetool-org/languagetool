@@ -309,7 +309,7 @@ class Wfinder:
 						if len(condlist1) > 0 and len(restoredWord1) >= len(condlist1): #tktk
 							substr = restoredWord1[-len(condlist1):]
 							for i1 in range(0, len(condlist1), 1): # tktk
-								if condlist1[i1][ord(substr[i1])] != 11:
+								if condlist1[i1][ord(substr[i1])] != 1:
 									break_it = 1
 									break
 							if break_it:
