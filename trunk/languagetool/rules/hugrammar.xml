@@ -3,7 +3,7 @@
 <!--
 Rules: Grammar and Typos
 (c) 2004 Transam transam45@nospam.gmx.de
-$Id: hugrammar.xml,v 1.4 2004-06-28 19:07:30 tyuk Exp $
+$Id: hugrammar.xml,v 1.5 2004-07-02 07:22:37 tyuk Exp $
 -->
 <rules>
 	<rulegroup id="vesszo" name="vesszo szabalyok">
@@ -17,8 +17,6 @@ $Id: hugrammar.xml,v 1.4 2004-06-28 19:07:30 tyuk Exp $
 	</rulegroup>
 	<rulegroup id="igekoto" name="Igekotos segedige">
 	<message>meg tud irni</message>
-	<rulegroup id="Igekotos segedige" name="igekotos segedige">
-	<message>Egyes es tobbesszam hasznalata</message>
 	<rule id="IKSI" name="Igekotos segedige">
 		<pattern lang="hu">(IKSI1|IKSI2|IKSI3|IKSI4|IKSI5|IKSI6) INF</pattern>
 		<message>igekotos segedige</message>
@@ -26,6 +24,7 @@ $Id: hugrammar.xml,v 1.4 2004-06-28 19:07:30 tyuk Exp $
 		<example type="incorrect">megtud irni</example>
 	</rule>
 	</rulegroup>
+	<rulegroup id="Ige-fonev egyeztetes" name="ige, nevszo egyeztetes">
 	<rule id="NSV" name="Egyesszamu fonev utan ige egyesszam">
 		<pattern lang="hu">NSN (V4|V5|V6|IKV4|IKV5|IKV6|SI4|SI5|SI6|IKSI4|IKSI5|IKSI6)</pattern>
 		<message>Egyesszamu fonev utan ige egyesszam</message>
@@ -195,8 +194,17 @@ $Id: hugrammar.xml,v 1.4 2004-06-28 19:07:30 tyuk Exp $
 		<example type="correct">sok ugyes</example>
 		<example type="incorrect">sok ugyesek</example>
 	</rule>
-	<rule id="kolcs" name="mer miert helyett">
-		<pattern lang="hu">"mér" (V1|V2|V3|IKV1|IKV2|IKV3|SI1|SI2|SI3|IKSI1|IKSI2|IKSI3|V4|V5|V6|IKV4|IKV5|IKV6|SI4|SI5|SI6|IKSI4|IKSI5|IKSI6)|"nem"</pattern>
+	</rulegroup>
+	<rulegroup id="egyedi" name="egyedi szavak v. csoportok">
+	<message>megyedi szavak</message>
+	<rule id="mer1" name="mer miert helyett">
+		<pattern lang="hu">"mér" (V1|V2|V3|IKV1|IKV2|IKV3|SI1|SI2|SI3|IKSI1|IKSI2|IKSI3|V4|V5|V6|IKV4|IKV5|IKV6|SI4|SI5|SI6|IKSI4|IKSI5|IKSI6)</pattern>
+		<message>mer miert helyett</message>
+		<example type="correct">mer a merovel</example>
+		<example type="incorrect">mer nem jo</example>
+	</rule>
+	<rule id="mer2" name="mer miert helyett">
+		<pattern lang="hu">"mér" "(nem)"</pattern>
 		<message>mer miert helyett</message>
 		<example type="correct">mer a merovel</example>
 		<example type="incorrect">mer nem jo</example>
@@ -207,11 +215,29 @@ $Id: hugrammar.xml,v 1.4 2004-06-28 19:07:30 tyuk Exp $
 		<example type="correct">kocsonosen</example>
 		<example type="incorrect">kolcsonoseen</example>
 	</rule>
+	<rule id="mellet" name="Mellett, mellet keverese">
+		<pattern lang="hu">^(ADJ) "mellet"</pattern>
+		<message>Mellett, mellet keverese</message>
+		<example type="correct">mellett</example>
+		<example type="incorrect">mellet</example>
+	</rule>
 	<rule id="egyen" name="Egyenlore, egyelore  keverese">
 		<pattern lang="hu">"egyenlõre" ^(V1|V2|V3|IKV1|IKV2|IKV3|SI1|SI2|SI3|IKSI1|IKSI2|IKSI3|V4|V5|V6|IKV4|IKV5|IKV6|SI4|SI5|SI6|IKSI4|IKSI5|IKSI6)</pattern>
 		<message>Egyenlore, egyelore  keverese</message>
 		<example type="correct">egyelore</example>
 		<example type="incorrect">egyenlore</example>
+	</rule>
+	<rule id="legyen" name="nem legyen">
+		<pattern lang="hu">"nem" "legyen"</pattern>
+		<message>nem ne helyett</message>
+		<example type="correct">ne legyen</example>
+		<example type="incorrect">nem legyen</example>
+	</rule>
+	<rule id="legyen" name="aru aru keverese">
+		<pattern lang="hu">"áru" "árú"</pattern>
+		<message>aru es aru keverese</message>
+		<example type="correct">aruu aru</example>
+		<example type="incorrect">aru aruu</example>
 	</rule>
 	</rulegroup>
 </rules>

@@ -59,6 +59,8 @@ class TextChecker:
 		config.readfp(open('TextChecker.ini'))
 		Tagger.dicFile = config.get(textlanguage, 'dicFile');
 		Tagger.affFile = config.get(textlanguage, 'affFile');
+		if self.max_sentence_length == None:
+			self.max_sentence_length = config.get(textlanguage, 'maxSentenceLength');
 		Rules.grammarFile = config.get(textlanguage, 'grammarFile');
 		self.tagger = Tagger.Tagger(textlanguage)
 		self.chunker = Chunker.Chunker()

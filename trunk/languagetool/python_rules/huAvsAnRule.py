@@ -2,7 +2,7 @@
 # Rule that checks the use of 'a' vs. 'an'
 # (c) 2003 Daniel Naber <daniel.naber@t-online.de>
 #
-#$rcs = ' $Id: huAvsAnRule.py,v 1.5 2004-06-20 19:48:45 dnaber Exp $ ' ;
+#$rcs = ' $Id: huAvsAnRule.py,v 1.6 2004-07-02 07:22:37 tyuk Exp $ ' ;
 #
 # This library is free software; you can redistribute it and/or
 # modify it under the terms of the GNU Lesser General Public
@@ -23,6 +23,7 @@ import sys
 
 sys.path.append("..")
 import Rules
+import Tools
 
 class huAvsAnRule(Rules.Rule):
 	"""Check if the determiner (if any) before a word is:
@@ -66,6 +67,8 @@ class huAvsAnRule(Rules.Rule):
 		# fixme: use line_fix and column_fix
 		matches = []
 		text_length = 0
+		line_breaks = 0
+		column = 0
 		i = 0
 		#print tagged_words
 		while 1:
@@ -73,6 +76,10 @@ class huAvsAnRule(Rules.Rule):
 				break
 			org_word = tagged_words[i][0]
 			org_word_next = tagged_words[i+2][0]
+			line_breaks_cur = Tools.Tools.countLinebreaks(org_word)
+			if line_breaks_cur > 0:
+				column = 0
+			line_breaks = line_breaks + line_breaks_cur
 			#print "<tt>'%s' -- '%s'</tt><br>" % (org_word, org_word_next)
 			if org_word.lower() == 'a':
 				err = 0
@@ -87,6 +94,7 @@ class huAvsAnRule(Rules.Rule):
 				if err:
 					matches.append(Rules.RuleMatch(self.rule_id,
 						text_length+position_fix, text_length+len(org_word)+position_fix,
+						line_breaks+line_fix, column,
 						"Hasznaljon <em>az-t a</em> helyett "+
 						"ha a kovetkezo szo maganhangzoval kezdodik", org_word))
 #			elif org_word.lower() == 'az':
