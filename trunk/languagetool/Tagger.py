@@ -1,3 +1,4 @@
+# -*- coding: iso-8859-1 -*-
 # A probabilistic part-of-speech tagger (see the QTag paper) with
 # a rule-based extension.
 # (c) 2003 Daniel Naber <daniel.naber@t-online.de>
@@ -32,7 +33,7 @@ class Tagger:
 
 	db_word_name = os.path.join("data", "words")
 	db_seq_name = os.path.join("data", "seqs")
-	uncountable_name = os.path.join("data", "uncountable.txt")
+	#uncountable_name = os.path.join("data", "uncountable.txt")
 	
 	def __init__(self, db_word_name=None, db_seq_name=None):
 		"""Initialize the tagger, optionally using the given
@@ -43,11 +44,12 @@ class Tagger:
 			self.db_word_name = db_word_name
 		if db_seq_name:
 			self.db_seq_name = db_seq_name
-		uncountable_nouns = self.loadUncountables()
+		#uncountable_nouns = self.loadUncountables()
 		self.word_count = 0
 		return
 
 	def loadUncountables(self):
+		"""TODO: not used yet."""
 		l = []
 		f = open(self.uncountable_name)
 		while 1:
@@ -176,6 +178,9 @@ class Text:
 	DUMMY = None
 	number_regex = re.compile("^[0-9\W]+$")
 	time_regex = re.compile("\d(am|pm)$")
+	bnc_regex = re.compile("<w (.*?)>(.*?)<", re.DOTALL)
+
+	mapping_file = os.path.join("data", "c7toc5.txt")
 
 	def __init__(self):
 		self.count_unambiguous = 0
@@ -185,7 +190,29 @@ class Text:
 		self.sentence_end = re.compile("([.!?]+)$")
 		self.bnc_word_regexp = re.compile("<W\s+TYPE=\"(.*?)\".*?>(.*?)</W>", \
 			re.DOTALL|re.IGNORECASE)
+		self.mapping = self.loadMapping()
 		return
+		
+	def loadMapping (self):
+		f = open(self.mapping_file)
+		line_count = 1
+		mapping = {}
+		while 1:
+			line = f.readline().strip()
+			if not line:
+				break
+			l = re.split("\s+", line)
+			if not len(l) == 2:
+				print >> sys.stderr, "No valid mapping in line %d: '%s'" % (line_count, line)
+			(c7, c5) = l[0], l[1]
+			if mapping.has_key(c7):
+				print >> sys.stderr, "No valid mapping in line %d: '%s', duplicate key '%s'" % (line_count, line, c7)
+				continue
+			mapping[c7] = c5
+			#print "%s -> %s" % (c7, c5)
+			line_count = line_count + 1
+		f.close()
+		return mapping
 		
 	def expandEntities(self, text):
 		"""Take a text and expand a few selected entities. Return the same
@@ -202,6 +229,27 @@ class Text:
 	#	s = u'\%s' % matchobj.group(1)
 	#	#s = "Y"
 	#	return s
+
+	def getBNCTuples(self, text):
+		"""Return a list of (tag, word) tuples from text if
+		text is a BNC Sampler text in XML format. Otherwise
+		return an empty list. The tags are mapped from the C7 tag set
+		to the much smaller C5 tag set."""
+		l = []
+		pos = 0
+		while 1:
+			m = self.bnc_regex.search(text, pos)
+			if not m:	
+				break
+			tag = m.group(1)
+			if self.mapping.has_key(tag):
+				tag = self.mapping[tag]
+			else:
+				#print "no mapping: %s" % tag
+				pass
+			l.append((tag, m.group(2).strip()))
+			pos = m.start()+1
+		return l
 		
 	def normalise(self, text):
 		"""Take a string and remove XML markup and whitespace at the beginning 
@@ -287,7 +335,7 @@ class Text:
 
 		# Special cases: BNC tags "wasn't" like this: "<w VBD>was<w XX0>n't"
 		# Call yourself, but don't indefinitely recurse.
-		special_cases = ("n't", "'s", "'re", "'ll")
+		special_cases = ("n't", "'s", "'re", "'ll", "'ve")
 		for special_case in special_cases:
 			special_case_pos = word.find(special_case)
 			if special_case_pos != -1 and special_case_pos != 0:
@@ -597,11 +645,10 @@ class TextToTag(Text):
 		"""Tag self.text and return list of tuples
 		(word, normalized word, most probable tag)"""
 		self.text = self.expandEntities(self.text)
-		#print self.text
 		result_tuple_list = []
 		count_wrong_tags = "n/a"
 		is_bnc = 0
-		word_matches = self.bnc_word_regexp.findall(self.text)
+		word_matches = self.getBNCTuples(self.text)
 		if len(word_matches) > 0:
 			# seems like this is a BNC text used for testing
 			is_bnc = 1
@@ -615,15 +662,16 @@ class TextToTag(Text):
 		# break inner-sentence tokens like "... No. 5 ...":
 		# fixme: only work on the last element (not counting white space)
 		# FIXME: doesn't work here: "I cannot , she said."
-		j = len(word_matches)-1
-		while j >= 0:
-			w = word_matches[j]
-			s_end_match = self.sentence_end.search(w)
-			if s_end_match:
-				word_matches[j] = w[:len(w)-len(s_end_match.group(1))]
-				word_matches.insert(j+1, s_end_match.group(1))
-				break
-			j = j - 1
+		if not is_bnc:
+			j = len(word_matches)-1
+			while j >= 0:
+				w = word_matches[j]
+				s_end_match = self.sentence_end.search(w)
+				if s_end_match:
+					word_matches[j] = w[:len(w)-len(s_end_match.group(1))]
+					word_matches.insert(j+1, s_end_match.group(1))
+					break
+				j = j - 1
 			
 		i = 0
 		tagged_list = [self.DUMMY, self.DUMMY]
@@ -633,7 +681,7 @@ class TextToTag(Text):
 			next_token = None
 			tags = None
 			if is_bnc:
-				# tmp_word is a tuple
+				# word_matches[i] is a (tag,word) tuple
 				(tag, word) = word_matches[i]
 				if i+1 < len(word_matches):
 					(next_token, foo) = word_matches[i+1]
@@ -736,7 +784,7 @@ class TextToTag(Text):
 		#for tag_triple in result_tuple_list:
 		#	print tag_triple
 
-		stat = self.getStats(count_wrong_tags)
+		#stat = self.getStats(count_wrong_tags)
 		#print >> sys.stderr, stat
 		return result_tuple_list
 
@@ -763,7 +811,7 @@ class TextToTag(Text):
 	
 	
 class PreTaggedText(Text):
-	"Text from the BNC in XML format."
+	"Text from the BNC Sampler in XML format."
 	
 	def __init__(self, filename):
 		self.content = None
@@ -776,10 +824,9 @@ class PreTaggedText(Text):
 	def getTaggedWords(self):
 		"Returns list of tuples (word, tag)"
 		text = self.expandEntities(self.content)
-		word_matches = self.bnc_word_regexp.findall(text)
+		word_matches = self.getBNCTuples(text)
 		tagged_words = []
 		for (tag, word) in word_matches:
-			word = word.strip()
 			tagged_words.append((word, tag))
 		return tagged_words
 
