@@ -1,4 +1,4 @@
-#!/usr/local/bin/python
+#!/usr/bin/python
 # A probabilistc part-of-speech tagger (see the QTag paper), 2002-06-15
 # (c) 2002 Daniel Naber <daniel.naber@t-online.de>
 
