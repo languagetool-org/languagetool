@@ -17,3 +17,53 @@ English:
 
 Hungarian:
 	-...
+
+	
+	Bei einem neuen Regel erkennt schlechte kombination nicht:
+
+Diese sind schlecht nach rule fen2 und werden nicht erkannt:
+Sétál fen. Megy fen.
+
+--------------------------------------------------------------------------------------
+Die Regel:
+
+        <rule id="fen" name="fen es fenn keverese">
+                <pattern lang="hu">"fen" (V1|V2|V3|IKV1|IKV2|IKV3|SI1|SI2|SI3|IKSI1|IKSI2|
+IKSI3|V4|V5|V6|IKV4|IKV5|IKV6|SI4|SI5|SI6|IKSI4|IKSI5|IKSI6)</pattern>
+                <message>fen es fenn keverese</message>
+                <example type="correct">fen kest</example>
+                <example type="incorrect">fen megy</example>
+        </rule>
+        <rule id="fen2" name="fen es fenn keverese">
+                <pattern lang="hu"> (V1|V2|V3|IKV1|IKV2|IKV3|SI1|SI2|SI3|IKSI1|IKSI2|IKSI3|
+V4|V5|V6|IKV4|IKV5|IKV6|SI4|SI5|SI6|IKSI4|IKSI5|IKSI6) "fen"</pattern>
+                <message>fen es fenn keverese</message>
+                <example type="correct">kest fen</example>
+                <example type="incorrect">megy fen</example>
+        </rule>
+--------------------------------------------------------------------------------------
+
+Der test:
+Fen megy és fen sétál. Sétál fen. Megy fen.
+
+--------------------------------------------------------------------------------------
+
+Das Ergebnis mit debug:
+
+[en@Vigor13 languagetool]$ python TextChecker.py -l hu -d tests/hutest5.txt
+Checking 'tests/hutest5.txt', file encoding latin1, language Hungarian:
+Tw:[(u'Fen', u'Fen', u'V3'), (u' ', None, []), (u'megy', u'megy', u'V3'), (u' 
+', None, []), (u'\xe9s', u'\xe9s', u'CNJ'), (u' ', None, []), (u'fen', 
+u'fen', u'V3'), (u' ', None, []), (u's\xe9t\xe1l', u's\xe9t\xe1l', u'V3'), 
+(u'', None, []), (u'.', None, None), (u' ', None, []), (u'', None, [])]
+Tw:[(u'S\xe9t\xe1l', u'S\xe9t\xe1l', u'V3'), (u' ', None, []), (u'fen', 
+u'fen', u'V3'), (u'', None, []), (u'.', None, None), (u' ', None, []), (u'', 
+None, [])]
+Tw:[(u'Megy', u'Megy', u'V3'), (u' ', None, []), (u'fen', u'fen', u'V3'), 
+(u'', None, []), (u'.', None, None), (u' ', None, []), (u'', None, [])]
+Tw:[('', None, [])]
+Line 1, Column 0: fen es fenn keverese
+        ...Fen megy és fen sétál. ...
+Line 1, Column 12: fen es fenn keverese
+        ...Fen megy és fen sétál. Sétál fen. Me...
+--------------------------------------------------------------------------------------
