@@ -1,7 +1,7 @@
 #!/usr/bin/python
 # Test cases for Rule.py
 # (c) 2002,2003 Daniel Naber <daniel.naber@t-online.de>
-#$rcs = ' $Id: RulesTest.py,v 1.12 2003-07-27 12:59:47 dnaber Exp $ ' ;
+#$rcs = ' $Id: RulesTest.py,v 1.13 2003-08-05 00:10:06 dnaber Exp $ ' ;
 
 import unittest
 import Rules
@@ -187,40 +187,53 @@ class TokenTestCase(unittest.TestCase):
 
     def testToken(self):
 
-		rule = Rules.Token('NN')
-		self.assertEqual(rule.token, "NN")
-		assert(not rule.negation)
-		assert(rule.is_tag)
-		assert(not rule.is_word)
-		assert(not rule.is_chunk)
+		token = Rules.Token('NN')
+		self.assertEqual(token.token, "NN")
+		assert(not token.negation)
+		assert(token.is_tag)
+		assert(not token.is_word)
+		assert(not token.is_chunk)
+		assert(token.simple_token)
 
-		rule = Rules.Token('"word"')
-		self.assertEqual(rule.token, "word")
-		assert(not rule.negation)
-		assert(not rule.is_tag)
-		assert(rule.is_word)
-		assert(not rule.is_chunk)
+		token = Rules.Token('"word"')
+		self.assertEqual(token.token, "word")
+		assert(not token.negation)
+		assert(not token.is_tag)
+		assert(token.is_word)
+		assert(not token.is_chunk)
+		assert(token.simple_token)
 
-		rule = Rules.Token("^(NN)")
-		self.assertEqual(rule.token, "(NN)")
-		assert(rule.negation)
-		assert(rule.is_tag)
-		assert(not rule.is_word)
-		assert(not rule.is_chunk)
+		token = Rules.Token("^(NN)")
+		self.assertEqual(token.token, "(NN)")
+		assert(token.negation)
+		assert(token.is_tag)
+		assert(not token.is_word)
+		assert(not token.is_chunk)
+		assert(not token.simple_token)		# b/c of the parenthesis
 
-		rule = Rules.Token('^"word"')
-		self.assertEqual(rule.token, "word")
-		assert(rule.negation)
-		assert(not rule.is_tag)
-		assert(rule.is_word)
-		assert(not rule.is_chunk)
+		token = Rules.Token('^"word"')
+		self.assertEqual(token.token, "word")
+		assert(token.negation)
+		assert(not token.is_tag)
+		assert(token.is_word)
+		assert(not token.is_chunk)
+		assert(token.simple_token)
 
-		rule = Rules.Token('_NP')
-		self.assertEqual(rule.token, "NP")
-		assert(not rule.negation)
-		assert(not rule.is_tag)
-		assert(not rule.is_word)
-		assert(rule.is_chunk)
+		token = Rules.Token('_NP')
+		self.assertEqual(token.token, "NP")
+		assert(not token.negation)
+		assert(not token.is_tag)
+		assert(not token.is_word)
+		assert(token.is_chunk)
+		assert(token.simple_token)
+
+		token = Rules.Token("(AA|BB|CC)")
+		self.assertEqual(token.token, "(AA|BB|CC)")
+		assert(not token.negation)
+		assert(token.is_tag)
+		assert(not token.is_word)
+		assert(not token.is_chunk)
+		assert(not token.simple_token)		# b/c of the parenthesis
 		return
 
 if __name__ == "__main__":
