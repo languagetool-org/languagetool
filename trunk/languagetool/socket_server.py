@@ -1,7 +1,7 @@
 #!/usr/bin/python
 # A server that uses TextChecker.py to check text for style 
 # and grammar errors
-# Copyright (C) 2002,2003 Daniel Naber <daniel.naber@t-online.de>
+# Copyright (C) 2003 Daniel Naber <daniel.naber@t-online.de>
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
