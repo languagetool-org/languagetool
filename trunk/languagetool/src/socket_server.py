@@ -76,8 +76,6 @@ def readConfig():
 	falsefriends = loadOptionList(config, "EnableFalseFriends", "FalseFriendsRules")
 	words = loadOptionList(config, "EnableWords", "WordsRules")
 	builtin = []
-	if loadOptionBoolean(config, "EnableArticleCheck"):
-		builtin.append("DET")
 	if loadOptionBoolean(config, "EnableWhitespaceCheck"):
 		builtin.append("WHITESPACE")
 	if len(builtin) == 0:
