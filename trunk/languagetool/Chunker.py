@@ -33,12 +33,15 @@ class Chunker:
 	def chunk(self, tagged_text):
 		"""Take a POS tagged text and find all its chunks. Returns
 		a list of (from, to, chunk_name) tuples where the from/to positions
-		refer to the list position. Each from/to range will only
-		have one chunk at most."""
+		refer to the list position. Only parts of the list may be
+		covered by chunks. There are no overlappings."""
 		l = []
 		
 		tagged_text_pos = 0
-		for word, norm_word, tag in tagged_text:
+		while 1:
+			if tagged_text_pos >= len(tagged_text):
+				break
+			word, norm_word, tag = tagged_text[tagged_text_pos]
 
 			for rule in self.rules.rules:
 				#print "### %s" % rule.name
@@ -76,6 +79,7 @@ class Chunker:
 						#print "match (%s)! tagged_text_pos=%d" % (rule.name, tagged_text_pos)
 						match_end = match_start + pattern_pos + pos_corr - 1
 						l.append((match_start, match_end, rule.name))
+						tagged_text_pos = tagged_text_pos + (match_end - match_start)
 						cont = 0
 						break
 				if not rule_match:
