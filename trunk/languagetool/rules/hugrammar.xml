@@ -3,7 +3,7 @@
 <!--
 Rules: Grammar and Typos
 (c) 2004 Transam transam45@nospam.gmx.de
-$Id: hugrammar.xml,v 1.6 2004-07-06 19:52:39 tyuk Exp $
+$Id: hugrammar.xml,v 1.7 2004-07-11 19:20:05 tyuk Exp $
 -->
 <rules>
 	<rulegroup id="vesszo" name="vesszo szabalyok">
@@ -238,6 +238,42 @@ $Id: hugrammar.xml,v 1.6 2004-07-06 19:52:39 tyuk Exp $
 		<message>aru es aru keverese</message>
 		<example type="correct">aruu aru</example>
 		<example type="incorrect">aru aruu</example>
+	</rule>
+	<rule id="fen" name="fen es fenn keverese">
+		<pattern lang="hu">"fen" (V1|V2|V3|IKV1|IKV2|IKV3|SI1|SI2|SI3|IKSI1|IKSI2|IKSI3|V4|V5|V6|IKV4|IKV5|IKV6|SI4|SI5|SI6|IKSI4|IKSI5|IKSI6)</pattern>
+		<message>fen es fenn keverese</message>
+		<example type="correct">fen kest</example>
+		<example type="incorrect">fen megy</example>
+	</rule>
+	<rule id="fen2" name="fen es fenn keverese">
+		<pattern lang="hu"> (V1|V2|V3|IKV1|IKV2|IKV3|SI1|SI2|SI3|IKSI1|IKSI2|IKSI3|V4|V5|V6|IKV4|IKV5|IKV6|SI4|SI5|SI6|IKSI4|IKSI5|IKSI6) "fen"</pattern>
+		<message>fen es fenn keverese</message>
+		<example type="correct">kest fen</example>
+		<example type="incorrect">megy fen</example>
+	</rule>
+	<rule id="alt" name="alt es allt keverese">
+		<pattern lang="hu">"ált" (ADJ|ADJS|ADV)</pattern>
+		<message>allt es allt keverese</message>
+		<example type="correct">allt ott</example>
+		<example type="incorrect">alt ott</example>
+	</rule>
+	<rule id="alt2" name="alt es allt keverese">
+		<pattern lang="hu">(ADJ|ADJS|ADV) "ált"</pattern>
+		<message>allt es allt keverese</message>
+		<example type="correct">ott allt</example>
+		<example type="incorrect">ott alt</example>
+	</rule>
+	<rule id="fegyverzet" name="fegyverzet es fegyverzett keverese">
+		<pattern lang="hu">(ADV) "fegyverzet"</pattern>
+		<message>fegyverzet es fegyverzett</message>
+		<example type="correct">jol fegyverzett</example>
+		<example type="incorrect">jol fegyverzet</example>
+	</rule>
+	<rule id="meglehet" name="meg lehet egybe">
+		<pattern lang="hu">meglehet (INF) </pattern>
+		<message>meg lehet egybe</message>
+		<example type="correct">meg lehet irni</example>
+		<example type="incorrect">meglehet irni</example>
 	</rule>
 	</rulegroup>
 </rules>
