@@ -42,29 +42,6 @@ class StringElement extends Element {
     return tokens;
   }
   
-  /**
-   * Get an XPath expression plus an additonal <code>&lt;POS&gt;</code> marker
-   * that needs to be replaced with nothing or <code>[1]</code> before this
-   * expression is used.
-   */
-  String getXPathExpression() {
-    // Example: t<POS>[.="token1" or .="token2"]
-    StringBuffer sb = new StringBuffer();
-    sb.append("t<POS>[");
-    for (int i = 0; i < tokens.length; i++) {
-      if (caseSensitive) {
-        sb.append(".=\"" + tokens[i] + "\"");
-      } else {
-        sb.append("fn:lower-case(.)=\"" + tokens[i].toLowerCase() + "\"");
-      }
-      if (i < tokens.length-1) {
-        sb.append(" or ");
-      }
-    }
-    sb.append("]");
-    return sb.toString();
-  }
-
   boolean match(String token) {
     if (caseSensitive) {
       for (int i = 0; i < tokens.length; i++) {

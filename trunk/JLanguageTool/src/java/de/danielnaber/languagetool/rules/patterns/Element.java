@@ -27,8 +27,6 @@ public abstract class Element {
 
   String[] tokens;
 
-  //abstract String getXPathExpression();
-  
   abstract boolean match(String token);
   
   public String toString() {

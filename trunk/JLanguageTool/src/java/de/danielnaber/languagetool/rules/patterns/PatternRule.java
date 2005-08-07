@@ -65,7 +65,6 @@ public class PatternRule extends Rule {
     return id + ":" + pattern + ":" + description;
   }
 
-  //FIXME
   public RuleMatch[] match(AnalyzedSentence text) {
     List ruleMatches = new ArrayList(); 
     List tokens = text.getTokens();
@@ -121,67 +120,6 @@ public class PatternRule extends Rule {
     } while (token.trim().equals(""));
     return pos-1;
   }
-
-  //FIXME
-  /*public RuleMatch[] matchOLD(AnalyzedSentence text) {
-    List ruleMatches = new ArrayList(); 
-    String xml = text.getXML();
-    try {
-      // use XPath to match the text and the rule:
-      DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-      DocumentBuilder builder;
-      builder = factory.newDocumentBuilder();
-      InputSource is = new InputSource(new StringReader(xml));
-      Node doc = builder.parse(is);
-      String xPath = patternToXPathExpression(pattern);
-      XPath expression = new org.jaxen.dom.DOMXPath(xPath);
-      //Navigator navigator = expression.getNavigator();
-      List results = expression.selectNodes(doc);
-      Iterator iterator = results.iterator();
-      while (iterator.hasNext()) {
-        // the XPath expression matches the text:
-        Node result = (Node) iterator.next();
-        String startPosStr = result.getAttributes().getNamedItem("startpos").getNodeValue();
-        int startPos = Integer.parseInt(startPosStr);
-        String endPosStr = result.getAttributes().getNamedItem("endpos").getNodeValue();
-        int endPos = Integer.parseInt(endPosStr);
-        //System.out.println("result=" + result.getAttributes().getNamedItem("startpos").getNodeValue());
-        // FIXME: use a real message, not just description:
-        RuleMatch ruleMatch = new RuleMatch(this, startPos, endPos, description);
-        ruleMatches.add(ruleMatch);
-        //String value = StringFunction.evaluate(result, navigator);
-      }
-    } catch (ParserConfigurationException e) {
-      throw new RuntimeException(e);
-    } catch (SAXException e) {
-      throw new RuntimeException(e);
-    } catch (IOException e) {
-      throw new RuntimeException(e);
-    } catch (JaxenException e) {
-      throw new RuntimeException(e);
-    }
-    return (RuleMatch[])ruleMatches.toArray(new RuleMatch[0]);
-  }*/
-  
-  /*private String patternToXPathExpression(String pattern) {
-    StringBuffer xpath = new StringBuffer();
-    Element[] parts = getPatternElements(pattern);
-    xpath.append("/s/");
-    for (int i = 0; i < parts.length; i++) {
-      Element elem = parts[i];
-      String expr = elem.getXPathExpression();
-      if (i == 0)
-        expr = expr.replaceAll("<POS>", "");
-      else
-        expr = expr.replaceAll("<POS>", "[1]");
-      xpath.append(expr);
-      if (i < parts.length-1) {
-        xpath.append("/following-sibling::");
-      }
-    }
-    System.err.println("### XPATH="+xpath.toString());
-    return xpath.toString();
-  }*/
 
   private Element[] getPatternElements(String pattern) {
     List elements = new ArrayList();
