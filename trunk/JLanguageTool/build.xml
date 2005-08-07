@@ -1,0 +1,280 @@
+<?xml version="1.0"?>
+
+<project name="JLanguageTool" default="dist" basedir=".">
+
+  <property name="version" value="0.1dev"/>
+  <property name="javadoctitle" value="JLanguageTool API ${version}"/>
+  
+  <property file="build.properties"/>
+
+  <taskdef classpath="${ext.cobertura.lib}" resource="tasks.properties"/>
+	
+  <path id="classpath">
+    <pathelement location="${build.classes}"/>
+    <pathelement location="."/>
+    <pathelement location="${ext.grok.lib}"/>
+    <pathelement location="${ext.opennlp.lib}"/>
+    <pathelement location="${ext.trove.lib}"/>
+    <pathelement location="${ext.jaxen.lib}"/>
+  </path>
+	
+  <path id="junit.classpath">
+  	<path refid="classpath"/>
+    <pathelement location="${ext.junit.lib}"/>
+    <pathelement location="${dist.dir}/${final.name}.jar"/>
+    <pathelement path="${java.class.path}"/>
+  </path>
+
+  <!-- ================================================================== -->
+  <!-- CLEAN -->
+  <!-- ================================================================== -->
+  <target name="clean">
+    <delete dir="${test.dir}"/>
+    <delete dir="${build.dir}"/>
+    <delete dir="${dist.dir}"/>
+    <delete dir="${junit.classes.dir}"/>
+  </target>
+
+  <!-- ================================================================== -->
+  <!-- Prepares the build & dist directory -->
+  <!-- ================================================================== -->
+  <target name="init">
+  	<echo>${ant.version}</echo>
+    <mkdir dir="${build.dir}"/>
+    <mkdir dir="${build.classes}"/>
+    <mkdir dir="${build.lib}"/>
+    <mkdir dir="${build.javadocs}"/>
+    <mkdir dir="${build.meta-inf}"/>
+    <mkdir dir="${dist.dir}"/>
+    <mkdir dir="${dist.lib}"/>
+    <mkdir dir="${dist.javadocs}"/>
+  </target>
+
+  <!-- ================================================================== -->
+  <!-- TEST -->
+  <!-- ================================================================== -->
+
+  <target name="test" depends="dist" description="Runs unit tests">
+
+	<mkdir dir="${junit.classes.dir}"/>
+	<mkdir dir="${dist.dir}/report/tests"/>
+
+	<javac encoding="${encoding}"
+		srcdir="${src.test.dir}"
+		includes="**/*Test.java"
+		destdir="${junit.classes.dir}"
+		debug="${debug}">
+			<classpath refid="junit.classpath"/>
+   	</javac>
+
+	<!-- make sure that no classes where left in the build directory, clean it up -->
+	<delete dir="${build.dir}"/>
+	
+	<path id="test.classpath">
+		<pathelement location="${ext.junit.lib}"/>
+		<pathelement location="${junit.classes.dir}"/>
+		<pathelement location="${dist.dir}/${final.name}.jar"/>
+		<fileset dir="${dist.lib}">
+			<include name="*.jar" />
+		</fileset>
+	</path>
+	
+  	<junit printsummary="true"
+           errorproperty="tests.failed"
+           showoutput="true"
+           fork="yes">
+	  
+      <formatter type="brief" usefile="true"/>
+      <formatter type="xml"/>
+      <classpath refid="test.classpath"/>
+      
+	  <batchtest fork="yes" todir="${dist.dir}/report/tests" unless="testcase" haltonfailure="yes">
+		<fileset dir="${src.test.dir}" includes="**/*Test.java" />
+	  </batchtest>
+      <batchtest fork="yes" todir="${dist.dir}/report/tests" if="testcase" haltonfailure="yes">
+		<fileset dir="${src.test.dir}" includes="**/${testcase}.java"/>
+	  </batchtest>		
+		
+	</junit>
+
+    <fail if="tests.failed">Tests failed!</fail>
+
+  </target>
+
+  <!-- ================================================================== -->
+
+  <target name="test-coverage" depends="dist" description="Runs unit tests">
+
+	<mkdir dir="${junit.classes.dir}"/>
+	<mkdir dir="${dist.dir}/report/tests"/>
+
+	<javac encoding="${encoding}"
+		srcdir="${src.test.dir}"
+		includes="**/*Test.java"
+		destdir="${junit.classes.dir}"
+		debug="true">
+			<classpath refid="junit.classpath"/>
+   	</javac>
+	<javac encoding="${encoding}"
+		srcdir="${src.java.dir}"
+		includes="**/*.java"
+		destdir="${junit.classes.dir}"
+		debug="true">
+			<classpath refid="junit.classpath"/>
+   	</javac>
+
+	<!-- make sure that no classes where left in the build directory, clean it up -->
+	<delete dir="${build.dir}"/>
+	
+	<path id="test.classpath">
+	  	<path refid="classpath"/>
+		<pathelement location="${ext.junit.lib}"/>
+		<pathelement location="${ext.cobertura.lib}"/>
+		<pathelement location="${ext.jakarta-oro.lib}"/>
+		<pathelement location="${ext.asm.lib}"/>
+		<pathelement location="${ext.getopt.lib}"/>
+		<pathelement location="${ext.log4j.lib}"/>
+		<pathelement location="${ext.ccl.lib}"/>
+		<pathelement location="${ext.javancss.lib}"/>
+		<pathelement location="${junit.instrumented-classes.dir}"/>
+		<pathelement location="${junit.classes.dir}"/>
+	</path>
+	
+	<cobertura-instrument todir="${junit.instrumented-classes.dir}">
+		<classpath refid="test.classpath"/>
+	    <fileset dir="${junit.classes.dir}">
+    	    <include name="**/*.class"/>
+	    </fileset>
+	</cobertura-instrument>
+
+  	<junit printsummary="true"
+           errorproperty="tests.failed"
+           showoutput="true"
+           fork="yes">
+	  
+      <formatter type="brief" usefile="true"/>
+      <formatter type="xml"/>
+      <classpath refid="test.classpath"/>
+      
+	  <batchtest fork="yes" todir="${dist.dir}/report/tests" unless="testcase" haltonfailure="no">
+		<fileset dir="${src.test.dir}" includes="**/*Test.java" />
+	  </batchtest>
+      <batchtest fork="yes" todir="${dist.dir}/report/tests" if="testcase" haltonfailure="yes">
+		<fileset dir="${src.test.dir}" includes="**/${testcase}.java"/>
+	  </batchtest>		
+		
+	</junit>
+
+	<cobertura-report srcdir="${src.java.dir}" destdir="${dist.dir}/coverage">
+		<classpath refid="test.classpath"/>
+	</cobertura-report>
+    <echo>
+		coverage information can now be found in dist/coverage/index.html
+    </echo>
+
+    <fail if="tests.failed">Tests failed!</fail>
+
+  </target>
+
+  <!-- ================================================================== -->
+  <!-- C O M P I L E                                        																		  -->
+  <!-- ================================================================== -->
+  <target name="compile" depends="clean,init">
+  	
+  	<javac encoding="${encoding}"
+      srcdir="${src.java.dir}"
+	  includes="de/danielnaber/**/*.java"
+      destdir="${build.classes}">
+      <classpath refid="classpath"/>
+    </javac>
+
+  </target>
+
+  <!-- ================================================================== -->
+  <!-- BUILD -->
+  <!-- ================================================================== -->
+  <target name="build" depends="compile">
+
+	<delete file="${build.meta-inf}/MANIFEST" />
+	<copy file="${resource.dir}/MANIFEST" todir="${build.meta-inf}/" />
+
+	<jar
+		jarfile="${dist.dir}/${final.name}.jar"
+		basedir="${build.classes}"
+		excludes="**/*.java"
+		manifest="${build.meta-inf}/MANIFEST"
+	/>
+
+  </target>
+ 
+  <!-- ================================================================== -->
+  <!-- DIST -->
+  <!-- ================================================================== -->
+  <target name="dist" depends="build,javadoc">
+
+  	<property name="zip.dir" value="${dist.dir}/JLanguageTool-${version}"/>
+  	<property name="zip.lib" value="${zip.dir}/libs"/>
+  	
+  	<mkdir dir="${zip.dir}"/>
+    <mkdir dir="${zip.dir}/javadoc"/>
+  	
+	<copy file="${ext.grok.lib}" todir="${zip.lib}" />
+	<copy file="${ext.opennlp.lib}" todir="${zip.lib}" />
+	<copy file="${ext.trove.lib}" todir="${zip.lib}" />
+	<copy file="${ext.jaxen.lib}" todir="${zip.lib}" />
+	<copy file="${ext.junit.lib}" todir="${zip.lib}" />
+	<copy file="${ext.dir}/jaxen-license.txt" todir="${zip.lib}" />
+	<copy file="${ext.dir}/build/junit-license.txt" todir="${zip.lib}" />
+	<copy file="${ext.dir}/README" todir="${zip.lib}" />
+
+	<copy file="${dist.dir}/${final.name}.jar" todir="${zip.dir}" />
+	<copy file="./README" todir="${zip.dir}" />
+	<copy file="./COPYING" todir="${zip.dir}" />
+
+  	<mkdir dir="${zip.dir}/rules"/>
+  	<mkdir dir="${zip.dir}/rules/en"/>
+  	<copy todir="${zip.dir}/rules/en">
+	  	<fileset dir="rules/en/"/>
+	</copy>
+  	<copy todir="${zip.dir}/javadoc">
+	  	<fileset dir="${dist.dir}/docs/api"/>
+	</copy>
+
+  	<zip destfile="${dist.dir}/JLanguageTool-${version}.zip" basedir="${dist.dir}"
+  	  		includes="JLanguageTool-${version}/**" />
+
+  </target>
+
+  <!-- ================================================================== -->
+  <!-- JAVADOC -->
+  <!-- ================================================================== -->
+  <target name="javadoc" depends="compile">
+  	<javadoc
+           destdir="${dist.javadocs}"
+           author="true"
+           version="true"
+           use="true"
+           access="public"
+           noqualifier="all"
+  		   encoding="${encoding}"
+           windowtitle="${javadoctitle}">
+
+		<classpath>
+			<pathelement location="${build.classes}"/>
+			<fileset dir="${ext.dir}">
+				<include name="*.jar" />
+			</fileset>
+	 	</classpath>
+	
+		<fileset dir="${src.java.dir}" defaultexcludes="no">
+			<include name="**/*.java" />
+		</fileset>
+	
+		<doctitle><![CDATA[<h1>${javadoctitle}</h1>]]></doctitle>
+		<bottom><![CDATA[<i>Copyright &#169; 2005 <a href="http://www.danielnaber.de" target="_top">Daniel Naber</a></i>]]></bottom>
+		<link offline="true" href="http://java.sun.com/products/jdk/1.4/docs/api/" packagelistLoc="/tmp"/>
+  	</javadoc>
+  	<echo>javadoc output can now be found in dist/docs/api/index.html</echo>
+  </target>
+
+</project>
