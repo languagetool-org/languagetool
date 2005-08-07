@@ -18,6 +18,8 @@
  */
 package de.danielnaber.languagetool.rules.patterns;
 
+import de.danielnaber.languagetool.AnalyzedToken;
+
 /**
  * A part of a pattern.
  * 
@@ -27,7 +29,7 @@ public abstract class Element {
 
   String[] tokens;
 
-  abstract boolean match(String token);
+  abstract boolean match(AnalyzedToken token);
   
   public String toString() {
     StringBuffer sb = new StringBuffer();

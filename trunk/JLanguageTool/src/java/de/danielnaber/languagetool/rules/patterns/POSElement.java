@@ -18,13 +18,15 @@
  */
 package de.danielnaber.languagetool.rules.patterns;
 
+import de.danielnaber.languagetool.AnalyzedToken;
+
 public class POSElement extends Element {
 
-  boolean match(String token) {
-    /*for (int i = 0; i < tokens.length; i++) {
-      if (tokens[i].equals(token))
+  boolean match(AnalyzedToken token) {
+    for (int i = 0; i < tokens.length; i++) {
+      if (tokens[i].equals(token.getPOSTag()))
         return true;
-    }*/
+    }
     //FIXME
     return false;
   }

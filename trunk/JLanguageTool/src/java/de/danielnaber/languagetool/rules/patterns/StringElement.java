@@ -18,6 +18,8 @@
  */
 package de.danielnaber.languagetool.rules.patterns;
 
+import de.danielnaber.languagetool.AnalyzedToken;
+
 /**
  * A part of a pattern that matches one or more words of the text.
  * Typically built from patterns like <code>"a"</code> or <code>"a|the"</code>.
@@ -42,15 +44,15 @@ class StringElement extends Element {
     return tokens;
   }
   
-  boolean match(String token) {
+  boolean match(AnalyzedToken token) {
     if (caseSensitive) {
       for (int i = 0; i < tokens.length; i++) {
-        if (tokens[i].equals(token))
+        if (tokens[i].equals(token.getToken()))
           return true;
       }
     } else {
       for (int i = 0; i < tokens.length; i++) {
-        if (tokens[i].equalsIgnoreCase(token))
+        if (tokens[i].equalsIgnoreCase(token.getToken()))
           return true;
       }
     }

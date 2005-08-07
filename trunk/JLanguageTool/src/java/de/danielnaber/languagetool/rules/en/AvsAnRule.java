@@ -24,11 +24,11 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
 import de.danielnaber.languagetool.AnalyzedSentence;
+import de.danielnaber.languagetool.AnalyzedToken;
 import de.danielnaber.languagetool.Language;
 import de.danielnaber.languagetool.rules.RuleMatch;
 
@@ -67,12 +67,12 @@ public class AvsAnRule extends EnglishRule {
 
   public RuleMatch[] match(AnalyzedSentence text) {
     List ruleMatches = new ArrayList();
-    List tokens = text.getTokens();
+    AnalyzedToken[] tokens = text.getTokens();
     String prevToken = "";
     int pos = 0;
     int prevPos = 0;
-    for (Iterator iter = tokens.iterator(); iter.hasNext();) {
-      String token = (String) iter.next();
+    for (int i = 0; i < tokens.length; i++) {
+      String token = tokens[i].getToken();
       if (token.trim().equals("")) {
         // ignore
       } else {

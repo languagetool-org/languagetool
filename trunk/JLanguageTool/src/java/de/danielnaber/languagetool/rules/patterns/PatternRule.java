@@ -19,10 +19,10 @@
 package de.danielnaber.languagetool.rules.patterns;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import de.danielnaber.languagetool.AnalyzedSentence;
+import de.danielnaber.languagetool.AnalyzedToken;
 import de.danielnaber.languagetool.Language;
 import de.danielnaber.languagetool.rules.Rule;
 import de.danielnaber.languagetool.rules.RuleMatch;
@@ -67,58 +67,42 @@ public class PatternRule extends Rule {
 
   public RuleMatch[] match(AnalyzedSentence text) {
     List ruleMatches = new ArrayList(); 
-    List tokens = text.getTokens();
+    AnalyzedToken[] tokens = text.getTokensWithoutWhitespace();
     if (patternElements == null) {
       patternElements = getPatternElements(pattern); 
     }
     int tokenPos = 0;
-    for (Iterator iter = tokens.iterator(); iter.hasNext();) {
-      String token = (String) iter.next();
-      if (token.trim().equals("")) {
-        // ignore
-      } else {
-        boolean allElementsMatch = true;
-        for (int i = 0; i < patternElements.length; i++) {
-          Element elem = patternElements[i];
-          int nextPos = getNextTokenPosition(tokens, tokenPos+i);       // jump over whitespace
-          if (nextPos == -1) {
-            allElementsMatch = false;
-            break;
-          }
-          String matchToken = (String)tokens.get(nextPos);
-          System.err.println(elem + " matches? " +matchToken);
-          if (!elem.match(matchToken)) {
-            allElementsMatch = false;
-            System.err.println("NOMATCH: " + this);
-            break;
-          } else {
-            System.err.println("MATCH: " + this);
-          }
+    AnalyzedToken firstMatchToken = null;
+    AnalyzedToken lastMatchToken = null;
+
+    for (int i = 0; i < tokens.length; i++) {
+      boolean allElementsMatch = true;
+      for (int k = 0; k < patternElements.length; k++) {
+        Element elem = patternElements[k];
+        int nextPos = tokenPos+k;
+        if (nextPos >= tokens.length) {
+          allElementsMatch = false;
+          break;
         }
-        if (allElementsMatch) {
-          System.out.println("------>Match: " + this);
-          int startPos = 0;
-          int endPos = 0;
-          RuleMatch ruleMatch = new RuleMatch(this, startPos, endPos, description);
-          ruleMatches.add(ruleMatch);
+        AnalyzedToken matchToken = tokens[nextPos];
+        if (!elem.match(matchToken)) {
+          allElementsMatch = false;
+          break;
+        } else {
+          lastMatchToken = matchToken;
+          if (firstMatchToken == null)
+            firstMatchToken = matchToken;
         }
+      }
+      if (allElementsMatch) {
+        //System.err.println("--->Match: " + this + ", t="+token);
+        RuleMatch ruleMatch = new RuleMatch(this, firstMatchToken.getStartPos(), 
+            lastMatchToken.getStartPos()+lastMatchToken.getToken().length(), description);
+        ruleMatches.add(ruleMatch);
       }
       tokenPos++;
     }      
     return (RuleMatch[])ruleMatches.toArray(new RuleMatch[0]);
-  }
-
-  private int getNextTokenPosition(List tokens, int startPos) {
-    int pos = startPos;
-    String token = "";
-    do {
-      if (pos >= tokens.size()) {
-        return -1;
-      }
-      token = (String)tokens.get(pos);
-      pos++;
-    } while (token.trim().equals(""));
-    return pos-1;
   }
 
   private Element[] getPatternElements(String pattern) {

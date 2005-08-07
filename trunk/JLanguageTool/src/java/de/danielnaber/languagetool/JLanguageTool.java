@@ -53,6 +53,7 @@ import de.danielnaber.languagetool.tokenizers.WordTokenizer;
 public class JLanguageTool {
   
   private final static String DEFAULT_GRAMMAR_RULES = "rules" +File.separator+ "en" +File.separator+ "grammar.xml";
+  private final static int CONTEXT_SIZE = 20;
   
   private Rule[] builtinRules = new Rule[]{};
   private List userRules = new ArrayList();     // rules added via addRule() method
@@ -114,29 +115,35 @@ public class JLanguageTool {
     int tokenCount = 0;
     for (Iterator iter = sentences.iterator(); iter.hasNext();) {
       String sentence = (String) iter.next();
-      //System.out.println(">>"+sentence+"<<");
       List tokens = wtokenizer.tokenize(sentence);
-      AnalyzedSentence analyzedText = new AnalyzedSentence(tokens);
+      AnalyzedToken[] tokenArray = new AnalyzedToken[tokens.size()];
+      int toArrayCount = 0;
+      int startPos = 0;
+      for (Iterator iterator = tokens.iterator(); iterator.hasNext();) {
+        String tokenStr = (String) iterator.next();
+        //FIXME: integrate POS tagger
+        tokenArray[toArrayCount] = new AnalyzedToken(tokenStr, "FIXME", startPos);
+        toArrayCount++;
+        startPos += tokenStr.length();
+      }
+      AnalyzedSentence analyzedText = new AnalyzedSentence(tokenArray);
       for (Iterator iterator = allRules.iterator(); iterator.hasNext();) {
         Rule rule = (Rule) iterator.next();
         if (disabledRules.contains(rule.getId()))
           continue;
         RuleMatch[] thisMatches = rule.match(analyzedText);
         for (int i = 0; i < thisMatches.length; i++) {
-          // change psoitions so they are relative to the complete text,
+          // change positions so they are relative to the complete text,
           // not just to the sentence:
-          System.err.println("OLDMATCH="+thisMatches[i]);
           RuleMatch thisMatch = new RuleMatch(thisMatches[i].getRule(),
               thisMatches[i].getFromPos() + tokenCount,
               thisMatches[i].getToPos() + tokenCount,
               thisMatches[i].getMessage());
-          System.err.println("NEWMATCH="+thisMatch);
           ruleMatches.add(thisMatch);
         }
       }
       tokenCount += sentence.length();
     }
-    // FIXME: ...tagger
     return ruleMatches;
   }
   
@@ -157,6 +164,7 @@ public class JLanguageTool {
       String line;
       while ((line = br.readLine()) != null) {
         sb.append(line);
+        sb.append(" ");       // normalize linebreaks to spaces
       }
     } finally {
       if (br != null) br.close();
@@ -167,8 +175,7 @@ public class JLanguageTool {
 
   private String getContext(int fromPos, int toPos, String fileContents) {
     // calculate context region:
-    final int contextSize = 15;
-    int startContent = fromPos - contextSize;
+    int startContent = fromPos - CONTEXT_SIZE;
     String prefix = "...";
     String postfix = "...";
     String markerPrefix = "   ";
@@ -177,7 +184,7 @@ public class JLanguageTool {
       markerPrefix = "";
       startContent = 0;
     }
-    int endContent = toPos + contextSize;
+    int endContent = toPos + CONTEXT_SIZE;
     if (endContent > fileContents.length()) {
       postfix = "";
       endContent = fileContents.length();

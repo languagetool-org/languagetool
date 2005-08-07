@@ -18,41 +18,41 @@
  */
 package de.danielnaber.languagetool;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
- * A sentence that has been tokenized and analyzed.
+ * A word (or punctuation, or whitespace) and its part-of-speech tag.
  * 
  * @author Daniel Naber
  */
-public class AnalyzedSentence {
+public class AnalyzedToken {
 
-  private AnalyzedToken[] tokens;
+  private String token;
+  private String posTag;
+  private int startPos;
   
-  public AnalyzedSentence(AnalyzedToken[] tokens) {
-    this.tokens = tokens;
+  public AnalyzedToken(String token, String posTag, int startPos) {
+    this.token = token;
+    this.posTag = posTag;
+    this.startPos = startPos;
+  }
+  
+  public boolean isWhitespace() {
+    return token.trim().equals("");
+  }
+  
+  public String getToken() {
+    return token;
   }
 
-  /**
-   * Returns the {@link AnalyzedToken}s of the analyzed text. Whitespace is also a token.
-   */
-  public AnalyzedToken[] getTokens() {
-    return tokens;
+  public String getPOSTag() {
+    return posTag;
   }
 
-  /**
-   * Returns the {@link AnalyzedToken}s of the analyzed text, with whitespace tokens removed. 
-   */
-  public AnalyzedToken[] getTokensWithoutWhitespace() {
-    List l = new ArrayList();
-    for (int i = 0; i < tokens.length; i++) {
-      AnalyzedToken token = tokens[i];
-      if (!token.isWhitespace()) {
-        l.add(token);
-      }
-    }
-    return (AnalyzedToken[])l.toArray(new AnalyzedToken[0]);
+  public int getStartPos() {
+    return startPos;
+  }
+
+  public String toString() {
+    return token + "/" + posTag;
   }
 
 }

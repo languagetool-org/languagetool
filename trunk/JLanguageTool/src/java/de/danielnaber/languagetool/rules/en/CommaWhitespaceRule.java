@@ -19,10 +19,10 @@
 package de.danielnaber.languagetool.rules.en;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import de.danielnaber.languagetool.AnalyzedSentence;
+import de.danielnaber.languagetool.AnalyzedToken;
 import de.danielnaber.languagetool.rules.RuleMatch;
 
 /**
@@ -43,13 +43,13 @@ public class CommaWhitespaceRule extends EnglishRule {
 
   public RuleMatch[] match(AnalyzedSentence text) {
     List ruleMatches = new ArrayList();
-    List tokens = text.getTokens();
+    AnalyzedToken[] tokens = text.getTokens();
     String prevToken = "";
     int pos = 0;
     int prevPos = 0;
     // TODO: what about numbers?
-    for (Iterator iter = tokens.iterator(); iter.hasNext();) {
-      String token = (String) iter.next();
+    for (int i = 0; i < tokens.length; i++) {
+      String token = tokens[i].getToken();
       pos += token.length();
       if (token.trim().equals(",") && prevToken.trim().equals("")) {
         String msg = "Put a space after the comma, but not before the comma.";
