@@ -21,7 +21,7 @@ package de.danielnaber.languagetool.rules.en;
 import java.io.IOException;
 
 import junit.framework.TestCase;
-import de.danielnaber.languagetool.TestTools;
+import de.danielnaber.languagetool.JLanguageTool;
 import de.danielnaber.languagetool.rules.RuleMatch;
 
 /**
@@ -32,30 +32,31 @@ public class AvsAnRuleTest extends TestCase {
   public void testRule() throws IOException {
     AvsAnRule rule = new AvsAnRule();
     RuleMatch[] matches;
+    JLanguageTool langTool = new JLanguageTool();
     // correct sentences:
-    matches = rule.match(TestTools.getAnaylzedText("This is a test sentence."));
+    matches = rule.match(langTool.getAnalyzedText("This is a test sentence."));
     assertEquals(0, matches.length);
-    matches = rule.match(TestTools.getAnaylzedText("It was an hour ago."));
+    matches = rule.match(langTool.getAnalyzedText("It was an hour ago."));
     assertEquals(0, matches.length);
-    matches = rule.match(TestTools.getAnaylzedText("A university is ..."));
+    matches = rule.match(langTool.getAnalyzedText("A university is ..."));
     assertEquals(0, matches.length);
     // errors:
-    matches = rule.match(TestTools.getAnaylzedText("It was a hour ago."));
+    matches = rule.match(langTool.getAnalyzedText("It was a hour ago."));
     assertEquals(1, matches.length);
-    matches = rule.match(TestTools.getAnaylzedText("It was an sentence that's long."));
+    matches = rule.match(langTool.getAnalyzedText("It was an sentence that's long."));
     assertEquals(1, matches.length);
-    matches = rule.match(TestTools.getAnaylzedText("It was a uninteresting talk."));
+    matches = rule.match(langTool.getAnalyzedText("It was a uninteresting talk."));
     assertEquals(1, matches.length);
-    matches = rule.match(TestTools.getAnaylzedText("An university"));
+    matches = rule.match(langTool.getAnalyzedText("An university"));
     assertEquals(1, matches.length);
-    matches = rule.match(TestTools.getAnaylzedText("A unintersting ..."));
+    matches = rule.match(langTool.getAnalyzedText("A unintersting ..."));
     assertEquals(1, matches.length);
-    matches = rule.match(TestTools.getAnaylzedText("It was a uninteresting talk with an long sentence."));
+    matches = rule.match(langTool.getAnalyzedText("It was a uninteresting talk with an long sentence."));
     assertEquals(2, matches.length);
     // With uppercase letters:
-    matches = rule.match(TestTools.getAnaylzedText("A university"));
+    matches = rule.match(langTool.getAnalyzedText("A university"));
     assertEquals(0, matches.length);
-    matches = rule.match(TestTools.getAnaylzedText("then an university sdoj fixme sdoopsd"));
+    matches = rule.match(langTool.getAnalyzedText("then an university sdoj fixme sdoopsd"));
     assertEquals(1, matches.length);
   }
     

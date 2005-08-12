@@ -18,58 +18,62 @@
  */
 package de.danielnaber.languagetool.rules.patterns;
 
-import de.danielnaber.languagetool.Language;
-import de.danielnaber.languagetool.TestTools;
-import de.danielnaber.languagetool.rules.RuleMatch;
+import java.io.IOException;
+
 import junit.framework.TestCase;
+import de.danielnaber.languagetool.JLanguageTool;
+import de.danielnaber.languagetool.Language;
+import de.danielnaber.languagetool.rules.RuleMatch;
 
 /**
  * @author Daniel Naber
  */
 public class PatternRuleTest extends TestCase {
 
-  public void testRule() {
+  public void testRule() throws IOException {
     PatternRule pr;
     RuleMatch[] matches;
 
+    JLanguageTool langTool = new JLanguageTool();
+    
     pr = new PatternRule("ID1", Language.ENGLISH, "\"one\"", "test rule");
-    matches = pr.match(TestTools.getAnaylzedText("A non-matching sentence."));
+    matches = pr.match(langTool.getAnalyzedText("A non-matching sentence."));
     assertEquals(0, matches.length);
-    matches = pr.match(TestTools.getAnaylzedText("A matching sentence with one match."));
+    matches = pr.match(langTool.getAnalyzedText("A matching sentence with one match."));
     assertEquals(1, matches.length);
-    matches = pr.match(TestTools.getAnaylzedText("one one and one: three matches"));
+    matches = pr.match(langTool.getAnalyzedText("one one and one: three matches"));
     assertEquals(3, matches.length);
 
     pr = new PatternRule("ID1", Language.ENGLISH, "\"one\" \"two\"", "test rule");
-    matches = pr.match(TestTools.getAnaylzedText("this is one not two"));
+    matches = pr.match(langTool.getAnalyzedText("this is one not two"));
     assertEquals(0, matches.length);
-    matches = pr.match(TestTools.getAnaylzedText("this is two one"));
+    matches = pr.match(langTool.getAnalyzedText("this is two one"));
     assertEquals(0, matches.length);
-    matches = pr.match(TestTools.getAnaylzedText("this is one two three"));
+    matches = pr.match(langTool.getAnalyzedText("this is one two three"));
     assertEquals(1, matches.length);
-    matches = pr.match(TestTools.getAnaylzedText("one two"));
+    matches = pr.match(langTool.getAnalyzedText("one two"));
     assertEquals(1, matches.length);
     
     pr = new PatternRule("ID1", Language.ENGLISH, "\"one|foo|xxxx\" \"two\"", "test rule");
-    matches = pr.match(TestTools.getAnaylzedText("one foo three"));
+    matches = pr.match(langTool.getAnalyzedText("one foo three"));
     assertEquals(0, matches.length);
-    matches = pr.match(TestTools.getAnaylzedText("one two"));
+    matches = pr.match(langTool.getAnalyzedText("one two"));
     assertEquals(1, matches.length);
-    matches = pr.match(TestTools.getAnaylzedText("foo two"));
+    matches = pr.match(langTool.getAnalyzedText("foo two"));
     assertEquals(1, matches.length);
-    matches = pr.match(TestTools.getAnaylzedText("one foo two"));
+    matches = pr.match(langTool.getAnalyzedText("one foo two"));
     assertEquals(1, matches.length);
-    matches = pr.match(TestTools.getAnaylzedText("y x z one two blah foo"));
+    matches = pr.match(langTool.getAnalyzedText("y x z one two blah foo"));
     assertEquals(1, matches.length);
 
     pr = new PatternRule("ID1", Language.ENGLISH, "\"one|foo|xxxx\" \"two|yyy\"", "test rule");
-    matches = pr.match(TestTools.getAnaylzedText("one, yyy"));
+    matches = pr.match(langTool.getAnalyzedText("one, yyy"));
     assertEquals(0, matches.length);
-    matches = pr.match(TestTools.getAnaylzedText("one yyy"));
+    matches = pr.match(langTool.getAnalyzedText("one yyy"));
     assertEquals(1, matches.length);
-    matches = pr.match(TestTools.getAnaylzedText("xxxx two"));
+    matches = pr.match(langTool.getAnalyzedText("xxxx two"));
     assertEquals(1, matches.length);
-    matches = pr.match(TestTools.getAnaylzedText("xxxx yyy"));
+    matches = pr.match(langTool.getAnalyzedText("xxxx yyy"));
     assertEquals(1, matches.length);
   }
   

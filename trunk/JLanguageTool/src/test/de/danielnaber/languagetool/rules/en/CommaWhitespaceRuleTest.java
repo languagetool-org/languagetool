@@ -18,27 +18,31 @@
  */
 package de.danielnaber.languagetool.rules.en;
 
-import de.danielnaber.languagetool.TestTools;
-import de.danielnaber.languagetool.rules.RuleMatch;
+import java.io.IOException;
+
 import junit.framework.TestCase;
+import de.danielnaber.languagetool.JLanguageTool;
+import de.danielnaber.languagetool.rules.RuleMatch;
 
 /**
  * @author Daniel Naber
  */
 public class CommaWhitespaceRuleTest extends TestCase {
 
-  public void testRule() {
+  public void testRule() throws IOException {
     CommaWhitespaceRule rule = new CommaWhitespaceRule();
     RuleMatch[] matches;
+    JLanguageTool langTool = new JLanguageTool();
+    
     // correct sentences:
-    matches = rule.match(TestTools.getAnaylzedText("This is a test sentence."));
+    matches = rule.match(langTool.getAnalyzedText("This is a test sentence."));
     assertEquals(0, matches.length);
-    matches = rule.match(TestTools.getAnaylzedText("This, is, a test sentence."));
+    matches = rule.match(langTool.getAnalyzedText("This, is, a test sentence."));
     assertEquals(0, matches.length);
     // errors:
-    matches = rule.match(TestTools.getAnaylzedText("This , is a test sentence."));
+    matches = rule.match(langTool.getAnalyzedText("This , is a test sentence."));
     assertEquals(1, matches.length);
-    matches = rule.match(TestTools.getAnaylzedText("This ,is a test sentence."));
+    matches = rule.match(langTool.getAnalyzedText("This ,is a test sentence."));
     assertEquals(1, matches.length);
   }
   

@@ -18,10 +18,6 @@
  */
 package de.danielnaber.languagetool;
 
-import java.util.Iterator;
-import java.util.List;
-
-import de.danielnaber.languagetool.tokenizers.WordTokenizer;
 
 /**
  * @author Daniel Naber
@@ -29,21 +25,5 @@ import de.danielnaber.languagetool.tokenizers.WordTokenizer;
 public class TestTools {
   
   private TestTools() {}
-
-  public static AnalyzedSentence getAnaylzedText(String sentence) {
-    WordTokenizer wtokenizer = new WordTokenizer();
-    List tokens = wtokenizer.tokenize(sentence);
-    AnalyzedToken[] tokensArray = new AnalyzedToken[tokens.size()];
-    int i = 0;
-    int charPos = 0;
-    for (Iterator iter = tokens.iterator(); iter.hasNext();) {
-      String token = (String) iter.next();
-      tokensArray[i] = new AnalyzedToken(token, "FIXME", charPos);
-      charPos += token.length();
-      i++;
-    }
-    AnalyzedSentence text = new AnalyzedSentence(tokensArray);
-    return text;
-  }
 
 }
