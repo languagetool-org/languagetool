@@ -8,18 +8,21 @@
   <property file="build.properties"/>
 
   <taskdef classpath="${ext.cobertura.lib}" resource="tasks.properties"/>
-	
-  <path id="classpath">
-    <pathelement location="${build.classes}"/>
-    <pathelement location="."/>
+
+  <path id="common.classpath">
     <pathelement location="${ext.grok.lib}"/>
     <pathelement location="${ext.opennlp.lib}"/>
     <pathelement location="${ext.trove.lib}"/>
     <pathelement location="${ext.maxent.lib}"/>
   </path>
+
+  <path id="classpath">
+  	<path refid="common.classpath"/>
+    <pathelement location="${build.classes}"/>
+  </path>
 	
   <path id="junit.classpath">
-  	<path refid="classpath"/>
+  	<path refid="common.classpath"/>
     <pathelement location="${ext.junit.lib}"/>
     <pathelement location="${dist.dir}/${final.name}.jar"/>
     <pathelement path="${java.class.path}"/>
@@ -74,9 +77,7 @@
 		<pathelement location="${ext.junit.lib}"/>
 		<pathelement location="${junit.classes.dir}"/>
 		<pathelement location="${dist.dir}/${final.name}.jar"/>
-		<fileset dir="${dist.lib}">
-			<include name="*.jar" />
-		</fileset>
+	  	<path refid="common.classpath"/>
 	</path>
 	
   	<junit printsummary="true"
@@ -84,8 +85,7 @@
            showoutput="true"
            fork="yes">
 	  
-      <formatter type="brief" usefile="true"/>
-      <formatter type="xml"/>
+      <formatter type="brief" usefile="false"/>
       <classpath refid="test.classpath"/>
       
 	  <batchtest fork="yes" todir="${dist.dir}/report/tests" unless="testcase" haltonfailure="yes">
