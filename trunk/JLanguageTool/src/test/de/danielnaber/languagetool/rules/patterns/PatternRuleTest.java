@@ -19,10 +19,18 @@
 package de.danielnaber.languagetool.rules.patterns;
 
 import java.io.IOException;
+import java.util.Iterator;
+import java.util.List;
+
+import javax.xml.parsers.ParserConfigurationException;
+
+import org.xml.sax.SAXException;
 
 import junit.framework.TestCase;
+import de.danielnaber.languagetool.AnalyzedSentence;
 import de.danielnaber.languagetool.JLanguageTool;
 import de.danielnaber.languagetool.Language;
+import de.danielnaber.languagetool.rules.Rule;
 import de.danielnaber.languagetool.rules.RuleMatch;
 
 /**
@@ -30,12 +38,41 @@ import de.danielnaber.languagetool.rules.RuleMatch;
  */
 public class PatternRuleTest extends TestCase {
 
-  public void testRule() throws IOException {
+  private static JLanguageTool langTool = null;
+  
+  public void setUp() throws IOException {
+    if (langTool == null)
+      langTool = new JLanguageTool();
+  }
+
+  public void testEnglishGrammarRulesFromXML() throws IOException, ParserConfigurationException, SAXException {
+    PatternRuleLoader ruleLoader = new PatternRuleLoader();
+    List rules = ruleLoader.getRules("rules/en/grammar.xml");
+    for (Iterator iter = rules.iterator(); iter.hasNext();) {
+      Rule rule = (Rule) iter.next();
+      String goodSentence = rule.getCorrectExample();
+      String badSentence = rule.getIncorrectExample();
+      assertTrue(goodSentence.trim().length() > 0);
+      assertTrue(badSentence.trim().length() > 0);
+      assertFalse("Did not expect error in: " + goodSentence, match(rule, goodSentence));
+      assertTrue("Did  expect error in: " + badSentence, match(rule, badSentence));
+    }
+  }
+  
+  private boolean match(Rule rule, String sentence) {
+    AnalyzedSentence text = langTool.getAnalyzedText(sentence);
+    //System.err.println(text);
+    RuleMatch[] matches = rule.match(text);
+    /*for (int i = 0; i < matches.length; i++) {
+      System.err.println(matches[i]);
+    }*/
+    return matches.length > 0;
+  }
+
+  public void testRule() {
     PatternRule pr;
     RuleMatch[] matches;
 
-    JLanguageTool langTool = new JLanguageTool();
-    
     pr = new PatternRule("ID1", Language.ENGLISH, "\"one\"", "test rule");
     matches = pr.match(langTool.getAnalyzedText("A non-matching sentence."));
     assertEquals(0, matches.length);
