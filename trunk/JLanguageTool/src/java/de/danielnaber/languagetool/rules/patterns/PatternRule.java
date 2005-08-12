@@ -48,7 +48,7 @@ public class PatternRule extends Rule {
     this.pattern = pattern;
     this.description = description;
   }
-
+  
   public String getId() {
     return id;
   }
@@ -122,7 +122,8 @@ public class PatternRule extends Rule {
         elements.add(stringElement);
       } else if (element.toUpperCase().equals(element)) {
         // all-uppercase = POS tag
-        POSElement posElement = new POSElement(element); 
+        String tokenParts[] = element.split("\\|");
+        POSElement posElement = new POSElement(tokenParts); 
         elements.add(posElement);
       } else {
         throw new IllegalArgumentException("Unknown type " + element + " in pattern: " + pattern);
