@@ -64,8 +64,12 @@ class PatternRuleHandler extends DefaultHandler {
   private String languageStr;
   private String pattern;
   private String description;
+  private StringBuffer correctExample = new StringBuffer();
+  private StringBuffer incorrectExample = new StringBuffer();
   
   private boolean inPattern = false;
+  private boolean inCorrectExample = false;
+  private boolean inIncorrectExample = false;
   
   List getRules() {
     return rules;
@@ -88,6 +92,12 @@ class PatternRuleHandler extends DefaultHandler {
       if (attrs != null) {
         languageStr = attrs.getValue("lang");
       }
+    } else if (qName.equals("example") && attrs.getValue("type").equals("correct")) {
+      inCorrectExample = true;
+      correctExample = new StringBuffer();
+    } else if (qName.equals("example") && attrs.getValue("type").equals("incorrect")) {
+      inIncorrectExample = true;
+      incorrectExample = new StringBuffer();
     }
   }
 
@@ -102,9 +112,14 @@ class PatternRuleHandler extends DefaultHandler {
         throw new SAXException("Unknown language '" + languageStr + "'");
       }
       Rule rule = new PatternRule(id, language, pattern, description);
+      rule.setCorrectExample(correctExample.toString());
+      rule.setIncorrectExample(incorrectExample.toString());
       rules.add(rule);
     } else if (qName.equals("pattern")) {
       inPattern = false;
+    } else if (qName.equals("example")) {
+      inCorrectExample = false;
+      inIncorrectExample = false;
     }
   }
 
@@ -112,6 +127,10 @@ class PatternRuleHandler extends DefaultHandler {
     String s = new String(buf, offset, len);
     if (inPattern) {
       pattern = s;
+    } else if (inCorrectExample) {
+      correctExample.append(s);
+    } else if (inIncorrectExample) {
+      incorrectExample.append(s);
     }
   }
 

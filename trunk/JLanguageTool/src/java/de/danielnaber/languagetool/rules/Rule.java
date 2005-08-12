@@ -30,6 +30,9 @@ import de.danielnaber.languagetool.Language;
  */
 public abstract class Rule {
 
+  private String correctExample;
+  private String incorrectExample;
+
   public abstract String getId();
   
   public abstract String getDescription();
@@ -48,5 +51,21 @@ public abstract class Rule {
    * @return an array of RuleMatch object for each match.
    */
   public abstract RuleMatch[] match(AnalyzedSentence text);
+
+  public void setCorrectExample(String correctExample) {
+    this.correctExample = correctExample;
+  }
+
+  public String getCorrectExample() {
+    return correctExample;
+  }
+  
+  public void setIncorrectExample(String incorrectExample) {
+    this.incorrectExample = incorrectExample;
+  }
+
+  public String getIncorrectExample() {
+    return incorrectExample;
+  }
 
 }
