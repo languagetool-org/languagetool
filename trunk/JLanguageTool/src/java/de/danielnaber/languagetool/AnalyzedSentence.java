@@ -54,5 +54,16 @@ public class AnalyzedSentence {
     }
     return (AnalyzedToken[])l.toArray(new AnalyzedToken[0]);
   }
+  
+  public String toString() {
+    StringBuffer sb = new StringBuffer();
+    for (int i = 0; i < tokens.length; i++) {
+      if (tokens[i].isWhitespace())
+        sb.append(tokens[i].getToken());
+      else
+        sb.append(tokens[i]);
+    }
+    return sb.toString();
+  }
 
 }
