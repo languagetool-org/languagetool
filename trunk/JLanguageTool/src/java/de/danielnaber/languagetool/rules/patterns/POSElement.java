@@ -20,14 +20,27 @@ package de.danielnaber.languagetool.rules.patterns;
 
 import de.danielnaber.languagetool.AnalyzedToken;
 
+/**
+ * A part of a pattern that matches a part-of-speech tag.
+ * Typically built from patterns like <code>JJ</code> or <code>NNS</code>.
+ *
+ * @author Daniel Naber
+ */
 public class POSElement extends Element {
 
+  POSElement(String token) {
+    this.tokens = new String[] {token};
+  }
+
+  POSElement(String[] tokens) {
+    this.tokens = tokens;
+  }
+  
   boolean match(AnalyzedToken token) {
     for (int i = 0; i < tokens.length; i++) {
       if (tokens[i].equals(token.getPOSTag()))
         return true;
     }
-    //FIXME
     return false;
   }
 

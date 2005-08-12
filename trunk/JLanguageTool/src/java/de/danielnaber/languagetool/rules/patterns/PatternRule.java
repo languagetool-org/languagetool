@@ -120,8 +120,12 @@ public class PatternRule extends Rule {
         // TODO: make case sensitiviy optional:
         StringElement stringElement = new StringElement(tokenParts, false); 
         elements.add(stringElement);
+      } else if (element.toUpperCase().equals(element)) {
+        // all-uppercase = POS tag
+        POSElement posElement = new POSElement(element); 
+        elements.add(posElement);
       } else {
-        throw new IllegalArgumentException("Unknown type in pattern: " + pattern);
+        throw new IllegalArgumentException("Unknown type " + element + " in pattern: " + pattern);
       }
     }
     return (Element[])elements.toArray(new Element[0]);

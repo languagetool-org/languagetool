@@ -40,10 +40,6 @@ class StringElement extends Element {
     this.caseSensitive = caseSensitive;
   }
   
-  String[] getTokens() {
-    return tokens;
-  }
-  
   boolean match(AnalyzedToken token) {
     if (caseSensitive) {
       for (int i = 0; i < tokens.length; i++) {

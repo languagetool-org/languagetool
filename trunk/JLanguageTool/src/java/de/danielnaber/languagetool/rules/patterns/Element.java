@@ -41,4 +41,8 @@ public abstract class Element {
     return sb.toString();
   }
   
+  String[] getTokens() {
+    return tokens;
+  }
+  
 }

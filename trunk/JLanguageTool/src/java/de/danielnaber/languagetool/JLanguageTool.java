@@ -22,6 +22,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
@@ -30,6 +31,8 @@ import java.util.List;
 import java.util.Set;
 
 import javax.xml.parsers.ParserConfigurationException;
+
+import opennlp.grok.preprocess.postag.EnglishPOSTaggerME;
 
 import org.xml.sax.SAXException;
 
@@ -58,13 +61,21 @@ public class JLanguageTool {
   private Rule[] builtinRules = new Rule[]{};
   private List userRules = new ArrayList();     // rules added via addRule() method
   private Set disabledRules = new HashSet();
+  private PrintStream printStream = null;
 
+  EnglishPOSTaggerME tagger = null;
+  
   /**
    * Create a JLanguageTool and setup the builtin rules.
    * @throws IOException
    */
   public JLanguageTool() throws IOException {
     builtinRules = new Rule[] {new AvsAnRule(), new CommaWhitespaceRule()};
+    tagger = new EnglishPOSTaggerME();
+  }
+  
+  public void setOutput(PrintStream printStream) {
+    this.printStream = printStream;
   }
 
   /**
@@ -108,25 +119,14 @@ public class JLanguageTool {
   public List check(String filename) throws IOException {
     String s = readFile(filename);
     SentenceTokenizer sTokenizer = new SentenceTokenizer();
-    WordTokenizer wtokenizer = new WordTokenizer();
     List sentences = sTokenizer.tokenize(s);
     List ruleMatches = new ArrayList();
     List allRules = getallRules();
     int tokenCount = 0;
     for (Iterator iter = sentences.iterator(); iter.hasNext();) {
       String sentence = (String) iter.next();
-      List tokens = wtokenizer.tokenize(sentence);
-      AnalyzedToken[] tokenArray = new AnalyzedToken[tokens.size()];
-      int toArrayCount = 0;
-      int startPos = 0;
-      for (Iterator iterator = tokens.iterator(); iterator.hasNext();) {
-        String tokenStr = (String) iterator.next();
-        //FIXME: integrate POS tagger
-        tokenArray[toArrayCount] = new AnalyzedToken(tokenStr, "FIXME", startPos);
-        toArrayCount++;
-        startPos += tokenStr.length();
-      }
-      AnalyzedSentence analyzedText = new AnalyzedSentence(tokenArray);
+      AnalyzedSentence analyzedText = getAnalyzedText(sentence);
+      print(analyzedText.toString());
       for (Iterator iterator = allRules.iterator(); iterator.hasNext();) {
         Rule rule = (Rule) iterator.next();
         if (disabledRules.contains(rule.getId()))
@@ -147,6 +147,36 @@ public class JLanguageTool {
     return ruleMatches;
   }
   
+  public AnalyzedSentence getAnalyzedText(String sentence) {
+    WordTokenizer wtokenizer = new WordTokenizer();
+    List tokens = wtokenizer.tokenize(sentence);
+    List noWhitespaceTokens = new ArrayList();
+    // whitespace confuses tagger, so give it the tokens but no whitespace tokens:
+    for (Iterator iterator = tokens.iterator(); iterator.hasNext();) {
+      String token = (String) iterator.next();
+      if (!token.trim().equals("")) {
+        noWhitespaceTokens.add(token);
+      }
+    }
+    List posTags = tagger.tag(noWhitespaceTokens);
+    AnalyzedToken[] tokenArray = new AnalyzedToken[tokens.size()];
+    int toArrayCount = 0;
+    int startPos = 0;
+    int noWhitespaceCount = 0;
+    for (Iterator iterator = tokens.iterator(); iterator.hasNext();) {
+      String tokenStr = (String) iterator.next();
+      String posTag = null;
+      if (!tokenStr.trim().equals("")) {
+        posTag = (String)posTags.get(noWhitespaceCount);
+        noWhitespaceCount++;
+      }
+      tokenArray[toArrayCount] = new AnalyzedToken(tokenStr, posTag, startPos);
+      toArrayCount++;
+      startPos += tokenStr.length();
+    }
+    return new AnalyzedSentence(tokenArray);
+  }
+
   private List getallRules() {
     List rules = new ArrayList();
     rules.addAll(Arrays.asList(builtinRules));
@@ -154,6 +184,11 @@ public class JLanguageTool {
     return rules;
   }
 
+  private void print(String s) {
+    if (printStream != null)
+      printStream.println(s);
+  }
+  
   private String readFile(String filename) throws IOException {
     FileReader fr = null;
     BufferedReader br = null;
@@ -206,21 +241,36 @@ public class JLanguageTool {
     sb.append(markerPrefix + marker.substring(startContent, endContent));
     return sb.toString();
   }
+
+  // =====================================================================================
   
   public static void main(String[] args) throws IOException, ParserConfigurationException, SAXException {
-    if (args.length < 1) {
-      System.out.println("Usage: java JLanguageTool <file>");
-      System.exit(1);
+    if (args.length < 1 || args.length > 2) {
+      exitWithUsageMessagee();
     }
+    String filename = null;
+    boolean verbose = false;
+    if (args.length == 2) {
+      if (args[0].equals("-v") || args[0].equals("--verbose"))
+        filename = args[1];
+      else
+        exitWithUsageMessagee();
+      verbose = true;
+    } else {
+      filename = args[0];
+    }
+    long startTime = System.currentTimeMillis();
     JLanguageTool lt = new JLanguageTool();
     List patternRules = lt.loadPatternRules(DEFAULT_GRAMMAR_RULES);
     for (Iterator iter = patternRules.iterator(); iter.hasNext();) {
       Rule rule = (Rule) iter.next();
       lt.addRule(rule);
     }
-    String filename = args[0];
+    if (verbose)
+      lt.setOutput(System.err);
     List ruleMatches = lt.check(filename);
     String fileContents = lt.readFile(filename);
+    long startTimeMatching = System.currentTimeMillis();
     for (Iterator iter = ruleMatches.iterator(); iter.hasNext();) {
       RuleMatch match = (RuleMatch) iter.next();
       System.out.println(match);
@@ -228,6 +278,13 @@ public class JLanguageTool {
       if (iter.hasNext())
         System.out.println();
     }
+    long endTime = System.currentTimeMillis();
+    System.out.println("Time: " + (endTime-startTime) + "ms (including " +(endTime-startTimeMatching)+ "ms for rule matching)");
+  }
+
+  private static void exitWithUsageMessagee() {
+    System.out.println("Usage: java JLanguageTool [-v|--verbove] <file>");
+    System.exit(1);
   }
 
 }
