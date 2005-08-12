@@ -38,6 +38,7 @@ import org.xml.sax.SAXException;
 
 import de.danielnaber.languagetool.rules.Rule;
 import de.danielnaber.languagetool.rules.RuleMatch;
+import de.danielnaber.languagetool.rules.WordRepeatRule;
 import de.danielnaber.languagetool.rules.en.AvsAnRule;
 import de.danielnaber.languagetool.rules.en.CommaWhitespaceRule;
 import de.danielnaber.languagetool.rules.patterns.PatternRuleLoader;
@@ -70,7 +71,7 @@ public class JLanguageTool {
    * @throws IOException
    */
   public JLanguageTool() throws IOException {
-    builtinRules = new Rule[] {new AvsAnRule(), new CommaWhitespaceRule()};
+    builtinRules = new Rule[] {new AvsAnRule(), new CommaWhitespaceRule(), new WordRepeatRule()};
     tagger = new EnglishPOSTaggerME();
   }
   
