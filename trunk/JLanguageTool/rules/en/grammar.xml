@@ -3,25 +3,463 @@
 <!--
 Rules: Grammar and Typos
 (c) 2001,2002,2003 Daniel Naber, daniel.naber@t-online.de
-$Id: grammar.xml,v 1.1 2005-08-07 20:41:35 dnaber Exp $
+$Id: grammar.xml,v 1.2 2005-08-12 23:07:22 dnaber Exp $
 -->
 <rules>
 
-	<rule id="DET_NOUN" name="fake description">
-		<pattern lang="en">"is" "simple"</pattern>
-		<message>foo message <em>the</em>!</message>
-		<error_rate warnings="117" sentences="75900" />
-		<example type="correct"><em>The</em> baseball teams were successful.</example>
-		<example type="incorrect"><em>A</em> baseball teams were successful.</example>
+	<rule id="MORE_A_AJ0" name="Word order: 'a more (adj)'">
+		<pattern lang="en">"more" "a|an" JJ</pattern>
+		<message>Did you mean <em>a more \3</em>?</message>
+		<error_rate warnings="0" sentences="75900" />
+		<example type="correct">I can give you <em>a more detailed</em> description of what's necessary.</example>
+		<example type="incorrect">I can give you <em>more a detailed</em> description of what's necessary.</example>
 	</rule>
 
+	<rule id="THINK_YOU_A" name="Confusion of a/are">
+		<pattern lang="en" mark_from="1">"think" "you" "a|an"</pattern>
+		<message>Did you mean <em>are</em>?</message>
+		<error_rate warnings="0" sentences="75900" />
+		<example type="correct">Some would think you <em>are</em> a fortunate man.</example>
+		<example type="incorrect">Some would think you <em>a</em> fortunate man.</example>
+	</rule>
 
-<!--
-	<rule id="DET_NOUN2" name="another fake description">
-		<pattern lang="en">"not" "so" "simple"</pattern>
-		<message>foo2 message <em>the</em>!</message>
-		<example type="correct"><em>The</em> baseball teams were successful.</example>
-		<example type="incorrect"><em>A</em> baseball teams were successful.</example>
-	</rule> -->
+	<rule id="SOME_EXTEND" name="Confusion of extend/extent">
+		<pattern lang="en" mark_from="1">"some|certain" "extend"</pattern>
+		<message>Did you mean <em>extent</em> ("extent" is a noun, "extend" is a verb)?</message>
+		<error_rate warnings="0" sentences="75900" />
+		<example type="correct">Yes it is, to a certain <em>extent</em>.</example>
+		<example type="incorrect">Yes it is, to a certain <em>extend</em>.</example>
+	</rule>
 
+	<rule id="IS_WERE" name="Confusion of were/where">
+		<pattern lang="en" mark_from="1">"is" "were"</pattern>
+		<message>Did you mean <em>where</em>?</message>
+		<error_rate warnings="0" sentences="75900" />
+		<example type="correct">Now, this is <em>where</em> my ignorance sets in.</example>
+		<example type="incorrect">Now, this is <em>were</em> my ignorance sets in.</example>
+	</rule>
+
+	<rule id="ONE_ORE" name="Confusion of ore/or">
+		<pattern lang="en" mark_from="1">CD "ore"</pattern>
+		<message>Did you mean <em>or</em>?</message>
+		<error_rate warnings="0" sentences="75900" />
+		<example type="correct">Type in one <em>or</em> more words.</example>
+		<example type="incorrect">Type in one <em>ore</em> more words.</example>
+	</rule>
+
+	<rule id="THE_ONLY_ON" name="Confusion of on/one">
+		<pattern lang="en">"the" "only" "on"</pattern>
+		<message>Did you mean <em>the only one</em>?</message>
+		<error_rate warnings="0" sentences="75900" />
+		<example type="correct">The trash folder is the only <em>one</em> for me that works.</example>
+		<example type="incorrect">The trash folder is the only <em>on</em> for me that works.</example>
+	</rule>
+
+	<rule id="THEIR_IS" name="Confusion of their/there">
+		<pattern lang="en" mark_to="-1">"their" "(is|are)"</pattern>
+		<message>Did you mean <em>there</em>?</message>
+		<error_rate warnings="0" sentences="75900" />
+		<example type="correct">He noticed that <em>there</em> is a new test.</example>
+		<example type="incorrect">He noticed that <em>their</em> is a new test.</example>
+	</rule>
+
+	<rule id="I_A" name="Confusion of a/am">
+		<!-- but: Am I an annoyance -->
+		<pattern lang="en" mark_from="1">"I" "a|an"</pattern>
+		<message>Did you mean <em>am</em> (first person of "to be")?</message>
+		<error_rate warnings="0" sentences="75900" />
+		<example type="correct">I <em>am</em> not sure.</example>
+		<example type="incorrect">I <em>a</em> not sure.</example>
+	</rule>
+
+	<rule id="I_NEW" name="Confusion of new/knew">
+		<!-- not you because of: we need to buy you new shoes -->
+		<pattern lang="en" mark_from="1">"I|he|we" "new"</pattern>
+		<message>Did you mean <em>knew</em> (past of "to know")?</message>
+		<error_rate warnings="0" sentences="75900" />
+		<example type="correct">Ah, I <em>knew</em> you would say that.</example>
+		<example type="incorrect">Ah, I <em>new</em> you would say that.</example>
+	</rule>
+
+	<rule id="PLEASE_NOT_THAT" name="Confusion of not/note">
+		<pattern lang="en" mark_from="1" mark_to="-1">"please" "not" "that"</pattern>
+		<message>Did you mean <em>note</em>?</message>
+		<error_rate warnings="0" sentences="75900" />
+		<example type="correct">Please <em>note</em> that saying "Open Source" does not mean very much.</example>
+		<example type="incorrect">Please <em>not</em> that saying "Open Source" does not mean very much.</example>
+	</rule>
+
+	<rule id="NUT_AV0-AJ0" name="Confusion of nut/not">
+		<pattern lang="en" mark_to="-1">"nut" (RB|JJ)</pattern>
+		<message>Did you mean <em>not</em>?</message>
+		<error_rate warnings="1" sentences="75900" />
+		<example type="correct">I'm <em>not</em> sure.</example>
+		<example type="incorrect">I'm <em>nut</em> sure.</example>
+	</rule>
+	
+	<rule id="AND_SO_ONE" name="Confusion of one/on">
+		<pattern lang="en">"and" "so" "one"</pattern>
+		<message>Did you mean <em>and so on</em> (="etc.")?</message>
+		<error_rate warnings="25" sentences="all" />
+		<example type="correct">We think it helps finding bottlenecks <em>and so on</em>.</example>
+		<example type="incorrect">We think it helps finding bottlenecks <em>and so one</em>.</example>
+	</rule>
+	
+	<rule id="THROUGH_AWAY" name="Confusion of through/throw">
+		<pattern lang="en" mark_to="-1">"through" "away"</pattern>
+		<message>Did you mean <em>throw</em>?</message>
+		<error_rate warnings="0" sentences="all" />
+		<example type="correct">Or we just <em>throw</em> away all bugs.</example>
+		<example type="incorrect">Or we just <em>through</em> away all bugs.</example>
+	</rule>
+
+	<rule id="WAY_WAS" name="Confusion of way/was">
+		<pattern lang="en" mark_from="1" mark_to="-1">"or" "way" "(it|that|this)"</pattern>
+		<message>Did you mean <em>was</em>?</message>
+		<error_rate warnings="0" sentences="all" />
+		<example type="correct">Or <em>was</em> that a very recent change in Qt?</example>
+		<example type="incorrect">Or <em>way</em> that a very recent change in Qt?</example>
+	</rule>
+
+	<rule id="DT_RESPONDS" name="Confusion of responds/response">
+		<pattern lang="en" mark_from="1">DT "responds"</pattern>
+		<message>Did you mean <em>response</em>?</message>
+		<error_rate warnings="0" sentences="75900" />
+		<example type="correct">Thanks for the <em>response</em>.</example>
+		<example type="incorrect">Thanks for the <em>responds</em>.</example>
+	</rule>
+
+	<rule id="THINK_OFF" name="Confusion off/of">
+		<pattern lang="en" mark_from="1">"(think|know)" "off"</pattern>
+		<message>Did you mean <em>of</em>?</message>
+		<error_rate warnings="0" sentences="75900" />
+		<example type="correct">It's the only part of KDE I know <em>of</em> that uses automasking.</example>
+		<example type="incorrect">It's the only part of KDE I know <em>off</em> that uses automasking.</example>
+	</rule>
+
+	<rule id="VERB_US" name="Confusion us/use">
+		<pattern lang="en">"not|don't" "us"</pattern>
+		<message>Did you mean <em>use</em>?</message>
+		<error_rate warnings="0" sentences="75900" />
+		<example type="correct">Please don't <em>use</em> dispose.</example>
+		<example type="incorrect">Please don't <em>us</em> dispose.</example>
+	</rule>
+
+	<!-- TODO
+	<rule id="VB_TO_USE" name="Past tense of 'used to...'">
+		<pattern lang="en" mark_to="-2">VB "to" "use"</pattern>
+		<message>Use the past tense to build a sentence with "to use".</message>
+		<error_rate warnings="15" sentences="75900" />
+		<example type="correct">Aethera <em>used</em> to use this.</example>
+		<example type="incorrect">Aethera <em>use</em> to use this.</example>
+	</rule>
+	-->
+
+	<rule id="YOU_THING" name="Confusion thing/think">
+		<pattern lang="en" mark_from="1">"I|you|he|she|they|we" "thing|things"</pattern>
+		<message>Did you mean <em>think</em> or <em>thinks</em>?</message>
+		<error_rate warnings="0" sentences="75900" />
+		<example type="correct">I <em>think</em> that's a good idea.</example>
+		<example type="incorrect">I <em>thing</em> that's a good idea.</example>
+	</rule>
+
+	<rule id="WERE_VBB" name="Confusion of were/where/we">
+		<pattern lang="en" mark_to="-1">"were" VB|VBP</pattern>
+		<message>Did you mean <em>where</em> or <em>we</em>?</message>
+		<error_rate warnings="0" sentences="75900" />
+		<example type="correct"><em>We</em> are in the process of implementing this.</example>
+		<example type="incorrect"><em>Were</em> are in the process of implementing this.</example>
+	</rule>
+
+	<rule id="VBZ_VBD" name="Confusion of it/is">
+		<pattern lang="en" mark_to="-1">"is|isn't" "was|wasn't"</pattern>
+		<message>Did you mean <em>it</em>?</message>
+		<error_rate warnings="0" sentences="75900" />
+		<example type="correct">...which <em>it</em> wasn't the last day.</example>
+		<example type="incorrect">...which <em>is</em> wasn't the last day.</example>
+		<!-- known problem:
+		*"Now, this is were my ignorance sets in."
+		suggests 'it' instead of 'where'
+		-->
+	</rule>
+
+	<rule id="FORE_DPS" name="Confusion of fore/for">
+		<pattern lang="en" mark_to="-1">"fore" PRP$</pattern>
+		<message>Did you mean <em>for</em>?</message>
+		<error_rate warnings="0" sentences="75900" />
+		<example type="correct">Thanks again <em>for</em> your help.</example>
+		<example type="incorrect">Thanks again <em>fore</em> your help.</example>
+	</rule>
+
+	<!-- TODO: match sentence end
+	<rule id="NOT_TOO_END" name="Confusion of too/two">
+		<pattern lang="en" mark_from="1">"not" "too" (NN|NNS)</pattern>
+		<message>Did you mean <em>two</em>?</message>
+		<error_rate warnings="0" sentences="75900" />
+		<example type="correct">Ideally we should have one database, not <em>two</em>.</example>
+		<example type="incorrect">Ideally we should have one database, not <em>too</em>.</example>
+	</rule>
+	 -->
+
+	<!-- TODO: sentence end
+	<rule id="YOUR_VBD" name="Confusion of your/you're">
+		<pattern lang="en">"your" JJ SENTENCE_END</pattern>
+		<message>Did you mean <em>you're</em> or <em>you are</em>?</message>
+		<error_rate warnings="2" sentences="75900" />
+		<example type="correct">I think <em>you're</em> confused.</example>
+		<example type="incorrect">I think <em>your</em> confused.</example>
+	</rule>
+	-->
+
+	<!-- TODO
+	<rule id="AJC_THAT" name="Confusion of that/than">
+		<pattern lang="en" mark_from="1" mark_to="0">JJR "that"</pattern>
+		<message>Did you mean <em>than</em>?</message>
+		<error_rate warnings="6" sentences="75900" />
+		<example type="correct">I am not wiser <em>than</em> you.</example>
+		<example type="incorrect">I am not wiser <em>that</em> you.</example>
+	</rule>
+	-->
+	
+	<rule id="THEN_THAN" name="Confusion of then/than">
+		<pattern lang="en" mark_from="2" mark_to="0">"(less|more)" (JJ|NN|NNS) "then"</pattern>
+		<message>Did you mean <em>than</em>?</message>
+		<error_rate warnings="0" sentences="75900" />
+		<example type="correct">It's less controversial <em>than</em> one would think.</example>
+		<example type="incorrect">It's less controversial <em>then</em> one would think.</example>
+		<!-- known problems:
+		It's less controversial then. (made up)
+		-->
+	</rule>
+	
+	<rule id="DET_DET" name="Two consecutive articles">
+		<pattern lang="en" mark_from="1" mark_to="0">DT DT</pattern>
+		<message><em>_Remove</em> the second determiner.</message>
+		<error_rate warnings="5" sentences="75900" />
+		<example type="correct"><em>The</em> thing is this.</example>
+		<example type="incorrect"><em>The the</em> thing is this.</example>
+	</rule>
+
+	<!-- TODO: sentence end 
+	<rule id="THAN_END" name="Confusion of than/then at end of sentence">
+		<pattern lang="en" mark_from="0" mark_to="-1">"than" SENT_END</pattern>
+		<message>Did you mean <em>then</em>?</message>
+		<error_rate warnings="0" sentences="75900" />
+		<example type="correct">I volunteer to create a testcase <em>then</em>.</example>
+		<example type="incorrect">I volunteer to create a testcase <em>than</em>.</example>
+	</rule>
+	-->
+
+	<!-- TODO: implement "^!"
+	<rule id="OF_CAUSE" name="Confusion of 'of cause/of course'">
+		<pattern lang="en" mark_from="1" mark_to="-1">"of" "cause" ^"(and|to)"</pattern>
+		<message>Did you mean "of <em>course</em>" (=naturally)?</message>
+		<error_rate warnings="0" sentences="75900" />
+		<example type="correct">The law of cause and effect.</example>
+		<example type="correct">Of <em>course</em> all these things are relative.</example>
+		<example type="incorrect">Of <em>cause</em> all these things are relative.</example>
+	</rule>
+	-->
+
+	<!-- TODO
+	<rule id="EAGER_TO" name="Infinitive verb with 'eager to...'">
+		<pattern lang="en">"eager" "to" (VBG)</pattern>
+		<message>Use the base form of the verb with <em>eager to</em>.</message>
+		<error_rate warnings="0" sentences="75900" />
+		<example type="correct">I'd be eager to <em>try</em> out your patch.</example>
+		<example type="incorrect">I'd be eager to <em>trying</em> out your patch.</example>
+	</rule>
+	-->
+
+	<!-- TODO: the same for "or not"? -->
+	<!-- TODO: sentence end
+	<rule id="OR_END" name="Sentence ending in 'or'">
+		<pattern lang="en">"or" SENT_END</pattern>
+		<message>Don't end a sentence with <em>or</em>. If
+			you want to ask for confirmation, use 
+			<em>isn't it</em>, <em>don't you</em> etc.</message>
+		<error_rate warnings="0" sentences="75900" />
+		<example type="correct">I think we should meet soon, <em>don't you</em>?</example>
+		<example type="incorrect">I think we should meet soon, <em>or</em>?</example>
+	</rule>
+	-->
+
+	<rule id="A_MUCH_NN1" name="Superfluous article before 'much'">
+		<pattern lang="en" mark_from="0" mark_to="-1">"a" "much" NN</pattern>
+		<message>You maybe should omit the article <em>a</em>.</message>
+		<error_rate warnings="2" sentences="75900" />
+		<example type="correct">This will be <em>much</em> work.</example>
+		<example type="incorrect">This will be <em>a much</em> work.</example>
+	</rule>
+
+	<rule id="MOST_COMP" name="No 'more' or 'most' before superlatives">
+		<pattern lang="en" mark_from="0" mark_to="-1">"more|most" JJS|RBS</pattern>
+		<message><em>_Remove</em> 'most' or 'more' when you use the superlative.</message>
+		<error_rate warnings="0" sentences="75900" />
+		<example type="correct">Kyoto is the <em>oldest</em> city.</example>
+		<example type="incorrect">Kyoto is the <em>most oldest</em> city.</example>
+	</rule>
+
+	<rule id="IS_SHOULD" name="Confusion of is/it">
+		<pattern lang="en" mark_from="0" mark_to="-1">"is" "(should|could)"</pattern>
+		<message>Did you mean <em>it</em>?</message>
+		<error_rate warnings="0" sentences="75900" />
+		<example type="correct">I definitely think <em>it</em> should be less than four years.</example>
+		<example type="incorrect">I definitely think <em>is</em> should be less than four years.</example>
+	</rule>
+
+	<!-- TODO: ...
+	<rulegroup id="THE_A" name="Useless second article">
+	-->
+
+	<!-- TODO: implement "^!"
+	<rule id="N_V_AGR" name="Third person verb with 'he'">
+		<pattern lang="en" mark_from="2" mark_to="0">^"(has|will|must|could|can|should|would|does|did)" "he" (VVI|VVB)</pattern>
+		<message>Third person singular noun requires verb with '-s'.</message>
+		<error_rate warnings="37" sentences="75900" />
+		<example type="correct">Then he <em>looks</em> at the building.</example>
+		<example type="incorrect">Then he <em>look</em> at the building.</example>
+	</rule>
+	-->
+
+	<!-- TODO: add will|could|can|should|would|does -->
+	<!-- TODO
+	<rule id="DID_BASE" name="Infinitive verb after 'did'">
+		<pattern lang="en">"did" (VBD)</pattern>
+		<message>'Did' requires base form of verb.</message>
+		<error_rate warnings="3" sentences="75900" />
+		'did' is used for emphasis here:
+		<example type="correct">Peter did <em>go</em> to the cinema.</example>
+		<example type="incorrect">Peter did <em>went</em> to the cinema.</example>
+		
+		<example type="incorrect">He did <em>walked</em> to his house.</example>
+		<example type="incorrect">He did <em>walks</em> to his house.</example>
+		<example type="incorrect">He did <em>walking</em> to his house.</example>
+		
+	</rule>
+	-->
+
+	<!-- TODO
+		<rulegroup id="WILL_MIGHT_BASE" name="Infinitive verb after auxiliary verb">
+	<rulegroup id="IS_PASSIVE" name="Passive after 'is' and 'was'">
+	-->
+
+	<rule id="AS_ADJ_AS" name="Comparison with 'as'">
+		<pattern lang="en" mark_from="2" mark_to="0">"as" JJ|RB "like|than|then"</pattern>
+		<message>Comparison is written "as (adjective) <em>as</em>".</message>
+		<error_rate warnings="0" sentences="75900" />
+		<example type="correct">This house is as big <em>as</em> mine.</example>
+		<example type="incorrect">This house is as big <em>like</em> mine.</example>
+		<example type="incorrect">This house is as big <em>than</em> mine.</example>
+		<example type="correct">This box contains as much <em>as</em> possible.</example>
+		<example type="incorrect">This box contains as much <em>like</em> possible.</example>
+	</rule>
+	
+	<!-- TODO: mistagging: the/NN
+	<rule id="DET_FORM" name="Confusion of from/form">
+		<pattern lang="en" mark_from="2" mark_to="0">DT "from"</pattern>
+		<message>Did you mean <em>form</em>?</message>
+		<error_rate warnings="0" sentences="75900" />
+		<example type="correct">Type in the <em>form</em> on the web page.</example>
+		<example type="incorrect">Type in the <em>from</em> on the web page.</example>
+	</rule>
+	-->
+	
+	<rule id="CANNOT" name="Misspelling 'cannot'">
+		<pattern lang="en">"can" "not"</pattern>
+		<message>Can + not is written as <em>cannot</em>.</message>
+		<error_rate warnings="0" sentences="75900" />
+		<example type="correct">You <em>cannot</em> use the keyboard to select an item.</example>
+		<example type="incorrect">You <em>can not</em> use the keyboard to select an item.</example>
+	</rule>
+	
+	<rulegroup id="COMP_THAN" name="Comparison with 'than'">
+
+		<!-- TODO: support rulegroup syntax -->
+
+		<!-- 106(less..)+319(more...) in complete BNC, all(?) because "...as" -->
+		<rule>
+			<pattern lang="en" mark_from="1" mark_to="0">"more|less" "then|as"</pattern>
+			<message>Comparison requires <em>than</em>, not <em>then</em>.</message>
+			<example type="correct">The tagger will return more <em>than</em> one tag.</example>
+			<example type="incorrect">The tagger will return more <em>then</em> one tag.</example>
+			<example type="triggers_error">Think of it more <em>as</em> activity.</example>
+		</rule>
+
+		<!-- TODO: 
+			He has more ideas then me. 
+			He is more intelligent then me. 
+			
+		<rule>
+			<pattern lang="en" mark_from="1" mark_to="0">(AJC) "(then|as)"</pattern>
+			<message>Comparison requires <em>than</em>, not <em>then</em>.</message>
+			<example type="correct">This house is bigger <em>than</em> mine.</example>
+			<example type="incorrect">This house is bigger <em>then</em> mine.</example>
+		</rule>
+		-->
+
+	</rulegroup>
+	
+	<rulegroup id="IT_IS" name="Confusion of its/it's">
+
+		<rule>
+			<!-- TODO: "its of", "its to" -->
+			<pattern lang="en" mark_from="0" mark_to="-1">"its" (CC|DT|IN|MD|POS|PP|RB|WDT|WP|WRB)</pattern>
+			<message>Did you maybe mix up <em>it's</em> (=<em>it is</em>) and
+				<em>its</em> (=possessive pronoun)?</message>
+			<example type="correct"><em>It's</em> where people walk around.</example>
+			<example type="incorrect"><em>Its</em> where people walk around.</example>
+			<example type="triggers_error" reason="'every' is tagged as AT0">London is a necropolis, <em>its</em> every corner the site of a murder, its soil a pudding of blood and tears.</example>
+		</rule>
+
+		<!-- TODO:
+		<rule>
+			<pattern lang="en" mark_from="0" mark_to="-1">"its" VBG</pattern>
+			<message>Did you maybe mix up <em>it's</em> (=<em>it is</em>) and
+				<em>its</em> (=possessive pronoun)?</message>
+			<example type="correct"><em>It's</em> going to be difficult.</example>
+			<example type="incorrect"><em>Its</em> going to be difficult.</example>
+		</rule>
+		-->
+
+		<rule>
+			<pattern lang="en" mark_from="0" mark_to="-1">"its" "(a|the)"</pattern>
+			<message>Did you maybe mix up <em>it's</em> (=<em>it is</em>) and
+				<em>its</em> (=possessive pronoun)?</message>
+			<example type="correct"><em>It's</em> a good opportunity.</example>
+			<example type="incorrect"><em>Its</em> a good opportunity.</example>
+			<example type="triggers_error">Currently, there are fifteen records on <em>its</em> A list and twenty on its B list.</example>
+		</rule>
+
+	</rulegroup>
+	
+		<rulegroup id="NOW" name="Confusion of no/now">
+
+		<rule>
+			<pattern lang="en" mark_to="-1">"no" MD|VB|VBD|VBN</pattern>
+			<message>Did you maybe mix up <em>no</em> (negation) and
+				<em>now</em> (=at this moment)?</message>
+			<example type="correct">There <em>now</em> will be a park.</example>
+			<example type="incorrect">There <em>no</em> will be a park.</example>
+		</rule>
+
+		<rule>
+			<!-- TODO: "no the", "no of" -->
+			<pattern lang="en" mark_to="-1">"no" CC|DT|JJ||IN|MD|NP|RP|WDT|WP|WRB</pattern>
+			<message>Did you maybe mix up <em>no</em> (negation) and
+				<em>now</em> (=at this moment)?</message>
+			<example type="correct">There's <em>now</em> a new building.</example>
+			<example type="incorrect">There's <em>no</em> a new building.</example>
+		</rule>
+
+		<rule>
+			<pattern lang="en" mark_to="-1">"no" "were|was|been|be|is"</pattern>
+			<message>Did you maybe mix up <em>no</em> (negation) and
+				<em>now</em> (=at this moment)?</message>
+			<example type="correct"><em>Now</em> is the right time.</example>
+			<example type="incorrect"><em>No</em> is the right time.</example>
+		</rule>
+
+	</rulegroup>
+	
 </rules>
