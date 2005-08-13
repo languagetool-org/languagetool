@@ -22,6 +22,7 @@ import java.io.IOException;
 
 import junit.framework.TestCase;
 import de.danielnaber.languagetool.JLanguageTool;
+import de.danielnaber.languagetool.rules.CommaWhitespaceRule;
 import de.danielnaber.languagetool.rules.RuleMatch;
 
 /**
