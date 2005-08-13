@@ -114,7 +114,7 @@ public class AvsAnRule extends EnglishRule {
       }
       pos += token.length();
     }
-    return (RuleMatch[])ruleMatches.toArray(new RuleMatch[0]);
+    return toRuleMatchArray(ruleMatches);
   }
 
   private boolean isVowel(char c) {

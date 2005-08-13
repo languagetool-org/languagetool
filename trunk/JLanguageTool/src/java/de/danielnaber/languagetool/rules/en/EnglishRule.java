@@ -28,7 +28,7 @@ import de.danielnaber.languagetool.rules.Rule;
  */
 public abstract class EnglishRule extends Rule {
 
-  public Language[] getLanguages() {
+  public final Language[] getLanguages() {
     return new Language[] { Language.ENGLISH };
   }
 

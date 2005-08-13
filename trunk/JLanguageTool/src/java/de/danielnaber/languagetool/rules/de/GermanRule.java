@@ -28,7 +28,7 @@ import de.danielnaber.languagetool.rules.Rule;
  */
 public abstract class GermanRule extends Rule {
 
-  public Language[] getLanguages() {
+  public final Language[] getLanguages() {
     return new Language[] { Language.GERMAN };
   }
 

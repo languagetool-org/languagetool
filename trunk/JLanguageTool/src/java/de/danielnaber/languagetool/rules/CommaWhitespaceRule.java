@@ -63,7 +63,7 @@ public class CommaWhitespaceRule extends Rule {
       prevToken = token;
       prevPos = pos;
     }
-    return (RuleMatch[])ruleMatches.toArray(new RuleMatch[0]);
+    return toRuleMatchArray(ruleMatches);
   }
 
 }

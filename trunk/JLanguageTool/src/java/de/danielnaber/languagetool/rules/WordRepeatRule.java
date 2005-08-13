@@ -68,7 +68,7 @@ public class WordRepeatRule extends Rule {
       }
       pos += token.length();
     }
-    return (RuleMatch[])ruleMatches.toArray(new RuleMatch[0]);
+    return toRuleMatchArray(ruleMatches);
   }
 
 }
