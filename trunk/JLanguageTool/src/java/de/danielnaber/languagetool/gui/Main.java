@@ -206,7 +206,6 @@ public class Main implements ActionListener {
     String markerStr = markerPrefix + marker.substring(startContent, endContent);
     int startMark = markerStr.indexOf("^");
     int endMark = markerStr.lastIndexOf("^");
-    System.err.println(startMark + " " + endMark);
     String result = sb.toString();
     result = result.substring(0, startMark) + "<b><font color=\"red\">" + 
       result.substring(startMark, endMark+1) + "</font></b>" + result.substring(endMark+1);
