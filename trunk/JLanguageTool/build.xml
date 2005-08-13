@@ -195,14 +195,21 @@
   <!-- ================================================================== -->
   <target name="build" depends="compile">
 
-	<delete file="${build.meta-inf}/MANIFEST" />
 	<copy file="${resource.dir}/MANIFEST" todir="${build.meta-inf}/" />
+	<copy file="${resource.dir}/MANIFEST.GUI" todir="${build.meta-inf}/" />
 
 	<jar
 		jarfile="${dist.dir}/${final.name}.jar"
 		basedir="${build.classes}"
 		excludes="**/*.java"
 		manifest="${build.meta-inf}/MANIFEST"
+	/>
+
+	<jar
+		jarfile="${dist.dir}/${final.name.gui}.jar"
+		basedir="${build.classes}"
+		includes="de/danielnaber/languagetool/gui/*.class"
+		manifest="${build.meta-inf}/MANIFEST.GUI"
 	/>
 
   </target>
@@ -227,14 +234,18 @@
 	<copy file="${ext.dir}/README" todir="${zip.lib}" />
 
 	<copy file="${dist.dir}/${final.name}.jar" todir="${zip.dir}" />
+	<copy file="${dist.dir}/${final.name.gui}.jar" todir="${zip.dir}" />
 	<copy file="./README" todir="${zip.dir}" />
 	<copy file="./COPYING" todir="${zip.dir}" />
 
-  	<mkdir dir="${zip.dir}/rules"/>
-  	<mkdir dir="${zip.dir}/rules/en"/>
+	<copy file="rules/rules.dtd" todir="${zip.dir}/rules" />
   	<copy todir="${zip.dir}/rules/en">
 	  	<fileset dir="rules/en/"/>
 	</copy>
+  	<copy todir="${zip.dir}/rules/de">
+	  	<fileset dir="rules/de/"/>
+	</copy>
+
   	<copy todir="${zip.dir}/javadoc">
 	  	<fileset dir="${dist.dir}/docs/api"/>
 	</copy>
