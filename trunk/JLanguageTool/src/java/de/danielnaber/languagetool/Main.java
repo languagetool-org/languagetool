@@ -71,7 +71,7 @@ public class Main {
     long startTimeMatching = System.currentTimeMillis();
     for (Iterator iter = ruleMatches.iterator(); iter.hasNext();) {
       RuleMatch match = (RuleMatch) iter.next();
-      System.out.println("Line:    " + (match.getLine()+1));
+      System.out.println("Line " + (match.getLine()+1) + ", column " + match.getColumn());
       String msg = match.getMessage();
       msg = msg.replaceAll("<i>", "'");
       msg = msg.replaceAll("</i>", "'");

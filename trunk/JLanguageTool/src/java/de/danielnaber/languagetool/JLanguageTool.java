@@ -137,6 +137,7 @@ public class JLanguageTool {
     printIfVerbose(allRules.size() + " rules activated for language " + language);
     int tokenCount = 0;
     int lineCount = 0;
+    int columnCount = 0;
     for (Iterator iter = sentences.iterator(); iter.hasNext();) {
       String sentence = (String) iter.next();
       AnalyzedSentence analyzedText = getAnalyzedText(sentence);
@@ -154,12 +155,27 @@ public class JLanguageTool {
               thisMatches[i].getToPos() + tokenCount,
               thisMatches[i].getMessage());
           String sentencePartToError = sentence.substring(0, thisMatches[i].getFromPos());
+          int lastLineBreakPos = sentencePartToError.lastIndexOf("\n");
+          int column = -1;
+          if (lastLineBreakPos == -1) {
+            column = sentencePartToError.length() + columnCount;
+          } else {
+            column = sentencePartToError.length() - lastLineBreakPos - 1;
+          }
           thisMatch.setLine(lineCount + countLineBreaks(sentencePartToError));
+          thisMatch.setColumn(column);
           ruleMatches.add(thisMatch);
         }
       }
       tokenCount += sentence.length();
       lineCount += countLineBreaks(sentence);
+      // calculate matching column:
+      int linebreakPos = sentence.indexOf("\n");
+      if (linebreakPos == -1) {
+        columnCount += sentence.length();
+      } else {
+        columnCount = sentence.length() - linebreakPos - 1;
+      }
     }
     return ruleMatches;
   }
@@ -186,7 +202,6 @@ public class JLanguageTool {
       String token = (String) iterator.next();
       if (!token.trim().equals("")) {
         noWhitespaceTokens.add(token);
-        System.err.println(">>>"+token+"<");
       }
     }
     List posTags = tagger.tag(noWhitespaceTokens);
