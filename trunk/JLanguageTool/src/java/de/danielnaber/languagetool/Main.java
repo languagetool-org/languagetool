@@ -40,8 +40,8 @@ import de.danielnaber.languagetool.rules.RuleMatch;
  */
 public class Main {
 
-  private final static String RULES_DIR = "rules";
-  private final static String PATTERN_FILE = "grammar.xml";
+  public final static String RULES_DIR = "rules";
+  public final static String PATTERN_FILE = "grammar.xml";
 
   private final static int CONTEXT_SIZE = 20;
 
