@@ -37,6 +37,8 @@ public class WordRepeatRuleTest extends TestCase {
     // correct sentences:
     matches = rule.match(langTool.getAnalyzedText("This is a test sentence."));
     assertEquals(0, matches.length);
+    matches = rule.match(langTool.getAnalyzedText("This is a test sentence..."));
+    assertEquals(0, matches.length);
     // incorrect sentences:
     matches = rule.match(langTool.getAnalyzedText("This this is a test sentence."));
     assertEquals(1, matches.length);

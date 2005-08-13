@@ -58,7 +58,15 @@ public class WordRepeatRule extends Rule {
       if (token.trim().equals("")) {
         // ignore
       } else {
-        if (prevToken.toLowerCase().equals(token.toLowerCase())) {
+        // avoid "..." etc. to be matched:
+        boolean isWord = true;
+        if (token.length() == 1) {
+          char c = token.charAt(0);
+          if (!Character.isLetter(c)) {
+            isWord = false;
+          }
+        }
+        if (isWord && prevToken.toLowerCase().equals(token.toLowerCase())) {
           String msg = "Don't repeat a word";
           RuleMatch ruleMatch = new RuleMatch(this, prevPos, pos+prevToken.length(), msg);
           ruleMatches.add(ruleMatch);
