@@ -32,7 +32,6 @@ import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
 import de.danielnaber.languagetool.Language;
-import de.danielnaber.languagetool.rules.Rule;
 
 /**
  * Loads {@link PatternRule}s from an XML file.
@@ -61,6 +60,7 @@ class PatternRuleHandler extends DefaultHandler {
 
   private List rules = new ArrayList();
   private String id;
+  private boolean caseSensitive = false;
   private String languageStr;
   private String pattern;
   private String description;
@@ -91,6 +91,8 @@ class PatternRuleHandler extends DefaultHandler {
       inPattern = true;
       if (attrs != null) {
         languageStr = attrs.getValue("lang");
+        if (attrs.getValue("case_sensitive") != null && attrs.getValue("case_sensitive").equals("yes"))
+          caseSensitive = true;
       }
     } else if (qName.equals("example") && attrs.getValue("type").equals("correct")) {
       inCorrectExample = true;
@@ -111,9 +113,10 @@ class PatternRuleHandler extends DefaultHandler {
       } else {
         throw new SAXException("Unknown language '" + languageStr + "'");
       }
-      Rule rule = new PatternRule(id, language, pattern, description);
+      PatternRule rule = new PatternRule(id, language, pattern, description);
       rule.setCorrectExample(correctExample.toString());
       rule.setIncorrectExample(incorrectExample.toString());
+      rule.setCaseSensitive(caseSensitive);
       rules.add(rule);
     } else if (qName.equals("pattern")) {
       inPattern = false;

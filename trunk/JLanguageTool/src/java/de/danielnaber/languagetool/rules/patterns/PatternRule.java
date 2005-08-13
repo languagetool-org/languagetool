@@ -39,6 +39,7 @@ public class PatternRule extends Rule {
   private Language[] language;
   private String pattern;
   private String description;
+  private boolean caseSensitive = false;
 
   private Element[] patternElements;
 
@@ -63,6 +64,14 @@ public class PatternRule extends Rule {
 
   public String toString() {
     return id + ":" + pattern + ":" + description;
+  }
+
+  public boolean getCaseSensitive() {
+    return caseSensitive;
+  }
+
+  public void setCaseSensitive(boolean caseSensitive) {
+    this.caseSensitive = caseSensitive;
   }
 
   public RuleMatch[] match(AnalyzedSentence text) {
@@ -123,7 +132,7 @@ public class PatternRule extends Rule {
         element = element.substring(1, element.length()-1);
         String tokenParts[] = element.split("\\|");
         // TODO: make case sensitiviy optional:
-        StringElement stringElement = new StringElement(tokenParts, false); 
+        StringElement stringElement = new StringElement(tokenParts, caseSensitive); 
         stringElement.setNegation(negation);
         elements.add(stringElement);
       } else if (element.toUpperCase().equals(element)) {
