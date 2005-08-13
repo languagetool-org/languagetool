@@ -72,7 +72,6 @@ public abstract class Rule {
 
   /**
    * TODO: Return the number of false positives to be expected.
-   * @return
    *
   public int getFalsePositives() {
     return -1;
