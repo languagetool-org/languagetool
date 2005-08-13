@@ -33,13 +33,13 @@ public class WiederVsWiderRuleTest extends TestCase {
     WiederVsWiderRule rule = new WiederVsWiderRule();
     JLanguageTool langTool = new JLanguageTool(Language.GERMAN);
     // correct sentences:
-    assertEquals(0, rule.match(langTool.getAnalyzedText("Das spiegelt wider, wie es wieder läuft.")).length);
-    assertEquals(0, rule.match(langTool.getAnalyzedText("Das spiegelt die Situation gut wider.")).length);
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Das spiegelt wider, wie es wieder läuft.")).length);
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Das spiegelt die Situation gut wider.")).length);
     // known to match although sentence is okay:
     //assertEquals(0, rule.match(langTool.getAnalyzedText("Das spiegelt wieder wider, wie es läuft.")).length);
     // errors:
-    assertEquals(1, rule.match(langTool.getAnalyzedText("Das spiegelt wieder, wie es wieder läuft.")).length);
-    assertEquals(1, rule.match(langTool.getAnalyzedText("Das spiegelt die Situation gut wieder.")).length);
+    assertEquals(1, rule.match(langTool.getAnalyzedSentence("Das spiegelt wieder, wie es wieder läuft.")).length);
+    assertEquals(1, rule.match(langTool.getAnalyzedSentence("Das spiegelt die Situation gut wieder.")).length);
   }
     
 }

@@ -37,14 +37,14 @@ public class CommaWhitespaceRuleTest extends TestCase {
     JLanguageTool langTool = new JLanguageTool(Language.ENGLISH);
     
     // correct sentences:
-    matches = rule.match(langTool.getAnalyzedText("This is a test sentence."));
+    matches = rule.match(langTool.getAnalyzedSentence("This is a test sentence."));
     assertEquals(0, matches.length);
-    matches = rule.match(langTool.getAnalyzedText("This, is, a test sentence."));
+    matches = rule.match(langTool.getAnalyzedSentence("This, is, a test sentence."));
     assertEquals(0, matches.length);
     // errors:
-    matches = rule.match(langTool.getAnalyzedText("This , is a test sentence."));
+    matches = rule.match(langTool.getAnalyzedSentence("This , is a test sentence."));
     assertEquals(1, matches.length);
-    matches = rule.match(langTool.getAnalyzedText("This ,is a test sentence."));
+    matches = rule.match(langTool.getAnalyzedSentence("This ,is a test sentence."));
     assertEquals(1, matches.length);
   }
   

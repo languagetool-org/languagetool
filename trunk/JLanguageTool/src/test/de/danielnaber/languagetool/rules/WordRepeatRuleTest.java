@@ -35,16 +35,16 @@ public class WordRepeatRuleTest extends TestCase {
     RuleMatch[] matches;
     JLanguageTool langTool = new JLanguageTool(Language.ENGLISH);
     // correct sentences:
-    matches = rule.match(langTool.getAnalyzedText("This is a test sentence."));
+    matches = rule.match(langTool.getAnalyzedSentence("This is a test sentence."));
     assertEquals(0, matches.length);
-    matches = rule.match(langTool.getAnalyzedText("This is a test sentence..."));
+    matches = rule.match(langTool.getAnalyzedSentence("This is a test sentence..."));
     assertEquals(0, matches.length);
     // incorrect sentences:
-    matches = rule.match(langTool.getAnalyzedText("This this is a test sentence."));
+    matches = rule.match(langTool.getAnalyzedSentence("This this is a test sentence."));
     assertEquals(1, matches.length);
-    matches = rule.match(langTool.getAnalyzedText("This is a test sentence sentence."));
+    matches = rule.match(langTool.getAnalyzedSentence("This is a test sentence sentence."));
     assertEquals(1, matches.length);
-    matches = rule.match(langTool.getAnalyzedText("This is is a a test sentence sentence."));
+    matches = rule.match(langTool.getAnalyzedSentence("This is is a a test sentence sentence."));
     assertEquals(3, matches.length);
   }
   

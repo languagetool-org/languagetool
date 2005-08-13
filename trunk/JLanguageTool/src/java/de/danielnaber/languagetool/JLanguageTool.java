@@ -129,9 +129,16 @@ public class JLanguageTool {
     disabledRules.remove(ruleId);
   }
 
-  public List check(String s) {
+  /**
+   * The main check method. Tokenizes the text into sentences and matches these
+   * sentences against all currently active rules.
+   * 
+   * @param test the text to check
+   * @return a List of {@link RuleMatch} objects
+   */
+  public List check(String test) {
     SentenceTokenizer sTokenizer = new SentenceTokenizer();
-    List sentences = sTokenizer.tokenize(s);
+    List sentences = sTokenizer.tokenize(test);
     List ruleMatches = new ArrayList();
     List allRules = getAllRules();
     printIfVerbose(allRules.size() + " rules activated for language " + language);
@@ -140,7 +147,7 @@ public class JLanguageTool {
     int columnCount = 0;
     for (Iterator iter = sentences.iterator(); iter.hasNext();) {
       String sentence = (String) iter.next();
-      AnalyzedSentence analyzedText = getAnalyzedText(sentence);
+      AnalyzedSentence analyzedText = getAnalyzedSentence(sentence);
       printIfVerbose(analyzedText.toString());
       for (Iterator iterator = allRules.iterator(); iterator.hasNext();) {
         Rule rule = (Rule) iterator.next();
@@ -193,7 +200,10 @@ public class JLanguageTool {
     return count;
   }
 
-  public AnalyzedSentence getAnalyzedText(String sentence) {
+  /**
+   * Tokenizes the given <code>sentence</code> into words and analyzes it.
+   */
+  public AnalyzedSentence getAnalyzedSentence(String sentence) {
     WordTokenizer wtokenizer = new WordTokenizer();
     List tokens = wtokenizer.tokenize(sentence);
     List noWhitespaceTokens = new ArrayList();
@@ -223,7 +233,13 @@ public class JLanguageTool {
     return new AnalyzedSentence(tokenArray);
   }
 
-  private List getAllRules() {
+  /**
+   * Get all rules for the current language that are built-in or that have been
+   * added using {@link #addRule}.
+   *  
+   * @return a List of {@link Rule} objects
+   */
+  public List getAllRules() {
     List rules = new ArrayList();
     rules.addAll(builtinRules);
     rules.addAll(userRules);
