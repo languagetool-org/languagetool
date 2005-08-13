@@ -66,7 +66,7 @@ public class JLanguageTool {
    * Create a JLanguageTool and setup the builtin rules appropriate for the
    * given language.
    * 
-   * @throws IOException if some external rules cannot find the files they depend on
+   * @throws IOException if e.g. some external rules cannot find the files they depend on
    */
   public JLanguageTool(Language language) throws IOException {
     if (language == null) {
@@ -80,6 +80,7 @@ public class JLanguageTool {
       if (allBuiltinRules[i].supportsLanguage(language))
       builtinRules.add(allBuiltinRules[i]); 
     }
+    // FIXME: auch für de
     tagger = new EnglishPOSTaggerME();
   }
   
@@ -215,8 +216,10 @@ public class JLanguageTool {
       }
     }
     List posTags = tagger.tag(noWhitespaceTokens);
-    AnalyzedToken[] tokenArray = new AnalyzedToken[tokens.size()];
+    AnalyzedToken[] tokenArray = new AnalyzedToken[tokens.size()+1];
     int toArrayCount = 0;
+    AnalyzedToken sentenceStartToken = new AnalyzedToken("", "SENT_START", 0);
+    tokenArray[toArrayCount++] = sentenceStartToken;
     int startPos = 0;
     int noWhitespaceCount = 0;
     for (Iterator iterator = tokens.iterator(); iterator.hasNext();) {
@@ -226,8 +229,8 @@ public class JLanguageTool {
         posTag = (String)posTags.get(noWhitespaceCount);
         noWhitespaceCount++;
       }
-      tokenArray[toArrayCount] = new AnalyzedToken(tokenStr, posTag, startPos);
-      toArrayCount++;
+      AnalyzedToken analyzedToken = new AnalyzedToken(tokenStr, posTag, startPos);
+      tokenArray[toArrayCount++] = analyzedToken;
       startPos += tokenStr.length();
     }
     return new AnalyzedSentence(tokenArray);

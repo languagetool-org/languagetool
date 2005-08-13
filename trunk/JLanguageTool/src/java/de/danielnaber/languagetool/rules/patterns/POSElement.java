@@ -36,7 +36,7 @@ public class POSElement extends Element {
     this.tokens = tokens;
   }
   
-  boolean match(AnalyzedToken token) {
+  boolean matchToken(AnalyzedToken token) {
     for (int i = 0; i < tokens.length; i++) {
       if (tokens[i].equals(token.getPOSTag()))
         return true;

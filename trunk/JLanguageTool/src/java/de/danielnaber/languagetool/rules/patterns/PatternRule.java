@@ -107,23 +107,30 @@ public class PatternRule extends Rule {
 
   private Element[] getPatternElements(String pattern) {
     List elements = new ArrayList();
-    pattern = pattern.replaceAll("[\\(\\)]", "");
+    pattern = pattern.replaceAll("[\\(\\)]", "");       // just ignore parentheses
     String[] parts = pattern.split("\\s+");
     for (int i = 0; i < parts.length; i++) {
       String element = parts[i];
       if (element.startsWith("\"") && !element.endsWith("\"") || element.endsWith("\"") && !element.startsWith("\"")) {
         throw new IllegalArgumentException("Invalid pattern '" + pattern + "': unbalanced quote");
       }
+      boolean negation = false;
+      if (element.startsWith("^")) {
+        negation = true;
+        element = element.substring(1);     // cut off "   ^"
+      }
       if (element.startsWith("\"") && element.endsWith("\"")) {         // cut off quotes
         element = element.substring(1, element.length()-1);
         String tokenParts[] = element.split("\\|");
         // TODO: make case sensitiviy optional:
         StringElement stringElement = new StringElement(tokenParts, false); 
+        stringElement.setNegation(negation);
         elements.add(stringElement);
       } else if (element.toUpperCase().equals(element)) {
-        // all-uppercase = POS tag
+        // all-uppercase = POS tag (except: see above)
         String tokenParts[] = element.split("\\|");
-        POSElement posElement = new POSElement(tokenParts); 
+        POSElement posElement = new POSElement(tokenParts);
+        posElement.setNegation(negation);
         elements.add(posElement);
       } else {
         throw new IllegalArgumentException("Unknown type " + element + " in pattern: " + pattern);

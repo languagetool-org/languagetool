@@ -42,13 +42,14 @@ public class AnalyzedSentence {
   }
 
   /**
-   * Returns the {@link AnalyzedToken}s of the analyzed text, with whitespace tokens removed. 
+   * Returns the {@link AnalyzedToken}s of the analyzed text, with whitespace tokens removed
+   * but with the artificial <code>SENT_START</code> token included.
    */
   public AnalyzedToken[] getTokensWithoutWhitespace() {
     List l = new ArrayList();
     for (int i = 0; i < tokens.length; i++) {
       AnalyzedToken token = tokens[i];
-      if (!token.isWhitespace()) {
+      if (!token.isWhitespace() || (token.getPOSTag() != null && token.getPOSTag().equals("SENT_START"))) {
         l.add(token);
       }
     }

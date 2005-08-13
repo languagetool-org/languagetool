@@ -28,9 +28,17 @@ import de.danielnaber.languagetool.AnalyzedToken;
 public abstract class Element {
 
   String[] tokens;
+  boolean negation = false;
 
-  abstract boolean match(AnalyzedToken token);
-  
+  final boolean match(AnalyzedToken token) {
+    if (negation)
+      return !matchToken(token);
+    else
+      return matchToken(token);
+  }
+
+  abstract boolean matchToken(AnalyzedToken token);
+
   public String toString() {
     StringBuffer sb = new StringBuffer();
     for (int i = 0; i < tokens.length; i++) {
@@ -43,6 +51,13 @@ public abstract class Element {
   
   String[] getTokens() {
     return tokens;
+  }
+  
+  /**
+   * Negates the meaning of match(). 
+   */
+  void setNegation(boolean negation) {
+    this.negation = negation;
   }
   
 }
