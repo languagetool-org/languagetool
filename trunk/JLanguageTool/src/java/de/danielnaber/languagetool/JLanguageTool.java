@@ -63,8 +63,10 @@ public class JLanguageTool {
   EnglishPOSTaggerME tagger = null;
   
   /**
-   * Create a JLanguageTool and setup the builtin rules.
-   * @throws IOException
+   * Create a JLanguageTool and setup the builtin rules appropriate for the
+   * given language.
+   * 
+   * @throws IOException if some external rules cannot find the files they depend on
    */
   public JLanguageTool(Language language) throws IOException {
     if (language == null) {
@@ -132,12 +134,13 @@ public class JLanguageTool {
     List sentences = sTokenizer.tokenize(s);
     List ruleMatches = new ArrayList();
     List allRules = getAllRules();
-    print(allRules.size() + " rules activated for language " + language);
+    printIfVerbose(allRules.size() + " rules activated for language " + language);
     int tokenCount = 0;
+    int lineCount = 0;
     for (Iterator iter = sentences.iterator(); iter.hasNext();) {
       String sentence = (String) iter.next();
       AnalyzedSentence analyzedText = getAnalyzedText(sentence);
-      print(analyzedText.toString());
+      printIfVerbose(analyzedText.toString());
       for (Iterator iterator = allRules.iterator(); iterator.hasNext();) {
         Rule rule = (Rule) iterator.next();
         if (disabledRules.contains(rule.getId()))
@@ -150,14 +153,30 @@ public class JLanguageTool {
               thisMatches[i].getFromPos() + tokenCount,
               thisMatches[i].getToPos() + tokenCount,
               thisMatches[i].getMessage());
+          String sentencePartToError = sentence.substring(0, thisMatches[i].getFromPos());
+          thisMatch.setLine(lineCount + countLineBreaks(sentencePartToError));
           ruleMatches.add(thisMatch);
         }
       }
       tokenCount += sentence.length();
+      lineCount += countLineBreaks(sentence);
     }
     return ruleMatches;
   }
   
+  static int countLineBreaks(String s) {
+    int pos = -1;
+    int count = 0;
+    while (true) {
+      int nextPos = s.indexOf("\n", pos+1);
+      if (nextPos == -1)
+        break;
+      pos = nextPos;
+      count++;
+    }
+    return count;
+  }
+
   public AnalyzedSentence getAnalyzedText(String sentence) {
     WordTokenizer wtokenizer = new WordTokenizer();
     List tokens = wtokenizer.tokenize(sentence);
@@ -167,6 +186,7 @@ public class JLanguageTool {
       String token = (String) iterator.next();
       if (!token.trim().equals("")) {
         noWhitespaceTokens.add(token);
+        System.err.println(">>>"+token+"<");
       }
     }
     List posTags = tagger.tag(noWhitespaceTokens);
@@ -195,7 +215,7 @@ public class JLanguageTool {
     return rules;
   }
 
-  private void print(String s) {
+  private void printIfVerbose(String s) {
     if (printStream != null)
       printStream.println(s);
   }

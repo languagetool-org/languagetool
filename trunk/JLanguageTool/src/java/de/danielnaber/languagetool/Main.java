@@ -71,7 +71,11 @@ public class Main {
     long startTimeMatching = System.currentTimeMillis();
     for (Iterator iter = ruleMatches.iterator(); iter.hasNext();) {
       RuleMatch match = (RuleMatch) iter.next();
-      System.out.println(match);
+      System.out.println("Line:    " + (match.getLine()+1));
+      String msg = match.getMessage();
+      msg = msg.replaceAll("<i>", "'");
+      msg = msg.replaceAll("</i>", "'");
+      System.out.println("Message: " + msg);
       System.out.println(getContext(match.getFromPos(), match.getToPos(), fileContents));
       if (iter.hasNext())
         System.out.println();
@@ -91,7 +95,7 @@ public class Main {
       String line;
       while ((line = br.readLine()) != null) {
         sb.append(line);
-        sb.append(" ");       // normalize linebreaks to spaces
+        sb.append("\n");
       }
     } finally {
       if (br != null) br.close();
@@ -101,6 +105,7 @@ public class Main {
   }
 
   private String getContext(int fromPos, int toPos, String fileContents) {
+    fileContents = fileContents.replaceAll("\n", " ");
     // calculate context region:
     int startContent = fromPos - CONTEXT_SIZE;
     String prefix = "...";

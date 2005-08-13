@@ -25,6 +25,7 @@ package de.danielnaber.languagetool.rules;
  */
 public class RuleMatch {
 
+  private int fromLine = -1;
   private Rule rule;
   private int fromPos;
   private int toPos;
@@ -40,7 +41,21 @@ public class RuleMatch {
   public Rule getRule() {
     return rule;
   }
-  
+
+  /**
+   * Set the line number in which the match occurs.
+   */
+  public void setLine(int fromLine) {
+    this.fromLine = fromLine;
+  }
+
+  /**
+   * Get the line number in which the match occurs.
+   */
+  public int getLine() {
+    return fromLine;
+  }
+
   /**
    * Position of the start of the error (in characters).
    */
