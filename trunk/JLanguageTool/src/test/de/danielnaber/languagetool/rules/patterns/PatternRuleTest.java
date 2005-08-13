@@ -42,7 +42,7 @@ public class PatternRuleTest extends TestCase {
   
   public void setUp() throws IOException {
     if (langTool == null)
-      langTool = new JLanguageTool();
+      langTool = new JLanguageTool(Language.ENGLISH);
   }
 
   public void testEnglishGrammarRulesFromXML() throws IOException, ParserConfigurationException, SAXException {

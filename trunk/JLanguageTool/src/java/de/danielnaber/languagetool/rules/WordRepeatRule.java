@@ -26,12 +26,7 @@ import de.danielnaber.languagetool.AnalyzedToken;
 import de.danielnaber.languagetool.Language;
 
 /**
- * Check if the determiner (if any) preceding a word is:
- * <ul>
- *   <li><i>an</i> if the next word starts with a vowel
- *   <li><i>a</i> if the next word does not start with a vowel
- * </ul>
- *  This rule loads some exceptions from external files (e.g. <i>an hour</i>).
+ * Check if a word is repeated twice, e.g. "the the".
  *   
  * @author Daniel Naber
  */
@@ -41,7 +36,7 @@ public class WordRepeatRule extends Rule {
   }
   
   public String getId() {
-    return "WORD_REPEAR_RULE";
+    return "WORD_REPEAT_RULE";
   }
 
   public String getDescription() {
@@ -49,7 +44,7 @@ public class WordRepeatRule extends Rule {
   }
 
   public Language[] getLanguages() {
-    return new Language[] { Language.ENGLISH };
+    return new Language[] { Language.ENGLISH, Language.GERMAN };
   }
 
   public RuleMatch[] match(AnalyzedSentence text) {
@@ -65,7 +60,7 @@ public class WordRepeatRule extends Rule {
       } else {
         if (prevToken.toLowerCase().equals(token.toLowerCase())) {
           String msg = "Don't repeat a word";
-          RuleMatch ruleMatch = new RuleMatch(this, prevPos, prevPos+prevToken.length(), msg);
+          RuleMatch ruleMatch = new RuleMatch(this, prevPos, pos+prevToken.length(), msg);
           ruleMatches.add(ruleMatch);
         }
         prevToken = token;

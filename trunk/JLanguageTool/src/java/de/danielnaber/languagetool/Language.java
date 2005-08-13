@@ -22,13 +22,14 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Constants for supported languages (currently English only).
+ * Constants for supported languages (currently English and German only).
  * 
  * @author Daniel Naber
  */
 public class Language {
 
-  public static final Language ENGLISH = new Language("English");
+  public static final Language ENGLISH = new Language("English", "en");
+  public static final Language GERMAN = new Language("German", "de");
   
   // IMPORTANT: keep in sync with objects above
   /**
@@ -38,16 +39,23 @@ public class Language {
   public static final Map LANGUAGES = new HashMap();
   static {
     LANGUAGES.put("en", ENGLISH);
+    LANGUAGES.put("de", GERMAN);
   }
 
   private String name;
+  private String shortForm;
 
-  private Language(String name) {
+  private Language(String name, String shortForm) {
     this.name = name;
+    this.shortForm = shortForm;
   }
 
   public String toString() {
     return name;
+  }
+
+  public String getShortForm() {
+    return shortForm;
   }
 
 }

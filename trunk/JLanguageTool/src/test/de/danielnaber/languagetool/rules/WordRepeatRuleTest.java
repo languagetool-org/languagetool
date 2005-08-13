@@ -22,6 +22,7 @@ import java.io.IOException;
 
 import junit.framework.TestCase;
 import de.danielnaber.languagetool.JLanguageTool;
+import de.danielnaber.languagetool.Language;
 
 /**
  * 
@@ -32,7 +33,7 @@ public class WordRepeatRuleTest extends TestCase {
   public void testRule() throws IOException {
     WordRepeatRule rule = new WordRepeatRule();
     RuleMatch[] matches;
-    JLanguageTool langTool = new JLanguageTool();
+    JLanguageTool langTool = new JLanguageTool(Language.ENGLISH);
     // correct sentences:
     matches = rule.match(langTool.getAnalyzedText("This is a test sentence."));
     assertEquals(0, matches.length);

@@ -18,13 +18,9 @@
  */
 package de.danielnaber.languagetool;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -48,7 +44,7 @@ import de.danielnaber.languagetool.tokenizers.WordTokenizer;
 /**
  * The main class used for checking text against different rules:
  * <ul>
- *  <li>the built-in rules (<i>a</i> vs. <i>an</i>, whitespace after commas)
+ *  <li>the built-in rules (<i>a</i> vs. <i>an</i>, whitespace after commas, ...)
  *  <li>pattern rules loaded from external XML files with {@link #loadPatternRules(String)}
  *  <li>our own implementation of the abstract {@link Rule} classes added with {@link #addRule(Rule)}
  * </ul>
@@ -56,12 +52,11 @@ import de.danielnaber.languagetool.tokenizers.WordTokenizer;
  */
 public class JLanguageTool {
   
-  private final static String DEFAULT_GRAMMAR_RULES = "rules" +File.separator+ "en" +File.separator+ "grammar.xml";
-  private final static int CONTEXT_SIZE = 20;
-  
-  private Rule[] builtinRules = new Rule[]{};
+  private List builtinRules = new ArrayList();
   private List userRules = new ArrayList();     // rules added via addRule() method
   private Set disabledRules = new HashSet();
+  
+  private Language language;
   private PrintStream printStream = null;
 
   EnglishPOSTaggerME tagger = null;
@@ -70,11 +65,24 @@ public class JLanguageTool {
    * Create a JLanguageTool and setup the builtin rules.
    * @throws IOException
    */
-  public JLanguageTool() throws IOException {
-    builtinRules = new Rule[] {new AvsAnRule(), new CommaWhitespaceRule(), new WordRepeatRule()};
+  public JLanguageTool(Language language) throws IOException {
+    if (language == null) {
+      throw new NullPointerException("language cannot be null");
+    }
+    this.language = language;
+    // TODO: use reflection to get a list of all non-pattern rules:
+    Rule[] allBuiltinRules = new Rule[] {new AvsAnRule(), new CommaWhitespaceRule(), new WordRepeatRule()};
+    for (int i = 0; i < allBuiltinRules.length; i++) {
+      if (allBuiltinRules[i].supportsLanguage(language))
+      builtinRules.add(allBuiltinRules[i]); 
+    }
     tagger = new EnglishPOSTaggerME();
   }
   
+  /**
+   * Set a PrintStream that will receive verbose output. Set
+   * to <code>null</code> to disable verbose output.
+   */
   public void setOutput(PrintStream printStream) {
     this.printStream = printStream;
   }
@@ -117,12 +125,12 @@ public class JLanguageTool {
     disabledRules.remove(ruleId);
   }
 
-  public List check(String filename) throws IOException {
-    String s = readFile(filename);
+  public List check(String s) {
     SentenceTokenizer sTokenizer = new SentenceTokenizer();
     List sentences = sTokenizer.tokenize(s);
     List ruleMatches = new ArrayList();
-    List allRules = getallRules();
+    List allRules = getAllRules();
+    print(allRules.size() + " rules activated for language " + language);
     int tokenCount = 0;
     for (Iterator iter = sentences.iterator(); iter.hasNext();) {
       String sentence = (String) iter.next();
@@ -178,9 +186,9 @@ public class JLanguageTool {
     return new AnalyzedSentence(tokenArray);
   }
 
-  private List getallRules() {
+  private List getAllRules() {
     List rules = new ArrayList();
-    rules.addAll(Arrays.asList(builtinRules));
+    rules.addAll(builtinRules);
     rules.addAll(userRules);
     return rules;
   }
@@ -190,102 +198,4 @@ public class JLanguageTool {
       printStream.println(s);
   }
   
-  private String readFile(String filename) throws IOException {
-    FileReader fr = null;
-    BufferedReader br = null;
-    StringBuffer sb = new StringBuffer();
-    try {
-      fr = new FileReader(filename);
-      br = new BufferedReader(fr);
-      String line;
-      while ((line = br.readLine()) != null) {
-        sb.append(line);
-        sb.append(" ");       // normalize linebreaks to spaces
-      }
-    } finally {
-      if (br != null) br.close();
-      if (fr != null) fr.close();
-    }
-    return sb.toString();
-  }
-
-  private String getContext(int fromPos, int toPos, String fileContents) {
-    // calculate context region:
-    int startContent = fromPos - CONTEXT_SIZE;
-    String prefix = "...";
-    String postfix = "...";
-    String markerPrefix = "   ";
-    if (startContent < 0) {
-      prefix = "";
-      markerPrefix = "";
-      startContent = 0;
-    }
-    int endContent = toPos + CONTEXT_SIZE;
-    if (endContent > fileContents.length()) {
-      postfix = "";
-      endContent = fileContents.length();
-    }
-    // make "^" marker. inefficient but robust implementation:
-    StringBuffer marker = new StringBuffer();
-    for (int i = 0; i < fileContents.length() + prefix.length(); i++) {
-      if (i >= fromPos && i < toPos)
-        marker.append("^");
-      else
-        marker.append(" ");
-    }
-    // now build context string plus marker:
-    StringBuffer sb = new StringBuffer();
-    sb.append(prefix);
-    sb.append(fileContents.substring(startContent, endContent));
-    sb.append(postfix);
-    sb.append("\n");
-    sb.append(markerPrefix + marker.substring(startContent, endContent));
-    return sb.toString();
-  }
-
-  // =====================================================================================
-  
-  public static void main(String[] args) throws IOException, ParserConfigurationException, SAXException {
-    if (args.length < 1 || args.length > 2) {
-      exitWithUsageMessagee();
-    }
-    String filename = null;
-    boolean verbose = false;
-    if (args.length == 2) {
-      if (args[0].equals("-v") || args[0].equals("--verbose"))
-        filename = args[1];
-      else
-        exitWithUsageMessagee();
-      verbose = true;
-    } else {
-      filename = args[0];
-    }
-    long startTime = System.currentTimeMillis();
-    JLanguageTool lt = new JLanguageTool();
-    List patternRules = lt.loadPatternRules(DEFAULT_GRAMMAR_RULES);
-    for (Iterator iter = patternRules.iterator(); iter.hasNext();) {
-      Rule rule = (Rule) iter.next();
-      lt.addRule(rule);
-    }
-    if (verbose)
-      lt.setOutput(System.err);
-    List ruleMatches = lt.check(filename);
-    String fileContents = lt.readFile(filename);
-    long startTimeMatching = System.currentTimeMillis();
-    for (Iterator iter = ruleMatches.iterator(); iter.hasNext();) {
-      RuleMatch match = (RuleMatch) iter.next();
-      System.out.println(match);
-      System.out.println(lt.getContext(match.getFromPos(), match.getToPos(), fileContents));
-      if (iter.hasNext())
-        System.out.println();
-    }
-    long endTime = System.currentTimeMillis();
-    System.out.println("Time: " + (endTime-startTime) + "ms (including " +(endTime-startTimeMatching)+ "ms for rule matching)");
-  }
-
-  private static void exitWithUsageMessagee() {
-    System.out.println("Usage: java JLanguageTool [-v|--verbove] <file>");
-    System.exit(1);
-  }
-
 }

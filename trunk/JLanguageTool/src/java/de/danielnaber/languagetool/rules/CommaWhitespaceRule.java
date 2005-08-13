@@ -23,7 +23,7 @@ import java.util.List;
 
 import de.danielnaber.languagetool.AnalyzedSentence;
 import de.danielnaber.languagetool.AnalyzedToken;
-import de.danielnaber.languagetool.rules.en.EnglishRule;
+import de.danielnaber.languagetool.Language;
 
 /**
  * A rule that matches commas not followed by a whitespace
@@ -31,7 +31,7 @@ import de.danielnaber.languagetool.rules.en.EnglishRule;
  * 
  * @author Daniel Naber
  */
-public class CommaWhitespaceRule extends EnglishRule {
+public class CommaWhitespaceRule extends Rule {
 
   public String getId() {
     return "COMMA_WHITESPACE";
@@ -39,6 +39,10 @@ public class CommaWhitespaceRule extends EnglishRule {
 
   public String getDescription() {
     return "Use of whitespace after a comma";
+  }
+
+  public Language[] getLanguages() {
+    return new Language[] { Language.ENGLISH, Language.GERMAN };
   }
 
   public RuleMatch[] match(AnalyzedSentence text) {

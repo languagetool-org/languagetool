@@ -39,9 +39,25 @@ public abstract class Rule {
 
   public abstract Language[] getLanguages();
 
+  /**
+   * Whether this rule can be used for text in the given language.
+   */
+  public boolean supportsLanguage(Language language) {
+    Language[] languages = getLanguages();
+    for (int i = 0; i < languages.length; i++) {
+      if (language == languages[i])
+        return true;
+    }
+    return false;
+  }
+
+  /**
+   * TODO: Return the number of false positives to be expected.
+   * @return
+   *
   public int getFalsePositives() {
     return -1;
-  }
+  }*/
   
   /**
    * Check whether the given text matche this error rule, i.e. whether the
@@ -56,6 +72,10 @@ public abstract class Rule {
     this.correctExample = correctExample;
   }
 
+  /**
+   * Get a sentence with an example sentence that is correct and thus will not 
+   * match this rule.
+   */
   public String getCorrectExample() {
     return correctExample;
   }
@@ -64,6 +84,10 @@ public abstract class Rule {
     this.incorrectExample = incorrectExample;
   }
 
+  /**
+   * Get a sentence with an example sentence that is incorrect and thus will 
+   * match this rule.
+   */
   public String getIncorrectExample() {
     return incorrectExample;
   }
