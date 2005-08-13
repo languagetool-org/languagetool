@@ -36,7 +36,7 @@ import de.danielnaber.languagetool.rules.RuleMatch;
 public class PatternRule extends Rule {
 
   private String id;
-  private Language language;
+  private Language[] language;
   private String pattern;
   private String description;
 
@@ -44,7 +44,7 @@ public class PatternRule extends Rule {
 
   PatternRule(String id, Language language, String pattern, String description) {
     this.id = id;
-    this.language = language;
+    this.language = new Language[] { language };
     this.pattern = pattern;
     this.description = description;
   }
@@ -57,7 +57,7 @@ public class PatternRule extends Rule {
     return description;
   }
 
-  public Language getLanguage() {
+  public Language[] getLanguages() {
     return language;
   }
 

@@ -29,7 +29,6 @@ import java.util.Set;
 
 import de.danielnaber.languagetool.AnalyzedSentence;
 import de.danielnaber.languagetool.AnalyzedToken;
-import de.danielnaber.languagetool.Language;
 import de.danielnaber.languagetool.rules.RuleMatch;
 
 /**
@@ -59,10 +58,6 @@ public class AvsAnRule extends EnglishRule {
 
   public String getDescription() {
     return "Use of 'a' vs. 'an'";
-  }
-
-  public Language getLanguage() {
-    return Language.ENGLISH;
   }
 
   public RuleMatch[] match(AnalyzedSentence text) {

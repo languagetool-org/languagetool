@@ -28,8 +28,8 @@ import de.danielnaber.languagetool.rules.Rule;
  */
 public abstract class EnglishRule extends Rule {
 
-  public Language getLanguage() {
-    return Language.ENGLISH;
+  public Language[] getLanguages() {
+    return new Language[] { Language.ENGLISH };
   }
 
 }

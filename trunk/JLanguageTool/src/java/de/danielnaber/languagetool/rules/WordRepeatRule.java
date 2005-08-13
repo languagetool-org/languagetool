@@ -48,8 +48,8 @@ public class WordRepeatRule extends Rule {
     return "Avoid repeating of words (e.g. \"the the\")";
   }
 
-  public Language getLanguage() {
-    return Language.ENGLISH;
+  public Language[] getLanguages() {
+    return new Language[] { Language.ENGLISH };
   }
 
   public RuleMatch[] match(AnalyzedSentence text) {

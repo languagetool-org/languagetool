@@ -37,7 +37,7 @@ public abstract class Rule {
   
   public abstract String getDescription();
 
-  public abstract Language getLanguage();
+  public abstract Language[] getLanguages();
 
   public int getFalsePositives() {
     return -1;
