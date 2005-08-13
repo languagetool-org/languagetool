@@ -68,7 +68,7 @@ public class PatternRule extends Rule {
   public RuleMatch[] match(AnalyzedSentence text) {
     List ruleMatches = new ArrayList(); 
     AnalyzedToken[] tokens = text.getTokensWithoutWhitespace();
-    if (patternElements == null) {
+    if (patternElements == null) {      // lazy init
       patternElements = getPatternElements(pattern); 
     }
     int tokenPos = 0;
@@ -111,13 +111,13 @@ public class PatternRule extends Rule {
     String[] parts = pattern.split("\\s+");
     for (int i = 0; i < parts.length; i++) {
       String element = parts[i];
-      if (element.startsWith("\"") && !element.endsWith("\"") || element.endsWith("\"") && !element.startsWith("\"")) {
-        throw new IllegalArgumentException("Invalid pattern '" + pattern + "': unbalanced quote");
-      }
       boolean negation = false;
       if (element.startsWith("^")) {
         negation = true;
-        element = element.substring(1);     // cut off "   ^"
+        element = element.substring(1);     // cut off "^"
+      }
+      if (element.startsWith("\"") && !element.endsWith("\"") || element.endsWith("\"") && !element.startsWith("\"")) {
+        throw new IllegalArgumentException("Invalid pattern '" + pattern + "': unbalanced quote");
       }
       if (element.startsWith("\"") && element.endsWith("\"")) {         // cut off quotes
         element = element.substring(1, element.length()-1);
