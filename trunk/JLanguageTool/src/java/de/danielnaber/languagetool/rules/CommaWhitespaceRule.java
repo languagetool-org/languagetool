@@ -66,4 +66,8 @@ public class CommaWhitespaceRule extends Rule {
     return toRuleMatchArray(ruleMatches);
   }
 
+  public void reset() {
+    // nothing
+  }
+
 }

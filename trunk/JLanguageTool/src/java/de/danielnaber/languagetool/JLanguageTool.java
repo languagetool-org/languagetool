@@ -37,6 +37,7 @@ import de.danielnaber.languagetool.rules.Rule;
 import de.danielnaber.languagetool.rules.RuleMatch;
 import de.danielnaber.languagetool.rules.WordRepeatRule;
 import de.danielnaber.languagetool.rules.de.WiederVsWiderRule;
+import de.danielnaber.languagetool.rules.de.WordCoherencyRule;
 import de.danielnaber.languagetool.rules.en.AvsAnRule;
 import de.danielnaber.languagetool.rules.patterns.PatternRuleLoader;
 import de.danielnaber.languagetool.tokenizers.SentenceTokenizer;
@@ -75,7 +76,7 @@ public class JLanguageTool {
     this.language = language;
     // TODO: use reflection to get a list of all non-pattern rules:
     Rule[] allBuiltinRules = new Rule[] {new AvsAnRule(), new CommaWhitespaceRule(), new WordRepeatRule(),
-        new WiederVsWiderRule()};
+        new WiederVsWiderRule(), new WordCoherencyRule()};
     for (int i = 0; i < allBuiltinRules.length; i++) {
       if (allBuiltinRules[i].supportsLanguage(language))
       builtinRules.add(allBuiltinRules[i]); 
@@ -246,6 +247,13 @@ public class JLanguageTool {
     List rules = new ArrayList();
     rules.addAll(builtinRules);
     rules.addAll(userRules);
+    // Some rules have an internal state so they can do checks over sentence
+    // boundaries. These need to be reset so the checks don't suddendly
+    // work on different texts with the same data:
+    for (Iterator iter = rules.iterator(); iter.hasNext();) {
+      Rule rule = (Rule) iter.next();
+      rule.reset();
+    }
     return rules;
   }
 

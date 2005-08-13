@@ -79,4 +79,8 @@ public class WordRepeatRule extends Rule {
     return toRuleMatchArray(ruleMatches);
   }
 
+  public void reset() {
+    // nothing
+  }
+
 }

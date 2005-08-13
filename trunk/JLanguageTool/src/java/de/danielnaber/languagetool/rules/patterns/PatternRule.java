@@ -148,4 +148,8 @@ public class PatternRule extends Rule {
     return (Element[])elements.toArray(new Element[0]);
   }
   
+  public void reset() {
+    // nothing
+  }
+
 }

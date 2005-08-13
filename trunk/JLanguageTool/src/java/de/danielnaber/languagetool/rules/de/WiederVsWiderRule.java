@@ -78,4 +78,8 @@ public class WiederVsWiderRule extends GermanRule {
     return toRuleMatchArray(ruleMatches);
   }
 
+  public void reset() {
+    // nothing
+  }
+
 }

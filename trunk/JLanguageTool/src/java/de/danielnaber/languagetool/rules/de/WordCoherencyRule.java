@@ -48,8 +48,8 @@ public class WordCoherencyRule extends GermanRule {
   private final static String FILE_NAME = "rules" +File.separator+ "de" +File.separator+ "coherency.txt";
   private final static String FILE_ENCODING = "utf-8";
   
-  static private Map relevantWords;        // e.g. "aufwendig -> aufwändig"
-  static private Map shouldNotAppearWord = new HashMap();  // e.g. aufwändig -> RuleMatch of aufwendig
+  private Map relevantWords;        // e.g. "aufwendig -> aufwändig"
+  private Map shouldNotAppearWord = new HashMap();  // e.g. aufwändig -> RuleMatch of aufwendig
 
   static private GermanLemmatizer lemmatizer = null;
 
@@ -128,4 +128,8 @@ public class WordCoherencyRule extends GermanRule {
     return map;
   }
   
+  public void reset() {
+    shouldNotAppearWord = new HashMap();
+  }
+
 }

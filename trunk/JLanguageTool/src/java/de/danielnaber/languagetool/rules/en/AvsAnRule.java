@@ -143,4 +143,8 @@ public class AvsAnRule extends EnglishRule {
     return set;
   }
 
+  public void reset() {
+    // nothing
+  }
+
 }

@@ -42,6 +42,23 @@ public abstract class Rule {
   public abstract Language[] getLanguages();
 
   /**
+   * Check whether the given text matche this error rule, i.e. whether the
+   * text contains this error.
+   * 
+   * @param text a pre-analyzed sentence
+   * @return an array of RuleMatch object for each match.
+   */
+  public abstract RuleMatch[] match(AnalyzedSentence text);
+  
+  /**
+   * If a rule keeps it state over more than the check of one
+   * sentence, this must be implemented so the internal state
+   * it reset. It will be called before a new text is going
+   * to be checked.
+   */
+  public abstract void reset();
+
+  /**
    * Whether this rule can be used for text in the given language.
    */
   public boolean supportsLanguage(Language language) {
@@ -61,15 +78,6 @@ public abstract class Rule {
     return -1;
   }*/
   
-  /**
-   * Check whether the given text matche this error rule, i.e. whether the
-   * text contains this error.
-   * 
-   * @param text a pre-analyzed sentence
-   * @return an array of RuleMatch object for each match.
-   */
-  public abstract RuleMatch[] match(AnalyzedSentence text);
-
   public void setCorrectExample(String correctExample) {
     this.correctExample = correctExample;
   }
