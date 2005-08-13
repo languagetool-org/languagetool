@@ -21,6 +21,10 @@ package de.danielnaber.languagetool;
 import java.util.HashMap;
 import java.util.Map;
 
+import de.danielnaber.languagetool.tagging.EnglishTagger;
+import de.danielnaber.languagetool.tagging.GermanTagger;
+import de.danielnaber.languagetool.tagging.Tagger;
+
 /**
  * Constants for supported languages (currently English and German only).
  * 
@@ -28,8 +32,8 @@ import java.util.Map;
  */
 public class Language {
 
-  public static final Language ENGLISH = new Language("English", "en");
-  public static final Language GERMAN = new Language("German", "de");
+  public static final Language ENGLISH = new Language("English", "en", new EnglishTagger());
+  public static final Language GERMAN = new Language("German", "de", new GermanTagger());
   
   // IMPORTANT: keep in sync with objects above
   /**
@@ -44,10 +48,12 @@ public class Language {
 
   private String name;
   private String shortForm;
+  private Tagger tagger;
 
-  private Language(String name, String shortForm) {
+  private Language(String name, String shortForm, Tagger tagger) {
     this.name = name;
     this.shortForm = shortForm;
+    this.tagger = tagger;
   }
 
   public String toString() {
@@ -56,6 +62,10 @@ public class Language {
 
   public String getShortForm() {
     return shortForm;
+  }
+
+  public Tagger getTagger() {
+    return tagger;
   }
 
 }

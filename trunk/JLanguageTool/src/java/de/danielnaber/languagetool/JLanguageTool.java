@@ -28,8 +28,6 @@ import java.util.Set;
 
 import javax.xml.parsers.ParserConfigurationException;
 
-import opennlp.grok.preprocess.postag.EnglishPOSTaggerME;
-
 import org.xml.sax.SAXException;
 
 import de.danielnaber.languagetool.rules.CommaWhitespaceRule;
@@ -40,6 +38,7 @@ import de.danielnaber.languagetool.rules.de.WiederVsWiderRule;
 import de.danielnaber.languagetool.rules.de.WordCoherencyRule;
 import de.danielnaber.languagetool.rules.en.AvsAnRule;
 import de.danielnaber.languagetool.rules.patterns.PatternRuleLoader;
+import de.danielnaber.languagetool.tagging.Tagger;
 import de.danielnaber.languagetool.tokenizers.SentenceTokenizer;
 import de.danielnaber.languagetool.tokenizers.WordTokenizer;
 
@@ -59,10 +58,9 @@ public class JLanguageTool {
   private Set disabledRules = new HashSet();
   
   private Language language;
+  private Tagger tagger = null;
   private PrintStream printStream = null;
 
-  EnglishPOSTaggerME tagger = null;
-  
   /**
    * Create a JLanguageTool and setup the builtin rules appropriate for the
    * given language.
@@ -81,8 +79,7 @@ public class JLanguageTool {
       if (allBuiltinRules[i].supportsLanguage(language))
       builtinRules.add(allBuiltinRules[i]); 
     }
-    // FIXME: auch für de
-    tagger = new EnglishPOSTaggerME();
+    tagger = language.getTagger();
   }
   
   /**
@@ -94,7 +91,8 @@ public class JLanguageTool {
   }
 
   /**
-   * Load pattern rules from an XML file.
+   * Load pattern rules from an XML file. Use {@link #addRule} to add
+   * these rules to the checking process.
    * 
    * @throws ParserConfigurationException
    * @throws SAXException
