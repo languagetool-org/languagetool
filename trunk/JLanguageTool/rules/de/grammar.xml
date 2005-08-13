@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE rules PUBLIC "-//W3C//DTD GrammarRules 0.1//EN" "../rules.dtd">
+<!--
+Rules: Grammar and Typos
+(c) 2001-2005 Daniel Naber (http://www.danielnaber.de)
+$Id: grammar.xml,v 1.1 2005-08-13 17:02:41 dnaber Exp $
+-->
+<rules>
+
+	<rule id="ANREDE_NEUE_RECHTSCHREIBUNG" name="Kleinschreibung der Anredepronomen du/dein/euch/euer...">
+		<!-- TODO: "ihr" wird noch nicht geprüft, weil es in beiden Fällen vorkommen kann:
+			1. Vielleicht könnt ihr doch...
+			2. Herr Meier, Ihr Auto steht...
+		-->
+		<pattern case_sensitive="yes" lang="de">^SENT_START "Du|Dein|Euch|Euer"</pattern>
+		<message>Nach der neuen Rechtschreibung werden Anreden wie 'du, ihr, euch, ...' klein geschrieben (die Anrede 'Sie' wird weiterhin groß geschrieben)</message>
+		<example type="correct">Lieber Klaus, willst <em>du</em> ...</example>
+		<example type="incorrect">Lieber Klaus, willst <em>Du</em> ...</example>
+	</rule>
+
+</rules>
