@@ -18,6 +18,8 @@
  */
 package de.danielnaber.languagetool.rules;
 
+import java.util.List;
+
 import de.danielnaber.languagetool.AnalyzedSentence;
 import de.danielnaber.languagetool.Language;
 
@@ -90,6 +92,10 @@ public abstract class Rule {
    */
   public String getIncorrectExample() {
     return incorrectExample;
+  }
+
+  protected RuleMatch[] toRuleMatchArray(List ruleMatches) {
+    return (RuleMatch[])ruleMatches.toArray(new RuleMatch[0]);
   }
 
 }
