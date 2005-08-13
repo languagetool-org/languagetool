@@ -26,6 +26,7 @@ package de.danielnaber.languagetool.rules;
 public class RuleMatch {
 
   private int fromLine = -1;
+  private int column = -1;
   private Rule rule;
   private int fromPos;
   private int toPos;
@@ -54,6 +55,20 @@ public class RuleMatch {
    */
   public int getLine() {
     return fromLine;
+  }
+
+  /**
+   * Set the column number in which the match occurs.
+   */
+  public void setColumn(int column) {
+    this.column = column;
+  }
+
+  /**
+   * Get the line number in which the match occurs.
+   */
+  public int getColumn() {
+    return column;
   }
 
   /**
