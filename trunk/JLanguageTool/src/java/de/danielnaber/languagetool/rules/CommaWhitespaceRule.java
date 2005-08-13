@@ -16,14 +16,14 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
  */
-package de.danielnaber.languagetool.rules.en;
+package de.danielnaber.languagetool.rules;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import de.danielnaber.languagetool.AnalyzedSentence;
 import de.danielnaber.languagetool.AnalyzedToken;
-import de.danielnaber.languagetool.rules.RuleMatch;
+import de.danielnaber.languagetool.rules.en.EnglishRule;
 
 /**
  * A rule that matches commas not followed by a whitespace

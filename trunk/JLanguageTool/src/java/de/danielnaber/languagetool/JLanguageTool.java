@@ -36,11 +36,11 @@ import opennlp.grok.preprocess.postag.EnglishPOSTaggerME;
 
 import org.xml.sax.SAXException;
 
+import de.danielnaber.languagetool.rules.CommaWhitespaceRule;
 import de.danielnaber.languagetool.rules.Rule;
 import de.danielnaber.languagetool.rules.RuleMatch;
 import de.danielnaber.languagetool.rules.WordRepeatRule;
 import de.danielnaber.languagetool.rules.en.AvsAnRule;
-import de.danielnaber.languagetool.rules.en.CommaWhitespaceRule;
 import de.danielnaber.languagetool.rules.patterns.PatternRuleLoader;
 import de.danielnaber.languagetool.tokenizers.SentenceTokenizer;
 import de.danielnaber.languagetool.tokenizers.WordTokenizer;
