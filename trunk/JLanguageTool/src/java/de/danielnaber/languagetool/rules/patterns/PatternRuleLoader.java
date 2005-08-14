@@ -62,7 +62,7 @@ class PatternRuleHandler extends DefaultHandler {
   private String id;
   private boolean caseSensitive = false;
   private String languageStr;
-  private String pattern;
+  private StringBuffer pattern = null;
   private String description;
   private String ruleGroupId;
   private String ruleGroupDescription;
@@ -93,6 +93,7 @@ class PatternRuleHandler extends DefaultHandler {
       if (inRuleGroup && description == null)
         description = ruleGroupDescription;
     } else if (qName.equals("pattern")) {
+      pattern = new StringBuffer();
       inPattern = true;
       languageStr = attrs.getValue("lang");
       if (attrs.getValue("case_sensitive") != null && attrs.getValue("case_sensitive").equals("yes"))
@@ -119,7 +120,7 @@ class PatternRuleHandler extends DefaultHandler {
       if (language == null) {
         throw new SAXException("Unknown language '" + languageStr + "'");
       }
-      PatternRule rule = new PatternRule(id, language, pattern, description);
+      PatternRule rule = new PatternRule(id, language, pattern.toString(), description);
       rule.setCorrectExample(correctExample.toString());
       rule.setIncorrectExample(incorrectExample.toString());
       rule.setCaseSensitive(caseSensitive);
@@ -137,7 +138,7 @@ class PatternRuleHandler extends DefaultHandler {
   public void characters(char buf[], int offset, int len) {
     String s = new String(buf, offset, len);
     if (inPattern) {
-      pattern = s;
+      pattern.append(s);
     } else if (inCorrectExample) {
       correctExample.append(s);
     } else if (inIncorrectExample) {
