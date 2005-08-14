@@ -44,6 +44,14 @@ public class PatternRule extends Rule {
   private Element[] patternElements;
 
   PatternRule(String id, Language language, String pattern, String description) {
+    if (id == null)
+      throw new NullPointerException("id cannot be null");
+    if (language == null)
+      throw new NullPointerException("language cannot be null");
+    if (pattern == null)
+      throw new NullPointerException("pattern cannot be null");
+    if (description == null)
+      throw new NullPointerException("description cannot be null");
     this.id = id;
     this.language = new Language[] { language };
     this.pattern = pattern;
