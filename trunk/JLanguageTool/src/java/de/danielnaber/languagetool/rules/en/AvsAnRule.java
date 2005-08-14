@@ -94,7 +94,7 @@ public class AvsAnRule extends EnglishRule {
             doesRequireA = true;
           }
         }
-        System.err.println(prevToken + " " +token + ", a="+doesRequireA + ", an="+doesRequireAn);
+        //System.err.println(prevToken + " " +token + ", a="+doesRequireA + ", an="+doesRequireAn);
         String msg = null;
         if (prevToken.toLowerCase().equals("a") && doesRequireAn) {
           msg = "Use <suggestion>an</suggestion> instead of <old>a</old> if the following "+
