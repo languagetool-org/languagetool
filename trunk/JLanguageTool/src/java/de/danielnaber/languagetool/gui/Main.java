@@ -31,8 +31,10 @@ import java.util.Iterator;
 import java.util.List;
 
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextPane;
@@ -56,6 +58,7 @@ public class Main implements ActionListener {
   
   private JTextArea textArea = null;
   private JTextPane resultArea = null;
+  private JComboBox langBox = null;
   
   private Main() {
   }
@@ -78,6 +81,20 @@ public class Main implements ActionListener {
     JButton button = new JButton("Check text");
     button.setMnemonic('c'); 
     button.addActionListener(this);
+    
+    JPanel panel2 = new JPanel();
+    panel2.setLayout(new GridBagLayout());
+    GridBagConstraints buttonCons = new GridBagConstraints();
+    buttonCons.gridx = 0;
+    buttonCons.gridy = 0;
+    panel2.add(button, buttonCons);
+    buttonCons.gridx = 1;
+    buttonCons.gridy = 0;
+    panel2.add(new JLabel(" in: "), buttonCons);
+    buttonCons.gridx = 2;
+    buttonCons.gridy = 0;
+    langBox = new JComboBox(Language.LANGUAGES);
+    panel2.add(langBox, buttonCons);
 
     Container contentPane = frame.getContentPane();
     GridBagLayout gridLayout = new GridBagLayout();
@@ -101,7 +118,7 @@ public class Main implements ActionListener {
     //cons.fill = GridBagConstraints.NONE;
     contentPane.add(label, cons);
     cons.gridy = 3;
-    contentPane.add(button, cons);
+    contentPane.add(panel2, cons);
     
     //frame.getContentPane().add(button);
     frame.pack();
@@ -115,12 +132,15 @@ public class Main implements ActionListener {
       textArea.setText("Please insert text to check here");
     } else {
       StringBuffer sb = new StringBuffer();
-      resultArea.setText("<html>Starting check...<br>\n</html>");
+      String langName = langBox.getSelectedItem().toString();
+      resultArea.setText("Starting check...<br>\n");
       resultArea.repaint(); // FIXME: why doesn't this work?
-      //resultArea.setCursor(new Cursor(Cursor.WAIT_CURSOR)); 
-      sb.append("Starting check...<br>\n");
+      //TODO: resultArea.setCursor(new Cursor(Cursor.WAIT_CURSOR)); 
+      sb.append("Starting check in " +langName+ "...<br>\n");
+      int matches = 0;
       try {
-        checkText(textArea.getText(), Language.ENGLISH, sb);
+        Language language = Language.getLanguageforName(langName);
+        matches = checkText(textArea.getText(), language, sb);
       } catch (IOException e1) {
         sb.append(e1.toString());
         e1.printStackTrace();
@@ -131,13 +151,13 @@ public class Main implements ActionListener {
         sb.append(e1.toString());
         e1.printStackTrace();
       }
-      sb.append("Check done.<br>\n");
+      sb.append("Check done. " +matches+ " potential problems found<br>\n");
       resultArea.setText(sb.toString());
       resultArea.setCaretPosition(0);
     }
   }
   
-  private void checkText(String text, Language language, StringBuffer sb) throws IOException,
+  private int checkText(String text, Language language, StringBuffer sb) throws IOException,
       ParserConfigurationException, SAXException {
     long startTime = System.currentTimeMillis();
     JLanguageTool lt = new JLanguageTool(language);
@@ -165,12 +185,12 @@ public class Main implements ActionListener {
       msg = msg.replaceAll("</old>", "</b>");
       sb.append("<b>Message:</b> " + msg + "<br>\n");
       sb.append("<b>Context:</b> " + getContext(match.getFromPos(), match.getToPos(), text));
-      if (iter.hasNext())
-        sb.append("<br>\n");
+      sb.append("<br>\n");
     }
     long endTime = System.currentTimeMillis();
-    sb.append("<br>\n<br>\nTime: " + (endTime - startTime) + "ms (including "
+    sb.append("<br>\nTime: " + (endTime - startTime) + "ms (including "
         + (endTime - startTimeMatching) + "ms for rule matching)<br>\n");
+    return ruleMatches.size();
   }
 
   private static String getContext(int fromPos, int toPos, String fileContents) {

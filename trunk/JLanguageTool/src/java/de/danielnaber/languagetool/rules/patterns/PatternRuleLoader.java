@@ -106,11 +106,10 @@ class PatternRuleHandler extends DefaultHandler {
   public void endElement(String namespaceURI, String sName, String qName) throws SAXException {
     if (namespaceURI == null) namespaceURI = null;      // avoid compiler warning
     if (sName == null) sName = null;      // avoid compiler warning
-    Language language;
+    Language language = null;
     if (qName.equals("rule")) {
-      if (Language.LANGUAGES.containsKey(languageStr)) {
-        language = (Language)Language.LANGUAGES.get(languageStr);
-      } else {
+      language = Language.getLanguageforShortName(languageStr);
+      if (language == null) {
         throw new SAXException("Unknown language '" + languageStr + "'");
       }
       PatternRule rule = new PatternRule(id, language, pattern, description);

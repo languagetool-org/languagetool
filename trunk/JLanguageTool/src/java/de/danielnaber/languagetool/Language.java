@@ -18,9 +18,6 @@
  */
 package de.danielnaber.languagetool;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import de.danielnaber.languagetool.tagging.EnglishTagger;
 import de.danielnaber.languagetool.tagging.GermanTagger;
 import de.danielnaber.languagetool.tagging.Tagger;
@@ -34,21 +31,34 @@ public class Language {
 
   public static final Language ENGLISH = new Language("English", "en", new EnglishTagger());
   public static final Language GERMAN = new Language("German", "de", new GermanTagger());
-  
-  // IMPORTANT: keep in sync with objects above
-  /**
-   * Maps all languages from their two-character String code to their constant 
-   * (e.g. <code>en</code> -> <code>Language.ENGLISH</code>).
-   */
-  public static final Map LANGUAGES = new HashMap();
-  static {
-    LANGUAGES.put("en", ENGLISH);
-    LANGUAGES.put("de", GERMAN);
-  }
 
   private String name;
   private String shortForm;
   private Tagger tagger;
+
+  // IMPORTANT: keep in sync with objects above
+  /**
+   * All languages supported by JLanguageTool.
+   */
+  public static final Language[] LANGUAGES = new Language[] {ENGLISH, GERMAN};
+
+  public static Language getLanguageforShortName(String shortLanguageCode) {
+    for (int i = 0; i < Language.LANGUAGES.length; i++) {
+      if (shortLanguageCode.equals(Language.LANGUAGES[i].getShortForm())) {
+        return Language.LANGUAGES[i];
+      }
+    }
+    return null;
+  }
+
+  public static Language getLanguageforName(String languageName) {
+    for (int i = 0; i < Language.LANGUAGES.length; i++) {
+      if (languageName.equals(Language.LANGUAGES[i].getName())) {
+        return Language.LANGUAGES[i];
+      }
+    }
+    return null;
+  }
 
   private Language(String name, String shortForm, Tagger tagger) {
     this.name = name;
@@ -60,10 +70,23 @@ public class Language {
     return name;
   }
 
+  /**
+   * Get this language's name, e.g. <code>English</code> or <code>German</code>.
+   */
+  public String getName() {
+    return name;
+  }
+
+  /**
+   * Get this language's two character code, e.g. <code>en</code> for English.
+   */
   public String getShortForm() {
     return shortForm;
   }
 
+  /**
+   * Get this language's part-of-speech tagger implemenation.
+   */
   public Tagger getTagger() {
     return tagger;
   }
