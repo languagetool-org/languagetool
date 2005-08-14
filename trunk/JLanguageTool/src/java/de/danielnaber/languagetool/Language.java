@@ -44,7 +44,7 @@ public class Language {
 
   public static Language getLanguageforShortName(String shortLanguageCode) {
     for (int i = 0; i < Language.LANGUAGES.length; i++) {
-      if (shortLanguageCode.equals(Language.LANGUAGES[i].getShortForm())) {
+      if (shortLanguageCode.equals(Language.LANGUAGES[i].getShortName())) {
         return Language.LANGUAGES[i];
       }
     }
@@ -80,7 +80,7 @@ public class Language {
   /**
    * Get this language's two character code, e.g. <code>en</code> for English.
    */
-  public String getShortForm() {
+  public String getShortName() {
     return shortForm;
   }
 

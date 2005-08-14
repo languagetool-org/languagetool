@@ -53,7 +53,7 @@ public class Main {
     long startTime = System.currentTimeMillis();
     JLanguageTool lt = new JLanguageTool(language);
     File defaultPatternFile = 
-      new File(RULES_DIR +File.separator+ language.getShortForm() +File.separator+ PATTERN_FILE);
+      new File(RULES_DIR +File.separator+ language.getShortName() +File.separator+ PATTERN_FILE);
     List patternRules = new ArrayList();
     if (defaultPatternFile.exists()) {
       patternRules = lt.loadPatternRules(defaultPatternFile.getAbsolutePath());
