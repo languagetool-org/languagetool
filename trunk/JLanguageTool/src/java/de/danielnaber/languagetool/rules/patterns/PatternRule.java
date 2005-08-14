@@ -116,6 +116,9 @@ public class PatternRule extends Rule {
         RuleMatch ruleMatch = new RuleMatch(this, firstMatchToken.getStartPos(), 
             lastMatchToken.getStartPos()+lastMatchToken.getToken().length(), description);
         ruleMatches.add(ruleMatch);
+      } else {
+        firstMatchToken = null;
+        lastMatchToken = null;
       }
       tokenPos++;
     }      
