@@ -43,15 +43,46 @@ public class Main {
   public final static String RULES_DIR = "rules";
   public final static String PATTERN_FILE = "grammar.xml";
 
-  private final static int CONTEXT_SIZE = 20;
+  private final static int CONTEXT_SIZE = 25;
+  
+  private JLanguageTool lt = null;
+  private boolean verbose = false;
+  private Language language = null;
 
-  private Main() {
+  private Main(boolean verbose, Language language) throws IOException {
+    this.verbose = verbose;
+    this.language = language;
+    lt = new JLanguageTool(language);
   }
 
-  private void run(String filename, boolean verbose, Language language) 
-      throws IOException, ParserConfigurationException, SAXException {
+  private void runRecursive(String filename) throws IOException,
+      ParserConfigurationException, SAXException {
+    File dir = new File(filename);
+    if (!dir.isDirectory()) {
+      throw new IllegalArgumentException(dir.getAbsolutePath() + " is not a directory, cannot use recursion");
+    }
+    File[] files = dir.listFiles();
+    for (int i = 0; i < files.length; i++) {
+      if (files[i].isDirectory()) {
+        runRecursive(files[i].getAbsolutePath());
+      } else {
+        run(files[i].getAbsolutePath());
+      }
+    }
+  }
+
+  /**
+   * Loads filename, filter out XML and check the result. Note that the XML filtering
+   * can lead to incorrect positions in the list of matching rules.
+   * 
+   * @param filename
+   * @throws IOException
+   * @throws ParserConfigurationException
+   * @throws SAXException
+   */
+  private void run(String filename) throws IOException,
+      ParserConfigurationException, SAXException {
     long startTime = System.currentTimeMillis();
-    JLanguageTool lt = new JLanguageTool(language);
     File defaultPatternFile = 
       new File(RULES_DIR +File.separator+ language.getShortName() +File.separator+ PATTERN_FILE);
     List patternRules = new ArrayList();
@@ -67,6 +98,7 @@ public class Main {
     if (verbose)
       lt.setOutput(System.err);
     String fileContents = readFile(filename);
+    fileContents = filterXML(fileContents);
     List ruleMatches = lt.check(fileContents);
     long startTimeMatching = System.currentTimeMillis();
     for (Iterator iter = ruleMatches.iterator(); iter.hasNext();) {
@@ -85,6 +117,12 @@ public class Main {
         "ms for rule matching)");
   }
   
+  private String filterXML(String s) {
+    s = s.replaceAll("(?s)<!--.*?-->", " ");      // (?s) = DOTALL mode
+    s = s.replaceAll("(?s)<.*?>", " ");
+    return s;
+  }
+
   private String readFile(String filename) throws IOException {
     FileReader fr = null;
     BufferedReader br = null;
@@ -140,7 +178,8 @@ public class Main {
   }
 
   private static void exitWithUsageMessagee() {
-    System.out.println("Usage: java de.danielnaber.languagetool.Main [-v|--verbove] [-l|--language] <file>");
+    System.out.println("Usage: java de.danielnaber.languagetool.Main " +
+            "[-r|--recursive] [-v|--verbove] [-l|--language] <file>");
     System.exit(1);
   }
 
@@ -148,15 +187,18 @@ public class Main {
    * Command line tool to check plain text files.
    */
   public static void main(String[] args) throws IOException, ParserConfigurationException, SAXException {
-    if (args.length < 1 || args.length > 4) {
+    if (args.length < 1 || args.length > 5) {
       exitWithUsageMessagee();
     }
     boolean verbose = false;
+    boolean recursive = false;
     Language language = null;
     String filename = null;
     for (int i = 0; i < args.length; i++) {
       if (args[i].equals("-v") || args[i].equals("--verbose")) {
         verbose = true;
+      } else if (args[i].equals("-r") || args[i].equals("--recursive")) {
+        recursive = true;
       } else if (args[i].equals("-l") || args[i].equals("--language")) {
         String lang = args[++i];
         if (lang.equals("en")) {
@@ -177,8 +219,11 @@ public class Main {
       System.err.println("No language specified, using English");
       language = Language.ENGLISH;
     }
-    Main prg = new Main();
-    prg.run(filename, verbose, language);
+    Main prg = new Main(verbose, language);
+    if (recursive)
+      prg.runRecursive(filename);
+    else
+      prg.run(filename);
   }
 
 }
