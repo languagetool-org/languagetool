@@ -62,7 +62,7 @@ public class Main implements ActionListener {
   
   private Main() {
   }
-  
+
   private void createAndShowGUI() {
     JFrame frame = new JFrame("JLanguageTool Demo");
     frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -138,18 +138,17 @@ public class Main implements ActionListener {
       //TODO: resultArea.setCursor(new Cursor(Cursor.WAIT_CURSOR)); 
       sb.append("Starting check in " +langName+ "...<br>\n");
       int matches = 0;
+      Language language = Language.getLanguageforName(langName);
       try {
-        Language language = Language.getLanguageforName(langName);
         matches = checkText(textArea.getText(), language, sb);
-      } catch (IOException e1) {
-        sb.append(e1.toString());
-        e1.printStackTrace();
-      } catch (ParserConfigurationException e1) {
-        sb.append(e1.toString());
-        e1.printStackTrace();
-      } catch (SAXException e1) {
-        sb.append(e1.toString());
-        e1.printStackTrace();
+      } catch (Exception ex) {
+        sb.append("<br><br><b><font color=\"red\">" + ex.toString() + "<br>");
+        StackTraceElement[] elements = ex.getStackTrace();
+        for (int i = 0; i < elements.length; i++) {
+          sb.append(elements[i] + "<br>");
+        }
+        sb.append("</font></b><br>");
+        ex.printStackTrace();
       }
       sb.append("Check done. " +matches+ " potential problems found<br>\n");
       resultArea.setText(sb.toString());
