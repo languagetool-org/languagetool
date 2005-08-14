@@ -179,7 +179,7 @@ public class Main {
 
   private static void exitWithUsageMessagee() {
     System.out.println("Usage: java de.danielnaber.languagetool.Main " +
-            "[-r|--recursive] [-v|--verbove] [-l|--language] <file>");
+            "[-r|--recursive] [-v|--verbose] [-l|--language] <file>");
     System.exit(1);
   }
 
