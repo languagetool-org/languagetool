@@ -64,9 +64,12 @@ class PatternRuleHandler extends DefaultHandler {
   private String languageStr;
   private String pattern;
   private String description;
+  private String ruleGroupId;
+  private String ruleGroupDescription;
   private StringBuffer correctExample = new StringBuffer();
   private StringBuffer incorrectExample = new StringBuffer();
   
+  private boolean inRuleGroup = false;
   private boolean inPattern = false;
   private boolean inCorrectExample = false;
   private boolean inIncorrectExample = false;
@@ -83,23 +86,27 @@ class PatternRuleHandler extends DefaultHandler {
     if (namespaceURI == null) namespaceURI = null;      // avoid compiler warning
     if (lName == null) lName = null;      // avoid compiler warning
     if (qName.equals("rule")) {
-      if (attrs != null) {
-        id = attrs.getValue("id");
-        description = attrs.getValue("name");
-      }
+      id = attrs.getValue("id");
+      if (inRuleGroup && id == null)
+        id = ruleGroupId;
+      description = attrs.getValue("name");
+      if (inRuleGroup && description == null)
+        description = ruleGroupDescription;
     } else if (qName.equals("pattern")) {
       inPattern = true;
-      if (attrs != null) {
-        languageStr = attrs.getValue("lang");
-        if (attrs.getValue("case_sensitive") != null && attrs.getValue("case_sensitive").equals("yes"))
-          caseSensitive = true;
-      }
+      languageStr = attrs.getValue("lang");
+      if (attrs.getValue("case_sensitive") != null && attrs.getValue("case_sensitive").equals("yes"))
+        caseSensitive = true;
     } else if (qName.equals("example") && attrs.getValue("type").equals("correct")) {
       inCorrectExample = true;
       correctExample = new StringBuffer();
     } else if (qName.equals("example") && attrs.getValue("type").equals("incorrect")) {
       inIncorrectExample = true;
       incorrectExample = new StringBuffer();
+    } else if (qName.equals("rulegroup")) {
+      ruleGroupId = attrs.getValue("id");
+      ruleGroupDescription = attrs.getValue("name");
+      inRuleGroup = true;
     }
   }
 
@@ -122,6 +129,8 @@ class PatternRuleHandler extends DefaultHandler {
     } else if (qName.equals("example")) {
       inCorrectExample = false;
       inIncorrectExample = false;
+    } else if (qName.equals("rulegroup")) {
+      inRuleGroup = false;
     }
   }
 
