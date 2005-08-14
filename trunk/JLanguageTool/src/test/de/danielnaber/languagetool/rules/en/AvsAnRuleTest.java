@@ -57,6 +57,8 @@ public class AvsAnRuleTest extends TestCase {
     // With uppercase letters:
     matches = rule.match(langTool.getAnalyzedSentence("A University"));
     assertEquals(0, matches.length);
+    matches = rule.match(langTool.getAnalyzedSentence("A Europe wide something"));
+    assertEquals(0, matches.length);
     matches = rule.match(langTool.getAnalyzedSentence("then an University sdoj fixme sdoopsd"));
     assertEquals(1, matches.length);
   }

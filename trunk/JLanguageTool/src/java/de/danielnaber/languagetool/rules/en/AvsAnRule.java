@@ -94,7 +94,7 @@ public class AvsAnRule extends EnglishRule {
             doesRequireA = true;
           }
         }
-        //System.err.println(prevToken + " " +token + ", a="+doesRequireA + ", an="+doesRequireAn);
+        System.err.println(prevToken + " " +token + ", a="+doesRequireA + ", an="+doesRequireAn);
         String msg = null;
         if (prevToken.toLowerCase().equals("a") && doesRequireAn) {
           msg = "Use <suggestion>an</suggestion> instead of <old>a</old> if the following "+
@@ -122,6 +122,9 @@ public class AvsAnRule extends EnglishRule {
     return c == 'a' || c == 'e' || c == 'i' || c == 'o' || c == 'u'; 
   }
   
+  /**
+   * Load words, normalized to lowercase.
+   */
   private Set loadWords(String filename) throws IOException {
     FileReader fr = null;
     BufferedReader br = null;
@@ -134,7 +137,7 @@ public class AvsAnRule extends EnglishRule {
         line = line.trim();
         if (line.startsWith("#"))       // ignore comments
           continue;
-        set.add(line);
+        set.add(line.toLowerCase());
       }
     } finally {
       if (br != null) br.close();
