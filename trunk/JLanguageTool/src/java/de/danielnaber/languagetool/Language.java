@@ -42,6 +42,12 @@ public class Language {
    */
   public static final Language[] LANGUAGES = new Language[] {ENGLISH, GERMAN};
 
+  /**
+   * Get the Language object for the given short language name.
+   * 
+   * @param shortLanguageCode e.g. <code>en</code> or <code>de</code>
+   * @return a Language object or <code>null</code>
+   */
   public static Language getLanguageforShortName(String shortLanguageCode) {
     for (int i = 0; i < Language.LANGUAGES.length; i++) {
       if (shortLanguageCode.equals(Language.LANGUAGES[i].getShortName())) {
@@ -51,6 +57,12 @@ public class Language {
     return null;
   }
 
+  /**
+   * Get the Language object for the given language name.
+   * 
+   * @param languageName e.g. <code>English</code> or <code>German</code>
+   * @return a Language object or <code>null</code>
+   */
   public static Language getLanguageforName(String languageName) {
     for (int i = 0; i < Language.LANGUAGES.length; i++) {
       if (languageName.equals(Language.LANGUAGES[i].getName())) {
