@@ -26,8 +26,8 @@ import de.danielnaber.languagetool.AnalyzedToken;
 import de.danielnaber.languagetool.rules.RuleMatch;
 
 /**
- * Check incorretc use of "wieder" where "wider" is correct, e.g. 
- * in "Das spiegelt die Situation wieder".
+ * Check incorrect use of "spiegelt ... wider", namely using "wieder" instead
+ * of "wider", e.g. in "Das spiegelt die Situation wieder" (incorrect).
  *   
  * @author Daniel Naber
  */
