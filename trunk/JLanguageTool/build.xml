@@ -45,12 +45,8 @@
   	<echo>${ant.version}</echo>
     <mkdir dir="${build.dir}"/>
     <mkdir dir="${build.classes}"/>
-    <mkdir dir="${build.lib}"/>
-    <mkdir dir="${build.javadocs}"/>
     <mkdir dir="${build.meta-inf}"/>
     <mkdir dir="${dist.dir}"/>
-    <mkdir dir="${dist.lib}"/>
-    <mkdir dir="${dist.javadocs}"/>
   </target>
 
   <!-- ================================================================== -->
@@ -222,9 +218,6 @@
   	<property name="zip.dir" value="${dist.dir}/JLanguageTool-${version}"/>
   	<property name="zip.lib" value="${zip.dir}/libs"/>
   	
-  	<mkdir dir="${zip.dir}"/>
-    <mkdir dir="${zip.dir}/javadoc"/>
-  	
 	<copy file="${ext.grok.lib}" todir="${zip.lib}" />
 	<copy file="${ext.opennlp.lib}" todir="${zip.lib}" />
 	<copy file="${ext.trove.lib}" todir="${zip.lib}" />
@@ -252,6 +245,50 @@
 
   	<zip destfile="${dist.dir}/JLanguageTool-${version}.zip" basedir="${dist.dir}"
   	  		includes="JLanguageTool-${version}/**" />
+
+  </target>
+
+  <!-- ================================================================== -->
+  <!-- DIST-SRC -->
+  <!-- ================================================================== -->
+  <target name="dist-src" depends="build,javadoc">
+
+  	<property name="zip.dir" value="${dist.dir}/JLanguageTool-${version}-src"/>
+  	<property name="zip.lib" value="${zip.dir}/libs"/>
+  	
+	<copy file="${ext.grok.lib}" todir="${zip.lib}" />
+	<copy file="${ext.opennlp.lib}" todir="${zip.lib}" />
+	<copy file="${ext.trove.lib}" todir="${zip.lib}" />
+	<copy file="${ext.maxent.lib}" todir="${zip.lib}" />
+	<copy file="${ext.junit.lib}" todir="${zip.lib}" />
+	<copy file="${ext.dir}/build/junit-license.txt" todir="${zip.lib}" />
+	<copy file="${ext.dir}/README" todir="${zip.lib}" />
+
+	<copy file="./README" todir="${zip.dir}" />
+	<copy file="./COPYING" todir="${zip.dir}" />
+	<copy file="./build.xml" todir="${zip.dir}" />
+	<copy file="./build.properties" todir="${zip.dir}" />
+	<copy file="./resource/MANIFEST" todir="${zip.dir}/resource" />
+	<copy file="./resource/MANIFEST.GUI" todir="${zip.dir}/resource" />
+
+	<copy file="rules/rules.dtd" todir="${zip.dir}/rules" />
+  	<copy todir="${zip.dir}/rules/en">
+	  	<fileset dir="rules/en/"/>
+	</copy>
+  	<copy todir="${zip.dir}/rules/de">
+	  	<fileset dir="rules/de/"/>
+	</copy>
+
+  	<copy todir="${zip.dir}/javadoc">
+	  	<fileset dir="${dist.dir}/docs/api"/>
+	</copy>
+
+  	<copy todir="${zip.dir}/src/java">
+	  	<fileset dir="${src.java.dir}/"/>
+	</copy>
+
+  	<zip destfile="${dist.dir}/JLanguageTool-${version}-src.zip" basedir="${dist.dir}"
+  	  		includes="JLanguageTool-${version}-src/**" />
 
   </target>
 
