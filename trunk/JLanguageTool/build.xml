@@ -260,8 +260,8 @@
 	<copy file="${ext.opennlp.lib}" todir="${zip.lib}" />
 	<copy file="${ext.trove.lib}" todir="${zip.lib}" />
 	<copy file="${ext.maxent.lib}" todir="${zip.lib}" />
-	<copy file="${ext.junit.lib}" todir="${zip.lib}" />
-	<copy file="${ext.dir}/build/junit-license.txt" todir="${zip.lib}" />
+	<copy file="${ext.junit.lib}" todir="${zip.lib}/build" />
+	<copy file="${ext.dir}/build/junit-license.txt" todir="${zip.lib}/build" />
 	<copy file="${ext.dir}/README" todir="${zip.lib}" />
 
 	<copy file="./README" todir="${zip.dir}" />
@@ -285,6 +285,9 @@
 
   	<copy todir="${zip.dir}/src/java">
 	  	<fileset dir="${src.java.dir}/"/>
+	</copy>
+  	<copy todir="${zip.dir}/src/test">
+	  	<fileset dir="${src.test.dir}/"/>
 	</copy>
 
   	<zip destfile="${dist.dir}/JLanguageTool-${version}-src.zip" basedir="${dist.dir}"
