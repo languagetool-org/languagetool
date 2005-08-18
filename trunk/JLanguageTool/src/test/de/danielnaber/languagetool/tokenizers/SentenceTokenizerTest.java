@@ -21,29 +21,16 @@ package de.danielnaber.languagetool.tokenizers;
 import java.util.Iterator;
 import java.util.Vector;
 
-import junit.framework.Test;
 import junit.framework.TestCase;
-import junit.framework.TestSuite;
 
 /**
  * @author Daniel Naber
  */
 public class SentenceTokenizerTest extends TestCase {
 
-  public SentenceTokenizerTest(String arg0) {
-    super(arg0);
-  }
-
-  public static Test suite() {
-    TestSuite suite = new TestSuite("SentenceTokenizerTest");
-    suite.addTestSuite(SentenceTokenizerTest.class);
-
-    return suite;
-  }
-
   public void testTokenize() {
-    // WICHTIG: Sätze müssen mit Leerzeichen enden, so dass
-    // sie hintereinandergehängt wie ein Text aussehen:
+    // NOTE: sentences here need to end with a space character so they
+    // have correct whitespace when appended:
     testSplit(new String[] { "Dies ist ein Satz." });
     testSplit(new String[] { "Dies ist ein Satz. ", "Noch einer." });
     testSplit(new String[] { "Ein Satz! ", "Noch einer." });
@@ -52,6 +39,10 @@ public class SentenceTokenizerTest extends TestCase {
     testSplit(new String[] { "Heute ist der 13.12.2004." });
     testSplit(new String[] { "Heute ist der 13. Dezember." });
     testSplit(new String[] { "Heute ist der 1. Januar." });
+    
+    // incomplete sentences, need to work for on-thy-fly checking of texts:
+    testSplit(new String[] { "Here's a" });
+    testSplit(new String[] { "Here's a sentence. ", "And here's one that's not comp" });
 
     // Tests taken from LanguageTool's SentenceSplitterTest.py:
     testSplit(new String[] { "This is a sentence. " });
@@ -111,4 +102,5 @@ public class SentenceTokenizerTest extends TestCase {
     SentenceTokenizer stokenizer = new SentenceTokenizer();
     assertEquals(input, stokenizer.tokenize(inputString.toString()));
   }
+
 }
