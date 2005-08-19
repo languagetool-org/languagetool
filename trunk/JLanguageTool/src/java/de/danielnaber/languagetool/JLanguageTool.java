@@ -18,6 +18,7 @@
  */
 package de.danielnaber.languagetool;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.util.ArrayList;
@@ -52,7 +53,10 @@ import de.danielnaber.languagetool.tokenizers.WordTokenizer;
  * @author Daniel Naber
  */
 public class JLanguageTool {
-  
+
+  public final static String RULES_DIR = "rules";
+  public final static String PATTERN_FILE = "grammar.xml";
+
   private List builtinRules = new ArrayList();
   private List userRules = new ArrayList();     // rules added via addRule() method
   private Set disabledRules = new HashSet();
@@ -102,6 +106,23 @@ public class JLanguageTool {
   public List loadPatternRules(String filename) throws ParserConfigurationException, SAXException, IOException {
     PatternRuleLoader ruleLoader = new PatternRuleLoader();
     return ruleLoader.getRules(filename);
+  }
+
+  /**
+   * Loads and activates the pattern rules from <code>rules/&lt;language&gt;/grammar.xml</code>.
+   * 
+   * @throws ParserConfigurationException
+   * @throws SAXException
+   * @throws IOException
+   */
+  public void activateDefaultPatternRules() throws ParserConfigurationException, SAXException, IOException {
+    File defaultPatternFile = 
+      new File(RULES_DIR +File.separator+ language.getShortName() +File.separator+ PATTERN_FILE);
+    List patternRules = loadPatternRules(defaultPatternFile.getAbsolutePath());
+    for (Iterator iter = patternRules.iterator(); iter.hasNext();) {
+      Rule rule = (Rule) iter.next();
+      addRule(rule);
+    }
   }
 
   /**
