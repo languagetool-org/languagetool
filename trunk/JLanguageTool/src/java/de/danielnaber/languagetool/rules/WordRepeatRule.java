@@ -40,7 +40,7 @@ public class WordRepeatRule extends Rule {
   }
 
   public String getDescription() {
-    return "Avoid repeating of words (e.g. \"the the\")";
+    return "Word repetition (e.g. \"the the\")";
   }
 
   public Language[] getLanguages() {
@@ -67,7 +67,7 @@ public class WordRepeatRule extends Rule {
           }
         }
         if (isWord && prevToken.toLowerCase().equals(token.toLowerCase())) {
-          String msg = "Don't repeat a word";
+          String msg = "Possible typo: you repeated a word";
           RuleMatch ruleMatch = new RuleMatch(this, prevPos, pos+prevToken.length(), msg);
           ruleMatches.add(ruleMatch);
         }
