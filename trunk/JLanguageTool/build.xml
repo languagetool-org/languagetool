@@ -3,6 +3,8 @@
 <project name="JLanguageTool" default="dist" basedir=".">
 
   <property name="version" value="0.8dev"/>
+  <property name="date" value="2005-xx-yy"/>
+	
   <property name="javadoctitle" value="JLanguageTool API ${version}"/>
   
   <property file="build.properties"/>
@@ -230,6 +232,8 @@
 	<copy file="${dist.dir}/${final.name.gui}.jar" todir="${zip.dir}" />
 	<copy file="./README" todir="${zip.dir}" />
 	<copy file="./COPYING" todir="${zip.dir}" />
+  	<replace file="${zip.dir}/README" token="###VERSION###" value="${version}"></replace>
+  	<replace file="${zip.dir}/README" token="###DATE###" value="${date}"></replace>
 
 	<copy file="rules/rules.dtd" todir="${zip.dir}/rules" />
   	<copy todir="${zip.dir}/rules/en">
@@ -265,6 +269,8 @@
 	<copy file="${ext.dir}/README" todir="${zip.lib}" />
 
 	<copy file="./README" todir="${zip.dir}" />
+  	<replace file="${zip.dir}/README" token="###VERSION###" value="${version}"></replace>
+  	<replace file="${zip.dir}/README" token="###DATE###" value="${date}"></replace>
 	<copy file="./COPYING" todir="${zip.dir}" />
 	<copy file="./build.xml" todir="${zip.dir}" />
 	<copy file="./build.properties" todir="${zip.dir}" />
