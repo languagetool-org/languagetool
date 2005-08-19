@@ -40,9 +40,6 @@ import de.danielnaber.languagetool.rules.RuleMatch;
  */
 public class Main {
 
-  public final static String RULES_DIR = "rules";
-  public final static String PATTERN_FILE = "grammar.xml";
-
   private final static int CONTEXT_SIZE = 25;
   
   private JLanguageTool lt = null;
@@ -84,7 +81,8 @@ public class Main {
       ParserConfigurationException, SAXException {
     long startTime = System.currentTimeMillis();
     File defaultPatternFile = 
-      new File(RULES_DIR +File.separator+ language.getShortName() +File.separator+ PATTERN_FILE);
+      new File(JLanguageTool.RULES_DIR +File.separator+ language.getShortName() 
+          +File.separator+ JLanguageTool.PATTERN_FILE);
     List patternRules = new ArrayList();
     if (defaultPatternFile.exists()) {
       patternRules = lt.loadPatternRules(defaultPatternFile.getAbsolutePath());
