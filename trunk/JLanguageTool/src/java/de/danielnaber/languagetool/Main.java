@@ -38,7 +38,7 @@ import de.danielnaber.languagetool.rules.RuleMatch;
  *
  * @author Daniel Naber
  */
-public class Main {
+class Main {
 
   private final static int CONTEXT_SIZE = 25;
   
