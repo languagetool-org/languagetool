@@ -99,9 +99,11 @@ class Main {
     fileContents = filterXML(fileContents);
     List ruleMatches = lt.check(fileContents);
     long startTimeMatching = System.currentTimeMillis();
+    int i = 1;
     for (Iterator iter = ruleMatches.iterator(); iter.hasNext();) {
       RuleMatch match = (RuleMatch) iter.next();
-      System.out.println("Line " + (match.getLine()+1) + ", column " + match.getColumn());
+      System.out.println(i + ".) Line " + (match.getLine()+1) + ", column " + match.getColumn() +
+          ", Rule ID: " + match.getRule().getId());
       String msg = match.getMessage();
       msg = msg.replaceAll("<i>", "'");
       msg = msg.replaceAll("</i>", "'");
@@ -109,6 +111,7 @@ class Main {
       System.out.println(getContext(match.getFromPos(), match.getToPos(), fileContents));
       if (iter.hasNext())
         System.out.println();
+      i++;
     }
     long endTime = System.currentTimeMillis();
     System.out.println("Time: " + (endTime-startTime) + "ms (including " +(endTime-startTimeMatching)+
