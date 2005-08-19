@@ -27,8 +27,11 @@ import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -48,18 +51,22 @@ import de.danielnaber.languagetool.rules.Rule;
 import de.danielnaber.languagetool.rules.RuleMatch;
 
 /**
- * A very simple GUI to check texts with.
+ * A simple GUI to check texts with.
  * 
  * @author Daniel Naber
  */
-public class Main implements ActionListener {
+class Main implements ActionListener {
 
   private static final int CONTEXT_SIZE = 25;
+  
+  private static final String OPTIONS_BUTTON = "Options...";
   
   private JTextArea textArea = null;
   private JTextPane resultArea = null;
   private JComboBox langBox = null;
   
+  private Map configDialogs = new HashMap();       // Language -> ConfigurationDialog
+
   private Main() {
   }
 
@@ -68,33 +75,39 @@ public class Main implements ActionListener {
     frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
     textArea = new JTextArea("This is a example input to to show you how JLanguageTool works. " +
-            "Note, howeva, that it does not include a spell checka.");
+        "Note, however, that it does not include a spell checka.");
+    // TODO: wrong line number is displayed for lines that are wrapped automatically:
     textArea.setLineWrap(true);
     textArea.setWrapStyleWord(true);
     resultArea = new JTextPane();
     resultArea.setContentType("text/html");
-    resultArea.setText("<html>Results will appear here</html>");
-    //resultArea.setLineWrap(true);
-    //resultArea.setWrapStyleWord(true);
-    //resultArea.setEditable(false);
+    resultArea.setText("Results will appear here");
     JLabel label = new JLabel("Please type or paste text to check in the top area");
     JButton button = new JButton("Check text");
     button.setMnemonic('c'); 
     button.addActionListener(this);
-    
-    JPanel panel2 = new JPanel();
-    panel2.setLayout(new GridBagLayout());
+
+    JButton configButton = new JButton(OPTIONS_BUTTON);
+    configButton.setMnemonic('o'); 
+    configButton.addActionListener(this);
+
+    JPanel panel = new JPanel();
+    panel.setLayout(new GridBagLayout());
     GridBagConstraints buttonCons = new GridBagConstraints();
     buttonCons.gridx = 0;
     buttonCons.gridy = 0;
-    panel2.add(button, buttonCons);
+    panel.add(button, buttonCons);
     buttonCons.gridx = 1;
     buttonCons.gridy = 0;
-    panel2.add(new JLabel(" in: "), buttonCons);
+    panel.add(new JLabel(" in: "), buttonCons);
     buttonCons.gridx = 2;
     buttonCons.gridy = 0;
     langBox = new JComboBox(Language.LANGUAGES);
-    panel2.add(langBox, buttonCons);
+    panel.add(langBox, buttonCons);
+    buttonCons.gridx = 3;
+    buttonCons.gridy = 0;
+    buttonCons.insets = new Insets(0, 10, 0, 0);
+    panel.add(configButton, buttonCons);
 
     Container contentPane = frame.getContentPane();
     GridBagLayout gridLayout = new GridBagLayout();
@@ -118,65 +131,94 @@ public class Main implements ActionListener {
     //cons.fill = GridBagConstraints.NONE;
     contentPane.add(label, cons);
     cons.gridy = 3;
-    contentPane.add(panel2, cons);
+    contentPane.add(panel, cons);
     
-    //frame.getContentPane().add(button);
     frame.pack();
     frame.setSize(600, 600);
     frame.setVisible(true);
   }
   
   public void actionPerformed(ActionEvent e) {
-    if (e == null) ;        // avoid compiler warning
-    if (textArea.getText().trim().equals("")) {
-      textArea.setText("Please insert text to check here");
+    String langName = langBox.getSelectedItem().toString();
+    Language language = Language.getLanguageforName(langName);
+    ConfigurationDialog configDialog = null;
+    if (configDialogs.containsKey(language)) {
+      configDialog = (ConfigurationDialog)configDialogs.get(language);
     } else {
-      StringBuffer sb = new StringBuffer();
-      String langName = langBox.getSelectedItem().toString();
-      resultArea.setText("Starting check...<br>\n");
-      resultArea.repaint(); // FIXME: why doesn't this work?
-      //TODO: resultArea.setCursor(new Cursor(Cursor.WAIT_CURSOR)); 
-      sb.append("Starting check in " +langName+ "...<br>\n");
-      int matches = 0;
-      Language language = Language.getLanguageforName(langName);
-      try {
-        matches = checkText(textArea.getText(), language, sb);
-      } catch (Exception ex) {
-        sb.append("<br><br><b><font color=\"red\">" + ex.toString() + "<br>");
-        StackTraceElement[] elements = ex.getStackTrace();
-        for (int i = 0; i < elements.length; i++) {
-          sb.append(elements[i] + "<br>");
+      configDialog = new ConfigurationDialog();
+      configDialogs.put(language, configDialog);
+    }
+    JLanguageTool langTool;
+    try {
+      langTool = new JLanguageTool(language);
+      langTool.activateDefaultPatternRules();
+      Set disabledRules = configDialog.getdisabledRuleIds();
+      if (disabledRules != null) {
+        for (Iterator iter = disabledRules.iterator(); iter.hasNext();) {
+          String ruleId = (String) iter.next();
+          langTool.disableRule(ruleId);
         }
-        sb.append("</font></b><br>");
-        ex.printStackTrace();
       }
-      sb.append("Check done. " +matches+ " potential problems found<br>\n");
-      resultArea.setText(sb.toString());
-      resultArea.setCaretPosition(0);
+    } catch (IOException ioe) {
+      throw new RuntimeException(ioe);
+    } catch (ParserConfigurationException ex) {
+      throw new RuntimeException(ex);
+    } catch (SAXException ex) {
+      throw new RuntimeException(ex);
+    }
+    if (e.getActionCommand().equals(OPTIONS_BUTTON)) {
+      List rules = langTool.getAllRules();
+      configDialog.show(rules);
+    } else {
+      if (textArea.getText().trim().equals("")) {
+        textArea.setText("Please insert text to check here");
+      } else {
+        StringBuffer sb = new StringBuffer();
+        resultArea.setText("Starting check...<br>\n");
+        resultArea.repaint(); // FIXME: why doesn't this work?
+        //TODO: resultArea.setCursor(new Cursor(Cursor.WAIT_CURSOR)); 
+        sb.append("Starting check in " +langName+ "...<br>\n");
+        int matches = 0;
+        try {
+          matches = checkText(langTool, language, textArea.getText(), sb);
+        } catch (Exception ex) {
+          sb.append("<br><br><b><font color=\"red\">" + ex.toString() + "<br>");
+          StackTraceElement[] elements = ex.getStackTrace();
+          for (int i = 0; i < elements.length; i++) {
+            sb.append(elements[i] + "<br>");
+          }
+          sb.append("</font></b><br>");
+          ex.printStackTrace();
+        }
+        sb.append("Check done. " +matches+ " potential problems found<br>\n");
+        resultArea.setText(sb.toString());
+        resultArea.setCaretPosition(0);
+      }
     }
   }
   
-  private int checkText(String text, Language language, StringBuffer sb) throws IOException,
+  private int checkText(JLanguageTool langTool, Language language, String text, StringBuffer sb) throws IOException,
       ParserConfigurationException, SAXException {
     long startTime = System.currentTimeMillis();
-    JLanguageTool lt = new JLanguageTool(language);
-    File defaultPatternFile = new File(de.danielnaber.languagetool.Main.RULES_DIR + File.separator
-        + language.getShortName() + File.separator + de.danielnaber.languagetool.Main.PATTERN_FILE);
+    File defaultPatternFile = new File(JLanguageTool.RULES_DIR + File.separator
+        + language.getShortName() + File.separator + JLanguageTool.PATTERN_FILE);
     List patternRules = new ArrayList();
     if (defaultPatternFile.exists()) {
-      patternRules = lt.loadPatternRules(defaultPatternFile.getAbsolutePath());
+      patternRules = langTool.loadPatternRules(defaultPatternFile.getAbsolutePath());
     } else {
       sb.append("Pattern file " + defaultPatternFile.getAbsolutePath() + " not found<br>\n");
     }
     for (Iterator iter = patternRules.iterator(); iter.hasNext();) {
       Rule rule = (Rule) iter.next();
-      lt.addRule(rule);
+      langTool.addRule(rule);
     }
-    List ruleMatches = lt.check(text);
+    List ruleMatches = langTool.check(text);
     long startTimeMatching = System.currentTimeMillis();
+    int i = 0;
     for (Iterator iter = ruleMatches.iterator(); iter.hasNext();) {
       RuleMatch match = (RuleMatch) iter.next();
-      sb.append("<br>\n<b>Line " + (match.getLine() + 1) + ", column " + match.getColumn() + "</b><br>\n");
+      sb.append("<br>\n<b>" +(i+1)+ ". Line " + (match.getLine() + 1) + ", column " + match.getColumn()
+          + "</b><br>\n");
       String msg = match.getMessage();
       msg = msg.replaceAll("<suggestion>", "<b>");
       msg = msg.replaceAll("</suggestion>", "</b>");
@@ -185,6 +227,7 @@ public class Main implements ActionListener {
       sb.append("<b>Message:</b> " + msg + "<br>\n");
       sb.append("<b>Context:</b> " + getContext(match.getFromPos(), match.getToPos(), text));
       sb.append("<br>\n");
+      i++;
     }
     long endTime = System.currentTimeMillis();
     sb.append("<br>\nTime: " + (endTime - startTime) + "ms (including "
@@ -234,11 +277,7 @@ public class Main implements ActionListener {
 
   public static void main(String[] args) {
     final Main prg = new Main();
-    javax.swing.SwingUtilities.invokeLater(new Runnable() {
-      public void run() {
-          prg.createAndShowGUI();
-      }
-    });
+    prg.createAndShowGUI();
   }
-
+  
 }

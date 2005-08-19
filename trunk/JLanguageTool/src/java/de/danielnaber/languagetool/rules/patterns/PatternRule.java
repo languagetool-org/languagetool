@@ -74,6 +74,10 @@ public class PatternRule extends Rule {
     return id + ":" + pattern + ":" + description;
   }
 
+  public String getPattern() {
+    return pattern;
+  }
+
   public boolean getCaseSensitive() {
     return caseSensitive;
   }
