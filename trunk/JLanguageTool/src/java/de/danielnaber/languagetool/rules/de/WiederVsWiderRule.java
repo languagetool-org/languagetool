@@ -64,8 +64,8 @@ public class WiederVsWiderRule extends GermanRule {
           foundWider = true;
         }
         if (foundSpiegelt && foundWieder && !foundWider) {
-          String msg = "<i>wieder</i> in <i>widerspiegeln</i> wird mit <i>i</i> statt mit <i>ie</i> "+
-            "geschrieben, z.B. <i>Das spiegelt die Situation wider.</i>";
+          String msg = "<i>wider</i> in <i>widerspiegeln</i> wird mit <i>i</i> statt mit <i>ie</i> "+
+            "geschrieben, z.B. <i>Das spiegelt die Situation gut wider.</i>";
           RuleMatch ruleMatch = new RuleMatch(this, pos, pos+token.length(), msg);
           ruleMatches.add(ruleMatch);
           foundSpiegelt = false;
