@@ -39,11 +39,13 @@ public class PatternRule extends Rule {
   private Language[] language;
   private String pattern;
   private String description;
+  private String message;
+
   private boolean caseSensitive = false;
 
   private Element[] patternElements;
 
-  PatternRule(String id, Language language, String pattern, String description) {
+  PatternRule(String id, Language language, String pattern, String description, String message) {
     if (id == null)
       throw new NullPointerException("id cannot be null");
     if (language == null)
@@ -56,6 +58,7 @@ public class PatternRule extends Rule {
     this.language = new Language[] { language };
     this.pattern = pattern;
     this.description = description;
+    this.message = message;
   }
   
   public String getId() {
@@ -64,6 +67,10 @@ public class PatternRule extends Rule {
 
   public String getDescription() {
     return description;
+  }
+
+  public String getMessage() {
+    return message;
   }
 
   public Language[] getLanguages() {
@@ -118,7 +125,7 @@ public class PatternRule extends Rule {
       if (allElementsMatch) {
         //System.err.println("--->Match: " + this + ", t="+token);
         RuleMatch ruleMatch = new RuleMatch(this, firstMatchToken.getStartPos(), 
-            lastMatchToken.getStartPos()+lastMatchToken.getToken().length(), description);
+            lastMatchToken.getStartPos()+lastMatchToken.getToken().length(), message);
         ruleMatches.add(ruleMatch);
       } else {
         firstMatchToken = null;

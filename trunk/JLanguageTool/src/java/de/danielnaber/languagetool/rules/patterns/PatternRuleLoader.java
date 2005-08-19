@@ -68,9 +68,11 @@ class PatternRuleHandler extends DefaultHandler {
   private String ruleGroupDescription;
   private StringBuffer correctExample = new StringBuffer();
   private StringBuffer incorrectExample = new StringBuffer();
+  private StringBuffer message = new StringBuffer();
   
   private boolean inRuleGroup = false;
   private boolean inPattern = false;
+  private boolean inMessage = false;
   private boolean inCorrectExample = false;
   private boolean inIncorrectExample = false;
   
@@ -104,6 +106,8 @@ class PatternRuleHandler extends DefaultHandler {
     } else if (qName.equals("example") && attrs.getValue("type").equals("incorrect")) {
       inIncorrectExample = true;
       incorrectExample = new StringBuffer();
+    } else if (qName.equals("message")) {
+      inMessage = true;
     } else if (qName.equals("rulegroup")) {
       ruleGroupId = attrs.getValue("id");
       ruleGroupDescription = attrs.getValue("name");
@@ -120,7 +124,8 @@ class PatternRuleHandler extends DefaultHandler {
       if (language == null) {
         throw new SAXException("Unknown language '" + languageStr + "'");
       }
-      PatternRule rule = new PatternRule(id, language, pattern.toString(), description);
+      PatternRule rule = new PatternRule(id, language, pattern.toString(), description,
+          message.toString());
       rule.setCorrectExample(correctExample.toString());
       rule.setIncorrectExample(incorrectExample.toString());
       rule.setCaseSensitive(caseSensitive);
@@ -130,6 +135,8 @@ class PatternRuleHandler extends DefaultHandler {
     } else if (qName.equals("example")) {
       inCorrectExample = false;
       inIncorrectExample = false;
+    } else if (qName.equals("message")) {
+      inMessage = false;
     } else if (qName.equals("rulegroup")) {
       inRuleGroup = false;
     }
@@ -143,6 +150,8 @@ class PatternRuleHandler extends DefaultHandler {
       correctExample.append(s);
     } else if (inIncorrectExample) {
       incorrectExample.append(s);
+    } else if (inMessage) {
+      message.append(s);
     }
   }
 
