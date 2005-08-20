@@ -69,6 +69,8 @@ class PatternRuleHandler extends DefaultHandler {
   private StringBuffer correctExample = new StringBuffer();
   private StringBuffer incorrectExample = new StringBuffer();
   private StringBuffer message = new StringBuffer();
+  private int startPositionCorrection = 0;
+  private int endPositionCorrection = 0;
   
   private boolean inRuleGroup = false;
   private boolean inPattern = false;
@@ -98,6 +100,10 @@ class PatternRuleHandler extends DefaultHandler {
       pattern = new StringBuffer();
       inPattern = true;
       languageStr = attrs.getValue("lang");
+      if (attrs.getValue("mark_from") != null)
+        startPositionCorrection = Integer.parseInt(attrs.getValue("mark_from"));
+      if (attrs.getValue("mark_to") != null)
+        endPositionCorrection = Integer.parseInt(attrs.getValue("mark_to"));
       if (attrs.getValue("case_sensitive") != null && attrs.getValue("case_sensitive").equals("yes"))
         caseSensitive = true;
     } else if (qName.equals("example") && attrs.getValue("type").equals("correct")) {
@@ -126,6 +132,8 @@ class PatternRuleHandler extends DefaultHandler {
       }
       PatternRule rule = new PatternRule(id, language, pattern.toString(), description,
           message.toString());
+      rule.setStartPositionCorrection(startPositionCorrection);
+      rule.setEndPositionCorrection(endPositionCorrection);
       rule.setCorrectExample(correctExample.toString());
       rule.setIncorrectExample(incorrectExample.toString());
       rule.setCaseSensitive(caseSensitive);

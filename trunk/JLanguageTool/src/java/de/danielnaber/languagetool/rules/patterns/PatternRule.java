@@ -40,6 +40,8 @@ public class PatternRule extends Rule {
   private String pattern;
   private String description;
   private String message;
+  private int startPositionCorrection = 0;
+  private int endPositionCorrection = 0;
 
   private boolean caseSensitive = false;
 
@@ -92,6 +94,22 @@ public class PatternRule extends Rule {
   public void setCaseSensitive(boolean caseSensitive) {
     this.caseSensitive = caseSensitive;
   }
+  
+  public int getStartPositionCorrection() {
+    return startPositionCorrection;
+  }
+
+  public void setStartPositionCorrection(int startPositionCorrection) {
+    this.startPositionCorrection = startPositionCorrection;
+  }
+
+  public int getEndPositionCorrection() {
+    return endPositionCorrection;
+  }
+
+  public void setEndPositionCorrection(int endPositionCorrection) {
+    this.endPositionCorrection = endPositionCorrection;
+  }
 
   public RuleMatch[] match(AnalyzedSentence text) {
     List ruleMatches = new ArrayList(); 
@@ -100,8 +118,9 @@ public class PatternRule extends Rule {
       patternElements = getPatternElements(pattern); 
     }
     int tokenPos = 0;
-    AnalyzedToken firstMatchToken = null;
-    AnalyzedToken lastMatchToken = null;
+    
+    int firstMatchToken = -1;
+    int lastMatchToken = -1;
 
     for (int i = 0; i < tokens.length; i++) {
       boolean allElementsMatch = true;
@@ -117,19 +136,20 @@ public class PatternRule extends Rule {
           allElementsMatch = false;
           break;
         } else {
-          lastMatchToken = matchToken;
-          if (firstMatchToken == null)
-            firstMatchToken = matchToken;
+          lastMatchToken = nextPos;
+          if (firstMatchToken == -1)
+            firstMatchToken = nextPos;
         }
       }
       if (allElementsMatch) {
-        //System.err.println("--->Match: " + this + ", t="+token);
-        RuleMatch ruleMatch = new RuleMatch(this, firstMatchToken.getStartPos(), 
-            lastMatchToken.getStartPos()+lastMatchToken.getToken().length(), message);
+        RuleMatch ruleMatch = new RuleMatch(this,
+            tokens[firstMatchToken+startPositionCorrection].getStartPos(), 
+            tokens[lastMatchToken+endPositionCorrection].getStartPos()+
+            tokens[lastMatchToken+endPositionCorrection].getToken().length(), message);
         ruleMatches.add(ruleMatch);
       } else {
-        firstMatchToken = null;
-        lastMatchToken = null;
+        firstMatchToken = -1;
+        lastMatchToken = -1;
       }
       tokenPos++;
     }      
@@ -153,7 +173,6 @@ public class PatternRule extends Rule {
       if (element.startsWith("\"") && element.endsWith("\"")) {         // cut off quotes
         element = element.substring(1, element.length()-1);
         String tokenParts[] = element.split("\\|");
-        // TODO: make case sensitiviy optional:
         StringElement stringElement = new StringElement(tokenParts, caseSensitive); 
         stringElement.setNegation(negation);
         elements.add(stringElement);
