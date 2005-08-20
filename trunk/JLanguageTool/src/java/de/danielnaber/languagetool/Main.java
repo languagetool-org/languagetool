@@ -105,8 +105,8 @@ class Main {
       System.out.println(i + ".) Line " + (match.getLine()+1) + ", column " + match.getColumn() +
           ", Rule ID: " + match.getRule().getId());
       String msg = match.getMessage();
-      msg = msg.replaceAll("<i>", "'");
-      msg = msg.replaceAll("</i>", "'");
+      msg = msg.replaceAll("<em>", "'");
+      msg = msg.replaceAll("</em>", "'");
       System.out.println("Message: " + msg);
       System.out.println(getContext(match.getFromPos(), match.getToPos(), fileContents));
       if (iter.hasNext())

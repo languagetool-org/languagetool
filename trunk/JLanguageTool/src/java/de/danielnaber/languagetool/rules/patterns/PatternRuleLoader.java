@@ -121,6 +121,8 @@ class PatternRuleHandler extends DefaultHandler {
       ruleGroupId = attrs.getValue("id");
       ruleGroupDescription = attrs.getValue("name");
       inRuleGroup = true;
+    } else if (qName.equals("em") && inMessage) {
+      message.append("<em>");
     }
   }
 
@@ -150,6 +152,8 @@ class PatternRuleHandler extends DefaultHandler {
       inMessage = false;
     } else if (qName.equals("rulegroup")) {
       inRuleGroup = false;
+    } else if (qName.equals("em") && inMessage) {
+      message.append("</em>");
     }
   }
 
