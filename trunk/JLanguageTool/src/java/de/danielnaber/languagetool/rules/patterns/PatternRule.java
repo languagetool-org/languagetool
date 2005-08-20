@@ -124,6 +124,7 @@ public class PatternRule extends Rule {
 
     for (int i = 0; i < tokens.length; i++) {
       boolean allElementsMatch = true;
+      int matchingTokens = 0;
       for (int k = 0; k < patternElements.length; k++) {
         Element elem = patternElements[k];
         int nextPos = tokenPos+k;
@@ -136,16 +137,23 @@ public class PatternRule extends Rule {
           allElementsMatch = false;
           break;
         } else {
+          matchingTokens++;
           lastMatchToken = nextPos;
           if (firstMatchToken == -1)
             firstMatchToken = nextPos;
         }
       }
       if (allElementsMatch) {
+        String errMessage = message;
+        // replace back references like \1 in message:
+        for (int j = 0; j < matchingTokens; j++) {
+          errMessage = errMessage.replaceAll("\\\\"+(j+1),
+              tokens[firstMatchToken+j].getToken());
+        }
         RuleMatch ruleMatch = new RuleMatch(this,
             tokens[firstMatchToken+startPositionCorrection].getStartPos(), 
             tokens[lastMatchToken+endPositionCorrection].getStartPos()+
-            tokens[lastMatchToken+endPositionCorrection].getToken().length(), message);
+            tokens[lastMatchToken+endPositionCorrection].getToken().length(), errMessage);
         ruleMatches.add(ruleMatch);
       } else {
         firstMatchToken = -1;
