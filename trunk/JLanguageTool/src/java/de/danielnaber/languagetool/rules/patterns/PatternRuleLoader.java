@@ -116,6 +116,7 @@ class PatternRuleHandler extends DefaultHandler {
       incorrectExample = new StringBuffer();
     } else if (qName.equals("message")) {
       inMessage = true;
+      message = new StringBuffer();
     } else if (qName.equals("rulegroup")) {
       ruleGroupId = attrs.getValue("id");
       ruleGroupDescription = attrs.getValue("name");
