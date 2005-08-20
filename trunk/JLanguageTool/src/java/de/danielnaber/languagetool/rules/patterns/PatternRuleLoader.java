@@ -29,6 +29,7 @@ import javax.xml.parsers.SAXParserFactory;
 
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
+import org.xml.sax.SAXParseException;
 import org.xml.sax.helpers.DefaultHandler;
 
 import de.danielnaber.languagetool.Language;
@@ -48,6 +49,7 @@ public class PatternRuleLoader extends DefaultHandler {
   public List getRules(String filename) throws ParserConfigurationException, SAXException, IOException {
     PatternRuleHandler handler = new PatternRuleHandler();
     SAXParserFactory factory = SAXParserFactory.newInstance();
+    factory.setValidating(true);
     SAXParser saxParser = factory.newSAXParser();
     saxParser.parse(new File(filename), handler);
     rules = handler.getRules();
@@ -161,6 +163,14 @@ class PatternRuleHandler extends DefaultHandler {
     } else if (inMessage) {
       message.append(s);
     }
+  }
+
+  public void warning (SAXParseException e) throws SAXException {
+    throw e;
+  }
+  
+  public void error (SAXParseException e) throws SAXException {
+    throw e;
   }
 
 }
