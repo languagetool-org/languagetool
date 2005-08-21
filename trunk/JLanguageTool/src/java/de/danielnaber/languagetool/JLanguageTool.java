@@ -35,6 +35,7 @@ import de.danielnaber.languagetool.rules.CommaWhitespaceRule;
 import de.danielnaber.languagetool.rules.Rule;
 import de.danielnaber.languagetool.rules.RuleMatch;
 import de.danielnaber.languagetool.rules.WordRepeatRule;
+import de.danielnaber.languagetool.rules.de.AgreementRule;
 import de.danielnaber.languagetool.rules.de.WiederVsWiderRule;
 import de.danielnaber.languagetool.rules.de.WordCoherencyRule;
 import de.danielnaber.languagetool.rules.en.AvsAnRule;
@@ -78,7 +79,7 @@ public class JLanguageTool {
     this.language = language;
     // TODO: use reflection to get a list of all non-pattern rules:
     Rule[] allBuiltinRules = new Rule[] {new AvsAnRule(), new CommaWhitespaceRule(), new WordRepeatRule(),
-        new WiederVsWiderRule(), new WordCoherencyRule()};
+        new WiederVsWiderRule(), new WordCoherencyRule(), new AgreementRule()};
     for (int i = 0; i < allBuiltinRules.length; i++) {
       if (allBuiltinRules[i].supportsLanguage(language))
       builtinRules.add(allBuiltinRules[i]); 
@@ -156,8 +157,9 @@ public class JLanguageTool {
    * 
    * @param test the text to check
    * @return a List of {@link RuleMatch} objects
+   * @throws IOException 
    */
-  public List check(String test) {
+  public List check(String test) throws IOException {
     SentenceTokenizer sTokenizer = new SentenceTokenizer();
     List sentences = sTokenizer.tokenize(test);
     List ruleMatches = new ArrayList();
@@ -223,8 +225,9 @@ public class JLanguageTool {
 
   /**
    * Tokenizes the given <code>sentence</code> into words and analyzes it.
+   * @throws IOException 
    */
-  public AnalyzedSentence getAnalyzedSentence(String sentence) {
+  public AnalyzedSentence getAnalyzedSentence(String sentence) throws IOException {
     WordTokenizer wtokenizer = new WordTokenizer();
     List tokens = wtokenizer.tokenize(sentence);
     List noWhitespaceTokens = new ArrayList();

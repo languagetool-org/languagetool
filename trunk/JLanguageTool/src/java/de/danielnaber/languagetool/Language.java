@@ -19,7 +19,7 @@
 package de.danielnaber.languagetool;
 
 import de.danielnaber.languagetool.tagging.EnglishTagger;
-import de.danielnaber.languagetool.tagging.GermanTagger;
+import de.danielnaber.languagetool.tagging.de.GermanTagger;
 import de.danielnaber.languagetool.tagging.Tagger;
 
 /**

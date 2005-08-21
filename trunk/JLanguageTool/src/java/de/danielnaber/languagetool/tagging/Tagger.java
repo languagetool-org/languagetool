@@ -18,6 +18,7 @@
  */
 package de.danielnaber.languagetool.tagging;
 
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -25,6 +26,12 @@ import java.util.List;
  */
 public interface Tagger {
 
-  public List tag(List tokens);
+  /**
+   * Returns a list of Strings that assigns each term in token some
+   * kind of part-of-speech information (not necessarily just one tag).
+   * 
+   * @param tokens the text as returned by a WordTokenizer but whithout whitespace tokens. 
+   */
+  public List tag(List tokens) throws IOException;
   
 }

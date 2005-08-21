@@ -25,9 +25,9 @@ package de.danielnaber.languagetool;
  */
 public class AnalyzedToken {
 
-  private String token;
-  private String posTag;
-  private int startPos;
+  protected String token;
+  protected String posTag;
+  protected int startPos;
   
   public AnalyzedToken(String token, String posTag, int startPos) {
     this.token = token;
