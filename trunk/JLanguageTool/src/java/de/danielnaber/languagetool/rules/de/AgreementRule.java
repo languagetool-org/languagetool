@@ -80,14 +80,11 @@ public class AgreementRule extends GermanRule {
     Set set1 = getAgreementCategories(token1.getPOSTag());
     if (set1 == null)
       return null;  // word not known, assume it's correct
-    //System.err.println(set1);
     //Set set1Orig = getAgreementCategories(term1);
     Set set2 = getAgreementCategories(token2.getPOSTag());
-    //System.err.println(set2);
     if (set2 == null)
       return null;
     Set set3 = getAgreementCategories(token3.getPOSTag());
-    //System.err.println(set3);
     if (set3 == null)
       return null;
     set1.retainAll(set2);
@@ -111,7 +108,7 @@ public class AgreementRule extends GermanRule {
       if (cats.startsWith("["))
         cats = cats.substring(1);
       if (cats.endsWith("]"))
-        cats = cats.substring(0, cats.length()-2);
+        cats = cats.substring(0, cats.length()-1);
       set.add(cats.trim());
     }
     return set;
