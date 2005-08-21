@@ -24,9 +24,10 @@ import java.util.List;
 
 import javax.xml.parsers.ParserConfigurationException;
 
+import junit.framework.TestCase;
+
 import org.xml.sax.SAXException;
 
-import junit.framework.TestCase;
 import de.danielnaber.languagetool.AnalyzedSentence;
 import de.danielnaber.languagetool.JLanguageTool;
 import de.danielnaber.languagetool.Language;
@@ -55,11 +56,11 @@ public class PatternRuleTest extends TestCase {
       assertTrue(goodSentence.trim().length() > 0);
       assertTrue(badSentence.trim().length() > 0);
       assertFalse("Did not expect error in: " + goodSentence, match(rule, goodSentence));
-      assertTrue("Did  expect error in: " + badSentence, match(rule, badSentence));
+      assertTrue("Did expect error in: " + badSentence, match(rule, badSentence));
     }
   }
   
-  private boolean match(Rule rule, String sentence) {
+  private boolean match(Rule rule, String sentence) throws IOException {
     AnalyzedSentence text = langTool.getAnalyzedSentence(sentence);
     //System.err.println(text);
     RuleMatch[] matches = rule.match(text);
@@ -69,7 +70,7 @@ public class PatternRuleTest extends TestCase {
     return matches.length > 0;
   }
 
-  public void testRule() {
+  public void testRule() throws IOException {
     PatternRule pr;
     RuleMatch[] matches;
 
@@ -118,7 +119,7 @@ public class PatternRuleTest extends TestCase {
     return new PatternRule("ID1", Language.ENGLISH, s, "test rule", "user visible message");
   }
 
-  public void testSentenceStart() {
+  public void testSentenceStart() throws IOException {
     PatternRule pr;
     RuleMatch[] matches;
 
@@ -129,7 +130,7 @@ public class PatternRuleTest extends TestCase {
     assertEquals(1, matches.length);
   }
 
-  public void testNegation() {
+  public void testNegation() throws IOException {
     PatternRule pr;
     RuleMatch[] matches;
 
