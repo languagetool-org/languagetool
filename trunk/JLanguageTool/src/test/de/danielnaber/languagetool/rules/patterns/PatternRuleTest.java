@@ -79,6 +79,13 @@ public class PatternRuleTest extends TestCase {
     assertEquals(0, matches.length);
     matches = pr.match(langTool.getAnalyzedSentence("A matching sentence with one match."));
     assertEquals(1, matches.length);
+    assertEquals(25, matches[0].getFromPos());
+    assertEquals(28, matches[0].getToPos());
+    // these two are not set if the rule is called standalone (not via JLanguageTool):
+    assertEquals(-1, matches[0].getColumn());
+    assertEquals(-1, matches[0].getLine());
+    assertEquals("ID1", matches[0].getRule().getId());
+    assertTrue(matches[0].getMessage().equals("user visible message"));
     matches = pr.match(langTool.getAnalyzedSentence("one one and one: three matches"));
     assertEquals(3, matches.length);
 
