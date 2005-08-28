@@ -30,7 +30,16 @@ import de.danielnaber.languagetool.tagging.de.AnalyzedGermanToken;
 import de.danielnaber.languagetool.tagging.de.GermanToken.POSType;
 
 /**
- * Experimental agreement checker for German.
+ * Simple agreement checker for German noun phrases. Checks agreement in:
+ * 
+ * <ul>
+ *  <li>DET NOUN: e.g. "der Mann", "die Frau" (correct), "die Haus" (incorrect)</li>
+ *  <li>DET ADJ NOUN: e.g. "der riesige Tisch" (correct), "die riesigen Tisch" (incorrect)</li> 
+ * </ul>
+ * 
+ * Note that this rule only checks agreement inside the noun phrase, not whether
+ * e.g. the correct case is used. For example, "Es ist das Haus dem Mann" is not
+ * detected as incorrect. 
  *  
  * @author Daniel Naber
  */
@@ -50,10 +59,8 @@ public class AgreementRule extends GermanRule {
     int pos = 0;
     for (int i = 0; i < tokens.length; i++) {
       String posToken = tokens[i].getPOSTag();
-      //System.err.println(i + ". " + posToken);
       AnalyzedGermanToken analyzedToken = 
         new AnalyzedGermanToken(tokens[i].getToken(), posToken, tokens[i].getStartPos());
-      //List readings = analyzedToken.getReadings();
       if (analyzedToken.hasReadingOfType(POSType.DETERMINER)) {
         int tokenPos = i + 1; 
         AnalyzedGermanToken nextToken = new AnalyzedGermanToken(tokens[tokenPos].getToken(),
@@ -63,16 +70,38 @@ public class AgreementRule extends GermanRule {
           AnalyzedGermanToken nextNextToken = new AnalyzedGermanToken(tokens[tokenPos].getToken(),
               tokens[tokenPos].getPOSTag(), tokens[tokenPos].getStartPos());
           if (nextNextToken.hasReadingOfType(POSType.NOMEN)) {
-            //System.err.println(">>>>DET + ADJ + NOUN");
             RuleMatch ruleMatch = checkDetAdjNounAgreement(tokens[i], tokens[i+1], tokens[i+2]);
             if (ruleMatch != null)
               ruleMatches.add(ruleMatch);
           }
+        } else if (nextToken.hasReadingOfType(POSType.NOMEN)) {
+          RuleMatch ruleMatch = checkDetNounAgreement(tokens[i], tokens[i+1]);
+          if (ruleMatch != null)
+            ruleMatches.add(ruleMatch);
         }
       }
       pos += tokens[i].getToken().length();
     }
     return toRuleMatchArray(ruleMatches);
+  }
+
+  private RuleMatch checkDetNounAgreement(AnalyzedToken token1, AnalyzedToken token2) {
+    RuleMatch ruleMatch = null;
+    Set set1 = getAgreementCategories(token1.getPOSTag());
+    if (set1 == null)
+      return null;  // word not known, assume it's correct
+    Set set2 = getAgreementCategories(token2.getPOSTag());
+    if (set2 == null)
+      return null;
+    //System.err.println(token1 + "<-->" + token2);
+    set1.retainAll(set2);
+    if (set1.size() == 0) {
+      // TODO: better error message than just 'agreement error'
+      String msg = "Agreement error";
+      ruleMatch = new RuleMatch(this, token1.getStartPos(), 
+          token2.getStartPos()+token2.getToken().length(), msg);
+    }
+    return ruleMatch;
   }
 
   private RuleMatch checkDetAdjNounAgreement(AnalyzedToken token1, AnalyzedToken token2, AnalyzedToken token3) {
@@ -97,7 +126,7 @@ public class AgreementRule extends GermanRule {
     return ruleMatch;
   }
 
-  // Casus, Numerus, Genus
+  /** Return Kasus, Numerus, Genus */
   private Set getAgreementCategories(String posTagInformation) {
     Set set = new HashSet();
     String[] parts = posTagInformation.split(",");
