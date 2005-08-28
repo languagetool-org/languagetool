@@ -32,7 +32,10 @@ import de.danielnaber.languagetool.Language;
  */
 public class WordRepeatRule extends Rule {
 
-  public WordRepeatRule() {
+  private Language language = null;
+  
+  public WordRepeatRule(Language language) {
+    this.language = language;
   }
   
   public String getId() {
@@ -51,6 +54,7 @@ public class WordRepeatRule extends Rule {
     List ruleMatches = new ArrayList();
     AnalyzedToken[] tokens = text.getTokens();
     String prevToken = "";
+    String prevPrevToken = "";
     int pos = 0;
     int prevPos = 0;
     for (int i = 0; i < tokens.length; i++) {
@@ -66,11 +70,18 @@ public class WordRepeatRule extends Rule {
             isWord = false;
           }
         }
-        if (isWord && prevToken.toLowerCase().equals(token.toLowerCase())) {
+        boolean germanException = false;
+        // Don't mark error for cases like:
+        // "wie Honda und Samsung, die die Bezahlung ihrer Firmenchefs..."
+        if (prevPrevToken.equals(",") && language == Language.GERMAN) {
+          germanException = true;
+        }
+        if (isWord && prevToken.toLowerCase().equals(token.toLowerCase()) && !germanException) {
           String msg = "Possible typo: you repeated a word";
           RuleMatch ruleMatch = new RuleMatch(this, prevPos, pos+prevToken.length(), msg);
           ruleMatches.add(ruleMatch);
         }
+        prevPrevToken = prevToken;
         prevToken = token;
         prevPos = pos;
       }

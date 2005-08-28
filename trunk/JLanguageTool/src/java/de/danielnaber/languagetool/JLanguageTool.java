@@ -78,8 +78,9 @@ public class JLanguageTool {
     }
     this.language = language;
     // TODO: use reflection to get a list of all non-pattern rules:
-    Rule[] allBuiltinRules = new Rule[] {new AvsAnRule(), new CommaWhitespaceRule(), new WordRepeatRule(),
-        new WiederVsWiderRule(), new WordCoherencyRule(), new AgreementRule()};
+    Rule[] allBuiltinRules = new Rule[] {new AvsAnRule(), new CommaWhitespaceRule(), 
+        new WordRepeatRule(language), new WiederVsWiderRule(), new WordCoherencyRule(),
+        new AgreementRule()};
     for (int i = 0; i < allBuiltinRules.length; i++) {
       if (allBuiltinRules[i].supportsLanguage(language))
       builtinRules.add(allBuiltinRules[i]); 

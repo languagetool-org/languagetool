@@ -31,7 +31,7 @@ import de.danielnaber.languagetool.Language;
 public class WordRepeatRuleTest extends TestCase {
 
   public void testRule() throws IOException {
-    WordRepeatRule rule = new WordRepeatRule();
+    WordRepeatRule rule = new WordRepeatRule(Language.ENGLISH);
     RuleMatch[] matches;
     JLanguageTool langTool = new JLanguageTool(Language.ENGLISH);
     // correct sentences:
@@ -46,6 +46,18 @@ public class WordRepeatRuleTest extends TestCase {
     assertEquals(1, matches.length);
     matches = rule.match(langTool.getAnalyzedSentence("This is is a a test sentence sentence."));
     assertEquals(3, matches.length);
+  }
+
+  public void testRuleGerman() throws IOException {
+    WordRepeatRule rule = new WordRepeatRule(Language.GERMAN);
+    RuleMatch[] matches;
+    JLanguageTool langTool = new JLanguageTool(Language.GERMAN);
+    // correct sentences:
+    matches = rule.match(langTool.getAnalyzedSentence("Das sind die Sätze, die die testen sollen."));
+    assertEquals(0, matches.length);
+    // incorrect sentences:
+    matches = rule.match(langTool.getAnalyzedSentence("Die die Sätze zum testen."));
+    assertEquals(1, matches.length);
   }
   
 }
