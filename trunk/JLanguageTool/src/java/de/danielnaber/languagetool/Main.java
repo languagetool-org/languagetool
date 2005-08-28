@@ -20,8 +20,9 @@ package de.danielnaber.languagetool;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileReader;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -41,6 +42,8 @@ import de.danielnaber.languagetool.rules.RuleMatch;
 class Main {
 
   private final static int CONTEXT_SIZE = 25;
+
+  private static final String FILE_ENCODING = System.getProperty("file.encoding", "latin1");
   
   private JLanguageTool lt = null;
   private boolean verbose = false;
@@ -95,6 +98,7 @@ class Main {
     }
     if (verbose)
       lt.setOutput(System.err);
+    System.out.println("Working on " + filename + "...");
     String fileContents = readFile(filename);
     fileContents = filterXML(fileContents);
     List ruleMatches = lt.check(fileContents);
@@ -125,12 +129,12 @@ class Main {
   }
 
   private String readFile(String filename) throws IOException {
-    FileReader fr = null;
+    InputStreamReader isr = null;
     BufferedReader br = null;
     StringBuffer sb = new StringBuffer();
     try {
-      fr = new FileReader(filename);
-      br = new BufferedReader(fr);
+      isr = new InputStreamReader(new FileInputStream(filename), FILE_ENCODING);
+      br = new BufferedReader(isr);
       String line;
       while ((line = br.readLine()) != null) {
         sb.append(line);
@@ -138,7 +142,7 @@ class Main {
       }
     } finally {
       if (br != null) br.close();
-      if (fr != null) fr.close();
+      if (isr != null) isr.close();
     }
     return sb.toString();
   }
