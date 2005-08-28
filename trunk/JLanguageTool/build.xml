@@ -16,6 +16,7 @@
     <pathelement location="${ext.opennlp.lib}"/>
     <pathelement location="${ext.trove.lib}"/>
     <pathelement location="${ext.maxent.lib}"/>
+    <pathelement location="${ext.lucene.lib}"/>
   </path>
 
   <path id="classpath">
@@ -225,6 +226,7 @@
 	<copy file="${ext.trove.lib}" todir="${zip.lib}" />
 	<copy file="${ext.maxent.lib}" todir="${zip.lib}" />
 	<copy file="${ext.junit.lib}" todir="${zip.lib}" />
+	<copy file="${ext.lucene.lib}" todir="${zip.lib}" />
 	<copy file="${ext.dir}/build/junit-license.txt" todir="${zip.lib}" />
 	<copy file="${ext.dir}/README" todir="${zip.lib}" />
 
@@ -249,6 +251,9 @@
 
   	<zip destfile="${dist.dir}/JLanguageTool-${version}.zip" basedir="${dist.dir}"
   	  		includes="JLanguageTool-${version}/**" />
+
+  	<zip destfile="${dist.dir}/JLanguageTool-${version}-german-data.zip" basedir="./"
+  	  		includes="rules/de/categories/**" />
 
   </target>
 
