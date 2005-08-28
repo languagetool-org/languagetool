@@ -23,9 +23,10 @@ import java.util.Iterator;
 import java.util.List;
 
 import de.danielnaber.languagetool.AnalyzedToken;
+import de.danielnaber.languagetool.tagging.de.GermanToken.POSType;
 
 /**
- * Experimental word information class for the German language.
+ * All possible readings of an analyzed German word.
  * 
  * @author Daniel Naber
  */
@@ -33,6 +34,11 @@ public class AnalyzedGermanToken extends AnalyzedToken {
 
   private List readings = new ArrayList();
   
+  /**
+   * @param token the analyzed word
+   * @param tagInfoAsString comma-separated list of readings, e.g. <code>ADJ NOM SIN MAS, ADJ NOM SIN FEM</code>
+   * @param startPos
+   */
   public AnalyzedGermanToken(String token, String tagInfoAsString, int startPos) {
     super(token, null, startPos);
     if (tagInfoAsString == null)
@@ -41,89 +47,25 @@ public class AnalyzedGermanToken extends AnalyzedToken {
       tagInfoAsString = tagInfoAsString.substring(1, tagInfoAsString.length()-1);
     String[] parts = tagInfoAsString.split(",");
     for (int i = 0; i < parts.length; i++) {
-      //System.err.println("##"+parts[i]);
-      AnalyzedGermanTokenReading reading = new AnalyzedGermanTokenReading(parts[i].trim());
+      GermanTokenReading reading = GermanTokenReading.createTokenReadingFromMorphyString(parts[i].trim(), token);
       readings.add(reading);
     }
   }
 
+  /**
+   * @return a list of {@link GermanTokenReading}s.
+   */
   public List getReadings() {
     return readings;
   }
 
-  public boolean hasReadingOfType(Type type) {
+  public boolean hasReadingOfType(POSType type) {
     for (Iterator iter = readings.iterator(); iter.hasNext();) {
-      AnalyzedGermanTokenReading reading = (AnalyzedGermanTokenReading) iter.next();
+      GermanTokenReading reading = (GermanTokenReading) iter.next();
       if (reading.getType() == type)
         return true;
     }
     return false;
-  }
-
-  public static class Type {
-    public static final Type NOMEN = new Type("Nomen");
-    public static final Type VERB = new Type("Verb");
-    public static final Type ADJEKTIV = new Type("Adjektiv");
-    public static final Type DETERMINER = new Type("Determiner");
-    public static final Type OTHER = new Type("Other");      // e.g. sentence start
-
-    private String name;
-    
-    private Type(String name) {
-      this.name = name;
-    }
-    
-    public String toString() {
-      return name;
-    }
-  }
-  
-  public static class Casus {
-    public static final Casus NOMINATIV = new Casus("Nominativ");
-    public static final Casus AKKUSATIV = new Casus("Akkusativ");
-    public static final Casus DATIV = new Casus("Dativ");
-    public static final Casus GENITIV = new Casus("Genitiv");
-
-    private String name;
-    
-    private Casus(String name) {
-      this.name = name;
-    }
-    
-    public String toString() {
-      return name;
-    }
-  }
-
-  public static class Numerus {
-    public static final Numerus SINGULAR = new Numerus("Singular");
-    public static final Numerus PLURAL = new Numerus("Plural");
-
-    private String name;
-    
-    private Numerus(String name) {
-      this.name = name;
-    }
-    
-    public String toString() {
-      return name;
-    }
-  }
-
-  public static class Genus {
-    public static final Genus NEUTRUM = new Genus("Neutrum");
-    public static final Genus MASKULINUM = new Genus("Maskulinum");
-    public static final Genus FEMININUM = new Genus("Femininum");
-
-    private String name;
-    
-    private Genus(String name) {
-      this.name = name;
-    }
-    
-    public String toString() {
-      return name;
-    }
   }
 
 }

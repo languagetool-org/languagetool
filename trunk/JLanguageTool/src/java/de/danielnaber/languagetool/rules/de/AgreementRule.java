@@ -27,7 +27,7 @@ import de.danielnaber.languagetool.AnalyzedSentence;
 import de.danielnaber.languagetool.AnalyzedToken;
 import de.danielnaber.languagetool.rules.RuleMatch;
 import de.danielnaber.languagetool.tagging.de.AnalyzedGermanToken;
-import de.danielnaber.languagetool.tagging.de.AnalyzedGermanToken.Type;
+import de.danielnaber.languagetool.tagging.de.GermanToken.POSType;
 
 /**
  * Experimental agreement checker for German.
@@ -54,15 +54,15 @@ public class AgreementRule extends GermanRule {
       AnalyzedGermanToken analyzedToken = 
         new AnalyzedGermanToken(tokens[i].getToken(), posToken, tokens[i].getStartPos());
       //List readings = analyzedToken.getReadings();
-      if (analyzedToken.hasReadingOfType(Type.DETERMINER)) {
+      if (analyzedToken.hasReadingOfType(POSType.DETERMINER)) {
         int tokenPos = i + 1; 
         AnalyzedGermanToken nextToken = new AnalyzedGermanToken(tokens[tokenPos].getToken(),
             tokens[tokenPos].getPOSTag(), tokens[tokenPos].getStartPos());
-        if (nextToken.hasReadingOfType(Type.ADJEKTIV)) {
+        if (nextToken.hasReadingOfType(POSType.ADJEKTIV)) {
           tokenPos = i + 2; 
           AnalyzedGermanToken nextNextToken = new AnalyzedGermanToken(tokens[tokenPos].getToken(),
               tokens[tokenPos].getPOSTag(), tokens[tokenPos].getStartPos());
-          if (nextNextToken.hasReadingOfType(Type.NOMEN)) {
+          if (nextNextToken.hasReadingOfType(POSType.NOMEN)) {
             //System.err.println(">>>>DET + ADJ + NOUN");
             RuleMatch ruleMatch = checkDetAdjNounAgreement(tokens[i], tokens[i+1], tokens[i+2]);
             if (ruleMatch != null)
