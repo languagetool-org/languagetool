@@ -1,0 +1,46 @@
+/* JLanguageTool, a natural language style checker 
+ * Copyright (C) 2005 Daniel Naber (http://www.danielnaber.de)
+ * 
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 2.1 of the License, or (at your option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+ * USA
+ */
+package de.danielnaber.languagetool.tagging.de;
+
+import java.io.IOException;
+import java.util.List;
+
+import junit.framework.TestCase;
+
+/**
+ * @author Daniel Naber
+ */
+public class GermanTaggerTest extends TestCase {
+
+  public void testTagger() throws IOException {
+    GermanTagger tagger = new GermanTagger();
+    List l = tagger.lookup("Haus");
+    assertEquals("[SUB NOM SIN NEU, SUB DAT SIN NEU, SUB AKK SIN NEU]", l.toString());
+    l = tagger.lookup("Hauses");
+    assertEquals("[SUB GEN SIN NEU]", l.toString());
+    l = tagger.lookup("hauses");
+    assertNull(l);
+    l = tagger.lookup("Groß");
+    assertNull(l);
+    l = tagger.lookup("großer");
+    assertEquals("[ADJ NOM SIN MAS, ADJ GEN PLU MAS, ADJ GEN SIN FEM, ADJ DAT SIN FEM, ADJ GEN " +
+            "PLU FEM, ADJ GEN PLU NEU, ADJ NOM SIN MAS]", l.toString());
+  }
+  
+}
