@@ -65,8 +65,17 @@ public class GermanTagger implements Tagger {
       if (fields != null) {
         for (int i = 0; i < fields.length; i++) {
           String val = fields[i].stringValue();
-          if (!val.equals(""))
-            l.add(val);
+          if (!val.equals("")) {
+            // TODO: what does "NOG" mean?!
+            if (val.indexOf(" NOG") != -1) {
+              String val1 = val.replaceFirst(" NOG", " MAS");
+              String val2 = val.replaceFirst(" NOG", " FEM");
+              l.add(val1);
+              l.add(val2);
+            } else {
+              l.add(val);
+            }
+          }
         }
       }
       return l;
@@ -89,6 +98,12 @@ public class GermanTagger implements Tagger {
         posTags.add(null);
     }
     return posTags;
+  }
+  
+  public static void main(String[] args) throws IOException {
+    GermanTagger tagger = new GermanTagger();
+    List l = tagger.lookup("Eltern");
+    System.out.println(l);
   }
 
 }
