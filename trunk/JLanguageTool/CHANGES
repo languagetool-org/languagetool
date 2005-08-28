@@ -1,5 +1,26 @@
+JLanguageTool Change Log
+
 0.8 (...)
- -...
- 
+
+ -Rules can now be enabled/disabled in GUI
+
+ -the error displayed to the user is now taken from the "message"
+  element, not from the "name" attribute anymore
+
+ -implemented mark_from and mark_to attributes, these can
+  be used to expand/shrink the area of text that is marked
+  as wrong. Both attributes default to 0 so that the text
+  marked as wrong is exactly the one that matches the pattern.
+
+ -back references like \1 can now be used in error messages
+  to refer to the parts of the original text that is matched
+  by the pattern
+
+ -a few German noun phrases like "der große Mann" are now checked
+  for agreement. For example, "des großer Mannes" is detected
+  as incorrect. This requires data in rules/de/categories which needs
+  to be downloaded separately.
+  
 0.7 (2005-08-15)
+
  -first release of Java rewrite
