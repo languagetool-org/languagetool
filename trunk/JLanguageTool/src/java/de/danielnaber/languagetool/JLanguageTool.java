@@ -34,6 +34,7 @@ import org.xml.sax.SAXException;
 import de.danielnaber.languagetool.rules.CommaWhitespaceRule;
 import de.danielnaber.languagetool.rules.Rule;
 import de.danielnaber.languagetool.rules.RuleMatch;
+import de.danielnaber.languagetool.rules.UppercaseSentenceStartRule;
 import de.danielnaber.languagetool.rules.WordRepeatRule;
 import de.danielnaber.languagetool.rules.de.AgreementRule;
 import de.danielnaber.languagetool.rules.de.WiederVsWiderRule;
@@ -66,11 +67,15 @@ public class JLanguageTool {
   private Tagger tagger = null;
   private PrintStream printStream = null;
 
+  // just for testing:
+  /*private Rule[] allBuiltinRules = new Rule[] {
+      new UppercaseSentenceStartRule()
+  };*/
+
   /**
    * Create a JLanguageTool and setup the builtin rules appropriate for the
    * given language.
-   * 
-   * @throws IOException if e.g. some external rules cannot find the files they depend on
+   * @throws IOException 
    */
   public JLanguageTool(Language language) throws IOException {
     if (language == null) {
@@ -78,12 +83,21 @@ public class JLanguageTool {
     }
     this.language = language;
     // TODO: use reflection to get a list of all non-pattern rules:
-    Rule[] allBuiltinRules = new Rule[] {new AvsAnRule(), new CommaWhitespaceRule(), 
-        new WordRepeatRule(language), new WiederVsWiderRule(), new WordCoherencyRule(),
-        new AgreementRule()};
+    Rule[] allBuiltinRules = new Rule[] { 
+        // Several languages;
+        new CommaWhitespaceRule(), 
+        new WordRepeatRule(language),
+        new WordCoherencyRule(),
+        // English:
+        new AvsAnRule(),
+        // German:
+        new WiederVsWiderRule(),
+        new AgreementRule(),
+        new UppercaseSentenceStartRule()
+      };
     for (int i = 0; i < allBuiltinRules.length; i++) {
       if (allBuiltinRules[i].supportsLanguage(language))
-      builtinRules.add(allBuiltinRules[i]); 
+        builtinRules.add(allBuiltinRules[i]);
     }
     tagger = language.getTagger();
   }
