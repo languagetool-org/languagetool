@@ -63,10 +63,14 @@ public class AgreementRule extends GermanRule {
         new AnalyzedGermanToken(tokens[i].getToken(), posToken, tokens[i].getStartPos());
       if (analyzedToken.hasReadingOfType(POSType.DETERMINER)) {
         int tokenPos = i + 1; 
+        if (tokenPos >= tokens.length)
+          break;
         AnalyzedGermanToken nextToken = new AnalyzedGermanToken(tokens[tokenPos].getToken(),
             tokens[tokenPos].getPOSTag(), tokens[tokenPos].getStartPos());
         if (nextToken.hasReadingOfType(POSType.ADJEKTIV)) {
           tokenPos = i + 2; 
+          if (tokenPos >= tokens.length)
+            break;
           AnalyzedGermanToken nextNextToken = new AnalyzedGermanToken(tokens[tokenPos].getToken(),
               tokens[tokenPos].getPOSTag(), tokens[tokenPos].getStartPos());
           if (nextNextToken.hasReadingOfType(POSType.NOMEN)) {
