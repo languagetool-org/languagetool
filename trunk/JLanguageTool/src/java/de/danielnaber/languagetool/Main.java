@@ -18,11 +18,8 @@
  */
 package de.danielnaber.languagetool;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -33,6 +30,7 @@ import org.xml.sax.SAXException;
 
 import de.danielnaber.languagetool.rules.Rule;
 import de.danielnaber.languagetool.rules.RuleMatch;
+import de.danielnaber.languagetool.tools.StringTools;
 
 /**
  * The command line tool to check plain text files.
@@ -43,13 +41,11 @@ class Main {
 
   private final static int CONTEXT_SIZE = 25;
 
-  private static final String FILE_ENCODING = System.getProperty("file.encoding", "latin1");
-  
   private JLanguageTool lt = null;
   private boolean verbose = false;
   private Language language = null;
 
-  private Main(boolean verbose, Language language) throws IOException {
+  Main(boolean verbose, Language language) throws IOException {
     this.verbose = verbose;
     this.language = language;
     lt = new JLanguageTool(language);
@@ -66,7 +62,8 @@ class Main {
       if (files[i].isDirectory()) {
         runRecursive(files[i].getAbsolutePath());
       } else {
-        run(files[i].getAbsolutePath());
+        String text = getFilteredText(files[i].getAbsolutePath());
+        checkText(text);
       }
     }
   }
@@ -80,9 +77,8 @@ class Main {
    * @throws ParserConfigurationException
    * @throws SAXException
    */
-  private void run(String filename) throws IOException,
+  private String getFilteredText(String filename) throws IOException,
       ParserConfigurationException, SAXException {
-    long startTime = System.currentTimeMillis();
     File defaultPatternFile = 
       new File(JLanguageTool.RULES_DIR +File.separator+ language.getShortName() 
           +File.separator+ JLanguageTool.PATTERN_FILE);
@@ -99,9 +95,13 @@ class Main {
     if (verbose)
       lt.setOutput(System.err);
     System.out.println("Working on " + filename + "...");
-    String fileContents = readFile(filename);
-    fileContents = filterXML(fileContents);
-    List ruleMatches = lt.check(fileContents);
+    String fileContents = StringTools.readFile(filename);
+    return filterXML(fileContents);
+  }
+  
+  void checkText(String contents) throws IOException {
+    long startTime = System.currentTimeMillis();
+    List ruleMatches = lt.check(contents);
     long startTimeMatching = System.currentTimeMillis();
     int i = 1;
     for (Iterator iter = ruleMatches.iterator(); iter.hasNext();) {
@@ -112,7 +112,7 @@ class Main {
       msg = msg.replaceAll("<em>", "'");
       msg = msg.replaceAll("</em>", "'");
       System.out.println("Message: " + msg);
-      System.out.println(getContext(match.getFromPos(), match.getToPos(), fileContents));
+      System.out.println(getContext(match.getFromPos(), match.getToPos(), contents));
       if (iter.hasNext())
         System.out.println();
       i++;
@@ -126,25 +126,6 @@ class Main {
     s = s.replaceAll("(?s)<!--.*?-->", " ");      // (?s) = DOTALL mode
     s = s.replaceAll("(?s)<.*?>", " ");
     return s;
-  }
-
-  private String readFile(String filename) throws IOException {
-    InputStreamReader isr = null;
-    BufferedReader br = null;
-    StringBuffer sb = new StringBuffer();
-    try {
-      isr = new InputStreamReader(new FileInputStream(filename), FILE_ENCODING);
-      br = new BufferedReader(isr);
-      String line;
-      while ((line = br.readLine()) != null) {
-        sb.append(line);
-        sb.append("\n");
-      }
-    } finally {
-      if (br != null) br.close();
-      if (isr != null) isr.close();
-    }
-    return sb.toString();
   }
 
   private String getContext(int fromPos, int toPos, String fileContents) {
@@ -228,7 +209,7 @@ class Main {
     if (recursive)
       prg.runRecursive(filename);
     else
-      prg.run(filename);
+      prg.getFilteredText(filename);
   }
 
 }
