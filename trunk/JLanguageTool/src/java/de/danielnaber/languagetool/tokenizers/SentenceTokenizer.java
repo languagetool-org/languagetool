@@ -61,9 +61,12 @@ public class SentenceTokenizer implements Tokenizer {
   private static final Pattern repair3 = Pattern.compile("([ap]\\.m\\.\\s+)([\\p{Lu}])");
 
   // some German and English abbreviations:
-  private static final String[] abbrevList = { "Mr", "Mrs", "No", "pp", "St", "no", "Dr", "Prof",
+  private static final String[] ABBREV_LIST = { "Mr", "Mrs", "No", "pp", "St", "no", 
       "Sr", "Bros", "etc", "vs", "esp", "Fig", "fig", "Jan", "Feb", "Mar", "Apr", "Jun", "Jul",
-      "Aug", "Sep", "Sept", "Oct", "Okt", "Nov", "Dec", "Ph.D", "PhD", "ggf" };
+      "Aug", "Sep", "Sept", "Oct", "Okt", "Nov", "Dec", "Ph.D", "PhD",
+      // German:
+      "ggf", "Dr", "Prof", "bspw", "etc"
+      };
 
   // einige deutsche Monate, vor denen eine Zahl erscheinen kann,
   // ohne dass eine Satzgrenze erkannt wird (z.B. "am 13. Dezember" -> keine Satzgrenze)
@@ -77,8 +80,8 @@ public class SentenceTokenizer implements Tokenizer {
    * Create a sentence tokenizer.
    */
   public SentenceTokenizer() {
-    for (int i = 0; i < abbrevList.length; i++) {
-      abbreviations.add(abbrevList[i]);
+    for (int i = 0; i < ABBREV_LIST.length; i++) {
+      abbreviations.add(ABBREV_LIST[i]);
     }
   }
 
