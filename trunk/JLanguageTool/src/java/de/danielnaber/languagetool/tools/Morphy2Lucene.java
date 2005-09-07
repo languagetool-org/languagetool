@@ -48,6 +48,8 @@ public class Morphy2Lucene {
   private static final String DEFAULT_CATEGORY = "0";
 
   private static final String INDEX_DIR = "rules/de/categories";
+
+  private static final String IS_BASEFORM = "is_baseform";
   
   public static void main(String[] args) throws IOException {
     if (args.length != 1) {
@@ -95,6 +97,7 @@ public class Morphy2Lucene {
         doc.add(new Field(GermanTagger.FULLFORM_FIELD, fullform, Field.Store.NO, Field.Index.UN_TOKENIZED));
       } else {
         if (line.startsWith("<lemma")) {
+          String baseform = line.substring(line.indexOf(">")+1, line.indexOf("<", 1));
           String postype = DEFAULT_CATEGORY;
           String kasus = DEFAULT_CATEGORY;
           String numerus = DEFAULT_CATEGORY;
@@ -113,6 +116,10 @@ public class Morphy2Lucene {
           if (cat.length() > 15)
             throw new IllegalStateException("category too long: " + cat);
           doc.add(new Field(GermanTagger.CATEGORIES_FIELD, cat, Field.Store.YES, Field.Index.NO));
+          if (fullform.equals(baseform)) {
+            doc.removeField(IS_BASEFORM);   // avoid duplication
+            doc.add(new Field(IS_BASEFORM, "1", Field.Store.YES, Field.Index.NO));
+          }
         } else {
           System.err.println("unknown format: " + line);
         }
