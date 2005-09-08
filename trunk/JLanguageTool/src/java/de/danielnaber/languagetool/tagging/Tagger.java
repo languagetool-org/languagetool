@@ -29,11 +29,15 @@ import de.danielnaber.languagetool.AnalyzedToken;   // required by javadoc
 public interface Tagger {
 
   /**
-   * Returns a list of {@link AnalyzedToken}s that assigns each term in token some
-   * kind of part-of-speech information (not necessarily just one tag).
+   * Returns a list of {@link AnalyzedToken}s that assigns each term in the 
+   * sentence some kind of part-of-speech information (not necessarily just one tag).
    * 
-   * @param tokens the text as returned by a WordTokenizer but whithout whitespace tokens. 
+   * <p>Note that this mehtod takes exactly one sentence. Its implementation
+   * may implement special cases for the first word of a sentence, which is 
+   * usually written with an uppercase letter.
+   * 
+   * @param sentenceTokens the text as returned by a WordTokenizer but whithout whitespace tokens. 
    */
-  public List tag(List tokens) throws IOException;
+  public List tag(List sentenceTokens) throws IOException;
   
 }
