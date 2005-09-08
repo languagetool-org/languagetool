@@ -34,26 +34,6 @@ public class AnalyzedGermanToken extends AnalyzedToken {
 
   private List readings = new ArrayList();
   
-  /**
-   * @param token the analyzed word
-   * @param tagInfoAsString comma-separated list of readings, e.g. <code>ADJ NOM SIN MAS, ADJ NOM SIN FEM</code>
-   * @param startPos
-   * @deprecated
-   */
-  // FIXME: remove?
-  public AnalyzedGermanToken(String token, String tagInfoAsString, int startPos) {
-    super(token, null, startPos);
-    if (tagInfoAsString == null)
-      return;
-    if (tagInfoAsString.startsWith("[") && tagInfoAsString.endsWith("]"))
-      tagInfoAsString = tagInfoAsString.substring(1, tagInfoAsString.length()-1);
-    String[] parts = tagInfoAsString.split(",");
-    for (int i = 0; i < parts.length; i++) {
-      GermanTokenReading reading = GermanTokenReading.createTokenReadingFromMorphyString(parts[i].trim(), token);
-      readings.add(reading);
-    }
-  }
-
   public AnalyzedGermanToken(String token, List readings, int startPos) {
     super(token, null, startPos);
     this.readings = readings;
