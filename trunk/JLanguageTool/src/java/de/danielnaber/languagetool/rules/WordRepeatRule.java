@@ -26,7 +26,8 @@ import de.danielnaber.languagetool.AnalyzedToken;
 import de.danielnaber.languagetool.Language;
 
 /**
- * Check if a word is repeated twice, e.g. "the the".
+ * Check if a word is repeated twice, e.g. "the the". Knows about an
+ * exception for German where "..., die die" is often okay.
  *   
  * @author Daniel Naber
  */

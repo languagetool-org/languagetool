@@ -25,6 +25,10 @@ import de.danielnaber.languagetool.tagging.de.GermanToken.Numerus;
 import de.danielnaber.languagetool.tagging.de.GermanToken.POSType;
 
 /**
+ * One reading of a German word. Many words can have more
+ * than one reading, e.g. "Tische" can be both Nominativ Plural
+ * and Genitiv Plural (among other readings).
+ * 
  * @author Daniel Naber
  */
 public class GermanTokenReading {
