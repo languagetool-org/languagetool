@@ -267,6 +267,7 @@ public class JLanguageTool {
       AnalyzedToken posTag = null;
       if (!tokenStr.trim().equals("")) {
         posTag = (AnalyzedToken)aTokens.get(noWhitespaceCount);
+        posTag.startPos = startPos;
         noWhitespaceCount++;
       } else {
         posTag = new AnalyzedToken(tokenStr, null, startPos);
