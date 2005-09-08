@@ -19,11 +19,14 @@
 package de.danielnaber.languagetool.tagging.de;
 
 /**
+ * Constants used to describe the properties of German tokens.
+ * 
  * @author Daniel Naber
  */
 public class GermanToken {
 
   private GermanToken() {
+    // only static stuff
   }
 
   public static class POSType {
