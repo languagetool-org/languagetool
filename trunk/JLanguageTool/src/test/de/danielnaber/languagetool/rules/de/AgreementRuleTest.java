@@ -52,6 +52,7 @@ public class AgreementRuleTest extends TestCase {
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("Das interessiert die Männer.")).length);
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("Das Auto von einem Mann.")).length);
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("Das Auto eines Mannes.")).length);
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Des großen Mannes.")).length);
     // TODO:
     //assertEquals(0, rule.match(langTool.getAnalyzedSentence("Der Abschuss eines Papageien.")).length);
     //assertEquals(0, rule.match(langTool.getAnalyzedSentence("Das Recht, das Frauen eingeräumt wird.")).length);
@@ -69,6 +70,7 @@ public class AgreementRuleTest extends TestCase {
     assertEquals(1, rule.match(langTool.getAnalyzedSentence("Das Auto einem Mannes.")).length);
     assertEquals(1, rule.match(langTool.getAnalyzedSentence("Das Auto einer Mannes.")).length);
     assertEquals(1, rule.match(langTool.getAnalyzedSentence("Das Auto einen Mannes.")).length);
+    assertEquals(1, rule.match(langTool.getAnalyzedSentence("Des großer Mannes.")).length);
     // TODO: not yet detected:
     //assertEquals(1, rule.match(langTool.getAnalyzedSentence("Es ist das Haus dem Mann.")).length);
     //assertEquals(1, rule.match(langTool.getAnalyzedSentence("Das interessiert der Männer.")).length);
