@@ -50,9 +50,18 @@ public class GermanTagger implements Tagger {
   }
 
   public AnalyzedGermanToken lookup(String word, int startPos) throws IOException {
+    return lookup(word, startPos, false);
+  }
+  
+  private AnalyzedGermanToken lookup(String word, int startPos, boolean makeLowercase) throws IOException {
     if (searcher == null)
       searcher = new IndexSearcher(INDEX_DIR);
-    Query query = new TermQuery(new Term(FULLFORM_FIELD, word));
+    Term term = null;
+    if (makeLowercase)
+      term = new Term(FULLFORM_FIELD, word.toLowerCase());
+    else
+      term = new Term(FULLFORM_FIELD, word);
+    Query query = new TermQuery(term);
     Hits hits = searcher.search(query);
     if (hits.length() == 0) {
       return null;
@@ -95,9 +104,14 @@ public class GermanTagger implements Tagger {
 
     List posTags = new ArrayList();
     int pos = 0;
+    boolean firstWord = true;
     for (Iterator iter = tokens.iterator(); iter.hasNext();) {
       String word = (String) iter.next();
       AnalyzedGermanToken aToken = lookup(word, pos);
+      if (firstWord) {
+        aToken = lookup(word, pos, true);
+        firstWord = false;
+      }
       pos += word.length();
       if (aToken != null && aToken.getReadings().size() > 0)
         posTags.add(aToken);
@@ -107,12 +121,12 @@ public class GermanTagger implements Tagger {
     return posTags;
   }
   
-  // test only:
+  /** For testing only. */
   public static void main(String[] args) throws IOException {
     GermanTagger tagger = new GermanTagger();
     //AnalyzedGermanToken aToken = tagger.lookup("Eltern", 0);
     List l = new ArrayList();
-    l.add("das");
+    l.add("Das");
     l.add("Haus");
     List result = tagger.tag(l);
     System.out.println(result);
