@@ -49,7 +49,8 @@ public class EnglishTagger implements Tagger {
     for (Iterator iter = taggerTokens.iterator(); iter.hasNext();) {
       String posTag = (String) iter.next();
       String token = (String)tokens.get(i);
-      analyzedTokens.add(new AnalyzedToken(token, posTag, pos));
+      // startPos will be set in JLanguageTool:
+      analyzedTokens.add(new AnalyzedToken(token, posTag, 0));
       i++;
       pos += token.length();
     }
