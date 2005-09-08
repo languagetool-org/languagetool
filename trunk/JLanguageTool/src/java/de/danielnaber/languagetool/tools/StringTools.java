@@ -23,10 +23,19 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
+/**
+ * Tools for reading files etc.
+ * 
+ * @author Daniel Naber
+ */
 public class StringTools {
 
   private static final String FILE_ENCODING = System.getProperty("file.encoding", "latin1");
 
+  private StringTools() {
+    // only static stuff
+  }
+  
   public static String readFile(String filename) throws IOException {
     InputStreamReader isr = null;
     BufferedReader br = null;
