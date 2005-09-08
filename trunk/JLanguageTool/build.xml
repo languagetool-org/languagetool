@@ -2,8 +2,8 @@
 
 <project name="JLanguageTool" default="dist" basedir=".">
 
-  <property name="version" value="0.8dev"/>
-  <property name="date" value="2005-xx-yy"/>
+  <property name="version" value="0.7.1"/>
+  <property name="date" value="2005-09-08"/>
 	
   <property name="javadoctitle" value="JLanguageTool API ${version}"/>
   
@@ -270,6 +270,7 @@
 	<copy file="${ext.trove.lib}" todir="${zip.lib}" />
 	<copy file="${ext.maxent.lib}" todir="${zip.lib}" />
 	<copy file="${ext.junit.lib}" todir="${zip.lib}/build" />
+	<copy file="${ext.lucene.lib}" todir="${zip.lib}" />
 	<copy file="${ext.dir}/build/junit-license.txt" todir="${zip.lib}/build" />
 	<copy file="${ext.dir}/README" todir="${zip.lib}" />
 
@@ -289,7 +290,7 @@
 	  	<fileset dir="rules/en/"/>
 	</copy>
   	<copy todir="${zip.dir}/rules/de">
-	  	<fileset dir="rules/de/"/>
+	  	<fileset dir="rules/de/" includes="coherency.txt,fullform2baseform.txt,grammar.xml"/>
 	</copy>
 
   	<copy todir="${zip.dir}/javadoc">
