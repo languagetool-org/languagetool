@@ -30,16 +30,16 @@ public class GermanTaggerTest extends TestCase {
   public void testTagger() throws IOException {
     GermanTagger tagger = new GermanTagger();
     AnalyzedGermanToken aToken = tagger.lookup("Haus", 0);
-    assertEquals("[Nomen/Nominativ/Singular/Neutrum, Nomen/Dativ/Singular/Neutrum, " +
+    assertEquals("Haus:[Nomen/Nominativ/Singular/Neutrum, Nomen/Dativ/Singular/Neutrum, " +
             "Nomen/Akkusativ/Singular/Neutrum]", aToken.toString());
     aToken = tagger.lookup("Hauses", 0);
-    assertEquals("[Nomen/Genitiv/Singular/Neutrum]", aToken.toString());
+    assertEquals("Hauses:[Nomen/Genitiv/Singular/Neutrum]", aToken.toString());
     aToken = tagger.lookup("hauses", 0);
     assertNull(aToken);
     aToken = tagger.lookup("Groß", 0);
     assertNull(aToken);
     aToken = tagger.lookup("großer", 0);
-    assertEquals("[Adjektiv/Nominativ/Singular/Maskulinum, Adjektiv/Genitiv/Plural/Maskulinum, " +
+    assertEquals("großer:[Adjektiv/Nominativ/Singular/Maskulinum, Adjektiv/Genitiv/Plural/Maskulinum, " +
             "Adjektiv/Genitiv/Singular/Femininum, Adjektiv/Dativ/Singular/Femininum, " +
             "Adjektiv/Genitiv/Plural/Femininum, Adjektiv/Genitiv/Plural/Neutrum, " +
             "Adjektiv/Nominativ/Singular/Maskulinum]", aToken.toString());
