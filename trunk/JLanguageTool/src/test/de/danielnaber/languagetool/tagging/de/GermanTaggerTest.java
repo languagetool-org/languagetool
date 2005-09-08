@@ -19,7 +19,6 @@
 package de.danielnaber.languagetool.tagging.de;
 
 import java.io.IOException;
-import java.util.List;
 
 import junit.framework.TestCase;
 
@@ -30,17 +29,20 @@ public class GermanTaggerTest extends TestCase {
 
   public void testTagger() throws IOException {
     GermanTagger tagger = new GermanTagger();
-    List l = tagger.lookup("Haus");
-    assertEquals("[SUB NOM SIN NEU, SUB DAT SIN NEU, SUB AKK SIN NEU]", l.toString());
-    l = tagger.lookup("Hauses");
-    assertEquals("[SUB GEN SIN NEU]", l.toString());
-    l = tagger.lookup("hauses");
-    assertNull(l);
-    l = tagger.lookup("Groß");
-    assertNull(l);
-    l = tagger.lookup("großer");
-    assertEquals("[ADJ NOM SIN MAS, ADJ GEN PLU MAS, ADJ GEN SIN FEM, ADJ DAT SIN FEM, ADJ GEN " +
-            "PLU FEM, ADJ GEN PLU NEU, ADJ NOM SIN MAS]", l.toString());
+    AnalyzedGermanToken aToken = tagger.lookup("Haus", 0);
+    assertEquals("[Nomen/Nominativ/Singular/Neutrum, Nomen/Dativ/Singular/Neutrum, " +
+            "Nomen/Akkusativ/Singular/Neutrum]", aToken.toString());
+    aToken = tagger.lookup("Hauses", 0);
+    assertEquals("[Nomen/Genitiv/Singular/Neutrum]", aToken.toString());
+    aToken = tagger.lookup("hauses", 0);
+    assertNull(aToken);
+    aToken = tagger.lookup("Groß", 0);
+    assertNull(aToken);
+    aToken = tagger.lookup("großer", 0);
+    assertEquals("[Adjektiv/Nominativ/Singular/Maskulinum, Adjektiv/Genitiv/Plural/Maskulinum, " +
+            "Adjektiv/Genitiv/Singular/Femininum, Adjektiv/Dativ/Singular/Femininum, " +
+            "Adjektiv/Genitiv/Plural/Femininum, Adjektiv/Genitiv/Plural/Neutrum, " +
+            "Adjektiv/Nominativ/Singular/Maskulinum]", aToken.toString());
   }
   
 }
