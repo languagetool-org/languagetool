@@ -18,7 +18,11 @@
  */
 package de.danielnaber.languagetool.tagging;
 
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+
+import de.danielnaber.languagetool.AnalyzedToken;
 
 import opennlp.grok.preprocess.postag.EnglishPOSTaggerME;
 
@@ -38,7 +42,18 @@ public class EnglishTagger implements Tagger {
     // lazy init to save startup time if the english tagger isn't used:
     if (tagger == null)
       tagger = new EnglishPOSTaggerME();
-    return tagger.tag(tokens);
+    List taggerTokens = tagger.tag(tokens);
+    List analyzedTokens = new ArrayList();
+    int i = 0;
+    int pos = 0;
+    for (Iterator iter = taggerTokens.iterator(); iter.hasNext();) {
+      String posTag = (String) iter.next();
+      String token = (String)tokens.get(i);
+      analyzedTokens.add(new AnalyzedToken(token, posTag, pos));
+      i++;
+      pos += token.length();
+    }
+    return analyzedTokens;
   }
 
 }

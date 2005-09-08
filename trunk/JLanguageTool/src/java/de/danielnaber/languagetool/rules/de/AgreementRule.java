@@ -20,13 +20,16 @@ package de.danielnaber.languagetool.rules.de;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
 import de.danielnaber.languagetool.AnalyzedSentence;
 import de.danielnaber.languagetool.AnalyzedToken;
+import de.danielnaber.languagetool.JLanguageTool;
 import de.danielnaber.languagetool.rules.RuleMatch;
 import de.danielnaber.languagetool.tagging.de.AnalyzedGermanToken;
+import de.danielnaber.languagetool.tagging.de.GermanTokenReading;
 import de.danielnaber.languagetool.tagging.de.GermanToken.POSType;
 
 /**
@@ -59,27 +62,28 @@ public class AgreementRule extends GermanRule {
     int pos = 0;
     for (int i = 0; i < tokens.length; i++) {
       String posToken = tokens[i].getPOSTag();
-      AnalyzedGermanToken analyzedToken = 
-        new AnalyzedGermanToken(tokens[i].getToken(), posToken, tokens[i].getStartPos());
+      if (posToken != null && posToken.equals(JLanguageTool.SENTENCE_START_TAGNAME))
+        continue;
+      AnalyzedGermanToken analyzedToken = (AnalyzedGermanToken)tokens[i];
       if (analyzedToken.hasReadingOfType(POSType.DETERMINER)) {
         int tokenPos = i + 1; 
         if (tokenPos >= tokens.length)
           break;
-        AnalyzedGermanToken nextToken = new AnalyzedGermanToken(tokens[tokenPos].getToken(),
-            tokens[tokenPos].getPOSTag(), tokens[tokenPos].getStartPos());
+        AnalyzedGermanToken nextToken = (AnalyzedGermanToken)tokens[tokenPos];
         if (nextToken.hasReadingOfType(POSType.ADJEKTIV)) {
           tokenPos = i + 2; 
           if (tokenPos >= tokens.length)
             break;
-          AnalyzedGermanToken nextNextToken = new AnalyzedGermanToken(tokens[tokenPos].getToken(),
-              tokens[tokenPos].getPOSTag(), tokens[tokenPos].getStartPos());
+          AnalyzedGermanToken nextNextToken = (AnalyzedGermanToken)tokens[tokenPos];
           if (nextNextToken.hasReadingOfType(POSType.NOMEN)) {
-            RuleMatch ruleMatch = checkDetAdjNounAgreement(tokens[i], tokens[i+1], tokens[i+2]);
+            RuleMatch ruleMatch = checkDetAdjNounAgreement((AnalyzedGermanToken)tokens[i],
+                (AnalyzedGermanToken)tokens[i+1], (AnalyzedGermanToken)tokens[i+2]);
             if (ruleMatch != null)
               ruleMatches.add(ruleMatch);
           }
         } else if (nextToken.hasReadingOfType(POSType.NOMEN)) {
-          RuleMatch ruleMatch = checkDetNounAgreement(tokens[i], tokens[i+1]);
+          RuleMatch ruleMatch = checkDetNounAgreement((AnalyzedGermanToken)tokens[i],
+              (AnalyzedGermanToken)tokens[i+1]);
           if (ruleMatch != null)
             ruleMatches.add(ruleMatch);
         }
@@ -89,41 +93,43 @@ public class AgreementRule extends GermanRule {
     return toRuleMatchArray(ruleMatches);
   }
 
-  private RuleMatch checkDetNounAgreement(AnalyzedToken token1, AnalyzedToken token2) {
+  private RuleMatch checkDetNounAgreement(AnalyzedGermanToken token1,
+      AnalyzedGermanToken token2) {
     RuleMatch ruleMatch = null;
-    Set set1 = getAgreementCategories(token1.getPOSTag());
+    Set set1 = getAgreementCategories(token1);
     if (set1 == null)
       return null;  // word not known, assume it's correct
-    Set set2 = getAgreementCategories(token2.getPOSTag());
+    Set set2 = getAgreementCategories(token2);
     if (set2 == null)
       return null;
     //System.err.println(token1 + "<-->" + token2);
     set1.retainAll(set2);
     if (set1.size() == 0) {
       // TODO: better error message than just 'agreement error'
-      String msg = "Agreement error";
+      String msg = "Possible agreement error";
       ruleMatch = new RuleMatch(this, token1.getStartPos(), 
           token2.getStartPos()+token2.getToken().length(), msg);
     }
     return ruleMatch;
   }
 
-  private RuleMatch checkDetAdjNounAgreement(AnalyzedToken token1, AnalyzedToken token2, AnalyzedToken token3) {
+  private RuleMatch checkDetAdjNounAgreement(AnalyzedGermanToken token1,
+      AnalyzedGermanToken token2, AnalyzedGermanToken token3) {
     RuleMatch ruleMatch = null;
-    Set set1 = getAgreementCategories(token1.getPOSTag());
+    Set set1 = getAgreementCategories(token1);
     if (set1 == null)
       return null;  // word not known, assume it's correct
     //Set set1Orig = getAgreementCategories(term1);
-    Set set2 = getAgreementCategories(token2.getPOSTag());
+    Set set2 = getAgreementCategories(token2);
     if (set2 == null)
       return null;
-    Set set3 = getAgreementCategories(token3.getPOSTag());
+    Set set3 = getAgreementCategories(token3);
     if (set3 == null)
       return null;
     set1.retainAll(set2);
     set1.retainAll(set3);
     if (set1.size() == 0) {          
-      String msg = "Agreement error";
+      String msg = "Possible agreement error";
       ruleMatch = new RuleMatch(this, token1.getStartPos(), 
           token3.getStartPos()+token3.getToken().length(), msg);
     }
@@ -131,18 +137,16 @@ public class AgreementRule extends GermanRule {
   }
 
   /** Return Kasus, Numerus, Genus */
-  private Set getAgreementCategories(String posTagInformation) {
+  private Set getAgreementCategories(AnalyzedGermanToken aToken) {
     Set set = new HashSet();
-    String[] parts = posTagInformation.split(",");
-    for (int i = 0; i < parts.length; i++) {
-      String allCats = parts[i].trim();
-      int delim = allCats.indexOf(" ");       // cut off type information
-      String cats = allCats.substring(delim);
-      if (cats.startsWith("["))
-        cats = cats.substring(1);
-      if (cats.endsWith("]"))
-        cats = cats.substring(0, cats.length()-1);
-      set.add(cats.trim());
+    List readings = aToken.getReadings();
+    for (Iterator iter = readings.iterator(); iter.hasNext();) {
+      GermanTokenReading reading = (GermanTokenReading) iter.next();
+      if (reading.getCasus() == null && reading.getNumerus() == null &&
+          reading.getGenus() == null)
+        continue;
+      set.add(reading.getCasus() + "/" + reading.getNumerus()
+          + "/" + reading.getGenus());
     }
     return set;
   }

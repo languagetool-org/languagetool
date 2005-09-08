@@ -21,13 +21,15 @@ package de.danielnaber.languagetool.tagging;
 import java.io.IOException;
 import java.util.List;
 
+import de.danielnaber.languagetool.AnalyzedToken;   // required by javadoc
+
 /**
  * @author Daniel Naber
  */
 public interface Tagger {
 
   /**
-   * Returns a list of Strings that assigns each term in token some
+   * Returns a list of {@link AnalyzedToken}s that assigns each term in token some
    * kind of part-of-speech information (not necessarily just one tag).
    * 
    * @param tokens the text as returned by a WordTokenizer but whithout whitespace tokens. 

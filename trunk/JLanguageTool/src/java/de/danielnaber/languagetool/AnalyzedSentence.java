@@ -49,7 +49,8 @@ public class AnalyzedSentence {
     List l = new ArrayList();
     for (int i = 0; i < tokens.length; i++) {
       AnalyzedToken token = tokens[i];
-      if (!token.isWhitespace() || (token.getPOSTag() != null && token.getPOSTag().equals("SENT_START"))) {
+      if (!token.isWhitespace() || (token.getPOSTag() != null &&
+          token.getPOSTag().equals(JLanguageTool.SENTENCE_START_TAGNAME))) {
         l.add(token);
       }
     }
@@ -59,7 +60,7 @@ public class AnalyzedSentence {
   public String toString() {
     StringBuffer sb = new StringBuffer();
     for (int i = 0; i < tokens.length; i++) {
-      if (tokens[i].isWhitespace())
+      if (tokens[i] != null && tokens[i].isWhitespace())
         sb.append(tokens[i].getToken());
       else
         sb.append(tokens[i]);

@@ -18,6 +18,7 @@
  */
 package de.danielnaber.languagetool.tagging.de;
 
+import de.danielnaber.languagetool.JLanguageTool;
 import de.danielnaber.languagetool.tagging.de.GermanToken.Kasus;
 import de.danielnaber.languagetool.tagging.de.GermanToken.Genus;
 import de.danielnaber.languagetool.tagging.de.GermanToken.Numerus;
@@ -49,7 +50,7 @@ public class GermanTokenReading {
     Kasus casus = null;
     Numerus numerus = null;
     Genus genus = null;
-    if (parts.length == 1 && parts[0].equals("SENT_START")) {
+    if (parts.length == 1 && parts[0].equals(JLanguageTool.SENTENCE_START_TAGNAME)) {
       return new GermanTokenReading(POSType.OTHER, null, null, null);
     }
     if (parts.length != 4) {

@@ -58,6 +58,8 @@ public class JLanguageTool {
 
   public final static String RULES_DIR = "rules";
   public final static String PATTERN_FILE = "grammar.xml";
+  
+  public final static String SENTENCE_START_TAGNAME = "SENT_START";
 
   private List builtinRules = new ArrayList();
   private List userRules = new ArrayList();     // rules added via addRule() method
@@ -253,22 +255,23 @@ public class JLanguageTool {
         noWhitespaceTokens.add(token);
       }
     }
-    List posTags = tagger.tag(noWhitespaceTokens);
+    List aTokens = tagger.tag(noWhitespaceTokens);
     AnalyzedToken[] tokenArray = new AnalyzedToken[tokens.size()+1];
     int toArrayCount = 0;
-    AnalyzedToken sentenceStartToken = new AnalyzedToken("", "SENT_START", 0);
+    AnalyzedToken sentenceStartToken = new AnalyzedToken("", SENTENCE_START_TAGNAME, 0);
     tokenArray[toArrayCount++] = sentenceStartToken;
     int startPos = 0;
     int noWhitespaceCount = 0;
     for (Iterator iterator = tokens.iterator(); iterator.hasNext();) {
       String tokenStr = (String) iterator.next();
-      String posTag = null;
+      AnalyzedToken posTag = null;
       if (!tokenStr.trim().equals("")) {
-        posTag = (String)posTags.get(noWhitespaceCount);
+        posTag = (AnalyzedToken)aTokens.get(noWhitespaceCount);
         noWhitespaceCount++;
+      } else {
+        posTag = new AnalyzedToken(tokenStr, null, startPos);
       }
-      AnalyzedToken analyzedToken = new AnalyzedToken(tokenStr, posTag, startPos);
-      tokenArray[toArrayCount++] = analyzedToken;
+      tokenArray[toArrayCount++] = posTag;
       startPos += tokenStr.length();
     }
     return new AnalyzedSentence(tokenArray);

@@ -49,7 +49,7 @@ public class GermanTagger implements Tagger {
   public GermanTagger() {
   }
 
-  public List lookup(String word) throws IOException {
+  public AnalyzedGermanToken lookup(String word, int startPos) throws IOException {
     if (searcher == null)
       searcher = new IndexSearcher(INDEX_DIR);
     Query query = new TermQuery(new Term(FULLFORM_FIELD, word));
@@ -66,19 +66,26 @@ public class GermanTagger implements Tagger {
         for (int i = 0; i < fields.length; i++) {
           String val = fields[i].stringValue();
           if (!val.equals("")) {
-            // TODO: what does "NOG" mean?!
             if (val.indexOf(" NOG") != -1) {
+              // TODO: what exactly does "NOG" mean?!
               String val1 = val.replaceFirst(" NOG", " MAS");
               String val2 = val.replaceFirst(" NOG", " FEM");
-              l.add(val1);
-              l.add(val2);
+              GermanTokenReading tokenReading1 =
+                GermanTokenReading.createTokenReadingFromMorphyString(val1, word);
+              l.add(tokenReading1);
+              GermanTokenReading tokenReading2 =
+                GermanTokenReading.createTokenReadingFromMorphyString(val2, word);
+              l.add(tokenReading2);
             } else {
-              l.add(val);
+              GermanTokenReading tokenReading =
+                GermanTokenReading.createTokenReadingFromMorphyString(val, word);
+              l.add(tokenReading);
             }
           }
         }
       }
-      return l;
+      AnalyzedGermanToken aToken = new AnalyzedGermanToken(word, l, startPos);
+      return aToken;
     }
   }
   
@@ -87,23 +94,28 @@ public class GermanTagger implements Tagger {
       searcher = new IndexSearcher(INDEX_DIR);
 
     List posTags = new ArrayList();
+    int pos = 0;
     for (Iterator iter = tokens.iterator(); iter.hasNext();) {
       String word = (String) iter.next();
-      List l = lookup(word);
-      if (l == null)
-        posTags.add(null);
-      else if (l.size() > 0)
-        posTags.add(l.toString());
+      AnalyzedGermanToken aToken = lookup(word, pos);
+      pos += word.length();
+      if (aToken != null && aToken.getReadings().size() > 0)
+        posTags.add(aToken);
       else
-        posTags.add(null);
+        posTags.add(new AnalyzedGermanToken(word, (List)null, pos));
     }
     return posTags;
   }
   
+  // test only:
   public static void main(String[] args) throws IOException {
     GermanTagger tagger = new GermanTagger();
-    List l = tagger.lookup("Eltern");
-    System.out.println(l);
+    //AnalyzedGermanToken aToken = tagger.lookup("Eltern", 0);
+    List l = new ArrayList();
+    l.add("das");
+    l.add("Haus");
+    List result = tagger.tag(l);
+    System.out.println(result);
   }
 
 }

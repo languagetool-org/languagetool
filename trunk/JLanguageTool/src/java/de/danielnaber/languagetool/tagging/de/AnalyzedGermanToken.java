@@ -38,7 +38,9 @@ public class AnalyzedGermanToken extends AnalyzedToken {
    * @param token the analyzed word
    * @param tagInfoAsString comma-separated list of readings, e.g. <code>ADJ NOM SIN MAS, ADJ NOM SIN FEM</code>
    * @param startPos
+   * @deprecated
    */
+  // FIXME: remove?
   public AnalyzedGermanToken(String token, String tagInfoAsString, int startPos) {
     super(token, null, startPos);
     if (tagInfoAsString == null)
@@ -52,6 +54,11 @@ public class AnalyzedGermanToken extends AnalyzedToken {
     }
   }
 
+  public AnalyzedGermanToken(String token, List readings, int startPos) {
+    super(token, null, startPos);
+    this.readings = readings;
+  }
+  
   /**
    * @return a list of {@link GermanTokenReading}s.
    */
@@ -60,12 +67,21 @@ public class AnalyzedGermanToken extends AnalyzedToken {
   }
 
   public boolean hasReadingOfType(POSType type) {
+    if (readings == null)
+      return false;
     for (Iterator iter = readings.iterator(); iter.hasNext();) {
       GermanTokenReading reading = (GermanTokenReading) iter.next();
       if (reading.getType() == type)
         return true;
     }
     return false;
+  }
+
+  public String toString() {
+    if (readings == null)
+      return token + ":<unknown>";
+    else
+      return token + ":" + readings.toString();
   }
 
 }
