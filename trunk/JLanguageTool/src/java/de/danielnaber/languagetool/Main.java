@@ -206,10 +206,12 @@ class Main {
       language = Language.ENGLISH;
     }
     Main prg = new Main(verbose, language);
-    if (recursive)
+    if (recursive) {
       prg.runRecursive(filename);
-    else
-      prg.getFilteredText(filename);
+    } else {
+      String text = prg.getFilteredText(filename);
+      prg.checkText(text);
+    }
   }
 
 }
