@@ -37,6 +37,7 @@ import de.danielnaber.languagetool.rules.RuleMatch;
 import de.danielnaber.languagetool.rules.UppercaseSentenceStartRule;
 import de.danielnaber.languagetool.rules.WordRepeatRule;
 import de.danielnaber.languagetool.rules.de.AgreementRule;
+import de.danielnaber.languagetool.rules.de.CaseRule;
 import de.danielnaber.languagetool.rules.de.WiederVsWiderRule;
 import de.danielnaber.languagetool.rules.de.WordCoherencyRule;
 import de.danielnaber.languagetool.rules.en.AvsAnRule;
@@ -93,6 +94,7 @@ public class JLanguageTool {
         // English:
         new AvsAnRule(),
         // German:
+        new CaseRule(),
         new WiederVsWiderRule(),
         new AgreementRule(),
         new UppercaseSentenceStartRule()
