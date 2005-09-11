@@ -79,7 +79,7 @@ public class AgreementRuleTest extends TestCase {
     //assertEquals(1, rule.match(langTool.getAnalyzedSentence("Es sind der Frau.")).length);
   }
   
-  public void FIXMEtestDetAdjNounRule() throws IOException {
+  public void testDetAdjNounRule() throws IOException {
     AgreementRule rule = new AgreementRule();
     JLanguageTool langTool = new JLanguageTool(Language.GERMAN);
 
