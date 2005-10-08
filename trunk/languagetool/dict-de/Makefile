@@ -8,6 +8,7 @@
 #  make clean: lösche alles in pfad ergebnis
 #  make ordne: sortiere und ordne worte in pfad worte
 #  make cvs:   kopiere worte von cvs vom woerter nach worte
+#  make daniel:erzeuge comb und neu ohne seltenen Worte
 #
 
 default: all
