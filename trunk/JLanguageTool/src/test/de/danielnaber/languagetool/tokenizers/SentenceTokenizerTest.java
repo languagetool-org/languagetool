@@ -35,6 +35,10 @@ public class SentenceTokenizerTest extends TestCase {
     testSplit(new String[] { "Dies ist ein Satz. ", "Noch einer." });
     testSplit(new String[] { "Ein Satz! ", "Noch einer." });
     testSplit(new String[] { "Ein Satz... ", "Noch einer." });
+    testSplit(new String[] { "Unter http://www.test.de gibt es eine Website." });
+    testSplit(new String[] { "Das Schreiben ist auf den 3.10. datiert." });
+    testSplit(new String[] { "Das Schreiben ist auf den 31.1. datiert." });
+    testSplit(new String[] { "Das Schreiben ist auf den 3.10.2000 datiert." });
 
     testSplit(new String[] { "Heute ist der 13.12.2004." });
     testSplit(new String[] { "Heute ist der 13. Dezember." });

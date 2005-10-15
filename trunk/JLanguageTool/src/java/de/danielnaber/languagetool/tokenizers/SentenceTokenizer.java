@@ -56,6 +56,8 @@ public class SentenceTokenizer implements Tokenizer {
   private static final Pattern abbrev5 = Pattern.compile("(['\"]" + P + "['\"]\\s+)" + EOS);
   private static final Pattern abbrev6 = Pattern.compile("([\"']\\s*)" + EOS + "(\\s*[\\p{Ll}])");
   private static final Pattern abbrev7 = Pattern.compile("(\\s" + PAP + "\\s)" + EOS);
+  // z.b. 3.10. (im Datum):
+  private static final Pattern abbrev8 = Pattern.compile("(\\d{1,2}\\.\\d{1,2}\\.\\s+)" + EOS);
   private static final Pattern repair1 = Pattern.compile("('\\w" + P + ")(\\s)");
   private static final Pattern repair2 = Pattern.compile("(\\sno\\.)(\\s+)(?!\\d)");
   private static final Pattern repair3 = Pattern.compile("([ap]\\.m\\.\\s+)([\\p{Lu}])");
@@ -148,6 +150,9 @@ public class SentenceTokenizer implements Tokenizer {
 
     // e.g. "Das ist . so." -> assume one sentence
     s = abbrev7.matcher(s).replaceAll("$1");
+
+    // e.g. "Das ist . so." -> assume one sentence
+    s = abbrev8.matcher(s).replaceAll("$1");
 
     // extension by dnaber --commented out, doesn't help:
     // text = re.compile("(:\s+)%s(\s*[%s])" % (self.EOS, string.lowercase),
