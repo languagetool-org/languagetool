@@ -60,10 +60,15 @@ public class DoublePunctuationRule extends Rule {
         commaCount++;
         dotCount = 0;
         matchToken = tokens[i];
-      } else if (dotCount == 2 || commaCount == 2) {
+      }
+      if (dotCount == 2 || commaCount == 2) {
         String msg = "Two consecutive dots or commas.";
         RuleMatch ruleMatch = new RuleMatch(this, matchToken.getStartPos(), matchToken.getStartPos()+1, msg);
         ruleMatches.add(ruleMatch);
+        dotCount = 0;
+        commaCount = 0;
+      }
+      if (!token.trim().equals(".") && !token.trim().equals(",")) {
         dotCount = 0;
         commaCount = 0;
       }        
