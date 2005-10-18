@@ -32,6 +32,7 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.xml.sax.SAXException;
 
 import de.danielnaber.languagetool.rules.CommaWhitespaceRule;
+import de.danielnaber.languagetool.rules.DoublePunctuationRule;
 import de.danielnaber.languagetool.rules.Rule;
 import de.danielnaber.languagetool.rules.RuleMatch;
 import de.danielnaber.languagetool.rules.UppercaseSentenceStartRule;
@@ -91,6 +92,7 @@ public class JLanguageTool {
         new CommaWhitespaceRule(), 
         new WordRepeatRule(language),
         new WordCoherencyRule(),
+        new DoublePunctuationRule(),
         // English:
         new AvsAnRule(),
         // German:
