@@ -43,7 +43,12 @@ public class SentenceTokenizerTest extends TestCase {
     testSplit(new String[] { "Heute ist der 13.12.2004." });
     testSplit(new String[] { "Heute ist der 13. Dezember." });
     testSplit(new String[] { "Heute ist der 1. Januar." });
+    testSplit(new String[] { "Es geht am 24.09. los." });
     testSplit(new String[] { "Es geht um ca. 17:00 los." });
+    testSplit(new String[] { "Das in Punkt 3.9.1 genannte Verhalten." });
+
+    testSplit(new String[] { "Das gilt lt. aktuellem Plan." });
+    testSplit(new String[] { "Orangen, Äpfel etc. werden gekauft." });
 
     testSplit(new String[] { "Das ist,, also ob es bla." });
     testSplit(new String[] { "Das ist es.. ", "So geht es weiter." });
