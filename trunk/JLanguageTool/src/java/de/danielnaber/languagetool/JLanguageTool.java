@@ -22,6 +22,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -192,6 +193,7 @@ public class JLanguageTool {
     for (Iterator iter = sentences.iterator(); iter.hasNext();) {
       String sentence = (String) iter.next();
       AnalyzedSentence analyzedText = getAnalyzedSentence(sentence);
+      List sentenceMatches = new ArrayList();
       printIfVerbose(analyzedText.toString());
       for (Iterator iterator = allRules.iterator(); iterator.hasNext();) {
         Rule rule = (Rule) iterator.next();
@@ -215,9 +217,11 @@ public class JLanguageTool {
           }
           thisMatch.setLine(lineCount + countLineBreaks(sentencePartToError));
           thisMatch.setColumn(column);
-          ruleMatches.add(thisMatch);
+          sentenceMatches.add(thisMatch);
         }
       }
+      Collections.sort(sentenceMatches);
+      ruleMatches.addAll(sentenceMatches);
       tokenCount += sentence.length();
       lineCount += countLineBreaks(sentence);
       // calculate matching column:

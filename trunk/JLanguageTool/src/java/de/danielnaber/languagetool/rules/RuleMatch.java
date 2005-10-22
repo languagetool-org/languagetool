@@ -23,7 +23,7 @@ package de.danielnaber.languagetool.rules;
  * 
  * @author Daniel Naber
  */
-public class RuleMatch {
+public class RuleMatch implements Comparable {
 
   private int fromLine = -1;
   private int column = -1;
@@ -94,6 +94,17 @@ public class RuleMatch {
 
   public String toString() {
     return rule.getId() + ":" + fromPos + "-" + toPos + ":" + message;
+  }
+
+  public int compareTo(Object other) {
+    if (other == null)
+      throw new ClassCastException();
+    RuleMatch otherRule = (RuleMatch) other;
+    if (getFromPos() < otherRule.getFromPos())
+      return -1;
+    if (getFromPos() > otherRule.getFromPos())
+      return 1;
+    return 0;
   }
 
 }
