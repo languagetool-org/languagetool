@@ -57,6 +57,39 @@ public class AnalyzedGermanToken extends AnalyzedToken {
     return false;
   }
 
+  public boolean hasReading(GermanToken.Kasus kasus) {
+    if (readings == null)
+      return false;
+    for (Iterator iter = readings.iterator(); iter.hasNext();) {
+      GermanTokenReading reading = (GermanTokenReading) iter.next();
+      if (reading.getCasus() == kasus)
+        return true;
+    }
+    return false;
+  }
+
+  public boolean hasReading(GermanToken.Numerus numerus) {
+    if (readings == null)
+      return false;
+    for (Iterator iter = readings.iterator(); iter.hasNext();) {
+      GermanTokenReading reading = (GermanTokenReading) iter.next();
+      if (reading.getNumerus() == numerus)
+        return true;
+    }
+    return false;
+  }
+
+  public boolean hasReading(GermanToken.Genus genus) {
+    if (readings == null)
+      return false;
+    for (Iterator iter = readings.iterator(); iter.hasNext();) {
+      GermanTokenReading reading = (GermanTokenReading) iter.next();
+      if (reading.getGenus() == genus)
+        return true;
+    }
+    return false;
+  }
+
   public String toString() {
     if (readings == null)
       return token + ":<unknown>";
