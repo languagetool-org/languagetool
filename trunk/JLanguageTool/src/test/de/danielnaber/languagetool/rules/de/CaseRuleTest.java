@@ -39,6 +39,10 @@ public class CaseRuleTest extends TestCase {
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("Das Winseln stört.")).length);
     // TODO: "Le" is no error:
     //assertEquals(0, rule.match(langTool.getAnalyzedSentence("Schon Le Monde schrieb das.")).length);
+    
+    // TODO: nach dem Doppelpunkt wird derzeit nicht auf groß/klein getestet:
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Das ist es: kein Satz.")).length);
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Das ist es: Kein Satz.")).length);
 
     // incorrect sentences:
     assertEquals(1, rule.match(langTool.getAnalyzedSentence("Ein Einfacher Satz zum Testen.")).length);

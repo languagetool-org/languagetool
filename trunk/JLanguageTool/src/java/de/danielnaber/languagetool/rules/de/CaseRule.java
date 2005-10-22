@@ -89,7 +89,7 @@ public class CaseRule extends GermanRule {
       }
       if (hasNounReading)  // it's the spell checker's task to check that nouns are uppercase
         continue;
-      if (Character.isUpperCase(token.charAt(0))) {
+      if (Character.isUpperCase(token.charAt(0)) && ! tokens[i-1].getToken().equals(":")) {
         String msg = "Außer am Satzanfang werden nur Nomen und Eigennamen groß geschrieben";
         RuleMatch ruleMatch = new RuleMatch(this, tokens[i].getStartPos(),
             tokens[i].getStartPos()+token.length(), msg);
