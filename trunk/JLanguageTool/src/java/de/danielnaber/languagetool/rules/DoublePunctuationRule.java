@@ -52,6 +52,9 @@ public class DoublePunctuationRule extends Rule {
     int commaCount = 0;
     for (int i = 0; i < tokens.length; i++) {
       String token = tokens[i].getToken();
+      String nextToken = null;
+      if (i < tokens.length-1)
+        nextToken = tokens[i+1].getToken();
       if (token.trim().equals(".")) {
         dotCount++;
         commaCount = 0;
@@ -61,11 +64,15 @@ public class DoublePunctuationRule extends Rule {
         dotCount = 0;
         matchToken = tokens[i];
       }
-      if (dotCount == 2 || commaCount == 2) {
-        String msg = "Two consecutive dots or commas.";
+      if (dotCount == 2 && !nextToken.equals(".")) {
+        String msg = "Two consecutive dots.";
         RuleMatch ruleMatch = new RuleMatch(this, matchToken.getStartPos(), matchToken.getStartPos()+1, msg);
         ruleMatches.add(ruleMatch);
         dotCount = 0;
+      } else if (commaCount == 2 && !nextToken.equals(",")) {
+        String msg = "Two consecutive commas.";
+        RuleMatch ruleMatch = new RuleMatch(this, matchToken.getStartPos(), matchToken.getStartPos()+1, msg);
+        ruleMatches.add(ruleMatch);
         commaCount = 0;
       }
       if (!token.trim().equals(".") && !token.trim().equals(",")) {
