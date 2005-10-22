@@ -67,7 +67,7 @@ public class SentenceTokenizer implements Tokenizer {
       "Sr", "Bros", "etc", "vs", "esp", "Fig", "fig", "Jan", "Feb", "Mar", "Apr", "Jun", "Jul",
       "Aug", "Sep", "Sept", "Oct", "Okt", "Nov", "Dec", "Ph.D", "PhD",
       // German:
-      "ggf", "Dr", "Prof", "bspw", "etc"
+      "ggf", "Dr", "Prof", "bspw", "etc", "ca"
       };
 
   // einige deutsche Monate, vor denen eine Zahl erscheinen kann,
