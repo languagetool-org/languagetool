@@ -43,7 +43,15 @@ public class SentenceTokenizerTest extends TestCase {
     testSplit(new String[] { "Heute ist der 13.12.2004." });
     testSplit(new String[] { "Heute ist der 13. Dezember." });
     testSplit(new String[] { "Heute ist der 1. Januar." });
-    
+
+    testSplit(new String[] { "Das ist,, also ob es bla." });
+    testSplit(new String[] { "Das ist es.. ", "So geht es weiter." });
+
+    // TODO: derzeit unterscheiden wir nicht, ob nach dem Doppelpunkt ein
+    // ganzer Satz kommt oder nicht:
+    testSplit(new String[] { "Das war es: gar nichts." });
+    testSplit(new String[] { "Das war es: Dies ist ein neuer Satz." });
+
     // incomplete sentences, need to work for on-thy-fly checking of texts:
     testSplit(new String[] { "Here's a" });
     testSplit(new String[] { "Here's a sentence. ", "And here's one that's not comp" });
