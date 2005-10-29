@@ -144,6 +144,7 @@ class PatternRuleHandler extends DefaultHandler {
       rule.setCorrectExample(correctExample.toString());
       rule.setIncorrectExample(incorrectExample.toString());
       rule.setCaseSensitive(caseSensitive);
+      caseSensitive = false;
       rules.add(rule);
     } else if (qName.equals("pattern")) {
       inPattern = false;
