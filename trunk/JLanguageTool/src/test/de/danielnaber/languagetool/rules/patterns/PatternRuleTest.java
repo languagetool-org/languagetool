@@ -123,7 +123,7 @@ public class PatternRuleTest extends TestCase {
   }
 
   private PatternRule makePatternRule(String s) {
-    return new PatternRule("ID1", Language.ENGLISH, s, "test rule", "user visible message");
+    return makePatternRule(s, false);
   }
 
   private PatternRule makePatternRule(String s, boolean caseSensitive) {
