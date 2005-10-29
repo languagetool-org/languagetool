@@ -139,6 +139,8 @@ class PatternRuleHandler extends DefaultHandler {
           message.toString());
       rule.setStartPositionCorrection(startPositionCorrection);
       rule.setEndPositionCorrection(endPositionCorrection);
+      startPositionCorrection = 0;
+      endPositionCorrection = 0;
       rule.setCorrectExample(correctExample.toString());
       rule.setIncorrectExample(incorrectExample.toString());
       rule.setCaseSensitive(caseSensitive);
