@@ -58,6 +58,8 @@ public class SentenceTokenizerTest extends TestCase {
     testSplit(new String[] { "Das hier ist ein(?) Satz." });
     testSplit(new String[] { "Das hier ist ein(???) Satz." });
 
+    testSplit(new String[] { "Der Papagei ist grün. ",  "Das kam so." });
+
     // TODO: derzeit unterscheiden wir nicht, ob nach dem Doppelpunkt ein
     // ganzer Satz kommt oder nicht:
     testSplit(new String[] { "Das war es: gar nichts." });

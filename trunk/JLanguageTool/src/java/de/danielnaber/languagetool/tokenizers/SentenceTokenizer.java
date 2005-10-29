@@ -48,17 +48,17 @@ public class SentenceTokenizer implements Tokenizer {
   // \p{Lu} = uppercase, mit Beachtung von Unicode (\p{Upper} ist nur US-ASCII!):
   private static final Pattern punctUpperLower = Pattern.compile("(" + PAP
       + ")([\\p{Lu}][^\\p{Lu}.])");
-  private static final Pattern letterPunct = Pattern.compile("(\\s\\w" + P + ")");
-  private static final Pattern abbrev1 = Pattern.compile("([^-\\w]\\w" + PAP + "\\s)" + EOS);
-  private static final Pattern abbrev2 = Pattern.compile("([^-\\w]\\w" + P + ")" + EOS);
-  private static final Pattern abbrev3 = Pattern.compile("(\\s\\w\\.\\s+)" + EOS);
+  private static final Pattern letterPunct = Pattern.compile("(\\s[\\wüöäÜÖÄß]" + P + ")");
+  private static final Pattern abbrev1 = Pattern.compile("([^-\\wüöäÜÖÄß][\\wüöäÜÖÄß]" + PAP + "\\s)" + EOS);
+  private static final Pattern abbrev2 = Pattern.compile("([^-\\wüöäÜÖÄß][\\wüöäÜÖÄß]" + P + ")" + EOS);
+  private static final Pattern abbrev3 = Pattern.compile("(\\s[\\wüöäÜÖÄß]\\.\\s+)" + EOS);
   private static final Pattern abbrev4 = Pattern.compile("(\\.\\.\\. )" + EOS + "([\\p{Ll}])");
   private static final Pattern abbrev5 = Pattern.compile("(['\"]" + P + "['\"]\\s+)" + EOS);
   private static final Pattern abbrev6 = Pattern.compile("([\"']\\s*)" + EOS + "(\\s*[\\p{Ll}])");
   private static final Pattern abbrev7 = Pattern.compile("(\\s" + PAP + "\\s)" + EOS);
   // z.b. 3.10. (im Datum):
   private static final Pattern abbrev8 = Pattern.compile("(\\d{1,2}\\.\\d{1,2}\\.\\s+)" + EOS);
-  private static final Pattern repair1 = Pattern.compile("('\\w" + P + ")(\\s)");
+  private static final Pattern repair1 = Pattern.compile("('[\\wüöäÜÖÄß]" + P + ")(\\s)");
   private static final Pattern repair2 = Pattern.compile("(\\sno\\.)(\\s+)(?!\\d)");
   private static final Pattern repair3 = Pattern.compile("([ap]\\.m\\.\\s+)([\\p{Lu}])");
 
