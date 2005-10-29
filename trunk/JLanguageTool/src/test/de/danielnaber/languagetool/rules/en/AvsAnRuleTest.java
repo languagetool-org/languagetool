@@ -41,6 +41,8 @@ public class AvsAnRuleTest extends TestCase {
     assertEquals(0, matches.length);
     matches = rule.match(langTool.getAnalyzedSentence("A university is ..."));
     assertEquals(0, matches.length);
+    matches = rule.match(langTool.getAnalyzedSentence("A one-way street ..."));
+    assertEquals(0, matches.length);
     // errors:
     matches = rule.match(langTool.getAnalyzedSentence("It was a hour ago."));
     assertEquals(1, matches.length);

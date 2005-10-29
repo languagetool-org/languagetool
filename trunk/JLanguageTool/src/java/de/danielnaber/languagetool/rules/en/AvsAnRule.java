@@ -76,6 +76,9 @@ public class AvsAnRule extends EnglishRule {
         boolean doesRequireAn = false;
         // check for exceptions:
         boolean isException = false;
+        if (token.indexOf("-") != -1) {     // for example, in "one-way" only "one" is relevant
+          token = token.split("-")[0];
+        }
         if (requiresA.contains(token.toLowerCase())) {
           isException = true;
           doesRequireA = true;
