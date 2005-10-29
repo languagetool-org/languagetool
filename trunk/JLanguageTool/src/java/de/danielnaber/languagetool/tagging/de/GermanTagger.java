@@ -65,30 +65,30 @@ public class GermanTagger implements Tagger {
     Hits hits = searcher.search(query);
     if (hits.length() == 0) {
       return null;
-    } else if (hits.length() > 1){
-      throw new IllegalStateException("More than one hit for " + word);
     } else {
-      Document doc = hits.doc(0);
-      Field[] fields = doc.getFields(CATEGORIES_FIELD);
       List l = new ArrayList();
-      if (fields != null) {
-        for (int i = 0; i < fields.length; i++) {
-          String val = fields[i].stringValue();
-          if (!val.equals("")) {
-            if (val.indexOf(" NOG") != -1) {
-              // TODO: what exactly does "NOG" mean?!
-              String val1 = val.replaceFirst(" NOG", " MAS");
-              String val2 = val.replaceFirst(" NOG", " FEM");
-              GermanTokenReading tokenReading1 =
-                GermanTokenReading.createTokenReadingFromMorphyString(val1, word);
-              l.add(tokenReading1);
-              GermanTokenReading tokenReading2 =
-                GermanTokenReading.createTokenReadingFromMorphyString(val2, word);
-              l.add(tokenReading2);
-            } else {
-              GermanTokenReading tokenReading =
-                GermanTokenReading.createTokenReadingFromMorphyString(val, word);
-              l.add(tokenReading);
+      for( int j = 0; j < hits.length(); j++) {
+        Document doc = hits.doc(j);
+        Field[] fields = doc.getFields(CATEGORIES_FIELD);
+        if (fields != null) {
+          for (int i = 0; i < fields.length; i++) {
+            String val = fields[i].stringValue();
+            if (!val.equals("")) {
+              if (val.indexOf(" NOG") != -1) {
+                // TODO: what exactly does "NOG" mean?!
+                String val1 = val.replaceFirst(" NOG", " MAS");
+                String val2 = val.replaceFirst(" NOG", " FEM");
+                GermanTokenReading tokenReading1 =
+                  GermanTokenReading.createTokenReadingFromMorphyString(val1, word);
+                l.add(tokenReading1);
+                GermanTokenReading tokenReading2 =
+                  GermanTokenReading.createTokenReadingFromMorphyString(val2, word);
+                l.add(tokenReading2);
+              } else {
+                GermanTokenReading tokenReading =
+                  GermanTokenReading.createTokenReadingFromMorphyString(val, word);
+                l.add(tokenReading);
+              }
             }
           }
         }
