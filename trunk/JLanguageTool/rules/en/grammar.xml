@@ -3,7 +3,7 @@
 <!--
 Rules: Grammar and Typos
 Copyright (C) 2001-2005 Daniel Naber (http://www.danielnaber.de)
-$Id: grammar.xml,v 1.10 2005-10-29 19:47:42 dnaber Exp $
+$Id: grammar.xml,v 1.11 2005-10-29 20:00:52 dnaber Exp $
 -->
 <rules>
 
@@ -234,7 +234,7 @@ $Id: grammar.xml,v 1.10 2005-10-29 19:47:42 dnaber Exp $
 	
 	<rule id="DET_DET" name="Two consecutive articles">
 		<pattern lang="en" mark_from="1" mark_to="0">DT^all|half|both DT</pattern>
-		<message><em>Remove</em> the second determiner.</message>
+		<message>Maybe you need to remove the second determiner.</message>
 		<error_rate warnings="5" sentences="75900" />
 		<example type="correct"><em>The</em> thing is this.</example>
 		<example type="incorrect"><em>The the</em> thing is this.</example>
@@ -436,7 +436,7 @@ $Id: grammar.xml,v 1.10 2005-10-29 19:47:42 dnaber Exp $
 		<rulegroup id="NOW" name="Confusion of no/now">
 
 		<rule>
-			<pattern lang="en" mark_to="-1">"no" MD|VB|VBD|VBN</pattern>
+			<pattern lang="en" mark_to="-1">"no" MD|VB|VBD|VBN^known</pattern>
 			<message>Did you maybe mix up <em>no</em> (negation) and
 				<em>now</em> (=at this moment)?</message>
 			<example type="correct">There <em>now</em> will be a park.</example>
