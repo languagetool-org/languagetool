@@ -126,6 +126,12 @@ public class PatternRuleTest extends TestCase {
     return new PatternRule("ID1", Language.ENGLISH, s, "test rule", "user visible message");
   }
 
+  private PatternRule makePatternRule(String s, boolean caseSensitive) {
+    PatternRule rule = new PatternRule("ID1", Language.ENGLISH, s, "test rule", "user visible message");
+    rule.setCaseSensitive(caseSensitive);
+    return rule;
+  }
+
   public void testSentenceStart() throws IOException {
     PatternRule pr;
     RuleMatch[] matches;
@@ -166,6 +172,28 @@ public class PatternRuleTest extends TestCase {
     assertEquals(0, matches.length);
     matches = pr.match(langTool.getAnalyzedSentence("One walk."));
     assertEquals(1, matches.length);
+
+    pr = makePatternRule("CD^one \"foo\"");
+    matches = pr.match(langTool.getAnalyzedSentence("One foo."));
+    assertEquals(0, matches.length);
+    matches = pr.match(langTool.getAnalyzedSentence("Two foo."));
+    assertEquals(1, matches.length);
+
+    pr = makePatternRule("CD^one|three|five \"foo\"");
+    matches = pr.match(langTool.getAnalyzedSentence("One foo."));
+    assertEquals(0, matches.length);
+    matches = pr.match(langTool.getAnalyzedSentence("Three foo."));
+    assertEquals(0, matches.length);
+    matches = pr.match(langTool.getAnalyzedSentence("Five foo."));
+    assertEquals(0, matches.length);
+    matches = pr.match(langTool.getAnalyzedSentence("Eight foo."));
+    assertEquals(1, matches.length);
+
+    pr = makePatternRule("CD^one \"foo\"", true);
+    matches = pr.match(langTool.getAnalyzedSentence("One foo."));
+    assertEquals(1, matches.length);
+    matches = pr.match(langTool.getAnalyzedSentence("the one foo."));
+    assertEquals(0, matches.length);
   }
 
 }

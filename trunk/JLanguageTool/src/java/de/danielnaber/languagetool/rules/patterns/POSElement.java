@@ -28,20 +28,40 @@ import de.danielnaber.languagetool.AnalyzedToken;
  */
 public class POSElement extends Element {
 
-  POSElement(String token) {
-    this.tokens = new String[] {token};
+  private String[] exceptions = null;
+  private boolean caseSensitive = false;
+  
+  POSElement(String[] tokens, String[] exceptions) {
+    this(tokens, false, exceptions);
   }
 
-  POSElement(String[] tokens) {
+  POSElement(String[] tokens, boolean caseSensitive, String[] exceptions) {
     this.tokens = tokens;
+    this.exceptions = exceptions;
+    this.caseSensitive = caseSensitive;
   }
-  
+
   boolean matchToken(AnalyzedToken token) {
+    boolean match = false;
     for (int i = 0; i < tokens.length; i++) {
-      if (tokens[i].equals(token.getPOSTag()))
-        return true;
+      if (tokens[i].equals(token.getPOSTag())) {
+        match = true;
+        break;
+      }
     }
-    return false;
+    if (exceptions != null) {
+      for (int i = 0; i < exceptions.length; i++) {
+        boolean tmpMatch;
+        if (caseSensitive)
+          tmpMatch = exceptions[i].equals(token.getToken());
+        else
+          tmpMatch = exceptions[i].equalsIgnoreCase(token.getToken());
+        if (tmpMatch) {
+          return false;
+        }
+      }
+    }
+    return match;
   }
 
 }

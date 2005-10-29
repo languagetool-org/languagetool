@@ -184,10 +184,18 @@ public class PatternRule extends Rule {
         StringElement stringElement = new StringElement(tokenParts, caseSensitive); 
         stringElement.setNegation(negation);
         elements.add(stringElement);
-      } else if (element.toUpperCase().equals(element)) {
-        // all-uppercase = POS tag (except: see above)
-        String tokenParts[] = element.split("\\|");
-        POSElement posElement = new POSElement(tokenParts);
+      } else if (Character.isUpperCase(element.charAt(0))) {
+        // uppercase = POS tag (except: see above)
+        String tokenParts[];
+        String exceptions[] = null;
+        POSElement posElement;
+        if (element.indexOf("^") != -1) {
+          tokenParts = element.substring(0, element.indexOf("^")).split("\\|");
+          exceptions = element.substring(element.indexOf("^")+1).split("\\|");
+        } else {
+          tokenParts = element.split("\\|");
+        }
+        posElement = new POSElement(tokenParts, caseSensitive, exceptions);
         posElement.setNegation(negation);
         elements.add(posElement);
       } else {
