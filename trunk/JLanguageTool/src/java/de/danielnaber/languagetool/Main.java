@@ -165,7 +165,7 @@ class Main {
 
   private static void exitWithUsageMessagee() {
     System.out.println("Usage: java de.danielnaber.languagetool.Main " +
-            "[-r|--recursive] [-v|--verbose] [-l|--language] <file>");
+            "[-h|--help] [-r|--recursive] [-v|--verbose] [-l|--language] <file>");
     System.exit(1);
   }
 
@@ -181,17 +181,27 @@ class Main {
     Language language = null;
     String filename = null;
     for (int i = 0; i < args.length; i++) {
-      if (args[i].equals("-v") || args[i].equals("--verbose")) {
+      if (args[i].equals("-h") || args[i].equals("-help") || args[i].equals("--help")) {
+        exitWithUsageMessagee();
+      } else if (args[i].equals("-v") || args[i].equals("--verbose")) {
         verbose = true;
       } else if (args[i].equals("-r") || args[i].equals("--recursive")) {
         recursive = true;
       } else if (args[i].equals("-l") || args[i].equals("--language")) {
         String lang = args[++i];
-        if (lang.equals("en")) {
-          language = Language.ENGLISH;
-        } else if (lang.equals("de")) {
-          language = Language.GERMAN;
-        } else {
+        boolean foundLanguage = false;
+        List supportedLanguages = new ArrayList();
+        for (int j = 0; j < Language.LANGUAGES.length; j++) {
+          Language tmpLang = Language.LANGUAGES[j];
+          supportedLanguages.add(tmpLang.getShortName());
+          if (lang.equals(tmpLang.getShortName())) {
+            language = tmpLang;
+            foundLanguage = true;
+            break;
+          }          
+        }
+        if (! foundLanguage) {
+          System.out.println("Unknown language '" + lang + "'. Supported languages are: " + supportedLanguages);
           exitWithUsageMessagee();
         }
       } else {
