@@ -162,6 +162,9 @@ public class SentenceTokenizer implements Tokenizer {
     for (int i = 0; i < germanMonthList.length; i++) {
       s = s.replaceAll("(\\d+\\.) " + EOS + "(" + germanMonthList[i] + ")", "$1 $2");
     }
+
+    // z.B. "Das hier ist ein(!) Satz."
+    s = s.replaceAll("\\(([!?]+)\\) " + EOS, "($1) ");
     return s;
   }
 
