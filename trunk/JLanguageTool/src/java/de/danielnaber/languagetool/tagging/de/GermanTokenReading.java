@@ -128,7 +128,20 @@ public class GermanTokenReading {
   }
 
   public String toString() {
-    return type + "/" + casus +"/"+ numerus +"/"+ genus;
+    String casusStr = makeReadableString(casus);
+    String numerusStr = makeReadableString(numerus);
+    String genusStr = makeReadableString(genus);
+    return type + "/" + casusStr +"/"+ numerusStr +"/"+ genusStr;
+  }
+  
+  private String makeReadableString(Object obj) {
+    final int length = 3;
+    String str = null;
+    if (obj == null)
+      str = "-";
+    else
+      str = obj.toString().substring(0, length);
+    return str;
   }
   
 }

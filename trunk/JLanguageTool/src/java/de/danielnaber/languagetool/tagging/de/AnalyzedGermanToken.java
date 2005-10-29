@@ -19,8 +19,10 @@
 package de.danielnaber.languagetool.tagging.de;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import de.danielnaber.languagetool.AnalyzedToken;
 import de.danielnaber.languagetool.tagging.de.GermanToken.POSType;
@@ -92,9 +94,23 @@ public class AnalyzedGermanToken extends AnalyzedToken {
 
   public String toString() {
     if (readings == null)
-      return token + ":<unknown>";
-    else
-      return token + ":" + readings.toString();
+      return token + "[?]";
+    else {
+      StringBuffer sb = new StringBuffer(token);
+      Set printed = new HashSet();
+      sb.append("[");
+      for (Iterator iter = readings.iterator(); iter.hasNext();) {
+        GermanTokenReading reading = (GermanTokenReading) iter.next();
+        if (!printed.contains(reading.toString())) {
+          if (printed.size() > 0)
+            sb.append(", ");
+          sb.append(reading.toString());
+        }
+        printed.add(reading.toString());
+      }
+      sb.append("]");
+      return sb.toString();
+    }
   }
 
 }
