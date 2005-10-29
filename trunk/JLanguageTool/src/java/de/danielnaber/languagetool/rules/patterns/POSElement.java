@@ -23,6 +23,9 @@ import de.danielnaber.languagetool.AnalyzedToken;
 /**
  * A part of a pattern that matches a part-of-speech tag.
  * Typically built from patterns like <code>JJ</code> or <code>NNS</code>.
+ * It also supports exceptions built form patterns like <code>CD^foo|bar</code>:
+ * this will match any word tagged as <code>CD</code>, except the word
+ * <code>foo</code> or <code>bar</code>.
  *
  * @author Daniel Naber
  */
