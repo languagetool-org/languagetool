@@ -71,7 +71,6 @@ public class AvsAnRule extends EnglishRule {
       if (token.trim().equals("")) {
         // ignore
       } else {
-        char tokenFirstChar = token.charAt(0);
         boolean doesRequireA = false;
         boolean doesRequireAn = false;
         // check for exceptions:
@@ -80,6 +79,10 @@ public class AvsAnRule extends EnglishRule {
         if (parts.length >= 1) {
           token = parts[0];
         }
+        token = token.replaceAll("[^a-zA-Z]", "");         // e.g. >>an "industry party"<<
+        if (token.length() == 0)
+          continue;
+        char tokenFirstChar = token.charAt(0);
         if (requiresA.contains(token.toLowerCase())) {
           isException = true;
           doesRequireA = true;
