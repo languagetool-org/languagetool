@@ -46,27 +46,35 @@ public class Morphy2Lucene {
   
   // if no category is known for a word's reading, use this one: 
   private static final String DEFAULT_CATEGORY = "0";
-
   private static final String INDEX_DIR = "rules/de/categories";
-
   private static final String IS_BASEFORM = "is_baseform";
   
+  private Morphy2Lucene() {
+    // use main() method
+  }
+  
   public static void main(String[] args) throws IOException {
-    if (args.length != 1) {
-      System.out.println("Usage: de.danielnaber.languagetool.tools.Morphy2Lucene <morphyfile>");
+    if (args.length != 1 && args.length != 2) {
+      System.out.println("Usage: de.danielnaber.languagetool.tools.Morphy2Lucene [--append] <morphyfile>");
       System.exit(1);
     }
-    System.out.println("Writing category index to " + INDEX_DIR);
     Morphy2Lucene prg = new Morphy2Lucene();
-    prg.run(args[0]);
+    if (args.length == 2 && args[0].equals("--append")) {
+      System.out.println("Appending category index to " + INDEX_DIR);
+      prg.run(args[1], false);
+    } else {
+      System.out.println("Creating new category index in " + INDEX_DIR);
+      prg.run(args[0], true);
+    }
     System.out.println("Done.");
   }
 
-  private void run(String inputFile) throws IOException {
-    IndexWriter iw = new IndexWriter(INDEX_DIR, new WhitespaceAnalyzer(), true);
+  private void run(String inputFile, boolean createFromScratch) throws IOException {
+    IndexWriter iw = new IndexWriter(INDEX_DIR, new WhitespaceAnalyzer(), createFromScratch);
     iw.setMaxBufferedDocs(500);
     iw.setMergeFactor(500);
     fillIndex(iw, inputFile);
+    System.out.println("Optimizing index...");
     iw.optimize();
     iw.close();
   }
@@ -80,6 +88,8 @@ public class Morphy2Lucene {
     int addCount = 0;
     while ((line = br.readLine()) != null) {
       line = line.trim();
+      if (line.startsWith("#"))
+        continue;
       if (line.equals(""))
         continue;
       if (line.indexOf("wkl=VER") != -1 || line.indexOf("wkl=PA2") != -1)      // not yet used
@@ -131,7 +141,7 @@ public class Morphy2Lucene {
     }
     isr.close();
     br.close();
-    System.out.println("Added " + addCount + " terms.");
+    System.out.println("Added " + addCount + " terms from " + inputFile);
   }
   
 }
