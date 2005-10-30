@@ -102,11 +102,11 @@ public class AgreementRule extends GermanRule {
     Set set2 = getAgreementCategories(token2);
     if (set2 == null)
       return null;
-    //System.err.println(token1 + "<-->" + token2);
     set1.retainAll(set2);
     if (set1.size() == 0) {
       // TODO: better error message than just 'agreement error'
-      String msg = "Possible agreement error";
+      String msg = "Fehlende Übereinstimmung (Kongruenz) zwischen Artikel und Nomen " +
+            "bezüglich Kasus, Numerus oder Genus.";
       ruleMatch = new RuleMatch(this, token1.getStartPos(), 
           token2.getStartPos()+token2.getToken().length(), msg);
     }
@@ -129,7 +129,8 @@ public class AgreementRule extends GermanRule {
     set1.retainAll(set2);
     set1.retainAll(set3);
     if (set1.size() == 0) {          
-      String msg = "Possible agreement error";
+      String msg = "Fehlende Übereinstimmung (Kongruenz) zwischen Artikel, Adjektiv und" +
+            " Nomen bezüglich Kasus, Numerus oder Genus.";
       ruleMatch = new RuleMatch(this, token1.getStartPos(), 
           token3.getStartPos()+token3.getToken().length(), msg);
     }
