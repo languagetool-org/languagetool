@@ -37,7 +37,7 @@ public class SentenceTokenizer implements Tokenizer {
   private final static String EOS = "\0";
   // private final static String EOS = "#"; // for testing only
   private final static String P = "[\\.!?]"; // PUNCTUATION
-  private final static String AP = "(?:'|\"||\\)|\\]|\\})?"; // AFTER PUNCTUATION
+  private final static String AP = "(?:'|«|\"||\\)|\\]|\\})?"; // AFTER PUNCTUATION
   private final static String PAP = P + AP;
 
   // Check out the private methods for comments and examples about these
