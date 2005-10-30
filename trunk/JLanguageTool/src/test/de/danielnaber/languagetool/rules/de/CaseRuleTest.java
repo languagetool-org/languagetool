@@ -48,5 +48,22 @@ public class CaseRuleTest extends TestCase {
     assertEquals(1, rule.match(langTool.getAnalyzedSentence("Ein Einfacher Satz zum Testen.")).length);
     assertEquals(1, rule.match(langTool.getAnalyzedSentence("Das Winseln Stört.")).length);
   }
+
+  public void testSubstantivierteVerben() throws IOException {
+    CaseRule rule = new CaseRule();
+    JLanguageTool langTool = new JLanguageTool(Language.GERMAN);
+
+    // correct sentences:
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Das fahrende Auto.")).length);
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Das Fahren ist einfach.")).length);
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Denn das Fahren ist einfach.")).length);
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Das können wir so machen.")).length);
+    // incorrect sentences:
+    assertEquals(1, rule.match(langTool.getAnalyzedSentence("Das fahren ist einfach.")).length);
+    assertEquals(1, rule.match(langTool.getAnalyzedSentence("Denn das fahren ist einfach.")).length);
+    assertEquals(1, rule.match(langTool.getAnalyzedSentence("Denn das laufen ist einfach.")).length);
+    assertEquals(1, rule.match(langTool.getAnalyzedSentence("Denn das essen ist einfach.")).length);
+    assertEquals(1, rule.match(langTool.getAnalyzedSentence("Denn das gehen ist einfach.")).length);
+  }
   
 }
