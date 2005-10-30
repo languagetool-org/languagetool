@@ -108,7 +108,7 @@ public class GermanTagger implements Tagger {
     for (Iterator iter = tokens.iterator(); iter.hasNext();) {
       String word = (String) iter.next();
       AnalyzedGermanToken aToken = lookup(word, pos);
-      if (firstWord) {
+      if (firstWord && aToken == null) {        // e.g. "Das" -> "das" at start of sentence
         aToken = lookup(word, pos, true);
         firstWord = false;
       }
@@ -123,11 +123,15 @@ public class GermanTagger implements Tagger {
   
   /** For testing only. */
   public static void main(String[] args) throws IOException {
+    if (args.length == 0) {
+      System.out.println("Usage: GermanTagger <word1> [word2...]");
+      System.exit(1);
+    }
     GermanTagger tagger = new GermanTagger();
-    //AnalyzedGermanToken aToken = tagger.lookup("Eltern", 0);
     List l = new ArrayList();
-    l.add("Das");
-    l.add("Haus");
+    for (int i = 0; i < args.length; i++) {
+      l.add(args[i]);
+    }
     List result = tagger.tag(l);
     System.out.println(result);
   }
