@@ -28,6 +28,8 @@ import junit.framework.TestCase;
  */
 public class SentenceTokenizerTest extends TestCase {
 
+  private SentenceTokenizer stokenizer = new SentenceTokenizer();
+
   public void testTokenize() {
     // NOTE: sentences here need to end with a space character so they
     // have correct whitespace when appended:
@@ -126,7 +128,6 @@ public class SentenceTokenizerTest extends TestCase {
       String s = (String) iter.next();
       inputString.append(s);
     }
-    SentenceTokenizer stokenizer = new SentenceTokenizer();
     assertEquals(input, stokenizer.tokenize(inputString.toString()));
   }
 
