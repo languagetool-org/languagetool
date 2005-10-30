@@ -51,12 +51,18 @@ public class PatternRuleTest extends TestCase {
     List rules = ruleLoader.getRules("rules/en/grammar.xml");
     for (Iterator iter = rules.iterator(); iter.hasNext();) {
       Rule rule = (Rule) iter.next();
-      String goodSentence = rule.getCorrectExample();
-      String badSentence = rule.getIncorrectExample();
-      assertTrue(goodSentence.trim().length() > 0);
-      assertTrue(badSentence.trim().length() > 0);
-      assertFalse("Did not expect error in: " + goodSentence, match(rule, goodSentence));
-      assertTrue("Did expect error in: " + badSentence, match(rule, badSentence));
+      List goodSentences = rule.getCorrectExamples();
+      for (Iterator iterator = goodSentences.iterator(); iterator.hasNext();) {
+        String goodSentence = (String) iterator.next();
+        assertTrue(goodSentence.trim().length() > 0);
+        assertFalse("Did not expect error in: " + goodSentence, match(rule, goodSentence));
+      }
+      List badSentences = rule.getIncorrectExamples();
+      for (Iterator iterator = badSentences.iterator(); iterator.hasNext();) {
+        String badSentence = (String) iterator.next();
+        assertTrue(badSentence.trim().length() > 0);
+        assertTrue("Did expect error in: " + badSentence, match(rule, badSentence));
+      }
     }
   }
   

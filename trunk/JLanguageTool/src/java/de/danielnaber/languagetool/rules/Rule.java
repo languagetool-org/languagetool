@@ -32,8 +32,8 @@ import de.danielnaber.languagetool.Language;
  */
 public abstract class Rule {
 
-  private String correctExample;
-  private String incorrectExample;
+  private List correctExamples;
+  private List incorrectExamples;
 
   public abstract String getId();
   
@@ -77,28 +77,28 @@ public abstract class Rule {
     return -1;
   }*/
   
-  public void setCorrectExample(String correctExample) {
-    this.correctExample = correctExample;
+  public void setCorrectExamples(List correctExamples) {
+    this.correctExamples = correctExamples;
   }
 
   /**
-   * Get a sentence with an example sentence that is correct and thus will not 
+   * Get example sentences that are correct and thus will not 
    * match this rule.
    */
-  public String getCorrectExample() {
-    return correctExample;
+  public List getCorrectExamples() {
+    return correctExamples;
   }
   
-  public void setIncorrectExample(String incorrectExample) {
-    this.incorrectExample = incorrectExample;
+  public void setIncorrectExamples(List incorrectExamples) {
+    this.incorrectExamples = incorrectExamples;
   }
 
   /**
-   * Get a sentence with an example sentence that is incorrect and thus will 
+   * Get example sentences that are incorrect and thus will 
    * match this rule.
    */
-  public String getIncorrectExample() {
-    return incorrectExample;
+  public List getIncorrectExamples() {
+    return incorrectExamples;
   }
 
   protected RuleMatch[] toRuleMatchArray(List ruleMatches) {

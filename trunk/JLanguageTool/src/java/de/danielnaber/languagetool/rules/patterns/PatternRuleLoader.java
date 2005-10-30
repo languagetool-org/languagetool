@@ -70,6 +70,8 @@ class PatternRuleHandler extends DefaultHandler {
   private String ruleGroupDescription;
   private StringBuffer correctExample = new StringBuffer();
   private StringBuffer incorrectExample = new StringBuffer();
+  private List correctExamples = new ArrayList();
+  private List incorrectExamples = new ArrayList();
   private StringBuffer message = new StringBuffer();
   private int startPositionCorrection = 0;
   private int endPositionCorrection = 0;
@@ -98,6 +100,8 @@ class PatternRuleHandler extends DefaultHandler {
       description = attrs.getValue("name");
       if (inRuleGroup && description == null)
         description = ruleGroupDescription;
+      correctExamples = new ArrayList();
+      incorrectExamples = new ArrayList();
     } else if (qName.equals("pattern")) {
       pattern = new StringBuffer();
       inPattern = true;
@@ -141,16 +145,23 @@ class PatternRuleHandler extends DefaultHandler {
       rule.setEndPositionCorrection(endPositionCorrection);
       startPositionCorrection = 0;
       endPositionCorrection = 0;
-      rule.setCorrectExample(correctExample.toString());
-      rule.setIncorrectExample(incorrectExample.toString());
+      rule.setCorrectExamples(correctExamples);
+      rule.setIncorrectExamples(incorrectExamples);
       rule.setCaseSensitive(caseSensitive);
       caseSensitive = false;
       rules.add(rule);
     } else if (qName.equals("pattern")) {
       inPattern = false;
     } else if (qName.equals("example")) {
+      if (inCorrectExample) {
+        correctExamples.add(correctExample.toString());
+      } else if (inIncorrectExample) {
+        incorrectExamples.add(incorrectExample.toString());
+      }
       inCorrectExample = false;
       inIncorrectExample = false;
+      correctExample = new StringBuffer();
+      incorrectExample = new StringBuffer();
     } else if (qName.equals("message")) {
       inMessage = false;
     } else if (qName.equals("rulegroup")) {
