@@ -38,6 +38,8 @@ public class DashRuleTest extends TestCase {
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("Die große Diätenerhöhung kam dann doch.")).length);
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("Die große Diäten-Erhöhungs-Manie kam dann doch.")).length);
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("Die große Diäten- und Gehaltserhöhung kam dann doch.")).length);
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Erst so - Karl-Heinz dann blah.")).length);
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Erst so -- Karl-Heinz aber...")).length);
     
     // incorrect sentences:
     assertEquals(1, rule.match(langTool.getAnalyzedSentence("Die große Diäten- Erhöhung kam dann doch.")).length);
