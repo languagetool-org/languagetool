@@ -48,26 +48,35 @@ public class PatternRuleTest extends TestCase {
 
   public void testEnglishGrammarRulesFromXML() throws IOException, ParserConfigurationException, SAXException {
     PatternRuleLoader ruleLoader = new PatternRuleLoader();
+    JLanguageTool languageTool = new JLanguageTool(Language.ENGLISH);
     List rules = ruleLoader.getRules("rules/en/grammar.xml");
+    testGrammarRulesFromXML(rules, languageTool);
+    
+    languageTool = new JLanguageTool(Language.GERMAN);
+    rules = ruleLoader.getRules("rules/de/grammar.xml");
+    testGrammarRulesFromXML(rules, languageTool);
+  }
+  
+  private void testGrammarRulesFromXML(List rules, JLanguageTool languageTool) throws IOException {
     for (Iterator iter = rules.iterator(); iter.hasNext();) {
       Rule rule = (Rule) iter.next();
       List goodSentences = rule.getCorrectExamples();
       for (Iterator iterator = goodSentences.iterator(); iterator.hasNext();) {
         String goodSentence = (String) iterator.next();
         assertTrue(goodSentence.trim().length() > 0);
-        assertFalse("Did not expect error in: " + goodSentence, match(rule, goodSentence));
+        assertFalse("Did not expect error in: " + goodSentence, match(rule, goodSentence, languageTool));
       }
       List badSentences = rule.getIncorrectExamples();
       for (Iterator iterator = badSentences.iterator(); iterator.hasNext();) {
         String badSentence = (String) iterator.next();
         assertTrue(badSentence.trim().length() > 0);
-        assertTrue("Did expect error in: " + badSentence, match(rule, badSentence));
+        assertTrue("Did expect error in: " + badSentence, match(rule, badSentence, languageTool));
       }
     }
   }
   
-  private boolean match(Rule rule, String sentence) throws IOException {
-    AnalyzedSentence text = langTool.getAnalyzedSentence(sentence);
+  private boolean match(Rule rule, String sentence, JLanguageTool languageTool) throws IOException {
+    AnalyzedSentence text = languageTool.getAnalyzedSentence(sentence);
     //System.err.println(text);
     RuleMatch[] matches = rule.match(text);
     /*for (int i = 0; i < matches.length; i++) {
