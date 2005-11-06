@@ -40,6 +40,7 @@ import de.danielnaber.languagetool.rules.UppercaseSentenceStartRule;
 import de.danielnaber.languagetool.rules.WordRepeatRule;
 import de.danielnaber.languagetool.rules.de.AgreementRule;
 import de.danielnaber.languagetool.rules.de.CaseRule;
+import de.danielnaber.languagetool.rules.de.DashRule;
 import de.danielnaber.languagetool.rules.de.WiederVsWiderRule;
 import de.danielnaber.languagetool.rules.de.WordCoherencyRule;
 import de.danielnaber.languagetool.rules.en.AvsAnRule;
@@ -100,7 +101,8 @@ public class JLanguageTool {
         new CaseRule(),
         new WiederVsWiderRule(),
         new AgreementRule(),
-        new UppercaseSentenceStartRule()
+        new UppercaseSentenceStartRule(),
+        new DashRule()
       };
     for (int i = 0; i < allBuiltinRules.length; i++) {
       if (allBuiltinRules[i].supportsLanguage(language))
