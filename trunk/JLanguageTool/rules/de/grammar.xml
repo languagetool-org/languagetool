@@ -3,7 +3,7 @@
 <!--
 Rules: Grammar and Typos
 (c) 2001-2005 Daniel Naber (http://www.danielnaber.de)
-$Id: grammar.xml,v 1.4 2005-11-06 18:07:00 dnaber Exp $
+$Id: grammar.xml,v 1.5 2005-11-06 18:43:41 dnaber Exp $
 -->
 <rules>
 
@@ -25,9 +25,16 @@ $Id: grammar.xml,v 1.4 2005-11-06 18:07:00 dnaber Exp $
 	<rule id="LASEN_LASTEN" name="Tippfehler Lasen/Lasten">
 		<pattern mark_from="1" case_sensitive="yes" lang="de">"zu" "Lasen"</pattern>
 		<message>Meinten Sie 'zu <em>Lasten</em>'?</message>
-		<example type="correct">Das geht zu <em>Lasten</em> der Bundekasse..</example>
+		<example type="correct">Das geht zu <em>Lasten</em> der Bundekasse.</example>
 		<example type="incorrect">Das geht zu <em>Lasen</em> der Bundekasse.</example>
 	</rule>
 	-->
 
+	<rule id="ÖKONOMISCH_ÖKUMENISCH" name="Tippfehler ökonomisch/ökumenisch">
+		<pattern mark_to="-1" lang="de">"ökonomischen|ökonomischer" "Gottesdienst|Gottesdienste|Gottesdiensts|Trauung|Taufe|Kirchentag"</pattern>
+		<message>Meinten Sie <em>ökumenisch</em> (ökonomisch = auf die Wirtschaft bezogen)?</message>
+		<example type="correct">Was ist ein <em>ökumenischer</em> Gottesdienst?</example>
+		<example type="incorrect">Was ist ein <em>ökonomischer</em> Gottesdienst?</example>
+	</rule>
+	
 </rules>
