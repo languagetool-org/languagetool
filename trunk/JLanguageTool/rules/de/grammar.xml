@@ -3,7 +3,7 @@
 <!--
 Rules: Grammar and Typos
 (c) 2001-2005 Daniel Naber (http://www.danielnaber.de)
-$Id: grammar.xml,v 1.3 2005-08-20 11:18:26 dnaber Exp $
+$Id: grammar.xml,v 1.4 2005-11-06 18:07:00 dnaber Exp $
 -->
 <rules>
 
@@ -13,5 +13,21 @@ $Id: grammar.xml,v 1.3 2005-08-20 11:18:26 dnaber Exp $
 		<example type="correct">Lieber Klaus, willst <em>du</em> ...</example>
 		<example type="incorrect">Lieber Klaus, willst <em>Du</em> ...</example>
 	</rule>
+
+	<rule id="LASEN_LASSEN" name="Tippfehler lasen/lassen">
+		<pattern mark_from="1" case_sensitive="yes" lang="de">"zu" "lasen"</pattern>
+		<message>Meinten Sie 'zu <em>lassen</em>'?</message>
+		<example type="correct">...sie mit einem Maulkorb rumlaufen zu <em>lassen</em>.</example>
+		<example type="incorrect">...sie mit einem Maulkorb rumlaufen zu <em>lasen</em>.</example>
+	</rule>
+
+	<!-- wird schon durch DE_CASE gefunden:
+	<rule id="LASEN_LASTEN" name="Tippfehler Lasen/Lasten">
+		<pattern mark_from="1" case_sensitive="yes" lang="de">"zu" "Lasen"</pattern>
+		<message>Meinten Sie 'zu <em>Lasten</em>'?</message>
+		<example type="correct">Das geht zu <em>Lasten</em> der Bundekasse..</example>
+		<example type="incorrect">Das geht zu <em>Lasen</em> der Bundekasse.</example>
+	</rule>
+	-->
 
 </rules>
