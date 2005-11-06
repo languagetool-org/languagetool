@@ -46,9 +46,16 @@ class Main {
   private Language language = null;
 
   Main(boolean verbose, Language language) throws IOException {
+    this(verbose, language, new String[0]);
+  }
+  
+  Main(boolean verbose, Language language, String[] disabledRules) throws IOException {
     this.verbose = verbose;
     this.language = language;
     lt = new JLanguageTool(language);
+    for (int i = 0; i < disabledRules.length; i++) {
+      lt.disableRule(disabledRules[i]);
+    }
   }
 
   private void runRecursive(String filename) throws IOException,
@@ -165,7 +172,7 @@ class Main {
 
   private static void exitWithUsageMessagee() {
     System.out.println("Usage: java de.danielnaber.languagetool.Main " +
-            "[-h|--help] [-r|--recursive] [-v|--verbose] [-l|--language] <file>");
+            "[-h|--help] [-r|--recursive] [-v|--verbose] [-l|--language=LANG] [-d|--disable=RULES] <file>");
     System.exit(1);
   }
 
@@ -173,13 +180,14 @@ class Main {
    * Command line tool to check plain text files.
    */
   public static void main(String[] args) throws IOException, ParserConfigurationException, SAXException {
-    if (args.length < 1 || args.length > 5) {
+    if (args.length < 1 || args.length > 6) {
       exitWithUsageMessagee();
     }
     boolean verbose = false;
     boolean recursive = false;
     Language language = null;
     String filename = null;
+    String[] disabledRules = new String[0];
     for (int i = 0; i < args.length; i++) {
       if (args[i].equals("-h") || args[i].equals("-help") || args[i].equals("--help")) {
         exitWithUsageMessagee();
@@ -187,6 +195,9 @@ class Main {
         verbose = true;
       } else if (args[i].equals("-r") || args[i].equals("--recursive")) {
         recursive = true;
+      } else if (args[i].equals("-d") || args[i].equals("--disable")) {
+        String rules = args[++i];
+        disabledRules = rules.split(",");
       } else if (args[i].equals("-l") || args[i].equals("--language")) {
         String lang = args[++i];
         boolean foundLanguage = false;
@@ -215,7 +226,7 @@ class Main {
       System.err.println("No language specified, using English");
       language = Language.ENGLISH;
     }
-    Main prg = new Main(verbose, language);
+    Main prg = new Main(verbose, language, disabledRules);
     if (recursive) {
       prg.runRecursive(filename);
     } else {
