@@ -39,10 +39,17 @@ public class CommaWhitespaceRuleTest extends TestCase {
     assertEquals(0, matches.length);
     matches = rule.match(langTool.getAnalyzedSentence("This, is, a test sentence."));
     assertEquals(0, matches.length);
+    matches = rule.match(langTool.getAnalyzedSentence("This (foo bar) is a test(!)."));
+    assertEquals(0, matches.length);
+    
     // errors:
     matches = rule.match(langTool.getAnalyzedSentence("This , is a test sentence."));
     assertEquals(1, matches.length);
     matches = rule.match(langTool.getAnalyzedSentence("This ,is a test sentence."));
+    assertEquals(1, matches.length);
+    matches = rule.match(langTool.getAnalyzedSentence("This ( foo bar) is a test(!)."));
+    assertEquals(1, matches.length);
+    matches = rule.match(langTool.getAnalyzedSentence("This (foo bar ) is a test(!)."));
     assertEquals(1, matches.length);
   }
   

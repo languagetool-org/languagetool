@@ -26,8 +26,8 @@ import de.danielnaber.languagetool.AnalyzedToken;
 import de.danielnaber.languagetool.Language;
 
 /**
- * A rule that matches commas not followed by a whitespace
- * and whitespace preceding commas.
+ * A rule that matches commas and closing parenthesis preceeded by whitespace
+ * and opening parenthesis followed by whitespace.
  * 
  * @author Daniel Naber
  */
@@ -51,13 +51,23 @@ public class CommaWhitespaceRule extends Rule {
     String prevToken = "";
     int pos = 0;
     int prevPos = 0;
-    // TODO: what about numbers?
+    // TODO: find error in "neu definierte,spielt ihr" -> but what about numbers?
     for (int i = 0; i < tokens.length; i++) {
       String token = tokens[i].getToken();
       pos += token.length();
-      if (token.trim().equals(",") && prevToken.trim().equals("")) {
-        String msg = "Put a space after the comma, but not before the comma.";
-        RuleMatch ruleMatch = new RuleMatch(this, prevPos, prevPos+prevToken.length(), msg);
+      String msg = null;
+      int fixPos = 0;
+      if (token.trim().equals("") && prevToken.trim().equals("(")) {
+        msg = "Don't put a space after the opening parenthesis.";
+      } else if (token.trim().equals(")") && prevToken.trim().equals("")) {
+        msg = "Don't put a space before the closing parenthesis.";
+        fixPos = -1;
+      } else if (token.trim().equals(",") && prevToken.trim().equals("")) {
+        msg = "Put a space after the comma, but not before the comma.";
+        fixPos = -1;
+      }
+      if (msg != null) {
+        RuleMatch ruleMatch = new RuleMatch(this, prevPos+fixPos, prevPos+fixPos+prevToken.length(), msg);
         ruleMatches.add(ruleMatch);
       }
       prevToken = token;
