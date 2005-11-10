@@ -34,11 +34,11 @@ import de.danielnaber.languagetool.Language;
 public class CommaWhitespaceRule extends Rule {
 
   public String getId() {
-    return "COMMA_WHITESPACE";
+    return "COMMA__PARENTHESIS_WHITESPACE";
   }
 
   public String getDescription() {
-    return "Use of whitespace after a comma";
+    return "Use of whitespace before comma and before/after parentheses";
   }
 
   public Language[] getLanguages() {
