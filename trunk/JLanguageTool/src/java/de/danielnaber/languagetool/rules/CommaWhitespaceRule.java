@@ -57,6 +57,7 @@ public class CommaWhitespaceRule extends Rule {
       pos += token.length();
       String msg = null;
       int fixPos = 0;
+      int fixLen = 0;
       if (token.trim().equals("") && prevToken.trim().equals("(")) {
         msg = "Don't put a space after the opening parenthesis.";
       } else if (token.trim().equals(")") && prevToken.trim().equals("")) {
@@ -64,10 +65,12 @@ public class CommaWhitespaceRule extends Rule {
         fixPos = -1;
       } else if (token.trim().equals(",") && prevToken.trim().equals("")) {
         msg = "Put a space after the comma, but not before the comma.";
-        fixPos = -1;
+        fixLen = 1;
+        if (prevPos > 0)
+          fixPos = -1;
       }
       if (msg != null) {
-        RuleMatch ruleMatch = new RuleMatch(this, prevPos+fixPos, prevPos+fixPos+prevToken.length(), msg);
+        RuleMatch ruleMatch = new RuleMatch(this, prevPos+fixPos, prevPos+fixPos+fixLen+prevToken.length(), msg);
         ruleMatches.add(ruleMatch);
       }
       prevToken = token;

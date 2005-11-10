@@ -47,6 +47,8 @@ public class CommaWhitespaceRuleTest extends TestCase {
     assertEquals(1, matches.length);
     matches = rule.match(langTool.getAnalyzedSentence("This ,is a test sentence."));
     assertEquals(1, matches.length);
+    matches = rule.match(langTool.getAnalyzedSentence(",is a test sentence."));
+    assertEquals(1, matches.length);
     matches = rule.match(langTool.getAnalyzedSentence("This ( foo bar) is a test(!)."));
     assertEquals(1, matches.length);
     matches = rule.match(langTool.getAnalyzedSentence("This (foo bar ) is a test(!)."));
