@@ -24,9 +24,7 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -47,7 +45,6 @@ import org.xml.sax.SAXException;
 
 import de.danielnaber.languagetool.JLanguageTool;
 import de.danielnaber.languagetool.Language;
-import de.danielnaber.languagetool.rules.Rule;
 import de.danielnaber.languagetool.rules.RuleMatch;
 
 /**
@@ -180,7 +177,7 @@ class Main implements ActionListener {
         sb.append("Starting check in " +langName+ "...<br>\n");
         int matches = 0;
         try {
-          matches = checkText(langTool, language, textArea.getText(), sb);
+          matches = checkText(langTool, textArea.getText(), sb);
         } catch (Exception ex) {
           sb.append("<br><br><b><font color=\"red\">" + ex.toString() + "<br>");
           StackTraceElement[] elements = ex.getStackTrace();
@@ -197,21 +194,8 @@ class Main implements ActionListener {
     }
   }
   
-  private int checkText(JLanguageTool langTool, Language language, String text, StringBuffer sb) throws IOException,
-      ParserConfigurationException, SAXException {
+  private int checkText(JLanguageTool langTool, String text, StringBuffer sb) throws IOException {
     long startTime = System.currentTimeMillis();
-    File defaultPatternFile = new File(JLanguageTool.RULES_DIR + File.separator
-        + language.getShortName() + File.separator + JLanguageTool.PATTERN_FILE);
-    List patternRules = new ArrayList();
-    if (defaultPatternFile.exists()) {
-      patternRules = langTool.loadPatternRules(defaultPatternFile.getAbsolutePath());
-    } else {
-      sb.append("Pattern file " + defaultPatternFile.getAbsolutePath() + " not found<br>\n");
-    }
-    for (Iterator iter = patternRules.iterator(); iter.hasNext();) {
-      Rule rule = (Rule) iter.next();
-      langTool.addRule(rule);
-    }
     List ruleMatches = langTool.check(text);
     long startTimeMatching = System.currentTimeMillis();
     int i = 0;
