@@ -34,7 +34,7 @@ import de.danielnaber.languagetool.Language;
 public class CommaWhitespaceRule extends Rule {
 
   public String getId() {
-    return "COMMA__PARENTHESIS_WHITESPACE";
+    return "COMMA_PARENTHESIS_WHITESPACE";
   }
 
   public String getDescription() {
@@ -62,7 +62,8 @@ public class CommaWhitespaceRule extends Rule {
         msg = "Don't put a space after the opening parenthesis.";
       } else if (token.trim().equals(")") && prevToken.trim().equals("")) {
         msg = "Don't put a space before the closing parenthesis.";
-        fixPos = -1;
+        if (prevPos > 0)
+          fixPos = -1;
       } else if (token.trim().equals(",") && prevToken.trim().equals("")) {
         msg = "Put a space after the comma, but not before the comma.";
         fixLen = 1;
@@ -70,7 +71,9 @@ public class CommaWhitespaceRule extends Rule {
           fixPos = -1;
       }
       if (msg != null) {
-        RuleMatch ruleMatch = new RuleMatch(this, prevPos+fixPos, prevPos+fixPos+fixLen+prevToken.length(), msg);
+        int fromPos = prevPos + fixPos;
+        int toPos = prevPos + fixPos + fixLen + prevToken.length();
+        RuleMatch ruleMatch = new RuleMatch(this, fromPos, toPos, msg);
         ruleMatches.add(ruleMatch);
       }
       prevToken = token;
