@@ -53,6 +53,12 @@ public class CommaWhitespaceRuleTest extends TestCase {
     assertEquals(1, matches.length);
     matches = rule.match(langTool.getAnalyzedSentence("This (foo bar ) is a test(!)."));
     assertEquals(1, matches.length);
+    matches = rule.match(langTool.getAnalyzedSentence("ABB 270,00 (  unv. )"));
+    assertEquals(2, matches.length);
+    assertEquals(12, matches[0].getFromPos());
+    assertEquals(13, matches[0].getToPos());
+    assertEquals(18, matches[1].getFromPos());
+    assertEquals(19, matches[1].getToPos());
   }
   
 }
