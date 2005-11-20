@@ -2,8 +2,8 @@
 
 <project name="JLanguageTool" default="dist" basedir=".">
 
-  <property name="version" value="0.7.2dev"/>
-  <property name="date" value="2005-yy-xx"/>
+  <property name="version" value="0.7.2"/>
+  <property name="date" value="2005-11-21"/>
 	
   <property name="javadoctitle" value="JLanguageTool API ${version}"/>
   
@@ -17,13 +17,29 @@
     <pathelement location="${ext.trove.lib}"/>
     <pathelement location="${ext.maxent.lib}"/>
     <pathelement location="${ext.lucene.lib}"/>
+  	<!-- -->
+    <pathelement location="${ext.ooo.juh.lib}"/>
+    <pathelement location="${ext.ooo.unoil.lib}"/>
+    <pathelement location="${ext.ooo.ridl.lib}"/>
+    <pathelement location="${ext.ooo.jurt.lib}"/>
+	<!-- -->
   </path>
 
   <path id="classpath">
   	<path refid="common.classpath"/>
     <pathelement location="${build.classes}"/>
   </path>
-	
+
+  <path id="ooo.classpath">
+    <path refid="common.classpath"/>
+    <pathelement location="${ext.ooo.juh.lib}"/>
+    <pathelement location="${ext.ooo.unoil.lib}"/>
+    <pathelement location="${ext.ooo.ridl.lib}"/>
+    <pathelement location="${ext.ooo.jurt.lib}"/>
+    <pathelement location="${dist.dir}/${final.name}.jar"/>
+    <pathelement path="${java.class.path}"/>
+  </path>
+
   <path id="junit.classpath">
   	<path refid="common.classpath"/>
     <pathelement location="${ext.junit.lib}"/>
@@ -132,7 +148,6 @@
 		<pathelement location="${ext.jakarta-oro.lib}"/>
 		<pathelement location="${ext.asm.lib}"/>
 		<pathelement location="${ext.getopt.lib}"/>
-		<pathelement location="${ext.log4j.lib}"/>
 		<pathelement location="${ext.ccl.lib}"/>
 		<pathelement location="${ext.javancss.lib}"/>
 		<pathelement location="${junit.instrumented-classes.dir}"/>
@@ -342,5 +357,44 @@
   	</javadoc>
   	<echo>javadoc output can now be found in dist/docs/api/index.html</echo>
   </target>
+
+  <!-- ================================================================== -->
+  <!-- OpenOffice.org compile -->
+  <!-- ================================================================== -->
+  <target name="ooo-compile" depends="clean,init">
+  	<javac encoding="${encoding}"
+      srcdir="${src.java.dir}"
+	  includes="**/*.java"
+      destdir="${build.classes}">
+      <classpath refid="ooo.classpath"/>
+    </javac>
+  </target>
+
+  <!-- ================================================================== -->
+  <!-- OpenOffice.org compile -->
+  <!-- ================================================================== -->
+  <target name="ooo-build" depends="ooo-compile">
+  	<jar
+		jarfile="${dist.dir}/JLanguageTool.uno.jar"
+		basedir="${build.classes}"
+		includes="de/danielnaber/languagetool/**/*.class,JLanguageTool.uno.manifest">
+  		<manifest>
+		  	<attribute name="RegistrationClassName" value="de.danielnaber.languagetool.openoffice.Main" />
+  		</manifest>
+	</jar>
+  </target>
+
+  <!-- ================================================================== -->
+  <!-- OpenOffice.org -->
+  <!-- ================================================================== -->
+  <target name="ooo" depends="ooo-build">
+  	<copy todir="${dist.dir}/">
+	  	<fileset dir="openoffice/" excludes="JLanguageTool.uno.manifest" />
+	</copy>
+  	<zip destfile="${dist.dir}/JLanguageTool.uno.zip"
+  		basedir="${dist.dir}"
+  		includes="**" />
+  </target>
+
 
 </project>
