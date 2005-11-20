@@ -3,7 +3,7 @@
 <!--
 Rules: Grammar and Typos
 Copyright (C) 2001-2005 Daniel Naber (http://www.danielnaber.de)
-$Id: grammar.xml,v 1.20 2005-11-20 20:35:30 dnaber Exp $
+$Id: grammar.xml,v 1.21 2005-11-20 20:39:12 dnaber Exp $
 -->
 <rules>
 
@@ -183,11 +183,18 @@ $Id: grammar.xml,v 1.20 2005-11-20 20:35:30 dnaber Exp $
 	</rule>
 	-->
 	
-	<rule id="THEN_THAN" name="Typo 'less/more ... then(than)'">
+	<rule id="LESS_THEN" name="Typo 'less/more ... then(than)'">
 		<pattern lang="en" mark_from="2" mark_to="0">"(less|more)" (JJ|NN|NNS) "then"</pattern>
 		<message>Did you mean <em>than</em>?</message>
 		<example type="correct">It's less controversial <em>than</em> one would think.</example>
 		<example type="incorrect">It's less controversial <em>then</em> one would think.</example>
+	</rule>
+
+	<rule id="AND_THAN" name="Typo 'and than(then)'">
+		<pattern lang="en" mark_from="1">"and" "than"</pattern>
+		<message>Did you mean <em>then</em>?</message>
+		<example type="correct">How to add equal values and <em>then</em> replace them with their sum?</example>
+		<example type="incorrect">How to add equal values and <em>than</em> replace them with their sum?</example>
 	</rule>
 	
 	<rule id="DET_DET" name="Two consecutive articles">
@@ -279,8 +286,8 @@ $Id: grammar.xml,v 1.20 2005-11-20 20:35:30 dnaber Exp $
 	<rule id="HE_NOUN_VERB_AGR_2" name="Third person verb with 'he' (sentence start)">
 		<pattern lang="en" mark_from="2" mark_to="0">SENT_START "he" (VBD|VBP)</pattern>
 		<message>'He' must be used with a third person verb, usually ending with '-s', e.g. 'he walks'</message>
-		<example type="correct">Then he <em>looks</em> at the building.</example>
-		<example type="incorrect">Then he <em>look</em> at the building.</example>
+		<example type="correct">He <em>looks</em> at the building.</example>
+		<example type="incorrect">He <em>look</em> at the building.</example>
 	</rule>
 
 	<!-- TODO: add will|could|can|should|would|does -->
