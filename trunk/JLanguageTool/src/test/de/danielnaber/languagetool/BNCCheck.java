@@ -64,6 +64,8 @@ public class BNCCheck {
       text = text.replaceAll("<.*?>", "");
       text = text.replaceAll(" +", " ");
       text = text.replaceAll("&bquo|&equo", "\"");
+      text = text.replaceAll("&mdash;?", "--");
+      text = text.replaceAll("&amp;?", "&");
       //System.out.println(text);
       prg.checkText(text);
     }
