@@ -3,7 +3,7 @@
 <!--
 Rules: Grammar and Typos
 Copyright (C) 2001-2005 Daniel Naber (http://www.danielnaber.de)
-$Id: grammar.xml,v 1.21 2005-11-20 20:39:12 dnaber Exp $
+$Id: grammar.xml,v 1.22 2005-11-20 20:53:02 dnaber Exp $
 -->
 <rules>
 
@@ -272,23 +272,23 @@ $Id: grammar.xml,v 1.21 2005-11-20 20:39:12 dnaber Exp $
 		<example type="incorrect">I have been out with the <em>flew</em> for the past 3 days.</example>
 	</rule>
 
-	<!-- TODO: ...
-	<rulegroup id="THE_A" name="Useless second article">
-	-->
-
+	<!-- TODO: doesn't work yet properly
 	<rule id="HE_NOUN_VERB_AGR" name="Third person verb with 'he'">
-		<pattern lang="en" mark_from="2" mark_to="0">^"(has|will|must|could|can|should|would|does|did)" "he" VBD</pattern>
+		<pattern lang="en" mark_from="2" mark_to="0">^"(has|will|must|could|can|should|would|does|did)" "he" VBP</pattern>
 		<message>'He' must be used with a third person verb, usually ending with '-s', e.g. 'he walks'</message>
 		<example type="correct">Then he <em>looks</em> at the building.</example>
 		<example type="incorrect">Then he <em>look</em> at the building.</example>
 	</rule>
+	-->
 	<!-- rule above doesn't match at sentence start: -->
+	<!--
 	<rule id="HE_NOUN_VERB_AGR_2" name="Third person verb with 'he' (sentence start)">
-		<pattern lang="en" mark_from="2" mark_to="0">SENT_START "he" (VBD|VBP)</pattern>
+		<pattern lang="en" mark_from="2" mark_to="0">SENT_START "he" VBP</pattern>
 		<message>'He' must be used with a third person verb, usually ending with '-s', e.g. 'he walks'</message>
 		<example type="correct">He <em>looks</em> at the building.</example>
 		<example type="incorrect">He <em>look</em> at the building.</example>
 	</rule>
+	-->
 
 	<!-- TODO: add will|could|can|should|would|does -->
 	<!-- TODO
