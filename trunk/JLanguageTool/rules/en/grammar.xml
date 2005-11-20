@@ -3,7 +3,7 @@
 <!--
 Rules: Grammar and Typos
 Copyright (C) 2001-2005 Daniel Naber (http://www.danielnaber.de)
-$Id: grammar.xml,v 1.22 2005-11-20 20:53:02 dnaber Exp $
+$Id: grammar.xml,v 1.23 2005-11-20 21:20:31 dnaber Exp $
 -->
 <rules>
 
@@ -100,7 +100,7 @@ $Id: grammar.xml,v 1.22 2005-11-20 20:53:02 dnaber Exp $
 		<example type="incorrect">Or we just <em>through</em> away all bugs.</example>
 	</rule>
 
-	<rule id="WAY_WAS" name="Typo 'or way(was) it'">
+	<rule id="OR_WAY_IT" name="Typo 'or way(was) it'">
 		<pattern lang="en" mark_from="1" mark_to="-1">"or" "way" "(it|that|this)"</pattern>
 		<message>Did you mean <em>was</em>?</message>
 		<example type="correct">Or <em>was</em> that a very recent change in Qt?</example>
@@ -165,15 +165,6 @@ $Id: grammar.xml,v 1.22 2005-11-20 20:53:02 dnaber Exp $
 		<example type="incorrect">Thanks again <em>fore</em> your help.</example>
 	</rule>
 
-	<!-- TODO: sentence end
-	<rule id="YOUR_VBD" name="Confusion of your/you're">
-		<pattern lang="en">"your" JJ SENTENCE_END</pattern>
-		<message>Did you mean <em>you're</em> or <em>you are</em>?</message>
-		<example type="correct">I think <em>you're</em> confused.</example>
-		<example type="incorrect">I think <em>your</em> confused.</example>
-	</rule>
-	-->
-
 	<!-- TODO
 	<rule id="AJC_THAT" name="Confusion of that/than">
 		<pattern lang="en" mark_from="1" mark_to="0">JJR "that"</pattern>
@@ -204,15 +195,6 @@ $Id: grammar.xml,v 1.22 2005-11-20 20:53:02 dnaber Exp $
 		<example type="incorrect"><em>The a</em> thing is this.</example>
 	</rule>
 
-	<!-- TODO: sentence end 
-	<rule id="THAN_END" name="Confusion of than/then at end of sentence">
-		<pattern lang="en" mark_from="0" mark_to="-1">"than" SENT_END</pattern>
-		<message>Did you mean <em>then</em>?</message>
-		<example type="correct">I volunteer to create a testcase <em>then</em>.</example>
-		<example type="incorrect">I volunteer to create a testcase <em>than</em>.</example>
-	</rule>
-	-->
-
 	<rule id="OF_CAUSE" name="Typo 'of cause(course)'">
 		<pattern lang="en" mark_to="-1">"of" "cause" ^"(and|to)"</pattern>
 		<message>Did you mean <em>of course</em> (=naturally)?</message>
@@ -227,6 +209,29 @@ $Id: grammar.xml,v 1.22 2005-11-20 20:53:02 dnaber Exp $
 		<example type="correct">Single Clicking rather <em>than</em> Double Clicking</example>
 		<example type="incorrect">Single Clicking rather <em>then</em> Double Clicking</example>
 	</rule>
+
+	<rule id="LOOK_ATE" name="Typo 'look ate(at)'">
+		<pattern lang="en" mark_from="1">"look" "ate"</pattern>
+		<message>Did you mean <em>at</em>?</message>
+		<example type="correct">Although I must admit when I look <em>at</em> the paperback...</example>
+		<example type="incorrect">Although I must admit when I look <em>ate</em> the paperback...</example>
+	</rule>
+
+	<rule id="A_KNOW_BUG" name="Typo 'a know(known) bug/problem'">
+		<pattern lang="en" mark_from="1" mark_to="-1">"a" "know" "bug|problem"</pattern>
+		<message>Did you mean <em>known</em>?</message>
+		<example type="correct">This is a <em>known</em> problem.</example>
+		<example type="incorrect">This is a <em>know</em> problem.</example>
+	</rule>
+
+	<!-- TOOD: does'nt work because of mistagging:
+	<rule id="THEM_VERB" name="Typo 'Them(Then) verb'">
+		<pattern lang="en" mark_to="-1">"Them" (VB|VBD|VBG|VBN|VBP|VBZ)</pattern>
+		<message>Did you mean <em>at</em>?</message>
+		<example type="correct"><em>Then</em> check if there is a working connection.</example>
+		<example type="incorrect"><em>Them</em> check if there is a working connection.</example>
+	</rule>
+	-->
 
 	<!-- TODO
 	<rule id="EAGER_TO" name="Infinitive verb with 'eager to...'">
