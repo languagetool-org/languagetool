@@ -79,7 +79,7 @@ public class AvsAnRule extends EnglishRule {
         if (parts.length >= 1) {
           token = parts[0];
         }
-        token = token.replaceAll("[^a-zA-Z]", "");         // e.g. >>an "industry party"<<
+        token = token.replaceAll("[^a-zA-Z0-9]", "");         // e.g. >>an "industry party"<<
         if (token.length() == 0)
           continue;
         char tokenFirstChar = token.charAt(0);
