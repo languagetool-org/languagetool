@@ -68,6 +68,7 @@ public class AvsAnRule extends EnglishRule {
     int prevPos = 0;
     for (int i = 0; i < tokens.length; i++) {
       String token = tokens[i].getToken();
+      String origToken = token;
       if (token.trim().equals("")) {
         // ignore
       } else {
@@ -80,8 +81,10 @@ public class AvsAnRule extends EnglishRule {
           token = parts[0];
         }
         token = token.replaceAll("[^a-zA-Z0-9]", "");         // e.g. >>an "industry party"<<
-        if (token.length() == 0)
+        if (token.length() == 0) {
+          pos += origToken.length();
           continue;
+        }
         char tokenFirstChar = token.charAt(0);
         if (requiresA.contains(token.toLowerCase())) {
           isException = true;
@@ -119,7 +122,7 @@ public class AvsAnRule extends EnglishRule {
         prevToken = token;
         prevPos = pos;
       }
-      pos += token.length();
+      pos += origToken.length();
     }
     return toRuleMatchArray(ruleMatches);
   }
