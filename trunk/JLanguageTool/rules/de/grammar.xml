@@ -3,7 +3,7 @@
 <!--
 Rules: Grammar and Typos
 (c) 2001-2005 Daniel Naber (http://www.danielnaber.de)
-$Id: grammar.xml,v 1.9 2005-11-18 22:42:19 dnaber Exp $
+$Id: grammar.xml,v 1.10 2005-11-20 01:10:22 dnaber Exp $
 -->
 <rules>
 
@@ -12,6 +12,27 @@ $Id: grammar.xml,v 1.9 2005-11-18 22:42:19 dnaber Exp $
 		<message>Nach der neuen Rechtschreibung werden Anreden wie 'du, ihr, euch, ...' klein geschrieben (die Anrede 'Sie' wird weiterhin groß geschrieben)</message>
 		<example type="correct">Lieber Klaus, willst <em>du</em> ...</example>
 		<example type="incorrect">Lieber Klaus, willst <em>Du</em> ...</example>
+	</rule>
+
+	<rule id="AUS_VERSEHEN" name="Tippfehler 'aus versehen(Versehen)'">
+		<pattern mark_from="1" case_sensitive="yes" lang="de">"aus" "versehen"</pattern>
+		<message>In der Wendung 'aus Versehen' wird <em>Versehen</em> groß geschrieben.</message>
+		<example type="correct">Die SPD meuchelt aus <em>Versehen</em> ihren Chef.</example>
+		<example type="incorrect">Die SPD meuchelt aus <em>versehen</em> ihren Chef.</example>
+	</rule>
+
+	<rule id="FRAGEN_HABEN" name="Tippfehler 'fragen(Fragen) haben/stellen'">
+		<pattern mark_to="-1" case_sensitive="yes" lang="de">"fragen" "haben|hat|hast|habe|hätte|hatte|hattest|hatten|hätten|habt|stellen|stellt|stellst|stellte|stellten"</pattern>
+		<message>'Fragen' als Nomen wird groß geschrieben.</message>
+		<example type="correct">Meine <em>Fragen</em> hat bislang keiner gelesen.</example>
+		<example type="incorrect">Meine <em>fragen</em> hat bislang keiner gelesen</example>
+	</rule>
+
+	<rule id="MOEGLICHER_WEISE" name="Tippfehler 'möglicher Weise(möglicherweise)'">
+		<pattern lang="de">"möglicher" "Weise"</pattern>
+		<message><em>Möglicherweise</em> wird zusammengeschrieben.</message>
+		<example type="correct"><em>Möglicherweise</em> ist die Gelbphase zu kurz eingestellt.</example>
+		<example type="incorrect"><em>Möglicher Weise</em> ist die Gelbphase zu kurz eingestellt.</example>
 	</rule>
 
 	<rule id="LASEN_LASSEN" name="Tippfehler 'zu lasen(lassen)'">
@@ -60,11 +81,32 @@ $Id: grammar.xml,v 1.9 2005-11-18 22:42:19 dnaber Exp $
 		<example type="incorrect">Da würde ich auch <em>Bescheids</em> geben.</example>
 	</rule>
 
-	<rule id="WIEDER_WILLEN" name="Tippfehler 'wieder(wider) Willen'">
-		<pattern mark_to="-1" lang="de">"wieder" "Willen"</pattern>
+	<rule id="WIEDER_WILLEN" name="Tippfehler 'wieder(wider) Willen/Erwarten'">
+		<pattern mark_to="-1" lang="de">"wieder" "Willen|Erwarten"</pattern>
 		<message>Meinten Sie <em>wider</em> (wider = gegen, wieder = nochmals)?</message>
 		<example type="correct">Wunschwitz wird zum Aufständler und Rebellen <em>wider</em> Willen.</example>
 		<example type="incorrect">Wunschwitz wird zum Aufständler und Rebellen <em>wieder</em> Willen.</example>
+	</rule>
+
+	<rule id="ICH_VERALTE" name="Tippfehler 'ich veralte(verwalte/verhalte)'">
+		<pattern mark_from="1" lang="de">"ich" "veralte"</pattern>
+		<message>Meinten Sie <em>verhalte</em> oder <em>verwalte</em>?</message>
+		<example type="correct">Ich <em>verwalte</em> auf diese Weise so 100 E-Mail-Adressen.</example>
+		<example type="incorrect">Ich <em>veralte</em> auf diese Weise so 100 E-Mail-Adressen.</example>
+	</rule>
+
+	<rule id="VON_WIEDER_VON" name="Tippfehler 'von(schon) wieder von'">
+		<pattern mark_to="-2" lang="de">"von" "wieder" "von"</pattern>
+		<message>Meinten Sie <em>schon</em>?</message>
+		<example type="correct">Das war's auch <em>schon</em> wieder von mir.</example>
+		<example type="incorrect">Das war's auch <em>von</em> wieder von mir.</example>
+	</rule>
+
+	<rule id="BEREIT_BESTEHENDE" name="Tippfehler 'bereit(bereits) bestehende'">
+		<pattern mark_to="-1" lang="de">"bereit" "bestehende"</pattern>
+		<message>Meinten Sie <em>bereits</em>?</message>
+		<example type="correct">Sie können dies als Service für Ihre <em>bereits</em> bestehende Seite benutzen.</example>
+		<example type="incorrect">Sie können dies als Service für Ihre <em>bereit</em> bestehende Seite benutzen.</example>
 	</rule>
 	
 </rules>
