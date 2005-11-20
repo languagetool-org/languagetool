@@ -44,6 +44,9 @@ public class BNCCheck {
   
   private BNCCheck() throws IOException {
     prg = new Main(false, Language.ENGLISH);
+    prg.getJLanguageTool().disableRule("UPPERCASE_SENTENCE_START");
+    prg.getJLanguageTool().disableRule("COMMA_PARENTHESIS_WHITESPACE");
+    System.err.println("Note: disabling rule UPPERCASE_SENTENCE_START, COMMA_PARENTHESIS_WHITESPACE");
   }
 
   private void run(File file) throws IOException {

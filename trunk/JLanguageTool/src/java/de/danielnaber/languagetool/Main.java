@@ -57,6 +57,10 @@ class Main {
       lt.disableRule(disabledRules[i]);
     }
   }
+  
+  JLanguageTool getJLanguageTool() {
+    return lt;
+  }
 
   private void runRecursive(String filename) throws IOException,
       ParserConfigurationException, SAXException {
