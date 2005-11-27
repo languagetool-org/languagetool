@@ -394,9 +394,17 @@
   	<copy todir="${dist.dir}/">
 	  	<fileset dir="openoffice/" excludes="JLanguageTool.uno.manifest" />
 	</copy>
+  	<copy todir="${dist.dir}/rules">
+	  	<fileset dir="rules" excludes="CVS" />
+	</copy>
+	<copy file="${ext.lucene.lib}" todir="${dist.dir}" />
+	<copy file="${ext.grok.lib}" todir="${dist.dir}" />
+	<copy file="${ext.opennlp.lib}" todir="${dist.dir}" />
+	<copy file="${ext.trove.lib}" todir="${dist.dir}" />
+	<copy file="${ext.maxent.lib}" todir="${dist.dir}" />
   	<zip destfile="${dist.dir}/JLanguageTool.uno.zip"
   		basedir="${dist.dir}"
-  		includes="**" />
+  		includes="**" excludes="deploy.sh,undeploy.sh" />
   </target>
 
 
