@@ -1,5 +1,16 @@
 package de.danielnaber.languagetool.openoffice;
 
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
+import javax.swing.JOptionPane;
+import javax.xml.parsers.ParserConfigurationException;
+
+import org.xml.sax.SAXException;
+
 import com.sun.star.frame.XDesktop;
 import com.sun.star.lang.XComponent;
 import com.sun.star.lang.XMultiComponentFactory;
@@ -13,6 +24,10 @@ import com.sun.star.text.XText;
 import com.sun.star.text.XTextDocument;
 import com.sun.star.uno.UnoRuntime;
 import com.sun.star.uno.XComponentContext;
+
+import de.danielnaber.languagetool.JLanguageTool;
+import de.danielnaber.languagetool.Language;
+import de.danielnaber.languagetool.rules.Rule;
 
 /**
  * Tests for OOo integration -- NOT WORKING YET.
@@ -42,16 +57,22 @@ public class Main {
     }
 
     public void trigger(String sEvent) {
-      try {
-        // FIXME: use iteration over paragraphs instead:
-        String text = getText();
-        System.out.println("text to check: " + text);
-      } catch (Throwable e) {
-        e.printStackTrace();
+      if (sEvent.equals("execute")) {
+        try {
+          // FIXME: use iteration over paragraphs instead?!:
+          String text = getText();
+          checkText(text);
+          //System.out.println("text to check: " + text);
+        } catch (Throwable e) {
+          e.printStackTrace();
+        }
+      } else {
+        System.err.println("Sorry, don't know what to do, sEvent = " + sEvent);
       }
     }
 
     public void initialize(Object[] object) {
+      if (object == null) object = null;        // avoid compiler warning
     }
 
     public String[] getSupportedServiceNames() {
@@ -73,19 +94,12 @@ public class Main {
 
     private String getText() {
       XText text = xTextDoc.getText();
-
-      // ##########################################
-      /*
-      JLanguageTool langTool = new JLanguageTool(Language.ENGLISH);
-      List ruleMatches = langTool.check(x.getString());
-      System.out.println(ruleMatches + " matches");
-      for (Iterator iter = ruleMatches.iterator(); iter.hasNext();) {
-        RuleMatch match = (RuleMatch) iter.next();
-        System.out.println("=====================================================");
-        System.out.println(match);
-      }*/
-      // ##########################################
-
+      // see http://perso.wanadoo.fr/moutou/MyUNODoc_HTML/UNOCppAPI8.html:
+      /*XTextCursor cursor = text.createTextCursor();
+      cursor.goRight((short)2, false);
+      cursor.goRight((short)4, true);
+      cursor.setString("foo2");*/
+      //text.setString("foo!");
       // FIXME: make this work
       /*
       XEnumerationAccess xParaAccess = (XEnumerationAccess) UnoRuntime.queryInterface(
@@ -103,14 +117,33 @@ public class Main {
       return text.getString();
     }
 
+    private void checkText(String text) throws IOException, ParserConfigurationException, SAXException {
+      // TODO: show splash screen, as init takes some time?
+      // TODO: use document language
+      JLanguageTool langTool = new JLanguageTool(Language.ENGLISH);
+      File defaultPatternFile = new File("rules/en/grammar.xml");
+      List patternRules = new ArrayList();
+      patternRules = langTool.loadPatternRules(defaultPatternFile.getAbsolutePath());
+      for (Iterator iter = patternRules.iterator(); iter.hasNext();) {
+        Rule rule = (Rule) iter.next();
+        langTool.addRule(rule);
+      }
+      List ruleMatches = langTool.check(text);
+      if (ruleMatches.size() == 0) {
+        JOptionPane.showMessageDialog(null, "No errors and warnings found");
+        // TODO: display language setting used etc.
+      } else {
+        OOoDialog dialog = new OOoDialog();
+        dialog.show(ruleMatches, text);
+      }
+    }
+    
   }
 
   public static XSingleComponentFactory __getComponentFactory(String sImplName) {
     XSingleComponentFactory xFactory = null;
-
     if (sImplName.equals(_Main.class.getName()))
       xFactory = Factory.createComponentFactory(_Main.class, _Main.getServiceNames());
-
     return xFactory;
   }
 
