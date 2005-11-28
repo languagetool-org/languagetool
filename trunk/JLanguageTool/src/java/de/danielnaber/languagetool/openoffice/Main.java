@@ -133,8 +133,8 @@ public class Main {
         JOptionPane.showMessageDialog(null, "No errors and warnings found");
         // TODO: display language setting used etc.
       } else {
-        OOoDialog dialog = new OOoDialog();
-        dialog.show(ruleMatches, text);
+        OOoDialog dialog = new OOoDialog(xTextDoc, ruleMatches, text);
+        dialog.show();
       }
     }
     
