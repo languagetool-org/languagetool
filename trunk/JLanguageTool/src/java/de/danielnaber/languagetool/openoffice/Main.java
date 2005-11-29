@@ -1,9 +1,24 @@
+/* JLanguageTool, a natural language style checker 
+ * Copyright (C) 2005 Daniel Naber (http://www.danielnaber.de)
+ * 
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 2.1 of the License, or (at your option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+ * USA
+ */
 package de.danielnaber.languagetool.openoffice;
 
-import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import javax.swing.JOptionPane;
@@ -27,10 +42,9 @@ import com.sun.star.uno.XComponentContext;
 
 import de.danielnaber.languagetool.JLanguageTool;
 import de.danielnaber.languagetool.Language;
-import de.danielnaber.languagetool.rules.Rule;
 
 /**
- * Tests for OOo integration -- NOT WORKING YET.
+ * Basic OpenOffice.org integration.
  * 
  * @author Daniel Naber
  */
@@ -59,10 +73,8 @@ public class Main {
     public void trigger(String sEvent) {
       if (sEvent.equals("execute")) {
         try {
-          // FIXME: use iteration over paragraphs instead?!:
           String text = getText();
           checkText(text);
-          //System.out.println("text to check: " + text);
         } catch (Throwable e) {
           e.printStackTrace();
         }
@@ -94,26 +106,6 @@ public class Main {
 
     private String getText() {
       XText text = xTextDoc.getText();
-      // see http://perso.wanadoo.fr/moutou/MyUNODoc_HTML/UNOCppAPI8.html:
-      /*XTextCursor cursor = text.createTextCursor();
-      cursor.goRight((short)2, false);
-      cursor.goRight((short)4, true);
-      cursor.setString("foo2");*/
-      //text.setString("foo!");
-      // FIXME: make this work
-      /*
-      XEnumerationAccess xParaAccess = (XEnumerationAccess) UnoRuntime.queryInterface(
-          XEnumerationAccess.class, xTextDoc);
-      XEnumeration xParaEnum = xParaAccess.createEnumeration();
-      // While there are paragraphs, do things to them
-      while (xParaEnum.hasMoreElements()) {
-        XServiceInfo xInfo = (XServiceInfo) UnoRuntime.queryInterface(XServiceInfo.class, xParaEnum
-            .nextElement());
-        if (!xInfo.supportsService("com.sun.star.text.TextTable")) {
-          XPropertySet xSet = (XPropertySet) UnoRuntime.queryInterface(XPropertySet.class, xInfo);
-          xSet.setPropertyValue("ParaAdjust", com.sun.star.style.ParagraphAdjust.CENTER);
-        }
-      }*/
       return text.getString();
     }
 
@@ -121,13 +113,7 @@ public class Main {
       // TODO: show splash screen, as init takes some time?
       // TODO: use document language
       JLanguageTool langTool = new JLanguageTool(Language.ENGLISH);
-      File defaultPatternFile = new File("rules/en/grammar.xml");
-      List patternRules = new ArrayList();
-      patternRules = langTool.loadPatternRules(defaultPatternFile.getAbsolutePath());
-      for (Iterator iter = patternRules.iterator(); iter.hasNext();) {
-        Rule rule = (Rule) iter.next();
-        langTool.addRule(rule);
-      }
+      langTool.activateDefaultPatternRules();
       List ruleMatches = langTool.check(text);
       if (ruleMatches.size() == 0) {
         JOptionPane.showMessageDialog(null, "No errors and warnings found");
