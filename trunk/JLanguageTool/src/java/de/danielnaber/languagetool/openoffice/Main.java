@@ -19,6 +19,7 @@
 package de.danielnaber.languagetool.openoffice;
 
 import java.io.IOException;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.swing.JOptionPane;
@@ -42,6 +43,7 @@ import com.sun.star.uno.XComponentContext;
 
 import de.danielnaber.languagetool.JLanguageTool;
 import de.danielnaber.languagetool.Language;
+import de.danielnaber.languagetool.gui.Configuration;
 
 /**
  * Basic OpenOffice.org integration.
@@ -112,14 +114,19 @@ public class Main {
     private void checkText(String text) throws IOException, ParserConfigurationException, SAXException {
       // TODO: show splash screen, as init takes some time?
       // TODO: use document language
+      Configuration config = new Configuration();
       JLanguageTool langTool = new JLanguageTool(Language.ENGLISH);
       langTool.activateDefaultPatternRules();
+      for (Iterator iter = config.getDisabledRuleIds().iterator(); iter.hasNext();) {
+        String id = (String) iter.next();
+        langTool.disableRule(id);
+      }
       List ruleMatches = langTool.check(text);
       if (ruleMatches.size() == 0) {
         JOptionPane.showMessageDialog(null, "No errors and warnings found");
         // TODO: display language setting used etc.
       } else {
-        OOoDialog dialog = new OOoDialog(xTextDoc, ruleMatches, text);
+        OOoDialog dialog = new OOoDialog(config, langTool.getAllRules(), xTextDoc, ruleMatches, text);
         dialog.show();
       }
     }

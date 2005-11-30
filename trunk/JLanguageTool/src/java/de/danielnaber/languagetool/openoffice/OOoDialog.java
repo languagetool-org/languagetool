@@ -26,6 +26,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -46,6 +47,8 @@ import com.sun.star.text.XTextDocument;
 
 import de.danielnaber.languagetool.JLanguageTool;
 import de.danielnaber.languagetool.Language;
+import de.danielnaber.languagetool.gui.Configuration;
+import de.danielnaber.languagetool.gui.ConfigurationDialog;
 import de.danielnaber.languagetool.gui.Tools;
 import de.danielnaber.languagetool.rules.RuleMatch;
 
@@ -59,6 +62,7 @@ public class OOoDialog implements ActionListener {
   
   private static final String COMPLETE_TEXT = "JLanguageTool check is complete.";
   
+  private List rules = null;
   private JDialog dialog = null;
 
   private JTextPane contextArea = null;
@@ -76,11 +80,15 @@ public class OOoDialog implements ActionListener {
 
   private RuleMatch currentRuleMatch = null;
   private int currentRuleMatchPos = 0;
+  
+  private Configuration configuration = null; 
 
-  OOoDialog(XTextDocument xTextDoc, List ruleMatches, String text) {
+  OOoDialog(Configuration configuration, List rules, XTextDocument xTextDoc, List ruleMatches, String text) {
+    this.rules = rules;
     this.xTextDoc = xTextDoc;
     this.ruleMatches = ruleMatches;
     this.text = text;
+    this.configuration = configuration;
   }
   
   void show() {
@@ -89,6 +97,7 @@ public class OOoDialog implements ActionListener {
       return;
     }
     dialog = new JDialog();
+    //dialog.setDefaultCloseOperation(JDialog.EXIT_ON_CLOSE);
     dialog.setTitle("JLanguageTool/OOo ALPHA Version");
     Container contentPane = dialog.getContentPane();
     contentPane.setLayout(new GridBagLayout());
@@ -166,8 +175,10 @@ public class OOoDialog implements ActionListener {
     showError(0);
 
     dialog.pack();
+    //dialog.setModal(true);
     dialog.setSize(500, 500);
     dialog.setVisible(true);
+    // FIXME: close via "X" in the window must behave like close via "close" button
   }
   
   private void showError(int i) {
@@ -234,8 +245,17 @@ public class OOoDialog implements ActionListener {
     } else if (event.getActionCommand().equals(IGNORE_ALL_BUTTON)) {
       JOptionPane.showMessageDialog(null, "fixme: not yet implemented");        //FIXME
     } else if (event.getActionCommand().equals(OPTIONS_BUTTON)) {
-      JOptionPane.showMessageDialog(null, "fixme: not yet implemented");        //FIXME
+      ConfigurationDialog cfgDialog = new ConfigurationDialog();
+      cfgDialog.setDisabledRules(configuration.getDisabledRuleIds());
+      cfgDialog.show(rules);
+      configuration.setDisabledRuleIds(cfgDialog.getDisabledRuleIds());
     } else if (event.getActionCommand().equals(CLOSE_BUTTON)) {
+      try {
+        configuration.saveConfiguration();
+      } catch (IOException e) {
+        e.printStackTrace();
+        throw new RuntimeException(e);
+      }
       dialog.setVisible(false);       // FIXME: does this really close the dialog?
     } else {
       System.err.println("Unknown action: " + event);
@@ -252,10 +272,15 @@ public class OOoDialog implements ActionListener {
   public static void main(String[] args) throws IOException, ParserConfigurationException, SAXException {
     JLanguageTool lt = new JLanguageTool(Language.ENGLISH);
     lt.activateDefaultPatternRules();
+    Configuration config = new Configuration();
+    for (Iterator iter = config.getDisabledRuleIds().iterator(); iter.hasNext();) {
+      String id = (String) iter.next();
+      lt.disableRule(id);
+    }
     //String text = "and a hour ago. this is a test, I thing that's a good idea.";
-    String text = "I thing that's a good idea.";
+    String text = "I thing that's a good idea. This is an test.";
     List ruleMatches = lt.check(text);
-    OOoDialog prg = new OOoDialog(null, ruleMatches, text);
+    OOoDialog prg = new OOoDialog(config, lt.getAllRules(), null, ruleMatches, text);
     prg.show();
   }
 
