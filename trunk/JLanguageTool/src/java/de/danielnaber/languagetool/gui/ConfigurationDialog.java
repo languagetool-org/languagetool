@@ -44,7 +44,7 @@ import de.danielnaber.languagetool.rules.patterns.PatternRule;
  * 
  * @author Daniel Naber
  */
-class ConfigurationDialog  implements ActionListener {
+public class ConfigurationDialog implements ActionListener {
 
   private static final String OK_BUTTON = "OK";
   private static final String CANCEL_BUTTON = "Cancel";
@@ -52,12 +52,12 @@ class ConfigurationDialog  implements ActionListener {
   
   private List checkBoxes = new ArrayList();
   private List checkBoxesRuleIds = new ArrayList();
-  private Set inactivateRuleIds = new HashSet();
+  private Set inactiveRuleIds = new HashSet();
 
-  ConfigurationDialog() {
+  public ConfigurationDialog() {
   }
   
-  void show(List rules) {
+  public void show(List rules) {
     dialog = new JDialog();
     dialog.setTitle("Options");
     checkBoxes.clear();
@@ -80,7 +80,7 @@ class ConfigurationDialog  implements ActionListener {
       } else {
         checkBox = new JCheckBox(rule.getDescription());
       }
-      if (inactivateRuleIds != null && inactivateRuleIds.contains(rule.getId()))
+      if (inactiveRuleIds != null && inactiveRuleIds.contains(rule.getId()))
         checkBox.setSelected(false);
       else
         checkBox.setSelected(true);
@@ -115,19 +115,24 @@ class ConfigurationDialog  implements ActionListener {
     contentPane.add(buttonPanel, cons);
     
     dialog.pack();
+    dialog.setModal(true);
     dialog.setSize(500, 500);
     dialog.setVisible(true);
+  }
+  
+  public void setDisabledRules(Set ruleIDs) {
+    inactiveRuleIds = ruleIDs;
   }
   
   public void actionPerformed(ActionEvent e) {
     if (e.getActionCommand().equals(OK_BUTTON)) {
       int i = 0;
-      inactivateRuleIds.clear();
+      inactiveRuleIds.clear();
       for (Iterator iter = checkBoxes.iterator(); iter.hasNext();) {
         JCheckBox checkBox = (JCheckBox) iter.next();
         if (!checkBox.isSelected()) {
           String ruleId = (String)checkBoxesRuleIds.get(i);
-          inactivateRuleIds.add(ruleId);
+          inactiveRuleIds.add(ruleId);
         }
         i++;
       }
@@ -137,8 +142,8 @@ class ConfigurationDialog  implements ActionListener {
     }
   }
   
-  Set getdisabledRuleIds() {
-    return inactivateRuleIds;
+  public Set getDisabledRuleIds() {
+    return inactiveRuleIds;
   }
   
 }

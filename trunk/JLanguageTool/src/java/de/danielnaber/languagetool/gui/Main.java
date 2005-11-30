@@ -147,7 +147,7 @@ class Main implements ActionListener {
     try {
       langTool = new JLanguageTool(language);
       langTool.activateDefaultPatternRules();
-      Set disabledRules = configDialog.getdisabledRuleIds();
+      Set disabledRules = configDialog.getDisabledRuleIds();
       if (disabledRules != null) {
         for (Iterator iter = disabledRules.iterator(); iter.hasNext();) {
           String ruleId = (String) iter.next();
