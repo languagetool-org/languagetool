@@ -114,6 +114,7 @@ public class OOoDialog implements ActionListener {
     cons.gridy = 0;
     cons.gridheight = 2;
     contextArea.setContentType("text/html");
+    contextArea.setEditable(false);
     contentPane.add(new JScrollPane(contextArea), cons);
     cons.gridheight = 1;
     cons.weightx = 1.0f;
@@ -132,9 +133,9 @@ public class OOoDialog implements ActionListener {
     ignoreAllButton.addActionListener(this);
     contentPane.add(ignoreAllButton, cons);
 
-    
     messageArea = new JTextPane();
     messageArea.setContentType("text/html");
+    messageArea.setEditable(false);
     cons.fill = GridBagConstraints.BOTH;
     cons.weightx = 8.0f;
     cons.weighty = 8.0f;
@@ -250,13 +251,7 @@ public class OOoDialog implements ActionListener {
       cfgDialog.show(rules);
       configuration.setDisabledRuleIds(cfgDialog.getDisabledRuleIds());
     } else if (event.getActionCommand().equals(CLOSE_BUTTON)) {
-      try {
-        configuration.saveConfiguration();
-      } catch (IOException e) {
-        e.printStackTrace();
-        throw new RuntimeException(e);
-      }
-      dialog.setVisible(false);       // FIXME: does this really close the dialog?
+      close();
     } else {
       System.err.println("Unknown action: " + event);
     }
@@ -264,6 +259,16 @@ public class OOoDialog implements ActionListener {
 
   private void complete() {
     JOptionPane.showMessageDialog(null, COMPLETE_TEXT);
+    close();
+  }
+  
+  private void close() {
+    try {
+      configuration.saveConfiguration();
+    } catch (IOException e) {
+      e.printStackTrace();
+      throw new RuntimeException(e);
+    }
     dialog.setVisible(false);       // FIXME: does this really close the dialog?
   }
 
