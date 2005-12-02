@@ -27,7 +27,11 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import org.xml.sax.SAXException;
 
+import com.sun.star.beans.UnknownPropertyException;
+import com.sun.star.beans.XPropertySet;
 import com.sun.star.frame.XDesktop;
+import com.sun.star.lang.Locale;
+import com.sun.star.lang.WrappedTargetException;
 import com.sun.star.lang.XComponent;
 import com.sun.star.lang.XMultiComponentFactory;
 import com.sun.star.lang.XServiceInfo;
@@ -106,16 +110,37 @@ public class Main {
       return _Main.class.getName();
     }
 
+    private Language getLanguage() throws UnknownPropertyException, WrappedTargetException {
+      // just look at the current position(?) in the document and assume that this character's
+      // language is the language of the whole document:
+      XPropertySet xCursorProps = (XPropertySet) UnoRuntime.queryInterface(XPropertySet.class,
+          xTextDoc.getText().createTextCursor());
+      Locale charLocale = (Locale) xCursorProps.getPropertyValue("CharLocale");
+      boolean langIsSupported = false;
+      for (int i = 0; i < Language.LANGUAGES.length; i++) {
+        if (Language.LANGUAGES[i].getShortName().equals(charLocale.Language)) {
+          langIsSupported= true;
+          break;
+        }
+      }
+      if (!langIsSupported) {
+        JOptionPane.showMessageDialog(null, "Error: Sorry, the document language '" +charLocale.Language+ 
+            "' is not supported by LanguageTool.");
+        throw new IllegalArgumentException("Language is not supported: " + charLocale.Language);
+      }
+      return Language.getLanguageforShortName(charLocale.Language);
+    }
+    
     private String getText() {
       XText text = xTextDoc.getText();
       return text.getString();
     }
 
-    private void checkText(String text) throws IOException, ParserConfigurationException, SAXException {
+    private void checkText(String text) throws IOException, ParserConfigurationException, SAXException, UnknownPropertyException, WrappedTargetException {
       // TODO: show splash screen, as init takes some time?
-      // TODO: use document language
       Configuration config = new Configuration();
-      JLanguageTool langTool = new JLanguageTool(Language.ENGLISH);
+      Language docLanguage = getLanguage();
+      JLanguageTool langTool = new JLanguageTool(docLanguage);
       langTool.activateDefaultPatternRules();
       for (Iterator iter = config.getDisabledRuleIds().iterator(); iter.hasNext();) {
         String id = (String) iter.next();
@@ -123,8 +148,9 @@ public class Main {
       }
       List ruleMatches = langTool.check(text);
       if (ruleMatches.size() == 0) {
-        JOptionPane.showMessageDialog(null, "No errors and warnings found");
-        // TODO: display language setting used etc.
+        JOptionPane.showMessageDialog(null, "No errors and warnings found (document language: " +
+            docLanguage.getName() + ")");
+        // TODO: display number of active rules etc?
       } else {
         OOoDialog dialog = new OOoDialog(config, langTool.getAllRules(), xTextDoc, ruleMatches, text);
         dialog.show();
