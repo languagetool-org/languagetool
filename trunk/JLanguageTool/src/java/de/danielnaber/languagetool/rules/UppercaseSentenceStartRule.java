@@ -56,6 +56,7 @@ public class UppercaseSentenceStartRule extends Rule {
       String msg = "This sentence does not start with an uppercase letter";
       RuleMatch ruleMatch = new RuleMatch(this, token.getStartPos(), 
           token.getStartPos()+token.getToken().length(), msg);
+      ruleMatch.setSuggestedReplacement(Character.toUpperCase(firstChar) +  firstToken.substring(1));
       ruleMatches.add(ruleMatch);
     }
     return toRuleMatchArray(ruleMatches);

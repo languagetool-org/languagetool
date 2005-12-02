@@ -18,6 +18,11 @@
  */
 package de.danielnaber.languagetool.rules;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 /**
  * A class that holds information about where a rule matches text.
  * 
@@ -25,18 +30,34 @@ package de.danielnaber.languagetool.rules;
  */
 public class RuleMatch implements Comparable {
 
+  private final static Pattern SUGGESTION_PATTERN = Pattern.compile("<em>(.*?)</em>");
+
   private int fromLine = -1;
   private int column = -1;
   private Rule rule;
   private int fromPos;
   private int toPos;
   private String message;
+  private List suggestedReplacements = new ArrayList();
   
+  /**
+   * Creates a RuleMatch object, taking the rule that triggered
+   * this match, position of the match and an explanation message.
+   * This message is scanned for &lt;em>...&lt;/em> to get suggested
+   * fixes for the problem detected by this rule. 
+   */
   public RuleMatch(Rule rule, int fromPos, int toPos, String message) {
     this.rule = rule;
     this.fromPos = fromPos;
     this.toPos = toPos;
     this.message = message;
+    // extract suggestion from <em>...</em> in message:
+    Matcher matcher = SUGGESTION_PATTERN.matcher(message);
+    int pos = 0;
+    while (matcher.find(pos)) {
+      pos = matcher.end();
+      suggestedReplacements.add(matcher.group(1));
+    }
   }
 
   public Rule getRule() {
@@ -90,6 +111,37 @@ public class RuleMatch implements Comparable {
    */
   public String getMessage() {
     return message;
+  }
+
+  /**
+   * @see #getSuggestedReplacements()
+   */
+  public void setSuggestedReplacement(String repl) {
+    if (repl == null)
+      throw new NullPointerException("replacement might be empty but not null");
+    List fixes = new ArrayList();
+    fixes.add(repl);
+    setSuggestedReplacements(fixes);
+  }
+
+  /**
+   * @see #getSuggestedReplacements()
+   */
+  public void setSuggestedReplacements(List repl) {
+    if (repl == null)
+      throw new NullPointerException("replacement might be empty but not null");
+    this.suggestedReplacements = repl;
+  }
+
+  /**
+   * The text fragments which might be an appropriate fix for the problem. One
+   * of these fragments can be used to replace the old text between getFromPos()
+   * to getToPos(). Note that by default, text between &lt;em> and &lt;/em> is
+   * taken as the suggested replacement. 
+   * @return List of String objects or an empty List
+   */
+  public List getSuggestedReplacements() {
+    return suggestedReplacements;
   }
 
   public String toString() {

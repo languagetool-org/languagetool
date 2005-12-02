@@ -80,6 +80,7 @@ public class WordRepeatRule extends Rule {
         if (isWord && prevToken.toLowerCase().equals(token.toLowerCase()) && !germanException) {
           String msg = "Possible typo: you repeated a word";
           RuleMatch ruleMatch = new RuleMatch(this, prevPos, pos+prevToken.length(), msg);
+          ruleMatch.setSuggestedReplacement(prevToken);
           ruleMatches.add(ruleMatch);
         }
         prevPrevToken = prevToken;

@@ -209,6 +209,7 @@ public class JLanguageTool {
               thisMatches[i].getFromPos() + tokenCount,
               thisMatches[i].getToPos() + tokenCount,
               thisMatches[i].getMessage());
+          thisMatch.setSuggestedReplacements(thisMatches[i].getSuggestedReplacements());
           String sentencePartToError = sentence.substring(0, thisMatches[i].getFromPos());
           int lastLineBreakPos = sentencePartToError.lastIndexOf("\n");
           int column = -1;
