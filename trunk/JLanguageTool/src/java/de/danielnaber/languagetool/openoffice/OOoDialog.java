@@ -25,11 +25,8 @@ import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -41,9 +38,14 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import org.xml.sax.SAXException;
 
+import com.sun.star.frame.XController;
+import com.sun.star.frame.XModel;
 import com.sun.star.text.XText;
 import com.sun.star.text.XTextCursor;
 import com.sun.star.text.XTextDocument;
+import com.sun.star.text.XTextViewCursor;
+import com.sun.star.text.XTextViewCursorSupplier;
+import com.sun.star.uno.UnoRuntime;
 
 import de.danielnaber.languagetool.JLanguageTool;
 import de.danielnaber.languagetool.Language;
@@ -199,20 +201,23 @@ public class OOoDialog implements ActionListener {
     contextArea.setText(Tools.getContext(match.getFromPos(), match.getToPos(), text));
     messageArea.setText(sb.toString());
     setSuggestions();
+    // Place visible cursor on the error:
+    if (xTextDoc != null) {
+      XModel xModel = (XModel)UnoRuntime.queryInterface(XModel.class, xTextDoc); 
+      XController xController = xModel.getCurrentController(); 
+      XTextViewCursorSupplier xViewCursorSupplier = (XTextViewCursorSupplier)UnoRuntime.queryInterface(XTextViewCursorSupplier.class, xController); 
+      XTextViewCursor xViewCursor = xViewCursorSupplier.getViewCursor();
+      xViewCursor.gotoStart(false);
+      int errorLength = currentRuleMatch.getToPos() - currentRuleMatch.getFromPos();
+      xViewCursor.goRight((short)currentRuleMatch.getFromPos(), false);
+      xViewCursor.goRight((short)errorLength, true);
+    }
   }
   
   private void setSuggestions() {
-    String msgText = currentRuleMatch.getMessage();
-    Pattern pattern = Pattern.compile("<em>(.*?)</em>");
-    Matcher matcher = pattern.matcher(msgText);
-    int pos = 0;
-    List suggestions = new ArrayList();
-    while (matcher.find(pos)) {
-      pos = matcher.end();
-      suggestions.add(matcher.group(1));
-    }
+    List suggestions = currentRuleMatch.getSuggestedReplacements();
     if (suggestions.size() == 0) {
-      System.err.println("No replacement found in message: "+ msgText);
+      System.err.println("No suggested replacement found");
       changeButton.setEnabled(false);
     } else {
       changeButton.setEnabled(true);
@@ -224,25 +229,22 @@ public class OOoDialog implements ActionListener {
   public void actionPerformed(ActionEvent event) {
     if (event.getActionCommand().equals(CHANGE_BUTTON)) {
       String replacement = (String)suggestionList.getSelectedValue();
-      System.err.println("repl=" + replacement);
       XText text = xTextDoc.getText();
       XTextCursor cursor = text.createTextCursor();
       cursor.gotoStart(false);
       cursor.goRight((short)currentRuleMatch.getFromPos(), false);
       // FIXME: what if cast fails?
       short errorLength = (short)(currentRuleMatch.getToPos()-currentRuleMatch.getFromPos());
+      //System.err.println(text.getString().replaceAll("\n", "#\n"));
+      //System.err.println(currentRuleMatch.getFromPos() + ", len="+errorLength);
       cursor.goRight(errorLength, true);
       cursor.setString(replacement);
+      gotoNextMatch();
       // FIXME: correct position of replacements for upcoming errors!
       //int correction = errorLength - replacement.length();
       //System.err.println("corr=" + correction);
     } else if (event.getActionCommand().equals(IGNORE_BUTTON)) {
-      if (currentRuleMatchPos >= ruleMatches.size()-1) {
-        complete();
-      } else {
-        currentRuleMatchPos++;
-        showError(currentRuleMatchPos);
-      }
+      gotoNextMatch();
     } else if (event.getActionCommand().equals(IGNORE_ALL_BUTTON)) {
       JOptionPane.showMessageDialog(null, "fixme: not yet implemented");        //FIXME
     } else if (event.getActionCommand().equals(OPTIONS_BUTTON)) {
@@ -254,6 +256,15 @@ public class OOoDialog implements ActionListener {
       close();
     } else {
       System.err.println("Unknown action: " + event);
+    }
+  }
+
+  private void gotoNextMatch() {
+    if (currentRuleMatchPos >= ruleMatches.size()-1) {
+      complete();
+    } else {
+      currentRuleMatchPos++;
+      showError(currentRuleMatchPos);
     }
   }
 
@@ -283,7 +294,7 @@ public class OOoDialog implements ActionListener {
       lt.disableRule(id);
     }
     //String text = "and a hour ago. this is a test, I thing that's a good idea.";
-    String text = "I thing that's a good idea. This is an test.";
+    String text = "i thing that's a good idea. This is an test.";
     List ruleMatches = lt.check(text);
     OOoDialog prg = new OOoDialog(config, lt.getAllRules(), null, ruleMatches, text);
     prg.show();
