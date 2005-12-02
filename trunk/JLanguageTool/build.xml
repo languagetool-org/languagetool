@@ -392,7 +392,19 @@
   <!-- ================================================================== -->
   <!-- OpenOffice.org -->
   <!-- ================================================================== -->
+  <target name="fastooo" depends="ooo-build" description="No ZIP compression, for development only">
+  	<antcall target="ooo-internal">
+  		<param name="compress" value="no" />
+  	</antcall>
+  </target>
+
   <target name="ooo" depends="ooo-build">
+  	<antcall target="ooo-internal">
+  		<param name="compress" value="yes" />
+  	</antcall>
+  </target>
+
+  <target name="ooo-internal" depends="ooo-build">
   	<copy todir="${dist.dir}/">
 	  	<fileset dir="openoffice/" excludes="JLanguageTool.uno.manifest" />
 	</copy>
@@ -404,7 +416,7 @@
 	<copy file="${ext.opennlp.lib}" todir="${dist.dir}" />
 	<copy file="${ext.trove.lib}" todir="${dist.dir}" />
 	<copy file="${ext.maxent.lib}" todir="${dist.dir}" />
-  	<zip destfile="${dist.dir}/JLanguageTool.uno.zip"
+  	<zip compress="${compress}" destfile="${dist.dir}/JLanguageTool.uno.zip"
   		basedir="${dist.dir}"
   		includes="**" excludes="deploy.sh,undeploy.sh" />
   </target>
