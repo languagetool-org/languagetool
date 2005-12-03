@@ -82,6 +82,7 @@ public class OOoDialog implements ActionListener {
 
   private RuleMatch currentRuleMatch = null;
   private int currentRuleMatchPos = 0;
+  private int replacementCorrection = 0;
   
   private Configuration configuration = null; 
 
@@ -110,11 +111,11 @@ public class OOoDialog implements ActionListener {
 
     contextArea = new JTextPane();
     cons.fill = GridBagConstraints.BOTH;
-    cons.weightx = 8.0f;
-    cons.weighty = 8.0f;
+    cons.weightx = 6.0f;
+    cons.weighty = 6.0f;
     cons.gridx = 0;
     cons.gridy = 0;
-    cons.gridheight = 2;
+    cons.gridheight = 3;
     contextArea.setContentType("text/html");
     contextArea.setEditable(false);
     contentPane.add(new JScrollPane(contextArea), cons);
@@ -124,7 +125,7 @@ public class OOoDialog implements ActionListener {
 
     cons.gridx = 1;
     cons.gridy = 0;
-    cons.fill = GridBagConstraints.NONE;
+    cons.fill = GridBagConstraints.HORIZONTAL;
     ignoreButton = new JButton(IGNORE_BUTTON);
     ignoreButton.addActionListener(this);
     contentPane.add(ignoreButton, cons);
@@ -135,6 +136,12 @@ public class OOoDialog implements ActionListener {
     ignoreAllButton.addActionListener(this);
     contentPane.add(ignoreAllButton, cons);
 
+    cons.gridx = 1;
+    cons.gridy = 2;
+    optionsButton = new JButton(OPTIONS_BUTTON);
+    optionsButton.addActionListener(this);
+    contentPane.add(optionsButton, cons);
+
     messageArea = new JTextPane();
     messageArea.setContentType("text/html");
     messageArea.setEditable(false);
@@ -142,35 +149,34 @@ public class OOoDialog implements ActionListener {
     cons.weightx = 8.0f;
     cons.weighty = 8.0f;
     cons.gridx = 0;
-    cons.gridy = 2;
+    cons.gridy = 3;
     contentPane.add(new JScrollPane(messageArea), cons);
 
     suggestionList = new JList();
     cons.fill = GridBagConstraints.BOTH;
     cons.gridheight = 2;
     cons.gridx = 0;
-    cons.gridy = 3;
+    cons.gridy = 4;
+    cons.weightx = 2.0f;
+    cons.weighty = 2.0f;
     contentPane.add(new JScrollPane(suggestionList), cons);
+    cons.weightx = 1.0f;
+    cons.weighty = 1.0f;
     cons.gridheight = 1;
 
     cons.gridx = 1;
-    cons.gridy = 3;
+    cons.gridy = 4;
     cons.gridwidth = 1;
     cons.weightx = 1.0f;
     cons.weighty = 1.0f;
-    cons.fill = GridBagConstraints.NONE;
+    cons.fill = GridBagConstraints.HORIZONTAL;
     changeButton = new JButton(CHANGE_BUTTON);
     changeButton.addActionListener(this);
     contentPane.add(changeButton, cons);
 
-    cons.gridx = 0;
-    cons.gridy = 5;
-    optionsButton = new JButton(OPTIONS_BUTTON);
-    optionsButton.addActionListener(this);
-    contentPane.add(optionsButton, cons);
-
     cons.gridx = 1;
     cons.gridy = 5;
+    cons.anchor = GridBagConstraints.SOUTH;
     closeButton = new JButton(CLOSE_BUTTON);
     closeButton.addActionListener(this);
     contentPane.add(closeButton, cons);
@@ -179,7 +185,7 @@ public class OOoDialog implements ActionListener {
 
     dialog.pack();
     //dialog.setModal(true);
-    dialog.setSize(500, 500);
+    dialog.setSize(500, 380);
     dialog.setVisible(true);
     // FIXME: close via "X" in the window must behave like close via "close" button
   }
@@ -191,9 +197,9 @@ public class OOoDialog implements ActionListener {
     String msg = match.getMessage();
     StringBuffer sb = new StringBuffer();
     if (ruleMatches.size() == 1)
-      sb.append(ruleMatches.size() + " match");
+      sb.append(ruleMatches.size() + " match in total");
     else
-      sb.append(ruleMatches.size() + " matches");
+      sb.append(ruleMatches.size() + " matches in total");
     sb.append("<br>\n<br>\n<b>" +(i+1)+ ".</b> ");
     sb.append("<b>Match:</b> ");
     sb.append(msg);
@@ -209,7 +215,7 @@ public class OOoDialog implements ActionListener {
       XTextViewCursor xViewCursor = xViewCursorSupplier.getViewCursor();
       xViewCursor.gotoStart(false);
       int errorLength = currentRuleMatch.getToPos() - currentRuleMatch.getFromPos();
-      xViewCursor.goRight((short)currentRuleMatch.getFromPos(), false);
+      xViewCursor.goRight((short)(currentRuleMatch.getFromPos()-replacementCorrection), false);
       xViewCursor.goRight((short)errorLength, true);
     }
   }
@@ -226,37 +232,20 @@ public class OOoDialog implements ActionListener {
     suggestionList.setSelectedIndex(0);
   }
 
-  public void actionPerformed(ActionEvent event) {
-    if (event.getActionCommand().equals(CHANGE_BUTTON)) {
-      String replacement = (String)suggestionList.getSelectedValue();
-      XText text = xTextDoc.getText();
-      XTextCursor cursor = text.createTextCursor();
-      cursor.gotoStart(false);
-      cursor.goRight((short)currentRuleMatch.getFromPos(), false);
-      // FIXME: what if cast fails?
-      short errorLength = (short)(currentRuleMatch.getToPos()-currentRuleMatch.getFromPos());
-      //System.err.println(text.getString().replaceAll("\n", "#\n"));
-      //System.err.println(currentRuleMatch.getFromPos() + ", len="+errorLength);
-      cursor.goRight(errorLength, true);
-      cursor.setString(replacement);
-      gotoNextMatch();
-      // FIXME: correct position of replacements for upcoming errors!
-      //int correction = errorLength - replacement.length();
-      //System.err.println("corr=" + correction);
-    } else if (event.getActionCommand().equals(IGNORE_BUTTON)) {
-      gotoNextMatch();
-    } else if (event.getActionCommand().equals(IGNORE_ALL_BUTTON)) {
-      JOptionPane.showMessageDialog(null, "fixme: not yet implemented");        //FIXME
-    } else if (event.getActionCommand().equals(OPTIONS_BUTTON)) {
-      ConfigurationDialog cfgDialog = new ConfigurationDialog();
-      cfgDialog.setDisabledRules(configuration.getDisabledRuleIds());
-      cfgDialog.show(rules);
-      configuration.setDisabledRuleIds(cfgDialog.getDisabledRuleIds());
-    } else if (event.getActionCommand().equals(CLOSE_BUTTON)) {
-      close();
-    } else {
-      System.err.println("Unknown action: " + event);
-    }
+  private void changeText() {
+    String replacement = (String)suggestionList.getSelectedValue();
+    XText text = xTextDoc.getText();
+    XTextCursor cursor = text.createTextCursor();
+    cursor.gotoStart(false);
+    cursor.goRight((short)(currentRuleMatch.getFromPos()-replacementCorrection), false);
+    // FIXME: what if cast fails?
+    short errorLength = (short)(currentRuleMatch.getToPos()-currentRuleMatch.getFromPos());
+    //System.err.println(text.getString().replaceAll("\n", "#\n"));
+    //System.err.println(currentRuleMatch.getFromPos() + ", len="+errorLength);
+    cursor.goRight(errorLength, true);
+    cursor.setString(replacement);
+    replacementCorrection += errorLength - replacement.length();
+    gotoNextMatch();
   }
 
   private void gotoNextMatch() {
@@ -283,6 +272,25 @@ public class OOoDialog implements ActionListener {
     dialog.setVisible(false);       // FIXME: does this really close the dialog?
   }
 
+  public void actionPerformed(ActionEvent event) {
+    if (event.getActionCommand().equals(CHANGE_BUTTON)) {
+      changeText();
+    } else if (event.getActionCommand().equals(IGNORE_BUTTON)) {
+      gotoNextMatch();
+    } else if (event.getActionCommand().equals(IGNORE_ALL_BUTTON)) {
+      JOptionPane.showMessageDialog(null, "fixme: not yet implemented");        //FIXME
+    } else if (event.getActionCommand().equals(OPTIONS_BUTTON)) {
+      ConfigurationDialog cfgDialog = new ConfigurationDialog();
+      cfgDialog.setDisabledRules(configuration.getDisabledRuleIds());
+      cfgDialog.show(rules);
+      configuration.setDisabledRuleIds(cfgDialog.getDisabledRuleIds());
+    } else if (event.getActionCommand().equals(CLOSE_BUTTON)) {
+      close();
+    } else {
+      System.err.println("Unknown action: " + event);
+    }
+  }
+
   /** Testing only.
    */
   public static void main(String[] args) throws IOException, ParserConfigurationException, SAXException {
@@ -294,7 +302,8 @@ public class OOoDialog implements ActionListener {
       lt.disableRule(id);
     }
     //String text = "and a hour ago. this is a test, I thing that's a good idea.";
-    String text = "i thing that's a good idea. This is an test.";
+    //String text = "i thing that's a good idea. This is an test.";
+    String text = "There was to much snow.";
     List ruleMatches = lt.check(text);
     OOoDialog prg = new OOoDialog(config, lt.getAllRules(), null, ruleMatches, text);
     prg.show();
