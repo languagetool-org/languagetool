@@ -4,7 +4,7 @@
 Rules: Grammar and Typos
 See tagset.txt for the meaning of the POS tags
 Copyright (C) 2001-2005 Daniel Naber (http://www.danielnaber.de)
-$Id: grammar.xml,v 1.18 2005-12-04 14:21:09 dnaber Exp $
+$Id: grammar.xml,v 1.19 2005-12-04 22:27:15 dnaber Exp $
 -->
 <rules>
 
@@ -52,11 +52,18 @@ $Id: grammar.xml,v 1.18 2005-12-04 14:21:09 dnaber Exp $
 	</rule>
 	-->
 
-	<rule id="ÖKONOMISCH_ÖKUMENISCH" name="Fehler 'ökonomischer(ökumenischer) Gottesdienst'">
+	<rule id="OEKONOMISCH_OEKUMENISCH" name="Fehler 'ökonomischer(ökumenischer) Gottesdienst/...'">
 		<pattern mark_to="-1" lang="de">"ökonomischen|ökonomischer" "Gottesdienst|Gottesdienste|Gottesdiensts|Trauung|Taufe|Kirchentag"</pattern>
 		<message>Meinten Sie <em>ökumenisch</em> (ökonomisch = auf die Wirtschaft bezogen)?</message>
 		<example type="correct">Was ist ein <em>ökumenischer</em> Gottesdienst?</example>
 		<example type="incorrect">Was ist ein <em>ökonomischer</em> Gottesdienst?</example>
+	</rule>
+
+	<rule id="ETHISCH_ETHNISCH" name="Fehler 'ethische(ethnische) Mindeheiten/...'">
+		<pattern mark_to="-1" lang="de">"ethische|ethischer|ethischen" "Minderheit|Minderheiten|Säuberung|Säuberungen|Herkunft|Konflikt|Konflikte"</pattern>
+		<message>Meinten Sie <em>ethnische</em> (ethisch = sittlich, ethnisch = zu einer bestimmten Ethnie/Volksgruppe gehörend)?</message>
+		<example type="correct">Bücher über <em>ethnische</em> Minderheiten und Vertriebene</example>
+		<example type="incorrect">Bücher über <em>ethische</em> Minderheiten und Vertriebene</example>
 	</rule>
 
 	<rule id="DENN_DEN" name="Tippfehler 'aber denn(dann)'">
