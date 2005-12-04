@@ -107,11 +107,17 @@ public class AvsAnRule extends EnglishRule {
         //System.err.println(prevToken + " " +token + ", a="+doesRequireA + ", an="+doesRequireAn);
         String msg = null;
         if (prevToken.toLowerCase().equals("a") && doesRequireAn) {
-          msg = "Use <em>an</em> instead of 'a' if the following "+
+          String repl = "an";
+          if (prevToken.equals("A"))
+            repl = "An";
+          msg = "Use <em>" +repl+ "</em> instead of '" +prevToken+ "' if the following "+
           "word starts with a vowel sound, e.g. 'an article', "+
           "'an hour'";
         } else if (prevToken.toLowerCase().equals("an") && doesRequireA) {
-          msg = "Use <em>a</em> instead of 'an' if the following "+
+          String repl = "a";
+          if (prevToken.equals("An"))
+            repl = "A";
+          msg = "Use <em>" +repl+ "</em> instead of '" +prevToken+ "' if the following "+
           "word doesn't start with a vowel sound, e.g. 'a sentence', "+
           "'a university'";
         }
