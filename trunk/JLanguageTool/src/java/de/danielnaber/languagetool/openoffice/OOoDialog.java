@@ -245,6 +245,8 @@ public class OOoDialog implements ActionListener {
         if (startTextRange == null) {
           startTextRange = xViewCursor.getStart();
         }
+        // FIXME: throws java.lang.reflect.UndeclaredThrowableException at $Proxy17.gotoRange(Unknown Source
+        // if previous error occured at start of text and was replaced (e.g. "Die die" -> "die"):
         xViewCursor.gotoRange(startTextRange, false);
         xViewCursor.goRight((short)(currentRuleMatch.getFromPos()-replacementCorrection), false);
         xViewCursor.goRight((short)errorLength, true);
@@ -322,10 +324,14 @@ public class OOoDialog implements ActionListener {
     List filteredRuleMatches = new ArrayList();
     for (Iterator iter = ruleMatches.iterator(); iter.hasNext();) {
       RuleMatch ruleMatch = (RuleMatch) iter.next();
-      if (i < currentRuleMatchPos)
-        continue;
-      if (!ruleMatch.getRule().getId().equals(currentRuleMatch.getRule().getId()))
+      if (i <= currentRuleMatchPos) {
         filteredRuleMatches.add(ruleMatch);
+        i++;
+        continue;
+      }
+      if (!ruleMatch.getRule().getId().equals(currentRuleMatch.getRule().getId())) {
+        filteredRuleMatches.add(ruleMatch);
+      }
       i++;
     }
     ruleMatches = filteredRuleMatches;
