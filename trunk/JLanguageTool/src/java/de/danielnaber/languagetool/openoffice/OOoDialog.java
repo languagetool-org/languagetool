@@ -25,6 +25,7 @@ import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -100,6 +101,7 @@ public class OOoDialog implements ActionListener {
   }
   
   void show() {
+    // TODO: escape = close dialog
     if (ruleMatches.size() == 0) {
       JOptionPane.showMessageDialog(null, COMPLETE_TEXT);
       return;
@@ -299,13 +301,31 @@ public class OOoDialog implements ActionListener {
     dialog.setVisible(false);       // FIXME: does this really close the dialog?
   }
 
+  /**
+   * Ignore all matches of the current rule for the rest of this document.
+   */
+  private void ignoreAll() {
+    int i = 0;
+    List filteredRuleMatches = new ArrayList();
+    for (Iterator iter = ruleMatches.iterator(); iter.hasNext();) {
+      RuleMatch ruleMatch = (RuleMatch) iter.next();
+      if (i < currentRuleMatchPos)
+        continue;
+      if (!ruleMatch.getRule().getId().equals(currentRuleMatch.getRule().getId()))
+        filteredRuleMatches.add(ruleMatch);
+      i++;
+    }
+    ruleMatches = filteredRuleMatches;
+  }
+
   public void actionPerformed(ActionEvent event) {
     if (event.getActionCommand().equals(CHANGE_BUTTON)) {
       changeText();
     } else if (event.getActionCommand().equals(IGNORE_BUTTON)) {
       gotoNextMatch();
     } else if (event.getActionCommand().equals(IGNORE_ALL_BUTTON)) {
-      JOptionPane.showMessageDialog(null, "fixme: not yet implemented");        //FIXME
+      ignoreAll();
+      gotoNextMatch();
     } else if (event.getActionCommand().equals(OPTIONS_BUTTON)) {
       ConfigurationDialog cfgDialog = new ConfigurationDialog();
       cfgDialog.setDisabledRules(configuration.getDisabledRuleIds());
