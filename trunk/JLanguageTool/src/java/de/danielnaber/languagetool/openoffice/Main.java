@@ -18,11 +18,15 @@
  */
 package de.danielnaber.languagetool.openoffice;
 
+import java.awt.BorderLayout;
 import java.io.IOException;
 import java.util.Iterator;
 import java.util.List;
 
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JProgressBar;
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.xml.sax.SAXException;
@@ -68,6 +72,10 @@ public class Main {
 
     private XTextDocument xTextDoc;
     private XTextViewCursor xViewCursor;
+
+    /** Tetsing only. */
+    public _Main() {
+    }
     
     public _Main(XComponentContext xCompContext) {
       try {
@@ -152,23 +160,36 @@ public class Main {
       return textToCheck;
     }
 
-    private void checkText(String text) throws IOException, ParserConfigurationException, SAXException, UnknownPropertyException, WrappedTargetException {
-      // TODO: show splash screen / progress bar, as init takes some time?
+    private void checkText(String text) throws IOException, UnknownPropertyException, WrappedTargetException {
+      ProgressDialog progressDialog = new ProgressDialog();
+      Language docLanguage = null;
+      if (xTextDoc == null)
+        docLanguage = Language.ENGLISH; // for testing with local main() method only
+      else
+        docLanguage = getLanguage();
       Configuration config = new Configuration();
-      Language docLanguage = getLanguage();
-      JLanguageTool langTool = new JLanguageTool(docLanguage);
-      langTool.activateDefaultPatternRules();
-      for (Iterator iter = config.getDisabledRuleIds().iterator(); iter.hasNext();) {
-        String id = (String) iter.next();
-        langTool.disableRule(id);
+      CheckerThread checkerThread = new CheckerThread(text, docLanguage, config);
+      checkerThread.start();
+      while (true) {
+        if (checkerThread.done()) {
+          break;
+        }
+        try {
+          Thread.sleep(100);
+        } catch (InterruptedException e) {
+          // nothing
+        }
       }
-      List ruleMatches = langTool.check(text);
+      progressDialog.close();
+      
+      List ruleMatches = checkerThread.getRuleMatches();
       if (ruleMatches.size() == 0) {
         JOptionPane.showMessageDialog(null, "No errors and warnings found (document language: " +
             docLanguage.getName() + ")");
         // TODO: display number of active rules etc?
       } else {
-        OOoDialog dialog = new OOoDialog(config, langTool.getAllRules(), xTextDoc, ruleMatches, text, xViewCursor);
+        OOoDialog dialog = new OOoDialog(config, checkerThread.getLanguageTool().getAllRules(),
+            xTextDoc, ruleMatches, text, xViewCursor);
         dialog.show();
       }
     }
@@ -185,5 +206,82 @@ public class Main {
   public static boolean __writeRegistryServiceInfo(XRegistryKey regKey) {
     return Factory.writeRegistryServiceInfo(_Main.class.getName(), _Main.getServiceNames(), regKey);
   }
+  
+  public static void main(String[] args) throws UnknownPropertyException, WrappedTargetException, IOException {
+    _Main m = new _Main();
+    m.checkText("this is an test");
+  }
 
+}
+
+class CheckerThread extends Thread {
+
+  private String text;
+  private Language docLanguage;
+  private Configuration config;
+  
+  private JLanguageTool langTool; 
+  private List ruleMatches;
+  private boolean done = false;
+  
+  CheckerThread(String text, Language docLanguage, Configuration config) {
+    this.text = text;
+    this.docLanguage = docLanguage;
+    this.config = config;
+  }
+  
+  public boolean done() {
+    return done;
+  }
+
+  List getRuleMatches() {
+    return ruleMatches;
+  }
+
+  JLanguageTool getLanguageTool() {
+    return langTool;
+  }
+
+  public void run() {
+    try {
+      langTool = new JLanguageTool(docLanguage);
+      langTool.activateDefaultPatternRules();
+      for (Iterator iter = config.getDisabledRuleIds().iterator(); iter.hasNext();) {
+        String id = (String) iter.next();
+        langTool.disableRule(id);
+      }
+      ruleMatches = langTool.check(text);
+      done = true;
+    } catch (IOException e) {
+      e.printStackTrace();
+      throw new RuntimeException(e);
+    } catch (ParserConfigurationException e) {
+      e.printStackTrace();
+      throw new RuntimeException(e);
+    } catch (SAXException e) {
+      e.printStackTrace();
+      throw new RuntimeException(e);
+    }
+  }
+  
+}
+
+class ProgressDialog extends JFrame {
+
+  public ProgressDialog() {
+    setTitle("Starting LanguageTool...");
+    JPanel progressPanel = new JPanel(new BorderLayout());
+    JProgressBar progressBar = new JProgressBar(0, 100);
+    progressBar.setIndeterminate(true);
+    progressPanel.add(progressBar);
+    setContentPane(progressPanel);
+    pack();
+    setVisible(true);
+    setSize(400,30);
+  }
+  
+  void close() {
+    setVisible(false);
+  }
+  
 }
