@@ -85,6 +85,7 @@ public class WordCoherencyRule extends GermanRule {
           String msg = "You should probably not use <i>" +token+ "</i> and <i>" +otherSpelling+
             "</i> in the same document, stick to one spelling";
           RuleMatch ruleMatch = new RuleMatch(this, pos, pos+origToken.length(), msg);
+          ruleMatch.setSuggestedReplacement(otherSpelling);
           ruleMatches.add(ruleMatch);
         } else if (relevantWords.containsKey(token)) {
           String shouldNotAppear = (String)relevantWords.get(token);
