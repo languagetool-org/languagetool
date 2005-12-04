@@ -119,6 +119,9 @@ public class CaseRule extends GermanRule {
             String msg = "Substantivierte Verben werden groß geschrieben.";
             RuleMatch ruleMatch = new RuleMatch(this, tokens[i].getStartPos(),
                 tokens[i].getStartPos()+token.length(), msg);
+            String word = tokens[i].getToken();
+            String fixedWord = Character.toUpperCase(word.charAt(0)) + word.substring(1);
+            ruleMatch.setSuggestedReplacement(fixedWord);
             ruleMatches.add(ruleMatch);
           }
         }
@@ -143,6 +146,9 @@ public class CaseRule extends GermanRule {
         String msg = "Außer am Satzanfang werden nur Nomen und Eigennamen groß geschrieben";
         RuleMatch ruleMatch = new RuleMatch(this, tokens[i].getStartPos(),
             tokens[i].getStartPos()+token.length(), msg);
+        String word = tokens[i].getToken();
+        String fixedWord = Character.toLowerCase(word.charAt(0)) + word.substring(1);
+        ruleMatch.setSuggestedReplacement(fixedWord);
         ruleMatches.add(ruleMatch);
       }
       pos += token.length();
