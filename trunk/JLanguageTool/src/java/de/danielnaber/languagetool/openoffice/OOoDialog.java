@@ -43,6 +43,7 @@ import com.sun.star.frame.XModel;
 import com.sun.star.text.XText;
 import com.sun.star.text.XTextCursor;
 import com.sun.star.text.XTextDocument;
+import com.sun.star.text.XTextRange;
 import com.sun.star.text.XTextViewCursor;
 import com.sun.star.text.XTextViewCursorSupplier;
 import com.sun.star.uno.UnoRuntime;
@@ -83,15 +84,19 @@ public class OOoDialog implements ActionListener {
   private RuleMatch currentRuleMatch = null;
   private int currentRuleMatchPos = 0;
   private int replacementCorrection = 0;
-  
+  private XTextViewCursor xViewCursor = null;
+  private XTextRange startTextRange = null;
+
   private Configuration configuration = null; 
 
-  OOoDialog(Configuration configuration, List rules, XTextDocument xTextDoc, List ruleMatches, String text) {
+  OOoDialog(Configuration configuration, List rules, XTextDocument xTextDoc, List ruleMatches, String text,
+      XTextViewCursor xViewCursor) {
     this.rules = rules;
     this.xTextDoc = xTextDoc;
     this.ruleMatches = ruleMatches;
     this.text = text;
     this.configuration = configuration;
+    this.xViewCursor = xViewCursor; 
   }
   
   void show() {
@@ -211,12 +216,24 @@ public class OOoDialog implements ActionListener {
     if (xTextDoc != null) {
       XModel xModel = (XModel)UnoRuntime.queryInterface(XModel.class, xTextDoc); 
       XController xController = xModel.getCurrentController(); 
-      XTextViewCursorSupplier xViewCursorSupplier = (XTextViewCursorSupplier)UnoRuntime.queryInterface(XTextViewCursorSupplier.class, xController); 
-      XTextViewCursor xViewCursor = xViewCursorSupplier.getViewCursor();
-      xViewCursor.gotoStart(false);
+      XTextViewCursorSupplier xViewCursorSupplier = 
+        (XTextViewCursorSupplier)UnoRuntime.queryInterface(XTextViewCursorSupplier.class, xController); 
       int errorLength = currentRuleMatch.getToPos() - currentRuleMatch.getFromPos();
-      xViewCursor.goRight((short)(currentRuleMatch.getFromPos()-replacementCorrection), false);
-      xViewCursor.goRight((short)errorLength, true);
+      if (xViewCursor == null) {
+        // working on complete text:
+        XTextViewCursor tmpxViewCursor = xViewCursorSupplier.getViewCursor();
+        tmpxViewCursor.gotoStart(false);
+        tmpxViewCursor.goRight((short)(currentRuleMatch.getFromPos()-replacementCorrection), false);
+        tmpxViewCursor.goRight((short)errorLength, true);
+      } else {
+        // working on selected text only:
+        if (startTextRange == null) {
+          startTextRange = xViewCursor.getStart();
+        }
+        xViewCursor.gotoRange(startTextRange, false);
+        xViewCursor.goRight((short)(currentRuleMatch.getFromPos()-replacementCorrection), false);
+        xViewCursor.goRight((short)errorLength, true);
+      }
     }
   }
   
@@ -235,15 +252,25 @@ public class OOoDialog implements ActionListener {
   private void changeText() {
     String replacement = (String)suggestionList.getSelectedValue();
     XText text = xTextDoc.getText();
-    XTextCursor cursor = text.createTextCursor();
-    cursor.gotoStart(false);
-    cursor.goRight((short)(currentRuleMatch.getFromPos()-replacementCorrection), false);
     // FIXME: what if cast fails?
     short errorLength = (short)(currentRuleMatch.getToPos()-currentRuleMatch.getFromPos());
-    //System.err.println(text.getString().replaceAll("\n", "#\n"));
-    //System.err.println(currentRuleMatch.getFromPos() + ", len="+errorLength);
-    cursor.goRight(errorLength, true);
-    cursor.setString(replacement);
+    if (xViewCursor == null) {
+      // working on complete text:
+      XTextCursor cursor = text.createTextCursor();
+      cursor.gotoStart(false);
+      cursor.goRight((short)(currentRuleMatch.getFromPos()-replacementCorrection), false);
+      cursor.goRight(errorLength, true);
+      cursor.setString(replacement);
+    } else {
+      // working on selected text only:
+      if (startTextRange == null) {
+        startTextRange = xViewCursor.getStart();
+      }
+      xViewCursor.gotoRange(startTextRange, false);
+      xViewCursor.goRight((short)(currentRuleMatch.getFromPos()-replacementCorrection), false);
+      xViewCursor.goRight((short)errorLength, true);
+      xViewCursor.setString(replacement);
+    }
     replacementCorrection += errorLength - replacement.length();
     gotoNextMatch();
   }
@@ -305,7 +332,7 @@ public class OOoDialog implements ActionListener {
     //String text = "i thing that's a good idea. This is an test.";
     String text = "There was to much snow.";
     List ruleMatches = lt.check(text);
-    OOoDialog prg = new OOoDialog(config, lt.getAllRules(), null, ruleMatches, text);
+    OOoDialog prg = new OOoDialog(config, lt.getAllRules(), null, ruleMatches, text, null);
     prg.show();
   }
 

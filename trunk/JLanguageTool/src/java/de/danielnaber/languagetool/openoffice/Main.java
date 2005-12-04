@@ -29,7 +29,9 @@ import org.xml.sax.SAXException;
 
 import com.sun.star.beans.UnknownPropertyException;
 import com.sun.star.beans.XPropertySet;
+import com.sun.star.frame.XController;
 import com.sun.star.frame.XDesktop;
+import com.sun.star.frame.XModel;
 import com.sun.star.lang.Locale;
 import com.sun.star.lang.WrappedTargetException;
 import com.sun.star.lang.XComponent;
@@ -42,6 +44,8 @@ import com.sun.star.registry.XRegistryKey;
 import com.sun.star.task.XJobExecutor;
 import com.sun.star.text.XText;
 import com.sun.star.text.XTextDocument;
+import com.sun.star.text.XTextViewCursor;
+import com.sun.star.text.XTextViewCursorSupplier;
 import com.sun.star.uno.UnoRuntime;
 import com.sun.star.uno.XComponentContext;
 
@@ -63,7 +67,8 @@ public class Main {
     static private final String __serviceName = "de.danielnaber.languagetool.openoffice.Main";
 
     private XTextDocument xTextDoc;
-
+    private XTextViewCursor xViewCursor;
+    
     public _Main(XComponentContext xCompContext) {
       try {
         XMultiComponentFactory xMCF = xCompContext.getServiceManager();
@@ -132,12 +137,23 @@ public class Main {
     }
     
     private String getText() {
-      XText text = xTextDoc.getText();
-      return text.getString();
+      XModel xModel = (XModel)UnoRuntime.queryInterface(XModel.class, xTextDoc); 
+      XController xController = xModel.getCurrentController(); 
+      XTextViewCursorSupplier xViewCursorSupplier = 
+        (XTextViewCursorSupplier)UnoRuntime.queryInterface(XTextViewCursorSupplier.class, xController); 
+      //XTextViewCursor xViewCursor = xViewCursorSupplier.getViewCursor();
+      xViewCursor = xViewCursorSupplier.getViewCursor();
+      String textToCheck = xViewCursor.getString();     // user's current selection
+      if (textToCheck.equals("")) {     // no selection = check complete text
+        XText text = xTextDoc.getText();
+        textToCheck = text.getString();
+        xViewCursor = null;
+      }
+      return textToCheck;
     }
 
     private void checkText(String text) throws IOException, ParserConfigurationException, SAXException, UnknownPropertyException, WrappedTargetException {
-      // TODO: show splash screen, as init takes some time?
+      // TODO: show splash screen / progress bar, as init takes some time?
       Configuration config = new Configuration();
       Language docLanguage = getLanguage();
       JLanguageTool langTool = new JLanguageTool(docLanguage);
@@ -152,7 +168,7 @@ public class Main {
             docLanguage.getName() + ")");
         // TODO: display number of active rules etc?
       } else {
-        OOoDialog dialog = new OOoDialog(config, langTool.getAllRules(), xTextDoc, ruleMatches, text);
+        OOoDialog dialog = new OOoDialog(config, langTool.getAllRules(), xTextDoc, ruleMatches, text, xViewCursor);
         dialog.show();
       }
     }
