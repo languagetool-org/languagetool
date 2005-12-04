@@ -307,12 +307,12 @@ public class OOoDialog implements ActionListener {
   }
   
   private void close() {
-    try {
+    /*try {
       configuration.saveConfiguration();
     } catch (IOException e) {
       e.printStackTrace();
       throw new RuntimeException(e);
-    }
+    }*/
     dialog.setVisible(false);       // FIXME: does this really close the dialog?
   }
 
