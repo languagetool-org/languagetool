@@ -4,7 +4,7 @@
 Rules: Grammar and Typos
 See tagset.txt for the meaning of the POS tags
 Copyright (C) 2001-2005 Daniel Naber (http://www.danielnaber.de)
-$Id: grammar.xml,v 1.26 2005-11-28 19:11:55 dnaber Exp $
+$Id: grammar.xml,v 1.27 2005-12-04 17:41:38 dnaber Exp $
 -->
 <rules>
 
@@ -277,7 +277,7 @@ $Id: grammar.xml,v 1.26 2005-11-28 19:11:55 dnaber Exp $
 
 	<rule id="MOST_COMP" name="No 'more' or 'most' before superlatives">
 		<pattern lang="en" mark_from="0" mark_to="-1">"more|most" JJS|RBS</pattern>
-		<message><em>_Remove</em> 'most' or 'more' when you use the superlative.</message>
+		<message>Remove 'most' or 'more' when you use the superlative.</message>
 		<example type="correct">Kyoto is the <em>oldest</em> city.</example>
 		<example type="incorrect">Kyoto is the <em>most oldest</em> city.</example>
 	</rule>
@@ -298,7 +298,7 @@ $Id: grammar.xml,v 1.26 2005-11-28 19:11:55 dnaber Exp $
 
 	<rule id="THE_FLEW" name="Typo 'the flew(flu)'">
 		<pattern lang="en" mark_from="1">"the" "flew"</pattern>
-		<message>Did you mean <em>flew</em> (flew is past tense of fly, flu is a viral disease)?</message>
+		<message>Did you mean <em>flu</em> (flew is past tense of fly, flu is a viral disease)?</message>
 		<example type="correct">I have been out with the <em>flu</em> for the past 3 days.</example>
 		<example type="incorrect">I have been out with the <em>flew</em> for the past 3 days.</example>
 	</rule>
@@ -381,7 +381,7 @@ $Id: grammar.xml,v 1.26 2005-11-28 19:11:55 dnaber Exp $
 		<!-- 106(less..)+319(more...) in complete BNC, all(?) because "...as" -->
 		<rule>
 			<pattern lang="en" mark_from="1" mark_to="0">"more|less" "then|as"</pattern>
-			<message>Comparison requires <em>than</em>, not <em>then</em>.</message>
+			<message>Comparison requires <em>than</em>, not 'then'.</message>
 			<example type="correct">The tagger will return more <em>than</em> one tag.</example>
 			<example type="incorrect">The tagger will return more <em>then</em> one tag.</example>
 			<example type="triggers_error">Think of it more <em>as</em> activity.</example>
@@ -393,7 +393,7 @@ $Id: grammar.xml,v 1.26 2005-11-28 19:11:55 dnaber Exp $
 			
 		<rule>
 			<pattern lang="en" mark_from="1" mark_to="0">(AJC) "(then|as)"</pattern>
-			<message>Comparison requires <em>than</em>, not <em>then</em>.</message>
+			<message>Comparison requires <em>than</em>, not 'then'.</message>
 			<example type="correct">This house is bigger <em>than</em> mine.</example>
 			<example type="incorrect">This house is bigger <em>then</em> mine.</example>
 		</rule>
@@ -406,8 +406,8 @@ $Id: grammar.xml,v 1.26 2005-11-28 19:11:55 dnaber Exp $
 		<rule>
 			<!-- TODO: "its of", "its to" -->
 			<pattern lang="en" mark_from="0" mark_to="-1">"its" (CC|DT|IN|MD|POS|PP|RB|WDT|WP|WRB)</pattern>
-			<message>Did you maybe mix up <em>it's</em> (=<em>it is</em>) and
-				<em>its</em> (=possessive pronoun)?</message>
+			<message>Did you mean <em>it's</em> (=<em>it is</em>) instead of
+				'its' (possessive pronoun)?</message>
 			<example type="correct"><em>It's</em> where people walk around.</example>
 			<example type="incorrect"><em>Its</em> where people walk around.</example>
 			<example type="triggers_error" reason="'every' is tagged as AT0">London is a necropolis, <em>its</em> every corner the site of a murder, its soil a pudding of blood and tears.</example>
@@ -416,8 +416,8 @@ $Id: grammar.xml,v 1.26 2005-11-28 19:11:55 dnaber Exp $
 		<!-- TODO:
 		<rule>
 			<pattern lang="en" mark_from="0" mark_to="-1">"its" VBG</pattern>
-			<message>Did you maybe mix up <em>it's</em> (=<em>it is</em>) and
-				<em>its</em> (=possessive pronoun)?</message>
+			<message>Did you mean <em>it's</em> (=<em>it is</em>) instead of
+				'its' (possessive pronoun)?</message>
 			<example type="correct"><em>It's</em> going to be difficult.</example>
 			<example type="incorrect"><em>Its</em> going to be difficult.</example>
 		</rule>
@@ -425,8 +425,8 @@ $Id: grammar.xml,v 1.26 2005-11-28 19:11:55 dnaber Exp $
 
 		<rule>
 			<pattern lang="en" mark_from="0" mark_to="-1">"its" "(a|the)"</pattern>
-			<message>Did you maybe mix up <em>it's</em> (=<em>it is</em>) and
-				<em>its</em> (=possessive pronoun)?</message>
+			<message>Did you mean <em>it's</em> (=<em>it is</em>) instead of
+				'its' (possessive pronoun)?</message>
 			<example type="correct"><em>It's</em> a good opportunity.</example>
 			<example type="incorrect"><em>Its</em> a good opportunity.</example>
 			<example type="triggers_error">Currently, there are fifteen records on <em>its</em> A list and twenty on its B list.</example>
@@ -438,8 +438,8 @@ $Id: grammar.xml,v 1.26 2005-11-28 19:11:55 dnaber Exp $
 
 		<rule>
 			<pattern lang="en" mark_to="-1">"no" MD|VB|VBD|VBN^known</pattern>
-			<message>Did you maybe mix up <em>no</em> (negation) and
-				<em>now</em> (=at this moment)?</message>
+			<message>Did you meam <em>now</em> (=at this moment) instead of
+				'no' (negation)?</message>
 			<example type="correct">There <em>now</em> will be a park.</example>
 			<example type="incorrect">There <em>no</em> will be a park.</example>
 		</rule>
@@ -447,16 +447,16 @@ $Id: grammar.xml,v 1.26 2005-11-28 19:11:55 dnaber Exp $
 		<rule>
 			<!-- TODO: "no the", "no of" -->
 			<pattern lang="en" mark_to="-1">"no" CC|DT|IN|MD|NP|RP|WDT|WP|WRB</pattern>
-			<message>Did you maybe mix up <em>no</em> (negation) and
-				<em>now</em> (=at this moment)?</message>
+			<message>Did you meam <em>now</em> (=at this moment) instead of
+				'no' (negation)?</message>
 			<example type="correct">There's <em>now</em> a new building.</example>
 			<example type="incorrect">There's <em>no</em> a new building.</example>
 		</rule>
 
 		<rule>
 			<pattern lang="en" mark_to="-1">"no" "were|was|been|be|is"</pattern>
-			<message>Did you maybe mix up <em>no</em> (negation) and
-				<em>now</em> (=at this moment)?</message>
+			<message>Did you meam <em>now</em> (=at this moment) instead of
+				'no' (negation)?</message>
 			<example type="correct"><em>Now</em> is the right time.</example>
 			<example type="incorrect"><em>No</em> is the right time.</example>
 		</rule>
