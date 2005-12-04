@@ -23,6 +23,8 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import de.danielnaber.languagetool.tools.StringTools;
+
 /**
  * A class that holds information about where a rule matches text.
  * 
@@ -39,14 +41,22 @@ public class RuleMatch implements Comparable {
   private int toPos;
   private String message;
   private List suggestedReplacements = new ArrayList();
+
+  // TODO: remove this constructor?
+  public RuleMatch(Rule rule, int fromPos, int toPos, String message) {
+    this(rule, fromPos, toPos, message, false);
+  }
   
   /**
    * Creates a RuleMatch object, taking the rule that triggered
    * this match, position of the match and an explanation message.
    * This message is scanned for &lt;em>...&lt;/em> to get suggested
    * fixes for the problem detected by this rule. 
+   * 
+   * @param startWithUppercase whether the original text at the position
+   *    of the match start with an uppercase character
    */
-  public RuleMatch(Rule rule, int fromPos, int toPos, String message) {
+  public RuleMatch(Rule rule, int fromPos, int toPos, String message, boolean startWithUppercase) {
     this.rule = rule;
     this.fromPos = fromPos;
     this.toPos = toPos;
@@ -56,7 +66,10 @@ public class RuleMatch implements Comparable {
     int pos = 0;
     while (matcher.find(pos)) {
       pos = matcher.end();
-      suggestedReplacements.add(matcher.group(1));
+      String repl = matcher.group(1);
+      if (startWithUppercase)
+        repl = StringTools.uppercaseFirstChar(repl);
+      suggestedReplacements.add(repl);
     }
   }
 

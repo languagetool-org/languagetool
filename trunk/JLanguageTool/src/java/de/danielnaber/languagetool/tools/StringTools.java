@@ -55,4 +55,23 @@ public class StringTools {
     return sb.toString();
   }
 
+  public static boolean startsWithUppercase(String str) {
+    if (str.length() == 0)
+      return false;
+    char firstChar = str.charAt(0);
+    if (Character.isUpperCase(firstChar))
+      return true;
+    return false;
+  }
+
+  public static String uppercaseFirstChar(String str) {
+    if (str.length() == 0)
+      return str;
+    char firstChar = str.charAt(0);
+    if (str.length() == 1)
+      return str.toUpperCase();
+    else
+      return Character.toUpperCase(firstChar) + str.substring(1);
+  }
+  
 }

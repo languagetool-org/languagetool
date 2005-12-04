@@ -26,6 +26,7 @@ import de.danielnaber.languagetool.AnalyzedToken;
 import de.danielnaber.languagetool.Language;
 import de.danielnaber.languagetool.rules.Rule;
 import de.danielnaber.languagetool.rules.RuleMatch;
+import de.danielnaber.languagetool.tools.StringTools;
 
 /**
  * A Rule that drescribes a language error as a simple pattern of words or their
@@ -150,10 +151,13 @@ public class PatternRule extends Rule {
           errMessage = errMessage.replaceAll("\\\\"+(j+1),
               tokens[firstMatchToken+j].getToken());
         }
+        boolean startsWithUppercase = 
+          StringTools.startsWithUppercase(tokens[firstMatchToken+startPositionCorrection].toString());
         RuleMatch ruleMatch = new RuleMatch(this,
             tokens[firstMatchToken+startPositionCorrection].getStartPos(), 
             tokens[lastMatchToken+endPositionCorrection].getStartPos()+
-            tokens[lastMatchToken+endPositionCorrection].getToken().length(), errMessage);
+            tokens[lastMatchToken+endPositionCorrection].getToken().length(), errMessage,
+            startsWithUppercase);
         ruleMatches.add(ruleMatch);
       } else {
         firstMatchToken = -1;
