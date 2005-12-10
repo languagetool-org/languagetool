@@ -51,6 +51,8 @@ public class AvsAnRuleTest extends TestCase {
     assertEquals(0, matches.length);
     matches = rule.match(langTool.getAnalyzedSentence("An 18-year old boy ..."));
     assertEquals(0, matches.length);
+    matches = rule.match(langTool.getAnalyzedSentence("The A-levels are ..."));
+    assertEquals(0, matches.length);
 
     // errors:
     matches = rule.match(langTool.getAnalyzedSentence("It was a hour ago."));

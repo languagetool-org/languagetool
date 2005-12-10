@@ -77,7 +77,8 @@ public class AvsAnRule extends EnglishRule {
         // check for exceptions:
         boolean isException = false;
         String[] parts = token.split("[-']");  // for example, in "one-way" only "one" is relevant
-        if (parts.length >= 1) {
+        if (parts.length >= 1 &&
+            !parts[0].equalsIgnoreCase("a")) {  // avoid false alarm on "A-levels are..."
           token = parts[0];
         }
         token = token.replaceAll("[^a-zA-Z0-9]", "");         // e.g. >>an "industry party"<<
