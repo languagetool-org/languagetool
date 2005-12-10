@@ -16,32 +16,33 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
  */
-package de.danielnaber.languagetool.tagging;
+package de.danielnaber.languagetool.tagging.en;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import opennlp.tools.lang.english.PosTagger;
+import opennlp.tools.ngram.Dictionary;
 import de.danielnaber.languagetool.AnalyzedToken;
-
-import opennlp.grok.preprocess.postag.EnglishPOSTaggerME;
+import de.danielnaber.languagetool.tagging.Tagger;
 
 /**
- * Encapsulate the Grok POS tagger for English.
+ * Encapsulate the OpenNLP POS tagger for English.
  * 
  * @author Daniel Naber
  */
 public class EnglishTagger implements Tagger {
 
-  private EnglishPOSTaggerME tagger = null;
+  private PosTagger tagger = null;
 
   public EnglishTagger() {
   }
   
   public List tag(List tokens) {
-    // lazy init to save startup time if the english tagger isn't used:
+    // lazy init to save startup time if the English tagger isn't used:
     if (tagger == null)
-      tagger = new EnglishPOSTaggerME();
+      tagger = new PosTagger("resource/en/EnglishPOS.bin.gz", (Dictionary)null);
     List taggerTokens = tagger.tag(tokens);
     List analyzedTokens = new ArrayList();
     int i = 0;
