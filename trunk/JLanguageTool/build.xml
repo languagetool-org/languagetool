@@ -2,7 +2,7 @@
 
 <project name="JLanguageTool" default="dist" basedir=".">
 
-  <property name="version" value="0.7.3dev"/>
+  <property name="version" value="0.8dev"/>
   <property name="date" value="2005-xx-yy"/>
 	
   <property name="javadoctitle" value="JLanguageTool API ${version}"/>
@@ -12,7 +12,6 @@
   <taskdef classpath="${ext.cobertura.lib}" resource="tasks.properties"/>
 
   <path id="common.classpath">
-    <pathelement location="${ext.grok.lib}"/>
     <pathelement location="${ext.opennlp.lib}"/>
     <pathelement location="${ext.trove.lib}"/>
     <pathelement location="${ext.maxent.lib}"/>
@@ -237,13 +236,10 @@
   	<property name="zip.dir" value="${dist.dir}/JLanguageTool-${version}"/>
   	<property name="zip.lib" value="${zip.dir}/libs"/>
   	
-	<copy file="${ext.grok.lib}" todir="${zip.lib}" />
 	<copy file="${ext.opennlp.lib}" todir="${zip.lib}" />
 	<copy file="${ext.trove.lib}" todir="${zip.lib}" />
 	<copy file="${ext.maxent.lib}" todir="${zip.lib}" />
-	<copy file="${ext.junit.lib}" todir="${zip.lib}" />
 	<copy file="${ext.lucene.lib}" todir="${zip.lib}" />
-	<copy file="${ext.dir}/build/junit-license.txt" todir="${zip.lib}" />
 	<copy file="${ext.dir}/README" todir="${zip.lib}" />
 	<copy file="${ext.dir}/LGPL.txt" todir="${zip.lib}" />
 
@@ -255,7 +251,9 @@
   	<replace file="${zip.dir}/README" token="###VERSION###" value="${version}"></replace>
   	<replace file="${zip.dir}/README" token="###DATE###" value="${date}"></replace>
 
-	<copy file="resource/tagset.txt" todir="${zip.dir}/rules" />
+	<copy file="resource/en/tagset.txt" todir="${zip.dir}/resource/en" />
+	<copy file="resource/en/EnglishPOS.bin.gz" todir="${zip.dir}/resource/en" />
+
 	<copy file="rules/rules.dtd" todir="${zip.dir}/rules" />
   	<copy todir="${zip.dir}/rules/en">
 	  	<fileset dir="rules/en/"/>
@@ -284,7 +282,6 @@
   	<property name="zip.dir" value="${dist.dir}/JLanguageTool-${version}-src"/>
   	<property name="zip.lib" value="${zip.dir}/libs"/>
   	
-	<copy file="${ext.grok.lib}" todir="${zip.lib}" />
 	<copy file="${ext.opennlp.lib}" todir="${zip.lib}" />
 	<copy file="${ext.trove.lib}" todir="${zip.lib}" />
 	<copy file="${ext.maxent.lib}" todir="${zip.lib}" />
@@ -306,7 +303,9 @@
 	<copy file="./resource/MANIFEST" todir="${zip.dir}/resource" />
 	<copy file="./resource/MANIFEST.GUI" todir="${zip.dir}/resource" />
 
-	<copy file="resource/tagset.txt" todir="${zip.dir}/rules" />
+	<copy file="resource/en/tagset.txt" todir="${zip.dir}/resource/en" />
+	<copy file="resource/en/EnglishPOS.bin.gz" todir="${zip.dir}/resource/en" />
+
 	<copy file="rules/rules.dtd" todir="${zip.dir}/rules" />
   	<copy todir="${zip.dir}/rules/en">
 	  	<fileset dir="rules/en/"/>
@@ -412,7 +411,6 @@
 	  	<fileset dir="rules" excludes="CVS" />
 	</copy>
 	<copy file="${ext.lucene.lib}" todir="${dist.dir}" />
-	<copy file="${ext.grok.lib}" todir="${dist.dir}" />
 	<copy file="${ext.opennlp.lib}" todir="${dist.dir}" />
 	<copy file="${ext.trove.lib}" todir="${dist.dir}" />
 	<copy file="${ext.maxent.lib}" todir="${dist.dir}" />
