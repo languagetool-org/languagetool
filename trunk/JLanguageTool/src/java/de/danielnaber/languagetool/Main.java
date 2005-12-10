@@ -176,7 +176,7 @@ class Main {
 
   private static void exitWithUsageMessagee() {
     System.out.println("Usage: java de.danielnaber.languagetool.Main " +
-            "[-h|--help] [-r|--recursive] [-v|--verbose] [-l|--language=LANG] [-d|--disable=RULES] <file>");
+            "[-r|--recursive] [-v|--verbose] [-l|--language LANG] [-d|--disable RULES] <file>");
     System.exit(1);
   }
 
