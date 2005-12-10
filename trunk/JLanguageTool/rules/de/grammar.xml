@@ -4,7 +4,7 @@
 Rules: Grammar and Typos
 See tagset.txt for the meaning of the POS tags
 Copyright (C) 2001-2005 Daniel Naber (http://www.danielnaber.de)
-$Id: grammar.xml,v 1.19 2005-12-04 22:27:15 dnaber Exp $
+$Id: grammar.xml,v 1.20 2005-12-10 16:03:47 dnaber Exp $
 -->
 <rules>
 
@@ -20,6 +20,13 @@ $Id: grammar.xml,v 1.19 2005-12-04 22:27:15 dnaber Exp $
 		<message>In der Wendung 'aus Versehen' wird <em>Versehen</em> groß geschrieben.</message>
 		<example type="correct">Die SPD meuchelt aus <em>Versehen</em> ihren Chef.</example>
 		<example type="incorrect">Die SPD meuchelt aus <em>versehen</em> ihren Chef.</example>
+	</rule>
+
+	<rule id="PER_NACHNAME" name="Tippfehler 'per Nachname(Nachnahme)'">
+		<pattern mark_from="1" case_sensitive="yes" lang="de">"per" "Nachname"</pattern>
+		<message>Meinten Sie '<em>Nachnahme</em>'?</message>
+		<example type="correct">Warum liefern Firmen lieber per <em>Nachnahme</em>?</example>
+		<example type="incorrect">Warum liefern Firmen lieber per <em>Nachname</em>?</example>
 	</rule>
 
 	<rule id="FRAGEN_HABEN" name="Tippfehler 'fragen(Fragen) haben/stellen'">
