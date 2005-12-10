@@ -55,6 +55,20 @@ public class StringTools {
     return sb.toString();
   }
 
+  /**
+   * Returns true if <code>str</code> is made up of all-uppercase characters
+   * (ignoring characters for which no upper-/lowercase distinction exists).
+   */
+  public static boolean isAllUppercase(String str) {
+    if (str.toUpperCase().equals(str)) {
+      return true;
+    }
+    return false;
+  }
+  
+  /**
+   * Whether the first character of <code>str</code> is an uppercase character.
+   */
   public static boolean startsWithUppercase(String str) {
     if (str.length() == 0)
       return false;
@@ -64,6 +78,10 @@ public class StringTools {
     return false;
   }
 
+  /**
+   * Return <code>str</code> modified so that its first character is now an 
+   * uppercase character.
+   */
   public static String uppercaseFirstChar(String str) {
     if (str.length() == 0)
       return str;

@@ -53,6 +53,10 @@ public class AvsAnRuleTest extends TestCase {
     assertEquals(0, matches.length);
     matches = rule.match(langTool.getAnalyzedSentence("The A-levels are ..."));
     assertEquals(0, matches.length);
+    matches = rule.match(langTool.getAnalyzedSentence("An NOP check ..."));
+    assertEquals(0, matches.length);
+    matches = rule.match(langTool.getAnalyzedSentence("A USA-wide license ..."));
+    assertEquals(0, matches.length);
 
     // errors:
     matches = rule.match(langTool.getAnalyzedSentence("It was a hour ago."));

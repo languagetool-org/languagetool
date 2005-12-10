@@ -30,6 +30,7 @@ import java.util.Set;
 import de.danielnaber.languagetool.AnalyzedSentence;
 import de.danielnaber.languagetool.AnalyzedToken;
 import de.danielnaber.languagetool.rules.RuleMatch;
+import de.danielnaber.languagetool.tools.StringTools;
 
 /**
  * Check if the determiner (if any) preceding a word is:
@@ -99,7 +100,18 @@ public class AvsAnRule extends EnglishRule {
           doesRequireAn = true;
         }
         if (!isException) {
-          if (isVowel(tokenFirstChar)) {
+          if (StringTools.isAllUppercase(token)) {
+            // assume that all-uppercase words are abbreviations that are pronounced
+            // character by character
+            char fc = Character.toLowerCase(tokenFirstChar);
+            if (fc == 'a' || fc == 'e' || fc == 'f' || fc == 'h'
+                || fc == 'i' || fc == 'l' ||  fc == 'm' || fc == 'n'
+                || fc == 's' || fc == 's' || fc == 'x') {
+              doesRequireAn = true;
+            } else {
+              doesRequireA = true;
+            }
+          } else if (isVowel(tokenFirstChar)) {
             doesRequireAn = true;
           } else {
             doesRequireA = true;
