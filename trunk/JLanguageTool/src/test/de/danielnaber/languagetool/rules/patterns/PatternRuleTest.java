@@ -51,9 +51,12 @@ public class PatternRuleTest extends TestCase {
     JLanguageTool languageTool = new JLanguageTool(Language.ENGLISH);
     List rules = ruleLoader.getRules("rules/en/grammar.xml");
     testGrammarRulesFromXML(rules, languageTool);
-    
-    languageTool = new JLanguageTool(Language.GERMAN);
-    rules = ruleLoader.getRules("rules/de/grammar.xml");
+  }
+  
+  public void testGermanGrammarRulesFromXML() throws IOException, ParserConfigurationException, SAXException {
+    PatternRuleLoader ruleLoader = new PatternRuleLoader();
+    JLanguageTool languageTool = new JLanguageTool(Language.GERMAN);
+    List rules = ruleLoader.getRules("rules/de/grammar.xml");
     testGrammarRulesFromXML(rules, languageTool);
   }
   
