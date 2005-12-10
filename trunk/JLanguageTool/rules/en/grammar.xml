@@ -4,7 +4,7 @@
 Rules: Grammar and Typos
 See tagset.txt for the meaning of the POS tags
 Copyright (C) 2001-2005 Daniel Naber (http://www.danielnaber.de)
-$Id: grammar.xml,v 1.27 2005-12-04 17:41:38 dnaber Exp $
+$Id: grammar.xml,v 1.28 2005-12-10 21:51:58 dnaber Exp $
 -->
 <rules>
 
@@ -16,14 +16,12 @@ $Id: grammar.xml,v 1.27 2005-12-04 17:41:38 dnaber Exp $
 		<example type="incorrect">Because <em>to</em> much snow was on it.</example>
 	</rule>
 
-	<!-- TODO: "the dogs is": dogs is mistagged as NN!
-	<rule id="AGRREMENT_1" name="agreement, fixme">
-		<pattern lang="en">SENT_START DT NNS VBZ</pattern>
-		<message>fixme</message>
+	<rule id="AGREEMENT_1" name="Agreement error: 'The (plural word) is">
+		<pattern lang="en" mark_from="3" mark_to="0">SENT_START DT NNS VBZ</pattern>
+		<message>Agreement error -- did you mean <em>are</em>?</message>
 		<example type="correct">The dogs <em>are</em> released.</example>
 		<example type="incorrect">The dogs <em>is</em> released.</example>
 	</rule>
-	-->
 
 	<rule id="MORE_A_JJ" name="Word order: 'more a ...' instead of 'a more ...'">
 		<pattern lang="en">"more" "a|an" JJ</pattern>
@@ -97,8 +95,8 @@ $Id: grammar.xml,v 1.27 2005-12-04 17:41:38 dnaber Exp $
 		<example type="incorrect">Please <em>not</em> that saying "Open Source" does not mean very much.</example>
 	</rule>
 
-	<rule id="NUT_AV0-AJ0" name="Confusion of nut/not">
-		<pattern lang="en" mark_to="-1">"nut" (RB|JJ)</pattern>
+	<rule id="NUT_NOT" name="Confusion of nut/not">
+		<pattern lang="en" mark_to="-1">"nut" (RB|JJ|NN)</pattern>
 		<message>Did you mean <em>not</em>?</message>
 		<example type="correct">I'm <em>not</em> sure.</example>
 		<example type="incorrect">I'm <em>nut</em> sure.</example>
