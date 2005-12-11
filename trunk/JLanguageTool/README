@@ -10,11 +10,15 @@ Requirements:
   directory
 
 Usage:
- You can use the simple demo GUI:
- java -jar JLanguageToolGUI.jar
+ -To integrate LanguageTool into OpenOffice.org:
+  In OpenOffice.org, call Tools -> Package Manager -> Add... and
+  add the LanguageTool ZIP file
+  
+ -To use the simple demo GUI:
+  java -jar JLanguageToolGUI.jar
 
- You can check plain text files from the command line:
- java -jar JLanguageTool.jar <filename>
+ -To check plain text files from the command line:
+  java -jar JLanguageTool.jar <filename>
 
  To compile the code, call "ant build" and the *.jar files 
  will be created in the "dist" directory (you need the source
@@ -22,9 +26,22 @@ Usage:
  
 License:
  LGPL, see file COPYING
-  
+ 
+Known bugs:
+ -OpenOffice.org integration:
+   -Settings are not stored
+   -LanguageTool gets confused when the text is changed while the LanguageTool 
+    dialog is open
+   -Checking of selected text sometimes throws java.lang.reflect.UndeclaredThrowableException
+    at $Proxy17.gotoRange(Unknown Source)
+   -some errors trigger two rules at the same position, this makes the "Change text"
+    button work incorrect
+   
 TODO:
+ -make only one zip (OOo and stand-alone)
+ -translate rules that apply to English and German rules to German
+ -make gui.Main use the Configuration class to save its settings
  -add information to rule about when it can give false alarm?
- -make German index more compact
+ -make German index more compact + integrate it to standard distribution
  -parse and use false friend rules
  -add more rules, especially agreement stuff
