@@ -44,9 +44,13 @@ public class BNCCheck {
   
   private BNCCheck() throws IOException {
     prg = new Main(false, Language.ENGLISH);
-    prg.getJLanguageTool().disableRule("UPPERCASE_SENTENCE_START");
-    prg.getJLanguageTool().disableRule("COMMA_PARENTHESIS_WHITESPACE");
-    System.err.println("Note: disabling rules UPPERCASE_SENTENCE_START, COMMA_PARENTHESIS_WHITESPACE");
+    String[] disRules = new String[] {"UPPERCASE_SENTENCE_START", "COMMA_PARENTHESIS_WHITESPACE",
+        "WORD_REPEAT_RULE", "DOUBLE_PUNCTUATION"};
+    System.err.println("Note: disabling the following rules:");
+    for (int i = 0; i < disRules.length; i++) {
+      prg.getJLanguageTool().disableRule(disRules[i]);
+      System.err.println(" " + disRules[i]);
+    }
   }
 
   private void run(File file) throws IOException {
