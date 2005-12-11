@@ -242,7 +242,8 @@
 	<copy file="${ext.lucene.lib}" todir="${zip.lib}" />
 	<copy file="${ext.dir}/README" todir="${zip.lib}" />
 	<copy file="${ext.dir}/LGPL.txt" todir="${zip.lib}" />
-
+  	<copy file="${ext.dir}/Apache-License.txt" todir="${zip.lib}" />
+  	
 	<copy file="${dist.dir}/${final.name}.jar" todir="${zip.dir}" />
 	<copy file="${dist.dir}/${final.name.gui}.jar" todir="${zip.dir}" />
 	<copy file="./README" todir="${zip.dir}" />
@@ -251,8 +252,8 @@
   	<replace file="${zip.dir}/README" token="###VERSION###" value="${version}"></replace>
   	<replace file="${zip.dir}/README" token="###DATE###" value="${date}"></replace>
 
-	<copy file="resource/en/tagset.txt" todir="${zip.dir}/resource/en" />
-	<copy file="resource/en/EnglishPOS.bin.gz" todir="${zip.dir}/resource/en" />
+	<copy file="${resource.dir}/en/tagset.txt" todir="${zip.dir}/resource/en" />
+	<copy file="${resource.dir}/en/EnglishPOS.bin.gz" todir="${zip.dir}/resource/en" />
 
 	<copy file="rules/rules.dtd" todir="${zip.dir}/rules" />
   	<copy todir="${zip.dir}/rules/en">
@@ -287,7 +288,8 @@
 	<copy file="${ext.dir}/build/junit-license.txt" todir="${zip.lib}/build" />
 	<copy file="${ext.dir}/README" todir="${zip.lib}" />
 	<copy file="${ext.dir}/LGPL.txt" todir="${zip.lib}" />
-
+  	<copy file="${ext.dir}/Apache-License.txt" todir="${zip.lib}" />
+  	
 	<copy file="./README" todir="${zip.dir}" />
 	<copy file="./CHANGES" todir="${zip.dir}" />
   	<replace file="${zip.dir}/README" token="###VERSION###" value="${version}"></replace>
@@ -300,8 +302,8 @@
 	<copy file="./resource/MANIFEST" todir="${zip.dir}/resource" />
 	<copy file="./resource/MANIFEST.GUI" todir="${zip.dir}/resource" />
 
-	<copy file="resource/en/tagset.txt" todir="${zip.dir}/resource/en" />
-	<copy file="resource/en/EnglishPOS.bin.gz" todir="${zip.dir}/resource/en" />
+	<copy file="${resource.dir}/en/tagset.txt" todir="${zip.dir}/resource/en" />
+	<copy file="${resource.dir}/en/EnglishPOS.bin.gz" todir="${zip.dir}/resource/en" />
 
 	<copy file="rules/rules.dtd" todir="${zip.dir}/rules" />
   	<copy todir="${zip.dir}/rules/en">
@@ -407,13 +409,19 @@
   	<copy todir="${dist.dir}/rules">
 	  	<fileset dir="rules" excludes="CVS" />
 	</copy>
+
   	<copy file="${ext.dir}/LGPL.txt" todir="${dist.dir}" />
   	<copy file="${ext.dir}/Apache-License.txt" todir="${dist.dir}" />
   	<copy file="${ext.dir}/README" tofile="${dist.dir}/README-license.txt" />
+  	
   	<copy file="${ext.lucene.lib}" todir="${dist.dir}" />
 	<copy file="${ext.opennlp.lib}" todir="${dist.dir}" />
 	<copy file="${ext.trove.lib}" todir="${dist.dir}" />
 	<copy file="${ext.maxent.lib}" todir="${dist.dir}" />
+  	
+	<copy file="${resource.dir}/en/tagset.txt" todir="${dist.dir}/resource/en" />
+	<copy file="${resource.dir}/en/EnglishPOS.bin.gz" todir="${dist.dir}/resource/en" />
+
   	<zip compress="${compress}" destfile="${dist.dir}/JLanguageTool.uno.zip"
   		basedir="${dist.dir}"
   		includes="**" excludes="deploy.sh,undeploy.sh,turn.sh" />
