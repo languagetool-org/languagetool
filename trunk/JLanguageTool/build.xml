@@ -407,13 +407,16 @@
   	<copy todir="${dist.dir}/rules">
 	  	<fileset dir="rules" excludes="CVS" />
 	</copy>
-	<copy file="${ext.lucene.lib}" todir="${dist.dir}" />
+  	<copy file="${ext.dir}/LGPL.txt" todir="${dist.dir}" />
+  	<copy file="${ext.dir}/Apache-License.txt" todir="${dist.dir}" />
+  	<copy file="${ext.dir}/README" tofile="${dist.dir}/README-license.txt" />
+  	<copy file="${ext.lucene.lib}" todir="${dist.dir}" />
 	<copy file="${ext.opennlp.lib}" todir="${dist.dir}" />
 	<copy file="${ext.trove.lib}" todir="${dist.dir}" />
 	<copy file="${ext.maxent.lib}" todir="${dist.dir}" />
   	<zip compress="${compress}" destfile="${dist.dir}/JLanguageTool.uno.zip"
   		basedir="${dist.dir}"
-  		includes="**" excludes="deploy.sh,undeploy.sh" />
+  		includes="**" excludes="deploy.sh,undeploy.sh,turn.sh" />
   </target>
 
 
