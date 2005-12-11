@@ -22,6 +22,8 @@ import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.apache.lucene.analysis.WhitespaceAnalyzer;
 import org.apache.lucene.document.Document;
@@ -47,8 +49,26 @@ public class Morphy2Lucene {
   // if no category is known for a word's reading, use this one: 
   private static final String DEFAULT_CATEGORY = "0";
   private static final String INDEX_DIR = "rules/de/categories";
-  private static final String IS_BASEFORM = "is_baseform";
+  //private static final String IS_BASEFORM = "is_baseform";
+
+  private final static Map manualMapping = new HashMap();
+  static {
+    manualMapping.put("PRP", new Character('R'));       // wkl: ??? (z.B. bei "*laut")
+    manualMapping.put("PRO", new Character('O'));       // wkl: Pronomen 
+    manualMapping.put("ADJ", new Character('J'));       // wkl: Adjektiv
+    manualMapping.put("ZAL", new Character('1'));       // wkl: Zahl
+    manualMapping.put("ART", new Character('T'));       // wkl: Artikel
+    manualMapping.put("NEG", new Character('X'));       // wkl: Negation (z.b. "garnicht")
+    manualMapping.put("ABK", new Character('K'));       // wkl: Abkürzung
+    manualMapping.put("PAR", new Character('2'));       // wortwkl: ??? (z.B. bei "dienstags")
+    manualMapping.put("NOG", new Character('O'));       // gen: z.B. bei "MitarbeiterInnen", "Möbel"
+  }
   
+  private Map avoidAmbiguitiesCat = new HashMap();
+  private Map avoidAmbiguitiesKasus = new HashMap();
+  private Map avoidAmbiguitiesNumerus = new HashMap();
+  private Map avoidAmbiguitiesGenus = new HashMap();
+
   private Morphy2Lucene() {
     // use main() method
   }
@@ -98,6 +118,7 @@ public class Morphy2Lucene {
         if (doc != null) {
           iw.addDocument(doc);
           addCount++;
+          // test only: if (addCount > 10000) break;
           if (addCount % 1000 == 0) {
             System.out.println(addCount + "...");
           }
@@ -107,29 +128,31 @@ public class Morphy2Lucene {
         doc.add(new Field(GermanTagger.FULLFORM_FIELD, fullform, Field.Store.NO, Field.Index.UN_TOKENIZED));
       } else {
         if (line.startsWith("<lemma")) {
-          String baseform = line.substring(line.indexOf(">")+1, line.indexOf("<", 1));
+          //String baseform = line.substring(line.indexOf(">")+1, line.indexOf("<", 1));
           String postype = DEFAULT_CATEGORY;
           String kasus = DEFAULT_CATEGORY;
           String numerus = DEFAULT_CATEGORY;
           String genus = DEFAULT_CATEGORY; 
           if (line.indexOf("wkl=") != -1)
             postype = line.replaceAll(".*wkl=([A-Z]+).*", "$1");
+          //if (line.indexOf("wortwkl") != -1)
+          //  System.err.println(postype + " : " + line);
           if (line.indexOf("kas=") != -1)
             kasus = line.replaceAll(".*kas=([A-Z]+).*", "$1");
           if (line.indexOf("num=") != -1)
             numerus = line.replaceAll(".*num=([A-Z]+).*", "$1");
           if (line.indexOf("gen=") != -1)
             genus = line.replaceAll(".*gen=([A-Z]+).*", "$1");
-          String cat = postype + " " + kasus + " " + numerus + " " + genus;
-          if (cat.length() < 8)
-            throw new IllegalStateException("category too short: " + cat);
-          if (cat.length() > 15)
-            throw new IllegalStateException("category too long: " + cat);
+          String cat = "" + map(postype, avoidAmbiguitiesCat) +  map(kasus, avoidAmbiguitiesKasus) 
+            + map(numerus, avoidAmbiguitiesNumerus) + map(genus, avoidAmbiguitiesGenus);
+          //String cat = postype + " " + kasus + " " + numerus + " " + genus;
+          if (cat.length() != 4)
+            throw new IllegalStateException("category.length != 4: " + cat);
           doc.add(new Field(GermanTagger.CATEGORIES_FIELD, cat, Field.Store.YES, Field.Index.NO));
-          if (fullform.equals(baseform)) {
+          /*if (fullform.equals(baseform)) {
             doc.removeField(IS_BASEFORM);   // avoid duplication
             doc.add(new Field(IS_BASEFORM, "1", Field.Store.YES, Field.Index.NO));
-          }
+          }*/
         } else {
           System.err.println("unknown format: " + line);
         }
@@ -142,6 +165,24 @@ public class Morphy2Lucene {
     isr.close();
     br.close();
     System.out.println("Added " + addCount + " terms from " + inputFile);
+  }
+
+  private char map(String str, Map avoidAmbiguities) {
+    char shortForm;
+    if (manualMapping.containsKey(str))
+      shortForm = ((Character)manualMapping.get(str)).charValue();
+    else
+      shortForm = str.charAt(0);
+    Character shortFormObj = new Character(shortForm);
+    if (avoidAmbiguities.containsKey(shortFormObj)) {
+      String oldValue = (String)avoidAmbiguities.get(shortFormObj);
+      if (!oldValue.equals(str))
+        System.err.println("Mapping ambiguous: " + shortForm + " <- " + str + "/" + oldValue);
+        //throw new IllegalStateException("Mapping ambiguous: " + shortForm + " <- " + str + "/" + oldValue);
+    } else {
+      avoidAmbiguities.put(new Character(shortForm), str);
+    }
+    return shortForm;
   }
   
 }

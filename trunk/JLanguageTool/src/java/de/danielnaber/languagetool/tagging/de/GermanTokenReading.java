@@ -18,9 +18,8 @@
  */
 package de.danielnaber.languagetool.tagging.de;
 
-import de.danielnaber.languagetool.JLanguageTool;
-import de.danielnaber.languagetool.tagging.de.GermanToken.Kasus;
 import de.danielnaber.languagetool.tagging.de.GermanToken.Genus;
+import de.danielnaber.languagetool.tagging.de.GermanToken.Kasus;
 import de.danielnaber.languagetool.tagging.de.GermanToken.Numerus;
 import de.danielnaber.languagetool.tagging.de.GermanToken.POSType;
 
@@ -46,67 +45,66 @@ public class GermanTokenReading {
   }
   
   /**
-   * @param morphyString For example: <code>ADJ NOM SIN MAS</code>
+   * @param morphyString For example: <code>JNSM</code> (short for "ADJ NOM SIN MAS")
    */
   public static GermanTokenReading createTokenReadingFromMorphyString(String morphyString, String token) {
-    String[] parts = morphyString.split(" ");
+    if (morphyString.length() != 4) {
+      throw new RuntimeException("Unknown format: " + morphyString + " for " + token);
+    }
+    char[] parts = new char[4];
+    parts[0] = morphyString.charAt(0);
+    parts[1] = morphyString.charAt(1);
+    parts[2] = morphyString.charAt(2);
+    parts[3] = morphyString.charAt(3);
     POSType type = null;
     Kasus casus = null;
     Numerus numerus = null;
     Genus genus = null;
-    if (parts.length == 1 && parts[0].equals(JLanguageTool.SENTENCE_START_TAGNAME)) {
+    //FIXME?!
+    /*if (parts.length == 1 && parts[0].equals(JLanguageTool.SENTENCE_START_TAGNAME)) {
       return new GermanTokenReading(POSType.OTHER, null, null, null);
-    }
-    if (parts.length != 4) {
-      // FIXME: throw exception?!
-      System.err.println("WARNING: unknown format: " + morphyString + " for " + token);
-      return new GermanTokenReading(POSType.OTHER, null, null, null);
-    }
-    String thisType = parts[0];
-    // FIXME:can this really be ignored?!?!
-    if (thisType.equals("PRO")) {
+    }*/
+    // FIXME: can this really be ignored?!?!
+    if (parts[0] == 'O') {     // PRO
       return new GermanTokenReading(POSType.OTHER, null, null, null);
     }
     // Type:
-    if (thisType.equals("VER"))
+    if (parts[0] == 'V')     // VER
       type = POSType.VERB;
-    else if (thisType.equals("SUB") || thisType.equals("EIG"))
+    else if (parts[0] == 'S' || parts[0] == 'E')      // SUB,  EIG
       type = POSType.NOMEN;
-    else if (thisType.equals("ADJ"))
+    else if (parts[0] == 'J')          // ADJ
       type = POSType.ADJEKTIV;
-    else if (thisType.equals("ART") || thisType.equals("PRO"))
+    else if (parts[0] == 'T')        // ART
       type = POSType.DETERMINER;
     else
       type = POSType.OTHER;
     // Kasus:
-    thisType = parts[1];
-    if (thisType.equals("NOM"))
+    if (parts[1] == 'N')         // NOM
       casus = Kasus.NOMINATIV;
-    else if (thisType.equals("AKK"))
+    else if (parts[1] == 'A')    // AKK
       casus = Kasus.AKKUSATIV;
-    else if (thisType.equals("DAT"))
+    else if (parts[1] == 'D')    // DAT
       casus = Kasus.DATIV;
-    else if (thisType.equals("GEN"))
+    else if (parts[1] == 'G')    // GEN
       casus = Kasus.GENITIV;
     else
       casus = Kasus.OTHER;
     // Numerus:
-    thisType = parts[2];
-    if (thisType.equals("SIN"))
+    if (parts[2] == 'S')     // SIN
       numerus = Numerus.SINGULAR;
-    else if (thisType.equals("PLU"))
+    else if (parts[2] == 'P')    // PLU
       numerus = Numerus.PLURAL;
     else
       numerus = Numerus.OTHER;
     // Genus:
-    thisType = parts[3];
-    if (thisType.equals("MAS"))
+    if (parts[3] == 'M')     // MAS
       genus = Genus.MASKULINUM;
-    else if (thisType.equals("FEM"))
+    else if (parts[3] == 'F')    // FEM
       genus = Genus.FEMININUM;
-    else if (thisType.equals("NEU"))
+    else if (parts[3] == 'N')    // NEU
       genus = Genus.NEUTRUM;
-    else if (thisType.equals("NOG"))  //FIXME?
+    else if (parts[3] == 'O')  // NOG, FIXME?
       genus = Genus.OTHER;
     return new GermanTokenReading(type, casus, numerus, genus);
   }

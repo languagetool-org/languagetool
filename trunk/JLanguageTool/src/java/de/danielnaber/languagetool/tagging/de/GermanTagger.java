@@ -67,20 +67,21 @@ public class GermanTagger implements Tagger {
       return null;
     } else {
       List l = new ArrayList();
-      for( int j = 0; j < hits.length(); j++) {
+      for (int j = 0; j < hits.length(); j++) {
         Document doc = hits.doc(j);
         Field[] fields = doc.getFields(CATEGORIES_FIELD);
         if (fields != null) {
           for (int i = 0; i < fields.length; i++) {
             String val = fields[i].stringValue();
             if (!val.equals("")) {
-              if (val.indexOf(" NOG") != -1) {
-                // TODO: what exactly does "NOG" mean?!
-                String val1 = val.replaceFirst(" NOG", " MAS");
-                String val2 = val.replaceFirst(" NOG", " FEM");
+              if (val.endsWith("O")) {        // originally from "NOG"
+                // TODO: what exactly does "NOG" mean?! for now, assume
+                // both MAS and FEM:
+                String val1 = val.replaceFirst("O$", "M");
                 GermanTokenReading tokenReading1 =
                   GermanTokenReading.createTokenReadingFromMorphyString(val1, word);
                 l.add(tokenReading1);
+                String val2 = val.replaceFirst("O$", "F");
                 GermanTokenReading tokenReading2 =
                   GermanTokenReading.createTokenReadingFromMorphyString(val2, word);
                 l.add(tokenReading2);
