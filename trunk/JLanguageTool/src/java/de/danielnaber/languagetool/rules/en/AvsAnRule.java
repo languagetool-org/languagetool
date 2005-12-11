@@ -101,16 +101,10 @@ public class AvsAnRule extends EnglishRule {
         }
         if (!isException) {
           if (StringTools.isAllUppercase(token)) {
-            // assume that all-uppercase words are abbreviations that are pronounced
-            // character by character
-            char fc = Character.toLowerCase(tokenFirstChar);
-            if (fc == 'a' || fc == 'e' || fc == 'f' || fc == 'h'
-                || fc == 'i' || fc == 'l' ||  fc == 'm' || fc == 'n'
-                || fc == 's' || fc == 's' || fc == 'x') {
-              doesRequireAn = true;
-            } else {
-              doesRequireA = true;
-            }
+            // we don't know how all-uppercase words (often abbreviations) are pronounced, 
+            // so never complain about these:
+            doesRequireAn = false;
+            doesRequireA = false;
           } else if (isVowel(tokenFirstChar)) {
             doesRequireAn = true;
           } else {
