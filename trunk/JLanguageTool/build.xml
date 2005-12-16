@@ -117,7 +117,9 @@
 
   <!-- ================================================================== -->
 
-  <target name="test-coverage" depends="dist" description="Runs unit tests">
+  <target name="test-coverage" depends="clean,init,dist-standalone" description="Runs unit tests">
+  	
+  	<echo>### NOTE: log4j needs to be added to CLASSPATH manually!</echo>
 
 	<mkdir dir="${junit.classes.dir}"/>
 	<mkdir dir="${dist.dir}/report/tests"/>
@@ -149,6 +151,7 @@
 		<pathelement location="${ext.getopt.lib}"/>
 		<pathelement location="${ext.ccl.lib}"/>
 		<pathelement location="${ext.javancss.lib}"/>
+		<pathelement location="${ext.log4j.lib}"/>
 		<pathelement location="${junit.instrumented-classes.dir}"/>
 		<pathelement location="${junit.classes.dir}"/>
 	</path>
@@ -192,7 +195,7 @@
   <!-- ================================================================== -->
   <!-- C O M P I L E                                        																		  -->
   <!-- ================================================================== -->
-  <target name="compile" depends="clean,init">
+  <target name="compile">
   	
   	<javac encoding="${encoding}"
       srcdir="${src.java.dir}"
@@ -229,9 +232,9 @@
   </target>
  
   <!-- ================================================================== -->
-  <!-- DIST -->
+  <!-- DIST-STANDALONE: FIXME: should probably be removed -->
   <!-- ================================================================== -->
-  <target name="dist" depends="build,javadoc">
+  <target name="dist-standalone" depends="build,javadoc">
 
   	<property name="zip.dir" value="${dist.dir}/JLanguageTool-${version}"/>
   	<property name="zip.lib" value="${zip.dir}/libs"/>
@@ -254,6 +257,9 @@
 
 	<copy file="${resource.dir}/en/tagset.txt" todir="${zip.dir}/resource/en" />
 	<copy file="${resource.dir}/en/EnglishPOS.bin.gz" todir="${zip.dir}/resource/en" />
+  	<copy todir="${zip.dir}/resource/de">
+	  	<fileset dir="resource/de/"/>
+	</copy>
 
 	<copy file="rules/rules.dtd" todir="${zip.dir}/rules" />
   	<copy todir="${zip.dir}/rules/en">
@@ -304,7 +310,10 @@
 
 	<copy file="${resource.dir}/en/tagset.txt" todir="${zip.dir}/resource/en" />
 	<copy file="${resource.dir}/en/EnglishPOS.bin.gz" todir="${zip.dir}/resource/en" />
-
+  	<copy todir="${zip.dir}/resource/de">
+	  	<fileset dir="resource/de/"/>
+	</copy>
+  	
 	<copy file="rules/rules.dtd" todir="${zip.dir}/rules" />
   	<copy todir="${zip.dir}/rules/en">
 	  	<fileset dir="rules/en/"/>
@@ -364,7 +373,7 @@
   <!-- ================================================================== -->
   <!-- OpenOffice.org compile -->
   <!-- ================================================================== -->
-  <target name="ooo-compile" depends="clean,init">
+  <target name="ooo-compile">
   	<javac encoding="${encoding}"
       srcdir="${src.java.dir}"
 	  includes="**/*.java"
@@ -388,21 +397,21 @@
   </target>
 
   <!-- ================================================================== -->
-  <!-- OpenOffice.org -->
+  <!-- JLanguageTool including OpenOffice.org integration -->
   <!-- ================================================================== -->
-  <target name="fastooo" depends="ooo-build" description="No ZIP compression, for development only">
+  <target name="fast" description="No ZIP compression, for development only">
   	<antcall target="ooo-internal">
   		<param name="compress" value="no" />
   	</antcall>
   </target>
 
-  <target name="ooo" depends="ooo-build">
+  <target name="dist">
   	<antcall target="ooo-internal">
   		<param name="compress" value="yes" />
   	</antcall>
   </target>
 
-  <target name="ooo-internal" depends="ooo-build">
+  <target name="ooo-internal" depends="clean,init,build,ooo-build">
   	<copy todir="${dist.dir}/">
 	  	<fileset dir="openoffice/" excludes="JLanguageTool.uno.manifest" />
 	</copy>
@@ -410,6 +419,11 @@
 	  	<fileset dir="rules" excludes="CVS" />
 	</copy>
 
+	<copy file="./README" todir="${dist.dir}" />
+	<copy file="./CHANGES" todir="${dist.dir}" />
+	<copy file="./COPYING" todir="${dist.dir}" />
+  	<replace file="${dist.dir}/README" token="###VERSION###" value="${version}"></replace>
+  	<replace file="${dist.dir}/README" token="###DATE###" value="${date}"></replace>
   	<copy file="${ext.dir}/LGPL.txt" todir="${dist.dir}" />
   	<copy file="${ext.dir}/Apache-License.txt" todir="${dist.dir}" />
   	<copy file="${ext.dir}/README" tofile="${dist.dir}/README-license.txt" />
@@ -421,11 +435,13 @@
   	
 	<copy file="${resource.dir}/en/tagset.txt" todir="${dist.dir}/resource/en" />
 	<copy file="${resource.dir}/en/EnglishPOS.bin.gz" todir="${dist.dir}/resource/en" />
+  	<copy todir="${dist.dir}/resource/de">
+	  	<fileset dir="resource/de/"/>
+	</copy>
 
-  	<zip compress="${compress}" destfile="${dist.dir}/JLanguageTool.uno.zip"
+  	<zip compress="${compress}" destfile="${dist.dir}/JLanguageTool.zip"
   		basedir="${dist.dir}"
   		includes="**" excludes="deploy.sh,undeploy.sh,turn.sh" />
   </target>
-
 
 </project>
