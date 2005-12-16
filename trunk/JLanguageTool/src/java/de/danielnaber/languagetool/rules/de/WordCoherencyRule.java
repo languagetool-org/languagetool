@@ -30,6 +30,7 @@ import java.util.Map;
 
 import de.danielnaber.languagetool.AnalyzedSentence;
 import de.danielnaber.languagetool.AnalyzedToken;
+import de.danielnaber.languagetool.JLanguageTool;
 import de.danielnaber.languagetool.rules.RuleMatch;
 
 /**
@@ -54,7 +55,7 @@ public class WordCoherencyRule extends GermanRule {
   static private GermanLemmatizer lemmatizer = null;
 
   public WordCoherencyRule() throws IOException {
-    relevantWords = loadWords(FILE_NAME); 
+    relevantWords = loadWords(JLanguageTool.getAbsoluteFile(FILE_NAME)); 
     lemmatizer = new GermanLemmatizer();
   }
   
@@ -100,13 +101,13 @@ public class WordCoherencyRule extends GermanRule {
     return toRuleMatchArray(ruleMatches);
   }
 
-  private Map loadWords(String filename) throws IOException {
+  private Map loadWords(File file) throws IOException {
     Map map = new HashMap();
     FileInputStream fis = null;
     InputStreamReader isr = null;
     BufferedReader br = null;
     try {
-      fis = new FileInputStream(filename);
+      fis = new FileInputStream(file);
       isr = new InputStreamReader(fis, FILE_ENCODING);
       br = new BufferedReader(isr);
       String line;
@@ -116,7 +117,7 @@ public class WordCoherencyRule extends GermanRule {
           continue;
         String[] parts = line.split(";");
         if (parts.length != 2) {
-          throw new IOException("Format error in file " +filename+ ", line: " + line);
+          throw new IOException("Format error in file " +file.getAbsolutePath()+ ", line: " + line);
         }
         map.put(parts[0], parts[1]);
         map.put(parts[1], parts[0]);

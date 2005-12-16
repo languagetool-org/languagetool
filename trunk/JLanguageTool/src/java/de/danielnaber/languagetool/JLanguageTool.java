@@ -69,7 +69,8 @@ public class JLanguageTool {
   private List userRules = new ArrayList();     // rules added via addRule() method
   private Set disabledRules = new HashSet();
   
-  private Language language;
+  private static File basedir = null;
+  private Language language = null;
   private Tagger tagger = null;
   private PrintStream printStream = null;
 
@@ -84,13 +85,23 @@ public class JLanguageTool {
    * @throws IOException 
    */
   public JLanguageTool(Language language) throws IOException {
+    this(language, null);
+  }
+  
+  /**
+   * Create a JLanguageTool and setup the builtin rules appropriate for the
+   * given language.
+   * @throws IOException 
+   */
+  public JLanguageTool(Language language, File basedirArg) throws IOException {
     if (language == null) {
       throw new NullPointerException("language cannot be null");
     }
+    basedir = basedirArg;
     this.language = language;
     // TODO: use reflection to get a list of all non-pattern rules:
     Rule[] allBuiltinRules = new Rule[] { 
-        // Several languages;
+        // Several languages:
         new CommaWhitespaceRule(), 
         new WordRepeatRule(language),
         new WordCoherencyRule(),
@@ -119,6 +130,12 @@ public class JLanguageTool {
     this.printStream = printStream;
   }
 
+  public static File getAbsoluteFile(String relFilename) {
+    if (basedir == null)
+      return new File(relFilename);
+    return new File(basedir, relFilename);
+  }
+
   /**
    * Load pattern rules from an XML file. Use {@link #addRule} to add
    * these rules to the checking process.
@@ -141,9 +158,9 @@ public class JLanguageTool {
    * @throws IOException
    */
   public void activateDefaultPatternRules() throws ParserConfigurationException, SAXException, IOException {
-    File defaultPatternFile = 
-      new File(RULES_DIR +File.separator+ language.getShortName() +File.separator+ PATTERN_FILE);
-    List patternRules = loadPatternRules(defaultPatternFile.getAbsolutePath());
+    String defaultPatternFilename = 
+      RULES_DIR +File.separator+ language.getShortName() +File.separator+ PATTERN_FILE;
+    List patternRules = loadPatternRules(defaultPatternFilename);
     for (Iterator iter = patternRules.iterator(); iter.hasNext();) {
       Rule rule = (Rule) iter.next();
       addRule(rule);

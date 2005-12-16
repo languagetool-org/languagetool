@@ -26,6 +26,8 @@ import java.io.InputStreamReader;
 import java.util.HashMap;
 import java.util.Map;
 
+import de.danielnaber.languagetool.JLanguageTool;
+
 /**
  * Trivial German lemmatizer that can simply find the baseforms of
  * those fullforms listed in <code>rules/de/fullform2baseform.txt</code>.
@@ -41,20 +43,20 @@ class GermanLemmatizer {
   private Map fullform2baseform;
   
   GermanLemmatizer() throws IOException {
-    fullform2baseform = loadWords(FILE_NAME);
+    fullform2baseform = loadWords(JLanguageTool.getAbsoluteFile(FILE_NAME));
   }
   
   String getBaseform(String fullform) {
     return (String)fullform2baseform.get(fullform);
   }
   
-  private Map loadWords(String filename) throws IOException {
+  private Map loadWords(File file) throws IOException {
     Map map = new HashMap();
     FileInputStream fis = null;
     InputStreamReader isr = null;
     BufferedReader br = null;
     try {
-      fis = new FileInputStream(filename);
+      fis = new FileInputStream(file);
       isr = new InputStreamReader(fis, FILE_ENCODING);
       br = new BufferedReader(isr);
       String line;
@@ -66,7 +68,7 @@ class GermanLemmatizer {
           continue;
         String[] parts = line.split(":");
         if (parts.length != 2) {
-          throw new IOException("Format error in file " +filename+ ", line: " + line);
+          throw new IOException("Format error in file " +file.getAbsolutePath()+ ", line: " + line);
         }
         String baseform = parts[0];
         String[] fullforms = parts[1].split(",");

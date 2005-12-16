@@ -18,6 +18,7 @@
  */
 package de.danielnaber.languagetool.tagging.de;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -31,6 +32,7 @@ import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.search.TermQuery;
 
+import de.danielnaber.languagetool.JLanguageTool;
 import de.danielnaber.languagetool.tagging.Tagger;
 
 /**
@@ -43,7 +45,7 @@ public class GermanTagger implements Tagger {
   public static final String FULLFORM_FIELD = "fullform";
   public static final String CATEGORIES_FIELD = "categories";
   
-  private static final String INDEX_DIR = "rules/de/categories";
+  private static final String INDEX_DIR = "resource" +File.separator+ "de" +File.separator+ "categories";
   private IndexSearcher searcher = null;
 
   public GermanTagger() {
@@ -54,8 +56,7 @@ public class GermanTagger implements Tagger {
   }
   
   private AnalyzedGermanToken lookup(String word, int startPos, boolean makeLowercase) throws IOException {
-    if (searcher == null)
-      searcher = new IndexSearcher(INDEX_DIR);
+    initSearcher();
     Term term = null;
     if (makeLowercase)
       term = new Term(FULLFORM_FIELD, word.toLowerCase());
@@ -100,8 +101,7 @@ public class GermanTagger implements Tagger {
   }
   
   public List tag(List tokens) throws IOException {
-    if (searcher == null)
-      searcher = new IndexSearcher(INDEX_DIR);
+    initSearcher();
 
     List posTags = new ArrayList();
     int pos = 0;
@@ -121,7 +121,13 @@ public class GermanTagger implements Tagger {
     }
     return posTags;
   }
-  
+
+  private void initSearcher() throws IOException {
+    if (searcher == null) {
+      searcher = new IndexSearcher(JLanguageTool.getAbsoluteFile(INDEX_DIR).getAbsolutePath());
+    }
+  }
+
   /** For testing only. */
   public static void main(String[] args) throws IOException {
     if (args.length == 0) {

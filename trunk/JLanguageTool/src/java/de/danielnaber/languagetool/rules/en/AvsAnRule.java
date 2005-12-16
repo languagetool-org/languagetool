@@ -29,6 +29,7 @@ import java.util.Set;
 
 import de.danielnaber.languagetool.AnalyzedSentence;
 import de.danielnaber.languagetool.AnalyzedToken;
+import de.danielnaber.languagetool.JLanguageTool;
 import de.danielnaber.languagetool.rules.RuleMatch;
 import de.danielnaber.languagetool.tools.StringTools;
 
@@ -44,13 +45,15 @@ import de.danielnaber.languagetool.tools.StringTools;
  */
 public class AvsAnRule extends EnglishRule {
 
+  private static final String FILENAME_A = "rules" +File.separator+ "en" +File.separator+ "det_a.txt";
+  private static final String FILENAME_AN = "rules" +File.separator+ "en" +File.separator+ "det_an.txt";
+
   private Set requiresA;
   private Set requiresAn;
   
   public AvsAnRule() throws IOException {
-    String path = "rules" + File.separator + "en" + File.separator;
-    requiresA = loadWords(path + "det_a.txt");
-    requiresAn = loadWords(path + "det_an.txt");
+    requiresA = loadWords(JLanguageTool.getAbsoluteFile(FILENAME_A));
+    requiresAn = loadWords(JLanguageTool.getAbsoluteFile(FILENAME_AN));
   }
   
   public String getId() {
@@ -148,12 +151,12 @@ public class AvsAnRule extends EnglishRule {
   /**
    * Load words, normalized to lowercase.
    */
-  private Set loadWords(String filename) throws IOException {
+  private Set loadWords(File file) throws IOException {
     FileReader fr = null;
     BufferedReader br = null;
     Set set = new HashSet();
     try {
-      fr = new FileReader(filename);
+      fr = new FileReader(file);
       br = new BufferedReader(fr);
       String line;
       while ((line = br.readLine()) != null) {

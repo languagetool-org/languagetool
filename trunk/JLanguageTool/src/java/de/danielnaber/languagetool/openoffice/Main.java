@@ -19,6 +19,7 @@
 package de.danielnaber.languagetool.openoffice;
 
 import java.awt.BorderLayout;
+import java.io.File;
 import java.io.IOException;
 import java.util.Iterator;
 import java.util.List;
@@ -244,7 +245,8 @@ class CheckerThread extends Thread {
 
   public void run() {
     try {
-      langTool = new JLanguageTool(docLanguage);
+      File baseDir = getBaseDir();
+      langTool = new JLanguageTool(docLanguage, baseDir);
       langTool.activateDefaultPatternRules();
       for (Iterator iter = config.getDisabledRuleIds().iterator(); iter.hasNext();) {
         String id = (String) iter.next();
@@ -262,6 +264,16 @@ class CheckerThread extends Thread {
       e.printStackTrace();
       throw new RuntimeException(e);
     }
+  }
+
+  private File getBaseDir() throws IOException {
+    java.net.URL url = Main.class.getResource("/de/danielnaber/languagetool/openoffice/Main.class");
+    String urlString = url.getFile();
+    File file = new File(urlString.substring("file:".length(), urlString.indexOf("!")));
+    if (!file.exists()) {
+      throw new IOException("File not found: " + file.getAbsolutePath());
+    }
+    return file.getParentFile();
   }
   
 }

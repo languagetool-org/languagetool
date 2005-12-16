@@ -18,7 +18,6 @@
  */
 package de.danielnaber.languagetool.rules.patterns;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -32,6 +31,7 @@ import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
 import org.xml.sax.helpers.DefaultHandler;
 
+import de.danielnaber.languagetool.JLanguageTool;
 import de.danielnaber.languagetool.Language;
 
 /**
@@ -51,7 +51,7 @@ public class PatternRuleLoader extends DefaultHandler {
     SAXParserFactory factory = SAXParserFactory.newInstance();
     factory.setValidating(true);
     SAXParser saxParser = factory.newSAXParser();
-    saxParser.parse(new File(filename), handler);
+    saxParser.parse(JLanguageTool.getAbsoluteFile(filename), handler);
     rules = handler.getRules();
     return rules;
   }

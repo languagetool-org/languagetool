@@ -18,6 +18,7 @@
  */
 package de.danielnaber.languagetool.tagging.en;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -25,6 +26,7 @@ import java.util.List;
 import opennlp.tools.lang.english.PosTagger;
 import opennlp.tools.ngram.Dictionary;
 import de.danielnaber.languagetool.AnalyzedToken;
+import de.danielnaber.languagetool.JLanguageTool;
 import de.danielnaber.languagetool.tagging.Tagger;
 
 /**
@@ -34,6 +36,9 @@ import de.danielnaber.languagetool.tagging.Tagger;
  */
 public class EnglishTagger implements Tagger {
 
+  private static final String RESOURCE_FILENAME = "resource" +File.separator+ "en" +File.separator+
+    "EnglishPOS.bin.gz";
+  
   private PosTagger tagger = null;
 
   public EnglishTagger() {
@@ -41,8 +46,10 @@ public class EnglishTagger implements Tagger {
   
   public List tag(List tokens) {
     // lazy init to save startup time if the English tagger isn't used:
-    if (tagger == null)
-      tagger = new PosTagger("resource/en/EnglishPOS.bin.gz", (Dictionary)null);
+    if (tagger == null) {
+      File resourceFile = JLanguageTool.getAbsoluteFile(RESOURCE_FILENAME);
+      tagger = new PosTagger(resourceFile.getAbsolutePath(), (Dictionary)null);
+    }
     List taggerTokens = tagger.tag(tokens);
     List analyzedTokens = new ArrayList();
     int i = 0;
