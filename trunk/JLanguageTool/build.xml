@@ -1,11 +1,11 @@
 <?xml version="1.0"?>
 
-<project name="JLanguageTool" default="dist" basedir=".">
+<project name="LanguageTool" default="dist" basedir=".">
 
   <property name="version" value="0.8dev"/>
   <property name="date" value="2005-xx-yy"/>
 	
-  <property name="javadoctitle" value="JLanguageTool API ${version}"/>
+  <property name="javadoctitle" value="LanguageTool API ${version}"/>
   
   <property file="build.properties"/>
 
@@ -236,7 +236,7 @@
   <!-- ================================================================== -->
   <target name="dist-standalone" depends="build,javadoc">
 
-  	<property name="zip.dir" value="${dist.dir}/JLanguageTool-${version}"/>
+  	<property name="zip.dir" value="${dist.dir}/LanguageTool-${version}"/>
   	<property name="zip.lib" value="${zip.dir}/libs"/>
   	
 	<copy file="${ext.opennlp.lib}" todir="${zip.lib}" />
@@ -273,8 +273,8 @@
 	  	<fileset dir="${dist.dir}/docs/api"/>
 	</copy>
 
-  	<zip destfile="${dist.dir}/JLanguageTool-${version}.zip" basedir="${dist.dir}"
-  	  		includes="JLanguageTool-${version}/**" />
+  	<zip destfile="${dist.dir}/LanguageTool-${version}.zip" basedir="${dist.dir}"
+  	  		includes="LanguageTool-${version}/**" />
 
   </target>
 
@@ -283,7 +283,7 @@
   <!-- ================================================================== -->
   <target name="dist-src" depends="build,javadoc">
 
-  	<property name="zip.dir" value="${dist.dir}/JLanguageTool-${version}-src"/>
+  	<property name="zip.dir" value="${dist.dir}/LanguageTool-${version}-src"/>
   	<property name="zip.lib" value="${zip.dir}/libs"/>
   	
 	<copy file="${ext.opennlp.lib}" todir="${zip.lib}" />
@@ -333,8 +333,8 @@
 	  	<fileset dir="${src.test.dir}/"/>
 	</copy>
 
-  	<zip destfile="${dist.dir}/JLanguageTool-${version}-src.zip" basedir="${dist.dir}"
-  	  		includes="JLanguageTool-${version}-src/**" />
+  	<zip destfile="${dist.dir}/LanguageTool-${version}-src.zip" basedir="${dist.dir}"
+  	  		includes="LanguageTool-${version}-src/**" />
 
   </target>
 
@@ -387,9 +387,9 @@
   <!-- ================================================================== -->
   <target name="ooo-build" depends="ooo-compile">
   	<jar
-		jarfile="${dist.dir}/JLanguageTool.uno.jar"
+		jarfile="${dist.dir}/LanguageTool.uno.jar"
 		basedir="${build.classes}"
-		includes="de/danielnaber/languagetool/**/*.class,JLanguageTool.uno.manifest">
+		includes="de/danielnaber/languagetool/**/*.class,LanguageTool.uno.manifest">
   		<manifest>
 		  	<attribute name="RegistrationClassName" value="de.danielnaber.languagetool.openoffice.Main" />
   		</manifest>
@@ -397,7 +397,7 @@
   </target>
 
   <!-- ================================================================== -->
-  <!-- JLanguageTool including OpenOffice.org integration -->
+  <!-- LanguageTool including OpenOffice.org integration -->
   <!-- ================================================================== -->
   <target name="fast" description="No ZIP compression, for development only">
   	<antcall target="ooo-internal">
@@ -413,7 +413,7 @@
 
   <target name="ooo-internal" depends="clean,init,build,ooo-build">
   	<copy todir="${dist.dir}/">
-	  	<fileset dir="openoffice/" excludes="JLanguageTool.uno.manifest" />
+	  	<fileset dir="openoffice/" excludes="LanguageTool.uno.manifest" />
 	</copy>
   	<copy todir="${dist.dir}/rules">
 	  	<fileset dir="rules" excludes="CVS" />
@@ -439,7 +439,7 @@
 	  	<fileset dir="resource/de/"/>
 	</copy>
 
-  	<zip compress="${compress}" destfile="${dist.dir}/JLanguageTool.zip"
+  	<zip compress="${compress}" destfile="${dist.dir}/LanguageTool.zip"
   		basedir="${dist.dir}"
   		includes="**" excludes="deploy.sh,undeploy.sh,turn.sh" />
   </target>

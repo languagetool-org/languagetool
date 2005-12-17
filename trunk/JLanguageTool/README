@@ -1,4 +1,4 @@
-JLanguageTool, a natural language style checker 
+LanguageTool, a natural language style checker 
 Copyright (C) 2005 Daniel Naber (naber at danielnaber de)
 Version ###VERSION###, ###DATE###
 See http://www.danielnaber.de/languagetool
@@ -6,7 +6,7 @@ See http://www.danielnaber.de/languagetool
 Requirements:
  -Java 1.4
  -for checking German text you need to download an additional
-  file available on the homepage and unzip it in the JLanguageTool
+  file available on the homepage and unzip it in the LanguageTool
   directory
 
 Usage:
@@ -15,10 +15,10 @@ Usage:
   add the LanguageTool ZIP file
   
  -To use the simple demo GUI:
-  java -jar JLanguageToolGUI.jar
+  java -jar LanguageToolGUI.jar
 
  -To check plain text files from the command line:
-  java -jar JLanguageTool.jar <filename>
+  java -jar LanguageTool.jar <filename>
 
  To compile the code, call "ant build" and the *.jar files 
  will be created in the "dist" directory (you need the source
@@ -35,13 +35,14 @@ Known bugs:
    -Checking of selected text sometimes throws java.lang.reflect.UndeclaredThrowableException
     at $Proxy17.gotoRange(Unknown Source)
    -some errors trigger two rules at the same position, this makes the "Change text"
-    button work incorrect
+    button work wrong
+   -cursor first jumps to start of text, only then to the error position
+   -there's no way to enable/disable rules if there's no error in the text
    
 TODO:
- -make only one zip (OOo and stand-alone)
+ -clean up build.xml
  -translate rules that apply to English and German rules to German
  -make gui.Main use the Configuration class to save its settings
  -add information to rule about when it can give false alarm?
- -make German index more compact + integrate it to standard distribution
  -parse and use false friend rules
  -add more rules, especially agreement stuff
