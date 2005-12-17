@@ -117,9 +117,9 @@
 
   <!-- ================================================================== -->
 
-  <target name="test-coverage" depends="clean,init,dist-standalone" description="Runs unit tests">
+  <target name="test-coverage" depends="clean,init,dist" description="Checks unit test coverage">
   	
-  	<echo>### NOTE: log4j needs to be added to CLASSPATH manually!</echo>
+  	<echo>##### NOTE: log4j needs to be added to CLASSPATH manually! #####</echo>
 
 	<mkdir dir="${junit.classes.dir}"/>
 	<mkdir dir="${dist.dir}/report/tests"/>
@@ -232,113 +232,6 @@
   </target>
  
   <!-- ================================================================== -->
-  <!-- DIST-STANDALONE: FIXME: should probably be removed -->
-  <!-- ================================================================== -->
-  <target name="dist-standalone" depends="build,javadoc">
-
-  	<property name="zip.dir" value="${dist.dir}/LanguageTool-${version}"/>
-  	<property name="zip.lib" value="${zip.dir}/libs"/>
-  	
-	<copy file="${ext.opennlp.lib}" todir="${zip.lib}" />
-	<copy file="${ext.trove.lib}" todir="${zip.lib}" />
-	<copy file="${ext.maxent.lib}" todir="${zip.lib}" />
-	<copy file="${ext.lucene.lib}" todir="${zip.lib}" />
-	<copy file="${ext.dir}/README" tofile="${zip.lib}/README.txt" />
-	<copy file="${ext.dir}/LGPL.txt" todir="${zip.lib}" />
-  	<copy file="${ext.dir}/Apache-License.txt" todir="${zip.lib}" />
-  	
-	<copy file="${dist.dir}/${final.name}.jar" todir="${zip.dir}" />
-	<copy file="${dist.dir}/${final.name.gui}.jar" todir="${zip.dir}" />
-	<copy file="./README" tofile="${zip.dir}/README.txt" />
-	<copy file="./CHANGES" tofile="${zip.dir}/CHANGES.txt" />
-	<copy file="./COPYING" tofile="${zip.dir}/COPYING.txt" />
-  	<replace file="${zip.dir}/README.txt" token="###VERSION###" value="${version}"></replace>
-  	<replace file="${zip.dir}/README.txt" token="###DATE###" value="${date}"></replace>
-
-	<copy file="${resource.dir}/en/tagset.txt" todir="${zip.dir}/resource/en" />
-	<copy file="${resource.dir}/en/EnglishPOS.bin.gz" todir="${zip.dir}/resource/en" />
-  	<copy todir="${zip.dir}/resource/de">
-	  	<fileset dir="resource/de/"/>
-	</copy>
-
-	<copy file="rules/rules.dtd" todir="${zip.dir}/rules" />
-  	<copy todir="${zip.dir}/rules/en">
-	  	<fileset dir="rules/en/"/>
-	</copy>
-  	<copy todir="${zip.dir}/rules/de">
-	  	<fileset dir="rules/de/"/>
-	</copy>
-
-  	<copy todir="${zip.dir}/javadoc">
-	  	<fileset dir="${dist.dir}/docs/api"/>
-	</copy>
-
-  	<zip destfile="${dist.dir}/LanguageTool-${version}.zip" basedir="${dist.dir}"
-  	  		includes="LanguageTool-${version}/**" />
-
-  </target>
-
-  <!-- ================================================================== -->
-  <!-- DIST-SRC -->
-  <!-- ================================================================== -->
-  <target name="dist-src" depends="build,javadoc">
-
-  	<property name="zip.dir" value="${dist.dir}/LanguageTool-${version}-src"/>
-  	<property name="zip.lib" value="${zip.dir}/libs"/>
-  	
-	<copy file="${ext.opennlp.lib}" todir="${zip.lib}" />
-	<copy file="${ext.trove.lib}" todir="${zip.lib}" />
-	<copy file="${ext.maxent.lib}" todir="${zip.lib}" />
-	<copy file="${ext.junit.lib}" todir="${zip.lib}/build" />
-	<copy file="${ext.lucene.lib}" todir="${zip.lib}" />
-	<copy file="${ext.dir}/build/junit-license.txt" todir="${zip.lib}/build" />
-	<copy file="${ext.dir}/README" todir="${zip.lib}" />
-	<copy file="${ext.dir}/LGPL.txt" todir="${zip.lib}" />
-  	<copy file="${ext.dir}/Apache-License.txt" todir="${zip.lib}" />
-  	
-	<copy file="./README" tofile="${zip.dir}/README.txt" />
-	<copy file="./CHANGES" tofile="${zip.dir}/CHANGES.txt" />
-  	<replace file="${zip.dir}/README.txt" token="###VERSION###" value="${version}"></replace>
-  	<replace file="${zip.dir}/README.txt" token="###DATE###" value="${date}"></replace>
-	<copy file="./COPYING" tofile="${zip.dir}/COPYING.txt" />
-	<copy file="./build.xml" todir="${zip.dir}" />
-	<copy file="./build.properties" todir="${zip.dir}" />
-	<copy file="./.classpath" todir="${zip.dir}" />
-	<copy file="./.project" todir="${zip.dir}" />
-	<copy file="./resource/MANIFEST" todir="${zip.dir}/resource" />
-	<copy file="./resource/MANIFEST.GUI" todir="${zip.dir}/resource" />
-
-	<copy file="${resource.dir}/en/tagset.txt" todir="${zip.dir}/resource/en" />
-	<copy file="${resource.dir}/en/EnglishPOS.bin.gz" todir="${zip.dir}/resource/en" />
-  	<copy todir="${zip.dir}/resource/de">
-	  	<fileset dir="resource/de/"/>
-	</copy>
-  	
-	<copy file="rules/rules.dtd" todir="${zip.dir}/rules" />
-  	<copy todir="${zip.dir}/rules/en">
-	  	<fileset dir="rules/en/"/>
-	</copy>
-  	<copy todir="${zip.dir}/rules/de">
-	  	<fileset dir="rules/de/" includes="coherency.txt,fullform2baseform.txt,grammar.xml"/>
-	</copy>
-
-  	<copy todir="${zip.dir}/javadoc">
-	  	<fileset dir="${dist.dir}/docs/api"/>
-	</copy>
-
-  	<copy todir="${zip.dir}/src/java">
-	  	<fileset dir="${src.java.dir}/"/>
-	</copy>
-  	<copy todir="${zip.dir}/src/test">
-	  	<fileset dir="${src.test.dir}/"/>
-	</copy>
-
-  	<zip destfile="${dist.dir}/LanguageTool-${version}-src.zip" basedir="${dist.dir}"
-  	  		includes="LanguageTool-${version}-src/**" />
-
-  </target>
-
-  <!-- ================================================================== -->
   <!-- JAVADOC -->
   <!-- ================================================================== -->
   <target name="javadoc" depends="compile">
@@ -397,18 +290,32 @@
   </target>
 
   <!-- ================================================================== -->
-  <!-- LanguageTool including OpenOffice.org integration -->
+  <!-- DIST-SRC -->
   <!-- ================================================================== -->
-  <target name="fast" description="No ZIP compression, for development only">
-  	<antcall target="ooo-internal">
-  		<param name="compress" value="no" />
-  	</antcall>
+  <target name="dist-src" depends="ooo-internal" description="Like dist, but includes source code">
+  	<antcall target="javadoc"></antcall>
+  	<copy todir="${dist.dir}/src">
+	  	<fileset dir="src" excludes="CVS" />
+	</copy>
+  	<zip compress="yes" destfile="${dist.dir}/LanguageTool-${version}-src.zip"
+  		basedir="${dist.dir}"
+  		includes="**" excludes="turn.sh,delopy.sh,undeploy.sh" />
   </target>
 
-  <target name="dist">
-  	<antcall target="ooo-internal">
-  		<param name="compress" value="yes" />
-  	</antcall>
+  <!-- ================================================================== -->
+  <!-- LanguageTool including OpenOffice.org integration -->
+  <!-- ================================================================== -->
+	
+  <target name="dist" depends="ooo-internal" description="Builds one ZIP for both OpenOffice.org and stand-alone use">
+  	<zip compress="yes" destfile="${dist.dir}/LanguageTool-${version}.zip"
+  		basedir="${dist.dir}"
+  		includes="**" excludes="deploy.sh,undeploy.sh,turn.sh" />
+  </target>
+
+  <target name="fast" depends="ooo-internal" description="like dist, but without ZIP compression (for development only)">
+  	<zip compress="no" destfile="${dist.dir}/LanguageTool-${version}.zip"
+  		basedir="${dist.dir}"
+  		includes="**" excludes="deploy.sh,undeploy.sh,turn.sh" />
   </target>
 
   <target name="ooo-internal" depends="clean,init,build,ooo-build">
@@ -438,10 +345,6 @@
   	<copy todir="${dist.dir}/resource/de">
 	  	<fileset dir="resource/de/"/>
 	</copy>
-
-  	<zip compress="${compress}" destfile="${dist.dir}/LanguageTool.zip"
-  		basedir="${dist.dir}"
-  		includes="**" excludes="deploy.sh,undeploy.sh,turn.sh" />
   </target>
 
 </project>
