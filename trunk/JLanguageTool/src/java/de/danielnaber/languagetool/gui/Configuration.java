@@ -18,6 +18,7 @@
  */
 package de.danielnaber.languagetool.gui;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -29,19 +30,22 @@ import java.util.Set;
 
 /**
  * Configuration -- currently this is just a list of disabled rule IDs.
- * Configuration is loaded from and stored to a properties file in the current
- * directory.
+ * Configuration is loaded from and stored to a properties file.
  * 
  * @author Daniel Naber
  */
 public class Configuration {
 
-  private static final String CONFIG_FILE = "jlanguagetool.properties";
+  private static final String CONFIG_FILE = "languagetool.properties";
   private static final String DISABLED_RULES_CONFIG_KEY = "disabledRules";
+  private File configFile = null;
 
   private Set disabledRuleIds = new HashSet();
 
-  public Configuration() throws IOException {
+  public Configuration(File baseDir) throws IOException {
+    if (!baseDir.isDirectory())
+      throw new IllegalArgumentException("Not a directory: " + baseDir);
+    configFile = new File(baseDir, CONFIG_FILE);
     loadConfiguration();
   }
   
@@ -56,7 +60,7 @@ public class Configuration {
   private void loadConfiguration() throws IOException {
     FileInputStream fis = null;
     try {
-      fis = new FileInputStream(CONFIG_FILE);
+      fis = new FileInputStream(configFile);
       Properties props = new Properties();
       props.load(fis);
       String val = (String)props.get(DISABLED_RULES_CONFIG_KEY);
@@ -90,8 +94,8 @@ public class Configuration {
       props.setProperty(DISABLED_RULES_CONFIG_KEY, sb.toString());
     FileOutputStream fos = null;
     try {
-      fos = new FileOutputStream(CONFIG_FILE);
-      props.store(fos, "JLanguageTool configuration");
+      fos = new FileOutputStream(configFile);
+      props.store(fos, "LanguageTool configuration");
     } finally {
       if (fos != null) {
         fos.close();

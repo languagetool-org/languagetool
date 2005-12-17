@@ -25,6 +25,7 @@ import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -307,12 +308,12 @@ public class OOoDialog implements ActionListener {
   }
   
   private void close() {
-    /*try {
+    try {
       configuration.saveConfiguration();
     } catch (IOException e) {
       e.printStackTrace();
       throw new RuntimeException(e);
-    }*/
+    }
     dialog.setVisible(false);       // FIXME: does this really close the dialog?
   }
 
@@ -362,7 +363,7 @@ public class OOoDialog implements ActionListener {
   public static void main(String[] args) throws IOException, ParserConfigurationException, SAXException {
     JLanguageTool lt = new JLanguageTool(Language.ENGLISH);
     lt.activateDefaultPatternRules();
-    Configuration config = new Configuration();
+    Configuration config = new Configuration(new File("/tmp"));
     for (Iterator iter = config.getDisabledRuleIds().iterator(); iter.hasNext();) {
       String id = (String) iter.next();
       lt.disableRule(id);

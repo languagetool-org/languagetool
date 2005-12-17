@@ -74,7 +74,7 @@ public class Main {
     private XTextDocument xTextDoc;
     private XTextViewCursor xViewCursor;
 
-    /** Tetsing only. */
+    /** Testing only. */
     public _Main() {
     }
     
@@ -168,8 +168,9 @@ public class Main {
         docLanguage = Language.ENGLISH; // for testing with local main() method only
       else
         docLanguage = getLanguage();
-      Configuration config = new Configuration();
-      CheckerThread checkerThread = new CheckerThread(text, docLanguage, config);
+      File baseDir = getBaseDir();
+      Configuration config = new Configuration(baseDir);
+      CheckerThread checkerThread = new CheckerThread(text, docLanguage, config, baseDir);
       checkerThread.start();
       while (true) {
         if (checkerThread.done()) {
@@ -194,7 +195,17 @@ public class Main {
         dialog.show();
       }
     }
-    
+
+    private File getBaseDir() throws IOException {
+      java.net.URL url = Main.class.getResource("/de/danielnaber/languagetool/openoffice/Main.class");
+      String urlString = url.getFile();
+      File file = new File(urlString.substring("file:".length(), urlString.indexOf("!")));
+      if (!file.exists()) {
+        throw new IOException("File not found: " + file.getAbsolutePath());
+      }
+      return file.getParentFile();
+    }
+
   }
 
   public static XSingleComponentFactory __getComponentFactory(String sImplName) {
@@ -220,15 +231,17 @@ class CheckerThread extends Thread {
   private String text;
   private Language docLanguage;
   private Configuration config;
+  private File baseDir;
   
   private JLanguageTool langTool; 
   private List ruleMatches;
   private boolean done = false;
   
-  CheckerThread(String text, Language docLanguage, Configuration config) {
+  CheckerThread(String text, Language docLanguage, Configuration config, File baseDir) {
     this.text = text;
     this.docLanguage = docLanguage;
     this.config = config;
+    this.baseDir = baseDir;
   }
   
   public boolean done() {
@@ -245,7 +258,6 @@ class CheckerThread extends Thread {
 
   public void run() {
     try {
-      File baseDir = getBaseDir();
       langTool = new JLanguageTool(docLanguage, baseDir);
       langTool.activateDefaultPatternRules();
       for (Iterator iter = config.getDisabledRuleIds().iterator(); iter.hasNext();) {
@@ -264,16 +276,6 @@ class CheckerThread extends Thread {
       e.printStackTrace();
       throw new RuntimeException(e);
     }
-  }
-
-  private File getBaseDir() throws IOException {
-    java.net.URL url = Main.class.getResource("/de/danielnaber/languagetool/openoffice/Main.class");
-    String urlString = url.getFile();
-    File file = new File(urlString.substring("file:".length(), urlString.indexOf("!")));
-    if (!file.exists()) {
-      throw new IOException("File not found: " + file.getAbsolutePath());
-    }
-    return file.getParentFile();
   }
   
 }
