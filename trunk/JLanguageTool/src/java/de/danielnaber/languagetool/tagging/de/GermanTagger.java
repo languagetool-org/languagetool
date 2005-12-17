@@ -36,7 +36,7 @@ import de.danielnaber.languagetool.JLanguageTool;
 import de.danielnaber.languagetool.tagging.Tagger;
 
 /**
- * Experimental German tagger, requires data files in <code>rules/de/categories</code>.
+ * Experimental German tagger, requires data files in <code>resource/de/categories</code>.
  * 
  * @author Daniel Naber
  */
@@ -102,7 +102,6 @@ public class GermanTagger implements Tagger {
   
   public List tag(List tokens) throws IOException {
     initSearcher();
-
     List posTags = new ArrayList();
     int pos = 0;
     boolean firstWord = true;
