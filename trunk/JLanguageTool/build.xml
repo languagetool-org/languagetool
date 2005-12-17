@@ -2,8 +2,8 @@
 
 <project name="LanguageTool" default="dist" basedir=".">
 
-  <property name="version" value="0.8dev"/>
-  <property name="date" value="2005-xx-yy"/>
+  <property name="version" value="0.8"/>
+  <property name="date" value="2005-12-17"/>
 	
   <property name="javadoctitle" value="LanguageTool API ${version}"/>
   
@@ -294,12 +294,26 @@
   <!-- ================================================================== -->
   <target name="dist-src" depends="ooo-internal" description="Like dist, but includes source code">
   	<antcall target="javadoc"></antcall>
+  	<copy file="build.xml" todir="${dist.dir}" />
+  	<copy file="build.properties" todir="${dist.dir}" />
+  	<copy file="${resource.dir}/MANIFEST" todir="${dist.dir}/resource" />
+  	<copy file="${resource.dir}/MANIFEST.GUI" todir="${dist.dir}/resource" />
+  	<copy file="openoffice/Addons.xcu" todir="${dist.dir}/openoffice" />
+  	<copy todir="${dist.dir}/openoffice/META-INF">
+	  	<fileset dir="openoffice/META-INF" excludes="CVS" />
+	</copy>
+  	<copy todir="${dist.dir}/openoffice/images">
+	  	<fileset dir="openoffice/images" excludes="CVS" />
+	</copy>
+  	<copy todir="${dist.dir}/libs">
+	  	<fileset dir="libs" excludes="CVS,build" />
+	</copy>
   	<copy todir="${dist.dir}/src">
 	  	<fileset dir="src" excludes="CVS" />
 	</copy>
   	<zip compress="yes" destfile="${dist.dir}/LanguageTool-${version}-src.zip"
   		basedir="${dist.dir}"
-  		includes="**" excludes="turn.sh,delopy.sh,undeploy.sh" />
+  		includes="**" excludes="turn.sh,deploy.sh,undeploy.sh" />
   </target>
 
   <!-- ================================================================== -->
