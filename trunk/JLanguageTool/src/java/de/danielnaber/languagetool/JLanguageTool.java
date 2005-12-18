@@ -196,13 +196,13 @@ public class JLanguageTool {
    * The main check method. Tokenizes the text into sentences and matches these
    * sentences against all currently active rules.
    * 
-   * @param test the text to check
+   * @param text the text to check
    * @return a List of {@link RuleMatch} objects
    * @throws IOException 
    */
-  public List check(String test) throws IOException {
+  public List check(String text) throws IOException {
     SentenceTokenizer sTokenizer = new SentenceTokenizer();
-    List sentences = sTokenizer.tokenize(test);
+    List sentences = sTokenizer.tokenize(text);
     List ruleMatches = new ArrayList();
     List allRules = getAllRules();
     printIfVerbose(allRules.size() + " rules activated for language " + language);
