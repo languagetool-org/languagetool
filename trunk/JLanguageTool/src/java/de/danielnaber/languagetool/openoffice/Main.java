@@ -1,4 +1,4 @@
-/* JLanguageTool, a natural language style checker 
+/* LanguageTool, a natural language style checker 
  * Copyright (C) 2005 Daniel Naber (http://www.danielnaber.de)
  * 
  * This library is free software; you can redistribute it and/or
@@ -59,13 +59,13 @@ import de.danielnaber.languagetool.Language;
 import de.danielnaber.languagetool.gui.Configuration;
 
 /**
- * Basic OpenOffice.org integration.
+ * OpenOffice.org integration.
  * 
  * @author Daniel Naber
  */
 public class Main {
 
-  public static final String version = "0.5";
+  public static final String version = "0.6";
 
   public static class _Main extends WeakBase implements XJobExecutor, XServiceInfo {
 
