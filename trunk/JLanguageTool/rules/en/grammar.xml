@@ -4,11 +4,18 @@
 Rules: Grammar and Typos
 See tagset.txt for the meaning of the POS tags
 Copyright (C) 2001-2005 Daniel Naber (http://www.danielnaber.de)
-$Id: grammar.xml,v 1.29 2005-12-11 00:17:38 dnaber Exp $
+$Id: grammar.xml,v 1.30 2005-12-18 20:15:26 dnaber Exp $
 -->
 <rules>
 
-	<rule id="TO_MUCH" name="Possible typo 'to(too) much''">
+	<rule id="SENT_START_THEM" name="Possible typo 'Them(Then) at sentence start'">
+		<pattern lang="en" mark_from="1">SENT_START "Them"</pattern>
+		<message>Did you mean <em>then</em>?</message>
+		<example type="correct"><em>Then</em> it became clear.</example>
+		<example type="incorrect"><em>Them</em> it became clear.</example>
+	</rule>
+
+	<rule id="TO_MUCH" name="Possible typo 'to(too) much'">
 		<pattern lang="en" mark_from="1" mark_to="-1">^"access" "to" "much"</pattern>
 		<message>Did you mean <em>too</em>?</message>
 		<example type="correct">Because <em>too</em> much snow was on it.</example>
