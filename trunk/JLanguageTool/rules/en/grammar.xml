@@ -4,7 +4,7 @@
 Rules: Grammar and Typos
 See tagset.txt for the meaning of the POS tags
 Copyright (C) 2001-2005 Daniel Naber (http://www.danielnaber.de)
-$Id: grammar.xml,v 1.32 2005-12-19 20:12:01 dnaber Exp $
+$Id: grammar.xml,v 1.33 2005-12-19 21:36:31 dnaber Exp $
 -->
 <rules>
 
@@ -16,12 +16,22 @@ $Id: grammar.xml,v 1.32 2005-12-19 20:12:01 dnaber Exp $
 	</rule>
 
 	<rule id="TO_LATE" name="Possible typo 'to(too) late'">
-		<pattern lang="en" mark_from="2">"much|is|was" "to" "late"</pattern>
+		<pattern lang="en" mark_from="1" mark_to="-1">"much|is|was" "to" "late"</pattern>
 		<message>Did you mean <em>too</em>?</message>
 		<example type="correct">It was <em>too</em> late.</example>
 		<example type="correct">It was much <em>too</em> late.</example>
 		<example type="incorrect">It was <em>to</em> late.</example>
 		<example type="incorrect">It was much <em>to</em> late.</example>
+	</rule>
+
+	<rule id="TO_SOON" name="Possible typo 'to(too) soon'">
+		<pattern lang="en" mark_from="1" mark_to="-2">"comes|came|much|is|was" "to" "soon" ^(VB)</pattern>
+		<message>Did you mean <em>too</em>?</message>
+		<example type="correct">The plan is <em>to</em> soon launch a new plane.</example>
+		<example type="correct">His idea came much <em>too</em> soon to be successful.</example>
+		<example type="correct">It is <em>too</em> soon to move the entire industry.</example>
+		<example type="incorrect">His idea came much <em>to</em> soon to be successful.</example>
+		<example type="incorrect">It is <em>to</em> soon to move the entire industry.</example>
 	</rule>
 
 	<rule id="TO_MUCH" name="Possible typo 'to(too) much'">
