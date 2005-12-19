@@ -69,7 +69,7 @@ public class SentenceTokenizer implements Tokenizer {
       "al",  // in "et al."
       "cf",
       // German:
-      "ggf", "Dr", "Prof", "bspw", "etc", "ca", "lt", "Chr", "n", "Anm", "d", "Übers", "usw"
+      "ggf", "Dr", "Prof", "bspw", "etc", "ca", "lt", "Chr", "n", "Anm", "d", "Übers", "usw", "bzw"
       };
 
   // einige deutsche Monate, vor denen eine Zahl erscheinen kann,
