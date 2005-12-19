@@ -4,7 +4,7 @@
 Rules: Grammar and Typos
 See tagset.txt for the meaning of the POS tags
 Copyright (C) 2001-2005 Daniel Naber (http://www.danielnaber.de)
-$Id: grammar.xml,v 1.31 2005-12-19 00:20:48 dnaber Exp $
+$Id: grammar.xml,v 1.32 2005-12-19 20:12:01 dnaber Exp $
 -->
 <rules>
 
@@ -13,6 +13,15 @@ $Id: grammar.xml,v 1.31 2005-12-19 00:20:48 dnaber Exp $
 		<message>Did you mean <em>then</em>?</message>
 		<example type="correct"><em>Then</em> it became clear.</example>
 		<example type="incorrect"><em>Them</em> it became clear.</example>
+	</rule>
+
+	<rule id="TO_LATE" name="Possible typo 'to(too) late'">
+		<pattern lang="en" mark_from="2">"much|is|was" "to" "late"</pattern>
+		<message>Did you mean <em>too</em>?</message>
+		<example type="correct">It was <em>too</em> late.</example>
+		<example type="correct">It was much <em>too</em> late.</example>
+		<example type="incorrect">It was <em>to</em> late.</example>
+		<example type="incorrect">It was much <em>to</em> late.</example>
 	</rule>
 
 	<rule id="TO_MUCH" name="Possible typo 'to(too) much'">
