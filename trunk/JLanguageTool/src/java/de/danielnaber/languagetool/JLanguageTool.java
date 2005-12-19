@@ -73,6 +73,8 @@ public class JLanguageTool {
   private Language language = null;
   private Tagger tagger = null;
   private PrintStream printStream = null;
+  
+  private int sentenceCount = 0;
 
   // just for testing:
   /*private Rule[] allBuiltinRules = new Rule[] {
@@ -201,6 +203,7 @@ public class JLanguageTool {
    * @throws IOException 
    */
   public List check(String text) throws IOException {
+    sentenceCount = 0;
     SentenceTokenizer sTokenizer = new SentenceTokenizer();
     List sentences = sTokenizer.tokenize(text);
     List ruleMatches = new ArrayList();
@@ -211,6 +214,7 @@ public class JLanguageTool {
     int columnCount = 0;
     for (Iterator iter = sentences.iterator(); iter.hasNext();) {
       String sentence = (String) iter.next();
+      sentenceCount++;
       AnalyzedSentence analyzedText = getAnalyzedSentence(sentence);
       List sentenceMatches = new ArrayList();
       printIfVerbose(analyzedText.toString());
@@ -324,6 +328,14 @@ public class JLanguageTool {
       rule.reset();
     }
     return rules;
+  }
+  
+  /**
+   * Number of sentences the latest call to check() has checked.
+   */
+  int getSentenceCount() {
+    return sentenceCount;
+    
   }
 
   private void printIfVerbose(String s) {

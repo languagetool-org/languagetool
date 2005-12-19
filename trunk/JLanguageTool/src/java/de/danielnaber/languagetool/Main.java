@@ -129,8 +129,12 @@ class Main {
       i++;
     }
     long endTime = System.currentTimeMillis();
-    System.out.println("Time: " + (endTime-startTime) + "ms (including " +(endTime-startTimeMatching)+
-        "ms for rule matching)");
+    long time = endTime - startTime;
+    float timeInSeconds = (float)time/1000.0f;
+    float sentencesPerSecond = (float)lt.getSentenceCount() / (float)timeInSeconds;
+    System.out.println("Time: " + time + "ms (including " +(endTime-startTimeMatching)+
+        "ms for rule matching) for " + lt.getSentenceCount() + " sentences ("
+        + sentencesPerSecond + " sentences/sec)");
   }
   
   private String filterXML(String s) {
