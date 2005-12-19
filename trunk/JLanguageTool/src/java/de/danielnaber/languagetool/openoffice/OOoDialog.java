@@ -70,6 +70,7 @@ public class OOoDialog implements ActionListener {
   private static final String CLOSE_BUTTON = "Close";
   
   private static final String COMPLETE_TEXT = "LanguageTool check is complete.";
+  private static final String FONT_TAG = "<font face=\"Sans-Serif\">";
   
   private List rules = null;
   private JDialog dialog = null;
@@ -93,7 +94,7 @@ public class OOoDialog implements ActionListener {
   private XTextViewCursor xViewCursor = null;
   private XTextRange startTextRange = null;
 
-  private Configuration configuration = null; 
+  private Configuration configuration = null;
 
   OOoDialog(Configuration configuration, List rules, XTextDocument xTextDoc, List ruleMatches, String text,
       XTextViewCursor xViewCursor) {
@@ -225,8 +226,8 @@ public class OOoDialog implements ActionListener {
     sb.append("<b>Match:</b> ");
     sb.append(msg);
     sb.append("<br>\n");
-    contextArea.setText(Tools.getContext(match.getFromPos(), match.getToPos(), text));
-    messageArea.setText(sb.toString());
+    contextArea.setText(FONT_TAG + Tools.getContext(match.getFromPos(), match.getToPos(), text));
+    messageArea.setText(FONT_TAG + sb.toString());
     setSuggestions();
     // Place visible cursor on the error:
     if (xTextDoc != null) {
