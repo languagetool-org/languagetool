@@ -69,7 +69,7 @@ public class OOoDialog implements ActionListener {
   private static final String OPTIONS_BUTTON = "Options...";
   private static final String CLOSE_BUTTON = "Close";
   
-  private static final String COMPLETE_TEXT = "JLanguageTool check is complete.";
+  private static final String COMPLETE_TEXT = "LanguageTool check is complete.";
   
   private List rules = null;
   private JDialog dialog = null;
@@ -122,7 +122,7 @@ public class OOoDialog implements ActionListener {
     JRootPane rootPane = dialog.getRootPane();
     rootPane.registerKeyboardAction(actionListener, stroke, JComponent.WHEN_IN_FOCUSED_WINDOW);
     
-    dialog.setTitle("JLanguageTool/OOo ALPHA Version");
+    dialog.setTitle("LanguageTool Version " + JLanguageTool.VERSION);
     Container contentPane = dialog.getContentPane();
     contentPane.setLayout(new GridBagLayout());
 
