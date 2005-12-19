@@ -4,7 +4,7 @@
 Rules: Grammar and Typos
 See tagset.txt for the meaning of the POS tags
 Copyright (C) 2001-2005 Daniel Naber (http://www.danielnaber.de)
-$Id: grammar.xml,v 1.30 2005-12-18 20:15:26 dnaber Exp $
+$Id: grammar.xml,v 1.31 2005-12-19 00:20:48 dnaber Exp $
 -->
 <rules>
 
@@ -24,7 +24,7 @@ $Id: grammar.xml,v 1.30 2005-12-18 20:15:26 dnaber Exp $
 	</rule>
 
 	<rule id="AGREEMENT_1" name="Agreement error: 'The (plural word) is">
-		<pattern lang="en" mark_from="3" mark_to="0">SENT_START DT NNS VBZ</pattern>
+		<pattern lang="en" mark_from="3">SENT_START DT NNS VBZ</pattern>
 		<message>Agreement error -- did you mean <em>are</em>?</message>
 		<example type="correct">The dogs <em>are</em> released.</example>
 		<example type="correct">The dog is released.</example>
@@ -32,7 +32,7 @@ $Id: grammar.xml,v 1.30 2005-12-18 20:15:26 dnaber Exp $
 	</rule>
 
 	<rule id="AGREEMENT_2" name="Agreement error: 'The (plural word) of ... is">
-		<pattern lang="en" mark_from="5" mark_to="0">SENT_START DT NNS "of" NN VBZ</pattern>
+		<pattern lang="en" mark_from="5">SENT_START DT NNS "of" NN VBZ</pattern>
 		<message>Agreement error -- did you mean <em>are</em>?</message>
 		<example type="correct">The dogs of war <em>are</em> released.</example>
 		<example type="correct">The dog of war is released.</example>
@@ -40,7 +40,7 @@ $Id: grammar.xml,v 1.30 2005-12-18 20:15:26 dnaber Exp $
 	</rule>
 
 	<rule id="HE_VERB_AGR" name="Agreement error: Non-third person verb with 'he'">
-		<pattern lang="en" mark_from="2" mark_to="0">^"(has|will|must|could|can|should|would|does|did)" "he" VBP</pattern>
+		<pattern lang="en" mark_from="2">^"(has|will|must|could|can|should|would|does|did)" "he" VBP</pattern>
 		<message>'He' must be used with a third person verb, e.g. 'he walks'</message>
 		<example type="correct">He <em>looks</em> at the building.</example>
 		<example type="incorrect">He <em>look</em> at the building.</example>
@@ -205,16 +205,16 @@ $Id: grammar.xml,v 1.30 2005-12-18 20:15:26 dnaber Exp $
 	</rule>
 
 	<!-- TODO
-	<rule id="AJC_THAT" name="Confusion of that/than">
-		<pattern lang="en" mark_from="1" mark_to="0">JJR "that"</pattern>
+	<rule id="ADJ_THAT" name="Confusion of that/than">
+		<pattern lang="en" mark_from="1">(JJR|JJ) "that"</pattern>
 		<message>Did you mean <em>than</em>?</message>
 		<example type="correct">I am not wiser <em>than</em> you.</example>
 		<example type="incorrect">I am not wiser <em>that</em> you.</example>
 	</rule>
 	-->
 	
-	<rule id="LESS_THEN" name="Typo 'less/more ... then(than)'">
-		<pattern lang="en" mark_from="2" mark_to="0">"(less|more)" (JJ|NN|NNS) "then"</pattern>
+	<rule id="LESS_MORE_THEN" name="Typo 'less/more ... then(than)'">
+		<pattern lang="en" mark_from="2">"(less|more)" (JJ|NN|NNS) "then"</pattern>
 		<message>Did you mean <em>than</em>?</message>
 		<example type="correct">It's less controversial <em>than</em> one would think.</example>
 		<example type="incorrect">It's less controversial <em>then</em> one would think.</example>
@@ -227,8 +227,8 @@ $Id: grammar.xml,v 1.30 2005-12-18 20:15:26 dnaber Exp $
 		<example type="incorrect">How to add equal values and <em>than</em> replace them with their sum?</example>
 	</rule>
 	
-	<rule id="DET_DET" name="Two consecutive articles">
-		<pattern lang="en" mark_from="1" mark_to="0">DT^all|half|both DT</pattern>
+	<rule id="DT_DT" name="Two consecutive articles">
+		<pattern lang="en" mark_from="1">DT^all|half|both DT</pattern>
 		<message>Maybe you need to remove the second determiner.</message>
 		<example type="correct"><em>The</em> thing is this.</example>
 		<example type="incorrect"><em>The a</em> thing is this.</example>
@@ -271,23 +271,17 @@ $Id: grammar.xml,v 1.30 2005-12-18 20:15:26 dnaber Exp $
 		<example type="incorrect">Something that <em>my be</em> interesting...</example>
 	</rule>
 
-	<!-- TODO: doesn't work because of mistagging:
-	<rule id="THEM_VERB" name="Typo 'Them(Then) verb'">
-		<pattern lang="en" mark_to="-1">"Them" (VB|VBD|VBG|VBN|VBP|VBZ)</pattern>
-		<message>Did you mean <em>at</em>?</message>
-		<example type="correct"><em>Then</em> check if there is a working connection.</example>
-		<example type="incorrect"><em>Them</em> check if there is a working connection.</example>
-	</rule>
-	-->
-
-	<!-- TODO
 	<rule id="EAGER_TO" name="Infinitive verb with 'eager to...'">
-		<pattern lang="en">"eager" "to" (VBG)</pattern>
+		<pattern lang="en">"eager" "to" (VBG|VBZ|VBN|VBD)</pattern>
 		<message>Use the base form of the verb with <em>eager to</em>.</message>
 		<example type="correct">I'd be eager to <em>try</em> out your patch.</example>
+		<example type="correct">Bangladesh eager to <em>buy</em> cars from Iran' </example>
 		<example type="incorrect">I'd be eager to <em>trying</em> out your patch.</example>
+		<example type="incorrect">Bangladesh eager to <em>buying</em> cars from Iran'</example>
+		<!-- TODO: not found because of mistagging:
+		<example type="incorrect">Bangladesh eager to <em>bought</em> cars from Iran'</example>
+		-->
 	</rule>
-	-->
 
 	<rule id="A_MUCH_NN1" name="Superfluous article before 'much'">
 		<pattern lang="en" mark_from="0" mark_to="-1">"a" "much" NN</pattern>
@@ -324,29 +318,29 @@ $Id: grammar.xml,v 1.30 2005-12-18 20:15:26 dnaber Exp $
 		<example type="incorrect">I have been out with the <em>flew</em> for the past 3 days.</example>
 	</rule>
 
-	<!-- TODO: add will|could|can|should|would|does -->
-	<!-- TODO
-	<rule id="DID_BASE" name="Infinitive verb after 'did'">
-		<pattern lang="en">"did" (VBD)</pattern>
+	<rule id="DID_BASEFORM" name="Infinitive verb after 'did'">
+		<pattern lang="en">"did|will|could|can|should|would|does" (VBD|VBG|VBZ)</pattern>
 		<message>'Did' requires base form of verb.</message>
-		'did' is used for emphasis here:
+		<!-- 'did' is used for emphasis here: -->
+		<example type="correct">They will <em>come</em> home.</example>
 		<example type="correct">Peter did <em>go</em> to the cinema.</example>
+		<example type="incorrect">They will <em>comes</em> home.</example>
 		<example type="incorrect">Peter did <em>went</em> to the cinema.</example>
-		
 		<example type="incorrect">He did <em>walked</em> to his house.</example>
-		<example type="incorrect">He did <em>walks</em> to his house.</example>
 		<example type="incorrect">He did <em>walking</em> to his house.</example>
-		
+		<!-- TODO: not found because of mistagging:
+		<example type="incorrect">He did <em>walks</em> to his house.</example>
+		<example type="incorrect">They will <em>came</em> home.</example>
+		-->
 	</rule>
-	-->
 
-	<!-- TODO
-		<rulegroup id="WILL_MIGHT_BASE" name="Infinitive verb after auxiliary verb">
+	<!-- TODO: support rulegroups?
+	<rulegroup id="WILL_MIGHT_BASE" name="Infinitive verb after auxiliary verb">
 	<rulegroup id="IS_PASSIVE" name="Passive after 'is' and 'was'">
 	-->
 
 	<rule id="AS_ADJ_AS" name="Comparison with 'as'">
-		<pattern lang="en" mark_from="2" mark_to="0">"as" JJ|RB "like|than|then"</pattern>
+		<pattern lang="en" mark_from="2">"as" JJ|RB "like|than|then"</pattern>
 		<message>Comparison is written "as \2 <em>as</em>".</message>
 		<example type="correct">This house is as big <em>as</em> mine.</example>
 		<example type="incorrect">This house is as big <em>than</em> mine.</example>
@@ -354,14 +348,12 @@ $Id: grammar.xml,v 1.30 2005-12-18 20:15:26 dnaber Exp $
 		<example type="incorrect">This box contains as much <em>like</em> possible.</example>
 	</rule>
 	
-	<!-- TODO: mistagging: the/NN
-	<rule id="DET_FORM" name="Confusion of from/form">
-		<pattern lang="en" mark_from="2" mark_to="0">DT "from"</pattern>
+	<rule id="DT_FORM" name="Confusion of from/form">
+		<pattern lang="en" mark_from="1">DT "from"</pattern>
 		<message>Did you mean <em>form</em>?</message>
 		<example type="correct">Type in the <em>form</em> on the web page.</example>
 		<example type="incorrect">Type in the <em>from</em> on the web page.</example>
 	</rule>
-	-->
 	
 	<rule id="CAN_NOT" name="Typo 'can not' instead of 'cannot'">
 		<pattern lang="en">"can" "not"</pattern>
@@ -377,33 +369,32 @@ $Id: grammar.xml,v 1.30 2005-12-18 20:15:26 dnaber Exp $
 		<example type="incorrect">I <em>cant</em> view pdf files in Explorer.</example>
 	</rule>
 	
+	<!-- TODO: support rulegroup syntax -->
+	<!--
 	<rulegroup id="COMP_THAN" name="Comparison with 'than'">
-
-		<!-- TODO: support rulegroup syntax -->
+	-->
 
 		<!-- 106(less..)+319(more...) in complete BNC, all(?) because "...as" -->
-		<rule>
-			<pattern lang="en" mark_from="1" mark_to="0">"more|less" "then|as"</pattern>
+		<rule id="COMP_THAN_1" name="Comparison 'more/less' with 'than'">
+			<pattern lang="en" mark_from="1">"more|less" "then|as"</pattern>
 			<message>Comparison requires <em>than</em>, not 'then'.</message>
 			<example type="correct">The tagger will return more <em>than</em> one tag.</example>
 			<example type="incorrect">The tagger will return more <em>then</em> one tag.</example>
 			<example type="triggers_error">Think of it more <em>as</em> activity.</example>
 		</rule>
 
-		<!-- TODO: 
-			He has more ideas then me. 
-			He is more intelligent then me. 
-			
-		<rule>
-			<pattern lang="en" mark_from="1" mark_to="0">(AJC) "(then|as)"</pattern>
+		<rule id="COMP_THAN_2" name="Comparison with 'than'">
+			<pattern lang="en" mark_from="1">JJR "(then|as)"</pattern>
 			<message>Comparison requires <em>than</em>, not 'then'.</message>
 			<example type="correct">This house is bigger <em>than</em> mine.</example>
 			<example type="incorrect">This house is bigger <em>then</em> mine.</example>
 		</rule>
-		-->
 
+	<!--
 	</rulegroup>
+	-->
 	
+	<!-- FIXME: doesn't work. Either support rulegroup syntax or move out of group... -->
 	<rulegroup id="IT_IS" name="Confusion of its/it's">
 
 		<rule>
@@ -437,7 +428,8 @@ $Id: grammar.xml,v 1.30 2005-12-18 20:15:26 dnaber Exp $
 
 	</rulegroup>
 	
-		<rulegroup id="NOW" name="Confusion of no/now">
+	<!-- FIXME: doesn't work. Either support rulegroup syntax or move out of group... -->
+	<rulegroup id="NOW" name="Confusion of no/now">
 
 		<rule>
 			<pattern lang="en" mark_to="-1">"no" MD|VB|VBD|VBN^known</pattern>
