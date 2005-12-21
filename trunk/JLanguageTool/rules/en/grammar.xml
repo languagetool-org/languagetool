@@ -4,7 +4,7 @@
 Rules: Grammar and Typos
 See tagset.txt for the meaning of the POS tags
 Copyright (C) 2001-2005 Daniel Naber (http://www.danielnaber.de)
-$Id: grammar.xml,v 1.33 2005-12-19 21:36:31 dnaber Exp $
+$Id: grammar.xml,v 1.34 2005-12-21 23:40:42 dnaber Exp $
 -->
 <rules>
 
@@ -64,6 +64,17 @@ $Id: grammar.xml,v 1.33 2005-12-19 21:36:31 dnaber Exp $
 		<example type="correct">He <em>looks</em> at the building.</example>
 		<example type="incorrect">He <em>look</em> at the building.</example>
 	</rule>
+
+	<!-- TODO: fix false alarm for "one of you thinks ...", "even though the world around you thinks"
+	<rule id="I_VERB_AGR" name="Agreement error: third person verb with 'I'">
+		<pattern lang="en" mark_from="1">"I|we|they|you" VBZ</pattern>
+		<message>'I' must be used with a non-third person verb, e.g. 'I think'</message>
+		<example type="correct">I <em>think</em> that is quite fair.</example>
+		<example type="correct">Don't you <em>think</em> that is quite fair?</example>
+		<example type="incorrect">I <em>thinks</em> that is quite fair.</example>
+		<example type="incorrect">Don't you <em>thinks</em> that is quite fair?</example>
+	</rule>
+	-->
 
 	<rule id="MORE_A_JJ" name="Word order: 'more a ...' instead of 'a more ...'">
 		<pattern lang="en">"more" "a|an" JJ</pattern>
