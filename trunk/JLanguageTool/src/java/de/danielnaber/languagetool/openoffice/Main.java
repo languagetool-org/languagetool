@@ -18,8 +18,8 @@
  */
 package de.danielnaber.languagetool.openoffice;
 
-import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.Toolkit;
 import java.io.File;
 import java.io.IOException;
@@ -222,6 +222,7 @@ public class Main {
     return Factory.writeRegistryServiceInfo(_Main.class.getName(), _Main.getServiceNames(), regKey);
   }
   
+  // testing only:
   public static void main(String[] args) throws UnknownPropertyException, WrappedTargetException, IOException {
     _Main m = new _Main();
     m.checkText("this is an test");
@@ -287,13 +288,14 @@ class ProgressDialog extends JFrame {
 
   public ProgressDialog() {
     setTitle("Starting LanguageTool...");
-    JPanel progressPanel = new JPanel(new BorderLayout());
+    JPanel progressPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
     JProgressBar progressBar = new JProgressBar(0, 100);
     progressBar.setIndeterminate(true);
     progressPanel.add(progressBar);
     setContentPane(progressPanel);
     pack();
     setSize(400,80);
+    // center on screen:
     Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
     Dimension frameSize = getSize();
     setLocation(screenSize.width/2 - (frameSize.width/2), screenSize.height/2 - (frameSize.height/2));
