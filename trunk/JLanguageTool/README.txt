@@ -4,13 +4,14 @@ Version ###VERSION###, ###DATE###
 See http://www.danielnaber.de/languagetool
 
 Requirements:
- -Java 1.4
+ -Java 1.4 or later
 
 Usage:
  -To integrate LanguageTool into OpenOffice.org:
   In OpenOffice.org, call Tools -> Package Manager -> Add... and
-  add the LanguageTool ZIP file. Re-start OpenOffice.org and you'll 
-  have an new menu item "LanguageTool" which checks your text.
+  add the LanguageTool ZIP file. Open a new document (File -> New ->
+  Text document) and you'll have an new menu item "LanguageTool"
+  which checks your text.
   
  -To use the simple demo GUI:
   java -jar LanguageToolGUI.jar
@@ -37,7 +38,9 @@ Known bugs:
    -there's no way to enable/disable rules if there's no error in the text
    
 TODO:
+ -add a check so that JLanguageTool.VERSION is always in sync with build.xml
  -translate rules that apply to English and German rules to German
+ 	-DE: "Das Auto mein Mannes." -> "mein" not tagged
  -add more rules, especially agreement stuff
  -parse and use false friend rules
  -make gui.Main use the Configuration class to save its settings?
