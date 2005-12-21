@@ -19,6 +19,8 @@
 package de.danielnaber.languagetool.openoffice;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.Toolkit;
 import java.io.File;
 import java.io.IOException;
 import java.util.Iterator;
@@ -199,6 +201,7 @@ public class Main {
     private File getBaseDir() throws IOException {
       java.net.URL url = Main.class.getResource("/de/danielnaber/languagetool/openoffice/Main.class");
       String urlString = url.getFile();
+      urlString = urlString.replaceAll("%20", " ");     // TODO: how to decode this correctly?
       File file = new File(urlString.substring("file:".length(), urlString.indexOf("!")));
       if (!file.exists()) {
         throw new IOException("File not found: " + file.getAbsolutePath());
@@ -290,8 +293,11 @@ class ProgressDialog extends JFrame {
     progressPanel.add(progressBar);
     setContentPane(progressPanel);
     pack();
+    setSize(400,80);
+    Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+    Dimension frameSize = getSize();
+    setLocation(screenSize.width/2 - (frameSize.width/2), screenSize.height/2 - (frameSize.height/2));
     setVisible(true);
-    setSize(400,30);
   }
   
   void close() {
