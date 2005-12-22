@@ -52,6 +52,7 @@ public class CaseRule extends GermanRule {
     exceptions.add("Ihr");
     exceptions.add("Ihre");
     exceptions.add("Ihren");
+    exceptions.add("Ihnen");
     exceptions.add("Ihrem");
     exceptions.add("Ihrer");
     exceptions.add("Sie");
