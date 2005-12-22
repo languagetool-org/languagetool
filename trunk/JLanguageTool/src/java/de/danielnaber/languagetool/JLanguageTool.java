@@ -60,7 +60,7 @@ import de.danielnaber.languagetool.tokenizers.WordTokenizer;
  */
 public class JLanguageTool {
 
-  public final static String VERSION = "0.8.1";      // keep in sync with build.xml!
+  public final static String VERSION = "0.8.2dev";      // keep in sync with build.xml!
 
   public final static String RULES_DIR = "rules";
   public final static String PATTERN_FILE = "grammar.xml";
