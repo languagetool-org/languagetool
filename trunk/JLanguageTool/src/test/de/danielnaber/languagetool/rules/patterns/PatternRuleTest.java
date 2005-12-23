@@ -18,6 +18,7 @@
  */
 package de.danielnaber.languagetool.rules.patterns;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.Iterator;
 import java.util.List;
@@ -46,18 +47,15 @@ public class PatternRuleTest extends TestCase {
       langTool = new JLanguageTool(Language.ENGLISH);
   }
 
-  public void testEnglishGrammarRulesFromXML() throws IOException, ParserConfigurationException, SAXException {
-    PatternRuleLoader ruleLoader = new PatternRuleLoader();
-    JLanguageTool languageTool = new JLanguageTool(Language.ENGLISH);
-    List rules = ruleLoader.getRules("rules/en/grammar.xml");
-    testGrammarRulesFromXML(rules, languageTool);
-  }
-  
-  public void testGermanGrammarRulesFromXML() throws IOException, ParserConfigurationException, SAXException {
-    PatternRuleLoader ruleLoader = new PatternRuleLoader();
-    JLanguageTool languageTool = new JLanguageTool(Language.GERMAN);
-    List rules = ruleLoader.getRules("rules/de/grammar.xml");
-    testGrammarRulesFromXML(rules, languageTool);
+  public void testGrammarRulesFromXML() throws IOException, ParserConfigurationException, SAXException {
+    for (int i = 0; i < Language.LANGUAGES.length; i++) {
+      Language lang = Language.LANGUAGES[i];
+      PatternRuleLoader ruleLoader = new PatternRuleLoader();
+      JLanguageTool languageTool = new JLanguageTool(lang);
+      List rules = ruleLoader.getRules("rules" + File.separator
+          + lang.getShortName() + File.separator + "grammar.xml");
+      testGrammarRulesFromXML(rules, languageTool);
+    }
   }
   
   private void testGrammarRulesFromXML(List rules, JLanguageTool languageTool) throws IOException {
