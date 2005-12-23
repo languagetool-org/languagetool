@@ -30,6 +30,7 @@ import de.danielnaber.languagetool.tagging.Tagger;
  */
 public class Language {
 
+  // IMPORTANT: keep in sync with LANGUAGES array below:
   public static final Language ENGLISH = new Language("English", "en", new EnglishTagger());
   public static final Language GERMAN = new Language("German", "de", new GermanTagger());
   public static final Language DEMO = new Language("Testlanguage", "xx", new DemoTagger());
@@ -40,7 +41,7 @@ public class Language {
 
   // IMPORTANT: keep in sync with objects above
   /**
-   * All languages supported by JLanguageTool.
+   * All languages supported by LanguageTool.
    */
   public static final Language[] LANGUAGES = new Language[] {ENGLISH, GERMAN, DEMO};
 
