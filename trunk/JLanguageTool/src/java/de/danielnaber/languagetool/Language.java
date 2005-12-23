@@ -20,6 +20,7 @@ package de.danielnaber.languagetool;
 
 import de.danielnaber.languagetool.tagging.de.GermanTagger;
 import de.danielnaber.languagetool.tagging.en.EnglishTagger;
+import de.danielnaber.languagetool.tagging.xx.DemoTagger;
 import de.danielnaber.languagetool.tagging.Tagger;
 
 /**
@@ -31,6 +32,7 @@ public class Language {
 
   public static final Language ENGLISH = new Language("English", "en", new EnglishTagger());
   public static final Language GERMAN = new Language("German", "de", new GermanTagger());
+  public static final Language DEMO = new Language("Testlanguage", "xx", new DemoTagger());
 
   private String name;
   private String shortForm;
@@ -40,7 +42,7 @@ public class Language {
   /**
    * All languages supported by JLanguageTool.
    */
-  public static final Language[] LANGUAGES = new Language[] {ENGLISH, GERMAN};
+  public static final Language[] LANGUAGES = new Language[] {ENGLISH, GERMAN, DEMO};
 
   /**
    * Get the Language object for the given short language name.
