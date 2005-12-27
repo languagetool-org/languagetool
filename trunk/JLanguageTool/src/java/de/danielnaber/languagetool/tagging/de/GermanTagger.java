@@ -123,6 +123,9 @@ public class GermanTagger implements Tagger {
 
   private void initSearcher() throws IOException {
     if (searcher == null) {
+      // much faster, but needs much more RAM:
+      //RAMDirectory ramDir = new RAMDirectory(JLanguageTool.getAbsoluteFile(INDEX_DIR).getAbsolutePath());
+      //searcher = new IndexSearcher(ramDir);
       searcher = new IndexSearcher(JLanguageTool.getAbsoluteFile(INDEX_DIR).getAbsolutePath());
     }
   }
