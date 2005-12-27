@@ -140,7 +140,7 @@ class Main implements ActionListener {
     if (configDialogs.containsKey(language)) {
       configDialog = (ConfigurationDialog)configDialogs.get(language);
     } else {
-      configDialog = new ConfigurationDialog();
+      configDialog = new ConfigurationDialog(false);
       configDialogs.put(language, configDialog);
     }
     JLanguageTool langTool;

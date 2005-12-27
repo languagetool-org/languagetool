@@ -53,8 +53,11 @@ public class ConfigurationDialog implements ActionListener {
   private List checkBoxes = new ArrayList();
   private List checkBoxesRuleIds = new ArrayList();
   private Set inactiveRuleIds = new HashSet();
-
-  public ConfigurationDialog() {
+  private boolean modal;
+  private boolean isClosed = true;
+  
+  public ConfigurationDialog(boolean modal) {
+    this.modal = modal;
   }
   
   public void show(List rules) {
@@ -115,9 +118,14 @@ public class ConfigurationDialog implements ActionListener {
     contentPane.add(buttonPanel, cons);
     
     dialog.pack();
-    dialog.setModal(true);
+    dialog.setModal(modal);
     dialog.setSize(500, 500);
+    isClosed = false;
     dialog.setVisible(true);
+  }
+  
+  public boolean isClosed() {
+    return isClosed;
   }
   
   public void setDisabledRules(Set ruleIDs) {
@@ -136,8 +144,10 @@ public class ConfigurationDialog implements ActionListener {
         }
         i++;
       }
+      isClosed = true;
       dialog.hide(); 
     } else if (e.getActionCommand().equals(CANCEL_BUTTON)) {
+      isClosed = true;
       dialog.hide(); 
     }
   }
