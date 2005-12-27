@@ -4,9 +4,24 @@
 Rules: Grammar and Typos
 See tagset.txt for the meaning of the POS tags
 Copyright (C) 2001-2005 Daniel Naber (http://www.danielnaber.de)
-$Id: grammar.xml,v 1.34 2005-12-21 23:40:42 dnaber Exp $
+$Id: grammar.xml,v 1.35 2005-12-27 14:00:52 dnaber Exp $
 -->
 <rules>
+
+	<rule id="YOUR" name="Possible typo 'your(you're)'">
+		<pattern lang="en" mark_to="-1">"your" VBG</pattern>
+		<message>Did you mean <em>you're</em> or <em>you are</em>?</message>
+		<example type="correct">Let's see if <em>you're</em> using multiple search servers.</example>
+		<example type="correct">Let's see if <em>you are</em> using multiple search servers.</example>
+		<example type="incorrect">Let's see if <em>your</em> using multiple search servers.</example>
+	</rule>
+
+	<rule id="BOTTLE_NECK" name="Possible typo 'bottle neck(bottleneck)'">
+		<pattern lang="en">"bottle" "neck"</pattern>
+		<message>Did you mean <em>bottleneck</em>?</message>
+		<example type="correct">Finding the <em>bottleneck</em></example>
+		<example type="incorrect">Finding the <em>bottle neck</em></example>
+	</rule>
 
 	<rule id="SENT_START_THEM" name="Possible typo 'Them(Then) at sentence start'">
 		<pattern lang="en" mark_from="1">SENT_START "Them"</pattern>
