@@ -19,9 +19,11 @@
 package de.danielnaber.languagetool.openoffice;
 
 import java.awt.Container;
+import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -206,8 +208,12 @@ public class OOoDialog implements ActionListener {
     showError(0);
 
     dialog.pack();
-    //dialog.setModal(true);
+    dialog.setModal(true);
     dialog.setSize(500, 380);
+    // center on screen:
+    Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+    Dimension frameSize = dialog.getSize();
+    dialog.setLocation(screenSize.width/2 - (frameSize.width/2), screenSize.height/2 - (frameSize.height/2));
     dialog.setVisible(true);
     // FIXME: close via "X" in the window must behave like close via "close" button
   }
@@ -348,7 +354,7 @@ public class OOoDialog implements ActionListener {
       ignoreAll();
       gotoNextMatch();
     } else if (event.getActionCommand().equals(OPTIONS_BUTTON)) {
-      ConfigurationDialog cfgDialog = new ConfigurationDialog();
+      ConfigurationDialog cfgDialog = new ConfigurationDialog(true);
       cfgDialog.setDisabledRules(configuration.getDisabledRuleIds());
       cfgDialog.show(rules);
       configuration.setDisabledRuleIds(cfgDialog.getDisabledRuleIds());

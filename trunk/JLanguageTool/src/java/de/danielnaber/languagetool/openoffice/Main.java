@@ -18,21 +18,13 @@
  */
 package de.danielnaber.languagetool.openoffice;
 
-import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.Toolkit;
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
-import java.util.Iterator;
+import java.net.URLDecoder;
 import java.util.List;
 
-import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JProgressBar;
-import javax.xml.parsers.ParserConfigurationException;
-
-import org.xml.sax.SAXException;
 
 import com.sun.star.beans.UnknownPropertyException;
 import com.sun.star.beans.XPropertySet;
@@ -56,7 +48,6 @@ import com.sun.star.text.XTextViewCursorSupplier;
 import com.sun.star.uno.UnoRuntime;
 import com.sun.star.uno.XComponentContext;
 
-import de.danielnaber.languagetool.JLanguageTool;
 import de.danielnaber.languagetool.Language;
 import de.danielnaber.languagetool.gui.Configuration;
 
@@ -75,6 +66,9 @@ public class Main {
 
     private XTextDocument xTextDoc;
     private XTextViewCursor xViewCursor;
+    
+    private File baseDir;
+    private Configuration config;
 
     /** Testing only. */
     public _Main() {
@@ -87,21 +81,57 @@ public class Main {
         XDesktop xDesktop = (XDesktop) UnoRuntime.queryInterface(XDesktop.class, desktop);
         XComponent xComponent = xDesktop.getCurrentComponent();
         xTextDoc = (XTextDocument) UnoRuntime.queryInterface(XTextDocument.class, xComponent);
+        baseDir = getBaseDir();
+        config = new Configuration(baseDir);
       } catch (Throwable e) {
+        writeError(e);
         e.printStackTrace();
       }
     }
 
     public void trigger(String sEvent) {
-      if (sEvent.equals("execute")) {
-        try {
-          String text = getText();
-          checkText(text);
-        } catch (Throwable e) {
-          e.printStackTrace();
+      try {
+        if (sEvent.equals("execute")) {
+          try {
+            String text = getText();
+            checkText(text);
+          } catch (Throwable e) {
+            writeError(e);
+            e.printStackTrace();
+          }
+        } else if (sEvent.equals("configure")) {
+          ConfigThread configThread = new ConfigThread(getLanguage(), config, baseDir);
+          configThread.start();
+          while (true) {
+            if (configThread.done()) {
+              break;
+            }
+            try {
+              Thread.sleep(100);
+            } catch (InterruptedException e) {
+              break;
+            }
+          }
+        } else {
+          System.err.println("Sorry, don't know what to do, sEvent = " + sEvent);
+        }        
+      } catch (Throwable e) {
+        e.printStackTrace();
+      }
+    }
+
+    private void writeError(Throwable e) {
+      FileWriter fw;
+      try {
+        fw = new FileWriter("languagetool.log");
+        fw.write(e.toString() + "\r\n");
+        StackTraceElement[] el = e.getStackTrace();
+        for (int i = 0; i < el.length; i++) {
+          fw.write(el[i].toString()+ "\r\n");
         }
-      } else {
-        System.err.println("Sorry, don't know what to do, sEvent = " + sEvent);
+        fw.close();
+      } catch (IOException e1) {
+        e1.printStackTrace();
       }
     }
 
@@ -126,23 +156,31 @@ public class Main {
       return _Main.class.getName();
     }
 
-    private Language getLanguage() throws UnknownPropertyException, WrappedTargetException {
-      // just look at the current position(?) in the document and assume that this character's
-      // language is the language of the whole document:
-      XPropertySet xCursorProps = (XPropertySet) UnoRuntime.queryInterface(XPropertySet.class,
-          xTextDoc.getText().createTextCursor());
-      Locale charLocale = (Locale) xCursorProps.getPropertyValue("CharLocale");
-      boolean langIsSupported = false;
-      for (int i = 0; i < Language.LANGUAGES.length; i++) {
-        if (Language.LANGUAGES[i].getShortName().equals(charLocale.Language)) {
-          langIsSupported= true;
-          break;
+    private Language getLanguage() {
+      if (xTextDoc == null)
+        return Language.ENGLISH; // for testing with local main() method only      // just look at the current position(?) in the document and assume that this character's
+      Locale charLocale;
+      try {
+        // language is the language of the whole document:
+        XPropertySet xCursorProps = (XPropertySet) UnoRuntime.queryInterface(XPropertySet.class,
+            xTextDoc.getText().createTextCursor());
+        charLocale = (Locale) xCursorProps.getPropertyValue("CharLocale");
+        boolean langIsSupported = false;
+        for (int i = 0; i < Language.LANGUAGES.length; i++) {
+          if (Language.LANGUAGES[i].getShortName().equals(charLocale.Language)) {
+            langIsSupported= true;
+            break;
+          }
         }
-      }
-      if (!langIsSupported) {
-        JOptionPane.showMessageDialog(null, "Error: Sorry, the document language '" +charLocale.Language+ 
-            "' is not supported by LanguageTool.");
-        throw new IllegalArgumentException("Language is not supported: " + charLocale.Language);
+        if (!langIsSupported) {
+          JOptionPane.showMessageDialog(null, "Error: Sorry, the document language '" +charLocale.Language+ 
+              "' is not supported by LanguageTool.");
+          throw new IllegalArgumentException("Language is not supported: " + charLocale.Language);
+        }
+      } catch (UnknownPropertyException e) {
+        throw new RuntimeException(e);
+      } catch (WrappedTargetException e) {
+        throw new RuntimeException(e);
       }
       return Language.getLanguageforShortName(charLocale.Language);
     }
@@ -163,15 +201,9 @@ public class Main {
       return textToCheck;
     }
 
-    private void checkText(String text) throws IOException, UnknownPropertyException, WrappedTargetException {
+    private void checkText(String text) {
       ProgressDialog progressDialog = new ProgressDialog();
-      Language docLanguage = null;
-      if (xTextDoc == null)
-        docLanguage = Language.ENGLISH; // for testing with local main() method only
-      else
-        docLanguage = getLanguage();
-      File baseDir = getBaseDir();
-      Configuration config = new Configuration(baseDir);
+      Language docLanguage = getLanguage();
       CheckerThread checkerThread = new CheckerThread(text, docLanguage, config, baseDir);
       checkerThread.start();
       while (true) {
@@ -187,21 +219,24 @@ public class Main {
       progressDialog.close();
       
       List ruleMatches = checkerThread.getRuleMatches();
+      // TODO: why must these be wrapped in threads to avoid focus problems?
       if (ruleMatches.size() == 0) {
-        JOptionPane.showMessageDialog(null, "No errors and warnings found (document language: " +
-            docLanguage.getName() + ")");
+        DialogThread dt = new DialogThread("No errors and warnings found " +
+                "(document language: " + docLanguage.getName() + ")");
+        dt.start();
         // TODO: display number of active rules etc?
       } else {
-        OOoDialog dialog = new OOoDialog(config, checkerThread.getLanguageTool().getAllRules(),
+        ResultDialogThread dialog = new ResultDialogThread(config,
+            checkerThread.getLanguageTool().getAllRules(),
             xTextDoc, ruleMatches, text, xViewCursor);
-        dialog.show();
+        dialog.start();
       }
     }
 
     private File getBaseDir() throws IOException {
       java.net.URL url = Main.class.getResource("/de/danielnaber/languagetool/openoffice/Main.class");
       String urlString = url.getFile();
-      urlString = urlString.replaceAll("%20", " ");     // TODO: how to decode this correctly?
+      urlString = URLDecoder.decode(urlString);
       File file = new File(urlString.substring("file:".length(), urlString.indexOf("!")));
       if (!file.exists()) {
         throw new IOException("File not found: " + file.getAbsolutePath());
@@ -223,87 +258,52 @@ public class Main {
   }
   
   // testing only:
-  public static void main(String[] args) throws UnknownPropertyException, WrappedTargetException, IOException {
+  public static void main(String[] args) {
+    //System.out.println(URLDecoder.decode(s, "cp1252"));
     _Main m = new _Main();
     m.checkText("this is an test");
   }
 
 }
 
-class CheckerThread extends Thread {
+class DialogThread extends Thread {
 
   private String text;
-  private Language docLanguage;
-  private Configuration config;
-  private File baseDir;
-  
-  private JLanguageTool langTool; 
-  private List ruleMatches;
-  private boolean done = false;
-  
-  CheckerThread(String text, Language docLanguage, Configuration config, File baseDir) {
+
+  DialogThread(String text) {
     this.text = text;
-    this.docLanguage = docLanguage;
-    this.config = config;
-    this.baseDir = baseDir;
   }
   
-  public boolean done() {
-    return done;
-  }
-
-  List getRuleMatches() {
-    return ruleMatches;
-  }
-
-  JLanguageTool getLanguageTool() {
-    return langTool;
-  }
-
   public void run() {
-    try {
-      langTool = new JLanguageTool(docLanguage, baseDir);
-      langTool.activateDefaultPatternRules();
-      for (Iterator iter = config.getDisabledRuleIds().iterator(); iter.hasNext();) {
-        String id = (String) iter.next();
-        langTool.disableRule(id);
-      }
-      ruleMatches = langTool.check(text);
-      done = true;
-    } catch (IOException e) {
-      e.printStackTrace();
-      throw new RuntimeException(e);
-    } catch (ParserConfigurationException e) {
-      e.printStackTrace();
-      throw new RuntimeException(e);
-    } catch (SAXException e) {
-      e.printStackTrace();
-      throw new RuntimeException(e);
-    }
+    JOptionPane.showMessageDialog(null, text);
   }
   
 }
 
-class ProgressDialog extends JFrame {
+class ResultDialogThread extends Thread {
 
-  public ProgressDialog() {
-    setTitle("Starting LanguageTool...");
-    JPanel progressPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
-    JProgressBar progressBar = new JProgressBar(0, 100);
-    progressBar.setIndeterminate(true);
-    progressPanel.add(progressBar);
-    setContentPane(progressPanel);
-    pack();
-    setSize(400,80);
-    // center on screen:
-    Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-    Dimension frameSize = getSize();
-    setLocation(screenSize.width/2 - (frameSize.width/2), screenSize.height/2 - (frameSize.height/2));
-    setVisible(true);
+  private Configuration configuration;
+  private List rules;
+  private XTextDocument xTextDoc;
+  private List ruleMatches;
+  private String text;
+  private XTextViewCursor xViewCursor;
+
+  ResultDialogThread(Configuration configuration, List rules, XTextDocument xTextDoc, List ruleMatches, String text,
+      XTextViewCursor xViewCursor) {
+    this.configuration = configuration;
+    this.rules =rules;
+    this.xTextDoc = xTextDoc;
+    this.ruleMatches = ruleMatches;
+    this.text = text;
+    this.xViewCursor = xViewCursor;
   }
   
-  void close() {
-    setVisible(false);
+  public void run() {
+    OOoDialog dialog = new OOoDialog(configuration, rules,
+        xTextDoc, ruleMatches, text, xViewCursor);
+    dialog.show();
   }
   
 }
+
