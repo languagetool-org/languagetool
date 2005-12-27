@@ -35,9 +35,9 @@ Known bugs:
    -some errors trigger two rules at the same position, this makes the "Change text"
     button work wrong
    -cursor first jumps to start of text, only then to the error position
-   -there's no way to enable/disable rules if there's no error in the text
    
 TODO:
+ -should the "lang" attribute be removed from grammar.xml?
  -add a check so that JLanguageTool.VERSION is always in sync with build.xml
  -translate rules that apply to English and German rules to German
  	-DE: "Das Auto mein Mannes." -> "mein" not tagged
@@ -45,3 +45,6 @@ TODO:
  -parse and use false friend rules
  -make gui.Main use the Configuration class to save its settings?
  -add information to rule about when it can give false alarm?
+ -false alert: 
+ 	Elmar Faber sagte zu den Absagen, die Autoren zeigten...
+ 	...des Leipziger Verlages Faber...
