@@ -66,7 +66,7 @@ class Main implements ActionListener {
   }
 
   private void createAndShowGUI() {
-    JFrame frame = new JFrame("JLanguageTool Demo");
+    JFrame frame = new JFrame("LanguageTool " +JLanguageTool.VERSION+ " Demo");
     frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
     textArea = new JTextArea("This is a example input to to show you how JLanguageTool works. " +
