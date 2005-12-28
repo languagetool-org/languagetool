@@ -4,47 +4,47 @@
 Rules: Grammar and Typos
 See tagset.txt for the meaning of the POS tags
 Copyright (C) 2001-2005 Daniel Naber (http://www.danielnaber.de)
-$Id: grammar.xml,v 1.20 2005-12-10 16:03:47 dnaber Exp $
+$Id: grammar.xml,v 1.21 2005-12-28 15:00:14 dnaber Exp $
 -->
-<rules>
+<rules lang="de">
 
 	<rule id="ANREDE_NEUE_RECHTSCHREIBUNG" name="Kleinschreibung der Anredepronomen du/dein/euch/euer">
-		<pattern mark_from="1" case_sensitive="yes" lang="de">^SENT_START "Du|Dein|Euch|Euer"</pattern>
+		<pattern mark_from="1" case_sensitive="yes">^SENT_START "Du|Dein|Euch|Euer"</pattern>
 		<message>Nach der neuen Rechtschreibung werden Anreden wie 'du, ihr, euch, ...' klein geschrieben (die Anrede 'Sie' wird weiterhin groß geschrieben)</message>
 		<example type="correct">Lieber Klaus, willst <em>du</em> ...</example>
 		<example type="incorrect">Lieber Klaus, willst <em>Du</em> ...</example>
 	</rule>
 
 	<rule id="AUS_VERSEHEN" name="Tippfehler 'aus versehen(Versehen)'">
-		<pattern mark_from="1" case_sensitive="yes" lang="de">"aus" "versehen"</pattern>
+		<pattern mark_from="1" case_sensitive="yes">"aus" "versehen"</pattern>
 		<message>In der Wendung 'aus Versehen' wird <em>Versehen</em> groß geschrieben.</message>
 		<example type="correct">Die SPD meuchelt aus <em>Versehen</em> ihren Chef.</example>
 		<example type="incorrect">Die SPD meuchelt aus <em>versehen</em> ihren Chef.</example>
 	</rule>
 
 	<rule id="PER_NACHNAME" name="Tippfehler 'per Nachname(Nachnahme)'">
-		<pattern mark_from="1" case_sensitive="yes" lang="de">"per" "Nachname"</pattern>
+		<pattern mark_from="1" case_sensitive="yes">"per" "Nachname"</pattern>
 		<message>Meinten Sie '<em>Nachnahme</em>'?</message>
 		<example type="correct">Warum liefern Firmen lieber per <em>Nachnahme</em>?</example>
 		<example type="incorrect">Warum liefern Firmen lieber per <em>Nachname</em>?</example>
 	</rule>
 
 	<rule id="FRAGEN_HABEN" name="Tippfehler 'fragen(Fragen) haben/stellen'">
-		<pattern mark_to="-1" case_sensitive="yes" lang="de">"fragen" "haben|hat|hast|habe|hätte|hatte|hattest|hatten|hätten|habt|stellen|stellt|stellst|stellte|stellten"</pattern>
+		<pattern mark_to="-1" case_sensitive="yes">"fragen" "haben|hat|hast|habe|hätte|hatte|hattest|hatten|hätten|habt|stellen|stellt|stellst|stellte|stellten"</pattern>
 		<message>'Fragen' als Nomen wird groß geschrieben.</message>
 		<example type="correct">Meine <em>Fragen</em> hat bislang keiner gelesen.</example>
 		<example type="incorrect">Meine <em>fragen</em> hat bislang keiner gelesen</example>
 	</rule>
 
 	<rule id="MOEGLICHER_WEISE" name="Tippfehler 'möglicher Weise(möglicherweise)'">
-		<pattern lang="de">"möglicher" "Weise"</pattern>
+		<pattern>"möglicher" "Weise"</pattern>
 		<message><em>Möglicherweise</em> wird zusammengeschrieben.</message>
 		<example type="correct"><em>Möglicherweise</em> ist die Gelbphase zu kurz eingestellt.</example>
 		<example type="incorrect"><em>Möglicher Weise</em> ist die Gelbphase zu kurz eingestellt.</example>
 	</rule>
 
 	<rule id="LASEN_LASSEN" name="Tippfehler 'zu lasen(lassen)'">
-		<pattern mark_from="1" case_sensitive="yes" lang="de">"zu" "lasen"</pattern>
+		<pattern mark_from="1" case_sensitive="yes">"zu" "lasen"</pattern>
 		<message>Meinten Sie 'zu <em>lassen</em>'?</message>
 		<example type="correct">...sie mit einem Maulkorb rumlaufen zu <em>lassen</em>.</example>
 		<example type="incorrect">...sie mit einem Maulkorb rumlaufen zu <em>lasen</em>.</example>
@@ -52,7 +52,7 @@ $Id: grammar.xml,v 1.20 2005-12-10 16:03:47 dnaber Exp $
 
 	<!-- wird schon durch DE_CASE gefunden:
 	<rule id="LASEN_LASTEN" name="Tippfehler 'zu Lasen(Lasten)'">
-		<pattern mark_from="1" case_sensitive="yes" lang="de">"zu" "Lasen"</pattern>
+		<pattern mark_from="1" case_sensitive="yes">"zu" "Lasen"</pattern>
 		<message>Meinten Sie 'zu <em>Lasten</em>'?</message>
 		<example type="correct">Das geht zu <em>Lasten</em> der Bundekasse.</example>
 		<example type="incorrect">Das geht zu <em>Lasen</em> der Bundekasse.</example>
@@ -60,21 +60,21 @@ $Id: grammar.xml,v 1.20 2005-12-10 16:03:47 dnaber Exp $
 	-->
 
 	<rule id="OEKONOMISCH_OEKUMENISCH" name="Fehler 'ökonomischer(ökumenischer) Gottesdienst/...'">
-		<pattern mark_to="-1" lang="de">"ökonomischen|ökonomischer" "Gottesdienst|Gottesdienste|Gottesdiensts|Trauung|Taufe|Kirchentag"</pattern>
+		<pattern mark_to="-1">"ökonomischen|ökonomischer" "Gottesdienst|Gottesdienste|Gottesdiensts|Trauung|Taufe|Kirchentag"</pattern>
 		<message>Meinten Sie <em>ökumenisch</em> (ökonomisch = auf die Wirtschaft bezogen)?</message>
 		<example type="correct">Was ist ein <em>ökumenischer</em> Gottesdienst?</example>
 		<example type="incorrect">Was ist ein <em>ökonomischer</em> Gottesdienst?</example>
 	</rule>
 
 	<rule id="ETHISCH_ETHNISCH" name="Fehler 'ethische(ethnische) Mindeheiten/...'">
-		<pattern mark_to="-1" lang="de">"ethische|ethischer|ethischen" "Minderheit|Minderheiten|Säuberung|Säuberungen|Herkunft|Konflikt|Konflikte"</pattern>
+		<pattern mark_to="-1">"ethische|ethischer|ethischen" "Minderheit|Minderheiten|Säuberung|Säuberungen|Herkunft|Konflikt|Konflikte"</pattern>
 		<message>Meinten Sie <em>ethnische</em> (ethisch = sittlich, ethnisch = zu einer bestimmten Ethnie/Volksgruppe gehörend)?</message>
 		<example type="correct">Bücher über <em>ethnische</em> Minderheiten und Vertriebene</example>
 		<example type="incorrect">Bücher über <em>ethische</em> Minderheiten und Vertriebene</example>
 	</rule>
 
 	<rule id="DENN_DEN" name="Tippfehler 'aber denn(dann)'">
-		<pattern mark_from="1" lang="de">"aber|doch" "denn"</pattern>
+		<pattern mark_from="1">"aber|doch" "denn"</pattern>
 		<message>Meinten Sie <em>den</em> oder <em>dann</em>?</message>
 		<example type="correct">Aber <em>dann</em> ging es los.</example>
 		<example type="correct">Aber <em>den</em> haben Sie ja schon.</example>
@@ -82,14 +82,14 @@ $Id: grammar.xml,v 1.20 2005-12-10 16:03:47 dnaber Exp $
 	</rule>
 
 	<rule id="ZAUN_ZAUM" name="Tippfehler 'im Zaun(Zaum) halten'">
-		<pattern mark_from="1" mark_to="-1" lang="de">"im" "Zaun" "halten|hielt|hält|haltet|hälst|gehalten"</pattern>
+		<pattern mark_from="1" mark_to="-1">"im" "Zaun" "halten|hielt|hält|haltet|hälst|gehalten"</pattern>
 		<message>Meinten Sie <em>Zaum</em>?</message>
 		<example type="correct">Da konnt ich meine Finger nicht mehr im <em>Zaum</em> halten.</example>
 		<example type="incorrect">Da konnt ich meine Finger nicht mehr im <em>Zaun</em> halten.</example>
 	</rule>
 
 	<rule id="BESCHEIDE_BESCHEID" name="Tippfehler Bescheide/Bescheid">
-		<pattern mark_to="-1" lang="de">"Bescheide|Bescheids" "sagen|sagst|sagt|wissen|weißt|wisst|geben|gebt"</pattern>
+		<pattern mark_to="-1">"Bescheide|Bescheids" "sagen|sagst|sagt|wissen|weißt|wisst|geben|gebt"</pattern>
 		<message>Meinten Sie <em>Bescheid</em>?</message>
 		<example type="correct">Da würde ich auch <em>Bescheid</em> sagen.</example>
 		<example type="incorrect">Da würde ich auch <em>Bescheide</em> sagen.</example>
@@ -97,56 +97,56 @@ $Id: grammar.xml,v 1.20 2005-12-10 16:03:47 dnaber Exp $
 	</rule>
 
 	<rule id="WIEDER_WILLEN" name="Tippfehler 'wieder(wider) Willen/Erwarten'">
-		<pattern mark_to="-1" lang="de">"wieder" "Willen|Erwarten"</pattern>
+		<pattern mark_to="-1">"wieder" "Willen|Erwarten"</pattern>
 		<message>Meinten Sie <em>wider</em> (wider = gegen, wieder = nochmals)?</message>
 		<example type="correct">Wunschwitz wird zum Aufständler und Rebellen <em>wider</em> Willen.</example>
 		<example type="incorrect">Wunschwitz wird zum Aufständler und Rebellen <em>wieder</em> Willen.</example>
 	</rule>
 
 	<rule id="ICH_VERALTE" name="Tippfehler 'ich veralte(verwalte/verhalte)'">
-		<pattern mark_from="1" lang="de">"ich" "veralte"</pattern>
+		<pattern mark_from="1">"ich" "veralte"</pattern>
 		<message>Meinten Sie <em>verhalte</em> oder <em>verwalte</em>?</message>
 		<example type="correct">Ich <em>verwalte</em> auf diese Weise so 100 E-Mail-Adressen.</example>
 		<example type="incorrect">Ich <em>veralte</em> auf diese Weise so 100 E-Mail-Adressen.</example>
 	</rule>
 
 	<rule id="VON_WIEDER_VON" name="Tippfehler 'von(schon) wieder von'">
-		<pattern mark_to="-2" lang="de">"von" "wieder" "von"</pattern>
+		<pattern mark_to="-2">"von" "wieder" "von"</pattern>
 		<message>Meinten Sie <em>schon</em>?</message>
 		<example type="correct">Das war's auch <em>schon</em> wieder von mir.</example>
 		<example type="incorrect">Das war's auch <em>von</em> wieder von mir.</example>
 	</rule>
 
 	<rule id="BEREIT_BESTEHENDE" name="Tippfehler 'bereit(bereits) bestehende'">
-		<pattern mark_to="-1" lang="de">"bereit" "bestehende"</pattern>
+		<pattern mark_to="-1">"bereit" "bestehende"</pattern>
 		<message>Meinten Sie <em>bereits</em>?</message>
 		<example type="correct">Sie können dies als Service für Ihre <em>bereits</em> bestehende Seite benutzen.</example>
 		<example type="incorrect">Sie können dies als Service für Ihre <em>bereit</em> bestehende Seite benutzen.</example>
 	</rule>
 
 	<rule id="MIT_OHNE" name="Möglicher Tippfehler 'mit ohne'">
-		<pattern lang="de">"mit" "ohne"</pattern>
+		<pattern>"mit" "ohne"</pattern>
 		<message>Meinten Sie <em>ohne</em>? 'Mit ohne' ist eine umgangssprachliche Wendung.</message>
 		<example type="correct">Internet <em>ohne</em> Schnur</example>
 		<example type="incorrect">Internet <em>mit ohne</em> Schnur</example>
 	</rule>
 
 	<rule id="AUF_DEM_LAUFENDEN" name="Möglicher Tippfehler 'auf dem laufenden(Laufenden)'">
-		<pattern lang="de" mark_from="2" case_sensitive="yes">"auf" "dem" "laufenden"</pattern>
+		<pattern mark_from="2" case_sensitive="yes">"auf" "dem" "laufenden"</pattern>
 		<message>In der Wendung 'auf dem Laufenden' wird <em>Laufenden</em> groß geschrieben.</message>
 		<example type="correct">Bitte halte mich auf dem <em>Laufenden</em>.</example>
 		<example type="incorrect">Bitte halte mich auf dem <em>laufenden</em></example>
 	</rule>
 
 	<rule id="WICHTIGES_GROSSSCHREIBUNG" name="Möglicher Tippfehler 'etwas/nichts wichtiges(Wichtiges)'">
-		<pattern lang="de" mark_from="1" case_sensitive="yes">"etwas|nichts" "wichtiges"</pattern>
+		<pattern mark_from="1" case_sensitive="yes">"etwas|nichts" "wichtiges"</pattern>
 		<message><em>Wichtiges</em> als Nomen wird groß geschrieben.</message>
 		<example type="correct">Beiträge die etwas <em>Wichtiges</em> über den Spielverlauf verraten bitte kennzeichnen.</example>
 		<example type="incorrect">Beiträge die etwas <em>wichtiges</em> über den Spielverlauf verraten bitte kennzeichnen.</example>
 	</rule>
 
 	<rule id="NICHTS_GUTES_GROSSSCHREIBUNG" name="Möglicher Tippfehler 'etwas/nichts gutes(Gutes)'">
-		<pattern lang="de" mark_from="1" case_sensitive="yes">"etwas|nichts" "gutes"</pattern>
+		<pattern mark_from="1" case_sensitive="yes">"etwas|nichts" "gutes"</pattern>
 		<message><em>Gutes</em> als Nomen wird groß geschrieben.</message>
 		<example type="correct">Dahinter verbirgt sich nichts <em>Gutes</em>.</example>
 		<example type="incorrect">Dahinter verbirgt sich nichts <em>gutes</em>.</example>

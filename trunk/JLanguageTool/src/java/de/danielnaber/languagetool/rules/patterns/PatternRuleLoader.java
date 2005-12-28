@@ -63,7 +63,7 @@ class PatternRuleHandler extends DefaultHandler {
   private List rules = new ArrayList();
   private String id;
   private boolean caseSensitive = false;
-  private String languageStr;
+  private Language language;
   private StringBuffer pattern = null;
   private String description;
   private String ruleGroupId;
@@ -90,10 +90,16 @@ class PatternRuleHandler extends DefaultHandler {
   // SAX DocumentHandler methods
   //===========================================================
 
-  public void startElement(String namespaceURI, String lName, String qName, Attributes attrs) {
+  public void startElement(String namespaceURI, String lName, String qName, Attributes attrs) throws SAXException {
     if (namespaceURI == null) namespaceURI = null;      // avoid compiler warning
     if (lName == null) lName = null;      // avoid compiler warning
-    if (qName.equals("rule")) {
+    if (qName.equals("rules")) {
+      String languageStr = attrs.getValue("lang");
+      language = Language.getLanguageforShortName(languageStr);
+      if (language == null) {
+        throw new SAXException("Unknown language '" + languageStr + "'");
+      }
+    } else if (qName.equals("rule")) {
       id = attrs.getValue("id");
       if (inRuleGroup && id == null)
         id = ruleGroupId;
@@ -105,7 +111,6 @@ class PatternRuleHandler extends DefaultHandler {
     } else if (qName.equals("pattern")) {
       pattern = new StringBuffer();
       inPattern = true;
-      languageStr = attrs.getValue("lang");
       if (attrs.getValue("mark_from") != null)
         startPositionCorrection = Integer.parseInt(attrs.getValue("mark_from"));
       if (attrs.getValue("mark_to") != null)
@@ -130,15 +135,10 @@ class PatternRuleHandler extends DefaultHandler {
     }
   }
 
-  public void endElement(String namespaceURI, String sName, String qName) throws SAXException {
+  public void endElement(String namespaceURI, String sName, String qName) {
     if (namespaceURI == null) namespaceURI = null;      // avoid compiler warning
     if (sName == null) sName = null;      // avoid compiler warning
-    Language language = null;
     if (qName.equals("rule")) {
-      language = Language.getLanguageforShortName(languageStr);
-      if (language == null) {
-        throw new SAXException("Unknown language '" + languageStr + "'");
-      }
       PatternRule rule = new PatternRule(id, language, pattern.toString(), description,
           message.toString());
       rule.setStartPositionCorrection(startPositionCorrection);

@@ -4,12 +4,12 @@
 Rules: Grammar and Typos
 See tagset.txt for the meaning of the POS tags
 Copyright (C) 2001-2005 Daniel Naber (http://www.danielnaber.de)
-$Id: grammar.xml,v 1.35 2005-12-27 14:00:52 dnaber Exp $
+$Id: grammar.xml,v 1.36 2005-12-28 15:00:14 dnaber Exp $
 -->
-<rules>
+<rules lang="en">
 
 	<rule id="YOUR" name="Possible typo 'your(you're)'">
-		<pattern lang="en" mark_to="-1">"your" VBG</pattern>
+		<pattern mark_to="-1">"your" VBG</pattern>
 		<message>Did you mean <em>you're</em> or <em>you are</em>?</message>
 		<example type="correct">Let's see if <em>you're</em> using multiple search servers.</example>
 		<example type="correct">Let's see if <em>you are</em> using multiple search servers.</example>
@@ -17,21 +17,21 @@ $Id: grammar.xml,v 1.35 2005-12-27 14:00:52 dnaber Exp $
 	</rule>
 
 	<rule id="BOTTLE_NECK" name="Possible typo 'bottle neck(bottleneck)'">
-		<pattern lang="en">"bottle" "neck"</pattern>
+		<pattern>"bottle" "neck"</pattern>
 		<message>Did you mean <em>bottleneck</em>?</message>
 		<example type="correct">Finding the <em>bottleneck</em></example>
 		<example type="incorrect">Finding the <em>bottle neck</em></example>
 	</rule>
 
 	<rule id="SENT_START_THEM" name="Possible typo 'Them(Then) at sentence start'">
-		<pattern lang="en" mark_from="1">SENT_START "Them"</pattern>
+		<pattern mark_from="1">SENT_START "Them"</pattern>
 		<message>Did you mean <em>then</em>?</message>
 		<example type="correct"><em>Then</em> it became clear.</example>
 		<example type="incorrect"><em>Them</em> it became clear.</example>
 	</rule>
 
 	<rule id="TO_LATE" name="Possible typo 'to(too) late'">
-		<pattern lang="en" mark_from="1" mark_to="-1">"much|is|was" "to" "late"</pattern>
+		<pattern mark_from="1" mark_to="-1">"much|is|was" "to" "late"</pattern>
 		<message>Did you mean <em>too</em>?</message>
 		<example type="correct">It was <em>too</em> late.</example>
 		<example type="correct">It was much <em>too</em> late.</example>
@@ -40,7 +40,7 @@ $Id: grammar.xml,v 1.35 2005-12-27 14:00:52 dnaber Exp $
 	</rule>
 
 	<rule id="TO_SOON" name="Possible typo 'to(too) soon'">
-		<pattern lang="en" mark_from="1" mark_to="-2">"comes|came|much|is|was" "to" "soon" ^(VB)</pattern>
+		<pattern mark_from="1" mark_to="-2">"comes|came|much|is|was" "to" "soon" ^(VB)</pattern>
 		<message>Did you mean <em>too</em>?</message>
 		<example type="correct">The plan is <em>to</em> soon launch a new plane.</example>
 		<example type="correct">His idea came much <em>too</em> soon to be successful.</example>
@@ -50,7 +50,7 @@ $Id: grammar.xml,v 1.35 2005-12-27 14:00:52 dnaber Exp $
 	</rule>
 
 	<rule id="TO_MUCH" name="Possible typo 'to(too) much'">
-		<pattern lang="en" mark_from="1" mark_to="-1">^"access" "to" "much"</pattern>
+		<pattern mark_from="1" mark_to="-1">^"access" "to" "much"</pattern>
 		<message>Did you mean <em>too</em>?</message>
 		<example type="correct">Because <em>too</em> much snow was on it.</example>
 		<example type="correct">the password provides access <em>to</em> much more data.</example>
@@ -58,7 +58,7 @@ $Id: grammar.xml,v 1.35 2005-12-27 14:00:52 dnaber Exp $
 	</rule>
 
 	<rule id="AGREEMENT_1" name="Agreement error: 'The (plural word) is">
-		<pattern lang="en" mark_from="3">SENT_START DT NNS VBZ</pattern>
+		<pattern mark_from="3">SENT_START DT NNS VBZ</pattern>
 		<message>Agreement error -- did you mean <em>are</em>?</message>
 		<example type="correct">The dogs <em>are</em> released.</example>
 		<example type="correct">The dog is released.</example>
@@ -66,7 +66,7 @@ $Id: grammar.xml,v 1.35 2005-12-27 14:00:52 dnaber Exp $
 	</rule>
 
 	<rule id="AGREEMENT_2" name="Agreement error: 'The (plural word) of ... is">
-		<pattern lang="en" mark_from="5">SENT_START DT NNS "of" NN VBZ</pattern>
+		<pattern mark_from="5">SENT_START DT NNS "of" NN VBZ</pattern>
 		<message>Agreement error -- did you mean <em>are</em>?</message>
 		<example type="correct">The dogs of war <em>are</em> released.</example>
 		<example type="correct">The dog of war is released.</example>
@@ -74,7 +74,7 @@ $Id: grammar.xml,v 1.35 2005-12-27 14:00:52 dnaber Exp $
 	</rule>
 
 	<rule id="HE_VERB_AGR" name="Agreement error: Non-third person verb with 'he'">
-		<pattern lang="en" mark_from="2">^"(has|will|must|could|can|should|would|does|did)" "he" VBP</pattern>
+		<pattern mark_from="2">^"(has|will|must|could|can|should|would|does|did)" "he" VBP</pattern>
 		<message>'He' must be used with a third person verb, e.g. 'he walks'</message>
 		<example type="correct">He <em>looks</em> at the building.</example>
 		<example type="incorrect">He <em>look</em> at the building.</example>
@@ -82,7 +82,7 @@ $Id: grammar.xml,v 1.35 2005-12-27 14:00:52 dnaber Exp $
 
 	<!-- TODO: fix false alarm for "one of you thinks ...", "even though the world around you thinks"
 	<rule id="I_VERB_AGR" name="Agreement error: third person verb with 'I'">
-		<pattern lang="en" mark_from="1">"I|we|they|you" VBZ</pattern>
+		<pattern mark_from="1">"I|we|they|you" VBZ</pattern>
 		<message>'I' must be used with a non-third person verb, e.g. 'I think'</message>
 		<example type="correct">I <em>think</em> that is quite fair.</example>
 		<example type="correct">Don't you <em>think</em> that is quite fair?</example>
@@ -92,49 +92,49 @@ $Id: grammar.xml,v 1.35 2005-12-27 14:00:52 dnaber Exp $
 	-->
 
 	<rule id="MORE_A_JJ" name="Word order: 'more a ...' instead of 'a more ...'">
-		<pattern lang="en">"more" "a|an" JJ</pattern>
+		<pattern>"more" "a|an" JJ</pattern>
 		<message>Did you mean <em>a more \3</em>?</message>
 		<example type="correct">I can give you <em>a more detailed</em> description of what's necessary.</example>
 		<example type="incorrect">I can give you <em>more a detailed</em> description of what's necessary.</example>
 	</rule>
 
 	<rule id="THINK_YOU_A" name="Typo 'think you a/an(are)'">
-		<pattern lang="en" mark_from="2">"think" "you" "a|an"</pattern>
+		<pattern mark_from="2">"think" "you" "a|an"</pattern>
 		<message>Did you mean <em>are</em>?</message>
 		<example type="correct">Some would think you <em>are</em> a fortunate man.</example>
 		<example type="incorrect">Some would think you <em>a</em> fortunate man.</example>
 	</rule>
 
 	<rule id="SOME_EXTEND" name="Typo 'some/certain extend(extent)">
-		<pattern lang="en" mark_from="1">"some|certain" "extend"</pattern>
+		<pattern mark_from="1">"some|certain" "extend"</pattern>
 		<message>Did you mean <em>extent</em> ("extent" is a noun, "extend" is a verb)?</message>
 		<example type="correct">Yes it is, to a certain <em>extent</em>.</example>
 		<example type="incorrect">Yes it is, to a certain <em>extend</em>.</example>
 	</rule>
 
 	<rule id="IS_WERE" name="Typo 'is were(where)'">
-		<pattern lang="en" mark_from="1">"is" "were"</pattern>
+		<pattern mark_from="1">"is" "were"</pattern>
 		<message>Did you mean <em>where</em>?</message>
 		<example type="correct">Now, this is <em>where</em> my ignorance sets in.</example>
 		<example type="incorrect">Now, this is <em>were</em> my ignorance sets in.</example>
 	</rule>
 
 	<rule id="ONE_ORE" name="Typo 'one ore(or)'">
-		<pattern lang="en" mark_from="1">CD "ore"</pattern>
+		<pattern mark_from="1">CD "ore"</pattern>
 		<message>Did you mean <em>or</em>?</message>
 		<example type="correct">Type in one <em>or</em> more words.</example>
 		<example type="incorrect">Type in one <em>ore</em> more words.</example>
 	</rule>
 
 	<rule id="THE_ONLY_ON" name="Typo 'the only on(one)'">
-		<pattern lang="en">"the" "only" "on"</pattern>
+		<pattern>"the" "only" "on"</pattern>
 		<message>Did you mean <em>the only one</em>?</message>
 		<example type="correct">The trash folder is the only <em>one</em> for me that works.</example>
 		<example type="incorrect">The trash folder is the only <em>on</em> for me that works.</example>
 	</rule>
 
 	<rule id="THEIR_IS" name="Typo 'their(there) is/are'">
-		<pattern lang="en" mark_to="-1">"their" "(is|are)"</pattern>
+		<pattern mark_to="-1">"their" "(is|are)"</pattern>
 		<message>Did you mean <em>there</em>?</message>
 		<example type="correct">He noticed that <em>there</em> is a new test.</example>
 		<example type="incorrect">He noticed that <em>their</em> is a new test.</example>
@@ -142,7 +142,7 @@ $Id: grammar.xml,v 1.35 2005-12-27 14:00:52 dnaber Exp $
 
 	<rule id="I_A" name="Typo 'I a(am)' and 'I an(am)'">
 		<!-- but: 'Am I an annoyance' -->
-		<pattern lang="en" mark_from="1">"I" "a|an"</pattern>
+		<pattern mark_from="1">"I" "a|an"</pattern>
 		<message>Did you mean <em>am</em> (first person of "to be")?</message>
 		<example type="correct">I <em>am</em> not sure.</example>
 		<example type="incorrect">I <em>a</em> not sure.</example>
@@ -150,63 +150,63 @@ $Id: grammar.xml,v 1.35 2005-12-27 14:00:52 dnaber Exp $
 
 	<rule id="I_NEW" name="Typo 'I/he/we new(knew)'">
 		<!-- not you because of: we need to buy you new shoes -->
-		<pattern lang="en" mark_from="1">"I|he|we" "new"</pattern>
+		<pattern mark_from="1">"I|he|we" "new"</pattern>
 		<message>Did you mean <em>knew</em> (past of "to know")?</message>
 		<example type="correct">Ah, I <em>knew</em> you would say that.</example>
 		<example type="incorrect">Ah, I <em>new</em> you would say that.</example>
 	</rule>
 
 	<rule id="PLEASE_NOT_THAT" name="Typo 'please not(note)' that'">
-		<pattern lang="en" mark_from="1" mark_to="-1">"please" "not" "that"</pattern>
+		<pattern mark_from="1" mark_to="-1">"please" "not" "that"</pattern>
 		<message>Did you mean <em>note</em>?</message>
 		<example type="correct">Please <em>note</em> that saying "Open Source" does not mean very much.</example>
 		<example type="incorrect">Please <em>not</em> that saying "Open Source" does not mean very much.</example>
 	</rule>
 
 	<rule id="NUT_NOT" name="Confusion of nut/not">
-		<pattern lang="en" mark_to="-1">"nut" (RB|JJ|NN)</pattern>
+		<pattern mark_to="-1">"nut" (RB|JJ|NN)</pattern>
 		<message>Did you mean <em>not</em>?</message>
 		<example type="correct">I'm <em>not</em> sure.</example>
 		<example type="incorrect">I'm <em>nut</em> sure.</example>
 	</rule>
 	
 	<rule id="AND_SO_ONE" name="Typo 'and so one(on)'">
-		<pattern lang="en">"and" "so" "one"</pattern>
+		<pattern>"and" "so" "one"</pattern>
 		<message>Did you mean <em>and so on</em> (="etc.")?</message>
 		<example type="correct">We think it helps finding bottlenecks <em>and so on</em>.</example>
 		<example type="incorrect">We think it helps finding bottlenecks <em>and so one</em>.</example>
 	</rule>
 	
 	<rule id="THROUGH_AWAY" name="Typo 'through(throw) away'">
-		<pattern lang="en" mark_to="-1">"through" "away"</pattern>
+		<pattern mark_to="-1">"through" "away"</pattern>
 		<message>Did you mean <em>throw</em>?</message>
 		<example type="correct">Or we just <em>throw</em> away all bugs.</example>
 		<example type="incorrect">Or we just <em>through</em> away all bugs.</example>
 	</rule>
 
 	<rule id="OR_WAY_IT" name="Typo 'or way(was) it'">
-		<pattern lang="en" mark_from="1" mark_to="-1">"or" "way" "(it|that|this)"</pattern>
+		<pattern mark_from="1" mark_to="-1">"or" "way" "(it|that|this)"</pattern>
 		<message>Did you mean <em>was</em>?</message>
 		<example type="correct">Or <em>was</em> that a very recent change in Qt?</example>
 		<example type="incorrect">Or <em>way</em> that a very recent change in Qt?</example>
 	</rule>
 
 	<rule id="DT_RESPONDS" name="Typo 'the/a responds(response)'">
-		<pattern lang="en" mark_from="1">DT "responds"</pattern>
+		<pattern mark_from="1">DT "responds"</pattern>
 		<message>Did you mean <em>response</em>?</message>
 		<example type="correct">Thanks for the <em>response</em>.</example>
 		<example type="incorrect">Thanks for the <em>responds</em>.</example>
 	</rule>
 
 	<rule id="THINK_OFF" name="Typo 'think/know off(of)'">
-		<pattern lang="en" mark_from="1">"(think|know)" "off"</pattern>
+		<pattern mark_from="1">"(think|know)" "off"</pattern>
 		<message>Did you mean <em>of</em>?</message>
 		<example type="correct">It's the only part of KDE I know <em>of</em> that uses automasking.</example>
 		<example type="incorrect">It's the only part of KDE I know <em>off</em> that uses automasking.</example>
 	</rule>
 
 	<rule id="VERB_US" name="Typo 'not/don't us(use)'">
-		<pattern lang="en">"not|don't" "us"</pattern>
+		<pattern>"not|don't" "us"</pattern>
 		<message>Did you mean <em>use</em>?</message>
 		<example type="correct">Please don't <em>use</em> dispose.</example>
 		<example type="incorrect">Please don't <em>us</em> dispose.</example>
@@ -214,7 +214,7 @@ $Id: grammar.xml,v 1.35 2005-12-27 14:00:52 dnaber Exp $
 
 	<!-- TODO
 	<rule id="VB_TO_USE" name="Past tense of 'used to...'">
-		<pattern lang="en" mark_to="-2">VB "to" "use"</pattern>
+		<pattern mark_to="-2">VB "to" "use"</pattern>
 		<message>Use the past tense to build a sentence with "to use".</message>
 		<example type="correct">Aethera <em>used</em> to use this.</example>
 		<example type="incorrect">Aethera <em>use</em> to use this.</example>
@@ -222,28 +222,28 @@ $Id: grammar.xml,v 1.35 2005-12-27 14:00:52 dnaber Exp $
 	-->
 
 	<rule id="YOU_THING" name="Typo 'I/you/... thing(think)'">
-		<pattern lang="en" mark_from="1">"I|you|he|she|they|we" "thing|things"</pattern>
+		<pattern mark_from="1">"I|you|he|she|they|we" "thing|things"</pattern>
 		<message>Did you mean <em>think</em> or <em>thinks</em>?</message>
 		<example type="correct">I <em>think</em> that's a good idea.</example>
 		<example type="incorrect">I <em>thing</em> that's a good idea.</example>
 	</rule>
 
 	<rule id="WERE_VBB" name="Confusion of were/where/we">
-		<pattern lang="en" mark_to="-1">"were" VB|VBP</pattern>
+		<pattern mark_to="-1">"were" VB|VBP</pattern>
 		<message>Did you mean <em>where</em> or <em>we</em>?</message>
 		<example type="correct"><em>We</em> are in the process of implementing this.</example>
 		<example type="incorrect"><em>Were</em> are in the process of implementing this.</example>
 	</rule>
 
 	<rule id="VBZ_VBD" name="Confusion of it/is">
-		<pattern lang="en" mark_to="-1">"is|isn't" "was|wasn't"</pattern>
+		<pattern mark_to="-1">"is|isn't" "was|wasn't"</pattern>
 		<message>Did you mean <em>it</em>?</message>
 		<example type="correct">...which <em>it</em> wasn't the last day.</example>
 		<example type="incorrect">...which <em>is</em> wasn't the last day.</example>
 	</rule>
 
 	<rule id="FORE_DPS" name="Confusion of fore/for">
-		<pattern lang="en" mark_to="-1">"fore" PRP$</pattern>
+		<pattern mark_to="-1">"fore" PRP$</pattern>
 		<message>Did you mean <em>for</em>?</message>
 		<example type="correct">Thanks again <em>for</em> your help.</example>
 		<example type="incorrect">Thanks again <em>fore</em> your help.</example>
@@ -251,7 +251,7 @@ $Id: grammar.xml,v 1.35 2005-12-27 14:00:52 dnaber Exp $
 
 	<!-- TODO
 	<rule id="ADJ_THAT" name="Confusion of that/than">
-		<pattern lang="en" mark_from="1">(JJR|JJ) "that"</pattern>
+		<pattern mark_from="1">(JJR|JJ) "that"</pattern>
 		<message>Did you mean <em>than</em>?</message>
 		<example type="correct">I am not wiser <em>than</em> you.</example>
 		<example type="incorrect">I am not wiser <em>that</em> you.</example>
@@ -259,28 +259,28 @@ $Id: grammar.xml,v 1.35 2005-12-27 14:00:52 dnaber Exp $
 	-->
 	
 	<rule id="LESS_MORE_THEN" name="Typo 'less/more ... then(than)'">
-		<pattern lang="en" mark_from="2">"(less|more)" (JJ|NN|NNS) "then"</pattern>
+		<pattern mark_from="2">"(less|more)" (JJ|NN|NNS) "then"</pattern>
 		<message>Did you mean <em>than</em>?</message>
 		<example type="correct">It's less controversial <em>than</em> one would think.</example>
 		<example type="incorrect">It's less controversial <em>then</em> one would think.</example>
 	</rule>
 
 	<rule id="AND_THAN" name="Typo 'and than(then)'">
-		<pattern lang="en" mark_from="1">"and" "than"</pattern>
+		<pattern mark_from="1">"and" "than"</pattern>
 		<message>Did you mean <em>then</em>?</message>
 		<example type="correct">How to add equal values and <em>then</em> replace them with their sum?</example>
 		<example type="incorrect">How to add equal values and <em>than</em> replace them with their sum?</example>
 	</rule>
 	
 	<rule id="DT_DT" name="Two consecutive articles">
-		<pattern lang="en" mark_from="1">DT^all|half|both DT</pattern>
+		<pattern mark_from="1">DT^all|half|both DT</pattern>
 		<message>Maybe you need to remove the second determiner.</message>
 		<example type="correct"><em>The</em> thing is this.</example>
 		<example type="incorrect"><em>The a</em> thing is this.</example>
 	</rule>
 
 	<rule id="OF_CAUSE" name="Typo 'of cause(course)'">
-		<pattern lang="en" mark_to="-1">"of" "cause" ^"(and|to)"</pattern>
+		<pattern mark_to="-1">"of" "cause" ^"(and|to)"</pattern>
 		<message>Did you mean <em>of course</em> (=naturally)?</message>
 		<example type="correct">The law of cause and effect.</example>
 		<example type="correct">Of <em>course</em> all these things are relative.</example>
@@ -288,28 +288,28 @@ $Id: grammar.xml,v 1.35 2005-12-27 14:00:52 dnaber Exp $
 	</rule>
 
 	<rule id="RATHER_THEN" name="Typo 'rather then(than)'">
-		<pattern lang="en">"rather" "then"</pattern>
+		<pattern>"rather" "then"</pattern>
 		<message>Did you mean <em>rather than</em>?</message>
 		<example type="correct">Single Clicking rather <em>than</em> Double Clicking</example>
 		<example type="incorrect">Single Clicking rather <em>then</em> Double Clicking</example>
 	</rule>
 
 	<rule id="LOOK_ATE" name="Typo 'look ate(at)'">
-		<pattern lang="en" mark_from="1">"look" "ate"</pattern>
+		<pattern mark_from="1">"look" "ate"</pattern>
 		<message>Did you mean <em>at</em>?</message>
 		<example type="correct">Although I must admit when I look <em>at</em> the paperback...</example>
 		<example type="incorrect">Although I must admit when I look <em>ate</em> the paperback...</example>
 	</rule>
 
 	<rule id="A_KNOW_BUG" name="Typo 'a know(known) bug/problem'">
-		<pattern lang="en" mark_from="1" mark_to="-1">"a" "know" "bug|problem"</pattern>
+		<pattern mark_from="1" mark_to="-1">"a" "know" "bug|problem"</pattern>
 		<message>Did you mean <em>known</em>?</message>
 		<example type="correct">This is a <em>known</em> problem.</example>
 		<example type="incorrect">This is a <em>know</em> problem.</example>
 	</rule>
 
 	<rule id="MY_BE" name="Typo 'my(may) be'">
-		<pattern lang="en">"my" "be"</pattern>
+		<pattern>"my" "be"</pattern>
 		<message>Did you mean <em>may be</em> or <em>might be</em>?</message>
 		<example type="correct">Something that <em>might be</em> interesting...</example>
 		<example type="correct">Something that <em>may be</em> interesting...</example>
@@ -317,7 +317,7 @@ $Id: grammar.xml,v 1.35 2005-12-27 14:00:52 dnaber Exp $
 	</rule>
 
 	<rule id="EAGER_TO" name="Infinitive verb with 'eager to...'">
-		<pattern lang="en">"eager" "to" (VBG|VBZ|VBN|VBD)</pattern>
+		<pattern>"eager" "to" (VBG|VBZ|VBN|VBD)</pattern>
 		<message>Use the base form of the verb with <em>eager to</em>.</message>
 		<example type="correct">I'd be eager to <em>try</em> out your patch.</example>
 		<example type="correct">Bangladesh eager to <em>buy</em> cars from Iran' </example>
@@ -329,42 +329,42 @@ $Id: grammar.xml,v 1.35 2005-12-27 14:00:52 dnaber Exp $
 	</rule>
 
 	<rule id="A_MUCH_NN1" name="Superfluous article before 'much'">
-		<pattern lang="en" mark_from="0" mark_to="-1">"a" "much" NN</pattern>
+		<pattern mark_from="0" mark_to="-1">"a" "much" NN</pattern>
 		<message>You maybe should omit the article <em>a</em>.</message>
 		<example type="correct">This will be <em>much</em> work.</example>
 		<example type="incorrect">This will be <em>a much</em> work.</example>
 	</rule>
 
 	<rule id="MOST_COMP" name="No 'more' or 'most' before superlatives">
-		<pattern lang="en" mark_from="0" mark_to="-1">"more|most" JJS|RBS</pattern>
+		<pattern mark_from="0" mark_to="-1">"more|most" JJS|RBS</pattern>
 		<message>Remove 'most' or 'more' when you use the superlative.</message>
 		<example type="correct">Kyoto is the <em>oldest</em> city.</example>
 		<example type="incorrect">Kyoto is the <em>most oldest</em> city.</example>
 	</rule>
 
 	<rule id="IS_SHOULD" name="Typo 'is(it) should/could'">
-		<pattern lang="en" mark_from="0" mark_to="-1">"is" "(should|could)"</pattern>
+		<pattern mark_from="0" mark_to="-1">"is" "(should|could)"</pattern>
 		<message>Did you mean <em>it</em>?</message>
 		<example type="correct">I definitely think <em>it</em> should be less than four years.</example>
 		<example type="incorrect">I definitely think <em>is</em> should be less than four years.</example>
 	</rule>
 
 	<rule id="SHOULD_OF_KNOWN" name="Typo 'should of(have) known'">
-		<pattern lang="en" mark_from="1" mark_to="-1">"should" "of" "known"</pattern>
+		<pattern mark_from="1" mark_to="-1">"should" "of" "known"</pattern>
 		<message>Did you mean <em>have</em>?</message>
 		<example type="correct">I should <em>have</em> known that right from the start.</example>
 		<example type="incorrect">I should <em>of</em> known that right from the start.</example>
 	</rule>
 
 	<rule id="THE_FLEW" name="Typo 'the flew(flu)'">
-		<pattern lang="en" mark_from="1">"the" "flew"</pattern>
+		<pattern mark_from="1">"the" "flew"</pattern>
 		<message>Did you mean <em>flu</em> (flew is past tense of fly, flu is a viral disease)?</message>
 		<example type="correct">I have been out with the <em>flu</em> for the past 3 days.</example>
 		<example type="incorrect">I have been out with the <em>flew</em> for the past 3 days.</example>
 	</rule>
 
 	<rule id="DID_BASEFORM" name="Infinitive verb after 'did'">
-		<pattern lang="en">"did|will|could|can|should|would|does" (VBD|VBG|VBZ)</pattern>
+		<pattern>"did|will|could|can|should|would|does" (VBD|VBG|VBZ)</pattern>
 		<message>'Did' requires base form of verb.</message>
 		<!-- 'did' is used for emphasis here: -->
 		<example type="correct">They will <em>come</em> home.</example>
@@ -385,7 +385,7 @@ $Id: grammar.xml,v 1.35 2005-12-27 14:00:52 dnaber Exp $
 	-->
 
 	<rule id="AS_ADJ_AS" name="Comparison with 'as'">
-		<pattern lang="en" mark_from="2">"as" JJ|RB "like|than|then"</pattern>
+		<pattern mark_from="2">"as" JJ|RB "like|than|then"</pattern>
 		<message>Comparison is written "as \2 <em>as</em>".</message>
 		<example type="correct">This house is as big <em>as</em> mine.</example>
 		<example type="incorrect">This house is as big <em>than</em> mine.</example>
@@ -394,21 +394,21 @@ $Id: grammar.xml,v 1.35 2005-12-27 14:00:52 dnaber Exp $
 	</rule>
 	
 	<rule id="DT_FORM" name="Confusion of from/form">
-		<pattern lang="en" mark_from="1">DT "from"</pattern>
+		<pattern mark_from="1">DT "from"</pattern>
 		<message>Did you mean <em>form</em>?</message>
 		<example type="correct">Type in the <em>form</em> on the web page.</example>
 		<example type="incorrect">Type in the <em>from</em> on the web page.</example>
 	</rule>
 	
 	<rule id="CAN_NOT" name="Typo 'can not' instead of 'cannot'">
-		<pattern lang="en">"can" "not"</pattern>
+		<pattern>"can" "not"</pattern>
 		<message>Did you mean <em>cannot</em>?</message>
 		<example type="correct">You <em>cannot</em> use the keyboard to select an item.</example>
 		<example type="incorrect">You <em>can not</em> use the keyboard to select an item.</example>
 	</rule>
 
 	<rule id="CANT" name="Typo 'cant' instead of 'can't'">
-		<pattern lang="en">"cant"</pattern>
+		<pattern>"cant"</pattern>
 		<message>Did you mean <em>can't</em> or <em>cannot</em>?</message>
 		<example type="correct">I <em>can't</em> view pdf files in Explorer.</example>
 		<example type="incorrect">I <em>cant</em> view pdf files in Explorer.</example>
@@ -421,7 +421,7 @@ $Id: grammar.xml,v 1.35 2005-12-27 14:00:52 dnaber Exp $
 
 		<!-- 106(less..)+319(more...) in complete BNC, all(?) because "...as" -->
 		<rule id="COMP_THAN_1" name="Comparison 'more/less' with 'than'">
-			<pattern lang="en" mark_from="1">"more|less" "then|as"</pattern>
+			<pattern mark_from="1">"more|less" "then|as"</pattern>
 			<message>Comparison requires <em>than</em>, not 'then'.</message>
 			<example type="correct">The tagger will return more <em>than</em> one tag.</example>
 			<example type="incorrect">The tagger will return more <em>then</em> one tag.</example>
@@ -429,7 +429,7 @@ $Id: grammar.xml,v 1.35 2005-12-27 14:00:52 dnaber Exp $
 		</rule>
 
 		<rule id="COMP_THAN_2" name="Comparison with 'than'">
-			<pattern lang="en" mark_from="1">JJR "(then|as)"</pattern>
+			<pattern mark_from="1">JJR "(then|as)"</pattern>
 			<message>Comparison requires <em>than</em>, not 'then'.</message>
 			<example type="correct">This house is bigger <em>than</em> mine.</example>
 			<example type="incorrect">This house is bigger <em>then</em> mine.</example>
@@ -444,7 +444,7 @@ $Id: grammar.xml,v 1.35 2005-12-27 14:00:52 dnaber Exp $
 
 		<rule>
 			<!-- TODO: "its of", "its to" -->
-			<pattern lang="en" mark_from="0" mark_to="-1">"its" (CC|DT|IN|MD|POS|PP|RB|WDT|WP|WRB)</pattern>
+			<pattern mark_from="0" mark_to="-1">"its" (CC|DT|IN|MD|POS|PP|RB|WDT|WP|WRB)</pattern>
 			<message>Did you mean <em>it's</em> (=<em>it is</em>) instead of
 				'its' (possessive pronoun)?</message>
 			<example type="correct"><em>It's</em> where people walk around.</example>
@@ -454,7 +454,7 @@ $Id: grammar.xml,v 1.35 2005-12-27 14:00:52 dnaber Exp $
 
 		<!-- TODO:
 		<rule>
-			<pattern lang="en" mark_from="0" mark_to="-1">"its" VBG</pattern>
+			<pattern mark_from="0" mark_to="-1">"its" VBG</pattern>
 			<message>Did you mean <em>it's</em> (=<em>it is</em>) instead of
 				'its' (possessive pronoun)?</message>
 			<example type="correct"><em>It's</em> going to be difficult.</example>
@@ -463,7 +463,7 @@ $Id: grammar.xml,v 1.35 2005-12-27 14:00:52 dnaber Exp $
 		-->
 
 		<rule>
-			<pattern lang="en" mark_from="0" mark_to="-1">"its" "(a|the)"</pattern>
+			<pattern mark_from="0" mark_to="-1">"its" "(a|the)"</pattern>
 			<message>Did you mean <em>it's</em> (=<em>it is</em>) instead of
 				'its' (possessive pronoun)?</message>
 			<example type="correct"><em>It's</em> a good opportunity.</example>
@@ -477,7 +477,7 @@ $Id: grammar.xml,v 1.35 2005-12-27 14:00:52 dnaber Exp $
 	<rulegroup id="NOW" name="Confusion of no/now">
 
 		<rule>
-			<pattern lang="en" mark_to="-1">"no" MD|VB|VBD|VBN^known</pattern>
+			<pattern mark_to="-1">"no" MD|VB|VBD|VBN^known</pattern>
 			<message>Did you meam <em>now</em> (=at this moment) instead of
 				'no' (negation)?</message>
 			<example type="correct">There <em>now</em> will be a park.</example>
@@ -486,7 +486,7 @@ $Id: grammar.xml,v 1.35 2005-12-27 14:00:52 dnaber Exp $
 
 		<rule>
 			<!-- TODO: "no the", "no of" -->
-			<pattern lang="en" mark_to="-1">"no" CC|DT|IN|MD|NP|RP|WDT|WP|WRB</pattern>
+			<pattern mark_to="-1">"no" CC|DT|IN|MD|NP|RP|WDT|WP|WRB</pattern>
 			<message>Did you meam <em>now</em> (=at this moment) instead of
 				'no' (negation)?</message>
 			<example type="correct">There's <em>now</em> a new building.</example>
@@ -494,7 +494,7 @@ $Id: grammar.xml,v 1.35 2005-12-27 14:00:52 dnaber Exp $
 		</rule>
 
 		<rule>
-			<pattern lang="en" mark_to="-1">"no" "were|was|been|be|is"</pattern>
+			<pattern mark_to="-1">"no" "were|was|been|be|is"</pattern>
 			<message>Did you meam <em>now</em> (=at this moment) instead of
 				'no' (negation)?</message>
 			<example type="correct"><em>Now</em> is the right time.</example>

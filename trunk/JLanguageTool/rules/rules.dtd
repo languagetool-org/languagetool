@@ -17,10 +17,9 @@ redundancy.
 
 Note for grammar rules:
 
-* One of the examples should be type="correct",
+* At least one of the examples should be type="correct",
   one should be type="incorrect". This contraint is
-  not part of the DTD. The first two examples will
-  be shown to the user. All examples will be used
+  not part of the DTD. All examples will be used
   for the test cases.
 * It's often difficult to says if an error is a  grammar errors or
   'just' a typo, so we have not attribute for that.
@@ -30,6 +29,7 @@ Note for grammar rules:
 <!ENTITY % Languages "(en|de|xx)">
 
 <!ELEMENT rules (rule|rulegroup)*>
+<!ATTLIST rules lang %Languages; #REQUIRED>
 
 <!ELEMENT rulegroup (message?,error_rate?,rule+)>
 <!ATTLIST rulegroup id ID #REQUIRED>
@@ -43,7 +43,6 @@ Note for grammar rules:
 <!ATTLIST rule name CDATA #IMPLIED>
 
 <!ELEMENT pattern (#PCDATA)>
-<!ATTLIST pattern lang %Languages; #REQUIRED>
 <!ATTLIST pattern case_sensitive (yes|no) #IMPLIED>
 <!ATTLIST pattern mark_from CDATA #IMPLIED>
 <!ATTLIST pattern mark_to CDATA #IMPLIED>
