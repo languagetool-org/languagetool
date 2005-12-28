@@ -65,7 +65,7 @@ import de.danielnaber.languagetool.rules.RuleMatch;
 
 public class OOoDialog implements ActionListener {
 
-  private final static String CHANGE_BUTTON = "Change";
+  private static final String CHANGE_BUTTON = "Change";
   private static final String IGNORE_BUTTON = "Ignore";
   private static final String IGNORE_ALL_BUTTON = "Ignore All";
   private static final String OPTIONS_BUTTON = "Options...";
