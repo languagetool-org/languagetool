@@ -19,6 +19,7 @@
 package de.danielnaber.languagetool.tools;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -48,7 +49,8 @@ public class Morphy2Lucene {
   
   // if no category is known for a word's reading, use this one: 
   private static final String DEFAULT_CATEGORY = "0";
-  private static final String INDEX_DIR = "rules/de/categories";
+  private static final String INDEX_DIR = "resource" +File.separator+ "de"
+    +File.separator+ "categories";
   //private static final String IS_BASEFORM = "is_baseform";
 
   private final static Map manualMapping = new HashMap();
