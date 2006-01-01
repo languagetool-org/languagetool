@@ -64,10 +64,6 @@ public class GermanTokenReading {
     /*if (parts.length == 1 && parts[0].equals(JLanguageTool.SENTENCE_START_TAGNAME)) {
       return new GermanTokenReading(POSType.OTHER, null, null, null);
     }*/
-    // FIXME: can this really be ignored?!?!
-    if (parts[0] == 'O') {     // PRO
-      return new GermanTokenReading(POSType.OTHER, null, null, null);
-    }
     // Type:
     if (parts[0] == 'V')     // VER
       type = POSType.VERB;
@@ -77,6 +73,8 @@ public class GermanTokenReading {
       type = POSType.ADJEKTIV;
     else if (parts[0] == 'T')        // ART
       type = POSType.DETERMINER;
+    else if (parts[0] == 'O')        // PRO
+      type = POSType.PRONOMEN;
     else
       type = POSType.OTHER;
     // Kasus:

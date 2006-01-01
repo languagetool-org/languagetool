@@ -36,8 +36,8 @@ import de.danielnaber.languagetool.tagging.de.GermanToken.POSType;
  * Simple agreement checker for German noun phrases. Checks agreement in:
  * 
  * <ul>
- *  <li>DET NOUN: e.g. "der Mann", "die Frau" (correct), "die Haus" (incorrect)</li>
- *  <li>DET ADJ NOUN: e.g. "der riesige Tisch" (correct), "die riesigen Tisch" (incorrect)</li> 
+ *  <li>DET/PRO NOUN: e.g. "mein Auto", "der Mann", "die Frau" (correct), "die Haus" (incorrect)</li>
+ *  <li>DET/PRO ADJ NOUN: e.g. "der riesige Tisch" (correct), "die riesigen Tisch" (incorrect)</li> 
  * </ul>
  * 
  * Note that this rule only checks agreement inside the noun phrase, not whether
@@ -65,7 +65,15 @@ public class AgreementRule extends GermanRule {
       if (posToken != null && posToken.equals(JLanguageTool.SENTENCE_START_TAGNAME))
         continue;
       AnalyzedGermanToken analyzedToken = (AnalyzedGermanToken)tokens[i];
-      if (analyzedToken.hasReadingOfType(POSType.DETERMINER)) {
+      boolean isPronomen = analyzedToken.hasReadingOfType(POSType.PRONOMEN);
+      // avoid false alarms:
+      if (i > 0 && tokens[i-1].getToken().equalsIgnoreCase("vor") && tokens[i].getToken().equalsIgnoreCase("allem"))
+        isPronomen = false;
+      if (tokens[i].getToken().equalsIgnoreCase("es"))
+        isPronomen = false;
+      if (tokens[i].getToken().equalsIgnoreCase("dessen"))      // avoid false alarm on: "..., dessen Leiche"
+        isPronomen = false;
+      if (analyzedToken.hasReadingOfType(POSType.DETERMINER) || isPronomen) {
         int tokenPos = i + 1; 
         if (tokenPos >= tokens.length)
           break;

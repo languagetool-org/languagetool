@@ -53,8 +53,19 @@ public class AgreementRuleTest extends TestCase {
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("Das Auto von einem Mann.")).length);
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("Das Auto eines Mannes.")).length);
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("Des großen Mannes.")).length);
+    
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Das Dach von meinem Auto.")).length);
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Das Dach von meinen Autos.")).length);
+
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Das Dach meines Autos.")).length);
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Das Dach meiner Autos.")).length);
+
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Das Dach meines großen Autos.")).length);
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Das Dach meiner großen Autos.")).length);
+
+    //assertEquals(0, rule.match(langTool.getAnalyzedSentence("... wo Krieg den Unschuldigen Leid und Tod bringt.")).length);
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Der Abschuss eines Papageien.")).length);
     // TODO:
-    //assertEquals(0, rule.match(langTool.getAnalyzedSentence("Der Abschuss eines Papageien.")).length);
     //assertEquals(0, rule.match(langTool.getAnalyzedSentence("Das Recht, das Frauen eingeräumt wird.")).length);
 
     // incorrect sentences:
@@ -70,8 +81,22 @@ public class AgreementRuleTest extends TestCase {
     assertEquals(1, rule.match(langTool.getAnalyzedSentence("Das Auto einem Mannes.")).length);
     assertEquals(1, rule.match(langTool.getAnalyzedSentence("Das Auto einer Mannes.")).length);
     assertEquals(1, rule.match(langTool.getAnalyzedSentence("Das Auto einen Mannes.")).length);
+    
     assertEquals(1, rule.match(langTool.getAnalyzedSentence("Des großer Mannes.")).length);
+
+    assertEquals(1, rule.match(langTool.getAnalyzedSentence("Das Dach von meine Auto.")).length);
+    assertEquals(1, rule.match(langTool.getAnalyzedSentence("Das Dach von meinen Auto.")).length);
+    
+    assertEquals(1, rule.match(langTool.getAnalyzedSentence("Das Dach mein Autos.")).length);
+    assertEquals(1, rule.match(langTool.getAnalyzedSentence("Das Dach meinem Autos.")).length);
+
+    assertEquals(1, rule.match(langTool.getAnalyzedSentence("Das Dach meinem großen Autos.")).length);
+    assertEquals(1, rule.match(langTool.getAnalyzedSentence("Das Dach mein großen Autos.")).length);
+
     // TODO: not yet detected:
+    //assertEquals(1, rule.match(langTool.getAnalyzedSentence("Das Dach meine großen Autos.")).length);
+    //assertEquals(1, rule.match(langTool.getAnalyzedSentence("Das Dach meinen großen Autos.")).length);
+    //assertEquals(1, rule.match(langTool.getAnalyzedSentence("Das Dach meine Autos.")).length);
     //assertEquals(1, rule.match(langTool.getAnalyzedSentence("Es ist das Haus dem Mann.")).length);
     //assertEquals(1, rule.match(langTool.getAnalyzedSentence("Das interessiert der Männer.")).length);
     //assertEquals(1, rule.match(langTool.getAnalyzedSentence("Das interessiert der Mann.")).length);
