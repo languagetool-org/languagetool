@@ -43,7 +43,7 @@ public class CommaWhitespaceRule extends Rule {
   }
 
   public String getDescription() {
-    return messages.getString("desc_comman_whitespace");
+    return messages.getString("desc_comma_whitespace");
   }
 
   public Language[] getLanguages() {
