@@ -64,7 +64,7 @@ public class WordCoherencyRule extends GermanRule {
   }
 
   public String getDescription() {
-    return "Use always the same spelling for a word if more than one spelling is valid.";
+    return "Einheitliche Schreibweise für Wörter mit mehr als einer korrekten Schreibweise";
   }
 
   public RuleMatch[] match(AnalyzedSentence text) {
@@ -83,8 +83,8 @@ public class WordCoherencyRule extends GermanRule {
         if (shouldNotAppearWord.containsKey(token)) {
           RuleMatch otherMatch = (RuleMatch)shouldNotAppearWord.get(token);
           String otherSpelling = otherMatch.getMessage();
-          String msg = "You should probably not use <i>" +token+ "</i> and <i>" +otherSpelling+
-            "</i> in the same document, stick to one spelling";
+          String msg = "<b>" +token+ "</b> und <b>" +otherSpelling+
+            "</b> sollten nicht gleichzeitig benutzt werden";
           RuleMatch ruleMatch = new RuleMatch(this, pos, pos+origToken.length(), msg);
           ruleMatch.setSuggestedReplacement(otherSpelling);
           ruleMatches.add(ruleMatch);
