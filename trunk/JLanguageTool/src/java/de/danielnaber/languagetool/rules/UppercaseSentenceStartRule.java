@@ -42,7 +42,7 @@ public class UppercaseSentenceStartRule extends Rule {
   }
 
   public String getDescription() {
-    return messages.getString("desc_double_punct");
+    return messages.getString("desc_uppercase_sentence");
   }
 
   public Language[] getLanguages() {
