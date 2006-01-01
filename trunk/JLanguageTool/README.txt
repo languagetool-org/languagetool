@@ -1,7 +1,7 @@
 LanguageTool, a natural language style checker for English and German
-Copyright (C) 2005 Daniel Naber (naber at danielnaber de)
+Copyright (C) 2005,2006 Daniel Naber (naber at danielnaber de)
 Version ###VERSION###, ###DATE###
-See http://www.danielnaber.de/languagetool
+Homepage: http://www.danielnaber.de/languagetool
 
 Requirements:
  -Java 1.4 or later
@@ -28,6 +28,7 @@ License:
  
 Known bugs:
  -OpenOffice.org integration:
+   -LanguageTool doesn't work if you have a Windows username with special characters
    -LanguageTool gets confused when the text is changed while the LanguageTool 
     dialog is open
    -Checking of selected text sometimes throws java.lang.reflect.UndeclaredThrowableException
@@ -37,14 +38,15 @@ Known bugs:
    -cursor first jumps to start of text, only then to the error position
    
 TODO:
- -should the "lang" attribute be removed from grammar.xml?
- -add a check so that JLanguageTool.VERSION is always in sync with build.xml
- -translate rules that apply to English and German rules to German
- 	-DE: "Das Auto mein Mannes." -> "mein" not tagged
  -add more rules, especially agreement stuff
  -parse and use false friend rules
+ -see "TODO" in the source
+ -further increase test case coverage
+ -fix false alerts:
+ 	...des Leipziger Verlages Faber... -> alle Adjektiv-Lesarten der Städte fehlen beim Tagging
+	...gewann mit den Los Angeles Sparks am...
+	...den Vorwurf, seine beiden Söhne im Alter von vier...
+ -errors not detected:
+ 	...mein große Feind...
  -make gui.Main use the Configuration class to save its settings?
- -add information to rule about when it can give false alarm?
- -false alert: 
- 	Elmar Faber sagte zu den Absagen, die Autoren zeigten...
- 	...des Leipziger Verlages Faber...
+ -add information to rules about when they can give false alarm?
