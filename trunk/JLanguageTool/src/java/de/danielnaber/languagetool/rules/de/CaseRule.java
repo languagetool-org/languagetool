@@ -75,7 +75,7 @@ public class CaseRule extends GermanRule {
   }
 
   public String getDescription() {
-    return "Prüft die Großschreibung von Nomen und substantivierten Verben.";
+    return "Großschreibung von Nomen und substantivierten Verben.";
   }
 
   public RuleMatch[] match(AnalyzedSentence text) {

@@ -60,7 +60,7 @@ public class WordCoherencyRule extends GermanRule {
   }
   
   public String getId() {
-    return "WORD_COHERENCY";
+    return "DE_WORD_COHERENCY";
   }
 
   public String getDescription() {

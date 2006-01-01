@@ -49,11 +49,11 @@ import de.danielnaber.languagetool.tagging.de.GermanToken.POSType;
 public class AgreementRule extends GermanRule {
 
   public String getId() {
-    return "GERMAN_AGREEMENT";
+    return "DE_AGREEMENT";
   }
 
   public String getDescription() {
-    return "Check some (not all) agreement rules of German";
+    return "Kongruenz von Nominalphrasen (unvollständig!), z.B. 'mein kleines Haus'";
   }
 
   public RuleMatch[] match(AnalyzedSentence text) {

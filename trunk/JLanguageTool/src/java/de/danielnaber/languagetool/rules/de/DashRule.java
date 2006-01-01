@@ -40,7 +40,7 @@ public class DashRule extends GermanRule {
   }
 
   public String getDescription() {
-    return "Prüft, dass in Bindestrich-Komposita kein Leerzeichen eingefügt wird (wie z.B. in 'Diäten- Erhöhung')";
+    return "Keine Leerzeichen in Bindestrich-Komposita (wie z.B. in 'Diäten- Erhöhung')";
   }
 
   public RuleMatch[] match(AnalyzedSentence text) {
