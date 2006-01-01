@@ -221,6 +221,7 @@ public class Main {
       List ruleMatches = checkerThread.getRuleMatches();
       // TODO: why must these be wrapped in threads to avoid focus problems?
       if (ruleMatches.size() == 0) {
+        // TODO: if only selection was checked, say so!
         DialogThread dt = new DialogThread("No errors and warnings found " +
                 "(document language: " + docLanguage.getName() + ")");
         dt.start();
