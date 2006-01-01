@@ -23,6 +23,7 @@ import java.io.IOException;
 import junit.framework.TestCase;
 import de.danielnaber.languagetool.JLanguageTool;
 import de.danielnaber.languagetool.Language;
+import de.danielnaber.languagetool.TestTools;
 
 /**
  * 
@@ -31,7 +32,7 @@ import de.danielnaber.languagetool.Language;
 public class WordRepeatRuleTest extends TestCase {
 
   public void testRule() throws IOException {
-    WordRepeatRule rule = new WordRepeatRule(Language.ENGLISH);
+    WordRepeatRule rule = new WordRepeatRule(TestTools.getEnglishMessages(), Language.ENGLISH);
     RuleMatch[] matches;
     JLanguageTool langTool = new JLanguageTool(Language.ENGLISH);
     // correct sentences:
@@ -49,7 +50,7 @@ public class WordRepeatRuleTest extends TestCase {
   }
 
   public void testRuleGerman() throws IOException {
-    WordRepeatRule rule = new WordRepeatRule(Language.GERMAN);
+    WordRepeatRule rule = new WordRepeatRule(TestTools.getEnglishMessages(), Language.GERMAN);
     RuleMatch[] matches;
     JLanguageTool langTool = new JLanguageTool(Language.GERMAN);
     // correct sentences:

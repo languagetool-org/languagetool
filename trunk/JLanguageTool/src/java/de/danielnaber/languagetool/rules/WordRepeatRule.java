@@ -20,6 +20,7 @@ package de.danielnaber.languagetool.rules;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ResourceBundle;
 
 import de.danielnaber.languagetool.AnalyzedSentence;
 import de.danielnaber.languagetool.AnalyzedToken;
@@ -35,7 +36,8 @@ public class WordRepeatRule extends Rule {
 
   private Language language = null;
   
-  public WordRepeatRule(Language language) {
+  public WordRepeatRule(ResourceBundle messages, Language language) {
+    super(messages);
     this.language = language;
   }
   
@@ -44,7 +46,7 @@ public class WordRepeatRule extends Rule {
   }
 
   public String getDescription() {
-    return "Word repetition (e.g. \"the the\")";
+    return messages.getString("desc_repetition");
   }
 
   public Language[] getLanguages() {
@@ -78,7 +80,7 @@ public class WordRepeatRule extends Rule {
           germanException = true;
         }
         if (isWord && prevToken.toLowerCase().equals(token.toLowerCase()) && !germanException) {
-          String msg = "Possible typo: you repeated a word";
+          String msg = messages.getString("repetition");
           RuleMatch ruleMatch = new RuleMatch(this, prevPos, pos+prevToken.length(), msg);
           ruleMatch.setSuggestedReplacement(prevToken);
           ruleMatches.add(ruleMatch);

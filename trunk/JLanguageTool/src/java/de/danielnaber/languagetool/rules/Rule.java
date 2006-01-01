@@ -19,6 +19,7 @@
 package de.danielnaber.languagetool.rules;
 
 import java.util.List;
+import java.util.ResourceBundle;
 
 import de.danielnaber.languagetool.AnalyzedSentence;
 import de.danielnaber.languagetool.Language;
@@ -34,7 +35,22 @@ public abstract class Rule {
 
   private List correctExamples;
   private List incorrectExamples;
+  
+  protected ResourceBundle messages;
 
+  /**
+   * Called by language-dependant rules.
+   */
+  public Rule() {
+  }
+
+  /**
+   * Called by language-independant rules.
+   */
+  public Rule(ResourceBundle messages) {
+    this.messages = messages;
+  }
+  
   public abstract String getId();
   
   public abstract String getDescription();

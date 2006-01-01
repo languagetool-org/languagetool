@@ -18,6 +18,8 @@
  */
 package de.danielnaber.languagetool;
 
+import java.util.Locale;
+
 import de.danielnaber.languagetool.tagging.de.GermanTagger;
 import de.danielnaber.languagetool.tagging.en.EnglishTagger;
 import de.danielnaber.languagetool.tagging.xx.DemoTagger;
@@ -31,13 +33,14 @@ import de.danielnaber.languagetool.tagging.Tagger;
 public class Language {
 
   // IMPORTANT: keep in sync with LANGUAGES array below:
-  public static final Language ENGLISH = new Language("English", "en", new EnglishTagger());
-  public static final Language GERMAN = new Language("German", "de", new GermanTagger());
-  public static final Language DEMO = new Language("Testlanguage", "xx", new DemoTagger());
+  public static final Language ENGLISH = new Language("English", "en", new Locale("en"), new EnglishTagger());
+  public static final Language GERMAN = new Language("German", "de", new Locale("de"), new GermanTagger());
+  public static final Language DEMO = new Language("Testlanguage", "xx", new Locale("en"), new DemoTagger());
 
   private String name;
   private String shortForm;
   private Tagger tagger;
+  private Locale locale;
 
   // IMPORTANT: keep in sync with objects above
   /**
@@ -75,10 +78,11 @@ public class Language {
     return null;
   }
 
-  private Language(String name, String shortForm, Tagger tagger) {
+  private Language(String name, String shortForm, Locale locale, Tagger tagger) {
     this.name = name;
     this.shortForm = shortForm;
     this.tagger = tagger;
+    this.locale = locale;
   }
 
   public String toString() {
@@ -104,6 +108,10 @@ public class Language {
    */
   public Tagger getTagger() {
     return tagger;
+  }
+
+  public Locale getLocale() {
+    return locale;
   }
 
 }

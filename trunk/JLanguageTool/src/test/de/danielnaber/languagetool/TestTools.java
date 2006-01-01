@@ -18,6 +18,8 @@
  */
 package de.danielnaber.languagetool;
 
+import java.util.Locale;
+import java.util.ResourceBundle;
 
 /**
  * @author Daniel Naber
@@ -26,4 +28,11 @@ public class TestTools {
   
   private TestTools() {}
 
+  public static ResourceBundle getEnglishMessages() {
+    ResourceBundle messages = ResourceBundle.getBundle("de.danielnaber.languagetool.MessagesBundle",
+        new Locale("en"));
+    return messages;
+  }
+
+  
 }

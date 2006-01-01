@@ -20,6 +20,7 @@ package de.danielnaber.languagetool.rules;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ResourceBundle;
 
 import de.danielnaber.languagetool.AnalyzedSentence;
 import de.danielnaber.languagetool.AnalyzedToken;
@@ -32,12 +33,16 @@ import de.danielnaber.languagetool.Language;
  */
 public class UppercaseSentenceStartRule extends Rule {
 
+  public UppercaseSentenceStartRule(ResourceBundle messages) {
+    super(messages);
+  }
+
   public String getId() {
     return "UPPERCASE_SENTENCE_START";
   }
 
   public String getDescription() {
-    return "Checks that a sentence starts with an uppercase letter";
+    return messages.getString("desc_double_punct");
   }
 
   public Language[] getLanguages() {
@@ -53,7 +58,7 @@ public class UppercaseSentenceStartRule extends Rule {
     String firstToken = token.getToken();
     char firstChar = firstToken.charAt(0);
     if (Character.isLowerCase(firstChar)) {
-      String msg = "This sentence does not start with an uppercase letter";
+      String msg = messages.getString("incorrect_case");
       RuleMatch ruleMatch = new RuleMatch(this, token.getStartPos(), 
           token.getStartPos()+token.getToken().length(), msg);
       ruleMatch.setSuggestedReplacement(Character.toUpperCase(firstChar) +  firstToken.substring(1));

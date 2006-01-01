@@ -20,6 +20,7 @@ package de.danielnaber.languagetool.rules;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ResourceBundle;
 
 import de.danielnaber.languagetool.AnalyzedSentence;
 import de.danielnaber.languagetool.AnalyzedToken;
@@ -32,12 +33,16 @@ import de.danielnaber.languagetool.Language;
  */
 public class DoublePunctuationRule extends Rule {
 
+  public DoublePunctuationRule(ResourceBundle messages) {
+    super(messages);
+  }
+
   public String getId() {
     return "DOUBLE_PUNCTUATION";
   }
 
   public String getDescription() {
-    return "Use of two consecutive dots or commas";
+    return messages.getString("desc_double_punct");
   }
 
   public Language[] getLanguages() {
@@ -65,12 +70,12 @@ public class DoublePunctuationRule extends Rule {
         matchToken = tokens[i];
       }
       if (dotCount == 2 && !nextToken.equals(".")) {
-        String msg = "Two consecutive dots.";
+        String msg = messages.getString("two_dots");
         RuleMatch ruleMatch = new RuleMatch(this, matchToken.getStartPos(), matchToken.getStartPos()+1, msg);
         ruleMatches.add(ruleMatch);
         dotCount = 0;
       } else if (commaCount == 2 && !nextToken.equals(",")) {
-        String msg = "Two consecutive commas.";
+        String msg = messages.getString("two_commas");
         RuleMatch ruleMatch = new RuleMatch(this, matchToken.getStartPos(), matchToken.getStartPos()+1, msg);
         ruleMatches.add(ruleMatch);
         commaCount = 0;

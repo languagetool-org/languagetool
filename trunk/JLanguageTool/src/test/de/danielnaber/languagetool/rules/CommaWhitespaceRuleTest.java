@@ -23,6 +23,7 @@ import java.io.IOException;
 import junit.framework.TestCase;
 import de.danielnaber.languagetool.JLanguageTool;
 import de.danielnaber.languagetool.Language;
+import de.danielnaber.languagetool.TestTools;
 
 /**
  * @author Daniel Naber
@@ -30,7 +31,7 @@ import de.danielnaber.languagetool.Language;
 public class CommaWhitespaceRuleTest extends TestCase {
 
   public void testRule() throws IOException {
-    CommaWhitespaceRule rule = new CommaWhitespaceRule();
+    CommaWhitespaceRule rule = new CommaWhitespaceRule(TestTools.getEnglishMessages());
     RuleMatch[] matches;
     JLanguageTool langTool = new JLanguageTool(Language.ENGLISH);
     

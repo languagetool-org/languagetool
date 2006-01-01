@@ -20,6 +20,7 @@ package de.danielnaber.languagetool.rules;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ResourceBundle;
 
 import de.danielnaber.languagetool.AnalyzedSentence;
 import de.danielnaber.languagetool.AnalyzedToken;
@@ -33,12 +34,16 @@ import de.danielnaber.languagetool.Language;
  */
 public class CommaWhitespaceRule extends Rule {
 
+  public CommaWhitespaceRule(ResourceBundle messages) {
+    super(messages);
+  }
+  
   public String getId() {
     return "COMMA_PARENTHESIS_WHITESPACE";
   }
 
   public String getDescription() {
-    return "Use of whitespace before comma and before/after parentheses";
+    return messages.getString("desc_comman_whitespace");
   }
 
   public Language[] getLanguages() {
@@ -59,13 +64,13 @@ public class CommaWhitespaceRule extends Rule {
       int fixPos = 0;
       int fixLen = 0;
       if (token.trim().equals("") && prevToken.trim().equals("(")) {
-        msg = "Don't put a space after the opening parenthesis.";
+        msg = messages.getString("no_space_after");
       } else if (token.trim().equals(")") && prevToken.trim().equals("")) {
-        msg = "Don't put a space before the closing parenthesis.";
+        msg = messages.getString("no_space_before");
         if (prevPos > 0)
           fixPos = -1;
       } else if (token.trim().equals(",") && prevToken.trim().equals("")) {
-        msg = "Put a space after the comma, but not before the comma.";
+        msg = messages.getString("space_after_comma");
         fixLen = 1;
         if (prevPos > 0)
           fixPos = -1;

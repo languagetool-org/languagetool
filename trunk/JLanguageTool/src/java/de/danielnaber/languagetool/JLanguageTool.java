@@ -26,6 +26,7 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.ResourceBundle;
 import java.util.Set;
 
 import javax.xml.parsers.ParserConfigurationException;
@@ -103,20 +104,22 @@ public class JLanguageTool {
     }
     basedir = basedirArg;
     this.language = language;
+    ResourceBundle messages = ResourceBundle.getBundle("de.danielnaber.languagetool.MessagesBundle",
+        language.getLocale());
     // TODO: use reflection to get a list of all non-pattern rules:
     Rule[] allBuiltinRules = new Rule[] { 
         // Several languages:
-        new CommaWhitespaceRule(), 
-        new WordRepeatRule(language),
-        new WordCoherencyRule(),
-        new DoublePunctuationRule(),
+        new CommaWhitespaceRule(messages), 
+        new WordRepeatRule(messages, language),
+        new DoublePunctuationRule(messages),
+        new UppercaseSentenceStartRule(messages),
         // English:
         new AvsAnRule(),
         // German:
+        new WordCoherencyRule(),
         new CaseRule(),
         new WiederVsWiderRule(),
         new AgreementRule(),
-        new UppercaseSentenceStartRule(),
         new DashRule()
       };
     for (int i = 0; i < allBuiltinRules.length; i++) {
