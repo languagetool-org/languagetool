@@ -65,15 +65,17 @@ public class AgreementRule extends GermanRule {
       if (posToken != null && posToken.equals(JLanguageTool.SENTENCE_START_TAGNAME))
         continue;
       AnalyzedGermanToken analyzedToken = (AnalyzedGermanToken)tokens[i];
-      boolean isPronomen = analyzedToken.hasReadingOfType(POSType.PRONOMEN);
+      boolean isRelevantPronomen = analyzedToken.hasReadingOfType(POSType.PRONOMEN);
       // avoid false alarms:
       if (i > 0 && tokens[i-1].getToken().equalsIgnoreCase("vor") && tokens[i].getToken().equalsIgnoreCase("allem"))
-        isPronomen = false;
-      if (tokens[i].getToken().equalsIgnoreCase("es"))
-        isPronomen = false;
-      if (tokens[i].getToken().equalsIgnoreCase("dessen"))      // avoid false alarm on: "..., dessen Leiche"
-        isPronomen = false;
-      if (analyzedToken.hasReadingOfType(POSType.DETERMINER) || isPronomen) {
+        isRelevantPronomen = false;
+      else if (tokens[i].getToken().equalsIgnoreCase("es"))
+        isRelevantPronomen = false;
+      else if (tokens[i].getToken().equalsIgnoreCase("dessen"))      // avoid false alarm on: "..., dessen Leiche"
+        isRelevantPronomen = false;
+      else if (tokens[i].getToken().equalsIgnoreCase("sich"))      // avoid false alarm
+        isRelevantPronomen = false;
+      if (analyzedToken.hasReadingOfType(POSType.DETERMINER) || isRelevantPronomen) {
         int tokenPos = i + 1; 
         if (tokenPos >= tokens.length)
           break;
