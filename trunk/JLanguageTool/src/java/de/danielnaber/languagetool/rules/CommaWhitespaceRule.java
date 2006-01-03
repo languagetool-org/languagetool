@@ -56,7 +56,6 @@ public class CommaWhitespaceRule extends Rule {
     String prevToken = "";
     int pos = 0;
     int prevPos = 0;
-    // TODO: find error in "neu definierte,spielt ihr" -> but what about numbers?
     for (int i = 0; i < tokens.length; i++) {
       String token = tokens[i].getToken();
       pos += token.length();
@@ -69,6 +68,10 @@ public class CommaWhitespaceRule extends Rule {
         msg = messages.getString("no_space_before");
         if (prevPos > 0)
           fixPos = -1;
+      } else if (prevToken.trim().equals(",") && !token.trim().equals("") &&
+          !token.equals("'") && !token.equals("\"") && !token.matches(".*\\d.*")) {
+        msg = messages.getString("missing_space_after_comma");
+        fixLen = - prevToken.length() + 1;
       } else if (token.trim().equals(",") && prevToken.trim().equals("")) {
         msg = messages.getString("space_after_comma");
         fixLen = 1;
