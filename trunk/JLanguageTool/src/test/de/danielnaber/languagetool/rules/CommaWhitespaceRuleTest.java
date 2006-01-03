@@ -42,19 +42,25 @@ public class CommaWhitespaceRuleTest extends TestCase {
     assertEquals(0, matches.length);
     matches = rule.match(langTool.getAnalyzedSentence("This (foo bar) is a test(!)."));
     assertEquals(0, matches.length);
+    matches = rule.match(langTool.getAnalyzedSentence("\"This is it,\" he said."));
+    assertEquals(0, matches.length);
+    matches = rule.match(langTool.getAnalyzedSentence("Das kostet €2,45."));
+    assertEquals(0, matches.length);
     
     // errors:
+    matches = rule.match(langTool.getAnalyzedSentence("This,is a test sentence."));
+    assertEquals(1, matches.length);
     matches = rule.match(langTool.getAnalyzedSentence("This , is a test sentence."));
     assertEquals(1, matches.length);
     matches = rule.match(langTool.getAnalyzedSentence("This ,is a test sentence."));
-    assertEquals(1, matches.length);
+    assertEquals(2, matches.length);
     matches = rule.match(langTool.getAnalyzedSentence(",is a test sentence."));
-    assertEquals(1, matches.length);
+    assertEquals(2, matches.length);
     matches = rule.match(langTool.getAnalyzedSentence("This ( foo bar) is a test(!)."));
     assertEquals(1, matches.length);
     matches = rule.match(langTool.getAnalyzedSentence("This (foo bar ) is a test(!)."));
     assertEquals(1, matches.length);
-    matches = rule.match(langTool.getAnalyzedSentence("ABB 270,00 (  unv. )"));
+    matches = rule.match(langTool.getAnalyzedSentence("ABB foobar (  unv. )"));
     assertEquals(2, matches.length);
     assertEquals(12, matches[0].getFromPos());
     assertEquals(13, matches[0].getToPos());
