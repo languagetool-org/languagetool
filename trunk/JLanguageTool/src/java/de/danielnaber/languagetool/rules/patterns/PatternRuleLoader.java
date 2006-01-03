@@ -49,7 +49,6 @@ public class PatternRuleLoader extends DefaultHandler {
   public List getRules(String filename) throws ParserConfigurationException, SAXException, IOException {
     PatternRuleHandler handler = new PatternRuleHandler();
     SAXParserFactory factory = SAXParserFactory.newInstance();
-    factory.setValidating(true);
     SAXParser saxParser = factory.newSAXParser();
     saxParser.parse(JLanguageTool.getAbsoluteFile(filename), handler);
     rules = handler.getRules();
