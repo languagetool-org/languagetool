@@ -57,6 +57,10 @@ public class AvsAnRuleTest extends TestCase {
     assertEquals(0, matches.length);
     matches = rule.match(langTool.getAnalyzedSentence("A USA-wide license ..."));
     assertEquals(0, matches.length);
+    matches = rule.match(langTool.getAnalyzedSentence("...asked a UN member."));
+    assertEquals(0, matches.length);
+    matches = rule.match(langTool.getAnalyzedSentence("In an un-united Germany..."));
+    assertEquals(0, matches.length);
 
     // errors:
     matches = rule.match(langTool.getAnalyzedSentence("It was a hour ago."));
@@ -85,6 +89,10 @@ public class AvsAnRuleTest extends TestCase {
     matches = rule.match(langTool.getAnalyzedSentence("A 8-year old boy ..."));
     assertEquals(1, matches.length);
     matches = rule.match(langTool.getAnalyzedSentence("A 18-year old boy ..."));
+    assertEquals(1, matches.length);
+    matches = rule.match(langTool.getAnalyzedSentence("...asked an UN member."));
+    assertEquals(1, matches.length);
+    matches = rule.match(langTool.getAnalyzedSentence("In a un-united Germany..."));
     assertEquals(1, matches.length);
   }
     

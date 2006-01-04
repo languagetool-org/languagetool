@@ -91,11 +91,11 @@ public class AvsAnRule extends EnglishRule {
           continue;
         }
         char tokenFirstChar = token.charAt(0);
-        if (requiresA.contains(token.toLowerCase())) {
+        if (requiresA.contains(token.toLowerCase()) || requiresA.contains(token)) {
           isException = true;
           doesRequireA = true;
         }
-        if (requiresAn.contains(token.toLowerCase())) {
+        if (requiresAn.contains(token.toLowerCase()) || requiresAn.contains(token)) {
           if (isException) {
             throw new IllegalStateException(token + " is listed in both det_a.txt and det_an.txt");
           }
@@ -163,7 +163,10 @@ public class AvsAnRule extends EnglishRule {
         line = line.trim();
         if (line.startsWith("#"))       // ignore comments
           continue;
-        set.add(line.toLowerCase());
+        if (line.startsWith("*"))       // case sensitive
+          set.add(line.substring(1));
+        else
+          set.add(line.toLowerCase());
       }
     } finally {
       if (br != null) br.close();
