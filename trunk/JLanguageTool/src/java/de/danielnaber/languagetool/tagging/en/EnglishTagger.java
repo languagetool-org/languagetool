@@ -66,6 +66,9 @@ public class EnglishTagger implements Tagger {
       if (nextAnalyzedToken != null) {
         analyzedTokens.add(nextAnalyzedToken);
         nextAnalyzedToken = null;
+      } else if (token.equals("doesn") && "t".equals(nextToken)) {
+        analyzedTokens.add(new AnalyzedToken(token, "VBZ", 0));
+        nextAnalyzedToken = new AnalyzedToken(nextToken, "RB", 0);
       } else if (token.equals("don") && "t".equals(nextToken)) {
         analyzedTokens.add(new AnalyzedToken(token, "VBP", 0));
         nextAnalyzedToken = new AnalyzedToken(nextToken, "RB", 0);
