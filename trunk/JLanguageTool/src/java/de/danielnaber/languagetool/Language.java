@@ -24,6 +24,9 @@ import de.danielnaber.languagetool.tagging.de.GermanTagger;
 import de.danielnaber.languagetool.tagging.en.EnglishTagger;
 import de.danielnaber.languagetool.tagging.xx.DemoTagger;
 import de.danielnaber.languagetool.tagging.Tagger;
+import de.danielnaber.languagetool.tokenizers.SentenceTokenizer;
+import de.danielnaber.languagetool.tokenizers.Tokenizer;
+import de.danielnaber.languagetool.tokenizers.WordTokenizer;
 
 /**
  * Constants for supported languages (currently English and German only).
@@ -33,13 +36,20 @@ import de.danielnaber.languagetool.tagging.Tagger;
 public class Language {
 
   // IMPORTANT: keep in sync with LANGUAGES array below:
-  public static final Language ENGLISH = new Language("English", "en", new Locale("en"), new EnglishTagger());
-  public static final Language GERMAN = new Language("German", "de", new Locale("de"), new GermanTagger());
-  public static final Language DEMO = new Language("Testlanguage", "xx", new Locale("en"), new DemoTagger());
+  public static final Language ENGLISH = 
+    new Language("English", "en", new Locale("en"), new EnglishTagger(), new SentenceTokenizer(), new WordTokenizer());
+  
+  public static final Language GERMAN = 
+    new Language("German", "de", new Locale("de"), new GermanTagger(), new SentenceTokenizer(), new WordTokenizer());
+  
+  public static final Language DEMO = 
+    new Language("Testlanguage", "xx", new Locale("en"), new DemoTagger(), new SentenceTokenizer(), new WordTokenizer());
 
   private String name;
   private String shortForm;
   private Tagger tagger;
+  private Tokenizer sentenceTokenizer;
+  private Tokenizer wordTokenizer;
   private Locale locale;
 
   // IMPORTANT: keep in sync with objects above
@@ -78,11 +88,14 @@ public class Language {
     return null;
   }
 
-  private Language(String name, String shortForm, Locale locale, Tagger tagger) {
+  private Language(String name, String shortForm, Locale locale, Tagger tagger, Tokenizer sentenceTokenizer,
+      Tokenizer wordTokenizer) {
     this.name = name;
     this.shortForm = shortForm;
     this.tagger = tagger;
     this.locale = locale;
+    this.sentenceTokenizer = sentenceTokenizer;
+    this.wordTokenizer = wordTokenizer;
   }
 
   public String toString() {
@@ -108,6 +121,14 @@ public class Language {
    */
   public Tagger getTagger() {
     return tagger;
+  }
+
+  public Tokenizer getSentenceTokenizer() {
+    return sentenceTokenizer;
+  }
+
+  public Tokenizer getWordTokenizer() {
+    return wordTokenizer;
   }
 
   public Locale getLocale() {

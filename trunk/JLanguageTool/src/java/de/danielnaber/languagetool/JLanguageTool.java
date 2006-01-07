@@ -47,8 +47,7 @@ import de.danielnaber.languagetool.rules.de.WordCoherencyRule;
 import de.danielnaber.languagetool.rules.en.AvsAnRule;
 import de.danielnaber.languagetool.rules.patterns.PatternRuleLoader;
 import de.danielnaber.languagetool.tagging.Tagger;
-import de.danielnaber.languagetool.tokenizers.SentenceTokenizer;
-import de.danielnaber.languagetool.tokenizers.WordTokenizer;
+import de.danielnaber.languagetool.tokenizers.Tokenizer;
 
 /**
  * The main class used for checking text against different rules:
@@ -73,8 +72,12 @@ public class JLanguageTool {
   private Set disabledRules = new HashSet();
   
   private static File basedir = null;
+
   private Language language = null;
   private Tagger tagger = null;
+  private Tokenizer sentenceTokenizer = null;
+  private Tokenizer wordTokenizer = null;
+
   private PrintStream printStream = null;
   
   private int sentenceCount = 0;
@@ -127,6 +130,8 @@ public class JLanguageTool {
         builtinRules.add(allBuiltinRules[i]);
     }
     tagger = language.getTagger();
+    sentenceTokenizer = language.getSentenceTokenizer();
+    wordTokenizer = language.getWordTokenizer();
   }
   
   /**
@@ -209,8 +214,7 @@ public class JLanguageTool {
    */
   public List check(String text) throws IOException {
     sentenceCount = 0;
-    SentenceTokenizer sTokenizer = new SentenceTokenizer();
-    List sentences = sTokenizer.tokenize(text);
+    List sentences = sentenceTokenizer.tokenize(text);
     List ruleMatches = new ArrayList();
     List allRules = getAllRules();
     printIfVerbose(allRules.size() + " rules activated for language " + language);
@@ -282,8 +286,7 @@ public class JLanguageTool {
    * @throws IOException 
    */
   public AnalyzedSentence getAnalyzedSentence(String sentence) throws IOException {
-    WordTokenizer wtokenizer = new WordTokenizer();
-    List tokens = wtokenizer.tokenize(sentence);
+    List tokens = wordTokenizer.tokenize(sentence);
     List noWhitespaceTokens = new ArrayList();
     // whitespace confuses tagger, so give it the tokens but no whitespace tokens:
     for (Iterator iterator = tokens.iterator(); iterator.hasNext();) {
