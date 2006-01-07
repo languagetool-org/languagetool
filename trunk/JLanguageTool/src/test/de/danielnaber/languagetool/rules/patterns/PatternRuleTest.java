@@ -65,13 +65,15 @@ public class PatternRuleTest extends TestCase {
       for (Iterator iterator = goodSentences.iterator(); iterator.hasNext();) {
         String goodSentence = (String) iterator.next();
         assertTrue(goodSentence.trim().length() > 0);
-        assertFalse("Did not expect error in: " + goodSentence, match(rule, goodSentence, languageTool));
+        assertFalse("Did not expect error in: " + goodSentence + " (ID="+rule.getId()+")",
+            match(rule, goodSentence, languageTool));
       }
       List badSentences = rule.getIncorrectExamples();
       for (Iterator iterator = badSentences.iterator(); iterator.hasNext();) {
         String badSentence = (String) iterator.next();
         assertTrue(badSentence.trim().length() > 0);
-        assertTrue("Did expect error in: " + badSentence, match(rule, badSentence, languageTool));
+        assertTrue("Did expect error in: " + badSentence + " (ID="+rule.getId()+")",
+            match(rule, badSentence, languageTool));
       }
     }
   }
