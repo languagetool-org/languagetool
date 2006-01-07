@@ -28,7 +28,6 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import org.xml.sax.SAXException;
 
-import de.danielnaber.languagetool.rules.Rule;
 import de.danielnaber.languagetool.rules.RuleMatch;
 import de.danielnaber.languagetool.tools.StringTools;
 
@@ -43,16 +42,15 @@ class Main {
 
   private JLanguageTool lt = null;
   private boolean verbose = false;
-  private Language language = null;
 
-  Main(boolean verbose, Language language) throws IOException {
+  Main(boolean verbose, Language language) throws IOException, ParserConfigurationException, SAXException {
     this(verbose, language, new String[0]);
   }
   
-  Main(boolean verbose, Language language, String[] disabledRules) throws IOException {
+  Main(boolean verbose, Language language, String[] disabledRules) throws IOException, SAXException, ParserConfigurationException {
     this.verbose = verbose;
-    this.language = language;
     lt = new JLanguageTool(language);
+    lt.activateDefaultPatternRules();
     for (int i = 0; i < disabledRules.length; i++) {
       lt.disableRule(disabledRules[i]);
     }
@@ -85,24 +83,8 @@ class Main {
    * 
    * @param filename
    * @throws IOException
-   * @throws ParserConfigurationException
-   * @throws SAXException
    */
-  private String getFilteredText(String filename) throws IOException,
-      ParserConfigurationException, SAXException {
-    File defaultPatternFile = 
-      new File(JLanguageTool.RULES_DIR +File.separator+ language.getShortName() 
-          +File.separator+ JLanguageTool.PATTERN_FILE);
-    List patternRules = new ArrayList();
-    if (defaultPatternFile.exists()) {
-      patternRules = lt.loadPatternRules(defaultPatternFile.getAbsolutePath());
-    } else {
-      System.err.println("Pattern file " + defaultPatternFile.getAbsolutePath() + " not found");
-    }
-    for (Iterator iter = patternRules.iterator(); iter.hasNext();) {
-      Rule rule = (Rule) iter.next();
-      lt.addRule(rule);
-    }
+  private String getFilteredText(String filename) throws IOException {
     if (verbose)
       lt.setOutput(System.err);
     System.out.println("Working on " + filename + "...");
