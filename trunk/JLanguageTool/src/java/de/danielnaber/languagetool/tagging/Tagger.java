@@ -41,6 +41,10 @@ public interface Tagger {
    */
   public List tag(List sentenceTokens) throws IOException;
   
+  /** 
+   * Create the AnalyzedToken used for whitespace and other non-words. Use <code>null</code>
+   * as the POS tag for this token.
+   */
   public Object createNullToken(String token, int startPos);
     
 }
