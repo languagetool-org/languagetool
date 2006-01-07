@@ -29,9 +29,15 @@ import de.danielnaber.languagetool.Language;
  */
 public class AgreementRuleTest extends TestCase {
 
+  private AgreementRule rule;
+  private JLanguageTool langTool;
+  
+  public void setUp() throws IOException {
+    rule = new AgreementRule();
+    langTool = new JLanguageTool(Language.GERMAN);
+  }
+  
   public void testDetNounRule() throws IOException {
-    AgreementRule rule = new AgreementRule();
-    JLanguageTool langTool = new JLanguageTool(Language.GERMAN);
 
     /* debugging:
     RuleMatch[] rm = rule.match(langTool.getAnalyzedSentence("Wer für die Kosten"));
@@ -41,93 +47,101 @@ public class AgreementRuleTest extends TestCase {
     */
 
     // correct sentences:
-    assertEquals(0, rule.match(langTool.getAnalyzedSentence("So ist es in den USA.")).length);
-    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Das ist der Tisch.")).length);
-    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Das ist das Haus.")).length);
-    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Das ist die Frau.")).length);
-    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Das ist das Auto der Frau.")).length);
-    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Das gehört dem Mann.")).length);
-    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Das Auto des Mannes.")).length);
-    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Das interessiert den Mann.")).length);
-    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Das interessiert die Männer.")).length);
-    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Das Auto von einem Mann.")).length);
-    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Das Auto eines Mannes.")).length);
-    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Des großen Mannes.")).length);
+    assertGood("So ist es in den USA.");
+    assertGood("Das ist der Tisch.");
+    assertGood("Das ist das Haus.");
+    assertGood("Das ist die Frau.");
+    assertGood("Das ist das Auto der Frau.");
+    assertGood("Das gehört dem Mann.");
+    assertGood("Das Auto des Mannes.");
+    assertGood("Das interessiert den Mann.");
+    assertGood("Das interessiert die Männer.");
+    assertGood("Das Auto von einem Mann.");
+    assertGood("Das Auto eines Mannes.");
+    assertGood("Des großen Mannes.");
     
-    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Das Dach von meinem Auto.")).length);
-    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Das Dach von meinen Autos.")).length);
+    assertGood("Das Dach von meinem Auto.");
+    assertGood("Das Dach von meinen Autos.");
 
-    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Das Dach meines Autos.")).length);
-    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Das Dach meiner Autos.")).length);
+    assertGood("Das Dach meines Autos.");
+    assertGood("Das Dach meiner Autos.");
 
-    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Das Dach meines großen Autos.")).length);
-    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Das Dach meiner großen Autos.")).length);
+    assertGood("Das Dach meines großen Autos.");
+    assertGood("Das Dach meiner großen Autos.");
 
-    //assertEquals(0, rule.match(langTool.getAnalyzedSentence("... wo Krieg den Unschuldigen Leid und Tod bringt.")).length);
-    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Der Abschuss eines Papageien.")).length);
+    assertGood("Das Wahlrecht, das Frauen damalszugesprochen bekamen.");
+    assertGood("Es war Karl, dessen Leiche Donnerstag gefunden wurde.");
+
+    //assertGood("... wo Krieg den Unschuldigen Leid und Tod bringt.");
+    assertGood("Der Abschuss eines Papageien.");
     // TODO:
-    //assertEquals(0, rule.match(langTool.getAnalyzedSentence("Das Recht, das Frauen eingeräumt wird.")).length);
+    //assertGood("Das Recht, das Frauen eingeräumt wird.");
 
     // incorrect sentences:
-    assertEquals(1, rule.match(langTool.getAnalyzedSentence("Es sind die Tisch.")).length);
-    assertEquals(1, rule.match(langTool.getAnalyzedSentence("Es sind das Tisch.")).length);
-    assertEquals(1, rule.match(langTool.getAnalyzedSentence("Es sind die Haus.")).length);
-    assertEquals(1, rule.match(langTool.getAnalyzedSentence("Es sind der Haus.")).length);
-    assertEquals(1, rule.match(langTool.getAnalyzedSentence("Es sind das Frau.")).length);
-    assertEquals(1, rule.match(langTool.getAnalyzedSentence("Das Auto des Mann.")).length);
-    assertEquals(1, rule.match(langTool.getAnalyzedSentence("Das interessiert das Mann.")).length);
-    assertEquals(1, rule.match(langTool.getAnalyzedSentence("Das interessiert die Mann.")).length);
-    assertEquals(1, rule.match(langTool.getAnalyzedSentence("Das Auto ein Mannes.")).length);
-    assertEquals(1, rule.match(langTool.getAnalyzedSentence("Das Auto einem Mannes.")).length);
-    assertEquals(1, rule.match(langTool.getAnalyzedSentence("Das Auto einer Mannes.")).length);
-    assertEquals(1, rule.match(langTool.getAnalyzedSentence("Das Auto einen Mannes.")).length);
+    assertBad("Es sind die Tisch.");
+    assertBad("Es sind das Tisch.");
+    assertBad("Es sind die Haus.");
+    assertBad("Es sind der Haus.");
+    assertBad("Es sind das Frau.");
+    assertBad("Das Auto des Mann.");
+    assertBad("Das interessiert das Mann.");
+    assertBad("Das interessiert die Mann.");
+    assertBad("Das Auto ein Mannes.");
+    assertBad("Das Auto einem Mannes.");
+    assertBad("Das Auto einer Mannes.");
+    assertBad("Das Auto einen Mannes.");
     
-    assertEquals(1, rule.match(langTool.getAnalyzedSentence("Des großer Mannes.")).length);
+    assertBad("Des großer Mannes.");
 
-    assertEquals(1, rule.match(langTool.getAnalyzedSentence("Das Dach von meine Auto.")).length);
-    assertEquals(1, rule.match(langTool.getAnalyzedSentence("Das Dach von meinen Auto.")).length);
+    assertBad("Das Dach von meine Auto.");
+    assertBad("Das Dach von meinen Auto.");
     
-    assertEquals(1, rule.match(langTool.getAnalyzedSentence("Das Dach mein Autos.")).length);
-    assertEquals(1, rule.match(langTool.getAnalyzedSentence("Das Dach meinem Autos.")).length);
+    assertBad("Das Dach mein Autos.");
+    assertBad("Das Dach meinem Autos.");
 
-    assertEquals(1, rule.match(langTool.getAnalyzedSentence("Das Dach meinem großen Autos.")).length);
-    assertEquals(1, rule.match(langTool.getAnalyzedSentence("Das Dach mein großen Autos.")).length);
+    assertBad("Das Dach meinem großen Autos.");
+    assertBad("Das Dach mein großen Autos.");
 
     // TODO: not yet detected:
-    //assertEquals(1, rule.match(langTool.getAnalyzedSentence("Das Dach meine großen Autos.")).length);
-    //assertEquals(1, rule.match(langTool.getAnalyzedSentence("Das Dach meinen großen Autos.")).length);
-    //assertEquals(1, rule.match(langTool.getAnalyzedSentence("Das Dach meine Autos.")).length);
-    //assertEquals(1, rule.match(langTool.getAnalyzedSentence("Es ist das Haus dem Mann.")).length);
-    //assertEquals(1, rule.match(langTool.getAnalyzedSentence("Das interessiert der Männer.")).length);
-    //assertEquals(1, rule.match(langTool.getAnalyzedSentence("Das interessiert der Mann.")).length);
-    //assertEquals(1, rule.match(langTool.getAnalyzedSentence("Das gehört den Mann.")).length);
-    //assertEquals(1, rule.match(langTool.getAnalyzedSentence("Es sind der Frau.")).length);
+    //assertBad("Das Dach meine großen Autos.");
+    //assertBad("Das Dach meinen großen Autos.");
+    //assertBad("Das Dach meine Autos.");
+    //assertBad("Es ist das Haus dem Mann.");
+    //assertBad("Das interessiert der Männer.");
+    //assertBad("Das interessiert der Mann.");
+    //assertBad("Das gehört den Mann.");
+    //assertBad("Es sind der Frau.");
   }
   
   public void testDetAdjNounRule() throws IOException {
-    AgreementRule rule = new AgreementRule();
-    JLanguageTool langTool = new JLanguageTool(Language.GERMAN);
-
     // correct sentences:
-    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Das ist der riesige Tisch.")).length);
-    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Der riesige Tisch ist groß.")).length);
-    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Die Kanten der der riesigen Tische.")).length);
-    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Den riesigen Tisch mag er.")).length);
-    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Es mag den riesigen Tisch.")).length);
-    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Die Kante des riesigen Tisches.")).length);
-    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Dem riesigen Tisch fehlt was.")).length);
-    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Die riesigen Tische sind groß.")).length);
-    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Der riesigen Tische wegen.")).length);
+    assertGood("Das ist der riesige Tisch.");
+    assertGood("Der riesige Tisch ist groß.");
+    assertGood("Die Kanten der der riesigen Tische.");
+    assertGood("Den riesigen Tisch mag er.");
+    assertGood("Es mag den riesigen Tisch.");
+    assertGood("Die Kante des riesigen Tisches.");
+    assertGood("Dem riesigen Tisch fehlt was.");
+    assertGood("Die riesigen Tische sind groß.");
+    assertGood("Der riesigen Tische wegen.");
     // TODO: incorrectly detected as incorrect:
     // Dann hat das natürlich Nachteile.
     
     // incorrect sentences:
-    assertEquals(1, rule.match(langTool.getAnalyzedSentence("Es sind die riesigen Tisch.")).length);
-    assertEquals(1, rule.match(langTool.getAnalyzedSentence("Dort, die riesigen Tischs!")).length);
-    assertEquals(1, rule.match(langTool.getAnalyzedSentence("Als die riesigen Tischs kamen.")).length);
-    assertEquals(1, rule.match(langTool.getAnalyzedSentence("Als die riesigen Tisches kamen.")).length);
+    assertBad("Es sind die riesigen Tisch.");
+    assertBad("Dort, die riesigen Tischs!");
+    assertBad("Als die riesigen Tischs kamen.");
+    assertBad("Als die riesigen Tisches kamen.");
     // TODO: not yet detected:
-    //assertEquals(1, rule.match(langTool.getAnalyzedSentence("Der riesigen Tisch und so.")).length);
+    //assertBad("Der riesigen Tisch und so.");
   }
-  
+
+  private void assertGood(String s) throws IOException {
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence(s)).length);
+  }
+
+  private void assertBad(String s) throws IOException {
+    assertEquals(1, rule.match(langTool.getAnalyzedSentence(s)).length);
+  }
+
 }
