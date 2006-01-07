@@ -21,7 +21,8 @@ package de.danielnaber.languagetool.tagging;
 import java.io.IOException;
 import java.util.List;
 
-import de.danielnaber.languagetool.AnalyzedToken;   // required by javadoc
+import de.danielnaber.languagetool.AnalyzedToken;
+// required by javadoc
 
 /**
  * @author Daniel Naber
@@ -40,4 +41,6 @@ public interface Tagger {
    */
   public List tag(List sentenceTokens) throws IOException;
   
+  public Object createNullToken(String token, int startPos);
+    
 }

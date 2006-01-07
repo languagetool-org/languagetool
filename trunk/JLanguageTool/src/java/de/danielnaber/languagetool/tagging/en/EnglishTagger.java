@@ -65,4 +65,8 @@ public class EnglishTagger implements Tagger {
     return analyzedTokens;
   }
 
+  public Object createNullToken(String token, int startPos) {
+    return new AnalyzedToken(token, null, startPos);
+  }
+
 }

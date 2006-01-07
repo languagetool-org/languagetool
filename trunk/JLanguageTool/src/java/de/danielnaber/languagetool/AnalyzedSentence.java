@@ -60,7 +60,9 @@ public class AnalyzedSentence {
   public String toString() {
     StringBuffer sb = new StringBuffer();
     for (int i = 0; i < tokens.length; i++) {
-      if (tokens[i] != null && tokens[i].isWhitespace())
+      if (JLanguageTool.SENTENCE_START_TAGNAME.equals(tokens[i].getPOSTag()))
+        sb.append("<S>");
+      else if (tokens[i] != null && tokens[i].getPOSTag() == null)
         sb.append(tokens[i].getToken());
       else
         sb.append(tokens[i]);

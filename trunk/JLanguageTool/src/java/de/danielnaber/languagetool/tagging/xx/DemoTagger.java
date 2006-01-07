@@ -31,4 +31,8 @@ public class DemoTagger implements Tagger {
     return l;
   }
 
+  public Object createNullToken(String token, int startPos) {
+    return new AnalyzedToken(token, null, startPos);
+  }
+
 }

@@ -121,6 +121,10 @@ public class GermanTagger implements Tagger {
     return posTags;
   }
 
+  public Object createNullToken(String token, int startPos) {
+    return new AnalyzedGermanToken(token, null, startPos);
+  }
+  
   private void initSearcher() throws IOException {
     if (searcher == null) {
       // much faster, but needs much more RAM:

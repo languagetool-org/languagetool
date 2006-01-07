@@ -288,7 +288,7 @@ public class JLanguageTool {
     // whitespace confuses tagger, so give it the tokens but no whitespace tokens:
     for (Iterator iterator = tokens.iterator(); iterator.hasNext();) {
       String token = (String) iterator.next();
-      if (!token.trim().equals("")) {
+      if (isWord(token)) {
         noWhitespaceTokens.add(token);
       }
     }
@@ -302,17 +302,26 @@ public class JLanguageTool {
     for (Iterator iterator = tokens.iterator(); iterator.hasNext();) {
       String tokenStr = (String) iterator.next();
       AnalyzedToken posTag = null;
-      if (!tokenStr.trim().equals("")) {
+      if (isWord(tokenStr)) {
         posTag = (AnalyzedToken)aTokens.get(noWhitespaceCount);
         posTag.startPos = startPos;
         noWhitespaceCount++;
       } else {
-        posTag = new AnalyzedToken(tokenStr, null, startPos);
+        posTag = (AnalyzedToken)tagger.createNullToken(tokenStr, startPos);
       }
       tokenArray[toArrayCount++] = posTag;
       startPos += tokenStr.length();
     }
     return new AnalyzedSentence(tokenArray);
+  }
+
+  private boolean isWord(String token) {
+    for (int i = 0; i < token.length(); i++) {
+      char c = token.charAt(i);
+      if (Character.isLetter(c) || Character.isDigit(c))
+        return true;
+    }
+    return false;
   }
 
   /**
