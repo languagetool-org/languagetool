@@ -75,7 +75,9 @@ public class AgreementRule extends GermanRule {
         isRelevantPronomen = false;
       else if (tokens[i].getToken().equalsIgnoreCase("sich"))      // avoid false alarm
         isRelevantPronomen = false;
-      if (analyzedToken.hasReadingOfType(POSType.DETERMINER) || isRelevantPronomen) {
+      // avoid false alarm: "Das Wahlrecht das Frauen zugesprochen bekamen.":
+      boolean ignore = tokens[i-1].getToken().equals(",") && tokens[i].getToken().equalsIgnoreCase("das");
+      if ((analyzedToken.hasReadingOfType(POSType.DETERMINER) || isRelevantPronomen) && !ignore) {
         int tokenPos = i + 1; 
         if (tokenPos >= tokens.length)
           break;
