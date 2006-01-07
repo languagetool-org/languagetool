@@ -22,6 +22,10 @@ package de.danielnaber.languagetool;
 import java.io.File;
 import java.io.IOException;
 
+import javax.xml.parsers.ParserConfigurationException;
+
+import org.xml.sax.SAXException;
+
 import de.danielnaber.languagetool.tools.StringTools;
 
 /**
@@ -31,7 +35,7 @@ import de.danielnaber.languagetool.tools.StringTools;
  */
 public class BNCCheck {
 
-  public static void main(String[] args) throws IOException {
+  public static void main(String[] args) throws IOException, ParserConfigurationException, SAXException {
     if (args.length != 1) {
       System.out.println("Usage: BNCTest <directory>");
       System.exit(1);
@@ -42,7 +46,7 @@ public class BNCCheck {
 
   private Main prg;
   
-  private BNCCheck() throws IOException {
+  private BNCCheck() throws IOException, ParserConfigurationException, SAXException {
     prg = new Main(false, Language.ENGLISH);
     String[] disRules = new String[] {"UPPERCASE_SENTENCE_START", "COMMA_PARENTHESIS_WHITESPACE",
         "WORD_REPEAT_RULE", "DOUBLE_PUNCTUATION"};
