@@ -47,7 +47,7 @@ public class BNCCheck {
   private Main prg;
   
   private BNCCheck() throws IOException, ParserConfigurationException, SAXException {
-    prg = new Main(false, Language.ENGLISH);
+    prg = new Main(false, Language.ENGLISH, null);
     String[] disRules = new String[] {"UPPERCASE_SENTENCE_START", "COMMA_PARENTHESIS_WHITESPACE",
         "WORD_REPEAT_RULE", "DOUBLE_PUNCTUATION"};
     System.err.println("Note: disabling the following rules:");
