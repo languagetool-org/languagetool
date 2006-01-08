@@ -42,6 +42,7 @@ public class StringToolsTest extends TestCase {
     assertTrue(StringTools.startsWithUppercase("A"));
     assertTrue(StringTools.startsWithUppercase("ÄÖ"));
     
+    assertFalse(StringTools.startsWithUppercase(""));
     assertFalse(StringTools.startsWithUppercase("ß"));
     assertFalse(StringTools.startsWithUppercase("-"));
   }
