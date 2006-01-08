@@ -154,9 +154,9 @@ class FalseFriendRuleHandler extends XMLRuleHandler {
         formatter.applyPattern(messages.getString("false_friend_hint"));
         Object[] messageArguments = {
           pattern,
-          textLanguage.getName(),
+          textLanguage.getShortName(),
           translation,
-          motherTongue.getName()
+          motherTongue.getShortName()
         };
         String description = formatter.format(messageArguments);
         String rulePattern = makeRulePattern(pattern.toString());
