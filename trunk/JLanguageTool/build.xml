@@ -138,6 +138,11 @@
 		debug="true">
 			<classpath refid="junit.classpath"/>
    	</javac>
+  	<copy todir="${junit.classes.dir}/de/danielnaber/languagetool/">
+	  	<fileset dir="${src.java.dir}/de/danielnaber/languagetool/">
+	  		<include name="*.properties" />
+	  	</fileset>
+	</copy>
 
 	<!-- make sure that no classes where left in the build directory, clean it up -->
 	<delete dir="${build.dir}"/>
@@ -190,6 +195,21 @@
 
     <fail if="tests.failed">Tests failed!</fail>
 
+  </target>
+
+  <!-- ================================================================== -->
+
+  <target name="test-report" depends="" description="Creates unit test report">
+    <junitreport todir="${dist.dir}/report">
+      <fileset dir="${dist.dir}/report/tests">
+        <include name="TEST-*.xml"/>
+      </fileset>
+      <report format="frames" todir="${dist.dir}/report"/>
+    </junitreport>
+    <echo>
+    	test report can now be found in dist/report/index.html
+    </echo>
+    <fail message="tests failed" if="junit.failed"/>
   </target>
 
   <!-- ================================================================== -->
