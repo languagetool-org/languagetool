@@ -19,8 +19,11 @@
 package de.danielnaber.languagetool.rules.patterns;
 
 import java.io.IOException;
+import java.text.MessageFormat;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.util.ResourceBundle;
 
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
@@ -34,19 +37,19 @@ import de.danielnaber.languagetool.JLanguageTool;
 import de.danielnaber.languagetool.Language;
 
 /**
- * Loads {@link PatternRule}s from an XML file.
+ * Loads {@link PatternRule}s from a false friends XML file.
  * 
  * @author Daniel Naber
  */
-public class PatternRuleLoader extends DefaultHandler {
+public class FalseFriendRuleLoader extends DefaultHandler {
 
   private List rules;
 
-  public PatternRuleLoader() {
+  public FalseFriendRuleLoader() {
   }
 
-  public List getRules(String filename) throws ParserConfigurationException, SAXException, IOException {
-    PatternRuleHandler handler = new PatternRuleHandler();
+  public List getRules(String filename, Language textLanguage, Language motherTongue) throws ParserConfigurationException, SAXException, IOException {
+    FalseFriendRuleHandler handler = new FalseFriendRuleHandler(textLanguage, motherTongue);
     SAXParserFactory factory = SAXParserFactory.newInstance();
     SAXParser saxParser = factory.newSAXParser();
     saxParser.parse(JLanguageTool.getAbsoluteFile(filename), handler);
@@ -56,24 +59,48 @@ public class PatternRuleLoader extends DefaultHandler {
   
   /** Testing only. */
   public static void main(String[] args) throws ParserConfigurationException, SAXException, IOException {
-    PatternRuleLoader prg = new PatternRuleLoader();
-    List l = prg.getRules("rules/de/grammar.xml");
-    System.out.println(l);
+    FalseFriendRuleLoader prg = new FalseFriendRuleLoader();
+    List l = prg.getRules("rules/false-friends.xml", Language.ENGLISH, Language.GERMAN);
+    System.out.println("Hints for German native speakers:");
+    for (Iterator iter = l.iterator(); iter.hasNext();) {
+      PatternRule rule = (PatternRule) iter.next();
+      System.out.println(rule);
+    }
+    System.out.println("=======================================");
+    System.out.println("Hints for English native speakers:");
+    l = prg.getRules("rules/false-friends.xml", Language.GERMAN, Language.ENGLISH);
+    for (Iterator iter = l.iterator(); iter.hasNext();) {
+      PatternRule rule = (PatternRule) iter.next();
+      System.out.println(rule);
+    }
   }
   
 }
 
-class PatternRuleHandler extends XMLRuleHandler {
+class FalseFriendRuleHandler extends XMLRuleHandler {
 
+  private ResourceBundle messages;
+  private MessageFormat formatter; 
+  
+  private Language textLanguage; 
+  private Language motherTongue;
+  
   private String id;
-  private boolean caseSensitive = false;
   private Language language;
-  private String description;
+  private Language translationLanguage;
   private String ruleGroupId;
-  private String ruleGroupDescription;
-
-  private int startPositionCorrection = 0;
-  private int endPositionCorrection = 0;
+  private StringBuffer translation = new StringBuffer();
+  
+  private boolean inTranslation = false;
+  
+  public FalseFriendRuleHandler(Language textLanguage, Language motherTongue) {
+    messages = ResourceBundle.getBundle("de.danielnaber.languagetool.MessagesBundle",
+        motherTongue.getLocale());
+    formatter = new MessageFormat("");
+    formatter.setLocale(motherTongue.getLocale());
+    this.textLanguage = textLanguage;
+    this.motherTongue = motherTongue;
+  }
   
   //===========================================================
   // SAX DocumentHandler methods
@@ -82,30 +109,28 @@ class PatternRuleHandler extends XMLRuleHandler {
   public void startElement(String namespaceURI, String lName, String qName, Attributes attrs) throws SAXException {
     if (namespaceURI == null) namespaceURI = null;      // avoid compiler warning
     if (lName == null) lName = null;      // avoid compiler warning
-    if (qName.equals("rules")) {
-      String languageStr = attrs.getValue("lang");
-      language = Language.getLanguageforShortName(languageStr);
-      if (language == null) {
-        throw new SAXException("Unknown language '" + languageStr + "'");
-      }
-    } else if (qName.equals("rule")) {
+    if (qName.equals("rule")) {
       id = attrs.getValue("id");
       if (inRuleGroup && id == null)
         id = ruleGroupId;
-      description = attrs.getValue("name");
-      if (inRuleGroup && description == null)
-        description = ruleGroupDescription;
       correctExamples = new ArrayList();
       incorrectExamples = new ArrayList();
     } else if (qName.equals("pattern")) {
       pattern = new StringBuffer();
       inPattern = true;
-      if (attrs.getValue("mark_from") != null)
-        startPositionCorrection = Integer.parseInt(attrs.getValue("mark_from"));
-      if (attrs.getValue("mark_to") != null)
-        endPositionCorrection = Integer.parseInt(attrs.getValue("mark_to"));
-      if (attrs.getValue("case_sensitive") != null && attrs.getValue("case_sensitive").equals("yes"))
-        caseSensitive = true;
+      String languageStr = attrs.getValue("lang");
+      language = Language.getLanguageforShortName(languageStr);
+      if (language == null) {
+        throw new SAXException("Unknown language '" + languageStr + "'");
+      }
+    } else if (qName.equals("translation")) {
+      translation = new StringBuffer();
+      inTranslation = true;
+      String languageStr = attrs.getValue("lang");
+      translationLanguage = Language.getLanguageforShortName(languageStr);
+      if (translationLanguage == null) {
+        throw new SAXException("Unknown language '" + languageStr + "'");
+      }
     } else if (qName.equals("example") && attrs.getValue("type").equals("correct")) {
       inCorrectExample = true;
       correctExample = new StringBuffer();
@@ -117,10 +142,7 @@ class PatternRuleHandler extends XMLRuleHandler {
       message = new StringBuffer();
     } else if (qName.equals("rulegroup")) {
       ruleGroupId = attrs.getValue("id");
-      ruleGroupDescription = attrs.getValue("name");
       inRuleGroup = true;
-    } else if (qName.equals("em") && inMessage) {
-      message.append("<em>");
     }
   }
 
@@ -128,19 +150,25 @@ class PatternRuleHandler extends XMLRuleHandler {
     if (namespaceURI == null) namespaceURI = null;      // avoid compiler warning
     if (sName == null) sName = null;      // avoid compiler warning
     if (qName.equals("rule")) {
-      PatternRule rule = new PatternRule(id, language, pattern.toString(), description,
-          message.toString());
-      rule.setStartPositionCorrection(startPositionCorrection);
-      rule.setEndPositionCorrection(endPositionCorrection);
-      startPositionCorrection = 0;
-      endPositionCorrection = 0;
-      rule.setCorrectExamples(correctExamples);
-      rule.setIncorrectExamples(incorrectExamples);
-      rule.setCaseSensitive(caseSensitive);
-      caseSensitive = false;
-      rules.add(rule);
+      if (language == textLanguage && translationLanguage == motherTongue) {
+        formatter.applyPattern(messages.getString("false_friend_hint"));
+        Object[] messageArguments = {
+          pattern,
+          textLanguage.getName(),
+          translation,
+          motherTongue.getName()
+        };
+        String description = formatter.format(messageArguments);
+        PatternRule rule = new PatternRule(id, language, pattern.toString(), description,
+            message.toString());
+        rule.setCorrectExamples(correctExamples);
+        rule.setIncorrectExamples(incorrectExamples);
+        rules.add(rule);
+      }
     } else if (qName.equals("pattern")) {
       inPattern = false;
+    } else if (qName.equals("translation")) {
+      inTranslation = false;
     } else if (qName.equals("example")) {
       if (inCorrectExample) {
         correctExamples.add(correctExample.toString());
@@ -155,11 +183,9 @@ class PatternRuleHandler extends XMLRuleHandler {
       inMessage = false;
     } else if (qName.equals("rulegroup")) {
       inRuleGroup = false;
-    } else if (qName.equals("em") && inMessage) {
-      message.append("</em>");
     }
   }
-  
+
   public void characters(char buf[], int offset, int len) {
     String s = new String(buf, offset, len);
     if (inPattern) {
@@ -168,8 +194,8 @@ class PatternRuleHandler extends XMLRuleHandler {
       correctExample.append(s);
     } else if (inIncorrectExample) {
       incorrectExample.append(s);
-    } else if (inMessage) {
-      message.append(s);
+    } else if (inTranslation) {
+      translation.append(s);
     }
   }
 
