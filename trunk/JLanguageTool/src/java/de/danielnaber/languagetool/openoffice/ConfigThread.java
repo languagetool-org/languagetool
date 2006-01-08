@@ -46,6 +46,7 @@ class ConfigThread extends Thread {
     this.baseDir = baseDir;
     cfgDialog = new ConfigurationDialog(true);
     cfgDialog.setDisabledRules(config.getDisabledRuleIds());
+    cfgDialog.setMotherTongue(config.getMotherTongue());
   }
   
   public boolean done() {
@@ -66,6 +67,7 @@ class ConfigThread extends Thread {
       langTool.activateDefaultPatternRules();
       cfgDialog.show(langTool.getAllRules());
       config.setDisabledRuleIds(cfgDialog.getDisabledRuleIds());
+      config.setMotherTongue(cfgDialog.getMotherTongue());
       config.saveConfiguration();
     } catch (IOException e) {
       throw new RuntimeException(e);

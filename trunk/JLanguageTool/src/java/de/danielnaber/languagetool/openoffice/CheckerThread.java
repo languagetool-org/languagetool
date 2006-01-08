@@ -63,11 +63,14 @@ class CheckerThread extends Thread {
 
   public void run() {
     try {
-      langTool = new JLanguageTool(docLanguage, baseDir);
+      langTool = new JLanguageTool(docLanguage, config.getMotherTongue(), baseDir);
       langTool.activateDefaultPatternRules();
-      for (Iterator iter = config.getDisabledRuleIds().iterator(); iter.hasNext();) {
-        String id = (String) iter.next();
-        langTool.disableRule(id);
+      langTool.activateDefaultFalseFriendRules();
+      if (config.getDisabledRuleIds() != null) {
+        for (Iterator iter = config.getDisabledRuleIds().iterator(); iter.hasNext();) {
+          String id = (String) iter.next();
+          langTool.disableRule(id);
+        }
       }
       ruleMatches = langTool.check(text);
       done = true;

@@ -227,7 +227,7 @@ public class OOoDialog implements ActionListener {
     msg = msg.replaceAll("</em>", "</b>");
     StringBuffer sb = new StringBuffer();
     if (ruleMatches.size() == 1)
-      sb.append(ruleMatches.size() + " match in total");
+      sb.append(ruleMatches.size() + " match in total");         //FIXME: i18n
     else
       sb.append(ruleMatches.size() + " matches in total");
     sb.append("<br>\n<br>\n<b>" +(i+1)+ ".</b> ");
@@ -357,9 +357,11 @@ public class OOoDialog implements ActionListener {
       gotoNextMatch();
     } else if (event.getActionCommand().equals(OPTIONS_BUTTON)) {
       ConfigurationDialog cfgDialog = new ConfigurationDialog(true);
+      cfgDialog.setMotherTongue(configuration.getMotherTongue());
       cfgDialog.setDisabledRules(configuration.getDisabledRuleIds());
       cfgDialog.show(rules);
       configuration.setDisabledRuleIds(cfgDialog.getDisabledRuleIds());
+      configuration.setMotherTongue(cfgDialog.getMotherTongue());
     } else if (event.getActionCommand().equals(CLOSE_BUTTON)) {
       close();
     } else {

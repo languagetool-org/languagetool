@@ -71,7 +71,9 @@ public class Main {
     private Configuration config;
 
     /** Testing only. */
-    public _Main() {
+    public _Main() throws IOException {
+      baseDir = new File(".");
+      config = new Configuration(baseDir);
     }
     
     public _Main(XComponentContext xCompContext) {
@@ -258,11 +260,10 @@ public class Main {
     return Factory.writeRegistryServiceInfo(_Main.class.getName(), _Main.getServiceNames(), regKey);
   }
   
-  // testing only:
-  public static void main(String[] args) {
-    //System.out.println(URLDecoder.decode(s, "cp1252"));
+  /** Testing only. */
+  public static void main(String[] args) throws IOException {
     _Main m = new _Main();
-    m.checkText("this is an test");
+    m.checkText("This is an test, don't berate yourself.");
   }
 
 }

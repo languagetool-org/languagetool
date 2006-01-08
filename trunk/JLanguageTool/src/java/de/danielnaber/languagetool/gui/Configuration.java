@@ -28,6 +28,8 @@ import java.util.Iterator;
 import java.util.Properties;
 import java.util.Set;
 
+import de.danielnaber.languagetool.Language;
+
 /**
  * Configuration -- currently this is just a list of disabled rule IDs.
  * Configuration is loaded from and stored to a properties file.
@@ -38,9 +40,11 @@ public class Configuration {
 
   private static final String CONFIG_FILE = "languagetool.properties";
   private static final String DISABLED_RULES_CONFIG_KEY = "disabledRules";
+  private static final String MOTHER_TONGUE_CONFIG_KEY = "motherTongue";
   private File configFile = null;
 
   private Set disabledRuleIds = new HashSet();
+  private Language motherTongue;
 
   public Configuration(File baseDir) throws IOException {
     if (!baseDir.isDirectory())
@@ -57,6 +61,14 @@ public class Configuration {
     disabledRuleIds = ruleIDs;
   }
 
+  public Language getMotherTongue() {
+    return motherTongue;
+  }
+
+  public void setMotherTongue(Language motherTongue) {
+    this.motherTongue = motherTongue;
+  }
+
   private void loadConfiguration() throws IOException {
     FileInputStream fis = null;
     try {
@@ -69,6 +81,10 @@ public class Configuration {
         for (int i = 0; i < ids.length; i++) {
           disabledRuleIds.add(ids[i]);
         }
+      }
+      String motherTongueStr = (String)props.get(MOTHER_TONGUE_CONFIG_KEY);
+      if (motherTongueStr != null) {
+        motherTongue = Language.getLanguageforShortName(motherTongueStr);
       }
     } catch (FileNotFoundException e) {
       // file not found: okay, leave disabledRuleIds empty
@@ -92,6 +108,8 @@ public class Configuration {
       props.setProperty(DISABLED_RULES_CONFIG_KEY, "");
     else
       props.setProperty(DISABLED_RULES_CONFIG_KEY, sb.toString());
+    if (motherTongue != null)
+      props.setProperty(MOTHER_TONGUE_CONFIG_KEY, motherTongue.getShortName());
     FileOutputStream fos = null;
     try {
       fos = new FileOutputStream(configFile);

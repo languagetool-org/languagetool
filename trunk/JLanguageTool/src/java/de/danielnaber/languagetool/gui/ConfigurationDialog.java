@@ -19,8 +19,11 @@
 package de.danielnaber.languagetool.gui;
 
 import java.awt.Container;
+import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.Insets;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -31,10 +34,13 @@ import java.util.Set;
 
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
 import javax.swing.JDialog;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
+import de.danielnaber.languagetool.Language;
 import de.danielnaber.languagetool.rules.Rule;
 import de.danielnaber.languagetool.rules.patterns.PatternRule;
 
@@ -48,11 +54,15 @@ public class ConfigurationDialog implements ActionListener {
 
   private static final String OK_BUTTON = "OK";
   private static final String CANCEL_BUTTON = "Cancel";
+  private static final String NO_MOTHER_TONGUE = "---";
   private JDialog dialog = null;
   
+  private JComboBox motherTongueBox;
+
   private List checkBoxes = new ArrayList();
   private List checkBoxesRuleIds = new ArrayList();
   private Set inactiveRuleIds = new HashSet();
+  private Language motherTongue;
   private boolean modal;
   private boolean isClosed = true;
   
@@ -62,7 +72,7 @@ public class ConfigurationDialog implements ActionListener {
   
   public void show(List rules) {
     dialog = new JDialog();
-    dialog.setTitle("Options");
+    dialog.setTitle("LanguageTool Options");
     checkBoxes.clear();
     checkBoxesRuleIds.clear();
     
@@ -99,11 +109,20 @@ public class ConfigurationDialog implements ActionListener {
     okButton.addActionListener(this);
     JButton cancelButton = new JButton(CANCEL_BUTTON);
     cancelButton.addActionListener(this);
-    buttonPanel.add(okButton);
-    buttonPanel.add(cancelButton);
+    motherTongueBox = new JComboBox(getPossibleMotherTongues());
+    if (motherTongue != null)
+      motherTongueBox.setSelectedItem(motherTongue);
+    cons = new GridBagConstraints();
+    cons.insets = new Insets(0, 4, 0, 0);
+    buttonPanel.add(new JLabel("Your mother tongue: "), cons);
+    buttonPanel.add(motherTongueBox, cons);
+    buttonPanel.add(okButton, cons);
+    buttonPanel.add(cancelButton, cons);
     
     Container contentPane = dialog.getContentPane();
     contentPane.setLayout(new GridBagLayout());
+    cons = new GridBagConstraints();
+    cons.insets = new Insets(4, 4, 4, 4);
     cons.gridx = 0;
     cons.gridy = 0;
     cons.weightx = 10.0f;
@@ -115,21 +134,31 @@ public class ConfigurationDialog implements ActionListener {
     cons.weightx = 0.0f;
     cons.weighty = 0.0f;
     cons.fill = GridBagConstraints.NONE;
+    cons.anchor = GridBagConstraints.EAST;
     contentPane.add(buttonPanel, cons);
     
     dialog.pack();
     dialog.setModal(modal);
     dialog.setSize(500, 500);
     isClosed = false;
+    // center on screen:
+    Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+    Dimension frameSize = dialog.getSize();
+    dialog.setLocation(screenSize.width/2 - (frameSize.width/2), screenSize.height/2 - (frameSize.height/2));
     dialog.setVisible(true);
   }
   
+  private Object[] getPossibleMotherTongues() {
+    List motherTongues = new ArrayList();
+    motherTongues.add(NO_MOTHER_TONGUE);
+    for (int i = 0; i < Language.LANGUAGES.length; i++) {
+      motherTongues.add(Language.LANGUAGES[i]);
+    }
+    return motherTongues.toArray();
+  }
+
   public boolean isClosed() {
     return isClosed;
-  }
-  
-  public void setDisabledRules(Set ruleIDs) {
-    inactiveRuleIds = ruleIDs;
   }
   
   public void actionPerformed(ActionEvent e) {
@@ -144,6 +173,10 @@ public class ConfigurationDialog implements ActionListener {
         }
         i++;
       }
+      if (motherTongueBox.getSelectedItem() instanceof String)
+        motherTongue = null;
+      else
+        motherTongue = (Language)motherTongueBox.getSelectedItem();
       isClosed = true;
       dialog.hide(); 
     } else if (e.getActionCommand().equals(CANCEL_BUTTON)) {
@@ -152,8 +185,24 @@ public class ConfigurationDialog implements ActionListener {
     }
   }
   
+  public void setDisabledRules(Set ruleIDs) {
+    inactiveRuleIds = ruleIDs;
+  }
+
   public Set getDisabledRuleIds() {
     return inactiveRuleIds;
   }
-  
+
+  public void setMotherTongue(Language motherTongue) {
+    this.motherTongue = motherTongue;
+  }
+
+  public Language getMotherTongue() {
+    if (motherTongueBox == null)
+      return null;
+    if (motherTongueBox.getSelectedItem() instanceof String)
+      return null;
+    return (Language)motherTongueBox.getSelectedItem();
+  }
+
 }
