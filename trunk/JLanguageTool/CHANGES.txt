@@ -1,21 +1,32 @@
 LanguageTool Change Log
 
-0.8.2 (200x-xx-xx)
+0.8.2 (2006-xx-xx)
 
  -New menu entry "Configuration..."
  
- -Added a few new rules
+ -If you're a native speaker of German and write a text in English, LanguageTool
+  can now warn you if you're using a "false friend", i.e. an English word that sounds
+  like a German word but has a different meaning (e.g. become <-> bekommen).
+  This also works vice versa (i.e. English native speakers will get a warning
+  when writing a German text using a false friend).
  
+ -Added a few new pattern rules
+ 
+ -Missing whitespace after a comma is now detected
+
  -Added a new German rule that detects missing agreement in e.g.
   "meine Auto" (correct: "mein Auto"). This also introduces some new 
   false alarms.
  
  -Errors for German text are now displayed in German
  
- -Changes to rules.dtd (affect "lang" attribute)
+ -Several other small fixes
+
+ -Only relevant for developers: changes to rules.dtd (affect "lang" attribute)
  
- -Other small fixes
- 
+ -Only relevant for developers: XML validation doesn't happen at runtime
+  anymore but only when "ant test" is called
+  
  -...
 
 0.8.1 (2005-12-22)
@@ -59,7 +70,7 @@ LanguageTool Change Log
   e.g. "Das Laufen fällt mir leicht."
 
  -extension of pattern synatx: DT^foo|bar will match words tagged
-  as "CD", except the word is "foo" or "bar"
+  as "DT", except the word is "foo" or "bar"
 
  -fixed several false alarms (i.e. rules matching text which is
   actually correct)

@@ -39,14 +39,46 @@ Known bugs:
    
 TODO:
  -add more rules, especially agreement stuff
- -parse and use false friend rules
  -see "TODO" in the source
+ -create abstract SentenceRule and TextRule classes to get rid of reset() method?
  -further increase test case coverage
+
  -fix false alerts:
- 	...des Leipziger Verlages Faber... -> alle Adjektiv-Lesarten der Städte fehlen beim Tagging
-	...gewann mit den Los Angeles Sparks am...
-	...den Vorwurf, seine beiden Söhne im Alter von vier...
+ 	German:
+	 	...des Leipziger Verlages Faber... -> alle Adjektiv-Lesarten der Städte fehlen beim Tagging
+		...gewann mit den Los Angeles Sparks am...
+		...den Vorwurf, seine beiden Söhne im Alter von vier...
+		Wenn man Musik nicht fühle, ...
+		Eine Überlebende des Holocaust hat von...
+		Interessenten aus aller Welt
+		Um den See herum...
+		Fehlt noch ein wenig Gemütlichkeit.
+		...auch ein wenig Zahlentheorie.
+		...die Arbeiten mehrerer Gelehrter
+		Das verbreitete sich wie ein Lauffeuer.
+		Wenn die mögliche Erweiterung der einen Ecke zutrifft.
+		Und dieser eine Schritt gelang ihm.
+		doch eine voller Leidenschaft gehaltene Vorlesung
+		zu finden sein würde, das solidere Fundamente besaß
+		sollte bald eines Besseren belehrt werden
+		ein halber Apfel, von dem einige Bissen genommen worden waren
+		sich auch den nächsten Packen irregulärer Primzahlen
+		bestimmte Modulform etwa einen Packen von Grundelement eins
+		Wo Krieg den Unschuldigen Leid und Tod bringt.
+		...den Nachfolgeclub des Pleite gegangenen AC Florenz.
+		Er verurteilte die beiden Verlage zu Schadenersatz.
+		...künftig wird es aller Wahrscheinlichkeit mit 0,1 Grad pro...
+		allen Rede und Antwort zu stehen
+	English:
+		its  very nature
+	are actually of a much older -> older, larger are tagged as NN getaggt!!??!
+
  -errors not detected:
- 	...mein große Feind...
+ 	...mein große Feind... -> zwischen art=SOL/DEF/IND (Morphy) unterscheiden!?
+
+ -incorrect sentence boundary detection:
+	a slight (but relevant!) detour to Cleveland
+
+ -increase performance
  -make gui.Main use the Configuration class to save its settings?
  -add information to rules about when they can give false alarm?
