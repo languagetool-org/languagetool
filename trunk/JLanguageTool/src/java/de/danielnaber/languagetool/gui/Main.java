@@ -25,6 +25,7 @@ import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -55,10 +56,12 @@ import de.danielnaber.languagetool.rules.RuleMatch;
 class Main implements ActionListener {
 
   private static final String OPTIONS_BUTTON = "Options...";
+  private static final String NO_MOTHER_TONGUE = "---";
   
   private JTextArea textArea = null;
   private JTextPane resultArea = null;
   private JComboBox langBox = null;
+  private JComboBox motherTongueBox = null;
   
   private Map configDialogs = new HashMap();       // Language -> ConfigurationDialog
 
@@ -101,6 +104,13 @@ class Main implements ActionListener {
     panel.add(langBox, buttonCons);
     buttonCons.gridx = 3;
     buttonCons.gridy = 0;
+    panel.add(new JLabel(" Mother tongue: "), buttonCons);
+    buttonCons.gridx = 4;
+    buttonCons.gridy = 0;
+    motherTongueBox = new JComboBox(getPossibleMotherTongues());
+    panel.add(motherTongueBox, buttonCons);
+    buttonCons.gridx = 5;
+    buttonCons.gridy = 0;
     buttonCons.insets = new Insets(0, 10, 0, 0);
     panel.add(configButton, buttonCons);
 
@@ -133,9 +143,20 @@ class Main implements ActionListener {
     frame.setVisible(true);
   }
   
+  private Object[] getPossibleMotherTongues() {
+    List motherTongues = new ArrayList();
+    motherTongues.add(NO_MOTHER_TONGUE);
+    for (int i = 0; i < Language.LANGUAGES.length; i++) {
+      motherTongues.add(Language.LANGUAGES[i]);
+    }
+    return motherTongues.toArray();
+  }
+
   public void actionPerformed(ActionEvent e) {
     String langName = langBox.getSelectedItem().toString();
     Language language = Language.getLanguageforName(langName);
+    String motherTongueName = motherTongueBox.getSelectedItem().toString();
+    Language motherTongue = Language.getLanguageforName(motherTongueName);
     ConfigurationDialog configDialog = null;
     if (configDialogs.containsKey(language)) {
       configDialog = (ConfigurationDialog)configDialogs.get(language);
@@ -145,8 +166,9 @@ class Main implements ActionListener {
     }
     JLanguageTool langTool;
     try {
-      langTool = new JLanguageTool(language);
+      langTool = new JLanguageTool(language, motherTongue);
       langTool.activateDefaultPatternRules();
+      langTool.activateDefaultFalseFriendRules();
       Set disabledRules = configDialog.getDisabledRuleIds();
       if (disabledRules != null) {
         for (Iterator iter = disabledRules.iterator(); iter.hasNext();) {
