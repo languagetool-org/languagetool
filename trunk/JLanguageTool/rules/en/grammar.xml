@@ -2,10 +2,61 @@
 <!--
 Rules: Grammar and Typos
 See tagset.txt for the meaning of the POS tags
-Copyright (C) 2001-2005 Daniel Naber (http://www.danielnaber.de)
-$Id: grammar.xml,v 1.37 2006-01-03 16:33:46 dnaber Exp $
+Copyright (C) 2001-2006 Daniel Naber (http://www.danielnaber.de)
+$Id: grammar.xml,v 1.38 2006-01-08 01:41:23 dnaber Exp $
 -->
 <rules lang="en">
+
+	<!-- TODO: is this really an error? see http://www.edufind.com/english/grammar/ADVERBS10.cfm -->
+	<rule id="ADVERBS_ORDER" name="word order: adverb + auxiliary verb + main verb">
+		<pattern mark_from="2">"certainly|definitely|probably|undoubtedly|surely" "has|had|have|will" VBN|VB</pattern>
+		<message>Place the adverb between </message>
+		<example type="correct">He will <em>probably</em> remember tomorrow.</example>
+		<example type="incorrect">He <em>probably</em> will remember tomorrow.</example>
+	</rule>
+
+	<rule id="TO_PAST" name="'I am' + non-gerund form">
+		<pattern mark_from="2">"I" "am" VB|VBD|VBN|VBP|VBZ</pattern>
+		<message>You might need to use the gerund form of the verb here (e.g. 'learning' instead of 'learn').</message>
+		<example type="correct">I am <em>searching</em> through some fields.</example>
+		<example type="incorrect">I am <em>searched</em> through some fields.</example>
+	</rule>
+
+	<rule id="TO_NON_BASE" name="'to' + non-base form">
+		<pattern mark_from="1">"to" VBD|VBN|VBP|VBZ^was</pattern>
+		<message>You might need to use the base form of the verb here (e.g. 'learn' instead of 'learned/learning/...').</message>
+		<example type="correct">I was surprised to <em>learn</em> this. </example>
+		<example type="incorrect">I was surprised to <em>learned</em> this. </example>
+	</rule>
+
+	<rule id="I_ARE" name="'I is/are/...' at sentence start">
+		<pattern mark_from="2">SENT_START "I" "is|be|are|were|has"</pattern>
+		<message>Did you mean <em>am</em> or <em>ate</em>?</message>
+		<example type="correct">I <em>ate</em> at the restaurant.</example>
+		<example type="correct">I <em>am</em> at the restaurant.</example>
+		<example type="incorrect">I <em>are</em> at the restaurant.</example>
+	</rule>
+
+	<rule id="MANY_FEW_UNCOUNTABLE" name="many/few + uncountable noun">
+		<!-- fixme: more uncountable nouns
+		 -->
+		<pattern mark_to="-1">"as" "many|few" "air|money|software|cattle|knowledge|sand|furniture|meat|food|news|success|water|freedom|maturity|intelligence|life|information" "as"</pattern>
+		<message>Use <em>much</em> or <em>little</em> with uncountable nouns</message>
+		<example type="correct">John eats as <em>much</em> food as Peter.</example>
+		<example type="correct">John eats as <em>little</em> food as Peter.</example>
+		<example type="incorrect">John eats as <em>many</em> food as Peter.</example>
+		<example type="incorrect">John eats as <em>few</em> food as Peter.</example>
+	</rule>
+
+	<!-- fixme: more nouns?
+         false alert: "an intelligence service"
+	<rule id="A_UNCOUNTABLE" name="a + uncountable noun">
+		<pattern mark_to="-1">"a|an" "air|money|cattle|knowledge|sand|furniture|meat|food|news|water|freedom|maturity|intelligence|information"</pattern>
+		<message>Uncountable nouns are usually not used with an indefinite article.</message>
+		<example type="correct"><em>The</em> information in your files is correct.</example>
+		<example type="incorrect"><em>An</em> information in your files is correct.</example>
+	</rule>
+	-->
 
 	<rule id="YOUR" name="Possible typo 'your(you're)'">
 		<pattern mark_to="-1">"your" VBG</pattern>
@@ -72,12 +123,14 @@ $Id: grammar.xml,v 1.37 2006-01-03 16:33:46 dnaber Exp $
 		<example type="incorrect">The dogs of war <em>is</em> released.</example>
 	</rule>
 
+	<!-- FIXME
 	<rule id="HE_VERB_AGR" name="Agreement error: Non-third person verb with 'he'">
-		<pattern mark_from="2">^"(has|will|must|could|can|should|would|does|did)" "he" VBP</pattern>
+		<pattern mark_from="2">^"(has|will|must|could|can|should|would|does|did)" "he" VB|VBG|VBN</pattern>
 		<message>'He' must be used with a third person verb, e.g. 'he walks'</message>
-		<example type="correct">He <em>looks</em> at the building.</example>
-		<example type="incorrect">He <em>look</em> at the building.</example>
+		<example type="correct">He <em>walks</em> to the building.</example>
+		<example type="incorrect">He <em>walk</em> to the building.</example>
 	</rule>
+	-->
 
 	<!-- TODO: fix false alarm for "one of you thinks ...", "even though the world around you thinks"
 	<rule id="I_VERB_AGR" name="Agreement error: third person verb with 'I'">
@@ -204,8 +257,14 @@ $Id: grammar.xml,v 1.37 2006-01-03 16:33:46 dnaber Exp $
 		<example type="incorrect">It's the only part of KDE I know <em>off</em> that uses automasking.</example>
 	</rule>
 
-	<rule id="VERB_US" name="Typo 'not/don't us(use)'">
-		<pattern>"not|don't" "us"</pattern>
+	<rule id="NOT_US1" name="Typo 'not us(use)'">
+		<pattern mark_from="1">"not" "us"</pattern>
+		<message>Did you mean <em>use</em>?</message>
+		<example type="correct">Please do not <em>use</em> dispose.</example>
+		<example type="incorrect">Please do not <em>us</em> dispose.</example>
+	</rule>
+	<rule id="NOT_US2" name="Typo 'won't/don't us(use)'">
+		<pattern mark_from="2">"'" "t" "us"</pattern>
 		<message>Did you mean <em>use</em>?</message>
 		<example type="correct">Please don't <em>use</em> dispose.</example>
 		<example type="incorrect">Please don't <em>us</em> dispose.</example>
@@ -235,10 +294,12 @@ $Id: grammar.xml,v 1.37 2006-01-03 16:33:46 dnaber Exp $
 	</rule>
 
 	<rule id="VBZ_VBD" name="Confusion of it/is">
-		<pattern mark_to="-1">"is|isn't" "was|wasn't"</pattern>
+		<pattern mark_to="-1">"is" "was|wasn"</pattern>
 		<message>Did you mean <em>it</em>?</message>
 		<example type="correct">...which <em>it</em> wasn't the last day.</example>
+		<example type="correct">...which <em>it</em> was the last day.</example>
 		<example type="incorrect">...which <em>is</em> wasn't the last day.</example>
+		<example type="incorrect">...which <em>is</em> was not the last day.</example>
 	</rule>
 
 	<rule id="FORE_DPS" name="Confusion of fore/for">
@@ -334,11 +395,19 @@ $Id: grammar.xml,v 1.37 2006-01-03 16:33:46 dnaber Exp $
 		<example type="incorrect">This will be <em>a much</em> work.</example>
 	</rule>
 
-	<rule id="MOST_COMP" name="No 'more' or 'most' before superlatives">
+	<rule id="MOST_SUPERLATIVE" name="No 'more' or 'most' before superlatives">
 		<pattern mark_from="0" mark_to="-1">"more|most" JJS|RBS</pattern>
 		<message>Remove 'most' or 'more' when you use the superlative.</message>
 		<example type="correct">Kyoto is the <em>oldest</em> city.</example>
 		<example type="incorrect">Kyoto is the <em>most oldest</em> city.</example>
+	</rule>
+
+	<rule id="THE_SUPERLATIVE" name="No indefinite article ('a'/'an') before superlatives">
+		<pattern mark_from="0" mark_to="-1">"a|an" JJS|RBS^most</pattern>
+		<message>Use <em>the</em> with the superlative.</message>
+		<example type="correct">Kyoto is <em>the</em> oldest city.</example>
+		<example type="correct">And Truly It Is <em>a</em> Most Glorious Thing</example>
+		<example type="incorrect">Kyoto is <em>an</em> oldest city.</example>
 	</rule>
 
 	<rule id="IS_SHOULD" name="Typo 'is(it) should/could'">
@@ -368,11 +437,11 @@ $Id: grammar.xml,v 1.37 2006-01-03 16:33:46 dnaber Exp $
 		<!-- 'did' is used for emphasis here: -->
 		<example type="correct">They will <em>come</em> home.</example>
 		<example type="correct">Peter did <em>go</em> to the cinema.</example>
-		<example type="incorrect">They will <em>comes</em> home.</example>
 		<example type="incorrect">Peter did <em>went</em> to the cinema.</example>
 		<example type="incorrect">He did <em>walked</em> to his house.</example>
 		<example type="incorrect">He did <em>walking</em> to his house.</example>
 		<!-- TODO: not found because of mistagging:
+		<example type="incorrect">They will <em>comes</em> home.</example>
 		<example type="incorrect">He did <em>walks</em> to his house.</example>
 		<example type="incorrect">They will <em>came</em> home.</example>
 		-->
@@ -444,8 +513,7 @@ $Id: grammar.xml,v 1.37 2006-01-03 16:33:46 dnaber Exp $
 		<rule>
 			<!-- TODO: "its of", "its to" -->
 			<pattern mark_from="0" mark_to="-1">"its" (CC|DT|IN|MD|POS|PP|RB|WDT|WP|WRB)</pattern>
-			<message>Did you mean <em>it's</em> (=<em>it is</em>) instead of
-				'its' (possessive pronoun)?</message>
+			<message>Did you mean <em>it's</em> (=<em>it is</em>) instead of 'its' (possessive pronoun)?</message>
 			<example type="correct"><em>It's</em> where people walk around.</example>
 			<example type="incorrect"><em>Its</em> where people walk around.</example>
 			<example type="triggers_error" reason="'every' is tagged as AT0">London is a necropolis, <em>its</em> every corner the site of a murder, its soil a pudding of blood and tears.</example>
@@ -454,8 +522,7 @@ $Id: grammar.xml,v 1.37 2006-01-03 16:33:46 dnaber Exp $
 		<!-- TODO:
 		<rule>
 			<pattern mark_from="0" mark_to="-1">"its" VBG</pattern>
-			<message>Did you mean <em>it's</em> (=<em>it is</em>) instead of
-				'its' (possessive pronoun)?</message>
+			<message>Did you mean <em>it's</em> (=<em>it is</em>) instead of 'its' (possessive pronoun)?</message>
 			<example type="correct"><em>It's</em> going to be difficult.</example>
 			<example type="incorrect"><em>Its</em> going to be difficult.</example>
 		</rule>
@@ -463,8 +530,7 @@ $Id: grammar.xml,v 1.37 2006-01-03 16:33:46 dnaber Exp $
 
 		<rule>
 			<pattern mark_from="0" mark_to="-1">"its" "(a|the)"</pattern>
-			<message>Did you mean <em>it's</em> (=<em>it is</em>) instead of
-				'its' (possessive pronoun)?</message>
+			<message>Did you mean <em>it's</em> (=<em>it is</em>) instead of 'its' (possessive pronoun)?</message>
 			<example type="correct"><em>It's</em> a good opportunity.</example>
 			<example type="incorrect"><em>Its</em> a good opportunity.</example>
 			<example type="triggers_error">Currently, there are fifteen records on <em>its</em> A list and twenty on its B list.</example>
