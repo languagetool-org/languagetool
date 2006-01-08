@@ -43,14 +43,17 @@ class Main {
   private JLanguageTool lt = null;
   private boolean verbose = false;
 
-  Main(boolean verbose, Language language) throws IOException, ParserConfigurationException, SAXException {
-    this(verbose, language, new String[0]);
+  Main(boolean verbose, Language language, Language motherTongue) throws IOException, 
+      ParserConfigurationException, SAXException {
+    this(verbose, language, motherTongue, new String[0]);
   }
   
-  Main(boolean verbose, Language language, String[] disabledRules) throws IOException, SAXException, ParserConfigurationException {
+  Main(boolean verbose, Language language, Language motherTongue, String[] disabledRules) throws IOException, 
+      SAXException, ParserConfigurationException {
     this.verbose = verbose;
-    lt = new JLanguageTool(language);
+    lt = new JLanguageTool(language, motherTongue, null);
     lt.activateDefaultPatternRules();
+    lt.activateDefaultFalseFriendRules();
     for (int i = 0; i < disabledRules.length; i++) {
       lt.disableRule(disabledRules[i]);
     }
@@ -160,9 +163,9 @@ class Main {
     return sb.toString();
   }
 
-  private static void exitWithUsageMessagee() {
+  private static void exitWithUsageMessage() {
     System.out.println("Usage: java de.danielnaber.languagetool.Main " +
-            "[-r|--recursive] [-v|--verbose] [-l|--language LANG] [-d|--disable RULES] <file>");
+            "[-r|--recursive] [-v|--verbose] [-l|--language LANG] [-m|--mothertongue LANG] [-d|--disable RULES] <file>");
     System.exit(1);
   }
 
@@ -171,16 +174,17 @@ class Main {
    */
   public static void main(String[] args) throws IOException, ParserConfigurationException, SAXException {
     if (args.length < 1 || args.length > 6) {
-      exitWithUsageMessagee();
+      exitWithUsageMessage();
     }
     boolean verbose = false;
     boolean recursive = false;
     Language language = null;
+    Language motherTongue = null;
     String filename = null;
     String[] disabledRules = new String[0];
     for (int i = 0; i < args.length; i++) {
       if (args[i].equals("-h") || args[i].equals("-help") || args[i].equals("--help")) {
-        exitWithUsageMessagee();
+        exitWithUsageMessage();
       } else if (args[i].equals("-v") || args[i].equals("--verbose")) {
         verbose = true;
       } else if (args[i].equals("-r") || args[i].equals("--recursive")) {
@@ -189,40 +193,47 @@ class Main {
         String rules = args[++i];
         disabledRules = rules.split(",");
       } else if (args[i].equals("-l") || args[i].equals("--language")) {
-        String lang = args[++i];
-        boolean foundLanguage = false;
-        List supportedLanguages = new ArrayList();
-        for (int j = 0; j < Language.LANGUAGES.length; j++) {
-          Language tmpLang = Language.LANGUAGES[j];
-          supportedLanguages.add(tmpLang.getShortName());
-          if (lang.equals(tmpLang.getShortName())) {
-            language = tmpLang;
-            foundLanguage = true;
-            break;
-          }          
-        }
-        if (! foundLanguage) {
-          System.out.println("Unknown language '" + lang + "'. Supported languages are: " + supportedLanguages);
-          exitWithUsageMessagee();
-        }
+        language = getLanguageOrExit(args[++i]);
+      } else if (args[i].equals("-m") || args[i].equals("--mothertongue")) {
+        motherTongue = getLanguageOrExit(args[++i]);
       } else {
         filename = args[i];
       }
     }
     if (filename == null) {
-      exitWithUsageMessagee();
+      exitWithUsageMessage();
     }
     if (language == null) {
       System.err.println("No language specified, using English");
       language = Language.ENGLISH;
     }
-    Main prg = new Main(verbose, language, disabledRules);
+    Main prg = new Main(verbose, language, motherTongue, disabledRules);
     if (recursive) {
       prg.runRecursive(filename);
     } else {
       String text = prg.getFilteredText(filename);
       prg.checkText(text);
     }
+  }
+
+  private static Language getLanguageOrExit(String lang) {
+    Language language = null;
+    boolean foundLanguage = false;
+    List supportedLanguages = new ArrayList();
+    for (int j = 0; j < Language.LANGUAGES.length; j++) {
+      Language tmpLang = Language.LANGUAGES[j];
+      supportedLanguages.add(tmpLang.getShortName());
+      if (lang.equals(tmpLang.getShortName())) {
+        language = tmpLang;
+        foundLanguage = true;
+        break;
+      }          
+    }
+    if (! foundLanguage) {
+      System.out.println("Unknown language '" + lang + "'. Supported languages are: " + supportedLanguages);
+      exitWithUsageMessage();
+    }
+    return language;
   }
 
 }

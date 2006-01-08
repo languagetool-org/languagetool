@@ -45,6 +45,8 @@ import de.danielnaber.languagetool.rules.de.DashRule;
 import de.danielnaber.languagetool.rules.de.WiederVsWiderRule;
 import de.danielnaber.languagetool.rules.de.WordCoherencyRule;
 import de.danielnaber.languagetool.rules.en.AvsAnRule;
+import de.danielnaber.languagetool.rules.patterns.FalseFriendRuleLoader;
+import de.danielnaber.languagetool.rules.patterns.PatternRule;
 import de.danielnaber.languagetool.rules.patterns.PatternRuleLoader;
 import de.danielnaber.languagetool.tagging.Tagger;
 import de.danielnaber.languagetool.tokenizers.Tokenizer;
@@ -64,6 +66,7 @@ public class JLanguageTool {
 
   public final static String RULES_DIR = "rules";
   public final static String PATTERN_FILE = "grammar.xml";
+  public final static String FALSE_FRIEND_FILE = "false-friends.xml";
   
   public final static String SENTENCE_START_TAGNAME = "SENT_START";
 
@@ -74,6 +77,7 @@ public class JLanguageTool {
   private static File basedir = null;
 
   private Language language = null;
+  private Language motherTongue = null;
   private Tagger tagger = null;
   private Tokenizer sentenceTokenizer = null;
   private Tokenizer wordTokenizer = null;
@@ -89,11 +93,20 @@ public class JLanguageTool {
 
   /**
    * Create a JLanguageTool and setup the builtin rules appropriate for the
-   * given language.
+   * given language, ignoring false friend hints. 
    * @throws IOException 
    */
   public JLanguageTool(Language language) throws IOException {
     this(language, null);
+  }
+
+  /**
+   * Create a JLanguageTool and setup the builtin rules appropriate for the
+   * given language, ignoring false friend hints.
+   * @throws IOException 
+   */
+  public JLanguageTool(Language language, File basedirArg) throws IOException {
+    this(language, null, basedirArg);
   }
   
   /**
@@ -101,12 +114,13 @@ public class JLanguageTool {
    * given language.
    * @throws IOException 
    */
-  public JLanguageTool(Language language, File basedirArg) throws IOException {
+  public JLanguageTool(Language language, Language motherTongue, File basedirArg) throws IOException {
     if (language == null) {
       throw new NullPointerException("language cannot be null");
     }
     basedir = basedirArg;
     this.language = language;
+    this.motherTongue = motherTongue;
     ResourceBundle messages = ResourceBundle.getBundle("de.danielnaber.languagetool.MessagesBundle",
         language.getLocale());
     // TODO: use reflection to get a list of all non-pattern rules:
@@ -155,11 +169,29 @@ public class JLanguageTool {
    * @throws ParserConfigurationException
    * @throws SAXException
    * @throws IOException
-   * @return a List of {@link Rule} objects
+   * @return a List of {@link PatternRule} objects
    */
   public List loadPatternRules(String filename) throws ParserConfigurationException, SAXException, IOException {
     PatternRuleLoader ruleLoader = new PatternRuleLoader();
     return ruleLoader.getRules(filename);
+  }
+
+  /**
+   * Load false friend rules from an XML file. Only those pairs will be loaded
+   * that match the current text language and the mother tongue specified
+   * in the JLanguageTool constructor. Use {@link #addRule} to add
+   * these rules to the checking process.
+   * 
+   * @throws ParserConfigurationException
+   * @throws SAXException
+   * @throws IOException
+   * @return a List of {@link PatternRule} objects
+   */
+  public List loadFalseFriendRules(String filename) throws ParserConfigurationException, SAXException, IOException {
+    if (motherTongue == null)
+      return new ArrayList();
+    FalseFriendRuleLoader ruleLoader = new FalseFriendRuleLoader();
+    return ruleLoader.getRules(filename, language, motherTongue);
   }
 
   /**
@@ -173,6 +205,22 @@ public class JLanguageTool {
     String defaultPatternFilename = 
       RULES_DIR +File.separator+ language.getShortName() +File.separator+ PATTERN_FILE;
     List patternRules = loadPatternRules(defaultPatternFilename);
+    for (Iterator iter = patternRules.iterator(); iter.hasNext();) {
+      Rule rule = (Rule) iter.next();
+      addRule(rule);
+    }
+  }
+
+  /**
+   * Loads and activates the false friend rules from <code>rules/false-friends.xml</code>.
+   * 
+   * @throws ParserConfigurationException
+   * @throws SAXException
+   * @throws IOException
+   */
+  public void activateDefaultFalseFriendRules() throws ParserConfigurationException, SAXException, IOException {
+    String falseFriendRulesFilename =  RULES_DIR +File.separator+ FALSE_FRIEND_FILE;
+    List patternRules = loadFalseFriendRules(falseFriendRulesFilename);
     for (Iterator iter = patternRules.iterator(); iter.hasNext();) {
       Rule rule = (Rule) iter.next();
       addRule(rule);
