@@ -51,7 +51,7 @@ class Main {
   Main(boolean verbose, Language language, Language motherTongue, String[] disabledRules) throws IOException, 
       SAXException, ParserConfigurationException {
     this.verbose = verbose;
-    lt = new JLanguageTool(language, motherTongue, null);
+    lt = new JLanguageTool(language, motherTongue);
     lt.activateDefaultPatternRules();
     lt.activateDefaultFalseFriendRules();
     for (int i = 0; i < disabledRules.length; i++) {

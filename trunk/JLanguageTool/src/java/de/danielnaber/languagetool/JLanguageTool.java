@@ -97,7 +97,7 @@ public class JLanguageTool {
    * @throws IOException 
    */
   public JLanguageTool(Language language) throws IOException {
-    this(language, null);
+    this(language, null, null);
   }
 
   /**
@@ -108,7 +108,18 @@ public class JLanguageTool {
   public JLanguageTool(Language language, File basedirArg) throws IOException {
     this(language, null, basedirArg);
   }
-  
+
+  /**
+   * Create a JLanguageTool and setup the builtin rules appropriate for the
+   * given language.
+   * @param language the text language
+   * @param motherTongue the user's mother tongue or <code>null</code>
+   * @throws IOException 
+   */
+  public JLanguageTool(Language language, Language motherTongue) throws IOException {
+    this(language, motherTongue, null);
+  }
+
   /**
    * Create a JLanguageTool and setup the builtin rules appropriate for the
    * given language.
