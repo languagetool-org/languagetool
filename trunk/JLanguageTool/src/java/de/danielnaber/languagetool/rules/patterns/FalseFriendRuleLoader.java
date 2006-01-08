@@ -159,8 +159,10 @@ class FalseFriendRuleHandler extends XMLRuleHandler {
           motherTongue.getName()
         };
         String description = formatter.format(messageArguments);
-        PatternRule rule = new PatternRule(id, language, pattern.toString(), description,
-            message.toString());
+        String rulePattern = makeRulePattern(pattern.toString());
+        PatternRule rule = new PatternRule(id, language, rulePattern, 
+            messages.getString("false_friend_desc") + " " + pattern.toString(),
+            description);
         rule.setCorrectExamples(correctExamples);
         rule.setIncorrectExamples(incorrectExamples);
         rules.add(rule);
@@ -184,6 +186,22 @@ class FalseFriendRuleHandler extends XMLRuleHandler {
     } else if (qName.equals("rulegroup")) {
       inRuleGroup = false;
     }
+  }
+
+  /**
+   * Enclose all parts of a pattern with quotes.
+   */
+  private String makeRulePattern(String pattern) {
+    String[] rulePatternParts = pattern.split("\\s+");
+    StringBuffer sb = new StringBuffer();
+    for (int i = 0; i < rulePatternParts.length; i++) {
+      sb.append("\"");
+      sb.append(rulePatternParts[i]);
+      sb.append("\"");
+      if (i < rulePatternParts.length-1)
+        sb.append(" ");
+    }
+    return sb.toString();
   }
 
   public void characters(char buf[], int offset, int len) {
