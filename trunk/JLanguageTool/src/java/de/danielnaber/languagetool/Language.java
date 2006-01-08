@@ -20,10 +20,10 @@ package de.danielnaber.languagetool;
 
 import java.util.Locale;
 
+import de.danielnaber.languagetool.tagging.Tagger;
 import de.danielnaber.languagetool.tagging.de.GermanTagger;
 import de.danielnaber.languagetool.tagging.en.EnglishTagger;
 import de.danielnaber.languagetool.tagging.xx.DemoTagger;
-import de.danielnaber.languagetool.tagging.Tagger;
 import de.danielnaber.languagetool.tokenizers.SentenceTokenizer;
 import de.danielnaber.languagetool.tokenizers.Tokenizer;
 import de.danielnaber.languagetool.tokenizers.WordTokenizer;
@@ -65,6 +65,8 @@ public class Language {
    * @return a Language object or <code>null</code>
    */
   public static Language getLanguageforShortName(String shortLanguageCode) {
+    if (shortLanguageCode == null)
+      throw new NullPointerException("Language code cannot be null");
     for (int i = 0; i < Language.LANGUAGES.length; i++) {
       if (shortLanguageCode.equals(Language.LANGUAGES[i].getShortName())) {
         return Language.LANGUAGES[i];
