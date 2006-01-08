@@ -179,7 +179,7 @@ public class PatternRule extends Rule {
         negation = true;
         element = element.substring(1);     // cut off "^"
       }
-      if (element.startsWith("\"") && !element.endsWith("\"") || element.endsWith("\"") && !element.startsWith("\"")) {
+      if ((element.startsWith("\"") && !element.endsWith("\"")) || (element.endsWith("\"") && !element.startsWith("\""))) {
         throw new IllegalArgumentException("Invalid pattern '" + pattern + "': unbalanced quote");
       }
       if (element.startsWith("\"") && element.endsWith("\"")) {         // cut off quotes
