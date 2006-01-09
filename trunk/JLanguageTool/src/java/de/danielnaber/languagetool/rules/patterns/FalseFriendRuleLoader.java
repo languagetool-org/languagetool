@@ -89,6 +89,7 @@ class FalseFriendRuleHandler extends XMLRuleHandler {
   private Language language;
   private Language translationLanguage;
   private String ruleGroupId;
+  private List translations = new ArrayList();
   private StringBuffer translation = new StringBuffer();
   
   private boolean inTranslation = false;
@@ -110,6 +111,7 @@ class FalseFriendRuleHandler extends XMLRuleHandler {
     if (namespaceURI == null) namespaceURI = null;      // avoid compiler warning
     if (lName == null) lName = null;      // avoid compiler warning
     if (qName.equals("rule")) {
+      translations = new ArrayList();
       id = attrs.getValue("id");
       if (inRuleGroup && id == null)
         id = ruleGroupId;
@@ -124,7 +126,6 @@ class FalseFriendRuleHandler extends XMLRuleHandler {
         throw new SAXException("Unknown language '" + languageStr + "'");
       }
     } else if (qName.equals("translation")) {
-      translation = new StringBuffer();
       inTranslation = true;
       String languageStr = attrs.getValue("lang");
       translationLanguage = Language.getLanguageforShortName(languageStr);
@@ -155,7 +156,7 @@ class FalseFriendRuleHandler extends XMLRuleHandler {
         Object[] messageArguments = {
           pattern,
           textLanguage.getShortName(),
-          translation,
+          formatTranslations(translations),
           motherTongue.getShortName()
         };
         String description = formatter.format(messageArguments);
@@ -170,6 +171,8 @@ class FalseFriendRuleHandler extends XMLRuleHandler {
     } else if (qName.equals("pattern")) {
       inPattern = false;
     } else if (qName.equals("translation")) {
+      translations.add(translation);
+      translation = new StringBuffer();
       inTranslation = false;
     } else if (qName.equals("example")) {
       if (inCorrectExample) {
@@ -186,6 +189,19 @@ class FalseFriendRuleHandler extends XMLRuleHandler {
     } else if (qName.equals("rulegroup")) {
       inRuleGroup = false;
     }
+  }
+
+  private String formatTranslations(List translations) {
+    StringBuffer sb = new StringBuffer();
+    for (Iterator iter = translations.iterator(); iter.hasNext();) {
+      StringBuffer trans = (StringBuffer) iter.next();
+      sb.append("\"");
+      sb.append(trans.toString());
+      sb.append("\"");
+      if (iter.hasNext())
+        sb.append(", ");
+    }
+    return sb.toString();
   }
 
   /**
