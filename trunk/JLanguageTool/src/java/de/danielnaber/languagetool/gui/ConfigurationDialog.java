@@ -26,6 +26,7 @@ import java.awt.Insets;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -35,10 +36,13 @@ import java.util.Set;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
+import javax.swing.JComponent;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JRootPane;
 import javax.swing.JScrollPane;
+import javax.swing.KeyStroke;
 
 import de.danielnaber.languagetool.Language;
 import de.danielnaber.languagetool.rules.Rule;
@@ -75,6 +79,18 @@ public class ConfigurationDialog implements ActionListener {
     dialog.setTitle("LanguageTool Options");
     checkBoxes.clear();
     checkBoxesRuleIds.clear();
+    
+    // close dialog when user presses Escape key:
+    KeyStroke stroke = KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0);
+    ActionListener actionListener = new ActionListener() {
+      public void actionPerformed(ActionEvent actionEvent) {
+        if (actionEvent == null) actionEvent = null;    // avoid compiler warning
+        isClosed = true;
+        dialog.hide(); 
+      }
+    };
+    JRootPane rootPane = dialog.getRootPane();
+    rootPane.registerKeyboardAction(actionListener, stroke, JComponent.WHEN_IN_FOCUSED_WINDOW);
     
     JPanel checkBoxPanel = new JPanel();
     checkBoxPanel.setLayout(new GridBagLayout());
