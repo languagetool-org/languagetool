@@ -3,38 +3,69 @@
 Rules: Grammar and Typos
 See tagset.txt for the meaning of the POS tags
 Copyright (C) 2001-2006 Daniel Naber (http://www.danielnaber.de)
-$Id: grammar.xml,v 1.38 2006-01-08 01:41:23 dnaber Exp $
+$Id: grammar.xml,v 1.39 2006-01-15 20:19:50 dnaber Exp $
 -->
 <rules lang="en">
 
-	<!-- TODO: is this really an error? see http://www.edufind.com/english/grammar/ADVERBS10.cfm -->
+	<rule id="I_ARE" name="'I is/are/...' (at sentence start only)">
+		<pattern mark_from="2">SENT_START "I" "is|be|are|were|has"</pattern>
+		<message>Did you mean <em>am</em> or <em>ate</em>?</message>
+		<example type="correct">I <em>ate</em> at the restaurant.</example>
+		<example type="correct">I <em>am</em> at the restaurant.</example>
+		<example type="incorrect">I <em>are</em> at the restaurant.</example>
+	</rule>
+
+	<rule id="YOU_IS" name="'You is/was/has' (at sentence start only)">
+		<pattern mark_from="2">SENT_START "You" "am|is|was|has"</pattern>
+		<message>Use second person verb with 'you', e.g. 'you are'</message>
+		<example type="correct">You <em>are</em> too old for that.</example>
+		<example type="incorrect">You <em>is</em> too old for that.</example>
+	</rule>
+
+	<rule id="HE_WERE" name="'He were/have/...' (at sentence start only)">
+		<pattern mark_from="2">SENT_START "He" "were|have|be|am|are"</pattern>
+		<message>Use third person verb with 'he', e.g. 'he is'</message>
+		<example type="correct">He <em>is</em> too old for that.</example>
+		<example type="incorrect">He <em>were</em> too old for that.</example>
+	</rule>
+
+	<rule id="WE_IS" name="'We is/was/has' (at sentence start only)">
+		<pattern mark_from="2">SENT_START "We" "am|is|was|has"</pattern>
+		<message>Use first person plural verb with 'we', e.g. 'we are'</message>
+		<example type="correct">We <em>are</em> too old for that.</example>
+		<example type="incorrect">We <em>is</em> too old for that.</example>
+	</rule>
+
+	<rule id="THEY_IS" name="'They is/was/has' (at sentence start only)">
+		<pattern mark_from="2">SENT_START "They" "am|is|was|has"</pattern>
+		<message>Use third person plural verb with 'they', e.g. 'they are'</message>
+		<example type="correct">They <em>are</em> too old for that.</example>
+		<example type="incorrect">They <em>is</em> too old for that.</example>
+	</rule>
+
+	<!-- TODO: is this really an error? see http://www.edufind.com/english/grammar/ADVERBS10.cfm
 	<rule id="ADVERBS_ORDER" name="word order: adverb + auxiliary verb + main verb">
 		<pattern mark_from="2">"certainly|definitely|probably|undoubtedly|surely" "has|had|have|will" VBN|VB</pattern>
 		<message>Place the adverb between </message>
 		<example type="correct">He will <em>probably</em> remember tomorrow.</example>
 		<example type="incorrect">He <em>probably</em> will remember tomorrow.</example>
 	</rule>
+	-->
 
-	<rule id="TO_PAST" name="'I am' + non-gerund form">
+	<!-- too many false alarms, e.g. "I am convinced that our suggestions..."
+	<rule id="I_A_NONBASE" name="'I am' + non-gerund form">
 		<pattern mark_from="2">"I" "am" VB|VBD|VBN|VBP|VBZ</pattern>
 		<message>You might need to use the gerund form of the verb here (e.g. 'learning' instead of 'learn').</message>
 		<example type="correct">I am <em>searching</em> through some fields.</example>
 		<example type="incorrect">I am <em>searched</em> through some fields.</example>
 	</rule>
+	-->
 
 	<rule id="TO_NON_BASE" name="'to' + non-base form">
-		<pattern mark_from="1">"to" VBD|VBN|VBP|VBZ^was</pattern>
+		<pattern mark_from="1">"to" VBP|VBZ^was</pattern>
 		<message>You might need to use the base form of the verb here (e.g. 'learn' instead of 'learned/learning/...').</message>
 		<example type="correct">I was surprised to <em>learn</em> this. </example>
 		<example type="incorrect">I was surprised to <em>learned</em> this. </example>
-	</rule>
-
-	<rule id="I_ARE" name="'I is/are/...' at sentence start">
-		<pattern mark_from="2">SENT_START "I" "is|be|are|were|has"</pattern>
-		<message>Did you mean <em>am</em> or <em>ate</em>?</message>
-		<example type="correct">I <em>ate</em> at the restaurant.</example>
-		<example type="correct">I <em>am</em> at the restaurant.</example>
-		<example type="incorrect">I <em>are</em> at the restaurant.</example>
 	</rule>
 
 	<rule id="MANY_FEW_UNCOUNTABLE" name="many/few + uncountable noun">
@@ -75,13 +106,13 @@ $Id: grammar.xml,v 1.38 2006-01-08 01:41:23 dnaber Exp $
 
 	<rule id="SENT_START_THEM" name="Possible typo 'Them(Then) at sentence start'">
 		<pattern mark_from="1">SENT_START "Them"</pattern>
-		<message>Did you mean <em>then</em>?</message>
+		<message>Did you mean <em>Then</em>?</message>
 		<example type="correct"><em>Then</em> it became clear.</example>
 		<example type="incorrect"><em>Them</em> it became clear.</example>
 	</rule>
 
 	<rule id="TO_LATE" name="Possible typo 'to(too) late'">
-		<pattern mark_from="1" mark_to="-1">"much|is|was" "to" "late"</pattern>
+		<pattern mark_from="1" mark_to="-1">"much|is|was|be" "to" "late"</pattern>
 		<message>Did you mean <em>too</em>?</message>
 		<example type="correct">It was <em>too</em> late.</example>
 		<example type="correct">It was much <em>too</em> late.</example>
@@ -107,17 +138,17 @@ $Id: grammar.xml,v 1.38 2006-01-08 01:41:23 dnaber Exp $
 		<example type="incorrect">Because <em>to</em> much snow was on it.</example>
 	</rule>
 
-	<rule id="AGREEMENT_1" name="Agreement error: 'The (plural word) is">
+	<rule id="AGREEMENT_1" name="Possible agreement error: 'The (plural word) is">
 		<pattern mark_from="3">SENT_START DT NNS VBZ</pattern>
-		<message>Agreement error -- did you mean <em>are</em>?</message>
+		<message>Possible agreement error -- don't use third-person form of a verb (e.g. 'is') for plural nouns.</message>
 		<example type="correct">The dogs <em>are</em> released.</example>
 		<example type="correct">The dog is released.</example>
 		<example type="incorrect">The dogs <em>is</em> released.</example>
 	</rule>
 
-	<rule id="AGREEMENT_2" name="Agreement error: 'The (plural word) of ... is">
+	<rule id="AGREEMENT_2" name="Possible agreement error: 'The (plural word) of ... is">
 		<pattern mark_from="5">SENT_START DT NNS "of" NN VBZ</pattern>
-		<message>Agreement error -- did you mean <em>are</em>?</message>
+		<message>Possible agreement error -- don't use third-person form of a verb (e.g. 'is') for plural nouns.</message>
 		<example type="correct">The dogs of war <em>are</em> released.</example>
 		<example type="correct">The dog of war is released.</example>
 		<example type="incorrect">The dogs of war <em>is</em> released.</example>
@@ -333,7 +364,7 @@ $Id: grammar.xml,v 1.38 2006-01-08 01:41:23 dnaber Exp $
 	</rule>
 	
 	<rule id="DT_DT" name="Two consecutive articles">
-		<pattern mark_from="1">DT^all|half|both DT</pattern>
+		<pattern mark_from="1">DT^all|half|both|this|each|that DT</pattern>
 		<message>Maybe you need to remove the second determiner.</message>
 		<example type="correct"><em>The</em> thing is this.</example>
 		<example type="incorrect"><em>The a</em> thing is this.</example>
