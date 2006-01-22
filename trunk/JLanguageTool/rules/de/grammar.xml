@@ -3,9 +3,24 @@
 Rules: Grammar and Typos
 See tagset.txt for the meaning of the POS tags
 Copyright (C) 2001-2005 Daniel Naber (http://www.danielnaber.de)
-$Id: grammar.xml,v 1.22 2006-01-03 16:33:46 dnaber Exp $
+$Id: grammar.xml,v 1.23 2006-01-22 22:59:03 dnaber Exp $
 -->
 <rules lang="de">
+
+	<rule id="DAS_ERSTE_MAL" name="Korrekte Groß-/Kleinschreibung: 'das erste Mal'">
+		<pattern mark_from="2" case_sensitive="yes">"beim|zum|das" "erste|ersten" "mal"</pattern>
+		<message>'Mal' in der Wendung 'das erste Mal' wird groß geschrieben.</message>
+		<example type="correct">...als du ihn das erste <em>Mal</em> gesehen hast?</example>
+		<example type="incorrect">...als du ihn das erste <em>mal</em> gesehen hast?</example>
+		<example type="incorrect">...als du ihn zum ersten <em>mal</em> gesehen hast?</example>
+	</rule>
+
+	<rule id="IN_ACHT_NEHMEN" name="Korrekte Groß-/Kleinschreibung: 'in Acht nehmen'">
+		<pattern mark_from="1" mark_to="-1" case_sensitive="yes">"in" "acht" "nehmen|nahm|genommen"</pattern>
+		<message>'Acht' in der Wendung '(sich) in Acht nehmen' wird groß geschrieben.</message>
+		<example type="correct">Er sollte sich in <em>Acht</em> nehmen.</example>
+		<example type="incorrect">Er sollte sich in <em>acht</em> nehmen.</example>
+	</rule>
 
 	<rule id="ANREDE_NEUE_RECHTSCHREIBUNG" name="Kleinschreibung der Anredepronomen du/dein/euch/euer">
 		<pattern mark_from="1" case_sensitive="yes">^SENT_START "Du|Dein|Euch|Euer"</pattern>
