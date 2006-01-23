@@ -21,6 +21,8 @@ package de.danielnaber.languagetool;
 import java.util.ArrayList;
 import java.util.List;
 
+import de.danielnaber.languagetool.tagging.de.AnalyzedGermanToken;
+
 /**
  * A sentence that has been tokenized and analyzed.
  * 
@@ -60,12 +62,14 @@ public class AnalyzedSentence {
   public String toString() {
     StringBuffer sb = new StringBuffer();
     for (int i = 0; i < tokens.length; i++) {
-      if (JLanguageTool.SENTENCE_START_TAGNAME.equals(tokens[i].getPOSTag()))
+      if (JLanguageTool.SENTENCE_START_TAGNAME.equals(tokens[i].getPOSTag())) {
         sb.append("<S>");
-      else if (tokens[i] != null && tokens[i].getPOSTag() == null)
+      } else if (tokens[i] != null && tokens[i].getPOSTag() == null && !(tokens[i] instanceof AnalyzedGermanToken)) {
+        // FIXME: don't depend on AnalyzedGermanToken here
         sb.append(tokens[i].getToken());
-      else
+      } else {
         sb.append(tokens[i]);
+      }
     }
     return sb.toString();
   }
