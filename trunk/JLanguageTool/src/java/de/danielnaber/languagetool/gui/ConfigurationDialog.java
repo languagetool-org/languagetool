@@ -56,8 +56,8 @@ import de.danielnaber.languagetool.rules.patterns.PatternRule;
  */
 public class ConfigurationDialog implements ActionListener {
 
-  private static final String OK_BUTTON = "OK";
-  private static final String CANCEL_BUTTON = "Cancel";
+  private static final String OK_BUTTON = "    OK    ";
+  private static final String CANCEL_BUTTON = "  Cancel  ";
   private static final String NO_MOTHER_TONGUE = "---";
   private JDialog dialog = null;
   
