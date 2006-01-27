@@ -54,6 +54,12 @@ awk -f $AWK/sortch.awk < $WOERTER/y.dic >$WOERTER/x.dic
 awk -f $AWK/nodupsw.awk < $WOERTER/x.dic >$WOERTER/y.dic
 mv $WOERTER/y.dic $WOERTER/alt.txt
 
+sort -u  $WOERTER/altverb.txt >$WOERTER/x.dic
+awk -f $AWK/dupl.awk < $WOERTER/x.dic >$WOERTER/y.dic
+awk -f $AWK/sortch.awk < $WOERTER/y.dic >$WOERTER/x.dic
+awk -f $AWK/nodupsw.awk < $WOERTER/x.dic >$WOERTER/y.dic
+mv $WOERTER/y.dic $WOERTER/altverb.txt
+
 sort -u  $WOERTER/namen.txt >$WOERTER/x.dic
 awk -f $AWK/dupl.awk < $WOERTER/x.dic >$WOERTER/y.dic
 awk -f $AWK/sortch.awk < $WOERTER/y.dic >$WOERTER/x.dic
@@ -70,6 +76,11 @@ awk -f $AWK/dupl.awk < $WOERTER/x.dic >$WOERTER/y.dic
 awk -f $AWK/sortch.awk < $WOERTER/y.dic >$WOERTER/x.dic
 awk -f $AWK/nodupsw.awk < $WOERTER/x.dic >$WOERTER/y.dic
 mv $WOERTER/y.dic $WOERTER/orte.txt
+sort -u  $WOERTER/verbe.txt >$WOERTER/x.dic
+awk -f $AWK/dupl.awk < $WOERTER/x.dic >$WOERTER/y.dic
+awk -f $AWK/sortch.awk < $WOERTER/y.dic >$WOERTER/x.dic
+awk -f $AWK/nodupsw.awk < $WOERTER/x.dic >$WOERTER/y.dic
+mv $WOERTER/y.dic $WOERTER/verbe.txt
 sort -u  $WOERTER/woerter_komposita_A-B.txt >$WOERTER/x.dic
 awk -f $AWK/dupl.awk < $WOERTER/x.dic >$WOERTER/y.dic
 awk -f $AWK/sortch.awk < $WOERTER/y.dic >$WOERTER/x.dic
@@ -130,6 +141,11 @@ awk -f $AWK/dupl.awk < $WOERTER/x.dic >$WOERTER/y.dic
 awk -f $AWK/sortch.awk < $WOERTER/y.dic >$WOERTER/x.dic
 awk -f $AWK/nodupsw.awk < $WOERTER/x.dic >$WOERTER/y.dic
 mv $WOERTER/y.dic $WOERTER/selten.txt
+sort -u  $WOERTER/seltenverb.txt >$WOERTER/x.dic
+awk -f $AWK/dupl.awk < $WOERTER/x.dic >$WOERTER/y.dic
+awk -f $AWK/sortch.awk < $WOERTER/y.dic >$WOERTER/x.dic
+awk -f $AWK/nodupsw.awk < $WOERTER/x.dic >$WOERTER/y.dic
+mv $WOERTER/y.dic $WOERTER/seltenverb.txt
 sort -u  $WOERTER/neue_woerter.txt >$WOERTER/x.dic
 awk -f $AWK/dupl.awk < $WOERTER/x.dic >$WOERTER/y.dic
 awk -f $AWK/sortch.awk < $WOERTER/y.dic >$WOERTER/x.dic
