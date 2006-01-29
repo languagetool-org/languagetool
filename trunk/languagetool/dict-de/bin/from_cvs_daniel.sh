@@ -20,6 +20,7 @@ cat $WOERTER/namen.txt >$WORTE/deutschfnamen.txt
 cat $WOERTER/vornamen.txt >$WORTE/deutschnamen.txt
 cat $WOERTER/orte.txt >$WORTE/deutschort.txt
 cat $WOERTER/verbe.txt >$WORTE/nonameortneu.txt
+cat $WOERTER/neuverbe.txt >>$WORTE/nonameortneu.txt
 cat $WOERTER/woerter_komposita_A-B.txt >>$WORTE/nonameortneu.txt
 cat $WOERTER/woerter_komposita_C-F.txt >>$WORTE/nonameortneu.txt
 cat $WOERTER/woerter_komposita_G-J.txt >>$WORTE/nonameortneu.txt

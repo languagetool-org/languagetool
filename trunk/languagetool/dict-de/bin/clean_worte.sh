@@ -81,6 +81,11 @@ awk -f $AWK/dupl.awk < $WOERTER/x.dic >$WOERTER/y.dic
 awk -f $AWK/sortch.awk < $WOERTER/y.dic >$WOERTER/x.dic
 awk -f $AWK/nodupsw.awk < $WOERTER/x.dic >$WOERTER/y.dic
 mv $WOERTER/y.dic $WOERTER/verbe.txt
+sort -u  $WOERTER/neuverbe.txt >$WOERTER/x.dic
+awk -f $AWK/dupl.awk < $WOERTER/x.dic >$WOERTER/y.dic
+awk -f $AWK/sortch.awk < $WOERTER/y.dic >$WOERTER/x.dic
+awk -f $AWK/nodupsw.awk < $WOERTER/x.dic >$WOERTER/y.dic
+mv $WOERTER/y.dic $WOERTER/neuverbe.txt
 sort -u  $WOERTER/woerter_komposita_A-B.txt >$WOERTER/x.dic
 awk -f $AWK/dupl.awk < $WOERTER/x.dic >$WOERTER/y.dic
 awk -f $AWK/sortch.awk < $WOERTER/y.dic >$WOERTER/x.dic
