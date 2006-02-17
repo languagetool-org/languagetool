@@ -56,7 +56,8 @@ public class WiederVsWiderRule extends GermanRule {
       if (token.trim().equals("")) {
         // ignore
       } else {
-        if (token.equalsIgnoreCase("spiegelt") || token.equalsIgnoreCase("spiegeln")) {
+        if (token.equalsIgnoreCase("spiegelt") || token.equalsIgnoreCase("spiegeln") || token.equalsIgnoreCase("spiegelte")
+            || token.equalsIgnoreCase("spiegelten")) {
           foundSpiegelt = true;
         } else if (token.equalsIgnoreCase("wieder")) {
           foundWieder = true;
