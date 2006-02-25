@@ -28,57 +28,19 @@ License:
  
 Known bugs:
  -OpenOffice.org integration:
-   -LanguageTool doesn't work if you have a Windows username with special characters
+   -cursor first jumps to start of text, only then to the error position
    -LanguageTool gets confused when the text is changed while the LanguageTool 
     dialog is open
-   -Checking of selected text sometimes throws java.lang.reflect.UndeclaredThrowableException
-    at $Proxy17.gotoRange(Unknown Source)
+   -LanguageTool doesn't work if you have a Windows username with special characters
+   -changing options only takes effect on next check
    -some errors trigger two rules at the same position, this makes the "Change text"
     button work wrong
-   -cursor first jumps to start of text, only then to the error position
+   -Checking of selected text sometimes throws java.lang.reflect.UndeclaredThrowableException
+    at $Proxy17.gotoRange(Unknown Source)
+   -usability: pressing Esc too long will close both dialogs, should close only one
    
 TODO:
  -add more rules, especially agreement stuff
  -see "TODO" in the source
  -create abstract SentenceRule and TextRule classes to get rid of reset() method?
- -further increase test case coverage
-
- -fix false alerts:
- 	German:
-	 	...des Leipziger Verlages Faber... -> alle Adjektiv-Lesarten der Städte fehlen beim Tagging
-		...gewann mit den Los Angeles Sparks am...
-		...den Vorwurf, seine beiden Söhne im Alter von vier...
-		Wenn man Musik nicht fühle, ...
-		Eine Überlebende des Holocaust hat von...
-		Interessenten aus aller Welt
-		Um den See herum...
-		Fehlt noch ein wenig Gemütlichkeit.
-		...auch ein wenig Zahlentheorie.
-		...die Arbeiten mehrerer Gelehrter
-		Das verbreitete sich wie ein Lauffeuer.
-		Wenn die mögliche Erweiterung der einen Ecke zutrifft.
-		Und dieser eine Schritt gelang ihm.
-		doch eine voller Leidenschaft gehaltene Vorlesung
-		zu finden sein würde, das solidere Fundamente besaß
-		sollte bald eines Besseren belehrt werden
-		ein halber Apfel, von dem einige Bissen genommen worden waren
-		sich auch den nächsten Packen irregulärer Primzahlen
-		bestimmte Modulform etwa einen Packen von Grundelement eins
-		Wo Krieg den Unschuldigen Leid und Tod bringt.
-		...den Nachfolgeclub des Pleite gegangenen AC Florenz.
-		Er verurteilte die beiden Verlage zu Schadenersatz.
-		...künftig wird es aller Wahrscheinlichkeit mit 0,1 Grad pro...
-		allen Rede und Antwort zu stehen
-	English:
-		its  very nature
-	are actually of a much older -> older, larger are tagged as NN getaggt!!??!
-
- -errors not detected:
- 	...mein große Feind... -> zwischen art=SOL/DEF/IND (Morphy) unterscheiden!?
-
- -incorrect sentence boundary detection:
-	a slight (but relevant!) detour to Cleveland
-
- -increase performance
- -make gui.Main use the Configuration class to save its settings?
- -add information to rules about when they can give false alarm?
+ -...
