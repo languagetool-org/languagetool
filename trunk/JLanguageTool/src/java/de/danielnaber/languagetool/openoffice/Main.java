@@ -200,6 +200,8 @@ public class Main {
         textToCheck = text.getString();
         xViewCursor = null;
       }
+      // without this replacement selecting the error on Windows will not work correctly:
+      textToCheck = textToCheck.replaceAll("\r\n", "\n");
       return textToCheck;
     }
 
