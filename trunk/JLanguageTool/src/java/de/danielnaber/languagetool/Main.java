@@ -23,6 +23,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.xml.parsers.ParserConfigurationException;
 
@@ -123,8 +125,12 @@ class Main {
   }
   
   private String filterXML(String s) {
-    s = s.replaceAll("(?s)<!--.*?-->", " ");      // (?s) = DOTALL mode
-    s = s.replaceAll("(?s)<.*?>", " ");
+    Pattern pattern = Pattern.compile("<!--.*?-->", Pattern.DOTALL);
+    Matcher matcher = pattern.matcher(s);
+    s = matcher.replaceAll(" ");
+    pattern = Pattern.compile("<.*?>", Pattern.DOTALL);
+    matcher = pattern.matcher(s);
+    s = matcher.replaceAll(" ");
     return s;
   }
 
