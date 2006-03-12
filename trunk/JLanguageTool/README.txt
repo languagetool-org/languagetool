@@ -44,3 +44,17 @@ TODO:
  -see "TODO" in the source
  -create abstract SentenceRule and TextRule classes to get rid of reset() method?
  -...
+
+Using LanguageTool from .NET:
+ Thanks to IKVM (http://www.ikvm.net/) you can easily turn LanguageTool
+ into a .NET exe or dll (without the GUI and the OpenOffice.org integration).
+ Just adapt these commands to you local path names (this example shows using mono):
+
+ export MONO_PATH=/path/to/ikvm/bin
+ mono /path/to/ikvm/bin/ikvmc.exe -target:library -r:/path/to/ikvm/bin/IKVM.GNU.Classpath.dll libs/lucene-core-1.9-rc1-dev.jar
+ mono /path/to/ikvm/bin/ikvmc.exe -target:library -r:/path/to/ikvm/bin/IKVM.GNU.Classpath.dll libs/trove.jar
+ mono /path/to/ikvm/bin/ikvmc.exe -target:library -r:/path/to/ikvm/bin/IKVM.GNU.Classpath.dll -r:trove.dll libs/maxent-2.4.0.jar
+ mono /path/to/ikvm/bin/ikvmc.exe -target:library -r:/path/to/ikvm/bin/IKVM.GNU.Classpath.dll -r:trove.dll -r:maxent-2.4.0.dll libs/opennlp-tools-1.3.0.jar
+ mono /path/to/ikvm/bin/ikvmc.exe -r:/path/to/ikvm/bin/IKVM.GNU.Classpath.dll -r:trove.dll -r:lucene-core-1.9-rc1-dev.dll -r:opennlp-tools-1.3.0.dll LanguageTool.jar
+
+ However, the resulting LanguageTool.exe has not been tested much yet.
