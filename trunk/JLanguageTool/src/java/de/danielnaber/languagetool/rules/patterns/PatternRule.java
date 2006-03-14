@@ -151,12 +151,18 @@ public class PatternRule extends Rule {
           errMessage = errMessage.replaceAll("\\\\"+(j+1),
               tokens[firstMatchToken+j].getToken());
         }
+        int first = firstMatchToken+startPositionCorrection;
+        int last = lastMatchToken+endPositionCorrection;
+        if (first >= tokens.length || first < 0 || last >= tokens.length || last < 0) {
+          throw new RuntimeException("Please fix the mark_from and/or mark_to attributes of rule " + getId() + 
+              " so that they don't point beyond the pattern.");
+        }
         boolean startsWithUppercase = 
-          StringTools.startsWithUppercase(tokens[firstMatchToken+startPositionCorrection].toString());
+          StringTools.startsWithUppercase(tokens[first].toString());
         RuleMatch ruleMatch = new RuleMatch(this,
-            tokens[firstMatchToken+startPositionCorrection].getStartPos(), 
-            tokens[lastMatchToken+endPositionCorrection].getStartPos()+
-            tokens[lastMatchToken+endPositionCorrection].getToken().length(), errMessage,
+            tokens[first].getStartPos(), 
+            tokens[last].getStartPos()+
+            tokens[last].getToken().length(), errMessage,
             startsWithUppercase);
         ruleMatches.add(ruleMatch);
       } else {
