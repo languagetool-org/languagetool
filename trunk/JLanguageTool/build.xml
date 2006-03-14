@@ -128,14 +128,14 @@
 		srcdir="${src.test.dir}"
 		includes="**/*Test.java"
 		destdir="${junit.classes.dir}"
-		debug="true">
+		debug="${debug}">
 			<classpath refid="junit.classpath"/>
    	</javac>
 	<javac encoding="${encoding}"
 		srcdir="${src.java.dir}"
 		includes="**/*.java"
 		destdir="${junit.classes.dir}"
-		debug="true">
+		debug="${debug}">
 			<classpath refid="junit.classpath"/>
    	</javac>
   	<copy todir="${junit.classes.dir}/de/danielnaber/languagetool/">
@@ -221,7 +221,8 @@
       srcdir="${src.java.dir}"
       includes="de/danielnaber/**/*.java"
   	  excludes="de/danielnaber/languagetool/openoffice/*.java"
-      destdir="${build.classes}">
+      destdir="${build.classes}"
+	  debug="${debug}">
       <classpath refid="classpath"/>
     </javac>
 
@@ -282,7 +283,7 @@
 		</fileset>
 	
 		<doctitle><![CDATA[<h1>${javadoctitle}</h1>]]></doctitle>
-		<bottom><![CDATA[<i>Copyright &#169; 2005 <a href="http://www.danielnaber.de" target="_top">Daniel Naber</a></i>]]></bottom>
+		<bottom><![CDATA[<i>Copyright &#169; 2005,2006 <a href="http://www.danielnaber.de" target="_top">Daniel Naber</a></i>]]></bottom>
 		<link offline="true" href="http://java.sun.com/products/jdk/1.4/docs/api/" packagelistLoc="/tmp"/>
   	</javadoc>
   	<echo>javadoc output can now be found in dist/docs/api/index.html</echo>
@@ -295,7 +296,8 @@
   	<javac encoding="${encoding}"
       srcdir="${src.java.dir}"
 	  includes="**/*.java"
-      destdir="${build.classes}">
+      destdir="${build.classes}"
+  	  debug="${debug}">
       <classpath refid="ooo.classpath"/>
     </javac>
   	<copy todir="${build.classes}/de/danielnaber/languagetool/">
