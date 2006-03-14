@@ -19,13 +19,8 @@
 package de.danielnaber.languagetool.openoffice;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.Iterator;
 import java.util.List;
-
-import javax.xml.parsers.ParserConfigurationException;
-
-import org.xml.sax.SAXException;
 
 import de.danielnaber.languagetool.JLanguageTool;
 import de.danielnaber.languagetool.Language;
@@ -74,15 +69,9 @@ class CheckerThread extends Thread {
       }
       ruleMatches = langTool.check(text);
       done = true;
-    } catch (IOException e) {
-      e.printStackTrace();
-      throw new RuntimeException(e);
-    } catch (ParserConfigurationException e) {
-      e.printStackTrace();
-      throw new RuntimeException(e);
-    } catch (SAXException e) {
-      e.printStackTrace();
-      throw new RuntimeException(e);
+    } catch (Exception e) {
+      done = true;
+      Main.showError(e);
     }
   }
   

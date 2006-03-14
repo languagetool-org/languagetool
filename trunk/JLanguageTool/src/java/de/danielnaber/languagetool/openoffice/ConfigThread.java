@@ -19,12 +19,7 @@
 package de.danielnaber.languagetool.openoffice;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.Set;
-
-import javax.xml.parsers.ParserConfigurationException;
-
-import org.xml.sax.SAXException;
 
 import de.danielnaber.languagetool.JLanguageTool;
 import de.danielnaber.languagetool.Language;
@@ -36,6 +31,7 @@ class ConfigThread extends Thread {
   private Language docLanguage;
   private Configuration config;
   private File baseDir;
+  private boolean done = false;
   
   private JLanguageTool langTool; 
   private ConfigurationDialog cfgDialog;
@@ -50,7 +46,7 @@ class ConfigThread extends Thread {
   }
   
   public boolean done() {
-    return cfgDialog.isClosed();
+    return done || cfgDialog.isClosed();
   }
   
   public Set getDisabledRuleIds() {
@@ -69,12 +65,9 @@ class ConfigThread extends Thread {
       config.setDisabledRuleIds(cfgDialog.getDisabledRuleIds());
       config.setMotherTongue(cfgDialog.getMotherTongue());
       config.saveConfiguration();
-    } catch (IOException e) {
-      throw new RuntimeException(e);
-    } catch (ParserConfigurationException e) {
-      throw new RuntimeException(e);
-    } catch (SAXException e) {
-      throw new RuntimeException(e);
+    } catch (Throwable e) {
+      done = true;
+      Main.showError(e);
     }
   }
   

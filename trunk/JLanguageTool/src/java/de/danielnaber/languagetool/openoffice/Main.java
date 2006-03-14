@@ -118,7 +118,7 @@ public class Main {
           System.err.println("Sorry, don't know what to do, sEvent = " + sEvent);
         }        
       } catch (Throwable e) {
-        e.printStackTrace();
+        showError(e);
       }
     }
 
@@ -261,7 +261,18 @@ public class Main {
   public static boolean __writeRegistryServiceInfo(XRegistryKey regKey) {
     return Factory.writeRegistryServiceInfo(_Main.class.getName(), _Main.getServiceNames(), regKey);
   }
-  
+
+  static void showError(Throwable e) {
+    String msg = "An error has occured:\n" + e.toString() + "\nStacktrace:\n";
+    StackTraceElement[] elem = e.getStackTrace();
+    for (int i = 0; i < elem.length; i++) {
+      msg += elem[i].toString() + "\n";
+    }
+    JOptionPane.showMessageDialog(null, msg, "Error", JOptionPane.ERROR_MESSAGE);
+    e.printStackTrace();
+    throw new RuntimeException(e);
+  }
+
   /** Testing only. */
   public static void main(String[] args) throws IOException {
     _Main m = new _Main();
