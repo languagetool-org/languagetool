@@ -3,7 +3,7 @@
 Rules: Grammar and Typos
 See tagset.txt for the meaning of the POS tags
 Copyright (C) 2001-2006 Daniel Naber (http://www.danielnaber.de)
-$Id: grammar.xml,v 1.40 2006-02-25 22:55:18 dnaber Exp $
+$Id: grammar.xml,v 1.41 2006-03-17 21:35:34 dnaber Exp $
 -->
 <rules lang="en">
 
@@ -90,6 +90,13 @@ $Id: grammar.xml,v 1.40 2006-02-25 22:55:18 dnaber Exp $
 		<example type="incorrect"><em>An</em> information in your files is correct.</example>
 	</rule>
 	-->
+
+	<rule id="BED_ENGLISH" name="'bed english/...'">
+		<pattern mark_to="-1">"bed" "english|attitude"</pattern>
+		<message>Did you mean <em>bad</em>?</message>
+		<example type="correct">Sorry for my <em>bad</em> English.</example>
+		<example type="incorrect">Sorry for my <em>bed</em> English.</example>
+	</rule>
 
 	<rule id="YOUR" name="Possible typo 'your(you're)'">
 		<pattern mark_to="-1">"your" VBG</pattern>
