@@ -53,6 +53,7 @@ public class Morphy2Lucene {
     +File.separator+ "categories";
   //private static final String IS_BASEFORM = "is_baseform";
 
+  // map names to short one-character names to get a smaller index:
   private final static Map manualMapping = new HashMap();
   static {
     manualMapping.put("PRP", new Character('R'));       // wkl: ??? (z.B. bei "*laut")
