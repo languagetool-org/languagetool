@@ -3,7 +3,7 @@
 Rules: Grammar and Typos
 See tagset.txt for the meaning of the POS tags
 Copyright (C) 2001-2006 Daniel Naber (http://www.danielnaber.de)
-$Id: grammar.xml,v 1.41 2006-03-17 21:35:34 dnaber Exp $
+$Id: grammar.xml,v 1.42 2006-05-07 18:33:27 dnaber Exp $
 -->
 <rules lang="en">
 
@@ -91,8 +91,15 @@ $Id: grammar.xml,v 1.41 2006-03-17 21:35:34 dnaber Exp $
 	</rule>
 	-->
 
-	<rule id="BED_ENGLISH" name="'bed english/...'">
-		<pattern mark_to="-1">"bed" "english|attitude"</pattern>
+	<rule id="AT_ITS_BEST" name="'at it's best'">
+		<pattern mark_from="1" mark_to="-1">"at" "it" "'" "s" "best"</pattern>
+		<message>Did you mean <em>its</em>?</message>
+		<example type="correct">Linux at <em>its</em> best</example>
+		<example type="incorrect">Linux at <em>it's</em> best</example>
+	</rule>
+
+	<rule id="BED_ENGLISH" name="'bed/bat English/...'">
+		<pattern mark_to="-1">"bed|bat" "english|attitude"</pattern>
 		<message>Did you mean <em>bad</em>?</message>
 		<example type="correct">Sorry for my <em>bad</em> English.</example>
 		<example type="incorrect">Sorry for my <em>bed</em> English.</example>
