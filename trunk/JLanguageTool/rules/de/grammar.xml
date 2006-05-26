@@ -2,10 +2,17 @@
 <!--
 Rules: Grammar and Typos
 See tagset.txt for the meaning of the POS tags
-Copyright (C) 2001-2005 Daniel Naber (http://www.danielnaber.de)
-$Id: grammar.xml,v 1.24 2006-04-08 20:12:14 dnaber Exp $
+Copyright (C) 2001-2006 Daniel Naber (http://www.danielnaber.de)
+$Id: grammar.xml,v 1.25 2006-05-26 22:00:57 dnaber Exp $
 -->
 <rules lang="de">
+
+	<rule id="OHNE_GEWEHR" name="Möglicher Tippfehler 'ohne Gewehr(Gewähr)'">
+		<pattern mark_from="1">"ohne" "Gewehr"</pattern>
+		<message>Hinweis: Gewehr = Schusswaffe, Gewähr = Garantie/Gewährleistung/Sicherheit</message>
+		<example type="correct">Alle Angaben ohne Gewähr.</example>
+		<example type="incorrect">Alle Angaben ohne Gewehr.</example>
+	</rule>
 
 	<rule id="DAS_ERSTE_MAL" name="Korrekte Groß-/Kleinschreibung: 'das erste Mal'">
 		<pattern mark_from="2" case_sensitive="yes">"beim|zum|das" "erste|ersten" "mal"</pattern>
