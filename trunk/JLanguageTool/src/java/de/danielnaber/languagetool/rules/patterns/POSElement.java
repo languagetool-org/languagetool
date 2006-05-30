@@ -19,6 +19,7 @@
 package de.danielnaber.languagetool.rules.patterns;
 
 import de.danielnaber.languagetool.AnalyzedToken;
+import java.util.regex.*;
 
 /**
  * A part of a pattern that matches a part-of-speech tag.
@@ -47,10 +48,13 @@ public class POSElement extends Element {
   boolean matchToken(AnalyzedToken token) {
     boolean match = false;
     for (int i = 0; i < tokens.length; i++) {
-      if (tokens[i].equals(token.getPOSTag())) {
-        match = true;
-        break;
-      }
+      // if (tokens[i].equals(token.getPOSTag())) {
+      // changed to match regexps
+      if (token.getPOSTag() != null)
+        if (Pattern.matches(tokens[i], token.getPOSTag())) {
+          match = true;
+          break;
+        }
     }
     if (exceptions != null) {
       for (int i = 0; i < exceptions.length; i++) {

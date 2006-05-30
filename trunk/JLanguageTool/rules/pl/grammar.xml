@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+Copyright (C) 2006 Marcin Miłkowski
+-->
+<rules lang="pl">
+
+	<!-- błąd leksykalny: tym niemniej -->
+	<rule id="RULE_NIEMNIEJ" name="Szukanie 'tym niemniej'">
+		<pattern mark_from="0" case_sensitive="no">"tym" "niemniej"</pattern>
+		<message>To wyrażenie to rusycyzm, lepiej użyć <em>niemniej jednak</em>.</message>
+		<example type="correct">Problem potraktowano niemniej jednak poważnie.</example>
+		<example type="incorrect">Problem potraktowano tym niemniej poważnie.</example>
+	</rule>
+		
+	
+	<!-- błąd leksykalny: w każdym bądź razie -->
+	<rule id="W_KAZDYM_BADZ" name="Szukanie 'w każdym bądź razie'">
+		<pattern mark_from="0" case_sensitive="no">"w" "każdym" "bądź" "razie"</pattern>
+		<message>Poprawną formą jest <em>w każdym razie</em>.</message>
+		<example type="correct">W każdym razie premier nie miał racji.</example>
+		<example type="incorrect">W każdym bądź razie premier nie miał racji.</example>
+	</rule>
+
+	<!-- błąd leksykalny: odnośnie do -->
+	<rule id="ODNOSNIE_DO" name="'Odnośnie czegoś - odnośnie do czegoś">
+		<pattern mark_from="0" case_sensitive="no">"odnośnie" ^"do"</pattern>
+		<message>Poprawną formą jest <em>odnośnie do</em> czegoś.</message>
+		<example type="correct">Piszę odnośnie do pańskiej propozycji...</example>
+		<example type="incorrect">Piszę odnośnie pańskiej propozycji...</example>
+	</rule>
+	
+	
+	<!-- błąd leksykalny: w każdym bądź razie -->
+	<rule id="PODDAWAC_W_WATPLIWOSC" name="Błąd leksykalny - 'poddawać w wątpliwość'">
+		<pattern mark_from="0" case_sensitive="no">"poddawać" "w" "wątpliwość"</pattern>
+		<message>Poprawną formą jest <em>podawać w wątpliwość</em>.</message>
+		<example type="correct">Nie będę tego podawać w wątpliwość.</example>
+		<example type="incorrect">Nie będę tego poddawać w wątpliwość.</example>
+	</rule>
+	
+	<rule id="POKI_CO" name="Błąd leksykalny - 'póki co'">
+		<pattern mark_from="0" case_sensitive="no">"póki" "co"</pattern>
+		<message>Poprawną formą jest <em>na razie</em>, wyrażenie <em>póki co</em> to rusycyzm.</message>
+		<example type="correct">Na razie cieszmy się z innych korzyści.</example>
+		<example type="incorrect">Póki co cieszmy się z innych korzyści.</example>
+	</rule>
+
+	<!-- błąd ortograficzny - pisownia łączna rzeczowników z "nie" -->
+	<rule id="NIE_RZECZOWNIK" name="Pisownia 'nie' z rzeczownikami i przymiotnikami">
+		<pattern mark_from="0" case_sensitive="no">"nie" SUBST:.+|ADJ:.+</pattern>
+		<message><em>Nie</em> ze wszystkimi rzeczownikami i przymiotnikami piszemy łącznie.</message>
+		<example type="correct">Prosimy o niepalenie.</example>
+		<example type="incorrect">Prosimy o nie palenie.</example>
+	</rule>
+	
+	<!-- błąd ortograficzny - pisownia cząstek -bym -->
+	
+	<rule id="CZASOWNIK_BY" name="Pisownia 'bym', 'byście' z czasownikami">
+		<pattern mark_from="0" case_sensitive="no">VERB:SEC:.+|VERB:TER.+|VERB:PRI:.+|PRAET:VERB:SEC:.+|PRAET:VERB:TER.+|PRAET:VERB:PRI:.+ "bym|byście|byśmy|byś|by"</pattern>
+		<message>Cząstki <em>-bym, -byś, -by, -byśmy, -byście</em> piszemy łącznie z czasownikami w formach osobowych.</message>
+		<example type="correct">Nie mógłbym tego zrobić.</example>
+		<example type="incorrect">Nie mógł bym tego zrobić..</example>
+	</rule>
+	
+	<!-- błędna pisownia rozłączna -->
+	<rule id="PONAD_TO" name="Pisownia 'ponadto'">
+		<pattern mark_from="0" case_sensitive="no">"ponad" "to"</pattern>
+		<message>Wyraz <em>ponadto</em> w sensie "poza tym", "oprócz tego" piszemy łącznie.</message>
+		<example type="correct">Ponadto samochód wyposażony jest w ogromny bagażnik.</example>
+		<example type="incorrect">Ponad to samochód wyposażony jest w ogromny bagażnik.</example>
+	</rule>
+	
+	<!-- błędna pisownia rozłączna -->
+	<rule id="PO_ZA" name="Pisownia 'poza'">
+		<pattern mark_from="0" case_sensitive="yes">"Po|po" "za"</pattern>
+		<message>Wyraz <em>poza</em> piszemy łącznie.</message>
+		<example type="correct">Poza tym samochód wyposażony jest w ogromny bagażnik.</example>
+		<example type="incorrect">Po za tym samochód wyposażony jest w ogromny bagażnik.</example>
+	</rule>
+	
+	<rule id="SPOZA" name="Pisownia 'spoza'">
+		<pattern mark_from="0" case_sensitive="no">"z" "poza"</pattern>
+		<message>Wyraz <em>spoza</em> piszemy łącznie.</message>
+		<example type="correct">Jest to osoba spoza Australii.</example>
+		<example type="incorrect">Jest to osoba z poza Australii.</example>
+	</rule>
+	
+	<rule id="SKROTY_BEZ_KROPKI" name="Pisownia skrótów wg, dr, mgr, nr">
+		<pattern mark_from="0" case_sensitive="no">"wg|dr|mgr|nr" "."</pattern>
+		<message>Skróty <em>wg, dr, mgr</em> piszemy bez skropki.</message>
+		<example type="correct">Mgr Kowalski napisał dwa donosy.</example>
+		<example type="incorrect">Mgr. Kowalski napisał dwa donosy.</example>
+	</rule>
+	
+	<rule id="SKROTY_Z_KROPKA" name="Pisownia skrótów np., inż.">
+		<pattern mark_from="0" case_sensitive="no">"np|inż|ds" ^"."</pattern>
+		<message>Skróty <em>np., inż., ds.</em> piszemy z skropką.</message>
+		<example type="correct">Inż. Kowalski napisał dwa donosy.</example>
+		<example type="incorrect">Inż Kowalski napisał dwa donosy.</example>
+	</rule>
+	
+	<!-- rule id="SKROTY_BEZ_KROPKI" name="Pisownia skrótu m.in.">
+		<pattern mark_from="0" case_sensitive="no">"m" "."" " "in"</pattern>
+		<message>Skrót <em>m.in.</em> piszemy bez spacji między oboma członami.</message>
+	</rule 
+	-->
+	
+	<!-- błąd stylistyczny -->
+	<rule id="DLATEGO_BO" name="Błąd leksykalny - dlatego bo">
+		<pattern mark_from="0" case_sensitive="no">"dlatego" "bo"</pattern>
+		<message>Zbitka <em>dlatego bo</em> jest niepoprawna. Zamiast należy pisać <em>dlatego że</em>, <em>gdyż</em>, <em>bo</em>, <em>ponieważ</em> itd.</message>
+		<example type="correct">Kowalski nie czytał gazet, gdyż nie umiał czytać.</example>
+		<example type="incorrect">Kowalski nie czytał gazet, dlatego bo nie umiał czytać.</example>
+	</rule>
+	
+		<rule id="DLATEGO_BO1" name="Błąd leksykalny - dlatego, bo">
+		<pattern mark_from="0" case_sensitive="no">"dlatego" "," "bo"</pattern>
+		<message>Zbitka <em>dlatego, bo</em> jest niepoprawna. Zamiast należy pisać <em>dlatego że</em>, <em>gdyż</em>, <em>bo</em>, <em>ponieważ</em> itd.</message>
+		<example type="correct">Kowalski nie czytał gazet, gdyż nie umiał czytać.</example>
+		<example type="incorrect">Kowalski nie czytał gazet dlatego, bo nie umiał czytać.</example>
+		</rule>
+	
+	<rule id="W_OPARCIU" name="Błąd stylistyczny - w oparciu o">
+		<pattern case_sensitive="no" mark_from="0">"w" "oparciu" "o"</pattern>
+		<message>Wyrażenie <em>w oparciu o</em> jest nadużywana i niezalecana przez językoznawców. Zalecane wyrażenie synonimiczne: <em>na podstawie</em>.</message>
+		<example type="correct">Na podstawie tych wyliczeń można podjąć decyzję.</example>
+		<example type="incorrect">W oparciu o te wyliczenia można podjąć decyzję.</example>
+	</rule>
+</rules>

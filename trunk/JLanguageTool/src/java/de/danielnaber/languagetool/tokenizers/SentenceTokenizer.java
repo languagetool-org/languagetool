@@ -97,7 +97,10 @@ public class SentenceTokenizer implements Tokenizer {
       "St", "St", "Std", "stacc", "Str", "stud", "Subst", "sva", "svw",
       "sZ", "Temp", "trans", "Tsd", "übertr", "übl", "ff", "ugs", "univ",
       "urspr", "usw", "vgl", "Vol", "vorm", "vorm", "Vp", "Vs",
-      "vs", "wg", "Hd", "Ztr", "zus", "Zus", "zzt", "zz", "Zz", "Zt"      
+      "vs", "wg", "Hd", "Ztr", "zus", "Zus", "zzt", "zz", "Zz", "Zt",
+      //Polish:
+      "np", "p.n.e", "m.in", "itd", "itp", "pt","cdn", "czyt", "dyr","hab",
+      "inż","jw", "lek","n.e","nb","rys" 
   };
 
   // einige deutsche Monate, vor denen eine Zahl erscheinen kann,

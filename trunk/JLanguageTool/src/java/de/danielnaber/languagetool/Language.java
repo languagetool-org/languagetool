@@ -23,13 +23,14 @@ import java.util.Locale;
 import de.danielnaber.languagetool.tagging.Tagger;
 import de.danielnaber.languagetool.tagging.de.GermanTagger;
 import de.danielnaber.languagetool.tagging.en.EnglishTagger;
+import de.danielnaber.languagetool.tagging.pl.PolishTagger;
 import de.danielnaber.languagetool.tagging.xx.DemoTagger;
 import de.danielnaber.languagetool.tokenizers.SentenceTokenizer;
 import de.danielnaber.languagetool.tokenizers.Tokenizer;
 import de.danielnaber.languagetool.tokenizers.WordTokenizer;
 
 /**
- * Constants for supported languages (currently English and German only).
+ * Constants for supported languages (currently English, German, and Polish).
  * 
  * @author Daniel Naber
  */
@@ -41,6 +42,9 @@ public class Language {
   
   public static final Language GERMAN = 
     new Language("German", "de", new Locale("de"), new GermanTagger(), new SentenceTokenizer(), new WordTokenizer());
+  
+  public static final Language POLISH = 
+    new Language("Polish", "pl", new Locale("pl"), new PolishTagger(), new SentenceTokenizer(), new WordTokenizer());
   
   public static final Language DEMO = 
     new Language("Testlanguage", "xx", new Locale("en"), new DemoTagger(), new SentenceTokenizer(), new WordTokenizer());
@@ -56,7 +60,7 @@ public class Language {
   /**
    * All languages supported by LanguageTool.
    */
-  public static final Language[] LANGUAGES = new Language[] {ENGLISH, GERMAN, DEMO};
+  public static final Language[] LANGUAGES = new Language[] {ENGLISH, GERMAN, POLISH, DEMO};
 
   /**
    * Get the Language object for the given short language name.

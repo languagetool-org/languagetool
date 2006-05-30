@@ -61,4 +61,16 @@ public class WordRepeatRuleTest extends TestCase {
     assertEquals(1, matches.length);
   }
   
+  public void testRulePolish() throws IOException {
+	    WordRepeatRule rule = new WordRepeatRule(TestTools.getEnglishMessages(), Language.POLISH);
+	    RuleMatch[] matches;
+	    JLanguageTool langTool = new JLanguageTool(Language.POLISH);
+	    // correct sentences:
+	    matches = rule.match(langTool.getAnalyzedSentence("To jest zdanie."));
+	    assertEquals(0, matches.length);
+	    // incorrect sentences:
+	    matches = rule.match(langTool.getAnalyzedSentence("To jest jest zdanie."));
+	    assertEquals(1, matches.length);
+	  }
+  
 }

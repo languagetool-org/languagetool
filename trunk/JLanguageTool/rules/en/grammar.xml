@@ -3,7 +3,7 @@
 Rules: Grammar and Typos
 See tagset.txt for the meaning of the POS tags
 Copyright (C) 2001-2006 Daniel Naber (http://www.danielnaber.de)
-$Id: grammar.xml,v 1.42 2006-05-07 18:33:27 dnaber Exp $
+$Id: grammar.xml,v 1.43 2006-05-30 22:47:04 dnaber Exp $
 -->
 <rules lang="en">
 
@@ -349,8 +349,9 @@ $Id: grammar.xml,v 1.42 2006-05-07 18:33:27 dnaber Exp $
 		<example type="incorrect">...which <em>is</em> was not the last day.</example>
 	</rule>
 
+	<!-- TODO: rule tweaked for regexp, need to be changed -->
 	<rule id="FORE_DPS" name="Confusion of fore/for">
-		<pattern mark_to="-1">"fore" PRP$</pattern>
+		<pattern mark_to="-1">"fore" PRP\$</pattern>
 		<message>Did you mean <em>for</em>?</message>
 		<example type="correct">Thanks again <em>for</em> your help.</example>
 		<example type="incorrect">Thanks again <em>fore</em> your help.</example>

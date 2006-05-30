@@ -50,7 +50,7 @@ public class WordRepeatRule extends Rule {
   }
 
   public Language[] getLanguages() {
-    return new Language[] { Language.ENGLISH, Language.GERMAN };
+    return new Language[] { Language.ENGLISH, Language.GERMAN, Language.POLISH};
   }
 
   public RuleMatch[] match(AnalyzedSentence text) {
@@ -69,6 +69,8 @@ public class WordRepeatRule extends Rule {
         boolean isWord = true;
         if (token.length() == 1) {
           char c = token.charAt(0);
+          // Polish '\u0347' is not classified as letter by isLetter
+          // System.err.println(c);
           if (!Character.isLetter(c)) {
             isWord = false;
           }
