@@ -69,12 +69,12 @@ public class DoublePunctuationRule extends Rule {
         dotCount = 0;
         matchToken = tokens[i];
       }
-      if (dotCount == 2 && !nextToken.equals(".")) {
+      if (dotCount == 2 && !".".equals(nextToken)) {
         String msg = messages.getString("two_dots");
         RuleMatch ruleMatch = new RuleMatch(this, matchToken.getStartPos(), matchToken.getStartPos()+1, msg);
         ruleMatches.add(ruleMatch);
         dotCount = 0;
-      } else if (commaCount == 2 && !nextToken.equals(",")) {
+      } else if (commaCount == 2 && !",".equals(nextToken)) {
         String msg = messages.getString("two_commas");
         RuleMatch ruleMatch = new RuleMatch(this, matchToken.getStartPos(), matchToken.getStartPos()+1, msg);
         ruleMatches.add(ruleMatch);
