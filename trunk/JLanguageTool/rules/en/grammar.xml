@@ -3,7 +3,7 @@
 Rules: Grammar and Typos
 See tagset.txt for the meaning of the POS tags
 Copyright (C) 2001-2006 Daniel Naber (http://www.danielnaber.de)
-$Id: grammar.xml,v 1.43 2006-05-30 22:47:04 dnaber Exp $
+$Id: grammar.xml,v 1.44 2006-06-06 18:46:20 dnaber Exp $
 -->
 <rules lang="en">
 
@@ -565,6 +565,13 @@ $Id: grammar.xml,v 1.43 2006-05-30 22:47:04 dnaber Exp $
 			<example type="correct"><em>It's</em> where people walk around.</example>
 			<example type="incorrect"><em>Its</em> where people walk around.</example>
 			<example type="triggers_error" reason="'every' is tagged as AT0">London is a necropolis, <em>its</em> every corner the site of a murder, its soil a pudding of blood and tears.</example>
+		</rule>
+
+		<rule>
+			<pattern mark_from="0" mark_to="-1">"on" "it" "'" "s" "own"</pattern>
+			<message>Did you mean <em>its</em> (possessive pronoun) instead of 'it's' (=it is)?</message>
+			<example type="correct">New Robot Reproduces on <em>Its</em> Own.</example>
+			<example type="incorrect">New Robot Reproduces on <em>It's</em> Own.</example>
 		</rule>
 
 		<!-- TODO:
