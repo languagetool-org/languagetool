@@ -234,8 +234,6 @@
   <!-- ================================================================== -->
   <target name="build" depends="compile">
 
-	<copy file="${resource.dir}/MANIFEST" todir="${build.meta-inf}/" />
-	<copy file="${resource.dir}/MANIFEST.GUI" todir="${build.meta-inf}/" />
   	<copy todir="${build.classes}/de/danielnaber/languagetool/">
 	  	<fileset dir="${src.java.dir}/de/danielnaber/languagetool/">
 	  		<include name="*.properties" />
@@ -245,16 +243,22 @@
 	<jar
 		jarfile="${dist.dir}/${final.name}.jar"
 		basedir="${build.classes}"
-		excludes="**/*.java"
-		manifest="${build.meta-inf}/MANIFEST"
-	/>
+		excludes="**/*.java">
+		<manifest>
+			<attribute name="Main-Class" value="de.danielnaber.languagetool.Main" />
+			<attribute name="Class-Path" value="./maxent-2.4.0.jar ./opennlp-tools-1.3.0.jar ./trove.jar ./lucene-core-2.0.0.jar ./stempelator-1.0.1.jar" />
+		</manifest>
+	</jar>
 
 	<jar
 		jarfile="${dist.dir}/${final.name.gui}.jar"
 		basedir="${build.classes}"
-		includes="de/danielnaber/languagetool/gui/*.class"
-		manifest="${build.meta-inf}/MANIFEST.GUI"
-	/>
+		includes="de/danielnaber/languagetool/gui/*.class">
+		<manifest>
+			<attribute name="Main-Class" value="de.danielnaber.languagetool.gui.Main" />
+			<attribute name="Class-Path" value="./LanguageTool.jar ./maxent-2.4.0.jar ./opennlp-tools-1.3.0.jar ./trove.jar ./lucene-core-2.0.0.jar" />
+		</manifest>
+	</jar>
 
   </target>
  
