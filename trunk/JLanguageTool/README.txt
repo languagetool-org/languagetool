@@ -4,7 +4,7 @@ Version ###VERSION###, ###DATE###
 Homepage: http://www.danielnaber.de/languagetool
 
 Requirements:
- -Java 1.4 or later
+ -Java 1.5 or later
 
 Usage:
  -To integrate LanguageTool into OpenOffice.org:
