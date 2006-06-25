@@ -95,8 +95,8 @@ public class Main {
       try {
         if (sEvent.equals("execute")) {
           try {
-            String text = getText();
-            checkText(text);
+            TextToCheck textToCheck = getText();
+            checkText(textToCheck);
           } catch (Throwable e) {
             writeError(e);
             e.printStackTrace();
@@ -187,7 +187,7 @@ public class Main {
       return Language.getLanguageforShortName(charLocale.Language);
     }
     
-    private String getText() {
+    private TextToCheck getText() {
       XModel xModel = (XModel)UnoRuntime.queryInterface(XModel.class, xTextDoc); 
       XController xController = xModel.getCurrentController(); 
       XTextViewCursorSupplier xViewCursorSupplier = 
@@ -195,20 +195,22 @@ public class Main {
       //XTextViewCursor xViewCursor = xViewCursorSupplier.getViewCursor();
       xViewCursor = xViewCursorSupplier.getViewCursor();
       String textToCheck = xViewCursor.getString();     // user's current selection
+      boolean selection = true;
       if (textToCheck.equals("")) {     // no selection = check complete text
+        selection = false;
         XText text = xTextDoc.getText();
         textToCheck = text.getString();
         xViewCursor = null;
       }
       // without this replacement selecting the error on Windows will not work correctly:
       textToCheck = textToCheck.replaceAll("\r\n", "\n");
-      return textToCheck;
+      return new TextToCheck(textToCheck, selection);
     }
 
-    private void checkText(String text) {
+    private void checkText(TextToCheck textToCheck) {
       ProgressDialog progressDialog = new ProgressDialog();
       Language docLanguage = getLanguage();
-      CheckerThread checkerThread = new CheckerThread(text, docLanguage, config, baseDir);
+      CheckerThread checkerThread = new CheckerThread(textToCheck.text, docLanguage, config, baseDir);
       checkerThread.start();
       while (true) {
         if (checkerThread.done()) {
@@ -225,15 +227,19 @@ public class Main {
       List ruleMatches = checkerThread.getRuleMatches();
       // TODO: why must these be wrapped in threads to avoid focus problems?
       if (ruleMatches.size() == 0) {
-        // TODO: if only selection was checked, say so!
-        DialogThread dt = new DialogThread("No errors and warnings found " +
-                "(document language: " + docLanguage.getName() + ")");
+        String msg;
+        if (textToCheck.isSelection) {
+          msg = "No errors or warnings found in selected text " + "(language: " + docLanguage.getName() + ")";  
+        } else {
+          msg = "No errors or warnings found " + "(document language: " + docLanguage.getName() + ")";  
+        }
+        DialogThread dt = new DialogThread(msg);
         dt.start();
         // TODO: display number of active rules etc?
       } else {
         ResultDialogThread dialog = new ResultDialogThread(config,
             checkerThread.getLanguageTool().getAllRules(),
-            xTextDoc, ruleMatches, text, xViewCursor);
+            xTextDoc, ruleMatches, textToCheck.text, xViewCursor);
         dialog.start();
       }
     }
@@ -276,7 +282,8 @@ public class Main {
   /** Testing only. */
   public static void main(String[] args) throws IOException {
     _Main m = new _Main();
-    m.checkText("This is an test, don't berate yourself.");
+    TextToCheck ttc = new TextToCheck("This is an test, don't berate yourself.", false);
+    m.checkText(ttc);
   }
 
 }
@@ -322,3 +329,14 @@ class ResultDialogThread extends Thread {
   
 }
 
+class TextToCheck {
+  
+  String text;
+  boolean isSelection;
+  
+  TextToCheck(String text, boolean isSelection) {
+    this.text = text;
+    this.isSelection = isSelection;
+  }
+   
+}
