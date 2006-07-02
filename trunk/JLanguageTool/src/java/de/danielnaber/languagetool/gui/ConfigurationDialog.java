@@ -63,9 +63,9 @@ public class ConfigurationDialog implements ActionListener {
   
   private JComboBox motherTongueBox;
 
-  private List checkBoxes = new ArrayList();
-  private List checkBoxesRuleIds = new ArrayList();
-  private Set inactiveRuleIds = new HashSet();
+  private List<JCheckBox> checkBoxes = new ArrayList<JCheckBox>();
+  private List<String> checkBoxesRuleIds = new ArrayList<String>();
+  private Set<String> inactiveRuleIds = new HashSet<String>();
   private Language motherTongue;
   private boolean modal;
   private boolean isClosed = true;
@@ -86,7 +86,7 @@ public class ConfigurationDialog implements ActionListener {
       public void actionPerformed(ActionEvent actionEvent) {
         if (actionEvent == null) actionEvent = null;    // avoid compiler warning
         isClosed = true;
-        dialog.hide(); 
+        dialog.setVisible(false); 
       }
     };
     JRootPane rootPane = dialog.getRootPane();
@@ -165,7 +165,7 @@ public class ConfigurationDialog implements ActionListener {
   }
   
   private Object[] getPossibleMotherTongues() {
-    List motherTongues = new ArrayList();
+    List<Object> motherTongues = new ArrayList<Object>();
     motherTongues.add(NO_MOTHER_TONGUE);
     for (int i = 0; i < Language.LANGUAGES.length; i++) {
       motherTongues.add(Language.LANGUAGES[i]);
@@ -181,10 +181,10 @@ public class ConfigurationDialog implements ActionListener {
     if (e.getActionCommand().equals(OK_BUTTON)) {
       int i = 0;
       inactiveRuleIds.clear();
-      for (Iterator iter = checkBoxes.iterator(); iter.hasNext();) {
-        JCheckBox checkBox = (JCheckBox) iter.next();
+      for (Iterator<JCheckBox> iter = checkBoxes.iterator(); iter.hasNext();) {
+        JCheckBox checkBox = iter.next();
         if (!checkBox.isSelected()) {
-          String ruleId = (String)checkBoxesRuleIds.get(i);
+          String ruleId = checkBoxesRuleIds.get(i);
           inactiveRuleIds.add(ruleId);
         }
         i++;
@@ -194,18 +194,18 @@ public class ConfigurationDialog implements ActionListener {
       else
         motherTongue = (Language)motherTongueBox.getSelectedItem();
       isClosed = true;
-      dialog.hide(); 
+      dialog.setVisible(false);
     } else if (e.getActionCommand().equals(CANCEL_BUTTON)) {
       isClosed = true;
-      dialog.hide(); 
+      dialog.setVisible(false);
     }
   }
   
-  public void setDisabledRules(Set ruleIDs) {
+  public void setDisabledRules(Set<String> ruleIDs) {
     inactiveRuleIds = ruleIDs;
   }
 
-  public Set getDisabledRuleIds() {
+  public Set<String> getDisabledRuleIds() {
     return inactiveRuleIds;
   }
 

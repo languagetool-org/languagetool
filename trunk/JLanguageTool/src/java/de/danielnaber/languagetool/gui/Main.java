@@ -60,7 +60,7 @@ class Main implements ActionListener {
   private JTextPane resultArea = null;
   private JComboBox langBox = null;
   
-  private Map configDialogs = new HashMap();       // Language -> ConfigurationDialog
+  private Map<Language, ConfigurationDialog> configDialogs = new HashMap<Language, ConfigurationDialog>();
 
   private Main() {
   }

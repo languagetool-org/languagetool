@@ -43,7 +43,7 @@ public class Configuration {
   private static final String MOTHER_TONGUE_CONFIG_KEY = "motherTongue";
   private File configFile = null;
 
-  private Set disabledRuleIds = new HashSet();
+  private Set<String> disabledRuleIds = new HashSet<String>();
   private Language motherTongue;
 
   public Configuration(File baseDir) throws IOException {
@@ -53,11 +53,11 @@ public class Configuration {
     loadConfiguration();
   }
   
-  public Set getDisabledRuleIds() {
+  public Set<String> getDisabledRuleIds() {
     return disabledRuleIds;
   }
 
-  public void setDisabledRuleIds(Set ruleIDs) {
+  public void setDisabledRuleIds(Set<String> ruleIDs) {
     disabledRuleIds = ruleIDs;
   }
 
@@ -98,8 +98,8 @@ public class Configuration {
   public void saveConfiguration() throws IOException {
     Properties props = new Properties();
     StringBuffer sb = new StringBuffer();
-    for (Iterator iter = disabledRuleIds.iterator(); iter.hasNext();) {
-      String id = (String) iter.next();
+    for (Iterator<String> iter = disabledRuleIds.iterator(); iter.hasNext();) {
+      String id = iter.next();
       sb.append(id);
       if (iter.hasNext())
         sb.append(",");
