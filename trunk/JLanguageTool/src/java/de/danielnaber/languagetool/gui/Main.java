@@ -180,8 +180,8 @@ class Main implements ActionListener {
         } catch (Exception ex) {
           sb.append("<br><br><b><font color=\"red\">" + ex.toString() + "<br>");
           StackTraceElement[] elements = ex.getStackTrace();
-          for (int i = 0; i < elements.length; i++) {
-            sb.append(elements[i] + "<br>");
+          for (StackTraceElement element : elements) {
+            sb.append(element + "<br>");
           }
           sb.append("</font></b><br>");
           ex.printStackTrace();

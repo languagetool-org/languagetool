@@ -78,8 +78,8 @@ public class Configuration {
       String val = (String)props.get(DISABLED_RULES_CONFIG_KEY);
       if (val != null) {
         String[] ids = val.split(",");
-        for (int i = 0; i < ids.length; i++) {
-          disabledRuleIds.add(ids[i]);
+        for (String id : ids) {
+          disabledRuleIds.add(id);
         }
       }
       String motherTongueStr = (String)props.get(MOTHER_TONGUE_CONFIG_KEY);

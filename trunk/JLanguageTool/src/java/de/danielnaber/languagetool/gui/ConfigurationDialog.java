@@ -167,8 +167,8 @@ public class ConfigurationDialog implements ActionListener {
   private Object[] getPossibleMotherTongues() {
     List<Object> motherTongues = new ArrayList<Object>();
     motherTongues.add(NO_MOTHER_TONGUE);
-    for (int i = 0; i < Language.LANGUAGES.length; i++) {
-      motherTongues.add(Language.LANGUAGES[i]);
+    for (Language lang : Language.LANGUAGES) {
+      motherTongues.add(lang);
     }
     return motherTongues.toArray();
   }
@@ -181,8 +181,7 @@ public class ConfigurationDialog implements ActionListener {
     if (e.getActionCommand().equals(OK_BUTTON)) {
       int i = 0;
       inactiveRuleIds.clear();
-      for (Iterator<JCheckBox> iter = checkBoxes.iterator(); iter.hasNext();) {
-        JCheckBox checkBox = iter.next();
+      for (JCheckBox checkBox : checkBoxes) {
         if (!checkBox.isSelected()) {
           String ruleId = checkBoxesRuleIds.get(i);
           inactiveRuleIds.add(ruleId);
