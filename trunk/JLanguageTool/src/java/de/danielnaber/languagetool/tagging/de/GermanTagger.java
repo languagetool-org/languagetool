@@ -56,6 +56,7 @@ public class GermanTagger implements Tagger {
   }
   
   private AnalyzedGermanToken lookup(String word, int startPos, boolean makeLowercase) throws IOException {
+	
     initSearcher();
     Term term = null;
     if (makeLowercase)
@@ -122,7 +123,7 @@ public class GermanTagger implements Tagger {
   }
 
   public Object createNullToken(String token, int startPos) {
-    return new AnalyzedGermanToken(token, null, startPos);
+  	return new AnalyzedGermanToken(token, null, startPos);
   }
   
   private void initSearcher() throws IOException {

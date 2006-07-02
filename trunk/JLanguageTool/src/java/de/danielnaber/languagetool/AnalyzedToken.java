@@ -28,12 +28,14 @@ public class AnalyzedToken {
   protected String token;
   protected String posTag;
   protected int startPos;
+  protected String lemma;
   
   public AnalyzedToken(String token, String posTag, int startPos) {
     this.token = token;
     this.posTag = posTag;
     this.startPos = startPos;
   }
+  
   
   public boolean isWhitespace() {
     return token.trim().equals("");
@@ -47,6 +49,10 @@ public class AnalyzedToken {
     return posTag;
   }
 
+  public String getLemma() {
+	  return lemma;
+  }
+  
   public int getStartPos() {
     return startPos;
   }

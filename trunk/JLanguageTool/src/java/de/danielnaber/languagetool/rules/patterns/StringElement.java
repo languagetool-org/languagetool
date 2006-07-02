@@ -17,9 +17,7 @@
  * USA
  */
 package de.danielnaber.languagetool.rules.patterns;
-
-// import java.util.regex.Pattern;
-
+import java.util.regex.Pattern;
 import de.danielnaber.languagetool.AnalyzedToken;
 
 /**
@@ -31,34 +29,49 @@ import de.danielnaber.languagetool.AnalyzedToken;
 class StringElement extends Element {
 
   private boolean caseSensitive = false;
-
-  StringElement(String token, boolean caseSensitive) {
+  private boolean regExp = false;
+  
+  StringElement(String token, boolean caseSensitive, boolean regExp) {
     this.tokens = new String[] {token};
     this.caseSensitive = caseSensitive;
+    this.regExp = regExp;
   }
 
-  StringElement(String[] tokens, boolean caseSensitive) {
+  StringElement(String[] tokens, boolean caseSensitive, boolean regExp) {
     this.tokens = tokens;
     this.caseSensitive = caseSensitive;
+    this.regExp = regExp;
   }
   
   boolean matchToken(AnalyzedToken token) {
-    if (caseSensitive) {
+	  if (caseSensitive) {
       for (int i = 0; i < tokens.length; i++) {
-        if (tokens[i].equals(token.getToken()))
-          // if (token.getToken()!=null)
-          // if (Pattern.matches(tokens[i], token.getToken()))
-          return true;
+    	  if (regExp){
+          	if (token.getToken()!=null)
+                  if (Pattern.matches(tokens[i], token.getToken()))
+          	 		  return true;
+          }
+    	  else{
+    		  if (tokens[i].equals(token.getToken()))
+    			  return true;
+    	  }
+        }		
       }
-    } else {
-      for (int i = 0; i < tokens.length; i++) {
-        if (tokens[i].equalsIgnoreCase(token.getToken()))
-          // TODO: test according to token element attribs
-          // ie. if regexp="yes" or not
-          // if (token.getToken()!=null)
-          // if (Pattern.matches(tokens[i], token.getToken()))
-          return true;
-      }
+    else {
+    	for (int i = 0; i < tokens.length; i++) {
+    		if (regExp){
+            	if (token.getToken()!=null)
+            		//(?u) - regex matching 
+            		//case insensitive in Unicode
+                    if (Pattern.matches("(?u)".concat(tokens[i]), token.getToken()))
+            	 		  return true;
+            }
+            else
+            {
+    		if (tokens[i].equalsIgnoreCase(token.getToken()))
+                return true;
+            }
+    	}
     }
     return false;
   }

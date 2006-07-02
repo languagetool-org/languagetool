@@ -33,7 +33,7 @@ public interface Tagger {
    * Returns a list of {@link AnalyzedToken}s that assigns each term in the 
    * sentence some kind of part-of-speech information (not necessarily just one tag).
    * 
-   * <p>Note that this mehtod takes exactly one sentence. Its implementation
+   * <p>Note that this method takes exactly one sentence. Its implementation
    * may implement special cases for the first word of a sentence, which is 
    * usually written with an uppercase letter.
    * 

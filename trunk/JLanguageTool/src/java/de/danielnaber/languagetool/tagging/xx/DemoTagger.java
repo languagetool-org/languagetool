@@ -8,6 +8,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import de.danielnaber.languagetool.AnalyzedToken;
+import de.danielnaber.languagetool.AnalyzedTokenReadings;
 import de.danielnaber.languagetool.tagging.Tagger;
 
 /**
@@ -19,20 +20,23 @@ import de.danielnaber.languagetool.tagging.Tagger;
 public class DemoTagger implements Tagger {
 
   public List tag(List sentenceTokens) {
-    List l = new ArrayList();
+
+    List tokenReadings = new ArrayList();
     int pos = 0;
     for (Iterator iter = sentenceTokens.iterator(); iter.hasNext();) {
-      String word = (String) iter.next();
+    	String word = (String) iter.next();
+        List l = new ArrayList();
       // a real tagger would need to assign a POS tag
       // in the next line instead of null:
       l.add(new AnalyzedToken(word, null, pos));
       pos += word.length();
+      tokenReadings.add(new AnalyzedTokenReadings((AnalyzedToken[])l.toArray(new AnalyzedToken[0])));
     }
-    return l;
+    return tokenReadings;
   }
 
   public Object createNullToken(String token, int startPos) {
-    return new AnalyzedToken(token, null, startPos);
+	  return new AnalyzedTokenReadings(new AnalyzedToken(token, null, startPos));
   }
 
 }

@@ -25,7 +25,8 @@ import java.util.List;
 import java.util.Set;
 
 import de.danielnaber.languagetool.AnalyzedSentence;
-import de.danielnaber.languagetool.AnalyzedToken;
+//import de.danielnaber.languagetool.AnalyzedToken;
+import de.danielnaber.languagetool.AnalyzedTokenReadings;
 import de.danielnaber.languagetool.JLanguageTool;
 import de.danielnaber.languagetool.rules.RuleMatch;
 import de.danielnaber.languagetool.tagging.de.AnalyzedGermanToken;
@@ -58,14 +59,19 @@ public class AgreementRule extends GermanRule {
 
   public RuleMatch[] match(AnalyzedSentence text) {
     List ruleMatches = new ArrayList();
-    AnalyzedToken[] tokens = text.getTokensWithoutWhitespace();
+    AnalyzedTokenReadings[] tokens = text.getTokensWithoutWhitespace();
     int pos = 0;
     for (int i = 0; i < tokens.length; i++) {
-      String posToken = tokens[i].getPOSTag();
+    //defaulting to the first reading
+    //TODO: check for all readings
+    //and replace GermanTokenReading
+      String posToken = tokens[i].getAnalyzedToken(0).getPOSTag();
       if (posToken != null && posToken.equals(JLanguageTool.SENTENCE_START_TAGNAME))
         continue;
-      AnalyzedGermanToken analyzedToken = (AnalyzedGermanToken)tokens[i];
-      boolean isRelevantPronomen = analyzedToken.hasReadingOfType(POSType.PRONOMEN);
+      //AnalyzedGermanToken analyzedToken = new AnalyzedGermanToken(tokens[i]);
+      
+    	AnalyzedGermanToken analyzedToken = (AnalyzedGermanToken)tokens[i];
+        boolean isRelevantPronomen = analyzedToken.hasReadingOfType(POSType.PRONOMEN);     
       // avoid false alarms:
       if (i > 0 && tokens[i-1].getToken().equalsIgnoreCase("vor") && tokens[i].getToken().equalsIgnoreCase("allem"))
         isRelevantPronomen = false;
@@ -75,6 +81,7 @@ public class AgreementRule extends GermanRule {
         isRelevantPronomen = false;
       else if (tokens[i].getToken().equalsIgnoreCase("sich"))      // avoid false alarm
         isRelevantPronomen = false;
+     
       // avoid false alarm: "Das Wahlrecht das Frauen zugesprochen bekamen.":
       boolean ignore = tokens[i-1].getToken().equals(",") && tokens[i].getToken().equalsIgnoreCase("das");
       if ((analyzedToken.hasReadingOfType(POSType.DETERMINER) || isRelevantPronomen) && !ignore) {
@@ -100,6 +107,7 @@ public class AgreementRule extends GermanRule {
             ruleMatches.add(ruleMatch);
         }
       }
+     
       pos += tokens[i].getToken().length();
     }
     return toRuleMatchArray(ruleMatches);

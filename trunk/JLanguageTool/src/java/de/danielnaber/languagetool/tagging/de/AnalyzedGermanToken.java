@@ -18,13 +18,14 @@
  */
 package de.danielnaber.languagetool.tagging.de;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.ArrayList;
 import java.util.Set;
 
 import de.danielnaber.languagetool.AnalyzedToken;
+import de.danielnaber.languagetool.AnalyzedTokenReadings;
 import de.danielnaber.languagetool.tagging.de.GermanToken.POSType;
 
 /**
@@ -32,13 +33,19 @@ import de.danielnaber.languagetool.tagging.de.GermanToken.POSType;
  * 
  * @author Daniel Naber
  */
-public class AnalyzedGermanToken extends AnalyzedToken {
+public class AnalyzedGermanToken extends AnalyzedTokenReadings {
 
   private List readings = new ArrayList();
   
   public AnalyzedGermanToken(String token, List readings, int startPos) {
-    super(token, null, startPos);
-    this.readings = readings;
+	  //super(token, null, startPos);
+	  super(new AnalyzedToken(token, null, startPos)); 
+    this.readings=readings;
+  }
+  
+  public AnalyzedGermanToken(AnalyzedTokenReadings atr) {
+	  super(new AnalyzedToken(atr.getToken(), atr.getAnalyzedToken(0).getPOSTag(), atr.getStartPos()));
+	  //super.readings=atr.getReadings();
   }
   
   /**
@@ -94,9 +101,9 @@ public class AnalyzedGermanToken extends AnalyzedToken {
 
   public String toString() {
     if (readings == null)
-      return token + "[?]";
+      return super.getAnalyzedToken(0).getToken() + "[?]";
     else {
-      StringBuffer sb = new StringBuffer(token);
+      StringBuffer sb = new StringBuffer(super.getAnalyzedToken(0).getToken());
       Set printed = new HashSet();
       sb.append("[");
       for (Iterator iter = readings.iterator(); iter.hasNext();) {

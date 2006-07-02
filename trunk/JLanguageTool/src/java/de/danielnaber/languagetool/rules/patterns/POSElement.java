@@ -34,27 +34,36 @@ public class POSElement extends Element {
 
   private String[] exceptions = null;
   private boolean caseSensitive = false;
+  private boolean regExp = false;
   
-  POSElement(String[] tokens, String[] exceptions) {
-    this(tokens, false, exceptions);
+  POSElement(String[] tokens, boolean regExp, String[] exceptions) {
+    this(tokens, false, regExp, exceptions);
   }
 
-  POSElement(String[] tokens, boolean caseSensitive, String[] exceptions) {
+  POSElement(String[] tokens, boolean caseSensitive, boolean regExp, String[] exceptions) {
     this.tokens = tokens;
     this.exceptions = exceptions;
     this.caseSensitive = caseSensitive;
+    this.regExp = regExp;
   }
 
   boolean matchToken(AnalyzedToken token) {
     boolean match = false;
     for (int i = 0; i < tokens.length; i++) {
-      // if (tokens[i].equals(token.getPOSTag())) {
-      // changed to match regexps
-      if (token.getPOSTag() != null)
-        if (Pattern.matches(tokens[i], token.getPOSTag())) {
-          match = true;
-          break;
-        }
+      if (!regExp)
+      {
+    	  if (tokens[i].equals(token.getPOSTag())) {
+    		match = true;
+            break;
+       	}
+      }
+      else
+	//changed to match regexps
+	  if (token.getPOSTag()!=null)
+	    if (Pattern.matches(tokens[i], token.getPOSTag()))		{	    
+		match = true;
+        break;
+      }
     }
     if (exceptions != null) {
       for (int i = 0; i < exceptions.length; i++) {

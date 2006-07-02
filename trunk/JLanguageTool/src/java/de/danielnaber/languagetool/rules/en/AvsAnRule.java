@@ -28,7 +28,8 @@ import java.util.List;
 import java.util.Set;
 
 import de.danielnaber.languagetool.AnalyzedSentence;
-import de.danielnaber.languagetool.AnalyzedToken;
+//import de.danielnaber.languagetool.AnalyzedToken;
+import de.danielnaber.languagetool.AnalyzedTokenReadings;
 import de.danielnaber.languagetool.JLanguageTool;
 import de.danielnaber.languagetool.rules.RuleMatch;
 import de.danielnaber.languagetool.tools.StringTools;
@@ -66,12 +67,15 @@ public class AvsAnRule extends EnglishRule {
 
   public RuleMatch[] match(AnalyzedSentence text) {
     List ruleMatches = new ArrayList();
-    AnalyzedToken[] tokens = text.getTokens();
+    AnalyzedTokenReadings[] tokens = text.getTokens();
     String prevToken = "";
     int pos = 0;
     int prevPos = 0;
     for (int i = 0; i < tokens.length; i++) {
-      String token = tokens[i].getToken();
+    	//defaulting to the first token
+    	//the rule is based on spelling
+    	//so it should be safe
+      String token = tokens[i].getAnalyzedToken(0).getToken();
       String origToken = token;
       if (token.trim().equals("")) {
         // ignore

@@ -67,11 +67,15 @@ class PatternRuleHandler extends XMLRuleHandler {
 
   private String id;
   private boolean caseSensitive = false;
+  private boolean regExpression = false;
+  private boolean tokenNegated = false;
   private Language language;
   private String description;
   private String ruleGroupId;
   private String ruleGroupDescription;
-
+  private String[] exceptions;
+  private List elementList = null;
+  private boolean regular=false; 
   private int startPositionCorrection = 0;
   private int endPositionCorrection = 0;
   
@@ -106,7 +110,51 @@ class PatternRuleHandler extends XMLRuleHandler {
         endPositionCorrection = Integer.parseInt(attrs.getValue("mark_to"));
       if (attrs.getValue("case_sensitive") != null && attrs.getValue("case_sensitive").equals("yes"))
         caseSensitive = true;
-    } else if (qName.equals("example") && attrs.getValue("type").equals("correct")) {
+    }  else if (qName.equals("token")) {
+    	inToken = true;
+    	if (attrs.getValue("negate")!=null){
+	 		tokenNegated=attrs.getValue("negate").equals("yes");
+    	}
+    	elements = new StringBuffer();
+    	if (elementList == null) //lazy init
+        {
+      	  elementList = new ArrayList();
+        }
+    	// POSElement creation
+    	if (attrs.getValue("postag")!=null)
+    	{
+    		//String exceptions[] = null;
+    		if (attrs.getValue("postag_exceptions")!=null) {
+    	 		exceptions=attrs.getValue("postag_exceptions").split("\\|");
+    	 	}
+    		else {
+    			exceptions=null;
+    		}
+    		String[] pos = new String [1];
+    		pos[0] = attrs.getValue("postag");
+    		if (attrs.getValue("postag_regexp")!=null){
+    			regular = attrs.getValue("postag_regexp").equals("yes");
+    		}
+    	 	POSElement posElement = new POSElement(pos, caseSensitive, regular, exceptions);
+    	 	if (attrs.getValue("negate_pos")!=null){
+    	 		posElement.setNegation(attrs.getValue("negate_pos").equals("yes"));
+        	}
+    	 	
+    	 	if (elementList == null) //lazy init
+            {
+          	  elementList = new ArrayList();
+            }
+    	 	elementList.add(posElement);
+    	 	//TODO: add StringElement and POSElement to a single container element
+    	 	//a list of Elements?
+    	 	//elements would then be not elements but lists of elements...
+    	 	inToken=false;
+    	}
+    	if (attrs.getValue("regexp")!=null){
+    		regExpression = attrs.getValue("regexp").equals("yes");
+    	}
+    	
+    }    else if (qName.equals("example") && attrs.getValue("type").equals("correct")) {
       inCorrectExample = true;
       correctExample = new StringBuffer();
     } else if (qName.equals("example") && attrs.getValue("type").equals("incorrect")) {
@@ -130,6 +178,12 @@ class PatternRuleHandler extends XMLRuleHandler {
     if (qName.equals("rule")) {
       PatternRule rule = new PatternRule(id, language, pattern.toString(), description,
           message.toString());
+      //TODO: add lexemes, the class StringElement should be changed
+      //or StringElement and POSElement should be in the same class,
+      //after all -- we could test both
+      if (elementList!=null) {
+    	  rule.addPatternElements(elementList);
+      }
       rule.setStartPositionCorrection(startPositionCorrection);
       rule.setEndPositionCorrection(endPositionCorrection);
       startPositionCorrection = 0;
@@ -139,8 +193,24 @@ class PatternRuleHandler extends XMLRuleHandler {
       rule.setCaseSensitive(caseSensitive);
       caseSensitive = false;
       rules.add(rule);
-    } else if (qName.equals("pattern")) {
-      inPattern = false;
+      if (elementList!=null)
+      {
+    	  elementList.clear();
+      }
+    } else if (qName.equals("token")) {
+    	//TODO: enable testing for pos AND token string
+    	//left for compatibility with earlier notation
+      	if (inToken)
+      	{
+    	StringElement stringElement = new StringElement(elements.toString(), caseSensitive, regExpression);
+    	stringElement.setNegation(tokenNegated);
+    	elementList.add(stringElement);
+    	tokenNegated=false;
+      	}
+        inToken = false;
+        regExpression = false;
+    }  else if (qName.equals("pattern")) {
+      inPattern = false;      
     } else if (qName.equals("example")) {
       if (inCorrectExample) {
         correctExamples.add(correctExample.toString());
@@ -162,8 +232,11 @@ class PatternRuleHandler extends XMLRuleHandler {
   
   public void characters(char buf[], int offset, int len) {
     String s = new String(buf, offset, len);
-    if (inPattern) {
-      pattern.append(s);
+    //if (inPattern) {
+      //pattern.append(s);
+    //} else 
+    	if (inToken) {
+    	elements.append(s);
     } else if (inCorrectExample) {
       correctExample.append(s);
     } else if (inIncorrectExample) {
@@ -171,6 +244,7 @@ class PatternRuleHandler extends XMLRuleHandler {
     } else if (inMessage) {
       message.append(s);
     }
+    
   }
 
 }

@@ -30,46 +30,48 @@ import de.danielnaber.languagetool.tagging.de.AnalyzedGermanToken;
  */
 public class AnalyzedSentence {
 
-  private AnalyzedToken[] tokens;
+  private AnalyzedTokenReadings[] tokens;
   
-  public AnalyzedSentence(AnalyzedToken[] tokens) {
+  public AnalyzedSentence(AnalyzedTokenReadings[] tokens) {
     this.tokens = tokens;
   }
 
   /**
-   * Returns the {@link AnalyzedToken}s of the analyzed text. Whitespace is also a token.
+   * Returns the {@link AnalyzedTokenReadings}s of the analyzed text. Whitespace is also a token.
    */
-  public AnalyzedToken[] getTokens() {
+  public AnalyzedTokenReadings[] getTokens() {
     return tokens;
   }
 
   /**
-   * Returns the {@link AnalyzedToken}s of the analyzed text, with whitespace tokens removed
+   * Returns the {@link AnalyzedTokenReading}s of the analyzed text, with whitespace tokens removed
    * but with the artificial <code>SENT_START</code> token included.
    */
-  public AnalyzedToken[] getTokensWithoutWhitespace() {
-    List l = new ArrayList();
-    for (int i = 0; i < tokens.length; i++) {
-      AnalyzedToken token = tokens[i];
-      if (!token.isWhitespace() || (token.getPOSTag() != null &&
-          token.getPOSTag().equals(JLanguageTool.SENTENCE_START_TAGNAME))) {
-        l.add(token);
-      }
-    }
-    return (AnalyzedToken[])l.toArray(new AnalyzedToken[0]);
-  }
+  public AnalyzedTokenReadings[] getTokensWithoutWhitespace() {
+	    List l = new ArrayList();
+	    for (int i = 0; i < tokens.length; i++) {
+	      AnalyzedTokenReadings token = tokens[i];
+	      if (!token.getAnalyzedToken(0).isWhitespace() || (token.getAnalyzedToken(0).getPOSTag() != null &&
+	          token.getAnalyzedToken(0).getPOSTag().equals(JLanguageTool.SENTENCE_START_TAGNAME))) {
+	        l.add(token);
+	      }
+	    }
+	    return (AnalyzedTokenReadings[])l.toArray(new AnalyzedTokenReadings[0]);
+	  }
   
   public String toString() {
     StringBuffer sb = new StringBuffer();
     for (int i = 0; i < tokens.length; i++) {
-      if (JLanguageTool.SENTENCE_START_TAGNAME.equals(tokens[i].getPOSTag())) {
+      for (int j = 0; j < tokens[i].getReadingslength(); j++) {
+      if (JLanguageTool.SENTENCE_START_TAGNAME.equals(tokens[i].getAnalyzedToken(j).getPOSTag())) {
         sb.append("<S>");
-      } else if (tokens[i] != null && tokens[i].getPOSTag() == null && !(tokens[i] instanceof AnalyzedGermanToken)) {
+      } else if (tokens[i].getAnalyzedToken(j) != null && tokens[i].getAnalyzedToken(j).getPOSTag() == null && !(tokens[i] instanceof AnalyzedGermanToken)) {
         // FIXME: don't depend on AnalyzedGermanToken here
-        sb.append(tokens[i].getToken());
+        sb.append(tokens[i].getAnalyzedToken(j).getToken());
       } else {
-        sb.append(tokens[i]);
+        sb.append(tokens[i].getAnalyzedToken(j));
       }
+    }
     }
     return sb.toString();
   }

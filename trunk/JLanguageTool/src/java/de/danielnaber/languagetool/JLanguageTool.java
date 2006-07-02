@@ -355,24 +355,26 @@ public class JLanguageTool {
       }
     }
     List aTokens = tagger.tag(noWhitespaceTokens);
-    AnalyzedToken[] tokenArray = new AnalyzedToken[tokens.size()+1];
+    AnalyzedTokenReadings[] tokenArray = new AnalyzedTokenReadings[tokens.size()+1];
+    AnalyzedToken[] startTokenArray = new AnalyzedToken[1];  
     int toArrayCount = 0;
     AnalyzedToken sentenceStartToken = new AnalyzedToken("", SENTENCE_START_TAGNAME, 0);
-    tokenArray[toArrayCount++] = sentenceStartToken;
+    startTokenArray[0]=sentenceStartToken;
+    tokenArray[toArrayCount++]=new AnalyzedTokenReadings(startTokenArray);
     int startPos = 0;
     int noWhitespaceCount = 0;
     for (Iterator iterator = tokens.iterator(); iterator.hasNext();) {
-      String tokenStr = (String) iterator.next();
-      AnalyzedToken posTag = null;
-      if (isWord(tokenStr)) {
-        posTag = (AnalyzedToken)aTokens.get(noWhitespaceCount);
-        posTag.startPos = startPos;
-        noWhitespaceCount++;
-      } else {
-        posTag = (AnalyzedToken)tagger.createNullToken(tokenStr, startPos);
-      }
-      tokenArray[toArrayCount++] = posTag;
-      startPos += tokenStr.length();
+    	String tokenStr = (String) iterator.next();
+    	AnalyzedTokenReadings posTag = null;
+    	if (isWord(tokenStr)) {    	 
+    		posTag = (AnalyzedTokenReadings)aTokens.get(noWhitespaceCount);
+    		posTag.startPos = startPos;
+    		noWhitespaceCount++;
+    	} else {
+    		posTag = (AnalyzedTokenReadings)tagger.createNullToken(tokenStr, startPos); 
+    	}
+    	tokenArray[toArrayCount++] = posTag;
+    	startPos += tokenStr.length();
     }
     return new AnalyzedSentence(tokenArray);
   }

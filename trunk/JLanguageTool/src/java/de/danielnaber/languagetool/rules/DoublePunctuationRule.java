@@ -24,6 +24,7 @@ import java.util.ResourceBundle;
 
 import de.danielnaber.languagetool.AnalyzedSentence;
 import de.danielnaber.languagetool.AnalyzedToken;
+import de.danielnaber.languagetool.AnalyzedTokenReadings;
 import de.danielnaber.languagetool.Language;
 
 /**
@@ -51,7 +52,7 @@ public class DoublePunctuationRule extends Rule {
 
   public RuleMatch[] match(AnalyzedSentence text) {
     List ruleMatches = new ArrayList();
-    AnalyzedToken[] tokens = text.getTokens();
+    AnalyzedTokenReadings[] tokens = text.getTokens();
     AnalyzedToken matchToken = null;
     int dotCount = 0;
     int commaCount = 0;
@@ -63,18 +64,18 @@ public class DoublePunctuationRule extends Rule {
       if (token.trim().equals(".")) {
         dotCount++;
         commaCount = 0;
-        matchToken = tokens[i];
+        matchToken = tokens[i].getAnalyzedToken(0);
       } else if (token.trim().equals(",")) {
         commaCount++;
         dotCount = 0;
-        matchToken = tokens[i];
+        matchToken = tokens[i].getAnalyzedToken(0);
       }
-      if (dotCount == 2 && !".".equals(nextToken)) {
+      if (dotCount == 2 && !nextToken.equals(".")) {
         String msg = messages.getString("two_dots");
         RuleMatch ruleMatch = new RuleMatch(this, matchToken.getStartPos(), matchToken.getStartPos()+1, msg);
         ruleMatches.add(ruleMatch);
         dotCount = 0;
-      } else if (commaCount == 2 && !",".equals(nextToken)) {
+      } else if (commaCount == 2 && !nextToken.equals(",")) {
         String msg = messages.getString("two_commas");
         RuleMatch ruleMatch = new RuleMatch(this, matchToken.getStartPos(), matchToken.getStartPos()+1, msg);
         ruleMatches.add(ruleMatch);
@@ -85,6 +86,7 @@ public class DoublePunctuationRule extends Rule {
         commaCount = 0;
       }        
     }
+  
     return toRuleMatchArray(ruleMatches);
   }
 

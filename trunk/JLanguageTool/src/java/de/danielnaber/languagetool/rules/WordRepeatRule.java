@@ -23,7 +23,8 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 import de.danielnaber.languagetool.AnalyzedSentence;
-import de.danielnaber.languagetool.AnalyzedToken;
+//import de.danielnaber.languagetool.AnalyzedToken;
+import de.danielnaber.languagetool.AnalyzedTokenReadings;
 import de.danielnaber.languagetool.Language;
 
 /**
@@ -55,12 +56,14 @@ public class WordRepeatRule extends Rule {
 
   public RuleMatch[] match(AnalyzedSentence text) {
     List ruleMatches = new ArrayList();
-    AnalyzedToken[] tokens = text.getTokens();
+    AnalyzedTokenReadings[] tokens = text.getTokens();
     String prevToken = "";
     String prevPrevToken = "";
     int pos = 0;
     int prevPos = 0;
     for (int i = 0; i < tokens.length; i++) {
+    	//getting only the first token
+    	//because the rule is purely syntactical
       String token = tokens[i].getToken();
       if (token.trim().equals("")) {
         // ignore
@@ -69,8 +72,7 @@ public class WordRepeatRule extends Rule {
         boolean isWord = true;
         if (token.length() == 1) {
           char c = token.charAt(0);
-          // Polish '\u0347' is not classified as letter by isLetter
-          // System.err.println(c);
+	  // Polish '\u0347' is not classified as letter by isLetter
           if (!Character.isLetter(c)) {
             isWord = false;
           }

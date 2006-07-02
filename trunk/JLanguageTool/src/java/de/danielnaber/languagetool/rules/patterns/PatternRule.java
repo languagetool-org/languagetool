@@ -23,6 +23,7 @@ import java.util.List;
 
 import de.danielnaber.languagetool.AnalyzedSentence;
 import de.danielnaber.languagetool.AnalyzedToken;
+import de.danielnaber.languagetool.AnalyzedTokenReadings;
 import de.danielnaber.languagetool.Language;
 import de.danielnaber.languagetool.rules.Rule;
 import de.danielnaber.languagetool.rules.RuleMatch;
@@ -45,6 +46,7 @@ public class PatternRule extends Rule {
   private int endPositionCorrection = 0;
 
   private boolean caseSensitive = false;
+  private boolean regExp = false;
 
   private Element[] patternElements;
 
@@ -91,9 +93,17 @@ public class PatternRule extends Rule {
   public boolean getCaseSensitive() {
     return caseSensitive;
   }
-
+  
   public void setCaseSensitive(boolean caseSensitive) {
-    this.caseSensitive = caseSensitive;
+	    this.caseSensitive = caseSensitive;
+	  }
+  
+  public boolean getregExpSetting() {
+	    return regExp;
+	  }
+
+  public void setregExpSetting(boolean regExp) {
+    this.regExp = regExp;
   }
   
   public int getStartPositionCorrection() {
@@ -112,9 +122,22 @@ public class PatternRule extends Rule {
     this.endPositionCorrection = endPositionCorrection;
   }
 
+  public void addPatternElements(List elements) {
+	  List elems = new ArrayList();
+	  if (this.patternElements!=null)
+	  for (int i = 0; i < this.patternElements.length; i++) {
+		elems.add(this.patternElements[i]);  
+	  }
+	  for(int i=0;i<elements.size();i++)
+	  {
+		  elems.add(elements.get(i));
+	  }
+	  this.patternElements=(Element[])elems.toArray(new Element[0]);
+  }
+  
   public RuleMatch[] match(AnalyzedSentence text) {
     List ruleMatches = new ArrayList(); 
-    AnalyzedToken[] tokens = text.getTokensWithoutWhitespace();
+    AnalyzedTokenReadings[] tokens = text.getTokensWithoutWhitespace();
     if (patternElements == null) {      // lazy init
       patternElements = getPatternElements(pattern); 
     }
@@ -124,16 +147,18 @@ public class PatternRule extends Rule {
     int lastMatchToken = -1;
 
     for (int i = 0; i < tokens.length; i++) {
-      boolean allElementsMatch = true;
-      int matchingTokens = 0;
-      for (int k = 0; k < patternElements.length; k++) {
-        Element elem = patternElements[k];
-        int nextPos = tokenPos+k;
-        if (nextPos >= tokens.length) {
-          allElementsMatch = false;
-          break;
-        }
-        AnalyzedToken matchToken = tokens[nextPos];
+     for (int l = 0; l < tokens[i].getReadingslength(); l++) {
+    	 boolean allElementsMatch = true;
+    	 int matchingTokens = 0;
+    	 for (int k = 0; k < patternElements.length; k++) {
+    		 Element elem = patternElements[k];
+    		 int nextPos = tokenPos+k;
+    		 if (nextPos >= tokens.length) {
+    			 allElementsMatch = false;
+    			 break;
+    		 }
+    		 
+        AnalyzedToken matchToken = tokens[nextPos].getAnalyzedToken(l);
         if (!elem.match(matchToken)) {
           allElementsMatch = false;
           break;
@@ -151,18 +176,12 @@ public class PatternRule extends Rule {
           errMessage = errMessage.replaceAll("\\\\"+(j+1),
               tokens[firstMatchToken+j].getToken());
         }
-        int first = firstMatchToken+startPositionCorrection;
-        int last = lastMatchToken+endPositionCorrection;
-        if (first >= tokens.length || first < 0 || last >= tokens.length || last < 0) {
-          throw new RuntimeException("Please fix the mark_from and/or mark_to attributes of rule " + getId() + 
-              " so that they don't point beyond the pattern.");
-        }
         boolean startsWithUppercase = 
-          StringTools.startsWithUppercase(tokens[first].toString());
+          StringTools.startsWithUppercase(tokens[firstMatchToken+startPositionCorrection].toString());
         RuleMatch ruleMatch = new RuleMatch(this,
-            tokens[first].getStartPos(), 
-            tokens[last].getStartPos()+
-            tokens[last].getToken().length(), errMessage,
+            tokens[firstMatchToken+startPositionCorrection].getStartPos(), 
+            tokens[lastMatchToken+endPositionCorrection].getStartPos()+
+            tokens[lastMatchToken+endPositionCorrection].getToken().length(), errMessage,
             startsWithUppercase);
         ruleMatches.add(ruleMatch);
       } else {
@@ -170,7 +189,8 @@ public class PatternRule extends Rule {
         lastMatchToken = -1;
       }
       tokenPos++;
-    }      
+    }
+  }
     return (RuleMatch[])ruleMatches.toArray(new RuleMatch[0]);
   }
 
@@ -191,7 +211,7 @@ public class PatternRule extends Rule {
       if (element.startsWith("\"") && element.endsWith("\"")) {         // cut off quotes
         element = element.substring(1, element.length()-1);
         String tokenParts[] = element.split("\\|");
-        StringElement stringElement = new StringElement(tokenParts, caseSensitive); 
+        StringElement stringElement = new StringElement(tokenParts, caseSensitive, false); 
         stringElement.setNegation(negation);
         elements.add(stringElement);
       } else if (Character.isUpperCase(element.charAt(0))) {
@@ -205,7 +225,7 @@ public class PatternRule extends Rule {
         } else {
           tokenParts = element.split("\\|");
         }
-        posElement = new POSElement(tokenParts, caseSensitive, exceptions);
+        posElement = new POSElement(tokenParts, caseSensitive, true, exceptions);
         posElement.setNegation(negation);
         elements.add(posElement);
       } else {

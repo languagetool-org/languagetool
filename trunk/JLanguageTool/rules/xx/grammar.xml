@@ -1,16 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
 Copyright (C) 2005 Daniel Naber (http://www.danielnaber.de)
-$Id: grammar.xml,v 1.4 2006-01-03 16:33:45 dnaber Exp $
 -->
 <rules lang="xx">
-
 	<!-- a trivialdemo rule that matches "foo" followed by "bar" -->
 	<rule id="DEMO_RULE" name="Find 'foo bar'">
-		<pattern mark_from="0" case_sensitive="no">"foo" "bar"</pattern>
+		<pattern mark_from="0" case_sensitive="no"><token>foo</token><token>bar</token></pattern>
 		<message>Did you mean <em>fuu bah</em>?</message>
 		<example type="correct">This is fuu bah.</example>
 		<example type="incorrect">This is foo bar.</example>
 	</rule>
-	
+    <rule id="negation_token" name="test negation">
+		<pattern><token>small</token><token negate="yes">test</token></pattern>
+		<message>test</message>
+		<example type="correct">small test</example>
+		<example type="incorrect">a small toast</example>
+	</rule>	
 </rules>

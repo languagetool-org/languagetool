@@ -26,7 +26,8 @@ import java.util.List;
 import java.util.Set;
 
 import de.danielnaber.languagetool.AnalyzedSentence;
-import de.danielnaber.languagetool.AnalyzedToken;
+//import de.danielnaber.languagetool.AnalyzedToken;
+import de.danielnaber.languagetool.AnalyzedTokenReadings;
 import de.danielnaber.languagetool.JLanguageTool;
 import de.danielnaber.languagetool.rules.RuleMatch;
 import de.danielnaber.languagetool.tagging.de.AnalyzedGermanToken;
@@ -80,11 +81,14 @@ public class CaseRule extends GermanRule {
 
   public RuleMatch[] match(AnalyzedSentence text) {
     List ruleMatches = new ArrayList();
-    AnalyzedToken[] tokens = text.getTokensWithoutWhitespace();
+    AnalyzedTokenReadings[] tokens = text.getTokensWithoutWhitespace();
+    
     int pos = 0;
     boolean prevTokenIsDas = false;
     for (int i = 0; i < tokens.length; i++) {
-      String posToken = tokens[i].getPOSTag();
+    	//FIXME: defaulting to the first analysis
+    	//don't know if it's safe
+      String posToken = tokens[i].getAnalyzedToken(0).getPOSTag();
       if (posToken != null && posToken.equals(JLanguageTool.SENTENCE_START_TAGNAME))
         continue;
       if (i == 1) {   // don't care about first word, UppercaseSentenceStartRule does this already
@@ -94,7 +98,7 @@ public class CaseRule extends GermanRule {
         continue;
       }
       AnalyzedGermanToken analyzedToken = (AnalyzedGermanToken)tokens[i];
-      String token = analyzedToken.getToken();
+      String token = analyzedToken.getToken();  
       List readings = analyzedToken.getReadings();
       if (readings == null) {
         // no match, e.g. for "Groß": try if there's a match for the lowercased word:

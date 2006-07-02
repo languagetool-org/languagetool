@@ -26,6 +26,7 @@ import java.util.List;
 import opennlp.tools.lang.english.PosTagger;
 import opennlp.tools.ngram.Dictionary;
 import de.danielnaber.languagetool.AnalyzedToken;
+import de.danielnaber.languagetool.AnalyzedTokenReadings;
 import de.danielnaber.languagetool.JLanguageTool;
 import de.danielnaber.languagetool.tagging.Tagger;
 
@@ -51,7 +52,9 @@ public class EnglishTagger implements Tagger {
       tagger = new PosTagger(resourceFile.getAbsolutePath(), (Dictionary)null);
     }
     List taggerTokens = tagger.tag(tokens);
-    List analyzedTokens = new ArrayList();
+    
+    List analyzedTokenReadings = new ArrayList();
+    AnalyzedTokenReadings tokArray = null;
     int i = 0;
     int pos = 0;
     AnalyzedToken nextAnalyzedToken = null;
@@ -59,6 +62,7 @@ public class EnglishTagger implements Tagger {
       String posTag = (String) iter.next();
       String token = (String)tokens.get(i);
       String nextToken = null;
+      List analyzedTokens = new ArrayList();
       if (i < tokens.size()-1)
         nextToken = (String)tokens.get(i+1);
       // the tagger has problems with contracted forms (not only because we turn "don't" into "don", "t"),
@@ -83,12 +87,14 @@ public class EnglishTagger implements Tagger {
       }
       i++;
       pos += token.length();
+      tokArray= new AnalyzedTokenReadings((AnalyzedToken[])analyzedTokens.toArray(new AnalyzedToken[0]));
+      analyzedTokenReadings.add(tokArray);
     }
-    return analyzedTokens;
+    return analyzedTokenReadings;
   }
 
   public Object createNullToken(String token, int startPos) {
-    return new AnalyzedToken(token, null, startPos);
+    return new AnalyzedTokenReadings(new AnalyzedToken(token, null, startPos));
   }
 
   /* testing only:

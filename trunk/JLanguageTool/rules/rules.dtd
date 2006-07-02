@@ -29,10 +29,30 @@ Note for grammar rules:
 <!ATTLIST rule id ID #IMPLIED>	<!-- well, required but not if there's a group -->
 <!ATTLIST rule name CDATA #IMPLIED>
 
-<!ELEMENT pattern (#PCDATA)>
+<!-- element token added. TODO: remove #PCDATA -->
+<!ELEMENT pattern (token)*>
 <!ATTLIST pattern case_sensitive (yes|no) #IMPLIED>
 <!ATTLIST pattern mark_from CDATA #IMPLIED>
 <!ATTLIST pattern mark_to CDATA #IMPLIED>
+
+<!-- token element - tokens matched by rules, could be specified as regular expressions,
+regexp="yes"; postag contains any POS tags. POS tags can be specified as regular
+expressions as well using postag_regexp="yes"
+-->
+<!ELEMENT token (#PCDATA)>
+<!-- is token a lemma? -->
+<!ATTLIST token inflected (yes|no) "no">
+<!-- is it a regexp? -->
+<!ATTLIST token regexp (yes|no) "no">
+<!-- is it negated? - instead of ^ in 0.8.2 -->
+<!ATTLIST token negate (yes|no) "no">
+<!-- POS tag -->
+<!ATTLIST token postag CDATA #IMPLIED>
+<!ATTLIST token postag_regexp (yes|no) "no">
+<!ATTLIST token negate_pos (yes|no) "no">
+<!ATTLIST token postag_exceptions CDATA #IMPLIED>
+<!-- number of tags to skip before the match is found -->
+<!ATTLIST token skip CDATA #IMPLIED>
 
 <!-- message shown to the user if a rule matches: -->
 <!ELEMENT message (#PCDATA|em)*>

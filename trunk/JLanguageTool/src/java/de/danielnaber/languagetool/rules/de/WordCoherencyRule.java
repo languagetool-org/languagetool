@@ -29,7 +29,7 @@ import java.util.List;
 import java.util.Map;
 
 import de.danielnaber.languagetool.AnalyzedSentence;
-import de.danielnaber.languagetool.AnalyzedToken;
+import de.danielnaber.languagetool.AnalyzedTokenReadings;
 import de.danielnaber.languagetool.JLanguageTool;
 import de.danielnaber.languagetool.rules.RuleMatch;
 
@@ -52,6 +52,7 @@ public class WordCoherencyRule extends GermanRule {
   private Map relevantWords;        // e.g. "aufwendig -> aufwändig"
   private Map shouldNotAppearWord = new HashMap();  // e.g. aufwändig -> RuleMatch of aufwendig
 
+  //TODO: replace with the general lemmatizer 
   static private GermanLemmatizer lemmatizer = null;
 
   public WordCoherencyRule() throws IOException {
@@ -69,9 +70,13 @@ public class WordCoherencyRule extends GermanRule {
 
   public RuleMatch[] match(AnalyzedSentence text) {
     List ruleMatches = new ArrayList();
-    AnalyzedToken[] tokens = text.getTokens();
+    AnalyzedTokenReadings[] tokens = text.getTokens();
     int pos = 0;
     for (int i = 0; i < tokens.length; i++) {
+    	//TODO: definitely should be changed
+    	//if the general lemmatizer is working
+    	//defaulting to the first element because the
+    	//general German lemmatizer is not (yet) there
       String token = tokens[i].getToken();
       if (token.trim().equals("")) {
         // ignore

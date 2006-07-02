@@ -24,6 +24,7 @@ import java.util.ResourceBundle;
 
 import de.danielnaber.languagetool.AnalyzedSentence;
 import de.danielnaber.languagetool.AnalyzedToken;
+import de.danielnaber.languagetool.AnalyzedTokenReadings;
 import de.danielnaber.languagetool.Language;
 
 /**
@@ -51,10 +52,12 @@ public class UppercaseSentenceStartRule extends Rule {
 
   public RuleMatch[] match(AnalyzedSentence text) {
     List ruleMatches = new ArrayList();
-    AnalyzedToken[] tokens = text.getTokensWithoutWhitespace();
+    AnalyzedTokenReadings[] tokens = text.getTokensWithoutWhitespace();
     if (tokens.length < 2)
       return toRuleMatchArray(ruleMatches);
-    AnalyzedToken token = tokens[1];        // 0 is the artifical sentence start token
+    //the case should be the same in all readings
+    //discarding the rest of the possible lemmas and POS tags
+    AnalyzedToken token = tokens[1].getAnalyzedToken(0);        // 0 is the artifical sentence start token
     String firstToken = token.getToken();
     char firstChar = firstToken.charAt(0);
     if (Character.isLowerCase(firstChar)) {

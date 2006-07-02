@@ -22,7 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import de.danielnaber.languagetool.AnalyzedSentence;
-import de.danielnaber.languagetool.AnalyzedToken;
+import de.danielnaber.languagetool.AnalyzedTokenReadings;
 import de.danielnaber.languagetool.rules.RuleMatch;
 
 /**
@@ -45,7 +45,7 @@ public class DashRule extends GermanRule {
 
   public RuleMatch[] match(AnalyzedSentence text) {
     List ruleMatches = new ArrayList();
-    AnalyzedToken[] tokens = text.getTokensWithoutWhitespace();
+    AnalyzedTokenReadings[] tokens = text.getTokensWithoutWhitespace();
     int pos = 0;
     String prevToken = null;
     for (int i = 0; i < tokens.length; i++) {

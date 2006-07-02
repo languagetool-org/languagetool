@@ -22,7 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import de.danielnaber.languagetool.AnalyzedSentence;
-import de.danielnaber.languagetool.AnalyzedToken;
+import de.danielnaber.languagetool.AnalyzedTokenReadings;
 import de.danielnaber.languagetool.rules.RuleMatch;
 
 /**
@@ -46,7 +46,7 @@ public class WiederVsWiderRule extends GermanRule {
 
   public RuleMatch[] match(AnalyzedSentence text) {
     List ruleMatches = new ArrayList();
-    AnalyzedToken[] tokens = text.getTokens();
+    AnalyzedTokenReadings[] tokens = text.getTokens();
     int pos = 0;
     boolean foundSpiegelt = false;
     boolean foundWieder = false;
