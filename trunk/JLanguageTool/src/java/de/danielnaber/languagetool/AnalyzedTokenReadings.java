@@ -24,26 +24,26 @@ package de.danielnaber.languagetool;
  * for a given single token.
  * 
  * @author Marcin Milkowski
- * 
  */
 public class AnalyzedTokenReadings {
-	protected AnalyzedToken[] ATreadings;
+
+  protected AnalyzedToken[] ATreadings;
 	protected int startPos;
 	protected String token; 
-//	protected List readings = new ArrayList();
 	
-	public AnalyzedTokenReadings (AnalyzedToken[] r) {
+	public AnalyzedTokenReadings(AnalyzedToken[] r) {
 		ATreadings = r;
 		token = ATreadings[0].getToken();
-		this.startPos=ATreadings[0].getStartPos();
+		this.startPos = ATreadings[0].getStartPos();
 	}
 	
-	public AnalyzedTokenReadings (AnalyzedToken at){
+	public AnalyzedTokenReadings(AnalyzedToken at){
 		ATreadings = new AnalyzedToken[1];
-		ATreadings[0]=at;
+		ATreadings[0] = at;
 		token = ATreadings[0].getToken();
-		startPos=at.getStartPos();
+		startPos = at.getStartPos();
 	}
+  
 	public AnalyzedToken getAnalyzedToken(int i) {
 		return ATreadings[i];
 	}
@@ -56,12 +56,12 @@ public class AnalyzedTokenReadings {
 		return token;
 	}
 	
-	public int getReadingslength () {
+	public int getReadingslength() {
 		return ATreadings.length;
 	}
 	
 	public void setReading(int i, AnalyzedToken tok) {
-		ATreadings[i]=tok;
+		ATreadings[i] = tok;
 	}
   
   public String toString() {
