@@ -83,8 +83,8 @@ public class ConfigurationDialog implements ActionListener {
     // close dialog when user presses Escape key:
     KeyStroke stroke = KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0);
     ActionListener actionListener = new ActionListener() {
+      @SuppressWarnings("unused")
       public void actionPerformed(ActionEvent actionEvent) {
-        if (actionEvent == null) actionEvent = null;    // avoid compiler warning
         isClosed = true;
         dialog.setVisible(false); 
       }
