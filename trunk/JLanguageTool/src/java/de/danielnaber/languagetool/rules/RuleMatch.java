@@ -30,7 +30,7 @@ import de.danielnaber.languagetool.tools.StringTools;
  * 
  * @author Daniel Naber
  */
-public class RuleMatch implements Comparable {
+public class RuleMatch implements Comparable<RuleMatch> {
 
   private final static Pattern SUGGESTION_PATTERN = Pattern.compile("<em>(.*?)</em>");
 
@@ -40,7 +40,7 @@ public class RuleMatch implements Comparable {
   private int fromPos;
   private int toPos;
   private String message;
-  private List suggestedReplacements = new ArrayList();
+  private List<String> suggestedReplacements = new ArrayList<String>();
 
   // TODO: remove this constructor?
   public RuleMatch(Rule rule, int fromPos, int toPos, String message) {
@@ -132,7 +132,7 @@ public class RuleMatch implements Comparable {
   public void setSuggestedReplacement(String repl) {
     if (repl == null)
       throw new NullPointerException("replacement might be empty but not null");
-    List fixes = new ArrayList();
+    List<String> fixes = new ArrayList<String>();
     fixes.add(repl);
     setSuggestedReplacements(fixes);
   }
@@ -140,7 +140,7 @@ public class RuleMatch implements Comparable {
   /**
    * @see #getSuggestedReplacements()
    */
-  public void setSuggestedReplacements(List repl) {
+  public void setSuggestedReplacements(List<String> repl) {
     if (repl == null)
       throw new NullPointerException("replacement might be empty but not null");
     this.suggestedReplacements = repl;
@@ -153,7 +153,7 @@ public class RuleMatch implements Comparable {
    * taken as the suggested replacement. 
    * @return List of String objects or an empty List
    */
-  public List getSuggestedReplacements() {
+  public List<String> getSuggestedReplacements() {
     return suggestedReplacements;
   }
 
@@ -161,7 +161,7 @@ public class RuleMatch implements Comparable {
     return rule.getId() + ":" + fromPos + "-" + toPos + ":" + message;
   }
 
-  public int compareTo(Object other) {
+  public int compareTo(RuleMatch other) {
     if (other == null)
       throw new ClassCastException();
     RuleMatch otherRule = (RuleMatch) other;

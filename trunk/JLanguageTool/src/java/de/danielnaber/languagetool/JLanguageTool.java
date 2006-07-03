@@ -70,9 +70,9 @@ public class JLanguageTool {
   
   public final static String SENTENCE_START_TAGNAME = "SENT_START";
 
-  private List builtinRules = new ArrayList();
-  private List userRules = new ArrayList();     // rules added via addRule() method
-  private Set disabledRules = new HashSet();
+  private List<Rule> builtinRules = new ArrayList<Rule>();
+  private List<Rule> userRules = new ArrayList<Rule>();     // rules added via addRule() method
+  private Set<String> disabledRules = new HashSet<String>();
   
   private static File basedir = null;
 
@@ -274,7 +274,7 @@ public class JLanguageTool {
   public List check(String text) throws IOException {
     sentenceCount = 0;
     List sentences = sentenceTokenizer.tokenize(text);
-    List ruleMatches = new ArrayList();
+    List<RuleMatch> ruleMatches = new ArrayList<RuleMatch>();
     List allRules = getAllRules();
     printIfVerbose(allRules.size() + " rules activated for language " + language);
     int tokenCount = 0;
@@ -284,7 +284,7 @@ public class JLanguageTool {
       String sentence = (String) iter.next();
       sentenceCount++;
       AnalyzedSentence analyzedText = getAnalyzedSentence(sentence);
-      List sentenceMatches = new ArrayList();
+      List<RuleMatch> sentenceMatches = new ArrayList<RuleMatch>();
       printIfVerbose(analyzedText.toString());
       for (Iterator iterator = allRules.iterator(); iterator.hasNext();) {
         Rule rule = (Rule) iterator.next();
@@ -346,7 +346,7 @@ public class JLanguageTool {
    */
   public AnalyzedSentence getAnalyzedSentence(String sentence) throws IOException {
     List tokens = wordTokenizer.tokenize(sentence);
-    List noWhitespaceTokens = new ArrayList();
+    List<String> noWhitespaceTokens = new ArrayList<String>();
     // whitespace confuses tagger, so give it the tokens but no whitespace tokens:
     for (Iterator iterator = tokens.iterator(); iterator.hasNext();) {
       String token = (String) iterator.next();
@@ -395,7 +395,7 @@ public class JLanguageTool {
    * @return a List of {@link Rule} objects
    */
   public List getAllRules() {
-    List rules = new ArrayList();
+    List<Rule> rules = new ArrayList<Rule>();
     rules.addAll(builtinRules);
     rules.addAll(userRules);
     // Some rules have an internal state so they can do checks over sentence

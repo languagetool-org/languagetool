@@ -54,7 +54,7 @@ public class Morphy2Lucene {
   //private static final String IS_BASEFORM = "is_baseform";
 
   // map names to short one-character names to get a smaller index:
-  private final static Map manualMapping = new HashMap();
+  private final static Map<String, Character> manualMapping = new HashMap<String, Character>();
   static {
     manualMapping.put("PRP", new Character('R'));       // wkl: ??? (z.B. bei "*laut")
     manualMapping.put("PRO", new Character('O'));       // wkl: Pronomen 
@@ -67,10 +67,10 @@ public class Morphy2Lucene {
     manualMapping.put("NOG", new Character('O'));       // gen: z.B. bei "MitarbeiterInnen", "Möbel"
   }
   
-  private Map avoidAmbiguitiesCat = new HashMap();
-  private Map avoidAmbiguitiesKasus = new HashMap();
-  private Map avoidAmbiguitiesNumerus = new HashMap();
-  private Map avoidAmbiguitiesGenus = new HashMap();
+  private Map<Character, String> avoidAmbiguitiesCat = new HashMap<Character, String>();
+  private Map<Character, String> avoidAmbiguitiesKasus = new HashMap<Character, String>();
+  private Map<Character, String> avoidAmbiguitiesNumerus = new HashMap<Character, String>();
+  private Map<Character, String> avoidAmbiguitiesGenus = new HashMap<Character, String>();
 
   private Morphy2Lucene() {
     // use main() method
@@ -170,15 +170,15 @@ public class Morphy2Lucene {
     System.out.println("Added " + addCount + " terms from " + inputFile);
   }
 
-  private char map(String str, Map avoidAmbiguities) {
+  private char map(String str, Map<Character, String> avoidAmbiguities) {
     char shortForm;
     if (manualMapping.containsKey(str))
-      shortForm = ((Character)manualMapping.get(str)).charValue();
+      shortForm = manualMapping.get(str).charValue();
     else
       shortForm = str.charAt(0);
     Character shortFormObj = new Character(shortForm);
     if (avoidAmbiguities.containsKey(shortFormObj)) {
-      String oldValue = (String)avoidAmbiguities.get(shortFormObj);
+      String oldValue = avoidAmbiguities.get(shortFormObj);
       if (!oldValue.equals(str))
         System.err.println("Mapping ambiguous: " + shortForm + " <- " + str + "/" + oldValue);
         //throw new IllegalStateException("Mapping ambiguous: " + shortForm + " <- " + str + "/" + oldValue);

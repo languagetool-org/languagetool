@@ -225,7 +225,7 @@ class Main {
   private static Language getLanguageOrExit(String lang) {
     Language language = null;
     boolean foundLanguage = false;
-    List supportedLanguages = new ArrayList();
+    List<String> supportedLanguages = new ArrayList<String>();
     for (int j = 0; j < Language.LANGUAGES.length; j++) {
       Language tmpLang = Language.LANGUAGES[j];
       supportedLanguages.add(tmpLang.getShortName());

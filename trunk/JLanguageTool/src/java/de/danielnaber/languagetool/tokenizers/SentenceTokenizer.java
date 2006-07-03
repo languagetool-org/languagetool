@@ -108,7 +108,7 @@ public class SentenceTokenizer implements Tokenizer {
   private static final String[] germanMonthList = { "Januar", "Februar", "März", "April", "Mai",
       "Juni", "Juli", "August", "September", "Oktober", "November", "Dezember" };
 
-  private static HashSet abbreviations = new HashSet();
+  private static HashSet<String> abbreviations = new HashSet<String>();
   private StringTokenizer stringTokenizer = null;
 
   /**
@@ -125,7 +125,7 @@ public class SentenceTokenizer implements Tokenizer {
     s = removeFalseEndOfSentence(s);
     s = splitUnsplitStuff(s);
     stringTokenizer = new StringTokenizer(s, EOS);
-    List l = new ArrayList();
+    List<String> l = new ArrayList<String>();
     while (stringTokenizer.hasMoreTokens()) {
       String sentence = stringTokenizer.nextToken();
       l.add(sentence);

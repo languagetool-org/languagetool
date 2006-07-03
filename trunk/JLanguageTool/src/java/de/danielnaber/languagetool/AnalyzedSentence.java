@@ -37,18 +37,18 @@ public class AnalyzedSentence {
   }
 
   /**
-   * Returns the {@link AnalyzedTokenReadings}s of the analyzed text. Whitespace is also a token.
+   * Returns the {@link AnalyzedTokenReadings} of the analyzed text. Whitespace is also a token.
    */
   public AnalyzedTokenReadings[] getTokens() {
     return tokens;
   }
 
   /**
-   * Returns the {@link AnalyzedTokenReading}s of the analyzed text, with whitespace tokens removed
+   * Returns the {@link AnalyzedTokenReadings} of the analyzed text, with whitespace tokens removed
    * but with the artificial <code>SENT_START</code> token included.
    */
   public AnalyzedTokenReadings[] getTokensWithoutWhitespace() {
-	    List l = new ArrayList();
+	    List<AnalyzedTokenReadings> l = new ArrayList<AnalyzedTokenReadings>();
 	    for (int i = 0; i < tokens.length; i++) {
 	      AnalyzedTokenReadings token = tokens[i];
 	      if (!token.getAnalyzedToken(0).isWhitespace() || (token.getAnalyzedToken(0).getPOSTag() != null &&
