@@ -23,7 +23,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import junit.framework.TestCase;
-import de.danielnaber.languagetool.AnalyzedToken;
+import de.danielnaber.languagetool.AnalyzedTokenReadings;
 import de.danielnaber.languagetool.tokenizers.WordTokenizer;
 
 /**
@@ -47,7 +47,7 @@ public class EnglishTaggerTest extends TestCase {
 
   private void myAssert(String input, String expected) {
     List tokens = tokenizer.tokenize(input);
-    List noWhitespaceTokens = new ArrayList();
+    List<String> noWhitespaceTokens = new ArrayList<String>();
     // whitespace confuses tagger, so give it the tokens but no whitespace tokens:
     for (Iterator iterator = tokens.iterator(); iterator.hasNext();) {
       String token = (String) iterator.next();
@@ -58,8 +58,8 @@ public class EnglishTaggerTest extends TestCase {
     List output = tagger.tag(noWhitespaceTokens);
     StringBuffer outputStr = new StringBuffer();
     for (Iterator iter = output.iterator(); iter.hasNext();) {
-      AnalyzedToken token = (AnalyzedToken) iter.next();
-      outputStr.append(token);
+      AnalyzedTokenReadings atr = (AnalyzedTokenReadings) iter.next();
+      outputStr.append(atr);
       if (iter.hasNext())
         outputStr.append(" ");
     }
