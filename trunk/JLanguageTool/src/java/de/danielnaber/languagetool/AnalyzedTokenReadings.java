@@ -20,7 +20,7 @@
 package de.danielnaber.languagetool;
 
 /**
- * An array of (@link AnalyzedToken) used to store multiple POS tags and lemmas
+ * An array of {@link AnalyzedToken}s used to store multiple POS tags and lemmas
  * for a given single token.
  * 
  * @author Marcin Milkowski
