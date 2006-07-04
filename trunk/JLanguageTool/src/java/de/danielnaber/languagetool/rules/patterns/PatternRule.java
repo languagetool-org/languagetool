@@ -167,7 +167,7 @@ public class PatternRule extends Rule {
     				 Match = true;
     			 }
     			 allElementsMatch = Match;
-    		 }    		 }
+    		 }
     		 if (!allElementsMatch) {
           break;
         } else {
