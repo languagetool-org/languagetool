@@ -32,6 +32,7 @@ import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.search.TermQuery;
 
+import de.danielnaber.languagetool.AnalyzedTokenReadings;
 import de.danielnaber.languagetool.JLanguageTool;
 import de.danielnaber.languagetool.tagging.Tagger;
 
@@ -68,7 +69,7 @@ public class GermanTagger implements Tagger {
     if (hits.length() == 0) {
       return null;
     } else {
-      List l = new ArrayList();
+      List<GermanTokenReading> l = new ArrayList<GermanTokenReading>();
       for (int j = 0; j < hits.length(); j++) {
         Document doc = hits.doc(j);
         Field[] fields = doc.getFields(CATEGORIES_FIELD);
@@ -101,9 +102,9 @@ public class GermanTagger implements Tagger {
     }
   }
   
-  public List tag(List tokens) throws IOException {
+  public List<AnalyzedTokenReadings> tag(List tokens) throws IOException {
     initSearcher();
-    List posTags = new ArrayList();
+    List<AnalyzedTokenReadings> posTags = new ArrayList<AnalyzedTokenReadings>();
     int pos = 0;
     boolean firstWord = true;
     for (Iterator iter = tokens.iterator(); iter.hasNext();) {
@@ -142,7 +143,7 @@ public class GermanTagger implements Tagger {
       System.exit(1);
     }
     GermanTagger tagger = new GermanTagger();
-    List l = new ArrayList();
+    List<String> l = new ArrayList<String>();
     for (int i = 0; i < args.length; i++) {
       l.add(args[i]);
     }

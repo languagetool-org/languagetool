@@ -45,7 +45,7 @@ public class EnglishTagger implements Tagger {
   public EnglishTagger() {
   }
   
-  public List tag(List tokens) {
+  public List<AnalyzedTokenReadings> tag(List tokens) {
     // lazy init to save startup time if the English tagger isn't used:
     if (tagger == null) {
       File resourceFile = JLanguageTool.getAbsoluteFile(RESOURCE_FILENAME);
@@ -53,7 +53,7 @@ public class EnglishTagger implements Tagger {
     }
     List taggerTokens = tagger.tag(tokens);
     
-    List analyzedTokenReadings = new ArrayList();
+    List<AnalyzedTokenReadings> analyzedTokenReadings = new ArrayList<AnalyzedTokenReadings>();
     AnalyzedTokenReadings tokArray = null;
     int i = 0;
     int pos = 0;
@@ -62,7 +62,7 @@ public class EnglishTagger implements Tagger {
       String posTag = (String) iter.next();
       String token = (String)tokens.get(i);
       String nextToken = null;
-      List analyzedTokens = new ArrayList();
+      List<AnalyzedToken> analyzedTokens = new ArrayList<AnalyzedToken>();
       if (i < tokens.size()-1)
         nextToken = (String)tokens.get(i+1);
       // the tagger has problems with contracted forms (not only because we turn "don't" into "don", "t"),

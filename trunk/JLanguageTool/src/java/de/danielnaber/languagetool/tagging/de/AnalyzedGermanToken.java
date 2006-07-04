@@ -104,7 +104,7 @@ public class AnalyzedGermanToken extends AnalyzedTokenReadings {
       return super.getAnalyzedToken(0).getToken() + "[?]";
     else {
       StringBuffer sb = new StringBuffer(super.getAnalyzedToken(0).getToken());
-      Set printed = new HashSet();
+      Set<String> printed = new HashSet<String>();
       sb.append("[");
       for (Iterator iter = readings.iterator(); iter.hasNext();) {
         GermanTokenReading reading = (GermanTokenReading) iter.next();

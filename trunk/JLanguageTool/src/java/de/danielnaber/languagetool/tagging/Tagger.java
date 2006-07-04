@@ -23,6 +23,7 @@ import java.util.List;
 
 import de.danielnaber.languagetool.AnalyzedToken;
 // required by javadoc
+import de.danielnaber.languagetool.AnalyzedTokenReadings;
 
 /**
  * @author Daniel Naber
@@ -39,7 +40,7 @@ public interface Tagger {
    * 
    * @param sentenceTokens the text as returned by a WordTokenizer but whithout whitespace tokens. 
    */
-  public List tag(List sentenceTokens) throws IOException;
+  public List<AnalyzedTokenReadings> tag(List sentenceTokens) throws IOException;
   
   /** 
    * Create the AnalyzedToken used for whitespace and other non-words. Use <code>null</code>
