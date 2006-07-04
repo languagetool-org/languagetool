@@ -49,8 +49,8 @@ public class AvsAnRule extends EnglishRule {
   private static final String FILENAME_A = "rules" +File.separator+ "en" +File.separator+ "det_a.txt";
   private static final String FILENAME_AN = "rules" +File.separator+ "en" +File.separator+ "det_an.txt";
 
-  private Set requiresA;
-  private Set requiresAn;
+  private Set<String> requiresA;
+  private Set<String> requiresAn;
   
   public AvsAnRule() throws IOException {
     requiresA = loadWords(JLanguageTool.getAbsoluteFile(FILENAME_A));
@@ -66,7 +66,7 @@ public class AvsAnRule extends EnglishRule {
   }
 
   public RuleMatch[] match(AnalyzedSentence text) {
-    List ruleMatches = new ArrayList();
+    List<RuleMatch> ruleMatches = new ArrayList<RuleMatch>();
     AnalyzedTokenReadings[] tokens = text.getTokens();
     String prevToken = "";
     int pos = 0;
@@ -155,10 +155,10 @@ public class AvsAnRule extends EnglishRule {
   /**
    * Load words, normalized to lowercase.
    */
-  private Set loadWords(File file) throws IOException {
+  private Set<String> loadWords(File file) throws IOException {
     FileReader fr = null;
     BufferedReader br = null;
-    Set set = new HashSet();
+    Set<String> set = new HashSet<String>();
     try {
       fr = new FileReader(file);
       br = new BufferedReader(fr);

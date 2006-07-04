@@ -117,9 +117,9 @@ public class OOoDialog implements ActionListener {
     // close when user presses Escape key:
     KeyStroke stroke = KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0);
     ActionListener actionListener = new ActionListener() {
+      @SuppressWarnings("unused")
       public void actionPerformed(ActionEvent actionEvent) {
-        if (actionEvent == null) actionEvent = null;    // avoid compiler warning
-         dialog.setVisible(false);
+       dialog.setVisible(false);
       }
     };
     JRootPane rootPane = dialog.getRootPane();
@@ -331,7 +331,7 @@ public class OOoDialog implements ActionListener {
    */
   private void ignoreAll() {
     int i = 0;
-    List filteredRuleMatches = new ArrayList();
+    List<RuleMatch> filteredRuleMatches = new ArrayList<RuleMatch>();
     for (Iterator iter = ruleMatches.iterator(); iter.hasNext();) {
       RuleMatch ruleMatch = (RuleMatch) iter.next();
       if (i <= currentRuleMatchPos) {

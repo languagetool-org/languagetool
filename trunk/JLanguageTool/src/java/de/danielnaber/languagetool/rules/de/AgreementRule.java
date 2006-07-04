@@ -58,7 +58,7 @@ public class AgreementRule extends GermanRule {
   }
 
   public RuleMatch[] match(AnalyzedSentence text) {
-    List ruleMatches = new ArrayList();
+    List<RuleMatch> ruleMatches = new ArrayList<RuleMatch>();
     AnalyzedTokenReadings[] tokens = text.getTokensWithoutWhitespace();
     int pos = 0;
     for (int i = 0; i < tokens.length; i++) {
@@ -116,10 +116,10 @@ public class AgreementRule extends GermanRule {
   private RuleMatch checkDetNounAgreement(AnalyzedGermanToken token1,
       AnalyzedGermanToken token2) {
     RuleMatch ruleMatch = null;
-    Set set1 = getAgreementCategories(token1);
+    Set<String> set1 = getAgreementCategories(token1);
     if (set1 == null)
       return null;  // word not known, assume it's correct
-    Set set2 = getAgreementCategories(token2);
+    Set<String> set2 = getAgreementCategories(token2);
     if (set2 == null)
       return null;
     set1.retainAll(set2);
@@ -136,7 +136,7 @@ public class AgreementRule extends GermanRule {
   private RuleMatch checkDetAdjNounAgreement(AnalyzedGermanToken token1,
       AnalyzedGermanToken token2, AnalyzedGermanToken token3) {
     RuleMatch ruleMatch = null;
-    Set set1 = getAgreementCategories(token1);
+    Set<String> set1 = getAgreementCategories(token1);
     if (set1 == null)
       return null;  // word not known, assume it's correct
     //Set set1Orig = getAgreementCategories(term1);
@@ -158,8 +158,8 @@ public class AgreementRule extends GermanRule {
   }
 
   /** Return Kasus, Numerus, Genus */
-  private Set getAgreementCategories(AnalyzedGermanToken aToken) {
-    Set set = new HashSet();
+  private Set<String> getAgreementCategories(AnalyzedGermanToken aToken) {
+    Set<String> set = new HashSet<String>();
     List readings = aToken.getReadings();
     for (Iterator iter = readings.iterator(); iter.hasNext();) {
       GermanTokenReading reading = (GermanTokenReading) iter.next();

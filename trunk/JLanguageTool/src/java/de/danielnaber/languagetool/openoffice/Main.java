@@ -137,8 +137,8 @@ public class Main {
       }
     }
 
+    @SuppressWarnings("unused")
     public void initialize(Object[] object) {
-      if (object == null) object = null;        // avoid compiler warning
     }
 
     public String[] getSupportedServiceNames() {

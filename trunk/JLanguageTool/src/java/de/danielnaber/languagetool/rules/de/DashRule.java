@@ -44,7 +44,7 @@ public class DashRule extends GermanRule {
   }
 
   public RuleMatch[] match(AnalyzedSentence text) {
-    List ruleMatches = new ArrayList();
+    List<RuleMatch> ruleMatches = new ArrayList<RuleMatch>();
     AnalyzedTokenReadings[] tokens = text.getTokensWithoutWhitespace();
     int pos = 0;
     String prevToken = null;

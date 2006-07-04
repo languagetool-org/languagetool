@@ -47,7 +47,7 @@ public class CaseRule extends GermanRule {
 
   private GermanTagger tagger = new GermanTagger();
   
-  private final static Set exceptions = new HashSet();
+  private final static Set<String> exceptions = new HashSet<String>();
   static {
     exceptions.add("Le");
     exceptions.add("Ihr");
@@ -59,7 +59,7 @@ public class CaseRule extends GermanRule {
     exceptions.add("Sie");
   }
   
-  private final static Set substVerbenExceptions = new HashSet();
+  private final static Set<String> substVerbenExceptions = new HashSet<String>();
   static {
     substVerbenExceptions.add("können");
     substVerbenExceptions.add("muss");
@@ -80,7 +80,7 @@ public class CaseRule extends GermanRule {
   }
 
   public RuleMatch[] match(AnalyzedSentence text) {
-    List ruleMatches = new ArrayList();
+    List<RuleMatch> ruleMatches = new ArrayList<RuleMatch>();
     AnalyzedTokenReadings[] tokens = text.getTokensWithoutWhitespace();
     
     int pos = 0;

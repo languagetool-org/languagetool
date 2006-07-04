@@ -51,7 +51,7 @@ class GermanLemmatizer {
   }
   
   private Map loadWords(File file) throws IOException {
-    Map map = new HashMap();
+    Map<String, String> map = new HashMap<String, String>();
     FileInputStream fis = null;
     InputStreamReader isr = null;
     BufferedReader br = null;

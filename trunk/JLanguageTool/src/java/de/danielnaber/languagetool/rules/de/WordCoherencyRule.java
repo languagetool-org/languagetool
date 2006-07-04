@@ -49,8 +49,8 @@ public class WordCoherencyRule extends GermanRule {
   private final static String FILE_NAME = "rules" +File.separator+ "de" +File.separator+ "coherency.txt";
   private final static String FILE_ENCODING = "utf-8";
   
-  private Map relevantWords;        // e.g. "aufwendig -> aufwändig"
-  private Map shouldNotAppearWord = new HashMap();  // e.g. aufwändig -> RuleMatch of aufwendig
+  private Map<String, String> relevantWords;        // e.g. "aufwendig -> aufwändig"
+  private Map<String, RuleMatch> shouldNotAppearWord = new HashMap<String, RuleMatch>();  // e.g. aufwändig -> RuleMatch of aufwendig
 
   //TODO: replace with the general lemmatizer 
   static private GermanLemmatizer lemmatizer = null;
@@ -69,7 +69,7 @@ public class WordCoherencyRule extends GermanRule {
   }
 
   public RuleMatch[] match(AnalyzedSentence text) {
-    List ruleMatches = new ArrayList();
+    List<RuleMatch> ruleMatches = new ArrayList<RuleMatch>();
     AnalyzedTokenReadings[] tokens = text.getTokens();
     int pos = 0;
     for (int i = 0; i < tokens.length; i++) {
@@ -106,8 +106,8 @@ public class WordCoherencyRule extends GermanRule {
     return toRuleMatchArray(ruleMatches);
   }
 
-  private Map loadWords(File file) throws IOException {
-    Map map = new HashMap();
+  private Map<String, String> loadWords(File file) throws IOException {
+    Map<String, String> map = new HashMap<String, String>();
     FileInputStream fis = null;
     InputStreamReader isr = null;
     BufferedReader br = null;
@@ -136,7 +136,7 @@ public class WordCoherencyRule extends GermanRule {
   }
   
   public void reset() {
-    shouldNotAppearWord = new HashMap();
+    shouldNotAppearWord = new HashMap<String, RuleMatch>();
   }
 
 }
