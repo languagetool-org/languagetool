@@ -75,7 +75,7 @@ class PatternRuleHandler extends XMLRuleHandler {
   private String ruleGroupId;
   private String ruleGroupDescription;
   private String[] exceptions;
-  private List elementList = null;
+  private List<Element> elementList = null;
   private boolean regular=false; 
   private int startPositionCorrection = 0;
   private int endPositionCorrection = 0;
@@ -84,9 +84,8 @@ class PatternRuleHandler extends XMLRuleHandler {
   // SAX DocumentHandler methods
   //===========================================================
 
+  @SuppressWarnings("unused")
   public void startElement(String namespaceURI, String lName, String qName, Attributes attrs) throws SAXException {
-    if (namespaceURI == null) namespaceURI = null;      // avoid compiler warning
-    if (lName == null) lName = null;      // avoid compiler warning
     if (qName.equals("rules")) {
       String languageStr = attrs.getValue("lang");
       language = Language.getLanguageforShortName(languageStr);
@@ -100,8 +99,8 @@ class PatternRuleHandler extends XMLRuleHandler {
       description = attrs.getValue("name");
       if (inRuleGroup && description == null)
         description = ruleGroupDescription;
-      correctExamples = new ArrayList();
-      incorrectExamples = new ArrayList();
+      correctExamples = new ArrayList<String>();
+      incorrectExamples = new ArrayList<String>();
     } else if (qName.equals("pattern")) {
       pattern = new StringBuffer();
       inPattern = true;
@@ -122,7 +121,7 @@ class PatternRuleHandler extends XMLRuleHandler {
     	elements = new StringBuffer();
     	if (elementList == null) //lazy init
         {
-      	  elementList = new ArrayList();
+      	  elementList = new ArrayList<Element>();
         }
     	// POSElement creation
     	if (attrs.getValue("postag")!=null)
@@ -146,7 +145,7 @@ class PatternRuleHandler extends XMLRuleHandler {
     	 	
     	 	if (elementList == null) //lazy init
             {
-          	  elementList = new ArrayList();
+          	  elementList = new ArrayList<Element>();
             }
     	 	elementList.add(posElement);
     	 	//TODO: add StringElement and POSElement to a single container element
@@ -176,9 +175,8 @@ class PatternRuleHandler extends XMLRuleHandler {
     }
   }
 
+  @SuppressWarnings("unused")
   public void endElement(String namespaceURI, String sName, String qName) {
-    if (namespaceURI == null) namespaceURI = null;      // avoid compiler warning
-    if (sName == null) sName = null;      // avoid compiler warning
     if (qName.equals("rule")) {
       PatternRule rule = new PatternRule(id, language, pattern.toString(), description,
           message.toString());

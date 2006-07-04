@@ -27,7 +27,7 @@ import org.xml.sax.helpers.DefaultHandler;
 
 class XMLRuleHandler extends DefaultHandler {
 
-  List rules = new ArrayList();
+  List<PatternRule> rules = new ArrayList<PatternRule>();
 
   StringBuffer pattern = null;
   StringBuffer correctExample = new StringBuffer();
@@ -35,8 +35,8 @@ class XMLRuleHandler extends DefaultHandler {
   StringBuffer message = new StringBuffer();
   StringBuffer elements = null;
 
-  List correctExamples = new ArrayList();
-  List incorrectExamples = new ArrayList();
+  List<String> correctExamples = new ArrayList<String>();
+  List<String> incorrectExamples = new ArrayList<String>();
 
   boolean inPattern = false;
   boolean inCorrectExample = false;

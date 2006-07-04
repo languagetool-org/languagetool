@@ -123,20 +123,20 @@ public class PatternRule extends Rule {
   }
 
   public void addPatternElements(List elements) {
-	  List elems = new ArrayList();
+	  List<Element> elems = new ArrayList<Element>();
 	  if (this.patternElements!=null)
 	  for (int i = 0; i < this.patternElements.length; i++) {
 		elems.add(this.patternElements[i]);  
 	  }
 	  for(int i=0;i<elements.size();i++)
 	  {
-		  elems.add(elements.get(i));
+		  elems.add((Element)elements.get(i));
 	  }
 	  this.patternElements=(Element[])elems.toArray(new Element[0]);
   }
   
   public RuleMatch[] match(AnalyzedSentence text) {
-    List ruleMatches = new ArrayList(); 
+    List<RuleMatch> ruleMatches = new ArrayList<RuleMatch>(); 
     AnalyzedTokenReadings[] tokens = text.getTokensWithoutWhitespace();
     if (patternElements == null) {      // lazy init
       patternElements = getPatternElements(pattern); 
@@ -203,7 +203,7 @@ public class PatternRule extends Rule {
   }
 
   private Element[] getPatternElements(String pattern) {
-    List elements = new ArrayList();
+    List<Element> elements = new ArrayList<Element>();
     pattern = pattern.replaceAll("[\\(\\)]", "");       // just ignore parentheses
     String[] parts = pattern.split("\\s+");
     for (int i = 0; i < parts.length; i++) {

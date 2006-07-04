@@ -89,7 +89,7 @@ class FalseFriendRuleHandler extends XMLRuleHandler {
   private Language language;
   private Language translationLanguage;
   private String ruleGroupId;
-  private List translations = new ArrayList();
+  private List<StringBuffer> translations = new ArrayList<StringBuffer>();
   private StringBuffer translation = new StringBuffer();
   
   private boolean inTranslation = false;
@@ -107,16 +107,15 @@ class FalseFriendRuleHandler extends XMLRuleHandler {
   // SAX DocumentHandler methods
   //===========================================================
 
+  @SuppressWarnings("unused")
   public void startElement(String namespaceURI, String lName, String qName, Attributes attrs) throws SAXException {
-    if (namespaceURI == null) namespaceURI = null;      // avoid compiler warning
-    if (lName == null) lName = null;      // avoid compiler warning
     if (qName.equals("rule")) {
-      translations = new ArrayList();
+      translations = new ArrayList<StringBuffer>();
       id = attrs.getValue("id");
       if (inRuleGroup && id == null)
         id = ruleGroupId;
-      correctExamples = new ArrayList();
-      incorrectExamples = new ArrayList();
+      correctExamples = new ArrayList<String>();
+      incorrectExamples = new ArrayList<String>();
     } else if (qName.equals("pattern")) {
       pattern = new StringBuffer();
       inPattern = true;
@@ -147,9 +146,8 @@ class FalseFriendRuleHandler extends XMLRuleHandler {
     }
   }
 
+  @SuppressWarnings("unused")
   public void endElement(String namespaceURI, String sName, String qName) {
-    if (namespaceURI == null) namespaceURI = null;      // avoid compiler warning
-    if (sName == null) sName = null;      // avoid compiler warning
     if (qName.equals("rule")) {
       if (language == textLanguage && translationLanguage == motherTongue) {
         formatter.applyPattern(messages.getString("false_friend_hint"));
@@ -191,10 +189,10 @@ class FalseFriendRuleHandler extends XMLRuleHandler {
     }
   }
 
-  private String formatTranslations(List translations) {
+  private String formatTranslations(List<StringBuffer> translations) {
     StringBuffer sb = new StringBuffer();
-    for (Iterator iter = translations.iterator(); iter.hasNext();) {
-      StringBuffer trans = (StringBuffer) iter.next();
+    for (Iterator<StringBuffer> iter = translations.iterator(); iter.hasNext();) {
+      StringBuffer trans = iter.next();
       sb.append("\"");
       sb.append(trans.toString());
       sb.append("\"");

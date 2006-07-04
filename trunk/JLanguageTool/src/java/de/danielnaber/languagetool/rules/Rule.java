@@ -117,7 +117,7 @@ public abstract class Rule {
     return incorrectExamples;
   }
 
-  protected RuleMatch[] toRuleMatchArray(List ruleMatches) {
+  protected RuleMatch[] toRuleMatchArray(List<RuleMatch> ruleMatches) {
     return (RuleMatch[])ruleMatches.toArray(new RuleMatch[0]);
   }
 
