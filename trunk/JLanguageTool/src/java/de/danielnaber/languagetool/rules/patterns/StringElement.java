@@ -17,6 +17,7 @@
  * USA
  */
 package de.danielnaber.languagetool.rules.patterns;
+
 import java.util.regex.Pattern;
 import de.danielnaber.languagetool.AnalyzedToken;
 
@@ -29,59 +30,57 @@ import de.danielnaber.languagetool.AnalyzedToken;
 class StringElement extends Element {
 
   private boolean caseSensitive = false;
+
   private boolean regExp = false;
-  private boolean Inflected = false;
-  
-  StringElement(String token, boolean caseSensitive, boolean regExp, boolean Inflected) {
-    this.tokens = new String[] {token};
+
+  private boolean inflected = false;
+
+  StringElement(String token, boolean caseSensitive, boolean regExp, boolean inflected) {
+    this.tokens = new String[] { token };
     this.caseSensitive = caseSensitive;
     this.regExp = regExp;
-    this.Inflected = Inflected;
+    this.inflected = inflected;
   }
-  
-  StringElement(String[] tokens, boolean caseSensitive, boolean regExp, boolean Inflected) {
+
+  StringElement(String[] tokens, boolean caseSensitive, boolean regExp, boolean inflected) {
     this.tokens = tokens;
     this.caseSensitive = caseSensitive;
     this.regExp = regExp;
-    this.Inflected = Inflected;
+    this.inflected = inflected;
   }
-  
+
   boolean matchToken(AnalyzedToken token) {
-	  String testToken = null;
-	  
-	  if (Inflected)
-		  testToken=token.getLemma();
-	  else 
-		  testToken=token.getToken();
-	  
-	  if (caseSensitive) {
+    String testToken = null;
+
+    if (inflected)
+      testToken = token.getLemma();
+    else
+      testToken = token.getToken();
+
+    if (caseSensitive) {
       for (int i = 0; i < tokens.length; i++) {
-    	  if (regExp){
-          	if (token.getToken()!=null)
-                  if (Pattern.matches(tokens[i], testToken))
-          	 		  return true;
-          }
-    	  else{
-    		  if (tokens[i].equals(testToken))
-    			  return true;
-    	  }
-        }		
+        if (regExp) {
+          if (token.getToken() != null)
+            if (Pattern.matches(tokens[i], testToken))
+              return true;
+        } else {
+          if (tokens[i].equals(testToken))
+            return true;
+        }
       }
-    else {
-    	for (int i = 0; i < tokens.length; i++) {
-    		if (regExp){
-            	if (testToken!=null)
-            		//(?u) - regex matching 
-            		//case insensitive in Unicode
-                    if (Pattern.matches("(?u)".concat(tokens[i]), testToken))
-            	 		  return true;
-            }
-            else
-            {
-    		if (tokens[i].equalsIgnoreCase(testToken))
-                return true;
-            }
-    	}
+    } else {
+      for (int i = 0; i < tokens.length; i++) {
+        if (regExp) {
+          if (testToken != null)
+            //(?u) - regex matching 
+            //case insensitive in Unicode
+            if (Pattern.matches("(?u)".concat(tokens[i]), testToken))
+              return true;
+        } else {
+          if (tokens[i].equalsIgnoreCase(testToken))
+            return true;
+        }
+      }
     }
     return false;
   }
