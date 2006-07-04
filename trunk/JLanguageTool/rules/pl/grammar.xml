@@ -32,10 +32,10 @@ Copyright (C) 2006 Marcin Miłkowski
 	
 	<!-- błąd leksykalny: w każdym bądź razie -->
 	<rule id="PODDAWAC_W_WATPLIWOSC" name="Błąd leksykalny - 'poddawać w wątpliwość'">
-		<pattern mark_from="0" case_sensitive="no"><token regexp="yes">podda.*</token><token>w</token><token>wątpliwość</token></pattern>
+		<pattern mark_from="0" case_sensitive="no"><token inflected="yes">poddawać</token><token>w</token><token>wątpliwość</token></pattern>
 		<message>Poprawną formą jest <em>podawać w wątpliwość</em>.</message>
 		<example type="correct">Nie będę tego podawać w wątpliwość.</example>
-		<example type="incorrect">Nie będę tego poddawać w wątpliwość.</example>
+		<example type="incorrect">Nie będę tego poddawał w wątpliwość.</example>
 	</rule>
 
 	<rule id="POKI_CO" name="Błąd leksykalny - 'póki co'">
@@ -47,7 +47,7 @@ Copyright (C) 2006 Marcin Miłkowski
 
 	<!-- błąd ortograficzny - pisownia łączna rzeczowników z "nie" -->
 	<rule id="NIE_RZECZOWNIK" name="Pisownia 'nie' z rzeczownikami i przymiotnikami">
-		<pattern mark_from="0" case_sensitive="no"><token>nie</token><token postag_regexp="yes" postag="SUBST:.+|ADJ:.+" regexp="yes">.*</token></pattern>
+		<pattern mark_from="0" case_sensitive="no"><token inflected="yes">nie</token><token postag_regexp="yes" postag="subst:.+|adj:.+" regexp="yes">.*</token></pattern>
 		<message><em>Nie</em> ze wszystkimi rzeczownikami i przymiotnikami piszemy łącznie.</message>
 		<example type="correct">Prosimy o niepalenie.</example>
 		<example type="incorrect">Prosimy o nie palenie.</example>
@@ -56,7 +56,7 @@ Copyright (C) 2006 Marcin Miłkowski
 	<!-- błąd ortograficzny - pisownia cząstek -bym -->
 	
 	<rule id="CZASOWNIK_BY" name="Pisownia 'bym', 'byście' z czasownikami">
-		<pattern mark_from="0" case_sensitive="no"><token postag_regexp="yes" postag="VERB:SEC:.+|VERB:TER.+|VERB:PRI:.+|VERB:PRAET:.+"></token> <token regexp="yes">bym|byście|byśmy|byś|by</token></pattern>
+		<pattern mark_from="0" case_sensitive="no"><token postag_regexp="yes" postag="verb:sec:.+|verb:ter.+|verb:pri:.+|verb:praet:.+"></token> <token regexp="yes">bym|byście|byśmy|byś|by</token></pattern>
 		<message>Cząstki <em>-bym, -byś, -by, -byśmy, -byście</em> piszemy łącznie z czasownikami w formach osobowych.</message>
 		<example type="correct">Nie mógłbym tego zrobić.</example>
 		<example type="incorrect">Nie mógł bym tego zrobić..</example>

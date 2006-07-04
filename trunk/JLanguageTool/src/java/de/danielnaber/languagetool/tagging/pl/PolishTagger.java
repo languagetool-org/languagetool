@@ -31,7 +31,6 @@ public class PolishTagger implements Tagger {
   public List<AnalyzedTokenReadings> tag(List sentenceTokens) throws IOException {
     String[] taggerTokens;
     boolean firstWord = true;
-	String annotations;
 	List<AnalyzedTokenReadings> tokenReadings = new ArrayList<AnalyzedTokenReadings>();
     int pos = 0;
     //caching Lametyzator instance - lazy init
@@ -49,25 +48,15 @@ public class PolishTagger implements Tagger {
 			taggerTokens = morfologik.stemAndForm(word.toLowerCase());
 		firstWord = false;
 		}
-	    annotations="";
 	if (taggerTokens !=null) {
-	    ///for (int i = 0; i < taggerTokens.length; i++)
 		int i = 0;
 		while (i<taggerTokens.length)
 		{
-	    	//Lametyzator returns data as String[]
-	    	//first lemma, then annotations
-	    	//skipping lemma here
-	    	//TODO: add lemma to the analyzedtoken structure
-		//	if (i % 2 != 0) {
-	    //	annotations=annotations.concat(taggerTokens[i].toUpperCase());
-		//	if (i+1 <taggerTokens.length) annotations=annotations.concat("|");
-		//	}
-		l.add(new AnalyzedToken(word, taggerTokens[i+1], taggerTokens[i]));
-		i=i+2;
+			//Lametyzator returns data as String[]
+			//first lemma, then annotations
+			l.add(new AnalyzedToken(word, taggerTokens[i+1], taggerTokens[i]));
+			i=i+2;
 		}
-	//l.add(new AnalyzedToken(word, annotations, pos));
-	//System.err.println(annotations);
 	}
 	else 
 		l.add(new AnalyzedToken(word, null, pos));

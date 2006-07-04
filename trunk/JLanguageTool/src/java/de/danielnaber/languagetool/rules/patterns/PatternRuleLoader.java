@@ -69,6 +69,7 @@ class PatternRuleHandler extends XMLRuleHandler {
   private boolean caseSensitive = false;
   private boolean regExpression = false;
   private boolean tokenNegated = false;
+  private boolean tokenInflected = false;
   private Language language;
   private String description;
   private String ruleGroupId;
@@ -114,6 +115,9 @@ class PatternRuleHandler extends XMLRuleHandler {
     	inToken = true;
     	if (attrs.getValue("negate")!=null){
 	 		tokenNegated=attrs.getValue("negate").equals("yes");
+    	}
+    	if (attrs.getValue("inflected")!=null){
+	 		tokenInflected=attrs.getValue("inflected").equals("yes");
     	}
     	elements = new StringBuffer();
     	if (elementList == null) //lazy init
@@ -202,10 +206,11 @@ class PatternRuleHandler extends XMLRuleHandler {
     	//left for compatibility with earlier notation
       	if (inToken)
       	{
-    	StringElement stringElement = new StringElement(elements.toString(), caseSensitive, regExpression);
+    	StringElement stringElement = new StringElement(elements.toString(), caseSensitive, regExpression, tokenInflected);
     	stringElement.setNegation(tokenNegated);
     	elementList.add(stringElement);
     	tokenNegated=false;
+    	tokenInflected=false;
       	}
         inToken = false;
         regExpression = false;

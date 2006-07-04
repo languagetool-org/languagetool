@@ -156,19 +156,18 @@ public class PatternRule extends Rule {
     			 allElementsMatch = false;
     			 break;
     		 }
-    		 //FIXME: this could give bad results with one Polish rule
-    		 //need to implement lemma matching
-    		 
+    		 boolean Match = false;
     		 for (int l = 0; l < tokens[nextPos].getReadingslength(); l++) {
     			 AnalyzedToken matchToken = tokens[nextPos].getAnalyzedToken(l);
     			 //Logical OR (cannot be AND):
-    			 if (!elem.match(matchToken) && allElementsMatch) {
-    				 allElementsMatch = false;
+    			 if (!elem.match(matchToken)) {
+    				 Match = Match || false;
     			 }
     			 else {
-    				 allElementsMatch = true;
+    				 Match = true;
     			 }
-    		 }
+    			 allElementsMatch = Match;
+    		 }    		 }
     		 if (!allElementsMatch) {
           break;
         } else {
@@ -220,7 +219,7 @@ public class PatternRule extends Rule {
       if (element.startsWith("\"") && element.endsWith("\"")) {         // cut off quotes
         element = element.substring(1, element.length()-1);
         String tokenParts[] = element.split("\\|");
-        StringElement stringElement = new StringElement(tokenParts, caseSensitive, false); 
+        StringElement stringElement = new StringElement(tokenParts, caseSensitive, false, false); 
         stringElement.setNegation(negation);
         elements.add(stringElement);
       } else if (Character.isUpperCase(element.charAt(0))) {
