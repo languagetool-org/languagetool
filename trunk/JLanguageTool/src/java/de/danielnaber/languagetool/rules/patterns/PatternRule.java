@@ -158,9 +158,10 @@ public class PatternRule extends Rule {
     		 }
     		 //FIXME: this could give bad results with one Polish rule
     		 //need to implement lemma matching
+    		 
     		 for (int l = 0; l < tokens[nextPos].getReadingslength(); l++) {
-    			 //boolean Match = false;
     			 AnalyzedToken matchToken = tokens[nextPos].getAnalyzedToken(l);
+    			 //Logical OR (cannot be AND):
     			 if (!elem.match(matchToken) && allElementsMatch) {
     				 allElementsMatch = false;
     			 }
@@ -168,7 +169,7 @@ public class PatternRule extends Rule {
     				 allElementsMatch = true;
     			 }
     		 }
-        if (!allElementsMatch) {
+    		 if (!allElementsMatch) {
           break;
         } else {
           matchingTokens++;
