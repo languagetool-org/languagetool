@@ -147,8 +147,7 @@ public class PatternRule extends Rule {
     int lastMatchToken = -1;
 
     for (int i = 0; i < tokens.length; i++) {
-     for (int l = 0; l < tokens[i].getReadingslength(); l++) {
-    	 boolean allElementsMatch = true;
+         	 boolean allElementsMatch = true;
     	 int matchingTokens = 0;
     	 for (int k = 0; k < patternElements.length; k++) {
     		 Element elem = patternElements[k];
@@ -157,10 +156,19 @@ public class PatternRule extends Rule {
     			 allElementsMatch = false;
     			 break;
     		 }
-    		 
-        AnalyzedToken matchToken = tokens[nextPos].getAnalyzedToken(l);
-        if (!elem.match(matchToken)) {
-          allElementsMatch = false;
+    		 //FIXME: this could give bad results with one Polish rule
+    		 //need to implement lemma matching
+    		 for (int l = 0; l < tokens[nextPos].getReadingslength(); l++) {
+    			 //boolean Match = false;
+    			 AnalyzedToken matchToken = tokens[nextPos].getAnalyzedToken(l);
+    			 if (!elem.match(matchToken) && allElementsMatch) {
+    				 allElementsMatch = false;
+    			 }
+    			 else {
+    				 allElementsMatch = true;
+    			 }
+    		 }
+        if (!allElementsMatch) {
           break;
         } else {
           matchingTokens++;
@@ -190,7 +198,7 @@ public class PatternRule extends Rule {
       }
       tokenPos++;
     }
-  }
+  
     return (RuleMatch[])ruleMatches.toArray(new RuleMatch[0]);
   }
 
