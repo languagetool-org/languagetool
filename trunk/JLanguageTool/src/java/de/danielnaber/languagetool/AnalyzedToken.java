@@ -36,6 +36,12 @@ public class AnalyzedToken {
     this.startPos = startPos;
   }
   
+  public AnalyzedToken(String token, String posTag, String lemma) {
+	    this.token = token;
+	    this.posTag = posTag;
+	    this.lemma= lemma;
+	  }
+	  
   
   public boolean isWhitespace() {
     return token.trim().equals("");

@@ -28,11 +28,11 @@ public class PolishTagger implements Tagger {
     "polish.dict"; 
 	private Lametyzator morfologik = null; 
 	
-  public List tag(List sentenceTokens) throws IOException {
+  public List<AnalyzedTokenReadings> tag(List sentenceTokens) throws IOException {
     String[] taggerTokens;
     boolean firstWord = true;
 	String annotations;
-	List tokenReadings = new ArrayList();
+	List<AnalyzedTokenReadings> tokenReadings = new ArrayList<AnalyzedTokenReadings>();
     int pos = 0;
     //caching Lametyzator instance - lazy init
 	if (morfologik == null) {	
@@ -43,7 +43,7 @@ public class PolishTagger implements Tagger {
 	
     for (Iterator iter = sentenceTokens.iterator(); iter.hasNext();) {
       String word = (String) iter.next();
-      List l = new ArrayList();
+      List<AnalyzedToken> l = new ArrayList<AnalyzedToken>();
 	    taggerTokens = morfologik.stemAndForm(word);
 	    if (firstWord && taggerTokens == null) {        // e.g. "Das" -> "das" at start of sentence
 			taggerTokens = morfologik.stemAndForm(word.toLowerCase());
@@ -51,18 +51,22 @@ public class PolishTagger implements Tagger {
 		}
 	    annotations="";
 	if (taggerTokens !=null) {
-	    for (int i = 0; i < taggerTokens.length; i++) 
+	    ///for (int i = 0; i < taggerTokens.length; i++)
+		int i = 0;
+		while (i<taggerTokens.length)
 		{
 	    	//Lametyzator returns data as String[]
 	    	//first lemma, then annotations
 	    	//skipping lemma here
 	    	//TODO: add lemma to the analyzedtoken structure
-			if (i % 2 != 0) {
-	    	annotations=annotations.concat(taggerTokens[i].toUpperCase());
-			if (i+1 <taggerTokens.length) annotations=annotations.concat("|");
-			}
+		//	if (i % 2 != 0) {
+	    //	annotations=annotations.concat(taggerTokens[i].toUpperCase());
+		//	if (i+1 <taggerTokens.length) annotations=annotations.concat("|");
+		//	}
+		l.add(new AnalyzedToken(word, taggerTokens[i+1], taggerTokens[i]));
+		i=i+2;
 		}
-	l.add(new AnalyzedToken(word, annotations, pos));
+	//l.add(new AnalyzedToken(word, annotations, pos));
 	//System.err.println(annotations);
 	}
 	else 
