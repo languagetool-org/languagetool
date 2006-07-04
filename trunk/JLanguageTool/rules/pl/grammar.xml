@@ -32,10 +32,11 @@ Copyright (C) 2006 Marcin Miłkowski
 	
 	<!-- błąd leksykalny: w każdym bądź razie -->
 	<rule id="PODDAWAC_W_WATPLIWOSC" name="Błąd leksykalny - 'poddawać w wątpliwość'">
-		<pattern mark_from="0" case_sensitive="no"><token inflected="yes">poddawać</token><token>w</token><token>wątpliwość</token></pattern>
+		<pattern mark_from="0" case_sensitive="no"><token inflected="yes" regexp="yes">poddawać|poddać</token><token>w</token><token>wątpliwość</token></pattern>
 		<message>Poprawną formą jest <em>podawać w wątpliwość</em>.</message>
 		<example type="correct">Nie będę tego podawać w wątpliwość.</example>
 		<example type="incorrect">Nie będę tego poddawał w wątpliwość.</example>
+		<example type="incorrect">Józio poddał w wątpliwość cały proces wychowawczy.</example>
 	</rule>
 
 	<rule id="POKI_CO" name="Błąd leksykalny - 'póki co'">
@@ -126,4 +127,23 @@ Copyright (C) 2006 Marcin Miłkowski
 		<example type="correct">Na podstawie tych wyliczeń można podjąć decyzję.</example>
 		<example type="incorrect">W oparciu o te wyliczenia można podjąć decyzję.</example>
 	</rule>
+	<rule id="TA_KSIAZKA" name="Błąd odmiany – np. tą książkę">
+		<pattern><token>tą</token><token postag="subst:sg:acc:f"/></pattern>
+		<message>W bierniku zaimek <em>ta</em> ma formę <em>tę</em>.</message>
+		<example type="correct">Kupiłem tę książkę za parę groszy.</example>
+		<example type="incorrect">Kupiłem tą książkę za parę groszy.</example>
+	</rule>
+	<rule id="NAPRZECIWKO" name="Pisownia rozłączna naprzeciwko">
+		<pattern><token>na</token><token>przeciwko</token></pattern>
+		<message>Wyrażenie <em>naprzeciwko</em> piszemy łącznie.</message>
+		<example type="correct">Ala mieszkała naprzeciwko.</example>
+		<example type="incorrect">Na przeciwko moich okien są takie same okna innego budynku na naszym terenie.</example>
+	</rule>
+	<rule id="ZNAD" name="Pisownia rozłączna znad">
+		<pattern><token>z</token><token>nad</token></pattern>
+		<message>Wyrażenie <em>znad</em> piszemy łącznie.</message>
+		<example type="correct">Pokazał mi zdjęcia znad oceanu.</example>
+		<example type="incorrect">Pokazał mi zdjęcia z nad oceanu.</example>
+	</rule>
+	
 </rules>
