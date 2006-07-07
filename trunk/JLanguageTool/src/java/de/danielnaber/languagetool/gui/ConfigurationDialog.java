@@ -46,7 +46,6 @@ import javax.swing.KeyStroke;
 
 import de.danielnaber.languagetool.Language;
 import de.danielnaber.languagetool.rules.Rule;
-import de.danielnaber.languagetool.rules.patterns.PatternRule;
 
 /**
  * Dialog that offers the available rules so they can be turned on/off
@@ -102,13 +101,7 @@ public class ConfigurationDialog implements ActionListener {
       Rule rule = (Rule) iter.next();
       cons.gridy = row;
       
-      JCheckBox checkBox = null;
-      if (rule instanceof PatternRule) {
-        PatternRule patternRule = (PatternRule) rule;
-        checkBox = new JCheckBox(rule.getDescription() + " -- " + patternRule.getPattern());
-      } else {
-        checkBox = new JCheckBox(rule.getDescription());
-      }
+      JCheckBox checkBox = new JCheckBox(rule.getDescription());
       if (inactiveRuleIds != null && inactiveRuleIds.contains(rule.getId()))
         checkBox.setSelected(false);
       else
