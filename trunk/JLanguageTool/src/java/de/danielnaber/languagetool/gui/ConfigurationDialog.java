@@ -168,7 +168,9 @@ public class ConfigurationDialog implements ActionListener {
     List<Object> motherTongues = new ArrayList<Object>();
     motherTongues.add(NO_MOTHER_TONGUE);
     for (Language lang : Language.LANGUAGES) {
-      motherTongues.add(lang);
+      if (lang != Language.DEMO) {
+        motherTongues.add(lang);
+      }
     }
     return motherTongues.toArray();
   }

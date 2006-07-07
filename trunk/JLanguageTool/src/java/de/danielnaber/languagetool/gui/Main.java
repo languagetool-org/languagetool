@@ -97,7 +97,12 @@ class Main implements ActionListener {
     panel.add(new JLabel(" in: "), buttonCons);
     buttonCons.gridx = 2;
     buttonCons.gridy = 0;
-    langBox = new JComboBox(Language.LANGUAGES);
+    langBox = new JComboBox();
+    for (Language lang : Language.LANGUAGES) {
+      if (lang != Language.DEMO) {
+        langBox.addItem(lang);
+      }
+    }
     panel.add(langBox, buttonCons);
     buttonCons.gridx = 3;
     buttonCons.gridy = 0;
