@@ -3,9 +3,24 @@
 Rules: Grammar and Typos
 See tagset.txt for the meaning of the POS tags
 Copyright (C) 2001-2005 Daniel Naber (http://www.danielnaber.de)
-$Id: grammar.xml,v 1.26 2006-07-02 20:17:32 milek_pl Exp $
+$Id: grammar.xml,v 1.27 2006-07-09 22:01:27 dnaber Exp $
 -->
 <rules lang="de">
+
+	<!--  TODO: group rules: -->
+	<rule id="WIE_WIR_1" name="Möglicher Tippfehler 'wie/wir'">
+		<pattern mark_from="2"><token>wie</token><token regexp="yes">.+</token><token>wie</token></pattern>
+		<message>Meinten Sie <em>wir</em>?</message>
+		<example type="correct">Wie können <em>wir</em> vorgehen?</example>
+		<example type="incorrect">Wie können <em>wie</em> vorgehen?</example>
+	</rule>
+	<rule id="WIE_WIR_2" name="Möglicher Tippfehler 'wir/wie'">
+		<pattern mark_from="1"><token regexp="yes">so|genauso|nach|sie|konnte|wollte|sollte|möchte</token><token>wir</token></pattern>
+		<message>Meinten Sie <em>wie</em>?</message>
+		<example type="correct">Das gilt nach <em>wie</em> vor.</example>
+		<example type="incorrect">Das gilt nach <em>wir</em> vor.</example>
+	</rule>
+	<!-- TODO: "NOUN wir" außer "welches/was für ein NOUN wir" -->
 
 	<rule id="OHNE_GEWEHR" name="Möglicher Tippfehler 'ohne Gewehr(Gewähr)'">
 		<pattern mark_from="1"><token>ohne</token><token>Gewehr</token></pattern>
@@ -13,7 +28,6 @@ $Id: grammar.xml,v 1.26 2006-07-02 20:17:32 milek_pl Exp $
 		<example type="correct">Alle Angaben ohne Gewähr.</example>
 		<example type="incorrect">Alle Angaben ohne Gewehr.</example>
 	</rule>
-
 	
 	<rule id="DAS_ERSTE_MAL" name="Korrekte Groß-/Kleinschreibung: 'das erste Mal'">
 		<pattern mark_from="2" case_sensitive="yes"><token regexp="yes">beim|zum|das</token> <token regexp="yes">erste|ersten</token> <token>mal</token></pattern>
