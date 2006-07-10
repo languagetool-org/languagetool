@@ -270,4 +270,64 @@ Copyright (C) 2006 Marcin Miłkowski
 		<example type="correct">Wyraził żywe zainteresowanie zaplanowaną dyskusją na temat nauczania matematyki.</example>
 		<example type="incorrect">Wyraził żywe zainteresowanie dla zaplanowanej dyskusji na temat nauczania matematyki.</example>
 	</rule>
+	<rule id="WYSOKA_FORMA" name="Błąd leksykalny: „wysoka forma”">
+		<pattern>
+			<token inflected="yes">wysoki</token>
+			<token inflected="yes">forma</token>
+		</pattern>
+		<message>Nie mówi się <em>wysoka forma</em>, lecz <em>dobra forma</em>, <em>doskonała forma</em>.</message>
+		<example type="correct">Małysz jest w doskonałej formie.</example>
+		<example type="incorrect">Wysoka forma Małysza daje nam nadzieję.</example>
+	</rule>
+	<rule id="PANTALYK" name="Wyraz niesamodzielny: „pantałyk”">
+		<pattern>
+			<token negate="yes">z</token>
+			<token inflected="yes">pantałyk</token>
+		</pattern>
+		<message>Wyraz <em>pantałyk</em> jest niesamodzielny i może występować tylko we frazie <em>zbić z pantałyku</em>.</message>
+		<example type="correct">Ludwik zbił Jarka z pantałyku.</example>
+		<example type="incorrect">Kazio bawił się pantałykiem.</example>
+	</rule>
+	
+	<rule id="POLTOREJ" name="Błąd składniowy: półtorej + rzeczownik rodzaju męskiego lub nijakiego">
+		<pattern>
+			<token>półtorej</token>
+			<token postag="subst:.*:(m[0-9]|n)" postag_regexp="yes"></token>
+		</pattern>
+		<message>Mówi się <em>półtora kilo</em>, nie <em>półtorej kilo</em>.</message>
+		<example type="correct">Kupiłem półtora litra wódki.</example>
+		<example type="incorrect">Kupiłem półtorej litra wódki.</example>
+	</rule>
+	
+	<!-- FIXME 
+	<rule id="UZYWAC_CO" name="Błąd składniowy: używać co">
+		<pattern>
+			<token inflected="yes" skip="-1">używać</token>
+			<token postag_regexp="yes" postag="(subst|adj|ppas|ppron):.*:gen.*" negate_pos="yes"></token>
+		</pattern>
+		<message>Mówi się <em>używać czego</em>, a nie <em>używać coś</em>.</message>
+		<example type="correct">Używam starej suszarki.</example>
+		<example type="incorrect">Używam starą suszarkę.</example>
+	</rule>
+	-->
+	<rule name="Błąd leksykalny: „wprowadzić coś w obieg”" id="WPROWADZIC_W_OBIEG">
+		<pattern>
+			<token inflected="yes" skip="-1" regexp="yes">wprowadzić|wprowadzać</token>
+			<token>w</token>
+			<token>obieg</token>
+		</pattern>
+		<message>Mówi się <em>puszczać w obieg</em>, a nie <em>puszczać w obieg</em>.</message>
+		<example type="correct">Mafia puściła w obieg sfałszowane dolary.</example>
+		<example type="incorrect">Mafia wprowadziła niebawem w obieg sfałszowane dolary.</example>
+	</rule>
+	<rule name="Błąd ortograficzny: „za równo”" id="ZA_ROWNO">
+		<pattern>
+			<token>za</token>
+			<token skip="-1">równo</token>
+			<token postag="yes" regexp="yes">jak|jaki</token>
+		</pattern>
+		<message>Wyraz <em>zarówno</em> piszemy łącznie.</message>
+		<example type="incorrect">Sam program PHARE spotkał się z poważną krytyką i negatywną oceną za równo ze strony europejskiego Trybunału Obrachunkowego jak i dwukrotnie polskiej NIK.</example>
+		<example type="correct">Sam program PHARE spotkał się z poważną krytyką i negatywną oceną zarówno ze strony europejskiego Trybunału Obrachunkowego, jak i dwukrotnie polskiej NIK.</example>
+	</rule>
 </rules>
