@@ -188,7 +188,12 @@ public class Main {
     }
     
     private TextToCheck getText() {
-      XModel xModel = (XModel)UnoRuntime.queryInterface(XModel.class, xTextDoc); 
+      XModel xModel = (XModel)UnoRuntime.queryInterface(XModel.class, xTextDoc);
+      if (xModel == null) {
+        DialogThread dt = new DialogThread("Sorry, only text documents are supported");
+        dt.start();
+        return null;
+      }
       XController xController = xModel.getCurrentController(); 
       XTextViewCursorSupplier xViewCursorSupplier = 
         (XTextViewCursorSupplier)UnoRuntime.queryInterface(XTextViewCursorSupplier.class, xController); 
@@ -208,6 +213,8 @@ public class Main {
     }
 
     private void checkText(TextToCheck textToCheck) {
+      if (textToCheck == null)
+        return;
       ProgressDialog progressDialog = new ProgressDialog();
       Language docLanguage = getLanguage();
       CheckerThread checkerThread = new CheckerThread(textToCheck.text, docLanguage, config, baseDir);
