@@ -299,17 +299,16 @@ Copyright (C) 2006 Marcin Miłkowski
 		<example type="incorrect">Kupiłem półtorej litra wódki.</example>
 	</rule>
 	
-	<!-- FIXME 
 	<rule id="UZYWAC_CO" name="Błąd składniowy: używać co">
 		<pattern>
-			<token inflected="yes" skip="-1">używać</token>
-			<token postag_regexp="yes" postag="(subst|adj|ppas|ppron):.*:gen.*" negate_pos="yes"></token>
+			<token inflected="yes">używać</token>
+			<token postag_regexp="yes" postag=".*:(nom|acc|nom\.acc\.voc|nom\.acc).*"></token>
 		</pattern>
 		<message>Mówi się <em>używać czego</em>, a nie <em>używać coś</em>.</message>
-		<example type="correct">Używam starej suszarki.</example>
-		<example type="incorrect">Używam starą suszarkę.</example>
+		<example type="correct">Używam starego żelazka.</example>
+		<example type="incorrect">Używam stare żelazko.</example>
 	</rule>
-	-->
+
 	<rule name="Błąd leksykalny: „wprowadzić coś w obieg”" id="WPROWADZIC_W_OBIEG">
 		<pattern>
 			<token inflected="yes" skip="-1" regexp="yes">wprowadzić|wprowadzać</token>
@@ -321,13 +320,65 @@ Copyright (C) 2006 Marcin Miłkowski
 		<example type="incorrect">Mafia wprowadziła niebawem w obieg sfałszowane dolary.</example>
 	</rule>
 	<rule name="Błąd ortograficzny: „za równo”" id="ZA_ROWNO">
-		<pattern>
+		<pattern mark_from="0" mark_to="0">
 			<token>za</token>
 			<token skip="-1">równo</token>
-			<token postag="yes" regexp="yes">jak|jaki</token>
+			<token regexp="yes">jak|jaki</token>
 		</pattern>
 		<message>Wyraz <em>zarówno</em> piszemy łącznie.</message>
 		<example type="incorrect">Sam program PHARE spotkał się z poważną krytyką i negatywną oceną za równo ze strony europejskiego Trybunału Obrachunkowego jak i dwukrotnie polskiej NIK.</example>
 		<example type="correct">Sam program PHARE spotkał się z poważną krytyką i negatywną oceną zarówno ze strony europejskiego Trybunału Obrachunkowego, jak i dwukrotnie polskiej NIK.</example>
+	</rule>
+		<rule name="Błąd ortograficzny: „zarówno... jaki”" id="ZA_ROWNO_JAKI">
+		<pattern mark_from="0" mark_to="0">
+			<token regexp="yes" skip="-1">równo|zarówno</token>
+			<token regexp="yes">jaki</token>
+		</pattern>
+		<message>To wyrażenie ma poprawną postać: <em>zarówno... jak i</em>.</message>
+		<example type="incorrect">Sam program PHARE spotkał się z poważną krytyką i negatywną oceną za równo ze strony europejskiego Trybunału Obrachunkowego jaki dwukrotnie polskiej NIK.</example>
+		<example type="correct">Sam program PHARE spotkał się z poważną krytyką i negatywną oceną zarówno ze strony europejskiego Trybunału Obrachunkowego, jak i dwukrotnie polskiej NIK.</example>
+	</rule>
+	<rule name="Błąd składniowy: „czym... tym”" id="CZYM_TYM">
+		<pattern>
+			<token skip="-1">czym</token>
+<!--FIXME: this requires that postags are integrated into StringElements
+				<token postag="(adj|adv).*" postag_regexp="yes" skip="-1"></token> -->
+			<token>tym</token>
+			<token postag="(adj|adv).*" postag_regexp="yes"></token>
+		</pattern>
+		<message>Mówimy <em>Im..., tym</em>.</message>
+		<example type="correct">Im większa, tym lepiej.</example>
+		<example type="incorrect">Czym większa, tym lepiej.</example>
+	</rule>
+	<rule name="Błąd związku rzędu: „rozumieć coś pod czymś" id="ROZUMIEC_POD">
+		<pattern>
+			<token negate="yes" skip="1">przez</token>
+			<token inflected="yes" skip="5">rozumieć</token>
+			<token>pod</token>
+		</pattern>
+		<message>Mówimy <em>rozumieć coś przez</em> coś.</message>
+		<example type="incorrect">Kartezjusz rozumiał czasem pod tym pojęciem wolę.</example>
+		<example type="correct">Kartezjusz rozumiał czasem przez to pojęcie wolę.</example>
+	</rule>
+	<rule name="Błąd składniowy: „w gazecie pisze" id="PISZE">
+		<pattern case_sensitive="yes">
+			<token regexp="yes" skip="-1">[Nn]a|[Ww]</token>
+			<token regexp="yes" skip="-1">gazecie|internecie|artykule|plakacie|książce|instrukcji|księdze</token>
+			<token regexp="yes" skip="1">pisze|pisało|stoi|stało</token>
+			<token>że</token>
+		</pattern>
+		<message>Mówimy <em>było napisane</em>, a nie „pisze”.</message>
+		<example type="correct">W gazecie było napisane, że w Polsce rośnie szczurosałata.</example>
+	    <example type="incorrect">W gazecie pisało, że w Polsce rośnie szczurosałata.</example>
+	</rule>
+	<rule name="Błąd składniowy: „nie tyle... co”" id="NIE_TYLE_CO">
+		<pattern>
+			<token>nie</token>
+			<token skip="-1">tyle</token>
+			<token>co</token>
+		</pattern>
+		<message>Mówimy <em>nie tyle..., ile...</em>.</message>
+		<example type="correct">Jestem przekonany, że wielkim nieprzyjacielem prawdy jest nie tyle kłamstwo, ile monotonia.</example>
+		<example type="incorrect">Takie nadmierne wchłanianie wapnia spowodowane jest nie tyle przesadnym spożyciem, co zaburzeniami.</example>
 	</rule>
 </rules>
