@@ -79,6 +79,7 @@ class PatternRuleHandler extends XMLRuleHandler {
   private boolean regular=false; 
   private int startPositionCorrection = 0;
   private int endPositionCorrection = 0;
+  private int skipPos = 0;
   
   //===========================================================
   // SAX DocumentHandler methods
@@ -117,6 +118,9 @@ class PatternRuleHandler extends XMLRuleHandler {
     	}
     	if (attrs.getValue("inflected")!=null){
 	 		tokenInflected=attrs.getValue("inflected").equals("yes");
+    	}
+    	if (attrs.getValue("skip")!=null){
+	 		skipPos=Integer.parseInt(attrs.getValue("skip"));
     	}
     	elements = new StringBuffer();
     	if (elementList == null) //lazy init
@@ -206,6 +210,10 @@ class PatternRuleHandler extends XMLRuleHandler {
       	{
     	StringElement stringElement = new StringElement(elements.toString(), caseSensitive, regExpression, tokenInflected);
     	stringElement.setNegation(tokenNegated);
+    	if (skipPos!=0) {
+    		stringElement.setSkipNext(skipPos);
+    		skipPos = 0;
+    	}
     	elementList.add(stringElement);
     	tokenNegated=false;
     	tokenInflected=false;

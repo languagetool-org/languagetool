@@ -141,58 +141,83 @@ public class PatternRule extends Rule {
       patternElements = getPatternElements(pattern);
     }
     int tokenPos = 0;
+    int prevSkipNext = 0;
+    int skipNext = 0;
+    int matchPos = 0;
+    int skipShift = 0;
 
     int firstMatchToken = -1;
     int lastMatchToken = -1;
 
     for (int i = 0; i < tokens.length; i++) {
-      boolean allElementsMatch = true;
-      int matchingTokens = 0;
-      for (int k = 0; k < patternElements.length; k++) {
-        Element elem = patternElements[k];
-        int nextPos = tokenPos + k;
-        if (nextPos >= tokens.length) {
-          allElementsMatch = false;
-          break;
-        }
-        boolean Match = false;
-        for (int l = 0; l < tokens[nextPos].getReadingslength(); l++) {
-          AnalyzedToken matchToken = tokens[nextPos].getAnalyzedToken(l);
-          // Logical OR (cannot be AND):
-          if (!elem.match(matchToken)) {
-            Match = Match || false;
-          } else {
-            Match = true;
-          }
-          allElementsMatch = Match;
-        }
-        if (!allElementsMatch) {
-          break;
-        } else {
-          matchingTokens++;
-          lastMatchToken = nextPos;
-          if (firstMatchToken == -1)
-            firstMatchToken = nextPos;
-        }
-      }
-      if (allElementsMatch) {
-        String errMessage = message;
-        // replace back references like \1 in message:
-        for (int j = 0; j < matchingTokens; j++) {
-          errMessage = errMessage.replaceAll("\\\\" + (j + 1), tokens[firstMatchToken + j]
-              .getToken());
-        }
-        boolean startsWithUppercase = StringTools.startsWithUppercase(tokens[firstMatchToken
-            + startPositionCorrection].toString());
-        RuleMatch ruleMatch = new RuleMatch(this, tokens[firstMatchToken + startPositionCorrection]
-            .getStartPos(), tokens[lastMatchToken + endPositionCorrection].getStartPos()
-            + tokens[lastMatchToken + endPositionCorrection].getToken().length(), errMessage,
-            startsWithUppercase);
-        ruleMatches.add(ruleMatch);
-      } else {
-        firstMatchToken = -1;
-        lastMatchToken = -1;
-      }
+    	boolean allElementsMatch = true;
+    	
+    	int matchingTokens = 0;
+    	for (int k = 0; k < patternElements.length; k++) {
+    		Element elem = patternElements[k];
+    		skipNext = elem.getSkipNext();
+    		int nextPos = tokenPos + k + skipShift;    		
+    		if (nextPos >= tokens.length) {
+    			allElementsMatch = false;
+    			break;
+    		}
+    		boolean skipMatch = false;
+    		if (prevSkipNext + nextPos >= tokens.length || prevSkipNext  < 0) {   //SENT_END?
+    			prevSkipNext  = tokens.length - (nextPos + 1);
+    		}
+    		for (int m = nextPos; m <= nextPos+prevSkipNext; m++) {    			
+    			boolean Match = false;    			
+    			for (int l = 0; l < tokens[m].getReadingslength(); l++) {
+    				
+    				AnalyzedToken matchToken = tokens[m].getAnalyzedToken(l);
+    				// Logical OR (cannot be AND):
+    				if (!elem.match(matchToken)) {
+    					Match = Match || false;
+    				} else {
+    					Match = true;
+    					matchPos = m;
+    					skipShift = matchPos - nextPos;
+    				}
+    				skipMatch = skipMatch || Match;
+    				
+    			}
+    			if (skipMatch) {
+					break;
+				}
+    		}
+    		allElementsMatch = skipMatch;
+    		if (skipMatch) {
+    			prevSkipNext = skipNext;
+    		} else {
+    			prevSkipNext = 0;
+    		}
+    		if (!allElementsMatch) {
+    			break;
+    		} else {
+    			matchingTokens++;
+    			lastMatchToken = matchPos; //nextPos;
+    			if (firstMatchToken == -1)
+    				firstMatchToken = matchPos; //nextPos;
+    		}
+    	}
+    	if (allElementsMatch) {
+    		String errMessage = message;
+    		// replace back references like \1 in message:
+    		for (int j = 0; j < matchingTokens; j++) {
+    			errMessage = errMessage.replaceAll("\\\\" + (j + 1), tokens[firstMatchToken + j]
+    			                                                            .getToken());
+    		}
+    		boolean startsWithUppercase = StringTools.startsWithUppercase(tokens[firstMatchToken
+    		                                                                     + startPositionCorrection].toString());
+    		RuleMatch ruleMatch = new RuleMatch(this, tokens[firstMatchToken + startPositionCorrection]
+    		                                                 .getStartPos(), tokens[lastMatchToken + endPositionCorrection].getStartPos()
+    		                                                 + tokens[lastMatchToken + endPositionCorrection].getToken().length(), errMessage,
+    		                                                 startsWithUppercase);
+    		ruleMatches.add(ruleMatch);
+    	} else {
+    		firstMatchToken = -1;
+    		lastMatchToken = -1;
+    	}
       tokenPos++;
     }
 

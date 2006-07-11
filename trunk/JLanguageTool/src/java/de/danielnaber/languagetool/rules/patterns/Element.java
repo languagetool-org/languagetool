@@ -29,6 +29,7 @@ public abstract class Element {
 
   String[] tokens;
   boolean negation = false;
+  int skip = 0;
 
   final boolean match(AnalyzedToken token) {
     if (negation)
@@ -47,6 +48,15 @@ public abstract class Element {
         sb.append("|");
     }
     return sb.toString();
+  }
+  
+  
+  public int getSkipNext(){
+	  return skip;
+  }
+  
+  public void setSkipNext(int i) {
+	  skip = i;
   }
   
   String[] getTokens() {
