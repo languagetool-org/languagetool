@@ -202,6 +202,7 @@ public class PatternRule extends Rule {
     	}
     	if (allElementsMatch) {
     		String errMessage = message;
+    		//TODO: implement skipping tokens while marking error tokens
     		// replace back references like \1 in message:
     		for (int j = 0; j < matchingTokens; j++) {
     			errMessage = errMessage.replaceAll("\\\\" + (j + 1), tokens[firstMatchToken + j]
