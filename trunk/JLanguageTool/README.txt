@@ -25,6 +25,8 @@ Usage:
  
 License:
  LGPL, see file COPYING
+ The German data for part-of-speech tagging is taken from Morphy
+ (http://www.wolfganglezius.de/doku.php?id=public:cl:morphy)
  
 Known bugs:
  -OpenOffice.org integration:
@@ -40,6 +42,8 @@ Known bugs:
    -usability: pressing Esc too long will close both dialogs, should close only one
    
 TODO:
+ -use Java 1.5 enums
+ -use Java 1.5 generics everywhere (maybe also instead of arrays)
  -add more rules, especially agreement stuff
  -see "TODO" in the source
  -create abstract SentenceRule and TextRule classes to get rid of reset() method?
