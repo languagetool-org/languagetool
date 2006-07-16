@@ -3,9 +3,31 @@
 Rules: Grammar and Typos
 See tagset.txt for the meaning of the POS tags
 Copyright (C) 2001-2005 Daniel Naber (http://www.danielnaber.de)
-$Id: grammar.xml,v 1.27 2006-07-09 22:01:27 dnaber Exp $
+$Id: grammar.xml,v 1.28 2006-07-16 21:03:01 dnaber Exp $
 -->
 <rules lang="de">
+
+	<rule id="ALLES_OLLES" name="Möglicher Tippfehler 'alles/olles'">
+		<!-- "olles" is (very) colloquial, but anyway... -->
+		<pattern mark_from="1"><token regexp="yes">ist|war|mir|dir</token><token>olles</token></pattern>
+		<message>Meinten Sie <em>alles</em>?</message>
+		<example type="correct">Das ist mir <em>alles</em> zu viel.</example>
+		<example type="incorrect">Das ist mir <em>olles</em> zu viel.</example>
+	</rule>
+
+	<!--  TODO: group rules: -->
+	<rule id="SCHON_SCHOEN_1" name="Möglicher Tippfehler 'schon/schön'">
+		<pattern mark_from="1"><token>ganz</token><token>schon</token></pattern>
+		<message>Meinten Sie <em>schön</em>?</message>
+		<example type="correct">Das ist ganz <em>schön</em> teuer.</example>
+		<example type="incorrect">Das ist ganz <em>schon</em> teuer.</example>
+	</rule>
+	<rule id="SCHON_SCHOEN_2" name="Möglicher Tippfehler 'schon/schön'">
+		<pattern mark_to="-1"><token>schön</token><token regexp="yes">sehr|recht</token></pattern>
+		<message>Meinten Sie <em>schon</em>?</message>
+		<example type="correct">Das ist <em>schon</em> sehr teuer.</example>
+		<example type="incorrect">Das ist <em>schön</em> sehr teuer.</example>
+	</rule>
 
 	<!--  TODO: group rules: -->
 	<rule id="WIE_WIR_1" name="Möglicher Tippfehler 'wie/wir'">
