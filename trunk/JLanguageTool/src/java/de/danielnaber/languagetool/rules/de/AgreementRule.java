@@ -29,8 +29,8 @@ import de.danielnaber.languagetool.AnalyzedSentence;
 import de.danielnaber.languagetool.AnalyzedTokenReadings;
 import de.danielnaber.languagetool.JLanguageTool;
 import de.danielnaber.languagetool.rules.RuleMatch;
+import de.danielnaber.languagetool.tagging.de.AnalyzedGermanTokenReadings;
 import de.danielnaber.languagetool.tagging.de.AnalyzedGermanToken;
-import de.danielnaber.languagetool.tagging.de.GermanTokenReading;
 import de.danielnaber.languagetool.tagging.de.GermanToken.POSType;
 
 /**
@@ -70,7 +70,7 @@ public class AgreementRule extends GermanRule {
         continue;
       //AnalyzedGermanToken analyzedToken = new AnalyzedGermanToken(tokens[i]);
       
-    	AnalyzedGermanToken analyzedToken = (AnalyzedGermanToken)tokens[i];
+    	AnalyzedGermanTokenReadings analyzedToken = (AnalyzedGermanTokenReadings)tokens[i];
         boolean isRelevantPronomen = analyzedToken.hasReadingOfType(POSType.PRONOMEN);     
       // avoid false alarms:
       if (i > 0 && tokens[i-1].getToken().equalsIgnoreCase("vor") && tokens[i].getToken().equalsIgnoreCase("allem"))
@@ -88,21 +88,21 @@ public class AgreementRule extends GermanRule {
         int tokenPos = i + 1; 
         if (tokenPos >= tokens.length)
           break;
-        AnalyzedGermanToken nextToken = (AnalyzedGermanToken)tokens[tokenPos];
+        AnalyzedGermanTokenReadings nextToken = (AnalyzedGermanTokenReadings)tokens[tokenPos];
         if (nextToken.hasReadingOfType(POSType.ADJEKTIV)) {
           tokenPos = i + 2; 
           if (tokenPos >= tokens.length)
             break;
-          AnalyzedGermanToken nextNextToken = (AnalyzedGermanToken)tokens[tokenPos];
+          AnalyzedGermanTokenReadings nextNextToken = (AnalyzedGermanTokenReadings)tokens[tokenPos];
           if (nextNextToken.hasReadingOfType(POSType.NOMEN)) {
-            RuleMatch ruleMatch = checkDetAdjNounAgreement((AnalyzedGermanToken)tokens[i],
-                (AnalyzedGermanToken)tokens[i+1], (AnalyzedGermanToken)tokens[i+2]);
+            RuleMatch ruleMatch = checkDetAdjNounAgreement((AnalyzedGermanTokenReadings)tokens[i],
+                (AnalyzedGermanTokenReadings)tokens[i+1], (AnalyzedGermanTokenReadings)tokens[i+2]);
             if (ruleMatch != null)
               ruleMatches.add(ruleMatch);
           }
         } else if (nextToken.hasReadingOfType(POSType.NOMEN)) {
-          RuleMatch ruleMatch = checkDetNounAgreement((AnalyzedGermanToken)tokens[i],
-              (AnalyzedGermanToken)tokens[i+1]);
+          RuleMatch ruleMatch = checkDetNounAgreement((AnalyzedGermanTokenReadings)tokens[i],
+              (AnalyzedGermanTokenReadings)tokens[i+1]);
           if (ruleMatch != null)
             ruleMatches.add(ruleMatch);
         }
@@ -113,8 +113,8 @@ public class AgreementRule extends GermanRule {
     return toRuleMatchArray(ruleMatches);
   }
 
-  private RuleMatch checkDetNounAgreement(AnalyzedGermanToken token1,
-      AnalyzedGermanToken token2) {
+  private RuleMatch checkDetNounAgreement(AnalyzedGermanTokenReadings token1,
+      AnalyzedGermanTokenReadings token2) {
     RuleMatch ruleMatch = null;
     Set<String> set1 = getAgreementCategories(token1);
     if (set1 == null)
@@ -133,8 +133,8 @@ public class AgreementRule extends GermanRule {
     return ruleMatch;
   }
 
-  private RuleMatch checkDetAdjNounAgreement(AnalyzedGermanToken token1,
-      AnalyzedGermanToken token2, AnalyzedGermanToken token3) {
+  private RuleMatch checkDetAdjNounAgreement(AnalyzedGermanTokenReadings token1,
+      AnalyzedGermanTokenReadings token2, AnalyzedGermanTokenReadings token3) {
     RuleMatch ruleMatch = null;
     Set<String> set1 = getAgreementCategories(token1);
     if (set1 == null)
@@ -158,11 +158,11 @@ public class AgreementRule extends GermanRule {
   }
 
   /** Return Kasus, Numerus, Genus */
-  private Set<String> getAgreementCategories(AnalyzedGermanToken aToken) {
+  private Set<String> getAgreementCategories(AnalyzedGermanTokenReadings aToken) {
     Set<String> set = new HashSet<String>();
     List readings = aToken.getReadings();
     for (Iterator iter = readings.iterator(); iter.hasNext();) {
-      GermanTokenReading reading = (GermanTokenReading) iter.next();
+      AnalyzedGermanToken reading = (AnalyzedGermanToken) iter.next();
       if (reading.getCasus() == null && reading.getNumerus() == null &&
           reading.getGenus() == null)
         continue;

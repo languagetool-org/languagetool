@@ -21,19 +21,16 @@ package de.danielnaber.languagetool.rules.de;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
 import de.danielnaber.languagetool.AnalyzedSentence;
-//import de.danielnaber.languagetool.AnalyzedToken;
 import de.danielnaber.languagetool.AnalyzedTokenReadings;
 import de.danielnaber.languagetool.JLanguageTool;
 import de.danielnaber.languagetool.rules.RuleMatch;
-import de.danielnaber.languagetool.tagging.de.AnalyzedGermanToken;
+import de.danielnaber.languagetool.tagging.de.AnalyzedGermanTokenReadings;
 import de.danielnaber.languagetool.tagging.de.GermanTagger;
 import de.danielnaber.languagetool.tagging.de.GermanToken;
-import de.danielnaber.languagetool.tagging.de.GermanTokenReading;
 
 /**
  * Check that adjectives and verbs are not written with an uppercase
@@ -61,6 +58,8 @@ public class CaseRule extends GermanRule {
   
   private final static Set<String> substVerbenExceptions = new HashSet<String>();
   static {
+    substVerbenExceptions.add("so");
+    substVerbenExceptions.add("ist");
     substVerbenExceptions.add("können");
     substVerbenExceptions.add("muss");
     substVerbenExceptions.add("muß");
@@ -97,14 +96,14 @@ public class CaseRule extends GermanRule {
         }
         continue;
       }
-      AnalyzedGermanToken analyzedToken = (AnalyzedGermanToken)tokens[i];
+      AnalyzedGermanTokenReadings analyzedToken = (AnalyzedGermanTokenReadings)tokens[i];
       String token = analyzedToken.getToken();  
       List readings = analyzedToken.getReadings();
-      if (readings == null) {
+      AnalyzedGermanTokenReadings analyzedGermanToken2 = null;
+      if (readings == null || analyzedToken.getAnalyzedToken(0).getPOSTag() == null || hasOnlyVerbReadings(analyzedToken)) {
         // no match, e.g. for "Groß": try if there's a match for the lowercased word:
-        AnalyzedGermanToken analyzedGermanToken2;
         try {
-          analyzedGermanToken2 = tagger.lookup(token.toLowerCase(), -1);
+          analyzedGermanToken2 = tagger.lookup(token.toLowerCase());
           if (analyzedGermanToken2 != null)
             readings = analyzedGermanToken2.getReadings();
         } catch (IOException e) {
@@ -112,15 +111,14 @@ public class CaseRule extends GermanRule {
         }
         if (prevTokenIsDas) {
           // e.g. essen -> Essen
-          // TODO: this only makes sense as long as there are no verbs in the morph index!
           String newToken = token.substring(0, 1).toUpperCase() + token.substring(1);
           try {
-            analyzedGermanToken2 = tagger.lookup(newToken, -1);
+            analyzedGermanToken2 = tagger.lookup(newToken);
+            //analyzedGermanToken2.hasReadingOfType(GermanToken.POSType.VERB)
           } catch (IOException e) {
             throw new RuntimeException(e);
           }
-          if (analyzedGermanToken2 != null && Character.isLowerCase(token.charAt(0)) && 
-              !substVerbenExceptions.contains(token)) {
+          if (Character.isLowerCase(token.charAt(0)) && !substVerbenExceptions.contains(token)) {
             String msg = "Substantivierte Verben werden groß geschrieben.";
             RuleMatch ruleMatch = new RuleMatch(this, tokens[i].getStartPos(),
                 tokens[i].getStartPos()+token.length(), msg);
@@ -138,14 +136,18 @@ public class CaseRule extends GermanRule {
       }
       if (readings == null)
         continue;
-      boolean hasNounReading = false;
-      for (Iterator iter = readings.iterator(); iter.hasNext();) {
-        GermanTokenReading reading = (GermanTokenReading) iter.next();
-        if (reading.getType() == GermanToken.POSType.NOMEN)
-          hasNounReading = true;
-      }
+      boolean hasNounReading = analyzedToken.hasReadingOfType(GermanToken.POSType.NOMEN);
       if (hasNounReading)  // it's the spell checker's task to check that nouns are uppercase
         continue;
+      if (analyzedToken.getAnalyzedToken(0).getPOSTag() == null && analyzedGermanToken2 == null) {
+        continue;
+      }
+      if (analyzedToken.getAnalyzedToken(0).getPOSTag() == null && analyzedGermanToken2 != null
+          && analyzedGermanToken2.getAnalyzedToken(0).getPOSTag() == null) {
+        // unknown word, probably a name etc
+        continue;
+      }
+      
       if (Character.isUpperCase(token.charAt(0)) && ! tokens[i-1].getToken().equals(":") && 
           ! exceptions.contains(token) && token.length() > 1) {     // length limit = ignore abbreviations
         String msg = "Außer am Satzanfang werden nur Nomen und Eigennamen groß geschrieben";
@@ -159,6 +161,19 @@ public class CaseRule extends GermanRule {
       pos += token.length();
     }
     return toRuleMatchArray(ruleMatches);
+  }
+
+  private boolean hasOnlyVerbReadings(AnalyzedGermanTokenReadings analyzedToken) {
+    if (!analyzedToken.hasReadingOfType(GermanToken.POSType.NOMEN) &&
+        !analyzedToken.hasReadingOfType(GermanToken.POSType.ADJEKTIV) &&
+        !analyzedToken.hasReadingOfType(GermanToken.POSType.DETERMINER) &&
+        !analyzedToken.hasReadingOfType(GermanToken.POSType.PRONOMEN) &&
+        !analyzedToken.hasReadingOfType(GermanToken.POSType.PARTIZIP) &&
+        !analyzedToken.hasReadingOfType(GermanToken.POSType.OTHER) &&
+        analyzedToken.hasReadingOfType(GermanToken.POSType.VERB)) {
+      return true;
+    }
+    return false;
   }
 
   public void reset() {

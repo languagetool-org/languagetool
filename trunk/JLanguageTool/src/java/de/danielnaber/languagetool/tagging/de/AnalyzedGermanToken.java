@@ -18,106 +18,130 @@
  */
 package de.danielnaber.languagetool.tagging.de;
 
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.ArrayList;
-import java.util.Set;
-
 import de.danielnaber.languagetool.AnalyzedToken;
-import de.danielnaber.languagetool.AnalyzedTokenReadings;
+import de.danielnaber.languagetool.tagging.de.GermanToken.Genus;
+import de.danielnaber.languagetool.tagging.de.GermanToken.Kasus;
+import de.danielnaber.languagetool.tagging.de.GermanToken.Numerus;
 import de.danielnaber.languagetool.tagging.de.GermanToken.POSType;
 
 /**
- * All possible readings of an analyzed German word.
+ * One reading of a German word. Many words can have more
+ * than one reading, e.g. "Tische" can be both Nominativ Plural
+ * and Genitiv Plural (among other readings).
  * 
  * @author Daniel Naber
  */
-public class AnalyzedGermanToken extends AnalyzedTokenReadings {
+public class AnalyzedGermanToken extends AnalyzedToken {
 
-  private List readings = new ArrayList();
+  private POSType type;
+  private Kasus casus;
+  private Numerus numerus;
+  private Genus genus;
+
+  public AnalyzedGermanToken(String token, String posTag, int startPos) {
+    super(token, posTag, startPos);
+    initFromPOSTagString(posTag);
+  }
+
+  public AnalyzedGermanToken(String token, String posTag, String lemma) {
+    super(token, posTag, lemma);
+    initFromPOSTagString(posTag);
+  }
   
-  public AnalyzedGermanToken(String token, List readings, int startPos) {
-	  //super(token, null, startPos);
-	  super(new AnalyzedToken(token, null, startPos)); 
-    this.readings=readings;
-  }
-  
-  public AnalyzedGermanToken(AnalyzedTokenReadings atr) {
-	  super(new AnalyzedToken(atr.getToken(), atr.getAnalyzedToken(0).getPOSTag(), atr.getStartPos()));
-	  //super.readings=atr.getReadings();
-  }
-  
-  /**
-   * @return a list of {@link GermanTokenReading}s.
-   */
-  public List getReadings() {
-    return readings;
+  private void initFromPOSTagString(String posTagString) {
+    if (posTagString == null) {
+      return;
+    }
+    String[] parts = posTagString.split(":");
+    if (parts.length < 3) {
+      //FIXME ??
+      //System.err.println(posTagString);
+      return;
+    }
+    
+    //System.err.println(fullform + " " + posTagString);
+    for (int i = 0; i < parts.length; i++) {
+      if (parts[i].equals("SUB"))
+        type = POSType.NOMEN;
+      else if (parts[i].equals("PA1") || parts[i].equals("PA2"))
+        type = POSType.PARTIZIP;
+      else if (parts[i].equals("VER") && type == null)
+        type = POSType.VERB;
+      else if (parts[i].equals("ADJ"))
+        type = POSType.ADJEKTIV;
+      else if (parts[i].equals("PRO"))
+        type = POSType.PRONOMEN;
+      else if (parts[i].equals("ART"))
+        type = POSType.DETERMINER;
+      
+      else if (parts[i].equals("AKK"))
+        casus = Kasus.AKKUSATIV;
+      else if (parts[i].equals("GEN"))
+        casus = Kasus.GENITIV;
+      else if (parts[i].equals("NOM"))
+        casus = Kasus.NOMINATIV;
+      else if (parts[i].equals("DAT"))
+        casus = Kasus.DATIV;
+      
+      else if (parts[i].equals("PLU"))
+        numerus = Numerus.PLURAL;
+      else if (parts[i].equals("SIN"))
+        numerus = Numerus.SINGULAR;
+      
+      else if (parts[i].equals("MAS"))
+        genus = Genus.MASKULINUM;
+      else if (parts[i].equals("FEM"))
+        genus = Genus.FEMININUM;
+      else if (parts[i].equals("NEU"))
+        genus = Genus.NEUTRUM;
+      else if (parts[i].equals("NOG"))
+        genus = Genus.FEMININUM;    // NOG = no genus because only used as plural
+      
+      else if (parts[i].equals("DEF"))
+        ; // not yet used
+      else if (parts[i].equals("DEM"))    //???
+        ; // not yet used
+      else if (parts[i].equals("PER"))
+        ; // not yet used
+      
+      //else
+      //  System.err.println("unknown: " + posTagString + " for fullform " + fullform);
+      // TODO: add else here that throws execption?!
+    }
+    
   }
 
-  public boolean hasReadingOfType(POSType type) {
-    if (readings == null)
-      return false;
-    for (Iterator iter = readings.iterator(); iter.hasNext();) {
-      GermanTokenReading reading = (GermanTokenReading) iter.next();
-      if (reading.getType() == type)
-        return true;
-    }
-    return false;
+  public POSType getType() {
+    return type; 
   }
 
-  public boolean hasReading(GermanToken.Kasus kasus) {
-    if (readings == null)
-      return false;
-    for (Iterator iter = readings.iterator(); iter.hasNext();) {
-      GermanTokenReading reading = (GermanTokenReading) iter.next();
-      if (reading.getCasus() == kasus)
-        return true;
-    }
-    return false;
+  public Kasus getCasus() {
+    return casus; 
   }
 
-  public boolean hasReading(GermanToken.Numerus numerus) {
-    if (readings == null)
-      return false;
-    for (Iterator iter = readings.iterator(); iter.hasNext();) {
-      GermanTokenReading reading = (GermanTokenReading) iter.next();
-      if (reading.getNumerus() == numerus)
-        return true;
-    }
-    return false;
+  public Numerus getNumerus() {
+    return numerus; 
   }
 
-  public boolean hasReading(GermanToken.Genus genus) {
-    if (readings == null)
-      return false;
-    for (Iterator iter = readings.iterator(); iter.hasNext();) {
-      GermanTokenReading reading = (GermanTokenReading) iter.next();
-      if (reading.getGenus() == genus)
-        return true;
-    }
-    return false;
+  public Genus getGenus() {
+    return genus; 
   }
 
   public String toString() {
-    if (readings == null)
-      return super.getAnalyzedToken(0).getToken() + "[?]";
-    else {
-      StringBuffer sb = new StringBuffer(super.getAnalyzedToken(0).getToken());
-      Set<String> printed = new HashSet<String>();
-      sb.append("[");
-      for (Iterator iter = readings.iterator(); iter.hasNext();) {
-        GermanTokenReading reading = (GermanTokenReading) iter.next();
-        if (!printed.contains(reading.toString())) {
-          if (printed.size() > 0)
-            sb.append(", ");
-          sb.append(reading.toString());
-        }
-        printed.add(reading.toString());
-      }
-      sb.append("]");
-      return sb.toString();
-    }
+    String casusStr = makeReadableString(casus);
+    String numerusStr = makeReadableString(numerus);
+    String genusStr = makeReadableString(genus);
+    return type + "/" + casusStr + "/" + numerusStr + "/" + genusStr;
   }
-
+  
+  private String makeReadableString(Object obj) {
+    final int length = 3;
+    String str = null;
+    if (obj == null)
+      str = "-";
+    else
+      str = obj.toString().substring(0, length);
+    return str;
+  }
+  
 }

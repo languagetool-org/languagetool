@@ -1,5 +1,5 @@
 /* LanguageTool, a natural language style checker 
- * Copyright (C) 2005 Daniel Naber (http://www.danielnaber.de)
+ * Copyright (C) 2006 Daniel Naber (http://www.danielnaber.de)
  * 
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -24,131 +24,97 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import org.apache.lucene.document.Document;
-import org.apache.lucene.document.Field;
-import org.apache.lucene.index.Term;
-import org.apache.lucene.search.Hits;
-import org.apache.lucene.search.IndexSearcher;
-import org.apache.lucene.search.Query;
-import org.apache.lucene.search.TermQuery;
+import com.dawidweiss.stemmers.Lametyzator;
 
 import de.danielnaber.languagetool.AnalyzedTokenReadings;
 import de.danielnaber.languagetool.JLanguageTool;
 import de.danielnaber.languagetool.tagging.Tagger;
 
 /**
- * Experimental German tagger, requires data files in <code>resource/de/categories</code>.
+ * German tagger, requires data file in <code>resource/de/german.dict</code>.
  * 
- * @author Daniel Naber
+ * @author Marcin Milkowski, Daniel Naber
  */
 public class GermanTagger implements Tagger {
 
-  public static final String FULLFORM_FIELD = "fullform";
-  public static final String CATEGORIES_FIELD = "categories";
-  
-  private static final String INDEX_DIR = "resource" +File.separator+ "de" +File.separator+ "categories";
-  private IndexSearcher searcher = null;
+  private static final String RESOURCE_FILENAME = "resource" + File.separator + "de"
+      + File.separator + "german.dict";
+
+  private Lametyzator morfologik = null;
 
   public GermanTagger() {
   }
 
-  public AnalyzedGermanToken lookup(String word, int startPos) throws IOException {
-    return lookup(word, startPos, false);
-  }
-  
-  private AnalyzedGermanToken lookup(String word, int startPos, boolean makeLowercase) throws IOException {
-	
-    initSearcher();
-    Term term = null;
-    if (makeLowercase)
-      term = new Term(FULLFORM_FIELD, word.toLowerCase());
-    else
-      term = new Term(FULLFORM_FIELD, word);
-    Query query = new TermQuery(term);
-    Hits hits = searcher.search(query);
-    if (hits.length() == 0) {
+  public AnalyzedGermanTokenReadings lookup(String word) throws IOException {
+    List<String> l = new ArrayList<String>();
+    l.add(word);
+    List<AnalyzedTokenReadings> result = tag(l, false);
+    AnalyzedGermanTokenReadings atr = (AnalyzedGermanTokenReadings) result.get(0);
+    if (atr.getAnalyzedToken(0).getPOSTag() == null)
       return null;
-    } else {
-      List<GermanTokenReading> l = new ArrayList<GermanTokenReading>();
-      for (int j = 0; j < hits.length(); j++) {
-        Document doc = hits.doc(j);
-        Field[] fields = doc.getFields(CATEGORIES_FIELD);
-        if (fields != null) {
-          for (int i = 0; i < fields.length; i++) {
-            String val = fields[i].stringValue();
-            if (!val.equals("")) {
-              if (val.endsWith("O")) {        // originally from "NOG"
-                // TODO: what exactly does "NOG" mean?! for now, assume
-                // both MAS and FEM:
-                String val1 = val.replaceFirst("O$", "M");
-                GermanTokenReading tokenReading1 =
-                  GermanTokenReading.createTokenReadingFromMorphyString(val1, word);
-                l.add(tokenReading1);
-                String val2 = val.replaceFirst("O$", "F");
-                GermanTokenReading tokenReading2 =
-                  GermanTokenReading.createTokenReadingFromMorphyString(val2, word);
-                l.add(tokenReading2);
-              } else {
-                GermanTokenReading tokenReading =
-                  GermanTokenReading.createTokenReadingFromMorphyString(val, word);
-                l.add(tokenReading);
-              }
-            }
-          }
-        }
-      }
-      AnalyzedGermanToken aToken = new AnalyzedGermanToken(word, l, startPos);
-      return aToken;
-    }
+    return atr;
+  }
+
+  public List<AnalyzedTokenReadings> tag(List sentenceTokens) throws IOException {
+    return tag(sentenceTokens, true);
   }
   
-  public List<AnalyzedTokenReadings> tag(List tokens) throws IOException {
-    initSearcher();
-    List<AnalyzedTokenReadings> posTags = new ArrayList<AnalyzedTokenReadings>();
-    int pos = 0;
+  public List<AnalyzedTokenReadings> tag(List sentenceTokens, boolean ignoreCase) throws IOException {
+    String[] taggerTokens;
     boolean firstWord = true;
-    for (Iterator iter = tokens.iterator(); iter.hasNext();) {
+    List<AnalyzedTokenReadings> tokenReadings = new ArrayList<AnalyzedTokenReadings>();
+    int pos = 0;
+    // caching Lametyzator instance - lazy init
+    if (morfologik == null) {
+      File resourceFile = JLanguageTool.getAbsoluteFile(RESOURCE_FILENAME);
+      System.setProperty(Lametyzator.PROPERTY_NAME_LAMETYZATOR_DICT, resourceFile.getAbsolutePath());
+      morfologik = new Lametyzator();
+    }
+
+    for (Iterator iter = sentenceTokens.iterator(); iter.hasNext();) {
       String word = (String) iter.next();
-      AnalyzedGermanToken aToken = lookup(word, pos);
-      if (firstWord && aToken == null) {        // e.g. "Das" -> "das" at start of sentence
-        aToken = lookup(word, pos, true);
+      
+      List<AnalyzedGermanToken> l = new ArrayList<AnalyzedGermanToken>();
+      taggerTokens = morfologik.stemAndForm(word);
+      if (firstWord && taggerTokens == null && ignoreCase) { // e.g. "Das" -> "das" at start of sentence
+        taggerTokens = morfologik.stemAndForm(word.toLowerCase());
         firstWord = false;
       }
+      if (taggerTokens != null) {
+        int i = 0;
+        while (i < taggerTokens.length) {
+          // Lametyzator returns data as String[]
+          // first lemma, then annotations
+          l.add(new AnalyzedGermanToken(word, taggerTokens[i + 1], taggerTokens[i]));
+          i = i + 2;
+        }
+      } else {
+        l.add(new AnalyzedGermanToken(word, null, pos));
+      }
       pos += word.length();
-      if (aToken != null && aToken.getReadings().size() > 0)
-        posTags.add(aToken);
-      else
-        posTags.add(new AnalyzedGermanToken(word, (List)null, pos));
+      //tokenReadings.add(new AnalyzedGermanToken(new AnalyzedTokenReadings((AnalyzedToken[]) l.toArray(new AnalyzedToken[0]))));
+      tokenReadings.add(new AnalyzedGermanTokenReadings((AnalyzedGermanToken[]) l.toArray(new AnalyzedGermanToken[0])));
     }
-    return posTags;
+    return tokenReadings;
   }
 
   public Object createNullToken(String token, int startPos) {
-  	return new AnalyzedGermanToken(token, null, startPos);
+    return new AnalyzedGermanTokenReadings(new AnalyzedGermanToken(token, null, startPos));
+  }
+
+  /**
+   * Test only
+   */
+  public static void main(String[] args) throws IOException {
+    GermanTagger gt = new GermanTagger();
+    //PolishTagger gt =  new PolishTagger();
+    List<String> l = new ArrayList<String>();
+    l.add("Einfacher");
+    //l.add("każdym");
+    //System.err.println(gt.lookup("Treffen", 0));
+    
+    List res = gt.tag(l);
+    System.err.println(res);
   }
   
-  private void initSearcher() throws IOException {
-    if (searcher == null) {
-      // much faster, but needs much more RAM:
-      //RAMDirectory ramDir = new RAMDirectory(JLanguageTool.getAbsoluteFile(INDEX_DIR).getAbsolutePath());
-      //searcher = new IndexSearcher(ramDir);
-      searcher = new IndexSearcher(JLanguageTool.getAbsoluteFile(INDEX_DIR).getAbsolutePath());
-    }
-  }
-
-  /** For testing only. */
-  public static void main(String[] args) throws IOException {
-    if (args.length == 0) {
-      System.out.println("Usage: GermanTagger <word1> [word2...]");
-      System.exit(1);
-    }
-    GermanTagger tagger = new GermanTagger();
-    List<String> l = new ArrayList<String>();
-    for (int i = 0; i < args.length; i++) {
-      l.add(args[i]);
-    }
-    List result = tagger.tag(l);
-    System.out.println(result);
-  }
-
 }
