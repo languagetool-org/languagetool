@@ -62,7 +62,7 @@ public class AnalyzedSentence {
   public String toString() {
     StringBuffer sb = new StringBuffer();
     for (int i = 0; i < tokens.length; i++) {
-      for (int j = 0; j < tokens[i].getReadingslength(); j++) {
+      for (int j = 0; j < tokens[i].getReadingsLength(); j++) {
       if (JLanguageTool.SENTENCE_START_TAGNAME.equals(tokens[i].getAnalyzedToken(j).getPOSTag())) {
         sb.append("<S>");
       } else if (tokens[i].getAnalyzedToken(j) != null && tokens[i].getAnalyzedToken(j).getPOSTag() == null && !(tokens[i] instanceof AnalyzedGermanTokenReadings)) {

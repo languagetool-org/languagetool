@@ -56,7 +56,7 @@ public class AnalyzedTokenReadings {
 		return token;
 	}
 	
-	public int getReadingslength() {
+	public int getReadingsLength() {
 		return ATreadings.length;
 	}
 	

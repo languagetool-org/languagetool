@@ -167,7 +167,7 @@ public class PatternRule extends Rule {
     		}
     		for (int m = nextPos; m <= nextPos+prevSkipNext; m++) {    			
     			boolean Match = false;    			
-    			for (int l = 0; l < tokens[m].getReadingslength(); l++) {
+    			for (int l = 0; l < tokens[m].getReadingsLength(); l++) {
     				
     				AnalyzedToken matchToken = tokens[m].getAnalyzedToken(l);
     				// Logical OR (cannot be AND):
