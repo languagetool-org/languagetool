@@ -42,7 +42,7 @@ public class StringTools {
     InputStreamReader isr = null;
     BufferedReader br = null;
     FileInputStream fis = null;
-    StringBuffer sb = new StringBuffer();
+    StringBuilder sb = new StringBuilder();
     try {
       fis = new FileInputStream(filename);
       if (encoding != null)

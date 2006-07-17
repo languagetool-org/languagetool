@@ -152,7 +152,7 @@ class Main {
       endContent = fileContents.length();
     }
     // make "^" marker. inefficient but robust implementation:
-    StringBuffer marker = new StringBuffer();
+    StringBuilder marker = new StringBuilder();
     for (int i = 0; i < fileContents.length() + prefix.length(); i++) {
       if (i >= fromPos && i < toPos)
         marker.append("^");
@@ -160,7 +160,7 @@ class Main {
         marker.append(" ");
     }
     // now build context string plus marker:
-    StringBuffer sb = new StringBuffer();
+    StringBuilder sb = new StringBuilder();
     sb.append(prefix);
     sb.append(fileContents.substring(startContent, endContent));
     sb.append(postfix);

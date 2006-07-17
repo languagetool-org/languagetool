@@ -174,7 +174,7 @@ class Main implements ActionListener {
       if (textArea.getText().trim().equals("")) {
         textArea.setText("Please insert text to check here");
       } else {
-        StringBuffer sb = new StringBuffer();
+        StringBuilder sb = new StringBuilder();
         resultArea.setText("Starting check...<br>\n");
         resultArea.repaint(); // FIXME: why doesn't this work?
         //TODO: resultArea.setCursor(new Cursor(Cursor.WAIT_CURSOR)); 
@@ -198,7 +198,7 @@ class Main implements ActionListener {
     }
   }
   
-  private int checkText(JLanguageTool langTool, String text, StringBuffer sb) throws IOException {
+  private int checkText(JLanguageTool langTool, String text, StringBuilder sb) throws IOException {
     long startTime = System.currentTimeMillis();
     List ruleMatches = langTool.check(text);
     long startTimeMatching = System.currentTimeMillis();

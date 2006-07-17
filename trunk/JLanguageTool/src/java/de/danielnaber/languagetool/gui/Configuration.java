@@ -97,7 +97,7 @@ public class Configuration {
 
   public void saveConfiguration() throws IOException {
     Properties props = new Properties();
-    StringBuffer sb = new StringBuffer();
+    StringBuilder sb = new StringBuilder();
     for (Iterator<String> iter = disabledRuleIds.iterator(); iter.hasNext();) {
       String id = iter.next();
       sb.append(id);
