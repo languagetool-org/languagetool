@@ -30,18 +30,25 @@ import java.io.InputStreamReader;
  */
 public class StringTools {
 
-  private static final String FILE_ENCODING = System.getProperty("file.encoding", "latin1");
-
   private StringTools() {
     // only static stuff
   }
   
   public static String readFile(String filename) throws IOException {
+    return readFile(filename, null);
+  }
+  
+  public static String readFile(String filename, String encoding) throws IOException {
     InputStreamReader isr = null;
     BufferedReader br = null;
+    FileInputStream fis = null;
     StringBuffer sb = new StringBuffer();
     try {
-      isr = new InputStreamReader(new FileInputStream(filename), FILE_ENCODING);
+      fis = new FileInputStream(filename);
+      if (encoding != null)
+        isr = new InputStreamReader(fis, encoding);
+      else
+        isr = new InputStreamReader(fis);
       br = new BufferedReader(isr);
       String line;
       while ((line = br.readLine()) != null) {
@@ -51,6 +58,7 @@ public class StringTools {
     } finally {
       if (br != null) br.close();
       if (isr != null) isr.close();
+      if (fis != null) fis.close();
     }
     return sb.toString();
   }

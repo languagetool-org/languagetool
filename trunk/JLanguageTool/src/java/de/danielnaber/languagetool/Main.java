@@ -65,7 +65,7 @@ class Main {
     return lt;
   }
 
-  private void runRecursive(String filename) throws IOException,
+  private void runRecursive(String filename, String encoding) throws IOException,
       ParserConfigurationException, SAXException {
     File dir = new File(filename);
     if (!dir.isDirectory()) {
@@ -74,9 +74,9 @@ class Main {
     File[] files = dir.listFiles();
     for (int i = 0; i < files.length; i++) {
       if (files[i].isDirectory()) {
-        runRecursive(files[i].getAbsolutePath());
+        runRecursive(files[i].getAbsolutePath(), encoding);
       } else {
-        String text = getFilteredText(files[i].getAbsolutePath());
+        String text = getFilteredText(files[i].getAbsolutePath(), encoding);
         checkText(text);
       }
     }
@@ -89,11 +89,11 @@ class Main {
    * @param filename
    * @throws IOException
    */
-  private String getFilteredText(String filename) throws IOException {
+  private String getFilteredText(String filename, String encoding) throws IOException {
     if (verbose)
       lt.setOutput(System.err);
     System.out.println("Working on " + filename + "...");
-    String fileContents = StringTools.readFile(filename);
+    String fileContents = StringTools.readFile(filename, encoding);
     return filterXML(fileContents);
   }
   
@@ -171,7 +171,8 @@ class Main {
 
   private static void exitWithUsageMessage() {
     System.out.println("Usage: java de.danielnaber.languagetool.Main " +
-            "[-r|--recursive] [-v|--verbose] [-l|--language LANG] [-m|--mothertongue LANG] [-d|--disable RULES] <file>");
+            "[-r|--recursive] [-v|--verbose] [-l|--language LANG] [-m|--mothertongue LANG] [-d|--disable RULES] " +
+            "[-e|--encoding] <file>");
     System.exit(1);
   }
 
@@ -179,13 +180,14 @@ class Main {
    * Command line tool to check plain text files.
    */
   public static void main(String[] args) throws IOException, ParserConfigurationException, SAXException {
-    if (args.length < 1 || args.length > 6) {
+    if (args.length < 1 || args.length > 8) {
       exitWithUsageMessage();
     }
     boolean verbose = false;
     boolean recursive = false;
     Language language = null;
     Language motherTongue = null;
+    String encoding = null;
     String filename = null;
     String[] disabledRules = new String[0];
     for (int i = 0; i < args.length; i++) {
@@ -202,6 +204,8 @@ class Main {
         language = getLanguageOrExit(args[++i]);
       } else if (args[i].equals("-m") || args[i].equals("--mothertongue")) {
         motherTongue = getLanguageOrExit(args[++i]);
+      } else if (args[i].equals("-e") || args[i].equals("--encoding")) {
+        encoding = args[++i];
       } else {
         filename = args[i];
       }
@@ -215,9 +219,9 @@ class Main {
     }
     Main prg = new Main(verbose, language, motherTongue, disabledRules);
     if (recursive) {
-      prg.runRecursive(filename);
+      prg.runRecursive(filename, encoding);
     } else {
-      String text = prg.getFilteredText(filename);
+      String text = prg.getFilteredText(filename, encoding);
       prg.checkText(text);
     }
   }
