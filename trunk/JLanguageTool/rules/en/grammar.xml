@@ -4,7 +4,7 @@
 Rules: Grammar and Typos
 See tagset.txt for the meaning of the POS tags
 Copyright (C) 2001-2006 Daniel Naber (http://www.danielnaber.de)
-$Id: grammar.xml,v 1.45 2006-07-02 20:17:33 milek_pl Exp $
+$Id: grammar.xml,v 1.46 2006-07-18 21:11:37 dnaber Exp $
 -->
 <rules lang="en">
 
@@ -92,13 +92,6 @@ $Id: grammar.xml,v 1.45 2006-07-02 20:17:33 milek_pl Exp $
    </rule>
    -->
 
-   <rule id="AT_ITS_BEST" name="'at it's best'">
-      <pattern mark_from="1" mark_to="-1"><token>at</token><token>it</token><token>'</token><token>s</token><token>best</token></pattern>
-      <message>Did you mean <em>its</em>?</message>
-      <example type="correct">Linux at <em>its</em> best</example>
-      <example type="incorrect">Linux at <em>it's</em> best</example>
-   </rule>
-
 	<rule id="BED_ENGLISH" name="'bed/bat English/...'">
       <pattern mark_to="-1"><token regexp="yes">bed|bat</token><token regexp="yes">[Ee]nglish|attitude</token></pattern>
       <message>Did you mean <em>bad</em>?</message>
@@ -106,12 +99,19 @@ $Id: grammar.xml,v 1.45 2006-07-02 20:17:33 milek_pl Exp $
       <example type="incorrect">Sorry for my <em>bed</em> English.</example>
    </rule>
 
+	<!-- TODO: group -->
 	<rule id="YOUR" name="Possible typo 'your(you're)'">
       <pattern mark_to="-1"><token>your</token><token postag="VBG"/></pattern>
       <message>Did you mean <em>you're</em> or <em>you are</em>?</message>
       <example type="correct">Let's see if <em>you're</em> using multiple search servers.</example>
       <example type="correct">Let's see if <em>you are</em> using multiple search servers.</example>
       <example type="incorrect">Let's see if <em>your</em> using multiple search servers.</example>
+   </rule>
+	<rule id="YOUR2" name="Possible typo 'your(you're)'">
+      <pattern mark_from="1" mark_to="-1"><token>if</token><token>your</token><token>a</token></pattern>
+      <message>Did you mean <em>you're</em> or <em>you are</em>?</message>
+      <example type="correct">Let's see if <em>you're</em> a developer.</example>
+      <example type="incorrect">Let's see if <em>your</em> a developer.</example>
    </rule>
 	
    <rule id="BOTTLE_NECK" name="Possible typo 'bottle neck(bottleneck)'">
@@ -575,10 +575,31 @@ $Id: grammar.xml,v 1.45 2006-07-02 20:17:33 milek_pl Exp $
       </rule>
 
       <rule>
-         <pattern mark_from="0" mark_to="-1"><token>on</token><token>it</token><token>'</token><token>s</token><token>own</token></pattern>
+         <pattern mark_from="1" mark_to="-1"><token>on</token><token>it</token><token>'</token><token>s</token><token>own</token></pattern>
          <message>Did you mean <em>its</em> (possessive pronoun) instead of 'it's' (=it is)?</message>
          <example type="correct">New Robot Reproduces on <em>Its</em> Own.</example>
          <example type="incorrect">New Robot Reproduces on <em>It's</em> Own.</example>
+      </rule>
+
+      <rule>
+         <pattern mark_to="-1"><token>it</token><token>'</token><token>s</token><token regexp="yes">approach|idea</token></pattern>
+         <message>Did you mean <em>its</em> (possessive pronoun) instead of 'it's' (=it is)?</message>
+         <example type="correct">We could borrow <em>its</em> approach.</example>
+         <example type="incorrect">We could borrow <em>it's</em> approach.</example>
+      </rule>
+
+	   <rule>
+	      <pattern mark_from="1" mark_to="-1"><token>at</token><token>it</token><token>'</token><token>s</token><token>best</token></pattern>
+	      <message>Did you mean <em>its</em>?</message>
+	      <example type="correct">Linux at <em>its</em> best</example>
+	      <example type="incorrect">Linux at <em>it's</em> best</example>
+	   </rule>
+
+      <rule>
+         <pattern mark_from="2" mark_to="-1"><token>some</token><token>of</token><token>it</token><token>'</token><token>s</token><token postag="NNS" /></pattern>
+         <message>Did you mean <em>its</em> (possessive pronoun) instead of 'it's' (=it is)?</message>
+         <example type="correct">When some of <em>its</em> clauses match.</example>
+         <example type="incorrect">When some of <em>it's</em> clauses match.</example>
       </rule>
 
       <!-- TODO:
