@@ -2,10 +2,17 @@
 	<!--
 Rules: Grammar and Typos
 See tagset.txt for the meaning of the POS tags
-Copyright (C) 2001-2005 Daniel Naber (http://www.danielnaber.de)
-$Id: grammar.xml,v 1.28 2006-07-16 21:03:01 dnaber Exp $
+Copyright (C) 2001-2006 Daniel Naber (http://www.danielnaber.de)
+$Id: grammar.xml,v 1.29 2006-07-19 21:15:02 dnaber Exp $
 -->
 <rules lang="de">
+
+	<rule id="ZU_BUCHE" name="Möglicher Tippfehler 'zu buche(Buche) schlagen'">
+		<pattern mark_from="1" case_sensitive="yes"><token>zu</token><token>buche</token></pattern>
+		<message>In der Wendung <em>zu Buche schlagen</em> schreibt man <em>Buche</em> groß.</message>
+		<example type="correct">Das schlägt nicht so sehr zu <em>Buche</em>.</example>
+		<example type="incorrect">Das schlägt nicht so sehr zu <em>buche</em>.</example>
+	</rule>
 
 	<rule id="ALLES_OLLES" name="Möglicher Tippfehler 'alles/olles'">
 		<!-- "olles" is (very) colloquial, but anyway... -->
