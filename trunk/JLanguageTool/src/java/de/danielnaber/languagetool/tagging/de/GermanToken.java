@@ -36,6 +36,7 @@ public class GermanToken {
     public static final POSType DETERMINER = new POSType("Determiner");
     public static final POSType PRONOMEN = new POSType("Pronomen");
     public static final POSType PARTIZIP = new POSType("Partizip");
+    public static final POSType PROPER_NOUN = new POSType("Eigenname");
     public static final POSType OTHER = new POSType("Other");      // e.g. sentence start
 
     private String name;

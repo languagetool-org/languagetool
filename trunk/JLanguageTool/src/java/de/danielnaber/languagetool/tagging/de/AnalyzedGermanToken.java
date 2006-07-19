@@ -61,17 +61,19 @@ public class AnalyzedGermanToken extends AnalyzedToken {
     
     //System.err.println(fullform + " " + posTagString);
     for (int i = 0; i < parts.length; i++) {
-      if (parts[i].equals("SUB"))
+      if (parts[i].equals("EIG"))
+        type = POSType.PROPER_NOUN;
+      else if (parts[i].equals("SUB") && type == null)
         type = POSType.NOMEN;
       else if (parts[i].equals("PA1") || parts[i].equals("PA2"))
         type = POSType.PARTIZIP;
       else if (parts[i].equals("VER") && type == null)
         type = POSType.VERB;
-      else if (parts[i].equals("ADJ"))
+      else if (parts[i].equals("ADJ") && type == null)
         type = POSType.ADJEKTIV;
-      else if (parts[i].equals("PRO"))
+      else if (parts[i].equals("PRO") && type == null)
         type = POSType.PRONOMEN;
-      else if (parts[i].equals("ART"))
+      else if (parts[i].equals("ART") && type == null)
         type = POSType.DETERMINER;
       
       else if (parts[i].equals("AKK"))
