@@ -37,6 +37,8 @@ public class CaseRuleTest extends TestCase {
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("Ein einfacher Satz zum Testen.")).length);
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("Das Laufen fällt mir leicht.")).length);
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("Das Winseln stört.")).length);
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Das schlägt nicht so zu Buche.")).length);
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Dirk Hetzel ist ein Name.")).length);
     // Exception 'Le':
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("Schon Le Monde schrieb das.")).length);
     // unknown word:

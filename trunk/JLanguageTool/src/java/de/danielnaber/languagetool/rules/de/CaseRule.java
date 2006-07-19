@@ -31,6 +31,7 @@ import de.danielnaber.languagetool.rules.RuleMatch;
 import de.danielnaber.languagetool.tagging.de.AnalyzedGermanTokenReadings;
 import de.danielnaber.languagetool.tagging.de.GermanTagger;
 import de.danielnaber.languagetool.tagging.de.GermanToken;
+import de.danielnaber.languagetool.tagging.de.GermanToken.POSType;
 
 /**
  * Check that adjectives and verbs are not written with an uppercase
@@ -54,6 +55,7 @@ public class CaseRule extends GermanRule {
     exceptions.add("Ihrem");
     exceptions.add("Ihrer");
     exceptions.add("Sie");
+    exceptions.add("Aus");
   }
   
   private final static Set<String> substVerbenExceptions = new HashSet<String>();
@@ -100,12 +102,19 @@ public class CaseRule extends GermanRule {
       String token = analyzedToken.getToken();  
       List readings = analyzedToken.getReadings();
       AnalyzedGermanTokenReadings analyzedGermanToken2 = null;
-      if (readings == null || analyzedToken.getAnalyzedToken(0).getPOSTag() == null || hasOnlyVerbReadings(analyzedToken)) {
+      
+      boolean isBaseform = false;
+      if (analyzedToken.getReadingsLength() > 1 && token.equals(analyzedToken.getAnalyzedToken(0).getLemma())) {
+        isBaseform = true;
+      }
+      if ((readings == null || analyzedToken.getAnalyzedToken(0).getPOSTag() == null || hasOnlyVerbReadings(analyzedToken))
+          && isBaseform) {
         // no match, e.g. for "Groß": try if there's a match for the lowercased word:
         try {
           analyzedGermanToken2 = tagger.lookup(token.toLowerCase());
-          if (analyzedGermanToken2 != null)
+          if (analyzedGermanToken2 != null) {
             readings = analyzedGermanToken2.getReadings();
+          }
         } catch (IOException e) {
           throw new RuntimeException(e);
         }
@@ -139,6 +148,11 @@ public class CaseRule extends GermanRule {
       boolean hasNounReading = analyzedToken.hasReadingOfType(GermanToken.POSType.NOMEN);
       if (hasNounReading)  // it's the spell checker's task to check that nouns are uppercase
         continue;
+      try {
+        // TODO: this lookup should only happen once:
+        analyzedGermanToken2 = tagger.lookup(token.toLowerCase());
+      } catch (IOException e) {
+        throw new RuntimeException(e);      }
       if (analyzedToken.getAnalyzedToken(0).getPOSTag() == null && analyzedGermanToken2 == null) {
         continue;
       }
@@ -149,7 +163,9 @@ public class CaseRule extends GermanRule {
       }
       
       if (Character.isUpperCase(token.charAt(0)) && ! tokens[i-1].getToken().equals(":") && 
-          ! exceptions.contains(token) && token.length() > 1) {     // length limit = ignore abbreviations
+          !exceptions.contains(token) &&
+          token.length() > 1 &&     // length limit = ignore abbreviations
+          !analyzedToken.hasReadingOfType(POSType.PROPER_NOUN)) {
         String msg = "Außer am Satzanfang werden nur Nomen und Eigennamen groß geschrieben";
         RuleMatch ruleMatch = new RuleMatch(this, tokens[i].getStartPos(),
             tokens[i].getStartPos()+token.length(), msg);
