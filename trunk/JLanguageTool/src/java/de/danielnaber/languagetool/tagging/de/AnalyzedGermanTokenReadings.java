@@ -18,7 +18,7 @@
  */
 package de.danielnaber.languagetool.tagging.de;
 
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -45,8 +45,12 @@ public class AnalyzedGermanTokenReadings extends AnalyzedTokenReadings {
   /**
    * @return a list of {@link AnalyzedGermanToken}s.
    */
-  public List getReadings() {
-    return Arrays.asList(ATreadings);
+  public List<AnalyzedGermanToken> getReadings() {
+    List<AnalyzedGermanToken> l = new ArrayList<AnalyzedGermanToken>();
+    for (int i = 0; i < ATreadings.length; i++) {
+      l.add((AnalyzedGermanToken)ATreadings[i]);
+    }
+    return l;
   }
 
   public boolean hasReadingOfType(POSType type) {

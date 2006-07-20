@@ -102,7 +102,7 @@ class Main {
     List<RuleMatch> ruleMatches = lt.check(contents);
     long startTimeMatching = System.currentTimeMillis();
     int i = 1;
-    for (Iterator iter = ruleMatches.iterator(); iter.hasNext();) {
+    for (Iterator<RuleMatch> iter = ruleMatches.iterator(); iter.hasNext();) {
       RuleMatch match = (RuleMatch) iter.next();
       System.out.println(i + ".) Line " + (match.getLine()+1) + ", column " + match.getColumn() +
           ", Rule ID: " + match.getRule().getId());

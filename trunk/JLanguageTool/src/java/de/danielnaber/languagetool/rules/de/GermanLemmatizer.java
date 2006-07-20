@@ -40,17 +40,17 @@ class GermanLemmatizer {
     "fullform2baseform.txt";
   private static final String FILE_ENCODING = "utf-8";
   
-  private Map fullform2baseform;
+  private Map<String, String> fullform2baseform;
   
   GermanLemmatizer() throws IOException {
     fullform2baseform = loadWords(JLanguageTool.getAbsoluteFile(FILE_NAME));
   }
   
   String getBaseform(String fullform) {
-    return (String)fullform2baseform.get(fullform);
+    return fullform2baseform.get(fullform);
   }
   
-  private Map loadWords(File file) throws IOException {
+  private Map<String, String> loadWords(File file) throws IOException {
     Map<String, String> map = new HashMap<String, String>();
     FileInputStream fis = null;
     InputStreamReader isr = null;

@@ -40,12 +40,12 @@ import de.danielnaber.languagetool.Language;
  */
 public class PatternRuleLoader extends DefaultHandler {
 
-  private List rules;
+  private List<PatternRule> rules;
 
   public PatternRuleLoader() {
   }
 
-  public List getRules(String filename) throws ParserConfigurationException, SAXException, IOException {
+  public List<PatternRule> getRules(String filename) throws ParserConfigurationException, SAXException, IOException {
     PatternRuleHandler handler = new PatternRuleHandler();
     SAXParserFactory factory = SAXParserFactory.newInstance();
     SAXParser saxParser = factory.newSAXParser();
@@ -57,7 +57,7 @@ public class PatternRuleLoader extends DefaultHandler {
   /** Testing only. */
   public static void main(String[] args) throws ParserConfigurationException, SAXException, IOException {
     PatternRuleLoader prg = new PatternRuleLoader();
-    List l = prg.getRules("rules/de/grammar.xml");
+    List<PatternRule> l = prg.getRules("rules/de/grammar.xml");
     System.out.println(l);
   }
   

@@ -43,12 +43,12 @@ import de.danielnaber.languagetool.Language;
  */
 public class FalseFriendRuleLoader extends DefaultHandler {
 
-  private List rules;
+  private List<PatternRule> rules;
 
   public FalseFriendRuleLoader() {
   }
 
-  public List getRules(String filename, Language textLanguage, Language motherTongue) throws ParserConfigurationException, SAXException, IOException {
+  public List<PatternRule> getRules(String filename, Language textLanguage, Language motherTongue) throws ParserConfigurationException, SAXException, IOException {
     FalseFriendRuleHandler handler = new FalseFriendRuleHandler(textLanguage, motherTongue);
     SAXParserFactory factory = SAXParserFactory.newInstance();
     SAXParser saxParser = factory.newSAXParser();
@@ -60,17 +60,15 @@ public class FalseFriendRuleLoader extends DefaultHandler {
   /** Testing only. */
   public static void main(String[] args) throws ParserConfigurationException, SAXException, IOException {
     FalseFriendRuleLoader prg = new FalseFriendRuleLoader();
-    List l = prg.getRules("rules/false-friends.xml", Language.ENGLISH, Language.GERMAN);
+    List<PatternRule> l = prg.getRules("rules/false-friends.xml", Language.ENGLISH, Language.GERMAN);
     System.out.println("Hints for German native speakers:");
-    for (Iterator iter = l.iterator(); iter.hasNext();) {
-      PatternRule rule = (PatternRule) iter.next();
+    for (PatternRule rule : l) {
       System.out.println(rule);
     }
     System.out.println("=======================================");
     System.out.println("Hints for English native speakers:");
     l = prg.getRules("rules/false-friends.xml", Language.GERMAN, Language.ENGLISH);
-    for (Iterator iter = l.iterator(); iter.hasNext();) {
-      PatternRule rule = (PatternRule) iter.next();
+    for (PatternRule rule : l) {
       System.out.println(rule);
     }
   }

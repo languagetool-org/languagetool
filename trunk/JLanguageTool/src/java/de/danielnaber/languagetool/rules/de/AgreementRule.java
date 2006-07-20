@@ -20,17 +20,15 @@ package de.danielnaber.languagetool.rules.de;
 
 import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
 import de.danielnaber.languagetool.AnalyzedSentence;
-//import de.danielnaber.languagetool.AnalyzedToken;
 import de.danielnaber.languagetool.AnalyzedTokenReadings;
 import de.danielnaber.languagetool.JLanguageTool;
 import de.danielnaber.languagetool.rules.RuleMatch;
-import de.danielnaber.languagetool.tagging.de.AnalyzedGermanTokenReadings;
 import de.danielnaber.languagetool.tagging.de.AnalyzedGermanToken;
+import de.danielnaber.languagetool.tagging.de.AnalyzedGermanTokenReadings;
 import de.danielnaber.languagetool.tagging.de.GermanToken.POSType;
 
 /**
@@ -140,10 +138,10 @@ public class AgreementRule extends GermanRule {
     if (set1 == null)
       return null;  // word not known, assume it's correct
     //Set set1Orig = getAgreementCategories(term1);
-    Set set2 = getAgreementCategories(token2);
+    Set<String> set2 = getAgreementCategories(token2);
     if (set2 == null)
       return null;
-    Set set3 = getAgreementCategories(token3);
+    Set<String> set3 = getAgreementCategories(token3);
     if (set3 == null)
       return null;
     set1.retainAll(set2);
@@ -160,9 +158,8 @@ public class AgreementRule extends GermanRule {
   /** Return Kasus, Numerus, Genus */
   private Set<String> getAgreementCategories(AnalyzedGermanTokenReadings aToken) {
     Set<String> set = new HashSet<String>();
-    List readings = aToken.getReadings();
-    for (Iterator iter = readings.iterator(); iter.hasNext();) {
-      AnalyzedGermanToken reading = (AnalyzedGermanToken) iter.next();
+    List<AnalyzedGermanToken> readings = aToken.getReadings();
+    for (AnalyzedGermanToken reading : readings) {
       if (reading.getCasus() == null && reading.getNumerus() == null &&
           reading.getGenus() == null)
         continue;

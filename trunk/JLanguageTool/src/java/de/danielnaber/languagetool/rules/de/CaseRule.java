@@ -28,6 +28,7 @@ import de.danielnaber.languagetool.AnalyzedSentence;
 import de.danielnaber.languagetool.AnalyzedTokenReadings;
 import de.danielnaber.languagetool.JLanguageTool;
 import de.danielnaber.languagetool.rules.RuleMatch;
+import de.danielnaber.languagetool.tagging.de.AnalyzedGermanToken;
 import de.danielnaber.languagetool.tagging.de.AnalyzedGermanTokenReadings;
 import de.danielnaber.languagetool.tagging.de.GermanTagger;
 import de.danielnaber.languagetool.tagging.de.GermanToken;
@@ -100,7 +101,7 @@ public class CaseRule extends GermanRule {
       }
       AnalyzedGermanTokenReadings analyzedToken = (AnalyzedGermanTokenReadings)tokens[i];
       String token = analyzedToken.getToken();  
-      List readings = analyzedToken.getReadings();
+      List<AnalyzedGermanToken> readings = analyzedToken.getReadings();
       AnalyzedGermanTokenReadings analyzedGermanToken2 = null;
       
       boolean isBaseform = false;
