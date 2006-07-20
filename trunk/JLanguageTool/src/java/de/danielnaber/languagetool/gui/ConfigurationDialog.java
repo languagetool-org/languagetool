@@ -29,7 +29,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -73,7 +72,7 @@ public class ConfigurationDialog implements ActionListener {
     this.modal = modal;
   }
   
-  public void show(List rules) {
+  public void show(List<Rule> rules) {
     dialog = new JDialog();
     dialog.setTitle("LanguageTool Options");
     checkBoxes.clear();
@@ -97,10 +96,8 @@ public class ConfigurationDialog implements ActionListener {
     cons.anchor = GridBagConstraints.NORTHWEST;
     cons.gridx = 0;
     int row = 0;
-    for (Iterator iter = rules.iterator(); iter.hasNext();) {
-      Rule rule = (Rule) iter.next();
+    for (Rule rule : rules) {
       cons.gridy = row;
-      
       JCheckBox checkBox = new JCheckBox(rule.getDescription());
       if (inactiveRuleIds != null && inactiveRuleIds.contains(rule.getId()))
         checkBox.setSelected(false);

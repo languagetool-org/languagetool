@@ -50,6 +50,8 @@ import com.sun.star.uno.XComponentContext;
 
 import de.danielnaber.languagetool.Language;
 import de.danielnaber.languagetool.gui.Configuration;
+import de.danielnaber.languagetool.rules.Rule;
+import de.danielnaber.languagetool.rules.RuleMatch;
 
 /**
  * OpenOffice.org integration.
@@ -231,7 +233,7 @@ public class Main {
       }
       progressDialog.close();
       
-      List ruleMatches = checkerThread.getRuleMatches();
+      List<RuleMatch> ruleMatches = checkerThread.getRuleMatches();
       // TODO: why must these be wrapped in threads to avoid focus problems?
       if (ruleMatches.size() == 0) {
         String msg;
@@ -312,16 +314,16 @@ class DialogThread extends Thread {
 class ResultDialogThread extends Thread {
 
   private Configuration configuration;
-  private List rules;
+  private List<Rule> rules;
   private XTextDocument xTextDoc;
-  private List ruleMatches;
+  private List<RuleMatch> ruleMatches;
   private String text;
   private XTextViewCursor xViewCursor;
 
-  ResultDialogThread(Configuration configuration, List rules, XTextDocument xTextDoc, List ruleMatches, String text,
-      XTextViewCursor xViewCursor) {
+  ResultDialogThread(Configuration configuration, List<Rule> rules, XTextDocument xTextDoc,
+      List<RuleMatch> ruleMatches, String text, XTextViewCursor xViewCursor) {
     this.configuration = configuration;
-    this.rules =rules;
+    this.rules = rules;
     this.xTextDoc = xTextDoc;
     this.ruleMatches = ruleMatches;
     this.text = text;

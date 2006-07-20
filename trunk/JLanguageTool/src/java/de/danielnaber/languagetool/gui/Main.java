@@ -26,7 +26,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -45,6 +44,7 @@ import org.xml.sax.SAXException;
 
 import de.danielnaber.languagetool.JLanguageTool;
 import de.danielnaber.languagetool.Language;
+import de.danielnaber.languagetool.rules.Rule;
 import de.danielnaber.languagetool.rules.RuleMatch;
 
 /**
@@ -153,10 +153,9 @@ class Main implements ActionListener {
       langTool = new JLanguageTool(language, configDialog.getMotherTongue());
       langTool.activateDefaultPatternRules();
       langTool.activateDefaultFalseFriendRules();
-      Set disabledRules = configDialog.getDisabledRuleIds();
+      Set<String> disabledRules = configDialog.getDisabledRuleIds();
       if (disabledRules != null) {
-        for (Iterator iter = disabledRules.iterator(); iter.hasNext();) {
-          String ruleId = (String) iter.next();
+        for (String ruleId : disabledRules) {
           langTool.disableRule(ruleId);
         }
       }
@@ -168,7 +167,7 @@ class Main implements ActionListener {
       throw new RuntimeException(ex);
     }
     if (e.getActionCommand().equals(OPTIONS_BUTTON)) {
-      List rules = langTool.getAllRules();
+      List<Rule> rules = langTool.getAllRules();
       configDialog.show(rules);
     } else {
       if (textArea.getText().trim().equals("")) {
@@ -200,11 +199,10 @@ class Main implements ActionListener {
   
   private int checkText(JLanguageTool langTool, String text, StringBuilder sb) throws IOException {
     long startTime = System.currentTimeMillis();
-    List ruleMatches = langTool.check(text);
+    List<RuleMatch> ruleMatches = langTool.check(text);
     long startTimeMatching = System.currentTimeMillis();
     int i = 0;
-    for (Iterator iter = ruleMatches.iterator(); iter.hasNext();) {
-      RuleMatch match = (RuleMatch) iter.next();
+    for (RuleMatch match : ruleMatches) {
       sb.append("<br>\n<b>" +(i+1)+ ". Line " + (match.getLine() + 1) + ", column " + match.getColumn()
           + "</b><br>\n");
       String msg = match.getMessage();

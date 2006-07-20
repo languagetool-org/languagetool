@@ -19,12 +19,12 @@
 package de.danielnaber.languagetool.openoffice;
 
 import java.io.File;
-import java.util.Iterator;
 import java.util.List;
 
 import de.danielnaber.languagetool.JLanguageTool;
 import de.danielnaber.languagetool.Language;
 import de.danielnaber.languagetool.gui.Configuration;
+import de.danielnaber.languagetool.rules.RuleMatch;
 
 class CheckerThread extends Thread {
 
@@ -34,7 +34,7 @@ class CheckerThread extends Thread {
   private File baseDir;
   
   private JLanguageTool langTool; 
-  private List ruleMatches;
+  private List<RuleMatch> ruleMatches;
   private boolean done = false;
   
   CheckerThread(String text, Language docLanguage, Configuration config, File baseDir) {
@@ -48,7 +48,7 @@ class CheckerThread extends Thread {
     return done;
   }
 
-  List getRuleMatches() {
+  List<RuleMatch> getRuleMatches() {
     return ruleMatches;
   }
 
@@ -62,8 +62,7 @@ class CheckerThread extends Thread {
       langTool.activateDefaultPatternRules();
       langTool.activateDefaultFalseFriendRules();
       if (config.getDisabledRuleIds() != null) {
-        for (Iterator iter = config.getDisabledRuleIds().iterator(); iter.hasNext();) {
-          String id = (String) iter.next();
+        for (String id : config.getDisabledRuleIds()) {
           langTool.disableRule(id);
         }
       }

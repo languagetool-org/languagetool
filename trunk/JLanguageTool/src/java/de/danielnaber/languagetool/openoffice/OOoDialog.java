@@ -61,6 +61,7 @@ import de.danielnaber.languagetool.Language;
 import de.danielnaber.languagetool.gui.Configuration;
 import de.danielnaber.languagetool.gui.ConfigurationDialog;
 import de.danielnaber.languagetool.gui.Tools;
+import de.danielnaber.languagetool.rules.Rule;
 import de.danielnaber.languagetool.rules.RuleMatch;
 
 public class OOoDialog implements ActionListener {
@@ -74,7 +75,7 @@ public class OOoDialog implements ActionListener {
   private static final String COMPLETE_TEXT = "LanguageTool check is complete.";
   private static final String FONT_TAG = "<font face=\"Sans-Serif\">";
   
-  private List rules = null;
+  private List<Rule> rules = null;
   private JDialog dialog = null;
 
   private JTextPane contextArea = null;
@@ -87,7 +88,7 @@ public class OOoDialog implements ActionListener {
   private JButton closeButton = null;
   
   private XTextDocument xTextDoc = null;
-  private List ruleMatches = null;
+  private List<RuleMatch> ruleMatches = null;
   private String text = null;
 
   private RuleMatch currentRuleMatch = null;
@@ -98,7 +99,7 @@ public class OOoDialog implements ActionListener {
 
   private Configuration configuration = null;
 
-  OOoDialog(Configuration configuration, List rules, XTextDocument xTextDoc, List ruleMatches, String text,
+  OOoDialog(Configuration configuration, List<Rule> rules, XTextDocument xTextDoc, List<RuleMatch> ruleMatches, String text,
       XTextViewCursor xViewCursor) {
     this.rules = rules;
     this.xTextDoc = xTextDoc;
@@ -265,7 +266,7 @@ public class OOoDialog implements ActionListener {
   }
   
   private void setSuggestions() {
-    List suggestions = currentRuleMatch.getSuggestedReplacements();
+    List<String> suggestions = currentRuleMatch.getSuggestedReplacements();
     if (suggestions.size() == 0) {
       System.err.println("No suggested replacement found");
       changeButton.setEnabled(false);
@@ -332,8 +333,7 @@ public class OOoDialog implements ActionListener {
   private void ignoreAll() {
     int i = 0;
     List<RuleMatch> filteredRuleMatches = new ArrayList<RuleMatch>();
-    for (Iterator iter = ruleMatches.iterator(); iter.hasNext();) {
-      RuleMatch ruleMatch = (RuleMatch) iter.next();
+    for (RuleMatch ruleMatch : ruleMatches) {
       if (i <= currentRuleMatchPos) {
         filteredRuleMatches.add(ruleMatch);
         i++;
@@ -375,15 +375,21 @@ public class OOoDialog implements ActionListener {
     JLanguageTool lt = new JLanguageTool(Language.ENGLISH);
     lt.activateDefaultPatternRules();
     Configuration config = new Configuration(new File("/tmp"));
-    for (Iterator iter = config.getDisabledRuleIds().iterator(); iter.hasNext();) {
-      String id = (String) iter.next();
+    for (Iterator<String> iter = config.getDisabledRuleIds().iterator(); iter.hasNext();) {
+      String id = iter.next();
       lt.disableRule(id);
     }
     //String text = "and a hour ago. this is a test, I thing that's a good idea.";
     //String text = "i thing that's a good idea. This is an test.";
     String text = "There was to much snow.";
-    List ruleMatches = lt.check(text);
+    List<RuleMatch> ruleMatches = lt.check(text);
     OOoDialog prg = new OOoDialog(config, lt.getAllRules(), null, ruleMatches, text, null);
+
+    /*
+     *   OOoDialog(Configuration configuration, List<Rule> rules, XTextDocument xTextDoc, List<RuleMatch> ruleMatches, String text,
+      XTextViewCursor xViewCursor) {
+
+     */
     prg.show();
   }
 

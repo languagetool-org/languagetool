@@ -49,7 +49,7 @@ class ConfigThread extends Thread {
     return done || cfgDialog.isClosed();
   }
   
-  public Set getDisabledRuleIds() {
+  public Set<String> getDisabledRuleIds() {
     return cfgDialog.getDisabledRuleIds();
   }
 
