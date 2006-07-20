@@ -134,14 +134,14 @@ class FalseFriendRuleHandler extends XMLRuleHandler {
 		  }
 	  } else if (qName.equals("token")) {
 		  inToken = true;
-		  if (attrs.getValue("negate")!=null){
-			  tokenNegated=attrs.getValue("negate").equals("yes");
+		  if (attrs.getValue("negate") != null){
+			  tokenNegated = attrs.getValue("negate").equals("yes");
 		  }
-		  if (attrs.getValue("inflected")!=null){
-			  tokenInflected=attrs.getValue("inflected").equals("yes");
+		  if (attrs.getValue("inflected") != null){
+			  tokenInflected = attrs.getValue("inflected").equals("yes");
 		  }
-		  if (attrs.getValue("skip")!=null){
-			  skipPos=Integer.parseInt(attrs.getValue("skip"));
+		  if (attrs.getValue("skip") != null){
+			  skipPos = Integer.parseInt(attrs.getValue("skip"));
 		  }
 		  elements = new StringBuffer();
 		  if (elementList == null) //lazy init
@@ -149,13 +149,12 @@ class FalseFriendRuleHandler extends XMLRuleHandler {
 			  elementList = new ArrayList<Element>();
 		  }
 		  // POSElement creation
-		  if (attrs.getValue("postag")!=null)
+		  if (attrs.getValue("postag") != null)
 		  {
 			  //String exceptions[] = null;
-			  if (attrs.getValue("postag_exceptions")!=null) {
+			  if (attrs.getValue("postag_exceptions") != null) {
 				  exceptions=attrs.getValue("postag_exceptions").split("\\|");
-			  }
-			  else {
+			  } else {
 				  exceptions=null;
 			  }
 			  String[] pos = new String [1];
@@ -164,12 +163,11 @@ class FalseFriendRuleHandler extends XMLRuleHandler {
 				  regular = attrs.getValue("postag_regexp").equals("yes");
 			  }
 			  POSElement posElement = new POSElement(pos, caseSensitive, regular, exceptions);
-			  if (attrs.getValue("negate_pos")!=null){
+			  if (attrs.getValue("negate_pos") != null){
 				  posElement.setNegation(attrs.getValue("negate_pos").equals("yes"));
 			  }
 			  
-			  if (elementList == null) //lazy init
-			  {
+			  if (elementList == null) { //lazy init
 				  elementList = new ArrayList<Element>();
 			  }
 			  elementList.add(posElement);
@@ -178,7 +176,7 @@ class FalseFriendRuleHandler extends XMLRuleHandler {
 			  //elements would then be not elements but lists of elements...
 			  inToken=false;
 		  }
-		  if (attrs.getValue("regexp")!=null){
+		  if (attrs.getValue("regexp") != null){
 			  regExpression = attrs.getValue("regexp").equals("yes");
 		  }
 		  
@@ -225,8 +223,7 @@ class FalseFriendRuleHandler extends XMLRuleHandler {
 			  rules.add(rule);
 		  }
 		  
-		  if (elementList!=null)
-		  {
+		  if (elementList != null) {
 			  elementList.clear();
 		  }
 		  
