@@ -96,6 +96,7 @@ class FalseFriendRuleHandler extends XMLRuleHandler {
   private String id;
   private Language language;
   private Language translationLanguage;
+  private Language currentTranslationLanguage;
   private String ruleGroupId;
   private List<StringBuilder> translations = new ArrayList<StringBuilder>();
   private StringBuilder translation = new StringBuilder();
@@ -183,10 +184,14 @@ class FalseFriendRuleHandler extends XMLRuleHandler {
 	  } else if (qName.equals("translation")) {
 		  inTranslation = true;
 		  String languageStr = attrs.getValue("lang");
-		  translationLanguage = Language.getLanguageforShortName(languageStr);
-		  if (translationLanguage == null) {
-			  throw new SAXException("Unknown language '" + languageStr + "'");
-		  }
+      Language tmpLang = Language.getLanguageforShortName(languageStr);
+      currentTranslationLanguage = tmpLang;
+      if (tmpLang == motherTongue) {
+        translationLanguage = tmpLang;
+        if (translationLanguage == null) {
+          throw new SAXException("Unknown language '" + languageStr + "'");
+        }
+      }
 	  } else if (qName.equals("example") && attrs.getValue("type").equals("correct")) {
 		  inCorrectExample = true;
 		  correctExample = new StringBuffer();
@@ -205,7 +210,7 @@ class FalseFriendRuleHandler extends XMLRuleHandler {
   @SuppressWarnings("unused")
   public void endElement(String namespaceURI, String sName, String qName) {
 	  if (qName.equals("rule")) {
-		  if (language == textLanguage && translationLanguage == motherTongue) {
+		  if (language == textLanguage && translationLanguage != null && translationLanguage == motherTongue) {
 			  formatter.applyPattern(messages.getString("false_friend_hint"));
 			  Object[] messageArguments = {
 					  elements.toString().replace('|', '/'),
@@ -247,9 +252,12 @@ class FalseFriendRuleHandler extends XMLRuleHandler {
 	  } else if (qName.equals("pattern")) {
 		  inPattern = false;
 	  } else if (qName.equals("translation")) {
-		  translations.add(translation);
-		  translation = new StringBuilder();
+      if (currentTranslationLanguage == motherTongue) {
+        translations.add(translation);
+      }
+      translation = new StringBuilder();
 		  inTranslation = false;
+      currentTranslationLanguage = null;
 	  } else if (qName.equals("example")) {
 		  if (inCorrectExample) {
 			  correctExamples.add(correctExample.toString());
