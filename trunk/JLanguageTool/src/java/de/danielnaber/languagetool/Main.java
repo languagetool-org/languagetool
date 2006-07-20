@@ -99,7 +99,7 @@ class Main {
   
   void checkText(String contents) throws IOException {
     long startTime = System.currentTimeMillis();
-    List ruleMatches = lt.check(contents);
+    List<RuleMatch> ruleMatches = lt.check(contents);
     long startTimeMatching = System.currentTimeMillis();
     int i = 1;
     for (Iterator iter = ruleMatches.iterator(); iter.hasNext();) {

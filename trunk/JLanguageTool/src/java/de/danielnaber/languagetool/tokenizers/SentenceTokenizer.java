@@ -20,8 +20,8 @@ package de.danielnaber.languagetool.tokenizers;
 
 import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 import java.util.StringTokenizer;
 import java.util.regex.Pattern;
 
@@ -108,7 +108,7 @@ public class SentenceTokenizer implements Tokenizer {
   private static final String[] germanMonthList = { "Januar", "Februar", "März", "April", "Mai",
       "Juni", "Juli", "August", "September", "Oktober", "November", "Dezember" };
 
-  private static HashSet<String> abbreviations = new HashSet<String>();
+  private static Set<String> abbreviations = new HashSet<String>();
   private StringTokenizer stringTokenizer = null;
 
   /**
@@ -120,7 +120,7 @@ public class SentenceTokenizer implements Tokenizer {
     }
   }
 
-  public List tokenize(String s) {
+  public List<String> tokenize(String s) {
     s = firstSentenceSplitting(s);
     s = removeFalseEndOfSentence(s);
     s = splitUnsplitStuff(s);
@@ -168,8 +168,7 @@ public class SentenceTokenizer implements Tokenizer {
     s = abbrev5.matcher(s).replaceAll("$1");
 
     // Don't split at abbreviations:
-    for (Iterator iter = abbreviations.iterator(); iter.hasNext();) {
-      String abbrev = (String) iter.next();
+    for (String abbrev : abbreviations) {
       Pattern pattern = Pattern.compile("(\\b" + abbrev + PAP + "\\s)" + EOS);
       s = pattern.matcher(s).replaceAll("$1");
     }

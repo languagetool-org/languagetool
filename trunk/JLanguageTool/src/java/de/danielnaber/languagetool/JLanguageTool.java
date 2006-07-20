@@ -271,11 +271,11 @@ public class JLanguageTool {
    * @return a List of {@link RuleMatch} objects
    * @throws IOException 
    */
-  public List check(String text) throws IOException {
+  public List<RuleMatch> check(String text) throws IOException {
     sentenceCount = 0;
-    List sentences = sentenceTokenizer.tokenize(text);
+    List<String> sentences = sentenceTokenizer.tokenize(text);
     List<RuleMatch> ruleMatches = new ArrayList<RuleMatch>();
-    List allRules = getAllRules();
+    List<Rule> allRules = getAllRules();
     printIfVerbose(allRules.size() + " rules activated for language " + language);
     int tokenCount = 0;
     int lineCount = 0;
@@ -345,7 +345,7 @@ public class JLanguageTool {
    * @throws IOException 
    */
   public AnalyzedSentence getAnalyzedSentence(String sentence) throws IOException {
-    List tokens = wordTokenizer.tokenize(sentence);
+    List<String> tokens = wordTokenizer.tokenize(sentence);
     List<String> noWhitespaceTokens = new ArrayList<String>();
     // whitespace confuses tagger, so give it the tokens but no whitespace tokens:
     for (Iterator iterator = tokens.iterator(); iterator.hasNext();) {
@@ -354,7 +354,7 @@ public class JLanguageTool {
         noWhitespaceTokens.add(token);
       }
     }
-    List aTokens = tagger.tag(noWhitespaceTokens);
+    List<AnalyzedTokenReadings> aTokens = tagger.tag(noWhitespaceTokens);
     AnalyzedTokenReadings[] tokenArray = new AnalyzedTokenReadings[tokens.size()+1];
     AnalyzedToken[] startTokenArray = new AnalyzedToken[1];  
     int toArrayCount = 0;
@@ -394,15 +394,14 @@ public class JLanguageTool {
    *  
    * @return a List of {@link Rule} objects
    */
-  public List getAllRules() {
+  public List<Rule> getAllRules() {
     List<Rule> rules = new ArrayList<Rule>();
     rules.addAll(builtinRules);
     rules.addAll(userRules);
     // Some rules have an internal state so they can do checks over sentence
     // boundaries. These need to be reset so the checks don't suddendly
     // work on different texts with the same data:
-    for (Iterator iter = rules.iterator(); iter.hasNext();) {
-      Rule rule = (Rule) iter.next();
+    for (Rule rule : rules) {
       rule.reset();
     }
     return rules;
