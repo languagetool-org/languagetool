@@ -210,10 +210,10 @@ class FalseFriendRuleHandler extends XMLRuleHandler {
 		  if (language == textLanguage && translationLanguage == motherTongue) {
 			  formatter.applyPattern(messages.getString("false_friend_hint"));
 			  Object[] messageArguments = {
-					  elements,
-					  textLanguage.getShortName(),
+					  elements.toString().replace('|', '/'),
+            messages.getString(textLanguage.getShortName()),
 					  formatTranslations(translations),
-					  motherTongue.getShortName()
+            messages.getString(motherTongue.getShortName())
 			  };
 			  String description = formatter.format(messageArguments);
 			  //String rulePattern = makeRulePattern(pattern.toString());
