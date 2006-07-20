@@ -20,6 +20,7 @@ package de.danielnaber.languagetool.rules.patterns;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -88,11 +89,11 @@ public class PatternRuleTest extends TestCase {
     return matches.length > 0;
   }
 
-/*  public void testRule() throws IOException {
+  public void testRule() throws IOException {
     PatternRule pr;
     RuleMatch[] matches;
 
-    pr = makePatternRule("\"one\"");
+    pr = makePatternRule("one");
     matches = pr.match(langTool.getAnalyzedSentence("A non-matching sentence."));
     assertEquals(0, matches.length);
     matches = pr.match(langTool.getAnalyzedSentence("A matching sentence with one match."));
@@ -107,7 +108,7 @@ public class PatternRuleTest extends TestCase {
     matches = pr.match(langTool.getAnalyzedSentence("one one and one: three matches"));
     assertEquals(3, matches.length);
 
-    pr = makePatternRule("\"one\" \"two\"");
+    pr = makePatternRule("one two");
     matches = pr.match(langTool.getAnalyzedSentence("this is one not two"));
     assertEquals(0, matches.length);
     matches = pr.match(langTool.getAnalyzedSentence("this is two one"));
@@ -117,7 +118,7 @@ public class PatternRuleTest extends TestCase {
     matches = pr.match(langTool.getAnalyzedSentence("one two"));
     assertEquals(1, matches.length);
     
-    pr = makePatternRule("\"one|foo|xxxx\" \"two\"");
+    pr = makePatternRule("one|foo|xxxx two", false, true);
     matches = pr.match(langTool.getAnalyzedSentence("one foo three"));
     assertEquals(0, matches.length);
     matches = pr.match(langTool.getAnalyzedSentence("one two"));
@@ -129,7 +130,7 @@ public class PatternRuleTest extends TestCase {
     matches = pr.match(langTool.getAnalyzedSentence("y x z one two blah foo"));
     assertEquals(1, matches.length);
 
-    pr = makePatternRule("\"one|foo|xxxx\" \"two|yyy\"");
+    pr = makePatternRule("one|foo|xxxx two|yyy", false, true);
     matches = pr.match(langTool.getAnalyzedSentence("one, yyy"));
     assertEquals(0, matches.length);
     matches = pr.match(langTool.getAnalyzedSentence("one yyy"));
@@ -138,28 +139,39 @@ public class PatternRuleTest extends TestCase {
     assertEquals(1, matches.length);
     matches = pr.match(langTool.getAnalyzedSentence("xxxx yyy"));
     assertEquals(1, matches.length);
-  }*/
+  }
 
-/*  private PatternRule makePatternRule(String s) {
-    return makePatternRule(s, false);
-  }*/
+  private PatternRule makePatternRule(String s) {
+    return makePatternRule(s, false, false);
+  }
 
-/*  private PatternRule makePatternRule(String s, boolean caseSensitive) {
-    PatternRule rule = new PatternRule("ID1", Language.ENGLISH, s, "test rule", "user visible message");
+  private PatternRule makePatternRule(String s, boolean caseSensitive, boolean regex) {
+    List<Element> elems = new ArrayList<Element>();
+    String[] parts = s.split(" ");
+    for (int i = 0; i < parts.length; i++) {
+      if (parts[i].equals("SENT_START")) {
+        POSElement se = new POSElement(new String[]{parts[i]}, false, new String[]{});
+        elems.add(se);
+      } else {
+        StringElement se = new StringElement(parts[i], caseSensitive, regex, false);
+        elems.add(se);
+      }
+    }
+    PatternRule rule = new PatternRule("ID1", Language.ENGLISH, elems, "test rule", "user visible message");
     rule.setCaseSensitive(caseSensitive);
     return rule;
-  }*/
+  }
 
-/*  public void testSentenceStart() throws IOException {
+  public void testSentenceStart() throws IOException {
     PatternRule pr;
     RuleMatch[] matches;
 
-    pr = makePatternRule("SENT_START \"One\"");
+    pr = makePatternRule("SENT_START One");
     matches = pr.match(langTool.getAnalyzedSentence("Not One word."));
     assertEquals(0, matches.length);
     matches = pr.match(langTool.getAnalyzedSentence("One word."));
     assertEquals(1, matches.length);
-  }*/
+  }
 
   
 /*public void testNegation() throws IOException {
