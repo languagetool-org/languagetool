@@ -45,7 +45,7 @@ public class EnglishTagger implements Tagger {
   public EnglishTagger() {
   }
   
-  public List<AnalyzedTokenReadings> tag(List tokens) {
+  public List<AnalyzedTokenReadings> tag(List<String> tokens) {
     // lazy init to save startup time if the English tagger isn't used:
     if (tagger == null) {
       File resourceFile = JLanguageTool.getAbsoluteFile(RESOURCE_FILENAME);

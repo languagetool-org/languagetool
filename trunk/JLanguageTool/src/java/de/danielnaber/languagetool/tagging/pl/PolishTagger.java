@@ -28,7 +28,7 @@ public class PolishTagger implements Tagger {
     "polish.dict"; 
 	private Lametyzator morfologik = null; 
 	
-  public List<AnalyzedTokenReadings> tag(List sentenceTokens) throws IOException {
+  public List<AnalyzedTokenReadings> tag(List<String> sentenceTokens) throws IOException {
     String[] taggerTokens;
     boolean firstWord = true;
 	List<AnalyzedTokenReadings> tokenReadings = new ArrayList<AnalyzedTokenReadings>();
@@ -40,8 +40,8 @@ public class PolishTagger implements Tagger {
 	   morfologik = new Lametyzator();
 	}
 	
-    for (Iterator iter = sentenceTokens.iterator(); iter.hasNext();) {
-      String word = (String) iter.next();
+    for (Iterator<String> iter = sentenceTokens.iterator(); iter.hasNext();) {
+      String word = iter.next();
       List<AnalyzedToken> l = new ArrayList<AnalyzedToken>();
 	    taggerTokens = morfologik.stemAndForm(word);
 	    if (firstWord && taggerTokens == null) {        // e.g. "Das" -> "das" at start of sentence

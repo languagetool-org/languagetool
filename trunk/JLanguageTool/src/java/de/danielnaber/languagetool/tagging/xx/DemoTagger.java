@@ -19,12 +19,12 @@ import de.danielnaber.languagetool.tagging.Tagger;
  */
 public class DemoTagger implements Tagger {
 
-  public List<AnalyzedTokenReadings> tag(List sentenceTokens) {
+  public List<AnalyzedTokenReadings> tag(List<String> sentenceTokens) {
 
     List<AnalyzedTokenReadings> tokenReadings = new ArrayList<AnalyzedTokenReadings>();
     int pos = 0;
-    for (Iterator iter = sentenceTokens.iterator(); iter.hasNext();) {
-    	String word = (String) iter.next();
+    for (Iterator<String> iter = sentenceTokens.iterator(); iter.hasNext();) {
+    	String word = iter.next();
         List<AnalyzedToken> l = new ArrayList<AnalyzedToken>();
       // a real tagger would need to assign a POS tag
       // in the next line instead of null:

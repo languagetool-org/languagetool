@@ -182,7 +182,7 @@ public class JLanguageTool {
    * @throws IOException
    * @return a List of {@link PatternRule} objects
    */
-  public List loadPatternRules(String filename) throws ParserConfigurationException, SAXException, IOException {
+  public List<PatternRule> loadPatternRules(String filename) throws ParserConfigurationException, SAXException, IOException {
     PatternRuleLoader ruleLoader = new PatternRuleLoader();
     return ruleLoader.getRules(filename);
   }
@@ -198,9 +198,9 @@ public class JLanguageTool {
    * @throws IOException
    * @return a List of {@link PatternRule} objects
    */
-  public List loadFalseFriendRules(String filename) throws ParserConfigurationException, SAXException, IOException {
+  public List<PatternRule> loadFalseFriendRules(String filename) throws ParserConfigurationException, SAXException, IOException {
     if (motherTongue == null)
-      return new ArrayList();
+      return new ArrayList<PatternRule>();
     FalseFriendRuleLoader ruleLoader = new FalseFriendRuleLoader();
     return ruleLoader.getRules(filename, language, motherTongue);
   }
@@ -215,11 +215,8 @@ public class JLanguageTool {
   public void activateDefaultPatternRules() throws ParserConfigurationException, SAXException, IOException {
     String defaultPatternFilename = 
       RULES_DIR +File.separator+ language.getShortName() +File.separator+ PATTERN_FILE;
-    List patternRules = loadPatternRules(defaultPatternFilename);
-    for (Iterator iter = patternRules.iterator(); iter.hasNext();) {
-      Rule rule = (Rule) iter.next();
-      addRule(rule);
-    }
+    List<PatternRule> patternRules = loadPatternRules(defaultPatternFilename);
+    userRules.addAll(patternRules);
   }
 
   /**
@@ -231,11 +228,8 @@ public class JLanguageTool {
    */
   public void activateDefaultFalseFriendRules() throws ParserConfigurationException, SAXException, IOException {
     String falseFriendRulesFilename =  RULES_DIR +File.separator+ FALSE_FRIEND_FILE;
-    List patternRules = loadFalseFriendRules(falseFriendRulesFilename);
-    for (Iterator iter = patternRules.iterator(); iter.hasNext();) {
-      Rule rule = (Rule) iter.next();
-      addRule(rule);
-    }
+    List<PatternRule> patternRules = loadFalseFriendRules(falseFriendRulesFilename);
+    userRules.addAll(patternRules);
   }
 
   /**
@@ -280,14 +274,14 @@ public class JLanguageTool {
     int tokenCount = 0;
     int lineCount = 0;
     int columnCount = 0;
-    for (Iterator iter = sentences.iterator(); iter.hasNext();) {
-      String sentence = (String) iter.next();
+    for (Iterator<String> iter = sentences.iterator(); iter.hasNext();) {
+      String sentence = iter.next();
       sentenceCount++;
       AnalyzedSentence analyzedText = getAnalyzedSentence(sentence);
       List<RuleMatch> sentenceMatches = new ArrayList<RuleMatch>();
       printIfVerbose(analyzedText.toString());
-      for (Iterator iterator = allRules.iterator(); iterator.hasNext();) {
-        Rule rule = (Rule) iterator.next();
+      for (Iterator<Rule> iterator = allRules.iterator(); iterator.hasNext();) {
+        Rule rule = iterator.next();
         if (disabledRules.contains(rule.getId()))
           continue;
         RuleMatch[] thisMatches = rule.match(analyzedText);
@@ -348,8 +342,7 @@ public class JLanguageTool {
     List<String> tokens = wordTokenizer.tokenize(sentence);
     List<String> noWhitespaceTokens = new ArrayList<String>();
     // whitespace confuses tagger, so give it the tokens but no whitespace tokens:
-    for (Iterator iterator = tokens.iterator(); iterator.hasNext();) {
-      String token = (String) iterator.next();
+    for (String token : tokens) {
       if (isWord(token)) {
         noWhitespaceTokens.add(token);
       }
@@ -363,18 +356,17 @@ public class JLanguageTool {
     tokenArray[toArrayCount++]=new AnalyzedTokenReadings(startTokenArray);
     int startPos = 0;
     int noWhitespaceCount = 0;
-    for (Iterator iterator = tokens.iterator(); iterator.hasNext();) {
-    	String tokenStr = (String) iterator.next();
-    	AnalyzedTokenReadings posTag = null;
-    	if (isWord(tokenStr)) {    	 
-    		posTag = (AnalyzedTokenReadings)aTokens.get(noWhitespaceCount);
-    		posTag.startPos = startPos;
-    		noWhitespaceCount++;
-    	} else {
-    		posTag = (AnalyzedTokenReadings)tagger.createNullToken(tokenStr, startPos); 
-    	}
-    	tokenArray[toArrayCount++] = posTag;
-    	startPos += tokenStr.length();
+    for (String tokenStr : tokens) {
+      AnalyzedTokenReadings posTag = null;
+      if (isWord(tokenStr)) {      
+        posTag = (AnalyzedTokenReadings)aTokens.get(noWhitespaceCount);
+        posTag.startPos = startPos;
+        noWhitespaceCount++;
+      } else {
+        posTag = (AnalyzedTokenReadings)tagger.createNullToken(tokenStr, startPos); 
+      }
+      tokenArray[toArrayCount++] = posTag;
+      startPos += tokenStr.length();
     }
     return new AnalyzedSentence(tokenArray);
   }

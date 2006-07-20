@@ -21,7 +21,6 @@ package de.danielnaber.languagetool.tagging.de;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import com.dawidweiss.stemmers.Lametyzator;
@@ -55,11 +54,11 @@ public class GermanTagger implements Tagger {
     return atr;
   }
 
-  public List<AnalyzedTokenReadings> tag(List sentenceTokens) throws IOException {
+  public List<AnalyzedTokenReadings> tag(List<String> sentenceTokens) throws IOException {
     return tag(sentenceTokens, true);
   }
   
-  public List<AnalyzedTokenReadings> tag(List sentenceTokens, boolean ignoreCase) throws IOException {
+  public List<AnalyzedTokenReadings> tag(List<String> sentenceTokens, boolean ignoreCase) throws IOException {
     String[] taggerTokens;
     boolean firstWord = true;
     List<AnalyzedTokenReadings> tokenReadings = new ArrayList<AnalyzedTokenReadings>();
@@ -71,9 +70,7 @@ public class GermanTagger implements Tagger {
       morfologik = new Lametyzator();
     }
 
-    for (Iterator iter = sentenceTokens.iterator(); iter.hasNext();) {
-      String word = (String) iter.next();
-      
+    for (String word: sentenceTokens) {
       List<AnalyzedGermanToken> l = new ArrayList<AnalyzedGermanToken>();
       taggerTokens = morfologik.stemAndForm(word);
       if (firstWord && taggerTokens == null && ignoreCase) { // e.g. "Das" -> "das" at start of sentence
@@ -93,7 +90,7 @@ public class GermanTagger implements Tagger {
       }
       pos += word.length();
       //tokenReadings.add(new AnalyzedGermanToken(new AnalyzedTokenReadings((AnalyzedToken[]) l.toArray(new AnalyzedToken[0]))));
-      tokenReadings.add(new AnalyzedGermanTokenReadings((AnalyzedGermanToken[]) l.toArray(new AnalyzedGermanToken[0])));
+      tokenReadings.add(new AnalyzedGermanTokenReadings(l.toArray(new AnalyzedGermanToken[0])));
     }
     return tokenReadings;
   }
@@ -113,7 +110,7 @@ public class GermanTagger implements Tagger {
     //l.add("każdym");
     //System.err.println(gt.lookup("Treffen", 0));
     
-    List res = gt.tag(l);
+    List<AnalyzedTokenReadings> res = gt.tag(l);
     System.err.println(res);
   }
   

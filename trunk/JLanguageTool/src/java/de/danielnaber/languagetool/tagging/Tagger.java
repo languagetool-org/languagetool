@@ -40,7 +40,7 @@ public interface Tagger {
    * 
    * @param sentenceTokens the text as returned by a WordTokenizer but whithout whitespace tokens. 
    */
-  public List<AnalyzedTokenReadings> tag(List sentenceTokens) throws IOException;
+  public List<AnalyzedTokenReadings> tag(List<String> sentenceTokens) throws IOException;
   
   /** 
    * Create the AnalyzedToken used for whitespace and other non-words. Use <code>null</code>
