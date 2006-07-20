@@ -45,9 +45,11 @@ TODO:
  -use Java 1.5 enums
  -use Java 1.5 generics everywhere (maybe also instead of arrays)
  -add more rules, especially agreement stuff
+ -add UnpairedQuotesBracketsRule (for pairing "(), [], {}, «», "", „”, depending on the language)
+ -add simple sentence/word complexity test like that: http://www.ooomacros.org/user.php#111318 
  -see "TODO" in the source
  -create abstract SentenceRule and TextRule classes to get rid of reset() method?
- -...
+  -...
 
 Using LanguageTool from .NET:
  Thanks to IKVM (http://www.ikvm.net/) you can easily turn LanguageTool
