@@ -48,22 +48,23 @@ public class PatternRule extends Rule {
   private boolean caseSensitive = false;
   private boolean regExp = false;
   
-  private Element[] patternElements;
+  private List<Element> patternElements;
 
-  PatternRule(String id, Language language, String pattern, String description, String message) {
+  PatternRule(String id, Language language, List<Element> elements, String description, String message) {
     if (id == null)
       throw new NullPointerException("id cannot be null");
     if (language == null)
       throw new NullPointerException("language cannot be null");
-    if (pattern == null)
-      throw new NullPointerException("pattern cannot be null");
+    if (elements == null)
+      throw new NullPointerException("elements cannot be null");
     if (description == null)
       throw new NullPointerException("description cannot be null");
     this.id = id;
     this.language = new Language[] { language };
-    this.pattern = pattern;
+    //this.pattern = pattern;
     this.description = description;
     this.message = message;
+    this.patternElements = new ArrayList<Element>(elements);    // copy elements
   }
 
   public String getId() {
@@ -122,18 +123,6 @@ public class PatternRule extends Rule {
     this.endPositionCorrection = endPositionCorrection;
   }
 
-  public void addPatternElements(List elements) {
-    List<Element> elems = new ArrayList<Element>();
-    if (this.patternElements != null)
-      for (int i = 0; i < this.patternElements.length; i++) {
-        elems.add(this.patternElements[i]);
-      }
-    for (int i = 0; i < elements.size(); i++) {
-      elems.add((Element) elements.get(i));
-    }
-    this.patternElements = (Element[]) elems.toArray(new Element[0]);
-  }
-
   public RuleMatch[] match(AnalyzedSentence text) {
     List<RuleMatch> ruleMatches = new ArrayList<RuleMatch>();
     AnalyzedTokenReadings[] tokens = text.getTokensWithoutWhitespace();
@@ -151,8 +140,8 @@ public class PatternRule extends Rule {
     	boolean allElementsMatch = true;
     	
     	int matchingTokens = 0;
-    	for (int k = 0; k < patternElements.length; k++) {
-    		Element elem = patternElements[k];
+      for (int k = 0; k < patternElements.size(); k++) {
+        Element elem = patternElements.get(k);
     		skipNext = elem.getSkipNext();
     		int nextPos = tokenPos + k + skipShift;    		
     		if (nextPos >= tokens.length) {

@@ -182,14 +182,11 @@ class PatternRuleHandler extends XMLRuleHandler {
   @SuppressWarnings("unused")
   public void endElement(String namespaceURI, String sName, String qName) {
     if (qName.equals("rule")) {
-      PatternRule rule = new PatternRule(id, language, pattern.toString(), description,
+      PatternRule rule = new PatternRule(id, language, elementList, description,
           message.toString());
       //TODO: the class StringElement should be changed
       //or StringElement and POSElement should be in the same class,
       //after all -- we could test both
-      if (elementList!=null) {
-    	  rule.addPatternElements(elementList);
-      }
       rule.setStartPositionCorrection(startPositionCorrection);
       rule.setEndPositionCorrection(endPositionCorrection);
       startPositionCorrection = 0;
