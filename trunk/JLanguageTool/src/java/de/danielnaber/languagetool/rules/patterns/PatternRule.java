@@ -39,7 +39,6 @@ public class PatternRule extends Rule {
 
   private String id;
   private Language[] language;
-  private String pattern;
   private String description;
   private String message;
   private int startPositionCorrection = 0;
@@ -84,11 +83,7 @@ public class PatternRule extends Rule {
   }
 
   public String toString() {
-    return id + ":" + pattern + ":" + description;
-  }
-
-  public String getPattern() {
-    return pattern;
+    return id + ":" + patternElements + ":" + description;
   }
 
   public boolean getCaseSensitive() {
