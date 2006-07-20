@@ -89,7 +89,7 @@ class FalseFriendRuleHandler extends XMLRuleHandler {
   private boolean tokenInflected = false;
   
   private List<Element> elementList = null;
-  private boolean regular=false; 
+  private boolean regular = false; 
   private String[] exceptions;
   private int skipPos = 0;
   
@@ -154,13 +154,13 @@ class FalseFriendRuleHandler extends XMLRuleHandler {
 		  {
 			  //String exceptions[] = null;
 			  if (attrs.getValue("postag_exceptions") != null) {
-				  exceptions=attrs.getValue("postag_exceptions").split("\\|");
+				  exceptions = attrs.getValue("postag_exceptions").split("\\|");
 			  } else {
-				  exceptions=null;
+				  exceptions = null;
 			  }
 			  String[] pos = new String [1];
 			  pos[0] = attrs.getValue("postag");
-			  if (attrs.getValue("postag_regexp")!=null){
+			  if (attrs.getValue("postag_regexp") != null){
 				  regular = attrs.getValue("postag_regexp").equals("yes");
 			  }
 			  POSElement posElement = new POSElement(pos, caseSensitive, regular, exceptions);
@@ -175,7 +175,7 @@ class FalseFriendRuleHandler extends XMLRuleHandler {
 			  //TODO: add StringElement and POSElement to a single container element
 			  //a list of Elements?
 			  //elements would then be not elements but lists of elements...
-			  inToken=false;
+			  inToken = false;
 		  }
 		  if (attrs.getValue("regexp") != null){
 			  regExpression = attrs.getValue("regexp").equals("yes");
@@ -244,8 +244,8 @@ class FalseFriendRuleHandler extends XMLRuleHandler {
 				  skipPos = 0;
 			  }
 			  elementList.add(stringElement);
-			  tokenNegated=false;
-			  tokenInflected=false;
+			  tokenNegated = false;
+			  tokenInflected = false;
 		  }
 		  inToken = false;
 		  regExpression = false;
