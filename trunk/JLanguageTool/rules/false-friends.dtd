@@ -13,7 +13,7 @@ extended to any number of languages, hopefully with minimal
 redundancy.
 -->
 
-<!ENTITY % Languages "(en|de|fr)">
+<!ENTITY % Languages "(en|de|fr|pl)">
 
 <!ELEMENT rules (rulegroup)+>
 <!ELEMENT rulegroup (rule+)>
@@ -21,8 +21,24 @@ redundancy.
 
 <!ELEMENT rule (pattern, translation+, example*)>
 
-<!ELEMENT pattern (#PCDATA)>
+<!ELEMENT pattern (token)*>
 <!ATTLIST pattern lang %Languages; #REQUIRED>
+
+<!ELEMENT token (#PCDATA)>
+<!-- is token a lemma? -->
+<!ATTLIST token inflected (yes|no) "no">
+<!-- is it a regexp? -->
+<!ATTLIST token regexp (yes|no) "no">
+<!-- is it negated? - instead of ^ in 0.8.2 -->
+<!ATTLIST token negate (yes|no) "no">
+<!-- POS tag -->
+<!ATTLIST token postag CDATA #IMPLIED>
+<!ATTLIST token postag_regexp (yes|no) "no">
+<!ATTLIST token negate_pos (yes|no) "no">
+<!ATTLIST token postag_exceptions CDATA #IMPLIED>
+<!-- number of tags to skip before the match is found -->
+<!ATTLIST token skip CDATA #IMPLIED>
+
 
 <!ELEMENT translation (#PCDATA)>
 <!ATTLIST translation lang %Languages; #REQUIRED>

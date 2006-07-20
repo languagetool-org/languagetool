@@ -381,4 +381,36 @@ Copyright (C) 2006 Marcin Miłkowski
 		<example type="correct">Jestem przekonany, że wielkim nieprzyjacielem prawdy jest nie tyle kłamstwo, ile monotonia.</example>
 		<example type="incorrect">Takie nadmierne wchłanianie wapnia spowodowane jest nie tyle przesadnym spożyciem, co zaburzeniami.</example>
 	</rule>
+	<!-- FIXME: dictionary not complete 
+	<rule name="Błąd leksykalny: „odgrywać znaczenie”" id="ODGRYWAC_ZNACZENIE">
+		<pattern>
+			<token skip="2" inflected="yes" regexp="yes">grać|odgrywać</token>
+			<token>znaczenie</token>
+		</pattern>
+		<message>Mówimy <em>odgrywać rolę</em>, a nie <em>odgrywać znaczenie</em>.</message>
+		<example type="incorrect">Odgrywa duże znaczenie w żegludze różnych typów statków.</example>
+		<example type="correct">Odgrywa dużą rolę w żegludze różnych typów statków.</example>
+	</rule>
+	-->
+	<rule name="Pleonazm: „miesiąc lipiec” itp." id="W_MIESIACU_LIPCU">
+		<pattern>
+			<token inflected="yes">miesiąc</token>
+			<token inflected="yes" regexp="yes">styczeń|luty|marzec|kwiecień|maj|czerwiec|lipiec|sierpień|wrzesień|październik|listopad|grudzień</token>
+		</pattern>
+		<message>To wyrażenie jest pleonazmem. Wystarczy podać tylko nazwę miesiąca, bez słowa <em>miesiąc</em>.</message>
+		<example type="correct">W lipcu premier jedzie na wakacje.</example>
+		<example type="incorrect">W miesiącu lipcu premier jedzie na wakacje.</example>
+	</rule>
+	<!--
+	<rule name="Błąd interpunkcyjny: tylko nawias otwierający" id="NAWIAS">
+		<pattern>
+			<token skip="-1">(</token>
+			<token negate="yes" skip="-1">)</token>
+			<token>.</token>
+		</pattern>
+		<message>Brak nawiasu zamykającego (<em>)</em>).</message>
+		<example type="correct">Mam na myśli zamek (budowlę).</example>
+		<example type="incorrect">Mam na myśli zamek (budowlę.</example>
+	</rule>
+		-->
 </rules>

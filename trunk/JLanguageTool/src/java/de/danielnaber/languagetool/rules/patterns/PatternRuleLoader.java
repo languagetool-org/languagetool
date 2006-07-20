@@ -184,7 +184,7 @@ class PatternRuleHandler extends XMLRuleHandler {
     if (qName.equals("rule")) {
       PatternRule rule = new PatternRule(id, language, pattern.toString(), description,
           message.toString());
-      //TODO: add lexemes, the class StringElement should be changed
+      //TODO: the class StringElement should be changed
       //or StringElement and POSElement should be in the same class,
       //after all -- we could test both
       if (elementList!=null) {

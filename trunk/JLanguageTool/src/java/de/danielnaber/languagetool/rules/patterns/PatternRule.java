@@ -137,9 +137,7 @@ public class PatternRule extends Rule {
   public RuleMatch[] match(AnalyzedSentence text) {
     List<RuleMatch> ruleMatches = new ArrayList<RuleMatch>();
     AnalyzedTokenReadings[] tokens = text.getTokensWithoutWhitespace();
-    if (patternElements == null) { // lazy init
-      patternElements = getPatternElements(pattern);
-    }
+
     int tokenPos = 0;
     int prevSkipNext = 0;
     int skipNext = 0;
@@ -224,49 +222,7 @@ public class PatternRule extends Rule {
 
     return (RuleMatch[]) ruleMatches.toArray(new RuleMatch[0]);
   }
-
-  private Element[] getPatternElements(String pattern) {
-    List<Element> elements = new ArrayList<Element>();
-    pattern = pattern.replaceAll("[\\(\\)]", ""); // just ignore parentheses
-    String[] parts = pattern.split("\\s+");
-    for (int i = 0; i < parts.length; i++) {
-      String element = parts[i];
-      boolean negation = false;
-      if (element.startsWith("^")) {
-        negation = true;
-        element = element.substring(1); // cut off "^"
-      }
-      if ((element.startsWith("\"") && !element.endsWith("\""))
-          || (element.endsWith("\"") && !element.startsWith("\""))) {
-        throw new IllegalArgumentException("Invalid pattern '" + pattern + "': unbalanced quote");
-      }
-      if (element.startsWith("\"") && element.endsWith("\"")) { // cut off quotes
-        element = element.substring(1, element.length() - 1);
-        String tokenParts[] = element.split("\\|");
-        StringElement stringElement = new StringElement(tokenParts, caseSensitive, false, false);
-        stringElement.setNegation(negation);
-        elements.add(stringElement);
-      } else if (Character.isUpperCase(element.charAt(0))) {
-        // uppercase = POS tag (except: see above)
-        String tokenParts[];
-        String exceptions[] = null;
-        POSElement posElement;
-        if (element.indexOf("^") != -1) {
-          tokenParts = element.substring(0, element.indexOf("^")).split("\\|");
-          exceptions = element.substring(element.indexOf("^") + 1).split("\\|");
-        } else {
-          tokenParts = element.split("\\|");
-        }
-        posElement = new POSElement(tokenParts, caseSensitive, true, exceptions);
-        posElement.setNegation(negation);
-        elements.add(posElement);
-      } else {
-        throw new IllegalArgumentException("Unknown type " + element + " in pattern: " + pattern);
-      }
-    }
-    return (Element[]) elements.toArray(new Element[0]);
-  }
-
+  
   public void reset() {
     // nothing
   }
