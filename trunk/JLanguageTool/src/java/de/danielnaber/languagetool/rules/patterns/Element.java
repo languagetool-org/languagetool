@@ -27,7 +27,7 @@ import de.danielnaber.languagetool.AnalyzedToken;
  */
 public abstract class Element {
 
-  String[] tokens;
+  protected String[] tokens;
   boolean negation = false;
   int skip = 0;
 
