@@ -56,37 +56,39 @@ public class CommaWhitespaceRule extends Rule {
     AnalyzedTokenReadings[] tokens = text.getTokens();
     String prevToken = "";
     int pos = 0;
-    int prevPos = 0;
     for (int i = 0; i < tokens.length; i++) {
     		String token = tokens[i].getToken();
     		pos += token.length();
     		String msg = null;
     		int fixPos = 0;
     		int fixLen = 0;
+        String suggestionText = null;
     		if (token.trim().equals("") && prevToken.trim().equals("(")) {
     			msg = messages.getString("no_space_after");
+          suggestionText = "(";
+          fixLen = 1;
     		} else if (token.trim().equals(")") && prevToken.trim().equals("")) {
     			msg = messages.getString("no_space_before");
-    			if (prevPos > 0)
-    				fixPos = -1;
+          suggestionText = ")";
+          fixLen = 1;
     		} else if (prevToken.trim().equals(",") && !token.trim().equals("") &&
     				!token.equals("'") && !token.equals("\"") && !token.matches(".*\\d.*")) {
     			msg = messages.getString("missing_space_after_comma");
-    			fixLen = - prevToken.length() + 1;
+          suggestionText = ", ";
     		} else if (token.trim().equals(",") && prevToken.trim().equals("")) {
     			msg = messages.getString("space_after_comma");
+          suggestionText = ",";
     			fixLen = 1;
-    			if (prevPos > 0)
-    				fixPos = -1;
     		}
     		if (msg != null) {
-    			int fromPos = prevPos + fixPos;
-    			int toPos = prevPos + fixPos + fixLen + prevToken.length();
+    			int fromPos = tokens[i-1].getStartPos() + fixPos;
+    			int toPos = tokens[i-1].getStartPos() + fixPos + fixLen + prevToken.length();
     			RuleMatch ruleMatch = new RuleMatch(this, fromPos, toPos, msg);
+          if (suggestionText != null)
+            ruleMatch.setSuggestedReplacement(suggestionText);
     			ruleMatches.add(ruleMatch);
     		}
     		prevToken = token;
-    		prevPos = pos;
     	}
     
     return toRuleMatchArray(ruleMatches);
