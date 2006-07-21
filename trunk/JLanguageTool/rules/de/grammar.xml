@@ -3,13 +3,20 @@
 Rules: Grammar and Typos
 See tagset.txt for the meaning of the POS tags
 Copyright (C) 2001-2006 Daniel Naber (http://www.danielnaber.de)
-$Id: grammar.xml,v 1.29 2006-07-19 21:15:02 dnaber Exp $
+$Id: grammar.xml,v 1.30 2006-07-21 20:05:26 dnaber Exp $
 -->
 <rules lang="de">
 
+	<rule id="IN_DIE_ANALEN" name="Vermutlicher Tippfehler 'in die Analen(Annalen)'">
+		<pattern mark_from="2"><token>in</token><token>die</token><token>Analen</token></pattern>
+		<message>Meinten Sie <em>Annalen</em>?</message>
+		<example type="correct">Wir können in die <em>Annalen</em> des Klubs eingehen</example>
+		<example type="incorrect">Wir können in die <em>Analen</em> des Klubs eingehen</example>
+	</rule>
+
 	<rule id="ZU_BUCHE" name="Möglicher Tippfehler 'zu buche(Buche) schlagen'">
 		<pattern mark_from="1" case_sensitive="yes"><token>zu</token><token>buche</token></pattern>
-		<message>In der Wendung <em>zu Buche schlagen</em> schreibt man <em>Buche</em> groß.</message>
+		<message>In der Wendung "zu Buche schlagen" schreibt man <em>Buche</em> groß.</message>
 		<example type="correct">Das schlägt nicht so sehr zu <em>Buche</em>.</example>
 		<example type="incorrect">Das schlägt nicht so sehr zu <em>buche</em>.</example>
 	</rule>
