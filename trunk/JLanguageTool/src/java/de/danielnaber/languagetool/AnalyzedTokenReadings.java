@@ -19,6 +19,9 @@
 
 package de.danielnaber.languagetool;
 
+import java.util.Arrays;
+import java.util.List;
+
 /**
  * An array of {@link AnalyzedToken}s used to store multiple POS tags and lemmas
  * for a given single token.
@@ -56,7 +59,11 @@ public class AnalyzedTokenReadings {
 		return token;
 	}
 	
-	public int getReadingsLength() {
+  public List<AnalyzedToken> getReadings() {
+    return (List<AnalyzedToken>) Arrays.asList(ATreadings);
+  }
+
+  public int getReadingsLength() {
 		return ATreadings.length;
 	}
 	

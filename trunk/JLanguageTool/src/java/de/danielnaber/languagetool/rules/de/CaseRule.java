@@ -101,7 +101,7 @@ public class CaseRule extends GermanRule {
       }
       AnalyzedGermanTokenReadings analyzedToken = (AnalyzedGermanTokenReadings)tokens[i];
       String token = analyzedToken.getToken();  
-      List<AnalyzedGermanToken> readings = analyzedToken.getReadings();
+      List<AnalyzedGermanToken> readings = analyzedToken.getGermanReadings();
       AnalyzedGermanTokenReadings analyzedGermanToken2 = null;
       
       boolean isBaseform = false;
@@ -114,7 +114,7 @@ public class CaseRule extends GermanRule {
         try {
           analyzedGermanToken2 = tagger.lookup(token.toLowerCase());
           if (analyzedGermanToken2 != null) {
-            readings = analyzedGermanToken2.getReadings();
+            readings = analyzedGermanToken2.getGermanReadings();
           }
         } catch (IOException e) {
           throw new RuntimeException(e);

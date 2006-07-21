@@ -29,6 +29,7 @@ import java.util.List;
 import java.util.Map;
 
 import de.danielnaber.languagetool.AnalyzedSentence;
+import de.danielnaber.languagetool.AnalyzedToken;
 import de.danielnaber.languagetool.AnalyzedTokenReadings;
 import de.danielnaber.languagetool.JLanguageTool;
 import de.danielnaber.languagetool.rules.RuleMatch;
@@ -52,12 +53,8 @@ public class WordCoherencyRule extends GermanRule {
   private Map<String, String> relevantWords;        // e.g. "aufwendig -> aufwändig"
   private Map<String, RuleMatch> shouldNotAppearWord = new HashMap<String, RuleMatch>();  // e.g. aufwändig -> RuleMatch of aufwendig
 
-  //TODO: replace with the general lemmatizer 
-  static private GermanLemmatizer lemmatizer = null;
-
   public WordCoherencyRule() throws IOException {
     relevantWords = loadWords(JLanguageTool.getAbsoluteFile(FILE_NAME)); 
-    lemmatizer = new GermanLemmatizer();
   }
   
   public String getId() {
@@ -82,9 +79,13 @@ public class WordCoherencyRule extends GermanRule {
         // ignore
       } else {
         String origToken = token;
-        String baseform = lemmatizer.getBaseform(token);
-        if (baseform != null)
-          token = baseform;
+        List<AnalyzedToken> readings = tokens[i].getReadings();
+        // TODO: in theory we need to care about the other readings, too:
+        if (readings != null && readings.size() > 0) {
+          String baseform = readings.get(0).getLemma();
+          if (baseform != null)
+            token = baseform;
+        }
         if (shouldNotAppearWord.containsKey(token)) {
           RuleMatch otherMatch = (RuleMatch)shouldNotAppearWord.get(token);
           String otherSpelling = otherMatch.getMessage();
@@ -101,7 +102,7 @@ public class WordCoherencyRule extends GermanRule {
           shouldNotAppearWord.put(shouldNotAppear, potentialRuleMatch);
         }
       }
-      pos += token.length();
+      pos += tokens[i].getToken().length();
     }
     return toRuleMatchArray(ruleMatches);
   }

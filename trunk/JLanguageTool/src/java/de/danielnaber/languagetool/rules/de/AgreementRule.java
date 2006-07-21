@@ -158,7 +158,7 @@ public class AgreementRule extends GermanRule {
   /** Return Kasus, Numerus, Genus */
   private Set<String> getAgreementCategories(AnalyzedGermanTokenReadings aToken) {
     Set<String> set = new HashSet<String>();
-    List<AnalyzedGermanToken> readings = aToken.getReadings();
+    List<AnalyzedGermanToken> readings = aToken.getGermanReadings();
     for (AnalyzedGermanToken reading : readings) {
       if (reading.getCasus() == null && reading.getNumerus() == null &&
           reading.getGenus() == null)

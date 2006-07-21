@@ -45,7 +45,7 @@ public class AnalyzedGermanTokenReadings extends AnalyzedTokenReadings {
   /**
    * @return a list of {@link AnalyzedGermanToken}s.
    */
-  public List<AnalyzedGermanToken> getReadings() {
+  public List<AnalyzedGermanToken> getGermanReadings() {
     List<AnalyzedGermanToken> l = new ArrayList<AnalyzedGermanToken>();
     for (int i = 0; i < ATreadings.length; i++) {
       l.add((AnalyzedGermanToken)ATreadings[i]);
