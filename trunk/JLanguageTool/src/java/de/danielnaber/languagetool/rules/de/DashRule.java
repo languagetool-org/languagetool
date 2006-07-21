@@ -26,7 +26,7 @@ import de.danielnaber.languagetool.AnalyzedTokenReadings;
 import de.danielnaber.languagetool.rules.RuleMatch;
 
 /**
- * Prüft, dass in Bindestrich-Komposita kein Leerzeichen eingefügt wird (wie z.B. in 'Diäten- Erhöhung').
+ * Pr&uuml;ft, dass in Bindestrich-Komposita kein Leerzeichen eingef&uuml;gt wird (wie z.B. in 'Di&auml;ten- Erh&ouml;hung').
  *   
  * @author Daniel Naber
  */
@@ -60,7 +60,8 @@ public class DashRule extends GermanRule {
             String msg = "Möglicherweise fehlt ein 'und' oder es wurde nach dem Wort " +
                     "ein überflüssiges Leerzeichen eingefügt.";
             RuleMatch ruleMatch = new RuleMatch(this, tokens[i-1].getStartPos(),
-                tokens[i-1].getStartPos()+prevToken.length(), msg);
+                tokens[i-1].getStartPos()+prevToken.length()+1, msg);
+            ruleMatch.setSuggestedReplacement(tokens[i-1].getToken());
             ruleMatches.add(ruleMatch);
           }
         }
