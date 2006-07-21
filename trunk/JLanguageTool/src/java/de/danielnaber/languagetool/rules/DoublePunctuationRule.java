@@ -73,20 +73,23 @@ public class DoublePunctuationRule extends Rule {
       if (dotCount == 2 && !".".equals(nextToken)) {
         String msg = messages.getString("two_dots");
         @SuppressWarnings("null")
-        RuleMatch ruleMatch = new RuleMatch(this, matchToken.getStartPos(), matchToken.getStartPos()+1, msg);
+        RuleMatch ruleMatch = new RuleMatch(this, matchToken.getStartPos()-1, matchToken.getStartPos()+1, msg);
+        ruleMatch.setSuggestedReplacement(".");
         ruleMatches.add(ruleMatch);
         dotCount = 0;
       } else if (commaCount == 2 && !",".equals(nextToken)) {
         String msg = messages.getString("two_commas");
         @SuppressWarnings("null")
-        RuleMatch ruleMatch = new RuleMatch(this, matchToken.getStartPos(), matchToken.getStartPos()+1, msg);
+        RuleMatch ruleMatch = new RuleMatch(this, matchToken.getStartPos()-1, matchToken.getStartPos()+1, msg);
+        // TODO: collides with CommaWhitespaceRule:
+        ruleMatch.setSuggestedReplacement(",");
         ruleMatches.add(ruleMatch);
         commaCount = 0;
       }
       if (!token.trim().equals(".") && !token.trim().equals(",")) {
         dotCount = 0;
         commaCount = 0;
-      }        
+      }
     }
   
     return toRuleMatchArray(ruleMatches);
