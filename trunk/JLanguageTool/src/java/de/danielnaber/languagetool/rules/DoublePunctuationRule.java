@@ -70,13 +70,15 @@ public class DoublePunctuationRule extends Rule {
         dotCount = 0;
         matchToken = tokens[i].getAnalyzedToken(0);
       }
-      if (dotCount == 2 && !nextToken.equals(".")) {
+      if (dotCount == 2 && !".".equals(nextToken)) {
         String msg = messages.getString("two_dots");
+        @SuppressWarnings("null")
         RuleMatch ruleMatch = new RuleMatch(this, matchToken.getStartPos(), matchToken.getStartPos()+1, msg);
         ruleMatches.add(ruleMatch);
         dotCount = 0;
-      } else if (commaCount == 2 && !nextToken.equals(",")) {
+      } else if (commaCount == 2 && !",".equals(nextToken)) {
         String msg = messages.getString("two_commas");
+        @SuppressWarnings("null")
         RuleMatch ruleMatch = new RuleMatch(this, matchToken.getStartPos(), matchToken.getStartPos()+1, msg);
         ruleMatches.add(ruleMatch);
         commaCount = 0;
