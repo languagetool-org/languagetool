@@ -37,7 +37,7 @@ import de.danielnaber.languagetool.tagging.de.GermanToken.POSType;
 /**
  * Check that adjectives and verbs are not written with an uppercase
  * first letter (except at the start of a sentence) and cases
- * like this: <tt>Das laufen fällt mir leicht.</tt> (<tt>laufen</tt> needs
+ * like this: <tt>Das laufen f&auml;llt mir leicht.</tt> (<tt>laufen</tt> needs
  * to be uppercased).
  *   
  * @author Daniel Naber
