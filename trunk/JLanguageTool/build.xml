@@ -371,7 +371,7 @@
 
   <target name="ooo-internal" depends="clean,init,build,ooo-build">
   	<copy todir="${dist.dir}/">
-	  	<fileset dir="openoffice/" excludes="LanguageTool.uno.manifest" />
+	  	<fileset dir="openoffice/" includes="Addons.xcu,images/**,META-INF/**" />
 	</copy>
   	<copy todir="${dist.dir}/rules">
 	  	<fileset dir="rules" excludes="CVS" />
