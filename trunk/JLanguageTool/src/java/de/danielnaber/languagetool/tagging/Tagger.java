@@ -26,6 +26,8 @@ import de.danielnaber.languagetool.AnalyzedToken;
 import de.danielnaber.languagetool.AnalyzedTokenReadings;
 
 /**
+ * The part-of-speech tagger interface, whose implementions are usually language-dependent.
+ * 
  * @author Daniel Naber
  */
 public interface Tagger {
