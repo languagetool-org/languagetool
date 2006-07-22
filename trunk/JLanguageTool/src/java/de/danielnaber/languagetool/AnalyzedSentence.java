@@ -62,21 +62,33 @@ public class AnalyzedSentence {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     for (int i = 0; i < tokens.length; i++) {
+      if (!"".equals(tokens[i].token.trim())) {
+        sb.append(tokens[i].token);
+        sb.append("[");
+      }
       for (int j = 0; j < tokens[i].getReadingsLength(); j++) {
-      if (JLanguageTool.SENTENCE_START_TAGNAME.equals(tokens[i].getAnalyzedToken(j).getPOSTag())) {
-        sb.append("<S>");
-        sb.append(" ");
-      } else if (tokens[i].getAnalyzedToken(j) != null && tokens[i].getAnalyzedToken(j).getPOSTag() == null && !(tokens[i] instanceof AnalyzedGermanTokenReadings)) {
-        // FIXME: don't depend on AnalyzedGermanTokenReadings here
-        sb.append(tokens[i].getAnalyzedToken(j).getToken());
-        sb.append(" ");
-      } else {
-        if (!"".equals(tokens[i].token.trim())) {
-          sb.append(tokens[i]);
-          sb.append(" ");
+        if (JLanguageTool.SENTENCE_START_TAGNAME.equals(tokens[i].getAnalyzedToken(j).getPOSTag())) {
+          sb.append("<S>");
+        } else if (tokens[i].getAnalyzedToken(j) != null
+            && tokens[i].getAnalyzedToken(j).getPOSTag() == null
+            && !(tokens[i] instanceof AnalyzedGermanTokenReadings)) {
+          // FIXME: don't depend on AnalyzedGermanTokenReadings here
+          sb.append(tokens[i].getAnalyzedToken(j).getToken());
+        } else {
+          if (!"".equals(tokens[i].token.trim())) {
+            sb.append(tokens[i].getAnalyzedToken(j));
+            if (j < tokens[i].getReadingsLength() - 1) {
+              sb.append(",");
+            }
+          }
         }
       }
-    }
+      if (!"".equals(tokens[i].token.trim())) {
+        sb.append("]");
+      } else {
+        sb.append(" ");
+      }
+
     }
     return sb.toString();
   }
