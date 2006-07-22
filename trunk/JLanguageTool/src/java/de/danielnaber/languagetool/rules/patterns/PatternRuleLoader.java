@@ -199,6 +199,10 @@ class PatternRuleHandler extends XMLRuleHandler {
       inRuleGroup = true;
     } else if (qName.equals("em") && inMessage) {
       message.append("<em>");
+    } else if (qName.equals("em") && inCorrectExample) {
+      correctExample.append("<em>");
+    } else if (qName.equals("em") && inIncorrectExample) {
+      incorrectExample.append("<em>");
     }
   }
 
@@ -273,6 +277,10 @@ class PatternRuleHandler extends XMLRuleHandler {
       inRuleGroup = false;
     } else if (qName.equals("em") && inMessage) {
       message.append("</em>");
+    } else if (qName.equals("em") && inCorrectExample) {
+      correctExample.append("</em>");
+    } else if (qName.equals("em") && inIncorrectExample) {
+      incorrectExample.append("</em>");
     }
   }
 

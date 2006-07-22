@@ -55,38 +55,62 @@ public class PatternRuleTest extends TestCase {
       JLanguageTool languageTool = new JLanguageTool(lang);
       List rules = ruleLoader.getRules("rules" + File.separator
           + lang.getShortName() + File.separator + "grammar.xml");
-      testGrammarRulesFromXML(rules, languageTool);
+      testGrammarRulesFromXML(rules, languageTool, lang);
     }
   }
   
-  private void testGrammarRulesFromXML(List rules, JLanguageTool languageTool) throws IOException {
+  private void testGrammarRulesFromXML(List rules, JLanguageTool languageTool, Language lang) throws IOException {
     for (Iterator iter = rules.iterator(); iter.hasNext();) {
       Rule rule = (Rule) iter.next();
       List goodSentences = rule.getCorrectExamples();
       for (Iterator iterator = goodSentences.iterator(); iterator.hasNext();) {
         String goodSentence = (String) iterator.next();
+        goodSentence = cleanXML(goodSentence);
         assertTrue(goodSentence.trim().length() > 0);
-        assertFalse("Did not expect error in: " + goodSentence + " (ID="+rule.getId()+")",
+        assertFalse(lang + ": Did not expect error in: " + goodSentence + " (ID="+rule.getId()+")",
             match(rule, goodSentence, languageTool));
       }
       List badSentences = rule.getIncorrectExamples();
       for (Iterator iterator = badSentences.iterator(); iterator.hasNext();) {
-        String badSentence = (String) iterator.next();
+        String origBadSentence = (String) iterator.next();
+        int expectedMatchStart = origBadSentence.indexOf("<em>");
+        int expectedMatchEnd = origBadSentence.indexOf("</em>") - 4;
+        if (expectedMatchStart == -1 || expectedMatchEnd == -1) {
+          fail(lang + ": No error position markup ('<em>...</em>') in bad example in rule ID = " + rule.getId());
+        }
+        String badSentence = cleanXML(origBadSentence);
         assertTrue(badSentence.trim().length() > 0);
-        assertTrue("Did expect error in: " + badSentence + " (ID="+rule.getId()+")",
-            match(rule, badSentence, languageTool));
+        RuleMatch[] matches = getMatches(rule, badSentence, languageTool);
+        assertTrue(lang + ": Did expect one error in: " + badSentence + " (ID="+rule.getId()+"), got " + 
+            matches.length, matches.length == 1);
+        assertEquals(lang + ": Incorrect match position markup (start) for rule ID = " + rule.getId(),
+            expectedMatchStart, matches[0].getFromPos());
+        assertEquals(lang + ": Incorrect match position markup (end) for rule ID = " + rule.getId(),
+            expectedMatchEnd, matches[0].getToPos());
       }
     }
   }
   
+  private String cleanXML(String str) {
+    return str.replaceAll("<.*?>", "");
+  }
+
   private boolean match(Rule rule, String sentence, JLanguageTool languageTool) throws IOException {
     AnalyzedSentence text = languageTool.getAnalyzedSentence(sentence);
-    //System.err.println(text);
     RuleMatch[] matches = rule.match(text);
     /*for (int i = 0; i < matches.length; i++) {
       System.err.println(matches[i]);
     }*/
     return matches.length > 0;
+  }
+
+  private RuleMatch[] getMatches(Rule rule, String sentence, JLanguageTool languageTool) throws IOException {
+    AnalyzedSentence text = languageTool.getAnalyzedSentence(sentence);
+    RuleMatch[] matches = rule.match(text);
+    /*for (int i = 0; i < matches.length; i++) {
+      System.err.println(matches[i]);
+    }*/
+    return matches;
   }
 
   public void testRule() throws IOException {
