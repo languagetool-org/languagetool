@@ -20,12 +20,22 @@ package de.danielnaber.languagetool.gui;
 
 public class Tools {
 
-  private static final int DEFAULT_CONTEXT_SIZE = 25;
+  private static final int DEFAULT_CONTEXT_SIZE = 25;   // characters
+  private static final String MARKER_START = "<b><font color=\"red\">";
+  private static final String MARKER_END = "</font></b>";
 
+  /**
+   * Get the default context (25 characters) of the given text range,
+   * highlighting the range with HTML.
+   */
   public static String getContext(int fromPos, int toPos, String text) {
     return getContext(fromPos, toPos, text, DEFAULT_CONTEXT_SIZE);
   }
   
+  /**
+   * Get the context (<code>contextSize</code> characters) of the given text range,
+   * highlighting the range with HTML.
+   */
   public static String getContext(int fromPos, int toPos, String fileContents, int contextSize) {
     fileContents = fileContents.replaceAll("\n", " ");
     // calculate context region:
@@ -60,9 +70,8 @@ public class Tools {
     int startMark = markerStr.indexOf("^");
     int endMark = markerStr.lastIndexOf("^");
     String result = sb.toString();
-    result = result.substring(0, startMark) + "<b><font color=\"red\">" + 
-      result.substring(startMark, endMark+1) + "</font></b>" + result.substring(endMark+1);
-    //String result = sb.s
+    result = result.substring(0, startMark) + MARKER_START + 
+      result.substring(startMark, endMark+1) + MARKER_END + result.substring(endMark+1);
     return result;
   }
 
