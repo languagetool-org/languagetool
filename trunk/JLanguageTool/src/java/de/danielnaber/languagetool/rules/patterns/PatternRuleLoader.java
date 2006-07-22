@@ -45,7 +45,8 @@ public class PatternRuleLoader extends DefaultHandler {
   public PatternRuleLoader() {
   }
 
-  public List<PatternRule> getRules(String filename) throws ParserConfigurationException, SAXException, IOException {
+  public List<PatternRule> getRules(String filename) throws ParserConfigurationException,
+      SAXException, IOException {
     PatternRuleHandler handler = new PatternRuleHandler();
     SAXParserFactory factory = SAXParserFactory.newInstance();
     SAXParser saxParser = factory.newSAXParser();
@@ -53,14 +54,15 @@ public class PatternRuleLoader extends DefaultHandler {
     rules = handler.getRules();
     return rules;
   }
-  
+
   /** Testing only. */
-  public static void main(String[] args) throws ParserConfigurationException, SAXException, IOException {
+  public static void main(String[] args) throws ParserConfigurationException, SAXException,
+      IOException {
     PatternRuleLoader prg = new PatternRuleLoader();
     List<PatternRule> l = prg.getRules("rules/de/grammar.xml");
     System.out.println(l);
   }
-  
+
 }
 
 class PatternRuleHandler extends XMLRuleHandler {
@@ -92,13 +94,14 @@ class PatternRuleHandler extends XMLRuleHandler {
   private int startPositionCorrection = 0;
   private int endPositionCorrection = 0;
   private int skipPos = 0;
-  
-  //===========================================================
+
+  // ===========================================================
   // SAX DocumentHandler methods
-  //===========================================================
+  // ===========================================================
 
   @SuppressWarnings("unused")
-  public void startElement(String namespaceURI, String lName, String qName, Attributes attrs) throws SAXException {
+  public void startElement(String namespaceURI, String lName, String qName, Attributes attrs)
+      throws SAXException {
     if (qName.equals("rules")) {
       String languageStr = attrs.getValue("lang");
       language = Language.getLanguageforShortName(languageStr);
@@ -121,66 +124,66 @@ class PatternRuleHandler extends XMLRuleHandler {
         startPositionCorrection = Integer.parseInt(attrs.getValue("mark_from"));
       if (attrs.getValue("mark_to") != null)
         endPositionCorrection = Integer.parseInt(attrs.getValue("mark_to"));
-      if (attrs.getValue("case_sensitive") != null && attrs.getValue("case_sensitive").equals("yes"))
+      if (attrs.getValue("case_sensitive") != null
+          && attrs.getValue("case_sensitive").equals("yes"))
         caseSensitive = true;
-    }  else if (qName.equals("token")) {
-    	inToken = true;
-    	if (attrs.getValue("negate")!=null){
-	 		stringNegation=attrs.getValue("negate").equals("yes");
-    	}
-    	if (attrs.getValue("inflected")!=null){
-	 		stringInflected=attrs.getValue("inflected").equals("yes");
-    	}
-    	if (attrs.getValue("skip")!=null){
-	 		skipPos=Integer.parseInt(attrs.getValue("skip"));
-    	}
-    	elements = new StringBuffer();
-    	if (elementList == null) //lazy init
-        {
-      	  elementList = new ArrayList<Element>();
+    } else if (qName.equals("token")) {
+      inToken = true;
+      if (attrs.getValue("negate") != null) {
+        stringNegation = attrs.getValue("negate").equals("yes");
+      }
+      if (attrs.getValue("inflected") != null) {
+        stringInflected = attrs.getValue("inflected").equals("yes");
+      }
+      if (attrs.getValue("skip") != null) {
+        skipPos = Integer.parseInt(attrs.getValue("skip"));
+      }
+      elements = new StringBuffer();
+      if (elementList == null) // lazy init
+      {
+        elementList = new ArrayList<Element>();
+      }
+      // POSElement creation
+      if (attrs.getValue("postag") != null) {
+        posToken = attrs.getValue("postag");
+        if (attrs.getValue("postag_regexp") != null) {
+          posRegExp = attrs.getValue("postag_regexp").equals("yes");
         }
-    	// POSElement creation
-    	if (attrs.getValue("postag")!=null)
-    	{    		
-    		posToken = attrs.getValue("postag");
-    		if (attrs.getValue("postag_regexp")!=null){
-    			posRegExp = attrs.getValue("postag_regexp").equals("yes");
-    		}
-    		if (attrs.getValue("negate_pos")!=null){
-    	 		posNegation = attrs.getValue("negate_pos").equals("yes");
-        	}
-    	 	if (elementList == null) { //lazy init
-            	  elementList = new ArrayList<Element>();
-            }
-    	}
-    	if (attrs.getValue("regexp")!=null){
-    		stringRegExp = attrs.getValue("regexp").equals("yes");
-    	}
-    	
+        if (attrs.getValue("negate_pos") != null) {
+          posNegation = attrs.getValue("negate_pos").equals("yes");
+        }
+        if (elementList == null) { // lazy init
+          elementList = new ArrayList<Element>();
+        }
+      }
+      if (attrs.getValue("regexp") != null) {
+        stringRegExp = attrs.getValue("regexp").equals("yes");
+      }
+
     } else if (qName.equals("exception")) {
-    	inException = true;
-    	exceptionSet = true;
-    	exceptions = new StringBuffer();
-    	
-    	if (attrs.getValue("negate")!=null) {
-	 		exceptionStringNegation=attrs.getValue("negate").equals("yes");
-    	}
-    	if (attrs.getValue("inflected")!=null) {
-	 		exceptionStringInflected=attrs.getValue("inflected").equals("yes");
-    	}
-    	if (attrs.getValue("postag")!=null) {    		
-    		exceptionPosToken = attrs.getValue("postag");
-    		if (attrs.getValue("postag_regexp")!=null) {
-    			exceptionPosRegExp = attrs.getValue("postag_regexp").equals("yes");
-    		}
-    		if (attrs.getValue("negate_pos")!=null) {
-    	 		exceptionPosNegation = attrs.getValue("negate_pos").equals("yes");
-        	}    	 	
-    	}
-    	if (attrs.getValue("regexp")!=null) {
-    		exceptionStringRegExp = attrs.getValue("regexp").equals("yes");
-    	}
-    	
+      inException = true;
+      exceptionSet = true;
+      exceptions = new StringBuffer();
+
+      if (attrs.getValue("negate") != null) {
+        exceptionStringNegation = attrs.getValue("negate").equals("yes");
+      }
+      if (attrs.getValue("inflected") != null) {
+        exceptionStringInflected = attrs.getValue("inflected").equals("yes");
+      }
+      if (attrs.getValue("postag") != null) {
+        exceptionPosToken = attrs.getValue("postag");
+        if (attrs.getValue("postag_regexp") != null) {
+          exceptionPosRegExp = attrs.getValue("postag_regexp").equals("yes");
+        }
+        if (attrs.getValue("negate_pos") != null) {
+          exceptionPosNegation = attrs.getValue("negate_pos").equals("yes");
+        }
+      }
+      if (attrs.getValue("regexp") != null) {
+        exceptionStringRegExp = attrs.getValue("regexp").equals("yes");
+      }
+
     } else if (qName.equals("example") && attrs.getValue("type").equals("correct")) {
       inCorrectExample = true;
       correctExample = new StringBuffer();
@@ -202,8 +205,7 @@ class PatternRuleHandler extends XMLRuleHandler {
   @SuppressWarnings("unused")
   public void endElement(String namespaceURI, String sName, String qName) {
     if (qName.equals("rule")) {
-      PatternRule rule = new PatternRule(id, language, elementList, description,
-          message.toString());
+      PatternRule rule = new PatternRule(id, language, elementList, description, message.toString());
       rule.setStartPositionCorrection(startPositionCorrection);
       rule.setEndPositionCorrection(endPositionCorrection);
       startPositionCorrection = 0;
@@ -213,47 +215,48 @@ class PatternRuleHandler extends XMLRuleHandler {
       rule.setCaseSensitive(caseSensitive);
       caseSensitive = false;
       rules.add(rule);
-      if (elementList!=null)
-      {
-    	  elementList.clear();
+      if (elementList != null) {
+        elementList.clear();
       }
-    } else if (qName.equals("exception")) {    	
-    	inException = false;    	
-    } else if (qName.equals("token")) { 	
-    	Element stringElement = new Element(elements.toString(), caseSensitive, stringRegExp, stringInflected);
-    	stringElement.setNegation(stringNegation);
-    	if (skipPos!=0) {
-    		stringElement.setSkipNext(skipPos);
-    		skipPos = 0;
-    	}      	
-    	if (posToken!=null) {
-    		stringElement.setPosElement(posToken, posRegExp, posNegation);
-    		posToken = null;
-    	}
-    	if (exceptionSet) {
-    		stringElement.setStringException(exceptions.toString(), caseSensitive, exceptionStringRegExp, exceptionStringInflected, exceptionStringNegation);
-    		exceptionSet = false;
-    	}
-    	if (exceptionPosToken!=null) {
-    		stringElement.setPosException(exceptionPosToken, exceptionPosRegExp, exceptionPosNegation);
-    		exceptionPosToken = null;
-    	}
-    	elementList.add(stringElement);
-    	stringNegation = false;
-    	stringInflected = false;
-    	posNegation = false;
-    	posRegExp = false;
-    	inToken = false;
-    	stringRegExp = false;
-    	
-    	exceptionStringNegation = false;
-    	exceptionStringInflected = false;
-    	exceptionPosNegation = false;
-    	exceptionPosRegExp = false;
-    	exceptionStringRegExp = false;
-    	
-    }  else if (qName.equals("pattern")) {
-      inPattern = false;      
+    } else if (qName.equals("exception")) {
+      inException = false;
+    } else if (qName.equals("token")) {
+      Element stringElement = new Element(elements.toString(), caseSensitive, stringRegExp,
+          stringInflected);
+      stringElement.setNegation(stringNegation);
+      if (skipPos != 0) {
+        stringElement.setSkipNext(skipPos);
+        skipPos = 0;
+      }
+      if (posToken != null) {
+        stringElement.setPosElement(posToken, posRegExp, posNegation);
+        posToken = null;
+      }
+      if (exceptionSet) {
+        stringElement.setStringException(exceptions.toString(), caseSensitive,
+            exceptionStringRegExp, exceptionStringInflected, exceptionStringNegation);
+        exceptionSet = false;
+      }
+      if (exceptionPosToken != null) {
+        stringElement.setPosException(exceptionPosToken, exceptionPosRegExp, exceptionPosNegation);
+        exceptionPosToken = null;
+      }
+      elementList.add(stringElement);
+      stringNegation = false;
+      stringInflected = false;
+      posNegation = false;
+      posRegExp = false;
+      inToken = false;
+      stringRegExp = false;
+
+      exceptionStringNegation = false;
+      exceptionStringInflected = false;
+      exceptionPosNegation = false;
+      exceptionPosRegExp = false;
+      exceptionStringRegExp = false;
+
+    } else if (qName.equals("pattern")) {
+      inPattern = false;
     } else if (qName.equals("example")) {
       if (inCorrectExample) {
         correctExamples.add(correctExample.toString());
@@ -272,13 +275,13 @@ class PatternRuleHandler extends XMLRuleHandler {
       message.append("</em>");
     }
   }
-  
+
   public void characters(char buf[], int offset, int len) {
     String s = new String(buf, offset, len);
     if (inException) {
       exceptions.append(s);
     } else if (inToken) {
-    	elements.append(s);
+      elements.append(s);
     } else if (inCorrectExample) {
       correctExample.append(s);
     } else if (inIncorrectExample) {
@@ -286,7 +289,7 @@ class PatternRuleHandler extends XMLRuleHandler {
     } else if (inMessage) {
       message.append(s);
     }
-    
+
   }
 
 }
