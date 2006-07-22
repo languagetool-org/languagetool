@@ -67,10 +67,6 @@ public class AnalyzedTokenReadings {
 		return token;
 	}
 	
-	public void setReading(int i, AnalyzedToken tok) {
-		ATreadings[i] = tok;
-	}
-  
   public String toString() {
     StringBuilder sb = new StringBuilder();
     for (int i = 0; i < ATreadings.length; i++) {
