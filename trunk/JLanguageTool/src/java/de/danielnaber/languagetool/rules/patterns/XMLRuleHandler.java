@@ -34,6 +34,7 @@ class XMLRuleHandler extends DefaultHandler {
   StringBuffer incorrectExample = new StringBuffer();
   StringBuffer message = new StringBuffer();
   StringBuffer elements = null;
+  StringBuffer exceptions = null;
 
   List<String> correctExamples = new ArrayList<String>();
   List<String> incorrectExamples = new ArrayList<String>();
@@ -44,6 +45,7 @@ class XMLRuleHandler extends DefaultHandler {
   boolean inMessage = false;
   boolean inRuleGroup = false;
   boolean inToken= false;
+  boolean inException = false;
 
   List<PatternRule> getRules() {
     return rules;

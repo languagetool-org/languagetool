@@ -48,9 +48,10 @@ Copyright (C) 2006 Marcin Miłkowski
 
 	<!-- błąd ortograficzny - pisownia łączna rzeczowników z "nie" -->
 	<rule id="NIE_RZECZOWNIK" name="Pisownia 'nie' z rzeczownikami i przymiotnikami">
-		<pattern mark_from="0" case_sensitive="no"><token inflected="yes">nie</token><token postag_regexp="yes" postag="subst:.+|adj:.+" regexp="yes">.*</token></pattern>
+		<pattern mark_from="0" case_sensitive="no"><token inflected="yes">nie</token><token postag_regexp="yes" postag="subst:.+|adj:.+"><exception regexp="yes">wolno|można|sposób</exception></token></pattern>
 		<message><em>Nie</em> ze wszystkimi rzeczownikami i przymiotnikami piszemy łącznie.</message>
 		<example type="correct">Prosimy o niepalenie.</example>
+		<example type="correct">Tu nie można palić.</example>
 		<example type="incorrect">Prosimy o nie palenie.</example>
 	</rule>
 	
@@ -341,8 +342,7 @@ Copyright (C) 2006 Marcin Miłkowski
 	<rule name="Błąd składniowy: „czym... tym”" id="CZYM_TYM">
 		<pattern>
 			<token skip="-1">czym</token>
-<!--FIXME: this requires that postags are integrated into StringElements
-				<token postag="(adj|adv).*" postag_regexp="yes" skip="-1"></token> -->
+			<token postag="(adj|adv).*" postag_regexp="yes" skip="-1"></token>
 			<token>tym</token>
 			<token postag="(adj|adv).*" postag_regexp="yes"></token>
 		</pattern>
@@ -413,4 +413,24 @@ Copyright (C) 2006 Marcin Miłkowski
 		<example type="incorrect">Mam na myśli zamek (budowlę.</example>
 	</rule>
 		-->
+	<rule name="Pisownia: liczebniki porządkowe z końcówkami przypadków" id="LICZEBNIKI">
+		<pattern>
+			<token regexp="yes">[0-9]+-(ty|wsi|wszy|szy|si|tym|tą|tymi|ci)</token>
+		</pattern>
+		<message>Liczebniki porządkowe zapisujemy nie z końcówkami przypadków, tylko z kropką: <em>.</em>.</message>
+		<example type="correct">Ten system jest 32-bitowy.</example>
+		<example type="incorrect">To już 5-ty raz!</example>
+		<example type="incorrect">Rosjanie byli 1-wsi w kosmosie.</example>
+	</rule>
+	<rule name="Pisownia: tymczasem" id="TYMCZASEM">
+		<pattern>
+			<token regexp="yes" negate="yes" negate_pos="yes" postag=".*verb.*" postag_regexp="yes">z|przed|poza|za|nad</token>
+			<token>tym</token>
+			<token>czasem</token>
+		</pattern>
+		<message>Wyraz <em>tymczasem</em> piszemy łącznie.</message>
+		<example type="correct">A tymczasem na Politechnice...</example>
+		<example type="correct">Co z tym czasem?</example>
+		<example type="incorrect">A tym czasem na Politechnice...</example>
+	</rule>
 </rules>

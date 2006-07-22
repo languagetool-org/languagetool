@@ -18,6 +18,8 @@
  */
 package de.danielnaber.languagetool.rules.patterns;
 
+import java.util.regex.Pattern;
+
 import de.danielnaber.languagetool.AnalyzedToken;
 
 /**
@@ -25,31 +27,202 @@ import de.danielnaber.languagetool.AnalyzedToken;
  * 
  * @author Daniel Naber
  */
-public abstract class Element {
+public class Element {
 
-  protected String[] tokens;
+  private String stringToken;
+  private String posToken;
+  private boolean posRegExp = false;
   boolean negation = false;
+  boolean posNegation = false;
+  private boolean caseSensitive = false;
+  private boolean stringRegExp = false;
+  private boolean inflected = false;
+
+  private String exceptionStringToken;
+  private String exceptionPosToken;
+  private boolean exceptionPosRegExp = false;
+  private boolean exceptionPosNegation = false;
+  private boolean exceptionNegation = false;
+  private boolean exceptionRegExp = false;
+  private boolean exceptionInflected = false;
+  private boolean exceptionSet = false;
+  
   int skip = 0;
 
-  final boolean match(AnalyzedToken token) {
-    if (negation)
-      return !matchToken(token);
-    else
-      return matchToken(token);
+  boolean match(AnalyzedToken token) {
+	  return (matchStringToken(token) != negation)
+	  && (matchPosToken(token) != posNegation)
+	  && !exceptionMatch(token);
   }
 
-  abstract boolean matchToken(AnalyzedToken token);
-
-  public String toString() {
-    StringBuilder sb = new StringBuilder();
-    for (int i = 0; i < tokens.length; i++) {
-      sb.append(tokens[i]);
-      if (i < tokens.length-1)
-        sb.append("|");
-    }
-    return sb.toString();
+  boolean exceptionMatch(AnalyzedToken token) {
+	  if (exceptionSet) { 
+		  return (matchExceptionStringToken(token) != exceptionNegation)
+		  && (matchExceptionPosToken(token) != exceptionPosNegation);
+	  } else {
+		  return false;
+	  }
   }
   
+  Element(String token, boolean caseSensitive, boolean regExp, boolean inflected) {
+	  this.stringToken = token;
+	  this.caseSensitive = caseSensitive;
+	  this.stringRegExp = regExp;
+	  this.inflected = inflected;
+  }
+  
+  public String toString() {
+    if (posToken!=null) {
+	   return stringToken.concat("/").concat(posToken);
+	  }
+	  else return stringToken;
+  }
+  
+  public void setPosElement(String posToken, boolean regExp, boolean negation) {
+    this.posToken=posToken;
+    this.posNegation=negation;
+    posRegExp=regExp;
+  }
+
+  public void setPosException(String posToken, boolean regExp, boolean negation) {
+	    exceptionPosToken=posToken;
+	    exceptionPosNegation=negation;
+	    exceptionPosRegExp=regExp;
+	    exceptionSet=true;
+	  }
+  
+  public void setStringException(String token, boolean caseSensitive, boolean regExp, boolean inflected, boolean negation) {
+	    exceptionStringToken = token;
+	    exceptionRegExp = regExp;
+	    exceptionInflected = inflected;
+	    exceptionNegation = negation;
+	    exceptionSet=true;
+	  }
+  
+  boolean matchExceptionPosToken(AnalyzedToken token) {
+	  // if no POS set
+	  // defaulting to true
+	  if (exceptionPosToken==null) {
+		  return true;
+	  }
+	  boolean match = false;
+	  if (!exceptionPosRegExp)
+	  {
+		  if (exceptionPosToken.equals(token.getPOSTag())) {
+			  match = true;
+		  }
+	  } else
+		  //changed to match regexps
+		  if (token.getPOSTag()!=null)
+			  if (Pattern.matches(exceptionPosToken, token.getPOSTag()))	{	    
+				  match = true;
+			  }
+	  return match;
+  }
+  
+  boolean matchExceptionStringToken(AnalyzedToken token) {
+	  
+	  //if no string set
+	  //defaulting to true
+	  if (exceptionStringToken == null) {
+		  return true;
+	  }
+	  if (exceptionStringToken.equals("")){
+		  return true;
+	  }
+	  
+	  String testToken = null;
+	  if (exceptionInflected)
+		  testToken = token.getLemma();
+	  else
+		  testToken = token.getToken();
+	  
+	  if (caseSensitive) {
+		  if (exceptionRegExp) {
+			  if (token.getToken() != null)
+				  if (Pattern.matches(exceptionStringToken, testToken))
+					  return true;
+		  } else {
+			  if (exceptionStringToken.equals(testToken))
+				  return true;
+		  }      
+	  } else {
+		  if (exceptionRegExp) {
+			  if (testToken != null)
+				  //(?u) - regex matching 
+				  //case insensitive in Unicode
+				  if (Pattern.matches("(?u)".concat(exceptionStringToken), testToken))
+					  return true;
+		  } else {
+			  if (exceptionStringToken.equalsIgnoreCase(testToken))
+				  return true;
+		  }	      
+	  }
+	  return false;
+  }
+  
+  boolean matchPosToken(AnalyzedToken token) {
+	  // if no POS set
+	  // defaulting to true
+	  if (posToken==null) {
+		  return true;
+	  }
+	  boolean match = false;
+	  if (!posRegExp)
+	  {
+		  if (posToken.equals(token.getPOSTag())) {
+			  match = true;
+		  }
+	  } else
+		  //changed to match regexps
+		  if (token.getPOSTag()!=null)
+			  if (Pattern.matches(posToken, token.getPOSTag()))	{	    
+				  match = true;
+			  }
+	  return match;
+  }
+
+  boolean matchStringToken(AnalyzedToken token) {
+	  
+	  //if no string set
+	  //defaulting to true
+	  if (stringToken == null) {
+		  return true;
+	  }
+	  if (stringToken.equals("")){
+		  return true;
+	  }
+	  
+	  String testToken = null;
+	  if (inflected)
+		  testToken = token.getLemma();
+	  else
+		  testToken = token.getToken();
+	  
+	  if (caseSensitive) {
+		  if (stringRegExp) {
+			  if (token.getToken() != null)
+				  if (Pattern.matches(stringToken, testToken))
+					  return true;
+		  } else {
+			  if (stringToken.equals(testToken))
+				  return true;
+		  }      
+	  } else {
+		  if (stringRegExp) {
+			  if (testToken != null)
+				  //(?u) - regex matching 
+				  //case insensitive in Unicode
+				  if (Pattern.matches("(?u)".concat(stringToken), testToken))
+					  return true;
+		  } else {
+			  if (stringToken.equalsIgnoreCase(testToken))
+				  return true;
+		  }	      
+	  }
+	  return false;
+  }
+
   
   public int getSkipNext(){
 	  return skip;
@@ -59,8 +232,8 @@ public abstract class Element {
 	  skip = i;
   }
   
-  String[] getTokens() {
-    return tokens;
+  String getTokens() {
+    return stringToken;
   }
   
   /**

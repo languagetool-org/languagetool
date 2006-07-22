@@ -39,7 +39,7 @@ Note for grammar rules:
 regexp="yes"; postag contains any POS tags. POS tags can be specified as regular
 expressions as well using postag_regexp="yes"
 -->
-<!ELEMENT token (#PCDATA)>
+<!ELEMENT token (#PCDATA|exception)*>
 <!-- is token a lemma? -->
 <!ATTLIST token inflected (yes|no) "no">
 <!-- is it a regexp? -->
@@ -50,9 +50,21 @@ expressions as well using postag_regexp="yes"
 <!ATTLIST token postag CDATA #IMPLIED>
 <!ATTLIST token postag_regexp (yes|no) "no">
 <!ATTLIST token negate_pos (yes|no) "no">
-<!ATTLIST token postag_exceptions CDATA #IMPLIED>
 <!-- number of tags to skip before the match is found -->
 <!ATTLIST token skip CDATA #IMPLIED>
+
+<!-- exception element -->
+<!ELEMENT exception (#PCDATA)>
+<!-- is exception a lemma? -->
+<!ATTLIST exception inflected (yes|no) "no">
+<!-- is it a regexp? -->
+<!ATTLIST exception regexp (yes|no) "no">
+<!-- is it negated? - instead of ^ in 0.8.2 -->
+<!ATTLIST exception negate (yes|no) "no">
+<!-- POS tag -->
+<!ATTLIST exception postag CDATA #IMPLIED>
+<!ATTLIST exception postag_regexp (yes|no) "no">
+<!ATTLIST exception negate_pos (yes|no) "no">
 
 <!-- message shown to the user if a rule matches: -->
 <!ELEMENT message (#PCDATA|em)*>

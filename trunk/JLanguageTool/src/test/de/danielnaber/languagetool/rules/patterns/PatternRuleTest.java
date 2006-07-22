@@ -148,15 +148,23 @@ public class PatternRuleTest extends TestCase {
   private PatternRule makePatternRule(String s, boolean caseSensitive, boolean regex) {
     List<Element> elems = new ArrayList<Element>();
     String[] parts = s.split(" ");
+    boolean pos=false;
+    Element se = null;
     for (int i = 0; i < parts.length; i++) {
-      if (parts[i].equals("SENT_START")) {
-        POSElement se = new POSElement(new String[]{parts[i]}, false, new String[]{});
+    	if (parts[i].equals("SENT_START")) {
+    		pos=true;
+    	}
+    	if (!pos) {
+    	se = new Element(parts[i], caseSensitive, regex, false);
+    	} else {
+    	 se = new Element("", caseSensitive, regex, false);    	
+    	}
+        if (pos) {
+         se.setPosElement(parts[i], false, false);
+        }        
         elems.add(se);
-      } else {
-        StringElement se = new StringElement(parts[i], caseSensitive, regex, false);
-        elems.add(se);
-      }
-    }
+        pos = false;
+      }    
     PatternRule rule = new PatternRule("ID1", Language.ENGLISH, elems, "test rule", "user visible message");
     rule.setCaseSensitive(caseSensitive);
     return rule;

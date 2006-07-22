@@ -4,7 +4,7 @@
 Rules: Grammar and Typos
 See tagset.txt for the meaning of the POS tags
 Copyright (C) 2001-2006 Daniel Naber (http://www.danielnaber.de)
-$Id: grammar.xml,v 1.46 2006-07-18 21:11:37 dnaber Exp $
+$Id: grammar.xml,v 1.47 2006-07-22 12:35:58 milek_pl Exp $
 -->
 <rules lang="en">
 
@@ -137,7 +137,7 @@ $Id: grammar.xml,v 1.46 2006-07-18 21:11:37 dnaber Exp $
       <example type="incorrect">It was much <em>to</em> late.</example>
    </rule>
 
-   <rule id="TO_SOON" name="Possible typo 'to(too) soon'">
+	<rule id="TO_SOON" name="Possible typo 'to(too) soon'">
       <pattern mark_from="1" mark_to="-2"><token regexp="yes">comes|came|much|is|was</token><token>to</token><token>soon</token><token postag="VB" negate_pos="yes"/></pattern>
       <message>Did you mean <em>too</em>?</message>
       <example type="correct">The plan is <em>to</em> soon launch a new plane.</example>
@@ -146,7 +146,7 @@ $Id: grammar.xml,v 1.46 2006-07-18 21:11:37 dnaber Exp $
       <example type="incorrect">His idea came much <em>to</em> soon to be successful.</example>
       <example type="incorrect">It is <em>to</em> soon to move the entire industry.</example>
    </rule>
-
+	
 	 <rule id="TO_MUCH" name="Possible typo 'to(too) much'">
       <pattern mark_from="1" mark_to="-1"><token negate="yes">access</token><token>to</token><token>much</token></pattern>
       <message>Did you mean <em>too</em>?</message>
@@ -193,7 +193,7 @@ $Id: grammar.xml,v 1.46 2006-07-18 21:11:37 dnaber Exp $
    -->
 	
 	<rule id="MORE_A_JJ" name="Word order: 'more a ...' instead of 'a more ...'">
-		<pattern><token>more</token> <token regexp="yes">a|an</token> <token postag="JJ"></token></pattern>
+		<pattern><token>more</token> <token regexp="yes">a|an</token> <token postag="JJ"/></pattern>
 		<message>Did you mean <em>a more \3</em>?</message>
 		<example type="correct">I can give you <em>a more detailed</em> description of what's necessary.</example>
 		<example type="incorrect">I can give you <em>more a detailed</em> description of what's necessary.</example>
@@ -353,7 +353,7 @@ $Id: grammar.xml,v 1.46 2006-07-18 21:11:37 dnaber Exp $
    </rule>
 
    <rule id="FORE_DPS" name="Confusion of fore/for">
-      <pattern mark_to="-1"><token>fore</token><token postag="PRP\$"/></pattern>
+      <pattern mark_to="-1"><token>fore</token><token postag_regexp="yes" postag="PRP\$"/></pattern>
       <message>Did you mean <em>for</em>?</message>
       <example type="correct">Thanks again <em>for</em> your help.</example>
       <example type="incorrect">Thanks again <em>fore</em> your help.</example>
@@ -387,7 +387,7 @@ $Id: grammar.xml,v 1.46 2006-07-18 21:11:37 dnaber Exp $
 		see PatternRuleLoader, line 126, 148
 	-->
    <rule id="DT_DT" name="Two consecutive articles">
-      <pattern mark_from="1"><token postag="DT" postag_exceptions="all|half|both|this|each|that"/><token postag="DT"/></pattern>
+      <pattern mark_from="1"><token postag="DT"><exception regexp="yes">all|half|both|this|each|that</exception></token><token postag="DT"/></pattern>
       <message>Maybe you need to remove the second determiner.</message>
       <example type="correct"><em>The</em> thing is this.</example>
       <example type="incorrect"><em>The a</em> thing is this.</example>
@@ -451,14 +451,14 @@ $Id: grammar.xml,v 1.46 2006-07-18 21:11:37 dnaber Exp $
 	
 	
    <rule id="MOST_SUPERLATIVE" name="No 'more' or 'most' before superlatives">
-      <pattern mark_from="0" mark_to="-1"><token regexp="yes">more|most</token><token postag="JJS|RBS"/></pattern>
+      <pattern mark_from="0" mark_to="-1"><token regexp="yes">more|most</token><token postag="JJS|RBS" postag_regexp="yes"/></pattern>
       <message>Remove 'most' or 'more' when you use the superlative.</message>
       <example type="correct">Kyoto is the <em>oldest</em> city.</example>
       <example type="incorrect">Kyoto is the <em>most oldest</em> city.</example>
    </rule>
 
-   <rule id="THE_SUPERLATIVE" name="No indefinite article ('a'/'an') before superlatives">
-      <pattern mark_from="0" mark_to="-1"><token regexp="yes">a|an</token><token postag="JJS|RBS" postag_regexp="yes" postag_exceptions="most"/></pattern>
+ <rule id="THE_SUPERLATIVE" name="No indefinite article ('a'/'an') before superlatives">
+      <pattern mark_from="0" mark_to="-1"><token regexp="yes">a|an</token><token postag="JJS|RBS" postag_regexp="yes"><exception>most</exception></token></pattern>
       <message>Use <em>the</em> with the superlative.</message>
       <example type="correct">Kyoto is <em>the</em> oldest city.</example>
       <example type="correct">And Truly It Is <em>a</em> Most Glorious Thing</example>
@@ -625,7 +625,7 @@ $Id: grammar.xml,v 1.46 2006-07-18 21:11:37 dnaber Exp $
    <rulegroup id="NOW" name="Confusion of no/now">
 
       <rule>
-         <pattern mark_to="-1"><token regexp="yes">no</token><token postag="MD|VB|VBD|VBN" postag_regexp="yes" postag_exceptions="known"/></pattern>
+         <pattern mark_to="-1"><token regexp="yes">no</token><token postag="MD|VB|VBD|VBN" postag_regexp="yes"><exception>known</exception></token></pattern>
          <message>Did you meam <em>now</em> (=at this moment) instead of
             'no' (negation)?</message>
          <example type="correct">There <em>now</em> will be a park.</example>
