@@ -3,7 +3,7 @@
 Rules: Grammar and Typos
 See tagset.txt for the meaning of the POS tags
 Copyright (C) 2001-2006 Daniel Naber (http://www.danielnaber.de)
-$Id: grammar.xml,v 1.32 2006-07-22 21:50:35 dnaber Exp $
+$Id: grammar.xml,v 1.33 2006-07-22 22:07:12 dnaber Exp $
 -->
 <rules lang="de">
 
@@ -76,14 +76,14 @@ $Id: grammar.xml,v 1.32 2006-07-22 21:50:35 dnaber Exp $
 
 	<rule id="OHNE_GEWEHR" name="Möglicher Tippfehler 'ohne Gewehr(Gewähr)'">
 		<pattern mark_from="1"><token>ohne</token><token>Gewehr</token></pattern>
-		<message>Hinweis: Gewehr = Schusswaffe, Gewähr = Garantie/Gewährleistung/Sicherheit</message>
+		<message>Hinweis: Gewehr = Schusswaffe, <em>Gewähr</em> = Garantie/Gewährleistung/Sicherheit</message>
 		<example type="correct">Alle Angaben ohne Gewähr.</example>
 		<example type="incorrect">Alle Angaben ohne Gewehr.</example>
 	</rule>
 	
 	<rule id="DAS_ERSTE_MAL" name="Korrekte Groß-/Kleinschreibung: 'das erste Mal'">
-		<pattern mark_from="2" case_sensitive="yes"><token regexp="yes">beim|zum|das</token> <token regexp="yes">erste|ersten</token> <token>mal</token></pattern>
-		<message>'Mal' in der Wendung 'das erste Mal' wird groß geschrieben.</message>
+		<pattern mark_from="2" case_sensitive="yes"><token regexp="yes">[Bb]eim|[Zz]um|[Dd]as</token> <token regexp="yes">erste|ersten</token> <token>mal</token></pattern>
+		<message><em>Mal</em> in der Wendung 'das erste Mal' wird groß geschrieben.</message>
 		<example type="correct">...als du ihn das erste <em>Mal</em> gesehen hast?</example>
 		<example type="incorrect">...als du ihn das erste <em>mal</em> gesehen hast?</example>
 		<example type="incorrect">...als du ihn zum ersten <em>mal</em> gesehen hast?</example>
@@ -91,12 +91,11 @@ $Id: grammar.xml,v 1.32 2006-07-22 21:50:35 dnaber Exp $
 
 	<rule id="IN_ACHT_NEHMEN" name="Korrekte Groß-/Kleinschreibung: 'in Acht nehmen'">
 		<pattern mark_from="1" mark_to="-1" case_sensitive="yes"><token>in</token><token>acht</token><token regexp="yes">nehmen|nahm|genommen</token></pattern>
-		<message>'Acht' in der Wendung '(sich) in Acht nehmen' wird groß geschrieben.</message>
+		<message><em>Acht</em> in der Wendung '(sich) in Acht nehmen' wird groß geschrieben.</message>
 		<example type="correct">Er sollte sich in <em>Acht</em> nehmen.</example>
 		<example type="incorrect">Er sollte sich in <em>acht</em> nehmen.</example>
 	</rule>
 	
-
 	<rule id="AUS_VERSEHEN" name="Tippfehler 'aus versehen(Versehen)'">
 		<pattern mark_from="1" case_sensitive="yes"><token>aus</token><token>versehen</token></pattern>
 		<message>In der Wendung 'aus Versehen' wird <em>Versehen</em> groß geschrieben.</message>
@@ -106,14 +105,14 @@ $Id: grammar.xml,v 1.32 2006-07-22 21:50:35 dnaber Exp $
 
 	<rule id="PER_NACHNAME" name="Tippfehler 'per Nachname(Nachnahme)'">
 		<pattern mark_from="1" case_sensitive="yes"><token>per</token><token>Nachname</token></pattern>
-		<message>Meinten Sie '<em>Nachnahme</em>'?</message>
+		<message>Meinten Sie <em>Nachnahme</em> ('Nachnahme' = Versandart, 'Nachname' = Familienname)?</message>
 		<example type="correct">Warum liefern Firmen lieber per <em>Nachnahme</em>?</example>
 		<example type="incorrect">Warum liefern Firmen lieber per <em>Nachname</em>?</example>
 	</rule>	
 	
 	<rule id="FRAGEN_HABEN" name="Tippfehler 'fragen(Fragen) haben/stellen'">
 		<pattern mark_to="-1" case_sensitive="yes"><token>fragen</token><token regexp="yes">haben|hat|hast|habe|hätte|hatte|hattest|hatten|hätten|habt|stellen|stellt|stellst|stellte|stellten</token></pattern>
-		<message>'Fragen' als Nomen wird groß geschrieben.</message>
+		<message><em>Fragen</em> als Nomen wird groß geschrieben.</message>
 		<example type="correct">Meine <em>Fragen</em> hat bislang keiner gelesen.</example>
 		<example type="incorrect">Meine <em>fragen</em> hat bislang keiner gelesen</example>
 	</rule>
@@ -141,7 +140,7 @@ $Id: grammar.xml,v 1.32 2006-07-22 21:50:35 dnaber Exp $
 
 	<rule id="ETHISCH_ETHNISCH" name="Fehler 'ethische(ethnische) Minderheiten/...'">
 		<pattern mark_to="-1"><token regexp="yes">[Ee]thische|[Ee]thischer|[Ee]thischen</token><token regexp="yes">Minderheit|Minderheiten|Säuberung|Säuberungen|Herkunft|Konflikt|Konflikte</token></pattern>
-		<message>Meinten Sie <em>ethnische</em> (ethisch = sittlich, ethnisch = zu einer bestimmten Ethnie/Volksgruppe gehörend)?</message>
+		<message>Meinten Sie <em>ethnisch</em> (ethisch = Ethik/Moral betreffend, ethnisch = zu einer bestimmten Ethnie/Volksgruppe gehörend)?</message>
 		<example type="correct">Bücher über <em>ethnische</em> Minderheiten und Vertriebene</example>
 		<example type="incorrect">Bücher über <em>ethische</em> Minderheiten und Vertriebene</example>
 	</rule>
