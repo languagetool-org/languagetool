@@ -65,13 +65,17 @@ public class AnalyzedSentence {
       for (int j = 0; j < tokens[i].getReadingsLength(); j++) {
       if (JLanguageTool.SENTENCE_START_TAGNAME.equals(tokens[i].getAnalyzedToken(j).getPOSTag())) {
         sb.append("<S>");
+        sb.append(" ");
       } else if (tokens[i].getAnalyzedToken(j) != null && tokens[i].getAnalyzedToken(j).getPOSTag() == null && !(tokens[i] instanceof AnalyzedGermanTokenReadings)) {
         // FIXME: don't depend on AnalyzedGermanTokenReadings here
         sb.append(tokens[i].getAnalyzedToken(j).getToken());
+        sb.append(" ");
       } else {
-        sb.append(tokens[i].getAnalyzedToken(j));
+        if (!"".equals(tokens[i].token.trim())) {
+          sb.append(tokens[i]);
+          sb.append(" ");
+        }
       }
-      sb.append(" ");
     }
     }
     return sb.toString();

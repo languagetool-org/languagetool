@@ -130,10 +130,11 @@ public class AnalyzedGermanToken extends AnalyzedToken {
   }
 
   public String toString() {
+    String typeStr = makeReadableString(type);
     String casusStr = makeReadableString(casus);
     String numerusStr = makeReadableString(numerus);
     String genusStr = makeReadableString(genus);
-    return type + "/" + casusStr + "/" + numerusStr + "/" + genusStr;
+    return typeStr + "/" + casusStr + "/" + numerusStr + "/" + genusStr;
   }
   
   private String makeReadableString(Object obj) {
