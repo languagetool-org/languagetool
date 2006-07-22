@@ -21,8 +21,11 @@ package de.danielnaber.languagetool;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -30,6 +33,7 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import org.xml.sax.SAXException;
 
+import de.danielnaber.languagetool.rules.Rule;
 import de.danielnaber.languagetool.rules.RuleMatch;
 import de.danielnaber.languagetool.tools.StringTools;
 
@@ -47,17 +51,28 @@ class Main {
 
   Main(boolean verbose, Language language, Language motherTongue) throws IOException, 
       ParserConfigurationException, SAXException {
-    this(verbose, language, motherTongue, new String[0]);
+    this(verbose, language, motherTongue, new String[0], new String[0]);
   }
   
-  Main(boolean verbose, Language language, Language motherTongue, String[] disabledRules) throws IOException, 
+  Main(boolean verbose, Language language, Language motherTongue, String[] disabledRules,
+      String[] enabledRules) throws IOException, 
       SAXException, ParserConfigurationException {
     this.verbose = verbose;
     lt = new JLanguageTool(language, motherTongue);
     lt.activateDefaultPatternRules();
     lt.activateDefaultFalseFriendRules();
+    // disable rules that are disabled explicitly:
     for (int i = 0; i < disabledRules.length; i++) {
       lt.disableRule(disabledRules[i]);
+    }
+    // disable all rules except those enabled explictly, if any:
+    if (enabledRules.length > 0) {
+      Set<String> enabledRuleIDs = new HashSet<String>(Arrays.asList(enabledRules));
+      for (Rule rule : lt.getAllRules()) {
+        if (!enabledRuleIDs.contains(rule.getId())) {
+          lt.disableRule(rule.getId());
+        }
+      }
     }
   }
   
@@ -172,7 +187,7 @@ class Main {
   private static void exitWithUsageMessage() {
     System.out.println("Usage: java de.danielnaber.languagetool.Main " +
             "[-r|--recursive] [-v|--verbose] [-l|--language LANG] [-m|--mothertongue LANG] [-d|--disable RULES] " +
-            "[-e|--encoding] <file>");
+            "[-e|--enable RULES] [-c|--encoding] <file>");
     System.exit(1);
   }
 
@@ -190,6 +205,7 @@ class Main {
     String encoding = null;
     String filename = null;
     String[] disabledRules = new String[0];
+    String[] enabledRules = new String[0];
     for (int i = 0; i < args.length; i++) {
       if (args[i].equals("-h") || args[i].equals("-help") || args[i].equals("--help")) {
         exitWithUsageMessage();
@@ -198,13 +214,20 @@ class Main {
       } else if (args[i].equals("-r") || args[i].equals("--recursive")) {
         recursive = true;
       } else if (args[i].equals("-d") || args[i].equals("--disable")) {
+        if (enabledRules.length > 0)
+          throw new IllegalArgumentException("You cannot specifiy both enabled and disabled rules");
         String rules = args[++i];
         disabledRules = rules.split(",");
+      } else if (args[i].equals("-e") || args[i].equals("--enable")) {
+        if (disabledRules.length > 0)
+          throw new IllegalArgumentException("You cannot specifiy both enabled and disabled rules");
+        String rules = args[++i];
+        enabledRules = rules.split(",");
       } else if (args[i].equals("-l") || args[i].equals("--language")) {
         language = getLanguageOrExit(args[++i]);
       } else if (args[i].equals("-m") || args[i].equals("--mothertongue")) {
         motherTongue = getLanguageOrExit(args[++i]);
-      } else if (args[i].equals("-e") || args[i].equals("--encoding")) {
+      } else if (args[i].equals("-c") || args[i].equals("--encoding")) {
         encoding = args[++i];
       } else {
         filename = args[i];
@@ -217,7 +240,7 @@ class Main {
       System.err.println("No language specified, using English");
       language = Language.ENGLISH;
     }
-    Main prg = new Main(verbose, language, motherTongue, disabledRules);
+    Main prg = new Main(verbose, language, motherTongue, disabledRules, enabledRules);
     if (recursive) {
       prg.runRecursive(filename, encoding);
     } else {
