@@ -30,7 +30,7 @@ import de.danielnaber.languagetool.rules.RuleMatch;
 import de.danielnaber.languagetool.tools.StringTools;
 
 /**
- * A Rule that drescribes a language error as a simple pattern of words or their part-of-speech
+ * A Rule that describes a language error as a simple pattern of words or of part-of-speech
  * tags.
  * 
  * @author Daniel Naber
