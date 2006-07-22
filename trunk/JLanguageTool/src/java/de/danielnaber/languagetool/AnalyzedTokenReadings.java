@@ -47,24 +47,24 @@ public class AnalyzedTokenReadings {
 		startPos = at.getStartPos();
 	}
   
+  public List<AnalyzedToken> getReadings() {
+    return (List<AnalyzedToken>) Arrays.asList(ATreadings);
+  }
+
 	public AnalyzedToken getAnalyzedToken(int i) {
 		return ATreadings[i];
 	}
-	
+
+  public int getReadingsLength() {
+    return ATreadings.length;
+  }
+  
 	public int getStartPos() {
 		return startPos;
 	}
 	
 	public String getToken(){
 		return token;
-	}
-	
-  public List<AnalyzedToken> getReadings() {
-    return (List<AnalyzedToken>) Arrays.asList(ATreadings);
-  }
-
-  public int getReadingsLength() {
-		return ATreadings.length;
 	}
 	
 	public void setReading(int i, AnalyzedToken tok) {
