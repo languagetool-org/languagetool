@@ -7,13 +7,13 @@ Copyright (C) 2005 Daniel Naber (http://www.danielnaber.de)
 	<rule id="DEMO_RULE" name="Find 'foo bar'">
 		<pattern mark_from="0" case_sensitive="no"><token>foo</token><token>bar</token></pattern>
 		<message>Did you mean <em>fuu bah</em>?</message>
-		<example type="correct">This is fuu bah.</example>
-		<example type="incorrect">This is foo bar.</example>
+		<example type="correct">This is <em>fuu bah</em>.</example>
+		<example type="incorrect">This is <em>foo bar</em>.</example>
 	</rule>
-    <rule id="negation_token" name="test negation">
-		<pattern><token>small</token><token negate="yes">test</token></pattern>
+    <rule id="NEGATION_TOKEN" name="test negation">
+		<pattern mark_from="1"><token>small</token><token negate="yes">test</token></pattern>
 		<message>test</message>
-		<example type="correct">small test</example>
-		<example type="incorrect">a small toast</example>
+		<example type="correct">small <em>test</em></example>
+		<example type="incorrect">a small <em>toast</em></example>
 	</rule>	
 </rules>

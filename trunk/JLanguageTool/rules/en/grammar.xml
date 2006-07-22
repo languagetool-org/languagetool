@@ -4,7 +4,7 @@
 Rules: Grammar and Typos
 See tagset.txt for the meaning of the POS tags
 Copyright (C) 2001-2006 Daniel Naber (http://www.danielnaber.de)
-$Id: grammar.xml,v 1.47 2006-07-22 12:35:58 milek_pl Exp $
+$Id: grammar.xml,v 1.48 2006-07-22 22:56:42 dnaber Exp $
 -->
 <rules lang="en">
 
@@ -74,7 +74,7 @@ $Id: grammar.xml,v 1.47 2006-07-22 12:35:58 milek_pl Exp $
    <rule id="MANY_FEW_UNCOUNTABLE" name="many/few + uncountable noun">
       <!-- fixme: more uncountable nouns
        -->
-      <pattern mark_to="-1"><token regexp="yes">as</token><token regexp="yes">many|few</token><token regexp="yes">air|money|software|cattle|knowledge|sand|furniture|meat|food|news|success|water|freedom|maturity|intelligence|life|information</token><token>as</token></pattern>
+      <pattern mark_from="1" mark_to="-2"><token regexp="yes">as</token><token regexp="yes">many|few</token><token regexp="yes">air|money|software|cattle|knowledge|sand|furniture|meat|food|news|success|water|freedom|maturity|intelligence|life|information</token><token>as</token></pattern>
       <message>Use <em>much</em> or <em>little</em> with uncountable nouns</message>
       <example type="correct">John eats as <em>much</em> food as Peter.</example>
       <example type="correct">John eats as <em>little</em> food as Peter.</example>
@@ -228,7 +228,7 @@ $Id: grammar.xml,v 1.47 2006-07-22 12:35:58 milek_pl Exp $
    </rule>
 
 	  <rule id="THE_ONLY_ON" name="Typo 'the only on(one)'">
-      <pattern><token>the</token><token>only</token><token>on</token></pattern>
+      <pattern mark_from="2"><token>the</token><token>only</token><token>on</token></pattern>
       <message>Did you mean <em>the only one</em>?</message>
       <example type="correct">The trash folder is the only <em>one</em> for me that works.</example>
       <example type="incorrect">The trash folder is the only <em>on</em> for me that works.</example>
@@ -390,22 +390,22 @@ $Id: grammar.xml,v 1.47 2006-07-22 12:35:58 milek_pl Exp $
       <pattern mark_from="1"><token postag="DT"><exception regexp="yes">all|half|both|this|each|that</exception></token><token postag="DT"/></pattern>
       <message>Maybe you need to remove the second determiner.</message>
       <example type="correct"><em>The</em> thing is this.</example>
-      <example type="incorrect"><em>The a</em> thing is this.</example>
+      <example type="incorrect">The <em>a</em> thing is this.</example>
    </rule>
 	
    <rule id="RATHER_THEN" name="Typo 'rather then(than)'">
-      <pattern><token>rather</token><token>then</token></pattern>
+      <pattern mark_from="1"><token>rather</token><token>then</token></pattern>
       <message>Did you mean <em>rather than</em>?</message>
       <example type="correct">Single Clicking rather <em>than</em> Double Clicking</example>
       <example type="incorrect">Single Clicking rather <em>then</em> Double Clicking</example>
    </rule>
 
- <rule id="OF_CAUSE" name="Typo 'of cause(course)'">
+   <rule id="OF_CAUSE" name="Typo 'of cause(course)'">
       <pattern mark_to="-1"><token regexp="yes">of</token><token regexp="yes">cause</token><token regexp="yes" negate="yes">(and|to)</token></pattern>
       <message>Did you mean <em>of course</em> (=naturally)?</message>
       <example type="correct">The law of cause and effect.</example>
-      <example type="correct">Of <em>course</em> all these things are relative.</example>
-      <example type="incorrect">Of <em>cause</em> all these things are relative.</example>
+      <example type="correct"><em>Of course</em> all these things are relative.</example>
+      <example type="incorrect"><em>Of cause</em> all these things are relative.</example>
    </rule>
 
 	 <rule id="LOOK_ATE" name="Typo 'look ate(at)'">
@@ -431,7 +431,7 @@ $Id: grammar.xml,v 1.47 2006-07-22 12:35:58 milek_pl Exp $
    </rule>
 
 	<rule id="EAGER_TO" name="Infinitive verb with 'eager to...'">
-      <pattern><token>eager</token><token>to</token><token postag="(VBG|VBZ|VBN|VBD)" postag_regexp="yes"/></pattern>
+      <pattern mark_from="2"><token>eager</token><token>to</token><token postag="(VBG|VBZ|VBN|VBD)" postag_regexp="yes"/></pattern>
       <message>Use the base form of the verb with <em>eager to</em>.</message>
       <example type="correct">I'd be eager to <em>try</em> out your patch.</example>
       <example type="correct">Bangladesh eager to <em>buy</em> cars from Iran' </example>
@@ -451,8 +451,8 @@ $Id: grammar.xml,v 1.47 2006-07-22 12:35:58 milek_pl Exp $
 	
 	
    <rule id="MOST_SUPERLATIVE" name="No 'more' or 'most' before superlatives">
-      <pattern mark_from="0" mark_to="-1"><token regexp="yes">more|most</token><token postag="JJS|RBS" postag_regexp="yes"/></pattern>
-      <message>Remove 'most' or 'more' when you use the superlative.</message>
+      <pattern><token regexp="yes">more|most</token><token postag="JJS|RBS" postag_regexp="yes"/></pattern>
+      <message>Use only <em>\2</em> (without '\1') when you use the superlative.</message>
       <example type="correct">Kyoto is the <em>oldest</em> city.</example>
       <example type="incorrect">Kyoto is the <em>most oldest</em> city.</example>
    </rule>
@@ -487,7 +487,7 @@ $Id: grammar.xml,v 1.47 2006-07-22 12:35:58 milek_pl Exp $
    </rule>
 
    <rule id="DID_BASEFORM" name="Infinitive verb after 'did'">
-      <pattern><token regexp="yes">did|will|could|can|should|would|does</token><token postag="(VBD|VBG|VBZ)" postag_regexp="yes"/></pattern>
+      <pattern mark_from="1"><token regexp="yes">did|will|could|can|should|would|does</token><token postag="(VBD|VBG|VBZ)" postag_regexp="yes"/></pattern>
       <message>'Did' requires base form of verb.</message>
       <!-- 'did' is used for emphasis here: -->
       <example type="correct">They will <em>come</em> home.</example>
