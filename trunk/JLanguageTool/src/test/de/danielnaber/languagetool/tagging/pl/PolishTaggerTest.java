@@ -27,7 +27,7 @@ public class PolishTaggerTest extends TestCase {
 
 	  private void myAssert(String input, String expected) throws IOException {
 	    List tokens = tokenizer.tokenize(input);
-	    List noWhitespaceTokens = new ArrayList();
+	    List<String> noWhitespaceTokens = new ArrayList<String>();
 	    // whitespace confuses tagger, so give it the tokens but no whitespace tokens:
 	    for (Iterator iterator = tokens.iterator(); iterator.hasNext();) {
 	      String token = (String) iterator.next();
