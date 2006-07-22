@@ -33,11 +33,22 @@ public class StringTools {
   private StringTools() {
     // only static stuff
   }
-  
+
+  /**
+   * Read a file's content.
+   */
   public static String readFile(String filename) throws IOException {
     return readFile(filename, null);
   }
   
+  /**
+   * Read the text file using the given encoding.
+   * 
+   * @param filename name of the file
+   * @param encoding the file's character encoding (e.g. <code>iso-8859-1</code>)
+   * @return a string with the file's content, lines separated by <code>\n</code>
+   * @throws IOException
+   */
   public static String readFile(String filename, String encoding) throws IOException {
     InputStreamReader isr = null;
     BufferedReader br = null;

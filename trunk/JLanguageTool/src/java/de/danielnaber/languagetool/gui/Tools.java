@@ -18,6 +18,11 @@
  */
 package de.danielnaber.languagetool.gui;
 
+/**
+ * GUI-related tools.
+ * 
+ * @author Daniel Naber
+ */
 public class Tools {
 
   private static final int DEFAULT_CONTEXT_SIZE = 25;   // characters
