@@ -1,43 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-	<!--
+<!--
 Rules: Grammar and Typos
 See tagset.txt for the meaning of the POS tags
 Copyright (C) 2001-2006 Daniel Naber (http://www.danielnaber.de)
-$Id: grammar.xml,v 1.48 2006-07-22 22:56:42 dnaber Exp $
+$Id: grammar.xml,v 1.49 2006-07-22 23:02:51 dnaber Exp $
 -->
 <rules lang="en">
 
-	<rule id="I_ARE" name="'I is/are/...' (at sentence start only)">
-		<pattern mark_from="2"><token postag="SENT_START"></token><token>I</token><token regexp="yes">is|be|are|were|has</token></pattern>
-		<message>Did you mean <em>am</em> or <em>ate</em>?</message>
-		<example type="correct">I <em>ate</em> at the restaurant.</example>
-		<example type="correct">I <em>am</em> at the restaurant.</example>
-		<example type="incorrect">I <em>are</em> at the restaurant.</example>
-	</rule>
+   <rule id="I_ARE" name="'I is/are/...' (at sentence start only)">
+      <pattern mark_from="2"><token postag="SENT_START"></token><token>I</token><token regexp="yes">is|be|are|were|has</token></pattern>
+      <message>Did you mean <em>am</em> or <em>ate</em>?</message>
+      <example type="correct">I <em>ate</em> at the restaurant.</example>
+      <example type="correct">I <em>am</em> at the restaurant.</example>
+      <example type="incorrect">I <em>are</em> at the restaurant.</example>
+   </rule>
 	
-	<rule id="YOU_IS" name="'You is/was/has' (at sentence start only)">
+   <rule id="YOU_IS" name="'You is/was/has' (at sentence start only)">
       <pattern mark_from="2"><token postag="SENT_START"/><token regexp="yes">You</token><token regexp="yes">am|is|was|has</token></pattern>
       <message>Use second person verb with 'you', e.g. 'you are'</message>
       <example type="correct">You <em>are</em> too old for that.</example>
       <example type="incorrect">You <em>is</em> too old for that.</example>
    </rule>
 	
-	<rule id="HE_WERE" name="'He were/have/...' (at sentence start only)">
+   <rule id="HE_WERE" name="'He were/have/...' (at sentence start only)">
       <pattern mark_from="2"><token postag="SENT_START"/><token regexp="yes">He</token><token regexp="yes">were|have|be|am|are</token></pattern>
       <message>Use third person verb with 'he', e.g. 'he is'</message>
       <example type="correct">He <em>is</em> too old for that.</example>
       <example type="incorrect">He <em>were</em> too old for that.</example>
    </rule>
 	
-	<rule id="WE_IS" name="'We is/was/has' (at sentence start only)">
+   <rule id="WE_IS" name="'We is/was/has' (at sentence start only)">
       <pattern mark_from="2"><token postag="SENT_START"/><token regexp="yes">We</token><token regexp="yes">am|is|was|has</token></pattern>
       <message>Use first person plural verb with 'we', e.g. 'we are'</message>
       <example type="correct">We <em>are</em> too old for that.</example>
       <example type="incorrect">We <em>is</em> too old for that.</example>
    </rule>
 
-	<rule id="THEY_IS" name="'They is/was/has' (at sentence start only)">
+   <rule id="THEY_IS" name="'They is/was/has' (at sentence start only)">
       <pattern mark_from="2"><token postag="SENT_START"/><token regexp="yes">They</token><token regexp="yes">am|is|was|has</token></pattern>
       <message>Use third person plural verb with 'they', e.g. 'they are'</message>
       <example type="correct">They <em>are</em> too old for that.</example>
@@ -92,22 +91,22 @@ $Id: grammar.xml,v 1.48 2006-07-22 22:56:42 dnaber Exp $
    </rule>
    -->
 
-	<rule id="BED_ENGLISH" name="'bed/bat English/...'">
+   <rule id="BED_ENGLISH" name="'bed/bat English/...'">
       <pattern mark_to="-1"><token regexp="yes">bed|bat</token><token regexp="yes">[Ee]nglish|attitude</token></pattern>
       <message>Did you mean <em>bad</em>?</message>
       <example type="correct">Sorry for my <em>bad</em> English.</example>
       <example type="incorrect">Sorry for my <em>bed</em> English.</example>
    </rule>
 
-	<!-- TODO: group -->
-	<rule id="YOUR" name="Possible typo 'your(you're)'">
+   <!-- TODO: group -->
+   <rule id="YOUR" name="Possible typo 'your(you're)'">
       <pattern mark_to="-1"><token>your</token><token postag="VBG"/></pattern>
       <message>Did you mean <em>you're</em> or <em>you are</em>?</message>
       <example type="correct">Let's see if <em>you're</em> using multiple search servers.</example>
       <example type="correct">Let's see if <em>you are</em> using multiple search servers.</example>
       <example type="incorrect">Let's see if <em>your</em> using multiple search servers.</example>
    </rule>
-	<rule id="YOUR2" name="Possible typo 'your(you're)'">
+   <rule id="YOUR2" name="Possible typo 'your(you're)'">
       <pattern mark_from="1" mark_to="-1"><token>if</token><token>your</token><token>a</token></pattern>
       <message>Did you mean <em>you're</em> or <em>you are</em>?</message>
       <example type="correct">Let's see if <em>you're</em> a developer.</example>
@@ -128,7 +127,7 @@ $Id: grammar.xml,v 1.48 2006-07-22 22:56:42 dnaber Exp $
       <example type="incorrect"><em>Them</em> it became clear.</example>
    </rule>
 
-	<rule id="TO_LATE" name="Possible typo 'to(too) late'">
+   <rule id="TO_LATE" name="Possible typo 'to(too) late'">
       <pattern mark_from="1" mark_to="-1"><token regexp="yes">much|is|was|be</token><token>to</token><token>late</token></pattern>
       <message>Did you mean <em>too</em>?</message>
       <example type="correct">It was <em>too</em> late.</example>
@@ -137,7 +136,7 @@ $Id: grammar.xml,v 1.48 2006-07-22 22:56:42 dnaber Exp $
       <example type="incorrect">It was much <em>to</em> late.</example>
    </rule>
 
-	<rule id="TO_SOON" name="Possible typo 'to(too) soon'">
+   <rule id="TO_SOON" name="Possible typo 'to(too) soon'">
       <pattern mark_from="1" mark_to="-2"><token regexp="yes">comes|came|much|is|was</token><token>to</token><token>soon</token><token postag="VB" negate_pos="yes"/></pattern>
       <message>Did you mean <em>too</em>?</message>
       <example type="correct">The plan is <em>to</em> soon launch a new plane.</example>
@@ -147,7 +146,7 @@ $Id: grammar.xml,v 1.48 2006-07-22 22:56:42 dnaber Exp $
       <example type="incorrect">It is <em>to</em> soon to move the entire industry.</example>
    </rule>
 	
-	 <rule id="TO_MUCH" name="Possible typo 'to(too) much'">
+   <rule id="TO_MUCH" name="Possible typo 'to(too) much'">
       <pattern mark_from="1" mark_to="-1"><token negate="yes">access</token><token>to</token><token>much</token></pattern>
       <message>Did you mean <em>too</em>?</message>
       <example type="correct">Because <em>too</em> much snow was on it.</example>
@@ -213,7 +212,7 @@ $Id: grammar.xml,v 1.48 2006-07-22 22:56:42 dnaber Exp $
 		<example type="incorrect">Yes it is, to a certain <em>extend</em>.</example>
 	</rule>
 
-	 <rule id="IS_WERE" name="Typo 'is were(where)'">
+   <rule id="IS_WERE" name="Typo 'is were(where)'">
       <pattern mark_from="1"><token>is</token><token>were</token></pattern>
       <message>Did you mean <em>where</em>?</message>
       <example type="correct">Now, this is <em>where</em> my ignorance sets in.</example>
@@ -227,7 +226,7 @@ $Id: grammar.xml,v 1.48 2006-07-22 22:56:42 dnaber Exp $
       <example type="incorrect">Type in one <em>ore</em> more words.</example>
    </rule>
 
-	  <rule id="THE_ONLY_ON" name="Typo 'the only on(one)'">
+   <rule id="THE_ONLY_ON" name="Typo 'the only on(one)'">
       <pattern mark_from="2"><token>the</token><token>only</token><token>on</token></pattern>
       <message>Did you mean <em>the only one</em>?</message>
       <example type="correct">The trash folder is the only <em>one</em> for me that works.</example>
@@ -241,7 +240,7 @@ $Id: grammar.xml,v 1.48 2006-07-22 22:56:42 dnaber Exp $
       <example type="incorrect">He noticed that <em>their</em> is a new test.</example>
    </rule>
 
-	  <rule id="I_A" name="Typo 'I a(am)' and 'I an(am)'">
+   <rule id="I_A" name="Typo 'I a(am)' and 'I an(am)'">
       <!-- but: 'Am I an annoyance' -->
       <pattern mark_from="1"><token regexp="yes">I</token><token regexp="yes">a|an</token></pattern>
       <message>Did you mean <em>am</em> (first person of "to be")?</message>
@@ -264,7 +263,7 @@ $Id: grammar.xml,v 1.48 2006-07-22 22:56:42 dnaber Exp $
       <example type="incorrect">Please <em>not</em> that saying "Open Source" does not mean very much.</example>
    </rule>
 
-<rule id="NUT_NOT" name="Confusion of nut/not">
+   <rule id="NUT_NOT" name="Confusion of nut/not">
       <pattern mark_to="-1"><token regexp="yes">nut</token><token postag="(RB|JJ|NN)" postag_regexp="yes"/></pattern>
       <message>Did you mean <em>not</em>?</message>
       <example type="correct">I'm <em>not</em> sure.</example>
@@ -285,7 +284,7 @@ $Id: grammar.xml,v 1.48 2006-07-22 22:56:42 dnaber Exp $
       <example type="incorrect">Or we just <em>through</em> away all bugs.</example>
    </rule>
 	
-	<rule id="OR_WAY_IT" name="Typo 'or way(was) it'">
+   <rule id="OR_WAY_IT" name="Typo 'or way(was) it'">
       <pattern mark_from="1" mark_to="-1"><token>or</token><token>way</token><token regexp="yes">(it|that|this)</token></pattern>
       <message>Did you mean <em>was</em>?</message>
       <example type="correct">Or <em>was</em> that a very recent change in Qt?</example>
@@ -329,7 +328,7 @@ $Id: grammar.xml,v 1.48 2006-07-22 22:56:42 dnaber Exp $
    </rule>
    -->
 
-	<rule id="YOU_THING" name="Typo 'I/you/... thing(think)'">
+   <rule id="YOU_THING" name="Typo 'I/you/... thing(think)'">
       <pattern mark_from="1"><token regexp="yes">I|you|he|she|they|we</token><token regexp="yes">thing|things</token></pattern>
       <message>Did you mean <em>think</em> or <em>thinks</em>?</message>
       <example type="correct">I <em>think</em> that's a good idea.</example>
@@ -375,7 +374,7 @@ $Id: grammar.xml,v 1.48 2006-07-22 22:56:42 dnaber Exp $
       <example type="incorrect">It's less controversial <em>then</em> one would think.</example>
    </rule>
 
-	<rule id="AND_THAN" name="Typo 'and than(then)'">
+   <rule id="AND_THAN" name="Typo 'and than(then)'">
       <pattern mark_from="1"><token>and</token><token>than</token></pattern>
       <message>Did you mean <em>then</em>?</message>
       <example type="correct">How to add equal values and <em>then</em> replace them with their sum?</example>
@@ -408,7 +407,7 @@ $Id: grammar.xml,v 1.48 2006-07-22 22:56:42 dnaber Exp $
       <example type="incorrect"><em>Of cause</em> all these things are relative.</example>
    </rule>
 
-	 <rule id="LOOK_ATE" name="Typo 'look ate(at)'">
+   <rule id="LOOK_ATE" name="Typo 'look ate(at)'">
       <pattern mark_from="1"><token>look</token><token>ate</token></pattern>
       <message>Did you mean <em>at</em>?</message>
       <example type="correct">Although I must admit when I look <em>at</em> the paperback...</example>
@@ -430,7 +429,7 @@ $Id: grammar.xml,v 1.48 2006-07-22 22:56:42 dnaber Exp $
       <example type="incorrect">Something that <em>my be</em> interesting...</example>
    </rule>
 
-	<rule id="EAGER_TO" name="Infinitive verb with 'eager to...'">
+   <rule id="EAGER_TO" name="Infinitive verb with 'eager to...'">
       <pattern mark_from="2"><token>eager</token><token>to</token><token postag="(VBG|VBZ|VBN|VBD)" postag_regexp="yes"/></pattern>
       <message>Use the base form of the verb with <em>eager to</em>.</message>
       <example type="correct">I'd be eager to <em>try</em> out your patch.</example>
@@ -449,7 +448,6 @@ $Id: grammar.xml,v 1.48 2006-07-22 22:56:42 dnaber Exp $
       <example type="incorrect">This will be <em>a much</em> work.</example>
    </rule>
 	
-	
    <rule id="MOST_SUPERLATIVE" name="No 'more' or 'most' before superlatives">
       <pattern><token regexp="yes">more|most</token><token postag="JJS|RBS" postag_regexp="yes"/></pattern>
       <message>Use only <em>\2</em> (without '\1') when you use the superlative.</message>
@@ -457,7 +455,7 @@ $Id: grammar.xml,v 1.48 2006-07-22 22:56:42 dnaber Exp $
       <example type="incorrect">Kyoto is the <em>most oldest</em> city.</example>
    </rule>
 
- <rule id="THE_SUPERLATIVE" name="No indefinite article ('a'/'an') before superlatives">
+   <rule id="THE_SUPERLATIVE" name="No indefinite article ('a'/'an') before superlatives">
       <pattern mark_from="0" mark_to="-1"><token regexp="yes">a|an</token><token postag="JJS|RBS" postag_regexp="yes"><exception>most</exception></token></pattern>
       <message>Use <em>the</em> with the superlative.</message>
       <example type="correct">Kyoto is <em>the</em> oldest city.</example>
