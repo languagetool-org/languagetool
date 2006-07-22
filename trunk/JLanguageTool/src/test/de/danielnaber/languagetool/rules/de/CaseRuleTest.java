@@ -39,6 +39,7 @@ public class CaseRuleTest extends TestCase {
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("Das Winseln stört.")).length);
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("Das schlägt nicht so zu Buche.")).length);
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("Dirk Hetzel ist ein Name.")).length);
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Sein Verhalten war okay.")).length);
     // Exception 'Le':
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("Schon Le Monde schrieb das.")).length);
     // unknown word:
@@ -51,6 +52,7 @@ public class CaseRuleTest extends TestCase {
     // incorrect sentences:
     assertEquals(1, rule.match(langTool.getAnalyzedSentence("Ein Einfacher Satz zum Testen.")).length);
     assertEquals(1, rule.match(langTool.getAnalyzedSentence("Das Winseln Stört.")).length);
+    assertEquals(1, rule.match(langTool.getAnalyzedSentence("Sein verhalten war okay.")).length);
   }
 
   public void testSubstantivierteVerben() throws IOException {

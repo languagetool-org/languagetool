@@ -45,10 +45,25 @@ import de.danielnaber.languagetool.tagging.de.GermanToken.POSType;
 public class CaseRule extends GermanRule {
 
   private GermanTagger tagger = new GermanTagger();
+
+  // wenn hinter diesen Wörtern ein Verb steht, ist es wohl ein substantiviertes Verb,
+  // muss also groß geschrieben werden:
+  private final static Set<String> nounIndicators = new HashSet<String>();
+  static {
+    nounIndicators.add("das");
+    nounIndicators.add("sein");
+    //indicator.add("seines");    // TODO: ?
+    nounIndicators.add("ihr");
+    nounIndicators.add("mein");
+    nounIndicators.add("dein");
+    nounIndicators.add("euer");
+    //indicator.add("ihres");
+    //indicator.add("ihren");
+  }
   
   private final static Set<String> exceptions = new HashSet<String>();
   static {
-    exceptions.add("Le");
+    exceptions.add("Le");    // "Le Monde" etc
     exceptions.add("Ihr");
     exceptions.add("Ihre");
     exceptions.add("Ihren");
@@ -56,7 +71,11 @@ public class CaseRule extends GermanRule {
     exceptions.add("Ihrem");
     exceptions.add("Ihrer");
     exceptions.add("Sie");
-    exceptions.add("Aus");
+    exceptions.add("Aus");    // "vor dem Aus stehen"
+    exceptions.add("Oder");   // der Fluss
+    exceptions.add("tun");   // "Sie müssen das tun"
+    exceptions.add("St");   // Paris St. Germain
+    exceptions.add("Las");   // Las Vegas, nicht "lesen"
   }
   
   private final static Set<String> substVerbenExceptions = new HashSet<String>();
@@ -68,6 +87,7 @@ public class CaseRule extends GermanRule {
     substVerbenExceptions.add("muß");
     substVerbenExceptions.add("wollen");
     substVerbenExceptions.add("habe");
+    substVerbenExceptions.add("ein");   // nicht "einen" (Verb)
   }
 
   public CaseRule() {
@@ -94,7 +114,7 @@ public class CaseRule extends GermanRule {
       if (posToken != null && posToken.equals(JLanguageTool.SENTENCE_START_TAGNAME))
         continue;
       if (i == 1) {   // don't care about first word, UppercaseSentenceStartRule does this already
-        if (tokens[i].getToken().equalsIgnoreCase("das")) {
+        if (nounIndicators.contains(tokens[i].getToken().toLowerCase())) {
           prevTokenIsDas = true;
         }
         continue;
@@ -108,9 +128,10 @@ public class CaseRule extends GermanRule {
       if (analyzedToken.getReadingsLength() > 1 && token.equals(analyzedToken.getAnalyzedToken(0).getLemma())) {
         isBaseform = true;
       }
-      if ((readings == null || analyzedToken.getAnalyzedToken(0).getPOSTag() == null || hasOnlyVerbReadings(analyzedToken))
+      if ((readings == null || analyzedToken.getAnalyzedToken(0).getPOSTag() == null || analyzedToken.hasReadingOfType(GermanToken.POSType.VERB))
           && isBaseform) {
         // no match, e.g. for "Groß": try if there's a match for the lowercased word:
+        
         try {
           analyzedGermanToken2 = tagger.lookup(token.toLowerCase());
           if (analyzedGermanToken2 != null) {
@@ -139,7 +160,7 @@ public class CaseRule extends GermanRule {
           }
         }
       }
-      if (tokens[i].getToken().equalsIgnoreCase("das")) {
+      if (nounIndicators.contains(tokens[i].getToken().toLowerCase())) {
         prevTokenIsDas = true;
       } else {
         prevTokenIsDas = false;
@@ -178,19 +199,6 @@ public class CaseRule extends GermanRule {
       pos += token.length();
     }
     return toRuleMatchArray(ruleMatches);
-  }
-
-  private boolean hasOnlyVerbReadings(AnalyzedGermanTokenReadings analyzedToken) {
-    if (!analyzedToken.hasReadingOfType(GermanToken.POSType.NOMEN) &&
-        !analyzedToken.hasReadingOfType(GermanToken.POSType.ADJEKTIV) &&
-        !analyzedToken.hasReadingOfType(GermanToken.POSType.DETERMINER) &&
-        !analyzedToken.hasReadingOfType(GermanToken.POSType.PRONOMEN) &&
-        !analyzedToken.hasReadingOfType(GermanToken.POSType.PARTIZIP) &&
-        !analyzedToken.hasReadingOfType(GermanToken.POSType.OTHER) &&
-        analyzedToken.hasReadingOfType(GermanToken.POSType.VERB)) {
-      return true;
-    }
-    return false;
   }
 
   public void reset() {
