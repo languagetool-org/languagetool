@@ -86,6 +86,10 @@ public class PatternRule extends Rule {
     return id + ":" + patternElements + ":" + description;
   }
 
+  public void setMessage(String message) {
+    this.message = message;
+  }
+
   public boolean getCaseSensitive() {
     return caseSensitive;
   }

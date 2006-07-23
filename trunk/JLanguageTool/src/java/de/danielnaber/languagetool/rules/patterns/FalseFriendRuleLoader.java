@@ -21,8 +21,10 @@ package de.danielnaber.languagetool.rules.patterns;
 import java.io.IOException;
 import java.text.MessageFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.ResourceBundle;
 
 import javax.xml.parsers.ParserConfigurationException;
@@ -54,7 +56,31 @@ public class FalseFriendRuleLoader extends DefaultHandler {
     SAXParser saxParser = factory.newSAXParser();
     saxParser.parse(JLanguageTool.getAbsoluteFile(filename), handler);
     rules = handler.getRules();
+    // Add suggestions to each rule:
+    ResourceBundle messages = ResourceBundle.getBundle("de.danielnaber.languagetool.MessagesBundle",
+        motherTongue.getLocale());
+    for (PatternRule rule : rules) {
+      List<String> sugg = handler.getSuggestionMap().get(rule.getId());
+      if (sugg != null) {
+        MessageFormat msgFormat = new MessageFormat(messages.getString("false_friend_suggestion"));
+        Object [] msg = new Object[] {formatSuggestions(sugg)};
+        rule.setMessage(rule.getMessage() + " " + msgFormat.format(msg));
+      }
+    }
     return rules;
+  }
+  
+  private String formatSuggestions(List<String> l) {
+    StringBuilder sb = new StringBuilder();
+    for (Iterator iter = l.iterator(); iter.hasNext();) {
+      String s = (String) iter.next();
+      sb.append("<em>");
+      sb.append(s);
+      sb.append("</em>");
+      if (iter.hasNext())
+        sb.append(", ");
+    }
+    return sb.toString();
   }
   
   /** Testing only. */
@@ -110,6 +136,9 @@ class FalseFriendRuleHandler extends XMLRuleHandler {
   private String ruleGroupId;
   private List<StringBuilder> translations = new ArrayList<StringBuilder>();
   private StringBuilder translation = new StringBuilder();
+  private List<String> suggestions = new ArrayList<String>();
+  // rule ID -> list of translations:
+  private Map<String,List<String>> suggestionMap = new HashMap<String,List<String>>();
   
   private boolean inTranslation = false;
   
@@ -122,6 +151,11 @@ class FalseFriendRuleHandler extends XMLRuleHandler {
     this.motherTongue = motherTongue;
   }
   
+  Map<String,List<String>> getSuggestionMap() {
+    return suggestionMap;
+  }
+
+
   //===========================================================
   // SAX DocumentHandler methods
   //===========================================================
@@ -239,7 +273,6 @@ class FalseFriendRuleHandler extends XMLRuleHandler {
             messages.getString(motherTongue.getShortName())
 			  };
 			  String description = formatter.format(messageArguments);
-			  //String rulePattern = makeRulePattern(pattern.toString());
 			  PatternRule rule = new PatternRule(id, language, elementList, 
 					  messages.getString("false_friend_desc") + " " + pattern.toString(),
 					  description);
@@ -248,6 +281,11 @@ class FalseFriendRuleHandler extends XMLRuleHandler {
 			  rules.add(rule);
 		  }
 		  
+      if (suggestions.size() > 0) {
+        List<String> l = new ArrayList<String>(suggestions);
+        suggestionMap.put(id, l);
+        suggestions.clear();
+      }
 		  if (elementList != null) {
 			  elementList.clear();
 		  }
@@ -297,6 +335,9 @@ class FalseFriendRuleHandler extends XMLRuleHandler {
 	  } else if (qName.equals("translation")) {
       if (currentTranslationLanguage == motherTongue) {
         translations.add(translation);
+      }
+      if (currentTranslationLanguage == textLanguage) {
+        suggestions.add(translation.toString());
       }
       translation = new StringBuilder();
 		  inTranslation = false;
