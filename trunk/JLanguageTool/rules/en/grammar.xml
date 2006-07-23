@@ -3,7 +3,7 @@
 Rules: Grammar and Typos
 See tagset.txt for the meaning of the POS tags
 Copyright (C) 2001-2006 Daniel Naber (http://www.danielnaber.de)
-$Id: grammar.xml,v 1.50 2006-07-23 11:42:26 dnaber Exp $
+$Id: grammar.xml,v 1.51 2006-07-23 13:51:58 dnaber Exp $
 -->
 <rules lang="en">
 
@@ -577,6 +577,13 @@ $Id: grammar.xml,v 1.50 2006-07-23 11:42:26 dnaber Exp $
          <message>Did you mean <em>its</em> (possessive pronoun) instead of 'it's' (=it is)?</message>
          <example type="correct">New Robot Reproduces on <em>Its</em> Own.</example>
          <example type="incorrect">New Robot Reproduces on <em>It's</em> Own.</example>
+      </rule>
+
+      <rule>
+         <pattern mark_from="2"><token regexp="yes">from|by</token><token>all</token><token>it</token><token>'</token><token>s</token></pattern>
+         <message>Did you mean <em>its</em> (possessive pronoun) instead of 'it's' (=it is)?</message>
+         <example type="correct">I would still consider assembling it from all <em>its</em> basic components.</example>
+         <example type="incorrect">I would still consider assembling it from all <em>it's</em> basic components.</example>
       </rule>
 
       <rule>
