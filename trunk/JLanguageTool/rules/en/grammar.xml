@@ -3,7 +3,7 @@
 Rules: Grammar and Typos
 See tagset.txt for the meaning of the POS tags
 Copyright (C) 2001-2006 Daniel Naber (http://www.danielnaber.de)
-$Id: grammar.xml,v 1.49 2006-07-22 23:02:51 dnaber Exp $
+$Id: grammar.xml,v 1.50 2006-07-23 11:42:26 dnaber Exp $
 -->
 <rules lang="en">
 
@@ -588,7 +588,7 @@ $Id: grammar.xml,v 1.49 2006-07-22 23:02:51 dnaber Exp $
 
 	   <rule>
 	      <pattern mark_from="1" mark_to="-1"><token>at</token><token>it</token><token>'</token><token>s</token><token>best</token></pattern>
-	      <message>Did you mean <em>its</em>?</message>
+         <message>Did you mean <em>its</em> (possessive pronoun) instead of 'it's' (=it is)?</message>
 	      <example type="correct">Linux at <em>its</em> best</example>
 	      <example type="incorrect">Linux at <em>it's</em> best</example>
 	   </rule>
@@ -598,6 +598,13 @@ $Id: grammar.xml,v 1.49 2006-07-22 23:02:51 dnaber Exp $
          <message>Did you mean <em>its</em> (possessive pronoun) instead of 'it's' (=it is)?</message>
          <example type="correct">When some of <em>its</em> clauses match.</example>
          <example type="incorrect">When some of <em>it's</em> clauses match.</example>
+      </rule>
+
+      <rule>
+         <pattern mark_from="1" case_sensitive="yes"><token regexp="yes">[Bb]y</token><token>it</token><token>'</token><token>s</token></pattern>
+         <message>Did you mean <em>its</em> (possessive pronoun) instead of 'it's' (=it is)?</message>
+         <example type="correct">Don't judeg a book by <em>its</em> cover.</example>
+         <example type="incorrect">Don't judeg a book by <em>it's</em> cover.</example>
       </rule>
 
       <!-- TODO:
