@@ -48,7 +48,7 @@ Copyright (C) 2006 Marcin Miłkowski
 
 	<!-- błąd ortograficzny - pisownia łączna rzeczowników z "nie" -->
 	<rule id="NIE_RZECZOWNIK" name="Pisownia 'nie' z rzeczownikami i przymiotnikami">
-		<pattern mark_from="0" case_sensitive="no"><token inflected="yes">nie</token><token postag_regexp="yes" postag="subst:.+|adj:.+"><exception regexp="yes">wolno|można|sposób</exception></token></pattern>
+		<pattern mark_from="0" case_sensitive="no"><token inflected="yes">nie</token><token postag_regexp="yes" postag="subst:.+|adj:.+"><exception regexp="yes">brak|wolno|można|sposób|potrzeba|trzeba|wiadomo|warto|grzech|strach|szkoda|żal|wstyd|ma</exception></token></pattern>
 		<message><em>Nie</em> ze wszystkimi rzeczownikami i przymiotnikami piszemy łącznie.</message>
 		<example type="correct">Prosimy o niepalenie.</example>
 		<example type="correct">Tu nie można palić.</example>
@@ -212,6 +212,7 @@ Copyright (C) 2006 Marcin Miłkowski
 		<example type="incorrect">Jest to wynik <em>bardziej dobry</em>.</example>
 		<example type="incorrect">Piotr był <em>bardziej dokładny</em>.</example>
 		<example type="correct">Ważniejszy jest dla mnie ten fragment.</example>
+		<example type="correct">Tym bardziej ważne jest, abyśmy to pamiętali.</example>
 		<example type="correct">Piotr był dokładniejszy.</example>
 	</rule>
 	<rule id="KAZDY_WTOREK" name="Pleonazm: każdy wtorek miesiąca">
@@ -282,13 +283,13 @@ Copyright (C) 2006 Marcin Miłkowski
 		<example type="correct">W górach wysokich forma Małyszowi dopisywała.</example>
 	</rule>
 	<rule id="PANTALYK" name="Wyraz niesamodzielny: „pantałyk”">
-		<pattern>
+		<pattern mark_from="1">
 			<token negate="yes">z</token>
 			<token inflected="yes">pantałyk</token>
 		</pattern>
 		<message>Wyraz „pantałyk” jest niesamodzielny i może występować tylko we frazie <em>zbić z pantałyku</em>.</message>
 		<example type="correct">Ludwik zbił Jarka z pantałyku.</example>
-		<example type="incorrect">Kazio bawił <em>się pantałykiem</em>.</example>
+		<example type="incorrect">Kazio bawił się <em>pantałykiem</em>.</example>
 	</rule>
 	
 	<rule id="POLTOREJ" name="Błąd składniowy: półtorej + rzeczownik rodzaju męskiego lub nijakiego">
@@ -352,7 +353,7 @@ Copyright (C) 2006 Marcin Miłkowski
 		<example type="incorrect"><em>Czym większa, tym lepiej</em>.</example>
 	</rule>
 	<rule name="Błąd związku rzędu: „rozumieć coś pod czymś" id="ROZUMIEC_POD">
-		<pattern>
+		<pattern mark_from="1">
 			<token negate="yes" skip="1">przez</token>
 			<token inflected="yes" skip="5">rozumieć</token>
 			<token>pod</token>
@@ -424,7 +425,7 @@ Copyright (C) 2006 Marcin Miłkowski
 		<example type="incorrect">Rosjanie byli <em>1-wsi</em> w kosmosie.</example>
 	</rule>
 	<rule name="Pisownia: tymczasem" id="TYMCZASEM">
-		<pattern>
+		<pattern mark_from="1">
 			<token regexp="yes" negate="yes" negate_pos="yes" postag=".*verb.*" postag_regexp="yes">z|przed|poza|za|nad</token>
 			<token>tym</token>
 			<token>czasem</token>
@@ -432,6 +433,6 @@ Copyright (C) 2006 Marcin Miłkowski
 		<message>Wyraz <em>tymczasem</em> piszemy łącznie.</message>
 		<example type="correct">A tymczasem na Politechnice...</example>
 		<example type="correct">Co z tym czasem?</example>
-		<example type="incorrect"><em>A tym czasem</em> na Politechnice...</example>
+		<example type="incorrect">A <em>tym czasem</em> na Politechnice...</example>
 	</rule>
 </rules>
