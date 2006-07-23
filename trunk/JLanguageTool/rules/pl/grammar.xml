@@ -174,6 +174,12 @@ Copyright (C) 2006 Marcin Miłkowski
 		<example type="incorrect"><em>Co i rusz</em> media informują o tym, że któryś z prominentnych polityków koalicji rządzącej załatwił coś dla siebie.</example>
 		<example type="correct">Raz po raz media informują o tym, że któryś z prominentnych polityków koalicji rządzącej załatwił coś dla siebie.</example>
 	</rule>
+	<rule id="CO_I_RAZ" name="Błąd leksykalny: co i raz">
+		<pattern><token>co</token><token>i</token><token>raz</token></pattern>
+		<message>Wyrażenie <em>co i raz</em> jest niepoprawne. Poprawnie mówi się: <em>co chwila</em>, <em>co krok</em></message>
+		<example type="incorrect"><em>Co i raz</em> media informują o tym, że któryś z prominentnych polityków koalicji rządzącej załatwił coś dla siebie.</example>
+		<example type="correct">Raz po raz media informują o tym, że któryś z prominentnych polityków koalicji rządzącej załatwił coś dla siebie.</example>
+	</rule>
 	<rule id="ZA_WYJATKIEM" name="Błąd leksykalny: za wyjątkiem">
 		<pattern><token>za</token><token>wyjątkiem</token></pattern>
 		<message>Wyrażenie „za wyjątkiem” jest niepoprawne. Poprawne wyrażenie: <em>z wyjątkiem</em>.</message>
@@ -453,12 +459,76 @@ Copyright (C) 2006 Marcin Miłkowski
 		<example type="correct">Na środku rynku stoi studnia.</example>
 	</rule>
 	<rule name="Błąd pisowni: poprzez" id="PO_PRZEZ">
-		<pattern>
-			<token>po</token>
+		<pattern case_sensitive="yes">
+			<token regexp="yes">[Pp]o</token>
 			<token>przez</token>
 		</pattern>
 		<message>Wyraz <em>poprzez</em> piszemy łącznie.</message>
 		<example type="incorrect">Malarz oddziałuje na nas <em>po przez</em> swoje malarstwo.</example>
 		<example type="correct">Malarz oddziałuje na nas poprzez swoje malarstwo.</example>
+	</rule>
+	<rule name="Błąd pisowni: poprzez" id="PO_NAD">
+		<pattern case_sensitive="yes">
+			<token regexp="yes">[Pp]o</token>
+			<token>nad</token>
+		</pattern>
+		<message>Wyraz <em>ponad</em> piszemy łącznie.</message>
+		<example type="incorrect">Byłem w <em>po nad</em> trzydziestu krajach.</example>
+		<example type="correct">Byłem w ponad trzydziestu krajach.</example>
+	</rule>
+	<rule name="Błąd pisowni: pomimo" id="PO_MIMO">
+		<pattern case_sensitive="yes">
+			<token regexp="yes">[Pp]o</token>
+			<token>mimo</token>
+		</pattern>
+		<message>Wyraz <em>pomimo</em> piszemy łącznie.</message>
+		<example type="incorrect"><em>Po mimo</em> początkowych problemów, wylądował bowiem w wodach Kanału La Manche.</example>
+		<example type="correct">Pomimo początkowych problemów, wylądował bowiem w wodach Kanału La Manche</example>
+	</rule>	
+	<rule name="Błąd pisowni: pomiędzy" id="PO_MIEDZY">
+		<pattern case_sensitive="yes">
+			<token regexp="yes">[Pp]o</token>
+			<token>między</token>
+		</pattern>
+		<message>Wyraz <em>pomiędzy</em> piszemy łącznie.</message>
+		<example type="incorrect">Znaleźliśmy się <em>po między</em> młotem a kowadłem.</example>
+		<example type="correct">Znaleźliśmy się pomiędzy młotem a kowadłem.</example>
+	</rule>
+	<rule name="Literówka: się" id="SIE">
+		<pattern>
+			<token>sie</token>
+		</pattern>
+		<message>Prawdopodobna literówka: czy chodziło o wyraz <em>się</em>?</message>
+		<example type="correct">Eryk podrapał się po głowie.</example>
+		<example type="incorrect">Eryk podrapał <em>sie</em> po głowie.</example>
+	</rule>
+	<rule name="Błąd pisowni: przedrostki „neo”, „post”, „pre”, „eks”..." id="PRZEDROSTKI">
+		<pattern>
+			<token regexp="yes">(neo|post|pre|arcy|eks|bez|beze|ekstra|hiper|infra|kontr|maksi|midi|między|mini|nad|nade|około|ponad|post|przeciw|pseudo|super|śród|ultra|wice|wokół|wokoło)[-–].+</token>
+		</pattern>
+		<message>Wyrazy z przedrostkami „neo-, post-, pre-, arcy-, eks-, bez-, beze-, ekstra-, hiper-, infra-, kontr-, maksi-, midi-, między-, mini-, nad-, nade-, około-, ponad-, post-, przeciw-, pseudo-, super-, śród-, ultra-, wice-, wokół-, wokoło-” piszemy łącznie.</message>
+		<example type="correct">Tym prądem intelektualnym jest postmodernizm.</example>
+		<example type="incorrect">Wiktor to mój <em>eks-mąż</em>.</example>
+		<example type="incorrect">Jadzia kupiła sobie <em>mini-spódniczkę</em>.</example>
+		<example type="incorrect"><em>Arcy–książę</em> Ferdynand lubił polować w tutejszych lasach.</example>
+	</rule>
+	<rule name="Literówka: czasownik + się" id="CZASOWNIK_SI">
+		<pattern mark_from="1">
+			<token postag=".*verb..*" postag_regexp="yes"/>
+			<token>si</token>
+		</pattern>
+		<message>Literówka: powinno być <em>się</em>.</message>
+		<example type="correct">Eryk podrapał się po głowie.</example>
+		<example type="incorrect">Eryk podrapał <em>si</em> po głowie.</example>
+	</rule>
+	<rule name="Błąd pisowni: co niemiara" id="CO_NIE_MIARA">
+		<pattern>
+			<token>co</token>
+			<token>nie</token>
+			<token>miara</token>
+		</pattern>
+		<message>Wyrażenie to piszemy: <em>co niemiara</em>.</message>
+		<example type="correct">Stoi jakiś pałac, wielki aż strach, a przed nim co niemiara bryk i wozów.</example>
+		<example type="incorrect">Stoi jakiś pałac, wielki aż strach, a przed nim <em>co nie miara</em> bryk i wozów.</example>
 	</rule>
 </rules>
