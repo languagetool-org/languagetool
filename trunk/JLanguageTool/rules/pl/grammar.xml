@@ -417,7 +417,7 @@ Copyright (C) 2006 Marcin Miłkowski
 		-->
 	<rule name="Pisownia: liczebniki porządkowe z końcówkami przypadków" id="LICZEBNIKI">
 		<pattern>
-			<token regexp="yes">[0-9]+-(ty|wsi|wszy|szy|si|tym|tą|tymi|ci)</token>
+			<token regexp="yes">[0-9]+-(ty|wsi|wszy|szy|si|tym|tymi|ci|a|ce|ch|cia|cie|ciej|cim|cio|cioletnią|ciu|ego|ej|ga|gi|gie|gim|go|im|ki|krotnie|któregoś|leci.*|ma|me|miu|mo|o|ro|stoletniego|stu|sza|ta|te|tego|tej|tka|tki|to|toletnim|tu|tą)</token>
 		</pattern>
 		<message>Liczebniki porządkowe zapisujemy nie z końcówkami przypadków, tylko z kropką: <em>.</em>.</message>
 		<example type="correct">Ten system jest 32-bitowy.</example>
@@ -434,5 +434,31 @@ Copyright (C) 2006 Marcin Miłkowski
 		<example type="correct">A tymczasem na Politechnice...</example>
 		<example type="correct">Co z tym czasem?</example>
 		<example type="incorrect">A <em>tym czasem</em> na Politechnice...</example>
+	</rule>
+	<rule name="Literówka: już" id="JUZ">
+		<pattern>
+			<token>juz</token>
+		</pattern>
+		<message>Prawdopodobnie literówka, czy chodziło o wyraz <em>już</em>?</message>
+		<example type="correct">Musimy już iść.</example>
+		<example type="incorrect">Musimy <em>juz</em> iść.</example>
+	</rule>
+	<rule name="Błąd leksykalny: w pośrodku" id="W_POSRODKU">
+		<pattern>
+			<token>w</token>
+			<token>pośrodku</token>
+		</pattern>
+		<message>Wyrażenie „w pośrodku” jest przestarzałe i obecnie niepoprawne. Używa się wyrażenia <em>pośrodku</em>.</message>
+		<example type="incorrect"><em>W pośrodku</em> rynku stoi studnia.</example>
+		<example type="correct">Na środku rynku stoi studnia.</example>
+	</rule>
+	<rule name="Błąd pisowni: poprzez" id="PO_PRZEZ">
+		<pattern>
+			<token>po</token>
+			<token>przez</token>
+		</pattern>
+		<message>Wyraz <em>poprzez</em> piszemy łącznie.</message>
+		<example type="incorrect">Malarz oddziałuje na nas <em>po przez</em> swoje malarstwo.</example>
+		<example type="correct">Malarz oddziałuje na nas poprzez swoje malarstwo.</example>
 	</rule>
 </rules>
