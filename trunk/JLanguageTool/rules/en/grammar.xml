@@ -3,7 +3,7 @@
 Rules: Grammar and Typos
 See tagset.txt for the meaning of the POS tags
 Copyright (C) 2001-2006 Daniel Naber (http://www.danielnaber.de)
-$Id: grammar.xml,v 1.52 2006-07-26 14:01:11 milek_pl Exp $
+$Id: grammar.xml,v 1.53 2006-07-26 16:51:58 milek_pl Exp $
 -->
 <rules lang="en">
 
@@ -542,6 +542,27 @@ $Id: grammar.xml,v 1.52 2006-07-26 14:01:11 milek_pl Exp $
       <example type="incorrect">I <em>cant</em> view pdf files in Explorer.</example>
    </rule>
 
+	<rule id="THIS_NNS" name="Typo: 'this' instead of 'these'">
+		<pattern mark_to="-1">
+			<token>this</token>
+			<token postag="NNS"/>
+		</pattern>
+		<message>Did you mean <em>these</em>?</message>
+		<example type="correct">These errors are easy to fix.</example>
+		<example type="incorrect"><em>This</em> errors are easy to fix.</example>
+	</rule>
+
+	<rule id="THIS_ARE" name="Typo: 'this' instead of 'these'">
+		<pattern mark_to="-1">
+			<token postag="SENT_START"/>
+			<token>this</token>
+			<token regexp="yes">are|were</token>
+		</pattern>
+		<message>Did you mean <em>these</em>?</message>
+		<example type="correct">These are errors.</example>
+		<example type="incorrect"><em>This</em> are errors.</example>
+	</rule>
+	
  <!-- TODO: support rulegroup syntax -->
    <!--
    <rulegroup id="COMP_THAN" name="Comparison with 'than'">
@@ -645,7 +666,7 @@ $Id: grammar.xml,v 1.52 2006-07-26 14:01:11 milek_pl Exp $
 
       <rule>
          <pattern mark_to="-1"><token regexp="yes">no</token><token postag="MD|VB|VBD|VBN" postag_regexp="yes"><exception>known</exception></token></pattern>
-         <message>Did you meam <em>now</em> (=at this moment) instead of
+         <message>Did you mean <em>now</em> (=at this moment) instead of
             'no' (negation)?</message>
          <example type="correct">There <em>now</em> will be a park.</example>
          <example type="incorrect">There <em>no</em> will be a park.</example>
@@ -654,7 +675,7 @@ $Id: grammar.xml,v 1.52 2006-07-26 14:01:11 milek_pl Exp $
       <rule>
          <!-- TODO: "no the", "no of" -->
          <pattern mark_to="-1"><token regexp="yes">no</token><token postag="CC|DT|IN|MD|NP|RP|WDT|WP|WRB" postag_regexp="yes"/></pattern>
-         <message>Did you meam <em>now</em> (=at this moment) instead of
+         <message>Did you mean <em>now</em> (=at this moment) instead of
             'no' (negation)?</message>
          <example type="correct">There's <em>now</em> a new building.</example>
          <example type="incorrect">There's <em>no</em> a new building.</example>
@@ -662,13 +683,13 @@ $Id: grammar.xml,v 1.52 2006-07-26 14:01:11 milek_pl Exp $
 
       <rule>
          <pattern mark_to="-1"><token>no</token><token regexp="yes">were|was|been|be|is</token></pattern>
-         <message>Did you meam <em>now</em> (=at this moment) instead of
+         <message>Did you mean <em>now</em> (=at this moment) instead of
             'no' (negation)?</message>
          <example type="correct"><em>Now</em> is the right time.</example>
          <example type="incorrect"><em>No</em> is the right time.</example>
       </rule>
 
    </rulegroup>
-
+	
 					
 </rules>
