@@ -3,7 +3,7 @@
 Rules: Grammar and Typos
 See tagset.txt for the meaning of the POS tags
 Copyright (C) 2001-2006 Daniel Naber (http://www.danielnaber.de)
-$Id: grammar.xml,v 1.51 2006-07-23 13:51:58 dnaber Exp $
+$Id: grammar.xml,v 1.52 2006-07-26 14:01:11 milek_pl Exp $
 -->
 <rules lang="en">
 
@@ -398,6 +398,13 @@ $Id: grammar.xml,v 1.51 2006-07-23 13:51:58 dnaber Exp $
       <example type="correct">Single Clicking rather <em>than</em> Double Clicking</example>
       <example type="incorrect">Single Clicking rather <em>then</em> Double Clicking</example>
    </rule>
+
+	<rule id="OTHER_THEN" name="Typo 'other then (than)'">
+  	  <pattern mark_from="1"><token>other</token><token>then</token></pattern>
+      <message>Did you mean <em>other than</em>?</message>
+	  <example type="correct">Languages other than English</example>
+	  <example type="incorrect">Languages other <em>then</em> English</example>
+	</rule>
 
    <rule id="OF_CAUSE" name="Typo 'of cause(course)'">
       <pattern mark_to="-1"><token regexp="yes">of</token><token regexp="yes">cause</token><token regexp="yes" negate="yes">(and|to)</token></pattern>
