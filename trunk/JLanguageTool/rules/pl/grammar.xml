@@ -11,7 +11,29 @@ Copyright (C) 2006 Marcin Miłkowski
 		<example type="correct">Problem potraktowano niemniej jednak poważnie.</example>
 		<example type="incorrect">Problem potraktowano <em>tym niemniej</em> poważnie.</example>
 	</rule>
-		
+	
+	<rule name="Błąd leksykalny: uznać jako (zamiast „za”)" id="UZNAC_JAKO">
+		<pattern mark_from="1">
+			<token skip="2" inflected="yes" regexp="yes">uznać|uznawać</token>
+			<token>jako</token>
+		</pattern>
+		<message>Mówi się „uznać coś <em>za</em> jakieś”</message>
+		<example type="correct">Ludwik był uznany za wielkiego aktora.</example>
+		<example type="correct">Ludwik był uznawany za wielkiego aktora.</example>
+		<example type="incorrect">Ludwik był uznany <em>jako</em> wielki aktor.</example>
+		<example type="incorrect">Uznałem <em>go jako</em> straconego dla sprawy.</example>
+		<example type="correct">Ludzie uznawali ją za piękność.</example>
+	</rule>
+	
+	<rule name="Błąd składniowy: uznać jakimś (zamiast „za jakieś”)" id="UZNAC_JAKIMS">
+		<pattern mark_from="1">
+			<token skip="2" inflected="yes" regexp="yes">uznać|uznawać<exception postag_regexp="yes" postag=".*instr.*"/></token>
+			<token postag_regexp="yes" postag="(adj|subst).*instr.*"/>
+		</pattern>
+		<message>Mówi się „uznać <em>za</em> jakieś”.</message>
+		<example type="correct">Ludwik był uznany za wielkiego aktora</example>
+		<example type="incorrect">Ludwik był uznawany <em>wielkim</em> aktorem.</example>
+	</rule>
 	
 	<!-- błąd leksykalny: w każdym bądź razie -->
 	<rule id="W_KAZDYM_BADZ" name="Szukanie 'w każdym bądź razie'">
@@ -109,28 +131,64 @@ Copyright (C) 2006 Marcin Miłkowski
 	
 	<!-- błąd stylistyczny -->
 	<rule id="DLATEGO_BO" name="Błąd leksykalny - dlatego bo">
-		<pattern mark_from="0" case_sensitive="no"><token>dlatego</token> <token>bo</token></pattern>
-		<message>Zbitka <em>dlatego bo</em> jest niepoprawna. Zamiast należy pisać <em>dlatego że</em>, <em>gdyż</em>, <em>bo</em>, <em>ponieważ</em> itd.</message>
+		<pattern>
+			<token>dlatego</token><token>bo</token>
+		</pattern>
+		<message>Zbitka „dlatego bo” jest niepoprawna. Zamiast należy pisać <em>dlatego że</em>, <em>gdyż</em>, <em>bo</em>, <em>ponieważ</em> itd.</message>
 		<example type="correct">Kowalski nie czytał gazet, gdyż nie umiał czytać.</example>
 		<example type="incorrect">Kowalski nie czytał gazet, <em>dlatego bo</em> nie umiał czytać.</example>
 	</rule>
 	
 		<rule id="DLATEGO_BO1" name="Błąd leksykalny - dlatego, bo">
 		<pattern mark_from="0" case_sensitive="no"><token>dlatego</token> <token>,</token> <token>bo</token></pattern>
-		<message>Zbitka <em>dlatego, bo</em> jest niepoprawna. Zamiast należy pisać <em>dlatego że</em>, <em>gdyż</em>, <em>bo</em>, <em>ponieważ</em> itd.</message>
+		<message>Zbitka „dlatego, bo” jest niepoprawna. Zamiast należy pisać <em>dlatego że</em>, <em>gdyż</em>, <em>bo</em>, <em>ponieważ</em> itd.</message>
 		<example type="correct">Kowalski nie czytał gazet, gdyż nie umiał czytać.</example>
 		<example type="incorrect">Kowalski nie czytał gazet <em>dlatego, bo</em> nie umiał czytać.</example>
 		</rule>
-	
+
+	<rule id="DLATEGO_PONIEWAZ" name="Błąd leksykalny: dlatego ponieważ (zamiast „dlatego”)">
+		<pattern mark_from="0" case_sensitive="no"><token>dlatego</token> <token>ponieważ</token></pattern>
+		<message>Zbitka „dlatego ponieważ” jest niepoprawna. Zamiast należy pisać <em>dlatego że</em>, <em>gdyż</em>, <em>bo</em>, <em>ponieważ</em> itd.</message>
+		<example type="correct">Kowalski nie czytał gazet, gdyż nie umiał czytać.</example>
+		<example type="incorrect">Kowalski nie czytał gazet, <em>dlatego ponieważ</em> nie umiał czytać.</example>
+	</rule>
+	<rule id="DLATEGO_PONIEWAZ1" name="Błąd leksykalny: dlatego, ponieważ (zamiast „dlatego”)">
+		<pattern>
+			<token>dlatego</token> 
+			<token>,</token>
+			<token>ponieważ</token>
+		</pattern>
+		<message>Zbitka „dlatego, ponieważ” jest niepoprawna. Zamiast należy pisać <em>dlatego że</em>, <em>gdyż</em>, <em>bo</em>, <em>ponieważ</em> itd.</message>
+		<example type="correct">Kowalski nie czytał gazet, gdyż nie umiał czytać.</example>
+		<example type="incorrect">Kowalski nie czytał gazet <em>dlatego, ponieważ</em> nie umiał czytać.</example>
+	</rule>
+
+	<rule id="DLATEGO_GDYZ" name="Błąd leksykalny: dlatego gdyż (zamiast „dlatego”)">
+		<pattern><token>dlatego</token> <token>gdyż</token></pattern>
+		<message>Zbitka „dlatego ponieważ” jest niepoprawna. Zamiast należy pisać <em>dlatego że</em>, <em>gdyż</em>, <em>bo</em>, <em>ponieważ</em> itd.</message>
+		<example type="correct">Kowalski nie czytał gazet, gdyż nie umiał czytać.</example>
+		<example type="incorrect">Kowalski nie czytał gazet, <em>dlatego gdyż</em> nie umiał czytać.</example>
+	</rule>
+	<rule id="DLATEGO_GDYZ1" name="Błąd leksykalny: dlatego, gdyż (zamiast „dlatego”)">
+		<pattern>
+			<token>dlatego</token> 
+			<token>,</token>
+			<token>gdyż</token>
+		</pattern>
+		<message>Zbitka „dlatego, gdyż” jest niepoprawna. Zamiast należy pisać <em>dlatego że</em>, <em>gdyż</em>, <em>bo</em>, <em>ponieważ</em> itd.</message>
+		<example type="correct">Kowalski nie czytał gazet, gdyż nie umiał czytać.</example>
+		<example type="incorrect">Kowalski nie czytał gazet <em>dlatego, gdyż</em> nie umiał czytać.</example>
+	</rule>
+		
 	<rule id="W_OPARCIU" name="Błąd stylistyczny - w oparciu o">
-		<pattern case_sensitive="no" mark_from="0"><token>w</token> <token>oparciu</token> <token>o</token></pattern>
-		<message>Wyrażenie <em>w oparciu o</em> jest nadużywana i niezalecana przez językoznawców. Zalecane wyrażenie synonimiczne: <em>na podstawie</em>.</message>
+		<pattern><token>w</token> <token>oparciu</token> <token>o</token></pattern>
+		<message>Wyrażenie „w oparciu o” jest nadużywane i niezalecane przez językoznawców. Zalecane wyrażenie synonimiczne: <em>na podstawie</em>.</message>
 		<example type="correct">Na podstawie tych wyliczeń można podjąć decyzję.</example>
 		<example type="incorrect"><em>W oparciu o</em> te wyliczenia można podjąć decyzję.</example>
 	</rule>
 	<rule id="TA_KSIAZKA" name="Błąd odmiany – np. tą książkę">
 		<pattern><token>tą</token><token postag="subst:sg:acc:f"/></pattern>
-		<message>W bierniku zaimek <em>ta</em> ma formę <em>tę</em>.</message>
+		<message>W bierniku zaimek „ta” ma formę <em>tę</em>.</message>
 		<example type="correct">Kupiłem tę książkę za parę groszy.</example>
 		<example type="incorrect">Kupiłem <em>tą książkę</em> za parę groszy.</example>
 	</rule>
@@ -531,4 +589,178 @@ Copyright (C) 2006 Marcin Miłkowski
 		<example type="correct">Stoi jakiś pałac, wielki aż strach, a przed nim co niemiara bryk i wozów.</example>
 		<example type="incorrect">Stoi jakiś pałac, wielki aż strach, a przed nim <em>co nie miara</em> bryk i wozów.</example>
 	</rule>
+	<rule name="Błąd pisowni: mass-media (zamiast „mass media”)" id="MASSMEDIA">
+		<pattern>
+			<token regexp="yes">mass[–-]medi.*</token>
+		</pattern>
+		<message>To wyrażenie piszemy rozłącznie: <em>mass media</em>.</message>
+		<example type="correct">Mass media poinformowały o sukcesach Polski w zmniejszaniu płac najniżej zarabiających.</example>
+		<example type="incorrect"><em>Mass-media</em> poinformowały o sukcesach Polski w zmniejszaniu płac najniżej zarabiających.</example>
+	</rule>
+	<rule name="Błąd leksykalny: w przedzie (zamiast „na przodzie”)" id="W_PRZEDZIE">
+		<pattern>
+			<token>w</token>
+			<token>przedzie</token>
+		</pattern>
+		<message>Mówimy <em>na przodzie</em>, <em>w przodzie</em>.</message>
+		<example type="correct">Pierwszy sekretarz stał na przodzie pochodu pierwszomajowego.</example>
+		<example type="incorrect">Pierwszy sekretarz stał <em>w przedzie</em> pochodu pierwszomajowego.</example>
+	</rule>
+	<rule name="Błąd leksykalny: w ślad za (zamiast „w następstwie”)" id="W_SLAD_ZA">
+		<pattern>
+			<token>w</token>
+			<token>ślad</token>
+			<token>za</token>
+		</pattern>
+		<message>Mówimy <em>w następstwie</em> czegoś, <em>wraz z</em> czymś, <em>równocześnie z</em> czymś, a nie „w ślad za czymś”.</message>
+		<example type="correct">W następstwie tych działań gospodarka się ożywiła.</example>
+		<example type="incorrect"><em>W ślad za</em> tymi działaniami gospodarka się ożywiła.</example>
+	</rule>
+	<rule name="Błąd składniowy: większy jak (zamiast „większy od”, „większy niż”)" id="WIEKSZY_JAK">
+		<pattern mark_from="1">
+			<token inflected="yes">większy</token>
+			<token>jak</token>
+		</pattern>
+		<message>Mówimy „większy <em>od</em>”, „większy <em>niż</em>”.</message>
+		<example type="correct">Ten nowy dysk jest większy od starego.</example>
+		<example type="incorrect">Ten nowy dysk jest większy <em>jak</em> stary.</example>
+	</rule>
+	<rule name="Błąd składniowy: więcej jak (zamiast „większy od”, „większy niż”)" id="WIECEJ_JAK">
+		<pattern mark_from="1">
+			<token>więcej</token>
+			<token>jak</token>
+		</pattern>
+		<message>Mówimy „więcej <em>od</em>”, „więcej <em>niż</em>”.</message>
+		<example type="correct">Więcej niż kosmetyk!</example>
+		<example type="incorrect">Więcej <em>jak</em> Kosmetyk!</example>
+	</rule>
+	 <rule name="Błąd frazeologiczny: po prawo (zamiast „po prawej”)" id="PO_PRAWO">
+		 <pattern mark_to="-1">
+			 <token>po</token>
+			 <token>prawo</token>
+			 <token negate="yes">jazdy</token>
+		 </pattern>
+		 <message>Mówimy <em>na prawo</em>, <em>po prawej stronie</em>, <em>z prawej strony</em>.</message>
+		 <example type="correct">Mijamy z prawej strony budynek Oddziału Regionalnego PTTK w Gorzowie.</example>
+ 		 <example type="incorrect">Mijamy <em>po prawo</em> budynek Oddziału Regionalnego PTTK w Gorzowie.</example>
+	 </rule>
+	 <rule name="Błąd frazeologiczny: po prawo (zamiast „po prawej”)" id="PO_LEWO">
+		 <pattern>
+			 <token>po</token>
+			 <token>lewo</token>
+		 </pattern>
+		 <message>Mówimy <em>na lewo</em>, <em>po lewej stronie</em>, <em>z lewej strony</em>.</message>
+		 <example type="correct">Mijamy z lewej strony budynek Oddziału Regionalnego PTTK w Gorzowie.</example>
+ 		 <example type="incorrect">Mijamy <em>po lewo</em> budynek Oddziału Regionalnego PTTK w Gorzowie.</example>
+	 </rule>
+
+	 <rule name="Błąd pisowni: „do póki” (zamiast „dopóki”)" id="DO_POKI">
+		 <pattern>
+			 <token>do</token>
+			 <token>póki</token>
+		 </pattern>
+		 <message>Wyraz <em>dopóki</em> piszemy łącznie.</message>
+		 <example type="correct">Będę jadł lody, dopóki będę miał ochotę.</example>
+ 		 <example type="incorrect">Będę jadł lody, <em>do póki</em> będę miał ochotę.</example>
+	 </rule>
+	  <rule name="Błąd pisowni: „do póty” (zamiast „dopóty”)" id="DO_POTY">
+		 <pattern>
+			 <token>do</token>
+			 <token>póty</token>
+		 </pattern>
+		 <message>Wyraz <em>dopóty</em> piszemy łącznie.</message>
+		 <example type="correct">Dopóty będę jadł lody, dopóki będę miał ochotę.</example>
+ 		 <example type="incorrect"><em>Do póty</em> będę jadł lody, dopóki będę miał ochotę.</example>
+	 </rule>
+	 <rule name="Błąd frazeologiczny: „wszem i wobec” (zamiast „wszem wobec”)" id="WSZEM_I_WOBEC">
+		 <pattern>
+			 <token>wszem</token>
+			 <token>i</token>
+			 <token>wobec</token>
+		 </pattern>
+		 <message>Ten związek frazeologiczny ma prawidłową postać <em>wszem wobec</em>.</message>
+		 <example type="correct">Ogłaszam wszem wobec, że rzucę premiera na pożarcie smokowi.</example>
+ 		 <example type="incorrect">Ogłaszam <em>wszem i wobec</em>, że rzucę premiera na pożarcie smokowi.</example>
+	 </rule>
+	<rule name="Błąd pisowni: „dla tego że” (zamiast „dlatego że”)" id="DLA_TEGO_ZE">
+		<pattern>
+			<token>dla</token>
+			<token>tego</token>
+			<token regexp="yes">że|bo|gdyż|ponieważ</token>
+		</pattern>
+		<message>Wyrażenie to ma następującą pisownię: <em>dlatego że</em>.</message>
+		<example type="correct">Zabiła się na pewno dlatego, że zabrakło jej forsy na zbytki.</example>
+		<example type="incorrect">Zabiła się na pewno <em>dla tego że</em> zabrakło jej forsy na zbytki.</example>
+	</rule>
+	<rule name="Błąd pisowni: „dla tego że” (zamiast „dlatego że”)" id="DLA_TEGO_ZE_COMMA">
+		<pattern>
+			<token>dla</token>
+			<token>tego</token>
+			<token>,</token>
+			<token regexp="yes">że|bo|gdyż|ponieważ</token>
+		</pattern>
+		<message>Wyrażenie to ma następującą pisownię: <em>dlatego, że</em>.</message>
+		<example type="correct">Zabiła się na pewno dlatego, że zabrakło jej forsy na zbytki.</example>
+		<example type="incorrect">Zabiła się na pewno <em>dla tego, że</em> zabrakło jej forsy na zbytki.</example>
+	</rule>
+	<rule name="Błąd pisowni: „dla czego” (zamiast „dlaczego”)" id="DLA_CZEGO">
+		<pattern>
+			<token>dla</token>
+			<token>czego</token>
+		</pattern>
+		<message>Zaimek przysłowny <em>dlaczego</em> piszemy łącznie.</message>
+		<example type="incorrect"><em>Dla czego</em> płaczesz?</example>
+		<example type="correct">Dlaczego płaczesz?</example>
+	</rule>
+	<rule name="Błąd pisowni: „d/s” (zamiast „ds.”)" id="DS">
+		<pattern>
+			<token>d/s</token>
+		</pattern>
+		<message>Ten skrót piszemy <em>ds.</em>.</message>
+		<example type="incorrect">Pełnomocnik rządu <em>d/s</em> miłości narodu do premiera.</example>
+		<example type="correct">Pełnomocnik rządu ds. miłości narodu do premiera.</example>
+	</rule>
+	<rule name="Błąd pisowni: „k/” (zamiast „k.”" id="K">
+		<pattern mark_to="-1">
+			<token>k/</token>
+			<token regexp="yes">\p{Lu}.*</token>
+		</pattern>
+		<message>Ten skrót zapisujemy: <em>k.</em> (np. „k. Krakowa”).</message>
+		<example type="correct">Mieszkamy w Korzkwi k. Krakowa.</example>
+		<example type="incorrect">Mieszkamy w Korzkwi <em>k/</em> Krakowa.</example>
+	</rule>
+	<rule name="Błąd pisowni: „k/” (zamiast „k.”" id="K1">
+		<pattern>
+			<token regexp="yes">k/\p{Lu}.*</token>
+		</pattern>
+		<message>Ten skrót zapisujemy: <em>k.</em> (np. „k. Krakowa”).</message>
+		<example type="correct">Mieszkamy w Korzkwi k. Krakowa.</example>
+		<example type="incorrect">Mieszkamy w Korzkwi <em>k/Krakowa</em>.</example>
+	</rule>
+	<rule name="Błąd pisowni: „w/g” (zamiast „wg)" id="WG">
+		<pattern>
+			<token>w/g</token>
+		</pattern>
+		<message>Ten skrót poprawnie zapisujemy jako <em>wg</em>, bez ukośników.</message>
+		<example type="correct">Sklepy wyświetlono wg lokalizacji.</example>
+		<example type="incorrect">Sklepy wyświetlono <em>w/g</em> lokalizacji.</example>
+	</rule>
+	<rule name="Błąd pisowni: „n/” (zamiast „n.”)" id="N">
+		<pattern mark_to="-1">
+			<token>n/</token>
+			<token regexp="yes">\p{Lu}.*</token>
+		</pattern>
+		<message>Ten skrót zapisujemy z kropką: <em>n.</em>, np. „Kazimierz n. Wisłą”.</message>
+		<example type="incorrect">Kazimierz <em>n/</em> Wisłą.</example>
+		<example type="correct">Kazimierz n. Wisłą.</example>
+	</rule>
+	<rule name="Błąd pisowni: „n/” (zamiast „n.”)" id="N1">
+		<pattern>
+			<token regexp="yes">n/\p{Lu}.*</token>
+		</pattern>
+		<message>Ten skrót zapisujemy z kropką: <em>n.</em>, np. „Kazimierz n. Wisłą”.</message>
+		<example type="incorrect">Kazimierz <em>n/Wisłą</em>.</example>
+		<example type="correct">Kazimierz n. Wisłą.</example>
+	</rule>
+	
 </rules>

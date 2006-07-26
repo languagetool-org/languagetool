@@ -3,7 +3,7 @@
 Rules: Grammar and Typos
 See tagset.txt for the meaning of the POS tags
 Copyright (C) 2001-2006 Daniel Naber (http://www.danielnaber.de)
-$Id: grammar.xml,v 1.53 2006-07-26 16:51:58 milek_pl Exp $
+$Id: grammar.xml,v 1.54 2006-07-26 22:01:04 milek_pl Exp $
 -->
 <rules lang="en">
 
@@ -352,7 +352,7 @@ $Id: grammar.xml,v 1.53 2006-07-26 16:51:58 milek_pl Exp $
    </rule>
 
    <rule id="FORE_DPS" name="Confusion of fore/for">
-      <pattern mark_to="-1"><token>fore</token><token postag_regexp="yes" postag="PRP\$"/></pattern>
+      <pattern mark_to="-1"><token>fore</token><token postag="PRP$"/></pattern>
       <message>Did you mean <em>for</em>?</message>
       <example type="correct">Thanks again <em>for</em> your help.</example>
       <example type="incorrect">Thanks again <em>fore</em> your help.</example>
@@ -406,6 +406,14 @@ $Id: grammar.xml,v 1.53 2006-07-26 16:51:58 milek_pl Exp $
 	  <example type="incorrect">Languages other <em>then</em> English</example>
 	</rule>
 
+	<rule id="DIFFERENT_THEN" name="Typo 'different then (than)'">
+  	  <pattern mark_from="1"><token>different</token><token regexp="yes">then|than</token></pattern>
+      <message>Did you mean <em>different from</em>?</message>
+	  <example type="correct">Are human beings any different from animals?</example>
+	  <example type="incorrect">Are human beings any different <em>than</em> animals?</example>
+	  <example type="incorrect">Are human beings any different <em>then</em> animals?</example>
+	</rule>
+	
    <rule id="OF_CAUSE" name="Typo 'of cause(course)'">
       <pattern mark_to="-1"><token regexp="yes">of</token><token regexp="yes">cause</token><token regexp="yes" negate="yes">(and|to)</token></pattern>
       <message>Did you mean <em>of course</em> (=naturally)?</message>
@@ -642,6 +650,27 @@ $Id: grammar.xml,v 1.53 2006-07-26 16:51:58 milek_pl Exp $
          <example type="incorrect">Don't judeg a book by <em>it's</em> cover.</example>
       </rule>
 
+	   <rule name="afford with gerund instead of infinitive" id="AFFORD_VBG">
+		   <pattern mark_from="1">
+			   <token regexp="yes">afford|afforded|affords</token>
+			   <token postag="VBG"/>
+		   </pattern>
+		   <message>The verb 'afford' is used with infinitive (afford to do sth.).</message>
+		   <example type="correct">We cannot afford to spend the whole month in Alps.</example>
+   		   <example type="incorrect">We cannot afford <em>spending</em> the whole month in Alps.</example>
+	   </rule>
+
+	   	   <rule name="afford with gerund instead of infinitive" id="AFFORD_VBG_NEGATION">
+		   <pattern mark_from="2">
+			   <token regexp="yes">afford|afforded|affords</token>
+			   <token>not</token>
+			   <token postag="VBG"/>
+		   </pattern>
+		   <message>The verb 'afford' is used with infinitive (afford to do sth.).</message>
+		   <example type="correct">We cannot afford not to spend the whole month in Alps.</example>
+   		   <example type="incorrect">We cannot afford not <em>spending</em> the whole month in Alps.</example>
+	   </rule>
+	   	   
       <!-- TODO:
       <rule>
          <pattern mark_from="0</token>mark_to="-1"><token>its</token><token postag="VBG"/>/pattern>

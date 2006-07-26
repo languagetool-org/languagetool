@@ -164,7 +164,12 @@ class PatternRuleHandler extends XMLRuleHandler {
       inException = true;
       exceptionSet = true;
       exceptions = new StringBuffer();
-
+      //TODO: make exception accept skip tag
+      //this is needed to match errors like:
+      //"if... than", where "then" shouldn't occur before "than"
+      //formally:
+      //<token skip="-1">if<exception skip="-1">then</exception></token>
+      //<token>than</token>
       if (attrs.getValue("negate") != null) {
         exceptionStringNegation = attrs.getValue("negate").equals("yes");
       }
