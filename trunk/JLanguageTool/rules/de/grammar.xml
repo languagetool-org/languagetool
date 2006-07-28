@@ -3,7 +3,7 @@
 Rules: Grammar and Typos
 See tagset.txt for the meaning of the POS tags
 Copyright (C) 2001-2006 Daniel Naber (http://www.danielnaber.de)
-$Id: grammar.xml,v 1.34 2006-07-22 22:56:42 dnaber Exp $
+$Id: grammar.xml,v 1.35 2006-07-28 21:02:51 dnaber Exp $
 -->
 <rules lang="de">
 
@@ -82,8 +82,12 @@ $Id: grammar.xml,v 1.34 2006-07-22 22:56:42 dnaber Exp $
 	</rule>
 	
 	<rule id="DAS_ERSTE_MAL" name="Korrekte Groß-/Kleinschreibung: 'das erste Mal'">
-		<pattern mark_from="2" case_sensitive="yes"><token regexp="yes">[Bb]eim|[Zz]um|[Dd]as</token> <token regexp="yes">erste|ersten</token> <token>mal</token></pattern>
-		<message><em>Mal</em> in der Wendung 'das erste Mal' wird groß geschrieben.</message>
+		<pattern mark_from="2" case_sensitive="yes">
+			<token regexp="yes">[Bb]eim|[Zz]um|[Dd]as</token>
+			<token regexp="yes">erste|ersten|letzte|letzte|letzten|vorige|vorigen</token>
+			<token>mal</token>
+		</pattern>
+		<message><em>Mal</em> in der Wendung 'das erste/letzte Mal' wird groß geschrieben.</message>
 		<example type="correct">...als du ihn das erste <em>Mal</em> gesehen hast?</example>
 		<example type="incorrect">...als du ihn das erste <em>mal</em> gesehen hast?</example>
 		<example type="incorrect">...als du ihn zum ersten <em>mal</em> gesehen hast?</example>
@@ -146,7 +150,7 @@ $Id: grammar.xml,v 1.34 2006-07-22 22:56:42 dnaber Exp $
 	</rule>
 
 	<rule id="DENN_DEN" name="Tippfehler 'aber denn(dann)'">
-		<pattern mark_from="1"><token regexp="yes">[Aa]ber|[Dd]och</token><token>denn</token></pattern>
+		<pattern mark_from="1"><token regexp="yes">[Aa]ber|[Dd]och|[Uu]nd</token><token>denn</token></pattern>
 		<message>Meinten Sie <em>den</em> oder <em>dann</em>?</message>
 		<example type="correct">Aber <em>dann</em> ging es los.</example>
 		<example type="correct">Aber <em>den</em> haben Sie ja schon.</example>
