@@ -37,7 +37,7 @@ import de.danielnaber.languagetool.rules.RuleMatch;
 /**
  * A rule that matches words for which two different spellings are used
  * throughout the document. Currently only implemented for German. Loads
- * the relavant word from <code>rules/de/coherency.txt</code>.
+ * the relevant word from <code>rules/de/coherency.txt</code>.
  * 
  * <p>Note that this should not be used for language variations like
  * American English vs. British English or German "alte Rechtschreibung"

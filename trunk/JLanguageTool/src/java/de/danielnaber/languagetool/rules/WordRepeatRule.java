@@ -23,7 +23,6 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 import de.danielnaber.languagetool.AnalyzedSentence;
-//import de.danielnaber.languagetool.AnalyzedToken;
 import de.danielnaber.languagetool.AnalyzedTokenReadings;
 import de.danielnaber.languagetool.Language;
 
