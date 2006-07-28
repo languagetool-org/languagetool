@@ -3,9 +3,17 @@
 Rules: Grammar and Typos
 See tagset.txt for the meaning of the POS tags
 Copyright (C) 2001-2006 Daniel Naber (http://www.danielnaber.de)
-$Id: grammar.xml,v 1.55 2006-07-28 17:11:24 dnaber Exp $
+$Id: grammar.xml,v 1.56 2006-07-28 21:10:38 dnaber Exp $
 -->
 <rules lang="en">
+
+   <!-- TODO: make more general -->
+   <rule id="ANALYSIS_IF" name="Typo 'analysis if(of)'">
+      <pattern mark_from="1"><token>analysis</token><token>if</token></pattern>
+      <message>Did you mean <em>of</em>?</message>
+      <example type="correct">An Analysis <em>of</em> Rock Music</example>
+      <example type="incorrect">An Analysis <em>if</em> Rock Music</example>
+   </rule>
 
    <rule id="I_ARE" name="'I is/are/...' (at sentence start only)">
       <pattern mark_from="2"><token postag="SENT_START"></token><token>I</token><token regexp="yes">is|be|are|were|has</token></pattern>
