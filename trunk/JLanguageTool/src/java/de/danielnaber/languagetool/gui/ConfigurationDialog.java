@@ -28,6 +28,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -77,6 +79,8 @@ public class ConfigurationDialog implements ActionListener {
     dialog.setTitle("LanguageTool Options");
     checkBoxes.clear();
     checkBoxesRuleIds.clear();
+    
+    Collections.sort(rules, new AlphabeticComparator());
     
     // close dialog when user presses Escape key:
     KeyStroke stroke = KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0);
@@ -210,6 +214,14 @@ public class ConfigurationDialog implements ActionListener {
     if (motherTongueBox.getSelectedItem() instanceof String)
       return null;
     return (Language)motherTongueBox.getSelectedItem();
+  }
+
+}
+
+class AlphabeticComparator implements Comparator<Rule> {
+
+  public int compare(Rule r1, Rule r2) {
+    return r1.getDescription().compareToIgnoreCase(r2.getDescription());
   }
 
 }
