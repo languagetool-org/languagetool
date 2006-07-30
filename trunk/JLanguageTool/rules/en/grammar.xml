@@ -3,18 +3,53 @@
 Rules: Grammar and Typos
 See tagset.txt for the meaning of the POS tags
 Copyright (C) 2001-2006 Daniel Naber (http://www.danielnaber.de)
-$Id: grammar.xml,v 1.56 2006-07-28 21:10:38 dnaber Exp $
+$Id: grammar.xml,v 1.57 2006-07-30 20:26:04 milek_pl Exp $
 -->
 <rules lang="en">
 
    <!-- TODO: make more general -->
    <rule id="ANALYSIS_IF" name="Typo 'analysis if(of)'">
-      <pattern mark_from="1"><token>analysis</token><token>if</token></pattern>
+      <pattern mark_from="2"><token postag="DT"/><token regexp="yes">analysis|kind</token><token>if</token></pattern>
       <message>Did you mean <em>of</em>?</message>
       <example type="correct">An Analysis <em>of</em> Rock Music</example>
       <example type="incorrect">An Analysis <em>if</em> Rock Music</example>
+	  <example type="incorrect">That's the kind <em>if</em> blue I like.</example>
+	  <example type="correct">This is the kind of journalism that I like!</example>
    </rule>
-
+	
+	<rule id="SHELL_WE" name="Typo 'shall (shell) we'">
+		<pattern case_sensitive="yes" mark_from="1" mark_to="-2">
+			<token postag="SENT_START"/>
+			<token>Shell</token>
+			<token regexp="yes">we|I</token>
+			<token postag="VB"/>
+		</pattern>
+		<message>Did you mean <em>Shall</em>?</message>
+		<example type="correct">Shall we dance?</example>
+		<example type="incorrect"><em>Shell</em> we dance?</example>
+	</rule>
+	<rule id="WE_SHELL" name="Typo 'we shall (shell)'">
+		<pattern case_sensitive="yes" mark_from="2" mark_to="-1">
+			<token postag="SENT_START"/>
+			<token regexp="yes">We|I</token>
+			<token>shell</token>
+			<token postag="VB"/>
+		</pattern>
+		<message>Did you mean <em>shall</em>?</message>
+		<example type="correct">We shall overcome.</example>
+  	    <example type="incorrect">We <em>shell</em> overcome.</example>
+	</rule>
+	
+	<rule id="ALSO_SENT_END" name="'Also' at the end of the sentence">
+		<pattern mark_to="-1">
+			<token>also</token>
+			<token>.</token>
+		</pattern>
+		<message>'Also' is not used at the end of the sentence. Use <em>as well</em> instead.</message>
+		<example type="correct">You will also buy some eggs.</example>
+		<example type="incorrect">You will buy some eggs <em>also</em>.</example>
+	</rule>	
+	
    <rule id="I_ARE" name="'I is/are/...' (at sentence start only)">
       <pattern mark_from="2"><token postag="SENT_START"></token><token>I</token><token regexp="yes">is|be|are|were|has</token></pattern>
       <message>Did you mean <em>am</em> or <em>ate</em>?</message>
