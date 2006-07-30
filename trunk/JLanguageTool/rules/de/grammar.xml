@@ -3,7 +3,7 @@
 Rules: Grammar and Typos
 See tagset.txt for the meaning of the POS tags
 Copyright (C) 2001-2006 Daniel Naber (http://www.danielnaber.de)
-$Id: grammar.xml,v 1.38 2006-07-30 21:55:19 dnaber Exp $
+$Id: grammar.xml,v 1.39 2006-07-30 21:59:57 dnaber Exp $
 -->
 <rules lang="de">
 
@@ -29,7 +29,7 @@ $Id: grammar.xml,v 1.38 2006-07-30 21:55:19 dnaber Exp $
 		<example type="incorrect">Das ist ihm wohl nicht <em>zu zumuten</em>.</example>
 	</rule>
 
-	<rule id="SONDER_NUR" name="Möglicher Tippfehler 'sondern(sondern)'">
+	<rule id="SONDER_NUR" name="Möglicher Tippfehler 'sonder(sondern)'">
 		<!-- "sonder" wird vom Spellchecker akzeptiert, ist aber fast nie richtig -->
 		<pattern><token>sonder</token></pattern>
 		<message>Meinten Sie <em>sondern</em>?</message>
@@ -45,26 +45,11 @@ $Id: grammar.xml,v 1.38 2006-07-30 21:55:19 dnaber Exp $
 		<example type="incorrect">Noch nie so viele Auswanderer <em>seid</em> Bestehen der BRD</example>
 	</rule>
 
-	<rule id="SEIT_BESTEHEN" name="Möglicher Tippfehler 'seit bestehen(Bestehen)'">
-		<!-- TODO: seit seinem/ihrem/... Bestehen -->
-		<pattern mark_from="1" case_sensitive="yes"><token>seit</token><token>bestehen</token></pattern>
-		<message>Meinten Sie <em>Bestehen</em>?</message>
-		<example type="correct">Noch nie so viele Auswanderer seit <em>Bestehen</em> der BRD</example>
-		<example type="incorrect">Noch nie so viele Auswanderer seit <em>bestehen</em> der BRD</example>
-	</rule>
-
 	<rule id="IN_DIE_ANALEN" name="Möglicher Tippfehler 'in die Analen(Annalen)'">
 		<pattern mark_from="2"><token>in</token><token>die</token><token>Analen</token></pattern>
 		<message>Meinten Sie <em>Annalen</em>?</message>
 		<example type="correct">Wir können in die <em>Annalen</em> des Klubs eingehen</example>
 		<example type="incorrect">Wir können in die <em>Analen</em> des Klubs eingehen</example>
-	</rule>
-
-	<rule id="ZU_BUCHE" name="Möglicher Tippfehler 'zu buche(Buche) schlagen'">
-		<pattern mark_from="1" case_sensitive="yes"><token>zu</token><token>buche</token></pattern>
-		<message>In der Wendung "zu Buche schlagen" schreibt man <em>Buche</em> groß.</message>
-		<example type="correct">Das schlägt nicht so sehr zu <em>Buche</em>.</example>
-		<example type="incorrect">Das schlägt nicht so sehr zu <em>buche</em>.</example>
 	</rule>
 
 	<rule id="ALLES_OLLES" name="Möglicher Tippfehler 'alles/olles'">
@@ -111,32 +96,6 @@ $Id: grammar.xml,v 1.38 2006-07-30 21:55:19 dnaber Exp $
 		<example type="incorrect">Alle Angaben ohne <em>Gewehr</em>.</example>
 	</rule>
 	
-	<rule id="DAS_ERSTE_MAL" name="Groß-/Kleinschreibung: 'das erste mal(Mal)'">
-		<pattern mark_from="2" case_sensitive="yes">
-			<token regexp="yes">[Bb]eim|[Zz]um|[Dd]as</token>
-			<token regexp="yes">erste|ersten|letzte|letzte|letzten|vorige|vorigen</token>
-			<token>mal</token>
-		</pattern>
-		<message><em>Mal</em> in der Wendung 'das erste/letzte Mal' wird groß geschrieben.</message>
-		<example type="correct">...als du ihn das erste <em>Mal</em> gesehen hast?</example>
-		<example type="incorrect">...als du ihn das erste <em>mal</em> gesehen hast?</example>
-		<example type="incorrect">...als du ihn zum ersten <em>mal</em> gesehen hast?</example>
-	</rule>
-
-	<rule id="IN_ACHT_NEHMEN" name="Groß-/Kleinschreibung: 'in acht(Acht) nehmen'">
-		<pattern mark_from="1" mark_to="-1" case_sensitive="yes"><token>in</token><token>acht</token><token regexp="yes">nehmen|nahm|genommen</token></pattern>
-		<message><em>Acht</em> in der Wendung '(sich) in Acht nehmen' wird groß geschrieben.</message>
-		<example type="correct">Er sollte sich in <em>Acht</em> nehmen.</example>
-		<example type="incorrect">Er sollte sich in <em>acht</em> nehmen.</example>
-	</rule>
-	
-	<rule id="AUS_VERSEHEN" name="Groß-/Kleinschreibung: 'aus versehen(Versehen)'">
-		<pattern mark_from="1" case_sensitive="yes"><token>aus</token><token>versehen</token></pattern>
-		<message>In der Wendung 'aus Versehen' wird <em>Versehen</em> groß geschrieben.</message>
-		<example type="correct">Die SPD meuchelt aus <em>Versehen</em> ihren Chef.</example>
-		<example type="incorrect">Die SPD meuchelt aus <em>versehen</em> ihren Chef.</example>
-	</rule>
-
 	<rule id="PER_NACHNAME" name="Möglicher Tippfehler 'per Nachname(Nachnahme)'">
 		<pattern mark_from="1" case_sensitive="yes"><token>per</token><token>Nachname</token></pattern>
 		<message>Meinten Sie <em>Nachnahme</em> ('Nachnahme' = Versandart, 'Nachname' = Familienname)?</message>
@@ -144,13 +103,6 @@ $Id: grammar.xml,v 1.38 2006-07-30 21:55:19 dnaber Exp $
 		<example type="incorrect">Warum liefern Firmen lieber per <em>Nachname</em>?</example>
 	</rule>	
 	
-	<rule id="FRAGEN_HABEN" name="Möglicher Tippfehler 'fragen(Fragen) haben/stellen'">
-		<pattern mark_to="-1" case_sensitive="yes"><token>fragen</token><token regexp="yes">haben|hat|hast|habe|hätte|hatte|hattest|hatten|hätten|habt|stellen|stellt|stellst|stellte|stellten</token></pattern>
-		<message><em>Fragen</em> als Nomen wird groß geschrieben.</message>
-		<example type="correct">Meine <em>Fragen</em> hat bislang keiner gelesen.</example>
-		<example type="incorrect">Meine <em>fragen</em> hat bislang keiner gelesen</example>
-	</rule>
-
 	<rule id="MOEGLICHER_WEISE" name="Möglicher Tippfehler 'möglicher Weise(möglicherweise)'">
 		<pattern><token>möglicher</token><token>Weise</token></pattern>
 		<message><em>Möglicherweise</em> wird zusammengeschrieben.</message>
@@ -237,6 +189,35 @@ $Id: grammar.xml,v 1.38 2006-07-30 21:55:19 dnaber Exp $
 		<example type="incorrect">Internet <em>mit ohne</em> Schnur</example>
 	</rule>
 
+	
+	<!--  Rules about upper/lowercase:  -->
+	
+	<rule id="DAS_ERSTE_MAL" name="Groß-/Kleinschreibung: 'das erste mal(Mal)'">
+		<pattern mark_from="2" case_sensitive="yes">
+			<token regexp="yes">[Bb]eim|[Zz]um|[Dd]as</token>
+			<token regexp="yes">erste|ersten|letzte|letzte|letzten|vorige|vorigen</token>
+			<token>mal</token>
+		</pattern>
+		<message><em>Mal</em> in der Wendung 'das erste/letzte Mal' wird groß geschrieben.</message>
+		<example type="correct">...als du ihn das erste <em>Mal</em> gesehen hast?</example>
+		<example type="incorrect">...als du ihn das erste <em>mal</em> gesehen hast?</example>
+		<example type="incorrect">...als du ihn zum ersten <em>mal</em> gesehen hast?</example>
+	</rule>
+
+	<rule id="IN_ACHT_NEHMEN" name="Groß-/Kleinschreibung: 'in acht(Acht) nehmen'">
+		<pattern mark_from="1" mark_to="-1" case_sensitive="yes"><token>in</token><token>acht</token><token regexp="yes">nehmen|nahm|genommen</token></pattern>
+		<message><em>Acht</em> in der Wendung '(sich) in Acht nehmen' wird groß geschrieben.</message>
+		<example type="correct">Er sollte sich in <em>Acht</em> nehmen.</example>
+		<example type="incorrect">Er sollte sich in <em>acht</em> nehmen.</example>
+	</rule>
+	
+	<rule id="AUS_VERSEHEN" name="Groß-/Kleinschreibung: 'aus versehen(Versehen)'">
+		<pattern mark_from="1" case_sensitive="yes"><token>aus</token><token>versehen</token></pattern>
+		<message>In der Wendung 'aus Versehen' wird <em>Versehen</em> groß geschrieben.</message>
+		<example type="correct">Die SPD meuchelt aus <em>Versehen</em> ihren Chef.</example>
+		<example type="incorrect">Die SPD meuchelt aus <em>versehen</em> ihren Chef.</example>
+	</rule>
+
 	<rule id="AUF_DEM_LAUFENDEN" name="Groß-/Kleinschreibung: 'auf dem laufenden(Laufenden)'">
 		<pattern mark_from="2" case_sensitive="yes"><token>auf</token><token>dem</token><token>laufenden</token></pattern>
 		<message>In der Wendung 'auf dem Laufenden' wird <em>Laufenden</em> groß geschrieben.</message>
@@ -257,5 +238,27 @@ $Id: grammar.xml,v 1.38 2006-07-30 21:55:19 dnaber Exp $
 		<example type="correct">Dahinter verbirgt sich nichts <em>Gutes</em>.</example>
 		<example type="incorrect">Dahinter verbirgt sich nichts <em>gutes</em>.</example>
 	</rule>
-		
+
+	<rule id="ZU_BUCHE" name="Groß-/Kleinschreibung: 'zu buche(Buche) schlagen'">
+		<pattern mark_from="1" case_sensitive="yes"><token>zu</token><token>buche</token></pattern>
+		<message>In der Wendung "zu Buche schlagen" schreibt man <em>Buche</em> groß.</message>
+		<example type="correct">Das schlägt nicht so sehr zu <em>Buche</em>.</example>
+		<example type="incorrect">Das schlägt nicht so sehr zu <em>buche</em>.</example>
+	</rule>
+
+	<rule id="FRAGEN_HABEN" name="Groß-/Kleinschreibung: 'fragen(Fragen) haben/stellen'">
+		<pattern mark_to="-1" case_sensitive="yes"><token>fragen</token><token regexp="yes">haben|hat|hast|habe|hätte|hatte|hattest|hatten|hätten|habt|stellen|stellt|stellst|stellte|stellten</token></pattern>
+		<message><em>Fragen</em> als Nomen wird groß geschrieben.</message>
+		<example type="correct">Meine <em>Fragen</em> hat bislang keiner gelesen.</example>
+		<example type="incorrect">Meine <em>fragen</em> hat bislang keiner gelesen</example>
+	</rule>
+
+	<rule id="SEIT_BESTEHEN" name="Groß-/Kleinschreibung: 'seit bestehen(Bestehen)'">
+		<!-- TODO: seit seinem/ihrem/... Bestehen -->
+		<pattern mark_from="1" case_sensitive="yes"><token>seit</token><token>bestehen</token></pattern>
+		<message>Meinten Sie <em>Bestehen</em>?</message>
+		<example type="correct">Noch nie so viele Auswanderer seit <em>Bestehen</em> der BRD</example>
+		<example type="incorrect">Noch nie so viele Auswanderer seit <em>bestehen</em> der BRD</example>
+	</rule>
+
 </rules>
