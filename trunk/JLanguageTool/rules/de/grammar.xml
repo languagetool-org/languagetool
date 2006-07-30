@@ -3,20 +3,20 @@
 Rules: Grammar and Typos
 See tagset.txt for the meaning of the POS tags
 Copyright (C) 2001-2006 Daniel Naber (http://www.danielnaber.de)
-$Id: grammar.xml,v 1.40 2006-07-30 22:00:35 dnaber Exp $
+$Id: grammar.xml,v 1.41 2006-07-30 22:02:57 dnaber Exp $
 -->
 <rules lang="de">
 
 	<!-- TODO: group -->
 	<rule id="DU_WUENSCHT" name="Möglicher Tippfehler 'du wünscht(wünschst)'">
 		<pattern mark_from="1"><token>du</token><token>wünscht</token></pattern>
-		<message>Meinten Sie <em>wünschst</em>?</message>
+		<message>Meinten Sie <em>wünschst</em> (ich wünsche, du wünschst, er wünscht, ...)?</message>
 		<example type="correct">Du <em>wünschst</em> dir so viel.</example>
 		<example type="incorrect">Du <em>wünscht</em> dir so viel.</example>
 	</rule>
 	<rule id="WUENSCHT_DU" name="Möglicher Tippfehler 'wünscht(wünschst) du'">
 		<pattern mark_to="-1"><token>wünscht</token><token>du</token></pattern>
-		<message>Meinten Sie <em>wünschst</em>?</message>
+		<message>Meinten Sie <em>wünschst</em> (ich wünsche, du wünschst, er wünscht, ...)?</message>
 		<example type="correct"><em>Wünschst</em> du dir mehr Zeit?</example>
 		<example type="incorrect"><em>Wünscht</em> du dir mehr Zeit?</example>
 	</rule>
