@@ -52,7 +52,7 @@ public class AgreementRule extends GermanRule {
   }
 
   public String getDescription() {
-    return "Kongruenz von Nominalphrasen (unvollständig!), z.B. 'mein kleines Haus'";
+    return "Kongruenz von Nominalphrasen (unvollständig!), z.B. 'mein kleiner(kleines) Haus'";
   }
 
   public RuleMatch[] match(AnalyzedSentence text) {
