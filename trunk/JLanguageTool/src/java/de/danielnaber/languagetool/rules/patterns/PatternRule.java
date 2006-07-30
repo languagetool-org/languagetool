@@ -30,26 +30,32 @@ import de.danielnaber.languagetool.rules.RuleMatch;
 import de.danielnaber.languagetool.tools.StringTools;
 
 /**
- * A Rule that describes a language error as a simple pattern of words or of part-of-speech
- * tags.
+ * A Rule that describes a language error as a simple pattern of words or of part-of-speech tags.
  * 
  * @author Daniel Naber
  */
 public class PatternRule extends Rule {
 
   private String id;
+
   private Language[] language;
+
   private String description;
+
   private String message;
+
   private int startPositionCorrection = 0;
+
   private int endPositionCorrection = 0;
-  
+
   private boolean caseSensitive = false;
+
   private boolean regExp = false;
-  
+
   private List<Element> patternElements;
 
-  PatternRule(String id, Language language, List<Element> elements, String description, String message) {
+  PatternRule(String id, Language language, List<Element> elements, String description,
+      String message) {
     if (id == null)
       throw new NullPointerException("id cannot be null");
     if (language == null)
@@ -60,10 +66,10 @@ public class PatternRule extends Rule {
       throw new NullPointerException("description cannot be null");
     this.id = id;
     this.language = new Language[] { language };
-    //this.pattern = pattern;
+    // this.pattern = pattern;
     this.description = description;
     this.message = message;
-    this.patternElements = new ArrayList<Element>(elements);    // copy elements
+    this.patternElements = new ArrayList<Element>(elements); // copy elements
   }
 
   public String getId() {
@@ -136,81 +142,84 @@ public class PatternRule extends Rule {
     int lastMatchToken = -1;
 
     for (int i = 0; i < tokens.length; i++) {
-    	boolean allElementsMatch = true;
-    	
-    	int matchingTokens = 0;
+      boolean allElementsMatch = true;
+
+      int matchingTokens = 0;
       for (int k = 0; k < patternElements.size(); k++) {
         Element elem = patternElements.get(k);
-    		skipNext = elem.getSkipNext();
-    		int nextPos = tokenPos + k + skipShift;    		
-    		if (nextPos >= tokens.length) {
-    			allElementsMatch = false;
-    			break;
-    		}
-    		boolean skipMatch = false;
-    		if (prevSkipNext + nextPos >= tokens.length || prevSkipNext  < 0) {   //SENT_END?
-    			prevSkipNext  = tokens.length - (nextPos + 1);
-    		}
-    		for (int m = nextPos; m <= nextPos+prevSkipNext; m++) {    			
-    			boolean Match = false;    			
-    			for (int l = 0; l < tokens[m].getReadingsLength(); l++) {
-    				
-    				AnalyzedToken matchToken = tokens[m].getAnalyzedToken(l);
-    				// Logical OR (cannot be AND):
-    				if (!elem.match(matchToken)) {
-    					Match = Match || false;
-    				} else {
-    					Match = true;
-    					matchPos = m;
-    					skipShift = matchPos - nextPos;
-    				}
-    				skipMatch = skipMatch || Match;
-    				
-    			}
-    			if (skipMatch) {
-					break;
-				}
-    		}
-    		allElementsMatch = skipMatch;
-    		if (skipMatch) {
-    			prevSkipNext = skipNext;
-    		} else {
-    			prevSkipNext = 0;
-    		}
-    		if (!allElementsMatch) {
-    			break;
-    		} else {
-    			matchingTokens++;
-    			lastMatchToken = matchPos; //nextPos;
-    			if (firstMatchToken == -1)
-    				firstMatchToken = matchPos; //nextPos;
-    		}
-    	}
-    	if (allElementsMatch) {
-    		String errMessage = message;
-    		//TODO: implement skipping tokens while marking error tokens
-    		// replace back references like \1 in message:
-    		for (int j = 0; j < matchingTokens; j++) {
-    			errMessage = errMessage.replaceAll("\\\\" + (j + 1), tokens[firstMatchToken + j]
-    			                                                            .getToken());
-    		}
-    		boolean startsWithUppercase = StringTools.startsWithUppercase(tokens[firstMatchToken
-    		                                                                     + startPositionCorrection].toString());
-    		RuleMatch ruleMatch = new RuleMatch(this, tokens[firstMatchToken + startPositionCorrection]
-    		                                                 .getStartPos(), tokens[lastMatchToken + endPositionCorrection].getStartPos()
-    		                                                 + tokens[lastMatchToken + endPositionCorrection].getToken().length(), errMessage,
-    		                                                 startsWithUppercase);
-    		ruleMatches.add(ruleMatch);
-    	} else {
-    		firstMatchToken = -1;
-    		lastMatchToken = -1;
-    	}
+        skipNext = elem.getSkipNext();
+        int nextPos = tokenPos + k + skipShift;
+        if (nextPos >= tokens.length) {
+          allElementsMatch = false;
+          break;
+        }
+        boolean skipMatch = false;
+        if (prevSkipNext + nextPos >= tokens.length || prevSkipNext < 0) { // SENT_END?
+          prevSkipNext = tokens.length - (nextPos + 1);
+        }
+        for (int m = nextPos; m <= nextPos + prevSkipNext; m++) {
+          boolean Match = false;
+          for (int l = 0; l < tokens[m].getReadingsLength(); l++) {
+
+            AnalyzedToken matchToken = tokens[m].getAnalyzedToken(l);
+            // Logical OR (cannot be AND):
+            if (!elem.match(matchToken)) {
+              Match = Match || false;
+            } else {
+              Match = true;
+              matchPos = m;
+              skipShift = matchPos - nextPos;
+            }
+            skipMatch = skipMatch || Match;
+
+          }
+          if (skipMatch) {
+            break;
+          }
+        }
+        allElementsMatch = skipMatch;
+        if (skipMatch) {
+          prevSkipNext = skipNext;
+        } else {
+          prevSkipNext = 0;
+        }
+        if (!allElementsMatch) {
+          break;
+        } else {
+          matchingTokens++;
+          lastMatchToken = matchPos; // nextPos;
+          if (firstMatchToken == -1)
+            firstMatchToken = matchPos; // nextPos;
+        }
+      }
+      if (allElementsMatch) {
+        String errMessage = message;
+        // TODO: implement skipping tokens while marking error tokens
+        // replace back references like \1 in message:
+        for (int j = 0; j < matchingTokens; j++) {
+          errMessage = errMessage.replaceAll("\\\\" + (j + 1), tokens[firstMatchToken + j]
+              .getToken());
+        }
+        boolean startsWithUppercase = StringTools.startsWithUppercase(tokens[firstMatchToken
+            + startPositionCorrection].toString());
+        RuleMatch ruleMatch = new RuleMatch(this, tokens[firstMatchToken + startPositionCorrection]
+            .getStartPos(), tokens[lastMatchToken + endPositionCorrection].getStartPos()
+            + tokens[lastMatchToken + endPositionCorrection].getToken().length(), errMessage,
+            startsWithUppercase);
+        if (i == 1) {   // first token (0 is "SENT_START")
+          ruleMatch.isAtSentenceStart(true);
+        }
+        ruleMatches.add(ruleMatch);
+      } else {
+        firstMatchToken = -1;
+        lastMatchToken = -1;
+      }
       tokenPos++;
     }
 
     return (RuleMatch[]) ruleMatches.toArray(new RuleMatch[0]);
   }
-  
+
   public void reset() {
     // nothing
   }
