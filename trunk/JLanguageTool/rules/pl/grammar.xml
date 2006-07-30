@@ -2,7 +2,7 @@
 
 	<!--
 Copyright (C) 2006 Marcin Miłkowski
-$Id: grammar.xml,v 1.17 2006-07-30 20:26:04 milek_pl Exp $		
+$Id: grammar.xml,v 1.18 2006-07-30 20:58:02 milek_pl Exp $		
 -->
 <rules lang="pl">
 	<!-- błąd leksykalny: tym niemniej -->
@@ -784,5 +784,37 @@ $Id: grammar.xml,v 1.17 2006-07-30 20:26:04 milek_pl Exp $
 		<message>To modne i nadużywane wtrącenie, które nie niesie żadnego sensu.</message>
 		<example type="incorrect"><em>Powiem tak</em>: premier jest najmądrzejszy na świecie.</example>
 		<example type="correct">Premier jest najmądrzejszy na świecie.</example>
+	</rule>
+	
+	<rule name="Nadużywany wyraz w błędnym znaczeniu: „dokładnie" id="DOKLADNIE">
+		<pattern case_sensitive="yes" mark_from="1" mark_to="-1">
+			<token postag="SENT_START"/>
+			<token>Dokładnie</token>
+			<token regexp="yes">!|\.</token>
+		</pattern>
+		<message>Wyraz „dokładnie” oznacza „w sposób ścisły, skrupulatny” i jest błędnie używane w sensie <em>właśnie</em>, <em>owszem</em>.</message>
+		<example type="correct">Owszem.</example>
+		<example type="incorrect"><em>Dokładnie</em>!</example>
+	</rule>
+
+	<rule name="Nadużywany zwrot w błędnym znaczeniu: „dokładnie tak" id="DOKLADNIE_TAK">
+		<pattern case_sensitive="yes" mark_from="1" mark_to="-1">
+			<token postag="SENT_START"/>
+			<token>Dokładnie</token>
+			<token>tak</token>
+			<token regexp="yes">!|\.</token>
+		</pattern>
+		<message>Wyraz „dokładnie” oznacza „w sposób ścisły, skrupulatny” i jest błędnie używane w sensie <em>właśnie</em>, <em>owszem</em>.</message>
+		<example type="correct">Owszem.</example>
+		<example type="incorrect"><em>Dokładnie tak</em>!</example>
+	</rule>	
+	
+	<rule name="Nadużywany wyraz: „generalnie”" id="GENERALNIE">
+		<pattern>
+			<token>generalnie</token>
+		</pattern>
+		<message>Wyraz „generalnie” jest nadużywany. Lepiej: <em>na ogół</em>, <em>z reguły</em>, <em>najczęściej</em>, <em>ogólnie rzecz biorąc</em>, <em>zasadniczo</em>, <em>ogólnie</em>, <em>powszechnie</em>, <em>w zupełności</em>, <em>w ogólności</em>, <em>zupełnie</em>.</message>
+		<example type="incorrect"><em>Generalnie</em> pan minister ma rację.</example>
+		<example type="correct">Pan minister ma w ogólności rację.</example>
 	</rule>
 </rules>
