@@ -45,6 +45,7 @@ import javax.swing.JRootPane;
 import javax.swing.JScrollPane;
 import javax.swing.KeyStroke;
 
+import de.danielnaber.languagetool.JLanguageTool;
 import de.danielnaber.languagetool.Language;
 import de.danielnaber.languagetool.rules.Rule;
 
@@ -76,7 +77,8 @@ public class ConfigurationDialog implements ActionListener {
   
   public void show(List<Rule> rules) {
     dialog = new JDialog();
-    dialog.setTitle("LanguageTool Options");
+    // TODO: i18n:
+    dialog.setTitle("LanguageTool " +JLanguageTool.VERSION+ " Options");
     checkBoxes.clear();
     checkBoxesRuleIds.clear();
     
