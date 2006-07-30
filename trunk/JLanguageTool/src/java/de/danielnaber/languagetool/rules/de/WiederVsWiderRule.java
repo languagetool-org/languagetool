@@ -41,7 +41,7 @@ public class WiederVsWiderRule extends GermanRule {
   }
 
   public String getDescription() {
-    return "'wider' vs. 'wieder' in 'spiegeln ... wider'";
+    return "Möglicher Tippfehler 'spiegeln ... wieder(wider)'";
   }
 
   public RuleMatch[] match(AnalyzedSentence text) {
