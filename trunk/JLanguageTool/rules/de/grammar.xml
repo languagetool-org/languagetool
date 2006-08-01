@@ -3,7 +3,7 @@
 Rules: Grammar and Typos
 See tagset.txt for the meaning of the POS tags
 Copyright (C) 2001-2006 Daniel Naber (http://www.danielnaber.de)
-$Id: grammar.xml,v 1.42 2006-08-01 21:57:53 dnaber Exp $
+$Id: grammar.xml,v 1.43 2006-08-01 22:35:40 dnaber Exp $
 -->
 <rules lang="de">
 
@@ -275,17 +275,17 @@ $Id: grammar.xml,v 1.42 2006-08-01 21:57:53 dnaber Exp $
 		<example type="correct">In <em>Frankfurt/Oder</em> steht ein Hofbräuhaus.</example>
 		<example type="incorrect">In <em>Frankfurt/oder</em> steht ein Hofbräuhaus.</example>
 	</rule>
-	<rule id="FRANKFURT_ODER_2" name="Groß-/Kleinschreibung: 'Frankfurt an der oder(Oder)'">
-		<pattern mark_from="3" case_sensitive="yes"><token>Frankfurt</token><token>an</token><token>der</token><token>oder</token></pattern>
-		<message>Meinten Sie <em>Oder</em>?</message>
-		<example type="correct">In Frankfurt an der <em>Oder</em> steht ein Hofbräuhaus.</example>
-		<example type="incorrect">In Frankfurt an der <em>oder</em> steht ein Hofbräuhaus.</example>
-	</rule>
-	<rule id="FRANKFURT_ODER_3" name="Groß-/Kleinschreibung: 'Frankfurt (oder)(Oder)'">
+	<rule id="FRANKFURT_ODER_2" name="Groß-/Kleinschreibung: 'Frankfurt (oder)(Oder)'">
 		<pattern mark_from="2" mark_to="-1" case_sensitive="yes"><token>Frankfurt</token><token>(</token><token>oder</token><token>)</token></pattern>
 		<message>Meinten Sie <em>Oder</em>?</message>
-		<example type="correct">In Frankfurt an der <em>Oder</em> steht ein Hofbräuhaus.</example>
-		<example type="incorrect">In Frankfurt an der <em>oder</em> steht ein Hofbräuhaus.</example>
+		<example type="correct">In Frankfurt (<em>Oder</em>) steht ein Hofbräuhaus.</example>
+		<example type="incorrect">In Frankfurt (<em>oder</em>) steht ein Hofbräuhaus.</example>
+	</rule>
+	<rule id="AN_DER_ODER" name="Groß-/Kleinschreibung: 'an der oder(Oder)'">
+		<pattern mark_from="2" case_sensitive="yes"><token regexp="yes">an|jenseits</token><token>der</token><token>oder</token></pattern>
+		<message>Meinten Sie <em>Oder</em>?</message>
+		<example type="correct">Die Stadt liegt an der <em>Oder</em>.</example>
+		<example type="incorrect">Die Stadt liegt an der <em>oder</em>.</example>
 	</rule>
 
 </rules>
