@@ -40,7 +40,6 @@ public class RuleMatch implements Comparable<RuleMatch> {
   private int fromPos;
   private int toPos;
   private String message;
-  private boolean isAtSentenceStart = false;
   private List<String> suggestedReplacements = new ArrayList<String>();
 
   // TODO: remove this constructor?
@@ -125,17 +124,6 @@ public class RuleMatch implements Comparable<RuleMatch> {
    */
   public String getMessage() {
     return message;
-  }
-
-  public void isAtSentenceStart(boolean isAtSentenceStart) {
-    this.isAtSentenceStart = isAtSentenceStart;
-  }
-
-  /**
-   * Whether the match is at the first word of the sentence.
-   */
-  public boolean isAtSentenceStart() {
-    return isAtSentenceStart;
   }
 
   /**

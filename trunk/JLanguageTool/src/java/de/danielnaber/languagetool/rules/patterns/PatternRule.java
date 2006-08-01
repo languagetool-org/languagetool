@@ -206,9 +206,6 @@ public class PatternRule extends Rule {
             .getStartPos(), tokens[lastMatchToken + endPositionCorrection].getStartPos()
             + tokens[lastMatchToken + endPositionCorrection].getToken().length(), errMessage,
             startsWithUppercase);
-        if (i == 1) {   // first token (0 is "SENT_START")
-          ruleMatch.isAtSentenceStart(true);
-        }
         ruleMatches.add(ruleMatch);
       } else {
         firstMatchToken = -1;
