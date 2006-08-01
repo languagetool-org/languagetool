@@ -3,7 +3,7 @@
 Rules: Grammar and Typos
 See tagset.txt for the meaning of the POS tags
 Copyright (C) 2001-2006 Daniel Naber (http://www.danielnaber.de)
-$Id: grammar.xml,v 1.41 2006-07-30 22:02:57 dnaber Exp $
+$Id: grammar.xml,v 1.42 2006-08-01 21:57:53 dnaber Exp $
 -->
 <rules lang="de">
 
@@ -259,6 +259,33 @@ $Id: grammar.xml,v 1.41 2006-07-30 22:02:57 dnaber Exp $
 		<message>Meinten Sie <em>Bestehen</em>?</message>
 		<example type="correct">Noch nie so viele Auswanderer seit <em>Bestehen</em> der BRD</example>
 		<example type="incorrect">Noch nie so viele Auswanderer seit <em>bestehen</em> der BRD</example>
+	</rule>
+
+	<rule id="ZUM_MITNEHMEN" name="Groß-/Kleinschreibung: 'zum mitnehmen(Mitnehmen)'">
+		<pattern mark_from="1" case_sensitive="yes"><token>zum</token><token>mitnehmen</token></pattern>
+		<message>Meinten Sie <em>Mitnehmen</em>?</message>
+		<example type="correct">Alle Gerichte auch zum <em>Mitnehmen</em>.</example>
+		<example type="incorrect">Alle Gerichte auch zum <em>mitnehmen</em>.</example>
+	</rule>
+
+	<!-- TODO: group -->
+	<rule id="FRANKFURT_ODER_1" name="Groß-/Kleinschreibung: 'Frankfurt/oder(Oder)'">
+		<pattern case_sensitive="yes"><token>Frankfurt/oder</token></pattern>
+		<message>Meinten Sie <em>Frankfurt/Oder</em>?</message>
+		<example type="correct">In <em>Frankfurt/Oder</em> steht ein Hofbräuhaus.</example>
+		<example type="incorrect">In <em>Frankfurt/oder</em> steht ein Hofbräuhaus.</example>
+	</rule>
+	<rule id="FRANKFURT_ODER_2" name="Groß-/Kleinschreibung: 'Frankfurt an der oder(Oder)'">
+		<pattern mark_from="3" case_sensitive="yes"><token>Frankfurt</token><token>an</token><token>der</token><token>oder</token></pattern>
+		<message>Meinten Sie <em>Oder</em>?</message>
+		<example type="correct">In Frankfurt an der <em>Oder</em> steht ein Hofbräuhaus.</example>
+		<example type="incorrect">In Frankfurt an der <em>oder</em> steht ein Hofbräuhaus.</example>
+	</rule>
+	<rule id="FRANKFURT_ODER_3" name="Groß-/Kleinschreibung: 'Frankfurt (oder)(Oder)'">
+		<pattern mark_from="2" mark_to="-1" case_sensitive="yes"><token>Frankfurt</token><token>(</token><token>oder</token><token>)</token></pattern>
+		<message>Meinten Sie <em>Oder</em>?</message>
+		<example type="correct">In Frankfurt an der <em>Oder</em> steht ein Hofbräuhaus.</example>
+		<example type="incorrect">In Frankfurt an der <em>oder</em> steht ein Hofbräuhaus.</example>
 	</rule>
 
 </rules>
