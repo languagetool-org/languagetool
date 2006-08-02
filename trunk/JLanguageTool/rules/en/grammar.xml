@@ -3,10 +3,21 @@
 Rules: Grammar and Typos
 See tagset.txt for the meaning of the POS tags
 Copyright (C) 2001-2006 Daniel Naber (http://www.danielnaber.de)
-$Id: grammar.xml,v 1.58 2006-07-30 22:23:33 dnaber Exp $
+$Id: grammar.xml,v 1.59 2006-08-02 18:55:17 milek_pl Exp $
 -->
 <rules lang="en">
 
+	<rule id="EQUALLY_AS" name="equally+as (equally)">
+		<pattern>
+			<token>equally</token>
+			<token>as</token>
+		</pattern>
+		<message>Don't say 'equally as'. You can use either <em>equally</em> or <em>as</em> on its own. When comparing two nouns, use <em>just as</em>.</message>
+		<example type="incorrect">This model is <em>equally as</em> effective.</example>
+		<example type="correct">This model is equally effective.</example>
+		<example type="correct">My new grammar checker is just as slow as the old one.</example>
+	</rule>
+	
    <!-- TODO: make more general -->
    <rule id="ANALYSIS_IF" name="Possible typo 'analysis if(of)'">
       <pattern mark_from="2"><token postag="DT"/><token regexp="yes">analysis|kind</token><token>if</token></pattern>
