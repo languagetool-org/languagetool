@@ -3,7 +3,7 @@
 Rules: Grammar and Typos
 See tagset.txt for the meaning of the POS tags
 Copyright (C) 2001-2006 Daniel Naber (http://www.danielnaber.de)
-$Id: grammar.xml,v 1.59 2006-08-02 18:55:17 milek_pl Exp $
+$Id: grammar.xml,v 1.60 2006-08-02 21:16:18 dnaber Exp $
 -->
 <rules lang="en">
 
@@ -440,10 +440,10 @@ $Id: grammar.xml,v 1.59 2006-08-02 18:55:17 milek_pl Exp $
 		see PatternRuleLoader, line 126, 148
 	-->
    <rule id="DT_DT" name="Two consecutive articles, e.g. 'the a'">
-      <pattern mark_from="1"><token postag="DT"><exception regexp="yes">all|half|both|this|each|that</exception></token><token postag="DT"/></pattern>
-      <message>Maybe you need to remove the second determiner.</message>
+      <pattern><token postag="DT"><exception regexp="yes">all|half|both|this|each|that</exception></token><token postag="DT"/></pattern>
+      <message>Maybe you need to remove the second determiner so that only <em>\1</em> is left.</message>
       <example type="correct"><em>The</em> thing is this.</example>
-      <example type="incorrect">The <em>a</em> thing is this.</example>
+      <example type="incorrect"><em>The a</em> thing is this.</example>
    </rule>
 	
    <rule id="RATHER_THEN" name="Possible typo 'rather then(than)'">
