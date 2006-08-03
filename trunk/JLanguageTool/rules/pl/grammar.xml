@@ -2,7 +2,7 @@
 
 	<!--
 Copyright (C) 2006 Marcin Miłkowski
-$Id: grammar.xml,v 1.19 2006-08-03 12:42:15 milek_pl Exp $		
+$Id: grammar.xml,v 1.20 2006-08-03 14:37:22 milek_pl Exp $		
 -->
 <rules lang="pl">
 	<!-- błąd leksykalny: tym niemniej -->
@@ -826,5 +826,46 @@ $Id: grammar.xml,v 1.19 2006-08-03 12:42:15 milek_pl Exp $
 		<message>Ten przyimek piszemy łącznie, tj. <em>spośród</em>.</message>
 		<example type="incorrect">Jarosław Kaczyński jest najwybitniejszym mężem stanu <em>z pośród</em> wszystkich Kaczyńskich.</example>
 		<example type="correct">Jarosław Kaczyński jest najwybitniejszym mężem stanu spośród wszystkich Kaczyńskich.</example>
+	</rule>
+	
+	<rule name="Błąd leksykalny: iluśletnia rocznica" id="LETNIA_ROCZNICA">
+		<pattern mark_to="-1">
+			<token regexp="yes">.*letni.*</token>
+			<token inflected="yes">rocznica</token>
+		</pattern>
+		<message>Rocznica jest któraś, a nie iluśletnia, np. „piąta rocznica”.</message>
+		<example type="correct">Dzisiaj mija piąta rocznica zwycięstwa nad Malezją w elektrycznych bierkach pod wodą.</example>
+		<example type="incorrect">Dzisiaj mija <em>pięcioletnia</em> rocznica zwycięstwa nad Malezją w elektrycznych bierkach pod wodą.</example>
+		<example type="incorrect">Dzisiaj mija <em>5-letnia</em> rocznica zwycięstwa nad Malezją w elektrycznych bierkach pod wodą.</example>
+	</rule>
+	
+	<rule name="Błąd leksykalny: iluśletni jubileusz" id="LETNI_JUBILEUSZ">
+		<pattern mark_to="-1">
+			<token regexp="yes">.*letni.*</token>
+			<token inflected="yes">jubileusz</token>
+		</pattern>
+		<message>Jubileusz jest któryś i nie ma sam wielu lat, np. „piąty jubileusz”.</message>
+		<example type="correct">Szczecińskie Spotkania z Piosenką Religijną będą obchodziły dwudziesty jubileusz.</example>
+		<example type="incorrect">Szczecińskie Spotkania z Piosenką Religijną będą obchodziły <em>20-letni</em> jubileusz.</example>
+	</rule>
+	
+	<rule name="Błąd leksykalny: iluśletnie urodziny" id="LETNIE_URODZINY">
+		<pattern mark_to="-1">
+			<token regexp="yes">.*letni.*</token>
+			<token inflected="yes">urodziny</token>
+		</pattern>
+		<message>Urodziny są któreś i same nie mają lat, np. „piąte urodziny”.</message>
+		<example type="correct">Maciuś obchodzi drugie urodziny.</example>
+		<example type="incorrect">Maciuś obchodzi <em>2-letnie</em> urodziny.</example>
+	</rule>
+
+	<rule name="Prawdopodobna literówka" id="KLOC_SIE">
+		<pattern mark_to="-1">
+			<token>kłuć</token>
+			<token>się</token>
+		</pattern>
+		<message>Czy chodziło o formę czasownika „kłócić się” (awanturować się)? Jeśli tak, to poprawna pisownia brzmi <em>kłóć</em>.</message>
+		<example type="incorrect">Jadziu, nie <em>kłuć</em> się z ojcem!</example>
+		<example type="correct">Jadziu, nie kłóć się z ojcem!</example>
 	</rule>
 </rules>
