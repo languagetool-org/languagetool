@@ -2,7 +2,7 @@
 
 	<!--
 Copyright (C) 2006 Marcin Miłkowski
-$Id: grammar.xml,v 1.18 2006-07-30 20:58:02 milek_pl Exp $		
+$Id: grammar.xml,v 1.19 2006-08-03 12:42:15 milek_pl Exp $		
 -->
 <rules lang="pl">
 	<!-- błąd leksykalny: tym niemniej -->
@@ -563,9 +563,9 @@ $Id: grammar.xml,v 1.18 2006-07-30 20:58:02 milek_pl Exp $
 	</rule>
 	<rule name="Błąd pisowni: przedrostki „neo”, „post”, „pre”, „eks”..." id="PRZEDROSTKI">
 		<pattern>
-			<token regexp="yes">(neo|post|pre|arcy|eks|bez|beze|ekstra|hiper|infra|kontr|maksi|midi|między|mini|nad|nade|około|ponad|post|przeciw|pseudo|super|śród|ultra|wice|wokół|wokoło)[-–].+</token>
+			<token regexp="yes">(neo|post|pre|anty|arcy|eks|bez|beze|ekstra|hiper|infra|kontr|maksi|midi|między|mini|nad|nade|około|ponad|post|przeciw|pseudo|super|śród|ultra|wice|wokół|wokoło)[-–].+</token>
 		</pattern>
-		<message>Wyrazy z przedrostkami „neo-, post-, pre-, arcy-, eks-, bez-, beze-, ekstra-, hiper-, infra-, kontr-, maksi-, midi-, między-, mini-, nad-, nade-, około-, ponad-, post-, przeciw-, pseudo-, super-, śród-, ultra-, wice-, wokół-, wokoło-” piszemy łącznie.</message>
+		<message>Wyrazy z przedrostkami „neo-, post-, pre-, anty-, arcy-, eks-, bez-, beze-, ekstra-, hiper-, infra-, kontr-, maksi-, midi-, między-, mini-, nad-, nade-, około-, ponad-, post-, przeciw-, pseudo-, super-, śród-, ultra-, wice-, wokół-, wokoło-” piszemy łącznie.</message>
 		<example type="correct">Tym prądem intelektualnym jest postmodernizm.</example>
 		<example type="incorrect">Wiktor to mój <em>eks-mąż</em>.</example>
 		<example type="incorrect">Jadzia kupiła sobie <em>mini-spódniczkę</em>.</example>
@@ -816,5 +816,15 @@ $Id: grammar.xml,v 1.18 2006-07-30 20:58:02 milek_pl Exp $
 		<message>Wyraz „generalnie” jest nadużywany. Lepiej: <em>na ogół</em>, <em>z reguły</em>, <em>najczęściej</em>, <em>ogólnie rzecz biorąc</em>, <em>zasadniczo</em>, <em>ogólnie</em>, <em>powszechnie</em>, <em>w zupełności</em>, <em>w ogólności</em>, <em>zupełnie</em>.</message>
 		<example type="incorrect"><em>Generalnie</em> pan minister ma rację.</example>
 		<example type="correct">Pan minister ma w ogólności rację.</example>
+	</rule>
+	
+	<rule name="Błąd ortograficzny: „z pośród” (spośród)" id="Z_POSROD">
+		<pattern>
+			<token>z</token>
+			<token>pośród</token>
+		</pattern>
+		<message>Ten przyimek piszemy łącznie, tj. <em>spośród</em>.</message>
+		<example type="incorrect">Jarosław Kaczyński jest najwybitniejszym mężem stanu <em>z pośród</em> wszystkich Kaczyńskich.</example>
+		<example type="correct">Jarosław Kaczyński jest najwybitniejszym mężem stanu spośród wszystkich Kaczyńskich.</example>
 	</rule>
 </rules>
