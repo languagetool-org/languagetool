@@ -2,7 +2,7 @@
 
 	<!--
 Copyright (C) 2006 Marcin Miłkowski
-$Id: grammar.xml,v 1.20 2006-08-03 14:37:22 milek_pl Exp $		
+$Id: grammar.xml,v 1.21 2006-08-04 16:50:31 milek_pl Exp $		
 -->
 <rules lang="pl">
 	<!-- błąd leksykalny: tym niemniej -->
@@ -15,7 +15,7 @@ $Id: grammar.xml,v 1.20 2006-08-03 14:37:22 milek_pl Exp $
 	
 	<rule name="Błąd leksykalny: uznać jako (zamiast „za”)" id="UZNAC_JAKO">
 		<pattern mark_from="1">
-			<token skip="2" inflected="yes" regexp="yes">uznać|uznawać</token>
+			<token skip="-1" inflected="yes" regexp="yes">uznać|uznawać<exception>za</exception></token>
 			<token>jako</token>
 		</pattern>
 		<message>Mówi się „uznać coś <em>za</em> jakieś”</message>
@@ -23,12 +23,13 @@ $Id: grammar.xml,v 1.20 2006-08-03 14:37:22 milek_pl Exp $
 		<example type="correct">Ludwik był uznawany za wielkiego aktora.</example>
 		<example type="incorrect">Ludwik był uznany <em>jako</em> wielki aktor.</example>
 		<example type="incorrect">Uznałem <em>go jako</em> straconego dla sprawy.</example>
+		<example type="correct">Ludwik był uznawany za świetnego księgowego, jako że dbał o finanse firmy.</example>
 		<example type="correct">Ludzie uznawali ją za piękność.</example>
 	</rule>
 	
 	<rule name="Błąd składniowy: uznać jakimś (zamiast „za jakieś”)" id="UZNAC_JAKIMS">
 		<pattern mark_from="1">
-			<token skip="2" inflected="yes" regexp="yes">uznać|uznawać<exception postag_regexp="yes" postag=".*instr.*"/></token>
+			<token skip="2" inflected="yes" regexp="yes">uznać|uznawać<exception postag_regexp="yes" negate="yes" postag=".*instr.*"/></token>
 			<token postag_regexp="yes" postag="(adj|subst).*instr.*"/>
 		</pattern>
 		<message>Mówi się „uznać <em>za</em> jakieś”.</message>
@@ -397,15 +398,26 @@ $Id: grammar.xml,v 1.20 2006-08-03 14:37:22 milek_pl Exp $
 		<example type="incorrect">Sam program PHARE spotkał się z poważną krytyką i negatywną oceną <em>za równo ze strony europejskiego Trybunału Obrachunkowego jak</em> i dwukrotnie polskiej NIK.</example>
 		<example type="correct">Sam program PHARE spotkał się z poważną krytyką i negatywną oceną zarówno ze strony europejskiego Trybunału Obrachunkowego, jak i dwukrotnie polskiej NIK.</example>
 	</rule>
-		<rule name="Błąd ortograficzny: „zarówno... jaki”" id="ZA_ROWNO_JAKI">
+	<rule name="Błąd ortograficzny: „zarówno... jaki”" id="ZA_ROWNO_JAKI">
 		<pattern mark_from="0" mark_to="0">
-			<token regexp="yes" skip="-1">równo|zarówno</token>
+			<token regexp="yes" skip="-1">równo|zarówno<exception>jak</exception></token>
 			<token regexp="yes">jaki</token>
 		</pattern>
 		<message>To wyrażenie ma poprawną postać: <em>zarówno... jak i</em>.</message>
 		<example type="incorrect">Sam program PHARE spotkał się z poważną krytyką i negatywną oceną za <em>równo ze strony europejskiego Trybunału Obrachunkowego jaki</em> dwukrotnie polskiej NIK.</example>
 		<example type="correct">Sam program PHARE spotkał się z poważną krytyką i negatywną oceną zarówno ze strony europejskiego Trybunału Obrachunkowego, jak i dwukrotnie polskiej NIK.</example>
+		<example type="correct">Sam program PHARE zarówno ze strony europejskiego Trybunału Obrachunkowego, jak i sądu ludowego, jaki powołał premier.</example>
 	</rule>
+	<rule name="„zarówno... i” („zarówno... jak”)" id="ZAROWNO_I">
+		<pattern>
+			<token skip="-1">zarówno<exception>jak</exception></token>
+			<token>i</token>
+		</pattern>
+		<message>Po „zarówno” piszemy <em>jak i</em>.</message>
+		<example type="correct">Wiążą się z tym zarówno zyski, jak i zalety.</example>
+		<example type="incorrect">Wiążą się z tym <em>zarówno zyski i</em> zalety.</example>
+	</rule>
+	
 	<rule name="Błąd składniowy: „czym... tym”" id="CZYM_TYM">
 		<pattern>
 			<token skip="-1">czym</token>
@@ -420,14 +432,15 @@ $Id: grammar.xml,v 1.20 2006-08-03 14:37:22 milek_pl Exp $
 	<rule name="Błąd związku rzędu: „rozumieć coś pod czymś" id="ROZUMIEC_POD">
 		<pattern mark_from="1">
 			<token negate="yes" skip="1">przez</token>
-			<token inflected="yes" skip="5">rozumieć</token>
+			<token inflected="yes" skip="5">rozumieć<exception>przez</exception></token>
 			<token>pod</token>
 		</pattern>
 		<message>Mówimy <em>rozumieć coś przez</em> coś.</message>
 		<example type="incorrect"><em>Rozumiał czasem pod</em> tym pojęciem wolę.</example>
 		<example type="correct">Kartezjusz rozumiał czasem przez to pojęcie wolę.</example>
+		<example type="correct">Kartezjusz rozumiał przez to wolę, pod którą podciągał inne pojęcia.</example>
 	</rule>
-	<rule name="Błąd składniowy: „w gazecie pisze" id="PISZE">
+	<rule name="Błąd składniowy: „w gazecie pisze” (było napisane)" id="PISZE">
 		<pattern case_sensitive="yes">
 			<token regexp="yes" skip="-1">[Nn]a|[Ww]</token>
 			<token regexp="yes" skip="-1">gazecie|internecie|artykule|plakacie|książce|instrukcji|księdze</token>
@@ -438,14 +451,25 @@ $Id: grammar.xml,v 1.20 2006-08-03 14:37:22 milek_pl Exp $
 		<example type="correct">W gazecie było napisane, że w Polsce rośnie szczurosałata.</example>
 	    <example type="incorrect"><em>W gazecie pisało, że</em> w Polsce rośnie szczurosałata.</example>
 	</rule>
+	<rule name="Błąd składniowy: „tam pisze” (tam było napisane)" id="TAM_PISZE">
+		<pattern>
+			<token regexp="yes" skip="3">tam|tutaj|gdzie</token>
+			<token regexp="yes" skip="1">pisze|pisało|stoi|stało</token>
+			<token>że</token>
+		</pattern>
+		<message>Mówimy <em>było napisane</em>, a nie „pisze”.</message>
+		<example type="correct">Tam było napisane, że w Polsce rośnie szczurosałata.</example>
+	    <example type="incorrect"><em>Tam pisało, że</em> w Polsce rośnie szczurosałata.</example>
+	</rule>
 	<rule name="Błąd składniowy: „nie tyle... co”" id="NIE_TYLE_CO">
 		<pattern>
 			<token>nie</token>
-			<token skip="-1">tyle</token>
+			<token skip="-1">tyle<exception>ile</exception></token>
 			<token>co</token>
 		</pattern>
 		<message>Mówimy <em>nie tyle..., ile...</em>.</message>
 		<example type="correct">Jestem przekonany, że wielkim nieprzyjacielem prawdy jest nie tyle kłamstwo, ile monotonia.</example>
+		<example type="correct">Nieprzyjacielem prawdy jest nie tyle kłamstwo, ile monotonia, co wykazały zresztą moje badania.</example>
 		<example type="incorrect">Takie nadmierne wchłanianie wapnia spowodowane jest <em>nie tyle przesadnym spożyciem, co</em> zaburzeniami.</example>
 	</rule>
 	<!-- FIXME: dictionary not complete 
@@ -868,4 +892,82 @@ $Id: grammar.xml,v 1.20 2006-08-03 14:37:22 milek_pl Exp $
 		<example type="incorrect">Jadziu, nie <em>kłuć</em> się z ojcem!</example>
 		<example type="correct">Jadziu, nie kłóć się z ojcem!</example>
 	</rule>
+	
+	<rule name="Błąd leksykalny: czekać za (na)" id="CZEKAC_ZA">
+		<pattern>
+			<token inflected="yes" skip="4">czekać<exception>na</exception></token>
+			<token>za</token>
+			<token postag=".*instr.*" postag_regexp="yes"/>
+		</pattern>
+		<message>Mówi się <em>czekać na</em> co, a nie „za czymś”.</message>
+		<example type="correct">Czekałem dwie godziny na pociąg.</example>
+		<example type="incorrect"><em>Czekałem dwie godziny za pociągiem</em>.</example>
+		<example type="correct">Czekałem godzinę na pociąg za granicę.</example>
+	</rule>
+	
+	<rule name="Pleonazm: długi upływ czasu (długi czas)" id="DLUGI_UPLYW">
+		<pattern>
+			<token inflected="yes" postag="adj:sg:.*:m" postag_regexp="yes">długi</token>
+			<token inflected="yes">upływ</token>
+			<token>czasu</token>
+		</pattern>
+		<message>Wyrażenie „długi upływ czasu” to pleonazm. Lepiej powiedzieć: <em>długi czas</em>.</message>
+		<example type="incorrect">Ze względu na <em>długi upływ czasu</em> od momentu spadku wiele informacji na temat tego meteorytu można uznać jako niepewne. </example>
+		<example type="correct">Ze względu na <em>długi czas</em> od momentu spadku wiele informacji o tym meteorycie można uznać za niepewne. </example>		
+	</rule>
+	
+	<rule name="Pisownia: Gal Anonim (Gall Anonim)" id="GAL_ANONIM">
+		<pattern mark_to="-1">
+			<token inflected="yes">Gal</token>
+			<token inflected="yes">anonim</token>
+		</pattern>
+		<message>Poprawnie piszemy <em>Gall</em> Anonim.</message>
+		<example type="correct">To kronika Galla Anonima.</example>
+	<!-- FIXME: tagger dictionary uncomplete -->
+		<example type="incorrect">To kronika <em>Gal</em> anonima.</example>
+	</rule>
+	
+	<rule name="Pleonazm: „potencjalna możliwość” (możliwość)" id="POTENCJALNA_MOZLIWOSC">
+		<pattern>
+			<token inflected="yes" postag_regexp="yes" postag="adj:.*:(f|f.n)">potencjalny</token>
+			<token inflected="yes">możliwość</token>
+		</pattern>
+		<message>To wyrażenie to pleonazm. Wystarczy powiedzieć <em>\2</em>.</message>
+		<example type="correct">To otwiera nowe możliwości.</example>
+		<example type="incorrect">To otwiera nowe <em>potencjalne możliwości</em>.</example>
+	</rule>
+
+	<rule name="Pleonazm: „przychylna akceptacja” (akceptacja)" id="PRZYCHYLNA_AKCEPTACJA">
+		<pattern>
+			<token inflected="yes" postag_regexp="yes" postag="adj:.*:(f|f.n)">przychylny</token>
+			<token inflected="yes">akceptacja</token>
+		</pattern>
+		<message>To wyrażenie to pleonazm. Wystarczy powiedzieć <em>\2</em>.</message>
+		<example type="correct">Ta propozycja spotkała się z akceptacją.</example>
+		<example type="incorrect">W tym wypadku wymagana jest <em>przychylna akceptacja</em>.</example>
+	</rule>	
+
+	<rule name="Pleonazm: „geneza powstania” (geneza)" id="GENEZA_POWSTANIA">
+		<pattern mark_to="-1">
+			<token inflected="yes">geneza</token>
+			<token>powstania</token>
+			<token negate="yes" regexp="yes">listopadowego|warszawskiego|styczniowego</token>
+		</pattern>
+		<message>To wyrażenie to pleonazm. Wystarczy powiedzieć <em>\1</em>.</message>
+		<example type="correct">Geneza tego rękopisu wymaga dalszych badań.</example>
+		<example type="incorrect"><em>Geneza powstania</em> tego rękopisu wymaga dalszych badań.</example>
+		<example type="correct">Geneza powstania warszawskiego nie jest zagadką.</example>
+	</rule>	
+
+	<rule name="Błąd składniowy: „inny jak” (inny niż)" id="INNY_JAK">
+		<pattern mark_from="2">
+			<token regexp="yes" negate="yes">nie|nikt|któż|kto</token>
+			<token inflected="yes">inny</token>
+			<token>jak</token>
+		</pattern>
+		<message>Mówimy „inny” <em>niż</em>, a nie „inny jak”.</message>
+		<example type="correct">Któż inny jak nie on!</example>
+		<example type="correct">Jarosław jest inny niż wszyscy Kaczyńscy.</example>
+		<example type="incorrect">Jarosław jest inny <em>jak</em> wszyscy Kaczyńscy.</example>
+	</rule>	 
 </rules>

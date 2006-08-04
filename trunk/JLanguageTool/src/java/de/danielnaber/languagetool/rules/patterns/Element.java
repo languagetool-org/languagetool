@@ -50,18 +50,18 @@ public class Element {
   int skip = 0;
 
   boolean match(AnalyzedToken token) {
-	  return (matchStringToken(token) != negation)
-	  && (matchPosToken(token) != posNegation)
-	  && !exceptionMatch(token);
+    return (matchStringToken(token) != negation)
+    && (matchPosToken(token) != posNegation)
+    && !exceptionMatch(token);
   }
 
   boolean exceptionMatch(AnalyzedToken token) {
-	  if (exceptionSet) { 
-		  return (matchExceptionStringToken(token) != exceptionNegation)
-		  && (matchExceptionPosToken(token) != exceptionPosNegation);
-	  } else {
-		  return false;
-	  }
+    if (exceptionSet) { 
+      return (matchExceptionStringToken(token) != exceptionNegation)
+      && (matchExceptionPosToken(token) != exceptionPosNegation);
+    } else {
+      return false;
+    }
   }
   
   Element(String token, boolean caseSensitive, boolean regExp, boolean inflected) {

@@ -131,55 +131,66 @@ public class PatternRule extends Rule {
   public RuleMatch[] match(AnalyzedSentence text) {
     List<RuleMatch> ruleMatches = new ArrayList<RuleMatch>();
     AnalyzedTokenReadings[] tokens = text.getTokensWithoutWhitespace();
-
+    
     int tokenPos = 0;
     int prevSkipNext = 0;
     int skipNext = 0;
     int matchPos = 0;
     int skipShift = 0;
-
+    
     int firstMatchToken = -1;
     int lastMatchToken = -1;
-
+    Element elem = null, prevElement = null;
+    
     for (int i = 0; i < tokens.length; i++) {
       boolean allElementsMatch = true;
-
+      
       int matchingTokens = 0;
       for (int k = 0; k < patternElements.size(); k++) {
-        Element elem = patternElements.get(k);
+        if (elem!=null) { 
+          prevElement = elem;
+        }
+        elem = patternElements.get(k);
         skipNext = elem.getSkipNext();
         int nextPos = tokenPos + k + skipShift;
         if (nextPos >= tokens.length) {
           allElementsMatch = false;
           break;
         }
-        boolean skipMatch = false;
+        boolean skipMatch = false, exceptionMatched = false;
         if (prevSkipNext + nextPos >= tokens.length || prevSkipNext < 0) { // SENT_END?
           prevSkipNext = tokens.length - (nextPos + 1);
         }
         for (int m = nextPos; m <= nextPos + prevSkipNext; m++) {
-          boolean Match = false;
+          boolean matched = false;
           for (int l = 0; l < tokens[m].getReadingsLength(); l++) {
-
+            
             AnalyzedToken matchToken = tokens[m].getAnalyzedToken(l);
-            // Logical OR (cannot be AND):
-            if (!elem.match(matchToken)) {
-              Match = Match || false;
-            } else {
-              Match = true;
-              matchPos = m;
-              skipShift = matchPos - nextPos;
+            
+            if (prevSkipNext >0 && prevElement!=null) {
+              if (prevElement.exceptionMatch(matchToken)) {
+                exceptionMatched = true;
+              }               
             }
-            skipMatch = skipMatch || Match;
-
+            
+            // Logical OR (cannot be AND):
+            if (!elem.match(matchToken)) {             
+              matched = matched || false;
+            } else {              
+            matched = true && !exceptionMatched;
+            matchPos = m;
+            skipShift = matchPos - nextPos;
           }
-          if (skipMatch) {
-            break;
-          }
+          skipMatch = skipMatch || matched;
+          
+        }
+        if (skipMatch) {
+          break;
+        }
         }
         allElementsMatch = skipMatch;
         if (skipMatch) {
-          prevSkipNext = skipNext;
+          prevSkipNext = skipNext;        
         } else {
           prevSkipNext = 0;
         }
@@ -192,28 +203,29 @@ public class PatternRule extends Rule {
             firstMatchToken = matchPos; // nextPos;
         }
       }
+    
       if (allElementsMatch) {
         String errMessage = message;
         // TODO: implement skipping tokens while marking error tokens
         // replace back references like \1 in message:
         for (int j = 0; j < matchingTokens; j++) {
           errMessage = errMessage.replaceAll("\\\\" + (j + 1), tokens[firstMatchToken + j]
-              .getToken());
+                                                                      .getToken());
         }
         boolean startsWithUppercase = StringTools.startsWithUppercase(tokens[firstMatchToken
-            + startPositionCorrection].toString());
+                                                                             + startPositionCorrection].toString());
         RuleMatch ruleMatch = new RuleMatch(this, tokens[firstMatchToken + startPositionCorrection]
-            .getStartPos(), tokens[lastMatchToken + endPositionCorrection].getStartPos()
-            + tokens[lastMatchToken + endPositionCorrection].getToken().length(), errMessage,
-            startsWithUppercase);
+                                                         .getStartPos(), tokens[lastMatchToken + endPositionCorrection].getStartPos()
+                                                         + tokens[lastMatchToken + endPositionCorrection].getToken().length(), errMessage,
+                                                         startsWithUppercase);
         ruleMatches.add(ruleMatch);
       } else {
         firstMatchToken = -1;
         lastMatchToken = -1;
-      }
+      }      
       tokenPos++;
     }
-
+    
     return (RuleMatch[]) ruleMatches.toArray(new RuleMatch[0]);
   }
 
