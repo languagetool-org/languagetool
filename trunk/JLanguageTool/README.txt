@@ -1,4 +1,4 @@
-LanguageTool, a natural language style checker for English and German
+LanguageTool, a natural language style checker for English, German, and Polish
 Copyright (C) 2005,2006 Daniel Naber (naber at danielnaber de)
 Version ###VERSION###, ###DATE###
 Homepage: http://www.danielnaber.de/languagetool
@@ -57,10 +57,10 @@ Using LanguageTool from .NET:
  Just adapt these commands to you local path names (this example shows using mono):
 
  export MONO_PATH=/path/to/ikvm/bin
- mono /path/to/ikvm/bin/ikvmc.exe -target:library -r:/path/to/ikvm/bin/IKVM.GNU.Classpath.dll libs/lucene-core-1.9-rc1-dev.jar
+ mono /path/to/ikvm/bin/ikvmc.exe -target:library -r:/path/to/ikvm/bin/IKVM.GNU.Classpath.dll libs/lucene-core-2.0.0.jar
  mono /path/to/ikvm/bin/ikvmc.exe -target:library -r:/path/to/ikvm/bin/IKVM.GNU.Classpath.dll libs/trove.jar
  mono /path/to/ikvm/bin/ikvmc.exe -target:library -r:/path/to/ikvm/bin/IKVM.GNU.Classpath.dll -r:trove.dll libs/maxent-2.4.0.jar
  mono /path/to/ikvm/bin/ikvmc.exe -target:library -r:/path/to/ikvm/bin/IKVM.GNU.Classpath.dll -r:trove.dll -r:maxent-2.4.0.dll libs/opennlp-tools-1.3.0.jar
- mono /path/to/ikvm/bin/ikvmc.exe -r:/path/to/ikvm/bin/IKVM.GNU.Classpath.dll -r:trove.dll -r:lucene-core-1.9-rc1-dev.dll -r:opennlp-tools-1.3.0.dll LanguageTool.jar
+ mono /path/to/ikvm/bin/ikvmc.exe -r:/path/to/ikvm/bin/IKVM.GNU.Classpath.dll -r:trove.dll -r:lucene-core-2.0.0..dll -r:opennlp-tools-1.3.0.dll LanguageTool.jar
 
  However, the resulting LanguageTool.exe has not been tested much yet.
