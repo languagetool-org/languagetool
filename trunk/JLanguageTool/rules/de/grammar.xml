@@ -3,7 +3,7 @@
 Rules: Grammar and Typos
 See tagset.txt for the meaning of the POS tags
 Copyright (C) 2001-2006 Daniel Naber (http://www.danielnaber.de)
-$Id: grammar.xml,v 1.44 2006-08-05 13:51:36 dnaber Exp $
+$Id: grammar.xml,v 1.45 2006-08-05 22:29:23 dnaber Exp $
 -->
 <rules lang="de">
 
@@ -206,6 +206,20 @@ $Id: grammar.xml,v 1.44 2006-08-05 13:51:36 dnaber Exp $
 	
 	<!--  Rules about upper/lowercase:  -->
 	
+	<!-- TODO: Gut und böse; gut und Böse -->
+	<rule id="GUT_UND_BOESE" name="Groß-/Kleinschreibung: 'jenseits von gut(Gut) und böse(Böse)'">
+		<pattern mark_from="2" case_sensitive="yes">
+			<token regexp="yes">[Jj]enseits</token>
+			<token>von</token>
+			<token>gut</token>
+			<token>und</token>
+			<token>böse</token>
+		</pattern>
+		<message><em>Gut und Böse</em> in der Wendung 'jenseits von Gut und Böse' wird groß geschrieben.</message>
+		<example type="correct">Das ist jenseits von <em>Gut und Böse</em>.</example>
+		<example type="incorrect">Das ist jenseits von <em>gut und böse</em>.</example>
+	</rule>
+
 	<rule id="DAS_ERSTE_MAL" name="Groß-/Kleinschreibung: 'das erste mal(Mal)'">
 		<pattern mark_from="2" case_sensitive="yes">
 			<token regexp="yes">[Bb]eim|[Zz]um|[Dd]as</token>
