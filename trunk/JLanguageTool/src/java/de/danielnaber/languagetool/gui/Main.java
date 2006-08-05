@@ -44,6 +44,7 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JSplitPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextPane;
 import javax.xml.parsers.ParserConfigurationException;
@@ -131,10 +132,12 @@ class Main implements ActionListener {
     cons.weighty = 10.0f;
     cons.gridx = 0;
     cons.gridy = 0;
-    contentPane.add(new JScrollPane(textArea), cons);
     cons.gridy = 1;
     cons.weighty = 5.0f;
-    contentPane.add(new JScrollPane(resultArea), cons);
+    JSplitPane splitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT, new JScrollPane(textArea),
+        new JScrollPane(resultArea));
+    splitPane.setDividerLocation(200);
+    contentPane.add(splitPane, cons);
 
     cons.fill = GridBagConstraints.NONE;
     cons.gridx = 0;
@@ -304,7 +307,6 @@ class Main implements ActionListener {
   class TrayActionListener implements ActionListener {
 
     public void actionPerformed(@SuppressWarnings("unused") ActionEvent e) {
-      System.err.println("##"+frame.isVisible() + " " + frame.isShowing());
       if (frame.isVisible() && frame.isActive()) {
         frame.setVisible(false);
       } else if (frame.isVisible() && !frame.isActive()) {
