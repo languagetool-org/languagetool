@@ -76,6 +76,16 @@ public class CaseRule extends GermanRule {
     exceptions.add("tun");   // "Sie müssen das tun"
     exceptions.add("St");   // Paris St. Germain
     exceptions.add("Las");   // Las Vegas, nicht "lesen"
+    // Änderungen an der Rechtschreibreform 2006 erlauben hier Großschreibung:
+    exceptions.add("Neuem");
+    exceptions.add("Weitem");
+    exceptions.add("Weiteres");
+    exceptions.add("Langem");
+    exceptions.add("Längerem");
+    exceptions.add("Kurzem");
+    exceptions.add("Schwarzes");    // Schwarzes Brett
+    exceptions.add("Goldener");    // Goldener Schnitt
+    // TODO: add more exceptions here
   }
   
   private final static Set<String> substVerbenExceptions = new HashSet<String>();
