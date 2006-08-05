@@ -3,9 +3,23 @@
 Rules: Grammar and Typos
 See tagset.txt for the meaning of the POS tags
 Copyright (C) 2001-2006 Daniel Naber (http://www.danielnaber.de)
-$Id: grammar.xml,v 1.43 2006-08-01 22:35:40 dnaber Exp $
+$Id: grammar.xml,v 1.44 2006-08-05 13:51:36 dnaber Exp $
 -->
 <rules lang="de">
+
+	<!-- TODO: group -->
+	<rule id="WAR_WERDEN" name="Möglicher Tippfehler 'war(wahr) werden'">
+		<pattern mark_to="-1"><token>war</token><token>werden</token></pattern>
+		<message>Meinten Sie <em>wahr</em> (=wahrhaftig, authentisch) statt 'war' (Vergangenheit von 'sein')?</message>
+		<example type="correct">Das kann schnell <em>wahr</em> werden.</example>
+		<example type="incorrect">Das kann schnell <em>war</em> werden.</example>
+	</rule>
+	<rule id="WIRD_WAR" name="Möglicher Tippfehler 'wird war(wahr)'">
+		<pattern mark_from="1"><token regexp="yes">wird|wurde|wurden|würde</token><token>war</token></pattern>
+		<message>Meinten Sie <em>wahr</em> (=wahrhaftig, authentisch) statt 'war' (Vergangenheit von 'sein')?</message>
+		<example type="correct">Seine Träume wurden <em>wahr</em>.</example>
+		<example type="incorrect">Seine Träume wurden <em>war</em>.</example>
+	</rule>
 
 	<!-- TODO: group -->
 	<rule id="DU_WUENSCHT" name="Möglicher Tippfehler 'du wünscht(wünschst)'">
