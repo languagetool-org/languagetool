@@ -60,6 +60,7 @@ public class PatternRuleTest extends TestCase {
   }
   
   private void testGrammarRulesFromXML(List rules, JLanguageTool languageTool, Language lang) throws IOException {
+    int noSuggestionCount = 0;
     for (Iterator iter = rules.iterator(); iter.hasNext();) {
       Rule rule = (Rule) iter.next();
       List goodSentences = rule.getCorrectExamples();
@@ -87,6 +88,19 @@ public class PatternRuleTest extends TestCase {
             expectedMatchStart, matches[0].getFromPos());
         assertEquals(lang + ": Incorrect match position markup (end) for rule ID = " + rule.getId(),
             expectedMatchEnd, matches[0].getToPos());
+        // make sure the suggested correction doesn't produce an error:
+        if (matches[0].getSuggestedReplacements().size() > 0) {
+          int fromPos = matches[0].getFromPos();
+          int toPos = matches[0].getToPos();
+          for (String repl : matches[0].getSuggestedReplacements()) {
+            String fixedSentence = badSentence.substring(0, fromPos) + repl +
+              badSentence.substring(toPos);
+            matches = getMatches(rule, fixedSentence, languageTool);
+            assertEquals("Corrected sentence for rule " +rule.getId()+ " triggered error: " + fixedSentence, 0, matches.length);
+          }
+        } else {
+          noSuggestionCount++;
+        }
       }
     }
   }
