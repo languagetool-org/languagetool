@@ -17,6 +17,7 @@
     <pathelement location="${ext.maxent.lib}"/>
     <pathelement location="${ext.lucene.lib}"/>
     <pathelement location="${ext.stempelator.lib}"/>
+    <pathelement location="${ext.jdic.lib}"/>
   	<!-- -->
     <pathelement location="${ext.ooo.juh.lib}"/>
     <pathelement location="${ext.ooo.unoil.lib}"/>
@@ -358,6 +359,7 @@
   <!-- ================================================================== -->
 	
   <target name="dist" depends="ooo-internal" description="Builds one ZIP for both OpenOffice.org and stand-alone use">
+  	<copy file="${resource.dir}/TrayIcon.png" todir="${dist.dir}/resource/" />
   	<zip compress="yes" destfile="${dist.dir}/LanguageTool-${version}.zip"
   		basedir="${dist.dir}"
   		includes="**" excludes="deploy.sh,undeploy.sh,turn.sh" />

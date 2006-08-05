@@ -22,6 +22,10 @@ import java.awt.Container;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.Toolkit;
+import java.awt.datatransfer.Clipboard;
+import java.awt.datatransfer.DataFlavor;
+import java.awt.datatransfer.Transferable;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
@@ -30,16 +34,22 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextPane;
 import javax.xml.parsers.ParserConfigurationException;
 
+import org.jdesktop.jdic.tray.SystemTray;
+import org.jdesktop.jdic.tray.TrayIcon;
 import org.xml.sax.SAXException;
 
 import de.danielnaber.languagetool.JLanguageTool;
@@ -55,7 +65,9 @@ import de.danielnaber.languagetool.rules.RuleMatch;
 class Main implements ActionListener {
 
   private static final String OPTIONS_BUTTON = "Options...";
-  
+
+  private TrayIcon trayIcon = null;
+  private JFrame frame = null;
   private JTextArea textArea = null;
   private JTextPane resultArea = null;
   private JComboBox langBox = null;
@@ -66,8 +78,9 @@ class Main implements ActionListener {
   }
 
   private void createAndShowGUI() {
-    JFrame frame = new JFrame("LanguageTool " +JLanguageTool.VERSION+ " Demo");
+    frame = new JFrame("LanguageTool " +JLanguageTool.VERSION+ " Demo");
     frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    frame.setJMenuBar(new LangToolMenuBar(this));
 
     textArea = new JTextArea("This is a example input to to show you how JLanguageTool works. " +
         "Note, however, that it does not include a spell checka.");
@@ -139,8 +152,58 @@ class Main implements ActionListener {
   }
   
   public void actionPerformed(ActionEvent e) {
+    if (e.getActionCommand().equals(OPTIONS_BUTTON)) {
+      JLanguageTool langTool = getCurrentLanguageTool();
+      List<Rule> rules = langTool.getAllRules();
+      ConfigurationDialog configDialog = getCurrentConfigDialog();
+      configDialog.show(rules);
+    } else {
+      JLanguageTool langTool = getCurrentLanguageTool();
+      checkTextAndDisplayResults(langTool, getCurrentLanguage().getName());
+    }
+  }
+
+  void hideToTray() {
+    if (trayIcon == null) {
+      trayIcon = new TrayIcon(new ImageIcon("resource/TrayIcon.png"));
+      SystemTray tray = SystemTray.getDefaultSystemTray();
+      trayIcon.addActionListener(new TrayActionListener());
+      tray.addTrayIcon(trayIcon);
+    }
+    frame.setVisible(false);
+  }
+
+  private void restoreFromTray() {
+    // get text from clipboard or selection:
+    Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemSelection();
+    if (clipboard == null) {    // on Windows
+      clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
+    }
+    String s = null;
+    Transferable data = clipboard.getContents(this);
+    try {
+      s = (String) (data.getTransferData(DataFlavor.stringFlavor));
+    } catch (Exception ex) {
+      s = data.toString();
+    }
+    // show GUI and check the text from clipboard/selection:
+    frame.setVisible(true);
+    textArea.setText(s);
+    JLanguageTool langTool = getCurrentLanguageTool();
+    checkTextAndDisplayResults(langTool, getCurrentLanguage().getName());
+  }
+  
+  void quit() {
+    frame.setVisible(false);
+  }
+
+  private Language getCurrentLanguage() {
     String langName = langBox.getSelectedItem().toString();
-    Language language = Language.getLanguageforName(langName);
+    return Language.getLanguageforName(langName);
+  }
+  
+  private ConfigurationDialog getCurrentConfigDialog() {
+    Language language = getCurrentLanguage();
     ConfigurationDialog configDialog = null;
     if (configDialogs.containsKey(language)) {
       configDialog = (ConfigurationDialog)configDialogs.get(language);
@@ -148,9 +211,14 @@ class Main implements ActionListener {
       configDialog = new ConfigurationDialog(false);
       configDialogs.put(language, configDialog);
     }
+    return configDialog;
+  }
+  
+  private JLanguageTool getCurrentLanguageTool() {
     JLanguageTool langTool;
     try {
-      langTool = new JLanguageTool(language, configDialog.getMotherTongue());
+      ConfigurationDialog configDialog = getCurrentConfigDialog();
+      langTool = new JLanguageTool(getCurrentLanguage(), configDialog.getMotherTongue());
       langTool.activateDefaultPatternRules();
       langTool.activateDefaultFalseFriendRules();
       Set<String> disabledRules = configDialog.getDisabledRuleIds();
@@ -166,37 +234,36 @@ class Main implements ActionListener {
     } catch (SAXException ex) {
       throw new RuntimeException(ex);
     }
-    if (e.getActionCommand().equals(OPTIONS_BUTTON)) {
-      List<Rule> rules = langTool.getAllRules();
-      configDialog.show(rules);
+    return langTool;
+  }
+
+  private void checkTextAndDisplayResults(JLanguageTool langTool, String langName) {
+    if (textArea.getText().trim().equals("")) {
+      textArea.setText("Please insert text to check here");
     } else {
-      if (textArea.getText().trim().equals("")) {
-        textArea.setText("Please insert text to check here");
-      } else {
-        StringBuilder sb = new StringBuilder();
-        resultArea.setText("Starting check...<br>\n");
-        resultArea.repaint(); // FIXME: why doesn't this work?
-        //TODO: resultArea.setCursor(new Cursor(Cursor.WAIT_CURSOR)); 
-        sb.append("Starting check in " +langName+ "...<br>\n");
-        int matches = 0;
-        try {
-          matches = checkText(langTool, textArea.getText(), sb);
-        } catch (Exception ex) {
-          sb.append("<br><br><b><font color=\"red\">" + ex.toString() + "<br>");
-          StackTraceElement[] elements = ex.getStackTrace();
-          for (StackTraceElement element : elements) {
-            sb.append(element + "<br>");
-          }
-          sb.append("</font></b><br>");
-          ex.printStackTrace();
+      StringBuilder sb = new StringBuilder();
+      resultArea.setText("Starting check...<br>\n");
+      resultArea.repaint(); // FIXME: why doesn't this work?
+      //TODO: resultArea.setCursor(new Cursor(Cursor.WAIT_CURSOR)); 
+      sb.append("Starting check in " +langName+ "...<br>\n");
+      int matches = 0;
+      try {
+        matches = checkText(langTool, textArea.getText(), sb);
+      } catch (Exception ex) {
+        sb.append("<br><br><b><font color=\"red\">" + ex.toString() + "<br>");
+        StackTraceElement[] elements = ex.getStackTrace();
+        for (StackTraceElement element : elements) {
+          sb.append(element + "<br>");
         }
-        sb.append("Check done. " +matches+ " potential problems found<br>\n");
-        resultArea.setText(sb.toString());
-        resultArea.setCaretPosition(0);
+        sb.append("</font></b><br>");
+        ex.printStackTrace();
       }
+      sb.append("Check done. " +matches+ " potential problems found<br>\n");
+      resultArea.setText(sb.toString());
+      resultArea.setCaretPosition(0);
     }
   }
-  
+
   private int checkText(JLanguageTool langTool, String text, StringBuilder sb) throws IOException {
     long startTime = System.currentTimeMillis();
     List<RuleMatch> ruleMatches = langTool.check(text);
@@ -223,7 +290,64 @@ class Main implements ActionListener {
 
   public static void main(String[] args) {
     final Main prg = new Main();
-    prg.createAndShowGUI();
+    javax.swing.SwingUtilities.invokeLater(new Runnable() {
+      public void run() {
+        prg.createAndShowGUI();
+      }
+    });
+  }
+
+  //
+  // The System Tray stuff
+  //
+  
+  class TrayActionListener implements ActionListener {
+
+    public void actionPerformed(@SuppressWarnings("unused") ActionEvent e) {
+      System.err.println("##"+frame.isVisible() + " " + frame.isShowing());
+      if (frame.isVisible() && frame.isActive()) {
+        frame.setVisible(false);
+      } else if (frame.isVisible() && !frame.isActive()) {
+        frame.toFront();
+        restoreFromTray();
+      } else {
+        restoreFromTray();
+      }
+    }
+    
+  }
+
+}
+
+class LangToolMenuBar extends JMenuBar implements ActionListener {
+
+  private static final String DOCK_TO_TRAY = "Hide to System Tray";
+  private static final String QUIT = "Quit";
+
+  private Main prg = null;
+  private JMenu fileMenu = new JMenu("File");
+  
+  LangToolMenuBar(Main prg) {
+    this.prg = prg;
+    // "Hide to System Tray":
+    JMenuItem dockToTrayItem = new JMenuItem(DOCK_TO_TRAY);
+    dockToTrayItem.addActionListener(this);
+    fileMenu.add(dockToTrayItem);
+    // "Quit":
+    JMenuItem quitTtem = new JMenuItem(QUIT);
+    quitTtem.addActionListener(this);
+    fileMenu.insertSeparator(1);
+    fileMenu.add(quitTtem);
+    add(fileMenu);
+  }
+
+  public void actionPerformed(ActionEvent e) {
+    if (e.getActionCommand().equals(DOCK_TO_TRAY)) {
+      prg.hideToTray();
+    }
+    else if (e.getActionCommand().equals(QUIT)) {
+      prg.quit();
+    }
   }
   
 }
