@@ -40,6 +40,13 @@ public class CaseRuleTest extends TestCase {
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("Das schlägt nicht so zu Buche.")).length);
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("Dirk Hetzel ist ein Name.")).length);
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("Sein Verhalten war okay.")).length);
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Hier ein Satz. \"Ein Zitat.\"")).length);
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Hier ein Satz. 'Ein Zitat.'")).length);
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Hier ein Satz. «Ein Zitat.»")).length);
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Hier ein Satz. »Ein Zitat.«")).length);
+    // both can be correct:
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Hier ein Satz, \"Ein Zitat.\"")).length);
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Hier ein Satz, \"ein Zitat.\"")).length);
     // Exception 'Le':
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("Schon Le Monde schrieb das.")).length);
     // unknown word:

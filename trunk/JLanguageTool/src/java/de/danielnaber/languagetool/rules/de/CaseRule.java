@@ -61,6 +61,15 @@ public class CaseRule extends GermanRule {
     //indicator.add("ihren");
   }
   
+  private final static Set<String> sentenceStartExceptions = new HashSet<String>();
+  static {
+    sentenceStartExceptions.add(":");
+    sentenceStartExceptions.add("\"");
+    sentenceStartExceptions.add("'");
+    sentenceStartExceptions.add("«");
+    sentenceStartExceptions.add("»");
+  }
+  
   private final static Set<String> exceptions = new HashSet<String>();
   static {
     exceptions.add("Le");    // "Le Monde" etc
@@ -194,7 +203,7 @@ public class CaseRule extends GermanRule {
         continue;
       }
       
-      if (Character.isUpperCase(token.charAt(0)) && ! tokens[i-1].getToken().equals(":") && 
+      if (Character.isUpperCase(token.charAt(0)) && ! sentenceStartExceptions.contains(tokens[i-1].getToken()) && 
           !exceptions.contains(token) &&
           token.length() > 1 &&     // length limit = ignore abbreviations
           !analyzedToken.hasReadingOfType(POSType.PROPER_NOUN)) {
