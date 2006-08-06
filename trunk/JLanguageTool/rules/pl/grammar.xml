@@ -2,7 +2,7 @@
 
 	<!--
 Copyright (C) 2006 Marcin Miłkowski
-$Id: grammar.xml,v 1.22 2006-08-06 09:11:09 milek_pl Exp $		
+$Id: grammar.xml,v 1.23 2006-08-06 10:15:57 milek_pl Exp $		
 -->
 <rules lang="pl">
 	<!-- błąd leksykalny: tym niemniej -->
@@ -72,10 +72,12 @@ $Id: grammar.xml,v 1.22 2006-08-06 09:11:09 milek_pl Exp $
 
 	<!-- błąd ortograficzny - pisownia łączna rzeczowników z "nie" -->
 	<rule id="NIE_RZECZOWNIK" name="Pisownia 'nie' z rzeczownikami i przymiotnikami">
-		<pattern mark_from="0" case_sensitive="no"><token inflected="yes">nie</token><token postag_regexp="yes" postag="subst:.+|adj:.+"><exception regexp="yes">brak|wolno|można|sposób|potrzeba|trzeba|wiadomo|warto|grzech|strach|szkoda|żal|wstyd|ma|miał</exception></token></pattern>
-		<message>„Nie” ze wszystkimi rzeczownikami i przymiotnikami piszemy łącznie, czyli poprawnie będzie <em>nie\1</em>.</message>
+		<pattern mark_from="1" case_sensitive="no"><token negate="yes">a</token><token inflected="yes">nie</token><token postag_regexp="yes" postag="subst:.+|adj:.+"><exception regexp="yes">brak|wolno|można|sposób|potrzeba|trzeba|wiadomo|warto|grzech|strach|szkoda|żal|wstyd|ma|miał|\p{Lu}[\p{L}&amp;&amp;[^\p{Lu}]]+</exception></token></pattern>
+		<message>„Nie” ze wszystkimi rzeczownikami i przymiotnikami piszemy łącznie, czyli poprawnie będzie <em>nie\2</em>.</message>
 		<example type="correct">Prosimy o niepalenie.</example>
 		<example type="correct">Tu nie można palić.</example>
+		<example type="correct">To jest Marysia, a nie Hania.</example>
+		<example type="correct">Ten samochód jest drogi, a nie tani.</example>
 		<example type="incorrect">Prosimy o <em>nie palenie</em>.</example>
 	</rule>
 	
@@ -970,4 +972,15 @@ $Id: grammar.xml,v 1.22 2006-08-06 09:11:09 milek_pl Exp $
 		<example type="correct">Jarosław jest inny niż wszyscy Kaczyńscy.</example>
 		<example type="incorrect">Jarosław jest inny <em>jak</em> wszyscy Kaczyńscy.</example>
 	</rule>	 
+	
+	<rule name="w lato (w lecie, latem)" id="W_LATO">
+		<pattern>
+			<token>w</token>
+			<token>lato</token>
+		</pattern>
+		<message>Mówimy <em>latem</em>, <em>w lecie</em>, a nie „w lato”.</message>
+		<example type="correct">W lecie wybieramy się do Danii.</example>
+		<example type="incorrect"><em>W lato</em> wybieramy się do Danii.</example>
+	</rule>
+	
 </rules>
