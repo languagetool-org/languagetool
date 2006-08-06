@@ -86,7 +86,17 @@ public class CaseRule extends GermanRule {
     exceptions.add("tun");   // "Sie müssen das tun"
     exceptions.add("St");   // Paris St. Germain
     exceptions.add("Las");   // Las Vegas, nicht "lesen"
+    exceptions.add("Folgendes");   // je nach Kontext groß (TODO)...
+    exceptions.add("besonderes");   // je nach Kontext groß (TODO): "etwas Besonderes" 
+    exceptions.add("Hundert");   // je nach Kontext groß (TODO) 
+    exceptions.add("Tausend");   // je nach Kontext groß (TODO) 
     // Änderungen an der Rechtschreibreform 2006 erlauben hier Großschreibung:
+    exceptions.add("Du");
+    exceptions.add("Deine");
+    exceptions.add("Deinen");
+    exceptions.add("Deinem");
+    exceptions.add("Deines");
+    exceptions.add("Deiner");
     exceptions.add("Neuem");
     exceptions.add("Weitem");
     exceptions.add("Weiteres");
