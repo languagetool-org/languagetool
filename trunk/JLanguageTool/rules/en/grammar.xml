@@ -2,9 +2,19 @@
 Rules: Grammar and Typos
 See tagset.txt for the meaning of the POS tags
 Copyright (C) 2001-2006 Daniel Naber (http://www.danielnaber.de)
-$Id: grammar.xml,v 1.61 2006-08-06 15:45:40 milek_pl Exp $
+$Id: grammar.xml,v 1.62 2006-08-06 20:43:00 dnaber Exp $
 -->
 <rules lang="en">
+
+	   <rule id="I_HERD" name="Possible typo 'I herd(heard)'">
+		      <pattern mark_from="1">
+			         <token regexp="yes">I|you|he|she|it|we|they</token>
+			         <token>herd</token>
+		      </pattern>
+		      <message>Did you mean <suggestion>heard</suggestion> (past tense of 'hear')?</message>
+		      <example type="correct">I  <marker>heard</marker> of a new song by Madonna.</example>
+		      <example type="incorrect">I  <marker>herd</marker> of a new song by Madonna.</example>
+	   </rule>
 
 	   <rule id="EQUALLY_AS" name="equally+as (equally)">
 		      <pattern>
