@@ -77,7 +77,7 @@ class Main implements ActionListener {
   private Main() {
   }
 
-  private void createAndShowGUI() {
+  private void createGUI() {
     frame = new JFrame("LanguageTool " +JLanguageTool.VERSION+ " Demo");
     frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     frame.setJMenuBar(new MainMenuBar(this));
@@ -150,6 +150,9 @@ class Main implements ActionListener {
     
     frame.pack();
     frame.setSize(600, 600);
+  }
+
+  private void showGUI() {
     frame.setVisible(true);
   }
   
@@ -299,11 +302,25 @@ class Main implements ActionListener {
 
   public static void main(String[] args) {
     final Main prg = new Main();
-    javax.swing.SwingUtilities.invokeLater(new Runnable() {
-      public void run() {
-        prg.createAndShowGUI();
-      }
-    });
+    if (args.length == 1 && (args[0].equals("-t") || args[0].equals("--tray"))) {
+      // dock to systray on startup
+      javax.swing.SwingUtilities.invokeLater(new Runnable() {
+        public void run() {
+          prg.createGUI();
+          prg.hideToTray();
+        }
+      });
+    } else if (args.length >= 1) {
+      System.out.println("Usage: java de.danielnaber.languagetool.gui.Main [-t|--tray]");
+      System.out.println("  -t|--tray: dock LanguageTool to tray on startup");
+    } else {
+      javax.swing.SwingUtilities.invokeLater(new Runnable() {
+        public void run() {
+          prg.createGUI();
+          prg.showGUI();
+        }
+      });
+    }
   }
 
   //
