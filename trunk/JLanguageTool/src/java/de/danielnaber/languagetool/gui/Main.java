@@ -40,10 +40,6 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
@@ -84,7 +80,7 @@ class Main implements ActionListener {
   private void createAndShowGUI() {
     frame = new JFrame("LanguageTool " +JLanguageTool.VERSION+ " Demo");
     frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    frame.setJMenuBar(new LangToolMenuBar(this));
+    frame.setJMenuBar(new MainMenuBar(this));
 
     textArea = new JTextArea("This is a example input to to show you how JLanguageTool works. " +
         "Note, however, that it does not include a spell checka.");
@@ -329,51 +325,4 @@ class Main implements ActionListener {
     
   }
 
-}
-
-class LangToolMenuBar extends JMenuBar implements ActionListener {
-
-  // File:
-  private static final String DOCK_TO_TRAY = "Hide to System Tray";
-  private static final String QUIT = "Quit";
-  // Help:
-  private static final String ABOUT = "About...";
-
-  private Main prg = null;
-  private JMenu fileMenu = new JMenu("File");
-  private JMenu helpMenu = new JMenu("Help");
-  
-  LangToolMenuBar(Main prg) {
-    this.prg = prg;
-    // "Hide to System Tray":
-    JMenuItem dockToTrayItem = new JMenuItem(DOCK_TO_TRAY);
-    dockToTrayItem.addActionListener(this);
-    fileMenu.add(dockToTrayItem);
-    // "Quit":
-    JMenuItem quitItem = new JMenuItem(QUIT);
-    quitItem.addActionListener(this);
-    fileMenu.insertSeparator(1);
-    fileMenu.add(quitItem);
-    // "Quit":
-    JMenuItem helpItem = new JMenuItem(ABOUT);
-    helpItem.addActionListener(this);
-    helpMenu.add(helpItem);
-    // add menus:
-    add(fileMenu);
-    add(helpMenu);
-  }
-
-  public void actionPerformed(ActionEvent e) {
-    if (e.getActionCommand().equals(DOCK_TO_TRAY)) {
-      prg.hideToTray();
-    } else if (e.getActionCommand().equals(QUIT)) {
-      prg.quit();
-    } else if (e.getActionCommand().equals(ABOUT)) {
-      JOptionPane.showMessageDialog(null, "LanguageTool " + JLanguageTool.VERSION + "\n" + 
-          "Copyright (C) 2005-2006 Daniel Naber\n"+
-          "This software is licensed under the GNU Lesser General Public License.\n"+
-          "LanguageTool Homepage: http://www.danielnaber.de/languagetool");
-    }
-  }
-  
 }
