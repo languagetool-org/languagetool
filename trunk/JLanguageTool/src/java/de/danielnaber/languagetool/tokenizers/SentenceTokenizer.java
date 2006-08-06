@@ -36,7 +36,7 @@ public class SentenceTokenizer implements Tokenizer {
   // end of sentence marker:
   private final static String EOS = "\0";
   // private final static String EOS = "#"; // for testing only
-  private final static String P = "[\\.!?]"; // PUNCTUATION
+  private final static String P = "[\\.!?…]"; // PUNCTUATION
   private final static String AP = "(?:'|«|\"||\\)|\\]|\\})?"; // AFTER PUNCTUATION
   private final static String PAP = P + AP;
 
