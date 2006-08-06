@@ -75,6 +75,7 @@ public class CaseRule extends GermanRule {
     exceptions.add("Le");    // "Le Monde" etc
     exceptions.add("Ihr");
     exceptions.add("Ihre");
+    exceptions.add("Ihres");
     exceptions.add("Ihren");
     exceptions.add("Ihnen");
     exceptions.add("Ihrem");
