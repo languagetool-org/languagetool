@@ -102,17 +102,22 @@ public class ConfigurationDialog implements ActionListener {
     cons.anchor = GridBagConstraints.NORTHWEST;
     cons.gridx = 0;
     int row = 0;
+    String prevID = null;
     for (Rule rule : rules) {
-      cons.gridy = row;
-      JCheckBox checkBox = new JCheckBox(rule.getDescription());
-      if (inactiveRuleIds != null && inactiveRuleIds.contains(rule.getId()))
-        checkBox.setSelected(false);
-      else
-        checkBox.setSelected(true);
-      checkBoxes.add(checkBox);
-      checkBoxesRuleIds.add(rule.getId());
-      checkBoxPanel.add(checkBox, cons);
-      row++;
+      // avoid displaying rules from rule groups more than once:
+      if (prevID == null || (prevID != null && !prevID.equals(rule.getId()))) {
+        cons.gridy = row;
+        JCheckBox checkBox = new JCheckBox(rule.getDescription());
+        if (inactiveRuleIds != null && inactiveRuleIds.contains(rule.getId()))
+          checkBox.setSelected(false);
+        else
+          checkBox.setSelected(true);
+        checkBoxes.add(checkBox);
+        checkBoxesRuleIds.add(rule.getId());
+        checkBoxPanel.add(checkBox, cons);
+        row++;
+      }
+      prevID = rule.getId();
     }
     
     JPanel buttonPanel = new JPanel();
