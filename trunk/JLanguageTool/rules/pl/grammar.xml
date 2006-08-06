@@ -2,7 +2,7 @@
 
 	<!--
 Copyright (C) 2006 Marcin Miłkowski
-$Id: grammar.xml,v 1.21 2006-08-04 16:50:31 milek_pl Exp $		
+$Id: grammar.xml,v 1.22 2006-08-06 09:11:09 milek_pl Exp $		
 -->
 <rules lang="pl">
 	<!-- błąd leksykalny: tym niemniej -->
@@ -29,7 +29,7 @@ $Id: grammar.xml,v 1.21 2006-08-04 16:50:31 milek_pl Exp $
 	
 	<rule name="Błąd składniowy: uznać jakimś (zamiast „za jakieś”)" id="UZNAC_JAKIMS">
 		<pattern mark_from="1">
-			<token skip="2" inflected="yes" regexp="yes">uznać|uznawać<exception postag_regexp="yes" negate="yes" postag=".*instr.*"/></token>
+			<token skip="2" inflected="yes" regexp="yes">uznać|uznawać<exception>za</exception></token>
 			<token postag_regexp="yes" postag="(adj|subst).*instr.*"/>
 		</pattern>
 		<message>Mówi się „uznać <em>za</em> jakieś”.</message>
@@ -65,15 +65,15 @@ $Id: grammar.xml,v 1.21 2006-08-04 16:50:31 milek_pl Exp $
 
 	<rule id="POKI_CO" name="Błąd leksykalny - 'póki co'">
 		<pattern mark_from="0" case_sensitive="no"><token>póki</token> <token>co</token></pattern>
-		<message>Poprawną formą jest <em>na razie</em>, wyrażenie <em>póki co</em> to rusycyzm.</message>
+		<message>Poprawną formą jest <em>na razie</em>, wyrażenie „póki co” to rusycyzm.</message>
 		<example type="correct">Na razie cieszmy się z innych korzyści.</example>
 		<example type="incorrect"><em>Póki co</em> cieszmy się z innych korzyści.</example>
 	</rule>
 
 	<!-- błąd ortograficzny - pisownia łączna rzeczowników z "nie" -->
 	<rule id="NIE_RZECZOWNIK" name="Pisownia 'nie' z rzeczownikami i przymiotnikami">
-		<pattern mark_from="0" case_sensitive="no"><token inflected="yes">nie</token><token postag_regexp="yes" postag="subst:.+|adj:.+"><exception regexp="yes">brak|wolno|można|sposób|potrzeba|trzeba|wiadomo|warto|grzech|strach|szkoda|żal|wstyd|ma</exception></token></pattern>
-		<message><em>Nie</em> ze wszystkimi rzeczownikami i przymiotnikami piszemy łącznie.</message>
+		<pattern mark_from="0" case_sensitive="no"><token inflected="yes">nie</token><token postag_regexp="yes" postag="subst:.+|adj:.+"><exception regexp="yes">brak|wolno|można|sposób|potrzeba|trzeba|wiadomo|warto|grzech|strach|szkoda|żal|wstyd|ma|miał</exception></token></pattern>
+		<message>„Nie” ze wszystkimi rzeczownikami i przymiotnikami piszemy łącznie, czyli poprawnie będzie <em>nie\1</em>.</message>
 		<example type="correct">Prosimy o niepalenie.</example>
 		<example type="correct">Tu nie można palić.</example>
 		<example type="incorrect">Prosimy o <em>nie palenie</em>.</example>
@@ -230,13 +230,13 @@ $Id: grammar.xml,v 1.21 2006-08-04 16:50:31 milek_pl Exp $
 	</rule>
 	<rule id="CO_I_RUSZ" name="Błąd leksykalny: co i rusz">
 		<pattern><token>co</token><token>i</token><token>rusz</token></pattern>
-		<message>Wyrażenie <em>co i rusz</em> jest niepoprawne. Poprawnie mówi się: <em>co chwila</em>, <em>co krok</em></message>
+		<message>Wyrażenie „co i rusz” jest niepoprawne. Poprawnie mówi się: <em>co chwila</em>, <em>co krok</em></message>
 		<example type="incorrect"><em>Co i rusz</em> media informują o tym, że któryś z prominentnych polityków koalicji rządzącej załatwił coś dla siebie.</example>
 		<example type="correct">Raz po raz media informują o tym, że któryś z prominentnych polityków koalicji rządzącej załatwił coś dla siebie.</example>
 	</rule>
 	<rule id="CO_I_RAZ" name="Błąd leksykalny: co i raz">
 		<pattern><token>co</token><token>i</token><token>raz</token></pattern>
-		<message>Wyrażenie <em>co i raz</em> jest niepoprawne. Poprawnie mówi się: <em>co chwila</em>, <em>co krok</em></message>
+		<message>Wyrażenie „co i raz” jest często uznawane za niepoprawne. Poprawnie mówi się: <em>co chwila</em>, <em>co krok</em></message>
 		<example type="incorrect"><em>Co i raz</em> media informują o tym, że któryś z prominentnych polityków koalicji rządzącej załatwił coś dla siebie.</example>
 		<example type="correct">Raz po raz media informują o tym, że któryś z prominentnych polityków koalicji rządzącej załatwił coś dla siebie.</example>
 	</rule>
@@ -260,7 +260,7 @@ $Id: grammar.xml,v 1.21 2006-08-04 16:50:31 milek_pl Exp $
 	</rule>
 	<rule id="AURA_POGODOWA" name="Pleonazm: aura pogodowa">
 		<pattern><token inflected="yes">aura</token><token inflected="yes" postag_regexp="yes" postag="adj:sg:.*:f">pogodowy</token></pattern>
-		<message>Wyrażenie <em>aura pogodowa</em> jest pleonazmem: wystarczy albo sama <em>aura</em>, albo <em>pogoda</em>.</message>
+		<message>Wyrażenie „aura pogodowa” jest pleonazmem: wystarczy albo sama <em>\1</em>, albo <em>pogoda</em>.</message>
 		<example type="incorrect">Taka <em>aura pogodowa</em> dała się wszystkim obywatelom we znaki.</example>
 		<example type="correct">Ta pogoda dała się wszystkim we znaki.</example>
 		<example type="correct">Przy takiej aurze pogodowych anomalii spodziewać się nie można.</example>
