@@ -126,4 +126,12 @@ public class StringTools {
     return sb.toString();
   }
 
+  public static String escapeHTML(String s) {
+    s = s.replaceAll("&", "&amp;");
+    s = s.replaceAll("<", "&lt;");
+    s = s.replaceAll(">", "&gt;");
+    s = s.replaceAll("\"", "&quot;");
+    return s;
+  }
+  
 }

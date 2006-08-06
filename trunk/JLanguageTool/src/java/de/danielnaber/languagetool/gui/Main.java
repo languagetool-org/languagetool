@@ -290,7 +290,8 @@ class Main implements ActionListener {
       msg = msg.replaceAll("<old>", "<b>");
       msg = msg.replaceAll("</old>", "</b>");
       sb.append("<b>Message:</b> " + msg + "<br>\n");
-      sb.append("<b>Context:</b> " + Tools.getContext(match.getFromPos(), match.getToPos(), text));
+      String context = Tools.getContext(match.getFromPos(), match.getToPos(), StringTools.escapeHTML(text));
+      sb.append("<b>Context:</b> " + context);
       sb.append("<br>\n");
       i++;
     }
