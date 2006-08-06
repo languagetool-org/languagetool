@@ -90,8 +90,12 @@ public class CaseRule extends GermanRule {
     exceptions.add("besonderes");   // je nach Kontext groß (TODO): "etwas Besonderes" 
     exceptions.add("Hundert");   // je nach Kontext groß (TODO) 
     exceptions.add("Tausend");   // je nach Kontext groß (TODO) 
+    exceptions.add("Übrigen");   // je nach Kontext groß (TODO), z.B. "im Übrigen" 
+    exceptions.add("Unvorhergesehenes");   // je nach Kontext groß (TODO), z.B. "etwas Unvorhergesehenes" 
     // Änderungen an der Rechtschreibreform 2006 erlauben hier Großschreibung:
     exceptions.add("Du");
+    exceptions.add("Dir");
+    exceptions.add("Dich");
     exceptions.add("Deine");
     exceptions.add("Deinen");
     exceptions.add("Deinem");
