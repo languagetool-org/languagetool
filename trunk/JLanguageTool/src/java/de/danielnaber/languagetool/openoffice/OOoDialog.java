@@ -224,8 +224,8 @@ public class OOoDialog implements ActionListener {
     currentRuleMatch = match;
     currentRuleMatchPos = i;
     String msg = match.getMessage();
-    msg = msg.replaceAll("<em>", "<b>");
-    msg = msg.replaceAll("</em>", "</b>");
+    msg = msg.replaceAll("<suggestion>", "<b>");
+    msg = msg.replaceAll("</suggestion>", "</b>");
     StringBuilder sb = new StringBuilder();
     if (ruleMatches.size() == 1)
       sb.append(ruleMatches.size() + " match in total");         //FIXME: i18n

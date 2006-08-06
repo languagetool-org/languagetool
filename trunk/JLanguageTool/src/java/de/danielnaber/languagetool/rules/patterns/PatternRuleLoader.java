@@ -164,12 +164,7 @@ class PatternRuleHandler extends XMLRuleHandler {
       inException = true;
       exceptionSet = true;
       exceptions = new StringBuffer();
-      //TODO: make exception accept skip tag
-      //this is needed to match errors like:
-      //"if... than", where "then" shouldn't occur before "than"
-      //formally:
-      //<token skip="-1">if<exception skip="-1">then</exception></token>
-      //<token>than</token>
+
       if (attrs.getValue("negate") != null) {
         exceptionStringNegation = attrs.getValue("negate").equals("yes");
       }
@@ -202,12 +197,12 @@ class PatternRuleHandler extends XMLRuleHandler {
       ruleGroupId = attrs.getValue("id");
       ruleGroupDescription = attrs.getValue("name");
       inRuleGroup = true;
-    } else if (qName.equals("em") && inMessage) {
-      message.append("<em>");
-    } else if (qName.equals("em") && inCorrectExample) {
-      correctExample.append("<em>");
-    } else if (qName.equals("em") && inIncorrectExample) {
-      incorrectExample.append("<em>");
+    } else if (qName.equals("suggestion") && inMessage) {
+      message.append("<suggestion>");
+    } else if (qName.equals("marker") && inCorrectExample) {
+      correctExample.append("<marker>");
+    } else if (qName.equals("marker") && inIncorrectExample) {
+      incorrectExample.append("<marker>");
     }
   }
 
@@ -280,12 +275,12 @@ class PatternRuleHandler extends XMLRuleHandler {
       inMessage = false;
     } else if (qName.equals("rulegroup")) {
       inRuleGroup = false;
-    } else if (qName.equals("em") && inMessage) {
-      message.append("</em>");
-    } else if (qName.equals("em") && inCorrectExample) {
-      correctExample.append("</em>");
-    } else if (qName.equals("em") && inIncorrectExample) {
-      incorrectExample.append("</em>");
+    } else if (qName.equals("suggestion") && inMessage) {
+      message.append("</suggestion>");
+    } else if (qName.equals("marker") && inCorrectExample) {
+      correctExample.append("</marker>");
+    } else if (qName.equals("marker") && inIncorrectExample) {
+      incorrectExample.append("</marker>");
     }
   }
 

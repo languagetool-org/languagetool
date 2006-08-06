@@ -74,9 +74,9 @@ public class FalseFriendRuleLoader extends DefaultHandler {
     StringBuilder sb = new StringBuilder();
     for (Iterator iter = l.iterator(); iter.hasNext();) {
       String s = (String) iter.next();
-      sb.append("<em>");
+      sb.append("<suggestion>");
       sb.append(s);
-      sb.append("</em>");
+      sb.append("</suggestion>");
       if (iter.hasNext())
         sb.append(", ");
     }

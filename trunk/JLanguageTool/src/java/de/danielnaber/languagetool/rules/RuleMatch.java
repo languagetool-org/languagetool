@@ -32,7 +32,7 @@ import de.danielnaber.languagetool.tools.StringTools;
  */
 public class RuleMatch implements Comparable<RuleMatch> {
 
-  private final static Pattern SUGGESTION_PATTERN = Pattern.compile("<em>(.*?)</em>");
+  private final static Pattern SUGGESTION_PATTERN = Pattern.compile("<suggestion>(.*?)</suggestion>");
 
   private int fromLine = -1;
   private int column = -1;
@@ -50,7 +50,7 @@ public class RuleMatch implements Comparable<RuleMatch> {
   /**
    * Creates a RuleMatch object, taking the rule that triggered
    * this match, position of the match and an explanation message.
-   * This message is scanned for &lt;em>...&lt;/em> to get suggested
+   * This message is scanned for &lt;suggestion>...&lt;/suggestion> to get suggested
    * fixes for the problem detected by this rule. 
    * 
    * @param startWithUppercase whether the original text at the position
@@ -61,7 +61,7 @@ public class RuleMatch implements Comparable<RuleMatch> {
     this.fromPos = fromPos;
     this.toPos = toPos;
     this.message = message;
-    // extract suggestion from <em>...</em> in message:
+    // extract suggestion from <suggestion>...</suggestion> in message:
     Matcher matcher = SUGGESTION_PATTERN.matcher(message);
     int pos = 0;
     while (matcher.find(pos)) {

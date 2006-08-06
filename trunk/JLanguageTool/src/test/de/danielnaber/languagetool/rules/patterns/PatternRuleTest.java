@@ -74,10 +74,10 @@ public class PatternRuleTest extends TestCase {
       List badSentences = rule.getIncorrectExamples();
       for (Iterator iterator = badSentences.iterator(); iterator.hasNext();) {
         String origBadSentence = (String) iterator.next();
-        int expectedMatchStart = origBadSentence.indexOf("<em>");
-        int expectedMatchEnd = origBadSentence.indexOf("</em>") - 4;
+        int expectedMatchStart = origBadSentence.indexOf("<marker>");
+        int expectedMatchEnd = origBadSentence.indexOf("</marker>") - "<marker>".length();
         if (expectedMatchStart == -1 || expectedMatchEnd == -1) {
-          fail(lang + ": No error position markup ('<em>...</em>') in bad example in rule ID = " + rule.getId());
+          fail(lang + ": No error position markup ('<marker>...</marker>') in bad example in rule ID = " + rule.getId());
         }
         String badSentence = cleanXML(origBadSentence);
         assertTrue(badSentence.trim().length() > 0);

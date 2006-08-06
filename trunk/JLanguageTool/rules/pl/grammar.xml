@@ -1,131 +1,176 @@
-<?xml version="1.0" encoding="utf-8"?>
-
-	<!--
+<?xml version="1.0" encoding="utf-8"?><!--
 Copyright (C) 2006 Marcin Miłkowski
-$Id: grammar.xml,v 1.23 2006-08-06 10:15:57 milek_pl Exp $		
+$Id: grammar.xml,v 1.24 2006-08-06 15:45:40 milek_pl Exp $		
 -->
 <rules lang="pl">
 	<!-- błąd leksykalny: tym niemniej -->
-	<rule id="RULE_NIEMNIEJ" name="Szukanie 'tym niemniej'">
-		<pattern mark_from="0" case_sensitive="no"><token>tym</token> <token>niemniej</token></pattern>
-		<message>To wyrażenie to rusycyzm, lepiej użyć <em>niemniej jednak</em>.</message>
-		<example type="correct">Problem potraktowano niemniej jednak poważnie.</example>
-		<example type="incorrect">Problem potraktowano <em>tym niemniej</em> poważnie.</example>
-	</rule>
+	   <rule id="RULE_NIEMNIEJ" name="Szukanie 'tym niemniej'">
+      <pattern mark_from="0" case_sensitive="no">
+         <token>tym</token> 
+         <token>niemniej</token>
+      </pattern>
+		      <message>To wyrażenie to rusycyzm, lepiej użyć <suggestion>niemniej jednak</suggestion>.</message>
+		      <example type="correct">Problem potraktowano niemniej jednak poważnie.</example>
+		      <example type="incorrect">Problem potraktowano <marker>tym niemniej</marker> poważnie.</example>
+	   </rule>
 	
-	<rule name="Błąd leksykalny: uznać jako (zamiast „za”)" id="UZNAC_JAKO">
-		<pattern mark_from="1">
-			<token skip="-1" inflected="yes" regexp="yes">uznać|uznawać<exception>za</exception></token>
-			<token>jako</token>
-		</pattern>
-		<message>Mówi się „uznać coś <em>za</em> jakieś”</message>
-		<example type="correct">Ludwik był uznany za wielkiego aktora.</example>
-		<example type="correct">Ludwik był uznawany za wielkiego aktora.</example>
-		<example type="incorrect">Ludwik był uznany <em>jako</em> wielki aktor.</example>
-		<example type="incorrect">Uznałem <em>go jako</em> straconego dla sprawy.</example>
-		<example type="correct">Ludwik był uznawany za świetnego księgowego, jako że dbał o finanse firmy.</example>
-		<example type="correct">Ludzie uznawali ją za piękność.</example>
-	</rule>
+	   <rule name="Błąd leksykalny: uznać jako (zamiast „za”)" id="UZNAC_JAKO">
+		      <pattern mark_from="1">
+			         <token skip="-1" inflected="yes" regexp="yes">uznać|uznawać<exception>za</exception></token>
+			         <token>jako</token>
+		      </pattern>
+		      <message>Mówi się „uznać coś <suggestion>za</suggestion> jakieś”</message>
+		      <example type="correct">Ludwik był uznany za wielkiego aktora.</example>
+		      <example type="correct">Ludwik był uznawany za wielkiego aktora.</example>
+		      <example type="incorrect">Ludwik był uznany <marker>jako</marker> wielki aktor.</example>
+		      <example type="incorrect">Uznałem <marker>go jako</marker> straconego dla sprawy.</example>
+		      <example type="correct">Ludwik był uznawany za świetnego księgowego, jako że dbał o finanse firmy.</example>
+		      <example type="correct">Ludzie uznawali ją za piękność.</example>
+	   </rule>
 	
-	<rule name="Błąd składniowy: uznać jakimś (zamiast „za jakieś”)" id="UZNAC_JAKIMS">
-		<pattern mark_from="1">
-			<token skip="2" inflected="yes" regexp="yes">uznać|uznawać<exception>za</exception></token>
-			<token postag_regexp="yes" postag="(adj|subst).*instr.*"/>
-		</pattern>
-		<message>Mówi się „uznać <em>za</em> jakieś”.</message>
-		<example type="correct">Ludwik był uznany za wielkiego aktora</example>
-		<example type="incorrect">Ludwik był uznawany <em>wielkim</em> aktorem.</example>
-	</rule>
+	   <rule name="Błąd składniowy: uznać jakimś (zamiast „za jakieś”)" id="UZNAC_JAKIMS">
+		      <pattern mark_from="1">
+			         <token skip="2" inflected="yes" regexp="yes">uznać|uznawać<exception>za</exception></token>
+			         <token postag_regexp="yes" postag="(adj|subst).*instr.*"/>
+		      </pattern>
+		      <message>Mówi się „uznać <suggestion>za</suggestion> jakieś”.</message>
+		      <example type="correct">Ludwik był uznany za wielkiego aktora</example>
+		      <example type="incorrect">Ludwik był uznawany <marker>wielkim</marker> aktorem.</example>
+	   </rule>
 	
 	<!-- błąd leksykalny: w każdym bądź razie -->
-	<rule id="W_KAZDYM_BADZ" name="Szukanie 'w każdym bądź razie'">
-		<pattern mark_from="0" case_sensitive="no"><token>w</token><token>każdym</token><token>bądź</token><token>razie</token></pattern>
-		<message>Poprawną formą jest <em>w każdym razie</em>.</message>
-		<example type="correct">W każdym razie premier nie miał racji.</example>
-		<example type="incorrect"><em>W każdym bądź razie</em> premier nie miał racji.</example>
-	</rule>
+   <rule id="W_KAZDYM_BADZ" name="Szukanie 'w każdym bądź razie'">
+      <pattern mark_from="0" case_sensitive="no">
+         <token>w</token>
+         <token>każdym</token>
+         <token>bądź</token>
+         <token>razie</token>
+      </pattern>
+		      <message>Poprawną formą jest <suggestion>w każdym razie</suggestion>.</message>
+		      <example type="correct">W każdym razie premier nie miał racji.</example>
+		      <example type="incorrect">
+         <marker>W każdym bądź razie</marker> premier nie miał racji.</example>
+   </rule>
 
 	<!-- błąd leksykalny: odnośnie do -->
-	<rule id="ODNOSNIE_DO" name="'Odnośnie czegoś - odnośnie do czegoś">
-		<pattern mark_from="0" case_sensitive="no"><token>odnośnie</token> <token regexp="yes">^([^d]|d[^o])*.{0,1}$</token></pattern>
-		<message>Poprawną formą jest <em>odnośnie do</em> czegoś.</message>
-		<example type="correct">Piszę odnośnie do pańskiej propozycji...</example>
-		<example type="incorrect">Piszę <em>odnośnie pańskiej</em> propozycji...</example>
-	</rule>
+	   <rule id="ODNOSNIE_DO" name="'Odnośnie czegoś - odnośnie do czegoś">
+		      <pattern mark_from="0" case_sensitive="no">
+         <token>odnośnie</token> 
+         <token negate="yes">do</token>
+      </pattern>
+		      <message>Poprawną formą jest <suggestion>odnośnie do</suggestion> czegoś.</message>
+		      <example type="correct">Piszę odnośnie do pańskiej propozycji...</example>
+		      <example type="incorrect">Piszę <marker>odnośnie pańskiej</marker> propozycji...</example>
+	   </rule>
 	
 	
 	<!-- błąd leksykalny: w każdym bądź razie -->
-	<rule id="PODDAWAC_W_WATPLIWOSC" name="Błąd leksykalny - 'poddawać w wątpliwość'">
-		<pattern mark_from="0" case_sensitive="no"><token inflected="yes" regexp="yes">poddawać|poddać</token><token>w</token><token>wątpliwość</token></pattern>
-		<message>Poprawną formą jest <em>podawać w wątpliwość</em>.</message>
-		<example type="correct">Nie będę tego podawać w wątpliwość.</example>
-		<example type="incorrect">Nie będę tego <em>poddawał w wątpliwość</em>.</example>
-		<example type="incorrect">Józio <em>poddał w wątpliwość</em> cały proces wychowawczy.</example>
-	</rule>
+	   <rule id="PODDAWAC_W_WATPLIWOSC" name="Błąd leksykalny - 'poddawać w wątpliwość'">
+		      <pattern mark_from="0" case_sensitive="no">
+         <token inflected="yes" regexp="yes">poddawać|poddać</token>
+         <token>w</token>
+         <token>wątpliwość</token>
+      </pattern>
+		      <message>Poprawną formą jest <suggestion>podawać w wątpliwość</suggestion>.</message>
+		      <example type="correct">Nie będę tego podawać w wątpliwość.</example>
+		      <example type="incorrect">Nie będę tego <marker>poddawał w wątpliwość</marker>.</example>
+		      <example type="incorrect">Józio <marker>poddał w wątpliwość</marker> cały proces wychowawczy.</example>
+	   </rule>
 
-	<rule id="POKI_CO" name="Błąd leksykalny - 'póki co'">
-		<pattern mark_from="0" case_sensitive="no"><token>póki</token> <token>co</token></pattern>
-		<message>Poprawną formą jest <em>na razie</em>, wyrażenie „póki co” to rusycyzm.</message>
-		<example type="correct">Na razie cieszmy się z innych korzyści.</example>
-		<example type="incorrect"><em>Póki co</em> cieszmy się z innych korzyści.</example>
-	</rule>
+	   <rule id="POKI_CO" name="Błąd leksykalny - 'póki co'">
+		      <pattern mark_from="0" case_sensitive="no">
+         <token>póki</token> 
+         <token>co</token>
+      </pattern>
+		      <message>Poprawną formą jest <suggestion>na razie</suggestion>, wyrażenie „póki co” to rusycyzm.</message>
+		      <example type="correct">Na razie cieszmy się z innych korzyści.</example>
+		      <example type="incorrect">
+         <marker>Póki co</marker> cieszmy się z innych korzyści.</example>
+	   </rule>
 
 	<!-- błąd ortograficzny - pisownia łączna rzeczowników z "nie" -->
-	<rule id="NIE_RZECZOWNIK" name="Pisownia 'nie' z rzeczownikami i przymiotnikami">
-		<pattern mark_from="1" case_sensitive="no"><token negate="yes">a</token><token inflected="yes">nie</token><token postag_regexp="yes" postag="subst:.+|adj:.+"><exception regexp="yes">brak|wolno|można|sposób|potrzeba|trzeba|wiadomo|warto|grzech|strach|szkoda|żal|wstyd|ma|miał|\p{Lu}[\p{L}&amp;&amp;[^\p{Lu}]]+</exception></token></pattern>
-		<message>„Nie” ze wszystkimi rzeczownikami i przymiotnikami piszemy łącznie, czyli poprawnie będzie <em>nie\2</em>.</message>
-		<example type="correct">Prosimy o niepalenie.</example>
-		<example type="correct">Tu nie można palić.</example>
-		<example type="correct">To jest Marysia, a nie Hania.</example>
-		<example type="correct">Ten samochód jest drogi, a nie tani.</example>
-		<example type="incorrect">Prosimy o <em>nie palenie</em>.</example>
-	</rule>
+	   <rule id="NIE_RZECZOWNIK" name="Pisownia 'nie' z rzeczownikami i przymiotnikami">
+		      <pattern mark_from="1" case_sensitive="no">
+         <token negate="yes">a</token>
+         <token inflected="yes">nie</token>
+         <token postag_regexp="yes" postag="subst:.+|adj:.+"><exception regexp="yes">brak|wolno|można|sposób|potrzeba|trzeba|wiadomo|warto|grzech|strach|szkoda|żal|wstyd|ma|miał|(\p{Lu}[\p{L}&amp;&amp;[^\p{Lu}]]+)</exception></token>
+      </pattern>
+		      <message>„Nie” ze wszystkimi rzeczownikami i przymiotnikami piszemy łącznie, czyli poprawnie będzie <suggestion>nie\3</suggestion>.</message>
+		      <example type="correct">Prosimy o niepalenie.</example>
+		      <example type="correct">Tu nie można palić.</example>
+		      <example type="correct">To jest Marysia, a nie Hania.</example>
+		      <example type="correct">Ten samochód jest drogi, a nie tani.</example>
+		      <example type="incorrect">Prosimy o <marker>nie palenie</marker>.</example>
+	   </rule>
 	
 	<!-- błąd ortograficzny - pisownia cząstek -bym -->
 	
-	<rule id="CZASOWNIK_BY" name="Pisownia 'bym', 'byście' z czasownikami">
-		<pattern mark_from="0" case_sensitive="no"><token postag_regexp="yes" postag="verb:sec:.+|verb:ter.+|verb:pri:.+|verb:praet:.+"></token> <token regexp="yes">bym|byście|byśmy|byś|by</token></pattern>
-		<message>Cząstki <em>-bym, -byś, -by, -byśmy, -byście</em> piszemy łącznie z czasownikami w formach osobowych.</message>
-		<example type="correct">Nie mógłbym tego zrobić.</example>
-		<example type="incorrect">Nie <em>mógł bym</em> tego zrobić..</example>
-	</rule>
+	   <rule id="CZASOWNIK_BY" name="Pisownia 'bym', 'byście' z czasownikami">
+		      <pattern mark_from="0" case_sensitive="no">
+         <token postag_regexp="yes" postag="verb:sec:.+|verb:ter.+|verb:pri:.+|verb:praet:.+"/>
+		 <token regexp="yes">bym|byście|byśmy|byś|by</token>
+      </pattern>
+		      <message>Cząstki „-bym”, „-byś”, „-by”, „-byśmy”, „-byście” piszemy łącznie z czasownikami w formach osobowych. 
+				  Poprawnie piszemy więc: <suggestion>\1\2</suggestion>.</message>
+		      <example type="correct">Nie mógłbym tego zrobić.</example>
+		      <example type="incorrect">Nie <marker>mógł bym</marker> tego zrobić..</example>
+	   </rule>
 	
 	<!-- błędna pisownia rozłączna -->
-	<rule id="PONAD_TO" name="Pisownia 'ponadto'">
-		<pattern mark_from="0" case_sensitive="no"><token>ponad</token> <token>to</token></pattern>
-		<message>Wyraz <em>ponadto</em> w sensie "poza tym", "oprócz tego" piszemy łącznie.</message>
-		<example type="correct">Ponadto samochód wyposażony jest w ogromny bagażnik.</example>
-		<example type="incorrect"><em>Ponad to</em> samochód wyposażony jest w ogromny bagażnik.</example>
-	</rule>
+	   <rule id="PONAD_TO" name="Pisownia 'ponadto'">
+		      <pattern mark_from="0" case_sensitive="no">
+         <token>ponad</token> 
+         <token>to</token>
+      </pattern>
+		      <message>Wyraz <suggestion>ponadto</suggestion> w sensie "poza tym", "oprócz tego" piszemy łącznie.</message>
+		      <example type="correct">Ponadto samochód wyposażony jest w ogromny bagażnik.</example>
+		      <example type="incorrect">
+         <marker>Ponad to</marker> samochód wyposażony jest w ogromny bagażnik.</example>
+	   </rule>
 	
 	<!-- błędna pisownia rozłączna -->
-	<rule id="PO_ZA" name="Pisownia 'poza'">
-		<pattern mark_from="0" case_sensitive="yes"><token regexp="yes">Po|po</token> <token>za</token></pattern>
-		<message>Wyraz <em>poza</em> piszemy łącznie.</message>
-		<example type="correct">Poza tym samochód wyposażony jest w ogromny bagażnik.</example>
-		<example type="incorrect"><em>Po za</em> tym samochód wyposażony jest w ogromny bagażnik.</example>
-	</rule>
+	   <rule id="PO_ZA" name="Pisownia 'poza'">
+		      <pattern mark_from="0" case_sensitive="yes">
+         <token regexp="yes">Po|po</token> 
+         <token>za</token>
+      </pattern>
+		      <message>Wyraz <suggestion>poza</suggestion> piszemy łącznie.</message>
+		      <example type="correct">Poza tym samochód wyposażony jest w ogromny bagażnik.</example>
+		      <example type="incorrect">
+         <marker>Po za</marker> tym samochód wyposażony jest w ogromny bagażnik.</example>
+	   </rule>
 	
-	<rule id="SPOZA" name="Pisownia 'spoza'">
-		<pattern mark_from="0" case_sensitive="no"><token>z</token> <token>poza</token></pattern>
-		<message>Wyraz <em>spoza</em> piszemy łącznie.</message>
-		<example type="correct">Jest to osoba spoza Australii.</example>
-		<example type="incorrect">Jest to osoba <em>z poza</em> Australii.</example>
-	</rule>
+	   <rule id="SPOZA" name="Pisownia 'spoza'">
+		      <pattern mark_from="0" case_sensitive="no">
+         <token>z</token> 
+         <token>poza</token>
+      </pattern>
+		      <message>Wyraz <suggestion>spoza</suggestion> piszemy łącznie.</message>
+		      <example type="correct">Jest to osoba spoza Australii.</example>
+		      <example type="incorrect">Jest to osoba <marker>z poza</marker> Australii.</example>
+	   </rule>
 	
-	<rule id="SKROTY_BEZ_KROPKI" name="Pisownia skrótów wg, dr, mgr, nr">
-		<pattern mark_from="0" case_sensitive="no"><token regexp="yes">[Ww]g|[Dd]r|[Mm]gr|[Nn]r</token> <token>.</token></pattern>
-		<message>Skróty <em>wg, dr, mgr</em> piszemy bez skropki.</message>
-		<example type="correct">Mgr Kowalski napisał dwa donosy.</example>
-		<example type="incorrect"><em>Mgr.</em> Kowalski napisał dwa donosy.</example>
-	</rule>
+	   <rule id="SKROTY_BEZ_KROPKI" name="Pisownia skrótów wg, dr, mgr, nr">
+		      <pattern mark_from="0" case_sensitive="no">
+         <token regexp="yes">[Ww]g|[Dd]r|[Mm]gr|[Nn]r</token> 
+         <token>.</token>
+      </pattern>
+		      <message>Skróty <suggestion>wg, dr, mgr</suggestion> piszemy bez skropki.</message>
+		      <example type="correct">Mgr Kowalski napisał dwa donosy.</example>
+		      <example type="incorrect">
+         <marker>Mgr.</marker> Kowalski napisał dwa donosy.</example>
+	   </rule>
 	
-	<rule id="SKROTY_Z_KROPKA" name="Pisownia skrótów np., inż.">
-		<pattern mark_from="0" case_sensitive="no"><token regexp="yes">[Nn]p|[Ii]nż|[Dd]s|[Rr]ed</token> <token negate="yes">.</token></pattern>
-		<message>Skróty <em>np., inż., ds.</em> piszemy z skropką.</message>
-		<example type="correct">Np. Kowalski napisał dwa donosy.</example>
-		<example type="incorrect"><em>Np Kowalski</em> napisał dwa donosy.</example>
-	</rule>
+	   <rule id="SKROTY_Z_KROPKA" name="Pisownia skrótów np., inż.">
+		      <pattern mark_from="0" case_sensitive="no">
+         <token regexp="yes">[Nn]p|[Ii]nż|[Dd]s|[Rr]ed</token> 
+         <token negate="yes">.</token>
+      </pattern>
+		      <message>Skróty <suggestion>np., inż., ds.</suggestion> piszemy z skropką.</message>
+		      <example type="correct">Np. Kowalski napisał dwa donosy.</example>
+		      <example type="incorrect">
+         <marker>Np Kowalski</marker> napisał dwa donosy.</example>
+	   </rule>
 	
 	<!-- rule id="SKROTY_BEZ_KROPKI" name="Pisownia skrótu m.in.">
 		<pattern mark_from="0" case_sensitive="no">"m" "."" " "in"</pattern>
@@ -134,346 +179,447 @@ $Id: grammar.xml,v 1.23 2006-08-06 10:15:57 milek_pl Exp $
 	-->
 	
 	<!-- błąd stylistyczny -->
-	<rule id="DLATEGO_BO" name="Błąd leksykalny - dlatego bo">
-		<pattern>
-			<token>dlatego</token><token>bo</token>
-		</pattern>
-		<message>Zbitka „dlatego bo” jest niepoprawna. Zamiast należy pisać <em>dlatego że</em>, <em>gdyż</em>, <em>bo</em>, <em>ponieważ</em> itd.</message>
-		<example type="correct">Kowalski nie czytał gazet, gdyż nie umiał czytać.</example>
-		<example type="incorrect">Kowalski nie czytał gazet, <em>dlatego bo</em> nie umiał czytać.</example>
-	</rule>
+	   <rule id="DLATEGO_BO" name="Błąd leksykalny - dlatego bo">
+		      <pattern>
+			         <token>dlatego</token>
+         <token>bo</token>
+		      </pattern>
+		      <message>Zbitka „dlatego bo” jest niepoprawna. Zamiast należy pisać <suggestion>dlatego że</suggestion>, <suggestion>gdyż</suggestion>, <suggestion>bo</suggestion>, <suggestion>ponieważ</suggestion> itd.</message>
+		      <example type="correct">Kowalski nie czytał gazet, gdyż nie umiał czytać.</example>
+		      <example type="incorrect">Kowalski nie czytał gazet, <marker>dlatego bo</marker> nie umiał czytać.</example>
+	   </rule>
 	
-		<rule id="DLATEGO_BO1" name="Błąd leksykalny - dlatego, bo">
-		<pattern mark_from="0" case_sensitive="no"><token>dlatego</token> <token>,</token> <token>bo</token></pattern>
-		<message>Zbitka „dlatego, bo” jest niepoprawna. Zamiast należy pisać <em>dlatego że</em>, <em>gdyż</em>, <em>bo</em>, <em>ponieważ</em> itd.</message>
-		<example type="correct">Kowalski nie czytał gazet, gdyż nie umiał czytać.</example>
-		<example type="incorrect">Kowalski nie czytał gazet <em>dlatego, bo</em> nie umiał czytać.</example>
-		</rule>
+		   <rule id="DLATEGO_BO1" name="Błąd leksykalny - dlatego, bo">
+		      <pattern mark_from="0" case_sensitive="no">
+         <token>dlatego</token> 
+         <token>,</token> 
+         <token>bo</token>
+      </pattern>
+		      <message>Zbitka „dlatego, bo” jest niepoprawna. Zamiast należy pisać <suggestion>dlatego że</suggestion>, <suggestion>gdyż</suggestion>, <suggestion>bo</suggestion>, <suggestion>ponieważ</suggestion> itd.</message>
+		      <example type="correct">Kowalski nie czytał gazet, gdyż nie umiał czytać.</example>
+		      <example type="incorrect">Kowalski nie czytał gazet <marker>dlatego, bo</marker> nie umiał czytać.</example>
+		   </rule>
 
-	<rule id="DLATEGO_PONIEWAZ" name="Błąd leksykalny: dlatego ponieważ (zamiast „dlatego”)">
-		<pattern mark_from="0" case_sensitive="no"><token>dlatego</token> <token>ponieważ</token></pattern>
-		<message>Zbitka „dlatego ponieważ” jest niepoprawna. Zamiast należy pisać <em>dlatego że</em>, <em>gdyż</em>, <em>bo</em>, <em>ponieważ</em> itd.</message>
-		<example type="correct">Kowalski nie czytał gazet, gdyż nie umiał czytać.</example>
-		<example type="incorrect">Kowalski nie czytał gazet, <em>dlatego ponieważ</em> nie umiał czytać.</example>
-	</rule>
-	<rule id="DLATEGO_PONIEWAZ1" name="Błąd leksykalny: dlatego, ponieważ (zamiast „dlatego”)">
-		<pattern>
-			<token>dlatego</token> 
-			<token>,</token>
-			<token>ponieważ</token>
-		</pattern>
-		<message>Zbitka „dlatego, ponieważ” jest niepoprawna. Zamiast należy pisać <em>dlatego że</em>, <em>gdyż</em>, <em>bo</em>, <em>ponieważ</em> itd.</message>
-		<example type="correct">Kowalski nie czytał gazet, gdyż nie umiał czytać.</example>
-		<example type="incorrect">Kowalski nie czytał gazet <em>dlatego, ponieważ</em> nie umiał czytać.</example>
-	</rule>
+	   <rule id="DLATEGO_PONIEWAZ" name="Błąd leksykalny: dlatego ponieważ (zamiast „dlatego”)">
+		      <pattern mark_from="0" case_sensitive="no">
+         <token>dlatego</token> 
+         <token>ponieważ</token>
+      </pattern>
+		      <message>Zbitka „dlatego ponieważ” jest niepoprawna. Zamiast należy pisać <suggestion>dlatego że</suggestion>, <suggestion>gdyż</suggestion>, <suggestion>bo</suggestion>, <suggestion>ponieważ</suggestion> itd.</message>
+		      <example type="correct">Kowalski nie czytał gazet, gdyż nie umiał czytać.</example>
+		      <example type="incorrect">Kowalski nie czytał gazet, <marker>dlatego ponieważ</marker> nie umiał czytać.</example>
+	   </rule>
+	   <rule id="DLATEGO_PONIEWAZ1" name="Błąd leksykalny: dlatego, ponieważ (zamiast „dlatego”)">
+		      <pattern>
+			         <token>dlatego</token> 
+			         <token>,</token>
+			         <token>ponieważ</token>
+		      </pattern>
+		      <message>Zbitka „dlatego, ponieważ” jest niepoprawna. Zamiast należy pisać <suggestion>dlatego że</suggestion>, <suggestion>gdyż</suggestion>, <suggestion>bo</suggestion>, <suggestion>ponieważ</suggestion> itd.</message>
+		      <example type="correct">Kowalski nie czytał gazet, gdyż nie umiał czytać.</example>
+		      <example type="incorrect">Kowalski nie czytał gazet <marker>dlatego, ponieważ</marker> nie umiał czytać.</example>
+	   </rule>
 
-	<rule id="DLATEGO_GDYZ" name="Błąd leksykalny: dlatego gdyż (zamiast „dlatego”)">
-		<pattern><token>dlatego</token> <token>gdyż</token></pattern>
-		<message>Zbitka „dlatego ponieważ” jest niepoprawna. Zamiast należy pisać <em>dlatego że</em>, <em>gdyż</em>, <em>bo</em>, <em>ponieważ</em> itd.</message>
-		<example type="correct">Kowalski nie czytał gazet, gdyż nie umiał czytać.</example>
-		<example type="incorrect">Kowalski nie czytał gazet, <em>dlatego gdyż</em> nie umiał czytać.</example>
-	</rule>
-	<rule id="DLATEGO_GDYZ1" name="Błąd leksykalny: dlatego, gdyż (zamiast „dlatego”)">
-		<pattern>
-			<token>dlatego</token> 
-			<token>,</token>
-			<token>gdyż</token>
-		</pattern>
-		<message>Zbitka „dlatego, gdyż” jest niepoprawna. Zamiast należy pisać <em>dlatego że</em>, <em>gdyż</em>, <em>bo</em>, <em>ponieważ</em> itd.</message>
-		<example type="correct">Kowalski nie czytał gazet, gdyż nie umiał czytać.</example>
-		<example type="incorrect">Kowalski nie czytał gazet <em>dlatego, gdyż</em> nie umiał czytać.</example>
-	</rule>
+	   <rule id="DLATEGO_GDYZ" name="Błąd leksykalny: dlatego gdyż (zamiast „dlatego”)">
+		      <pattern>
+         <token>dlatego</token> 
+         <token>gdyż</token>
+      </pattern>
+		      <message>Zbitka „dlatego ponieważ” jest niepoprawna. Zamiast należy pisać <suggestion>dlatego że</suggestion>, <suggestion>gdyż</suggestion>, <suggestion>bo</suggestion>, <suggestion>ponieważ</suggestion> itd.</message>
+		      <example type="correct">Kowalski nie czytał gazet, gdyż nie umiał czytać.</example>
+		      <example type="incorrect">Kowalski nie czytał gazet, <marker>dlatego gdyż</marker> nie umiał czytać.</example>
+	   </rule>
+	   <rule id="DLATEGO_GDYZ1" name="Błąd leksykalny: dlatego, gdyż (zamiast „dlatego”)">
+		      <pattern>
+			         <token>dlatego</token> 
+			         <token>,</token>
+			         <token>gdyż</token>
+		      </pattern>
+		      <message>Zbitka „dlatego, gdyż” jest niepoprawna. Zamiast należy pisać <suggestion>dlatego że</suggestion>, <suggestion>gdyż</suggestion>, <suggestion>bo</suggestion>, <suggestion>ponieważ</suggestion> itd.</message>
+		      <example type="correct">Kowalski nie czytał gazet, gdyż nie umiał czytać.</example>
+		      <example type="incorrect">Kowalski nie czytał gazet <marker>dlatego, gdyż</marker> nie umiał czytać.</example>
+	   </rule>
 		
-	<rule id="W_OPARCIU" name="Błąd stylistyczny - w oparciu o">
-		<pattern><token>w</token> <token>oparciu</token> <token>o</token></pattern>
-		<message>Wyrażenie „w oparciu o” jest nadużywane i niezalecane przez językoznawców. Zalecane wyrażenie synonimiczne: <em>na podstawie</em>.</message>
-		<example type="correct">Na podstawie tych wyliczeń można podjąć decyzję.</example>
-		<example type="incorrect"><em>W oparciu o</em> te wyliczenia można podjąć decyzję.</example>
-	</rule>
-	<rule id="TA_KSIAZKA" name="Błąd odmiany – np. tą książkę">
-		<pattern><token>tą</token><token postag="subst:sg:acc:f"/></pattern>
-		<message>W bierniku zaimek „ta” ma formę <em>tę</em>.</message>
-		<example type="correct">Kupiłem tę książkę za parę groszy.</example>
-		<example type="incorrect">Kupiłem <em>tą książkę</em> za parę groszy.</example>
-	</rule>
-	<rule id="NAPRZECIWKO" name="Pisownia rozłączna naprzeciwko">
-		<pattern><token>na</token><token>przeciwko</token></pattern>
-		<message>Wyrażenie <em>naprzeciwko</em> piszemy łącznie.</message>
-		<example type="correct">Ala mieszkała naprzeciwko.</example>
-		<example type="incorrect"><em>Na przeciwko</em> moich okien są takie same okna innego budynku na naszym terenie.</example>
-	</rule>
-	<rule id="ZNAD" name="Pisownia rozłączna znad">
-		<pattern><token>z</token><token>nad</token></pattern>
-		<message>Wyrażenie <em>znad</em> piszemy łącznie.</message>
-		<example type="correct">Pokazał mi zdjęcia znad oceanu.</example>
-		<example type="incorrect">Pokazał mi zdjęcia <em>z nad</em> oceanu.</example>
-	</rule>
+	   <rule id="W_OPARCIU" name="Błąd stylistyczny - w oparciu o">
+		      <pattern>
+         <token>w</token> 
+         <token>oparciu</token> 
+         <token>o</token>
+      </pattern>
+		      <message>Wyrażenie „w oparciu o” jest nadużywane i niezalecane przez językoznawców. Zalecane wyrażenie synonimiczne: <suggestion>na podstawie</suggestion>.</message>
+		      <example type="correct">Na podstawie tych wyliczeń można podjąć decyzję.</example>
+		      <example type="incorrect">
+         <marker>W oparciu o</marker> te wyliczenia można podjąć decyzję.</example>
+	   </rule>
+	   <rule id="TA_KSIAZKA" name="Błąd odmiany – np. tą książkę">
+		      <pattern>
+         <token>tą</token>
+         <token postag="subst:sg:acc:f"/>
+      </pattern>
+		      <message>W bierniku zaimek „ta” ma formę <suggestion>tę</suggestion>.</message>
+		      <example type="correct">Kupiłem tę książkę za parę groszy.</example>
+		      <example type="incorrect">Kupiłem <marker>tą książkę</marker> za parę groszy.</example>
+	   </rule>
+	   <rule id="NAPRZECIWKO" name="Pisownia rozłączna naprzeciwko">
+		      <pattern>
+         <token>na</token>
+         <token>przeciwko</token>
+      </pattern>
+		      <message>Wyrażenie <suggestion>naprzeciwko</suggestion> piszemy łącznie.</message>
+		      <example type="correct">Ala mieszkała naprzeciwko.</example>
+		      <example type="incorrect">
+         <marker>Na przeciwko</marker> moich okien są takie same okna innego budynku na naszym terenie.</example>
+	   </rule>
+	   <rule id="ZNAD" name="Pisownia rozłączna znad">
+		      <pattern>
+         <token>z</token>
+         <token>nad</token>
+      </pattern>
+		      <message>Wyrażenie <suggestion>znad</suggestion> piszemy łącznie.</message>
+		      <example type="correct">Pokazał mi zdjęcia znad oceanu.</example>
+		      <example type="incorrect">Pokazał mi zdjęcia <marker>z nad</marker> oceanu.</example>
+	   </rule>
 	
-	<rule id="W_DRODZE_WYJATKU" name="Błąd leksykalny: w drodze wyjątku">
-		<pattern><token>w</token><token>drodze</token><token>wyjątku</token></pattern>
-		<message>Wyrażenie „w drodze wyjątku” jest niezalecane (żargon urzędniczy). Lepsza jest forma <em>wyjątkowo</em>.</message>
-		<example type="correct">Lokalne władze tylko wyjątkowo zezwalają na wjazd.</example>
-		<example type="incorrect"><em>W drodze wyjątku</em> lokalne władze zezwalają na wjazd.</example>
-	</rule>
+	   <rule id="W_DRODZE_WYJATKU" name="Błąd leksykalny: w drodze wyjątku">
+		      <pattern>
+         <token>w</token>
+         <token>drodze</token>
+         <token>wyjątku</token>
+      </pattern>
+		      <message>Wyrażenie „w drodze wyjątku” jest niezalecane (żargon urzędniczy). Lepsza jest forma <suggestion>wyjątkowo</suggestion>.</message>
+		      <example type="correct">Lokalne władze tylko wyjątkowo zezwalają na wjazd.</example>
+		      <example type="incorrect">
+         <marker>W drodze wyjątku</marker> lokalne władze zezwalają na wjazd.</example>
+	   </rule>
 	
-	<rule id="WYDAWAC_SIE_BYC" name="Błąd leksykalny: wydaje się być">
-		<pattern><token inflected="yes">wydawać</token><token>się</token><token>być</token></pattern>
-		<message>Wyrażenie „wydaje się być” jest modne i nadużywane, lecz niepoprawne. Poprawna jest forma <em>wydaje się</em>.</message>
-		<example type="incorrect">Emitowanie programu Firma <em>wydaje się być</em> bardzo pożyteczne.</example>
-		<example type="correct">Emitowanie programu Firma wydaje się bardzo pożyteczne.</example>
-	</rule>
-	<rule id="OKRES_CZASU" name="Pleonazm: okres czasu, godzina czasu">
-		<pattern><token inflected="yes" regexp="yes">okres|godzina|miesiąc|tydzień</token><token>czasu</token></pattern>
-		<message>Wyrażenia typu „miesiąc czasu”, „okres czasu” są niepoprawne (pleonazmy). Wystarczy: <em>miesiąc</em>, <em>okres</em>, <em>godzina</em>...</message>
-		<example type="correct">Trwało to miesiąc.</example>
+	   <rule id="WYDAWAC_SIE_BYC" name="Błąd leksykalny: wydaje się być">
+		      <pattern>
+         <token inflected="yes">wydawać</token>
+         <token>się</token>
+         <token>być</token>
+      </pattern>
+		      <message>Wyrażenie „wydaje się być” jest modne i nadużywane, lecz niepoprawne. Poprawna jest forma <suggestion>wydaje się</suggestion>.</message>
+		      <example type="incorrect">Emitowanie programu Firma <marker>wydaje się być</marker> bardzo pożyteczne.</example>
+		      <example type="correct">Emitowanie programu Firma wydaje się bardzo pożyteczne.</example>
+	   </rule>
+	   <rule id="OKRES_CZASU" name="Pleonazm: okres czasu, godzina czasu">
+		      <pattern>
+         <token inflected="yes" regexp="yes">okres|godzina|miesiąc|tydzień</token>
+         <token>czasu</token>
+      </pattern>
+		      <message>Wyrażenia typu „miesiąc czasu”, „okres czasu” są niepoprawne (pleonazmy). Wystarczy: <suggestion>\1</suggestion>.</message>
+		      <example type="correct">Trwało to miesiąc.</example>
 <!-- FIXME tagger dictionary is not complete:
 			<example type="incorrect">Trwało to miesiąc czasu.</example> -->
-		<example type="incorrect">Trwało to <em>godzinę czasu</em>.</example>
-	</rule>
-	<rule id="CO_I_RUSZ" name="Błąd leksykalny: co i rusz">
-		<pattern><token>co</token><token>i</token><token>rusz</token></pattern>
-		<message>Wyrażenie „co i rusz” jest niepoprawne. Poprawnie mówi się: <em>co chwila</em>, <em>co krok</em></message>
-		<example type="incorrect"><em>Co i rusz</em> media informują o tym, że któryś z prominentnych polityków koalicji rządzącej załatwił coś dla siebie.</example>
-		<example type="correct">Raz po raz media informują o tym, że któryś z prominentnych polityków koalicji rządzącej załatwił coś dla siebie.</example>
-	</rule>
-	<rule id="CO_I_RAZ" name="Błąd leksykalny: co i raz">
-		<pattern><token>co</token><token>i</token><token>raz</token></pattern>
-		<message>Wyrażenie „co i raz” jest często uznawane za niepoprawne. Poprawnie mówi się: <em>co chwila</em>, <em>co krok</em></message>
-		<example type="incorrect"><em>Co i raz</em> media informują o tym, że któryś z prominentnych polityków koalicji rządzącej załatwił coś dla siebie.</example>
-		<example type="correct">Raz po raz media informują o tym, że któryś z prominentnych polityków koalicji rządzącej załatwił coś dla siebie.</example>
-	</rule>
-	<rule id="ZA_WYJATKIEM" name="Błąd leksykalny: za wyjątkiem">
-		<pattern><token>za</token><token>wyjątkiem</token></pattern>
-		<message>Wyrażenie „za wyjątkiem” jest niepoprawne. Poprawne wyrażenie: <em>z wyjątkiem</em>.</message>
-		<example type="incorrect"><em>Za wyjątkiem</em> powyższych sytuacji, będziemy używać i ujawniać informacje o twoim zdrowiu.</example>
-		<example type="correct">Wyjąwszy powyższe sytuacje, będziemy korzystać z informacji o państwa zdrowiu oraz je ujawniać.</example>
-	</rule>
-	<rule id="ZA_MIAST" name="Błędna pisownia rozłączna: za miast">
-		<pattern><token>za</token><token>miast</token></pattern>
-		<message>Przyimek <em>zamiast</em> piszemy łącznie.</message>
-		<example type="incorrect">Może <em>za miast</em> dużego tła wystarczy wstawić zwykły kolor?</example>
-		<example type="correct">Może zamiast dużego tła wystarczy wstawić zwykły kolor?</example>
-	</rule>
-	<rule id="CIEZKI_ORZECH" name="Błąd leksykalny: ciężki lub trudny orzech do zgryzienia">
-		<pattern><token inflected="yes" regexp="yes">ciężki</token><token inflected="yes">orzech</token><token>do</token><token>zgryzienia</token></pattern>
-		<message>To wyrażenie ma dwie poprawne formy: <em>twardy orzech do zgryzienia</em> lub <em>trudny orzech do zgryzienia</em>.</message>
-		<example type="incorrect">Gabriel ma trochę diaboliczny wygląd to i tak miał <em>ciężki orzech do zgryzienia</em>, z którym poradził sobie jak wiewiórka.</example>
-		<example type="correct">Gabriel ma trochę diaboliczny wygląd to i dlatego miał twardy orzech do zgryzienia, z którym poradził sobie jak wiewiórka.</example>
-	</rule>
-	<rule id="AURA_POGODOWA" name="Pleonazm: aura pogodowa">
-		<pattern><token inflected="yes">aura</token><token inflected="yes" postag_regexp="yes" postag="adj:sg:.*:f">pogodowy</token></pattern>
-		<message>Wyrażenie „aura pogodowa” jest pleonazmem: wystarczy albo sama <em>\1</em>, albo <em>pogoda</em>.</message>
-		<example type="incorrect">Taka <em>aura pogodowa</em> dała się wszystkim obywatelom we znaki.</example>
-		<example type="correct">Ta pogoda dała się wszystkim we znaki.</example>
-		<example type="correct">Przy takiej aurze pogodowych anomalii spodziewać się nie można.</example>
-	</rule>
-	<rule id="DO_TYCH_CZAS" name="Błąd ortograficzny: do tych czas">
-		<pattern><token>do</token><token>tych</token><token>czas</token></pattern>
-		<message>Wyraz <em>dotychczas</em> piszemy łącznie.</message>
-		<example type="incorrect">Co zrobiliśmy <em>do tych czas</em>?</example>
-		<example type="correct">Co zrobiliśmy dotychczas?</example>
-	</rule>
-	<rule id="STOPIEN_WYZSZY" name="Błędna forma stopnia wyższego">
-		<pattern mark_from="1"><token negate="yes">tym</token><token>bardziej</token><token inflected="yes" regexp="yes">ważny|dobry|dokładny|gruby|grzeczny|dziwny|głęboki|głośny|łagodny|łatwy</token></pattern>
-		<message>Ten przymiotnik stopniuje się bez wyrazu <em>bardziej</em>.</message>
-		<example type="incorrect"><em>Bardziej ważny</em> jest dla mnie ten fragment.</example>
-		<example type="incorrect">Jest to wynik <em>bardziej dobry</em>.</example>
-		<example type="incorrect">Piotr był <em>bardziej dokładny</em>.</example>
-		<example type="correct">Ważniejszy jest dla mnie ten fragment.</example>
-		<example type="correct">Tym bardziej ważne jest, abyśmy to pamiętali.</example>
-		<example type="correct">Piotr był dokładniejszy.</example>
-	</rule>
-	<rule id="KAZDY_WTOREK" name="Pleonazm: każdy wtorek miesiąca">
-		<pattern><token inflected="yes" regexp="yes">każdy</token><token inflected="yes" regexp="yes">poniedziałek|wtorek|środa|czwartek|piątek|sobota|niedziela</token><token regexp="yes">tygodnia|miesiąca</token></pattern>
-		<message>Wyrażenia typu „każdy wtorek miesiąca” są pleonastyczne. Wystarczy powiedzieć <em>każdy wtorek</em>.</message>
-		<example type="correct">Śmieci są wywożone w każdy wtorek.</example>
-		<example type="incorrect">Śmieci są wywożone w <em>każdy wtorek tygodnia</em>.</example>
-	</rule>
-	<rule id="POD_ZAMKNIECIEM" name="Błąd leksykalny: pod zamknięciem">
-		<pattern><token>pod</token><token>zamknięciem</token></pattern>
-		<message>Wyrażenie „pod zamknięciem” jest niepoprawne. Lepiej mówić <em>w zamknięciu</em>, <em>pod kluczem</em> (ten błąd występuje nawet w polskim prawie).</message>
-		<example type="correct">Towary trzymamy pod kluczem.</example>
-		<example type="incorrect">Towary trzymamy <em>pod zamknięciem</em>.</example>
-	</rule>
-	<rule id="Z_WIELKIEJ_LITERY" name="Rusycyzm: z wielkiej litery">
-		<pattern><token>z</token><token regexp="yes">wielkiej|dużej|małej</token><token>litery</token></pattern>
-		<message>Wyrażenia typu „z dużej litery” to rucysyzm. Mówimy: ten wyraz piszemy <em>wielką literą</em>, <em>małą literą</em>.</message>
-		<example type="correct">Nazwiska piszemy wielką literą.</example>
-		<example type="incorrect">Nazwiska piszemy <em>z dużej litery</em>.</example>
-	</rule>
-	<rule id="W_TYM_WZGLEDZIE" name="Błąd leksykalny: w tym względzie">
-		<pattern><token>w</token><token>tym</token><token>względzie</token></pattern>
-		<message>Wyrażenie „w tym względzie” jest niezalecane. Lepiej:<em>w tej sprawie</em>, <em>w tym zakresie</em>.</message>
-		<example type="incorrect">Przykładem klasycznym są <em>w tym względzie</em> dominujące nurty psychologii.</example>
-		<example type="correct">Przykładem klasycznym są w tym zakresie dominujące nurty psychologii.</example>
-	</rule>
-	<rule id="WYSOKA_FREKWENCJA" name="Błąd leksykalny: wysoka lub niska frekwencja">
-		<pattern><token inflected="yes" regexp="yes">wysoki|niski</token><token inflected="yes">frekwencja</token></pattern>
-		<message>Nie mówi się „wysoka frekwencja” czy „niska frekwencja”, tylko <em>duża frekwencja</em> i <em>mała frekwencja</em>.</message>
-		<example type="incorrect">W tym roku w wyborach była bardzo <em>wysoka frekwencja</em>.</example>
-		<example type="incorrect">W tym roku w wyborach była bardzo <em>niska frekwencja</em>.</example>
-		<example type="correct">W tym roku w wyborach była bardzo duża frekwencja.</example>
-		<example type="correct">W tym roku w wyborach była bardzo mała frekwencja.</example>
-	</rule>
-	<rule id="W_GLORII_CHWALY" name="Pleonazm: w glorii chwały">
-		<pattern><token>w</token><token>glorii</token><token>chwały</token></pattern>
-		<message>Mówi się <em>w glorii</em> lub <em>w chwale</em>; „w glorii chwały” to za dużo grzybów w barszcz.</message>
-		<example type="incorrect">Piłkarska reprezentacja Ekwadoru <em>w glorii chwały</em> wróciła do swojego kraju.</example>
-		<example type="correct">Piłkarska reprezentacja Ekwadoru w glorii wróciła do swojego kraju.</example>
-	</rule>
-	<rule id="KURS_NAUKI" name="Pleonazm: kurs nauki">
-		<pattern>
-			<token inflected="yes">kurs</token>
-			<token>nauki</token>
-		</pattern>
-		<message>Wyrażenie „kurs nauki” jest pleonazmem (masłem maślanym). Wystarczy powiedzieć <em>kurs</em>.</message>
-		<example type="correct">Zapraszamy na kurs języka angielskiego!</example>
-		<example type="incorrect">Zapraszamy na <em>kurs nauki</em> języka angielskiego!</example>
-	</rule>
-	<rule id="ZAINTERESOWANIE_DLA" name="Błąd składniowy: zainteresowanie dla czego">
-		<pattern>
-			<token inflected="yes">zainteresować</token>
-			<token>dla</token>
-			<token postag_regexp="yes" postag=".*gen.*"></token>
-		</pattern>
-		<message>Nie mówi się „zainteresowanie dla czegoś”, lecz <em>zainteresowanie czymś</em>.</message>
-		<example type="correct">Wyraził żywe zainteresowanie zaplanowaną dyskusją na temat nauczania matematyki.</example>
-		<example type="incorrect">Wyraził żywe <em>zainteresowanie dla zaplanowanej</em> dyskusji na temat nauczania matematyki.</example>
-	</rule>
-	<rule id="WYSOKA_FORMA" name="Błąd leksykalny: „wysoka forma”">
-		<pattern>
-			<token inflected="yes" postag_regexp="yes" postag=".*:f">wysoki</token>
-			<token inflected="yes">forma</token>
-		</pattern>
-		<message>Nie mówi się „wysoka forma”, lecz <em>dobra forma</em>, <em>doskonała forma</em>.</message>
-		<example type="correct">Małysz jest w doskonałej formie.</example>
-		<example type="incorrect"><em>Wysoka forma</em> Małysza daje nam nadzieję.</example>
-		<example type="correct">W górach wysokich forma Małyszowi dopisywała.</example>
-	</rule>
-	<rule id="PANTALYK" name="Wyraz niesamodzielny: „pantałyk”">
-		<pattern mark_from="1">
-			<token negate="yes">z</token>
-			<token inflected="yes">pantałyk</token>
-		</pattern>
-		<message>Wyraz „pantałyk” jest niesamodzielny i może występować tylko we frazie <em>zbić z pantałyku</em>.</message>
-		<example type="correct">Ludwik zbił Jarka z pantałyku.</example>
-		<example type="incorrect">Kazio bawił się <em>pantałykiem</em>.</example>
-	</rule>
+		      <example type="incorrect">Trwało to <marker>godzinę czasu</marker>.</example>
+	   </rule>
+	   <rule id="CO_I_RUSZ" name="Błąd leksykalny: co i rusz">
+		      <pattern>
+         <token>co</token>
+         <token>i</token>
+         <token>rusz</token>
+      </pattern>
+		      <message>Wyrażenie „co i rusz” jest niepoprawne. Poprawnie mówi się: <suggestion>co chwila</suggestion>, <suggestion>co krok</suggestion>
+      </message>
+		      <example type="incorrect">
+         <marker>Co i rusz</marker> media informują o tym, że któryś z prominentnych polityków koalicji rządzącej załatwił coś dla siebie.</example>
+		      <example type="correct">Raz po raz media informują o tym, że któryś z prominentnych polityków koalicji rządzącej załatwił coś dla siebie.</example>
+	   </rule>
+	   <rule id="CO_I_RAZ" name="Błąd leksykalny: co i raz">
+		      <pattern>
+         <token>co</token>
+         <token>i</token>
+         <token>raz</token>
+      </pattern>
+		      <message>Wyrażenie „co i raz” jest często uznawane za niepoprawne. Poprawnie mówi się: <suggestion>co chwila</suggestion>, <suggestion>co krok</suggestion>
+      </message>
+		      <example type="incorrect">
+         <marker>Co i raz</marker> media informują o tym, że któryś z prominentnych polityków koalicji rządzącej załatwił coś dla siebie.</example>
+		      <example type="correct">Raz po raz media informują o tym, że któryś z prominentnych polityków koalicji rządzącej załatwił coś dla siebie.</example>
+	   </rule>
+	   <rule id="ZA_WYJATKIEM" name="Błąd leksykalny: za wyjątkiem">
+		      <pattern>
+         <token>za</token>
+         <token>wyjątkiem</token>
+      </pattern>
+		      <message>Wyrażenie „za wyjątkiem” jest niepoprawne. Poprawne wyrażenie: <suggestion>z wyjątkiem</suggestion>.</message>
+		      <example type="incorrect">
+         <marker>Za wyjątkiem</marker> powyższych sytuacji, będziemy używać i ujawniać informacje o twoim zdrowiu.</example>
+		      <example type="correct">Wyjąwszy powyższe sytuacje, będziemy korzystać z informacji o państwa zdrowiu oraz je ujawniać.</example>
+	   </rule>
+	   <rule id="ZA_MIAST" name="Błędna pisownia rozłączna: za miast">
+		      <pattern>
+         <token>za</token>
+         <token>miast</token>
+      </pattern>
+		      <message>Przyimek <suggestion>zamiast</suggestion> piszemy łącznie.</message>
+		      <example type="incorrect">Może <marker>za miast</marker> dużego tła wystarczy wstawić zwykły kolor?</example>
+		      <example type="correct">Może zamiast dużego tła wystarczy wstawić zwykły kolor?</example>
+	   </rule>
+	   <rule id="CIEZKI_ORZECH" name="Błąd leksykalny: ciężki lub trudny orzech do zgryzienia">
+		      <pattern>
+         <token inflected="yes" regexp="yes">ciężki</token>
+         <token inflected="yes">orzech</token>
+         <token>do</token>
+         <token>zgryzienia</token>
+      </pattern>
+		      <message>To wyrażenie ma dwie poprawne formy: <suggestion>twardy orzech do zgryzienia</suggestion> lub <suggestion>trudny orzech do zgryzienia</suggestion>.</message>
+		      <example type="incorrect">Gabriel ma trochę diaboliczny wygląd to i tak miał <marker>ciężki orzech do zgryzienia</marker>, z którym poradził sobie jak wiewiórka.</example>
+		      <example type="correct">Gabriel ma trochę diaboliczny wygląd to i dlatego miał twardy orzech do zgryzienia, z którym poradził sobie jak wiewiórka.</example>
+	   </rule>
+	   <rule id="AURA_POGODOWA" name="Pleonazm: aura pogodowa">
+		      <pattern>
+         <token inflected="yes">aura</token>
+         <token inflected="yes" postag_regexp="yes" postag="adj:sg:.*:f">pogodowy</token>
+      </pattern>
+		      <message>Wyrażenie „aura pogodowa” jest pleonazmem: wystarczy albo sama <suggestion>\1</suggestion>, albo <suggestion>pogoda</suggestion>.</message>
+		      <example type="incorrect">Taka <marker>aura pogodowa</marker> dała się wszystkim obywatelom we znaki.</example>
+		      <example type="correct">Ta pogoda dała się wszystkim we znaki.</example>
+		      <example type="correct">Przy takiej aurze pogodowych anomalii spodziewać się nie można.</example>
+	   </rule>
+	   <rule id="DO_TYCH_CZAS" name="Błąd ortograficzny: do tych czas">
+		      <pattern>
+         <token>do</token>
+         <token>tych</token>
+         <token>czas</token>
+      </pattern>
+		      <message>Wyraz <suggestion>dotychczas</suggestion> piszemy łącznie.</message>
+		      <example type="incorrect">Co zrobiliśmy <marker>do tych czas</marker>?</example>
+		      <example type="correct">Co zrobiliśmy dotychczas?</example>
+	   </rule>
+	   <rule id="STOPIEN_WYZSZY" name="Błędna forma stopnia wyższego">
+		      <pattern mark_from="1">
+         <token negate="yes">tym</token>
+         <token>bardziej</token>
+         <token inflected="yes" regexp="yes">ważny|dobry|dokładny|gruby|grzeczny|dziwny|głęboki|głośny|łagodny|łatwy</token>
+      </pattern>
+		      <message>Ten przymiotnik stopniuje się bez wyrazu „bardziej”.</message>
+		      <example type="incorrect"><marker>Bardziej ważny</marker> jest dla mnie ten fragment.</example>
+		      <example type="incorrect">Jest to wynik <marker>bardziej dobry</marker>.</example>
+		      <example type="incorrect">Piotr był <marker>bardziej dokładny</marker>.</example>
+		      <example type="correct">Ważniejszy jest dla mnie ten fragment.</example>
+		      <example type="correct">Tym bardziej ważne jest, abyśmy to pamiętali.</example>
+		      <example type="correct">Piotr był dokładniejszy.</example>
+	   </rule>
+	   <rule id="KAZDY_WTOREK" name="Pleonazm: każdy wtorek miesiąca">
+		      <pattern>
+         <token inflected="yes" regexp="yes">każdy</token>
+         <token inflected="yes" regexp="yes">poniedziałek|wtorek|środa|czwartek|piątek|sobota|niedziela</token>
+         <token regexp="yes">tygodnia|miesiąca</token>
+      </pattern>
+		      <message>Wyrażenia typu „każdy wtorek miesiąca” są pleonastyczne. Wystarczy powiedzieć <suggestion>\1 \2</suggestion>.</message>
+		      <example type="correct">Śmieci są wywożone w każdy wtorek.</example>
+		      <example type="incorrect">Śmieci są wywożone w <marker>każdy wtorek tygodnia</marker>.</example>
+	   </rule>
+	   <rule id="POD_ZAMKNIECIEM" name="Błąd leksykalny: pod zamknięciem">
+		      <pattern>
+         <token>pod</token>
+         <token>zamknięciem</token>
+      </pattern>
+		      <message>Wyrażenie „pod zamknięciem” jest niepoprawne. Lepiej mówić <suggestion>w zamknięciu</suggestion>, <suggestion>pod kluczem</suggestion> (ten błąd występuje nawet w polskim prawie).</message>
+		      <example type="correct">Towary trzymamy pod kluczem.</example>
+		      <example type="incorrect">Towary trzymamy <marker>pod zamknięciem</marker>.</example>
+	   </rule>
+	   <rule id="Z_WIELKIEJ_LITERY" name="Rusycyzm: z wielkiej litery">
+		      <pattern>
+         <token>z</token>
+         <token regexp="yes">wielkiej|dużej|małej</token>
+         <token>litery</token>
+      </pattern>
+		      <message>Wyrażenia typu „z dużej litery” to rucysyzm. Mówimy: ten wyraz piszemy <suggestion>wielką literą</suggestion>, <suggestion>małą literą</suggestion>.</message>
+		      <example type="correct">Nazwiska piszemy wielką literą.</example>
+		      <example type="incorrect">Nazwiska piszemy <marker>z dużej litery</marker>.</example>
+	   </rule>
+	   <rule id="W_TYM_WZGLEDZIE" name="Błąd leksykalny: w tym względzie">
+		      <pattern>
+         <token>w</token>
+         <token>tym</token>
+         <token>względzie</token>
+      </pattern>
+		      <message>Wyrażenie „w tym względzie” jest niezalecane. Lepiej:<suggestion>w tej sprawie</suggestion>, <suggestion>w tym zakresie</suggestion>.</message>
+		      <example type="incorrect">Przykładem klasycznym są <marker>w tym względzie</marker> dominujące nurty psychologii.</example>
+		      <example type="correct">Przykładem klasycznym są w tym zakresie dominujące nurty psychologii.</example>
+	   </rule>
+	   <rule id="WYSOKA_FREKWENCJA" name="Błąd leksykalny: wysoka lub niska frekwencja">
+		      <pattern>
+         <token inflected="yes" regexp="yes">wysoki|niski</token>
+         <token inflected="yes">frekwencja</token>
+      </pattern>
+		      <message>Nie mówi się „wysoka frekwencja” czy „niska frekwencja”, tylko <suggestion>duża frekwencja</suggestion> i <suggestion>mała frekwencja</suggestion>.</message>
+		      <example type="incorrect">W tym roku w wyborach była bardzo <marker>wysoka frekwencja</marker>.</example>
+		      <example type="incorrect">W tym roku w wyborach była bardzo <marker>niska frekwencja</marker>.</example>
+		      <example type="correct">W tym roku w wyborach była bardzo duża frekwencja.</example>
+		      <example type="correct">W tym roku w wyborach była bardzo mała frekwencja.</example>
+	   </rule>
+	   <rule id="W_GLORII_CHWALY" name="Pleonazm: w glorii chwały">
+		      <pattern>
+         <token>w</token>
+         <token>glorii</token>
+         <token>chwały</token>
+      </pattern>
+		      <message>Mówi się <suggestion>w glorii</suggestion> lub <suggestion>w chwale</suggestion>; „w glorii chwały” to za dużo grzybów w barszcz.</message>
+		      <example type="incorrect">Piłkarska reprezentacja Ekwadoru <marker>w glorii chwały</marker> wróciła do swojego kraju.</example>
+		      <example type="correct">Piłkarska reprezentacja Ekwadoru w glorii wróciła do swojego kraju.</example>
+	   </rule>
+	   <rule id="KURS_NAUKI" name="Pleonazm: kurs nauki">
+		      <pattern>
+			         <token inflected="yes">kurs</token>
+			         <token>nauki</token>
+		      </pattern>
+		      <message>Wyrażenie „kurs nauki” jest pleonazmem (masłem maślanym). Wystarczy powiedzieć <suggestion>kurs</suggestion>.</message>
+		      <example type="correct">Zapraszamy na kurs języka angielskiego!</example>
+		      <example type="incorrect">Zapraszamy na <marker>kurs nauki</marker> języka angielskiego!</example>
+	   </rule>
+	   <rule id="ZAINTERESOWANIE_DLA" name="Błąd składniowy: zainteresowanie dla czego">
+		      <pattern>
+			         <token inflected="yes">zainteresować</token>
+			         <token>dla</token>
+			         <token postag_regexp="yes" postag=".*gen.*"/>
+		      </pattern>
+		      <message>Nie mówi się „zainteresowanie dla czegoś”, lecz <suggestion>zainteresowanie czymś</suggestion>.</message>
+		      <example type="correct">Wyraził żywe zainteresowanie zaplanowaną dyskusją na temat nauczania matematyki.</example>
+		      <example type="incorrect">Wyraził żywe <marker>zainteresowanie dla zaplanowanej</marker> dyskusji na temat nauczania matematyki.</example>
+	   </rule>
+	   <rule id="WYSOKA_FORMA" name="Błąd leksykalny: „wysoka forma”">
+		      <pattern>
+			         <token inflected="yes" postag_regexp="yes" postag=".*:f">wysoki</token>
+			         <token inflected="yes">forma</token>
+		      </pattern>
+		      <message>Nie mówi się „wysoka forma”, lecz <suggestion>dobra forma</suggestion>, <suggestion>doskonała forma</suggestion>.</message>
+		      <example type="correct">Małysz jest w doskonałej formie.</example>
+		      <example type="incorrect">
+         <marker>Wysoka forma</marker> Małysza daje nam nadzieję.</example>
+		      <example type="correct">W górach wysokich forma Małyszowi dopisywała.</example>
+	   </rule>
+	   <rule id="PANTALYK" name="Wyraz niesamodzielny: „pantałyk”">
+		      <pattern mark_from="1">
+			         <token negate="yes">z</token>
+			         <token inflected="yes">pantałyk</token>
+		      </pattern>
+		      <message>Wyraz „pantałyk” jest niesamodzielny i może występować tylko we frazie <suggestion>zbić z pantałyku</suggestion>.</message>
+		      <example type="correct">Ludwik zbił Jarka z pantałyku.</example>
+		      <example type="incorrect">Kazio bawił się <marker>pantałykiem</marker>.</example>
+	   </rule>
 	
-	<rule id="POLTOREJ" name="Błąd składniowy: półtorej + rzeczownik rodzaju męskiego lub nijakiego">
-		<pattern>
-			<token>półtorej</token>
-			<token postag="subst:.*:(m[0-9]|n)" postag_regexp="yes"></token>
-		</pattern>
-		<message>Mówi się <em>półtora kilo</em>, nie „półtorej kilo”.</message>
-		<example type="correct">Kupiłem półtora litra wódki.</example>
-		<example type="incorrect">Kupiłem <em>półtorej litra</em> wódki.</example>
-	</rule>
+	   <rule id="POLTOREJ" name="Błąd składniowy: półtorej + rzeczownik rodzaju męskiego lub nijakiego">
+		      <pattern>
+			         <token>półtorej</token>
+			         <token postag="subst:.*:(m[0-9]|n)" postag_regexp="yes"/>
+		      </pattern>
+		      <message>Mówi się <suggestion>półtora kilo</suggestion>, nie „półtorej kilo”.</message>
+		      <example type="correct">Kupiłem półtora litra wódki.</example>
+		      <example type="incorrect">Kupiłem <marker>półtorej litra</marker> wódki.</example>
+	   </rule>
 	
-	<rule id="UZYWAC_CO" name="Błąd składniowy: używać co">
-		<pattern>
-			<token inflected="yes">używać</token>
-			<token postag_regexp="yes" postag=".*:(nom|acc|nom\.acc\.voc|nom\.acc).*"></token>
-		</pattern>
-		<message>Mówi się <em>używać czego</em>, a nie „używać coś”.</message>
-		<example type="correct">Używam starego żelazka.</example>
-		<example type="incorrect"><em>Używam stare</em> żelazko.</example>
-	</rule>
+	   <rule id="UZYWAC_CO" name="Błąd składniowy: używać co">
+		      <pattern>
+			         <token inflected="yes">używać</token>
+			         <token postag_regexp="yes" postag=".*:(nom|acc|nom\.acc\.voc|nom\.acc).*"/>
+		      </pattern>
+		      <message>Mówi się <suggestion>używać czego</suggestion>, a nie „używać coś”.</message>
+		      <example type="correct">Używam starego żelazka.</example>
+		      <example type="incorrect">
+         <marker>Używam stare</marker> żelazko.</example>
+	   </rule>
 
-	<rule name="Błąd leksykalny: „wprowadzić coś w obieg”" id="WPROWADZIC_W_OBIEG">
-		<pattern>
-			<token inflected="yes" skip="-1" regexp="yes">wprowadzić|wprowadzać</token>
-			<token>w</token>
-			<token>obieg</token>
-		</pattern>
-		<message>Mówi się <em>puszczać w obieg</em>, a nie „wprowadzać w obieg”.</message>
-		<example type="correct">Mafia puściła w obieg sfałszowane dolary.</example>
-		<example type="incorrect">Mafia <em>wprowadziła niebawem w obieg</em> sfałszowane dolary.</example>
-	</rule>
-	<rule name="Błąd ortograficzny: „za równo”" id="ZA_ROWNO">
-		<pattern mark_from="0" mark_to="0">
-			<token>za</token>
-			<token skip="-1">równo</token>
-			<token regexp="yes">jak|jaki</token>
-		</pattern>
-		<message>Wyraz <em>zarówno</em> piszemy łącznie.</message>
-		<example type="incorrect">Sam program PHARE spotkał się z poważną krytyką i negatywną oceną <em>za równo ze strony europejskiego Trybunału Obrachunkowego jak</em> i dwukrotnie polskiej NIK.</example>
-		<example type="correct">Sam program PHARE spotkał się z poważną krytyką i negatywną oceną zarówno ze strony europejskiego Trybunału Obrachunkowego, jak i dwukrotnie polskiej NIK.</example>
-	</rule>
-	<rule name="Błąd ortograficzny: „zarówno... jaki”" id="ZA_ROWNO_JAKI">
-		<pattern mark_from="0" mark_to="0">
-			<token regexp="yes" skip="-1">równo|zarówno<exception>jak</exception></token>
-			<token regexp="yes">jaki</token>
-		</pattern>
-		<message>To wyrażenie ma poprawną postać: <em>zarówno... jak i</em>.</message>
-		<example type="incorrect">Sam program PHARE spotkał się z poważną krytyką i negatywną oceną za <em>równo ze strony europejskiego Trybunału Obrachunkowego jaki</em> dwukrotnie polskiej NIK.</example>
-		<example type="correct">Sam program PHARE spotkał się z poważną krytyką i negatywną oceną zarówno ze strony europejskiego Trybunału Obrachunkowego, jak i dwukrotnie polskiej NIK.</example>
-		<example type="correct">Sam program PHARE zarówno ze strony europejskiego Trybunału Obrachunkowego, jak i sądu ludowego, jaki powołał premier.</example>
-	</rule>
-	<rule name="„zarówno... i” („zarówno... jak”)" id="ZAROWNO_I">
-		<pattern>
-			<token skip="-1">zarówno<exception>jak</exception></token>
-			<token>i</token>
-		</pattern>
-		<message>Po „zarówno” piszemy <em>jak i</em>.</message>
-		<example type="correct">Wiążą się z tym zarówno zyski, jak i zalety.</example>
-		<example type="incorrect">Wiążą się z tym <em>zarówno zyski i</em> zalety.</example>
-	</rule>
+	   <rule name="Błąd leksykalny: „wprowadzić coś w obieg”" id="WPROWADZIC_W_OBIEG">
+		      <pattern>
+			         <token inflected="yes" skip="-1" regexp="yes">wprowadzić|wprowadzać</token>
+			         <token>w</token>
+			         <token>obieg</token>
+		      </pattern>
+		      <message>Mówi się <suggestion>puszczać w obieg</suggestion>, a nie „wprowadzać w obieg”.</message>
+		      <example type="correct">Mafia puściła w obieg sfałszowane dolary.</example>
+		      <example type="incorrect">Mafia <marker>wprowadziła niebawem w obieg</marker> sfałszowane dolary.</example>
+	   </rule>
+	   <rule name="Błąd ortograficzny: „za równo”" id="ZA_ROWNO">
+		      <pattern mark_from="0" mark_to="0">
+			         <token>za</token>
+			         <token skip="-1">równo</token>
+			         <token regexp="yes">jak|jaki</token>
+		      </pattern>
+		      <message>Wyraz <suggestion>zarówno</suggestion> piszemy łącznie.</message>
+		      <example type="incorrect">Sam program PHARE spotkał się z poważną krytyką i negatywną oceną <marker>za równo ze strony europejskiego Trybunału Obrachunkowego jak</marker> i dwukrotnie polskiej NIK.</example>
+		      <example type="correct">Sam program PHARE spotkał się z poważną krytyką i negatywną oceną zarówno ze strony europejskiego Trybunału Obrachunkowego, jak i dwukrotnie polskiej NIK.</example>
+	   </rule>
+	   <rule name="Błąd ortograficzny: „zarówno... jaki”" id="ZA_ROWNO_JAKI">
+		      <pattern mark_from="0" mark_to="0">
+			         <token regexp="yes" skip="-1">równo|zarówno<exception>jak</exception></token>
+			         <token regexp="yes">jaki</token>
+		      </pattern>
+		      <message>To wyrażenie ma poprawną postać: <suggestion>zarówno... jak i</suggestion>.</message>
+		      <example type="incorrect">Sam program PHARE spotkał się z poważną krytyką i negatywną oceną za <marker>równo ze strony europejskiego Trybunału Obrachunkowego jaki</marker> dwukrotnie polskiej NIK.</example>
+		      <example type="correct">Sam program PHARE spotkał się z poważną krytyką i negatywną oceną zarówno ze strony europejskiego Trybunału Obrachunkowego, jak i dwukrotnie polskiej NIK.</example>
+		      <example type="correct">Sam program PHARE zarówno ze strony europejskiego Trybunału Obrachunkowego, jak i sądu ludowego, jaki powołał premier.</example>
+	   </rule>
+	   <rule name="„zarówno... i” („zarówno... jak”)" id="ZAROWNO_I">
+		      <pattern>
+			         <token skip="-1">zarówno<exception>jak</exception></token>
+			         <token>i</token>
+		      </pattern>
+		      <message>Po „zarówno” piszemy <suggestion>jak i</suggestion>.</message>
+		      <example type="correct">Wiążą się z tym zarówno zyski, jak i zalety.</example>
+		      <example type="incorrect">Wiążą się z tym <marker>zarówno zyski i</marker> zalety.</example>
+	   </rule>
 	
-	<rule name="Błąd składniowy: „czym... tym”" id="CZYM_TYM">
-		<pattern>
-			<token skip="-1">czym</token>
-			<token postag="(adj|adv).*" postag_regexp="yes" skip="-1"></token>
-			<token>tym</token>
-			<token postag="(adj|adv).*" postag_regexp="yes"></token>
-		</pattern>
-		<message>Mówimy <em>Im..., tym</em>.</message>
-		<example type="correct">Im większa, tym lepiej.</example>
-		<example type="incorrect"><em>Czym większa, tym lepiej</em>.</example>
-	</rule>
-	<rule name="Błąd związku rzędu: „rozumieć coś pod czymś" id="ROZUMIEC_POD">
-		<pattern mark_from="1">
-			<token negate="yes" skip="1">przez</token>
-			<token inflected="yes" skip="5">rozumieć<exception>przez</exception></token>
-			<token>pod</token>
-		</pattern>
-		<message>Mówimy <em>rozumieć coś przez</em> coś.</message>
-		<example type="incorrect"><em>Rozumiał czasem pod</em> tym pojęciem wolę.</example>
-		<example type="correct">Kartezjusz rozumiał czasem przez to pojęcie wolę.</example>
-		<example type="correct">Kartezjusz rozumiał przez to wolę, pod którą podciągał inne pojęcia.</example>
-	</rule>
-	<rule name="Błąd składniowy: „w gazecie pisze” (było napisane)" id="PISZE">
-		<pattern case_sensitive="yes">
-			<token regexp="yes" skip="-1">[Nn]a|[Ww]</token>
-			<token regexp="yes" skip="-1">gazecie|internecie|artykule|plakacie|książce|instrukcji|księdze</token>
-			<token regexp="yes" skip="1">pisze|pisało|stoi|stało</token>
-			<token>że</token>
-		</pattern>
-		<message>Mówimy <em>było napisane</em>, a nie „pisze”.</message>
-		<example type="correct">W gazecie było napisane, że w Polsce rośnie szczurosałata.</example>
-	    <example type="incorrect"><em>W gazecie pisało, że</em> w Polsce rośnie szczurosałata.</example>
-	</rule>
-	<rule name="Błąd składniowy: „tam pisze” (tam było napisane)" id="TAM_PISZE">
-		<pattern>
-			<token regexp="yes" skip="3">tam|tutaj|gdzie</token>
-			<token regexp="yes" skip="1">pisze|pisało|stoi|stało</token>
-			<token>że</token>
-		</pattern>
-		<message>Mówimy <em>było napisane</em>, a nie „pisze”.</message>
-		<example type="correct">Tam było napisane, że w Polsce rośnie szczurosałata.</example>
-	    <example type="incorrect"><em>Tam pisało, że</em> w Polsce rośnie szczurosałata.</example>
-	</rule>
-	<rule name="Błąd składniowy: „nie tyle... co”" id="NIE_TYLE_CO">
-		<pattern>
-			<token>nie</token>
-			<token skip="-1">tyle<exception>ile</exception></token>
-			<token>co</token>
-		</pattern>
-		<message>Mówimy <em>nie tyle..., ile...</em>.</message>
-		<example type="correct">Jestem przekonany, że wielkim nieprzyjacielem prawdy jest nie tyle kłamstwo, ile monotonia.</example>
-		<example type="correct">Nieprzyjacielem prawdy jest nie tyle kłamstwo, ile monotonia, co wykazały zresztą moje badania.</example>
-		<example type="incorrect">Takie nadmierne wchłanianie wapnia spowodowane jest <em>nie tyle przesadnym spożyciem, co</em> zaburzeniami.</example>
-	</rule>
+	   <rule name="Błąd składniowy: „czym... tym”" id="CZYM_TYM">
+		      <pattern>
+			         <token skip="-1">czym</token>
+			         <token postag="(adj|adv).*" postag_regexp="yes" skip="-1"/>
+			         <token>tym</token>
+			         <token postag="(adj|adv).*" postag_regexp="yes"/>
+		      </pattern>
+		      <message>Mówimy <suggestion>Im..., tym</suggestion>.</message>
+		      <example type="correct">Im większa, tym lepiej.</example>
+		      <example type="incorrect">
+         <marker>Czym większa, tym lepiej</marker>.</example>
+	   </rule>
+	   <rule name="Błąd związku rzędu: „rozumieć coś pod czymś" id="ROZUMIEC_POD">
+		      <pattern mark_from="1">
+			         <token negate="yes" skip="1">przez</token>
+			         <token inflected="yes" skip="5">rozumieć<exception>przez</exception></token>
+			         <token>pod</token>
+		      </pattern>
+		      <message>Mówimy <suggestion>rozumieć coś przez</suggestion> coś.</message>
+		      <example type="incorrect">
+         <marker>Rozumiał czasem pod</marker> tym pojęciem wolę.</example>
+		      <example type="correct">Kartezjusz rozumiał czasem przez to pojęcie wolę.</example>
+		      <example type="correct">Kartezjusz rozumiał przez to wolę, pod którą podciągał inne pojęcia.</example>
+	   </rule>
+	   <rule name="Błąd składniowy: „w gazecie pisze” (było napisane)" id="PISZE">
+		      <pattern case_sensitive="yes">
+			         <token regexp="yes" skip="-1">[Nn]a|[Ww]</token>
+			         <token regexp="yes" skip="-1">gazecie|internecie|artykule|plakacie|książce|instrukcji|księdze</token>
+			         <token regexp="yes" skip="1">pisze|pisało|stoi|stało</token>
+			         <token>że</token>
+		      </pattern>
+		      <message>Mówimy <suggestion>było napisane</suggestion>, a nie „pisze”.</message>
+		      <example type="correct">W gazecie było napisane, że w Polsce rośnie szczurosałata.</example>
+	          <example type="incorrect">
+         <marker>W gazecie pisało, że</marker> w Polsce rośnie szczurosałata.</example>
+	   </rule>
+	   <rule name="Błąd składniowy: „tam pisze” (tam było napisane)" id="TAM_PISZE">
+		      <pattern>
+			         <token regexp="yes" skip="3">tam|tutaj|gdzie</token>
+			         <token regexp="yes" skip="1">pisze|pisało|stoi|stało</token>
+			         <token>że</token>
+		      </pattern>
+		      <message>Mówimy <suggestion>było napisane</suggestion>, a nie „pisze”.</message>
+		      <example type="correct">Tam było napisane, że w Polsce rośnie szczurosałata.</example>
+	          <example type="incorrect">
+         <marker>Tam pisało, że</marker> w Polsce rośnie szczurosałata.</example>
+	   </rule>
+	   <rule name="Błąd składniowy: „nie tyle... co”" id="NIE_TYLE_CO">
+		      <pattern>
+			         <token>nie</token>
+			         <token skip="-1">tyle<exception>ile</exception></token>
+			         <token>co</token>
+		      </pattern>
+		      <message>Mówimy <suggestion>nie tyle..., ile...</suggestion>.</message>
+		      <example type="correct">Jestem przekonany, że wielkim nieprzyjacielem prawdy jest nie tyle kłamstwo, ile monotonia.</example>
+		      <example type="correct">Nieprzyjacielem prawdy jest nie tyle kłamstwo, ile monotonia, co wykazały zresztą moje badania.</example>
+		      <example type="incorrect">Takie nadmierne wchłanianie wapnia spowodowane jest <marker>nie tyle przesadnym spożyciem, co</marker> zaburzeniami.</example>
+	   </rule>
 	<!-- FIXME: dictionary not complete 
 	<rule name="Błąd leksykalny: „odgrywać znaczenie”" id="ODGRYWAC_ZNACZENIE">
 		<pattern>
@@ -485,15 +631,15 @@ $Id: grammar.xml,v 1.23 2006-08-06 10:15:57 milek_pl Exp $
 		<example type="correct">Odgrywa dużą rolę w żegludze różnych typów statków.</example>
 	</rule>
 	-->
-	<rule name="Pleonazm: „miesiąc lipiec” itp." id="W_MIESIACU_LIPCU">
-		<pattern>
-			<token inflected="yes">miesiąc</token>
-			<token inflected="yes" regexp="yes">styczeń|luty|marzec|kwiecień|maj|czerwiec|lipiec|sierpień|wrzesień|październik|listopad|grudzień</token>
-		</pattern>
-		<message>To wyrażenie jest pleonazmem. Wystarczy podać tylko nazwę miesiąca, bez słowa <em>miesiąc</em>.</message>
-		<example type="correct">W lipcu premier jedzie na wakacje.</example>
-		<example type="incorrect">W <em>miesiącu lipcu</em> premier jedzie na wakacje.</example>
-	</rule>
+	   <rule name="Pleonazm: „miesiąc lipiec” itp." id="W_MIESIACU_LIPCU">
+		      <pattern>
+			         <token inflected="yes">miesiąc</token>
+			         <token inflected="yes" regexp="yes">styczeń|luty|marzec|kwiecień|maj|czerwiec|lipiec|sierpień|wrzesień|październik|listopad|grudzień</token>
+		      </pattern>
+		      <message>To wyrażenie jest pleonazmem. Wystarczy podać tylko nazwę miesiąca, bez słowa <suggestion>miesiąc</suggestion>.</message>
+		      <example type="correct">W lipcu premier jedzie na wakacje.</example>
+		      <example type="incorrect">W <marker>miesiącu lipcu</marker> premier jedzie na wakacje.</example>
+	   </rule>
 	<!--
 	<rule name="Błąd interpunkcyjny: tylko nawias otwierający" id="NAWIAS">
 		<pattern>
@@ -506,481 +652,496 @@ $Id: grammar.xml,v 1.23 2006-08-06 10:15:57 milek_pl Exp $
 		<example type="incorrect">Mam na myśli zamek (budowlę.</example>
 	</rule>
 		-->
-	<rule name="Pisownia: liczebniki porządkowe z końcówkami przypadków" id="LICZEBNIKI">
-		<pattern>
-			<token regexp="yes">[0-9]+-(ty|wsi|wszy|szy|si|tym|tymi|ci|a|ce|ch|cia|cie|ciej|cim|cio|cioletnią|ciu|ego|ej|ga|gi|gie|gim|go|im|ki|krotnie|któregoś|leci.*|ma|me|miu|mo|o|ro|stoletniego|stu|sza|ta|te|tego|tej|tka|tki|to|toletnim|tu|tą)</token>
-		</pattern>
-		<message>Liczebniki porządkowe zapisujemy nie z końcówkami przypadków, tylko z kropką: <em>.</em>.</message>
-		<example type="correct">Ten system jest 32-bitowy.</example>
-		<example type="incorrect">To już <em>5-ty</em> raz!</example>
-		<example type="incorrect">Rosjanie byli <em>1-wsi</em> w kosmosie.</example>
-	</rule>
-	<rule name="Pisownia: tymczasem" id="TYMCZASEM">
-		<pattern mark_from="1">
-			<token regexp="yes" negate="yes" negate_pos="yes" postag=".*verb.*" postag_regexp="yes">z|przed|poza|za|nad</token>
-			<token>tym</token>
-			<token>czasem</token>
-		</pattern>
-		<message>Wyraz <em>tymczasem</em> piszemy łącznie.</message>
-		<example type="correct">A tymczasem na Politechnice...</example>
-		<example type="correct">Co z tym czasem?</example>
-		<example type="incorrect">A <em>tym czasem</em> na Politechnice...</example>
-	</rule>
-	<rule name="Literówka: już" id="JUZ">
-		<pattern>
-			<token>juz</token>
-		</pattern>
-		<message>Prawdopodobnie literówka, czy chodziło o wyraz <em>już</em>?</message>
-		<example type="correct">Musimy już iść.</example>
-		<example type="incorrect">Musimy <em>juz</em> iść.</example>
-	</rule>
-	<rule name="Błąd leksykalny: w pośrodku" id="W_POSRODKU">
-		<pattern>
-			<token>w</token>
-			<token>pośrodku</token>
-		</pattern>
-		<message>Wyrażenie „w pośrodku” jest przestarzałe i obecnie niepoprawne. Używa się wyrażenia <em>pośrodku</em>.</message>
-		<example type="incorrect"><em>W pośrodku</em> rynku stoi studnia.</example>
-		<example type="correct">Na środku rynku stoi studnia.</example>
-	</rule>
-	<rule name="Błąd pisowni: poprzez" id="PO_PRZEZ">
-		<pattern case_sensitive="yes">
-			<token regexp="yes">[Pp]o</token>
-			<token>przez</token>
-		</pattern>
-		<message>Wyraz <em>poprzez</em> piszemy łącznie.</message>
-		<example type="incorrect">Malarz oddziałuje na nas <em>po przez</em> swoje malarstwo.</example>
-		<example type="correct">Malarz oddziałuje na nas poprzez swoje malarstwo.</example>
-	</rule>
-	<rule name="Błąd pisowni: poprzez" id="PO_NAD">
-		<pattern case_sensitive="yes">
-			<token regexp="yes">[Pp]o</token>
-			<token>nad</token>
-		</pattern>
-		<message>Wyraz <em>ponad</em> piszemy łącznie.</message>
-		<example type="incorrect">Byłem w <em>po nad</em> trzydziestu krajach.</example>
-		<example type="correct">Byłem w ponad trzydziestu krajach.</example>
-	</rule>
-	<rule name="Błąd pisowni: pomimo" id="PO_MIMO">
-		<pattern case_sensitive="yes">
-			<token regexp="yes">[Pp]o</token>
-			<token>mimo</token>
-		</pattern>
-		<message>Wyraz <em>pomimo</em> piszemy łącznie.</message>
-		<example type="incorrect"><em>Po mimo</em> początkowych problemów, wylądował bowiem w wodach Kanału La Manche.</example>
-		<example type="correct">Pomimo początkowych problemów, wylądował bowiem w wodach Kanału La Manche</example>
-	</rule>	
-	<rule name="Błąd pisowni: pomiędzy" id="PO_MIEDZY">
-		<pattern case_sensitive="yes">
-			<token regexp="yes">[Pp]o</token>
-			<token>między</token>
-		</pattern>
-		<message>Wyraz <em>pomiędzy</em> piszemy łącznie.</message>
-		<example type="incorrect">Znaleźliśmy się <em>po między</em> młotem a kowadłem.</example>
-		<example type="correct">Znaleźliśmy się pomiędzy młotem a kowadłem.</example>
-	</rule>
-	<rule name="Literówka: się" id="SIE">
-		<pattern>
-			<token>sie</token>
-		</pattern>
-		<message>Prawdopodobna literówka: czy chodziło o wyraz <em>się</em>?</message>
-		<example type="correct">Eryk podrapał się po głowie.</example>
-		<example type="incorrect">Eryk podrapał <em>sie</em> po głowie.</example>
-	</rule>
-	<rule name="Błąd pisowni: przedrostki „neo”, „post”, „pre”, „eks”..." id="PRZEDROSTKI">
-		<pattern>
-			<token regexp="yes">(neo|post|pre|anty|arcy|eks|bez|beze|ekstra|hiper|infra|kontr|maksi|midi|między|mini|nad|nade|około|ponad|post|przeciw|pseudo|super|śród|ultra|wice|wokół|wokoło)[-–].+</token>
-		</pattern>
-		<message>Wyrazy z przedrostkami „neo-, post-, pre-, anty-, arcy-, eks-, bez-, beze-, ekstra-, hiper-, infra-, kontr-, maksi-, midi-, między-, mini-, nad-, nade-, około-, ponad-, post-, przeciw-, pseudo-, super-, śród-, ultra-, wice-, wokół-, wokoło-” piszemy łącznie.</message>
-		<example type="correct">Tym prądem intelektualnym jest postmodernizm.</example>
-		<example type="incorrect">Wiktor to mój <em>eks-mąż</em>.</example>
-		<example type="incorrect">Jadzia kupiła sobie <em>mini-spódniczkę</em>.</example>
-		<example type="incorrect"><em>Arcy–książę</em> Ferdynand lubił polować w tutejszych lasach.</example>
-	</rule>
-	<rule name="Literówka: czasownik + się" id="CZASOWNIK_SI">
-		<pattern mark_from="1">
-			<token postag=".*verb..*" postag_regexp="yes"/>
-			<token>si</token>
-		</pattern>
-		<message>Literówka: powinno być <em>się</em>.</message>
-		<example type="correct">Eryk podrapał się po głowie.</example>
-		<example type="incorrect">Eryk podrapał <em>si</em> po głowie.</example>
-	</rule>
-	<rule name="Błąd pisowni: co niemiara" id="CO_NIE_MIARA">
-		<pattern>
-			<token>co</token>
-			<token>nie</token>
-			<token>miara</token>
-		</pattern>
-		<message>Wyrażenie to piszemy: <em>co niemiara</em>.</message>
-		<example type="correct">Stoi jakiś pałac, wielki aż strach, a przed nim co niemiara bryk i wozów.</example>
-		<example type="incorrect">Stoi jakiś pałac, wielki aż strach, a przed nim <em>co nie miara</em> bryk i wozów.</example>
-	</rule>
-	<rule name="Błąd pisowni: mass-media (zamiast „mass media”)" id="MASSMEDIA">
-		<pattern>
-			<token regexp="yes">mass[–-]medi.*</token>
-		</pattern>
-		<message>To wyrażenie piszemy rozłącznie: <em>mass media</em>.</message>
-		<example type="correct">Mass media poinformowały o sukcesach Polski w zmniejszaniu płac najniżej zarabiających.</example>
-		<example type="incorrect"><em>Mass-media</em> poinformowały o sukcesach Polski w zmniejszaniu płac najniżej zarabiających.</example>
-	</rule>
-	<rule name="Błąd leksykalny: w przedzie (zamiast „na przodzie”)" id="W_PRZEDZIE">
-		<pattern>
-			<token>w</token>
-			<token>przedzie</token>
-		</pattern>
-		<message>Mówimy <em>na przodzie</em>, <em>w przodzie</em>.</message>
-		<example type="correct">Pierwszy sekretarz stał na przodzie pochodu pierwszomajowego.</example>
-		<example type="incorrect">Pierwszy sekretarz stał <em>w przedzie</em> pochodu pierwszomajowego.</example>
-	</rule>
-	<rule name="Błąd leksykalny: w ślad za (zamiast „w następstwie”)" id="W_SLAD_ZA">
-		<pattern>
-			<token>w</token>
-			<token>ślad</token>
-			<token>za</token>
-		</pattern>
-		<message>Mówimy <em>w następstwie</em> czegoś, <em>wraz z</em> czymś, <em>równocześnie z</em> czymś, a nie „w ślad za czymś”.</message>
-		<example type="correct">W następstwie tych działań gospodarka się ożywiła.</example>
-		<example type="incorrect"><em>W ślad za</em> tymi działaniami gospodarka się ożywiła.</example>
-	</rule>
-	<rule name="Błąd składniowy: większy jak (zamiast „większy od”, „większy niż”)" id="WIEKSZY_JAK">
-		<pattern mark_from="1">
-			<token inflected="yes">większy</token>
-			<token>jak</token>
-		</pattern>
-		<message>Mówimy „większy <em>od</em>”, „większy <em>niż</em>”.</message>
-		<example type="correct">Ten nowy dysk jest większy od starego.</example>
-		<example type="incorrect">Ten nowy dysk jest większy <em>jak</em> stary.</example>
-	</rule>
-	<rule name="Błąd składniowy: więcej jak (zamiast „większy od”, „większy niż”)" id="WIECEJ_JAK">
-		<pattern mark_from="1">
-			<token>więcej</token>
-			<token>jak</token>
-		</pattern>
-		<message>Mówimy „więcej <em>od</em>”, „więcej <em>niż</em>”.</message>
-		<example type="correct">Więcej niż kosmetyk!</example>
-		<example type="incorrect">Więcej <em>jak</em> Kosmetyk!</example>
-	</rule>
-	 <rule name="Błąd frazeologiczny: po prawo (zamiast „po prawej”)" id="PO_PRAWO">
-		 <pattern mark_to="-1">
-			 <token>po</token>
-			 <token>prawo</token>
-			 <token negate="yes">jazdy</token>
-		 </pattern>
-		 <message>Mówimy <em>na prawo</em>, <em>po prawej stronie</em>, <em>z prawej strony</em>.</message>
-		 <example type="correct">Mijamy z prawej strony budynek Oddziału Regionalnego PTTK w Gorzowie.</example>
- 		 <example type="incorrect">Mijamy <em>po prawo</em> budynek Oddziału Regionalnego PTTK w Gorzowie.</example>
-	 </rule>
-	 <rule name="Błąd frazeologiczny: po prawo (zamiast „po prawej”)" id="PO_LEWO">
-		 <pattern>
-			 <token>po</token>
-			 <token>lewo</token>
-		 </pattern>
-		 <message>Mówimy <em>na lewo</em>, <em>po lewej stronie</em>, <em>z lewej strony</em>.</message>
-		 <example type="correct">Mijamy z lewej strony budynek Oddziału Regionalnego PTTK w Gorzowie.</example>
- 		 <example type="incorrect">Mijamy <em>po lewo</em> budynek Oddziału Regionalnego PTTK w Gorzowie.</example>
-	 </rule>
+	   <rule name="Pisownia: liczebniki porządkowe z końcówkami przypadków" id="LICZEBNIKI">
+		      <pattern>
+			         <token regexp="yes">[0-9]+-(ty|wsi|wszy|szy|si|tym|tymi|ci|a|ce|ch|cia|cie|ciej|cim|cio|cioletnią|ciu|ego|ej|ga|gi|gie|gim|go|im|ki|krotnie|któregoś|leci.*|ma|me|miu|mo|o|ro|stoletniego|stu|sza|ta|te|tego|tej|tka|tki|to|toletnim|tu|tą)</token>
+		      </pattern>
+		      <message>Liczebniki porządkowe zapisujemy nie z końcówkami przypadków, tylko z kropką: <suggestion>.</suggestion>.</message>
+		      <example type="correct">Ten system jest 32-bitowy.</example>
+		      <example type="incorrect">To już <marker>5-ty</marker> raz!</example>
+		      <example type="incorrect">Rosjanie byli <marker>1-wsi</marker> w kosmosie.</example>
+	   </rule>
+	   <rule name="Pisownia: tymczasem" id="TYMCZASEM">
+		      <pattern mark_from="1">
+			         <token regexp="yes" negate="yes" negate_pos="yes" postag=".*verb.*" postag_regexp="yes">z|przed|poza|za|nad</token>
+			         <token>tym</token>
+			         <token>czasem</token>
+		      </pattern>
+		      <message>Wyraz <suggestion>tymczasem</suggestion> piszemy łącznie.</message>
+		      <example type="correct">A tymczasem na Politechnice...</example>
+		      <example type="correct">Co z tym czasem?</example>
+		      <example type="incorrect">A <marker>tym czasem</marker> na Politechnice...</example>
+	   </rule>
+	   <rule name="Literówka: już" id="JUZ">
+		      <pattern>
+			         <token>juz</token>
+		      </pattern>
+		      <message>Prawdopodobnie literówka, czy chodziło o wyraz <suggestion>już</suggestion>?</message>
+		      <example type="correct">Musimy już iść.</example>
+		      <example type="incorrect">Musimy <marker>juz</marker> iść.</example>
+	   </rule>
+	   <rule name="Błąd leksykalny: w pośrodku" id="W_POSRODKU">
+		      <pattern>
+			         <token>w</token>
+			         <token>pośrodku</token>
+		      </pattern>
+		      <message>Wyrażenie „w pośrodku” jest przestarzałe i obecnie niepoprawne. Używa się wyrażenia <suggestion>pośrodku</suggestion>.</message>
+		      <example type="incorrect">
+         <marker>W pośrodku</marker> rynku stoi studnia.</example>
+		      <example type="correct">Na środku rynku stoi studnia.</example>
+	   </rule>
+	   <rule name="Błąd pisowni: poprzez" id="PO_PRZEZ">
+		      <pattern case_sensitive="yes">
+			         <token regexp="yes">[Pp]o</token>
+			         <token>przez</token>
+		      </pattern>
+		      <message>Wyraz <suggestion>poprzez</suggestion> piszemy łącznie.</message>
+		      <example type="incorrect">Malarz oddziałuje na nas <marker>po przez</marker> swoje malarstwo.</example>
+		      <example type="correct">Malarz oddziałuje na nas poprzez swoje malarstwo.</example>
+	   </rule>
+	   <rule name="Błąd pisowni: poprzez" id="PO_NAD">
+		      <pattern case_sensitive="yes">
+			         <token regexp="yes">[Pp]o</token>
+			         <token>nad</token>
+		      </pattern>
+		      <message>Wyraz <suggestion>ponad</suggestion> piszemy łącznie.</message>
+		      <example type="incorrect">Byłem w <marker>po nad</marker> trzydziestu krajach.</example>
+		      <example type="correct">Byłem w ponad trzydziestu krajach.</example>
+	   </rule>
+	   <rule name="Błąd pisowni: pomimo" id="PO_MIMO">
+		      <pattern case_sensitive="yes">
+			         <token regexp="yes">[Pp]o</token>
+			         <token>mimo</token>
+		      </pattern>
+		      <message>Wyraz <suggestion>pomimo</suggestion> piszemy łącznie.</message>
+		      <example type="incorrect">
+         <marker>Po mimo</marker> początkowych problemów, wylądował bowiem w wodach Kanału La Manche.</example>
+		      <example type="correct">Pomimo początkowych problemów, wylądował bowiem w wodach Kanału La Manche</example>
+	   </rule>	
+	   <rule name="Błąd pisowni: pomiędzy" id="PO_MIEDZY">
+		      <pattern case_sensitive="yes">
+			         <token regexp="yes">[Pp]o</token>
+			         <token>między</token>
+		      </pattern>
+		      <message>Wyraz <suggestion>pomiędzy</suggestion> piszemy łącznie.</message>
+		      <example type="incorrect">Znaleźliśmy się <marker>po między</marker> młotem a kowadłem.</example>
+		      <example type="correct">Znaleźliśmy się pomiędzy młotem a kowadłem.</example>
+	   </rule>
+	   <rule name="Literówka: się" id="SIE">
+		      <pattern>
+			         <token>sie</token>
+		      </pattern>
+		      <message>Prawdopodobna literówka: czy chodziło o wyraz <suggestion>się</suggestion>?</message>
+		      <example type="correct">Eryk podrapał się po głowie.</example>
+		      <example type="incorrect">Eryk podrapał <marker>sie</marker> po głowie.</example>
+	   </rule>
+	   <rule name="Błąd pisowni: przedrostki „neo”, „post”, „pre”, „eks”..." id="PRZEDROSTKI">
+		      <pattern>
+			         <token regexp="yes">(neo|post|pre|anty|arcy|eks|bez|beze|ekstra|hiper|infra|kontr|maksi|midi|między|mini|nad|nade|około|ponad|post|przeciw|pseudo|super|śród|ultra|wice|wokół|wokoło)[-–].+</token>
+		      </pattern>
+		      <message>Wyrazy z przedrostkami „neo-, post-, pre-, anty-, arcy-, eks-, bez-, beze-, ekstra-, hiper-, infra-, kontr-, maksi-, midi-, między-, mini-, nad-, nade-, około-, ponad-, post-, przeciw-, pseudo-, super-, śród-, ultra-, wice-, wokół-, wokoło-” piszemy łącznie.</message>
+		      <example type="correct">Tym prądem intelektualnym jest postmodernizm.</example>
+		      <example type="incorrect">Wiktor to mój <marker>eks-mąż</marker>.</example>
+		      <example type="incorrect">Jadzia kupiła sobie <marker>mini-spódniczkę</marker>.</example>
+		      <example type="incorrect">
+         <marker>Arcy–książę</marker> Ferdynand lubił polować w tutejszych lasach.</example>
+	   </rule>
+	   <rule name="Literówka: czasownik + się" id="CZASOWNIK_SI">
+		      <pattern mark_from="1">
+			         <token postag=".*verb..*" postag_regexp="yes"/>
+			         <token>si</token>
+		      </pattern>
+		      <message>Literówka: powinno być <suggestion>się</suggestion>.</message>
+		      <example type="correct">Eryk podrapał się po głowie.</example>
+		      <example type="incorrect">Eryk podrapał <marker>si</marker> po głowie.</example>
+	   </rule>
+	   <rule name="Błąd pisowni: co niemiara" id="CO_NIE_MIARA">
+		      <pattern>
+			         <token>co</token>
+			         <token>nie</token>
+			         <token>miara</token>
+		      </pattern>
+		      <message>Wyrażenie to piszemy: <suggestion>co niemiara</suggestion>.</message>
+		      <example type="correct">Stoi jakiś pałac, wielki aż strach, a przed nim co niemiara bryk i wozów.</example>
+		      <example type="incorrect">Stoi jakiś pałac, wielki aż strach, a przed nim <marker>co nie miara</marker> bryk i wozów.</example>
+	   </rule>
+	   <rule name="Błąd pisowni: mass-media (zamiast „mass media”)" id="MASSMEDIA">
+		      <pattern>
+			         <token regexp="yes">mass[–-]medi.*</token>
+		      </pattern>
+		      <message>To wyrażenie piszemy rozłącznie: <suggestion>mass media</suggestion>.</message>
+		      <example type="correct">Mass media poinformowały o sukcesach Polski w zmniejszaniu płac najniżej zarabiających.</example>
+		      <example type="incorrect">
+         <marker>Mass-media</marker> poinformowały o sukcesach Polski w zmniejszaniu płac najniżej zarabiających.</example>
+	   </rule>
+	   <rule name="Błąd leksykalny: w przedzie (zamiast „na przodzie”)" id="W_PRZEDZIE">
+		      <pattern>
+			         <token>w</token>
+			         <token>przedzie</token>
+		      </pattern>
+		      <message>Mówimy <suggestion>na przodzie</suggestion>, <suggestion>w przodzie</suggestion>.</message>
+		      <example type="correct">Pierwszy sekretarz stał na przodzie pochodu pierwszomajowego.</example>
+		      <example type="incorrect">Pierwszy sekretarz stał <marker>w przedzie</marker> pochodu pierwszomajowego.</example>
+	   </rule>
+	   <rule name="Błąd leksykalny: w ślad za (zamiast „w następstwie”)" id="W_SLAD_ZA">
+		      <pattern>
+			         <token>w</token>
+			         <token>ślad</token>
+			         <token>za</token>
+		      </pattern>
+		      <message>Mówimy <suggestion>w następstwie</suggestion> czegoś, <suggestion>wraz z</suggestion> czymś, <suggestion>równocześnie z</suggestion> czymś, a nie „w ślad za czymś”.</message>
+		      <example type="correct">W następstwie tych działań gospodarka się ożywiła.</example>
+		      <example type="incorrect">
+         <marker>W ślad za</marker> tymi działaniami gospodarka się ożywiła.</example>
+	   </rule>
+	   <rule name="Błąd składniowy: większy jak (zamiast „większy od”, „większy niż”)" id="WIEKSZY_JAK">
+		      <pattern mark_from="1">
+			         <token inflected="yes">większy</token>
+			         <token>jak</token>
+		      </pattern>
+		      <message>Mówimy „większy <suggestion>od</suggestion>”, „większy <suggestion>niż</suggestion>”.</message>
+		      <example type="correct">Ten nowy dysk jest większy od starego.</example>
+		      <example type="incorrect">Ten nowy dysk jest większy <marker>jak</marker> stary.</example>
+	   </rule>
+	   <rule name="Błąd składniowy: więcej jak (zamiast „większy od”, „większy niż”)" id="WIECEJ_JAK">
+		      <pattern mark_from="1">
+			         <token>więcej</token>
+			         <token>jak</token>
+		      </pattern>
+		      <message>Mówimy „więcej <suggestion>od</suggestion>”, „więcej <suggestion>niż</suggestion>”.</message>
+		      <example type="correct">Więcej niż kosmetyk!</example>
+		      <example type="incorrect">Więcej <marker>jak</marker> Kosmetyk!</example>
+	   </rule>
+	    <rule name="Błąd frazeologiczny: po prawo (zamiast „po prawej”)" id="PO_PRAWO">
+		       <pattern mark_to="-1">
+			          <token>po</token>
+			          <token>prawo</token>
+			          <token negate="yes">jazdy</token>
+		       </pattern>
+		       <message>Mówimy <suggestion>na prawo</suggestion>, <suggestion>po prawej stronie</suggestion>, <suggestion>z prawej strony</suggestion>.</message>
+		       <example type="correct">Mijamy z prawej strony budynek Oddziału Regionalnego PTTK w Gorzowie.</example>
+ 		       <example type="incorrect">Mijamy <marker>po prawo</marker> budynek Oddziału Regionalnego PTTK w Gorzowie.</example>
+	    </rule>
+	    <rule name="Błąd frazeologiczny: po prawo (zamiast „po prawej”)" id="PO_LEWO">
+		       <pattern>
+			          <token>po</token>
+			          <token>lewo</token>
+		       </pattern>
+		       <message>Mówimy <suggestion>na lewo</suggestion>, <suggestion>po lewej stronie</suggestion>, <suggestion>z lewej strony</suggestion>.</message>
+		       <example type="correct">Mijamy z lewej strony budynek Oddziału Regionalnego PTTK w Gorzowie.</example>
+ 		       <example type="incorrect">Mijamy <marker>po lewo</marker> budynek Oddziału Regionalnego PTTK w Gorzowie.</example>
+	    </rule>
 
-	 <rule name="Błąd pisowni: „do póki” (zamiast „dopóki”)" id="DO_POKI">
-		 <pattern>
-			 <token>do</token>
-			 <token>póki</token>
-		 </pattern>
-		 <message>Wyraz <em>dopóki</em> piszemy łącznie.</message>
-		 <example type="correct">Będę jadł lody, dopóki będę miał ochotę.</example>
- 		 <example type="incorrect">Będę jadł lody, <em>do póki</em> będę miał ochotę.</example>
-	 </rule>
+	    <rule name="Błąd pisowni: „do póki” (zamiast „dopóki”)" id="DO_POKI">
+		       <pattern>
+			          <token>do</token>
+			          <token>póki</token>
+		       </pattern>
+		       <message>Wyraz <suggestion>dopóki</suggestion> piszemy łącznie.</message>
+		       <example type="correct">Będę jadł lody, dopóki będę miał ochotę.</example>
+ 		       <example type="incorrect">Będę jadł lody, <marker>do póki</marker> będę miał ochotę.</example>
+	    </rule>
 	  <rule name="Błąd pisowni: „do póty” (zamiast „dopóty”)" id="DO_POTY">
-		 <pattern>
-			 <token>do</token>
-			 <token>póty</token>
-		 </pattern>
-		 <message>Wyraz <em>dopóty</em> piszemy łącznie.</message>
-		 <example type="correct">Dopóty będę jadł lody, dopóki będę miał ochotę.</example>
- 		 <example type="incorrect"><em>Do póty</em> będę jadł lody, dopóki będę miał ochotę.</example>
-	 </rule>
-	 <rule name="Błąd frazeologiczny: „wszem i wobec” (zamiast „wszem wobec”)" id="WSZEM_I_WOBEC">
-		 <pattern>
-			 <token>wszem</token>
-			 <token>i</token>
-			 <token>wobec</token>
-		 </pattern>
-		 <message>Ten związek frazeologiczny ma prawidłową postać <em>wszem wobec</em>.</message>
-		 <example type="correct">Ogłaszam wszem wobec, że rzucę premiera na pożarcie smokowi.</example>
- 		 <example type="incorrect">Ogłaszam <em>wszem i wobec</em>, że rzucę premiera na pożarcie smokowi.</example>
-	 </rule>
-	<rule name="Błąd pisowni: „dla tego że” (zamiast „dlatego że”)" id="DLA_TEGO_ZE">
-		<pattern>
-			<token>dla</token>
-			<token>tego</token>
-			<token regexp="yes">że|bo|gdyż|ponieważ</token>
-		</pattern>
-		<message>Wyrażenie to ma następującą pisownię: <em>dlatego że</em>.</message>
-		<example type="correct">Zabiła się na pewno dlatego, że zabrakło jej forsy na zbytki.</example>
-		<example type="incorrect">Zabiła się na pewno <em>dla tego że</em> zabrakło jej forsy na zbytki.</example>
-	</rule>
-	<rule name="Błąd pisowni: „dla tego że” (zamiast „dlatego że”)" id="DLA_TEGO_ZE_COMMA">
-		<pattern>
-			<token>dla</token>
-			<token>tego</token>
-			<token>,</token>
-			<token regexp="yes">że|bo|gdyż|ponieważ</token>
-		</pattern>
-		<message>Wyrażenie to ma następującą pisownię: <em>dlatego, że</em>.</message>
-		<example type="correct">Zabiła się na pewno dlatego, że zabrakło jej forsy na zbytki.</example>
-		<example type="incorrect">Zabiła się na pewno <em>dla tego, że</em> zabrakło jej forsy na zbytki.</example>
-	</rule>
-	<rule name="Błąd pisowni: „dla czego” (zamiast „dlaczego”)" id="DLA_CZEGO">
-		<pattern>
-			<token>dla</token>
-			<token>czego</token>
-		</pattern>
-		<message>Zaimek przysłowny <em>dlaczego</em> piszemy łącznie.</message>
-		<example type="incorrect"><em>Dla czego</em> płaczesz?</example>
-		<example type="correct">Dlaczego płaczesz?</example>
-	</rule>
-	<rule name="Błąd pisowni: „d/s” (zamiast „ds.”)" id="DS">
-		<pattern>
-			<token>d/s</token>
-		</pattern>
-		<message>Ten skrót piszemy <em>ds.</em>.</message>
-		<example type="incorrect">Pełnomocnik rządu <em>d/s</em> miłości narodu do premiera.</example>
-		<example type="correct">Pełnomocnik rządu ds. miłości narodu do premiera.</example>
-	</rule>
-	<rule name="Błąd pisowni: „k/” (zamiast „k.”" id="K">
-		<pattern mark_to="-1">
-			<token>k/</token>
-			<token regexp="yes">\p{Lu}.*</token>
-		</pattern>
-		<message>Ten skrót zapisujemy: <em>k.</em> (np. „k. Krakowa”).</message>
-		<example type="correct">Mieszkamy w Korzkwi k. Krakowa.</example>
-		<example type="incorrect">Mieszkamy w Korzkwi <em>k/</em> Krakowa.</example>
-	</rule>
-	<rule name="Błąd pisowni: „k/” (zamiast „k.”" id="K1">
-		<pattern>
-			<token regexp="yes">k/\p{Lu}.*</token>
-		</pattern>
-		<message>Ten skrót zapisujemy: <em>k.</em> (np. „k. Krakowa”).</message>
-		<example type="correct">Mieszkamy w Korzkwi k. Krakowa.</example>
-		<example type="incorrect">Mieszkamy w Korzkwi <em>k/Krakowa</em>.</example>
-	</rule>
-	<rule name="Błąd pisowni: „w/g” (zamiast „wg)" id="WG">
-		<pattern>
-			<token>w/g</token>
-		</pattern>
-		<message>Ten skrót poprawnie zapisujemy jako <em>wg</em>, bez ukośników.</message>
-		<example type="correct">Sklepy wyświetlono wg lokalizacji.</example>
-		<example type="incorrect">Sklepy wyświetlono <em>w/g</em> lokalizacji.</example>
-	</rule>
-	<rule name="Błąd pisowni: „n/” (zamiast „n.”)" id="N">
-		<pattern mark_to="-1">
-			<token>n/</token>
-			<token regexp="yes">\p{Lu}.*</token>
-		</pattern>
-		<message>Ten skrót zapisujemy z kropką: <em>n.</em>, np. „Kazimierz n. Wisłą”.</message>
-		<example type="incorrect">Kazimierz <em>n/</em> Wisłą.</example>
-		<example type="correct">Kazimierz n. Wisłą.</example>
-	</rule>
-	<rule name="Błąd pisowni: „n/” (zamiast „n.”)" id="N1">
-		<pattern>
-			<token regexp="yes">n/\p{Lu}.*</token>
-		</pattern>
-		<message>Ten skrót zapisujemy z kropką: <em>n.</em>, np. „Kazimierz n. Wisłą”.</message>
-		<example type="incorrect">Kazimierz <em>n/Wisłą</em>.</example>
-		<example type="correct">Kazimierz n. Wisłą.</example>
-	</rule>
+		       <pattern>
+			          <token>do</token>
+			          <token>póty</token>
+		       </pattern>
+		       <message>Wyraz <suggestion>dopóty</suggestion> piszemy łącznie.</message>
+		       <example type="correct">Dopóty będę jadł lody, dopóki będę miał ochotę.</example>
+ 		       <example type="incorrect">
+         <marker>Do póty</marker> będę jadł lody, dopóki będę miał ochotę.</example>
+	    </rule>
+	    <rule name="Błąd frazeologiczny: „wszem i wobec” (zamiast „wszem wobec”)" id="WSZEM_I_WOBEC">
+		       <pattern>
+			          <token>wszem</token>
+			          <token>i</token>
+			          <token>wobec</token>
+		       </pattern>
+		       <message>Ten związek frazeologiczny ma prawidłową postać <suggestion>wszem wobec</suggestion>.</message>
+		       <example type="correct">Ogłaszam wszem wobec, że rzucę premiera na pożarcie smokowi.</example>
+ 		       <example type="incorrect">Ogłaszam <marker>wszem i wobec</marker>, że rzucę premiera na pożarcie smokowi.</example>
+	    </rule>
+	   <rule name="Błąd pisowni: „dla tego że” (zamiast „dlatego że”)" id="DLA_TEGO_ZE">
+		      <pattern>
+			         <token>dla</token>
+			         <token>tego</token>
+			         <token regexp="yes">że|bo|gdyż|ponieważ</token>
+		      </pattern>
+		      <message>Wyrażenie to ma następującą pisownię: <suggestion>dlatego że</suggestion>.</message>
+		      <example type="correct">Zabiła się na pewno dlatego, że zabrakło jej forsy na zbytki.</example>
+		      <example type="incorrect">Zabiła się na pewno <marker>dla tego że</marker> zabrakło jej forsy na zbytki.</example>
+	   </rule>
+	   <rule name="Błąd pisowni: „dla tego że” (zamiast „dlatego że”)" id="DLA_TEGO_ZE_COMMA">
+		      <pattern>
+			         <token>dla</token>
+			         <token>tego</token>
+			         <token>,</token>
+			         <token regexp="yes">że|bo|gdyż|ponieważ</token>
+		      </pattern>
+		      <message>Wyrażenie to ma następującą pisownię: <suggestion>dlatego, że</suggestion>.</message>
+		      <example type="correct">Zabiła się na pewno dlatego, że zabrakło jej forsy na zbytki.</example>
+		      <example type="incorrect">Zabiła się na pewno <marker>dla tego, że</marker> zabrakło jej forsy na zbytki.</example>
+	   </rule>
+	   <rule name="Błąd pisowni: „dla czego” (zamiast „dlaczego”)" id="DLA_CZEGO">
+		      <pattern>
+			         <token>dla</token>
+			         <token>czego</token>
+		      </pattern>
+		      <message>Zaimek przysłowny <suggestion>dlaczego</suggestion> piszemy łącznie.</message>
+		      <example type="incorrect">
+         <marker>Dla czego</marker> płaczesz?</example>
+		      <example type="correct">Dlaczego płaczesz?</example>
+	   </rule>
+	   <rule name="Błąd pisowni: „d/s” (zamiast „ds.”)" id="DS">
+		      <pattern>
+			         <token>d/s</token>
+		      </pattern>
+		      <message>Ten skrót piszemy <suggestion>ds.</suggestion>.</message>
+		      <example type="incorrect">Pełnomocnik rządu <marker>d/s</marker> miłości narodu do premiera.</example>
+		      <example type="correct">Pełnomocnik rządu ds. miłości narodu do premiera.</example>
+	   </rule>
+	   <rule name="Błąd pisowni: „k/” (zamiast „k.”" id="K">
+		      <pattern mark_to="-1">
+			         <token>k/</token>
+			         <token regexp="yes">\p{Lu}.*</token>
+		      </pattern>
+		      <message>Ten skrót zapisujemy: <suggestion>k.</suggestion> (np. „k. Krakowa”).</message>
+		      <example type="correct">Mieszkamy w Korzkwi k. Krakowa.</example>
+		      <example type="incorrect">Mieszkamy w Korzkwi <marker>k/</marker> Krakowa.</example>
+	   </rule>
+	   <rule name="Błąd pisowni: „k/” (zamiast „k.”" id="K1">
+		      <pattern>
+			         <token regexp="yes">k/\p{Lu}.*</token>
+		      </pattern>
+		      <message>Ten skrót zapisujemy: <suggestion>k.</suggestion> (np. „k. Krakowa”).</message>
+		      <example type="correct">Mieszkamy w Korzkwi k. Krakowa.</example>
+		      <example type="incorrect">Mieszkamy w Korzkwi <marker>k/Krakowa</marker>.</example>
+	   </rule>
+	   <rule name="Błąd pisowni: „w/g” (zamiast „wg)" id="WG">
+		      <pattern>
+			         <token>w/g</token>
+		      </pattern>
+		      <message>Ten skrót poprawnie zapisujemy jako <suggestion>wg</suggestion>, bez ukośników.</message>
+		      <example type="correct">Sklepy wyświetlono wg lokalizacji.</example>
+		      <example type="incorrect">Sklepy wyświetlono <marker>w/g</marker> lokalizacji.</example>
+	   </rule>
+	   <rule name="Błąd pisowni: „n/” (zamiast „n.”)" id="N">
+		      <pattern mark_to="-1">
+			         <token>n/</token>
+			         <token regexp="yes">\p{Lu}.*</token>
+		      </pattern>
+		      <message>Ten skrót zapisujemy z kropką: <suggestion>n.</suggestion>, np. „Kazimierz n. Wisłą”.</message>
+		      <example type="incorrect">Kazimierz <marker>n/</marker> Wisłą.</example>
+		      <example type="correct">Kazimierz n. Wisłą.</example>
+	   </rule>
+	   <rule name="Błąd pisowni: „n/” (zamiast „n.”)" id="N1">
+		      <pattern>
+			         <token regexp="yes">n/\p{Lu}.*</token>
+		      </pattern>
+		      <message>Ten skrót zapisujemy z kropką: <suggestion>n.</suggestion>, np. „Kazimierz n. Wisłą”.</message>
+		      <example type="incorrect">Kazimierz <marker>n/Wisłą</marker>.</example>
+		      <example type="correct">Kazimierz n. Wisłą.</example>
+	   </rule>
 	
-	<rule name="Pleonazm: „na dzień dzisiejszy" id="NA_DZIEN_DZISIEJSZY">
-		<pattern>
-			<token>na</token>
-			<token>dzień</token>
-			<token>dzisiejszy</token>
-		</pattern>
-		<message>To nadużywane i błędne wyrażenie, które stosuje się w celu uzyskania pozornej elegancji wypowiedzi (ze skutkiem przeciwnym). Można je zastąpić wyrazami: <em>obecnie</em>, <em>aktualnie</em>, <em>dzisiaj</em>.</message>
-		<example type="incorrect"><em>Na dzień dzisiejszy</em> wykonano 40 procent planu.</example>
-		<example type="correct">Wykonano aktualnie 40 procent planu.</example>
-	</rule>
+	   <rule name="Pleonazm: „na dzień dzisiejszy" id="NA_DZIEN_DZISIEJSZY">
+		      <pattern>
+			         <token>na</token>
+			         <token>dzień</token>
+			         <token>dzisiejszy</token>
+		      </pattern>
+		      <message>To nadużywane i błędne wyrażenie, które stosuje się w celu uzyskania pozornej elegancji wypowiedzi (ze skutkiem przeciwnym). Można je zastąpić wyrazami: <suggestion>obecnie</suggestion>, <suggestion>aktualnie</suggestion>, <suggestion>dzisiaj</suggestion>.</message>
+		      <example type="incorrect">
+         <marker>Na dzień dzisiejszy</marker> wykonano 40 procent planu.</example>
+		      <example type="correct">Wykonano aktualnie 40 procent planu.</example>
+	   </rule>
 	
-	<rule name="Nadużywane wtrącenie: „powiem tak”" id="POWIEM_TAK">
-		<pattern case_sensitive="yes" mark_from="1">
-			<token postag="SENT_START"/>
-			<token>Powiem</token>
-			<token>tak</token>
-		</pattern>
-		<message>To modne i nadużywane wtrącenie, które nie niesie żadnego sensu.</message>
-		<example type="incorrect"><em>Powiem tak</em>: premier jest najmądrzejszy na świecie.</example>
-		<example type="correct">Premier jest najmądrzejszy na świecie.</example>
-	</rule>
+	   <rule name="Nadużywane wtrącenie: „powiem tak”" id="POWIEM_TAK">
+		      <pattern case_sensitive="yes" mark_from="1">
+			         <token postag="SENT_START"/>
+			         <token>Powiem</token>
+			         <token>tak</token>
+		      </pattern>
+		      <message>To modne i nadużywane wtrącenie, które nie niesie żadnego sensu.</message>
+		      <example type="incorrect">
+         <marker>Powiem tak</marker>: premier jest najmądrzejszy na świecie.</example>
+		      <example type="correct">Premier jest najmądrzejszy na świecie.</example>
+	   </rule>
 	
-	<rule name="Nadużywany wyraz w błędnym znaczeniu: „dokładnie" id="DOKLADNIE">
-		<pattern case_sensitive="yes" mark_from="1" mark_to="-1">
-			<token postag="SENT_START"/>
-			<token>Dokładnie</token>
-			<token regexp="yes">!|\.</token>
-		</pattern>
-		<message>Wyraz „dokładnie” oznacza „w sposób ścisły, skrupulatny” i jest błędnie używane w sensie <em>właśnie</em>, <em>owszem</em>.</message>
-		<example type="correct">Owszem.</example>
-		<example type="incorrect"><em>Dokładnie</em>!</example>
-	</rule>
+	   <rule name="Nadużywany wyraz w błędnym znaczeniu: „dokładnie" id="DOKLADNIE">
+		      <pattern case_sensitive="yes" mark_from="1" mark_to="-1">
+			         <token postag="SENT_START"/>
+			         <token>Dokładnie</token>
+			         <token regexp="yes">!|\.</token>
+		      </pattern>
+		      <message>Wyraz „dokładnie” oznacza „w sposób ścisły, skrupulatny” i jest błędnie używane w sensie <suggestion>właśnie</suggestion>, <suggestion>owszem</suggestion>.</message>
+		      <example type="correct">Owszem.</example>
+		      <example type="incorrect">
+         <marker>Dokładnie</marker>!</example>
+	   </rule>
 
-	<rule name="Nadużywany zwrot w błędnym znaczeniu: „dokładnie tak" id="DOKLADNIE_TAK">
-		<pattern case_sensitive="yes" mark_from="1" mark_to="-1">
-			<token postag="SENT_START"/>
-			<token>Dokładnie</token>
-			<token>tak</token>
-			<token regexp="yes">!|\.</token>
-		</pattern>
-		<message>Wyraz „dokładnie” oznacza „w sposób ścisły, skrupulatny” i jest błędnie używane w sensie <em>właśnie</em>, <em>owszem</em>.</message>
-		<example type="correct">Owszem.</example>
-		<example type="incorrect"><em>Dokładnie tak</em>!</example>
-	</rule>	
+	   <rule name="Nadużywany zwrot w błędnym znaczeniu: „dokładnie tak" id="DOKLADNIE_TAK">
+		      <pattern case_sensitive="yes" mark_from="1" mark_to="-1">
+			         <token postag="SENT_START"/>
+			         <token>Dokładnie</token>
+			         <token>tak</token>
+			         <token regexp="yes">!|\.</token>
+		      </pattern>
+		      <message>Wyraz „dokładnie” oznacza „w sposób ścisły, skrupulatny” i jest błędnie używane w sensie <suggestion>właśnie</suggestion>, <suggestion>owszem</suggestion>.</message>
+		      <example type="correct">Owszem.</example>
+		      <example type="incorrect">
+         <marker>Dokładnie tak</marker>!</example>
+	   </rule>	
 	
-	<rule name="Nadużywany wyraz: „generalnie”" id="GENERALNIE">
-		<pattern>
-			<token>generalnie</token>
-		</pattern>
-		<message>Wyraz „generalnie” jest nadużywany. Lepiej: <em>na ogół</em>, <em>z reguły</em>, <em>najczęściej</em>, <em>ogólnie rzecz biorąc</em>, <em>zasadniczo</em>, <em>ogólnie</em>, <em>powszechnie</em>, <em>w zupełności</em>, <em>w ogólności</em>, <em>zupełnie</em>.</message>
-		<example type="incorrect"><em>Generalnie</em> pan minister ma rację.</example>
-		<example type="correct">Pan minister ma w ogólności rację.</example>
-	</rule>
+	   <rule name="Nadużywany wyraz: „generalnie”" id="GENERALNIE">
+		      <pattern>
+			         <token>generalnie</token>
+		      </pattern>
+		      <message>Wyraz „generalnie” jest nadużywany. Lepiej: <suggestion>na ogół</suggestion>, <suggestion>z reguły</suggestion>, <suggestion>najczęściej</suggestion>, <suggestion>ogólnie rzecz biorąc</suggestion>, <suggestion>zasadniczo</suggestion>, <suggestion>ogólnie</suggestion>, <suggestion>powszechnie</suggestion>, <suggestion>w zupełności</suggestion>, <suggestion>w ogólności</suggestion>, <suggestion>zupełnie</suggestion>.</message>
+		      <example type="incorrect">
+         <marker>Generalnie</marker> pan minister ma rację.</example>
+		      <example type="correct">Pan minister ma w ogólności rację.</example>
+	   </rule>
 	
-	<rule name="Błąd ortograficzny: „z pośród” (spośród)" id="Z_POSROD">
-		<pattern>
-			<token>z</token>
-			<token>pośród</token>
-		</pattern>
-		<message>Ten przyimek piszemy łącznie, tj. <em>spośród</em>.</message>
-		<example type="incorrect">Jarosław Kaczyński jest najwybitniejszym mężem stanu <em>z pośród</em> wszystkich Kaczyńskich.</example>
-		<example type="correct">Jarosław Kaczyński jest najwybitniejszym mężem stanu spośród wszystkich Kaczyńskich.</example>
-	</rule>
+	   <rule name="Błąd ortograficzny: „z pośród” (spośród)" id="Z_POSROD">
+		      <pattern>
+			         <token>z</token>
+			         <token>pośród</token>
+		      </pattern>
+		      <message>Ten przyimek piszemy łącznie, tj. <suggestion>spośród</suggestion>.</message>
+		      <example type="incorrect">Jarosław Kaczyński jest najwybitniejszym mężem stanu <marker>z pośród</marker> wszystkich Kaczyńskich.</example>
+		      <example type="correct">Jarosław Kaczyński jest najwybitniejszym mężem stanu spośród wszystkich Kaczyńskich.</example>
+	   </rule>
 	
-	<rule name="Błąd leksykalny: iluśletnia rocznica" id="LETNIA_ROCZNICA">
-		<pattern mark_to="-1">
-			<token regexp="yes">.*letni.*</token>
-			<token inflected="yes">rocznica</token>
-		</pattern>
-		<message>Rocznica jest któraś, a nie iluśletnia, np. „piąta rocznica”.</message>
-		<example type="correct">Dzisiaj mija piąta rocznica zwycięstwa nad Malezją w elektrycznych bierkach pod wodą.</example>
-		<example type="incorrect">Dzisiaj mija <em>pięcioletnia</em> rocznica zwycięstwa nad Malezją w elektrycznych bierkach pod wodą.</example>
-		<example type="incorrect">Dzisiaj mija <em>5-letnia</em> rocznica zwycięstwa nad Malezją w elektrycznych bierkach pod wodą.</example>
-	</rule>
+	   <rule name="Błąd leksykalny: iluśletnia rocznica" id="LETNIA_ROCZNICA">
+		      <pattern mark_to="-1">
+			         <token regexp="yes">.*letni.*</token>
+			         <token inflected="yes">rocznica</token>
+		      </pattern>
+		      <message>Rocznica jest któraś, a nie iluśletnia, np. „piąta rocznica”.</message>
+		      <example type="correct">Dzisiaj mija piąta rocznica zwycięstwa nad Malezją w elektrycznych bierkach pod wodą.</example>
+		      <example type="incorrect">Dzisiaj mija <marker>pięcioletnia</marker> rocznica zwycięstwa nad Malezją w elektrycznych bierkach pod wodą.</example>
+		      <example type="incorrect">Dzisiaj mija <marker>5-letnia</marker> rocznica zwycięstwa nad Malezją w elektrycznych bierkach pod wodą.</example>
+	   </rule>
 	
-	<rule name="Błąd leksykalny: iluśletni jubileusz" id="LETNI_JUBILEUSZ">
-		<pattern mark_to="-1">
-			<token regexp="yes">.*letni.*</token>
-			<token inflected="yes">jubileusz</token>
-		</pattern>
-		<message>Jubileusz jest któryś i nie ma sam wielu lat, np. „piąty jubileusz”.</message>
-		<example type="correct">Szczecińskie Spotkania z Piosenką Religijną będą obchodziły dwudziesty jubileusz.</example>
-		<example type="incorrect">Szczecińskie Spotkania z Piosenką Religijną będą obchodziły <em>20-letni</em> jubileusz.</example>
-	</rule>
+	   <rule name="Błąd leksykalny: iluśletni jubileusz" id="LETNI_JUBILEUSZ">
+		      <pattern mark_to="-1">
+			         <token regexp="yes">.*letni.*</token>
+			         <token inflected="yes">jubileusz</token>
+		      </pattern>
+		      <message>Jubileusz jest któryś i nie ma sam wielu lat, np. „piąty jubileusz”.</message>
+		      <example type="correct">Szczecińskie Spotkania z Piosenką Religijną będą obchodziły dwudziesty jubileusz.</example>
+		      <example type="incorrect">Szczecińskie Spotkania z Piosenką Religijną będą obchodziły <marker>20-letni</marker> jubileusz.</example>
+	   </rule>
 	
-	<rule name="Błąd leksykalny: iluśletnie urodziny" id="LETNIE_URODZINY">
-		<pattern mark_to="-1">
-			<token regexp="yes">.*letni.*</token>
-			<token inflected="yes">urodziny</token>
-		</pattern>
-		<message>Urodziny są któreś i same nie mają lat, np. „piąte urodziny”.</message>
-		<example type="correct">Maciuś obchodzi drugie urodziny.</example>
-		<example type="incorrect">Maciuś obchodzi <em>2-letnie</em> urodziny.</example>
-	</rule>
+	   <rule name="Błąd leksykalny: iluśletnie urodziny" id="LETNIE_URODZINY">
+		      <pattern mark_to="-1">
+			         <token regexp="yes">.*letni.*</token>
+			         <token inflected="yes">urodziny</token>
+		      </pattern>
+		      <message>Urodziny są któreś i same nie mają lat, np. „piąte urodziny”.</message>
+		      <example type="correct">Maciuś obchodzi drugie urodziny.</example>
+		      <example type="incorrect">Maciuś obchodzi <marker>2-letnie</marker> urodziny.</example>
+	   </rule>
 
-	<rule name="Prawdopodobna literówka" id="KLOC_SIE">
-		<pattern mark_to="-1">
-			<token>kłuć</token>
-			<token>się</token>
-		</pattern>
-		<message>Czy chodziło o formę czasownika „kłócić się” (awanturować się)? Jeśli tak, to poprawna pisownia brzmi <em>kłóć</em>.</message>
-		<example type="incorrect">Jadziu, nie <em>kłuć</em> się z ojcem!</example>
-		<example type="correct">Jadziu, nie kłóć się z ojcem!</example>
-	</rule>
+	   <rule name="Prawdopodobna literówka" id="KLOC_SIE">
+		      <pattern mark_to="-1">
+			         <token>kłuć</token>
+			         <token>się</token>
+		      </pattern>
+		      <message>Czy chodziło o formę czasownika „kłócić się” (awanturować się)? Jeśli tak, to poprawna pisownia brzmi <suggestion>kłóć</suggestion>.</message>
+		      <example type="incorrect">Jadziu, nie <marker>kłuć</marker> się z ojcem!</example>
+		      <example type="correct">Jadziu, nie kłóć się z ojcem!</example>
+	   </rule>
 	
-	<rule name="Błąd leksykalny: czekać za (na)" id="CZEKAC_ZA">
-		<pattern>
-			<token inflected="yes" skip="4">czekać<exception>na</exception></token>
-			<token>za</token>
-			<token postag=".*instr.*" postag_regexp="yes"/>
-		</pattern>
-		<message>Mówi się <em>czekać na</em> co, a nie „za czymś”.</message>
-		<example type="correct">Czekałem dwie godziny na pociąg.</example>
-		<example type="incorrect"><em>Czekałem dwie godziny za pociągiem</em>.</example>
-		<example type="correct">Czekałem godzinę na pociąg za granicę.</example>
-	</rule>
+	   <rule name="Błąd leksykalny: czekać za (na)" id="CZEKAC_ZA">
+		      <pattern>
+			         <token inflected="yes" skip="4">czekać<exception>na</exception></token>
+			         <token>za</token>
+			         <token postag=".*instr.*" postag_regexp="yes"/>
+		      </pattern>
+		      <message>Mówi się <suggestion>czekać na</suggestion> co, a nie „za czymś”.</message>
+		      <example type="correct">Czekałem dwie godziny na pociąg.</example>
+		      <example type="incorrect">
+         <marker>Czekałem dwie godziny za pociągiem</marker>.</example>
+		      <example type="correct">Czekałem godzinę na pociąg za granicę.</example>
+	   </rule>
 	
-	<rule name="Pleonazm: długi upływ czasu (długi czas)" id="DLUGI_UPLYW">
-		<pattern>
-			<token inflected="yes" postag="adj:sg:.*:m" postag_regexp="yes">długi</token>
-			<token inflected="yes">upływ</token>
-			<token>czasu</token>
-		</pattern>
-		<message>Wyrażenie „długi upływ czasu” to pleonazm. Lepiej powiedzieć: <em>długi czas</em>.</message>
-		<example type="incorrect">Ze względu na <em>długi upływ czasu</em> od momentu spadku wiele informacji na temat tego meteorytu można uznać jako niepewne. </example>
-		<example type="correct">Ze względu na <em>długi czas</em> od momentu spadku wiele informacji o tym meteorycie można uznać za niepewne. </example>		
-	</rule>
+	   <rule name="Pleonazm: długi upływ czasu (długi czas)" id="DLUGI_UPLYW">
+		      <pattern>
+			         <token inflected="yes" postag="adj:sg:.*:m" postag_regexp="yes">długi</token>
+			         <token inflected="yes">upływ</token>
+			         <token>czasu</token>
+		      </pattern>
+		      <message>Wyrażenie „długi upływ czasu” to pleonazm. Lepiej powiedzieć: <suggestion>długi czas</suggestion>.</message>
+		      <example type="incorrect">Ze względu na <marker>długi upływ czasu</marker> od momentu spadku wiele informacji na temat tego meteorytu można uznać jako niepewne. </example>
+		      <example type="correct">Ze względu na <marker>długi czas</marker> od momentu spadku wiele informacji o tym meteorycie można uznać za niepewne. </example>		
+	   </rule>
 	
-	<rule name="Pisownia: Gal Anonim (Gall Anonim)" id="GAL_ANONIM">
-		<pattern mark_to="-1">
-			<token inflected="yes">Gal</token>
-			<token inflected="yes">anonim</token>
-		</pattern>
-		<message>Poprawnie piszemy <em>Gall</em> Anonim.</message>
-		<example type="correct">To kronika Galla Anonima.</example>
+	   <rule name="Pisownia: Gal Anonim (Gall Anonim)" id="GAL_ANONIM">
+		      <pattern mark_to="-1">
+			         <token inflected="yes">Gal</token>
+			         <token inflected="yes">anonim</token>
+		      </pattern>
+		      <message>Poprawnie piszemy <suggestion>Gall</suggestion> Anonim.</message>
+		      <example type="correct">To kronika Galla Anonima.</example>
 	<!-- FIXME: tagger dictionary uncomplete -->
-		<example type="incorrect">To kronika <em>Gal</em> anonima.</example>
-	</rule>
+		      <example type="incorrect">To kronika <marker>Gal</marker> anonima.</example>
+	   </rule>
 	
-	<rule name="Pleonazm: „potencjalna możliwość” (możliwość)" id="POTENCJALNA_MOZLIWOSC">
-		<pattern>
-			<token inflected="yes" postag_regexp="yes" postag="adj:.*:(f|f.n)">potencjalny</token>
-			<token inflected="yes">możliwość</token>
-		</pattern>
-		<message>To wyrażenie to pleonazm. Wystarczy powiedzieć <em>\2</em>.</message>
-		<example type="correct">To otwiera nowe możliwości.</example>
-		<example type="incorrect">To otwiera nowe <em>potencjalne możliwości</em>.</example>
-	</rule>
+	   <rule name="Pleonazm: „potencjalna możliwość” (możliwość)" id="POTENCJALNA_MOZLIWOSC">
+		      <pattern>
+			         <token inflected="yes" postag_regexp="yes" postag="adj:.*:(f|f.n)">potencjalny</token>
+			         <token inflected="yes">możliwość</token>
+		      </pattern>
+		      <message>To wyrażenie to pleonazm. Wystarczy powiedzieć <suggestion>\2</suggestion>.</message>
+		      <example type="correct">To otwiera nowe możliwości.</example>
+		      <example type="incorrect">To otwiera nowe <marker>potencjalne możliwości</marker>.</example>
+	   </rule>
 
-	<rule name="Pleonazm: „przychylna akceptacja” (akceptacja)" id="PRZYCHYLNA_AKCEPTACJA">
-		<pattern>
-			<token inflected="yes" postag_regexp="yes" postag="adj:.*:(f|f.n)">przychylny</token>
-			<token inflected="yes">akceptacja</token>
-		</pattern>
-		<message>To wyrażenie to pleonazm. Wystarczy powiedzieć <em>\2</em>.</message>
-		<example type="correct">Ta propozycja spotkała się z akceptacją.</example>
-		<example type="incorrect">W tym wypadku wymagana jest <em>przychylna akceptacja</em>.</example>
-	</rule>	
+	   <rule name="Pleonazm: „przychylna akceptacja” (akceptacja)" id="PRZYCHYLNA_AKCEPTACJA">
+		      <pattern>
+			         <token inflected="yes" postag_regexp="yes" postag="adj:.*:(f|f.n)">przychylny</token>
+			         <token inflected="yes">akceptacja</token>
+		      </pattern>
+		      <message>To wyrażenie to pleonazm. Wystarczy powiedzieć <suggestion>\2</suggestion>.</message>
+		      <example type="correct">Ta propozycja spotkała się z akceptacją.</example>
+		      <example type="incorrect">W tym wypadku wymagana jest <marker>przychylna akceptacja</marker>.</example>
+	   </rule>	
 
-	<rule name="Pleonazm: „geneza powstania” (geneza)" id="GENEZA_POWSTANIA">
-		<pattern mark_to="-1">
-			<token inflected="yes">geneza</token>
-			<token>powstania</token>
-			<token negate="yes" regexp="yes">listopadowego|warszawskiego|styczniowego</token>
-		</pattern>
-		<message>To wyrażenie to pleonazm. Wystarczy powiedzieć <em>\1</em>.</message>
-		<example type="correct">Geneza tego rękopisu wymaga dalszych badań.</example>
-		<example type="incorrect"><em>Geneza powstania</em> tego rękopisu wymaga dalszych badań.</example>
-		<example type="correct">Geneza powstania warszawskiego nie jest zagadką.</example>
-	</rule>	
+	   <rule name="Pleonazm: „geneza powstania” (geneza)" id="GENEZA_POWSTANIA">
+		      <pattern mark_to="-1">
+			         <token inflected="yes">geneza</token>
+			         <token>powstania</token>
+			         <token negate="yes" regexp="yes">listopadowego|warszawskiego|styczniowego</token>
+		      </pattern>
+		      <message>To wyrażenie to pleonazm. Wystarczy powiedzieć <suggestion>\1</suggestion>.</message>
+		      <example type="correct">Geneza tego rękopisu wymaga dalszych badań.</example>
+		      <example type="incorrect">
+         <marker>Geneza powstania</marker> tego rękopisu wymaga dalszych badań.</example>
+		      <example type="correct">Geneza powstania warszawskiego nie jest zagadką.</example>
+	   </rule>	
 
-	<rule name="Błąd składniowy: „inny jak” (inny niż)" id="INNY_JAK">
-		<pattern mark_from="2">
-			<token regexp="yes" negate="yes">nie|nikt|któż|kto</token>
-			<token inflected="yes">inny</token>
-			<token>jak</token>
-		</pattern>
-		<message>Mówimy „inny” <em>niż</em>, a nie „inny jak”.</message>
-		<example type="correct">Któż inny jak nie on!</example>
-		<example type="correct">Jarosław jest inny niż wszyscy Kaczyńscy.</example>
-		<example type="incorrect">Jarosław jest inny <em>jak</em> wszyscy Kaczyńscy.</example>
-	</rule>	 
+	   <rule name="Błąd składniowy: „inny jak” (inny niż)" id="INNY_JAK">
+		      <pattern mark_from="2">
+			         <token regexp="yes" negate="yes">nie|nikt|któż|kto</token>
+			         <token inflected="yes">inny</token>
+			         <token>jak</token>
+		      </pattern>
+		      <message>Mówimy „inny” <suggestion>niż</suggestion>, a nie „inny jak”.</message>
+		      <example type="correct">Któż inny jak nie on!</example>
+		      <example type="correct">Jarosław jest inny niż wszyscy Kaczyńscy.</example>
+		      <example type="incorrect">Jarosław jest inny <marker>jak</marker> wszyscy Kaczyńscy.</example>
+	   </rule>	 
 	
-	<rule name="w lato (w lecie, latem)" id="W_LATO">
-		<pattern>
-			<token>w</token>
-			<token>lato</token>
-		</pattern>
-		<message>Mówimy <em>latem</em>, <em>w lecie</em>, a nie „w lato”.</message>
-		<example type="correct">W lecie wybieramy się do Danii.</example>
-		<example type="incorrect"><em>W lato</em> wybieramy się do Danii.</example>
-	</rule>
+	   <rule name="w lato (w lecie, latem)" id="W_LATO">
+		      <pattern>
+			         <token>w</token>
+			         <token>lato</token>
+		      </pattern>
+		      <message>Mówimy <suggestion>latem</suggestion>, <suggestion>w lecie</suggestion>, a nie „w lato”.</message>
+		      <example type="correct">W lecie wybieramy się do Danii.</example>
+		      <example type="incorrect">
+         <marker>W lato</marker> wybieramy się do Danii.</example>
+	   </rule>
 	
 </rules>

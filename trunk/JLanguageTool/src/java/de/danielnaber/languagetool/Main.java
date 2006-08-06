@@ -122,8 +122,8 @@ class Main {
       System.out.println(i + ".) Line " + (match.getLine()+1) + ", column " + match.getColumn() +
           ", Rule ID: " + match.getRule().getId());
       String msg = match.getMessage();
-      msg = msg.replaceAll("<em>", "'");
-      msg = msg.replaceAll("</em>", "'");
+      msg = msg.replaceAll("<suggestion>", "'");
+      msg = msg.replaceAll("</suggestion>", "'");
       System.out.println("Message: " + msg);
       System.out.println(getContext(match.getFromPos(), match.getToPos(), contents));
       if (iter.hasNext())

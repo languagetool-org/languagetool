@@ -1,319 +1,454 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
 Rules: Grammar and Typos
 See tagset.txt for the meaning of the POS tags
 Copyright (C) 2001-2006 Daniel Naber (http://www.danielnaber.de)
-$Id: grammar.xml,v 1.45 2006-08-05 22:29:23 dnaber Exp $
+$Id: grammar.xml,v 1.46 2006-08-06 15:45:39 milek_pl Exp $
 -->
 <rules lang="de">
 
 	<!-- TODO: group -->
-	<rule id="WAR_WERDEN" name="Möglicher Tippfehler 'war(wahr) werden'">
-		<pattern mark_to="-1"><token>war</token><token>werden</token></pattern>
-		<message>Meinten Sie <em>wahr</em> (=wahrhaftig, authentisch) statt 'war' (Vergangenheit von 'sein')?</message>
-		<example type="correct">Das kann schnell <em>wahr</em> werden.</example>
-		<example type="incorrect">Das kann schnell <em>war</em> werden.</example>
-	</rule>
-	<rule id="WIRD_WAR" name="Möglicher Tippfehler 'wird war(wahr)'">
-		<pattern mark_from="1"><token regexp="yes">wird|wurde|wurden|würde</token><token>war</token></pattern>
-		<message>Meinten Sie <em>wahr</em> (=wahrhaftig, authentisch) statt 'war' (Vergangenheit von 'sein')?</message>
-		<example type="correct">Seine Träume wurden <em>wahr</em>.</example>
-		<example type="incorrect">Seine Träume wurden <em>war</em>.</example>
-	</rule>
+	   <rule id="WAR_WERDEN" name="Möglicher Tippfehler 'war(wahr) werden'">
+		      <pattern mark_to="-1">
+         <token>war</token>
+         <token>werden</token>
+      </pattern>
+		      <message>Meinten Sie <suggestion>wahr</suggestion> (=wahrhaftig, authentisch) statt 'war' (Vergangenheit von 'sein')?</message>
+		      <example type="correct">Das kann schnell <marker>wahr</marker> werden.</example>
+		      <example type="incorrect">Das kann schnell <marker>war</marker> werden.</example>
+	   </rule>
+	   <rule id="WIRD_WAR" name="Möglicher Tippfehler 'wird war(wahr)'">
+		      <pattern mark_from="1">
+         <token regexp="yes">wird|wurde|wurden|würde</token>
+         <token>war</token>
+      </pattern>
+		      <message>Meinten Sie <suggestion>wahr</suggestion> (=wahrhaftig, authentisch) statt 'war' (Vergangenheit von 'sein')?</message>
+		      <example type="correct">Seine Träume wurden <marker>wahr</marker>.</example>
+		      <example type="incorrect">Seine Träume wurden <marker>war</marker>.</example>
+	   </rule>
 
 	<!-- TODO: group -->
-	<rule id="DU_WUENSCHT" name="Möglicher Tippfehler 'du wünscht(wünschst)'">
-		<pattern mark_from="1"><token>du</token><token>wünscht</token></pattern>
-		<message>Meinten Sie <em>wünschst</em> (ich wünsche, du wünschst, er wünscht, ...)?</message>
-		<example type="correct">Du <em>wünschst</em> dir so viel.</example>
-		<example type="incorrect">Du <em>wünscht</em> dir so viel.</example>
-	</rule>
-	<rule id="WUENSCHT_DU" name="Möglicher Tippfehler 'wünscht(wünschst) du'">
-		<pattern mark_to="-1"><token>wünscht</token><token>du</token></pattern>
-		<message>Meinten Sie <em>wünschst</em> (ich wünsche, du wünschst, er wünscht, ...)?</message>
-		<example type="correct"><em>Wünschst</em> du dir mehr Zeit?</example>
-		<example type="incorrect"><em>Wünscht</em> du dir mehr Zeit?</example>
-	</rule>
+	   <rule id="DU_WUENSCHT" name="Möglicher Tippfehler 'du wünscht(wünschst)'">
+		      <pattern mark_from="1">
+         <token>du</token>
+         <token>wünscht</token>
+      </pattern>
+		      <message>Meinten Sie <suggestion>wünschst</suggestion> (ich wünsche, du wünschst, er wünscht, ...)?</message>
+		      <example type="correct">Du <marker>wünschst</marker> dir so viel.</example>
+		      <example type="incorrect">Du <marker>wünscht</marker> dir so viel.</example>
+	   </rule>
+	   <rule id="WUENSCHT_DU" name="Möglicher Tippfehler 'wünscht(wünschst) du'">
+		      <pattern mark_to="-1">
+         <token>wünscht</token>
+         <token>du</token>
+      </pattern>
+		      <message>Meinten Sie <suggestion>wünschst</suggestion> (ich wünsche, du wünschst, er wünscht, ...)?</message>
+		      <example type="correct">
+         <marker>Wünschst</marker> du dir mehr Zeit?</example>
+		      <example type="incorrect">
+         <marker>Wünscht</marker> du dir mehr Zeit?</example>
+	   </rule>
 
-	<rule id="ZU_ZUMUTEN" name="Möglicher Tippfehler 'zu zu... (zuzu...)'">
+	   <rule id="ZU_ZUMUTEN" name="Möglicher Tippfehler 'zu zu... (zuzu...)'">
 		<!-- TODO: gilt das für alle Verben mit "zu.*"? -->
-		<pattern><token>zu</token><token regexp="yes">zumuten|zugeben|zulassen|zubinden|zubereiten|zugestehen|zumachen</token></pattern>
-		<message>Meinten Sie <em>\1\2</em>?</message>
-		<example type="correct">Das ist ihm wohl nicht <em>zuzumuten</em>.</example>
-		<example type="incorrect">Das ist ihm wohl nicht <em>zu zumuten</em>.</example>
-	</rule>
+		      <pattern>
+         <token>zu</token>
+         <token regexp="yes">zumuten|zugeben|zulassen|zubinden|zubereiten|zugestehen|zumachen</token>
+      </pattern>
+		      <message>Meinten Sie <suggestion>\1\2</suggestion>?</message>
+		      <example type="correct">Das ist ihm wohl nicht <marker>zuzumuten</marker>.</example>
+		      <example type="incorrect">Das ist ihm wohl nicht <marker>zu zumuten</marker>.</example>
+	   </rule>
 
-	<rule id="SONDER_NUR" name="Möglicher Tippfehler 'sonder(sondern)'">
+	   <rule id="SONDER_NUR" name="Möglicher Tippfehler 'sonder(sondern)'">
 		<!-- "sonder" wird vom Spellchecker akzeptiert, ist aber fast nie richtig -->
-		<pattern><token>sonder</token></pattern>
-		<message>Meinten Sie <em>sondern</em>?</message>
-		<example type="correct">Es gibt keine neuen Features, <em>sondern</em> nur Fehlerkorrekturen.</example>
-		<example type="incorrect">Es gibt keine neuen Features, <em>sonder</em> nur Fehlerkorrekturen.</example>
-	</rule>
+		      <pattern>
+         <token>sonder</token>
+      </pattern>
+		      <message>Meinten Sie <suggestion>sondern</suggestion>?</message>
+		      <example type="correct">Es gibt keine neuen Features, <marker>sondern</marker> nur Fehlerkorrekturen.</example>
+		      <example type="incorrect">Es gibt keine neuen Features, <marker>sonder</marker> nur Fehlerkorrekturen.</example>
+	   </rule>
 
-	<rule id="SEID_BESTEHEN" name="Möglicher Tippfehler 'seid(seit) Bestehen'">
+	   <rule id="SEID_BESTEHEN" name="Möglicher Tippfehler 'seid(seit) Bestehen'">
 		<!-- TODO: generalize -->
-		<pattern mark_to="-1"><token>seid</token><token>Bestehen</token></pattern>
-		<message>Meinten Sie <em>seit</em>?</message>
-		<example type="correct">Noch nie so viele Auswanderer <em>seit</em> Bestehen der BRD</example>
-		<example type="incorrect">Noch nie so viele Auswanderer <em>seid</em> Bestehen der BRD</example>
-	</rule>
+		      <pattern mark_to="-1">
+         <token>seid</token>
+         <token>Bestehen</token>
+      </pattern>
+		      <message>Meinten Sie <suggestion>seit</suggestion>?</message>
+		      <example type="correct">Noch nie so viele Auswanderer <marker>seit</marker> Bestehen der BRD</example>
+		      <example type="incorrect">Noch nie so viele Auswanderer <marker>seid</marker> Bestehen der BRD</example>
+	   </rule>
 
-	<rule id="IN_DIE_ANALEN" name="Möglicher Tippfehler 'in die Analen(Annalen)'">
-		<pattern mark_from="2"><token>in</token><token>die</token><token>Analen</token></pattern>
-		<message>Meinten Sie <em>Annalen</em>?</message>
-		<example type="correct">Wir können in die <em>Annalen</em> des Klubs eingehen</example>
-		<example type="incorrect">Wir können in die <em>Analen</em> des Klubs eingehen</example>
-	</rule>
+	   <rule id="IN_DIE_ANALEN" name="Möglicher Tippfehler 'in die Analen(Annalen)'">
+		      <pattern mark_from="2">
+         <token>in</token>
+         <token>die</token>
+         <token>Analen</token>
+      </pattern>
+		      <message>Meinten Sie <suggestion>Annalen</suggestion>?</message>
+		      <example type="correct">Wir können in die <marker>Annalen</marker> des Klubs eingehen</example>
+		      <example type="incorrect">Wir können in die <marker>Analen</marker> des Klubs eingehen</example>
+	   </rule>
 
-	<rule id="ALLES_OLLES" name="Möglicher Tippfehler 'alles/olles'">
+	   <rule id="ALLES_OLLES" name="Möglicher Tippfehler 'alles/olles'">
 		<!-- "olles" is (very) colloquial, but anyway... -->
-		<pattern mark_from="1"><token regexp="yes">ist|war|mir|dir</token><token>olles</token></pattern>
-		<message>Meinten Sie <em>alles</em>?</message>
-		<example type="correct">Das ist mir <em>alles</em> zu viel.</example>
-		<example type="incorrect">Das ist mir <em>olles</em> zu viel.</example>
-	</rule>
+		      <pattern mark_from="1">
+         <token regexp="yes">ist|war|mir|dir</token>
+         <token>olles</token>
+      </pattern>
+		      <message>Meinten Sie <suggestion>alles</suggestion>?</message>
+		      <example type="correct">Das ist mir <marker>alles</marker> zu viel.</example>
+		      <example type="incorrect">Das ist mir <marker>olles</marker> zu viel.</example>
+	   </rule>
 
 	<!--  TODO: group rules: -->
-	<rule id="SCHON_SCHOEN_1" name="Möglicher Tippfehler 'schon/schön'">
-		<pattern mark_from="1"><token>ganz</token><token>schon</token></pattern>
-		<message>Meinten Sie <em>schön</em>?</message>
-		<example type="correct">Das ist ganz <em>schön</em> teuer.</example>
-		<example type="incorrect">Das ist ganz <em>schon</em> teuer.</example>
-	</rule>
-	<rule id="SCHON_SCHOEN_2" name="Möglicher Tippfehler 'schön/schon'">
-		<pattern mark_to="-1"><token>schön</token><token regexp="yes">sehr|recht</token></pattern>
-		<message>Meinten Sie <em>schon</em>?</message>
-		<example type="correct">Das ist <em>schon</em> sehr teuer.</example>
-		<example type="incorrect">Das ist <em>schön</em> sehr teuer.</example>
-	</rule>
+	   <rule id="SCHON_SCHOEN_1" name="Möglicher Tippfehler 'schon/schön'">
+		      <pattern mark_from="1">
+         <token>ganz</token>
+         <token>schon</token>
+      </pattern>
+		      <message>Meinten Sie <suggestion>schön</suggestion>?</message>
+		      <example type="correct">Das ist ganz <marker>schön</marker> teuer.</example>
+		      <example type="incorrect">Das ist ganz <marker>schon</marker> teuer.</example>
+	   </rule>
+	   <rule id="SCHON_SCHOEN_2" name="Möglicher Tippfehler 'schön/schon'">
+		      <pattern mark_to="-1">
+         <token>schön</token>
+         <token regexp="yes">sehr|recht</token>
+      </pattern>
+		      <message>Meinten Sie <suggestion>schon</suggestion>?</message>
+		      <example type="correct">Das ist <marker>schon</marker> sehr teuer.</example>
+		      <example type="incorrect">Das ist <marker>schön</marker> sehr teuer.</example>
+	   </rule>
 
 	<!--  TODO: group rules: -->
-	<rule id="WIE_WIR_1" name="Möglicher Tippfehler 'wie/wir'">
-		<pattern mark_from="2"><token>wie</token><token regexp="yes">.+</token><token>wie</token></pattern>
-		<message>Meinten Sie <em>wir</em>?</message>
-		<example type="correct">Wie können <em>wir</em> vorgehen?</example>
-		<example type="incorrect">Wie können <em>wie</em> vorgehen?</example>
-	</rule>
-	<rule id="WIE_WIR_2" name="Möglicher Tippfehler 'wir/wie'">
-		<pattern mark_from="1"><token regexp="yes">so|genauso|nach|sie|konnte|wollte|sollte|möchte</token><token>wir</token></pattern>
-		<message>Meinten Sie <em>wie</em>?</message>
-		<example type="correct">Das gilt nach <em>wie</em> vor.</example>
-		<example type="incorrect">Das gilt nach <em>wir</em> vor.</example>
-	</rule>
+	   <rule id="WIE_WIR_1" name="Möglicher Tippfehler 'wie/wir'">
+		      <pattern mark_from="2">
+         <token>wie</token>
+         <token regexp="yes">.+</token>
+         <token>wie</token>
+      </pattern>
+		      <message>Meinten Sie <suggestion>wir</suggestion>?</message>
+		      <example type="correct">Wie können <marker>wir</marker> vorgehen?</example>
+		      <example type="incorrect">Wie können <marker>wie</marker> vorgehen?</example>
+	   </rule>
+	   <rule id="WIE_WIR_2" name="Möglicher Tippfehler 'wir/wie'">
+		      <pattern mark_from="1">
+         <token regexp="yes">so|genauso|nach|sie|konnte|wollte|sollte|möchte</token>
+         <token>wir</token>
+      </pattern>
+		      <message>Meinten Sie <suggestion>wie</suggestion>?</message>
+		      <example type="correct">Das gilt nach <marker>wie</marker> vor.</example>
+		      <example type="incorrect">Das gilt nach <marker>wir</marker> vor.</example>
+	   </rule>
 	<!-- TODO: "NOUN wir" außer "welches/was für ein NOUN wir" -->
 
-	<rule id="OHNE_GEWEHR" name="Möglicher Tippfehler 'ohne Gewehr(Gewähr)'">
-		<pattern mark_from="1"><token>ohne</token><token>Gewehr</token></pattern>
-		<message>Hinweis: Gewehr = Schusswaffe, <em>Gewähr</em> = Garantie/Gewährleistung/Sicherheit</message>
-		<example type="correct">Alle Angaben ohne <em>Gewähr</em>.</example>
-		<example type="incorrect">Alle Angaben ohne <em>Gewehr</em>.</example>
-	</rule>
+	   <rule id="OHNE_GEWEHR" name="Möglicher Tippfehler 'ohne Gewehr(Gewähr)'">
+		      <pattern mark_from="1">
+         <token>ohne</token>
+         <token>Gewehr</token>
+      </pattern>
+		      <message>Hinweis: Gewehr = Schusswaffe, <suggestion>Gewähr</suggestion> = Garantie/Gewährleistung/Sicherheit</message>
+		      <example type="correct">Alle Angaben ohne <marker>Gewähr</marker>.</example>
+		      <example type="incorrect">Alle Angaben ohne <marker>Gewehr</marker>.</example>
+	   </rule>
 	
-	<rule id="PER_NACHNAME" name="Möglicher Tippfehler 'per Nachname(Nachnahme)'">
-		<pattern mark_from="1" case_sensitive="yes"><token>per</token><token>Nachname</token></pattern>
-		<message>Meinten Sie <em>Nachnahme</em> ('Nachnahme' = Versandart, 'Nachname' = Familienname)?</message>
-		<example type="correct">Warum liefern Firmen lieber per <em>Nachnahme</em>?</example>
-		<example type="incorrect">Warum liefern Firmen lieber per <em>Nachname</em>?</example>
-	</rule>	
+	   <rule id="PER_NACHNAME" name="Möglicher Tippfehler 'per Nachname(Nachnahme)'">
+		      <pattern mark_from="1" case_sensitive="yes">
+         <token>per</token>
+         <token>Nachname</token>
+      </pattern>
+		      <message>Meinten Sie <suggestion>Nachnahme</suggestion> ('Nachnahme' = Versandart, 'Nachname' = Familienname)?</message>
+		      <example type="correct">Warum liefern Firmen lieber per <marker>Nachnahme</marker>?</example>
+		      <example type="incorrect">Warum liefern Firmen lieber per <marker>Nachname</marker>?</example>
+	   </rule>	
 	
-	<rule id="MOEGLICHER_WEISE" name="Möglicher Tippfehler 'möglicher Weise(möglicherweise)'">
-		<pattern><token>möglicher</token><token>Weise</token></pattern>
-		<message><em>Möglicherweise</em> wird zusammengeschrieben.</message>
-		<example type="correct"><em>Möglicherweise</em> ist die Gelbphase zu kurz eingestellt.</example>
-		<example type="incorrect"><em>Möglicher Weise</em> ist die Gelbphase zu kurz eingestellt.</example>
-	</rule>
+	   <rule id="MOEGLICHER_WEISE" name="Möglicher Tippfehler 'möglicher Weise(möglicherweise)'">
+		      <pattern>
+         <token>möglicher</token>
+         <token>Weise</token>
+      </pattern>
+		      <message>
+         <suggestion>Möglicherweise</suggestion> wird zusammengeschrieben.</message>
+		      <example type="correct">
+         <marker>Möglicherweise</marker> ist die Gelbphase zu kurz eingestellt.</example>
+		      <example type="incorrect">
+         <marker>Möglicher Weise</marker> ist die Gelbphase zu kurz eingestellt.</example>
+	   </rule>
 	
-	<rule id="LASEN_LASSEN" name="Möglicher Tippfehler 'zu lasen(lassen)'">
-		<pattern mark_from="1" case_sensitive="yes"><token>zu</token><token>lasen</token></pattern>
-		<message>Meinten Sie 'zu <em>lassen</em>'?</message>
-		<example type="correct">...sie mit einem Maulkorb rumlaufen zu <em>lassen</em>.</example>
-		<example type="incorrect">...sie mit einem Maulkorb rumlaufen zu <em>lasen</em>.</example>
-	</rule>
+	   <rule id="LASEN_LASSEN" name="Möglicher Tippfehler 'zu lasen(lassen)'">
+		      <pattern mark_from="1" case_sensitive="yes">
+         <token>zu</token>
+         <token>lasen</token>
+      </pattern>
+		      <message>Meinten Sie 'zu <suggestion>lassen</suggestion>'?</message>
+		      <example type="correct">...sie mit einem Maulkorb rumlaufen zu <marker>lassen</marker>.</example>
+		      <example type="incorrect">...sie mit einem Maulkorb rumlaufen zu <marker>lasen</marker>.</example>
+	   </rule>
 
-	<rule id="OEKONOMISCH_OEKUMENISCH" name="Möglicher Tippfehler 'ökonomischer(ökumenischer) Gottesdienst/...'">
-		<pattern mark_to="-1"><token regexp="yes">ökonomischen|ökonomischer</token><token regexp="yes">Gottesdienst|Gottesdienste|Gottesdiensts|Trauung|Taufe|Kirchentag</token></pattern>
-		<message>Meinten Sie <em>ökumenisch</em> (ökonomisch = auf die Wirtschaft bezogen)?</message>
-		<example type="correct">Was ist ein <em>ökumenischer</em> Gottesdienst?</example>
-		<example type="incorrect">Was ist ein <em>ökonomischer</em> Gottesdienst?</example>
-	</rule>
+	   <rule id="OEKONOMISCH_OEKUMENISCH" name="Möglicher Tippfehler 'ökonomischer(ökumenischer) Gottesdienst/...'">
+		      <pattern mark_to="-1">
+         <token regexp="yes">ökonomischen|ökonomischer</token>
+         <token regexp="yes">Gottesdienst|Gottesdienste|Gottesdiensts|Trauung|Taufe|Kirchentag</token>
+      </pattern>
+		      <message>Meinten Sie <suggestion>ökumenisch</suggestion> (ökonomisch = auf die Wirtschaft bezogen)?</message>
+		      <example type="correct">Was ist ein <marker>ökumenischer</marker> Gottesdienst?</example>
+		      <example type="incorrect">Was ist ein <marker>ökonomischer</marker> Gottesdienst?</example>
+	   </rule>
 
-	<rule id="ETHISCH_ETHNISCH" name="Möglicher Tippfehler 'ethische(ethnische) Minderheiten/...'">
-		<pattern mark_to="-1"><token regexp="yes">[Ee]thische|[Ee]thischer|[Ee]thischen</token><token regexp="yes">Minderheit|Minderheiten|Säuberung|Säuberungen|Herkunft|Konflikt|Konflikte</token></pattern>
-		<message>Meinten Sie <em>ethnisch</em> (ethisch = Ethik/Moral betreffend, ethnisch = zu einer bestimmten Ethnie/Volksgruppe gehörend)?</message>
-		<example type="correct">Bücher über <em>ethnische</em> Minderheiten und Vertriebene</example>
-		<example type="incorrect">Bücher über <em>ethische</em> Minderheiten und Vertriebene</example>
-	</rule>
+	   <rule id="ETHISCH_ETHNISCH" name="Möglicher Tippfehler 'ethische(ethnische) Minderheiten/...'">
+		      <pattern mark_to="-1">
+         <token regexp="yes">[Ee]thische|[Ee]thischer|[Ee]thischen</token>
+         <token regexp="yes">Minderheit|Minderheiten|Säuberung|Säuberungen|Herkunft|Konflikt|Konflikte</token>
+      </pattern>
+		      <message>Meinten Sie <suggestion>ethnisch</suggestion> (ethisch = Ethik/Moral betreffend, ethnisch = zu einer bestimmten Ethnie/Volksgruppe gehörend)?</message>
+		      <example type="correct">Bücher über <marker>ethnische</marker> Minderheiten und Vertriebene</example>
+		      <example type="incorrect">Bücher über <marker>ethische</marker> Minderheiten und Vertriebene</example>
+	   </rule>
 
-	<rule id="DENN_DEN" name="Möglicher Tippfehler 'aber denn(dann)'">
-		<pattern mark_from="1"><token regexp="yes">[Aa]ber|[Dd]och|[Uu]nd</token><token>denn</token></pattern>
-		<message>Meinten Sie <em>den</em> oder <em>dann</em>?</message>
-		<example type="correct">Aber <em>dann</em> ging es los.</example>
-		<example type="correct">Aber <em>den</em> haben Sie ja schon.</example>
-		<example type="incorrect">Aber <em>denn</em> haben Sie ja schon.</example>
-	</rule>
+	   <rule id="DENN_DEN" name="Möglicher Tippfehler 'aber denn(dann)'">
+		      <pattern mark_from="1">
+         <token regexp="yes">[Aa]ber|[Dd]och|[Uu]nd</token>
+         <token>denn</token>
+      </pattern>
+		      <message>Meinten Sie <suggestion>den</suggestion> oder <suggestion>dann</suggestion>?</message>
+		      <example type="correct">Aber <marker>dann</marker> ging es los.</example>
+		      <example type="correct">Aber <marker>den</marker> haben Sie ja schon.</example>
+		      <example type="incorrect">Aber <marker>denn</marker> haben Sie ja schon.</example>
+	   </rule>
 
-	<rule id="ZAUN_ZAUM" name="Möglicher Tippfehler 'im Zaun(Zaum) halten'">
-		<pattern mark_from="1" mark_to="-1"><token>im</token><token regexp="yes">Zaun</token><token regexp="yes">halten|hielt|hält|haltet|hälst|gehalten</token></pattern>
-		<message>Meinten Sie <em>Zaum</em>?</message>
-		<example type="correct">Da konnt ich meine Finger nicht mehr im <em>Zaum</em> halten.</example>
-		<example type="incorrect">Da konnt ich meine Finger nicht mehr im <em>Zaun</em> halten.</example>
-	</rule>
+	   <rule id="ZAUN_ZAUM" name="Möglicher Tippfehler 'im Zaun(Zaum) halten'">
+		      <pattern mark_from="1" mark_to="-1">
+         <token>im</token>
+         <token regexp="yes">Zaun</token>
+         <token regexp="yes">halten|hielt|hält|haltet|hälst|gehalten</token>
+      </pattern>
+		      <message>Meinten Sie <suggestion>Zaum</suggestion>?</message>
+		      <example type="correct">Da konnt ich meine Finger nicht mehr im <marker>Zaum</marker> halten.</example>
+		      <example type="incorrect">Da konnt ich meine Finger nicht mehr im <marker>Zaun</marker> halten.</example>
+	   </rule>
 	
-	<rule id="BESCHEIDE_BESCHEID" name="Möglicher Tippfehler 'Bescheide/Bescheid'">
-		<pattern mark_to="-1"><token regexp="yes">Bescheide|Bescheids</token><token regexp="yes">sagen|sagst|sagt|wissen|weißt|wisst|geben|gebt</token></pattern>
-		<message>Meinten Sie <em>Bescheid</em>?</message>
-		<example type="correct">Da würde ich auch <em>Bescheid</em> sagen.</example>
-		<example type="incorrect">Da würde ich auch <em>Bescheide</em> sagen.</example>
-		<example type="incorrect">Da würde ich auch <em>Bescheids</em> geben.</example>
-	</rule>
+	   <rule id="BESCHEIDE_BESCHEID" name="Möglicher Tippfehler 'Bescheide/Bescheid'">
+		      <pattern mark_to="-1">
+         <token regexp="yes">Bescheide|Bescheids</token>
+         <token regexp="yes">sagen|sagst|sagt|wissen|weißt|wisst|geben|gebt</token>
+      </pattern>
+		      <message>Meinten Sie <suggestion>Bescheid</suggestion>?</message>
+		      <example type="correct">Da würde ich auch <marker>Bescheid</marker> sagen.</example>
+		      <example type="incorrect">Da würde ich auch <marker>Bescheide</marker> sagen.</example>
+		      <example type="incorrect">Da würde ich auch <marker>Bescheids</marker> geben.</example>
+	   </rule>
 	
-	<rule id="WIEDER_WILLEN" name="Möglicher Tippfehler 'wieder(wider) Willen/Erwarten'">
-		<pattern mark_to="-1"><token>wieder</token><token regexp="yes">Willen|Erwarten</token></pattern>
-		<message>Meinten Sie <em>wider</em> (wider = gegen, wieder = nochmals)?</message>
-		<example type="correct">Wunschwitz wird zum Aufständler und Rebellen <em>wider</em> Willen.</example>
-		<example type="incorrect">Wunschwitz wird zum Aufständler und Rebellen <em>wieder</em> Willen.</example>
-	</rule>
+	   <rule id="WIEDER_WILLEN" name="Möglicher Tippfehler 'wieder(wider) Willen/Erwarten'">
+		      <pattern mark_to="-1">
+         <token>wieder</token>
+         <token regexp="yes">Willen|Erwarten</token>
+      </pattern>
+		      <message>Meinten Sie <suggestion>wider</suggestion> (wider = gegen, wieder = nochmals)?</message>
+		      <example type="correct">Wunschwitz wird zum Aufständler und Rebellen <marker>wider</marker> Willen.</example>
+		      <example type="incorrect">Wunschwitz wird zum Aufständler und Rebellen <marker>wieder</marker> Willen.</example>
+	   </rule>
 	
-	<rule id="ICH_VERALTE" name="Möglicher Tippfehler 'ich veralte(verwalte/verhalte)'">
-		<pattern mark_from="1"><token>ich</token><token>veralte</token></pattern>
-		<message>Meinten Sie <em>verhalte</em> oder <em>verwalte</em>?</message>
-		<example type="correct">Ich <em>verwalte</em> auf diese Weise so 100 E-Mail-Adressen.</example>
-		<example type="incorrect">Ich <em>veralte</em> auf diese Weise so 100 E-Mail-Adressen.</example>
-	</rule>
+	   <rule id="ICH_VERALTE" name="Möglicher Tippfehler 'ich veralte(verwalte/verhalte)'">
+		      <pattern mark_from="1">
+         <token>ich</token>
+         <token>veralte</token>
+      </pattern>
+		      <message>Meinten Sie <suggestion>verhalte</suggestion> oder <suggestion>verwalte</suggestion>?</message>
+		      <example type="correct">Ich <marker>verwalte</marker> auf diese Weise so 100 E-Mail-Adressen.</example>
+		      <example type="incorrect">Ich <marker>veralte</marker> auf diese Weise so 100 E-Mail-Adressen.</example>
+	   </rule>
 	
-	<rule id="VON_WIEDER_VON" name="Möglicher Tippfehler 'von(schon) wieder von'">
-		<pattern mark_to="-2"><token>von</token><token>wieder</token><token>von</token></pattern>
-		<message>Meinten Sie <em>schon</em>?</message>
-		<example type="correct">Das war's auch <em>schon</em> wieder von mir.</example>
-		<example type="incorrect">Das war's auch <em>von</em> wieder von mir.</example>
-	</rule>
+	   <rule id="VON_WIEDER_VON" name="Möglicher Tippfehler 'von(schon) wieder von'">
+		      <pattern mark_to="-2">
+         <token>von</token>
+         <token>wieder</token>
+         <token>von</token>
+      </pattern>
+		      <message>Meinten Sie <suggestion>schon</suggestion>?</message>
+		      <example type="correct">Das war's auch <marker>schon</marker> wieder von mir.</example>
+		      <example type="incorrect">Das war's auch <marker>von</marker> wieder von mir.</example>
+	   </rule>
 	
-	<rule id="BEREIT_BESTEHENDE" name="Möglicher Tippfehler 'bereit(bereits) bestehende'">
-		<pattern mark_to="-1"><token>bereit</token><token>bestehende</token></pattern>
-		<message>Meinten Sie <em>bereits</em>?</message>
-		<example type="correct">Sie können dies als Service für Ihre <em>bereits</em> bestehende Seite benutzen.</example>
-		<example type="incorrect">Sie können dies als Service für Ihre <em>bereit</em> bestehende Seite benutzen.</example>
-	</rule>
+	   <rule id="BEREIT_BESTEHENDE" name="Möglicher Tippfehler 'bereit(bereits) bestehende'">
+		      <pattern mark_to="-1">
+         <token>bereit</token>
+         <token>bestehende</token>
+      </pattern>
+		      <message>Meinten Sie <suggestion>bereits</suggestion>?</message>
+		      <example type="correct">Sie können dies als Service für Ihre <marker>bereits</marker> bestehende Seite benutzen.</example>
+		      <example type="incorrect">Sie können dies als Service für Ihre <marker>bereit</marker> bestehende Seite benutzen.</example>
+	   </rule>
 	
-	<rule id="MIT_OHNE" name="Möglicher Tippfehler 'mit ohne'">
-		<pattern><token>mit</token><token>ohne</token></pattern>
-		<message>Meinten Sie <em>ohne</em>? 'Mit ohne' ist eine umgangssprachliche Wendung.</message>
-		<example type="correct">Internet <em>ohne</em> Schnur</example>
-		<example type="incorrect">Internet <em>mit ohne</em> Schnur</example>
-	</rule>
+	   <rule id="MIT_OHNE" name="Möglicher Tippfehler 'mit ohne'">
+		      <pattern>
+         <token>mit</token>
+         <token>ohne</token>
+      </pattern>
+		      <message>Meinten Sie <suggestion>ohne</suggestion>? 'Mit ohne' ist eine umgangssprachliche Wendung.</message>
+		      <example type="correct">Internet <marker>ohne</marker> Schnur</example>
+		      <example type="incorrect">Internet <marker>mit ohne</marker> Schnur</example>
+	   </rule>
 
 	
 	<!--  Rules about upper/lowercase:  -->
 	
 	<!-- TODO: Gut und böse; gut und Böse -->
-	<rule id="GUT_UND_BOESE" name="Groß-/Kleinschreibung: 'jenseits von gut(Gut) und böse(Böse)'">
-		<pattern mark_from="2" case_sensitive="yes">
-			<token regexp="yes">[Jj]enseits</token>
-			<token>von</token>
-			<token>gut</token>
-			<token>und</token>
-			<token>böse</token>
-		</pattern>
-		<message><em>Gut und Böse</em> in der Wendung 'jenseits von Gut und Böse' wird groß geschrieben.</message>
-		<example type="correct">Das ist jenseits von <em>Gut und Böse</em>.</example>
-		<example type="incorrect">Das ist jenseits von <em>gut und böse</em>.</example>
-	</rule>
+	   <rule id="GUT_UND_BOESE" name="Groß-/Kleinschreibung: 'jenseits von gut(Gut) und böse(Böse)'">
+		      <pattern mark_from="2" case_sensitive="yes">
+			         <token regexp="yes">[Jj]enseits</token>
+			         <token>von</token>
+			         <token>gut</token>
+			         <token>und</token>
+			         <token>böse</token>
+		      </pattern>
+		      <message>
+         <suggestion>Gut und Böse</suggestion> in der Wendung 'jenseits von Gut und Böse' wird groß geschrieben.</message>
+		      <example type="correct">Das ist jenseits von <marker>Gut und Böse</marker>.</example>
+		      <example type="incorrect">Das ist jenseits von <marker>gut und böse</marker>.</example>
+	   </rule>
 
-	<rule id="DAS_ERSTE_MAL" name="Groß-/Kleinschreibung: 'das erste mal(Mal)'">
-		<pattern mark_from="2" case_sensitive="yes">
-			<token regexp="yes">[Bb]eim|[Zz]um|[Dd]as</token>
-			<token regexp="yes">erste|ersten|letzte|letzte|letzten|vorige|vorigen</token>
-			<token>mal</token>
-		</pattern>
-		<message><em>Mal</em> in der Wendung 'das erste/letzte Mal' wird groß geschrieben.</message>
-		<example type="correct">...als du ihn das erste <em>Mal</em> gesehen hast?</example>
-		<example type="incorrect">...als du ihn das erste <em>mal</em> gesehen hast?</example>
-		<example type="incorrect">...als du ihn zum ersten <em>mal</em> gesehen hast?</example>
-	</rule>
+	   <rule id="DAS_ERSTE_MAL" name="Groß-/Kleinschreibung: 'das erste mal(Mal)'">
+		      <pattern mark_from="2" case_sensitive="yes">
+			         <token regexp="yes">[Bb]eim|[Zz]um|[Dd]as</token>
+			         <token regexp="yes">erste|ersten|letzte|letzte|letzten|vorige|vorigen</token>
+			         <token>mal</token>
+		      </pattern>
+		      <message>
+         <suggestion>Mal</suggestion> in der Wendung 'das erste/letzte Mal' wird groß geschrieben.</message>
+		      <example type="correct">...als du ihn das erste <marker>Mal</marker> gesehen hast?</example>
+		      <example type="incorrect">...als du ihn das erste <marker>mal</marker> gesehen hast?</example>
+		      <example type="incorrect">...als du ihn zum ersten <marker>mal</marker> gesehen hast?</example>
+	   </rule>
 
-	<rule id="IN_ACHT_NEHMEN" name="Groß-/Kleinschreibung: 'in acht(Acht) nehmen'">
-		<pattern mark_from="1" mark_to="-1" case_sensitive="yes"><token>in</token><token>acht</token><token regexp="yes">nehmen|nahm|genommen</token></pattern>
-		<message><em>Acht</em> in der Wendung '(sich) in Acht nehmen' wird groß geschrieben.</message>
-		<example type="correct">Er sollte sich in <em>Acht</em> nehmen.</example>
-		<example type="incorrect">Er sollte sich in <em>acht</em> nehmen.</example>
-	</rule>
+	   <rule id="IN_ACHT_NEHMEN" name="Groß-/Kleinschreibung: 'in acht(Acht) nehmen'">
+		      <pattern mark_from="1" mark_to="-1" case_sensitive="yes">
+         <token>in</token>
+         <token>acht</token>
+         <token regexp="yes">nehmen|nahm|genommen</token>
+      </pattern>
+		      <message>
+         <suggestion>Acht</suggestion> in der Wendung '(sich) in Acht nehmen' wird groß geschrieben.</message>
+		      <example type="correct">Er sollte sich in <marker>Acht</marker> nehmen.</example>
+		      <example type="incorrect">Er sollte sich in <marker>acht</marker> nehmen.</example>
+	   </rule>
 	
-	<rule id="AUS_VERSEHEN" name="Groß-/Kleinschreibung: 'aus versehen(Versehen)'">
-		<pattern mark_from="1" case_sensitive="yes"><token>aus</token><token>versehen</token></pattern>
-		<message>In der Wendung 'aus Versehen' wird <em>Versehen</em> groß geschrieben.</message>
-		<example type="correct">Die SPD meuchelt aus <em>Versehen</em> ihren Chef.</example>
-		<example type="incorrect">Die SPD meuchelt aus <em>versehen</em> ihren Chef.</example>
-	</rule>
+	   <rule id="AUS_VERSEHEN" name="Groß-/Kleinschreibung: 'aus versehen(Versehen)'">
+		      <pattern mark_from="1" case_sensitive="yes">
+         <token>aus</token>
+         <token>versehen</token>
+      </pattern>
+		      <message>In der Wendung 'aus Versehen' wird <suggestion>Versehen</suggestion> groß geschrieben.</message>
+		      <example type="correct">Die SPD meuchelt aus <marker>Versehen</marker> ihren Chef.</example>
+		      <example type="incorrect">Die SPD meuchelt aus <marker>versehen</marker> ihren Chef.</example>
+	   </rule>
 
-	<rule id="AUF_DEM_LAUFENDEN" name="Groß-/Kleinschreibung: 'auf dem laufenden(Laufenden)'">
-		<pattern mark_from="2" case_sensitive="yes"><token>auf</token><token>dem</token><token>laufenden</token></pattern>
-		<message>In der Wendung 'auf dem Laufenden' wird <em>Laufenden</em> groß geschrieben.</message>
-		<example type="correct">Bitte halte mich auf dem <em>Laufenden</em>.</example>
-		<example type="incorrect">Bitte halte mich auf dem <em>laufenden</em></example>
-	</rule>
+	   <rule id="AUF_DEM_LAUFENDEN" name="Groß-/Kleinschreibung: 'auf dem laufenden(Laufenden)'">
+		      <pattern mark_from="2" case_sensitive="yes">
+         <token>auf</token>
+         <token>dem</token>
+         <token>laufenden</token>
+      </pattern>
+		      <message>In der Wendung 'auf dem Laufenden' wird <suggestion>Laufenden</suggestion> groß geschrieben.</message>
+		      <example type="correct">Bitte halte mich auf dem <marker>Laufenden</marker>.</example>
+		      <example type="incorrect">Bitte halte mich auf dem <marker>laufenden</marker>
+      </example>
+	   </rule>
 	
-	<rule id="WICHTIGES_GROSSSCHREIBUNG" name="Groß-/Kleinschreibung: 'etwas/nichts wichtiges(Wichtiges)'">
-		<pattern mark_from="1" case_sensitive="yes"><token regexp="yes">etwas|nichts</token><token>wichtiges</token></pattern>
-		<message><em>Wichtiges</em> als Nomen wird groß geschrieben.</message>
-		<example type="correct">Beiträge die etwas <em>Wichtiges</em> über den Spielverlauf verraten bitte kennzeichnen.</example>
-		<example type="incorrect">Beiträge die etwas <em>wichtiges</em> über den Spielverlauf verraten bitte kennzeichnen.</example>
-	</rule>
+	   <rule id="WICHTIGES_GROSSSCHREIBUNG" name="Groß-/Kleinschreibung: 'etwas/nichts wichtiges(Wichtiges)'">
+		      <pattern mark_from="1" case_sensitive="yes">
+         <token regexp="yes">etwas|nichts</token>
+         <token>wichtiges</token>
+      </pattern>
+		      <message>
+         <suggestion>Wichtiges</suggestion> als Nomen wird groß geschrieben.</message>
+		      <example type="correct">Beiträge die etwas <marker>Wichtiges</marker> über den Spielverlauf verraten bitte kennzeichnen.</example>
+		      <example type="incorrect">Beiträge die etwas <marker>wichtiges</marker> über den Spielverlauf verraten bitte kennzeichnen.</example>
+	   </rule>
 
-	<rule id="NICHTS_GUTES_GROSSSCHREIBUNG" name="Groß-/Kleinschreibung: 'etwas/nichts gutes(Gutes)'">
-		<pattern mark_from="1" case_sensitive="yes"><token regexp="yes">etwas|nichts</token><token>gutes</token></pattern>
-		<message><em>Gutes</em> als Nomen wird groß geschrieben.</message>
-		<example type="correct">Dahinter verbirgt sich nichts <em>Gutes</em>.</example>
-		<example type="incorrect">Dahinter verbirgt sich nichts <em>gutes</em>.</example>
-	</rule>
+	   <rule id="NICHTS_GUTES_GROSSSCHREIBUNG" name="Groß-/Kleinschreibung: 'etwas/nichts gutes(Gutes)'">
+		      <pattern mark_from="1" case_sensitive="yes">
+         <token regexp="yes">etwas|nichts</token>
+         <token>gutes</token>
+      </pattern>
+		      <message>
+         <suggestion>Gutes</suggestion> als Nomen wird groß geschrieben.</message>
+		      <example type="correct">Dahinter verbirgt sich nichts <marker>Gutes</marker>.</example>
+		      <example type="incorrect">Dahinter verbirgt sich nichts <marker>gutes</marker>.</example>
+	   </rule>
 
-	<rule id="ZU_BUCHE" name="Groß-/Kleinschreibung: 'zu buche(Buche) schlagen'">
-		<pattern mark_from="1" case_sensitive="yes"><token>zu</token><token>buche</token></pattern>
-		<message>In der Wendung "zu Buche schlagen" schreibt man <em>Buche</em> groß.</message>
-		<example type="correct">Das schlägt nicht so sehr zu <em>Buche</em>.</example>
-		<example type="incorrect">Das schlägt nicht so sehr zu <em>buche</em>.</example>
-	</rule>
+	   <rule id="ZU_BUCHE" name="Groß-/Kleinschreibung: 'zu buche(Buche) schlagen'">
+		      <pattern mark_from="1" case_sensitive="yes">
+         <token>zu</token>
+         <token>buche</token>
+      </pattern>
+		      <message>In der Wendung "zu Buche schlagen" schreibt man <suggestion>Buche</suggestion> groß.</message>
+		      <example type="correct">Das schlägt nicht so sehr zu <marker>Buche</marker>.</example>
+		      <example type="incorrect">Das schlägt nicht so sehr zu <marker>buche</marker>.</example>
+	   </rule>
 
-	<rule id="FRAGEN_HABEN" name="Groß-/Kleinschreibung: 'fragen(Fragen) haben/stellen'">
-		<pattern mark_to="-1" case_sensitive="yes"><token>fragen</token><token regexp="yes">haben|hat|hast|habe|hätte|hatte|hattest|hatten|hätten|habt|stellen|stellt|stellst|stellte|stellten</token></pattern>
-		<message><em>Fragen</em> als Nomen wird groß geschrieben.</message>
-		<example type="correct">Meine <em>Fragen</em> hat bislang keiner gelesen.</example>
-		<example type="incorrect">Meine <em>fragen</em> hat bislang keiner gelesen</example>
-	</rule>
+	   <rule id="FRAGEN_HABEN" name="Groß-/Kleinschreibung: 'fragen(Fragen) haben/stellen'">
+		      <pattern mark_to="-1" case_sensitive="yes">
+         <token>fragen</token>
+         <token regexp="yes">haben|hat|hast|habe|hätte|hatte|hattest|hatten|hätten|habt|stellen|stellt|stellst|stellte|stellten</token>
+      </pattern>
+		      <message>
+         <suggestion>Fragen</suggestion> als Nomen wird groß geschrieben.</message>
+		      <example type="correct">Meine <marker>Fragen</marker> hat bislang keiner gelesen.</example>
+		      <example type="incorrect">Meine <marker>fragen</marker> hat bislang keiner gelesen</example>
+	   </rule>
 
-	<rule id="SEIT_BESTEHEN" name="Groß-/Kleinschreibung: 'seit bestehen(Bestehen)'">
+	   <rule id="SEIT_BESTEHEN" name="Groß-/Kleinschreibung: 'seit bestehen(Bestehen)'">
 		<!-- TODO: seit seinem/ihrem/... Bestehen -->
-		<pattern mark_from="1" case_sensitive="yes"><token>seit</token><token>bestehen</token></pattern>
-		<message>Meinten Sie <em>Bestehen</em>?</message>
-		<example type="correct">Noch nie so viele Auswanderer seit <em>Bestehen</em> der BRD</example>
-		<example type="incorrect">Noch nie so viele Auswanderer seit <em>bestehen</em> der BRD</example>
-	</rule>
+		      <pattern mark_from="1" case_sensitive="yes">
+         <token>seit</token>
+         <token>bestehen</token>
+      </pattern>
+		      <message>Meinten Sie <suggestion>Bestehen</suggestion>?</message>
+		      <example type="correct">Noch nie so viele Auswanderer seit <marker>Bestehen</marker> der BRD</example>
+		      <example type="incorrect">Noch nie so viele Auswanderer seit <marker>bestehen</marker> der BRD</example>
+	   </rule>
 
-	<rule id="ZUM_MITNEHMEN" name="Groß-/Kleinschreibung: 'zum mitnehmen(Mitnehmen)'">
-		<pattern mark_from="1" case_sensitive="yes"><token>zum</token><token>mitnehmen</token></pattern>
-		<message>Meinten Sie <em>Mitnehmen</em>?</message>
-		<example type="correct">Alle Gerichte auch zum <em>Mitnehmen</em>.</example>
-		<example type="incorrect">Alle Gerichte auch zum <em>mitnehmen</em>.</example>
-	</rule>
+	   <rule id="ZUM_MITNEHMEN" name="Groß-/Kleinschreibung: 'zum mitnehmen(Mitnehmen)'">
+		      <pattern mark_from="1" case_sensitive="yes">
+         <token>zum</token>
+         <token>mitnehmen</token>
+      </pattern>
+		      <message>Meinten Sie <suggestion>Mitnehmen</suggestion>?</message>
+		      <example type="correct">Alle Gerichte auch zum <marker>Mitnehmen</marker>.</example>
+		      <example type="incorrect">Alle Gerichte auch zum <marker>mitnehmen</marker>.</example>
+	   </rule>
 
 	<!-- TODO: group -->
-	<rule id="FRANKFURT_ODER_1" name="Groß-/Kleinschreibung: 'Frankfurt/oder(Oder)'">
-		<pattern case_sensitive="yes"><token>Frankfurt/oder</token></pattern>
-		<message>Meinten Sie <em>Frankfurt/Oder</em>?</message>
-		<example type="correct">In <em>Frankfurt/Oder</em> steht ein Hofbräuhaus.</example>
-		<example type="incorrect">In <em>Frankfurt/oder</em> steht ein Hofbräuhaus.</example>
-	</rule>
-	<rule id="FRANKFURT_ODER_2" name="Groß-/Kleinschreibung: 'Frankfurt (oder)(Oder)'">
-		<pattern mark_from="2" mark_to="-1" case_sensitive="yes"><token>Frankfurt</token><token>(</token><token>oder</token><token>)</token></pattern>
-		<message>Meinten Sie <em>Oder</em>?</message>
-		<example type="correct">In Frankfurt (<em>Oder</em>) steht ein Hofbräuhaus.</example>
-		<example type="incorrect">In Frankfurt (<em>oder</em>) steht ein Hofbräuhaus.</example>
-	</rule>
-	<rule id="AN_DER_ODER" name="Groß-/Kleinschreibung: 'an der oder(Oder)'">
-		<pattern mark_from="2" case_sensitive="yes"><token regexp="yes">an|jenseits</token><token>der</token><token>oder</token></pattern>
-		<message>Meinten Sie <em>Oder</em>?</message>
-		<example type="correct">Die Stadt liegt an der <em>Oder</em>.</example>
-		<example type="incorrect">Die Stadt liegt an der <em>oder</em>.</example>
-	</rule>
+	   <rule id="FRANKFURT_ODER_1" name="Groß-/Kleinschreibung: 'Frankfurt/oder(Oder)'">
+		      <pattern case_sensitive="yes">
+         <token>Frankfurt/oder</token>
+      </pattern>
+		      <message>Meinten Sie <suggestion>Frankfurt/Oder</suggestion>?</message>
+		      <example type="correct">In <marker>Frankfurt/Oder</marker> steht ein Hofbräuhaus.</example>
+		      <example type="incorrect">In <marker>Frankfurt/oder</marker> steht ein Hofbräuhaus.</example>
+	   </rule>
+	   <rule id="FRANKFURT_ODER_2" name="Groß-/Kleinschreibung: 'Frankfurt (oder)(Oder)'">
+		      <pattern mark_from="2" mark_to="-1" case_sensitive="yes">
+         <token>Frankfurt</token>
+         <token>(</token>
+         <token>oder</token>
+         <token>)</token>
+      </pattern>
+		      <message>Meinten Sie <suggestion>Oder</suggestion>?</message>
+		      <example type="correct">In Frankfurt (<marker>Oder</marker>) steht ein Hofbräuhaus.</example>
+		      <example type="incorrect">In Frankfurt (<marker>oder</marker>) steht ein Hofbräuhaus.</example>
+	   </rule>
+	   <rule id="AN_DER_ODER" name="Groß-/Kleinschreibung: 'an der oder(Oder)'">
+		      <pattern mark_from="2" case_sensitive="yes">
+         <token regexp="yes">an|jenseits</token>
+         <token>der</token>
+         <token>oder</token>
+      </pattern>
+		      <message>Meinten Sie <suggestion>Oder</suggestion>?</message>
+		      <example type="correct">Die Stadt liegt an der <marker>Oder</marker>.</example>
+		      <example type="incorrect">Die Stadt liegt an der <marker>oder</marker>.</example>
+	   </rule>
 
 </rules>

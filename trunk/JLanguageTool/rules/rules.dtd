@@ -67,12 +67,15 @@ expressions as well using postag_regexp="yes"
 <!ATTLIST exception negate_pos (yes|no) "no">
 
 <!-- message shown to the user if a rule matches: -->
-<!ELEMENT message (#PCDATA|em)*>
+<!ELEMENT message (#PCDATA|suggestion)*>
 
-<!ELEMENT example (#PCDATA|em)*>
+<!ELEMENT example (#PCDATA|marker)*>
 <!ATTLIST example type (correct|incorrect|triggers_error) #REQUIRED>
 <!-- used to explain 'triggers_error': -->
 <!ATTLIST example reason CDATA #IMPLIED>
 
-<!-- emphasis of the most significant part: -->
-<!ELEMENT em (#PCDATA)>
+<!-- error marker -->
+<!ELEMENT marker (#PCDATA)>
+
+<!-- suggested correction -->
+<!ELEMENT suggestion (#PCDATA)>
