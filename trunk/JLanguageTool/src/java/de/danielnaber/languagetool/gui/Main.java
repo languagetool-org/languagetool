@@ -29,6 +29,7 @@ import java.awt.datatransfer.Transferable;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
+import java.io.Reader;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -58,6 +59,7 @@ import de.danielnaber.languagetool.JLanguageTool;
 import de.danielnaber.languagetool.Language;
 import de.danielnaber.languagetool.rules.Rule;
 import de.danielnaber.languagetool.rules.RuleMatch;
+import de.danielnaber.languagetool.tools.StringTools;
 
 /**
  * A simple GUI to check texts with.
@@ -128,11 +130,11 @@ class Main implements ActionListener {
     GridBagLayout gridLayout = new GridBagLayout();
     contentPane.setLayout(gridLayout);
     GridBagConstraints cons = new GridBagConstraints();
+    cons.insets = new Insets(5, 5, 5, 5);
     cons.fill = GridBagConstraints.BOTH;
     cons.weightx = 10.0f;
     cons.weighty = 10.0f;
     cons.gridx = 0;
-    cons.gridy = 0;
     cons.gridy = 1;
     cons.weighty = 5.0f;
     JSplitPane splitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT, new JScrollPane(textArea),
@@ -186,7 +188,9 @@ class Main implements ActionListener {
     String s = null;
     Transferable data = clipboard.getContents(this);
     try {
-      s = (String) (data.getTransferData(DataFlavor.stringFlavor));
+      DataFlavor df = DataFlavor.getTextPlainUnicodeFlavor();
+      Reader sr = df.getReaderForText(data);
+      s = StringTools.readerToString(sr);
     } catch (Exception ex) {
       ex.printStackTrace();
       s = data.toString();

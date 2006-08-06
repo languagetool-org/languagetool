@@ -22,6 +22,7 @@ import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.Reader;
 
 /**
  * Tools for reading files etc.
@@ -111,4 +112,18 @@ public class StringTools {
       return Character.toUpperCase(firstChar) + str.substring(1);
   }
   
+  public static String readerToString(Reader reader) throws IOException {
+    StringBuilder sb = new StringBuilder();
+    int readbytes = 0;
+    char[] chars = new char[4000];
+    while (readbytes >= 0) {
+      readbytes = reader.read(chars, 0, 4000);
+      if (readbytes <= 0) {
+        break;
+      }
+      sb.append(new String(chars, 0, readbytes));
+    }
+    return sb.toString();
+  }
+
 }
