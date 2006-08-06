@@ -18,8 +18,9 @@
  */
 package de.danielnaber.languagetool.tokenizers;
 
+import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.Vector;
+import java.util.List;
 
 import junit.framework.TestCase;
 
@@ -28,7 +29,10 @@ import junit.framework.TestCase;
  */
 public class SentenceTokenizerTest extends TestCase {
 
+  // accept \n as paragraph:
   private SentenceTokenizer stokenizer = new SentenceTokenizer();
+  // accept only \n\n as paragraph:
+  private SentenceTokenizer stokenizer2 = new SentenceTokenizer(false);
 
   public void testTokenize() {
     // NOTE: sentences here need to end with a space character so they
@@ -110,8 +114,11 @@ public class SentenceTokenizerTest extends TestCase {
     testSplit(new String[] { "They met at 5 p.m. on Thursday." });
     testSplit(new String[] { "They met at 5 p.m. ", "It was Thursday." });
     testSplit(new String[] { "This is it: a test." });
-    // two returns = paragraph = new sentence:
-    testSplit(new String[] { "He won't\n\n", "Really." });
+    // one/two returns = paragraph = new sentence:
+    testSplit(new String[] { "He won't\n\n", "Really." }, stokenizer2);
+    testSplit(new String[] { "He won't\n", "Really." }, stokenizer);
+    testSplit(new String[] { "He won't\n\n", "Really." }, stokenizer2);
+    testSplit(new String[] { "He won't\nReally." }, stokenizer2);
     // Missing space after sentence end:
     testSplit(new String[] { "James is from the Ireland!", "He lives in Spain now." });
     // From the abbreviation list:
@@ -119,8 +126,12 @@ public class SentenceTokenizerTest extends TestCase {
   }
 
   private void testSplit(String[] sentences) {
-    StringBuffer inputString = new StringBuffer();
-    Vector input = new Vector();
+    testSplit(sentences, stokenizer);
+  }
+  
+  private void testSplit(String[] sentences, SentenceTokenizer stokenizer) {
+    StringBuilder inputString = new StringBuilder();
+    List<String> input = new ArrayList<String>();
     for (int i = 0; i < sentences.length; i++) {
       input.add(sentences[i]);
     }

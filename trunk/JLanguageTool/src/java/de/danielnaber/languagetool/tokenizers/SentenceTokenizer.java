@@ -43,9 +43,12 @@ public class SentenceTokenizer implements Tokenizer {
   // Check out the private methods for comments and examples about these
   // regular expressions:
 
-  private static final Pattern paragraph = Pattern.compile("(\\n\\s*\\n)");
+  private Pattern paragraph = null;
+  private static final Pattern paragraphByTwoLineBreaks = Pattern.compile("(\\n\\s*\\n)");
+  private static final Pattern paragraphByLineBreak = Pattern.compile("(\\n)");
+  
   private static final Pattern punctWhitespace = Pattern.compile("(" + PAP + "\\s)");
-  // \p{Lu} = uppercase, mit Beachtung von Unicode (\p{Upper} ist nur US-ASCII!):
+  // \p{Lu} = uppercase, with obeying Unicode (\p{Upper} is just US-ASCII!):
   private static final Pattern punctUpperLower = Pattern.compile("(" + PAP
       + ")([\\p{Lu}][^\\p{Lu}.])");
   private static final Pattern letterPunct = Pattern.compile("(\\s[\\wüöäÜÖÄß]" + P + ")");
@@ -114,11 +117,25 @@ public class SentenceTokenizer implements Tokenizer {
 
   /**
    * Create a sentence tokenizer.
+   * 
+   * @param lineBreakParagraphs if <code>true</code>, single lines breaks are assumed to end a paragraph,
+   *  with <code>false</code>, only two ore more consecutive line breaks end a paragraph
    */
-  public SentenceTokenizer() {
+  public SentenceTokenizer(boolean lineBreakParagraphs) {
+    if (lineBreakParagraphs)
+      paragraph = paragraphByLineBreak;
+    else
+      paragraph = paragraphByTwoLineBreaks;
     for (int i = 0; i < ABBREV_LIST.length; i++) {
       abbreviations.add(ABBREV_LIST[i]);
     }
+  }
+
+  /**
+   * Create a sentence tokenizer.
+   */
+  public SentenceTokenizer() {
+    this(true);
   }
 
   public List<String> tokenize(String s) {
