@@ -125,8 +125,8 @@ public class AgreementRule extends GermanRule {
     set1.retainAll(set2);
     if (set1.size() == 0) {
       // TODO: better error message than just 'agreement error'
-      String msg = "Fehlende Übereinstimmung (Kongruenz) zwischen Artikel und Nomen " +
-            "bezüglich Kasus, Numerus oder Genus.";
+      String msg = "Möglicherweise fehlende Übereinstimmung (Kongruenz) zwischen Artikel und Nomen " +
+            "bezüglich Kasus, Numerus oder Genus, z.B. 'meine Haus' statt 'mein Haus'";
       ruleMatch = new RuleMatch(this, token1.getStartPos(), 
           token2.getStartPos()+token2.getToken().length(), msg);
     }
