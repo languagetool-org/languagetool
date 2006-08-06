@@ -36,16 +36,12 @@ public class CommaWhitespaceRuleTest extends TestCase {
     JLanguageTool langTool = new JLanguageTool(Language.ENGLISH);
     
     // correct sentences:
-    matches = rule.match(langTool.getAnalyzedSentence("This is a test sentence."));
-    assertEquals(0, matches.length);
-    matches = rule.match(langTool.getAnalyzedSentence("This, is, a test sentence."));
-    assertEquals(0, matches.length);
-    matches = rule.match(langTool.getAnalyzedSentence("This (foo bar) is a test(!)."));
-    assertEquals(0, matches.length);
-    matches = rule.match(langTool.getAnalyzedSentence("\"This is it,\" he said."));
-    assertEquals(0, matches.length);
-    matches = rule.match(langTool.getAnalyzedSentence("Das kostet €2,45."));
-    assertEquals(0, matches.length);
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence("This is a test sentence.")).length);
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence("This, is, a test sentence.")).length);
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence("This (foo bar) is a test(!).")).length);
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence("\"This is it,\" he said.")).length);
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Das kostet €2,45.")).length);
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Das kostet 50,- Euro")).length);
     
     // errors:
     matches = rule.match(langTool.getAnalyzedSentence("This,is a test sentence."));

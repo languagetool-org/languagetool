@@ -72,7 +72,7 @@ public class CommaWhitespaceRule extends Rule {
           suggestionText = ")";
           fixLen = 1;
     		} else if (prevToken.trim().equals(",") && !token.trim().equals("") &&
-    				!token.equals("'") && !token.equals("\"") && !token.matches(".*\\d.*")) {
+    				!token.equals("'") && !token.equals("\"") && !token.matches(".*\\d.*") && !token.equals("-")) {
     			msg = messages.getString("missing_space_after_comma");
           suggestionText = ", ";
     		} else if (token.trim().equals(",") && prevToken.trim().equals("")) {
