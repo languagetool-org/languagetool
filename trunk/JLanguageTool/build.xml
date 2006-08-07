@@ -15,7 +15,6 @@
     <pathelement location="${ext.opennlp.lib}"/>
     <pathelement location="${ext.trove.lib}"/>
     <pathelement location="${ext.maxent.lib}"/>
-    <pathelement location="${ext.lucene.lib}"/>
     <pathelement location="${ext.stempelator.lib}"/>
     <pathelement location="${ext.jdic.lib}"/>
   	<!-- -->
@@ -67,6 +66,9 @@
     <mkdir dir="${build.classes}"/>
     <mkdir dir="${build.meta-inf}"/>
     <mkdir dir="${dist.dir}"/>
+    <mkdir dir="${dist.dir}/linux"/>
+    <mkdir dir="${dist.dir}/windows"/>
+    <mkdir dir="${dist.dir}/sunos"/>
   </target>
 
   <!-- ================================================================== -->
@@ -249,7 +251,7 @@
 		excludes="**/*.java">
 		<manifest>
 			<attribute name="Main-Class" value="de.danielnaber.languagetool.Main" />
-			<attribute name="Class-Path" value="./maxent-2.4.0.jar ./opennlp-tools-1.3.0.jar ./trove.jar ./lucene-core-2.0.0.jar ./stempelator-1.0.1.jar" />
+			<attribute name="Class-Path" value="./maxent-2.4.0.jar ./opennlp-tools-1.3.0.jar ./trove.jar ./stempelator-1.0.1.jar ./jdic.jar" />
 		</manifest>
 	</jar>
 
@@ -259,7 +261,7 @@
 		includes="de/danielnaber/languagetool/gui/*.class">
 		<manifest>
 			<attribute name="Main-Class" value="de.danielnaber.languagetool.gui.Main" />
-			<attribute name="Class-Path" value="./LanguageTool.jar ./maxent-2.4.0.jar ./opennlp-tools-1.3.0.jar ./trove.jar ./lucene-core-2.0.0.jar" />
+			<attribute name="Class-Path" value="./LanguageTool.jar ./maxent-2.4.0.jar ./opennlp-tools-1.3.0.jar ./trove.jar ./jdic.jar" />
 		</manifest>
 	</jar>
 
@@ -388,13 +390,23 @@
   	<copy file="${ext.dir}/Apache-License.txt" todir="${dist.dir}" />
   	<copy file="${ext.dir}/README" tofile="${dist.dir}/README-license.txt" />
   	
-  	<copy file="${ext.lucene.lib}" todir="${dist.dir}" />
 	<copy file="${ext.opennlp.lib}" todir="${dist.dir}" />
 	<copy file="${ext.trove.lib}" todir="${dist.dir}" />
 	<copy file="${ext.maxent.lib}" todir="${dist.dir}" />
 	<copy file="${ext.stempelator.lib}" todir="${dist.dir}" />
-  	
-	<copy file="${resource.dir}/en/tagset.txt" todir="${dist.dir}/resource/en" />
+	<copy file="${ext.jdic.lib}" todir="${dist.dir}" />
+  
+ 	<copy todir="${dist.dir}/linux">
+ 		  	<fileset dir="${ext.dir}/linux"/>
+	</copy>
+ 	<copy todir="${dist.dir}/windows">
+   		  	<fileset dir="${ext.dir}/windows"/>
+ 	</copy>
+ 	<copy todir="${dist.dir}/sunos">
+   		  	<fileset dir="${ext.dir}/sunos"/>
+ 	</copy>
+
+ 	<copy file="${resource.dir}/en/tagset.txt" todir="${dist.dir}/resource/en" />
 	<copy file="${resource.dir}/en/EnglishPOS.bin.gz" todir="${dist.dir}/resource/en" />
 	<copy file="${resource.dir}/de/german.dict" todir="${dist.dir}/resource/de" />
 	<copy file="${resource.dir}/pl/polish.dict" todir="${dist.dir}/resource/pl" />
