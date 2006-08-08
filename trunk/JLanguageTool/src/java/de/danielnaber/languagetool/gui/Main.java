@@ -35,6 +35,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -65,6 +66,11 @@ import de.danielnaber.languagetool.tools.StringTools;
 public class Main implements ActionListener {
 
   private static final String OPTIONS_BUTTON = "Options...";
+  private static final String HTML_FONT_START = "<font face='Arial,Helvetica'>";
+  private static final String HTML_FONT_END = "</font>";
+  
+  private static final Icon SYSTEM_TRAY_ICON = new ImageIcon("resource/TrayIcon.png");
+  private static final String WINDOW_ICON_URL = "resource/TrayIcon.png";
 
   private TrayIcon trayIcon = null;
   private JFrame frame = null;
@@ -80,6 +86,7 @@ public class Main implements ActionListener {
   private void createGUI() {
     frame = new JFrame("LanguageTool " +JLanguageTool.VERSION+ " Demo");
     frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    frame.setIconImage(new ImageIcon(WINDOW_ICON_URL).getImage());
     frame.setJMenuBar(new MainMenuBar(this));
 
     textArea = new JTextArea("This is a example input to to show you how JLanguageTool works. " +
@@ -89,7 +96,7 @@ public class Main implements ActionListener {
     textArea.setWrapStyleWord(true);
     resultArea = new JTextPane();
     resultArea.setContentType("text/html");
-    resultArea.setText("Results will appear here");
+    resultArea.setText(HTML_FONT_START + "Results will appear here" + HTML_FONT_END);
     JLabel label = new JLabel("Please type or paste text to check in the top area");
     JButton button = new JButton("Check text");
     button.setMnemonic('c'); 
@@ -170,7 +177,7 @@ public class Main implements ActionListener {
 
   void hideToTray() {
     if (trayIcon == null) {
-      trayIcon = new TrayIcon(new ImageIcon("resource/TrayIcon.png"));
+      trayIcon = new TrayIcon(SYSTEM_TRAY_ICON);
       SystemTray tray = SystemTray.getDefaultSystemTray();
       trayIcon.addActionListener(new TrayActionListener());
       tray.addTrayIcon(trayIcon);
@@ -271,7 +278,7 @@ public class Main implements ActionListener {
         ex.printStackTrace();
       }
       sb.append("Check done. " +matches+ " potential problems found<br>\n");
-      resultArea.setText(sb.toString());
+      resultArea.setText(HTML_FONT_START + sb.toString() + HTML_FONT_END);
       resultArea.setCaretPosition(0);
     }
   }
@@ -290,7 +297,8 @@ public class Main implements ActionListener {
       msg = msg.replaceAll("<old>", "<b>");
       msg = msg.replaceAll("</old>", "</b>");
       sb.append("<b>Message:</b> " + msg + "<br>\n");
-      sb.append("<b>Context:</b> " + Tools.getContext(match.getFromPos(), match.getToPos(), text));
+      String context = Tools.getContext(match.getFromPos(), match.getToPos(), StringTools.escapeHTML(text));
+      sb.append("<b>Context:</b> " + context);
       sb.append("<br>\n");
       i++;
     }
