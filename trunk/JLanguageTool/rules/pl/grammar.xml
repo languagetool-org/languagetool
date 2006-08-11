@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?><!--
 Copyright (C) 2006 Marcin Miłkowski
-$Id: grammar.xml,v 1.24 2006-08-06 15:45:40 milek_pl Exp $		
+$Id: grammar.xml,v 1.25 2006-08-11 21:50:37 milek_pl Exp $		
 -->
 <rules lang="pl">
 	<!-- błąd leksykalny: tym niemniej -->
@@ -53,7 +53,7 @@ $Id: grammar.xml,v 1.24 2006-08-06 15:45:40 milek_pl Exp $
    </rule>
 
 	<!-- błąd leksykalny: odnośnie do -->
-	   <rule id="ODNOSNIE_DO" name="'Odnośnie czegoś - odnośnie do czegoś">
+	   <rule id="ODNOSNIE_DO" name="Błąd leksykalny „odnośnie czegoś” (odnośnie do)">
 		      <pattern mark_from="0" case_sensitive="no">
          <token>odnośnie</token> 
          <token negate="yes">do</token>
@@ -65,7 +65,7 @@ $Id: grammar.xml,v 1.24 2006-08-06 15:45:40 milek_pl Exp $
 	
 	
 	<!-- błąd leksykalny: w każdym bądź razie -->
-	   <rule id="PODDAWAC_W_WATPLIWOSC" name="Błąd leksykalny - 'poddawać w wątpliwość'">
+	   <rule id="PODDAWAC_W_WATPLIWOSC" name="Błąd leksykalny: „poddawać w wątpliwość” (podawać w wątpliwość)">
 		      <pattern mark_from="0" case_sensitive="no">
          <token inflected="yes" regexp="yes">poddawać|poddać</token>
          <token>w</token>
@@ -93,7 +93,7 @@ $Id: grammar.xml,v 1.24 2006-08-06 15:45:40 milek_pl Exp $
 		      <pattern mark_from="1" case_sensitive="no">
          <token negate="yes">a</token>
          <token inflected="yes">nie</token>
-         <token postag_regexp="yes" postag="subst:.+|adj:.+"><exception regexp="yes">brak|wolno|można|sposób|potrzeba|trzeba|wiadomo|warto|grzech|strach|szkoda|żal|wstyd|ma|miał|(\p{Lu}[\p{L}&amp;&amp;[^\p{Lu}]]+)</exception></token>
+         <token postag_regexp="yes" postag="subst:.+|adj:.+"><exception regexp="yes">brak|wolno|można|sposób|potrzeba|trzeba|wiadomo|warto|grzech|strach|szkoda|żal|wstyd|ma|miał|musze|(\p{Lu}[\p{L}&amp;&amp;[^\p{Lu}]]+)</exception></token>
       </pattern>
 		      <message>„Nie” ze wszystkimi rzeczownikami i przymiotnikami piszemy łącznie, czyli poprawnie będzie <suggestion>nie\3</suggestion>.</message>
 		      <example type="correct">Prosimy o niepalenie.</example>
@@ -303,14 +303,13 @@ $Id: grammar.xml,v 1.24 2006-08-06 15:45:40 milek_pl Exp $
 		      <example type="correct">Emitowanie programu Firma wydaje się bardzo pożyteczne.</example>
 	   </rule>
 	   <rule id="OKRES_CZASU" name="Pleonazm: okres czasu, godzina czasu">
-		      <pattern>
+	<pattern>
          <token inflected="yes" regexp="yes">okres|godzina|miesiąc|tydzień</token>
          <token>czasu</token>
       </pattern>
 		      <message>Wyrażenia typu „miesiąc czasu”, „okres czasu” są niepoprawne (pleonazmy). Wystarczy: <suggestion>\1</suggestion>.</message>
 		      <example type="correct">Trwało to miesiąc.</example>
-<!-- FIXME tagger dictionary is not complete:
-			<example type="incorrect">Trwało to miesiąc czasu.</example> -->
+			<example type="incorrect">Trwało to <marker>miesiąc czasu</marker>.</example>
 		      <example type="incorrect">Trwało to <marker>godzinę czasu</marker>.</example>
 	   </rule>
 	   <rule id="CO_I_RUSZ" name="Błąd leksykalny: co i rusz">
@@ -620,17 +619,17 @@ $Id: grammar.xml,v 1.24 2006-08-06 15:45:40 milek_pl Exp $
 		      <example type="correct">Nieprzyjacielem prawdy jest nie tyle kłamstwo, ile monotonia, co wykazały zresztą moje badania.</example>
 		      <example type="incorrect">Takie nadmierne wchłanianie wapnia spowodowane jest <marker>nie tyle przesadnym spożyciem, co</marker> zaburzeniami.</example>
 	   </rule>
-	<!-- FIXME: dictionary not complete 
+
 	<rule name="Błąd leksykalny: „odgrywać znaczenie”" id="ODGRYWAC_ZNACZENIE">
 		<pattern>
 			<token skip="2" inflected="yes" regexp="yes">grać|odgrywać</token>
 			<token>znaczenie</token>
 		</pattern>
-		<message>Mówimy <em>odgrywać rolę</em>, a nie <em>odgrywać znaczenie</em>.</message>
+		<message>Mówimy „odgrywać <suggestion>rolę</suggestion>”, a nie „odgrywać znaczenie”.</message>
 		<example type="incorrect">Odgrywa duże znaczenie w żegludze różnych typów statków.</example>
 		<example type="correct">Odgrywa dużą rolę w żegludze różnych typów statków.</example>
 	</rule>
-	-->
+
 	   <rule name="Pleonazm: „miesiąc lipiec” itp." id="W_MIESIACU_LIPCU">
 		      <pattern>
 			         <token inflected="yes">miesiąc</token>
@@ -1043,7 +1042,7 @@ $Id: grammar.xml,v 1.24 2006-08-06 15:45:40 milek_pl Exp $
 		      <example type="incorrect">Maciuś obchodzi <marker>2-letnie</marker> urodziny.</example>
 	   </rule>
 
-	   <rule name="Prawdopodobna literówka" id="KLOC_SIE">
+	   <rule name="Prawdopodobna literówka: „kłuć się” (kłóć się)" id="KLOC_SIE">
 		      <pattern mark_to="-1">
 			         <token>kłuć</token>
 			         <token>się</token>
@@ -1084,8 +1083,7 @@ $Id: grammar.xml,v 1.24 2006-08-06 15:45:40 milek_pl Exp $
 		      </pattern>
 		      <message>Poprawnie piszemy <suggestion>Gall</suggestion> Anonim.</message>
 		      <example type="correct">To kronika Galla Anonima.</example>
-	<!-- FIXME: tagger dictionary uncomplete -->
-		      <example type="incorrect">To kronika <marker>Gal</marker> anonima.</example>
+		      <example type="incorrect">To kronika <marker>Gala</marker> anonima.</example>
 	   </rule>
 	
 	   <rule name="Pleonazm: „potencjalna możliwość” (możliwość)" id="POTENCJALNA_MOZLIWOSC">
@@ -1133,7 +1131,7 @@ $Id: grammar.xml,v 1.24 2006-08-06 15:45:40 milek_pl Exp $
 		      <example type="incorrect">Jarosław jest inny <marker>jak</marker> wszyscy Kaczyńscy.</example>
 	   </rule>	 
 	
-	   <rule name="w lato (w lecie, latem)" id="W_LATO">
+	   <rule name="Błąd składniowy: „w lato” (w lecie, latem)" id="W_LATO">
 		      <pattern>
 			         <token>w</token>
 			         <token>lato</token>
@@ -1143,5 +1141,25 @@ $Id: grammar.xml,v 1.24 2006-08-06 15:45:40 milek_pl Exp $
 		      <example type="incorrect">
          <marker>W lato</marker> wybieramy się do Danii.</example>
 	   </rule>
+	
+		<rule name="Prawdopodobna literówka: „nie musze” (nie muszę)" id="NIE_MUSZE">
+			<pattern mark_from="1">
+				<token>nie</token>
+				<token>musze</token>
+			</pattern>
+			<message>Prawdopodobnie chodziło o <suggestion>muszę</suggestion> (od czasownika „musieć”), a nie o „muchę” w celowniku.</message>
+			<example type="correct">Nie muszę się przed nikim tłumaczyć.</example>
+			<example type="incorrect">Nie <marker>musze</marker> się przed nikim tłumaczyć.</example>
+		</rule>
+		
+		<rule name="Prawdopodopodobna literówka: „musze” + bezokolicznik (muszę)" id="MUSZE_BEZOKOLICZNIK">
+			<pattern mark_to="-1">
+				<token>musze</token>
+				<token postag_regexp="yes" postag="verb:inf.*"/>
+			</pattern>
+			<message>Prawdopodobnie chodziło o <suggestion>muszę</suggestion> (od czasownika „musieć”).</message>
+			<example type="correct">Muszę zapisać się na kurs portugalskiego.</example>
+			<example type="correct"><marker>Musze</marker> zapisać się na kurs portugalskiego.</example>
+		</rule>
 	
 </rules>
