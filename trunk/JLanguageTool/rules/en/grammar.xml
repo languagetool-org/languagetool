@@ -3,7 +3,7 @@
 Rules: Grammar and Typos
 See tagset.txt for the meaning of the POS tags
 Copyright (C) 2001-2006 Daniel Naber (http://www.danielnaber.de)
-$Id: grammar.xml,v 1.64 2006-08-11 20:44:31 dnaber Exp $
+$Id: grammar.xml,v 1.65 2006-08-11 21:17:40 dnaber Exp $
 -->
 <rules lang="en">
 
@@ -606,11 +606,10 @@ $Id: grammar.xml,v 1.64 2006-08-11 20:44:31 dnaber Exp $
 		should be fixed to allow POS and string checking for the same element
 		see PatternRuleLoader, line 126, 148
 	-->
+
   <rule id="DT_DT" name="Two consecutive articles, e.g. 'the a'">
     <pattern>
-      <token postag="DT">
-        <exception regexp="yes">all|half|both|this|each|that</exception>
-      </token>
+      <token postag="DT"><exception regexp="yes">all|half|both|this|each|that</exception></token>
       <token postag="DT"/>
     </pattern>
     <message>Maybe you need to remove the second determiner so that only <suggestion>\1</suggestion> is left.</message>
@@ -732,9 +731,7 @@ $Id: grammar.xml,v 1.64 2006-08-11 20:44:31 dnaber Exp $
   <rule id="THE_SUPERLATIVE" name="No indefinite article ('a'/'an') before superlatives">
     <pattern mark_from="0" mark_to="-1">
       <token regexp="yes">a|an</token>
-      <token postag="JJS|RBS" postag_regexp="yes">
-        <exception>most</exception>
-      </token>
+      <token postag="JJS|RBS" postag_regexp="yes"><exception>most</exception></token>
     </pattern>
     <message>Use <suggestion>the</suggestion> with the superlative.</message>
     <example type="correct">Kyoto is <marker>the</marker> oldest city.</example>
@@ -1014,9 +1011,7 @@ $Id: grammar.xml,v 1.64 2006-08-11 20:44:31 dnaber Exp $
     <rule>
       <pattern mark_to="-1">
         <token regexp="yes">no</token>
-        <token postag="MD|VB|VBD|VBN" postag_regexp="yes">
-          <exception>known</exception>
-        </token>
+        <token postag="MD|VB|VBD|VBN" postag_regexp="yes"><exception>known</exception></token>
       </pattern>
       <message>Did you mean <suggestion>now</suggestion> (=at this moment) instead of 'no' (negation)?</message>
       <example type="correct">There <marker>now</marker> will be a park.</example>
