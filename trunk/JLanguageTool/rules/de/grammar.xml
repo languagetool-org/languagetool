@@ -3,7 +3,7 @@
 Rules: Grammar and Typos
 See tagset.txt for the meaning of the POS tags
 Copyright (C) 2001-2006 Daniel Naber (http://www.danielnaber.de)
-$Id: grammar.xml,v 1.47 2006-08-11 21:22:01 dnaber Exp $
+$Id: grammar.xml,v 1.48 2006-08-11 21:28:56 dnaber Exp $
 -->
 <rules lang="de">
 
@@ -348,7 +348,7 @@ $Id: grammar.xml,v 1.47 2006-08-11 21:22:01 dnaber Exp $
       </example>
   </rule>
 
-  <rule id="WICHTIGES_GROSSSCHREIBUNG" name="Groß-/Kleinschreibung: 'etwas/nichts wichtiges(Wichtiges)'">
+  <rule id="ETWAS_WICHTIGES" name="Groß-/Kleinschreibung: 'etwas/nichts wichtiges(Wichtiges)'">
     <pattern mark_from="1" case_sensitive="yes">
       <token regexp="yes">etwas|nichts</token>
       <token>wichtiges</token>
@@ -358,7 +358,7 @@ $Id: grammar.xml,v 1.47 2006-08-11 21:22:01 dnaber Exp $
     <example type="incorrect">Beiträge die etwas <marker>wichtiges</marker> über den Spielverlauf verraten bitte kennzeichnen.</example>
   </rule>
 
-  <rule id="NICHTS_GUTES_GROSSSCHREIBUNG" name="Groß-/Kleinschreibung: 'etwas/nichts gutes(Gutes)'">
+  <rule id="ETWAS_GUTES" name="Groß-/Kleinschreibung: 'etwas/nichts gutes(Gutes)'">
     <pattern mark_from="1" case_sensitive="yes">
       <token regexp="yes">etwas|nichts</token>
       <token>gutes</token>
@@ -378,14 +378,25 @@ $Id: grammar.xml,v 1.47 2006-08-11 21:22:01 dnaber Exp $
     <example type="incorrect">Das schlägt nicht so sehr zu <marker>buche</marker>.</example>
   </rule>
 
+  <!--  TODO: group -->
   <rule id="FRAGEN_HABEN" name="Groß-/Kleinschreibung: 'fragen(Fragen) haben/stellen'">
     <pattern mark_to="-1" case_sensitive="yes">
       <token>fragen</token>
-      <token regexp="yes">haben|hat|hast|habe|hätte|hatte|hattest|hatten|hätten|habt|stellen|stellt|stellst|stellte|stellten</token>
+      <token regexp="yes">haben|hat|hast|habe|hätte|hatte|hattest|hatten|hätten|habt|stellen|stellt|stellst|stellte|stellten|gestellt</token>
     </pattern>
     <message><suggestion>Fragen</suggestion> als Nomen wird groß geschrieben.</message>
     <example type="correct">Meine <marker>Fragen</marker> hat bislang keiner gelesen.</example>
     <example type="incorrect">Meine <marker>fragen</marker> hat bislang keiner gelesen</example>
+  </rule>
+  <rule id="HABEN_FRAGEN" name="Groß-/Kleinschreibung: 'haben fragen(Fragen)'">
+    <!-- TODO: "habe ein paar fragen"... -->
+    <pattern mark_from="1" case_sensitive="yes">
+      <token regexp="yes">haben|habe|hat|hast|hatte|hattest|hatten|habt|stellen|stellt|stellst|stellte|stellten</token>
+      <token>fragen</token>
+    </pattern>
+    <message><suggestion>Fragen</suggestion> als Nomen wird groß geschrieben.</message>
+    <example type="correct">Ich habe <marker>Fragen</marker> dazu.</example>
+    <example type="incorrect">Ich habe <marker>fragen</marker> dazu.</example>
   </rule>
 
   <rule id="SEIT_BESTEHEN" name="Groß-/Kleinschreibung: 'seit bestehen(Bestehen)'">
