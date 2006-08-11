@@ -2,7 +2,7 @@
 Rules: Grammar and Typos
 See tagset.txt for the meaning of the POS tags
 Copyright (C) 2001-2006 Daniel Naber (http://www.danielnaber.de)
-$Id: grammar.xml,v 1.62 2006-08-06 20:43:00 dnaber Exp $
+$Id: grammar.xml,v 1.63 2006-08-11 20:20:16 dnaber Exp $
 -->
 <rules lang="en">
 
@@ -351,6 +351,7 @@ $Id: grammar.xml,v 1.62 2006-08-06 20:43:00 dnaber Exp $
 		      <example type="incorrect">Some would think you <marker>a</marker> fortunate man.</example>
 	   </rule>
 
+		<!-- TODO: group -->
 	   <rule id="SOME_EXTEND" name="Possible typo 'some/certain extend(extent)'">
 		      <pattern mark_from="1">
          <token regexp="yes">some|certain</token> 
@@ -359,6 +360,16 @@ $Id: grammar.xml,v 1.62 2006-08-06 20:43:00 dnaber Exp $
 		      <message>Did you mean <suggestion>extent</suggestion> ("extent" is a noun, "extend" is a verb)?</message>
 		      <example type="correct">Yes it is, to a certain <marker>extent</marker>.</example>
 		      <example type="incorrect">Yes it is, to a certain <marker>extend</marker>.</example>
+	   </rule>
+	   <rule id="TO_THE_EXTEND" name="Possible typo 'to the extend(extent)'">
+		<pattern mark_from="2">
+         <token>to</token> 
+         <token>the</token> 
+         <token>extend</token>
+        </pattern>
+		      <message>Did you mean <suggestion>extent</suggestion> ("extent" is a noun, "extend" is a verb)?</message>
+		      <example type="correct">To the <marker>extent</marker> permitted by law</example>
+		      <example type="incorrect">To the <marker>extend</marker> permitted by law</example>
 	   </rule>
 
    <rule id="IS_WERE" name="Possible typo 'is were(where)'">
