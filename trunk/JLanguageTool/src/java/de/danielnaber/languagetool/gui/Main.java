@@ -261,7 +261,7 @@ public class Main implements ActionListener {
       textArea.setText("Please insert text to check here");
     } else {
       StringBuilder sb = new StringBuilder();
-      resultArea.setText("Starting check...<br>\n");
+      resultArea.setText(HTML_FONT_START + "Starting check in "+langName+"...<br>\n" + HTML_FONT_END);
       resultArea.repaint(); // FIXME: why doesn't this work?
       //TODO: resultArea.setCursor(new Cursor(Cursor.WAIT_CURSOR)); 
       sb.append("Starting check in " +langName+ "...<br>\n");
