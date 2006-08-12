@@ -65,12 +65,12 @@ import de.danielnaber.languagetool.tools.StringTools;
  */
 public class Main implements ActionListener {
 
-  private static final String OPTIONS_BUTTON = "Options...";
   private static final String HTML_FONT_START = "<font face='Arial,Helvetica'>";
   private static final String HTML_FONT_END = "</font>";
   
   private static final Icon SYSTEM_TRAY_ICON = new ImageIcon("resource/TrayIcon.png");
   private static final String WINDOW_ICON_URL = "resource/TrayIcon.png";
+  private static final String CHECK_TEXT_BUTTON = "Check text";
 
   private TrayIcon trayIcon = null;
   private JFrame frame = null;
@@ -98,13 +98,9 @@ public class Main implements ActionListener {
     resultArea.setContentType("text/html");
     resultArea.setText(HTML_FONT_START + "Results will appear here" + HTML_FONT_END);
     JLabel label = new JLabel("Please type or paste text to check in the top area");
-    JButton button = new JButton("Check text");
+    JButton button = new JButton(CHECK_TEXT_BUTTON);
     button.setMnemonic('c'); 
     button.addActionListener(this);
-
-    JButton configButton = new JButton(OPTIONS_BUTTON);
-    configButton.setMnemonic('o'); 
-    configButton.addActionListener(this);
 
     JPanel panel = new JPanel();
     panel.setLayout(new GridBagLayout());
@@ -124,10 +120,6 @@ public class Main implements ActionListener {
       }
     }
     panel.add(langBox, buttonCons);
-    buttonCons.gridx = 3;
-    buttonCons.gridy = 0;
-    buttonCons.insets = new Insets(0, 10, 0, 0);
-    panel.add(configButton, buttonCons);
 
     Container contentPane = frame.getContentPane();
     GridBagLayout gridLayout = new GridBagLayout();
@@ -164,12 +156,7 @@ public class Main implements ActionListener {
   }
   
   public void actionPerformed(ActionEvent e) {
-    if (e.getActionCommand().equals(OPTIONS_BUTTON)) {
-      JLanguageTool langTool = getCurrentLanguageTool();
-      List<Rule> rules = langTool.getAllRules();
-      ConfigurationDialog configDialog = getCurrentConfigDialog();
-      configDialog.show(rules);
-    } else {
+    if (e.getActionCommand().equals(CHECK_TEXT_BUTTON)) {
       JLanguageTool langTool = getCurrentLanguageTool();
       checkTextAndDisplayResults(langTool, getCurrentLanguage().getName());
     }
@@ -183,6 +170,13 @@ public class Main implements ActionListener {
       tray.addTrayIcon(trayIcon);
     }
     frame.setVisible(false);
+  }
+  
+  void showOptions() {
+    JLanguageTool langTool = getCurrentLanguageTool();
+    List<Rule> rules = langTool.getAllRules();
+    ConfigurationDialog configDialog = getCurrentConfigDialog();
+    configDialog.show(rules);
   }
 
   private void restoreFromTray() {

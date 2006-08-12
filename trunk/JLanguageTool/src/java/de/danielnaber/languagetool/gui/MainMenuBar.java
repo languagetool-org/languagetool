@@ -32,6 +32,7 @@ class MainMenuBar extends JMenuBar implements ActionListener {
 
   // File:
   private static final String DOCK_TO_TRAY = "Hide to System Tray";
+  private static final String OPTIONS = "Options...";
   private static final String QUIT = "Quit";
   // Help:
   private static final String ABOUT = "About...";
@@ -46,12 +47,15 @@ class MainMenuBar extends JMenuBar implements ActionListener {
     JMenuItem dockToTrayItem = new JMenuItem(DOCK_TO_TRAY);
     dockToTrayItem.addActionListener(this);
     fileMenu.add(dockToTrayItem);
+    // "Options":
+    JMenuItem optionsItem = new JMenuItem(OPTIONS);
+    optionsItem.addActionListener(this);
+    fileMenu.add(optionsItem);
     // "Quit":
     JMenuItem quitItem = new JMenuItem(QUIT);
     quitItem.addActionListener(this);
-    fileMenu.insertSeparator(1);
     fileMenu.add(quitItem);
-    // "Quit":
+    // "About":
     JMenuItem helpItem = new JMenuItem(ABOUT);
     helpItem.addActionListener(this);
     helpMenu.add(helpItem);
@@ -63,6 +67,8 @@ class MainMenuBar extends JMenuBar implements ActionListener {
   public void actionPerformed(ActionEvent e) {
     if (e.getActionCommand().equals(DOCK_TO_TRAY)) {
       prg.hideToTray();
+    } else if (e.getActionCommand().equals(OPTIONS)) {
+      prg.showOptions();
     } else if (e.getActionCommand().equals(QUIT)) {
       prg.quit();
     } else if (e.getActionCommand().equals(ABOUT)) {
