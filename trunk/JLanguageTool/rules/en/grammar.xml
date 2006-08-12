@@ -3,9 +3,13 @@
 Rules: Grammar and Typos
 See tagset.txt for the meaning of the POS tags
 Copyright (C) 2001-2006 Daniel Naber (http://www.danielnaber.de)
-$Id: grammar.xml,v 1.65 2006-08-11 21:17:40 dnaber Exp $
+$Id: grammar.xml,v 1.66 2006-08-12 23:13:17 dnaber Exp $
 -->
 <rules lang="en">
+
+  <!-- ====================================================================== -->
+  <!-- Possible typos -->  
+  <!-- ====================================================================== -->
 
   <rule id="I_HERD" name="Possible typo 'I herd(heard)'">
     <pattern mark_from="1">
@@ -17,18 +21,7 @@ $Id: grammar.xml,v 1.65 2006-08-11 21:17:40 dnaber Exp $
     <example type="incorrect">I  <marker>herd</marker> of a new song by Madonna.</example>
   </rule>
 
-  <rule id="EQUALLY_AS" name="equally+as (equally)">
-    <pattern>
-      <token>equally</token>
-      <token>as</token>
-    </pattern>
-    <message>Don't say 'equally as'. You can use either <suggestion>equally</suggestion> or <suggestion>as</suggestion> on its own. When comparing two nouns, use <suggestion>just as</suggestion>.</message>
-    <example type="incorrect">This model is <marker>equally as</marker> effective.</example>
-    <example type="correct">This model is equally effective.</example>
-    <example type="correct">My new grammar checker is just as slow as the old one.</example>
-  </rule>
-
-<!-- TODO: make more general -->
+  <!-- TODO: make more general -->
   <rule id="ANALYSIS_IF" name="Possible typo 'analysis if(of)'">
     <pattern mark_from="2">
       <token postag="DT"/>
@@ -76,111 +69,6 @@ $Id: grammar.xml,v 1.65 2006-08-11 21:17:40 dnaber Exp $
     <example type="incorrect">You will buy some eggs <marker>also</marker>.</example>
   </rule>
 
-  <rule id="I_ARE" name="'I is/are/...' (at sentence start only)">
-    <pattern mark_from="2">
-      <token postag="SENT_START"/>
-      <token>I</token>
-      <token regexp="yes">is|be|are|were|has</token>
-    </pattern>
-    <message>Did you mean <suggestion>am</suggestion> or <suggestion>ate</suggestion>?</message>
-    <example type="correct">I <marker>ate</marker> at the restaurant.</example>
-    <example type="correct">I <marker>am</marker> at the restaurant.</example>
-    <example type="incorrect">I <marker>are</marker> at the restaurant.</example>
-  </rule>
-
-  <rule id="YOU_IS" name="'You is/was/has' (at sentence start only)">
-    <pattern mark_from="2">
-      <token postag="SENT_START"/>
-      <token regexp="yes">You</token>
-      <token regexp="yes">am|is|was|has</token>
-    </pattern>
-    <message>Use second person verb with 'you', e.g. 'you are'</message>
-    <example type="correct">You <marker>are</marker> too old for that.</example>
-    <example type="incorrect">You <marker>is</marker> too old for that.</example>
-  </rule>
-
-  <rule id="HE_WERE" name="'He were/have/...' (at sentence start only)">
-    <pattern mark_from="2">
-      <token postag="SENT_START"/>
-      <token regexp="yes">He</token>
-      <token regexp="yes">were|have|be|am|are</token>
-    </pattern>
-    <message>Use third person verb with 'he', e.g. 'he is'</message>
-    <example type="correct">He <marker>is</marker> too old for that.</example>
-    <example type="incorrect">He <marker>were</marker> too old for that.</example>
-  </rule>
-
-  <rule id="WE_IS" name="'We is/was/has' (at sentence start only)">
-    <pattern mark_from="2">
-      <token postag="SENT_START"/>
-      <token regexp="yes">We</token>
-      <token regexp="yes">am|is|was|has</token>
-    </pattern>
-    <message>Use first person plural verb with 'we', e.g. 'we are'</message>
-    <example type="correct">We <marker>are</marker> too old for that.</example>
-    <example type="incorrect">We <marker>is</marker> too old for that.</example>
-  </rule>
-
-  <rule id="THEY_IS" name="'They is/was/has' (at sentence start only)">
-    <pattern mark_from="2">
-      <token postag="SENT_START"/>
-      <token regexp="yes">They</token>
-      <token regexp="yes">am|is|was|has</token>
-    </pattern>
-    <message>Use third person plural verb with 'they', e.g. 'they are'</message>
-    <example type="correct">They <marker>are</marker> too old for that.</example>
-    <example type="incorrect">They <marker>is</marker> too old for that.</example>
-  </rule>
-  
-<!-- TODO: is this really an error? see http://www.edufind.com/english/grammar/ADVERBS10.cfm
-   <rule id="ADVERBS_ORDER" name="word order: adverb + auxiliary verb + main verb">
-      <pattern mark_from="2"><token regexp="yes">certainly|definitely|probably|undoubtedly|surely</token><token regexp="yes">has|had|have|will</token><token postag="VBN|VB"/>/pattern>
-      <message>Place the adverb between </message>
-      <example type="correct">He will <em>probably</em> remember tomorrow.</example>
-      <example type="incorrect">He <em>probably</em> will remember tomorrow.</example>
-   </rule>
-   -->
-<!-- too many false alarms, e.g. "I am convinced that our suggestions..."
-   <rule id="I_A_NONBASE" name="'I am' + non-gerund form">
-      <pattern mark_from="2"><token regexp="yes">I</token><token regexp="yes">am</token><token postag="VB|VBD|VBN|VBP|VBZ"/>/pattern>
-      <message>You might need to use the gerund form of the verb here (e.g. 'learning' instead of 'learn').</message>
-      <example type="correct">I am <em>searching</em> through some fields.</example>
-      <example type="incorrect">I am <em>searched</em> through some fields.</example>
-   </rule>
-   -->
-<!-- currently fails test case:
-   <rule id="TO_NON_BASE" name="'to' + non-base form">
-      <pattern mark_from="1"><token regexp="yes">to</token>VBP|VBZ^was</pattern>
-      <message>You might need to use the base form of the verb here (e.g. 'learn' instead of 'learned/learning/...').</message>
-      <example type="correct">I was surprised to <em>learn</em> this. </example>
-      <example type="incorrect">I was surprised to <em>learns</em> this. </example>
-   </rule>
-   -->
-
-  <rule id="MANY_FEW_UNCOUNTABLE" name="'many/few' + uncountable noun, e.g. 'many(much) food'">
-    <!-- fixme: more uncountable nouns   -->
-    <pattern mark_from="1" mark_to="-2">
-      <token regexp="yes">as</token>
-      <token regexp="yes">many|few</token>
-      <token regexp="yes">air|money|software|cattle|knowledge|sand|furniture|meat|food|news|success|water|freedom|maturity|intelligence|life|information</token>
-      <token>as</token>
-    </pattern>
-    <message>Use <suggestion>much</suggestion> or <suggestion>little</suggestion> with uncountable nouns</message>
-    <example type="correct">John eats as <marker>much</marker> food as Peter.</example>
-    <example type="correct">John eats as <marker>little</marker> food as Peter.</example>
-    <example type="incorrect">John eats as <marker>many</marker> food as Peter.</example>
-    <example type="incorrect">John eats as <marker>few</marker> food as Peter.</example>
-  </rule>
-  
-<!-- fixme: more nouns?
-         false alert: "an intelligence service"
-   <rule id="A_UNCOUNTABLE" name="a + uncountable noun">
-      <pattern mark_to="-1"><token regexp="yes">a|an</token><token regexp="yes">air|money|cattle|knowledge|sand|furniture|meat|food|news|water|freedom|maturity|intelligence|information</token></pattern>
-      <message>Uncountable nouns are usually not used with an indefinite article.</message>
-      <example type="correct"><em>The</em> information in your files is correct.</example>
-      <example type="incorrect"><em>An</em> information in your files is correct.</example>
-   </rule>
-   -->
   <rule id="BED_ENGLISH" name="Possible typo 'bed/bat(bad) English/...'">
     <pattern mark_to="-1">
       <token regexp="yes">bed|bat</token>
@@ -301,37 +189,7 @@ $Id: grammar.xml,v 1.65 2006-08-11 21:17:40 dnaber Exp $
     <example type="correct">The dog of war is released.</example>
     <example type="incorrect">The dogs of war <marker>is</marker> released.</example>
   </rule>
-  
-<!--FIXME
-   <rule id="HE_VERB_AGR" name="Agreement error: Non-third person verb with 'he'">
-      <pattern mark_from="2"><token regexp="yes" negate="yes">(has|will|must|could|can|should|would|does|did)</token><token>he</token><token postag="VB|VBG|VBN" postag_regexp="yes"/></pattern>
-      <message>'He' must be used with a third person verb, e.g. 'he walks'</message>
-      <example type="correct">He <em>walks</em> to the building.</example>
-      <example type="incorrect">He <em>walk</em> to the building.</example>
-   </rule>
--->
-<!-- TODO: fix false alarm for "one of you thinks ...", "even though the world around you thinks"
-   <rule id="I_VERB_AGR" name="Agreement error: third person verb with 'I'">
-      <pattern mark_from="1"><token regexp="yes">I|we|they|you</token><token postag="VBZ"/></pattern>
-      <message>'I' must be used with a non-third person verb, e.g. 'I think'</message>
-      <example type="correct">I <em>think</em> that is quite fair.</example>
-      <example type="correct">Don't you <em>think</em> that is quite fair?</example>
-      <example type="incorrect">I <em>thinks</em> that is quite fair.</example>
-      <example type="incorrect">Don't you <em>thinks</em> that is quite fair?</example>
-   </rule>
-   -->
-   
-  <rule id="MORE_A_JJ" name="Word order: 'more a ...' instead of 'a more ...'">
-    <pattern>
-      <token>more</token>
-      <token regexp="yes">a|an</token>
-      <token postag="JJ"/>
-    </pattern>
-    <message>Did you mean <suggestion>a more \3</suggestion>?</message>
-    <example type="correct">I can give you <marker>a more detailed</marker> description of what's necessary.</example>
-    <example type="incorrect">I can give you <marker>more a detailed</marker> description of what's necessary.</example>
-  </rule>
-  
+     
   <rule id="THINK_YOU_A" name="Possible typo 'think you a/an(are)'">
     <pattern mark_from="2">
       <token>think</token>
@@ -521,15 +379,6 @@ $Id: grammar.xml,v 1.65 2006-08-11 21:17:40 dnaber Exp $
     <example type="incorrect">Please don't <marker>us</marker> dispose.</example>
   </rule>
   
-  <!-- TODO
-   <rule id="VB_TO_USE" name="Past tense of 'used to...'">
-      <pattern mark_to="-2"><token postag="VB"/<token>to</token><token>use</token></pattern>
-      <message>Use the past tense to build a sentence with "to use".</message>
-      <example type="correct">Aethera <em>used</em> to use this.</example>
-      <example type="incorrect">Aethera <em>use</em> to use this.</example>
-   </rule>
-   -->
-   
   <rule id="YOU_THING" name="Possible typo 'I/you/... thing(think)'">
     <pattern mark_from="1">
       <token regexp="yes">I|you|he|she|they|we</token>
@@ -690,55 +539,7 @@ $Id: grammar.xml,v 1.65 2006-08-11 21:17:40 dnaber Exp $
     <example type="correct">Something that <marker>may be</marker> interesting...</example>
     <example type="incorrect">Something that <marker>my be</marker> interesting...</example>
   </rule>
-  
-  <rule id="EAGER_TO" name="Infinitive verb with 'eager to...'">
-    <pattern mark_from="2">
-      <token>eager</token>
-      <token>to</token>
-      <token postag="(VBG|VBZ|VBN|VBD)" postag_regexp="yes"/>
-    </pattern>
-    <message>Use the base form of the verb with <suggestion>eager to</suggestion>.</message>
-    <example type="correct">I'd be eager to <marker>try</marker> out your patch.</example>
-    <example type="correct">Bangladesh eager to <marker>buy</marker> cars from Iran' </example>
-    <example type="incorrect">I'd be eager to <marker>trying</marker> out your patch.</example>
-    <example type="incorrect">Bangladesh eager to <marker>buying</marker> cars from Iran'</example>
-<!-- TODO: not found because of mistagging:
-      <example type="incorrect">Bangladesh eager to <em>bought</em> cars from Iran'</example>
-      -->
-  </rule>
-  
-  <rule id="A_MUCH_NN1" name="Superfluous article before 'much', e.g. 'a much work'">
-    <pattern mark_from="0" mark_to="-1">
-      <token>a</token>
-      <token>much</token>
-      <token postag="NN"/>
-    </pattern>
-    <message>You maybe should omit the article <suggestion>a</suggestion>.</message>
-    <example type="correct">This will be <marker>much</marker> work.</example>
-    <example type="incorrect">This will be <marker>a much</marker> work.</example>
-  </rule>
-  
-  <rule id="MOST_SUPERLATIVE" name="No 'more' or 'most' before superlatives">
-    <pattern>
-      <token regexp="yes">more|most</token>
-      <token postag="JJS|RBS" postag_regexp="yes"/>
-    </pattern>
-    <message>Use only <suggestion>\2</suggestion> (without '\1') when you use the superlative.</message>
-    <example type="correct">Kyoto is the <marker>oldest</marker> city.</example>
-    <example type="incorrect">Kyoto is the <marker>most oldest</marker> city.</example>
-  </rule>
-  
-  <rule id="THE_SUPERLATIVE" name="No indefinite article ('a'/'an') before superlatives">
-    <pattern mark_from="0" mark_to="-1">
-      <token regexp="yes">a|an</token>
-      <token postag="JJS|RBS" postag_regexp="yes"><exception>most</exception></token>
-    </pattern>
-    <message>Use <suggestion>the</suggestion> with the superlative.</message>
-    <example type="correct">Kyoto is <marker>the</marker> oldest city.</example>
-    <example type="correct">And Truly It Is <marker>a</marker> Most Glorious Thing</example>
-    <example type="incorrect">Kyoto is <marker>an</marker> oldest city.</example>
-  </rule>
-  
+      
   <rule id="IS_SHOULD" name="Possible typo 'is(it) should/could'">
     <pattern mark_from="0" mark_to="-1">
       <token>is</token>
@@ -769,43 +570,7 @@ $Id: grammar.xml,v 1.65 2006-08-11 21:17:40 dnaber Exp $
     <example type="correct">I have been out with the <marker>flu</marker> for the past 3 days.</example>
     <example type="incorrect">I have been out with the <marker>flew</marker> for the past 3 days.</example>
   </rule>
-  
-  <rule id="DID_BASEFORM" name="Infinitive verb after 'did'">
-    <pattern mark_from="1">
-      <token regexp="yes">did|will|could|can|should|would|does</token>
-      <token postag="(VBD|VBG|VBZ)" postag_regexp="yes"/>
-    </pattern>
-    <message>'Did' requires base form of verb.</message>
-<!-- 'did' is used for emphasis here: -->
-    <example type="correct">They will <marker>come</marker> home.</example>
-    <example type="correct">Peter did <marker>go</marker> to the cinema.</example>
-    <example type="incorrect">Peter did <marker>went</marker> to the cinema.</example>
-    <example type="incorrect">He did <marker>walked</marker> to his house.</example>
-    <example type="incorrect">He did <marker>walking</marker> to his house.</example>
-<!-- TODO: not found because of mistagging:
-      <example type="incorrect">They will <em>comes</em> home.</example>
-      <example type="incorrect">He did <em>walks</em> to his house.</example>
-      <example type="incorrect">They will <em>came</em> home.</example>
-      -->
-  </rule>
-<!-- TODO: support rulegroups?
-   <rulegroup id="WILL_MIGHT_BASE" name="Infinitive verb after auxiliary verb">
-   <rulegroup id="IS_PASSIVE" name="Passive after 'is' and 'was'">
-   -->
-   
-  <rule id="AS_ADJ_AS" name="Comparison with 'as'">
-    <pattern mark_from="2">
-      <token regexp="yes">as</token>
-      <token postag="JJ|RB" postag_regexp="yes"/>
-      <token regexp="yes">like|than|then</token>
-    </pattern>
-    <message>Comparison is written "as \2 <suggestion>as</suggestion>".</message>
-    <example type="correct">This house is as big <marker>as</marker> mine.</example>
-    <example type="incorrect">This house is as big <marker>than</marker> mine.</example>
-    <example type="correct">This box contains as much <marker>as</marker> possible.</example>
-    <example type="incorrect">This box contains as much <marker>like</marker> possible.</example>
-  </rule>
-  
+    
   <rule id="DT_FORM" name="Possible typo 'from/form'">
     <pattern mark_from="1">
       <token postag="DT"/>
@@ -835,54 +600,6 @@ $Id: grammar.xml,v 1.65 2006-08-11 21:17:40 dnaber Exp $
     <example type="incorrect">I <marker>cant</marker> view pdf files in Explorer.</example>
   </rule>
   
-  <rule id="THIS_NNS" name="Possible typo 'this/these'">
-    <pattern mark_to="-1">
-      <token>this</token>
-      <token postag="NNS"/>
-    </pattern>
-    <message>Did you mean <suggestion>these</suggestion>?</message>
-    <example type="correct">These errors are easy to fix.</example>
-    <example type="incorrect"><marker>This</marker> errors are easy to fix.</example>
-  </rule>
-  
-  <rule id="THIS_ARE" name="Possible typo 'this/these'">
-    <pattern mark_to="-1">
-      <token postag="SENT_START"/>
-      <token>this</token>
-      <token regexp="yes">are|were</token>
-    </pattern>
-    <message>Did you mean <suggestion>these</suggestion>?</message>
-    <example type="correct">These are errors.</example>
-    <example type="incorrect"><marker>This</marker> are errors.</example>
-  </rule>
-<!-- TODO: support rulegroup syntax -->
-<!--
-   <rulegroup id="COMP_THAN" name="Comparison with 'than'">
-   -->
-<!-- 106(less..)+319(more...) in complete BNC, all(?) because "...as" -->
-  <rule id="COMP_THAN_1" name="Comparison 'more/less' with 'than'">
-    <pattern mark_from="1">
-      <token regexp="yes">more|less</token>
-      <token regexp="yes">then|as</token>
-    </pattern>
-    <message>Comparison requires <suggestion>than</suggestion>, not 'then'.</message>
-    <example type="correct">The tagger will return more <marker>than</marker> one tag.</example>
-    <example type="incorrect">The tagger will return more <marker>then</marker> one tag.</example>
-    <example type="triggers_error">Think of it more <marker>as</marker> activity.</example>
-  </rule>
-  <rule id="COMP_THAN_2" name="Comparison with 'than', e.g. 'bigger then(than)'">
-    <pattern mark_from="1">
-      <token postag="JJR"/>
-      <token regexp="yes">(then|as)</token>
-    </pattern>
-    <message>Comparison requires <suggestion>than</suggestion>, not 'then'.</message>
-    <example type="correct">This house is bigger <marker>than</marker> mine.</example>
-    <example type="incorrect">This house is bigger <marker>then</marker> mine.</example>
-  </rule>
-<!--
-   </rulegroup>
-   -->
-
   <rulegroup id="IT_IS" name="Possible typo 'its/it's'">
     <rule>
       <!-- TODO: "its of", "its to" -->
@@ -966,7 +683,7 @@ $Id: grammar.xml,v 1.65 2006-08-11 21:17:40 dnaber Exp $
       <example type="correct">Don't judeg a book by <marker>its</marker> cover.</example>
       <example type="incorrect">Don't judeg a book by <marker>it's</marker> cover.</example>
     </rule>
-<!-- TODO:
+    <!-- TODO:
       <rule>
          <pattern mark_from="0</token>mark_to="-1"><token>its</token><token postag="VBG"/>/pattern>
          <message>Did you mean <em>it's</em> (=<em>it is</em>) instead of 'its' (possessive pronoun)?</message>
@@ -985,28 +702,7 @@ $Id: grammar.xml,v 1.65 2006-08-11 21:17:40 dnaber Exp $
       <example type="triggers_error">Currently, there are fifteen records on <marker>its</marker> A list and twenty on its B list.</example>
     </rule>
   </rulegroup>
-  
-  <rule id="AFFORD_VBG" name="'afford' used with gerund instead of infinitive">
-    <pattern mark_from="1">
-      <token regexp="yes">afford|afforded|affords</token>
-      <token postag="VBG"/>
-    </pattern>
-    <message>The verb 'afford' is used with infinitive (afford to do sth.).</message>
-    <example type="correct">We cannot afford to spend the whole month in Alps.</example>
-    <example type="incorrect">We cannot afford <marker>spending</marker> the whole month in Alps.</example>
-  </rule>
-  
-  <rule id="AFFORD_VBG_NEGATION" name="'afford' used with gerund instead of infinitive">
-    <pattern mark_from="2">
-      <token regexp="yes">afford|afforded|affords</token>
-      <token>not</token>
-      <token postag="VBG"/>
-    </pattern>
-    <message>The verb 'afford' is used with infinitive (afford to do sth.).</message>
-    <example type="correct">We cannot afford not to spend the whole month in Alps.</example>
-    <example type="incorrect">We cannot afford not <marker>spending</marker> the whole month in Alps.</example>
-  </rule>
-  
+    
   <rulegroup id="NOW" name="Possible typo 'no/now'">
     <rule>
       <pattern mark_to="-1">
@@ -1039,5 +735,318 @@ $Id: grammar.xml,v 1.65 2006-08-11 21:17:40 dnaber Exp $
       <example type="incorrect"><marker>No</marker> is the right time.</example>
     </rule>
   </rulegroup>
+
+  <!-- ====================================================================== -->
+  <!-- Grammar -->  
+  <!-- ====================================================================== -->
+  
+  <rule id="I_ARE" name="'I is/are/...' (at sentence start only)">
+    <pattern mark_from="2">
+      <token postag="SENT_START"/>
+      <token>I</token>
+      <token regexp="yes">is|be|are|were|has</token>
+    </pattern>
+    <message>Did you mean <suggestion>am</suggestion> or <suggestion>ate</suggestion>?</message>
+    <example type="correct">I <marker>ate</marker> at the restaurant.</example>
+    <example type="correct">I <marker>am</marker> at the restaurant.</example>
+    <example type="incorrect">I <marker>are</marker> at the restaurant.</example>
+  </rule>
+
+  <rule id="YOU_IS" name="'You is/was/has' (at sentence start only)">
+    <pattern mark_from="2">
+      <token postag="SENT_START"/>
+      <token regexp="yes">You</token>
+      <token regexp="yes">am|is|was|has</token>
+    </pattern>
+    <message>Use second person verb with 'you', e.g. 'you are'</message>
+    <example type="correct">You <marker>are</marker> too old for that.</example>
+    <example type="incorrect">You <marker>is</marker> too old for that.</example>
+  </rule>
+
+  <rule id="HE_WERE" name="'He were/have/...' (at sentence start only)">
+    <pattern mark_from="2">
+      <token postag="SENT_START"/>
+      <token regexp="yes">He</token>
+      <token regexp="yes">were|have|be|am|are</token>
+    </pattern>
+    <message>Use third person verb with 'he', e.g. 'he is'</message>
+    <example type="correct">He <marker>is</marker> too old for that.</example>
+    <example type="incorrect">He <marker>were</marker> too old for that.</example>
+  </rule>
+
+  <rule id="WE_IS" name="'We is/was/has' (at sentence start only)">
+    <pattern mark_from="2">
+      <token postag="SENT_START"/>
+      <token regexp="yes">We</token>
+      <token regexp="yes">am|is|was|has</token>
+    </pattern>
+    <message>Use first person plural verb with 'we', e.g. 'we are'</message>
+    <example type="correct">We <marker>are</marker> too old for that.</example>
+    <example type="incorrect">We <marker>is</marker> too old for that.</example>
+  </rule>
+
+  <rule id="THEY_IS" name="'They is/was/has' (at sentence start only)">
+    <pattern mark_from="2">
+      <token postag="SENT_START"/>
+      <token regexp="yes">They</token>
+      <token regexp="yes">am|is|was|has</token>
+    </pattern>
+    <message>Use third person plural verb with 'they', e.g. 'they are'</message>
+    <example type="correct">They <marker>are</marker> too old for that.</example>
+    <example type="incorrect">They <marker>is</marker> too old for that.</example>
+  </rule>
+  
+  <!-- TODO: is this really an error? see http://www.edufind.com/english/grammar/ADVERBS10.cfm
+   <rule id="ADVERBS_ORDER" name="word order: adverb + auxiliary verb + main verb">
+      <pattern mark_from="2"><token regexp="yes">certainly|definitely|probably|undoubtedly|surely</token><token regexp="yes">has|had|have|will</token><token postag="VBN|VB"/>/pattern>
+      <message>Place the adverb between </message>
+      <example type="correct">He will <em>probably</em> remember tomorrow.</example>
+      <example type="incorrect">He <em>probably</em> will remember tomorrow.</example>
+   </rule>
+   -->
+
+  <!-- too many false alarms, e.g. "I am convinced that our suggestions..."
+   <rule id="I_A_NONBASE" name="'I am' + non-gerund form">
+      <pattern mark_from="2"><token regexp="yes">I</token><token regexp="yes">am</token><token postag="VB|VBD|VBN|VBP|VBZ"/>/pattern>
+      <message>You might need to use the gerund form of the verb here (e.g. 'learning' instead of 'learn').</message>
+      <example type="correct">I am <em>searching</em> through some fields.</example>
+      <example type="incorrect">I am <em>searched</em> through some fields.</example>
+   </rule>
+   -->
+   
+  <!-- currently fails test case:
+   <rule id="TO_NON_BASE" name="'to' + non-base form">
+      <pattern mark_from="1"><token regexp="yes">to</token>VBP|VBZ^was</pattern>
+      <message>You might need to use the base form of the verb here (e.g. 'learn' instead of 'learned/learning/...').</message>
+      <example type="correct">I was surprised to <em>learn</em> this. </example>
+      <example type="incorrect">I was surprised to <em>learns</em> this. </example>
+   </rule>
+   -->
+
+  <rule id="MANY_FEW_UNCOUNTABLE" name="'many/few' + uncountable noun, e.g. 'many(much) food'">
+    <!-- fixme: more uncountable nouns   -->
+    <pattern mark_from="1" mark_to="-2">
+      <token regexp="yes">as</token>
+      <token regexp="yes">many|few</token>
+      <token regexp="yes">air|money|software|cattle|knowledge|sand|furniture|meat|food|news|success|water|freedom|maturity|intelligence|life|information</token>
+      <token>as</token>
+    </pattern>
+    <message>Use <suggestion>much</suggestion> or <suggestion>little</suggestion> with uncountable nouns</message>
+    <example type="correct">John eats as <marker>much</marker> food as Peter.</example>
+    <example type="correct">John eats as <marker>little</marker> food as Peter.</example>
+    <example type="incorrect">John eats as <marker>many</marker> food as Peter.</example>
+    <example type="incorrect">John eats as <marker>few</marker> food as Peter.</example>
+  </rule>
+  
+  <!-- fixme: more nouns?
+         false alert: "an intelligence service"
+   <rule id="A_UNCOUNTABLE" name="a + uncountable noun">
+      <pattern mark_to="-1"><token regexp="yes">a|an</token><token regexp="yes">air|money|cattle|knowledge|sand|furniture|meat|food|news|water|freedom|maturity|intelligence|information</token></pattern>
+      <message>Uncountable nouns are usually not used with an indefinite article.</message>
+      <example type="correct"><em>The</em> information in your files is correct.</example>
+      <example type="incorrect"><em>An</em> information in your files is correct.</example>
+   </rule>
+   -->
+  
+  <rule id="AFFORD_VBG" name="'afford' used with gerund instead of infinitive">
+    <pattern mark_from="1">
+      <token regexp="yes">afford|afforded|affords</token>
+      <token postag="VBG"/>
+    </pattern>
+    <message>The verb 'afford' is used with infinitive (afford to do sth.).</message>
+    <example type="correct">We cannot afford to spend the whole month in Alps.</example>
+    <example type="incorrect">We cannot afford <marker>spending</marker> the whole month in Alps.</example>
+  </rule>
+  
+  <rule id="AFFORD_VBG_NEGATION" name="'afford' used with gerund instead of infinitive">
+    <pattern mark_from="2">
+      <token regexp="yes">afford|afforded|affords</token>
+      <token>not</token>
+      <token postag="VBG"/>
+    </pattern>
+    <message>The verb 'afford' is used with infinitive (afford to do sth.).</message>
+    <example type="correct">We cannot afford not to spend the whole month in Alps.</example>
+    <example type="incorrect">We cannot afford not <marker>spending</marker> the whole month in Alps.</example>
+  </rule>
+  
+  <rule id="THIS_NNS" name="Possible typo 'this/these'">
+    <pattern mark_to="-1">
+      <token>this</token>
+      <token postag="NNS"/>
+    </pattern>
+    <message>Did you mean <suggestion>these</suggestion>?</message>
+    <example type="correct">These errors are easy to fix.</example>
+    <example type="incorrect"><marker>This</marker> errors are easy to fix.</example>
+  </rule>
+  
+  <rule id="THIS_ARE" name="Possible typo 'this/these'">
+    <pattern mark_to="-1">
+      <token postag="SENT_START"/>
+      <token>this</token>
+      <token regexp="yes">are|were</token>
+    </pattern>
+    <message>Did you mean <suggestion>these</suggestion>?</message>
+    <example type="correct">These are errors.</example>
+    <example type="incorrect"><marker>This</marker> are errors.</example>
+  </rule>
+  
+  <rule id="A_MUCH_NN1" name="Superfluous article before 'much', e.g. 'a much work'">
+    <pattern mark_from="0" mark_to="-1">
+      <token>a</token>
+      <token>much</token>
+      <token postag="NN"/>
+    </pattern>
+    <message>You maybe should omit the article <suggestion>a</suggestion>.</message>
+    <example type="correct">This will be <marker>much</marker> work.</example>
+    <example type="incorrect">This will be <marker>a much</marker> work.</example>
+  </rule>
+  
+  <rule id="MOST_SUPERLATIVE" name="No 'more' or 'most' before superlatives">
+    <pattern>
+      <token regexp="yes">more|most</token>
+      <token postag="JJS|RBS" postag_regexp="yes"/>
+    </pattern>
+    <message>Use only <suggestion>\2</suggestion> (without '\1') when you use the superlative.</message>
+    <example type="correct">Kyoto is the <marker>oldest</marker> city.</example>
+    <example type="incorrect">Kyoto is the <marker>most oldest</marker> city.</example>
+  </rule>
+  
+  <rule id="THE_SUPERLATIVE" name="No indefinite article ('a'/'an') before superlatives">
+    <pattern mark_from="0" mark_to="-1">
+      <token regexp="yes">a|an</token>
+      <token postag="JJS|RBS" postag_regexp="yes"><exception>most</exception></token>
+    </pattern>
+    <message>Use <suggestion>the</suggestion> with the superlative.</message>
+    <example type="correct">Kyoto is <marker>the</marker> oldest city.</example>
+    <example type="correct">And Truly It Is <marker>a</marker> Most Glorious Thing</example>
+    <example type="incorrect">Kyoto is <marker>an</marker> oldest city.</example>
+  </rule>
+  
+  <rule id="DID_BASEFORM" name="Infinitive verb after 'did'">
+    <pattern mark_from="1">
+      <token regexp="yes">did|will|could|can|should|would|does</token>
+      <token postag="(VBD|VBG|VBZ)" postag_regexp="yes"/>
+    </pattern>
+    <message>'Did' requires base form of verb.</message>
+    <!-- 'did' is used for emphasis here: -->
+    <example type="correct">They will <marker>come</marker> home.</example>
+    <example type="correct">Peter did <marker>go</marker> to the cinema.</example>
+    <example type="incorrect">Peter did <marker>went</marker> to the cinema.</example>
+    <example type="incorrect">He did <marker>walked</marker> to his house.</example>
+    <example type="incorrect">He did <marker>walking</marker> to his house.</example>
+    <!-- TODO: not found because of mistagging:
+      <example type="incorrect">They will <em>comes</em> home.</example>
+      <example type="incorrect">He did <em>walks</em> to his house.</example>
+      <example type="incorrect">They will <em>came</em> home.</example>
+      -->
+  </rule>
+  <!-- TODO: support rulegroups?
+   <rulegroup id="WILL_MIGHT_BASE" name="Infinitive verb after auxiliary verb">
+   <rulegroup id="IS_PASSIVE" name="Passive after 'is' and 'was'">
+   -->
+   
+  <rule id="AS_ADJ_AS" name="Comparison with 'as'">
+    <pattern mark_from="2">
+      <token regexp="yes">as</token>
+      <token postag="JJ|RB" postag_regexp="yes"/>
+      <token regexp="yes">like|than|then</token>
+    </pattern>
+    <message>Comparison is written "as \2 <suggestion>as</suggestion>".</message>
+    <example type="correct">This house is as big <marker>as</marker> mine.</example>
+    <example type="incorrect">This house is as big <marker>than</marker> mine.</example>
+    <example type="correct">This box contains as much <marker>as</marker> possible.</example>
+    <example type="incorrect">This box contains as much <marker>like</marker> possible.</example>
+  </rule>
+  
+  <rule id="EAGER_TO" name="Infinitive verb with 'eager to...'">
+    <pattern mark_from="2">
+      <token>eager</token>
+      <token>to</token>
+      <token postag="(VBG|VBZ|VBN|VBD)" postag_regexp="yes"/>
+    </pattern>
+    <message>Use the base form of the verb with <suggestion>eager to</suggestion>.</message>
+    <example type="correct">I'd be eager to <marker>try</marker> out your patch.</example>
+    <example type="correct">Bangladesh eager to <marker>buy</marker> cars from Iran' </example>
+    <example type="incorrect">I'd be eager to <marker>trying</marker> out your patch.</example>
+    <example type="incorrect">Bangladesh eager to <marker>buying</marker> cars from Iran'</example>
+    <!-- TODO: not found because of mistagging:
+      <example type="incorrect">Bangladesh eager to <em>bought</em> cars from Iran'</example>
+      -->
+  </rule>
+  
+  <!-- TODO: support rulegroup syntax -->
+  <!--
+   <rulegroup id="COMP_THAN" name="Comparison with 'than'">
+   -->
+  <!-- 106(less..)+319(more...) in complete BNC, all(?) because "...as" -->
+  <rule id="COMP_THAN_1" name="Comparison 'more/less' with 'than'">
+    <pattern mark_from="1">
+      <token regexp="yes">more|less</token>
+      <token regexp="yes">then|as</token>
+    </pattern>
+    <message>Comparison requires <suggestion>than</suggestion>, not 'then'.</message>
+    <example type="correct">The tagger will return more <marker>than</marker> one tag.</example>
+    <example type="incorrect">The tagger will return more <marker>then</marker> one tag.</example>
+    <example type="triggers_error">Think of it more <marker>as</marker> activity.</example>
+  </rule>
+  <rule id="COMP_THAN_2" name="Comparison with 'than', e.g. 'bigger then(than)'">
+    <pattern mark_from="1">
+      <token postag="JJR"/>
+      <token regexp="yes">(then|as)</token>
+    </pattern>
+    <message>Comparison requires <suggestion>than</suggestion>, not 'then'.</message>
+    <example type="correct">This house is bigger <marker>than</marker> mine.</example>
+    <example type="incorrect">This house is bigger <marker>then</marker> mine.</example>
+  </rule>
+
+  <!-- TODO
+   <rule id="VB_TO_USE" name="Past tense of 'used to...'">
+      <pattern mark_to="-2"><token postag="VB"/<token>to</token><token>use</token></pattern>
+      <message>Use the past tense to build a sentence with "to use".</message>
+      <example type="correct">Aethera <em>used</em> to use this.</example>
+      <example type="incorrect">Aethera <em>use</em> to use this.</example>
+   </rule>
+   -->
+
+  <rule id="MORE_A_JJ" name="Word order: 'more a ...' instead of 'a more ...'">
+    <pattern>
+      <token>more</token>
+      <token regexp="yes">a|an</token>
+      <token postag="JJ"/>
+    </pattern>
+    <message>Did you mean <suggestion>a more \3</suggestion>?</message>
+    <example type="correct">I can give you <marker>a more detailed</marker> description of what's necessary.</example>
+    <example type="incorrect">I can give you <marker>more a detailed</marker> description of what's necessary.</example>
+  </rule>
+
+  <!--FIXME
+   <rule id="HE_VERB_AGR" name="Agreement error: Non-third person verb with 'he'">
+      <pattern mark_from="2"><token regexp="yes" negate="yes">(has|will|must|could|can|should|would|does|did)</token><token>he</token><token postag="VB|VBG|VBN" postag_regexp="yes"/></pattern>
+      <message>'He' must be used with a third person verb, e.g. 'he walks'</message>
+      <example type="correct">He <em>walks</em> to the building.</example>
+      <example type="incorrect">He <em>walk</em> to the building.</example>
+   </rule>
+  -->
+  <!-- TODO: fix false alarm for "one of you thinks ...", "even though the world around you thinks"
+   <rule id="I_VERB_AGR" name="Agreement error: third person verb with 'I'">
+      <pattern mark_from="1"><token regexp="yes">I|we|they|you</token><token postag="VBZ"/></pattern>
+      <message>'I' must be used with a non-third person verb, e.g. 'I think'</message>
+      <example type="correct">I <em>think</em> that is quite fair.</example>
+      <example type="correct">Don't you <em>think</em> that is quite fair?</example>
+      <example type="incorrect">I <em>thinks</em> that is quite fair.</example>
+      <example type="incorrect">Don't you <em>thinks</em> that is quite fair?</example>
+   </rule>
+   -->
+
+  <rule id="EQUALLY_AS" name="equally+as (equally)">
+    <pattern>
+      <token>equally</token>
+      <token>as</token>
+    </pattern>
+    <message>Don't say 'equally as'. You can use either <suggestion>equally</suggestion> or <suggestion>as</suggestion> on its own. When comparing two nouns, use <suggestion>just as</suggestion>.</message>
+    <example type="incorrect">This model is <marker>equally as</marker> effective.</example>
+    <example type="correct">This model is equally effective.</example>
+    <example type="correct">My new grammar checker is just as slow as the old one.</example>
+  </rule>
   
 </rules>
