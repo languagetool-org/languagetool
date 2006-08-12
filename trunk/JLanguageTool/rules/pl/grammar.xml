@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?><!--
 Copyright (C) 2006 Marcin Miłkowski
-$Id: grammar.xml,v 1.26 2006-08-12 15:39:09 dnaber Exp $		
+$Id: grammar.xml,v 1.27 2006-08-12 22:05:23 milek_pl Exp $		
 -->
 <rules lang="pl">
 	<!-- błąd leksykalny: tym niemniej -->
-	   <rule id="RULE_NIEMNIEJ" name="Szukanie 'tym niemniej'">
+	   <rule id="RULE_NIEMNIEJ" name="Błąd leksykalny: „tym niemniej” (niemniej jednak)">
       <pattern mark_from="0" case_sensitive="no">
          <token>tym</token> 
          <token>niemniej</token>
@@ -14,7 +14,7 @@ $Id: grammar.xml,v 1.26 2006-08-12 15:39:09 dnaber Exp $
 		      <example type="incorrect">Problem potraktowano <marker>tym niemniej</marker> poważnie.</example>
 	   </rule>
 	
-	   <rule name="Błąd leksykalny: uznać jako (zamiast „za”)" id="UZNAC_JAKO">
+	   <rule name="Błąd leksykalny: „uznać jako” (za)" id="UZNAC_JAKO">
 		      <pattern mark_from="1">
 			         <token skip="-1" inflected="yes" regexp="yes">uznać|uznawać<exception>za</exception></token>
 			         <token>jako</token>
@@ -39,7 +39,7 @@ $Id: grammar.xml,v 1.26 2006-08-12 15:39:09 dnaber Exp $
 	   </rule>
 	
 	<!-- błąd leksykalny: w każdym bądź razie -->
-   <rule id="W_KAZDYM_BADZ" name="Szukanie 'w każdym bądź razie'">
+   <rule id="W_KAZDYM_BADZ" name="Błąd leksykalny: „w każdym bądź razie” (w każdym razie)">
       <pattern mark_from="0" case_sensitive="no">
          <token>w</token>
          <token>każdym</token>
@@ -53,7 +53,7 @@ $Id: grammar.xml,v 1.26 2006-08-12 15:39:09 dnaber Exp $
    </rule>
 
 	<!-- błąd leksykalny: odnośnie do -->
-	   <rule id="ODNOSNIE_DO" name="Błąd leksykalny „odnośnie czegoś” (odnośnie do)">
+	   <rule id="ODNOSNIE_DO" name="Błąd leksykalny: „odnośnie czegoś” (odnośnie do)">
 		      <pattern mark_from="0" case_sensitive="no">
          <token>odnośnie</token> 
          <token negate="yes">do</token>
@@ -63,8 +63,6 @@ $Id: grammar.xml,v 1.26 2006-08-12 15:39:09 dnaber Exp $
 		      <example type="incorrect">Piszę <marker>odnośnie pańskiej</marker> propozycji...</example>
 	   </rule>
 	
-	
-	<!-- błąd leksykalny: w każdym bądź razie -->
 	   <rule id="PODDAWAC_W_WATPLIWOSC" name="Błąd leksykalny: „poddawać w wątpliwość” (podawać w wątpliwość)">
 		      <pattern mark_from="0" case_sensitive="no">
          <token inflected="yes" regexp="yes">poddawać|poddać</token>
@@ -77,7 +75,7 @@ $Id: grammar.xml,v 1.26 2006-08-12 15:39:09 dnaber Exp $
 		      <example type="incorrect">Józio <marker>poddał w wątpliwość</marker> cały proces wychowawczy.</example>
 	   </rule>
 
-	   <rule id="POKI_CO" name="Błąd leksykalny - 'póki co'">
+	   <rule id="POKI_CO" name="Błąd leksykalny: „póki co” (na razie)">
 		      <pattern mark_from="0" case_sensitive="no">
          <token>póki</token> 
          <token>co</token>
@@ -89,23 +87,26 @@ $Id: grammar.xml,v 1.26 2006-08-12 15:39:09 dnaber Exp $
 	   </rule>
 
 	<!-- błąd ortograficzny - pisownia łączna rzeczowników z "nie" -->
-	   <rule id="NIE_RZECZOWNIK" name="Pisownia 'nie' z rzeczownikami i przymiotnikami">
+	   <rule id="NIE_RZECZOWNIK" name="Pisownia „nie” z rzeczownikami i przymiotnikami">
 		      <pattern mark_from="1" case_sensitive="no">
          <token negate="yes">a</token>
          <token inflected="yes">nie</token>
-         <token postag_regexp="yes" postag="subst:.+|adj:.+"><exception regexp="yes">brak|wolno|można|sposób|potrzeba|trzeba|wiadomo|warto|grzech|strach|szkoda|żal|wstyd|ma|miał|musze|(\p{Lu}[\p{L}&amp;&amp;[^\p{Lu}]]+)</exception></token>
+		<!-- FIXME: manually encoded adj:comp as regexp, should go to the dictionary-->
+         <token postag_regexp="yes" postag="subst:.+|adj:.+"><exception regexp="yes">brak|wolno|można|sposób|potrzeba|trzeba|wiadomo|warto|grzech|strach|szkoda|żal|wstyd|ma|miał|musze|(\p{Lu}[\p{L}&amp;&amp;[^\p{Lu}]]+)|naj.+|.*(t|b|p|j|w|r|ń|ż)s(ze|i|za|zy|zymi|zą|zych|zej|zemu|zego)</exception></token>
       </pattern>
 		      <message>„Nie” ze wszystkimi rzeczownikami i przymiotnikami piszemy łącznie, czyli poprawnie będzie <suggestion>nie\3</suggestion>.</message>
 		      <example type="correct">Prosimy o niepalenie.</example>
 		      <example type="correct">Tu nie można palić.</example>
 		      <example type="correct">To jest Marysia, a nie Hania.</example>
 		      <example type="correct">Ten samochód jest drogi, a nie tani.</example>
+		      <example type="correct">Ten zawodnik jest nie najlepszy.</example>
+		      <example type="correct">On jest nie lepszy od swojego poprzednika.</example>
 		      <example type="incorrect">Prosimy o <marker>nie palenie</marker>.</example>
 	   </rule>
 	
 	<!-- błąd ortograficzny - pisownia cząstek -bym -->
 	
-	   <rule id="CZASOWNIK_BY" name="Pisownia 'bym', 'byście' z czasownikami">
+	   <rule id="CZASOWNIK_BY" name="Pisownia „bym”, „byście” z czasownikami">
 		      <pattern mark_from="0" case_sensitive="no">
          <token postag_regexp="yes" postag="verb:sec:.+|verb:ter.+|verb:pri:.+|verb:praet:.+"/>
 		 <token regexp="yes">bym|byście|byśmy|byś|by</token>
@@ -117,7 +118,7 @@ $Id: grammar.xml,v 1.26 2006-08-12 15:39:09 dnaber Exp $
 	   </rule>
 	
 	<!-- błędna pisownia rozłączna -->
-	   <rule id="PONAD_TO" name="Pisownia 'ponadto'">
+	   <rule id="PONAD_TO" name="Błąd ortograficzny: „po nadto” (ponadto)">
 		      <pattern mark_from="0" case_sensitive="no">
          <token>ponad</token> 
          <token>to</token>
@@ -129,7 +130,7 @@ $Id: grammar.xml,v 1.26 2006-08-12 15:39:09 dnaber Exp $
 	   </rule>
 	
 	<!-- błędna pisownia rozłączna -->
-	   <rule id="PO_ZA" name="Pisownia 'poza'">
+	   <rule id="PO_ZA" name="Błąd ortograficzny: „po za” (poza)">
 		      <pattern mark_from="0" case_sensitive="yes">
          <token regexp="yes">Po|po</token> 
          <token>za</token>
@@ -140,7 +141,7 @@ $Id: grammar.xml,v 1.26 2006-08-12 15:39:09 dnaber Exp $
          <marker>Po za</marker> tym samochód wyposażony jest w ogromny bagażnik.</example>
 	   </rule>
 	
-	   <rule id="SPOZA" name="Pisownia 'spoza'">
+	   <rule id="SPOZA" name="Błąd ortograficzny: „z poza” (spoza)">
 		      <pattern mark_from="0" case_sensitive="no">
          <token>z</token> 
          <token>poza</token>
@@ -179,18 +180,19 @@ $Id: grammar.xml,v 1.26 2006-08-12 15:39:09 dnaber Exp $
 	-->
 	
 	<!-- błąd stylistyczny -->
-	   <rule id="DLATEGO_BO" name="Błąd leksykalny - dlatego bo">
-		      <pattern>
-			         <token>dlatego</token>
-         <token>bo</token>
-		      </pattern>
-		      <message>Zbitka „dlatego bo” jest niepoprawna. Zamiast należy pisać <suggestion>dlatego że</suggestion>, <suggestion>gdyż</suggestion>, <suggestion>bo</suggestion>, <suggestion>ponieważ</suggestion> itd.</message>
-		      <example type="correct">Kowalski nie czytał gazet, gdyż nie umiał czytać.</example>
-		      <example type="incorrect">Kowalski nie czytał gazet, <marker>dlatego bo</marker> nie umiał czytać.</example>
+   <rulegroup id="DLATEGO_BO" name="Błąd leksykalny: „dlatego bo” (dlatego)">
+	   <rule>
+	      <pattern>
+	         <token>dlatego</token>
+	         <token>bo</token>
+	      </pattern>
+	      <message>Zbitka „dlatego bo” jest niepoprawna. Zamiast należy pisać <suggestion>dlatego że</suggestion>, <suggestion>gdyż</suggestion>, <suggestion>bo</suggestion>, <suggestion>ponieważ</suggestion> itd.</message>
+	      <example type="correct">Kowalski nie czytał gazet, gdyż nie umiał czytać.</example>
+	      <example type="incorrect">Kowalski nie czytał gazet, <marker>dlatego bo</marker> nie umiał czytać.</example>
 	   </rule>
 	
-		   <rule id="DLATEGO_BO1" name="Błąd leksykalny - dlatego, bo">
-		      <pattern mark_from="0" case_sensitive="no">
+	 <rule>
+	 <pattern mark_from="0" case_sensitive="no">
          <token>dlatego</token> 
          <token>,</token> 
          <token>bo</token>
@@ -199,29 +201,32 @@ $Id: grammar.xml,v 1.26 2006-08-12 15:39:09 dnaber Exp $
 		      <example type="correct">Kowalski nie czytał gazet, gdyż nie umiał czytać.</example>
 		      <example type="incorrect">Kowalski nie czytał gazet <marker>dlatego, bo</marker> nie umiał czytać.</example>
 		   </rule>
-
-	   <rule id="DLATEGO_PONIEWAZ" name="Błąd leksykalny: dlatego ponieważ (zamiast „dlatego”)">
-		      <pattern mark_from="0" case_sensitive="no">
-         <token>dlatego</token> 
-         <token>ponieważ</token>
-      </pattern>
-		      <message>Zbitka „dlatego ponieważ” jest niepoprawna. Zamiast należy pisać <suggestion>dlatego że</suggestion>, <suggestion>gdyż</suggestion>, <suggestion>bo</suggestion>, <suggestion>ponieważ</suggestion> itd.</message>
-		      <example type="correct">Kowalski nie czytał gazet, gdyż nie umiał czytać.</example>
-		      <example type="incorrect">Kowalski nie czytał gazet, <marker>dlatego ponieważ</marker> nie umiał czytać.</example>
+	</rulegroup>
+	
+	<rulegroup id="DLATEGO_PONIEWAZ" name="Błąd leksykalny: „dlatego ponieważ” (dlatego)">
+	   <rule>
+		 <pattern mark_from="0" case_sensitive="no">
+			 <token>dlatego</token> 
+		     <token>ponieważ</token>
+		  </pattern>
+		  <message>Zbitka „dlatego ponieważ” jest niepoprawna. Zamiast należy pisać <suggestion>dlatego że</suggestion>, <suggestion>gdyż</suggestion>, <suggestion>bo</suggestion>, <suggestion>ponieważ</suggestion> itd.</message>
+		   <example type="correct">Kowalski nie czytał gazet, gdyż nie umiał czytać.</example>
+		   <example type="incorrect">Kowalski nie czytał gazet, <marker>dlatego ponieważ</marker> nie umiał czytać.</example>
 	   </rule>
-	   <rule id="DLATEGO_PONIEWAZ1" name="Błąd leksykalny: dlatego, ponieważ (zamiast „dlatego”)">
-		      <pattern>
-			         <token>dlatego</token> 
-			         <token>,</token>
-			         <token>ponieważ</token>
-		      </pattern>
-		      <message>Zbitka „dlatego, ponieważ” jest niepoprawna. Zamiast należy pisać <suggestion>dlatego że</suggestion>, <suggestion>gdyż</suggestion>, <suggestion>bo</suggestion>, <suggestion>ponieważ</suggestion> itd.</message>
-		      <example type="correct">Kowalski nie czytał gazet, gdyż nie umiał czytać.</example>
-		      <example type="incorrect">Kowalski nie czytał gazet <marker>dlatego, ponieważ</marker> nie umiał czytać.</example>
+	   <rule>
+		   <pattern>
+		        <token>dlatego</token> 
+		        <token>,</token>
+		         <token>ponieważ</token>
+		     </pattern>
+		     <message>Zbitka „dlatego, ponieważ” jest niepoprawna. Zamiast należy pisać <suggestion>dlatego że</suggestion>, <suggestion>gdyż</suggestion>, <suggestion>bo</suggestion>, <suggestion>ponieważ</suggestion> itd.</message>
+		     <example type="correct">Kowalski nie czytał gazet, gdyż nie umiał czytać.</example>
+		     <example type="incorrect">Kowalski nie czytał gazet <marker>dlatego, ponieważ</marker> nie umiał czytać.</example>
 	   </rule>
-
-	   <rule id="DLATEGO_GDYZ" name="Błąd leksykalny: dlatego gdyż (zamiast „dlatego”)">
-		      <pattern>
+	</rulegroup>
+	<rulegroup id="DLATEGO_GDYZ" name="Błąd leksykalny: „dlatego gdyż” (dlatego)">
+     <rule>
+		 <pattern>
          <token>dlatego</token> 
          <token>gdyż</token>
       </pattern>
@@ -229,7 +234,7 @@ $Id: grammar.xml,v 1.26 2006-08-12 15:39:09 dnaber Exp $
 		      <example type="correct">Kowalski nie czytał gazet, gdyż nie umiał czytać.</example>
 		      <example type="incorrect">Kowalski nie czytał gazet, <marker>dlatego gdyż</marker> nie umiał czytać.</example>
 	   </rule>
-	   <rule id="DLATEGO_GDYZ1" name="Błąd leksykalny: dlatego, gdyż (zamiast „dlatego”)">
+	   <rule>
 		      <pattern>
 			         <token>dlatego</token> 
 			         <token>,</token>
@@ -239,8 +244,9 @@ $Id: grammar.xml,v 1.26 2006-08-12 15:39:09 dnaber Exp $
 		      <example type="correct">Kowalski nie czytał gazet, gdyż nie umiał czytać.</example>
 		      <example type="incorrect">Kowalski nie czytał gazet <marker>dlatego, gdyż</marker> nie umiał czytać.</example>
 	   </rule>
-		
-	   <rule id="W_OPARCIU" name="Błąd stylistyczny - w oparciu o">
+	</rulegroup>
+
+	  <rule id="W_OPARCIU" name="Błąd stylistyczny: „w oparciu o” (na podstawie)">
 		      <pattern>
          <token>w</token> 
          <token>oparciu</token> 
@@ -251,7 +257,7 @@ $Id: grammar.xml,v 1.26 2006-08-12 15:39:09 dnaber Exp $
 		      <example type="incorrect">
          <marker>W oparciu o</marker> te wyliczenia można podjąć decyzję.</example>
 	   </rule>
-	   <rule id="TA_KSIAZKA" name="Błąd odmiany – np. tą książkę">
+	   <rule id="TA_KSIAZKA" name="Błąd odmiany: „tą” jako biernik (tę)">
 		      <pattern>
          <token>tą</token>
          <token postag="subst:sg:acc:f"/>
@@ -260,7 +266,7 @@ $Id: grammar.xml,v 1.26 2006-08-12 15:39:09 dnaber Exp $
 		      <example type="correct">Kupiłem tę książkę za parę groszy.</example>
 		      <example type="incorrect">Kupiłem <marker>tą książkę</marker> za parę groszy.</example>
 	   </rule>
-	   <rule id="NAPRZECIWKO" name="Pisownia rozłączna naprzeciwko">
+	   <rule id="NAPRZECIWKO" name="Błąd ortograficzny: „na przeciwko” (naprzeciwko)">
 		      <pattern>
          <token>na</token>
          <token>przeciwko</token>
@@ -270,7 +276,7 @@ $Id: grammar.xml,v 1.26 2006-08-12 15:39:09 dnaber Exp $
 		      <example type="incorrect">
          <marker>Na przeciwko</marker> moich okien są takie same okna innego budynku na naszym terenie.</example>
 	   </rule>
-	   <rule id="ZNAD" name="Pisownia rozłączna znad">
+	   <rule id="ZNAD" name="Błąd ortograficzny: „z nad” (znad)">
 		      <pattern>
          <token>z</token>
          <token>nad</token>
@@ -280,7 +286,7 @@ $Id: grammar.xml,v 1.26 2006-08-12 15:39:09 dnaber Exp $
 		      <example type="incorrect">Pokazał mi zdjęcia <marker>z nad</marker> oceanu.</example>
 	   </rule>
 	
-	   <rule id="W_DRODZE_WYJATKU" name="Błąd leksykalny: w drodze wyjątku">
+	   <rule id="W_DRODZE_WYJATKU" name="Błąd leksykalny: „w drodze wyjątku” (wyjątkowo)">
 		      <pattern>
          <token>w</token>
          <token>drodze</token>
@@ -292,7 +298,7 @@ $Id: grammar.xml,v 1.26 2006-08-12 15:39:09 dnaber Exp $
          <marker>W drodze wyjątku</marker> lokalne władze zezwalają na wjazd.</example>
 	   </rule>
 	
-	   <rule id="WYDAWAC_SIE_BYC" name="Błąd leksykalny: wydaje się być">
+	   <rule id="WYDAWAC_SIE_BYC" name="Błąd leksykalny: „wydaje się być” (wydaje się)">
 		      <pattern>
          <token inflected="yes">wydawać</token>
          <token>się</token>
@@ -302,7 +308,7 @@ $Id: grammar.xml,v 1.26 2006-08-12 15:39:09 dnaber Exp $
 		      <example type="incorrect">Emitowanie programu Firma <marker>wydaje się być</marker> bardzo pożyteczne.</example>
 		      <example type="correct">Emitowanie programu Firma wydaje się bardzo pożyteczne.</example>
 	   </rule>
-	   <rule id="OKRES_CZASU" name="Pleonazm: okres czasu, godzina czasu">
+	   <rule id="OKRES_CZASU" name="Pleonazm: „okres czasu”, „godzina czasu” (okres, godzina)">
 	<pattern>
          <token inflected="yes" regexp="yes">okres|godzina|miesiąc|tydzień</token>
          <token>czasu</token>
@@ -312,7 +318,7 @@ $Id: grammar.xml,v 1.26 2006-08-12 15:39:09 dnaber Exp $
 			<example type="incorrect">Trwało to <marker>miesiąc czasu</marker>.</example>
 		      <example type="incorrect">Trwało to <marker>godzinę czasu</marker>.</example>
 	   </rule>
-	   <rule id="CO_I_RUSZ" name="Błąd leksykalny: co i rusz">
+	   <rule id="CO_I_RUSZ" name="Błąd leksykalny: „co i rusz” (co chwila)">
 		      <pattern>
          <token>co</token>
          <token>i</token>
@@ -324,7 +330,7 @@ $Id: grammar.xml,v 1.26 2006-08-12 15:39:09 dnaber Exp $
          <marker>Co i rusz</marker> media informują o tym, że któryś z prominentnych polityków koalicji rządzącej załatwił coś dla siebie.</example>
 		      <example type="correct">Raz po raz media informują o tym, że któryś z prominentnych polityków koalicji rządzącej załatwił coś dla siebie.</example>
 	   </rule>
-	   <rule id="CO_I_RAZ" name="Błąd leksykalny: co i raz">
+	   <rule id="CO_I_RAZ" name="Błąd leksykalny: „co i raz” (co chwila)">
 		      <pattern>
          <token>co</token>
          <token>i</token>
@@ -336,7 +342,7 @@ $Id: grammar.xml,v 1.26 2006-08-12 15:39:09 dnaber Exp $
          <marker>Co i raz</marker> media informują o tym, że któryś z prominentnych polityków koalicji rządzącej załatwił coś dla siebie.</example>
 		      <example type="correct">Raz po raz media informują o tym, że któryś z prominentnych polityków koalicji rządzącej załatwił coś dla siebie.</example>
 	   </rule>
-	   <rule id="ZA_WYJATKIEM" name="Błąd leksykalny: za wyjątkiem">
+	   <rule id="ZA_WYJATKIEM" name="Błąd leksykalny: „za wyjątkiem” (z wyjątkiem)">
 		      <pattern>
          <token>za</token>
          <token>wyjątkiem</token>
@@ -346,7 +352,7 @@ $Id: grammar.xml,v 1.26 2006-08-12 15:39:09 dnaber Exp $
          <marker>Za wyjątkiem</marker> powyższych sytuacji, będziemy używać i ujawniać informacje o twoim zdrowiu.</example>
 		      <example type="correct">Wyjąwszy powyższe sytuacje, będziemy korzystać z informacji o państwa zdrowiu oraz je ujawniać.</example>
 	   </rule>
-	   <rule id="ZA_MIAST" name="Błędna pisownia rozłączna: za miast">
+	   <rule id="ZA_MIAST" name="Błąd ortograficzny: „za miast” (zamiast)">
 		      <pattern>
          <token>za</token>
          <token>miast</token>
@@ -355,7 +361,7 @@ $Id: grammar.xml,v 1.26 2006-08-12 15:39:09 dnaber Exp $
 		      <example type="incorrect">Może <marker>za miast</marker> dużego tła wystarczy wstawić zwykły kolor?</example>
 		      <example type="correct">Może zamiast dużego tła wystarczy wstawić zwykły kolor?</example>
 	   </rule>
-	   <rule id="CIEZKI_ORZECH" name="Błąd leksykalny: ciężki lub trudny orzech do zgryzienia">
+	   <rule id="CIEZKI_ORZECH" name="Błąd leksykalny: „ciężki orzech do zgryzienia” (twardy orzech...)">
 		      <pattern>
          <token inflected="yes" regexp="yes">ciężki</token>
          <token inflected="yes">orzech</token>
@@ -366,7 +372,7 @@ $Id: grammar.xml,v 1.26 2006-08-12 15:39:09 dnaber Exp $
 		      <example type="incorrect">Gabriel ma trochę diaboliczny wygląd to i tak miał <marker>ciężki orzech do zgryzienia</marker>, z którym poradził sobie jak wiewiórka.</example>
 		      <example type="correct">Gabriel ma trochę diaboliczny wygląd to i dlatego miał twardy orzech do zgryzienia, z którym poradził sobie jak wiewiórka.</example>
 	   </rule>
-	   <rule id="AURA_POGODOWA" name="Pleonazm: aura pogodowa">
+	   <rule id="AURA_POGODOWA" name="Pleonazm: „aura pogodowa” (aura)">
 		      <pattern>
          <token inflected="yes">aura</token>
          <token inflected="yes" postag_regexp="yes" postag="adj:sg:.*:f">pogodowy</token>
@@ -376,7 +382,7 @@ $Id: grammar.xml,v 1.26 2006-08-12 15:39:09 dnaber Exp $
 		      <example type="correct">Ta pogoda dała się wszystkim we znaki.</example>
 		      <example type="correct">Przy takiej aurze pogodowych anomalii spodziewać się nie można.</example>
 	   </rule>
-	   <rule id="DO_TYCH_CZAS" name="Błąd ortograficzny: do tych czas">
+	   <rule id="DO_TYCH_CZAS" name="Błąd ortograficzny: „do tych czas” (dotychczas)">
 		      <pattern>
          <token>do</token>
          <token>tych</token>
@@ -390,7 +396,7 @@ $Id: grammar.xml,v 1.26 2006-08-12 15:39:09 dnaber Exp $
 		      <pattern mark_from="1">
          <token negate="yes">tym</token>
          <token>bardziej</token>
-         <token inflected="yes" regexp="yes">ważny|dobry|dokładny|gruby|grzeczny|dziwny|głęboki|głośny|łagodny|łatwy</token>
+         <token inflected="yes" regexp="yes">brzydki|cichy|ciekawy|ciężki|daleki|długi|dobry|dokładny|duży|dziwny|głęboki|głośny|gruby|grzeczny|korzystny|koszmarny|lekki|luźny|łagodny|łatwy|miły|młody|mocny|okropny|piękny|potworny|prosty|silny|słaby|stary|trwały|ważny|wąski|wolny|wstrętny|wytrwały|zimny|zły|znaczny</token>
       </pattern>
 		      <message>Ten przymiotnik stopniuje się bez wyrazu „bardziej”.</message>
 		      <example type="incorrect"><marker>Bardziej ważny</marker> jest dla mnie ten fragment.</example>
@@ -400,7 +406,7 @@ $Id: grammar.xml,v 1.26 2006-08-12 15:39:09 dnaber Exp $
 		      <example type="correct">Tym bardziej ważne jest, abyśmy to pamiętali.</example>
 		      <example type="correct">Piotr był dokładniejszy.</example>
 	   </rule>
-	   <rule id="KAZDY_WTOREK" name="Pleonazm: każdy wtorek miesiąca">
+	   <rule id="KAZDY_WTOREK" name="Pleonazm: „każdy wtorek miesiąca”">
 		      <pattern>
          <token inflected="yes" regexp="yes">każdy</token>
          <token inflected="yes" regexp="yes">poniedziałek|wtorek|środa|czwartek|piątek|sobota|niedziela</token>
@@ -410,7 +416,7 @@ $Id: grammar.xml,v 1.26 2006-08-12 15:39:09 dnaber Exp $
 		      <example type="correct">Śmieci są wywożone w każdy wtorek.</example>
 		      <example type="incorrect">Śmieci są wywożone w <marker>każdy wtorek tygodnia</marker>.</example>
 	   </rule>
-	   <rule id="POD_ZAMKNIECIEM" name="Błąd leksykalny: pod zamknięciem">
+	   <rule id="POD_ZAMKNIECIEM" name="Błąd leksykalny: „pod zamknięciem” (w zamknięciu)">
 		      <pattern>
          <token>pod</token>
          <token>zamknięciem</token>
@@ -419,7 +425,7 @@ $Id: grammar.xml,v 1.26 2006-08-12 15:39:09 dnaber Exp $
 		      <example type="correct">Towary trzymamy pod kluczem.</example>
 		      <example type="incorrect">Towary trzymamy <marker>pod zamknięciem</marker>.</example>
 	   </rule>
-	   <rule id="Z_WIELKIEJ_LITERY" name="Rusycyzm: z wielkiej litery">
+	   <rule id="Z_WIELKIEJ_LITERY" name="Rusycyzm: „z wielkiej/małej litery” (wielką literą)">
 		      <pattern>
          <token>z</token>
          <token regexp="yes">wielkiej|dużej|małej</token>
@@ -429,7 +435,7 @@ $Id: grammar.xml,v 1.26 2006-08-12 15:39:09 dnaber Exp $
 		      <example type="correct">Nazwiska piszemy wielką literą.</example>
 		      <example type="incorrect">Nazwiska piszemy <marker>z dużej litery</marker>.</example>
 	   </rule>
-	   <rule id="W_TYM_WZGLEDZIE" name="Błąd leksykalny: w tym względzie">
+	   <rule id="W_TYM_WZGLEDZIE" name="Błąd leksykalny: „w tym względzie” (w tej sprawie)">
 		      <pattern>
          <token>w</token>
          <token>tym</token>
@@ -439,7 +445,7 @@ $Id: grammar.xml,v 1.26 2006-08-12 15:39:09 dnaber Exp $
 		      <example type="incorrect">Przykładem klasycznym są <marker>w tym względzie</marker> dominujące nurty psychologii.</example>
 		      <example type="correct">Przykładem klasycznym są w tym zakresie dominujące nurty psychologii.</example>
 	   </rule>
-	   <rule id="WYSOKA_FREKWENCJA" name="Błąd leksykalny: wysoka lub niska frekwencja">
+	   <rule id="WYSOKA_FREKWENCJA" name="Błąd leksykalny: „wysoka/niska frekwencja” (duża/mała)">
 		      <pattern>
          <token inflected="yes" regexp="yes">wysoki|niski</token>
          <token inflected="yes">frekwencja</token>
@@ -450,7 +456,7 @@ $Id: grammar.xml,v 1.26 2006-08-12 15:39:09 dnaber Exp $
 		      <example type="correct">W tym roku w wyborach była bardzo duża frekwencja.</example>
 		      <example type="correct">W tym roku w wyborach była bardzo mała frekwencja.</example>
 	   </rule>
-	   <rule id="W_GLORII_CHWALY" name="Pleonazm: w glorii chwały">
+	   <rule id="W_GLORII_CHWALY" name="Pleonazm: „w glorii chwały” (w glorii)">
 		      <pattern>
          <token>w</token>
          <token>glorii</token>
@@ -460,7 +466,7 @@ $Id: grammar.xml,v 1.26 2006-08-12 15:39:09 dnaber Exp $
 		      <example type="incorrect">Piłkarska reprezentacja Ekwadoru <marker>w glorii chwały</marker> wróciła do swojego kraju.</example>
 		      <example type="correct">Piłkarska reprezentacja Ekwadoru w glorii wróciła do swojego kraju.</example>
 	   </rule>
-	   <rule id="KURS_NAUKI" name="Pleonazm: kurs nauki">
+	   <rule id="KURS_NAUKI" name="Pleonazm: „kurs nauki” (kurs)">
 		      <pattern>
 			         <token inflected="yes">kurs</token>
 			         <token>nauki</token>
@@ -469,7 +475,7 @@ $Id: grammar.xml,v 1.26 2006-08-12 15:39:09 dnaber Exp $
 		      <example type="correct">Zapraszamy na kurs języka angielskiego!</example>
 		      <example type="incorrect">Zapraszamy na <marker>kurs nauki</marker> języka angielskiego!</example>
 	   </rule>
-	   <rule id="ZAINTERESOWANIE_DLA" name="Błąd składniowy: zainteresowanie dla czego">
+	   <rule id="ZAINTERESOWANIE_DLA" name="Błąd składniowy: „zainteresowanie dla czego” (czym)">
 		      <pattern>
 			         <token inflected="yes">zainteresować</token>
 			         <token>dla</token>
@@ -479,7 +485,7 @@ $Id: grammar.xml,v 1.26 2006-08-12 15:39:09 dnaber Exp $
 		      <example type="correct">Wyraził żywe zainteresowanie zaplanowaną dyskusją na temat nauczania matematyki.</example>
 		      <example type="incorrect">Wyraził żywe <marker>zainteresowanie dla zaplanowanej</marker> dyskusji na temat nauczania matematyki.</example>
 	   </rule>
-	   <rule id="WYSOKA_FORMA" name="Błąd leksykalny: „wysoka forma”">
+	   <rule id="WYSOKA_FORMA" name="Błąd leksykalny: „wysoka forma” (dobra forma, doskonała forma)">
 		      <pattern>
 			         <token inflected="yes" postag_regexp="yes" postag=".*:f">wysoki</token>
 			         <token inflected="yes">forma</token>
@@ -521,7 +527,7 @@ $Id: grammar.xml,v 1.26 2006-08-12 15:39:09 dnaber Exp $
          <marker>Używam stare</marker> żelazko.</example>
 	   </rule>
 
-	   <rule name="Błąd leksykalny: „wprowadzić coś w obieg”" id="WPROWADZIC_W_OBIEG">
+	   <rule name="Błąd leksykalny: „wprowadzić coś w obieg” (puścić w obieg)" id="WPROWADZIC_W_OBIEG">
 		      <pattern>
 			         <token inflected="yes" skip="-1" regexp="yes">wprowadzić|wprowadzać</token>
 			         <token>w</token>
@@ -531,7 +537,7 @@ $Id: grammar.xml,v 1.26 2006-08-12 15:39:09 dnaber Exp $
 		      <example type="correct">Mafia puściła w obieg sfałszowane dolary.</example>
 		      <example type="incorrect">Mafia <marker>wprowadziła niebawem w obieg</marker> sfałszowane dolary.</example>
 	   </rule>
-	   <rule name="Błąd ortograficzny: „za równo”" id="ZA_ROWNO">
+	   <rule name="Błąd ortograficzny: „za równo” (zarówno)" id="ZA_ROWNO">
 		      <pattern mark_from="0" mark_to="0">
 			         <token>za</token>
 			         <token skip="-1">równo</token>
@@ -541,7 +547,7 @@ $Id: grammar.xml,v 1.26 2006-08-12 15:39:09 dnaber Exp $
 		      <example type="incorrect">Sam program PHARE spotkał się z poważną krytyką i negatywną oceną <marker>za równo ze strony europejskiego Trybunału Obrachunkowego jak</marker> i dwukrotnie polskiej NIK.</example>
 		      <example type="correct">Sam program PHARE spotkał się z poważną krytyką i negatywną oceną zarówno ze strony europejskiego Trybunału Obrachunkowego, jak i dwukrotnie polskiej NIK.</example>
 	   </rule>
-	   <rule name="Błąd ortograficzny: „zarówno... jaki”" id="ZA_ROWNO_JAKI">
+	   <rule name="Błąd ortograficzny: „zarówno... jaki” (zarówno... jak i)" id="ZA_ROWNO_JAKI">
 		      <pattern mark_from="0" mark_to="0">
 			         <token regexp="yes" skip="-1">równo|zarówno<exception>jak</exception></token>
 			         <token regexp="yes">jaki</token>
@@ -573,7 +579,7 @@ $Id: grammar.xml,v 1.26 2006-08-12 15:39:09 dnaber Exp $
 		      <example type="incorrect">
          <marker>Czym większa, tym lepiej</marker>.</example>
 	   </rule>
-	   <rule name="Błąd związku rzędu: „rozumieć coś pod czymś" id="ROZUMIEC_POD">
+	   <rule name="Błąd związku rzędu: „rozumieć coś pod czymś” (przez coś)" id="ROZUMIEC_POD">
 		      <pattern mark_from="1">
 			         <token negate="yes" skip="1">przez</token>
 			         <token inflected="yes" skip="5">rozumieć<exception>przez</exception></token>
@@ -620,7 +626,7 @@ $Id: grammar.xml,v 1.26 2006-08-12 15:39:09 dnaber Exp $
 		      <example type="incorrect">Takie nadmierne wchłanianie wapnia spowodowane jest <marker>nie tyle przesadnym spożyciem, co</marker> zaburzeniami.</example>
 	   </rule>
 
-	<rule name="Błąd leksykalny: „odgrywać znaczenie”" id="ODGRYWAC_ZNACZENIE">
+	<rule name="Błąd leksykalny: „odgrywać znaczenie” (rolę)" id="ODGRYWAC_ZNACZENIE">
 		<pattern>
 			<token skip="2" inflected="yes" regexp="yes">grać|odgrywać</token>
 			<token>znaczenie</token>
@@ -660,7 +666,7 @@ $Id: grammar.xml,v 1.26 2006-08-12 15:39:09 dnaber Exp $
 		      <example type="incorrect">To już <marker>5-ty</marker> raz!</example>
 		      <example type="incorrect">Rosjanie byli <marker>1-wsi</marker> w kosmosie.</example>
 	   </rule>
-	   <rule name="Pisownia: tymczasem" id="TYMCZASEM">
+	   <rule name="Pisownia: „tym czasem” (tymczasem)" id="TYMCZASEM">
 		      <pattern mark_from="1">
 			         <token regexp="yes" negate="yes" negate_pos="yes" postag=".*verb.*" postag_regexp="yes">z|przed|poza|za|nad</token>
 			         <token>tym</token>
@@ -671,7 +677,7 @@ $Id: grammar.xml,v 1.26 2006-08-12 15:39:09 dnaber Exp $
 		      <example type="correct">Co z tym czasem?</example>
 		      <example type="incorrect">A <marker>tym czasem</marker> na Politechnice...</example>
 	   </rule>
-	   <rule name="Literówka: już" id="JUZ">
+	   <rule name="Literówka: „juz” (już)" id="JUZ">
 		      <pattern>
 			         <token>juz</token>
 		      </pattern>
@@ -679,7 +685,7 @@ $Id: grammar.xml,v 1.26 2006-08-12 15:39:09 dnaber Exp $
 		      <example type="correct">Musimy już iść.</example>
 		      <example type="incorrect">Musimy <marker>juz</marker> iść.</example>
 	   </rule>
-	   <rule name="Błąd leksykalny: w pośrodku" id="W_POSRODKU">
+	   <rule name="Błąd składniowy: „w pośrodku” (pośrodku)" id="W_POSRODKU">
 		      <pattern>
 			         <token>w</token>
 			         <token>pośrodku</token>
@@ -689,7 +695,7 @@ $Id: grammar.xml,v 1.26 2006-08-12 15:39:09 dnaber Exp $
          <marker>W pośrodku</marker> rynku stoi studnia.</example>
 		      <example type="correct">Na środku rynku stoi studnia.</example>
 	   </rule>
-	   <rule name="Błąd pisowni: poprzez" id="PO_PRZEZ">
+	   <rule name="Błąd ortograficzny: „po przez” (poprzez)" id="PO_PRZEZ">
 		      <pattern case_sensitive="yes">
 			         <token regexp="yes">[Pp]o</token>
 			         <token>przez</token>
@@ -698,7 +704,7 @@ $Id: grammar.xml,v 1.26 2006-08-12 15:39:09 dnaber Exp $
 		      <example type="incorrect">Malarz oddziałuje na nas <marker>po przez</marker> swoje malarstwo.</example>
 		      <example type="correct">Malarz oddziałuje na nas poprzez swoje malarstwo.</example>
 	   </rule>
-	   <rule name="Błąd pisowni: poprzez" id="PO_NAD">
+	   <rule name="Błąd ortograficzny: „po nad” (ponad)" id="PO_NAD">
 		      <pattern case_sensitive="yes">
 			         <token regexp="yes">[Pp]o</token>
 			         <token>nad</token>
@@ -707,7 +713,7 @@ $Id: grammar.xml,v 1.26 2006-08-12 15:39:09 dnaber Exp $
 		      <example type="incorrect">Byłem w <marker>po nad</marker> trzydziestu krajach.</example>
 		      <example type="correct">Byłem w ponad trzydziestu krajach.</example>
 	   </rule>
-	   <rule name="Błąd pisowni: pomimo" id="PO_MIMO">
+	   <rule name="Błąd ortograficzny: „po mimo” (pomimo)" id="PO_MIMO">
 		      <pattern case_sensitive="yes">
 			         <token regexp="yes">[Pp]o</token>
 			         <token>mimo</token>
@@ -717,7 +723,7 @@ $Id: grammar.xml,v 1.26 2006-08-12 15:39:09 dnaber Exp $
          <marker>Po mimo</marker> początkowych problemów, wylądował bowiem w wodach Kanału La Manche.</example>
 		      <example type="correct">Pomimo początkowych problemów, wylądował bowiem w wodach Kanału La Manche</example>
 	   </rule>	
-	   <rule name="Błąd pisowni: pomiędzy" id="PO_MIEDZY">
+	   <rule name="Błąd ortograficzny: „po między” (pomiędzy)" id="PO_MIEDZY">
 		      <pattern case_sensitive="yes">
 			         <token regexp="yes">[Pp]o</token>
 			         <token>między</token>
@@ -726,7 +732,7 @@ $Id: grammar.xml,v 1.26 2006-08-12 15:39:09 dnaber Exp $
 		      <example type="incorrect">Znaleźliśmy się <marker>po między</marker> młotem a kowadłem.</example>
 		      <example type="correct">Znaleźliśmy się pomiędzy młotem a kowadłem.</example>
 	   </rule>
-	   <rule name="Literówka: się" id="SIE">
+	   <rule name="Literówka: „sie” (się)" id="SIE">
 		      <pattern>
 			         <token>sie</token>
 		      </pattern>
@@ -734,7 +740,7 @@ $Id: grammar.xml,v 1.26 2006-08-12 15:39:09 dnaber Exp $
 		      <example type="correct">Eryk podrapał się po głowie.</example>
 		      <example type="incorrect">Eryk podrapał <marker>sie</marker> po głowie.</example>
 	   </rule>
-	   <rule name="Błąd pisowni: przedrostki „neo”, „post”, „pre”, „eks”..." id="PRZEDROSTKI">
+	   <rule name="Błąd ortograficzny: przedrostki „neo”, „post”, „pre”, „eks”..." id="PRZEDROSTKI">
 		      <pattern>
 			         <token regexp="yes">(neo|post|pre|anty|arcy|eks|bez|beze|ekstra|hiper|infra|kontr|maksi|midi|między|mini|nad|nade|około|ponad|post|przeciw|pseudo|super|śród|ultra|wice|wokół|wokoło)[-–].+</token>
 		      </pattern>
@@ -745,7 +751,7 @@ $Id: grammar.xml,v 1.26 2006-08-12 15:39:09 dnaber Exp $
 		      <example type="incorrect">
          <marker>Arcy–książę</marker> Ferdynand lubił polować w tutejszych lasach.</example>
 	   </rule>
-	   <rule name="Literówka: czasownik + się" id="CZASOWNIK_SI">
+	   <rule name="Literówka: czasownik + „si” (się)" id="CZASOWNIK_SI">
 		      <pattern mark_from="1">
 			         <token postag=".*verb..*" postag_regexp="yes"/>
 			         <token>si</token>
@@ -754,7 +760,7 @@ $Id: grammar.xml,v 1.26 2006-08-12 15:39:09 dnaber Exp $
 		      <example type="correct">Eryk podrapał się po głowie.</example>
 		      <example type="incorrect">Eryk podrapał <marker>si</marker> po głowie.</example>
 	   </rule>
-	   <rule name="Błąd pisowni: co niemiara" id="CO_NIE_MIARA">
+	   <rule name="Błąd ortograficzny: „co nie miara” (co niemiara)" id="CO_NIE_MIARA">
 		      <pattern>
 			         <token>co</token>
 			         <token>nie</token>
@@ -764,7 +770,7 @@ $Id: grammar.xml,v 1.26 2006-08-12 15:39:09 dnaber Exp $
 		      <example type="correct">Stoi jakiś pałac, wielki aż strach, a przed nim co niemiara bryk i wozów.</example>
 		      <example type="incorrect">Stoi jakiś pałac, wielki aż strach, a przed nim <marker>co nie miara</marker> bryk i wozów.</example>
 	   </rule>
-	   <rule name="Błąd pisowni: mass-media (zamiast „mass media”)" id="MASSMEDIA">
+	   <rule name="Błąd ortograficzny: „mass-media” (mass media)" id="MASSMEDIA">
 		      <pattern>
 			         <token regexp="yes">mass[–-]medi.*</token>
 		      </pattern>
@@ -773,7 +779,7 @@ $Id: grammar.xml,v 1.26 2006-08-12 15:39:09 dnaber Exp $
 		      <example type="incorrect">
          <marker>Mass-media</marker> poinformowały o sukcesach Polski w zmniejszaniu płac najniżej zarabiających.</example>
 	   </rule>
-	   <rule name="Błąd leksykalny: w przedzie (zamiast „na przodzie”)" id="W_PRZEDZIE">
+	   <rule name="Błąd leksykalny: „w przedzie” (na przodzie)" id="W_PRZEDZIE">
 		      <pattern>
 			         <token>w</token>
 			         <token>przedzie</token>
@@ -782,7 +788,7 @@ $Id: grammar.xml,v 1.26 2006-08-12 15:39:09 dnaber Exp $
 		      <example type="correct">Pierwszy sekretarz stał na przodzie pochodu pierwszomajowego.</example>
 		      <example type="incorrect">Pierwszy sekretarz stał <marker>w przedzie</marker> pochodu pierwszomajowego.</example>
 	   </rule>
-	   <rule name="Błąd leksykalny: w ślad za (zamiast „w następstwie”)" id="W_SLAD_ZA">
+	   <rule name="Błąd leksykalny: „w ślad za” (w następstwie)" id="W_SLAD_ZA">
 		      <pattern>
 			         <token>w</token>
 			         <token>ślad</token>
@@ -793,7 +799,7 @@ $Id: grammar.xml,v 1.26 2006-08-12 15:39:09 dnaber Exp $
 		      <example type="incorrect">
          <marker>W ślad za</marker> tymi działaniami gospodarka się ożywiła.</example>
 	   </rule>
-	   <rule name="Błąd składniowy: większy jak (zamiast „większy od”, „większy niż”)" id="WIEKSZY_JAK">
+	   <rule name="Błąd składniowy: „większy jak” (zamiast „większy od”, „większy niż”)" id="WIEKSZY_JAK">
 		      <pattern mark_from="1">
 			         <token inflected="yes">większy</token>
 			         <token>jak</token>
@@ -802,7 +808,7 @@ $Id: grammar.xml,v 1.26 2006-08-12 15:39:09 dnaber Exp $
 		      <example type="correct">Ten nowy dysk jest większy od starego.</example>
 		      <example type="incorrect">Ten nowy dysk jest większy <marker>jak</marker> stary.</example>
 	   </rule>
-	   <rule name="Błąd składniowy: więcej jak (zamiast „większy od”, „większy niż”)" id="WIECEJ_JAK">
+	   <rule name="Błąd składniowy: „więcej jak” (zamiast „więcej od”, „więcej niż”)" id="WIECEJ_JAK">
 		      <pattern mark_from="1">
 			         <token>więcej</token>
 			         <token>jak</token>
@@ -811,7 +817,7 @@ $Id: grammar.xml,v 1.26 2006-08-12 15:39:09 dnaber Exp $
 		      <example type="correct">Więcej niż kosmetyk!</example>
 		      <example type="incorrect">Więcej <marker>jak</marker> Kosmetyk!</example>
 	   </rule>
-	    <rule name="Błąd frazeologiczny: po prawo (zamiast „po prawej”)" id="PO_PRAWO">
+	    <rule name="Błąd frazeologiczny: „po prawo” (po prawej)" id="PO_PRAWO">
 		       <pattern mark_to="-1">
 			          <token>po</token>
 			          <token>prawo</token>
@@ -821,7 +827,7 @@ $Id: grammar.xml,v 1.26 2006-08-12 15:39:09 dnaber Exp $
 		       <example type="correct">Mijamy z prawej strony budynek Oddziału Regionalnego PTTK w Gorzowie.</example>
  		       <example type="incorrect">Mijamy <marker>po prawo</marker> budynek Oddziału Regionalnego PTTK w Gorzowie.</example>
 	    </rule>
-	    <rule name="Błąd frazeologiczny: po prawo (zamiast „po prawej”)" id="PO_LEWO">
+	    <rule name="Błąd frazeologiczny: „po lewo” (po lewej)" id="PO_LEWO">
 		       <pattern>
 			          <token>po</token>
 			          <token>lewo</token>
@@ -831,7 +837,7 @@ $Id: grammar.xml,v 1.26 2006-08-12 15:39:09 dnaber Exp $
  		       <example type="incorrect">Mijamy <marker>po lewo</marker> budynek Oddziału Regionalnego PTTK w Gorzowie.</example>
 	    </rule>
 
-	    <rule name="Błąd pisowni: „do póki” (zamiast „dopóki”)" id="DO_POKI">
+	    <rule name="Błąd ortograficzny: „do póki” (dopóki)" id="DO_POKI">
 		       <pattern>
 			          <token>do</token>
 			          <token>póki</token>
@@ -840,7 +846,7 @@ $Id: grammar.xml,v 1.26 2006-08-12 15:39:09 dnaber Exp $
 		       <example type="correct">Będę jadł lody, dopóki będę miał ochotę.</example>
  		       <example type="incorrect">Będę jadł lody, <marker>do póki</marker> będę miał ochotę.</example>
 	    </rule>
-	  <rule name="Błąd pisowni: „do póty” (zamiast „dopóty”)" id="DO_POTY">
+	  <rule name="Błąd ortograficzny: „do póty” (dopóty)" id="DO_POTY">
 		       <pattern>
 			          <token>do</token>
 			          <token>póty</token>
@@ -850,7 +856,7 @@ $Id: grammar.xml,v 1.26 2006-08-12 15:39:09 dnaber Exp $
  		       <example type="incorrect">
          <marker>Do póty</marker> będę jadł lody, dopóki będę miał ochotę.</example>
 	    </rule>
-	    <rule name="Błąd frazeologiczny: „wszem i wobec” (zamiast „wszem wobec”)" id="WSZEM_I_WOBEC">
+	    <rule name="Błąd frazeologiczny: „wszem i wobec” (wszem wobec)" id="WSZEM_I_WOBEC">
 		       <pattern>
 			          <token>wszem</token>
 			          <token>i</token>
@@ -860,7 +866,8 @@ $Id: grammar.xml,v 1.26 2006-08-12 15:39:09 dnaber Exp $
 		       <example type="correct">Ogłaszam wszem wobec, że rzucę premiera na pożarcie smokowi.</example>
  		       <example type="incorrect">Ogłaszam <marker>wszem i wobec</marker>, że rzucę premiera na pożarcie smokowi.</example>
 	    </rule>
-	   <rule name="Błąd pisowni: „dla tego że” (zamiast „dlatego że”)" id="DLA_TEGO_ZE">
+   <rulegroup name="Błąd ortograficzny: „dla tego że” (dlatego że)" id="DLA_TEGO_ZE">
+	   <rule>
 		      <pattern>
 			         <token>dla</token>
 			         <token>tego</token>
@@ -870,7 +877,7 @@ $Id: grammar.xml,v 1.26 2006-08-12 15:39:09 dnaber Exp $
 		      <example type="correct">Zabiła się na pewno dlatego, że zabrakło jej forsy na zbytki.</example>
 		      <example type="incorrect">Zabiła się na pewno <marker>dla tego że</marker> zabrakło jej forsy na zbytki.</example>
 	   </rule>
-	   <rule name="Błąd pisowni: „dla tego że” (zamiast „dlatego że”)" id="DLA_TEGO_ZE_COMMA">
+	   <rule>
 		      <pattern>
 			         <token>dla</token>
 			         <token>tego</token>
@@ -881,7 +888,8 @@ $Id: grammar.xml,v 1.26 2006-08-12 15:39:09 dnaber Exp $
 		      <example type="correct">Zabiła się na pewno dlatego, że zabrakło jej forsy na zbytki.</example>
 		      <example type="incorrect">Zabiła się na pewno <marker>dla tego, że</marker> zabrakło jej forsy na zbytki.</example>
 	   </rule>
-	   <rule name="Błąd pisowni: „dla czego” (zamiast „dlaczego”)" id="DLA_CZEGO">
+	   </rulegroup>
+	   <rule name="Błąd ortograficzny: „dla czego” (dlaczego)" id="DLA_CZEGO">
 		      <pattern>
 			         <token>dla</token>
 			         <token>czego</token>
@@ -891,7 +899,7 @@ $Id: grammar.xml,v 1.26 2006-08-12 15:39:09 dnaber Exp $
          <marker>Dla czego</marker> płaczesz?</example>
 		      <example type="correct">Dlaczego płaczesz?</example>
 	   </rule>
-	   <rule name="Błąd pisowni: „d/s” (zamiast „ds.”)" id="DS">
+	   <rule name="Błąd ortograficzny: „d/s” (ds.)" id="DS">
 		      <pattern>
 			         <token>d/s</token>
 		      </pattern>
@@ -899,7 +907,8 @@ $Id: grammar.xml,v 1.26 2006-08-12 15:39:09 dnaber Exp $
 		      <example type="incorrect">Pełnomocnik rządu <marker>d/s</marker> miłości narodu do premiera.</example>
 		      <example type="correct">Pełnomocnik rządu ds. miłości narodu do premiera.</example>
 	   </rule>
-	   <rule name="Błąd pisowni: „k/” (zamiast „k.”" id="K">
+   <rulegroup name="Błąd ortograficzny: „k/” (zamiast „k.”)" id="K">
+	   <rule>
 		      <pattern mark_to="-1">
 			         <token>k/</token>
 			         <token regexp="yes">\p{Lu}.*</token>
@@ -908,7 +917,7 @@ $Id: grammar.xml,v 1.26 2006-08-12 15:39:09 dnaber Exp $
 		      <example type="correct">Mieszkamy w Korzkwi k. Krakowa.</example>
 		      <example type="incorrect">Mieszkamy w Korzkwi <marker>k/</marker> Krakowa.</example>
 	   </rule>
-	   <rule name="Błąd pisowni: „k/” (zamiast „k.”" id="K1">
+	   <rule>
 		      <pattern>
 			         <token regexp="yes">k/\p{Lu}.*</token>
 		      </pattern>
@@ -916,7 +925,8 @@ $Id: grammar.xml,v 1.26 2006-08-12 15:39:09 dnaber Exp $
 		      <example type="correct">Mieszkamy w Korzkwi k. Krakowa.</example>
 		      <example type="incorrect">Mieszkamy w Korzkwi <marker>k/Krakowa</marker>.</example>
 	   </rule>
-	   <rule name="Błąd pisowni: „w/g” (zamiast „wg)" id="WG">
+	 </rulegroup>
+	   <rule name="Błąd ortograficzny: „w/g” (zamiast „wg)" id="WG">
 		      <pattern>
 			         <token>w/g</token>
 		      </pattern>
@@ -924,7 +934,8 @@ $Id: grammar.xml,v 1.26 2006-08-12 15:39:09 dnaber Exp $
 		      <example type="correct">Sklepy wyświetlono wg lokalizacji.</example>
 		      <example type="incorrect">Sklepy wyświetlono <marker>w/g</marker> lokalizacji.</example>
 	   </rule>
-	   <rule name="Błąd pisowni: „n/” (zamiast „n.”)" id="N">
+   <rulegroup name="Błąd ortograficzny: „n/” (zamiast „n.”)" id="N">
+	   <rule>
 		      <pattern mark_to="-1">
 			         <token>n/</token>
 			         <token regexp="yes">\p{Lu}.*</token>
@@ -933,7 +944,7 @@ $Id: grammar.xml,v 1.26 2006-08-12 15:39:09 dnaber Exp $
 		      <example type="incorrect">Kazimierz <marker>n/</marker> Wisłą.</example>
 		      <example type="correct">Kazimierz n. Wisłą.</example>
 	   </rule>
-	   <rule name="Błąd pisowni: „n/” (zamiast „n.”)" id="N1">
+	   <rule>
 		      <pattern>
 			         <token regexp="yes">n/\p{Lu}.*</token>
 		      </pattern>
@@ -941,8 +952,9 @@ $Id: grammar.xml,v 1.26 2006-08-12 15:39:09 dnaber Exp $
 		      <example type="incorrect">Kazimierz <marker>n/Wisłą</marker>.</example>
 		      <example type="correct">Kazimierz n. Wisłą.</example>
 	   </rule>
+	</rulegroup>
 	
-	   <rule name="Pleonazm: „na dzień dzisiejszy" id="NA_DZIEN_DZISIEJSZY">
+	   <rule name="Pleonazm: „na dzień dzisiejszy” (obecnie)" id="NA_DZIEN_DZISIEJSZY">
 		      <pattern>
 			         <token>na</token>
 			         <token>dzień</token>
@@ -966,7 +978,7 @@ $Id: grammar.xml,v 1.26 2006-08-12 15:39:09 dnaber Exp $
 		      <example type="correct">Premier jest najmądrzejszy na świecie.</example>
 	   </rule>
 	
-	   <rule name="Nadużywany wyraz w błędnym znaczeniu: „dokładnie" id="DOKLADNIE">
+	   <rule name="Nadużywany wyraz w błędnym znaczeniu: „dokładnie”" id="DOKLADNIE">
 		      <pattern case_sensitive="yes" mark_from="1" mark_to="-1">
 			         <token postag="SENT_START"/>
 			         <token>Dokładnie</token>
@@ -978,7 +990,7 @@ $Id: grammar.xml,v 1.26 2006-08-12 15:39:09 dnaber Exp $
          <marker>Dokładnie</marker>!</example>
 	   </rule>
 
-	   <rule name="Nadużywany zwrot w błędnym znaczeniu: „dokładnie tak" id="DOKLADNIE_TAK">
+	   <rule name="Nadużywany zwrot w błędnym znaczeniu: „dokładnie tak”" id="DOKLADNIE_TAK">
 		      <pattern case_sensitive="yes" mark_from="1" mark_to="-1">
 			         <token postag="SENT_START"/>
 			         <token>Dokładnie</token>
@@ -1011,7 +1023,7 @@ $Id: grammar.xml,v 1.26 2006-08-12 15:39:09 dnaber Exp $
 		      <example type="correct">Jarosław Kaczyński jest najwybitniejszym mężem stanu spośród wszystkich Kaczyńskich.</example>
 	   </rule>
 	
-	   <rule name="Błąd leksykalny: iluśletnia rocznica" id="LETNIA_ROCZNICA">
+	   <rule name="Błąd leksykalny: „iluśletnia rocznica” (któraś)" id="LETNIA_ROCZNICA">
 		      <pattern mark_to="-1">
 			         <token regexp="yes">.*letni.*</token>
 			         <token inflected="yes">rocznica</token>
@@ -1022,7 +1034,7 @@ $Id: grammar.xml,v 1.26 2006-08-12 15:39:09 dnaber Exp $
 		      <example type="incorrect">Dzisiaj mija <marker>5-letnia</marker> rocznica zwycięstwa nad Malezją w elektrycznych bierkach pod wodą.</example>
 	   </rule>
 	
-	   <rule name="Błąd leksykalny: iluśletni jubileusz" id="LETNI_JUBILEUSZ">
+	   <rule name="Błąd leksykalny: „iluśletni jubileusz” (któryś)" id="LETNI_JUBILEUSZ">
 		      <pattern mark_to="-1">
 			         <token regexp="yes">.*letni.*</token>
 			         <token inflected="yes">jubileusz</token>
@@ -1032,7 +1044,7 @@ $Id: grammar.xml,v 1.26 2006-08-12 15:39:09 dnaber Exp $
 		      <example type="incorrect">Szczecińskie Spotkania z Piosenką Religijną będą obchodziły <marker>20-letni</marker> jubileusz.</example>
 	   </rule>
 	
-	   <rule name="Błąd leksykalny: iluśletnie urodziny" id="LETNIE_URODZINY">
+	   <rule name="Błąd leksykalny: „iluśletnie urodziny” (któreś)" id="LETNIE_URODZINY">
 		      <pattern mark_to="-1">
 			         <token regexp="yes">.*letni.*</token>
 			         <token inflected="yes">urodziny</token>
@@ -1052,7 +1064,7 @@ $Id: grammar.xml,v 1.26 2006-08-12 15:39:09 dnaber Exp $
 		      <example type="correct">Jadziu, nie kłóć się z ojcem!</example>
 	   </rule>
 	
-	   <rule name="Błąd leksykalny: czekać za (na)" id="CZEKAC_ZA">
+	   <rule name="Błąd leksykalny: „czekać za” (na)" id="CZEKAC_ZA">
 		      <pattern>
 			         <token inflected="yes" skip="4">czekać<exception>na</exception></token>
 			         <token>za</token>
@@ -1065,7 +1077,7 @@ $Id: grammar.xml,v 1.26 2006-08-12 15:39:09 dnaber Exp $
 		      <example type="correct">Czekałem godzinę na pociąg za granicę.</example>
 	   </rule>
 	
-	   <rule name="Pleonazm: długi upływ czasu (długi czas)" id="DLUGI_UPLYW">
+	   <rule name="Pleonazm: „długi upływ czasu” (długi czas)" id="DLUGI_UPLYW">
 		      <pattern>
 			         <token inflected="yes" postag="adj:sg:.*:m" postag_regexp="yes">długi</token>
 			         <token inflected="yes">upływ</token>
@@ -1076,7 +1088,7 @@ $Id: grammar.xml,v 1.26 2006-08-12 15:39:09 dnaber Exp $
 		      <example type="correct">Ze względu na <marker>długi czas</marker> od momentu spadku wiele informacji o tym meteorycie można uznać za niepewne. </example>		
 	   </rule>
 	
-	   <rule name="Pisownia: Gal Anonim (Gall Anonim)" id="GAL_ANONIM">
+	   <rule name="Błąd ortograficzny: „Gal Anonim” (Gall Anonim)" id="GAL_ANONIM">
 		      <pattern mark_to="-1">
 			         <token inflected="yes">Gal</token>
 			         <token inflected="yes">anonim</token>
