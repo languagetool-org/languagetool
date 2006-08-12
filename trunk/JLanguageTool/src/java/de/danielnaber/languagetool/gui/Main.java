@@ -173,7 +173,10 @@ public class Main implements ActionListener {
     jfc.setFileFilter(new PlainTextFilter());
     jfc.showOpenDialog(frame);
     try {
-      String fileContents = StringTools.readFile(jfc.getSelectedFile().getAbsolutePath());
+      File file = jfc.getSelectedFile();
+      if (file == null)   // user cancelled
+        return;
+      String fileContents = StringTools.readFile(file.getAbsolutePath());
       textArea.setText(fileContents);
       JLanguageTool langTool = getCurrentLanguageTool();
       checkTextAndDisplayResults(langTool, getCurrentLanguage().getName());
