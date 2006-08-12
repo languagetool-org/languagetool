@@ -28,6 +28,7 @@ import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 import java.io.IOException;
 import java.io.Reader;
 import java.util.HashMap;
@@ -39,13 +40,16 @@ import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextPane;
+import javax.swing.filechooser.FileFilter;
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.jdesktop.jdic.tray.SystemTray;
@@ -159,9 +163,26 @@ public class Main implements ActionListener {
     if (e.getActionCommand().equals(CHECK_TEXT_BUTTON)) {
       JLanguageTool langTool = getCurrentLanguageTool();
       checkTextAndDisplayResults(langTool, getCurrentLanguage().getName());
+    } else {
+      throw new IllegalArgumentException("Unknown action " + e);
     }
   }
 
+  void loadFile() {
+    JFileChooser jfc = new JFileChooser();
+    jfc.setFileFilter(new PlainTextFilter());
+    jfc.showOpenDialog(frame);
+    try {
+      String fileContents = StringTools.readFile(jfc.getSelectedFile().getAbsolutePath());
+      textArea.setText(fileContents);
+      JLanguageTool langTool = getCurrentLanguageTool();
+      checkTextAndDisplayResults(langTool, getCurrentLanguage().getName());
+    } catch (IOException e) {
+      JOptionPane.showMessageDialog(null, e.toString()); 
+      e.printStackTrace();
+    }
+  }
+  
   void hideToTray() {
     if (trayIcon == null) {
       trayIcon = new TrayIcon(SYSTEM_TRAY_ICON);
@@ -344,4 +365,18 @@ public class Main implements ActionListener {
     
   }
 
+  class PlainTextFilter extends FileFilter {
+
+    public boolean accept(File f) {
+      if (f.getName().toLowerCase().endsWith(".txt"))
+        return true;
+      return false;
+    }
+
+    public String getDescription() {
+      return "*.txt";
+    }
+    
+  }
+  
 }

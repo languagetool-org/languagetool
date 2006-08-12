@@ -31,6 +31,7 @@ import de.danielnaber.languagetool.JLanguageTool;
 class MainMenuBar extends JMenuBar implements ActionListener {
 
   // File:
+  private static final String OPEN = "Open...";
   private static final String DOCK_TO_TRAY = "Hide to System Tray";
   private static final String OPTIONS = "Options...";
   private static final String QUIT = "Quit";
@@ -43,6 +44,10 @@ class MainMenuBar extends JMenuBar implements ActionListener {
   
   MainMenuBar(Main prg) {
     this.prg = prg;
+    // "Open":
+    JMenuItem openItem = new JMenuItem(OPEN);
+    openItem.addActionListener(this);
+    fileMenu.add(openItem);
     // "Hide to System Tray":
     JMenuItem dockToTrayItem = new JMenuItem(DOCK_TO_TRAY);
     dockToTrayItem.addActionListener(this);
@@ -65,7 +70,9 @@ class MainMenuBar extends JMenuBar implements ActionListener {
   }
 
   public void actionPerformed(ActionEvent e) {
-    if (e.getActionCommand().equals(DOCK_TO_TRAY)) {
+    if (e.getActionCommand().equals(OPEN)) {
+      prg.loadFile();
+    } else if (e.getActionCommand().equals(DOCK_TO_TRAY)) {
       prg.hideToTray();
     } else if (e.getActionCommand().equals(OPTIONS)) {
       prg.showOptions();
@@ -76,6 +83,8 @@ class MainMenuBar extends JMenuBar implements ActionListener {
           "Copyright (C) 2005-2006 Daniel Naber\n"+
           "This software is licensed under the GNU Lesser General Public License.\n"+
           "LanguageTool Homepage: http://www.danielnaber.de/languagetool");
+    } else {
+      throw new IllegalArgumentException("Unknown action " + e);
     }
   }
   
