@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?><!--
 Copyright (C) 2006 Marcin Miłkowski
-$Id: grammar.xml,v 1.28 2006-08-13 00:07:37 milek_pl Exp $		
+$Id: grammar.xml,v 1.29 2006-08-13 13:11:53 milek_pl Exp $		
 -->
 <rules lang="pl">
 	<!-- błąd leksykalny: tym niemniej -->
@@ -1181,7 +1181,8 @@ $Id: grammar.xml,v 1.28 2006-08-13 00:07:37 milek_pl Exp $
 			<message>Prawdopodobnie chodziło o wyraz <suggestion>systemu</suggestion> (od rzeczownika „system”), a nie o przymiotnik „syty”.</message>
 			<example type="correct">To nowa funkcja tego systemu.</example>
 			<example type="incorrect">To nowa funkcja tego <marker>sytemu</marker>.</example>
-		</rule>	
+		</rule>
+	
 	    <rulegroup id="PREP_CASUS" name="Przyimki z nieodpowiednimi przypadkami">
 			<rule>
 				<pattern mark_from="1">
@@ -1202,6 +1203,33 @@ $Id: grammar.xml,v 1.28 2006-08-13 00:07:37 milek_pl Exp $
 				<message>Ten przyimek jest używany z celownikiem.</message>
 				<example type="correct">Dzięki tym wysiłkom wszystko się udało.</example>
 				<example type="incorrect">Dzięki <marker>te</marker> wysiłki wszystko się udało.</example>
+			</rule>
+			<rule>
+				<pattern mark_from="1">
+					<token postag="prep:nom"/>
+					<token postag_regexp="yes" postag="(adj|subst):(pl|sg):(acc|acc\.gen|acc\.gen\.loc|acc\.instr|dat|dat\.loc|gen|gen\.acc|gen\.acc\.loc|gen\.dat|gen\.dat\.loc|gen\.dat\.loc\.voc|gen\.loc|gen\.loc\.voc|instr|instr\.loc|loc|loc\.voc|voc):.*"/>
+				</pattern>
+				<message>Ten przyimek jest używany z mianownikiem.</message>
+				<example type="correct">Czekamy na pojedynek premier kontra wicepremier.</example>
+				<example type="incorrect">Czekamy na pojedynek premier kontra <marker>wicepremierowi</marker>.</example>
+			</rule>
+			<rule>
+				<pattern mark_from="1">
+					<token postag="prep:instr"/>
+					<token postag_regexp="yes" postag="(adj|subst):(pl|sg):(acc|acc\.gen|acc\.gen\.loc|dat|dat\.loc|gen|gen\.acc|gen\.acc\.loc|gen\.dat|gen\.dat\.loc|gen\.dat\.loc\.voc|gen\.loc|gen\.loc\.voc|loc|loc\.voc|nom|nom\.acc|nom\.acc\.voc|nom\.voc|voc):.*"/>
+				</pattern>
+				<message>Ten przyimek jest używany z narzędnikiem.</message>
+				<example type="correct">Czekamy na pojedynek między premierem i wicepremierem.</example>
+				<example type="incorrect">Czekamy na pojedynek między <marker>premier</marker> i wicepremierowi.</example>
+			</rule>
+			<rule>
+				<pattern mark_from="1">
+					<token postag="prep:loc"/>
+					<token postag_regexp="yes" postag="(adj|subst):(pl|sg):(acc|acc\.gen|acc\.instr|dat|gen|gen\.acc|gen\.dat|instr|nom|nom\.acc|nom\.acc\.voc|nom\.voc|voc):.*"/>
+				</pattern>
+				<message>Ten przyimek jest używany z miejscownikiem.</message>
+				<example type="correct">Byłem na grobie Mickiewicza.</example>
+				<example type="incorrect">Byłem na <marker>grobem</marker> Mickiewicza.</example>
 			</rule>
 		</rulegroup>
 </rules>
