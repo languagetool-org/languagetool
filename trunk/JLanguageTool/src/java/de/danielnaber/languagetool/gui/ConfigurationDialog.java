@@ -216,11 +216,7 @@ public class ConfigurationDialog implements ActionListener {
   }
 
   public Language getMotherTongue() {
-    if (motherTongueBox == null)
-      return null;
-    if (motherTongueBox.getSelectedItem() instanceof String)
-      return null;
-    return (Language)motherTongueBox.getSelectedItem();
+    return motherTongue;
   }
 
 }

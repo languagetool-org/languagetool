@@ -28,6 +28,8 @@ import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.io.File;
 import java.io.IOException;
 import java.io.Reader;
@@ -49,6 +51,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextPane;
+import javax.swing.WindowConstants;
 import javax.swing.filechooser.FileFilter;
 import javax.xml.parsers.ParserConfigurationException;
 
@@ -75,7 +78,10 @@ public class Main implements ActionListener {
   private static final Icon SYSTEM_TRAY_ICON = new ImageIcon("resource/TrayIcon.png");
   private static final String WINDOW_ICON_URL = "resource/TrayIcon.png";
   private static final String CHECK_TEXT_BUTTON = "Check text";
+  private static final String CONFIG_FILE = ".languagetool.cfg";
 
+  private Configuration config = null;
+  
   private TrayIcon trayIcon = null;
   private JFrame frame = null;
   private JTextArea textArea = null;
@@ -84,12 +90,14 @@ public class Main implements ActionListener {
   
   private Map<Language, ConfigurationDialog> configDialogs = new HashMap<Language, ConfigurationDialog>();
 
-  private Main() {
+  private Main() throws IOException {
+    config = new Configuration(new File(System.getProperty("user.home")), CONFIG_FILE);
   }
 
   private void createGUI() {
     frame = new JFrame("LanguageTool " +JLanguageTool.VERSION+ " Demo");
-    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    frame.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
+    frame.addWindowListener(new CloseListener());
     frame.setIconImage(new ImageIcon(WINDOW_ICON_URL).getImage());
     frame.setJMenuBar(new MainMenuBar(this));
 
@@ -181,11 +189,15 @@ public class Main implements ActionListener {
       JLanguageTool langTool = getCurrentLanguageTool();
       checkTextAndDisplayResults(langTool, getCurrentLanguage().getName());
     } catch (IOException e) {
-      JOptionPane.showMessageDialog(null, e.toString()); 
-      e.printStackTrace();
+      showError(e);
     }
   }
   
+  private static void showError(Exception e) {
+    JOptionPane.showMessageDialog(null, e.toString(), "Error", JOptionPane.ERROR_MESSAGE);
+    e.printStackTrace();
+  }
+
   void hideToTray() {
     if (trayIcon == null) {
       trayIcon = new TrayIcon(SYSTEM_TRAY_ICON);
@@ -201,8 +213,10 @@ public class Main implements ActionListener {
     List<Rule> rules = langTool.getAllRules();
     ConfigurationDialog configDialog = getCurrentConfigDialog();
     configDialog.show(rules);
+    config.setDisabledRuleIds(configDialog.getDisabledRuleIds());
+    config.setMotherTongue(configDialog.getMotherTongue());
   }
-
+  
   private void restoreFromTray() {
     // get text from clipboard or selection:
     Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemSelection();
@@ -227,6 +241,11 @@ public class Main implements ActionListener {
   }
   
   void quit() {
+    try {
+      config.saveConfiguration();
+    } catch (IOException e) {
+      showError(e);
+    }
     if (trayIcon != null) {
       SystemTray tray = SystemTray.getDefaultSystemTray();
       tray.removeTrayIcon(trayIcon);
@@ -245,7 +264,9 @@ public class Main implements ActionListener {
     if (configDialogs.containsKey(language)) {
       configDialog = (ConfigurationDialog)configDialogs.get(language);
     } else {
-      configDialog = new ConfigurationDialog(false);
+      configDialog = new ConfigurationDialog(true);
+      configDialog.setMotherTongue(config.getMotherTongue());
+      configDialog.setDisabledRules(config.getDisabledRuleIds());
       configDialogs.put(language, configDialog);
     }
     return configDialog;
@@ -327,25 +348,37 @@ public class Main implements ActionListener {
   }
 
   public static void main(String[] args) {
-    final Main prg = new Main();
-    if (args.length == 1 && (args[0].equals("-t") || args[0].equals("--tray"))) {
-      // dock to systray on startup
-      javax.swing.SwingUtilities.invokeLater(new Runnable() {
-        public void run() {
-          prg.createGUI();
-          prg.hideToTray();
-        }
-      });
-    } else if (args.length >= 1) {
-      System.out.println("Usage: java de.danielnaber.languagetool.gui.Main [-t|--tray]");
-      System.out.println("  -t|--tray: dock LanguageTool to tray on startup");
-    } else {
-      javax.swing.SwingUtilities.invokeLater(new Runnable() {
-        public void run() {
-          prg.createGUI();
-          prg.showGUI();
-        }
-      });
+    try {
+      final Main prg = new Main();
+      if (args.length == 1 && (args[0].equals("-t") || args[0].equals("--tray"))) {
+        // dock to systray on startup
+        javax.swing.SwingUtilities.invokeLater(new Runnable() {
+          public void run() {
+            try {
+              prg.createGUI();
+              prg.hideToTray();
+            } catch (Exception e) {
+              showError(e);
+            }
+          }
+        });
+      } else if (args.length >= 1) {
+        System.out.println("Usage: java de.danielnaber.languagetool.gui.Main [-t|--tray]");
+        System.out.println("  -t|--tray: dock LanguageTool to tray on startup");
+      } else {
+        javax.swing.SwingUtilities.invokeLater(new Runnable() {
+          public void run() {
+            try {
+              prg.createGUI();
+              prg.showGUI();
+            } catch (Exception e) {
+              showError(e);
+            }
+          }
+        });
+      }
+    } catch (Exception e) {
+      showError(e);
     }
   }
 
@@ -368,6 +401,21 @@ public class Main implements ActionListener {
     
   }
 
+  class CloseListener implements WindowListener {
+
+    public void windowClosing(@SuppressWarnings("unused") WindowEvent e) {
+      quit();
+    }
+
+    public void windowActivated(@SuppressWarnings("unused")WindowEvent e) {}
+    public void windowClosed(@SuppressWarnings("unused")WindowEvent e) {}
+    public void windowDeactivated(@SuppressWarnings("unused")WindowEvent e) {}
+    public void windowDeiconified(@SuppressWarnings("unused")WindowEvent e) {}
+    public void windowIconified(@SuppressWarnings("unused")WindowEvent e) {}
+    public void windowOpened(@SuppressWarnings("unused")WindowEvent e) {}
+    
+  }
+  
   class PlainTextFilter extends FileFilter {
 
     public boolean accept(File f) {

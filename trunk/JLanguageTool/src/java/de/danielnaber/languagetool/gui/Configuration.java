@@ -46,11 +46,15 @@ public class Configuration {
   private Set<String> disabledRuleIds = new HashSet<String>();
   private Language motherTongue;
 
-  public Configuration(File baseDir) throws IOException {
+  public Configuration(File baseDir, String filename) throws IOException {
     if (!baseDir.isDirectory())
       throw new IllegalArgumentException("Not a directory: " + baseDir);
-    configFile = new File(baseDir, CONFIG_FILE);
+    configFile = new File(baseDir, filename);
     loadConfiguration();
+  }
+  
+  public Configuration(File baseDir) throws IOException {
+    this(baseDir, CONFIG_FILE);
   }
   
   public Set<String> getDisabledRuleIds() {
