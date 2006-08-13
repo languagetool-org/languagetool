@@ -247,10 +247,15 @@ public class OOoDialog implements ActionListener {
       int errorLength = currentRuleMatch.getToPos() - currentRuleMatch.getFromPos();
       if (xViewCursor == null) {
         // working on complete text:
+        // get an invisible cursor:
+        XTextCursor cursor = xTextDoc.getText().createTextCursor();
+        cursor.gotoStart(false);
+        cursor.goRight((short)(currentRuleMatch.getFromPos()-replacementCorrection), false);
+        cursor.goRight((short)errorLength, true);
+        // now place the visible cursor:
         XTextViewCursor tmpxViewCursor = xViewCursorSupplier.getViewCursor();
-        tmpxViewCursor.gotoStart(false);
-        tmpxViewCursor.goRight((short)(currentRuleMatch.getFromPos()-replacementCorrection), false);
-        tmpxViewCursor.goRight((short)errorLength, true);
+        tmpxViewCursor.gotoRange(cursor.getStart(), false);
+        tmpxViewCursor.gotoRange(cursor.getEnd(), true);
       } else {
         // working on selected text only:
         if (startTextRange == null) {

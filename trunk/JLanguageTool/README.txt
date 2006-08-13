@@ -30,7 +30,6 @@ License:
  
 Known bugs:
  -OpenOffice.org integration:
-   -cursor first jumps to start of text, only then to the error position
    -LanguageTool gets confused when the text is changed while the LanguageTool 
     dialog is open
    -LanguageTool doesn't work if you have a Windows username with special characters
