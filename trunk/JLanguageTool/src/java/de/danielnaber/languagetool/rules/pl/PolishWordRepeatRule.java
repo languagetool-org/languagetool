@@ -24,7 +24,7 @@ public class PolishWordRepeatRule extends PolishRule {
 
   public PolishWordRepeatRule(ResourceBundle messages) {
     if (messages != null)
-      super.setCategory(new Category(messages.getString("category_case")));
+      super.setCategory(new Category(messages.getString("category_misc")));
   }
   
 	/* (non-Javadoc)
