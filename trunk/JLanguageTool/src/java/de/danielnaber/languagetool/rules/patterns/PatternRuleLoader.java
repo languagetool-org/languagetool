@@ -248,8 +248,8 @@ class PatternRuleHandler extends XMLRuleHandler {
         posToken = null;
       }
       if (exceptionSet) {
-        stringElement.setStringException(exceptions.toString(), caseSensitive,
-            exceptionStringRegExp, exceptionStringInflected, exceptionStringNegation);
+        stringElement.setStringException(exceptions.toString(), exceptionStringRegExp, 
+            exceptionStringInflected, exceptionStringNegation);
         exceptionSet = false;
       }
       if (exceptionPosToken != null) {

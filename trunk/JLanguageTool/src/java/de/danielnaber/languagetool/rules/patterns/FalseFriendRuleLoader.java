@@ -307,7 +307,7 @@ class FalseFriendRuleHandler extends XMLRuleHandler {
 			 	}
 			  
 			  if (exceptionSet) {
-		    		stringElement.setStringException(exceptions.toString(), caseSensitive, exceptionStringRegExp, exceptionStringInflected, exceptionStringNegation);
+		    		stringElement.setStringException(exceptions.toString(), exceptionStringRegExp, exceptionStringInflected, exceptionStringNegation);
 		    		exceptionSet = false;
 		    	}
 		    	if (exceptionPosToken!=null) {

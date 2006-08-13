@@ -91,7 +91,7 @@ public class Element {
 	    exceptionSet=true;
 	  }
   
-  public void setStringException(String token, boolean caseSensitive, boolean regExp, boolean inflected, boolean negation) {
+  public void setStringException(String token, boolean regExp, boolean inflected, boolean negation) {
 	    exceptionStringToken = token;
 	    exceptionRegExp = regExp;
 	    exceptionInflected = inflected;
