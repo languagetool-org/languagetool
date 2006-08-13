@@ -1,4 +1,4 @@
-LanguageTool, a natural language style checker for English, German, and Polish
+LanguageTool, a language style checker for English, German, and Polish
 Copyright (C) 2005,2006 Daniel Naber (naber at danielnaber de)
 Version ###VERSION###, ###DATE###
 Homepage: http://www.danielnaber.de/languagetool
@@ -24,7 +24,7 @@ Usage:
  package for this)
  
 License:
- LGPL, see file COPYING
+ LGPL, see file COPYING.txt
  The German data for part-of-speech tagging is taken from Morphy
  (http://www.wolfganglezius.de/doku.php?id=public:cl:morphy)
  
@@ -42,8 +42,10 @@ Known bugs:
    -usability: pressing Esc too long will close both dialogs, should close only one
    
 TODO:
- -use Java 1.5 enums
- -use Java 1.5 generics everywhere (maybe also instead of arrays)
+ -GUI: icon in window corner, better icon for system tray
+ -clean up rule descriptions so that they coherently contain the error or the rule
+  (e.g. "did + baseform" vs. "did + non-baseform")
+ -use Java 1.5 generics everywhere (maybe also instead of arrays?)
  -add more rules, especially agreement stuff
  -add UnpairedQuotesBracketsRule (for pairing "(), [], {}, «», "", „”, depending on the language)
  -add simple sentence/word complexity test like that: http://www.ooomacros.org/user.php#111318 
