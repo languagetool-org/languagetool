@@ -128,7 +128,6 @@ class PatternRuleHandler extends XMLRuleHandler {
       correctExamples = new ArrayList<String>();
       incorrectExamples = new ArrayList<String>();
     } else if (qName.equals("pattern")) {
-      pattern = new StringBuffer();
       inPattern = true;
       if (attrs.getValue("mark_from") != null)
         startPositionCorrection = Integer.parseInt(attrs.getValue("mark_from"));

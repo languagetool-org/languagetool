@@ -170,7 +170,6 @@ class FalseFriendRuleHandler extends XMLRuleHandler {
 		  correctExamples = new ArrayList<String>();
 		  incorrectExamples = new ArrayList<String>();
 	  } else if (qName.equals("pattern")) {
-		  pattern = new StringBuffer();
 		  inPattern = true;
 		  String languageStr = attrs.getValue("lang");
 		  language = Language.getLanguageforShortName(languageStr);
@@ -274,7 +273,7 @@ class FalseFriendRuleHandler extends XMLRuleHandler {
 			  };
 			  String description = formatter.format(messageArguments);
 			  PatternRule rule = new PatternRule(id, language, elementList, 
-					  messages.getString("false_friend_desc") + " " + pattern.toString(),
+					  messages.getString("false_friend_desc") + " " + elements.toString().replace('|', '/'),
 					  description);
 			  rule.setCorrectExamples(correctExamples);
 			  rule.setIncorrectExamples(incorrectExamples);

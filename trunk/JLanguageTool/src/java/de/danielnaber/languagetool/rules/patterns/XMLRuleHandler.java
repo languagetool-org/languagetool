@@ -29,7 +29,6 @@ class XMLRuleHandler extends DefaultHandler {
 
   List<PatternRule> rules = new ArrayList<PatternRule>();
 
-  StringBuffer pattern = null;
   StringBuffer correctExample = new StringBuffer();
   StringBuffer incorrectExample = new StringBuffer();
   StringBuffer message = new StringBuffer();
