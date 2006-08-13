@@ -3,7 +3,7 @@
 Rules: Grammar and Typos
 See tagset.txt for the meaning of the POS tags
 Copyright (C) 2001-2006 Daniel Naber (http://www.danielnaber.de)
-$Id: grammar.xml,v 1.49 2006-08-12 23:04:08 dnaber Exp $
+$Id: grammar.xml,v 1.50 2006-08-13 10:16:54 dnaber Exp $
 -->
 <rules lang="de">
 
@@ -424,6 +424,17 @@ $Id: grammar.xml,v 1.49 2006-08-12 23:04:08 dnaber Exp $
     <message>Meinten Sie <suggestion>Mitnehmen</suggestion>?</message>
     <example type="correct">Alle Gerichte auch zum <marker>Mitnehmen</marker>.</example>
     <example type="incorrect">Alle Gerichte auch zum <marker>mitnehmen</marker>.</example>
+  </rule>
+
+  <rule id="AUF_DEM_GEWISSEN" name="Groß-/Kleinschreibung: 'auf dem gewissen(Gewissen)'">
+    <pattern mark_from="2" case_sensitive="yes">
+      <token>auf</token>
+      <token>dem</token>
+      <token>gewissen</token>
+    </pattern>
+    <message>Meinten Sie <suggestion>Gewissen</suggestion>?</message>
+    <example type="correct">Er hat sie auf dem <marker>Gewissen</marker>.</example>
+    <example type="incorrect">Er hat sie auf dem <marker>gewissen</marker>.</example>
   </rule>
 
   <rulegroup id="ODER_FLUSS" name="Groß-/Kleinschreibung: 'oder/Oder(der Fluß)'">
