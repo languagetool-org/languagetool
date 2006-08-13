@@ -36,6 +36,7 @@ public class UppercaseSentenceStartRule extends Rule {
 
   public UppercaseSentenceStartRule(ResourceBundle messages) {
     super(messages);
+    super.setCategory(new Category(messages.getString("category_case")));
   }
 
   public String getId() {

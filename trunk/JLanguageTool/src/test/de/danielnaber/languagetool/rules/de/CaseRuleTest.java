@@ -30,7 +30,7 @@ import de.danielnaber.languagetool.Language;
 public class CaseRuleTest extends TestCase {
 
   public void testRule() throws IOException {
-    CaseRule rule = new CaseRule();
+    CaseRule rule = new CaseRule(null);
     JLanguageTool langTool = new JLanguageTool(Language.GERMAN);
 
     // correct sentences:
@@ -63,7 +63,7 @@ public class CaseRuleTest extends TestCase {
   }
 
   public void testSubstantivierteVerben() throws IOException {
-    CaseRule rule = new CaseRule();
+    CaseRule rule = new CaseRule(null);
     JLanguageTool langTool = new JLanguageTool(Language.GERMAN);
 
     // correct sentences:

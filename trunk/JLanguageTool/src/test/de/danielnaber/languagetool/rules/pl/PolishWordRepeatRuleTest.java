@@ -13,7 +13,7 @@ public class PolishWordRepeatRuleTest extends TestCase {
 	 * Test method for 'de.danielnaber.languagetool.rules.pl.PolishWordRepeatRule.match(AnalyzedSentence)'
 	 */
 	public void testRule() throws IOException {
-	    PolishWordRepeatRule rule = new PolishWordRepeatRule();
+	    PolishWordRepeatRule rule = new PolishWordRepeatRule(null);
 	    RuleMatch[] matches;
 	    JLanguageTool langTool = new JLanguageTool(Language.POLISH);
 	    //correct

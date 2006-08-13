@@ -30,7 +30,7 @@ import de.danielnaber.languagetool.Language;
 public class DashRuleTest extends TestCase {
 
   public void testRule() throws IOException {
-    DashRule rule = new DashRule();
+    DashRule rule = new DashRule(null);
     JLanguageTool langTool = new JLanguageTool(Language.GERMAN);
 
     // correct sentences:

@@ -21,11 +21,13 @@ package de.danielnaber.languagetool.rules.de;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.ResourceBundle;
 import java.util.Set;
 
 import de.danielnaber.languagetool.AnalyzedSentence;
 import de.danielnaber.languagetool.AnalyzedTokenReadings;
 import de.danielnaber.languagetool.JLanguageTool;
+import de.danielnaber.languagetool.rules.Category;
 import de.danielnaber.languagetool.rules.RuleMatch;
 import de.danielnaber.languagetool.tagging.de.AnalyzedGermanToken;
 import de.danielnaber.languagetool.tagging.de.AnalyzedGermanTokenReadings;
@@ -47,6 +49,11 @@ import de.danielnaber.languagetool.tagging.de.GermanToken.POSType;
  */
 public class AgreementRule extends GermanRule {
 
+  public AgreementRule(ResourceBundle messages) {
+    if (messages != null)
+      super.setCategory(new Category(messages.getString("category_grammar")));
+  }
+  
   public String getId() {
     return "DE_AGREEMENT";
   }

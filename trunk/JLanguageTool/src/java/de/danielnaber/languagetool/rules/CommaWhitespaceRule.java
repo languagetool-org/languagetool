@@ -37,6 +37,7 @@ public class CommaWhitespaceRule extends Rule {
 
   public CommaWhitespaceRule(ResourceBundle messages) {
     super(messages);
+    super.setCategory(new Category(messages.getString("category_misc")));
   }
   
   public String getId() {

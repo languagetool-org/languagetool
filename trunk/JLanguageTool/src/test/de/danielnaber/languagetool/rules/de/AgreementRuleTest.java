@@ -33,7 +33,7 @@ public class AgreementRuleTest extends TestCase {
   private JLanguageTool langTool;
   
   public void setUp() throws IOException {
-    rule = new AgreementRule();
+    rule = new AgreementRule(null);
     langTool = new JLanguageTool(Language.GERMAN);
   }
   

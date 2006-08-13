@@ -82,7 +82,7 @@ public class ConfigurationDialog implements ActionListener {
     checkBoxes.clear();
     checkBoxesRuleIds.clear();
     
-    Collections.sort(rules, new AlphabeticComparator());
+    Collections.sort(rules, new CategoryComparator());
     
     // close dialog when user presses Escape key:
     KeyStroke stroke = KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0);
@@ -103,6 +103,7 @@ public class ConfigurationDialog implements ActionListener {
     cons.gridx = 0;
     int row = 0;
     String prevID = null;
+    String prevCategory = null;
     for (Rule rule : rules) {
       // avoid displaying rules from rule groups more than once:
       if (prevID == null || (prevID != null && !prevID.equals(rule.getId()))) {
@@ -114,6 +115,14 @@ public class ConfigurationDialog implements ActionListener {
           checkBox.setSelected(true);
         checkBoxes.add(checkBox);
         checkBoxesRuleIds.add(rule.getId());
+        boolean showHeadline = (rule.getCategory() != null && !rule.getCategory().getName().equals(prevCategory));
+        if ((showHeadline || prevCategory == null) && rule.getCategory() != null) {
+          checkBoxPanel.add(new JLabel(rule.getCategory().getName()), cons);
+          prevCategory = rule.getCategory().getName();
+          cons.gridy++;
+          row++;
+        }
+        checkBox.setMargin(new Insets(0, 20, 0, 0));    // indent
         checkBoxPanel.add(checkBox, cons);
         row++;
       }
@@ -221,10 +230,14 @@ public class ConfigurationDialog implements ActionListener {
 
 }
 
-class AlphabeticComparator implements Comparator<Rule> {
+class CategoryComparator implements Comparator<Rule> {
 
   public int compare(Rule r1, Rule r2) {
-    return r1.getDescription().compareToIgnoreCase(r2.getDescription());
+    boolean hasCat = r1.getCategory() != null && r2.getCategory() != null;
+    if (hasCat)
+      return r1.getCategory().getName().compareTo(r2.getCategory().getName());
+    else
+      return r1.getDescription().compareToIgnoreCase(r2.getDescription());
   }
 
 }

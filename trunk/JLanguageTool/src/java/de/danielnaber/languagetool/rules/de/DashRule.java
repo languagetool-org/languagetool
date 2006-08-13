@@ -20,9 +20,11 @@ package de.danielnaber.languagetool.rules.de;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ResourceBundle;
 
 import de.danielnaber.languagetool.AnalyzedSentence;
 import de.danielnaber.languagetool.AnalyzedTokenReadings;
+import de.danielnaber.languagetool.rules.Category;
 import de.danielnaber.languagetool.rules.RuleMatch;
 
 /**
@@ -32,7 +34,9 @@ import de.danielnaber.languagetool.rules.RuleMatch;
  */
 public class DashRule extends GermanRule {
 
-  public DashRule() {
+  public DashRule(ResourceBundle messages) {
+    if (messages != null)
+      super.setCategory(new Category(messages.getString("category_misc")));
   }
   
   public String getId() {

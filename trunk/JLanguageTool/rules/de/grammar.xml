@@ -3,10 +3,12 @@
 Rules: Grammar and Typos
 See tagset.txt for the meaning of the POS tags
 Copyright (C) 2001-2006 Daniel Naber (http://www.danielnaber.de)
-$Id: grammar.xml,v 1.50 2006-08-13 10:16:54 dnaber Exp $
+$Id: grammar.xml,v 1.51 2006-08-13 19:55:10 dnaber Exp $
 -->
 <rules lang="de">
 
+  <category name="Mögliche Tippfehler">
+  
   <rulegroup id="WAR_WERDEN" name="Möglicher Tippfehler 'war(wahr) werden'">
     <rule>
       <pattern mark_to="-1">
@@ -292,8 +294,12 @@ $Id: grammar.xml,v 1.50 2006-08-13 10:16:54 dnaber Exp $
     <example type="incorrect">Internet <marker>mit ohne</marker> Schnur</example>
   </rule>
   
+  </category>
+  
   <!--  Rules about upper/lowercase:  -->
 
+  <category name="Groß-/Kleinschreibung">
+  
   <!-- TODO: Gut und böse; gut und Böse -->
   <rule id="GUT_UND_BOESE" name="Groß-/Kleinschreibung: 'jenseits von gut(Gut) und böse(Böse)'">
     <pattern mark_from="2" case_sensitive="yes">
@@ -468,5 +474,7 @@ $Id: grammar.xml,v 1.50 2006-08-13 10:16:54 dnaber Exp $
       <example type="incorrect">Die Stadt liegt an der <marker>oder</marker>.</example>
     </rule>
   </rulegroup>
+
+  </category>
 
 </rules>

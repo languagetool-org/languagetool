@@ -32,6 +32,7 @@ import org.xml.sax.helpers.DefaultHandler;
 
 import de.danielnaber.languagetool.JLanguageTool;
 import de.danielnaber.languagetool.Language;
+import de.danielnaber.languagetool.rules.Category;
 
 /**
  * Loads {@link PatternRule}s from an XML file.
@@ -77,6 +78,7 @@ class PatternRuleHandler extends XMLRuleHandler {
   private boolean posRegExp = false;
   
   private Language language;
+  private Category category;
   private String description;
   private String ruleGroupId;
   private String ruleGroupDescription;
@@ -102,7 +104,15 @@ class PatternRuleHandler extends XMLRuleHandler {
   @SuppressWarnings("unused")
   public void startElement(String namespaceURI, String lName, String qName, Attributes attrs)
       throws SAXException {
-    if (qName.equals("rules")) {
+    if (qName.equals("category")) {
+      String catName = attrs.getValue("name");
+      String prioStr = attrs.getValue("priority");
+      int prio = 0;
+      if (prioStr != null)
+        category = new Category(catName, Integer.parseInt(prioStr));
+      else
+        category = new Category(catName);
+    } else if (qName.equals("rules")) {
       String languageStr = attrs.getValue("lang");
       language = Language.getLanguageforShortName(languageStr);
       if (language == null) {
@@ -217,6 +227,7 @@ class PatternRuleHandler extends XMLRuleHandler {
       rule.setCorrectExamples(correctExamples);
       rule.setIncorrectExamples(incorrectExamples);
       rule.setCaseSensitive(caseSensitive);
+      rule.setCategory(category);
       caseSensitive = false;
       rules.add(rule);
       if (elementList != null) {

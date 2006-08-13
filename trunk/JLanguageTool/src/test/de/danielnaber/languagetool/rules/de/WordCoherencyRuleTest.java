@@ -31,7 +31,7 @@ import de.danielnaber.languagetool.Language;
 public class WordCoherencyRuleTest extends TestCase {
 
   public void testRule() throws IOException {
-    WordCoherencyRule rule = new WordCoherencyRule();
+    WordCoherencyRule rule = new WordCoherencyRule(null);
     JLanguageTool langTool = new JLanguageTool(Language.GERMAN);
     // correct sentences:
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("Das ist aufwendig, aber nicht zu aufwendig.")).length);

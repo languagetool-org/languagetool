@@ -27,11 +27,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.ResourceBundle;
 
 import de.danielnaber.languagetool.AnalyzedSentence;
 import de.danielnaber.languagetool.AnalyzedToken;
 import de.danielnaber.languagetool.AnalyzedTokenReadings;
 import de.danielnaber.languagetool.JLanguageTool;
+import de.danielnaber.languagetool.rules.Category;
 import de.danielnaber.languagetool.rules.RuleMatch;
 
 /**
@@ -53,7 +55,9 @@ public class WordCoherencyRule extends GermanRule {
   private Map<String, String> relevantWords;        // e.g. "aufwendig -> aufwändig"
   private Map<String, RuleMatch> shouldNotAppearWord = new HashMap<String, RuleMatch>();  // e.g. aufwändig -> RuleMatch of aufwendig
 
-  public WordCoherencyRule() throws IOException {
+  public WordCoherencyRule(ResourceBundle messages) throws IOException {
+    if (messages != null)
+      super.setCategory(new Category(messages.getString("category_misc")));
     relevantWords = loadWords(JLanguageTool.getAbsoluteFile(FILE_NAME)); 
   }
   

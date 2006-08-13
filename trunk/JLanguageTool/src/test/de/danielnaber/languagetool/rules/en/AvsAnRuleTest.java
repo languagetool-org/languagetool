@@ -31,7 +31,7 @@ import de.danielnaber.languagetool.rules.RuleMatch;
 public class AvsAnRuleTest extends TestCase {
 
   public void testRule() throws IOException {
-    AvsAnRule rule = new AvsAnRule();
+    AvsAnRule rule = new AvsAnRule(null);
     RuleMatch[] matches;
     JLanguageTool langTool = new JLanguageTool(Language.ENGLISH);
     // correct sentences:

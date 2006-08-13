@@ -5,10 +5,12 @@ package de.danielnaber.languagetool.rules.pl;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ResourceBundle;
 import java.util.regex.Pattern;
 
 import de.danielnaber.languagetool.AnalyzedSentence;
 import de.danielnaber.languagetool.AnalyzedTokenReadings;
+import de.danielnaber.languagetool.rules.Category;
 import de.danielnaber.languagetool.rules.RuleMatch;
 
 /**
@@ -20,6 +22,11 @@ import de.danielnaber.languagetool.rules.RuleMatch;
  */
 public class PolishWordRepeatRule extends PolishRule {
 
+  public PolishWordRepeatRule(ResourceBundle messages) {
+    if (messages != null)
+      super.setCategory(new Category(messages.getString("category_case")));
+  }
+  
 	/* (non-Javadoc)
 	 * @see de.danielnaber.languagetool.rules.Rule#getId()
 	 */

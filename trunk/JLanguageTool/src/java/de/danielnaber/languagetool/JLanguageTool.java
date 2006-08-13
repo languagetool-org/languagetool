@@ -143,15 +143,15 @@ public class JLanguageTool {
         new DoublePunctuationRule(messages),
         new UppercaseSentenceStartRule(messages),
         // English:
-        new AvsAnRule(),
+        new AvsAnRule(messages),
         // German:
-        new WordCoherencyRule(),
-        new CaseRule(),
-        new WiederVsWiderRule(),
-        new AgreementRule(),
-        new DashRule(),
+        new WordCoherencyRule(messages),
+        new CaseRule(messages),
+        new WiederVsWiderRule(messages),
+        new AgreementRule(messages),
+        new DashRule(messages),
         // Polish:
-        new PolishWordRepeatRule()
+        new PolishWordRepeatRule(messages)
       };
     for (int i = 0; i < allBuiltinRules.length; i++) {
       if (allBuiltinRules[i].supportsLanguage(language))

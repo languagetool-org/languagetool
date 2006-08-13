@@ -18,8 +18,11 @@ Note for grammar rules:
 
 <!ENTITY % Languages "(en|de|pl|xx)">
 
-<!ELEMENT rules (rule|rulegroup)*>
+<!ELEMENT rules (category)*>
 <!ATTLIST rules lang %Languages; #REQUIRED>
+
+<!ELEMENT category (rule|rulegroup)*>
+<!ATTLIST category name CDATA #REQUIRED>
 
 <!ELEMENT rulegroup (message?,rule+)>
 <!ATTLIST rulegroup id ID #REQUIRED>

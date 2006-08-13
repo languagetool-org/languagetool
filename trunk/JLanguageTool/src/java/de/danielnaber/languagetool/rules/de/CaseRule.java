@@ -22,11 +22,13 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.ResourceBundle;
 import java.util.Set;
 
 import de.danielnaber.languagetool.AnalyzedSentence;
 import de.danielnaber.languagetool.AnalyzedTokenReadings;
 import de.danielnaber.languagetool.JLanguageTool;
+import de.danielnaber.languagetool.rules.Category;
 import de.danielnaber.languagetool.rules.RuleMatch;
 import de.danielnaber.languagetool.tagging.de.AnalyzedGermanToken;
 import de.danielnaber.languagetool.tagging.de.AnalyzedGermanTokenReadings;
@@ -124,7 +126,9 @@ public class CaseRule extends GermanRule {
     substVerbenExceptions.add("ein");   // nicht "einen" (Verb)
   }
 
-  public CaseRule() {
+  public CaseRule(ResourceBundle messages) {
+    if (messages != null)
+      super.setCategory(new Category(messages.getString("category_case")));
   }
   
   public String getId() {

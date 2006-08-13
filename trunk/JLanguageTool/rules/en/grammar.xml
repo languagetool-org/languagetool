@@ -3,7 +3,7 @@
 Rules: Grammar and Typos
 See tagset.txt for the meaning of the POS tags
 Copyright (C) 2001-2006 Daniel Naber (http://www.danielnaber.de)
-$Id: grammar.xml,v 1.67 2006-08-12 23:30:29 dnaber Exp $
+$Id: grammar.xml,v 1.68 2006-08-13 19:55:10 dnaber Exp $
 -->
 <rules lang="en">
 
@@ -11,6 +11,8 @@ $Id: grammar.xml,v 1.67 2006-08-12 23:30:29 dnaber Exp $
   <!-- Possible typos -->  
   <!-- ====================================================================== -->
 
+  <category name="Possible Typo">
+  
   <rule id="I_HERD" name="Possible typo 'I herd(heard)'">
     <pattern mark_from="1">
       <token regexp="yes">I|you|he|she|it|we|they</token>
@@ -60,16 +62,6 @@ $Id: grammar.xml,v 1.67 2006-08-12 23:30:29 dnaber Exp $
     </rule>
   </rulegroup>
 
-  <rule id="ALSO_SENT_END" name="'also' at the end of the sentence">
-    <pattern mark_to="-1">
-      <token>also</token>
-      <token>.</token>
-    </pattern>
-    <message>'Also' is not used at the end of the sentence. Use <suggestion>as well</suggestion> instead.</message>
-    <example type="correct">You will also buy some eggs.</example>
-    <example type="incorrect">You will buy some eggs <marker>also</marker>.</example>
-  </rule>
-
   <rule id="BED_ENGLISH" name="Possible typo 'bed/bat(bad) English/...'">
     <pattern mark_to="-1">
       <token regexp="yes">bed|bat</token>
@@ -80,7 +72,6 @@ $Id: grammar.xml,v 1.67 2006-08-12 23:30:29 dnaber Exp $
     <example type="incorrect">Sorry for my <marker>bed</marker> English.</example>
   </rule>
   
-<!-- TODO: group -->
   <rulegroup id="YOUR" name="Possible typo 'your(you're)'">
     <rule>
       <pattern mark_to="-1">
@@ -165,36 +156,7 @@ $Id: grammar.xml,v 1.67 2006-08-12 23:30:29 dnaber Exp $
       <example type="incorrect">Because <marker>to</marker> much snow was on it.</example>
     </rule>
   </rulegroup>
-
-  <rulegroup id="AGREEMENT_SENT_START" name="Possible agreement error 'The (plural word) is'">
-    <rule>
-      <pattern mark_from="3">
-        <token postag="SENT_START"/>
-        <token postag="DT"/>
-        <token postag="NNS"/>
-        <token postag="VBZ"/>
-      </pattern>
-      <message>Possible agreement error -- don't use third-person form of a verb (e.g. 'is') for plural nouns.</message>
-      <example type="correct">The dogs <marker>are</marker> released.</example>
-      <example type="correct">The dog is released.</example>
-      <example type="incorrect">The dogs <marker>is</marker> released.</example>
-    </rule>
-    <rule>
-      <pattern mark_from="5">
-        <token postag="SENT_START"/>
-        <token postag="DT"/>
-        <token postag="NNS"/>
-        <token>of</token>
-        <token postag="NN"/>
-        <token postag="VBZ"/>
-      </pattern>
-      <message>Possible agreement error -- don't use third-person form of a verb (e.g. 'is') for plural nouns.</message>
-      <example type="correct">The dogs of war <marker>are</marker> released.</example>
-      <example type="correct">The dog of war is released.</example>
-      <example type="incorrect">The dogs of war <marker>is</marker> released.</example>
-    </rule>
-  </rulegroup>
-     
+  
   <rule id="THINK_YOU_A" name="Possible typo 'think you a/an(are)'">
     <pattern mark_from="2">
       <token>think</token>
@@ -206,7 +168,6 @@ $Id: grammar.xml,v 1.67 2006-08-12 23:30:29 dnaber Exp $
     <example type="incorrect">Some would think you <marker>a</marker> fortunate man.</example>
   </rule>
   
-<!-- TODO: group -->
   <rulegroup id="SOME_EXTEND" name="Possible typo 'some/certain extend(extent)'">
     <rule>
       <pattern mark_from="1">
@@ -375,7 +336,7 @@ $Id: grammar.xml,v 1.67 2006-08-12 23:30:29 dnaber Exp $
       <example type="correct">Please do not <marker>use</marker> dispose.</example>
       <example type="incorrect">Please do not <marker>us</marker> dispose.</example>
     </rule>
-    <rule id="NOT_US2" name="Possible typo 'won't/don't us(use)'">
+    <rule>
       <pattern mark_from="2">
         <token>'</token>
         <token>t</token>
@@ -463,16 +424,6 @@ $Id: grammar.xml,v 1.67 2006-08-12 23:30:29 dnaber Exp $
 		should be fixed to allow POS and string checking for the same element
 		see PatternRuleLoader, line 126, 148
 	-->
-
-  <rule id="DT_DT" name="Two consecutive articles, e.g. 'the a'">
-    <pattern>
-      <token postag="DT"><exception regexp="yes">all|half|both|this|each|that</exception></token>
-      <token postag="DT"/>
-    </pattern>
-    <message>Maybe you need to remove the second determiner so that only <suggestion>\1</suggestion> is left.</message>
-    <example type="correct"><marker>The</marker> thing is this.</example>
-    <example type="incorrect"><marker>The a</marker> thing is this.</example>
-  </rule>
   
   <rulegroup id="RATHER_THEN" name="Possible typo 'rather/other/different then(than)'">
     <rule>
@@ -736,9 +687,42 @@ $Id: grammar.xml,v 1.67 2006-08-12 23:30:29 dnaber Exp $
     </rule>
   </rulegroup>
 
+  </category>
+  
   <!-- ====================================================================== -->
   <!-- Grammar -->  
   <!-- ====================================================================== -->
+  
+  <category name="Grammar">
+  
+  <rulegroup id="AGREEMENT_SENT_START" name="Possible agreement error 'The (plural word) is'">
+    <rule>
+      <pattern mark_from="3">
+        <token postag="SENT_START"/>
+        <token postag="DT"/>
+        <token postag="NNS"/>
+        <token postag="VBZ"/>
+      </pattern>
+      <message>Possible agreement error -- don't use third-person form of a verb (e.g. 'is') for plural nouns.</message>
+      <example type="correct">The dogs <marker>are</marker> released.</example>
+      <example type="correct">The dog is released.</example>
+      <example type="incorrect">The dogs <marker>is</marker> released.</example>
+    </rule>
+    <rule>
+      <pattern mark_from="5">
+        <token postag="SENT_START"/>
+        <token postag="DT"/>
+        <token postag="NNS"/>
+        <token>of</token>
+        <token postag="NN"/>
+        <token postag="VBZ"/>
+      </pattern>
+      <message>Possible agreement error -- don't use third-person form of a verb (e.g. 'is') for plural nouns.</message>
+      <example type="correct">The dogs of war <marker>are</marker> released.</example>
+      <example type="correct">The dog of war is released.</example>
+      <example type="incorrect">The dogs of war <marker>is</marker> released.</example>
+    </rule>
+  </rulegroup>
   
   <rulegroup id="PERS_PRONOUN_AGREEMENT_SENT_START" name="Agreement: 'I is / you is / ... ' (at sentence start only)">
     <rule>
@@ -868,7 +852,7 @@ $Id: grammar.xml,v 1.67 2006-08-12 23:30:29 dnaber Exp $
     </rule>
   </rulegroup>
 
-  <rulegroup id="THIS_NNS" name="Possible typo 'this/these'">
+  <rulegroup id="THIS_NNS" name="'this' vs. 'these'">
     <rule>
       <pattern mark_to="-1">
         <token>this</token>
@@ -1047,5 +1031,35 @@ $Id: grammar.xml,v 1.67 2006-08-12 23:30:29 dnaber Exp $
     <example type="correct">This model is equally effective.</example>
     <example type="correct">My new grammar checker is just as slow as the old one.</example>
   </rule>
+  
+  </category>
+
+  <!-- ====================================================================== -->
+  <!-- Miscellaneous -->  
+  <!-- ====================================================================== -->
+  
+  <category name="Miscellaneous">
+
+  <rule id="ALSO_SENT_END" name="'also' at the end of the sentence">
+    <pattern mark_to="-1">
+      <token>also</token>
+      <token>.</token>
+    </pattern>
+    <message>'Also' is not used at the end of the sentence. Use <suggestion>as well</suggestion> instead.</message>
+    <example type="correct">You will also buy some eggs.</example>
+    <example type="incorrect">You will buy some eggs <marker>also</marker>.</example>
+  </rule>
+
+  <rule id="DT_DT" name="Two consecutive articles, e.g. 'the a'">
+    <pattern>
+      <token postag="DT"><exception regexp="yes">all|half|both|this|each|that</exception></token>
+      <token postag="DT"/>
+    </pattern>
+    <message>Maybe you need to remove the second determiner so that only <suggestion>\1</suggestion> is left.</message>
+    <example type="correct"><marker>The</marker> thing is this.</example>
+    <example type="incorrect"><marker>The a</marker> thing is this.</example>
+  </rule>
+
+  </category>
   
 </rules>

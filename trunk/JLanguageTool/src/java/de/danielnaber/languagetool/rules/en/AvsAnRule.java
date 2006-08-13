@@ -25,12 +25,14 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.ResourceBundle;
 import java.util.Set;
 
 import de.danielnaber.languagetool.AnalyzedSentence;
 //import de.danielnaber.languagetool.AnalyzedToken;
 import de.danielnaber.languagetool.AnalyzedTokenReadings;
 import de.danielnaber.languagetool.JLanguageTool;
+import de.danielnaber.languagetool.rules.Category;
 import de.danielnaber.languagetool.rules.RuleMatch;
 import de.danielnaber.languagetool.tools.StringTools;
 
@@ -52,7 +54,9 @@ public class AvsAnRule extends EnglishRule {
   private Set<String> requiresA;
   private Set<String> requiresAn;
   
-  public AvsAnRule() throws IOException {
+  public AvsAnRule(ResourceBundle messages) throws IOException {
+    if (messages != null)
+      super.setCategory(new Category(messages.getString("category_misc")));
     requiresA = loadWords(JLanguageTool.getAbsoluteFile(FILENAME_A));
     requiresAn = loadWords(JLanguageTool.getAbsoluteFile(FILENAME_AN));
   }

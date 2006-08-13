@@ -35,7 +35,8 @@ public abstract class Rule {
 
   private List<String> correctExamples;
   private List<String> incorrectExamples;
-  
+  private Category category = null;
+
   protected ResourceBundle messages;
 
   /**
@@ -115,6 +116,14 @@ public abstract class Rule {
    */
   public List<String> getIncorrectExamples() {
     return incorrectExamples;
+  }
+
+  public Category getCategory() {
+    return category;
+  }
+
+  public void setCategory(Category category) {
+    this.category = category;
   }
 
   protected RuleMatch[] toRuleMatchArray(List<RuleMatch> ruleMatches) {

@@ -38,6 +38,7 @@ public class WordRepeatRule extends Rule {
   
   public WordRepeatRule(ResourceBundle messages, Language language) {
     super(messages);
+    super.setCategory(new Category(messages.getString("category_misc")));
     this.language = language;
   }
   

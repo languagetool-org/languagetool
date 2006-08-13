@@ -30,7 +30,7 @@ import de.danielnaber.languagetool.Language;
 public class WiederVsWiderRuleTest extends TestCase {
 
   public void testRule() throws IOException {
-    WiederVsWiderRule rule = new WiederVsWiderRule();
+    WiederVsWiderRule rule = new WiederVsWiderRule(null);
     JLanguageTool langTool = new JLanguageTool(Language.GERMAN);
     // correct sentences:
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("Das spiegelt wider, wie es wieder läuft.")).length);
