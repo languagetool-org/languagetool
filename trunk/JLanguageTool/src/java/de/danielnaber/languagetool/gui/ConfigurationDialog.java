@@ -234,10 +234,16 @@ class CategoryComparator implements Comparator<Rule> {
 
   public int compare(Rule r1, Rule r2) {
     boolean hasCat = r1.getCategory() != null && r2.getCategory() != null;
-    if (hasCat)
-      return r1.getCategory().getName().compareTo(r2.getCategory().getName());
-    else
+    if (hasCat) {
+      int res = r1.getCategory().getName().compareTo(r2.getCategory().getName());
+      if (res == 0) {
+        return r1.getDescription().compareToIgnoreCase(r2.getDescription());  
+      } else {
+        return res;
+      }
+    } else {
       return r1.getDescription().compareToIgnoreCase(r2.getDescription());
+    }
   }
 
 }
