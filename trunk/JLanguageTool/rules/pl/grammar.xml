@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?><!--
 Copyright (C) 2006 Marcin Miłkowski
-$Id: grammar.xml,v 1.27 2006-08-12 22:05:23 milek_pl Exp $		
+$Id: grammar.xml,v 1.28 2006-08-13 00:07:37 milek_pl Exp $		
 -->
 <rules lang="pl">
 	<!-- błąd leksykalny: tym niemniej -->
@@ -1173,5 +1173,35 @@ $Id: grammar.xml,v 1.27 2006-08-12 22:05:23 milek_pl Exp $
 			<example type="correct">Muszę zapisać się na kurs portugalskiego.</example>
 			<example type="incorrect"><marker>Musze</marker> zapisać się na kurs portugalskiego.</example>
 		</rule>
-	
+
+		<rule name="Prawdopodobna literówka: „sytemu” (systemu)" id="SYTEMU">
+			<pattern>
+				<token>sytemu</token>
+			</pattern>
+			<message>Prawdopodobnie chodziło o wyraz <suggestion>systemu</suggestion> (od rzeczownika „system”), a nie o przymiotnik „syty”.</message>
+			<example type="correct">To nowa funkcja tego systemu.</example>
+			<example type="incorrect">To nowa funkcja tego <marker>sytemu</marker>.</example>
+		</rule>	
+	    <rulegroup id="PREP_CASUS" name="Przyimki z nieodpowiednimi przypadkami">
+			<rule>
+				<pattern mark_from="1">
+					<token postag="prep:gen"/>
+					<token postag_regexp="yes" postag="(adj|subst):(pl|sg):(acc|acc\.instr|dat|dat\.instr|instr|instr\.loc|loc\.voc|nom|nom\.acc|nom\.acc|nom\.acc\.voc|nom\.voc|voc):.*"/>
+				</pattern>
+				<message>Ten przyimek jest używany z dopełniaczem.</message>
+				<example type="correct">Poszliśmy bez niego.</example>
+				<example type="incorrect">Poszliśmy bez <marker>pieniądze</marker>.</example>
+				<example type="incorrect">Język jest dla <marker>filozofem</marker> tylko topornym narzędziem.</example>
+				<example type="incorrect">Przyszedł wreszcie sam do urzędniczki, do <marker>które</marker> nie zdołał się dodzwonić.</example>
+			</rule>
+			<rule>
+				<pattern mark_from="1">
+					<token postag="prep:dat"/>
+					<token postag_regexp="yes" postag="(adj|subst):(pl|sg):(acc|acc\.instr|acc\.gen|acc\.gen\.loc|gen|gen\.acc|gen\.acc\.loc|gen\.loc|gen\.loc\.voc|instr|loc|loc\.voc|nom|nom\.acc|nom\.acc|nom\.acc\.voc|nom\.voc|voc):.*"/>
+				</pattern>
+				<message>Ten przyimek jest używany z celownikiem.</message>
+				<example type="correct">Dzięki tym wysiłkom wszystko się udało.</example>
+				<example type="incorrect">Dzięki <marker>te</marker> wysiłki wszystko się udało.</example>
+			</rule>
+		</rulegroup>
 </rules>
