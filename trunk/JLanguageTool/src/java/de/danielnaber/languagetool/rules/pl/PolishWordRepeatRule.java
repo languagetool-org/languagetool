@@ -71,13 +71,21 @@ public class PolishWordRepeatRule extends PolishRule {
 	        		isWord = false;
 	        		break;
 	        	}
+                
+                String lemma = tokens[i].getAnalyzedToken(k).getLemma();
+                if (Pattern.matches("to", lemma)) {
+                    isWord = false;
+                    break;
+                 }
+                
 	        	if (Pattern.matches("prep:.*", posTag)) {
 	        		isWord = false;
 	        		break;
-	        	 } 
-       		    } else {
-       		    	hasLemma = false;
-	        	}
+	        	 }
+                } else {
+                    hasLemma = false;
+                }
+                                       		    
 	        }
 	        
 	        if (tokens[i].getToken().equals("nie")) {
