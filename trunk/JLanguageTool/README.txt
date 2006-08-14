@@ -30,6 +30,7 @@ License:
  
 Known bugs:
  -OpenOffice.org integration:
+   -fails for documents > 64KB
    -LanguageTool gets confused when the text is changed while the LanguageTool 
     dialog is open
    -LanguageTool doesn't work if you have a Windows username with special characters
@@ -42,6 +43,7 @@ Known bugs:
    
 TODO:
  -GUI: icon in window corner, better icon for system tray
+ -Externalize strings in Main
  -clean up rule descriptions so that they coherently contain the error or the rule
   (e.g. "did + baseform" vs. "did + non-baseform")
  -use Java 1.5 generics everywhere (maybe also instead of arrays?)
