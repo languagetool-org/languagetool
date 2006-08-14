@@ -48,6 +48,7 @@ import com.sun.star.text.XTextViewCursorSupplier;
 import com.sun.star.uno.UnoRuntime;
 import com.sun.star.uno.XComponentContext;
 
+import de.danielnaber.languagetool.JLanguageTool;
 import de.danielnaber.languagetool.Language;
 import de.danielnaber.languagetool.gui.Configuration;
 import de.danielnaber.languagetool.rules.Rule;
@@ -60,7 +61,7 @@ import de.danielnaber.languagetool.rules.RuleMatch;
  */
 public class Main {
 
-  public static final String version = "0.6";
+  public static final String version = JLanguageTool.VERSION;
 
   public static class _Main extends WeakBase implements XJobExecutor, XServiceInfo {
 
