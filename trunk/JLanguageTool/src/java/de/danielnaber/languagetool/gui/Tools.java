@@ -25,7 +25,7 @@ package de.danielnaber.languagetool.gui;
  */
 public class Tools {
 
-  private static final int DEFAULT_CONTEXT_SIZE = 25;   // characters
+  private static final int DEFAULT_CONTEXT_SIZE = 40;   // characters
   private static final String MARKER_START = "<b><font color=\"red\">";
   private static final String MARKER_END = "</font></b>";
 
