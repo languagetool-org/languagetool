@@ -202,6 +202,8 @@ public class Main {
         (XTextViewCursorSupplier)UnoRuntime.queryInterface(XTextViewCursorSupplier.class, xController); 
       //XTextViewCursor xViewCursor = xViewCursorSupplier.getViewCursor();
       xViewCursor = xViewCursorSupplier.getViewCursor();
+      //FIXME: getString gets only 64K of text
+      //should switch to text enumeration
       String textToCheck = xViewCursor.getString();     // user's current selection
       boolean selection = true;
       if (textToCheck.equals("")) {     // no selection = check complete text
