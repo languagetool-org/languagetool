@@ -210,6 +210,10 @@ public class Main {
         selection = false;
         XText text = xTextDoc.getText();
         textToCheck = text.getString();
+        if (textToCheck.equals("")) {
+          JOptionPane.showMessageDialog(null, "No text to check. Please note that documents > 64 KB are not yet supported",
+              "Error", JOptionPane.ERROR_MESSAGE);
+        }
         xViewCursor = null;
       }
       // without this replacement selecting the error on Windows will not work correctly:
