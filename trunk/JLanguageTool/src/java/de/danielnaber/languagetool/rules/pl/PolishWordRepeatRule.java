@@ -40,7 +40,7 @@ public class PolishWordRepeatRule extends PolishRule {
 	 */
 	@Override
 	public String getDescription() {
-		return "Powtórzenia wyrazów w zdaniu";
+		return "Powtórzenia wyrazów w zdaniu (monotonia stylistyczna)";
 	}
 
 
@@ -78,14 +78,14 @@ public class PolishWordRepeatRule extends PolishRule {
 	        		isWord = false;
 	        		break;
 	        	}
-                
+           //too many false alarms here:     
                 String lemma = tokens[i].getAnalyzedToken(k).getLemma();
-                if (Pattern.matches("to", lemma)) {
+                if (Pattern.matches("to|siebie|być", lemma)) {
                     isWord = false;
                     break;
                  }
                 
-	        	if (Pattern.matches("prep:.*", posTag)) {
+	        	if (Pattern.matches("prep:.*|ppron.*", posTag)) {
 	        		isWord = false;
 	        		break;
 	        	 }
