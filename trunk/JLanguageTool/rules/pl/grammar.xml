@@ -1,8 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?><!--
 Copyright (C) 2006 Marcin Miłkowski
-$Id: grammar.xml,v 1.35 2006-08-17 19:47:45 milek_pl Exp $		
+$Id: grammar.xml,v 1.36 2006-08-18 15:28:33 milek_pl Exp $		
 -->
 <rules lang="pl">
+	<category name="Typografia">
+		<rule id="POMINIECIE" name="(...) → [...]">
+			<pattern>
+				<token>(</token>
+				<token>.</token>
+				<token>.</token>
+				<token>.</token>
+				<token>)</token>
+			</pattern>
+			<message>W języku polskim zwyczaj typograficzny nakazuje trzykropek umieszczać w nawiasie kwadratowym: <suggestion>[...]</suggestion>.</message>
+			<example type="incorrect">„prawdziwe arcydzieło <marker>(...)</marker> o wprost ogromnej teoretycznej doniosłości</example>
+			<example type="correct">„prawdziwe arcydzieło [...] o wprost ogromnej teoretycznej doniosłości</example>
+		</rule>
+			
+	</category>
 	<category name="Błędy odmiany">
 		<rule id="TA_KSIAZKA" name="„tą” jako biernik (tę)">
 			<pattern>
@@ -954,9 +969,9 @@ $Id: grammar.xml,v 1.35 2006-08-17 19:47:45 milek_pl Exp $
 			<!-- błąd ortograficzny - pisownia łączna rzeczowników z "nie" -->
 		<rule id="NIE_RZECZOWNIK" name="Rozłączna pisownia „nie” z rzeczownikami i przymiotnikami">
 			<pattern mark_from="1" case_sensitive="no">
-				<token negate="yes" regexp="yes">a|raczej</token>
+				<token negate="yes" regexp="yes">przez|na|ale|lecz|a|raczej</token>
 				<token>nie</token>
-				<token postag_regexp="yes" postag=".*:pneg|subst:ger.*"><exception regexp="yes">bić|być|być|czuć|dobić|dognić|dojść|dopić|doszyć|dożyć|duć|gnić|kluć|nabić|nadbić|nadejść|nadgnić|nadpić|nadpsuć|nadużyć|najść|napić|napluć|napsuć|naszyć|nażyć|obejść|obić|obszyć|obuć|obwić|obyć|odbić|odczuć|odejść|odgnić|odpić|odszyć|odżyć|ognić|ognić|opić|owić|ozuć|ożyć|pić|pobić|pobyć|poczuć|podbić|podejść|podgnić|podpić|podszczuć|podszyć|podtyć|pognić|popić|popsuć|poszczuć|poszyć|powić|pozbyć|pożyć|przebić|przeczuć|przegnić|przejść|przepić|przeszyć|przeżuć|przeżyć|przybić|przybyć|przyjść|przyszyć|przytyć|psuć|pójść|rozbić|rozejść|rozpić|rozszyć|roztyć|rozzuć|spić|spowić|spożyć|szczuć|szyć|tyć|ubić|ubyć|uczuć|ujść|upić|uszyć|utyć|uwić|użyć|wbić|wczuć|wejść|wić|wnijść|wpić|współczuć|współodczuć|współżyć|wszyć|wybić|wybyć|wyczuć|wygnić|wyjść|wypić|wyszczuć|wyszyć|wyzuć|wyżyć|wyć|wzbić|wzejść|wzuć|wżyć|zabić|zagnić|zajść|zapić|zaszczuć|zaszyć|zawyć|zażyć|zbić|zejść|zepsuć|zeszyć|zezuć|zgnić|zszyć|zużyć|zwić|zzuć|zżuć|zżyć|żuć|żyć|można|(\p{Lu}[\p{L}&amp;&amp;[^\p{Lu}]]+)</exception></token>
+				<token postag_regexp="yes" postag=".*:pneg|subst:ger.*"><exception regexp="yes">bić|być|być|czuć|dobić|dognić|dojść|dopić|doszyć|dożyć|duć|gnić|kluć|nabić|nadbić|nadejść|nadgnić|nadpić|nadpsuć|nadużyć|najść|napić|napluć|napsuć|naszyć|nażyć|obejść|obić|obszyć|obuć|obwić|obyć|odbić|odczuć|odejść|odgnić|odpić|odszyć|odżyć|ognić|ognić|opić|owić|ozuć|ożyć|pić|pobić|pobyć|poczuć|podbić|podejść|podgnić|podpić|podszczuć|podszyć|podtyć|pognić|popić|popsuć|poszczuć|poszyć|powić|pozbyć|pożyć|przebić|przeczuć|przegnić|przejść|przepić|przeszyć|przeżuć|przeżyć|przybić|przybyć|przyjść|przyszyć|przytyć|psuć|pójść|rozbić|rozejść|rozpić|rozszyć|roztyć|rozzuć|spić|spowić|spożyć|szczuć|szyć|tyć|ubić|ubyć|uczuć|ujść|upić|uszyć|utyć|uwić|użyć|wbić|wczuć|wejść|wić|wnijść|wpić|współczuć|współodczuć|współżyć|wszyć|wybić|wybyć|wyczuć|wygnić|wyjść|wypić|wyszczuć|wyszyć|wyzuć|wyżyć|wyć|wzbić|wzejść|wzuć|wżyć|zabić|zagnić|zajść|zapić|zaszczuć|zaszyć|zawyć|zażyć|zbić|zejść|zepsuć|zeszyć|zezuć|zgnić|zszyć|zużyć|zwić|zzuć|zżuć|zżyć|żuć|żyć|można|była|były|stali|stały|stała|byli|(\p{Lu}[\p{L}&amp;&amp;[^\p{Lu}]]+)</exception></token>
 			</pattern>
 			<message>„Nie” z rzeczownikami, przysłówkami i przymiotnikami piszemy łącznie, czyli poprawnie będzie <suggestion>nie\3</suggestion>.</message>
 			<example type="correct">Prosimy o niepalenie.</example>
