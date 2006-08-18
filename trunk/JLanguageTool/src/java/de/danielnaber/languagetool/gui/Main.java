@@ -324,7 +324,7 @@ public class Main implements ActionListener {
 
   private int checkText(JLanguageTool langTool, String text, StringBuilder sb) throws IOException {
     long startTime = System.currentTimeMillis();
-    List<RuleMatch> ruleMatches = langTool.check(text);
+    List<RuleMatch> ruleMatches = langTool.check(StringTools.escapeHTML(text));
     long startTimeMatching = System.currentTimeMillis();
     int i = 0;
     for (RuleMatch match : ruleMatches) {
