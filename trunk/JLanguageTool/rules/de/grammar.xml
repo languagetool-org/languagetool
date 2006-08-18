@@ -3,7 +3,7 @@
 Rules: Grammar and Typos
 See tagset.txt for the meaning of the POS tags
 Copyright (C) 2001-2006 Daniel Naber (http://www.danielnaber.de)
-$Id: grammar.xml,v 1.51 2006-08-13 19:55:10 dnaber Exp $
+$Id: grammar.xml,v 1.52 2006-08-18 19:22:39 dnaber Exp $
 -->
 <rules lang="de">
 
@@ -61,6 +61,17 @@ $Id: grammar.xml,v 1.51 2006-08-13 19:55:10 dnaber Exp $
     <message>Meinten Sie <suggestion>\1\2</suggestion>?</message>
     <example type="correct">Das ist ihm wohl nicht <marker>zuzumuten</marker>.</example>
     <example type="incorrect">Das ist ihm wohl nicht <marker>zu zumuten</marker>.</example>
+  </rule>
+
+  <rule id="HIN_UNS_WIEDER" name="Möglicher Tippfehler 'hin uns(und) wieder'">
+    <pattern mark_from="1" mark_to="-1">
+      <token>hin</token>
+      <token>uns</token>
+      <token>wieder</token>
+    </pattern>
+    <message>Meinten Sie <suggestion>und</suggestion>?</message>
+    <example type="correct">Hin <marker>und</marker> wieder kann man das machen.</example>
+    <example type="incorrect">Hin <marker>uns</marker> wieder kann man das machen.</example>
   </rule>
 
   <rule id="SONDER_NUR" name="Möglicher Tippfehler 'sonder(sondern)'">
