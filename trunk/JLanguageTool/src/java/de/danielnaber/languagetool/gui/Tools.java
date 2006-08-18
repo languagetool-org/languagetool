@@ -59,6 +59,8 @@ public class Tools {
       endContent = fileContents.length();
     }
     // make "^" marker. inefficient but robust implementation:
+    //FIXME: this is buggy, does not include lengths of HTML entities
+    //see what happens with a string: This is an "example" of of.
     StringBuilder marker = new StringBuilder();
     for (int i = 0; i < fileContents.length() + prefix.length(); i++) {
       if (i >= fromPos && i < toPos)
@@ -70,8 +72,8 @@ public class Tools {
     StringBuilder sb = new StringBuilder();
     sb.append(prefix);
     sb.append(fileContents.substring(startContent, endContent));
-    sb.append(postfix);
     String markerStr = markerPrefix + marker.substring(startContent, endContent);
+    sb.append(postfix);
     int startMark = markerStr.indexOf("^");
     int endMark = markerStr.lastIndexOf("^");
     String result = sb.toString();
