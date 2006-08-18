@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?><!--
 Copyright (C) 2006 Marcin Miłkowski
-$Id: grammar.xml,v 1.36 2006-08-18 15:28:33 milek_pl Exp $		
+$Id: grammar.xml,v 1.37 2006-08-18 19:51:31 milek_pl Exp $		
 -->
 <rules lang="pl">
 	<category name="Typografia">
@@ -131,7 +131,7 @@ $Id: grammar.xml,v 1.36 2006-08-18 15:28:33 milek_pl Exp $
 		
 		<rule name="„inny jak” (inny niż)" id="INNY_JAK">
 			<pattern mark_from="2">
-				<token regexp="yes" negate="yes">nie|nikt|któż|kto</token>
+				<token regexp="yes" negate="yes">nie|nic|nikt|któż|kto</token>
 				<token inflected="yes">inny</token>
 				<token>jak</token>
 			</pattern>
@@ -272,7 +272,7 @@ $Id: grammar.xml,v 1.36 2006-08-18 15:28:33 milek_pl Exp $
 		
 		<rule name="„uznać jakimś” (za jakieś)" id="UZNAC_JAKIMS">
 			<pattern mark_from="1">
-				<token skip="2" inflected="yes" regexp="yes">uznać|uznawać<exception>za</exception></token>
+				<token skip="2" inflected="yes" regexp="yes">uznać|uznawać<exception regexp="yes">za|,|na|przy</exception></token>
 				<token postag_regexp="yes" postag="(adj|subst).*inst.*"/>
 			</pattern>
 			<message>Mówi się „uznać <suggestion>za</suggestion> jakieś”.</message>
@@ -300,15 +300,16 @@ $Id: grammar.xml,v 1.36 2006-08-18 15:28:33 milek_pl Exp $
 		</rule>
 	
 		<rule id="UZYWAC_CO" name="„używać co” (czego)">
-			<pattern>
-				<token inflected="yes">używać</token>
-				<token postag_regexp="yes" postag="(adj|subst|ppas|pact|ppron|ppron3):.*:(nom|acc|nom\.acc\.voc|nom\.acc):.*"/>
+			<pattern mark_from="1">
+				<token regexp="yes" inflected="yes">używać|użyć</token>
+				<token postag_regexp="yes" postag="(adj|subst|ppas|pact|ppron|ppron3):.*:(nom|acc|nom\.acc\.voc|nom\.acc):.*"><exception postag_regexp="yes" postag=".*gen.*"/></token>
 			</pattern>
-			<message>Mówi się <suggestion>używać czego</suggestion>, a nie „używać coś”.</message>
+			<message>Mówi się używać <suggestion>czego</suggestion>, a nie „używać coś”.</message>
 			<example type="correct">Używam starego żelazka.</example>
-			<example type="incorrect"><marker>Używam stare</marker> żelazko.</example>
+			<example type="incorrect">Używam <marker>stare</marker> żelazko.</example>
 			<example type="correct">To żelazko jest używane przez królową angielską.</example>
 		</rule>
+		
 		<rule name="„zarówno... i” („zarówno... jak”)" id="ZAROWNO_I">
 			<pattern>
 				<token skip="-1">zarówno<exception>jak</exception></token>
@@ -608,7 +609,7 @@ $Id: grammar.xml,v 1.36 2006-08-18 15:28:33 milek_pl Exp $
 	
 		<rule name="„uznać jako” (za)" id="UZNAC_JAKO">
 			<pattern mark_from="1">
-				<token skip="-1" inflected="yes" regexp="yes">uznać|uznawać<exception>za</exception></token>
+				<token skip="-1" inflected="yes" regexp="yes">uznać|uznawać<exception regexp="yes">za|,|który|jaki|co</exception></token>
 				<token>jako</token>
 			</pattern>
 			<message>Mówi się „uznać coś <suggestion>za</suggestion> jakieś”</message>
@@ -925,11 +926,12 @@ $Id: grammar.xml,v 1.36 2006-08-18 15:28:33 milek_pl Exp $
 	
 		<rule name="Liczebniki porządkowe z końcówkami przypadków" id="LICZEBNIKI">
 			<pattern>
-				<token regexp="yes">[0-9]+-(ty|wsi|wszy|szy|si|tym|tymi|ci|a|ce|ch|cia|cie|ciej|cim|cio|cioletnią|ciu|ego|ej|ga|gi|gie|gim|go|im|ki|krotnie|któregoś|leci.*|ma|me|miu|mo|o|ro|stoletniego|stu|sza|ta|te|tego|tej|tka|tki|to|toletnim|tu|tą)</token>
+				<token regexp="yes">[0-9]+-(ty|[w]*si|[w]*szy|[w]*sze|[w]*szym[i]*|[w]*si|tym|tymi|ci|a|ce|ch|cia|cie|ciej|cim|cio|cioletnią|ciu|ego|ej|ga|gi|gie|gim|go|im|ki|krotnie|któregoś|leci.*|ma|me|miu|mo|o|ro|stoletniego|stu|sza|ta|te|tego|tej|tka|tki|to|toletni.*|tu|tą|tych|te)</token>
 			</pattern>
 			<message>Liczebniki porządkowe zapisujemy nie z końcówkami przypadków, tylko z kropką: <suggestion>.</suggestion>.</message>
 			<example type="correct">Ten system jest 32-bitowy.</example>
 			<example type="incorrect">To już <marker>5-ty</marker> raz!</example>
+			<example type="incorrect">To już <marker>1-wszy</marker> raz!</example>
 			<example type="incorrect">Rosjanie byli <marker>1-wsi</marker> w kosmosie.</example>
 		</rule>
 		<rule name="„tym czasem” (tymczasem)" id="TYMCZASEM">
@@ -944,7 +946,77 @@ $Id: grammar.xml,v 1.36 2006-08-18 15:28:33 milek_pl Exp $
 			<example type="incorrect">A <marker>tym czasem</marker> na Politechnice...</example>
 		</rule>
 	
+		<rule name="„w śród” (wśród)" id="W_SROD">
+			<pattern>
+				<token>w</token>
+				<token>śród</token>
+			</pattern>
+			<message>Ten przyimek piszemy łącznie, tj. <suggestion>wśród</suggestion>.</message>
+			<example type="incorrect">Jarosław Kaczyński jest najwybitniejszym mężem stanu <marker>w śród</marker> wszystkich Kaczyńskich.</example>
+			<example type="correct">Jarosław Kaczyński jest najwybitniejszym mężem stanu wśród wszystkich Kaczyńskich.</example>
+		</rule>
 
+		<rule name="„na wzajem” (nawzajem)" id="NA_WZAJEM">
+			<pattern>
+				<token>na</token>
+				<token>wzajem</token>
+			</pattern>
+			<message>Ten przyimek piszemy łącznie, tj. <suggestion>nawzajem</suggestion>.</message>
+			<example type="correct">Pomóżmy sobie nawzajem!</example>
+			<example type="incorrect">Pomóżmy sobie <marker>na wzajem</marker>!</example>
+		</rule>
+
+		<rule name="„nie omal” (nieomal)" id="NIE_OMAL">
+			<pattern>
+				<token>nie</token>
+				<token>omal</token>
+			</pattern>
+			<message>Ten wyraz piszemy łącznie, tj. <suggestion>nieomal</suggestion>.</message>
+			<example type="correct">Nieomal kupiłem mercedesa za bezcen.</example>
+			<example type="incorrect"><marker>Nie omal</marker> kupiłem mercedesa za bezcen.</example>
+		</rule>
+
+		<rule name="„nie opodal” (nieopodal)" id="NIE_OPODAL">
+			<pattern>
+				<token>nie</token>
+				<token>opodal</token>
+			</pattern>
+			<message>Ten wyraz piszemy łącznie, tj. <suggestion>nieopodal</suggestion>.</message>
+			<example type="correct">Sklep jest nieopodal.</example>
+			<example type="incorrect">Sklep jest <marker>nie opodal</marker>.</example>
+		</rule>
+
+		<rule name="„z goła” (zgoła)" id="Z_GOLA">
+			<pattern>
+				<token>z</token>
+				<token>goła</token>
+			</pattern>
+			<message>Ten wyraz piszemy łącznie, tj. <suggestion>\1\2</suggestion>.</message>
+			<example type="correct">Przy takim pojmowaniu historii jasnym jest, że nie ma tu zgoła miejsca dla wybitnych jednostek, a niewiele go zostaje dla wolności woli.</example>
+			<example type="incorrect">Przy takim pojmowaniu historii jasnym jest, że nie ma tu <marker>z goła</marker> miejsca dla wybitnych jednostek, a niewiele go zostaje dla wolności woli.</example>
+		</rule>
+
+		<rule name="„tam tędy” (tamtędy)" id="TAM_TEDY">
+			<pattern>
+				<token>tam</token>
+				<token>tędy</token>
+			</pattern>
+			<message>Ten wyraz piszemy łącznie, tj. <suggestion>\1\2</suggestion>.</message>
+			<example type="correct">Poszliśmy tamtędy.</example>
+			<example type="incorrect">Poszliśmy <marker>tam tędy</marker>.</example>
+		</rule>
+
+		<rule name="„gdzie nie gdzie” (gdzieniegdzie)" id="GDZIENIEGDZIE">
+			<pattern>
+				<token>gdzie</token>
+				<token>nie</token>
+				<token>gdzie</token>
+			</pattern>
+			<message>Ten wyraz piszemy łącznie, tj. <suggestion>\1\2\3</suggestion>.</message>
+			<example type="correct">Gdzieniegdzie rośnie trawa.</example>
+			<example type="incorrect"><marker>Gdzie nie gdzie</marker> rośnie trawa.</example>
+		</rule>
+				
 		<rule name="„z pośród” (spośród)" id="Z_POSROD">
 			<pattern>
 				<token>z</token>
@@ -969,9 +1041,9 @@ $Id: grammar.xml,v 1.36 2006-08-18 15:28:33 milek_pl Exp $
 			<!-- błąd ortograficzny - pisownia łączna rzeczowników z "nie" -->
 		<rule id="NIE_RZECZOWNIK" name="Rozłączna pisownia „nie” z rzeczownikami i przymiotnikami">
 			<pattern mark_from="1" case_sensitive="no">
-				<token negate="yes" regexp="yes">przez|na|ale|lecz|a|raczej</token>
+				<token negate="yes" regexp="yes">przez|na|ale|lecz|a|raczej|wcale|jak</token>
 				<token>nie</token>
-				<token postag_regexp="yes" postag=".*:pneg|subst:ger.*"><exception regexp="yes">bić|być|być|czuć|dobić|dognić|dojść|dopić|doszyć|dożyć|duć|gnić|kluć|nabić|nadbić|nadejść|nadgnić|nadpić|nadpsuć|nadużyć|najść|napić|napluć|napsuć|naszyć|nażyć|obejść|obić|obszyć|obuć|obwić|obyć|odbić|odczuć|odejść|odgnić|odpić|odszyć|odżyć|ognić|ognić|opić|owić|ozuć|ożyć|pić|pobić|pobyć|poczuć|podbić|podejść|podgnić|podpić|podszczuć|podszyć|podtyć|pognić|popić|popsuć|poszczuć|poszyć|powić|pozbyć|pożyć|przebić|przeczuć|przegnić|przejść|przepić|przeszyć|przeżuć|przeżyć|przybić|przybyć|przyjść|przyszyć|przytyć|psuć|pójść|rozbić|rozejść|rozpić|rozszyć|roztyć|rozzuć|spić|spowić|spożyć|szczuć|szyć|tyć|ubić|ubyć|uczuć|ujść|upić|uszyć|utyć|uwić|użyć|wbić|wczuć|wejść|wić|wnijść|wpić|współczuć|współodczuć|współżyć|wszyć|wybić|wybyć|wyczuć|wygnić|wyjść|wypić|wyszczuć|wyszyć|wyzuć|wyżyć|wyć|wzbić|wzejść|wzuć|wżyć|zabić|zagnić|zajść|zapić|zaszczuć|zaszyć|zawyć|zażyć|zbić|zejść|zepsuć|zeszyć|zezuć|zgnić|zszyć|zużyć|zwić|zzuć|zżuć|zżyć|żuć|żyć|można|była|były|stali|stały|stała|byli|(\p{Lu}[\p{L}&amp;&amp;[^\p{Lu}]]+)</exception></token>
+				<token postag_regexp="yes" postag=".*:pneg|subst:ger.*"><exception regexp="yes">bić|być|być|czuć|dobić|dognić|dojść|dopić|doszyć|dożyć|duć|gnić|kluć|nabić|nadbić|nadejść|nadgnić|nadpić|nadpsuć|nadużyć|najść|napić|napluć|napsuć|naszyć|nażyć|obejść|obić|obszyć|obuć|obwić|obyć|odbić|odczuć|odejść|odgnić|odpić|odszyć|odżyć|ognić|ognić|opić|owić|ozuć|ożyć|pić|pobić|pobyć|poczuć|podbić|podejść|podgnić|podpić|podszczuć|podszyć|podtyć|pognić|popić|popsuć|poszczuć|poszyć|powić|pozbyć|pożyć|przebić|przeczuć|przegnić|przejść|przepić|przeszyć|przeżuć|przeżyć|przybić|przybyć|przyjść|przyszyć|przytyć|psuć|pójść|rozbić|rozejść|rozpić|rozszyć|roztyć|rozzuć|spić|spowić|spożyć|szczuć|szyć|tyć|ubić|ubyć|uczuć|ujść|upić|uszyć|utyć|uwić|użyć|wbić|wczuć|wejść|wić|wnijść|wpić|współczuć|współodczuć|współżyć|wszyć|wybić|wybyć|wyczuć|wygnić|wyjść|wypić|wyszczuć|wyszyć|wyzuć|wyżyć|wyć|wzbić|wzejść|wzuć|wżyć|zabić|zagnić|zajść|zapić|zaszczuć|zaszyć|zawyć|zażyć|zbić|zejść|zepsuć|zeszyć|zezuć|zgnić|zszyć|zużyć|zwić|zzuć|zżuć|zżyć|żuć|żyć|można|była|były|stali|stały|stała|byli|ulegli|uległa|uległy|lubi|(\p{Lu}[\p{L}&amp;&amp;[^\p{Lu}]]+)</exception></token>
 			</pattern>
 			<message>„Nie” z rzeczownikami, przysłówkami i przymiotnikami piszemy łącznie, czyli poprawnie będzie <suggestion>nie\3</suggestion>.</message>
 			<example type="correct">Prosimy o niepalenie.</example>
@@ -981,6 +1053,8 @@ $Id: grammar.xml,v 1.36 2006-08-18 15:28:33 milek_pl Exp $
 			<example type="correct">Ten zawodnik jest nie najlepszy.</example>
 			<example type="correct">Nie każdy tak potrafi.</example>
 			<example type="correct">On jest nie lepszy od swojego poprzednika.</example>
+			<example type="correct">One nie były głupie.</example>
+			<example type="correct">Być albo nie być: oto jest pytanie.</example>
 			<example type="incorrect">Prosimy o <marker>nie palenie</marker>.</example>
 		</rule>
 	
