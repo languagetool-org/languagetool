@@ -104,7 +104,7 @@ public class SentenceTokenizer implements Tokenizer {
       //Polish:
       "np", "p.n.e", "m.in", "itd", "itp", "pt","cdn", "czyt", "dyr","hab",
       "inż","jw", "lek","n.e","nb","rys", "tj", "tzw", "tzn", "zob" , "ds", "ang",
-      "ul", "pl", "al", "prof", "gen", "k", "n", "ks"
+      "ul", "pl", "al", "prof", "gen", "k", "n", "ks", "ok", "tys", "r"
   };
 
   // einige deutsche Monate, vor denen eine Zahl erscheinen kann,
