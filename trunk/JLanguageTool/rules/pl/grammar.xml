@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?><!--
 Copyright (C) 2006 Marcin Miłkowski
-$Id: grammar.xml,v 1.38 2006-08-19 10:46:42 milek_pl Exp $		
+$Id: grammar.xml,v 1.39 2006-08-19 19:30:59 milek_pl Exp $		
 -->
 <rules lang="pl">
 	<category name="Typografia">
@@ -80,7 +80,7 @@ $Id: grammar.xml,v 1.38 2006-08-19 10:46:42 milek_pl Exp $
 			<example type="correct">Piotr był dokładniejszy.</example>
 		</rule>
 
-			<rule name="„bardziej” i stopień wyższy przymiotnika" id="BARDZIEJ_COMP">
+		<rule name="„bardziej” i stopień wyższy przymiotnika" id="BARDZIEJ_COMP">
 			<pattern>
 				<token>bardziej</token>
 				<token postag_regexp="yes" postag="adj.*:comp"/>
@@ -155,6 +155,7 @@ $Id: grammar.xml,v 1.38 2006-08-19 10:46:42 milek_pl Exp $
 <!--		FIXME: this requires that all POS tags are matches;
 	current rule syntax doesn't allow that and uses only OR logic
 	this creates many false alarms on alternative POS readings
+
 		<rulegroup id="PREP_CASUS" name="Przyimki z nieodpowiednimi przypadkami">
 			<rule>
 				<pattern mark_from="1">
@@ -214,7 +215,7 @@ $Id: grammar.xml,v 1.38 2006-08-19 10:46:42 milek_pl Exp $
 				<example type="incorrect">To wszystko przez <marker>pryszczami</marker>.</example>
 			</rule>
 		</rulegroup>
-	-->
+-->
 		
 		<rule name="„większy/lepszy jak” (większy/lepszy od/niż)" id="WIEKSZY_JAK">
 			<pattern mark_from="1">
@@ -929,7 +930,7 @@ $Id: grammar.xml,v 1.38 2006-08-19 10:46:42 milek_pl Exp $
 	
 		<rule name="Liczebniki porządkowe z końcówkami przypadków" id="LICZEBNIKI">
 			<pattern>
-				<token regexp="yes">[0-9]+-(ty|[w]*si|[w]*szy|[w]*sze|[w]*szym[i]*|[w]*si|tym|tymi|ci|a|ce|ch|cia|cie|ciej|cim|cio|cioletnią|ciu|ego|ej|ga|gi|gie|gim|go|im|ki|krotnie|któregoś|leci.*|ma|me|miu|mo|o|ro|stoletniego|stu|sza|ta|te|tego|tej|tka|tki|to|toletni.*|tu|tą|tych|te)</token>
+				<token regexp="yes">[0-9]+-([mt]*y|[w]*si|[w]*szy|[w]*sze|[w]*szym[i]*|[w]*si|tym|tymi|ci|a|ce|ch|cia|cie|ciej|cim|cio|cioletnią|ciu|ego|ej|ga|gi|gie|gim|go|im|ki|krotnie|któregoś|leci.*|ma|me|miu|mo|o|ro|stoletniego|stu|sza|[tm]*a|[mt]*e|[tm]*ego|[mt]*ej|tka|tki|to|[mt]*[i]*oletni.*|[mt]*u|[mt]*ą|[mt]*ych|[mt]*e)</token>
 			</pattern>
 			<message>Liczebniki porządkowe zapisujemy nie z końcówkami przypadków, tylko z kropką: <suggestion>.</suggestion>.</message>
 			<example type="correct">Ten system jest 32-bitowy.</example>
@@ -958,7 +959,15 @@ $Id: grammar.xml,v 1.38 2006-08-19 10:46:42 milek_pl Exp $
 			<example type="incorrect">Jarosław Kaczyński jest najwybitniejszym mężem stanu <marker>w śród</marker> wszystkich Kaczyńskich.</example>
 			<example type="correct">Jarosław Kaczyński jest najwybitniejszym mężem stanu wśród wszystkich Kaczyńskich.</example>
 		</rule>
-
+		<rule name="„o prócz” (oprócz)" id="O_PROCZ">
+			<pattern>
+				<token>o</token>
+				<token>prócz</token>
+			</pattern>
+			<message>Ten przyimek piszemy łącznie, tj. <suggestion>\1\2</suggestion>.</message>
+			<example type="correct">Lubię wszystkich polityków oprócz premiera.</example>
+			<example type="incorrect">Lubię wszystkich polityków <marker>o prócz</marker> premiera.</example>
+		</rule>
 		<rule name="„na wzajem” (nawzajem)" id="NA_WZAJEM">
 			<pattern>
 				<token>na</token>
@@ -1008,7 +1017,18 @@ $Id: grammar.xml,v 1.38 2006-08-19 10:46:42 milek_pl Exp $
 			<example type="correct">Poszliśmy tamtędy.</example>
 			<example type="incorrect">Poszliśmy <marker>tam tędy</marker>.</example>
 		</rule>
-
+	
+		<rule name="„co nie co” (co nieco)" id="CO_NIE_CO">
+			<pattern mark_from="1">
+				<token>co</token>
+				<token>nie</token>
+				<token>co</token>
+			</pattern>
+			<message>Wyraz <suggestion>nieco</suggestion> piszemy łącznie.</message>
+			<example type="correct">Pora na małe co nieco.</example>
+			<example type="incorrect">Pora na małe co <marker>nie co</marker>.</example>
+		</rule>
+		
 		<rule name="„gdzie nie gdzie” (gdzieniegdzie)" id="GDZIENIEGDZIE">
 			<pattern>
 				<token>gdzie</token>
@@ -1056,8 +1076,11 @@ $Id: grammar.xml,v 1.38 2006-08-19 10:46:42 milek_pl Exp $
 			<pattern mark_from="1" case_sensitive="no">
 				<token negate="yes" regexp="yes">przez|na|ale|lecz|a|raczej|wcale|jak</token>
 				<token>nie</token>
-				<token postag_regexp="yes" postag=".*:pneg|subst:ger.*"><exception regexp="yes">bić|być|być|czuć|dobić|dognić|dojść|dopić|doszyć|dożyć|duć|gnić|kluć|nabić|nadbić|nadejść|nadgnić|nadpić|nadpsuć|nadużyć|najść|napić|napluć|napsuć|naszyć|nażyć|obejść|obić|obszyć|obuć|obwić|obyć|odbić|odczuć|odejść|odgnić|odpić|odszyć|odżyć|ognić|ognić|opić|owić|ozuć|ożyć|pić|pobić|pobyć|poczuć|podbić|podejść|podgnić|podpić|podszczuć|podszyć|podtyć|pognić|popić|popsuć|poszczuć|poszyć|powić|pozbyć|pożyć|przebić|przeczuć|przegnić|przejść|przepić|przeszyć|przeżuć|przeżyć|przybić|przybyć|przyjść|przyszyć|przytyć|psuć|pójść|rozbić|rozejść|rozpić|rozszyć|roztyć|rozzuć|spić|spowić|spożyć|szczuć|szyć|tyć|ubić|ubyć|uczuć|ujść|upić|uszyć|utyć|uwić|użyć|wbić|wczuć|wejść|wić|wnijść|wpić|współczuć|współodczuć|współżyć|wszyć|wybić|wybyć|wyczuć|wygnić|wyjść|wypić|wyszczuć|wyszyć|wyzuć|wyżyć|wyć|wzbić|wzejść|wzuć|wżyć|zabić|zagnić|zajść|zapić|zaszczuć|zaszyć|zawyć|zażyć|zbić|zejść|zepsuć|zeszyć|zezuć|zgnić|zszyć|zużyć|zwić|zzuć|zżuć|zżyć|żuć|żyć|można|była|były|stali|stały|stała|byli|ulegli|uległa|uległy|lubi|zabrania|(\p{Lu}[\p{L}&amp;&amp;[^\p{Lu}]]+)</exception></token>
-			</pattern>
+				<token postag_regexp="yes" postag=".*:pneg|subst:ger.*"><exception postag_regexp="yes" postag="verb.*|pred"/></token>
+<!--					
+<exception regexp="yes">bić|być|być|czuć|dobić|dognić|dojść|dopić|doszyć|dożyć|duć|gnić|kluć|nabić|nadbić|nadejść|nadgnić|nadpić|nadpsuć|nadużyć|najść|napić|napluć|napsuć|naszyć|nażyć|obejść|obić|obszyć|obuć|obwić|obyć|odbić|odczuć|odejść|odgnić|odpić|odszyć|odżyć|ognić|ognić|opić|owić|ozuć|ożyć|pić|pobić|pobyć|poczuć|podbić|podejść|podgnić|podpić|podszczuć|podszyć|podtyć|pognić|popić|popsuć|poszczuć|poszyć|powić|pozbyć|pożyć|przebić|przeczuć|przegnić|przejść|przepić|przeszyć|przeżuć|przeżyć|przybić|przybyć|przyjść|przyszyć|przytyć|psuć|pójść|rozbić|rozejść|rozpić|rozszyć|roztyć|rozzuć|spić|spowić|spożyć|szczuć|szyć|tyć|ubić|ubyć|uczuć|ujść|upić|uszyć|utyć|uwić|użyć|wbić|wczuć|wejść|wić|wnijść|wpić|współczuć|współodczuć|współżyć|wszyć|wybić|wybyć|wyczuć|wygnić|wyjść|wypić|wyszczuć|wyszyć|wyzuć|wyżyć|wyć|wzbić|wzejść|wzuć|wżyć|zabić|zagnić|zajść|zapić|zaszczuć|zaszyć|zawyć|zażyć|zbić|zejść|zepsuć|zeszyć|zezuć|zgnić|zszyć|zużyć|zwić|zzuć|zżuć|zżyć|żuć|żyć|można|była|były|stali|stały|stała|byli|ulegli|uległa|uległy|lubi|zabrania|(\p{Lu}[\p{L}&amp;&amp;[^\p{Lu}]]+)</exception></token>
+				
+-->			</pattern>
 			<message>„Nie” z rzeczownikami, przysłówkami i przymiotnikami piszemy łącznie, czyli poprawnie będzie <suggestion>nie\3</suggestion>.</message>
 			<example type="correct">Prosimy o niepalenie.</example>
 			<example type="correct">Tu nie można palić.</example>
@@ -1068,6 +1091,8 @@ $Id: grammar.xml,v 1.38 2006-08-19 10:46:42 milek_pl Exp $
 			<example type="correct">On jest nie lepszy od swojego poprzednika.</example>
 			<example type="correct">One nie były głupie.</example>
 			<example type="correct">Być albo nie być: oto jest pytanie.</example>
+			<example type="correct">Nie boli mnie noga.</example>
+			<example type="correct">Wójt nie zabrania picia wódki w domu.</example>
 			<example type="incorrect">Prosimy o <marker>nie palenie</marker>.</example>
 		</rule>
 	
@@ -1420,6 +1445,99 @@ $Id: grammar.xml,v 1.38 2006-08-19 10:46:42 milek_pl Exp $
 			<example type="correct">Musimy już iść.</example>
 			<example type="incorrect">Musimy <marker>juz</marker> iść.</example>
 		</rule>
+		<rule name="„pokuj” (pokój)" id="POKOJ">
+			<pattern>
+				<token>pokuj</token>
+			</pattern>
+			<message>Prawdopodobnie literówka, czy chodziło o wyraz <suggestion>pokój</suggestion> (rzeczownik)? Wyraz „pokuj” jest formą trybu rozkazującego czasownika „pokuć”.</message>
+			<example type="correct">To mój pokój</example>
+			<example type="incorrect">To mój <marker>pokuj</marker>.</example>
+		</rule>
+		<rulegroup name="„pozawala/pozawalało (pozwala/pozwalało)" id="POZAWALA">
+			<rule>
+				<pattern>
+					<token>pozawala</token>
+				</pattern>
+				<message>Czy chodziło o <suggestion>pozwala</suggestion>?</message>
+				<example type="correct">Jarek pozwala sobie na zbyt wiele wobec Lecha.</example>
+				<example type="incorrect">Jarek <marker>pozawala</marker> sobie na zbyt wiele wobec Lecha.</example>
+			</rule>
+			<rule>
+				<pattern>
+					<token>pozawalał</token>
+				</pattern>
+				<message>Czy chodziło o <suggestion>pozwalał</suggestion>?</message>
+				<example type="correct">Jarek pozwalał sobie na zbyt wiele wobec Lecha.</example>
+				<example type="incorrect">Jarek <marker>pozawalał</marker> sobie na zbyt wiele wobec Lecha.</example>
+			</rule>
+			<rule>
+				<pattern>
+					<token>pozawalało</token>
+				</pattern>
+				<message>Czy chodziło o <suggestion>pozwalało</suggestion>?</message>
+				<example type="correct">Pozwalało to na zawarcie korzystnej transakcji.</example>
+				<example type="incorrect"><marker>Pozawalało</marker> to na zawarcie korzystnej transakcji.</example>
+			</rule>
+		</rulegroup>
+		<rule name="„w brew” (wbrew)" id="W_BREW">
+			<pattern mark_to="-1">
+				<token>w</token>
+				<token>brew</token>
+				<token postag_regexp="yes" postag=".*dat.*"/>
+			</pattern>
+			<message>Prawdopodobna literówka, czy chodziło o przyimek <suggestion>wbrew</suggestion>, czy o brwi?</message>
+			<example type="correct">Wbrew pozorom był jeszcze całkiem młody.</example>
+			<example type="incorrect"><marker>W brew</marker> pozorom był jeszcze całkiem młody.</example>
+		</rule>
+		<rulegroup name="„drzem, drzemy” (dżem, dżemy)" id="DRZEM">
+			<rule>
+			<pattern>
+				<token>drzem</token>
+			</pattern>
+			<message>Prawdopodobna literówka: czy chodziło o <suggestion>dżem</suggestion> (do jedzenia), czy o nakaz drzemania?</message>
+			<example type="incorrect">To <marker>drzem</marker> z Biedronki.</example>
+			<example type="correct">To <marker>dżem</marker> z Biedronki.</example>
+			</rule>
+			<rule>
+			<pattern>
+				<token>drzemy</token>
+			</pattern>
+			<message>Prawdopodobna literówka: czy chodziło o <suggestion>dżemy</suggestion> (do jedzenia), czy o stwierdzenie, że my coś drzemy (rozdzieramy)?</message>
+			<example type="incorrect">To <marker>drzemy</marker> z Biedronki.</example>
+			<example type="correct">To <marker>dżemy</marker> z Biedronki.</example>
+			</rule>
+		</rulegroup>
+		<rulegroup name="„struj” (struj)" id="STRUJ">
+		<rule>
+			<pattern mark_to="-1">
+				<token>struj</token>
+				<token postag_regexp="yes" postag="subst:sg:gen.*|adj:sg:.*"/>
+			</pattern>
+			<message>Prawdopodobnie chodziło o wyraz <suggestion>strój</suggestion> (ubranie), a nie o tryb rozkazujący od czasownika „struć”.</message>
+			<example type="incorrect">To <marker>struj</marker> łucznika.</example>
+			<example type="correct">To strój łucznika.</example>
+		</rule>
+		<rule>
+			<pattern mark_from="1">
+				<token postag_regexp="yes" postag="adj:sg:.*"/>
+				<token>struj</token>	
+			</pattern>
+			<message>Prawdopodobnie chodziło o wyraz <suggestion>strój</suggestion> (ubranie), a nie o tryb rozkazujący od czasownika „struć”.</message>
+			<example type="incorrect">To fantastyczny <marker>struj</marker>.</example>
+			<example type="correct">To fantastyczny strój.</example>
+		</rule>
+		<rule>
+			<pattern mark_to="-2">
+				<token>struj</token>
+				<token>na</token>
+				<token regexp="yes">wf|bal|specjalne</token>
+			</pattern>
+			<message>Prawdopodobnie chodziło o wyraz <suggestion>strój</suggestion> (ubranie), a nie o tryb rozkazujący od czasownika „struć”.</message>
+			<example type="incorrect">To <marker>struj</marker> na wf.</example>
+			<example type="correct">To strój na wf.</example>
+		</rule>
+	
+		</rulegroup>
 		<rule name="„sie” (się)" id="SIE">
 			<pattern>
 				<token>sie</token>
