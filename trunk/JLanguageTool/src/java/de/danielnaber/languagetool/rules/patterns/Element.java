@@ -52,8 +52,7 @@ public class Element {
   int skip = 0;
 
   boolean match(AnalyzedToken token) {
-    return (matchStringToken(token) != negation) && (matchPosToken(token) != posNegation)
-        && !exceptionMatch(token);
+    return (matchStringToken(token) != negation) && (matchPosToken(token) != posNegation);
   }
 
   boolean exceptionMatch(AnalyzedToken token) {

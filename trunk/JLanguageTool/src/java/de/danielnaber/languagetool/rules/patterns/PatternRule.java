@@ -173,15 +173,16 @@ public class PatternRule extends Rule {
               }               
             }
             
+            exceptionMatched=exceptionMatched || elem.exceptionMatch(matchToken);
             // Logical OR (cannot be AND):
-            if (!elem.match(matchToken)) {             
+            if (!(elem.match(matchToken)&& !exceptionMatched)) {             
               matched = matched || false;
             } else {              
-            matched = true && !exceptionMatched;
+            matched = true;
             matchPos = m;
             skipShift = matchPos - nextPos;
           }
-          skipMatch = skipMatch || matched;
+          skipMatch = (skipMatch || matched) && !exceptionMatched;
           
         }
         if (skipMatch) {
