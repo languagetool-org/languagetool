@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?><!--
 Copyright (C) 2006 Marcin Miłkowski
-$Id: grammar.xml,v 1.37 2006-08-18 19:51:31 milek_pl Exp $		
+$Id: grammar.xml,v 1.38 2006-08-19 10:46:42 milek_pl Exp $		
 -->
 <rules lang="pl">
 	<category name="Typografia">
@@ -216,14 +216,16 @@ $Id: grammar.xml,v 1.37 2006-08-18 19:51:31 milek_pl Exp $
 		</rulegroup>
 	-->
 		
-		<rule name="„większy jak” (większy od, większy niż)" id="WIEKSZY_JAK">
+		<rule name="„większy/lepszy jak” (większy/lepszy od/niż)" id="WIEKSZY_JAK">
 			<pattern mark_from="1">
-				<token inflected="yes">większy</token>
+				<token inflected="yes" regexp="yes">większy|lepszy</token>
 				<token>jak</token>
 			</pattern>
-			<message>Mówimy „większy <suggestion>od</suggestion>”, „większy <suggestion>niż</suggestion>”.</message>
+			<message>Mówimy „większy/lepszy <suggestion>od</suggestion>”, „większy/lepszy <suggestion>niż</suggestion>”.</message>
 			<example type="correct">Ten nowy dysk jest większy od starego.</example>
+			<example type="correct">Ten nowy dysk jest lepszy od starego.</example>
 			<example type="incorrect">Ten nowy dysk jest większy <marker>jak</marker> stary.</example>
+			<example type="incorrect">Ten nowy dysk jest lepszy <marker>jak</marker> stary.</example>
 		</rule>
 		<rule name="„więcej jak” (więcej od, więcej niż)" id="WIECEJ_JAK">
 			<pattern mark_from="1">
@@ -272,7 +274,7 @@ $Id: grammar.xml,v 1.37 2006-08-18 19:51:31 milek_pl Exp $
 		
 		<rule name="„uznać jakimś” (za jakieś)" id="UZNAC_JAKIMS">
 			<pattern mark_from="1">
-				<token skip="2" inflected="yes" regexp="yes">uznać|uznawać<exception regexp="yes">za|,|na|przy</exception></token>
+				<token skip="2" inflected="yes" regexp="yes">uznać|uznawać<exception regexp="yes">za|,|na|przy|między|nad|nade|znad|o|po|w</exception></token>
 				<token postag_regexp="yes" postag="(adj|subst).*inst.*"/>
 			</pattern>
 			<message>Mówi się „uznać <suggestion>za</suggestion> jakieś”.</message>
@@ -302,12 +304,13 @@ $Id: grammar.xml,v 1.37 2006-08-18 19:51:31 milek_pl Exp $
 		<rule id="UZYWAC_CO" name="„używać co” (czego)">
 			<pattern mark_from="1">
 				<token regexp="yes" inflected="yes">używać|użyć</token>
-				<token postag_regexp="yes" postag="(adj|subst|ppas|pact|ppron|ppron3):.*:(nom|acc|nom\.acc\.voc|nom\.acc):.*"><exception postag_regexp="yes" postag=".*gen.*"/></token>
+				<token postag_regexp="yes" postag="(adj|subst|ppas|pact|ppron|ppron3):.*:(nom|acc|nom\.acc\.voc|nom\.acc):.*"><exception postag_regexp="yes" postag=".*gen.*|conj|prep.*|"/></token>
 			</pattern>
 			<message>Mówi się używać <suggestion>czego</suggestion>, a nie „używać coś”.</message>
 			<example type="correct">Używam starego żelazka.</example>
 			<example type="incorrect">Używam <marker>stare</marker> żelazko.</example>
 			<example type="correct">To żelazko jest używane przez królową angielską.</example>
+			<example type="correct">To żelazko było używane jak dawniej.</example>
 		</rule>
 		
 		<rule name="„zarówno... i” („zarówno... jak”)" id="ZAROWNO_I">
@@ -1027,6 +1030,16 @@ $Id: grammar.xml,v 1.37 2006-08-18 19:51:31 milek_pl Exp $
 			<example type="correct">Jarosław Kaczyński jest najwybitniejszym mężem stanu spośród wszystkich Kaczyńskich.</example>
 		</rule>
 		
+		<rule name="„co raz” + stopień wyższy (coraz)" id="CORAZ">
+			<pattern mark_to="-1">
+				<token>co</token>
+				<token>raz</token>
+				<token postag_regexp="yes" postag=".*:comp"/>
+			</pattern>
+			<message>Wyraz <suggestion>coraz</suggestion> piszemy tu łącznie.</message>
+			<example type="incorrect">Współczesny świat jest <marker>co raz</marker> bardziej dynamiczny.</example>
+			<example type="correct">Współczesny świat jest coraz bardziej dynamiczny.</example>
+		</rule>
 	
 		<rule id="W_MIEDZY_CZASIE" name="„w między czasie” (w międzyczasie)">
 			<pattern mark_from="1">
@@ -1043,7 +1056,7 @@ $Id: grammar.xml,v 1.37 2006-08-18 19:51:31 milek_pl Exp $
 			<pattern mark_from="1" case_sensitive="no">
 				<token negate="yes" regexp="yes">przez|na|ale|lecz|a|raczej|wcale|jak</token>
 				<token>nie</token>
-				<token postag_regexp="yes" postag=".*:pneg|subst:ger.*"><exception regexp="yes">bić|być|być|czuć|dobić|dognić|dojść|dopić|doszyć|dożyć|duć|gnić|kluć|nabić|nadbić|nadejść|nadgnić|nadpić|nadpsuć|nadużyć|najść|napić|napluć|napsuć|naszyć|nażyć|obejść|obić|obszyć|obuć|obwić|obyć|odbić|odczuć|odejść|odgnić|odpić|odszyć|odżyć|ognić|ognić|opić|owić|ozuć|ożyć|pić|pobić|pobyć|poczuć|podbić|podejść|podgnić|podpić|podszczuć|podszyć|podtyć|pognić|popić|popsuć|poszczuć|poszyć|powić|pozbyć|pożyć|przebić|przeczuć|przegnić|przejść|przepić|przeszyć|przeżuć|przeżyć|przybić|przybyć|przyjść|przyszyć|przytyć|psuć|pójść|rozbić|rozejść|rozpić|rozszyć|roztyć|rozzuć|spić|spowić|spożyć|szczuć|szyć|tyć|ubić|ubyć|uczuć|ujść|upić|uszyć|utyć|uwić|użyć|wbić|wczuć|wejść|wić|wnijść|wpić|współczuć|współodczuć|współżyć|wszyć|wybić|wybyć|wyczuć|wygnić|wyjść|wypić|wyszczuć|wyszyć|wyzuć|wyżyć|wyć|wzbić|wzejść|wzuć|wżyć|zabić|zagnić|zajść|zapić|zaszczuć|zaszyć|zawyć|zażyć|zbić|zejść|zepsuć|zeszyć|zezuć|zgnić|zszyć|zużyć|zwić|zzuć|zżuć|zżyć|żuć|żyć|można|była|były|stali|stały|stała|byli|ulegli|uległa|uległy|lubi|(\p{Lu}[\p{L}&amp;&amp;[^\p{Lu}]]+)</exception></token>
+				<token postag_regexp="yes" postag=".*:pneg|subst:ger.*"><exception regexp="yes">bić|być|być|czuć|dobić|dognić|dojść|dopić|doszyć|dożyć|duć|gnić|kluć|nabić|nadbić|nadejść|nadgnić|nadpić|nadpsuć|nadużyć|najść|napić|napluć|napsuć|naszyć|nażyć|obejść|obić|obszyć|obuć|obwić|obyć|odbić|odczuć|odejść|odgnić|odpić|odszyć|odżyć|ognić|ognić|opić|owić|ozuć|ożyć|pić|pobić|pobyć|poczuć|podbić|podejść|podgnić|podpić|podszczuć|podszyć|podtyć|pognić|popić|popsuć|poszczuć|poszyć|powić|pozbyć|pożyć|przebić|przeczuć|przegnić|przejść|przepić|przeszyć|przeżuć|przeżyć|przybić|przybyć|przyjść|przyszyć|przytyć|psuć|pójść|rozbić|rozejść|rozpić|rozszyć|roztyć|rozzuć|spić|spowić|spożyć|szczuć|szyć|tyć|ubić|ubyć|uczuć|ujść|upić|uszyć|utyć|uwić|użyć|wbić|wczuć|wejść|wić|wnijść|wpić|współczuć|współodczuć|współżyć|wszyć|wybić|wybyć|wyczuć|wygnić|wyjść|wypić|wyszczuć|wyszyć|wyzuć|wyżyć|wyć|wzbić|wzejść|wzuć|wżyć|zabić|zagnić|zajść|zapić|zaszczuć|zaszyć|zawyć|zażyć|zbić|zejść|zepsuć|zeszyć|zezuć|zgnić|zszyć|zużyć|zwić|zzuć|zżuć|zżyć|żuć|żyć|można|była|były|stali|stały|stała|byli|ulegli|uległa|uległy|lubi|zabrania|(\p{Lu}[\p{L}&amp;&amp;[^\p{Lu}]]+)</exception></token>
 			</pattern>
 			<message>„Nie” z rzeczownikami, przysłówkami i przymiotnikami piszemy łącznie, czyli poprawnie będzie <suggestion>nie\3</suggestion>.</message>
 			<example type="correct">Prosimy o niepalenie.</example>
@@ -1159,7 +1172,7 @@ $Id: grammar.xml,v 1.37 2006-08-18 19:51:31 milek_pl Exp $
 	</rule 
 	-->
 	
-		<rule id="POD_KONTEM" name="Prawdopodobny „pod kątem czegoś” (pod kątem)">
+		<rule id="POD_KONTEM" name="„pod kontem czegoś” (pod kątem)">
 			<pattern mark_from="1" mark_to="-1">
 				<token>pod</token>
 				<token>kontem</token>
@@ -1191,7 +1204,19 @@ $Id: grammar.xml,v 1.37 2006-08-18 19:51:31 milek_pl Exp $
 			<example type="incorrect">Może <marker>za miast</marker> dużego tła wystarczy wstawić zwykły kolor?</example>
 			<example type="correct">Może zamiast dużego tła wystarczy wstawić zwykły kolor?</example>
 		</rule>
-	
+
+		<rule id="NA_RAZ" name="„na raz” (naraz)">
+			<pattern mark_from="2">
+				<token inflected="yes" regexp="yes">wszystek|wszystko|dwa|wiele|kilka</token>
+				<token/>
+				<token>na</token>
+				<token>raz</token>
+			</pattern>
+			<message>Prawdopodobnie chodziło o wyraz <suggestion>naraz</suggestion> (=jednocześnie). Zwrot „na raz” oznacza tyle, co „na jeden raz”.</message>
+			<example type="correct">Kupiłem dwa piwa naraz.</example>
+			<example type="incorrect">Kupiłem wszystkie piwa <marker>na raz</marker>.</example>
+		</rule>
+			
 		<rule name="„za równo” (zarówno)" id="ZA_ROWNO">
 			<pattern mark_from="0" mark_to="0">
 				<token>za</token>
