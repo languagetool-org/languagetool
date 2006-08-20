@@ -3,7 +3,7 @@
 Rules: Grammar and Typos
 See tagset.txt for the meaning of the POS tags
 Copyright (C) 2001-2006 Daniel Naber (http://www.danielnaber.de)
-$Id: grammar.xml,v 1.68 2006-08-13 19:55:10 dnaber Exp $
+$Id: grammar.xml,v 1.69 2006-08-20 15:38:44 milek_pl Exp $
 -->
 <rules lang="en">
 
@@ -420,11 +420,6 @@ $Id: grammar.xml,v 1.68 2006-08-13 19:55:10 dnaber Exp $
     <example type="incorrect">How to add equal values and <marker>than</marker> replace them with their sum?</example>
   </rule>
   
-  <!-- FIXME: leaving the old exceptions concept to leave most Rule code intact
-		should be fixed to allow POS and string checking for the same element
-		see PatternRuleLoader, line 126, 148
-	-->
-  
   <rulegroup id="RATHER_THEN" name="Possible typo 'rather/other/different then(than)'">
     <rule>
       <pattern mark_from="1">
@@ -724,6 +719,27 @@ $Id: grammar.xml,v 1.68 2006-08-13 19:55:10 dnaber Exp $
     </rule>
   </rulegroup>
   
+  <rulegroup id="MASS_AGREEMENT" name="Agreement: Mass noun + non-third person verb">
+  <rule>
+	  <pattern mark_from="1">
+		  <token postag="NN"/>
+		  <token postag="VBP"/>
+	  </pattern>
+	  <message>Use third-person verb forms for singular and mass nouns.</message>
+	  <example type="incorrect">Marketing <marker>are</marker> bad for you.</example>
+  	  <example type="correct">Marketing is bad for you.</example>
+  </rule>
+  <rule>
+	  <pattern mark_from="2">
+  		  <token postag="DT"/>
+		  <token postag="NN"/>
+		  <token postag="VBP"/>
+	  </pattern>
+	  <message>Use third-person verb forms for singular and mass nouns.</message>
+	  <example type="incorrect">The marketing <marker>are</marker> bad for you.</example>
+  	  <example type="correct">The marketing is bad for you.</example>
+  </rule>  
+  </rulegroup>
   <rulegroup id="PERS_PRONOUN_AGREEMENT_SENT_START" name="Agreement: 'I is / you is / ... ' (at sentence start only)">
     <rule>
       <pattern mark_from="2">
