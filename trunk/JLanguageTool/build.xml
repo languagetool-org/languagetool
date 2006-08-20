@@ -2,8 +2,8 @@
 
 <project name="LanguageTool" default="dist" basedir=".">
 
-  <property name="version" value="0.8.4dev"/>
-  <property name="date" value="2006-xx-yy"/>
+  <property name="version" value="0.8.4"/>
+  <property name="date" value="2006-08-20"/>
 	
   <property name="javadoctitle" value="LanguageTool API ${version}"/>
   
@@ -251,7 +251,7 @@
 		excludes="**/*.java">
 		<manifest>
 			<attribute name="Main-Class" value="de.danielnaber.languagetool.Main" />
-			<attribute name="Class-Path" value="./maxent-2.4.0.jar ./opennlp-tools-1.3.0.jar ./trove.jar ./stempelator-1.0.1.jar ./jdic.jar" />
+			<attribute name="Class-Path" value="./maxent-2.4.0.jar ./opennlp-tools-1.3.0.jar ./trove.jar stempelator-nodict-1.0.3.jar ./jdic.jar" />
 		</manifest>
 	</jar>
 
@@ -261,7 +261,7 @@
 		includes="de/danielnaber/languagetool/gui/*.class">
 		<manifest>
 			<attribute name="Main-Class" value="de.danielnaber.languagetool.gui.Main" />
-			<attribute name="Class-Path" value="./LanguageTool.jar ./maxent-2.4.0.jar ./opennlp-tools-1.3.0.jar ./trove.jar ./jdic.jar" />
+			<attribute name="Class-Path" value="./LanguageTool.jar ./maxent-2.4.0.jar stempelator-nodict-1.0.3.jar ./opennlp-tools-1.3.0.jar ./trove.jar ./jdic.jar" />
 		</manifest>
 	</jar>
 
@@ -382,6 +382,7 @@
 	  	<fileset dir="rules" excludes="CVS" />
 	</copy>
 
+	<copy file="./standalone-libs.zip" todir="${dist.dir}" />
 	<copy file="./README.txt" todir="${dist.dir}" />
 	<copy file="./CHANGES.txt" todir="${dist.dir}" />
 	<copy file="./COPYING.txt" todir="${dist.dir}" />
