@@ -251,6 +251,7 @@ public class Main implements ActionListener {
       tray.removeTrayIcon(trayIcon);
     }
     frame.setVisible(false);
+    System.exit(0);
   }
 
   private Language getCurrentLanguage() {
