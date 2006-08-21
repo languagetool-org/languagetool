@@ -3,7 +3,7 @@
 Rules: Grammar and Typos
 See tagset.txt for the meaning of the POS tags
 Copyright (C) 2001-2006 Daniel Naber (http://www.danielnaber.de)
-$Id: grammar.xml,v 1.52 2006-08-18 19:22:39 dnaber Exp $
+$Id: grammar.xml,v 1.53 2006-08-21 20:37:20 dnaber Exp $
 -->
 <rules lang="de">
 
@@ -485,6 +485,17 @@ $Id: grammar.xml,v 1.52 2006-08-18 19:22:39 dnaber Exp $
       <example type="incorrect">Die Stadt liegt an der <marker>oder</marker>.</example>
     </rule>
   </rulegroup>
+
+  <rule id="AUSSER_BETRIEB" name="Groß-/Kleinschreibung: 'außer betrieb(Betrieb)'">
+    <!-- TODO: could this be covered by excepting nouns after "außer"? -->
+    <pattern mark_from="1" case_sensitive="yes">
+      <token>außer</token>
+      <token>betrieb</token>
+    </pattern>
+    <message>Meinten Sie <suggestion>Betrieb</suggestion>?</message>
+    <example type="correct">Der Fahrstuhl ist außer <marker>Betrieb</marker>.</example>
+    <example type="incorrect">Der Fahrstuhl ist außer <marker>betrieb</marker>.</example>
+  </rule>
 
   </category>
 
