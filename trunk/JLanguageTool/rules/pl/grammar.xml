@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?><!--
 Copyright (C) 2006 Marcin Miłkowski
-$Id: grammar.xml,v 1.39 2006-08-19 19:30:59 milek_pl Exp $		
+$Id: grammar.xml,v 1.40 2006-08-22 09:15:43 milek_pl Exp $		
 -->
 <rules lang="pl">
 	<category name="Typografia">
@@ -305,23 +305,25 @@ $Id: grammar.xml,v 1.39 2006-08-19 19:30:59 milek_pl Exp $
 		<rule id="UZYWAC_CO" name="„używać co” (czego)">
 			<pattern mark_from="1">
 				<token regexp="yes" inflected="yes">używać|użyć</token>
-				<token postag_regexp="yes" postag="(adj|subst|ppas|pact|ppron|ppron3):.*:(nom|acc|nom\.acc\.voc|nom\.acc):.*"><exception postag_regexp="yes" postag=".*gen.*|conj|prep.*|"/></token>
+				<token postag_regexp="yes" postag="(adj|subst|ppas|pact|ppron|ppron3):.*:(nom|acc|nom\.acc\.voc|nom\.acc):.*"><exception postag_regexp="yes" postag=".*gen.*|conj|prep.*|ppron[0-9]+:(sg|pl):nom.*"/></token>
 			</pattern>
 			<message>Mówi się używać <suggestion>czego</suggestion>, a nie „używać coś”.</message>
 			<example type="correct">Używam starego żelazka.</example>
 			<example type="incorrect">Używam <marker>stare</marker> żelazko.</example>
 			<example type="correct">To żelazko jest używane przez królową angielską.</example>
 			<example type="correct">To żelazko było używane jak dawniej.</example>
+			<example type="correct">Używają one starych żelazek.</example>
 		</rule>
 		
 		<rule name="„zarówno... i” („zarówno... jak”)" id="ZAROWNO_I">
 			<pattern>
 				<token skip="-1">zarówno<exception>jak</exception></token>
-				<token>i</token>
+				<token skip="-1">i</token>
 			</pattern>
 			<message>Po „zarówno” piszemy <suggestion>jak i</suggestion>.</message>
 			<example type="correct">Wiążą się z tym zarówno zyski, jak i zalety.</example>
 			<example type="incorrect">Wiążą się z tym <marker>zarówno zyski i</marker> zalety.</example>
+			<!-- example type="correct">Wiążą się z tym zarówno zyski i zalety, jak i pewne wady.</example -->
 		</rule>
 	
 		<rule name="„czym... tym” (im... tym)" id="CZYM_TYM">
