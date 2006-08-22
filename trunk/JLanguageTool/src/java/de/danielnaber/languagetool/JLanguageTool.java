@@ -19,8 +19,12 @@
 package de.danielnaber.languagetool;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.PrintStream;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
@@ -414,5 +418,25 @@ public class JLanguageTool {
     if (printStream != null)
       printStream.println(s);
   }
+  
+  public static InputStream getInputStream(String resourcePath) throws IOException {
+    try {
+        // try the URL first.
+        URL url = new URL(resourcePath);
+        // success, load the resource.
+        InputStream is = url.openStream();
+        return is;
+    } catch (MalformedURLException e) {
+        // no luck. Fallback to class loader paths.
+    }    
+      
+    // try file path
+    File f = new File(resourcePath);
+    if (f.exists() && f.isFile() && f.canRead()) {
+        return new FileInputStream(f);
+    } else
+        throw new IOException("Could not open input stream from URL/ resource/ file: " + resourcePath);
+}
+
   
 }
