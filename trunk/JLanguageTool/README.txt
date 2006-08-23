@@ -48,8 +48,9 @@ TODO:
   (e.g. "did + baseform" vs. "did + non-baseform")
  -use Java 1.5 generics everywhere (maybe also instead of arrays?)
  -add more rules, especially agreement stuff
- -add UnpairedQuotesBracketsRule (for pairing "(), [], {}, «», "", „”, depending on the language)
+ -add UnpairedQuotesBracketsRule (for pairing "(), [], {}, ï¿½ï¿½, "", ï¿½ï¿½, depending on the language)
  -add simple sentence/word complexity test like that: http://www.ooomacros.org/user.php#111318 
+ -use regular expressions and POS tags to create complex suggestions
  -see "TODO" in the source
  -create abstract SentenceRule and TextRule classes to get rid of reset() method?
   -...

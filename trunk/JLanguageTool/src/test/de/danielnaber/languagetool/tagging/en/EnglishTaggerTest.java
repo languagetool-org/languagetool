@@ -41,6 +41,8 @@ public class EnglishTaggerTest extends TestCase {
 
   public void testTagger() {
     myAssert("This is a big house.", "This/DT is/VBZ a/DT big/JJ house/NN");
+    //clearly a bug in the tagger: "use" is not "preposition/subordinate conjunction"
+    myAssert("Manager use his laptop every day.", "Manager/NN use/IN his/PRP$ laptop/NN every/DT day/NN");
     myAssert("This is a bigger house.", "This/DT is/VBZ a/DT bigger/JJR house/NN");
     myAssert("He doesn't believe me.", "He/PRP doesn/VBZ t/RB believe/VBP me/PRP");
   }

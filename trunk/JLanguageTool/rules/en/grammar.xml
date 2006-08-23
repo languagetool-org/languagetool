@@ -3,7 +3,7 @@
 Rules: Grammar and Typos
 See tagset.txt for the meaning of the POS tags
 Copyright (C) 2001-2006 Daniel Naber (http://www.danielnaber.de)
-$Id: grammar.xml,v 1.69 2006-08-20 15:38:44 milek_pl Exp $
+$Id: grammar.xml,v 1.70 2006-08-23 20:43:31 milek_pl Exp $
 -->
 <rules lang="en">
 
@@ -682,6 +682,30 @@ $Id: grammar.xml,v 1.69 2006-08-20 15:38:44 milek_pl Exp $
     </rule>
   </rulegroup>
 
+	  <rule id="MODAL_OF" name="Possible typo 'could of/could have'">
+		  <pattern mark_to="-1">
+			  <token regexp="yes">could|would|should|might|may|must|will</token>
+			  <token>of</token>
+			  <token postag="VBN"/>
+		  </pattern>
+		  <message>It's never correct to use "of" after a modal verb. Use <suggestion>\1 have</suggestion>, or, in informal register, <suggestion>\1've</suggestion>.</message>
+		  <example type="correct">I could have bought this house!</example>
+		  <example type="correct">I must of course have something of my own before many more years have passed over my head.</example>
+		  <example type="incorrect">Something terrible <marker>must of</marker> happened here.</example>
+		  <example type="incorrect">It <marker>could of</marker> been you, the one that I was givin' my love to.</example>
+	  </rule>
+	  <rulegroup id="POSSESIVE_APOSTROPHE" name="Possessive apostrophe error">
+	  <rule>
+		  <pattern mark_to="-1">
+			  <token postag_regexp="yes" regexp="yes" postag="NNS|NNPS">.[^']*s</token>
+			  <token postag="NN"><exception regexp="yes">today|yesterday|tomorrow|now</exception></token>
+		  </pattern>
+		  <message>Possible typo: apostrophe is missing. Did you mean <suggestion>\1'</suggestion> or the singular?</message>
+		  <example type="correct">This is a transcript of the president's speech.</example>
+		  <example type="correct">Publishers today are at loss...</example>
+  		  <example type="incorrect">This is a transcript of the <marker>presidents</marker> speech.</example>
+	  </rule>
+	  </rulegroup>
   </category>
   
   <!-- ====================================================================== -->
@@ -719,9 +743,35 @@ $Id: grammar.xml,v 1.69 2006-08-20 15:38:44 milek_pl Exp $
     </rule>
   </rulegroup>
   
+  <rulegroup id="HAVE_PART_AGREEMENT" name="Agreement: have + past tense">
+	  <rule>
+	  <pattern mark_from="1">
+		  <token regexp="yes">has|have</token>
+		  <token postag="VBD"/>
+	  </pattern>
+	  <message>Possible agreement error -- don't use past tense instead of past participle.</message>
+	  <example type="correct">I must have done that.</example>
+	  <example type="incorrect">I must have <marker>wrote</marker> that.</example>
+	  <example type="correct">I have liked her.</example>
+	  <example type="incorrect">I could have <marker>wrote</marker> this letter.</example>
+	  </rule>
+	  <rule>
+	  <pattern mark_from="2">
+		  <token regexp="yes">has|have</token>
+		  <token postag="RB"/>
+		  <token postag="VBD"/>
+	  </pattern>
+	  <message>Possible agreement error -- don't use past tense instead of past participle.</message>
+	  <example type="correct">I have always done that.</example>
+	  <example type="incorrect">I must have always <marker>wrote</marker> that.</example>
+	  <example type="correct">I have always liked her.</example>		  
+	  </rule>
+</rulegroup>
+	  
   <rulegroup id="MASS_AGREEMENT" name="Agreement: Mass noun + non-third person verb">
   <rule>
-	  <pattern mark_from="1">
+	  <pattern mark_from="2">
+		  <token postag="SENT_START"/>
 		  <token postag="NN"/>
 		  <token postag="VBP"/>
 	  </pattern>

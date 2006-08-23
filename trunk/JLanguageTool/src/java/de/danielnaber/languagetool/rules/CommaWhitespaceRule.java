@@ -49,7 +49,7 @@ public class CommaWhitespaceRule extends Rule {
   }
 
   public Language[] getLanguages() {
-    return new Language[] { Language.ENGLISH, Language.GERMAN, Language.POLISH };
+    return new Language[] { Language.ENGLISH, Language.GERMAN, Language.POLISH, Language.FRENCH };
   }
 
   public RuleMatch[] match(AnalyzedSentence text) {
@@ -75,6 +75,10 @@ public class CommaWhitespaceRule extends Rule {
     		} else if (prevToken.trim().equals(",") && !token.trim().equals("") &&
     				!token.equals("'") && !token.equals("\"") && !token.matches(".*\\d.*") && !token.equals("-")) {
     			msg = messages.getString("missing_space_after_comma");
+
+                //FIXME: false alarms on valid English “valid English,” after a comma
+                //this isn't valid in Polish, check this for German, OK?
+                //probably some special checks for English are needed here
           suggestionText = ", ";
     		} else if (token.trim().equals(",") && prevToken.trim().equals("")) {
     			msg = messages.getString("space_after_comma");
