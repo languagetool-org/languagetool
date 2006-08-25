@@ -50,6 +50,9 @@ public class Language {
   public static final Language FRENCH = 
     new Language("French", "fr", new Locale("fr"), new FrenchTagger(), new SentenceTokenizer(), new WordTokenizer());
   
+  public static final Language SPANISH = 
+    new Language("Spanish", "es", new Locale("es"), new FrenchTagger(), new SentenceTokenizer(), new WordTokenizer());
+  
   public static final Language DEMO = 
     new Language("Testlanguage", "xx", new Locale("en"), new DemoTagger(), new SentenceTokenizer(), new WordTokenizer());
 
@@ -64,7 +67,7 @@ public class Language {
   /**
    * All languages supported by LanguageTool.
    */
-  public static final Language[] LANGUAGES = new Language[] {ENGLISH, GERMAN, POLISH, FRENCH, DEMO};
+  public static final Language[] LANGUAGES = new Language[] {ENGLISH, GERMAN, POLISH, FRENCH, SPANISH, DEMO};
 
   /**
    * Get the Language object for the given short language name.

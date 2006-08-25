@@ -50,7 +50,8 @@ TODO:
  -add more rules, especially agreement stuff
  -add UnpairedQuotesBracketsRule (for pairing "(), [], {}, ��, "", ��, depending on the language)
  -add simple sentence/word complexity test like that: http://www.ooomacros.org/user.php#111318 
- -use regular expressions and POS tags to create complex suggestions
+ -use regular expressions and POS tags to create complex suggestions (for example, suggesting another
+  grammatical case or a word without an apostrophe)
  -see "TODO" in the source
  -create abstract SentenceRule and TextRule classes to get rid of reset() method?
   -...
