@@ -3,7 +3,7 @@
 Rules: Grammar and Typos
 See tagset.txt for the meaning of the POS tags
 Copyright (C) 2001-2006 Daniel Naber (http://www.danielnaber.de)
-$Id: grammar.xml,v 1.70 2006-08-23 20:43:31 milek_pl Exp $
+$Id: grammar.xml,v 1.71 2006-08-26 22:30:08 milek_pl Exp $
 -->
 <rules lang="en">
 
@@ -100,13 +100,47 @@ $Id: grammar.xml,v 1.70 2006-08-23 20:43:31 milek_pl Exp $
       <token>bottle</token>
       <token>neck</token>
     </pattern>
-    <message>Did you mean <suggestion>bottleneck</suggestion>?</message>
+    <message>Did you mean <suggestion>bottleneck</suggestion>? This word sequence is usually spelled together.</message>
     <example type="correct">Finding the <marker>bottleneck</marker>
       </example>
     <example type="incorrect">Finding the <marker>bottle neck</marker>
       </example>
   </rule>
   
+   <rule id="NEWS_PAPER" name="Possible typo 'news paper (newspaper)'">
+	   <pattern>
+		   <token>news</token>
+		   <token>paper</token>
+	   </pattern>
+       <message>Did you mean <suggestion>newspaper</suggestion>? This word sequence is usually spelled together.</message>
+    <example type="correct">Subscribing the <marker>newspaper</marker>
+      </example>
+    <example type="incorrect">Subscribing the <marker>news paper</marker>
+      </example>
+   </rule>
+
+	<rule id="AN_OTHER" name="Possible typo 'an other (another)'">
+	   <pattern>
+		   <token>an</token>
+		   <token>other</token>
+	   </pattern>
+       <message>Did you mean <suggestion>another</suggestion>? This word sequence is usually spelled together.</message>
+    <example type="correct">Yet Another Resource List</example>
+    <example type="incorrect">Yet <marker>An other</marker> Resource List</example>
+   </rule>
+	  
+	  
+   <rule id="MOTHER_IN_LAW" name="Possible typo 'mother in law' (mother-in-law)">
+	  <pattern>
+		  <token regexp="yes">mother|sister|brother|father</token>
+		  <token>in</token>
+		  <token>law</token>
+	  </pattern>
+	  <message>This word is usually spelled with hyphens: <suggestion>\1-\2-\3</suggestion>.</message>
+	  <example type="correct">This is her <marker>mother-in-law</marker>.</example>
+  	  <example type="incorrect">This is her <marker>mother in law</marker>.</example>
+  </rule>
+	  
   <rule id="SENT_START_THEM" name="Possible typo 'Them(Then)' at sentence start">
     <pattern mark_from="1">
       <token postag="SENT_START"/>

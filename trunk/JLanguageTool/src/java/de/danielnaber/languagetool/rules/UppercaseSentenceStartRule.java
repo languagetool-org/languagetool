@@ -48,7 +48,7 @@ public class UppercaseSentenceStartRule extends Rule {
   }
 
   public Language[] getLanguages() {
-    return new Language[] { Language.ENGLISH, Language.GERMAN, Language.POLISH };
+    return new Language[] { Language.ENGLISH, Language.GERMAN, Language.POLISH, Language.FRENCH, Language.SPANISH };
   }
 
   public RuleMatch[] match(AnalyzedSentence text) {

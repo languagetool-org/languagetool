@@ -20,5 +20,16 @@
     </rule>
 
   </category>
-
+	<!-- ported from Myriam's Gramadoir rules -->
+	<category name="Fautes de frappe">
+		<rule id="CA_SA" name="ça (sa)">
+			<pattern mark_to="-1">
+				<token>ça</token>
+				<token postag="N.*" postag_regexp="yes"/>
+			</pattern>
+			<message>Voulez vous ecrire <suggestion>sa</suggestion>?</message>
+			<example type="incorrect">Il parle de <marker>ça</marker> soeur</example>
+			<example type="correct">Il parle de sa soeur.</example>
+		</rule>
+	</category>
 </rules>

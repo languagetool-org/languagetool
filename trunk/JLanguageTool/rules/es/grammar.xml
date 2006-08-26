@@ -20,4 +20,25 @@
 
   </category>
 
+	<category name="Palabras de difícil ortografía">
+		<rule id="AH_INF" name="ah (a)">
+			<pattern case_sensitive="no">
+				<token>ah</token>				
+				<token postag="VMN0000"/>
+			</pattern>
+			<message>Esta palabra se escribe sin h: <suggestion>\1 a \3</suggestion>.</message>
+			<example type="incorrect">Voy <marker>ah hablar</marker> con ella.</example>
+			<example type="correct">Voy <marker>a hablar</marker> con ella.</example>
+		</rule>
+		<rule id="VOY_HA_INF" name="ir ha + infinitivo (a)">
+			<pattern>
+				<token inflected="yes">ir</token>
+				<token>ha</token>
+				<token postag="VMN0000"/>
+			</pattern>
+			<message>Esta palabra se escribe sin h: <suggestion>\1 a \3</suggestion>.</message>
+			<example type="incorrect"><marker>Voy ha hablar</marker> con ella.</example>
+			<example type="correct"><marker>Voy a hablar</marker> con ella.</example>
+		</rule>
+	</category>
 </rules>

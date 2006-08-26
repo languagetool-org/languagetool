@@ -20,9 +20,9 @@ public class FrenchTaggerTest extends TestCase {
       }
 
       public void testTagger() throws IOException {
-        myAssert("C'est la vie.", "C/N+z1:ms:mp est/V+z1:P3s la/N+z1:ms:mp vie/N+z1:fs");
-        myAssert("Je ne parle pas français.", "Je/PRO+z1:1s ne/ADV+z1 parle/V+z1:P1s:P3s:S1s:S3s:Y2s pas/ADV+z1 français/A+z1:ms:mp");
-        myAssert("blablabla","blablabla/N+z1:ms:mp");
+        myAssert("C'est la vie.", "C/N m sp est/V etre ind pres 3 s la/D f s vie/N f s");
+        myAssert("Je ne parle pas français.", "Je/R pers suj 1 s ne/A parle/V sub pres 1 s pas/A français/J m p");
+        myAssert("blablabla","blablabla/N m sp");
         myAssert("non_existing_word","non_existing_word/null");
       }
 

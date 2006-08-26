@@ -25,6 +25,7 @@ import de.danielnaber.languagetool.tagging.de.GermanTagger;
 import de.danielnaber.languagetool.tagging.en.EnglishTagger;
 import de.danielnaber.languagetool.tagging.pl.PolishTagger;
 import de.danielnaber.languagetool.tagging.fr.FrenchTagger;
+import de.danielnaber.languagetool.tagging.es.SpanishTagger;
 import de.danielnaber.languagetool.tagging.xx.DemoTagger;
 import de.danielnaber.languagetool.tokenizers.SentenceTokenizer;
 import de.danielnaber.languagetool.tokenizers.Tokenizer;
@@ -51,7 +52,7 @@ public class Language {
     new Language("French", "fr", new Locale("fr"), new FrenchTagger(), new SentenceTokenizer(), new WordTokenizer());
   
   public static final Language SPANISH = 
-    new Language("Spanish", "es", new Locale("es"), new FrenchTagger(), new SentenceTokenizer(), new WordTokenizer());
+    new Language("Spanish", "es", new Locale("es"), new SpanishTagger(), new SentenceTokenizer(), new WordTokenizer());
   
   public static final Language DEMO = 
     new Language("Testlanguage", "xx", new Locale("en"), new DemoTagger(), new SentenceTokenizer(), new WordTokenizer());

@@ -21,7 +21,7 @@ public class SpanishTaggerTest extends TestCase {
 
       public void testTagger() throws IOException {
         myAssert("Soy un hombre muy honrado.", "Soy/VSIP1S0 un/DI0MS0 hombre/I muy/RG honrado/VMP00SM");
-        myAssert("Tengo que ir a mi casa.", "Tengo/VMIP1S0 que/CS ir/VMN0000 a/NCFS000 mi/DP1CSS casa/VMIP3S0");
+        myAssert("Tengo que ir a mi casa.", "Tengo/VMIP1S0 que/PR0CN000 ir/VMN0000 a/NCFS000 mi/DP1CSS casa/NCFS000");
         myAssert("blablabla","blablabla/null");
         myAssert("non_existing_word","non_existing_word/null");
       }

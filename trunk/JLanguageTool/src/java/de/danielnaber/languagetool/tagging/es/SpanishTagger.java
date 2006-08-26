@@ -23,15 +23,16 @@ import de.danielnaber.languagetool.tagging.Tagger;
  */
 public class SpanishTagger implements Tagger {
 
-  /* French Tagger
+  /* Spanish Tagger
    * 
-   * Based on DELAF dictionaries from Unitex, implemented in FSA
+   * Based on FreeLing tagger dictionary 
+   * and Spanish Wikipedia corpus tagged with FreeLing
    * 
    * @author Marcin Milkowski
    */
   private static final String RESOURCE_FILENAME = "resource" +File.separator+ "es" +File.separator+
   "spanish.dict"; 
-    private Lametyzator morfologik = null;
+    private Lametyzator morfologik_spanish = null;
     
   public List<AnalyzedTokenReadings> tag(List<String> sentenceTokens)
       throws IOException {
@@ -40,18 +41,18 @@ public class SpanishTagger implements Tagger {
     List<AnalyzedTokenReadings> tokenReadings = new ArrayList<AnalyzedTokenReadings>();
     int pos = 0;
     //caching Lametyzator instance - lazy init
-    if (morfologik == null) {   
+    if (morfologik_spanish == null) {   
        File resourceFile = JLanguageTool.getAbsoluteFile(RESOURCE_FILENAME); 
        //System.setProperty(Lametyzator.PROPERTY_NAME_LAMETYZATOR_DICT, resourceFile.getAbsolutePath());
-       morfologik = new Lametyzator(JLanguageTool.getInputStream(resourceFile.getAbsolutePath()), "iso8859-1", '+');
+       morfologik_spanish = new Lametyzator(JLanguageTool.getInputStream(resourceFile.getAbsolutePath()), "iso8859-1", '+');
     }
     
     for (Iterator<String> iter = sentenceTokens.iterator(); iter.hasNext();) {
       String word = iter.next();
       List<AnalyzedToken> l = new ArrayList<AnalyzedToken>();
-        taggerTokens = morfologik.stemAndForm(word);
+        taggerTokens = morfologik_spanish.stemAndForm(word);
         if (firstWord && taggerTokens == null) {        // e.g. "Das" -> "das" at start of sentence
-            taggerTokens = morfologik.stemAndForm(word.toLowerCase());
+            taggerTokens = morfologik_spanish.stemAndForm(word.toLowerCase());
         firstWord = false;
         }
     if (taggerTokens !=null) {
