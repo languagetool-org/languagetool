@@ -3,7 +3,7 @@
 Rules: Grammar and Typos
 See tagset.txt for the meaning of the POS tags
 Copyright (C) 2001-2006 Daniel Naber (http://www.danielnaber.de)
-$Id: grammar.xml,v 1.53 2006-08-21 20:37:20 dnaber Exp $
+$Id: grammar.xml,v 1.54 2006-08-26 22:42:16 dnaber Exp $
 -->
 <rules lang="de">
 
@@ -305,6 +305,17 @@ $Id: grammar.xml,v 1.53 2006-08-21 20:37:20 dnaber Exp $
     <example type="incorrect">Internet <marker>mit ohne</marker> Schnur</example>
   </rule>
   
+  <rule id="TROTZ_ALLEDEM" name="'Möglicher Tippfehler 'trotz alle dem(alledem)'">
+    <pattern mark_from="1">
+      <token regexp="yes">bei|bei|trotz|nach|von|hinter</token>
+      <token>alle</token>
+      <token>dem</token>
+    </pattern>
+    <message>Meinten Sie <suggestion>alledem</suggestion>?</message>
+    <example type="correct">Hinter <marker>alledem</marker> steht die Universität.</example>
+    <example type="incorrect">Hinter <marker>alle dem</marker> steht die Universität.</example>
+  </rule>
+
   </category>
   
   <!--  Rules about upper/lowercase:  -->
@@ -495,6 +506,17 @@ $Id: grammar.xml,v 1.53 2006-08-21 20:37:20 dnaber Exp $
     <message>Meinten Sie <suggestion>Betrieb</suggestion>?</message>
     <example type="correct">Der Fahrstuhl ist außer <marker>Betrieb</marker>.</example>
     <example type="incorrect">Der Fahrstuhl ist außer <marker>betrieb</marker>.</example>
+  </rule>
+
+  <rule id="ZUR_FOLGE" name="Groß-/Kleinschreibung: 'zur folge(Folge)'">
+    <!-- TODO: could this be covered by excepting nouns after "zur"? -->
+    <pattern mark_from="1" case_sensitive="yes">
+      <token>zur</token>
+      <token>folge</token>
+    </pattern>
+    <message>Meinten Sie <suggestion>Folge</suggestion>?</message>
+    <example type="correct">Das hatte ein Anhalten des Zuges zur <marker>Folge</marker>.</example>
+    <example type="incorrect">Das hatte ein Anhalten des Zuges zur <marker>folge</marker>.</example>
   </rule>
 
   </category>
