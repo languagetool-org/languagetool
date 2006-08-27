@@ -80,7 +80,7 @@ public class PolishWordRepeatRule extends PolishRule {
 	        	}
            //too many false alarms here:     
                 String lemma = tokens[i].getAnalyzedToken(k).getLemma();
-                if (Pattern.matches("to|siebie|być", lemma)) {
+                if (Pattern.matches("to|siebie|być|ani|albo|czy|bądź", lemma)) {
                     isWord = false;
                     break;
                  }

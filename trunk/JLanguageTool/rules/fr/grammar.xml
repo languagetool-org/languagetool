@@ -31,5 +31,50 @@
 			<example type="incorrect">Il parle de <marker>ça</marker> soeur</example>
 			<example type="correct">Il parle de sa soeur.</example>
 		</rule>
+		<rule id="SA_CA" name="sa (ça)">
+			<pattern mark_to="-1">
+				<token>sa</token>
+				<token postag="V.*" postag_regexp="yes"/>
+			</pattern>
+			<message>Voulez vous ecrire <suggestion>ça</suggestion>?</message>
+			<example type="correct">Ça va?</example>
+			<example type="incorrect"><marker>Sa</marker> va?</example>
+		</rule>
+		<rule id="A_A_ACCENT" name="a (à)">
+			<pattern mark_from="1">
+				<token postag="V.*" postag_regexp="yes"/>
+				<token>a</token>
+			</pattern>
+			<message>Voulez vous ecrire <suggestion>à</suggestion>?</message>
+			<example type="correct">Ils s'apprêtent à commencer le premier trou.</example>
+			<example type="incorrect">Ils s'apprêtent <marker>a</marker> commencer le premier trou.</example>
+		</rule>
+		<rule id="SE_CE" name="se (ce)">
+			<pattern mark_to="-1">
+				<token>se</token>
+				<token postag="N.*" postag_regexp="yes"/>
+			</pattern>
+			<message>Voulez vous ecrire <suggestion>ce</suggestion>?</message>
+			<example type="incorrect"><marker>Se</marker> test montre que ça fonctionne.</example>
+			<example type="correct"><marker>Ce</marker> test montre que ça fonctionne.</example>
+		</rule>
+		<rule id="CE_SE" name="ce (se)">
+			<pattern mark_to="-1">
+				<token>ce</token>
+				<token postag="V.*" postag_regexp="yes"/>
+			</pattern>
+			<message>Voulez vous ecrire <suggestion>se</suggestion>?</message>
+			<example type="incorrect">Ce phenomene <marker>ce</marker> transforme en phenomene de société</example>
+			<example type="correct">Ce phenomene <marker>se</marker> transforme en phenomene de société</example>
+		</rule>	
+		<rule name="ma (m'a)" id="MA">
+			<pattern mark_to="-1">
+				<token>ma</token>
+				<token postag="V.*" postag_regexp="yes"/>
+			</pattern>
+			<message>Voulez vous ecrire <suggestion>m'a</suggestion>?</message>
+			<example type="incorrect">Il <marker>ma</marker> répondu.</example>
+			<example type="correct">Il <marker>m'a</marker> répondu.</example>
+		</rule>	
 	</category>
 </rules>

@@ -3,7 +3,7 @@
 Rules: Grammar and Typos
 See tagset.txt for the meaning of the POS tags
 Copyright (C) 2001-2006 Daniel Naber (http://www.danielnaber.de)
-$Id: grammar.xml,v 1.71 2006-08-26 22:30:08 milek_pl Exp $
+$Id: grammar.xml,v 1.72 2006-08-27 19:19:30 milek_pl Exp $
 -->
 <rules lang="en">
 
@@ -23,6 +23,39 @@ $Id: grammar.xml,v 1.71 2006-08-26 22:30:08 milek_pl Exp $
     <example type="incorrect">I  <marker>herd</marker> of a new song by Madonna.</example>
   </rule>
 
+  <rulegroup id="GIVE_ADVISE" name="Possible typo 'give sb advise (advice)">
+  <rule>
+	  <pattern mark_from="2">
+		  <token regexp="yes">give|gave|given</token>
+		  <token postag="PRP"/>
+		  <token>advise</token>
+	  </pattern>
+	  <message>Did you mean <suggestion>advice</suggestion> (a noun)?</message>
+	  <example type="correct">Please give me advice, I don't know what to do.</example>
+	   <example type="incorrect">Please give me <marker>advise</marker>, I don't know what to do.</example>
+  </rule>
+  <rule>
+	  <pattern mark_from="3">
+		  <token regexp="yes">give|gave|given</token>
+		  <token postag="PRP"/>
+		  <token postag="JJ"/>
+		  <token>advise</token>
+	  </pattern>
+	  <message>Did you mean <suggestion>advice</suggestion> (a noun)?</message>
+	  <example type="correct">Please give me good advice, I don't know what to do.</example>
+	   <example type="incorrect">Please give me good <marker>advise</marker>, I don't know what to do.</example>
+  </rule>
+</rulegroup>
+	  <rule id="I_WE_ADVICE" name="Possible typo 'I/we advice (advise)'">
+		  <pattern mark_from="1">
+			  <token regexp="yes">I|we</token>
+			  <token>advice</token>
+		  </pattern>
+		  <message>Did you mean <suggestion>advise</suggestion> (a verb)?</message>
+		  <example type="correct">We <marker>advise</marker> you to come by public transport</example>
+		  <example type="incorrect">We <marker>advice</marker> you to come by public transport.</example>
+	  </rule>
+	  
   <!-- TODO: make more general -->
   <rule id="ANALYSIS_IF" name="Possible typo 'analysis if(of)'">
     <pattern mark_from="2">
