@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?><!--
 Copyright (C) 2006 Marcin Miłkowski
-$Id: grammar.xml,v 1.44 2006-08-28 17:49:28 milek_pl Exp $		
+$Id: grammar.xml,v 1.45 2006-08-28 21:35:52 milek_pl Exp $		
 -->
 <rules lang="pl">
 	<category name="Typografia">
@@ -942,6 +942,16 @@ $Id: grammar.xml,v 1.44 2006-08-28 17:49:28 milek_pl Exp $
 			<message>To zbędny i błędny skrót (dłuższy od skracanego wyrazu). Lepiej napisać: <suggestion>wice\2</suggestion>.</message>
 			<example type="correct">Spotkałem się z wiceprezesem gminnej spółdzielni, towarzyszem Gosiewskim.</example>
 			<example type="incorrect">Spotkałem się z <marker>v-ce prezesem</marker> gminnej spółdzielni, towarzyszem Gosiewskim.</example>
+		</rule>
+		
+		<rule id="AD_KROPKA" name="ad. (ad)">
+			<pattern>
+				<token>ad</token>
+				<token>.</token>
+			</pattern>
+			<message>Ten wyraz nie jest skrótem, lecz wyrazem łacińskim, pisanym bez kropki: <suggestion>ad</suggestion>.</message>
+			<example type="correct">Ad 1.</example>
+			<example type="incorrect"><marker>Ad.</marker> 1.</example>
 		</rule>
 		
 		<rule name="Liczebniki porządkowe z końcówkami przypadków" id="LICZEBNIKI">
