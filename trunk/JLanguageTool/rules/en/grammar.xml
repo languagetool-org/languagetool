@@ -3,7 +3,7 @@
 Rules: Grammar and Typos
 See tagset.txt for the meaning of the POS tags
 Copyright (C) 2001-2006 Daniel Naber (http://www.danielnaber.de)
-$Id: grammar.xml,v 1.72 2006-08-27 19:19:30 milek_pl Exp $
+$Id: grammar.xml,v 1.73 2006-08-28 17:49:28 milek_pl Exp $
 -->
 <rules lang="en">
 
@@ -55,7 +55,30 @@ $Id: grammar.xml,v 1.72 2006-08-27 19:19:30 milek_pl Exp $
 		  <example type="correct">We <marker>advise</marker> you to come by public transport</example>
 		  <example type="incorrect">We <marker>advice</marker> you to come by public transport.</example>
 	  </rule>
-	  
+  <rulegroup name="Possible typo 'all ready (already)'" id="ALL_READY">
+	  <rule>
+		  <pattern mark_from="2">
+			  <token postag="PRP"/>
+			  <token regexp="yes">have|has</token>
+			  <token>all</token>
+			  <token>ready</token>
+		  </pattern>
+		  <message>Did you mean <suggestion>already</suggestion>?</message>
+		  <example type="correct">I have already bought it.</example>
+  		  <example type="incorrect">I have <marker>all ready</marker> bought it.</example>
+	  </rule>
+	  <rule>
+		  <pattern mark_from="1">
+			  <!-- contraction -->
+			  <token regexp="yes">ve|s</token>
+			  <token>all</token>
+			  <token>ready</token>
+		  </pattern>
+		  <message>Did you mean <suggestion>already</suggestion>?</message>
+		  <example type="correct">I've already bought it.</example>
+  		  <example type="incorrect">I've <marker>all ready</marker> bought it.</example>
+	  </rule>
+  </rulegroup>
   <!-- TODO: make more general -->
   <rule id="ANALYSIS_IF" name="Possible typo 'analysis if(of)'">
     <pattern mark_from="2">

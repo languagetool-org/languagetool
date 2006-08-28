@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
   Copyright (C) 2006 Marcin Miłkowski (http://www.danielnaber.de/languagetool)
-	
+$Id: grammar.xml,v 1.5 2006-08-28 17:49:28 milek_pl Exp $	
 -->
 <rules lang="fr">
 
@@ -27,16 +27,16 @@
 				<token>ça</token>
 				<token postag="N.*" postag_regexp="yes"/>
 			</pattern>
-			<message>Voulez vous ecrire <suggestion>sa</suggestion>?</message>
+			<message>Voulez vous écrire <suggestion>sa</suggestion>?</message>
 			<example type="incorrect">Il parle de <marker>ça</marker> soeur</example>
 			<example type="correct">Il parle de sa soeur.</example>
 		</rule>
 		<rule id="SA_CA" name="sa (ça)">
 			<pattern mark_to="-1">
 				<token>sa</token>
-				<token postag="V.*" postag_regexp="yes"/>
+				<token postag="V.*|R.*" postag_regexp="yes"/>
 			</pattern>
-			<message>Voulez vous ecrire <suggestion>ça</suggestion>?</message>
+			<message>Voulez vous écrire <suggestion>ça</suggestion>?</message>
 			<example type="correct">Ça va?</example>
 			<example type="incorrect"><marker>Sa</marker> va?</example>
 		</rule>
@@ -45,7 +45,7 @@
 				<token postag="V.*" postag_regexp="yes"/>
 				<token>a</token>
 			</pattern>
-			<message>Voulez vous ecrire <suggestion>à</suggestion>?</message>
+			<message>Voulez vous écrire <suggestion>à</suggestion>?</message>
 			<example type="correct">Ils s'apprêtent à commencer le premier trou.</example>
 			<example type="incorrect">Ils s'apprêtent <marker>a</marker> commencer le premier trou.</example>
 		</rule>
@@ -54,7 +54,7 @@
 				<token>se</token>
 				<token postag="N.*" postag_regexp="yes"/>
 			</pattern>
-			<message>Voulez vous ecrire <suggestion>ce</suggestion>?</message>
+			<message>Voulez vous écrire <suggestion>ce</suggestion>?</message>
 			<example type="incorrect"><marker>Se</marker> test montre que ça fonctionne.</example>
 			<example type="correct"><marker>Ce</marker> test montre que ça fonctionne.</example>
 		</rule>
@@ -63,7 +63,7 @@
 				<token>ce</token>
 				<token postag="V.*" postag_regexp="yes"/>
 			</pattern>
-			<message>Voulez vous ecrire <suggestion>se</suggestion>?</message>
+			<message>Voulez vous écrire <suggestion>se</suggestion>?</message>
 			<example type="incorrect">Ce phenomene <marker>ce</marker> transforme en phenomene de société</example>
 			<example type="correct">Ce phenomene <marker>se</marker> transforme en phenomene de société</example>
 		</rule>	
@@ -72,9 +72,42 @@
 				<token>ma</token>
 				<token postag="V.*" postag_regexp="yes"/>
 			</pattern>
-			<message>Voulez vous ecrire <suggestion>m'a</suggestion>?</message>
+			<message>Voulez vous écrire <suggestion>m'a</suggestion>?</message>
 			<example type="incorrect">Il <marker>ma</marker> répondu.</example>
 			<example type="correct">Il <marker>m'a</marker> répondu.</example>
-		</rule>	
+		</rule>
+		<rule name="sont (son)" id="SONT_SON">
+			<pattern mark_to="-1">
+				<token>sont</token>
+				<token postag="N.*" postag_regexp="yes"/>
+			</pattern>
+			<message>Voulez vous écrire <suggestion>son</suggestion>?</message>
+			<example type="incorrect">Le problème c'est qu'apparemment elle n'a pas <marker>sont</marker> mot de passe...</example>
+			<example type="correct">Le problème c'est qu'apparemment elle n'a pas <marker>son</marker> mot de passe...</example>
+		</rule>
+		<rule name="son (sont)" id="SON_SONT">
+			<pattern mark_to="-1" mark_from="1">
+				<token regexp="yes" negate="yes">le|du|un</token>
+				<token>son</token>
+				<token postag="V.*|R.*|P" postag_regexp="yes"/>
+			</pattern>
+			<message>Voulez vous écrire <suggestion>sont</suggestion>?</message>
+			<example type="correct">Les gagnants <marker>sont</marker> fous de joie.</example>
+			<example type="incorrect">Les gagnants <marker>son</marker> fous de joie.</example>
+			<example type="incorrect">Ils <marker>son</marker> dans la même classe.</example>
+			<example type="correct">Le <marker>son</marker> dans l'informatique</example>
+		</rule>
+		
+		<!-- according to Hanse dictionary,checked with Google-->
+		<rule name="et bien (eh bien)" id="ET_BIEN">
+			<pattern mark_from="1" mark_to="-1">
+				<token postag="SENT_START"/>
+				<token>Et</token>
+				<token>bien</token>
+			</pattern>
+			<message>Voulez vous écrire <suggestion>eh</suggestion>?</message>
+			<example type="correct">Eh bien, soit!</example>
+			<example type="incorrect"><marker>Et</marker> bien, soit!</example>
+		</rule>
 	</category>
 </rules>

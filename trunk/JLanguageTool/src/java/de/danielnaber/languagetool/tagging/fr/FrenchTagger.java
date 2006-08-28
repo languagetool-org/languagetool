@@ -25,7 +25,7 @@ public class FrenchTagger implements Tagger {
 
   /* French Tagger
    * 
-   * Based on DELAF dictionaries from Unitex, implemented in FSA
+   * Based on inDICO, implemented in FSA
    * 
    * @author Marcin Milkowski
    */

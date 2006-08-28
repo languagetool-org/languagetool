@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?><!--
 Copyright (C) 2006 Marcin Miłkowski
-$Id: grammar.xml,v 1.43 2006-08-27 19:19:30 milek_pl Exp $		
+$Id: grammar.xml,v 1.44 2006-08-28 17:49:28 milek_pl Exp $		
 -->
 <rules lang="pl">
 	<category name="Typografia">
@@ -934,6 +934,16 @@ $Id: grammar.xml,v 1.43 2006-08-27 19:19:30 milek_pl Exp $
 
 	<category name="Błąd ortograficzny">
 	
+		<rule id="VCE" name="v-ce (wice)">
+			<pattern>
+				<token>v-ce</token>
+				<token postag="subst.*" postag_regexp="yes"/>
+			</pattern>
+			<message>To zbędny i błędny skrót (dłuższy od skracanego wyrazu). Lepiej napisać: <suggestion>wice\2</suggestion>.</message>
+			<example type="correct">Spotkałem się z wiceprezesem gminnej spółdzielni, towarzyszem Gosiewskim.</example>
+			<example type="incorrect">Spotkałem się z <marker>v-ce prezesem</marker> gminnej spółdzielni, towarzyszem Gosiewskim.</example>
+		</rule>
+		
 		<rule name="Liczebniki porządkowe z końcówkami przypadków" id="LICZEBNIKI">
 			<pattern>
 				<token regexp="yes">[0-9]+-([mt]*y|[w]*si|[w]*szy|[w]*sze|[w]*szym[i]*|[w]*si|tym|tymi|ci|a|ce|ch|cia|cie|ciej|cim|cio|cioletnią|ciu|ego|ej|ga|gi|gie|gim|go|im|ki|krotnie|któregoś|leci.*|ma|me|miu|mo|o|ro|stoletniego|stu|sza|[tm]*a|[mt]*e|[tm]*ego|[mt]*ej|tka|tki|to|[mt]*[i]*oletni.*|[mt]*u|[mt]*ą|[mt]*ych|[mt]*e)</token>
