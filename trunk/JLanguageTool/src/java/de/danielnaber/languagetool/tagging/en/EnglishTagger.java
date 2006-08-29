@@ -1,3 +1,88 @@
+/**
+ * English dictionary-based Tagger
+ */
+package de.danielnaber.languagetool.tagging.en;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
+
+import com.dawidweiss.stemmers.Lametyzator;
+
+import de.danielnaber.languagetool.AnalyzedToken;
+import de.danielnaber.languagetool.AnalyzedTokenReadings;
+import de.danielnaber.languagetool.JLanguageTool;
+import de.danielnaber.languagetool.tagging.Tagger;
+
+/**
+ * @author Marcin Milkowski
+ *
+ */
+public class EnglishTagger implements Tagger {
+
+  /* French Tagger
+   * 
+   * Based on inDICO, implemented in FSA
+   * 
+   * @author Marcin Milkowski
+   */
+  private static final String RESOURCE_FILENAME = "resource" +File.separator+ "en" +File.separator+
+  "english.dict"; 
+    private Lametyzator morfologik = null;
+    
+  public List<AnalyzedTokenReadings> tag(List<String> sentenceTokens)
+      throws IOException {
+    String[] taggerTokens;
+    boolean firstWord = true;
+    List<AnalyzedTokenReadings> tokenReadings = new ArrayList<AnalyzedTokenReadings>();
+    int pos = 0;
+    //caching Lametyzator instance - lazy init
+    if (morfologik == null) {   
+       File resourceFile = JLanguageTool.getAbsoluteFile(RESOURCE_FILENAME); 
+       //System.setProperty(Lametyzator.PROPERTY_NAME_LAMETYZATOR_DICT, resourceFile.getAbsolutePath());
+       morfologik = new Lametyzator(JLanguageTool.getInputStream(resourceFile.getAbsolutePath()), "iso8859-1", '+');
+    }
+    
+    for (Iterator<String> iter = sentenceTokens.iterator(); iter.hasNext();) {
+      String word = iter.next();
+      List<AnalyzedToken> l = new ArrayList<AnalyzedToken>();
+        taggerTokens = morfologik.stemAndForm(word);
+        if (firstWord && taggerTokens == null) {        // e.g. "Das" -> "das" at start of sentence
+            taggerTokens = morfologik.stemAndForm(word.toLowerCase());
+        firstWord = false;
+        }
+    if (taggerTokens !=null) {
+        int i = 0;
+        while (i<taggerTokens.length)
+        {
+            //Lametyzator returns data as String[]
+            //first lemma, then annotations
+            l.add(new AnalyzedToken(word, taggerTokens[i+1], taggerTokens[i]));
+            i=i+2;
+        }
+    }
+    else 
+        l.add(new AnalyzedToken(word, null, pos));
+    pos += word.length();
+    tokenReadings.add(new AnalyzedTokenReadings((AnalyzedToken[])l.toArray(new AnalyzedToken[0]))); 
+    }
+    return tokenReadings;
+
+  }
+  
+  
+  /* (non-Javadoc)
+   * @see de.danielnaber.languagetool.tagging.Tagger#createNullToken(java.lang.String, int)
+   */
+  public Object createNullToken(String token, int startPos) {
+    return new AnalyzedTokenReadings(new AnalyzedToken(token, null, startPos));
+  }
+  
+  }
+
 /* LanguageTool, a natural language style checker 
  * Copyright (C) 2005 Daniel Naber (http://www.danielnaber.de)
  * 
@@ -15,7 +100,7 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
- */
+ 
 package de.danielnaber.languagetool.tagging.en;
 
 import java.io.File;
@@ -30,11 +115,11 @@ import de.danielnaber.languagetool.AnalyzedTokenReadings;
 import de.danielnaber.languagetool.JLanguageTool;
 import de.danielnaber.languagetool.tagging.Tagger;
 
-/**
+*//**
  * Encapsulate the OpenNLP POS tagger for English.
  * 
  * @author Daniel Naber
- */
+ *//*
 public class EnglishTagger implements Tagger {
 
   private static final String RESOURCE_FILENAME = "resource" +File.separator+ "en" +File.separator+
@@ -97,7 +182,7 @@ public class EnglishTagger implements Tagger {
     return new AnalyzedTokenReadings(new AnalyzedToken(token, null, startPos));
   }
 
-  /* testing only:
+   testing only:
   public static void main(String[] args) {
     File resourceFile = JLanguageTool.getAbsoluteFile(RESOURCE_FILENAME);
     PosTagger tagger = new PosTagger(resourceFile.getAbsolutePath(), (Dictionary)null);
@@ -108,6 +193,7 @@ public class EnglishTagger implements Tagger {
       System.err.println(l[i] + " "+ taggerTokens[i]);
     }
   }
-  */
+  
   
 }
+*/
