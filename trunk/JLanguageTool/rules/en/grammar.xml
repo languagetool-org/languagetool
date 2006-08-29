@@ -3,7 +3,7 @@
 Rules: Grammar and Typos
 See tagset.txt for the meaning of the POS tags
 Copyright (C) 2001-2006 Daniel Naber (http://www.danielnaber.de)
-$Id: grammar.xml,v 1.73 2006-08-28 17:49:28 milek_pl Exp $
+$Id: grammar.xml,v 1.74 2006-08-29 21:37:50 milek_pl Exp $
 -->
 <rules lang="en">
 
@@ -23,6 +23,16 @@ $Id: grammar.xml,v 1.73 2006-08-28 17:49:28 milek_pl Exp $
     <example type="incorrect">I  <marker>herd</marker> of a new song by Madonna.</example>
   </rule>
 
+	  <rule id="LOOSE_LOSE" name="Possible typo 'loose (lose)'">
+		  <pattern mark_to="-2">
+			  <token>loose</token>
+			  <token postag="DT"/>
+			  <token regexp="yes">key|connection|password</token>
+		  </pattern>
+		  <message>Did you mean <suggestion>lose</suggestion> (= miss, waste, suffer the loss etc.)?</message>
+		  <example type="incorrect">I always <marker>loose</marker> the password.</example>
+  		  <example type="correct">I always <marker>lose</marker> the password.</example>
+	  </rule>
   <rulegroup id="GIVE_ADVISE" name="Possible typo 'give sb advise (advice)">
   <rule>
 	  <pattern mark_from="2">
@@ -225,7 +235,8 @@ $Id: grammar.xml,v 1.73 2006-08-28 17:49:28 milek_pl Exp $
         <token regexp="yes">comes|came|much|is|was</token>
         <token>to</token>
         <token>soon</token>
-        <token postag="VB" negate_pos="yes"/>
+		<token><exception postag="VB"/></token>
+        <!-- token postag="VBP" negate_pos="yes"/ -->
       </pattern>
       <message>Did you mean <suggestion>too</suggestion>?</message>
       <example type="correct">The plan is <marker>to</marker> soon launch a new plane.</example>
@@ -451,11 +462,12 @@ $Id: grammar.xml,v 1.73 2006-08-28 17:49:28 milek_pl Exp $
   <rule id="WERE_VBB" name="Possible typo 'were/where/we'">
     <pattern mark_to="-1">
       <token>were</token>
-      <token postag="VB|VBP" postag_regexp="yes"/>
+      <token postag="VB|VBP" postag_regexp="yes"><exception postag="JJ"></exception></token>
     </pattern>
     <message>Did you mean <suggestion>where</suggestion> or <suggestion>we</suggestion>?</message>
     <example type="correct"><marker>We</marker> are in the process of implementing this.</example>
     <example type="incorrect"><marker>Were</marker> are in the process of implementing this.</example>
+    <example type="correct">These relations were long marked by conflict.</example>
   </rule>
   
   <rule id="VBZ_VBD" name="Possible typo 'it/is'">
@@ -609,7 +621,7 @@ $Id: grammar.xml,v 1.73 2006-08-28 17:49:28 milek_pl Exp $
     
   <rule id="DT_FORM" name="Possible typo 'from/form'">
     <pattern mark_from="1">
-      <token postag="DT"/>
+      <token regexp="yes">a|the</token> <!--most determiners are OK, this way it's shorter-->
       <token>from</token>
     </pattern>
     <message>Did you mean <suggestion>form</suggestion>?</message>
@@ -640,12 +652,13 @@ $Id: grammar.xml,v 1.73 2006-08-28 17:49:28 milek_pl Exp $
     <rule>
       <!-- TODO: "its of", "its to" -->
       <pattern mark_from="0" mark_to="-1">
-        <token regexp="yes">its</token>
-        <token postag="(CC|DT|IN|MD|POS|PP|RB|WDT|WP|WRB)" postag_regexp="yes"/>
+        <token>its</token>
+        <token postag="(CC|DT|IN|MD|POS|PP|RB|WDT|WP|WRB)" postag_regexp="yes"><exception>many</exception></token>
       </pattern>
       <message>Did you mean <suggestion>it's</suggestion> (=<suggestion>it is</suggestion>) instead of 'its' (possessive pronoun)?</message>
       <example type="correct"><marker>It's</marker> where people walk around.</example>
       <example type="incorrect"><marker>Its</marker> where people walk around.</example>
+	  <example type="correct">London is counting iconic landmarks such as the Houses of Parliament, Tower Bridge and Buckingham Palace amongst its many attractions.</example>
       <example type="triggers_error" reason="'every' is tagged as AT0">London is a necropolis, <marker>its</marker> every corner the site of a murder, its soil a pudding of blood and tears.</example>
     </rule>
     <rule>
@@ -741,13 +754,15 @@ $Id: grammar.xml,v 1.73 2006-08-28 17:49:28 milek_pl Exp $
     
   <rulegroup id="NOW" name="Possible typo 'no/now'">
     <rule>
-      <pattern mark_to="-1">
-        <token regexp="yes">no</token>
-        <token postag="MD|VB|VBD|VBN" postag_regexp="yes"><exception>known</exception></token>
+      <pattern mark_to="-1" mark_from="1">
+		<token><exception postag="IN"/></token>
+        <token>no</token>
+        <token postag="MD|VBD|VBN" postag_regexp="yes"><exception>known</exception></token>
       </pattern>
       <message>Did you mean <suggestion>now</suggestion> (=at this moment) instead of 'no' (negation)?</message>
       <example type="correct">There <marker>now</marker> will be a park.</example>
       <example type="incorrect">There <marker>no</marker> will be a park.</example>
+	  <example type="correct">Although in no state the repression has been as great as it was in Soviet times.</example>
     </rule>
     <rule>
       <!-- TODO: "no the", "no of" -->
@@ -787,12 +802,18 @@ $Id: grammar.xml,v 1.73 2006-08-28 17:49:28 milek_pl Exp $
 	  <rulegroup id="POSSESIVE_APOSTROPHE" name="Possessive apostrophe error">
 	  <rule>
 		  <pattern mark_to="-1">
-			  <token postag_regexp="yes" regexp="yes" postag="NNS|NNPS">.[^']*s</token>
-			  <token postag="NN"><exception regexp="yes">today|yesterday|tomorrow|now</exception></token>
+			  <token postag_regexp="yes" regexp="yes" postag="NNS|NNPS">.[^']*s<exception>his</exception></token>
+			  <token postag="NN"><exception regexp="yes">today|yesterday|tomorrow|now|may|can|in</exception></token>
+			  <!-- in the above case two exceptions are needed... one for words, one for grammar categories 
+				  the easiest choice is to allow many exceptions: 
+				  implementing OR logic for POS tag & token processing
+				  would make code unreadable. So the single exception should be replaced by a list
+				  -->
 		  </pattern>
 		  <message>Possible typo: apostrophe is missing. Did you mean <suggestion>\1'</suggestion> or the singular?</message>
 		  <example type="correct">This is a transcript of the president's speech.</example>
 		  <example type="correct">Publishers today are at loss...</example>
+		  <example type="correct">The Romans may have marked the centre of Londinium.</example>
   		  <example type="incorrect">This is a transcript of the <marker>presidents</marker> speech.</example>
 	  </rule>
 	  </rulegroup>
@@ -837,7 +858,7 @@ $Id: grammar.xml,v 1.73 2006-08-28 17:49:28 milek_pl Exp $
 	  <rule>
 	  <pattern mark_from="1">
 		  <token regexp="yes">has|have</token>
-		  <token postag="VBD"/>
+		  <token postag="VBD"><exception postag="VBN"/></token>
 	  </pattern>
 	  <message>Possible agreement error -- don't use past tense instead of past participle.</message>
 	  <example type="correct">I must have done that.</example>
@@ -849,7 +870,7 @@ $Id: grammar.xml,v 1.73 2006-08-28 17:49:28 milek_pl Exp $
 	  <pattern mark_from="2">
 		  <token regexp="yes">has|have</token>
 		  <token postag="RB"/>
-		  <token postag="VBD"/>
+  		  <token postag="VBD"><exception postag="VBN"/></token>
 	  </pattern>
 	  <message>Possible agreement error -- don't use past tense instead of past participle.</message>
 	  <example type="correct">I have always done that.</example>
@@ -860,24 +881,30 @@ $Id: grammar.xml,v 1.73 2006-08-28 17:49:28 milek_pl Exp $
 	  
   <rulegroup id="MASS_AGREEMENT" name="Agreement: Mass noun + non-third person verb">
   <rule>
-	  <pattern mark_from="2">
-		  <token postag="SENT_START"/>
-		  <token postag="NN"/>
-		  <token postag="VBP"/>
+	  <pattern mark_from="2" mark_to="-1">
+  		  <token postag="SENT_START"/>
+		  <token postag="NN"><exception>A</exception></token>
+		  <token postag="VB|VBP" postag_regexp="yes"><exception postag_regexp="yes" postag="VBZ|VBN|VBD|VBG"/></token>
+		  <token postag_regexp="yes" postag="DT|JJ"/>
 	  </pattern>
 	  <message>Use third-person verb forms for singular and mass nouns.</message>
 	  <example type="incorrect">Marketing <marker>are</marker> bad for you.</example>
+	  <example type="incorrect">Marketing <marker>mean</marker> a lot of trouble.</example>
   	  <example type="correct">Marketing is bad for you.</example>
   </rule>
   <rule>
-	  <pattern mark_from="2">
+	  <pattern mark_from="3" mark_to="-1">
+  		  <token postag="SENT_START"/>
   		  <token postag="DT"/>
 		  <token postag="NN"/>
-		  <token postag="VBP"/>
+		  <token postag="VB|VBP" postag_regexp="yes"><exception postag_regexp="yes" postag="VBZ|VBN|VBD|VBG"/></token>
+  		  <token postag_regexp="yes" postag="DT|JJ"/>
 	  </pattern>
 	  <message>Use third-person verb forms for singular and mass nouns.</message>
 	  <example type="incorrect">The marketing <marker>are</marker> bad for you.</example>
   	  <example type="correct">The marketing is bad for you.</example>
+	  <example type="correct">The city is an international transport hub and a popular tourist destination.</example>
+	  <!-- example type="incorrect">The city is popular, and this marketing <marker>are</marker> bad for you.</example -->
   </rule>  
   </rulegroup>
   <rulegroup id="PERS_PRONOUN_AGREEMENT_SENT_START" name="Agreement: 'I is / you is / ... ' (at sentence start only)">
@@ -1012,7 +1039,7 @@ $Id: grammar.xml,v 1.73 2006-08-28 17:49:28 milek_pl Exp $
     <rule>
       <pattern mark_to="-1">
         <token>this</token>
-        <token postag="NNS"/>
+        <token postag="NNS"><exception regexp="yes">makes</exception></token>
       </pattern>
       <message>Did you mean <suggestion>these</suggestion>?</message>
       <example type="correct">These errors are easy to fix.</example>
@@ -1063,7 +1090,8 @@ $Id: grammar.xml,v 1.73 2006-08-28 17:49:28 milek_pl Exp $
   </rule>
   
   <rule id="DID_BASEFORM" name="Infinitive verb after 'did'">
-    <pattern mark_from="1">
+    <pattern mark_from="2">
+	  <token negate="yes">free</token>
       <token regexp="yes">did|will|could|can|should|would|does</token>
       <token postag="(VBD|VBG|VBZ)" postag_regexp="yes"/>
     </pattern>
@@ -1074,11 +1102,10 @@ $Id: grammar.xml,v 1.73 2006-08-28 17:49:28 milek_pl Exp $
     <example type="incorrect">Peter did <marker>went</marker> to the cinema.</example>
     <example type="incorrect">He did <marker>walked</marker> to his house.</example>
     <example type="incorrect">He did <marker>walking</marker> to his house.</example>
-    <!-- TODO: not found because of mistagging:
-      <example type="incorrect">They will <em>comes</em> home.</example>
-      <example type="incorrect">He did <em>walks</em> to his house.</example>
-      <example type="incorrect">They will <em>came</em> home.</example>
-      -->
+    <!-- fixed: found now -->
+      <example type="incorrect">They will <marker>comes</marker> home.</example>
+      <example type="incorrect">He did <marker>walks</marker> to his house.</example>
+      <example type="incorrect">They will <marker>came</marker> home.</example>
   </rule>
   <!-- TODO: support rulegroups?
    <rulegroup id="WILL_MIGHT_BASE" name="Infinitive verb after auxiliary verb">
@@ -1109,9 +1136,8 @@ $Id: grammar.xml,v 1.73 2006-08-28 17:49:28 milek_pl Exp $
     <example type="correct">Bangladesh eager to <marker>buy</marker> cars from Iran' </example>
     <example type="incorrect">I'd be eager to <marker>trying</marker> out your patch.</example>
     <example type="incorrect">Bangladesh eager to <marker>buying</marker> cars from Iran'</example>
-    <!-- TODO: not found because of mistagging:
-      <example type="incorrect">Bangladesh eager to <em>bought</em> cars from Iran'</example>
-      -->
+    <example type="incorrect">Bangladesh eager to <marker>bought</marker> cars from Iran'</example>
+
   </rule>
   
   <!-- 106(less..)+319(more...) in complete BNC, all(?) because "...as" -->
@@ -1128,13 +1154,15 @@ $Id: grammar.xml,v 1.73 2006-08-28 17:49:28 milek_pl Exp $
       <example type="triggers_error">Think of it more <marker>as</marker> activity.</example>
     </rule>
     <rule>
-      <pattern mark_from="1">
+      <pattern mark_from="1" mark_to="-1">
         <token postag="JJR"/>
         <token regexp="yes">(then|as)</token>
+		<token negate_pos="yes" postag="DT"/>
       </pattern>
       <message>Comparison requires <suggestion>than</suggestion>, not 'then'.</message>
       <example type="correct">This house is bigger <marker>than</marker> mine.</example>
       <example type="incorrect">This house is bigger <marker>then</marker> mine.</example>
+	  <example type="correct">This palace was used later as a prison.</example>
     </rule>
   </rulegroup>
 
@@ -1151,21 +1179,27 @@ $Id: grammar.xml,v 1.73 2006-08-28 17:49:28 milek_pl Exp $
     <pattern>
       <token>more</token>
       <token regexp="yes">a|an</token>
-      <token postag="JJ"/>
+      <token postag="JJ|VBN" postag_regexp="yes"/>
     </pattern>
     <message>Did you mean <suggestion>a more \3</suggestion>?</message>
     <example type="correct">I can give you <marker>a more detailed</marker> description of what's necessary.</example>
     <example type="incorrect">I can give you <marker>more a detailed</marker> description of what's necessary.</example>
+   <example type="incorrect">I wish it was <marker>more an analyzed</marker> case</example>
   </rule>
 
-  <!--FIXME
+  <!-- this works now! -->
    <rule id="HE_VERB_AGR" name="Agreement error: Non-third person verb with 'he'">
-      <pattern mark_from="2"><token regexp="yes" negate="yes">(has|will|must|could|can|should|would|does|did)</token><token>he</token><token postag="VB|VBG|VBN" postag_regexp="yes"/></pattern>
+      <pattern mark_from="2">
+		  <token regexp="yes" negate="yes">(has|will|must|could|can|should|would|does|did)</token>
+		  <token>he</token>
+		  <token postag="VB|VBG|VBP" postag_regexp="yes"/>
+	  </pattern>
       <message>'He' must be used with a third person verb, e.g. 'he walks'</message>
-      <example type="correct">He <em>walks</em> to the building.</example>
-      <example type="incorrect">He <em>walk</em> to the building.</example>
+      <example type="correct">He <marker>walks</marker> to the building.</example>
+      <example type="incorrect">He <marker>walk</marker> to the building.</example>
+       <example type="correct">He <marker>walked</marker> to the building.</example>
    </rule>
-  -->
+
   <!-- TODO: fix false alarm for "one of you thinks ...", "even though the world around you thinks"
    <rule id="I_VERB_AGR" name="Agreement error: third person verb with 'I'">
       <pattern mark_from="1"><token regexp="yes">I|we|they|you</token><token postag="VBZ"/></pattern>
@@ -1208,12 +1242,20 @@ $Id: grammar.xml,v 1.73 2006-08-28 17:49:28 milek_pl Exp $
 
   <rule id="DT_DT" name="Two consecutive articles, e.g. 'the a'">
     <pattern>
-      <token postag="DT"><exception regexp="yes">all|half|both|this|each|that</exception></token>
-      <token postag="DT"/>
+	<!--
+      <token postag="DT"><exception regexp="yes">all|half|both|this|each|that|them|these|those|such|neither</exception></token>
+      <token postag="DT"><exception regexp="yes">much|many</exception></token>
+		it's easier to be explicit about the, an, a than to file exceptions...
+		it could be written as several rules in a rulegroup so that it wouldn't match
+		the the, a a nor an an... 
+	-->
+		<token regexp="yes">a|an|the</token>
+		<token regexp="yes">a|an|the</token>
     </pattern>
     <message>Maybe you need to remove the second determiner so that only <suggestion>\1</suggestion> is left.</message>
     <example type="correct"><marker>The</marker> thing is this.</example>
     <example type="incorrect"><marker>The a</marker> thing is this.</example>
+	<example type="correct">The Thames was once a much broader river.</example>
   </rule>
 
   </category>
