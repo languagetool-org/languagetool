@@ -18,6 +18,7 @@
  */
 package de.danielnaber.languagetool.tagging.en;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -39,15 +40,16 @@ public class EnglishTaggerTest extends TestCase {
     tokenizer = new WordTokenizer();
   }
 
-  public void testTagger() {
+  public void testTagger() throws IOException {
     myAssert("This is a big house.", "This/DT is/VBZ a/DT big/JJ house/NN");
-    //clearly a bug in the tagger: "use" is not "preposition/subordinate conjunction"
-    myAssert("Manager use his laptop every day.", "Manager/NN use/IN his/PRP$ laptop/NN every/DT day/NN");
+    //clearly a bug in the previous tagger: "use" is not "preposition/subordinate conjunction"
+    myAssert("Marketing do a lot of trouble.", "Marketing/NN do/NN a/DT lot/JJ of/IN trouble/NN");
+    myAssert("Manager use his laptop every day.", "Manager/NN use/NN his/NNS laptop/NN every/DT day/NN");
     myAssert("This is a bigger house.", "This/DT is/VBZ a/DT bigger/JJR house/NN");
-    myAssert("He doesn't believe me.", "He/PRP doesn/VBZ t/RB believe/VBP me/PRP");
+    myAssert("He doesn't believe me.", "He/PRP doesn/VBZ t/RB believe/VB me/PRP");
   }
 
-  private void myAssert(String input, String expected) {
+  private void myAssert(String input, String expected) throws IOException {
     List tokens = tokenizer.tokenize(input);
     List<String> noWhitespaceTokens = new ArrayList<String>();
     // whitespace confuses tagger, so give it the tokens but no whitespace tokens:
@@ -60,8 +62,9 @@ public class EnglishTaggerTest extends TestCase {
     List output = tagger.tag(noWhitespaceTokens);
     StringBuffer outputStr = new StringBuffer();
     for (Iterator iter = output.iterator(); iter.hasNext();) {
-      AnalyzedTokenReadings atr = (AnalyzedTokenReadings) iter.next();
-      outputStr.append(atr);
+      AnalyzedTokenReadings token = (AnalyzedTokenReadings) iter.next();
+      //FIXME: check for multiple readings
+      outputStr.append(token.getAnalyzedToken(0));
       if (iter.hasNext())
         outputStr.append(" ");
     }
