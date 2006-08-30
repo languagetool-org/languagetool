@@ -3,7 +3,7 @@
 Rules: Grammar and Typos
 See tagset.txt for the meaning of the POS tags
 Copyright (C) 2001-2006 Daniel Naber (http://www.danielnaber.de)
-$Id: grammar.xml,v 1.75 2006-08-30 22:30:32 milek_pl Exp $
+$Id: grammar.xml,v 1.76 2006-08-30 23:32:59 milek_pl Exp $
 -->
 <rules lang="en">
 
@@ -925,10 +925,7 @@ $Id: grammar.xml,v 1.75 2006-08-30 22:30:32 milek_pl Exp $
 	  <example type="incorrect">The marketing <marker>are</marker> bad for you.</example>
   	  <example type="correct">The marketing is bad for you.</example>
 	  <example type="correct">The city is an international transport hub and a popular tourist destination.</example>
-	  <!-- example type="incorrect">The city is popular, and this marketing <marker>are</marker> bad for you.</example -->
-	  <!-- false alarm:
-		  The navy blue school blazer with the school crest on ... 
-	   -->
+	  <!-- example type="incorrect">The city is popular, and this marketing <marker>are</marker> bad for you.</example --> 
   </rule>  
   </rulegroup>
   <rulegroup id="PERS_PRONOUN_AGREEMENT_SENT_START" name="Agreement: 'I is / you is / ... ' (at sentence start only)">
@@ -1216,8 +1213,8 @@ $Id: grammar.xml,v 1.75 2006-08-30 22:30:32 milek_pl Exp $
    <rule id="HE_VERB_AGR" name="Agreement error: Non-third person verb with 'he'">
       <pattern mark_from="2">
 		  <token regexp="yes" negate="yes">(has|will|must|could|can|should|would|does|did)</token>
-		  <token>he</token>
-		  <token postag="VB|VBG|VBP" postag_regexp="yes"/>
+		  <token regexp="yes">he|she</token>
+		  <token postag="VB|VBG|VBP" postag_regexp="yes"><exception postag_regexp="yes" postag="VBN|VBD|JJ"/></token>
 	  </pattern>
       <message>'He' must be used with a third person verb, e.g. 'he walks'</message>
       <example type="correct">He <marker>walks</marker> to the building.</example>

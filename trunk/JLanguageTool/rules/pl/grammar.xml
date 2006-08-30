@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?><!--
 Copyright (C) 2006 Marcin Miłkowski
-$Id: grammar.xml,v 1.45 2006-08-28 21:35:52 milek_pl Exp $		
+$Id: grammar.xml,v 1.46 2006-08-30 23:32:59 milek_pl Exp $		
 -->
 <rules lang="pl">
 	<category name="Typografia">
@@ -1136,7 +1136,8 @@ $Id: grammar.xml,v 1.45 2006-08-28 21:35:52 milek_pl Exp $
 		</rule>
 	
 	<!-- błędna pisownia rozłączna -->
-		<rule id="PONAD_TO" name="„po nadto” (ponadto)">
+		<rulegroup id="PONAD_TO" name="„ponad to”, „po nadto” (ponadto)">
+			<rule>
 			<pattern mark_from="0" case_sensitive="no">
 				<token>ponad</token>
 				<token>to</token>
@@ -1145,7 +1146,28 @@ $Id: grammar.xml,v 1.45 2006-08-28 21:35:52 milek_pl Exp $
 			<example type="correct">Ponadto samochód wyposażony jest w ogromny bagażnik.</example>
 			<example type="incorrect"><marker>Ponad to</marker> samochód wyposażony jest w ogromny bagażnik.</example>
 		</rule>
-	
+		<rule>
+			<pattern mark_from="0" case_sensitive="no">
+				<token>po</token>
+				<token>nadto</token>
+			</pattern>
+			<message>Wyraz <suggestion>ponadto</suggestion> w sensie "poza tym", "oprócz tego" piszemy łącznie.</message>
+			<example type="correct">Ponadto samochód wyposażony jest w ogromny bagażnik.</example>
+			<example type="incorrect"><marker>Po nadto</marker> samochód wyposażony jest w ogromny bagażnik.</example>
+		</rule>
+		</rulegroup>
+
+		<rule id="ZA_NADTO" name="„za nadto” (zanadto)">
+			<pattern mark_from="0" case_sensitive="no">
+				<token>za</token>
+				<token>nadto</token>
+			</pattern>
+			<message>Wyraz <suggestion>zanadto</suggestion> piszemy łącznie.</message>
+			<example type="correct">Ten minister aż zanadto przypomina wioskowego głupka.</example>
+			<example type="incorrect">Ten minister aż <marker>za nadto</marker> przypomina wioskowego głupka.</example>
+		</rule>
+		
+					
 	<!-- błędna pisownia rozłączna -->
 		<rule id="PO_ZA" name="„po za” (poza)">
 			<pattern mark_from="0" case_sensitive="yes">
