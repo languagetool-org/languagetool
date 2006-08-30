@@ -57,9 +57,12 @@ for (i=3;i<=NF;i++)
 	if ($i~/\?|</) mark++
 	total++
 	}
-if (mark==total && "BEGIN"$1!~/BEGIN[A-Z]/) print $1 "\t" $1 "\tRB"; else {
+if (mark==total && "BEGIN"$1!~/BEGIN[A-Z]/) {
+#dummy: this is just wrong tagging
+	mark=0
+	total=0
+	} else {
 if ($1"_END"!~/ly_END/) print $1 "\t" $1 "\tJJ"; else print $1 "\t" $1 "\tRB"
-}
 for (i=2;i<=NF;i++) {
 	if ($i"_END"~/er_END/) 
 		{print $i "\t" $1 "\tJJR"
@@ -69,6 +72,7 @@ for (i=2;i<=NF;i++) {
 		JJS[$i]=$1
 		}
 	}
+}
 }
 
 /N:|N\?:/ {if ($1!~/[A-Z][a-z]/) print $1 "\t" $1 "\tNN"; else print $1 "\t" $1 "\tNNP"
@@ -139,3 +143,13 @@ if (verb_fields[5]!="") {
 "BEGIN"$2"END"~/BEGINrEND/ { print $1 "\t" $1 "\t"map[$2]}
 "BEGIN"$2"END"~/BEGINvEND/ { print $1 "\t" $1 "\t"map[$2]}
 "BEGIN"$2"END"~/BEGINAEND/ { if (JJR[$1]=="" && JJS[$1]=="") print $1 "\t" $1 "\t"map[$2]}
+
+/\tvA/ {print $1 "\t" $1 "\t"map["v"]
+	print $1 "\t" $1 "\t"map["A"]}
+	
+/\tPCv/ {print $1 "\t" $1 "\t"map["P"]
+	print $1 "\t" $1 "\t"map["C"]
+	print $1 "\t" $1 "\t"map["v"]}
+
+/\tCv/ {print $1 "\t" $1 "\t"map["C"]
+	print $1 "\t" $1 "\t"map["v"]}
