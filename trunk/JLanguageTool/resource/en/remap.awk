@@ -48,7 +48,18 @@ map["\?"]=""	#as above
 /A:/{
 gsub(/{.*}/,"")
 gsub(/,/,"")
+gsub(/\|/,"")
+gsub(/[0-9]/,"")
+mark=0
+total=0
+for (i=3;i<=NF;i++) 
+	{
+	if ($i~/\?|</) mark++
+	total++
+	}
+if (mark==total && "BEGIN"$1!~/BEGIN[A-Z]/) print $1 "\t" $1 "\tRB"; else {
 if ($1"_END"!~/ly_END/) print $1 "\t" $1 "\tJJ"; else print $1 "\t" $1 "\tRB"
+}
 for (i=2;i<=NF;i++) {
 	if ($i"_END"~/er_END/) 
 		{print $i "\t" $1 "\tJJR"

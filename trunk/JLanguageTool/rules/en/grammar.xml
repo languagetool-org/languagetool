@@ -3,7 +3,7 @@
 Rules: Grammar and Typos
 See tagset.txt for the meaning of the POS tags
 Copyright (C) 2001-2006 Daniel Naber (http://www.danielnaber.de)
-$Id: grammar.xml,v 1.74 2006-08-29 21:37:50 milek_pl Exp $
+$Id: grammar.xml,v 1.75 2006-08-30 22:30:32 milek_pl Exp $
 -->
 <rules lang="en">
 
@@ -13,6 +13,16 @@ $Id: grammar.xml,v 1.74 2006-08-29 21:37:50 milek_pl Exp $
 
   <category name="Possible Typo">
   
+   <rule id="ALLOT_OF" name="Possible typo 'allot of' (a lot of)">
+	   <pattern>
+		   <token>allot</token>
+		   <token>of</token>
+	   </pattern>
+	   <message>Did you mean <suggestion>a lot of</suggestion>(=plenty)?</message>
+	   <example type="correct">I've got a lot of questions to you.</example>
+   	   <example type="incorrect">I've got <marker>allot of</marker> questions to you.</example>
+   </rule>
+	  	  
   <rule id="I_HERD" name="Possible typo 'I herd(heard)'">
     <pattern mark_from="1">
       <token regexp="yes">I|you|he|she|it|we|they</token>
@@ -23,7 +33,7 @@ $Id: grammar.xml,v 1.74 2006-08-29 21:37:50 milek_pl Exp $
     <example type="incorrect">I  <marker>herd</marker> of a new song by Madonna.</example>
   </rule>
 
-	  <rule id="LOOSE_LOSE" name="Possible typo 'loose (lose)'">
+	<rule id="LOOSE_LOSE" name="Possible typo 'loose (lose)'">
 		  <pattern mark_to="-2">
 			  <token>loose</token>
 			  <token postag="DT"/>
@@ -799,6 +809,17 @@ $Id: grammar.xml,v 1.74 2006-08-29 21:37:50 milek_pl Exp $
 		  <example type="incorrect">Something terrible <marker>must of</marker> happened here.</example>
 		  <example type="incorrect">It <marker>could of</marker> been you, the one that I was givin' my love to.</example>
 	  </rule>
+	  
+	  <rule id="ONES" name="ones (one's)">
+		  <pattern mark_to="-1">
+			  <token>ones</token>
+			  <token postag="NN.*" postag_regexp="yes"/>
+		  </pattern>
+		  <message>Did you mean <suggestion>one's</suggestion>?</message>
+		  <example type="correct">One should always wash one's feet in the morning.</example>
+  		  <example type="incorrect">One should always wash <marker>ones</marker> feet in the morning.</example>
+	  </rule>
+	  
 	  <rulegroup id="POSSESIVE_APOSTROPHE" name="Possessive apostrophe error">
 	  <rule>
 		  <pattern mark_to="-1">
@@ -887,7 +908,7 @@ $Id: grammar.xml,v 1.74 2006-08-29 21:37:50 milek_pl Exp $
 		  <token postag="VB|VBP" postag_regexp="yes"><exception postag_regexp="yes" postag="VBZ|VBN|VBD|VBG"/></token>
 		  <token postag_regexp="yes" postag="DT|JJ"/>
 	  </pattern>
-	  <message>Use third-person verb forms for singular and mass nouns.</message>
+	  <message>Possible agreement error - use third-person verb forms for singular and mass nouns.</message>
 	  <example type="incorrect">Marketing <marker>are</marker> bad for you.</example>
 	  <example type="incorrect">Marketing <marker>mean</marker> a lot of trouble.</example>
   	  <example type="correct">Marketing is bad for you.</example>
@@ -900,11 +921,14 @@ $Id: grammar.xml,v 1.74 2006-08-29 21:37:50 milek_pl Exp $
 		  <token postag="VB|VBP" postag_regexp="yes"><exception postag_regexp="yes" postag="VBZ|VBN|VBD|VBG"/></token>
   		  <token postag_regexp="yes" postag="DT|JJ"/>
 	  </pattern>
-	  <message>Use third-person verb forms for singular and mass nouns.</message>
+	  <message>Possible agreement error - use third-person verb forms for singular and mass nouns.</message>
 	  <example type="incorrect">The marketing <marker>are</marker> bad for you.</example>
   	  <example type="correct">The marketing is bad for you.</example>
 	  <example type="correct">The city is an international transport hub and a popular tourist destination.</example>
 	  <!-- example type="incorrect">The city is popular, and this marketing <marker>are</marker> bad for you.</example -->
+	  <!-- false alarm:
+		  The navy blue school blazer with the school crest on ... 
+	   -->
   </rule>  
   </rulegroup>
   <rulegroup id="PERS_PRONOUN_AGREEMENT_SENT_START" name="Agreement: 'I is / you is / ... ' (at sentence start only)">
@@ -1039,11 +1063,12 @@ $Id: grammar.xml,v 1.74 2006-08-29 21:37:50 milek_pl Exp $
     <rule>
       <pattern mark_to="-1">
         <token>this</token>
-        <token postag="NNS"><exception regexp="yes">makes</exception></token>
+        <token postag="NNS"><exception postag="VBZ"/></token>
       </pattern>
       <message>Did you mean <suggestion>these</suggestion>?</message>
       <example type="correct">These errors are easy to fix.</example>
       <example type="incorrect"><marker>This</marker> errors are easy to fix.</example>
+	  <example type="correct">This forms a sharp contract with...</example>
     </rule>
     <rule>
       <pattern mark_to="-1">
@@ -1249,8 +1274,8 @@ $Id: grammar.xml,v 1.74 2006-08-29 21:37:50 milek_pl Exp $
 		it could be written as several rules in a rulegroup so that it wouldn't match
 		the the, a a nor an an... 
 	-->
-		<token regexp="yes">a|an|the</token>
-		<token regexp="yes">a|an|the</token>
+		<token regexp="yes">a|an|the|this</token>
+		<token regexp="yes">a|an|the|this</token>
     </pattern>
     <message>Maybe you need to remove the second determiner so that only <suggestion>\1</suggestion> is left.</message>
     <example type="correct"><marker>The</marker> thing is this.</example>
