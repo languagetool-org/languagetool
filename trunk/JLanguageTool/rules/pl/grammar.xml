@@ -1,14 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?><!--
 Copyright (C) 2006 Marcin Miłkowski
-$Id: grammar.xml,v 1.47 2006-08-31 13:57:32 milek_pl Exp $		
+$Id: grammar.xml,v 1.48 2006-08-31 21:46:02 milek_pl Exp $		
 -->
 <rules lang="pl">
 	<category name="Interpunkcja">
 		
+		<rulegroup name="Spójniki o różnej interpunkcji w zdaniach prostych i złożonych" id="SPOJNIKI_PODSTEPNE">
+			<rule>
+				<pattern>
+					<token postag="SENT_START"/>
+					<token skip="-1" regexp="yes">chociaż|choć</token>
+					<token skip="-1" postag_regexp="yes" postag="verb:.*(sg|pl).*"><exception>,</exception></token>
+					<token skip="-1" postag_regexp="yes" postag="verb:.*(sg|pl).*"/>
+					<token>.</token>
+				</pattern>
+				<message>W tym zdaniu brakuje przecinka między jednym zdaniem a drugim.</message>
+				<example type="correct">Chociaż kupiłem wino, chciałem też pić wodę.</example>
+				<example type="incorrect"><marker>Chociaż kupiłem wino chciałem też pić wodę.</marker></example>
+			</rule>
+		</rulegroup>
+		
+		<rulegroup name="Brak przecinka przed: a więc, a mianowicie..." id="MULTISPOJNIKI">
+			<rule>
+				<pattern mark_from="1">
+					<token negate="yes">,<exception postag="SENT_START"/></token>
+					<token>a</token>
+					<token regexp="yes">więc|mianowicie|przeto|zatem|jednak|choć|chociaż|ponieważ|także|następnie|jeśli|jeżeli|gdyby|gdy|kiedy</token>
+				</pattern>
+				<message>Przed tymi wyrażeniami stawia się przecinek: <suggestion>, \1 \2</suggestion></message>
+				<example type="correct">Minister miał coś do zakomunikowania, a mianowicie, że nic nie wie.</example>
+				<example type="incorrect">Minister miał coś do zakomunikowania <marker>a mianowicie</marker>, że nic nie wie.</example>
+			</rule>
+		</rulegroup>			
+		
 		<rulegroup id="COFANIE_PRZECINKA" name="Przecinek wewnątrz spójnika złożonego">
 		<rule>
 			<pattern>
-				<token regexp="yes">chyba|i|ile|jako|oraz|szczególnie|tyle|tylko|zwłaszcza|pomimo|mimo</token>
+				<token regexp="yes">chyba|i|ile|jako|oraz|szczególnie|tyle|tylko|zwłaszcza|pomimo|mimo|ledwie|niby|prawie|ledwo|właśnie|tak</token>
 				<token>,</token>
 				<token>że</token>
 			</pattern>	
@@ -30,7 +58,7 @@ $Id: grammar.xml,v 1.47 2006-08-31 13:57:32 milek_pl Exp $
 			<pattern>
 				<token>a</token>
 				<token>,</token>
-				<token regexp="yes">choć|gdy|kiedy|jeśli|jeżeli|mianowicie|następnie|ponieważ|także|to|więc|że</token>
+				<token regexp="yes">więc|mianowicie|zatem|przeto|jednak|choć|chociaż|ponieważ|także|następnie|jeśli|jeżeli|gdyby|gdy|kiedy</token>
 			</pattern>
 			<message>Spójników złożonych nie rozdziela się, przecinek stawia się przed nimi: <suggestion>, a \3</suggestion>.</message>
 			<example type="correct">Do partii rządzącej zapisują się tylko idioci, a więc nadajesz się znakomicie.</example>
@@ -38,9 +66,9 @@ $Id: grammar.xml,v 1.47 2006-08-31 13:57:32 milek_pl Exp $
 		</rule>			
 		<rule>
 			<pattern>
-				<token regexp="yes" inflected="yes">który|jaki|zwłaszcza|szczególnie|że</token>
+				<token regexp="yes" inflected="yes">który|jaki|zwłaszcza|szczególnie|że|nawet|więc|to</token>
 				<token>,</token>
-				<token regexp="yes">jeśli|jeżeli</token>
+				<token regexp="yes" inflected="yes">jeśli|jeżeli|gdyby|jeżeliby|jeśliby</token>
 			</pattern>
 			<message>Spójników złożonych nie rozdziela się, przecinek stawia się przed nimi: <suggestion>, \1 \3</suggestion>. Wyjątkiem mogą być tutaj wtrącenia.</message>
 			<example type="incorrect">Powiedziałam mu, <marker>że, jeśli</marker> pójdzie się myć, to się wyprowadzam.</example>
@@ -81,7 +109,29 @@ $Id: grammar.xml,v 1.47 2006-08-31 13:57:32 milek_pl Exp $
 			<example type="correct">Mimo że cenię jego śpiew, hymnu śpiewać mu nie pozwolę.</example>
 		</rule>			
 		</rulegroup>
-		
+
+		<rulegroup id="BRAK_PRZECINKA_JESLI" name="Brak przecinka przed „jeśli”, „jeżeli”, „gdyby” itd.">
+		<rule>
+			<pattern mark_from="1">
+				<token negate="yes" regexp="yes" inflected="yes">,|który|jaki|zwłaszcza|szczególnie|że|nawet|więc<exception postag="SENT_START"/></token>
+				<token regexp="yes" inflected="yes">jeśli|jeżeli|gdyby|jeżeliby|jeśliby</token>
+			</pattern>
+			<message>Przed spójnikiem stawiamy przecinek:<suggestion>, \2</suggestion>.</message>
+			<example type="correct">Powiedział nam, że jeśli Zyta się dowie, to ją zabije.</example>
+			<example type="incorrect">Zabije glizdę <marker>gdyby</marker> ona się dowiedziała.</example>
+		</rule>
+		<rule>
+			<pattern mark_from="1">
+				<token negate="yes">,<exception postag="SENT_START"/></token>
+				<token regexp="yes" inflected="yes">który|jaki|zwłaszcza|szczególnie|że|nawet|więc</token>
+				<token regexp="yes" inflected="yes">jeśli|jeżeli|gdyby|jeżeliby|jeśliby</token>
+			</pattern>
+			<message>Przecinek stawiamy przed całym spójnikiem złożonym: <suggestion>, \2 \3</suggestion>.</message>
+			<example type="correct">Zrobię omleta, nawet jeśli nie poprosisz.</example>
+			<example type="incorrect">Zrobię omleta <marker>nawet jeśli</marker> nie poprosisz.</example>
+		</rule>					
+		</rulegroup>		
+				
 		<rulegroup id="BRAK_PRZECINKA_ZEBY" name="Brak przecinka przed „żeby”, „by”, „aby”, „ażeby”, „iżby”">
 		<rule>
 			<pattern mark_from="1">
@@ -198,7 +248,27 @@ $Id: grammar.xml,v 1.47 2006-08-31 13:57:32 milek_pl Exp $
 			<example type="correct">My ze Zdzichem jesteśmy takimi starymi koniami, jak papużki nierozłączki, panie dziejaszku.</example>
 			<example type="incorrect">Księżna od maleńkości fascynowała się <marker>koniami</marker>.</example>
 		</rule>
-		
+		<rulegroup id="RP_PRZYM" name="Błędy odmiany „Rzeczypospolitej Polskiej”">
+			<rule>
+			<pattern case_sensitive="yes">
+				<token>Rzeczpospolitej</token>
+				<token>Polski</token>
+			</pattern>
+			<message>Wyraz „polski” jest tutaj przymiotnikiem, a więc poprawna forma brzmi: <suggestion>\1 Polskiej</suggestion> lub 
+				– bardziej oficjalnie i zgodnie z tradycją – <suggestion>Rzeczypospolitej Polskiej</suggestion>.</message>
+			<example type="incorrect">Minister Obrony Narodowej <marker>Rzeczpospolitej Polski</marker></example>
+			<example type="correct">Minister Obrony Narodowej <marker>Rzeczpospolitej Polskiej</marker></example>			
+			</rule>
+			<rule>
+			<pattern case_sensitive="yes">
+				<token>Rzeczypospolita</token>
+				<token>Polska</token>
+			</pattern>
+				<message>Uwaga. Użyta forma to wołacz, poprawnie w mianowniku mówi się: <suggestion>Rzeczpospolita Polska</suggestion>.</message>
+				<example type="incorrect">My z bratem uważamy, że <marker>Rzeczypospolita Polska</marker> to nie jest kraj dezerterów.</example>
+				<example type="correct">My z bratem uważamy, że <marker>Rzeczpospolita Polska</marker> to nie jest kraj dezerterów.</example>
+			</rule>
+		</rulegroup>
 	</category>
 	
 	<category name="Błąd składniowy">
