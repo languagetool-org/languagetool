@@ -23,9 +23,11 @@ import de.danielnaber.languagetool.tagging.Tagger;
  */
 public class EnglishTagger implements Tagger {
 
-  /* French Tagger
+  /* English Tagger
    * 
-   * Based on inDICO, implemented in FSA
+   * Based on part-of-speech lists in Public Domain
+   * see readme.txt for details, the POS tagset is
+   * described in tagset.txt
    * 
    * @author Marcin Milkowski
    */
