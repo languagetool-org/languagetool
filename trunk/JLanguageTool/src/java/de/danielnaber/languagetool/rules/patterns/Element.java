@@ -133,8 +133,11 @@ public class Element {
     }
 
     String testToken = null;
-    if (exceptionInflected)
+    if (exceptionInflected) {
       testToken = token.getLemma();
+      if (testToken==null) 
+        testToken=token.getToken();
+    }
     else
       testToken = token.getToken();
 
@@ -195,8 +198,13 @@ public class Element {
     }
 
     String testToken = null;
-    if (inflected)
+    //enables using words with lemmas and without lemmas
+    //in the same regexp with inflected="yes"
+    if (inflected) {
       testToken = token.getLemma();
+      if (testToken==null) 
+        testToken=token.getToken();
+    }
     else
       testToken = token.getToken();
 
