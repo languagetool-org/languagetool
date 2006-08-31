@@ -3,7 +3,7 @@
 Rules: Grammar and Typos
 See tagset.txt for the meaning of the POS tags
 Copyright (C) 2001-2006 Daniel Naber (http://www.danielnaber.de)
-$Id: grammar.xml,v 1.76 2006-08-30 23:32:59 milek_pl Exp $
+$Id: grammar.xml,v 1.77 2006-08-31 20:14:18 milek_pl Exp $
 -->
 <rules lang="en">
 
@@ -875,30 +875,56 @@ $Id: grammar.xml,v 1.76 2006-08-30 23:32:59 milek_pl Exp $
     </rule>
   </rulegroup>
   
-  <rulegroup id="HAVE_PART_AGREEMENT" name="Agreement: have + past tense">
+  <rulegroup id="HAVE_PART_AGREEMENT" name="Agreement: have + past/present tense">
 	  <rule>
 	  <pattern mark_from="1">
 		  <token regexp="yes">has|have</token>
-		  <token postag="VBD"><exception postag="VBN"/></token>
+		  <token postag_regexp="yes" postag="VBD|VBP|VB"><exception postag="VBN"/></token>
 	  </pattern>
-	  <message>Possible agreement error -- don't use past tense instead of past participle.</message>
+	  <message>Possible agreement error -- don't use past or present tense instead of past participle.</message>
 	  <example type="correct">I must have done that.</example>
 	  <example type="incorrect">I must have <marker>wrote</marker> that.</example>
 	  <example type="correct">I have liked her.</example>
+  	  <example type="incorrect">I have <marker>like</marker> her.</example>
 	  <example type="incorrect">I could have <marker>wrote</marker> this letter.</example>
 	  </rule>
 	  <rule>
 	  <pattern mark_from="2">
 		  <token regexp="yes">has|have</token>
 		  <token postag="RB"/>
-  		  <token postag="VBD"><exception postag="VBN"/></token>
+  		  <token postag_regexp="yes" postag="VBD|VBP|VB"><exception postag="VBN"/></token>
 	  </pattern>
-	  <message>Possible agreement error -- don't use past tense instead of past participle.</message>
+	  <message>Possible agreement error -- don't use past or present tense instead of past participle.</message>
 	  <example type="correct">I have always done that.</example>
 	  <example type="incorrect">I must have always <marker>wrote</marker> that.</example>
 	  <example type="correct">I have always liked her.</example>		  
 	  </rule>
 </rulegroup>
+	  
+<rulegroup id="BEEN_PART_AGREEMENT" name="Agreement: been + past tense">
+	  <rule>
+	  <pattern mark_from="1">
+		  <token>been</token>
+		  <token postag_regexp="yes" postag="VBD|VBP|VB"><exception postag="VBN"/></token>
+	  </pattern>
+	  <message>Possible agreement error -- don't use past or present tense instead of past participle.</message>
+	  <example type="incorrect">The program has been <marker>release</marker>.</example>
+	  <example type="incorrect">The gift has been <marker>gave</marker>.</example>
+	  <example type="correct">It has been done.</example>
+	  <example type="incorrect">He has been <marker>did</marker> this.</example>
+	  </rule>
+	  <rule>
+	  <pattern mark_from="2">
+		  <token>been</token>
+		  <token postag="RB"/>
+		  <token postag_regexp="yes" postag="VBD|VBP|VB"><exception postag="VBN"/></token>
+	  </pattern>
+	  <message>Possible agreement error -- don't use past or present tense instead of past participle.</message>
+	  <example type="correct">It has always been hated.</example>
+	  <example type="incorrect">I must have been always <marker>wrote</marker> that.</example>
+	  <example type="correct">It has always been liked.</example>		  
+	  </rule>
+</rulegroup>	  
 	  
   <rulegroup id="MASS_AGREEMENT" name="Agreement: Mass noun + non-third person verb">
   <rule>
