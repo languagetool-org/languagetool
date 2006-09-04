@@ -60,7 +60,7 @@ public class Language {
   private String name;
   private String shortForm;
   private Tagger tagger;
-  private Tokenizer sentenceTokenizer;
+  private SentenceTokenizer sentenceTokenizer;
   private Tokenizer wordTokenizer;
   private Locale locale;
 
@@ -102,7 +102,7 @@ public class Language {
     return null;
   }
 
-  private Language(String name, String shortForm, Locale locale, Tagger tagger, Tokenizer sentenceTokenizer,
+  private Language(String name, String shortForm, Locale locale, Tagger tagger, SentenceTokenizer sentenceTokenizer,
       Tokenizer wordTokenizer) {
     this.name = name;
     this.shortForm = shortForm;
@@ -137,7 +137,7 @@ public class Language {
     return tagger;
   }
 
-  public Tokenizer getSentenceTokenizer() {
+  public SentenceTokenizer getSentenceTokenizer() {
     return sentenceTokenizer;
   }
 

@@ -117,25 +117,22 @@ public class SentenceTokenizer implements Tokenizer {
 
   /**
    * Create a sentence tokenizer.
-   * 
-   * @param lineBreakParagraphs if <code>true</code>, single lines breaks are assumed to end a paragraph,
-   *  with <code>false</code>, only two ore more consecutive line breaks end a paragraph
    */
-  public SentenceTokenizer(boolean lineBreakParagraphs) {
-    if (lineBreakParagraphs)
-      paragraph = paragraphByLineBreak;
-    else
-      paragraph = paragraphByTwoLineBreaks;
+  public SentenceTokenizer() {
     for (int i = 0; i < ABBREV_LIST.length; i++) {
       abbreviations.add(ABBREV_LIST[i]);
     }
   }
 
   /**
-   * Create a sentence tokenizer.
+   * @param lineBreakParagraphs if <code>true</code>, single lines breaks are assumed to end a paragraph,
+   *  with <code>false</code>, only two ore more consecutive line breaks end a paragraph
    */
-  public SentenceTokenizer() {
-    this(true);
+  public void setSingleLineBreaksMarksParagraph(boolean lineBreakParagraphs) {
+    if (lineBreakParagraphs)
+      paragraph = paragraphByLineBreak;
+    else
+      paragraph = paragraphByTwoLineBreaks;
   }
 
   public List<String> tokenize(String s) {

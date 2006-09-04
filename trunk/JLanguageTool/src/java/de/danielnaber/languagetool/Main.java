@@ -187,7 +187,7 @@ class Main {
   private static void exitWithUsageMessage() {
     System.out.println("Usage: java de.danielnaber.languagetool.Main " +
             "[-r|--recursive] [-v|--verbose] [-l|--language LANG] [-m|--mothertongue LANG] [-d|--disable RULES] " +
-            "[-e|--enable RULES] [-c|--encoding] <file>");
+            "[-e|--enable RULES] [-c|--encoding] [-b] <file>");
     System.exit(1);
   }
 
@@ -200,6 +200,7 @@ class Main {
     }
     boolean verbose = false;
     boolean recursive = false;
+    boolean singleLineBreakMarksParagraph = false;
     Language language = null;
     Language motherTongue = null;
     String encoding = null;
@@ -229,6 +230,8 @@ class Main {
         motherTongue = getLanguageOrExit(args[++i]);
       } else if (args[i].equals("-c") || args[i].equals("--encoding")) {
         encoding = args[++i];
+      } else if (args[i].equals("-b")) {
+        singleLineBreakMarksParagraph = true;
       } else {
         filename = args[i];
       }
@@ -240,6 +243,7 @@ class Main {
       System.err.println("No language specified, using English");
       language = Language.ENGLISH;
     }
+    language.getSentenceTokenizer().setSingleLineBreaksMarksParagraph(singleLineBreakMarksParagraph);
     Main prg = new Main(verbose, language, motherTongue, disabledRules, enabledRules);
     if (recursive) {
       prg.runRecursive(filename, encoding);
