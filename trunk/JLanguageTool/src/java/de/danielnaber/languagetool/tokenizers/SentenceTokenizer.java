@@ -122,6 +122,7 @@ public class SentenceTokenizer implements Tokenizer {
     for (int i = 0; i < ABBREV_LIST.length; i++) {
       abbreviations.add(ABBREV_LIST[i]);
     }
+    setSingleLineBreaksMarksParagraph(false);
   }
 
   /**
