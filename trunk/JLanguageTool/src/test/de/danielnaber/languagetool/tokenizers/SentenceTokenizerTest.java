@@ -32,7 +32,13 @@ public class SentenceTokenizerTest extends TestCase {
   // accept \n as paragraph:
   private SentenceTokenizer stokenizer = new SentenceTokenizer();
   // accept only \n\n as paragraph:
-  private SentenceTokenizer stokenizer2 = new SentenceTokenizer(false);
+  private SentenceTokenizer stokenizer2 = new SentenceTokenizer();
+  
+  
+  public void setUp() {
+    stokenizer.setSingleLineBreaksMarksParagraph(true);  
+    stokenizer2.setSingleLineBreaksMarksParagraph(false);  
+  }
 
   public void testTokenize() {
     // NOTE: sentences here need to end with a space character so they
