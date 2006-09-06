@@ -123,11 +123,13 @@ class FalseFriendRuleHandler extends XMLRuleHandler {
   private boolean exceptionStringInflected = false;
   private boolean exceptionPosNegation = false;
   private boolean exceptionPosRegExp = false;
+  private boolean exceptionValidNext = true;
   private boolean exceptionSet = false;
   
   private List<Element> elementList = null;
   private boolean regular = false; 
   private int skipPos = 0;
+  private Element stringElement = null;
   
   private String id;
   private Language language;
@@ -184,6 +186,9 @@ class FalseFriendRuleHandler extends XMLRuleHandler {
 	    	if (attrs.getValue("negate")!=null) {
 		 		exceptionStringNegation=attrs.getValue("negate").equals("yes");
 	    	}
+            if (attrs.getValue("scope") != null) {
+              exceptionValidNext = attrs.getValue("scope").equals("next");
+            }
 	    	if (attrs.getValue("inflected")!=null) {
 		 		exceptionStringInflected=attrs.getValue("inflected").equals("yes");
 	    	}
@@ -290,12 +295,31 @@ class FalseFriendRuleHandler extends XMLRuleHandler {
 		  }
 		  
 	  } else if (qName.equals("exception")) {    	
-	    	inException = false;    	
+	    	inException = false;
+             if (!exceptionSet) {
+                  stringElement = new Element(elements.toString(), caseSensitive, regExpression,
+                      tokenInflected);
+                  exceptionSet = true;
+                  }
+                  stringElement.setNegation(tokenNegated);
+                    if (!exceptions.toString().equals("")) {
+                    stringElement.setStringException(exceptions.toString(), exceptionStringRegExp, 
+                        exceptionStringInflected, exceptionStringNegation, exceptionValidNext);
+                    }              
+                  if (exceptionPosToken != null) {
+                    stringElement.setPosException(exceptionPosToken, exceptionPosRegExp, exceptionPosNegation, exceptionValidNext);
+                    exceptionPosToken = null;
+                  }
 	  } else if (qName.equals("token")) {
 		  if (inToken)
 		  {
-			  Element stringElement = new Element(elements.toString(), caseSensitive, regExpression, tokenInflected);
-			  stringElement.setNegation(tokenNegated);
+            if (!exceptionSet || stringElement==null) {
+              stringElement = new Element(elements.toString(), caseSensitive, regExpression,
+                  tokenInflected);
+              stringElement.setNegation(tokenNegated);
+              } else {
+                stringElement.setStringElement(elements.toString());
+              }
 			  if (skipPos!=0) {
 				  stringElement.setSkipNext(skipPos);
 				  skipPos = 0;
@@ -304,21 +328,13 @@ class FalseFriendRuleHandler extends XMLRuleHandler {
 			 		stringElement.setPosElement(posToken, regular, posNegation);
 			 		posToken = null;
 			 	}
-			  
-			  if (exceptionSet) {
-		    		stringElement.setStringException(exceptions.toString(), exceptionStringRegExp, exceptionStringInflected, exceptionStringNegation);
-		    		exceptionSet = false;
-		    	}
-		    	if (exceptionPosToken!=null) {
-		    		stringElement.setPosException(exceptionPosToken, exceptionPosRegExp, exceptionPosNegation);
-		    		exceptionPosToken = null;
-		    	}
-		    
+			  			  		    
 			  elementList.add(stringElement);
 			  tokenNegated = false;
 			  tokenInflected = false;
 			  posNegation = false;
 		      regular = false;
+              exceptionValidNext = true;
 		  }
 		  inToken = false;
 		  regExpression = false;

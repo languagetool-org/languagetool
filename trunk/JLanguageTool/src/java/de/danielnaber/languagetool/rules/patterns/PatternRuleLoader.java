@@ -89,13 +89,17 @@ class PatternRuleHandler extends XMLRuleHandler {
   private boolean exceptionStringInflected = false;
   private boolean exceptionPosNegation = false;
   private boolean exceptionPosRegExp = false;
+  private boolean exceptionValidNext = true;
   private boolean exceptionSet = false;
+  
   
   private List<Element> elementList = null;
   
   private int startPositionCorrection = 0;
   private int endPositionCorrection = 0;
   private int skipPos = 0;
+  
+  private Element stringElement = null;
 
   // ===========================================================
   // SAX DocumentHandler methods
@@ -170,12 +174,14 @@ class PatternRuleHandler extends XMLRuleHandler {
       }
 
     } else if (qName.equals("exception")) {
-      inException = true;
-      exceptionSet = true;
+      inException = true;      
       exceptions = new StringBuffer();
 
       if (attrs.getValue("negate") != null) {
         exceptionStringNegation = attrs.getValue("negate").equals("yes");
+      }
+      if (attrs.getValue("scope") != null) {
+        exceptionValidNext = attrs.getValue("scope").equals("next");
       }
       if (attrs.getValue("inflected") != null) {
         exceptionStringInflected = attrs.getValue("inflected").equals("yes");
@@ -217,6 +223,7 @@ class PatternRuleHandler extends XMLRuleHandler {
 
   @SuppressWarnings("unused")
   public void endElement(String namespaceURI, String sName, String qName) {
+    
     if (qName.equals("rule")) {
       PatternRule rule = new PatternRule(id, language, elementList, description, message.toString());
       rule.setStartPositionCorrection(startPositionCorrection);
@@ -234,10 +241,29 @@ class PatternRuleHandler extends XMLRuleHandler {
       }
     } else if (qName.equals("exception")) {
       inException = false;
+      if (!exceptionSet) {
+      stringElement = new Element(elements.toString(), caseSensitive, stringRegExp,
+          stringInflected);
+      exceptionSet = true;
+      }
+      stringElement.setNegation(stringNegation);
+        if (!exceptions.toString().equals("")) {
+        stringElement.setStringException(exceptions.toString(), exceptionStringRegExp, 
+            exceptionStringInflected, exceptionStringNegation, exceptionValidNext);
+        }              
+      if (exceptionPosToken != null) {
+        stringElement.setPosException(exceptionPosToken, exceptionPosRegExp, exceptionPosNegation, exceptionValidNext);
+        exceptionPosToken = null;
+      }
+      
     } else if (qName.equals("token")) {
-      Element stringElement = new Element(elements.toString(), caseSensitive, stringRegExp,
+      if (!exceptionSet || stringElement==null) {
+      stringElement = new Element(elements.toString(), caseSensitive, stringRegExp,
           stringInflected);
       stringElement.setNegation(stringNegation);
+      } else {
+        stringElement.setStringElement(elements.toString());
+      }
       if (skipPos != 0) {
         stringElement.setSkipNext(skipPos);
         skipPos = 0;
@@ -245,16 +271,7 @@ class PatternRuleHandler extends XMLRuleHandler {
       if (posToken != null) {
         stringElement.setPosElement(posToken, posRegExp, posNegation);
         posToken = null;
-      }
-      if (exceptionSet) {
-        stringElement.setStringException(exceptions.toString(), exceptionStringRegExp, 
-            exceptionStringInflected, exceptionStringNegation);
-        exceptionSet = false;
-      }
-      if (exceptionPosToken != null) {
-        stringElement.setPosException(exceptionPosToken, exceptionPosRegExp, exceptionPosNegation);
-        exceptionPosToken = null;
-      }
+      }      
       elementList.add(stringElement);
       stringNegation = false;
       stringInflected = false;
@@ -268,6 +285,8 @@ class PatternRuleHandler extends XMLRuleHandler {
       exceptionPosNegation = false;
       exceptionPosRegExp = false;
       exceptionStringRegExp = false;
+      exceptionValidNext = true;
+      exceptionSet = false;
 
     } else if (qName.equals("pattern")) {
       inPattern = false;

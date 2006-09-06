@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?><!--
 Copyright (C) 2006 Marcin Miłkowski
-$Id: grammar.xml,v 1.48 2006-08-31 21:46:02 milek_pl Exp $		
+$Id: grammar.xml,v 1.49 2006-09-06 22:29:32 milek_pl Exp $		
 -->
 <rules lang="pl">
 	<category name="Interpunkcja">
@@ -17,6 +17,19 @@ $Id: grammar.xml,v 1.48 2006-08-31 21:46:02 milek_pl Exp $
 				<message>W tym zdaniu brakuje przecinka między jednym zdaniem a drugim.</message>
 				<example type="correct">Chociaż kupiłem wino, chciałem też pić wodę.</example>
 				<example type="incorrect"><marker>Chociaż kupiłem wino chciałem też pić wodę.</marker></example>
+			</rule>
+		</rulegroup>
+
+		<rulegroup name="Zdania złożone" id="ZDANIA_ZLOZONE">
+			<rule>
+				<pattern>
+					<token skip="-1" postag_regexp="yes" postag="verb:.*(sg|pl).*"><exception regexp="yes">,|lub|albo|oraz|i</exception><exception scope="current" postag_regexp="yes" postag="subst:ger.*"/></token>
+					<token skip="-1" postag_regexp="yes" postag="verb:.*(sg|pl).*"><exception scope="current" postag_regexp="yes" postag="subst:ger.*"/></token>
+					<token regexp="yes">\.|\:|!|\?|;</token>
+				</pattern>
+				<message>W tym zdaniu brakuje przecinka lub spójnika między jednym zdaniem a drugim.</message>
+				<example type="correct">Kupiłem wino, chciałem też pić wodę.</example>
+				<example type="incorrect"><marker>Chciałem krowa myślałem.</marker>.</example>
 			</rule>
 		</rulegroup>
 		
@@ -66,7 +79,7 @@ $Id: grammar.xml,v 1.48 2006-08-31 21:46:02 milek_pl Exp $
 		</rule>			
 		<rule>
 			<pattern>
-				<token regexp="yes" inflected="yes">który|jaki|zwłaszcza|szczególnie|że|nawet|więc|to</token>
+				<token regexp="yes" inflected="yes">a|który|jaki|zwłaszcza|szczególnie|że|nawet|więc|to</token>
 				<token>,</token>
 				<token regexp="yes" inflected="yes">jeśli|jeżeli|gdyby|jeżeliby|jeśliby</token>
 			</pattern>
@@ -113,7 +126,7 @@ $Id: grammar.xml,v 1.48 2006-08-31 21:46:02 milek_pl Exp $
 		<rulegroup id="BRAK_PRZECINKA_JESLI" name="Brak przecinka przed „jeśli”, „jeżeli”, „gdyby” itd.">
 		<rule>
 			<pattern mark_from="1">
-				<token negate="yes" regexp="yes" inflected="yes">,|który|jaki|zwłaszcza|szczególnie|że|nawet|więc<exception postag="SENT_START"/></token>
+				<token negate="yes" regexp="yes" inflected="yes">,|a|który|jaki|zwłaszcza|szczególnie|że|nawet|więc<exception postag="SENT_START"/></token>
 				<token regexp="yes" inflected="yes">jeśli|jeżeli|gdyby|jeżeliby|jeśliby</token>
 			</pattern>
 			<message>Przed spójnikiem stawiamy przecinek:<suggestion>, \2</suggestion>.</message>
@@ -123,7 +136,7 @@ $Id: grammar.xml,v 1.48 2006-08-31 21:46:02 milek_pl Exp $
 		<rule>
 			<pattern mark_from="1">
 				<token negate="yes">,<exception postag="SENT_START"/></token>
-				<token regexp="yes" inflected="yes">który|jaki|zwłaszcza|szczególnie|że|nawet|więc</token>
+				<token regexp="yes" inflected="yes">a|który|jaki|zwłaszcza|szczególnie|że|nawet|więc</token>
 				<token regexp="yes" inflected="yes">jeśli|jeżeli|gdyby|jeżeliby|jeśliby</token>
 			</pattern>
 			<message>Przecinek stawiamy przed całym spójnikiem złożonym: <suggestion>, \2 \3</suggestion>.</message>
@@ -371,7 +384,7 @@ $Id: grammar.xml,v 1.48 2006-08-31 21:46:02 milek_pl Exp $
 		</rule>
 
 
-<!--		FIXME: this requires that all POS tags are matches;
+<!--		FIXME: this requires that all POS tags are matched;
 	current rule syntax doesn't allow that and uses only OR logic
 	this creates many false alarms on alternative POS readings
 
@@ -825,7 +838,6 @@ $Id: grammar.xml,v 1.48 2006-08-31 21:46:02 milek_pl Exp $
 			</rule>
 		</rulegroup>
 
-		<!-- tym niemniej -->
 		<rule id="RULE_NIEMNIEJ" name="„tym niemniej” (niemniej jednak)">
 			<pattern mark_from="0" case_sensitive="no">
 				<token>tym</token>

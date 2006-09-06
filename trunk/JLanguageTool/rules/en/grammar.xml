@@ -3,7 +3,7 @@
 Rules: Grammar and Typos
 See tagset.txt for the meaning of the POS tags
 Copyright (C) 2001-2006 Daniel Naber (http://www.danielnaber.de)
-$Id: grammar.xml,v 1.77 2006-08-31 20:14:18 milek_pl Exp $
+$Id: grammar.xml,v 1.78 2006-09-06 22:29:32 milek_pl Exp $
 -->
 <rules lang="en">
 
@@ -824,12 +824,7 @@ $Id: grammar.xml,v 1.77 2006-08-31 20:14:18 milek_pl Exp $
 	  <rule>
 		  <pattern mark_to="-1">
 			  <token postag_regexp="yes" regexp="yes" postag="NNS|NNPS">.[^']*s<exception>his</exception></token>
-			  <token postag="NN"><exception regexp="yes">today|yesterday|tomorrow|now|may|can|in</exception></token>
-			  <!-- in the above case two exceptions are needed... one for words, one for grammar categories 
-				  the easiest choice is to allow many exceptions: 
-				  implementing OR logic for POS tag & token processing
-				  would make code unreadable. So the single exception should be replaced by a list
-				  -->
+			  <token postag="NN"><exception regexp="yes">today|yesterday|tomorrow|now|in</exception><exception postag_regexp="yes" postag="VB.*|MD"/></token>
 		  </pattern>
 		  <message>Possible typo: apostrophe is missing. Did you mean <suggestion>\1'</suggestion> or the singular?</message>
 		  <example type="correct">This is a transcript of the president's speech.</example>

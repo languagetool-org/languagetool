@@ -168,7 +168,7 @@ public class PatternRule extends Rule {
             AnalyzedToken matchToken = tokens[m].getAnalyzedToken(l);
             
             if (prevSkipNext >0 && prevElement!=null) {
-              if (prevElement.exceptionMatch(matchToken)) {
+              if (prevElement.exceptionMatch(matchToken) && prevElement.exceptionValid()) {
                 exceptionMatched = true;
               }               
             }
