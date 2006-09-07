@@ -12,9 +12,6 @@
   <taskdef classpath="${ext.cobertura.lib}" resource="tasks.properties"/>
 
   <path id="common.classpath">
-    <pathelement location="${ext.opennlp.lib}"/>
-    <pathelement location="${ext.trove.lib}"/>
-    <pathelement location="${ext.maxent.lib}"/>
     <pathelement location="${ext.stempelator.lib}"/>
     <pathelement location="${ext.jdic.lib}"/>
   	<!-- -->
@@ -391,10 +388,7 @@
   	<copy file="${ext.dir}/LGPL.txt" todir="${dist.dir}" />
   	<copy file="${ext.dir}/Apache-License.txt" todir="${dist.dir}" />
   	<copy file="${ext.dir}/README" tofile="${dist.dir}/README-license.txt" />
-  	
-	<copy file="${ext.opennlp.lib}" todir="${dist.dir}" />
-	<copy file="${ext.trove.lib}" todir="${dist.dir}" />
-	<copy file="${ext.maxent.lib}" todir="${dist.dir}" />
+  		
 	<copy file="${ext.stempelator.lib}" todir="${dist.dir}" />
 	<copy file="${ext.jdic.lib}" todir="${dist.dir}" />
   
@@ -409,7 +403,11 @@
  	</copy>
 
  	<copy file="${resource.dir}/en/tagset.txt" todir="${dist.dir}/resource/en" />
-	<copy file="${resource.dir}/en/EnglishPOS.bin.gz" todir="${dist.dir}/resource/en" />
+	<copy file="${resource.dir}/en/english.dict" todir="${dist.dir}/resource/en" />
+ 	<copy file="${resource.dir}/fr/french.dict" todir="${dist.dir}/resource/fr" />
+ 	<copy file="${resource.dir}/fr/readme.txt" todir="${dist.dir}/resource/fr" />
+  <copy file="${resource.dir}/es/spanish.dict" todir="${dist.dir}/resource/es" />
+  <copy file="${resource.dir}/es/etiquetas-eagles.txt" todir="${dist.dir}/resource/es" />  	
 	<copy file="${resource.dir}/de/german.dict" todir="${dist.dir}/resource/de" />
 	<copy file="${resource.dir}/pl/polish.dict" todir="${dist.dir}/resource/pl" />
   </target>
