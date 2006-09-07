@@ -157,7 +157,8 @@ public class PatternRule extends Rule {
           allElementsMatch = false;
           break;
         }
-        boolean skipMatch = false, exceptionMatched = false;
+        boolean skipMatch = false, thisMatched = false, prevMatched = false;
+        boolean exceptionMatched = false;
         if (prevSkipNext + nextPos >= tokens.length || prevSkipNext < 0) { // SENT_END?
           prevSkipNext = tokens.length - (nextPos + 1);
         }
@@ -168,14 +169,15 @@ public class PatternRule extends Rule {
             AnalyzedToken matchToken = tokens[m].getAnalyzedToken(l);
             
             if (prevSkipNext >0 && prevElement!=null) {
-              if (prevElement.exceptionMatch(matchToken) && prevElement.exceptionValid()) {
+              if (prevElement.prevExceptionMatch(matchToken)) {
                 exceptionMatched = true;
+                prevMatched = true;
               }               
             }
-            
+            thisMatched = thisMatched || elem.match(matchToken);            
             exceptionMatched=exceptionMatched || elem.exceptionMatch(matchToken);
             // Logical OR (cannot be AND):
-            if (!(elem.match(matchToken)&& !exceptionMatched)) {             
+            if (!thisMatched && !exceptionMatched) {             
               matched = matched || false;
             } else {              
             matched = true;
@@ -185,9 +187,17 @@ public class PatternRule extends Rule {
           skipMatch = (skipMatch || matched) && !exceptionMatched;
           
         }
+          //disallow exceptions that should match only current tokens          
+          if (!thisMatched && !prevMatched) {
+            exceptionMatched=false;
+          }
         if (skipMatch) {
           break;
+        }         
         }
+        //disallow exceptions that should match only current tokens        
+        if (!thisMatched && !prevMatched) { 
+          skipMatch = false;
         }
         allElementsMatch = skipMatch;
         if (skipMatch) {

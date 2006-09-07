@@ -43,7 +43,7 @@ public class Element {
   private boolean inflected = false;
 
   private ArrayList<Element> exceptionList;
-  private boolean exceptionValidNext = true;
+  public boolean exceptionValidNext = true;
   private boolean exceptionSet = false;
 
   int skip = 0;
@@ -70,7 +70,10 @@ public class Element {
     if (exceptionSet) {
     Iterator<Element> it = exceptionList.iterator();    
     while (it.hasNext()) {
-      exceptionMatched = exceptionMatched || it.next().match(token);
+      Element testException =it.next();
+      //if (testException.exceptionValidNext) {
+      exceptionMatched = exceptionMatched || testException.match(token);
+      //}      
       if (exceptionMatched) {
         break;
       }
@@ -79,6 +82,24 @@ public class Element {
     return exceptionMatched;    
   }
 
+  boolean prevExceptionMatch(AnalyzedToken token) {
+    boolean exceptionMatched = false;
+    if (exceptionSet) {
+    Iterator<Element> it = exceptionList.iterator();    
+    while (it.hasNext()) {
+      Element testException =it.next();
+      if (testException.exceptionValidNext) {
+      exceptionMatched = exceptionMatched || testException.match(token);
+      }      
+      if (exceptionMatched) {
+        break;
+      }
+    }
+    }
+    return exceptionMatched;    
+  }
+  
+  
   Element(String token, boolean caseSensitive, boolean regExp, boolean inflected) {
     this.stringToken = token;
     this.caseSensitive = caseSensitive;

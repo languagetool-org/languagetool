@@ -94,8 +94,8 @@ public class PolishWordRepeatRule extends PolishRule {
                 }
                                        		    
 	        }
-	        
-	        if (Pattern.matches("nie|&quot|&gt|&lt|&amp|[0-9]+", tokens[i].getToken())) {
+	        // Roman numbers regexp added
+	        if (Pattern.matches("nie|&quot|&gt|&lt|&amp|[0-9].*|M*(D?C{0,3}|C[DM])(L?X{0,3}|X[LC])(V?I{0,3}|I[VX])$", tokens[i].getToken())) {
 	        	isWord = false;
 	        }
 	        

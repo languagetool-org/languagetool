@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?><!--
 Copyright (C) 2006 Marcin Miłkowski
-$Id: grammar.xml,v 1.50 2006-09-06 23:41:39 milek_pl Exp $		
+$Id: grammar.xml,v 1.51 2006-09-07 11:41:35 milek_pl Exp $		
 -->
 <rules lang="pl">
 	<category name="Interpunkcja">
 		
-		<rulegroup name="Spójniki o różnej interpunkcji w zdaniach prostych i złożonych" id="SPOJNIKI_PODSTEPNE">
+<!--		<rulegroup name="Spójniki o różnej interpunkcji w zdaniach prostych i złożonych" id="SPOJNIKI_PODSTEPNE">
 			<rule>
 				<pattern>
 					<token postag="SENT_START"/>
@@ -14,22 +14,25 @@ $Id: grammar.xml,v 1.50 2006-09-06 23:41:39 milek_pl Exp $
 					<token skip="-1" postag_regexp="yes" postag="verb:.*(sg|pl).*"/>
 					<token>.</token>
 				</pattern>
-				<message>W tym zdaniu brakuje przecinka między jednym zdaniem a drugim.</message>
+				<message>W tym zdaniu brakuje przecinaka między jednym zdaniem a drugim.</message>
 				<example type="correct">Chociaż kupiłem wino, chciałem też pić wodę.</example>
 				<example type="incorrect"><marker>Chociaż kupiłem wino chciałem też pić wodę.</marker></example>
 			</rule>
 		</rulegroup>
-
+-->
 		<rulegroup name="Zdania złożone" id="ZDANIA_ZLOZONE">
 			<rule>
 				<pattern>
-					<token skip="-1" postag_regexp="yes" postag="verb:.*(sg|pl).*"><exception regexp="yes">,|–|\-|—|:|;|bądź|czy|ani|lub|albo|oraz|i</exception><exception scope="current" postag_regexp="yes" postag="subst.*|adj.*|ppron.*|verb:inf.*|adv:comp"/><exception scope="current" regexp="yes">może|lecz</exception></token>
+					<token skip="-1" postag_regexp="yes" postag="verb:.*(sg|pl).*"><exception scope="current" postag_regexp="yes" postag="subst:.*|adj.*|ppron.*|verb:inf.*|adv:comp"/><exception scope="current" regexp="yes">może|lecz</exception><exception scope="next" regexp="yes">,|–|\-|—|:|;|\)|bądź|czy|ani|lub|albo|oraz|i</exception></token>
 					<token skip="-1" postag_regexp="yes" postag="verb:.*(sg|pl).*"><exception scope="current" postag_regexp="yes" postag="subst:.*|adj.*|ppron.*|verb:inf.*|adv:comp"/><exception scope="current" regexp="yes">może|lecz</exception></token>
-					<token regexp="yes">\.|\:|!|\?|;</token>
+					<token regexp="yes">\.|\:|!|\?|;|\(</token>
 				</pattern>
 				<message>W tym zdaniu brakuje przecinka lub spójnika między jednym zdaniem a drugim.</message>
 				<example type="correct">Kupiłem wino, chciałem też pić wodę.</example>
-				<example type="incorrect"><marker>Chciałem myślałem.</marker></example>
+				<example type="incorrect"><marker>Kupiłem wino chciałem też pić wodę.</marker></example>
+				<example type="correct">Rozstanie się bywa trudne.</example>
+				<example type="correct">Chociaż kupiłem wino, chciałem też pić wodę.</example>
+				<example type="incorrect">Chociaż <marker>kupiłem wino chciałem też pić wodę.</marker></example>
 			</rule>
 		</rulegroup>
 		
@@ -37,7 +40,7 @@ $Id: grammar.xml,v 1.50 2006-09-06 23:41:39 milek_pl Exp $
 			<rule>
 				<pattern mark_from="1">
 					<token negate="yes">,<exception postag="SENT_START"/></token>
-					<token>a</token>
+					<token regexp="yes">a|ale</token>
 					<token regexp="yes">więc|mianowicie|przeto|zatem|jednak|choć|chociaż|ponieważ|także|następnie|jeśli|jeżeli|gdyby|gdy|kiedy</token>
 				</pattern>
 				<message>Przed tymi wyrażeniami stawia się przecinek: <suggestion>, \2 \3</suggestion></message>
@@ -49,14 +52,25 @@ $Id: grammar.xml,v 1.50 2006-09-06 23:41:39 milek_pl Exp $
 		<rulegroup id="COFANIE_PRZECINKA" name="Przecinek wewnątrz spójnika złożonego">
 		<rule>
 			<pattern>
-				<token regexp="yes">chyba|ile|jako|oraz|szczególnie|tyle|tylko|zwłaszcza|pomimo|mimo|ledwie|niby|prawie|ledwo|właśnie|tak</token>
+				<token regexp="yes">chyba|ile|jako|oraz|szczególnie|tylko|zwłaszcza|pomimo|mimo|ledwie|niby|prawie|ledwo|właśnie|tak</token>
 				<token>,</token>
 				<token>że</token>
 			</pattern>	
-			<message>Spójników złożonych nie rozdziela się, przecinek stawia się przed nimi: <suggestion>, \1 że</suggestion>.</message>
+			<message>Spójników złożonych nie rozdziela się, a przecinek stawia się przed nimi: <suggestion>, \1 że</suggestion>.</message>
 			<example type="correct">Poszedłem tam, mimo że nie chciałem.</example>
 			<example type="incorrect">Poszedłem tam <marker>mimo, że</marker> nie chciałem.</example>
 		</rule>
+		<rule>
+			<pattern mark_from="1">
+				<token negate="yes" regexp="yes">o|na</token>
+				<token regexp="yes">tyle</token>
+				<token>,</token>
+				<token>że</token>
+			</pattern>	
+			<message>Spójników złożonych nie rozdziela się, a przecinek stawia się przed nimi: <suggestion>, \2 że</suggestion>.</message>
+			<example type="correct">Upił się na tyle, że nie mógł ustać na nogach.</example>
+			<example type="incorrect">Wprawdzie upił się <marker>tyle, że</marker> akurat on nie prowadził samochodu, więc nic się nie stało.</example>
+		</rule>			
 		<rule>
 			<pattern mark_from="1">
 				<token negate="yes">tylko</token>
@@ -172,7 +186,7 @@ $Id: grammar.xml,v 1.50 2006-09-06 23:41:39 milek_pl Exp $
 		<rulegroup id="BRAK_PRZECINKA_GDY" name="Brak przecinka przed „gdy” i „kiedy”">
 		<rule>
 			<pattern mark_from="1">
-				<token negate="yes" regexp="yes">,|dopiero|podczas|potem|teraz|właśnie|wtedy|zwłaszcza|szczególnie|że<exception postag="SENT_START"/></token>
+				<token negate="yes" regexp="yes">,|dopiero|podczas|potem|teraz|właśnie|wtedy|zwłaszcza|szczególnie|że|ale|lecz|czasie<exception postag="SENT_START"/></token>
 				<token regexp="yes">gdy|kiedy</token>
 			</pattern>
 			<message>Przed tym spójnikiem stawiamy przecinek: <suggestion>, \2</suggestion>.</message>
