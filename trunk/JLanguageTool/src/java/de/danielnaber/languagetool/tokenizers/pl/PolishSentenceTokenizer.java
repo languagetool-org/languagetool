@@ -22,7 +22,7 @@ public class PolishSentenceTokenizer extends SentenceTokenizer {
   private final static String EOS = "\0";
   // private final static String EOS = "#"; // for testing only
   private final static String P = "[\\.!?…]"; // PUNCTUATION
-  private final static String AP = "(?:'|«|\"||\\)|\\]|\\})?"; // AFTER PUNCTUATION
+  private final static String AP = "(?:'|«|\"|”||\\)|\\]|\\})?"; // AFTER PUNCTUATION
   private final static String PAP = P + AP;
 
   // Check out the private methods for comments and examples about these
@@ -48,8 +48,7 @@ public class PolishSentenceTokenizer extends SentenceTokenizer {
   private static final Pattern abbrev8 = Pattern.compile("(\\d{1,2}\\.\\d{1,2}\\.\\s+)" + EOS);
   private static final Pattern repair1 = Pattern.compile("('[\\wąćęłńóśźżĄĆĘŁŃÓŚŹŻ]" + P + ")(\\s)");
   private static final Pattern repair2 = Pattern.compile("(\\sno\\.)(\\s+)(?!\\d)");
-  private static final Pattern repair3 = Pattern.compile("([ap]\\.m\\.\\s+)([\\p{Lu}])");
-
+  
   // Polish:
   private static final String[] ABBREV_LIST = {
       //Polish:
@@ -164,11 +163,8 @@ public class PolishSentenceTokenizer extends SentenceTokenizer {
     // extension by dnaber --commented out, doesn't help:
     // text = re.compile("(:\s+)%s(\s*[%s])" % (self.EOS, string.lowercase),
     // re.DOTALL).sub("\\1\\2", text)
-
-    // "13. Dezember" etc. -> keine Satzgrenze:
-    //for (int i = 0; i < germanMonthList.length; i++) {
+   
       s = s.replaceAll("(\\d+\\.) " + EOS + "([\\p{L}&&[^\\p{Lu}]]+)", "$1 $2");
-    //}
 
     // z.B. "Das hier ist ein(!) Satz."
     s = s.replaceAll("\\(([!?]+)\\) " + EOS, "($1) ");
@@ -187,9 +183,7 @@ public class PolishSentenceTokenizer extends SentenceTokenizer {
     // Split e.g.: He won't. #Really.
     s = repair1.matcher(s).replaceAll("$1" + EOS + "$2");
     // Split e.g.: He won't say no. Not really.
-    s = repair2.matcher(s).replaceAll("$1" + EOS + "$2");
-    // Split at "a.m." or "p.m." followed by a capital letter.
-    s = repair3.matcher(s).replaceAll("$1" + EOS + "$2");
+    s = repair2.matcher(s).replaceAll("$1" + EOS + "$2");    
     return s;
   }
 
