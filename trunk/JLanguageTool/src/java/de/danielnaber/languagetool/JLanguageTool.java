@@ -81,7 +81,7 @@ public class JLanguageTool {
   
   private static File basedir = null;
 
-  public Language language = null;
+  private Language language = null;
   private Language motherTongue = null;
   private Tagger tagger = null;
   private Tokenizer sentenceTokenizer = null;
