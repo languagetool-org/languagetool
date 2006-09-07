@@ -1,22 +1,4 @@
-/* LanguageTool, a natural language style checker 
- * Copyright (C) 2005 Daniel Naber (http://www.danielnaber.de)
- * 
- * This library is free software; you can redistribute it and/or
- * modify it under the terms of the GNU Lesser General Public
- * License as published by the Free Software Foundation; either
- * version 2.1 of the License, or (at your option) any later version.
- *
- * This library is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
- * Lesser General Public License for more details.
- *
- * You should have received a copy of the GNU Lesser General Public
- * License along with this library; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
- * USA
- */
-package de.danielnaber.languagetool.tokenizers;
+package de.danielnaber.languagetool.tokenizers.pl;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -25,13 +7,16 @@ import java.util.Set;
 import java.util.StringTokenizer;
 import java.util.regex.Pattern;
 
+import de.danielnaber.languagetool.tokenizers.*;
+
 /**
- * Tokenizes text into sentences by looking for typical end-of-sentence markers,
+ * Tokenizes Polish text into sentences by looking for typical end-of-sentence markers,
  * but considering exceptions (e.g. abbreviations).
  * 
- * @author Daniel Naber
- */
-public class SentenceTokenizer implements Tokenizer {
+ * @author Marcin Milkowski
+*/
+
+public class PolishSentenceTokenizer extends SentenceTokenizer {
 
   // end of sentence marker:
   private final static String EOS = "\0";
@@ -51,62 +36,40 @@ public class SentenceTokenizer implements Tokenizer {
   // \p{Lu} = uppercase, with obeying Unicode (\p{Upper} is just US-ASCII!):
   private static final Pattern punctUpperLower = Pattern.compile("(" + PAP
       + ")([\\p{Lu}][^\\p{Lu}.])");
-  private static final Pattern letterPunct = Pattern.compile("(\\s[\\wüöäÜÖÄß]" + P + ")");
-  private static final Pattern abbrev1 = Pattern.compile("([^-\\wüöäÜÖÄß][\\wüöäÜÖÄß]" + PAP + "\\s)" + EOS);
-  private static final Pattern abbrev2 = Pattern.compile("([^-\\wüöäÜÖÄß][\\wüöäÜÖÄß]" + P + ")" + EOS);
-  private static final Pattern abbrev3 = Pattern.compile("(\\s[\\wüöäÜÖÄß]\\.\\s+)" + EOS);
+  private static final Pattern letterPunct = Pattern.compile("(\\s[\\wąćęłńóśźżĄĆĘŁŃÓŚŹŻ]" + P + ")");
+  private static final Pattern abbrev1 = Pattern.compile("([^-\\wąćęłńóśźżĄĆĘŁŃÓŚŹŻ][\\wąćęłńóśźżĄĆĘŁŃÓŚŹŻ]" + PAP + "\\s)" + EOS);
+  private static final Pattern abbrev2 = Pattern.compile("([^-\\wąćęłńóśźżĄĆĘŁŃÓŚŹŻ][\\wąćęłńóśźżĄĆĘŁŃÓŚŹŻ]" + P + ")" + EOS);
+  private static final Pattern abbrev3 = Pattern.compile("(\\s[\\wąćęłńóśźżĄĆĘŁŃÓŚŹŻ]\\.\\s+)" + EOS);
   private static final Pattern abbrev4 = Pattern.compile("(\\.\\.\\. )" + EOS + "([\\p{Ll}])");
   private static final Pattern abbrev5 = Pattern.compile("(['\"]" + P + "['\"]\\s+)" + EOS);
   private static final Pattern abbrev6 = Pattern.compile("([\"']\\s*)" + EOS + "(\\s*[\\p{Ll}])");
   private static final Pattern abbrev7 = Pattern.compile("(\\s" + PAP + "\\s)" + EOS);
   // z.b. 3.10. (im Datum):
   private static final Pattern abbrev8 = Pattern.compile("(\\d{1,2}\\.\\d{1,2}\\.\\s+)" + EOS);
-  private static final Pattern repair1 = Pattern.compile("('[\\wüöäÜÖÄß]" + P + ")(\\s)");
+  private static final Pattern repair1 = Pattern.compile("('[\\wąćęłńóśźżĄĆĘŁŃÓŚŹŻ]" + P + ")(\\s)");
   private static final Pattern repair2 = Pattern.compile("(\\sno\\.)(\\s+)(?!\\d)");
   private static final Pattern repair3 = Pattern.compile("([ap]\\.m\\.\\s+)([\\p{Lu}])");
 
-  // some German and English abbreviations:
+  // Polish:
   private static final String[] ABBREV_LIST = {
-      // English:
-      "Mr", "Mrs", "No", "pp", "St", "no", 
-      "Sr", "Bros", "etc", "vs", "esp", "Fig", "fig", "Jan", "Feb", "Mar", "Apr", "Jun", "Jul",
-      "Aug", "Sep", "Sept", "Oct", "Okt", "Nov", "Dec", "Ph.D", "PhD",
-      "al",  // in "et al."
-      "cf",
-      // German:
-      "d", "Übers", "usw", "bzw", "Abh", "Abk", "Abt", "ahd", "Akk",
-      "allg", "alltagsspr", "altdt", "alttest", "amerikan", "Anh",
-      "Ank", "Anm", "Art", "Az", "Bat", "bayr", "Bd", "Bde", "Bed",
-      "Bem", "bes", "bez", "Bez", "Bhf", "bspw", "btto", "bw", "bzw",
-      "cts", "ct", "ca", "chem", "chin", "Chr", "cresc", "dat", "Dat",
-      "desgl", "ders", "dgl", "Di", "Dipl", "Dir", "Do", "Doz", "Dr",
-      "dt", "ebd", "Ed", "eigtl", "engl", "Erg", "al", "etc", "etw",
-      "ev", "evtl", "exkl", "Expl", "Exz", "ff", "Fa", "fachspr", "fam",
-      "fem", "Fem", "Fr", "fr", "franz", "frz", "frdl", "Frl",
-      "Fut", "Gd", "geb", "gebr", "Gebr", "geh", "geh", "geleg", "gen",
-      "Gen", "germ", "gesch", "ges", "get", "ggf", "Ggs", "ggT",
-      "griech", "hebr", "hg", "Hrsg", "Hg", "hist", "hochd", "hochspr",
-      "Hptst", "Hr", "Allg", "ill", "inkl", "incl", "Ind", "Inf", "Ing",
-      "ital", "Tr", "Jb", "Jg", "Jh", "jmd", "jmdm", "jmdn", "jmds",
-      "jur", "Kap", "kart", "kath", "kfm", "kaufm", "Kfm", "kgl",
-      "Kl", "Konj", "Krs", "Kr", "Kto", "lat", "lfd", "Lit", "lt",
-      "Lz", "Mask", "mask", "Mrd", "mdal", "med", "met", "mhd", "Mi",
-      "Mio", "min", "Mo", "mod", "nachm", "nördlBr", "neutr",
-      "Nhd", "Nom", "Nr", "Nrn", "Num", "Obj", "od", "dgl", "offz",
-      "Part", "Pass", "Perf", "Pers", "Pfd", "Pl", "Plur",
-      "pl", "Plusq", "Pos", "pp", "Präp", "Präs", "Prät", "Prov", "Prof",
-      "rd", "reg", "resp", "Rhld", "rit", "Sa", "südl", "Br",
-      "sel", "sen", "Sept", "Sing", "sign", "So", "sog", "Sp", "St",
-      "St", "St", "Std", "stacc", "Str", "stud", "Subst", "sva", "svw",
-      "sZ", "Temp", "trans", "Tsd", "übertr", "übl", "ff", "ugs", "univ",
-      "urspr", "usw", "vgl", "Vol", "vorm", "vorm", "Vp", "Vs",
-      "vs", "wg", "Hd", "Ztr", "zus", "Zus", "zzt", "zz", "Zz", "Zt",    
+      //Polish:
+      "adw", "afr", "akad", "am", "amer", "arch", "art", "artyst",
+      "astr", "austr", "bałt", "bdb", "bł", "bm", "br", "bryt", 
+      "centr", "ces", "chem", "chiń", "chir", "c.k","c.o", "cyg",
+      "cyw", "czes", "czw", "cd", "czyt", "ćw", "ćwicz", "daw",
+      "dcn", "dekl", "demokr", "det", "diec", "dł", "dn", "doc",
+      "dop", "dost", "dosł", "h.c", "ds", "dst", "duszp", "dypl",
+      "egz", "ekol", "ekon", "elektr", "em", "etc", "ew", "fab",
+      "farm", "fot", "fr", "gat", "gastr", "geogr", "geol", "gimn",
+      "głęb", "gm", "godz", "górn", "gosp", "gr", "gram", "hist", "hiszp",
+      "hr", "hot", "id", "in", "im", "iron", "jn", "kard", "kat",
+      "katol", "k.k", "kk", "klas", "kol", "k.p.a", "kpc", "k.p.c",
+      "kpt", "kr", "k.r", "krak", "k.r.o", "kryt", "kult", "laic",
+      "łac", "np", "p.n.e", "m.in", "itd", "itp", "pt","cdn", "dyr","hab",
+      "inż","jw", "lek","n.e","nb","rys", "tj", "tzw", "tzn", "zob" , "ang",
+      "ul", "pl", "al", "prof", "gen", "k", "n", "ks", "ok", "tys", "r", "proc",
+      "ww", "M.in"
   };
-
-  // einige deutsche Monate, vor denen eine Zahl erscheinen kann,
-  // ohne dass eine Satzgrenze erkannt wird (z.B. "am 13. Dezember" -> keine Satzgrenze)
-  private static final String[] germanMonthList = { "Januar", "Februar", "März", "April", "Mai",
-      "Juni", "Juli", "August", "September", "Oktober", "November", "Dezember" };
 
   private static Set<String> abbreviations = new HashSet<String>();
   private StringTokenizer stringTokenizer = null;
@@ -114,7 +77,7 @@ public class SentenceTokenizer implements Tokenizer {
   /**
    * Create a sentence tokenizer.
    */
-  public SentenceTokenizer() {
+  public PolishSentenceTokenizer() {
     for (int i = 0; i < ABBREV_LIST.length; i++) {
       abbreviations.add(ABBREV_LIST[i]);
     }
@@ -203,9 +166,9 @@ public class SentenceTokenizer implements Tokenizer {
     // re.DOTALL).sub("\\1\\2", text)
 
     // "13. Dezember" etc. -> keine Satzgrenze:
-    for (int i = 0; i < germanMonthList.length; i++) {
-      s = s.replaceAll("(\\d+\\.) " + EOS + "(" + germanMonthList[i] + ")", "$1 $2");
-    }
+    //for (int i = 0; i < germanMonthList.length; i++) {
+      s = s.replaceAll("(\\d+\\.) " + EOS + "([\\p{L}&&[^\\p{Lu}]]+)", "$1 $2");
+    //}
 
     // z.B. "Das hier ist ein(!) Satz."
     s = s.replaceAll("\\(([!?]+)\\) " + EOS, "($1) ");
