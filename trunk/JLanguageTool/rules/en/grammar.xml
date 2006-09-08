@@ -3,7 +3,7 @@
 Rules: Grammar and Typos
 See tagset.txt for the meaning of the POS tags
 Copyright (C) 2001-2006 Daniel Naber (http://www.danielnaber.de)
-$Id: grammar.xml,v 1.79 2006-09-07 11:41:35 milek_pl Exp $
+$Id: grammar.xml,v 1.80 2006-09-08 21:33:32 milek_pl Exp $
 -->
 <rules lang="en">
 
@@ -1233,7 +1233,7 @@ $Id: grammar.xml,v 1.79 2006-09-07 11:41:35 milek_pl Exp $
   <!-- this works now! -->
    <rule id="HE_VERB_AGR" name="Agreement error: Non-third person verb with 'he'">
       <pattern mark_from="2">
-		  <token regexp="yes" negate="yes">(has|will|must|could|can|should|would|does|did)</token>
+		  <token regexp="yes" negate="yes">(has|will|must|could|can|should|would|does|did|may|might)</token>
 		  <token regexp="yes">he|she</token>
 		  <token postag="VB|VBG|VBP" postag_regexp="yes"><exception postag_regexp="yes" postag="VBN|VBD|JJ"/></token>
 	  </pattern>
@@ -1265,6 +1265,33 @@ $Id: grammar.xml,v 1.79 2006-09-07 11:41:35 milek_pl Exp $
     <example type="correct">My new grammar checker is just as slow as the old one.</example>
   </rule>
   
+  <rulegroup id="CANT_HELP_BUT" name="can't help but (can't help+gerund)">
+  <rule>
+	  <pattern>
+		  <token>cannot</token>
+		  <token>help</token>
+		  <token>but</token>
+		  <token postag="VB"/>
+	  </pattern>
+	  <message>This is a nonstandard phrase. Use <suggestion>cannot help</suggestion> with a gerund (the verb form that ends with -ing).</message>
+	  <example type="incorrect">I <marker>cannot help but fall</marker> in love with you.</example>
+	  <example type="correct">I <marker>cannot help falling</marker> in love with you.</example>
+  </rule>
+     <rule>
+	  <pattern>
+		  <token>can</token>
+		  <token>'</token>
+		  <token>t</token>
+		  <token>help</token>
+		  <token>but</token>
+		  <token postag="VB"/>
+	  </pattern>
+	  <message>This is a nonstandard phrase. Use <suggestion>can't help</suggestion> with a gerund (the verb form that ends with -ing).</message>
+	  <example type="incorrect">I <marker>can't help but fall</marker> in love with you.</example>
+	  <example type="correct">I <marker>can't help falling</marker> in love with you.</example>
+  </rule>
+  </rulegroup> 
+	  
   </category>
 
   <!-- ====================================================================== -->
