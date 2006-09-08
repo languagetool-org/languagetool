@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Copyright (C) 2005 Daniel Naber (http://www.danielnaber.de)
+-->
+<rules lang="it">
+
+  <category name="misc">
+
+	 <rule id="A_GRATIS" name="«a gratis» (gratis)">
+      <pattern mark_from="0" case_sensitive="no">
+        <token>a</token>
+        <token>gratis</token>
+      </pattern>
+      <message>Si scrive <suggestion>gratis</suggestion> (senza la preposizione).</message>
+      <example type="correct">Ovviamente... è tutto <marker>gratis</marker>!</example>
+      <example type="incorrect">Ovviamente... è tutto <marker>a gratis</marker>!</example>
+    </rule>
+	
+	  <rule id="PIU_MOLTO" name="«più molto» (di più)">
+		  <pattern>
+			  <token>più</token>
+			  <token>molto</token>
+		  </pattern>
+		  <message>E' un errore creare il comparativo di maggioranza degli avverbi molto e poco. Se escrive <suggestion>di più</suggestion>.</message>
+		  <example type="incorrect">Il calcio mi piace, ma il motociclismo mi piace <marker>più molto</marker>.</example>
+		  <example type="correct">Il calcio mi piace, ma il motociclismo mi piace di più.</example>
+	  </rule>
+		
+	  <rule id="PIU_POCO" name="«più poco» (meno)">
+		  <pattern>
+			  <token>più</token>
+			  <token>poco</token>
+		  </pattern>
+		  <message>E' un errore creare il comparativo di maggioranza degli avverbi molto e poco. Se escrive <suggestion>meno</suggestion>.</message>
+		  <example type="incorrect">Stasera abbiamo ballato <marker>più poco</marker> del solito.</example>
+		  <example type="correct">Stasera abbiamo ballato meno del solito.</example>
+	  </rule>  
+	  
+  </category>
+	
+  <category name="Accenti">
+	  <rule name="da (dà)" id="DA_DA_ACCENTO">
+		<pattern mark_from="1">
+			<token postag_regexp="yes" postag="PRO-PERS-CLI.*"/>
+			<token>da</token>
+		</pattern>
+		 <message>Probabilmente si escrive con accento: <suggestion>dà</suggestion>.</message>
+  		 <example type="incorrect">Luigi mi <marker>da</marker> la mano.</example>
+		 <example type="correct">Luigi mi dà la mano.</example>
+	  </rule>	  
+	  <rule name="dà (da)" id="DA_ACCENTO_DA">
+		<pattern mark_from="1">
+			<token postag_regexp="yes" postag="VER:ind.*"/>
+			<token>dà</token>
+		</pattern>
+		 <message>Probabilmente si escrive senza accento: <suggestion>da</suggestion>.</message>
+  		 <example type="incorrect">Vengo <marker>dà</marker> Roma.</example>
+		 <example type="correct">Vengo da Roma.</example>
+	  </rule>
+  </category>
+</rules>

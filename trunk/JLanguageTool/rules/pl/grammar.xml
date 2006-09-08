@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?><!--
 Copyright (C) 2006 Marcin Miłkowski
-$Id: grammar.xml,v 1.54 2006-09-07 23:08:38 milek_pl Exp $		
+$Id: grammar.xml,v 1.55 2006-09-08 19:52:44 milek_pl Exp $		
 -->
 <rules lang="pl">
 	<category name="Interpunkcja">
@@ -8,8 +8,8 @@ $Id: grammar.xml,v 1.54 2006-09-07 23:08:38 milek_pl Exp $
 		<rulegroup name="Brak przecinka w zdaniu złożonym" id="ZDANIA_ZLOZONE">
 			<rule>
 				<pattern>
-					<token skip="-1" postag_regexp="yes" postag="verb:.*(sg|pl).*|verb:imps.*"><exception scope="current" postag_regexp="yes" postag="subst:.*|adj.*|ppron.*|verb:inf.*|adv:comp|prep.*|qub|indecl"/><exception scope="current" regexp="yes">może|lecz|będ.*</exception><exception scope="next" regexp="yes">–|\-|—|[,!\?;\(\):r]|bądź|czy|ani|lub|albo|oraz|i</exception></token>
-					<token skip="-1" postag_regexp="yes" postag="verb:.*(sg|pl).*|verb:imps.*"><exception scope="current" postag_regexp="yes" postag="subst:.*|adj.*|ppron.*|verb:inf.*|adv:comp|prep.*|qub|indecl"/><exception scope="current" regexp="yes">może|lecz|będ.*</exception></token>
+					<token skip="-1" postag_regexp="yes" postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf"><exception scope="current" postag_regexp="yes" postag="subst:.*|adj.*|ppron.*|verb:inf.*|adv:comp|prep.*|qub|indecl"/><exception scope="current" regexp="yes">może|lecz|będ.*</exception><exception scope="next" inflected="yes" regexp="yes">–|\-|—|[,!\?;\(\):r]|bądź|czy|ani|lub|albo|oraz|i|kiedy|gdy|który|jaki</exception></token>
+					<token skip="-1" postag_regexp="yes" postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf"><exception scope="current" postag_regexp="yes" postag="subst:.*|adj.*|ppron.*|verb:inf.*|adv:comp|prep.*|qub|indecl"/><exception scope="current" regexp="yes">może|lecz|będ.*</exception></token>
 					<token regexp="yes">\p{Punct}.*</token>
 				</pattern>
 				<message>W tym zdaniu złożonym brakuje przecinka lub spójnika między jednym zdaniem a drugim.</message>
@@ -23,8 +23,8 @@ $Id: grammar.xml,v 1.54 2006-09-07 23:08:38 milek_pl Exp $
 			</rule>
 			<rule>
 				<pattern>
-					<token skip="-1" postag_regexp="yes" postag="verb:.*(sg|pl).*" regexp="yes">będ.*<exception scope="next" regexp="yes">–|\-|—|[,!\?;\(\):r]|bądź|czy|ani|lub|albo|oraz|i</exception></token>
-					<token skip="-1" postag_regexp="yes" postag="verb:.*(sg|pl).*|verb:imps.*"><exception scope="current" postag_regexp="yes" postag="subst:.*|adj.*|ppron.*|adv:comp|prep.*|qub|indecl|verb:praet.*"/><exception scope="current" regexp="yes">może|lecz</exception></token>
+					<token skip="-1" postag_regexp="yes" postag="verb:.*(sg|pl).*|pcon:imperf" regexp="yes">będ.*<exception scope="next" regexp="yes">–|\-|—|[,!\?;\(\):r]|bądź|czy|ani|lub|albo|oraz|i|kiedy|gdy|który|jaki</exception></token>
+					<token skip="-1" postag_regexp="yes" postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf"><exception scope="current" postag_regexp="yes" postag="subst:.*|adj.*|ppron.*|adv:comp|prep.*|qub|indecl|verb:praet.*"/><exception scope="current" regexp="yes">może|lecz</exception></token>
 					<token regexp="yes">\p{Punct}.*</token>
 				</pattern>
 				<message>W tym zdaniu złożonym brakuje przecinka lub spójnika między jednym zdaniem a drugim.</message>
@@ -34,8 +34,8 @@ $Id: grammar.xml,v 1.54 2006-09-07 23:08:38 milek_pl Exp $
 			</rule>	
 			<rule>
 				<pattern>
-					<token skip="-1" postag_regexp="yes" postag="verb:.*(sg|pl).*|verb:imps.*"><exception scope="current" postag_regexp="yes" postag="subst:.*|adj.*|ppron.*|adv:comp|prep.*|qub|indecl|verb:praet.*"/><exception scope="current" regexp="yes">może|lecz</exception><exception scope="next" regexp="yes">–|\-|—|[,!\?;\(\):r]|bądź|czy|ani|lub|albo|oraz|i</exception></token>
-					<token skip="-1" postag_regexp="yes" postag="verb:.*(sg|pl).*" regexp="yes">będ.*</token>			
+					<token skip="-1" postag_regexp="yes" postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf"><exception scope="current" postag_regexp="yes" postag="subst:.*|adj.*|ppron.*|adv:comp|prep.*|qub|indecl|verb:praet.*"/><exception scope="current" regexp="yes">może|lecz</exception><exception scope="next" regexp="yes">–|\-|—|[,!\?;\(\):r]|bądź|czy|ani|lub|albo|oraz|i|kiedy|gdy|który|jaki</exception></token>
+					<token skip="-1" postag_regexp="yes" postag="verb:.*(sg|pl).*|pcon:imperf" regexp="yes">będ.*</token>			
 					<token regexp="yes">\p{Punct}.*</token>
 				</pattern>
 				<message>W tym zdaniu złożonym brakuje przecinka lub spójnika między jednym zdaniem a drugim.</message>
@@ -45,8 +45,8 @@ $Id: grammar.xml,v 1.54 2006-09-07 23:08:38 milek_pl Exp $
 			</rule>	
 			<rule>
 				<pattern>
-					<token skip="-1" postag_regexp="yes" postag="verb:.*(sg|pl).*|verb:irreg|verb:imps.*" regexp="yes" inflected="yes">mieć<exception scope="next" regexp="yes">–|\-|—|[,!\?;\(\):r]|bądź|czy|ani|lub|albo|oraz|i</exception></token>
-					<token skip="-1" postag_regexp="yes" postag="verb:.*(sg|pl).*|verb:imps.*"><exception scope="current" postag_regexp="yes" postag="subst:.*|adj.*|ppron.*|adv:comp|verb:inf.*|prep.*|qub|indecl"/><exception scope="current" regexp="yes">może|lecz</exception></token>
+					<token skip="-1" postag_regexp="yes" postag="verb:.*(sg|pl).*|verb:irreg|verb:imps.*|pcon:imperf" regexp="yes" inflected="yes">mieć<exception scope="next" regexp="yes">–|\-|—|[,!\?;\(\):r]|bądź|czy|ani|lub|albo|oraz|i|kiedy|gdy|który|jaki</exception></token>
+					<token skip="-1" postag_regexp="yes" postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf"><exception scope="current" postag_regexp="yes" postag="subst:.*|adj.*|ppron.*|adv:comp|verb:inf.*|prep.*|qub|indecl"/><exception scope="current" regexp="yes">może|lecz</exception></token>
 					<token regexp="yes">\p{Punct}.*</token>
 				</pattern>
 				<message>W tym zdaniu złożonym brakuje przecinka lub spójnika między jednym zdaniem a drugim.</message>
@@ -56,8 +56,8 @@ $Id: grammar.xml,v 1.54 2006-09-07 23:08:38 milek_pl Exp $
 			</rule>	
 			<rule>
 				<pattern mark_to="-1">
-					<token skip="-1" postag_regexp="yes" postag="verb:.*(sg|pl).*|verb:imps.*"><exception scope="next" regexp="yes">–|\-|—|[,!\?;\(\):r]|bądź|czy|ani|lub|albo|oraz|i</exception></token>
-					<token skip="-1" regexp="yes" inflected="yes">mieć</token>
+					<token skip="-1" postag_regexp="yes" postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf"><exception scope="next" regexp="yes">–|\-|—|[,!\?;\(\):r]|bądź|czy|ani|lub|albo|oraz|i|kiedy|gdy|który|jaki</exception></token>
+					<token skip="-1" postag_regexp="yes" inflected="yes" postag="verb:.*(sg|pl).*|verb:imps.*|verb:irreg|pcon:imperf">mieć</token>
 					<token regexp="yes">\p{Punct}.*</token>
 				</pattern>
 				<message>W tym zdaniu złożonym brakuje przecinka lub spójnika między jednym zdaniem a drugim.</message>
