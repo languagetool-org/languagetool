@@ -21,7 +21,7 @@ public class PolishTaggerTest extends TestCase {
 
 	  public void testTagger() throws IOException {
 	    myAssert("To jest duży dom.", "To/conj jest/verb:fin:sg:ter:imperf duży/adj:sg:nom:m dom/subst:sg:nom.acc:m3");
-	    myAssert("Krowa pasie się na pastwisku.", "Krowa/subst:sg:nom:f pasie/subst:sg:loc.voc:m3 się/qub na/prep:loc pastwisku/subst:sg:dat:n+subst:sg:loc:n");
+	    myAssert("Krowa pasie się na pastwisku.", "Krowa/subst:sg:nom:f pasie/subst:sg:loc.voc:m3 się/qub na/prep:acc.loc pastwisku/subst:sg:dat:n+subst:sg:loc:n");
 	    myAssert("blablabla","blablabla/null");
 	  }
 
