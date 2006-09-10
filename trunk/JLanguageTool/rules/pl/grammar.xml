@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?><!--
 Copyright (C) 2006 Marcin Miłkowski
-$Id: grammar.xml,v 1.56 2006-09-09 22:36:07 milek_pl Exp $		
+$Id: grammar.xml,v 1.57 2006-09-10 23:12:51 milek_pl Exp $		
 -->
 <rules lang="pl">
 	<category name="Interpunkcja">
@@ -57,7 +57,7 @@ $Id: grammar.xml,v 1.56 2006-09-09 22:36:07 milek_pl Exp $
 			</rule>	
 			<rule>
 				<pattern mark_to="-1">
-					<token skip="-1" postag_regexp="yes" postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf|pant:perf"><exception scope="next" regexp="yes">–|\-|—|[,!\?;\(\):r]|bądź|czy|ani|lub|albo|oraz|i|kiedy|gdy|który|jaki</exception></token>
+					<token skip="-1" postag_regexp="yes" postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf|pant:perf"><exception scope="next" regexp="yes">–|\-|—|[,!\?;\(\):r]|bądź|czy|ani|lub|albo|oraz|i|kiedy|gdy|który|jaki</exception><exception scope="current" regexp="yes">może|lecz</exception></token>
 					<token skip="-1" postag_regexp="yes" inflected="yes" postag="verb:.*(sg|pl).*|verb:imps.*|verb:irreg|pcon:imperf|pant:perf">mieć</token>
 					<token regexp="yes">\p{Punct}.*</token>
 				</pattern>
@@ -72,7 +72,7 @@ $Id: grammar.xml,v 1.56 2006-09-09 22:36:07 milek_pl Exp $
 		<rulegroup name="Brak przecinka przed: a więc, a mianowicie..." id="MULTISPOJNIKI">
 			<rule>
 				<pattern mark_from="1">
-					<token regexp="yes" negate="yes">\p{Punct}|–|—<exception postag="SENT_START"/></token>
+					<token regexp="yes" negate="yes">\p{Punct}|–|—|\(<exception postag="SENT_START"/></token>
 					<token regexp="yes">a|ale</token>
 					<token regexp="yes">więc|mianowicie|przeto|zatem|jednak|choć|chociaż|ponieważ|także|następnie|jeśli|jeżeli|gdyby|gdy|kiedy</token>
 				</pattern>
@@ -85,7 +85,7 @@ $Id: grammar.xml,v 1.56 2006-09-09 22:36:07 milek_pl Exp $
 		<rulegroup name="Brak przecinka w zbiegu dwóch spójników" id="DWUZNACZNOSC_W_COFANIU">
 			<rule>
 				<pattern mark_from="1">
-				<token negate="yes" regexp="yes">\p{Punct}<exception postag="SENT_START"/></token>
+				<token negate="yes" regexp="yes">\p{Punct}|–|—<exception postag="SENT_START"/></token>
 				<token regexp="yes">chyba|dlatego|właśnie|tak</token>
 				<token regexp="yes">że|iż</token>
 				</pattern>
@@ -96,7 +96,7 @@ $Id: grammar.xml,v 1.56 2006-09-09 22:36:07 milek_pl Exp $
 			<rule>
 				<pattern mark_from="1">
 				<token negate="yes" regexp="yes">\p{Punct}<exception postag="SENT_START"/></token>
-				<token regexp="yes">chyba|dlatego|właśnie|tak</token>
+				<token regexp="yes">chyba|dlatego|właśnie|tak|tylko</token>
 				<token regexp="yes">gdy|kiedy</token>
 				</pattern>
 				<message>Należy postawić przecinek w zależności od intonacji i sensu zdania: <suggestion>\2, \3</suggestion> lub <suggestion>, \2 \3</suggestion>.</message>
@@ -130,7 +130,7 @@ $Id: grammar.xml,v 1.56 2006-09-09 22:36:07 milek_pl Exp $
 		<rule>
 			<pattern mark_from="1">
 				<token negate="yes">tylko<exception postag="conj"/></token>
-				<token regexp="yes">dopiero|podczas|potem|teraz|zwłaszcza|szczególnie|że</token>
+				<token regexp="yes">dopiero|czy|to|podczas|potem|teraz|zwłaszcza|szczególnie|że</token>
 				<token>,</token>
 				<token regexp="yes">gdy|kiedy</token>
 			</pattern>	
@@ -193,7 +193,7 @@ $Id: grammar.xml,v 1.56 2006-09-09 22:36:07 milek_pl Exp $
 		<rule>
 			<pattern mark_from="1">
 				<token negate="yes">,<exception postag="SENT_START"/></token>
-				<token regexp="yes">chyba|ile|jako|szczególnie|tyle|tylko|zwłaszcza|pomimo|mimo<exception postag="SENT_START"/></token>
+				<token regexp="yes">ile|jako|szczególnie|tyle|tylko|zwłaszcza|pomimo|mimo<exception postag="SENT_START"/></token>
 				<token regexp="yes">że|iż</token>
 			</pattern>
 			<message>Przecinek stawiamy przed całym spójnikiem złożonym: <suggestion>, \2 że</suggestion>.</message>
@@ -207,7 +207,7 @@ $Id: grammar.xml,v 1.56 2006-09-09 22:36:07 milek_pl Exp $
 		<rulegroup id="BRAK_PRZECINKA_JESLI" name="Brak przecinka przed „jeśli”, „jeżeli”, „gdyby” itd.">
 		<rule>
 			<pattern mark_from="1">
-				<token negate="yes" regexp="yes" inflected="yes">\p{Punct}|–|—<exception regexp="yes">a|ale|lecz|który|jaki|zwłaszcza|szczególnie|że|nawet|więc</exception><exception postag="SENT_START"/></token>
+				<token negate="yes" regexp="yes" inflected="yes">\p{Punct}|–|—<exception regexp="yes">a|ale|i|lub|albo|lecz|który|jaki|zwłaszcza|szczególnie|że|nawet|więc</exception><exception postag="SENT_START"/></token>
 				<token regexp="yes" inflected="yes">jeśli|jeżeli|gdyby|jeżeliby|jeśliby</token>
 			</pattern>
 			<message>Przed spójnikiem stawiamy przecinek:<suggestion>, \2</suggestion>.</message>
@@ -216,8 +216,8 @@ $Id: grammar.xml,v 1.56 2006-09-09 22:36:07 milek_pl Exp $
 		</rule>
 		<rule>
 			<pattern mark_from="1">
-				<token negate="yes">,<exception postag="SENT_START"/></token>
-				<token regexp="yes" inflected="yes">a|ale|lecz|który|jaki|zwłaszcza|szczególnie|że|nawet|więc</token>
+				<token negate="yes" regexp="yes">\p{Punct}|–|—<exception postag="SENT_START"/></token>
+				<token regexp="yes" inflected="yes">a|ale|i|lub|albo|lecz|który|jaki|zwłaszcza|szczególnie|że|nawet|więc</token>
 				<token regexp="yes" inflected="yes">jeśli|jeżeli|gdyby|jeżeliby|jeśliby</token>
 			</pattern>
 			<message>Przecinek stawiamy przed całym spójnikiem złożonym: <suggestion>, \2 \3</suggestion>.</message>
@@ -252,7 +252,7 @@ $Id: grammar.xml,v 1.56 2006-09-09 22:36:07 milek_pl Exp $
 		<rulegroup id="BRAK_PRZECINKA_GDY" name="Brak przecinka przed „gdy” i „kiedy”">
 		<rule>
 			<pattern mark_from="1">
-				<token negate="yes" regexp="yes">,|a|ale|lecz|chyba|dopiero|podczas|potem|teraz|właśnie|wtedy|zwłaszcza|szczególnie|że|czasie|czasach|wypadku|przypadku|razie<exception postag="SENT_START"/><exception regexp="yes">\p{Punct}|–|—</exception></token>
+				<token negate="yes" regexp="yes">,|a|ale|i|lecz|chyba|czy|dopiero|podczas|potem|teraz|właśnie|wtedy|zwłaszcza|szczególnie|to|że|czasie|czasach|wypadku|przypadku|razie<exception postag="SENT_START"/><exception regexp="yes">\p{Punct}|–|—</exception></token>
 				<token regexp="yes">gdy|kiedy</token>
 			</pattern>
 			<message>Przed tym spójnikiem stawiamy przecinek: <suggestion>, \2</suggestion>.</message>
@@ -261,7 +261,7 @@ $Id: grammar.xml,v 1.56 2006-09-09 22:36:07 milek_pl Exp $
 		</rule>
 		<rule>
 			<pattern mark_from="1">
-				<token negate="yes">,<exception postag="SENT_START"/></token>
+				<token negate="yes" regexp="yes">\p{Punct}|–|—<exception postag="SENT_START"/></token>
 				<token regexp="yes">dopiero|podczas|potem|teraz|właśnie|wtedy|zwłaszcza|szczególnie|że</token>
 				<token regexp="yes">gdy|kiedy</token>
 			</pattern>
@@ -275,7 +275,7 @@ $Id: grammar.xml,v 1.56 2006-09-09 22:36:07 milek_pl Exp $
 		<rulegroup id="BRAK_PRZECINKA_SPOJNIK_PROSTY" name="Brak przecinka przed spójnikami prostymi (acz, aczkolwiek, choć...)">
 			<rule>
 				<pattern mark_from="1" case_sensitive="yes">
-					<token negate="yes" regexp="yes">\p{Punct}|–|—|i|a|ale|lecz|lub|czy|bądź|oraz|ani<exception postag="SENT_START"/></token>
+					<token negate="yes" regexp="yes">\p{Punct}|–|—|i|a|ale|lecz|lub|czy|bądź|oraz|ani|to<exception postag="SENT_START"/></token>
 					<token regexp="yes">acz|aczkolwiek|albowiem|ale|aleć|aliści|azali|bo|byleby|czyj|czyli|czyliż|dlaczego|dopóki|dopóty|gdyż|gdyżby|ilekolwiek|ilekroć|kim|komu|póki|tedy</token>
 				</pattern>
 				<message>Przed tym spójnikiem stawiamy przecinek: <suggestion>, \2</suggestion>.</message>
@@ -294,7 +294,7 @@ $Id: grammar.xml,v 1.56 2006-09-09 22:36:07 milek_pl Exp $
 			</rule>
 			<rule>
 				<pattern mark_from="1">
-					<token negate="yes" regexp="yes">\p{Punct}|–|—|a|lecz|jeszcze|ale<exception postag="SENT_START"/></token>
+					<token negate="yes" regexp="yes">\p{Punct}|–|—|a|lecz|jeszcze|ale|czy|lub|albo<exception postag="SENT_START"/></token>
 					<token>zanim</token>
 				</pattern>				
 				<message>Przed tym spójnikiem stawiamy przecinek: <suggestion>, \2</suggestion>.</message>
@@ -344,16 +344,61 @@ $Id: grammar.xml,v 1.56 2006-09-09 22:36:07 milek_pl Exp $
 			</rule>		
 			<rule>
 				<pattern mark_from="1">
-					<token negate="yes">,<exception regexp="yes">\p{Punct}|–|—</exception><exception postag_regexp="yes" postag="conj|adv.*|prep.*|SENT_START"/></token>
+					<token negate="yes">,<exception regexp="yes">\p{Punct}|–|—|mało|rzadko</exception><exception postag_regexp="yes" postag="conj|adv.*|prep.*|SENT_START"/></token>
 					<token regexp="yes" inflected="yes">który|jaki</token>
 				</pattern>
 				<message>Brak przecinka w tym fragmencie zdania. Przecinek prawdopodobnie należy
 				postawić tak: <suggestion>, \2</suggestion>.</message>
 				<example type="correct">To Marek, którego Jurek nienawidzi.</example>
+				<example type="correct">Mało który spełnia warunki formalne.</example>
 				<example type="incorrect">To Marek <marker>którego</marker> Jurek nienawidzi.</example>
 			</rule>		
 		</rulegroup>
-		
+
+	<rulegroup name="Błąd interpunkcyjny: tylko nawias otwierający lub zamykający" id="NAWIAS">
+	<rule>
+		<pattern>
+			<token skip="-1">(<exception regexp="yes">adw|afr|akad|am|amer|arch|art|artyst|astr|austr|bałt|bdb|bł|bm|br|bryt|centr|ces|chem|chiń|chir|c.k|c.o|cyg|cyw|czes|czw|cd|czyt|ćw|ćwicz|daw|dcn|dekl|demokr|det|diec|dł|dn|doc|dop|dost|dosł|h.c|ds|dst|duszp|dypl|egz|ekol|ekon|elektr|em|etc|ew|fab|farm|fot|fr|gat|gastr|geogr|geol|gimn|głęb|gm|godz|górn|gosp|gr|gram|hist|hiszp|hr|hot|id|in|im|iron|jn|kard|kat|katol|k.k|kk|klas|kol|k.p.a|kpc|k.p.c|kpt|kr|k.r|krak|k.r.o|kryt|kult|laic|łac|np|p.n.e|m.in|itd|itp|pt|cdn|dyr|hab|inż|jw|lek|n.e|nb|rys|tj|tzw|tzn|zob|ang|ul|pl|al|prof|gen|k|n|ks|ok|tys|r|proc|ww|\)</exception></token>
+			<token skip="-1" regexp="yes">\.|!|\?</token>
+		</pattern>
+		<message>W zdaniu brak nawiasu zamykającego: „)”.</message>
+		<example type="correct">Mam na myśli zamek (budowlę).</example>
+		<example type="incorrect">Mam na myśli zamek <marker>(budowlę.</marker></example>
+	</rule>
+	<rule>
+		<pattern>
+			<token postag="SENT_START" skip="-1"><exception regexp="yes">adw|afr|akad|am|amer|arch|art|artyst|astr|austr|bałt|bdb|bł|bm|br|bryt|centr|ces|chem|chiń|chir|c.k|c.o|cyg|cyw|czes|czw|cd|czyt|ćw|ćwicz|daw|dcn|dekl|demokr|det|diec|dł|dn|doc|dop|dost|dosł|h.c|ds|dst|duszp|dypl|egz|ekol|ekon|elektr|em|etc|ew|fab|farm|fot|fr|gat|gastr|geogr|geol|gimn|głęb|gm|godz|górn|gosp|gr|gram|hist|hiszp|hr|hot|id|in|im|iron|jn|kard|kat|katol|k.k|kk|klas|kol|k.p.a|kpc|k.p.c|kpt|kr|k.r|krak|k.r.o|kryt|kult|laic|łac|np|p.n.e|m.in|itd|itp|pt|cdn|dyr|hab|inż|jw|lek|n.e|nb|rys|tj|tzw|tzn|zob|ang|ul|pl|al|prof|gen|k|n|ks|ok|tys|r|proc|ww|\(</exception></token>
+			<token skip="-1">)</token>
+			<token regexp="yes">\.|!|\?</token>
+		</pattern>
+		<message>W zdaniu brak nawiasu otwierającego: „(”.</message>
+		<example type="correct">Mam na myśli zamek (budowlę).</example>
+		<example type="incorrect"><marker>Mam na myśli zamek budowlę).</marker></example>
+	</rule>		
+	</rulegroup>
+
+	<rulegroup name="Błąd interpunkcyjny: tylko cudzysłów otwierający lub zamykający" id="CUDZYSLOW">
+	<rule>
+		<pattern>
+			<token skip="-1" regexp="yes">„.*<exception regexp="yes">adw|afr|akad|am|amer|arch|art|artyst|astr|austr|bałt|bdb|bł|bm|br|bryt|centr|ces|chem|chiń|chir|c.k|c.o|cyg|cyw|czes|czw|cd|czyt|ćw|ćwicz|daw|dcn|dekl|demokr|det|diec|dł|dn|doc|dop|dost|dosł|h.c|ds|dst|duszp|dypl|egz|ekol|ekon|elektr|em|etc|ew|fab|farm|fot|fr|gat|gastr|geogr|geol|gimn|głęb|gm|godz|górn|gosp|gr|gram|hist|hiszp|hr|hot|id|in|im|iron|jn|kard|kat|katol|k.k|kk|klas|kol|k.p.a|kpc|k.p.c|kpt|kr|k.r|krak|k.r.o|kryt|kult|laic|łac|np|p.n.e|m.in|itd|itp|pt|cdn|dyr|hab|inż|jw|lek|n.e|nb|rys|tj|tzw|tzn|zob|ang|ul|pl|al|prof|gen|k|n|ks|ok|tys|r|proc|ww|.*”.*</exception></token>
+			<token regexp="yes">[\.!?]|.*…</token>
+		</pattern>
+		<message>W zdaniu brak cudzysłowu zamykającego: ”.</message>
+		<example type="correct">Lech powiedział: „ona wywodzi się z określonych środowisk”.</example>
+		<example type="incorrect">Lech powiedział: <marker>„ona wywodzi się z określonych środowisk.</marker></example>
+	</rule>
+	<rule>
+		<pattern>
+			<token postag="SENT_START" skip="-1"><exception regexp="yes">adw|afr|akad|am|amer|arch|art|artyst|astr|austr|bałt|bdb|bł|bm|br|bryt|centr|ces|chem|chiń|chir|c.k|c.o|cyg|cyw|czes|czw|cd|czyt|ćw|ćwicz|daw|dcn|dekl|demokr|det|diec|dł|dn|doc|dop|dost|dosł|h.c|ds|dst|duszp|dypl|egz|ekol|ekon|elektr|em|etc|ew|fab|farm|fot|fr|gat|gastr|geogr|geol|gimn|głęb|gm|godz|górn|gosp|gr|gram|hist|hiszp|hr|hot|id|in|im|iron|jn|kard|kat|katol|k.k|kk|klas|kol|k.p.a|kpc|k.p.c|kpt|kr|k.r|krak|k.r.o|kryt|kult|laic|łac|np|p.n.e|m.in|itd|itp|pt|cdn|dyr|hab|inż|jw|lek|n.e|nb|rys|tj|tzw|tzn|zob|ang|ul|pl|al|prof|gen|k|n|ks|ok|tys|r|proc|ww|„.*</exception></token>
+			<token skip="-1" regexp="yes">.*”</token>
+			<token regexp="yes">[\.!?]|.*…</token>
+		</pattern>
+		<message>W zdaniu brak cudzysłowu otwierającego: „.</message>
+		<example type="correct">Lech powiedział: „ona wywodzi się z określonych środowisk”.</example>
+		<example type="incorrect"><marker>Lech powiedział: ona wywodzi się z określonych środowisk”.</marker></example>
+	</rule>		
+	</rulegroup>
+							
 	</category>
 	
 	<category name="Typografia">
@@ -372,6 +417,151 @@ $Id: grammar.xml,v 1.56 2006-09-09 22:36:07 milek_pl Exp $
 			
 	</category>
 	<category name="Błędy odmiany">
+		<rule name="„te”, „jedne”, „tamte” + rzeczownik r. nijakiego w l.poj." id="JEDNE_DZIECKO">
+			<pattern mark_to="-1">
+				<token postag_regexp="yes" postag="adj:pl:nom.*"><exception postag_regexp="yes" postag="adj.*sg:nom.*"/></token>
+				<token postag_regexp="yes" postag="subst.*:sg:nom.acc.*:n"/>
+			</pattern>
+			<message>Ten przymiotnik lub zaimek jest w liczbie mnogiej. Prawdopodobnie należy użyć liczby pojedynczej.</message>
+			<example type="correct">To dziecko zachowuje się grzecznie.</example>
+			<example type="incorrect"><marker>Te</marker> dziecko zachowuje się grzecznie.</example>
+		</rule>
+		<rulegroup name="Błędna odmiana miesiąca w datach, np. 1 styczeń 2010 (1 stycznia)" id="PIERWSZY_STYCZEN_1993">
+		<rule>
+			<pattern mark_from="1" mark_to="-1">
+				<token regexp="yes">\d+</token>
+				<token>styczeń</token>
+				<token regexp="yes">\d+</token>
+			</pattern>
+			<message>Nazwy miesięcy w datach podajemy w dopełniaczu: <suggestion>stycznia</suggestion>.</message>
+			<example type="correct">1 stycznia 1999</example>
+			<example type="incorrect">1 <marker>styczeń</marker> 2000</example>
+		</rule>		<rule>
+			<pattern mark_from="1" mark_to="-1">
+				<token regexp="yes">\d+</token>
+				<token>luty</token>
+				<token regexp="yes">\d+</token>
+			</pattern>
+			<message>Nazwy miesięcy w datach podajemy w dopełniaczu: <suggestion>lutego</suggestion>.</message>
+			<example type="correct">1 lutego 1939.</example>
+			<example type="incorrect">26 <marker>luty</marker> 1939.</example>
+		</rule>		<rule>
+			<pattern mark_from="1" mark_to="-1">
+				<token regexp="yes">\d+</token>
+				<token>marzec</token>
+				<token regexp="yes">\d+</token>
+			</pattern>
+			<message>Nazwy miesięcy w datach podajemy w dopełniaczu: <suggestion>marca</suggestion>.</message>
+			<example type="correct">1 marca 1939.</example>
+			<example type="incorrect">12 <marker>marzec</marker> 1944</example>
+		</rule>		<rule>
+			<pattern mark_from="1" mark_to="-1">
+				<token regexp="yes">\d+</token>
+				<token>kwiecień</token>
+				<token regexp="yes">\d+</token>
+			</pattern>
+			<message>Nazwy miesięcy w datach podajemy w dopełniaczu: <suggestion>kwietnia</suggestion>.</message>
+			<example type="correct">Wojna wybuchła 1 kwietnia 1939.</example>
+			<example type="incorrect">Wojna wybuchła 1 <marker>kwiecień</marker> 1939.</example>
+		</rule>		<rule>
+			<pattern mark_from="1" mark_to="-1">
+				<token regexp="yes">\d+</token>
+				<token>maj</token>
+				<token regexp="yes">\d+</token>
+			</pattern>
+			<message>Nazwy miesięcy w datach podajemy w dopełniaczu: <suggestion>maja</suggestion>.</message>
+			<example type="correct">31 maja 1939.</example>
+			<example type="incorrect">13 <marker>maj</marker> 1939.</example>
+		</rule>		<rule>
+			<pattern mark_from="1" mark_to="-1">
+				<token regexp="yes">\d+</token>
+				<token>czerwiec</token>
+				<token regexp="yes">\d+</token>
+			</pattern>
+			<message>Nazwy miesięcy w datach podajemy w dopełniaczu: <suggestion>czerwca</suggestion>.</message>
+			<example type="correct">1 czerwca 1939.</example>
+			<example type="incorrect">1 <marker>czerwiec</marker> 1939.</example>
+		</rule>		<rule>
+			<pattern mark_from="1" mark_to="-1">
+				<token regexp="yes">\d+</token>
+				<token>lipiec</token>
+				<token regexp="yes">\d+</token>
+			</pattern>
+			<message>Nazwy miesięcy w datach podajemy w dopełniaczu: <suggestion>lipca</suggestion>.</message>
+			<example type="correct">1 lipca 1939.</example>
+			<example type="incorrect">12 <marker>lipiec</marker> 1939.</example>
+		</rule>		<rule>
+			<pattern mark_from="1" mark_to="-1">
+				<token regexp="yes">\d+</token>
+				<token>sierpień</token>
+				<token regexp="yes">\d+</token>
+			</pattern>
+			<message>Nazwy miesięcy w datach podajemy w dopełniaczu: <suggestion>sierpnia</suggestion>.</message>
+			<example type="correct">1 sierpnia 1939.</example>
+			<example type="incorrect">1 <marker>sierpień</marker> 1939.</example>
+		</rule>		<rule>
+			<pattern mark_from="1" mark_to="-1">
+				<token regexp="yes">\d+</token>
+				<token>wrzesień</token>
+				<token regexp="yes">\d+</token>
+			</pattern>
+			<message>Nazwy miesięcy w datach podajemy w dopełniaczu: <suggestion>września</suggestion>.</message>
+			<example type="correct">Wojna wybuchła 1 września 1939.</example>
+			<example type="incorrect">Wojna wybuchła 1 <marker>wrzesień</marker> 1939.</example>
+		</rule>		<rule>
+			<pattern mark_from="1" mark_to="-1">
+				<token regexp="yes">\d+</token>
+				<token>październik</token>
+				<token regexp="yes">\d+</token>
+			</pattern>
+			<message>Nazwy miesięcy w datach podajemy w dopełniaczu: <suggestion>października</suggestion>.</message>
+			<example type="correct">1 października 1939.</example>
+			<example type="incorrect">1 <marker>październik</marker> 1939.</example>
+		</rule>
+		<rule>
+			<pattern mark_from="1" mark_to="-1">
+				<token regexp="yes">\d+</token>
+				<token>listopad</token>
+				<token regexp="yes">\d+</token>
+			</pattern>
+			<message>Nazwy miesięcy w datach podajemy w dopełniaczu:<suggestion>listopada</suggestion>.</message>
+			<example type="correct">1 listopada 1939.</example>
+			<example type="incorrect">1 <marker>listopad</marker> 1939.</example>
+		</rule>		<rule>
+			<pattern mark_from="1" mark_to="-1">
+				<token regexp="yes">\d+</token>
+				<token>grudzień</token>
+				<token regexp="yes">\d+</token>
+			</pattern>
+			<message>Nazwy miesięcy w datach podajemy w dopełniaczu: <suggestion>grudnia</suggestion>.</message>
+			<example type="correct">13 grudnia 1939.</example>
+			<example type="incorrect">13 <marker>grudzień</marker> 1939.</example>
+		</rule>
+		</rulegroup>
+		
+		<rulegroup name="Brak odmiany imienia Bruno, Hugo, Pablo" id="BRUNO_HUGO">
+		<rule>
+			<pattern mark_to="-1">
+				<token regexp="yes">Bruno|Hugo</token>
+				<token regexp="yes" inflected="yes">Schulz|Kołłątaj<exception postag="subst:sg:nom:m1"/></token>
+			</pattern>	
+			<message>Imiona Bruno i Hugo odmienia się według wzoru: <suggestion>Brunona</suggestion>, <suggestion>Brunonowi</suggestion>, <suggestion>Brunonem</suggestion>, <suggestion>Brunonie</suggestion>.</message>
+			<example type="correct">Uwielbiam prozę Brunona Schulza.</example>
+			<example type="incorrect">Polacy zamierzają ufundować pomnik <marker>Hugo</marker> Kołłątajowi.</example>
+			<example type="incorrect">Uwielbiam prozę <marker>Bruno</marker> Schulza.</example>
+		</rule>
+		<rule>
+			<pattern mark_to="-1">
+				<token regexp="yes">Pablo</token>
+				<token regexp="yes" inflected="yes">Picasso<exception postag="subst:sg:nom:m1"/></token>
+			</pattern>	
+			<message>Imię Pablo odmienia się według wzoru: <suggestion>Pabla</suggestion>, <suggestion>Pablowi</suggestion>, <suggestion>Pablem</suggestion>, <suggestion>Pablu</suggestion>.</message>
+			<example type="correct">Uwielbiam obrazy Pabla Picassa.</example>
+			<example type="incorrect">Polacy zamierzają ufundować pomnik <marker>Pablo</marker> Picassowi.</example>
+			<example type="incorrect">Uwielbiam rzeźbę <marker>Pablo</marker> Picassa.</example>
+		</rule>
+		</rulegroup>
+		
 		<rule id="TA_KSIAZKA" name="„tą” jako biernik (tę)">
 			<pattern>
 				<token>tą</token>
@@ -534,6 +724,16 @@ $Id: grammar.xml,v 1.56 2006-09-09 22:36:07 milek_pl Exp $
 			<message>Mówimy <suggestion>latem</suggestion>, <suggestion>w lecie</suggestion>, a nie „w lato”.</message>
 			<example type="correct">W lecie wybieramy się do Danii.</example>
 			<example type="incorrect"><marker>W lato</marker> wybieramy się do Danii.</example>
+		</rule>
+		
+		<rule name="„jakiś” + dopełniacz l.mn. (jakichś)" id="JAKIS_DZIEWCZYN">
+			<pattern mark_to="-1">
+				<token>jakiś</token>
+				<token postag_regexp="yes" postag="subst:pl.*gen.*"><exception postag_regexp="yes" postag="subst:sg:nom.*"/></token>
+			</pattern>
+			<message>Zaimek „jakiś” w dopełniaczu liczby mnogiej ma postać: <suggestion>jakichś</suggestion>.</message>
+			<example type="correct">A nie widziałeś tam jakichś dziewczyn?</example>
+			<example type="incorrect">A nie widziałeś tam <marker>jakiś</marker> dziewczyn?</example>
 		</rule>
 
 
@@ -882,6 +1082,16 @@ $Id: grammar.xml,v 1.56 2006-09-09 22:36:07 milek_pl Exp $
 			<example type="incorrect"><marker>W drodze wyjątku</marker> lokalne władze zezwalają na wjazd.</example>
 		</rule>
 	
+		<rule id="W_POSROD" name="„w pośród” (pośród)">
+			<pattern>
+				<token>w</token>
+				<token>pośród</token>
+			</pattern>
+			<message>Wyrażenie to jest niepoprawne. Poprawnie: <suggestion>\2</suggestion>.</message>
+			<example type="correct">Pośród serdecznych przyjaciół psy zająca zjadły.</example>
+			<example type="incorrect"><marker>W pośród</marker> serdecznych przyjaciół psy zająca zjadły.</example>			
+		</rule>
+		
 		<rule id="CO_I_RUSZ" name="„co i rusz” (co chwila)">
 			<pattern>
 				<token>co</token>
@@ -913,6 +1123,16 @@ $Id: grammar.xml,v 1.56 2006-09-09 22:36:07 milek_pl Exp $
 			<example type="incorrect"><marker>Za wyjątkiem</marker> powyższych sytuacji, będziemy używać i ujawniać informacje o twoim zdrowiu.</example>
 			<example type="correct">Wyjąwszy powyższe sytuacje, będziemy korzystać z informacji o państwa zdrowiu oraz je ujawniać.</example>
 		</rule>
+		<rule id="NA_WSKUTEK" name="„na wskutek” (wskutek)">
+			<pattern>
+				<token>na</token>
+				<token>wskutek</token>
+			</pattern>
+			<message>To wyrażenie jest niepoprawne; poprawnie jest: <suggestion>wskutek</suggestion> lub <suggestion>na skutek</suggestion>.</message>
+			<example type="correct">Przemysław rozrochował się na skutek docinków Ludwika.</example>
+			<example type="incorrect">Przemysław rozrochował się <marker>na wskutek</marker> docinków Ludwika.</example>
+		</rule>
+		
 		<rule id="CIEZKI_ORZECH" name="„ciężki orzech do zgryzienia” (twardy orzech...)">
 			<pattern>
 				<token inflected="yes" regexp="yes">ciężki</token>
@@ -1063,9 +1283,29 @@ $Id: grammar.xml,v 1.56 2006-09-09 22:36:07 milek_pl Exp $
 	</category>
 
 	<category name="Pleonazm">
+		<rulegroup name="„fakt autentyczny” (fakt)" id="FAKT_AUTENTYCZNY">
+			<rule>
+				<pattern>
+					<token inflected="yes">fakt</token>
+					<token inflected="yes" postag_regexp="yes" postag="adj.*:m.*">autentyczny</token>
+				</pattern>
+				<message>To wyrażenie to pleonazm. Każdy fakt jest autentyczny. Wystarczy napisać <suggestion>\1</suggestion>.</message>
+				<example type="correct">Ten film jest oparty na faktach.</example>
+				<example type="incorrect">Ten film jest oparty na <marker>faktach autentycznych</marker>.</example>
+			</rule>
+			<rule>
+				<pattern>
+					<token inflected="yes" postag_regexp="yes" postag="adj.*:m.*">autentyczny</token>
+					<token inflected="yes">fakt</token>
+				</pattern>
+				<message>To wyrażenie to pleonazm. Każdy fakt jest autentyczny. Wystarczy napisać <suggestion>\1</suggestion>.</message>
+				<example type="correct">Ten film jest oparty na faktach.</example>
+				<example type="incorrect">Ten film jest oparty na <marker>autentycznych faktach</marker>.</example>
+			</rule>						
+		</rulegroup>
 		<rule name="„długi upływ czasu” (długi czas)" id="DLUGI_UPLYW">
 			<pattern>
-				<token inflected="yes" postag="adj:sg:.*:m" postag_regexp="yes">długi</token>
+				<token inflected="yes" postag="adj:sg:.*:m.*neg" postag_regexp="yes">długi</token>
 				<token inflected="yes">upływ</token>
 				<token>czasu</token>
 			</pattern>
@@ -1183,6 +1423,16 @@ $Id: grammar.xml,v 1.56 2006-09-09 22:36:07 milek_pl Exp $
 
 	<category name="Różne">
 	
+		<rule id="WACHLARZ_CZEGO" name="„szeroki wachlarz” (wiele)">
+			<pattern mark_to="-1">
+				<token inflected="yes" regexp="yes" postag_regexp="yes" postag="adj:sg.*m[\d]*:pneg">szeroki|bogaty</token>
+				<token inflected="yes">wachlarz</token>
+				<token postag_regexp="yes" postag=".*gen.*"/>
+			</pattern>
+			<message>To wyrażenie jest rozwlekłe i niezalecane. Lepiej po prostu: <suggestion>wiele</suggestion>.</message>
+			<example type="correct">W sklepie jest wiele towarów.</example>
+			<example type="incorrect">W sklepie jest <marker>szeroki wachlarz</marker> towarów.</example>			
+		</rule>
 		<rule id="Z_WIELKIEJ_LITERY" name="Rusycyzm: „z wielkiej/małej litery” (wielką literą)">
 			<pattern>
 				<token>z</token>
@@ -1203,18 +1453,7 @@ $Id: grammar.xml,v 1.56 2006-09-09 22:36:07 milek_pl Exp $
 			<example type="incorrect">Kazio bawił się <marker>pantałykiem</marker>.</example>
 		</rule>
 	
-	<!--
-	<rule name="Błąd interpunkcyjny: tylko nawias otwierający" id="NAWIAS">
-		<pattern>
-			<token skip="-1">(</token>
-			<token negate="yes" skip="-1">)</token>
-			<token>.</token>
-		</pattern>
-		<message>Brak nawiasu zamykającego (<em>)</em>).</message>
-		<example type="correct">Mam na myśli zamek (budowlę).</example>
-		<example type="incorrect">Mam na myśli zamek (budowlę.</example>
-	</rule>
-		-->
+
 		<rule name="Błąd frazeologiczny: „po prawo” (po prawej)" id="PO_PRAWO">
 			<pattern mark_to="-1">
 				<token>po</token>
@@ -1328,10 +1567,20 @@ $Id: grammar.xml,v 1.56 2006-09-09 22:36:07 milek_pl Exp $
 			<example type="incorrect">Spotkałem się z <marker>v-ce prezesem</marker> gminnej spółdzielni, towarzyszem Gosiewskim.</example>
 		</rule>
 		
-		<rule id="AD_KROPKA" name="ad. (ad)">
+		<rule id="SP-NIA" name="sp-nia (spółdz.)">
 			<pattern>
+				<token>sp-nia</token>
+			</pattern>
+			<message>To błędny skrót. Poprawnie: <suggestion>spółdz.</suggestion>.</message>
+			<example type="correct">Spółdz. Mlecz. w Garwolinie</example>
+			<example type="incorrect"><marker>Sp-nia</marker> Mlecz. w Garwolinie</example>
+		</rule>
+		
+		<rule id="AD_KROPKA" name="ad. (ad)">
+			<pattern mark_to="-1">
 				<token>ad</token>
 				<token>.</token>
+				<token regexp="yes">\d+</token>
 			</pattern>
 			<message>Ten wyraz nie jest skrótem, lecz wyrazem łacińskim, pisanym bez kropki: <suggestion>ad</suggestion>.</message>
 			<example type="correct">Ad 1.</example>
@@ -1418,6 +1667,48 @@ $Id: grammar.xml,v 1.56 2006-09-09 22:36:07 milek_pl Exp $
 			<example type="incorrect">Przy takim pojmowaniu historii jasnym jest, że nie ma tu <marker>z goła</marker> miejsca dla wybitnych jednostek, a niewiele go zostaje dla wolności woli.</example>
 		</rule>
 
+		<rule name="„z przed” (sprzed)" id="Z_PRZED">
+			<pattern>
+				<token>z</token>
+				<token>przed</token>
+			</pattern>
+			<message>Ten wyraz piszemy łącznie, tj. <suggestion>sprzed</suggestion>.</message>
+			<example type="correct">Uciekł mi autobus sprzed nosa.</example>
+			<example type="incorrect">Uciekł mi autobus <marker>z przed</marker> nosa.</example>
+		</rule>
+
+		<rule name="„z za” (zza)" id="Z_ZA">
+			<pattern>
+				<token>z</token>
+				<token>za</token>
+			</pattern>
+			<message>Ten wyraz piszemy łącznie, tj. <suggestion>\1\2</suggestion>.</message>
+			<example type="correct">Wstrętny ryj wychynął zza rogu.</example>
+			<example type="incorrect">Wstrętny ryj wychynął <marker>z za</marker> rogu.</example>
+		</rule>
+
+		<rule name="„z pomiędzy” (spomiędzy)" id="Z_POMIEDZY">
+			<pattern>
+				<token>z</token>
+				<token>pomiędzy</token>
+			</pattern>
+			<message>Ten wyraz piszemy łącznie, tj. <suggestion>spomiędzy</suggestion>.</message>
+			<example type="correct">Wstrętny ryj wychynął spomiędzy sztachet.</example>
+			<example type="incorrect">Wstrętny ryj wychynął <marker>z pomiędzy</marker> sztachet.</example>
+		</rule>
+
+		<rule name="„z po między” (spomiędzy)" id="Z_PO_MIEDZY">
+			<pattern>
+				<token>z</token>
+				<token>po</token>
+				<token>między</token>
+			</pattern>
+			<message>Ten wyraz piszemy łącznie, tj. <suggestion>spomiędzy</suggestion>.</message>
+			<example type="correct">Wstrętny ryj wychynął spomiędzy sztachet.</example>
+			<example type="incorrect">Wstrętny ryj wychynął <marker>z po między</marker> sztachet.</example>
+		</rule>
+
+								
 		<rule name="„tam tędy” (tamtędy)" id="TAM_TEDY">
 			<pattern>
 				<token>tam</token>
@@ -1438,6 +1729,17 @@ $Id: grammar.xml,v 1.56 2006-09-09 22:36:07 milek_pl Exp $
 			<example type="correct">Pora na małe co nieco.</example>
 			<example type="incorrect">Pora na małe co <marker>nie co</marker>.</example>
 		</rule>
+
+		<rule name="„a pro po” (à propos)" id="A_PROPOS">
+			<pattern>
+				<token>a</token>
+				<token>pro</token>
+				<token>po</token>
+			</pattern>
+			<message>To wyrażenie (z franc.) pisze się następująco: <suggestion>à propos</suggestion>.</message>
+			<example type="correct">Mam uwagę à propos wystąpienia pana ministra.</example>
+			<example type="incorrect">Mam uwagę <marker>a pro po</marker> wystąpienia pana ministra.</example>
+		</rule>		
 		
 		<rule name="„gdzie nie gdzie” (gdzieniegdzie)" id="GDZIENIEGDZIE">
 			<pattern>
@@ -1449,7 +1751,17 @@ $Id: grammar.xml,v 1.56 2006-09-09 22:36:07 milek_pl Exp $
 			<example type="correct">Gdzieniegdzie rośnie trawa.</example>
 			<example type="incorrect"><marker>Gdzie nie gdzie</marker> rośnie trawa.</example>
 		</rule>
-				
+
+		<rule name="„za nad to” (zanadto)" id="ZANADTO">
+			<pattern>
+				<token>za</token>
+				<token>nad</token>
+				<token>to</token>
+			</pattern>
+			<message>Ten wyraz piszemy łącznie, tj. <suggestion>\1\2\3</suggestion>.</message>
+			<example type="correct">Zanadto się wygłupiasz.</example>
+			<example type="incorrect"><marker>Za nad to</marker> się wygłupiasz.</example>
+		</rule>				
 		<rule name="„z pośród” (spośród)" id="Z_POSROD">
 			<pattern>
 				<token>z</token>
@@ -1547,7 +1859,26 @@ $Id: grammar.xml,v 1.56 2006-09-09 22:36:07 milek_pl Exp $
 			<example type="correct">Ten minister aż zanadto przypomina wioskowego głupka.</example>
 			<example type="incorrect">Ten minister aż <marker>za nadto</marker> przypomina wioskowego głupka.</example>
 		</rule>
+
+		<rule id="Z_POD" name="„z pod” (spod)">
+			<pattern>
+				<token>z</token>
+				<token>pod</token>
+			</pattern>
+			<message>Wyraz <suggestion>spod</suggestion> piszemy łącznie.</message>
+			<example type="correct">Ten minister przypomina głupka spod budki z piwem.</example>
+			<example type="incorrect">Ten minister przypomina głupka <marker>z pod</marker> budki z piwem.</example>
+		</rule>
 		
+		<rule id="W_OKOL" name="„w okół” (wokół)">
+			<pattern mark_from="0">
+				<token>w</token>
+				<token>okół</token>
+			</pattern>
+			<message>Prawdopodobny błąd: przyimek <suggestion>wokół</suggestion> piszemy łącznie.</message>
+			<example type="correct">Wokół Przemysława gromadziło się wielu podejrzanych typów.</example>
+			<example type="incorrect"><marker>W okół</marker> Przemysława gromadziło się wielu podejrzanych typów.</example>
+		</rule>		
 					
 	<!-- błędna pisownia rozłączna -->
 		<rule id="PO_ZA" name="„po za” (poza)">
@@ -1582,14 +1913,13 @@ $Id: grammar.xml,v 1.56 2006-09-09 22:36:07 milek_pl Exp $
 		<rule name="„Gal Anonim” (Gall Anonim)" id="GAL_ANONIM">
 			<pattern mark_to="-1">
 				<token inflected="yes">Gal</token>
-				<token inflected="yes">anonim</token>
+				<token inflected="yes">Anonim</token>
 			</pattern>
 			<message>Poprawnie piszemy <suggestion>Gall</suggestion> Anonim.</message>
 			<example type="correct">To kronika Galla Anonima.</example>
-			<example type="incorrect">To kronika <marker>Gala</marker> anonima.</example>
+			<example type="incorrect">To kronika <marker>Gala</marker> Anonima.</example>
 		</rule>
 		
-
 		<rule id="SPOZA" name="„z poza” (spoza)">
 			<pattern mark_from="0" case_sensitive="no">
 				<token>z</token>
@@ -1748,6 +2078,17 @@ $Id: grammar.xml,v 1.56 2006-09-09 22:36:07 milek_pl Exp $
 			<example type="correct">Stoi jakiś pałac, wielki aż strach, a przed nim co niemiara bryk i wozów.</example>
 			<example type="incorrect">Stoi jakiś pałac, wielki aż strach, a przed nim <marker>co nie miara</marker> bryk i wozów.</example>
 		</rule>
+		
+		<rule name="„biznes plan (biznesplan)" id="BIZNESPLAN">
+			<pattern>
+				<token>biznes</token>
+				<token inflected="yes">plan</token>
+			</pattern>
+			<message>Ten wyraz piszemy łącznie: <suggestion>\1\2</suggestion>.</message>
+			<example type="correct">Przemysław przedstawił swój biznesplan.</example>
+			<example type="incorrect">Przemysław przedstawił swój <marker>biznes plan</marker>.</example>
+		</rule>
+		
 		<rule name="„mass-media” (mass media)" id="MASSMEDIA">
 			<pattern>
 				<token regexp="yes">mass[–-]medi.*</token>
@@ -1866,6 +2207,16 @@ $Id: grammar.xml,v 1.56 2006-09-09 22:36:07 milek_pl Exp $
 
 
 	<category name="Prawdopodobna literówka">
+		<rule name="„z/od/do/na niech” (nich)" id="DO_NIECH">
+			<pattern mark_from="1">
+				<token regexp="yes">z|od|do|na</token>
+				<token>niech</token>
+			</pattern>
+			<message>Prawdopodobnie literówka, czy chodziło o wyraz: <suggestion>nich</suggestion>?</message>
+			<example type="correct">Przestał się do nich odzywać.</example>
+			<example type="incorrect">Przestał się do <marker>niech</marker> odzywać.</example>
+		</rule>
+		
 		<rule name="„juz” (już)" id="JUZ">
 			<pattern>
 				<token>juz</token>
