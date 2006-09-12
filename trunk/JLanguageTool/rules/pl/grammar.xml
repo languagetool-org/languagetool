@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?><!--
 Copyright (C) 2006 Marcin Miłkowski
-$Id: grammar.xml,v 1.57 2006-09-10 23:12:51 milek_pl Exp $		
+$Id: grammar.xml,v 1.58 2006-09-12 11:06:57 milek_pl Exp $		
 -->
 <rules lang="pl">
 	<category name="Interpunkcja">
@@ -417,6 +417,16 @@ $Id: grammar.xml,v 1.57 2006-09-10 23:12:51 milek_pl Exp $
 			
 	</category>
 	<category name="Błędy odmiany">
+		<rule name="„sto gram” (sto gramów) itp." id="STO_GRAM">
+			<pattern mark_from="1">
+				<token regexp="yes" inflected="yes">jeden|dwa|trzy|cztery|pięć|sześć|siedem|osiem|dziewięć|dziesięć|jedenaście|dwanaście|trzynaście|czternaście|piętnaście|szesnaście|siedemnaście|osiemnaście|dziewiętnaście|dwadzieścia|trzydzieści|czterdzieści|pięćdziesiąt|sześćdziesiąt|siedemdziesiąt|osiemdziesiąt|dziewięćdziesiąt|sto|dwieście|trzysta|czterysta|pięćset|sześćset|siedemset|osiemset|dziewięćset|tysiąc|milion|miliard|bilion</token>
+				<token regexp="yes">wat|gram|amper|kilowat|kilogram|kiloamper|wolt|kilowolt|złoty</token>
+			</pattern>
+			<message>Nazwy jednostek miary odmienia się. W tym wypadku powinny być w dopełniaczu.</message>
+			<example type="correct">Ludwik kupił sto gramów szyneczki.</example>
+			<example type="incorrect">Ludwik kupił sto <marker>gram</marker> szyneczki.</example>
+		</rule>
+
 		<rule name="„te”, „jedne”, „tamte” + rzeczownik r. nijakiego w l.poj." id="JEDNE_DZIECKO">
 			<pattern mark_to="-1">
 				<token postag_regexp="yes" postag="adj:pl:nom.*"><exception postag_regexp="yes" postag="adj.*sg:nom.*"/></token>
@@ -581,6 +591,16 @@ $Id: grammar.xml,v 1.57 2006-09-10 23:12:51 milek_pl Exp $
 			<example type="correct">Cezar bawił się kośćmi legionistów nad Rubikonem.</example>
 			<example type="incorrect">Cezar bawił się <marker>kościami</marker> legionistów nad Rubikonem.</example>
 			<example type="correct">Zdzichu jest człowiekiem poczciwym z kościami.</example>
+		</rule>
+		<rule id="W_SZEREGU_PRZYPADKACH" name="w szeregu + miejscownik/narzędnik (dopełniacz)">
+			<pattern mark_from="2">
+				<token>w</token>
+				<token>szeregu</token>
+				<token postag_regexp="yes" postag=".*loc.*|.*instr.*"><exception postag_regexp="yes" postag=".*[\.:]gen[\.:].*"/></token>
+			</pattern>
+			<message>Wyrażenie „w szeregu” jest używane z dopełniaczem, nie z miejscownikiem ani narzędnikiem.</message>
+			<example type="correct">W szeregu przypadków komisja śledcza zachowywała się niegodnie.</example>
+			<example type="incorrect">W szeregu <marker>przypadkach</marker> komisja śledcza zachowywała się niegodnie.</example>			
 		</rule>
 		<rule id="KONIAMI" name="„koniami” (końmi)">
 			<pattern mark_from="1">
@@ -1114,6 +1134,16 @@ $Id: grammar.xml,v 1.57 2006-09-10 23:12:51 milek_pl Exp $
 			<example type="incorrect"><marker>Co i raz</marker> media informują o tym, że któryś z prominentnych polityków koalicji rządzącej załatwił coś dla siebie.</example>
 			<example type="correct">Raz po raz media informują o tym, że któryś z prominentnych polityków koalicji rządzącej załatwił coś dla siebie.</example>
 		</rule>
+		<rule id="OKRAGLY_ROK" name="„okrągły rok” (cały rok)">
+			<pattern>
+				<token inflected="yes" postag_regexp="yes" postag=".*:m[\d]*:[p]*neg">okrągły</token>
+				<token inflected="yes">rok</token>
+			</pattern>
+			<message>Wyrażenie to jest niepoprawne. Poprawnie mówi się: <suggestion>cały rok</suggestion>.</message>
+			<example type="correct">Czekaliśmy na to cały rok.</example>
+			<example type="incorrect">Czekaliśmy na to <marker>okrągły rok</marker>.</example>
+		</rule>
+		
 		<rule id="ZA_WYJATKIEM" name="„za wyjątkiem” (z wyjątkiem)">
 			<pattern>
 				<token>za</token>
@@ -1122,6 +1152,15 @@ $Id: grammar.xml,v 1.57 2006-09-10 23:12:51 milek_pl Exp $
 			<message>Wyrażenie „za wyjątkiem” jest niepoprawne. Poprawne wyrażenie: <suggestion>z wyjątkiem</suggestion>.</message>
 			<example type="incorrect"><marker>Za wyjątkiem</marker> powyższych sytuacji, będziemy używać i ujawniać informacje o twoim zdrowiu.</example>
 			<example type="correct">Wyjąwszy powyższe sytuacje, będziemy korzystać z informacji o państwa zdrowiu oraz je ujawniać.</example>
+		</rule>
+		<rule id="SPRZED_LATY" name="„sprzed laty” (sprzed lat, przed laty)">
+			<pattern>
+				<token>sprzed</token>
+				<token>laty</token>
+			</pattern>
+			<message>To wyrażenie jest niepoprawne. Poprawnie piszemy <suggestion>przed laty</suggestion> lub <suggestion>sprzed lat</suggestion> (w zależności od zamierzonego sensu).</message>
+			<example type="incorrect">Tego pytania nie postawiłem sobie <marker>sprzed laty</marker>.</example>
+			<example type="correct">Tego pytania nie postawiłem sobie <marker>przed laty</marker>.</example>
 		</rule>
 		<rule id="NA_WSKUTEK" name="„na wskutek” (wskutek)">
 			<pattern>
@@ -1618,6 +1657,18 @@ $Id: grammar.xml,v 1.57 2006-09-10 23:12:51 milek_pl Exp $
 			<example type="incorrect">Jarosław Kaczyński jest najwybitniejszym mężem stanu <marker>w śród</marker> wszystkich Kaczyńskich.</example>
 			<example type="correct">Jarosław Kaczyński jest najwybitniejszym mężem stanu wśród wszystkich Kaczyńskich.</example>
 		</rule>
+		
+		<rule name="„do nie dawna” (do niedawna)" id="DO_NIE_DAWNA">
+			<pattern>
+				<token>do</token>
+				<token>nie</token>
+				<token>dawna</token>
+			</pattern>
+			<message>To wyrażenie piszemy poprawnie tak: <suggestion>do niedawna</suggestion>.</message>
+			<example type="correct">Do niedawna Przemysław szanował Ludwika.</example>
+			<example type="incorrect"><marker>Do nie dawna</marker> Przemysław szanował Ludwika.</example>			
+		</rule>
+		
 		<rule name="„o prócz” (oprócz)" id="O_PROCZ">
 			<pattern>
 				<token>o</token>
@@ -2107,6 +2158,17 @@ $Id: grammar.xml,v 1.57 2006-09-10 23:12:51 milek_pl Exp $
 			<example type="correct">Będę jadł lody, dopóki będę miał ochotę.</example>
 			<example type="incorrect">Będę jadł lody, <marker>do póki</marker> będę miał ochotę.</example>
 		</rule>
+		
+		<rule name="„w tedy” (wtedy)" id="W_TEDY">
+			<pattern>
+				<token>w</token>
+				<token>tedy</token>
+			</pattern>
+			<message>Wyrazy <suggestion>wtedy</suggestion> piszemy łącznie.</message>
+			<example type="correct">Wtedy Przemysław poczuł, że premier jest najmądrzejszy na świecie.</example>
+			<example type="incorrect"><marker>W tedy</marker> Przemysław poczuł, że premier jest najmądrzejszy na świecie.</example>			
+		</rule>
+		
 		<rule name="„do póty” (dopóty)" id="DO_POTY">
 			<pattern>
 				<token>do</token>
@@ -2373,6 +2435,25 @@ $Id: grammar.xml,v 1.57 2006-09-10 23:12:51 milek_pl Exp $
 			<example type="correct">To nowa funkcja tego systemu.</example>
 			<example type="incorrect">To nowa funkcja tego <marker>sytemu</marker>.</example>
 		</rule>
-	
+		<rulegroup name="„wiec” (więc)" id="A_WIEC">
+		<rule>
+			<pattern mark_from="1">
+				<token regexp="yes">a|tak</token>
+				<token>wiec</token>
+			</pattern>
+			<message>Prawdopodobnie chodziło o wyraz <suggestion>więc</suggestion>.</message>
+			<example type="correct">Przemysław kupił flakon perfum, a więc mógł się wyperfumować.</example>
+			<example type="incorrect">Przemysław kupił flakon perfum, a <marker>wiec</marker> mógł się wyperfumować.</example>
+		</rule>	
+		<rule>
+			<pattern mark_to="-1">
+				<token>wiec</token>
+				<token regexp="yes">jeśli|jeżeli</token>
+			</pattern>
+			<message>Prawdopodobnie chodziło o wyraz <suggestion>więc</suggestion>.</message>
+			<example type="correct">Przemysław kupił flakon perfum, więc jeśli Ludwik go poprosi, będzie mógł się wyperfumować.</example>
+			<example type="incorrect">Przemysław kupił flakon perfum, <marker>wiec</marker> jeśli Ludwik go poprosi, będzie mógł się wyperfumować.</example>
+		</rule>
+		</rulegroup>
 	</category>
 </rules>
