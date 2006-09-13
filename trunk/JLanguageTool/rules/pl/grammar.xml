@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?><!--
 Copyright (C) 2006 Marcin Miłkowski
-$Id: grammar.xml,v 1.59 2006-09-12 23:53:01 milek_pl Exp $		
+$Id: grammar.xml,v 1.60 2006-09-13 23:20:37 milek_pl Exp $		
 -->
 <rules lang="pl">
-	<category name="Interpunkcja">
+	<category name="Błędy interpunkcyjne">
 		
 		<rulegroup name="Brak przecinka w zdaniu złożonym" id="ZDANIA_ZLOZONE">
 			<rule>
@@ -118,7 +118,7 @@ $Id: grammar.xml,v 1.59 2006-09-12 23:53:01 milek_pl Exp $
 		</rule>
 		<rule>
 			<pattern mark_from="1">
-				<token negate="yes" regexp="yes">o|na</token>
+				<token negate="yes" regexp="yes">o|na|tylko</token>
 				<token regexp="yes">tyle</token>
 				<token>,</token>
 				<token>że</token>
@@ -130,7 +130,7 @@ $Id: grammar.xml,v 1.59 2006-09-12 23:53:01 milek_pl Exp $
 		<rule>
 			<pattern mark_from="1">
 				<token negate="yes">tylko<exception postag="conj"/></token>
-				<token regexp="yes">dopiero|czy|to|podczas|potem|teraz|zwłaszcza|szczególnie|że</token>
+				<token regexp="yes">dopiero|od|czy|to|podczas|potem|teraz|zwłaszcza|szczególnie|że|nawet</token>
 				<token>,</token>
 				<token regexp="yes">gdy|kiedy</token>
 			</pattern>	
@@ -183,7 +183,7 @@ $Id: grammar.xml,v 1.59 2006-09-12 23:53:01 milek_pl Exp $
 		<rulegroup id="BRAK_PRZECINKA_ZE" name="Brak przecinka przed „że” i „iż”">
 		<rule>
 			<pattern mark_from="1">
-				<token negate="yes" regexp="yes">\p{Punct}|–|—|a|ale|albo|lub|tym|bardziej|chyba|i|ile|jako|oraz|szczególnie|tyle|tylko|zwłaszcza|pomimo|mimo|także|również<exception postag="SENT_START"/></token>
+				<token negate="yes" regexp="yes">\p{Punct}|–|—|a|ale|albo|lecz|lub|tym|bardziej|chyba|i|ile|jako|oraz|szczególnie|tyle|tylko|zwłaszcza|pomimo|mimo|także|również<exception postag="SENT_START"/></token>
 				<token regexp="yes">że|iż</token>
 			</pattern>
 			<message>Przed spójnikiem „że” stawiamy przecinek: <suggestion>, \2</suggestion>.</message>
@@ -192,7 +192,7 @@ $Id: grammar.xml,v 1.59 2006-09-12 23:53:01 milek_pl Exp $
 		</rule>
 		<rule>
 			<pattern mark_from="1">
-				<token negate="yes" regexp="yes">\p{Punct}|–|—|,<exception postag="SENT_START"/></token>
+				<token negate="yes" regexp="yes">\p{Punct}|–|—|,|a|lecz|ale|albo|lub|ani<exception postag="SENT_START"/></token>
 				<token regexp="yes">ile|jako|szczególnie|tyle|tylko|zwłaszcza|pomimo|mimo<exception postag="SENT_START"/></token>
 				<token regexp="yes">że|iż</token>
 			</pattern>
@@ -252,7 +252,7 @@ $Id: grammar.xml,v 1.59 2006-09-12 23:53:01 milek_pl Exp $
 		<rulegroup id="BRAK_PRZECINKA_GDY" name="Brak przecinka przed „gdy” i „kiedy”">
 		<rule>
 			<pattern mark_from="1">
-				<token negate="yes" regexp="yes">,|a|ale|i|lecz|chyba|czy|dopiero|podczas|potem|więc|teraz|właśnie|wtedy|zwłaszcza|szczególnie|to|że|czasie|czasach|wypadku|przypadku|razie<exception postag="SENT_START"/><exception regexp="yes">\p{Punct}|–|—</exception></token>
+				<token negate="yes" regexp="yes">,|a|od|ale|i|lecz|chyba|czy|dopiero|podczas|nawet|potem|więc|teraz|właśnie|wtedy|zwłaszcza|szczególnie|to|że|czasie|czasach|wypadku|przypadku|razie<exception postag="SENT_START"/><exception regexp="yes">\p{Punct}|–|—</exception></token>
 				<token regexp="yes">gdy|kiedy</token>
 			</pattern>
 			<message>Przed tym spójnikiem stawiamy przecinek: <suggestion>, \2</suggestion>.</message>
@@ -262,7 +262,7 @@ $Id: grammar.xml,v 1.59 2006-09-12 23:53:01 milek_pl Exp $
 		<rule>
 			<pattern mark_from="1">
 				<token negate="yes" regexp="yes">\p{Punct}|–|—<exception postag="SENT_START"/></token>
-				<token regexp="yes">dopiero|podczas|potem|teraz|właśnie|wtedy|zwłaszcza|szczególnie|że</token>
+				<token regexp="yes">nawet|dopiero|od|podczas|potem|teraz|właśnie|wtedy|zwłaszcza|szczególnie|że</token>
 				<token regexp="yes">gdy|kiedy</token>
 			</pattern>
 			<message>Przecinek stawiamy przed całym spójnikiem złożonym: <suggestion>, \2 \3</suggestion>.</message>
@@ -355,7 +355,7 @@ $Id: grammar.xml,v 1.59 2006-09-12 23:53:01 milek_pl Exp $
 			</rule>		
 		</rulegroup>
 
-	<rulegroup name="Błąd interpunkcyjny: tylko nawias otwierający lub zamykający" id="NAWIAS">
+	<rulegroup name="Tylko nawias otwierający lub zamykający" id="NAWIAS">
 	<rule>
 		<pattern>
 			<token skip="-1">(<exception regexp="yes">adw|afr|akad|am|amer|arch|art|artyst|astr|austr|bałt|bdb|bł|bm|br|bryt|centr|ces|chem|chiń|chir|c.k|c.o|cyg|cyw|czes|czw|cd|czyt|ćw|ćwicz|daw|dcn|dekl|demokr|det|diec|dł|dn|doc|dop|dost|dosł|h.c|ds|dst|duszp|dypl|egz|ekol|ekon|elektr|em|etc|ew|fab|farm|fot|fr|gat|gastr|geogr|geol|gimn|głęb|gm|godz|górn|gosp|gr|gram|hist|hiszp|hr|hot|id|in|im|iron|jn|kard|kat|katol|k.k|kk|klas|kol|k.p.a|kpc|k.p.c|kpt|kr|k.r|krak|k.r.o|kryt|kult|laic|łac|np|p.n.e|m.in|itd|itp|pt|cdn|dyr|hab|inż|jw|lek|n.e|nb|rys|tj|tzw|tzn|zob|ang|ul|pl|al|prof|gen|k|n|ks|ok|tys|r|proc|ww|\)</exception></token>
@@ -377,7 +377,7 @@ $Id: grammar.xml,v 1.59 2006-09-12 23:53:01 milek_pl Exp $
 	</rule>		
 	</rulegroup>
 
-	<rulegroup name="Błąd interpunkcyjny: tylko cudzysłów otwierający lub zamykający" id="CUDZYSLOW">
+	<rulegroup name="Tylko cudzysłów otwierający lub zamykający" id="CUDZYSLOW">
 	<rule>
 		<pattern>
 			<token skip="-1" regexp="yes">„.*<exception regexp="yes">adw|afr|akad|am|amer|arch|art|artyst|astr|austr|bałt|bdb|bł|bm|br|bryt|centr|ces|chem|chiń|chir|c.k|c.o|cyg|cyw|czes|czw|cd|czyt|ćw|ćwicz|daw|dcn|dekl|demokr|det|diec|dł|dn|doc|dop|dost|dosł|h.c|ds|dst|duszp|dypl|egz|ekol|ekon|elektr|em|etc|ew|fab|farm|fot|fr|gat|gastr|geogr|geol|gimn|głęb|gm|godz|górn|gosp|gr|gram|hist|hiszp|hr|hot|id|in|im|iron|jn|kard|kat|katol|k.k|kk|klas|kol|k.p.a|kpc|k.p.c|kpt|kr|k.r|krak|k.r.o|kryt|kult|laic|łac|np|p.n.e|m.in|itd|itp|pt|cdn|dyr|hab|inż|jw|lek|n.e|nb|rys|tj|tzw|tzn|zob|ang|ul|pl|al|prof|gen|k|n|ks|ok|tys|r|proc|ww|.*”.*</exception></token>
@@ -397,11 +397,24 @@ $Id: grammar.xml,v 1.59 2006-09-12 23:53:01 milek_pl Exp $
 		<example type="correct">Lech powiedział: „ona wywodzi się z określonych środowisk”.</example>
 		<example type="incorrect"><marker>Lech powiedział: ona wywodzi się z określonych środowisk”.</marker></example>
 	</rule>		
+		
+	<rule id="PRZECINEK_ANI" name="Zbędny przecinek przed „ani”, „i”, „lub”, „oraz”">
+		<pattern>
+			<token skip="-1" postag="SENT_START"><exception>ani</exception></token>
+			<token>,</token>
+			<token regexp="yes">i|oraz|lub|ani</token>
+		</pattern>
+		<message>Przecinek przed \3 w powyższym zdaniu jest zbędny.</message>
+		<example type="correct">Nie kupiłem gruszek ani jabłek.</example>
+		<example type="incorrect"><marker>Nie kupiłem gruszek, ani</marker> jabłek.</example>
+		<example type="incorrect"><marker>Lubię zjeść trochę gruszek, lub</marker> jabłek.</example>
+		<example type="incorrect"><marker>Kupiłem trochę gruszek, i</marker> jabłek.</example>
+	</rule>
 	</rulegroup>
 							
 	</category>
 	
-	<category name="Typografia">
+	<category name="Błędy typograficzne">
 		<rule id="POMINIECIE" name="(...) → [...]">
 			<pattern>
 				<token>(</token>
@@ -635,19 +648,19 @@ $Id: grammar.xml,v 1.59 2006-09-12 23:53:01 milek_pl Exp $
 		</rulegroup>
 	</category>
 	
-	<category name="Szyk wyrazów">
+	<category name="Błędy w szyku wyrazów">
 		<rule id="BOWIEM_ZAS" name="„Bowiem”, „ale”, „zaś” na początku zdania”">
 			<pattern mark_from="1" mark_to="-1">
 				<token postag="SENT_START"/>
 				<token regexp="yes">bowiem|ale|zaś|lecz</token>
 				<token/>
 			</pattern>
-			<message>Ten wyraz nie powinien występować na początku zdania. Prawdopodobnie lepiej napisać: <suggestion>\3 \2</suggestion> (zmieniając wielkość liter).</message>
+			<message>Ten wyraz nie powinien występować na początku zdania.</message>
 			<example type="correct">Ludwik bowiem chciał być wicepremierem.</example>
 			<example type="incorrect"><marker>Bowiem</marker> Ludwik chciał być wicepremierem.</example>
 		</rule>
 	</category>
-	<category name="Błąd składniowy">
+	<category name="Błędy składniowe">
 		<rule id="PRZYIMEK_RZECZOWNIK_KTORY" name="przyimek + rzeczownik + „który”(przyimek + „który” + rzeczownik)">
 			<pattern mark_from="1">
 				<token>,</token>
@@ -947,7 +960,7 @@ $Id: grammar.xml,v 1.59 2006-09-12 23:53:01 milek_pl Exp $
 			<example type="incorrect"><marker>Czym większa, tym lepiej</marker>.</example>
 		</rule>
 	</category>
-	<category name="Błąd leksykalny">
+	<category name="Błędy leksykalne">
 		<rule name="„w pośrodku” (pośrodku)" id="W_POSRODKU">
 			<pattern>
 				<token>w</token>
@@ -1362,7 +1375,7 @@ $Id: grammar.xml,v 1.59 2006-09-12 23:53:01 milek_pl Exp $
 
 	</category>
 
-	<category name="Pleonazm">
+	<category name="Pleonazmy">
 		<rulegroup name="„fakt autentyczny” (fakt)" id="FAKT_AUTENTYCZNY">
 			<rule>
 				<pattern>
@@ -1501,8 +1514,54 @@ $Id: grammar.xml,v 1.59 2006-09-12 23:53:01 milek_pl Exp $
 
 	</category>
 
-	<category name="Różne">
-	
+	<category name="Błędy fonetyczne">
+		
+		<rule name="„w” przed „f/w…” i spółgłoską (we)" id="W_WE">
+			<pattern>
+				<token>w</token>
+				<token regexp="yes">[wf][tśsrłndwpgklzcbmż].*|Lwowie</token>				
+			</pattern>
+			<message>Prawdopodobnie ten przyimek należy zapisać tak: <suggestion>we \2</suggestion>.</message>
+			<example type="correct">Ludwik ma randkę z Przemysławem we wtorek.</example>
+			<example type="incorrect">Ludwik ma randkę z Przemysławem <marker>w wtorek</marker>.</example>
+		</rule>
+		
+		<rule name="„we” nie przed „f/w…” (w)" id="WE_W">
+			<pattern>
+				<token>we</token>
+				<token negate="yes" regexp="yes">[wf].*|Lwowie|środę|czwartek|dw.*|tr.*</token>				
+			</pattern>
+			<message>Prawdopodobnie ten przyimek należy zapisać tak: <suggestion>w \2</suggestion>.</message>
+			<example type="correct">Ludwik ma randkę z Przemysławem w Łodzi.</example>
+			<example type="correct">Krakusy mówią, że kaczki przeglądają się we wodzie.</example>
+			<example type="incorrect">Ludwik ma randkę z Przemysławem <marker>we Łodzi</marker>.</example>
+		</rule>
+
+		
+		<rule name="„z” przed spółgłoską (ze)" id="Z_ZE">
+			<pattern>
+				<token>z</token>
+				<token regexp="yes">[wszśźż][wftśsrłndwpgklzcbmżń].*|rz[wftśsrłndwpgklzcbmżń].*|Lwowa|mną|mnie|snu</token>				
+			</pattern>
+			<message>Prawdopodobnie ten przyimek należy zapisać tak: <suggestion>ze \2</suggestion>.</message>
+			<example type="correct">Ludwik ma kochankę ze Świecia</example>
+			<example type="incorrect">Ludwik ma kochankę <marker>z Świecia</marker>.</example>
+		</rule>
+
+		<rule name="„ze” nie przed spółgłoską (z)" id="ZE_Z_SPOL">
+			<pattern>
+				<token>ze</token>
+				<token negate="yes" regexp="yes">[wszśźż].*|rz[wftśsrłndwpgklzcbmżń].*|Lwowa|mną|mnie|snu</token>				
+			</pattern>
+			<message>Prawdopodobnie ten przyimek należy zapisać tak: <suggestion>z \2</suggestion>.</message>
+			<example type="correct">Ludwik ma kochankę z Łodzi.</example>
+			<example type="incorrect">Ludwik ma kochankę <marker>ze Łodzi</marker>.</example>
+		</rule>
+
+	</category>
+		
+		<category name="Błędy różne">
+						
 		<rule id="WACHLARZ_CZEGO" name="„szeroki wachlarz” (wiele)">
 			<pattern mark_to="-1">
 				<token inflected="yes" regexp="yes" postag_regexp="yes" postag="adj:sg.*m[\d]*:pneg">szeroki|bogaty</token>
@@ -1635,8 +1694,18 @@ $Id: grammar.xml,v 1.59 2006-09-12 23:53:01 milek_pl Exp $
 
 	</category>
 
-	<category name="Błąd ortograficzny">
-	
+	<category name="Błędy ortograficzne">
+		<rule name="Skrótowce bez dywiza w przypadkach zależnych" id="SKROTOWCE_BEZ_DYWIZA">
+			<pattern>
+				<token regexp="yes">\p{Lu}+[i]*\p{Lu}+[\p{L}&amp;&amp;[^\p{Lu}]]+<exception regexp="yes">GKKFicie|JCMości|JCMością|JCWysokości|JCWysokością|JKMości|JKMością|JKWysokości|JKWysokością|PZKol|PZMocie|PZMot|SJPDor|WPan|WPani|WPaństwo|BCh|COr|CSSp|GHz|MHz|MKOl|PKOl|UWr</exception></token>
+			</pattern>
+			<message>Prawdopodobny błąd zapisu odmiany: skrótowce odmieniamy z dywizem, np. „SMS-y”, „SMS-em”.</message>
+			<example type="correct">Ludwik dostał kilkaset SMS-ów z pogróżkami od Przemysława.</example>
+			<example type="incorrect">Ludwik dostał kilkaset <marker>SMSów</marker> z pogróżkami od Przemysława.</example>
+			<example type="correct">Nasze radio nadaje na częstotliwości 102 MHz.</example>
+		</rule>
+
+		
 		<rule id="DUL_DOL" name="„duł” (dół">
 			<pattern mark_from="1">
 				<token regexp="yes">w|na</token>
@@ -2319,7 +2388,7 @@ $Id: grammar.xml,v 1.59 2006-09-12 23:53:01 milek_pl Exp $
 	</category>
 
 
-	<category name="Prawdopodobna literówka">
+	<category name="Prawdopodobne literówki">
 		<rule name="„z/od/do/na niech” (nich)" id="DO_NIECH">
 			<pattern mark_from="1">
 				<token regexp="yes">z|od|do|na</token>
