@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?><!--
 Copyright (C) 2006 Marcin Miłkowski
-$Id: grammar.xml,v 1.60 2006-09-13 23:20:37 milek_pl Exp $		
+$Id: grammar.xml,v 1.61 2006-09-14 13:48:18 milek_pl Exp $		
 -->
 <rules lang="pl">
 	<category name="Błędy interpunkcyjne">
@@ -645,6 +645,36 @@ $Id: grammar.xml,v 1.60 2006-09-13 23:20:37 milek_pl Exp $
 				<example type="incorrect">My z bratem uważamy, że <marker>Rzeczypospolita Polska</marker> to nie jest kraj dezerterów.</example>
 				<example type="correct">My z bratem uważamy, że <marker>Rzeczpospolita Polska</marker> to nie jest kraj dezerterów.</example>
 			</rule>
+		</rulegroup>
+		
+		<rulegroup name="„for” (forów)" id="FOR_FOROW">
+			<rule>
+				<pattern mark_from="1">
+					<token postag="prep:gen"/>
+					<token>for</token>
+				</pattern>
+				<message>Prawdopodobnie chodziło o dopełniacz od słowa „forum”, który brzmi <suggestion>forów</suggestion>.</message>
+				<example type="correct">To niezwykła gratka dla forów internetowych.</example>
+				<example type="incorrect">To niezwykła gratka dla <marker>for</marker> internetowych.</example>				
+			</rule>
+			<rule>
+				<pattern mark_from="1">
+					<token postag_regexp="yes" postag="adj:pl.*gen.*"/>
+					<token>for</token>
+				</pattern>
+				<message>Prawdopodobnie chodziło o dopełniacz od słowa „forum”, który brzmi <suggestion>forów</suggestion>.</message>
+				<example type="correct">Nienawidzę głupich forów.</example>
+				<example type="incorrect">Nienawidzę głupich <marker>for</marker>.</example>				
+			</rule>
+			<rule>
+				<pattern mark_to="-1">
+					<token>for</token>
+					<token postag_regexp="yes" postag="adj:pl.*gen.*"/>
+				</pattern>
+				<message>Prawdopodobnie chodziło o dopełniacz od słowa „forum”, który brzmi <suggestion>forów</suggestion>.</message>
+				<example type="correct">Nienawidzę forów internetowych.</example>
+				<example type="incorrect">Nienawidzę <marker>for</marker> internetowych.</example>				
+			</rule>			
 		</rulegroup>
 	</category>
 	
@@ -1529,7 +1559,7 @@ $Id: grammar.xml,v 1.60 2006-09-13 23:20:37 milek_pl Exp $
 		<rule name="„we” nie przed „f/w…” (w)" id="WE_W">
 			<pattern>
 				<token>we</token>
-				<token negate="yes" regexp="yes">[wf].*|Lwowie|środę|czwartek|dw.*|tr.*</token>				
+				<token negate="yes" regexp="yes">[WFwf].*|Lwowie|środę|czwartek|dw.*|tr.*</token>				
 			</pattern>
 			<message>Prawdopodobnie ten przyimek należy zapisać tak: <suggestion>w \2</suggestion>.</message>
 			<example type="correct">Ludwik ma randkę z Przemysławem w Łodzi.</example>
@@ -1541,7 +1571,7 @@ $Id: grammar.xml,v 1.60 2006-09-13 23:20:37 milek_pl Exp $
 		<rule name="„z” przed spółgłoską (ze)" id="Z_ZE">
 			<pattern>
 				<token>z</token>
-				<token regexp="yes">[wszśźż][wftśsrłndwpgklzcbmżń].*|rz[wftśsrłndwpgklzcbmżń].*|Lwowa|mną|mnie|snu</token>				
+				<token regexp="yes">[szśźż][wftśsrłndwpgklzcbmżń].*|[rs]z[wftśsrłndwpgklzcbmżń].*|[wf][wftśsndwpgkzcbmżń].*|Lwowa|mną|mnie|snu</token>				
 			</pattern>
 			<message>Prawdopodobnie ten przyimek należy zapisać tak: <suggestion>ze \2</suggestion>.</message>
 			<example type="correct">Ludwik ma kochankę ze Świecia</example>
@@ -1551,7 +1581,7 @@ $Id: grammar.xml,v 1.60 2006-09-13 23:20:37 milek_pl Exp $
 		<rule name="„ze” nie przed spółgłoską (z)" id="ZE_Z_SPOL">
 			<pattern>
 				<token>ze</token>
-				<token negate="yes" regexp="yes">[wszśźż].*|rz[wftśsrłndwpgklzcbmżń].*|Lwowa|mną|mnie|snu</token>				
+				<token negate="yes" regexp="yes">[wszśźżWSZŚŹŻ].*|[SRrr]z[wftśsrłndwpgklzcbmżń].*|Lwowa|mną|mnie|snu</token>				
 			</pattern>
 			<message>Prawdopodobnie ten przyimek należy zapisać tak: <suggestion>z \2</suggestion>.</message>
 			<example type="correct">Ludwik ma kochankę z Łodzi.</example>
@@ -2211,6 +2241,15 @@ $Id: grammar.xml,v 1.60 2006-09-13 23:20:37 milek_pl Exp $
 			<example type="incorrect">Byłem w <marker>po nad</marker> trzydziestu krajach.</example>
 			<example type="correct">Byłem w ponad trzydziestu krajach.</example>
 		</rule>
+		<rule name="„w cale” (wcale)" id="W_CALE">
+			<pattern>
+				<token>w</token>
+				<token>cale</token>
+			</pattern>
+			<message>Wyraz <suggestion>wcale</suggestion> piszemy łącznie.</message>
+			<example type="incorrect">Nie zdziwiłem się <marker>w cale</marker>.</example>
+			<example type="correct">Nie zdziwiłem się <marker>wcale</marker>.</example>
+		</rule>		
 		<rule name="„po mimo” (pomimo)" id="PO_MIMO">
 			<pattern case_sensitive="yes">
 				<token regexp="yes">[Pp]o</token>
