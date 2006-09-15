@@ -44,6 +44,10 @@ Known bugs:
 TODO:
  -GUI: icon in window corner, better icon for system tray
  -Externalize strings in Main
+ -Auto-reload rules if file timestamp has changed?
+ -check if and how unification can be added to the XML rules
+ -check if there's a nice design that lets us extends PatternRule and PatternRuleLoader
+  to make them more powerful, but without having all features in these classes
  -clean up rule descriptions so that they coherently contain the error or the rule
   (e.g. "did + baseform" vs. "did + non-baseform")
  -use Java 1.5 generics everywhere (maybe also instead of arrays?)
