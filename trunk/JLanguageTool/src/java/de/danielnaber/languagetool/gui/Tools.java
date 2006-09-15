@@ -30,18 +30,27 @@ public class Tools {
   private static final String MARKER_END = "</font></b>";
 
   /**
-   * Get the default context (25 characters) of the given text range,
+   * Get the default context (40 characters) of the given text range,
    * highlighting the range with HTML.
    */
   public static String getContext(int fromPos, int toPos, String text) {
     return getContext(fromPos, toPos, text, DEFAULT_CONTEXT_SIZE);
   }
+
+  /**
+   * Get the context (<code>contextSize</code> characters) of the given text range,
+   * highlighting the range with HTML code.
+   */
+  public static String getContext(int fromPos, int toPos, String fileContents, int contextSize) {
+    return getContext(fromPos, toPos, fileContents, contextSize, MARKER_START, MARKER_END);
+  }
   
   /**
    * Get the context (<code>contextSize</code> characters) of the given text range,
-   * highlighting the range with HTML.
+   * highlighting the range with the given marker strings.
    */
-  public static String getContext(int fromPos, int toPos, String fileContents, int contextSize) {
+  public static String getContext(int fromPos, int toPos, String fileContents, int contextSize,
+      String markerStart, String markerEnd) {
     fileContents = fileContents.replaceAll("\n", " ");
     // calculate context region:
     int startContent = fromPos - contextSize;
@@ -75,8 +84,8 @@ public class Tools {
     int startMark = markerStr.indexOf("^");
     int endMark = markerStr.lastIndexOf("^");
     String result = sb.toString();
-    result = result.substring(0, startMark) + MARKER_START + 
-      result.substring(startMark, endMark+1) + MARKER_END + result.substring(endMark+1);
+    result = result.substring(0, startMark) + markerStart + 
+      result.substring(startMark, endMark+1) + markerEnd + result.substring(endMark+1);
     return result;
   }
 
