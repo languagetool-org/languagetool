@@ -256,7 +256,7 @@ public class Main implements ActionListener {
 
   private Language getCurrentLanguage() {
     String langName = langBox.getSelectedItem().toString();
-    return Language.getLanguageforName(langName);
+    return Language.getLanguageForName(langName);
   }
   
   private ConfigurationDialog getCurrentConfigDialog() {

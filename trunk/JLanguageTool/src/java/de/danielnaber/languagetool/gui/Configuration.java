@@ -88,7 +88,7 @@ public class Configuration {
       }
       String motherTongueStr = (String)props.get(MOTHER_TONGUE_CONFIG_KEY);
       if (motherTongueStr != null) {
-        motherTongue = Language.getLanguageforShortName(motherTongueStr);
+        motherTongue = Language.getLanguageForShortName(motherTongueStr);
       }
     } catch (FileNotFoundException e) {
       // file not found: okay, leave disabledRuleIds empty

@@ -187,7 +187,7 @@ public class Main {
       } catch (WrappedTargetException e) {
         throw new RuntimeException(e);
       }
-      return Language.getLanguageforShortName(charLocale.Language);
+      return Language.getLanguageForShortName(charLocale.Language);
     }
     
     private TextToCheck getText() {

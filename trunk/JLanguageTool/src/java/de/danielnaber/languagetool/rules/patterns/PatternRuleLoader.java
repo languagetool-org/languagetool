@@ -118,7 +118,7 @@ class PatternRuleHandler extends XMLRuleHandler {
         category = new Category(catName);
     } else if (qName.equals("rules")) {
       String languageStr = attrs.getValue("lang");
-      language = Language.getLanguageforShortName(languageStr);
+      language = Language.getLanguageForShortName(languageStr);
       if (language == null) {
         throw new SAXException("Unknown language '" + languageStr + "'");
       }

@@ -81,7 +81,7 @@ public class Language {
    * @param shortLanguageCode e.g. <code>en</code> or <code>de</code>
    * @return a Language object or <code>null</code>
    */
-  public static Language getLanguageforShortName(String shortLanguageCode) {
+  public static Language getLanguageForShortName(String shortLanguageCode) {
     if (shortLanguageCode == null)
       throw new NullPointerException("Language code cannot be null");
     for (int i = 0; i < Language.LANGUAGES.length; i++) {
@@ -98,7 +98,7 @@ public class Language {
    * @param languageName e.g. <code>English</code> or <code>German</code>
    * @return a Language object or <code>null</code>
    */
-  public static Language getLanguageforName(String languageName) {
+  public static Language getLanguageForName(String languageName) {
     for (int i = 0; i < Language.LANGUAGES.length; i++) {
       if (languageName.equals(Language.LANGUAGES[i].getName())) {
         return Language.LANGUAGES[i];
