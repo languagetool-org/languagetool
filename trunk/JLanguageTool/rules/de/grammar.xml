@@ -3,7 +3,7 @@
 Rules: Grammar and Typos
 See tagset.txt for the meaning of the POS tags
 Copyright (C) 2001-2006 Daniel Naber (http://www.danielnaber.de)
-$Id: grammar.xml,v 1.54 2006-08-26 22:42:16 dnaber Exp $
+$Id: grammar.xml,v 1.55 2006-09-15 20:23:38 dnaber Exp $
 -->
 <rules lang="de">
 
@@ -314,6 +314,16 @@ $Id: grammar.xml,v 1.54 2006-08-26 22:42:16 dnaber Exp $
     <message>Meinten Sie <suggestion>alledem</suggestion>?</message>
     <example type="correct">Hinter <marker>alledem</marker> steht die Universität.</example>
     <example type="incorrect">Hinter <marker>alle dem</marker> steht die Universität.</example>
+  </rule>
+
+  <rule id="INS_BEZUG" name="'Möglicher Tippfehler 'ins(in) Bezug'">
+    <pattern mark_to="-1">
+      <token>ins</token>
+      <token>Bezug</token>
+    </pattern>
+    <message>Meinten Sie <suggestion>in</suggestion>?</message>
+    <example type="correct">Auffächerung der Altersgruppen <marker>in</marker> Bezug zu den Einwohnerzahlen.</example>
+    <example type="incorrect">Auffächerung der Altersgruppen <marker>ins</marker> Bezug zu den Einwohnerzahlen.</example>
   </rule>
 
   </category>
