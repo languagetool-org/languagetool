@@ -21,8 +21,13 @@ package de.danielnaber.languagetool.tools;
 import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
+import java.util.List;
+
+import de.danielnaber.languagetool.gui.Tools;
+import de.danielnaber.languagetool.rules.RuleMatch;
 
 /**
  * Tools for reading files etc.
@@ -126,6 +131,19 @@ public class StringTools {
     return sb.toString();
   }
 
+  public static String streamToString(InputStream is) throws IOException {
+    InputStreamReader isr = new InputStreamReader(is);
+    try {
+      return readerToString(isr);
+    } finally {
+      isr.close();
+    }
+  }
+
+  public static String escapeXML(String s) {
+    return escapeHTML(s);
+  }
+  
   public static String escapeHTML(String s) {
     s = s.replaceAll("&", "&amp;");
     s = s.replaceAll("<", "&lt;");
@@ -134,4 +152,26 @@ public class StringTools {
     return s;
   }
   
+  public static String ruleMatchesToXML(List<RuleMatch> ruleMatches, String text, int contextSize) {
+    StringBuilder xml = new StringBuilder();
+    xml.append("<matches>\n");
+    int i = 1;
+    for (RuleMatch match : ruleMatches) {
+      xml.append("\t<match count=\"" + i + "\"" +
+          " line=\"" + (match.getLine()+1) + "\"" + 
+          " column=\"" + (match.getColumn()+1) + "\"" +
+          " ruleId=\"" +match.getRule().getId()+ "\"" + 
+          ">\n"
+          );
+      xml.append("\t\t<message>" +escapeXML(match.getMessage())+ "</message>\n");
+      String context = Tools.getContext(match.getFromPos(), match.getToPos(),
+          escapeXML(text), contextSize, "<marker>", "</marker>");
+      xml.append("\t\t<context>" +context+ "</context>\n");
+      xml.append("\t</match>\n");
+      i++;
+    }
+    xml.append("</matches>\n");
+    return xml.toString();
+  }
+
 }
