@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?><!--
 Copyright (C) 2006 Marcin Miłkowski
-$Id: grammar.xml,v 1.62 2006-09-16 15:30:02 milek_pl Exp $		
+$Id: grammar.xml,v 1.63 2006-09-16 22:09:10 milek_pl Exp $		
 -->
 <rules lang="pl">
 	<category name="Błędy interpunkcyjne">
@@ -1125,6 +1125,121 @@ $Id: grammar.xml,v 1.62 2006-09-16 15:30:02 milek_pl Exp $
 			<example type="correct">Na środku rynku stoi studnia.</example>
 		</rule>
 	
+		<rule name="„do dziś dzień” (po dziś dzień)" id="DO_DZIS_DZIEN">
+			<pattern>
+				<token>do</token>
+				<token>dziś</token>
+				<token>dzień</token>
+			</pattern>
+			<message>To niepoprawne wyrażenie. Poprawnie: <suggestion>po dziś dzień</suggestion>.</message>
+			<example type="correct">Te przesądy utrzymują się po dziś dzień.</example>
+			<example type="incorrect">Te przesądy utrzymują się <marker>do dziś dzień</marker>.</example>
+		</rule>
+		<rule name="„za każdą cenę” (za wszelką cenę)" id="ZA_KAZDA_CENE">
+			<pattern>
+				<token>za</token>
+				<token>każdą</token>
+				<token>cenę</token>
+			</pattern>
+			<message>To niepoprawne wyrażenie. Poprawnie: <suggestion>za wszelką cenę</suggestion>.</message>		
+			<example type="correct">Przemysław chciał zaimponować Jarosławowi za wszelką cenę.</example>
+			<example type="incorrect">Przemysław chciał zaimponować Jarosławowi <marker>za każdą cenę</marker>.</example>		
+		</rule>
+		
+		<rule name="„tania cena” (niska cena)" id="TANIA_CENA">
+			<pattern mark_to="-1">
+				<token postag_regexp="yes" inflected="yes" postag="adj.*[:\.]f[:\.].*">tani</token>
+				<token inflected="yes">cena</token>
+			</pattern>
+			<message>Ceny nie mogą być tanie. Mogą być <suggestion>niskie</suggestion>.</message>
+			<example type="correct">W tym roku wszędzie mamy niskie ceny.</example>
+			<example type="incorrect">W tym roku wszędzie mamy <marker>tanie</marker> ceny.</example>
+		</rule>
+
+		<rule name="„droga cena” (wysoka cena)" id="DROGA_CENA">
+			<pattern mark_to="-1">
+				<token postag_regexp="yes" inflected="yes" postag="adj.*[:\.]f[:\.].*">drogi</token>
+				<token inflected="yes">cena</token>
+			</pattern>
+			<message>Ceny nie mogą być drogie. Mogą być <suggestion>wysokie</suggestion>.</message>
+			<example type="correct">W tym roku wszędzie mamy wysokie ceny.</example>
+			<example type="incorrect">W tym roku wszędzie mamy <marker>drogie</marker> ceny.</example>
+		</rule>
+				
+		<rulegroup name="„kosztować taniej/drożej” (mniej/więcej)" id="KOSZTOWAC_TANIEJ">
+			<rule>
+				<pattern>
+					<token inflected="yes">kosztować</token>
+					<token>taniej</token>
+				</pattern>
+				<message>To niepoprawne wyrażenie. Poprawnie: <suggestion>\1 mniej</suggestion>.</message>
+				<example type="incorrect">Samochód Jurka <marker>kosztował taniej</marker>.</example>
+				<example type="correct">Samochód Jurka kosztował mniej.</example>
+			</rule>
+			<rule>
+				<pattern>
+					<token inflected="yes">kosztować</token>
+					<token>drożej</token>
+				</pattern>
+				<message>To niepoprawne wyrażenie. Poprawnie: <suggestion>\1 więcej</suggestion>.</message>
+				<example type="incorrect">Samochód Jurka <marker>kosztował drożej</marker>.</example>
+				<example type="correct">Samochód Jurka kosztował mniej.</example>				
+			</rule>
+			<rule>
+				<pattern>
+					<token inflected="yes">kosztować</token>
+					<token>tanio</token>
+				</pattern>
+				<message>To niepoprawne wyrażenie. Poprawnie: <suggestion>\1 mało</suggestion>.</message>
+				<example type="incorrect">Samochód Jurka <marker>kosztował tanio</marker>.</example>
+				<example type="correct">Samochód Jurka kosztował mało.</example>
+			</rule>
+			<rule>
+				<pattern>
+					<token inflected="yes">kosztować</token>
+					<token>drogo</token>
+				</pattern>
+				<message>To niepoprawne wyrażenie. Poprawnie: <suggestion>\1 dużo</suggestion>.</message>
+				<example type="incorrect">Samochód Jurka <marker>kosztował drogo</marker>.</example>
+				<example type="correct">Samochód Jurka kosztował mniej.</example>				
+			</rule>
+			<rule>
+				<pattern>
+					<token>taniej</token>
+					<token inflected="yes">kosztować</token>
+				</pattern>
+				<message>To niepoprawne wyrażenie. Poprawnie: <suggestion>mniej \1</suggestion>.</message>
+				<example type="incorrect">Samochód Jurka <marker>taniej kosztował</marker>.</example>
+				<example type="correct">Samochód Jurka mniej kosztował.</example>
+			</rule>
+			<rule>
+				<pattern>
+					<token>drożej</token>
+					<token inflected="yes">kosztować</token>
+					</pattern>
+				<message>To niepoprawne wyrażenie. Poprawnie: <suggestion>więcej \1</suggestion>.</message>
+				<example type="incorrect">Samochód Jurka <marker>drożej kosztował</marker>.</example>
+				<example type="correct">Samochód Jurka kosztował mniej.</example>				
+			</rule>
+			<rule>
+				<pattern>
+					<token>tanio</token>
+					<token inflected="yes">kosztować</token>
+				</pattern>
+				<message>To niepoprawne wyrażenie. Poprawnie: <suggestion>mało \1</suggestion>.</message>
+				<example type="incorrect">Samochód Jurka <marker>tanio kosztował</marker>.</example>
+				<example type="correct">Samochód Jurka mało kosztował.</example>
+			</rule>
+			<rule>
+				<pattern>
+					<token>drogo</token>
+					<token inflected="yes">kosztować</token>					
+				</pattern>
+				<message>To niepoprawne wyrażenie. Poprawnie: <suggestion>dużo \1</suggestion>.</message>
+				<example type="incorrect">Samochód Jurka <marker>drogo kosztował</marker>.</example>
+				<example type="correct">Samochód Jurka kosztował mniej.</example>				
+			</rule>						
+		</rulegroup>
 		
 		<rule name="„iluśletnia rocznica” (któraś)" id="LETNIA_ROCZNICA">
 			<pattern mark_to="-1">
@@ -1371,6 +1486,17 @@ $Id: grammar.xml,v 1.62 2006-09-16 15:30:02 milek_pl Exp $
 			<example type="incorrect"><marker>Za wyjątkiem</marker> powyższych sytuacji, będziemy używać i ujawniać informacje o twoim zdrowiu.</example>
 			<example type="correct">Wyjąwszy powyższe sytuacje, będziemy korzystać z informacji o państwa zdrowiu oraz je ujawniać.</example>
 		</rule>
+		
+		<rule id="BRAC_NA_MEZA" name="„brać na męża/żonę” (brać za...)">
+			<pattern>
+				<token inflected="yes" regexp="yes">brać|wziąć</token>				
+				<token>na</token>
+				<token regexp="yes">męża|żonę</token>
+			</pattern>
+			<message>To wyrażenie jest niepoprawne. Poprawnie: <suggestion>\1 za \3</suggestion>.</message>
+			<example type="correct">Ludwik wziął za męża Kunegundę.</example>
+			<example type="incorrect">Ludwik <marker>wziął na męża</marker> Kunegundę.</example>
+		</rule>	
 		<rule id="SPRZED_LATY" name="„sprzed laty” (sprzed lat, przed laty)">
 			<pattern>
 				<token>sprzed</token>
@@ -2774,6 +2900,51 @@ $Id: grammar.xml,v 1.62 2006-09-16 15:30:02 milek_pl Exp $
 			<message>Prawdopodobna literówka, powinno być: <suggestion>nadal</suggestion> (=wciąż).</message>
 			<example type="correct">Ludwik nadal nie lubi Romana.</example>
 			<example type="incorrect">Ludwik <marker>na dal</marker> nie lubi Romana.</example>
+		</rule>
+		<rulegroup name="„chodź” (choć)" id="CHODZ_TE">
+		<rule>
+			<pattern mark_to="-1">
+				<token>chodź</token>
+				<token regexp="yes" inflected="yes">ten|by|jednak|nie|jeden</token>
+			</pattern>
+			<message>Prawdopodobny błąd ortograficzny, powinno być: <suggestion>choć</suggestion>.</message>
+			<example type="correct">Choć to może zbyt prosty przykład...</example>
+			<example type="incorrect"><marker>Chodź</marker> to może zbyt prosty przykład...</example>
+		</rule>
+		<rule>
+			<pattern mark_to="-1">
+				<token>chodź</token>
+				<token postag_regexp="yes" postag="verb:praet.*|verb:imps.*|pcon:imperf|pant:perf|pred"/>
+			</pattern>
+			<message>Prawdopodobny błąd ortograficzny, powinno być: <suggestion>choć</suggestion>.</message>
+			<example type="correct">Choć był może zbyt prosty przykład...</example>
+			<example type="incorrect"><marker>Chodź</marker> był może zbyt prosty przykład...</example>
+		</rule>
+		</rulegroup>	
+		<rule name="„maił” (miał)" id="MAIL_MIAL">
+			<pattern>
+				<token>maił</token>
+			</pattern>
+			<message>Prawdopodobna literówka. Czy chodziło o <suggestion>miał</suggestion>?</message>
+			<example type="correct">Przemysław miał kota.</example>
+			<example type="incorrect">Przemysław <marker>maił</marker> kota.</example>
+		</rule>
+		<rule id="MUSZE_MUSZE" name="„musze” (muszę)">
+			<pattern>
+				<token>musze</token>
+			</pattern>
+			<message>Prawdopodobna literówka. Czy chodziło o <suggestion>miał</suggestion>?</message>
+			<example type="correct">Muszę zjeść tę żabę.</example>
+			<example type="incorrect"><marker>Musze</marker> zjeść tę żabę.</example>
+		</rule>
+		<rule name="„miejsce zamieszania” (miejsce zamieszkania)" id="MIEJSCE_ZAMIESZANIA">
+			<pattern mark_from="1">
+				<token inflected="yes">miejsce</token>
+				<token>zamieszania</token>
+			</pattern>
+			<message>Prawdopodobna literówka. Czy chodziło o <suggestion>zamieszkania</suggestion>?</message>
+			<example type="correct">Poseł podał prawdziwe miejsce zamieszkania w formularzu.</example>
+			<example type="incorrect">Poseł podał prawdziwe miejsce <marker>zamieszania</marker> w formularzu.</example>
 		</rule>
 	</category>
 </rules>
