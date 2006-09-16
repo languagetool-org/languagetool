@@ -53,7 +53,7 @@ public class HTTPServer extends ContentOracle {
   
   private static final Set<String> allowedIPs = new HashSet<String>();
   static {
-    // accept only request from localhost.
+    // accept only requests from localhost.
     // TODO: find a cleaner solution
     allowedIPs.add("/0:0:0:0:0:0:0:1");   // Suse Linux IPv6 stuff
     allowedIPs.add("/127.0.0.1");
@@ -102,7 +102,9 @@ public class HTTPServer extends ContentOracle {
         JLanguageTool lt = new JLanguageTool(lang);
         lt.activateDefaultPatternRules();
         lt.activateDefaultFalseFriendRules();
-        String text = connRequest.getParam("text");
+        String text = connRequest.getParamOrNull("text");
+        if (text == null)
+          throw new IllegalArgumentException("Missing 'text' parameter");
         System.out.println("Checking text with length " + text.length());
         List<RuleMatch> matches = lt.check(text);
         connResponse.setHeaderLine(ProtocolResponseHeader.Content_Type, "text/xml");
