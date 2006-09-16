@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?><!--
 Copyright (C) 2006 Marcin Miłkowski
-$Id: grammar.xml,v 1.61 2006-09-14 13:48:18 milek_pl Exp $		
+$Id: grammar.xml,v 1.62 2006-09-16 15:30:02 milek_pl Exp $		
 -->
 <rules lang="pl">
 	<category name="Błędy interpunkcyjne">
@@ -703,7 +703,50 @@ $Id: grammar.xml,v 1.61 2006-09-14 13:48:18 milek_pl Exp $
 				<example type="correct">Zesłanie, <marker>w którego czasie</marker> musiał imać się wielu prac, było mordęgą.</example>
 				<example type="correct">To jest ustawa, na podstawie której skazano zbrodniarza.</example>
 		</rule>
-		<rule id="STOPIEN_WYZSZY" name="Opisowa forma stopnia wyższego (zamiast prostej)">
+		
+		<rule id="STOPIEN_WYZSZY_NIESTOPNIOWANEGO" name="Stopień wyższy przymiotnika niestopniowanego (np. bardziej optymalny)">
+			<pattern mark_from="1">
+				<token negate="yes">tym</token>
+				<token>bardziej</token>
+				<token inflected="yes" regexp="yes">akumulacyjny|ambicyjny|ambiwalentny|ankietowy|anomalny|ateistyczny|audiencjonalny|audiencyjny|autochtoniczny|autochtoński|bajoński|bezdenny|bezimienny|bezprodukcyjny|bezproduktywny|bezpyłowy|bezpylny|bezustanny|bezwietrzny|bilateralny|bledziutki|bombowy|braterski|chwytny|dekoratorski|długoletni|długowiekowy|dodatkowy|dopingowy|dostateczny|drugorzędny|dwoisty|dwuletni|dwuroczny|dyplomatyczny|dyplomowany|dyskrecjonalny|dyżurny|dzisiejszy|ekstranowoczesny|ekstremalny|ewentualny|fenomenalny|finalny|gadulski|generalny|genetyczny|gigantyczny|goły|gotowy|hipoalergiczny|humanistyczny|identyczny|iluzyjny|innowierczy|inny|intelektualny|intensyfikacyjny|introspekcyjny|introspektywny|istny|jazzowy|jazzrockowy|jednaki|jednakowy|jednoczesny|jednomyślny|jedyny|kapitalny|klasycystyczny|kochaneńki|kompilacyjny|kompilatorski|komplementarny|konceptualny|kontrastowy|kopiasty|krańcowy|kulturowy|leciuchny|leciutki|lekuchny|letni|ludyczny|maksymalistyczny|maksymalny|martwy|mikroskopijny|możebny|nadmierny|nagi|nagminny|neutralny|niebiański|niebotyczny|niebyły|niebywały|niedaleki|niedawny|niedosięgły|niedościgły|niedozwolony|nienawykły|nieprzywykły|nieoceniony|niepamiętny|niepisany|niepodległy|nieporównany|nieporuszony|nieprawdopodobny|nieproszony|niesamowity|niespożyty|niestrudzony|nieustraszony|nieutulony|niewinny|niewyczerpany|niewytłumaczalny|niewzruszony|niezamącony|niezaprzeczalny|niezawodny|niezbity|niezgorszy|niezmącony|niezrównany|nijaki|obecny|obłąkany|obojętny|oddzielny|odmienny|odrębny|odwieczny|ogromny|optymalny|patentowy|pełnowartościowy|permanentny|piekielny|pierworodny|pierwszoplanowy|pierwszorzędny|pitny|podległy|pokrewny|pomniejszy|pośredni|potencjalny|praworęczny|propedeutyczny|przeciwstawny|przedwczesny|przedwieczny|przenośny|przeświadczony|przewoźny|przyciężki|przydługi|przykrótki|przysłowiowy|pusty|racjonalizacyjny|racjonalizatorski|realny|równoległy|równorzędny|rutyniarski|rutynowany|skonany|skrajny|standardowy|sukcesywny|sytuowany|średni|świecki|totalny|ubożuchny|ubożutki|wart|wieczny|wielowiekowy|winien|własny|wspólny|wszechmogący|wszechmocny|wszechwiedzący|wszystkowiedzący|wszyściutki|wszyściuteńki|wszyściuchny|wyborowy|wyjątkowy|wzajemny|zależny|zawisły|zdradziecki|zdrowotny|zupełny|zwierzchni|żądny|</token>
+			</pattern>
+			<message>Ten przymiotnik nie może być stopniowany. Poprawnie: <suggestion>\2</suggestion>.</message>
+			<example type="correct">To rozwiązanie jest optymalne.</example>
+			<example type="incorrect">To rozwiązanie jest <marker>bardziej optymalne</marker>.</example>
+		</rule>
+
+		<rule id="STOPIEN_NAJWYZSZY_NIESTOPNIOWANEGO" name="Stopień najwyższy przymiotnika niestopniowanego (np. najbardziej optymalny)">
+			<pattern>
+				<token>najbardziej</token>
+				<token inflected="yes" regexp="yes">akumulacyjny|ambicyjny|ambiwalentny|ankietowy|anomalny|ateistyczny|audiencjonalny|audiencyjny|autochtoniczny|autochtoński|bajoński|bezdenny|bezimienny|bezprodukcyjny|bezproduktywny|bezpyłowy|bezpylny|bezustanny|bezwietrzny|bilateralny|bledziutki|bombowy|braterski|chwytny|dekoratorski|długoletni|długowiekowy|dodatkowy|dopingowy|dostateczny|drugorzędny|dwoisty|dwuletni|dwuroczny|dyplomatyczny|dyplomowany|dyskrecjonalny|dyżurny|dzisiejszy|ekstranowoczesny|ekstremalny|ewentualny|fenomenalny|finalny|gadulski|generalny|genetyczny|gigantyczny|goły|gotowy|hipoalergiczny|humanistyczny|identyczny|iluzyjny|innowierczy|inny|intelektualny|intensyfikacyjny|introspekcyjny|introspektywny|istny|jazzowy|jazzrockowy|jednaki|jednakowy|jednoczesny|jednomyślny|jedyny|kapitalny|klasycystyczny|kochaneńki|kompilacyjny|kompilatorski|komplementarny|konceptualny|kontrastowy|kopiasty|krańcowy|kulturowy|leciuchny|leciutki|lekuchny|letni|ludyczny|maksymalistyczny|maksymalny|martwy|mikroskopijny|możebny|nadmierny|nagi|nagminny|neutralny|niebiański|niebotyczny|niebyły|niebywały|niedaleki|niedawny|niedosięgły|niedościgły|niedozwolony|nienawykły|nieprzywykły|nieoceniony|niepamiętny|niepisany|niepodległy|nieporównany|nieporuszony|nieprawdopodobny|nieproszony|niesamowity|niespożyty|niestrudzony|nieustraszony|nieutulony|niewinny|niewyczerpany|niewytłumaczalny|niewzruszony|niezamącony|niezaprzeczalny|niezawodny|niezbity|niezgorszy|niezmącony|niezrównany|nijaki|obecny|obłąkany|obojętny|oddzielny|odmienny|odrębny|odwieczny|ogromny|optymalny|patentowy|pełnowartościowy|permanentny|piekielny|pierworodny|pierwszoplanowy|pierwszorzędny|pitny|podległy|pokrewny|pomniejszy|pośredni|potencjalny|praworęczny|propedeutyczny|przeciwstawny|przedwczesny|przedwieczny|przenośny|przeświadczony|przewoźny|przyciężki|przydługi|przykrótki|przysłowiowy|pusty|racjonalizacyjny|racjonalizatorski|realny|równoległy|równorzędny|rutyniarski|rutynowany|skonany|skrajny|standardowy|sukcesywny|sytuowany|średni|świecki|totalny|ubożuchny|ubożutki|wart|wieczny|wielowiekowy|winien|własny|wspólny|wszechmogący|wszechmocny|wszechwiedzący|wszystkowiedzący|wszyściutki|wszyściuteńki|wszyściuchny|wyborowy|wyjątkowy|wzajemny|zależny|zawisły|zdradziecki|zdrowotny|zupełny|zwierzchni|żądny|</token>
+			</pattern>
+			<message>Ten przymiotnik nie może być stopniowany. Poprawnie: <suggestion>\2</suggestion>.</message>
+			<example type="correct">To rozwiązanie jest optymalne.</example>
+			<example type="incorrect">To rozwiązanie jest <marker>najbardziej optymalne</marker>.</example>
+		</rule>
+
+		<rule id="STOPIEN_WYZSZY_NIESTOPNIOWANEGO_ADV" name="Stopień wyższy przysłówka niestopniowanego (np. bardziej optymalnie)">
+			<pattern mark_from="1">
+				<token negate="yes">tym</token>
+				<token>bardziej</token>
+				<token regexp="yes">podobnie|optymalnie|pomału|powoli|równolegle|tymczasowo</token>
+			</pattern>
+			<message>Ten przysłówek nie może być stopniowany. Poprawnie: <suggestion>\2</suggestion>.</message>
+			<example type="correct">Wykonano to optymalnie.</example>
+			<example type="incorrect">Wykonano to <marker>bardziej optymalnie</marker>.</example>
+		</rule>		
+		
+		<rule id="STOPIEN_NAJWYZSZY_NIESTOPNIOWANEGO_ADV" name="Stopień najwyższy przysłówka niestopniowanego (np. bardziej optymalnie)">
+			<pattern>
+				<token>najbardziej</token>
+				<token regexp="yes">podobnie|optymalnie|pomału|powoli|równolegle|tymczasowo</token>
+			</pattern>
+			<message>Ten przysłówek nie może być stopniowany. Poprawnie: <suggestion>\2</suggestion>.</message>
+			<example type="correct">Wykonano to optymalnie.</example>
+			<example type="incorrect">Wykonano to <marker>najbardziej optymalnie</marker>.</example>
+		</rule>		
+				
+		<rule id="STOPIEN_WYZSZY" name="Opisowa forma stopnia wyższego przymiotnika (zamiast prostej)">
 			<pattern mark_from="1">
 				<token negate="yes">tym</token>
 				<token>bardziej</token>
@@ -718,6 +761,47 @@ $Id: grammar.xml,v 1.61 2006-09-14 13:48:18 milek_pl Exp $
 			<example type="correct">Piotr był dokładniejszy.</example>
 		</rule>
 
+		<rule id="STOPIEN_NAJWYZSZY" name="Opisowa forma stopnia najwyższego przymiotnika (zamiast prostej)">
+			<pattern>
+				<token>najbardziej</token>
+				<token inflected="yes" regexp="yes">brzydki|cichy|ciekawy|ciężki|daleki|długi|dobry|dokładny|duży|dziwny|głęboki|głośny|gruby|grzeczny|korzystny|koszmarny|lekki|luźny|łagodny|łatwy|miły|młody|mocny|okropny|piękny|potworny|prosty|silny|słaby|stary|trwały|ważny|wąski|wolny|wstrętny|wytrwały|zimny|zły|znaczny</token>
+			</pattern>
+			<message>Ten przymiotnik stopniuje się bez wyrazu „najbardziej”.</message>
+			<example type="incorrect"><marker>Najbardziej ważny</marker> jest dla mnie ten fragment.</example>
+			<example type="incorrect">Jest to wynik <marker>najbardziej dobry</marker>.</example>
+			<example type="incorrect">Piotr był <marker>najbardziej dokładny</marker>.</example>
+			<example type="correct">Najważniejszy jest dla mnie ten fragment.</example>
+			<example type="correct">Piotr był najdokładniejszy.</example>
+		</rule>
+
+		<rule id="STOPIEN_WYZSZY_ADV" name="Opisowa forma stopnia wyższego przysłówka (zamiast prostej)">
+			<pattern mark_from="1">
+				<token negate="yes">tym</token>
+				<token>bardziej</token>
+				<token regexp="yes">brzydko|cicho|ciekawie|ciężko|daleko|długo|dobrze|dokładnie|dużo|dziwnie|głęboko|głośno|grubo|grzecznie|korzystnie|koszmarnie|lekko|luźno|łagodnie|łatwo|miło|młodo|mocno|okropnie|pięknie|potwornie|prosto|silnie|słabo|staro|trwale|ważnie|wąsko|wolno|wstrętnie|wytrwale|zimno|źle|strasznie</token>
+			</pattern>
+			<message>Ten przysłówek stopniuje się bez wyrazu „bardziej”.</message>
+			<example type="incorrect">On wygląda <marker>bardziej brzydko</marker>.</example>
+			<example type="incorrect">Udało mu się <marker>bardziej dobrze</marker>.</example>
+			<example type="incorrect">Piotr pracował <marker>bardziej dokładnie</marker>.</example>
+			<example type="correct">Pracowało mu się lepiej.</example>
+			<example type="correct">Tym bardziej lepiej, żebyśmy o tym pamiętali.</example>
+			<example type="correct">Piotr pracował dokładniej.</example>
+		</rule>
+
+		<rule id="STOPIEN_NAJWYZSZY_ADV" name="Opisowa forma stopnia najwyższego przysłówka (zamiast prostej)">
+			<pattern>
+				<token>najbardziej</token>
+				<token regexp="yes">brzydko|cicho|ciekawie|ciężko|daleko|długo|dobrze|dokładnie|dużo|dziwnie|głęboko|głośno|grubo|grzecznie|korzystnie|koszmarnie|lekko|luźno|łagodnie|łatwo|miło|młodo|mocno|okropnie|pięknie|potwornie|prosto|silnie|słabo|staro|trwale|ważnie|wąsko|wolno|wstrętnie|wytrwale|zimno|źle|strasznie</token>
+			</pattern>
+			<message>Ten przysłówek stopniuje się bez wyrazu „najbardziej”.</message>
+			<example type="incorrect">On wygląda <marker>najbardziej brzydko</marker>.</example>
+			<example type="incorrect">Udało mu się <marker>najbardziej dobrze</marker>.</example>
+			<example type="incorrect">Piotr pracował <marker>najbardziej dokładnie</marker>.</example>
+			<example type="correct">Pracowało mu się najlepiej.</example>
+			<example type="correct">Piotr pracował najdokładniej.</example>
+		</rule>
+		
 		<rule name="„bardziej” i stopień wyższy przymiotnika" id="BARDZIEJ_COMP">
 			<pattern>
 				<token>bardziej</token>
@@ -736,7 +820,7 @@ $Id: grammar.xml,v 1.61 2006-09-14 13:48:18 milek_pl Exp $
 			<example type="correct">To jest ważniejsze.</example>
 			<example type="incorrect">To jest <marker>najbardziej ważniejsze</marker>.</example>
 		</rule>
-		<rule name="„bardziej” i stopień wyższy przymiotnika" id="BARDZIEJ_SUP">
+		<rule name="„bardziej” i stopień najwyższy przymiotnika" id="BARDZIEJ_SUP">
 			<pattern>
 				<token>bardziej</token>
 				<token postag_regexp="yes" postag="adj.*:sup"/>
@@ -745,16 +829,56 @@ $Id: grammar.xml,v 1.61 2006-09-14 13:48:18 milek_pl Exp $
 			<example type="correct">To jest ważniejsze.</example>
 			<example type="incorrect">To jest <marker>bardziej najważniejsze</marker>.</example>
 		</rule>
-		<rule name="„najbardziej” i stopień wyższy przymiotnika" id="NAJBARDZIEJ_SUP">
+		<rule name="„najbardziej” i stopień najwyższy przymiotnika" id="NAJBARDZIEJ_SUP">
 			<pattern>
 				<token>najbardziej</token>
 				<token postag_regexp="yes" postag="adj.*:sup"/>
 			</pattern>
-			<message>Prosty stopień wyższy przymiotnika nie powinien być używany z wyrazem „najbardziej”. Wystarczy powiedzieć: <suggestion>\2</suggestion>.</message>
+			<message>Prosty stopień najwyższy przymiotnika nie powinien być używany z wyrazem „najbardziej”. Wystarczy powiedzieć: <suggestion>\2</suggestion>.</message>
 			<example type="correct">To jest ważniejsze.</example>
 			<example type="incorrect">To jest <marker>najbardziej najważniejsze</marker>.</example>
 		</rule>
 
+		<rule name="„bardziej” i stopień wyższy przysłówka" id="BARDZIEJ_ADV_COMP">
+			<pattern>
+				<token>bardziej</token>
+				<token postag_regexp="yes" postag="adv:comp"/>
+			</pattern>
+			<message>Prosty stopień wyższy przysłówka nie powinien być używany z wyrazem „bardziej”. Wystarczy powiedzieć: <suggestion>\2</suggestion>.</message>
+			<example type="correct">Przemysław jest bliżej Lecha.</example>
+			<example type="incorrect">Przemysław jest <marker>bardziej bliżej</marker> Lecha.</example>
+		</rule>
+		
+		<rule name="„najbardziej” i stopień wyższy przysłówka" id="NAJBARDZIEJ_ADV_COMP">
+			<pattern>
+				<token>najbardziej</token>
+				<token postag_regexp="yes" postag="adv:comp"/>
+			</pattern>
+			<message>Prosty stopień wyższy przysłówka nie powinien być używany z wyrazem „najbardziej”. Wystarczy powiedzieć: <suggestion>\2</suggestion>.</message>
+			<example type="correct">Przemysław jest bliżej Lecha.</example>
+			<example type="incorrect">Przemysław jest <marker>najbardziej bliżej</marker> Lecha.</example>
+		</rule>
+
+		<rule name="„bardziej” i stopień najwyższy przysłówka" id="BARDZIEJ_ADV_SUP">
+			<pattern>
+				<token>bardziej</token>
+				<token postag_regexp="yes" postag="adv:sup"/>
+			</pattern>
+			<message>Prosty stopień najwyższy przysłówka nie powinien być używany z wyrazem „bardziej”. Wystarczy powiedzieć: <suggestion>\2</suggestion>.</message>
+			<example type="correct">Przemysław jest najbliżej Lecha.</example>
+			<example type="incorrect">Przemysław jest <marker>bardziej najbliżej</marker> Lecha.</example>
+		</rule>
+		
+		<rule name="„najbardziej” i stopień najwyższy przysłówka" id="NAJBARDZIEJ_ADV_SUP">
+			<pattern>
+				<token>najbardziej</token>
+				<token postag_regexp="yes" postag="adv:sup"/>
+			</pattern>
+			<message>Prosty stopień najwyższy przysłówka nie powinien być używany z wyrazem „najbardziej”. Wystarczy powiedzieć: <suggestion>\2</suggestion>.</message>
+			<example type="correct">Przemysław jest najbliżej Lecha.</example>
+			<example type="incorrect">Przemysław jest <marker>najbardziej najbliżej</marker> Lecha.</example>
+		</rule>
+		
 		<rule name="Błąd związku rzędu: „rozumieć coś pod czymś” (przez coś)" id="ROZUMIEC_POD">
 			<pattern mark_from="1">
 				<token negate="yes" skip="1">przez</token>
@@ -952,7 +1076,7 @@ $Id: grammar.xml,v 1.61 2006-09-14 13:48:18 milek_pl Exp $
 	
 		<rule id="UZYWAC_CO" name="„używać co” (czego)">
 			<pattern mark_from="1">
-				<token regexp="yes" inflected="yes">używać|użyć</token>
+				<token regexp="yes" inflected="yes">używać|użyć<exception postag_regexp="yes" postag="subst:ger.*"/></token>
 				<token postag_regexp="yes" postag="(adj|subst|ppas|pact|ppron|ppron3):.*:(acc|nom\.acc\.voc|nom\.acc):(n|f|f\.n)"><exception postag_regexp="yes" postag=".*gen.*|conj|adv|prep.*"/></token>
 			</pattern>
 			<message>Mówi się używać <suggestion>czego</suggestion>, a nie „używać coś”.</message>
@@ -1226,6 +1350,16 @@ $Id: grammar.xml,v 1.61 2006-09-14 13:48:18 milek_pl Exp $
 			<message>Wyrażenie to jest niepoprawne. Poprawnie mówi się: <suggestion>cały rok</suggestion>.</message>
 			<example type="correct">Czekaliśmy na to cały rok.</example>
 			<example type="incorrect">Czekaliśmy na to <marker>okrągły rok</marker>.</example>
+		</rule>
+		
+		<rule id="POD_RZAD" name="„pod rząd” (z rzędu)">
+			<pattern>
+				<token>pod</token>
+				<token>rząd</token>
+			</pattern>
+			<message>To wyrażenie jest niepoprawnie. Poprawne piszemy: <suggestion>z rzędu</suggestion>, <suggestion>po kolei</suggestion>, <suggestion>jedno po drugim</suggestion>.</message>
+			<example type="correct">Mówiłem o tym kilka razy z rzędu.</example>
+			<example type="incorrect">Mówiłem o tym kilka razy <marker>pod rząd</marker>.</example>
 		</rule>
 		
 		<rule id="ZA_WYJATKIEM" name="„za wyjątkiem” (z wyjątkiem)">
@@ -1735,6 +1869,15 @@ $Id: grammar.xml,v 1.61 2006-09-14 13:48:18 milek_pl Exp $
 			<example type="correct">Nasze radio nadaje na częstotliwości 102 MHz.</example>
 		</rule>
 
+		<rule id="CHART_DUCHA" name="„chart ducha” (hart ducha)">
+			<pattern mark_to="-1">
+				<token inflected="yes">chart</token>
+				<token>ducha</token>
+			</pattern>
+			<message>Prawdopodobny błąd ortograficzny, powinno być <suggestion>hart</suggestion> (przez samo „h” i w odpowiednim przypadku).</message>
+			<example type="correct">Ludwik musi się wykazywać ogromnym hartem ducha przy Romanie.</example>
+			<example type="incorrect">Ludwik musi się wykazywać ogromnym <marker>chartem</marker> ducha przy Romanie.</example>
+		</rule>
 		
 		<rule id="DUL_DOL" name="„duł” (dół">
 			<pattern mark_from="1">
@@ -2614,5 +2757,23 @@ $Id: grammar.xml,v 1.61 2006-09-14 13:48:18 milek_pl Exp $
 			<example type="incorrect">Przemysław kupił flakon perfum, <marker>wiec</marker> jeśli Ludwik go poprosi, będzie mógł się wyperfumować.</example>
 		</rule>
 		</rulegroup>
+		<rule name="„oto chodzi/chodziło” (o to...)" id="OTO_CHODZI">
+			<pattern mark_to="-1">
+				<token>oto</token>
+				<token regexp="yes">chodzi|chodziło</token>
+			</pattern>
+			<message>Prawdopodobna literówka, powinno być: <suggestion>o to</suggestion>.</message>
+			<example type="correct">O, właśnie o to chodziło.</example>
+			<example type="incorrect">O, właśnie <marker>oto</marker> chodziło.</example>
+		</rule>
+		<rule name="„na dal” (nadal)" id="NADAL">
+			<pattern>
+				<token>na</token>
+				<token>dal</token>
+			</pattern>
+			<message>Prawdopodobna literówka, powinno być: <suggestion>nadal</suggestion> (=wciąż).</message>
+			<example type="correct">Ludwik nadal nie lubi Romana.</example>
+			<example type="incorrect">Ludwik <marker>na dal</marker> nie lubi Romana.</example>
+		</rule>
 	</category>
 </rules>
