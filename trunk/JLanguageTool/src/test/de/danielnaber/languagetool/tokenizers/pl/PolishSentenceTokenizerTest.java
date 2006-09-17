@@ -1,12 +1,8 @@
 package de.danielnaber.languagetool.tokenizers.pl;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-
-import de.danielnaber.languagetool.tokenizers.SentenceTokenizer;
-
 import junit.framework.TestCase;
+import de.danielnaber.languagetool.TestTools;
+import de.danielnaber.languagetool.tokenizers.SentenceTokenizer;
 
 public class PolishSentenceTokenizerTest extends TestCase {
 
@@ -85,10 +81,10 @@ public class PolishSentenceTokenizerTest extends TestCase {
     testSplit(new String[] { "He won't say No.", "Not really." });
     testSplit(new String[] { "This is it: a test." });
     // one/two returns = paragraph = new sentence:
-    testSplit(new String[] { "He won't\n\n", "Really." }, stokenizer2);
-    testSplit(new String[] { "He won't\n", "Really." }, stokenizer);
-    testSplit(new String[] { "He won't\n\n", "Really." }, stokenizer2);
-    testSplit(new String[] { "He won't\nReally." }, stokenizer2);
+    TestTools.testSplit(new String[] { "He won't\n\n", "Really." }, stokenizer2);
+    TestTools.testSplit(new String[] { "He won't\n", "Really." }, stokenizer);
+    TestTools.testSplit(new String[] { "He won't\n\n", "Really." }, stokenizer2);
+    TestTools.testSplit(new String[] { "He won't\nReally." }, stokenizer2);
     // Missing space after sentence end:
     testSplit(new String[] { "James is from the Ireland!", "He lives in Spain now." });
     // From the abbreviation list:
@@ -96,22 +92,8 @@ public class PolishSentenceTokenizerTest extends TestCase {
     testSplit(new String[] { "To wydarzyło się w 1939 r. To był burzliwy rok." });
   }
 
-  private void testSplit(String[] sentences) {
-    testSplit(sentences, stokenizer);
+  public void testSplit(String[] sentences) {
+    TestTools.testSplit(sentences, stokenizer);
   }
-  
-  private void testSplit(String[] sentences, SentenceTokenizer stokenizer) {
-    StringBuilder inputString = new StringBuilder();
-    List<String> input = new ArrayList<String>();
-    for (int i = 0; i < sentences.length; i++) {
-      input.add(sentences[i]);
-    }
-    for (Iterator iter = input.iterator(); iter.hasNext();) {
-      String s = (String) iter.next();
-      inputString.append(s);
-    }
-    assertEquals(input, stokenizer.tokenize(inputString.toString()));
-  }
-
 
 }

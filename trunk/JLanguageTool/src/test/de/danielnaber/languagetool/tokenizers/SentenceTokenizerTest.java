@@ -18,11 +18,8 @@
  */
 package de.danielnaber.languagetool.tokenizers;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-
 import junit.framework.TestCase;
+import de.danielnaber.languagetool.TestTools;
 
 /**
  * @author Daniel Naber
@@ -121,31 +118,18 @@ public class SentenceTokenizerTest extends TestCase {
     testSplit(new String[] { "They met at 5 p.m. ", "It was Thursday." });
     testSplit(new String[] { "This is it: a test." });
     // one/two returns = paragraph = new sentence:
-    testSplit(new String[] { "He won't\n\n", "Really." }, stokenizer2);
-    testSplit(new String[] { "He won't\n", "Really." }, stokenizer);
-    testSplit(new String[] { "He won't\n\n", "Really." }, stokenizer2);
-    testSplit(new String[] { "He won't\nReally." }, stokenizer2);
+    TestTools.testSplit(new String[] { "He won't\n\n", "Really." }, stokenizer2);
+    TestTools.testSplit(new String[] { "He won't\n", "Really." }, stokenizer);
+    TestTools.testSplit(new String[] { "He won't\n\n", "Really." }, stokenizer2);
+    TestTools.testSplit(new String[] { "He won't\nReally." }, stokenizer2);
     // Missing space after sentence end:
     testSplit(new String[] { "James is from the Ireland!", "He lives in Spain now." });
     // From the abbreviation list:
     testSplit(new String[] { "Jones Bros. have built a succesful company." });
   }
 
-  private void testSplit(String[] sentences) {
-    testSplit(sentences, stokenizer);
+  public void testSplit(String[] sentences) {
+    TestTools.testSplit(sentences, stokenizer);
   }
   
-  private void testSplit(String[] sentences, SentenceTokenizer stokenizer) {
-    StringBuilder inputString = new StringBuilder();
-    List<String> input = new ArrayList<String>();
-    for (int i = 0; i < sentences.length; i++) {
-      input.add(sentences[i]);
-    }
-    for (Iterator iter = input.iterator(); iter.hasNext();) {
-      String s = (String) iter.next();
-      inputString.append(s);
-    }
-    assertEquals(input, stokenizer.tokenize(inputString.toString()));
-  }
-
 }

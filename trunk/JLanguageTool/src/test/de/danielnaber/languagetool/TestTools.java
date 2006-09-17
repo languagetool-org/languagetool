@@ -18,8 +18,15 @@
  */
 package de.danielnaber.languagetool;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
+
+import junit.framework.TestCase;
+
+import de.danielnaber.languagetool.tokenizers.SentenceTokenizer;
 
 /**
  * @author Daniel Naber
@@ -34,5 +41,17 @@ public class TestTools {
     return messages;
   }
 
+  public static void testSplit(String[] sentences, SentenceTokenizer stokenizer) {
+    StringBuilder inputString = new StringBuilder();
+    List<String> input = new ArrayList<String>();
+    for (int i = 0; i < sentences.length; i++) {
+      input.add(sentences[i]);
+    }
+    for (Iterator iter = input.iterator(); iter.hasNext();) {
+      String s = (String) iter.next();
+      inputString.append(s);
+    }
+    TestCase.assertEquals(input, stokenizer.tokenize(inputString.toString()));
+  }
   
 }
