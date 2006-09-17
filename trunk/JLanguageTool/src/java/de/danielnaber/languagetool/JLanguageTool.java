@@ -61,8 +61,12 @@ import de.danielnaber.languagetool.tokenizers.Tokenizer;
  * <ul>
  *  <li>the built-in rules (<i>a</i> vs. <i>an</i>, whitespace after commas, ...)
  *  <li>pattern rules loaded from external XML files with {@link #loadPatternRules(String)}
- *  <li>our own implementation of the abstract {@link Rule} classes added with {@link #addRule(Rule)}
+ *  <li>your own implementation of the abstract {@link Rule} classes added with {@link #addRule(Rule)}
  * </ul>
+ * 
+ * <p>Note that the constructors create a language checker that uses the built-in
+ * rules only. Other rules (e.g. from XML) need to be added explicitly.
+ * 
  * @author Daniel Naber
  */
 public class JLanguageTool {
@@ -97,7 +101,7 @@ public class JLanguageTool {
   };*/
 
   /**
-   * Create a JLanguageTool and setup the builtin rules appropriate for the
+   * Create a JLanguageTool and setup the built-in rules appropriate for the
    * given language, ignoring false friend hints. 
    * @throws IOException 
    */
@@ -106,8 +110,9 @@ public class JLanguageTool {
   }
 
   /**
-   * Create a JLanguageTool and setup the builtin rules appropriate for the
+   * Create a JLanguageTool and setup the built-in rules appropriate for the
    * given language, ignoring false friend hints.
+   * @param basedirArg the installation directory of LanguageTool
    * @throws IOException 
    */
   public JLanguageTool(Language language, File basedirArg) throws IOException {
@@ -115,7 +120,7 @@ public class JLanguageTool {
   }
 
   /**
-   * Create a JLanguageTool and setup the builtin rules appropriate for the
+   * Create a JLanguageTool and setup the built-in rules appropriate for the
    * given language.
    * @param language the text language
    * @param motherTongue the user's mother tongue or <code>null</code>
@@ -126,8 +131,10 @@ public class JLanguageTool {
   }
 
   /**
-   * Create a JLanguageTool and setup the builtin rules appropriate for the
+   * Create a JLanguageTool and setup the built-in rules appropriate for the
    * given language.
+   * @param motherTongue the user's mother tongue or <code>null</code>
+   * @param basedirArg the installation directory of LanguageTool
    * @throws IOException 
    */
   public JLanguageTool(Language language, Language motherTongue, File basedirArg) throws IOException {
@@ -139,7 +146,7 @@ public class JLanguageTool {
     this.motherTongue = motherTongue;
     ResourceBundle messages = ResourceBundle.getBundle("de.danielnaber.languagetool.MessagesBundle",
         language.getLocale());
-    // TODO: use reflection to get a list of all non-pattern rules:
+    // TODO: use reflection to get a list of all non-pattern rules?:
     Rule[] allBuiltinRules = new Rule[] { 
         // Several languages:
         new CommaWhitespaceRule(messages), 
@@ -174,6 +181,11 @@ public class JLanguageTool {
     this.printStream = printStream;
   }
 
+  /**
+   * Get the File, assuming it's under the base directory.
+   * 
+   * @param relFilename a non-absolute file name 
+   */
   public static File getAbsoluteFile(String relFilename) {
     if (basedir == null)
       return new File(relFilename);
@@ -421,22 +433,21 @@ public class JLanguageTool {
   
   public static InputStream getInputStream(String resourcePath) throws IOException {
     try {
-        // try the URL first.
-        URL url = new URL(resourcePath);
-        // success, load the resource.
-        InputStream is = url.openStream();
-        return is;
+      // try the URL first.
+      URL url = new URL(resourcePath);
+      // success, load the resource.
+      InputStream is = url.openStream();
+      return is;
     } catch (MalformedURLException e) {
-        // no luck. Fallback to class loader paths.
-    }    
-      
+      // no luck. Fallback to class loader paths.
+    }
+
     // try file path
     File f = new File(resourcePath);
     if (f.exists() && f.isFile() && f.canRead()) {
-        return new FileInputStream(f);
+      return new FileInputStream(f);
     } else
-        throw new IOException("Could not open input stream from URL/ resource/ file: " + resourcePath);
-}
+      throw new IOException("Could not open input stream from URL/ resource/ file: " + resourcePath);
+  }
 
-  
 }
