@@ -19,6 +19,7 @@
 package de.danielnaber.languagetool.rules.patterns;
 
 import java.util.regex.Pattern;
+import java.util.regex.Matcher;
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -49,7 +50,23 @@ public class Element {
   int skip = 0;
 
   boolean match(AnalyzedToken token) {
+    // this var is used to determine
+    // if calling matchStringToken
+    // has any sense - this method takes
+    // most time so it's best reduce the 
+    // number it's being called
+    boolean testString = true;
+    if (stringToken == null) {
+      testString = false;
+    }
+    if (stringToken.equals("")) {
+      testString = false;
+    }
+    //if (testString) {
     return (matchStringToken(token) != negation) && (matchPosToken(token) != posNegation);
+    //} else {
+    //return (true != negation) && (matchPosToken(token) != posNegation);  
+    //}
   }
 
   boolean exceptionValid() {
@@ -171,11 +188,11 @@ public class Element {
     }
     return match;
   }
-
   boolean matchStringToken(AnalyzedToken token) {
-
+    
     // if no string set
     // defaulting to true
+
     if (stringToken == null) {
       return true;
     }
@@ -193,28 +210,26 @@ public class Element {
     }
     else
       testToken = token.getToken();
-
-    if (caseSensitive) {
-      if (stringRegExp) {
-        if (token.getToken() != null)
-          if (Pattern.matches(stringToken, testToken))
-            return true;
-      } else {
-        if (stringToken.equals(testToken))
-          return true;
-      }
-    } else {
-      if (stringRegExp) {
-        if (testToken != null)
-          // (?u) - regex matching
-          // case insensitive in Unicode
-          if (Pattern.matches("(?u)".concat(stringToken), testToken))
-            return true;
-      } else {
-        if (stringToken.equalsIgnoreCase(testToken))
-          return true;
-      }
+    String regToken = stringToken;
+    if (!caseSensitive) {
+      regToken = "(?u)".concat(stringToken);
     }
+        
+    if (!stringRegExp) {
+    if (caseSensitive) {
+        return stringToken.equals(testToken);
+      } else {
+        return stringToken.equalsIgnoreCase(testToken);
+      }
+    } else { 
+        if (token.getToken() != null) {
+          //Pattern p = Pattern.compile(regToken);
+          //Matcher m = p.matcher(testToken);
+          //return m.matches();
+          return Pattern.matches(regToken, testToken);
+        }
+      } 
+      
     return false;
   }
 

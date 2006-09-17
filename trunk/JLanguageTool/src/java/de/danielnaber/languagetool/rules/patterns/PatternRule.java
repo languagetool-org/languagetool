@@ -164,7 +164,8 @@ public class PatternRule extends Rule {
         }
         for (int m = nextPos; m <= nextPos + prevSkipNext; m++) {
           boolean matched = false;
-          for (int l = 0; l < tokens[m].getReadingsLength(); l++) {
+          int numberOfReadings = tokens[m].getReadingsLength(); 
+          for (int l = 0; l < numberOfReadings ; l++) {
             
             AnalyzedToken matchToken = tokens[m].getAnalyzedToken(l);
             
@@ -219,6 +220,8 @@ public class PatternRule extends Rule {
         String errMessage = message;
         // TODO: implement skipping tokens while marking error tokens
         // replace back references like \1 in message:
+        if (firstMatchToken + matchingTokens >= tokens.length) 
+          matchingTokens = tokens.length-firstMatchToken;
         for (int j = 0; j < matchingTokens; j++) {
           errMessage = errMessage.replaceAll("\\\\" + (j + 1), tokens[firstMatchToken + j]
                                                                       .getToken());

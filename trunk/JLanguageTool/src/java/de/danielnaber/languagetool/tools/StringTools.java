@@ -25,6 +25,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.util.List;
+import java.util.regex.*;
 
 import de.danielnaber.languagetool.gui.Tools;
 import de.danielnaber.languagetool.rules.RuleMatch;
@@ -145,10 +146,13 @@ public class StringTools {
   }
   
   public static String escapeHTML(String s) {
-    s = s.replaceAll("&", "&amp;");
-    s = s.replaceAll("<", "&lt;");
-    s = s.replaceAll(">", "&gt;");
-    s = s.replaceAll("\"", "&quot;");
+    //replaceAll is slightly slower
+    //TODO: should be replaced using StringBuilder
+    //see struts TextUtil.escapeHTML
+    s = s.replace("&", "&amp;");
+    s = s.replace("<", "&lt;");
+    s = s.replace(">", "&gt;");
+    s = s.replace("\"", "&quot;");    
     return s;
   }
   
