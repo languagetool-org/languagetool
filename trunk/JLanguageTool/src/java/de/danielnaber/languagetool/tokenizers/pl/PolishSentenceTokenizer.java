@@ -67,7 +67,7 @@ public class PolishSentenceTokenizer extends SentenceTokenizer {
       "łac", "np", "p.n.e", "m.in", "itd", "itp", "pt","cdn", "dyr","hab",
       "inż","jw", "lek","n.e","nb","rys", "tj", "tzw", "tzn", "zob" , "ang",
       "ul", "pl", "al", "prof", "gen", "k", "n", "ks", "ok", "tys", "r", "proc",
-      "ww"
+      "ww", "ur", "zm"
   };
 
   private static Set<String> abbreviations = new HashSet<String>();

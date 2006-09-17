@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?><!--
 Copyright (C) 2006 Marcin Miłkowski
-$Id: grammar.xml,v 1.63 2006-09-16 22:09:10 milek_pl Exp $		
+$Id: grammar.xml,v 1.64 2006-09-17 10:49:50 milek_pl Exp $		
 -->
 <rules lang="pl">
 	<category name="Błędy interpunkcyjne">
@@ -397,19 +397,59 @@ $Id: grammar.xml,v 1.63 2006-09-16 22:09:10 milek_pl Exp $
 		<example type="correct">Lech powiedział: „ona wywodzi się z określonych środowisk”.</example>
 		<example type="incorrect"><marker>Lech powiedział: ona wywodzi się z określonych środowisk”.</marker></example>
 	</rule>		
-		
-	<rule id="PRZECINEK_ANI" name="Zbędny przecinek przed „ani”, „i”, „lub”, „oraz”">
-		<pattern>
+	</rulegroup>
+				
+	<rulegroup id="PRZECINEK_ANI" name="Zbędny przecinek przed „ani”, „bądź”, „i”, „lub”, „oraz”">
+	<rule>
+		<pattern case_sensitive="yes">
 			<token skip="-1" postag="SENT_START"><exception>ani</exception></token>
 			<token>,</token>
-			<token regexp="yes">i|oraz|lub|ani</token>
+			<token regexp="yes">ani</token>
 		</pattern>
 		<message>Przecinek przed \3 w powyższym zdaniu jest zbędny.</message>
 		<example type="correct">Nie kupiłem gruszek ani jabłek.</example>
 		<example type="incorrect"><marker>Nie kupiłem gruszek, ani</marker> jabłek.</example>
-		<example type="incorrect"><marker>Lubię zjeść trochę gruszek, lub</marker> jabłek.</example>
+	</rule>
+	<rule>
+		<pattern case_sensitive="yes">
+			<token skip="-1" postag="SENT_START"><exception>i</exception></token>
+			<token>,</token>
+			<token regexp="yes">i</token>
+		</pattern>
+		<message>Przecinek przed \3 w powyższym zdaniu jest zbędny.</message>
+		<example type="correct">Kupiłem trochę gruszek i jabłek.</example>
 		<example type="incorrect"><marker>Kupiłem trochę gruszek, i</marker> jabłek.</example>
 	</rule>
+	<rule>
+		<pattern case_sensitive="yes">
+			<token skip="-1" postag="SENT_START"><exception>lub</exception></token>
+			<token>,</token>
+			<token regexp="yes">lub</token>
+		</pattern>
+		<message>Przecinek przed \3 w powyższym zdaniu jest zbędny.</message>
+		<example type="correct">Może kupię kilo gruszek lub jabłek.</example>
+		<example type="incorrect"><marker>Lubię zjeść trochę gruszek, lub</marker> jabłek.</example>
+	</rule>
+	<rule>
+		<pattern case_sensitive="yes">
+			<token skip="-1" postag="SENT_START"><exception>oraz</exception></token>
+			<token>,</token>
+			<token regexp="yes">oraz</token>
+		</pattern>
+		<message>Przecinek przed \3 w powyższym zdaniu jest zbędny.</message>
+		<example type="correct">Nie kupiłem gruszek oraz zjadłem jogurt.</example>
+		<example type="incorrect"><marker>Kupiłem trochę gruszek, oraz</marker> zjadłem krowę.</example>
+	</rule>
+	<rule>
+		<pattern case_sensitive="yes">
+			<token skip="-1" postag="SENT_START"><exception>bądź</exception></token>
+			<token>,</token>
+			<token regexp="yes">bądź</token>
+		</pattern>
+		<message>Przecinek przed \3 w powyższym zdaniu jest zbędny.</message>
+		<example type="correct">Nie kupiłem gruszek bądź zjadłem jogurt.</example>
+		<example type="incorrect"><marker>Kupiłem trochę gruszek, bądź</marker> zjadłem krowę.</example>
+	</rule>		
 	</rulegroup>
 							
 	</category>

@@ -3,7 +3,7 @@
 Rules: Grammar and Typos
 See tagset.txt for the meaning of the POS tags
 Copyright (C) 2001-2006 Daniel Naber (http://www.danielnaber.de)
-$Id: grammar.xml,v 1.80 2006-09-08 21:33:32 milek_pl Exp $
+$Id: grammar.xml,v 1.81 2006-09-17 10:49:51 milek_pl Exp $
 -->
 <rules lang="en">
 
@@ -1045,15 +1045,25 @@ $Id: grammar.xml,v 1.80 2006-09-08 21:33:32 milek_pl Exp $
     <example type="incorrect">John eats as <marker>few</marker> food as Peter.</example>
   </rule>
   
-  <!-- fixme: more nouns?
-         false alert: "an intelligence service"
+  <!-- 
+	  "an information" is used in the legal US jargon, deleting
+	  
+	  longer list but not checked thouroughly: 
+	  http://www.geocities.com/Athens/Olympus/7583/ncntlist.html
+	  -->
    <rule id="A_UNCOUNTABLE" name="a + uncountable noun">
-      <pattern mark_to="-1"><token regexp="yes">a|an</token><token regexp="yes">air|money|cattle|knowledge|sand|furniture|meat|food|news|water|freedom|maturity|intelligence|information</token></pattern>
+      <pattern mark_to="-2">
+		  <token regexp="yes">a|an</token>
+		  <token regexp="yes">air|accomodation|advice|baggage|bread|equipment|garbage|luggage|money|cattle|knowledge|sand|furniture|meat|food|news|pasta|progress|research|water|freedom|maturity|intelligence|travel|pollution|traffic</token>
+		  <token postag_regexp="yes" postag="RP|VBZ"/>
+	  </pattern>
       <message>Uncountable nouns are usually not used with an indefinite article.</message>
-      <example type="correct"><em>The</em> information in your files is correct.</example>
-      <example type="incorrect"><em>An</em> information in your files is correct.</example>
+      <example type="correct"><marker>The</marker> information in your files is correct.</example>
+     <example type="correct"><marker>An</marker> intelligence service is known to be corrupt here.</example>
+      <example type="incorrect"><marker>An</marker> accomodation is too expensive.</example>
+	   
    </rule>
-   -->
+
   
   <rulegroup id="AFFORD_VBG" name="'afford' used with gerund instead of infinitive">
     <rule>
