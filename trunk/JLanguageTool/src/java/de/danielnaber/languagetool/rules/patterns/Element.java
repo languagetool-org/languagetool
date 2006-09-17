@@ -223,10 +223,10 @@ public class Element {
       }
     } else { 
         if (token.getToken() != null) {
-          //Pattern p = Pattern.compile(regToken);
-          //Matcher m = p.matcher(testToken);
-          //return m.matches();
-          return Pattern.matches(regToken, testToken);
+          Pattern p = Pattern.compile(regToken);
+          Matcher m = p.matcher(testToken);
+          return m.matches();
+          //return Pattern.matches(regToken, testToken);
         }
       } 
       

@@ -43,10 +43,7 @@ public class AnalyzedToken {
 	  }
 	  
   
-  public boolean isWhitespace() {
-    return token.trim().equals("");
-  }
-  
+    
   public String getToken() {
     return token;
   }

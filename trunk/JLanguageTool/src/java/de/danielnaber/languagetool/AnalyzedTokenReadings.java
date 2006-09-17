@@ -59,7 +59,21 @@ public class AnalyzedTokenReadings {
     return ATreadings.length;
   }
   
-	public int getStartPos() {
+  public boolean isWhitespace() {
+    return token.trim().equals("");
+  }
+  
+  
+  public boolean isSentStart() {
+    //helper method added after profiling
+   boolean isSE = false;
+   if (ATreadings[0].posTag!= null) {
+     isSE = ATreadings[0].posTag.equals(JLanguageTool.SENTENCE_START_TAGNAME);
+   }
+   return isSE;
+  }
+  
+  public int getStartPos() {
 		return startPos;
 	}
 	

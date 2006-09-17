@@ -51,8 +51,7 @@ public class AnalyzedSentence {
 	    List<AnalyzedTokenReadings> l = new ArrayList<AnalyzedTokenReadings>();
 	    for (int i = 0; i < tokens.length; i++) {
 	      AnalyzedTokenReadings token = tokens[i];
-	      if (!token.getAnalyzedToken(0).isWhitespace() || (token.getAnalyzedToken(0).getPOSTag() != null &&
-	          token.getAnalyzedToken(0).getPOSTag().equals(JLanguageTool.SENTENCE_START_TAGNAME))) {
+	      if (!token.isWhitespace() || token.isSentStart()) {
 	        l.add(token);
 	      }
 	    }
