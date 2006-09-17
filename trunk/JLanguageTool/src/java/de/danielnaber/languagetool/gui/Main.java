@@ -63,6 +63,7 @@ import de.danielnaber.languagetool.JLanguageTool;
 import de.danielnaber.languagetool.Language;
 import de.danielnaber.languagetool.rules.Rule;
 import de.danielnaber.languagetool.rules.RuleMatch;
+import de.danielnaber.languagetool.server.HTTPServer;
 import de.danielnaber.languagetool.tools.StringTools;
 
 /**
@@ -88,10 +89,13 @@ public class Main implements ActionListener {
   private JTextPane resultArea = null;
   private JComboBox langBox = null;
   
+  private HTTPServer httpServer = null;
+  
   private Map<Language, ConfigurationDialog> configDialogs = new HashMap<Language, ConfigurationDialog>();
 
   private Main() throws IOException {
     config = new Configuration(new File(System.getProperty("user.home")), CONFIG_FILE);
+    maybeStartServer();
   }
 
   private void createGUI() {
@@ -212,9 +216,14 @@ public class Main implements ActionListener {
     JLanguageTool langTool = getCurrentLanguageTool();
     List<Rule> rules = langTool.getAllRules();
     ConfigurationDialog configDialog = getCurrentConfigDialog();
-    configDialog.show(rules);
+    configDialog.show(rules);   // this blocks until OK/Cancel is clicked in the dialog
     config.setDisabledRuleIds(configDialog.getDisabledRuleIds());
     config.setMotherTongue(configDialog.getMotherTongue());
+    config.setRunServer(configDialog.getRunServer());
+    config.setServerPort(configDialog.getServerPort());
+    // Stop server, start new server if requested:
+    stopServer();
+    maybeStartServer();
   }
   
   private void restoreFromTray() {
@@ -241,6 +250,7 @@ public class Main implements ActionListener {
   }
   
   void quit() {
+    stopServer();
     try {
       config.saveConfiguration();
     } catch (IOException e) {
@@ -252,6 +262,20 @@ public class Main implements ActionListener {
     }
     frame.setVisible(false);
     System.exit(0);
+  }
+
+  private void maybeStartServer() {
+    if (config.getRunServer()) {
+      httpServer = new HTTPServer(config.getServerPort());
+      httpServer.run();
+    }
+  }
+
+  private void stopServer() {
+    if (httpServer != null) {
+      httpServer.stop();
+      httpServer = null;
+    }
   }
 
   private Language getCurrentLanguage() {
@@ -268,6 +292,8 @@ public class Main implements ActionListener {
       configDialog = new ConfigurationDialog(true);
       configDialog.setMotherTongue(config.getMotherTongue());
       configDialog.setDisabledRules(config.getDisabledRuleIds());
+      configDialog.setRunServer(config.getRunServer());
+      configDialog.setServerPort(config.getServerPort());
       configDialogs.put(language, configDialog);
     }
     return configDialog;

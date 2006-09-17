@@ -27,6 +27,7 @@ import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -43,7 +44,11 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRootPane;
 import javax.swing.JScrollPane;
+import javax.swing.JTextField;
 import javax.swing.KeyStroke;
+import javax.xml.parsers.ParserConfigurationException;
+
+import org.xml.sax.SAXException;
 
 import de.danielnaber.languagetool.JLanguageTool;
 import de.danielnaber.languagetool.Language;
@@ -64,10 +69,16 @@ public class ConfigurationDialog implements ActionListener {
   
   private JComboBox motherTongueBox;
 
+  private JCheckBox serverCheckbox;
+  private JTextField serverPortField;
+
   private List<JCheckBox> checkBoxes = new ArrayList<JCheckBox>();
   private List<String> checkBoxesRuleIds = new ArrayList<String>();
   private Set<String> inactiveRuleIds = new HashSet<String>();
   private Language motherTongue;
+  private boolean serverMode = false;
+  private int serverPort;
+  
   private boolean modal;
   private boolean isClosed = true;
   
@@ -128,20 +139,46 @@ public class ConfigurationDialog implements ActionListener {
       }
       prevID = rule.getId();
     }
-    
+
+    JPanel motherTonguePanel = new JPanel();
+    motherTonguePanel.add(new JLabel("Your mother tongue: "), cons);
+    motherTongueBox = new JComboBox(getPossibleMotherTongues());
+    if (motherTongue != null)
+      motherTongueBox.setSelectedItem(motherTongue);
+    motherTonguePanel.add(motherTongueBox, cons);
+
+    JPanel portPanel = new JPanel();
+    portPanel.setLayout(new GridBagLayout());
+    // TODO: why is this now left-aligned?!?!
+    serverCheckbox = new JCheckBox("Run as server on port");
+    serverCheckbox.setSelected(serverMode);
+    cons = new GridBagConstraints();
+    cons.insets = new Insets(0, 4, 0, 0);
+    cons.gridx = 0;
+    cons.gridy = 0;
+    cons.anchor = GridBagConstraints.WEST;
+    cons.fill = GridBagConstraints.NONE;
+    cons.weightx = 0.0f;
+    portPanel.add(serverCheckbox, cons);
+    serverPortField = new JTextField(serverPort + "");
+    serverPortField.setEnabled(serverCheckbox.isSelected());
+    // TODO: without this the box is just a few pixels small, but why??:
+    serverPortField.setMinimumSize(new Dimension(200, 15));
+    cons.gridx = 1;
+    serverCheckbox.addActionListener(new ActionListener() {
+      public void actionPerformed(@SuppressWarnings("unused")ActionEvent e) {
+        serverPortField.setEnabled(serverCheckbox.isSelected());
+      }});
+    portPanel.add(serverPortField, cons);
+
     JPanel buttonPanel = new JPanel();
     buttonPanel.setLayout(new GridBagLayout());
     JButton okButton = new JButton(OK_BUTTON);
     okButton.addActionListener(this);
     JButton cancelButton = new JButton(CANCEL_BUTTON);
     cancelButton.addActionListener(this);
-    motherTongueBox = new JComboBox(getPossibleMotherTongues());
-    if (motherTongue != null)
-      motherTongueBox.setSelectedItem(motherTongue);
     cons = new GridBagConstraints();
     cons.insets = new Insets(0, 4, 0, 0);
-    buttonPanel.add(new JLabel("Your mother tongue: "), cons);
-    buttonPanel.add(motherTongueBox, cons);
     buttonPanel.add(okButton, cons);
     buttonPanel.add(cancelButton, cons);
     
@@ -155,8 +192,25 @@ public class ConfigurationDialog implements ActionListener {
     cons.weighty = 10.0f;
     cons.fill = GridBagConstraints.BOTH;
     contentPane.add(new JScrollPane(checkBoxPanel), cons);
+    
     cons.gridx = 0;
     cons.gridy = 1;
+    cons.weightx = 0.0f;
+    cons.weighty = 0.0f;
+    cons.fill = GridBagConstraints.NONE;
+    cons.anchor = GridBagConstraints.WEST;
+    contentPane.add(motherTonguePanel, cons);
+
+    cons.gridx = 0;
+    cons.gridy = 2;
+    cons.weightx = 0.0f;
+    cons.weighty = 0.0f;
+    cons.fill = GridBagConstraints.NONE;
+    cons.anchor = GridBagConstraints.WEST;
+    contentPane.add(portPanel, cons);
+
+    cons.gridx = 0;
+    cons.gridy = 3;
     cons.weightx = 0.0f;
     cons.weighty = 0.0f;
     cons.fill = GridBagConstraints.NONE;
@@ -204,6 +258,8 @@ public class ConfigurationDialog implements ActionListener {
         motherTongue = null;
       else
         motherTongue = (Language)motherTongueBox.getSelectedItem();
+      serverMode = serverCheckbox.isSelected();
+      serverPort = Integer.parseInt(serverPortField.getText());
       isClosed = true;
       dialog.setVisible(false);
     } else if (e.getActionCommand().equals(CANCEL_BUTTON)) {
@@ -228,6 +284,34 @@ public class ConfigurationDialog implements ActionListener {
     return motherTongue;
   }
 
+  public void setRunServer(boolean serverMode) {
+    this.serverMode = serverMode;
+  }
+
+  public boolean getRunServer() {
+    return serverCheckbox.isSelected();
+  }
+
+  public void setServerPort(int serverPort) {
+    this.serverPort = serverPort;
+  }
+
+  public int getServerPort() {
+    return Integer.parseInt(serverPortField.getText());
+  }
+
+  /**
+   * For internal testing only.
+   */
+  public static void main(String[] args) throws IOException, ParserConfigurationException, SAXException {
+    ConfigurationDialog dlg = new ConfigurationDialog(false);
+    List<Rule> rules = new ArrayList<Rule>();
+    JLanguageTool lt = new JLanguageTool(Language.ENGLISH);
+    lt.activateDefaultPatternRules();
+    rules.addAll(lt.getAllRules());
+    dlg.show(rules);
+  }
+  
 }
 
 class CategoryComparator implements Comparator<Rule> {
