@@ -152,7 +152,16 @@ public class StringTools {
     return s;
   }
   
+  /**
+   * Get an XML representation of the given rule matches.
+   *
+   * @param text the original text that was checked, used to get the context of the matches
+   * @param contextSize the desired context size in characters
+   */
   public static String ruleMatchesToXML(List<RuleMatch> ruleMatches, String text, int contextSize) {
+    //
+    // IMPORTANT: people rely on this format, don't change it!
+    //
     StringBuilder xml = new StringBuilder();
     xml.append("<matches>\n");
     int i = 1;
