@@ -19,12 +19,8 @@
 package de.danielnaber.languagetool;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.PrintStream;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
@@ -49,10 +45,10 @@ import de.danielnaber.languagetool.rules.de.DashRule;
 import de.danielnaber.languagetool.rules.de.WiederVsWiderRule;
 import de.danielnaber.languagetool.rules.de.WordCoherencyRule;
 import de.danielnaber.languagetool.rules.en.AvsAnRule;
-import de.danielnaber.languagetool.rules.pl.PolishWordRepeatRule;
 import de.danielnaber.languagetool.rules.patterns.FalseFriendRuleLoader;
 import de.danielnaber.languagetool.rules.patterns.PatternRule;
 import de.danielnaber.languagetool.rules.patterns.PatternRuleLoader;
+import de.danielnaber.languagetool.rules.pl.PolishWordRepeatRule;
 import de.danielnaber.languagetool.tagging.Tagger;
 import de.danielnaber.languagetool.tokenizers.Tokenizer;
 
@@ -431,23 +427,4 @@ public class JLanguageTool {
       printStream.println(s);
   }
   
-  public static InputStream getInputStream(String resourcePath) throws IOException {
-    try {
-      // try the URL first.
-      URL url = new URL(resourcePath);
-      // success, load the resource.
-      InputStream is = url.openStream();
-      return is;
-    } catch (MalformedURLException e) {
-      // no luck. Fallback to class loader paths.
-    }
-
-    // try file path
-    File f = new File(resourcePath);
-    if (f.exists() && f.isFile() && f.canRead()) {
-      return new FileInputStream(f);
-    } else
-      throw new IOException("Could not open input stream from URL/ resource/ file: " + resourcePath);
-  }
-
 }

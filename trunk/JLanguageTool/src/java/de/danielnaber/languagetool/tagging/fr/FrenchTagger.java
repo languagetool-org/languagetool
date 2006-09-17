@@ -16,6 +16,7 @@ import de.danielnaber.languagetool.AnalyzedToken;
 import de.danielnaber.languagetool.AnalyzedTokenReadings;
 import de.danielnaber.languagetool.JLanguageTool;
 import de.danielnaber.languagetool.tagging.Tagger;
+import de.danielnaber.languagetool.tools.Tools;
 
 /**
  * @author Marcin Milkowski
@@ -43,7 +44,7 @@ public class FrenchTagger implements Tagger {
     if (morfologik == null) {   
        File resourceFile = JLanguageTool.getAbsoluteFile(RESOURCE_FILENAME); 
        //System.setProperty(Lametyzator.PROPERTY_NAME_LAMETYZATOR_DICT, resourceFile.getAbsolutePath());
-       morfologik = new Lametyzator(JLanguageTool.getInputStream(resourceFile.getAbsolutePath()), "iso8859-15", '+');
+       morfologik = new Lametyzator(Tools.getInputStream(resourceFile.getAbsolutePath()), "iso8859-15", '+');
     }
     
     for (Iterator<String> iter = sentenceTokens.iterator(); iter.hasNext();) {

@@ -16,6 +16,7 @@ import de.danielnaber.languagetool.AnalyzedToken;
 import de.danielnaber.languagetool.AnalyzedTokenReadings;
 import de.danielnaber.languagetool.JLanguageTool;
 import de.danielnaber.languagetool.tagging.Tagger;
+import de.danielnaber.languagetool.tools.Tools;
 
 /**
  * @author Marcin Milkowski
@@ -44,7 +45,7 @@ public class SpanishTagger implements Tagger {
     if (morfologik_spanish == null) {   
        File resourceFile = JLanguageTool.getAbsoluteFile(RESOURCE_FILENAME); 
        //System.setProperty(Lametyzator.PROPERTY_NAME_LAMETYZATOR_DICT, resourceFile.getAbsolutePath());
-       morfologik_spanish = new Lametyzator(JLanguageTool.getInputStream(resourceFile.getAbsolutePath()), "iso8859-1", '+');
+       morfologik_spanish = new Lametyzator(Tools.getInputStream(resourceFile.getAbsolutePath()), "iso8859-1", '+');
     }
     
     for (Iterator<String> iter = sentenceTokens.iterator(); iter.hasNext();) {

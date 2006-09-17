@@ -1,6 +1,8 @@
 package de.danielnaber.languagetool.tagging.it;
 
 import de.danielnaber.languagetool.tagging.Tagger;
+import de.danielnaber.languagetool.tools.Tools;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -41,7 +43,7 @@ public class ItalianTagger implements Tagger {
     if (morfologik == null) {   
        File resourceFile = JLanguageTool.getAbsoluteFile(RESOURCE_FILENAME); 
        //System.setProperty(Lametyzator.PROPERTY_NAME_LAMETYZATOR_DICT, resourceFile.getAbsolutePath());
-       morfologik = new Lametyzator(JLanguageTool.getInputStream(resourceFile.getAbsolutePath()), "iso8859-15", '+');
+       morfologik = new Lametyzator(Tools.getInputStream(resourceFile.getAbsolutePath()), "iso8859-15", '+');
     }
     
     for (Iterator<String> iter = sentenceTokens.iterator(); iter.hasNext();) {
