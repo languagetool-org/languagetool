@@ -22,7 +22,7 @@ public class PolishSentenceTokenizer extends SentenceTokenizer {
   private final static String EOS = "\0";
   // private final static String EOS = "#"; // for testing only
   private final static String P = "[\\.!?…]"; // PUNCTUATION
-  private final static String AP = "(?:'|«|\"|”||\\)|\\]|\\})?"; // AFTER PUNCTUATION
+  private final static String AP = "(?:'|«|\"|”|\\)|\\]|\\})?"; // AFTER PUNCTUATION
   private final static String PAP = P + AP;
 
   // Check out the private methods for comments and examples about these
@@ -67,7 +67,7 @@ public class PolishSentenceTokenizer extends SentenceTokenizer {
       "łac", "np", "p.n.e", "m.in", "itd", "itp", "pt","cdn", "dyr","hab",
       "inż","jw", "lek","n.e","nb","rys", "tj", "tzw", "tzn", "zob" , "ang",
       "ul", "pl", "al", "prof", "gen", "k", "n", "ks", "ok", "tys", "r", "proc",
-      "ww", "M.in"
+      "ww"
   };
 
   private static Set<String> abbreviations = new HashSet<String>();
@@ -141,11 +141,17 @@ public class PolishSentenceTokenizer extends SentenceTokenizer {
     // Don't split [.?!] when the're quoted:
     s = abbrev5.matcher(s).replaceAll("$1");
 
-    // Don't split at abbreviations:
+    // Don't split at abbreviations, treat them case insensitive
+    //TODO: don't split at some abbreviations followed by uppercase
+    //E.g., "Wojna rozpoczęła się w 1918 r. To była krwawa jatka"
+    //should be split at "r."... But
+    //"Ks. Jankowski jest analfabetą" shouldn't be split...
+    //this requires a special list of abbrevs used before names etc.
     for (String abbrev : abbreviations) {
-      Pattern pattern = Pattern.compile("(\\b" + abbrev + PAP + "\\s)" + EOS);
+      Pattern pattern = Pattern.compile("(?u)(\\b" + abbrev + PAP + "\\s)" + EOS);
       s = pattern.matcher(s).replaceAll("$1");
     }
+
     // Don't break after quote unless there's a capital letter:
     // e.g.: "That's right!" he said.
     s = abbrev6.matcher(s).replaceAll("$1$2");
