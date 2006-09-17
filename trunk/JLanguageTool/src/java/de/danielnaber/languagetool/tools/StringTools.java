@@ -163,7 +163,7 @@ public class StringTools {
           " ruleId=\"" +match.getRule().getId()+ "\"" + 
           ">\n"
           );
-      xml.append("\t\t<message>" +escapeXML(match.getMessage())+ "</message>\n");
+      xml.append("\t\t<message>" +match.getMessage()+ "</message>\n");
       String context = Tools.getContext(match.getFromPos(), match.getToPos(),
           escapeXML(text), contextSize, "<marker>", "</marker>");
       xml.append("\t\t<context>" +context+ "</context>\n");
