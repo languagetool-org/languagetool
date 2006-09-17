@@ -166,6 +166,13 @@ public class StringTools {
       xml.append("\t\t<message>" +match.getMessage()+ "</message>\n");
       String context = Tools.getContext(match.getFromPos(), match.getToPos(),
           escapeXML(text), contextSize, "<marker>", "</marker>");
+      xml.append("\t\t<replacements>\n");
+      for (String replacement : match.getSuggestedReplacements()) {
+        xml.append("\t\t\t<replacement>");
+        xml.append(replacement);
+        xml.append("</replacement>\n");
+      }
+      xml.append("\t\t</replacements>\n");
       xml.append("\t\t<context>" +context+ "</context>\n");
       xml.append("\t</match>\n");
       i++;
