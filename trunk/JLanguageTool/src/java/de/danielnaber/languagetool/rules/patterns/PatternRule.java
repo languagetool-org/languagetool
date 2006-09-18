@@ -140,20 +140,35 @@ public class PatternRule extends Rule {
     
     int firstMatchToken = -1;
     int lastMatchToken = -1;
+    int patternSize = patternElements.size();
     Element elem = null, prevElement = null;
+    boolean startWithSentStart = patternElements.get(0).isSentStart();
     
     for (int i = 0; i < tokens.length; i++) {
       boolean allElementsMatch = true;
       
+      //stop processing if rule is longer than the sentence
+      if (patternSize +i > tokens.length) {
+        allElementsMatch = false;
+        break;
+      }
+      
+      
       int matchingTokens = 0;
-      for (int k = 0; k < patternElements.size(); k++) {
+      for (int k = 0; (k < patternSize); k++) {
         if (elem!=null) { 
           prevElement = elem;
         }
         elem = patternElements.get(k);
         skipNext = elem.getSkipNext();
         int nextPos = tokenPos + k + skipShift;
-        if (nextPos >= tokens.length) {
+        if (nextPos >= tokens.length ) {
+          allElementsMatch = false;
+          break;
+        }
+        //stop looking for sent_start - it will never match any
+        //token except the first
+        if (startWithSentStart && matchingTokens == 0 && i>0) {
           allElementsMatch = false;
           break;
         }
@@ -175,11 +190,11 @@ public class PatternRule extends Rule {
                 prevMatched = true;
               }               
             }
-            thisMatched = thisMatched || elem.match(matchToken);            
+            thisMatched |= elem.match(matchToken);            
             exceptionMatched=exceptionMatched || elem.exceptionMatch(matchToken);
             // Logical OR (cannot be AND):
             if (!thisMatched && !exceptionMatched) {             
-              matched = matched || false;
+              matched |= false;
             } else {              
             matched = true;
             matchPos = m;

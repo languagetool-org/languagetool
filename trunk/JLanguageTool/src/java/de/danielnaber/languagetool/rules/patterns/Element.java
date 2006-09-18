@@ -24,6 +24,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 import de.danielnaber.languagetool.AnalyzedToken;
+import de.danielnaber.languagetool.JLanguageTool;
 
 /**
  * A part of a pattern.
@@ -62,11 +63,11 @@ public class Element {
     if (stringToken.equals("")) {
       testString = false;
     }
-    //if (testString) {
+    if (testString) {
     return (matchStringToken(token) != negation) && (matchPosToken(token) != posNegation);
-    //} else {
-    //return (true != negation) && (matchPosToken(token) != posNegation);  
-    //}
+    } else {
+    return (true != negation) && (matchPosToken(token) != posNegation);  
+    }
   }
 
   boolean exceptionValid() {
@@ -124,6 +125,14 @@ public class Element {
     this.inflected = inflected;
   }
 
+  public boolean isSentStart() {
+    boolean equals = false;
+    if (posToken != null) {
+      // not sure if this should be logical AND
+      equals = posToken.equals(JLanguageTool.SENTENCE_START_TAGNAME) && posNegation;
+    }
+    return equals;
+  }
   public String toString() {
     if (posToken != null) {
       return stringToken.concat("/").concat(posToken);
