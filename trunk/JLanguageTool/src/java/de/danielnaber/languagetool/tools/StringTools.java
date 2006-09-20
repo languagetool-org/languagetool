@@ -25,7 +25,6 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.util.List;
-import java.util.regex.*;
 
 import de.danielnaber.languagetool.gui.Tools;
 import de.danielnaber.languagetool.rules.RuleMatch;

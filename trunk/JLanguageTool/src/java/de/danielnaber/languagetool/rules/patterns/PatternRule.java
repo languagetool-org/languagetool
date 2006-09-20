@@ -152,8 +152,7 @@ public class PatternRule extends Rule {
         allElementsMatch = false;
         break;
       }
-      
-      
+            
       int matchingTokens = 0;
       for (int k = 0; (k < patternSize); k++) {
         if (elem!=null) { 
