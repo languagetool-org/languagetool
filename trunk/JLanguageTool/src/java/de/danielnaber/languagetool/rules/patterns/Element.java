@@ -35,7 +35,8 @@ public class Element {
 
   private String stringToken;
   private String posToken;
-  private boolean posRegExp = false;
+  private String regToken;
+  private boolean posRegExp = false;  
 
   boolean negation = false;
   boolean posNegation = false;
@@ -49,6 +50,9 @@ public class Element {
   private boolean exceptionSet = false;
 
   int skip = 0;
+  
+  private Pattern p = null;
+  private Pattern pPos = null;
 
   boolean match(AnalyzedToken token) {
     // this var is used to determine
@@ -123,6 +127,13 @@ public class Element {
     this.caseSensitive = caseSensitive;
     this.stringRegExp = regExp;
     this.inflected = inflected;
+    if (!stringToken.equals("")&& stringRegExp) {
+    regToken = stringToken;
+    if (!caseSensitive) {
+      regToken = "(?u)".concat(stringToken);
+    }
+    p = Pattern.compile(regToken);
+    }
   }
 
   public boolean isSentStart() {
@@ -145,10 +156,20 @@ public class Element {
     this.posToken = posToken;
     this.posNegation = negation;
     posRegExp = regExp;
+    if (posRegExp) {
+      pPos = Pattern.compile(posToken);
+    }
   }
 
   public void setStringElement(String token)  {
     this.stringToken = token;
+    if (!stringToken.equals("") && stringRegExp) {
+    regToken = stringToken;
+    if (!caseSensitive) {
+      regToken = "(?u)".concat(stringToken);
+    }
+    p = Pattern.compile(regToken);
+    }
   }
   
   public void setPosException(String posToken, boolean regExp, boolean negation, boolean scope) {
@@ -185,18 +206,16 @@ public class Element {
     }
     boolean match = false;
     if (!posRegExp) {
-      if (posToken.equals(token.getPOSTag())) {
-        match = true;
-      }
+      match = posToken.equals(token.getPOSTag());              
     } else
     // changed to match regexps
     if (token.getPOSTag() != null) {
-      if (Pattern.matches(posToken, token.getPOSTag())) {
-        match = true;
-      }
+      Matcher m = pPos.matcher(token.getPOSTag());
+      match = m.matches();                     
     }
     return match;
   }
+
   boolean matchStringToken(AnalyzedToken token) {
     
     // if no string set
@@ -219,10 +238,7 @@ public class Element {
     }
     else
       testToken = token.getToken();
-    String regToken = stringToken;
-    if (!caseSensitive) {
-      regToken = "(?u)".concat(stringToken);
-    }
+    
         
     if (!stringRegExp) {
     if (caseSensitive) {
@@ -232,10 +248,11 @@ public class Element {
       }
     } else { 
         if (token.getToken() != null) {
-          Pattern p = Pattern.compile(regToken);
+          if (p==null) {
+            p = Pattern.compile(regToken);
+          }
           Matcher m = p.matcher(testToken);
           return m.matches();
-          //return Pattern.matches(regToken, testToken);
         }
       } 
       
