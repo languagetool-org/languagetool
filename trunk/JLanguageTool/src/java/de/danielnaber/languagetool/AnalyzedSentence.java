@@ -49,8 +49,7 @@ public class AnalyzedSentence {
    */
   public AnalyzedTokenReadings[] getTokensWithoutWhitespace() {
 	    List<AnalyzedTokenReadings> l = new ArrayList<AnalyzedTokenReadings>();
-	    for (int i = 0; i < tokens.length; i++) {
-	      AnalyzedTokenReadings token = tokens[i];
+	    for (AnalyzedTokenReadings token : tokens) {
 	      if (!token.isWhitespace() || token.isSentStart()) {
 	        l.add(token);
 	      }

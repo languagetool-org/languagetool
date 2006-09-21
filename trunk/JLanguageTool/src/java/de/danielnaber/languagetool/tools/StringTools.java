@@ -145,14 +145,22 @@ public class StringTools {
   }
   
   public static String escapeHTML(String s) {
-    //replaceAll is slightly slower
-    //TODO: should be replaced using StringBuilder
-    //see struts TextUtil.escapeHTML
-    s = s.replace("&", "&amp;");
-    s = s.replace("<", "&lt;");
-    s = s.replace(">", "&gt;");
-    s = s.replace("\"", "&quot;");    
-    return s;
+    //this version is much faster
+    //than using s.replaceAll        
+    StringBuffer sb = new StringBuffer();
+    int n = s.length();
+    for (int i = 0; i < n; i++) {
+       char c = s.charAt(i);
+       switch (c) {
+         case '<': sb.append("&lt;"); break;
+         case '>': sb.append("&gt;"); break;
+         case '&': sb.append("&amp;"); break;
+         case '"': sb.append("&quot;"); break;
+         
+         default:  sb.append(c); break;
+       }
+    }
+    return sb.toString();    
   }
   
   /**

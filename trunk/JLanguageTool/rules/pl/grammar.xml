@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?><!--
 Copyright (C) 2006 Marcin Miłkowski
-$Id: grammar.xml,v 1.64 2006-09-17 10:49:50 milek_pl Exp $		
+$Id: grammar.xml,v 1.65 2006-09-21 20:49:19 milek_pl Exp $		
 -->
 <rules lang="pl">
 	<category name="Błędy interpunkcyjne">
@@ -229,7 +229,7 @@ $Id: grammar.xml,v 1.64 2006-09-17 10:49:50 milek_pl Exp $
 		<rulegroup id="BRAK_PRZECINKA_ZEBY" name="Brak przecinka przed „żeby”, „aby”, „ażeby”, „iżby”">
 		<rule>
 			<pattern mark_from="1">
-				<token negate="yes" regexp="yes">\p{Punct}|—|–|że|iż|chyba|jak|tylko|tak<exception postag="SENT_START"/></token>
+				<token negate="yes" regexp="yes">\p{Punct}|—|–|że|iż|chyba|jak|tylko|tak|ale|i|lecz|oraz|lub<exception postag="SENT_START"/></token>
 				<token regexp="yes" inflected="yes">żeby|aby|ażeby|iżby</token>
 			</pattern>
 			<message>Przed tym spójnikiem stawiamy przecinek: <suggestion>, \2</suggestion>.</message>
@@ -284,7 +284,7 @@ $Id: grammar.xml,v 1.64 2006-09-17 10:49:50 milek_pl Exp $
 			</rule>
 			<rule>
 				<pattern mark_from="1">
-				<token negate="yes" regexp="yes">\p{Punct}|a|ale|albo|lub|że|–|—<exception postag="SENT_START"/></token>
+				<token negate="yes" regexp="yes">\p{Punct}|a|ale|albo|i|oraz|lub|że|–|—<exception postag="SENT_START"/></token>
 					<token regexp="yes">ponieważ</token>
 				</pattern>
 				<message>Przed tym spójnikiem stawiamy przecinek: <suggestion>, \2</suggestion>.</message>
@@ -750,7 +750,7 @@ $Id: grammar.xml,v 1.64 2006-09-17 10:49:50 milek_pl Exp $
 				<token>bardziej</token>
 				<token inflected="yes" regexp="yes">akumulacyjny|ambicyjny|ambiwalentny|ankietowy|anomalny|ateistyczny|audiencjonalny|audiencyjny|autochtoniczny|autochtoński|bajoński|bezdenny|bezimienny|bezprodukcyjny|bezproduktywny|bezpyłowy|bezpylny|bezustanny|bezwietrzny|bilateralny|bledziutki|bombowy|braterski|chwytny|dekoratorski|długoletni|długowiekowy|dodatkowy|dopingowy|dostateczny|drugorzędny|dwoisty|dwuletni|dwuroczny|dyplomatyczny|dyplomowany|dyskrecjonalny|dyżurny|dzisiejszy|ekstranowoczesny|ekstremalny|ewentualny|fenomenalny|finalny|gadulski|generalny|genetyczny|gigantyczny|goły|gotowy|hipoalergiczny|humanistyczny|identyczny|iluzyjny|innowierczy|inny|intelektualny|intensyfikacyjny|introspekcyjny|introspektywny|istny|jazzowy|jazzrockowy|jednaki|jednakowy|jednoczesny|jednomyślny|jedyny|kapitalny|klasycystyczny|kochaneńki|kompilacyjny|kompilatorski|komplementarny|konceptualny|kontrastowy|kopiasty|krańcowy|kulturowy|leciuchny|leciutki|lekuchny|letni|ludyczny|maksymalistyczny|maksymalny|martwy|mikroskopijny|możebny|nadmierny|nagi|nagminny|neutralny|niebiański|niebotyczny|niebyły|niebywały|niedaleki|niedawny|niedosięgły|niedościgły|niedozwolony|nienawykły|nieprzywykły|nieoceniony|niepamiętny|niepisany|niepodległy|nieporównany|nieporuszony|nieprawdopodobny|nieproszony|niesamowity|niespożyty|niestrudzony|nieustraszony|nieutulony|niewinny|niewyczerpany|niewytłumaczalny|niewzruszony|niezamącony|niezaprzeczalny|niezawodny|niezbity|niezgorszy|niezmącony|niezrównany|nijaki|obecny|obłąkany|obojętny|oddzielny|odmienny|odrębny|odwieczny|ogromny|optymalny|patentowy|pełnowartościowy|permanentny|piekielny|pierworodny|pierwszoplanowy|pierwszorzędny|pitny|podległy|pokrewny|pomniejszy|pośredni|potencjalny|praworęczny|propedeutyczny|przeciwstawny|przedwczesny|przedwieczny|przenośny|przeświadczony|przewoźny|przyciężki|przydługi|przykrótki|przysłowiowy|pusty|racjonalizacyjny|racjonalizatorski|realny|równoległy|równorzędny|rutyniarski|rutynowany|skonany|skrajny|standardowy|sukcesywny|sytuowany|średni|świecki|totalny|ubożuchny|ubożutki|wart|wieczny|wielowiekowy|winien|własny|wspólny|wszechmogący|wszechmocny|wszechwiedzący|wszystkowiedzący|wszyściutki|wszyściuteńki|wszyściuchny|wyborowy|wyjątkowy|wzajemny|zależny|zawisły|zdradziecki|zdrowotny|zupełny|zwierzchni|żądny|</token>
 			</pattern>
-			<message>Ten przymiotnik nie może być stopniowany. Poprawnie: <suggestion>\2</suggestion>.</message>
+			<message>Ten przymiotnik nie może być stopniowany. Poprawnie: <suggestion>\3</suggestion>.</message>
 			<example type="correct">To rozwiązanie jest optymalne.</example>
 			<example type="incorrect">To rozwiązanie jest <marker>bardziej optymalne</marker>.</example>
 		</rule>
@@ -771,7 +771,7 @@ $Id: grammar.xml,v 1.64 2006-09-17 10:49:50 milek_pl Exp $
 				<token>bardziej</token>
 				<token regexp="yes">podobnie|optymalnie|pomału|powoli|równolegle|tymczasowo</token>
 			</pattern>
-			<message>Ten przysłówek nie może być stopniowany. Poprawnie: <suggestion>\2</suggestion>.</message>
+			<message>Ten przysłówek nie może być stopniowany. Poprawnie: <suggestion>\3</suggestion>.</message>
 			<example type="correct">Wykonano to optymalnie.</example>
 			<example type="incorrect">Wykonano to <marker>bardziej optymalnie</marker>.</example>
 		</rule>		
@@ -2329,7 +2329,7 @@ $Id: grammar.xml,v 1.64 2006-09-17 10:49:50 milek_pl Exp $
 
 		<rule id="CZASOWNIK_BY" name="Rozłączna pisownia „bym”, „byście” z czasownikami">
 			<pattern mark_from="0" case_sensitive="no">
-				<token postag_regexp="yes" postag="verb:sec:.+|verb:ter.+|verb:pri:.+|verb:praet:.+"/>
+				<token postag_regexp="yes" postag="verb:praet:.+"/>
 				<token regexp="yes">bym|byście|byśmy|byś|by</token>
 			</pattern>
 			<message>Cząstki „-bym”, „-byś”, „-by”, „-byśmy”, „-byście” piszemy łącznie z czasownikami w formach osobowych. 

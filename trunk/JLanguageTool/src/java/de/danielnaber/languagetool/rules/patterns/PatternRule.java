@@ -152,7 +152,14 @@ public class PatternRule extends Rule {
         allElementsMatch = false;
         break;
       }
-            
+
+      //stop looking for sent_start - it will never match any
+      //token except the first
+      if (startWithSentStart && i>0) {
+        allElementsMatch = false;
+        break;
+      }
+      
       int matchingTokens = 0;
       for (int k = 0; (k < patternSize); k++) {
         if (elem!=null) { 
@@ -165,12 +172,7 @@ public class PatternRule extends Rule {
           allElementsMatch = false;
           break;
         }
-        //stop looking for sent_start - it will never match any
-        //token except the first
-        if (startWithSentStart && matchingTokens == 0 && i>0) {
-          allElementsMatch = false;
-          break;
-        }
+
         boolean skipMatch = false, thisMatched = false, prevMatched = false;
         boolean exceptionMatched = false;
         if (prevSkipNext + nextPos >= tokens.length || prevSkipNext < 0) { // SENT_END?
@@ -190,7 +192,7 @@ public class PatternRule extends Rule {
               }               
             }
             thisMatched |= elem.match(matchToken);            
-            exceptionMatched=exceptionMatched || elem.exceptionMatch(matchToken);
+            exceptionMatched |= elem.exceptionMatch(matchToken);
             // Logical OR (cannot be AND):
             if (!thisMatched && !exceptionMatched) {             
               matched |= false;

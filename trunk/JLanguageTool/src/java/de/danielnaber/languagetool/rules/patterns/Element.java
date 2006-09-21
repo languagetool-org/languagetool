@@ -93,9 +93,7 @@ public class Element {
     Iterator<Element> it = exceptionList.iterator();    
     while (it.hasNext()) {
       Element testException =it.next();
-      //if (testException.exceptionValidNext) {
-      exceptionMatched = exceptionMatched || testException.match(token);
-      //}      
+      exceptionMatched |= testException.match(token);
       if (exceptionMatched) {
         break;
       }

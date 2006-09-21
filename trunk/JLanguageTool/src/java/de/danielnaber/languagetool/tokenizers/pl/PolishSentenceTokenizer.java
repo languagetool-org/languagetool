@@ -173,7 +173,7 @@ public class PolishSentenceTokenizer extends SentenceTokenizer {
       s = s.replaceAll("(\\d+\\.) " + EOS + "([\\p{L}&&[^\\p{Lu}]]+)", "$1 $2");
 
     // z.B. "Das hier ist ein(!) Satz."
-    s = s.replaceAll("\\(([!?]+)\\) " + EOS, "($1) ");
+      s = s.replaceAll("\\(([!?]+)\\) " + EOS, "($1) ");
     return s;
   }
 
