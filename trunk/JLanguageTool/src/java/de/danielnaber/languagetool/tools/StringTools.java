@@ -147,7 +147,7 @@ public class StringTools {
   public static String escapeHTML(String s) {
     //this version is much faster
     //than using s.replaceAll        
-    StringBuffer sb = new StringBuffer();
+    StringBuilder sb = new StringBuilder();
     int n = s.length();
     for (int i = 0; i < n; i++) {
        char c = s.charAt(i);

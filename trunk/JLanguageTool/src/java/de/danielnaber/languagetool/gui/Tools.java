@@ -53,7 +53,7 @@ public class Tools {
       String markerStart, String markerEnd) {
     fileContents = fileContents.replaceAll("\n", " ");
     // calculate context region:
-    int startContent = fromPos - contextSize;
+    int startContent = fromPos - contextSize;    
     String prefix = "...";
     String postfix = "...";
     String markerPrefix = "   ";
@@ -63,13 +63,15 @@ public class Tools {
       startContent = 0;
     }
     int endContent = toPos + contextSize;
-    if (endContent > fileContents.length()) {
+    int fileLen = fileContents.length();
+    if (endContent > fileLen ) {
       postfix = "";
-      endContent = fileContents.length();
+      endContent = fileLen;
     }
     // make "^" marker. inefficient but robust implementation:
     StringBuilder marker = new StringBuilder();
-    for (int i = 0; i < fileContents.length() + prefix.length(); i++) {
+    int totalLen = fileLen + prefix.length();
+    for (int i = 0; i < totalLen; i++) {
       if (i >= fromPos && i < toPos)
         marker.append("^");
       else
