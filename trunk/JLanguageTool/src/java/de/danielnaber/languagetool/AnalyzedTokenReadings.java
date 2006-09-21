@@ -34,37 +34,37 @@ public class AnalyzedTokenReadings {
 	protected int startPos;
 	protected String token; 
 	
-	public AnalyzedTokenReadings(AnalyzedToken[] r) {
+	public AnalyzedTokenReadings(final AnalyzedToken[] r) {
 		ATreadings = r;
 		token = ATreadings[0].getToken();
 		this.startPos = ATreadings[0].getStartPos();
 	}
 	
-	public AnalyzedTokenReadings(AnalyzedToken at){
+	public AnalyzedTokenReadings(final AnalyzedToken at) {
 		ATreadings = new AnalyzedToken[1];
 		ATreadings[0] = at;
 		token = ATreadings[0].getToken();
 		startPos = at.getStartPos();
 	}
   
-  public List<AnalyzedToken> getReadings() {
+  public final List<AnalyzedToken> getReadings() {
     return (List<AnalyzedToken>) Arrays.asList(ATreadings);
   }
 
-	public AnalyzedToken getAnalyzedToken(int i) {
+  public final AnalyzedToken getAnalyzedToken(final int i) {
 		return ATreadings[i];
 	}
 
-  public int getReadingsLength() {
+  public final int getReadingsLength() {
     return ATreadings.length;
   }
   
-  public boolean isWhitespace() {
+  public final boolean isWhitespace() {
     return token.trim().equals("");
   }
   
   
-  public boolean isSentStart() {
+  public final boolean isSentStart() {
     //helper method added after profiling
    boolean isSE = false;
    if (ATreadings[0].posTag!= null) {
@@ -73,11 +73,11 @@ public class AnalyzedTokenReadings {
    return isSE;
   }
   
-  public int getStartPos() {
+  public final int getStartPos() {
 		return startPos;
 	}
 	
-	public String getToken(){
+	public final String getToken(){
 		return token;
 	}
 	

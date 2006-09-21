@@ -19,11 +19,11 @@ import de.danielnaber.languagetool.tokenizers.*;
 public class PolishSentenceTokenizer extends SentenceTokenizer {
 
   // end of sentence marker:
-  private final static String EOS = "\0";
+  private static final String EOS = "\0";
   // private final static String EOS = "#"; // for testing only
-  private final static String P = "[\\.!?…]"; // PUNCTUATION
-  private final static String AP = "(?:'|«|\"|”|\\)|\\]|\\})?"; // AFTER PUNCTUATION
-  private final static String PAP = P + AP;
+  private static final String P = "[\\.!?…]"; // PUNCTUATION
+  private static final String AP = "(?:'|«|\"|”|\\)|\\]|\\})?"; // AFTER PUNCTUATION
+  private static final String PAP = P + AP;
 
   // Check out the private methods for comments and examples about these
   // regular expressions:
@@ -54,7 +54,7 @@ public class PolishSentenceTokenizer extends SentenceTokenizer {
       //Polish:
       "adw", "afr", "akad", "am", "amer", "arch", "art", "artyst",
       "astr", "austr", "bałt", "bdb", "bł", "bm", "br", "bryt", 
-      "centr", "ces", "chem", "chiń", "chir", "c.k","c.o", "cyg",
+      "centr", "ces", "chem", "chiń", "chir", "c.k", "c.o", "cyg",
       "cyw", "czes", "czw", "cd", "czyt", "ćw", "ćwicz", "daw",
       "dcn", "dekl", "demokr", "det", "diec", "dł", "dn", "doc",
       "dop", "dost", "dosł", "h.c", "ds", "dst", "duszp", "dypl",
@@ -64,8 +64,8 @@ public class PolishSentenceTokenizer extends SentenceTokenizer {
       "hr", "hot", "id", "in", "im", "iron", "jn", "kard", "kat",
       "katol", "k.k", "kk", "klas", "kol", "k.p.a", "kpc", "k.p.c",
       "kpt", "kr", "k.r", "krak", "k.r.o", "kryt", "kult", "laic",
-      "łac", "np", "p.n.e", "m.in", "itd", "itp", "pt","cdn", "dyr","hab",
-      "inż","jw", "lek","n.e","nb","rys", "tj", "tzw", "tzn", "zob" , "ang",
+      "łac", "np", "p.n.e", "m.in", "itd", "itp", "pt", "cdn", "dyr", "hab", 
+      "inż", "jw", "lek", "n.e", "nb", "rys", "tj", "tzw", "tzn", "zob" , "ang",
       "ul", "pl", "al", "prof", "gen", "k", "n", "ks", "ok", "tys", "r", "proc",
       "ww", "ur", "zm"
   };
@@ -87,14 +87,14 @@ public class PolishSentenceTokenizer extends SentenceTokenizer {
    * @param lineBreakParagraphs if <code>true</code>, single lines breaks are assumed to end a paragraph,
    *  with <code>false</code>, only two ore more consecutive line breaks end a paragraph
    */
-  public void setSingleLineBreaksMarksParagraph(boolean lineBreakParagraphs) {
+  public final void setSingleLineBreaksMarksParagraph(final boolean lineBreakParagraphs) {
     if (lineBreakParagraphs)
       paragraph = paragraphByLineBreak;
     else
       paragraph = paragraphByTwoLineBreaks;
   }
 
-  public List<String> tokenize(String s) {
+  public final List<String> tokenize(String s) {
     s = firstSentenceSplitting(s);
     s = removeFalseEndOfSentence(s);
     s = splitUnsplitStuff(s);

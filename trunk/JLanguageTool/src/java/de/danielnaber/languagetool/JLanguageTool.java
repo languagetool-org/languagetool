@@ -67,13 +67,13 @@ import de.danielnaber.languagetool.tokenizers.Tokenizer;
  */
 public class JLanguageTool {
 
-  public final static String VERSION = "0.8.5dev";      // keep in sync with build.xml!
+  public static final String VERSION = "0.8.5dev";      // keep in sync with build.xml!
 
-  public final static String RULES_DIR = "rules";
-  public final static String PATTERN_FILE = "grammar.xml";
-  public final static String FALSE_FRIEND_FILE = "false-friends.xml";
+  public static final String RULES_DIR = "rules";
+  public static final String PATTERN_FILE = "grammar.xml";
+  public static final String FALSE_FRIEND_FILE = "false-friends.xml";
   
-  public final static String SENTENCE_START_TAGNAME = "SENT_START";
+  public static final String SENTENCE_START_TAGNAME = "SENT_START";
 
   private List<Rule> builtinRules = new ArrayList<Rule>();
   private List<Rule> userRules = new ArrayList<Rule>();     // rules added via addRule() method
@@ -101,7 +101,7 @@ public class JLanguageTool {
    * given language, ignoring false friend hints. 
    * @throws IOException 
    */
-  public JLanguageTool(Language language) throws IOException {
+  public JLanguageTool(final Language language) throws IOException {
     this(language, null, null);
   }
 

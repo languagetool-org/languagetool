@@ -1,4 +1,4 @@
-/* LanguageTool, a natural language style checker 
+/* LanguageTool, a natural language style checker
  * Copyright (C) 2005 Daniel Naber (http://www.danielnaber.de)
  * 
  * This library is free software; you can redistribute it and/or
@@ -32,14 +32,19 @@ public class AnalyzedSentence {
 
   private AnalyzedTokenReadings[] tokens;
   
-  public AnalyzedSentence(AnalyzedTokenReadings[] tokens) {
+  /**
+   * Sets {@link AnalyzedTokenReadings}. 
+   * Whitespace is also a token.
+   */
+  public AnalyzedSentence(final AnalyzedTokenReadings[] tokens) {
     this.tokens = tokens;
   }
 
   /**
-   * Returns the {@link AnalyzedTokenReadings} of the analyzed text. Whitespace is also a token.
+   * Returns the {@link AnalyzedTokenReadings} of the analyzed text. 
+   * Whitespace is also a token.
    */
-  public AnalyzedTokenReadings[] getTokens() {
+  public final AnalyzedTokenReadings[] getTokens() {
     return tokens;
   }
 
@@ -47,17 +52,17 @@ public class AnalyzedSentence {
    * Returns the {@link AnalyzedTokenReadings} of the analyzed text, with whitespace tokens removed
    * but with the artificial <code>SENT_START</code> token included.
    */
-  public AnalyzedTokenReadings[] getTokensWithoutWhitespace() {
+  public final AnalyzedTokenReadings[] getTokensWithoutWhitespace() {
 	    List<AnalyzedTokenReadings> l = new ArrayList<AnalyzedTokenReadings>();
 	    for (AnalyzedTokenReadings token : tokens) {
 	      if (!token.isWhitespace() || token.isSentStart()) {
-	        l.add(token);
+            l.add(token);
 	      }
 	    }
 	    return (AnalyzedTokenReadings[])l.toArray(new AnalyzedTokenReadings[0]);
 	  }
   
-  public String toString() {
+  public final String toString() {
     StringBuilder sb = new StringBuilder();
     for (int i = 0; i < tokens.length; i++) {
       if (!"".equals(tokens[i].token.trim())) {

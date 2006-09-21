@@ -72,63 +72,63 @@ public class PatternRule extends Rule {
     this.patternElements = new ArrayList<Element>(elements); // copy elements
   }
 
-  public String getId() {
+  public final String getId() {
     return id;
   }
 
-  public String getDescription() {
+  public final String getDescription() {
     return description;
   }
 
-  public String getMessage() {
+  public final String getMessage() {
     return message;
   }
 
-  public Language[] getLanguages() {
+  public final Language[] getLanguages() {
     return language;
   }
 
-  public String toString() {
+  public final String toString() {
     return id + ":" + patternElements + ":" + description;
   }
 
-  public void setMessage(String message) {
+  public final void setMessage(String message) {
     this.message = message;
   }
 
-  public boolean getCaseSensitive() {
+  public final boolean getCaseSensitive() {
     return caseSensitive;
   }
 
-  public void setCaseSensitive(boolean caseSensitive) {
+  public final void setCaseSensitive(boolean caseSensitive) {
     this.caseSensitive = caseSensitive;
   }
 
-  public boolean getregExpSetting() {
+  public final boolean getregExpSetting() {
     return regExp;
   }
 
-  public void setregExpSetting(boolean regExp) {
+  public final void setregExpSetting(boolean regExp) {
     this.regExp = regExp;
   }
 
-  public int getStartPositionCorrection() {
+  public final int getStartPositionCorrection() {
     return startPositionCorrection;
   }
 
-  public void setStartPositionCorrection(int startPositionCorrection) {
+  public final void setStartPositionCorrection(int startPositionCorrection) {
     this.startPositionCorrection = startPositionCorrection;
   }
 
-  public int getEndPositionCorrection() {
+  public final int getEndPositionCorrection() {
     return endPositionCorrection;
   }
 
-  public void setEndPositionCorrection(int endPositionCorrection) {
+  public final void setEndPositionCorrection(int endPositionCorrection) {
     this.endPositionCorrection = endPositionCorrection;
   }
 
-  public RuleMatch[] match(AnalyzedSentence text) {
+  public final RuleMatch[] match(final AnalyzedSentence text) {
     List<RuleMatch> ruleMatches = new ArrayList<RuleMatch>();
     AnalyzedTokenReadings[] tokens = text.getTokensWithoutWhitespace();
     

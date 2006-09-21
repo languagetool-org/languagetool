@@ -1,4 +1,4 @@
-/* LanguageTool, a natural language style checker 
+/* LanguageTool, a natural language style checker
  * Copyright (C) 2005 Daniel Naber (http://www.danielnaber.de)
  * 
  * This library is free software; you can redistribute it and/or
@@ -25,38 +25,38 @@ package de.danielnaber.languagetool;
  */
 public class AnalyzedToken {
 
-  protected String token;
+  private String token;
   protected String posTag;
-  protected int startPos;
-  protected String lemma;
+  private int startPos;
+  private String lemma;
   
-  public AnalyzedToken(String token, String posTag, int startPos) {
+  public AnalyzedToken(final String token, final String posTag, final int startPos) {
     this.token = token;
     this.posTag = posTag;
     this.startPos = startPos;
   }
   
-  public AnalyzedToken(String token, String posTag, String lemma) {
+  public AnalyzedToken(final String token, final String posTag, final String lemma) {
 	    this.token = token;
 	    this.posTag = posTag;
-	    this.lemma= lemma;
+	    this.lemma = lemma;
 	  }
 	  
   
     
-  public String getToken() {
+  public final String getToken() {
     return token;
   }
 
-  public String getPOSTag() {
+  public final String getPOSTag() {
     return posTag;
   }
 
-  public String getLemma() {
+  public final String getLemma() {
 	  return lemma;
   }
   
-  public int getStartPos() {
+  public final int getStartPos() {
     return startPos;
   }
 
@@ -65,3 +65,4 @@ public class AnalyzedToken {
   }
 
 }
+
