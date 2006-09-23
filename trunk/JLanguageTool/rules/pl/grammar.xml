@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?><!--
 Copyright (C) 2006 Marcin Miłkowski
-$Id: grammar.xml,v 1.65 2006-09-21 20:49:19 milek_pl Exp $		
+$Id: grammar.xml,v 1.66 2006-09-23 00:08:14 milek_pl Exp $		
 -->
 <rules lang="pl">
 	<category name="Błędy interpunkcyjne">
@@ -183,7 +183,7 @@ $Id: grammar.xml,v 1.65 2006-09-21 20:49:19 milek_pl Exp $
 		<rulegroup id="BRAK_PRZECINKA_ZE" name="Brak przecinka przed „że” i „iż”">
 		<rule>
 			<pattern mark_from="1">
-				<token negate="yes" regexp="yes">\p{Punct}|–|—|a|ale|albo|lecz|lub|tym|bardziej|chyba|i|ile|jako|oraz|szczególnie|tyle|tylko|zwłaszcza|pomimo|mimo|także|również<exception postag="SENT_START"/></token>
+				<token negate="yes" regexp="yes">\p{Punct}|–|—|a|ale|albo|lecz|lub|czy|tym|bardziej|chyba|i|ile|jako|oraz|szczególnie|tyle|tylko|zwłaszcza|pomimo|mimo|także|również|czyli<exception postag="SENT_START"/></token>
 				<token regexp="yes">że|iż</token>
 			</pattern>
 			<message>Przed spójnikiem „że” stawiamy przecinek: <suggestion>, \2</suggestion>.</message>
@@ -207,7 +207,7 @@ $Id: grammar.xml,v 1.65 2006-09-21 20:49:19 milek_pl Exp $
 		<rulegroup id="BRAK_PRZECINKA_JESLI" name="Brak przecinka przed „jeśli”, „jeżeli”, „gdyby” itd.">
 		<rule>
 			<pattern mark_from="1">
-				<token negate="yes" regexp="yes" inflected="yes">\p{Punct}|–|—<exception regexp="yes">a|jak|ale|i|czy|lub|albo|lecz|który|jaki|zwłaszcza|szczególnie|że|nawet|więc|to|jednak</exception><exception postag="SENT_START"/></token>
+				<token negate="yes" regexp="yes" inflected="yes">\p{Punct}|–|—<exception regexp="yes">a|jak|ale|i|czy|lub|albo|lecz|który|jaki|zwłaszcza|szczególnie|że|nawet|więc|to|jednak|gdyż|ponieważ|niemniej</exception><exception postag="SENT_START"/></token>
 				<token regexp="yes" inflected="yes">jeśli|jeżeli|gdyby|jeżeliby|jeśliby</token>
 			</pattern>
 			<message>Przed spójnikiem stawiamy przecinek:<suggestion>, \2</suggestion>.</message>
@@ -216,8 +216,8 @@ $Id: grammar.xml,v 1.65 2006-09-21 20:49:19 milek_pl Exp $
 		</rule>
 		<rule>
 			<pattern mark_from="1">
-				<token negate="yes" regexp="yes">\p{Punct}|–|—<exception postag="SENT_START"/></token>
-				<token regexp="yes" inflected="yes">a|ale|i|lub|albo|lecz|który|jaki|zwłaszcza|jak|szczególnie|że|nawet|więc|jednak</token>
+				<token negate="yes" regexp="yes">\p{Punct}|–|—<exception postag="SENT_START"/><exception regexp="yes">a|ale|i|lub|albo|lecz|oraz</exception></token>
+				<token regexp="yes" inflected="yes">a|ale|i|lub|albo|lecz|oraz|który|jaki|zwłaszcza|jak|szczególnie|że|nawet|więc|jednak</token>
 				<token regexp="yes" inflected="yes">jeśli|jeżeli|gdyby|jeżeliby|jeśliby</token>
 			</pattern>
 			<message>Przecinek stawiamy przed całym spójnikiem złożonym: <suggestion>, \2 \3</suggestion>.</message>
@@ -482,7 +482,7 @@ $Id: grammar.xml,v 1.65 2006-09-21 20:49:19 milek_pl Exp $
 
 		<rule name="„te”, „jedne”, „tamte” + rzeczownik r. nijakiego w l.poj." id="JEDNE_DZIECKO">
 			<pattern mark_to="-1">
-				<token postag_regexp="yes" postag="adj:pl:nom.*"><exception postag_regexp="yes" postag="adj.*sg:nom.*"/></token>
+				<token postag_regexp="yes" postag="adj:pl:nom.*"><exception postag_regexp="yes" postag="adj.*sg:nom.*|verb.+"/></token>
 				<token postag_regexp="yes" postag="subst.*:sg:nom.acc.*:n"/>
 			</pattern>
 			<message>Ten przymiotnik lub zaimek jest w liczbie mnogiej. Prawdopodobnie należy użyć liczby pojedynczej.</message>
@@ -1358,7 +1358,7 @@ $Id: grammar.xml,v 1.65 2006-09-21 20:49:19 milek_pl Exp $
 	
 		<rule name="„domyśleć się” (domyślić się)" id="DOMYSLEC_SIE">
 			<pattern mark_to="-1">
-				<token inflected="yes">domyśleć<exception inflected="yes">domyślać</exception></token>
+				<token inflected="yes">domyśleć<exception inflected="yes" regexp="yes">domyślać|domyślić</exception></token>
 				<token>się</token>
 			</pattern>
 			<message>Czasownik „domyśleć” oznacza „przemyśleć coś wyczerpująco”. W znaczeniu „odgadnąć”, „przewidzieć” używa się czasownika <suggestion>domyślić</suggestion>.</message>
@@ -1859,7 +1859,7 @@ $Id: grammar.xml,v 1.65 2006-09-21 20:49:19 milek_pl Exp $
 		<rule name="„we” nie przed „f/w…” (w)" id="WE_W">
 			<pattern>
 				<token>we</token>
-				<token negate="yes" regexp="yes">[WFwf].*|Lwowie|środę|czwartek|dw.*|tr.*</token>				
+				<token negate="yes" regexp="yes">[WFwf].*|Lwowie|środę|czwartek|dw.*|tr.*|mnie</token>
 			</pattern>
 			<message>Prawdopodobnie ten przyimek należy zapisać tak: <suggestion>w \2</suggestion>.</message>
 			<example type="correct">Ludwik ma randkę z Przemysławem w Łodzi.</example>
@@ -1871,7 +1871,7 @@ $Id: grammar.xml,v 1.65 2006-09-21 20:49:19 milek_pl Exp $
 		<rule name="„z” przed spółgłoską (ze)" id="Z_ZE">
 			<pattern>
 				<token>z</token>
-				<token regexp="yes">[szśźż][wftśsrłndwpgklzcbmżń].*|[rs]z[wftśsrłndwpgklzcbmżń].*|[wf][wftśsndwpgkzcbmżń].*|Lwowa|mną|mnie|snu</token>				
+				<token regexp="yes">s[wftśsrłndwpgklcbmżń].*|[zśźż][wftśsrłndwpgklzcbmżń].*|[rs]z[wftśsrłndwpgklzcbmżń].*|[wf][wftśsndwpgkzcbmżń].*|Lwowa|mną|mnie|snu</token>				
 			</pattern>
 			<message>Prawdopodobnie ten przyimek należy zapisać tak: <suggestion>ze \2</suggestion>.</message>
 			<example type="correct">Ludwik ma kochankę ze Świecia</example>
