@@ -92,7 +92,7 @@ public class PatternRule extends Rule {
     return id + ":" + patternElements + ":" + description;
   }
 
-  public final void setMessage(String message) {
+  public final void setMessage(final String message) {
     this.message = message;
   }
 
@@ -100,7 +100,7 @@ public class PatternRule extends Rule {
     return caseSensitive;
   }
 
-  public final void setCaseSensitive(boolean caseSensitive) {
+  public final void setCaseSensitive(final boolean caseSensitive) {
     this.caseSensitive = caseSensitive;
   }
 
@@ -108,7 +108,7 @@ public class PatternRule extends Rule {
     return regExp;
   }
 
-  public final void setregExpSetting(boolean regExp) {
+  public final void setregExpSetting(final boolean regExp) {
     this.regExp = regExp;
   }
 
@@ -116,7 +116,7 @@ public class PatternRule extends Rule {
     return startPositionCorrection;
   }
 
-  public final void setStartPositionCorrection(int startPositionCorrection) {
+  public final void setStartPositionCorrection(final int startPositionCorrection) {
     this.startPositionCorrection = startPositionCorrection;
   }
 
@@ -124,7 +124,7 @@ public class PatternRule extends Rule {
     return endPositionCorrection;
   }
 
-  public final void setEndPositionCorrection(int endPositionCorrection) {
+  public final void setEndPositionCorrection(final int endPositionCorrection) {
     this.endPositionCorrection = endPositionCorrection;
   }
 
@@ -148,27 +148,27 @@ public class PatternRule extends Rule {
       boolean allElementsMatch = true;
       
       //stop processing if rule is longer than the sentence
-      if (patternSize +i > tokens.length) {
+      if (patternSize + i > tokens.length) {
         allElementsMatch = false;
         break;
       }
 
       //stop looking for sent_start - it will never match any
       //token except the first
-      if (startWithSentStart && i>0) {
+      if (startWithSentStart && i > 0) {
         allElementsMatch = false;
         break;
       }
       
       int matchingTokens = 0;
       for (int k = 0; (k < patternSize); k++) {
-        if (elem!=null) { 
+        if (elem != null) { 
           prevElement = elem;
         }
         elem = patternElements.get(k);
         skipNext = elem.getSkipNext();
         int nextPos = tokenPos + k + skipShift;
-        if (nextPos >= tokens.length ) {
+        if (nextPos >= tokens.length) {
           allElementsMatch = false;
           break;
         }
@@ -181,11 +181,11 @@ public class PatternRule extends Rule {
         for (int m = nextPos; m <= nextPos + prevSkipNext; m++) {
           boolean matched = false;
           int numberOfReadings = tokens[m].getReadingsLength(); 
-          for (int l = 0; l < numberOfReadings ; l++) {
+          for (int l = 0; l < numberOfReadings; l++) {
             
             AnalyzedToken matchToken = tokens[m].getAnalyzedToken(l);
             
-            if (prevSkipNext >0 && prevElement!=null) {
+            if (prevSkipNext > 0 && prevElement != null) {
               if (prevElement.prevExceptionMatch(matchToken)) {
                 exceptionMatched = true;
                 prevMatched = true;
@@ -206,7 +206,7 @@ public class PatternRule extends Rule {
         }
           //disallow exceptions that should match only current tokens          
           if (!thisMatched && !prevMatched) {
-            exceptionMatched=false;
+            exceptionMatched = false;
           }
         if (skipMatch) {
           break;
@@ -237,7 +237,7 @@ public class PatternRule extends Rule {
         // TODO: implement skipping tokens while marking error tokens
         // replace back references like \1 in message:
         if (firstMatchToken + matchingTokens >= tokens.length) 
-          matchingTokens = tokens.length-firstMatchToken;
+          matchingTokens = tokens.length - firstMatchToken;
         for (int j = 0; j < matchingTokens; j++) {
           errMessage = errMessage.replaceAll("\\\\" + (j + 1), tokens[firstMatchToken + j]
                                                                       .getToken());

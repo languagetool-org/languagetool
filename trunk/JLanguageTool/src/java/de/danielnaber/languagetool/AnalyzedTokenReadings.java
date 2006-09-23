@@ -30,33 +30,33 @@ import java.util.List;
  */
 public class AnalyzedTokenReadings {
 
-  protected AnalyzedToken[] ATreadings;
+  protected AnalyzedToken[] anTokReadings;
 	protected int startPos;
 	protected String token; 
 	
 	public AnalyzedTokenReadings(final AnalyzedToken[] r) {
-		ATreadings = r;
-		token = ATreadings[0].getToken();
-		this.startPos = ATreadings[0].getStartPos();
+		anTokReadings = r;
+		token = anTokReadings[0].getToken();
+		this.startPos = anTokReadings[0].getStartPos();
 	}
 	
 	public AnalyzedTokenReadings(final AnalyzedToken at) {
-		ATreadings = new AnalyzedToken[1];
-		ATreadings[0] = at;
-		token = ATreadings[0].getToken();
+		anTokReadings = new AnalyzedToken[1];
+		anTokReadings[0] = at;
+		token = anTokReadings[0].getToken();
 		startPos = at.getStartPos();
 	}
   
   public final List<AnalyzedToken> getReadings() {
-    return (List<AnalyzedToken>) Arrays.asList(ATreadings);
+    return (List<AnalyzedToken>) Arrays.asList(anTokReadings);
   }
 
   public final AnalyzedToken getAnalyzedToken(final int i) {
-		return ATreadings[i];
+		return anTokReadings[i];
 	}
 
   public final int getReadingsLength() {
-    return ATreadings.length;
+    return anTokReadings.length;
   }
   
   public final boolean isWhitespace() {
@@ -67,8 +67,8 @@ public class AnalyzedTokenReadings {
   public final boolean isSentStart() {
     //helper method added after profiling
    boolean isSE = false;
-   if (ATreadings[0].posTag!= null) {
-     isSE = ATreadings[0].posTag.equals(JLanguageTool.SENTENCE_START_TAGNAME);
+   if (anTokReadings[0].posTag!= null) {
+     isSE = anTokReadings[0].posTag.equals(JLanguageTool.SENTENCE_START_TAGNAME);
    }
    return isSE;
   }
@@ -83,8 +83,8 @@ public class AnalyzedTokenReadings {
 	
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    for (int i = 0; i < ATreadings.length; i++) {
-      sb.append(ATreadings[i]);
+    for (int i = 0; i < anTokReadings.length; i++) {
+      sb.append(anTokReadings[i]);
     }
     return sb.toString();
   }

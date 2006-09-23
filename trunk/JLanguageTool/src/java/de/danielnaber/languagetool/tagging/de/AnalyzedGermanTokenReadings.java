@@ -47,16 +47,16 @@ public class AnalyzedGermanTokenReadings extends AnalyzedTokenReadings {
    */
   public List<AnalyzedGermanToken> getGermanReadings() {
     List<AnalyzedGermanToken> l = new ArrayList<AnalyzedGermanToken>();
-    for (int i = 0; i < ATreadings.length; i++) {
-      l.add((AnalyzedGermanToken)ATreadings[i]);
+    for (int i = 0; i < anTokReadings.length; i++) {
+      l.add((AnalyzedGermanToken)anTokReadings[i]);
     }
     return l;
   }
 
   public boolean hasReadingOfType(POSType type) {
-    if (ATreadings == null)
+    if (anTokReadings == null)
       return false;
-    for (AnalyzedToken reading : ATreadings) {
+    for (AnalyzedToken reading : anTokReadings) {
       AnalyzedGermanToken germanReading = (AnalyzedGermanToken) reading;
       if (germanReading.getType() == type)
         return true;
@@ -65,9 +65,9 @@ public class AnalyzedGermanTokenReadings extends AnalyzedTokenReadings {
   }
 
   public boolean hasReading(GermanToken.Kasus kasus) {
-    if (ATreadings == null)
+    if (anTokReadings == null)
       return false;
-    for (AnalyzedToken reading : ATreadings) {
+    for (AnalyzedToken reading : anTokReadings) {
       AnalyzedGermanToken germanReading = (AnalyzedGermanToken) reading;
       if (germanReading.getCasus() == kasus)
         return true;
@@ -76,9 +76,9 @@ public class AnalyzedGermanTokenReadings extends AnalyzedTokenReadings {
   }
 
   public boolean hasReading(GermanToken.Numerus numerus) {
-    if (ATreadings == null)
+    if (anTokReadings == null)
       return false;
-    for (AnalyzedToken reading : ATreadings) {
+    for (AnalyzedToken reading : anTokReadings) {
       AnalyzedGermanToken germanReading = (AnalyzedGermanToken) reading;
       if (germanReading.getNumerus() == numerus)
         return true;
@@ -87,9 +87,9 @@ public class AnalyzedGermanTokenReadings extends AnalyzedTokenReadings {
   }
 
   public boolean hasReading(GermanToken.Genus genus) {
-    if (ATreadings == null)
+    if (anTokReadings == null)
       return false;
-    for (AnalyzedToken reading : ATreadings) {
+    for (AnalyzedToken reading : anTokReadings) {
       AnalyzedGermanToken germanReading = (AnalyzedGermanToken) reading;
       if (germanReading.getGenus() == genus)
         return true;
@@ -98,13 +98,13 @@ public class AnalyzedGermanTokenReadings extends AnalyzedTokenReadings {
   }
 
   public String toString() {
-    if (ATreadings == null)
+    if (anTokReadings == null)
       return super.getAnalyzedToken(0).getToken() + "[?]";
     else {
       StringBuffer sb = new StringBuffer(super.getAnalyzedToken(0).getToken());
       Set<String> printed = new HashSet<String>();
       sb.append("[");
-      for (AnalyzedToken reading : ATreadings) {
+      for (AnalyzedToken reading : anTokReadings) {
         if (!printed.contains(reading.toString())) {
           if (printed.size() > 0)
             sb.append(", ");

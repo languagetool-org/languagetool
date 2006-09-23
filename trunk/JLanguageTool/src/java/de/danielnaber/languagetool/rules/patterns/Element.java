@@ -38,8 +38,8 @@ public class Element {
   private String regToken;
   private boolean posRegExp = false;  
 
-  boolean negation = false;
-  boolean posNegation = false;
+  private boolean negation = false;
+  private boolean posNegation = false;
   
   private boolean caseSensitive = false;
   private boolean stringRegExp = false;
@@ -49,12 +49,12 @@ public class Element {
   public boolean exceptionValidNext = true;
   private boolean exceptionSet = false;
 
-  int skip = 0;
+  private int skip = 0;
   
   private Pattern p = null;
   private Pattern pPos = null;
 
-  boolean match(AnalyzedToken token) {
+  final boolean match(final AnalyzedToken token) {
     // this var is used to determine
     // if calling matchStringToken
     // has any sense - this method takes
@@ -74,7 +74,15 @@ public class Element {
     }
   }
 
-  boolean exceptionValid() {
+  /** Tests if the exception is valid for next tokens 
+   * (used to define exception scope). 
+   * 
+   * @author Marcin Milkowski
+   * 
+   * @return boolean 
+   * 
+   */  
+  final boolean exceptionValid() {
     boolean eNext = false;
     if (exceptionSet) {
       Iterator<Element> it = exceptionList.iterator();    
@@ -87,12 +95,12 @@ public class Element {
     }
       return eNext;
   }
-  boolean exceptionMatch(AnalyzedToken token) {
+  final boolean exceptionMatch(final AnalyzedToken token) {
     boolean exceptionMatched = false;
     if (exceptionSet) {
     Iterator<Element> it = exceptionList.iterator();    
     while (it.hasNext()) {
-      Element testException =it.next();
+      Element testException = it.next();
       exceptionMatched |= testException.match(token);
       if (exceptionMatched) {
         break;
@@ -102,12 +110,12 @@ public class Element {
     return exceptionMatched;    
   }
 
-  boolean prevExceptionMatch(AnalyzedToken token) {
+  final boolean prevExceptionMatch(final AnalyzedToken token) {
     boolean exceptionMatched = false;
     if (exceptionSet) {
     Iterator<Element> it = exceptionList.iterator();    
     while (it.hasNext()) {
-      Element testException =it.next();
+      Element testException = it.next();
       if (testException.exceptionValidNext) {
       exceptionMatched = exceptionMatched || testException.match(token);
       }      
@@ -120,12 +128,12 @@ public class Element {
   }
   
   
-  Element(String token, boolean caseSensitive, boolean regExp, boolean inflected) {
+  Element(final String token, final boolean caseSensitive, final boolean regExp, final boolean inflected) {
     this.stringToken = token;
     this.caseSensitive = caseSensitive;
     this.stringRegExp = regExp;
     this.inflected = inflected;
-    if (!stringToken.equals("")&& stringRegExp) {
+    if (!stringToken.equals("") && stringRegExp) {
     regToken = stringToken;
     if (!caseSensitive) {
       regToken = "(?u)".concat(stringToken);
@@ -134,7 +142,7 @@ public class Element {
     }
   }
 
-  public boolean isSentStart() {
+  public final boolean isSentStart() {
     boolean equals = false;
     if (posToken != null) {
       // not sure if this should be logical AND
@@ -142,7 +150,8 @@ public class Element {
     }
     return equals;
   }
-  public String toString() {
+  
+  public final String toString() {
     if (posToken != null) {
       return stringToken.concat("/").concat(posToken);
     } else {
@@ -150,7 +159,7 @@ public class Element {
     }
   }
 
-  public void setPosElement(String posToken, boolean regExp, boolean negation) {
+  public final void setPosElement(final String posToken, final boolean regExp, final boolean negation) {
     this.posToken = posToken;
     this.posNegation = negation;
     posRegExp = regExp;
@@ -159,7 +168,7 @@ public class Element {
     }
   }
 
-  public void setStringElement(String token)  {
+  public final void setStringElement(final String token)  {
     this.stringToken = token;
     if (!stringToken.equals("") && stringRegExp) {
     regToken = stringToken;
@@ -170,10 +179,10 @@ public class Element {
     }
   }
   
-  public void setPosException(String posToken, boolean regExp, boolean negation, boolean scope) {
+  public final void setPosException(final String posToken, final boolean regExp, final boolean negation, final boolean scope) {
       Element posException = new Element("", this.caseSensitive, regExp, false);   
       posException.setPosElement(posToken, regExp, negation);
-      posException.exceptionValidNext=scope;
+      posException.exceptionValidNext = scope;
       if (exceptionList == null) {
         exceptionList = new ArrayList<Element>();
       }
@@ -183,10 +192,10 @@ public class Element {
       exceptionList.add(posException);          
   }
 
-  public void setStringException(String token, boolean regExp, boolean inflected, boolean negation, boolean scope) {
+  public final void setStringException(final String token, final boolean regExp, final boolean inflected, boolean negation, boolean scope) {
     Element stringException = new Element(token, this.caseSensitive, regExp, inflected);
     stringException.setNegation(negation);
-    stringException.exceptionValidNext=scope;
+    stringException.exceptionValidNext = scope;
     if (exceptionList == null) {
       exceptionList = new ArrayList<Element>();
     }
@@ -196,7 +205,7 @@ public class Element {
       exceptionList.add(stringException);    
   }
 
-  boolean matchPosToken(AnalyzedToken token) {
+  final boolean matchPosToken(final AnalyzedToken token) {
     // if no POS set
     // defaulting to true
     if (posToken == null) {
@@ -214,7 +223,7 @@ public class Element {
     return match;
   }
 
-  boolean matchStringToken(AnalyzedToken token) {
+  final boolean matchStringToken(final AnalyzedToken token) {
     
     // if no string set
     // defaulting to true
@@ -231,11 +240,12 @@ public class Element {
     //in the same regexp with inflected="yes"
     if (inflected) {
       testToken = token.getLemma();
-      if (testToken==null) 
-        testToken=token.getToken();
-    }
-    else
+      if (testToken == null) {
+        testToken = token.getToken();
+      }
+    } else {
       testToken = token.getToken();
+    }
     
         
     if (!stringRegExp) {
@@ -246,7 +256,7 @@ public class Element {
       }
     } else { 
         if (token.getToken() != null) {
-          if (p==null) {
+          if (p == null) {
             p = Pattern.compile(regToken);
           }
           Matcher m = p.matcher(testToken);
@@ -257,22 +267,22 @@ public class Element {
     return false;
   }
 
-  public int getSkipNext() {
+  public final int getSkipNext() {
     return skip;
   }
 
-  public void setSkipNext(int i) {
+  public final void setSkipNext(int i) {
     skip = i;
   }
 
-  String getTokens() {
+  final String getTokens() {
     return stringToken;
   }
 
   /**
    * Negates the meaning of match().
    */
-  void setNegation(boolean negation) {
+  final void setNegation(boolean negation) {
     this.negation = negation;
   }
 
