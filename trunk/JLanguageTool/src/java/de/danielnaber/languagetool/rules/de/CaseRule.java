@@ -123,6 +123,7 @@ public class CaseRule extends GermanRule {
   
   private final static Set<String> substVerbenExceptions = new HashSet<String>();
   static {
+    substVerbenExceptions.add("müssen");
     substVerbenExceptions.add("so");
     substVerbenExceptions.add("ist");
     substVerbenExceptions.add("können");
