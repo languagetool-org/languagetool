@@ -49,37 +49,15 @@ public class PolishSentenceTokenizer extends SentenceTokenizer {
   private static final Pattern repair1 = Pattern.compile("('[\\wąćęłńóśźżĄĆĘŁŃÓŚŹŻ]" + P + ")(\\s)");
   private static final Pattern repair2 = Pattern.compile("(\\sno\\.)(\\s+)(?!\\d)");
   
-  // Polish:
-  private static final String[] ABBREV_LIST = {
-      //Polish:
-      "adw", "afr", "akad", "am", "amer", "arch", "art", "artyst",
-      "astr", "austr", "bałt", "bdb", "bł", "bm", "br", "bryt", 
-      "centr", "ces", "chem", "chiń", "chir", "c.k", "c.o", "cyg",
-      "cyw", "czes", "czw", "cd", "czyt", "ćw", "ćwicz", "daw",
-      "dcn", "dekl", "demokr", "det", "diec", "dł", "dn", "doc",
-      "dop", "dost", "dosł", "h.c", "ds", "dst", "duszp", "dypl",
-      "egz", "ekol", "ekon", "elektr", "em", "etc", "ew", "fab",
-      "farm", "fot", "fr", "gat", "gastr", "geogr", "geol", "gimn",
-      "głęb", "gm", "godz", "górn", "gosp", "gr", "gram", "hist", "hiszp",
-      "hr", "hot", "id", "in", "im", "iron", "jn", "kard", "kat",
-      "katol", "k.k", "kk", "klas", "kol", "k.p.a", "kpc", "k.p.c",
-      "kpt", "kr", "k.r", "krak", "k.r.o", "kryt", "kult", "laic",
-      "łac", "np", "p.n.e", "m.in", "itd", "itp", "pt", "cdn", "dyr", "hab", 
-      "inż", "jw", "lek", "n.e", "nb", "rys", "tj", "tzw", "tzn", "zob" , "ang",
-      "ul", "pl", "al", "prof", "gen", "k", "n", "ks", "ok", "tys", "r", "proc",
-      "ww", "ur", "zm"
-  };
-
-  private static Set<String> abbreviations = new HashSet<String>();
+  // Polish abbreviations as a single regexp:
+  private static final String abbrev_list = "adw|afr|akad|am|amer|arch|art|artyst|astr|austr|bałt|bdb|bł|bm|br|bryt|centr|ces|chem|chiń|chir|c.k|c.o|cyg|cyw|czes|czw|cd|czyt|ćw|ćwicz|daw|dcn|dekl|demokr|det|diec|dł|dn|doc|dop|dost|dosł|h.c|ds|dst|duszp|dypl|egz|ekol|ekon|elektr|em|etc|ew|fab|farm|fot|fr|gat|gastr|geogr|geol|gimn|głęb|gm|godz|górn|gosp|gr|gram|hist|hiszp|hr|hot|id|in|im|iron|jn|kard|kat|katol|k.k|kk|klas|kol|k.p.a|kpc|k.p.c|kpt|kr|k.r|krak|k.r.o|kryt|kult|laic|łac|np|p.n.e|m.in|itd|itp|pt|cdn|dyr|hab|inż|jw|lek|n.e|nb|rys|tj|tzw|tzn|zob|ang|ul|pl|al|prof|gen|k|n|ks|ok|tys|r|proc|ww|ur|zm";
+  
   private StringTokenizer stringTokenizer = null;
 
   /**
    * Create a sentence tokenizer.
    */
   public PolishSentenceTokenizer() {
-    for (int i = 0; i < ABBREV_LIST.length; i++) {
-      abbreviations.add(ABBREV_LIST[i]);
-    }
     setSingleLineBreaksMarksParagraph(false);
   }
 
@@ -147,11 +125,11 @@ public class PolishSentenceTokenizer extends SentenceTokenizer {
     //should be split at "r."... But
     //"Ks. Jankowski jest analfabetą" shouldn't be split...
     //this requires a special list of abbrevs used before names etc.
-    for (String abbrev : abbreviations) {
-      Pattern pattern = Pattern.compile("(?u)(\\b" + abbrev + PAP + "\\s)" + EOS);
-      s = pattern.matcher(s).replaceAll("$1");
-    }
 
+    //removing the loop and using only one regexp - this is definitely much, much faster
+    Pattern pattern = Pattern.compile("(?u)(\\b(" + abbrev_list +")"+ PAP + "\\s)" + EOS);
+    s = pattern.matcher(s).replaceAll("$1");
+    
     // Don't break after quote unless there's a capital letter:
     // e.g.: "That's right!" he said.
     s = abbrev6.matcher(s).replaceAll("$1$2");
