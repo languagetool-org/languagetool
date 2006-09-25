@@ -3,7 +3,7 @@
 Rules: Grammar and Typos
 See tagset.txt for the meaning of the POS tags
 Copyright (C) 2001-2006 Daniel Naber (http://www.danielnaber.de)
-$Id: grammar.xml,v 1.85 2006-09-24 23:55:13 milek_pl Exp $
+$Id: grammar.xml,v 1.86 2006-09-25 22:37:31 milek_pl Exp $
 -->
 <rules lang="en">
 
@@ -1147,66 +1147,69 @@ $Id: grammar.xml,v 1.85 2006-09-24 23:55:13 milek_pl Exp $
 	</rule>	
 	</rulegroup>
 	
-  <rulegroup id="AFFORD_VBG" name="'afford' used with gerund instead of infinitive">
+  <rulegroup id="AFFORD_VBG" name="'afford', 'choose', 'deserve', 'pretend', 'strive' and 'struggle' used with gerund instead of infinitive">
     <rule>
       <pattern mark_from="1">
-        <token regexp="yes">afford|afforded|affords</token>
+        <token regexp="yes" inflected="yes">afford|choose|deserve|pretend|strive|struggle</token>
         <token postag="VBG"/>
       </pattern>
-      <message>The verb 'afford' is used with infinitive (afford to do sth.).</message>
+      <message>This verb is used with infinitive (e.g., \1 to do sth.).</message>
       <example type="correct">We cannot afford to spend the whole month in Alps.</example>
+      <example type="correct">He didn't deserve to lose his job.</example>
       <example type="incorrect">We cannot afford <marker>spending</marker> the whole month in Alps.</example>
     </rule>
     <rule>
       <pattern mark_from="2">
-        <token regexp="yes">afford|afforded|affords</token>
+        <token regexp="yes" inflected="yes">afford|choose|deserve|pretend|strive|struggle</token>
         <token>not</token>
         <token postag="VBG"/>
       </pattern>
-      <message>The verb 'afford' is used with infinitive (afford to do sth.).</message>
+      <message>This verb is used with infinitive (e.g., \1 not to do sth.).</message>
       <example type="correct">We cannot afford not to spend the whole month in Alps.</example>
       <example type="incorrect">We cannot afford not <marker>spending</marker> the whole month in Alps.</example>
     </rule>
   </rulegroup>
 
-  <rulegroup id="ADVISE_VBG" name="'advise' used with gerund instead of infinitive">
+  <rulegroup id="ADVISE_VBG" name="'advise', 'help' and 'remind' used with gerund instead of infinitive">
     <rule>
       <pattern mark_from="1">
-        <token inflected="yes">advise</token>
+        <token inflected="yes" regexp="yes">advise|help|remind</token>
         <token postag="VBG"/>
       </pattern>
-      <message>The verb 'advise' is used with infinitive (advise to do sth.).</message>
+      <message>Verbs 'advise', 'help', and 'remind' are used with infinitive (advise someone to do sth.).</message>
       <example type="correct">He advised to stay calm.</example>
+      <example type="correct">He reminded to stay calm.</example>
       <example type="incorrect">He advised <marker>staying</marker> calm.</example>
     </rule>
     <rule>
       <pattern mark_from="2">
-        <token inflected="yes">advise</token>
+        <token inflected="yes" regexp="yes">advise|help|remind</token>
         <token>not</token>
         <token postag="VBG"/>
       </pattern>
-      <message>The verb 'advise' is used with infinitive (afford to do sth.).</message>
+      <message>Verbs 'advise', 'help', and 'remind' are used with infinitive (advise someone to do sth.).</message>
       <example type="correct">He advised not to stay calm.</example>
       <example type="incorrect">He advised not <marker>staying</marker> calm.</example>
     </rule>
         <rule>
       <pattern mark_from="2">
-        <token inflected="yes">advise</token>
+        <token inflected="yes" regexp="yes">advise|help|remind</token>
         <token postag="PRP"/>
         <token postag="VBG"/>
       </pattern>
-      <message>The verb 'advise' is used with infinitive (advise to do sth.).</message>
+      <message>Verbs 'advise', 'help', and 'remind' are used with infinitive (advise someone to do sth.).</message>
       <example type="correct">He advised us to stay calm.</example>
+      <example type="correct">He helped us to get on the bus.</example>
       <example type="incorrect">He advised us <marker>staying</marker> calm.</example>
     </rule>
     <rule>
       <pattern mark_from="3">
-        <token inflected="yes">advise</token>
+        <token inflected="yes" regexp="yes">advise|help|remind</token>
         <token postag="PRP"/>        
         <token>not</token>
         <token postag="VBG"/>
       </pattern>
-      <message>The verb 'advise' is used with infinitive (afford to do sth.).</message>
+      <message>Verbs 'advise', 'help', and 'remind' are used with infinitive (advise someone to do sth.).</message>
       <example type="correct">He advised us not to stay calm.</example>
       <example type="incorrect">He advised us not <marker>staying</marker> calm.</example>
     </rule>
