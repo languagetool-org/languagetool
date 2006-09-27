@@ -18,11 +18,21 @@ import de.danielnaber.languagetool.tokenizers.*;
 
 public class PolishSentenceTokenizer extends SentenceTokenizer {
 
-  // end of sentence marker:
+  
+  /** End of sentence marker.
+   */
   private static final String EOS = "\0";
   // private final static String EOS = "#"; // for testing only
-  private static final String P = "[\\.!?…]"; // PUNCTUATION
-  private static final String AP = "(?:'|«|\"|”|\\)|\\]|\\})?"; // AFTER PUNCTUATION
+  
+  /** Punctuation.
+   * 
+   */
+  private static final String P = "[\\.!?…]"; 
+  
+  /** After punctuation.
+  * 
+  */
+  private static final String AP = "(?:'|«|\"|”|\\)|\\]|\\})?"; 
   private static final String PAP = P + AP;
 
   // Check out the private methods for comments and examples about these

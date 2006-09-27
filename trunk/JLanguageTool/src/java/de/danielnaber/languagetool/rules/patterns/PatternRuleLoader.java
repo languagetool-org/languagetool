@@ -313,7 +313,7 @@ class PatternRuleHandler extends XMLRuleHandler {
     }
   }
 
-  public void characters(char buf[], int offset, int len) {
+  public void characters(final char buf[], int offset, int len) {
     String s = new String(buf, offset, len);
     if (inException) {
       exceptions.append(s);
