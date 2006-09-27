@@ -57,7 +57,7 @@ public class BNCCheck {
     }
   }
 
-  private void run(File file) throws IOException {
+  private void run(final File file) throws IOException {
     if (file.isDirectory()) {
       File[] files = file.listFiles();
       for (int i = 0; i < files.length; i++) {

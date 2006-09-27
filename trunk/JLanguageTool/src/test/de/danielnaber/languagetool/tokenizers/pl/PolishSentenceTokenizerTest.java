@@ -92,7 +92,7 @@ public class PolishSentenceTokenizerTest extends TestCase {
     testSplit(new String[] { "To wydarzyło się w 1939 r. To był burzliwy rok." });
   }
 
-  public void testSplit(String[] sentences) {
+  public void testSplit(final String[] sentences) {
     TestTools.testSplit(sentences, stokenizer);
   }
 
