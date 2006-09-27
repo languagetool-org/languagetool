@@ -3,7 +3,7 @@
 Rules: Grammar and Typos
 See tagset.txt for the meaning of the POS tags
 Copyright (C) 2001-2006 Daniel Naber (http://www.danielnaber.de)
-$Id: grammar.xml,v 1.87 2006-09-27 19:20:48 milek_pl Exp $
+$Id: grammar.xml,v 1.88 2006-09-27 20:12:26 milek_pl Exp $
 -->
 <rules lang="en">
 
@@ -894,10 +894,7 @@ $Id: grammar.xml,v 1.87 2006-09-27 19:20:48 milek_pl Exp $
 	  <example type="correct">I must have done that.</example>
 	  <example type="incorrect">I must have <marker>wrote</marker> that.</example>
 	  <example type="correct">I have liked her.</example>
- 	  <!--   this fails because of the bug in stempelator, confirmed
- 	  should be fixed soon
- 	  example type="correct">It has become difficult.</example>
- 	  -->
+ 	  <example type="correct">It has become difficult.</example>
   	  <example type="incorrect">I have <marker>like</marker> her.</example>
 	  <example type="incorrect">I could have <marker>wrote</marker> this letter.</example>
 	  </rule>
@@ -1041,7 +1038,7 @@ $Id: grammar.xml,v 1.87 2006-09-27 19:20:48 milek_pl Exp $
    
   <!-- currently doesn't fail test case :)  -->
    <rule id="TO_NON_BASE" name="'to' + non-base form">
-      <pattern mark_from="1"><token regexp="yes">to</token><token postag_regexp="yes" postag="VBP|VBZ"><exception>was</exception></token></pattern>
+      <pattern mark_from="1"><token regexp="yes">to</token><token postag_regexp="yes" postag="VBD|VBZ"><exception>was</exception></token></pattern>
       <message>You might need to use the base form of the verb here (e.g. 'learn' instead of 'learned/learning/...').</message>
       <example type="correct">I was surprised to <marker>learn</marker> this. </example>
       <example type="incorrect">I was surprised to <marker>learns</marker> this. </example>
