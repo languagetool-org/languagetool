@@ -37,7 +37,7 @@ class CheckerThread extends Thread {
   private List<RuleMatch> ruleMatches;
   private boolean done = false;
   
-  CheckerThread(String text, Language docLanguage, Configuration config, File baseDir) {
+  CheckerThread(final String text, final Language docLanguage, final Configuration config, final File baseDir) {
     this.text = text;
     this.docLanguage = docLanguage;
     this.config = config;

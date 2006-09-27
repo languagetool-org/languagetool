@@ -41,7 +41,7 @@ public class GermanToken {
 
     private String name;
     
-    private POSType(String name) {
+    private POSType(final String name) {
       this.name = name;
     }
     
@@ -59,7 +59,7 @@ public class GermanToken {
 
     private String name;
     
-    private Kasus(String name) {
+    private Kasus(final String name) {
       this.name = name;
     }
     
@@ -75,7 +75,7 @@ public class GermanToken {
 
     private String name;
     
-    private Numerus(String name) {
+    private Numerus(final String name) {
       this.name = name;
     }
     
@@ -92,7 +92,7 @@ public class GermanToken {
 
     private String name;
     
-    private Genus(String name) {
+    private Genus(final String name) {
       this.name = name;
     }
     

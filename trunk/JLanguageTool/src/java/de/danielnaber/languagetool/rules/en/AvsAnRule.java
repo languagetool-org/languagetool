@@ -54,7 +54,7 @@ public class AvsAnRule extends EnglishRule {
   private Set<String> requiresA;
   private Set<String> requiresAn;
   
-  public AvsAnRule(ResourceBundle messages) throws IOException {
+  public AvsAnRule(final ResourceBundle messages) throws IOException {
     if (messages != null)
       super.setCategory(new Category(messages.getString("category_misc")));
     requiresA = loadWords(JLanguageTool.getAbsoluteFile(FILENAME_A));
@@ -69,7 +69,7 @@ public class AvsAnRule extends EnglishRule {
     return "Use of 'a' vs. 'an'";
   }
 
-  public RuleMatch[] match(AnalyzedSentence text) {
+  public RuleMatch[] match(final AnalyzedSentence text) {
     List<RuleMatch> ruleMatches = new ArrayList<RuleMatch>();
     AnalyzedTokenReadings[] tokens = text.getTokens();
     String prevToken = "";
@@ -160,7 +160,7 @@ public class AvsAnRule extends EnglishRule {
   /**
    * Load words, normalized to lowercase.
    */
-  private Set<String> loadWords(File file) throws IOException {
+  private Set<String> loadWords(final File file) throws IOException {
     FileReader fr = null;
     BufferedReader br = null;
     Set<String> set = new HashSet<String>();

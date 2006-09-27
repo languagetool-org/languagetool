@@ -48,7 +48,7 @@ class GermanLemmatizer {
     fullform2baseform = loadWords(JLanguageTool.getAbsoluteFile(FILE_NAME));
   }
   
-  String getBaseform(String fullform) {
+  String getBaseform(final String fullform) {
     return fullform2baseform.get(fullform);
   }
   

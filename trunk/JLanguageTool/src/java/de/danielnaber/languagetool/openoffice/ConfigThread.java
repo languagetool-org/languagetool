@@ -36,7 +36,7 @@ class ConfigThread extends Thread {
   private JLanguageTool langTool; 
   private ConfigurationDialog cfgDialog;
   
-  ConfigThread(Language docLanguage, Configuration config, File baseDir) {
+  ConfigThread(final Language docLanguage, final Configuration config, final File baseDir) {
     this.docLanguage = docLanguage;
     this.config = config;
     this.baseDir = baseDir;

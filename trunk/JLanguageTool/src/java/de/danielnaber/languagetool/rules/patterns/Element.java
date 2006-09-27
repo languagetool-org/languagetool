@@ -192,7 +192,7 @@ public class Element {
       exceptionList.add(posException);          
   }
 
-  public final void setStringException(final String token, final boolean regExp, final boolean inflected, boolean negation, boolean scope) {
+  public final void setStringException(final String token, final boolean regExp, final boolean inflected, final boolean negation, final boolean scope) {
     Element stringException = new Element(token, this.caseSensitive, regExp, inflected);
     stringException.setNegation(negation);
     stringException.exceptionValidNext = scope;
@@ -271,7 +271,7 @@ public class Element {
     return skip;
   }
 
-  public final void setSkipNext(int i) {
+  public final void setSkipNext(final int i) {
     skip = i;
   }
 
@@ -282,7 +282,7 @@ public class Element {
   /**
    * Negates the meaning of match().
    */
-  final void setNegation(boolean negation) {
+  final void setNegation(final boolean negation) {
     this.negation = negation;
   }
 

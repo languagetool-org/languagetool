@@ -33,7 +33,7 @@ public class ItalianTagger implements Tagger {
   "italian.dict"; 
     private Lametyzator morfologik = null;
     
-  public List<AnalyzedTokenReadings> tag(List<String> sentenceTokens)
+  public List<AnalyzedTokenReadings> tag(final List<String> sentenceTokens)
       throws IOException {
     String[] taggerTokens;
     boolean firstWord = true;
@@ -74,10 +74,11 @@ public class ItalianTagger implements Tagger {
   }
   
   
-  /* (non-Javadoc)
+  /** 
    * @see de.danielnaber.languagetool.tagging.Tagger#createNullToken(java.lang.String, int)
+   * @return AnalyzedTokenReadings
    */
-  public Object createNullToken(String token, int startPos) {
+  public final Object createNullToken(final String token, final int startPos) {
     return new AnalyzedTokenReadings(new AnalyzedToken(token, null, startPos));
   }
   

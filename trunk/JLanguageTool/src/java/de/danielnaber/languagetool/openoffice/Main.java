@@ -79,7 +79,7 @@ public class Main {
       config = new Configuration(baseDir);
     }
     
-    public _Main(XComponentContext xCompContext) {
+    public _Main(final XComponentContext xCompContext) {
       try {
         XMultiComponentFactory xMCF = xCompContext.getServiceManager();
         Object desktop = xMCF.createInstanceWithContext("com.sun.star.frame.Desktop", xCompContext);
@@ -94,7 +94,7 @@ public class Main {
       }
     }
 
-    public void trigger(String sEvent) {
+    public void trigger(final String sEvent) {
       try {
         if (sEvent.equals("execute")) {
           try {
@@ -125,7 +125,7 @@ public class Main {
       }
     }
 
-    private void writeError(Throwable e) {
+    private void writeError(final Throwable e) {
       FileWriter fw;
       try {
         fw = new FileWriter("languagetool.log");
@@ -141,7 +141,7 @@ public class Main {
     }
 
     @SuppressWarnings("unused")
-    public void initialize(Object[] object) {
+    public void initialize(final Object[] object) {
     }
 
     public String[] getSupportedServiceNames() {
@@ -153,7 +153,7 @@ public class Main {
       return sSupportedServiceNames;
     }
 
-    public boolean supportsService(String sServiceName) {
+    public boolean supportsService(final String sServiceName) {
       return sServiceName.equals(__serviceName);
     }
 
@@ -221,7 +221,7 @@ public class Main {
       return new TextToCheck(textToCheck, selection);
     }
 
-    private void checkText(TextToCheck textToCheck) {
+    private void checkText(final TextToCheck textToCheck) {
       if (textToCheck == null)
         return;
       ProgressDialog progressDialog = new ProgressDialog();
@@ -273,18 +273,18 @@ public class Main {
 
   }
 
-  public static XSingleComponentFactory __getComponentFactory(String sImplName) {
+  public static XSingleComponentFactory __getComponentFactory(final String sImplName) {
     XSingleComponentFactory xFactory = null;
     if (sImplName.equals(_Main.class.getName()))
       xFactory = Factory.createComponentFactory(_Main.class, _Main.getServiceNames());
     return xFactory;
   }
 
-  public static boolean __writeRegistryServiceInfo(XRegistryKey regKey) {
+  public static boolean __writeRegistryServiceInfo(final XRegistryKey regKey) {
     return Factory.writeRegistryServiceInfo(_Main.class.getName(), _Main.getServiceNames(), regKey);
   }
 
-  static void showError(Throwable e) {
+  static void showError(final Throwable e) {
     String msg = "An error has occured:\n" + e.toString() + "\nStacktrace:\n";
     StackTraceElement[] elem = e.getStackTrace();
     for (int i = 0; i < elem.length; i++) {
@@ -296,7 +296,7 @@ public class Main {
   }
 
   /** Testing only. */
-  public static void main(String[] args) throws IOException {
+  public static void main(final String[] args) throws IOException {
     _Main m = new _Main();
     TextToCheck ttc = new TextToCheck("This is an test, don't berate yourself.", false);
     m.checkText(ttc);
@@ -308,7 +308,7 @@ class DialogThread extends Thread {
 
   private String text;
 
-  DialogThread(String text) {
+  DialogThread(final String text) {
     this.text = text;
   }
   
@@ -327,8 +327,8 @@ class ResultDialogThread extends Thread {
   private String text;
   private XTextViewCursor xViewCursor;
 
-  ResultDialogThread(Configuration configuration, List<Rule> rules, XTextDocument xTextDoc,
-      List<RuleMatch> ruleMatches, String text, XTextViewCursor xViewCursor) {
+  ResultDialogThread(final Configuration configuration, final List<Rule> rules, final XTextDocument xTextDoc,
+      final List<RuleMatch> ruleMatches, final String text, final XTextViewCursor xViewCursor) {
     this.configuration = configuration;
     this.rules = rules;
     this.xTextDoc = xTextDoc;
@@ -350,7 +350,7 @@ class TextToCheck {
   String text;
   boolean isSelection;
   
-  TextToCheck(String text, boolean isSelection) {
+  TextToCheck(final String text, final boolean isSelection) {
     this.text = text;
     this.isSelection = isSelection;
   }

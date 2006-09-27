@@ -30,7 +30,7 @@ public class Category {
    * @param name name of the category
    * @param priority a value between 0 and 100 (inclusive)
    */
-  public Category(String name, int priority) {
+  public Category(final String name, final int priority) {
     if (priority < 0 || priority > 100)
       throw new IllegalArgumentException("priority must be in range 0 - 100");
     this.name = name;
@@ -41,7 +41,7 @@ public class Category {
    * Create a new category with the default priority (50).
    * @param name name of the category
    */
-  public Category(String name) {
+  public Category(final String name) {
     this(name, DEFAULT_PRIORITY);
   }
 

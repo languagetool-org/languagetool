@@ -36,7 +36,7 @@ public class WordRepeatRule extends Rule {
 
   private Language language = null;
   
-  public WordRepeatRule(ResourceBundle messages, Language language) {
+  public WordRepeatRule(final ResourceBundle messages, final Language language) {
     super(messages);
     super.setCategory(new Category(messages.getString("category_misc")));
     this.language = language;
@@ -54,7 +54,7 @@ public class WordRepeatRule extends Rule {
     return new Language[] { Language.ENGLISH, Language.GERMAN, Language.POLISH, Language.FRENCH, Language.SPANISH};
   }
 
-  public RuleMatch[] match(AnalyzedSentence text) {
+  public RuleMatch[] match(final AnalyzedSentence text) {
     List<RuleMatch> ruleMatches = new ArrayList<RuleMatch>();
     AnalyzedTokenReadings[] tokens = text.getTokens();
     String prevToken = "";

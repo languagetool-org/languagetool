@@ -171,7 +171,7 @@ public class Main implements ActionListener {
     frame.setVisible(true);
   }
   
-  public void actionPerformed(ActionEvent e) {
+  public void actionPerformed(final ActionEvent e) {
     if (e.getActionCommand().equals(CHECK_TEXT_BUTTON)) {
       JLanguageTool langTool = getCurrentLanguageTool();
       checkTextAndDisplayResults(langTool, getCurrentLanguage().getName());
@@ -197,7 +197,7 @@ public class Main implements ActionListener {
     }
   }
   
-  private static void showError(Exception e) {
+  private static void showError(final Exception e) {
     JOptionPane.showMessageDialog(null, e.toString(), "Error", JOptionPane.ERROR_MESSAGE);
     e.printStackTrace();
   }
@@ -322,7 +322,7 @@ public class Main implements ActionListener {
     return langTool;
   }
 
-  private void checkTextAndDisplayResults(JLanguageTool langTool, String langName) {
+  private void checkTextAndDisplayResults(final JLanguageTool langTool, final String langName) {
     if (textArea.getText().trim().equals("")) {
       textArea.setText("Please insert text to check here");
     } else {
@@ -349,7 +349,7 @@ public class Main implements ActionListener {
     }
   }
 
-  private int checkText(JLanguageTool langTool, String text, StringBuilder sb) throws IOException {
+  private int checkText(final JLanguageTool langTool, final String text, final StringBuilder sb) throws IOException {
     long startTime = System.currentTimeMillis();
     List<RuleMatch> ruleMatches = langTool.check(StringTools.escapeHTML(text));
     long startTimeMatching = System.currentTimeMillis();
@@ -374,7 +374,7 @@ public class Main implements ActionListener {
     return ruleMatches.size();
   }
 
-  public static void main(String[] args) {
+  public static void main(final String[] args) {
     try {
       final Main prg = new Main();
       if (args.length == 1 && (args[0].equals("-t") || args[0].equals("--tray"))) {
@@ -445,7 +445,7 @@ public class Main implements ActionListener {
   
   class PlainTextFilter extends FileFilter {
 
-    public boolean accept(File f) {
+    public boolean accept(final File f) {
       if (f.getName().toLowerCase().endsWith(".txt"))
         return true;
       return false;

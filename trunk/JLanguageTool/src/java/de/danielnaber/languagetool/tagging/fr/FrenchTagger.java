@@ -34,7 +34,7 @@ public class FrenchTagger implements Tagger {
   "french.dict"; 
     private Lametyzator morfologik = null;
     
-  public List<AnalyzedTokenReadings> tag(List<String> sentenceTokens)
+  public List<AnalyzedTokenReadings> tag(final List<String> sentenceTokens)
       throws IOException {
     String[] taggerTokens;
     boolean firstWord = true;
@@ -57,12 +57,11 @@ public class FrenchTagger implements Tagger {
         }
     if (taggerTokens !=null) {
         int i = 0;
-        while (i<taggerTokens.length)
-        {
+        while (i<taggerTokens.length) {
             //Lametyzator returns data as String[]
             //first lemma, then annotations
             l.add(new AnalyzedToken(word, taggerTokens[i+1], taggerTokens[i]));
-            i=i+2;
+            i = i + 2;
         }
     }
     else 
@@ -78,7 +77,7 @@ public class FrenchTagger implements Tagger {
   /* (non-Javadoc)
    * @see de.danielnaber.languagetool.tagging.Tagger#createNullToken(java.lang.String, int)
    */
-  public Object createNullToken(String token, int startPos) {
+  public final Object createNullToken(final String token, final int startPos) {
     return new AnalyzedTokenReadings(new AnalyzedToken(token, null, startPos));
   }
   

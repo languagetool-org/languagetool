@@ -54,8 +54,8 @@ public class PatternRule extends Rule {
 
   private List<Element> patternElements;
 
-  PatternRule(String id, Language language, List<Element> elements, String description,
-      String message) {
+  PatternRule(final String id, final Language language, final List<Element> elements, final String description,
+      final String message) {
     if (id == null)
       throw new NullPointerException("id cannot be null");
     if (language == null)

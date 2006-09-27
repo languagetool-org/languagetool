@@ -250,7 +250,7 @@ public class JLanguageTool {
   /**
    * Add a rule to be used by the next call to {@link #check}.
    */
-  public void addRule(Rule rule) {
+  public void addRule(final Rule rule) {
     userRules.add(rule);
   }
 
@@ -258,7 +258,7 @@ public class JLanguageTool {
    * Disable a given rule so {@link #check} won't use it.
    * @param ruleId the id of the rule to disable
    */
-  public void disableRule(String ruleId) {
+  public void disableRule(final String ruleId) {
     // TODO: check if such a rule exists
     disabledRules.add(ruleId);
   }
@@ -267,7 +267,7 @@ public class JLanguageTool {
    * Re-enable a given rule so {@link #check} will use it.
    * @param ruleId the id of the rule to enable
    */
-  public void enableRule(String ruleId) {
+  public void enableRule(final String ruleId) {
     // TODO: check if such a rule exists
     disabledRules.remove(ruleId);
   }
@@ -280,7 +280,7 @@ public class JLanguageTool {
    * @return a List of {@link RuleMatch} objects
    * @throws IOException 
    */
-  public List<RuleMatch> check(String text) throws IOException {
+  public List<RuleMatch> check(final String text) throws IOException {
     sentenceCount = 0;
     List<String> sentences = sentenceTokenizer.tokenize(text);
     List<RuleMatch> ruleMatches = new ArrayList<RuleMatch>();
@@ -336,7 +336,7 @@ public class JLanguageTool {
     return ruleMatches;
   }
   
-  static int countLineBreaks(String s) {
+  static int countLineBreaks(final String s) {
     int pos = -1;
     int count = 0;
     while (true) {
@@ -353,7 +353,7 @@ public class JLanguageTool {
    * Tokenizes the given <code>sentence</code> into words and analyzes it.
    * @throws IOException 
    */
-  public AnalyzedSentence getAnalyzedSentence(String sentence) throws IOException {
+  public AnalyzedSentence getAnalyzedSentence(final String sentence) throws IOException {
     List<String> tokens = wordTokenizer.tokenize(sentence);
     List<String> noWhitespaceTokens = new ArrayList<String>();
     // whitespace confuses tagger, so give it the tokens but no whitespace tokens:
@@ -386,7 +386,7 @@ public class JLanguageTool {
     return new AnalyzedSentence(tokenArray);
   }
 
-  private boolean isWord(String token) {
+  private boolean isWord(final String token) {
     for (int i = 0; i < token.length(); i++) {
       char c = token.charAt(i);
       if (Character.isLetter(c) || Character.isDigit(c))
@@ -422,7 +422,7 @@ public class JLanguageTool {
     
   }
 
-  private void printIfVerbose(String s) {
+  private void printIfVerbose(final String s) {
     if (printStream != null)
       printStream.println(s);
   }

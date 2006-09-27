@@ -32,7 +32,7 @@ public class WordTokenizer implements Tokenizer {
   public WordTokenizer() {
   }
   
-  public List<String> tokenize(String text) {
+  public List<String> tokenize(final String text) {
     List<String> l = new ArrayList<String>();
     StringTokenizer st = new StringTokenizer(text, " ,.;()!?:\"'\n", true);
     while (st.hasMoreElements()) {

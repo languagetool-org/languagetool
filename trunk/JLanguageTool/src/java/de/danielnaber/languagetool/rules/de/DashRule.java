@@ -34,7 +34,7 @@ import de.danielnaber.languagetool.rules.RuleMatch;
  */
 public class DashRule extends GermanRule {
 
-  public DashRule(ResourceBundle messages) {
+  public DashRule(final ResourceBundle messages) {
     if (messages != null)
       super.setCategory(new Category(messages.getString("category_misc")));
   }
@@ -47,7 +47,7 @@ public class DashRule extends GermanRule {
     return "Keine Leerzeichen in Bindestrich-Komposita (wie z.B. in 'Diäten- Erhöhung')";
   }
 
-  public RuleMatch[] match(AnalyzedSentence text) {
+  public RuleMatch[] match(final AnalyzedSentence text) {
     List<RuleMatch> ruleMatches = new ArrayList<RuleMatch>();
     AnalyzedTokenReadings[] tokens = text.getTokensWithoutWhitespace();
     int pos = 0;

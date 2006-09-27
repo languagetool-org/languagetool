@@ -34,7 +34,7 @@ import de.danielnaber.languagetool.Language;
  */
 public class UppercaseSentenceStartRule extends Rule {
 
-  public UppercaseSentenceStartRule(ResourceBundle messages) {
+  public UppercaseSentenceStartRule(final ResourceBundle messages) {
     super(messages);
     super.setCategory(new Category(messages.getString("category_case")));
   }
@@ -51,7 +51,7 @@ public class UppercaseSentenceStartRule extends Rule {
     return new Language[] { Language.ENGLISH, Language.GERMAN, Language.POLISH, Language.FRENCH, Language.SPANISH };
   }
 
-  public RuleMatch[] match(AnalyzedSentence text) {
+  public RuleMatch[] match(final AnalyzedSentence text) {
     List<RuleMatch> ruleMatches = new ArrayList<RuleMatch>();
     AnalyzedTokenReadings[] tokens = text.getTokensWithoutWhitespace();
     if (tokens.length < 2)

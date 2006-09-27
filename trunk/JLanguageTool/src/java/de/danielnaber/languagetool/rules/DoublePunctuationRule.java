@@ -34,7 +34,7 @@ import de.danielnaber.languagetool.Language;
  */
 public class DoublePunctuationRule extends Rule {
 
-  public DoublePunctuationRule(ResourceBundle messages) {
+  public DoublePunctuationRule(final ResourceBundle messages) {
     super(messages);
     super.setCategory(new Category(messages.getString("category_misc")));
   }
@@ -51,7 +51,7 @@ public class DoublePunctuationRule extends Rule {
     return new Language[] { Language.ENGLISH, Language.GERMAN, Language.POLISH, Language.FRENCH, Language.SPANISH };
   }
 
-  public RuleMatch[] match(AnalyzedSentence text) {
+  public RuleMatch[] match(final AnalyzedSentence text) {
     List<RuleMatch> ruleMatches = new ArrayList<RuleMatch>();
     AnalyzedTokenReadings[] tokens = text.getTokens();
     AnalyzedToken matchToken = null;

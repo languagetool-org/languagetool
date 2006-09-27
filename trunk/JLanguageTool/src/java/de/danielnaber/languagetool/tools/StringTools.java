@@ -55,7 +55,7 @@ public class StringTools {
    * @return a string with the file's content, lines separated by <code>\n</code>
    * @throws IOException
    */
-  public static String readFile(String filename, String encoding) throws IOException {
+  public static String readFile(final String filename, final String encoding) throws IOException {
     InputStreamReader isr = null;
     BufferedReader br = null;
     FileInputStream fis = null;
@@ -94,7 +94,7 @@ public class StringTools {
   /**
    * Whether the first character of <code>str</code> is an uppercase character.
    */
-  public static boolean startsWithUppercase(String str) {
+  public static boolean startsWithUppercase(final String str) {
     if (str.length() == 0)
       return false;
     char firstChar = str.charAt(0);
@@ -107,7 +107,7 @@ public class StringTools {
    * Return <code>str</code> modified so that its first character is now an 
    * uppercase character.
    */
-  public static String uppercaseFirstChar(String str) {
+  public static String uppercaseFirstChar(final String str) {
     if (str.length() == 0)
       return str;
     char firstChar = str.charAt(0);
@@ -140,11 +140,11 @@ public class StringTools {
     }
   }
 
-  public static String escapeXML(String s) {
+  public static String escapeXML(final String s) {
     return escapeHTML(s);
   }
   
-  public static String escapeHTML(String s) {
+  public static String escapeHTML(final String s) {
     //this version is much faster
     //than using s.replaceAll        
     StringBuilder sb = new StringBuilder();
@@ -169,7 +169,7 @@ public class StringTools {
    * @param text the original text that was checked, used to get the context of the matches
    * @param contextSize the desired context size in characters
    */
-  public static String ruleMatchesToXML(List<RuleMatch> ruleMatches, String text, int contextSize) {
+  public static String ruleMatchesToXML(final List<RuleMatch> ruleMatches, final String text, final int contextSize) {
     //
     // IMPORTANT: people rely on this format, don't change it!
     //

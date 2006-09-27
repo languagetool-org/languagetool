@@ -134,7 +134,7 @@ public class CaseRule extends GermanRule {
     substVerbenExceptions.add("ein");   // nicht "einen" (Verb)
   }
 
-  public CaseRule(ResourceBundle messages) {
+  public CaseRule(final ResourceBundle messages) {
     if (messages != null)
       super.setCategory(new Category(messages.getString("category_case")));
   }
@@ -147,7 +147,7 @@ public class CaseRule extends GermanRule {
     return "Großschreibung von Nomen und substantivierten Verben";
   }
 
-  public RuleMatch[] match(AnalyzedSentence text) {
+  public RuleMatch[] match(final AnalyzedSentence text) {
     List<RuleMatch> ruleMatches = new ArrayList<RuleMatch>();
     AnalyzedTokenReadings[] tokens = text.getTokensWithoutWhitespace();
     

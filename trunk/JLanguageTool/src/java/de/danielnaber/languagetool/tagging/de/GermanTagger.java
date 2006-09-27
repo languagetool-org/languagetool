@@ -44,7 +44,7 @@ public class GermanTagger implements Tagger {
   public GermanTagger() {
   }
 
-  public AnalyzedGermanTokenReadings lookup(String word) throws IOException {
+  public AnalyzedGermanTokenReadings lookup(final String word) throws IOException {
     List<String> l = new ArrayList<String>();
     l.add(word);
     List<AnalyzedTokenReadings> result = tag(l, false);
@@ -54,11 +54,11 @@ public class GermanTagger implements Tagger {
     return atr;
   }
 
-  public List<AnalyzedTokenReadings> tag(List<String> sentenceTokens) throws IOException {
+  public List<AnalyzedTokenReadings> tag(final List<String> sentenceTokens) throws IOException {
     return tag(sentenceTokens, true);
   }
   
-  public List<AnalyzedTokenReadings> tag(List<String> sentenceTokens, boolean ignoreCase) throws IOException {
+  public List<AnalyzedTokenReadings> tag(final List<String> sentenceTokens, final boolean ignoreCase) throws IOException {
     String[] taggerTokens;
     boolean firstWord = true;
     List<AnalyzedTokenReadings> tokenReadings = new ArrayList<AnalyzedTokenReadings>();
@@ -95,19 +95,17 @@ public class GermanTagger implements Tagger {
     return tokenReadings;
   }
 
-  public Object createNullToken(String token, int startPos) {
+  public final Object createNullToken(final String token, final int startPos) {
     return new AnalyzedGermanTokenReadings(new AnalyzedGermanToken(token, null, startPos));
   }
 
   /**
    * Test only
    */
-  public static void main(String[] args) throws IOException {
+  public static void main(final String[] args) throws IOException {
     GermanTagger gt = new GermanTagger();
-    //PolishTagger gt =  new PolishTagger();
     List<String> l = new ArrayList<String>();
     l.add("Einfacher");
-    //l.add("każdym");
     //System.err.println(gt.lookup("Treffen", 0));
     
     List<AnalyzedTokenReadings> res = gt.tag(l);

@@ -48,7 +48,7 @@ public abstract class Rule {
   /**
    * Called by language-independant rules.
    */
-  public Rule(ResourceBundle messages) {
+  public Rule(final ResourceBundle messages) {
     this.messages = messages;
   }
   
@@ -78,7 +78,7 @@ public abstract class Rule {
   /**
    * Whether this rule can be used for text in the given language.
    */
-  public boolean supportsLanguage(Language language) {
+  public boolean supportsLanguage(final Language language) {
     Language[] languages = getLanguages();
     for (int i = 0; i < languages.length; i++) {
       if (language == languages[i])
@@ -94,7 +94,7 @@ public abstract class Rule {
     return -1;
   }*/
   
-  public void setCorrectExamples(List<String> correctExamples) {
+  public void setCorrectExamples(final List<String> correctExamples) {
     this.correctExamples = correctExamples;
   }
 
@@ -106,7 +106,7 @@ public abstract class Rule {
     return correctExamples;
   }
   
-  public void setIncorrectExamples(List<String> incorrectExamples) {
+  public void setIncorrectExamples(final List<String> incorrectExamples) {
     this.incorrectExamples = incorrectExamples;
   }
 
@@ -122,11 +122,11 @@ public abstract class Rule {
     return category;
   }
 
-  public void setCategory(Category category) {
+  public void setCategory(final Category category) {
     this.category = category;
   }
 
-  protected RuleMatch[] toRuleMatchArray(List<RuleMatch> ruleMatches) {
+  protected RuleMatch[] toRuleMatchArray(final List<RuleMatch> ruleMatches) {
     return (RuleMatch[])ruleMatches.toArray(new RuleMatch[0]);
   }
 

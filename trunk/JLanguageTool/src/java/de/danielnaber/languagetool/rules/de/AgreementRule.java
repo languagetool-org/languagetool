@@ -49,7 +49,7 @@ import de.danielnaber.languagetool.tagging.de.GermanToken.POSType;
  */
 public class AgreementRule extends GermanRule {
 
-  public AgreementRule(ResourceBundle messages) {
+  public AgreementRule(final ResourceBundle messages) {
     if (messages != null)
       super.setCategory(new Category(messages.getString("category_grammar")));
   }
@@ -62,7 +62,7 @@ public class AgreementRule extends GermanRule {
     return "Kongruenz von Nominalphrasen (unvollständig!), z.B. 'mein kleiner(kleines) Haus'";
   }
 
-  public RuleMatch[] match(AnalyzedSentence text) {
+  public RuleMatch[] match(final AnalyzedSentence text) {
     List<RuleMatch> ruleMatches = new ArrayList<RuleMatch>();
     AnalyzedTokenReadings[] tokens = text.getTokensWithoutWhitespace();
     int pos = 0;
@@ -120,8 +120,8 @@ public class AgreementRule extends GermanRule {
     return toRuleMatchArray(ruleMatches);
   }
 
-  private RuleMatch checkDetNounAgreement(AnalyzedGermanTokenReadings token1,
-      AnalyzedGermanTokenReadings token2) {
+  private RuleMatch checkDetNounAgreement(final AnalyzedGermanTokenReadings token1,
+      final AnalyzedGermanTokenReadings token2) {
     RuleMatch ruleMatch = null;
     Set<String> set1 = getAgreementCategories(token1);
     if (set1 == null)
@@ -140,8 +140,8 @@ public class AgreementRule extends GermanRule {
     return ruleMatch;
   }
 
-  private RuleMatch checkDetAdjNounAgreement(AnalyzedGermanTokenReadings token1,
-      AnalyzedGermanTokenReadings token2, AnalyzedGermanTokenReadings token3) {
+  private RuleMatch checkDetAdjNounAgreement(final AnalyzedGermanTokenReadings token1,
+      final AnalyzedGermanTokenReadings token2, final AnalyzedGermanTokenReadings token3) {
     RuleMatch ruleMatch = null;
     Set<String> set1 = getAgreementCategories(token1);
     if (set1 == null)
@@ -165,7 +165,7 @@ public class AgreementRule extends GermanRule {
   }
 
   /** Return Kasus, Numerus, Genus */
-  private Set<String> getAgreementCategories(AnalyzedGermanTokenReadings aToken) {
+  private Set<String> getAgreementCategories(final AnalyzedGermanTokenReadings aToken) {
     Set<String> set = new HashSet<String>();
     List<AnalyzedGermanToken> readings = aToken.getGermanReadings();
     for (AnalyzedGermanToken reading : readings) {
