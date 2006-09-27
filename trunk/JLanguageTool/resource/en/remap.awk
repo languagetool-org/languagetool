@@ -10,7 +10,7 @@ map["V"]="VBG"
 #Verb (transitive)     	
 map["t"]="VB"
 #Verb (intransitive)  	
-map["i"]="VB" #no difference here!
+map["i"]="VB" #no difference here! use a new tag?
 #Adjective                     
 map["A"]="JJ"
 #Adverb                    	
@@ -45,7 +45,7 @@ map["\?"]=""	#as above
 #MD by enumeration
 
 #adjectives
-/A:/{
+/A:/ && !/'/ {
 gsub(/{.*}/,"")
 gsub(/,/,"")
 gsub(/\|/,"")
@@ -58,7 +58,7 @@ for (i=3;i<=NF;i++)
 	total++
 	}
 if (mark==total && "BEGIN"$1!~/BEGIN[A-Z]/) {
-#dummy: this is just wrong tagging
+	print $1 "\t" $1 "\tJJ"
 	mark=0
 	total=0
 	} else {
@@ -75,7 +75,7 @@ for (i=2;i<=NF;i++) {
 }
 }
 
-/N:|N\?:/ {if ($1!~/[A-Z][a-z]/) print $1 "\t" $1 "\tNN"; else print $1 "\t" $1 "\tNNP"
+/N:|N\?:/ && !/'/ {if ($1!~/[A-Z][a-z]/) print $1 "\t" $1 "\tNN"; else print $1 "\t" $1 "\tNNP"
 gsub(/,/,"")
 gsub(/{.*}/,"")
 gsub(/[0-9]\.[0-9]/,"")
@@ -86,7 +86,7 @@ for (i=3;i<=NF;i++) {
 }
 }
 
-/V:/ && !/be V:/ {
+/V:/ && !/be V:/ && !/'/ {
 gsub(/,/,"")
 gsub(/{.*}/,"")
 gsub(/[0-9]\.[0-9]/,"")
@@ -143,6 +143,8 @@ if (verb_fields[5]!="") {
 "BEGIN"$2"END"~/BEGINrEND/ { print $1 "\t" $1 "\t"map[$2]}
 "BEGIN"$2"END"~/BEGINvEND/ { print $1 "\t" $1 "\t"map[$2]}
 "BEGIN"$2"END"~/BEGINAEND/ { if (JJR[$1]=="" && JJS[$1]=="") print $1 "\t" $1 "\t"map[$2]}
+"BEGIN"$2"END"~/BEGINANEND/ { if (JJR[$1]=="" && JJS[$1]=="") print $1 "\t" $1 "\tJJ"}
+
 
 /\tvA/ {print $1 "\t" $1 "\t"map["v"]
 	print $1 "\t" $1 "\t"map["A"]}
@@ -153,3 +155,17 @@ if (verb_fields[5]!="") {
 
 /\tCv/ {print $1 "\t" $1 "\t"map["C"]
 	print $1 "\t" $1 "\t"map["v"]}
+
+/\tANtV/ {print $1 "\t" $1 "\t"map["A"]
+		print $1 "\t" $1 "\t"map["N"]
+		print $1 "\t" $1 "\t"map["t"]
+		print $1 "\t" $1 "\t"map["V"]}
+/\tAN/ && !/'/ {print $1 "\t" $1 "\t"map["A"]
+		print $1 "\t" $1 "\t"map["N"]
+	 }
+/\tN$/ && !/[ ']/ {if ($1!~/[A-Z][a-z]/) print $1 "\t" $1 "\tNN"; else print $1 "\t" $1 "\tNNP"
+	 }
+/\tA$/ && !/[ ']/{
+	if (JJR[$1]=="" && JJS[$1]=="")  
+			print $1 "\t" $1 "\t"map["A"]
+	 }
