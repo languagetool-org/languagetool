@@ -41,12 +41,12 @@ public class EnglishTaggerTest extends TestCase {
   }
 
   public void testTagger() throws IOException {
-    myAssert("This is a big house.", "This/DT is/VBZ a/DT big/JJ house/NN");
-    //clearly a bug in the previous tagger: "use" is not "preposition/subordinate conjunction"
-    myAssert("Marketing do a lot of trouble.", "Marketing/NN do/NN a/DT lot/JJ of/IN trouble/NN");
-    myAssert("Manager use his laptop every day.", "Manager/NN use/NN his/NNS laptop/NN every/DT day/NN");
-    myAssert("This is a bigger house.", "This/DT is/VBZ a/DT bigger/JJR house/NN");
-    myAssert("He doesn't believe me.", "He/PRP doesn/VBZ t/RB believe/VB me/PRP");
+    myAssert("This is a big house.", "This/[this]DT|This/[this]PDT is/[be]VBZ a/[a]DT big/[big]JJ|big/[big]VB house/[house]NN|house/[house]VB");
+    myAssert("Marketing do a lot of trouble.", "Marketing/[marketing]NN:U|Marketing/[market]VBG do/[do]VB a/[a]DT lot/[lot]JJ|lot/[lot]NN|lot/[lot]VB of/[of]IN trouble/[trouble]NN:UN|trouble/[trouble]VB");
+    myAssert("Manager use his laptop every day.", "Manager/[manager]NN use/[use]NN|use/[use]VB his/[his]PRP$|his/[hi]NNS laptop/[laptop]NN every/[every]DT day/[day]NN");
+    myAssert("This is a bigger house.", "This/[this]DT|This/[this]PDT is/[be]VBZ a/[a]DT bigger/[big]JJR house/[house]NN|house/[house]VB");
+    myAssert("He doesn't believe me.", "He/[he]PRP doesn/[do]VBZ t/[t]JJ|t/[t]NN|t/[t]RB believe/[believe]VB me/[I]PRP");
+    myAssert("It has become difficult.", "It/[it]PRP has/[have]VBZ become/[become]VB difficult/[difficult]JJ"); 
   }
 
   private void myAssert(String input, String expected) throws IOException {
@@ -63,8 +63,17 @@ public class EnglishTaggerTest extends TestCase {
     StringBuffer outputStr = new StringBuffer();
     for (Iterator iter = output.iterator(); iter.hasNext();) {
       AnalyzedTokenReadings token = (AnalyzedTokenReadings) iter.next();
-      //FIXME: check for multiple readings
-      outputStr.append(token.getAnalyzedToken(0));
+      int readingsNumber = token.getReadingsLength();
+      for (int j = 0; j < readingsNumber; j++) {
+      outputStr.append(token.getAnalyzedToken(j).getToken());
+      outputStr.append("/[");
+      outputStr.append(token.getAnalyzedToken(j).getLemma());
+      outputStr.append("]");
+      outputStr.append(token.getAnalyzedToken(j).getPOSTag());
+      if (readingsNumber > 1 && j < readingsNumber - 1) {
+      outputStr.append("|");
+      }
+      }
       if (iter.hasNext())
         outputStr.append(" ");
     }

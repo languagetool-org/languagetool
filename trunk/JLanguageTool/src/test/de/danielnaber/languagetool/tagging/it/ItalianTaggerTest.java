@@ -7,7 +7,6 @@ import java.util.List;
 
 import junit.framework.TestCase;
 import de.danielnaber.languagetool.AnalyzedTokenReadings;
-import de.danielnaber.languagetool.tagging.it.ItalianTagger;
 import de.danielnaber.languagetool.tokenizers.WordTokenizer;
 
 public class ItalianTaggerTest extends TestCase {
@@ -20,9 +19,9 @@ public class ItalianTaggerTest extends TestCase {
       }
 
       public void testTagger() throws IOException {
-        myAssert("Non c'è linguaggio senza inganno.", "Non/ADV c/null è/VER:ind+pres+3+s linguaggio/NOUN-M:s senza/CON inganno/NOUN-M:s");
-        myAssert("Amo quelli che desiderano l'impossibile.", "Amo/VER:ind+pres+1+s quelli/DET-DEMO:m+p che/CON desiderano/VER:ind+pres+3+p l/null impossibile/ADJ:pos+f+s");
-        myAssert("blablabla","blablabla/null");        
+        myAssert("Non c'è linguaggio senza inganno.", "Non/[non]ADV c/[null]null è/[essere]VER:ind+pres+3+s|è/[essere]AUX:ind+pres+3+s linguaggio/[linguaggio]NOUN-M:s senza/[senza]CON|senza/[senza]PRE inganno/[inganno]NOUN-M:s|inganno/[ingannare]VER:ind+pres+1+s");
+        myAssert("Amo quelli che desiderano l'impossibile.", "Amo/[amare]VER:ind+pres+1+s quelli/[quello]DET-DEMO:m+p|quelli/[quelli]PRO-DEMO-M-P che/[che]CON|che/[che]DET-WH:m+p|che/[che]DET-WH:m+s|che/[che]DET-WH:f+p|che/[che]DET-WH:f+s|che/[che]WH-CHE desiderano/[desiderare]VER:ind+pres+3+p l/[null]null impossibile/[impossibile]ADJ:pos+f+s|impossibile/[impossibile]ADJ:pos+m+s");
+        myAssert("blablabla","blablabla/[null]null");        
       }
 
       private void myAssert(String input, String expected) throws IOException {
@@ -39,8 +38,17 @@ public class ItalianTaggerTest extends TestCase {
         StringBuffer outputStr = new StringBuffer();
         for (Iterator iter = output.iterator(); iter.hasNext();) {
           AnalyzedTokenReadings token = (AnalyzedTokenReadings) iter.next();
-          //FIXME: check for multiple readings
-          outputStr.append(token.getAnalyzedToken(0));
+          int readingsNumber = token.getReadingsLength();
+          for (int j = 0; j < readingsNumber; j++) {
+          outputStr.append(token.getAnalyzedToken(j).getToken());
+          outputStr.append("/[");
+          outputStr.append(token.getAnalyzedToken(j).getLemma());
+          outputStr.append("]");
+          outputStr.append(token.getAnalyzedToken(j).getPOSTag());
+          if (readingsNumber > 1 && j < readingsNumber - 1) {
+          outputStr.append("|");
+          }
+          }
           if (iter.hasNext())
             outputStr.append(" ");
         }
