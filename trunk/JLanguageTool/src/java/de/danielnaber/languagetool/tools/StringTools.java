@@ -34,7 +34,7 @@ import de.danielnaber.languagetool.rules.RuleMatch;
  * 
  * @author Daniel Naber
  */
-public class StringTools {
+public final class StringTools {
 
   private StringTools() {
     // only static stuff
@@ -43,7 +43,7 @@ public class StringTools {
   /**
    * Read a file's content.
    */
-  public static String readFile(String filename) throws IOException {
+  public static String readFile(final String filename) throws IOException {
     return readFile(filename, null);
   }
   

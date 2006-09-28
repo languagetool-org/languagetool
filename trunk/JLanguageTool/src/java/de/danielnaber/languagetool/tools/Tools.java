@@ -25,13 +25,13 @@ import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-public class Tools {
+public final class Tools {
   
   private Tools() {
     // cannot construct, static methods only
   }
 
-  public static InputStream getInputStream(String resourcePath) throws IOException {
+  public static InputStream getInputStream(final String resourcePath) throws IOException {
     try {
       // try the URL first.
       URL url = new URL(resourcePath);

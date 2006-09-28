@@ -70,7 +70,7 @@ public class Element {
     if (testString) {
     return (matchStringToken(token) != negation) && (matchPosToken(token) != posNegation);
     } else {
-    return (true != negation) && (matchPosToken(token) != posNegation);  
+    return (!negation) && (matchPosToken(token) != posNegation);  
     }
   }
 

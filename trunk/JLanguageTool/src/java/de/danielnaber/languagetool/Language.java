@@ -38,7 +38,7 @@ import de.danielnaber.languagetool.tokenizers.WordTokenizer;
  * 
  * @author Daniel Naber
  */
-public class Language {
+public final class Language {
 
   // IMPORTANT: keep in sync with LANGUAGES array below:
   public static final Language ENGLISH = 

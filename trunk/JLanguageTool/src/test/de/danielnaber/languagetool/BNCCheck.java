@@ -33,7 +33,7 @@ import de.danielnaber.languagetool.tools.StringTools;
  * 
  * @author Daniel Naber
  */
-public class BNCCheck {
+public final class BNCCheck {
 
   public static void main(String[] args) throws IOException, ParserConfigurationException, SAXException {
     if (args.length != 1) {

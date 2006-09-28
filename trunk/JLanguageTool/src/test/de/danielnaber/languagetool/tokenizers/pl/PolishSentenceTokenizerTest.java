@@ -12,12 +12,12 @@ public class PolishSentenceTokenizerTest extends TestCase {
   private SentenceTokenizer stokenizer2 = new PolishSentenceTokenizer();
   
   
-  public void setUp() {
+  public final void setUp() {
     stokenizer.setSingleLineBreaksMarksParagraph(true);  
     stokenizer2.setSingleLineBreaksMarksParagraph(false);  
   }
 
-  public void testTokenize() {
+  public final void testTokenize() {
     // NOTE: sentences here need to end with a space character so they
     // have correct whitespace when appended:
     testSplit(new String[] { "Dies ist ein Satz." });
@@ -92,7 +92,7 @@ public class PolishSentenceTokenizerTest extends TestCase {
     testSplit(new String[] { "To wydarzyło się w 1939 r. To był burzliwy rok." });
   }
 
-  public void testSplit(final String[] sentences) {
+  public final void testSplit(final String[] sentences) {
     TestTools.testSplit(sentences, stokenizer);
   }
 

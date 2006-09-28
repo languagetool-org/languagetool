@@ -1,13 +1,11 @@
 package de.danielnaber.languagetool.tokenizers.pl;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import java.util.StringTokenizer;
 import java.util.regex.Pattern;
 
-import de.danielnaber.languagetool.tokenizers.*;
+import de.danielnaber.languagetool.tokenizers.SentenceTokenizer;
 
 /**
  * Tokenizes Polish text into sentences by looking for typical end-of-sentence markers,

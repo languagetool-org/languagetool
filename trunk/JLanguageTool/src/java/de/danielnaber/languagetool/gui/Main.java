@@ -71,7 +71,7 @@ import de.danielnaber.languagetool.tools.StringTools;
  * 
  * @author Daniel Naber
  */
-public class Main implements ActionListener {
+public final class Main implements ActionListener {
 
   private static final String HTML_FONT_START = "<font face='Arial,Helvetica'>";
   private static final String HTML_FONT_END = "</font>";

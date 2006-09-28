@@ -31,7 +31,7 @@ import de.danielnaber.languagetool.tokenizers.SentenceTokenizer;
 /**
  * @author Daniel Naber
  */
-public class TestTools {
+public final class TestTools {
   
   private TestTools() {}
 

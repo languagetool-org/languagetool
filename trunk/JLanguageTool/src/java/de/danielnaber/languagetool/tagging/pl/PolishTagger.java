@@ -28,7 +28,7 @@ public class PolishTagger implements Tagger {
     "polish.dict"; 
 	private Lametyzator morfologik = null; 
 	
-  public List<AnalyzedTokenReadings> tag(final List<String> sentenceTokens) throws IOException {
+  public final List<AnalyzedTokenReadings> tag(final List<String> sentenceTokens) throws IOException {
     String[] taggerTokens;
     boolean firstWord = true;
 	List<AnalyzedTokenReadings> tokenReadings = new ArrayList<AnalyzedTokenReadings>();
@@ -57,7 +57,7 @@ public class PolishTagger implements Tagger {
 			l.add(new AnalyzedToken(word, taggerTokens[i+1], taggerTokens[i]));
 			i=i+2;
 		}
-	}
+    }
 	else 
 		l.add(new AnalyzedToken(word, null, pos));
 	pos += word.length();

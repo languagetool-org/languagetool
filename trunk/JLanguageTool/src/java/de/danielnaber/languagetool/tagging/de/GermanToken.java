@@ -23,13 +23,13 @@ package de.danielnaber.languagetool.tagging.de;
  * 
  * @author Daniel Naber
  */
-public class GermanToken {
+public final class GermanToken {
 
   private GermanToken() {
     // only static stuff
   }
 
-  public static class POSType {
+  public static final class POSType {
     public static final POSType NOMEN = new POSType("Nomen");
     public static final POSType VERB = new POSType("Verb");
     public static final POSType ADJEKTIV = new POSType("Adjektiv");
@@ -50,7 +50,7 @@ public class GermanToken {
     }
   }
   
-  public static class Kasus {
+  public static final class Kasus {
     public static final Kasus NOMINATIV = new Kasus("Nominativ");
     public static final Kasus AKKUSATIV = new Kasus("Akkusativ");
     public static final Kasus DATIV = new Kasus("Dativ");
@@ -68,7 +68,7 @@ public class GermanToken {
     }
   }
 
-  public static class Numerus {
+  public static final class Numerus {
     public static final Numerus SINGULAR = new Numerus("Singular");
     public static final Numerus PLURAL = new Numerus("Plural");
     public static final Numerus OTHER = new Numerus("Other");
@@ -84,7 +84,7 @@ public class GermanToken {
     }
   }
 
-  public static class Genus {
+  public static final class Genus {
     public static final Genus NEUTRUM = new Genus("Neutrum");
     public static final Genus MASKULINUM = new Genus("Maskulinum");
     public static final Genus FEMININUM = new Genus("Femininum");
