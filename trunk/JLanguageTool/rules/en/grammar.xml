@@ -3,7 +3,7 @@
 Rules: Grammar and Typos
 See tagset.txt for the meaning of the POS tags
 Copyright (C) 2001-2006 Daniel Naber (http://www.danielnaber.de)
-$Id: grammar.xml,v 1.88 2006-09-27 20:12:26 milek_pl Exp $
+$Id: grammar.xml,v 1.89 2006-09-28 19:39:29 milek_pl Exp $
 -->
 <rules lang="en">
 
@@ -1038,9 +1038,10 @@ $Id: grammar.xml,v 1.88 2006-09-27 20:12:26 milek_pl Exp $
    
   <!-- currently doesn't fail test case :)  -->
    <rule id="TO_NON_BASE" name="'to' + non-base form">
-      <pattern mark_from="1"><token regexp="yes">to</token><token postag_regexp="yes" postag="VBD|VBZ"><exception>was</exception></token></pattern>
+      <pattern mark_from="1"><token regexp="yes">to</token><token postag="VBZ"><exception>was</exception></token></pattern>
       <message>You might need to use the base form of the verb here (e.g. 'learn' instead of 'learned/learning/...').</message>
       <example type="correct">I was surprised to <marker>learn</marker> this. </example>
+      <example type="correct">He spoke to chosen people.</example>
       <example type="incorrect">I was surprised to <marker>learns</marker> this. </example>
    </rule>
 
@@ -1103,6 +1104,9 @@ $Id: grammar.xml,v 1.88 2006-09-27 20:12:26 milek_pl Exp $
 		<example type="incorrect">He is <marker>good friend</marker>.</example>
 		<example type="correct">He is a good friend.</example>
 	</rule>
+	<!--  this rule needs to be expanded to all prepositions
+	 so that exceptions could be accounted for properly, i.e.,
+	 'at home' vs. 'a tourist home'; 'for example' vs. 'an example for you' -->
 		<rule>
 		<pattern mark_from="1" mark_to="-1">
 		<token postag="IN"><exception>to</exception></token>
@@ -1479,6 +1483,30 @@ $Id: grammar.xml,v 1.88 2006-09-27 20:12:26 milek_pl Exp $
 	<example type="correct">The Thames was once a much broader river.</example>
   </rule>
 
+	<rulegroup name="non-standard contractions '(I've a...)'" id="I_VE_A">
+	<rule>
+		<pattern>
+		  <token/>
+			<token>'</token>
+			<token>ve</token>
+			<token regexp="yes">a|an</token>
+		</pattern>
+		<message>This is a non-standard contraction. Use <suggestion>\1 have \4</suggestion> or <suggestion>\1've got \4</suggestion> to express posession.</message>
+		<example type="correct">I've got a new car.</example>
+   	<example type="incorrect">I<marker>'ve a</marker> new car.</example>
+	</rule>
+		<rule>
+		<pattern>
+			<token>'</token>
+			<token>ve</token>
+			<token postag="CD"/>
+		</pattern>
+		<message>This is a non-standard contraction. Use <suggestion>have \3</suggestion> or <suggestion>'ve got</suggestion> to express posession.</message>
+		<example type="correct">I've got three new cars.</example>
+   	<example type="incorrect">I<marker>'ve three</marker> new cars.</example>
+	</rule>
+	
+	</rulegroup>
   </category>
   
 </rules>
