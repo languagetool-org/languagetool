@@ -3,7 +3,7 @@
 Rules: Grammar and Typos
 See tagset.txt for the meaning of the POS tags
 Copyright (C) 2001-2006 Daniel Naber (http://www.danielnaber.de)
-$Id: grammar.xml,v 1.90 2006-09-28 20:57:12 milek_pl Exp $
+$Id: grammar.xml,v 1.91 2006-09-29 14:14:59 milek_pl Exp $
 -->
 <rules lang="en">
 
@@ -1107,6 +1107,27 @@ $Id: grammar.xml,v 1.90 2006-09-28 20:57:12 milek_pl Exp $
 	<!--  this rule needs to be expanded to all prepositions
 	 so that exceptions could be accounted for properly, i.e.,
 	 'at home' vs. 'a tourist home'; 'for example' vs. 'an example for you' -->
+	 		<rule>
+		<pattern mark_from="1" mark_to="-1">
+		<token>at</token>
+    <token postag="NN"><exception postag_regexp="yes" postag="DT|RP|JJ|IN|CD|JJS|JJR|RBS|VBD"/><exception regexp="yes">bay|birth|ease|first|hand|home|issue|least|leisure|length|liberty|sea|variance</exception></token>
+		<token><exception postag_regexp="yes" postag="NN.*|DT|IN"/></token>
+		</pattern>
+		<message>The article is missing before the noun: <suggestion>the \2</suggestion>, <suggestion>a \2</suggestion> or <suggestion>an \2</suggestion>.</message>
+		<example type="incorrect">He was waiting at <marker>airport</marker>.</example>
+		<example type="correct">He was waiting at <marker>the airport</marker>.</example>
+	</rule>
+		<rule>
+		<pattern mark_from="1" mark_to="-1">
+		<token>at</token>
+		<token postag="JJ"><exception postag_regexp="yes" postag="VB|RB|CD|IN"/></token>
+    <token postag="NN"><exception postag_regexp="yes" postag="DT|RP|JJ|IN|CD|JJR|RBS|VBD"/></token>
+		<token negate_pos="yes" postag_regexp="yes" postag="NNS|NN:.*|NN"/>
+		</pattern>
+		<message>The article is missing before the noun: <suggestion>the \2</suggestion>, <suggestion>a \2</suggestion> or <suggestion>an \2</suggestion>.</message>
+		<example type="incorrect">He was waiting at <marker>new airport</marker>.</example>
+		<example type="correct">He was waiting at <marker>the new airport</marker>.</example>
+	</rule>	 
 		<rule>
 		<pattern mark_from="1" mark_to="-1">
 		<token postag="IN"><exception>to</exception></token>
