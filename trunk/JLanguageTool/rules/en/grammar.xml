@@ -3,7 +3,7 @@
 Rules: Grammar and Typos
 See tagset.txt for the meaning of the POS tags
 Copyright (C) 2001-2006 Daniel Naber (http://www.danielnaber.de)
-$Id: grammar.xml,v 1.91 2006-09-29 14:14:59 milek_pl Exp $
+$Id: grammar.xml,v 1.92 2006-09-30 14:32:12 milek_pl Exp $
 -->
 <rules lang="en">
 
@@ -1038,7 +1038,7 @@ $Id: grammar.xml,v 1.91 2006-09-29 14:14:59 milek_pl Exp $
    
   <!-- currently doesn't fail test case :)  -->
    <rule id="TO_NON_BASE" name="'to' + non-base form">
-      <pattern mark_from="1"><token regexp="yes">to</token><token postag="VBZ"><exception>was</exception></token></pattern>
+      <pattern mark_from="1"><token regexp="yes">to</token><token postag="VBZ"><exception>is</exception></token></pattern>
       <message>You might need to use the base form of the verb here (e.g. 'learn' instead of 'learned/learning/...').</message>
       <example type="correct">I was surprised to <marker>learn</marker> this. </example>
       <example type="correct">He spoke to chosen people.</example>
@@ -1110,7 +1110,7 @@ $Id: grammar.xml,v 1.91 2006-09-29 14:14:59 milek_pl Exp $
 	 		<rule>
 		<pattern mark_from="1" mark_to="-1">
 		<token>at</token>
-    <token postag="NN"><exception postag_regexp="yes" postag="DT|RP|JJ|IN|CD|JJS|JJR|RBS|VBD"/><exception regexp="yes">bay|birth|ease|first|hand|home|issue|least|leisure|length|liberty|sea|variance</exception></token>
+    <token postag="NN"><exception postag_regexp="yes" postag="DT|RP|JJ|IN|CD|JJS|JJR|RBS|VBD"/><exception regexp="yes">bay|birth|ease|first|hand|home|issue|least|length|liberty|sea|table|variance</exception></token>
 		<token><exception postag_regexp="yes" postag="NN.*|DT|IN"/></token>
 		</pattern>
 		<message>The article is missing before the noun: <suggestion>the \2</suggestion>, <suggestion>a \2</suggestion> or <suggestion>an \2</suggestion>.</message>
