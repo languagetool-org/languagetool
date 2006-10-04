@@ -3,7 +3,7 @@
 Rules: Grammar and Typos
 See tagset.txt for the meaning of the POS tags
 Copyright (C) 2001-2006 Daniel Naber (http://www.danielnaber.de)
-$Id: grammar.xml,v 1.94 2006-10-03 09:35:38 milek_pl Exp $
+$Id: grammar.xml,v 1.95 2006-10-04 23:44:41 milek_pl Exp $
 -->
 <rules lang="en">
 
@@ -1085,6 +1085,18 @@ $Id: grammar.xml,v 1.94 2006-10-03 09:35:38 milek_pl Exp $
 	   
    </rule>
 
+	<rule id="MOST_SOME_OF_NNS" name="'most/some of' + plural noun">
+	<pattern>
+		<token regexp="yes">most|some</token>
+		<token>of</token>
+		<token postag="NNS"/>
+	</pattern>
+	<message>After '\1 of', you should use 'the' (<suggestion>\1 \2 the \3</suggestion>) or simply say '<suggestion>\1 \3</suggestion>'.</message>
+	<example type="correct">Most students do their homework.</example>
+	<example type="incorrect"><marker>Most of students</marker> do their homework.</example>
+	<example type="correct"><marker>Some of the students</marker> do their homework.</example>
+	</rule>
+
 	<!--  needs more tweaking -->
 	<rulegroup id="ARTICLE_MISSING" name="article missing before a countable noun">
 	<rule>
@@ -1135,10 +1147,10 @@ $Id: grammar.xml,v 1.94 2006-10-03 09:35:38 milek_pl Exp $
 		<example type="correct">He was waiting at <marker>the new airport</marker>.</example>
 	</rule>	 
 	<rule>
-		<pattern mark_from="1" mark_to="-1">
-		<token>by</token>
-    <token postag="NN"><exception postag_regexp="yes" postag="DT|RB|RP|JJ|IN|CD|JJS|JJR|RBS|VBD"/><exception regexp="yes">crook|hand|machine|word|checque|accident|day|means|mistake|name</exception></token>
-		<token><exception postag_regexp="yes" postag="NN.*|DT|IN"/></token>
+		<pattern mark_from="1" mark_to="-1" case_sensitive="yes">
+		<token regexp="yes">[Bb]y</token>
+    <token postag="NN"><exception postag_regexp="yes" postag="DT|RB|RP|JJ|IN|CD|JJS|JJR|RBS|VBD"/><exception regexp="yes">bit|word|step|way|example|dint|crook|hook|hand|machine|word|cheque|accident|day|means|mistake|name|train|rail|coach|bus|boat|helicopter|taxi|ambulance|foot|section|article|page|road|letter|phone|telephone|mail|storm|arrangement|satellite|decree|year-end|lot|profession|district|week|eye|</exception></token>
+		<token><exception postag_regexp="yes" postag="NN.*"/></token>
 		</pattern>
 		<message>The article is missing before the noun: <suggestion>the \2</suggestion>, <suggestion>a \2</suggestion> or <suggestion>an \2</suggestion>.</message>
 		<example type="incorrect">He was waiting by <marker>river</marker>.</example>
