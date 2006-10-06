@@ -46,36 +46,42 @@ map["\?"]=""	#as above
 
 #adjectives
 /A:/ && !/'/ {
-gsub(/{.*}/,"")
+gsub(/{[a-z]+}/,"")
 gsub(/,/,"")
-gsub(/\|/,"")
 gsub(/[0-9]/,"")
+split ($0, adjective, /\|/)
+#print "1" adjective[1]
+#print "2" adjective[2]
+split(adjective[1], jjr,":")
+split(jjr[2], jjr_forms)
+split(adjective[2],jjs_forms)
+gsub(/\|/,"")
 mark=0
 total=0
-for (i=3;i<=NF;i++) 
-	{
-	if ($i~/\?|</) mark++
-	total++
-	}
-if (mark==total && "BEGIN"$1!~/BEGIN[A-Z]/) {
-	print $1 "\t" $1 "\tJJ"
-	mark=0
-	total=0
-	} else {
 if ($1"_END"!~/ly_END/) print $1 "\t" $1 "\tJJ"; else print $1 "\t" $1 "\tRB"
-for (i=2;i<=NF;i++) {
-	if ($i"_END"~/er_END/) 
-		{print $i "\t" $1 "\tJJR"
-		JJR[$i]=$1}
-	if ($i"_END"~/est_END/) 
-		{print $i "\t" $1 "\tJJS"
-		JJS[$i]=$1
+for (n in jjr_forms) {
+	#if ($i"_END"!~/er_END/) 
+	if (jjr_forms[n]!~/\?|<|\./)
+		{print jjr_forms[n] "\t" $1 "\tJJR"
+		JJR[jjr_forms[n]]=$1
+		set++
+		}
+	}
+for (n in jjs_forms) {	
+	if (jjs_forms[n]!~/\?|<|\./)
+		{print jjs_forms[n] "\t" $1 "\tJJS"
+		JJS[jjs_forms[n]]=$1
+		set++
 		}
 	}
 }
-}
 
-/N:|N\?:/ && !/'/ {if ($1!~/[A-Z][a-z]/) print $1 "\t" $1 "\tNN"; else print $1 "\t" $1 "\tNNP"
+/N:|N\?:/ && !/'/ {
+if ($1~/less/ && $2~/N\?:/ && NF==3) {
+ print $1 "\t" $1 "\tJJ"
+}
+else {
+if ($1!~/[A-Z][a-z]/) print $1 "\t" $1 "\tNN"; else print $1 "\t" $1 "\tNNP"
 gsub(/,/,"")
 gsub(/{.*}/,"")
 gsub(/[0-9]\.[0-9]/,"")
@@ -83,6 +89,7 @@ gsub(/[0-9]+ /,"")
 for (i=3;i<=NF;i++) {
 	if ($i!~/[\?\~\!<]/ && "PFX"$i"SFX"!~/PFX([0-9]+|\|)SFX/)
 	if ($i!~/[A-Z][a-z]/) print $i "\t" $1 "\tNNS"; else print $i "\t" $1 "\tNNPS"
+}
 }
 }
 
@@ -148,7 +155,11 @@ if (verb_fields[5]!="") {
 
 /\tvA/ {print $1 "\t" $1 "\t"map["v"]
 	print $1 "\t" $1 "\t"map["A"]}
-	
+
+/\tv/ && !/[ ']/ {print $1 "\t" $1 "\t"map["v"]}
+
+/\t\|v/ && !/[ ']/ {print $1 "\t" $1 "\t"map["v"]}
+
 /\tPCv/ {print $1 "\t" $1 "\t"map["P"]
 	print $1 "\t" $1 "\t"map["C"]
 	print $1 "\t" $1 "\t"map["v"]}
@@ -160,7 +171,7 @@ if (verb_fields[5]!="") {
 		print $1 "\t" $1 "\t"map["N"]
 		print $1 "\t" $1 "\t"map["t"]
 		print $1 "\t" $1 "\t"map["V"]}
-/\tAN/ && !/'/ {print $1 "\t" $1 "\t"map["A"]
+/\t[AN][AN]/ && !/'/ {print $1 "\t" $1 "\t"map["A"]
 		print $1 "\t" $1 "\t"map["N"]
 	 }
 /\tN$/ && !/[ ']/ {if ($1!~/[A-Z][a-z]/) print $1 "\t" $1 "\tNN"; else print $1 "\t" $1 "\tNNP"
@@ -168,4 +179,6 @@ if (verb_fields[5]!="") {
 /\tA$/ && !/[ ']/{
 	if (JJR[$1]=="" && JJS[$1]=="")  
 			print $1 "\t" $1 "\t"map["A"]
+	 }
+/\tpN$/ && !/[ ']/ {if ($1!~/[A-Z][a-z]/) print $1 "\t" $1 "\tNNS"; else print $1 "\t" $1 "\tNNPS"
 	 }
