@@ -3,7 +3,7 @@
 Rules: Grammar and Typos
 See tagset.txt for the meaning of the POS tags
 Copyright (C) 2001-2006 Daniel Naber (http://www.danielnaber.de)
-$Id: grammar.xml,v 1.95 2006-10-04 23:44:41 milek_pl Exp $
+$Id: grammar.xml,v 1.96 2006-10-06 00:09:10 milek_pl Exp $
 -->
 <rules lang="en">
 
@@ -1345,6 +1345,18 @@ $Id: grammar.xml,v 1.95 2006-10-04 23:44:41 milek_pl Exp $
     <message>Use only <suggestion>\2</suggestion> (without '\1') when you use the superlative.</message>
     <example type="correct">Kyoto is the <marker>oldest</marker> city.</example>
     <example type="incorrect">Kyoto is the <marker>most oldest</marker> city.</example>
+  </rule>
+
+  <rule id="MOST_COMPARATIVE" name="No 'more' or 'most' before comparatives">
+    <pattern mark_to="-1">
+      <token regexp="yes">more|most</token>
+      <token postag="JJR|RBR" postag_regexp="yes"/>
+      <token postag="NN.*" postag_regexp="yes"/>
+    </pattern>
+    <message>Use only <suggestion>\2</suggestion> (without '\1') when you use the comparative.</message>
+    <example type="correct">Kyoto is an <marker>older</marker> city.</example>
+    <example type="incorrect">Kyoto is a <marker>more older</marker> city.</example>
+    <example type="correct">When is more better?</example>
   </rule>
   
   <rule id="THE_SUPERLATIVE" name="No indefinite article ('a'/'an') before superlatives">

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?><!--
 Copyright (C) 2006 Marcin Miłkowski
-$Id: grammar.xml,v 1.67 2006-09-24 11:09:16 milek_pl Exp $		
+$Id: grammar.xml,v 1.68 2006-10-06 00:09:09 milek_pl Exp $		
 -->
 <rules lang="pl">
 	<category name="Błędy interpunkcyjne">
@@ -716,6 +716,32 @@ $Id: grammar.xml,v 1.67 2006-09-24 11:09:16 milek_pl Exp $
 				<example type="incorrect">Nienawidzę <marker>for</marker> internetowych.</example>				
 			</rule>			
 		</rulegroup>
+		<rulegroup id="PRAWDOPODOBNYM_JEST" name="orzecznik w narzędniku (zamiast mianownika)">
+		<rule>
+		<pattern mark_to="-3">
+			<token postag_regexp="yes" postag="(adj|ppas).*sg:inst\.loc:[mn].*"/>
+			<token inflected="yes" postag_regexp="yes" postag="verb:.*(sg|pl).*">być</token>
+			<token>,</token>
+			<token regexp="yes" inflected="yes">że|iż|aby|iżby|by|żeby</token>
+		</pattern>
+		<message>Przymiotnik \1 powinien być w mianowniku, rodzaju nijakim i liczbie pojedynczej (domyślnym podmiotem jest „to”).</message>
+		<example type="incorrect">Bez wątpienia <marker>dobrym</marker> jest, żeby szkoły były umundurowane.</example>
+		<example type="incorrect"><marker>Pożądanym</marker> jest, aby szkoły były umundurowane.</example>
+		<example type="correct">Pożądane jest, aby szkoły były umundurowane.</example>
+		</rule>		
+				<rule>
+		<pattern mark_from="1" mark_to="-2">
+			<token inflected="yes" postag_regexp="yes" postag="verb:.*(sg|pl).*">być</token>
+			<token postag_regexp="yes" postag="(adj|ppas).*sg:inst\.loc:[mn].*"/>
+			<token>,</token>
+			<token regexp="yes" inflected="yes">że|iż|aby|iżby|by|żeby</token>
+		</pattern>
+		<message>Przymiotnik \2 powinien być w mianowniku, rodzaju nijakim i liczbie pojedynczej (domyślnym podmiotem jest „to”).</message>
+		<example type="incorrect">Bez wątpienia jest <marker>dobrym</marker>, żeby szkoły były umundurowane.</example>
+		<example type="incorrect">Jest <marker>pożądanym</marker> , aby szkoły były umundurowane.</example>
+		<example type="correct">Jest pożądane, aby szkoły były umundurowane.</example>
+		</rule>		
+		</rulegroup>
 	</category>
 	
 	<category name="Błędy w szyku wyrazów">
@@ -1145,9 +1171,9 @@ $Id: grammar.xml,v 1.67 2006-09-24 11:09:16 milek_pl Exp $
 		<rule name="„czym... tym” (im... tym)" id="CZYM_TYM">
 			<pattern>
 				<token skip="-1">czym</token>
-				<token postag="(adj|adv).*" postag_regexp="yes" skip="-1"/>
+				<token postag="(adj|adv).*:comp" postag_regexp="yes" skip="-1"/>
 				<token>tym</token>
-				<token postag="(adj|adv).*" postag_regexp="yes"/>
+				<token postag="(adj|adv).*:comp" postag_regexp="yes"/>
 			</pattern>
 			<message>Mówimy <suggestion>Im..., tym</suggestion>.</message>
 			<example type="correct">Im większa, tym lepiej.</example>
@@ -2423,7 +2449,7 @@ $Id: grammar.xml,v 1.67 2006-09-24 11:09:16 milek_pl Exp $
 		<rule name="„Gal Anonim” (Gall Anonim)" id="GAL_ANONIM">
 			<pattern mark_to="-1">
 				<token inflected="yes">Gal</token>
-				<token inflected="yes">Anonim</token>
+				<token regexp="yes">Anonim|Anonima|Anonimie|Anonimem|Anonimowi</token>
 			</pattern>
 			<message>Poprawnie piszemy <suggestion>Gall</suggestion> Anonim.</message>
 			<example type="correct">To kronika Galla Anonima.</example>
