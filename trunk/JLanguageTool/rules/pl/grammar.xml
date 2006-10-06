@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?><!--
 Copyright (C) 2006 Marcin Miłkowski
-$Id: grammar.xml,v 1.68 2006-10-06 00:09:09 milek_pl Exp $		
+$Id: grammar.xml,v 1.69 2006-10-06 19:12:38 milek_pl Exp $		
 -->
 <rules lang="pl">
 	<category name="Błędy interpunkcyjne">
@@ -482,7 +482,7 @@ $Id: grammar.xml,v 1.68 2006-10-06 00:09:09 milek_pl Exp $
 
 		<rule name="„te”, „jedne”, „tamte” + rzeczownik r. nijakiego w l.poj." id="JEDNE_DZIECKO">
 			<pattern mark_to="-1">
-				<token postag_regexp="yes" postag="adj:pl:nom.*"><exception postag_regexp="yes" postag="adj.*sg:nom.*|verb.+"/></token>
+				<token postag_regexp="yes" postag="adj:pl:nom.*"><exception postag_regexp="yes" postag=".*adj:sg:nom.*|verb.+"/></token>
 				<token postag_regexp="yes" postag="subst.*:sg:nom.acc.*:n"/>
 			</pattern>
 			<message>Ten przymiotnik lub zaimek jest w liczbie mnogiej. Prawdopodobnie należy użyć liczby pojedynczej.</message>
@@ -719,8 +719,8 @@ $Id: grammar.xml,v 1.68 2006-10-06 00:09:09 milek_pl Exp $
 		<rulegroup id="PRAWDOPODOBNYM_JEST" name="orzecznik w narzędniku (zamiast mianownika)">
 		<rule>
 		<pattern mark_to="-3">
-			<token postag_regexp="yes" postag="(adj|ppas).*sg:inst\.loc:[mn].*"/>
-			<token inflected="yes" postag_regexp="yes" postag="verb:.*(sg|pl).*">być</token>
+			<token postag_regexp="yes" postag=".*(adj|ppas):sg:inst\.loc:[mn].*"/>
+			<token regexp="yes">jest|było|będzie|byłoby</token>
 			<token>,</token>
 			<token regexp="yes" inflected="yes">że|iż|aby|iżby|by|żeby</token>
 		</pattern>
@@ -731,8 +731,8 @@ $Id: grammar.xml,v 1.68 2006-10-06 00:09:09 milek_pl Exp $
 		</rule>		
 				<rule>
 		<pattern mark_from="1" mark_to="-2">
-			<token inflected="yes" postag_regexp="yes" postag="verb:.*(sg|pl).*">być</token>
-			<token postag_regexp="yes" postag="(adj|ppas).*sg:inst\.loc:[mn].*"/>
+			<token regexp="yes">jest|było|będzie|byłoby</token>
+			<token postag_regexp="yes" postag=".*(adj|ppas):sg:inst\.loc:[mn].*"/>
 			<token>,</token>
 			<token regexp="yes" inflected="yes">że|iż|aby|iżby|by|żeby</token>
 		</pattern>

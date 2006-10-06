@@ -3,7 +3,7 @@
 Rules: Grammar and Typos
 See tagset.txt for the meaning of the POS tags
 Copyright (C) 2001-2006 Daniel Naber (http://www.danielnaber.de)
-$Id: grammar.xml,v 1.96 2006-10-06 00:09:10 milek_pl Exp $
+$Id: grammar.xml,v 1.97 2006-10-06 19:12:38 milek_pl Exp $
 -->
 <rules lang="en">
 
@@ -1072,7 +1072,7 @@ $Id: grammar.xml,v 1.96 2006-10-06 00:09:10 milek_pl Exp $
 	  longer list but not checked thouroughly: 
 	  http://www.geocities.com/Athens/Olympus/7583/ncntlist.html
 	  -->
-   <rule id="A_UNCOUNTABLE" name="a + uncountable noun">
+   <rule id="A_UNCOUNTABLE" name="Articles: a + uncountable noun">
       <pattern mark_to="-2">
 		  <token regexp="yes">a|an</token>
 		  <token regexp="yes">air|accomodation|advice|baggage|bread|equipment|garbage|luggage|money|cattle|knowledge|sand|furniture|meat|food|news|pasta|progress|research|water|freedom|maturity|intelligence|travel|pollution|traffic</token>
@@ -1085,7 +1085,7 @@ $Id: grammar.xml,v 1.96 2006-10-06 00:09:10 milek_pl Exp $
 	   
    </rule>
 
-	<rule id="MOST_SOME_OF_NNS" name="'most/some of' + plural noun">
+	<rule id="MOST_SOME_OF_NNS" name="Articles: 'most/some of' + plural noun">
 	<pattern>
 		<token regexp="yes">most|some</token>
 		<token>of</token>
@@ -1097,26 +1097,74 @@ $Id: grammar.xml,v 1.96 2006-10-06 00:09:10 milek_pl Exp $
 	<example type="correct"><marker>Some of the students</marker> do their homework.</example>
 	</rule>
 
-	<!--  needs more tweaking -->
-	<rulegroup id="ARTICLE_MISSING" name="article missing before a countable noun">
+	<!--  needs more and more tweaking -->
+	<rulegroup id="ARTICLE_MISSING" name="Articles: article missing before a countable noun">
 	<rule>
 		<pattern mark_from="2" mark_to="-1">
 		<token negate_pos="yes" postag="DT"><exception postag_regexp="yes" postag="JJ|NN.*"/></token>
-		<token postag="VBP|VBZ" postag_regexp="yes"><exception postag_regexp="yes" postag="NN.*|JJ"/></token>
+		<token postag="VBP|VBZ" postag_regexp="yes"><exception regexp="yes">take[s]*|give[s]*|says|go|goes|becomes</exception><exception postag_regexp="yes" postag="NN.*|JJ"/></token>
     <token postag="NN"><exception postag_regexp="yes" postag="DT|RB|RP|JJ|IN|CC|CD|JJR|RBS|VBD"/></token>
-		<token><exception postag_regexp="yes" postag="NN.*|DT"/></token>
+		<token><exception postag_regexp="yes" postag="NN.*"/></token>
 		</pattern>
 		<message>The article is missing before the noun: <suggestion>the \3</suggestion>, <suggestion>a \3</suggestion> or <suggestion>an \3</suggestion>.</message>
 		<example type="incorrect">He is <marker>friend</marker>.</example>
 		<example type="correct">He is a friend.</example>		
 	</rule>
+	<rule>
+		<pattern mark_from="2" mark_to="-1">
+		<token negate_pos="yes" postag="DT"><exception postag_regexp="yes" postag="JJ|NN.*"/></token>
+		<token regexp="yes">take|takes</token>
+    <token postag="NN"><exception regexp="yes">place|charge</exception><exception postag_regexp="yes" postag="DT|RB|RP|JJ|IN|CC|CD|JJR|RBS|VBD"/></token>
+		<token><exception postag_regexp="yes" postag="NN.*"/></token>
+		</pattern>
+		<message>The article is missing before the noun: <suggestion>the \3</suggestion>, <suggestion>a \3</suggestion> or <suggestion>an \3</suggestion>.</message>
+		<example type="correct">He takes his brother to school.</example>		
+		<example type="correct">The event takes place here.</example>		
+		<example type="incorrect">He takes <marker>brother</marker> with him.</example>
+	</rule>
+	<rule>
+		<pattern mark_from="2" mark_to="-1">
+		<token negate_pos="yes" postag="DT"><exception postag_regexp="yes" postag="JJ|NN.*"/></token>
+		<token regexp="yes">give|gives</token>
+    <token postag="NN"><exception regexp="yes">rise|way|room</exception><exception postag_regexp="yes" postag="DT|RB|RP|JJ|IN|CC|CD|JJR|RBS|VBD"/></token>
+		<token><exception postag_regexp="yes" postag="NN.*"/></token>
+		</pattern>
+		<message>The article is missing before the noun: <suggestion>the \3</suggestion>, <suggestion>a \3</suggestion> or <suggestion>an \3</suggestion>.</message>
+		<example type="correct">He gives his brother a bar of chocolate.</example>		
+		<example type="correct">This event gives rise to a new era.</example>		
+		<example type="incorrect">He gives <marker>brother</marker> a bar of chocolate.</example>
+	</rule>
+	<rule>
+		<pattern mark_from="2" mark_to="-1">
+		<token negate_pos="yes" postag="DT"><exception postag_regexp="yes" postag="JJ|NN.*"/></token>
+		<token regexp="yes">go|goes</token>
+    <token postag="NN"><exception regexp="yes">hand</exception><exception postag_regexp="yes" postag="DT|RB|RP|JJ|IN|CC|CD|JJR|RBS|VBD"/></token>
+		<token><exception postag_regexp="yes" postag="NN.*"/></token>
+		</pattern>
+		<message>The article is missing before the noun: <suggestion>the \3</suggestion>, <suggestion>a \3</suggestion> or <suggestion>an \3</suggestion>.</message>
+		<example type="incorrect">He goes <marker>step</marker> too far.</example>		
+		<example type="correct">He goes a step too far.</example>		
+		<example type="correct">This goes <marker>hand</marker> in hand...</example>
+	</rule>
+	<rule>
+		<pattern mark_from="2" mark_to="-1">
+		<token negate_pos="yes" postag="DT"><exception postag_regexp="yes" postag="JJ|NN.*"/></token>
+		<token regexp="yes">falls|fall</token>
+    <token postag="NN"><exception regexp="yes">victim</exception><exception postag_regexp="yes" postag="DT|RB|RP|JJ|IN|CC|CD|JJR|RBS|VBD"/></token>
+		<token><exception postag_regexp="yes" postag="NN.*"/></token>
+		</pattern>
+		<message>The article is missing before the noun: <suggestion>the \3</suggestion>, <suggestion>a \3</suggestion> or <suggestion>an \3</suggestion>.</message>
+		<example type="incorrect">It falls <marker>tad</marker>.</example>		
+		<example type="correct">Inflation falls a tad.</example>		
+		<example type="correct">The website falls <marker>victim</marker> to...</example>
+	</rule>	
 		<rule>
 		<pattern mark_from="2" mark_to="-1">
 		<token negate_pos="yes" postag="DT"></token>
 		<token postag="VBP|VBZ" postag_regexp="yes"><exception postag="JJ"/></token>
 		<token postag="JJ"><exception postag_regexp="yes" postag="VB|RB|CD|IN|CC"/></token>
     <token postag="NN"><exception postag_regexp="yes" postag="DT|RB|RP|JJ|IN|CD|JJR|RBS|VBD|MD"/></token>
-		<token><exception postag_regexp="yes" postag="NN.*|DT"/></token>
+		<token><exception postag_regexp="yes" postag="NN.*"/></token>
 		</pattern>
 		<message>The article is missing before the noun: <suggestion>the \3</suggestion>, <suggestion>a \3</suggestion> or <suggestion>an \3</suggestion>.</message>
 		<example type="incorrect">He is <marker>good friend</marker>.</example>
