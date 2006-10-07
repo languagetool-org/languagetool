@@ -120,11 +120,19 @@ public class CaseRule extends GermanRule {
     exceptions.add("Kurzem");
     exceptions.add("Schwarzes");    // Schwarzes Brett
     exceptions.add("Goldener");    // Goldener Schnitt
+    exceptions.add("Link");
+    exceptions.add("Ausdrücke");
+    exceptions.add("Landwirtschaft");
     // TODO: add more exceptions here
   }
   
   private final static Set<String> substVerbenExceptions = new HashSet<String>();
   static {
+    substVerbenExceptions.add("bedeutet");    // "und das bedeuted..."
+    substVerbenExceptions.add("ermöglicht");    // "und das ermöglicht..."
+    substVerbenExceptions.add("sollen");
+    substVerbenExceptions.add("werden");
+    substVerbenExceptions.add("dürfen");
     substVerbenExceptions.add("müssen");
     substVerbenExceptions.add("so");
     substVerbenExceptions.add("ist");
