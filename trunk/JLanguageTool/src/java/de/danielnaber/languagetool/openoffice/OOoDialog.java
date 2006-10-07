@@ -27,11 +27,12 @@ import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
-import java.io.File;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Iterator;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.swing.JButton;
 import javax.swing.JComponent;
@@ -42,13 +43,10 @@ import javax.swing.JRootPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTextPane;
 import javax.swing.KeyStroke;
-import javax.xml.parsers.ParserConfigurationException;
-
-import org.xml.sax.SAXException;
 
 import com.sun.star.frame.XController;
 import com.sun.star.frame.XModel;
-import com.sun.star.text.XText;
+import com.sun.star.text.XParagraphCursor;
 import com.sun.star.text.XTextCursor;
 import com.sun.star.text.XTextDocument;
 import com.sun.star.text.XTextRange;
@@ -57,7 +55,6 @@ import com.sun.star.text.XTextViewCursorSupplier;
 import com.sun.star.uno.UnoRuntime;
 
 import de.danielnaber.languagetool.JLanguageTool;
-import de.danielnaber.languagetool.Language;
 import de.danielnaber.languagetool.gui.Configuration;
 import de.danielnaber.languagetool.gui.ConfigurationDialog;
 import de.danielnaber.languagetool.gui.Tools;
@@ -74,6 +71,7 @@ public class OOoDialog implements ActionListener {
   
   private static final String COMPLETE_TEXT = "LanguageTool check is complete.";
   private static final String FONT_TAG = "<font face=\"Sans-Serif\">";
+  private static final int CONTEXT_SIZE = 60;
   
   private List<Rule> rules = null;
   private JDialog dialog = null;
@@ -88,29 +86,31 @@ public class OOoDialog implements ActionListener {
   private JButton closeButton = null;
   
   private XTextDocument xTextDoc = null;
-  private List<RuleMatch> ruleMatches = null;
-  private String text = null;
+  private List<CheckedParagraph> checkedParagraphs = null;
 
   private RuleMatch currentRuleMatch = null;
+  private Set<String> rulesToIgnore = new HashSet<String>();
+  private int prevMatchParagraph = -1;
   private int currentRuleMatchPos = 0;
   private int replacementCorrection = 0;
   private XTextViewCursor xViewCursor = null;
+  private XTextViewCursor myViewCursor = null;
   private XTextRange startTextRange = null;
 
   private Configuration configuration = null;
 
-  OOoDialog(Configuration configuration, List<Rule> rules, XTextDocument xTextDoc, List<RuleMatch> ruleMatches, String text,
+  OOoDialog(Configuration configuration, List<Rule> rules, XTextDocument xTextDoc, 
+      List<CheckedParagraph> checkedParagraphs,
       XTextViewCursor xViewCursor) {
     this.rules = rules;
     this.xTextDoc = xTextDoc;
-    this.ruleMatches = ruleMatches;
-    this.text = text;
+    this.checkedParagraphs = checkedParagraphs;
     this.configuration = configuration;
     this.xViewCursor = xViewCursor; 
   }
   
   void show() {
-    if (ruleMatches.size() == 0) {
+    if (checkedParagraphs.size() == 0) {
       JOptionPane.showMessageDialog(null, COMPLETE_TEXT);
       return;
     }
@@ -188,6 +188,7 @@ public class OOoDialog implements ActionListener {
     cons.weightx = 1.0f;
     cons.weighty = 1.0f;
     cons.gridheight = 1;
+    suggestionList.addMouseListener(new DoubleClickListener());
 
     cons.gridx = 1;
     cons.gridy = 4;
@@ -219,23 +220,51 @@ public class OOoDialog implements ActionListener {
     // FIXME: close via "X" in the window must behave like close via "close" button
   }
   
+  private int getTotalRuleMatches() {
+    int total = 0;
+    for (CheckedParagraph checkedParagraph : checkedParagraphs) {
+      total += checkedParagraph.getRuleMatches().size(); 
+    }
+    return total;
+  }
+  
   private void showError(int i) {
-    RuleMatch match = (RuleMatch) ruleMatches.get(i);
+    System.err.println("show err " + i);
+    RuleMatch match = null;
+    int count = 0;
+    int paragraphNumber = -1;
+    for (CheckedParagraph checkedParagraph : checkedParagraphs) {
+      for (RuleMatch ruleMatch : checkedParagraph.getRuleMatches()) {
+        if (count >= i && !rulesToIgnore.contains(ruleMatch.getRule().getId())) {
+          match = ruleMatch;
+          paragraphNumber = checkedParagraph.getParagraphNumber();
+          break;
+        }
+        count++;
+      }
+      if (match != null) {
+        break;
+      }
+    }
+    if (match == null || paragraphNumber == -1) {
+      complete();
+      return;
+    }
     currentRuleMatch = match;
-    currentRuleMatchPos = i;
+    currentRuleMatchPos = count;
     String msg = match.getMessage();
     msg = msg.replaceAll("<suggestion>", "<b>");
     msg = msg.replaceAll("</suggestion>", "</b>");
     StringBuilder sb = new StringBuilder();
-    if (ruleMatches.size() == 1)
-      sb.append(ruleMatches.size() + " match in total");         //FIXME: i18n
+    int totalMatches = getTotalRuleMatches();
+    if (totalMatches == 1)
+      sb.append(totalMatches + " match in total");         //TODO: i18n
     else
-      sb.append(ruleMatches.size() + " matches in total");
+      sb.append(totalMatches + " matches in total");
     sb.append("<br>\n<br>\n<b>" +(i+1)+ ".</b> ");
     sb.append("<b>Match:</b> ");
     sb.append(msg);
     sb.append("<br>\n");
-    contextArea.setText(FONT_TAG + Tools.getContext(match.getFromPos(), match.getToPos(), text));
     messageArea.setText(FONT_TAG + sb.toString());
     setSuggestions();
     // Place visible cursor on the error:
@@ -249,13 +278,36 @@ public class OOoDialog implements ActionListener {
         // working on complete text:
         // get an invisible cursor:
         XTextCursor cursor = xTextDoc.getText().createTextCursor();
-        cursor.gotoStart(false);
-        cursor.goRight((short)(currentRuleMatch.getFromPos()-replacementCorrection), false);
-        cursor.goRight((short)errorLength, true);
-        // now place the visible cursor:
-        XTextViewCursor tmpxViewCursor = xViewCursorSupplier.getViewCursor();
-        tmpxViewCursor.gotoRange(cursor.getStart(), false);
-        tmpxViewCursor.gotoRange(cursor.getEnd(), true);
+        XParagraphCursor xParagraphCursor = (XParagraphCursor)
+          UnoRuntime.queryInterface(XParagraphCursor.class, cursor);
+        boolean hasNextParagraph = true;
+        boolean foundError = false;
+        int paraCount = 0;
+        while (hasNextParagraph) {
+          if (paraCount == paragraphNumber) {
+            if (paragraphNumber != prevMatchParagraph)
+              replacementCorrection = 0;
+            xParagraphCursor.gotoStartOfParagraph(false);
+            xParagraphCursor.gotoEndOfParagraph(true);
+            contextArea.setText(FONT_TAG + Tools.getContext(match.getFromPos()-replacementCorrection,
+                match.getToPos()-replacementCorrection, xParagraphCursor.getString(), CONTEXT_SIZE));
+            xParagraphCursor.gotoStartOfParagraph(true);
+            xParagraphCursor.goRight((short)(currentRuleMatch.getFromPos()-replacementCorrection), false);
+            xParagraphCursor.goRight((short)errorLength, true);
+            // now place the visible cursor:
+            myViewCursor = xViewCursorSupplier.getViewCursor();
+            myViewCursor.gotoRange(xParagraphCursor.getStart(), false);
+            myViewCursor.gotoRange(xParagraphCursor.getEnd(), true);
+            prevMatchParagraph = paragraphNumber;
+            foundError = true;
+            break;
+          }
+          hasNextParagraph = xParagraphCursor.gotoNextParagraph(false);
+          paraCount++;
+        }
+        if (!foundError)
+          throw new IllegalStateException("No position found in text that should be marked (paragraph="+paragraphNumber+")");
+
       } else {
         // working on selected text only:
         if (startTextRange == null) {
@@ -284,16 +336,10 @@ public class OOoDialog implements ActionListener {
 
   private void changeText() {
     String replacement = (String)suggestionList.getSelectedValue();
-    XText text = xTextDoc.getText();
     // FIXME: what if cast fails?
     short errorLength = (short)(currentRuleMatch.getToPos()-currentRuleMatch.getFromPos());
     if (xViewCursor == null) {
-      // working on complete text:
-      XTextCursor cursor = text.createTextCursor();
-      cursor.gotoStart(false);
-      cursor.goRight((short)(currentRuleMatch.getFromPos()-replacementCorrection), false);
-      cursor.goRight(errorLength, true);
-      cursor.setString(replacement);
+      myViewCursor.setString(replacement);
     } else {
       // working on selected text only:
       if (startTextRange == null) {
@@ -309,7 +355,7 @@ public class OOoDialog implements ActionListener {
   }
 
   private void gotoNextMatch() {
-    if (currentRuleMatchPos >= ruleMatches.size()-1) {
+    if (currentRuleMatchPos >= getTotalRuleMatches()-1) {
       complete();
     } else {
       currentRuleMatchPos++;
@@ -336,20 +382,7 @@ public class OOoDialog implements ActionListener {
    * Ignore all matches of the current rule for the rest of this document.
    */
   private void ignoreAll() {
-    int i = 0;
-    List<RuleMatch> filteredRuleMatches = new ArrayList<RuleMatch>();
-    for (RuleMatch ruleMatch : ruleMatches) {
-      if (i <= currentRuleMatchPos) {
-        filteredRuleMatches.add(ruleMatch);
-        i++;
-        continue;
-      }
-      if (!ruleMatch.getRule().getId().equals(currentRuleMatch.getRule().getId())) {
-        filteredRuleMatches.add(ruleMatch);
-      }
-      i++;
-    }
-    ruleMatches = filteredRuleMatches;
+    rulesToIgnore.add(currentRuleMatch.getRule().getId());
   }
 
   public void actionPerformed(ActionEvent event) {
@@ -376,7 +409,7 @@ public class OOoDialog implements ActionListener {
 
   /** Testing only.
    */
-  public static void main(String[] args) throws IOException, ParserConfigurationException, SAXException {
+/*  public static void main(String[] args) throws IOException, ParserConfigurationException, SAXException {
     JLanguageTool lt = new JLanguageTool(Language.ENGLISH);
     lt.activateDefaultPatternRules();
     Configuration config = new Configuration(new File("/tmp"));
@@ -390,12 +423,23 @@ public class OOoDialog implements ActionListener {
     List<RuleMatch> ruleMatches = lt.check(text);
     OOoDialog prg = new OOoDialog(config, lt.getAllRules(), null, ruleMatches, text, null);
 
-    /*
-     *   OOoDialog(Configuration configuration, List<Rule> rules, XTextDocument xTextDoc, List<RuleMatch> ruleMatches, String text,
-      XTextViewCursor xViewCursor) {
-
-     */
     prg.show();
+  }
+*/
+
+  class DoubleClickListener implements MouseListener {
+
+    public void mouseClicked(MouseEvent e) {
+      if (e.getClickCount() == 2) {
+        changeText();
+      }
+    }
+
+    public void mouseEntered(@SuppressWarnings("unused")MouseEvent e) {}
+    public void mouseExited(@SuppressWarnings("unused")MouseEvent e) {}
+    public void mousePressed(@SuppressWarnings("unused")MouseEvent e) {}
+    public void mouseReleased(@SuppressWarnings("unused")MouseEvent e) {}
+    
   }
 
 }

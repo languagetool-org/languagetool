@@ -22,15 +22,15 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URLDecoder;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JOptionPane;
 
 import com.sun.star.beans.UnknownPropertyException;
 import com.sun.star.beans.XPropertySet;
-import com.sun.star.frame.XController;
+import com.sun.star.container.XEnumeration;
 import com.sun.star.frame.XDesktop;
-import com.sun.star.frame.XModel;
 import com.sun.star.lang.Locale;
 import com.sun.star.lang.WrappedTargetException;
 import com.sun.star.lang.XComponent;
@@ -41,10 +41,9 @@ import com.sun.star.lib.uno.helper.Factory;
 import com.sun.star.lib.uno.helper.WeakBase;
 import com.sun.star.registry.XRegistryKey;
 import com.sun.star.task.XJobExecutor;
-import com.sun.star.text.XText;
 import com.sun.star.text.XTextDocument;
+import com.sun.star.text.XTextRange;
 import com.sun.star.text.XTextViewCursor;
-import com.sun.star.text.XTextViewCursorSupplier;
 import com.sun.star.uno.UnoRuntime;
 import com.sun.star.uno.XComponentContext;
 
@@ -52,7 +51,6 @@ import de.danielnaber.languagetool.JLanguageTool;
 import de.danielnaber.languagetool.Language;
 import de.danielnaber.languagetool.gui.Configuration;
 import de.danielnaber.languagetool.rules.Rule;
-import de.danielnaber.languagetool.rules.RuleMatch;
 
 /**
  * OpenOffice.org integration.
@@ -97,13 +95,8 @@ public class Main {
     public void trigger(final String sEvent) {
       try {
         if (sEvent.equals("execute")) {
-          try {
-            TextToCheck textToCheck = getText();
-            checkText(textToCheck);
-          } catch (Throwable e) {
-            writeError(e);
-            e.printStackTrace();
-          }
+          TextToCheck textToCheck = getText();
+          checkText(textToCheck);
         } else if (sEvent.equals("configure")) {
           ConfigThread configThread = new ConfigThread(getLanguage(), config, baseDir);
           configThread.start();
@@ -191,34 +184,49 @@ public class Main {
     }
     
     private TextToCheck getText() {
-      XModel xModel = (XModel)UnoRuntime.queryInterface(XModel.class, xTextDoc);
-      if (xModel == null) {
-        DialogThread dt = new DialogThread("Sorry, only text documents are supported");
-        dt.start();
-        return null;
+      com.sun.star.container.XEnumerationAccess xParaAccess = (com.sun.star.container.XEnumerationAccess) UnoRuntime
+          .queryInterface(com.sun.star.container.XEnumerationAccess.class, xTextDoc.getText());
+      if (xParaAccess == null) {
+        System.err.println("xParaAccess == null");
+        return new TextToCheck(new ArrayList<String>(), false);
       }
-      XController xController = xModel.getCurrentController(); 
-      XTextViewCursorSupplier xViewCursorSupplier = 
-        (XTextViewCursorSupplier)UnoRuntime.queryInterface(XTextViewCursorSupplier.class, xController); 
-      //XTextViewCursor xViewCursor = xViewCursorSupplier.getViewCursor();
-      xViewCursor = xViewCursorSupplier.getViewCursor();
-      //FIXME: getString gets only 64K of text
-      //should switch to text enumeration
-      String textToCheck = xViewCursor.getString();     // user's current selection
-      boolean selection = true;
-      if (textToCheck.equals("")) {     // no selection = check complete text
-        selection = false;
-        XText text = xTextDoc.getText();
-        textToCheck = text.getString();
-        if (textToCheck.equals("")) {
-          JOptionPane.showMessageDialog(null, "No text to check. Please note that documents > 64 KB are not yet supported",
-              "Error", JOptionPane.ERROR_MESSAGE);
+      List<String> paragraphs = new ArrayList<String>();
+      try {
+        for (com.sun.star.container.XEnumeration xParaEnum = xParaAccess.createEnumeration(); xParaEnum.hasMoreElements();) {
+          Object para = null;
+          para = xParaEnum.nextElement();
+          if (para == null) {
+            // TODO: ??
+            continue;
+          }
+          com.sun.star.container.XEnumerationAccess xPortionAccess = (com.sun.star.container.XEnumerationAccess) UnoRuntime
+              .queryInterface(com.sun.star.container.XEnumerationAccess.class, para);
+          if (xPortionAccess == null) {
+            System.err.println("xPortionAccess is null");
+            continue;
+          }
+          StringBuilder sb = new StringBuilder();
+          for (XEnumeration portionEnum = xPortionAccess.createEnumeration(); portionEnum.hasMoreElements();) {
+            Object textPortion = portionEnum.nextElement();
+            XPropertySet textProps = (XPropertySet) UnoRuntime.queryInterface(XPropertySet.class, textPortion);
+            String type = (String)textProps.getPropertyValue("TextPortionType");
+            XTextRange xtr = (XTextRange) UnoRuntime.queryInterface(XTextRange.class, textPortion);
+            if ("Footnote".equals(type)) {
+              // a footnote reference appears as one character in the text. we don't use a whitespace
+              // because we don't want to trigger the "no whitespace before comma" rule in this case:
+              // my footnote¹, foo bar
+              sb.append("1");
+            } else {
+              sb.append(xtr.getString());
+            }
+          }
+          //System.err.println("##"+sb.toString()+"##");
+          paragraphs.add(sb.toString());
         }
-        xViewCursor = null;
+      } catch (Exception e) {
+        throw new RuntimeException(e);
       }
-      // without this replacement selecting the error on Windows will not work correctly:
-      textToCheck = textToCheck.replaceAll("\r\n", "\n");
-      return new TextToCheck(textToCheck, selection);
+      return new TextToCheck(paragraphs, false);   // FIXME: "false"
     }
 
     private void checkText(final TextToCheck textToCheck) {
@@ -226,7 +234,7 @@ public class Main {
         return;
       ProgressDialog progressDialog = new ProgressDialog();
       Language docLanguage = getLanguage();
-      CheckerThread checkerThread = new CheckerThread(textToCheck.text, docLanguage, config, baseDir);
+      CheckerThread checkerThread = new CheckerThread(textToCheck.paragraphs, docLanguage, config, baseDir);
       checkerThread.start();
       while (true) {
         if (checkerThread.done()) {
@@ -240,9 +248,9 @@ public class Main {
       }
       progressDialog.close();
       
-      List<RuleMatch> ruleMatches = checkerThread.getRuleMatches();
+      List<CheckedParagraph> checkedParagraphs = checkerThread.getRuleMatches();
       // TODO: why must these be wrapped in threads to avoid focus problems?
-      if (ruleMatches.size() == 0) {
+      if (checkedParagraphs.size() == 0) {
         String msg;
         if (textToCheck.isSelection) {
           msg = "No errors or warnings found in selected text " + "(language: " + docLanguage.getName() + ")";  
@@ -255,7 +263,7 @@ public class Main {
       } else {
         ResultDialogThread dialog = new ResultDialogThread(config,
             checkerThread.getLanguageTool().getAllRules(),
-            xTextDoc, ruleMatches, textToCheck.text, xViewCursor);
+            xTextDoc, checkedParagraphs, xViewCursor);
         dialog.start();
       }
     }
@@ -298,7 +306,9 @@ public class Main {
   /** Testing only. */
   public static void main(final String[] args) throws IOException {
     _Main m = new _Main();
-    TextToCheck ttc = new TextToCheck("This is an test, don't berate yourself.", false);
+    List<String> paras = new ArrayList<String>();
+    paras.add("This is an test, don't berate yourself.");
+    TextToCheck ttc = new TextToCheck(paras, false);
     m.checkText(ttc);
   }
 
@@ -323,23 +333,21 @@ class ResultDialogThread extends Thread {
   private Configuration configuration;
   private List<Rule> rules;
   private XTextDocument xTextDoc;
-  private List<RuleMatch> ruleMatches;
-  private String text;
+  private List<CheckedParagraph> checkedParagraphs;
   private XTextViewCursor xViewCursor;
 
   ResultDialogThread(final Configuration configuration, final List<Rule> rules, final XTextDocument xTextDoc,
-      final List<RuleMatch> ruleMatches, final String text, final XTextViewCursor xViewCursor) {
+      final List<CheckedParagraph> checkedParagraphs, final XTextViewCursor xViewCursor) {
     this.configuration = configuration;
     this.rules = rules;
     this.xTextDoc = xTextDoc;
-    this.ruleMatches = ruleMatches;
-    this.text = text;
+    this.checkedParagraphs = checkedParagraphs;
     this.xViewCursor = xViewCursor;
   }
   
   public void run() {
     OOoDialog dialog = new OOoDialog(configuration, rules,
-        xTextDoc, ruleMatches, text, xViewCursor);
+        xTextDoc, checkedParagraphs, xViewCursor);
     dialog.show();
   }
   
@@ -347,11 +355,11 @@ class ResultDialogThread extends Thread {
 
 class TextToCheck {
   
-  String text;
+  List<String> paragraphs;
   boolean isSelection;
   
-  TextToCheck(final String text, final boolean isSelection) {
-    this.text = text;
+  TextToCheck(final List<String> paragraphs, final boolean isSelection) {
+    this.paragraphs = paragraphs;
     this.isSelection = isSelection;
   }
    

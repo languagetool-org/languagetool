@@ -19,6 +19,7 @@
 package de.danielnaber.languagetool.openoffice;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
 import de.danielnaber.languagetool.JLanguageTool;
@@ -28,17 +29,17 @@ import de.danielnaber.languagetool.rules.RuleMatch;
 
 class CheckerThread extends Thread {
 
-  private String text;
+  private List<String> paragraphs;
   private Language docLanguage;
   private Configuration config;
   private File baseDir;
   
   private JLanguageTool langTool; 
-  private List<RuleMatch> ruleMatches;
+  private List<CheckedParagraph> checkedParagraphs = new ArrayList<CheckedParagraph>();
   private boolean done = false;
   
-  CheckerThread(final String text, final Language docLanguage, final Configuration config, final File baseDir) {
-    this.text = text;
+  CheckerThread(final List<String> paragraphs, final Language docLanguage, final Configuration config, final File baseDir) {
+    this.paragraphs = paragraphs;
     this.docLanguage = docLanguage;
     this.config = config;
     this.baseDir = baseDir;
@@ -48,8 +49,8 @@ class CheckerThread extends Thread {
     return done;
   }
 
-  List<RuleMatch> getRuleMatches() {
-    return ruleMatches;
+  List<CheckedParagraph> getRuleMatches() {
+    return checkedParagraphs;
   }
 
   JLanguageTool getLanguageTool() {
@@ -66,7 +67,14 @@ class CheckerThread extends Thread {
           langTool.disableRule(id);
         }
       }
-      ruleMatches = langTool.check(text);
+      int paraCount = 0;
+      for (String para : paragraphs) {
+        List<RuleMatch> ruleMatches = langTool.check(para);
+        if (ruleMatches.size() > 0) {
+          checkedParagraphs.add(new CheckedParagraph(paraCount, ruleMatches));
+        }
+        paraCount++;
+      }
       done = true;
     } catch (Exception e) {
       done = true;
