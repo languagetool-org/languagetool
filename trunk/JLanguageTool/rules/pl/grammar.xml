@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?><!--
 Copyright (C) 2006 Marcin Miłkowski
-$Id: grammar.xml,v 1.69 2006-10-06 19:12:38 milek_pl Exp $		
+$Id: grammar.xml,v 1.70 2006-10-07 15:07:00 milek_pl Exp $		
 -->
 <rules lang="pl">
 	<category name="Błędy interpunkcyjne">
@@ -1918,6 +1918,27 @@ $Id: grammar.xml,v 1.69 2006-10-06 19:12:38 milek_pl Exp $
 		
 		<category name="Błędy różne">
 						
+		<rulegroup id="JEDEN_DEKO" name="deko (deka) czegoś">
+		<rule>
+		<pattern mark_from="1">
+		<token regexp="yes">\d+</token>
+		<token>deko</token>
+		</pattern>
+		<message>Mówimy <suggestion>deka</suggestion> („deka” to skrót od „dekagram”).</message>
+		<example type="correct">Do upieczenia ciasta potrzeba nam 2 deka makaronu.</example>
+		<example type="incorrect">Do upieczenia ciasta potrzeba nam 2 <marker>deko</marker> makaronu.</example>
+		</rule>
+		<rule>
+		<pattern mark_from="1">
+		<token postag_regexp="yes" postag="num.*"/>
+		<token>deko</token>
+		</pattern>
+		<message>Mówimy <suggestion>deka</suggestion> („deka” to skrót od „dekagram”).</message>
+		<example type="correct">Do upieczenia ciasta potrzeba nam dwa deka makaronu.</example>
+		<example type="incorrect">Do upieczenia ciasta potrzeba nam dwa <marker>deko</marker> makaronu.</example>
+		</rule>
+		</rulegroup>
+		
 		<rule id="WACHLARZ_CZEGO" name="„szeroki wachlarz” (wiele)">
 			<pattern mark_to="-1">
 				<token inflected="yes" regexp="yes" postag_regexp="yes" postag="adj:sg.*m[\d]*:pneg">szeroki|bogaty</token>
@@ -2132,6 +2153,16 @@ $Id: grammar.xml,v 1.69 2006-10-06 19:12:38 milek_pl Exp $
 			<example type="correct">Co z tym czasem?</example>
 			<example type="incorrect">A <marker>tym czasem</marker> na Politechnice...</example>
 		</rule>
+	
+	<rule name="„co tygodniowy” itd. (cotygodniowy)" id="CO_TYGODNIOWY">
+	<pattern>
+	<token>co</token>
+	<token regexp="yes" inflected="yes">tygodniowy|miesięczny|dzienny|godzinny|roczny|dziennie|tygodniowo</token>
+	</pattern>
+	<message>Prawdopodobny błąd ortograficzny: ten wyraz piszemy łącznie, tj. <suggestion>\1\2</suggestion>.</message>
+	<example type="incorrect">Andrzej będzie umawiał się z Renatą przeciwko Przemysławowi <marker>co tygodniowo</marker>.</example>
+	<example type="correct">Andrzej będzie umawiał się z Renatą przeciwko Jarosławowi <marker>cotygodniowo</marker>.</example>
+	</rule>
 	
 		<rule name="„w śród” (wśród)" id="W_SROD">
 			<pattern>
@@ -3011,6 +3042,24 @@ $Id: grammar.xml,v 1.69 2006-10-06 19:12:38 milek_pl Exp $
 			<message>Prawdopodobna literówka. Czy chodziło o <suggestion>zamieszkania</suggestion>?</message>
 			<example type="correct">Poseł podał prawdziwe miejsce zamieszkania w formularzu.</example>
 			<example type="incorrect">Poseł podał prawdziwe miejsce <marker>zamieszania</marker> w formularzu.</example>
+		</rule>
+		<rule name="„maja” (mają)" id="MAJA_MAJA">
+		<pattern mark_from="1">
+		<token><exception regexp="yes" inflected="yes">\d+|pierwszy|drugi|trzeci|czwarty|piąty|szósty|siódmy|ósmy|dziewiąty|dziesiąty|jedenasty|dwunasty|trzynasty|czternasty|piętnasty|szesnasty|siedemnasty|osiemnasty|dziewiętnasty|dwudziesty|trzydziesty</exception></token>
+		<token>maja</token>
+		</pattern>
+		<message>Prawdopodobna literówka. Czy chodziło o <suggestion>mają</suggestion>?</message>
+		<example type="correct">Zbieramy się osiemnastego maja.</example>
+		<example type="correct">Współuczestniczył w zatwierdzeniu Konstytucji 3 Maja.</example>
+		<example type="incorrect">Członkowie partii rządzącej <marker>maja</marker> brudne interesy.</example>
+		</rule>
+		<rule name="„głownie” (głównie)" id="GLOWNIE_GLOWNIE">
+		<pattern case_sensitive="yes">
+		<token>głownie</token>
+		</pattern>
+		<message>Prawdopodobna literówka. Czy chodziło o <suggestion>głównie</suggestion>?</message>
+		<example type="correct">W Głownie turysta znajdzie wiele atrakcji.</example>
+		<example type="incorrect">Przemysław interesuje się <marker>głownie</marker> romansami Ludwika.</example>
 		</rule>
 	</category>
 </rules>
