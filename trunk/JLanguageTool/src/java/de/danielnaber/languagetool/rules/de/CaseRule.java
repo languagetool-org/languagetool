@@ -128,7 +128,7 @@ public class CaseRule extends GermanRule {
   
   private final static Set<String> substVerbenExceptions = new HashSet<String>();
   static {
-    substVerbenExceptions.add("bedeutet");    // "und das bedeuted..."
+    substVerbenExceptions.add("bedeutet");    // "und das bedeutet..."
     substVerbenExceptions.add("ermöglicht");    // "und das ermöglicht..."
     substVerbenExceptions.add("sollen");
     substVerbenExceptions.add("werden");
