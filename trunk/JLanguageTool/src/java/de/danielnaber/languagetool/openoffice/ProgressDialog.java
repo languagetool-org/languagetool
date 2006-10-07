@@ -26,13 +26,14 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 
-class ProgressDialog extends JFrame {
+class ProgressDialog extends JFrame implements ProgressInformation {
 
+  private JProgressBar progressBar = null;
+  
   public ProgressDialog() {
     setTitle("Starting LanguageTool...");
     JPanel progressPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
-    JProgressBar progressBar = new JProgressBar(0, 100);
-    progressBar.setIndeterminate(true);
+    progressBar = new JProgressBar();
     progressPanel.add(progressBar);
     setContentPane(progressPanel);
     pack();
@@ -43,7 +44,15 @@ class ProgressDialog extends JFrame {
     setLocation(screenSize.width/2 - (frameSize.width/2), screenSize.height/2 - (frameSize.height/2));
     setVisible(true);
   }
-  
+
+  public void setMaxProgress(int maxVal) {
+    progressBar.setMaximum(maxVal);
+  }
+
+  public void setProgress(int progress) {
+    progressBar.setValue(progress);
+  }
+
   void close() {
     setVisible(false);
   }

@@ -34,15 +34,20 @@ class CheckerThread extends Thread {
   private Configuration config;
   private File baseDir;
   
+  private ProgressInformation progressInfo;
+  
   private JLanguageTool langTool; 
   private List<CheckedParagraph> checkedParagraphs = new ArrayList<CheckedParagraph>();
   private boolean done = false;
   
-  CheckerThread(final List<String> paragraphs, final Language docLanguage, final Configuration config, final File baseDir) {
+  CheckerThread(final List<String> paragraphs, final Language docLanguage, final Configuration config,
+      final File baseDir, final ProgressInformation progressInfo) {
     this.paragraphs = paragraphs;
     this.docLanguage = docLanguage;
     this.config = config;
     this.baseDir = baseDir;
+    this.progressInfo = progressInfo;
+    progressInfo.setMaxProgress(paragraphs.size());
   }
   
   public boolean done() {
@@ -74,6 +79,7 @@ class CheckerThread extends Thread {
           checkedParagraphs.add(new CheckedParagraph(paraCount, ruleMatches));
         }
         paraCount++;
+        progressInfo.setProgress(paraCount);
       }
       done = true;
     } catch (Exception e) {

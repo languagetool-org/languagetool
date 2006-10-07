@@ -234,7 +234,8 @@ public class Main {
         return;
       ProgressDialog progressDialog = new ProgressDialog();
       Language docLanguage = getLanguage();
-      CheckerThread checkerThread = new CheckerThread(textToCheck.paragraphs, docLanguage, config, baseDir);
+      CheckerThread checkerThread = new CheckerThread(textToCheck.paragraphs, docLanguage, config, 
+          baseDir, progressDialog);
       checkerThread.start();
       while (true) {
         if (checkerThread.done()) {
