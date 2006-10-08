@@ -3,7 +3,7 @@
 Rules: Grammar and Typos
 See tagset.txt for the meaning of the POS tags
 Copyright (C) 2001-2006 Daniel Naber (http://www.danielnaber.de)
-$Id: grammar.xml,v 1.99 2006-10-08 00:14:19 milek_pl Exp $
+$Id: grammar.xml,v 1.100 2006-10-08 00:20:36 milek_pl Exp $
 -->
 <rules lang="en">
 
@@ -1097,7 +1097,11 @@ $Id: grammar.xml,v 1.99 2006-10-08 00:14:19 milek_pl Exp $
 	<example type="correct"><marker>Some of the students</marker> do their homework.</example>
 	</rule>
 
-	<!--  needs more and more tweaking -->
+	<!--  needs more and more tweaking; 
+	currently the last exception in all rules is a simplification,
+	it should be more recursive, i.e., there should be at least 
+	three more rules for all current rules, structured like this: 
+	... NN !NN.*|JJ.*, ... NN JJ !NN.*|JJ.*, ...	NN JJ NN !NN.*|JJ.* -->
 	<rulegroup id="ARTICLE_MISSING" name="Articles: article missing before a countable noun">
 	<rule>
 		<pattern mark_from="2" mark_to="-1">
