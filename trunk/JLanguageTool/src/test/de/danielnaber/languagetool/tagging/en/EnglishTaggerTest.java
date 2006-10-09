@@ -42,8 +42,8 @@ public class EnglishTaggerTest extends TestCase {
 
   public void testTagger() throws IOException {
     myAssert("This is a big house.", "This/[this]DT|This/[this]PDT is/[be]VBZ a/[a]DT big/[big]JJ|big/[big]VB|big/[big]VBP house/[house]NN|house/[house]VB|house/[house]VBP");
-    myAssert("Marketing do a lot of trouble.", "Marketing/[marketing]NN:U|Marketing/[market]VBG do/[do]VB|do/[do]VBP a/[a]DT lot/[lot]JJ|lot/[lot]NN|lot/[lot]VB|lot/[lot]VBP of/[of]IN trouble/[trouble]NN:UN|trouble/[trouble]VB|trouble/[trouble]VBP");
-    myAssert("Manager use his laptop every day.", "Manager/[manager]NN use/[use]NN:UN|use/[use]VB|use/[use]VBP his/[his]PRP$|his/[hi]NNS laptop/[laptop]NN every/[every]DT day/[day]NN");
+    myAssert("Marketing do a lot of trouble.", "Marketing/[marketing]NN:U|Marketing/[market]VBG do/[do]VB|do/[do]VBP a/[a]DT lot/[lot]JJ|lot/[lot]NN:UN|lot/[lot]VB|lot/[lot]VBP of/[of]IN trouble/[trouble]NN:UN|trouble/[trouble]VB|trouble/[trouble]VBP");
+    myAssert("Manager use his laptop every day.", "Manager/[manager]NN use/[use]NN:UN|use/[use]VB|use/[use]VBP his/[his]PRP$|his/[hi]NNS laptop/[laptop]NN every/[every]DT day/[day]NN:UN");
     myAssert("This is a bigger house.", "This/[this]DT|This/[this]PDT is/[be]VBZ a/[a]DT bigger/[big]JJR house/[house]NN|house/[house]VB|house/[house]VBP");
     myAssert("He doesn't believe me.", "He/[he]PRP doesn/[do]VBZ t/[t]JJ|t/[t]NN|t/[t]RB believe/[believe]VB|believe/[believe]VBP me/[I]PRP");
     myAssert("It has become difficult.", "It/[it]PRP has/[have]VBZ become/[become]VB|become/[become]VBN|become/[become]VBP difficult/[difficult]JJ"); 
