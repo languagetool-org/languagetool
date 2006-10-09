@@ -124,6 +124,7 @@ public class AvsAnRule extends EnglishRule {
           }
         }
         //System.err.println(prevToken + " " +token + ", a="+doesRequireA + ", an="+doesRequireAn);
+        //TODO: add exception for 'A and B are cities...'
         String msg = null;
         if (prevToken.toLowerCase().equals("a") && doesRequireAn) {
           String repl = "an";
