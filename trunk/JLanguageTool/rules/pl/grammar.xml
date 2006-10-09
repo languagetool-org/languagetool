@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?><!--
 Copyright (C) 2006 Marcin Miłkowski
-$Id: grammar.xml,v 1.70 2006-10-07 15:07:00 milek_pl Exp $		
+$Id: grammar.xml,v 1.71 2006-10-09 22:54:44 milek_pl Exp $		
 -->
 <rules lang="pl">
 	<category name="Błędy interpunkcyjne">
@@ -1811,7 +1811,7 @@ $Id: grammar.xml,v 1.70 2006-10-07 15:07:00 milek_pl Exp $
 	
 		<rule id="OKRES_CZASU" name="„okres czasu”, „godzina czasu” (okres, godzina)">
 			<pattern>
-				<token inflected="yes" regexp="yes">okres|godzina|miesiąc|tydzień</token>
+				<token inflected="yes" regexp="yes">okres|minuta|sekunda|godzina|miesiąc|tydzień</token>
 				<token>czasu</token>
 			</pattern>
 			<message>Wyrażenia typu „miesiąc czasu”, „okres czasu” są niepoprawne (pleonazmy). Wystarczy: <suggestion>\1</suggestion>.</message>
@@ -2090,6 +2090,16 @@ $Id: grammar.xml,v 1.70 2006-10-07 15:07:00 milek_pl Exp $
 			<message>Prawdopodobny błąd ortograficzny, powinno być <suggestion>hart</suggestion> (przez samo „h” i w odpowiednim przypadku).</message>
 			<example type="correct">Ludwik musi się wykazywać ogromnym hartem ducha przy Romanie.</example>
 			<example type="incorrect">Ludwik musi się wykazywać ogromnym <marker>chartem</marker> ducha przy Romanie.</example>
+		</rule>
+
+		<rule id="MAZE_O" name="„mażę o” (marzę o)">
+			<pattern mark_to="-1">
+				<token>mażę</token>
+				<token>o</token>
+			</pattern>
+			<message>Prawdopodobny błąd ortograficzny, powinno być <suggestion>marzę</suggestion>.</message>
+			<example type="correct">Marzę o Romanie w ramionach Wojtusia.</example>
+			<example type="incorrect"><marker>Mażę</marker> o Romanie w ramionach Wojtusia.</example>
 		</rule>
 		
 		<rule id="DUL_DOL" name="„duł” (dół">
@@ -3061,5 +3071,39 @@ $Id: grammar.xml,v 1.70 2006-10-07 15:07:00 milek_pl Exp $
 		<example type="correct">W Głownie turysta znajdzie wiele atrakcji.</example>
 		<example type="incorrect">Przemysław interesuje się <marker>głownie</marker> romansami Ludwika.</example>
 		</rule>
+		
+		<rule name="„na poziome” (na poziomie)" id="NA_POZIOME">
+		<pattern mark_from="1">
+		<token>na</token>
+		<token>poziome</token>
+		</pattern>
+		<message>Prawdopodobna literówka. Czy chodziło o <suggestion>poziomie</suggestion>?</message>
+		<example type="correct">W Głownie nie ma ani jednej opery na poziomie.</example>
+		<example type="incorrect">W Głownie nie ma ani jednej opery na <marker>poziome</marker>.</example>
+		</rule>
+		
+		<rule name="„miedzy (między)”" id="MIEDZY_MIEDZY">
+		<pattern mark_to="-1">
+			<token>miedzy</token>
+			<token postag_regexp="yes" postag=".*[\.:]inst[\.:].*"/>
+		</pattern>
+		<message>Prawdopodobna literówka. Czy chodziło o <suggestion>między</suggestion>?</message>
+		<example type="correct">Między Jarosławem a Andrzejem jest jakaś chemia.</example>
+		<example type="incorrect"><marker>Miedzy</marker> Jarosławem a Andrzejem jest jakaś chemia.</example>
+		<example type="correct">Andrzej i Renia siedzą na miedzy i się biedzą.</example>
+		</rule>
+		
+		<rule name="„stratować” (startować)" id="STRATOWAC_STARTOWAC">
+		<pattern mark_to="-2">
+		<token inflected="yes">stratować</token>
+		<token>w</token>
+		<token regexp="yes">wyborach|igrzyskach|zawodach</token>
+		</pattern>
+		<message>Prawdopodobna literówka. Czy chodziło o czasownik <suggestion>startować</suggestion>?</message>
+		<example type="incorrect">Przemysław nie boi się <marker>stratować</marker> w wyborach.</example>
+		<example type="correct">Przemysław boi się <marker>startować</marker> w wyborach.</example>
+		</rule>
+		
+		
 	</category>
 </rules>
