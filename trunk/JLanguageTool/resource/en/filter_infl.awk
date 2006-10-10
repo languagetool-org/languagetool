@@ -1,5 +1,12 @@
 BEGIN {IGNORECASE=1}
-!/^(brother A:|sister A:|feces N:|axes\tN|bases\tN|phenomena[ \t]N[:]*|automata\tN|cherubim[ \t]N[:]*|\
+!/^(toward N\?:|anyhow A:|again A:|nope A:|forth A:|askance A:|aloud A:|aloft A:|\
+afresh A:|all A:|quite A:|hence A:|ergo A:|almost A:|although A:|then A:|\
+thereof A:|most A:|too A:|therein A:|out A:|indeed A:|whereof A:|\
+in A:|twice A:|viva A:|not A:|often A:|once A:|never A:|nowhere A:|\
+where A:|wherein A:|t A:|ago A:|atop A:|notwithstanding A:|\
+away A:|very A:|daily A:|why A:|yet A:|since A:|after A:|before A:|\
+about A:|brother A:|sister A:|\
+feces N:|axes\tN|bases\tN|phenomena[ \t]N[:]*|automata\tN|cherubim[ \t]N[:]*|\
 apices\tN|cervices\tN|indices\tN|matrices\tN|vortices\tN|\
 elves\tN|halves\tN|hooves\tN|knives\tN|leaves\tN|lives\tN|loaves\tN|\
 scarves\tN|selves\tN|sheaves\tN|shelves\tN|wives\tN|wolves\tN|geese\tN|\

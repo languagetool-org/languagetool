@@ -58,7 +58,7 @@ split(adjective[2],jjs_forms)
 gsub(/\|/,"")
 mark=0
 total=0
-if ($1"_END"!~/ly_END/) print $1 "\t" $1 "\tJJ"; else print $1 "\t" $1 "\tRB"
+if ($1"_END"!~/ly_END/ || $1"_END"~/early_END/) print $1 "\t" $1 "\tJJ"; else print $1 "\t" $1 "\tRB"
 for (n in jjr_forms) {
 	#if ($i"_END"!~/er_END/) 
 	if (jjr_forms[n]!~/\?|<|\./)
