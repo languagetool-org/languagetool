@@ -3,7 +3,7 @@
 Rules: Grammar and Typos
 See tagset.txt for the meaning of the POS tags
 Copyright (C) 2001-2006 Daniel Naber (http://www.danielnaber.de)
-$Id: grammar.xml,v 1.102 2006-10-10 12:39:52 milek_pl Exp $
+$Id: grammar.xml,v 1.103 2006-10-10 19:11:15 milek_pl Exp $
 -->
 <rules lang="en">
 
@@ -75,6 +75,7 @@ $Id: grammar.xml,v 1.102 2006-10-10 12:39:52 milek_pl Exp $
 		  <example type="correct">We <marker>advise</marker> you to come by public transport</example>
 		  <example type="incorrect">We <marker>advice</marker> you to come by public transport.</example>
 	  </rule>
+
   <rulegroup name="Possible typo 'all ready (already)'" id="ALL_READY">
 	  <rule>
 		  <pattern mark_from="2">
@@ -99,6 +100,18 @@ $Id: grammar.xml,v 1.102 2006-10-10 12:39:52 milek_pl Exp $
   		  <example type="incorrect">I've <marker>all ready</marker> bought it.</example>
 	  </rule>
   </rulegroup>
+
+  <rule name="Possible typo 'all most (almost)'" id="ALL_MOST">
+  <pattern mark_to="-1">
+  <token>all</token>
+  <token>most</token>
+  <token postag="DT"/>
+  </pattern>
+  <message>Did you mean <suggestion>almost</suggestion>?</message>
+  <example type="incorrect"><marker>All most</marker> all the patents were rejected...</example>
+  <example type="correct"><marker>Almost</marker> all the patents were rejected...</example>  
+	</rule>
+
   <!-- TODO: make more general -->
   <rule id="ANALYSIS_IF" name="Possible typo 'analysis if(of)'">
     <pattern mark_from="2">
@@ -335,7 +348,7 @@ $Id: grammar.xml,v 1.102 2006-10-10 12:39:52 milek_pl Exp $
   <rule id="THEIR_IS" name="Possible typo 'their(there) is/are'">
     <pattern mark_to="-1">
       <token>their</token>
-      <token regexp="yes">is|are</token>
+      <token regexp="yes">is|are|a</token>
     </pattern>
     <message>Did you mean <suggestion>there</suggestion>?</message>
     <example type="correct">He noticed that <marker>there</marker> is a new test.</example>
