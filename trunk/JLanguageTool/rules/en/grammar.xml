@@ -3,7 +3,7 @@
 Rules: Grammar and Typos
 See tagset.txt for the meaning of the POS tags
 Copyright (C) 2001-2006 Daniel Naber (http://www.danielnaber.de)
-$Id: grammar.xml,v 1.103 2006-10-10 19:11:15 milek_pl Exp $
+$Id: grammar.xml,v 1.104 2006-10-13 13:54:50 milek_pl Exp $
 -->
 <rules lang="en">
 
@@ -1767,6 +1767,77 @@ $Id: grammar.xml,v 1.103 2006-10-10 19:11:15 milek_pl Exp $
 	</rule>
 	
 	</rulegroup>
+  </category>
+
+  <category name="Punctuation Errors">
+  
+  <rulegroup name="'e.g.' without a comma" id="EG_NO_COMMA">
+  <rule>
+  <pattern mark_to="-1">
+  <token>e</token>
+  <token>.</token>
+  <token>g</token>
+  <token>.</token>
+  <token negate="yes">,</token>
+  </pattern>
+  <message>The comma is missing here: <suggestion>e.g.,</suggestion>.</message>
+  <example type="correct">The are several grammar checkers for English, e.g., LanguageTool.</example>
+  <example type="incorrect">The are several grammar checkers for English, <marker>e.g.</marker> LanguageTool.</example>
+  </rule>
+  <rule>
+  <pattern mark_to="-1">
+  <token>eg</token>
+  <token negate="yes" regexp="yes">,|\.</token>
+  </pattern>
+  <message>A comma and a dot are missing here: <suggestion>e.g.,</suggestion>.</message>
+  <example type="correct">The are several grammar checkers for English, e.g., LanguageTool.</example>
+  <example type="incorrect">The are several grammar checkers for English, <marker>eg</marker> LanguageTool.</example>
+	</rule>
+	<rule>
+  <pattern mark_to="-1">
+  <token>eg</token>
+  <token>.</token>
+  <token negate="yes">,</token>
+  </pattern>
+  <message>A comma and a dot are missing here: <suggestion>e.g.,</suggestion>.</message>
+  <example type="correct">The are several grammar checkers for English, e.g., LanguageTool.</example>
+  <example type="incorrect">The are several grammar checkers for English, <marker>eg.</marker> LanguageTool.</example>
+	</rule>	
+  </rulegroup>
+
+  <rulegroup name="'i.e.' without a comma" id="IE_NO_COMMA">
+  <rule>
+  <pattern mark_to="-1">
+  <token>i</token>
+  <token>.</token>
+  <token>e</token>
+  <token>.</token>
+  <token negate="yes">,</token>
+  </pattern>
+  <message>The comma is missing here: <suggestion>i.e.,</suggestion>.</message>
+	<example type="correct">Who's responsible for providing public facilities, <marker>i.e.,</marker> a post office, library, etc. for the Northwest?</example>
+  <example type="incorrect">Who's responsible for providing public facilities, <marker>i.e.</marker> a post office, library, etc. for the Northwest?</example>
+  </rule>
+  <rule>
+  <pattern mark_to="-1">
+  <token>ie</token>
+  <token negate="yes" regexp="yes">,|\.</token>
+  </pattern>
+  <message>The comma and dots are missing here: <suggestion>i.e.,</suggestion>.</message>
+	<example type="correct">Who's responsible for providing public facilities, <marker>i.e.,</marker> a post office, library, etc. for the Northwest?</example>
+  <example type="incorrect">Who's responsible for providing public facilities, <marker>ie</marker> a post office, library, etc. for the Northwest?</example>
+  </rule>
+    <rule>
+  <pattern mark_to="-1">
+  <token>ie</token>
+  <token>.</token>
+  <token negate="yes">,</token>
+  </pattern>
+  <message>The comma and dots are missing here: <suggestion>i.e.,</suggestion>.</message>
+	<example type="correct">Who's responsible for providing public facilities, <marker>i.e.,</marker> a post office, library, etc. for the Northwest?</example>
+  <example type="incorrect">Who's responsible for providing public facilities, <marker>ie.</marker> a post office, library, etc. for the Northwest?</example>
+  </rule>
+  </rulegroup>
   </category>
   
 </rules>
