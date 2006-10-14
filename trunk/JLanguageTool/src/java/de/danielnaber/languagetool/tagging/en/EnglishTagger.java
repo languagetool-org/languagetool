@@ -38,8 +38,8 @@ public class EnglishTagger implements Tagger {
     
   public List<AnalyzedTokenReadings> tag(final List<String> sentenceTokens)
       throws IOException {
-    String[] taggerTokens;
-    boolean firstWord = true;
+    String[] taggerTokens = null;
+    //boolean firstWord = true;
     List<AnalyzedTokenReadings> tokenReadings = new ArrayList<AnalyzedTokenReadings>();
     int pos = 0;
     //caching Lametyzator instance - lazy init
@@ -51,25 +51,47 @@ public class EnglishTagger implements Tagger {
     for (Iterator<String> iter = sentenceTokens.iterator(); iter.hasNext();) {
       String word = iter.next();
       List<AnalyzedToken> l = new ArrayList<AnalyzedToken>();
-        taggerTokens = morfologik.stemAndForm(word);
-        if (firstWord && taggerTokens == null) {        // e.g. "Das" -> "das" at start of sentence
-            taggerTokens = morfologik.stemAndForm(word.toLowerCase());
-        firstWord = false;
+      boolean added = false;
+      for (int turn = 0; turn < 2; turn++) {        
+        String wordToTest = word;
+        boolean caseSens = false;
+        
+        if (!word.equals(word.toLowerCase())) {
+          caseSens = true;
+        if (turn != 0) {   
+            wordToTest = word.toLowerCase();            
+            }       
+        taggerTokens = morfologik.stemAndForm(wordToTest);
+        } else {
+          if (turn == 0) {
+            taggerTokens = morfologik.stemAndForm(wordToTest);
+          } else {
+            taggerTokens = null;
+          }
         }
     if (taggerTokens != null) {
-        int i = 0;
+       int i = 0;
         while (i < taggerTokens.length) {
             //Lametyzator returns data as String[]
             //first lemma, then annotations
             l.add(new AnalyzedToken(word, taggerTokens[i + 1], taggerTokens[i]));
             i = i + 2;
         } 
-      } 
-    else 
-        l.add(new AnalyzedToken(word, null, pos));
-    pos += word.length();
-    tokenReadings.add(new AnalyzedTokenReadings((AnalyzedToken[])l.toArray(new AnalyzedToken[0]))); 
+      }     
+    else {
+          if (!added && !caseSens && turn == 0) { 
+            l.add(new AnalyzedToken(word, null, pos));
+            added = true;
+          } else if (!added & caseSens && turn == 1) {
+            l.add(new AnalyzedToken(word, null, pos));
+            added = true;
+          }
     }
+    }
+      pos += word.length();
+      tokenReadings.add(new AnalyzedTokenReadings((AnalyzedToken[])l.toArray(new AnalyzedToken[0])));
+   }
+    
     return tokenReadings;
 
   }
