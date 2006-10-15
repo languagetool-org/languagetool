@@ -142,6 +142,7 @@ public class CaseRule extends GermanRule {
     substVerbenExceptions.add("wollen");
     substVerbenExceptions.add("habe");
     substVerbenExceptions.add("ein");   // nicht "einen" (Verb)
+    substVerbenExceptions.add("tun");   // "...dann wird er das tun."
   }
 
   public CaseRule(final ResourceBundle messages) {
