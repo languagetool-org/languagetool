@@ -44,8 +44,11 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextPane;
 import javax.swing.KeyStroke;
 
+import com.sun.star.beans.UnknownPropertyException;
+import com.sun.star.container.NoSuchElementException;
 import com.sun.star.frame.XController;
 import com.sun.star.frame.XModel;
+import com.sun.star.lang.WrappedTargetException;
 import com.sun.star.text.XParagraphCursor;
 import com.sun.star.text.XTextCursor;
 import com.sun.star.text.XTextDocument;
@@ -207,7 +210,11 @@ public class OOoDialog implements ActionListener {
     closeButton.addActionListener(this);
     contentPane.add(closeButton, cons);
 
-    showError(0);
+    try {
+      showError(0);
+    } catch (Exception e) {
+      throw new RuntimeException(e);
+    }
 
     dialog.pack();
     dialog.setModal(true);
@@ -228,8 +235,7 @@ public class OOoDialog implements ActionListener {
     return total;
   }
   
-  private void showError(int i) {
-    System.err.println("show err " + i);
+  private void showError(int i) throws NoSuchElementException, WrappedTargetException, UnknownPropertyException {
     RuleMatch match = null;
     int count = 0;
     int paragraphNumber = -1;
@@ -284,14 +290,29 @@ public class OOoDialog implements ActionListener {
         boolean foundError = false;
         int paraCount = 0;
         while (hasNextParagraph) {
+          xParagraphCursor.gotoStartOfParagraph(true);
           if (paraCount == paragraphNumber) {
             if (paragraphNumber != prevMatchParagraph)
               replacementCorrection = 0;
-            xParagraphCursor.gotoStartOfParagraph(false);
-            xParagraphCursor.gotoEndOfParagraph(true);
+
+            // get the string to display in context area:
+            String contentForDisplay = null;
+            com.sun.star.container.XEnumerationAccess xParaAccess = (com.sun.star.container.XEnumerationAccess) UnoRuntime
+              .queryInterface(com.sun.star.container.XEnumerationAccess.class, xTextDoc.getText());
+            int innerParaCount = 0;
+            for (com.sun.star.container.XEnumeration xParaEnum = xParaAccess.createEnumeration(); xParaEnum.hasMoreElements();) {
+              Object para = xParaEnum.nextElement();
+              if (innerParaCount == paragraphNumber) {
+                contentForDisplay = Main.getParagraphContent(para);
+                break;
+              }
+              innerParaCount++;
+            }
             contextArea.setText(FONT_TAG + Tools.getContext(match.getFromPos()-replacementCorrection,
-                match.getToPos()-replacementCorrection, xParagraphCursor.getString(), CONTEXT_SIZE));
-            xParagraphCursor.gotoStartOfParagraph(true);
+                match.getToPos()-replacementCorrection, contentForDisplay, CONTEXT_SIZE));
+
+            // place cursor:
+            xParagraphCursor.gotoStartOfParagraph(false);
             xParagraphCursor.goRight((short)(currentRuleMatch.getFromPos()-replacementCorrection), false);
             xParagraphCursor.goRight((short)errorLength, true);
             // now place the visible cursor:
@@ -359,7 +380,11 @@ public class OOoDialog implements ActionListener {
       complete();
     } else {
       currentRuleMatchPos++;
-      showError(currentRuleMatchPos);
+      try {
+        showError(currentRuleMatchPos);
+      } catch (Exception e) {
+        throw new RuntimeException(e);
+      }
     }
   }
 

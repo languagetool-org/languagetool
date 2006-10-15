@@ -29,6 +29,7 @@ import javax.swing.JOptionPane;
 
 import com.sun.star.beans.UnknownPropertyException;
 import com.sun.star.beans.XPropertySet;
+import com.sun.star.container.NoSuchElementException;
 import com.sun.star.container.XEnumeration;
 import com.sun.star.frame.XDesktop;
 import com.sun.star.lang.Locale;
@@ -193,35 +194,13 @@ public class Main {
       List<String> paragraphs = new ArrayList<String>();
       try {
         for (com.sun.star.container.XEnumeration xParaEnum = xParaAccess.createEnumeration(); xParaEnum.hasMoreElements();) {
-          Object para = null;
-          para = xParaEnum.nextElement();
-          if (para == null) {
-            // TODO: ??
-            continue;
+          Object para = xParaEnum.nextElement();
+          String paraString = getParagraphContent(para);
+          if (paraString == null) {
+            paragraphs.add("");
+          } else {
+            paragraphs.add(paraString);
           }
-          com.sun.star.container.XEnumerationAccess xPortionAccess = (com.sun.star.container.XEnumerationAccess) UnoRuntime
-              .queryInterface(com.sun.star.container.XEnumerationAccess.class, para);
-          if (xPortionAccess == null) {
-            System.err.println("xPortionAccess is null");
-            continue;
-          }
-          StringBuilder sb = new StringBuilder();
-          for (XEnumeration portionEnum = xPortionAccess.createEnumeration(); portionEnum.hasMoreElements();) {
-            Object textPortion = portionEnum.nextElement();
-            XPropertySet textProps = (XPropertySet) UnoRuntime.queryInterface(XPropertySet.class, textPortion);
-            String type = (String)textProps.getPropertyValue("TextPortionType");
-            XTextRange xtr = (XTextRange) UnoRuntime.queryInterface(XTextRange.class, textPortion);
-            if ("Footnote".equals(type)) {
-              // a footnote reference appears as one character in the text. we don't use a whitespace
-              // because we don't want to trigger the "no whitespace before comma" rule in this case:
-              // my footnote¹, foo bar
-              sb.append("1");
-            } else {
-              sb.append(xtr.getString());
-            }
-          }
-          //System.err.println("##"+sb.toString()+"##");
-          paragraphs.add(sb.toString());
         }
       } catch (Exception e) {
         throw new RuntimeException(e);
@@ -302,6 +281,35 @@ public class Main {
     JOptionPane.showMessageDialog(null, msg, "Error", JOptionPane.ERROR_MESSAGE);
     e.printStackTrace();
     throw new RuntimeException(e);
+  }
+
+  static String getParagraphContent(Object para) throws NoSuchElementException, WrappedTargetException, UnknownPropertyException {
+    if (para == null) {
+      // TODO: ??
+      return null;
+    }
+    com.sun.star.container.XEnumerationAccess xPortionAccess = (com.sun.star.container.XEnumerationAccess) UnoRuntime
+        .queryInterface(com.sun.star.container.XEnumerationAccess.class, para);
+    if (xPortionAccess == null) {
+      System.err.println("xPortionAccess is null");
+      return null;
+    }
+    StringBuilder sb = new StringBuilder();
+    for (XEnumeration portionEnum = xPortionAccess.createEnumeration(); portionEnum.hasMoreElements();) {
+      Object textPortion = portionEnum.nextElement();
+      XPropertySet textProps = (XPropertySet) UnoRuntime.queryInterface(XPropertySet.class, textPortion);
+      String type = (String)textProps.getPropertyValue("TextPortionType");
+      if ("Footnote".equals(type)) {
+        // a footnote reference appears as one character in the text. we don't use a whitespace
+        // because we don't want to trigger the "no whitespace before comma" rule in this case:
+        // my footnote¹, foo bar
+        sb.append("1");
+      } else {
+        XTextRange xtr = (XTextRange) UnoRuntime.queryInterface(XTextRange.class, textPortion);
+        sb.append(xtr.getString());
+      }
+    }
+    return sb.toString();
   }
 
   /** Testing only. */
