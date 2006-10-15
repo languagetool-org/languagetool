@@ -36,9 +36,10 @@ public class EnglishTagger implements Tagger {
   "english.dict"; 
     private Lametyzator morfologik = null;
     
-  public List<AnalyzedTokenReadings> tag(final List<String> sentenceTokens)
+  public final List<AnalyzedTokenReadings> tag(final List<String> sentenceTokens)
       throws IOException {
     String[] taggerTokens = null;
+    
     //boolean firstWord = true;
     List<AnalyzedTokenReadings> tokenReadings = new ArrayList<AnalyzedTokenReadings>();
     int pos = 0;
@@ -50,25 +51,13 @@ public class EnglishTagger implements Tagger {
     
     for (Iterator<String> iter = sentenceTokens.iterator(); iter.hasNext();) {
       String word = iter.next();
-      List<AnalyzedToken> l = new ArrayList<AnalyzedToken>();
-      boolean added = false;
-      for (int turn = 0; turn < 2; turn++) {        
-        String wordToTest = word;
-        boolean caseSens = false;
-        
-        if (!word.equals(word.toLowerCase())) {
-          caseSens = true;
-        if (turn != 0) {   
-            wordToTest = word.toLowerCase();            
-            }       
-        taggerTokens = morfologik.stemAndForm(wordToTest);
-        } else {
-          if (turn == 0) {
-            taggerTokens = morfologik.stemAndForm(wordToTest);
-          } else {
-            taggerTokens = null;
-          }
+      List<AnalyzedToken> l = new ArrayList<AnalyzedToken>();      
+      String[] lowerTaggerTokens = null;
+        taggerTokens = morfologik.stemAndForm(word);
+        if (word!=word.toLowerCase()) {
+        lowerTaggerTokens = morfologik.stemAndForm(word.toLowerCase());
         }
+                
     if (taggerTokens != null) {
        int i = 0;
         while (i < taggerTokens.length) {
@@ -78,15 +67,18 @@ public class EnglishTagger implements Tagger {
             i = i + 2;
         } 
       }     
-    else {
-          if (!added && !caseSens && turn == 0) { 
-            l.add(new AnalyzedToken(word, null, pos));
-            added = true;
-          } else if (!added & caseSens && turn == 1) {
-            l.add(new AnalyzedToken(word, null, pos));
-            added = true;
-          }
-    }
+    if (lowerTaggerTokens != null) {
+      int i = 0;
+       while (i < lowerTaggerTokens.length) {
+           //Lametyzator returns data as String[]
+           //first lemma, then annotations
+           l.add(new AnalyzedToken(word, lowerTaggerTokens[i + 1], lowerTaggerTokens[i]));
+           i = i + 2;
+       } 
+     }        
+    
+    if (lowerTaggerTokens == null && taggerTokens == null) {
+            l.add(new AnalyzedToken(word, null, pos));                       
     }
       pos += word.length();
       tokenReadings.add(new AnalyzedTokenReadings((AnalyzedToken[])l.toArray(new AnalyzedToken[0])));
