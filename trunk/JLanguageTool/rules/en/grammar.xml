@@ -3,7 +3,7 @@
 Rules: Grammar and Typos
 See tagset.txt for the meaning of the POS tags
 Copyright (C) 2001-2006 Daniel Naber (http://www.danielnaber.de)
-$Id: grammar.xml,v 1.108 2006-10-15 14:47:51 milek_pl Exp $
+$Id: grammar.xml,v 1.109 2006-10-15 23:38:46 milek_pl Exp $
 -->
 <rules lang="en">
 
@@ -485,12 +485,13 @@ $Id: grammar.xml,v 1.108 2006-10-15 14:47:51 milek_pl Exp $
   <rule id="WERE_VBB" name="Possible typo 'were/where/we'">
     <pattern mark_to="-1">
       <token>were</token>
-      <token postag="VB|VBP" postag_regexp="yes"><exception postag="JJ"/></token>
+      <token postag="VB|VBP" postag_regexp="yes"><exception postag_regexp="yes" postag="JJ|VBN"/></token>
     </pattern>
     <message>Did you mean <suggestion>where</suggestion> or <suggestion>we</suggestion>?</message>
     <example type="correct"><marker>We</marker> are in the process of implementing this.</example>
     <example type="incorrect"><marker>Were</marker> are in the process of implementing this.</example>
     <example type="correct">These relations were long marked by conflict.</example>
+    <example type="correct">Black peppercorns were found lodged in the nostrils...</example>
   </rule>
   
   <rule id="VBZ_VBD" name="Possible typo 'it/is'">
@@ -792,7 +793,7 @@ $Id: grammar.xml,v 1.108 2006-10-15 14:47:51 milek_pl Exp $
       <!-- TODO: "no the", "no of" -->
       <pattern mark_to="-1">
         <token regexp="yes">no</token>
-        <token postag="CC|DT|IN|MD|NP|RP|WDT|WP|WRB" postag_regexp="yes"><exception>more</exception></token>
+        <token postag="CC|DT|IN|MD|NP|RP|WDT|WP|WRB" postag_regexp="yes"><exception regexp="yes">more|such</exception></token>
       </pattern>
       <message>Did you mean <suggestion>now</suggestion> (=at this moment) instead of
             'no' (negation)?</message>
@@ -837,7 +838,7 @@ $Id: grammar.xml,v 1.108 2006-10-15 14:47:51 milek_pl Exp $
 	  <rulegroup id="POSSESIVE_APOSTROPHE" name="Possessive apostrophe error">
 	  <rule>
 		  <pattern mark_to="-1">
-			  <token postag_regexp="yes" regexp="yes" postag="NNS|NNPS">.[^']*s<exception>his</exception><exception postag_regexp="yes" postag="VBZ|RB|IN"/></token>
+			  <token postag_regexp="yes" regexp="yes" postag="NNS|NNPS">.[^']*s<exception>his</exception><exception postag_regexp="yes" postag="VBZ|RB|IN|JJ"/></token>
 			  <token postag="NN|NN:.*" postag_regexp="yes" regexp="yes">.{2,}<exception regexp="yes">today|yesterday|tomorrow|now|in</exception><exception postag_regexp="yes" postag="VB.*|RB|MD|IN|JJ|CC"/></token>
 		  </pattern>
 		  <message>Possible typo: apostrophe is missing. Did you mean <suggestion>\1'</suggestion> or the singular?</message>
@@ -936,19 +937,20 @@ $Id: grammar.xml,v 1.108 2006-10-15 14:47:51 milek_pl Exp $
 	  <rule>
 	  <pattern mark_from="1">
 		  <token>been</token>
-		  <token postag_regexp="yes" postag="VBD|VBP|VB"><exception postag="VBN"/></token>
+		  <token postag_regexp="yes" postag="VBD|VBP|VB"><exception postag_regexp="yes" postag="VBN|JJ.*"/></token>
 	  </pattern>
 	  <message>Possible agreement error -- don't use past or present tense instead of past participle.</message>
 	  <example type="incorrect">The program has been <marker>release</marker>.</example>
 	  <example type="incorrect">The gift has been <marker>gave</marker>.</example>
+	  <example type="correct">The park has been open for many years.</example>
 	  <example type="correct">It has been done.</example>
 	  <example type="incorrect">He has been <marker>did</marker> this.</example>
 	  </rule>
 	  <rule>
 	  <pattern mark_from="2">
 		  <token>been</token>
-		  <token postag="RB"><exception>in</exception></token>
-		  <token postag_regexp="yes" postag="VBD|VBP|VB"><exception postag="VBN"/></token>
+		  <token postag="RB"><exception>in</exception><exception postag_regexp="yes" postag="VBN|JJ.*"/></token>
+		  <token postag_regexp="yes" postag="VBD|VBP|VB"><exception postag_regexp="yes" postag="VBN|JJ"/></token>
 	  </pattern>
 	  <message>Possible agreement error -- don't use past or present tense instead of past participle.</message>
 	  <example type="correct">It has always been hated.</example>
@@ -1104,10 +1106,11 @@ $Id: grammar.xml,v 1.108 2006-10-15 14:47:51 milek_pl Exp $
 	<pattern>
 		<token regexp="yes">most|some</token>
 		<token>of</token>
-		<token postag="NNS"/>
+		<token postag="NNS"><exception postag="PRP$"/></token>
 	</pattern>
 	<message>After '\1 of', you should use 'the' (<suggestion>\1 \2 the \3</suggestion>) or simply say '<suggestion>\1 \3</suggestion>'.</message>
 	<example type="correct">Most students do their homework.</example>
+	<example type="correct">Some of his students do their homework.</example>
 	<example type="incorrect"><marker>Most of students</marker> do their homework.</example>
 	<example type="correct"><marker>Some of the students</marker> do their homework.</example>
 	</rule>
@@ -1121,7 +1124,7 @@ $Id: grammar.xml,v 1.108 2006-10-15 14:47:51 milek_pl Exp $
 		<pattern mark_from="2" mark_to="-1">
 		<token negate_pos="yes" postag="DT"><exception postag_regexp="yes" postag="JJ|NN.*"/></token>
 		<token postag="VBP|VBZ" postag_regexp="yes"><exception regexp="yes">take[s]*|give[s]*|says|go|goes|becomes</exception><exception postag_regexp="yes" postag="NN.*|JJ"/></token>
-    <token postag="NN"><exception postag_regexp="yes" postag="DT|RB|RP|JJ|IN|CC|CD|JJR|RBS|VBD|MD|NNP"/></token>
+    <token postag="NN"><exception postag_regexp="yes" postag="DT|RB|RP|JJ|IN|CC|CD|JJR|RBS|VBD|MD|NNP|NNS|VB"/></token>
 		<token><exception postag_regexp="yes" postag="NN.*"/></token>
 		</pattern>
 		<message>The article is missing before the noun: <suggestion>the \3</suggestion>, <suggestion>a \3</suggestion> or <suggestion>an \3</suggestion>.</message>
@@ -1132,7 +1135,7 @@ $Id: grammar.xml,v 1.108 2006-10-15 14:47:51 milek_pl Exp $
 		<pattern mark_from="2" mark_to="-1">
 		<token negate_pos="yes" postag="DT"><exception postag_regexp="yes" postag="JJ|NN.*"/></token>
 		<token regexp="yes">take|takes</token>
-    <token postag="NN"><exception regexp="yes">place|charge</exception><exception postag_regexp="yes" postag="DT|RB|RP|JJ|IN|CC|CD|JJR|RBS|VBD|MD|NNP"/></token>
+    <token postag="NN"><exception regexp="yes">place|charge</exception><exception postag_regexp="yes" postag="DT|RB|RP|JJ|IN|CC|CD|JJR|RBS|VBD|MD|NNP|NNS"/></token>
 		<token><exception postag_regexp="yes" postag="NN.*"/></token>
 		</pattern>
 		<message>The article is missing before the noun: <suggestion>the \3</suggestion>, <suggestion>a \3</suggestion> or <suggestion>an \3</suggestion>.</message>
@@ -1144,7 +1147,7 @@ $Id: grammar.xml,v 1.108 2006-10-15 14:47:51 milek_pl Exp $
 		<pattern mark_from="2" mark_to="-1">
 		<token negate_pos="yes" postag="DT"><exception postag_regexp="yes" postag="JJ|NN.*"/></token>
 		<token regexp="yes">give|gives</token>
-    <token postag="NN"><exception regexp="yes">rise|way|room</exception><exception postag_regexp="yes" postag="DT|RB|RP|JJ|IN|CC|CD|JJR|RBS|VBD|MD|NNP"/></token>
+    <token postag="NN"><exception regexp="yes">rise|way|room</exception><exception postag_regexp="yes" postag="DT|RB|RP|JJ|IN|CC|CD|JJR|RBS|VBD|MD|NNP|NNS"/></token>
 		<token><exception postag_regexp="yes" postag="NN.*"/></token>
 		</pattern>
 		<message>The article is missing before the noun: <suggestion>the \3</suggestion>, <suggestion>a \3</suggestion> or <suggestion>an \3</suggestion>.</message>
@@ -1156,7 +1159,7 @@ $Id: grammar.xml,v 1.108 2006-10-15 14:47:51 milek_pl Exp $
 		<pattern mark_from="2" mark_to="-1">
 		<token negate_pos="yes" postag="DT"><exception postag_regexp="yes" postag="JJ|NN.*"/></token>
 		<token regexp="yes">go|goes</token>
-    <token postag="NN"><exception regexp="yes">hand</exception><exception postag_regexp="yes" postag="DT|RB|RP|JJ|IN|CC|CD|JJR|RBS|VBD|MD|NNP"/></token>
+    <token postag="NN"><exception regexp="yes">hand</exception><exception postag_regexp="yes" postag="DT|RB|RP|JJ|IN|CC|CD|JJR|RBS|VBD|MD|NNP|NNS"/></token>
 		<token><exception postag_regexp="yes" postag="NN.*"/></token>
 		</pattern>
 		<message>The article is missing before the noun: <suggestion>the \3</suggestion>, <suggestion>a \3</suggestion> or <suggestion>an \3</suggestion>.</message>
@@ -1168,7 +1171,7 @@ $Id: grammar.xml,v 1.108 2006-10-15 14:47:51 milek_pl Exp $
 		<pattern mark_from="2" mark_to="-1">
 		<token negate_pos="yes" postag="DT"><exception postag_regexp="yes" postag="JJ|NN.*"/></token>
 		<token regexp="yes">falls|fall</token>
-    <token postag="NN"><exception regexp="yes">victim</exception><exception postag_regexp="yes" postag="DT|RB|RP|JJ|IN|CC|CD|JJR|RBS|VBD|MD|NNP"/></token>
+    <token postag="NN"><exception regexp="yes">victim</exception><exception postag_regexp="yes" postag="DT|RB|RP|JJ|IN|CC|CD|JJR|RBS|VBD|MD|NNP|NNS"/></token>
 		<token><exception postag_regexp="yes" postag="NN.*"/></token>
 		</pattern>
 		<message>The article is missing before the noun: <suggestion>the \3</suggestion>, <suggestion>a \3</suggestion> or <suggestion>an \3</suggestion>.</message>
@@ -1194,7 +1197,7 @@ $Id: grammar.xml,v 1.108 2006-10-15 14:47:51 milek_pl Exp $
 	 	<rule>
 		<pattern mark_from="1" mark_to="-1">
 		<token>at</token>
-    <token postag="NN"><exception postag_regexp="yes" postag="DT|RP|JJ|IN|CD|JJS|JJR|RBS|VBD|MD|NNP"/><exception regexp="yes">bay|birth|ease|first|hand|home|issue|least|length|liberty|sea|table|variance</exception></token>
+    <token postag="NN"><exception postag_regexp="yes" postag="DT|RP|JJ|IN|CD|JJS|JJR|RBS|VBD|MD|NNP|NNS"/><exception regexp="yes">bay|birth|ease|first|hand|home|issue|least|length|liberty|sea|table|variance</exception></token>
 		<token><exception postag_regexp="yes" postag="NN.*"/></token>
 		</pattern>
 		<message>The article is missing before the noun: <suggestion>the \2</suggestion>, <suggestion>a \2</suggestion> or <suggestion>an \2</suggestion>.</message>
@@ -1205,7 +1208,7 @@ $Id: grammar.xml,v 1.108 2006-10-15 14:47:51 milek_pl Exp $
 		<pattern mark_from="1" mark_to="-1">
 		<token>at</token>
 		<token postag="JJ"><exception postag_regexp="yes" postag="VB|RB|CD|IN"/></token>
-    <token postag="NN"><exception postag_regexp="yes" postag="DT|RP|JJ|IN|CD|JJR|RBS|VBD|MD|NNP"/><exception>glance</exception></token>
+    <token postag="NN"><exception postag_regexp="yes" postag="DT|RP|JJ|IN|CD|JJR|RBS|VBD|MD|NNP|NNS"/><exception>glance</exception></token>
 		<token><exception postag_regexp="yes" postag="NN.*"/><exception>free</exception></token>
 		</pattern>
 		<message>The article is missing before the noun: <suggestion>the \2</suggestion>, <suggestion>a \2</suggestion> or <suggestion>an \2</suggestion>.</message>
@@ -1215,7 +1218,7 @@ $Id: grammar.xml,v 1.108 2006-10-15 14:47:51 milek_pl Exp $
 	<rule>
 		<pattern mark_from="1" mark_to="-1" case_sensitive="yes">
 		<token regexp="yes">[Bb]y</token>
-    <token postag="NN"><exception postag_regexp="yes" postag="DT|RB|RP|JJ|IN|CD|JJS|JJR|RBS|VBD|MD|NNP"/><exception regexp="yes">bit|word|step|way|example|dint|crook|hook|hand|machine|word|cheque|accident|day|means|mistake|name|train|rail|coach|bus|boat|helicopter|taxi|ambulance|plane|airplane|foot|section|article|page|road|letter|phone|telephone|mail|storm|arrangement|satellite|decree|year-end|lot|profession|district|week|eye|</exception></token>
+    <token postag="NN"><exception postag_regexp="yes" postag="DT|RB|RP|JJ|IN|CD|JJS|JJR|RBS|VBD|MD|NNP|NNS"/><exception regexp="yes">bit|word|step|way|example|dint|crook|hook|hand|machine|word|cheque|accident|day|means|mistake|name|train|rail|coach|bus|boat|automobile|helicopter|taxi|ambulance|plane|airplane|foot|section|article|page|road|letter|phone|telephone|mail|storm|arrangement|satellite|decree|year-end|lot|profession|district|week|eye|</exception></token>
 		<token><exception postag_regexp="yes" postag="NN.*"/><exception>free</exception></token>
 		</pattern>
 		<message>The article is missing before the noun: <suggestion>the \2</suggestion>, <suggestion>a \2</suggestion> or <suggestion>an \2</suggestion>.</message>
@@ -1227,7 +1230,7 @@ $Id: grammar.xml,v 1.108 2006-10-15 14:47:51 milek_pl Exp $
 		<pattern mark_from="1" mark_to="-1">
 		<token>by</token>
 		<token postag="JJ"><exception postag_regexp="yes" postag="VB|RB|CD|IN"/></token>
-    <token postag="NN"><exception postag_regexp="yes" postag="DT|RP|JJ|IN|CD|JJR|RBS|VBD|MD|NNP"/></token>
+    <token postag="NN"><exception postag_regexp="yes" postag="DT|RP|JJ|IN|CD|JJR|RBS|VBD|MD|NNP|NNS"/></token>
 		<token><exception postag_regexp="yes" postag="NN.*"/><exception>free</exception></token>
 		</pattern>
 		<message>The article is missing before the noun: <suggestion>the \2 \3</suggestion>, <suggestion>a \2 \3</suggestion> or <suggestion>an \2</suggestion>.</message>
@@ -1237,7 +1240,7 @@ $Id: grammar.xml,v 1.108 2006-10-15 14:47:51 milek_pl Exp $
 		<rule>
 		<pattern mark_from="1" mark_to="-1">
 		<token>for</token>
-    <token postag="NN"><exception postag_regexp="yes" postag="VBD|VBG|VBN|DT|RP|JJ|IN|CD|JJS|JJR|RBS"/><exception regexp="yes">are|instance|example|sale|word</exception></token>
+    <token postag="NN"><exception postag_regexp="yes" postag="VBD|VBG|VBN|DT|RP|JJ|IN|CD|JJS|JJR|RBS|VBD|MD|NNP"/><exception regexp="yes">are|instance|example|sale|word</exception></token>
 		<token><exception postag_regexp="yes" postag="NN.*"/><exception>free</exception></token>
 		</pattern>
 		<message>The article is mising before the noun: <suggestion>the \2</suggestion>, <suggestion>a \2</suggestion> or <suggestion>an \2</suggestion>.</message>
@@ -1249,7 +1252,7 @@ $Id: grammar.xml,v 1.108 2006-10-15 14:47:51 milek_pl Exp $
 			<pattern mark_from="1" mark_to="-1">
 			<token>for</token>
 			<token postag="JJ"><exception postag_regexp="yes" postag="VB|VBG|RB|CD|IN"/></token>
-    	<token postag="NN"><exception postag_regexp="yes" postag="DT|RP|JJ|IN|CD|JJR|RBS|VBD|MD|NNP"/></token>
+    	<token postag="NN"><exception postag_regexp="yes" postag="DT|RP|JJ|IN|CD|JJR|RBS|VBD|MD|NNP|NNS"/></token>
 		<token><exception postag_regexp="yes" postag="NN.*"/><exception>free</exception></token>
 			</pattern>
 			<message>The article is missing before the noun: <suggestion>the \2</suggestion>, <suggestion>a \2</suggestion> or <suggestion>an \2</suggestion>.</message>
@@ -1260,7 +1263,7 @@ $Id: grammar.xml,v 1.108 2006-10-15 14:47:51 milek_pl Exp $
 		<rule>
 		<pattern mark_from="1" mark_to="-1">
 		<token>in</token>
-    <token postag="NN"><exception postag_regexp="yes" postag="VBG|DT|RP|JJ|IN|CD|JJS|JJR|RBS|VBD|MD|NNP"/><exception regexp="yes">fact|hand|paperback|person|retrospect|studio|summary|mood|name|turn|deed|word|day|week|outlook</exception></token>
+    <token postag="NN"><exception postag_regexp="yes" postag="VBG|DT|RP|JJ|IN|CD|JJS|JJR|RBS|VBD|MD|NNP|NNS"/><exception regexp="yes">fact|hand|paperback|person|retrospect|studio|summary|mood|name|turn|deed|word|day|week|outlook|favor</exception></token>
 		<token><exception postag_regexp="yes" postag="NN.*|JJ"/><exception regexp="yes">\d+</exception></token>
 		</pattern>
 		<message>The article is mising before the noun: <suggestion>the \2</suggestion>, <suggestion>a \2</suggestion> or <suggestion>an \2</suggestion>.</message>
@@ -1274,7 +1277,7 @@ $Id: grammar.xml,v 1.108 2006-10-15 14:47:51 milek_pl Exp $
 		<pattern mark_from="2" mark_to="-1">
 		<token negate="yes" regexp="yes">day|week</token>
 		<token>in</token>
-    <token postag="NN"><exception postag_regexp="yes" postag="VBG|DT|RP|JJ|IN|CD|JJS|JJR|RBS|VBD|MD|NNP"/><exception regexp="yes">fact|hand|paperback|person|retrospect|studio|summary|mood|name|turn|deed|word|outlook</exception></token>
+    <token postag="NN"><exception postag_regexp="yes" postag="VBG|DT|RP|JJ|IN|CD|JJS|JJR|RBS|VBD|MD|NNP|NNS"/><exception regexp="yes">fact|hand|paperback|person|retrospect|studio|summary|mood|name|turn|deed|word|outlook|favor</exception></token>
 		<token><exception postag_regexp="yes" postag="NN.*|JJ"/><exception regexp="yes">\d+</exception></token>
 		</pattern>
 		<message>The article is mising before the noun: <suggestion>the \3</suggestion>, <suggestion>a \3</suggestion> or <suggestion>an \3</suggestion>.</message>
@@ -1286,7 +1289,7 @@ $Id: grammar.xml,v 1.108 2006-10-15 14:47:51 milek_pl Exp $
 			<pattern mark_from="1" mark_to="-1">
 			<token>in</token>
 			<token postag="JJ"><exception postag_regexp="yes" postag="VB|VBG|RB|CD|IN"/></token>
-    	<token postag="NN"><exception postag_regexp="yes" postag="DT|RP|JJ|IN|CD|JJR|RBS|VBD|MD|NNP"/></token>
+    	<token postag="NN"><exception postag_regexp="yes" postag="DT|RP|JJ|IN|CD|JJR|RBS|VBD|MD|NNP|NNS"/></token>
 		<token><exception postag_regexp="yes" postag="NN.*|JJ"/><exception regexp="yes">\d+</exception></token>
 			</pattern>
 			<message>The article is missing before the noun: <suggestion>the \2</suggestion>, <suggestion>a \2</suggestion> or <suggestion>an \2</suggestion>.</message>
@@ -1294,13 +1297,35 @@ $Id: grammar.xml,v 1.108 2006-10-15 14:47:51 milek_pl Exp $
 		<example type="correct">He was waiting in the <marker>large lobby</marker>.</example>
 		<example type="correct"><marker>In fact</marker>, he wrote a letter to me.</example>
 		</rule>
+		<!-- on -->
+<rule>
+		<pattern mark_from="1" mark_to="-1">
+		<token>on</token>
+    <token postag="NN"><exception postag_regexp="yes" postag="DT|RP|JJ|IN|CD|JJS|JJR|RBS|VBD|MD|NNP|NNS"/><exception regexp="yes">board|display|foot|hand|sale|affidavit|camera|cassette|chat|coach|deposit|diskette|file|lease|oath|offer|page|screen|site|strike|target|tour|track</exception></token>
+		<token><exception postag_regexp="yes" postag="NN.*"/></token>
+		</pattern>
+		<message>The article is missing before the noun: <suggestion>the \2</suggestion>, <suggestion>a \2</suggestion> or <suggestion>an \2</suggestion>.</message>
+		<example type="incorrect">ACET would not be able to reclaim tax on <marker>covenant</marker>.</example>
+		<example type="correct">Rob Brydon is Keith and Steve Coogan plays Geoff, seen for the first time on screen</example>
+	</rule>
+		<rule>
+		<pattern mark_from="1" mark_to="-1">
+		<token>on</token>
+		<token postag="JJ"><exception postag_regexp="yes" postag="VB|RB|CD|IN"/></token>
+    <token postag="NN"><exception postag_regexp="yes" postag="DT|RP|JJ|IN|CD|JJR|RBS|VBD|MD|NNP|NNS"/></token>
+		<token><exception postag_regexp="yes" postag="NN.*"/><exception>free</exception></token>
+		</pattern>
+		<message>The article is missing before the noun: <suggestion>the \2</suggestion>, <suggestion>a \2</suggestion> or <suggestion>an \2</suggestion>.</message>
+		<example type="incorrect">This remark is on <marker>previous page</marker>.</example>
+		<example type="correct">This remark is on <marker>the previous page</marker>.</example>
+	</rule>	 		
 		<rule>
 		<pattern mark_from="3" mark_to="-1">
 		<!--  to exclude phrases like: 'the turned up card' -->
 		<token><exception postag_regexp="yes" postag="DT"/></token>
 		<token><exception postag_regexp="yes" postag="VBN|VBD"/></token>
-		<token postag="IN"><exception regexp="yes">as|at|by|for|in|to|of</exception></token>
-    <token postag="NN"><exception postag_regexp="yes" postag="DT|RP|JJ|IN|CD|JJR|RBS|VBD|MD|NNP"/></token>
+		<token postag="IN"><exception regexp="yes">as|at|by|for|in|on|to|of|following</exception></token>
+    <token postag="NN"><exception postag_regexp="yes" postag="DT|RP|JJ|IN|CD|RB|JJR|RBS|VBD|MD|NNP|NNS"/></token>
 		<token><exception postag_regexp="yes" postag="NN.*"/><exception>free</exception></token>
 		</pattern>
 		<message>The article is missing before the noun: <suggestion>the \4</suggestion>, <suggestion>a \4</suggestion> or <suggestion>an \4</suggestion>.</message>
@@ -1311,9 +1336,9 @@ $Id: grammar.xml,v 1.108 2006-10-15 14:47:51 milek_pl Exp $
 		<pattern mark_from="3" mark_to="-1">
 		<token><exception postag_regexp="yes" postag="DT"/></token>
 		<token><exception postag_regexp="yes" postag="VBN|VBD"/></token>		
-		<token postag="IN"><exception regexp="yes">as|at|by|for|in|to|of</exception></token>
+		<token postag="IN"><exception regexp="yes">as|at|by|for|in|on|to|of|following</exception></token>
 		<token postag="JJ"><exception postag_regexp="yes" postag="VB|RB|CD|IN"/></token>
-    <token postag="NN"><exception postag_regexp="yes" postag="DT|RP|JJ|IN|CD|JJR|RBS|VBD|MD|NNP"/></token>
+    <token postag="NN"><exception postag_regexp="yes" postag="DT|RP|JJ|IN|CD|JJR|RBS|VBD|MD|NNP|NNS"/></token>
 		<token><exception postag_regexp="yes" postag="NN.*"/><exception>free</exception></token>
 		</pattern>
 		<message>The article is missing before the noun: <suggestion>the \4 \5</suggestion>, <suggestion>a \4 \5</suggestion> or <suggestion>an \4 \5</suggestion>.</message>
@@ -1326,8 +1351,8 @@ $Id: grammar.xml,v 1.108 2006-10-15 14:47:51 milek_pl Exp $
 		this kind of rules should be added for all above 
 		prepositions with exceptions-->
 		<token postag="SENT_START"/>
-		<token postag="IN"><exception regexp="yes">as|at|by|for|in|to|of</exception></token>
-    <token postag="NN"><exception postag_regexp="yes" postag="DT|RP|JJ|IN|CD|JJR|RBS|VBD|MD|NNP"/></token>
+		<token postag="IN"><exception regexp="yes">as|at|by|for|in|on|to|of|following</exception></token>
+    <token postag="NN"><exception postag_regexp="yes" postag="DT|RP|JJ|IN|CD|JJR|RBS|VBD|MD|NNP|NNS"/></token>
 		<token><exception postag_regexp="yes" postag="NN.*|JJ"/></token>
 		</pattern>
 		<message>The article is missing before the noun: <suggestion>the \2</suggestion>, <suggestion>a \2</suggestion> or <suggestion>an \2</suggestion>.</message>
@@ -1338,9 +1363,9 @@ $Id: grammar.xml,v 1.108 2006-10-15 14:47:51 milek_pl Exp $
 		<pattern mark_from="2" mark_to="-1">
 		<!--  to include phrases like: 'About a long month ago,...' -->
 		<token postag="SENT_START"/>
-		<token postag="IN"><exception regexp="yes">as|at|by|for|in|to|of</exception></token>
+		<token postag="IN"><exception regexp="yes">as|at|by|for|in|on|to|of|following</exception></token>
 		<token postag="JJ"><exception postag_regexp="yes" postag="RB|CD|IN"/></token>
-		<token postag="NN"><exception postag_regexp="yes" postag="DT|RP|JJ|IN|CD|JJR|RBS|VBD|MD|NNP"/></token>
+		<token postag="NN"><exception postag_regexp="yes" postag="DT|RP|JJ|IN|CD|JJR|RBS|VBD|MD|NNP|NNS"/></token>
 		<token><exception postag_regexp="yes" postag="NN.*|JJ"/></token>
 		</pattern>
 		<message>The article is missing before the noun: <suggestion>the \2 \3</suggestion>, <suggestion>a \2 \3</suggestion> or <suggestion>an \2 \3</suggestion>.</message>
@@ -1351,7 +1376,7 @@ $Id: grammar.xml,v 1.108 2006-10-15 14:47:51 milek_pl Exp $
 	<rule>
 		<pattern mark_from="1" mark_to="-1">
 		<token>such</token>
-    <token postag="NN"><exception postag_regexp="yes" postag="DT|RP|JJ|IN|CD|JJR|RBS|VBD|MD|NNP"/></token>
+    <token postag="NN"><exception postag_regexp="yes" postag="DT|RP|JJ|IN|CD|JJR|RBS|VBD|MD|NNP|NNS"/></token>
 		<token><exception postag_regexp="yes" postag="NN.*"/><exception>free</exception></token>
 		</pattern>
 		<message>The article is missing before the noun: <suggestion>the \2</suggestion>, <suggestion>a \2</suggestion> or <suggestion>an \2</suggestion>.</message>
@@ -1362,7 +1387,7 @@ $Id: grammar.xml,v 1.108 2006-10-15 14:47:51 milek_pl Exp $
 		<pattern mark_from="1" mark_to="-1">
 		<token>such</token>
 		<token postag="JJ"><exception postag_regexp="yes" postag="VB|RB|CD|IN"/></token>
-    <token postag="NN"><exception postag_regexp="yes" postag="DT|RP|JJ|IN|CD|JJR|RBS|VBD|MD|NNP"/></token>
+    <token postag="NN"><exception postag_regexp="yes" postag="DT|RP|JJ|IN|CD|JJR|RBS|VBD|MD|NNP|NNS"/></token>
 		<token><exception postag_regexp="yes" postag="NN.*"/><exception>free</exception></token>
 		</pattern>
 		<message>The article is missing before the noun: <suggestion>the \2</suggestion>, <suggestion>a \2</suggestion> or <suggestion>an \2</suggestion>.</message>
@@ -1444,7 +1469,7 @@ $Id: grammar.xml,v 1.108 2006-10-15 14:47:51 milek_pl Exp $
     <rule>
       <pattern mark_to="-1">
         <token>this</token>
-        <token postag="NNS"><exception postag="VBZ"/></token>
+        <token postag="NNS"><exception postag_regexp="yes" postag="VBZ|NN"/></token>
       </pattern>
       <message>Did you mean <suggestion>these</suggestion>?</message>
       <example type="correct">These errors are easy to fix.</example>
@@ -1568,18 +1593,18 @@ $Id: grammar.xml,v 1.108 2006-10-15 14:47:51 milek_pl Exp $
         <token regexp="yes">more|less</token>
         <token regexp="yes">then|as</token>
       </pattern>
-      <message>Comparison requires <suggestion>than</suggestion>, not 'then'.</message>
+      <message>Comparison requires <suggestion>than</suggestion>, not 'then' nor 'as'.</message>
       <example type="correct">The tagger will return more <marker>than</marker> one tag.</example>
       <example type="incorrect">The tagger will return more <marker>then</marker> one tag.</example>
       <example type="triggers_error">Think of it more <marker>as</marker> activity.</example>
     </rule>
     <rule>
       <pattern mark_from="1" mark_to="-1">
-        <token postag="JJR"/>
+        <token postag="JJR"><exception postag="IN"/></token>
         <token regexp="yes">(then|as)</token>
 		<token negate_pos="yes" postag="DT"/>
       </pattern>
-      <message>Comparison requires <suggestion>than</suggestion>, not 'then'.</message>
+      <message>Comparison requires <suggestion>than</suggestion>, not 'then' nor 'as'.</message>
       <example type="correct">This house is bigger <marker>than</marker> mine.</example>
       <example type="incorrect">This house is bigger <marker>then</marker> mine.</example>
 	  <example type="correct">This palace was used later as a prison.</example>
@@ -1648,8 +1673,8 @@ $Id: grammar.xml,v 1.108 2006-10-15 14:47:51 milek_pl Exp $
    </rule>   
    <rule>
       <pattern mark_from="2" mark_to="-1">
-		  <token regexp="yes" negate="yes">(that|has|will|must|could|can|should|would|does|did|may|might|and|or|a|an)</token>
-		  <token postag="NNP"><exception postag="JJ"/></token>
+		  <token><exception regexp="yes">that</exception><exception postag_regexp="yes" postag="CC|IN|DT|MD"/></token>
+		  <token postag="NNP" regexp="yes">.{2,}<exception postag="JJ"/></token>
 		  <token postag="VB|VBP" postag_regexp="yes" regexp="yes">\p{Lower}+<exception postag_regexp="yes" postag="VBN|VBD|JJ|IN"/></token>
 		  <token postag_regexp="yes" postag="IN|DT"/>
 	  </pattern>
