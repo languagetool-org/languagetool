@@ -30,7 +30,10 @@ License:
  
 Known bugs:
  -OpenOffice.org integration:
-   -fails for documents > 64KB
+   -doesn't check table content
+   -getParagraphContent() iterates differently than OOoDialog.showError() so
+    that there's an offset when showing the errors in documents with tables,
+    i.e. the wrong text is marked
    -LanguageTool gets confused when the text is changed while the LanguageTool 
     dialog is open
    -LanguageTool doesn't work if you have a Windows username with special characters
