@@ -3,7 +3,7 @@
 Rules: Grammar and Typos
 See tagset.txt for the meaning of the POS tags
 Copyright (C) 2001-2006 Daniel Naber (http://www.danielnaber.de)
-$Id: grammar.xml,v 1.106 2006-10-14 00:42:38 milek_pl Exp $
+$Id: grammar.xml,v 1.107 2006-10-15 10:17:34 milek_pl Exp $
 -->
 <rules lang="en">
 
@@ -1841,4 +1841,27 @@ $Id: grammar.xml,v 1.106 2006-10-14 00:42:38 milek_pl Exp $
   </rulegroup>
   </category>
   
+    <category name="Commonly Confused Words">
+    <rule name="econonomical growth etc. (economic)" id="ECONOMICAL_ECONOMIC">
+    <pattern mark_to="-1">
+    <token>economical</token>
+    <token regexp="yes">growth|development|policy|activity|recovery|reform|policies|crisis|co-operation|problems|conditions|system|reforms|performance|history|climate|indicators|relations|power|situation|community|life|planning|affairs|theory|recession|change|review|factors|aid|benefits|circumstances|decline|sanctions|interests|analysis|strategy|difficulties|integration|issues|efficiency|assistance|position|terms|management|base|programme|digest|environment|union|activities|modelling|structure|success|reasons|sense|changes|forces|order|progress|loss|consequences|prosperity|resources|pressures|commission|depression|systems|miracle|regeneration|structures|trends|blockade|adviser|impact|restructuring|developments|measures|prospects|independence|stability|cooperation|status|support|expansion</token>
+    </pattern>
+    <message>Did you mean <suggestion>economic</suggestion> (=connected with economy)?</message>
+    <example type="incorrect">This article deals with <marker>economical</marker> development of the Third World.</example>
+    <example type="correct">This article deals with <marker>economic</marker> development of the Third World.</example>
+    </rule>
+
+    <rule name="econonomic growth etc. (economical)" id="ECONOMIC_ECONOMICAL">
+    <pattern mark_to="-1">
+    <token>economic</token>
+    <token regexp="yes">way|use|repair|means|methods|method|price|proposition|manner|basis|car|cooking|design|heating|motoring|shopper</token>
+    </pattern>
+    <message>Did you mean <suggestion>economical</suggestion> (=affordable, cheap)?</message>
+    <example type="incorrect">This is a very <marker>economic</marker> car.</example>
+    <example type="correct">This is a very <marker>economical</marker> car.</example>
+    </rule>
+
+    
+    </category>
 </rules>
