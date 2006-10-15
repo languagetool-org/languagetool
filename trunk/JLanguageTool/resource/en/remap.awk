@@ -154,7 +154,7 @@ if (verb_fields[5]!="") {
 "BEGIN"$2"END"~/BEGINrEND/ { print $1 "\t" $1 "\t"map[$2]}
 "BEGIN"$2"END"~/BEGINvEND/ { print $1 "\t" $1 "\t"map[$2]}
 "BEGIN"$2"END"~/BEGINAEND/ { if (JJR[$1]=="" && JJS[$1]=="") print $1 "\t" $1 "\t"map[$2]}
-"BEGIN"$2"END"~/BEGINANEND/ { if (JJR[$1]=="" && JJS[$1]=="") print $1 "\t" $1 "\tJJ"}
+#"BEGIN"$2"END"~/BEGINANEND/ { if (JJR[$1]=="" && JJS[$1]=="") print $1 "\t" $1 "\tJJ"}
 
 
 /\tvA$/ {print $1 "\t" $1 "\t"map["v"]
@@ -181,8 +181,9 @@ if (verb_fields[5]!="") {
 		print $1 "\t" $1 "\t"map["N"]
 		print $1 "\t" $1 "\t"map["t"]
 		print $1 "\t" $1 "\t"map["V"]}
-/\t[AN][AN]/ && !/'/ {print $1 "\t" $1 "\t"map["A"]
-		print $1 "\t" $1 "\t"map["N"]
+/\t[AN][AN]/ && !/'/ {
+		if (JJR[$1]=="" && JJS[$1]=="" && $1"_END"!~/ism_END/) print $1 "\t" $1 "\tJJ" 
+		if ($1!~/[A-Z]/) print $1 "\t" $1 "\tNN"; else print $1 "\t" $1 "\tNNP"
 	 }
 /\tN$/ && !/[ ']/ {if ($1!~/[A-Z]/) print $1 "\t" $1 "\tNN"; else print $1 "\t" $1 "\tNNP"
 	 }
@@ -193,4 +194,9 @@ if (verb_fields[5]!="") {
 /\tpN$/ && !/[ ']/ {if (nns[$1]=="") {if ($1!~/[A-Z]/) print $1 "\t" $1 "\tNNS"; else print $1 "\t" $1 "\tNNPS"}
 	 }
 /\tp$/ && !/[ ']/ {if (nns[$1]=="") {if ($1~/[A-Z]/) print $1 "\t" $1 "\tNNPS"}
+	 }
+/\tDA$/ && !/[ ']/{
+	if (JJR[$1]=="" && JJS[$1]=="")  
+			print $1 "\t" $1 "\t"map["A"]
+	print $1 "\t" $1 "\t"map["D"]
 	 }
