@@ -150,7 +150,7 @@ public class JLanguageTool {
         new DoublePunctuationRule(messages),
         new UppercaseSentenceStartRule(messages),
         // English:
-        new AvsAnRule(messages),
+        new AvsAnRule(messages),        
         // German:
         new WordCoherencyRule(messages),
         new CaseRule(messages),

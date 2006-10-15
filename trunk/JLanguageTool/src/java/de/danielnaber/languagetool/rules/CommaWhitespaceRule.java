@@ -23,7 +23,6 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 import de.danielnaber.languagetool.AnalyzedSentence;
-// import de.danielnaber.languagetool.AnalyzedToken;
 import de.danielnaber.languagetool.AnalyzedTokenReadings;
 import de.danielnaber.languagetool.Language;
 
@@ -73,12 +72,9 @@ public class CommaWhitespaceRule extends Rule {
           suggestionText = ")";
           fixLen = 1;
     		} else if (prevToken.trim().equals(",") && !token.trim().equals("") &&
-    				!token.equals("'") && !token.equals("\"") && !token.matches(".*\\d.*") && !token.equals("-")) {
-    			msg = messages.getString("missing_space_after_comma");
+                !token.equals("'") && !token.equals("&quot")&& !token.equals("”") && !token.equals("’") && !token.matches(".*\\d.*") && !token.equals("-")) {
+                  			msg = messages.getString("missing_space_after_comma");
 
-                //FIXME: false alarms on valid English “valid English,” after a comma
-                //this isn't valid in Polish, check this for German, OK?
-                //probably some special checks for English are needed here
           suggestionText = ", ";
     		} else if (token.trim().equals(",") && prevToken.trim().equals("")) {
     			msg = messages.getString("space_after_comma");
