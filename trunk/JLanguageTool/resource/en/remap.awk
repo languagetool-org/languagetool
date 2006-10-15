@@ -81,14 +81,18 @@ if ($1~/less/ && $2~/N\?:/ && NF==3) {
  print $1 "\t" $1 "\tJJ"
 }
 else {
-if ($1!~/[A-Z][a-z]/) print $1 "\t" $1 "\tNN"; else print $1 "\t" $1 "\tNNP"
+if ($1!~/[A-Z]/) print $1 "\t" $1 "\tNN"; else print $1 "\t" $1 "\tNNP"
 gsub(/,/,"")
 gsub(/{.*}/,"")
 gsub(/[0-9]\.[0-9]/,"")
 gsub(/[0-9]+ /,"")
 for (i=3;i<=NF;i++) {
 	if ($i!~/[\?\~\!<]/ && "PFX"$i"SFX"!~/PFX([0-9]+|\|)SFX/)
-	if ($i!~/[A-Z][a-z]/) print $i "\t" $1 "\tNNS"; else print $i "\t" $1 "\tNNPS"
+	if ($i!~/[A-Z]/) {print $i "\t" $1 "\tNNS"
+				nns[$i]=$1
+				}
+	else 
+		print $i "\t" $1 "\tNNPS"
 }
 }
 }
@@ -153,8 +157,14 @@ if (verb_fields[5]!="") {
 "BEGIN"$2"END"~/BEGINANEND/ { if (JJR[$1]=="" && JJS[$1]=="") print $1 "\t" $1 "\tJJ"}
 
 
-/\tvA/ {print $1 "\t" $1 "\t"map["v"]
+/\tvA$/ {print $1 "\t" $1 "\t"map["v"]
 	print $1 "\t" $1 "\t"map["A"]}
+
+/\tvAN$/ {print $1 "\t" $1 "\t"map["v"]
+	print $1 "\t" $1 "\t"map["A"]
+	print $1 "\t" $1 "\t"map["N"]
+	}
+
 
 /\tv/ && !/[ ']/ {print $1 "\t" $1 "\t"map["v"]}
 
@@ -174,11 +184,13 @@ if (verb_fields[5]!="") {
 /\t[AN][AN]/ && !/'/ {print $1 "\t" $1 "\t"map["A"]
 		print $1 "\t" $1 "\t"map["N"]
 	 }
-/\tN$/ && !/[ ']/ {if ($1!~/[A-Z][a-z]/) print $1 "\t" $1 "\tNN"; else print $1 "\t" $1 "\tNNP"
+/\tN$/ && !/[ ']/ {if ($1!~/[A-Z]/) print $1 "\t" $1 "\tNN"; else print $1 "\t" $1 "\tNNP"
 	 }
 /\tA$/ && !/[ ']/{
 	if (JJR[$1]=="" && JJS[$1]=="")  
 			print $1 "\t" $1 "\t"map["A"]
 	 }
-/\tpN$/ && !/[ ']/ {if ($1!~/[A-Z][a-z]/) print $1 "\t" $1 "\tNNS"; else print $1 "\t" $1 "\tNNPS"
+/\tpN$/ && !/[ ']/ {if (nns[$1]=="") {if ($1!~/[A-Z]/) print $1 "\t" $1 "\tNNS"; else print $1 "\t" $1 "\tNNPS"}
+	 }
+/\tp$/ && !/[ ']/ {if (nns[$1]=="") {if ($1~/[A-Z]/) print $1 "\t" $1 "\tNNPS"}
 	 }

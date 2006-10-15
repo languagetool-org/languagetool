@@ -1,5 +1,7 @@
 BEGIN {IGNORECASE=1}
-!/^(toward N\?:|anyhow A:|again A:|nope A:|forth A:|askance A:|aloud A:|aloft A:|\
+!/^(on N:|rockies N:|known N:|as A:|albert[ \t]N|i A:|her A:|allies[\t]N|then N:|donuts N\?:|us N:|\
+less N:|more N:|toward N\?:|anyhow A:|again A:|nope A:|\
+forth A:|askance A:|aloud A:|aloft A:|\
 afresh A:|all A:|quite A:|hence A:|ergo A:|almost A:|although A:|then A:|\
 thereof A:|most A:|too A:|therein A:|out A:|indeed A:|whereof A:|\
 in A:|twice A:|viva A:|not A:|often A:|once A:|never A:|nowhere A:|\
@@ -17,7 +19,7 @@ women\tN|men\tN|well A:|who[ \t]N[:]*|an A:|an[ \t]DCN|themselves N:|\
 a[ \t]DNVP|He[ \t]N[:]*|me[ \t]N[:]*|he[ \t]N[:]*|I[ \t]N[:]*|this[ \t]N[:]*|\
 that[ \t][AN][:]*|such[ \t]N[:]*|his[ \t]N[:]*|t[ \t]N[:]*|she[ \t]N[:]*|\
 you[ \t]N[:]*|we[ \t]N[:]*|they[ \t]N[:]*|them[ \t]N[:]*|him[ \t]N[:]*|\
-her[ \t]N[:]*|your[ \t]N[:]*|my[ \t]N[:]*|herself[ \t]N[:]*|\
+her[ \t]N[:]*|your[ \t][NA][:]*|my[ \t]N[:]*|herself[ \t]N[:]*|\
 himself[ \t]N[:]*|it[ \t]N[:]*|itself[ \t]N[:]*|myself[ \t]N[:]*|\
 oneself[ \t]N[:]*|our[ \t]N[:]*|our[ \t]A[:]*|their[ \t]|\
 yourself[ \t]N[:]*|ourself[ \t]N[:]*|another[ \t]N[:]*|and[ \t]N[:]*|\
