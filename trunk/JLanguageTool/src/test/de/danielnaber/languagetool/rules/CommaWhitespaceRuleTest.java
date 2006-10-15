@@ -39,7 +39,8 @@ public class CommaWhitespaceRuleTest extends TestCase {
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("This is a test sentence.")).length);
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("This, is, a test sentence.")).length);
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("This (foo bar) is a test(!).")).length);
-    assertEquals(0, rule.match(langTool.getAnalyzedSentence("\"This is it,\" he said.")).length);
+    //we get only entities into the comma rule, so let's test for entities:
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence("&quot;This is it,&quot; he said.")).length);
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("Das kostet €2,45.")).length);
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("Das kostet 50,- Euro")).length);
     
