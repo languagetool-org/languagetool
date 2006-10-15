@@ -42,30 +42,42 @@ public class PolishTagger implements Tagger {
 	
     for (Iterator<String> iter = sentenceTokens.iterator(); iter.hasNext();) {
       String word = iter.next();
-      List<AnalyzedToken> l = new ArrayList<AnalyzedToken>();
-	    taggerTokens = morfologik.stemAndForm(word);
-	    if (firstWord && taggerTokens == null) {        // e.g. "Das" -> "das" at start of sentence
-			taggerTokens = morfologik.stemAndForm(word.toLowerCase());
-		firstWord = false;
-		}
-	if (taggerTokens !=null) {
-		int i = 0;
-		while (i<taggerTokens.length)
-		{
-			//Lametyzator returns data as String[]
-			//first lemma, then annotations
-			l.add(new AnalyzedToken(word, taggerTokens[i+1], taggerTokens[i]));
-			i=i+2;
-		}
+      List<AnalyzedToken> l = new ArrayList<AnalyzedToken>();      
+      String[] lowerTaggerTokens = null;
+        taggerTokens = morfologik.stemAndForm(word);
+        if (word!=word.toLowerCase()) {
+        lowerTaggerTokens = morfologik.stemAndForm(word.toLowerCase());
+        }
+                
+    if (taggerTokens != null) {
+       int i = 0;
+        while (i < taggerTokens.length) {
+            //Lametyzator returns data as String[]
+            //first lemma, then annotations
+            l.add(new AnalyzedToken(word, taggerTokens[i + 1], taggerTokens[i]));
+            i = i + 2;
+        } 
+      }     
+    if (lowerTaggerTokens != null) {
+      int i = 0;
+       while (i < lowerTaggerTokens.length) {
+           //Lametyzator returns data as String[]
+           //first lemma, then annotations
+           l.add(new AnalyzedToken(word, lowerTaggerTokens[i + 1], lowerTaggerTokens[i]));
+           i = i + 2;
+       } 
+     }        
+    
+    if (lowerTaggerTokens == null && taggerTokens == null) {
+            l.add(new AnalyzedToken(word, null, pos));                       
     }
-	else 
-		l.add(new AnalyzedToken(word, null, pos));
-	pos += word.length();
-	tokenReadings.add(new AnalyzedTokenReadings((AnalyzedToken[])l.toArray(new AnalyzedToken[0])));	
-    }
+      pos += word.length();
+      tokenReadings.add(new AnalyzedTokenReadings((AnalyzedToken[])l.toArray(new AnalyzedToken[0])));
+   }
+    
     return tokenReadings;
-  }
 
+  }
   public Object createNullToken(final String token, final int startPos) {
 	  return new AnalyzedTokenReadings(new AnalyzedToken(token, null, startPos));
   }

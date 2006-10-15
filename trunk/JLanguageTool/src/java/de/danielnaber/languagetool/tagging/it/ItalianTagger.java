@@ -48,31 +48,42 @@ public class ItalianTagger implements Tagger {
     
     for (Iterator<String> iter = sentenceTokens.iterator(); iter.hasNext();) {
       String word = iter.next();
-      List<AnalyzedToken> l = new ArrayList<AnalyzedToken>();
+      List<AnalyzedToken> l = new ArrayList<AnalyzedToken>();      
+      String[] lowerTaggerTokens = null;
         taggerTokens = morfologik.stemAndForm(word);
-        if (firstWord && taggerTokens == null) {        // e.g. "Das" -> "das" at start of sentence
-            taggerTokens = morfologik.stemAndForm(word.toLowerCase());
-        firstWord = false;
+        if (word!=word.toLowerCase()) {
+        lowerTaggerTokens = morfologik.stemAndForm(word.toLowerCase());
         }
-    if (taggerTokens !=null) {
-        int i = 0;
-        while (i<taggerTokens.length)
-        {
+                
+    if (taggerTokens != null) {
+       int i = 0;
+        while (i < taggerTokens.length) {
             //Lametyzator returns data as String[]
             //first lemma, then annotations
-            l.add(new AnalyzedToken(word, taggerTokens[i+1], taggerTokens[i]));
-            i=i+2;
-        }
+            l.add(new AnalyzedToken(word, taggerTokens[i + 1], taggerTokens[i]));
+            i = i + 2;
+        } 
+      }     
+    if (lowerTaggerTokens != null) {
+      int i = 0;
+       while (i < lowerTaggerTokens.length) {
+           //Lametyzator returns data as String[]
+           //first lemma, then annotations
+           l.add(new AnalyzedToken(word, lowerTaggerTokens[i + 1], lowerTaggerTokens[i]));
+           i = i + 2;
+       } 
+     }        
+    
+    if (lowerTaggerTokens == null && taggerTokens == null) {
+            l.add(new AnalyzedToken(word, null, pos));                       
     }
-    else 
-        l.add(new AnalyzedToken(word, null, pos));
-    pos += word.length();
-    tokenReadings.add(new AnalyzedTokenReadings((AnalyzedToken[])l.toArray(new AnalyzedToken[0]))); 
-    }
+      pos += word.length();
+      tokenReadings.add(new AnalyzedTokenReadings((AnalyzedToken[])l.toArray(new AnalyzedToken[0])));
+   }
+    
     return tokenReadings;
 
-  }
-  
+  }  
   
   /** 
    * @see de.danielnaber.languagetool.tagging.Tagger#createNullToken(java.lang.String, int)
