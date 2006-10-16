@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?><!--
 Copyright (C) 2006 Marcin Miłkowski
-$Id: grammar.xml,v 1.71 2006-10-09 22:54:44 milek_pl Exp $		
+$Id: grammar.xml,v 1.72 2006-10-16 21:56:13 milek_pl Exp $		
 -->
 <rules lang="pl">
 	<category name="Błędy interpunkcyjne">
@@ -470,6 +470,52 @@ $Id: grammar.xml,v 1.71 2006-10-09 22:54:44 milek_pl Exp $
 			
 	</category>
 	<category name="Błędy odmiany">
+	
+		<rulegroup name="„szkoła imieniem” (szkoła imienia)" id="SZKOLA_IMIENIEM">
+		<rule>
+		<pattern mark_from="1">
+		<token inflected="yes" regexp="yes">szkoła|gimnazjum|zakład|liceum</token>
+		<token>imieniem</token>
+		</pattern>
+		<message>Mówi się „<suggestion>imienia</suggestion>”.</message>
+		<example type="correct">Szkoła imienia Renaty B.</example>
+		<example type="incorrect">Szkoła <marker>imieniem</marker> Renaty B.</example>
+		</rule>
+
+		<rule>
+		<pattern mark_from="2">
+		<token inflected="yes">szkoła</token>
+		<token postag_regexp="yes" postag=".*adj:sg:.*[:\.]f.*"/>
+		<token>imieniem</token>
+		</pattern>
+		<message>Mówi się „<suggestion>imienia</suggestion>”.</message>
+		<example type="correct">Szkoła podstawowa imienia Renaty B.</example>
+		<example type="incorrect">Szkoła podstawowa <marker>imieniem</marker> Renaty B.</example>
+		</rule>
+
+		<rule>
+		<pattern mark_from="2">
+		<token inflected="yes" regexp="yes">liceum|gimnazjum</token>
+		<token postag_regexp="yes" postag=".*adj:sg:.*[:\.]n.*"/>
+		<token>imieniem</token>
+		</pattern>
+		<message>Mówi się „<suggestion>imienia</suggestion>”.</message>
+		<example type="correct">Liceum ogólnokształcące imienia Renaty B.</example>
+		<example type="incorrect">Liceum ogólnokształcące <marker>imieniem</marker> Renaty B.</example>
+		</rule>
+		
+		</rulegroup>
+
+		<rule name="„do Niemczech” (do Niemiec)" id="DO_NIEMCZECH">
+		<pattern>
+		<token>do</token>
+		<token>Niemczech</token>
+		</pattern>
+		<message>Błędna odmiana. Powinno być: <suggestion>do Niemiec</suggestion>.</message>
+		<example type="correct">Jutro jadę do Niemiec.</example>
+		<example type="incorrect">Jutro jadę <marker>do Niemczech</marker>.</example>
+		</rule>
+	
 		<rule name="„sto gram” (sto gramów) itp." id="STO_GRAM">
 			<pattern mark_from="1">
 				<token regexp="yes" inflected="yes">jeden|dwa|trzy|cztery|pięć|sześć|siedem|osiem|dziewięć|dziesięć|jedenaście|dwanaście|trzynaście|czternaście|piętnaście|szesnaście|siedemnaście|osiemnaście|dziewiętnaście|dwadzieścia|trzydzieści|czterdzieści|pięćdziesiąt|sześćdziesiąt|siedemdziesiąt|osiemdziesiąt|dziewięćdziesiąt|sto|dwieście|trzysta|czterysta|pięćset|sześćset|siedemset|osiemset|dziewięćset|tysiąc|milion|miliard|bilion</token>
@@ -2069,6 +2115,15 @@ $Id: grammar.xml,v 1.71 2006-10-09 22:54:44 milek_pl Exp $
 			<example type="correct">Emitowanie programu Firma wydaje się bardzo pożyteczne.</example>
 		</rule>
 
+		<rule id="DUZO_ZDROWSZY" name="„dużo zdrowszy” (znacznie zdrwoszy)">
+		<pattern>
+		<token>dużo</token>
+		<token inflected="yes">zdrowszy</token>
+		</pattern>
+		<message>Nie mówi się \1 \2, tylko <suggestion>znacznie \2</suggestion>.</message>
+		<example type="correct">Dziś jestem znacznie zdrowszy.</example>
+		<example type="incorrect">Dziś jestem <marker>dużo zdrowszy</marker>.</example>
+		</rule>
 	</category>
 
 	<category name="Błędy ortograficzne">
@@ -2802,8 +2857,31 @@ $Id: grammar.xml,v 1.71 2006-10-09 22:54:44 milek_pl Exp $
 
 	</category>
 
-
 	<category name="Prawdopodobne literówki">
+		
+		<rule name="„w odróżnieniu do” (w odróżnieniu od)" id="W_ODROZNIENIU_DO">
+		<pattern>
+		<token>w</token>
+		<token>odróżnieniu</token>
+		<token>do</token>
+		</pattern>
+		<message>Prawdopodobna literówka; powinno być <suggestion>\1 \2 od</suggestion>.</message>
+		<example type="incorrect">Ponadto czarownicy <marker>w odróżnieniu do</marker> czartów są zdecydowanie liczniejsi.</example>
+		<example type="correct">Ponadto czarownicy <marker>w odróżnieniu od</marker> czartów są zdecydowanie liczniejsi.</example>
+		</rule>
+
+		<rule name="„w przeciwieństwie od” (w przeciwieństwie od)" id="W_PRZECIWIENSTWIE_OD">
+		<pattern>
+		<token>w</token>
+		<token>przeciwieństwie</token>
+		<token>od</token>
+		</pattern>
+		<message>Prawdopodobna literówka; powinno być <suggestion>\1 \2 do</suggestion>.</message>
+		<example type="incorrect">Ponadto czarownicy <marker>w przeciwieństwie od</marker> czartów są zdecydowanie liczniejsi.</example>
+		<example type="correct">Ponadto czarownicy <marker>w przeciwieństwie do</marker> czartów są zdecydowanie liczniejsi.</example>
+		</rule>
+
+	
 		<rule name="„z/od/do/na niech” (nich)" id="DO_NIECH">
 			<pattern mark_from="1">
 				<token regexp="yes">z|od|do|na</token>
