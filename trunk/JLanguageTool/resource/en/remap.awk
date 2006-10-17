@@ -185,7 +185,10 @@ if (verb_fields[5]!="") {
 		if (JJR[$1]=="" && JJS[$1]=="" && $1"_END"!~/ism_END/) print $1 "\t" $1 "\tJJ" 
 		if ($1!~/[A-Z]/) print $1 "\t" $1 "\tNN"; else print $1 "\t" $1 "\tNNP"
 	 }
-/\tN$/ && !/[ ']/ {if ($1!~/[A-Z]/) print $1 "\t" $1 "\tNN"; else print $1 "\t" $1 "\tNNP"
+/\tN$/ && !/[ ']/ {
+	if (nns[$1]=="" || $1"_END"~/ics_END/) {
+	if ($1!~/[A-Z]/) print $1 "\t" $1 "\tNN"; else print $1 "\t" $1 "\tNNP"
+	}
 	 }
 /\tA$/ && !/[ ']/{
 	if (JJR[$1]=="" && JJS[$1]=="")  
@@ -196,7 +199,12 @@ if (verb_fields[5]!="") {
 /\tp$/ && !/[ ']/ {if (nns[$1]=="") {if ($1~/[A-Z]/) print $1 "\t" $1 "\tNNPS"}
 	 }
 /\tDA$/ && !/[ ']/{
-	if (JJR[$1]=="" && JJS[$1]=="")  
-			print $1 "\t" $1 "\t"map["A"]
+#	if (JJR[$1]=="" && JJS[$1]=="")  
+#			print $1 "\t" $1 "\t"map["A"]
 	print $1 "\t" $1 "\t"map["D"]
 	 }
+/\tAv$/ && !/[ ']/{
+	if (JJR[$1]=="" && JJS[$1]=="")  
+			print $1 "\t" $1 "\t"map["A"]
+#	print $1 "\t" $1 "\t"map["v"]
+}

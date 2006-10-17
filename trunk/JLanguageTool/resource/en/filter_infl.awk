@@ -28,31 +28,10 @@ breadboard V:|bream V:|breech V:|brigade V:|brine V:|briny N:|briquet V:|\
 briquette V:|brittle V:|broom V:|bruit N:|brute V:|buckler V:|buckram V:|\
 buddy A:|buddy V:|budge N:|bullet V:|bulwark V:|bumble N:|bumper V:|\
 bung A:|bunker V:|bunko V:|bur V:|burgeon N:|burl V:|but A:|burning N:|\
-bush A:|\
-byline V:|\
-cabal V:|\
-cabbage V:|\
-cabin V:|\
-cadence V:|\
-cadge N:|\
-cakewalk V:|\
-caller A:|\
-callow N:|\
-caloric N:|\
-cam V:|\
-came N:|\
-canal V:|\
-canary A:|\
-cancel N:|\
-candid N:|\
-candidate V:|\
-cannonball A:|\
-cant A:|\
-canton V:|\
-cape V:|\
-car A:|\
-caravan V:|\
-carcass V:|\
+bush A:|byline V:|cabal V:|cabbage V:|cabin V:|cadence V:|cadge N:|\
+cakewalk V:|caller A:|callow N:|caloric N:|cam V:|came N:|canal V:|\
+canary A:|cancel N:|candid N:|candidate V:|cannonball A:|cant A:|\
+canton V:|cape V:|car A:|caravan V:|carcass V:|\
 cardiac N:|\
 careen N:|\
 carhop V:|\
@@ -1390,59 +1369,16 @@ stimulative N:|\
 stooge V:|\
 stool V:|\
 story V:|\
-stove V:|\
-straightjacket V:|\
-strait A:|\
-strata N:|\
-streamline N:|\
-stretcher V:|\
-stun N:|\
-sturdy N:|\
-sty V:|\
-subculture V:|\
-sublimate N:|\
-submarine V:|\
-subnormal N:|\
-substantial N:|\
-subteen A:|\
-subterranean N:|\
-subway V:|\
-sudden N:|\
-suds V:|\
-suede V:|\
-suicide V:|\
-sulfate V:|\
-sulfur V:|\
-sully N:|\
-summit V:|\
-sunburst A:|\
-sundown V:|\
-sunrise A:|\
-superhuman N:|\
-supine N:|\
-supper V:|\
-supple V:|\
-supplemental N:|\
-supplementary N:|\
-supreme N:|\
-surname V:|\
-surrogate V:|\
-surround N:|\
-suspicion V:|\
-swaddle N:|\
-swan V:|\
-sward V:|\
-swinging N:|\
-switchback V:|\
-syllabic N:|\
-syllable V:|\
-syllogistic N:|\
-sylvan N:|\
-symbol V:|\
-synapse V:|\
-syrup V:|\
-tabby V:|\
-tabernacle V:|\
+stove V:|straightjacket V:|straightforward N\?:|strait A:|\
+strata N:|streamline N:|stretcher V:|stun N:|sturdy N:|\
+sty V:|subculture V:|sublimate N:|submarine V:|subnormal N:|\
+substantial N:|subteen A:|subterranean N:|subway V:|sudden N:|\
+suds V:|suede V:|suicide V:|sulfate V:|sulfur V:|sully N:|summit V:|\
+sunburst A:|sundown V:|sunrise A:|superhuman N:|supine N:|supper V:|\
+supple V:|supplemental N:|supplementary N:|supreme N:|surname V:|\
+surrogate V:|surround N:|suspicion V:|swaddle N:|swan V:|\
+sward V:|swinging N:|switchback V:|syllabic N:|syllable V:|syllogistic N:|\
+sylvan N:|symbol V:|synapse V:|syrup V:|tabby V:|tabernacle V:|\
 tablet V:|\
 tabor V:|\
 talc V:|\

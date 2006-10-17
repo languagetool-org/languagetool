@@ -7003,6 +7003,19 @@ partly_noncount["armor"]="uncount"
 partly_noncount["candor"]="uncount"
 partly_noncount["clamor"]="uncount"
 partly_noncount["clangor"]="uncount"
+partly_noncount["eclipse"]="uncount"
+partly_noncount["flow"]="uncount"
+partly_noncount["infrastructure"]="uncount"
+partly_noncount["accompaniment"]="uncount"
+partly_noncount["rendition"]="uncount"
+partly_noncount["quantity"]="uncount"
+#not strictly non-count, but used without article
+#in a phrase 'coast to coast'
+partly_noncount["coast"]="uncount"
+
+#title
+partly_noncount["sri"]="uncount"
+
 #this should be a pronoun but there ain't such
 #tag in Penn Treebank
 lemma["anything"]="uncount"
