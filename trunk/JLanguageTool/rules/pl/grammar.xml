@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?><!--
 Copyright (C) 2006 Marcin Miłkowski
-$Id: grammar.xml,v 1.72 2006-10-16 21:56:13 milek_pl Exp $		
+$Id: grammar.xml,v 1.73 2006-10-18 21:02:36 milek_pl Exp $		
 -->
 <rules lang="pl">
 	<category name="Błędy interpunkcyjne">
@@ -183,7 +183,7 @@ $Id: grammar.xml,v 1.72 2006-10-16 21:56:13 milek_pl Exp $
 		<rulegroup id="BRAK_PRZECINKA_ZE" name="Brak przecinka przed „że” i „iż”">
 		<rule>
 			<pattern mark_from="1">
-				<token negate="yes" regexp="yes">\p{Punct}|–|—|a|ale|albo|lecz|lub|czy|tym|bardziej|chyba|i|ile|jako|oraz|szczególnie|tyle|tylko|zwłaszcza|pomimo|mimo|także|również|czyli<exception postag="SENT_START"/></token>
+				<token negate="yes" regexp="yes">\p{Punct}|–|—|a|ale|albo|lecz|lub|czy|tym|bardziej|chyba|i|ile|jako|oraz|szczególnie|tyle|tylko|zwłaszcza|pomimo|mimo|także|również|czyli|dlatego<exception postag="SENT_START"/></token>
 				<token regexp="yes">że|iż</token>
 			</pattern>
 			<message>Przed spójnikiem „że” stawiamy przecinek: <suggestion>, \2</suggestion>.</message>
@@ -207,7 +207,7 @@ $Id: grammar.xml,v 1.72 2006-10-16 21:56:13 milek_pl Exp $
 		<rulegroup id="BRAK_PRZECINKA_JESLI" name="Brak przecinka przed „jeśli”, „jeżeli”, „gdyby” itd.">
 		<rule>
 			<pattern mark_from="1">
-				<token negate="yes" regexp="yes" inflected="yes">\p{Punct}|–|—<exception regexp="yes">a|jak|ale|i|oraz|czy|lub|albo|lecz|który|jaki|zwłaszcza|szczególnie|że|nawet|więc|to|jednak|gdyż|ponieważ|niemniej</exception><exception postag="SENT_START"/></token>
+				<token negate="yes" regexp="yes" inflected="yes">\p{Punct}|–|—<exception regexp="yes">a|jak|ale|i|oraz|czy|lub|albo|lecz|który|jaki|zwłaszcza|szczególnie|że|nawet|więc|to|jednak|gdyż|ponieważ|niemniej|tylko</exception><exception postag="SENT_START"/></token>
 				<token regexp="yes" inflected="yes">jeśli|jeżeli|gdyby|jeżeliby|jeśliby</token>
 			</pattern>
 			<message>Przed spójnikiem stawiamy przecinek:<suggestion>, \2</suggestion>.</message>
