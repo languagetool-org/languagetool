@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?><!--
 Copyright (C) 2006 Marcin Miłkowski
-$Id: grammar.xml,v 1.75 2006-10-21 21:06:42 milek_pl Exp $		
+$Id: grammar.xml,v 1.76 2006-10-21 23:35:48 milek_pl Exp $		
 -->
 <rules lang="pl">
 	<category name="Błędy interpunkcyjne">
@@ -8,11 +8,11 @@ $Id: grammar.xml,v 1.75 2006-10-21 21:06:42 milek_pl Exp $
 		<rulegroup name="Brak przecinka w zdaniu złożonym" id="ZDANIA_ZLOZONE">
 			<rule>
 				<pattern>
-					<token skip="-1" postag_regexp="yes" postag="pred|verb:.*(sg|pl).*|verb:imps.*|pcon:imperf|pant:perf"><exception scope="current" postag_regexp="yes" postag="subst:.*|adj.*|ppron.*|verb:inf.*|adv:comp|prep.*|qub|indecl"/><exception scope="current" regexp="yes">może|lecz|jedna|będ.*</exception><exception scope="next" inflected="yes" regexp="yes">[\-—–,!\?;\(\):r]|bądź|czy|ani|lub|albo|oraz|i|kiedy|gdy|który|jaki|że|iż|bo|gdyż</exception></token>
-					<token skip="-1" postag_regexp="yes" postag="pred|verb:.*(sg|pl).*|verb:imps.*|pcon:imperf|pant:perf"><exception scope="current" postag_regexp="yes" postag="subst:.*|adj.*|ppron.*|verb:inf.*|adv:comp|prep.*|qub|indecl"/><exception scope="current" regexp="yes">może|lecz|jedna|będ.*</exception></token>
+					<token skip="-1" postag_regexp="yes" postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf|pant:perf"><exception scope="current" postag_regexp="yes" postag="subst:.*|adj.*|ppron.*|verb:inf.*|adv:comp|prep.*|qub|indecl"/><exception scope="current" regexp="yes">może|lecz|jedna|będ.*</exception><exception scope="next" inflected="yes" regexp="yes">[\-—–,!\?;\(\):r]|bądź|czy|ani|lub|albo|oraz|i|kiedy|gdy|który|jaki|że|iż|bo|gdyż</exception></token>
+					<token skip="-1" postag_regexp="yes" postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf|pant:perf"><exception scope="current" postag_regexp="yes" postag="subst:.*|adj.*|ppron.*|verb:inf.*|adv:comp|prep.*|qub|indecl"/><exception scope="current" regexp="yes">może|lecz|jedna|będ.*</exception></token>
 					<token regexp="yes">\p{Punct}.*|–|—</token>
 				</pattern>
-				<message>W tym zdaniu złożonym brakuje przecinka lub spójnika między jednym zdaniem a drugim.</message>
+				<message>[1]W tym zdaniu złożonym brakuje przecinka lub spójnika między jednym zdaniem a drugim.</message>
 				<example type="correct">Kupiłem wino, chciałem też pić wodę.</example>
 				<example type="incorrect"><marker>Kupiłem wino chciałem też pić wodę.</marker></example>
 				<example type="incorrect">Pokład <marker>szorowano by marynarze jedli kapitanowi z ręki.</marker></example>
@@ -21,6 +21,18 @@ $Id: grammar.xml,v 1.75 2006-10-21 21:06:42 milek_pl Exp $
 				<example type="correct">Marek będzie pomagał Jurkowi odrabiać lekcje za Romana.</example>
 				<example type="incorrect"><marker>Zzuwszy buty Marek zatruł atmosferę na sali.</marker></example>
 				<example type="incorrect">Chociaż <marker>kupiłem wino chciałem też pić wodę.</marker></example>
+			</rule>
+			<rule>
+				<pattern>
+					<token skip="-1" postag_regexp="yes" postag="pred"><exception scope="current" postag_regexp="yes" postag="subst:.*|adj.*|ppron.*|verb:inf.*|adv:comp|prep.*|qub|indecl"/><exception scope="current" regexp="yes">może|lecz|jedna|będ.*</exception><exception scope="next" inflected="yes" regexp="yes">[\-—–,!\?;\(\):r]|bądź|czy|ani|lub|albo|oraz|i|kiedy|gdy|który|jaki|że|iż|bo|gdyż</exception></token>
+					<token skip="-1" postag_regexp="yes" postag="pred|verb:.*(sg|pl).*|verb:imps.*|pcon:imperf|pant:perf"><exception scope="current" postag_regexp="yes" postag="subst:.*|adj.[\.:][mn\.:].*|ppron.*|verb:inf.*|adv:comp|prep.*|qub|indecl"/><exception scope="current" regexp="yes">może|lecz|jedna|będ.*|było</exception></token>
+					<token regexp="yes">\p{Punct}.*|–|—</token>
+				</pattern>
+				<message>W tym zdaniu złożonym brakuje przecinka lub spójnika między jednym zdaniem a drugim.</message>
+				<example type="correct">Trzeba kupić wino, można narwać owoców w ogrodzie.</example>
+				<example type="correct">Trzeba było kupić wino, można było narwać owoców w ogrodzie.</example>
+				<example type="correct">Było trzeba kupić wino, było można narwać owoców w ogrodzie.</example>
+				<example type="incorrect"><marker>Trzeba kupić wino można narwać owoców w ogrodzie.</marker></example>	
 			</rule>
 			<rule>
 				<pattern>
