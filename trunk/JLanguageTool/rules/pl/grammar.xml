@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?><!--
 Copyright (C) 2006 Marcin Miłkowski
-$Id: grammar.xml,v 1.74 2006-10-20 16:42:27 milek_pl Exp $		
+$Id: grammar.xml,v 1.75 2006-10-21 21:06:42 milek_pl Exp $		
 -->
 <rules lang="pl">
 	<category name="Błędy interpunkcyjne">
@@ -71,7 +71,7 @@ $Id: grammar.xml,v 1.74 2006-10-20 16:42:27 milek_pl Exp $
 
 		</rulegroup>
 		
-		<rulegroup name="Brak przecinka przed: a więc, a mianowicie..." id="MULTISPOJNIKI">
+		<rulegroup name="Brak przecinka przed „a więc”, „a mianowicie”..." id="MULTISPOJNIKI">
 			<rule>
 				<pattern mark_from="1">
 					<token regexp="yes" negate="yes">\p{Punct}|–|—|\(<exception postag="SENT_START"/></token>
@@ -650,7 +650,7 @@ $Id: grammar.xml,v 1.74 2006-10-20 16:42:27 milek_pl Exp $
 		</rule>
 		</rulegroup>
 		
-		<rulegroup name="Brak odmiany imienia Bruno, Hugo, Pablo" id="BRUNO_HUGO">
+		<rulegroup name="Brak odmiany imienia „Bruno”, „Hugo”, „Pablo”" id="BRUNO_HUGO">
 		<rule>
 			<pattern mark_to="-1">
 				<token regexp="yes">Bruno|Hugo</token>
@@ -693,7 +693,7 @@ $Id: grammar.xml,v 1.74 2006-10-20 16:42:27 milek_pl Exp $
 			<example type="incorrect">Cezar bawił się <marker>kościami</marker> legionistów nad Rubikonem.</example>
 			<example type="correct">Zdzichu jest człowiekiem poczciwym z kościami.</example>
 		</rule>
-		<rule id="W_SZEREGU_PRZYPADKACH" name="w szeregu + miejscownik/narzędnik (dopełniacz)">
+		<rule id="W_SZEREGU_PRZYPADKACH" name="„w szeregu” + miejscownik/narzędnik (dopełniacz)">
 			<pattern mark_from="2">
 				<token>w</token>
 				<token>szeregu</token>
@@ -1966,7 +1966,7 @@ $Id: grammar.xml,v 1.74 2006-10-20 16:42:27 milek_pl Exp $
 		
 		<category name="Błędy różne">
 						
-		<rulegroup id="JEDEN_DEKO" name="deko (deka) czegoś">
+		<rulegroup id="JEDEN_DEKO" name="„deko” (deka) czegoś">
 		<rule>
 		<pattern mark_from="1">
 		<token regexp="yes">\d+</token>
@@ -2169,7 +2169,7 @@ $Id: grammar.xml,v 1.74 2006-10-20 16:42:27 milek_pl Exp $
 			<example type="incorrect">Zeszliśmy na <marker>duł</marker>.</example>			
 		</rule>
 		
-		<rule id="VCE" name="v-ce (wice)">
+		<rule id="VCE" name="„v-ce” (wice)">
 			<pattern>
 				<token>v-ce</token>
 				<token postag="subst.*" postag_regexp="yes"/>
@@ -2179,7 +2179,7 @@ $Id: grammar.xml,v 1.74 2006-10-20 16:42:27 milek_pl Exp $
 			<example type="incorrect">Spotkałem się z <marker>v-ce prezesem</marker> gminnej spółdzielni, towarzyszem Gosiewskim.</example>
 		</rule>
 		
-		<rule id="SP-NIA" name="sp-nia (spółdz.)">
+		<rule id="SP-NIA" name="„sp-nia” (spółdz.)">
 			<pattern>
 				<token>sp-nia</token>
 			</pattern>
@@ -2188,7 +2188,7 @@ $Id: grammar.xml,v 1.74 2006-10-20 16:42:27 milek_pl Exp $
 			<example type="incorrect"><marker>Sp-nia</marker> Mlecz. w Garwolinie</example>
 		</rule>
 		
-		<rule id="AD_KROPKA" name="ad. (ad)">
+		<rule id="AD_KROPKA" name="„ad.” (ad)">
 			<pattern mark_to="-1">
 				<token>ad</token>
 				<token>.</token>
@@ -2722,7 +2722,7 @@ $Id: grammar.xml,v 1.74 2006-10-20 16:42:27 milek_pl Exp $
 			<example type="incorrect">Stoi jakiś pałac, wielki aż strach, a przed nim <marker>co nie miara</marker> bryk i wozów.</example>
 		</rule>
 		
-		<rule name="„biznes plan (biznesplan)" id="BIZNESPLAN">
+		<rule name="„biznes plan” (biznesplan)" id="BIZNESPLAN">
 			<pattern>
 				<token>biznes</token>
 				<token inflected="yes">plan</token>
@@ -2910,7 +2910,7 @@ $Id: grammar.xml,v 1.74 2006-10-20 16:42:27 milek_pl Exp $
 			<example type="correct">To mój pokój</example>
 			<example type="incorrect">To mój <marker>pokuj</marker>.</example>
 		</rule>
-		<rulegroup name="„pozawala/pozawalało (pozwala/pozwalało)" id="POZAWALA">
+		<rulegroup name="„pozawala/pozawalało” (pozwala/pozwalało)" id="POZAWALA">
 			<rule>
 				<pattern>
 					<token>pozawala</token>
@@ -3162,7 +3162,7 @@ $Id: grammar.xml,v 1.74 2006-10-20 16:42:27 milek_pl Exp $
 		<example type="incorrect">W Głownie nie ma ani jednej opery na <marker>poziome</marker>.</example>
 		</rule>
 		
-		<rule name="„miedzy (między)”" id="MIEDZY_MIEDZY">
+		<rule name="„miedzy” (między)" id="MIEDZY_MIEDZY">
 		<pattern mark_to="-1">
 			<token>miedzy</token>
 			<token postag_regexp="yes" postag=".*[\.:]inst[\.:].*"/>
