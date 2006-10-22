@@ -176,6 +176,7 @@ public class Main {
               "' is not supported by LanguageTool.");
           throw new IllegalArgumentException("Language is not supported: " + charLocale.Language);
         }
+        //checkTables();
       } catch (UnknownPropertyException e) {
         throw new RuntimeException(e);
       } catch (WrappedTargetException e) {
@@ -184,6 +185,26 @@ public class Main {
       return Language.getLanguageForShortName(charLocale.Language);
     }
     
+    // commented out due to focus problems (clicking "OK" doesn't work, only Escape closes the dialog):
+    /*
+    private void checkTables() {
+      XTextTablesSupplier xTablesSupplier = (XTextTablesSupplier) UnoRuntime.queryInterface(
+          XTextTablesSupplier.class, xTextDoc);
+      XNameAccess xNamedTables = xTablesSupplier.getTextTables();
+      XIndexAccess xIndexedTables = (XIndexAccess) UnoRuntime.queryInterface(XIndexAccess.class,
+          xNamedTables);
+      if (xIndexedTables.getCount() > 0) {
+        DialogThread dt = new DialogThread("Warning: The text contains tables, this may lead to the " +
+            "wrong text marked due to a known bug.");
+        dt.start();
+        try {
+          dt.join();
+        } catch (InterruptedException e) {
+          e.printStackTrace();
+        }
+      }
+    }*/
+
     private TextToCheck getText() {
       com.sun.star.container.XEnumerationAccess xParaAccess = (com.sun.star.container.XEnumerationAccess) UnoRuntime
           .queryInterface(com.sun.star.container.XEnumerationAccess.class, xTextDoc.getText());
