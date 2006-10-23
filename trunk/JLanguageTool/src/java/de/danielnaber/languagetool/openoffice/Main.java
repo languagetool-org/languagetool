@@ -31,7 +31,9 @@ import com.sun.star.beans.UnknownPropertyException;
 import com.sun.star.beans.XPropertySet;
 import com.sun.star.container.NoSuchElementException;
 import com.sun.star.container.XEnumeration;
+import com.sun.star.frame.XController;
 import com.sun.star.frame.XDesktop;
+import com.sun.star.frame.XModel;
 import com.sun.star.lang.Locale;
 import com.sun.star.lang.WrappedTargetException;
 import com.sun.star.lang.XComponent;
@@ -45,6 +47,7 @@ import com.sun.star.task.XJobExecutor;
 import com.sun.star.text.XTextDocument;
 import com.sun.star.text.XTextRange;
 import com.sun.star.text.XTextViewCursor;
+import com.sun.star.text.XTextViewCursorSupplier;
 import com.sun.star.uno.UnoRuntime;
 import com.sun.star.uno.XComponentContext;
 
@@ -212,6 +215,30 @@ public class Main {
         System.err.println("xParaAccess == null");
         return new TextToCheck(new ArrayList<String>(), false);
       }
+      
+      XModel xModel = (XModel)UnoRuntime.queryInterface(XModel.class, xTextDoc);
+      if (xModel == null) {
+        DialogThread dt = new DialogThread("Sorry, only text documents are supported");
+        dt.start();
+        return null;
+      }
+      XController xController = xModel.getCurrentController(); 
+      XTextViewCursorSupplier xViewCursorSupplier = 
+        (XTextViewCursorSupplier)UnoRuntime.queryInterface(XTextViewCursorSupplier.class, xController); 
+      xViewCursor = xViewCursorSupplier.getViewCursor();
+      String textToCheck = xViewCursor.getString();     // user's current selection
+      if (textToCheck.equals("")) {     // no selection = check complete text
+        //System.err.println("check complete text");
+      } else {
+        //System.err.println("check selected text");
+        List<String> l = new ArrayList<String>();
+        // FIXME: if footnotes with a number greater than "9" occur in the selected text
+        // they mess up the error marking in OOoDialog because they appear as "10" etc.
+        // but the code assumes we need to use goRight() once per character...
+        l.add(textToCheck);
+        return new TextToCheck(l, true);
+      }
+      
       List<String> paragraphs = new ArrayList<String>();
       try {
         for (com.sun.star.container.XEnumeration xParaEnum = xParaAccess.createEnumeration(); xParaEnum.hasMoreElements();) {
@@ -226,7 +253,7 @@ public class Main {
       } catch (Exception e) {
         throw new RuntimeException(e);
       }
-      return new TextToCheck(paragraphs, false);   // FIXME: "false"
+      return new TextToCheck(paragraphs, false);
     }
 
     private void checkText(final TextToCheck textToCheck) {
@@ -262,9 +289,16 @@ public class Main {
         dt.start();
         // TODO: display number of active rules etc?
       } else {
-        ResultDialogThread dialog = new ResultDialogThread(config,
-            checkerThread.getLanguageTool().getAllRules(),
-            xTextDoc, checkedParagraphs, xViewCursor);
+        ResultDialogThread dialog;
+        if (textToCheck.isSelection) {
+          dialog = new ResultDialogThread(config,
+              checkerThread.getLanguageTool().getAllRules(),
+              xTextDoc, checkedParagraphs, xViewCursor, textToCheck);
+        } else {
+          dialog = new ResultDialogThread(config,
+              checkerThread.getLanguageTool().getAllRules(),
+              xTextDoc, checkedParagraphs, null, null);
+        }
         dialog.start();
       }
     }
@@ -365,19 +399,25 @@ class ResultDialogThread extends Thread {
   private XTextDocument xTextDoc;
   private List<CheckedParagraph> checkedParagraphs;
   private XTextViewCursor xViewCursor;
+  private TextToCheck textTocheck;
 
   ResultDialogThread(final Configuration configuration, final List<Rule> rules, final XTextDocument xTextDoc,
-      final List<CheckedParagraph> checkedParagraphs, final XTextViewCursor xViewCursor) {
+      final List<CheckedParagraph> checkedParagraphs, final XTextViewCursor xViewCursor,
+      final TextToCheck textTocheck) {
     this.configuration = configuration;
     this.rules = rules;
     this.xTextDoc = xTextDoc;
     this.checkedParagraphs = checkedParagraphs;
     this.xViewCursor = xViewCursor;
+    this.textTocheck = textTocheck;
   }
   
   public void run() {
-    OOoDialog dialog = new OOoDialog(configuration, rules,
-        xTextDoc, checkedParagraphs, xViewCursor);
+    OOoDialog dialog;
+    if (xViewCursor == null)
+      dialog = new OOoDialog(configuration, rules, xTextDoc, checkedParagraphs);
+    else
+      dialog = new OOoDialog(configuration, rules, xTextDoc, checkedParagraphs, xViewCursor, textTocheck);
     dialog.show();
   }
   

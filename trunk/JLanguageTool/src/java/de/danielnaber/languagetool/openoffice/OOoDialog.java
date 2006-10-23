@@ -31,6 +31,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.IOException;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -72,7 +73,8 @@ public class OOoDialog implements ActionListener {
   private static final String OPTIONS_BUTTON = "Options...";
   private static final String CLOSE_BUTTON = "Close";
   
-  private static final String COMPLETE_TEXT = "LanguageTool check is complete.";
+  private static final String COMPLETE_CHECK = "LanguageTool check is complete.";
+  private static final String COMPLETE_CHECK_OF_SELECTION = "LanguageTool check of selected text is complete.";
   private static final String FONT_TAG = "<font face=\"Sans-Serif\">";
   private static final int CONTEXT_SIZE = 60;
   
@@ -102,19 +104,33 @@ public class OOoDialog implements ActionListener {
 
   private Configuration configuration = null;
 
+  private TextToCheck textToCheck = null;
+  
+  /**
+   * Use this constructor to check the selected text only. 
+   */
   OOoDialog(Configuration configuration, List<Rule> rules, XTextDocument xTextDoc, 
       List<CheckedParagraph> checkedParagraphs,
-      XTextViewCursor xViewCursor) {
+      XTextViewCursor xViewCursor, TextToCheck textToCheck) {
     this.rules = rules;
     this.xTextDoc = xTextDoc;
     this.checkedParagraphs = checkedParagraphs;
     this.configuration = configuration;
-    this.xViewCursor = xViewCursor; 
+    this.xViewCursor = xViewCursor;
+    this.textToCheck = textToCheck;
+  }
+
+  /**
+   * Use this constructor to check the complete document. 
+   */
+  OOoDialog(Configuration configuration, List<Rule> rules, XTextDocument xTextDoc, 
+      List<CheckedParagraph> checkedParagraphs) {
+    this(configuration, rules, xTextDoc, checkedParagraphs, null, null);
   }
   
   void show() {
     if (checkedParagraphs.size() == 0) {
-      JOptionPane.showMessageDialog(null, COMPLETE_TEXT);
+      complete();
       return;
     }
     dialog = new JDialog();
@@ -334,6 +350,19 @@ public class OOoDialog implements ActionListener {
         if (startTextRange == null) {
           startTextRange = xViewCursor.getStart();
         }
+        // get the text to show in our dialog:
+        int j = 0;
+        String contentForDisplay = null;
+        for (Iterator iter = textToCheck.paragraphs.iterator(); iter.hasNext();) {
+          String para = (String) iter.next();
+          if (paragraphNumber == j) {
+            contentForDisplay = para;
+            break;
+          }
+          j++;
+        }
+        contextArea.setText(FONT_TAG + Tools.getContext(match.getFromPos(),
+            match.getToPos(), contentForDisplay, CONTEXT_SIZE));
         // FIXME: throws java.lang.reflect.UndeclaredThrowableException at $Proxy17.gotoRange(Unknown Source
         // if previous error occured at start of text and was replaced (e.g. "Die die" -> "die"):
         xViewCursor.gotoRange(startTextRange, false);
@@ -389,7 +418,10 @@ public class OOoDialog implements ActionListener {
   }
 
   private void complete() {
-    JOptionPane.showMessageDialog(null, COMPLETE_TEXT);
+    if (xViewCursor == null)
+      JOptionPane.showMessageDialog(null, COMPLETE_CHECK);
+    else
+      JOptionPane.showMessageDialog(null, COMPLETE_CHECK_OF_SELECTION);
     close();
   }
   
