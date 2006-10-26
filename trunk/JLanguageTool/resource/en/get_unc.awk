@@ -7048,6 +7048,9 @@ else
 	{if (word~/logy:::/ && word!~/aetiology|anthology|apology|doxology|etiology|hagiology|trilogy/)
 		print $1 FS $2 FS $3":UN"
 	else
+	if (word~/plasty:::/)
+		print $1 FS $2 FS $3":UN"
+	else
 	#doctrines
 	if (tolower(word)==word && word~/ism:::/ && word!~/anachronism|anglicism|aphorism|atavism|colloqualism|euphuism|gallicism|__ism+++|malapropism|mannerism|micro-organism|organism|prism|solecism|spoonerism|specialism|syllogism|truism|witticism/)
 	print $1 FS $2 FS $3":UN"
