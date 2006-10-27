@@ -3,7 +3,7 @@
 Rules: Grammar and Typos
 See tagset.txt for the meaning of the POS tags
 Copyright (C) 2001-2006 Daniel Naber (http://www.danielnaber.de)
-$Id: grammar.xml,v 1.110 2006-10-16 22:05:15 milek_pl Exp $
+$Id: grammar.xml,v 1.111 2006-10-27 22:27:13 milek_pl Exp $
 -->
 <rules lang="en">
 
@@ -829,9 +829,10 @@ $Id: grammar.xml,v 1.110 2006-10-16 22:05:15 milek_pl Exp $
 	  
 	  <rulegroup id="POSSESIVE_APOSTROPHE" name="Possessive apostrophe error">
 	  <rule>
-		  <pattern mark_to="-1">
+		  <pattern mark_to="-1" mark_from="1">
+		   <token postag_regexp="yes" regexp="yes" postag="DT|JJ.*"/>
 			  <token postag_regexp="yes" regexp="yes" postag="NNS|NNPS">.[^']*s<exception>his</exception><exception postag_regexp="yes" postag="VBZ|RB|IN|JJ|NN:.*"/></token>
-			  <token postag="NN|NN:.*" postag_regexp="yes" regexp="yes">.{2,}<exception regexp="yes">today|yesterday|tomorrow|now|in</exception><exception postag_regexp="yes" postag="VB.*|RB|MD|IN|JJ|CC"/></token>
+			  <token postag="NN|NN:.*" postag_regexp="yes" regexp="yes">.{2,}<exception regexp="yes">today|yesterday|tomorrow|now|in</exception><exception postag_regexp="yes" postag="RB|MD|IN|JJ|CC"/></token>
 		  </pattern>
 		  <message>Possible typo: apostrophe is missing. Did you mean <suggestion>\1'</suggestion> or the singular?</message>
 		  <example type="correct">This is a transcript of the president's speech.</example>
@@ -1125,7 +1126,7 @@ $Id: grammar.xml,v 1.110 2006-10-16 22:05:15 milek_pl Exp $
 		<pattern mark_from="2" mark_to="-1">
 		<token negate_pos="yes" postag="DT"><exception postag_regexp="yes" postag="JJ|NN.*"/></token>
 		<token postag="VBP|VBZ" postag_regexp="yes"><exception regexp="yes">take[s]*|give[s]*|says|go|goes|becomes</exception><exception postag_regexp="yes" postag="NN.*|JJ"/></token>
-    <token postag="NN"><exception postag_regexp="yes" postag="DT|RB|RP|JJ|IN|CC|CD|JJR|RBS|VBD|VBN|MD|NNP|NNS|VB"/></token>    
+    <token postag="NN"><exception postag_regexp="yes" postag="DT|RB|RP|JJ|IN|CC|CD|JJR|RBS|VBD|VBN|MD|NNP|NNS"/></token>    
 		<token><exception postag_regexp="yes" postag="NN.*"/></token>
 		</pattern>
 		<message>The article is missing before the noun: <suggestion>the \3</suggestion>, <suggestion>a \3</suggestion> or <suggestion>an \3</suggestion>.</message>

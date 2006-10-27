@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?><!--
 Copyright (C) 2006 Marcin Miłkowski
-$Id: grammar.xml,v 1.78 2006-10-27 00:25:56 milek_pl Exp $		
+$Id: grammar.xml,v 1.79 2006-10-27 22:27:13 milek_pl Exp $		
 -->
 <rules lang="pl">
 	<category name="Błędy interpunkcyjne">
@@ -190,15 +190,15 @@ $Id: grammar.xml,v 1.78 2006-10-27 00:25:56 milek_pl Exp $
 		
 		
 		<rule>
-			<pattern mark_from="1">
+			<pattern>
 				<token><exception regexp="yes">tylko|[,;:!–-—]</exception><exception postag_regexp="yes" postag="conj|SENT_START"/></token>
 				<token regexp="yes">dopiero|od|czy|to|podczas|potem|teraz|zwłaszcza|szczególnie|że|nawet</token>
 				<token>,</token>
 				<token regexp="yes">gdy|kiedy</token>
 			</pattern>	
-			<message>Spójników złożonych nie rozdziela się, przecinek stawia się przed nimi: <suggestion>, \1 \3</suggestion>.</message>
+			<message>Spójników złożonych nie rozdziela się, przecinek stawia się przed nimi: <suggestion>\1, \2 \4</suggestion>.</message>
 			<example type="correct">Poszedłem, podczas gdy on siedział na kanapie.</example>
-			<example type="incorrect">Poszedłem <marker>podczas, gdy</marker> on siedział na kanapie.</example>
+			<example type="incorrect"><marker>Poszedłem podczas, gdy</marker> on siedział na kanapie.</example>
 		</rule>
 		<rule>
 			<pattern mark_from="1">
@@ -207,7 +207,7 @@ $Id: grammar.xml,v 1.78 2006-10-27 00:25:56 milek_pl Exp $
 				<token>,</token>
 				<token regexp="yes">gdy|kiedy</token>
 			</pattern>	
-			<message>Spójników złożonych nie rozdziela się: <suggestion>\1 \3</suggestion>.</message>
+			<message>Spójników złożonych nie rozdziela się: <suggestion>\2 \4</suggestion>.</message>
 			<example type="correct">Podczas gdy on siedział na kanapie, jadłem śledzia.</example>
 			<example type="incorrect"><marker>Podczas, gdy</marker> on siedział na kanapie, jadłem śledzia.</example>
 		</rule>
@@ -218,7 +218,7 @@ $Id: grammar.xml,v 1.78 2006-10-27 00:25:56 milek_pl Exp $
 				<token>,</token>
 				<token regexp="yes">gdy|kiedy</token>
 			</pattern>	
-			<message>Spójników złożonych nie rozdziela się: <suggestion>\1 \3</suggestion>.</message>
+			<message>Spójników złożonych nie rozdziela się: <suggestion>\2 \4</suggestion>.</message>
 			<example type="correct">Jadłem śledzia, podczas gdy on siedział na kanapie.</example>
 			<example type="incorrect">Jadłem śledzia, <marker>podczas, gdy</marker> on siedział na kanapie.</example>
 		</rule>
@@ -252,22 +252,32 @@ $Id: grammar.xml,v 1.78 2006-10-27 00:25:56 milek_pl Exp $
 				<token>,</token>
 				<token regexp="yes">więc|mianowicie|zatem|przeto|jednak|choć|chociaż|ponieważ|także|następnie|jeśli|jeżeli|gdyby|gdy|kiedy</token>
 			</pattern>
-			<message>Spójników złożonych nie rozdziela się: <suggestion>A \4</suggestion>.</message>
+			<message>Spójników złożonych nie rozdziela się: <suggestion>a \4</suggestion>.</message>
 			<example type="correct">Jesteś mierny, ale wierny, a więc nadajesz się znakomicie.</example>
 			<example type="incorrect">Jesteś mierny, ale wierny, <marker>a, więc</marker> nadajesz się znakomicie.</example>
-		</rule>
-		
+		</rule>		
 		
 		<rule>
 			<pattern>
-		  <token><exception postag="SENT_START"/></token>
+			  <token><exception postag="SENT_START"/><exception regexp="yes">[,;:!–-—]</exception></token>
 				<token regexp="yes" inflected="yes">a|ale|lecz|który|jaki|zwłaszcza|szczególnie|że|przynajmniej|nawet|więc|to</token>
 				<token>,</token>
 				<token regexp="yes" inflected="yes">jeśli|jeżeli|gdyby|jeżeliby|jeśliby</token>
 			</pattern>
 			<message>Spójników złożonych nie rozdziela się, przecinek stawia się przed nimi: <suggestion>\1, \2 \4</suggestion>. Wyjątkiem mogą być tutaj wtrącenia.</message>
-			<example type="incorrect">Powiedziałam mu<marker>, że, jeśli</marker> pójdzie się myć, to się wyprowadzam.</example>
-			<example type="correct">Powiedziałam mu, <marker>że jeśli</marker> pójdzie się myć, to się wyprowadzam.</example>
+			<example type="incorrect">Naprawdę <marker>odejdę nawet, jeśli</marker> pójdzie się myć.</example>
+			<example type="correct">Naprawdę odejdę, <marker>nawet jeśli</marker> pójdzie się myć.</example>
+		</rule>
+		<rule>
+			<pattern mark_from="1">
+		  <token regexp="yes">[,;:!–-—]</token>
+				<token regexp="yes" inflected="yes">a|ale|lecz|który|jaki|zwłaszcza|szczególnie|że|przynajmniej|nawet|więc|to</token>
+				<token>,</token>
+				<token regexp="yes" inflected="yes">jeśli|jeżeli|gdyby|jeżeliby|jeśliby</token>
+			</pattern>
+			<message>Spójników złożonych nie rozdziela się: <suggestion>\2 \4</suggestion>. Wyjątkiem mogą być tutaj wtrącenia.</message>
+			<example type="incorrect">Powiedziałem mu, <marker>że, jeśli</marker> pójdzie się myć, to się wyprowadzam.</example>
+			<example type="correct">Powiedziałem mu, <marker>że jeśli</marker> pójdzie się myć, to się wyprowadzam.</example>
 		</rule>
 		<rule>
 			<pattern>
@@ -280,10 +290,10 @@ $Id: grammar.xml,v 1.78 2006-10-27 00:25:56 milek_pl Exp $
 			<example type="incorrect"><marker>A, jeśli</marker> pójdzie się myć, to się wyprowadzam.</example>
 			<example type="correct"><marker>A jeśli</marker> pójdzie się myć, to się wyprowadzam.</example>
 		</rule>
-		
+				
 		<rule>
 			<pattern>
-			 <token><exception postag="SENT_START"/></token>
+			  <token><exception postag="SENT_START"/><exception regexp="yes">[,;:!–-—]</exception></token>
 				<token regexp="yes">że|iż|chyba|jak|tylko</token>
 				<token>,</token>
 				<token regexp="yes" inflected="yes">żeby|aby|ażeby|iżby</token>
@@ -303,10 +313,21 @@ $Id: grammar.xml,v 1.78 2006-10-27 00:25:56 milek_pl Exp $
 			<example type="correct">Chyba żeby go poniżyć; innego powodu nie widzę.</example>
 			<example type="incorrect"><marker>Chyba, żeby</marker> go poniżyć; innego powodu nie widzę.</example>
 		</rule>		
+		<rule>
+			<pattern mark_from="1">
+		  <token regexp="yes">[,;:!–-—]</token>
+				<token regexp="yes">że|iż|chyba|jak|tylko</token>
+				<token>,</token>
+				<token regexp="yes" inflected="yes">żeby|aby|ażeby|iżby</token>
+			</pattern>
+			<message>Spójników złożonych nie rozdziela się: <suggestion>\2 \4</suggestion>. Wyjątkiem mogą być tutaj wtrącenia.</message>
+			<example type="correct">Premier powołał go na stanowisko, chyba żeby go poniżyć.</example>
+			<example type="incorrect">Premier powołał go na stanowisko, <marker>chyba, żeby</marker> go poniżyć.</example>
+		</rule>				
 		
 		<rule>
 			<pattern>
-			 <token><exception postag="SENT_START"/></token>
+			  <token><exception postag="SENT_START"/><exception regexp="yes">[,;:!–-—]</exception></token>
 				<token regexp="yes">jeszcze</token>
 				<token>,</token>
 				<token regexp="yes">zanim</token>
@@ -326,6 +347,17 @@ $Id: grammar.xml,v 1.78 2006-10-27 00:25:56 milek_pl Exp $
 			<example type="correct">Jeszcze zanim odwołał go z funkcji przewodniczącego klubu, zjadł z nim kolację.</example>
 			<example type="incorrect"><marker>Jeszcze, zanim</marker> odwołał go z funkcji przewodniczącego klubu, zjadł z nim kolację.</example>
 		</rule>			
+		<rule>
+		<pattern mark_from="1">
+		  <token regexp="yes">[,;:!–-—]</token>
+				<token regexp="yes">jeszcze</token>
+				<token>,</token>
+				<token regexp="yes">zanim</token>
+			</pattern>
+			<message>Spójników złożonych nie rozdziela się:<suggestion>\2 \4</suggestion>. Wyjątkiem mogą być tutaj wtrącenia.</message>
+			<example type="correct">Premier powołał go na stanowisko, jeszcze zanim odwołał go z funkcji przewodniczącego klubu</example>
+			<example type="incorrect">Premier powołał go na stanowisko, <marker>jeszcze, zanim</marker> odwołał go z funkcji przewodniczącego klubu.</example>
+		</rule>					
 		
 		</rulegroup>
 		
@@ -336,8 +368,8 @@ $Id: grammar.xml,v 1.78 2006-10-27 00:25:56 milek_pl Exp $
 				<token regexp="yes">że|iż</token>
 			</pattern>
 			<message>Przed spójnikiem „że” stawiamy przecinek: <suggestion>, \2</suggestion>.</message>
-			<example type="correct">Przemysław zdradził, że ma na drugię imię Edgar.</example>
-			<example type="incorrect">Przemysław zdradził <marker>że</marker> ma na drugię imię Edgar.</example>
+			<example type="correct">Przemysław zdradził, że ma na drugie imię Edgar.</example>
+			<example type="incorrect">Przemysław zdradził <marker>że</marker> ma na drugie imię Edgar.</example>
 		</rule>
 		<rule>
 			<pattern mark_from="1">
@@ -346,9 +378,9 @@ $Id: grammar.xml,v 1.78 2006-10-27 00:25:56 milek_pl Exp $
 				<token regexp="yes">że|iż</token>
 			</pattern>
 			<message>Przecinek stawiamy przed całym spójnikiem złożonym: <suggestion>, \2 że</suggestion>.</message>
-			<example type="correct">Przemysław zdradził, mimo że ma na drugię imię Edgar.</example>
-			<example type="incorrect">Przemysław zdradził <marker>mimo że</marker> ma na drugię imię Edgar.</example>
-			<example type="incorrect">Przemysław zdradził <marker>pomimo iż</marker> ma na drugię imię Edgar.</example>
+			<example type="correct">Przemysław zdradził, mimo że ma na drugie imię Edgar.</example>
+			<example type="incorrect">Przemysław zdradził <marker>mimo że</marker> ma na drugie imię Edgar.</example>
+			<example type="incorrect">Przemysław zdradził <marker>pomimo iż</marker> ma na drugie imię Edgar.</example>
 			<example type="correct">Mimo że cenię jego śpiew, hymnu śpiewać mu nie pozwolę.</example>
 		</rule>			
 		</rulegroup>
@@ -406,7 +438,7 @@ $Id: grammar.xml,v 1.78 2006-10-27 00:25:56 milek_pl Exp $
 			</pattern>
 			<message>Przed tym spójnikiem stawiamy przecinek: <suggestion>, \2</suggestion>.</message>
 			<example type="correct">Przemysław wstąpił do domu, gdy poczuł brak Przemysławki.</example>
-			<example type="incorrect">Przemysław wstąpił do domu <marker>gdy</marker> poczuł brak przemysławki.</example>
+			<example type="incorrect">Przemysław wstąpił do domu <marker>gdy</marker> poczuł brak Przemysławki.</example>
 		</rule>
 		<rule>
 			<pattern mark_from="1">
@@ -416,7 +448,7 @@ $Id: grammar.xml,v 1.78 2006-10-27 00:25:56 milek_pl Exp $
 			</pattern>
 			<message>Przecinek stawiamy przed całym spójnikiem złożonym: <suggestion>, \2 \3</suggestion>.</message>
 			<example type="correct">Przemysław wstąpił do domu, dopiero gdy poczuł brak Przemysławki.</example>
-			<example type="incorrect">Przemysław wstąpił do domu <marker>dopiero gdy</marker> poczuł brak przemysławki.</example>
+			<example type="incorrect">Przemysław wstąpił do domu <marker>dopiero gdy</marker> poczuł brak Przemysławki.</example>
 			<example type="correct">Właśnie gdy to mówiłem, Przemysław gadał w telewizorze.</example>
 		</rule>			
 		</rulegroup>
@@ -622,6 +654,31 @@ $Id: grammar.xml,v 1.78 2006-10-27 00:25:56 milek_pl Exp $
 	</category>
 	<category name="Błędy odmiany">
 	
+	
+		<rulegroup name="„ja umie”, „ja rozumie” (umiem, rozumiem)" id="UMIE_ROZUMIE">
+		<rule>
+		<pattern>
+		<token>ja</token>
+		<token regexp="yes">umie|rozumie</token>
+		</pattern>
+		<message>Błąd odmiany. Mówimy <suggestion>\2m</suggestion>.</message>
+		<example type="correct">Ja umiem mówić po polsku.</example>
+		<example type="correct">Umiem mówić po polsku.</example>
+		<example type="incorrect"><marker>Ja umie</marker> mówić po polsku.</example>
+		</rule>
+		<rule>
+		<pattern>
+		<token>ja</token>
+		<token>nie</token>
+		<token regexp="yes">umie|rozumie</token>
+		</pattern>
+		<message>Błąd odmiany. Mówimy <suggestion>nie \3m</suggestion>.</message>
+		<example type="correct">Ja nie umiem mówić po polsku.</example>
+		<example type="correct">Umiem mówić po polsku.</example>
+		<example type="incorrect"><marker>Ja nie umie</marker> mówić po polsku.</example>
+		</rule>
+		</rulegroup>
+		
 		<rulegroup name="„szkoła imieniem” (szkoła imienia)" id="SZKOLA_IMIENIEM">
 		<rule>
 		<pattern mark_from="1">
@@ -1607,8 +1664,8 @@ $Id: grammar.xml,v 1.78 2006-10-27 00:25:56 milek_pl Exp $
 			<token>oporu</token>
 			</pattern>
 			<message>To wyrażenie jest niepoprawne. Poprawnie: <suggestion>po linii najmniejszego oporu</suggestion>.</message>
-			<example type="correct">Ludwik poszedł po linii najmniejszego oporu i oskarżył Przemysława o perfomowanie się „Przemysławką”.</example>
-			<example type="incorrect">Ludwik poszedł <marker>po najmniejszej linii oporu</marker> i oskarżył Przemysława o perfomowanie się „Przemysławką”.</example>
+			<example type="correct">Ludwik poszedł po linii najmniejszego oporu i oskarżył Przemysława o perfumowanie się „Przemysławką”.</example>
+			<example type="incorrect">Ludwik poszedł <marker>po najmniejszej linii oporu</marker> i oskarżył Przemysława o perfumowanie się „Przemysławką”.</example>
 		</rule>
 		<rule name="„od stóp do głowy” (od stóp do głów)" id="OD_STOP_DO_GLOWY">
 			<pattern mark_from="3">
@@ -1775,8 +1832,8 @@ $Id: grammar.xml,v 1.78 2006-10-27 00:25:56 milek_pl Exp $
 				<token>wskutek</token>
 			</pattern>
 			<message>To wyrażenie jest niepoprawne; poprawnie jest: <suggestion>wskutek</suggestion> lub <suggestion>na skutek</suggestion>.</message>
-			<example type="correct">Przemysław rozrochował się na skutek docinków Ludwika.</example>
-			<example type="incorrect">Przemysław rozrochował się <marker>na wskutek</marker> docinków Ludwika.</example>
+			<example type="correct">Przemysław rozchorował się na skutek docinków Ludwika.</example>
+			<example type="incorrect">Przemysław rozchorował się <marker>na wskutek</marker> docinków Ludwika.</example>
 		</rule>
 		
 		<rule id="CIEZKI_ORZECH" name="„ciężki orzech do zgryzienia” (twardy orzech...)">
@@ -2266,7 +2323,7 @@ $Id: grammar.xml,v 1.78 2006-10-27 00:25:56 milek_pl Exp $
 			<example type="correct">Emitowanie programu Firma wydaje się bardzo pożyteczne.</example>
 		</rule>
 
-		<rule id="DUZO_ZDROWSZY" name="„dużo zdrowszy” (znacznie zdrwoszy)">
+		<rule id="DUZO_ZDROWSZY" name="„dużo zdrowszy” (znacznie zdrowszy)">
 		<pattern>
 		<token>dużo</token>
 		<token inflected="yes">zdrowszy</token>
@@ -2278,7 +2335,8 @@ $Id: grammar.xml,v 1.78 2006-10-27 00:25:56 milek_pl Exp $
 	</category>
 
 	<category name="Błędy ortograficzne">
-		<rule name="Skrótowce bez dywiza w przypadkach zależnych" id="SKROTOWCE_BEZ_DYWIZA">
+
+		<rule name="Skrótowce bez dywizu w przypadkach zależnych" id="SKROTOWCE_BEZ_DYWIZU">
 			<pattern>
 				<token regexp="yes">\p{Lu}+[i]*\p{Lu}+[\p{L}&amp;&amp;[^\p{Lu}]]+<exception regexp="yes">GKKFicie|JCMości|JCMością|JCWysokości|JCWysokością|JKMości|JKMością|JKWysokości|JKWysokością|PZKol|PZMocie|PZMot|SJPDor|WPan|WPani|WPaństwo|BCh|COr|CSSp|GHz|MHz|MKOl|PKOl|UWr</exception></token>
 			</pattern>
@@ -3006,6 +3064,34 @@ $Id: grammar.xml,v 1.78 2006-10-27 00:25:56 milek_pl Exp $
 			</rule>
 		</rulegroup>
 
+	<rule name="„niema” (nie ma)" id="NIEMA_NIE_MA">
+	<pattern mark_to="-1">
+	<token>niema</token>
+	<token postag_regexp="yes" postag=".*gen.*"><exception postag="prep" postag_regexp="yes"/></token>	
+	</pattern>
+	<message>Prawdopodobny błąd ortograficzny. Czy chodziło o zaprzeczoną formę czasownika „mieć”, czyli <suggestion>nie ma</suggestion>?</message>
+	<example type="incorrect">Ten fizjolog roślin <marker>niema</marker> pojęcia o ewolucji.</example>
+	<example type="correct">Ten fizjolog roślin <marker>nie ma</marker> pojęcia o ewolucji.</example>
+	</rule>
+	
+	<rule name="„niemożna” (nie można)" id="NIE_MOZNA">
+	<pattern>
+	<token>niemożna</token>
+	</pattern>
+	<message>Prawdopodobny błąd ortograficzny. Czy chodziło o zaprzeczoną formę czasownika „można”, czyli <suggestion>nie można</suggestion>? Obecna forma jest zaprzeczoną formą przymiotnika „możny” w rodzaju żeńskim.</message>
+	<example type="incorrect"><marker>Niemożna</marker> ufać profesorom, którzy wierzą w Smoka Wawelskiego.</example>
+	<example type="correct"><marker>Nie można</marker> ufać profesorom, którzy wierzą w Smoka Wawelskiego.</example>
+	</rule>
+
+	<rule name="„niewolno” (nie wolno)" id="NIE_WOLNO">
+	<pattern>
+	<token>niewolno</token>
+	</pattern>
+	<message>Prawdopodobny błąd ortograficzny. Czy chodziło o zaprzeczoną formę czasownika „wolno”, czyli <suggestion>nie wolno</suggestion>? Obecna forma jest zaprzeczoną formą przysłówka „wolno” (=powoli).</message>
+	<example type="incorrect"><marker>Niewolno</marker> ufać profesorom, którzy wierzą w Smoka Wawelskiego.</example>
+	<example type="correct"><marker>Nie wolno</marker> ufać profesorom, którzy wierzą w Smoka Wawelskiego.</example>
+	</rule>
+	
 	</category>
 
 	<category name="Prawdopodobne literówki">
@@ -3333,6 +3419,15 @@ $Id: grammar.xml,v 1.78 2006-10-27 00:25:56 milek_pl Exp $
 		<example type="correct">Przemysław boi się <marker>startować</marker> w wyborach.</example>
 		</rule>
 		
+		<rule name="„pryz” (przy)" id="PRYZ_PRZY">
+		<pattern mark_to="-1">
+		<token>pryz</token>
+		<token postag_regexp="yes" postag=".*loc.*|"/>
+		</pattern>
+		<message>Prawdopodobna literówka. Czy chodziło o przyimek <suggestion>przy</suggestion>?</message>
+		<example type="correct">Ludwik nie lubi stać przy Przemysławie.</example>
+		<example type="incorrect">Ludwik nie lubi stać <marker>pryz</marker> Przemysławie.</example>
+		</rule>
 		
 	</category>
 </rules>
