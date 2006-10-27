@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?><!--
 Copyright (C) 2006 Marcin Miłkowski
-$Id: grammar.xml,v 1.77 2006-10-22 21:31:19 milek_pl Exp $		
+$Id: grammar.xml,v 1.78 2006-10-27 00:25:56 milek_pl Exp $		
 -->
 <rules lang="pl">
 	<category name="Błędy interpunkcyjne">
@@ -12,7 +12,7 @@ $Id: grammar.xml,v 1.77 2006-10-22 21:31:19 milek_pl Exp $
 					<token skip="-1" postag_regexp="yes" postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf|pant:perf"><exception scope="current" postag_regexp="yes" postag="subst:.*|adj.*|ppron.*|verb:inf.*|adv:comp|prep.*|qub|indecl"/><exception scope="current" regexp="yes">może|lecz|jedna|będ.*</exception></token>
 					<token regexp="yes">\p{Punct}.*|–|—</token>
 				</pattern>
-				<message>[1]W tym zdaniu złożonym brakuje przecinka lub spójnika między jednym zdaniem a drugim.</message>
+				<message>W tym zdaniu złożonym brakuje przecinka lub spójnika między jednym zdaniem a drugim.</message>
 				<example type="correct">Kupiłem wino, chciałem też pić wodę.</example>
 				<example type="incorrect"><marker>Kupiłem wino chciałem też pić wodę.</marker></example>
 				<example type="incorrect">Pokład <marker>szorowano by marynarze jedli kapitanowi z ręki.</marker></example>
@@ -122,17 +122,41 @@ $Id: grammar.xml,v 1.77 2006-10-22 21:31:19 milek_pl Exp $
 		<rulegroup id="COFANIE_PRZECINKA" name="Przecinek wewnątrz spójnika złożonego">
 		<rule>
 			<pattern>
+			  <token><exception postag="SENT_START"/><exception regexp="yes">[,;:!–-—]</exception></token>
 				<token regexp="yes">ile|jako|oraz|szczególnie|tylko|zwłaszcza|pomimo|mimo|ledwie|niby|prawie|ledwo</token>
 				<token>,</token>
 				<token>że</token>
 			</pattern>	
-			<message>Spójników złożonych nie rozdziela się, a przecinek stawia się przed nimi: <suggestion>, \1 że</suggestion>.</message>
+			<message>Spójników złożonych nie rozdziela się, a przecinek stawia się przed nimi: <suggestion>\1, \2 że</suggestion>.</message>
 			<example type="correct">Poszedłem tam, mimo że nie chciałem.</example>
-			<example type="incorrect">Poszedłem tam <marker>mimo, że</marker> nie chciałem.</example>
+			<example type="incorrect">Poszedłem <marker>tam mimo, że</marker> nie chciałem.</example>
+		</rule>		
+		<rule>
+			<pattern mark_from="1">
+			  <token postag="SENT_START"/>
+				<token regexp="yes">ile|jako|oraz|szczególnie|tylko|zwłaszcza|pomimo|mimo|ledwie|niby|prawie|ledwo</token>
+				<token>,</token>
+				<token>że</token>
+			</pattern>	
+			<message>Spójników złożonych nie rozdziela się: <suggestion>\2 że</suggestion>.</message>
+			<example type="correct">Mimo że nie chciałem, poszedłem tam.</example>
+			<example type="incorrect"><marker>Mimo, że</marker> nie chciałem, poszedłem tam.</example>
 		</rule>
 		<rule>
 			<pattern mark_from="1">
-				<token negate="yes" regexp="yes">o|na|tylko</token>
+		  <token regexp="yes">[,;:!–-—]</token>
+				<token regexp="yes">ile|jako|oraz|szczególnie|tylko|zwłaszcza|pomimo|mimo|ledwie|niby|prawie|ledwo</token>
+				<token>,</token>
+				<token>że</token>
+			</pattern>	
+			<message>Spójników złożonych nie rozdziela się: <suggestion>\2 że</suggestion>.</message>
+			<example type="correct">Poszedłem tam, mimo że nie chciałem.</example>
+			<example type="incorrect">Poszedłem tam, <marker>mimo, że</marker> nie chciałem.</example>
+		</rule>		
+		
+		<rule>
+			<pattern mark_from="1">
+				<token><exception postag="SENT_START"/><exception regexp="yes">[,;:!–-—]|o|na|tylko</exception></token>
 				<token regexp="yes">tyle</token>
 				<token>,</token>
 				<token>że</token>
@@ -140,10 +164,34 @@ $Id: grammar.xml,v 1.77 2006-10-22 21:31:19 milek_pl Exp $
 			<message>Spójników złożonych nie rozdziela się, a przecinek stawia się przed nimi: <suggestion>, \2 że</suggestion>.</message>
 			<example type="correct">Upił się na tyle, że nie mógł ustać na nogach.</example>
 			<example type="incorrect">Wprawdzie upił się <marker>tyle, że</marker> akurat on nie prowadził samochodu, więc nic się nie stało.</example>
-		</rule>			
+		</rule>
 		<rule>
 			<pattern mark_from="1">
-				<token negate="yes">tylko<exception postag="conj"/></token>
+				<token postag="SENT_START"/>
+				<token regexp="yes">tyle</token>
+				<token>,</token>
+				<token>że</token>
+			</pattern>	
+			<message>Spójników złożonych nie rozdziela się: <suggestion>\2 że</suggestion>.</message>
+			<example type="correct">Tyle że był głupi.</example>
+			<example type="incorrect"><marker>Tyle, że</marker> akurat on nie prowadził samochodu.</example>
+		</rule>
+		<rule>
+			<pattern mark_from="1">
+		  <token regexp="yes">[,;:!–-—]</token>
+				<token regexp="yes">tyle</token>
+				<token>,</token>
+				<token>że</token>
+			</pattern>	
+			<message>Spójników złożonych nie rozdziela się: <suggestion>\2 że</suggestion>.</message>
+			<example type="correct">Wprawdzie upił się, tyle że potrafił trzymać język za zębami.</example>
+			<example type="incorrect">Wprawdzie upił się, <marker>tyle, że</marker> akurat on nie prowadził samochodu.</example>
+		</rule>
+		
+		
+		<rule>
+			<pattern mark_from="1">
+				<token><exception regexp="yes">tylko|[,;:!–-—]</exception><exception postag_regexp="yes" postag="conj|SENT_START"/></token>
 				<token regexp="yes">dopiero|od|czy|to|podczas|potem|teraz|zwłaszcza|szczególnie|że|nawet</token>
 				<token>,</token>
 				<token regexp="yes">gdy|kiedy</token>
@@ -153,45 +201,132 @@ $Id: grammar.xml,v 1.77 2006-10-22 21:31:19 milek_pl Exp $
 			<example type="incorrect">Poszedłem <marker>podczas, gdy</marker> on siedział na kanapie.</example>
 		</rule>
 		<rule>
+			<pattern mark_from="1">
+				<token postag="SENT_START"/>
+				<token regexp="yes">dopiero|od|czy|to|podczas|potem|teraz|zwłaszcza|szczególnie|że|nawet</token>
+				<token>,</token>
+				<token regexp="yes">gdy|kiedy</token>
+			</pattern>	
+			<message>Spójników złożonych nie rozdziela się: <suggestion>\1 \3</suggestion>.</message>
+			<example type="correct">Podczas gdy on siedział na kanapie, jadłem śledzia.</example>
+			<example type="incorrect"><marker>Podczas, gdy</marker> on siedział na kanapie, jadłem śledzia.</example>
+		</rule>
+		<rule>
+			<pattern mark_from="1">
+		  <token regexp="yes">[,;:!–-—]</token>
+				<token regexp="yes">dopiero|od|czy|to|podczas|potem|teraz|zwłaszcza|szczególnie|że|nawet</token>
+				<token>,</token>
+				<token regexp="yes">gdy|kiedy</token>
+			</pattern>	
+			<message>Spójników złożonych nie rozdziela się: <suggestion>\1 \3</suggestion>.</message>
+			<example type="correct">Jadłem śledzia, podczas gdy on siedział na kanapie.</example>
+			<example type="incorrect">Jadłem śledzia, <marker>podczas, gdy</marker> on siedział na kanapie.</example>
+		</rule>
+		
+		<rule>
 			<pattern>
+			  <token><exception postag="SENT_START"/><exception regexp="yes">[,;:!–-—]</exception></token>
 				<token>a</token>
 				<token>,</token>
 				<token regexp="yes">więc|mianowicie|zatem|przeto|jednak|choć|chociaż|ponieważ|także|następnie|jeśli|jeżeli|gdyby|gdy|kiedy</token>
 			</pattern>
-			<message>Spójników złożonych nie rozdziela się, przecinek stawia się przed nimi: <suggestion>, a \3</suggestion>.</message>
+			<message>Spójników złożonych nie rozdziela się, przecinek stawia się przed nimi: <suggestion>\1, a \4</suggestion>.</message>
 			<example type="correct">Do partii rządzącej zapisują się tylko idioci, a więc nadajesz się znakomicie.</example>
-			<example type="incorrect">Do partii rządzącej zapisują się tylko idioci <marker>a, więc</marker> nadajesz się znakomicie.</example>
-		</rule>			
+			<example type="incorrect">Do partii rządzącej zapisują się tylko <marker>idioci a, więc</marker> nadajesz się znakomicie.</example>
+		</rule>
+		<rule>
+			<pattern mark_from="1"> 
+			  <token postag="SENT_START"/>
+				<token>a</token>
+				<token>,</token>
+				<token regexp="yes">więc|mianowicie|zatem|przeto|jednak|choć|chociaż|ponieważ|także|następnie|jeśli|jeżeli|gdyby|gdy|kiedy</token>
+			</pattern>
+			<message>Spójników złożonych nie rozdziela się: <suggestion>A \4</suggestion>.</message>
+			<example type="correct">A więc nadajesz się znakomicie.</example>
+			<example type="incorrect"><marker>A, więc</marker> nadajesz się znakomicie.</example>
+		</rule>
+				<rule>
+			<pattern mark_from="1">
+		  <token regexp="yes">[,;:!–-—]</token>
+				<token>a</token>
+				<token>,</token>
+				<token regexp="yes">więc|mianowicie|zatem|przeto|jednak|choć|chociaż|ponieważ|także|następnie|jeśli|jeżeli|gdyby|gdy|kiedy</token>
+			</pattern>
+			<message>Spójników złożonych nie rozdziela się: <suggestion>A \4</suggestion>.</message>
+			<example type="correct">Jesteś mierny, ale wierny, a więc nadajesz się znakomicie.</example>
+			<example type="incorrect">Jesteś mierny, ale wierny, <marker>a, więc</marker> nadajesz się znakomicie.</example>
+		</rule>
+		
+		
 		<rule>
 			<pattern>
+		  <token><exception postag="SENT_START"/></token>
 				<token regexp="yes" inflected="yes">a|ale|lecz|który|jaki|zwłaszcza|szczególnie|że|przynajmniej|nawet|więc|to</token>
 				<token>,</token>
 				<token regexp="yes" inflected="yes">jeśli|jeżeli|gdyby|jeżeliby|jeśliby</token>
 			</pattern>
-			<message>Spójników złożonych nie rozdziela się, przecinek stawia się przed nimi: <suggestion>, \1 \3</suggestion>. Wyjątkiem mogą być tutaj wtrącenia.</message>
-			<example type="incorrect">Powiedziałam mu, <marker>że, jeśli</marker> pójdzie się myć, to się wyprowadzam.</example>
+			<message>Spójników złożonych nie rozdziela się, przecinek stawia się przed nimi: <suggestion>\1, \2 \4</suggestion>. Wyjątkiem mogą być tutaj wtrącenia.</message>
+			<example type="incorrect">Powiedziałam mu<marker>, że, jeśli</marker> pójdzie się myć, to się wyprowadzam.</example>
 			<example type="correct">Powiedziałam mu, <marker>że jeśli</marker> pójdzie się myć, to się wyprowadzam.</example>
 		</rule>
 		<rule>
 			<pattern>
+		  <token postag="SENT_START"/>
+				<token regexp="yes" inflected="yes">a|ale|lecz|który|jaki|zwłaszcza|szczególnie|że|przynajmniej|nawet|więc|to</token>
+				<token>,</token>
+				<token regexp="yes" inflected="yes">jeśli|jeżeli|gdyby|jeżeliby|jeśliby</token>
+			</pattern>
+			<message>Spójników złożonych nie rozdziela się: <suggestion>\2 \4</suggestion>. Wyjątkiem mogą być tutaj wtrącenia.</message>
+			<example type="incorrect"><marker>A, jeśli</marker> pójdzie się myć, to się wyprowadzam.</example>
+			<example type="correct"><marker>A jeśli</marker> pójdzie się myć, to się wyprowadzam.</example>
+		</rule>
+		
+		<rule>
+			<pattern>
+			 <token><exception postag="SENT_START"/></token>
 				<token regexp="yes">że|iż|chyba|jak|tylko</token>
 				<token>,</token>
 				<token regexp="yes" inflected="yes">żeby|aby|ażeby|iżby</token>
 			</pattern>
-			<message>Spójników złożonych nie rozdziela się, przecinek stawia się przed nimi: <suggestion>, \1 \3</suggestion>. Wyjątkiem mogą być tutaj wtrącenia.</message>
+			<message>Spójników złożonych nie rozdziela się, przecinek stawia się przed nimi: <suggestion>\1, \2 \4</suggestion>. Wyjątkiem mogą być tutaj wtrącenia.</message>
 			<example type="correct">Premier powołał go na stanowisko, chyba żeby go poniżyć.</example>
-			<example type="incorrect">Premier powołał go na stanowisko <marker>chyba, żeby</marker> go poniżyć.</example>
+			<example type="incorrect">Premier powołał go na <marker>stanowisko chyba, żeby</marker> go poniżyć.</example>
 		</rule>
 		<rule>
 			<pattern>
+			 <token postag="SENT_START"/>
+				<token regexp="yes">że|iż|chyba|jak|tylko</token>
+				<token>,</token>
+				<token regexp="yes" inflected="yes">żeby|aby|ażeby|iżby</token>
+			</pattern>
+			<message>Spójników złożonych nie rozdziela się: <suggestion>\2 \4</suggestion>. Wyjątkiem mogą być tutaj wtrącenia.</message>
+			<example type="correct">Chyba żeby go poniżyć; innego powodu nie widzę.</example>
+			<example type="incorrect"><marker>Chyba, żeby</marker> go poniżyć; innego powodu nie widzę.</example>
+		</rule>		
+		
+		<rule>
+			<pattern>
+			 <token><exception postag="SENT_START"/></token>
 				<token regexp="yes">jeszcze</token>
 				<token>,</token>
 				<token regexp="yes">zanim</token>
 			</pattern>
-			<message>Spójników złożonych nie rozdziela się, przecinek stawia się przed nimi: <suggestion>, \1 \3</suggestion>. Wyjątkiem mogą być tutaj wtrącenia.</message>
+			<message>Spójników złożonych nie rozdziela się, przecinek stawia się przed nimi: <suggestion>\1, \2 \4</suggestion>. Wyjątkiem mogą być tutaj wtrącenia.</message>
 			<example type="correct">Premier powołał go na stanowisko, jeszcze zanim odwołał go z funkcji przewodniczącego klubu</example>
-			<example type="incorrect">Premier powołał go na stanowisko <marker>jeszcze, zanim</marker> odwołał go z funkcji przewodniczącego klubu.</example>
+			<example type="incorrect">Premier powołał go na <marker>stanowisko jeszcze, zanim</marker> odwołał go z funkcji przewodniczącego klubu.</example>
 		</rule>			
+		<rule>
+			<pattern>
+			 <token postag="SENT_START"/>
+				<token regexp="yes">jeszcze</token>
+				<token>,</token>
+				<token regexp="yes">zanim</token>
+			</pattern>
+			<message>Spójników złożonych nie rozdziela się:<suggestion>\2 \4</suggestion>. Wyjątkiem mogą być tutaj wtrącenia.</message>
+			<example type="correct">Jeszcze zanim odwołał go z funkcji przewodniczącego klubu, zjadł z nim kolację.</example>
+			<example type="incorrect"><marker>Jeszcze, zanim</marker> odwołał go z funkcji przewodniczącego klubu, zjadł z nim kolację.</example>
+		</rule>			
+		
 		</rulegroup>
 		
 		<rulegroup id="BRAK_PRZECINKA_ZE" name="Brak przecinka przed „że” i „iż”">
@@ -422,7 +557,7 @@ $Id: grammar.xml,v 1.77 2006-10-22 21:31:19 milek_pl Exp $
 			<token>,</token>
 			<token regexp="yes">ani</token>
 		</pattern>
-		<message>Przecinek przed \3 w powyższym zdaniu jest zbędny.</message>
+		<message>Przecinek przed „ani” w powyższym zdaniu jest zbędny.</message>
 		<example type="correct">Nie kupiłem gruszek ani jabłek.</example>
 		<example type="incorrect"><marker>Nie kupiłem gruszek, ani</marker> jabłek.</example>
 	</rule>
@@ -432,7 +567,7 @@ $Id: grammar.xml,v 1.77 2006-10-22 21:31:19 milek_pl Exp $
 			<token>,</token>
 			<token regexp="yes">i</token>
 		</pattern>
-		<message>Przecinek przed \3 w powyższym zdaniu jest zbędny.</message>
+		<message>Przecinek przed „i” w powyższym zdaniu jest zbędny.</message>
 		<example type="correct">Kupiłem trochę gruszek i jabłek.</example>
 		<example type="incorrect"><marker>Kupiłem trochę gruszek, i</marker> jabłek.</example>
 	</rule>
@@ -442,7 +577,7 @@ $Id: grammar.xml,v 1.77 2006-10-22 21:31:19 milek_pl Exp $
 			<token>,</token>
 			<token regexp="yes">lub</token>
 		</pattern>
-		<message>Przecinek przed \3 w powyższym zdaniu jest zbędny.</message>
+		<message>Przecinek przed „lub” w powyższym zdaniu jest zbędny.</message>
 		<example type="correct">Może kupię kilo gruszek lub jabłek.</example>
 		<example type="incorrect"><marker>Lubię zjeść trochę gruszek, lub</marker> jabłek.</example>
 	</rule>
@@ -452,7 +587,7 @@ $Id: grammar.xml,v 1.77 2006-10-22 21:31:19 milek_pl Exp $
 			<token>,</token>
 			<token regexp="yes">oraz</token>
 		</pattern>
-		<message>Przecinek przed \3 w powyższym zdaniu jest zbędny.</message>
+		<message>Przecinek przed „oraz” w powyższym zdaniu jest zbędny.</message>
 		<example type="correct">Nie kupiłem gruszek oraz zjadłem jogurt.</example>
 		<example type="incorrect"><marker>Kupiłem trochę gruszek, oraz</marker> zjadłem krowę.</example>
 	</rule>
@@ -462,7 +597,7 @@ $Id: grammar.xml,v 1.77 2006-10-22 21:31:19 milek_pl Exp $
 			<token>,</token>
 			<token regexp="yes">bądź</token>
 		</pattern>
-		<message>Przecinek przed \3 w powyższym zdaniu jest zbędny.</message>
+		<message>Przecinek przed „bądź” w powyższym zdaniu jest zbędny.</message>
 		<example type="correct">Nie kupiłem gruszek bądź zjadłem jogurt.</example>
 		<example type="incorrect"><marker>Kupiłem trochę gruszek, bądź</marker> zjadłem krowę.</example>
 	</rule>		
