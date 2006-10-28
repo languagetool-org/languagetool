@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?><!--
 Copyright (C) 2006 Marcin Miłkowski
-$Id: grammar.xml,v 1.79 2006-10-27 22:27:13 milek_pl Exp $		
+$Id: grammar.xml,v 1.80 2006-10-28 23:42:14 milek_pl Exp $		
 -->
 <rules lang="pl">
 	<category name="Błędy interpunkcyjne">
@@ -85,37 +85,37 @@ $Id: grammar.xml,v 1.79 2006-10-27 22:27:13 milek_pl Exp $
 		
 		<rulegroup name="Brak przecinka przed „a więc”, „a mianowicie”..." id="MULTISPOJNIKI">
 			<rule>
-				<pattern mark_from="1">
+				<pattern>
 					<token regexp="yes" negate="yes">\p{Punct}|–|—|\(<exception postag="SENT_START"/></token>
 					<token regexp="yes">a|ale</token>
 					<token regexp="yes">więc|mianowicie|przeto|zatem|jednak|choć|chociaż|ponieważ|także|następnie|jeśli|jeżeli|gdyby|gdy|kiedy</token>
 				</pattern>
-				<message>Przed tymi wyrażeniami stawia się przecinek: <suggestion>, \2 \3</suggestion></message>
+				<message>W tym miejscu stawia się przecinek: <suggestion>\1, \2 \3</suggestion></message>
 				<example type="correct">Minister miał coś do zakomunikowania, a mianowicie, że nic nie wie.</example>
-				<example type="incorrect">Minister miał coś do zakomunikowania <marker>a mianowicie</marker>, że nic nie wie.</example>
+				<example type="incorrect">Minister miał coś do <marker>zakomunikowania a mianowicie</marker>, że nic nie wie.</example>
 			</rule>
 		</rulegroup>			
 
 		<rulegroup name="Brak przecinka w zbiegu dwóch spójników" id="DWUZNACZNOSC_W_COFANIU">
 			<rule>
-				<pattern mark_from="1">
+				<pattern>
 				<token negate="yes" regexp="yes">\p{Punct}|–|—<exception postag="SENT_START"/></token>
 				<token regexp="yes">chyba|dlatego|właśnie|tak</token>
 				<token regexp="yes">że|iż</token>
 				</pattern>
-				<message>Należy postawić przecinek w zależności od intonacji i sensu zdania: <suggestion>\2, \3</suggestion> lub <suggestion>, \2 \3</suggestion>.</message>
+				<message>Należy postawić przecinek w zależności od intonacji i sensu zdania: <suggestion>\1 \2, \3</suggestion> lub <suggestion>\1, \2 \3</suggestion>.</message>
 				<example type="correct">Nie rozumiał tego właśnie, że upadł na głowę.</example>
-				<example type="incorrect">Nie rozumiał tego <marker>właśnie że</marker> upadł na głowę.</example>
+				<example type="incorrect">Nie rozumiał <marker>tego właśnie że</marker> upadł na głowę.</example>
 			</rule>
 			<rule>
-				<pattern mark_from="1">
+				<pattern>
 				<token negate="yes" regexp="yes">\p{Punct}<exception postag="SENT_START"/></token>
 				<token regexp="yes">chyba|dlatego|właśnie|tak|tylko</token>
 				<token regexp="yes">gdy|kiedy</token>
 				</pattern>
-				<message>Należy postawić przecinek w zależności od intonacji i sensu zdania: <suggestion>\2, \3</suggestion> lub <suggestion>, \2 \3</suggestion>.</message>
+				<message>Należy postawić przecinek w zależności od intonacji i sensu zdania: <suggestion>\1 \2, \3</suggestion> lub <suggestion>\1, \2 \3</suggestion>.</message>
 				<example type="correct">Nie rozumiał tego właśnie, kiedy upadł na głowę.</example>
-				<example type="incorrect">Nie rozumiał tego <marker>właśnie kiedy</marker> upadł na głowę.</example>
+				<example type="incorrect">Nie rozumiał <marker>tego właśnie kiedy</marker> upadł na głowę.</example>
 			</rule>
 		</rulegroup>
 				
@@ -155,15 +155,15 @@ $Id: grammar.xml,v 1.79 2006-10-27 22:27:13 milek_pl Exp $
 		</rule>		
 		
 		<rule>
-			<pattern mark_from="1">
+			<pattern>
 				<token><exception postag="SENT_START"/><exception regexp="yes">[,;:!–-—]|o|na|tylko</exception></token>
 				<token regexp="yes">tyle</token>
 				<token>,</token>
 				<token>że</token>
 			</pattern>	
-			<message>Spójników złożonych nie rozdziela się, a przecinek stawia się przed nimi: <suggestion>, \2 że</suggestion>.</message>
+			<message>Spójników złożonych nie rozdziela się, a przecinek stawia się przed nimi: <suggestion>\1, \2 że</suggestion>.</message>
 			<example type="correct">Upił się na tyle, że nie mógł ustać na nogach.</example>
-			<example type="incorrect">Wprawdzie upił się <marker>tyle, że</marker> akurat on nie prowadził samochodu, więc nic się nie stało.</example>
+			<example type="incorrect">Wprawdzie upił <marker>się tyle, że</marker> akurat on nie prowadził samochodu, więc nic się nie stało.</example>
 		</rule>
 		<rule>
 			<pattern mark_from="1">
@@ -363,124 +363,124 @@ $Id: grammar.xml,v 1.79 2006-10-27 22:27:13 milek_pl Exp $
 		
 		<rulegroup id="BRAK_PRZECINKA_ZE" name="Brak przecinka przed „że” i „iż”">
 		<rule>
-			<pattern mark_from="1">
+			<pattern>
 				<token negate="yes" regexp="yes">\p{Punct}|–|—|a|ale|albo|lecz|lub|czy|tym|bardziej|chyba|i|ile|jako|oraz|szczególnie|tyle|tylko|zwłaszcza|pomimo|mimo|także|również|czyli|dlatego<exception postag="SENT_START"/></token>
 				<token regexp="yes">że|iż</token>
 			</pattern>
-			<message>Przed spójnikiem „że” stawiamy przecinek: <suggestion>, \2</suggestion>.</message>
+			<message>Przed spójnikiem „że” stawiamy przecinek: <suggestion>\1, \2</suggestion>.</message>
 			<example type="correct">Przemysław zdradził, że ma na drugie imię Edgar.</example>
-			<example type="incorrect">Przemysław zdradził <marker>że</marker> ma na drugie imię Edgar.</example>
+			<example type="incorrect">Przemysław <marker>zdradził że</marker> ma na drugie imię Edgar.</example>
 		</rule>
 		<rule>
-			<pattern mark_from="1">
+			<pattern>
 				<token negate="yes" regexp="yes">\p{Punct}|–|—|,|a|lecz|ale|albo|lub|ani<exception postag="SENT_START"/></token>
 				<token regexp="yes">ile|jako|szczególnie|tyle|tylko|zwłaszcza|pomimo|mimo<exception postag="SENT_START"/></token>
 				<token regexp="yes">że|iż</token>
 			</pattern>
-			<message>Przecinek stawiamy przed całym spójnikiem złożonym: <suggestion>, \2 że</suggestion>.</message>
+			<message>Przecinek stawiamy przed całym spójnikiem złożonym: <suggestion>\1, \2 że</suggestion>.</message>
 			<example type="correct">Przemysław zdradził, mimo że ma na drugie imię Edgar.</example>
-			<example type="incorrect">Przemysław zdradził <marker>mimo że</marker> ma na drugie imię Edgar.</example>
-			<example type="incorrect">Przemysław zdradził <marker>pomimo iż</marker> ma na drugie imię Edgar.</example>
+			<example type="incorrect">Przemysław <marker>zdradził mimo że</marker> ma na drugie imię Edgar.</example>
+			<example type="incorrect">Przemysław <marker>zdradził pomimo iż</marker> ma na drugie imię Edgar.</example>
 			<example type="correct">Mimo że cenię jego śpiew, hymnu śpiewać mu nie pozwolę.</example>
 		</rule>			
 		</rulegroup>
 
 		<rulegroup id="BRAK_PRZECINKA_JESLI" name="Brak przecinka przed „jeśli”, „jeżeli”, „gdyby” itd.">
 		<rule>
-			<pattern mark_from="1">
+			<pattern>
 				<token negate="yes" regexp="yes" inflected="yes">\p{Punct}|–|—<exception regexp="yes">a|jak|ale|i|oraz|czy|lub|albo|lecz|który|jaki|zwłaszcza|szczególnie|że|nawet|więc|to|jednak|gdyż|ponieważ|niemniej|tylko|natomiast</exception><exception postag="SENT_START"/></token>
 				<token regexp="yes" inflected="yes">jeśli|jeżeli|gdyby|jeżeliby|jeśliby</token>
 			</pattern>
-			<message>Przed spójnikiem stawiamy przecinek:<suggestion>, \2</suggestion>.</message>
+			<message>Przed spójnikiem stawiamy przecinek:<suggestion>\1, \2</suggestion>.</message>
 			<example type="correct">Powiedział nam, że jeśli Zyta się dowie, to ją zabije.</example>
-			<example type="incorrect">Zabije glizdę <marker>gdyby</marker> ona się dowiedziała.</example>
+			<example type="incorrect">Zabije <marker>glizdę gdyby</marker> ona się dowiedziała.</example>
 		</rule>
 		<rule>
-			<pattern mark_from="1">
+			<pattern>
 				<token negate="yes" regexp="yes">\p{Punct}|–|—<exception postag="SENT_START"/><exception regexp="yes">a|ale|i|lub|albo|lecz|oraz</exception></token>
 				<token regexp="yes" inflected="yes">a|ale|i|lub|albo|lecz|oraz|który|jaki|zwłaszcza|jak|szczególnie|że|nawet|więc|jednak</token>
 				<token regexp="yes" inflected="yes">jeśli|jeżeli|gdyby|jeżeliby|jeśliby</token>
 			</pattern>
-			<message>Przecinek stawiamy przed całym spójnikiem złożonym: <suggestion>, \2 \3</suggestion>.</message>
+			<message>Przecinek stawiamy przed całym spójnikiem złożonym: <suggestion>\1, \2 \3</suggestion>.</message>
 			<example type="correct">Zrobię omleta, nawet jeśli nie poprosisz.</example>
-			<example type="incorrect">Zrobię omleta <marker>nawet jeśli</marker> nie poprosisz.</example>
+			<example type="incorrect">Zrobię <marker>omleta nawet jeśli</marker> nie poprosisz.</example>
 		</rule>					
 		</rulegroup>		
 				
 		<rulegroup id="BRAK_PRZECINKA_ZEBY" name="Brak przecinka przed „żeby”, „aby”, „ażeby”, „iżby”">
 		<rule>
-			<pattern mark_from="1">
+			<pattern>
 				<token negate="yes" regexp="yes">\p{Punct}|—|–|że|iż|chyba|jak|tylko|tak|ale|i|lecz|oraz|lub<exception postag="SENT_START"/></token>
 				<token regexp="yes" inflected="yes">żeby|aby|ażeby|iżby</token>
 			</pattern>
-			<message>Przed tym spójnikiem stawiamy przecinek: <suggestion>, \2</suggestion>.</message>
+			<message>Przed tym spójnikiem stawiamy przecinek: <suggestion>\1, \2</suggestion>.</message>
 			<example type="correct">Przemysław wstąpił do domu, żeby spryskać się Przemysławką.</example>
-			<example type="incorrect">Przemysław wstąpił do domu <marker>żeby</marker> spryskać się Przemysławką.</example>
+			<example type="incorrect">Przemysław wstąpił do <marker>domu żeby</marker> spryskać się Przemysławką.</example>
 		</rule>
 		<rule>
-			<pattern mark_from="1">
+			<pattern>
 				<token negate="yes">,<exception postag="SENT_START"/></token>
 				<token regexp="yes">że|iż|chyba|jak|tylko</token>
 				<token regexp="yes" inflected="yes">żeby|aby|ażeby|iżby</token>
 			</pattern>
-			<message>Przecinek stawiamy przed całym spójnikiem złożonym: <suggestion>, \2 \3</suggestion>.</message>
+			<message>Przecinek stawiamy przed całym spójnikiem złożonym: <suggestion>\1, \2 \3</suggestion>.</message>
 			<example type="correct">Przemysław poszedł do domu, tylko żeby spryskać się Przemysławką.</example>
-			<example type="incorrect">Przemysław poszedł do domu <marker>tylko żeby</marker> spryskać się Przemysławką.</example>
+			<example type="incorrect">Przemysław poszedł do <marker>domu tylko żeby</marker> spryskać się Przemysławką.</example>
 			<example type="correct">Chyba że żartujesz.</example>
 		</rule>			
 		</rulegroup>
 		
 		<rulegroup id="BRAK_PRZECINKA_GDY" name="Brak przecinka przed „gdy” i „kiedy”">
 		<rule>
-			<pattern mark_from="1">
+			<pattern>
 				<token negate="yes" regexp="yes">,|a|od|ale|i|lecz|chyba|czy|dopiero|podczas|nawet|potem|więc|teraz|właśnie|wtedy|zwłaszcza|szczególnie|to|że|czasie|czasach|wypadku|przypadku|razie<exception postag="SENT_START"/><exception regexp="yes">\p{Punct}|–|—</exception></token>
 				<token regexp="yes">gdy|kiedy</token>
 			</pattern>
-			<message>Przed tym spójnikiem stawiamy przecinek: <suggestion>, \2</suggestion>.</message>
+			<message>Przed tym spójnikiem stawiamy przecinek: <suggestion>\1, \2</suggestion>.</message>
 			<example type="correct">Przemysław wstąpił do domu, gdy poczuł brak Przemysławki.</example>
-			<example type="incorrect">Przemysław wstąpił do domu <marker>gdy</marker> poczuł brak Przemysławki.</example>
+			<example type="incorrect">Przemysław wstąpił do <marker>domu gdy</marker> poczuł brak Przemysławki.</example>
 		</rule>
 		<rule>
-			<pattern mark_from="1">
+			<pattern>
 				<token negate="yes" regexp="yes">\p{Punct}|–|—<exception postag="SENT_START"/></token>
 				<token regexp="yes">nawet|dopiero|od|podczas|potem|teraz|właśnie|wtedy|zwłaszcza|szczególnie|że</token>
 				<token regexp="yes">gdy|kiedy</token>
 			</pattern>
-			<message>Przecinek stawiamy przed całym spójnikiem złożonym: <suggestion>, \2 \3</suggestion>.</message>
+			<message>Przecinek stawiamy przed całym spójnikiem złożonym: <suggestion>\1, \2 \3</suggestion>.</message>
 			<example type="correct">Przemysław wstąpił do domu, dopiero gdy poczuł brak Przemysławki.</example>
-			<example type="incorrect">Przemysław wstąpił do domu <marker>dopiero gdy</marker> poczuł brak Przemysławki.</example>
+			<example type="incorrect">Przemysław wstąpił do <marker>domu dopiero gdy</marker> poczuł brak Przemysławki.</example>
 			<example type="correct">Właśnie gdy to mówiłem, Przemysław gadał w telewizorze.</example>
 		</rule>			
 		</rulegroup>
 		
 		<rulegroup id="BRAK_PRZECINKA_SPOJNIK_PROSTY" name="Brak przecinka przed spójnikami prostymi (acz, aczkolwiek, choć...)">
 			<rule>
-				<pattern mark_from="1" case_sensitive="yes">
+				<pattern case_sensitive="yes">
 					<token negate="yes" regexp="yes">\p{Punct}|–|—|i|a|ale|lecz|lub|czy|bądź|oraz|ani|to|że<exception postag="SENT_START"/></token>
 					<token regexp="yes">acz|aczkolwiek|albowiem|ale|aleć|aliści|azali|bo|byleby|czyli|czyliż|dlaczego|dopóki|dopóty|gdyż|gdyżby|ilekolwiek|ilekroć|póki|tedy</token>
 				</pattern>
-				<message>Przed tym spójnikiem stawiamy przecinek: <suggestion>, \2</suggestion>.</message>
+				<message>Przed tym spójnikiem stawiamy przecinek: <suggestion>\1, \2</suggestion>.</message>
 				<example type="correct">Lubię cię, ale musisz mi oddać pieniądze.</example>
-				<example type="incorrect">Lubię cię <marker>ale</marker> musisz mi oddać pieniądze.</example>
+				<example type="incorrect">Lubię <marker>cię ale</marker> musisz mi oddać pieniądze.</example>
 			</rule>
 			<rule>
-				<pattern mark_from="1">
+				<pattern>
 				<token negate="yes" regexp="yes">\p{Punct}|a|ale|albo|i|oraz|lub|że|–|—<exception postag="SENT_START"/></token>
 					<token regexp="yes">ponieważ</token>
 				</pattern>
-				<message>Przed tym spójnikiem stawiamy przecinek: <suggestion>, \2</suggestion>.</message>
+				<message>Przed tym spójnikiem stawiamy przecinek: <suggestion>\1, \2</suggestion>.</message>
 				<example type="correct">Kupił sobie książkę, ponieważ chciał czymś podtrzymać szafę.</example>
-				<example type="incorrect">Kupił sobie książkę <marker>ponieważ</marker> chciał czymś podtrzymać szafę.</example>
+				<example type="incorrect">Kupił sobie <marker>książkę ponieważ</marker> chciał czymś podtrzymać szafę.</example>
 				<example type="correct">Był głupi, <marker>a ponieważ</marker> chciał czymś podtrzymać szafę, kupił książkę.</example>				
 			</rule>
 			<rule>
-				<pattern mark_from="1">
+				<pattern>
 					<token negate="yes" regexp="yes">\p{Punct}|–|—|a|lecz|jeszcze|ale|czy|lub|albo<exception postag="SENT_START"/></token>
 					<token>zanim</token>
 				</pattern>				
-				<message>Przed tym spójnikiem stawiamy przecinek: <suggestion>, \2</suggestion>.</message>
+				<message>Przed tym spójnikiem stawiamy przecinek: <suggestion>\1, \2</suggestion>.</message>
 				<example type="correct">Kupił sobie książkę, jeszcze zanim nauczył się czytać.</example>
-				<example type="incorrect">Kupił sobie książkę <marker>zanim</marker> nauczył się czytać.</example>
+				<example type="incorrect">Kupił sobie <marker>książkę zanim</marker> nauczył się czytać.</example>
 				<example type="correct">Był głupi, ale <marker>zanim</marker> się zorientował, kupił książkę.</example>				
 				<example type="correct">Był głupi (ale <marker>zanim</marker> się zorientował, kupił książkę).</example>				
 			</rule>			
@@ -488,51 +488,51 @@ $Id: grammar.xml,v 1.79 2006-10-27 22:27:13 milek_pl Exp $
 	
 		<rulegroup name="Brak przecinka przed „który” i „jaki”" id="BRAK_PRZECINKA_KTORY">
 			<rule>
-				<pattern mark_from="1">
+				<pattern>
 					<token negate="yes">,<exception regexp="yes">\p{Punct}|–|—</exception><exception postag_regexp="yes" postag="conj|SENT_START"/></token>
 					<token postag_regexp="yes" postag="adv.*"/>
 					<token postag_regexp="yes" postag="prep.*"/>
 					<token regexp="yes" inflected="yes">który|jaki</token>
 				</pattern>
 				<message>Brak przecinka w tym fragmencie zdania. Przecinek prawdopodobnie należy
-				postawić tak: <suggestion>\2, \3 \4</suggestion> lub <suggestion>, \2 \3 \4</suggestion>
+				postawić tak: <suggestion>\1 \2, \3 \4</suggestion> lub <suggestion>\1, \2 \3 \4</suggestion>
 				(w zależności od intonacji zdania i kontekstu).</message>
 				<example type="correct">Nie wiedziałem, zgodnie z którym rozporządzeniem minister odebrał mi premię.</example>
-				<example type="incorrect">Nie wiedziałem <marker>zgodnie z którym</marker> rozporządzeniem minister odebrał mi premię.</example>
+				<example type="incorrect">Nie <marker>wiedziałem zgodnie z którym</marker> rozporządzeniem minister odebrał mi premię.</example>
 			</rule>
 			<rule>
-				<pattern mark_from="1">
+				<pattern>
 					<token negate="yes">,<exception regexp="yes">\p{Punct}|–|—</exception><exception postag_regexp="yes" postag="conj|SENT_START"/></token>
 					<token postag_regexp="yes" postag="prep.*"/>
 					<token postag_regexp="yes" postag="prep.*"/>
 					<token regexp="yes" inflected="yes">który|jaki</token>
 				</pattern>
 				<message>Brak przecinka w tym fragmencie zdania. Przecinek prawdopodobnie należy
-				postawić tak: <suggestion>, \2 \3</suggestion>.</message>
+				postawić tak: <suggestion>\1, \2 \3</suggestion>.</message>
 				<example type="correct">Nie wiedziałem, odnośnie do którego rozporządzenia zgłosił on uwagę.</example>
-				<example type="incorrect">Nie wiedziałem <marker>odnośnie do którego</marker> rozporządzenia zgłosił on uwagę.</example>
+				<example type="incorrect">Nie <marker>wiedziałem odnośnie do którego</marker> rozporządzenia zgłosił on uwagę.</example>
 			</rule>	
 			<rule>
-				<pattern mark_from="1">
+				<pattern>
 					<token negate="yes">,<exception regexp="yes">\p{Punct}|–|—</exception><exception postag_regexp="yes" postag="conj|adv.*|prep.*|SENT_START"/></token>
 					<token postag_regexp="yes" postag="prep.*"/>
 					<token regexp="yes" inflected="yes">który|jaki</token>
 				</pattern>
 				<message>Brak przecinka w tym fragmencie zdania. Przecinek prawdopodobnie należy
-				postawić tak: <suggestion>, \2 \3</suggestion>.</message>
+				postawić tak: <suggestion>\1, \2 \3</suggestion>.</message>
 				<example type="correct">Nie wiedziałem, do którego rozporządzenia zgłosił on uwagę.</example>
-				<example type="incorrect">Nie wiedziałem <marker>do którego</marker> rozporządzenia zgłosił on uwagę.</example>
+				<example type="incorrect">Nie <marker>wiedziałem do którego</marker> rozporządzenia zgłosił on uwagę.</example>
 			</rule>		
 			<rule>
-				<pattern mark_from="1">
+				<pattern>
 					<token negate="yes">,<exception regexp="yes">\p{Punct}|–|—|mało|rzadko</exception><exception postag_regexp="yes" postag="conj|adv.*|prep.*|SENT_START"/></token>
 					<token regexp="yes" inflected="yes">który|jaki</token>
 				</pattern>
 				<message>Brak przecinka w tym fragmencie zdania. Przecinek prawdopodobnie należy
-				postawić tak: <suggestion>, \2</suggestion>.</message>
+				postawić tak: <suggestion>\1, \2</suggestion>.</message>
 				<example type="correct">To Marek, którego Jurek nienawidzi.</example>
 				<example type="correct">Mało który spełnia warunki formalne.</example>
-				<example type="incorrect">To Marek <marker>którego</marker> Jurek nienawidzi.</example>
+				<example type="incorrect">To <marker>Marek którego</marker> Jurek nienawidzi.</example>
 			</rule>		
 		</rulegroup>
 
