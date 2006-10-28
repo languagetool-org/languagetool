@@ -77,6 +77,7 @@ public class OOoDialog implements ActionListener {
   private static final String COMPLETE_CHECK_OF_SELECTION = "LanguageTool check of selected text is complete.";
   private static final String FONT_TAG = "<font face=\"Sans-Serif\">";
   private static final int CONTEXT_SIZE = 60;
+  private static final String REPLACE_WITH_OTHER_TEXT = "<other text>";
   
   private List<Rule> rules = null;
   private JDialog dialog = null;
@@ -135,15 +136,7 @@ public class OOoDialog implements ActionListener {
     }
     dialog = new JDialog();
     // close when user presses Escape key:
-    KeyStroke stroke = KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0);
-    ActionListener actionListener = new ActionListener() {
-      @SuppressWarnings("unused")
-      public void actionPerformed(ActionEvent actionEvent) {
-       dialog.setVisible(false);
-      }
-    };
-    JRootPane rootPane = dialog.getRootPane();
-    rootPane.registerKeyboardAction(actionListener, stroke, JComponent.WHEN_IN_FOCUSED_WINDOW);
+    bindKey(dialog, KeyEvent.VK_ESCAPE, new EscapeActionListener(dialog));
     
     dialog.setTitle("LanguageTool Version " + JLanguageTool.VERSION);
     Container contentPane = dialog.getContentPane();
@@ -235,12 +228,21 @@ public class OOoDialog implements ActionListener {
     dialog.pack();
     dialog.setModal(true);
     dialog.setSize(500, 380);
-    // center on screen:
+    centerDialog(dialog);
+    dialog.setVisible(true);
+    // FIXME: close via "X" in the window must behave like close via "close" button
+  }
+  
+  static void bindKey(JDialog dialog, int keyCode, ActionListener actionListener) {
+    KeyStroke stroke = KeyStroke.getKeyStroke(keyCode, 0);
+    JRootPane rootPane = dialog.getRootPane();
+    rootPane.registerKeyboardAction(actionListener, stroke, JComponent.WHEN_IN_FOCUSED_WINDOW);
+  }
+
+  static void centerDialog(JDialog dialog) {
     Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
     Dimension frameSize = dialog.getSize();
     dialog.setLocation(screenSize.width/2 - (frameSize.width/2), screenSize.height/2 - (frameSize.height/2));
-    dialog.setVisible(true);
-    // FIXME: close via "X" in the window must behave like close via "close" button
   }
   
   private int getTotalRuleMatches() {
@@ -374,18 +376,22 @@ public class OOoDialog implements ActionListener {
   
   private void setSuggestions() {
     List<String> suggestions = currentRuleMatch.getSuggestedReplacements();
-    if (suggestions.size() == 0) {
-      System.err.println("No suggested replacement found");
-      changeButton.setEnabled(false);
-    } else {
-      changeButton.setEnabled(true);
-    }
+    suggestions.add(REPLACE_WITH_OTHER_TEXT);
     suggestionList.setListData(suggestions.toArray());
     suggestionList.setSelectedIndex(0);
   }
 
   private void changeText() {
     String replacement = (String)suggestionList.getSelectedValue();
+    if (REPLACE_WITH_OTHER_TEXT.equals(replacement)) {
+      ReplaceTextDialog replaceDialog = new ReplaceTextDialog();
+      String replacementTextTmp = replaceDialog.getText();
+      if (replacementTextTmp != null) {
+        replacement = replacementTextTmp;
+      } else {
+        return;
+      }
+    }
     // FIXME: what if cast fails?
     short errorLength = (short)(currentRuleMatch.getToPos()-currentRuleMatch.getFromPos());
     if (xViewCursor == null) {
@@ -498,5 +504,20 @@ public class OOoDialog implements ActionListener {
     public void mouseReleased(@SuppressWarnings("unused")MouseEvent e) {}
     
   }
+
+}
+
+class EscapeActionListener implements ActionListener {
+  
+  private JDialog dialog = null;
+  
+  EscapeActionListener(JDialog dialog) {
+    this.dialog = dialog;
+  }
+
+  @SuppressWarnings("unused")
+  public void actionPerformed(ActionEvent actionEvent) {
+    dialog.setVisible(false);
+   }
 
 }
