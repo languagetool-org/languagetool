@@ -134,6 +134,8 @@ Known bugs:
    -usability: pressing Esc too long will close both dialogs, should close only one
    
 TODO:
+ -Show better exception of "Hide to System Tray" is called but the standalone-libs.zip
+  has not been unzipped
  -GUI: icon in window corner, better icon for system tray
  -Externalize strings in Main
  -Auto-reload rules if file timestamp has changed?
