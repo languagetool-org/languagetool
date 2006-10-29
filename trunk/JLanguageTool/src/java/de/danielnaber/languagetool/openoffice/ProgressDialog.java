@@ -18,9 +18,7 @@
  */
 package de.danielnaber.languagetool.openoffice;
 
-import java.awt.Dimension;
 import java.awt.FlowLayout;
-import java.awt.Toolkit;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -31,17 +29,14 @@ class ProgressDialog extends JFrame implements ProgressInformation {
   private JProgressBar progressBar = null;
   
   public ProgressDialog() {
-    setTitle("Starting LanguageTool...");
+    setTitle("LanguageTool: Checking Text...");
     JPanel progressPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
     progressBar = new JProgressBar();
     progressPanel.add(progressBar);
     setContentPane(progressPanel);
     pack();
     setSize(400,80);
-    // center on screen:
-    Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-    Dimension frameSize = getSize();
-    setLocation(screenSize.width/2 - (frameSize.width/2), screenSize.height/2 - (frameSize.height/2));
+    OOoDialog.centerDialog(this);
     setVisible(true);
   }
 

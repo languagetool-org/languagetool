@@ -239,7 +239,7 @@ public class OOoDialog implements ActionListener {
     rootPane.registerKeyboardAction(actionListener, stroke, JComponent.WHEN_IN_FOCUSED_WINDOW);
   }
 
-  static void centerDialog(JDialog dialog) {
+  static void centerDialog(Container dialog) {
     Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
     Dimension frameSize = dialog.getSize();
     dialog.setLocation(screenSize.width/2 - (frameSize.width/2), screenSize.height/2 - (frameSize.height/2));
