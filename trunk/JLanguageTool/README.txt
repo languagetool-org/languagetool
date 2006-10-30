@@ -10,7 +10,7 @@ Usage:
  -To integrate LanguageTool into OpenOffice.org:
   In OpenOffice.org, call Tools -> Package Manager -> Add... and
   add the LanguageTool ZIP file. Open a new document (File -> New ->
-  Text document) and you'll have an new menu item "LanguageTool"
+  Text document) and you'll have a new menu item "LanguageTool"
   which checks your text.
   
  -To use the simple demo GUI:
