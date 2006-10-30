@@ -169,7 +169,14 @@ if (verb_fields[5]!="") {
 
 /\tv/ && !/[ ']/ {print $1 "\t" $1 "\t"map["v"]}
 
-/\t\|v/ && !/[ ']/ {print $1 "\t" $1 "\t"map["v"]}
+/\t\|v/ && !/[ ']/ {
+	if (JJR[$1]!="") {
+	print $1 "\t" $1 "\tRBR"}
+	if (JJS[$1]!="") {
+	print $1 "\t" $1 "\tRBS"}
+	if (JJS[$1]=="" && JJS[$1]=="") {
+	print $1 "\t" $1 "\t"map["v"]}
+	}
 
 /\tPCv/ {print $1 "\t" $1 "\t"map["P"]
 	print $1 "\t" $1 "\t"map["C"]
