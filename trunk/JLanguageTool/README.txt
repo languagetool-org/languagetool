@@ -125,6 +125,8 @@ Known bugs:
     i.e. the wrong text is marked
    -LanguageTool gets confused when the text is changed while the LanguageTool 
     dialog is open
+   -replacing text with the empty string may confuse LanguageTool so that the
+    next error isn't marked properly
    -LanguageTool doesn't work if you have a Windows username with special characters
    -changing options only takes effect on next check
    -some errors trigger two rules at the same position, this makes the "Change text"
@@ -132,6 +134,9 @@ Known bugs:
    -Checking of selected text sometimes throws java.lang.reflect.UndeclaredThrowableException
     at $Proxy17.gotoRange(Unknown Source)
    -usability: pressing Esc too long will close both dialogs, should close only one
+ -general:
+   -for some rules there may be a lot of false alarms, i.e. LanguageTool complains
+    about text which is actually correct
    
 TODO:
  -Show better exception of "Hide to System Tray" is called but the standalone-libs.zip
