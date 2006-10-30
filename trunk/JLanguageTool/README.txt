@@ -125,8 +125,6 @@ Known bugs:
     i.e. the wrong text is marked
    -LanguageTool gets confused when the text is changed while the LanguageTool 
     dialog is open
-   -replacing text with the empty string may confuse LanguageTool so that the
-    next error isn't marked properly
    -LanguageTool doesn't work if you have a Windows username with special characters
    -changing options only takes effect on next check
    -some errors trigger two rules at the same position, this makes the "Change text"
