@@ -21,10 +21,11 @@ package de.danielnaber.languagetool.openoffice;
 import java.awt.FlowLayout;
 
 import javax.swing.JFrame;
+import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 
-class ProgressDialog extends JFrame implements ProgressInformation {
+class ProgressDialog extends JDialog implements ProgressInformation {
 
   private JProgressBar progressBar = null;
   
@@ -38,6 +39,7 @@ class ProgressDialog extends JFrame implements ProgressInformation {
     setSize(400,80);
     OOoDialog.centerDialog(this);
     setVisible(true);
+    setModal(true);
   }
 
   public void setMaxProgress(int maxVal) {
