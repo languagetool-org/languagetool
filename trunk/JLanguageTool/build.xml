@@ -352,7 +352,7 @@
 	</copy>
   	<zip compress="yes" destfile="${dist.dir}/LanguageTool-${version}-src.zip"
   		basedir="${dist.dir}"
-  		includes="**" excludes="turn.sh,deploy.sh,undeploy.sh,jdic.jar,linux/**,windows/**,sunos/**,standalone-libs.zip" />
+  		includes="**" excludes="turn.sh,deploy.sh,undeploy.sh,jdic.jar,linux/**,windows/**,sunos/**" />
   </target>
 
   <!-- ================================================================== -->
@@ -360,7 +360,6 @@
   <!-- ================================================================== -->
 	
   <target name="dist" depends="ooo-internal" description="Builds one ZIP for both OpenOffice.org and stand-alone use">
-  	<copy file="${resource.dir}/TrayIcon.png" todir="${dist.dir}/resource/" />
   	<zip compress="yes" destfile="${dist.dir}/LanguageTool-${version}.zip"
   		basedir="${dist.dir}"
   		includes="**"
@@ -375,6 +374,7 @@
   </target>
 
   <target name="ooo-internal" depends="clean,init,build,ooo-build">
+  	<copy file="${resource.dir}/TrayIcon.png" todir="${dist.dir}/resource/" />
   	<copy todir="${dist.dir}/">
 	  	<fileset dir="openoffice/" includes="Addons.xcu,images/**,META-INF/**" />
 	</copy>
