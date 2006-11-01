@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?><!--
 Copyright (C) 2006 Marcin Miłkowski
-$Id: grammar.xml,v 1.80 2006-10-28 23:42:14 milek_pl Exp $		
+$Id: grammar.xml,v 1.81 2006-11-01 20:28:28 milek_pl Exp $		
 -->
 <rules lang="pl">
 	<category name="Błędy interpunkcyjne">
@@ -1444,7 +1444,18 @@ $Id: grammar.xml,v 1.80 2006-10-28 23:42:14 milek_pl Exp $
 			<example type="incorrect"><marker>W pośrodku</marker> rynku stoi studnia.</example>
 			<example type="correct">Na środku rynku stoi studnia.</example>
 		</rule>
-	
+
+		<rule name="„na wzdłuż” (wzdłuż)" id="NA_WZDLUZ">
+			<pattern>
+				<token>na</token>
+				<token>wzdłuż</token>
+			</pattern>
+			<message>Wyrażenie „na wzdłuż” jest niepoprawne. Piszemy po prostu <suggestion>wzdłuż</suggestion>.</message>
+			<example type="incorrect">Opona pękła <marker>na wzdłuż</marker>.</example>
+			<example type="correct">Opona pękła <marker>wzdłuż</marker>.</example>
+		</rule>
+
+
 		<rule name="„do dziś dzień” (po dziś dzień)" id="DO_DZIS_DZIEN">
 			<pattern>
 				<token>do</token>
@@ -1986,6 +1997,31 @@ $Id: grammar.xml,v 1.80 2006-10-28 23:42:14 milek_pl Exp $
 	</category>
 
 	<category name="Pleonazmy">
+	
+		<rulegroup name="„mieć słuszną rację” (mieć rację)" id="MIEC_SLUSZNA_RACJE">
+		<rule>
+		<pattern>
+		<token inflected="yes">mieć</token>
+		<token>słuszną</token>
+		<token>rację</token>
+		</pattern>
+		<message>To pleonazm. Mówimy <suggestion>\1 rację</suggestion> lub <suggestion>\1 słuszność</suggestion>.</message>
+		<example type="incorrect">Pan premier zawsze <marker>ma słuszną rację</marker>.</example>
+		<example type="correct">Pan premier zawsze ma rację.</example>
+		</rule>
+		<rule>
+		<pattern>
+		<token inflected="yes">mieć</token>
+		<token postag="adv"/>
+		<token>słuszną</token>
+		<token>rację</token>
+		</pattern>
+		<message>To pleonazm. Mówimy <suggestion>\1 \2 rację</suggestion> lub <suggestion>\1 \2 słuszność</suggestion>.</message>
+		<example type="incorrect">Pan premier <marker>ma zawsze słuszną rację</marker>.</example>
+		<example type="correct">Pan premier ma zawsze rację.</example>
+		</rule>
+		</rulegroup>
+		
 		<rulegroup name="„fakt autentyczny” (fakt)" id="FAKT_AUTENTYCZNY">
 			<rule>
 				<pattern>
@@ -3427,6 +3463,37 @@ $Id: grammar.xml,v 1.80 2006-10-28 23:42:14 milek_pl Exp $
 		<message>Prawdopodobna literówka. Czy chodziło o przyimek <suggestion>przy</suggestion>?</message>
 		<example type="correct">Ludwik nie lubi stać przy Przemysławie.</example>
 		<example type="incorrect">Ludwik nie lubi stać <marker>pryz</marker> Przemysławie.</example>
+		</rule>
+		
+		<rule name="„w linię” (w linie)" id="W_LINIE">
+		<pattern>
+		<token>w</token>
+		<token>linię</token>
+		</pattern>
+		<message>Prawdopodobna literówka. Czy chodziło o <suggestion>w linie</suggestion> (np. zeszyt w linie)?</message>
+		<example type="correct">Dzieci, przynieście na jutro zeszyty w linie.</example>		
+		<example type="incorrect">Dzieci, przynieście na jutro zeszyty <marker>w linię</marker>.</example>		
+		</rule>
+
+		<rule name="„w tak/jak sposób” (w taki/jaki sposób)" id="W_TAK_SPOSOB">
+		<pattern>
+		<token>w</token>
+		<token regexp="yes">tak|jak</token>
+		<token>sposób</token>
+		</pattern>
+		<message>Prawdopodobna literówka. Czy chodziło o <suggestion>\1 \2i \3</suggestion>?</message>
+		<example type="correct">Andrzej oszukał Jarka w taki sposób, że Romanowi odjęło mowę.</example>		
+		<example type="incorrect">Andrzej oszukał Jarka <marker>w tak sposób</marker>, że Romanowi odjęło mowę.</example>		
+		</rule>
+
+		<rule name="„ot jest” (to jest)" id="OT_JEST">
+		<pattern case_sensitive="yes">
+		<token regexp="yes">[Oo]t</token>
+		<token>jest</token>
+		</pattern>
+		<message>Prawdopodobna literówka. Czy chodziło o <suggestion>to jest</suggestion>?</message>
+		<example type="incorrect"><marker>Ot jest</marker> uczciwy minister.</example>
+		<example type="correct"><marker>To jest</marker> uczciwy minister.</example>
 		</rule>
 		
 	</category>
