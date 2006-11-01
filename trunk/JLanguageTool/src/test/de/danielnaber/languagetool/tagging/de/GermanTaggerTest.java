@@ -30,18 +30,18 @@ public class GermanTaggerTest extends TestCase {
   public void testTagger() throws IOException {
     GermanTagger tagger = new GermanTagger();
     AnalyzedGermanTokenReadings aToken = tagger.lookup("Haus");
-    assertEquals("Haus[Nom/Akk/Sin/Neu, Nom/Dat/Sin/Neu, Nom/Nom/Sin/Neu]", aToken.toString());
+    assertEquals("Haus[SUB:AKK:SIN:NEU, SUB:DAT:SIN:NEU, SUB:NOM:SIN:NEU]", aToken.toString());
     aToken = tagger.lookup("Hauses");
-    assertEquals("Hauses[Nom/Gen/Sin/Neu]", aToken.toString());
+    assertEquals("Hauses[SUB:GEN:SIN:NEU]", aToken.toString());
     aToken = tagger.lookup("hauses");
     assertNull(aToken);
     aToken = tagger.lookup("Groß");
     assertNull(aToken);
     aToken = tagger.lookup("großer");
     //assertEquals(6, aToken.getReadingslength());
-    assertEquals("großer[Adj/Dat/Sin/Fem, Adj/Gen/Plu/Fem, " +
-        "Adj/Gen/Plu/Mas, Adj/Gen/Plu/Neu, " +
-        "Adj/Gen/Sin/Fem, Adj/Nom/Sin/Mas]", aToken.toString());
+    assertEquals("großer[ADJ:DAT:SIN:FEM:GRU:SOL, ADJ:GEN:PLU:FEM:GRU:SOL, " +
+        "ADJ:GEN:PLU:MAS:GRU:SOL, ADJ:GEN:PLU:NEU:GRU:SOL, " +
+        "ADJ:GEN:SIN:FEM:GRU:SOL, ADJ:NOM:SIN:MAS:GRU:IND, ADJ:NOM:SIN:MAS:GRU:SOL]", aToken.toString());
   }
   
 }

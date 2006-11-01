@@ -130,21 +130,7 @@ public class AnalyzedGermanToken extends AnalyzedToken {
   }
 
   public String toString() {
-    String typeStr = makeReadableString(type);
-    String casusStr = makeReadableString(casus);
-    String numerusStr = makeReadableString(numerus);
-    String genusStr = makeReadableString(genus);
-    return typeStr + "/" + casusStr + "/" + numerusStr + "/" + genusStr;
-  }
-  
-  private String makeReadableString(Object obj) {
-    final int length = 3;
-    String str = null;
-    if (obj == null)
-      str = "-";
-    else
-      str = obj.toString().substring(0, length);
-    return str;
+    return getPOSTag();
   }
   
 }
