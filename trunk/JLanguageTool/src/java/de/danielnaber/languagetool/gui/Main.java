@@ -93,6 +93,9 @@ public final class Main implements ActionListener {
   
   private Map<Language, ConfigurationDialog> configDialogs = new HashMap<Language, ConfigurationDialog>();
 
+  // whether clicking on the window close button hides to system tray:
+  private boolean trayMode = false;
+
   private Main() throws IOException {
     config = new Configuration(new File(System.getProperty("user.home")), CONFIG_FILE);
     maybeStartServer();
@@ -207,6 +210,13 @@ public final class Main implements ActionListener {
       trayIcon = new TrayIcon(SYSTEM_TRAY_ICON);
       SystemTray tray = SystemTray.getDefaultSystemTray();
       trayIcon.addActionListener(new TrayActionListener());
+      /*
+      FIXME: this menu disappears immediately for me *unless* the main 
+      Window is open:
+      JPopupMenu popupMenu = new JPopupMenu("LanguageTool");
+      popupMenu.add(new JMenuItem("Check text from clipboard"));
+      popupMenu.add(new JMenuItem("Quit"));
+      trayIcon.setPopupMenu(popupMenu);*/
       tray.addTrayIcon(trayIcon);
     }
     frame.setVisible(false);
@@ -247,6 +257,13 @@ public final class Main implements ActionListener {
     textArea.setText(s);
     JLanguageTool langTool = getCurrentLanguageTool();
     checkTextAndDisplayResults(langTool, getCurrentLanguage().getName());
+  }
+
+  void quitOrHide() {
+    if (trayMode)
+      hideToTray();
+    else
+      quit();
   }
   
   void quit() {
@@ -374,6 +391,10 @@ public final class Main implements ActionListener {
     return ruleMatches.size();
   }
 
+  private void setTrayMode(boolean trayMode) {
+    this.trayMode = trayMode;
+  }
+
   public static void main(final String[] args) {
     try {
       final Main prg = new Main();
@@ -383,6 +404,7 @@ public final class Main implements ActionListener {
           public void run() {
             try {
               prg.createGUI();
+              prg.setTrayMode(true);
               prg.hideToTray();
             } catch (Exception e) {
               showError(e);
@@ -431,7 +453,7 @@ public final class Main implements ActionListener {
   class CloseListener implements WindowListener {
 
     public void windowClosing(@SuppressWarnings("unused") WindowEvent e) {
-      quit();
+      quitOrHide();
     }
 
     public void windowActivated(@SuppressWarnings("unused")WindowEvent e) {}
