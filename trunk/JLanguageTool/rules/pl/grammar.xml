@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?><!--
 Copyright (C) 2006 Marcin Miłkowski
-$Id: grammar.xml,v 1.81 2006-11-01 20:28:28 milek_pl Exp $		
+$Id: grammar.xml,v 1.82 2006-11-02 10:49:26 milek_pl Exp $		
 -->
 <rules lang="pl">
 	<category name="Błędy interpunkcyjne">
@@ -1881,6 +1881,30 @@ $Id: grammar.xml,v 1.81 2006-11-01 20:28:28 milek_pl Exp $
 				<example type="incorrect">Kowalski nie czytał gazet <marker>dlatego, bo</marker> nie umiał czytać.</example>
 			</rule>
 		</rulegroup>
+
+		<rulegroup id="DLATEGO_BOWIEM" name="„dlatego bowiem” (dlatego)">
+			<rule>
+				<pattern>
+					<token>dlatego</token>
+					<token>bowiem</token>
+				</pattern>
+				<message>Zbitka „dlatego bowiem” jest niepoprawna. Zamiast należy pisać <suggestion>dlatego że</suggestion>, <suggestion>gdyż</suggestion>, <suggestion>bowiem</suggestion>, <suggestion>ponieważ</suggestion> itd.</message>
+				<example type="correct">Kowalski nie czytał gazet, gdyż nie umiał czytać.</example>
+				<example type="incorrect">Kowalski nie czytał gazet, <marker>dlatego bowiem</marker> nie umiał czytać.</example>
+			</rule>
+	
+			<rule>
+				<pattern mark_from="0" case_sensitive="no">
+					<token>dlatego</token>
+					<token>,</token>
+					<token>bowiem</token>
+				</pattern>
+				<message>Zbitka „dlatego, bowiem” jest niepoprawna. Zamiast należy pisać <suggestion>dlatego że</suggestion>, <suggestion>gdyż</suggestion>, <suggestion>bowiem</suggestion>, <suggestion>ponieważ</suggestion> itd.</message>
+				<example type="correct">Kowalski nie czytał gazet, gdyż nie umiał czytać.</example>
+				<example type="incorrect">Kowalski nie czytał gazet <marker>dlatego, bowiem</marker> nie umiał czytać.</example>
+			</rule>
+		</rulegroup>
+
 	
 		<rulegroup id="DLATEGO_PONIEWAZ" name="„dlatego ponieważ” (dlatego)">
 			<rule>
@@ -2022,26 +2046,29 @@ $Id: grammar.xml,v 1.81 2006-11-01 20:28:28 milek_pl Exp $
 		</rule>
 		</rulegroup>
 		
-		<rulegroup name="„fakt autentyczny” (fakt)" id="FAKT_AUTENTYCZNY">
+		<rulegroup name="„fakt autentyczny/konkretny” (fakt)" id="FAKT_AUTENTYCZNY">
 			<rule>
 				<pattern>
 					<token inflected="yes">fakt</token>
-					<token inflected="yes" postag_regexp="yes" postag="adj.*:m.*">autentyczny</token>
+					<token inflected="yes" postag_regexp="yes" postag="adj.*:m.*" regexp="yes">autentyczny|konkretny</token>
 				</pattern>
-				<message>To wyrażenie to pleonazm. Każdy fakt jest autentyczny. Wystarczy napisać <suggestion>\1</suggestion>.</message>
+				<message>To wyrażenie to pleonazm. Każdy fakt jest autentyczny i konkretny. Wystarczy napisać <suggestion>\1</suggestion>.</message>
 				<example type="correct">Ten film jest oparty na faktach.</example>
 				<example type="incorrect">Ten film jest oparty na <marker>faktach autentycznych</marker>.</example>
+				<example type="incorrect">Ten film jest oparty na <marker>faktach konkretnych</marker>.</example>
 			</rule>
 			<rule>
 				<pattern>
-					<token inflected="yes" postag_regexp="yes" postag="adj.*:m.*">autentyczny</token>
+					<token inflected="yes" postag_regexp="yes" postag="adj.*:m.*" regexp="yes">autentyczny|konkretny</token>
 					<token inflected="yes">fakt</token>
 				</pattern>
-				<message>To wyrażenie to pleonazm. Każdy fakt jest autentyczny. Wystarczy napisać <suggestion>\1</suggestion>.</message>
+				<message>To wyrażenie to pleonazm. Każdy fakt jest autentyczny i konkretny. Wystarczy napisać <suggestion>\1</suggestion>.</message>
 				<example type="correct">Ten film jest oparty na faktach.</example>
 				<example type="incorrect">Ten film jest oparty na <marker>autentycznych faktach</marker>.</example>
+				<example type="incorrect">Ten film jest oparty na <marker>konkretnych faktach</marker>.</example>
 			</rule>						
 		</rulegroup>
+		
 		<rule name="„długi upływ czasu” (długi czas)" id="DLUGI_UPLYW">
 			<pattern>
 				<token inflected="yes" postag="adj:sg:.*:m.*neg" postag_regexp="yes">długi</token>
@@ -2372,6 +2399,43 @@ $Id: grammar.xml,v 1.81 2006-11-01 20:28:28 milek_pl Exp $
 
 	<category name="Błędy ortograficzne">
 
+	<rulegroup name="„widzi mi się” (widzimisię)" id="WIDZI_MI_SIE">
+	<rule>
+	<pattern mark_to="-1">
+	<token>widzi</token>
+	<token>mi</token>
+	<token>się</token>
+	<token postag_regexp="yes" postag=".*[\.:]gen[\.:].*"/>
+	</pattern>
+	<message>Prawdopodobny błąd ortograficzny. Czy chodziło o <suggestion>widzimisię</suggestion> (=kaprys)?</message>
+	<example type="correct">To nie powinno zależeć od widzimisię policjanta.</example>
+	<example type="incorrect">To nie powinno zależeć od <marker>widzi mi się</marker> policjanta.</example>
+	</rule>
+	<rule>
+	<pattern mark_from="1">
+	<token postag_regexp="yes" postag=".*adj.*[\.:]n[0-9\.:].*"/>
+	<token>widzi</token>
+	<token>mi</token>
+	<token>się</token>
+	</pattern>
+	<message>Prawdopodobny błąd ortograficzny. Czy chodziło o <suggestion>widzimisię</suggestion> (=kaprys)?</message>
+	<example type="correct">To nie powinno zależeć od twojego widzimisię.</example>
+	<example type="incorrect">To nie powinno zależeć od czyjegoś <marker>widzi mi się</marker>.</example>
+	</rule>	
+	<rule>
+	<pattern mark_from="1">
+	<token postag_regexp="yes" postag="prep:.*"/>
+	<token>widzi</token>
+	<token>mi</token>
+	<token>się</token>
+	</pattern>
+	<message>Prawdopodobny błąd ortograficzny. Czy chodziło o <suggestion>widzimisię</suggestion> (=kaprys)?</message>
+	<example type="correct">To nie powinno zależeć od widzimisię.</example>
+	<example type="incorrect">To nie powinno zależeć od <marker>widzi mi się</marker>.</example>
+	</rule>	
+	
+	</rulegroup>
+
 		<rule name="Skrótowce bez dywizu w przypadkach zależnych" id="SKROTOWCE_BEZ_DYWIZU">
 			<pattern>
 				<token regexp="yes">\p{Lu}+[i]*\p{Lu}+[\p{L}&amp;&amp;[^\p{Lu}]]+<exception regexp="yes">GKKFicie|JCMości|JCMością|JCWysokości|JCWysokością|JKMości|JKMością|JKWysokości|JKWysokością|PZKol|PZMocie|PZMot|SJPDor|WPan|WPani|WPaństwo|BCh|COr|CSSp|GHz|MHz|MKOl|PKOl|UWr</exception></token>
@@ -2452,6 +2516,7 @@ $Id: grammar.xml,v 1.81 2006-11-01 20:28:28 milek_pl Exp $
 			<example type="incorrect">To już <marker>1-wszy</marker> raz!</example>
 			<example type="incorrect">Rosjanie byli <marker>1-wsi</marker> w kosmosie.</example>
 		</rule>
+		
 		<rule name="„tym czasem” (tymczasem)" id="TYMCZASEM">
 			<pattern mark_from="1">
 				<token regexp="yes" negate="yes" negate_pos="yes" postag=".*verb.*" postag_regexp="yes">z|przed|poza|za|nad</token>
@@ -2463,6 +2528,17 @@ $Id: grammar.xml,v 1.81 2006-11-01 20:28:28 milek_pl Exp $
 			<example type="correct">Co z tym czasem?</example>
 			<example type="incorrect">A <marker>tym czasem</marker> na Politechnice...</example>
 		</rule>
+	
+	<rule name="„w pół do” (wpół do)" id="W_POL_DO">
+			<pattern>
+				<token>w</token>
+				<token>pół</token>
+				<token>do</token>
+			</pattern>
+			<message>To wyrażenie piszemy: <suggestion>wpół do</suggestion>.</message>
+			<example type="correct">Jest wpół do pierwszej.</example>
+			<example type="incorrect">Jest <marker>w pół do</marker> pierwszej.</example>
+		</rule>	
 	
 	<rule name="„co tygodniowy” itd. (cotygodniowy)" id="CO_TYGODNIOWY">
 	<pattern>
