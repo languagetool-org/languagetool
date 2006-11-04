@@ -237,6 +237,22 @@ public final class Main implements ActionListener {
   }
   
   private void restoreFromTray() {
+    String s = getClipboardText();
+    // show GUI and check the text from clipboard/selection:
+    frame.setVisible(true);
+    textArea.setText(s);
+    JLanguageTool langTool = getCurrentLanguageTool();
+    checkTextAndDisplayResults(langTool, getCurrentLanguage().getName());
+  }
+
+  void checkClipboardText() {
+    String s = getClipboardText();
+    textArea.setText(s);
+    JLanguageTool langTool = getCurrentLanguageTool();
+    checkTextAndDisplayResults(langTool, getCurrentLanguage().getName());
+  }
+  
+  private String getClipboardText() {
     // get text from clipboard or selection:
     Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemSelection();
     if (clipboard == null) {    // on Windows
@@ -252,11 +268,7 @@ public final class Main implements ActionListener {
       ex.printStackTrace();
       s = data.toString();
     }
-    // show GUI and check the text from clipboard/selection:
-    frame.setVisible(true);
-    textArea.setText(s);
-    JLanguageTool langTool = getCurrentLanguageTool();
-    checkTextAndDisplayResults(langTool, getCurrentLanguage().getName());
+    return s;
   }
 
   void quitOrHide() {

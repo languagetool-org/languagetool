@@ -32,6 +32,7 @@ class MainMenuBar extends JMenuBar implements ActionListener {
 
   // File:
   private static final String OPEN = "Open...";
+  private static final String CHECK_CLIPBOARD_TEXT = "Check Text in Clipboard";
   private static final String DOCK_TO_TRAY = "Hide to System Tray";
   private static final String OPTIONS = "Options...";
   private static final String QUIT = "Quit";
@@ -48,6 +49,10 @@ class MainMenuBar extends JMenuBar implements ActionListener {
     JMenuItem openItem = new JMenuItem(OPEN);
     openItem.addActionListener(this);
     fileMenu.add(openItem);
+    // "Check Text in Clipboard":
+    JMenuItem checkClipboardItem = new JMenuItem(CHECK_CLIPBOARD_TEXT);
+    checkClipboardItem.addActionListener(this);
+    fileMenu.add(checkClipboardItem);
     // "Hide to System Tray":
     JMenuItem dockToTrayItem = new JMenuItem(DOCK_TO_TRAY);
     dockToTrayItem.addActionListener(this);
@@ -72,6 +77,8 @@ class MainMenuBar extends JMenuBar implements ActionListener {
   public void actionPerformed(ActionEvent e) {
     if (e.getActionCommand().equals(OPEN)) {
       prg.loadFile();
+    } else if (e.getActionCommand().equals(CHECK_CLIPBOARD_TEXT)) {
+      prg.checkClipboardText();
     } else if (e.getActionCommand().equals(DOCK_TO_TRAY)) {
       prg.hideToTray();
     } else if (e.getActionCommand().equals(OPTIONS)) {
