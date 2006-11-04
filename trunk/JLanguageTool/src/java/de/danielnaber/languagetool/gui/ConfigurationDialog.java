@@ -151,6 +151,7 @@ public class ConfigurationDialog implements ActionListener {
     portPanel.setLayout(new GridBagLayout());
     // TODO: why is this now left-aligned?!?!
     serverCheckbox = new JCheckBox("Run as server on port");
+    serverCheckbox.setMnemonic('r');
     serverCheckbox.setSelected(serverMode);
     cons = new GridBagConstraints();
     cons.insets = new Insets(0, 4, 0, 0);
@@ -174,8 +175,10 @@ public class ConfigurationDialog implements ActionListener {
     JPanel buttonPanel = new JPanel();
     buttonPanel.setLayout(new GridBagLayout());
     JButton okButton = new JButton(OK_BUTTON);
+    okButton.setMnemonic('o');
     okButton.addActionListener(this);
     JButton cancelButton = new JButton(CANCEL_BUTTON);
+    cancelButton.setMnemonic('c');
     cancelButton.addActionListener(this);
     cons = new GridBagConstraints();
     cons.insets = new Insets(0, 4, 0, 0);

@@ -18,13 +18,16 @@
  */
 package de.danielnaber.languagetool.gui;
 
+import java.awt.Event;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
+import javax.swing.KeyStroke;
 
 import de.danielnaber.languagetool.JLanguageTool;
 
@@ -45,24 +48,36 @@ class MainMenuBar extends JMenuBar implements ActionListener {
   
   MainMenuBar(Main prg) {
     this.prg = prg;
+    fileMenu.setMnemonic('f');
+    helpMenu.setMnemonic('h');
     // "Open":
     JMenuItem openItem = new JMenuItem(OPEN);
+    openItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O, Event.CTRL_MASK));
+    openItem.setMnemonic('o');
     openItem.addActionListener(this);
     fileMenu.add(openItem);
     // "Check Text in Clipboard":
     JMenuItem checkClipboardItem = new JMenuItem(CHECK_CLIPBOARD_TEXT);
+    checkClipboardItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Y, Event.CTRL_MASK));
+    checkClipboardItem.setMnemonic('c');
     checkClipboardItem.addActionListener(this);
     fileMenu.add(checkClipboardItem);
     // "Hide to System Tray":
     JMenuItem dockToTrayItem = new JMenuItem(DOCK_TO_TRAY);
+    dockToTrayItem.setMnemonic('d');
+    dockToTrayItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_D, Event.CTRL_MASK));
     dockToTrayItem.addActionListener(this);
     fileMenu.add(dockToTrayItem);
     // "Options":
     JMenuItem optionsItem = new JMenuItem(OPTIONS);
+    optionsItem.setMnemonic('s');
+    optionsItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, Event.CTRL_MASK));
     optionsItem.addActionListener(this);
     fileMenu.add(optionsItem);
     // "Quit":
     JMenuItem quitItem = new JMenuItem(QUIT);
+    quitItem.setMnemonic('q');
+    quitItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Q, Event.CTRL_MASK));
     quitItem.addActionListener(this);
     fileMenu.add(quitItem);
     // "About":
