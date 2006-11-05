@@ -103,6 +103,8 @@ public class CaseRule extends GermanRule {
     exceptions.add("Französisch"); 
     exceptions.add("Spanisch"); 
     exceptions.add("Schuld");
+    exceptions.add("Erwachsener");
+    exceptions.add("Jugendlicher");
     // Änderungen an der Rechtschreibreform 2006 erlauben hier Großschreibung:
     exceptions.add("Du");
     exceptions.add("Dir");
