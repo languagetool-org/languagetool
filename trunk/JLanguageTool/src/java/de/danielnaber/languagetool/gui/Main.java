@@ -382,7 +382,7 @@ public final class Main implements ActionListener {
 
   private int checkText(final JLanguageTool langTool, final String text, final StringBuilder sb) throws IOException {
     long startTime = System.currentTimeMillis();
-    List<RuleMatch> ruleMatches = langTool.check(StringTools.escapeHTML(text));
+    List<RuleMatch> ruleMatches = langTool.check(text);
     long startTimeMatching = System.currentTimeMillis();
     int i = 0;
     for (RuleMatch match : ruleMatches) {
@@ -394,7 +394,7 @@ public final class Main implements ActionListener {
       msg = msg.replaceAll("<old>", "<b>");
       msg = msg.replaceAll("</old>", "</b>");
       sb.append("<b>Message:</b> " + msg + "<br>\n");
-      String context = Tools.getContext(match.getFromPos(), match.getToPos(), StringTools.escapeHTML(text));
+      String context = Tools.getContext(match.getFromPos(), match.getToPos(), text);
       sb.append("<b>Context:</b> " + context);
       sb.append("<br>\n");
       i++;
