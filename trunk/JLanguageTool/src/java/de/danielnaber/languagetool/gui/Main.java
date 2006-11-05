@@ -77,6 +77,7 @@ public final class Main implements ActionListener {
   private static final String HTML_FONT_END = "</font>";
   
   private static final Icon SYSTEM_TRAY_ICON = new ImageIcon("resource/TrayIcon.png");
+  private static final String SYSTEM_TRAY_TOOLTIP = "LanguageTool";
   private static final String WINDOW_ICON_URL = "resource/TrayIcon.png";
   private static final String CHECK_TEXT_BUTTON = "Check text";
   private static final String CONFIG_FILE = ".languagetool.cfg";
@@ -210,6 +211,7 @@ public final class Main implements ActionListener {
       trayIcon = new TrayIcon(SYSTEM_TRAY_ICON);
       SystemTray tray = SystemTray.getDefaultSystemTray();
       trayIcon.addActionListener(new TrayActionListener());
+      trayIcon.setToolTip(SYSTEM_TRAY_TOOLTIP);
       /*
       FIXME: this menu disappears immediately for me *unless* the main 
       Window is open:
