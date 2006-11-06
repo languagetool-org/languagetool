@@ -3,7 +3,7 @@
 Rules: Grammar and Typos
 See tagset.txt for the meaning of the POS tags
 Copyright (C) 2001-2006 Daniel Naber (http://www.danielnaber.de)
-$Id: grammar.xml,v 1.113 2006-10-30 20:43:31 milek_pl Exp $
+$Id: grammar.xml,v 1.114 2006-11-06 22:09:27 dnaber Exp $
 -->
 <rules lang="en">
 
@@ -688,6 +688,18 @@ $Id: grammar.xml,v 1.113 2006-10-30 20:43:31 milek_pl Exp $
       <message>Did you mean <suggestion>its</suggestion> (possessive pronoun) instead of 'it's' (=it is)?</message>
       <example type="correct">New Robot Reproduces on <marker>Its</marker> Own.</example>
       <example type="incorrect">New Robot Reproduces on <marker>It's</marker> Own.</example>
+    </rule>
+    <rule>
+      <pattern mark_from="2">
+        <token>such</token>
+        <token>as</token>
+        <token>it</token>
+        <token>'</token>
+        <token>s</token>
+      </pattern>
+      <message>Did you mean <suggestion>its</suggestion> (possessive pronoun) instead of 'it's' (=it is)?</message>
+      <example type="correct">RDF can also be used to express metaproperties of a thesaurus, such as <marker>its</marker> title.</example>
+      <example type="incorrect">RDF can also be used to express metaproperties of a thesaurus, such as <marker>it's</marker> title.</example>
     </rule>
     <rule>
       <pattern mark_from="2">
