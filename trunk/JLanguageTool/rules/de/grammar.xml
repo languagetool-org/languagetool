@@ -3,7 +3,7 @@
 Rules: Grammar and Typos
 See tagset.txt for the meaning of the POS tags
 Copyright (C) 2001-2006 Daniel Naber (http://www.danielnaber.de)
-$Id: grammar.xml,v 1.55 2006-09-15 20:23:38 dnaber Exp $
+$Id: grammar.xml,v 1.56 2006-11-07 23:50:20 dnaber Exp $
 -->
 <rules lang="de">
 
@@ -204,11 +204,14 @@ $Id: grammar.xml,v 1.55 2006-09-15 20:23:38 dnaber Exp $
   <rule id="OEKONOMISCH_OEKUMENISCH" name="Möglicher Tippfehler 'ökonomischer(ökumenischer) Gottesdienst/...'">
     <pattern mark_to="-1">
       <token regexp="yes">ökonomischen|ökonomischer</token>
-      <token regexp="yes">Gottesdienst|Gottesdienste|Gottesdiensts|Trauung|Taufe|Kirchentag</token>
+      <token regexp="yes">.*[Gg]ottesdienst.*|Trauung|Taufe|Kirchentag|Kirchentags|Kirchentages|Abendmahl|Abendmahls</token>
     </pattern>
     <message>Meinten Sie <suggestion>ökumenisch</suggestion> (ökonomisch = auf die Wirtschaft bezogen)?</message>
     <example type="correct">Was ist ein <marker>ökumenischer</marker> Gottesdienst?</example>
     <example type="incorrect">Was ist ein <marker>ökonomischer</marker> Gottesdienst?</example>
+    <example type="incorrect">Was ist das Merkmal eines <marker>ökonomischen</marker> Gedenkgottesdienstes?</example>
+    <example type="incorrect">Was ist das Merkmal eines <marker>ökonomischen</marker> Gottesdienstes?</example>
+    <example type="incorrect">Was ist das Merkmal von <marker>ökonomischen</marker> Gottesdiensten?</example>
   </rule>
 
   <rule id="ETHISCH_ETHNISCH" name="Möglicher Tippfehler 'ethische(ethnische) Minderheiten/...'">
