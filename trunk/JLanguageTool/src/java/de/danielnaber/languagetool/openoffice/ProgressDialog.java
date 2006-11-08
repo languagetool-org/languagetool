@@ -19,6 +19,7 @@
 package de.danielnaber.languagetool.openoffice;
 
 import java.awt.FlowLayout;
+import java.util.ResourceBundle;
 
 import javax.swing.JDialog;
 import javax.swing.JPanel;
@@ -28,8 +29,8 @@ class ProgressDialog extends JDialog implements ProgressInformation {
 
   private JProgressBar progressBar = null;
   
-  public ProgressDialog() {
-    setTitle("LanguageTool: Checking Text...");
+  ProgressDialog(ResourceBundle messages) {
+    setTitle(messages.getString("guiProgressWindowTitle"));
     JPanel progressPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
     progressBar = new JProgressBar();
     progressPanel.add(progressBar);

@@ -25,6 +25,7 @@ import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+import java.util.ResourceBundle;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -32,17 +33,15 @@ import javax.swing.JTextField;
 
 class ReplaceTextDialog implements ActionListener {
 
-  private static final String OK_BUTTON = "OK";
-  private static final String CANCEL_BUTTON = "Cancel";
-  private static final String TITLE = "Replace text";
-  
   private JDialog dialog = null;
   private JTextField textField = null;
   private String replaceText = null;
+  private JButton okButton = null;
+  private JButton cancelButton = null;
   
-  ReplaceTextDialog() {
+  ReplaceTextDialog(ResourceBundle messages) {    
     dialog = new JDialog();
-    dialog.setTitle(TITLE);
+    dialog.setTitle(messages.getString("guiReplaceWindowTitle"));
     Container contentPane = dialog.getContentPane();
     contentPane.setLayout(new GridBagLayout());
 
@@ -61,13 +60,13 @@ class ReplaceTextDialog implements ActionListener {
     cons.gridx = 0;
     cons.gridy = 1;
     cons.anchor = GridBagConstraints.SOUTH;
-    JButton okButton = new JButton(OK_BUTTON);
+    okButton = new JButton(messages.getString("guiOKButton"));
     okButton.addActionListener(this);
     contentPane.add(okButton, cons);
 
     cons.gridx = 1;
     cons.gridy = 1;
-    JButton cancelButton = new JButton(CANCEL_BUTTON);
+    cancelButton = new JButton(messages.getString("guiCancelButton"));
     cancelButton.addActionListener(this);
     contentPane.add(cancelButton, cons);
 
@@ -80,10 +79,10 @@ class ReplaceTextDialog implements ActionListener {
   }
 
   public void actionPerformed(ActionEvent event) {
-    if (OK_BUTTON.equals(event.getActionCommand()) || 
+    if (event.getSource() == okButton || 
         event.getActionCommand() == null) {       // returned was pressed
       replaceText = textField.getText();
-    } else if (CANCEL_BUTTON.equals(event.getActionCommand())) {
+    } else if (event.getSource() == cancelButton) {
       // nothing
     } else {
       System.err.println("Unknown action: " + event);

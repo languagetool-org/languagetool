@@ -33,6 +33,7 @@ import java.io.IOException;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.ResourceBundle;
 import java.util.Set;
 
 import javax.swing.JButton;
@@ -67,17 +68,10 @@ import de.danielnaber.languagetool.rules.RuleMatch;
 
 public class OOoDialog implements ActionListener {
 
-  private static final String CHANGE_BUTTON = "Change";
-  private static final String IGNORE_BUTTON = "Ignore";
-  private static final String IGNORE_ALL_BUTTON = "Ignore All";
-  private static final String OPTIONS_BUTTON = "Options...";
-  private static final String CLOSE_BUTTON = "Close";
-  
-  private static final String COMPLETE_CHECK = "LanguageTool check is complete.";
-  private static final String COMPLETE_CHECK_OF_SELECTION = "LanguageTool check of selected text is complete.";
   private static final String FONT_TAG = "<font face=\"Sans-Serif\">";
   private static final int CONTEXT_SIZE = 60;
-  private static final String REPLACE_WITH_OTHER_TEXT = "<other text>";
+
+  private String replaceWithOtherText = null;
   
   private List<Rule> rules = null;
   private JDialog dialog = null;
@@ -107,6 +101,8 @@ public class OOoDialog implements ActionListener {
 
   private TextToCheck textToCheck = null;
   
+  private ResourceBundle messages = null;
+  
   /**
    * Use this constructor to check the selected text only. 
    */
@@ -119,6 +115,8 @@ public class OOoDialog implements ActionListener {
     this.configuration = configuration;
     this.xViewCursor = xViewCursor;
     this.textToCheck = textToCheck;
+    messages = JLanguageTool.getMessageBundle();
+    replaceWithOtherText = messages.getString("guiReplaceWithOtherText");
   }
 
   /**
@@ -163,19 +161,19 @@ public class OOoDialog implements ActionListener {
     cons.gridx = 1;
     cons.gridy = 0;
     cons.fill = GridBagConstraints.HORIZONTAL;
-    ignoreButton = new JButton(IGNORE_BUTTON);
+    ignoreButton = new JButton(messages.getString("guiOOoIgnoreButton"));
     ignoreButton.addActionListener(this);
     contentPane.add(ignoreButton, cons);
     
     cons.gridx = 1;
     cons.gridy = 1;
-    ignoreAllButton = new JButton(IGNORE_ALL_BUTTON);
+    ignoreAllButton = new JButton(messages.getString("guiOOoIgnoreAllButton"));
     ignoreAllButton.addActionListener(this);
     contentPane.add(ignoreAllButton, cons);
 
     cons.gridx = 1;
     cons.gridy = 2;
-    optionsButton = new JButton(OPTIONS_BUTTON);
+    optionsButton = new JButton(messages.getString("guiOOoOptionsButton"));
     optionsButton.addActionListener(this);
     contentPane.add(optionsButton, cons);
 
@@ -208,14 +206,14 @@ public class OOoDialog implements ActionListener {
     cons.weightx = 1.0f;
     cons.weighty = 1.0f;
     cons.fill = GridBagConstraints.HORIZONTAL;
-    changeButton = new JButton(CHANGE_BUTTON);
+    changeButton = new JButton(messages.getString("guiOOoChangeButton"));
     changeButton.addActionListener(this);
     contentPane.add(changeButton, cons);
 
     cons.gridx = 1;
     cons.gridy = 5;
     cons.anchor = GridBagConstraints.SOUTH;
-    closeButton = new JButton(CLOSE_BUTTON);
+    closeButton = new JButton(messages.getString("guiOOoCloseButton"));
     closeButton.addActionListener(this);
     contentPane.add(closeButton, cons);
 
@@ -281,12 +279,8 @@ public class OOoDialog implements ActionListener {
     msg = msg.replaceAll("</suggestion>", "</b>");
     StringBuilder sb = new StringBuilder();
     int totalMatches = getTotalRuleMatches();
-    if (totalMatches == 1)
-      sb.append(totalMatches + " match in total");         //TODO: i18n
-    else
-      sb.append(totalMatches + " matches in total");
+    sb.append(messages.getString("guiMatchCount") + " " +  totalMatches);
     sb.append("<br>\n<br>\n<b>" +(i+1)+ ".</b> ");
-    sb.append("<b>Match:</b> ");
     sb.append(msg);
     sb.append("<br>\n");
     messageArea.setText(FONT_TAG + sb.toString());
@@ -376,15 +370,15 @@ public class OOoDialog implements ActionListener {
   
   private void setSuggestions() {
     List<String> suggestions = currentRuleMatch.getSuggestedReplacements();
-    suggestions.add(REPLACE_WITH_OTHER_TEXT);
+    suggestions.add(replaceWithOtherText);
     suggestionList.setListData(suggestions.toArray());
     suggestionList.setSelectedIndex(0);
   }
 
   private void changeText() {
     String replacement = (String)suggestionList.getSelectedValue();
-    if (REPLACE_WITH_OTHER_TEXT.equals(replacement)) {
-      ReplaceTextDialog replaceDialog = new ReplaceTextDialog();
+    if (replaceWithOtherText.equals(replacement)) {
+      ReplaceTextDialog replaceDialog = new ReplaceTextDialog(messages);
       String replacementTextTmp = replaceDialog.getText();
       if (replacementTextTmp != null) {
         replacement = replacementTextTmp;
@@ -425,9 +419,9 @@ public class OOoDialog implements ActionListener {
 
   private void complete() {
     if (xViewCursor == null)
-      JOptionPane.showMessageDialog(null, COMPLETE_CHECK);
+      JOptionPane.showMessageDialog(null, messages.getString("guiCheckComplete"));
     else
-      JOptionPane.showMessageDialog(null, COMPLETE_CHECK_OF_SELECTION);
+      JOptionPane.showMessageDialog(null, messages.getString("guiSelectionCheckComplete"));
     close();
   }
   
@@ -449,21 +443,21 @@ public class OOoDialog implements ActionListener {
   }
 
   public void actionPerformed(ActionEvent event) {
-    if (event.getActionCommand().equals(CHANGE_BUTTON)) {
+    if (event.getSource() == changeButton) {
       changeText();
-    } else if (event.getActionCommand().equals(IGNORE_BUTTON)) {
+    } else if (event.getSource() == ignoreButton) {
       gotoNextMatch();
-    } else if (event.getActionCommand().equals(IGNORE_ALL_BUTTON)) {
+    } else if (event.getSource() == ignoreAllButton) {
       ignoreAll();
       gotoNextMatch();
-    } else if (event.getActionCommand().equals(OPTIONS_BUTTON)) {
+    } else if (event.getSource() == optionsButton) {
       ConfigurationDialog cfgDialog = new ConfigurationDialog(true, true);
       cfgDialog.setMotherTongue(configuration.getMotherTongue());
       cfgDialog.setDisabledRules(configuration.getDisabledRuleIds());
       cfgDialog.show(rules);
       configuration.setDisabledRuleIds(cfgDialog.getDisabledRuleIds());
       configuration.setMotherTongue(cfgDialog.getMotherTongue());
-    } else if (event.getActionCommand().equals(CLOSE_BUTTON)) {
+    } else if (event.getSource() == closeButton) {
       close();
     } else {
       System.err.println("Unknown action: " + event);

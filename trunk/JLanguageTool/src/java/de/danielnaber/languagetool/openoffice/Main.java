@@ -24,6 +24,7 @@ import java.io.IOException;
 import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ResourceBundle;
 
 import javax.swing.JOptionPane;
 
@@ -54,6 +55,7 @@ import com.sun.star.uno.XComponentContext;
 import de.danielnaber.languagetool.JLanguageTool;
 import de.danielnaber.languagetool.Language;
 import de.danielnaber.languagetool.gui.Configuration;
+import de.danielnaber.languagetool.gui.Tools;
 import de.danielnaber.languagetool.rules.Rule;
 
 /**
@@ -74,6 +76,8 @@ public class Main {
     
     private File baseDir;
     private Configuration config;
+    
+    private ResourceBundle messages = null;
 
     /** Testing only. */
     public _Main() throws IOException {
@@ -90,6 +94,7 @@ public class Main {
         xTextDoc = (XTextDocument) UnoRuntime.queryInterface(XTextDocument.class, xComponent);
         baseDir = getBaseDir();
         config = new Configuration(baseDir);
+        messages = JLanguageTool.getMessageBundle();
       } catch (Throwable e) {
         writeError(e);
         e.printStackTrace();
@@ -160,9 +165,10 @@ public class Main {
 
     private Language getLanguage() {
       if (xTextDoc == null)
-        return Language.ENGLISH; // for testing with local main() method only      // just look at the current position(?) in the document and assume that this character's
+        return Language.ENGLISH; // for testing with local main() method only
       Locale charLocale;
       try {
+        // just look at the current position(?) in the document and assume that this character's
         // language is the language of the whole document:
         XPropertySet xCursorProps = (XPropertySet) UnoRuntime.queryInterface(XPropertySet.class,
             xTextDoc.getText().createTextCursor());
@@ -175,6 +181,7 @@ public class Main {
           }
         }
         if (!langIsSupported) {
+          // FIXME: i18n
           JOptionPane.showMessageDialog(null, "Error: Sorry, the document language '" +charLocale.Language+ 
               "' is not supported by LanguageTool.");
           throw new IllegalArgumentException("Language is not supported: " + charLocale.Language);
@@ -218,6 +225,7 @@ public class Main {
       
       XModel xModel = (XModel)UnoRuntime.queryInterface(XModel.class, xTextDoc);
       if (xModel == null) {
+        // FIXME: i18n
         DialogThread dt = new DialogThread("Sorry, only text documents are supported");
         dt.start();
         return null;
@@ -259,7 +267,7 @@ public class Main {
     private void checkText(final TextToCheck textToCheck) {
       if (textToCheck == null)
         return;
-      ProgressDialog progressDialog = new ProgressDialog();
+      ProgressDialog progressDialog = new ProgressDialog(messages);
       Language docLanguage = getLanguage();
       CheckerThread checkerThread = new CheckerThread(textToCheck.paragraphs, docLanguage, config, 
           baseDir, progressDialog);
@@ -280,10 +288,11 @@ public class Main {
       // TODO: why must these be wrapped in threads to avoid focus problems?
       if (checkedParagraphs.size() == 0) {
         String msg;
+        String translatedLangName = messages.getString(docLanguage.getShortName());
         if (textToCheck.isSelection) {
-          msg = "No errors or warnings found in selected text " + "(language: " + docLanguage.getName() + ")";  
+          msg = Tools.makeTexti18n(messages, "guiNoErrorsFoundSelectedText", new String[] {translatedLangName});  
         } else {
-          msg = "No errors or warnings found " + "(document language: " + docLanguage.getName() + ")";  
+          msg = Tools.makeTexti18n(messages, "guiNoErrorsFound", new String[] {translatedLangName});  
         }
         DialogThread dt = new DialogThread(msg);
         dt.start();
