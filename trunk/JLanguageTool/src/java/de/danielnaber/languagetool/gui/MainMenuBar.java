@@ -22,6 +22,7 @@ import java.awt.Event;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+import java.util.ResourceBundle;
 
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
@@ -33,55 +34,60 @@ import de.danielnaber.languagetool.JLanguageTool;
 
 class MainMenuBar extends JMenuBar implements ActionListener {
 
+  private ResourceBundle messages = null;
+  
   // File:
-  private static final String OPEN = "Open...";
-  private static final String CHECK_CLIPBOARD_TEXT = "Check Text in Clipboard";
-  private static final String DOCK_TO_TRAY = "Hide to System Tray";
-  private static final String OPTIONS = "Options...";
-  private static final String QUIT = "Quit";
+  private static String openText;
+  private static String checkClipboardText;
+  private static String docktoTrayText;
+  private static String optionsText;
+  private static String quitText;
   // Help:
-  private static final String ABOUT = "About...";
+  private static String aboutText;
 
   private Main prg = null;
-  private JMenu fileMenu = new JMenu("File");
-  private JMenu helpMenu = new JMenu("Help");
+  private JMenu fileMenu = null;
+  private JMenu helpMenu = null;
   
-  MainMenuBar(Main prg) {
+  MainMenuBar(Main prg, ResourceBundle messages) {
     this.prg = prg;
+    this.messages = messages;
+    initStrings();
+    // FIXME: i18n these:
     fileMenu.setMnemonic('f');
     helpMenu.setMnemonic('h');
     // "Open":
-    JMenuItem openItem = new JMenuItem(OPEN);
+    JMenuItem openItem = new JMenuItem(openText);
     openItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O, Event.CTRL_MASK));
     openItem.setMnemonic('o');
     openItem.addActionListener(this);
     fileMenu.add(openItem);
     // "Check Text in Clipboard":
-    JMenuItem checkClipboardItem = new JMenuItem(CHECK_CLIPBOARD_TEXT);
+    JMenuItem checkClipboardItem = new JMenuItem(checkClipboardText);
     checkClipboardItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Y, Event.CTRL_MASK));
     checkClipboardItem.setMnemonic('c');
     checkClipboardItem.addActionListener(this);
     fileMenu.add(checkClipboardItem);
     // "Hide to System Tray":
-    JMenuItem dockToTrayItem = new JMenuItem(DOCK_TO_TRAY);
+    JMenuItem dockToTrayItem = new JMenuItem(docktoTrayText);
     dockToTrayItem.setMnemonic('d');
     dockToTrayItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_D, Event.CTRL_MASK));
     dockToTrayItem.addActionListener(this);
     fileMenu.add(dockToTrayItem);
     // "Options":
-    JMenuItem optionsItem = new JMenuItem(OPTIONS);
+    JMenuItem optionsItem = new JMenuItem(optionsText);
     optionsItem.setMnemonic('s');
     optionsItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, Event.CTRL_MASK));
     optionsItem.addActionListener(this);
     fileMenu.add(optionsItem);
     // "Quit":
-    JMenuItem quitItem = new JMenuItem(QUIT);
+    JMenuItem quitItem = new JMenuItem(quitText);
     quitItem.setMnemonic('q');
     quitItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Q, Event.CTRL_MASK));
     quitItem.addActionListener(this);
     fileMenu.add(quitItem);
     // "About":
-    JMenuItem helpItem = new JMenuItem(ABOUT);
+    JMenuItem helpItem = new JMenuItem(aboutText);
     helpItem.addActionListener(this);
     helpMenu.add(helpItem);
     // add menus:
@@ -89,18 +95,31 @@ class MainMenuBar extends JMenuBar implements ActionListener {
     add(helpMenu);
   }
 
+  private void initStrings() {
+    fileMenu = new JMenu(messages.getString("guiMenuFile"));
+    helpMenu = new JMenu(messages.getString("guiMenuHelp"));
+    // File:
+    openText = messages.getString("guiMenuOpen");
+    checkClipboardText = messages.getString("guiMenuCheckClipboard");
+    docktoTrayText = messages.getString("guiMenuHide");
+    optionsText = messages.getString("guiMenuOptions");
+    quitText = messages.getString("guiMenuQuit");
+    // Help:
+    aboutText = messages.getString("guiMenuAbout");
+  }
+
   public void actionPerformed(ActionEvent e) {
-    if (e.getActionCommand().equals(OPEN)) {
+    if (e.getActionCommand().equals(openText)) {
       prg.loadFile();
-    } else if (e.getActionCommand().equals(CHECK_CLIPBOARD_TEXT)) {
+    } else if (e.getActionCommand().equals(checkClipboardText)) {
       prg.checkClipboardText();
-    } else if (e.getActionCommand().equals(DOCK_TO_TRAY)) {
+    } else if (e.getActionCommand().equals(docktoTrayText)) {
       prg.hideToTray();
-    } else if (e.getActionCommand().equals(OPTIONS)) {
+    } else if (e.getActionCommand().equals(optionsText)) {
       prg.showOptions();
-    } else if (e.getActionCommand().equals(QUIT)) {
+    } else if (e.getActionCommand().equals(quitText)) {
       prg.quit();
-    } else if (e.getActionCommand().equals(ABOUT)) {
+    } else if (e.getActionCommand().equals(aboutText)) {
       JOptionPane.showMessageDialog(null, "LanguageTool " + JLanguageTool.VERSION + "\n" + 
           "Copyright (C) 2005-2006 Daniel Naber\n"+
           "This software is licensed under the GNU Lesser General Public License.\n"+

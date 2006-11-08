@@ -457,7 +457,7 @@ public class OOoDialog implements ActionListener {
       ignoreAll();
       gotoNextMatch();
     } else if (event.getActionCommand().equals(OPTIONS_BUTTON)) {
-      ConfigurationDialog cfgDialog = new ConfigurationDialog(true);
+      ConfigurationDialog cfgDialog = new ConfigurationDialog(true, true);
       cfgDialog.setMotherTongue(configuration.getMotherTongue());
       cfgDialog.setDisabledRules(configuration.getDisabledRuleIds());
       cfgDialog.show(rules);

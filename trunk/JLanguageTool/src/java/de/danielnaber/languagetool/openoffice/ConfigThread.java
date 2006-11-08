@@ -40,7 +40,7 @@ class ConfigThread extends Thread {
     this.docLanguage = docLanguage;
     this.config = config;
     this.baseDir = baseDir;
-    cfgDialog = new ConfigurationDialog(true);
+    cfgDialog = new ConfigurationDialog(true, true);
     cfgDialog.setDisabledRules(config.getDisabledRuleIds());
     cfgDialog.setMotherTongue(config.getMotherTongue());
   }

@@ -33,9 +33,12 @@ import java.awt.event.WindowListener;
 import java.io.File;
 import java.io.IOException;
 import java.io.Reader;
+import java.text.MessageFormat;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
+import java.util.ResourceBundle;
 import java.util.Set;
 
 import javax.swing.Icon;
@@ -73,13 +76,14 @@ import de.danielnaber.languagetool.tools.StringTools;
  */
 public final class Main implements ActionListener {
 
+  private ResourceBundle messages;
+  
   private static final String HTML_FONT_START = "<font face='Arial,Helvetica'>";
   private static final String HTML_FONT_END = "</font>";
   
   private static final Icon SYSTEM_TRAY_ICON = new ImageIcon("resource/TrayIcon.png");
   private static final String SYSTEM_TRAY_TOOLTIP = "LanguageTool";
   private static final String WINDOW_ICON_URL = "resource/TrayIcon.png";
-  private static final String CHECK_TEXT_BUTTON = "Check text";
   private static final String CONFIG_FILE = ".languagetool.cfg";
 
   private Configuration config = null;
@@ -99,26 +103,26 @@ public final class Main implements ActionListener {
 
   private Main() throws IOException {
     config = new Configuration(new File(System.getProperty("user.home")), CONFIG_FILE);
+    messages = JLanguageTool.getMessageBundle();
     maybeStartServer();
   }
 
   private void createGUI() {
-    frame = new JFrame("LanguageTool " +JLanguageTool.VERSION+ " Demo");
+    frame = new JFrame("LanguageTool " + JLanguageTool.VERSION);
     frame.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
     frame.addWindowListener(new CloseListener());
     frame.setIconImage(new ImageIcon(WINDOW_ICON_URL).getImage());
-    frame.setJMenuBar(new MainMenuBar(this));
+    frame.setJMenuBar(new MainMenuBar(this, messages));
 
-    textArea = new JTextArea("This is a example input to to show you how JLanguageTool works. " +
-        "Note, however, that it does not include a spell checka.");
+    textArea = new JTextArea(messages.getString("guiDemoText"));
     // TODO: wrong line number is displayed for lines that are wrapped automatically:
     textArea.setLineWrap(true);
     textArea.setWrapStyleWord(true);
     resultArea = new JTextPane();
     resultArea.setContentType("text/html");
-    resultArea.setText(HTML_FONT_START + "Results will appear here" + HTML_FONT_END);
-    JLabel label = new JLabel("Please type or paste text to check in the top area");
-    JButton button = new JButton(CHECK_TEXT_BUTTON);
+    resultArea.setText(HTML_FONT_START + messages.getString("resultAreaText") + HTML_FONT_END);
+    JLabel label = new JLabel(messages.getString("enterText"));
+    JButton button = new JButton(messages.getString("checkText"));
     button.setMnemonic('c'); 
     button.addActionListener(this);
 
@@ -130,7 +134,7 @@ public final class Main implements ActionListener {
     panel.add(button, buttonCons);
     buttonCons.gridx = 1;
     buttonCons.gridy = 0;
-    panel.add(new JLabel(" in: "), buttonCons);
+    panel.add(new JLabel(" " + messages.getString("textLanguage") + " "), buttonCons);
     buttonCons.gridx = 2;
     buttonCons.gridy = 0;
     langBox = new JComboBox();
@@ -139,6 +143,8 @@ public final class Main implements ActionListener {
         langBox.addItem(lang);
       }
     }
+    // use the system default language to preselect the language from the combo box: 
+    langBox.setSelectedItem(Language.getLanguageForShortName(Locale.getDefault().getLanguage()));
     panel.add(langBox, buttonCons);
 
     Container contentPane = frame.getContentPane();
@@ -176,9 +182,9 @@ public final class Main implements ActionListener {
   }
   
   public void actionPerformed(final ActionEvent e) {
-    if (e.getActionCommand().equals(CHECK_TEXT_BUTTON)) {
+    if (e.getActionCommand().equals(messages.getString("checkText"))) {
       JLanguageTool langTool = getCurrentLanguageTool();
-      checkTextAndDisplayResults(langTool, getCurrentLanguage().getName());
+      checkTextAndDisplayResults(langTool, getCurrentLanguage());
     } else {
       throw new IllegalArgumentException("Unknown action " + e);
     }
@@ -195,7 +201,7 @@ public final class Main implements ActionListener {
       String fileContents = StringTools.readFile(file.getAbsolutePath());
       textArea.setText(fileContents);
       JLanguageTool langTool = getCurrentLanguageTool();
-      checkTextAndDisplayResults(langTool, getCurrentLanguage().getName());
+      checkTextAndDisplayResults(langTool, getCurrentLanguage());
     } catch (IOException e) {
       showError(e);
     }
@@ -244,14 +250,14 @@ public final class Main implements ActionListener {
     frame.setVisible(true);
     textArea.setText(s);
     JLanguageTool langTool = getCurrentLanguageTool();
-    checkTextAndDisplayResults(langTool, getCurrentLanguage().getName());
+    checkTextAndDisplayResults(langTool, getCurrentLanguage());
   }
 
   void checkClipboardText() {
     String s = getClipboardText();
     textArea.setText(s);
     JLanguageTool langTool = getCurrentLanguageTool();
-    checkTextAndDisplayResults(langTool, getCurrentLanguage().getName());
+    checkTextAndDisplayResults(langTool, getCurrentLanguage());
   }
   
   private String getClipboardText() {
@@ -320,7 +326,7 @@ public final class Main implements ActionListener {
     if (configDialogs.containsKey(language)) {
       configDialog = (ConfigurationDialog)configDialogs.get(language);
     } else {
-      configDialog = new ConfigurationDialog(true);
+      configDialog = new ConfigurationDialog(true, false);
       configDialog.setMotherTongue(config.getMotherTongue());
       configDialog.setDisabledRules(config.getDisabledRuleIds());
       configDialog.setRunServer(config.getRunServer());
@@ -353,15 +359,16 @@ public final class Main implements ActionListener {
     return langTool;
   }
 
-  private void checkTextAndDisplayResults(final JLanguageTool langTool, final String langName) {
+  private void checkTextAndDisplayResults(final JLanguageTool langTool, final Language lang) {
     if (textArea.getText().trim().equals("")) {
-      textArea.setText("Please insert text to check here");
+      textArea.setText("enterText2");
     } else {
       StringBuilder sb = new StringBuilder();
-      resultArea.setText(HTML_FONT_START + "Starting check in "+langName+"...<br>\n" + HTML_FONT_END);
+      String startChecktext = makeTexti18n("startChecking", new Object[] { messages.getString(lang.getShortName()) });
+      resultArea.setText(HTML_FONT_START + startChecktext +"<br>\n" + HTML_FONT_END);
       resultArea.repaint(); // FIXME: why doesn't this work?
       //TODO: resultArea.setCursor(new Cursor(Cursor.WAIT_CURSOR)); 
-      sb.append("Starting check in " +langName+ "...<br>\n");
+      sb.append(startChecktext+"...<br>\n");
       int matches = 0;
       try {
         matches = checkText(langTool, textArea.getText(), sb);
@@ -374,10 +381,17 @@ public final class Main implements ActionListener {
         sb.append("</font></b><br>");
         ex.printStackTrace();
       }
-      sb.append("Check done. " +matches+ " potential problems found<br>\n");
+      String checkDone = makeTexti18n("checkDone", new Object[] { new Integer(matches) });
+      sb.append(checkDone + "<br>\n");
       resultArea.setText(HTML_FONT_START + sb.toString() + HTML_FONT_END);
       resultArea.setCaretPosition(0);
     }
+  }
+
+  private String makeTexti18n(String key, Object[] messageArguments) {
+    MessageFormat formatter = new MessageFormat("");
+    formatter.applyPattern(messages.getString(key));
+    return formatter.format(messageArguments);
   }
 
   private int checkText(final JLanguageTool langTool, final String text, final StringBuilder sb) throws IOException {
@@ -386,22 +400,25 @@ public final class Main implements ActionListener {
     long startTimeMatching = System.currentTimeMillis();
     int i = 0;
     for (RuleMatch match : ruleMatches) {
-      sb.append("<br>\n<b>" +(i+1)+ ". Line " + (match.getLine() + 1) + ", column " + match.getColumn()
-          + "</b><br>\n");
+      String output = makeTexti18n("result1", new Object[] {
+          new Integer(i+1), new Integer(match.getLine()+1), new Integer(match.getColumn())
+      });
+      sb.append(output);
       String msg = match.getMessage();
       msg = msg.replaceAll("<suggestion>", "<b>");
       msg = msg.replaceAll("</suggestion>", "</b>");
       msg = msg.replaceAll("<old>", "<b>");
       msg = msg.replaceAll("</old>", "</b>");
-      sb.append("<b>Message:</b> " + msg + "<br>\n");
+      sb.append("<b>" +messages.getString("errorMessage")+ "</b> " + msg + "<br>\n");
       String context = Tools.getContext(match.getFromPos(), match.getToPos(), text);
-      sb.append("<b>Context:</b> " + context);
+      sb.append("<b>" +messages.getString("errorContext")+ "</b> " + context);
       sb.append("<br>\n");
       i++;
     }
     long endTime = System.currentTimeMillis();
-    sb.append("<br>\nTime: " + (endTime - startTime) + "ms (including "
-        + (endTime - startTimeMatching) + "ms for rule matching)<br>\n");
+    sb.append(makeTexti18n("resultTime", new Object[] {
+       new Long(endTime - startTime), new Long(endTime - startTimeMatching)
+    }));
     return ruleMatches.size();
   }
 

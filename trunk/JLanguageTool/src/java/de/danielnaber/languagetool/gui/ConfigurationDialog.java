@@ -33,6 +33,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
+import java.util.ResourceBundle;
 import java.util.Set;
 
 import javax.swing.JButton;
@@ -53,6 +54,7 @@ import org.xml.sax.SAXException;
 import de.danielnaber.languagetool.JLanguageTool;
 import de.danielnaber.languagetool.Language;
 import de.danielnaber.languagetool.rules.Rule;
+import de.danielnaber.languagetool.server.HTTPServer;
 
 /**
  * Dialog that offers the available rules so they can be turned on/off
@@ -62,9 +64,12 @@ import de.danielnaber.languagetool.rules.Rule;
  */
 public class ConfigurationDialog implements ActionListener {
 
-  private static final String OK_BUTTON = "    OK    ";
-  private static final String CANCEL_BUTTON = "  Cancel  ";
   private static final String NO_MOTHER_TONGUE = "---";
+  
+  private JButton okButton = null;
+  private JButton cancelButton = null;
+  
+  private ResourceBundle messages = null;
   private JDialog dialog = null;
   
   private JComboBox motherTongueBox;
@@ -80,16 +85,19 @@ public class ConfigurationDialog implements ActionListener {
   private int serverPort;
   
   private boolean modal;
+  private boolean insideOOo;
   private boolean isClosed = true;
   
-  public ConfigurationDialog(boolean modal) {
+  public ConfigurationDialog(boolean modal, boolean insideOOo) {
     this.modal = modal;
+    this.insideOOo = insideOOo;
+    messages = JLanguageTool.getMessageBundle();
   }
   
   public void show(List<Rule> rules) {
     dialog = new JDialog();
     // TODO: i18n:
-    dialog.setTitle("LanguageTool " +JLanguageTool.VERSION+ " Options");
+    dialog.setTitle(messages.getString("guiConfigWindowTitle"));
     checkBoxes.clear();
     checkBoxesRuleIds.clear();
     
@@ -141,7 +149,7 @@ public class ConfigurationDialog implements ActionListener {
     }
 
     JPanel motherTonguePanel = new JPanel();
-    motherTonguePanel.add(new JLabel("Your mother tongue: "), cons);
+    motherTonguePanel.add(new JLabel(messages.getString("guiMotherTongue")), cons);
     motherTongueBox = new JComboBox(getPossibleMotherTongues());
     if (motherTongue != null)
       motherTongueBox.setSelectedItem(motherTongue);
@@ -150,9 +158,6 @@ public class ConfigurationDialog implements ActionListener {
     JPanel portPanel = new JPanel();
     portPanel.setLayout(new GridBagLayout());
     // TODO: why is this now left-aligned?!?!
-    serverCheckbox = new JCheckBox("Run as server on port");
-    serverCheckbox.setMnemonic('r');
-    serverCheckbox.setSelected(serverMode);
     cons = new GridBagConstraints();
     cons.insets = new Insets(0, 4, 0, 0);
     cons.gridx = 0;
@@ -160,24 +165,29 @@ public class ConfigurationDialog implements ActionListener {
     cons.anchor = GridBagConstraints.WEST;
     cons.fill = GridBagConstraints.NONE;
     cons.weightx = 0.0f;
-    portPanel.add(serverCheckbox, cons);
-    serverPortField = new JTextField(serverPort + "");
-    serverPortField.setEnabled(serverCheckbox.isSelected());
-    // TODO: without this the box is just a few pixels small, but why??:
-    serverPortField.setMinimumSize(new Dimension(200, 15));
-    cons.gridx = 1;
-    serverCheckbox.addActionListener(new ActionListener() {
-      public void actionPerformed(@SuppressWarnings("unused")ActionEvent e) {
-        serverPortField.setEnabled(serverCheckbox.isSelected());
-      }});
-    portPanel.add(serverPortField, cons);
+    if (!insideOOo) {
+      serverCheckbox = new JCheckBox(messages.getString("guiRunOnPort"));
+      serverCheckbox.setMnemonic('r');
+      serverCheckbox.setSelected(serverMode);
+      portPanel.add(serverCheckbox, cons);
+      serverPortField = new JTextField(serverPort + "");
+      serverPortField.setEnabled(serverCheckbox.isSelected());
+      // TODO: without this the box is just a few pixels small, but why??:
+      serverPortField.setMinimumSize(new Dimension(200, 15));
+      cons.gridx = 1;
+      serverCheckbox.addActionListener(new ActionListener() {
+        public void actionPerformed(@SuppressWarnings("unused")ActionEvent e) {
+          serverPortField.setEnabled(serverCheckbox.isSelected());
+        }});
+      portPanel.add(serverPortField, cons);
+    }
 
     JPanel buttonPanel = new JPanel();
     buttonPanel.setLayout(new GridBagLayout());
-    JButton okButton = new JButton(OK_BUTTON);
+    okButton = new JButton(messages.getString("guiOKButton"));
     okButton.setMnemonic('o');
     okButton.addActionListener(this);
-    JButton cancelButton = new JButton(CANCEL_BUTTON);
+    cancelButton = new JButton(messages.getString("guiCancelButton"));
     cancelButton.setMnemonic('c');
     cancelButton.addActionListener(this);
     cons = new GridBagConstraints();
@@ -236,6 +246,7 @@ public class ConfigurationDialog implements ActionListener {
     motherTongues.add(NO_MOTHER_TONGUE);
     for (Language lang : Language.LANGUAGES) {
       if (lang != Language.DEMO) {
+        //motherTongues.add(messages.getString(lang.getShortName()));
         motherTongues.add(lang);
       }
     }
@@ -247,7 +258,7 @@ public class ConfigurationDialog implements ActionListener {
   }
   
   public void actionPerformed(ActionEvent e) {
-    if (e.getActionCommand().equals(OK_BUTTON)) {
+    if (e.getSource() == okButton) {
       int i = 0;
       inactiveRuleIds.clear();
       for (JCheckBox checkBox : checkBoxes) {
@@ -261,11 +272,13 @@ public class ConfigurationDialog implements ActionListener {
         motherTongue = null;
       else
         motherTongue = (Language)motherTongueBox.getSelectedItem();
-      serverMode = serverCheckbox.isSelected();
-      serverPort = Integer.parseInt(serverPortField.getText());
+      if (serverCheckbox != null) {
+        serverMode = serverCheckbox.isSelected();
+        serverPort = Integer.parseInt(serverPortField.getText());
+      }
       isClosed = true;
       dialog.setVisible(false);
-    } else if (e.getActionCommand().equals(CANCEL_BUTTON)) {
+    } else if (e.getSource() == cancelButton) {
       isClosed = true;
       dialog.setVisible(false);
     }
@@ -292,6 +305,8 @@ public class ConfigurationDialog implements ActionListener {
   }
 
   public boolean getRunServer() {
+    if (serverCheckbox == null)
+      return false;
     return serverCheckbox.isSelected();
   }
 
@@ -300,6 +315,8 @@ public class ConfigurationDialog implements ActionListener {
   }
 
   public int getServerPort() {
+    if (serverPortField == null)
+      return HTTPServer.DEFAULT_PORT;
     return Integer.parseInt(serverPortField.getText());
   }
 
@@ -307,7 +324,7 @@ public class ConfigurationDialog implements ActionListener {
    * For internal testing only.
    */
   public static void main(String[] args) throws IOException, ParserConfigurationException, SAXException {
-    ConfigurationDialog dlg = new ConfigurationDialog(false);
+    ConfigurationDialog dlg = new ConfigurationDialog(false, false);
     List<Rule> rules = new ArrayList<Rule>();
     JLanguageTool lt = new JLanguageTool(Language.ENGLISH);
     lt.activateDefaultPatternRules();

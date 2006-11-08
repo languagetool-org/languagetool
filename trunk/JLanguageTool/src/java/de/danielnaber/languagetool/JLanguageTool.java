@@ -90,6 +90,8 @@ public class JLanguageTool {
   private PrintStream printStream = null;
   
   private int sentenceCount = 0;
+  
+  private ResourceBundle messages = null;
 
   // just for testing:
   /*private Rule[] allBuiltinRules = new Rule[] {
@@ -140,8 +142,7 @@ public class JLanguageTool {
     basedir = basedirArg;
     this.language = language;
     this.motherTongue = motherTongue;
-    ResourceBundle messages = ResourceBundle.getBundle("de.danielnaber.languagetool.MessagesBundle",
-        language.getLocale());
+    messages = getMessageBundle(language);
     // TODO: use reflection to get a list of all non-pattern rules?:
     Rule[] allBuiltinRules = new Rule[] { 
         // Several languages:
@@ -168,7 +169,22 @@ public class JLanguageTool {
     sentenceTokenizer = language.getSentenceTokenizer();
     wordTokenizer = language.getWordTokenizer();
   }
-  
+
+  /**
+   * Gets the ResourceBundle for the default language of the user's system.
+   */
+  public static ResourceBundle getMessageBundle() {
+    return ResourceBundle.getBundle("de.danielnaber.languagetool.MessagesBundle");
+  }
+
+  /**
+   * Gets the ResourceBundle for the given user interface language.
+   */
+  private static ResourceBundle getMessageBundle(Language lang) {
+    return ResourceBundle.getBundle("de.danielnaber.languagetool.MessagesBundle",
+        lang.getLocale());
+  }
+
   /**
    * Set a PrintStream that will receive verbose output. Set
    * to <code>null</code> to disable verbose output.
