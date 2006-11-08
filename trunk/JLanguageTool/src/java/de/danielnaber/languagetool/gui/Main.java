@@ -33,7 +33,6 @@ import java.awt.event.WindowListener;
 import java.io.File;
 import java.io.IOException;
 import java.io.Reader;
-import java.text.MessageFormat;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -364,7 +363,8 @@ public final class Main implements ActionListener {
       textArea.setText("enterText2");
     } else {
       StringBuilder sb = new StringBuilder();
-      String startChecktext = makeTexti18n("startChecking", new Object[] { messages.getString(lang.getShortName()) });
+      String startChecktext = Tools.makeTexti18n(messages, "startChecking", 
+          new Object[] { messages.getString(lang.getShortName()) });
       resultArea.setText(HTML_FONT_START + startChecktext +"<br>\n" + HTML_FONT_END);
       resultArea.repaint(); // FIXME: why doesn't this work?
       //TODO: resultArea.setCursor(new Cursor(Cursor.WAIT_CURSOR)); 
@@ -381,17 +381,11 @@ public final class Main implements ActionListener {
         sb.append("</font></b><br>");
         ex.printStackTrace();
       }
-      String checkDone = makeTexti18n("checkDone", new Object[] { new Integer(matches) });
+      String checkDone = Tools.makeTexti18n(messages, "checkDone", new Object[] { new Integer(matches) });
       sb.append(checkDone + "<br>\n");
       resultArea.setText(HTML_FONT_START + sb.toString() + HTML_FONT_END);
       resultArea.setCaretPosition(0);
     }
-  }
-
-  private String makeTexti18n(String key, Object[] messageArguments) {
-    MessageFormat formatter = new MessageFormat("");
-    formatter.applyPattern(messages.getString(key));
-    return formatter.format(messageArguments);
   }
 
   private int checkText(final JLanguageTool langTool, final String text, final StringBuilder sb) throws IOException {
@@ -400,7 +394,7 @@ public final class Main implements ActionListener {
     long startTimeMatching = System.currentTimeMillis();
     int i = 0;
     for (RuleMatch match : ruleMatches) {
-      String output = makeTexti18n("result1", new Object[] {
+      String output = Tools.makeTexti18n(messages, "result1", new Object[] {
           new Integer(i+1), new Integer(match.getLine()+1), new Integer(match.getColumn())
       });
       sb.append(output);
@@ -416,7 +410,7 @@ public final class Main implements ActionListener {
       i++;
     }
     long endTime = System.currentTimeMillis();
-    sb.append(makeTexti18n("resultTime", new Object[] {
+    sb.append(Tools.makeTexti18n(messages, "resultTime", new Object[] {
        new Long(endTime - startTime), new Long(endTime - startTimeMatching)
     }));
     return ruleMatches.size();

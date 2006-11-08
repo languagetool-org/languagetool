@@ -18,6 +18,9 @@
  */
 package de.danielnaber.languagetool.gui;
 
+import java.text.MessageFormat;
+import java.util.ResourceBundle;
+
 /**
  * GUI-related tools.
  * 
@@ -28,6 +31,16 @@ public class Tools {
   private static final int DEFAULT_CONTEXT_SIZE = 40;   // characters
   private static final String MARKER_START = "<b><font color=\"red\">";
   private static final String MARKER_END = "</font></b>";
+
+  private Tools() {
+    // no constructor
+  }
+  
+  public static String makeTexti18n(ResourceBundle messages, String key, Object[] messageArguments) {
+    MessageFormat formatter = new MessageFormat("");
+    formatter.applyPattern(messages.getString(key));
+    return formatter.format(messageArguments);
+  }
 
   /**
    * Get the default context (40 characters) of the given text range,
