@@ -363,7 +363,7 @@ public class Main {
       Object textPortion = portionEnum.nextElement();
       XPropertySet textProps = (XPropertySet) UnoRuntime.queryInterface(XPropertySet.class, textPortion);
       String type = (String)textProps.getPropertyValue("TextPortionType");
-      if ("Footnote".equals(type)) {
+      if ("Footnote".equals(type) || "DocumentIndexMark".equals(type)) {
         // a footnote reference appears as one character in the text. we don't use a whitespace
         // because we don't want to trigger the "no whitespace before comma" rule in this case:
         // my footnote¹, foo bar
