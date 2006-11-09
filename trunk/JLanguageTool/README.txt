@@ -137,9 +137,10 @@ Known bugs:
     about text which is actually correct
    
 TODO:
- -Show better exception of "Hide to System Tray" is called but the standalone-libs.zip
+ -OpenOffice.org: make the dialog modal
+ -stand-alone: Show better exception of "Hide to System Tray" is called but the standalone-libs.zip
   has not been unzipped
- -GUI: icon in window corner, better icon for system tray
+ -GUI: put nice icon in window corner
  -Externalize strings in Main
  -Auto-reload rules if file timestamp has changed?
  -check if and how unification can be added to the XML rules
@@ -153,9 +154,10 @@ TODO:
  -add simple sentence/word complexity test like that: http://www.ooomacros.org/user.php#111318 
  -use regular expressions and POS tags to create complex suggestions (for example, suggesting another
   grammatical case or a word without an apostrophe)
- -see "TODO" in the source
+ -see "TODO" / "FIXME" in the source:
+ 	find . -iname "*.java" -exec egrep -H "TODO|FIXME" {} \;
  -create abstract SentenceRule and TextRule classes to get rid of reset() method?
-  -...
+ -...
 
 Using LanguageTool from .NET:
  Thanks to IKVM (http://www.ikvm.net/) you can easily turn LanguageTool
