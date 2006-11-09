@@ -318,17 +318,14 @@ public final class Main implements ActionListener {
   private Language getCurrentLanguage() {
     String langName = langBox.getSelectedItem().toString();
     String lang = langName;
-    for (Enumeration<String> e =messages.getKeys(); e.hasMoreElements();) {
+    for (Enumeration<String> e = messages.getKeys(); e.hasMoreElements();) {
       String elem = e.nextElement().toString();
-      if (messages.getString(elem).equals(langName))
-      {
-        lang=elem;
+      if (messages.getString(elem).equals(langName)) {
+        lang = elem;
         break;
       }
     }
-    
     return Language.getLanguageForShortName(lang);
-     
   }
   
   private ConfigurationDialog getCurrentConfigDialog() {
