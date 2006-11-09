@@ -39,6 +39,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.Set;
+import java.util.Enumeration;
 
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
@@ -139,11 +140,11 @@ public final class Main implements ActionListener {
     langBox = new JComboBox();
     for (Language lang : Language.LANGUAGES) {
       if (lang != Language.DEMO) {
-        langBox.addItem(lang);
+        langBox.addItem(messages.getString(lang.getShortName()));
       }
     }
     // use the system default language to preselect the language from the combo box: 
-    langBox.setSelectedItem(Language.getLanguageForShortName(Locale.getDefault().getLanguage()));
+    langBox.setSelectedItem(messages.getString((Locale.getDefault().getLanguage())));
     panel.add(langBox, buttonCons);
 
     Container contentPane = frame.getContentPane();
@@ -316,7 +317,18 @@ public final class Main implements ActionListener {
 
   private Language getCurrentLanguage() {
     String langName = langBox.getSelectedItem().toString();
-    return Language.getLanguageForName(langName);
+    String lang = langName;
+    for (Enumeration<String> e =messages.getKeys(); e.hasMoreElements();) {
+      String elem = e.nextElement().toString();
+      if (messages.getString(elem).equals(langName))
+      {
+        lang=elem;
+        break;
+      }
+    }
+    
+    return Language.getLanguageForShortName(lang);
+     
   }
   
   private ConfigurationDialog getCurrentConfigDialog() {
