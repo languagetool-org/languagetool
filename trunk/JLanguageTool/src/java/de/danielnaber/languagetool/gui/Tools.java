@@ -18,8 +18,11 @@
  */
 package de.danielnaber.languagetool.gui;
 
+import java.awt.Image;
 import java.text.MessageFormat;
 import java.util.ResourceBundle;
+
+import javax.swing.ImageIcon;
 
 /**
  * GUI-related tools.
@@ -27,6 +30,8 @@ import java.util.ResourceBundle;
  * @author Daniel Naber
  */
 public class Tools {
+
+  public static final Image WINDOW_ICON = new ImageIcon("resource/TrayIcon.png").getImage();
 
   private static final int DEFAULT_CONTEXT_SIZE = 40;   // characters
   private static final String MARKER_START = "<b><font color=\"red\">";

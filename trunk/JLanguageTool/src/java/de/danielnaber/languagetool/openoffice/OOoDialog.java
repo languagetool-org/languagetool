@@ -20,6 +20,7 @@ package de.danielnaber.languagetool.openoffice;
 
 import java.awt.Container;
 import java.awt.Dimension;
+import java.awt.Frame;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -133,6 +134,11 @@ public class OOoDialog implements ActionListener {
       return;
     }
     dialog = new JDialog();
+    // set icon in the left upper corner:
+    Frame owner = (Frame) dialog.getOwner();
+    if (owner != null) {
+      owner.setIconImage(Tools.WINDOW_ICON);
+    }
     // close when user presses Escape key:
     bindKey(dialog, KeyEvent.VK_ESCAPE, new EscapeActionListener(dialog));
     

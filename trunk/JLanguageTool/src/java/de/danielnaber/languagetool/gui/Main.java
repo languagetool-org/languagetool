@@ -83,7 +83,6 @@ public final class Main implements ActionListener {
   
   private static final Icon SYSTEM_TRAY_ICON = new ImageIcon("resource/TrayIcon.png");
   private static final String SYSTEM_TRAY_TOOLTIP = "LanguageTool";
-  private static final String WINDOW_ICON_URL = "resource/TrayIcon.png";
   private static final String CONFIG_FILE = ".languagetool.cfg";
 
   private Configuration config = null;
@@ -111,7 +110,7 @@ public final class Main implements ActionListener {
     frame = new JFrame("LanguageTool " + JLanguageTool.VERSION);
     frame.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
     frame.addWindowListener(new CloseListener());
-    frame.setIconImage(new ImageIcon(WINDOW_ICON_URL).getImage());
+    frame.setIconImage(Tools.WINDOW_ICON);
     frame.setJMenuBar(new MainMenuBar(this, messages));
 
     textArea = new JTextArea(messages.getString("guiDemoText"));
