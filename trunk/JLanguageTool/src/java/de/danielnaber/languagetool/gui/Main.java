@@ -333,7 +333,7 @@ public final class Main implements ActionListener {
     if (configDialogs.containsKey(language)) {
       configDialog = (ConfigurationDialog)configDialogs.get(language);
     } else {
-      configDialog = new ConfigurationDialog(true, false);
+      configDialog = new ConfigurationDialog(frame, false);
       configDialog.setMotherTongue(config.getMotherTongue());
       configDialog.setDisabledRules(config.getDisabledRuleIds());
       configDialog.setRunServer(config.getRunServer());

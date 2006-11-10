@@ -20,6 +20,7 @@ package de.danielnaber.languagetool.gui;
 
 import java.awt.Container;
 import java.awt.Dimension;
+import java.awt.Frame;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -84,18 +85,19 @@ public class ConfigurationDialog implements ActionListener {
   private boolean serverMode = false;
   private int serverPort;
   
-  private boolean modal;
+  private Frame owner = null;
   private boolean insideOOo;
+  
   private boolean isClosed = true;
   
-  public ConfigurationDialog(boolean modal, boolean insideOOo) {
-    this.modal = modal;
+  public ConfigurationDialog(Frame owner, boolean insideOOo) {
+    this.owner = owner;
     this.insideOOo = insideOOo;
     messages = JLanguageTool.getMessageBundle();
   }
   
   public void show(List<Rule> rules) {
-    dialog = new JDialog();
+    dialog = new JDialog(owner, true);
     // TODO: i18n:
     dialog.setTitle(messages.getString("guiConfigWindowTitle"));
     checkBoxes.clear();
@@ -231,7 +233,6 @@ public class ConfigurationDialog implements ActionListener {
     contentPane.add(buttonPanel, cons);
     
     dialog.pack();
-    dialog.setModal(modal);
     dialog.setSize(500, 500);
     isClosed = false;
     // center on screen:
@@ -324,7 +325,7 @@ public class ConfigurationDialog implements ActionListener {
    * For internal testing only.
    */
   public static void main(String[] args) throws IOException, ParserConfigurationException, SAXException {
-    ConfigurationDialog dlg = new ConfigurationDialog(false, false);
+    ConfigurationDialog dlg = new ConfigurationDialog(null, false);
     List<Rule> rules = new ArrayList<Rule>();
     JLanguageTool lt = new JLanguageTool(Language.ENGLISH);
     lt.activateDefaultPatternRules();
