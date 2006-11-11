@@ -3,7 +3,7 @@
 Rules: Grammar and Typos
 See tagset.txt for the meaning of the POS tags
 Copyright (C) 2001-2006 Daniel Naber (http://www.danielnaber.de)
-$Id: grammar.xml,v 1.56 2006-11-07 23:50:20 dnaber Exp $
+$Id: grammar.xml,v 1.57 2006-11-11 14:47:23 dnaber Exp $
 -->
 <rules lang="de">
 
@@ -13,11 +13,13 @@ $Id: grammar.xml,v 1.56 2006-11-07 23:50:20 dnaber Exp $
     <rule>
       <pattern mark_to="-1">
         <token>war</token>
-        <token>werden</token>
+        <token regexp="yes">werden|wird</token>
       </pattern>
       <message>Meinten Sie <suggestion>wahr</suggestion> (=wahrhaftig, authentisch) statt 'war' (Vergangenheit von 'sein')?</message>
       <example type="correct">Das kann schnell <marker>wahr</marker> werden.</example>
+      <example type="correct">Ich glaube, dass es schnell <marker>wahr</marker> wird.</example>
       <example type="incorrect">Das kann schnell <marker>war</marker> werden.</example>
+      <example type="incorrect">Ich glaube, dass es schnell <marker>war</marker> wird.</example>
     </rule>
     <rule>
       <pattern mark_from="1">
