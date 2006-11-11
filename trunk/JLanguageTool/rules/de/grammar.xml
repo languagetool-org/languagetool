@@ -3,7 +3,7 @@
 Rules: Grammar and Typos
 See tagset.txt for the meaning of the POS tags
 Copyright (C) 2001-2006 Daniel Naber (http://www.danielnaber.de)
-$Id: grammar.xml,v 1.57 2006-11-11 14:47:23 dnaber Exp $
+$Id: grammar.xml,v 1.58 2006-11-11 16:43:38 dnaber Exp $
 -->
 <rules lang="de">
 
@@ -329,6 +329,17 @@ $Id: grammar.xml,v 1.57 2006-11-11 14:47:23 dnaber Exp $
     <message>Meinten Sie <suggestion>in</suggestion>?</message>
     <example type="correct">Auffächerung der Altersgruppen <marker>in</marker> Bezug zu den Einwohnerzahlen.</example>
     <example type="incorrect">Auffächerung der Altersgruppen <marker>ins</marker> Bezug zu den Einwohnerzahlen.</example>
+  </rule>
+
+  <rule id="AUFS_TRAPEZ_BRINGEN" name="Möglicher Tippfehler 'aufs Trapez(Tapet) bringen'">
+    <pattern mark_from="1" mark_to="-1">
+      <token>auf</token>
+      <token>Trapez</token>
+      <token inflected="yes" regexp="yes">bringen</token>
+    </pattern>
+    <message>Meinten Sie <suggestion>Tapet</suggestion>?</message>
+    <example type="correct">Dieses Thema habe ich auch auf <marker>Tapet</marker> gebracht.</example>
+    <example type="incorrect">Dieses Thema habe ich auch auf <marker>Trapez</marker> gebracht.</example>
   </rule>
 
   </category>
