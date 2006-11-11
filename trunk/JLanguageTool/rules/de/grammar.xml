@@ -3,7 +3,7 @@
 Rules: Grammar and Typos
 See tagset.txt for the meaning of the POS tags
 Copyright (C) 2001-2006 Daniel Naber (http://www.danielnaber.de)
-$Id: grammar.xml,v 1.59 2006-11-11 18:07:27 dnaber Exp $
+$Id: grammar.xml,v 1.60 2006-11-11 21:20:05 dnaber Exp $
 -->
 <rules lang="de">
 
@@ -324,7 +324,7 @@ $Id: grammar.xml,v 1.59 2006-11-11 18:07:27 dnaber Exp $
   <rule id="INS_BEZUG" name="'Möglicher Tippfehler 'ins(in) Bezug'">
     <pattern mark_to="-1">
       <token>ins</token>
-      <token>Bezug</token>
+      <token regexp="yes">Bezug|Relation</token>
     </pattern>
     <message>Meinten Sie <suggestion>in</suggestion>?</message>
     <example type="correct">Auffächerung der Altersgruppen <marker>in</marker> Bezug zu den Einwohnerzahlen.</example>
@@ -333,13 +333,13 @@ $Id: grammar.xml,v 1.59 2006-11-11 18:07:27 dnaber Exp $
 
   <rule id="AUFS_TRAPEZ_BRINGEN" name="Möglicher Tippfehler 'aufs Trapez(Tapet) bringen'">
     <pattern mark_from="1" mark_to="-1">
-      <token>auf</token>
+      <token>aufs</token>
       <token>Trapez</token>
       <token inflected="yes">bringen</token>
     </pattern>
     <message>Meinten Sie <suggestion>Tapet</suggestion>?</message>
-    <example type="correct">Dieses Thema habe ich auch auf <marker>Tapet</marker> gebracht.</example>
-    <example type="incorrect">Dieses Thema habe ich auch auf <marker>Trapez</marker> gebracht.</example>
+    <example type="correct">Dieses Thema habe ich auch aufs <marker>Tapet</marker> gebracht.</example>
+    <example type="incorrect">Dieses Thema habe ich auch aufs <marker>Trapez</marker> gebracht.</example>
   </rule>
 
   <rule id="WAS_LANGE_WEHRT" name="Möglicher Tippfehler 'was lange wehrt(währt)'">
@@ -452,21 +452,27 @@ $Id: grammar.xml,v 1.59 2006-11-11 18:07:27 dnaber Exp $
     <rule>
       <pattern mark_to="-1" case_sensitive="yes">
         <token>fragen</token>
-        <token regexp="yes">haben|hat|hast|habe|hätte|hatte|hattest|hatten|hätten|habt|stellen|stellt|stellst|stellte|stellten|gestellt</token>
+        <token inflected="yes" regexp="yes">haben|stellen</token>
       </pattern>
       <message><suggestion>Fragen</suggestion> als Nomen wird groß geschrieben.</message>
       <example type="correct">Meine <marker>Fragen</marker> hat bislang keiner gelesen.</example>
+      <example type="correct">Dazu möchte ich gerne <marker>Fragen</marker> stellen.</example>
+      <example type="correct">Dazu wurden <marker>Fragen</marker> gestellt.</example>
       <example type="incorrect">Meine <marker>fragen</marker> hat bislang keiner gelesen</example>
+      <example type="incorrect">Dazu möchte ich gerne <marker>fragen</marker> stellen.</example>
+      <example type="incorrect">Dazu wurden <marker>fragen</marker> gestellt.</example>
     </rule>
     <rule>
       <!-- TODO: "habe ein paar fragen"... -->
       <pattern mark_from="1" case_sensitive="yes">
-        <token regexp="yes">haben|habe|hat|hast|hatte|hattest|hatten|habt|stellen|stellt|stellst|stellte|stellten</token>
+        <token inflected="yes" regexp="yes">haben|stellen</token>
         <token>fragen</token>
       </pattern>
       <message><suggestion>Fragen</suggestion> als Nomen wird groß geschrieben.</message>
       <example type="correct">Ich habe <marker>Fragen</marker> dazu.</example>
+      <example type="correct">Ich stellte <marker>Fragen</marker> dazu.</example>
       <example type="incorrect">Ich habe <marker>fragen</marker> dazu.</example>
+      <example type="incorrect">Ich stellte <marker>fragen</marker> dazu.</example>
     </rule>
   </rulegroup>
 
@@ -537,12 +543,14 @@ $Id: grammar.xml,v 1.59 2006-11-11 18:07:27 dnaber Exp $
   <rule id="AUSSER_BETRIEB" name="Groß-/Kleinschreibung: 'außer betrieb(Betrieb)'">
     <!-- TODO: could this be covered by excepting nouns after "außer"? -->
     <pattern mark_from="1" case_sensitive="yes">
-      <token>außer</token>
+      <token regexp="yes">außer|in</token>
       <token>betrieb</token>
     </pattern>
     <message>Meinten Sie <suggestion>Betrieb</suggestion>?</message>
     <example type="correct">Der Fahrstuhl ist außer <marker>Betrieb</marker>.</example>
+    <example type="correct">Der Fahrstuhl ist nicht in <marker>Betrieb</marker>.</example>
     <example type="incorrect">Der Fahrstuhl ist außer <marker>betrieb</marker>.</example>
+    <example type="incorrect">Der Fahrstuhl ist nicht in <marker>betrieb</marker>.</example>
   </rule>
 
   <rule id="ZUR_FOLGE" name="Groß-/Kleinschreibung: 'zur folge(Folge)'">
