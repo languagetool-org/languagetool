@@ -3,7 +3,7 @@
 Rules: Grammar and Typos
 See tagset.txt for the meaning of the POS tags
 Copyright (C) 2001-2006 Daniel Naber (http://www.danielnaber.de)
-$Id: grammar.xml,v 1.58 2006-11-11 16:43:38 dnaber Exp $
+$Id: grammar.xml,v 1.59 2006-11-11 18:07:27 dnaber Exp $
 -->
 <rules lang="de">
 
@@ -335,11 +335,22 @@ $Id: grammar.xml,v 1.58 2006-11-11 16:43:38 dnaber Exp $
     <pattern mark_from="1" mark_to="-1">
       <token>auf</token>
       <token>Trapez</token>
-      <token inflected="yes" regexp="yes">bringen</token>
+      <token inflected="yes">bringen</token>
     </pattern>
     <message>Meinten Sie <suggestion>Tapet</suggestion>?</message>
     <example type="correct">Dieses Thema habe ich auch auf <marker>Tapet</marker> gebracht.</example>
     <example type="incorrect">Dieses Thema habe ich auch auf <marker>Trapez</marker> gebracht.</example>
+  </rule>
+
+  <rule id="WAS_LANGE_WEHRT" name="Möglicher Tippfehler 'was lange wehrt(währt)'">
+    <pattern mark_from="2">
+      <token>was</token>
+      <token>lange</token>
+      <token>wehrt</token>
+    </pattern>
+    <message>Meinten Sie <suggestion>währt</suggestion>?</message>
+    <example type="correct">Was lange <marker>währt</marker>...</example>
+    <example type="incorrect">Was lange <marker>wehrt</marker>...</example>
   </rule>
 
   </category>
