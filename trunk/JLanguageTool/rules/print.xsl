@@ -5,7 +5,7 @@
 
 usage:
 
-java -jar saxon8.jar grammar.xml convert.xsl
+java -jar saxon8.jar grammar.xml print.xsl
 
 -->
 <xsl:output method="html" encoding="windows-1250" indent="yes"/>
