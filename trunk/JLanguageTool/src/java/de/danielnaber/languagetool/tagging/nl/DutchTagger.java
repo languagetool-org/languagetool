@@ -35,8 +35,7 @@ public class DutchTagger implements Tagger {
     
   public List<AnalyzedTokenReadings> tag(final List<String> sentenceTokens)
       throws IOException {
-    String[] taggerTokens;
-    boolean firstWord = true;
+    String[] taggerTokens;    
     List<AnalyzedTokenReadings> tokenReadings = new ArrayList<AnalyzedTokenReadings>();
     int pos = 0;
     //caching Lametyzator instance - lazy init
@@ -51,7 +50,7 @@ public class DutchTagger implements Tagger {
       List<AnalyzedToken> l = new ArrayList<AnalyzedToken>();      
       String[] lowerTaggerTokens = null;
         taggerTokens = morfologik.stemAndForm(word);
-        if (word!=word.toLowerCase()) {
+        if (word != word.toLowerCase()) {
         lowerTaggerTokens = morfologik.stemAndForm(word.toLowerCase());
         }
                 

@@ -37,8 +37,7 @@ public class SpanishTagger implements Tagger {
     
   public List<AnalyzedTokenReadings> tag(final List<String> sentenceTokens)
       throws IOException {
-    String[] taggerTokens;
-    boolean firstWord = true;
+    String[] taggerTokens;    
     List<AnalyzedTokenReadings> tokenReadings = new ArrayList<AnalyzedTokenReadings>();
     int pos = 0;
     //caching Lametyzator instance - lazy init
@@ -53,7 +52,7 @@ public class SpanishTagger implements Tagger {
       List<AnalyzedToken> l = new ArrayList<AnalyzedToken>();      
       String[] lowerTaggerTokens = null;
         taggerTokens = morfologik_spanish.stemAndForm(word);
-        if (word!=word.toLowerCase()) {
+        if (word != word.toLowerCase()) {
         lowerTaggerTokens = morfologik_spanish.stemAndForm(word.toLowerCase());
         }
                 
