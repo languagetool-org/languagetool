@@ -27,6 +27,7 @@ import de.danielnaber.languagetool.tagging.pl.PolishTagger;
 import de.danielnaber.languagetool.tagging.fr.FrenchTagger;
 import de.danielnaber.languagetool.tagging.es.SpanishTagger;
 import de.danielnaber.languagetool.tagging.it.ItalianTagger;
+import de.danielnaber.languagetool.tagging.nl.DutchTagger;
 import de.danielnaber.languagetool.tagging.xx.DemoTagger;
 import de.danielnaber.languagetool.tokenizers.SentenceTokenizer;
 import de.danielnaber.languagetool.tokenizers.pl.PolishSentenceTokenizer;
@@ -59,6 +60,9 @@ public final class Language {
   public static final Language ITALIAN = 
     new Language("Italian", "it", new Locale("it"), new ItalianTagger(), new SentenceTokenizer(), new WordTokenizer());
   
+  public static final Language DUTCH = 
+    new Language("Dutch", "nl", new Locale("nl"), new DutchTagger(), new SentenceTokenizer(), new WordTokenizer());
+  
   public static final Language DEMO = 
     new Language("Testlanguage", "xx", new Locale("en"), new DemoTagger(), new SentenceTokenizer(), new WordTokenizer());
 
@@ -73,7 +77,7 @@ public final class Language {
   /**
    * All languages supported by LanguageTool.
    */
-  public static final Language[] LANGUAGES = new Language[] {ENGLISH, GERMAN, POLISH, FRENCH, SPANISH, ITALIAN, DEMO};
+  public static final Language[] LANGUAGES = new Language[] {ENGLISH, GERMAN, POLISH, FRENCH, SPANISH, ITALIAN, DUTCH, DEMO};
 
   /**
    * Get the Language object for the given short language name.

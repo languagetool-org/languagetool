@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+Rules: Grammar and Typos
+See tagset.txt for the meaning of the POS tags
+Copyright (C) 2001-2006 Daniel Naber (http://www.danielnaber.de)
+$Id: grammar.xml,v 1.1 2006-11-13 22:20:01 milek_pl Exp $
+-->
+<rules lang="nl">
+
+  <category name="Mogelijke typefouten">
+  
+	  <rulegroup id="LIDWOORD_LIDWOORD" name="Dubbel Lidwoord">
+	    <rule>
+	      <pattern>
+	      <token regexp="yes">de|het|een</token>
+	      <token regexp="yes">de|het|een</token>
+	      </pattern>
+	      <message>Dubbel lidwoord</message>
+	       <example type="correct"><marker>De</marker> boot is zelfgemaakt.</example>
+	       <example type="incorrect"><marker>De een</marker> boot is zelfgemaakt.</example>
+	    </rule>
+	  </rulegroup>
+
+  </category>
+
+  <category name="Taalgebruik">
+
+<!-- no examples given yet
+    <rulegroup id="KOST_DUUR" name="Kost duur in plaats van kost veel">
+        <rule >
+            <pattern >
+              <token skip="3">kost</token>
+              <token>duur</token>
+            </pattern>
+        <message>Juist is <suggestion>is duur</suggestion> of <suggestion>kost veel</suggestion></message>
+      </rule>
+        <rule >
+        <pattern >
+          <token skip="3">duur</token>
+          <token>kost</token>
+        </pattern>
+        <message>Juist is <suggestion>is duur</suggestion> of <suggestion>kost veel</suggestion></message>
+      </rule>
+  </rulegroup>
+ -->  
+    
+  </category>
+
+  <category name="Hoofdlettergebruik">
+  </category>
+
+  <category name="Diversen">
+
+	<rulegroup name="Tweede Kamer" id="TWEEDE_KAMER">
+	  <rule>
+	  <pattern>
+	  <token regexp="yes">tweede-kamer.+</token>
+	  </pattern>
+	  <message>bedoelt u <suggestion>Tweede Kamer</suggestion></message>
+	      <example type="correct"><marker>Tweede Kamerstuk</marker></example>
+	      <example type="incorrect"><marker>Tweede-Kamerstuk</marker></example>
+	  </rule>
+	</rulegroup>
+
+<rulegroup id="EIGEN_ZELF" name="Eigen versus zelfgedaan">
+    <rule>
+      <pattern>
+        <token regexp="yes">eigengemaakt|eigengemaakte</token>
+      </pattern>
+      <message>Is <suggestion>zelf</suggestion>gemaakt niet beter?</message>
+       <example type="correct">Deze boot is <marker>zelfgemaakt</marker>.</example>
+       <example type="incorrect">Deze boot is <marker>eigengemaakt</marker>.</example>
+    </rule>
+  </rulegroup>
+
+<!-- examples lacking
+<rulegroup id="TE_ALLEN_TIJDE" name="te allen tijde">
+    <rule>
+      <pattern>
+        <token >ten</token>
+        <token regexp="yes">alle|allen</token>
+        <token regexp="yes">tijde|tijden</token>
+      </pattern>
+      <message>Bedoelt u <suggestion>te allen tijde</suggestion>?</message>
+    </rule>
+    <rule>
+      <pattern>
+        <token >te</token>
+        <token>alle</token>
+        <token regexp="yes">tijde|tijden</token>
+      </pattern>
+      <message>Bedoelt u <suggestion>te allen tijde</suggestion>?</message>
+    </rule>
+  </rulegroup>
+ -->
+ 
+  </category>
+
+
+</rules>
