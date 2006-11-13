@@ -44,7 +44,7 @@ import de.danielnaber.languagetool.tools.StringTools;
  */
 class Main {
 
-  private final static int CONTEXT_SIZE = 25;
+  private static final int CONTEXT_SIZE = 25;
 
   private JLanguageTool lt = null;
   private boolean verbose = false;
@@ -80,7 +80,7 @@ class Main {
     return lt;
   }
 
-  private void runRecursive(String filename, String encoding) throws IOException,
+  private void runRecursive(final String filename, final String encoding) throws IOException,
       ParserConfigurationException, SAXException {
     File dir = new File(filename);
     if (!dir.isDirectory()) {
@@ -104,7 +104,7 @@ class Main {
    * @param filename
    * @throws IOException
    */
-  private String getFilteredText(String filename, String encoding) throws IOException {
+  private String getFilteredText(final String filename, final String encoding) throws IOException {
     if (verbose)
       lt.setOutput(System.err);
     System.out.println("Working on " + filename + "...");
@@ -112,7 +112,7 @@ class Main {
     return filterXML(fileContents);
   }
   
-  void checkText(String contents) throws IOException {
+  void checkText(final String contents) throws IOException {
     long startTime = System.currentTimeMillis();
     List<RuleMatch> ruleMatches = lt.check(contents);
     long startTimeMatching = System.currentTimeMillis();

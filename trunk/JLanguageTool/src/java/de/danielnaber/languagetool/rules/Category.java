@@ -20,7 +20,7 @@ package de.danielnaber.languagetool.rules;
 
 public class Category {
 
-  private final static int DEFAULT_PRIORITY = 50;
+  private static final int DEFAULT_PRIORITY = 50;
   
   private int priority;
   private String name;

@@ -85,7 +85,7 @@ public final class Language {
    * @param shortLanguageCode e.g. <code>en</code> or <code>de</code>
    * @return a Language object or <code>null</code>
    */
-  public static Language getLanguageForShortName(String shortLanguageCode) {
+  public static Language getLanguageForShortName(final String shortLanguageCode) {
     if (shortLanguageCode == null)
       throw new NullPointerException("Language code cannot be null");
     for (int i = 0; i < Language.LANGUAGES.length; i++) {
@@ -102,7 +102,7 @@ public final class Language {
    * @param languageName e.g. <code>English</code> or <code>German</code>
    * @return a Language object or <code>null</code>
    */
-  public static Language getLanguageForName(String languageName) {
+  public static Language getLanguageForName(final String languageName) {
     for (int i = 0; i < Language.LANGUAGES.length; i++) {
       if (languageName.equals(Language.LANGUAGES[i].getName())) {
         return Language.LANGUAGES[i];
@@ -111,8 +111,8 @@ public final class Language {
     return null;
   }
 
-  private Language(String name, String shortForm, Locale locale, Tagger tagger, SentenceTokenizer sentenceTokenizer,
-      Tokenizer wordTokenizer) {
+  private Language(final String name, final String shortForm, final Locale locale, final Tagger tagger, final SentenceTokenizer sentenceTokenizer,
+      final Tokenizer wordTokenizer) {
     this.name = name;
     this.shortForm = shortForm;
     this.tagger = tagger;

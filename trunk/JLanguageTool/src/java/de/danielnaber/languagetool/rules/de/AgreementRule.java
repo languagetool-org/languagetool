@@ -164,7 +164,7 @@ public class AgreementRule extends GermanRule {
     return ruleMatch;
   }
 
-  /** Return Kasus, Numerus, Genus */
+  /** Return Kasus, Numerus, Genus. */
   private Set<String> getAgreementCategories(final AnalyzedGermanTokenReadings aToken) {
     Set<String> set = new HashSet<String>();
     List<AnalyzedGermanToken> readings = aToken.getGermanReadings();

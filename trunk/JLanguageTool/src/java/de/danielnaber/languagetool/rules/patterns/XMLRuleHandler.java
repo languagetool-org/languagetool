@@ -50,11 +50,11 @@ class XMLRuleHandler extends DefaultHandler {
     return rules;
   }
   
-  public void warning (SAXParseException e) throws SAXException {
+  public void warning (final SAXParseException e) throws SAXException {
     throw e;
   }
   
-  public void error (SAXParseException e) throws SAXException {
+  public void error (final SAXParseException e) throws SAXException {
     throw e;
   }
 

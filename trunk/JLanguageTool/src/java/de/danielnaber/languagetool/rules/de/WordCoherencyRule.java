@@ -49,8 +49,8 @@ import de.danielnaber.languagetool.rules.RuleMatch;
  */
 public class WordCoherencyRule extends GermanRule {
 
-  private final static String FILE_NAME = "rules" +File.separator+ "de" +File.separator+ "coherency.txt";
-  private final static String FILE_ENCODING = "utf-8";
+  private static final String FILE_NAME = "rules" +File.separator+ "de" +File.separator+ "coherency.txt";
+  private static final String FILE_ENCODING = "utf-8";
   
   private Map<String, String> relevantWords;        // e.g. "aufwendig -> aufwändig"
   private Map<String, RuleMatch> shouldNotAppearWord = new HashMap<String, RuleMatch>();  // e.g. aufwändig -> RuleMatch of aufwendig

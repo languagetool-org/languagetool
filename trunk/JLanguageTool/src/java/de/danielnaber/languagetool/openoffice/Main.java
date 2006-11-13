@@ -69,7 +69,7 @@ public class Main {
 
   public static class _Main extends WeakBase implements XJobExecutor, XServiceInfo {
 
-    static private final String __serviceName = "de.danielnaber.languagetool.openoffice.Main";
+    private static final String __serviceName = "de.danielnaber.languagetool.openoffice.Main";
 
     private XTextDocument xTextDoc;
     private XTextViewCursor xViewCursor;

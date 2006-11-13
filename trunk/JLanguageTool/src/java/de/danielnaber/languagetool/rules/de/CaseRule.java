@@ -50,7 +50,7 @@ public class CaseRule extends GermanRule {
 
   // wenn hinter diesen Wörtern ein Verb steht, ist es wohl ein substantiviertes Verb,
   // muss also groß geschrieben werden:
-  private final static Set<String> nounIndicators = new HashSet<String>();
+  private static final Set<String> nounIndicators = new HashSet<String>();
   static {
     nounIndicators.add("das");
     nounIndicators.add("sein");
@@ -63,7 +63,7 @@ public class CaseRule extends GermanRule {
     //indicator.add("ihren");
   }
   
-  private final static Set<String> sentenceStartExceptions = new HashSet<String>();
+  private static final Set<String> sentenceStartExceptions = new HashSet<String>();
   static {
     sentenceStartExceptions.add(":");
     sentenceStartExceptions.add("\"");
@@ -72,7 +72,7 @@ public class CaseRule extends GermanRule {
     sentenceStartExceptions.add("»");
   }
   
-  private final static Set<String> exceptions = new HashSet<String>();
+  private static final Set<String> exceptions = new HashSet<String>();
   static {
     exceptions.add("Dr");
     exceptions.add("Prof");
@@ -128,7 +128,7 @@ public class CaseRule extends GermanRule {
     // TODO: add more exceptions here
   }
   
-  private final static Set<String> substVerbenExceptions = new HashSet<String>();
+  private static final Set<String> substVerbenExceptions = new HashSet<String>();
   static {
     substVerbenExceptions.add("bedeutet");    // "und das bedeutet..."
     substVerbenExceptions.add("ermöglicht");    // "und das ermöglicht..."
@@ -233,7 +233,8 @@ public class CaseRule extends GermanRule {
         // TODO: this lookup should only happen once:
         analyzedGermanToken2 = tagger.lookup(token.toLowerCase());
       } catch (IOException e) {
-        throw new RuntimeException(e);      }
+        throw new RuntimeException(e);      
+        }
       if (analyzedToken.getAnalyzedToken(0).getPOSTag() == null && analyzedGermanToken2 == null) {
         continue;
       }

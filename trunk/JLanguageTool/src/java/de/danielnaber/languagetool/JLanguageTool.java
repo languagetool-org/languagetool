@@ -113,7 +113,7 @@ public class JLanguageTool {
    * @param basedirArg the installation directory of LanguageTool
    * @throws IOException 
    */
-  public JLanguageTool(Language language, File basedirArg) throws IOException {
+  public JLanguageTool(final Language language, final File basedirArg) throws IOException {
     this(language, null, basedirArg);
   }
 
@@ -124,7 +124,7 @@ public class JLanguageTool {
    * @param motherTongue the user's mother tongue or <code>null</code>
    * @throws IOException 
    */
-  public JLanguageTool(Language language, Language motherTongue) throws IOException {
+  public JLanguageTool(final Language language, final Language motherTongue) throws IOException {
     this(language, motherTongue, null);
   }
 
@@ -135,7 +135,7 @@ public class JLanguageTool {
    * @param basedirArg the installation directory of LanguageTool
    * @throws IOException 
    */
-  public JLanguageTool(Language language, Language motherTongue, File basedirArg) throws IOException {
+  public JLanguageTool(final Language language, final Language motherTongue, final File basedirArg) throws IOException {
     if (language == null) {
       throw new NullPointerException("language cannot be null");
     }
@@ -180,7 +180,7 @@ public class JLanguageTool {
   /**
    * Gets the ResourceBundle for the given user interface language.
    */
-  private static ResourceBundle getMessageBundle(Language lang) {
+  private static ResourceBundle getMessageBundle(final Language lang) {
     return ResourceBundle.getBundle("de.danielnaber.languagetool.MessagesBundle",
         lang.getLocale());
   }
@@ -189,7 +189,7 @@ public class JLanguageTool {
    * Set a PrintStream that will receive verbose output. Set
    * to <code>null</code> to disable verbose output.
    */
-  public void setOutput(PrintStream printStream) {
+  public void setOutput(final PrintStream printStream) {
     this.printStream = printStream;
   }
 
@@ -198,7 +198,7 @@ public class JLanguageTool {
    * 
    * @param relFilename a non-absolute file name 
    */
-  public static File getAbsoluteFile(String relFilename) {
+  public static File getAbsoluteFile(final String relFilename) {
     if (basedir == null)
       return new File(relFilename);
     return new File(basedir, relFilename);
@@ -213,7 +213,7 @@ public class JLanguageTool {
    * @throws IOException
    * @return a List of {@link PatternRule} objects
    */
-  public List<PatternRule> loadPatternRules(String filename) throws ParserConfigurationException, SAXException, IOException {
+  public List<PatternRule> loadPatternRules(final String filename) throws ParserConfigurationException, SAXException, IOException {
     PatternRuleLoader ruleLoader = new PatternRuleLoader();
     return ruleLoader.getRules(filename);
   }
@@ -229,7 +229,7 @@ public class JLanguageTool {
    * @throws IOException
    * @return a List of {@link PatternRule} objects
    */
-  public List<PatternRule> loadFalseFriendRules(String filename) throws ParserConfigurationException, SAXException, IOException {
+  public List<PatternRule> loadFalseFriendRules(final String filename) throws ParserConfigurationException, SAXException, IOException {
     if (motherTongue == null)
       return new ArrayList<PatternRule>();
     FalseFriendRuleLoader ruleLoader = new FalseFriendRuleLoader();

@@ -34,11 +34,11 @@ import java.util.regex.Pattern;
 public class SentenceTokenizer implements Tokenizer {
 
   // end of sentence marker:
-  private final static String EOS = "\0";
+  private static final String EOS = "\0";
   // private final static String EOS = "#"; // for testing only
-  private final static String P = "[\\.!?…]"; // PUNCTUATION
-  private final static String AP = "(?:'|«|\"||\\)|\\]|\\})?"; // AFTER PUNCTUATION
-  private final static String PAP = P + AP;
+  private static final String P = "[\\.!?…]"; // PUNCTUATION
+  private static final String AP = "(?:'|«|\"||\\)|\\]|\\})?"; // AFTER PUNCTUATION
+  private static final String PAP = P + AP;
 
   // Check out the private methods for comments and examples about these
   // regular expressions:

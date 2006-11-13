@@ -32,7 +32,7 @@ import de.danielnaber.languagetool.tools.StringTools;
  */
 public class RuleMatch implements Comparable<RuleMatch> {
 
-  private final static Pattern SUGGESTION_PATTERN = Pattern.compile("<suggestion>(.*?)</suggestion>");
+  private static final Pattern SUGGESTION_PATTERN = Pattern.compile("<suggestion>(.*?)</suggestion>");
 
   private int fromLine = -1;
   private int column = -1;
