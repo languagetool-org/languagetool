@@ -1,4 +1,5 @@
 LanguageTool, a language style checker for English, German, and Polish
+with initial support for Spanish, French, Italian, and Dutch
 Copyright (C) 2005,2006 Daniel Naber (naber at danielnaber de)
 Version ###VERSION###, ###DATE###
 Homepage: http://www.danielnaber.de/languagetool
