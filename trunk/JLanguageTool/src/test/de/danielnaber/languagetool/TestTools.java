@@ -18,6 +18,7 @@
  */
 package de.danielnaber.languagetool;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -26,7 +27,9 @@ import java.util.ResourceBundle;
 
 import junit.framework.TestCase;
 
+import de.danielnaber.languagetool.tagging.Tagger;
 import de.danielnaber.languagetool.tokenizers.SentenceTokenizer;
+import de.danielnaber.languagetool.tokenizers.Tokenizer;
 
 /**
  * @author Daniel Naber
@@ -54,4 +57,44 @@ public final class TestTools {
     TestCase.assertEquals(input, stokenizer.tokenize(inputString.toString()));
   }
   
+  public static void myAssert(String input, String expected, Tokenizer tokenizer, Tagger tagger) throws IOException {
+    List tokens = tokenizer.tokenize(input);
+    List<String> noWhitespaceTokens = new ArrayList<String>();
+    // whitespace confuses tagger, so give it the tokens but no whitespace tokens:
+    for (Iterator iterator = tokens.iterator(); iterator.hasNext();) {
+      String token = (String) iterator.next();
+      if (isWord(token)) {
+        noWhitespaceTokens.add(token);
+      }
+    }
+    List output = tagger.tag(noWhitespaceTokens);
+    StringBuffer outputStr = new StringBuffer();
+    for (Iterator iter = output.iterator(); iter.hasNext();) {
+      AnalyzedTokenReadings token = (AnalyzedTokenReadings) iter.next();
+      int readingsNumber = token.getReadingsLength();
+      for (int j = 0; j < readingsNumber; j++) {
+      outputStr.append(token.getAnalyzedToken(j).getToken());
+      outputStr.append("/[");
+      outputStr.append(token.getAnalyzedToken(j).getLemma());
+      outputStr.append("]");
+      outputStr.append(token.getAnalyzedToken(j).getPOSTag());
+      if (readingsNumber > 1 && j < readingsNumber - 1) {
+      outputStr.append("|");
+      }
+      }
+      if (iter.hasNext())
+        outputStr.append(" ");
+    }
+    TestCase.assertEquals(expected, outputStr.toString());
+  }
+
+  public static boolean isWord(String token) {
+    for (int i = 0; i < token.length(); i++) {
+      char c = token.charAt(i);
+      if (Character.isLetter(c) || Character.isDigit(c))
+        return true;
+    }
+    return false;
+  }
+
 }
