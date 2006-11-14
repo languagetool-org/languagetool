@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?><!--
 Copyright (C) 2006 Marcin Miłkowski
-$Id: grammar.xml,v 1.82 2006-11-02 10:49:26 milek_pl Exp $		
+$Id: grammar.xml,v 1.83 2006-11-14 12:25:58 milek_pl Exp $		
 -->
 <rules lang="pl">
 	<category name="Błędy interpunkcyjne">
@@ -3572,5 +3572,29 @@ $Id: grammar.xml,v 1.82 2006-11-02 10:49:26 milek_pl Exp $
 		<example type="correct"><marker>To jest</marker> uczciwy minister.</example>
 		</rule>
 		
+		<rulegroup name="„po porostu/porostu” (po prostu)" id="PO_POROSTU">
+		<rule>
+		<pattern>
+		<token>po</token>
+		<token>porostu</token>
+		</pattern>
+		<message>Prawdopodobna literówka. Czy chodziło o <suggestion>po prostu</suggestion>?</message>
+		<example type="correct">To jest <marker>po prostu</marker> uczciwy minister.</example>
+		<example type="incorrect">To jest <marker>po porostu</marker> uczciwy minister.</example>
+		</rule>
+		<rule>
+		<pattern mark_from="1" mark_to="-1">
+		<token negate="yes">po<exception postag_regexp="yes" postag=".*adj.*gen.*m[0-9\.:].*"/></token>
+		<token>porostu</token>
+		<token><exception postag_regexp="yes" postag=".*adj.*gen.*m[0-9\.:].*"/></token>
+		</pattern>
+		<message>Prawdopodobna literówka. Czy chodziło o <suggestion>po prostu</suggestion>?</message>
+		<example type="correct">To jest <marker>po prostu</marker> uczciwy minister.</example>
+		<example type="incorrect">To jest <marker>porostu</marker> uczciwy minister.</example>
+	 <example type="correct">To jest przykład pięknego <marker>porostu</marker> trawy.</example>
+	 <example type="correct">To jest przykład <marker>porostu</marker> syberyjskiego.</example>
+		</rule>
+		
+		</rulegroup>
 	</category>
 </rules>
