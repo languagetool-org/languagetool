@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?><!--
 Copyright (C) 2006 Marcin Miłkowski
-$Id: grammar.xml,v 1.83 2006-11-14 12:25:58 milek_pl Exp $		
+$Id: grammar.xml,v 1.84 2006-11-14 23:28:19 milek_pl Exp $		
 -->
 <rules lang="pl">
 	<category name="Błędy interpunkcyjne">
@@ -2398,6 +2398,27 @@ $Id: grammar.xml,v 1.83 2006-11-14 12:25:58 milek_pl Exp $
 	</category>
 
 	<category name="Błędy ortograficzne">
+
+	<rulegroup name="„zagranicę” (za granicę)" id="WYJECHAC_ZAGRANICE">
+	<rule>
+	<pattern mark_from="1">
+	<token inflected="yes" regexp="yes">jeździć|podróżować|uciekać|uciec|wyjeżdżać|wyjechać</token>
+	<token>zagranicę</token>
+	</pattern>
+	<message>Prawdopodobny błąd ortograficzny. Powinno być <suggestion>za granicę</suggestion>.</message>
+	<example type="correct">Przemysław pierwszy raz wyjechał za granicę.</example>
+	<example type="incorrect">Przemysław pierwszy raz wyjechał <marker>zagranicę</marker>.</example>
+	</rule>
+	<rule>
+	<pattern mark_to="-1">
+	<token>zagranicę</token>
+	<token regexp="yes">kraju|Polski|naszego|państwa</token>
+	</pattern>
+	<message>Prawdopodobny błąd ortograficzny. Powinno być <suggestion>za granicę</suggestion>.</message>
+	<example type="correct">Przemysław pierwszy raz za granicę Polski wyjechał.</example>
+	<example type="incorrect">Przemysław pierwszy raz <marker>zagranicę</marker> Polski wyjechał.</example>
+	</rule>
+	</rulegroup>
 
 	<rulegroup name="„widzi mi się” (widzimisię)" id="WIDZI_MI_SIE">
 	<rule>
