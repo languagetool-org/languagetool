@@ -25,18 +25,19 @@ import de.danielnaber.languagetool.TestTools;
 import de.danielnaber.languagetool.tokenizers.WordTokenizer;
 
 public class PolishTaggerTest extends TestCase {
-	private PolishTagger tagger;
-	  private WordTokenizer tokenizer;
+	
+  private PolishTagger tagger;
+	private WordTokenizer tokenizer;
 	  
-	  public void setUp() {
-	    tagger = new PolishTagger();
-	    tokenizer = new WordTokenizer();
-	  }
+	public void setUp() {
+	  tagger = new PolishTagger();
+	  tokenizer = new WordTokenizer();
+	}
 
-	  public void testTagger() throws IOException {
-	    TestTools.myAssert("To jest duży dom.", "To/[to]conj|To/[ten]adj:sg:nom.acc.voc:n1.n2 jest/[być]verb:fin:sg:ter:imperf duży/[duży]adj:sg:nom:m:pneg dom/[dom]subst:sg:nom.acc:m3", tokenizer, tagger);
-      TestTools.myAssert("Krowa pasie się na pastwisku.", "Krowa/[krowa]subst:sg:nom:f pasie/[pas]subst:sg:loc.voc:m3|pasie/[paść]verb:irreg się/[siebie]qub na/[na]prep:acc.loc pastwisku/[pastwisko]subst:sg:dat:n+subst:sg:loc:n", tokenizer, tagger);
-      TestTools.myAssert("blablabla","blablabla/[null]null", tokenizer, tagger);
-	  }
+	public void testTagger() throws IOException {
+	  TestTools.myAssert("To jest duży dom.", "To/[to]conj|To/[ten]adj:sg:nom.acc.voc:n1.n2 jest/[być]verb:fin:sg:ter:imperf duży/[duży]adj:sg:nom:m:pneg dom/[dom]subst:sg:nom.acc:m3", tokenizer, tagger);
+    TestTools.myAssert("Krowa pasie się na pastwisku.", "Krowa/[krowa]subst:sg:nom:f pasie/[pas]subst:sg:loc.voc:m3|pasie/[paść]verb:irreg się/[siebie]qub na/[na]prep:acc.loc pastwisku/[pastwisko]subst:sg:dat:n+subst:sg:loc:n", tokenizer, tagger);
+    TestTools.myAssert("blablabla","blablabla/[null]null", tokenizer, tagger);
+	}
 
 }

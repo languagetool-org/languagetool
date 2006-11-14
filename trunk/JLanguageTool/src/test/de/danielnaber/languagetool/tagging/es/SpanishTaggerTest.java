@@ -25,18 +25,19 @@ import de.danielnaber.languagetool.TestTools;
 import de.danielnaber.languagetool.tokenizers.WordTokenizer;
 
 public class SpanishTaggerTest extends TestCase {
-    private SpanishTagger tagger;
-      private WordTokenizer tokenizer;
-      
-      public void setUp() {
-        tagger = new SpanishTagger();
-        tokenizer = new WordTokenizer();
-      }
 
-      public void testTagger() throws IOException {
-        TestTools.myAssert("Soy un hombre muy honrado.", "Soy/[ser]VSIP1S0 un/[uno]DI0MS0|un/[1]Z hombre/[hombre]I|hombre/[hombre]NCMS000 muy/[mucho]RG honrado/[honrar]VMP00SM", tokenizer, tagger);
-        TestTools.myAssert("Tengo que ir a mi casa.", "Tengo/[tener]VMIP1S0 que/[que]PR0CN000|que/[que]CS ir/[ir]VMN0000 a/[a]NCFS000|a/[a]SPS00 mi/[mi]DP1CSS casa/[casa]NCFS000|casa/[casar]VMIP3S0|casa/[casar]VMM02S0", tokenizer, tagger);
-        TestTools.myAssert("blablabla","blablabla/[null]null", tokenizer, tagger);        
-      }
+  private SpanishTagger tagger;
+  private WordTokenizer tokenizer;
+
+  public void setUp() {
+    tagger = new SpanishTagger();
+    tokenizer = new WordTokenizer();
+  }
+
+  public void testTagger() throws IOException {
+    TestTools.myAssert("Soy un hombre muy honrado.", "Soy/[ser]VSIP1S0 un/[uno]DI0MS0|un/[1]Z hombre/[hombre]I|hombre/[hombre]NCMS000 muy/[mucho]RG honrado/[honrar]VMP00SM", tokenizer, tagger);
+    TestTools.myAssert("Tengo que ir a mi casa.", "Tengo/[tener]VMIP1S0 que/[que]PR0CN000|que/[que]CS ir/[ir]VMN0000 a/[a]NCFS000|a/[a]SPS00 mi/[mi]DP1CSS casa/[casa]NCFS000|casa/[casar]VMIP3S0|casa/[casar]VMM02S0", tokenizer, tagger);
+    TestTools.myAssert("blablabla","blablabla/[null]null", tokenizer, tagger);        
+  }
 
 }
