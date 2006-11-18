@@ -63,6 +63,9 @@ public final class Language {
   
   public static final Language DUTCH = 
     new Language("Dutch", "nl", new Locale("nl"), new DutchTagger(), new SentenceTokenizer(), new WordTokenizer());
+
+  public static final Language LITHUANIAN =
+    new Language("Lithuanian", "lt", new Locale("lt"), new DemoTagger(), new SentenceTokenizer(), new WordTokenizer());
   
   public static final Language DEMO = 
     new Language("Testlanguage", "xx", new Locale("en"), new DemoTagger(), new SentenceTokenizer(), new WordTokenizer());
@@ -79,7 +82,7 @@ public final class Language {
    * All languages supported by LanguageTool.
    */
   public static final Language[] LANGUAGES = new Language[] {
-    ENGLISH, GERMAN, POLISH, FRENCH, SPANISH, ITALIAN, DUTCH, DEMO
+    ENGLISH, GERMAN, POLISH, FRENCH, SPANISH, ITALIAN, DUTCH, LITHUANIAN, DEMO
   };
 
   /**
