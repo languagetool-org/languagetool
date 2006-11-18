@@ -105,6 +105,11 @@ public class CaseRule extends GermanRule {
     exceptions.add("Schuld");
     exceptions.add("Erwachsener");
     exceptions.add("Jugendlicher");
+    exceptions.add("Link");
+    exceptions.add("Ausdrücke");
+    exceptions.add("Landwirtschaft");
+    exceptions.add("Flöße");
+    exceptions.add("Wild");
     // Änderungen an der Rechtschreibreform 2006 erlauben hier Großschreibung:
     exceptions.add("Du");
     exceptions.add("Dir");
@@ -122,9 +127,6 @@ public class CaseRule extends GermanRule {
     exceptions.add("Kurzem");
     exceptions.add("Schwarzes");    // Schwarzes Brett
     exceptions.add("Goldener");    // Goldener Schnitt
-    exceptions.add("Link");
-    exceptions.add("Ausdrücke");
-    exceptions.add("Landwirtschaft");
     // TODO: add more exceptions here
   }
   
@@ -145,6 +147,10 @@ public class CaseRule extends GermanRule {
     substVerbenExceptions.add("habe");
     substVerbenExceptions.add("ein");   // nicht "einen" (Verb)
     substVerbenExceptions.add("tun");   // "...dann wird er das tun."
+    substVerbenExceptions.add("bestätigt");
+    substVerbenExceptions.add("bestätigte");
+    substVerbenExceptions.add("bestätigten");
+    substVerbenExceptions.add("bekommen");
   }
 
   public CaseRule(final ResourceBundle messages) {
