@@ -41,6 +41,7 @@ import de.danielnaber.languagetool.rules.UppercaseSentenceStartRule;
 import de.danielnaber.languagetool.rules.WordRepeatRule;
 import de.danielnaber.languagetool.rules.de.AgreementRule;
 import de.danielnaber.languagetool.rules.de.CaseRule;
+import de.danielnaber.languagetool.rules.de.CompoundRule;
 import de.danielnaber.languagetool.rules.de.DashRule;
 import de.danielnaber.languagetool.rules.de.WiederVsWiderRule;
 import de.danielnaber.languagetool.rules.de.WordCoherencyRule;
@@ -184,6 +185,7 @@ public class JLanguageTool {
         new WiederVsWiderRule(messages),
         new AgreementRule(messages),
         new DashRule(messages),
+        new CompoundRule(messages),
         // Polish:
         new PolishWordRepeatRule(messages)
       };
