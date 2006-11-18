@@ -143,24 +143,7 @@ public class JLanguageTool {
     this.language = language;
     this.motherTongue = motherTongue;
     messages = getMessageBundle(language);
-    // TODO: use reflection to get a list of all non-pattern rules?:
-    Rule[] allBuiltinRules = new Rule[] { 
-        // Several languages:
-        new CommaWhitespaceRule(messages), 
-        new WordRepeatRule(messages, language),
-        new DoublePunctuationRule(messages),
-        new UppercaseSentenceStartRule(messages),
-        // English:
-        new AvsAnRule(messages),        
-        // German:
-        new WordCoherencyRule(messages),
-        new CaseRule(messages),
-        new WiederVsWiderRule(messages),
-        new AgreementRule(messages),
-        new DashRule(messages),
-        // Polish:
-        new PolishWordRepeatRule(messages)
-      };
+    Rule[] allBuiltinRules = getAllBuiltinRules(messages);
     for (int i = 0; i < allBuiltinRules.length; i++) {
       if (allBuiltinRules[i].supportsLanguage(language))
         builtinRules.add(allBuiltinRules[i]);
@@ -185,6 +168,28 @@ public class JLanguageTool {
         lang.getLocale());
   }
 
+  private Rule[] getAllBuiltinRules(ResourceBundle messages) throws IOException {
+    // TODO: use reflection to get a list of all non-pattern rules?:
+    Rule[] allBuiltinRules = new Rule[] { 
+        // Several languages:
+        new CommaWhitespaceRule(messages), 
+        new WordRepeatRule(messages, language),
+        new DoublePunctuationRule(messages),
+        new UppercaseSentenceStartRule(messages),
+        // English:
+        new AvsAnRule(messages),        
+        // German:
+        new WordCoherencyRule(messages),
+        new CaseRule(messages),
+        new WiederVsWiderRule(messages),
+        new AgreementRule(messages),
+        new DashRule(messages),
+        // Polish:
+        new PolishWordRepeatRule(messages)
+      };
+    return allBuiltinRules;
+  }
+  
   /**
    * Set a PrintStream that will receive verbose output. Set
    * to <code>null</code> to disable verbose output.
