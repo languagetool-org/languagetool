@@ -35,13 +35,14 @@ import de.danielnaber.languagetool.tokenizers.Tokenizer;
 import de.danielnaber.languagetool.tokenizers.WordTokenizer;
 
 /**
- * Constants for supported languages (currently English, German, and Polish).
+ * Constants for supported languages (English, German, etc).
  * 
  * @author Daniel Naber
  */
 public final class Language {
 
-  // IMPORTANT: keep in sync with LANGUAGES array below:
+  // IMPORTANT: keep these in sync with LANGUAGES array below:
+  
   public static final Language ENGLISH = 
     new Language("English", "en", new Locale("en"), new EnglishTagger(), new SentenceTokenizer(), new WordTokenizer());
   
@@ -77,7 +78,9 @@ public final class Language {
   /**
    * All languages supported by LanguageTool.
    */
-  public static final Language[] LANGUAGES = new Language[] {ENGLISH, GERMAN, POLISH, FRENCH, SPANISH, ITALIAN, DUTCH, DEMO};
+  public static final Language[] LANGUAGES = new Language[] {
+    ENGLISH, GERMAN, POLISH, FRENCH, SPANISH, ITALIAN, DUTCH, DEMO
+  };
 
   /**
    * Get the Language object for the given short language name.
@@ -111,8 +114,8 @@ public final class Language {
     return null;
   }
 
-  private Language(final String name, final String shortForm, final Locale locale, final Tagger tagger, final SentenceTokenizer sentenceTokenizer,
-      final Tokenizer wordTokenizer) {
+  private Language(final String name, final String shortForm, final Locale locale, final Tagger tagger,
+      final SentenceTokenizer sentenceTokenizer, final Tokenizer wordTokenizer) {
     this.name = name;
     this.shortForm = shortForm;
     this.tagger = tagger;
