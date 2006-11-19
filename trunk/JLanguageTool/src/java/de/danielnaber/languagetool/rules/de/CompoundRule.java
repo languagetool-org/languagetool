@@ -24,12 +24,18 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+import java.util.Queue;
 import java.util.ResourceBundle;
 import java.util.Set;
+import java.util.concurrent.ArrayBlockingQueue;
 
 import de.danielnaber.languagetool.AnalyzedSentence;
+import de.danielnaber.languagetool.AnalyzedToken;
 import de.danielnaber.languagetool.AnalyzedTokenReadings;
 import de.danielnaber.languagetool.rules.Category;
 import de.danielnaber.languagetool.rules.RuleMatch;
@@ -44,6 +50,8 @@ public class CompoundRule extends GermanRule {
 
   private static final String FILE_NAME = "resource" +File.separator+ "de" +File.separator+
     "compounds.txt";
+  
+  private final static int MAX_TERMS = 4;
   
   private Set incorrectCompounds = null;
   
@@ -64,32 +72,81 @@ public class CompoundRule extends GermanRule {
   public RuleMatch[] match(final AnalyzedSentence text) {
     List<RuleMatch> ruleMatches = new ArrayList<RuleMatch>();
     AnalyzedTokenReadings[] tokens = text.getTokensWithoutWhitespace();
-    int pos = 0;
-    AnalyzedTokenReadings prevToken = null;
-    for (int i = 0; i < tokens.length; i++) {
-      AnalyzedTokenReadings token = tokens[i];
-      String tokenStr = tokens[i].getToken();
-      if (prevToken == null) {
-        prevToken = token;
+    
+    Queue<AnalyzedTokenReadings> prevTokens = new ArrayBlockingQueue<AnalyzedTokenReadings>(MAX_TERMS);
+    for (int i = 0; i < tokens.length + MAX_TERMS/2 + 1; i++) {
+      AnalyzedTokenReadings token = null;
+      // we need to extends the token list so we find matches at the end of the original list:
+      if (i >= tokens.length)
+        token = new AnalyzedTokenReadings(new AnalyzedToken("", "", prevTokens.peek().getStartPos()));
+      else
+        token = tokens[i];
+      if (i == 0) {
+        addToQueue(token, prevTokens);
         continue;
       }
-      String stringtoCheck = prevToken.getToken() + " "  + tokenStr;
-      if (incorrectCompounds.contains(stringtoCheck)) {
-        String msg = "Komposita werden üblicherweise zusammen oder mit Bindestrich geschrieben.";
-        RuleMatch ruleMatch = new RuleMatch(this, prevToken.getStartPos(), 
-            token.getStartPos() + token.getToken().length(), msg);
-        List<String> repl = new ArrayList<String>();
-        repl.add(prevToken.getToken() + "-" + tokenStr);
-        if (!StringTools.isAllUppercase(tokenStr)) {
-          repl.add(prevToken.getToken() + tokenStr.toLowerCase());
+      
+      StringBuilder sb = new StringBuilder();
+      int j = 0;
+      AnalyzedTokenReadings firstMatchToken = null;
+      List<String> stringsToCheck = new ArrayList<String>();
+      Map<String, AnalyzedTokenReadings> stringToToken = new HashMap<String, AnalyzedTokenReadings>();
+      for (Iterator iter = prevTokens.iterator(); iter.hasNext();) {
+        AnalyzedTokenReadings atr = (AnalyzedTokenReadings) iter.next();
+        if (j == 0)
+          firstMatchToken = atr;
+        else
+          sb.append(" ");
+        sb.append(atr.getToken());
+        if (j >= 1) {
+          stringsToCheck.add(sb.toString());
+          stringToToken.put(sb.toString(), atr);
         }
-        ruleMatch.setSuggestedReplacements(repl);
-        ruleMatches.add(ruleMatch);
+        j++;
       }
-      prevToken = token;
-      pos += tokens[i].getToken().length();
+      // iterate backwards over all potentially incorrect strings to make
+      // sure we match longer strings first:
+      for (int k = stringsToCheck.size()-1; k >= 0; k--) {
+        String stringtoCheck = stringsToCheck.get(k);
+        //System.err.println("#"+stringtoCheck);
+        if (incorrectCompounds.contains(stringtoCheck)) {
+          AnalyzedTokenReadings atr = stringToToken.get(stringtoCheck);
+          String msg = "Komposita werden üblicherweise zusammen oder mit Bindestrich geschrieben.";
+          RuleMatch ruleMatch = new RuleMatch(this, firstMatchToken.getStartPos(), 
+              atr.getStartPos() + atr.getToken().length(), msg);
+          List<String> repl = new ArrayList<String>();
+          repl.add(stringtoCheck.replace(' ', '-'));
+          if (!StringTools.isAllUppercase(stringtoCheck)) {
+            repl.add(mergeCompound(stringtoCheck));
+          }
+          ruleMatch.setSuggestedReplacements(repl);
+          ruleMatches.add(ruleMatch);
+          break;
+        }
+      }
+      addToQueue(token, prevTokens);
     }
     return toRuleMatchArray(ruleMatches);
+  }
+
+  private String mergeCompound(String str) {
+    String[] stringParts = str.split(" ");
+    StringBuilder sb = new StringBuilder();
+    for (int k = 0; k < stringParts.length; k++) {
+      if (k == 0)
+        sb.append(stringParts[k]);
+      else
+        sb.append(stringParts[k].toLowerCase());
+    }
+    return sb.toString();
+  }
+
+  private void addToQueue(AnalyzedTokenReadings token, Queue<AnalyzedTokenReadings> prevTokens) {
+    boolean inserted = prevTokens.offer(token);
+    if (!inserted) {
+      prevTokens.poll();
+      prevTokens.offer(token);
+    }
   }
 
   public void reset() {

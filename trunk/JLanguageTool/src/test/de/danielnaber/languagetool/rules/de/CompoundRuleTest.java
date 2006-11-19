@@ -36,6 +36,7 @@ public class CompoundRuleTest extends TestCase {
     langTool = new JLanguageTool(Language.GERMAN);
     rule = new CompoundRule(null);
     // correct sentences:
+    check(0, "Eine tolle CD-ROM");
     check(0, "Eine tolle CD-ROM.");
     check(0, "Ein toller CD-ROM-Test.");
     check(0, "Systemadministrator");
@@ -43,14 +44,22 @@ public class CompoundRuleTest extends TestCase {
     check(0, "Eine Million Dollar");
     check(0, "Das System des Administrators");
     check(0, "Nur im Stand-by-Betrieb");
+    check(0, "Start, Ziel, Sieg");
     // incorrect sentences:
     check(1, "System Administrator");
     check(1, "Der System Administrator");
     check(1, "Der dumme System Administrator");
-    check(2, "Der dumme System Administrator legt die CD ROM ein");
+    check(1, "CD ROM");
+    check(2, "Der dumme System Administrator legt die CD ROM");
+    check(2, "Der dumme System Administrator legt die CD ROM.");
+    check(2, "Der dumme System Administrator legt die CD ROM ein blah");
+    check(2, "System Administrator CD ROM");
     check(1, "Nur im Stand by Betrieb");
-    // TODO: properly support compounds with more than 2 parts:
-    //assertEquals(1, rule.match(langTool.getAnalyzedSentence("Ein echter Start Ziel Sieg")).length);
+    check(1, "Ein echter Start Ziel Sieg");
+    check(1, "Ein echter Start Ziel Sieg.");
+    check(1, "Ein Start Ziel Sieg");
+    check(1, "Start Ziel Sieg");
+    check(1, "Start Ziel Sieg!");
   }
 
   private void check(int expectedErrors, String text) throws IOException {
