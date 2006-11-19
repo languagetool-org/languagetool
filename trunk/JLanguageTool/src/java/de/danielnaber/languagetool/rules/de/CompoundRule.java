@@ -51,7 +51,7 @@ public class CompoundRule extends GermanRule {
   private static final String FILE_NAME = "resource" +File.separator+ "de" +File.separator+
     "compounds.txt";
   
-  private final static int MAX_TERMS = 4;
+  private final static int MAX_TERMS = 5;
   
   private Set incorrectCompounds = null;
   
@@ -73,10 +73,11 @@ public class CompoundRule extends GermanRule {
     List<RuleMatch> ruleMatches = new ArrayList<RuleMatch>();
     AnalyzedTokenReadings[] tokens = text.getTokensWithoutWhitespace();
     
+    RuleMatch prevRuleMatch = null;
     Queue<AnalyzedTokenReadings> prevTokens = new ArrayBlockingQueue<AnalyzedTokenReadings>(MAX_TERMS);
-    for (int i = 0; i < tokens.length + MAX_TERMS/2 + 1; i++) {
+    for (int i = 0; i < tokens.length + MAX_TERMS-1; i++) {
       AnalyzedTokenReadings token = null;
-      // we need to extends the token list so we find matches at the end of the original list:
+      // we need to extend the token list so we find matches at the end of the original list:
       if (i >= tokens.length)
         token = new AnalyzedTokenReadings(new AnalyzedToken("", "", prevTokens.peek().getStartPos()));
       else
@@ -95,29 +96,36 @@ public class CompoundRule extends GermanRule {
         AnalyzedTokenReadings atr = (AnalyzedTokenReadings) iter.next();
         if (j == 0)
           firstMatchToken = atr;
-        else
-          sb.append(" ");
+        sb.append(" ");
         sb.append(atr.getToken());
         if (j >= 1) {
-          stringsToCheck.add(sb.toString());
-          stringToToken.put(sb.toString(), atr);
+          String stringtoCheck = sb.toString().trim();
+          stringsToCheck.add(stringtoCheck);
+          if (!stringToToken.containsKey(stringtoCheck))
+            stringToToken.put(stringtoCheck, atr);
         }
         j++;
       }
       // iterate backwards over all potentially incorrect strings to make
       // sure we match longer strings first:
       for (int k = stringsToCheck.size()-1; k >= 0; k--) {
-        String stringtoCheck = stringsToCheck.get(k);
-        //System.err.println("#"+stringtoCheck);
-        if (incorrectCompounds.contains(stringtoCheck)) {
-          AnalyzedTokenReadings atr = stringToToken.get(stringtoCheck);
-          String msg = "Komposita werden üblicherweise zusammen oder mit Bindestrich geschrieben.";
+        String stringToCheck = stringsToCheck.get(k).trim();
+        //System.err.println("##"+stringtoCheck+"#");
+        if (incorrectCompounds.contains(stringToCheck)) {
+          AnalyzedTokenReadings atr = stringToToken.get(stringToCheck);
+          String msg = "Komposita werden zusammen oder mit Bindestrich geschrieben.";
           RuleMatch ruleMatch = new RuleMatch(this, firstMatchToken.getStartPos(), 
               atr.getStartPos() + atr.getToken().length(), msg);
+          // avoid duplicate matches:
+          if (prevRuleMatch != null && prevRuleMatch.getFromPos() == ruleMatch.getFromPos()) {
+            prevRuleMatch = ruleMatch;
+            break;
+          }
+          prevRuleMatch = ruleMatch;
           List<String> repl = new ArrayList<String>();
-          repl.add(stringtoCheck.replace(' ', '-'));
-          if (!StringTools.isAllUppercase(stringtoCheck)) {
-            repl.add(mergeCompound(stringtoCheck));
+          repl.add(stringToCheck.replace(' ', '-'));
+          if (!StringTools.isAllUppercase(stringToCheck)) {
+            repl.add(mergeCompound(stringToCheck));
           }
           ruleMatch.setSuggestedReplacements(repl);
           ruleMatches.add(ruleMatch);
@@ -149,9 +157,6 @@ public class CompoundRule extends GermanRule {
     }
   }
 
-  public void reset() {
-  }
-
   private Set loadCompoundFile(final String filename, final String encoding) throws IOException {
     InputStreamReader isr = null;
     BufferedReader br = null;
@@ -168,6 +173,11 @@ public class CompoundRule extends GermanRule {
           continue;
         // the set contains the incorrect spellings, i.e. the ones without hyphen
         line = line.replace('-', ' ');
+        String[] parts = line.split(" ");
+        if (parts.length > MAX_TERMS)
+          throw new IOException("Too many compound parts: " + line + ", maximum allowed: " + MAX_TERMS);
+        if (parts.length == 1)
+          throw new IOException("Not a compound: " + line);
         words.add(line);
       }
     } finally {
@@ -176,6 +186,9 @@ public class CompoundRule extends GermanRule {
       if (fis != null) fis.close();
     }
     return words;
+  }
+
+  public void reset() {
   }
 
 }

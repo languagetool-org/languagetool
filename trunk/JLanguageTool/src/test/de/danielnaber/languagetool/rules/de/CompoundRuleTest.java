@@ -45,24 +45,31 @@ public class CompoundRuleTest extends TestCase {
     check(0, "Das System des Administrators");
     check(0, "Nur im Stand-by-Betrieb");
     check(0, "Start, Ziel, Sieg");
+    check(0, "Roll-on-roll-off-Schiff");
     // incorrect sentences:
     check(1, "System Administrator");
+    check(1, "bla bla bla bla bla System Administrator bla bla bla bla bla");
+    check(1, "System Administrator blubb");
     check(1, "Der System Administrator");
     check(1, "Der dumme System Administrator");
     check(1, "CD ROM");
-    check(2, "Der dumme System Administrator legt die CD ROM");
-    check(2, "Der dumme System Administrator legt die CD ROM.");
-    check(2, "Der dumme System Administrator legt die CD ROM ein blah");
-    check(2, "System Administrator CD ROM");
     check(1, "Nur im Stand by Betrieb");
     check(1, "Ein echter Start Ziel Sieg");
     check(1, "Ein echter Start Ziel Sieg.");
     check(1, "Ein Start Ziel Sieg");
     check(1, "Start Ziel Sieg");
     check(1, "Start Ziel Sieg!");
+    check(2, "Der dumme System Administrator legt die CD ROM");
+    check(2, "Der dumme System Administrator legt die CD ROM.");
+    check(2, "Der dumme System Administrator legt die CD ROM ein blah");
+    check(2, "System Administrator CD ROM");
+    check(1, "Roll on roll off Schiff");
+    // TODO: detect an error if only some of the hyphens are missing:
+    //check(1, "Roll-on-roll-off Schiff");
   }
 
   private void check(int expectedErrors, String text) throws IOException {
     assertEquals(expectedErrors, rule.match(langTool.getAnalyzedSentence(text)).length);
   }
+  
 }
