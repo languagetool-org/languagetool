@@ -99,7 +99,7 @@ public class CompoundRule extends GermanRule {
         sb.append(" ");
         sb.append(atr.getToken());
         if (j >= 1) {
-          String stringtoCheck = sb.toString().trim();
+          String stringtoCheck = sb.toString().trim().toLowerCase();
           stringsToCheck.add(stringtoCheck);
           if (!stringToToken.containsKey(stringtoCheck))
             stringToToken.put(stringtoCheck, atr);
@@ -109,7 +109,7 @@ public class CompoundRule extends GermanRule {
       // iterate backwards over all potentially incorrect strings to make
       // sure we match longer strings first:
       for (int k = stringsToCheck.size()-1; k >= 0; k--) {
-        String stringToCheck = stringsToCheck.get(k).trim();
+        String stringToCheck = stringsToCheck.get(k).trim().toLowerCase();
         //System.err.println("##"+stringtoCheck+"#");
         if (incorrectCompounds.contains(stringToCheck)) {
           AnalyzedTokenReadings atr = stringToToken.get(stringToCheck);
@@ -178,7 +178,7 @@ public class CompoundRule extends GermanRule {
           throw new IOException("Too many compound parts: " + line + ", maximum allowed: " + MAX_TERMS);
         if (parts.length == 1)
           throw new IOException("Not a compound: " + line);
-        words.add(line);
+        words.add(line.toLowerCase());
       }
     } finally {
       if (br != null) br.close();

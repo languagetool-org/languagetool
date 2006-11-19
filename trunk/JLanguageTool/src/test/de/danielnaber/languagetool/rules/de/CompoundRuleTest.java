@@ -64,6 +64,10 @@ public class CompoundRuleTest extends TestCase {
     check(2, "Der dumme System Administrator legt die CD ROM ein blah");
     check(2, "System Administrator CD ROM");
     check(1, "Roll on roll off Schiff");
+    check(1, "Spin off");
+    // also accept incorrect upper/lowercase spelling:
+    check(1, "Spin Off");
+    check(1, "CW Wert");
     // TODO: detect an error if only some of the hyphens are missing:
     //check(1, "Roll-on-roll-off Schiff");
   }
