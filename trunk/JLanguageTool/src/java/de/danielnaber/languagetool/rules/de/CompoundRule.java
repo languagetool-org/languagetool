@@ -53,12 +53,14 @@ public class CompoundRule extends GermanRule {
   
   private final static int MAX_TERMS = 5;
   
-  private Set incorrectCompounds = null;
+  private Set<String> incorrectCompounds = new HashSet<String>();
+  private Set<String> noDashSuggestion = new HashSet<String>();
+  private Set<String> onlyDashSuggestion = new HashSet<String>();
   
   public CompoundRule(final ResourceBundle messages) throws IOException {
     if (messages != null)
       super.setCategory(new Category(messages.getString("category_misc")));
-    incorrectCompounds = loadCompoundFile(FILE_NAME, "UTF-8");
+    loadCompoundFile(FILE_NAME, "UTF-8");
   }
   
   public String getId() {
@@ -91,6 +93,7 @@ public class CompoundRule extends GermanRule {
       int j = 0;
       AnalyzedTokenReadings firstMatchToken = null;
       List<String> stringsToCheck = new ArrayList<String>();
+      List<String> origStringsToCheck = new ArrayList<String>();    // original upper/lowercase spelling
       Map<String, AnalyzedTokenReadings> stringToToken = new HashMap<String, AnalyzedTokenReadings>();
       for (Iterator iter = prevTokens.iterator(); iter.hasNext();) {
         AnalyzedTokenReadings atr = (AnalyzedTokenReadings) iter.next();
@@ -101,6 +104,7 @@ public class CompoundRule extends GermanRule {
         if (j >= 1) {
           String stringtoCheck = sb.toString().trim().toLowerCase();
           stringsToCheck.add(stringtoCheck);
+          origStringsToCheck.add(sb.toString().trim());
           if (!stringToToken.containsKey(stringtoCheck))
             stringToToken.put(stringtoCheck, atr);
         }
@@ -109,7 +113,8 @@ public class CompoundRule extends GermanRule {
       // iterate backwards over all potentially incorrect strings to make
       // sure we match longer strings first:
       for (int k = stringsToCheck.size()-1; k >= 0; k--) {
-        String stringToCheck = stringsToCheck.get(k).trim().toLowerCase();
+        String stringToCheck = stringsToCheck.get(k);
+        String origStringToCheck = origStringsToCheck.get(k);
         //System.err.println("##"+stringtoCheck+"#");
         if (incorrectCompounds.contains(stringToCheck)) {
           AnalyzedTokenReadings atr = stringToToken.get(stringToCheck);
@@ -123,9 +128,13 @@ public class CompoundRule extends GermanRule {
           }
           prevRuleMatch = ruleMatch;
           List<String> repl = new ArrayList<String>();
-          repl.add(stringToCheck.replace(' ', '-'));
-          if (!StringTools.isAllUppercase(stringToCheck)) {
-            repl.add(mergeCompound(stringToCheck));
+          if (!noDashSuggestion.contains(stringToCheck)) {
+            repl.add(origStringToCheck.replace(' ', '-'));
+          }
+          // assume that compounds with more than two parts should always use hyphens:
+          if (!hasAllUppercaseParts(origStringToCheck) && countParts(stringToCheck) <= 2
+              && !onlyDashSuggestion.contains(stringToCheck)) {
+            repl.add(mergeCompound(origStringToCheck));
           }
           ruleMatch.setSuggestedReplacements(repl);
           ruleMatches.add(ruleMatch);
@@ -135,6 +144,21 @@ public class CompoundRule extends GermanRule {
       addToQueue(token, prevTokens);
     }
     return toRuleMatchArray(ruleMatches);
+  }
+
+  private boolean hasAllUppercaseParts(String str) {
+    String[] parts = str.split(" ");
+    for (int i = 0; i < parts.length; i++) {
+      if (StringTools.isAllUppercase(parts[i])) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  private int countParts(String str) {
+    String[] parts = str.split(" ");
+    return parts.length;
   }
 
   private String mergeCompound(String str) {
@@ -157,11 +181,10 @@ public class CompoundRule extends GermanRule {
     }
   }
 
-  private Set loadCompoundFile(final String filename, final String encoding) throws IOException {
+  private void loadCompoundFile(final String filename, final String encoding) throws IOException {
     InputStreamReader isr = null;
     BufferedReader br = null;
     FileInputStream fis = null;
-    Set<String> words = new HashSet<String>();
     try {
       fis = new FileInputStream(filename);
       isr = new InputStreamReader(fis, encoding);
@@ -178,14 +201,20 @@ public class CompoundRule extends GermanRule {
           throw new IOException("Too many compound parts: " + line + ", maximum allowed: " + MAX_TERMS);
         if (parts.length == 1)
           throw new IOException("Not a compound: " + line);
-        words.add(line.toLowerCase());
+        if (line.endsWith("+")) {
+          line = line.substring(0, line.length()-1);    // cut off "+"
+          noDashSuggestion.add(line.toLowerCase());
+        } else if (line.endsWith("*")) {
+          line = line.substring(0, line.length()-1);    // cut off "*"
+          onlyDashSuggestion.add(line.toLowerCase());
+        }
+        incorrectCompounds.add(line.toLowerCase());
       }
     } finally {
       if (br != null) br.close();
       if (isr != null) isr.close();
       if (fis != null) fis.close();
     }
-    return words;
   }
 
   public void reset() {

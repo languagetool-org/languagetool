@@ -19,10 +19,12 @@
 package de.danielnaber.languagetool.rules.de;
 
 import java.io.IOException;
+import java.util.Iterator;
 
 import junit.framework.TestCase;
 import de.danielnaber.languagetool.JLanguageTool;
 import de.danielnaber.languagetool.Language;
+import de.danielnaber.languagetool.rules.RuleMatch;
 
 /**
  * @author Daniel Naber
@@ -47,14 +49,14 @@ public class CompoundRuleTest extends TestCase {
     check(0, "Start, Ziel, Sieg");
     check(0, "Roll-on-roll-off-Schiff");
     // incorrect sentences:
-    check(1, "System Administrator");
+    check(1, "System Administrator", new String[]{"System-Administrator", "Systemadministrator"});
     check(1, "bla bla bla bla bla System Administrator bla bla bla bla bla");
     check(1, "System Administrator blubb");
     check(1, "Der System Administrator");
     check(1, "Der dumme System Administrator");
-    check(1, "CD ROM");
-    check(1, "Nur im Stand by Betrieb");
-    check(1, "Ein echter Start Ziel Sieg");
+    check(1, "CD ROM", new String[]{"CD-ROM"});
+    check(1, "Nur im Stand by Betrieb", new String[]{"Stand-by-Betrieb"});
+    check(1, "Ein echter Start Ziel Sieg", new String[]{"Start-Ziel-Sieg"});
     check(1, "Ein echter Start Ziel Sieg.");
     check(1, "Ein Start Ziel Sieg");
     check(1, "Start Ziel Sieg");
@@ -63,17 +65,44 @@ public class CompoundRuleTest extends TestCase {
     check(2, "Der dumme System Administrator legt die CD ROM.");
     check(2, "Der dumme System Administrator legt die CD ROM ein blah");
     check(2, "System Administrator CD ROM");
-    check(1, "Roll on roll off Schiff");
+    //FIXME: suggestions / longest match
+    //check(1, "Roll on roll off Schiff", new String[]{"Roll-on-roll-off-Schiff"});
     check(1, "Spin off");
+    // no hyphen suggestion for some words:
+    check(1, "Das ist Haar sträubend", new String[]{"Haarsträubend"});
+    // Only hyphen suggestion for some words:
+    check(1, "Reality TV", new String[]{"Reality-TV"});
+    check(1, "Spin off", new String[]{"Spin-off"});
     // also accept incorrect upper/lowercase spelling:
-    check(1, "Spin Off");
-    check(1, "CW Wert");
+    check(1, "Spin Off", new String[]{"Spin-Off"});
+    check(1, "CW Wert", new String[]{"CW-Wert"});
     // TODO: detect an error if only some of the hyphens are missing:
     //check(1, "Roll-on-roll-off Schiff");
   }
 
   private void check(int expectedErrors, String text) throws IOException {
-    assertEquals(expectedErrors, rule.match(langTool.getAnalyzedSentence(text)).length);
+    check(expectedErrors, text, null);
+  }
+  
+  private void check(int expectedErrors, String text, String[] expSuggestions) throws IOException {
+    RuleMatch[] ruleMatches = rule.match(langTool.getAnalyzedSentence(text));
+    assertEquals(expectedErrors, ruleMatches.length);
+    if (expSuggestions != null && expectedErrors != 1) {
+      throw new RuntimeException("Sorry, test case can only check suggestion if there's one rule match");
+    }
+    if (expSuggestions != null) {
+      RuleMatch ruleMatch = ruleMatches[0];
+      assertEquals("Got these suggestions: " + ruleMatch.getSuggestedReplacements() + 
+          ", expected " + expSuggestions.length,
+          expSuggestions.length, ruleMatch.getSuggestedReplacements().size());
+      int i = 0;
+      for (Iterator iter = ruleMatch.getSuggestedReplacements().iterator(); iter.hasNext();) {
+        String suggestion = (String) iter.next();
+        //System.err.println(">>"+suggestion);
+        assertEquals(expSuggestions[i], suggestion);
+        i++;
+      }
+    }
   }
   
 }
