@@ -173,7 +173,7 @@ public final class Main implements ActionListener {
     contentPane.add(panel, cons);
     
     frame.pack();
-    frame.setSize(600, 600);
+    frame.setSize(600, 550);
   }
 
   private void showGUI() {
