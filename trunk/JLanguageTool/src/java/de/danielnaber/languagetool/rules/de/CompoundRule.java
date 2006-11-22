@@ -37,6 +37,7 @@ import java.util.concurrent.ArrayBlockingQueue;
 import de.danielnaber.languagetool.AnalyzedSentence;
 import de.danielnaber.languagetool.AnalyzedToken;
 import de.danielnaber.languagetool.AnalyzedTokenReadings;
+import de.danielnaber.languagetool.JLanguageTool;
 import de.danielnaber.languagetool.rules.Category;
 import de.danielnaber.languagetool.rules.RuleMatch;
 import de.danielnaber.languagetool.tools.StringTools;
@@ -60,7 +61,7 @@ public class CompoundRule extends GermanRule {
   public CompoundRule(final ResourceBundle messages) throws IOException {
     if (messages != null)
       super.setCategory(new Category(messages.getString("category_misc")));
-    loadCompoundFile(FILE_NAME, "UTF-8");
+    loadCompoundFile(JLanguageTool.getAbsoluteFile(FILE_NAME), "UTF-8");
   }
   
   public String getId() {
@@ -181,12 +182,12 @@ public class CompoundRule extends GermanRule {
     }
   }
 
-  private void loadCompoundFile(final String filename, final String encoding) throws IOException {
+  private void loadCompoundFile(final File file, final String encoding) throws IOException {
     InputStreamReader isr = null;
     BufferedReader br = null;
     FileInputStream fis = null;
     try {
-      fis = new FileInputStream(filename);
+      fis = new FileInputStream(file);
       isr = new InputStreamReader(fis, encoding);
       br = new BufferedReader(isr);
       String line;
