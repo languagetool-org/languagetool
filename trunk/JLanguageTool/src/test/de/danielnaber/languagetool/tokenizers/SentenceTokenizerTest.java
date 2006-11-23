@@ -31,51 +31,14 @@ public class SentenceTokenizerTest extends TestCase {
   // accept only \n\n as paragraph:
   private SentenceTokenizer stokenizer2 = new SentenceTokenizer();
   
-  
   public void setUp() {
     stokenizer.setSingleLineBreaksMarksParagraph(true);  
     stokenizer2.setSingleLineBreaksMarksParagraph(false);  
   }
 
+  // NOTE: sentences here need to end with a space character so they
+  // have correct whitespace when appended:
   public void testTokenize() {
-    // NOTE: sentences here need to end with a space character so they
-    // have correct whitespace when appended:
-    testSplit(new String[] { "Dies ist ein Satz." });
-    testSplit(new String[] { "Dies ist ein Satz. ", "Noch einer." });
-    testSplit(new String[] { "Ein Satz! ", "Noch einer." });
-    testSplit(new String[] { "Ein Satz... ", "Noch einer." });
-    testSplit(new String[] { "Unter http://www.test.de gibt es eine Website." });
-    testSplit(new String[] { "Das Schreiben ist auf den 3.10. datiert." });
-    testSplit(new String[] { "Das Schreiben ist auf den 31.1. datiert." });
-    testSplit(new String[] { "Das Schreiben ist auf den 3.10.2000 datiert." });
-
-    testSplit(new String[] { "Heute ist der 13.12.2004." });
-    testSplit(new String[] { "Heute ist der 13. Dezember." });
-    testSplit(new String[] { "Heute ist der 1. Januar." });
-    testSplit(new String[] { "Es geht am 24.09. los." });
-    testSplit(new String[] { "Es geht um ca. 17:00 los." });
-    testSplit(new String[] { "Das in Punkt 3.9.1 genannte Verhalten." });
-
-    testSplit(new String[] { "Das gilt lt. aktuellem Plan." });
-    testSplit(new String[] { "Orangen, Äpfel etc. werden gekauft." });
-
-    testSplit(new String[] { "Das ist,, also ob es bla." });
-    testSplit(new String[] { "Das ist es.. ", "So geht es weiter." });
-
-    testSplit(new String[] { "Das hier ist ein(!) Satz." });
-    testSplit(new String[] { "Das hier ist ein(!!) Satz." });
-    testSplit(new String[] { "Das hier ist ein(?) Satz." });
-    testSplit(new String[] { "Das hier ist ein(???) Satz." });
-    testSplit(new String[] { "Das hier ist ein(???) Satz." });
-
-    testSplit(new String[] { "»Der Papagei ist grün.« ",  "Das kam so." });
-    testSplit(new String[] { "»Der Papagei ist grün«, sagte er" });
-
-    // TODO: derzeit unterscheiden wir nicht, ob nach dem Doppelpunkt ein
-    // ganzer Satz kommt oder nicht:
-    testSplit(new String[] { "Das war es: gar nichts." });
-    testSplit(new String[] { "Das war es: Dies ist ein neuer Satz." });
-
     // incomplete sentences, need to work for on-thy-fly checking of texts:
     testSplit(new String[] { "Here's a" });
     testSplit(new String[] { "Here's a sentence. ", "And here's one that's not comp" });

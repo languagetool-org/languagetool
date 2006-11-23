@@ -30,6 +30,7 @@ import de.danielnaber.languagetool.tagging.it.ItalianTagger;
 import de.danielnaber.languagetool.tagging.nl.DutchTagger;
 import de.danielnaber.languagetool.tagging.xx.DemoTagger;
 import de.danielnaber.languagetool.tokenizers.SentenceTokenizer;
+import de.danielnaber.languagetool.tokenizers.de.GermanSentenceTokenizer;
 import de.danielnaber.languagetool.tokenizers.pl.PolishSentenceTokenizer;
 import de.danielnaber.languagetool.tokenizers.Tokenizer;
 import de.danielnaber.languagetool.tokenizers.WordTokenizer;
@@ -47,7 +48,7 @@ public final class Language {
     new Language("English", "en", new Locale("en"), new EnglishTagger(), new SentenceTokenizer(), new WordTokenizer());
   
   public static final Language GERMAN = 
-    new Language("German", "de", new Locale("de"), new GermanTagger(), new SentenceTokenizer(), new WordTokenizer());
+    new Language("German", "de", new Locale("de"), new GermanTagger(), new GermanSentenceTokenizer(), new WordTokenizer());
   
   public static final Language POLISH = 
     new Language("Polish", "pl", new Locale("pl"), new PolishTagger(), new PolishSentenceTokenizer(), new WordTokenizer());

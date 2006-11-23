@@ -65,60 +65,44 @@ public class SentenceTokenizer implements Tokenizer {
   private static final Pattern repair2 = Pattern.compile("(\\sno\\.)(\\s+)(?!\\d)");
   private static final Pattern repair3 = Pattern.compile("([ap]\\.m\\.\\s+)([\\p{Lu}])");
 
-  // some German and English abbreviations:
+  // some abbreviations:
   private static final String[] ABBREV_LIST = {
-      // English:
+      // English -- but these work globally for all languages:
       "Mr", "Mrs", "No", "pp", "St", "no", 
       "Sr", "Bros", "etc", "vs", "esp", "Fig", "fig", "Jan", "Feb", "Mar", "Apr", "Jun", "Jul",
       "Aug", "Sep", "Sept", "Oct", "Okt", "Nov", "Dec", "Ph.D", "PhD",
       "al",  // in "et al."
       "cf",
-      // German:
-      "d", "Übers", "usw", "bzw", "Abh", "Abk", "Abt", "ahd", "Akk",
-      "allg", "alltagsspr", "altdt", "alttest", "amerikan", "Anh",
-      "Ank", "Anm", "Art", "Az", "Bat", "bayr", "Bd", "Bde", "Bed",
-      "Bem", "bes", "bez", "Bez", "Bhf", "bspw", "btto", "bw", "bzw",
-      "cts", "ct", "ca", "chem", "chin", "Chr", "cresc", "dat", "Dat",
-      "desgl", "ders", "dgl", "Di", "Dipl", "Dir", "Do", "Doz", "Dr",
-      "dt", "ebd", "Ed", "eigtl", "engl", "Erg", "al", "etc", "etw",
-      "ev", "evtl", "exkl", "Expl", "Exz", "ff", "Fa", "fachspr", "fam",
-      "fem", "Fem", "Fr", "fr", "franz", "frz", "frdl", "Frl",
-      "Fut", "Gd", "geb", "gebr", "Gebr", "geh", "geh", "geleg", "gen",
-      "Gen", "germ", "gesch", "ges", "get", "ggf", "Ggs", "ggT",
-      "griech", "hebr", "hg", "Hrsg", "Hg", "hist", "hochd", "hochspr",
-      "Hptst", "Hr", "Allg", "ill", "inkl", "incl", "Ind", "Inf", "Ing",
-      "ital", "Tr", "Jb", "Jg", "Jh", "jmd", "jmdm", "jmdn", "jmds",
-      "jur", "Kap", "kart", "kath", "kfm", "kaufm", "Kfm", "kgl",
-      "Kl", "Konj", "Krs", "Kr", "Kto", "lat", "lfd", "Lit", "lt",
-      "Lz", "Mask", "mask", "Mrd", "mdal", "med", "met", "mhd", "Mi",
-      "Mio", "min", "Mo", "mod", "nachm", "nördlBr", "neutr",
-      "Nhd", "Nom", "Nr", "Nrn", "Num", "Obj", "od", "dgl", "offz",
-      "Part", "Pass", "Perf", "Pers", "Pfd", "Pl", "Plur",
-      "pl", "Plusq", "Pos", "pp", "Präp", "Präs", "Prät", "Prov", "Prof",
-      "rd", "reg", "resp", "Rhld", "rit", "Sa", "südl", "Br",
-      "sel", "sen", "Sept", "Sing", "sign", "So", "sog", "Sp", "St",
-      "St", "St", "Std", "stacc", "Str", "stud", "Subst", "sva", "svw",
-      "sZ", "Temp", "trans", "Tsd", "übertr", "übl", "ff", "ugs", "univ",
-      "urspr", "usw", "vgl", "Vol", "vorm", "vorm", "Vp", "Vs",
-      "vs", "wg", "Hd", "Ztr", "zus", "Zus", "zzt", "zz", "Zz", "Zt",    
   };
-
-  // einige deutsche Monate, vor denen eine Zahl erscheinen kann,
-  // ohne dass eine Satzgrenze erkannt wird (z.B. "am 13. Dezember" -> keine Satzgrenze)
-  private static final String[] germanMonthList = { "Januar", "Februar", "März", "April", "Mai",
-      "Juni", "Juli", "August", "September", "Oktober", "November", "Dezember" };
 
   private static Set<String> abbreviations = new HashSet<String>();
   private StringTokenizer stringTokenizer = null;
 
   /**
-   * Create a sentence tokenizer.
+   * Month names like "Dezember" that should not be considered a sentence
+   * boundary in string like "13. Dezember".
+   */
+  protected String[] monthNames = null;
+  
+  /**
+   * Create a sentence tokenizer that uses the built-in abbreviations.
    */
   public SentenceTokenizer() {
     for (int i = 0; i < ABBREV_LIST.length; i++) {
       abbreviations.add(ABBREV_LIST[i]);
     }
     setSingleLineBreaksMarksParagraph(false);
+  }
+
+  /**
+   * Create a sentence tokenizer with the given list of abbreviations,
+   * additionally to the built-in ones.
+   */
+  public SentenceTokenizer(String[] abbrevList) {
+    this();
+    for (int i = 0; i < abbrevList.length; i++) {
+      abbreviations.add(abbrevList[i]);
+    }
   }
 
   /**
@@ -132,6 +116,9 @@ public class SentenceTokenizer implements Tokenizer {
       paragraph = paragraphByTwoLineBreaks;
   }
 
+  /**
+   * Tokenize the given string to sentences.
+   */
   public List<String> tokenize(String s) {
     s = firstSentenceSplitting(s);
     s = removeFalseEndOfSentence(s);
@@ -203,8 +190,10 @@ public class SentenceTokenizer implements Tokenizer {
     // re.DOTALL).sub("\\1\\2", text)
 
     // "13. Dezember" etc. -> keine Satzgrenze:
-    for (int i = 0; i < germanMonthList.length; i++) {
-      s = s.replaceAll("(\\d+\\.) " + EOS + "(" + germanMonthList[i] + ")", "$1 $2");
+    if (monthNames != null) {
+      for (int i = 0; i < monthNames.length; i++) {
+        s = s.replaceAll("(\\d+\\.) " + EOS + "(" + monthNames[i] + ")", "$1 $2");
+      }
     }
 
     // z.B. "Das hier ist ein(!) Satz."
