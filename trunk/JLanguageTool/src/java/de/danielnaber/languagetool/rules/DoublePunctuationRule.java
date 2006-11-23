@@ -48,7 +48,7 @@ public class DoublePunctuationRule extends Rule {
   }
 
   public Language[] getLanguages() {
-    return new Language[] { Language.ENGLISH, Language.GERMAN, Language.POLISH, Language.FRENCH, Language.SPANISH, Language.LITHUANIAN };
+    return new Language[] { Language.ENGLISH, Language.GERMAN, Language.POLISH, Language.FRENCH, Language.SPANISH, Language.ITALIAN, Language.DUTCH, Language.LITHUANIAN };
   }
 
   public RuleMatch[] match(final AnalyzedSentence text) {
