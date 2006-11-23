@@ -76,8 +76,9 @@ public class CompoundRuleTest extends TestCase {
     // also accept incorrect upper/lowercase spelling:
     check(1, "Spin Off", new String[]{"Spin-Off"});
     check(1, "CW Wert", new String[]{"CW-Wert"});
-    // TODO: detect an error if only some of the hyphens are missing:
-    //check(1, "Roll-on-roll-off Schiff");
+    // also detect an error if only some of the hyphens are missing:
+    check(1, "Roll-on-roll-off Schiff", new String[]{"Roll-on-roll-off-Schiff"});
+    check(1, "E-Mail Adressen", new String[]{"E-Mail-Adressen"});
   }
 
   private void check(int expectedErrors, String text) throws IOException {

@@ -103,7 +103,7 @@ public class CompoundRule extends GermanRule {
         sb.append(" ");
         sb.append(atr.getToken());
         if (j >= 1) {
-          String stringtoCheck = sb.toString().trim().toLowerCase();
+          String stringtoCheck = normalize(sb.toString());
           stringsToCheck.add(stringtoCheck);
           origStringsToCheck.add(sb.toString().trim());
           if (!stringToToken.containsKey(stringtoCheck))
@@ -145,6 +145,15 @@ public class CompoundRule extends GermanRule {
       addToQueue(token, prevTokens);
     }
     return toRuleMatchArray(ruleMatches);
+  }
+
+  private String normalize(String str) {
+    str = str.trim().toLowerCase();
+    if (str.indexOf('-') != -1 && str.indexOf(' ') != -1) {
+      // e.g. "E-Mail Adresse" -> "E Mail Adresse" so the error can be detected:
+      str = str.replace('-', ' ');
+    }
+    return str;
   }
 
   private boolean hasAllUppercaseParts(String str) {
