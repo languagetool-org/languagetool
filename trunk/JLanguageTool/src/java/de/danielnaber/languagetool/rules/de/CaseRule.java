@@ -110,6 +110,9 @@ public class CaseRule extends GermanRule {
     exceptions.add("Landwirtschaft");
     exceptions.add("Flöße");
     exceptions.add("Wild");
+    exceptions.add("Vorsitzender");
+    exceptions.add("Mrd");
+    exceptions.add("Links");
     // Änderungen an der Rechtschreibreform 2006 erlauben hier Großschreibung:
     exceptions.add("Du");
     exceptions.add("Dir");
