@@ -26,6 +26,7 @@ Usage:
 
 Known bugs:
  -OpenOffice.org integration:
+   -doesn't work correctly with documents that contain revisions
    -doesn't check table content
    -getParagraphContent() iterates differently than OOoDialog.showError() so
     that there's an offset when showing the errors in documents with tables,
@@ -61,6 +62,7 @@ TODO:
  -add simple sentence/word complexity test like that: http://www.ooomacros.org/user.php#111318 
  -use regular expressions and POS tags to create complex suggestions (for example, suggesting another
   grammatical case or a word without an apostrophe)
+  -German rule: Vergleichs vs Vergleiches etc -> only one variant per document should be used
  -see "TODO" / "FIXME" in the source:
  	find . -iname "*.java" -exec egrep -H "TODO|FIXME" {} \;
  -create abstract SentenceRule and TextRule classes to get rid of reset() method?
