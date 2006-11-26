@@ -119,7 +119,6 @@ public class CompoundRule extends GermanRule {
         //System.err.println("##"+stringtoCheck+"#");
         if (incorrectCompounds.contains(stringToCheck)) {
           AnalyzedTokenReadings atr = stringToToken.get(stringToCheck);
-          // TODO: adjust the error if there aren't two suggestions:
           String msg = null;
           List<String> repl = new ArrayList<String>();
           if (!noDashSuggestion.contains(stringToCheck)) {
