@@ -21,7 +21,10 @@ package de.danielnaber.languagetool.dev;
 import java.io.File;
 import java.io.FileFilter;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
+import de.danielnaber.languagetool.JLanguageTool;
 import de.danielnaber.languagetool.Language;
 import de.danielnaber.languagetool.tools.StringTools;
 
@@ -42,14 +45,16 @@ public class Overview {
   }
   
   private void run() throws IOException {
+    System.out.println("Rules in LanguageTool " + JLanguageTool.VERSION + "<br />");
+    System.out.println("Date: " + new SimpleDateFormat("yyyy-MM-dd").format(new Date()) + "<br /><br />\n");
     for (int i = 0; i < Language.LANGUAGES.length; i++) {
       if (Language.LANGUAGES[i] != Language.DEMO) {
         Language lang = Language.LANGUAGES[i];
-        System.out.println(lang.getName());
+        System.out.print(lang.getName() + ": ");
         String xmlFile = "rules" + File.separator + lang.getShortName() + File.separator + "grammar.xml";
         File f = new File(xmlFile);
         if (!f.exists()) {
-          System.out.println("  0 XML rules");
+          System.out.println("  0 XML rules<br />");
         } else {
           // count XML rules:
           String xmlRules = StringTools.readFile(xmlFile);
@@ -62,16 +67,24 @@ public class Overview {
               break;
             count++;
           }
-          System.out.println("  " + count + " XML rules");
+          if (count == 1)
+            System.out.print(" " + count + " XML rule, ");
+          else
+            System.out.print(" " + count + " XML rules, ");
         }
         // count Java rules:
         File dir = new File("src/java/de/danielnaber/languagetool/rules/" + lang.getShortName());
         if (!dir.exists()) {
-          System.out.println("  0 Java rules");
+          System.out.print(" 0 Java rules");
         } else {
           File[] javaRules = dir.listFiles(new JavaFilter());
-          System.out.println("  " + (javaRules.length-1) + " java rules");    // minus 1: one is always "<Language>Rule.java"
+          int javaCount = javaRules.length-1;   // minus 1: one is always "<Language>Rule.java"
+          if (javaCount == 1)
+            System.out.print("  " + javaCount + " Java rule");
+          else
+            System.out.print(" " + javaCount + " Java rules");    
         }
+        System.out.println("<br />");    
       }
     }
   }
