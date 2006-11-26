@@ -119,7 +119,22 @@ public class CompoundRule extends GermanRule {
         //System.err.println("##"+stringtoCheck+"#");
         if (incorrectCompounds.contains(stringToCheck)) {
           AnalyzedTokenReadings atr = stringToToken.get(stringToCheck);
-          String msg = "Komposita werden zusammen oder mit Bindestrich geschrieben.";
+          // TODO: adjust the error if there aren't two suggestions:
+          String msg = null;
+          List<String> repl = new ArrayList<String>();
+          if (!noDashSuggestion.contains(stringToCheck)) {
+            repl.add(origStringToCheck.replace(' ', '-'));
+            msg = "Dieses Kompositum wird mit Bindestrich geschrieben.";
+          }
+          // assume that compounds with more than two parts should always use hyphens:
+          if (!hasAllUppercaseParts(origStringToCheck) && countParts(stringToCheck) <= 2
+              && !onlyDashSuggestion.contains(stringToCheck)) {
+            repl.add(mergeCompound(origStringToCheck));
+            msg = "Dieses Kompositum wird zusammengeschrieben.";
+          }
+          if (repl.size() == 0 || repl.size() == 2) {     // == 0 shouldn't happen
+            msg = "Dieses Kompositum wird zusammen oder mit Bindestrich geschrieben.";
+          }
           RuleMatch ruleMatch = new RuleMatch(this, firstMatchToken.getStartPos(), 
               atr.getStartPos() + atr.getToken().length(), msg);
           // avoid duplicate matches:
@@ -128,15 +143,6 @@ public class CompoundRule extends GermanRule {
             break;
           }
           prevRuleMatch = ruleMatch;
-          List<String> repl = new ArrayList<String>();
-          if (!noDashSuggestion.contains(stringToCheck)) {
-            repl.add(origStringToCheck.replace(' ', '-'));
-          }
-          // assume that compounds with more than two parts should always use hyphens:
-          if (!hasAllUppercaseParts(origStringToCheck) && countParts(stringToCheck) <= 2
-              && !onlyDashSuggestion.contains(stringToCheck)) {
-            repl.add(mergeCompound(origStringToCheck));
-          }
           ruleMatch.setSuggestedReplacements(repl);
           ruleMatches.add(ruleMatch);
           break;
