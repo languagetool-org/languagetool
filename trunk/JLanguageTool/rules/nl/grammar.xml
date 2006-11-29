@@ -1,100 +1,440 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-Rules: Grammar and Typos
-See tagset.txt for the meaning of the POS tags
-Copyright (C) 2001-2006 Daniel Naber (http://www.danielnaber.de)
-$Id: grammar.xml,v 1.1 2006-11-13 22:20:01 milek_pl Exp $
+Rules for Dutch by R.Baars
+Copyright (C) 2006 R. Baars
+$Id: grammar.xml,v 1.2 2006-11-29 22:59:43 dnaber Exp $
 -->
 <rules lang="nl">
-
   <category name="Mogelijke typefouten">
-  
-	  <rulegroup id="LIDWOORD_LIDWOORD" name="Dubbel Lidwoord">
-	    <rule>
-	      <pattern>
-	      <token regexp="yes">de|het|een</token>
-	      <token regexp="yes">de|het|een</token>
-	      </pattern>
-	      <message>Dubbel lidwoord</message>
-	       <example type="correct"><marker>De</marker> boot is zelfgemaakt.</example>
-	       <example type="incorrect"><marker>De een</marker> boot is zelfgemaakt.</example>
-	    </rule>
-	  </rulegroup>
-
-  </category>
-
-  <category name="Taalgebruik">
-
-<!-- no examples given yet
-    <rulegroup id="KOST_DUUR" name="Kost duur in plaats van kost veel">
-        <rule >
-            <pattern >
-              <token skip="3">kost</token>
-              <token>duur</token>
-            </pattern>
-        <message>Juist is <suggestion>is duur</suggestion> of <suggestion>kost veel</suggestion></message>
+    <rulegroup id="LIDWOORD_LIDWOORD" name="Dubbel Lidwoord">
+      <rule>
+        <pattern>
+          <token regexp="yes">de</token>
+          <token regexp="yes">het</token>
+        </pattern>
+        <message>Dubbel lidwoord</message>
+        <example type="correct"><marker>De</marker> boot is zelfgemaakt.</example>
+        <example type="incorrect"><marker>De het</marker> boot is zelfgemaakt.</example>
       </rule>
-        <rule >
-        <pattern >
-          <token skip="3">duur</token>
+      <rule>
+        <pattern>
+          <token regexp="yes">het</token>
+          <token regexp="yes">de</token>
+        </pattern>
+        <message>Dubbel lidwoord</message>
+        <example type="correct"><marker>Het</marker> huis is zelfgemaakt.</example>
+        <example type="incorrect"><marker>De het</marker> boot is zelfgemaakt.</example>
+      </rule>
+    </rulegroup>
+    <rulegroup id="ZO-EVEN" name="Zo-even">
+      <rule>
+        <pattern>
+          <token>zoeven</token>
+        </pattern>
+        <message>Bedoelt u <suggestion>zo-even</suggestion>?</message>
+        <example type="correct">Dit is<marker>zo-even</marker> ingetikt.</example>
+        <example type="incorrect">Dit is<marker>zoeven</marker> ingetikt.</example>
+      </rule>
+    </rulegroup>
+    <rulegroup id="GETALLEN_SCHEIDEN" name="Getallen scheiden">
+      <rule>
+        <pattern>
+          <token regexp="yes">.+duizend.*(een|twee|drie|vier|vijf|zes|zeven|acht|negen|tien|twin|der|veer|honderd).*</token>
+        </pattern>
+        <message>Na duizend komt in getallen een spatie</message>
+        <example type="incorrect">Er was <marker>vijfduizendvier</marker>honderdeenentwintig man aanwezig.</example>
+        <example type="correct">Er was <marker>vijfduizend vier</marker>honderdeenentwintig man aanwezig.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">.*(m|b|tr)ilj(oen|ard)(een|twee|drie|vier|vijf|zes|zeven|acht|negen|tien|twin|der|veer|honderd|duizend).*</token>
+        </pattern>
+        <message>De getallen miljoen, miljard, e.d. worden in een getal los geschreven</message>
+        <example type="incorrect">De regering begrootte <marker>drie miljoenvijf</marker>honderdduidend.</example>
+        <example type="correct">De regering begrootte <marker>drie miljoen vijf</marker>honderdduidend.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">.*(een|twee|drie|vier|vijf|zes|zeven|acht|negen|tien|twin|der|veer|honderd|duizend)(m|b|tr)ilj(oen|ard).*</token>
+        </pattern>
+        <message>De getallen miljoen, miljard, e.d. worden in een getal los geschreven</message>
+        <example type="incorrect">De regering begrootte <marker>drie miljoenvijf</marker>honderdduidend.</example>
+        <example type="correct">De regering begrootte <marker>drie miljoen vijf</marker>honderdduidend.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">.*(m|b|tr)ilj(oen|ard).*</token>
+        </pattern>
+        <message>De grote getallen met -joen en -jard zijn niet voor iedereen duidelijk.</message>
+        <example type="incorrect">De regering begrootte 3 <marker>biljoen</marker>.</example>
+        <example type="correct">De regering begrootte <marker>3000 miljoen</marker>.</example>
+      </rule>
+    </rulegroup>
+    <rulegroup id="TOT_STAND" name="Tot stand komen">
+      <rule>
+        <pattern>
+          <token>totstandkomen</token>
+        </pattern>
+        <message>Bedoelt u <suggestion>tot stand komen</suggestion>?</message>
+        <example type="incorrect">Een woordenlijst zal niet zomaar<marker>totstandkomen</marker>.</example>
+        <example type="correct">Een woordenlijst zal niet zomaar tot stand komen.</example>
+      </rule>
+    </rulegroup>
+  </category>
+  <category name="Taalgebruik">
+    <rulegroup id="VAAG" name="Vaag taalgebruik">
+      <rule>
+        <pattern>
+          <token regexp="yes">dingen|zaken|alles|ergens|ooit|wellicht|misschien</token>
+        </pattern>
+        <message>Woorden als '\1' kunnen een tekst vaag maken.</message>
+        <example type="correct">Deze zin is <marker>ergens</marker> wel vaag hoor!</example>
+        <example type="incorrect">Deze zin is wel duidelijk.</example>
+      </rule>
+    </rulegroup>
+    <rulegroup id="GROF" name="Grof taalgebruik">
+      <rule>
+        <pattern>
+          <token regexp="yes">.*(lul|kut|kloot|klote|druiloor|zakkenwasser|shit).*</token>
+        </pattern>
+        <message>Dit taalgebruik kan als grof of beledigend worden ervaren.</message>
+        <example type="incorrect">Ik vind hem een <marker>klootzak</marker>.</example>
+        <example type="correct">Ik heb een hekel aan hem.</example>
+      </rule>
+    </rulegroup>
+    <rulegroup id="ARCHAISCH" name="Archaisch">
+      <rule>
+        <pattern>
+          <token regexp="yes">zulks|derhalve|desalniettemin|evenwel|mede|welke|dewelke|nimmer|immer</token>
+        </pattern>
+        <message>Dit woord is ouderwets.</message>
+        <example type="incorrect">Ik zie hem <marker>nimmer</marker>.</example>
+        <example type="correct">Ik zie haar nooit.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>terzake</token>
+        </pattern>
+        <message>Bedoelt u <suggestion>ter zake?</suggestion> Het is bovendien wat ouderwets.</message>
+        <example type="incorrect">Kom eens <marker>terzake</marker>.</example>
+        <example type="correct">Kom eens ter zake.</example>
+      </rule>
+    </rulegroup>
+    <rulegroup id="OVERDRIJVING" name="Overdrijving">
+      <rule>
+        <pattern>
+          <token regexp="yes">erg|heel|vreselijk|gigantisch|enorm</token>
+        </pattern>
+        <message>Is hier wellicht sprake van overdrijving?</message>
+        <example type="incorrect">Het is een <marker>gigantisch</marker>probleem.</example>
+        <example type="incorrect">Het is een probleem.</example>
+      </rule>
+    </rulegroup>
+    <rulegroup id="EIGEN_GE" name="Eigengemaakt etc">
+      <rule>
+        <pattern>
+          <token regexp="yes">eigenge.?+</token>
+        </pattern>
+        <message>Niet fout, maar <suggestion>zelf</suggestion> is hier netter dan 'eigen'.</message>
+        <example type="incorrect">Het is een <marker>gigantisch</marker>probleem.</example>
+        <example type="incorrect">Het is een probleem.</example>
+      </rule>
+    </rulegroup>
+    <rulegroup id="DUBBELE_ONTKENNING" name="Dubbele ontkenning">
+      <rule>
+        <pattern>
+          <token regexp="yes" skip="10">niet|nooit|geen|nergens|on.+|niet-.+</token>
+          <token regexp="yes">niet|nooit|geen|nergens|on.+|niet-.+</token>
+        </pattern>
+        <message>Hier kan een dubbele ontkenning staan. Die maken het begrijpen niet gemakkelijker.</message>
+        <example type="incorrect">Ik doe <marker>nooit geen</marker> jas aan.</example>
+        <example type="correct">Ik doe <marker>altijd></marker> een jas aan.</example>
+      </rule>
+    </rulegroup>
+    <rulegroup id="KOST_DUUR" name="kost duur">
+      <rule>
+        <pattern>
+          <token skip="10">kost</token>
+          <token>duur</token>
+        </pattern>
+        <message>U bedoelt <suggestion>is duur</suggestion> of <suggestion>kost veel</suggestion>.</message>
+        <example type="incorrect">Die auto <marker>kost duur</marker>.</example>
+        <example type="correct">Die auto <marker>kost veel</marker>.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token skip="10">duur</token>
           <token>kost</token>
         </pattern>
-        <message>Juist is <suggestion>is duur</suggestion> of <suggestion>kost veel</suggestion></message>
+        <message>U bedoelt <suggestion>is duur</suggestion> of <suggestion>kost veel</suggestion>.</message>
+        <example type="incorrect">Die auto <marker>kost duur</marker>.</example>
+        <example type="correct">Die auto <marker>kost veel</marker>.</example>
       </rule>
-  </rulegroup>
- -->  
-    
+    </rulegroup>
+    <rulegroup id="kan_kun" name="Kannen en kunnen">
+      <rule>
+        <pattern>
+          <token>kan</token>
+          <token regexp="yes">je|jij</token>
+        </pattern>
+        <message>Bedoelt u <suggestion>kun</suggestion>?</message>
+        <example type="correct"><marker>Kun je</marker> het even doen voor mij?.</example>
+        <example type="incorrect"><marker>Kan je</marker> het even doen voor mij?</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>kan</token>
+          <token>u</token>
+        </pattern>
+        <message>Bedoelt u <suggestion>kunt</suggestion>?</message>
+        <example type="correct"><marker>Kunt u</marker> het even doen voor mij?.</example>
+        <example type="incorrect"><marker>Kan u</marker> het even doen voor mij?</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">je|u</token>
+          <token>kan</token>
+        </pattern>
+        <message>Bedoelt u <suggestion>kunt</suggestion>?</message>
+        <example type="correct"><marker>U kunt</marker> dat toch wel even doen voor mij?.</example>
+        <example type="incorrect"><marker>U kan</marker> dat toch wel even doen voor mij?</example>
+      </rule>
+    </rulegroup>
+    <rulegroup id="DUBBEL_ZO" name="Dubbel zo">
+      <rule>
+        <pattern>
+          <token>dubbel</token>
+          <token>zo</token>
+        </pattern>
+        <message>Juist is <suggestion>twee keer zo</suggestion></message>
+        <example type="correct"><marker>Dit is </marker>twee keer zo duur.</example>
+        <example type="incorrect"><marker>Dit is </marker>dubbel zo duur.</example>
+      </rule>
+    </rulegroup>
+    <rulegroup id="X_DUBBEL" name="X-Dubbel">
+      <rule>
+        <pattern>
+          <token regexp="yes">(drie|vier)dubbel.*</token>
+        </pattern>
+        <message>Juist is <suggestion>(aantal) keer</suggestion> of <suggestion>(aantal)voudig</suggestion></message>
+        <example type="correct"><marker>Dit is </marker>twee keer zo duur.</example>
+        <example type="incorrect"><marker>Dit is </marker>dubbel zo duur.</example>
+      </rule>
+    </rulegroup>
+    <rulegroup id="ALS_ZIJNDE" name="Als zijnde">
+      <rule>
+        <pattern>
+          <token>als</token>
+          <token></token>
+          <token>zijnde</token>
+        </pattern >
+        <message>Bedoelt u <suggestion>'als \2'</suggestion> of <suggestion>'\2 zijnde'</suggestion>?</message>
+        <example type="incorrect"><marker>Als voetballer zijnde</marker> moest hij wel doorzetten.</example>
+        <example type="correct"><marker>Als voetballer</marker> moest hij wel doorzetten.</example>
+      </rule>
+    </rulegroup>
+    <rulegroup id="BESEF_ME" name="besef me">
+      <rule>
+        <pattern>
+          <token regexp="yes">besef|beseft|bedenk|bedenkt</token>
+          <token regexp="yes">me|zich</token>
+          <token>dat</token>
+        </pattern >
+        <message>Bedoelt u <suggestion>\1 \2</suggestion> of <suggestion>realiseer me \2</suggestion>?</message>
+        <example type="incorrect"><marker>Ik besef me</marker> dat dit fout is.</example>
+        <example type="correct"><marker>Ik besef</marker> dat het anders moet.</example>
+      </rule>
+    </rulegroup>
+    <rulegroup id="GROTER_ALS" name="Groter als">
+      <rule>
+        <pattern>
+          <token regexp="yes">groter|kleiner|dunner|dikker|forser|milder|strenger</token>
+          <token>als</token>
+        </pattern >
+        <message>Juist is: <suggestion>\1 dan</suggestion></message>
+        <example type="incorrect">Jan is <marker>groter als</marker> Kees.</example>
+        <example type="correct">Jan is <marker>kleiner dan</marker> Kees.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">even|zo</token>
+          <token regexp="yes">groot|klein</token>
+          <token>dan</token>
+        </pattern >
+        <message>Juist is: <suggestion>\1 \2 als</suggestion></message>
+        <example type="incorrect">Jan is net <marker>zo groot dan</marker> Kees.</example>
+        <example type="correct">Jan is net<marker>zo klein als</marker> Kees.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>evenveel</token>
+          <token>dan</token>
+        </pattern >
+        <message>Juist is: <suggestion>evenveel als</suggestion></message>
+        <example type="incorrect">Vijf is <marker>evenveel dan</marker> twee plus drie.</example>
+        <example type="correct">Vier is <marker>eenveel als</marker> twee plus twee.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">als|dan</token>
+          <token>mij|hem</token>
+        </pattern >
+        <message>Bedoelt u: <suggestion> dan ik/hij</suggestion></message>
+        <example type="incorrect">Hij is even groot <marker>als mij</marker>.</example>
+        <example type="correct">Hij is groter <marker>dan ik</marker>.</example>
+      </rule>
+    </rulegroup>
+    <rulegroup id="DE_EERSTE_INSTANTIE" name="De eerste insantie">
+      <rule>
+        <pattern>
+          <token>in</token>
+          <token>de</token>
+          <token>eerste</token>
+          <token>instantie</token>
+        </pattern>
+        <message>Juist is: <suggestion>in eerste instantie</suggestion></message>
+        <example type="incorrect"><marker>In de eerste instantie</marker> was het fout.</example>
+        <example type="correct"><marker>In eerste instantie</marker> was het goed.</example>
+      </rule>
+    </rulegroup>
+    <rulegroup id="TWEEDE_KAMER" name="Tweede Kamer">
+      <rule>
+        <pattern>
+          <token regexp="yes">[t]weede|[e]erste</token>
+          <token regexp="yes">[k]amer.*</token>
+        </pattern>
+        <message>Bedoelt u misschien <suggestion>Tweede Kamer</suggestion>?</message>
+        <example type="correct">De <marker>eerste kamer</marker> was van mij.</example>
+        <example type="incorrect">De <marker>tweede kamer</marker> vergadert morgen</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">tweede-kamer.*</token>
+        </pattern>
+        <message>bedoelt u <suggestion>Tweede Kamer</suggestion>?</message>
+        <example type="correct">
+          <marker>Tweede-Kamerstuk</marker>
+        </example>
+        <example type="incorrect">
+          <marker>Tweede Kamerstuk</marker>
+        </example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">eerste-kamer.+</token>
+        </pattern>
+        <message>bedoelt u <suggestion>Eerste Kamer</suggestion>?</message>
+        <example type="correct">
+          <marker>Eerste-Kamerdiscussie</marker>
+        </example>
+        <example type="incorrect">
+          <marker>Eerste Kamerdiscussie</marker>
+        </example>
+      </rule>
+    </rulegroup>
+    <rulegroup id="TE_ALLEN_TIJDE" name="te allen tijde">
+      <rule>
+        <pattern>
+          <token>ten</token>
+          <token regexp="yes">alle|allen</token>
+          <token regexp="yes">tijde|tijden</token>
+        </pattern>
+        <message>Bedoelt u <suggestion>te allen tijde</suggestion>? Is <suggestion>altijd</suggestion> niet beter?</message>
+        <example type="correct"><marker>Dit is ten alle tijden</marker> fout.</example>
+        <example type="incorrect">Dit is <marker>te allen tijde</marker> in orde.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>te</token>
+          <token>alle</token>
+          <token regexp="yes">tijde|tijden</token>
+        </pattern>
+        <message>Bedoelt u <suggestion>te allen tijde</suggestion>? Is <suggestion>altijd</suggestion> een optie?</message>
+        <example type="correct"><marker>Dit is te alle tijden</marker> fout.</example>
+        <example type="incorrect">Dit is <marker>te allen tijde</marker> in orde.</example>
+      </rule>
+    </rulegroup>
+    <rulegroup id="HAASTJE_REPJE" name="haastje-repje">
+      <rule>
+        <pattern>
+          <token>haasje-repje</token>
+        </pattern>
+        <message>Bedoelt u <suggestion>haastje-repje</suggestion>?</message>
+        <example type="incorrect"><marker>Haasje-repje</marker> ging hij weg.</example>
+        <example type="correct"><marker>Haastje-repje</marker> ging hij weg.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">haasje|haastje</token>
+          <token>repje</token>
+        </pattern>
+        <message>Bedoelt u <suggestion>haastje-repje</suggestion>?</message>
+        <example type="incorrect"><marker>Haastje repje</marker> ging hij weg.</example>
+        <example type="correct"><marker>Haastje-repje</marker> ging hij weg.</example>
+      </rule>
+    </rulegroup>
+    <rulegroup id="MANKEER_NIETS" name="mankeert niets">
+      <rule>
+        <pattern>
+          <token>ik|jij|hij</token>
+          <token>mankeer|mankeert</token>
+          <token regexp="yes">niets|iets|wat</token>
+        </pattern>
+        <message>Bedoelt u: '<suggestion>mij/hem/jou</suggestion> mankeert (n)iets'?</message>
+        <example type="incorrect"><marker>Ik mankeer wat</marker>.</example>
+        <example type="correct"><marker>Mij mankeert niets</marker>.</example>
+      </rule>
+    </rulegroup>
+    <rulegroup id="WAT_SCHETST" name="Wat schetst mijn verbazing">
+      <rule>
+        <pattern>
+          <token>wat</token>
+          <token>schetst</token>
+          <token regexp="yes">mijn|zijn|haar|uw</token>
+          <token>verbazing</token>
+        </pattern>
+        <message>Bedoelt u: <suggestion>wie schetst</suggestion>? (Dingen schetsen niet)</message>
+        <example type="incorrect"><marker>Wat schetst mijn verbazing</marker>?</example>
+        <example type="correct"><marker>Wie schetst mijn verbazing</marker>?</example>
+      </rule>
+    </rulegroup>
+    <rulegroup id="OEKRAINE" name="Oekraine">
+      <rule>
+        <pattern>
+          <token>de</token>
+          <token regexp="yes">Oekra(Ã¯|i)ne</token>
+        </pattern>
+        <message>Juist is :<suggestion>OekraÃ¯ne</suggestion>, want het is geen streek, maar een zelfstandig land.</message>
+        <example type="incorrect"><marker>Zijn komt uit de OekranÃ¯e</marker>.</example>
+        <example type="correct"><marker>Zijn komt uit OekraÃ¯ne</marker>.</example>
+      </rule>
+    </rulegroup>
+    <rulegroup id="CORDON_BLEU" name="Cordon Blue">
+      <rule>
+        <pattern>
+          <token>cordon</token>
+          <token>bleu</token>
+        </pattern>
+        <message>Juist is: <suggestion>cordon bleu</suggestion>, want het is Frans.</message>
+        <example type="incorrect"><marker>Ik lust geen Cordon blue</marker>.</example>
+        <example type="correct"><marker>Ik ben dol op Cordon bleu</marker>.</example>
+      </rule>
+    </rulegroup>
+    <rulegroup id="TER_ZAKE_VAN" name="Ter zake van">
+      <rule>
+        <pattern>
+          <token>ter</token>
+          <token>zake</token>
+          <token>van</token>
+        </pattern>
+        <message>Dit is nogal ouderwets. Gebruik liever: <suggestion>in verband met</suggestion>.</message>
+        <example type="incorrect"><marker>Ter zake van</marker> uw verzoek ...</example>
+        <example type="correct"><marker>In verband met</marker> uw verzoek ...</example>
+      </rule>
+    </rulegroup>
   </category>
-
   <category name="Hoofdlettergebruik">
   </category>
-
   <category name="Diversen">
-
-	<rulegroup name="Tweede Kamer" id="TWEEDE_KAMER">
-	  <rule>
-	  <pattern>
-	  <token regexp="yes">tweede-kamer.+</token>
-	  </pattern>
-	  <message>bedoelt u <suggestion>Tweede Kamer</suggestion></message>
-	      <example type="correct"><marker>Tweede Kamerstuk</marker></example>
-	      <example type="incorrect"><marker>Tweede-Kamerstuk</marker></example>
-	  </rule>
-	</rulegroup>
-
-<rulegroup id="EIGEN_ZELF" name="Eigen versus zelfgedaan">
-    <rule>
-      <pattern>
-        <token regexp="yes">eigengemaakt|eigengemaakte</token>
-      </pattern>
-      <message>Is <suggestion>zelf</suggestion>gemaakt niet beter?</message>
-       <example type="correct">Deze boot is <marker>zelfgemaakt</marker>.</example>
-       <example type="incorrect">Deze boot is <marker>eigengemaakt</marker>.</example>
-    </rule>
-  </rulegroup>
-
-<!-- examples lacking
-<rulegroup id="TE_ALLEN_TIJDE" name="te allen tijde">
-    <rule>
-      <pattern>
-        <token >ten</token>
-        <token regexp="yes">alle|allen</token>
-        <token regexp="yes">tijde|tijden</token>
-      </pattern>
-      <message>Bedoelt u <suggestion>te allen tijde</suggestion>?</message>
-    </rule>
-    <rule>
-      <pattern>
-        <token >te</token>
-        <token>alle</token>
-        <token regexp="yes">tijde|tijden</token>
-      </pattern>
-      <message>Bedoelt u <suggestion>te allen tijde</suggestion>?</message>
-    </rule>
-  </rulegroup>
- -->
- 
   </category>
-
-
 </rules>
