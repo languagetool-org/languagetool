@@ -197,7 +197,10 @@ public class SentenceTokenizer implements Tokenizer {
     }
 
     // z.B. "Das hier ist ein(!) Satz."
-    s = s.replaceAll("\\(([!?]+)\\) " + EOS, "($1) ");
+    s = s.replaceAll("([\\(\\[])([!?]+)([\\]\\)]) " + EOS, "$1$2$3 ");
+
+    // z.B. "Das hier ist (genau!) ein Satz."
+    s = s.replaceAll("([!?]+)([\\)\\]]) " + EOS, "$1$2 ");
     return s;
   }
 

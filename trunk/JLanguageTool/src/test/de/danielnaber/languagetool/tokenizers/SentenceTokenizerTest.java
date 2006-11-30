@@ -43,7 +43,6 @@ public class SentenceTokenizerTest extends TestCase {
     testSplit(new String[] { "Here's a" });
     testSplit(new String[] { "Here's a sentence. ", "And here's one that's not comp" });
 
-    // Tests taken from LanguageTool's SentenceSplitterTest.py:
     testSplit(new String[] { "This is a sentence. " });
     testSplit(new String[] { "This is a sentence. ", "And this is another one." });
     testSplit(new String[] { "This is a sentence.", "Isn't it?", "Yes, it is." });
@@ -70,8 +69,9 @@ public class SentenceTokenizerTest extends TestCase {
     testSplit(new String[] { "\"Here he comes.\" ", "But this is another sentence." });
     testSplit(new String[] { "\"Here he comes!\". ", "That's what he said." });
     testSplit(new String[] { "The sentence ends here. ", "(Another sentence.)" });
-    // known to fail:
+    // TODO: known to fail:
     // testSplit(new String[]{"He won't. ", "Really."});
+    testSplit(new String[]{"He will not. ", "Really."});
     testSplit(new String[] { "He won't go. ", "Really." });
     testSplit(new String[] { "He won't say no.", "Not really." });
     testSplit(new String[] { "He won't say No.", "Not really." });
@@ -89,6 +89,13 @@ public class SentenceTokenizerTest extends TestCase {
     testSplit(new String[] { "James is from the Ireland!", "He lives in Spain now." });
     // From the abbreviation list:
     testSplit(new String[] { "Jones Bros. have built a succesful company." });
+    // parentheses:
+    testSplit(new String[] { "It (really!) works." });
+    testSplit(new String[] { "It [really!] works." });
+    testSplit(new String[] { "It works (really!). ", "No doubt." });
+    testSplit(new String[] { "It works [really!]. ", "No doubt." });
+    testSplit(new String[] { "It really(!) works well." });
+    testSplit(new String[] { "It really[!] works well." });
   }
 
   public void testSplit(String[] sentences) {
