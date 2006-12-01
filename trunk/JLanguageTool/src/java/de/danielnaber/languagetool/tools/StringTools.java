@@ -24,6 +24,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
+import java.util.Iterator;
 import java.util.List;
 
 import de.danielnaber.languagetool.gui.Tools;
@@ -199,6 +200,17 @@ public final class StringTools {
     }
     xml.append("</matches>\n");
     return xml.toString();
+  }
+
+  public static String listToString(List l, String delimiter) {
+    StringBuilder sb = new StringBuilder();
+    for (Iterator iter = l.iterator(); iter.hasNext();) {
+      String str = (String) iter.next();
+      sb.append(str);
+      if (iter.hasNext())
+        sb.append(delimiter);
+    }
+    return sb.toString();
   }
 
 }
