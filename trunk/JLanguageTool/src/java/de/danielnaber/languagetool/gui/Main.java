@@ -412,6 +412,10 @@ public final class Main implements ActionListener {
       msg = msg.replaceAll("<old>", "<b>");
       msg = msg.replaceAll("</old>", "</b>");
       sb.append("<b>" +messages.getString("errorMessage")+ "</b> " + msg + "<br>\n");
+      if (match.getSuggestedReplacements().size() > 0) {
+        String repl = StringTools.listToString(match.getSuggestedReplacements(), "; ");
+        sb.append("<b>" +messages.getString("correctionMessage")+ "</b> " + repl + "<br>\n");
+      }
       String context = Tools.getContext(match.getFromPos(), match.getToPos(), text);
       sb.append("<b>" +messages.getString("errorContext")+ "</b> " + context);
       sb.append("<br>\n");
