@@ -78,5 +78,24 @@ public class CaseRuleTest extends TestCase {
     assertEquals(1, rule.match(langTool.getAnalyzedSentence("Denn das essen ist einfach.")).length);
     assertEquals(1, rule.match(langTool.getAnalyzedSentence("Denn das gehen ist einfach.")).length);
   }
+
+  public void testPhraseExceptions() throws IOException {
+    CaseRule rule = new CaseRule(null);
+    JLanguageTool langTool = new JLanguageTool(Language.GERMAN);
+
+    // correct sentences:
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Das gilt ohne Wenn und Aber.")).length);
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence("ohne Wenn und Aber")).length);
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Das gilt ohne Wenn und Aber bla blubb.")).length);
+    // as long as phrase exception isn't complete, there's no error:
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Das gilt ohne wenn")).length);
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Das gilt ohne wenn und")).length);
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence("wenn und aber")).length);
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence("und aber")).length);
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence("aber")).length);
+    // incorrect sentences:
+    // error not found here as it's in the XML rules:
+    //assertEquals(1, rule.match(langTool.getAnalyzedSentence("Das gilt ohne wenn und aber.")).length);
+  }
   
 }

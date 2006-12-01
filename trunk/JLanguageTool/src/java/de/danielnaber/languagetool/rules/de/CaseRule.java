@@ -21,6 +21,7 @@ package de.danielnaber.languagetool.rules.de;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.Set;
@@ -133,6 +134,12 @@ public class CaseRule extends GermanRule {
     // TODO: add more exceptions here
   }
   
+  private static final Set<String> myExceptionPhrases = new HashSet<String>();
+  static {
+    // use proper upper/lowercase spelling here:
+    myExceptionPhrases.add("ohne Wenn und Aber");
+  }
+
   private static final Set<String> substVerbenExceptions = new HashSet<String>();
   static {
     substVerbenExceptions.add("bedeutet");    // "und das bedeutet..."
@@ -256,7 +263,8 @@ public class CaseRule extends GermanRule {
       if (Character.isUpperCase(token.charAt(0)) && ! sentenceStartExceptions.contains(tokens[i-1].getToken()) && 
           !exceptions.contains(token) &&
           token.length() > 1 &&     // length limit = ignore abbreviations
-          !analyzedToken.hasReadingOfType(POSType.PROPER_NOUN)) {
+          !analyzedToken.hasReadingOfType(POSType.PROPER_NOUN) &&
+          !isExceptionPhrase(i, tokens)) {
         String msg = "Außer am Satzanfang werden nur Nomen und Eigennamen groß geschrieben";
         RuleMatch ruleMatch = new RuleMatch(this, tokens[i].getStartPos(),
             tokens[i].getStartPos()+token.length(), msg);
@@ -268,6 +276,42 @@ public class CaseRule extends GermanRule {
       pos += token.length();
     }
     return toRuleMatchArray(ruleMatches);
+  }
+
+  private boolean isExceptionPhrase(int i, AnalyzedTokenReadings[] tokens) {
+    // TODO: speed up?
+    for (Iterator iter = myExceptionPhrases.iterator(); iter.hasNext();) {
+      String exc = (String) iter.next();
+      String[] parts = exc.split(" ");
+      for (int j = 0; j < parts.length; j++) {
+        if (parts[j].equals(tokens[i].getToken())) {
+          /*System.err.println("*******"+j + " of " + parts.length + ": " + parts[j]);
+          System.err.println("start:" + tokens[i-j].getToken());
+          System.err.println("end:" + tokens[i-j+parts.length-1].getToken());*/
+          int startIndex = i-j;
+          if (compareLists(tokens, startIndex, startIndex+parts.length-1, parts)) {
+            return true;
+          }
+        }
+      }
+    }
+    return false;
+  }
+
+  private boolean compareLists(AnalyzedTokenReadings[] tokens, int startIndex, int endIndex, String[] parts) {
+    if (startIndex < 0)
+      return false;
+    int i = 0;
+    for (int j = startIndex; j <= endIndex; j++) {
+      //System.err.println("**" +tokens[j].getToken() + " <-> "+ parts[i]);
+      if (i >= parts.length)
+        return false;
+      if (!tokens[j].getToken().equals(parts[i])) {
+        return false;
+      }
+      i++;
+    }
+    return true;
   }
 
   public void reset() {
