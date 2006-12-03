@@ -3,7 +3,7 @@
 Rules: German grammar errors and typos
 See tagset.txt for the meaning of the POS tags
 Copyright (C) 2001-2006 Daniel Naber (http://www.danielnaber.de)
-$Id: grammar.xml,v 1.62 2006-12-01 23:16:29 dnaber Exp $
+$Id: grammar.xml,v 1.63 2006-12-03 13:03:14 dnaber Exp $
 -->
 <rules lang="de">
 
@@ -20,6 +20,19 @@ $Id: grammar.xml,v 1.62 2006-12-01 23:16:29 dnaber Exp $
     <example type="correct">Das ist <marker>Haus- und</marker> Grundbesitz.</example>
     <example type="incorrect">Das ist <marker>Haus-und</marker> Grundbesitz.</example>
   </rule>
+
+  <rulegroup id="HAUTE_COUTURE" name="Möglicher Tippfehler 'Haut(Haute) Couture'">
+    <rule>
+      <pattern mark_to="-1">
+        <token>haut</token>
+        <token regexp="yes">couture|coiffure|volée</token>
+      </pattern>
+      <message>Meinten Sie <suggestion>Haute</suggestion> (franz. "hoch, bedeutend")?</message>
+      <example type="correct">Vom Schneider bis zur <marker>Haute</marker> Couture.</example>
+      <example type="incorrect">Vom Schneider bis zur <marker>Haut</marker> Couture.</example>
+      <example type="incorrect">Vom Schneider bis zur <marker>haut</marker> couture.</example>
+    </rule>
+  </rulegroup>
   
   <rulegroup id="WAR_WERDEN" name="Möglicher Tippfehler 'war(wahr) werden'">
     <rule>
