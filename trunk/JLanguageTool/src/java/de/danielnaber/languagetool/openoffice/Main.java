@@ -108,7 +108,10 @@ public class Main {
           TextToCheck textToCheck = getText();
           checkText(textToCheck);
         } else if (sEvent.equals("configure")) {
-          ConfigThread configThread = new ConfigThread(getLanguage(), config, baseDir);
+          Language lang = getLanguage();
+          if (lang == null)
+            return;
+          ConfigThread configThread = new ConfigThread(lang, config, baseDir);
           configThread.start();
           while (true) {
             if (configThread.done()) {
@@ -195,7 +198,7 @@ public class Main {
           // FIXME: i18n
           JOptionPane.showMessageDialog(null, "Error: Sorry, the document language '" +charLocale.Language+ 
               "' is not supported by LanguageTool.");
-          throw new IllegalArgumentException("Language is not supported: " + charLocale.Language);
+          return null;
         }
         //checkTables();
       } catch (UnknownPropertyException e) {
@@ -278,8 +281,10 @@ public class Main {
     private void checkText(final TextToCheck textToCheck) {
       if (textToCheck == null)
         return;
-      ProgressDialog progressDialog = new ProgressDialog(messages);
       Language docLanguage = getLanguage();
+      if (docLanguage == null)
+        return;
+      ProgressDialog progressDialog = new ProgressDialog(messages);
       CheckerThread checkerThread = new CheckerThread(textToCheck.paragraphs, docLanguage, config, 
           baseDir, progressDialog);
       checkerThread.start();
