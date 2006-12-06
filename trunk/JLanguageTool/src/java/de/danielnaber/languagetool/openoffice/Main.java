@@ -45,6 +45,7 @@ import com.sun.star.lib.uno.helper.Factory;
 import com.sun.star.lib.uno.helper.WeakBase;
 import com.sun.star.registry.XRegistryKey;
 import com.sun.star.task.XJobExecutor;
+import com.sun.star.text.XTextCursor;
 import com.sun.star.text.XTextDocument;
 import com.sun.star.text.XTextRange;
 import com.sun.star.text.XTextViewCursor;
@@ -168,10 +169,20 @@ public class Main {
         return Language.ENGLISH; // for testing with local main() method only
       Locale charLocale;
       try {
-        // just look at the current position(?) in the document and assume that this character's
+        // look at the global document language
+        /* TODO: make this work
+        XDocumentInfoSupplier xdis = (XDocumentInfoSupplier)
+          UnoRuntime.queryInterface(XDocumentInfoSupplier.class, xTextDoc);
+        XPropertySet docInfo = (XPropertySet) UnoRuntime.queryInterface
+          (XPropertySet.class, xdis.getDocumentInfo()); 
+        Object lang = docInfo.getPropertyValue("language");
+        */
+        // just look at the first position in the document and assume that this character's
         // language is the language of the whole document:
+        XTextCursor textCursor = xTextDoc.getText().createTextCursor();
+        textCursor.gotoStart(false);
         XPropertySet xCursorProps = (XPropertySet) UnoRuntime.queryInterface(XPropertySet.class,
-            xTextDoc.getText().createTextCursor());
+            textCursor);
         charLocale = (Locale) xCursorProps.getPropertyValue("CharLocale");
         boolean langIsSupported = false;
         for (int i = 0; i < Language.LANGUAGES.length; i++) {
