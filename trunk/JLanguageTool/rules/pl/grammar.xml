@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?><!--
 Copyright (C) 2006 Marcin Miłkowski
-$Id: grammar.xml,v 1.84 2006-11-14 23:28:19 milek_pl Exp $		
+$Id: grammar.xml,v 1.85 2006-12-06 18:43:08 milek_pl Exp $		
 -->
 <rules lang="pl">
 	<category name="Błędy interpunkcyjne">
@@ -2865,15 +2865,17 @@ $Id: grammar.xml,v 1.84 2006-11-14 23:28:19 milek_pl Exp $
 			<example type="incorrect"><marker>Po za</marker> tym samochód wyposażony jest w ogromny bagażnik.</example>
 		</rule>
 	
-		<rule id="NAPRZECIWKO" name="„na przeciwko” (naprzeciwko)">
+		<rule id="NAPRZECIWKO" name="„na przeciwko/przeciw” (naprzeciwko/naprzeciw)">
 			<pattern>
 				<token>na</token>
-				<token>przeciwko</token>
+				<token regexp="yes">przeciwko|przeciw</token>
 			</pattern>
-			<message>Wyrażenie <suggestion>naprzeciwko</suggestion> piszemy łącznie.</message>
+			<message>Wyrażenie <suggestion>\1\2</suggestion> piszemy łącznie.</message>
 			<example type="correct">Ala mieszkała naprzeciwko.</example>
+			<example type="incorrect">Sam wyszedłeś mu <marker>na przeciw</marker>.</example>
 			<example type="incorrect"><marker>Na przeciwko</marker> moich okien są takie same okna innego budynku na naszym terenie.</example>
 		</rule>
+		
 		<rule id="ZNAD" name="„z nad” (znad)">
 			<pattern>
 				<token>z</token>
