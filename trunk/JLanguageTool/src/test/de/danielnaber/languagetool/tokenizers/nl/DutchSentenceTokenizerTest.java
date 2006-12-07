@@ -1,4 +1,4 @@
-﻿/* LanguageTool, a natural language style checker 
+/* LanguageTool, a natural language style checker 
  * Copyright (C) 2006 Daniel Naber (http://www.danielnaber.de)
  * 
  * This library is free software; you can redistribute it and/or
