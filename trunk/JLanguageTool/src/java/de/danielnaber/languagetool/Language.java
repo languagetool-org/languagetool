@@ -31,6 +31,7 @@ import de.danielnaber.languagetool.tagging.nl.DutchTagger;
 import de.danielnaber.languagetool.tagging.xx.DemoTagger;
 import de.danielnaber.languagetool.tokenizers.SentenceTokenizer;
 import de.danielnaber.languagetool.tokenizers.de.GermanSentenceTokenizer;
+import de.danielnaber.languagetool.tokenizers.nl.DutchSentenceTokenizer;
 import de.danielnaber.languagetool.tokenizers.pl.PolishSentenceTokenizer;
 import de.danielnaber.languagetool.tokenizers.Tokenizer;
 import de.danielnaber.languagetool.tokenizers.WordTokenizer;
@@ -63,7 +64,7 @@ public final class Language {
     new Language("Italian", "it", new Locale("it"), new ItalianTagger(), new SentenceTokenizer(), new WordTokenizer());
   
   public static final Language DUTCH = 
-    new Language("Dutch", "nl", new Locale("nl"), new DutchTagger(), new SentenceTokenizer(), new WordTokenizer());
+    new Language("Dutch", "nl", new Locale("nl"), new DutchTagger(), new DutchSentenceTokenizer(), new WordTokenizer());
 
   public static final Language LITHUANIAN =
     new Language("Lithuanian", "lt", new Locale("lt"), new DemoTagger(), new SentenceTokenizer(), new WordTokenizer());
