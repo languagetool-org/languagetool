@@ -72,7 +72,7 @@ public class SentenceTokenizer implements Tokenizer {
       "Sr", "Bros", "etc", "vs", "esp", "Fig", "fig", "Jan", "Feb", "Mar", "Apr", "Jun", "Jul",
       "Aug", "Sep", "Sept", "Oct", "Okt", "Nov", "Dec", "Ph.D", "PhD",
       "al",  // in "et al."
-      "cf",
+      "cf", "Inc"
   };
 
   private static Set<String> abbreviations = new HashSet<String>();
