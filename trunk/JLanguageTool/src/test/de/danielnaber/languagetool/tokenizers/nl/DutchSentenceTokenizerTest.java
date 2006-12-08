@@ -23,6 +23,7 @@ import de.danielnaber.languagetool.TestTools;
 
 /**
  * @author Daniel Naber
+ * @author Adapted by R. Baars for Dutch
  */
 public class DutchSentenceTokenizerTest extends TestCase {
 
@@ -72,7 +73,7 @@ public class DutchSentenceTokenizerTest extends TestCase {
     testSplit(new String[] { "»De papagaai is groen«, zei hij." });
 
     // TODO, zin na dubbele punt
-    testSplit(new String[] { "Dat was het: helmaal niets." });
+    testSplit(new String[] { "Dat was het: helemaal niets." });
     testSplit(new String[] { "Dat was het: het is een nieuwe zin." });
   }
 

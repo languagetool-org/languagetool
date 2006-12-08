@@ -72,7 +72,23 @@ public class JLanguageToolTest extends TestCase {
     matches = tool.check("I can give you more a detailed description");
     assertEquals(0, matches.size());
   }
-  
+
+  public void testDutch() throws IOException, ParserConfigurationException, SAXException {
+    JLanguageTool tool = new JLanguageTool(Language.DUTCH);
+    List matches = tool.check("Een test, die geen fouten mag geven.");
+    assertEquals(0, matches.size());
+    matches = tool.check("Een test test, die een fout moet geven.");
+    assertEquals(1, matches.size());
+    List rules = tool.loadPatternRules("rules/nl/grammar.xml");
+    for (Iterator iter = rules.iterator(); iter.hasNext();) {
+      Rule rule = (Rule) iter.next();
+      tool.addRule(rule);
+    }
+    // Dutch rule has no effect with English error:
+    matches = tool.check("I can give you more a detailed description");
+    assertEquals(0, matches.size());
+  }
+	  
   public void testCountLines() {
     assertEquals(0, JLanguageTool.countLineBreaks(""));
     assertEquals(1, JLanguageTool.countLineBreaks("Hallo,\nnächste Zeile"));
