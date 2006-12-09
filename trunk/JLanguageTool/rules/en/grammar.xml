@@ -3,7 +3,7 @@
 Rules: Grammar and Typos
 See tagset.txt for the meaning of the POS tags
 Copyright (C) 2001-2006 Daniel Naber (http://www.danielnaber.de)
-$Id: grammar.xml,v 1.116 2006-12-09 14:20:47 dnaber Exp $
+$Id: grammar.xml,v 1.117 2006-12-09 14:32:23 dnaber Exp $
 -->
 <rules lang="en">
 
@@ -1913,6 +1913,20 @@ $Id: grammar.xml,v 1.116 2006-12-09 14:20:47 dnaber Exp $
       </rule>
     </rulegroup>
 
+    <rulegroup name="'i.e.' without a comma" id="ENUMERATION_NO_COMMA">
+      <rule>
+        <pattern mark_from="2" mark_to="0">
+          <token regexp="yes">.*</token>
+          <token>,</token>
+          <token regexp="yes">.*</token>
+          <token regexp="yes">and|or</token>
+        </pattern>
+        <message>The last word before 'and' in an enumeration usually ends with a comma: <suggestion>\3, \4</suggestion>.</message>
+        <example type="correct">It supports German, <marker>Polish, and</marker> other languages.</example>
+        <example type="incorrect">It supports German, <marker>Polish and</marker> other languages.</example>
+      </rule>
+    </rulegroup>
+  
   </category>
 
   <category name="Commonly Confused Words">
