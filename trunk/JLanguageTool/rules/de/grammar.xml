@@ -3,11 +3,34 @@
 Rules: German grammar errors and typos
 See tagset.txt for the meaning of the POS tags
 Copyright (C) 2001-2006 Daniel Naber (http://www.danielnaber.de)
-$Id: grammar.xml,v 1.68 2006-12-10 14:45:57 dnaber Exp $
+$Id: grammar.xml,v 1.69 2006-12-10 14:53:41 dnaber Exp $
 -->
 <rules lang="de">
 
   <category name="Mögliche Tippfehler">
+
+  <rulegroup id="SEIT_X_JAHRE" name="Möglicher Tippfehler: 'seit X Jahre(Jahren)'">
+    <rule>
+      <pattern mark_from="2">
+        <token regexp="yes">vor|seit|in</token>
+        <token regexp="yes">\d+</token>
+        <token regexp="yes">Jahre|Tage|Monate</token>
+      </pattern>
+      <message>Meinten Sie <suggestion>\3n</suggestion>?</message>
+      <example type="correct">Seit 10 <marker>Jahren</marker>.</example>
+      <example type="incorrect">Seit 10 <marker>Jahre</marker>.</example>
+    </rule>
+    <rule>
+      <pattern mark_from="2">
+        <token regexp="yes">vor|seit|in</token>
+        <token postag="ZAL"/>
+        <token regexp="yes">Jahre|Tage|Monate</token>
+      </pattern>
+      <message>Meinten Sie <suggestion>\3n</suggestion>?</message>
+      <example type="correct">Seit dreißig <marker>Jahren</marker>.</example>
+      <example type="incorrect">Seit dreißig <marker>Jahre</marker>.</example>
+    </rule>
+  </rulegroup>
 
   <rulegroup id="GIBT_ES_GENUEGEN" name="Möglicher Tippfehler: 'gibt es genügen(genügend)'">
     <rule>
