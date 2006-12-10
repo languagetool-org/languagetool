@@ -3,11 +3,35 @@
 Rules: German grammar errors and typos
 See tagset.txt for the meaning of the POS tags
 Copyright (C) 2001-2006 Daniel Naber (http://www.danielnaber.de)
-$Id: grammar.xml,v 1.66 2006-12-09 23:04:25 dnaber Exp $
+$Id: grammar.xml,v 1.67 2006-12-10 13:23:50 dnaber Exp $
 -->
 <rules lang="de">
 
   <category name="Mögliche Tippfehler">
+
+  <rulegroup id="MIR_ZIEMLICH_SICH" name="Möglicher Tippfehler: 'mir ziemlich sich(sicher)'">
+    <rule>
+      <pattern case_sensitive="yes" mark_from="2">
+        <token regexp="yes">mir|sich|uns|euch</token>
+        <token regexp="yes">ziemlich|recht|sehr|relativ|absolut|völlig|ganz|total|eher|halbwegs</token>
+        <token>sich</token>
+      </pattern>
+      <message>Meinten Sie <suggestion>sicher</suggestion>?</message>
+      <example type="correct">Er ist sich absolut <marker>sicher</marker>.</example>
+      <example type="incorrect">Er ist sich absolut <marker>sich</marker>.</example>
+    </rule>
+    <rule>
+      <pattern case_sensitive="yes" mark_from="3">
+        <token regexp="yes">mir|sich|uns|euch</token>
+        <token regexp="yes">dort|da</token>
+        <token regexp="yes">ziemlich|recht|sehr|relativ|absolut|völlig|ganz|total|eher|halbwegs</token>
+        <token>sich</token>
+      </pattern>
+      <message>Meinten Sie <suggestion>sicher</suggestion>?</message>
+      <example type="correct">Er ist sich da absolut <marker>sicher</marker>.</example>
+      <example type="incorrect">Er ist sich da absolut <marker>sich</marker>.</example>
+    </rule>
+  </rulegroup>
 
   <rulegroup id="BEIN_NAECHSTEN" name="Möglicher Tippfehler: Bein(Beim) nächsten/...'">
     <rule>
