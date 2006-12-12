@@ -3,7 +3,7 @@
 Rules: German grammar errors and typos
 See tagset.txt for the meaning of the POS tags
 Copyright (C) 2001-2006 Daniel Naber (http://www.danielnaber.de)
-$Id: grammar.xml,v 1.69 2006-12-10 14:53:41 dnaber Exp $
+$Id: grammar.xml,v 1.70 2006-12-12 20:29:53 dnaber Exp $
 -->
 <rules lang="de">
 
@@ -117,7 +117,7 @@ $Id: grammar.xml,v 1.69 2006-12-10 14:53:41 dnaber Exp $
   <rulegroup id="ER_LIES" name="Möglicher Tippfehler: er lies(ließ)'">
     <rule>
       <pattern mark_from="1">
-        <token regexp="yes">er|sie|es|ich</token>
+        <token regexp="yes">er|sie|es|ich|das|der|die</token>
         <token>lies</token>
       </pattern>
       <message>Meinten Sie <suggestion>ließ</suggestion> (Vergangenheitsform von 'lassen')?</message>
@@ -126,7 +126,7 @@ $Id: grammar.xml,v 1.69 2006-12-10 14:53:41 dnaber Exp $
     </rule>
     <rule>
       <pattern mark_from="1">
-        <token postag_regexp="yes" postag="EIG:.*" />
+        <token postag_regexp="yes" postag="(EIG|SUB):.*" />
         <token>lies</token>
       </pattern>
       <message>Meinten Sie <suggestion>ließ</suggestion> (Vergangenheitsform von 'lassen')?</message>
