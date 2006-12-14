@@ -196,8 +196,9 @@ public class Main {
         }
         if (!langIsSupported) {
           // FIXME: i18n
-          JOptionPane.showMessageDialog(null, "Error: Sorry, the document language '" +charLocale.Language+ 
+          DialogThread dt = new DialogThread("Error: Sorry, the document language '" +charLocale.Language+ 
               "' is not supported by LanguageTool.");
+          dt.start();
           return null;
         }
         //checkTables();
