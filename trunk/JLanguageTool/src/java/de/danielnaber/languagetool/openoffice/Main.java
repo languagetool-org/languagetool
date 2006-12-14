@@ -359,7 +359,8 @@ public class Main {
     for (int i = 0; i < elem.length; i++) {
       msg += elem[i].toString() + "\n";
     }
-    JOptionPane.showMessageDialog(null, msg, "Error", JOptionPane.ERROR_MESSAGE);
+    DialogThread dt = new DialogThread(msg);
+    dt.start();
     e.printStackTrace();
     throw new RuntimeException(e);
   }
