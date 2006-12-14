@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?><!--
 Copyright (C) 2006 Marcin Miłkowski
-$Id: grammar.xml,v 1.86 2006-12-14 23:41:58 milek_pl Exp $		
+$Id: grammar.xml,v 1.87 2006-12-14 23:45:17 milek_pl Exp $		
 -->
 <rules lang="pl">
 	<category name="Błędy interpunkcyjne">
@@ -3625,8 +3625,18 @@ $Id: grammar.xml,v 1.86 2006-12-14 23:41:58 milek_pl Exp $
 		<example type="incorrect">To jest <marker>porostu</marker> uczciwy minister.</example>
 	 <example type="correct">To jest przykład pięknego <marker>porostu</marker> trawy.</example>
 	 <example type="correct">To jest przykład <marker>porostu</marker> syberyjskiego.</example>
+		</rule>		
+		</rulegroup>
+		
+		<rule name="„po kątem” (pod kątem)" id="PO_KATEM">
+		<pattern mark_to="-1">
+			<token>po</token>
+			<token>kątem</token>
+		</pattern>
+		<message>Literówka. Powinno być <suggestion>pod</suggestion>.</message>
+		<example type="correct">Sprawę zbadano pod kątem zgodności z prawem.</example>
+		<example type="incorrect">Sprawę zbadano <marker>po</marker> kątem zgodności z prawem.</example>
 		</rule>
 		
-		</rulegroup>
 	</category>
 </rules>
