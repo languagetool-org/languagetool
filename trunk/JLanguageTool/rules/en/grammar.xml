@@ -3,7 +3,7 @@
 Rules: Grammar and Typos
 See tagset.txt for the meaning of the POS tags
 Copyright (C) 2001-2006 Daniel Naber (http://www.danielnaber.de)
-$Id: grammar.xml,v 1.118 2006-12-12 20:27:00 dnaber Exp $
+$Id: grammar.xml,v 1.119 2006-12-14 21:46:27 dnaber Exp $
 -->
 <rules lang="en">
 
@@ -33,7 +33,7 @@ $Id: grammar.xml,v 1.118 2006-12-12 20:27:00 dnaber Exp $
     <example type="incorrect">I  <marker>herd</marker> of a new song by Madonna.</example>
   </rule>
 
-	<rule id="LOOSE_LOSE" name="Possible typo 'loose (lose)'">
+	<rule id="LOOSE_LOSE" name="Possible typo 'loose(lose)'">
 		  <pattern mark_to="-2">
 			  <token>loose</token>
 			  <token postag="DT"/>
@@ -43,7 +43,8 @@ $Id: grammar.xml,v 1.118 2006-12-12 20:27:00 dnaber Exp $
 		  <example type="incorrect">I always <marker>loose</marker> the password.</example>
   		  <example type="correct">I always <marker>lose</marker> the password.</example>
 	  </rule>
-  <rulegroup id="GIVE_ADVISE" name="Possible typo 'give sb advise (advice)">
+    
+  <rulegroup id="GIVE_ADVISE" name="Possible typo 'give sb advise(advice)'">
   <rule>
 	  <pattern mark_from="2">
 		  <token regexp="yes">give|gave|given</token>
@@ -66,7 +67,8 @@ $Id: grammar.xml,v 1.118 2006-12-12 20:27:00 dnaber Exp $
 	   <example type="incorrect">Please give me good <marker>advise</marker>, I don't know what to do.</example>
   </rule>
 </rulegroup>
-	  <rule id="I_WE_ADVICE" name="Possible typo 'I/we advice (advise)'">
+
+	  <rule id="I_WE_ADVICE" name="Possible typo 'I/we advice(advise)'">
 		  <pattern mark_from="1">
 			  <token regexp="yes">I|we</token>
 			  <token>advice</token>
@@ -76,7 +78,7 @@ $Id: grammar.xml,v 1.118 2006-12-12 20:27:00 dnaber Exp $
 		  <example type="incorrect">We <marker>advice</marker> you to come by public transport.</example>
 	  </rule>
 
-  <rulegroup name="Possible typo 'all ready (already)'" id="ALL_READY">
+  <rulegroup name="Possible typo 'all ready(already)'" id="ALL_READY">
 	  <rule>
 		  <pattern mark_from="2">
 			  <token postag="PRP"/>
@@ -101,7 +103,7 @@ $Id: grammar.xml,v 1.118 2006-12-12 20:27:00 dnaber Exp $
 	  </rule>
   </rulegroup>
 
-  <rule name="Possible typo 'all most (almost)'" id="ALL_MOST">
+  <rule name="Possible typo 'all most(almost)'" id="ALL_MOST">
   <pattern mark_to="-1">
   <token>all</token>
   <token>most</token>
@@ -196,7 +198,7 @@ $Id: grammar.xml,v 1.118 2006-12-12 20:27:00 dnaber Exp $
       </example>
   </rule>
   
-   <rule id="NEWS_PAPER" name="Possible typo 'news paper (newspaper)'">
+   <rule id="NEWS_PAPER" name="Possible typo 'news paper(newspaper)'">
 	   <pattern>
 		   <token>news</token>
 		   <token>paper</token>
@@ -208,7 +210,7 @@ $Id: grammar.xml,v 1.118 2006-12-12 20:27:00 dnaber Exp $
       </example>
    </rule>
 
-	<rule id="AN_OTHER" name="Possible typo 'an other (another)'">
+	<rule id="AN_OTHER" name="Possible typo 'an other(another)'">
 	   <pattern>
 		   <token>an</token>
 		   <token>other</token>
@@ -219,7 +221,7 @@ $Id: grammar.xml,v 1.118 2006-12-12 20:27:00 dnaber Exp $
    </rule>
 	  
 	  
-   <rule id="MOTHER_IN_LAW" name="Possible typo 'mother in law' (mother-in-law)">
+   <rule id="MOTHER_IN_LAW" name="Possible typo 'mother in law(mother-in-law)'">
 	  <pattern>
 		  <token regexp="yes">mother|sister|brother|father</token>
 		  <token>in</token>
