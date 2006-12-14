@@ -68,7 +68,7 @@ public class PatternRuleTest extends TestCase {
         String goodSentence = (String) iterator.next();
         goodSentence = cleanXML(goodSentence);
         assertTrue(goodSentence.trim().length() > 0);
-        assertFalse(lang + ": Did not expect error in: " + goodSentence + " (ID="+rule.getId()+")",
+        assertFalse(lang + ": Did not expect error in: " + goodSentence + " (Rule: "+rule+")",
             match(rule, goodSentence, languageTool));
       }
       List badSentences = rule.getIncorrectExamples();
@@ -77,16 +77,16 @@ public class PatternRuleTest extends TestCase {
         int expectedMatchStart = origBadSentence.indexOf("<marker>");
         int expectedMatchEnd = origBadSentence.indexOf("</marker>") - "<marker>".length();
         if (expectedMatchStart == -1 || expectedMatchEnd == -1) {
-          fail(lang + ": No error position markup ('<marker>...</marker>') in bad example in rule ID = " + rule.getId());
+          fail(lang + ": No error position markup ('<marker>...</marker>') in bad example in rule " + rule);
         }
         String badSentence = cleanXML(origBadSentence);
         assertTrue(badSentence.trim().length() > 0);
         RuleMatch[] matches = getMatches(rule, badSentence, languageTool);
-        assertTrue(lang + ": Did expect one error in: " + badSentence + " (ID="+rule.getId()+"), got " + 
+        assertTrue(lang + ": Did expect one error in: \"" + badSentence + "\" (Rule: "+rule+"), got " + 
             matches.length, matches.length == 1);
-        assertEquals(lang + ": Incorrect match position markup (start) for rule ID = " + rule.getId(),
+        assertEquals(lang + ": Incorrect match position markup (start) for rule " + rule,
             expectedMatchStart, matches[0].getFromPos());
-        assertEquals(lang + ": Incorrect match position markup (end) for rule ID = " + rule.getId(),
+        assertEquals(lang + ": Incorrect match position markup (end) for rule " + rule,
             expectedMatchEnd, matches[0].getToPos());
         // make sure the suggested correction doesn't produce an error:
         if (matches[0].getSuggestedReplacements().size() > 0) {
@@ -96,7 +96,8 @@ public class PatternRuleTest extends TestCase {
             String fixedSentence = badSentence.substring(0, fromPos) + repl +
               badSentence.substring(toPos);
             matches = getMatches(rule, fixedSentence, languageTool);
-            assertEquals("Corrected sentence for rule " +rule.getId()+ " triggered error: " + fixedSentence, 0, matches.length);
+            assertEquals("Corrected sentence for rule " +rule+ " triggered error: " + fixedSentence,
+                0, matches.length);
           }
         } else {
           noSuggestionCount++;
