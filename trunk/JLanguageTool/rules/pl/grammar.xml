@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?><!--
 Copyright (C) 2006 Marcin Miłkowski
-$Id: grammar.xml,v 1.85 2006-12-06 18:43:08 milek_pl Exp $		
+$Id: grammar.xml,v 1.86 2006-12-14 23:41:58 milek_pl Exp $		
 -->
 <rules lang="pl">
 	<category name="Błędy interpunkcyjne">
@@ -2399,6 +2399,15 @@ $Id: grammar.xml,v 1.85 2006-12-06 18:43:08 milek_pl Exp $
 
 	<category name="Błędy ortograficzne">
 
+	<rule name="„pobież” (pobierz)" id="POBIEZ">
+	<pattern>
+	<token>pobież</token>
+	</pattern>
+	<message>\1 to forma czasownika „pobieżeć” (=pobiec). Prawie na pewno chodziło o <suggestion>pobierz</suggestion> (od „pobrać”).</message>
+	<example type="correct">Pobierz pliki</example>
+	<example type="incorrect"><marker>Pobież</marker> pliki</example>
+	</rule>
+	
 	<rulegroup name="„zagranicę” (za granicę)" id="WYJECHAC_ZAGRANICE">
 	<rule>
 	<pattern mark_from="1">
