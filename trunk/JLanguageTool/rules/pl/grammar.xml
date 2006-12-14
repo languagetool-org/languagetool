@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?><!--
 Copyright (C) 2006 Marcin Miłkowski
-$Id: grammar.xml,v 1.87 2006-12-14 23:45:17 milek_pl Exp $		
+$Id: grammar.xml,v 1.88 2006-12-14 23:54:54 milek_pl Exp $		
 -->
 <rules lang="pl">
 	<category name="Błędy interpunkcyjne">
@@ -2942,14 +2942,14 @@ $Id: grammar.xml,v 1.87 2006-12-14 23:45:17 milek_pl Exp $
 	-->
 	
 		<rule id="POD_KONTEM" name="„pod kontem czegoś” (pod kątem)">
-			<pattern mark_from="1" mark_to="-1">
-				<token>pod</token>
+			<pattern mark_to="-1">
+				<token regexp="yes">pod|po</token>
 				<token>kontem</token>
 				<token postag_regexp="yes" postag=".*gen(\.|:).*"/>
 			</pattern>
-			<message>Prawdopodobnie chodziło o wyrażenie „pod <suggestion>kątem</suggestion>”, czyli o narzędnik rzeczownika „kąt”, a nie o „konto”.</message>
+			<message>Prawdopodobnie chodziło o wyrażenie <suggestion>\1 kątem</suggestion>, czyli o narzędnik rzeczownika „kąt”, a nie o „konto”.</message>
 			<example type="correct">To zagadnienie analizowaliśmy pod kątem użyteczności.</example>
-			<example type="incorrect">To zagadnienie analizowaliśmy pod <marker>kontem</marker> użyteczności.</example>
+			<example type="incorrect">To zagadnienie analizowaliśmy <marker>pod kontem</marker> użyteczności.</example>
 		</rule>
 
 		<rule id="DO_TYCH_CZAS" name="„do tych czas” (dotychczas)">
