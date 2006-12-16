@@ -59,6 +59,7 @@ public class Overview {
           // count XML rules:
           String xmlRules = StringTools.readFile(xmlFile);
           xmlRules = xmlRules.replaceAll("(?s)<!--.*?-->", "");
+          xmlRules = xmlRules.replaceAll("(?s)<rules.*?>", "");
           int pos = 0;
           int count = 0;
           while (pos != -1) {
