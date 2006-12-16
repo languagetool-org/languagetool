@@ -2,7 +2,7 @@
 <!--
 Dutch Grammar and Typo Rules for LanguageTool
 Copyright (C) 2006 Rudd J. Baars (r.j.baars -at- hccnet nl)
-$Id: grammar.xml,v 1.7 2006-12-16 10:59:54 dnaber Exp $
+$Id: grammar.xml,v 1.8 2006-12-16 17:06:55 dnaber Exp $
 -->
 <rules lang="nl">
   <category name="Mogelijke typefouten">
@@ -32,6 +32,50 @@ $Id: grammar.xml,v 1.7 2006-12-16 10:59:54 dnaber Exp $
       </rule>
     </rulegroup>
 
+    <rulegroup id="STIJL_STEIL" name="Stijl in plaats van steil">
+      <rule>
+        <pattern mark_from="1" >
+          <token negate="yes" regexp="yes">in|met|oude|nieuwe</token> 
+          <token skip="1">stijl</token>
+          <token regexp="yes">berg.*|helling.*|weg.*|pad.*|straat.*</token>
+        </pattern>
+        <message>[a] U bedoelt vast <suggestion>steil</suggestion>.</message>
+        <example type="incorrect">De weg ging <marker>stijl de berg</marker> op.</example>
+        <example type="correct">De weg ging <marker>steil de berg</marker> op.</example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <token  regexp="yes">berg.*|helling.*|weg.*|pad.*|straat.*</token>
+          <token negate="yes" regexp="yes">in|met|oude|nieuwe</token> 
+          <token>stijl</token>
+        </pattern>
+        <message>[b] U bedoelt vast <suggestion>steil</suggestion>.</message>
+        <example type="incorrect">Is de <marker>weg altijd stijl</marker>?</example>
+        <example type="correct">Is de <marker>weg altijd steil</marker>?</example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <token  regexp="yes">berg.*|helling.*|weg.*|pad.*|straat.*</token>
+          <token>stijl</token>
+        </pattern>
+        <message>[c] U bedoelt vast <suggestion>steil</suggestion>.</message>
+        <example type="incorrect">Is de <marker>weg stijl</marker>?</example>
+        <example type="correct">Is de <marker>weg steil</marker>?</example>
+      </rule>
+
+      <rule>
+        <pattern mark_to="-1">
+          <token>stijl</token>
+          <token>achterover</token>
+        </pattern>
+        <message>[d] U bedoelt vast <suggestion>steil</suggestion>.</message>
+        <example type="incorrect">Ik sla <marker>stijl</marker> achterover.</example>
+        <example type="correct">Ik sla <marker>steil</marker> achterover.</example>
+      </rule>
+
+    </rulegroup>
     <rulegroup id="ZO-EVEN" name="Zo-even">
 	<!-- score -->
       <rule>
