@@ -1,15 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-Rules: Grammar and Typos
-See tagset.txt for the meaning of the POS tags
-Copyright (C) 2001-2006 Daniel Naber (http://www.danielnaber.de)
-$Id: grammar.xml,v 1.5 2006-12-14 22:23:51 dnaber Exp $
-Rules for Dutch by R.Baars
+Dutch Grammar and Typo Rules
+Copyright (C) 2006 Rudd J. Baars (r.j.baars -at- hccnet nl)
+$Id: grammar.xml,v 1.6 2006-12-16 10:51:49 dnaber Exp $
 -->
 <rules lang="nl">
   <category name="Mogelijke typefouten">
 
     <rulegroup id="EN_KOMMA" name="en,">
+	<!-- score 100% succes-->
       <rule>
         <pattern>
           <token>,</token>
@@ -32,7 +31,9 @@ Rules for Dutch by R.Baars
         <example type="incorrect"><marker>De het</marker> boot is zelfgemaakt.</example>
       </rule>
     </rulegroup>
+
     <rulegroup id="ZO-EVEN" name="Zo-even">
+	<!-- score -->
       <rule>
         <pattern>
           <token>zoeven</token>
@@ -43,22 +44,22 @@ Rules for Dutch by R.Baars
       </rule>
     </rulegroup>
 
-
     <rulegroup id="U_OF_U" name="U of u">
+	<!-- score -->
       <rule>
-        <pattern case_sensitive="yes" >
+        <pattern case_sensitive="yes" mark_from="1" mark_to="-1">
           <token negate="yes">.</token>
           <token regexp="yes">U</token>
           <token></token>
         </pattern>
-        <message>Bedoelt u misschien <suggestion>u</suggestion>? Alleen bij verwiijzingen naar heilige begrippen wordt 'U' gebruikt.</message>
-        <example type="correct">Misschien <marker>bedoelt u dit</marker>?</example>
-        <example type="incorrect">Misschien <marker>bedoelt U dit</marker>?</example>
+        <message>Alleen bij verwiijzingen naar heilige begrippen wordt 'U' gebruikt.</message>
+        <example type="correct">Bedoelt <marker>u</marker> dit?</example>
+        <example type="incorrect">Bedoelt <marker>U</marker> dit?</example>
       </rule>
     </rulegroup>
 
     <rulegroup id="GROTE_GETALLEN" name="Grote getallen">
-
+	<!-- score -->
       <rule>
         <pattern>
           <token regexp="yes">.+duizend.*(een|twee|drie|vier|vijf|zes|zeven|acht|negen|tien|twin|der|veer|honderd).*</token>
@@ -107,6 +108,7 @@ Rules for Dutch by R.Baars
     </rulegroup>
 
     <rulegroup id="TOT_STAND" name="Tot stand komen">
+	<!-- score 100% terecht-->
       <rule>
         <pattern>
           <token>totstandkomen</token>
@@ -116,18 +118,21 @@ Rules for Dutch by R.Baars
         <example type="correct">Een woordenlijst zal niet zomaar <marker>tot stand komen</marker>.</example>
       </rule>
     </rulegroup>
+
   </category>
+
   <category name="Taalgebruik">
 
+<!--
+	teveel valse meldingen, dus tijdelijk uitgeschakeld
     <rulegroup id="DE_HET" name="De en het overeenkomende met woord">
-
       <rule>
         <pattern mark_to="-2">
           <token>de</token>
           <token postag="adject.*" postag_regexp="yes"></token>
           <token postag="noun(het,sg,[])"></token>
         </pattern>
-        <message>Bedoelt u <suggestion>het</suggestion> \2 \3?</message>
+        <message>[a] Bedoelt u <suggestion>het</suggestion> \2 \3?</message>
         <example type="correct"><marker>De</marker> grote boot is zelfgemaakt.</example>
         <example type="incorrect"><marker>De</marker> grote huis is in orde.</example>
       </rule>
@@ -138,7 +143,7 @@ Rules for Dutch by R.Baars
           <token postag="adject.*" postag_regexp="yes"></token>
           <token postag="noun(de,sg,[])"></token>
         </pattern>
-        <message>Bedoelt u <suggestion>de</suggestion> \2 \3?</message>
+        <message>[b] Bedoelt u <suggestion>de</suggestion> \2 \3?</message>
         <example type="incorrect"><marker>Het</marker> grote muur is in orde.</example>
         <example type="correct"><marker>Het</marker> grote varken is in orde.</example>
       </rule>
@@ -148,7 +153,7 @@ Rules for Dutch by R.Baars
           <token>de</token>
           <token postag="noun(het,sg,[])"></token>
         </pattern>
-        <message>Bedoelt u <suggestion>het</suggestion> \2 ?</message>
+        <message>[c] Bedoelt u <suggestion>het</suggestion> \2 ?</message>
         <example type="correct"><marker>De</marker> boot is zelfgemaakt.</example>
         <example type="incorrect"><marker>De</marker> varken is in orde.</example>
       </rule>
@@ -158,15 +163,16 @@ Rules for Dutch by R.Baars
           <token>het</token>
           <token postag="noun(de,sg,[])"></token>
         </pattern>
-        <message>Bedoelt u <suggestion>de</suggestion> \2 ?</message>
+        <message>[d] Bedoelt u <suggestion>de</suggestion> \2 ?</message>
         <example type="correct"><marker>Het</marker> varken is geslacht.</example>
         <example type="incorrect"><marker>Het</marker> deur is geschilderd.</example>
       </rule>
 
     </rulegroup>
+-->
 
-    <rulegroup id="BIIJVOEGLIJK_E" name="Bijvoeglijk naamwoord met of zonder e">
 <!--
+    <rulegroup id="BIJVOEGLIJK_E" name="Bijvoeglijk naamwoord met of zonder e">
 	het-woorden
 	het rode huis
 	mijn rode huis
@@ -178,31 +184,33 @@ Rules for Dutch by R.Baars
 	mijn rode fiets
 	een rode fiets
 	geen rode fiets
--->
+
       <rule>
         <pattern>
           <token regexp="yes">een|geen</token>
-          <token postag="adjective\(e.*" postag_regexp="yes"></token>
+          <token postag="adjective\(e\)|adjective\(ende\(adv\)\)|adjective\(ende\(both\)\)|adjective\(ende\(nonadv\)\)\|adjective\(ende\(padv\}\)|adjective\(ere\)" postag_regexp="yes"></token>
           <token postag="noun(het,sg,[])"></token>
         </pattern>
-        <message>[a] Is de <suggestion>e</suggestion> niet teveel?</message>
+        <message>[a] Is hier de <suggestion>e teveel</suggestion>?</message>
         <example type="incorrect"><marker>Een rode huis</marker> staat mooier.</example>
         <example type="correct"><marker>Een rood huis</marker> staat mooier.</example>
       </rule>
 
       <rule>
         <pattern>
-          <token postag="adjective\(no.*" postag_regexp="yes"></token>
-          <token postag="noun(de,sg,[])"></token>
+          <token><exception regexp="yes">geen|een</exception></token>
+          <token postag="adjective\(no.*" postag_regexp="yes"><exception regexp="yes">naar|waar</exception></token>
+          <token postag="noun.*" postag_regexp="yes"><exception postag="verb.*"postag_regexp="yes" /></token>
         </pattern>
-        <message>[b] Ontbreekt de<suggestion>e</suggestion>?</message>
-        <example type="incorrect">Een <marker>rood fiets</marker> staat mooier.</example>
-        <example type="correct">Een <marker>rode fiets</marker> staat mooier.</example>
+        <message>[b] <suggestion>Ontbreekt de e ?</suggestion></message>
+        <example type="incorrect"><marker>Mijn rood kameel</marker> is mooier.</example>
+        <example type="correct"><marker>Een rode kameel</marker> is mooier.</example>
       </rule>
-
     </rulegroup>
+-->
 
     <rulegroup id="VAAG" name="Vaag taalgebruik">
+	<!-- score redelijk hoog-->
       <rule>
         <pattern>
           <token regexp="yes">dingen|alles|ergens|ooit|wellicht|misschien</token>
@@ -223,7 +231,8 @@ Rules for Dutch by R.Baars
       </rule>
     </rulegroup>
 
-    <rulegroup id="ARCHAISCH" name="Archaisch">
+    <rulegroup id="OUDERWETS" name="Ouderwets">
+	<!-- score 100% terecht -->
       <rule>
         <pattern>
           <token regexp="yes">thans|danwel|zulks|voorts|derhalve|desalniettemin|evenwel|mede|dewelke|nimmer|immer</token>
@@ -234,6 +243,7 @@ Rules for Dutch by R.Baars
       </rule>
 
       <rule>
+	<!-- score 100% terecht -->
         <pattern>
           <token>terzake</token>
         </pattern>
@@ -244,17 +254,19 @@ Rules for Dutch by R.Baars
     </rulegroup>
 
     <rulegroup id="OVERDRIJVING" name="Overdrijving">
+	<!-- score -->
       <rule>
         <pattern>
           <token regexp="yes">erg|heel|vreselijk|gigantisch|enorm</token>
         </pattern>
-        <message>Is hier wellicht sprake van overdrijving?</message>
+        <message>Is hier wellicht sprake van <suggestion>overdrijving?</suggestion></message>
         <example type="incorrect">Het is een <marker>gigantisch</marker> probleem.</example>
         <example type="correct">Het is <marker>een</marker> probleem.</example>
       </rule>
     </rulegroup>
 
     <rulegroup id="EIGEN_GE" name="Eigengemaakt etc">
+	<!-- score -->
       <rule>
         <pattern>
           <token regexp="yes">eigenge.+</token>
@@ -266,6 +278,7 @@ Rules for Dutch by R.Baars
     </rulegroup>
 
     <rulegroup id="DUBBELE_ONTKENNING" name="Dubbele ontkenning">
+	<!-- score -->
       <rule>
         <pattern>
           <token regexp="yes" skip="5">niet|nooit|geen|nergens|niet-.+</token>
@@ -278,6 +291,7 @@ Rules for Dutch by R.Baars
     </rulegroup>
 
     <rulegroup id="KOST_DUUR" name="kost duur">
+	<!-- score -->
       <rule>
         <pattern>
           <token skip="10">kost</token>
@@ -299,6 +313,7 @@ Rules for Dutch by R.Baars
     </rulegroup>
 
     <rulegroup id="kan_kun" name="Kannen en kunnen">
+	<!-- score -->
       <rule>
         <pattern>
           <token>kan</token>
@@ -329,6 +344,7 @@ Rules for Dutch by R.Baars
     </rulegroup>
 
     <rulegroup id="DUBBEL_ZO" name="Dubbel zo">
+	<!-- score -->
       <rule>
         <pattern>
           <token>dubbel</token>
@@ -360,6 +376,7 @@ Rules for Dutch by R.Baars
     </rulegroup>
 
     <rulegroup id="ALS_ZIJNDE" name="Als zijnde">
+	<!-- score -->
       <rule>
         <pattern>
           <token>als</token>
@@ -373,6 +390,7 @@ Rules for Dutch by R.Baars
     </rulegroup>
 
     <rulegroup id="BESEF_ME" name="besef me">
+	<!-- score -->
       <rule>
         <pattern>
           <token regexp="yes">besef|beseft|bedenk|bedenkt</token>
@@ -386,6 +404,7 @@ Rules for Dutch by R.Baars
     </rulegroup>
 
     <rulegroup id="GROTER_ALS" name="Groter als">
+	<!-- score -->
       <rule>
         <pattern>
           <token postag="adjective\(er.*" postag_regexp="yes"></token>
@@ -395,6 +414,7 @@ Rules for Dutch by R.Baars
         <example type="incorrect">Jan is <marker>groter als</marker> Kees.</example>
         <example type="correct">Jan is <marker>kleiner dan</marker> Kees.</example>
       </rule>
+
       <rule>
         <pattern>
           <token regexp="yes">even|zo</token>
@@ -405,6 +425,7 @@ Rules for Dutch by R.Baars
         <example type="incorrect">Jan is net <marker>zo groot dan</marker> Kees.</example>
         <example type="correct">Jan is net<marker>zo klein als</marker> Kees.</example>
       </rule>
+
       <rule>
         <pattern>
           <token>evenveel</token>
@@ -414,6 +435,7 @@ Rules for Dutch by R.Baars
         <example type="incorrect">Vijf is <marker>evenveel dan</marker> twee plus drie.</example>
         <example type="correct">Vier is <marker>eenveel als</marker> twee plus twee.</example>
       </rule>
+
       <rule>
         <pattern>
           <token regexp="yes">als|dan</token>
@@ -426,45 +448,63 @@ Rules for Dutch by R.Baars
     </rulegroup>
 
     <rulegroup id="DT" name="dt bij werkwoord of juist niet">
+	<!-- score -->
       <rule>
-        <pattern>
+        <pattern mark_from="1">
           <token>ik</token>
-          <token postag="verb(sg3)"></token>
+          <token postag="verb(sg3)"><exception postag="verb\(pas.*" postag_regexp="yes" /></token>
         </pattern>
-        <message>[a] Bij \1 hoort <suggestion>geen t</suggestion> achter de werkwoordsvorm.</message>
-        <example type="incorrect"><marker>Ik wordt</marker> beoordeeld.</example>
-        <example type="correct"><marker>Ik word</marker> beoordeeld.</example>
+        <message>[a] Bij '\1' hoort <suggestion>geen t</suggestion> achter de werkwoordsvorm.</message>
+        <example type="incorrect">Ik <marker>wordt</marker> beoordeeld.</example>
+        <example type="correct">Ik <marker>word</marker> beoordeeld.</example>
       </rule>
+<!--
+	teveel verkeerde meldingen
       <rule>
-        <pattern>
+        <pattern mark_from="2">
+          <token><exception postag="verb.*" postag_regexp="yes" /><exception >
           <token regexp="yes">je|jij|hij|zij|u</token>
-          <token postag="verb(sg1)"></token>
+          <token postag="verb(sg1)"><exception postag="verb\(pas.*" postag_regexp="yes" /><exception regexp="yes">wees|in</exception></token>
         </pattern>
-        <message>[b] Bij \1 hoort <suggestion>een t</suggestion> achter de werkwoordsvorm.</message>
-        <example type="incorrect"><marker>U word</marker> beoordeeld.</example>
-        <example type="correct"><marker>U wordt</marker> beoordeeld.</example>
+        <message>[b] Bij '\1' hoort een <suggestion>t</suggestion> achter de werkwoordsvorm.</message>
+        <example type="incorrect">U <marker>word</marker> beoordeeld.</example>
+        <example type="correct">U <marker>wordt</marker> beoordeeld.</example>
       </rule>
+-->
       <rule>
-        <pattern>
-          <token postag="verb(sg3)"></token>
+        <pattern mark_to="-1">
+          <token postag="verb(sg3)"><exception postag="verb\(pas.*" postag_regexp="yes" /></token>
           <token regexp="yes">ik|jij</token>
         </pattern>
         <message>[c] Hier hoort <suggestion>geen t</suggestion> achter de werkwoordsvorm.</message>
-        <example type="incorrect"><marker>Wordt jij</marker> beoordeeld?</example>
-        <example type="correct"><marker>Word ik</marker> beoordeeld?</example>
+        <example type="incorrect"><marker>Wordt</marker> jij beoordeeld?</example>
+        <example type="correct"><marker>Word</marker> ik beoordeeld?</example>
       </rule>
+<!-- teveel verkeerde meldingen
       <rule>
-        <pattern>
-          <token postag="verb(sg1)"></token>
+        <pattern mark_to="-1">
+          <token postag="verb(sg1)"><exception postag="verb\(pas.*" postag_regexp="yes" /><exception postag="noun.*" postag_regexp="yes" /></token>
           <token regexp="yes">hij|zij|u</token>
         </pattern>
         <message>[d] Hier hoort <suggestion>een t</suggestion> achter de werkwoordsvorm.</message>
-        <example type="incorrect"><marker>Word hij</marker> beoordeeld?</example>
-        <example type="correct"><marker>Wordt hij</marker> beoordeeld?</example>
+        <example type="incorrect"><marker>Word</marker> hij beoordeeld?</example>
+        <example type="correct"><marker>Wordt</marker> hij beoordeeld?</example>
       </rule>
-    </rulegroup>
 
-    <rulegroup id="DE_EERSTE_INSTANTIE" name="De eerste insantie">
+      <rule>
+        <pattern mark_from="1" mark_to="-1">
+          <token regexp="yes">hij|jij|je|u|men</token>
+          <token postag="verb(psp)"></token>
+          <token negate="yes" regexp="yes">is|word|heeft|was|werd|had</token>
+        </pattern>
+        <message>[e] Hier doort de d  een<suggestion>t</suggestion> te zijn.</message>
+        <example type="incorrect">Hij <marker>beoordeeld</marker> fietsen.</example>
+        <example type="correct">Hij <marker>beoordeelt</marker> fietsen.</example>
+      </rule>
+-->
+    </rulegroup>
+    <rulegroup id="DE_EERSTE_INSTANTIE" name="De eerste instantie">
+	<!-- score -->
       <rule>
         <pattern>
           <token>in</token>
@@ -479,6 +519,7 @@ Rules for Dutch by R.Baars
     </rulegroup>
 
     <rulegroup id="TWEEDE_KAMER" name="Tweede Kamer">
+	<!-- score -->
       <rule>
         <pattern>
           <token regexp="yes">[t]weede|[e]erste</token>
@@ -507,6 +548,7 @@ Rules for Dutch by R.Baars
     </rulegroup>
 
     <rulegroup id="TE_ALLEN_TIJDE" name="te allen tijde">
+	<!-- score -->
       <rule>
         <pattern>
           <token>ten</token>
@@ -532,6 +574,7 @@ Rules for Dutch by R.Baars
     </rulegroup>
 
     <rulegroup id="HAASTJE_REPJE" name="haastje-repje">
+	<!-- score -->
       <rule>
         <pattern>
           <token>haasje-repje</token>
@@ -552,6 +595,7 @@ Rules for Dutch by R.Baars
     </rulegroup>
 
     <rulegroup id="MANKEER_NIETS" name="mankeert niets">
+	<!-- score -->
       <rule>
         <pattern>
           <token regexp="yes">ik|jij|hij</token>
@@ -565,6 +609,7 @@ Rules for Dutch by R.Baars
     </rulegroup>
 
     <rulegroup id="WAT_SCHETST" name="Wat schetst mijn verbazing">
+	<!-- score -->
       <rule>
         <pattern>
           <token>wat</token>
@@ -579,6 +624,7 @@ Rules for Dutch by R.Baars
     </rulegroup>
 
     <rulegroup id="OEKRAINE" name="Oekraine">
+	<!-- score -->
       <rule>
         <pattern>
           <token>de</token>
@@ -591,6 +637,7 @@ Rules for Dutch by R.Baars
     </rulegroup>
 
     <rulegroup id="CORDON_BLEU" name="Cordon Blue">
+	<!-- score -->
       <rule>
         <pattern>
           <token>cordon</token>
@@ -603,6 +650,7 @@ Rules for Dutch by R.Baars
     </rulegroup>
 
     <rulegroup id="TER_ZAKE_VAN" name="Ter zake van">
+	<!-- score -->
       <rule>
         <pattern>
           <token>ter</token>
@@ -616,6 +664,7 @@ Rules for Dutch by R.Baars
     </rulegroup>
 
     <rulegroup id="WOU" name="Wilden ipv wouden">
+	<!-- score -->
       <rule>
         <pattern>
           <token regexp="yes">ik|je|jij|hij|wij</token>
