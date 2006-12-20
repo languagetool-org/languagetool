@@ -42,10 +42,22 @@ public class UppercaseSentenceStartRuleTest extends TestCase {
     assertEquals(0, matches.size());
     matches = langTool.check("Dieser Satz ist z.B. okay so.");
     assertEquals(0, matches.size());
+    matches = langTool.check("Dies ist ein Satz. \"Aber der hier auch!\".");
+    assertEquals(0, matches.size());
+    matches = langTool.check("\"Dies ist ein Satz!\"");
+    assertEquals(0, matches.size());
+    matches = langTool.check("'Dies ist ein Satz!'");
+    assertEquals(0, matches.size());
 
     matches = langTool.check("Dies ist ein Satz. und hier kommt noch einer");
     assertEquals(1, matches.size());
     matches = langTool.check("Dies ist ein Satz. ätsch, noch einer mit Umlaut.");
+    assertEquals(1, matches.size());
+    matches = langTool.check("Dies ist ein Satz. \"aber der hier auch!\"");
+    assertEquals(1, matches.size());
+    matches = langTool.check("\"dies ist ein Satz!\"");
+    assertEquals(1, matches.size());
+    matches = langTool.check("'dies ist ein Satz!'");
     assertEquals(1, matches.size());
 
     langTool = new JLanguageTool(Language.ENGLISH);

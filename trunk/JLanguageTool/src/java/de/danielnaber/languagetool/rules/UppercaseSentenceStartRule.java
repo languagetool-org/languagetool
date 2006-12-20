@@ -60,6 +60,9 @@ public class UppercaseSentenceStartRule extends Rule {
     //discarding the rest of the possible lemmas and POS tags
     AnalyzedToken token = tokens[1].getAnalyzedToken(0);        // 0 is the artifical sentence start token
     String firstToken = token.getToken();
+    // ignore quote characters:
+    if (tokens.length >= 3 && ("'".equals(firstToken) || "\"".equals(firstToken)))
+      firstToken = tokens[2].getAnalyzedToken(0).getToken();
     char firstChar = firstToken.charAt(0);
     if (Character.isLowerCase(firstChar)) {
       String msg = messages.getString("incorrect_case");
