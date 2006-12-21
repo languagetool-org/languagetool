@@ -25,6 +25,7 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -135,9 +136,9 @@ class Main {
     long time = endTime - startTime;
     float timeInSeconds = (float)time/1000.0f;
     float sentencesPerSecond = (float)lt.getSentenceCount() / (float)timeInSeconds;
-    System.out.println("Time: " + time + "ms (including " +(endTime-startTimeMatching)+
-        "ms for rule matching) for " + lt.getSentenceCount() + " sentences ("
-        + sentencesPerSecond + " sentences/sec)");
+    System.out.printf(Locale.ENGLISH,
+        "Time: %dms (including %dms for rule matching) for %d sentences (%.1f sentences/sec)\n",
+        time, endTime-startTimeMatching, lt.getSentenceCount(), sentencesPerSecond);
   }
   
   private String filterXML(String s) {
