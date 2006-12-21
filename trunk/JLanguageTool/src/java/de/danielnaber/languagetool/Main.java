@@ -44,8 +44,6 @@ import de.danielnaber.languagetool.tools.StringTools;
  */
 class Main {
 
-  private static final int CONTEXT_SIZE = 25;
-
   private JLanguageTool lt = null;
   private boolean verbose = false;
 
@@ -128,7 +126,7 @@ class Main {
       List repl = match.getSuggestedReplacements();
       if (repl.size() > 0)
         System.out.println("Suggestion: " + StringTools.listToString(repl, "; "));
-      System.out.println(getContext(match.getFromPos(), match.getToPos(), contents));
+      System.out.println(StringTools.getContext(match.getFromPos(), match.getToPos(), contents));
       if (iter.hasNext())
         System.out.println();
       i++;
@@ -150,41 +148,6 @@ class Main {
     matcher = pattern.matcher(s);
     s = matcher.replaceAll(" ");
     return s;
-  }
-
-  private String getContext(int fromPos, int toPos, String fileContents) {
-    fileContents = fileContents.replaceAll("\n", " ");
-    // calculate context region:
-    int startContent = fromPos - CONTEXT_SIZE;
-    String prefix = "...";
-    String postfix = "...";
-    String markerPrefix = "   ";
-    if (startContent < 0) {
-      prefix = "";
-      markerPrefix = "";
-      startContent = 0;
-    }
-    int endContent = toPos + CONTEXT_SIZE;
-    if (endContent > fileContents.length()) {
-      postfix = "";
-      endContent = fileContents.length();
-    }
-    // make "^" marker. inefficient but robust implementation:
-    StringBuilder marker = new StringBuilder();
-    for (int i = 0; i < fileContents.length() + prefix.length(); i++) {
-      if (i >= fromPos && i < toPos)
-        marker.append("^");
-      else
-        marker.append(" ");
-    }
-    // now build context string plus marker:
-    StringBuilder sb = new StringBuilder();
-    sb.append(prefix);
-    sb.append(fileContents.substring(startContent, endContent));
-    sb.append(postfix);
-    sb.append("\n");
-    sb.append(markerPrefix + marker.substring(startContent, endContent));
-    return sb.toString();
   }
 
   private static void exitWithUsageMessage() {

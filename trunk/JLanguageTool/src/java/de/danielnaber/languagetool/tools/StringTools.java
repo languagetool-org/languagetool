@@ -37,6 +37,8 @@ import de.danielnaber.languagetool.rules.RuleMatch;
  */
 public final class StringTools {
 
+  private static final int DEFAULT_CONTEXT_SIZE = 25;
+
   private StringTools() {
     // only static stuff
   }
@@ -210,6 +212,45 @@ public final class StringTools {
       if (iter.hasNext())
         sb.append(delimiter);
     }
+    return sb.toString();
+  }
+
+  public static String getContext(int fromPos, int toPos, String fileContents) {
+    return getContext(fromPos, toPos, fileContents, DEFAULT_CONTEXT_SIZE);
+  }
+  
+  public static String getContext(int fromPos, int toPos, String fileContents, int contextSize) {
+    fileContents = fileContents.replaceAll("\n", " ");
+    // calculate context region:
+    int startContent = fromPos - contextSize;
+    String prefix = "...";
+    String postfix = "...";
+    String markerPrefix = "   ";
+    if (startContent < 0) {
+      prefix = "";
+      markerPrefix = "";
+      startContent = 0;
+    }
+    int endContent = toPos + contextSize;
+    if (endContent > fileContents.length()) {
+      postfix = "";
+      endContent = fileContents.length();
+    }
+    // make "^" marker. inefficient but robust implementation:
+    StringBuilder marker = new StringBuilder();
+    for (int i = 0; i < fileContents.length() + prefix.length(); i++) {
+      if (i >= fromPos && i < toPos)
+        marker.append("^");
+      else
+        marker.append(" ");
+    }
+    // now build context string plus marker:
+    StringBuilder sb = new StringBuilder();
+    sb.append(prefix);
+    sb.append(fileContents.substring(startContent, endContent));
+    sb.append(postfix);
+    sb.append("\n");
+    sb.append(markerPrefix + marker.substring(startContent, endContent));
     return sb.toString();
   }
 
