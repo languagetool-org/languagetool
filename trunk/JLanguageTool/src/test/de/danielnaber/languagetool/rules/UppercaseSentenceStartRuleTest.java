@@ -64,5 +64,22 @@ public class UppercaseSentenceStartRuleTest extends TestCase {
     matches = langTool.check("In Nov. next year.");
     assertEquals(0, matches.size());
   }
+
+  public void testDutchSpecialCases() throws IOException {
+    JLanguageTool langTool = new JLanguageTool(Language.DUTCH);
+    List matches;
+    
+    matches = langTool.check("A sentence.");
+    assertEquals(0, matches.size());
+    matches = langTool.check("'s Morgens...");
+    assertEquals(0, matches.size());
+
+    matches = langTool.check("a sentence.");
+    assertEquals(1, matches.size());
+    matches = langTool.check("'s morgens...");
+    assertEquals(1, matches.size());
+    matches = langTool.check("s sentence.");
+    assertEquals(1, matches.size());
+  }
   
 }

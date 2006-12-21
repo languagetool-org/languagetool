@@ -176,7 +176,7 @@ public class JLanguageTool {
         new CommaWhitespaceRule(messages), 
         new WordRepeatRule(messages, language),
         new DoublePunctuationRule(messages),
-        new UppercaseSentenceStartRule(messages),
+        new UppercaseSentenceStartRule(messages, language),
         // English:
         new AvsAnRule(messages),        
         // German:
