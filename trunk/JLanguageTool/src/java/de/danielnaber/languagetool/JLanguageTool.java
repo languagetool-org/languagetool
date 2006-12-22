@@ -26,6 +26,8 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
+import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 import java.util.Set;
 
@@ -158,15 +160,23 @@ public class JLanguageTool {
    * Gets the ResourceBundle for the default language of the user's system.
    */
   public static ResourceBundle getMessageBundle() {
-    return ResourceBundle.getBundle("de.danielnaber.languagetool.MessagesBundle");
+    try {
+      return ResourceBundle.getBundle("de.danielnaber.languagetool.MessagesBundle");
+    } catch (MissingResourceException e) {
+      return ResourceBundle.getBundle("de.danielnaber.languagetool.MessagesBundle", Locale.ENGLISH);
+    }
   }
 
   /**
    * Gets the ResourceBundle for the given user interface language.
    */
   private static ResourceBundle getMessageBundle(final Language lang) {
-    return ResourceBundle.getBundle("de.danielnaber.languagetool.MessagesBundle",
-        lang.getLocale());
+    try {
+      return ResourceBundle.getBundle("de.danielnaber.languagetool.MessagesBundle",
+          lang.getLocale());
+    } catch (MissingResourceException e) {
+      return ResourceBundle.getBundle("de.danielnaber.languagetool.MessagesBundle", Locale.ENGLISH);
+    }
   }
 
   private Rule[] getAllBuiltinRules(ResourceBundle messages) throws IOException {
