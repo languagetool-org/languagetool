@@ -66,6 +66,7 @@ public class CaseRule extends GermanRule {
   
   private static final Set<String> sentenceStartExceptions = new HashSet<String>();
   static {
+    sentenceStartExceptions.add("(");
     sentenceStartExceptions.add(":");
     sentenceStartExceptions.add("\"");
     sentenceStartExceptions.add("'");
