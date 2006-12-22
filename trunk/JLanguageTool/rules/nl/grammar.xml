@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
 Dutch Grammar and Typo Rules for LanguageTool
-Copyright (C) 2006 Rudd J. Baars (r.j.baars -at- hccnet nl)
-$Id: grammar.xml,v 1.10 2006-12-18 22:43:50 dnaber Exp $
+Copyright (C) 2006 Ruud J. Baars (r.j.baars -at- hccnet nl)
+$Id: grammar.xml,v 1.11 2006-12-22 11:19:12 dnaber Exp $
 -->
 <rules lang="nl">
   <!--  # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # -->
@@ -49,6 +49,20 @@ $Id: grammar.xml,v 1.10 2006-12-18 22:43:50 dnaber Exp $
       </rule>
     </rulegroup>
     <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  -->
+    <!-- added 2006-12-21 -->
+    <rulegroup id="MEERVOUDS" name="Meervoud met 's">
+      <rule>
+        <pattern case_sensitive="yes">
+          <token postag="noun.*,sg,.*" postag_regexp="yes"><exception regexp="yes">.*a|.*o|.*I</exception></token>
+          <token>'</token>
+          <token>s</token>
+        </pattern>
+        <message>Alleen bij een sterke eindklank wordt het meervoud met 's geschreven. Probeer eens <suggestion>\1s</suggestion>.</message>
+        <example type="incorrect">Hij deed het heel goed in bepaalde <marker>scène's</marker>.</example>
+        <example type="correct">Hij deed het heel goed in bepaalde <marker>scènes</marker>.</example>
+      </rule>
+    </rulegroup>
+    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  -->
   </category>
   <!--  # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # -->
   <category name="Ambtelijk of formeel">
@@ -56,7 +70,8 @@ $Id: grammar.xml,v 1.10 2006-12-18 22:43:50 dnaber Exp $
     <rulegroup id="OUDERWETS" name="Ouderwets">
       <rule>
         <pattern>
-          <token regexp="yes">thans|danwel|zulks|voorts|derhalve|desalniettemin|evenwel|mede|dewelke|nimmer|immer</token>
+          <!-- 2006-12-19 woorden toegevoegd -->
+          <token regexp="yes">thans|danwel|zulks|voorts|derhalve|desalniettemin|evenwel|mede|dewelke|nimmer|immer|hunner|der|onzer</token>
         </pattern>
         <message>[a] Dit woord is ouderwets.</message>
         <example type="incorrect">Ik zie hem <marker>nimmer</marker>.</example>
@@ -86,18 +101,6 @@ $Id: grammar.xml,v 1.10 2006-12-18 22:43:50 dnaber Exp $
       </rule>
     </rulegroup>
     <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  -->
-    <rulegroup id="TOT_STAND" name="Tot stand komen">
-      <!-- score 100% terecht-->
-      <rule>
-        <pattern>
-          <token>totstandkomen</token>
-        </pattern>
-        <message>Bedoelt u <suggestion>tot stand komen</suggestion>?</message>
-        <example type="incorrect">Een woordenlijst zal niet zomaar <marker>totstandkomen</marker>.</example>
-        <example type="correct">Een woordenlijst zal niet zomaar <marker>tot stand komen</marker>.</example>
-      </rule>
-    </rulegroup>
-    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  -->
     <rulegroup id="U_OF_U" name="U of u">
       <rule>
         <pattern case_sensitive="yes" mark_from="1" mark_to="-1">
@@ -112,7 +115,6 @@ $Id: grammar.xml,v 1.10 2006-12-18 22:43:50 dnaber Exp $
     </rulegroup>
     <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  -->
     <rulegroup id="VAAG" name="Vaag taalgebruik">
-      <!-- score redelijk hoog-->
       <rule>
         <pattern>
           <token regexp="yes">dingen|alles|ergens|ooit|wellicht|misschien</token>
@@ -124,7 +126,6 @@ $Id: grammar.xml,v 1.10 2006-12-18 22:43:50 dnaber Exp $
     </rulegroup>
     <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  -->
     <rulegroup id="DUBBELE_ONTKENNING" name="Dubbele ontkenning">
-      <!-- score -->
       <rule>
         <pattern>
           <token regexp="yes" skip="5">niet|nooit|geen|nergens|niet-.+</token>
@@ -137,7 +138,6 @@ $Id: grammar.xml,v 1.10 2006-12-18 22:43:50 dnaber Exp $
     </rulegroup>
     <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  -->
     <rulegroup id="TE_ALLEN_TIJDE" name="Te allen tijde">
-      <!-- score -->
       <rule>
         <pattern>
           <token>ten</token>
@@ -164,6 +164,7 @@ $Id: grammar.xml,v 1.10 2006-12-18 22:43:50 dnaber Exp $
   <!--  # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # -->
   <category name="Gewoon, maar fout taalgebruik">
     <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  -->
+
     <rulegroup id="GROTE_GETALLEN" name="Grote getallen">
       <rule>
         <pattern>
@@ -207,6 +208,20 @@ $Id: grammar.xml,v 1.10 2006-12-18 22:43:50 dnaber Exp $
       </rule>
     </rulegroup>
     <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  -->
+    <rulegroup id="NAAR_VERLUID" name="Naar verluidt">
+      <!-- added 2006-12-21 -->
+      <rule>
+        <pattern mark_from="1" mark_to="-1">
+          <token>naar</token>
+          <token>verluid</token>
+          <token negate="yes">wordt</token>
+        </pattern>
+        <message>Beter is naar <suggestion>verluidt</suggestion>. Overigens wordt het gebruik van deze vultekst afgeraden.</message>
+        <example type="incorrect">Naar <marker>verluid</marker> is dit fout.</example>
+        <example type="correct">Naar <marker>verluidt</marker> is dit beter.</example>
+      </rule>
+    </rulegroup>
+    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  -->
     <rulegroup id="JOU_JOUW" name="Jou i.p.v. jouw">
       <rule>
         <pattern>
@@ -218,6 +233,7 @@ $Id: grammar.xml,v 1.10 2006-12-18 22:43:50 dnaber Exp $
         <example type="correct">Is dit <marker>jouw huis</marker>?</example>
       </rule>
     </rulegroup>
+
     <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  -->
     <rulegroup id="EIGEN_GE" name="Eigengemaakt etc">
       <rule>
@@ -231,7 +247,6 @@ $Id: grammar.xml,v 1.10 2006-12-18 22:43:50 dnaber Exp $
     </rulegroup>
     <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  -->
     <rulegroup id="KOST_DUUR" name="Kost duur">
-      <!-- score -->
       <rule>
         <pattern>
           <token skip="10">kost</token>
@@ -280,6 +295,37 @@ $Id: grammar.xml,v 1.10 2006-12-18 22:43:50 dnaber Exp $
         <message>[c] Bedoelt u <suggestion>\1 kunt</suggestion>?</message>
         <example type="correct"><marker>U kunt</marker> dat toch wel even doen voor mij?.</example>
         <example type="incorrect"><marker>U kan</marker> dat toch wel even doen voor mij?</example>
+      </rule>
+    </rulegroup>
+    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  -->
+    <!-- toegevoegd 2006-12-18 -->
+    <rulegroup id="ZAL_ZUL" name="Zal en zul">
+      <rule>
+        <pattern>
+          <token>zal</token>
+          <token regexp="yes">je|jij</token>
+        </pattern>
+        <message>[a] Netter is <suggestion>zul \2</suggestion>?</message>
+        <example type="correct"><marker>Zul je</marker> het even doen voor mij?.</example>
+        <example type="incorrect"><marker>Zal je</marker> het even doen voor mij?</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>zal</token>
+          <token>u</token>
+        </pattern>
+        <message>[b] Bedoelt u <suggestion>zult u</suggestion>?</message>
+        <example type="correct"><marker>Zult u</marker> het even doen voor mij?.</example>
+        <example type="incorrect"><marker>Zal u</marker> het even doen voor mij?</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">je|u</token>
+          <token>zal</token>
+        </pattern>
+        <message>[c] Netter is <suggestion>\1 zult</suggestion>?</message>
+        <example type="correct"><marker>U zult</marker> dat toch wel even doen voor mij?.</example>
+        <example type="incorrect"><marker>U zal</marker> dat toch wel even doen voor mij?</example>
       </rule>
     </rulegroup>
     <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  -->
@@ -381,6 +427,20 @@ $Id: grammar.xml,v 1.10 2006-12-18 22:43:50 dnaber Exp $
         <message>[d] Bedoelt u: <suggestion> dan ik/hij</suggestion></message>
         <example type="incorrect">Hij is even groot <marker>als mij</marker>.</example>
         <example type="correct">Hij is groter <marker>dan ik</marker>.</example>
+      </rule>
+    </rulegroup>
+    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  -->
+    <rulegroup id="DAN_MIJ" name="Dan mij/hem/haar/hun">
+      <!-- added 2006-12-19 -->
+      <rule>
+        <pattern mark_from="1" mark_to="-1">
+          <token regexp="yes">dan</token>
+          <token regexp="yes">haar|hun|hen|mij|hem</token>
+          <token regexp="yes">\.|!|\?|;|:</token>
+        </pattern>
+        <message>Bedoelt u <suggestion>dan ik/hij/zij</suggestion>?</message>
+        <example type="incorrect">Ik kan het beter dan <marker>haar</marker>.</example>
+        <example type="correct">Ik kan het beter dan <marker>zij</marker>.</example>
       </rule>
     </rulegroup>
     <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  -->
@@ -681,44 +741,74 @@ $Id: grammar.xml,v 1.10 2006-12-18 22:43:50 dnaber Exp $
         <pattern mark_from="1">
           <token negate="yes" regexp="yes">in|met|oude|nieuwe</token>
           <token skip="1">stijl</token>
-          <token regexp="yes">berg.*|helling.*|weg.*|pad.*|straat.*</token>
+          <!-- added to regexp 2006-12-18 , rjb -->
+          <token regexp="yes">berg.*|.*helling.*|weg.*|.*pad.*|straat.*|.*terrein|.*rots.*|ijs</token>
         </pattern>
-        <message>[a] U bedoelt vast <suggestion>steil</suggestion>.</message>
+        <message>[a] Bedoelt u  <suggestion>steil</suggestion>?</message>
         <example type="incorrect">De weg ging <marker>stijl de berg</marker> op.</example>
         <example type="correct">De weg ging <marker>steil de berg</marker> op.</example>
       </rule>
       <rule>
-        <pattern>
-          <token regexp="yes">berg.*|helling.*|weg.*|pad.*|straat.*</token>
+        <pattern mark_from="2">
+          <!-- added to regexp 2006-12-18 , rjb -->
+          <token regexp="yes">berg.*|.*helling.*|weg.*|.*pad.*|straat.*|.*terrein|.*rots.*|ijs</token>
           <token negate="yes" regexp="yes">in|met|oude|nieuwe</token>
           <token>stijl</token>
         </pattern>
-        <message>[b] U bedoelt vast <suggestion>steil</suggestion>.</message>
-        <example type="incorrect">Is de <marker>weg altijd stijl</marker>?</example>
-        <example type="correct">Is de <marker>weg altijd steil</marker>?</example>
+        <message>[b] Bedoelt u <suggestion>steil</suggestion>?</message>
+        <example type="incorrect">Is de weg altijd <marker>stijl</marker>?</example>
+        <example type="correct">Is de weg altijd <marker>steil</marker>?</example>
       </rule>
       <rule>
-        <pattern>
-          <token regexp="yes">berg.*|helling.*|weg.*|pad.*|straat.*</token>
+        <pattern mark_from="1">
+          <!-- added to regexp 2006-12-18 , rjb -->
+          <token regexp="yes">berg.*|.*helling.*|weg.*|.*pad.*|straat.*|.*terrein|.*rots.*|ijs</token>
           <token>stijl</token>
         </pattern>
-        <message>[c] U bedoelt vast <suggestion>steil</suggestion>.</message>
-        <example type="incorrect">Is de <marker>weg stijl</marker>?</example>
-        <example type="correct">Is de <marker>weg steil</marker>?</example>
+        <message>[c] Bedoelt u <suggestion>steil</suggestion>?</message>
+        <example type="incorrect">Is de weg <marker>stijl</marker>?</example>
+        <example type="correct">Is de weg <marker>steil</marker>?</example>
       </rule>
       <rule>
+        <!-- added 2006-12-17 ,rjb -->
         <pattern mark_to="-1">
           <token>stijl</token>
-          <token>achterover</token>
+          <token regexp="yes">achterover|omhoog|omlaag</token>
         </pattern>
-        <message>[d] U bedoelt vast <suggestion>steil</suggestion>.</message>
+        <message>[d] Bedoelt u soms <suggestion>steil</suggestion>?</message>
         <example type="incorrect">Ik sla <marker>stijl</marker> achterover.</example>
         <example type="correct">Ik sla <marker>steil</marker> achterover.</example>
       </rule>
     </rulegroup>
     <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  -->
+    <rulegroup id="STEIL_STIJL" name="Steil in plaats van stijl">
+      <!-- added rulegroup 2006-12-18 , rjb -->
+      <rule>
+        <pattern mark_from="1">
+          <token regexp="yes">in|oude|nieuwe</token>
+          <token skip="1">steil</token>
+          <token negate="yes" regexp="yes">berg.*|.*helling.*|weg.*|.*pad.*|straat.*|.*terrein|.*rots.*|ijs</token>
+        </pattern>
+        <message>[d] Bedoelt u soms <suggestion>stijl</suggestion>?</message>
+        <example type="incorrect">Zij kwam in <marker>steil binnen</marker>.</example>
+        <example type="correct">Zij kwam in <marker>stijl binnen</marker>.</example>
+      </rule>
+    </rulegroup>
+    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  -->
+    <rulegroup id="HEM_VERKORT" name="Verkortingen als `m, `r etc">
+      <!-- added 2006-12-19 -->
+      <rule>
+        <pattern>
+          <token>'</token>
+          <token regexp="yes">m|r|t|n</token>
+        </pattern>
+        <message>Netter en leesbaarder is <suggestion>hem / haar / het / een</suggestion>.</message>
+        <example type="incorrect">Dat is <marker>'m</marker>.</example>
+        <example type="correct">Dat is <marker>het</marker> dan.</example>
+      </rule>
+    </rulegroup>
+    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  -->
     <rulegroup id="ZO-EVEN" name="Zo-even">
-      <!-- score -->
       <rule>
         <pattern>
           <token>zoeven</token>
