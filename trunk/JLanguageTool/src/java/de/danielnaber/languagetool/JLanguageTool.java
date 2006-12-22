@@ -440,7 +440,7 @@ public class JLanguageTool {
   /**
    * Number of sentences the latest call to check() has checked.
    */
-  int getSentenceCount() {
+  public int getSentenceCount() {
     return sentenceCount;
     
   }

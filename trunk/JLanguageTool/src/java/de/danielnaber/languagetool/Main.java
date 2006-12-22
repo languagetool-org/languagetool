@@ -23,9 +23,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Locale;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -35,8 +33,8 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.xml.sax.SAXException;
 
 import de.danielnaber.languagetool.rules.Rule;
-import de.danielnaber.languagetool.rules.RuleMatch;
 import de.danielnaber.languagetool.tools.StringTools;
+import de.danielnaber.languagetool.tools.Tools;
 
 /**
  * The command line tool to check plain text files.
@@ -91,7 +89,7 @@ class Main {
         runRecursive(files[i].getAbsolutePath(), encoding);
       } else {
         String text = getFilteredText(files[i].getAbsolutePath(), encoding);
-        checkText(text);
+        Tools.checkText(text, lt);
       }
     }
   }
@@ -110,37 +108,7 @@ class Main {
     String fileContents = StringTools.readFile(filename, encoding);
     return filterXML(fileContents);
   }
-  
-  void checkText(final String contents) throws IOException {
-    long startTime = System.currentTimeMillis();
-    List<RuleMatch> ruleMatches = lt.check(contents);
-    long startTimeMatching = System.currentTimeMillis();
-    int i = 1;
-    for (Iterator<RuleMatch> iter = ruleMatches.iterator(); iter.hasNext();) {
-      RuleMatch match = (RuleMatch) iter.next();
-      System.out.println(i + ".) Line " + (match.getLine()+1) + ", column " + match.getColumn() +
-          ", Rule ID: " + match.getRule().getId());
-      String msg = match.getMessage();
-      msg = msg.replaceAll("<suggestion>", "'");
-      msg = msg.replaceAll("</suggestion>", "'");
-      System.out.println("Message: " + msg);
-      List repl = match.getSuggestedReplacements();
-      if (repl.size() > 0)
-        System.out.println("Suggestion: " + StringTools.listToString(repl, "; "));
-      System.out.println(StringTools.getContext(match.getFromPos(), match.getToPos(), contents));
-      if (iter.hasNext())
-        System.out.println();
-      i++;
-    }
-    long endTime = System.currentTimeMillis();
-    long time = endTime - startTime;
-    float timeInSeconds = (float)time/1000.0f;
-    float sentencesPerSecond = (float)lt.getSentenceCount() / (float)timeInSeconds;
-    System.out.printf(Locale.ENGLISH,
-        "Time: %dms (including %dms for rule matching) for %d sentences (%.1f sentences/sec)\n",
-        time, endTime-startTimeMatching, lt.getSentenceCount(), sentencesPerSecond);
-  }
-  
+    
   private String filterXML(String s) {
     Pattern pattern = Pattern.compile("<!--.*?-->", Pattern.DOTALL);
     Matcher matcher = pattern.matcher(s);
@@ -216,7 +184,7 @@ class Main {
       prg.runRecursive(filename, encoding);
     } else {
       String text = prg.getFilteredText(filename, encoding);
-      prg.checkText(text);
+      Tools.checkText(text, prg.getJLanguageTool());
     }
   }
 

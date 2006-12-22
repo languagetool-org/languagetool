@@ -27,6 +27,7 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.xml.sax.SAXException;
 
 import de.danielnaber.languagetool.tools.StringTools;
+import de.danielnaber.languagetool.tools.Tools;
 
 /**
  * Uses JLanguageTol on the files of the BNC (British National Corpus).
@@ -75,7 +76,7 @@ public final class BNCCheck {
       text = text.replaceAll("&mdash;?", "--");
       text = text.replaceAll("&amp;?", "&");
       //System.out.println(text);
-      prg.checkText(text);
+      Tools.checkText(text, prg.getJLanguageTool());
     }
   }
 
