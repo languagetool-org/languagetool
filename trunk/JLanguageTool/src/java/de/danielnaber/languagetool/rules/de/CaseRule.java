@@ -80,6 +80,7 @@ public class CaseRule extends GermanRule {
     exceptions.add("Prof");
     exceptions.add("Mr");
     exceptions.add("Mrs");
+    exceptions.add("De");    // "De Morgan" etc
     exceptions.add("Le");    // "Le Monde" etc
     exceptions.add("Ihr");
     exceptions.add("Ihre");
