@@ -2,7 +2,7 @@
 <!--
 Polish Grammar and Typo Rules for LanguageTool
 Copyright (C) 2006 Marcin Miłkowski
-$Id: grammar.xml,v 1.92 2006-12-21 22:18:06 milek_pl Exp $		
+$Id: grammar.xml,v 1.93 2006-12-22 10:31:50 milek_pl Exp $		
 -->
 <rules lang="pl">
 	<category name="Błędy interpunkcyjne">
@@ -1449,6 +1449,7 @@ $Id: grammar.xml,v 1.92 2006-12-21 22:18:06 milek_pl Exp $
 		</rule>
 	</category>
 	<category name="Błędy leksykalne">
+	
 		<rule name="„w pośrodku” (pośrodku)" id="W_POSRODKU">
 			<pattern>
 				<token>w</token>
@@ -2248,7 +2249,17 @@ $Id: grammar.xml,v 1.92 2006-12-21 22:18:06 milek_pl Exp $
 	</category>
 		
 		<category name="Błędy różne">
-						
+
+		<rule id="KAZDY_JEDEN" name="„każdy jeden” (każdy)">
+			<pattern>
+			<token inflected="yes">każdy</token>
+			<token inflected="yes">jeden</token>
+			</pattern>
+			<message>Nie mówi się „\1 \2”. Wystarczy: <suggestion>\1</suggestion>.</message>
+			<example type="correct">Każdy Polak kocha swojego prezydenta.</example>
+			<example type="incorrect"><marker>Każdy jeden</marker> Polak kocha swojego prezydenta.</example>
+		</rule>
+								
 		<rulegroup id="JEDEN_DEKO" name="„deko” (deka) czegoś">
 		<rule>
 		<pattern mark_from="1">
@@ -2300,37 +2311,6 @@ $Id: grammar.xml,v 1.92 2006-12-21 22:18:06 milek_pl Exp $
 			<example type="incorrect">Kazio bawił się <marker>pantałykiem</marker>.</example>
 		</rule>
 	
-
-		<rule name="Błąd frazeologiczny: „po prawo” (po prawej)" id="PO_PRAWO">
-			<pattern mark_to="-1">
-				<token>po</token>
-				<token>prawo</token>
-				<token negate="yes">jazdy</token>
-			</pattern>
-			<message>Mówimy <suggestion>na prawo</suggestion>, <suggestion>po prawej stronie</suggestion>, <suggestion>z prawej strony</suggestion>.</message>
-			<example type="correct">Mijamy z prawej strony budynek Oddziału Regionalnego PTTK w Gorzowie.</example>
-			<example type="incorrect">Mijamy <marker>po prawo</marker> budynek Oddziału Regionalnego PTTK w Gorzowie.</example>
-		</rule>
-		<rule name="Błąd frazeologiczny: „po lewo” (po lewej)" id="PO_LEWO">
-			<pattern>
-				<token>po</token>
-				<token>lewo</token>
-			</pattern>
-			<message>Mówimy <suggestion>na lewo</suggestion>, <suggestion>po lewej stronie</suggestion>, <suggestion>z lewej strony</suggestion>.</message>
-			<example type="correct">Mijamy z lewej strony budynek Oddziału Regionalnego PTTK w Gorzowie.</example>
-			<example type="incorrect">Mijamy <marker>po lewo</marker> budynek Oddziału Regionalnego PTTK w Gorzowie.</example>
-		</rule>
-	
-		<rule name="Błąd frazeologiczny: „wszem i wobec” (wszem wobec)" id="WSZEM_I_WOBEC">
-			<pattern>
-				<token>wszem</token>
-				<token>i</token>
-				<token>wobec</token>
-			</pattern>
-			<message>Ten związek frazeologiczny ma prawidłową postać <suggestion>wszem wobec</suggestion>.</message>
-			<example type="correct">Ogłaszam wszem wobec, że rzucę premiera na pożarcie smokowi.</example>
-			<example type="incorrect">Ogłaszam <marker>wszem i wobec</marker>, że rzucę premiera na pożarcie smokowi.</example>
-		</rule>
 
 	</category>
 	<category name="Wyrazy modne i nadużywane">
@@ -2479,7 +2459,7 @@ $Id: grammar.xml,v 1.92 2006-12-21 22:18:06 milek_pl Exp $
 	</rule>	
 	
 	</rulegroup>
-
+	
 		<rule name="Skrótowce bez dywizu w przypadkach zależnych" id="SKROTOWCE_BEZ_DYWIZU">
 			<pattern>
 				<token regexp="yes">\p{Lu}+[i]*\p{Lu}+[\p{L}&amp;&amp;[^\p{Lu}]]+<exception regexp="yes">GKKFicie|JCMości|JCMością|JCWysokości|JCWysokością|JKMości|JKMością|JKWysokości|JKWysokością|PZKol|PZMocie|PZMot|SJPDor|WPan|WPani|WPaństwo|BCh|COr|CSSp|GHz|MHz|MKOl|PKOl|UWr</exception></token>
@@ -2538,6 +2518,15 @@ $Id: grammar.xml,v 1.92 2006-12-21 22:18:06 milek_pl Exp $
 			<example type="correct">Spółdz. Mlecz. w Garwolinie</example>
 			<example type="incorrect"><marker>Sp-nia</marker> Mlecz. w Garwolinie</example>
 		</rule>
+
+		<rule id="K-CE" name="„Ka-ce” (Katow.)">
+			<pattern case_sensitive="yes">
+				<token>Ka-ce</token>
+			</pattern>
+			<message>To błędny skrót. Poprawnie: <suggestion>Katow.</suggestion>.</message>
+			<example type="correct">Ruda Śląska, Katow., Chorzów</example>
+			<example type="incorrect">Ruda Śląska, <marker>Ka-ce</marker>, Chorzów</example>
+		</rule>	
 		
 		<rule id="AD_KROPKA" name="„ad.” (ad)">
 			<pattern mark_to="-1">
@@ -3260,6 +3249,16 @@ $Id: grammar.xml,v 1.92 2006-12-21 22:18:06 milek_pl Exp $
 			<example type="correct">Premier tak naprawdę nienawidzi swoich wrogów.</example>
 			<example type="incorrect">Premier tak <marker>na prawdę</marker> nienawidzi swoich wrogów.</example>
 			</rule>
+	
+	<rule name="„przed pokój” (przedpokój)" id="PRZED_POKOJ">
+		<pattern>
+			<token>przed</token>
+			<token inflected="yes">pokój<exception>pokojem</exception></token>
+		</pattern>
+		<message>Prawdopodobnie błąd ortograficzny. Ten wyraz piszemy łącznie: <suggestion>\1\2</suggestion>.</message>
+		<example type="correct">Przemysław ma przepiękny przedpokój w swoim mieszkanku.</example>
+		<example type="incorrect">Przemysław ma przepiękny <marker>przed pokój</marker> w swoim mieszkanku.</example>
+	</rule>
 			
 	</category>
 
@@ -3673,5 +3672,63 @@ $Id: grammar.xml,v 1.92 2006-12-21 22:18:06 milek_pl Exp $
 		<example type="incorrect">Spora <marker>cześć</marker> tego tortu została zeżarta przez Jarka.</example>
 		</rule>
 		
+		<rule name="„pod katem” (pod kątem)" id="POD_KATEM">
+			<pattern>
+			<token>pod</token>
+			<token>katem</token>
+			</pattern>
+			<message>Prawdopodobna literówka. Czy chodziło o <suggestion>pod kątem</suggestion>?</message>
+			<example type="correct">Sprawę zbadamy także pod kątem zgodności z prawem.</example>
+			<example type="incorrect">Sprawę zbadamy także <marker>pod katem</marker> zgodności z prawem.</example>
+		</rule>
 	</category>
+	
+	<category name="Błędy frazeologiczne">
+	
+		<rule name="„między Bogiem a prawdą” (Bogiem a prawdą)" id="BOGIEM_A_PRAWDA">
+	  <pattern>
+	  	<token>między</token>
+	  	<token>Bogiem</token>
+	  	<token>a</token>
+	  	<token>prawdą</token>
+	  </pattern>
+	  <message>To wyrażenie jest niepoprawne. Poprawnie: <suggestion>Bogiem a prawdą</suggestion>.</message>
+	  <example type="incorrect"><marker>Między Bogiem a prawdą</marker> jedynymi osobami, które mogą mieć niekłamaną satysfakcję ze zdobycia Everestu, są Hilary i Tenzing.</example>
+	  <example type="correct">Bogiem a prawdą jedynymi osobami, które mogą mieć niekłamaną satysfakcję ze zdobycia Everestu, są Hilary i Tenzing.</example>
+	  </rule>
+	  
+	  <rule name="„po prawo” (po prawej)" id="PO_PRAWO">
+			<pattern mark_to="-1">
+				<token>po</token>
+				<token>prawo</token>
+				<token negate="yes">jazdy</token>
+			</pattern>
+			<message>Mówimy <suggestion>na prawo</suggestion>, <suggestion>po prawej stronie</suggestion>, <suggestion>z prawej strony</suggestion>.</message>
+			<example type="correct">Mijamy z prawej strony budynek Oddziału Regionalnego PTTK w Gorzowie.</example>
+			<example type="incorrect">Mijamy <marker>po prawo</marker> budynek Oddziału Regionalnego PTTK w Gorzowie.</example>
+		</rule>
+		
+		<rule name="„po lewo” (po lewej)" id="PO_LEWO">
+			<pattern>
+				<token>po</token>
+				<token>lewo</token>
+			</pattern>
+			<message>Mówimy <suggestion>na lewo</suggestion>, <suggestion>po lewej stronie</suggestion>, <suggestion>z lewej strony</suggestion>.</message>
+			<example type="correct">Mijamy z lewej strony budynek Oddziału Regionalnego PTTK w Gorzowie.</example>
+			<example type="incorrect">Mijamy <marker>po lewo</marker> budynek Oddziału Regionalnego PTTK w Gorzowie.</example>
+		</rule>
+	
+		<rule name="„wszem i wobec” (wszem wobec)" id="WSZEM_I_WOBEC">
+			<pattern>
+				<token>wszem</token>
+				<token>i</token>
+				<token>wobec</token>
+			</pattern>
+			<message>Ten związek frazeologiczny ma prawidłową postać <suggestion>wszem wobec</suggestion>.</message>
+			<example type="correct">Ogłaszam wszem wobec, że rzucę premiera na pożarcie smokowi.</example>
+			<example type="incorrect">Ogłaszam <marker>wszem i wobec</marker>, że rzucę premiera na pożarcie smokowi.</example>
+		</rule>
+	  	  
+	</category>
+	
 </rules>
