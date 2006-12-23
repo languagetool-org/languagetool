@@ -103,6 +103,9 @@ public class Main {
     }
 
     public void trigger(final String sEvent) {
+      if (!javaVersionOkay()) {
+        return;
+      }
       try {
         if (sEvent.equals("execute")) {
           TextToCheck textToCheck = getText();
@@ -129,6 +132,17 @@ public class Main {
       } catch (Throwable e) {
         showError(e);
       }
+    }
+
+    private boolean javaVersionOkay() {
+      String version = System.getProperty("java.version");
+      if (version != null && (version.startsWith("1.0") || version.startsWith("1.1")
+          || version.startsWith("1.2") || version.startsWith("1.3") || version.startsWith("1.4"))) {
+        DialogThread dt = new DialogThread("Error: LanguageTool requires Java 1.5 or later. Current version: " + version);
+        dt.start();
+        return false;
+      }
+      return true;
     }
 
     private void writeError(final Throwable e) {
