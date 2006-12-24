@@ -101,10 +101,24 @@ public class CaseRule extends GermanRule {
     exceptions.add("Tausend");   // je nach Kontext groß (TODO) 
     exceptions.add("Übrigen");   // je nach Kontext groß (TODO), z.B. "im Übrigen" 
     exceptions.add("Unvorhergesehenes");   // je nach Kontext groß (TODO), z.B. "etwas Unvorhergesehenes" 
+
     exceptions.add("Englisch");   // TODO: alle Sprachen 
     exceptions.add("Deutsch"); 
     exceptions.add("Französisch"); 
-    exceptions.add("Spanisch"); 
+    exceptions.add("Spanisch");
+    exceptions.add("Italienisch");
+    exceptions.add("Portugiesisch");
+    exceptions.add("Dänisch");
+    exceptions.add("Norwegisch");
+    exceptions.add("Schwedisch");
+    exceptions.add("Finnisch");
+    exceptions.add("Holländisch");
+    exceptions.add("Niederländisch");
+    exceptions.add("Polnisch");
+    exceptions.add("Tschechisch");
+    exceptions.add("Arabisch");
+    exceptions.add("Persisch");
+
     exceptions.add("Schuld");
     exceptions.add("Erwachsener");
     exceptions.add("Jugendlicher");
