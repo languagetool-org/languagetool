@@ -297,6 +297,13 @@ public class JLanguageTool {
   }
 
   /**
+   * Get rule ids of the rules that have been explicitly disabled.
+   */
+  public Set<String> getDisabledRules() {
+    return disabledRules;
+  }
+
+  /**
    * Re-enable a given rule so {@link #check} will use it.
    * @param ruleId the id of the rule to enable
    */
