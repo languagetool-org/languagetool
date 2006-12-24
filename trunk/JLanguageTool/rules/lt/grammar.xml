@@ -1,11 +1,90 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
-Copyright (C) 2006 Daniel Naber (http://www.danielnaber.de)
-$Id: grammar.xml,v 1.2 2006-12-17 21:12:59 dnaber Exp $
+<?xml version="1.0" encoding="utf-8"?><!--
+Grammar rules for Lithuanian language
+Copyleft (C) 2006 Mantas Kriaučiūnas (www.openoffice.lt ; mantas@akl.lt)
+Should follow rules, described in in government resolution number 60:
+http://www3.lrs.lt/pls/inter3/dokpaieska.showdoc_l?p_id=41265
+Don't forget to check this and next resolutions against these rules ! 
+Partially based on Polish grammar rules, copyright (C) 2006 Marcin Miłkowski
+$Id: grammar.xml,v 1.3 2006-12-24 10:35:39 dnaber Exp $
 -->
 <rules lang="lt">
+	<category name="Skyrybos klaidos">
+<!-- Should implement rules, specified in government 
+resolution number N-2 (103) "Dėl Privalomosios skyrybos taisyklių": 
+http://www3.lrs.lt/pls/inter3/dokpaieska.showdoc_l?p_id=283837
+	<category name="Błędy interpunkcyjne">
+-->
 
-  <category name="misc">
-  </category>
+		<rulegroup id="BRAK_PRZECINKA_ZE" name="Kablelis prieš jungtuką „kad“">
+		<rule>
+			<pattern>
+<!--			<token negate="yes" regexp="yes">\p{Punct}|–|—|a|ale|albo|lecz|lub|czy|tym|bardziej|chyba|i|ile|jako|oraz|szczególnie|tyle|tylko|zwłaszcza|pomimo|mimo|także|również|czyli|dlatego<exception postag="SENT_START"/></token>-->
+				<token negate="yes" regexp="yes">\p{Punct}|–|—|o|bet|arba|ir|ar|tačiau|ypač|nebent|juoba|juolab|juo labiau|tuo labiau|būtent|vis tiek|tai yra|taip pat|nei|tiktai<exception postag="SENT_START"/></token>
+				<token regexp="yes">kad</token>
+			</pattern>
+			<message>Prieš jungtuką „kad“ šiuo atveju reiktų kablelio: <suggestion>\1, \2</suggestion>.</message>
+			<example type="correct">Jaroslavas pajuto, kad jo geriausias draugas yra Mantas.</example>
+			<example type="incorrect">Jaroslavas <marker>pajuto kad</marker> jo geriausias draugas yra Mantas.</example>
+		</rule>
+<!--		<rule>
+			<pattern>
+				<token negate="yes" regexp="yes">\p{Punct}|–|—|,|a|lecz|ale|albo|lub|ani<exception postag="SENT_START"/></token>
+				<token regexp="yes">ile|jako|szczególnie|tyle|tylko|zwłaszcza|pomimo|mimo<exception postag="SENT_START"/></token>
+				<token regexp="yes">że|iż</token>
+			</pattern>
+			<message>Przecinek stawiamy przed całym spójnikiem złożonym: <suggestion>\1, \2 że</suggestion>.</message>
+			<example type="correct">Przemysław zdradził, mimo że ma na drugie imię Edgar.</example>
+			<example type="incorrect">Przemysław <marker>zdradził mimo że</marker> ma na drugie imię Edgar.</example>
+			<example type="incorrect">Przemysław <marker>zdradził pomimo iż</marker> ma na drugie imię Edgar.</example>
+			<example type="correct">Mimo że cenię jego śpiew, hymnu śpiewać mu nie pozwolę.</example>
+		</rule>	-->
+		</rulegroup>
+
+		<rulegroup id="BRAK_PRZECINKA_JESLI" name="Kablelis prieš jungtukus „jeigu“, „jei“">
+		<rule>
+			<pattern>
+<!--				<token negate="yes" regexp="yes" inflected="yes">\p{Punct}|–|—<exception regexp="yes">a|jak|ale|i|oraz|czy|lub|albo|lecz|który|jaki|zwłaszcza|szczególnie|że|nawet|więc|to|jednak|gdyż|ponieważ|niemniej|tylko|natomiast</exception><exception postag="SENT_START"/></token>-->
+				<token negate="yes" regexp="yes" inflected="yes">\p{Punct}|–|—<exception regexp="yes">o|lyg|bet|ir|ar|arba|kad|tačiau|nes|netgi|net|tad|taigi|vadinasi|tiktai|ypač</exception><exception postag="SENT_START"/></token>
+				<token regexp="yes" inflected="yes">jei|jeigu</token>
+			</pattern>
+			<message>Prieš jungtuką „jei(gu)“ šiuo atveju reiktų kablelio:<suggestion>\1, \2</suggestion> </message>
+			<example type="correct">Tavo kompiuterio negadintų virusai, jeigu tu naudotum Linux sistemą.</example>
+			<example type="incorrect">Tavo kompiuterio negadintų <marker>virusai jeigu</marker> tu naudotum Linux sistemą.</example>
+		</rule>
+<!--		<rule>
+			<pattern>
+				<token negate="yes" regexp="yes">\p{Punct}|–|—<exception postag="SENT_START"/><exception regexp="yes">a|ale|i|lub|albo|lecz|oraz</exception></token>
+				<token regexp="yes" inflected="yes">a|ale|i|lub|albo|lecz|oraz|który|jaki|zwłaszcza|jak|szczególnie|że|nawet|więc|jednak</token>
+				<token regexp="yes" inflected="yes">jeśli|jeżeli|gdyby|jeżeliby|jeśliby</token>
+			</pattern>
+			<message>Przecinek stawiamy przed całym spójnikiem złożonym: <suggestion>\1, \2 \3</suggestion>.</message>
+			<example type="correct">Zrobię omleta, nawet jeśli nie poprosisz.</example>
+			<example type="incorrect">Zrobię <marker>omleta nawet jeśli</marker> nie poprosisz.</example>
+		</rule>	-->				
+
+		</rulegroup>
+		<rulegroup id="KABLELIS_O_BET_TACIAU" name="Kablelis prieš jungtukus „o“, „bet“, „tačiau“">
+			<rule>
+				<pattern case_sensitive="yes">
+					<token negate="yes" regexp="yes">\p{Punct}|–|—<exception postag="SENT_START"/></token>
+					<token regexp="yes">o|tačiau</token>
+				</pattern>
+				<message>Prieš jungtuką „\2“ šiuo atveju reiktų kablelio: <suggestion>\1, \2</suggestion> </message>
+				<example type="correct">Linux yra geresnė sistema, tačiau dauguma lietuvių jos net nebandė.</example>
+				<example type="incorrect">Linux yra geresnė <marker>sistema tačiau</marker> dauguma lietuvių jos net nebandė.</example>
+			</rule>
+			<rule>
+				<pattern case_sensitive="yes" mark_from="1" mark_to="-1">
+					<token negate="yes" regexp="yes">\p{Punct}|–|—<exception postag="SENT_START"/></token>
+					<token regexp="yes">bet</token>
+					<token regexp="yes" negate="yes">kiek|kas|ko|kam|ką|kuo|kame|kada|kur|kuris|kurio|kuriam|kurį|kuriuo|kuriame|kurie|kurių|kuriems|kuriuos|kuriais|kuriuose|kuri|kurios|kuriai|kurią|kuria|kurioje|kurioms|kurias|kuriomis|kuriose|koks|kokio|kokiam|kokį|kokiu|kokiame|kokie|kokių|kokiems|kokius|kokiais|kokiuose|kokia|kokios|kokiai|kokią|kokia|kokioje|kokioms|kokias|kokiomis|kokiose</token>
+				</pattern>
+				<message>Prieš jungtuką „bet“ šiuo atveju reiktų kablelio: <suggestion>\1, \2 \3</suggestion> </message>
+				<example type="correct">Aš pasakiau - tave myliu, bet nuėjau pas kitą.</example>
+				<example type="incorrect">Aš pasakiau - tave myliu <marker>bet</marker> nuėjau pas kitą.</example>
+			</rule>
+		</rulegroup>		
+
+	</category>
 
 </rules>
