@@ -36,18 +36,24 @@ public class CheckWikipediaDump {
    */
   public static void main(String[] args) throws IOException, SAXException, ParserConfigurationException {
     CheckWikipediaDump prg = new CheckWikipediaDump();
-    if (args.length != 1) {
-      System.err.println("Usage: CheckWikipediaDump <filename>");
+    if (args.length != 2) {
+      System.err.println("Usage: CheckWikipediaDump <language> <filename>");
       System.exit(1);
     }
-    prg.run(args[0]);
+    prg.run(args[0], args[1]);
   }
   
-  private void run(String filename) throws IOException, SAXException, ParserConfigurationException {
-    JLanguageTool lt = new JLanguageTool(Language.GERMAN);
+  private void run(String language, String filename) throws IOException, SAXException, ParserConfigurationException {
+    Language lang = Language.getLanguageForShortName(language);
+    if (lang == null) {
+      System.err.println("Language not supported: " + language);
+      System.exit(1);
+    }
+    JLanguageTool lt = new JLanguageTool(lang,  Language.GERMAN);
     lt.activateDefaultPatternRules();
     lt.disableRule("DE_CASE");    // too many false hits
     lt.disableRule("UPPERCASE_SENTENCE_START");    // TODO
+    System.err.println("These rules are disabled: " + lt.getDisabledRules());
     WikiDumpHandler handler = new WikiDumpHandler(lt);
     SAXParserFactory factory = SAXParserFactory.newInstance();
     SAXParser saxParser = factory.newSAXParser();
