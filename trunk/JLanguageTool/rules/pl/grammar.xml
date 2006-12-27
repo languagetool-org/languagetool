@@ -2,7 +2,7 @@
 <!--
 Polish Grammar and Typo Rules for LanguageTool
 Copyright (C) 2006 Marcin Miłkowski
-$Id: grammar.xml,v 1.96 2006-12-27 14:34:46 milek_pl Exp $		
+$Id: grammar.xml,v 1.97 2006-12-27 16:57:43 milek_pl Exp $		
 -->
 <rules lang="pl">
 	<category name="Błędy interpunkcyjne">
@@ -2262,48 +2262,98 @@ $Id: grammar.xml,v 1.96 2006-12-27 14:34:46 milek_pl Exp $
 
 	<category name="Błędy fonetyczne">
 		
-		<rule name="„w” przed „f/w…” i spółgłoską (we)" id="W_WE">
+		<rulegroup name="„w” przed „f/w…” i spółgłoską (we)" id="W_WE">
+		<rule>
 			<pattern>
 				<token>w</token>
-				<token regexp="yes">[wf][tśsrłndwpgklzcbmż].*|Lwowie</token>				
+				<token regexp="yes">[wf][tśsrłndwpgklzcbmż].*|Lwowie<exception regexp="yes">[\"„]</exception></token>				
 			</pattern>
 			<message>Prawdopodobnie ten przyimek należy zapisać tak: <suggestion>we \2</suggestion>.</message>
 			<example type="correct">Ludwik ma randkę z Przemysławem we wtorek.</example>
 			<example type="incorrect">Ludwik ma randkę z Przemysławem <marker>w wtorek</marker>.</example>
 		</rule>
-		
-		<rule name="„we” nie przed „f/w…” (w)" id="WE_W">
+		<rule>
+			<pattern>
+				<token>w</token>
+				<token regexp="yes">[\"„]</token>				
+				<token regexp="yes">[wf][tśsrłndwpgklzcbmż].*|Lwowie<exception regexp="yes">[\"„]</exception></token>				
+			</pattern>
+			<message>Prawdopodobnie ten przyimek należy zapisać tak: <suggestion>we \2</suggestion>.</message>
+			<example type="correct">Ludwik ma randkę z Przemysławem we wtorek.</example>
+			<example type="incorrect">Ludwik ma randkę z Przemysławem <marker>w "wczorajszy</marker> wtorek.</example>
+		</rule>		
+		</rulegroup>
+				
+		<rulegroup name="„we” nie przed „f/w…” (w)" id="WE_W">
+		<rule>
 			<pattern>
 				<token>we</token>
-				<token negate="yes" regexp="yes">[WFwf].*|Lwowie|środę|czwartek|dw.*|tr.*|mnie</token>
+				<token negate="yes" regexp="yes">[WFwf].*|Lwowie|środę|czwartek|dw.*|tr.*|mnie<exception regexp="yes">[\"„]</exception></token>
 			</pattern>
 			<message>Prawdopodobnie ten przyimek należy zapisać tak: <suggestion>w \2</suggestion>.</message>
 			<example type="correct">Ludwik ma randkę z Przemysławem w Łodzi.</example>
 			<example type="correct">Krakusy mówią, że kaczki przeglądają się we wodzie.</example>
 			<example type="incorrect">Ludwik ma randkę z Przemysławem <marker>we Łodzi</marker>.</example>
 		</rule>
-
+		<rule>
+			<pattern>
+				<token>we</token>
+				<token regexp="yes">[\"„]</token>				
+				<token negate="yes" regexp="yes">[WFwf].*|Lwowie|środę|czwartek|dw.*|tr.*|mnie<exception regexp="yes">[\"„]</exception></token>
+			</pattern>
+			<message>Prawdopodobnie ten przyimek należy zapisać tak: <suggestion>w \2</suggestion>.</message>
+			<example type="correct">Ludwik ma randkę z Przemysławem w Łodzi.</example>
+			<example type="correct">Krakusy mówią, że kaczki przeglądają się we wodzie.</example>
+			<example type="incorrect">Ludwik ma randkę z Przemysławem <marker>we "pięknej</marker> Łodzi".</example>
+		</rule>		
+		</rulegroup>
 		
-		<rule name="„z” przed spółgłoską (ze)" id="Z_ZE">
+		<rulegroup name="„z” przed spółgłoską (ze)" id="Z_ZE">
+		<rule>
 			<pattern>
 				<token>z</token>
-				<token regexp="yes">s[wftśsrłndwpgklcbmżń].*|[zśźż][wftśsrłndwpgklzcbmżń].*|[rs]z[wftśsrłndwpgklzcbmżń].*|[wf][wftśsndwpgkzcbmżń].*|Lwowa|mną|mnie|snu</token>				
+				<token regexp="yes">s[wftśsrłndwpgklcbmżń].*|[zśźż][wftśsrłndwpgklzcbmżń].*|[rs]z[wftśsrłndwpgklzcbmżń].*|[wf][wftśsndwpgkzcbmżń].*|Lwowa|mną|mnie|snu<exception regexp="yes">[\"„]</exception></token>				
 			</pattern>
 			<message>Prawdopodobnie ten przyimek należy zapisać tak: <suggestion>ze \2</suggestion>.</message>
 			<example type="correct">Ludwik ma kochankę ze Świecia</example>
 			<example type="incorrect">Ludwik ma kochankę <marker>z Świecia</marker>.</example>
 		</rule>
-
-		<rule name="„ze” nie przed spółgłoską (z)" id="ZE_Z_SPOL">
+				<rule>
+			<pattern>
+				<token>z</token>
+				<token regexp="yes">[\"„]</token>
+				<token regexp="yes">s[wftśsrłndwpgklcbmżń].*|[zśźż][wftśsrłndwpgklzcbmżń].*|[rs]z[wftśsrłndwpgklzcbmżń].*|[wf][wftśsndwpgkzcbmżń].*|Lwowa|mną|mnie|snu<exception regexp="yes">[\"„]</exception></token>				
+			</pattern>
+			<message>Prawdopodobnie ten przyimek należy zapisać tak: <suggestion>ze \2</suggestion>.</message>
+			<example type="correct">Ludwik ma kochankę ze Świecia</example>
+			<example type="incorrect">Ludwik ma kochankę <marker>z "strasznego</marker> Świecia".</example>
+		</rule>
+		
+	  </rulegroup>
+	  
+		<rulegroup name="„ze” nie przed spółgłoską (z)" id="ZE_Z_SPOL">
+		<rule>
 			<pattern>
 				<token>ze</token>
-				<token negate="yes" regexp="yes">[wszśźżWSZŚŹŻ].*|[SRrr]z[wftśsrłndwpgklzcbmżń].*|Lwowa|mną|mnie|snu</token>				
+				<token negate="yes" regexp="yes">[wszśźżWSZŚŹŻ].*|[SRrr]z[wftśsrłndwpgklzcbmżń].*|Lwowa|mną|mnie|snu<exception regexp="yes">[\"„]</exception></token>				
 			</pattern>
 			<message>Prawdopodobnie ten przyimek należy zapisać tak: <suggestion>z \2</suggestion>.</message>
 			<example type="correct">Ludwik ma kochankę z Łodzi.</example>
+			<example type="correct">Nawet Horacy drwił ze "szkodliwego hazardu".</example>
 			<example type="incorrect">Ludwik ma kochankę <marker>ze Łodzi</marker>.</example>
 		</rule>
-
+		<rule>
+			<pattern>
+				<token>ze</token>
+				<token regexp="yes">[\"„]</token>
+				<token negate="yes" regexp="yes">[wszśźżWSZŚŹŻ].*|[SRrr]z[wftśsrłndwpgklzcbmżń].*|Lwowa|mną|mnie|snu<exception regexp="yes">[\"„]</exception></token>				
+			</pattern>
+			<message>Prawdopodobnie ten przyimek należy zapisać tak: <suggestion>z \2</suggestion>.</message>
+			<example type="correct">Ludwik ma kochankę z Łodzi.</example>
+			<example type="correct">Nawet Horacy drwił <marker>ze "szkodliwego</marker> hazardu".</example>
+			<example type="incorrect">Nawet Horacy drwił <marker>ze "niewinnego</marker> hazardu".</example>
+		</rule>
+		</rulegroup>
 	</category>
 		
 		<category name="Błędy różne">
