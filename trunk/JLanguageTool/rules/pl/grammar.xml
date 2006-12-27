@@ -2,7 +2,7 @@
 <!--
 Polish Grammar and Typo Rules for LanguageTool
 Copyright (C) 2006 Marcin Miłkowski
-$Id: grammar.xml,v 1.94 2006-12-26 22:45:09 milek_pl Exp $		
+$Id: grammar.xml,v 1.95 2006-12-27 00:48:48 milek_pl Exp $		
 -->
 <rules lang="pl">
 	<category name="Błędy interpunkcyjne">
@@ -1034,6 +1034,17 @@ $Id: grammar.xml,v 1.94 2006-12-26 22:45:09 milek_pl Exp $
 		</rule>
 	</category>
 	<category name="Błędy składniowe">
+	
+		<rule id="KLIKNAC_W_NA" name="„kliknąć na/w” (kliknąć co)">
+		<pattern>
+			<token inflected="yes">kliknąć</token>
+			<token regexp="yes">w|na</token>			
+		</pattern>
+		<message>Nie mówi się „kliknąć na co”. Piszemy po prostu <suggestion>\1</suggestion>.</message>
+		<example type="correct">Kliknij link z prawej strony.</example>
+		<example type="incorrect"><marker>Kliknij na</marker> link z prawej strony.</example>
+		</rule>
+		
 		<rule id="PRZYIMEK_RZECZOWNIK_KTORY" name="przyimek + rzeczownik + „który”(przyimek + „który” + rzeczownik)">
 			<pattern mark_from="1">
 				<token>,</token>
@@ -2845,6 +2856,16 @@ $Id: grammar.xml,v 1.94 2006-12-26 22:45:09 milek_pl Exp $
 			<example type="correct">Ponadto samochód wyposażony jest w ogromny bagażnik.</example>
 			<example type="incorrect"><marker>Po nadto</marker> samochód wyposażony jest w ogromny bagażnik.</example>
 		</rule>
+		<rule>
+			<pattern mark_from="0" case_sensitive="no">
+				<token>po</token>
+				<token>nad</token>
+				<token>to</token>
+			</pattern>
+			<message>Wyraz <suggestion>ponadto</suggestion> w sensie "poza tym", "oprócz tego" piszemy łącznie.</message>
+			<example type="correct">Ponadto samochód wyposażony jest w ogromny bagażnik.</example>
+			<example type="incorrect"><marker>Po nad to</marker> samochód wyposażony jest w ogromny bagażnik.</example>
+		</rule>
 		</rulegroup>
 
 		<rule id="ZA_NADTO" name="„za nadto” (zanadto)">
@@ -2856,8 +2877,19 @@ $Id: grammar.xml,v 1.94 2006-12-26 22:45:09 milek_pl Exp $
 			<example type="correct">Ten minister aż zanadto przypomina wioskowego głupka.</example>
 			<example type="incorrect">Ten minister aż <marker>za nadto</marker> przypomina wioskowego głupka.</example>
 		</rule>
+		
+		<rule id="AZ_NADTO" name="„aż nad to” (aż nadto)">
+			<pattern mark_from="1" case_sensitive="no">
+				<token>aż</token>
+				<token>nad</token>
+				<token>to</token>
+			</pattern>
+			<message>Wyraz <suggestion>nadto</suggestion> piszemy łącznie.</message>
+			<example type="correct">Ten minister aż nadto przypomina wioskowego głupka.</example>
+			<example type="incorrect">Ten minister aż <marker>nad to</marker> przypomina wioskowego głupka.</example>
+		</rule>
 
-		<rule id="Z_POD" name="„z pod” (spod)">
+  	<rule id="Z_POD" name="„z pod” (spod)">
 			<pattern>
 				<token>z</token>
 				<token>pod</token>
@@ -3250,7 +3282,7 @@ $Id: grammar.xml,v 1.94 2006-12-26 22:45:09 milek_pl Exp $
 	<example type="correct"><marker>Nie wolno</marker> ufać profesorom, którzy wierzą w Smoka Wawelskiego.</example>
 	</rule>
 	
-			<rule name="„tak na prawdę” (tak naprawdę)" id="TAK_NA_PRAWDE">
+	<rule name="„tak na prawdę” (tak naprawdę)" id="TAK_NA_PRAWDE">
 			<pattern mark_from="1">
 				<token>tak</token>
 				<token>na</token>
@@ -3259,7 +3291,20 @@ $Id: grammar.xml,v 1.94 2006-12-26 22:45:09 milek_pl Exp $
 			<message>Błąd ortograficzny. Powinno być: <suggestion>naprawdę</suggestion>.</message>
 			<example type="correct">Premier tak naprawdę nienawidzi swoich wrogów.</example>
 			<example type="incorrect">Premier tak <marker>na prawdę</marker> nienawidzi swoich wrogów.</example>
-			</rule>
+	</rule>
+	
+	<rule name="„na prawdę” (naprawdę)" id="NA_PRAWDE">
+			<pattern mark_to="-1" mark_from="1">
+			  <token negate="yes" inflected="yes" regexp="yes">dowód|nacisk</token>
+				<token>na</token>
+				<token>prawdę</token>
+				<token postag_regexp="yes" postag="adv.*|adj.*"/>
+			</pattern>
+			<message>Prawdopodobny błąd ortograficzny. Powinno być: <suggestion>naprawdę</suggestion> (=faktycznie, rzeczywiście).</message>
+			<example type="correct">Premier wie naprawdę dużo.</example>
+			<example type="incorrect">Premier wie <marker>na prawdę</marker> dużo.</example>
+  		<example type="correct">Miał dowód na prawdę powyższego twierdzenia.</example>
+	</rule>
 	
 	<rule name="„przed pokój” (przedpokój)" id="PRZED_POKOJ">
 		<pattern>
@@ -3270,6 +3315,29 @@ $Id: grammar.xml,v 1.94 2006-12-26 22:45:09 milek_pl Exp $
 		<example type="correct">Przemysław ma przepiękny przedpokój w swoim mieszkanku.</example>
 		<example type="incorrect">Przemysław ma przepiękny <marker>przed pokój</marker> w swoim mieszkanku.</example>
 	</rule>
+	
+	<rulegroup name="„z resztą” (zresztą)" id="Z_RESZTA">
+	<rule>
+		<pattern mark_from="1">
+		<token regexp="yes" inflected="yes">który|jaki|a</token>
+		<token>z</token>
+		<token>resztą</token>
+		</pattern>
+		<message>Prawdopodobny błąd ortograficzny. Powinno być <suggestion>zresztą</suggestion> (=nawiasem mówiąc, notabene).</message>
+		<example type="correct">To był pierwszy taki wypadek, który zresztą nikogo nie obchodził.</example>
+		<example type="incorrect">To był pierwszy taki wypadek, który <marker>z resztą</marker> nikogo nie obchodził.</example>
+	</rule>
+		<rule>
+		<pattern mark_from="1">
+		<token postag="SENT_START"/>
+		<token>z</token>
+		<token>resztą</token>
+		</pattern>
+		<message>Prawdopodobny błąd ortograficzny. Powinno być <suggestion>zresztą</suggestion> (=nawiasem mówiąc, notabene).</message>
+		<example type="correct">Zresztą nikogo to nie obchodziło.</example>
+		<example type="incorrect"><marker>Z resztą</marker> nikogo to nie obchodziło.</example>
+	</rule>
+	</rulegroup>
 			
 	</category>
 
@@ -3692,6 +3760,42 @@ $Id: grammar.xml,v 1.94 2006-12-26 22:45:09 milek_pl Exp $
 			<example type="correct">Sprawę zbadamy także pod kątem zgodności z prawem.</example>
 			<example type="incorrect">Sprawę zbadamy także <marker>pod katem</marker> zgodności z prawem.</example>
 		</rule>
+		
+		<rulegroup name="„nad zwyczaj” (nadzwyczaj)" id="NAD_ZWYCZAJ">
+		<rule>
+			<pattern mark_to="-1">
+				<token>nad</token>
+				<token>zwyczaj</token>
+				<token postag_regexp="yes" postag="adv.*|adj.*"/>
+			</pattern>
+			<message>Prawdopodobna literówka. Powinno być <suggestion>nadzwyczaj</suggestion> (=niezwykle).</message>
+			<example type="correct">Ku zaskoczeniu wszystkich działało to nadzwyczaj dobrze.</example>
+			<example type="incorrect">Ku zaskoczeniu wszystkich działało to <marker>nad zwyczaj</marker> dobrze.</example>
+		</rule>
+		<rule>
+			<pattern mark_to="-1" mark_from="1">
+				<token postag_regexp="yes" postag="adv.*|adj.*"/>
+				<token>nad</token>
+				<token>zwyczaj</token>
+				<token negate_pos="yes" postag_regexp="yes" postag="adv.*|adj.*"/>
+			</pattern>
+			<message>Prawdopodobna literówka. Powinno być <suggestion>nadzwyczaj</suggestion> (=niezwykle).</message>
+			<example type="correct">Był przeze mnie lubiany nadzwyczaj.</example>
+			<example type="incorrect">Był przeze mnie lubiany <marker>nad zwyczaj</marker>.</example>
+		</rule>
+		</rulegroup>
+		
+		<rule id="A_NADTO" name="„a nad to” (a nadto)">
+			<pattern case_sensitive="no">
+				<token>a</token>
+				<token>nad</token>
+				<token>to</token>
+			</pattern>
+			<message>Prawdopodobna literówka. Czy chodziło o <suggestion>a nadto</suggestion> (=a poza tym)?</message>
+			<example type="correct">Jestem skromnym pedagogiem, a nadto kobietą.</example>
+			<example type="incorrect">Jestem skromnym pedagogiem, <marker>a nad to</marker> kobietą.</example>
+		</rule>
+		
 	</category>
 	
 	<category name="Błędy frazeologiczne">
