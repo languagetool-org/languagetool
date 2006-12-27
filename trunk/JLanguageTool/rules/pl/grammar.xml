@@ -2,7 +2,7 @@
 <!--
 Polish Grammar and Typo Rules for LanguageTool
 Copyright (C) 2006 Marcin Miłkowski
-$Id: grammar.xml,v 1.97 2006-12-27 16:57:43 milek_pl Exp $		
+$Id: grammar.xml,v 1.98 2006-12-27 20:36:50 milek_pl Exp $		
 -->
 <rules lang="pl">
 	<category name="Błędy interpunkcyjne">
@@ -1539,6 +1539,19 @@ $Id: grammar.xml,v 1.97 2006-12-27 16:57:43 milek_pl Exp $
 			<example type="correct">Te przesądy utrzymują się po dziś dzień.</example>
 			<example type="incorrect">Te przesądy utrzymują się <marker>do dziś dzień</marker>.</example>
 		</rule>
+		
+		<rule name="„przyczyna do” (przyczyna, powód do)" id="PRZYCZYNA_DO">
+			<pattern mark_to="-1">
+			<token inflected="yes">przyczyna</token>
+			<token>do</token>
+			<token postag_regexp="yes" postag="(subst|adj|ppron|ppron3|ppas|pact).*gen.*"/>
+			</pattern>
+			<message>Nie mówi się „\1 do”, wystarczy powiedzieć <suggestion>\1</suggestion> (lub <suggestion>powód do</suggestion>).</message>
+			<example type="incorrect">Miłość Mistrza i Małgorzaty uczyń <marker>przyczyną do</marker> przyjrzenia się różnym rodzajom miłości.</example>
+			<example type="correct">Miłość Mistrza i Małgorzaty uczyń <marker>punktem wyjścia do</marker> przyjrzenia się różnym rodzajom miłości.</example>
+			<example type="correct">Przyczyna do dziś pozostaje nieznana.</example>
+		</rule>
+		
 		<rule name="„za każdą cenę” (za wszelką cenę)" id="ZA_KAZDA_CENE">
 			<pattern>
 				<token>za</token>
@@ -2185,8 +2198,6 @@ $Id: grammar.xml,v 1.97 2006-12-27 16:57:43 milek_pl Exp $
 			<example type="incorrect"><marker>Geneza powstania</marker> tego rękopisu wymaga dalszych badań.</example>
 			<example type="correct">Geneza powstania warszawskiego nie jest zagadką.</example>
 		</rule>
-
-	
 		
 		<rule name="„na dzień dzisiejszy” (obecnie)" id="NA_DZIEN_DZISIEJSZY">
 			<pattern>
@@ -2258,6 +2269,107 @@ $Id: grammar.xml,v 1.97 2006-12-27 16:57:43 milek_pl Exp $
 			<example type="incorrect">W <marker>miesiącu lipcu</marker> premier jedzie na wakacje.</example>
 		</rule>
 
+		<rule name="„w chwili obecnej” (obecnie)" id="W_CHWILI_OBECNEJ">
+		<pattern>
+				<token>w</token>
+				<token>chwili</token>
+				<token>obecnej</token>
+			</pattern>
+			<message>To nadużywane i błędne wyrażenie, które stosuje się w celu uzyskania pozornej elegancji wypowiedzi (ze skutkiem przeciwnym). Można je zastąpić wyrazami: <suggestion>obecnie</suggestion>, <suggestion>aktualnie</suggestion>, <suggestion>teraz</suggestion>.</message>
+			<example type="incorrect"><marker>W chwili obecnej</marker> posiłki przygotowuje kuchnia polowa.</example>
+			<example type="correct"><marker>Obecnie</marker> posiłki przygotowuje kuchnia polowa.</example>
+		</rule>
+		
+		<rule name="„wzajemna wymiana, współpraca” (wymiana, współpraca)" id="WZAJEMNA_WYMIANA">
+			<pattern>
+				<token inflected="yes" postag_regexp="yes" postag="adj:.*:(f|f.n):pneg">wzajemny</token>
+				<token inflected="yes" regexp="yes">wymiana|współpraca|kooperacja</token>
+			</pattern>
+			<message>To wyrażenie to pleonazm. Wystarczy powiedzieć <suggestion>\2</suggestion>.</message>
+			<example type="correct">Cieszymy się z możliwości współpracy.</example>			
+			<example type="incorrect">Cieszymy się z możliwości <marker>wzajemnej współpracy</marker>.</example>			
+		</rule>
+		
+		<rule name="„wzajemne współdziałanie” (współdziałanie)" id="WZAJEMNE_WSPOLDZIALANIE">
+			<pattern>
+				<token inflected="yes" postag_regexp="yes" postag="adj:sg:.*:pneg.*">wzajemny</token>
+				<token inflected="yes" postag_regexp="yes" postag="subst:ger.*">współdziałać</token>
+			</pattern>
+			<message>To wyrażenie to pleonazm. Wystarczy powiedzieć <suggestion>\2</suggestion>.</message>
+			<example type="correct">Cieszymy się z możliwości współdziałania.</example>			
+			<example type="incorrect">Cieszymy się z możliwości <marker>wzajemnego współdziałania</marker>.</example>			
+		</rule>
+
+		<rule name="„całkowite” (fiasko)" id="CALKOWITE_FIASKO">
+			<pattern>
+				<token regexp="yes" inflected="yes" postag_regexp="yes" postag="adj:sg:.*:pneg.*">całkowity|kompletny|zupełny</token>
+				<token inflected="yes">fiasko</token>
+			</pattern>
+			<message>To wyrażenie to pleonazm. Wystarczy powiedzieć <suggestion>\2</suggestion>.</message>
+			<example type="correct">Przemysław odpowiada za fiasko rozmów z Andrzejem.</example>			
+			<example type="incorrect">Przemysław odpowiada za <marker>kompletne fiasko</marker> rozmów z Andrzejem.</example>			
+		</rule>
+		
+		<rule name="„pełny komplet” (komplet)" id="PELNY_KOMPLET">
+			<pattern>
+				<token inflected="yes" postag_regexp="yes" postag="adj:.*m:pneg.*">pełny</token>
+				<token inflected="yes">komplet</token>
+			</pattern>
+			<message>To wyrażenie to pleonazm. Wystarczy powiedzieć <suggestion>\2</suggestion>.</message>
+			<example type="correct">Cieszymy się z możliwości zakupu kompletu.</example>			
+			<example type="incorrect">Cieszymy się z możliwości zakupu <marker>pełnego kompletu</marker>.</example>			
+		</rule>
+
+		<rule name="„dzień dzisiejszy” (dzisiaj)" id="DZIEN_DZISIEJSZY">
+			<pattern>
+				<token inflected="yes">dzień</token>
+				<token inflected="yes" postag_regexp="yes" postag="adj:sg.*m:pneg.*">dzisiejszy</token>
+			</pattern>
+			<message>To wyrażenie to pleonazm. Wystarczy powiedzieć <suggestion>dzisiaj</suggestion> lub <suggestion>dziś</suggestion>.</message>
+			<example type="correct">Szkoła dzisiaj</example>			
+			<example type="incorrect"><marker>Dzień dzisiejszy</marker> szkoły</example>			
+		</rule>
+
+		<rule name="„dzień jutrzejszy” (jutro)" id="DZIEN_JUTRZEJSZY">
+			<pattern>
+				<token inflected="yes">dzień</token>
+				<token inflected="yes" postag_regexp="yes" postag="adj:sg.*m:pneg.*">jutrzejszy</token>
+			</pattern>
+			<message>To wyrażenie to pleonazm. Wystarczy powiedzieć <suggestion>jutro</suggestion>.</message>
+			<example type="correct">Nie należy też zbytnio trwożyć się tym, co przyniesie <marker>jutro</marker>.</example>			
+			<example type="incorrect">Nie należy też zbytnio trwożyć się tym, co przyniesie <marker>dzień jutrzejszy</marker>.</example>			
+		</rule>
+
+		<rule name="„dzień wczorajszy” (wczoraj)" id="DZIEN_WCZORAJSZY">
+			<pattern>
+				<token inflected="yes">dzień</token>
+				<token inflected="yes" postag_regexp="yes" postag="adj:sg.*m:pneg.*">wczorajszy</token>
+			</pattern>
+			<message>To wyrażenie to pleonazm. Wystarczy powiedzieć <suggestion>wczoraj</suggestion>.</message>
+			<example type="correct">Wczoraj minęło spokojnie.</example>			
+			<example type="incorrect"><marker>Dzień wczorajszy</marker> minął spokojnie.</example>			
+		</rule>
+		
+		<rulegroup name="„żółtko jaja, jajeczne...” (żółtko)" id="ZOLTKO_JAJA">
+		<rule>
+			<pattern>
+				<token inflected="yes">żółtko</token>
+				<token regexp="yes">jaja|jajka</token>
+			</pattern>
+			<message>To wyrażenie to pleonazm. Wystarczy powiedzieć <suggestion>\1</suggestion>.</message>
+			<example type="correct">Do ciasta dodać jedno żółtko.</example>		
+			<example type="incorrect">Do ciasta dodać jedno <marker>żółtko jaja</marker>.</example>		
+		</rule>
+		<rule>
+			<pattern>
+				<token inflected="yes">żółtko</token>
+				<token regexp="yes" inflected="yes" postag_regexp="yes" postag=".*adj:sg.*n:pneg.*">jajowy|jajeczny</token>
+			</pattern>
+			<message>To wyrażenie to pleonazm. Wystarczy powiedzieć <suggestion>\1</suggestion>.</message>
+			<example type="correct">Do ciasta dodać jedno żółtko.</example>		
+			<example type="incorrect">Do ciasta dodać jedno <marker>żółtko jajeczne</marker>.</example>		
+		</rule>		
+		</rulegroup>
 	</category>
 
 	<category name="Błędy fonetyczne">
@@ -3425,6 +3537,27 @@ $Id: grammar.xml,v 1.97 2006-12-27 16:57:43 milek_pl Exp $
 	</rule>
 	</rulegroup>
 			
+	<rule name="„w skutek czego” (wskutek czego)" id="W_SKUTEK">
+	<pattern mark_to="-1">
+		<token>w</token>
+		<token>skutek</token>
+		<token postag_regexp="yes" postag="(subst|adj|ppron|ppron3|ppas|pact).*gen.*"/>
+	</pattern>
+	<message>Prawdopodobny błąd ortograficzny. Czy chodziło o <suggestion>wskutek</suggestion> (=z powodu)?</message>
+	<example type="correct">Rodziny, które straciły osobę bliską wskutek wypadku.</example>
+	<example type="incorrect">Rodziny, które straciły osobę bliską <marker>w skutek</marker> wypadku.</example>
+	</rule>
+
+	<rule name="„auto komis/serwis...” (autokomis)" id="AUTO_COS_TAM">
+	<pattern>
+		<token>auto</token>
+		<token inflected="yes" regexp="yes">alergia|alarm|biografia|bus|cenzura|giełda|hipnoza|komis|myjnia|naprawa|pilot|portret|stop|casco|serwis|sugestia</token>
+	</pattern>
+	<message>Błąd ortograficzny. Wyrazy z cząstką „auto” piszemy razem: <suggestion>\1\2</suggestion>.</message>
+	<example type="correct">Zapraszamy do autokomisu!</example>
+	<example type="incorrect">Zapraszamy do <marker>auto komisu</marker>!</example>
+	</rule>
+	
 	</category>
 
 	<category name="Prawdopodobne literówki">
