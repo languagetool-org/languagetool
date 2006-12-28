@@ -3,7 +3,7 @@
 English Grammar and Typo Rules for LanguageTool
 See tagset.txt for the meaning of the POS tags
 Copyright (C) 2001-2006 Daniel Naber (http://www.danielnaber.de)
-$Id: grammar.xml,v 1.121 2006-12-17 21:23:16 dnaber Exp $
+$Id: grammar.xml,v 1.122 2006-12-28 22:56:38 milek_pl Exp $
 -->
 <rules lang="en">
 
@@ -192,11 +192,19 @@ $Id: grammar.xml,v 1.121 2006-12-17 21:23:16 dnaber Exp $
       <token>neck</token>
     </pattern>
     <message>Did you mean <suggestion>bottleneck</suggestion>? This word sequence is usually spelled together.</message>
-    <example type="correct">Finding the <marker>bottleneck</marker>
-      </example>
-    <example type="incorrect">Finding the <marker>bottle neck</marker>
-      </example>
+    <example type="correct">Finding the <marker>bottleneck</marker></example>
+    <example type="incorrect">Finding the <marker>bottle neck</marker></example>
   </rule>
+  
+  <rule id="FIRE_ARM" name="Possible typo 'fire arm(firearm)'">
+    <pattern>
+      <token>fire</token>
+      <token>arm</token>
+    </pattern>
+    <message>Did you mean <suggestion>\1\2</suggestion>? This word sequence is usually spelled together.</message>
+    <example type="correct">The term gun is often used as a synonym for firearm</example>
+    <example type="incorrect">The term gun is often used as a synonym for <marker>fire arm</marker></example>
+    </rule>
   
    <rule id="NEWS_PAPER" name="Possible typo 'news paper(newspaper)'">
 	   <pattern>
@@ -761,8 +769,8 @@ $Id: grammar.xml,v 1.121 2006-12-17 21:23:16 dnaber Exp $
         <token>s</token>
       </pattern>
       <message>Did you mean <suggestion>its</suggestion> (possessive pronoun) instead of 'it's' (=it is)?</message>
-      <example type="correct">Don't judeg a book by <marker>its</marker> cover.</example>
-      <example type="incorrect">Don't judeg a book by <marker>it's</marker> cover.</example>
+      <example type="correct">Don't judge a book by <marker>its</marker> cover.</example>
+      <example type="incorrect">Don't judge a book by <marker>it's</marker> cover.</example>
     </rule>
     <!-- TODO:
       <rule>
@@ -782,6 +790,23 @@ $Id: grammar.xml,v 1.121 2006-12-17 21:23:16 dnaber Exp $
       <example type="incorrect"><marker>Its</marker> a good opportunity.</example>
       <example type="triggers_error">Currently, there are fifteen records on <marker>its</marker> A list and twenty on its B list.</example>
     </rule>
+    <rule>
+      <pattern mark_from="1" case_sensitive="yes" mark_to="-1">
+      	<token regexp="yes">[wW]ith|[Ii]n|[Ww]ithout|[Ff]rom|[Uu]nder|[Oo]ver|[Aa]bove</token>
+      	<!-- not using postag="IN" because of "like" and "to", 
+      		not sure about other prepositions -->
+      	<token>it</token>
+      	<token>'</token>
+      	<token>s</token>
+      	<token postag_regexp="yes" postag="JJ.*|NN.*"/>
+      </pattern>
+      <message>Did you mean <suggestion>its</suggestion> (possessive pronoun) instead of 'it's' (=it is)?</message>
+      <example type="correct">Scene from It's a Boy Girl Thing</example>
+      <example type="correct">This lovely and interesting area with <marker>its</marker> friendly people will make a welcoming break</example>
+      <example type="incorrect">This lovely and interesting area with <marker>it's</marker> friendly people will make a welcoming break</example>
+      <example type="incorrect">In <marker>it's</marker> heyday it was a bustling port.</example>
+      <example type="correct">In <marker>its</marker> heyday it was a bustling port.</example>
+     </rule>
   </rulegroup>
     
   <rulegroup id="NOW" name="Possible typo 'no/now'">
@@ -1817,6 +1842,44 @@ $Id: grammar.xml,v 1.121 2006-12-17 21:23:16 dnaber Exp $
 	<example type="correct">The Thames was once a much broader river.</example>
   </rule>
 
+	<rulegroup name="Phrase repetition" id="PHRASE_REPETITION">
+	<!--  from Wikipedia Typos page -->
+	<rule>
+		<pattern>
+			<token>at</token>
+			<token>the</token>
+			<token>at</token>
+			<token>the</token>
+		</pattern>
+		<message>This phrase is duplicated. You should probably leave only <suggestion>\1 \2</suggestion>.</message>
+		<example type="incorrect">Hepatology <marker>at the at the</marker> turn of centuries.</example>
+		<example type="correct">Hepatology <marker>at the</marker> turn of centuries.</example>
+	</rule>
+		<rule>
+		<pattern>
+			<token>on</token>
+			<token>the</token>
+			<token>on</token>
+			<token>the</token>
+		</pattern>
+		<message>This phrase is duplicated. You should probably leave only <suggestion>\1 \2</suggestion>.</message>
+		<example type="incorrect">Again he returned to the study and placed the lamp <marker>on the on the</marker> table</example>
+		<example type="correct">Again he returned to the study and placed the lamp <marker>on the</marker> table</example>
+	</rule>
+		<rule>
+		<pattern>
+			<token>from</token>
+			<token>the</token>
+			<token>from</token>
+			<token>the</token>
+		</pattern>
+		<message>This phrase is duplicated. You should probably leave only <suggestion>\1 \2</suggestion>.</message>
+		<example type="incorrect">A handicapped accessible shuttle bus is available <marker>from the from the</marker> Purdue University parking lot.</example>
+		<example type="correct">A handicapped accessible shuttle bus is available <marker>from the</marker> Purdue University parking lot.</example>
+	</rule>
+	
+	</rulegroup>
+
 	<rulegroup name="non-standard contractions '(I've a...)'" id="I_VE_A">
 	<rule>
 		<pattern>
@@ -1947,7 +2010,7 @@ $Id: grammar.xml,v 1.121 2006-12-17 21:23:16 dnaber Exp $
       <example type="correct">This article deals with <marker>economic</marker> development of the Third World.</example>
     </rule>
 
-    <rule name="econonomic growth etc. (economical)" id="ECONOMIC_ECONOMICAL">
+    <rule name="econonomic car etc. (economical)" id="ECONOMIC_ECONOMICAL">
       <pattern mark_to="-1">
         <token>economic</token>
         <token regexp="yes">way|use|repair|means|methods|method|price|proposition|manner|basis|car|cooking|design|heating|motoring|shopper</token>
