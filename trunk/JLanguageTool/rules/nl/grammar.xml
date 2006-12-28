@@ -2,13 +2,12 @@
 <!--
 Dutch Grammar and Typo Rules for LanguageTool
 Copyright (C) 2006 Ruud J. Baars (r.j.baars -at- hccnet nl)
-$Id: grammar.xml,v 1.11 2006-12-22 11:19:12 dnaber Exp $
+$Id: grammar.xml,v 1.12 2006-12-28 15:37:52 dnaber Exp $
 -->
 <rules lang="nl">
   <!--  # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # -->
   <category name="Punten en komma's, interpunctie">
     <rulegroup id="EN_KOMMA" name="En, gevolgd door komma">
-      <!-- score 100% succes-->
       <rule>
         <pattern>
           <token>,</token>
@@ -19,6 +18,34 @@ $Id: grammar.xml,v 1.11 2006-12-22 11:19:12 dnaber Exp $
         <example type="correct">Dit is foutief <marker>en</marker> dus niet goed.</example>
       </rule>
     </rulegroup>
+    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  -->
+    <rulegroup id="IJ_HOOFDLETTER" name="IJ als hoofdletter en niet Ij">
+      <rule>
+        <pattern case_sensitive="yes">
+          <token regexp="yes">Ij.*</token>
+        </pattern>
+        <message>De 'ij' wordt als één letter gezien en de hoofdletter is dus <suggestion>IJ</suggestion>.</message>
+        <example type="incorrect">Schrijf nooit <marker>Ijsland</marker>.</example>
+        <example type="correct">Schrijf altijd <marker>IJsland</marker>.</example>
+      </rule>
+    </rulegroup>
+    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  -->
+
+<!-- replace by rukle in code
+    <rulegroup id="QUOTE_CAPS" name="Hoofdletter op eerste hele woord">
+      <rule>
+        <pattern case_sensitive="yes">
+          <token postag="SENT_START" />
+          <token>'</token>
+          <token regexp="yes">k|m|n|r|s|t</token>
+          <token regexp="yes">[a-z].*</token>
+        </pattern>
+        <message>Na een aanhalingsteken krijgt het eerste hele woord een <suggestion>hoofdletter</suggestion> .</message>
+        <example type="incorrect"><marker>'t kwam</marker> door hem.</example>
+        <example type="correct"><marker>'t Kwam</marker> door hem.</example>
+      </rule>
+    </rulegroup>
+-->
     <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  -->
   </category>
   <!--  # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # -->
@@ -53,7 +80,7 @@ $Id: grammar.xml,v 1.11 2006-12-22 11:19:12 dnaber Exp $
     <rulegroup id="MEERVOUDS" name="Meervoud met 's">
       <rule>
         <pattern case_sensitive="yes">
-          <token postag="noun.*,sg,.*" postag_regexp="yes"><exception regexp="yes">.*a|.*o|.*I</exception></token>
+          <token postag="noun.*,sg,.*" postag_regexp="yes"><exception regexp="yes">.*a|.*o|I.*|ie.*</exception></token>
           <token>'</token>
           <token>s</token>
         </pattern>
@@ -71,7 +98,7 @@ $Id: grammar.xml,v 1.11 2006-12-22 11:19:12 dnaber Exp $
       <rule>
         <pattern>
           <!-- 2006-12-19 woorden toegevoegd -->
-          <token regexp="yes">thans|danwel|zulks|voorts|derhalve|desalniettemin|evenwel|mede|dewelke|nimmer|immer|hunner|der|onzer</token>
+          <token regexp="yes">thans|danwel|zulks|voorts|derhalve|desalniettemin|evenwel|mede|dewelke|nimmer|immer|hunner|der|onzer|onderscheiden</token>
         </pattern>
         <message>[a] Dit woord is ouderwets.</message>
         <example type="incorrect">Ik zie hem <marker>nimmer</marker>.</example>
@@ -164,7 +191,46 @@ $Id: grammar.xml,v 1.11 2006-12-22 11:19:12 dnaber Exp $
   <!--  # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # -->
   <category name="Gewoon, maar fout taalgebruik">
     <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  -->
+    <rulegroup id="HUN_HEN_ZIJ" name="Hun ipv hen of zij">
+      <!-- added 2006-12-22 -->
+      <!-- no hit in 40.000 line well-managed text set -->
+      <rule>
+        <pattern mark_to="-1">
+          <token>hun</token>
+          <token regexp="yes">\.|\?|!|;</token>
+        </pattern>
+        <message>[a] U bedoelt vast <suggestion>hen</suggestion> of <suggestion>ze</suggestion>.</message>
+        <example type="incorrect">Ik gaf het <marker>hun</marker>.</example>
+        <example type="correct">Ik gaf het <marker>hen</marker>.</example>
+      </rule>
 
+      <rule>
+        <pattern mark_from="1" mark_to="-2" case_sensitive="yes">
+          <token regexp="yes">de|het|een|geen</token>
+          <token>hun</token>
+          <token postag="adjective\(ge.*" postag_regexp="yes"/>
+          <token postag=".*noun.*" postag_regexp="yes"/>
+        </pattern>
+        <message>[b] U bedoelt vast <suggestion>hen</suggestion>.</message>
+        <example type="incorrect">Wat is de <marker>hun</marker> verstrekte software?</example>
+        <example type="correct">Wat is de <marker>hen</marker> verstrekte software?</example>
+      </rule>
+
+      <rule>
+        <pattern mark_from="2" mark_to="-2" case_sensitive="yes">
+          <token regexp="yes">de|het|een|geen</token>
+          <token postag="preposition.*" postag_regexp="yes"/>
+          <token>hun</token>
+          <token postag="adjective\(ge.*" postag_regexp="yes"/>
+          <token postag=".*noun.*" postag_regexp="yes"/>
+        </pattern>
+        <message>[c] U bedoelt vast <suggestion>hen</suggestion>.</message>
+        <example type="incorrect">Wat is de aan <marker>hun</marker> verstrekte software?</example>
+        <example type="correct">Wat is de aan <marker>hen</marker> verstrekte software?</example>
+      </rule>
+
+    </rulegroup>
+    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  -->
     <rulegroup id="GROTE_GETALLEN" name="Grote getallen">
       <rule>
         <pattern>
@@ -233,7 +299,6 @@ $Id: grammar.xml,v 1.11 2006-12-22 11:19:12 dnaber Exp $
         <example type="correct">Is dit <marker>jouw huis</marker>?</example>
       </rule>
     </rulegroup>
-
     <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  -->
     <rulegroup id="EIGEN_GE" name="Eigengemaakt etc">
       <rule>
@@ -268,7 +333,6 @@ $Id: grammar.xml,v 1.11 2006-12-22 11:19:12 dnaber Exp $
     </rulegroup>
     <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  -->
     <rulegroup id="KAN_KUN" name="Kan en kun">
-      <!-- score -->
       <rule>
         <pattern>
           <token>kan</token>
@@ -800,9 +864,9 @@ $Id: grammar.xml,v 1.11 2006-12-22 11:19:12 dnaber Exp $
       <rule>
         <pattern>
           <token>'</token>
-          <token regexp="yes">m|r|t|n</token>
+          <token regexp="yes">m|r|t|n|s</token>
         </pattern>
-        <message>Netter en leesbaarder is <suggestion>hem / haar / het / een</suggestion>.</message>
+        <message>Netter en leesbaarder is \1 <suggestion>voluit schrijven</suggestion>.</message>
         <example type="incorrect">Dat is <marker>'m</marker>.</example>
         <example type="correct">Dat is <marker>het</marker> dan.</example>
       </rule>
