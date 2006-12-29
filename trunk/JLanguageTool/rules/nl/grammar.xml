@@ -2,7 +2,7 @@
 <!--
 Dutch Grammar and Typo Rules for LanguageTool
 Copyright (C) 2006 Ruud J. Baars (r.j.baars -at- hccnet nl)
-$Id: grammar.xml,v 1.12 2006-12-28 15:37:52 dnaber Exp $
+$Id: grammar.xml,v 1.13 2006-12-29 07:26:21 dnaber Exp $
 -->
 <rules lang="nl">
   <!--  # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # -->
@@ -191,9 +191,10 @@ $Id: grammar.xml,v 1.12 2006-12-28 15:37:52 dnaber Exp $
   <!--  # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # -->
   <category name="Gewoon, maar fout taalgebruik">
     <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  -->
+<!--
+	regel volledig uitgeschakeld, omdat deze bijna alleen maar false positives levert.
+
     <rulegroup id="HUN_HEN_ZIJ" name="Hun ipv hen of zij">
-      <!-- added 2006-12-22 -->
-      <!-- no hit in 40.000 line well-managed text set -->
       <rule>
         <pattern mark_to="-1">
           <token>hun</token>
@@ -228,8 +229,8 @@ $Id: grammar.xml,v 1.12 2006-12-28 15:37:52 dnaber Exp $
         <example type="incorrect">Wat is de aan <marker>hun</marker> verstrekte software?</example>
         <example type="correct">Wat is de aan <marker>hen</marker> verstrekte software?</example>
       </rule>
-
     </rulegroup>
+-->
     <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  -->
     <rulegroup id="GROTE_GETALLEN" name="Grote getallen">
       <rule>
@@ -862,9 +863,10 @@ $Id: grammar.xml,v 1.12 2006-12-28 15:37:52 dnaber Exp $
     <rulegroup id="HEM_VERKORT" name="Verkortingen als `m, `r etc">
       <!-- added 2006-12-19 -->
       <rule>
-        <pattern>
+        <pattern mark_from="1">
+          <token></token>
           <token>'</token>
-          <token regexp="yes">m|r|t|n|s</token>
+          <token regexp="yes">m|r|t|n</token>
         </pattern>
         <message>Netter en leesbaarder is \1 <suggestion>voluit schrijven</suggestion>.</message>
         <example type="incorrect">Dat is <marker>'m</marker>.</example>
