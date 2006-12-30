@@ -2,7 +2,7 @@
 <!--
 Polish Grammar and Typo Rules for LanguageTool
 Copyright (C) 2006 Marcin Miłkowski
-$Id: grammar.xml,v 1.102 2006-12-30 16:08:50 milek_pl Exp $		
+$Id: grammar.xml,v 1.103 2006-12-30 19:38:39 milek_pl Exp $		
 -->
 <rules lang="pl">
 	<category name="Błędy interpunkcyjne">
@@ -1521,6 +1521,48 @@ $Id: grammar.xml,v 1.102 2006-12-30 16:08:50 milek_pl Exp $
 	</category>
 	<category name="Błędy leksykalne">
 	
+		<rule id="PRZY_UDZIALE" name="„przy udziale” (z udziałem)">
+			<pattern>
+				<token>przy</token>
+				<token>udziale</token>
+			</pattern>
+			<message>To wyrażenie jest niepoprawne. Mówimy: <suggestion>z udziałem</suggestion>.</message>
+			<example type="correct">Konferencja odbywała się z udziałem prezydenta.</example>
+			<example type="incorrect">Konferencja odbywała się <marker>przy udziale</marker> prezydenta.</example>
+		</rule>
+	
+		<rule id="ZDAC_SPRAWOZDANIE" name="„zdać sprawozdanie” (zdać sprawę)">
+			<pattern>
+				<token regexp="yes" inflected="yes">zdać<exception postag_regexp="yes" postag="subst:ger.*|ppas:.*"/></token>
+				<token>sprawozdanie</token>
+			</pattern>
+			<message>To wyrażenie jest niepoprawną kontaminacją. Poprawnie: <suggestion>\1 sprawę</suggestion>, <suggestion>złożyć \2</suggestion>, <suggestion>przedstawić \2</suggestion>.</message>
+			<example type="correct">Zdałem sprawę ze zła, które uczyniłem.</example>
+			<example type="incorrect"><marker>Zdałem sprawozdanie</marker> ze zła, które uczyniłem.</example>
+		</rule>
+		
+		<rule id="WYJSC_Z_PROPOZYCJA" name="„wyjść z propozycją” (zaproponować)">
+		<pattern>
+			<token inflected="yes" regexp="yes">wyjść|wychodzić</token>
+			<token>z</token>
+			<token>propozycją</token>
+		</pattern>
+		<message>Niepoprawnie zbudowane wyrażenie. Lepiej: <suggestion>zaproponować</suggestion>, <suggestion>uczynić propozycję</suggestion>,
+		<suggestion>wystąpić z propozycją</suggestion>.</message>
+		<example type="correct">Kazimierz zaproponował, że zostanie szefem banku.</example>
+		<example type="incorrect">Kazimierz <marker>wyszedł z propozycją</marker>, że zostanie szefem banku.</example>
+		</rule>
+		
+		<rule id="WYRAZIC_POPARCIE" name="„wyrazić poparcie” (udzielić poparcia, poprzeć)">
+			<pattern>
+				<token inflected="yes" regexp="yes">wyrazić|wyrażać</token>
+				<token>poparcie</token>
+			</pattern>
+			<message>Niepoprawne wyrażenie. Poprawnie: <suggestion>udzielić poparcia</suggestion>, <suggestion>poprzeć</suggestion>.</message>
+			<example type="incorrect">Na tej stronie można <marker>wyrazić poparcie</marker> dla budowy IV RP.</example>
+			<example type="correct">Na tej stronie można <marker>udzielić poparcia</marker> budowie IV RP.</example>
+		</rule>
+		
 		<rule name="„w pośrodku” (pośrodku)" id="W_POSRODKU">
 			<pattern>
 				<token>w</token>
@@ -2602,16 +2644,6 @@ $Id: grammar.xml,v 1.102 2006-12-30 16:08:50 milek_pl Exp $
 			<example type="incorrect">Nazwiska piszemy <marker>z dużej litery</marker>.</example>
 		</rule>
 		
-		<rule id="PRZY_UDZIALE" name="„przy udziale” (z udziałem)">
-			<pattern>
-				<token>przy</token>
-				<token>udziale</token>
-			</pattern>
-			<message>To wyrażenie jest niepoprawne. Mówimy: <suggestion>z udziałem</suggestion>.</message>
-			<example type="correct">Konferencja odbywała się z udziałem prezydenta.</example>
-			<example type="incorrect">Konferencja odbywała się <marker>przy udziale</marker> prezydenta.</example>
-		</rule>
-		
 		<rule id="PANTALYK" name="Wyraz niesamodzielny: „pantałyk”">
 			<pattern mark_from="1">
 				<token negate="yes">z</token>
@@ -2745,6 +2777,18 @@ $Id: grammar.xml,v 1.102 2006-12-30 16:08:50 milek_pl Exp $
 	</rule>
 	</rulegroup>
 
+	<rulegroup name="„zagranicą (za granicą)" id="ZA_GRANICA">
+	<rule>
+		<pattern mark_from="1">
+			<token regexp="yes" inflected="yes">być|przebywać|pobyt<exception postag_regexp="yes" postag="subst:ger.*|ppas:.*"/></token>
+			<token>zagranicą</token>
+		</pattern>
+	<message>Prawdopodobny błąd ortograficzny. Powinno być <suggestion>za granicą</suggestion>.</message>
+	<example type="correct">Od dawna nie byłem za granicą.</example>
+	<example type="incorrect">Od dawna nie byłem <marker>zagranicą</marker>.</example>
+	</rule>
+	</rulegroup>
+	
 	<rulegroup name="„widzi mi się” (widzimisię)" id="WIDZI_MI_SIE">
 	<rule>
 	<pattern mark_to="-1">
@@ -3693,6 +3737,18 @@ $Id: grammar.xml,v 1.102 2006-12-30 16:08:50 milek_pl Exp $
 			<example type="incorrect"><marker>Za zwyczaj</marker> maluję kredkami.</example>
 		</rule>
 	</rulegroup>
+	
+	 <rule id="SZKOLA_NR" name="„Szkoła Podstawowa/Liceum Ogólnokształcące Nr” (Szkoła Podstawowa nr)">
+	 	<pattern case_sensitive="yes">
+	 		<token regexp="yes">Szko.*|Lice.*</token>
+	 		<token regexp="yes">Podstawow.*|Ogólnokształcąc.*</token>
+	 		<token>Nr</token>
+	 	</pattern>
+	 	<message>Błąd ortograficzny; poprawnie: <suggestion>\1 \2 nr</suggestion>.</message>
+	 	<example type="correct"><marker>Szkoła Podstawowa nr</marker> 41</example>
+	 	<example type="incorrect"><marker>Szkoła Podstawowa Nr</marker> 41</example>
+	 </rule>
+	
 	</category>
 
 	<category name="Prawdopodobne literówki">
@@ -4149,7 +4205,38 @@ $Id: grammar.xml,v 1.102 2006-12-30 16:08:50 milek_pl Exp $
 			<example type="correct">Jestem skromnym pedagogiem, a nadto kobietą.</example>
 			<example type="incorrect">Jestem skromnym pedagogiem, <marker>a nad to</marker> kobietą.</example>
 		</rule>
-		
+
+	 <rulegroup id="STARTY_STRATY" name="„starty” (straty)">
+	 	<rule>
+	 		<pattern mark_from="1">
+				<token regexp="yes" inflected="yes">odrabiać|odrobić<exception postag_regexp="yes" postag="subst:ger.*|ppas:.*"/></token>
+				<token>starty</token>
+			</pattern>
+			<message>Prawdopodobna literówka. Czy chodziło o <suggestion>straty</suggestion>?</message>
+			<example type="correct">Małysz szybko odrabiał straty.</example>
+			<example type="incorrect">Małysz szybko odrabiał <marker>starty</marker>.</example>
+	 	</rule>
+	 	<rule>
+	 		<pattern mark_from="1">
+				<token regexp="yes">wielkie|kolosalne|poważne|przynoszące|do</token>
+				<token>starty</token>
+			</pattern>
+			<message>Prawdopodobna literówka. Czy chodziło o <suggestion>straty</suggestion>?</message>
+			<example type="correct">Małysz poniósł wielkie straty.</example>
+			<example type="incorrect">Małysz poniósł wielkie <marker>starty</marker>.</example>
+	 	</rule>	 	
+	 </rulegroup>
+	 
+	 <rule id="W_Z" name="„w z” (w lub z)">
+	 	<pattern>
+	 		<token>w</token>
+	 		<token>z</token>
+	 	</pattern>
+	 	<message>Prawdopodobna literówka. Czy chodziło o <suggestion>\1</suggestion> czy o <suggestion>\2</suggestion>?</message>
+	 	<example type="correct">Mieszkam w Warszawie.</example>
+	 	<example type="incorrect">Mieszkam <marker>w z</marker> Warszawie.</example>
+	 </rule>
+	 
 	</category>
 	
 	<category name="Błędy frazeologiczne">
