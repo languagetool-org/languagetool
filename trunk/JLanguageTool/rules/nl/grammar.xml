@@ -2,7 +2,7 @@
 <!--
 Dutch Grammar and Typo Rules for LanguageTool
 Copyright (C) 2006 Ruud J. Baars (r.j.baars -at- hccnet nl)
-$Id: grammar.xml,v 1.13 2006-12-29 07:26:21 dnaber Exp $
+$Id: grammar.xml,v 1.14 2006-12-30 14:54:10 dnaber Exp $
 -->
 <rules lang="nl">
   <!--  # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # -->
@@ -92,13 +92,149 @@ $Id: grammar.xml,v 1.13 2006-12-29 07:26:21 dnaber Exp $
     <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  -->
   </category>
   <!--  # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # -->
+  <category name="Woordgroepen">
+    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  -->
+    <rulegroup id="IN_SPE" name="In spe">
+      <rule>
+        <pattern>
+          <token negate="yes" >in</token>
+          <token>spe</token>
+        </pattern>
+        <message>[a] Bedoelt u <suggestion>in spe</suggestion> of nog iets anders?</message>
+        <example type="incorrect">Dat is mijn schoonzoon <marker>zijn spe</marker>.</example>
+        <example type="correct">Dat is mijn schoonzoon <marker>in spe</marker>.</example>
+      </rule>
+    </rulegroup>
+    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  -->
+    <rulegroup id="NOTA_BENE" name="Nota bene">
+      <rule>
+        <pattern>
+          <token negate="yes" >nota</token>
+          <token>bene</token>
+        </pattern>
+        <message>Bedoelt u <suggestion>nota bene</suggestion> of nog iets anders?</message>
+        <example type="incorrect">Dat zijn <marker>mijn bene</marker>.</example>
+        <example type="correct">Dat is mijn schoonzoon <marker>nota bene</marker>.</example>
+      </rule>
+    </rulegroup>
+    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  -->
+    <rulegroup id="AD_HOC" name="Ad hoc">
+      <rule>
+        <pattern>
+          <token negate="yes" >ad</token>
+          <token>hoc</token>
+        </pattern>
+        <message>[a] Bedoelt u <suggestion>ad hoc</suggestion> of nog iets anders?</message>
+        <example type="incorrect">Dat is wel erg <marker>at hoc</marker>.</example>
+        <example type="correct">Dat is wel erg <marker>ad hoc</marker>.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>ad</token>
+          <token>hok</token>
+        </pattern>
+        <message>[b] Bedoelt u <suggestion>ad hoc</suggestion> of nog iets anders?</message>
+        <example type="incorrect">Dat is wel erg <marker>ad hok</marker>.</example>
+        <example type="correct">Dat is wel erg <marker>ad hoc</marker>.</example>
+      </rule>
+    </rulegroup>
+    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  -->
+    <rulegroup id="AD_REM" name="Ad rem">
+      <rule>
+        <pattern>
+          <token>at</token>
+          <token>rem</token>
+        </pattern>
+        <message>Bedoelt u <suggestion>ad rem</suggestion> of nog iets anders?</message>
+        <example type="incorrect">Dat is wel erg <marker>at rem</marker>.</example>
+        <example type="correct">Dat is wel erg <marker>ad rem</marker>.</example>
+      </rule>
+    </rulegroup>
+    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  -->
+    <rulegroup id="A_ETC" name="A capella, priori of vista">
+      <rule>
+        <pattern>
+          <token negate="yes">a</token>
+          <token regexp="yes">capella|priori|vista</token>
+        </pattern>
+        <message>[a] U bedoelt vast <suggestion>a \2</suggestion>.</message>
+        <example type="incorrect">Zij zongen <marker>à capella</marker>.</example>
+        <example type="correct">Zij zongen <marker>a capella</marker>.</example>
+      </rule>
+    </rulegroup>
+    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  -->
+    <rulegroup id="A_CAPELLA" name="A-capellakoor etc.">
+      <rule>
+        <pattern>
+          <token regexp="yes">a|à</token>
+          <token regexp="yes">capella.+</token>
+        </pattern>
+        <message>[b] U bedoelt vast <suggestion>a-\2</suggestion>.</message>
+        <example type="incorrect">Zij zongen in een <marker>à capellakoor</marker>.</example>
+        <example type="correct">Zij zongen in <marker>een a-capellakoor</marker>.</example>
+      </rule>
+    </rulegroup>
+    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  -->
+    <rulegroup id="A_LA_CARTE" name="A la carte, minute">
+      <rule>
+        <pattern>
+          <token negate="yes">à</token>
+          <token>la</token>
+          <token regexp="yes">carte|minute</token>
+        </pattern>
+        <message>[a] U bedoelt vast <suggestion>à \2 \3</suggestion>.</message>
+        <example type="incorrect">Je eet daar <marker>a la carte</marker>.</example>
+        <example type="correct">Je eet daar <marker>à la carte</marker>.</example>
+      </rule>
+    </rulegroup>
+    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  -->
+<!--
+    <rulegroup id="A_LA_CARTE2" name="A-la-carterestaurant">
+      <rule>
+        <pattern>
+          <token regexp="yes">à|a</token>
+          <token>la</token>
+          <token regexp="yes">carte.+|minute.+</token>
+        </pattern>
+        <message>[b] U bedoelt vast <suggestion>à \2 \3</suggestion>.</message>
+        <example type="incorrect">Ik wil graag een <marker>a la cartediner</marker>.</example>
+        <example type="correct">Ik wil <marker>graag een à-la-cartediner</marker>.</example>
+      </rule>
+    </rulegroup>
+-->
+    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  -->
+    <rulegroup id="A_PROPOS" name="A propos">
+      <rule>
+        <pattern>
+          <token negate="yes">à</token>
+          <token>propos</token>
+        </pattern>
+        <message>U bedoelt vast <suggestion>à \2 </suggestion>.</message>
+        <example type="incorrect">Ik ben van mijn <marker>a propos</marker>.</example>
+        <example type="correct">Ik ben van mijn <marker>à propos</marker>.</example>
+      </rule>
+    </rulegroup>
+    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  -->
+    <rulegroup id="FULL_COLOUR" name="Full colour">
+      <rule>
+        <pattern>
+          <token>full</token>
+          <token>color</token>
+        </pattern>
+        <message>[a] U bedoelt vast <suggestion>full colour</suggestion> (Op zijn Engels).</message>
+        <example type="incorrect">Deze brochure is <marker>full color</marker> gedrukt.</example>
+        <example type="correct">Deze brochure is <marker>full colour</marker> gedrukt.</example>
+      </rule>
+    </rulegroup>
+ </category>
+  <!--  # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # -->
   <category name="Ambtelijk of formeel">
     <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  -->
     <rulegroup id="OUDERWETS" name="Ouderwets">
       <rule>
         <pattern>
           <!-- 2006-12-19 woorden toegevoegd -->
-          <token regexp="yes">thans|danwel|zulks|voorts|derhalve|desalniettemin|evenwel|mede|dewelke|nimmer|immer|hunner|der|onzer|onderscheiden</token>
+          <token regexp="yes">thans|danwel|zulks|voorts|derhalve|desalniettemin|evenwel|mede|dewelke|nimmer|immer|hunner|der|onzer|onderscheiden|nevens</token>
         </pattern>
         <message>[a] Dit woord is ouderwets.</message>
         <example type="incorrect">Ik zie hem <marker>nimmer</marker>.</example>
@@ -550,6 +686,46 @@ $Id: grammar.xml,v 1.13 2006-12-29 07:26:21 dnaber Exp $
         <message>[c] bedoelt u <suggestion>Eerste Kamer</suggestion>?</message>
         <example type="correct">Ik heb hier een <marker>Eerste Kamerstuk</marker>.</example>
         <example type="incorrect">Dit <marker>Eerste-Kamerstuk</marker> is gevoelig materiaal.</example>
+      </rule>
+    </rulegroup>
+    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  -->
+    <rulegroup id="RODE_KRUIS" name="Rode Kruis">
+      <rule>
+        <pattern>
+          <token>rode</token>
+          <token regexp="yes">[k]ruis.*</token>
+        </pattern>
+        <message>[a] Bedoelt u misschien <suggestion>Rode Kruis</suggestion>?</message>
+        <example type="correct">Het <marker>Rode Kruis</marker> helpt.</example>
+        <example type="incorrect">Het <marker>rode kruis</marker> helpt.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">rode-kruis.*</token>
+        </pattern>
+        <message>[b] bedoelt u <suggestion>Rode Kruis</suggestion>?</message>
+        <example type="correct">Dit is <marker>Rode Kruishulp</marker>.</example>
+        <example type="incorrect">Dit is <marker>Rode-Kruishulp</marker>.</example>
+      </rule>
+    </rulegroup>
+    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  -->
+    <rulegroup id="MIDDELLANDSE_ZEE" name="Middellandse Zee">
+      <rule>
+        <pattern>
+          <token>middellandse</token>
+          <token regexp="yes">[z]ee.*</token>
+        </pattern>
+        <message>[a] Bedoelt u misschien <suggestion>Middellandse Zee</suggestion>?</message>
+        <example type="incorrect">Lekker baden in de <marker>middellandse zee</marker>.</example>
+        <example type="correct">Lekker baden in de <marker>Middellandse Zee</marker>.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">middellandse-zee.*</token>
+        </pattern>
+        <message>[b] bedoelt u <suggestion>Middellandse Zee</suggestion>?</message>
+        <example type="incorrect">Dit is het <marker>Middellandse-Zeegebied</marker>.</example>
+        <example type="correct">Dit is het <marker>Middellandse Zeegebied</marker>.</example>
       </rule>
     </rulegroup>
     <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  -->
