@@ -112,7 +112,7 @@ class WikiDumpHandler extends DefaultHandler {
   private String cleanup(String s) {
     //[[Bild:Alkalimetalle.jpg|thumb|left|alle 5 stabilen Alkalimetalle]]
     s = s.replaceAll("(?s)\\[\\[Bild:.*?\\]\\]", "");
-    s = s.replaceAll("(?s)\\[\\[.*?\\|(.*?)\\]\\]", "$1");
+    s = s.replaceAll("(?s)\\[\\[[^\\[]*?\\|(.*?)\\]\\]", "$1");
     // e.g. [[el:Άτομο]]:
     s = s.replaceAll("(?s)\\[\\[...?:.*?\\]", "");
     // e.g. [[Chromosom]]en:
