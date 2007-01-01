@@ -213,7 +213,14 @@ public final class Main implements ActionListener {
 
   void hideToTray() {
     if (trayIcon == null) {
-      trayIcon = new TrayIcon(SYSTEM_TRAY_ICON);
+      try {
+        trayIcon = new TrayIcon(SYSTEM_TRAY_ICON);
+      } catch (NoClassDefFoundError e) {
+        JOptionPane.showMessageDialog(null, "TrayIcon class not found. Please unzip " +
+            "'standalone-libs.zip' in your LanguageTool installation directory.", "Error",
+            JOptionPane.ERROR_MESSAGE);
+        return;
+      }
       SystemTray tray = SystemTray.getDefaultSystemTray();
       trayIcon.addActionListener(new TrayActionListener());
       trayIcon.setToolTip(SYSTEM_TRAY_TOOLTIP);
