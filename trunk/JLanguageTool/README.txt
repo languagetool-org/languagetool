@@ -44,26 +44,23 @@ Known bugs:
 TODO:
  -load (language-specific) abbreviations from external file
  -OpenOffice.org: make the dialog modal
- -stand-alone: Show better exception if "Hide to System Tray" is called but the 
-  standalone-libs.zip has not been unzipped
- -GUI: put nice icon in window corner
- -Externalize strings in Main
+ -GUI: put nice icon in window corner (currently work only if resource/TrayIcon.png is
+  exists relative to the directory where LanguageTool was started)
  -Auto-reload rules if file timestamp has changed?
- -check if and how unification can be added to the XML rules
- -check if there's a nice design that lets us extends PatternRule and PatternRuleLoader
-  to make them more powerful, but without having all features in these classes
  -clean up rule descriptions so that they coherently contain the error or the rule
   (e.g. "did + baseform" vs. "did + non-baseform")
- -use Java 1.5 generics everywhere (maybe also instead of arrays?)
  -add more rules, especially agreement stuff
  -add UnpairedQuotesBracketsRule (for pairing "(), [], {}, ��, "", ��, depending on the language)
  -add simple sentence/word complexity test like that: http://www.ooomacros.org/user.php#111318 
  -use regular expressions and POS tags to create complex suggestions (for example, suggesting another
   grammatical case or a word without an apostrophe)
-  -German rule: Vergleichs vs Vergleiches etc -> only one variant per document should be used
+ -German rule: Vergleichs vs Vergleiches etc -> only one variant per document should be used
+ -check if and how unification can be added to the XML rules
+ -create abstract SentenceRule and TextRule classes to get rid of reset() method?
+ -check if there's a nice design that lets us extends PatternRule and PatternRuleLoader
+  to make them more powerful, but without having all features in these classes
  -see "TODO" / "FIXME" in the source:
  	find . -iname "*.java" -exec egrep -H "TODO|FIXME" {} \;
- -create abstract SentenceRule and TextRule classes to get rid of reset() method?
  -...
 
 Using LanguageTool from .NET:
