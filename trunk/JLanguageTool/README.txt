@@ -44,7 +44,7 @@ Known bugs:
 TODO:
  -load (language-specific) abbreviations from external file
  -OpenOffice.org: make the dialog modal
- -GUI: put nice icon in window corner (currently work only if resource/TrayIcon.png is
+ -GUI: put nice icon in window corner (currently works only if resource/TrayIcon.png is
   exists relative to the directory where LanguageTool was started)
  -Auto-reload rules if file timestamp has changed?
  -clean up rule descriptions so that they coherently contain the error or the rule
@@ -57,7 +57,7 @@ TODO:
  -German rule: Vergleichs vs Vergleiches etc -> only one variant per document should be used
  -check if and how unification can be added to the XML rules
  -create abstract SentenceRule and TextRule classes to get rid of reset() method?
- -check if there's a nice design that lets us extends PatternRule and PatternRuleLoader
+ -check if there's a nice design that lets us extend PatternRule and PatternRuleLoader
   to make them more powerful, but without having all features in these classes
  -see "TODO" / "FIXME" in the source:
  	find . -iname "*.java" -exec egrep -H "TODO|FIXME" {} \;
