@@ -167,8 +167,11 @@ class Main {
         encoding = args[++i];
       } else if (args[i].equals("-b")) {
         singleLineBreakMarksParagraph = true;
-      } else {
+      } else if (i == args.length-1) {
         filename = args[i];
+      } else {
+        System.err.println("Unknown option: " + args[i]);
+        exitWithUsageMessage();
       }
     }
     if (filename == null) {
@@ -177,6 +180,8 @@ class Main {
     if (language == null) {
       System.err.println("No language specified, using English");
       language = Language.ENGLISH;
+    } else {
+      System.out.println("Expected text language: " + language.getName());
     }
     language.getSentenceTokenizer().setSingleLineBreaksMarksParagraph(singleLineBreakMarksParagraph);
     Main prg = new Main(verbose, language, motherTongue, disabledRules, enabledRules);
