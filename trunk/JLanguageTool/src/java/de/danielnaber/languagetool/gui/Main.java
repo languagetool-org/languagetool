@@ -81,7 +81,7 @@ public final class Main implements ActionListener {
   private static final String HTML_FONT_START = "<font face='Arial,Helvetica'>";
   private static final String HTML_FONT_END = "</font>";
   
-  private static final Icon SYSTEM_TRAY_ICON = new ImageIcon("resource/TrayIcon.png");
+  private static final Icon SYSTEM_TRAY_ICON = new ImageIcon("resource"+File.separator+"TrayIcon.png");
   private static final String SYSTEM_TRAY_TOOLTIP = "LanguageTool";
   private static final String CONFIG_FILE = ".languagetool.cfg";
 
