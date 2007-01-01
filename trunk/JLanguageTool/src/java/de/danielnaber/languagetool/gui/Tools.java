@@ -19,10 +19,13 @@
 package de.danielnaber.languagetool.gui;
 
 import java.awt.Image;
+import java.io.File;
 import java.text.MessageFormat;
 import java.util.ResourceBundle;
 
 import javax.swing.ImageIcon;
+
+import de.danielnaber.languagetool.JLanguageTool;
 
 /**
  * GUI-related tools.
@@ -31,8 +34,11 @@ import javax.swing.ImageIcon;
  */
 public class Tools {
 
-  public static final Image WINDOW_ICON = new ImageIcon("resource/TrayIcon.png").getImage();
-
+  private static final File WINDOW_ICON_FILE = 
+    JLanguageTool.getAbsoluteFile("resource"+File.separator+"TrayIcon.png");
+  public static final Image WINDOW_ICON = 
+    new ImageIcon(WINDOW_ICON_FILE.getAbsolutePath()).getImage();
+  
   private static final int DEFAULT_CONTEXT_SIZE = 40;   // characters
   private static final String MARKER_START = "<b><font color=\"red\">";
   private static final String MARKER_END = "</font></b>";
