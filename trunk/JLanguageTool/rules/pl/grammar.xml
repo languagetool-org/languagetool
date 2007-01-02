@@ -2,7 +2,7 @@
 <!--
 Polish Grammar and Typo Rules for LanguageTool
 Copyright (C) 2006 Marcin Miłkowski
-$Id: grammar.xml,v 1.104 2006-12-30 20:02:28 milek_pl Exp $		
+$Id: grammar.xml,v 1.105 2007-01-02 21:50:57 milek_pl Exp $		
 -->
 <rules lang="pl">
 	<category name="Błędy interpunkcyjne">
@@ -4235,6 +4235,17 @@ $Id: grammar.xml,v 1.104 2006-12-30 20:02:28 milek_pl Exp $
 	 	<message>Prawdopodobna literówka. Czy chodziło o <suggestion>\1</suggestion> czy o <suggestion>\2</suggestion>?</message>
 	 	<example type="correct">Mieszkam w Warszawie.</example>
 	 	<example type="incorrect">Mieszkam <marker>w z</marker> Warszawie.</example>
+	 </rule>
+	 
+	 <rule id="ZE_ZE" name="„ze” (że)">
+	 	<pattern mark_to="-1">
+	 		<token>ze</token>
+	 		<token postag_regexp="yes" postag="verb.*"><exception postag_regexp="yes" postag="verb:irreg"/></token>
+	 	</pattern>
+	 	<message>Prawdopodobna literówka. Czy chodziło o <suggestion>że</suggestion>?</message>
+		<example type="correct">Premier poinformował ministrów, że chce iść na spacer.</example>
+		<example type="correct">Tak często dzieje się ze zbitymi jajkami.</example>
+		<example type="incorrect">Premier poinformował ministrów, <marker>ze</marker> chce iść na spacer.</example>
 	 </rule>
 	 
 	</category>
