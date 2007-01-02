@@ -32,8 +32,6 @@ import de.danielnaber.languagetool.JLanguageTool;
  * Trivial German lemmatizer that can simply find the baseforms of
  * those fullforms listed in <code>rules/de/fullform2baseform.txt</code>.
  * 
- * @deprecated use GermanTagger instead
- * 
  * @author Daniel Naber
  */
 class GermanLemmatizer {

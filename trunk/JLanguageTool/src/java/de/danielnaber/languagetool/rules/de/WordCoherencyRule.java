@@ -55,10 +55,13 @@ public class WordCoherencyRule extends GermanRule {
   private Map<String, String> relevantWords;        // e.g. "aufwendig -> aufwändig"
   private Map<String, RuleMatch> shouldNotAppearWord = new HashMap<String, RuleMatch>();  // e.g. aufwändig -> RuleMatch of aufwendig
 
+  private GermanLemmatizer germanLemmatizer = null;
+  
   public WordCoherencyRule(ResourceBundle messages) throws IOException {
     if (messages != null)
       super.setCategory(new Category(messages.getString("category_misc")));
     relevantWords = loadWords(JLanguageTool.getAbsoluteFile(FILE_NAME)); 
+    germanLemmatizer = new GermanLemmatizer();
   }
   
   public String getId() {
@@ -87,8 +90,15 @@ public class WordCoherencyRule extends GermanRule {
         // TODO: in theory we need to care about the other readings, too:
         if (readings != null && readings.size() > 0) {
           String baseform = readings.get(0).getLemma();
-          if (baseform != null)
+          if (baseform != null) {
             token = baseform;
+          } else {
+            // not all words are known by the Tagger (esp. compounds), so use the
+            // file lookup:
+            String manualLookup = germanLemmatizer.getBaseform(origToken);
+            if (manualLookup != null)
+              token = manualLookup;
+          }
         }
         if (shouldNotAppearWord.containsKey(token)) {
           RuleMatch otherMatch = (RuleMatch)shouldNotAppearWord.get(token);
