@@ -58,7 +58,9 @@ public class DashRule extends GermanRule {
         // ignore
         continue;
       } else {
-        if (prevToken != null && !prevToken.equals("-") && prevToken.indexOf("--") == -1 && prevToken.endsWith("-")) {
+        if (prevToken != null && !prevToken.equals("-") && prevToken.indexOf("--") == -1 
+            && prevToken.indexOf("–-") == -1    // first char is some special kind of dash, found in Wikipedia
+            && prevToken.endsWith("-")) {
           char firstChar = token.charAt(0);
           if (Character.isUpperCase(firstChar)) {
             String msg = "Möglicherweise fehlt ein 'und' oder es wurde nach dem Wort " +
