@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
 Dutch Grammar and Typo Rules for LanguageTool
-Copyright (C) 2006 Ruud J. Baars (r.j.baars -at- hccnet nl)
-$Id: grammar.xml,v 1.14 2006-12-30 14:54:10 dnaber Exp $
+Copyright (C) 2006,2007 Ruud J. Baars (r.j.baars -at- hccnet nl)
+$Id: grammar.xml,v 1.15 2007-01-03 12:21:18 dnaber Exp $
 -->
 <rules lang="nl">
   <!--  # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # -->
@@ -30,26 +30,265 @@ $Id: grammar.xml,v 1.14 2006-12-30 14:54:10 dnaber Exp $
       </rule>
     </rulegroup>
     <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  -->
-
-<!-- replace by rukle in code
-    <rulegroup id="QUOTE_CAPS" name="Hoofdletter op eerste hele woord">
+    <rulegroup id="DE_NAAM" name="'De met hoofdletter als eigennaam">
       <rule>
-        <pattern case_sensitive="yes">
-          <token postag="SENT_START" />
-          <token>'</token>
-          <token regexp="yes">k|m|n|r|s|t</token>
-          <token regexp="yes">[a-z].*</token>
+        <pattern>
+          <token regexp="yes">[d]e</token>
+          <token regexp="yes">Telegraaf|Tijd|Stijl|Standaard|Limburger</token>
         </pattern>
-        <message>Na een aanhalingsteken krijgt het eerste hele woord een <suggestion>hoofdletter</suggestion> .</message>
-        <example type="incorrect"><marker>'t kwam</marker> door hem.</example>
-        <example type="correct"><marker>'t Kwam</marker> door hem.</example>
+        <message>[a] Wanneer u hier het blad bedoelt, dan horen zowel \1 en \2 met  <suggestion>hoofdletters </suggestion> te worden geschreven.</message>
+        <example type="correct">Ik lees <marker>De Standaard</marker>.</example>
+        <example type="incorrect">Ik lees <marker>de standaard</marker>.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="1">
+          <token>het</token>
+          <token regexp="yes">[a]lgemeen</token>
+          <token regexp="yes">Dagblad</token>
+        </pattern>
+        <message>[a] Wanneer u hier het blad bedoelt, dan horen zowel \1 and \2 met  <suggestion>hoofdletters</suggestion> te worden geschreven.</message>
+        <example type="correct">Ik lees het <marker>Algemeen Dagblad</marker>.</example>
+        <example type="incorrect">Ik lees het <marker>algemeen Dagblad</marker>.</example>
       </rule>
     </rulegroup>
--->
+    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  -->
+  </category>
+  <!--  # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # -->
+  <category name="Aardrijkskundige begrippen">
+    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  -->
+    <rulegroup id="GEO_HOOFDL" name="Hoofdletter of niet? Maas of maas, geul of Geul">
+      <rule>
+        <pattern mark_from="1">
+          <token regexp="yes">de|den</token>
+          <token regexp="yes">[d]ommel|[g]eeuw|[g]ein|[g]eul|[g]ulp|[k]ale|[l]ek|[l]iede|[l]inde|[m]aas|[n]oord|[r]aam|[r]oer|[r]otte|[v]echt|[v]oer|[w]orm</token>
+        </pattern>
+        <message>[a] Wanneer u de rivier bedoelt, dan is een <suggestion>hoofdletter</suggestion> op zijn plaats.</message>
+        <example type="correct">Daar ligt de <marker>Lek</marker>.</example>
+        <example type="incorrect">Daar ligt de <marker>lek</marker>.</example>
+      </rule>
+    </rulegroup>
+    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  -->
+    <rulegroup id="GEO_HOOFDL2" name="Hoofdletter of niet? De Bilt etc">
+      <rule>
+        <pattern>
+          <token regexp="yes">[d]e</token>
+          <token regexp="yes">Baarsjes|Bilt|Klinge|Meern|Moeren|Ronde|Wolden</token>
+        </pattern>
+        <message>Wanneer u het aardrijkskundige begrip bedoelt, dan is het: <suggestion>De \2</suggestion> .</message>
+        <example type="correct">Daar ligt <marker>De Bilt</marker>.</example>
+        <example type="incorrect">Daar ligt <marker>de Bilt</marker>.</example>
+      </rule>
+    </rulegroup>
+    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  -->
+    <rulegroup id="GOLF_VAN" name="Golf van Bengalen etc">
+      <!-- TODO: tag voor alle geografische begippen -->
+      <rule>
+        <pattern case_sensitive="yes">
+          <token regexp="yes">[g]olf|[b]ocht|[b]aai|[k]anaal|([h]oog|[l]aag)land|[n]auw|[m]eer|[p]lateau|[s]traat|[z]ee|[l]and|[l]andengte|[v]allei|[v]lakte|[b]ekken</token>
+          <token>van</token>
+          <token regexp="yes">[A-Z].+</token>
+        </pattern>
+        <message>[a] Wanneer u een aardrijkskundig begrip bedoelt, dan dient u <suggestion>hoofdletters</suggestion> te gebruiken.</message>
+        <example type="incorrect">De <marker>golf van Amman</marker>.</example>
+        <example type="correct">De <marker>Golf van Amman</marker>.</example>
+      </rule>
+      <rule>
+        <pattern case_sensitive="yes">
+          <!-- controleer of tweede woord foutief klein is geschreven -->
+          <token regexp="yes">[A-Z].+</token>
+          <token regexp="yes">([h]oog|[l]aag)(vlakte|land.*|te|ten)|[a]lpen|[a]rchipel|[b]ekken|[b]ergland|[b]innenzee|[b]ocht|[e]ilanden|[h]oogten|[k]anaal|[k]ustvlakte|[g]ebergte|[r]ug|[s]chiereiland|[w]oestijn|[w]oud</token>
+        </pattern>
+        <message>[b] Wanneer u een aardrijkskundig begrip bedoelt, dan dient u <suggestion>hoofdletters</suggestion> te gebruiken.</message>
+        <example type="incorrect">Het <marker>Belgisch laagland</marker>.</example>
+        <example type="correct">De <marker>Schotse Hooglanden</marker>.</example>
+      </rule>
+    </rulegroup>
+    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  -->
+    <rulegroup id="T_PLAATS" name="'t Plaats">
+      <rule>
+        <!-- plaatsen die met den horen -->
+        <pattern mark_from="2" case_sensitive="yes">
+          <token>'</token>
+          <token>t</token>
+          <token regexp="yes">[b]ergje|[b]uurtje|[e]ind|[g]oy|[h]aagje|[h]aantje|[h]arde|[h]eem|[h]oekske|[h]of|[h]orntje|[k]abel|[k]looster|[k]ruis|[l]aar|[l]oo|[r]ijpje|[r]ooth|[s]chot|[v]eld|[v]en|[w]aar|[w]oud|[w]oudt|[z]and|[z]andstervoorwerk|[z]andt</token>
+        </pattern>
+        <message>[a] Wanneer u hier de plaats of dorp bedoelt, gebruik dan een<suggestion>hoofdletter</suggestion>..</message>
+        <example type="correct">hij woont in 't <marker>Bergje</marker>.</example>
+        <example type="incorrect">hij woont in 't <marker>bergje</marker>.</example>
+      </rule>
+    </rulegroup>
+    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  -->
+    <rulegroup id="AAN_DE" name="Plaats aan de of aan den">
+      <rule>
+        <!-- plaatsen die met den horen -->
+        <pattern mark_from="2" mark_to="-1">
+          <token regexp="yes">Alphen|Capelle|Egmond|Koudekerk|Krimpen|Nieuwerkerk|Ouderkerk</token>
+          <token>aan</token>
+          <token>de</token>
+          <token regexp="yes">[I][J]ssel|[R]ijn|[H]oef</token>
+        </pattern>
+        <message>[a] U bedoelt waarschijnlijk \1 \2 <suggestion>den</suggestion> \3. Vergeet de hoofdletters niet.</message>
+        <example type="correct">Krimpen aan <marker>den</marker> IJssel.</example>
+        <example type="incorrect">Krimpen aan <marker>de</marker> IJssel.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="2" mark_to="-1">
+          <!-- plaatsen die met de horen -->
+          <token regexp="yes">Berg|Horst|Katwijk|Koog|Krimpen|Loenen|Millingen|Nes|Ouderkerk|Valkenburg</token>
+          <token>aan</token>
+          <token>den</token>
+          <token regexp="yes">Maas|Rijn|Zaan|Lek|Vecht|Rijn|Amstel|Geul</token>
+        </pattern>
+        <message>[b] U bedoelt waarschijnlijk \1 \2 <suggestion>de </suggestion> \3. Vergeet de <suggestion>hoofdletters</suggestion> niet.</message>
+        <example type="correct">Valkenburg aan <marker>de</marker> Maas.</example>
+        <example type="incorrect">Valkenburg aan <marker>den</marker> Maas.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="2" case_sensitive="yes">
+          <token regexp="yes">[A-Z].+</token>
+          <token>aan</token>
+          <token regexp="yes">[z]ee</token>
+        </pattern>
+        <message>[c] Bedoelt u <suggestion>\1 \2 Zee</suggestion>?</message>
+        <example type="incorrect">Ik woon in Katwijk aan <marker>zee</marker>.</example>
+        <example type="correct">Ik woon in Katwijk aan <marker>Zee</marker>.</example>
+      </rule>
+    </rulegroup>
+    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  -->
+    <rulegroup id="MIDDELLANDSE_ZEE" name="Middellandse Zee">
+      <rule>
+        <pattern>
+          <!-- vang alle zeeën als zee klein is geschreven -->
+          <token regexp="yes">dode|caraïbische|caribische|arabische|andamanse|middellandse|adriatische|Egeïsche|Gele|Ierse|Ionische|Japanse|Kaspische|Keltische|Ligurische|Molukse|Noorse|Oost-Chinese|Oost-Siberische|Rode|Tyrreense|Witte|Zuid-Chinese|Zwarte</token>
+          <token regexp="yes">[z]ee.*</token>
+        </pattern>
+        <message>[a] Wanneer u hier naar een geografische plaats verwijst, dan moeten zowel \1 als \2 een  <suggestion>hoofdletter</suggestion> hebben.</message>
+        <example type="incorrect">Lekker baden in de <marker>middellandse zee</marker>.</example>
+        <example type="correct">Lekker baden in de <marker>Middellandse Zee</marker>.</example>
+      </rule>
+      <!-- vang alle zeeën als zee klein is geschreven -->
+      <rule>
+        <pattern>
+          <token regexp="yes">[d]ode|[g]ele|[r]ode|[w]itte|[z]warte</token>
+          <token regexp="yes">zee.*|rivier.*</token>
+        </pattern>
+        <message>[b] Wanneer u hier naar een geografische plaats verwijst, dan moeten zowel \1 als \2 een  <suggestion>hoofdletter</suggestion> hebben.</message>
+        <example type="incorrect">Lekker baden in de <marker>dode zee</marker>.</example>
+        <example type="correct">Lekker baden in de <marker>Dode Zee</marker>.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">(dode|caraïbische|caribische|arabische|andamanse|middellandse|adriatische|Egeïsche|Gele|Ierse|Ionische|Japanse|Kaspische|Keltische|Ligurische|Molukse|Noorse|Oost-Chinese|Oost-Siberische|Rode|Tyrreense|Witte|Zuid-Chinese|Zwarte)-zee.*</token>
+        </pattern>
+        <message>[c] Hier hoort <suggestion>geen koppelteken</suggestion> wanneer u een samenstelling met een geografische plaats bedoelt. Voorbeeld: Middellandse Zeegebied.</message>
+        <example type="incorrect">Dit is het <marker>Middellandse-Zeegebied</marker>.</example>
+        <example type="correct">Dit is het <marker>Middellandse Zeegebied</marker>.</example>
+      </rule>
+    </rulegroup>
+    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  -->
+    <rulegroup id="PLAATSEN_KOPPEL" name="Plaatsen waar koppelteken in hoort">
+      <rule>
+        <pattern case_sensitive="yes">
+          <token regexp="yes">[A-Z].+</token>
+          <token regexp="yes">buiten|haven|hout|stad|noord|zuidoost|binnen|west|compascuum|dorp|oost|vesting|zuid|midden|eind|centrum</token>
+        </pattern>
+        <message>[a] Wanneer u hier een plaats, stad of dorp bedoelt, dan zou het mogelijk <suggestion>\1-\2</suggestion> moeten zijn, en dan <suggestion>met hoofdletters </suggestion>.</message>
+        <example type="correct">Ik woon in <marker>Almere-Haven</marker>.</example>
+        <example type="incorrect">Ik woon in <marker>Almere haven</marker>.</example>
+      </rule>
+</rulegroup>
+<!-- TODO: REGEL VOOR OOST BUINEN IPV OOST-BUINEN OBV OFFICIELE NAMEN ...-->
     <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  -->
   </category>
   <!--  # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # -->
   <category name="Mogelijke typefouten">
+    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  -->
+    <rulegroup id="GROTE_KANS" name="Grote kans op typefout">
+      <rule>
+        <pattern>
+          <token regexp="yes">asem|beden|beried|beschikker|bissers|bogey|bombarde|brammen|brandwonde|casseerde|censoren|codificaties|complets|conus|daarzonder|doordien|dopers|doteren|doteren|dreg|eest|eindde|exclave|exclusies|factoor|fantaste|flatus|forst|franke|gagel|galon|gameten|gecasseerd|gegeeld|gejijd|gemierd|genaakt|geradeerd|gereld|gerokte|geruid|getopt|gewerd|gieken|gording|grazer|groende|gronding|hevels|hinten|hippen|hommer|huif|inclusies|ingeland|ingelanden|jukken|kabaai|kali|keggen|kemels|keuters|kina|kissen|kliefde|kof|koteren|krakken|kregel|krikkel|krimi|lala|leis|leper|lij|loding|loefde|lota|lues|luien|mandement|mandementen|marches|mata|maté|morzel|moveren|munter|nadir|neet|nevens|officie|ontroofd|ooitje|opalen|optrede|ouwel|paapse|paas|pakker|pander|patente|pimpel|prefs|raffia|raio|raio|rakel|ratte|regale|rekel|rekkers|rekwest|responsie|robber|rost|royaliteit|rune|sater|schamp|schoenmaken|schoring|secessie|sloor|sofist|solde|spijl|spore|stag|stagen|steef|stevens|stilten|stoefen|stolpen|stommen|stonde|tactiel|talon|talon|teerder|tergen|testeren|testes|tets|tonale|tonder|topte|treeft|trens|uitmalen|universale|vadem|vake|valer|vees|velling|verenen|verklaarder|verschotten|verwachter|verweking|verzwonden|vlaken|vleten|vlok|volte|voord|voteren|vroed|wartels|weger|wegers|weggen|wem|wetering|woeling|worgen|zaling|zeetje|zieden|zijg|zinker|zoele|zoor|zorglijk|zwartte</token>
+        </pattern>
+        <message>Hoewel het woord correct is, is er een grote kans op een <suggestion>typefout</suggestion> omdat er slechts 1 letter verschil is met een veelgebruikt woord.</message>
+        <example type="incorrect">Ik lust geen <marker>vees</marker>.</example>
+        <example type="correct">Ik lust geen <marker>vlees</marker>.</example>
+      </rule>
+    </rulegroup>
+    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  -->
+    <rulegroup id="IN_DEN_BEGINNE" name="In den beginne etc">
+      <rule>
+        <pattern>
+          <token negate="yes" regexp="yes">den|te|levende</token>
+          <token regexp="yes">beginne|lande|lijve|vleze|brode</token>
+        </pattern>
+        <message>[a] Bedoelt u <suggestion>den \2</suggestion> of nog iets anders? Is het niet wat ouderwets?</message>
+        <example type="correct">In <marker>den beginne</marker> was het goed.</example>
+        <example type="incorrect">Ik <marker>ga beginne</marker>.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="1" mark_to="-1">
+          <token>in</token>
+          <token>de</token>
+          <token regexp="yes">vreemde</token>
+        </pattern>
+        <message>[b] Bedoelt u misschien <suggestion>in den \3</suggestion>? Is het niet wat ouderwets?</message>
+        <example type="correct">In <marker>den</marker> vreemde is ver weg.</example>
+        <example type="incorrect">In <marker>de</marker> vreemde.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token negate="yes">dier</token>
+          <token regexp="yes">voege</token>
+        </pattern>
+        <message>[c] Bedoelt u <suggestion>in dier \1</suggestion> of nog iets anders? Is het niet wat ouderwets?</message>
+        <example type="correct">In <marker>dier voege</marker> was het goed.</example>
+        <example type="incorrect">Ik moet de <marker>muur voege</marker>.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token negate="yes">dien</token>
+          <token>verstande</token>
+        </pattern>
+        <message>[d] Bedoelt u <suggestion>dien \2</suggestion> of nog iets anders? Is het niet wat ouderwets?</message>
+        <example type="correct">In <marker>dien verstande</marker> ben ik akkoord.</example>
+        <example type="incorrect"><marker>Zijn verstande</marker> staat op nul.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token negate="yes">ten</token>
+          <token regexp="yes">bate|bedrage|behoeve|belope|bewijze|burele|dele|dienste|dage|dienste|enenmale|faveure|gehore|gemeentehuize|geschenke|gevolge|grave|kantore|laste|laste|onrechte|overvloede|paleize|stadhuize|tonele|voordele</token>
+        </pattern>
+        <message>[e] Bedoelt u <suggestion>ten \2</suggestion> of nog iets anders? Is het niet wat ouderwets?</message>
+        <example type="correct">Heden <marker>ten dage</marker> kent men zijn taal niet.</example>
+        <example type="incorrect">Het duurde <marker>tien dage</marker> lang.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token negate="yes">te</token>
+          <token regexp="yes">berde|bestemder|elfder|gelde|moede|stade</token>
+        </pattern>
+        <message>[f] Bedoelt u <suggestion>te \2</suggestion> of nog iets anders? Is het niet wat ouderwets?</message>
+        <example type="correct">Hij bracht het <marker>te  berde</marker>.</example>
+        <example type="incorrect">Ik gaf het <marker>aan moede</marker>.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token negate="yes">elfder</token>
+          <token regexp="yes">ure</token>
+        </pattern>
+        <message>[g] Bedoelt u <suggestion>te elfder \2</suggestion> of nog iets anders? Is het niet wat ouderwets?</message>
+        <example type="correct">Hij bracht het <marker>elfder ure</marker> op tafel.</example>
+        <example type="incorrect">Het duurt wel <marker>vijf ure</marker>.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token negate="yes">bij</token>
+          <token regexp="yes">nachte</token>
+        </pattern>
+        <message>[h] Bedoelt u <suggestion>bij \2</suggestion> of nog iets anders? Is het niet wat ouderwets?</message>
+        <example type="correct">Het is <marker>bij nachte</marker> gedaan.</example>
+        <example type="incorrect">Wij sliepen <marker>alle nachte</marker> lekker.</example>
+      </rule>
+    </rulegroup>
     <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  -->
     <rulegroup id="LIDWOORD_LIDWOORD" name="Dubbel Lidwoord">
       <rule>
@@ -84,7 +323,7 @@ $Id: grammar.xml,v 1.14 2006-12-30 14:54:10 dnaber Exp $
           <token>'</token>
           <token>s</token>
         </pattern>
-        <message>Alleen bij een sterke eindklank wordt het meervoud met 's geschreven. Probeer eens <suggestion>\1s</suggestion>.</message>
+        <message>Alleen bij een sterke eindklank wordt het meervoud met een apostrof geschreven. Probeer eens <suggestion>\1s</suggestion>.</message>
         <example type="incorrect">Hij deed het heel goed in bepaalde <marker>scène's</marker>.</example>
         <example type="correct">Hij deed het heel goed in bepaalde <marker>scènes</marker>.</example>
       </rule>
@@ -94,10 +333,21 @@ $Id: grammar.xml,v 1.14 2006-12-30 14:54:10 dnaber Exp $
   <!--  # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # -->
   <category name="Woordgroepen">
     <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  -->
+    <rulegroup id="DATUM" name="Dag in samenstelling">
+      <rule>
+        <pattern>
+          <token regexp="yes">[0-9]{1,2}-(januari|februari|maart|april|mei|juni|juli|augustus|september|oktober|november|december).+</token>
+        </pattern>
+        <message>In dit geval hoort er <suggestion>geen koppelteken</suggestion> meer in. Voorbeeld: 4 meiherdenking.</message>
+        <example type="incorrect">Sinterklaas is het <marker>5-decemberfeest</marker>.</example>
+        <example type="correct">Sinterklaas is het <marker>5 decemberfeest</marker>.</example>
+      </rule>
+    </rulegroup>
+    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  -->
     <rulegroup id="IN_SPE" name="In spe">
       <rule>
         <pattern>
-          <token negate="yes" >in</token>
+          <token negate="yes">in</token>
           <token>spe</token>
         </pattern>
         <message>[a] Bedoelt u <suggestion>in spe</suggestion> of nog iets anders?</message>
@@ -109,7 +359,7 @@ $Id: grammar.xml,v 1.14 2006-12-30 14:54:10 dnaber Exp $
     <rulegroup id="NOTA_BENE" name="Nota bene">
       <rule>
         <pattern>
-          <token negate="yes" >nota</token>
+          <token negate="yes">nota</token>
           <token>bene</token>
         </pattern>
         <message>Bedoelt u <suggestion>nota bene</suggestion> of nog iets anders?</message>
@@ -121,7 +371,7 @@ $Id: grammar.xml,v 1.14 2006-12-30 14:54:10 dnaber Exp $
     <rulegroup id="AD_HOC" name="Ad hoc">
       <rule>
         <pattern>
-          <token negate="yes" >ad</token>
+          <token negate="yes">ad</token>
           <token>hoc</token>
         </pattern>
         <message>[a] Bedoelt u <suggestion>ad hoc</suggestion> of nog iets anders?</message>
@@ -136,6 +386,48 @@ $Id: grammar.xml,v 1.14 2006-12-30 14:54:10 dnaber Exp $
         <message>[b] Bedoelt u <suggestion>ad hoc</suggestion> of nog iets anders?</message>
         <example type="incorrect">Dat is wel erg <marker>ad hok</marker>.</example>
         <example type="correct">Dat is wel erg <marker>ad hoc</marker>.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>ad</token>
+          <token regexp="yes">hoc.+</token>
+        </pattern>
+        <message>[c] Hier hoor een koppelteken :<suggestion>ad-\2</suggestion>.</message>
+        <example type="correct">Dat is op <marker>ad-hocbasis</marker>.</example>
+        <example type="incorrect">Dat is op <marker>ad hocbasis</marker>.</example>
+      </rule>
+    </rulegroup>
+    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  -->
+    <rulegroup id="AAN_DEN_LIJVE" name="Aan den lijve">
+      <rule>
+        <pattern mark_from="1">
+          <token negate="yes">den</token>
+          <token>lijve</token>
+        </pattern>
+        <message>[a] Bedoelt u <suggestion>den lijve</suggestion> of nog iets anders?</message>
+        <example type="incorrect">Dikke <marker>lijve</marker>.</example>
+        <example type="correct">Dikke <marker>lijven</marker>.</example>
+      </rule>
+    </rulegroup>
+    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  -->
+    <rulegroup id="VAST_OF_FOUT" name="Vaste uitdrukking of typefout">
+      <rule>
+        <pattern mark_from="1">
+          <token negate="yes">en</token>
+          <token regexp="yes">outs|zopie|dijn|tegens|zijd|wetens|schrijve</token>
+        </pattern>
+        <message>[a] Is dit een vaste uitdrukking of een <suggestion>typefout</suggestion>?</message>
+        <example type="incorrect">Koek of <marker>zopie</marker>.</example>
+        <example type="correct">Koek en <marker>zopie</marker>.</example>
+      </rule>
+      <rule>
+        <pattern mark_to="-1">
+          <token regexp="yes">ins|willens|voors</token>
+          <token negate="yes">en</token>
+        </pattern>
+        <message>[b] Is dit een vaste uitdrukking of een <suggestion>typefout</suggestion>?</message>
+        <example type="incorrect"><marker>Willens</marker> wij dat?</example>
+        <example type="correct"><marker>Willens</marker> en wetens deed hij het.</example>
       </rule>
     </rulegroup>
     <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  -->
@@ -175,6 +467,18 @@ $Id: grammar.xml,v 1.14 2006-12-30 14:54:10 dnaber Exp $
       </rule>
     </rulegroup>
     <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  -->
+    <rulegroup id="A_CHARGE" name="A l(de)charge">
+      <rule>
+        <pattern>
+          <token>a</token>
+          <token regexp="yes">charge|decharge</token>
+        </pattern>
+        <message>[a] U bedoelt vast <suggestion>à \2 </suggestion>.</message>
+        <example type="incorrect">Getuige <marker>a charge</marker>.</example>
+        <example type="correct">Getuige <marker>à decharge</marker>.</example>
+      </rule>
+    </rulegroup>
+    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  -->
     <rulegroup id="A_LA_CARTE" name="A la carte, minute">
       <rule>
         <pattern>
@@ -188,7 +492,6 @@ $Id: grammar.xml,v 1.14 2006-12-30 14:54:10 dnaber Exp $
       </rule>
     </rulegroup>
     <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  -->
-<!--
     <rulegroup id="A_LA_CARTE2" name="A-la-carterestaurant">
       <rule>
         <pattern>
@@ -196,12 +499,11 @@ $Id: grammar.xml,v 1.14 2006-12-30 14:54:10 dnaber Exp $
           <token>la</token>
           <token regexp="yes">carte.+|minute.+</token>
         </pattern>
-        <message>[b] U bedoelt vast <suggestion>à \2 \3</suggestion>.</message>
+        <message>[b] U bedoelt vast <suggestion>à-\2-\3</suggestion>.</message>
         <example type="incorrect">Ik wil graag een <marker>a la cartediner</marker>.</example>
         <example type="correct">Ik wil <marker>graag een à-la-cartediner</marker>.</example>
       </rule>
     </rulegroup>
--->
     <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  -->
     <rulegroup id="A_PROPOS" name="A propos">
       <rule>
@@ -226,7 +528,57 @@ $Id: grammar.xml,v 1.14 2006-12-30 14:54:10 dnaber Exp $
         <example type="correct">Deze brochure is <marker>full colour</marker> gedrukt.</example>
       </rule>
     </rulegroup>
- </category>
+    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  -->
+    <rulegroup id="TWEEDE_KAMER" name="Tweede Kamer">
+      <!-- score -->
+      <rule>
+        <pattern>
+          <token regexp="yes">[t]weede|[e]erste</token>
+          <token regexp="yes">[k]amer.*</token>
+        </pattern>
+        <message>[a] Bedoelt u misschien <suggestion>Tweede Kamer</suggestion>?</message>
+        <example type="correct">De <marker>Eerste Kamer</marker> vergadert vandaag.</example>
+        <example type="incorrect">De <marker>tweede kamer</marker> vergadert morgen.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">tweede-kamer.*</token>
+        </pattern>
+        <message>[b] bedoelt u <suggestion>Tweede Kamer</suggestion>?</message>
+        <example type="correct">Ik heb hier een <marker>Tweede Kamerstuk</marker>.</example>
+        <example type="incorrect">Dit <marker>Tweede-Kamerstuk</marker> is gevoelig materiaal.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">eerste-kamer.+</token>
+        </pattern>
+        <message>[c] bedoelt u <suggestion>Eerste Kamer</suggestion>?</message>
+        <example type="correct">Ik heb hier een <marker>Eerste Kamerstuk</marker>.</example>
+        <example type="incorrect">Dit <marker>Eerste-Kamerstuk</marker> is gevoelig materiaal.</example>
+      </rule>
+    </rulegroup>
+    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  -->
+    <rulegroup id="RODE_KRUIS" name="Rode Kruis">
+      <rule>
+        <pattern>
+          <token>rode</token>
+          <token regexp="yes">[k]ruis.*</token>
+        </pattern>
+        <message>[a] Bedoelt u misschien <suggestion>Rode Kruis</suggestion>?</message>
+        <example type="correct">Het <marker>Rode Kruis</marker> helpt.</example>
+        <example type="incorrect">Het <marker>rode kruis</marker> helpt.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">rode-kruis.*</token>
+        </pattern>
+        <message>[b] bedoelt u <suggestion>Rode Kruis</suggestion>?</message>
+        <example type="correct">Dit is <marker>Rode Kruishulp</marker>.</example>
+        <example type="incorrect">Dit is <marker>Rode-Kruishulp</marker>.</example>
+      </rule>
+    </rulegroup>
+    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  -->
+  </category>
   <!--  # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # -->
   <category name="Ambtelijk of formeel">
     <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  -->
@@ -234,7 +586,7 @@ $Id: grammar.xml,v 1.14 2006-12-30 14:54:10 dnaber Exp $
       <rule>
         <pattern>
           <!-- 2006-12-19 woorden toegevoegd -->
-          <token regexp="yes">thans|danwel|zulks|voorts|derhalve|desalniettemin|evenwel|mede|dewelke|nimmer|immer|hunner|der|onzer|onderscheiden|nevens</token>
+          <token regexp="yes">thans|danwel|zulks|voorts|derhalve|desalniettemin|evenwel|mede|dewelke|nimmer|immer|hunner|onzer|onderscheiden|nevens</token>
         </pattern>
         <message>[a] Dit woord is ouderwets.</message>
         <example type="incorrect">Ik zie hem <marker>nimmer</marker>.</example>
@@ -248,7 +600,18 @@ $Id: grammar.xml,v 1.14 2006-12-30 14:54:10 dnaber Exp $
         <example type="incorrect">Kom eens <marker>terzake</marker>.</example>
         <example type="correct">Kom eens <marker>ter zake</marker>.</example>
       </rule>
+      <rule>
+        <pattern mark_from="1" mark_to="-1" case_sensitive="yes">
+          <token negate="yes">van</token>
+          <token>der</token>
+          <token negate="yes" regexp="yes">[A-Z].+</token>
+        </pattern>
+        <message>[c] Dit woord is ouderwets. Probeer het met <suggestion>van de</suggestion></message>
+        <example type="incorrect">De gang <marker>der</marker> dingen.</example>
+        <example type="correct">De gang <marker>van de</marker> dingen.</example>
+      </rule>
     </rulegroup>
+
     <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  -->
     <rulegroup id="TER_ZAKE_VAN" name="Ter zake van">
       <!-- score -->
@@ -267,7 +630,7 @@ $Id: grammar.xml,v 1.14 2006-12-30 14:54:10 dnaber Exp $
     <rulegroup id="U_OF_U" name="U of u">
       <rule>
         <pattern case_sensitive="yes" mark_from="1" mark_to="-1">
-          <token negate="yes">.</token>
+          <token negate="yes">.<exception postag="SENT_START"/></token>
           <token regexp="yes">U</token>
           <token></token>
         </pattern>
@@ -327,7 +690,7 @@ $Id: grammar.xml,v 1.14 2006-12-30 14:54:10 dnaber Exp $
   <!--  # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # -->
   <category name="Gewoon, maar fout taalgebruik">
     <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  -->
-<!--
+    <!--
 	regel volledig uitgeschakeld, omdat deze bijna alleen maar false positives levert.
 
     <rulegroup id="HUN_HEN_ZIJ" name="Hun ipv hen of zij">
@@ -367,6 +730,36 @@ $Id: grammar.xml,v 1.14 2006-12-30 14:54:10 dnaber Exp $
       </rule>
     </rulegroup>
 -->
+    <rulegroup id="TIJDNOTATIE" name="Tijdnotatie">
+      <rule>
+        <pattern>
+          <!-- 8u.30 wordt in 2en gehakt door de einde-zin-routine, vandar de vremde notatie ?-->
+          <token regexp="yes">[0-9]{1,2}u\d\d</token>
+        </pattern>
+        <message>[a] De voorkeur voor notatie van tijd is <suggestion>8.30 uur</suggestion> of <suggestion>8.30 u.</suggestion></message>
+        <example type="incorrect">Hij komt <marker>8u30</marker>.</example>
+        <example type="correct">Hij komt <marker>8.30</marker> uur.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <!-- 8u.30 wordt in 2en gehakt door de einde-zin-routine, vandar de vremde notatie ?-->
+          <token regexp="yes">[0-9]{1,2}u</token>
+          <token>.</token>
+          <token regexp="yes">\d\d</token>
+        </pattern>
+        <message>[b] De voorkeur voor notatie van tijd is <suggestion>8.30 uur</suggestion> of <suggestion>8.30 u.</suggestion></message>
+        <example type="incorrect">Hij komt <marker>8u.30</marker>.</example>
+        <example type="correct">Hij komt <marker>8.30</marker> uur.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">[0-9]{1,2}h[0-9]{2}</token>
+        </pattern>
+        <message>[c] De h wordt alleen in wetenschappelijk/technische stukken gebruikt en dan als <suggestion>17 h 03 min 16 s</suggestion> (ISO-norm).</message>
+        <example type="incorrect">Hij komt <marker>8h30</marker>.</example>
+        <example type="correct">Hij komt <marker>8.30</marker> uur.</example>
+      </rule>
+    </rulegroup>
     <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  -->
     <rulegroup id="GROTE_GETALLEN" name="Grote getallen">
       <rule>
@@ -471,7 +864,8 @@ $Id: grammar.xml,v 1.14 2006-12-30 14:54:10 dnaber Exp $
     <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  -->
     <rulegroup id="KAN_KUN" name="Kan en kun">
       <rule>
-        <pattern>
+        <pattern mark_from="1">
+          <token negate="yes" regexp="yes">ik|hij|zij|het</token>
           <token>kan</token>
           <token regexp="yes">je|jij</token>
         </pattern>
@@ -480,7 +874,8 @@ $Id: grammar.xml,v 1.14 2006-12-30 14:54:10 dnaber Exp $
         <example type="incorrect"><marker>Kan je</marker> het even doen voor mij?</example>
       </rule>
       <rule>
-        <pattern>
+        <pattern mark_from="1">
+          <token negate="yes" regexp="yes">ik|hij|zij|het</token>
           <token>kan</token>
           <token>u</token>
         </pattern>
@@ -591,13 +986,13 @@ $Id: grammar.xml,v 1.14 2006-12-30 14:54:10 dnaber Exp $
     </rulegroup>
     <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  -->
     <rulegroup id="GROTER_ALS" name="Groter als">
-      <!-- score -->
+
       <rule>
         <pattern>
           <token postag="adjective\(er.*" postag_regexp="yes"></token>
           <token>als</token>
         </pattern >
-        <message>[a] Juist is: <suggestion>\1 dan</suggestion></message>
+        <message>[a] Als dit een vergelijking is, dan is juist: <suggestion>\1 dan</suggestion></message>
         <example type="incorrect">Jan is <marker>groter als</marker> Kees.</example>
         <example type="correct">Jan is <marker>kleiner dan</marker> Kees.</example>
       </rule>
@@ -657,75 +1052,6 @@ $Id: grammar.xml,v 1.14 2006-12-30 14:54:10 dnaber Exp $
         <message>Juist is: <suggestion>in eerste instantie</suggestion></message>
         <example type="incorrect"><marker>In de eerste instantie</marker> was het fout.</example>
         <example type="correct"><marker>In eerste instantie</marker> was het goed.</example>
-      </rule>
-    </rulegroup>
-    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  -->
-    <rulegroup id="TWEEDE_KAMER" name="Tweede Kamer">
-      <!-- score -->
-      <rule>
-        <pattern>
-          <token regexp="yes">[t]weede|[e]erste</token>
-          <token regexp="yes">[k]amer.*</token>
-        </pattern>
-        <message>[a] Bedoelt u misschien <suggestion>Tweede Kamer</suggestion>?</message>
-        <example type="correct">De <marker>Eerste Kamer</marker> vergadert vandaag.</example>
-        <example type="incorrect">De <marker>tweede kamer</marker> vergadert morgen.</example>
-      </rule>
-      <rule>
-        <pattern>
-          <token regexp="yes">tweede-kamer.*</token>
-        </pattern>
-        <message>[b] bedoelt u <suggestion>Tweede Kamer</suggestion>?</message>
-        <example type="correct">Ik heb hier een <marker>Tweede Kamerstuk</marker>.</example>
-        <example type="incorrect">Dit <marker>Tweede-Kamerstuk</marker> is gevoelig materiaal.</example>
-      </rule>
-      <rule>
-        <pattern>
-          <token regexp="yes">eerste-kamer.+</token>
-        </pattern>
-        <message>[c] bedoelt u <suggestion>Eerste Kamer</suggestion>?</message>
-        <example type="correct">Ik heb hier een <marker>Eerste Kamerstuk</marker>.</example>
-        <example type="incorrect">Dit <marker>Eerste-Kamerstuk</marker> is gevoelig materiaal.</example>
-      </rule>
-    </rulegroup>
-    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  -->
-    <rulegroup id="RODE_KRUIS" name="Rode Kruis">
-      <rule>
-        <pattern>
-          <token>rode</token>
-          <token regexp="yes">[k]ruis.*</token>
-        </pattern>
-        <message>[a] Bedoelt u misschien <suggestion>Rode Kruis</suggestion>?</message>
-        <example type="correct">Het <marker>Rode Kruis</marker> helpt.</example>
-        <example type="incorrect">Het <marker>rode kruis</marker> helpt.</example>
-      </rule>
-      <rule>
-        <pattern>
-          <token regexp="yes">rode-kruis.*</token>
-        </pattern>
-        <message>[b] bedoelt u <suggestion>Rode Kruis</suggestion>?</message>
-        <example type="correct">Dit is <marker>Rode Kruishulp</marker>.</example>
-        <example type="incorrect">Dit is <marker>Rode-Kruishulp</marker>.</example>
-      </rule>
-    </rulegroup>
-    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  -->
-    <rulegroup id="MIDDELLANDSE_ZEE" name="Middellandse Zee">
-      <rule>
-        <pattern>
-          <token>middellandse</token>
-          <token regexp="yes">[z]ee.*</token>
-        </pattern>
-        <message>[a] Bedoelt u misschien <suggestion>Middellandse Zee</suggestion>?</message>
-        <example type="incorrect">Lekker baden in de <marker>middellandse zee</marker>.</example>
-        <example type="correct">Lekker baden in de <marker>Middellandse Zee</marker>.</example>
-      </rule>
-      <rule>
-        <pattern>
-          <token regexp="yes">middellandse-zee.*</token>
-        </pattern>
-        <message>[b] bedoelt u <suggestion>Middellandse Zee</suggestion>?</message>
-        <example type="incorrect">Dit is het <marker>Middellandse-Zeegebied</marker>.</example>
-        <example type="correct">Dit is het <marker>Middellandse Zeegebied</marker>.</example>
       </rule>
     </rulegroup>
     <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  -->
