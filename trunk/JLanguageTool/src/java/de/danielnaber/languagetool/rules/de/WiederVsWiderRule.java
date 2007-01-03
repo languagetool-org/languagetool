@@ -61,11 +61,11 @@ public class WiederVsWiderRule extends GermanRule {
         // ignore
       } else {
         if (token.equalsIgnoreCase("spiegelt") || token.equalsIgnoreCase("spiegeln") || token.equalsIgnoreCase("spiegelte")
-            || token.equalsIgnoreCase("spiegelten")) {
+            || token.equalsIgnoreCase("spiegelten") || token.equalsIgnoreCase("spiegelst")) {
           foundSpiegelt = true;
-        } else if (token.equalsIgnoreCase("wieder")) {
+        } else if (token.equalsIgnoreCase("wieder") && foundSpiegelt) {
           foundWieder = true;
-        } else if (token.equalsIgnoreCase("wider")) {
+        } else if (token.equalsIgnoreCase("wider")  && foundSpiegelt) {
           foundWider = true;
         }
         if (foundSpiegelt && foundWieder && !foundWider) {
