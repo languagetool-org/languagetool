@@ -131,7 +131,12 @@ public class CompoundRule extends GermanRule {
             repl.add(mergeCompound(origStringToCheck));
             msg = "Dieses Kompositum wird zusammengeschrieben.";
           }
-          if (repl.size() == 0 || repl.size() == 2) {     // == 0 shouldn't happen
+          String[] parts = stringToCheck.split(" ");
+          if (parts.length > 0 && parts[0].length() == 1) {
+            repl.clear();
+            repl.add(origStringToCheck.replace(' ', '-'));
+            msg = "Dieses Kompositum wird mit Bindestrich geschrieben.";
+          } else if (repl.size() == 0 || repl.size() == 2) {     // == 0 shouldn't happen
             msg = "Dieses Kompositum wird zusammen oder mit Bindestrich geschrieben.";
           }
           RuleMatch ruleMatch = new RuleMatch(this, firstMatchToken.getStartPos(), 

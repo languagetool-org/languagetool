@@ -79,6 +79,11 @@ public class CompoundRuleTest extends TestCase {
     // also detect an error if only some of the hyphens are missing:
     check(1, "Roll-on-roll-off Schiff", new String[]{"Roll-on-roll-off-Schiff"});
     check(1, "E-Mail Adressen", new String[]{"E-Mail-Adressen"});
+    // first part is a single character:
+    check(0, "x-mal");
+    check(1, "x mal", new String[]{"x-mal"});
+    check(0, "y-Achse");
+    check(1, "y Achse", new String[]{"y-Achse"});
   }
 
   private void check(int expectedErrors, String text) throws IOException {
