@@ -2,7 +2,7 @@
 <!--
 Polish Grammar and Typo Rules for LanguageTool
 Copyright (C) 2006 Marcin Miłkowski
-$Id: grammar.xml,v 1.105 2007-01-02 21:50:57 milek_pl Exp $		
+$Id: grammar.xml,v 1.106 2007-01-04 00:31:09 milek_pl Exp $		
 -->
 <rules lang="pl">
 	<category name="Błędy interpunkcyjne">
@@ -10,8 +10,8 @@ $Id: grammar.xml,v 1.105 2007-01-02 21:50:57 milek_pl Exp $
 		<rulegroup name="Brak przecinka w zdaniu złożonym" id="ZDANIA_ZLOZONE">
 			<rule>
 				<pattern>
-					<token skip="-1" postag_regexp="yes" postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf|pant:perf"><exception scope="current" postag_regexp="yes" postag="subst:.*|adj.*|ppron.*|verb:inf.*|adv:comp|prep.*|qub|indecl"/><exception scope="current" regexp="yes">może|lecz|jedna|będ.*</exception><exception scope="next" inflected="yes" regexp="yes">[\-—–,!\?;\(\):r]|bądź|czy|ani|lub|albo|oraz|i|kiedy|gdy|który|jaki|że|iż|bo|gdyż</exception></token>
-					<token skip="-1" postag_regexp="yes" postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf|pant:perf"><exception scope="current" postag_regexp="yes" postag="subst:.*|adj.*|ppron.*|verb:inf.*|adv:comp|prep.*|qub|indecl"/><exception scope="current" regexp="yes">może|lecz|jedna|będ.*</exception></token>
+					<token skip="-1" postag_regexp="yes" postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf|pant:perf"><exception scope="current" postag_regexp="yes" postag="subst:.*|adj.*|ppron.*|verb:inf.*|adv:comp|prep.*|qub|indecl|adv.*"/><exception scope="current" regexp="yes">może|lecz|jedna|będ.*</exception><exception scope="next" inflected="yes" regexp="yes">[\-—–,!\?;\(\):r]|bądź|czy|ani|lub|albo|oraz|i|kiedy|gdy|który|jaki|że|iż|bo|gdyż</exception></token>
+					<token skip="-1" postag_regexp="yes" postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf|pant:perf"><exception scope="current" postag_regexp="yes" postag="subst:.*|adj.*|ppron.*|verb:inf.*|adv:comp|prep.*|qub|indecl|adv.*"/><exception scope="current" regexp="yes">może|lecz|jedna|będ.*</exception></token>
 					<token regexp="yes">\p{Punct}.*|–|—</token>
 				</pattern>
 				<message>W tym zdaniu złożonym brakuje przecinka lub spójnika między jednym zdaniem a drugim.</message>
@@ -88,7 +88,7 @@ $Id: grammar.xml,v 1.105 2007-01-02 21:50:57 milek_pl Exp $
 		<rulegroup name="Brak przecinka przed „a więc”, „a mianowicie”..." id="MULTISPOJNIKI">
 			<rule>
 				<pattern>
-					<token regexp="yes" negate="yes">\p{Punct}|–|—|\(<exception postag="SENT_START"/></token>
+					<token regexp="yes" negate="yes">[\p{Punct}–—\(]<exception postag="SENT_START"/></token>
 					<token regexp="yes">a|ale</token>
 					<token regexp="yes">więc|mianowicie|przeto|zatem|jednak|choć|chociaż|ponieważ|także|następnie|jeśli|jeżeli|gdyby|gdy|kiedy</token>
 				</pattern>
@@ -124,7 +124,7 @@ $Id: grammar.xml,v 1.105 2007-01-02 21:50:57 milek_pl Exp $
 		<rulegroup id="COFANIE_PRZECINKA" name="Przecinek wewnątrz spójnika złożonego">
 		<rule>
 			<pattern>
-			  <token><exception postag="SENT_START"/><exception regexp="yes">[,;:!–-—]</exception></token>
+			  <token><exception postag="SENT_START"/><exception regexp="yes">[\p{Punct}-—]</exception></token>
 				<token regexp="yes">ile|jako|oraz|szczególnie|tylko|zwłaszcza|pomimo|mimo|ledwie|niby|prawie|ledwo</token>
 				<token>,</token>
 				<token>że</token>
@@ -146,7 +146,7 @@ $Id: grammar.xml,v 1.105 2007-01-02 21:50:57 milek_pl Exp $
 		</rule>
 		<rule>
 			<pattern mark_from="1">
-		  <token regexp="yes">[,;:!–-—]</token>
+		  <token regexp="yes">[\p{Punct}-—]</token>
 				<token regexp="yes">ile|jako|oraz|szczególnie|tylko|zwłaszcza|pomimo|mimo|ledwie|niby|prawie|ledwo</token>
 				<token>,</token>
 				<token>że</token>
@@ -158,7 +158,7 @@ $Id: grammar.xml,v 1.105 2007-01-02 21:50:57 milek_pl Exp $
 		
 		<rule>
 			<pattern>
-				<token><exception postag="SENT_START"/><exception regexp="yes">[,;:!–-—]|o|na|tylko</exception></token>
+				<token><exception postag="SENT_START"/><exception regexp="yes">[\p{Punct}-—]|o|na|tylko</exception></token>
 				<token regexp="yes">tyle</token>
 				<token>,</token>
 				<token>że</token>
@@ -189,7 +189,6 @@ $Id: grammar.xml,v 1.105 2007-01-02 21:50:57 milek_pl Exp $
 			<example type="correct">Wprawdzie upił się, tyle że potrafił trzymać język za zębami.</example>
 			<example type="incorrect">Wprawdzie upił się, <marker>tyle, że</marker> akurat on nie prowadził samochodu.</example>
 		</rule>
-		
 		
 		<rule>
 			<pattern>
@@ -227,13 +226,14 @@ $Id: grammar.xml,v 1.105 2007-01-02 21:50:57 milek_pl Exp $
 		
 		<rule>
 			<pattern>
-			  <token><exception postag="SENT_START"/><exception regexp="yes">[,;:!–-—]</exception></token>
+			  <token><exception postag="SENT_START"/><exception regexp="yes">[\p{Punct}-—]</exception></token>
 				<token>a</token>
 				<token>,</token>
 				<token regexp="yes">więc|mianowicie|zatem|przeto|jednak|choć|chociaż|ponieważ|także|następnie|jeśli|jeżeli|gdyby|gdy|kiedy</token>
 			</pattern>
 			<message>Spójników złożonych nie rozdziela się, przecinek stawia się przed nimi: <suggestion>\1, a \4</suggestion>.</message>
 			<example type="correct">Do partii rządzącej zapisują się tylko idioci, a więc nadajesz się znakomicie.</example>
+			<example type="correct">Nie lubię Deleuze'a, choć inni lubią.</example>
 			<example type="incorrect">Do partii rządzącej zapisują się tylko <marker>idioci a, więc</marker> nadajesz się znakomicie.</example>
 		</rule>
 		<rule>
@@ -249,7 +249,7 @@ $Id: grammar.xml,v 1.105 2007-01-02 21:50:57 milek_pl Exp $
 		</rule>
 				<rule>
 			<pattern mark_from="1">
-		  <token regexp="yes">[,;:!–-—]</token>
+		  <token regexp="yes">[\p{Punct}-—]<exception>'</exception></token>
 				<token>a</token>
 				<token>,</token>
 				<token regexp="yes">więc|mianowicie|zatem|przeto|jednak|choć|chociaż|ponieważ|także|następnie|jeśli|jeżeli|gdyby|gdy|kiedy</token>
@@ -261,7 +261,7 @@ $Id: grammar.xml,v 1.105 2007-01-02 21:50:57 milek_pl Exp $
 		
 		<rule>
 			<pattern>
-			  <token><exception postag="SENT_START"/><exception regexp="yes">[,;:!–-—]</exception></token>
+			  <token><exception postag="SENT_START"/><exception regexp="yes">[\p{Punct}-—]</exception></token>
 				<token regexp="yes" inflected="yes">a|ale|lecz|który|jaki|zwłaszcza|szczególnie|że|przynajmniej|nawet|więc|to</token>
 				<token>,</token>
 				<token regexp="yes" inflected="yes">jeśli|jeżeli|gdyby|jeżeliby|jeśliby</token>
@@ -272,7 +272,7 @@ $Id: grammar.xml,v 1.105 2007-01-02 21:50:57 milek_pl Exp $
 		</rule>
 		<rule>
 			<pattern mark_from="1">
-		  <token regexp="yes">[,;:!–-—]</token>
+		  <token regexp="yes">[\p{Punct}-—]</token>
 				<token regexp="yes" inflected="yes">a|ale|lecz|który|jaki|zwłaszcza|szczególnie|że|przynajmniej|nawet|więc|to</token>
 				<token>,</token>
 				<token regexp="yes" inflected="yes">jeśli|jeżeli|gdyby|jeżeliby|jeśliby</token>
@@ -491,7 +491,7 @@ $Id: grammar.xml,v 1.105 2007-01-02 21:50:57 milek_pl Exp $
 		<rulegroup name="Brak przecinka przed „który” i „jaki”" id="BRAK_PRZECINKA_KTORY">
 			<rule>
 				<pattern>
-					<token negate="yes">,<exception regexp="yes">\p{Punct}|–|—</exception><exception postag_regexp="yes" postag="conj|SENT_START"/></token>
+					<token negate="yes">,<exception regexp="yes">[\p{Punct}–—„]</exception><exception postag_regexp="yes" postag="conj|SENT_START"/></token>
 					<token postag_regexp="yes" postag="adv.*"/>
 					<token postag_regexp="yes" postag="prep.*"/>
 					<token regexp="yes" inflected="yes">który|jaki</token>
@@ -504,7 +504,7 @@ $Id: grammar.xml,v 1.105 2007-01-02 21:50:57 milek_pl Exp $
 			</rule>
 			<rule>
 				<pattern>
-					<token negate="yes">,<exception regexp="yes">\p{Punct}|–|—</exception><exception postag_regexp="yes" postag="conj|SENT_START"/></token>
+					<token negate="yes">,<exception regexp="yes">[\p{Punct}–—„]</exception><exception postag_regexp="yes" postag="conj|SENT_START"/></token>
 					<token postag_regexp="yes" postag="prep.*"/>
 					<token postag_regexp="yes" postag="prep.*"/>
 					<token regexp="yes" inflected="yes">który|jaki</token>
@@ -516,7 +516,7 @@ $Id: grammar.xml,v 1.105 2007-01-02 21:50:57 milek_pl Exp $
 			</rule>	
 			<rule>
 				<pattern>
-					<token negate="yes">,<exception regexp="yes">\p{Punct}|–|—</exception><exception postag_regexp="yes" postag="conj|adv.*|prep.*|SENT_START"/></token>
+					<token negate="yes">,<exception regexp="yes">[\p{Punct}–—„]</exception><exception postag_regexp="yes" postag="conj|adv.*|prep.*|SENT_START"/></token>
 					<token postag_regexp="yes" postag="prep.*"/>
 					<token regexp="yes" inflected="yes">który|jaki</token>
 				</pattern>
@@ -527,7 +527,7 @@ $Id: grammar.xml,v 1.105 2007-01-02 21:50:57 milek_pl Exp $
 			</rule>		
 			<rule>
 				<pattern>
-					<token negate="yes">,<exception regexp="yes">\p{Punct}|–|—|mało|rzadko</exception><exception postag_regexp="yes" postag="conj|adv.*|prep.*|SENT_START"/></token>
+					<token negate="yes">,<exception regexp="yes">[{\p{Punct}–—„]|mało|rzadko</exception><exception postag_regexp="yes" postag="conj|adv.*|prep.*|SENT_START"/></token>
 					<token regexp="yes" inflected="yes">który|jaki</token>
 				</pattern>
 				<message>Brak przecinka w tym fragmencie zdania. Przecinek prawdopodobnie należy
@@ -538,6 +538,30 @@ $Id: grammar.xml,v 1.105 2007-01-02 21:50:57 milek_pl Exp $
 			</rule>		
 		</rulegroup>
 
+	<rulegroup name="Brak wydzielenia „innymi słowy”" id="INNYMI_SLOWY">
+		<rule>
+			<pattern>
+				<token postag="SENT_START"/>
+				<token>innymi</token>
+				<token>słowy</token>
+				<token negate="yes">,<exception regexp="yes">\p{Punct}|–|—</exception></token>
+			</pattern>
+			<message>Wyrażenie „\2 \3” wydziela się przecinkami lub myślnikami od reszty zdania. Poprawnie: <suggestion>\2 \3, \4</suggestion>.</message>
+			<example type="correct">Innymi słowy, nie ma to sensu.</example>
+			<example type="incorrect"><marker>Innymi słowy nie</marker> ma to sensu.</example>
+		</rule>
+		<rule>
+			<pattern>
+			<token negate="yes">,<exception regexp="yes">\p{Punct}|–|—</exception><exception postag="SENT_START"/></token>
+				<token>innymi</token>
+				<token>słowy</token>
+			<token negate="yes">,<exception regexp="yes">\p{Punct}|–|—</exception></token>
+			</pattern>
+			<message>Wyrażenie „\1 \2” wydziela się przecinkami lub myślnikami od reszty zdania. Poprawnie: <suggestion>\1, \2 \3, \4</suggestion>.</message>
+			<example type="correct">Nie ma to, innymi słowy, sensu.</example>
+			<example type="incorrect">Nie ma <marker>to innymi słowy sensu</marker>.</example>
+		</rule>
+	</rulegroup>
 <!-- 
 	<rulegroup name="Tylko nawias otwierający lub zamykający" id="NAWIAS">
 	<rule>
@@ -4025,16 +4049,21 @@ $Id: grammar.xml,v 1.105 2007-01-02 21:50:57 milek_pl Exp $
 			<example type="correct">Poseł podał prawdziwe miejsce zamieszkania w formularzu.</example>
 			<example type="incorrect">Poseł podał prawdziwe miejsce <marker>zamieszania</marker> w formularzu.</example>
 		</rule>
+
 		<rule name="„maja” (mają)" id="MAJA_MAJA">
-		<pattern mark_from="1">
+		<pattern mark_from="1" mark_to="-1">
 		<token><exception regexp="yes" inflected="yes">\d+|pierwszy|drugi|trzeci|czwarty|piąty|szósty|siódmy|ósmy|dziewiąty|dziesiąty|jedenasty|dwunasty|trzynasty|czternasty|piętnasty|szesnasty|siedemnasty|osiemnasty|dziewiętnasty|dwudziesty|trzydziesty</exception></token>
 		<token>maja</token>
+		<token><exception regexp="yes">[0-9]{2,4}|['’]</exception></token>
 		</pattern>
 		<message>Prawdopodobna literówka. Czy chodziło o <suggestion>mają</suggestion>?</message>
 		<example type="correct">Zbieramy się osiemnastego maja.</example>
 		<example type="correct">Współuczestniczył w zatwierdzeniu Konstytucji 3 Maja.</example>
+		<example type="correct">Wydarzenia maja 1968 w Paryżu</example>
+		<example type="correct">Bronił ideałów maja '68.</example>
 		<example type="incorrect">Członkowie partii rządzącej <marker>maja</marker> brudne interesy.</example>
 		</rule>
+
 		<rule name="„głownie” (głównie)" id="GLOWNIE_GLOWNIE">
 		<pattern case_sensitive="yes">
 		<token>głownie</token>
