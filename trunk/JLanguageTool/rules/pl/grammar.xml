@@ -2,7 +2,7 @@
 <!--
 Polish Grammar and Typo Rules for LanguageTool
 Copyright (C) 2006 Marcin Miłkowski
-$Id: grammar.xml,v 1.106 2007-01-04 00:31:09 milek_pl Exp $		
+$Id: grammar.xml,v 1.107 2007-01-04 00:49:58 milek_pl Exp $		
 -->
 <rules lang="pl">
 	<category name="Błędy interpunkcyjne">
@@ -63,7 +63,7 @@ $Id: grammar.xml,v 1.106 2007-01-04 00:31:09 milek_pl Exp $
 			<rule>
 				<pattern>
 					<token skip="-1" postag_regexp="yes" postag="verb:.*(sg|pl).*|verb:irreg|verb:imps.*|pcon:imperf|pant:perf" regexp="yes" inflected="yes">mieć<exception scope="next" regexp="yes">–|\-|—|[,!\?;\(\):r]|bądź|czy|ani|lub|albo|oraz|i|kiedy|gdy|który|jaki|że</exception></token>
-					<token skip="-1" postag_regexp="yes" postag="pred|verb:.*(sg|pl).*|verb:imps.*|pcon:imperf|pant:perf"><exception scope="current" postag_regexp="yes" postag="subst:.*|adj.*|ppron.*|adv:comp|verb:inf.*|prep.*|qub|indecl"/><exception scope="current" inflected="yes">mieć</exception><exception scope="current" regexp="yes">jedna|może|lecz|będ.*</exception></token>
+					<token skip="-1" postag_regexp="yes" postag="pred|verb:.*(sg|pl).*|verb:imps.*|pcon:imperf|pant:perf"><exception scope="current" postag_regexp="yes" postag="subst:.*|adj.*|ppron.*|adv.*|verb:inf.*|prep.*|qub|indecl"/><exception scope="current" inflected="yes">mieć</exception><exception scope="current" regexp="yes">jedna|może|lecz|będ.*</exception></token>
 					<token regexp="yes">\p{Punct}.*</token>
 				</pattern>
 				<message>W tym zdaniu złożonym brakuje przecinka lub spójnika między jednym zdaniem a drugim.</message>
@@ -125,14 +125,39 @@ $Id: grammar.xml,v 1.106 2007-01-04 00:31:09 milek_pl Exp $
 		<rule>
 			<pattern>
 			  <token><exception postag="SENT_START"/><exception regexp="yes">[\p{Punct}-—]</exception></token>
-				<token regexp="yes">ile|jako|oraz|szczególnie|tylko|zwłaszcza|pomimo|mimo|ledwie|niby|prawie|ledwo</token>
+				<token regexp="yes">ile|jako|oraz|szczególnie|zwłaszcza|pomimo|mimo|ledwie|niby|prawie|ledwo</token>
 				<token>,</token>
 				<token>że</token>
 			</pattern>	
 			<message>Spójników złożonych nie rozdziela się, a przecinek stawia się przed nimi: <suggestion>\1, \2 że</suggestion>.</message>
 			<example type="correct">Poszedłem tam, mimo że nie chciałem.</example>
 			<example type="incorrect">Poszedłem <marker>tam mimo, że</marker> nie chciałem.</example>
+		</rule>
+		<rule>
+			<pattern>
+			  <token><exception postag="SENT_START"/><exception regexp="yes">[\p{Punct}-—]|tyle</exception></token>
+				<token>tylko</token>
+				<token>,</token>
+				<token>że</token>
+			</pattern>	
+			<message>Spójników złożonych nie rozdziela się, a przecinek stawia się przed nimi: <suggestion>\1, \2 że</suggestion>.</message>
+			<example type="correct">Przemysław jest wierny, tylko że nic nie potrafi.</example>
+			<example type="incorrect">Przemysław jest <marker>wierny tylko, że</marker> nic nie potrafi.</example>
 		</rule>		
+		<rule>
+			<pattern>
+			  <token><exception postag="SENT_START"/><exception regexp="yes">[\p{Punct}-—]|tyle</exception></token>
+ 				<token>tyle</token>
+				<token>tylko</token>
+				<token>,</token>
+				<token>że</token>
+			</pattern>	
+			<message>Spójników złożonych nie rozdziela się, a przecinek stawia się przed nimi: <suggestion>\1, \2 \3 że</suggestion>.</message>
+			<example type="correct">Przemysław jest wierny, tyle tylko że nic nie potrafi.</example>
+			<example type="incorrect">Przemysław jest <marker>wierny tyle tylko, że</marker> nic nie potrafi.</example>
+		</rule>
+
+		
 		<rule>
 			<pattern mark_from="1">
 			  <token postag="SENT_START"/>
