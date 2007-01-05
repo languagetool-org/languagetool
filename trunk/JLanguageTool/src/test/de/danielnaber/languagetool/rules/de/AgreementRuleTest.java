@@ -72,6 +72,10 @@ public class AgreementRuleTest extends TestCase {
     assertGood("Das Wahlrecht, das Frauen damals zugesprochen bekamen.");
     assertGood("Es war Karl, dessen Leiche Donnerstag gefunden wurde.");
 
+    assertGood("Erst recht ich Arbeiter.");
+    assertGood("Erst recht wir Arbeiter.");
+    assertGood("Erst recht wir fleißigen Arbeiter.");
+
     assertGood("Dann lud er Freunde ein.");
     assertGood("Dann lud sie Freunde ein.");
     assertGood("Aller Kommunikation liegt dies zugrunde.");
@@ -108,6 +112,9 @@ public class AgreementRuleTest extends TestCase {
 
     assertBad("Das Dach meinem großen Autos.");
     assertBad("Das Dach mein großen Autos.");
+
+    assertBad("Erst recht wir fleißiges Arbeiter.");
+    assertBad("Erst recht ich fleißiges Arbeiter.");
 
     // TODO: not yet detected:
     //assertBad("Das Dach meine großen Autos.");

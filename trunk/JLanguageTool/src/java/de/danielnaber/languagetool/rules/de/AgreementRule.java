@@ -31,6 +31,7 @@ import de.danielnaber.languagetool.rules.Category;
 import de.danielnaber.languagetool.rules.RuleMatch;
 import de.danielnaber.languagetool.tagging.de.AnalyzedGermanToken;
 import de.danielnaber.languagetool.tagging.de.AnalyzedGermanTokenReadings;
+import de.danielnaber.languagetool.tagging.de.GermanToken;
 import de.danielnaber.languagetool.tagging.de.GermanToken.POSType;
 
 /**
@@ -184,8 +185,17 @@ public class AgreementRule extends GermanRule {
       if (reading.getCasus() == null && reading.getNumerus() == null &&
           reading.getGenus() == null)
         continue;
-      set.add(reading.getCasus() + "/" + reading.getNumerus()
-          + "/" + reading.getGenus());
+      if (reading.getGenus() == null) {
+        // "ich" and "wir" contains genus=ALG in the original data. Not sure if
+        // this is allowed, but expand this so "Ich Arbeiter" doesn't get flagged
+        // as incorrect:
+        set.add(reading.getCasus() + "/" + reading.getNumerus() + "/" + GermanToken.Genus.FEMININUM);
+        set.add(reading.getCasus() + "/" + reading.getNumerus() + "/" + GermanToken.Genus.MASKULINUM);
+        set.add(reading.getCasus() + "/" + reading.getNumerus() + "/" + GermanToken.Genus.FEMININUM);
+      } else {
+        set.add(reading.getCasus() + "/" + reading.getNumerus()
+            + "/" + reading.getGenus());
+      }
     }
     return set;
   }
