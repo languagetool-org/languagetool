@@ -103,6 +103,10 @@ public class AgreementRule extends GermanRule {
           break;
         AnalyzedGermanTokenReadings nextToken = (AnalyzedGermanTokenReadings)tokens[tokenPos];
         if (nextToken.hasReadingOfType(POSType.ADJEKTIV)) {
+          // TODO: Berliner is also an adjective in out Morphy dictionary, others (Münchner etc) 
+          // are not. Without this special case "In seiner Berliner Rede" is flagged as incorrect:
+          if ("Berliner".equals(nextToken.getToken()))
+            break;
           tokenPos = i + 2; 
           if (tokenPos >= tokens.length)
             break;
