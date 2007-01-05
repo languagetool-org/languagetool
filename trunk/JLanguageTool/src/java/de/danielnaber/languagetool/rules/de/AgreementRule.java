@@ -80,13 +80,17 @@ public class AgreementRule extends GermanRule {
       // avoid false alarms:
       if (i > 0 && tokens[i-1].getToken().equalsIgnoreCase("vor") && tokens[i].getToken().equalsIgnoreCase("allem"))
         isRelevantPronomen = false;
-      else if (tokens[i].getToken().equalsIgnoreCase("es"))
+      else if (tokens[i].getToken().equalsIgnoreCase("er") || tokens[i].getToken().equalsIgnoreCase("sie") || tokens[i].getToken().equalsIgnoreCase("es"))
         isRelevantPronomen = false;
       else if (tokens[i].getToken().equalsIgnoreCase("dessen"))      // avoid false alarm on: "..., dessen Leiche"
         isRelevantPronomen = false;
       else if (tokens[i].getToken().equalsIgnoreCase("sich"))      // avoid false alarm
         isRelevantPronomen = false;
       else if (tokens[i].getToken().equalsIgnoreCase("unser"))      // avoid false alarm "unser Produkt": TODO!
+        isRelevantPronomen = false;
+      else if (tokens[i].getToken().equalsIgnoreCase("aller"))
+        isRelevantPronomen = false;
+      else if (tokens[i].getToken().equalsIgnoreCase("man"))
         isRelevantPronomen = false;
      
       // avoid false alarm: "Das Wahlrecht das Frauen zugesprochen bekamen.":

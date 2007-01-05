@@ -69,8 +69,15 @@ public class AgreementRuleTest extends TestCase {
     assertGood("Das Dach meines großen Autos.");
     assertGood("Das Dach meiner großen Autos.");
 
-    assertGood("Das Wahlrecht, das Frauen damalszugesprochen bekamen.");
+    assertGood("Das Wahlrecht, das Frauen damals zugesprochen bekamen.");
     assertGood("Es war Karl, dessen Leiche Donnerstag gefunden wurde.");
+
+    assertGood("Dann lud er Freunde ein.");
+    assertGood("Dann lud sie Freunde ein.");
+    assertGood("Aller Kommunikation liegt dies zugrunde.");
+    assertGood("Pragmatisch wählt man solche Formeln als Axiome.");
+    // FIXME: known bug
+    //assertGood("Er wollte seine Interessen wahrnehmen.");
 
     //assertGood("... wo Krieg den Unschuldigen Leid und Tod bringt.");
     assertGood("Der Abschuss eines Papageien.");
