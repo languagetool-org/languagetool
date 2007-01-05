@@ -38,10 +38,13 @@ public class GermanTaggerTest extends TestCase {
     aToken = tagger.lookup("Groß");
     assertNull(aToken);
     aToken = tagger.lookup("großer");
-    //assertEquals(6, aToken.getReadingslength());
     assertEquals("großer[ADJ:DAT:SIN:FEM:GRU:SOL, ADJ:GEN:PLU:FEM:GRU:SOL, " +
         "ADJ:GEN:PLU:MAS:GRU:SOL, ADJ:GEN:PLU:NEU:GRU:SOL, " +
         "ADJ:GEN:SIN:FEM:GRU:SOL, ADJ:NOM:SIN:MAS:GRU:IND, ADJ:NOM:SIN:MAS:GRU:SOL]", aToken.toString());
+    // from both german.dict and added.txt:
+    aToken = tagger.lookup("Interessen");
+    assertEquals("Interessen[SUB:DAT:PLU:NEU, SUB:NOM:PLU:NEU, SUB:AKK:PLU:NEU, SUB:GEN:PLU:NEU]",
+        aToken.toString());
   }
   
 }
