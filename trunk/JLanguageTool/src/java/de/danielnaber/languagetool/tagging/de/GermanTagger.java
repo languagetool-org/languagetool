@@ -105,7 +105,7 @@ public class GermanTagger implements Tagger {
   private String[] lexiconLookup(final String word) {
     String[] posTagsFromUserDict = manualTagger.lookup(word);
     String[] posTagsFromDict = morfologik.stemAndForm(word);
-    if (posTagsFromUserDict != null) {
+    if (posTagsFromUserDict != null && posTagsFromDict != null) {
       String[] allPosTags = new String[posTagsFromUserDict.length + posTagsFromDict.length];
       System.arraycopy(posTagsFromDict, 0, allPosTags, 0, posTagsFromDict.length);
       System.arraycopy(posTagsFromUserDict, 0, allPosTags, posTagsFromDict.length, posTagsFromUserDict.length);
