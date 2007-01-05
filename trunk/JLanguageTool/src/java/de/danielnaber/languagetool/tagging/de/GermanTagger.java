@@ -27,6 +27,7 @@ import com.dawidweiss.stemmers.Lametyzator;
 
 import de.danielnaber.languagetool.AnalyzedTokenReadings;
 import de.danielnaber.languagetool.JLanguageTool;
+import de.danielnaber.languagetool.tagging.ManualTagger;
 import de.danielnaber.languagetool.tagging.Tagger;
 
 /**
@@ -36,11 +37,14 @@ import de.danielnaber.languagetool.tagging.Tagger;
  */
 public class GermanTagger implements Tagger {
 
-  private static final String RESOURCE_FILENAME = "resource" + File.separator + "de"
+  private static final String DICT_FILENAME = "resource" + File.separator + "de"
       + File.separator + "german.dict";
+  private static final String USER_DICT_FILENAME = "resource" + File.separator + "de"
+      + File.separator + "added.txt";
 
   private Lametyzator morfologik = null;
-
+  private ManualTagger manualTagger = null;
+  
   public GermanTagger() {
   }
 
@@ -65,16 +69,19 @@ public class GermanTagger implements Tagger {
     int pos = 0;
     // caching Lametyzator instance - lazy init
     if (morfologik == null) {
-      File resourceFile = JLanguageTool.getAbsoluteFile(RESOURCE_FILENAME);
+      File resourceFile = JLanguageTool.getAbsoluteFile(DICT_FILENAME);
       System.setProperty(Lametyzator.PROPERTY_NAME_LAMETYZATOR_DICT, resourceFile.getAbsolutePath());
       morfologik = new Lametyzator();
+    }
+    if (manualTagger == null) {
+      manualTagger = new ManualTagger(JLanguageTool.getAbsoluteFile(USER_DICT_FILENAME));
     }
 
     for (String word: sentenceTokens) {
       List<AnalyzedGermanToken> l = new ArrayList<AnalyzedGermanToken>();
-      taggerTokens = morfologik.stemAndForm(word);
+      taggerTokens = lexiconLookup(word);
       if (firstWord && taggerTokens == null && ignoreCase) { // e.g. "Das" -> "das" at start of sentence
-        taggerTokens = morfologik.stemAndForm(word.toLowerCase());
+        taggerTokens = lexiconLookup(word.toLowerCase());
         firstWord = false;
       }
       if (taggerTokens != null) {
@@ -95,6 +102,19 @@ public class GermanTagger implements Tagger {
     return tokenReadings;
   }
 
+  private String[] lexiconLookup(final String word) {
+    String[] posTagsFromUserDict = manualTagger.lookup(word);
+    String[] posTagsFromDict = morfologik.stemAndForm(word);
+    if (posTagsFromUserDict != null) {
+      String[] allPosTags = new String[posTagsFromUserDict.length + posTagsFromDict.length];
+      System.arraycopy(posTagsFromDict, 0, allPosTags, 0, posTagsFromDict.length);
+      System.arraycopy(posTagsFromUserDict, 0, allPosTags, posTagsFromDict.length, posTagsFromUserDict.length);
+      return allPosTags;
+    } else {
+      return posTagsFromDict;
+    }
+  }
+  
   public final Object createNullToken(final String token, final int startPos) {
     return new AnalyzedGermanTokenReadings(new AnalyzedGermanToken(token, null, startPos));
   }
