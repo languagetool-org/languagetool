@@ -84,6 +84,8 @@ public class AgreementRule extends GermanRule {
         isRelevantPronomen = false;
       else if (tokens[i].getToken().equalsIgnoreCase("dessen"))      // avoid false alarm on: "..., dessen Leiche"
         isRelevantPronomen = false;
+      else if (tokens[i].getToken().equalsIgnoreCase("deren"))
+        isRelevantPronomen = false;
       else if (tokens[i].getToken().equalsIgnoreCase("sich"))      // avoid false alarm
         isRelevantPronomen = false;
       else if (tokens[i].getToken().equalsIgnoreCase("unser"))      // avoid false alarm "unser Produkt": TODO!
@@ -93,7 +95,7 @@ public class AgreementRule extends GermanRule {
       else if (tokens[i].getToken().equalsIgnoreCase("man"))
         isRelevantPronomen = false;
      
-      // avoid false alarm: "Das Wahlrecht das Frauen zugesprochen bekamen.":
+      // avoid false alarm: "Das Wahlrecht, das Frauen zugesprochen bekamen.":
       boolean ignore = tokens[i-1].getToken().equals(",") && tokens[i].getToken().equalsIgnoreCase("das");
       if ((analyzedToken.hasReadingOfType(POSType.DETERMINER) || isRelevantPronomen) && !ignore) {
         int tokenPos = i + 1; 
@@ -106,6 +108,8 @@ public class AgreementRule extends GermanRule {
             break;
           AnalyzedGermanTokenReadings nextNextToken = (AnalyzedGermanTokenReadings)tokens[tokenPos];
           if (nextNextToken.hasReadingOfType(POSType.NOMEN)) {
+            // TODO: add a case (checkAdjNounAgreement) for special cases like "deren",
+            // e.g. "deren komisches Geschenke" isn't yet detected as incorrect
             RuleMatch ruleMatch = checkDetAdjNounAgreement((AnalyzedGermanTokenReadings)tokens[i],
                 (AnalyzedGermanTokenReadings)tokens[i+1], (AnalyzedGermanTokenReadings)tokens[i+2]);
             if (ruleMatch != null)
