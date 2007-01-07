@@ -55,6 +55,33 @@ public class AgreementRule extends GermanRule {
   private static final String NUMERUS = "Numerus";
   private static final String GENUS = "Genus";
 
+  private final static Set<String> relPronouns = new HashSet<String>();
+  static {
+    relPronouns.add("der");
+    relPronouns.add("die");
+    relPronouns.add("das");
+    relPronouns.add("dessen");
+    relPronouns.add("deren");
+    relPronouns.add("dem");
+    relPronouns.add("den");
+    relPronouns.add("welche");
+    relPronouns.add("welcher");
+    relPronouns.add("welchen");
+    relPronouns.add("welchem");
+    relPronouns.add("welches");
+  }
+
+  private final static Set<String> prepositions = new HashSet<String>();
+  static {
+    prepositions.add("in");
+    prepositions.add("auf");
+    prepositions.add("an");
+    prepositions.add("ab");
+    prepositions.add("für");
+    prepositions.add("zu");
+    // TODO: add more
+  }
+  
   public AgreementRule(final ResourceBundle messages) {
     if (messages != null)
       super.setCategory(new Category(messages.getString("category_grammar")));
@@ -117,8 +144,7 @@ public class AgreementRule extends GermanRule {
       else if (tokens[i].getToken().equalsIgnoreCase("was"))    // TODO: doesn't have case -- but don't just ignore
         isRelevantPronomen = false;
      
-      // avoid false alarm: "Das Wahlrecht, das Frauen zugesprochen bekamen.":
-      boolean ignore = tokens[i-1].getToken().equals(",") && tokens[i].getToken().equalsIgnoreCase("das");
+      boolean ignore = couldBeRelativeClause(tokens, i);
       if ((analyzedToken.hasReadingOfType(POSType.DETERMINER) || isRelevantPronomen) && !ignore) {
         int tokenPos = i + 1; 
         if (tokenPos >= tokens.length)
@@ -152,6 +178,30 @@ public class AgreementRule extends GermanRule {
       pos += tokens[i].getToken().length();
     }
     return toRuleMatchArray(ruleMatches);
+  }
+
+  // TODO: improve this so it only returns true for real relative clauses
+  private boolean couldBeRelativeClause(AnalyzedTokenReadings[] tokens, int pos) {
+    boolean comma = false;
+    boolean relPronoun = false;
+    if (pos >= 1) {
+      // avoid false alarm: "Das Wahlrecht, das Frauen zugesprochen bekamen." etc:
+      comma = tokens[pos-1].getToken().equals(",");
+      String term = tokens[pos].getToken().toLowerCase();
+      relPronoun = relPronouns.contains(term);
+      if (comma && relPronoun)
+        return true;
+    }
+    if (pos >= 2) {
+      // avoid false alarm: "Der Mann, in dem quadratische Fische schwammen."
+      comma = tokens[pos-2].getToken().equals(",");
+      String term1 = tokens[pos-1].getToken().toLowerCase();
+      String term2 = tokens[pos].getToken().toLowerCase();
+      boolean prep = prepositions.contains(term1);
+      relPronoun = relPronouns.contains(term2);
+      return comma && prep && relPronoun;
+    }
+    return false;
   }
 
   private RuleMatch checkDetNounAgreement(final AnalyzedGermanTokenReadings token1,

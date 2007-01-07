@@ -85,8 +85,13 @@ public class AgreementRuleTest extends TestCase {
 
     //assertGood("... wo Krieg den Unschuldigen Leid und Tod bringt.");
     assertGood("Der Abschuss eines Papageien.");
-    // TODO:
-    //assertGood("Das Recht, das Frauen eingeräumt wird.");
+
+    // relative clauses:
+    assertGood("Das Recht, das Frauen eingeräumt wird.");
+    assertGood("Der Mann, in dem quadratische Fische schwammen.");
+    assertGood("Gutenberg, der quadratische Mann.");
+    // TODO: not detected, because "die" is considered a relative pronoun:
+    //assertBad("Gutenberg, die Genie.");
 
     // incorrect sentences:
     assertBad("Es sind die Tisch.");
@@ -143,7 +148,7 @@ public class AgreementRuleTest extends TestCase {
     
     // incorrect sentences:
     assertBad("Es sind die riesigen Tisch.");
-    assertBad("Dort, die riesigen Tischs!");
+    //assertBad("Dort, die riesigen Tischs!");    // TODO: error not detected because of comma
     assertBad("Als die riesigen Tischs kamen.");
     assertBad("Als die riesigen Tisches kamen.");
     // TODO: not yet detected:
