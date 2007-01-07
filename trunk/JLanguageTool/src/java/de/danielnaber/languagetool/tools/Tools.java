@@ -43,7 +43,7 @@ public final class Tools {
    * @param lt
    * @throws IOException
    */
-  public static void checkText(final String contents, JLanguageTool lt) throws IOException {
+  public static int checkText(final String contents, JLanguageTool lt) throws IOException {
     long startTime = System.currentTimeMillis();
     List<RuleMatch> ruleMatches = lt.check(contents);
     long startTimeMatching = System.currentTimeMillis();
@@ -71,6 +71,7 @@ public final class Tools {
     System.out.printf(Locale.ENGLISH,
         "Time: %dms (including %dms for rule matching) for %d sentences (%.1f sentences/sec)\n",
         time, endTime-startTimeMatching, lt.getSentenceCount(), sentencesPerSecond);
+    return ruleMatches.size();
   }
 
   public static InputStream getInputStream(final String resourcePath) throws IOException {
