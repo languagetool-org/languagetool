@@ -2,7 +2,7 @@
 <!--
 Polish Grammar and Typo Rules for LanguageTool
 Copyright (C) 2006 Marcin Miłkowski
-$Id: grammar.xml,v 1.109 2007-01-07 22:35:51 milek_pl Exp $		
+$Id: grammar.xml,v 1.110 2007-01-07 22:45:34 milek_pl Exp $		
 -->
 <rules lang="pl">
 	<category name="Błędy interpunkcyjne">
@@ -624,10 +624,33 @@ $Id: grammar.xml,v 1.109 2007-01-07 22:35:51 milek_pl Exp $
 			<example type="correct">Nie ma to sensu i – co więcej – jest to oczywiste.</example>
 			<example type="incorrect">Nie ma to sensu <marker>i co więcej jest</marker> to oczywiste.</example>
 		</rule>
-		
+		</rulegroup>
+			
+		<rulegroup name="Brak wydzielenia „nawiasem mówiąc”" id="NAWIASEM_MOWIAC">
+		<rule>
+			<pattern>
+				<token postag="SENT_START"/>
+				<token>nawiasem</token>
+				<token>mówiąc</token>
+				<token negate="yes">,<exception regexp="yes">\p{Punct}|–|—</exception></token>
+			</pattern>
+			<message>Wyrażenie „\2 \3” wydziela się przecinkami lub myślnikami od reszty zdania. Poprawnie: <suggestion>\2 \3, \4</suggestion>.</message>
+			<example type="correct">Nawiasem mówiąc, nie ma to sensu.</example>
+			<example type="incorrect"><marker>Nawiasem mówiąc nie</marker> ma to sensu.</example>
+		</rule>
+		<rule>
+			<pattern>
+			<token negate="yes">,<exception regexp="yes">\p{Punct}|–|—</exception><exception postag="SENT_START"/></token>
+				<token>nawiasem</token>
+				<token>mówiąc</token>
+			<token negate="yes">,<exception regexp="yes">\p{Punct}|–|—</exception></token>
+			</pattern>
+			<message>Wyrażenie „\1 \2” wydziela się przecinkami lub myślnikami od reszty zdania. Poprawnie: <suggestion>\1, \2 \3, \4</suggestion>.</message>
+			<example type="correct">Nie ma to, nawiasem mówiąc, sensu.</example>
+			<example type="incorrect">Nie ma <marker>to nawiasem mówiąc sensu</marker>.</example>
+		</rule>
 	</rulegroup>
-
-
+		
 <!-- 
 	<rulegroup name="Tylko nawias otwierający lub zamykający" id="NAWIAS">
 	<rule>
@@ -3838,6 +3861,20 @@ $Id: grammar.xml,v 1.109 2007-01-07 22:35:51 milek_pl Exp $
 	 	<example type="correct"><marker>Szkoła Podstawowa nr</marker> 41</example>
 	 	<example type="incorrect"><marker>Szkoła Podstawowa Nr</marker> 41</example>
 	 </rule>
+	
+	<rule id="MIEDZY_CZASIE" name="„w między czasie” (w międzyczasie)">
+		<pattern>
+			<token>w</token>
+			<token>między</token>
+			<token>czasie</token>
+		</pattern>
+		<message>Błąd ortograficzny. Poprawnie: <suggestion>\1 \2\3</suggestion>; 
+		językoznawcy zalecają także używanie zwrotu <suggestion>w tym czasie</suggestion> 
+		(wyrażenie „w międzyczasie” było przez wiele lat potępiane jako germanizm,
+		dziś jest dopuszczane przez słowniki poprawnej polszczyzny).</message>
+		<example type="correct">W międzyczasie Przemysław podlizywał się też żonie prezydenta.</example>
+		<example type="incorrect"><marker>W między czasie</marker> Przemysław podlizywał się też żonie prezydenta.</example>
+	</rule>
 	
 	</category>
 
