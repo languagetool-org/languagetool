@@ -36,14 +36,17 @@ public class CheckWikipediaDump {
    */
   public static void main(String[] args) throws IOException, SAXException, ParserConfigurationException {
     CheckWikipediaDump prg = new CheckWikipediaDump();
-    if (args.length != 2) {
-      System.err.println("Usage: CheckWikipediaDump <language> <filename>");
+    if (args.length < 2 || args.length > 3) {
+      System.err.println("Usage: CheckWikipediaDump <language> <filename> [maxArticleCheck]");
       System.exit(1);
     }
-    prg.run(args[0], args[1]);
+    int maxArticles = 0;
+    if (args.length == 3)
+      maxArticles = Integer.parseInt(args[2]);
+    prg.run(args[0], args[1], maxArticles);
   }
   
-  private void run(String language, String filename) throws IOException, SAXException, ParserConfigurationException {
+  private void run(String language, String filename, int maxArticles) throws IOException, SAXException, ParserConfigurationException {
     Language lang = Language.getLanguageForShortName(language);
     if (lang == null) {
       System.err.println("Language not supported: " + language);
@@ -51,10 +54,23 @@ public class CheckWikipediaDump {
     }
     JLanguageTool lt = new JLanguageTool(lang,  Language.GERMAN);
     lt.activateDefaultPatternRules();
+    /*
+    // useful settings for German:
     lt.disableRule("DE_CASE");    // too many false hits
-    lt.disableRule("UPPERCASE_SENTENCE_START");    // TODO
+    lt.disableRule("UPPERCASE_SENTENCE_START");
+    lt.disableRule("DE_AGREEMENT");
+    lt.disableRule("WORD_REPEAT_RULE");
+    lt.disableRule("COMMA_PARENTHESIS_WHITESPACE");*/
+    /*
+    List rules = lt.getAllRules();
+    for (Iterator iter = rules.iterator(); iter.hasNext();) {
+      Rule element = (Rule) iter.next();
+      lt.disableRule(element.getId());
+    }
+    lt.enableRule("DE_AGREEMENT");
+    */
     System.err.println("These rules are disabled: " + lt.getDisabledRules());
-    WikiDumpHandler handler = new WikiDumpHandler(lt);
+    WikiDumpHandler handler = new WikiDumpHandler(lt, maxArticles);
     SAXParserFactory factory = SAXParserFactory.newInstance();
     SAXParser saxParser = factory.newSAXParser();
     saxParser.parse(filename, handler);
@@ -63,8 +79,12 @@ public class CheckWikipediaDump {
 }
 
 class WikiDumpHandler extends DefaultHandler {
-    
+   
   private JLanguageTool lt;
+  private int ruleMatches = 0;
+  private int articleCount = 0;
+  private int maxArticles = 0;
+
   private boolean inText = false;
   private StringBuilder text = new StringBuilder();
   
@@ -72,8 +92,9 @@ class WikiDumpHandler extends DefaultHandler {
   // SAX DocumentHandler methods
   //===========================================================
 
-  WikiDumpHandler(JLanguageTool lt) {
+  WikiDumpHandler(JLanguageTool lt, int maxArticles) {
     this.lt = lt;
+    this.maxArticles = maxArticles;
   }
   
   @SuppressWarnings("unused")
@@ -93,7 +114,14 @@ class WikiDumpHandler extends DefaultHandler {
         //System.err.println("#########################");
         //System.err.println(textToCheck);
         try {
-          Tools.checkText(textToCheck, lt);
+          articleCount++;
+          if (maxArticles > 0 && articleCount >= maxArticles) {
+            System.out.printf("Maximim number of articles reached. Found %d matches in %d articles\n",
+                ruleMatches, articleCount);
+            System.exit(0);
+          }
+          System.out.println("checking article " + articleCount);
+          ruleMatches += Tools.checkText(textToCheck, lt);
         } catch (IOException e) {
           throw new RuntimeException(e);
         }
