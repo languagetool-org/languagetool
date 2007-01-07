@@ -2,7 +2,7 @@
 <!--
 Polish Grammar and Typo Rules for LanguageTool
 Copyright (C) 2006 Marcin Miłkowski
-$Id: grammar.xml,v 1.108 2007-01-07 22:33:47 milek_pl Exp $		
+$Id: grammar.xml,v 1.109 2007-01-07 22:35:51 milek_pl Exp $		
 -->
 <rules lang="pl">
 	<category name="Błędy interpunkcyjne">
@@ -588,23 +588,23 @@ $Id: grammar.xml,v 1.108 2007-01-07 22:33:47 milek_pl Exp $
 		</rule>
 	</rulegroup>
 
-	<rulegroup name="Brak wydzielenia „co więcej”" id="CO_WIECEJ">
+	<rulegroup name="Brak wydzielenia „co więcej” i „co gorsza”" id="CO_WIECEJ">
 		<rule>
 			<pattern>
 				<token postag="SENT_START"/>
 				<token>co</token>
-				<token>więcej</token>
+				<token regexp="yes">więcej|gorsza</token>
 				<token negate="yes">,<exception regexp="yes">\p{Punct}|–|—</exception></token>
 			</pattern>
 			<message>Wyrażenie „\2 \3” oddziela się przecinkami lub myślnikami od reszty zdania. Poprawnie: <suggestion>\2 \3, \4</suggestion>.</message>
-			<example type="correct">Co więcej, nie ma to sensu.</example>
+			<example type="correct">Co gorsza, nie ma to sensu.</example>
 			<example type="incorrect"><marker>Co więcej nie</marker> ma to sensu.</example>
 		</rule>
 		<rule>
 			<pattern>
 			<token negate="yes">,<exception regexp="yes">\p{Punct}|–|—|i|lub|albo</exception><exception postag="SENT_START"/></token>
 				<token>co</token>
-				<token>więcej</token>
+				<token regexp="yes">więcej|gorsza</token>
 			<token negate="yes">,<exception regexp="yes">\p{Punct}|–|—</exception></token>
 			</pattern>
 			<message>Wyrażenie „\1 \2” wydziela się przecinkami lub myślnikami od reszty zdania. Poprawnie: <suggestion>\1, \2 \3, \4</suggestion>.</message>
@@ -616,11 +616,11 @@ $Id: grammar.xml,v 1.108 2007-01-07 22:33:47 milek_pl Exp $
 			<pattern>
 			<token regexp="yes">i|lub|albo</token>
 				<token>co</token>
-				<token>więcej</token>
+				<token regexp="yes">więcej|gorsza</token>
 			<token negate="yes">,<exception regexp="yes">\p{Punct}|–|—</exception></token>
 			</pattern>
 			<message>Wyrażenie „\2 \3” wydziela się w takim kontekście myślnikami od reszty zdania. Poprawnie: <suggestion>\1 – \2 \3 – \4</suggestion>.</message>
-			<example type="correct">Nie ma to, co więcej, sensu.</example>
+			<example type="correct">Nie ma to, co gorsza, sensu.</example>
 			<example type="correct">Nie ma to sensu i – co więcej – jest to oczywiste.</example>
 			<example type="incorrect">Nie ma to sensu <marker>i co więcej jest</marker> to oczywiste.</example>
 		</rule>
