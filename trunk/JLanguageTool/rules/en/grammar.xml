@@ -2,8 +2,8 @@
 <!--
 English Grammar and Typo Rules for LanguageTool
 See tagset.txt for the meaning of the POS tags
-Copyright (C) 2001-2006 Daniel Naber (http://www.danielnaber.de)
-$Id: grammar.xml,v 1.123 2007-01-08 21:43:54 dnaber Exp $
+Copyright (C) 2001-2007 Daniel Naber (http://www.danielnaber.de)
+$Id: grammar.xml,v 1.124 2007-01-08 22:02:16 dnaber Exp $
 -->
 <rules lang="en">
 
@@ -14,15 +14,15 @@ $Id: grammar.xml,v 1.123 2007-01-08 21:43:54 dnaber Exp $
   <category name="Possible Typo">
   
    <rule id="ALLOT_OF" name="Possible typo 'allot of' (a lot of)">
-	   <pattern>
-		   <token>allot</token>
-		   <token>of</token>
-	   </pattern>
-	   <message>Did you mean <suggestion>a lot of</suggestion>(=plenty)?</message>
-	   <example type="correct">I've got a lot of questions to you.</example>
-   	   <example type="incorrect">I've got <marker>allot of</marker> questions to you.</example>
+     <pattern>
+       <token>allot</token>
+       <token>of</token>
+     </pattern>
+     <message>Did you mean <suggestion>a lot of</suggestion>(=plenty)?</message>
+     <example type="correct">I've got a lot of questions to you.</example>
+     <example type="incorrect">I've got <marker>allot of</marker> questions to you.</example>
    </rule>
-	  	  
+        
   <rule id="I_HERD" name="Possible typo 'I herd(heard)'">
     <pattern mark_from="1">
       <token regexp="yes">I|you|he|she|it|we|they</token>
@@ -33,86 +33,86 @@ $Id: grammar.xml,v 1.123 2007-01-08 21:43:54 dnaber Exp $
     <example type="incorrect">I  <marker>herd</marker> of a new song by Madonna.</example>
   </rule>
 
-	<rule id="LOOSE_LOSE" name="Possible typo 'loose(lose)'">
-		  <pattern mark_to="-2">
-			  <token>loose</token>
-			  <token postag="DT"/>
-			  <token regexp="yes">key|connection|password</token>
-		  </pattern>
-		  <message>Did you mean <suggestion>lose</suggestion> (= miss, waste, suffer the loss etc.)?</message>
-		  <example type="incorrect">I always <marker>loose</marker> the password.</example>
-  		  <example type="correct">I always <marker>lose</marker> the password.</example>
-	  </rule>
+  <rule id="LOOSE_LOSE" name="Possible typo 'loose(lose)'">
+    <pattern mark_to="-2">
+      <token>loose</token>
+      <token postag="DT"/>
+      <token regexp="yes">key|connection|password</token>
+    </pattern>
+    <message>Did you mean <suggestion>lose</suggestion> (= miss, waste, suffer the loss etc.)?</message>
+    <example type="incorrect">I always <marker>loose</marker> the password.</example>
+    <example type="correct">I always <marker>lose</marker> the password.</example>
+  </rule>
     
   <rulegroup id="GIVE_ADVISE" name="Possible typo 'give sb advise(advice)'">
-  <rule>
-	  <pattern mark_from="2">
-		  <token regexp="yes">give|gave|given</token>
-		  <token postag="PRP"/>
-		  <token>advise</token>
-	  </pattern>
-	  <message>Did you mean <suggestion>advice</suggestion> (a noun)?</message>
-	  <example type="correct">Please give me advice, I don't know what to do.</example>
-	   <example type="incorrect">Please give me <marker>advise</marker>, I don't know what to do.</example>
-  </rule>
-  <rule>
-	  <pattern mark_from="3">
-		  <token regexp="yes">give|gave|given</token>
-		  <token postag="PRP"/>
-		  <token postag="JJ"/>
-		  <token>advise</token>
-	  </pattern>
-	  <message>Did you mean <suggestion>advice</suggestion> (a noun)?</message>
-	  <example type="correct">Please give me good advice, I don't know what to do.</example>
-	   <example type="incorrect">Please give me good <marker>advise</marker>, I don't know what to do.</example>
-  </rule>
-</rulegroup>
+    <rule>
+      <pattern mark_from="2">
+        <token regexp="yes">give|gave|given</token>
+        <token postag="PRP"/>
+        <token>advise</token>
+      </pattern>
+      <message>Did you mean <suggestion>advice</suggestion> (a noun)?</message>
+      <example type="correct">Please give me advice, I don't know what to do.</example>
+      <example type="incorrect">Please give me <marker>advise</marker>, I don't know what to do.</example>
+    </rule>
+    <rule>
+      <pattern mark_from="3">
+        <token regexp="yes">give|gave|given</token>
+        <token postag="PRP"/>
+        <token postag="JJ"/>
+        <token>advise</token>
+      </pattern>
+      <message>Did you mean <suggestion>advice</suggestion> (a noun)?</message>
+      <example type="correct">Please give me good advice, I don't know what to do.</example>
+      <example type="incorrect">Please give me good <marker>advise</marker>, I don't know what to do.</example>
+    </rule>
+  </rulegroup>
 
-	  <rule id="I_WE_ADVICE" name="Possible typo 'I/we advice(advise)'">
-		  <pattern mark_from="1">
-			  <token regexp="yes">I|we</token>
-			  <token>advice</token>
-		  </pattern>
-		  <message>Did you mean <suggestion>advise</suggestion> (a verb)?</message>
-		  <example type="correct">We <marker>advise</marker> you to come by public transport</example>
-		  <example type="incorrect">We <marker>advice</marker> you to come by public transport.</example>
-	  </rule>
+  <rule id="I_WE_ADVICE" name="Possible typo 'I/we advice(advise)'">
+    <pattern mark_from="1">
+      <token regexp="yes">I|we</token>
+      <token>advice</token>
+    </pattern>
+    <message>Did you mean <suggestion>advise</suggestion> (a verb)?</message>
+    <example type="correct">We <marker>advise</marker> you to come by public transport</example>
+    <example type="incorrect">We <marker>advice</marker> you to come by public transport.</example>
+  </rule>
 
   <rulegroup name="Possible typo 'all ready(already)'" id="ALL_READY">
-	  <rule>
-		  <pattern mark_from="2">
-			  <token postag="PRP"/>
-			  <token regexp="yes">have|has</token>
-			  <token>all</token>
-			  <token>ready</token>
-		  </pattern>
-		  <message>Did you mean <suggestion>already</suggestion>?</message>
-		  <example type="correct">I have already bought it.</example>
-  		  <example type="incorrect">I have <marker>all ready</marker> bought it.</example>
-	  </rule>
-	  <rule>
-		  <pattern mark_from="1">
-			  <!-- contraction -->
-			  <token regexp="yes">ve|s</token>
-			  <token>all</token>
-			  <token>ready</token>
-		  </pattern>
-		  <message>Did you mean <suggestion>already</suggestion>?</message>
-		  <example type="correct">I've already bought it.</example>
-  		  <example type="incorrect">I've <marker>all ready</marker> bought it.</example>
-	  </rule>
+    <rule>
+      <pattern mark_from="2">
+        <token postag="PRP"/>
+        <token regexp="yes">have|has</token>
+        <token>all</token>
+        <token>ready</token>
+      </pattern>
+      <message>Did you mean <suggestion>already</suggestion>?</message>
+      <example type="correct">I have already bought it.</example>
+      <example type="incorrect">I have <marker>all ready</marker> bought it.</example>
+    </rule>
+    <rule>
+      <pattern mark_from="1">
+        <!-- contraction -->
+        <token regexp="yes">ve|s</token>
+        <token>all</token>
+        <token>ready</token>
+      </pattern>
+      <message>Did you mean <suggestion>already</suggestion>?</message>
+      <example type="correct">I've already bought it.</example>
+      <example type="incorrect">I've <marker>all ready</marker> bought it.</example>
+    </rule>
   </rulegroup>
 
   <rule name="Possible typo 'all most(almost)'" id="ALL_MOST">
-  <pattern mark_to="-1">
-  <token>all</token>
-  <token>most</token>
-  <token postag="DT"/>
-  </pattern>
-  <message>Did you mean <suggestion>almost</suggestion>?</message>
-  <example type="incorrect"><marker>All most</marker> all the patents were rejected...</example>
-  <example type="correct"><marker>Almost</marker> all the patents were rejected...</example>  
-	</rule>
+    <pattern mark_to="-1">
+      <token>all</token>
+      <token>most</token>
+      <token postag="DT"/>
+    </pattern>
+    <message>Did you mean <suggestion>almost</suggestion>?</message>
+    <example type="incorrect"><marker>All most</marker> all the patents were rejected...</example>
+    <example type="correct"><marker>Almost</marker> all the patents were rejected...</example>  
+  </rule>
 
   <!-- TODO: make more general -->
   <rule id="ANALYSIS_IF" name="Possible typo 'analysis if(of)'">
@@ -140,7 +140,7 @@ $Id: grammar.xml,v 1.123 2007-01-08 21:43:54 dnaber Exp $
       <example type="correct">Shall we dance?</example>
       <example type="incorrect"><marker>Shell</marker> we dance?</example>
     </rule>
-    <rule>	
+    <rule>  
       <pattern case_sensitive="yes" mark_from="2" mark_to="-1">
         <token postag="SENT_START"/>
         <token regexp="yes">We|I</token>
@@ -204,42 +204,39 @@ $Id: grammar.xml,v 1.123 2007-01-08 21:43:54 dnaber Exp $
     <message>Did you mean <suggestion>\1\2</suggestion>? This word sequence is usually spelled together.</message>
     <example type="correct">The term gun is often used as a synonym for firearm</example>
     <example type="incorrect">The term gun is often used as a synonym for <marker>fire arm</marker></example>
-    </rule>
+  </rule>
   
-   <rule id="NEWS_PAPER" name="Possible typo 'news paper(newspaper)'">
-	   <pattern>
-		   <token>news</token>
-		   <token>paper</token>
-	   </pattern>
-       <message>Did you mean <suggestion>newspaper</suggestion>? This word sequence is usually spelled together.</message>
-    <example type="correct">Subscribing the <marker>newspaper</marker>
-      </example>
-    <example type="incorrect">Subscribing the <marker>news paper</marker>
-      </example>
-   </rule>
+  <rule id="NEWS_PAPER" name="Possible typo 'news paper(newspaper)'">
+    <pattern>
+      <token>news</token>
+      <token>paper</token>
+    </pattern>
+    <message>Did you mean <suggestion>newspaper</suggestion>? This word sequence is usually spelled together.</message>
+    <example type="correct">Subscribing the <marker>newspaper</marker></example>
+    <example type="incorrect">Subscribing the <marker>news paper</marker></example>
+  </rule>
 
-	<rule id="AN_OTHER" name="Possible typo 'an other(another)'">
-	   <pattern>
-		   <token>an</token>
-		   <token>other</token>
-	   </pattern>
-       <message>Did you mean <suggestion>another</suggestion>? This word sequence is usually spelled together.</message>
+  <rule id="AN_OTHER" name="Possible typo 'an other(another)'">
+    <pattern>
+      <token>an</token>
+      <token>other</token>
+    </pattern>
+    <message>Did you mean <suggestion>another</suggestion>? This word sequence is usually spelled together.</message>
     <example type="correct">Yet Another Resource List</example>
     <example type="incorrect">Yet <marker>An other</marker> Resource List</example>
-   </rule>
-	  
-	  
-   <rule id="MOTHER_IN_LAW" name="Possible typo 'mother in law(mother-in-law)'">
-	  <pattern>
-		  <token regexp="yes">mother|sister|brother|father</token>
-		  <token>in</token>
-		  <token>law</token>
-	  </pattern>
-	  <message>This word is usually spelled with hyphens: <suggestion>\1-\2-\3</suggestion>.</message>
-	  <example type="correct">This is her <marker>mother-in-law</marker>.</example>
-  	  <example type="incorrect">This is her <marker>mother in law</marker>.</example>
   </rule>
-	  
+    
+  <rule id="MOTHER_IN_LAW" name="Possible typo 'mother in law(mother-in-law)'">
+    <pattern>
+      <token regexp="yes">mother|sister|brother|father</token>
+      <token>in</token>
+      <token>law</token>
+    </pattern>
+    <message>This word is usually spelled with hyphens: <suggestion>\1-\2-\3</suggestion>.</message>
+    <example type="correct">This is her <marker>mother-in-law</marker>.</example>
+    <example type="incorrect">This is her <marker>mother in law</marker>.</example>
+  </rule>
+    
   <rule id="SENT_START_THEM" name="Possible typo 'Them(Then)' at sentence start">
     <pattern mark_from="1">
       <token postag="SENT_START"/>
@@ -270,7 +267,7 @@ $Id: grammar.xml,v 1.123 2007-01-08 21:43:54 dnaber Exp $
         <token regexp="yes">comes|came|much|is|was</token>
         <token>to</token>
         <token>soon</token>
-		<token><exception postag="VB"/></token>
+        <token><exception postag="VB"/></token>
         <!-- token postag="VBP" negate_pos="yes"/ -->
       </pattern>
       <message>Did you mean <suggestion>too</suggestion>?</message>
@@ -530,7 +527,7 @@ $Id: grammar.xml,v 1.123 2007-01-08 21:43:54 dnaber Exp $
     <example type="incorrect">Thanks again <marker>fore</marker> your help.</example>
   </rule>
   
-<!-- TODO
+  <!-- TODO
    <rule id="ADJ_THAT" name="Possible typo 'that/than'">
       <pattern mark_from="1"><token postag="(JJR|JJ)" postag_regexp="yes"> <token>that</token></pattern>
       <message>Did you mean <em>than</em>?</message>
@@ -636,7 +633,7 @@ $Id: grammar.xml,v 1.123 2007-01-08 21:43:54 dnaber Exp $
     <example type="incorrect">I definitely think <marker>is</marker> should be less than four years.</example>
   </rule>
   
-    <rule id="THE_FLEW" name="Possible typo 'the flew(flu)'">
+  <rule id="THE_FLEW" name="Possible typo 'the flew(flu)'">
     <pattern mark_from="1">
       <token>the</token>
       <token>flew</token>
@@ -686,7 +683,7 @@ $Id: grammar.xml,v 1.123 2007-01-08 21:43:54 dnaber Exp $
       <message>Did you mean <suggestion>it's</suggestion> (=<suggestion>it is</suggestion>) instead of 'its' (possessive pronoun)?</message>
       <example type="correct"><marker>It's</marker> where people walk around.</example>
       <example type="incorrect"><marker>Its</marker> where people walk around.</example>
-	  <example type="correct">London is counting iconic landmarks such as the Houses of Parliament, Tower Bridge and Buckingham Palace amongst its many attractions.</example>
+      <example type="correct">London is counting iconic landmarks such as the Houses of Parliament, Tower Bridge and Buckingham Palace amongst its many attractions.</example>
       <example type="triggers_error" reason="'every' is tagged as AT0">London is a necropolis, <marker>its</marker> every corner the site of a murder, its soil a pudding of blood and tears.</example>
     </rule>
     <rule>
@@ -792,13 +789,13 @@ $Id: grammar.xml,v 1.123 2007-01-08 21:43:54 dnaber Exp $
     </rule>
     <rule>
       <pattern mark_from="1" case_sensitive="yes" mark_to="-1">
-      	<token regexp="yes">[wW]ith|[Ii]n|[Ww]ithout|[Ff]rom|[Uu]nder|[Oo]ver|[Aa]bove</token>
-      	<!-- not using postag="IN" because of "like" and "to", 
-      		not sure about other prepositions -->
-      	<token>it</token>
-      	<token>'</token>
-      	<token>s</token>
-      	<token postag_regexp="yes" postag="JJ.*|NN.*"/>
+        <token regexp="yes">[wW]ith|[Ii]n|[Ww]ithout|[Ff]rom|[Uu]nder|[Oo]ver|[Aa]bove</token>
+        <!-- not using postag="IN" because of "like" and "to", 
+          not sure about other prepositions -->
+        <token>it</token>
+        <token>'</token>
+        <token>s</token>
+        <token postag_regexp="yes" postag="JJ.*|NN.*"/>
       </pattern>
       <message>Did you mean <suggestion>its</suggestion> (possessive pronoun) instead of 'it's' (=it is)?</message>
       <example type="correct">Scene from It's a Boy Girl Thing</example>
@@ -812,14 +809,14 @@ $Id: grammar.xml,v 1.123 2007-01-08 21:43:54 dnaber Exp $
   <rulegroup id="NOW" name="Possible typo 'no/now'">
     <rule>
       <pattern mark_to="-1" mark_from="1">
-		<token><exception postag="IN"/></token>
+        <token><exception postag="IN"/></token>
         <token>no</token>
         <token postag="MD|VBD|VBN" postag_regexp="yes"><exception>known</exception></token>
       </pattern>
       <message>Did you mean <suggestion>now</suggestion> (=at this moment) instead of 'no' (negation)?</message>
       <example type="correct">There <marker>now</marker> will be a park.</example>
       <example type="incorrect">There <marker>no</marker> will be a park.</example>
-	  <example type="correct">Although in no state the repression has been as great as it was in Soviet times.</example>
+      <example type="correct">Although in no state the repression has been as great as it was in Soviet times.</example>
     </rule>
     <rule>
       <!-- TODO: "no the", "no of" -->
@@ -827,8 +824,7 @@ $Id: grammar.xml,v 1.123 2007-01-08 21:43:54 dnaber Exp $
         <token regexp="yes">no</token>
         <token postag="CC|DT|IN|MD|NP|RP|WDT|WP|WRB" postag_regexp="yes"><exception>such</exception><exception postag="JJR"/></token>
       </pattern>
-      <message>Did you mean <suggestion>now</suggestion> (=at this moment) instead of
-            'no' (negation)?</message>
+      <message>Did you mean <suggestion>now</suggestion> (=at this moment) instead of 'no' (negation)?</message>
       <example type="correct">There's <marker>now</marker> a new building.</example>
       <example type="correct">Get out of bed no later than ten minutes after the alarm goes off.</example>
       <example type="incorrect">There's <marker>no</marker> a new building.</example>
@@ -838,65 +834,64 @@ $Id: grammar.xml,v 1.123 2007-01-08 21:43:54 dnaber Exp $
         <token>no</token>
         <token regexp="yes">were|was|been|be|is</token>
       </pattern>
-      <message>Did you mean <suggestion>now</suggestion> (=at this moment) instead of
-            'no' (negation)?</message>
+      <message>Did you mean <suggestion>now</suggestion> (=at this moment) instead of 'no' (negation)?</message>
       <example type="correct"><marker>Now</marker> is the right time.</example>
       <example type="incorrect"><marker>No</marker> is the right time.</example>
     </rule>
   </rulegroup>
 
-	  <rule id="MODAL_OF" name="Possible typo 'could of/could have'">
-		  <pattern mark_to="-1">
-			  <token regexp="yes">could|would|should|might|may|must|will</token>
-			  <token>of</token>
-			  <token postag="VBN"/>
-		  </pattern>
-		  <message>It's never correct to use "of" after a modal verb. Use <suggestion>\1 have</suggestion>, or, in informal register, <suggestion>\1've</suggestion>.</message>
-		  <example type="correct">I could have bought this house!</example>
-		  <example type="correct">I must of course have something of my own before many more years have passed over my head.</example>
-		  <example type="incorrect">Something terrible <marker>must of</marker> happened here.</example>
-		  <example type="incorrect">It <marker>could of</marker> been you, the one that I was givin' my love to.</example>
-	  </rule>
-	  
-	  <rule id="ONES" name="ones (one's)">
-		  <pattern mark_to="-1">
-			  <token>ones</token>
-			  <token postag="NN.*" postag_regexp="yes"/>
-		  </pattern>
-		  <message>Did you mean <suggestion>one's</suggestion>?</message>
-		  <example type="correct">One should always wash one's feet in the morning.</example>
-  		  <example type="incorrect">One should always wash <marker>ones</marker> feet in the morning.</example>
-	  </rule>
-	  
-	  <rulegroup id="POSSESIVE_APOSTROPHE" name="Possessive apostrophe error">
-	  <rule>
-		  <pattern mark_to="-1" mark_from="1">
-		   <token postag_regexp="yes" regexp="yes" postag="DT|JJ.*"/>
-			  <token postag_regexp="yes" regexp="yes" postag="NNS|NNPS">.[^']*s<exception>his</exception><exception postag_regexp="yes" postag="VBZ|RB|IN|JJ|NN:.*"/></token>
-			  <token postag="NN|NN:.*" postag_regexp="yes" regexp="yes">.{2,}<exception regexp="yes">today|yesterday|tomorrow|now|in</exception><exception postag_regexp="yes" postag="VB|VBP|VBD|VBN|VBG|RB|MD|IN|JJ|CC"/></token>
-		  </pattern>
-		  <message>Possible typo: apostrophe is missing. Did you mean <suggestion>\2'</suggestion> or the singular?</message>
-		  <example type="correct">This is a transcript of the president's speech.</example>
-		  <example type="correct">Publishers today are at loss...</example>
-		  <example type="correct">The Romans may have marked the centre of Londinium.</example>
-		  <example type="correct">Universities A and B are old universities...</example>
-  		<example type="incorrect">This is a transcript of the <marker>presidents</marker> oration.</example>
-	  </rule>
-	  <rule>
-		  <pattern mark_to="-2" mark_from="1">
-		   <token postag_regexp="yes" regexp="yes" postag="DT|JJ.*"/>
-			  <token postag_regexp="yes" regexp="yes" postag="NNS|NNPS">.[^']*s<exception>his</exception><exception postag_regexp="yes" postag="VBZ|RB|IN|JJ|NN:.*"/></token>
-			  <token postag="NN|NN:.*" postag_regexp="yes" regexp="yes">.{2,}<exception regexp="yes">today|yesterday|tomorrow|now|in</exception><exception postag_regexp="yes" postag="RB|MD|IN|JJ|CC"/></token>
-			  <token regexp="yes">\p{Punct}</token>
-		  </pattern>
-		  <message>Possible typo: apostrophe is missing. Did you mean <suggestion>\2'</suggestion> or the singular?</message>
-		  <example type="correct">This is a transcript of the president's speech.</example>
-		  <example type="correct">Publishers today are at loss...</example>
-		  <example type="correct">The Romans may have marked the centre of Londinium.</example>
-		  <example type="correct">Universities A and B are old universities...</example>
-  		<example type="incorrect">This is a transcript of the <marker>presidents</marker> speech.</example>
-	  </rule>
-	  </rulegroup>
+  <rule id="MODAL_OF" name="Possible typo 'could of/could have'">
+    <pattern mark_to="-1">
+      <token regexp="yes">could|would|should|might|may|must|will</token>
+      <token>of</token>
+      <token postag="VBN"/>
+    </pattern>
+    <message>It's never correct to use "of" after a modal verb. Use <suggestion>\1 have</suggestion>, or, in informal register, <suggestion>\1've</suggestion>.</message>
+    <example type="correct">I could have bought this house!</example>
+    <example type="correct">I must of course have something of my own before many more years have passed over my head.</example>
+    <example type="incorrect">Something terrible <marker>must of</marker> happened here.</example>
+    <example type="incorrect">It <marker>could of</marker> been you, the one that I was givin' my love to.</example>
+  </rule>
+    
+  <rule id="ONES" name="ones (one's)">
+    <pattern mark_to="-1">
+      <token>ones</token>
+      <token postag="NN.*" postag_regexp="yes"/>
+    </pattern>
+    <message>Did you mean <suggestion>one's</suggestion>?</message>
+    <example type="correct">One should always wash one's feet in the morning.</example>
+    <example type="incorrect">One should always wash <marker>ones</marker> feet in the morning.</example>
+  </rule>
+    
+  <rulegroup id="POSSESIVE_APOSTROPHE" name="Possessive apostrophe error">
+    <rule>
+      <pattern mark_to="-1" mark_from="1">
+       <token postag_regexp="yes" regexp="yes" postag="DT|JJ.*"/>
+        <token postag_regexp="yes" regexp="yes" postag="NNS|NNPS">.[^']*s<exception>his</exception><exception postag_regexp="yes" postag="VBZ|RB|IN|JJ|NN:.*"/></token>
+        <token postag="NN|NN:.*" postag_regexp="yes" regexp="yes">.{2,}<exception regexp="yes">today|yesterday|tomorrow|now|in</exception><exception postag_regexp="yes" postag="VB|VBP|VBD|VBN|VBG|RB|MD|IN|JJ|CC"/></token>
+      </pattern>
+      <message>Possible typo: apostrophe is missing. Did you mean <suggestion>\2'</suggestion> or the singular?</message>
+      <example type="correct">This is a transcript of the president's speech.</example>
+      <example type="correct">Publishers today are at loss...</example>
+      <example type="correct">The Romans may have marked the centre of Londinium.</example>
+      <example type="correct">Universities A and B are old universities...</example>
+      <example type="incorrect">This is a transcript of the <marker>presidents</marker> oration.</example>
+    </rule>
+    <rule>
+      <pattern mark_to="-2" mark_from="1">
+       <token postag_regexp="yes" regexp="yes" postag="DT|JJ.*"/>
+        <token postag_regexp="yes" regexp="yes" postag="NNS|NNPS">.[^']*s<exception>his</exception><exception postag_regexp="yes" postag="VBZ|RB|IN|JJ|NN:.*"/></token>
+        <token postag="NN|NN:.*" postag_regexp="yes" regexp="yes">.{2,}<exception regexp="yes">today|yesterday|tomorrow|now|in</exception><exception postag_regexp="yes" postag="RB|MD|IN|JJ|CC"/></token>
+        <token regexp="yes">\p{Punct}</token>
+      </pattern>
+      <message>Possible typo: apostrophe is missing. Did you mean <suggestion>\2'</suggestion> or the singular?</message>
+      <example type="correct">This is a transcript of the president's speech.</example>
+      <example type="correct">Publishers today are at loss...</example>
+      <example type="correct">The Romans may have marked the centre of Londinium.</example>
+      <example type="correct">Universities A and B are old universities...</example>
+      <example type="incorrect">This is a transcript of the <marker>presidents</marker> speech.</example>
+    </rule>
+    </rulegroup>
   </category>
   
   <!-- ====================================================================== -->
@@ -906,17 +901,17 @@ $Id: grammar.xml,v 1.123 2007-01-08 21:43:54 dnaber Exp $
   <category name="Grammar">
   
   <rule id="EACH_EVERY_NNS" name="'each' or 'every' with plural nouns">
-  <pattern mark_to="-2">
-  <token postag="SENT_START"/>
-  <token regexp="yes">each|every</token>
-  <token postag="NNS">children</token>
-  <token postag_regexp="yes" postag="VB.*"><exception postag="NNS"/></token>
-  </pattern>
-  <message>'Each' and 'every' are used with singular. Did you mean <suggestion>all</suggestion>?</message>
-  <example type="incorrect"><marker>Each</marker> children are happy.</example>
-  <example type="correct"><marker>Each</marker> children's services are available...</example>
-  <example type="correct"><marker>Each</marker> children services are available...</example>
-  <example type="correct">All children are happy.</example>
+    <pattern mark_to="-2">
+      <token postag="SENT_START"/>
+      <token regexp="yes">each|every</token>
+      <token postag="NNS">children</token>
+      <token postag_regexp="yes" postag="VB.*"><exception postag="NNS"/></token>
+    </pattern>
+    <message>'Each' and 'every' are used with singular. Did you mean <suggestion>all</suggestion>?</message>
+    <example type="incorrect"><marker>Each</marker> children are happy.</example>
+    <example type="correct"><marker>Each</marker> children's services are available...</example>
+    <example type="correct"><marker>Each</marker> children services are available...</example>
+    <example type="correct">All children are happy.</example>
   </rule>
   
   <rulegroup id="AGREEMENT_SENT_START" name="Possible agreement error 'The (plural word) is'">
@@ -949,102 +944,103 @@ $Id: grammar.xml,v 1.123 2007-01-08 21:43:54 dnaber Exp $
   </rulegroup>
   
   <rulegroup id="HAVE_PART_AGREEMENT" name="Agreement: have + past/present tense">
-	  <rule>
-	  <pattern mark_from="1" mark_to="-1">
-		  <token regexp="yes">has|have</token>
-		  <token postag_regexp="yes" postag="VBD|VBP|VB"><exception postag_regexp="yes" postag="VBN|NN:U.*|JJ.*"/></token>
-      <token><exception postag="VBG"/></token>
-	  </pattern>
-	  <message>Possible agreement error -- don't use past or present tense instead of past participle.</message>
-	  <example type="correct">I must have done that.</example>
-	  <example type="incorrect">I must have <marker>wrote</marker> that.</example>
-	  <example type="correct">I have liked her.</example>
- 	  <example type="correct">It has become difficult.</example>
- 	  <example type="correct">We have air conditioning.</example>
-    <example type="correct">We do not have soap.</example>
-    <example type="correct">We have soap.</example>
-    <example type="correct">We do have soap.</example>
-	  <example type="incorrect">I could have <marker>wrote</marker> this letter.</example>
-	  </rule>
-	  <rule>
-	  <pattern mark_from="2" mark_to="-1">
-		  <token regexp="yes">has|have</token>
-		  <token postag="RB"><exception>no</exception></token>
-  		  <token postag_regexp="yes" postag="VBD|VBP|VB"><exception postag="VBN"/></token>
+    <rule>
+      <pattern mark_from="1" mark_to="-1">
+        <token regexp="yes">has|have</token>
+        <token postag_regexp="yes" postag="VBD|VBP|VB"><exception postag_regexp="yes" postag="VBN|NN:U.*|JJ.*"/></token>
         <token><exception postag="VBG"/></token>
-	  </pattern>
-	  <message>Possible agreement error -- don't use past or present tense instead of past participle.</message>
-	  <example type="correct">I have always done that.</example>
-	  <example type="incorrect">I must have always <marker>wrote</marker> that.</example>
-	  <example type="correct">I have always liked her.</example>		  
-	  </rule>
-	  <rule>
-	  <pattern mark_from="1" mark_to="-1">
-		  <token regexp="yes">has|have</token>
-		  <token postag_regexp="yes" postag="VBD|VBP|VB"><exception postag_regexp="yes" postag="VBN"/></token>
-      <token postag="PRP"/>
-	  </pattern>
-	  <message>Possible agreement error -- don't use past or present tense instead of past participle.</message>
- 	  <example type="incorrect">I have <marker>like</marker> her.</example>
-		<example type="correct">I have <marker>liked</marker> her.</example>
-		</rule>
-</rulegroup>
-	  
-<rulegroup id="BEEN_PART_AGREEMENT" name="Agreement: been + past tense">
-	  <rule>
-	  <pattern mark_from="1">
-		  <token>been</token>
-		  <token postag_regexp="yes" postag="VBD|VBP|VB"><exception postag_regexp="yes" postag="VBN|JJ.*"/></token>
-	  </pattern>
-	  <message>Possible agreement error -- don't use past or present tense instead of past participle.</message>
-	  <example type="incorrect">The program has been <marker>release</marker>.</example>
-	  <example type="incorrect">The gift has been <marker>gave</marker>.</example>
-	  <example type="correct">The park has been open for many years.</example>
-	  <example type="correct">It has been done.</example>
-	  <example type="incorrect">He has been <marker>did</marker> this.</example>
-	  </rule>
-	  <rule>
-	  <pattern mark_from="2">
-		  <token>been</token>
-		  <token postag="RB"><exception>in</exception><exception postag_regexp="yes" postag="VBN|JJ.*"/></token>
-		  <token postag_regexp="yes" postag="VBD|VBP|VB"><exception postag_regexp="yes" postag="VBN|JJ"/></token>
-	  </pattern>
-	  <message>Possible agreement error -- don't use past or present tense instead of past participle.</message>
-	  <example type="correct">It has always been hated.</example>
-	  <example type="incorrect">I must have been always <marker>wrote</marker> that.</example>
-	  <example type="correct">It has always been liked.</example>		  
-	  </rule>
-</rulegroup>	  
-	  
-  <rulegroup id="MASS_AGREEMENT" name="Agreement: Mass noun + non-third person verb">
-  <rule>
-	  <pattern mark_from="2" mark_to="-1">
-  		  <token postag="SENT_START"/>
-        <token postag="NN|NN:.*" postag_regexp="yes"><exception regexp="yes">A|In|I</exception><exception postag_regexp="yes" postag="JJ|MD|NNS"/></token>
-		  <token postag="VB|VBP" postag_regexp="yes"><exception postag_regexp="yes" postag="VBZ|VBN|VBD|VBG"/></token>
-		  <token postag_regexp="yes" postag="DT|JJ"/>
-	  </pattern>
-	  <message>Possible agreement error - use third-person verb forms for singular and mass nouns.</message>
-	  <example type="incorrect">Marketing <marker>are</marker> bad for you.</example>
-	  <example type="incorrect">Marketing <marker>mean</marker> a lot of trouble.</example>
-  	  <example type="correct">Marketing is bad for you.</example>
-      <example type="correct">I think it is bad for you.</example>
-  </rule>
-  <rule>
-	  <pattern mark_from="3" mark_to="-1">
-  		  <token postag="SENT_START"/>
-  		  <token postag="DT"/>
-			<token postag="NN|NN:.*" postag_regexp="yes"><exception postag_regexp="yes" postag="JJ|MD"/></token>
-		  <token postag="VB|VBP" postag_regexp="yes"><exception postag_regexp="yes" postag="VBZ|VBN|VBD|VBG"/></token>
-  		  <token postag_regexp="yes" postag="DT|JJ"/>
-	  </pattern>
-	  <message>Possible agreement error - use third-person verb forms for singular and mass nouns.</message>
-	  <example type="incorrect">The marketing <marker>are</marker> bad for you.</example>
-  	  <example type="correct">The marketing is bad for you.</example>
-	  <example type="correct">The city is an international transport hub and a popular tourist destination.</example>
-	  <!-- example type="incorrect">The city is popular, and this marketing <marker>are</marker> bad for you.</example --> 
-  </rule>  
+      </pattern>
+      <message>Possible agreement error -- don't use past or present tense instead of past participle.</message>
+      <example type="correct">I must have done that.</example>
+      <example type="incorrect">I must have <marker>wrote</marker> that.</example>
+      <example type="correct">I have liked her.</example>
+      <example type="correct">It has become difficult.</example>
+      <example type="correct">We have air conditioning.</example>
+      <example type="correct">We do not have soap.</example>
+      <example type="correct">We have soap.</example>
+      <example type="correct">We do have soap.</example>
+      <example type="incorrect">I could have <marker>wrote</marker> this letter.</example>
+    </rule>
+    <rule>
+      <pattern mark_from="2" mark_to="-1">
+        <token regexp="yes">has|have</token>
+        <token postag="RB"><exception>no</exception></token>
+        <token postag_regexp="yes" postag="VBD|VBP|VB"><exception postag="VBN"/></token>
+        <token><exception postag="VBG"/></token>
+      </pattern>
+      <message>Possible agreement error -- don't use past or present tense instead of past participle.</message>
+      <example type="correct">I have always done that.</example>
+      <example type="incorrect">I must have always <marker>wrote</marker> that.</example>
+      <example type="correct">I have always liked her.</example>      
+    </rule>
+    <rule>
+      <pattern mark_from="1" mark_to="-1">
+        <token regexp="yes">has|have</token>
+        <token postag_regexp="yes" postag="VBD|VBP|VB"><exception postag_regexp="yes" postag="VBN"/></token>
+        <token postag="PRP"/>
+      </pattern>
+      <message>Possible agreement error -- don't use past or present tense instead of past participle.</message>
+      <example type="incorrect">I have <marker>like</marker> her.</example>
+      <example type="correct">I have <marker>liked</marker> her.</example>
+    </rule>
   </rulegroup>
+    
+  <rulegroup id="BEEN_PART_AGREEMENT" name="Agreement: been + past tense">
+    <rule>
+      <pattern mark_from="1">
+        <token>been</token>
+        <token postag_regexp="yes" postag="VBD|VBP|VB"><exception postag_regexp="yes" postag="VBN|JJ.*"/></token>
+      </pattern>
+      <message>Possible agreement error -- don't use past or present tense instead of past participle.</message>
+      <example type="incorrect">The program has been <marker>release</marker>.</example>
+      <example type="incorrect">The gift has been <marker>gave</marker>.</example>
+      <example type="correct">The park has been open for many years.</example>
+      <example type="correct">It has been done.</example>
+      <example type="incorrect">He has been <marker>did</marker> this.</example>
+    </rule>
+    <rule>
+      <pattern mark_from="2">
+        <token>been</token>
+        <token postag="RB"><exception>in</exception><exception postag_regexp="yes" postag="VBN|JJ.*"/></token>
+        <token postag_regexp="yes" postag="VBD|VBP|VB"><exception postag_regexp="yes" postag="VBN|JJ"/></token>
+      </pattern>
+      <message>Possible agreement error -- don't use past or present tense instead of past participle.</message>
+      <example type="correct">It has always been hated.</example>
+      <example type="incorrect">I must have been always <marker>wrote</marker> that.</example>
+      <example type="correct">It has always been liked.</example>      
+    </rule>
+  </rulegroup>    
+    
+  <rulegroup id="MASS_AGREEMENT" name="Agreement: Mass noun + non-third person verb">
+    <rule>
+      <pattern mark_from="2" mark_to="-1">
+        <token postag="SENT_START"/>
+        <token postag="NN|NN:.*" postag_regexp="yes"><exception regexp="yes">A|In|I</exception><exception postag_regexp="yes" postag="JJ|MD|NNS"/></token>
+        <token postag="VB|VBP" postag_regexp="yes"><exception postag_regexp="yes" postag="VBZ|VBN|VBD|VBG"/></token>
+        <token postag_regexp="yes" postag="DT|JJ"/>
+      </pattern>
+      <message>Possible agreement error - use third-person verb forms for singular and mass nouns.</message>
+      <example type="incorrect">Marketing <marker>are</marker> bad for you.</example>
+      <example type="incorrect">Marketing <marker>mean</marker> a lot of trouble.</example>
+      <example type="correct">Marketing is bad for you.</example>
+      <example type="correct">I think it is bad for you.</example>
+    </rule>
+    <rule>
+      <pattern mark_from="3" mark_to="-1">
+        <token postag="SENT_START"/>
+        <token postag="DT"/>
+        <token postag="NN|NN:.*" postag_regexp="yes"><exception postag_regexp="yes" postag="JJ|MD"/></token>
+        <token postag="VB|VBP" postag_regexp="yes"><exception postag_regexp="yes" postag="VBZ|VBN|VBD|VBG"/></token>
+        <token postag_regexp="yes" postag="DT|JJ"/>
+      </pattern>
+      <message>Possible agreement error - use third-person verb forms for singular and mass nouns.</message>
+      <example type="incorrect">The marketing <marker>are</marker> bad for you.</example>
+      <example type="correct">The marketing is bad for you.</example>
+      <example type="correct">The city is an international transport hub and a popular tourist destination.</example>
+      <!-- example type="incorrect">The city is popular, and this marketing <marker>are</marker> bad for you.</example --> 
+    </rule>  
+  </rulegroup>
+  
   <rulegroup id="PERS_PRONOUN_AGREEMENT_SENT_START" name="Agreement: 'I is / you is / ... ' (at sentence start only)">
     <rule>
       <pattern mark_from="2">
@@ -1142,320 +1138,317 @@ $Id: grammar.xml,v 1.123 2007-01-08 21:43:54 dnaber Exp $
   </rule>
   
   <!-- 
-	  "an information" is used in the legal US jargon, deleting
-	  
-	  longer list but not checked thouroughly: 
-	  http://www.geocities.com/Athens/Olympus/7583/ncntlist.html
-	  -->
+    "an information" is used in the legal US jargon, deleting
+    
+    longer list but not checked thouroughly: 
+    http://www.geocities.com/Athens/Olympus/7583/ncntlist.html
+    -->
    <rule id="A_UNCOUNTABLE" name="Articles: a + uncountable noun">
-      <pattern mark_to="-2">
-		  <token regexp="yes">a|an</token>
-		  <token regexp="yes">air|accomodation|advice|baggage|bread|equipment|garbage|luggage|money|cattle|knowledge|sand|furniture|meat|food|news|pasta|progress|research|water|freedom|maturity|intelligence|travel|pollution|traffic</token>
-		  <token postag_regexp="yes" postag="RP|VBZ"/>
-	  </pattern>
-      <message>Uncountable nouns are usually not used with an indefinite article.</message>
-      <example type="correct"><marker>The</marker> information in your files is correct.</example>
+     <pattern mark_to="-2">
+       <token regexp="yes">a|an</token>
+       <token regexp="yes">air|accomodation|advice|baggage|bread|equipment|garbage|luggage|money|cattle|knowledge|sand|furniture|meat|food|news|pasta|progress|research|water|freedom|maturity|intelligence|travel|pollution|traffic</token>
+       <token postag_regexp="yes" postag="RP|VBZ"/>
+     </pattern>
+     <message>Uncountable nouns are usually not used with an indefinite article.</message>
+     <example type="correct"><marker>The</marker> information in your files is correct.</example>
      <example type="correct"><marker>An</marker> intelligence service is known to be corrupt here.</example>
-      <example type="incorrect"><marker>An</marker> accomodation is too expensive.</example>
-	   
+     <example type="incorrect"><marker>An</marker> accomodation is too expensive.</example>
    </rule>
 
-	<rule id="MOST_SOME_OF_NNS" name="Articles: 'most/some of' + plural noun">
-	<pattern>
-		<token regexp="yes">most|some</token>
-		<token>of</token>
-		<token postag="NNS"><exception postag="PRP$"/></token>
-	</pattern>
-	<message>After '\1 of', you should use 'the' (<suggestion>\1 \2 the \3</suggestion>) or simply say '<suggestion>\1 \3</suggestion>'.</message>
-	<example type="correct">Most students do their homework.</example>
-	<example type="correct">Some of his students do their homework.</example>
-	<example type="incorrect"><marker>Most of students</marker> do their homework.</example>
-	<example type="correct"><marker>Some of the students</marker> do their homework.</example>
-	</rule>
+  <rule id="MOST_SOME_OF_NNS" name="Articles: 'most/some of' + plural noun">
+    <pattern>
+      <token regexp="yes">most|some</token>
+      <token>of</token>
+      <token postag="NNS"><exception postag="PRP$"/></token>
+    </pattern>
+    <message>After '\1 of', you should use 'the' (<suggestion>\1 \2 the \3</suggestion>) or simply say '<suggestion>\1 \3</suggestion>'.</message>
+    <example type="correct">Most students do their homework.</example>
+    <example type="correct">Some of his students do their homework.</example>
+    <example type="incorrect"><marker>Most of students</marker> do their homework.</example>
+    <example type="correct"><marker>Some of the students</marker> do their homework.</example>
+  </rule>
 
-	<!--  needs more and more tweaking; 
-	currently the last exception in all rules is a simplification,
-	it should be more recursive, i.e., there one more rule for all current rules, structured like this: 
-	... NN !NN.*|JJ.*, ... NN JJ !NN.*|JJ.* -->
-	<rulegroup id="ARTICLE_MISSING" name="Articles: article missing before a countable noun">
-	<rule>
-		<pattern mark_from="2" mark_to="-1">
-		<token negate_pos="yes" postag="DT"><exception postag_regexp="yes" postag="JJ|NN.*"/></token>
-		<token postag="VBP|VBZ" postag_regexp="yes"><exception regexp="yes">take[s]*|give[s]*|says|go|goes|becomes</exception><exception postag_regexp="yes" postag="NN.*|JJ"/></token>
-    <token postag="NN"><exception postag_regexp="yes" postag="DT|RB|RP|JJ|IN|CC|CD|JJR|RBS|VBD|VBN|MD|NNP|NNS"/></token>    
-		<token><exception postag_regexp="yes" postag="NN.*"/></token>
-		</pattern>
-		<message>The article is missing before the noun: <suggestion>the \3</suggestion>, <suggestion>a \3</suggestion> or <suggestion>an \3</suggestion>.</message>
-		<example type="incorrect">He is <marker>friend</marker>.</example>
-		<example type="correct">He is a friend.</example>		
-	</rule>
-	<rule>
-		<pattern mark_from="2" mark_to="-1">
-		<token negate_pos="yes" postag="DT"><exception postag_regexp="yes" postag="JJ|NN.*"/></token>
-		<token regexp="yes">take|takes</token>
-    <token postag="NN"><exception regexp="yes">place|charge</exception><exception postag_regexp="yes" postag="DT|RB|RP|JJ|IN|CC|CD|JJR|RBS|VBD|VBN|MD|NNP|NNS"/></token>
-		<token><exception postag_regexp="yes" postag="NN.*"/></token>
-		</pattern>
-		<message>The article is missing before the noun: <suggestion>the \3</suggestion>, <suggestion>a \3</suggestion> or <suggestion>an \3</suggestion>.</message>
-		<example type="correct">He takes his brother to school.</example>		
-		<example type="correct">The event takes place here.</example>		
-		<example type="incorrect">He takes <marker>brother</marker> with him.</example>
-	</rule>
-	<rule>
-		<pattern mark_from="2" mark_to="-1">
-		<token negate_pos="yes" postag="DT"><exception postag_regexp="yes" postag="JJ|NN.*"/></token>
-		<token regexp="yes">give|gives</token>
-    <token postag="NN"><exception regexp="yes">rise|way|room</exception><exception postag_regexp="yes" postag="DT|RB|RP|JJ|IN|CC|CD|JJR|RBS|VBD|VBN|MD|NNP|NNS"/></token>
-		<token><exception postag_regexp="yes" postag="NN.*"/></token>
-		</pattern>
-		<message>The article is missing before the noun: <suggestion>the \3</suggestion>, <suggestion>a \3</suggestion> or <suggestion>an \3</suggestion>.</message>
-		<example type="correct">He gives his brother a bar of chocolate.</example>		
-		<example type="correct">This event gives rise to a new era.</example>		
-		<example type="incorrect">He gives <marker>brother</marker> a bar of chocolate.</example>
-	</rule>
-	<rule>
-		<pattern mark_from="2" mark_to="-1">
-		<token negate_pos="yes" postag="DT"><exception postag_regexp="yes" postag="JJ|NN.*"/></token>
-		<token regexp="yes">go|goes</token>
-    <token postag="NN"><exception regexp="yes">hand</exception><exception postag_regexp="yes" postag="DT|RB|RP|JJ|IN|CC|CD|JJR|RBS|VBD|VBN|MD|NNP|NNS"/></token>
-		<token><exception postag_regexp="yes" postag="NN.*"/></token>
-		</pattern>
-		<message>The article is missing before the noun: <suggestion>the \3</suggestion>, <suggestion>a \3</suggestion> or <suggestion>an \3</suggestion>.</message>
-		<example type="incorrect">He goes <marker>step</marker> too far.</example>		
-		<example type="correct">He goes a step too far.</example>		
-		<example type="correct">This goes <marker>hand</marker> in hand...</example>
-	</rule>
-	<rule>
-		<pattern mark_from="2" mark_to="-1">
-		<token negate_pos="yes" postag="DT"><exception postag_regexp="yes" postag="JJ|NN.*"/></token>
-		<token regexp="yes">falls|fall</token>
-    <token postag="NN"><exception regexp="yes">victim</exception><exception postag_regexp="yes" postag="DT|RB|RP|JJ|IN|CC|CD|JJR|RBS|VBD|VBN|MD|NNP|NNS"/></token>
-		<token><exception postag_regexp="yes" postag="NN.*"/></token>
-		</pattern>
-		<message>The article is missing before the noun: <suggestion>the \3</suggestion>, <suggestion>a \3</suggestion> or <suggestion>an \3</suggestion>.</message>
-		<example type="incorrect">It falls <marker>tad</marker>.</example>		
-		<example type="correct">Inflation falls a tad.</example>		
-		<example type="correct">The website falls <marker>victim</marker> to...</example>
-	</rule>	
-		<rule>
-		<pattern mark_from="2" mark_to="-1">
-		<token negate_pos="yes" postag="DT"></token>
-		<token postag="VBP|VBZ" postag_regexp="yes"><exception postag="JJ"/></token>
-		<token postag="JJ"><exception postag_regexp="yes" postag="VB|RP|RB|CD|IN|CC|MD"/></token>
-    <token postag="NN"><exception postag_regexp="yes" postag="CC|DT|RB|RP|JJ|IN|CD|JJR|RBS|VBD|VBN|MD|NNS"/></token>
-		<token><exception postag_regexp="yes" postag="NN.*"/></token>
-		</pattern>
-		<message>The article is missing before the noun: <suggestion>the \3 \4</suggestion>, <suggestion>a \3 \4</suggestion> or <suggestion>an \3 \4</suggestion>.</message>
-		<example type="incorrect">He is <marker>good friend</marker>.</example>
-		<example type="correct">He is a good friend.</example>
-	</rule>
-	<!--  this rule needs to be expanded to all prepositions
-	 so that exceptions could be accounted for properly, i.e.,
-	 'at home' vs. 'a tourist home'; 'for example' vs. 'an example for you' -->
-	 	<rule>
-		<pattern mark_from="1" mark_to="-1">
-		<token>at</token>
-    <token postag="NN"><exception postag_regexp="yes" postag="DT|RP|JJ|IN|CD|JJS|JJR|RBS|VBD|VBN|MD|NNP|NNS"/><exception regexp="yes">bay|birth|ease|first|hand|home|issue|least|length|liberty|sea|table|variance</exception></token>
-		<token><exception postag_regexp="yes" postag="NN.*"/></token>
-		</pattern>
-		<message>The article is missing before the noun: <suggestion>the \2</suggestion>, <suggestion>a \2</suggestion> or <suggestion>an \2</suggestion>.</message>
-		<example type="incorrect">He was waiting at <marker>airport</marker>.</example>
-		<example type="correct">He was waiting at <marker>the airport</marker>.</example>
-	</rule>
-		<rule>
-		<pattern mark_from="1" mark_to="-1">
-		<token>at</token>
-		<token postag="JJ"><exception postag_regexp="yes" postag="VB|RB|CD|IN"/></token>
-    <token postag="NN"><exception postag_regexp="yes" postag="DT|RP|JJ|IN|CD|JJR|RBS|VBD|VBN|MD|NNP|NNS"/><exception>glance</exception></token>
-		<token><exception postag_regexp="yes" postag="NN.*"/><exception>free</exception></token>
-		</pattern>
-		<message>The article is missing before the noun: <suggestion>the \2</suggestion>, <suggestion>a \2</suggestion> or <suggestion>an \2</suggestion>.</message>
-		<example type="incorrect">He was waiting at <marker>new airport</marker>.</example>
-		<example type="correct">He was waiting at <marker>the new airport</marker>.</example>
-	</rule>	 
-	<rule>
-		<pattern mark_from="1" mark_to="-1" case_sensitive="yes">
-		<token regexp="yes">[Bb]y</token>
-    <token postag="NN"><exception postag_regexp="yes" postag="DT|RB|RP|JJ|IN|CD|JJS|JJR|RBS|VBD|VBN|MD|NNP|NNS"/><exception regexp="yes">bit|word|step|way|example|dint|crook|hook|hand|machine|word|cheque|accident|day|means|mistake|name|train|rail|coach|bus|boat|automobile|helicopter|taxi|ambulance|plane|airplane|foot|section|article|page|road|letter|phone|telephone|mail|storm|arrangement|satellite|decree|year-end|lot|profession|district|week|eye|</exception></token>
-		<token><exception postag_regexp="yes" postag="NN.*"/><exception>free</exception></token>
-		</pattern>
-		<message>The article is missing before the noun: <suggestion>the \2</suggestion>, <suggestion>a \2</suggestion> or <suggestion>an \2</suggestion>.</message>
-		<example type="incorrect">He was waiting by <marker>river</marker>.</example>
-		<example type="correct">He was waiting by <marker>the river</marker>.</example>
-		<example type="correct">He works by <marker>day</marker>.</example>
-	</rule>
-		<rule>
-		<pattern mark_from="1" mark_to="-1">
-		<token>by</token>
-		<token postag="JJ"><exception postag_regexp="yes" postag="VB|RB|CD|IN"/></token>
-    <token postag="NN"><exception postag_regexp="yes" postag="DT|RP|JJ|IN|CD|JJR|RBS|VBD|VBN|MD|NNP|NNS"/></token>
-		<token><exception postag_regexp="yes" postag="NN.*"/><exception>free</exception></token>
-		</pattern>
-		<message>The article is missing before the noun: <suggestion>the \2 \3</suggestion>, <suggestion>a \2 \3</suggestion> or <suggestion>an \2</suggestion>.</message>
-		<example type="incorrect">He was waiting by <marker>small river</marker>.</example>
-		<example type="correct">He was waiting by <marker>the small river</marker>.</example>
-	</rule>
-		<rule>
-		<pattern mark_from="1" mark_to="-1">
-		<token>for</token>
-    <token postag="NN"><exception postag_regexp="yes" postag="VBD|VBG|VBN|DT|RP|JJ|IN|CD|JJS|JJR|RBS|VBD|MD|NNP"/><exception regexp="yes">are|instance|example|sale|word</exception></token>
-		<token><exception postag_regexp="yes" postag="NN.*"/><exception>free</exception></token>
-		</pattern>
-		<message>The article is mising before the noun: <suggestion>the \2</suggestion>, <suggestion>a \2</suggestion> or <suggestion>an \2</suggestion>.</message>
-		<example type="incorrect">He was waiting for <marker>answer</marker>.</example>
-		<example type="correct">He was waiting for <marker>your answer</marker>.</example>
-		<example type="correct"><marker>For example</marker>, he wrote a letter to me.</example>
-		</rule>
-		<rule>
-			<pattern mark_from="1" mark_to="-1">
-			<token>for</token>
-			<token postag="JJ"><exception postag_regexp="yes" postag="VB|VBG|RB|CD|IN"/></token>
-    	<token postag="NN"><exception postag_regexp="yes" postag="DT|RP|JJ|IN|CD|JJR|RBS|VBD|VBN|MD|NNP|NNS"/></token>
-		<token><exception postag_regexp="yes" postag="NN.*"/><exception>free</exception></token>
-			</pattern>
-			<message>The article is missing before the noun: <suggestion>the \2</suggestion>, <suggestion>a \2</suggestion> or <suggestion>an \2</suggestion>.</message>
-			<example type="incorrect">He was waiting for <marker>swift answer</marker>.</example>
-			<example type="correct">He was waiting for <marker>your swift answer</marker>.</example>
-			<example type="correct"><marker>For example</marker>, he wrote a letter to me.</example>
-		</rule>
-		<rule>
-		<pattern mark_from="1" mark_to="-1">
-		<token>in</token>
-    <token postag="NN"><exception postag_regexp="yes" postag="VBG|DT|RP|JJ|IN|CD|JJS|JJR|RBS|VBD|VBN|MD|NNP|NNS"/><exception regexp="yes">fact|hand|paperback|person|retrospect|studio|summary|mood|name|turn|deed|word|day|week|outlook|favor|phase</exception></token>
-		<token><exception postag_regexp="yes" postag="NN.*|JJ"/><exception regexp="yes">\d+</exception></token>
-		</pattern>
-		<message>The article is mising before the noun: <suggestion>the \2</suggestion>, <suggestion>a \2</suggestion> or <suggestion>an \2</suggestion>.</message>
-		<example type="incorrect">He was waiting in <marker>lobby</marker>.</example>
-		<example type="correct">He was waiting in the <marker>lobby</marker>.</example>
-		<example type="correct">I have exhausted myself day in day out</example>
-		<example type="correct"><marker>In fact</marker>, he wrote a letter to me.</example>
-		</rule>
-		<rule>
-		<!-- day in day out ignored above, checking for 'day' and 'week' -->
-		<pattern mark_from="2" mark_to="-1">
-		<token negate="yes" regexp="yes">day|week</token>
-		<token>in</token>
-    <token postag="NN"><exception postag_regexp="yes" postag="VBG|DT|RP|JJ|IN|CD|JJS|JJR|RBS|VBD|VBN|MD|NNP|NNS"/><exception regexp="yes">fact|hand|paperback|person|retrospect|studio|summary|mood|name|turn|deed|word|outlook|favor|phase</exception></token>
-		<token><exception postag_regexp="yes" postag="NN.*|JJ"/><exception regexp="yes">\d+</exception></token>
-		</pattern>
-		<message>The article is mising before the noun: <suggestion>the \3</suggestion>, <suggestion>a \3</suggestion> or <suggestion>an \3</suggestion>.</message>
-		<example type="incorrect">He was waiting in <marker>lobby</marker>.</example>
-		<example type="correct">He was waiting in the <marker>lobby</marker>.</example>
-		<example type="correct"><marker>In fact</marker>, he wrote a letter to me.</example>
-		</rule>
-		<rule>
-			<pattern mark_from="1" mark_to="-1">
-			<token>in</token>
-			<token postag="JJ"><exception postag_regexp="yes" postag="VB|VBG|RB|CD|IN"/></token>
-    	<token postag="NN"><exception postag_regexp="yes" postag="DT|RP|JJ|IN|CD|JJR|RBS|VBD|VBN|MD|NNP|NNS"/></token>
-		<token><exception postag_regexp="yes" postag="NN.*|JJ"/><exception regexp="yes">\d+</exception></token>
-			</pattern>
-			<message>The article is missing before the noun: <suggestion>the \2</suggestion>, <suggestion>a \2</suggestion> or <suggestion>an \2</suggestion>.</message>
-		<example type="incorrect">He was waiting in <marker>large lobby</marker>.</example>
-		<example type="correct">He was waiting in the <marker>large lobby</marker>.</example>
-		<example type="correct"><marker>In fact</marker>, he wrote a letter to me.</example>
-		</rule>
-		<!-- on -->
-<rule>
-		<pattern mark_from="1" mark_to="-1">
-		<token>on</token>
-    <token postag="NN"><exception postag_regexp="yes" postag="DT|RP|JJ|IN|CD|JJS|JJR|RBS|VBD|VBN|MD|NNP|NNS"/><exception regexp="yes">board|display|foot|hand|sale|affidavit|camera|cassette|chat|coach|deposit|diskette|file|lease|oath|offer|page|screen|site|strike|target|tour|track</exception></token>
-		<token><exception postag_regexp="yes" postag="NN.*"/></token>
-		</pattern>
-		<message>The article is missing before the noun: <suggestion>the \2</suggestion>, <suggestion>a \2</suggestion> or <suggestion>an \2</suggestion>.</message>
-		<example type="incorrect">ACET would not be able to reclaim tax on <marker>covenant</marker>.</example>
-		<example type="correct">Rob Brydon is Keith and Steve Coogan plays Geoff, seen for the first time on screen</example>
-	</rule>
-		<rule>
-		<pattern mark_from="1" mark_to="-1">
-		<token>on</token>
-		<token postag="JJ"><exception postag_regexp="yes" postag="VB|RB|CD|IN"/></token>
-    <token postag="NN"><exception postag_regexp="yes" postag="DT|RP|JJ|IN|CD|JJR|RBS|VBD|VBN|MD|NNP|NNS"/></token>
-		<token><exception postag_regexp="yes" postag="NN.*"/><exception>free</exception></token>
-		</pattern>
-		<message>The article is missing before the noun: <suggestion>the \2</suggestion>, <suggestion>a \2</suggestion> or <suggestion>an \2</suggestion>.</message>
-		<example type="incorrect">This remark is on <marker>previous page</marker>.</example>
-		<example type="correct">This remark is on <marker>the previous page</marker>.</example>
-	</rule>	 		
-		<rule>
-		<pattern mark_from="3" mark_to="-1">
-		<!--  to exclude phrases like: 'the turned up card' -->
-		<token><exception postag_regexp="yes" postag="DT"/></token>
-		<token><exception postag_regexp="yes" postag="VBN|VBD"/></token>
-		<token postag="IN"><exception regexp="yes">as|at|by|for|in|on|to|of|following</exception><exception postag="JJ.*" postag_regexp="yes"/></token>
-    <token postag="NN"><exception postag_regexp="yes" postag="DT|RP|JJ|IN|CD|RB|JJR|RBS|VBD|VBN|MD|NNP|NNS"/></token>
-		<token><exception postag_regexp="yes" postag="NN.*"/><exception>free</exception></token>
-		</pattern>
-		<message>The article is missing before the noun: <suggestion>the \4</suggestion>, <suggestion>a \4</suggestion> or <suggestion>an \4</suggestion>.</message>
-		<example type="incorrect">He is talking about <marker>friend</marker>.</example>
-		<example type="correct">He is talking about a friend.</example>
-	</rule>
-	<rule>
-		<pattern mark_from="3" mark_to="-1">
-		<token><exception postag_regexp="yes" postag="DT"/></token>
-		<token><exception postag_regexp="yes" postag="VBN|VBD"/></token>		
-		<token postag="IN"><exception regexp="yes">as|at|by|for|in|on|to|of|following</exception><exception postag="JJ.*" postag_regexp="yes"/></token>
-		<token postag="JJ"><exception postag_regexp="yes" postag="VB|RB|CD|IN"/></token>
-    <token postag="NN"><exception postag_regexp="yes" postag="DT|RP|JJ|IN|CD|JJR|RBS|VBD|VBN|MD|NNP|NNS"/></token>
-		<token><exception postag_regexp="yes" postag="NN.*"/><exception>free</exception></token>
-		</pattern>
-		<message>The article is missing before the noun: <suggestion>the \4 \5</suggestion>, <suggestion>a \4 \5</suggestion> or <suggestion>an \4 \5</suggestion>.</message>
-		<example type="incorrect">He is talking about <marker>good friend</marker>.</example>
-		<example type="correct">He is talking about a good friend.</example>
-	</rule>	
-	<rule>
-		<pattern mark_from="2" mark_to="-1">
-		<!--  to include phrases like: 'About a month ago,...' 
-		this kind of rules should be added for all above 
-		prepositions with exceptions-->
-		<token postag="SENT_START"/>
-		<token postag="IN"><exception regexp="yes">as|at|by|for|in|on|to|of|following</exception><exception postag="JJ.*" postag_regexp="yes"/></token>
-    <token postag="NN"><exception postag_regexp="yes" postag="DT|RP|JJ|IN|CD|JJR|RBS|VBD|VBN|MD|NNP|NNS"/></token>
-		<token><exception postag_regexp="yes" postag="NN.*|JJ"/></token>
-		</pattern>
-		<message>The article is missing before the noun: <suggestion>the \2</suggestion>, <suggestion>a \2</suggestion> or <suggestion>an \2</suggestion>.</message>
-		<example type="incorrect">About <marker>month</marker> before I left it was discussed...</example>
-		<example type="correct">About <marker>a month</marker> before I left it was discussed...</example>
-	</rule>
-	<rule>
-		<pattern mark_from="2" mark_to="-1">
-		<!--  to include phrases like: 'About a long month ago,...' -->
-		<token postag="SENT_START"/>
-		<token postag="IN"><exception regexp="yes">as|at|by|for|in|on|to|of|following</exception><exception postag="JJ.*" postag_regexp="yes"/></token>
-		<token postag="JJ"><exception postag_regexp="yes" postag="RB|CD|IN"/></token>
-		<token postag="NN"><exception postag_regexp="yes" postag="DT|RP|JJ|IN|CD|JJR|RBS|VBD|VBN|MD|NNP|NNS"/></token>
-		<token><exception postag_regexp="yes" postag="NN.*|JJ"/></token>
-		</pattern>
-		<message>The article is missing before the noun: <suggestion>the \2 \3</suggestion>, <suggestion>a \2 \3</suggestion> or <suggestion>an \2 \3</suggestion>.</message>
-		<example type="incorrect">About <marker>large boat</marker>.</example>
-		<example type="correct">About <marker>a large boat</marker>.</example>		
-	</rule>
-		
-	<rule>
-		<pattern mark_from="2" mark_to="-1">
-		<token><exception postag_regexp="yes" postag="DT"/></token>
-		<token>such</token>
-    <token postag="NN"><exception postag_regexp="yes" postag="DT|RP|JJ|IN|CD|JJR|RBS|VBD|VBN|MD|NNP|NNS"/></token>
-		<token><exception postag_regexp="yes" postag="NN.*"/><exception>free</exception></token>
-		</pattern>
-		<message>The article is missing before the noun: <suggestion>the \2</suggestion>, <suggestion>a \2</suggestion> or <suggestion>an \2</suggestion>.</message>
-		<example type="incorrect">He is talking of such <marker>friend</marker>.</example>
-		<example type="correct">He is talking of such a friend.</example>
-	</rule>
-	<rule>
-		<pattern mark_from="1" mark_to="-1">
-		<token>such</token>
-		<token postag="JJ"><exception postag_regexp="yes" postag="VB|RB|CD|IN"/></token>
-    <token postag="NN"><exception postag_regexp="yes" postag="DT|RP|JJ|IN|CD|JJR|RBS|VBD|VBN|MD|NNP|NNS"/></token>
-		<token><exception postag_regexp="yes" postag="NN.*"/><exception>free</exception></token>
-		</pattern>
-		<message>The article is missing before the noun: <suggestion>the \2</suggestion>, <suggestion>a \2</suggestion> or <suggestion>an \2</suggestion>.</message>
-		<example type="incorrect">He is talking of such <marker>good friend</marker>.</example>
-		<example type="correct">He is talking of such a good friend.</example>
-	</rule>	
-	
-	</rulegroup>
-	
+  <!--  needs more and more tweaking; 
+  currently the last exception in all rules is a simplification,
+  it should be more recursive, i.e., there one more rule for all current rules, structured like this: 
+  ... NN !NN.*|JJ.*, ... NN JJ !NN.*|JJ.* -->
+  <rulegroup id="ARTICLE_MISSING" name="Articles: article missing before a countable noun">
+    <rule>
+      <pattern mark_from="2" mark_to="-1">
+        <token negate_pos="yes" postag="DT"><exception postag_regexp="yes" postag="JJ|NN.*"/></token>
+        <token postag="VBP|VBZ" postag_regexp="yes"><exception regexp="yes">take[s]*|give[s]*|says|go|goes|becomes</exception><exception postag_regexp="yes" postag="NN.*|JJ"/></token>
+        <token postag="NN"><exception postag_regexp="yes" postag="DT|RB|RP|JJ|IN|CC|CD|JJR|RBS|VBD|VBN|MD|NNP|NNS"/></token>    
+        <token><exception postag_regexp="yes" postag="NN.*"/></token>
+      </pattern>
+      <message>The article is missing before the noun: <suggestion>the \3</suggestion>, <suggestion>a \3</suggestion> or <suggestion>an \3</suggestion>.</message>
+      <example type="incorrect">He is <marker>friend</marker>.</example>
+      <example type="correct">He is a friend.</example>    
+    </rule>
+    <rule>
+      <pattern mark_from="2" mark_to="-1">
+        <token negate_pos="yes" postag="DT"><exception postag_regexp="yes" postag="JJ|NN.*"/></token>
+        <token regexp="yes">take|takes</token>
+        <token postag="NN"><exception regexp="yes">place|charge</exception><exception postag_regexp="yes" postag="DT|RB|RP|JJ|IN|CC|CD|JJR|RBS|VBD|VBN|MD|NNP|NNS"/></token>
+        <token><exception postag_regexp="yes" postag="NN.*"/></token>
+      </pattern>
+      <message>The article is missing before the noun: <suggestion>the \3</suggestion>, <suggestion>a \3</suggestion> or <suggestion>an \3</suggestion>.</message>
+      <example type="correct">He takes his brother to school.</example>    
+      <example type="correct">The event takes place here.</example>    
+      <example type="incorrect">He takes <marker>brother</marker> with him.</example>
+    </rule>
+    <rule>
+      <pattern mark_from="2" mark_to="-1">
+        <token negate_pos="yes" postag="DT"><exception postag_regexp="yes" postag="JJ|NN.*"/></token>
+        <token regexp="yes">give|gives</token>
+        <token postag="NN"><exception regexp="yes">rise|way|room</exception><exception postag_regexp="yes" postag="DT|RB|RP|JJ|IN|CC|CD|JJR|RBS|VBD|VBN|MD|NNP|NNS"/></token>
+        <token><exception postag_regexp="yes" postag="NN.*"/></token>
+      </pattern>
+      <message>The article is missing before the noun: <suggestion>the \3</suggestion>, <suggestion>a \3</suggestion> or <suggestion>an \3</suggestion>.</message>
+      <example type="correct">He gives his brother a bar of chocolate.</example>    
+      <example type="correct">This event gives rise to a new era.</example>    
+      <example type="incorrect">He gives <marker>brother</marker> a bar of chocolate.</example>
+    </rule>
+    <rule>
+      <pattern mark_from="2" mark_to="-1">
+        <token negate_pos="yes" postag="DT"><exception postag_regexp="yes" postag="JJ|NN.*"/></token>
+        <token regexp="yes">go|goes</token>
+        <token postag="NN"><exception regexp="yes">hand</exception><exception postag_regexp="yes" postag="DT|RB|RP|JJ|IN|CC|CD|JJR|RBS|VBD|VBN|MD|NNP|NNS"/></token>
+        <token><exception postag_regexp="yes" postag="NN.*"/></token>
+      </pattern>
+      <message>The article is missing before the noun: <suggestion>the \3</suggestion>, <suggestion>a \3</suggestion> or <suggestion>an \3</suggestion>.</message>
+      <example type="incorrect">He goes <marker>step</marker> too far.</example>    
+      <example type="correct">He goes a step too far.</example>    
+      <example type="correct">This goes <marker>hand</marker> in hand...</example>
+    </rule>
+    <rule>
+      <pattern mark_from="2" mark_to="-1">
+        <token negate_pos="yes" postag="DT"><exception postag_regexp="yes" postag="JJ|NN.*"/></token>
+        <token regexp="yes">falls|fall</token>
+        <token postag="NN"><exception regexp="yes">victim</exception><exception postag_regexp="yes" postag="DT|RB|RP|JJ|IN|CC|CD|JJR|RBS|VBD|VBN|MD|NNP|NNS"/></token>
+        <token><exception postag_regexp="yes" postag="NN.*"/></token>
+      </pattern>
+      <message>The article is missing before the noun: <suggestion>the \3</suggestion>, <suggestion>a \3</suggestion> or <suggestion>an \3</suggestion>.</message>
+      <example type="incorrect">It falls <marker>tad</marker>.</example>    
+      <example type="correct">Inflation falls a tad.</example>    
+      <example type="correct">The website falls <marker>victim</marker> to...</example>
+    </rule>  
+    <rule>
+      <pattern mark_from="2" mark_to="-1">
+        <token negate_pos="yes" postag="DT"></token>
+        <token postag="VBP|VBZ" postag_regexp="yes"><exception postag="JJ"/></token>
+        <token postag="JJ"><exception postag_regexp="yes" postag="VB|RP|RB|CD|IN|CC|MD"/></token>
+        <token postag="NN"><exception postag_regexp="yes" postag="CC|DT|RB|RP|JJ|IN|CD|JJR|RBS|VBD|VBN|MD|NNS"/></token>
+        <token><exception postag_regexp="yes" postag="NN.*"/></token>
+      </pattern>
+      <message>The article is missing before the noun: <suggestion>the \3 \4</suggestion>, <suggestion>a \3 \4</suggestion> or <suggestion>an \3 \4</suggestion>.</message>
+      <example type="incorrect">He is <marker>good friend</marker>.</example>
+      <example type="correct">He is a good friend.</example>
+    </rule>
+    <!--  this rule needs to be expanded to all prepositions
+   so that exceptions could be accounted for properly, i.e.,
+   'at home' vs. 'a tourist home'; 'for example' vs. 'an example for you' -->
+     <rule>
+      <pattern mark_from="1" mark_to="-1">
+        <token>at</token>
+        <token postag="NN"><exception postag_regexp="yes" postag="DT|RP|JJ|IN|CD|JJS|JJR|RBS|VBD|VBN|MD|NNP|NNS"/><exception regexp="yes">bay|birth|ease|first|hand|home|issue|least|length|liberty|sea|table|variance</exception></token>
+        <token><exception postag_regexp="yes" postag="NN.*"/></token>
+      </pattern>
+      <message>The article is missing before the noun: <suggestion>the \2</suggestion>, <suggestion>a \2</suggestion> or <suggestion>an \2</suggestion>.</message>
+      <example type="incorrect">He was waiting at <marker>airport</marker>.</example>
+      <example type="correct">He was waiting at <marker>the airport</marker>.</example>
+    </rule>
+    <rule>
+      <pattern mark_from="1" mark_to="-1">
+        <token>at</token>
+        <token postag="JJ"><exception postag_regexp="yes" postag="VB|RB|CD|IN"/></token>
+        <token postag="NN"><exception postag_regexp="yes" postag="DT|RP|JJ|IN|CD|JJR|RBS|VBD|VBN|MD|NNP|NNS"/><exception>glance</exception></token>
+        <token><exception postag_regexp="yes" postag="NN.*"/><exception>free</exception></token>
+      </pattern>
+      <message>The article is missing before the noun: <suggestion>the \2</suggestion>, <suggestion>a \2</suggestion> or <suggestion>an \2</suggestion>.</message>
+      <example type="incorrect">He was waiting at <marker>new airport</marker>.</example>
+      <example type="correct">He was waiting at <marker>the new airport</marker>.</example>
+    </rule>   
+    <rule>
+      <pattern mark_from="1" mark_to="-1" case_sensitive="yes">
+        <token regexp="yes">[Bb]y</token>
+        <token postag="NN"><exception postag_regexp="yes" postag="DT|RB|RP|JJ|IN|CD|JJS|JJR|RBS|VBD|VBN|MD|NNP|NNS"/><exception regexp="yes">bit|word|step|way|example|dint|crook|hook|hand|machine|word|cheque|accident|day|means|mistake|name|train|rail|coach|bus|boat|automobile|helicopter|taxi|ambulance|plane|airplane|foot|section|article|page|road|letter|phone|telephone|mail|storm|arrangement|satellite|decree|year-end|lot|profession|district|week|eye|</exception></token>
+        <token><exception postag_regexp="yes" postag="NN.*"/><exception>free</exception></token>
+      </pattern>
+      <message>The article is missing before the noun: <suggestion>the \2</suggestion>, <suggestion>a \2</suggestion> or <suggestion>an \2</suggestion>.</message>
+      <example type="incorrect">He was waiting by <marker>river</marker>.</example>
+      <example type="correct">He was waiting by <marker>the river</marker>.</example>
+      <example type="correct">He works by <marker>day</marker>.</example>
+    </rule>
+    <rule>
+      <pattern mark_from="1" mark_to="-1">
+        <token>by</token>
+        <token postag="JJ"><exception postag_regexp="yes" postag="VB|RB|CD|IN"/></token>
+        <token postag="NN"><exception postag_regexp="yes" postag="DT|RP|JJ|IN|CD|JJR|RBS|VBD|VBN|MD|NNP|NNS"/></token>
+        <token><exception postag_regexp="yes" postag="NN.*"/><exception>free</exception></token>
+      </pattern>
+      <message>The article is missing before the noun: <suggestion>the \2 \3</suggestion>, <suggestion>a \2 \3</suggestion> or <suggestion>an \2</suggestion>.</message>
+      <example type="incorrect">He was waiting by <marker>small river</marker>.</example>
+      <example type="correct">He was waiting by <marker>the small river</marker>.</example>
+    </rule>
+    <rule>
+      <pattern mark_from="1" mark_to="-1">
+        <token>for</token>
+        <token postag="NN"><exception postag_regexp="yes" postag="VBD|VBG|VBN|DT|RP|JJ|IN|CD|JJS|JJR|RBS|VBD|MD|NNP"/><exception regexp="yes">are|instance|example|sale|word</exception></token>
+        <token><exception postag_regexp="yes" postag="NN.*"/><exception>free</exception></token>
+      </pattern>
+      <message>The article is mising before the noun: <suggestion>the \2</suggestion>, <suggestion>a \2</suggestion> or <suggestion>an \2</suggestion>.</message>
+      <example type="incorrect">He was waiting for <marker>answer</marker>.</example>
+      <example type="correct">He was waiting for <marker>your answer</marker>.</example>
+      <example type="correct"><marker>For example</marker>, he wrote a letter to me.</example>
+    </rule>
+    <rule>
+      <pattern mark_from="1" mark_to="-1">
+        <token>for</token>
+        <token postag="JJ"><exception postag_regexp="yes" postag="VB|VBG|RB|CD|IN"/></token>
+        <token postag="NN"><exception postag_regexp="yes" postag="DT|RP|JJ|IN|CD|JJR|RBS|VBD|VBN|MD|NNP|NNS"/></token>
+        <token><exception postag_regexp="yes" postag="NN.*"/><exception>free</exception></token>
+      </pattern>
+      <message>The article is missing before the noun: <suggestion>the \2</suggestion>, <suggestion>a \2</suggestion> or <suggestion>an \2</suggestion>.</message>
+      <example type="incorrect">He was waiting for <marker>swift answer</marker>.</example>
+      <example type="correct">He was waiting for <marker>your swift answer</marker>.</example>
+      <example type="correct"><marker>For example</marker>, he wrote a letter to me.</example>
+    </rule>
+    <rule>
+      <pattern mark_from="1" mark_to="-1">
+        <token>in</token>
+        <token postag="NN"><exception postag_regexp="yes" postag="VBG|DT|RP|JJ|IN|CD|JJS|JJR|RBS|VBD|VBN|MD|NNP|NNS"/><exception regexp="yes">fact|hand|paperback|person|retrospect|studio|summary|mood|name|turn|deed|word|day|week|outlook|favor|phase</exception></token>
+        <token><exception postag_regexp="yes" postag="NN.*|JJ"/><exception regexp="yes">\d+</exception></token>
+      </pattern>
+      <message>The article is mising before the noun: <suggestion>the \2</suggestion>, <suggestion>a \2</suggestion> or <suggestion>an \2</suggestion>.</message>
+      <example type="incorrect">He was waiting in <marker>lobby</marker>.</example>
+      <example type="correct">He was waiting in the <marker>lobby</marker>.</example>
+      <example type="correct">I have exhausted myself day in day out</example>
+      <example type="correct"><marker>In fact</marker>, he wrote a letter to me.</example>
+    </rule>
+    <rule>
+      <!-- day in day out ignored above, checking for 'day' and 'week' -->
+      <pattern mark_from="2" mark_to="-1">
+        <token negate="yes" regexp="yes">day|week</token>
+        <token>in</token>
+        <token postag="NN"><exception postag_regexp="yes" postag="VBG|DT|RP|JJ|IN|CD|JJS|JJR|RBS|VBD|VBN|MD|NNP|NNS"/><exception regexp="yes">fact|hand|paperback|person|retrospect|studio|summary|mood|name|turn|deed|word|outlook|favor|phase</exception></token>
+        <token><exception postag_regexp="yes" postag="NN.*|JJ"/><exception regexp="yes">\d+</exception></token>
+      </pattern>
+      <message>The article is mising before the noun: <suggestion>the \3</suggestion>, <suggestion>a \3</suggestion> or <suggestion>an \3</suggestion>.</message>
+      <example type="incorrect">He was waiting in <marker>lobby</marker>.</example>
+      <example type="correct">He was waiting in the <marker>lobby</marker>.</example>
+      <example type="correct"><marker>In fact</marker>, he wrote a letter to me.</example>
+    </rule>
+    <rule>
+      <pattern mark_from="1" mark_to="-1">
+        <token>in</token>
+        <token postag="JJ"><exception postag_regexp="yes" postag="VB|VBG|RB|CD|IN"/></token>
+        <token postag="NN"><exception postag_regexp="yes" postag="DT|RP|JJ|IN|CD|JJR|RBS|VBD|VBN|MD|NNP|NNS"/></token>
+        <token><exception postag_regexp="yes" postag="NN.*|JJ"/><exception regexp="yes">\d+</exception></token>
+      </pattern>
+      <message>The article is missing before the noun: <suggestion>the \2</suggestion>, <suggestion>a \2</suggestion> or <suggestion>an \2</suggestion>.</message>
+      <example type="incorrect">He was waiting in <marker>large lobby</marker>.</example>
+      <example type="correct">He was waiting in the <marker>large lobby</marker>.</example>
+      <example type="correct"><marker>In fact</marker>, he wrote a letter to me.</example>
+    </rule>
+    <!-- on -->
+    <rule>
+      <pattern mark_from="1" mark_to="-1">
+        <token>on</token>
+        <token postag="NN"><exception postag_regexp="yes" postag="DT|RP|JJ|IN|CD|JJS|JJR|RBS|VBD|VBN|MD|NNP|NNS"/><exception regexp="yes">board|display|foot|hand|sale|affidavit|camera|cassette|chat|coach|deposit|diskette|file|lease|oath|offer|page|screen|site|strike|target|tour|track</exception></token>
+        <token><exception postag_regexp="yes" postag="NN.*"/></token>
+      </pattern>
+      <message>The article is missing before the noun: <suggestion>the \2</suggestion>, <suggestion>a \2</suggestion> or <suggestion>an \2</suggestion>.</message>
+      <example type="incorrect">ACET would not be able to reclaim tax on <marker>covenant</marker>.</example>
+      <example type="correct">Rob Brydon is Keith and Steve Coogan plays Geoff, seen for the first time on screen</example>
+    </rule>
+    <rule>
+      <pattern mark_from="1" mark_to="-1">
+        <token>on</token>
+        <token postag="JJ"><exception postag_regexp="yes" postag="VB|RB|CD|IN"/></token>
+        <token postag="NN"><exception postag_regexp="yes" postag="DT|RP|JJ|IN|CD|JJR|RBS|VBD|VBN|MD|NNP|NNS"/></token>
+        <token><exception postag_regexp="yes" postag="NN.*"/><exception>free</exception></token>
+      </pattern>
+      <message>The article is missing before the noun: <suggestion>the \2</suggestion>, <suggestion>a \2</suggestion> or <suggestion>an \2</suggestion>.</message>
+      <example type="incorrect">This remark is on <marker>previous page</marker>.</example>
+      <example type="correct">This remark is on <marker>the previous page</marker>.</example>
+    </rule>       
+    <rule>
+      <pattern mark_from="3" mark_to="-1">
+        <!--  to exclude phrases like: 'the turned up card' -->
+        <token><exception postag_regexp="yes" postag="DT"/></token>
+        <token><exception postag_regexp="yes" postag="VBN|VBD"/></token>
+        <token postag="IN"><exception regexp="yes">as|at|by|for|in|on|to|of|following</exception><exception postag="JJ.*" postag_regexp="yes"/></token>
+        <token postag="NN"><exception postag_regexp="yes" postag="DT|RP|JJ|IN|CD|RB|JJR|RBS|VBD|VBN|MD|NNP|NNS"/></token>
+        <token><exception postag_regexp="yes" postag="NN.*"/><exception>free</exception></token>
+      </pattern>
+      <message>The article is missing before the noun: <suggestion>the \4</suggestion>, <suggestion>a \4</suggestion> or <suggestion>an \4</suggestion>.</message>
+      <example type="incorrect">He is talking about <marker>friend</marker>.</example>
+      <example type="correct">He is talking about a friend.</example>
+    </rule>
+    <rule>
+      <pattern mark_from="3" mark_to="-1">
+        <token><exception postag_regexp="yes" postag="DT"/></token>
+        <token><exception postag_regexp="yes" postag="VBN|VBD"/></token>    
+        <token postag="IN"><exception regexp="yes">as|at|by|for|in|on|to|of|following</exception><exception postag="JJ.*" postag_regexp="yes"/></token>
+        <token postag="JJ"><exception postag_regexp="yes" postag="VB|RB|CD|IN"/></token>
+        <token postag="NN"><exception postag_regexp="yes" postag="DT|RP|JJ|IN|CD|JJR|RBS|VBD|VBN|MD|NNP|NNS"/></token>
+        <token><exception postag_regexp="yes" postag="NN.*"/><exception>free</exception></token>
+      </pattern>
+      <message>The article is missing before the noun: <suggestion>the \4 \5</suggestion>, <suggestion>a \4 \5</suggestion> or <suggestion>an \4 \5</suggestion>.</message>
+      <example type="incorrect">He is talking about <marker>good friend</marker>.</example>
+      <example type="correct">He is talking about a good friend.</example>
+    </rule>  
+    <rule>
+      <pattern mark_from="2" mark_to="-1">
+        <!--  to include phrases like: 'About a month ago,...' 
+        this kind of rules should be added for all above 
+        prepositions with exceptions-->
+        <token postag="SENT_START"/>
+        <token postag="IN"><exception regexp="yes">as|at|by|for|in|on|to|of|following</exception><exception postag="JJ.*" postag_regexp="yes"/></token>
+        <token postag="NN"><exception postag_regexp="yes" postag="DT|RP|JJ|IN|CD|JJR|RBS|VBD|VBN|MD|NNP|NNS"/></token>
+        <token><exception postag_regexp="yes" postag="NN.*|JJ"/></token>
+      </pattern>
+      <message>The article is missing before the noun: <suggestion>the \2</suggestion>, <suggestion>a \2</suggestion> or <suggestion>an \2</suggestion>.</message>
+      <example type="incorrect">About <marker>month</marker> before I left it was discussed...</example>
+      <example type="correct">About <marker>a month</marker> before I left it was discussed...</example>
+    </rule>
+    <rule>
+      <pattern mark_from="2" mark_to="-1">
+        <!-- to include phrases like: 'About a long month ago,...' -->
+        <token postag="SENT_START"/>
+        <token postag="IN"><exception regexp="yes">as|at|by|for|in|on|to|of|following</exception><exception postag="JJ.*" postag_regexp="yes"/></token>
+        <token postag="JJ"><exception postag_regexp="yes" postag="RB|CD|IN"/></token>
+        <token postag="NN"><exception postag_regexp="yes" postag="DT|RP|JJ|IN|CD|JJR|RBS|VBD|VBN|MD|NNP|NNS"/></token>
+        <token><exception postag_regexp="yes" postag="NN.*|JJ"/></token>
+      </pattern>
+      <message>The article is missing before the noun: <suggestion>the \2 \3</suggestion>, <suggestion>a \2 \3</suggestion> or <suggestion>an \2 \3</suggestion>.</message>
+      <example type="incorrect">About <marker>large boat</marker>.</example>
+      <example type="correct">About <marker>a large boat</marker>.</example>    
+    </rule>
+    <rule>
+      <pattern mark_from="2" mark_to="-1">
+        <token><exception postag_regexp="yes" postag="DT"/></token>
+        <token>such</token>
+        <token postag="NN"><exception postag_regexp="yes" postag="DT|RP|JJ|IN|CD|JJR|RBS|VBD|VBN|MD|NNP|NNS"/></token>
+        <token><exception postag_regexp="yes" postag="NN.*"/><exception>free</exception></token>
+      </pattern>
+      <message>The article is missing before the noun: <suggestion>the \2</suggestion>, <suggestion>a \2</suggestion> or <suggestion>an \2</suggestion>.</message>
+      <example type="incorrect">He is talking of such <marker>friend</marker>.</example>
+      <example type="correct">He is talking of such a friend.</example>
+    </rule>
+    <rule>
+      <pattern mark_from="1" mark_to="-1">
+        <token>such</token>
+        <token postag="JJ"><exception postag_regexp="yes" postag="VB|RB|CD|IN"/></token>
+        <token postag="NN"><exception postag_regexp="yes" postag="DT|RP|JJ|IN|CD|JJR|RBS|VBD|VBN|MD|NNP|NNS"/></token>
+        <token><exception postag_regexp="yes" postag="NN.*"/><exception>free</exception></token>
+      </pattern>
+      <message>The article is missing before the noun: <suggestion>the \2</suggestion>, <suggestion>a \2</suggestion> or <suggestion>an \2</suggestion>.</message>
+      <example type="incorrect">He is talking of such <marker>good friend</marker>.</example>
+      <example type="correct">He is talking of such a good friend.</example>
+    </rule>    
+  </rulegroup>
+  
   <rulegroup id="AFFORD_VBG" name="'afford', 'choose', 'deserve', 'pretend', 'strive' and 'struggle' used with gerund instead of infinitive">
     <rule>
       <pattern mark_from="1">
@@ -1500,7 +1493,7 @@ $Id: grammar.xml,v 1.123 2007-01-08 21:43:54 dnaber Exp $
       <example type="correct">He advised not to stay calm.</example>
       <example type="incorrect">He advised not <marker>staying</marker> calm.</example>
     </rule>
-        <rule>
+    <rule>
       <pattern mark_from="2">
         <token inflected="yes" regexp="yes">advise|help|remind</token>
         <token postag="PRP"/>
@@ -1533,7 +1526,7 @@ $Id: grammar.xml,v 1.123 2007-01-08 21:43:54 dnaber Exp $
       <message>Did you mean <suggestion>these</suggestion>?</message>
       <example type="correct">These errors are easy to fix.</example>
       <example type="incorrect"><marker>This</marker> errors are easy to fix.</example>
-	  <example type="correct">This forms a sharp contract with...</example>
+    <example type="correct">This forms a sharp contract with...</example>
     </rule>
     <rule>
       <pattern mark_to="-1">
@@ -1594,8 +1587,8 @@ $Id: grammar.xml,v 1.123 2007-01-08 21:43:54 dnaber Exp $
   <rulegroup id="DID_BASEFORM" name="Infinitive verb after 'did'">
     <rule>
       <pattern mark_from="3">
-   	    <token negate="yes">than</token>
-  	    <token negate="yes">free</token>
+         <token negate="yes">than</token>
+        <token negate="yes">free</token>
         <token regexp="yes">did|will|could|can|should|would|does</token>
         <token postag="(VBD|VBG|VBZ)" postag_regexp="yes"><exception postag="VBP"/></token>
       </pattern>
@@ -1673,15 +1666,15 @@ $Id: grammar.xml,v 1.123 2007-01-08 21:43:54 dnaber Exp $
       <pattern mark_from="1" mark_to="-2">
         <token postag="JJR"><exception postag="IN"/></token>
         <token regexp="yes">(then|as)</token>
-				<token negate_pos="yes" postag="DT"/>
-		  <!-- the below condition fixed a false alarm - 
-		  'these cheeses just get firmer as water evaporates' -->				
-				<token negate_pos="yes" postag_regexp="yes" postag="VB.*"/>
+        <token negate_pos="yes" postag="DT"/>
+      <!-- the below condition fixed a false alarm - 
+      'these cheeses just get firmer as water evaporates' -->        
+        <token negate_pos="yes" postag_regexp="yes" postag="VB.*"/>
       </pattern>
       <message>Comparison requires <suggestion>than</suggestion>, not 'then' nor 'as'.</message>
       <example type="correct">This house is bigger <marker>than</marker> mine.</example>
       <example type="incorrect">This house is bigger <marker>then</marker> mine.</example>
-	  <example type="correct">This palace was used later as a prison.</example>
+      <example type="correct">This palace was used later as a prison.</example>
     </rule>
   </rulegroup>
 
@@ -1703,62 +1696,62 @@ $Id: grammar.xml,v 1.123 2007-01-08 21:43:54 dnaber Exp $
     <message>Did you mean <suggestion>a more \3</suggestion>?</message>
     <example type="correct">I can give you <marker>a more detailed</marker> description of what's necessary.</example>
     <example type="incorrect">I can give you <marker>more a detailed</marker> description of what's necessary.</example>
-   <example type="incorrect">I wish it was <marker>more an analyzed</marker> case</example>
+    <example type="incorrect">I wish it was <marker>more an analyzed</marker> case</example>
   </rule>
 
   <!-- this works now, and accounts for subjunctive
   i.e., she recommended that he use his money... -->
-   <rulegroup id="HE_VERB_AGR" name="Agreement error: Non-third person verb with 'he'">
-   <rule>
+  <rulegroup id="HE_VERB_AGR" name="Agreement error: Non-third person verb with 'he'">
+    <rule>
       <pattern mark_from="2">
-		  <token regexp="yes" negate="yes">(that|has|will|must|could|can|should|would|does|did|may|might)</token>
-		  <token regexp="yes">he|she</token>
-		  <token postag="VB|VBG|VBP" postag_regexp="yes"><exception postag_regexp="yes" postag="VBN|VBD|JJ"/></token>
-	  </pattern>
+        <token regexp="yes" negate="yes">(that|has|will|must|could|can|should|would|does|did|may|might)</token>
+        <token regexp="yes">he|she</token>
+        <token postag="VB|VBG|VBP" postag_regexp="yes"><exception postag_regexp="yes" postag="VBN|VBD|JJ"/></token>
+      </pattern>
       <message>'He' must be used with a third person verb, e.g. 'he walks'</message>
       <example type="correct">He <marker>walks</marker> to the building.</example>
       <example type="incorrect">He <marker>walk</marker> to the building.</example>
-       <example type="correct">He <marker>walked</marker> to the building.</example>
-   </rule>
-   <!--  subjunctive with 'that' -->
-   <rule>
+      <example type="correct">He <marker>walked</marker> to the building.</example>
+    </rule>
+    <!--  subjunctive with 'that' -->
+    <rule>
       <pattern mark_from="3">
-      <token postag_regexp="yes" postag="VB.*"/>
-		  <token>that</token>
-		  <token regexp="yes">he|she</token>
-		  <token postag="VBG" postag_regexp="yes"></token>
-	  </pattern>
+        <token postag_regexp="yes" postag="VB.*"/>
+        <token>that</token>
+        <token regexp="yes">he|she</token>
+        <token postag="VBG" postag_regexp="yes"></token>
+      </pattern>
       <message>'He' must be used with a third person verb, e.g. 'he walks'</message>
       <example type="correct">She recommended that he <marker>walk</marker> to the building.</example>
       <example type="incorrect">She stipulates that he <marker>walking</marker> to the building.</example>
       <example type="correct">He <marker>walked</marker> to the building.</example>
-   </rule>
-   <!--  subjunctive without 'that' -->
-   <rule>
+    </rule>
+    <!--  subjunctive without 'that' -->
+    <rule>
       <pattern mark_from="2">
-      <token postag_regexp="yes" postag="VB.*"/>
-		  <token regexp="yes">he|she</token>
-		  <token postag="VBG" postag_regexp="yes"></token>
-	  </pattern>
+        <token postag_regexp="yes" postag="VB.*"/>
+        <token regexp="yes">he|she</token>
+        <token postag="VBG" postag_regexp="yes"></token>
+      </pattern>
       <message>'He' must be used with a third person verb, e.g. 'he walks'</message>
       <example type="correct">She recommended he <marker>walk</marker> to the building.</example>
       <example type="incorrect">She stipulates he <marker>walking</marker> to the building.</example>
       <example type="correct">He <marker>walked</marker> to the building.</example>
-   </rule>   
-   <rule>
+    </rule>   
+    <rule>
       <pattern mark_from="2" mark_to="-1">
-		  <token><exception regexp="yes">that</exception><exception postag_regexp="yes" postag="CC|IN|DT|MD"/></token>
-		  <token postag="NNP" regexp="yes">.{2,}<exception postag="JJ"/></token>
-		  <token postag="VB|VBP" postag_regexp="yes" regexp="yes">\p{Lower}+<exception postag_regexp="yes" postag="VBN|VBD|JJ|IN"/></token>
-		  <token postag_regexp="yes" postag="IN|DT"/>
-	  </pattern>
+        <token><exception regexp="yes">that</exception><exception postag_regexp="yes" postag="CC|IN|DT|MD"/></token>
+        <token postag="NNP" regexp="yes">.{2,}<exception postag="JJ"/></token>
+        <token postag="VB|VBP" postag_regexp="yes" regexp="yes">\p{Lower}+<exception postag_regexp="yes" postag="VBN|VBD|JJ|IN"/></token>
+        <token postag_regexp="yes" postag="IN|DT"/>
+      </pattern>
       <message>The proper name in singular (\2) must be used with a third person verb, e.g. '\2 walks'</message>
       <example type="correct">Bill <marker>walks</marker> to the building.</example>
       <example type="incorrect">Ann <marker>walk</marker> to the building.</example>
-       <example type="correct">Guiness <marker>walked</marker> to the building.</example>
-       <example type="correct">Roosevelt and Hoover speak each other's lines.</example>
-   </rule>
-	</rulegroup>
+      <example type="correct">Guiness <marker>walked</marker> to the building.</example>
+      <example type="correct">Roosevelt and Hoover speak each other's lines.</example>
+    </rule>
+  </rulegroup>
   <!-- TODO: fix false alarm for "one of you thinks ...", "even though the world around you thinks"
    <rule id="I_VERB_AGR" name="Agreement error: third person verb with 'I'">
       <pattern mark_from="1"><token regexp="yes">I|we|they|you</token><token postag="VBZ"/></pattern>
@@ -1782,42 +1775,43 @@ $Id: grammar.xml,v 1.123 2007-01-08 21:43:54 dnaber Exp $
   </rule>
   
   <rulegroup id="CANT_HELP_BUT" name="can't help but (can't help+gerund)">
-  <rule>
-	  <pattern>
-		  <token>cannot</token>
-		  <token>help</token>
-		  <token>but</token>
-		  <token postag="VB"/>
-	  </pattern>
-	  <message>This is a nonstandard phrase. Use <suggestion>cannot help</suggestion> with a gerund (the verb form that ends with -ing).</message>
-	  <example type="incorrect">I <marker>cannot help but fall</marker> in love with you.</example>
-	  <example type="correct">I <marker>cannot help falling</marker> in love with you.</example>
-  </rule>
-     <rule>
-	  <pattern>
-		  <token>can</token>
-		  <token>'</token>
-		  <token>t</token>
-		  <token>help</token>
-		  <token>but</token>
-		  <token postag="VB"/>
-	  </pattern>
-	  <message>This is a nonstandard phrase. Use <suggestion>can't help</suggestion> with a gerund (the verb form that ends with -ing).</message>
-	  <example type="incorrect">I <marker>can't help but fall</marker> in love with you.</example>
-	  <example type="correct">I <marker>can't help falling</marker> in love with you.</example>
-  </rule>
+    <rule>
+      <pattern>
+        <token>cannot</token>
+        <token>help</token>
+        <token>but</token>
+        <token postag="VB"/>
+      </pattern>
+      <message>This is a nonstandard phrase. Use <suggestion>cannot help</suggestion> with a gerund (the verb form that ends with -ing).</message>
+      <example type="incorrect">I <marker>cannot help but fall</marker> in love with you.</example>
+      <example type="correct">I <marker>cannot help falling</marker> in love with you.</example>
+    </rule>
+    <rule>
+      <pattern>
+        <token>can</token>
+        <token>'</token>
+        <token>t</token>
+        <token>help</token>
+        <token>but</token>
+        <token postag="VB"/>
+      </pattern>
+      <message>This is a nonstandard phrase. Use <suggestion>can't help</suggestion> with a gerund (the verb form that ends with -ing).</message>
+      <example type="incorrect">I <marker>can't help but fall</marker> in love with you.</example>
+      <example type="correct">I <marker>can't help falling</marker> in love with you.</example>
+    </rule>
   </rulegroup> 
-	 
-	 <rule name="'if or not' (whether or not)" id="IF_OR_NOT">
-	 <pattern>
-	 	<token>if</token>
-	 	<token>or</token>
-	 	<token>not</token>
-	 </pattern>
-	 <message>This is a non-standard phrase. Did you mean <suggestion>whether or not</suggestion>?</message>
-	 <example type="correct"> It's not certain whether communication with the site's customer service has led it to be clear <marker>whether or not</marker> this is true.</example>
- 	 <example type="incorrect"> It's not certain whether communication with the site's customer service has led it to be clear <marker>if or not</marker> this is true.</example>
-	 </rule>
+   
+  <rule name="'if or not' (whether or not)" id="IF_OR_NOT">
+    <pattern>
+      <token>if</token>
+      <token>or</token>
+      <token>not</token>
+    </pattern>
+    <message>This is a non-standard phrase. Did you mean <suggestion>whether or not</suggestion>?</message>
+    <example type="correct"> It's not certain whether communication with the site's customer service has led it to be clear <marker>whether or not</marker> this is true.</example>
+    <example type="incorrect"> It's not certain whether communication with the site's customer service has led it to be clear <marker>if or not</marker> this is true.</example>
+  </rule>
+  
   </category>
 
   <!-- ====================================================================== -->
@@ -1838,84 +1832,85 @@ $Id: grammar.xml,v 1.123 2007-01-08 21:43:54 dnaber Exp $
 
   <rule id="DT_DT" name="Two consecutive articles, e.g. 'the a'">
     <pattern>
-	<!--
-      <token postag="DT"><exception regexp="yes">all|half|both|this|each|that|them|these|those|such|neither</exception></token>
-      <token postag="DT"><exception regexp="yes">much|many</exception></token>
-		it's easier to be explicit about the, an, a than to file exceptions...
-		it could be written as several rules in a rulegroup so that it wouldn't match
-		the the, a a nor an an... 
-	-->
-		<token regexp="yes">a|an|the|this</token>
-		<token regexp="yes">a|an|the|this</token>
+      <!--
+        <token postag="DT"><exception regexp="yes">all|half|both|this|each|that|them|these|those|such|neither</exception></token>
+        <token postag="DT"><exception regexp="yes">much|many</exception></token>
+      it's easier to be explicit about the, an, a than to file exceptions...
+      it could be written as several rules in a rulegroup so that it wouldn't match
+      the the, a a nor an an... 
+      -->
+      <token regexp="yes">a|an|the|this</token>
+      <token regexp="yes">a|an|the|this</token>
     </pattern>
     <message>Maybe you need to remove the second determiner so that only <suggestion>\1</suggestion> is left.</message>
     <example type="correct"><marker>The</marker> thing is this.</example>
     <example type="incorrect"><marker>The a</marker> thing is this.</example>
-	<example type="correct">The Thames was once a much broader river.</example>
+  <example type="correct">The Thames was once a much broader river.</example>
   </rule>
 
-	<rulegroup name="Phrase repetition" id="PHRASE_REPETITION">
-	<!--  from Wikipedia Typos page -->
-	<rule>
-		<pattern>
-			<token>at</token>
-			<token>the</token>
-			<token>at</token>
-			<token>the</token>
-		</pattern>
-		<message>This phrase is duplicated. You should probably leave only <suggestion>\1 \2</suggestion>.</message>
-		<example type="incorrect">Hepatology <marker>at the at the</marker> turn of centuries.</example>
-		<example type="correct">Hepatology <marker>at the</marker> turn of centuries.</example>
-	</rule>
-		<rule>
-		<pattern>
-			<token>on</token>
-			<token>the</token>
-			<token>on</token>
-			<token>the</token>
-		</pattern>
-		<message>This phrase is duplicated. You should probably leave only <suggestion>\1 \2</suggestion>.</message>
-		<example type="incorrect">Again he returned to the study and placed the lamp <marker>on the on the</marker> table</example>
-		<example type="correct">Again he returned to the study and placed the lamp <marker>on the</marker> table</example>
-	</rule>
-		<rule>
-		<pattern>
-			<token>from</token>
-			<token>the</token>
-			<token>from</token>
-			<token>the</token>
-		</pattern>
-		<message>This phrase is duplicated. You should probably leave only <suggestion>\1 \2</suggestion>.</message>
-		<example type="incorrect">A handicapped accessible shuttle bus is available <marker>from the from the</marker> Purdue University parking lot.</example>
-		<example type="correct">A handicapped accessible shuttle bus is available <marker>from the</marker> Purdue University parking lot.</example>
-	</rule>
-	
-	</rulegroup>
+  <rulegroup name="Phrase repetition" id="PHRASE_REPETITION">
+  <!--  from Wikipedia Typos page -->
+  <rule>
+    <pattern>
+      <token>at</token>
+      <token>the</token>
+      <token>at</token>
+      <token>the</token>
+    </pattern>
+    <message>This phrase is duplicated. You should probably leave only <suggestion>\1 \2</suggestion>.</message>
+    <example type="incorrect">Hepatology <marker>at the at the</marker> turn of centuries.</example>
+    <example type="correct">Hepatology <marker>at the</marker> turn of centuries.</example>
+  </rule>
+    <rule>
+    <pattern>
+      <token>on</token>
+      <token>the</token>
+      <token>on</token>
+      <token>the</token>
+    </pattern>
+    <message>This phrase is duplicated. You should probably leave only <suggestion>\1 \2</suggestion>.</message>
+    <example type="incorrect">Again he returned to the study and placed the lamp <marker>on the on the</marker> table</example>
+    <example type="correct">Again he returned to the study and placed the lamp <marker>on the</marker> table</example>
+  </rule>
+    <rule>
+    <pattern>
+      <token>from</token>
+      <token>the</token>
+      <token>from</token>
+      <token>the</token>
+    </pattern>
+    <message>This phrase is duplicated. You should probably leave only <suggestion>\1 \2</suggestion>.</message>
+    <example type="incorrect">A handicapped accessible shuttle bus is available <marker>from the from the</marker> Purdue University parking lot.</example>
+    <example type="correct">A handicapped accessible shuttle bus is available <marker>from the</marker> Purdue University parking lot.</example>
+  </rule>
+  
+  </rulegroup>
 
-	<rulegroup name="non-standard contractions '(I've a...)'" id="I_VE_A">
-	<rule>
-		<pattern>
-		  <token/>
-			<token>'</token>
-			<token>ve</token>
-			<token regexp="yes">a|an</token>
-		</pattern>
-		<message>This is a non-standard contraction. Use <suggestion>\1 have \4</suggestion> or <suggestion>\1've got \4</suggestion> to express posession.</message>
-		<example type="correct">I've got a new car.</example>
-   	<example type="incorrect"><marker>I've a</marker> new car.</example>
-	</rule>
-		<rule>
-		<pattern>
-			<token>'</token>
-			<token>ve</token>
-			<token postag="CD"/>
-		</pattern>
-		<message>This is a non-standard contraction. Use <suggestion>have \3</suggestion> or <suggestion>'ve got</suggestion> to express posession.</message>
-		<example type="correct">I've got three new cars.</example>
-   	<example type="incorrect">I<marker>'ve three</marker> new cars.</example>
-	</rule>
-	
-	</rulegroup>
+  <rulegroup name="non-standard contractions '(I've a...)'" id="I_VE_A">
+  <rule>
+    <pattern>
+      <token/>
+      <token>'</token>
+      <token>ve</token>
+      <token regexp="yes">a|an</token>
+    </pattern>
+    <message>This is a non-standard contraction. Use <suggestion>\1 have \4</suggestion> or <suggestion>\1've got \4</suggestion> to express posession.</message>
+    <example type="correct">I've got a new car.</example>
+    <example type="incorrect"><marker>I've a</marker> new car.</example>
+  </rule>
+    <rule>
+    <pattern>
+      <token>'</token>
+      <token>ve</token>
+      <token postag="CD"/>
+    </pattern>
+    <message>This is a non-standard contraction. Use <suggestion>have \3</suggestion> or <suggestion>'ve got</suggestion> to express posession.</message>
+    <example type="correct">I've got three new cars.</example>
+    <example type="incorrect">I<marker>'ve three</marker> new cars.</example>
+  </rule>
+  
+  </rulegroup>
+  
   </category>
 
   <category name="Punctuation Errors">
@@ -1964,10 +1959,8 @@ $Id: grammar.xml,v 1.123 2007-01-08 21:43:54 dnaber Exp $
           <token negate="yes">,</token>
         </pattern>
         <message>The comma is missing here: <suggestion>i.e.,</suggestion>.</message>
-        <example type="correct">Who's responsible for providing public facilities, <marker>i.e.,</marker> a 
-          post office, library, etc. for the Northwest?</example>
-        <example type="incorrect">Who's responsible for providing public facilities, <marker>i.e.</marker> a 
-          post office, library, etc. for the Northwest?</example>
+        <example type="correct">Who's responsible for providing public facilities, <marker>i.e.,</marker> a post office, library, etc. for the Northwest?</example>
+        <example type="incorrect">Who's responsible for providing public facilities, <marker>i.e.</marker> a post office, library, etc. for the Northwest?</example>
       </rule>
       <rule>
         <pattern mark_to="-1">
@@ -1975,10 +1968,8 @@ $Id: grammar.xml,v 1.123 2007-01-08 21:43:54 dnaber Exp $
           <token negate="yes" regexp="yes">,|\.</token>
         </pattern>
         <message>The comma and dots are missing here:<suggestion>i.e.,</suggestion>.</message>
-        <example type="correct">Who's responsible for providing public facilities, <marker>i.e.,</marker> a 
-          post office, library, etc. for the Northwest?</example>
-        <example type="incorrect">Who's responsible for providing public facilities, <marker>ie</marker> a 
-          post office, library, etc. for the Northwest?</example>
+        <example type="correct">Who's responsible for providing public facilities, <marker>i.e.,</marker> a post office, library, etc. for the Northwest?</example>
+        <example type="incorrect">Who's responsible for providing public facilities, <marker>ie</marker> a post office, library, etc. for the Northwest?</example>
       </rule>
       <rule>
         <pattern mark_to="-1">
