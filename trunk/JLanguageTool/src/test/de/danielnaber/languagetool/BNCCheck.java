@@ -36,6 +36,9 @@ import de.danielnaber.languagetool.tools.Tools;
  */
 public final class BNCCheck {
 
+  private Main prg;
+  private TextFilter textFilter = new BNCTextFilter();
+  
   public static void main(String[] args) throws IOException, ParserConfigurationException, SAXException {
     if (args.length != 1) {
       System.out.println("Usage: BNCTest <directory>");
@@ -44,8 +47,6 @@ public final class BNCCheck {
     BNCCheck prg = new BNCCheck();
     prg.run(new File(args[0]));
   }
-
-  private Main prg;
   
   private BNCCheck() throws IOException, ParserConfigurationException, SAXException {
     prg = new Main(false, Language.ENGLISH, null);
@@ -67,17 +68,26 @@ public final class BNCCheck {
     } else {
       System.out.println("Checking " + file.getAbsolutePath());
       String text = StringTools.readFile(file.getAbsolutePath());
-      text = text.replaceAll("(?s)<header.*?>.*?</header>", "");
-      text = text.replaceAll("<w.*?>", "");
-      text = text.replaceAll("<c.*?>", "");
-      text = text.replaceAll("<.*?>", "");
-      text = text.replaceAll(" +", " ");
-      text = text.replaceAll("&bquo|&equo", "\"");
-      text = text.replaceAll("&mdash;?", "--");
-      text = text.replaceAll("&amp;?", "&");
+      text = textFilter.filter(text);
       //System.out.println(text);
       Tools.checkText(text, prg.getJLanguageTool());
     }
   }
 
+}
+
+class BNCTextFilter implements TextFilter {
+
+  public String filter(String text) {
+    text = text.replaceAll("(?s)<header.*?>.*?</header>", "");
+    text = text.replaceAll("<w.*?>", "");
+    text = text.replaceAll("<c.*?>", "");
+    text = text.replaceAll("<.*?>", "");
+    text = text.replaceAll(" +", " ");
+    text = text.replaceAll("&bquo|&equo", "\"");
+    text = text.replaceAll("&mdash;?", "--");
+    text = text.replaceAll("&amp;?", "&");
+    return text;
+  }
+  
 }

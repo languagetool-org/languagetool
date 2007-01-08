@@ -15,6 +15,7 @@ import org.xml.sax.helpers.DefaultHandler;
 
 import de.danielnaber.languagetool.JLanguageTool;
 import de.danielnaber.languagetool.Language;
+import de.danielnaber.languagetool.TextFilter;
 import de.danielnaber.languagetool.tools.Tools;
 
 /**
@@ -88,6 +89,8 @@ class WikiDumpHandler extends DefaultHandler {
   private boolean inText = false;
   private StringBuilder text = new StringBuilder();
   
+  private TextFilter textFilter = new WikipediaTextFilter();
+  
   //===========================================================
   // SAX DocumentHandler methods
   //===========================================================
@@ -109,7 +112,7 @@ class WikiDumpHandler extends DefaultHandler {
     if (qName.equals("text")) {
       inText = false;
       //System.err.println(text.length() + " " + text.substring(0, Math.min(50, text.length())));
-      String textToCheck = cleanup(text.toString());
+      String textToCheck = textFilter.filter(text.toString());
       if (!textToCheck.contains("#REDIRECT")) {
         //System.err.println("#########################");
         //System.err.println(textToCheck);
@@ -136,8 +139,12 @@ class WikiDumpHandler extends DefaultHandler {
       text.append(s);
     }
   }
+  
+}
 
-  private String cleanup(String s) {
+class WikipediaTextFilter implements TextFilter {
+
+  public String filter(String s) {
     //[[Bild:Alkalimetalle.jpg|thumb|left|alle 5 stabilen Alkalimetalle]]
     s = s.replaceAll("(?s)\\[\\[Bild:.*?\\]\\]", "");
     s = s.replaceAll("(?s)\\[\\[[^\\[]*?\\|(.*?)\\]\\]", "$1");
@@ -163,5 +170,5 @@ class WikiDumpHandler extends DefaultHandler {
     s = s.replaceAll("&nbsp;", " ");
     return s;
   }
-  
+
 }
