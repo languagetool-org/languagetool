@@ -33,25 +33,25 @@ import de.danielnaber.languagetool.tools.StringTools;
 import de.danielnaber.languagetool.tools.Tools;
 
 /**
- * Uses JLanguageTol on the files of the BNC (British National Corpus).
+ * Uses JLanguageTol recursively on the files of the BNC (British National Corpus).
  * 
  * @author Daniel Naber
  */
-public final class BNCCheck {
+public final class CheckBNC {
 
   private JLanguageTool langTool = null;
   private TextFilter textFilter = new BNCTextFilter();
   
   public static void main(String[] args) throws Exception {
     if (args.length != 1) {
-      System.out.println("Usage: BNCTest <directory>");
+      System.out.println("Usage: CheckBNC <directory>");
       System.exit(1);
     }
-    BNCCheck prg = new BNCCheck();
+    CheckBNC prg = new CheckBNC();
     prg.run(new File(args[0]));
   }
   
-  private BNCCheck() throws IOException, ParserConfigurationException, SAXException {
+  private CheckBNC() throws IOException, ParserConfigurationException, SAXException {
     langTool = new JLanguageTool(Language.ENGLISH);
     langTool.activateDefaultPatternRules();
     String[] disRules = new String[] {"UPPERCASE_SENTENCE_START", "COMMA_PARENTHESIS_WHITESPACE",

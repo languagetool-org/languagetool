@@ -29,12 +29,6 @@ public class CheckWikipediaDump {
     // no public constructor
   }
   
-  /**
-   * @param args
-   * @throws IOException 
-   * @throws ParserConfigurationException 
-   * @throws SAXException 
-   */
   public static void main(String[] args) throws IOException, SAXException, ParserConfigurationException {
     CheckWikipediaDump prg = new CheckWikipediaDump();
     if (args.length < 2 || args.length > 3) {
