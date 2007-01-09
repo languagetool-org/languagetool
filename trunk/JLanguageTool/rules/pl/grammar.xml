@@ -2,7 +2,7 @@
 <!--
 Polish Grammar and Typo Rules for LanguageTool
 Copyright (C) 2006 Marcin Miłkowski
-$Id: grammar.xml,v 1.110 2007-01-07 22:45:34 milek_pl Exp $		
+$Id: grammar.xml,v 1.111 2007-01-09 01:08:48 milek_pl Exp $		
 -->
 <rules lang="pl">
 	<category name="Błędy interpunkcyjne">
@@ -2890,7 +2890,7 @@ $Id: grammar.xml,v 1.110 2007-01-07 22:45:34 milek_pl Exp $
 	</rule>
 	</rulegroup>
 
-	<rulegroup name="„zagranicą (za granicą)" id="ZA_GRANICA">
+	<rulegroup name="„zagranicą” (za granicą)" id="ZA_GRANICA">
 	<rule>
 		<pattern mark_from="1">
 			<token regexp="yes" inflected="yes">być|przebywać|pobyt<exception postag_regexp="yes" postag="subst:ger.*|ppas:.*"/></token>
@@ -2969,7 +2969,7 @@ $Id: grammar.xml,v 1.110 2007-01-07 22:45:34 milek_pl Exp $
 			<example type="incorrect"><marker>Mażę</marker> o Romanie w ramionach Wojtusia.</example>
 		</rule>
 		
-		<rule id="DUL_DOL" name="„duł” (dół">
+		<rule id="DUL_DOL" name="„duł” (dół)">
 			<pattern mark_from="1">
 				<token regexp="yes">w|na</token>
 				<token>duł</token>
@@ -3862,20 +3862,6 @@ $Id: grammar.xml,v 1.110 2007-01-07 22:45:34 milek_pl Exp $
 	 	<example type="incorrect"><marker>Szkoła Podstawowa Nr</marker> 41</example>
 	 </rule>
 	
-	<rule id="MIEDZY_CZASIE" name="„w między czasie” (w międzyczasie)">
-		<pattern>
-			<token>w</token>
-			<token>między</token>
-			<token>czasie</token>
-		</pattern>
-		<message>Błąd ortograficzny. Poprawnie: <suggestion>\1 \2\3</suggestion>; 
-		językoznawcy zalecają także używanie zwrotu <suggestion>w tym czasie</suggestion> 
-		(wyrażenie „w międzyczasie” było przez wiele lat potępiane jako germanizm,
-		dziś jest dopuszczane przez słowniki poprawnej polszczyzny).</message>
-		<example type="correct">W międzyczasie Przemysław podlizywał się też żonie prezydenta.</example>
-		<example type="incorrect"><marker>W między czasie</marker> Przemysław podlizywał się też żonie prezydenta.</example>
-	</rule>
-	
 	</category>
 
 	<category name="Prawdopodobne literówki">
@@ -3983,7 +3969,7 @@ $Id: grammar.xml,v 1.110 2007-01-07 22:45:34 milek_pl Exp $
 			<example type="correct">To <marker>dżemy</marker> z Biedronki.</example>
 			</rule>
 		</rulegroup>
-		<rulegroup name="„struj” (struj)" id="STRUJ">
+		<rulegroup name="„struj” (strój)" id="STRUJ">
 		<rule>
 			<pattern mark_to="-1">
 				<token>struj</token>
