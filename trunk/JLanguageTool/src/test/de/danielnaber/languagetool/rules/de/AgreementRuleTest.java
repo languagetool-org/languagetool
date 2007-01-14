@@ -95,6 +95,7 @@ public class AgreementRuleTest extends TestCase {
     
     // some of these used to cause false alarms:
     assertGood("Das Münchener Fest.");
+    assertGood("Das Münchner Fest.");
     assertGood("Die Planung des Münchener Festes.");
     assertGood("Das Berliner Wetter.");
     assertGood("Den Berliner Arbeitern ist das egal.");

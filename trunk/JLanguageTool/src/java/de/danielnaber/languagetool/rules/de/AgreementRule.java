@@ -213,10 +213,12 @@ public class AgreementRule extends GermanRule {
         AnalyzedGermanTokenReadings nextNextATR = tagger.lookup(nextNextToken.getToken());
         //System.err.println("nextATR: " + nextATR);
         //System.err.println("nextNextATR: " + nextNextATR);
-        if (nextATR != null &&
+        // "Münchner": special case as cutting off last two characters doesn't produce city name:
+        if ("Münchner".equals(nextTerm) ||
+            (nextATR != null &&
             // tagging in Morphy for cities is not coherent:
-            (nextATR.hasReadingOfType(POSType.PROPER_NOUN) || nextATR.hasReadingOfType(POSType.NOMEN)) && 
-            nextNextATR != null && nextNextATR.hasReadingOfType(POSType.NOMEN)) {
+            (nextATR.hasReadingOfType(POSType.PROPER_NOUN) || nextATR.hasReadingOfType(POSType.NOMEN) &&
+            nextNextATR != null && nextNextATR.hasReadingOfType(POSType.NOMEN)))) {
           AnalyzedGermanToken[] adjReadings = new AnalyzedGermanToken[ADJ_READINGS.length];
           for (int j = 0; j < ADJ_READINGS.length; j++) {
             adjReadings[j] = new AnalyzedGermanToken(nextTerm, ADJ_READINGS[j], nextToken.getStartPos());
