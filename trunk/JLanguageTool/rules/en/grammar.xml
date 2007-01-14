@@ -3,7 +3,7 @@
 English Grammar and Typo Rules for LanguageTool
 See tagset.txt for the meaning of the POS tags
 Copyright (C) 2001-2007 Daniel Naber (http://www.danielnaber.de)
-$Id: grammar.xml,v 1.124 2007-01-08 22:02:16 dnaber Exp $
+$Id: grammar.xml,v 1.125 2007-01-14 12:36:05 milek_pl Exp $
 -->
 <rules lang="en">
 
@@ -1830,6 +1830,17 @@ $Id: grammar.xml,v 1.124 2007-01-08 22:02:16 dnaber Exp $
     <example type="incorrect">You will buy some eggs <marker>also</marker>.</example>
   </rule>
 
+	<rule id="THE_EXACTLY_THE" name="'the exactly the'">
+		<pattern>
+			<token>the</token>
+			<token>exactly</token>
+			<token>the</token>
+		</pattern>
+	<message>Duplicated 'the' in the phrase: '\1 \2 \3'. Did you mean <suggestion>\2 \3</suggestion>?</message>
+	<example type="correct">It is exactly the same thing.</example>
+	<example type="incorrect">It is <marker>the exactly the</marker> same thing.</example>
+	</rule>
+	
   <rule id="DT_DT" name="Two consecutive articles, e.g. 'the a'">
     <pattern>
       <!--
