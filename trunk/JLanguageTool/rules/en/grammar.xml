@@ -3,7 +3,7 @@
 English Grammar and Typo Rules for LanguageTool
 See tagset.txt for the meaning of the POS tags
 Copyright (C) 2001-2007 Daniel Naber (http://www.danielnaber.de)
-$Id: grammar.xml,v 1.125 2007-01-14 12:36:05 milek_pl Exp $
+$Id: grammar.xml,v 1.126 2007-01-14 13:21:41 milek_pl Exp $
 -->
 <rules lang="en">
 
@@ -1810,6 +1810,29 @@ $Id: grammar.xml,v 1.125 2007-01-14 12:36:05 milek_pl Exp $
     <message>This is a non-standard phrase. Did you mean <suggestion>whether or not</suggestion>?</message>
     <example type="correct"> It's not certain whether communication with the site's customer service has led it to be clear <marker>whether or not</marker> this is true.</example>
     <example type="incorrect"> It's not certain whether communication with the site's customer service has led it to be clear <marker>if or not</marker> this is true.</example>
+  </rule>
+  
+  <rule id="KIND_OF_A" name="'kind/type/sort of a/an'">
+  	<pattern>
+  		<token regexp="yes">kind|sort|type</token>
+  		<token>of</token>
+  		<token regexp="yes">an|a</token>
+  	</pattern>
+  	<message>Don't include '\3' after a classification term. Use simply <suggestion>\1 \2</suggestion>.</message>
+  	<example type="correct">What kind of man is Bush?</example>
+  	<example type="incorrect">What <marker>kind of a</marker> man is Bush?</example>
+  </rule>
+  
+  <rule id="REASON_IS_BECAUSE" name="'the reason... is because'">
+  	<pattern>
+  		<token>the</token>
+  		<token skip="6">reason</token>
+  		<token>is</token>
+  		<token>because</token>
+  	</pattern>
+  	<message>Probably an incorrect phrase. Use <suggestion>the reason is that</suggestion> or <suggestion>because</suggestion>.</message>
+  	<example type="incorrect"><marker>The reason we were late is because</marker> there was an accident.</example>
+  	<example type="correct"><marker>The reason we were late is that</marker> there was an accident.</example>
   </rule>
   
   </category>
