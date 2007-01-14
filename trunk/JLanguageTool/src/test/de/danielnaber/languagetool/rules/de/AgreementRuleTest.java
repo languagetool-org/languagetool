@@ -92,7 +92,18 @@ public class AgreementRuleTest extends TestCase {
     assertGood("Gutenberg, der quadratische Mann.");
     // TODO: not detected, because "die" is considered a relative pronoun:
     //assertBad("Gutenberg, die Genie.");
-
+    
+    // some of these used to cause false alarms:
+    assertGood("Das Münchener Fest.");
+    assertGood("Die Planung des Münchener Festes.");
+    assertGood("Das Berliner Wetter.");
+    assertGood("Den Berliner Arbeitern ist das egal.");
+    assertGood("Das Haus des Berliner Arbeiters.");
+    assertGood("Es gehört dem Berliner Arbeiter.");
+    assertGood("Das Stuttgarter Auto.");
+    assertGood("Das Bielefelder Radio.");
+    assertGood("Das Gütersloher Radio.");
+    
     // incorrect sentences:
     assertBad("Es sind die Tisch.");
     assertBad("Es sind das Tisch.");

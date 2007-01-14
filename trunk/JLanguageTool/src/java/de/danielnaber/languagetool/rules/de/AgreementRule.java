@@ -18,6 +18,7 @@
  */
 package de.danielnaber.languagetool.rules.de;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -31,6 +32,7 @@ import de.danielnaber.languagetool.rules.Category;
 import de.danielnaber.languagetool.rules.RuleMatch;
 import de.danielnaber.languagetool.tagging.de.AnalyzedGermanToken;
 import de.danielnaber.languagetool.tagging.de.AnalyzedGermanTokenReadings;
+import de.danielnaber.languagetool.tagging.de.GermanTagger;
 import de.danielnaber.languagetool.tagging.de.GermanToken;
 import de.danielnaber.languagetool.tagging.de.GermanToken.POSType;
 import de.danielnaber.languagetool.tools.StringTools;
@@ -55,6 +57,26 @@ public class AgreementRule extends GermanRule {
   private static final String NUMERUS = "Numerus";
   private static final String GENUS = "Genus";
 
+  /*
+   * City names are incoherently tagged in the morophy data. To avoid
+   * false alarms on phrases like "das Berliner Auto" we have to
+   * explicitely add these adjective readings to "Berliner" and to all 
+   * other potential city names:
+   */
+  private static final String[] ADJ_READINGS = new String[] {
+    // singular:
+    "ADJ:NOM:SIN:MAS:GRU", "ADJ:NOM:SIN:NEU:GRU", "ADJ:NOM:SIN:FEM:GRU",    // das Berliner Auto
+    "ADJ:GEN:SIN:MAS:GRU", "ADJ:GEN:SIN:NEU:GRU", "ADJ:GEN:SIN:FEM:GRU",    // des Berliner Autos 
+    "ADJ:DAT:SIN:MAS:GRU", "ADJ:DAT:SIN:NEU:GRU", "ADJ:DAT:SIN:FEM:GRU",    // dem Berliner Auto
+    "ADJ:AKK:SIN:MAS:GRU", "ADJ:AKK:SIN:NEU:GRU", "ADJ:AKK:SIN:FEM:GRU",    // den Berliner Bewohner
+    // plural:
+    "ADJ:NOM:PLU:MAS:GRU", "ADJ:NOM:PLU:NEU:GRU", "ADJ:NOM:PLU:FEM:GRU",    // die Berliner Autos
+    "ADJ:GEN:PLU:MAS:GRU", "ADJ:GEN:PLU:NEU:GRU", "ADJ:GEN:PLU:FEM:GRU",    // der Berliner Autos 
+    "ADJ:DAT:PLU:MAS:GRU", "ADJ:DAT:PLU:NEU:GRU", "ADJ:DAT:PLU:FEM:GRU",    // den Berliner Autos
+    "ADJ:AKK:PLU:MAS:GRU", "ADJ:AKK:PLU:NEU:GRU", "ADJ:AKK:PLU:FEM:GRU",    // den Berliner Bewohnern
+  };
+
+  
   private final static Set<String> relPronouns = new HashSet<String>();
   static {
     relPronouns.add("der");
@@ -150,11 +172,8 @@ public class AgreementRule extends GermanRule {
         if (tokenPos >= tokens.length)
           break;
         AnalyzedGermanTokenReadings nextToken = (AnalyzedGermanTokenReadings)tokens[tokenPos];
+        nextToken = maybeAddAdjectiveReadings(nextToken, tokens, tokenPos);
         if (nextToken.hasReadingOfType(POSType.ADJEKTIV)) {
-          // TODO: Berliner is also an adjective in out Morphy dictionary, others (Münchner etc) 
-          // are not. Without this special case "In seiner Berliner Rede" is flagged as incorrect:
-          if ("Berliner".equals(nextToken.getToken()))
-            break;
           tokenPos = i + 2; 
           if (tokenPos >= tokens.length)
             break;
@@ -163,7 +182,7 @@ public class AgreementRule extends GermanRule {
             // TODO: add a case (checkAdjNounAgreement) for special cases like "deren",
             // e.g. "deren komisches Geschenke" isn't yet detected as incorrect
             RuleMatch ruleMatch = checkDetAdjNounAgreement((AnalyzedGermanTokenReadings)tokens[i],
-                (AnalyzedGermanTokenReadings)tokens[i+1], (AnalyzedGermanTokenReadings)tokens[i+2]);
+                nextToken, (AnalyzedGermanTokenReadings)tokens[i+2]);
             if (ruleMatch != null)
               ruleMatches.add(ruleMatch);
           }
@@ -178,6 +197,37 @@ public class AgreementRule extends GermanRule {
       pos += tokens[i].getToken().length();
     }
     return toRuleMatchArray(ruleMatches);
+  }
+
+  // see the comment at ADJ_READINGS:
+  private AnalyzedGermanTokenReadings maybeAddAdjectiveReadings(AnalyzedGermanTokenReadings nextToken,
+      AnalyzedTokenReadings[] tokens, int tokenPos) {
+    String nextTerm = nextToken.getToken();
+    // Just a heuristic: nouns and proper nouns that end with "er" are considered
+    // city names:
+    if (nextTerm.endsWith("er") && tokens.length > tokenPos+1) {
+      AnalyzedGermanTokenReadings nextNextToken = (AnalyzedGermanTokenReadings)tokens[tokenPos+1];
+      GermanTagger tagger = new GermanTagger();
+      try {
+        AnalyzedGermanTokenReadings nextATR = tagger.lookup(nextTerm.substring(0, nextTerm.length()-2));
+        AnalyzedGermanTokenReadings nextNextATR = tagger.lookup(nextNextToken.getToken());
+        //System.err.println("nextATR: " + nextATR);
+        //System.err.println("nextNextATR: " + nextNextATR);
+        if (nextATR != null &&
+            // tagging in Morphy for cities is not coherent:
+            (nextATR.hasReadingOfType(POSType.PROPER_NOUN) || nextATR.hasReadingOfType(POSType.NOMEN)) && 
+            nextNextATR != null && nextNextATR.hasReadingOfType(POSType.NOMEN)) {
+          AnalyzedGermanToken[] adjReadings = new AnalyzedGermanToken[ADJ_READINGS.length];
+          for (int j = 0; j < ADJ_READINGS.length; j++) {
+            adjReadings[j] = new AnalyzedGermanToken(nextTerm, ADJ_READINGS[j], nextToken.getStartPos());
+          }
+          nextToken = new AnalyzedGermanTokenReadings(adjReadings);
+        }
+      } catch (IOException e) {
+        throw new RuntimeException(e);
+      }
+    }
+    return nextToken;
   }
 
   // TODO: improve this so it only returns true for real relative clauses
@@ -275,9 +325,9 @@ public class AgreementRule extends GermanRule {
     Set<String> set3 = getAgreementCategories(token3, relax);
     if (set3 == null)
       return null;
-    /*System.err.println("#"+set1);
-    System.err.println("#"+set2);
-    System.err.println("#"+set3);
+    /*System.err.println(token1.getToken()+"#"+set1);
+    System.err.println(token2.getToken()+"#"+set2);
+    System.err.println(token3.getToken()+"#"+set3);
     System.err.println("");*/
     set1.retainAll(set2);
     set1.retainAll(set3);
