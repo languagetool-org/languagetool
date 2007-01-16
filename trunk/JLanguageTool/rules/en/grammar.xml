@@ -3,7 +3,7 @@
 English Grammar and Typo Rules for LanguageTool
 See tagset.txt for the meaning of the POS tags
 Copyright (C) 2001-2007 Daniel Naber (http://www.danielnaber.de)
-$Id: grammar.xml,v 1.128 2007-01-16 01:03:29 milek_pl Exp $
+$Id: grammar.xml,v 1.129 2007-01-16 14:02:24 milek_pl Exp $
 -->
 <rules lang="en">
 
@@ -1183,6 +1183,7 @@ $Id: grammar.xml,v 1.128 2007-01-16 01:03:29 milek_pl Exp $
       <message>The article is missing before the noun: <suggestion>the \3</suggestion>, <suggestion>a \3</suggestion> or <suggestion>an \3</suggestion>.</message>
       <example type="incorrect">He is <marker>friend</marker>.</example>
       <example type="correct">He is a friend.</example>    
+      <example type="correct">He is my friend.</example>
     </rule>
     <rule>
       <pattern mark_from="2" mark_to="-1">
@@ -1236,7 +1237,7 @@ $Id: grammar.xml,v 1.128 2007-01-16 01:03:29 milek_pl Exp $
       <pattern mark_from="2" mark_to="-1">
         <token negate_pos="yes" postag="DT"></token>
         <token postag="VBP|VBZ" postag_regexp="yes"><exception postag="JJ"/></token>
-        <token postag="JJ"><exception postag_regexp="yes" postag="VB|RP|RB|CD|IN|CC|MD"/></token>
+        <token postag="JJ"><exception postag_regexp="yes" postag="VB|RP|RB|CD|IN|CC|MD|VBD|VBN|VBG"/></token>
         <token postag="NN"><exception postag_regexp="yes" postag="CC|DT|RB|RP|JJ|IN|CD|JJR|RBS|VBD|VBN|MD|NNS"/><exception>are</exception></token>
         <token><exception postag_regexp="yes" postag="NN.*"/></token>
       </pattern>
@@ -1244,13 +1245,69 @@ $Id: grammar.xml,v 1.128 2007-01-16 01:03:29 milek_pl Exp $
       <example type="incorrect">He is <marker>good friend</marker>.</example>
       <example type="correct">He is a good friend.</example>
     </rule>
+
+	<!-- this accounts for I have experience series... -->
+    <rule>
+      <pattern mark_from="2" mark_to="-1">
+        <token postag_regexp="yes" postag="PRP|NNP"/>
+        <token regexp="yes">have|has</token>
+        <token postag="VBN"><exception postag_regexp="yes" postag="VB|RP|RB|CD|IN|CC|MD"/></token>
+        <token postag="NN"><exception postag_regexp="yes" postag="CC|DT|RB|RP|JJ|IN|CD|JJR|RBS|VBD|VBN|MD|NNS"/><exception>are</exception></token>
+        <token><exception postag_regexp="yes" postag="NN.*"/></token>
+      </pattern>
+      <message>The article is missing before the noun: <suggestion>\3 a \4</suggestion>, <suggestion>\3 an \4</suggestion>, <suggestion>\3 the \4</suggestion>.</message>
+      <example type="incorrect">Recently I have <marker>experienced problem</marker>.</example>
+      <example type="correct">Recently I have <marker>experienced a problem</marker>.</example>
+    </rule>
+
+    <rule>
+      <pattern mark_from="2" mark_to="-1">
+        <token postag_regexp="yes" postag="PRP|NNP"/>
+        <token regexp="yes">have|has</token>        
+        <token postag="VBN"><exception postag_regexp="yes" postag="VB|RP|RB|CD|IN|CC|MD"/></token>
+        <token postag="JJ"><exception postag_regexp="yes" postag="VB|RP|RB|CD|IN|CC|MD"/></token>
+        <token postag="NN"><exception postag_regexp="yes" postag="CC|DT|RB|RP|JJ|IN|CD|JJR|RBS|VBD|VBN|MD|NNS"/><exception>are</exception></token>
+        <token><exception postag_regexp="yes" postag="NN.*"/></token>
+      </pattern>
+      <message>The article is missing before the noun: <suggestion>\3 a \4 \5</suggestion>, <suggestion>\3 an \4 \5</suggestion>, <suggestion>\3 the \4 \5</suggestion>.</message>
+      <example type="incorrect">Recently I have <marker>experienced serious problem</marker>.</example>
+      <example type="correct">Recently I have <marker>experienced a serious problem</marker>.</example>
+    </rule>
+
+	<!-- and now "an experienced soldier" -->
+	    <rule>
+      <pattern mark_from="1" mark_to="-1">
+        <token><exception postag_regexp="yes" postag="PRP|NNP|DT|JJ|PRP\$"/><exception regexp="yes">have|has</exception></token>
+        <token postag_regexp="yes" postag="VBN|JJ"><exception postag_regexp="yes" postag="VB|RP|RB|CD|IN|CC|MD"/></token>
+        <token postag="NN"><exception postag_regexp="yes" postag="CC|DT|RB|RP|JJ|IN|CD|JJR|RBS|VBD|VBN|MD|NNS"/><exception>are</exception></token>
+        <token><exception postag_regexp="yes" postag="NN.*"/></token>
+      </pattern>
+      <message>The article is missing before the noun: <suggestion>a \2 \3</suggestion>, <suggestion>an \2 \3</suggestion>, <suggestion>the \2 \3</suggestion>.</message>
+      <example type="incorrect">He is <marker>experienced soldier</marker>.</example>
+      <example type="correct">He is <marker>an experienced soldier</marker>.</example>
+    </rule>
+    
+	<!-- an extremely experienced soldier -->
+	    <rule>
+      <pattern mark_from="1" mark_to="-1">
+        <token><exception postag_regexp="yes" postag="PRP|NNP|DT|JJ|PRP\$"/><exception regexp="yes">have|has</exception></token>
+         <token postag="RB"><exception postag_regexp="yes" postag="VB|RP|CD|IN|CC|MD"/></token>
+        <token postag_regexp="yes" postag="VBN|JJ"><exception postag_regexp="yes" postag="VB|RP|RB|CD|IN|CC|MD"/></token>
+        <token postag="NN"><exception postag_regexp="yes" postag="CC|DT|RB|RP|JJ|IN|CD|JJR|RBS|VBD|VBN|MD|NNS"/><exception>are</exception></token>
+        <token><exception postag_regexp="yes" postag="NN.*"/></token>
+      </pattern>
+      <message>The article is missing before the noun: <suggestion>a \2 \3 \4</suggestion>, <suggestion>an \2 \3 \4</suggestion>, <suggestion>the \2 \3 \4</suggestion>.</message>
+      <example type="incorrect">He is <marker>extremely experienced soldier</marker>.</example>
+      <example type="correct">He is <marker>an extremely experienced soldier</marker>.</example>
+    </rule>
+
     <!--  this rule needs to be expanded to all prepositions
    so that exceptions could be accounted for properly, i.e.,
    'at home' vs. 'a tourist home'; 'for example' vs. 'an example for you' -->
      <rule>
       <pattern mark_from="1" mark_to="-1">
         <token>at</token>
-        <token postag="NN"><exception postag_regexp="yes" postag="DT|RP|JJ|IN|CD|JJS|JJR|RBS|VBD|VBN|MD|NNP|NNS"/><exception regexp="yes">bay|birth|ease|first|hand|home|issue|least|length|liberty|sea|table|variance</exception></token>
+        <token postag="NN"><exception postag_regexp="yes" postag="DT|RP|JJ|IN|CD|JJS|JJR|RBS|VBD|VBN|MD|NNP|NNS"/><exception regexp="yes">bay|birth|ease|first|hand|home|issue|least|length|liberty|sea|source|table|variance</exception></token>
         <token><exception postag_regexp="yes" postag="NN.*"/></token>
       </pattern>
       <message>The article is missing before the noun: <suggestion>the \2</suggestion>, <suggestion>a \2</suggestion> or <suggestion>an \2</suggestion>.</message>
@@ -1271,7 +1328,7 @@ $Id: grammar.xml,v 1.128 2007-01-16 01:03:29 milek_pl Exp $
     <rule>
       <pattern mark_from="1" mark_to="-1" case_sensitive="yes">
         <token regexp="yes">[Bb]y</token>
-        <token postag="NN"><exception postag_regexp="yes" postag="DT|RB|RP|JJ|IN|CD|JJS|JJR|RBS|VBD|VBN|MD|NNP|NNS"/><exception regexp="yes">bit|word|step|way|example|dint|crook|hook|hand|machine|word|cheque|accident|day|means|mistake|name|train|rail|coach|bus|boat|automobile|helicopter|taxi|ambulance|plane|airplane|foot|section|article|page|road|letter|phone|telephone|mail|storm|arrangement|satellite|decree|year-end|lot|profession|district|week|eye|</exception></token>
+        <token postag="NN"><exception postag_regexp="yes" postag="DT|RB|RP|JJ|IN|CD|JJS|JJR|RBS|VBD|VBN|MD|NNP|NNS"/><exception regexp="yes">bit|word|step|way|example|dint|crook|hook|hand|machine|word|cheque|accident|day|means|mistake|name|train|rail|coach|bus|boat|automobile|helicopter|taxi|ambulance|plane|airplane|foot|section|article|page|road|letter|phone|telephone|mail|storm|arrangement|satellite|decree|year-end|lot|profession|district|week|eye|covenant</exception></token>
         <token><exception postag_regexp="yes" postag="NN.*"/><exception>free</exception></token>
       </pattern>
       <message>The article is missing before the noun: <suggestion>the \2</suggestion>, <suggestion>a \2</suggestion> or <suggestion>an \2</suggestion>.</message>
@@ -1873,10 +1930,12 @@ $Id: grammar.xml,v 1.128 2007-01-16 01:03:29 milek_pl Exp $
       it could be written as several rules in a rulegroup so that it wouldn't match
       the the, a a nor an an... 
       -->
+      <token><exception postag_regexp="yes" postag="VB.*"/></token>
       <token regexp="yes">a|an|the|this</token>
       <token regexp="yes">a|an|the|this</token>
     </pattern>
-    <message>Maybe you need to remove the second determiner so that only <suggestion>\1</suggestion> is left.</message>
+    <message>Maybe you need to remove the second determiner so that only <suggestion>\2</suggestion> is left.
+    Or add a comma between them: <suggestion>\2, \3</suggestion>.</message>
     <example type="correct"><marker>The</marker> thing is this.</example>
     <example type="incorrect"><marker>The a</marker> thing is this.</example>
   <example type="correct">The Thames was once a much broader river.</example>
