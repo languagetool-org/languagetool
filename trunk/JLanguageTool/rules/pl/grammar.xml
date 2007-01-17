@@ -2,7 +2,7 @@
 <!--
 Polish Grammar and Typo Rules for LanguageTool
 Copyright (C) 2006 Marcin Miłkowski
-$Id: grammar.xml,v 1.111 2007-01-09 01:08:48 milek_pl Exp $		
+$Id: grammar.xml,v 1.112 2007-01-17 16:57:29 milek_pl Exp $		
 -->
 <rules lang="pl">
 	<category name="Błędy interpunkcyjne">
@@ -995,13 +995,21 @@ $Id: grammar.xml,v 1.111 2007-01-09 01:08:48 milek_pl Exp $
 		<rulegroup name="Brak odmiany imienia „Bruno”, „Hugo”, „Pablo”" id="BRUNO_HUGO">
 		<rule>
 			<pattern mark_to="-1">
-				<token regexp="yes">Bruno|Hugo</token>
-				<token regexp="yes" inflected="yes">Schulz|Kołłątaj<exception postag="subst:sg:nom:m1"/></token>
+				<token>Bruno</token>
+				<token inflected="yes">Schulz<exception postag="subst:sg:nom:m1"/></token>
 			</pattern>	
-			<message>Imiona Bruno i Hugo odmienia się według wzoru: <suggestion>Brunona</suggestion>, <suggestion>Brunonowi</suggestion>, <suggestion>Brunonem</suggestion>, <suggestion>Brunonie</suggestion>.</message>
+			<message>Imię Bruno odmienia się według wzoru: <suggestion>Brunona</suggestion>, <suggestion>Brunonowi</suggestion>, <suggestion>Brunonem</suggestion>, <suggestion>Brunonie</suggestion>.</message>
 			<example type="correct">Uwielbiam prozę Brunona Schulza.</example>
-			<example type="incorrect">Polacy zamierzają ufundować pomnik <marker>Hugo</marker> Kołłątajowi.</example>
 			<example type="incorrect">Uwielbiam prozę <marker>Bruno</marker> Schulza.</example>
+		</rule>
+		<rule>
+			<pattern mark_to="-1">
+				<token>Hugo</token>
+				<token inflected="yes">Kołłątaj<exception postag="subst:sg:nom:m1"/></token>
+			</pattern>	
+			<message>Imię Hugo odmienia się według wzoru: <suggestion>Hugona</suggestion>, <suggestion>Hugonowi</suggestion>, <suggestion>Hugonem</suggestion>, <suggestion>Hugonie</suggestion>.</message>
+			<example type="correct">Uwielbiam pisma Hugona Kołłątaja.</example>
+			<example type="incorrect">Polacy zamierzają ufundować pomnik <marker>Hugo</marker> Kołłątajowi.</example>
 		</rule>
 		<rule>
 			<pattern mark_to="-1">
