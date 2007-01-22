@@ -3,7 +3,7 @@
 English Grammar and Typo Rules for LanguageTool
 See tagset.txt for the meaning of the POS tags
 Copyright (C) 2001-2007 Daniel Naber (http://www.danielnaber.de)
-$Id: grammar.xml,v 1.130 2007-01-16 17:36:32 milek_pl Exp $
+$Id: grammar.xml,v 1.131 2007-01-22 18:41:20 milek_pl Exp $
 -->
 <rules lang="en">
 
@@ -2130,6 +2130,60 @@ $Id: grammar.xml,v 1.130 2007-01-16 17:36:32 milek_pl Exp $
       <example type="correct"> This is a very <marker>economical</marker> car.</example>
     </rule>
 
+		<rulegroup name="say (tell)" id="SAY_TELL">
+		<rule>
+			<pattern mark_to="-1">
+				<token>say</token>
+				<token regexp="yes">me|him|her</token>
+			</pattern>
+			<message>'Say' cannot be followed by a direct personal object. Did you mean <suggestion>tell</suggestion>?</message>
+			<example type="correct">Tell me the truth.</example>
+			<example type="incorrect"><marker>Say</marker> me the truth.</example>
+		</rule>
+		<rule>
+			<pattern mark_to="-1">
+				<token>said</token>
+				<token regexp="yes">me|him|her</token>
+			</pattern>
+			<message>'Say' cannot be followed by a direct personal object. Did you mean <suggestion>told</suggestion>?</message>
+			<example type="correct">He told me the truth.</example>
+			<example type="incorrect">He <marker>said</marker> me the truth.</example>
+		</rule>
+		<rule>
+			<pattern mark_to="-1">
+				<token>says</token>
+				<token regexp="yes">me|him|her</token>
+			</pattern>
+			<message>'Say' cannot be followed by a direct personal object. Did you mean <suggestion>told</suggestion>?</message>
+			<example type="correct">He tells me the truth.</example>
+			<example type="incorrect">He <marker>says</marker> me the truth.</example>
+		</rule>
+		</rulegroup>
+		
+		<rulegroup name="everyday (every day)" id="EVERYDAY_EVERY_DAY">
+		<rule>
+			<pattern>
+				<token postag="SENT_START"/>
+				<token>everyday</token>
+				<token postag="PRP"/>
+			</pattern>
+			<message>'Everyday' is an adjective, and the comma is missing. Did you mean <suggestion>every day, \3</suggestion>?</message>
+			<example type="correct">Every day, he gets up early.</example>
+			<example type="incorrect"><marker>Everyday he</marker> gets up early.</example>
+		</rule>
+			<rule>
+			<pattern mark_to="-2">
+				<token postag="SENT_START"/>
+				<token>everyday</token>
+				<token>,</token>
+				<token postag="PRP"/>
+			</pattern>
+			<message>'Everyday' is an adjective. Did you mean <suggestion>every day</suggestion>?</message>
+			<example type="correct">Every day, he gets up early.</example>
+			<example type="incorrect"><marker>Everyday</marker>, he gets up early.</example>
+		</rule>
+		
+		</rulegroup>
   </category>
 
 </rules>
