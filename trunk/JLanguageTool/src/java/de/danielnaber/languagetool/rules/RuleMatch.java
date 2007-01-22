@@ -36,6 +36,10 @@ public class RuleMatch implements Comparable<RuleMatch> {
 
   private int fromLine = -1;
   private int column = -1;
+  private int offset = -1;
+  private int endLine = -1;
+  private int endColumn = -1;
+
   private Rule rule;
   private int fromPos;
   private int toPos;
@@ -92,6 +96,20 @@ public class RuleMatch implements Comparable<RuleMatch> {
   }
 
   /**
+   * Set the line number in which the match ends.
+   */
+  public void setEndLine(int endLine) {
+    this.endLine = endLine;
+  }
+
+  /**
+   * Get the line number in which the match ends.
+   */
+  public int getEndLine() {
+    return endLine;
+  }
+
+  /**
    * Set the column number in which the match occurs.
    */
   public void setColumn(int column) {
@@ -99,10 +117,38 @@ public class RuleMatch implements Comparable<RuleMatch> {
   }
 
   /**
-   * Get the line number in which the match occurs.
+   * Get the column number in which the match occurs.
    */
   public int getColumn() {
     return column;
+  }
+
+  /**
+   * Set the column number in which the match ends.
+   */
+  public void setEndColumn(int endColumn) {
+    this.endColumn = endColumn;
+  }
+
+  /**
+   * Get the column number in which the match ends.
+   */
+  public int getEndColumn() {
+    return endColumn;
+  }
+
+  /**
+   * Set the character offset at which the match occurs.
+   */
+  public void setOffset(int offset) {
+    this.offset = offset;
+  }
+
+  /**
+   * Get the character offset at which the match occurs.
+   */
+  public int getOffset() {
+    return offset;
   }
 
   /**

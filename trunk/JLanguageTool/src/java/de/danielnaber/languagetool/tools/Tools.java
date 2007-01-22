@@ -32,45 +32,62 @@ import de.danielnaber.languagetool.JLanguageTool;
 import de.danielnaber.languagetool.rules.RuleMatch;
 
 public final class Tools {
-  
+
+  private static final int DEFAULT_CONTEXT_SIZE = 25;
+
   private Tools() {
     // cannot construct, static methods only
   }
 
+  public static int checkText(final String contents, JLanguageTool lt) throws IOException {
+    return checkText(contents, lt, false);
+  }
+  
   /**
    * Check the gicen text and print results to System.out.
    * @param contents a text to check (may be more than one sentence)
    * @param lt
+   * @param whether to print the result in a simple XML format
    * @throws IOException
    */
-  public static int checkText(final String contents, JLanguageTool lt) throws IOException {
+  public static int checkText(final String contents, JLanguageTool lt, boolean apiFormat) throws IOException {
     long startTime = System.currentTimeMillis();
     List<RuleMatch> ruleMatches = lt.check(contents);
-    long startTimeMatching = System.currentTimeMillis();
-    int i = 1;
-    for (Iterator<RuleMatch> iter = ruleMatches.iterator(); iter.hasNext();) {
-      RuleMatch match = (RuleMatch) iter.next();
-      System.out.println(i + ".) Line " + (match.getLine()+1) + ", column " + match.getColumn() +
-          ", Rule ID: " + match.getRule().getId());
-      String msg = match.getMessage();
-      msg = msg.replaceAll("<suggestion>", "'");
-      msg = msg.replaceAll("</suggestion>", "'");
-      System.out.println("Message: " + msg);
-      List repl = match.getSuggestedReplacements();
-      if (repl.size() > 0)
-        System.out.println("Suggestion: " + StringTools.listToString(repl, "; "));
-      System.out.println(StringTools.getContext(match.getFromPos(), match.getToPos(), contents));
-      if (iter.hasNext())
-        System.out.println();
-      i++;
+    if (apiFormat) {
+      String xml = StringTools.ruleMatchesToXML(ruleMatches, contents, DEFAULT_CONTEXT_SIZE);
+      System.out.print(xml);
+    } else {
+      int i = 1;
+      for (Iterator<RuleMatch> iter = ruleMatches.iterator(); iter.hasNext();) {
+        RuleMatch match = (RuleMatch) iter.next();
+        System.out.println(i + ".) Line " + (match.getLine()+1) + ", column " + match.getColumn() +
+            ", Rule ID: " + match.getRule().getId());
+        String msg = match.getMessage();
+        msg = msg.replaceAll("<suggestion>", "'");
+        msg = msg.replaceAll("</suggestion>", "'");
+        System.out.println("Message: " + msg);
+        List repl = match.getSuggestedReplacements();
+        if (repl.size() > 0)
+          System.out.println("Suggestion: " + StringTools.listToString(repl, "; "));
+        System.out.println(StringTools.getContext(match.getFromPos(), match.getToPos(), contents));
+        if (iter.hasNext())
+          System.out.println();
+        i++;
+      }
     }
     long endTime = System.currentTimeMillis();
     long time = endTime - startTime;
     float timeInSeconds = (float)time/1000.0f;
     float sentencesPerSecond = (float)lt.getSentenceCount() / (float)timeInSeconds;
+    if (apiFormat) {
+      System.out.println("<!--");
+    }
     System.out.printf(Locale.ENGLISH,
-        "Time: %dms (including %dms for rule matching) for %d sentences (%.1f sentences/sec)\n",
-        time, endTime-startTimeMatching, lt.getSentenceCount(), sentencesPerSecond);
+        "Time: %dms for %d sentences (%.1f sentences/sec)\n",
+        time, lt.getSentenceCount(), sentencesPerSecond);
+    if (apiFormat) {
+      System.out.println("-->");
+    }
     return ruleMatches.size();
   }
 

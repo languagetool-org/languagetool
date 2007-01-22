@@ -45,16 +45,23 @@ class Main {
 
   private JLanguageTool lt = null;
   private boolean verbose = false;
+  private boolean apiFormat = false;
 
   Main(boolean verbose, Language language, Language motherTongue) throws IOException, 
       ParserConfigurationException, SAXException {
     this(verbose, language, motherTongue, new String[0], new String[0]);
   }
-  
+
   Main(boolean verbose, Language language, Language motherTongue, String[] disabledRules,
-      String[] enabledRules) throws IOException, 
+      String[] enabledRules) throws IOException, SAXException, ParserConfigurationException {
+      this(verbose, language, motherTongue, disabledRules, enabledRules, false);
+  }
+
+  Main(boolean verbose, Language language, Language motherTongue, String[] disabledRules,
+      String[] enabledRules, boolean apiFormat) throws IOException, 
       SAXException, ParserConfigurationException {
     this.verbose = verbose;
+    this.apiFormat = apiFormat;
     lt = new JLanguageTool(language, motherTongue);
     lt.activateDefaultPatternRules();
     lt.activateDefaultFalseFriendRules();
@@ -104,7 +111,8 @@ class Main {
   private String getFilteredText(final String filename, final String encoding) throws IOException {
     if (verbose)
       lt.setOutput(System.err);
-    System.out.println("Working on " + filename + "...");
+    if (!apiFormat)
+      System.out.println("Working on " + filename + "...");
     String fileContents = StringTools.readFile(filename, encoding);
     return filterXML(fileContents);
   }
@@ -136,6 +144,7 @@ class Main {
     boolean verbose = false;
     boolean recursive = false;
     boolean singleLineBreakMarksParagraph = false;
+    boolean apiFormat = false;
     Language language = null;
     Language motherTongue = null;
     String encoding = null;
@@ -169,6 +178,8 @@ class Main {
         singleLineBreakMarksParagraph = true;
       } else if (i == args.length-1) {
         filename = args[i];
+      } else if (args[i].equals("--api")) {
+        apiFormat = true;
       } else {
         System.err.println("Unknown option: " + args[i]);
         exitWithUsageMessage();
@@ -178,18 +189,19 @@ class Main {
       exitWithUsageMessage();
     }
     if (language == null) {
-      System.err.println("No language specified, using English");
+      if (!apiFormat)
+        System.err.println("No language specified, using English");
       language = Language.ENGLISH;
-    } else {
+    } else if (!apiFormat) {
       System.out.println("Expected text language: " + language.getName());
     }
     language.getSentenceTokenizer().setSingleLineBreaksMarksParagraph(singleLineBreakMarksParagraph);
-    Main prg = new Main(verbose, language, motherTongue, disabledRules, enabledRules);
+    Main prg = new Main(verbose, language, motherTongue, disabledRules, enabledRules, apiFormat);
     if (recursive) {
       prg.runRecursive(filename, encoding);
     } else {
       String text = prg.getFilteredText(filename, encoding);
-      Tools.checkText(text, prg.getJLanguageTool());
+      Tools.checkText(text, prg.getJLanguageTool(), apiFormat);
     }
   }
 

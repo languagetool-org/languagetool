@@ -172,7 +172,8 @@ public final class StringTools {
    * @param text the original text that was checked, used to get the context of the matches
    * @param contextSize the desired context size in characters
    */
-  public static String ruleMatchesToXML(final List<RuleMatch> ruleMatches, final String text, final int contextSize) {
+  public static String ruleMatchesToXML(final List<RuleMatch> ruleMatches, final String text,
+      final int contextSize) {
     //
     // IMPORTANT: people rely on this format, don't change it!
     //
@@ -180,30 +181,34 @@ public final class StringTools {
     xml.append("<matches>\n");
     int i = 1;
     for (RuleMatch match : ruleMatches) {
-      xml.append("\t<match count=\"" + i + "\"" +
-          " line=\"" + (match.getLine()+1) + "\"" + 
-          " column=\"" + (match.getColumn()+1) + "\"" +
-          " ruleId=\"" +match.getRule().getId()+ "\"" + 
-          ">\n"
+      xml.append("<error" +
+          " offset=\"" + match.getOffset() + "\"" + 
+          " fromy=\"" + (match.getLine()+1) + "\"" + 
+          " fromx=\"" + (match.getColumn()+1) + "\"" +
+          " toy=\"" + (match.getEndLine()+1) + "\"" +
+          " tox=\"" + match.getEndColumn() + "\"" +
+          " ruleId=\"" +match.getRule().getId()+ "\"" 
           );
-      xml.append("\t\t<message>" +match.getMessage()+ "</message>\n");
+      xml.append(" msg=\"" + escapeXMLForAPIOutput(match.getMessage())+ "\"");
       String context = Tools.getContext(match.getFromPos(), match.getToPos(),
           escapeXML(text), contextSize, "<marker>", "</marker>");
-      xml.append("\t\t<replacements>\n");
-      for (String replacement : match.getSuggestedReplacements()) {
-        xml.append("\t\t\t<replacement>");
-        xml.append(replacement);
-        xml.append("</replacement>\n");
-      }
-      xml.append("\t\t</replacements>\n");
-      xml.append("\t\t<context>" +context+ "</context>\n");
-      xml.append("\t</match>\n");
+      xml.append(" replacements=\"" + 
+          escapeXMLForAPIOutput(listToString(match.getSuggestedReplacements(), "#")) + "\"");
+      xml.append(" errortext=\"" +escapeXMLForAPIOutput(context)+ "\"");
+      xml.append("/>\n");
       i++;
     }
     xml.append("</matches>\n");
     return xml.toString();
   }
 
+  private static String escapeXMLForAPIOutput(String s) {
+    s = escapeXML(s);
+    // this is simplified XML, i.e. put the "<error>" in one line: 
+    s = s.replaceAll("[\n\r]", " ");
+    return s;
+  }
+  
   public static String listToString(List l, String delimiter) {
     StringBuilder sb = new StringBuilder();
     for (Iterator iter = l.iterator(); iter.hasNext();) {

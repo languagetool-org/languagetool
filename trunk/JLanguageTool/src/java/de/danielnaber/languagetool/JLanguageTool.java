@@ -349,15 +349,24 @@ public class JLanguageTool {
               thisMatches[i].getMessage());
           thisMatch.setSuggestedReplacements(thisMatches[i].getSuggestedReplacements());
           String sentencePartToError = sentence.substring(0, thisMatches[i].getFromPos());
+          String sentencePartToEndOfError = sentence.substring(0, thisMatches[i].getToPos());
           int lastLineBreakPos = sentencePartToError.lastIndexOf("\n");
+          int lastLineBreakPosInError = sentencePartToEndOfError.lastIndexOf("\n");
           int column = -1;
+          int endColumn = -1;
           if (lastLineBreakPos == -1) {
             column = sentencePartToError.length() + columnCount;
           } else {
             column = sentencePartToError.length() - lastLineBreakPos - 1;
           }
-          thisMatch.setLine(lineCount + countLineBreaks(sentencePartToError));
+          endColumn = thisMatches[i].getToPos() - lastLineBreakPosInError;
+          int lineBreaksToError = countLineBreaks(sentencePartToError);
+          int lineBreaksToEndOfError = countLineBreaks(sentencePartToEndOfError);
+          thisMatch.setLine(lineCount + lineBreaksToError);
+          thisMatch.setEndLine(lineCount + lineBreaksToEndOfError);
           thisMatch.setColumn(column);
+          thisMatch.setEndColumn(endColumn);
+          thisMatch.setOffset(thisMatches[i].getFromPos()+tokenCount);
           sentenceMatches.add(thisMatch);
         }
       }
