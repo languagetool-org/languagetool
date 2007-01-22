@@ -3,7 +3,7 @@
 English Grammar and Typo Rules for LanguageTool
 See tagset.txt for the meaning of the POS tags
 Copyright (C) 2001-2007 Daniel Naber (http://www.danielnaber.de)
-$Id: grammar.xml,v 1.132 2007-01-22 19:00:45 dnaber Exp $
+$Id: grammar.xml,v 1.133 2007-01-22 20:38:11 dnaber Exp $
 -->
 <rules lang="en">
 
@@ -250,11 +250,11 @@ $Id: grammar.xml,v 1.132 2007-01-22 19:00:45 dnaber Exp $
     <example type="incorrect"><marker>Than</marker> it became clear.</example>
   </rule>
 
-  <rulegroup id="TO_TOO" name="Possible typo 'to(too) late/soon/much'">
+  <rulegroup id="TO_TOO" name="Possible typo 'to/two(too) late/soon/much'">
     <rule>
       <pattern mark_from="1" mark_to="-1">
-        <token regexp="yes">much|is|was|be</token>
-        <token>to</token>
+        <token regexp="yes">much|is|was|be|were|are|been</token>
+        <token regexp="yes">to|two</token>
         <token>late</token>
       </pattern>
       <message>Did you mean <suggestion>too</suggestion>?</message>
@@ -265,8 +265,8 @@ $Id: grammar.xml,v 1.132 2007-01-22 19:00:45 dnaber Exp $
     </rule>
     <rule>
       <pattern mark_from="1" mark_to="-2">
-        <token regexp="yes">comes|came|much|is|was</token>
-        <token>to</token>
+        <token regexp="yes">comes|came|much|is|was|were|are|been</token>
+        <token regexp="yes">to|two</token>
         <token>soon</token>
         <token><exception postag="VB"/></token>
         <!-- token postag="VBP" negate_pos="yes"/ -->
@@ -281,8 +281,8 @@ $Id: grammar.xml,v 1.132 2007-01-22 19:00:45 dnaber Exp $
     <rule>
       <pattern mark_from="1" mark_to="-1">
         <token negate="yes">access</token>
-        <token>to</token>
-        <token>much</token>
+        <token regexp="yes">to|two</token>
+        <token regexp="yes">much|few</token>
       </pattern>
       <message>Did you mean <suggestion>too</suggestion>?</message>
       <example type="correct">Because <marker>too</marker> much snow was on it.</example>
