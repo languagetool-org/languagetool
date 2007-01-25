@@ -20,60 +20,27 @@ package de.danielnaber.languagetool;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.StringReader;
 
 import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.parsers.SAXParser;
-import javax.xml.parsers.SAXParserFactory;
 
 import junit.framework.TestCase;
 
-import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
-import org.xml.sax.SAXParseException;
-import org.xml.sax.helpers.DefaultHandler;
-
-import de.danielnaber.languagetool.tools.StringTools;
 
 public class ValidateXMLTest extends TestCase {
 
   public void testPatternFile() throws SAXException, IOException, ParserConfigurationException {
+    XMLValidator validator = new XMLValidator();
     for (int i = 0; i < Language.LANGUAGES.length; i++) {
       Language lang = Language.LANGUAGES[i];
-      validate("rules" + File.separator + lang.getShortName() + File.separator + "grammar.xml", "rules/rules.dtd");
+      String grammarFile = "rules" + File.separator + lang.getShortName() + File.separator + "grammar.xml";
+      validator.validate(grammarFile, "rules/rules.dtd", "rules");
     }
   }
 
   public void testFalseFriendsXML() throws SAXException, IOException, ParserConfigurationException {
-    validate("rules" + File.separator + "false-friends.xml", "rules/false-friends.dtd");
-  }
-
-  private void validate(String filename, String dtdFile) throws SAXException, IOException, ParserConfigurationException {
-    SAXParserFactory factory = SAXParserFactory.newInstance();
-    factory.setValidating(true);
-    SAXParser saxParser = factory.newSAXParser();
-    String xml = StringTools.readFile(filename);
-    final String decl = "<?xml version=\"1.0\" encoding=\"utf-8\"?>";
-    final String dtd = "<!DOCTYPE rules PUBLIC \"-//W3C//DTD Rules 0.1//EN\" \"file:" +dtdFile+ "\">";
-    int pos = xml.indexOf(decl);
-    if (pos == -1)
-      fail("No XML declaration found in " + filename);
-    String newXML = xml.substring(0, pos+decl.length()) + "\r\n" + dtd + xml.substring(pos+decl.length());
-    //System.err.println(newXML);
-    InputSource is = new InputSource(new StringReader(newXML));
-    saxParser.parse(is, new MyHandler());
-  }
-
-}
-
-class MyHandler extends DefaultHandler {
-  
-  public void warning (SAXParseException e) throws SAXException {
-    throw e;
-  }
-  
-  public void error (SAXParseException e) throws SAXException {
-    throw e;
+    XMLValidator validator = new XMLValidator();
+    validator.validate("rules" + File.separator + "false-friends.xml", "rules/false-friends.dtd", "rules");
   }
 
 }

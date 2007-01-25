@@ -25,24 +25,30 @@ import java.net.URLEncoder;
 
 import junit.framework.TestCase;
 import de.danielnaber.languagetool.Language;
+import de.danielnaber.languagetool.XMLValidator;
 import de.danielnaber.languagetool.tools.StringTools;
 
 public class HTTPServerTest extends TestCase {
 
-  public void testHTTPServer() throws IOException {
+  public void testHTTPServer() {
     HTTPServer server = new HTTPServer();
     try {
       server.run();
       // no error:
-      assertEquals("<matches>\n</matches>\n", check(Language.GERMAN, ""));
-      assertEquals("<matches>\n</matches>\n", check(Language.GERMAN, "Ein kleiner test"));
+      assertEquals("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<matches>\n</matches>\n", check(Language.GERMAN, ""));
+      assertEquals("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<matches>\n</matches>\n", check(Language.GERMAN, "Ein kleiner test"));
       // one error:
       assertTrue(check(Language.GERMAN, "ein kleiner test").indexOf("UPPERCASE_SENTENCE_START") != -1);
       // two errors:
       String result = check(Language.GERMAN, "ein kleiner test. Und wieder Erwarten noch was.");
       assertTrue(result.indexOf("UPPERCASE_SENTENCE_START") != -1);
       assertTrue(result.indexOf("WIEDER_WILLEN") != -1);
+      XMLValidator validator = new XMLValidator();
+      validator.validateXMLString(result, "resource/api-output.dtd", "matches");
+      validator.checkSimpleXMLString(result);
       //System.err.println(result);
+    } catch (Exception e) {
+      throw new RuntimeException(e);
     } finally {
       server.stop();
     }
