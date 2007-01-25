@@ -1,19 +1,20 @@
 <!--
 Simple XML output format for the 'api' option and the HTTP 
 interface of LanguageTool. Version 1.0.
-Daniel Naber (http://www.danielnaber.de), 2007-01-21
+Daniel Naber (http://www.danielnaber.de), 2007-01-25
 -->
 
 <!ELEMENT matches (error)*>
 
 <!-- A (potential) error. The output is simplified XML to
 make parsing easier for those that do not use an XML parser.
-For this element this means that it does not contain line 
-breaks. -->
+This means:
+* the error element it does not contain line breaks
+* each 'error' element starts on a new line
+* the attributes always appear in this order: fromy, fromx, 
+  toy, tox, ruleId, msg, replacements, context
+-->
 <!ELEMENT error EMPTY>
-
-<!-- The offset of the error in characters -->
-<!ATTLIST error offset CDATA #REQUIRED>
 
 <!-- The line in which the error starts: -->
 <!ATTLIST error fromy CDATA #REQUIRED>
@@ -38,10 +39,9 @@ suggestion, the strings are separated by a "#" character:
 <!ATTLIST error replacements CDATA #IMPLIED>
 
 <!--
-The context or sentence in which the error occurs. The error itself 
-might be surrounded by <marker>...</marker>.
+The context or sentence in which the error occurs.
 -->
-<!ATTLIST error errortext CDATA #REQUIRED>
+<!ATTLIST error context CDATA #REQUIRED>
 
 <!-- Note that the XML output may contain XML comments with
 additional information like timing and debugging information.

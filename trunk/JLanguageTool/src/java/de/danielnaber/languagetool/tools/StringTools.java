@@ -183,19 +183,19 @@ public final class StringTools {
     int i = 1;
     for (RuleMatch match : ruleMatches) {
       xml.append("<error" +
-          " offset=\"" + match.getOffset() + "\"" + 
           " fromy=\"" + (match.getLine()+1) + "\"" + 
           " fromx=\"" + (match.getColumn()+1) + "\"" +
           " toy=\"" + (match.getEndLine()+1) + "\"" +
           " tox=\"" + match.getEndColumn() + "\"" +
           " ruleId=\"" +match.getRule().getId()+ "\"" 
           );
-      xml.append(" msg=\"" + escapeXMLForAPIOutput(match.getMessage())+ "\"");
+      String msg = match.getMessage().replaceAll("</?suggestion>", "'");
+      xml.append(" msg=\"" + escapeXMLForAPIOutput(msg)+ "\"");
       String context = Tools.getContext(match.getFromPos(), match.getToPos(),
           escapeXML(text), contextSize, "<marker>", "</marker>");
       xml.append(" replacements=\"" + 
           escapeXMLForAPIOutput(listToString(match.getSuggestedReplacements(), "#")) + "\"");
-      xml.append(" errortext=\"" +escapeXMLForAPIOutput(context)+ "\"");
+      xml.append(" context=\"" +escapeXMLForAPIOutput(context)+ "\"");
       xml.append("/>\n");
       i++;
     }
