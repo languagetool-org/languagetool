@@ -40,21 +40,30 @@ public final class Tools {
   }
 
   public static int checkText(final String contents, JLanguageTool lt) throws IOException {
-    return checkText(contents, lt, false);
+    return checkText(contents, lt, false, -1);
   }
-  
+
+  public static int checkText(final String contents, JLanguageTool lt, boolean apiFormat) throws IOException {
+    return checkText(contents, lt, apiFormat, -1);
+  }
+
   /**
    * Check the gicen text and print results to System.out.
    * @param contents a text to check (may be more than one sentence)
    * @param lt
-   * @param whether to print the result in a simple XML format
+   * @param apiFormat whether to print the result in a simple XML format
+   * @param contextSize error text context size: -1 for default
    * @throws IOException
    */
-  public static int checkText(final String contents, JLanguageTool lt, boolean apiFormat) throws IOException {
+  public static int checkText(final String contents, JLanguageTool lt, boolean apiFormat,
+      int contextSize) throws IOException {
+    if (contextSize == -1) {
+      contextSize = DEFAULT_CONTEXT_SIZE;
+    }
     long startTime = System.currentTimeMillis();
     List<RuleMatch> ruleMatches = lt.check(contents);
     if (apiFormat) {
-      String xml = StringTools.ruleMatchesToXML(ruleMatches, contents, DEFAULT_CONTEXT_SIZE);
+      String xml = StringTools.ruleMatchesToXML(ruleMatches, contents, contextSize);
       System.out.print(xml);
     } else {
       int i = 1;
@@ -69,7 +78,8 @@ public final class Tools {
         List repl = match.getSuggestedReplacements();
         if (repl.size() > 0)
           System.out.println("Suggestion: " + StringTools.listToString(repl, "; "));
-        System.out.println(StringTools.getContext(match.getFromPos(), match.getToPos(), contents));
+        System.out.println(StringTools.getContext(match.getFromPos(), match.getToPos(), 
+            contents, contextSize));
         if (iter.hasNext())
           System.out.println();
         i++;
