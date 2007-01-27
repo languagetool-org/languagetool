@@ -21,6 +21,7 @@ package de.danielnaber.languagetool.dev;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 
 import javax.xml.parsers.ParserConfigurationException;
 
@@ -29,6 +30,7 @@ import org.xml.sax.SAXException;
 import de.danielnaber.languagetool.JLanguageTool;
 import de.danielnaber.languagetool.Language;
 import de.danielnaber.languagetool.TextFilter;
+import de.danielnaber.languagetool.tokenizers.SentenceTokenizer;
 import de.danielnaber.languagetool.tools.StringTools;
 import de.danielnaber.languagetool.tools.Tools;
 
@@ -41,7 +43,9 @@ public final class CheckBNC {
 
   private JLanguageTool langTool = null;
   private TextFilter textFilter = new BNCTextFilter();
-  
+
+  static final boolean CHECK_BY_SENTENCE = true;
+
   public static void main(String[] args) throws Exception {
     if (args.length != 1) {
       System.out.println("Usage: CheckBNC <directory>");
@@ -73,8 +77,15 @@ public final class CheckBNC {
       System.out.println("Checking " + file.getAbsolutePath());
       String text = StringTools.readFile(file.getAbsolutePath());
       text = textFilter.filter(text);
-      //System.out.println(text);
-      Tools.checkText(text, langTool);
+      if (CHECK_BY_SENTENCE) {
+        SentenceTokenizer st = new SentenceTokenizer();
+        List<String> sentences = st.tokenize(text);
+        for (String sentence : sentences) {
+          Tools.checkText(sentence, langTool, false, 1000);
+        }
+      } else {
+        Tools.checkText(text, langTool);
+      }
     }
   }
 
