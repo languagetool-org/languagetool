@@ -2,7 +2,7 @@
 <!--
 Dutch Grammar and Typo Rules for LanguageTool
 Copyright (C) 2006,2007 Ruud J. Baars (r.j.baars -at- hccnet nl)
-$Id: grammar.xml,v 1.15 2007-01-03 12:21:18 dnaber Exp $
+$Id: grammar.xml,v 1.16 2007-01-27 21:45:42 dnaber Exp $
 -->
 <rules lang="nl">
   <!--  # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # -->
@@ -211,6 +211,26 @@ $Id: grammar.xml,v 1.15 2007-01-03 12:21:18 dnaber Exp $
         <message>Hoewel het woord correct is, is er een grote kans op een <suggestion>typefout</suggestion> omdat er slechts 1 letter verschil is met een veelgebruikt woord.</message>
         <example type="incorrect">Ik lust geen <marker>vees</marker>.</example>
         <example type="correct">Ik lust geen <marker>vlees</marker>.</example>
+      </rule>
+    </rulegroup>
+    <rulegroup id="EINDE_E" name="Eindigt op e">
+      <rule>
+        <pattern>
+          <token regexp="yes">koste|moge|node|passe|erve|luide|wade|heffe|kruide|stapele|denke|laaie|rekke|bedenke|beruste|melde|schrobbe|motte|rille|wonde|krabbe|wikke|stalle|vergelijke|helpe|huwelijke|make|plante|diene|gebruike|klokke|lakke|morse|kante|hoppe|voege|weide|wrake|neme|proeve|schouwe|belope|pare|rouwe|krimpe|spreke|geve|stele|bloede|glundere|rijde|bonze|grieve|volharde|geniete|wende|raadplege|sloffe|breide|gerieve|dele|bedrage|dage|grave|rade|lande|gronde|perse|bewijze|strijde|eigene|lijve|kunne|gelieve|leve|ruste|vreze</token>
+        </pattern>
+        <message>[a] Hoewel het woord correct is, is er een grote kans dat het een <suggestion>typefout</suggestion> is. Zo niet, dan is het waarschijnlijk een ouderwetse uitdrukking.</message>
+        <example type="incorrect"><marker>Moge</marker> het nuttig zijn..</example>
+        <example type="correct">Ik <marker>hoop</marker> dat het nuttig is.</example>
+      </rule>
+
+      <rule>
+        <pattern mark_from="1">
+          <token negate="yes" regexp="yes">de|het|een|geen</token>	
+          <token regexp="yes">luwe|veile|begrote|verpachte|bare|wake|spore|winde|trede</token>
+        </pattern>
+        <message>[b] Hoewel het woord correct is, is er een grote kans dat het een <suggestion>typefout</suggestion> is. Zo niet, dan is het waarschijnlijk een ouderwetse uitdrukking.</message>
+        <example type="incorrect">Wij <marker>veile</marker> het huis.</example>
+        <example type="correct">Het <marker>veile</marker> huis.</example>
       </rule>
     </rulegroup>
     <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  -->
@@ -986,7 +1006,6 @@ $Id: grammar.xml,v 1.15 2007-01-03 12:21:18 dnaber Exp $
     </rulegroup>
     <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  -->
     <rulegroup id="GROTER_ALS" name="Groter als">
-
       <rule>
         <pattern>
           <token postag="adjective\(er.*" postag_regexp="yes"></token>
@@ -1041,7 +1060,6 @@ $Id: grammar.xml,v 1.15 2007-01-03 12:21:18 dnaber Exp $
     </rulegroup>
     <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  -->
     <rulegroup id="DE_EERSTE_INSTANTIE" name="De eerste instantie">
-      <!-- score -->
       <rule>
         <pattern>
           <token>in</token>
@@ -1056,7 +1074,6 @@ $Id: grammar.xml,v 1.15 2007-01-03 12:21:18 dnaber Exp $
     </rulegroup>
     <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  -->
     <rulegroup id="HAASTJE_REPJE" name="Haastje-repje">
-      <!-- score -->
       <rule>
         <pattern>
           <token>haasje-repje</token>
@@ -1077,7 +1094,6 @@ $Id: grammar.xml,v 1.15 2007-01-03 12:21:18 dnaber Exp $
     </rulegroup>
     <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  -->
     <rulegroup id="MANKEER_NIETS" name="Mankeert niets">
-      <!-- score -->
       <rule>
         <pattern>
           <token regexp="yes">ik|jij|hij</token>
@@ -1091,7 +1107,6 @@ $Id: grammar.xml,v 1.15 2007-01-03 12:21:18 dnaber Exp $
     </rulegroup>
     <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  -->
     <rulegroup id="WAT_SCHETST" name="Wat schetst mijn verbazing">
-      <!-- score -->
       <rule>
         <pattern>
           <token>wat</token>
@@ -1106,7 +1121,6 @@ $Id: grammar.xml,v 1.15 2007-01-03 12:21:18 dnaber Exp $
     </rulegroup>
     <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  -->
     <rulegroup id="OEKRAINE" name="Oekraine">
-      <!-- score -->
       <rule>
         <pattern>
           <token>de</token>
@@ -1146,16 +1160,6 @@ $Id: grammar.xml,v 1.15 2007-01-03 12:21:18 dnaber Exp $
     <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  -->
     <!--
 	teveel verkeerde meldingen
-    <rulegroup id="DT" name="dt bij werkwoord of juist niet">
-      <rule>
-        <pattern mark_from="1">
-          <token>ik</token>
-          <token postag="verb(sg3)"><exception postag="verb\(pas.*" postag_regexp="yes" /></token>
-        </pattern>
-        <message>[a] Bij '\1' hoort <suggestion>geen t</suggestion> achter de werkwoordsvorm.</message>
-        <example type="incorrect">Ik <marker>wordt</marker> beoordeeld.</example>
-        <example type="correct">Ik <marker>word</marker> beoordeeld.</example>
-      </rule>
 
       <rule>
         <pattern mark_from="2">
