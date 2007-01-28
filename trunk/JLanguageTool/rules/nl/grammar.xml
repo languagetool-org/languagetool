@@ -2,7 +2,7 @@
 <!--
 Dutch Grammar and Typo Rules for LanguageTool
 Copyright (C) 2006,2007 Ruud J. Baars (r.j.baars -at- hccnet nl)
-$Id: grammar.xml,v 1.16 2007-01-27 21:45:42 dnaber Exp $
+$Id: grammar.xml,v 1.17 2007-01-28 14:13:20 dnaber Exp $
 -->
 <rules lang="nl">
   <!--  # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # -->
@@ -13,7 +13,7 @@ $Id: grammar.xml,v 1.16 2007-01-27 21:45:42 dnaber Exp $
           <token>,</token>
           <token>en</token>
         </pattern>
-        <message>Meestal is een komma voor <suggestion>en</suggestion> overbodig.</message>
+        <message>Vaak is een komma voor <suggestion>en</suggestion> overbodig.</message>
         <example type="incorrect">Dit is goed<marker>, en</marker> niet foutief.</example>
         <example type="correct">Dit is foutief <marker>en</marker> dus niet goed.</example>
       </rule>
@@ -606,7 +606,7 @@ $Id: grammar.xml,v 1.16 2007-01-27 21:45:42 dnaber Exp $
       <rule>
         <pattern>
           <!-- 2006-12-19 woorden toegevoegd -->
-          <token regexp="yes">thans|danwel|zulks|voorts|derhalve|desalniettemin|evenwel|mede|dewelke|nimmer|immer|hunner|onzer|onderscheiden|nevens</token>
+          <token regexp="yes">thans|danwel|zulks|voorts|derhalve|desalniettemin|evenwel|mede|dewelke|nimmer|immer|hunner|onzer|onderscheiden|nevens|alsmede|alsook</token>
         </pattern>
         <message>[a] Dit woord is ouderwets.</message>
         <example type="incorrect">Ik zie hem <marker>nimmer</marker>.</example>
@@ -1388,6 +1388,116 @@ $Id: grammar.xml,v 1.16 2007-01-27 21:45:42 dnaber Exp $
         <message>Bedoelt u <suggestion>zo-even</suggestion>?</message>
         <example type="correct">Dit is <marker>zo-even</marker> ingetikt.</example>
         <example type="incorrect">Dit is <marker>zoeven</marker> ingetikt.</example>
+      </rule>
+    </rulegroup>
+    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  -->
+    <rulegroup id="BIJ_BEVEL" name="Bij bevel">
+      <rule>
+        <pattern>
+          <token>bij</token>
+          <token>bevel</token>
+        </pattern>
+        <message>Vervang door <suggestion>in opdracht</suggestion> of <suggestion>per order</suggestion>.</message>
+        <example type="incorrect"><marker>Bij bevel</marker> van de koning.</example>
+        <example type="correct"><marker>In opdracht</marker> van de koning.</example>
+      </rule>
+    </rulegroup>
+    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  -->
+    <rulegroup id="EUR" name="EUR in plaats van €">
+      <rule>
+        <pattern>
+          <token>EUR</token>
+        </pattern>
+        <message>Gebruik <suggestion>€</suggestion>of <suggestion>euro</suggestion>, behalve in formele monetaire teksten.</message>
+        <example type="incorrect">Hij gaf mij <marker>EUR</marker> 5.</example>
+        <example type="correct">Hij gaf mij <marker>€</marker> 5.</example>
+      </rule>
+    </rulegroup>
+    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  -->
+    <rulegroup id="SPREEKTAAL" name="Spreektaal">
+      <rule>
+        <pattern>
+          <token regexp="yes">meneer</token>
+        </pattern>
+        <message>Dit is spreektaal, geen schrijftaal.</message>
+        <example type="incorrect">Die <marker>meneer</marker> is netjes.</example>
+        <example type="correct">Die <marker>heer</marker> is netjes</example>
+      </rule>
+    </rulegroup>
+    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  -->
+    <rulegroup id="BREUKSTREEP" name="Breukstreep vermijden">
+      <rule>
+        <pattern>
+          <token regexp="yes">.*/.*</token>
+        </pattern>
+        <message>De / moet kan beter worden vermeden buiten berekeningen. Voor gelijkwaardige woorden (bijvoorbeeld man-vrouw) wordt het <suggestion>koppelteken -</suggestion> gebruikt.</message>
+        <example type="incorrect">De <marker>man/vrouw-verhouding</marker> is ongelijk.</example>
+        <example type="correct">De <marker>man-vrouwverhouding</marker> is ongelijk.</example>
+      </rule>
+    </rulegroup>
+    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  -->
+    <rulegroup id="JAN_ZN" name="Jan z'n">
+      <rule>
+        <pattern case_sensitive="yes" mark_to="-1">
+          <token regexp="yes">[A-Z].*[a-rt-z]</token>
+          <token>z</token>
+          <token>'</token>
+          <token>n</token>
+          <token></token>
+        </pattern>
+        <message>[a] Beter is : <suggestion>\1s \5</suggestion>.</message>
+        <example type="incorrect"><marker>Jan z'n</marker> auto is kapot.</example>
+        <example type="correct"><marker>Jans</marker> auto is kapot.</example>
+      </rule>
+    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  -->
+      <rule>
+        <pattern case_sensitive="yes" mark_to="-1">
+          <token regexp="yes">[A-Z].*[s]</token>
+          <token>z</token>
+          <token>'</token>
+          <token>n</token>
+          <token></token>
+        </pattern>
+        <message>[b] Beter is : <suggestion>\1' \5</suggestion>.</message>
+        <example type="incorrect"><marker>Koos z'n</marker> auto is kapot.</example>
+        <example type="correct"><marker>Koos'</marker> auto is kapot.</example>
+      </rule>
+      <rule>
+        <pattern case_sensitive="yes" mark_to="-1">
+          <token regexp="yes">[A-Z].*[a-rt-z]</token>
+          <token>d</token>
+          <token>'</token>
+          <token>r</token>
+          <token></token>
+        </pattern>
+        <message>[c] Beter is : <suggestion>\1s \5</suggestion>.</message>
+        <example type="incorrect"><marker>Monique d'r</marker> auto is kapot.</example>
+        <example type="correct"><marker>Moniques</marker> auto is kapot.</example>
+      </rule>
+      <rule>
+        <pattern case_sensitive="yes" mark_to="-1">
+          <token regexp="yes">[A-Z].*[s]</token>
+          <token>d</token>
+          <token>'</token>
+          <token>r</token>
+          <token></token>
+        </pattern>
+        <message>[b] Beter is : <suggestion>\1' \5</suggestion>.</message>
+        <example type="incorrect"><marker>Toos d'r</marker> auto is kapot.</example>
+        <example type="correct"><marker>Toos'</marker> auto is kapot.</example>
+      </rule>
+    </rulegroup>
+    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  -->
+    <rulegroup id="LAAT_ONS" name="Laat ons">
+      <rule>
+        <pattern>
+          <token postag="SENT_START"/>
+	 <token>Laat</token>
+          <token>ons</token>
+        </pattern>
+        <message>Vervang door : <suggestion>Laten we</suggestion>.</message>
+        <example type="incorrect"><marker>Laat ons</marker> vaart maken.</example>
+        <example type="correct"><marker>Laten we</marker> vaart maken.</example>
       </rule>
     </rulegroup>
     <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  -->
