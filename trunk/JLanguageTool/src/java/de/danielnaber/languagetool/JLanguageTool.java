@@ -351,7 +351,6 @@ public class JLanguageTool {
           String sentencePartToError = sentence.substring(0, thisMatches[i].getFromPos());
           String sentencePartToEndOfError = sentence.substring(0, thisMatches[i].getToPos());
           int lastLineBreakPos = sentencePartToError.lastIndexOf("\n");
-          int lastLineBreakPosInError = sentencePartToEndOfError.lastIndexOf("\n");
           int column = -1;
           int endColumn = -1;
           if (lastLineBreakPos == -1) {
@@ -359,7 +358,12 @@ public class JLanguageTool {
           } else {
             column = sentencePartToError.length() - lastLineBreakPos - 1;
           }
-          endColumn = thisMatches[i].getToPos() - lastLineBreakPosInError;
+          int lastLineBreakPosInError = sentencePartToEndOfError.lastIndexOf("\n");
+          if (lastLineBreakPosInError == -1) {
+            endColumn = sentencePartToEndOfError.length() + columnCount + 1;
+          } else {
+            endColumn = sentencePartToEndOfError.length() - lastLineBreakPos;
+          }
           int lineBreaksToError = countLineBreaks(sentencePartToError);
           int lineBreaksToEndOfError = countLineBreaks(sentencePartToEndOfError);
           thisMatch.setLine(lineCount + lineBreaksToError);
