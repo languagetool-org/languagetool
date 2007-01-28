@@ -2,7 +2,7 @@
 <!--
 Dutch Grammar and Typo Rules for LanguageTool
 Copyright (C) 2006,2007 Ruud J. Baars (r.j.baars -at- hccnet nl)
-$Id: grammar.xml,v 1.17 2007-01-28 14:13:20 dnaber Exp $
+$Id: grammar.xml,v 1.18 2007-01-28 20:02:56 dnaber Exp $
 -->
 <rules lang="nl">
   <!--  # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # -->
@@ -992,16 +992,27 @@ $Id: grammar.xml,v 1.17 2007-01-28 14:13:20 dnaber Exp $
     </rulegroup>
     <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  -->
     <rulegroup id="BESEF_ME" name="Besef me">
-      <!-- score -->
       <rule>
         <pattern>
-          <token regexp="yes">besef|beseft|bedenk|bedenkt</token>
+          <token regexp="yes">besef|beseft</token>
           <token regexp="yes">me|zich</token>
           <token>dat</token>
         </pattern >
-        <message>Bedoelt u <suggestion>\1 \2</suggestion> of <suggestion>realiseer me/realiseert zich</suggestion>?</message>
+        <message>Bedoelt u <suggestion>\1 \3</suggestion> of <suggestion>realiseer me/realiseert zich</suggestion>?</message>
         <example type="incorrect">Ik <marker>besef me dat</marker> dit fout is.</example>
         <example type="correct">Ik <marker>besef dat</marker> het anders moet.</example>
+      </rule>
+    </rulegroup>
+    <rulegroup id="IRRITEER_ME" name="Irriteer me">
+      <rule>
+        <pattern>
+          <token regexp="yes">irriteert|irriteer</token>
+          <token regexp="yes">me|zich</token>
+          <token>aan</token>
+        </pattern >
+        <message>Bedoelt u <suggestion>\1 \3</suggestion> of <suggestion>erger me/ergert zich</suggestion>?</message>
+        <example type="incorrect">Ik <marker>irriteer me aan</marker> deze fout.</example>
+        <example type="correct">Ik <marker>erger me aan</marker> deze fout.</example>
       </rule>
     </rulegroup>
     <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  -->
@@ -1449,7 +1460,6 @@ $Id: grammar.xml,v 1.17 2007-01-28 14:13:20 dnaber Exp $
         <example type="incorrect"><marker>Jan z'n</marker> auto is kapot.</example>
         <example type="correct"><marker>Jans</marker> auto is kapot.</example>
       </rule>
-    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  -->
       <rule>
         <pattern case_sensitive="yes" mark_to="-1">
           <token regexp="yes">[A-Z].*[s]</token>
@@ -1501,6 +1511,39 @@ $Id: grammar.xml,v 1.17 2007-01-28 14:13:20 dnaber Exp $
       </rule>
     </rulegroup>
     <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  -->
+    <rulegroup id="ZIJN_KWIJT" name="zijn kwijt i.p.v. zijn zoek">
+      <rule>
+        <pattern>
+          <token skip ="4" regexp="yes">is|ben|was|waren|zijn</token>
+          <token>kwijt</token>
+        </pattern>
+        <message>[a]  Dit is een veel voorkomende fout. Juist is: <suggestion>\1 zoek</suggestion>.</message>
+        <example type="incorrect">Mijn auto <marker>is kwijt</marker>.</example>
+        <example type="correct">Mijn auto <marker>is zoek</marker>.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>kwijt</token>
+          <token regexp="yes">geweest|is|ben|was|waren|zijn</token>
+        </pattern>
+        <message>[b]  Dit is een veel voorkomende fout. Juist is: <suggestion>zoek \2</suggestion>.</message>
+        <example type="incorrect">Toen mijn auto <marker>kwijt was</marker>.</example>
+        <example type="correct">Toen mijn auto <marker>zoek was</marker>.</example>
+      </rule>
+    </rulegroup>
+    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  -->
+    <rulegroup id="GROEP_ENKELVOUD" name="Een groep doen ipv doet">
+      <rule>
+        <pattern>
+	<token skip="2"  regexp="yes">aantal|bende|berg|blik|bos|bups|colonne|grom|groep|groepje|hoeveelheid|horde|kluit|kluwen|kudde|lading|leger|legioen|menigte|meute|reeks|rij|rijtje|rits|roedel|schare|serie|slag|sleep|soort|stoet|troep|verzameling|zwik|zooi|zootje</token>
+          <token postag="noun.*pl.*" postag_regexp="yes" />
+          <token postag="verb\(inf\)|verb\(past\(pl\)\)" postag_regexp="yes" />
+        </pattern>
+        <message>[a] Het is één groep, dus het werkwooord hoort in <suggestion>enkelvoud</suggestion>.</message>
+        <example type="incorrect">Een <marker>colonne mieren vielen</marker> aan.</example>
+        <example type="correct">Een <marker>groep mieren</marker> viel aan.</example>
+      </rule>
+    </rulegroup>
   </category>
   <!--  # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # -->
   <category name="Zelfcensuur">
