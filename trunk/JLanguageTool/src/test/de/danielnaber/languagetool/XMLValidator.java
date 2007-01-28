@@ -81,12 +81,14 @@ public class XMLValidator {
     SAXParserFactory factory = SAXParserFactory.newInstance();
     factory.setValidating(true);
     SAXParser saxParser = factory.newSAXParser();
-    final String decl = "<?xml version=\"1.0\" encoding=\"utf-8\"?>";
+    final String decl = "<?xml version=\"1.0\"";
+    final String endDecl = "?>";
     final String dtd = "<!DOCTYPE "+doctype+" PUBLIC \"-//W3C//DTD Rules 0.1//EN\" \"file:" +dtdFile+ "\">";
     int pos = xml.indexOf(decl);
+    int endPos = xml.indexOf(endDecl);
     if (pos == -1)
       throw new IOException("No XML declaration found in '" + xml.substring(0, Math.min(100, xml.length())) + "...'");
-    String newXML = xml.substring(0, pos+decl.length()) + "\r\n" + dtd + xml.substring(pos+decl.length());
+    String newXML = xml.substring(0, endPos+endDecl.length()) + "\r\n" + dtd + xml.substring(endPos+endDecl.length());
     //System.err.println(newXML);
     InputSource is = new InputSource(new StringReader(newXML));
     saxParser.parse(is, new ErrorHandler());

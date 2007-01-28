@@ -35,14 +35,16 @@ public class HTTPServerTest extends TestCase {
     try {
       server.run();
       // no error:
-      assertEquals("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<matches>\n</matches>\n", check(Language.GERMAN, ""));
-      assertEquals("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<matches>\n</matches>\n", check(Language.GERMAN, "Ein kleiner test"));
+      String enc = System.getProperty("file.encoding");
+      assertEquals("<?xml version=\"1.0\" encoding=\""+enc+"\"?>\n<matches>\n</matches>\n", check(Language.GERMAN, ""));
+      assertEquals("<?xml version=\"1.0\" encoding=\""+enc+"\"?>\n<matches>\n</matches>\n", check(Language.GERMAN, "Ein kleiner test"));
       // one error:
       assertTrue(check(Language.GERMAN, "ein kleiner test").indexOf("UPPERCASE_SENTENCE_START") != -1);
       // two errors:
-      String result = check(Language.GERMAN, "ein kleiner test. Und wieder Erwarten noch was.");
+      String result = check(Language.GERMAN, "ein kleiner test. Und wieder Erwarten noch was: öäüß.");
       assertTrue(result.indexOf("UPPERCASE_SENTENCE_START") != -1);
       assertTrue(result.indexOf("WIEDER_WILLEN") != -1);
+      assertTrue(result.indexOf("öäüß") != -1);   // special chars are intact
       XMLValidator validator = new XMLValidator();
       validator.validateXMLString(result, "resource/api-output.dtd", "matches");
       validator.checkSimpleXMLString(result);
@@ -56,7 +58,7 @@ public class HTTPServerTest extends TestCase {
 
   private String check(Language lang, String text) throws IOException {
     String urlOptions = "/?language=" + lang.getShortName();
-    urlOptions += "&text=" + URLEncoder.encode(text);
+    urlOptions += "&text=" + URLEncoder.encode(text, "latin1");
     URL url = new URL("http://localhost:" + HTTPServer.DEFAULT_PORT + urlOptions);
     InputStream stream = (InputStream)url.getContent();
     String result = StringTools.streamToString(stream);
