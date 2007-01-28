@@ -2,7 +2,7 @@
 <!--
 Dutch Grammar and Typo Rules for LanguageTool
 Copyright (C) 2006,2007 Ruud J. Baars (r.j.baars -at- hccnet nl)
-$Id: grammar.xml,v 1.18 2007-01-28 20:02:56 dnaber Exp $
+$Id: grammar.xml,v 1.19 2007-01-28 20:11:46 dnaber Exp $
 -->
 <rules lang="nl">
   <!--  # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # -->
@@ -1436,17 +1436,6 @@ $Id: grammar.xml,v 1.18 2007-01-28 20:02:56 dnaber Exp $
       </rule>
     </rulegroup>
     <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  -->
-    <rulegroup id="BREUKSTREEP" name="Breukstreep vermijden">
-      <rule>
-        <pattern>
-          <token regexp="yes">.*/.*</token>
-        </pattern>
-        <message>De / moet kan beter worden vermeden buiten berekeningen. Voor gelijkwaardige woorden (bijvoorbeeld man-vrouw) wordt het <suggestion>koppelteken -</suggestion> gebruikt.</message>
-        <example type="incorrect">De <marker>man/vrouw-verhouding</marker> is ongelijk.</example>
-        <example type="correct">De <marker>man-vrouwverhouding</marker> is ongelijk.</example>
-      </rule>
-    </rulegroup>
-    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  -->
     <rulegroup id="JAN_ZN" name="Jan z'n">
       <rule>
         <pattern case_sensitive="yes" mark_to="-1">
@@ -1542,6 +1531,17 @@ $Id: grammar.xml,v 1.18 2007-01-28 20:02:56 dnaber Exp $
         <message>[a] Het is één groep, dus het werkwooord hoort in <suggestion>enkelvoud</suggestion>.</message>
         <example type="incorrect">Een <marker>colonne mieren vielen</marker> aan.</example>
         <example type="correct">Een <marker>groep mieren</marker> viel aan.</example>
+      </rule>
+    </rulegroup>
+    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  -->
+    <rulegroup id="BREUKSTREEP" name="Breukstreep vermijden">
+      <rule>
+        <pattern>
+          <token regexp="yes">.*/.*<exception regexp="yes">km/h|km/u|m/s|km/uur|en/of</exception></token>
+        </pattern>
+        <message>De / moet kan beter worden vermeden buiten berekeningen of eenheden. Gebruik een <suggestion>-</suggestion> voor gelijkwaardige begrippen, of <suggestion>omschrijf</suggestion> de relatie tussen de woorden.</message>
+        <example type="incorrect">De <marker>man/vrouw-verhouding</marker> is ongelijk.</example>
+        <example type="correct">De <marker>man-vrouwverhouding</marker> is ongelijk.</example>
       </rule>
     </rulegroup>
   </category>
