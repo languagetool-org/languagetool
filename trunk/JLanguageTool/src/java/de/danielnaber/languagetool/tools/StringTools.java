@@ -191,11 +191,17 @@ public final class StringTools {
           );
       String msg = match.getMessage().replaceAll("</?suggestion>", "'");
       xml.append(" msg=\"" + escapeXMLForAPIOutput(msg)+ "\"");
+      final String START_MARKER = "__languagetoo_start_marker";
       String context = Tools.getContext(match.getFromPos(), match.getToPos(),
-          escapeXML(text), contextSize, "<marker>", "</marker>");
+          escapeXML(text), contextSize, START_MARKER, "");
       xml.append(" replacements=\"" + 
           escapeXMLForAPIOutput(listToString(match.getSuggestedReplacements(), "#")) + "\"");
+      // get position of error in context and remove artificial marker again:
+      int contextOffset = context.indexOf(START_MARKER);
+      context = context.replaceFirst(START_MARKER, "");
       xml.append(" context=\"" +escapeXMLForAPIOutput(context)+ "\"");
+      xml.append(" contextoffset=\"" +contextOffset+ "\"");
+      xml.append(" errorlength=\"" +(match.getToPos()-match.getFromPos())+ "\"");
       xml.append("/>\n");
       i++;
     }

@@ -1,7 +1,7 @@
 <!--
 Simple XML output format for the 'api' option and the HTTP 
 interface of LanguageTool. Version 1.0.
-Daniel Naber (http://www.danielnaber.de), 2007-01-25
+Daniel Naber (http://www.danielnaber.de), 2007-01-28
 -->
 
 <!ELEMENT matches (error)*>
@@ -42,6 +42,16 @@ suggestion, the strings are separated by a "#" character:
 The context or sentence in which the error occurs.
 -->
 <!ATTLIST error context CDATA #REQUIRED>
+
+<!-- The position of the start of the error in the 'context'
+attribute. Counting starts at 0.
+-->
+<!ATTLIST error contextoffset CDATA #REQUIRED>
+
+<!-- The length in characters of the error in the 'context'
+attribute, starting at 'contextoffset'.
+-->
+<!ATTLIST error errorlength CDATA #REQUIRED>
 
 <!-- Note that the XML output may contain XML comments with
 additional information like timing and debugging information.
