@@ -93,8 +93,9 @@ public final class Tools {
       System.out.println("<!--");
     }
     System.out.printf(Locale.ENGLISH,
-        "Time: %dms for %d sentences (%.1f sentences/sec)\n",
+        "Time: %dms for %d sentences (%.1f sentences/sec)",
         time, lt.getSentenceCount(), sentencesPerSecond);
+    System.out.println();
     if (apiFormat) {
       System.out.println("-->");
     }
