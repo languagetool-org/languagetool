@@ -3,7 +3,7 @@
 English Grammar and Typo Rules for LanguageTool
 See tagset.txt for the meaning of the POS tags
 Copyright (C) 2001-2007 Daniel Naber (http://www.danielnaber.de)
-$Id: grammar.xml,v 1.133 2007-01-22 20:38:11 dnaber Exp $
+$Id: grammar.xml,v 1.134 2007-01-29 23:38:26 milek_pl Exp $
 -->
 <rules lang="en">
 
@@ -1266,7 +1266,7 @@ $Id: grammar.xml,v 1.133 2007-01-22 20:38:11 dnaber Exp $
         <token postag_regexp="yes" postag="PRP|NNP"/>
         <token regexp="yes">have|has</token>
         <token postag="VBN"><exception postag_regexp="yes" postag="VB|RP|RB|CD|IN|CC|MD"/></token>
-        <token postag="NN"><exception postag_regexp="yes" postag="CC|DT|RB|RP|JJ|IN|CD|JJR|RBS|VBD|VBN|MD|NNS"/><exception>are</exception></token>
+        <token postag="NN"><exception postag_regexp="yes" postag="CC|DT|RB|RP|JJ|IN|CD|JJR|RBS|VBD|VBN|MD|NNS|NNP"/><exception>are</exception></token>
         <token><exception postag_regexp="yes" postag="NN.*"/></token>
       </pattern>
       <message>The article is missing before the noun: <suggestion>\3 a \4</suggestion>, <suggestion>\3 an \4</suggestion>, <suggestion>\3 the \4</suggestion>.</message>
@@ -1291,9 +1291,9 @@ $Id: grammar.xml,v 1.133 2007-01-22 20:38:11 dnaber Exp $
 	<!-- and now "an experienced soldier" -->
 	    <rule>
       <pattern mark_from="1" mark_to="-1">
-        <token><exception postag_regexp="yes" postag="PRP|NNP|DT|JJ|PRP\$"/><exception regexp="yes">have|has</exception></token>
-        <token postag_regexp="yes" postag="VBN|JJ"><exception postag_regexp="yes" postag="VB|RP|RB|CD|IN|CC|MD"/></token>
-        <token postag="NN"><exception postag_regexp="yes" postag="CC|DT|RB|RP|JJ|IN|CD|JJR|RBS|VBD|VBN|MD|NNS"/><exception>are</exception></token>
+        <token><exception postag_regexp="yes" postag="PRP|NNP|DT|JJ.*|PRP\$|RB.*"/><exception regexp="yes">have|has|s|\"|\'|[0-9].*</exception></token>
+        <token postag_regexp="yes" postag="VBN|JJ"><exception postag_regexp="yes" postag="VB|RP|RB|CD|IN|CC|MD|NNP"/></token>
+        <token postag="NN"><exception postag_regexp="yes" postag="CC|DT|RB|RP|JJ|IN|CD|JJR|RBS|VBD|VBN|MD|NNS|NNPS|NNP"/><exception>are</exception></token>
         <token><exception postag_regexp="yes" postag="NN.*"/></token>
       </pattern>
       <message>The article is missing before the noun: <suggestion>a \2 \3</suggestion>, <suggestion>an \2 \3</suggestion>, <suggestion>the \2 \3</suggestion>.</message>
