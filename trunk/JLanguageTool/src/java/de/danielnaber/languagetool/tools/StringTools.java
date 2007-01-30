@@ -183,9 +183,9 @@ public final class StringTools {
     int i = 1;
     for (RuleMatch match : ruleMatches) {
       xml.append("<error" +
-          " fromy=\"" + (match.getLine()+1) + "\"" + 
-          " fromx=\"" + (match.getColumn()+1) + "\"" +
-          " toy=\"" + (match.getEndLine()+1) + "\"" +
+          " fromy=\"" + match.getLine() + "\"" + 
+          " fromx=\"" + match.getColumn() + "\"" +
+          " toy=\"" + match.getEndLine() + "\"" +
           " tox=\"" + match.getEndColumn() + "\"" +
           " ruleId=\"" +match.getRule().getId()+ "\"" 
           );
