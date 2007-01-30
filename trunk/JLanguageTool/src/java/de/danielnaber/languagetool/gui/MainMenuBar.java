@@ -121,7 +121,7 @@ class MainMenuBar extends JMenuBar implements ActionListener {
       prg.quit();
     } else if (e.getActionCommand().equals(aboutText)) {
       JOptionPane.showMessageDialog(null, "LanguageTool " + JLanguageTool.VERSION + "\n" + 
-          "Copyright (C) 2005-2006 Daniel Naber\n"+
+          "Copyright (C) 2005-2007 Daniel Naber\n"+
           "This software is licensed under the GNU Lesser General Public License.\n"+
           "LanguageTool Homepage: http://www.danielnaber.de/languagetool");
     } else {
