@@ -1,6 +1,6 @@
 LanguageTool, a language style checker for English, German, Polish,
 and Dutch with initial support for Spanish, French, and Italian
-Copyright (C) 2005,2006 Daniel Naber (naber at danielnaber de)
+Copyright (C) 2005,2006,2007 Daniel Naber (naber at danielnaber de)
 Version ###VERSION###, ###DATE###
 Homepage: http://www.danielnaber.de/languagetool
 
@@ -42,6 +42,7 @@ Known bugs:
     about text which is actually correct
    
 TODO:
+ -add a layer to use the simple XML so the LanguageTool GUIs can use An Gramadoir?
  -load (language-specific) abbreviations from external file
  -OpenOffice.org: make the dialog modal
  -GUI: put nice icon in window corner (currently works only if resource/TrayIcon.png
