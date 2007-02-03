@@ -3,7 +3,7 @@
 English Grammar and Typo Rules for LanguageTool
 See tagset.txt for the meaning of the POS tags
 Copyright (C) 2001-2007 Daniel Naber (http://www.danielnaber.de)
-$Id: grammar.xml,v 1.138 2007-02-03 00:55:13 milek_pl Exp $
+$Id: grammar.xml,v 1.139 2007-02-03 23:33:21 milek_pl Exp $
 -->
 <rules lang="en">
 
@@ -166,11 +166,12 @@ $Id: grammar.xml,v 1.138 2007-02-03 00:55:13 milek_pl Exp $
   <rulegroup id="YOUR" name="Possible typo 'your(you're)'">
     <rule>
       <pattern mark_to="-1" mark_from="1">
-        <token><exception postag="IN"/></token>
+        <token><exception postag="IN"/><exception>t</exception></token>
         <token>your</token>
         <token postag="VBG"/>
       </pattern>
       <message>Did you mean <suggestion>you're</suggestion> or <suggestion>you are</suggestion>?</message>
+      <example type="correct">It wasn't your painting.</example>
       <example type="correct">Let's see if <marker>you're</marker> using multiple search servers.</example>
       <example type="correct">Let's see if <marker>you are</marker> using multiple search servers.</example>
       <example type="incorrect">Let's see if <marker>your</marker> using multiple search servers.</example>
@@ -855,11 +856,13 @@ $Id: grammar.xml,v 1.138 2007-02-03 00:55:13 milek_pl Exp $
   </rule>
     
   <rule id="ONES" name="ones (one's)">
-    <pattern mark_to="-1">
+    <pattern mark_to="-1" mark_from="1">
+    	<token><exception postag_regexp="yes" postag="JJ.*"/></token>
       <token>ones</token>
       <token postag="NN.*" postag_regexp="yes"/>
     </pattern>
     <message>Did you mean <suggestion>one's</suggestion>?</message>
+    <example type="correct">the common  ones clashing with the noble ones</example>
     <example type="correct">One should always wash one's feet in the morning.</example>
     <example type="incorrect">One should always wash <marker>ones</marker> feet in the morning.</example>
   </rule>
@@ -1728,14 +1731,24 @@ $Id: grammar.xml,v 1.138 2007-02-03 00:55:13 milek_pl Exp $
 
   <rulegroup id="COMP_THAN" name="Comparison with 'than', e.g. 'bigger then(than)'">
     <rule>
+      <pattern mark_from="1" mark_to="-1">
+        <token regexp="yes">more|less</token>
+        <token regexp="yes">as</token>
+        <token><exception>to</exception></token>
+      </pattern>
+      <message>Comparison requires <suggestion>than</suggestion>, not 'then' nor 'as'.</message>
+      <example type="correct">The tagger will return more <marker>than</marker> one tag.</example>
+      <example type="incorrect">The tagger will return more <marker>as</marker> one tag.</example>
+      <example type="triggers_error">Think of it more <marker>as</marker> activity.</example>
+    </rule>
+    <rule>
       <pattern mark_from="1">
         <token regexp="yes">more|less</token>
-        <token regexp="yes">then|as</token>
+        <token regexp="yes">then</token>
       </pattern>
       <message>Comparison requires <suggestion>than</suggestion>, not 'then' nor 'as'.</message>
       <example type="correct">The tagger will return more <marker>than</marker> one tag.</example>
       <example type="incorrect">The tagger will return more <marker>then</marker> one tag.</example>
-      <example type="triggers_error">Think of it more <marker>as</marker> activity.</example>
     </rule>
     <rule>
       <pattern mark_from="1" mark_to="-2">
@@ -1744,7 +1757,7 @@ $Id: grammar.xml,v 1.138 2007-02-03 00:55:13 milek_pl Exp $
         <token negate_pos="yes" postag="DT"/>
       <!-- the below condition fixed a false alarm - 
       'these cheeses just get firmer as water evaporates' -->        
-        <token negate_pos="yes" postag_regexp="yes" postag="VB.*"/>
+        <token><exception postag_regexp="yes" postag="VB.*"/></token>
       </pattern>
       <message>Comparison requires <suggestion>than</suggestion>, not 'then' nor 'as'.</message>
       <example type="correct">This house is bigger <marker>than</marker> mine.</example>
