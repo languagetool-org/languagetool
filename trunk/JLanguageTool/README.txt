@@ -49,6 +49,7 @@ TODO:
  -GUI: put nice icon in window corner (currently works only if resource/TrayIcon.png
   exists relative to the directory where LanguageTool was started)
  -Auto-reload rules if file timestamp has changed?
+ -enable style registers and/or rule classes
  -clean up rule descriptions so that they coherently contain the error or the rule
   (e.g. "did + baseform" vs. "did + non-baseform")
  -add more rules, especially agreement stuff
