@@ -80,10 +80,11 @@ public class AgreementRuleTest extends TestCase {
     assertGood("Dann lud sie Freunde ein.");
     assertGood("Aller Kommunikation liegt dies zugrunde.");
     assertGood("Pragmatisch wählt man solche Formeln als Axiome.");
-    // FIXME: known bug
-    //assertGood("Er wollte seine Interessen wahrnehmen.");
+    assertGood("Der eine Polizist rief dem anderen zu...");
+    assertGood("Das eine Kind rief dem anderen zu...");
+    assertGood("Er wollte seine Interessen wahrnehmen.");
 
-    //assertGood("... wo Krieg den Unschuldigen Leid und Tod bringt.");
+    assertGood("... wo Krieg den Unschuldigen Leid und Tod bringt.");
     assertGood("Der Abschuss eines Papageien.");
 
     // relative clauses:

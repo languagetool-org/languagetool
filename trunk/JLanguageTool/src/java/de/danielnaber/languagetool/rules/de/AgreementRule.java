@@ -134,6 +134,15 @@ public class AgreementRule extends GermanRule {
       boolean isRelevantPronomen = isRelevantPronoun(tokens, i); 
      
       boolean ignore = couldBeRelativeClause(tokens, i);
+      if (i > 0) {
+        String prevToken = tokens[i-1].getToken().toLowerCase();
+        if ((prevToken.equals("der") || prevToken.equals("die") || prevToken.equals("das"))
+            && tokens[i].getToken().equals("eine")) {
+          // TODO: "der eine Polizist" -> nicht ingorieren, sondern "der polizist" checken
+          ignore = true;
+        }
+      }
+
       if ((analyzedToken.hasReadingOfType(POSType.DETERMINER) || isRelevantPronomen) && !ignore) {
         int tokenPos = i + 1; 
         if (tokenPos >= tokens.length)
