@@ -36,6 +36,7 @@ import de.danielnaber.languagetool.tagging.de.AnalyzedGermanTokenReadings;
 import de.danielnaber.languagetool.tagging.de.GermanTagger;
 import de.danielnaber.languagetool.tagging.de.GermanToken;
 import de.danielnaber.languagetool.tagging.de.GermanToken.POSType;
+import de.danielnaber.languagetool.tools.StringTools;
 
 /**
  * Check that adjectives and verbs are not written with an uppercase
@@ -276,7 +277,8 @@ public class CaseRule extends GermanRule {
         continue;
       }
       
-      if (Character.isUpperCase(token.charAt(0)) && ! sentenceStartExceptions.contains(tokens[i-1].getToken()) && 
+      if (Character.isUpperCase(token.charAt(0)) && !sentenceStartExceptions.contains(tokens[i-1].getToken()) &&
+          !StringTools.isAllUppercase(token) &&
           !exceptions.contains(token) &&
           token.length() > 1 &&     // length limit = ignore abbreviations
           !analyzedToken.hasReadingOfType(POSType.PROPER_NOUN) &&

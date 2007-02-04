@@ -42,14 +42,15 @@ public class GermanSentenceTokenizer extends SentenceTokenizer {
     "Lz", "Mask", "mask", "Mrd", "mdal", "med", "met", "mhd", "Mi",
     "Mio", "min", "Mo", "mod", "nachm", "nördlBr", "neutr",
     "Nhd", "Nom", "Nr", "Nrn", "Num", "Obj", "od", "dgl", "offz",
-    "Part", "Pass", "Perf", "Pers", "Pfd", "Pl", "Plur",
+    "Part", "Perf", "Pers", "Pfd", "Pl", "Plur",
     "pl", "Plusq", "Pos", "pp", "Präp", "Präs", "Prät", "Prov", "Prof",
     "rd", "reg", "resp", "Rhld", "rit", "Sa", "südl", "Br",
     "sel", "sen", "Sept", "Sing", "sign", "So", "sog", "Sp", "St",
     "St", "St", "Std", "stacc", "Str", "stud", "Subst", "sva", "svw",
     "sZ", "Temp", "trans", "Tsd", "übertr", "übl", "ff", "ugs", "univ",
     "urspr", "usw", "vgl", "Vol", "vorm", "vorm", "Vp", "Vs",
-    "vs", "wg", "Hd", "Ztr", "zus", "Zus", "zzt", "zz", "Zz", "Zt" };
+    "vs", "wg", "Hd", "Ztr", "zus", "Zus", "zzt", "zz", "Zz", "Zt",
+    "Min"};
 
   // einige deutsche Monate, vor denen eine Zahl erscheinen kann,
   // ohne dass eine Satzgrenze erkannt wird (z.B. "am 13. Dezember" -> keine Satzgrenze)
