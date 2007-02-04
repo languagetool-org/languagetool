@@ -3,7 +3,7 @@
 English Grammar and Typo Rules for LanguageTool
 See tagset.txt for the meaning of the POS tags
 Copyright (C) 2001-2007 Daniel Naber (http://www.danielnaber.de)
-$Id: grammar.xml,v 1.140 2007-02-04 12:45:31 milek_pl Exp $
+$Id: grammar.xml,v 1.141 2007-02-04 21:40:38 milek_pl Exp $
 -->
 <rules lang="en">
 
@@ -872,6 +872,18 @@ $Id: grammar.xml,v 1.140 2007-02-04 12:45:31 milek_pl Exp $
     <example type="incorrect">Something terrible <marker>must of</marker> happened here.</example>
     <example type="incorrect">It <marker>could of</marker> been you, the one that I was givin' my love to.</example>
   </rule>
+  
+  <rule id="HAD_OF" name="Possible typo 'had of/had'">
+    <pattern mark_to="-1">
+      <token>had</token>
+      <token>of</token>
+      <token postag="VBN"/>
+    </pattern>
+    <message>It's never correct to use 'of' after 'had' to form a 'plupluperfect' tense. Use <suggestion>had</suggestion>.</message>
+    <example type="correct">I had bought this house.</example>
+    <example type="incorrect">I <marker>had of</marker> bought this house.</example>
+  </rule>
+  
     
   <rule id="ONES" name="ones (one's)">
     <pattern mark_to="-1" mark_from="1">
