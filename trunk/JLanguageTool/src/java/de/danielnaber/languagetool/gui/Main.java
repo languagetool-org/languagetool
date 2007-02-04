@@ -120,6 +120,7 @@ public final class Main implements ActionListener {
     resultArea = new JTextPane();
     resultArea.setContentType("text/html");
     resultArea.setText(HTML_FONT_START + messages.getString("resultAreaText") + HTML_FONT_END);
+    resultArea.setEditable(false);
     JLabel label = new JLabel(messages.getString("enterText"));
     JButton button = new JButton(messages.getString("checkText"));
     button.setMnemonic('c'); 
