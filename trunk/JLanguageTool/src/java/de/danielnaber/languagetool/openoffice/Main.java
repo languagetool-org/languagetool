@@ -84,6 +84,7 @@ public class Main {
     public _Main() throws IOException {
       baseDir = new File(".");
       config = new Configuration(baseDir);
+      messages = JLanguageTool.getMessageBundle();
     }
     
     public _Main(final XComponentContext xCompContext) {
