@@ -45,6 +45,7 @@ TODO:
  -add a layer to use the simple XML so the LanguageTool GUIs can use An Gramadoir?
  -load (language-specific) abbreviations from external file
  -OpenOffice.org: make the dialog modal
+ -stand-alone GUI: mark errors in upper part of window
  -GUI: put nice icon in window corner (currently works only if resource/TrayIcon.png
   exists relative to the directory where LanguageTool was started)
  -Auto-reload rules if file timestamp has changed?
