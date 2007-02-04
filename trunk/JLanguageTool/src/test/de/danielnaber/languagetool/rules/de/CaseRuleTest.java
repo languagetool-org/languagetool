@@ -45,6 +45,8 @@ public class CaseRuleTest extends TestCase {
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("Hier ein Satz. «Ein Zitat.»")).length);
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("Hier ein Satz. »Ein Zitat.«")).length);
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("Hier ein Satz. (Noch einer.)")).length);
+    // works only thanks to addex.txt:
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Der Nachfahre.")).length);
     // both can be correct:
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("Hier ein Satz, \"Ein Zitat.\"")).length);
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("Hier ein Satz, \"ein Zitat.\"")).length);

@@ -110,8 +110,10 @@ public class GermanTagger implements Tagger {
       System.arraycopy(posTagsFromDict, 0, allPosTags, 0, posTagsFromDict.length);
       System.arraycopy(posTagsFromUserDict, 0, allPosTags, posTagsFromDict.length, posTagsFromUserDict.length);
       return allPosTags;
-    } else {
+    } else if (posTagsFromUserDict == null && posTagsFromDict != null) {
       return posTagsFromDict;
+    } else {
+      return posTagsFromUserDict;
     }
   }
   
