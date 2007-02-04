@@ -58,7 +58,7 @@ public class AgreementRule extends GermanRule {
   private static final String GENUS = "Genus";
 
   /*
-   * City names are incoherently tagged in the morophy data. To avoid
+   * City names are incoherently tagged in the Morphy data. To avoid
    * false alarms on phrases like "das Berliner Auto" we have to
    * explicitely add these adjective readings to "Berliner" and to all 
    * other potential city names:
@@ -77,30 +77,30 @@ public class AgreementRule extends GermanRule {
   };
 
   
-  private final static Set<String> relPronouns = new HashSet<String>();
+  private final static Set<String> REL_PRONOUN = new HashSet<String>();
   static {
-    relPronouns.add("der");
-    relPronouns.add("die");
-    relPronouns.add("das");
-    relPronouns.add("dessen");
-    relPronouns.add("deren");
-    relPronouns.add("dem");
-    relPronouns.add("den");
-    relPronouns.add("welche");
-    relPronouns.add("welcher");
-    relPronouns.add("welchen");
-    relPronouns.add("welchem");
-    relPronouns.add("welches");
+    REL_PRONOUN.add("der");
+    REL_PRONOUN.add("die");
+    REL_PRONOUN.add("das");
+    REL_PRONOUN.add("dessen");
+    REL_PRONOUN.add("deren");
+    REL_PRONOUN.add("dem");
+    REL_PRONOUN.add("den");
+    REL_PRONOUN.add("welche");
+    REL_PRONOUN.add("welcher");
+    REL_PRONOUN.add("welchen");
+    REL_PRONOUN.add("welchem");
+    REL_PRONOUN.add("welches");
   }
 
-  private final static Set<String> prepositions = new HashSet<String>();
+  private final static Set<String> PREPOSITIONS = new HashSet<String>();
   static {
-    prepositions.add("in");
-    prepositions.add("auf");
-    prepositions.add("an");
-    prepositions.add("ab");
-    prepositions.add("für");
-    prepositions.add("zu");
+    PREPOSITIONS.add("in");
+    PREPOSITIONS.add("auf");
+    PREPOSITIONS.add("an");
+    PREPOSITIONS.add("ab");
+    PREPOSITIONS.add("für");
+    PREPOSITIONS.add("zu");
     // TODO: add more
   }
   
@@ -122,49 +122,16 @@ public class AgreementRule extends GermanRule {
     AnalyzedTokenReadings[] tokens = text.getTokensWithoutWhitespace();
     int pos = 0;
     for (int i = 0; i < tokens.length; i++) {
-    //defaulting to the first reading
-    //TODO: check for all readings
-    //and replace GermanTokenReading
+      //defaulting to the first reading
+      //TODO: check for all readings
+      //and replace GermanTokenReading
       String posToken = tokens[i].getAnalyzedToken(0).getPOSTag();
       if (posToken != null && posToken.equals(JLanguageTool.SENTENCE_START_TAGNAME))
         continue;
       //AnalyzedGermanToken analyzedToken = new AnalyzedGermanToken(tokens[i]);
       
     	AnalyzedGermanTokenReadings analyzedToken = (AnalyzedGermanTokenReadings)tokens[i];
-        boolean isRelevantPronomen = analyzedToken.hasReadingOfType(POSType.PRONOMEN);     
-      // avoid false alarms:
-      if (i > 0 && tokens[i-1].getToken().equalsIgnoreCase("vor") && tokens[i].getToken().equalsIgnoreCase("allem"))
-        isRelevantPronomen = false;
-      else if (tokens[i].getToken().equalsIgnoreCase("er") || tokens[i].getToken().equalsIgnoreCase("sie") || tokens[i].getToken().equalsIgnoreCase("es"))
-        isRelevantPronomen = false;
-      else if (tokens[i].getToken().equalsIgnoreCase("ich"))
-        isRelevantPronomen = false;
-      else if (tokens[i].getToken().equalsIgnoreCase("du"))
-        isRelevantPronomen = false;
-      else if (tokens[i].getToken().equalsIgnoreCase("dessen"))      // avoid false alarm on: "..., dessen Leiche"
-        isRelevantPronomen = false;
-      else if (tokens[i].getToken().equalsIgnoreCase("deren"))
-        isRelevantPronomen = false;
-      else if (tokens[i].getToken().equalsIgnoreCase("sich"))      // avoid false alarm
-        isRelevantPronomen = false;
-      else if (tokens[i].getToken().equalsIgnoreCase("unser"))      // avoid false alarm "unser Produkt": TODO!
-        isRelevantPronomen = false;
-      else if (tokens[i].getToken().equalsIgnoreCase("aller"))
-        isRelevantPronomen = false;
-      else if (tokens[i].getToken().equalsIgnoreCase("man"))
-        isRelevantPronomen = false;
-      else if (tokens[i].getToken().equalsIgnoreCase("beiden"))
-        isRelevantPronomen = false;
-      else if (tokens[i].getToken().equalsIgnoreCase("wessen"))
-        isRelevantPronomen = false;
-      else if (tokens[i].getToken().equalsIgnoreCase("a"))
-        isRelevantPronomen = false;
-      else if (tokens[i].getToken().equalsIgnoreCase("alle"))
-        isRelevantPronomen = false;
-      else if (tokens[i].getToken().equalsIgnoreCase("etwas"))    // TODO: doesn't have case -- but don't just ignore
-        isRelevantPronomen = false;
-      else if (tokens[i].getToken().equalsIgnoreCase("was"))    // TODO: doesn't have case -- but don't just ignore
-        isRelevantPronomen = false;
+      boolean isRelevantPronomen = isRelevantPronoun(tokens, i); 
      
       boolean ignore = couldBeRelativeClause(tokens, i);
       if ((analyzedToken.hasReadingOfType(POSType.DETERMINER) || isRelevantPronomen) && !ignore) {
@@ -197,6 +164,46 @@ public class AgreementRule extends GermanRule {
       pos += tokens[i].getToken().length();
     }
     return toRuleMatchArray(ruleMatches);
+  }
+
+  private boolean isRelevantPronoun(AnalyzedTokenReadings[] tokens, int pos) {
+    AnalyzedGermanTokenReadings analyzedToken = (AnalyzedGermanTokenReadings)tokens[pos];
+    boolean isRelevantPronomen = analyzedToken.hasReadingOfType(POSType.PRONOMEN);     
+    // avoid false alarms:
+    String token = tokens[pos].getToken();
+    if (pos > 0 && tokens[pos-1].getToken().equalsIgnoreCase("vor") && tokens[pos].getToken().equalsIgnoreCase("allem"))
+      isRelevantPronomen = false;
+    else if (token.equalsIgnoreCase("er") || token.equalsIgnoreCase("sie") || token.equalsIgnoreCase("es"))
+      isRelevantPronomen = false;
+    else if (token.equalsIgnoreCase("ich"))
+      isRelevantPronomen = false;
+    else if (token.equalsIgnoreCase("du"))
+      isRelevantPronomen = false;
+    else if (token.equalsIgnoreCase("dessen"))      // avoid false alarm on: "..., dessen Leiche"
+      isRelevantPronomen = false;
+    else if (token.equalsIgnoreCase("deren"))
+      isRelevantPronomen = false;
+    else if (token.equalsIgnoreCase("sich"))      // avoid false alarm
+      isRelevantPronomen = false;
+    else if (token.equalsIgnoreCase("unser"))      // avoid false alarm "unser Produkt": TODO!
+      isRelevantPronomen = false;
+    else if (token.equalsIgnoreCase("aller"))
+      isRelevantPronomen = false;
+    else if (token.equalsIgnoreCase("man"))
+      isRelevantPronomen = false;
+    else if (token.equalsIgnoreCase("beiden"))
+      isRelevantPronomen = false;
+    else if (token.equalsIgnoreCase("wessen"))
+      isRelevantPronomen = false;
+    else if (token.equalsIgnoreCase("a"))
+      isRelevantPronomen = false;
+    else if (token.equalsIgnoreCase("alle"))
+      isRelevantPronomen = false;
+    else if (token.equalsIgnoreCase("etwas"))    // TODO: doesn't have case -- but don't just ignore
+      isRelevantPronomen = false;
+    else if (token.equalsIgnoreCase("was"))    // TODO: doesn't have case -- but don't just ignore
+      isRelevantPronomen = false;
+    return isRelevantPronomen;
   }
 
   // see the comment at ADJ_READINGS:
@@ -240,7 +247,7 @@ public class AgreementRule extends GermanRule {
       // avoid false alarm: "Das Wahlrecht, das Frauen zugesprochen bekamen." etc:
       comma = tokens[pos-1].getToken().equals(",");
       String term = tokens[pos].getToken().toLowerCase();
-      relPronoun = relPronouns.contains(term);
+      relPronoun = REL_PRONOUN.contains(term);
       if (comma && relPronoun)
         return true;
     }
@@ -249,8 +256,8 @@ public class AgreementRule extends GermanRule {
       comma = tokens[pos-2].getToken().equals(",");
       String term1 = tokens[pos-1].getToken().toLowerCase();
       String term2 = tokens[pos].getToken().toLowerCase();
-      boolean prep = prepositions.contains(term1);
-      relPronoun = relPronouns.contains(term2);
+      boolean prep = PREPOSITIONS.contains(term1);
+      relPronoun = REL_PRONOUN.contains(term2);
       return comma && prep && relPronoun;
     }
     return false;
