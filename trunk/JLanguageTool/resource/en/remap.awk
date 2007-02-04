@@ -259,7 +259,7 @@ if (verb_fields[5]!="") {
 	
 	 }
 
-/\t\AtNV$/ && !/[ ']/ {
+/\tAtNV$/ && !/[ ']/ {
 	if (JJR[$1]=="" && JJS[$1]=="")  
 			if ($1"_END"!~/ly_END/ || $1"_END"~/early_END/) print $1 "\t" $1 "\tJJ"; else print $1 "\t" $1 "\tRB"
 	if (nns[$1]=="" || $1"_END"~/ics_END/) {
