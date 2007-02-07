@@ -156,6 +156,7 @@ public class CaseRule extends GermanRule {
     // use proper upper/lowercase spelling here:
     myExceptionPhrases.add("ohne Wenn und Aber");
     myExceptionPhrases.add("Große Koalition");
+    myExceptionPhrases.add("im Großen und Ganzen");
   }
 
   private static final Set<String> substVerbenExceptions = new HashSet<String>();
