@@ -51,9 +51,6 @@ public class PatternRuleTest extends TestCase {
   public void testGrammarRulesFromXML() throws IOException, ParserConfigurationException, SAXException {
     for (int i = 0; i < Language.LANGUAGES.length; i++) {
       Language lang = Language.LANGUAGES[i];
-      // FIXME: ignore until we have the dict file
-      if ("uk".equals(lang.getShortName()))
-        continue;
       PatternRuleLoader ruleLoader = new PatternRuleLoader();
       JLanguageTool languageTool = new JLanguageTool(lang);
       List rules = ruleLoader.getRules("rules" + File.separator
