@@ -28,6 +28,7 @@ import de.danielnaber.languagetool.tagging.fr.FrenchTagger;
 import de.danielnaber.languagetool.tagging.es.SpanishTagger;
 import de.danielnaber.languagetool.tagging.it.ItalianTagger;
 import de.danielnaber.languagetool.tagging.nl.DutchTagger;
+import de.danielnaber.languagetool.tagging.uk.UkrainianTagger;
 import de.danielnaber.languagetool.tagging.xx.DemoTagger;
 import de.danielnaber.languagetool.tokenizers.SentenceTokenizer;
 import de.danielnaber.languagetool.tokenizers.de.GermanSentenceTokenizer;
@@ -70,6 +71,9 @@ public final class Language {
   public static final Language LITHUANIAN =
     new Language("Lithuanian", "lt", new Locale("lt"), new DemoTagger(), new SentenceTokenizer(), new WordTokenizer());
   
+  public static final Language UKRAINIAN =
+    new Language("Ukrainian", "uk", new Locale("uk"), new UkrainianTagger(), new SentenceTokenizer(), new WordTokenizer());
+  
   public static final Language DEMO = 
     new Language("Testlanguage", "xx", new Locale("en"), new DemoTagger(), new SentenceTokenizer(), new WordTokenizer());
 
@@ -85,7 +89,7 @@ public final class Language {
    * All languages supported by LanguageTool.
    */
   public static final Language[] LANGUAGES = new Language[] {
-    ENGLISH, GERMAN, POLISH, FRENCH, SPANISH, ITALIAN, DUTCH, LITHUANIAN, DEMO
+    ENGLISH, GERMAN, POLISH, FRENCH, SPANISH, ITALIAN, DUTCH, LITHUANIAN, UKRAINIAN, DEMO
   };
 
   /**

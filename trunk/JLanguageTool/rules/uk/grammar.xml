@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+A demo rule file for LanguageTool
+Copyright (C) 2005 Daniel Naber (http://www.danielnaber.de)
+$Id: grammar.xml,v 1.1 2007-02-07 21:28:22 dnaber Exp $
+-->
+
+<rules lang="uk">
+
+<!-- devising phrase syntax, not for production yet 
+<phrases>
+	<phrase id="NP">
+		<token>trivial</token>
+		<token>phrase</token>
+		<token>demo</token>
+		<token><exception>exception</exception></token>
+	</phrase>
+</phrases>
+-->
+
+  <category name="misc">
+
+    <rulegroup name="'будь-ласка' without a comma" id="PLEASE_NO_COMMA">
+      <rule>
+        <pattern mark_to="-1">
+          <token>будь</token>
+		  <token>ласка</token>
+          <token negate="yes">,</token>
+        </pattern>
+        <message>The comma is missing here: <suggestion>будь-ласка,</suggestion>.</message>
+        <example type="correct">Who's responsible for providing public facilities, <marker>i.e.,</marker> a post office, library, etc. for the Northwest?</example>
+        <example type="incorrect">Who's responsible for providing public facilities, <marker>i.e.</marker> a post office, library, etc. for the Northwest?</example>
+      </rule>
+      <rule>
+        <pattern mark_to="-1">
+          <token>напевне</token>
+          <token negate="yes">,</token>
+        </pattern>
+        <message>The comma is missing here: <suggestion>напевне,</suggestion>.</message>
+        <example type="correct">Who's responsible for providing public facilities, <marker>i.e.,</marker> a post office, library, etc. for the Northwest?</example>
+        <example type="incorrect">Who's responsible for providing public facilities, <marker>i.e.</marker> a post office, library, etc. for the Northwest?</example>
+      </rule>
+	</rulegroup>
+	
+    <!-- a trivialdemo rule that matches "foo" followed by "bar" -->
+    <rule id="DEMO_RULE" name="Find 'foo bar'">
+      <pattern mark_from="0" case_sensitive="no">
+        <token>відмінити</token>
+        <token>скасувати</token>
+      </pattern>
+      <message>Можливо, <suggestion>скасувати</suggestion>?</message>
+      <example type="correct">This is <marker>скасувати</marker>.</example>
+      <example type="incorrect">This is <marker>відмінити</marker>.</example>
+    </rule>
+
+    <rule id="API_OUTPUT_TEST_RULE" name="Find 'foo bar'">
+      <pattern mark_from="1" case_sensitive="no">
+        <token>ach</token>
+        <token>thosnaíos-sa</token>
+      </pattern>
+      <message>Did you mean <suggestion>fuu bah</suggestion>?</message>
+      <example type="correct">This is ach <marker>fuu bah</marker>.</example>
+      <example type="incorrect">This is ach <marker>thosnaíos-sa</marker>.</example>
+    </rule>
+
+    <rule id="NEGATION_TOKEN" name="test negation">
+      <pattern mark_from="1">
+        <token>small</token>
+        <token negate="yes">test</token>
+      </pattern>
+      <message>test</message>
+      <example type="correct">a small <marker>test</marker></example>
+      <example type="incorrect">a small <marker>toast</marker></example>
+    </rule>
+
+  </category>
+
+</rules>
