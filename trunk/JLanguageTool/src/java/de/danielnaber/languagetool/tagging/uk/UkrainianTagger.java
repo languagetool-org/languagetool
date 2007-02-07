@@ -32,10 +32,7 @@ import de.danielnaber.languagetool.JLanguageTool;
 import de.danielnaber.languagetool.tagging.Tagger;
 import de.danielnaber.languagetool.tools.Tools;
 
-/** English Part-of-speech tagger.
- * Based on part-of-speech lists in Public Domain.
- * see readme.txt for details, the POS tagset is
- * described in tagset.txt
+/** Ukrainian Part-of-speech tagger.
  * 
  * @author Adriy Rysin
  */
