@@ -2,70 +2,61 @@
 <!--
 Ukrainian grammar and typo rules for LanguageTool
 Copyright (C) 2007 Andriy Rysin
-$Id: grammar.xml,v 1.2 2007-02-07 21:36:53 dnaber Exp $
+$Id: grammar.xml,v 1.3 2007-02-11 19:42:10 dnaber Exp $
 -->
 
 <rules lang="uk">
 
-  <category name="misc">
+  <category name="Grammar">
   
-    <!-- 
-    <rulegroup name="'будь-ласка' without a comma" id="PLEASE_NO_COMMA">
+    <rulegroup id="PLEASE_NO_COMMA" name="будь ласка виділяється комами">
       <rule>
-        <pattern mark_to="-1">
+        <pattern mark_to="0">
           <token>будь</token>
 		  <token>ласка</token>
-          <token negate="yes">,</token>
-        </pattern>
-        <message>The comma is missing here: <suggestion>будь-ласка,</suggestion>.</message>
-        <example type="correct">Who's responsible for providing public facilities, <marker>i.e.,</marker> a post office, library, etc. for the Northwest?</example>
-        <example type="incorrect">Who's responsible for providing public facilities, <marker>i.e.</marker> a post office, library, etc. for the Northwest?</example>
+          <token negate="yes" regexp="yes">,|\.</token>
+         </pattern>
+        <message>Відсутня права кома: <suggestion>\1 \2, \3</suggestion>.</message>
+        <example type="correct">Запитайте, <marker>будь ласка, у</marker> водія.</example>
+        <example type="incorrect">Запитайте, <marker>будь ласка у</marker> водія.</example>
       </rule>
       <rule>
-        <pattern mark_to="-1">
-          <token>напевне</token>
-          <token negate="yes">,</token>
+        <pattern>
+          <token negate="yes">,<exception postag="SENT_START"/></token>
+          <token>будь</token>
+		  <token>ласка</token>
         </pattern>
-        <message>The comma is missing here: <suggestion>напевне,</suggestion>.</message>
-        <example type="correct">Who's responsible for providing public facilities, <marker>i.e.,</marker> a post office, library, etc. for the Northwest?</example>
-        <example type="incorrect">Who's responsible for providing public facilities, <marker>i.e.</marker> a post office, library, etc. for the Northwest?</example>
+        <message>Відсутня ліва кома: <suggestion>\1, \2 \3</suggestion>.</message>
+        <example type="correct">Запитайте, будь ласка, у водія.</example>
+        <example type="incorrect"><marker>Запитайте будь ласка</marker>, у водія.</example>
       </rule>
 	</rulegroup>
-   -->
+
+      <rule id="LIST_AND_NO_COMMA" name="та і або у списках не виділяється комою">
+        <pattern mark_from="2">
+          <token regexp="yes">.*</token>
+          <token>,</token>
+          <token regexp="yes">.*</token>
+          <token>,</token>
+          <token regexp="yes">і|та|або</token>
+        </pattern>
+        <message>"та", "і" та "або" в переліку, зазвичай, не виділяється комою: <suggestion>\3 \5</suggestion>.</message>
+        <example type="correct">Підтримує німецьку, <marker>англійську та</marker> українську мови.</example>
+        <example type="incorrect">Підтримує німецьку, <marker>англійську, та</marker> українську мови.</example>
+      </rule>
 	
-    <!-- a trivialdemo rule that matches "foo" followed by "bar"
-    <rule id="DEMO_RULE" name="Find 'foo bar'">
-      <pattern mark_from="0" case_sensitive="no">
-        <token>відмінити</token>
-        <token>скасувати</token>
-      </pattern>
-      <message>Можливо, <suggestion>скасувати</suggestion>?</message>
-      <example type="correct">This is <marker>скасувати</marker>.</example>
-      <example type="incorrect">This is <marker>відмінити</marker>.</example>
-    </rule>
-     -->
-
-    <!-- 
-    <rule id="API_OUTPUT_TEST_RULE" name="Find 'foo bar'">
-      <pattern mark_from="1" case_sensitive="no">
-        <token>ach</token>
-        <token>thosnaíos-sa</token>
-      </pattern>
-      <message>Did you mean <suggestion>fuu bah</suggestion>?</message>
-      <example type="correct">This is ach <marker>fuu bah</marker>.</example>
-      <example type="incorrect">This is ach <marker>thosnaíos-sa</marker>.</example>
-    </rule>
-
-    <rule id="NEGATION_TOKEN" name="test negation">
-      <pattern mark_from="1">
-        <token>small</token>
-        <token negate="yes">test</token>
-      </pattern>
-      <message>test</message>
-      <example type="correct">a small <marker>test</marker></example>
-      <example type="incorrect">a small <marker>toast</marker></example>
-    </rule>
-     -->
+	<rulegroup name="Відсутня кома перед „але”, „...”" id="COMMA_BEFORE_BUT">
+			<rule>
+				<pattern>
+					<token regexp="yes" negate="yes">[\p{Punct}–—\(]<exception postag="SENT_START"/></token>
+					<token regexp="yes">але</token>
+				</pattern>
+				<message>Відсутня кома перед „але”: <suggestion>\1, \2</suggestion></message>
+				<example type="correct">Вгадав всі літери, але не зміг прочитати слово.</example>
+				<example type="incorrect">Вгадав всі <marker>літери але</marker> не зміг прочитати слово.</example>
+			</rule>
+	</rulegroup>			
+	
 
   </category>
 
