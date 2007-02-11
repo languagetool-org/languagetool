@@ -62,7 +62,7 @@ class Main {
       SAXException, ParserConfigurationException {
     this.verbose = verbose;
     this.apiFormat = apiFormat;
-    lt = new JLanguageTool(language, motherTongue);
+    lt = new JLanguageTool(language, motherTongue, Tools.getBaseDir());
     lt.activateDefaultPatternRules();
     lt.activateDefaultFalseFriendRules();
     // disable rules that are disabled explicitly:
