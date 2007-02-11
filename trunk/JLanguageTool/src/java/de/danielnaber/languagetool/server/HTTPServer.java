@@ -117,8 +117,9 @@ public class HTTPServer extends ContentOracle {
       }
     } catch (Exception e) {
       e.printStackTrace();
-      connResponse.setStatus(500);      
-      return "Error: " + e.toString();
+      connResponse.setStatus(500);
+      // escape input to avoid XSS attacks:
+      return "Error: " + StringTools.escapeXML(e.toString());
     }
   }
   
