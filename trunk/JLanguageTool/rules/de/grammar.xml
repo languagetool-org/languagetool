@@ -3,11 +3,27 @@
 German grammar and typo rules for LanguageTool
 See resource/de/tagset.txt for the meaning of the POS tags
 Copyright (C) 2001-2006 Daniel Naber (http://www.danielnaber.de)
-$Id: grammar.xml,v 1.73 2007-01-03 22:49:31 dnaber Exp $
+$Id: grammar.xml,v 1.74 2007-02-11 15:26:27 dnaber Exp $
 -->
 <rules lang="de">
 
   <category name="Mögliche Tippfehler">
+
+  <rulegroup id="INDER" name="Möglicher Tippfehler: 'seit X Jahre(Jahren)'">
+    <rule>
+      <pattern mark_from="1" mark_to="-1">
+        <token postag="SENT_START"/>
+        <token>Inder</token>
+        <token postag_regexp="yes" postag="SUB:.*|ADJ:.*" />
+      </pattern>
+      <message>Meinten Sie <suggestion>In der</suggestion>?</message>
+      <example type="correct"><marker>Inder</marker> wohnen oft in Indien.</example>
+      <example type="correct"><marker>Inder</marker> wollen dort wohnen.</example>
+      <example type="correct"><marker>Inder</marker> verhalten sich so.</example>
+      <example type="incorrect"><marker>Inder</marker> Stadt wohnen viele Leute.</example>
+      <example type="incorrect"><marker>Inder</marker> großen Stadt wohnen viele Leute.</example>
+    </rule>
+  </rulegroup>
 
   <rulegroup id="SEIT_X_JAHRE" name="Möglicher Tippfehler: 'seit X Jahre(Jahren)'">
     <rule>
