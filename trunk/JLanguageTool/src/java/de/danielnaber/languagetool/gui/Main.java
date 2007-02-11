@@ -182,11 +182,15 @@ public final class Main implements ActionListener {
   }
   
   public void actionPerformed(final ActionEvent e) {
-    if (e.getActionCommand().equals(messages.getString("checkText"))) {
-      JLanguageTool langTool = getCurrentLanguageTool();
-      checkTextAndDisplayResults(langTool, getCurrentLanguage());
-    } else {
-      throw new IllegalArgumentException("Unknown action " + e);
+    try {
+      if (e.getActionCommand().equals(messages.getString("checkText"))) {
+        JLanguageTool langTool = getCurrentLanguageTool();
+        checkTextAndDisplayResults(langTool, getCurrentLanguage());
+      } else {
+        throw new IllegalArgumentException("Unknown action " + e);
+      }
+    } catch (Exception exc) {
+      showError(exc);
     }
   }
 
@@ -208,7 +212,8 @@ public final class Main implements ActionListener {
   }
   
   private static void showError(final Exception e) {
-    JOptionPane.showMessageDialog(null, e.toString(), "Error", JOptionPane.ERROR_MESSAGE);
+    String msg = de.danielnaber.languagetool.tools.Tools.getFullStackTrace(e);
+    JOptionPane.showMessageDialog(null, msg, "Error", JOptionPane.ERROR_MESSAGE);
     e.printStackTrace();
   }
 

@@ -22,6 +22,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Iterator;
@@ -143,4 +145,14 @@ public final class Tools {
       throw new IOException("Could not open input stream from URL/ resource/ file: " + resourcePath);
   }
 
+  /**
+   * Get a stacktrace as a string.
+   */
+  public static String getFullStackTrace(Throwable e) {
+    StringWriter sw = new StringWriter();
+    PrintWriter pw = new PrintWriter(sw);
+    e.printStackTrace(pw);
+    return sw.toString();
+  }
+  
 }
