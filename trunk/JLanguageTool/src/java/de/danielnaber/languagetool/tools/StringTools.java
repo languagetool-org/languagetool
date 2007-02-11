@@ -143,10 +143,16 @@ public final class StringTools {
     }
   }
 
+  /**
+   * Calls escapeHTML(String).
+   */
   public static String escapeXML(final String s) {
     return escapeHTML(s);
   }
-  
+
+  /**
+   * Escapes these characters: less than, bigger than, quote, ampersand.
+   */
   public static String escapeHTML(final String s) {
     //this version is much faster
     //than using s.replaceAll        
