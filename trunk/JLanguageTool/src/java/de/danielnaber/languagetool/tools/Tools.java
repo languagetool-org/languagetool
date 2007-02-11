@@ -128,7 +128,7 @@ public final class Tools {
 
   public static InputStream getInputStream(final String resourcePath) throws IOException {
     try {
-      // try the URL first.
+      // try the URL first:
       URL url = new URL(resourcePath);
       // success, load the resource.
       InputStream is = url.openStream();
@@ -136,13 +136,12 @@ public final class Tools {
     } catch (MalformedURLException e) {
       // no luck. Fallback to class loader paths.
     }
-
-    // try file path
+    // try file path:
     File f = new File(resourcePath);
     if (f.exists() && f.isFile() && f.canRead()) {
       return new FileInputStream(f);
     } else
-      throw new IOException("Could not open input stream from URL/ resource/ file: " + resourcePath);
+      throw new IOException("Could not open input stream from URL/resource/file: " + f.getAbsolutePath());
   }
 
   /**
