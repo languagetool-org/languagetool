@@ -3,13 +3,33 @@
 German grammar and typo rules for LanguageTool
 See resource/de/tagset.txt for the meaning of the POS tags
 Copyright (C) 2001-2006 Daniel Naber (http://www.danielnaber.de)
-$Id: grammar.xml,v 1.74 2007-02-11 15:26:27 dnaber Exp $
+$Id: grammar.xml,v 1.75 2007-02-13 21:22:02 dnaber Exp $
 -->
 <rules lang="de">
 
   <category name="Mögliche Tippfehler">
 
-  <rulegroup id="INDER" name="Möglicher Tippfehler: 'seit X Jahre(Jahren)'">
+  <rulegroup id="WIE_IST_DEN" name="Möglicher Tippfehler: 'wie ist den(denn)'">
+    <rule>
+      <pattern mark_from="2" mark_to="-1">
+        <token regexp="yes">wie|was|wann|warum|wo</token>
+        <token regexp="yes">ist|war|warst|waren</token>
+        <token>den</token>
+        <token regexp="yes">bei|nun|jetzt|der|die|das|keiner|dann</token>
+      </pattern>
+      <message>Meinten Sie <suggestion>denn</suggestion>?</message>
+      <example type="correct">Wie ist <marker>denn</marker> der Shop so?</example>
+      <example type="correct">Wie ist <marker>den</marker> Fragen zu begegnen?</example>
+      <example type="correct">Was ist <marker>denn</marker> jetzt los?</example>
+      <example type="correct">Wo war <marker>denn</marker> das Thema zum Kugelspiegel?</example>
+      <example type="correct">Warum war <marker>den</marker> Jugendlichen das egal?</example>
+      <example type="incorrect">Wie ist <marker>den</marker> der Shop so?</example>
+      <example type="incorrect">Was ist <marker>den</marker> jetzt los?</example>
+      <example type="incorrect">Wo war <marker>den</marker> das Thema zum Kugelspiegel?</example>
+    </rule>
+  </rulegroup>
+
+  <rulegroup id="INDER" name="Möglicher Tippfehler: 'Inder(In der)'">
     <rule>
       <pattern mark_from="1" mark_to="-1">
         <token postag="SENT_START"/>
