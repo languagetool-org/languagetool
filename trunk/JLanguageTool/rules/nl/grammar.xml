@@ -2,7 +2,7 @@
 <!--
 Dutch Grammar and Typo Rules for LanguageTool
 Copyright (C) 2006,2007 Ruud J. Baars (r.j.baars -at- hccnet nl)
-$Id: grammar.xml,v 1.19 2007-01-28 20:11:46 dnaber Exp $
+$Id: grammar.xml,v 1.20 2007-02-13 21:37:38 dnaber Exp $
 -->
 <rules lang="nl">
   <!--  # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # -->
@@ -1518,6 +1518,18 @@ $Id: grammar.xml,v 1.19 2007-01-28 20:11:46 dnaber Exp $
         <message>[b]  Dit is een veel voorkomende fout. Juist is: <suggestion>zoek \2</suggestion>.</message>
         <example type="incorrect">Toen mijn auto <marker>kwijt was</marker>.</example>
         <example type="correct">Toen mijn auto <marker>zoek was</marker>.</example>
+      </rule>
+    </rulegroup>
+    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  -->
+    <rulegroup id="ENIGSTE" name="Enigste">
+      <rule>
+        <pattern mark_to="-1">
+          <token regexp="yes">enigst|enigste</token>
+	<token negate="yes">kind</token>
+        </pattern>
+        <message>In schrijftaal kunt u beter <suggestion>enig</suggestion> of <suggestion>enige</suggestion> gebruiken.</message>
+        <example type="incorrect">Het <marker>enigste</marker> wat hij kan doen is dit.</example>
+        <example type="correct">Het <marker>enige</marker> wat hij kan doen is dit.</example>
       </rule>
     </rulegroup>
     <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  -->
