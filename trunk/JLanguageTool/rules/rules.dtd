@@ -21,12 +21,20 @@ Note for grammar rules:
 <!ELEMENT rules (category|phrases)*>
 <!ATTLIST rules lang %Languages; #REQUIRED>
 
+<!-- phrase definitions -->
 <!ELEMENT phrases (phrase)*>
 
+<!-- individual phrase definition -->
 <!ELEMENT phrase (token)*>
 <!ATTLIST phrase id ID #REQUIRED>
 <!ATTLIST phrase case_sensitive (yes|no) #IMPLIED>
-<!ATTLIST phrase idref IDREF #IMPLIED>
+
+<!-- element that points to the defined phrase -->
+<!ELEMENT phraseref EMPTY>
+<!ATTLIST ref idref IDREF #IMPLIED>
+
+<!-- OR operator for phrases -->
+<!ELEMENT includephrases (phraseref)*>
 
 <!-- Use the category element to groups rules/rulegroups: -->
 <!ELEMENT category (rule|rulegroup)*>
