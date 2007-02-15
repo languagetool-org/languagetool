@@ -218,7 +218,11 @@ class PatternRuleHandler extends XMLRuleHandler {
       correctExample.append("<marker>");
     } else if (qName.equals("marker") && inIncorrectExample) {
       incorrectExample.append("<marker>");
+    } else if (qName.equals("phrases")) {
+      inPhrases = true;
+      phrases = new StringBuffer();
     }
+    
   }
 
   @SuppressWarnings("unused")
@@ -310,6 +314,8 @@ class PatternRuleHandler extends XMLRuleHandler {
       correctExample.append("</marker>");
     } else if (qName.equals("marker") && inIncorrectExample) {
       incorrectExample.append("</marker>");
+    } else if (qName.equals("phrases") && inPhrases) {
+      inPhrases = false;
     }
   }
 
@@ -325,6 +331,9 @@ class PatternRuleHandler extends XMLRuleHandler {
       incorrectExample.append(s);
     } else if (inMessage) {
       message.append(s);
+    } else if (inPhrases) {
+      phrases.append(s);
+      
     }
 
   }
