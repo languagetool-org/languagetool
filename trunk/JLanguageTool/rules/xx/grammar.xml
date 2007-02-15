@@ -2,10 +2,27 @@
 <!--
 A demo rule file for LanguageTool
 Copyright (C) 2005 Daniel Naber (http://www.danielnaber.de)
-$Id: grammar.xml,v 1.14 2007-02-15 20:53:23 milek_pl Exp $
+$Id: grammar.xml,v 1.15 2007-02-15 22:29:28 milek_pl Exp $
 -->
 
 <rules lang="xx">
+
+<!-- devising phrase syntax, not for production yet -->
+<phrases>
+	<phrase id="NP">
+		<token>trivial</token>
+		<token>phrase</token>
+		<token>demo</token>
+		<token><exception>exception</exception></token>
+		</phrase>
+		<phrase id="COMPLEX_PHRASE">
+		<token>complex</token>
+		<includephrases>
+			<phraseref idref="NP"/>
+		</includephrases>
+	</phrase>
+</phrases>
+
 
   <category name="misc">
 
@@ -41,21 +58,5 @@ $Id: grammar.xml,v 1.14 2007-02-15 20:53:23 milek_pl Exp $
     </rule>
 
   </category>
-
-<!-- devising phrase syntax, not for production yet -->
-<phrases>
-	<phrase id="NP">
-		<token>trivial</token>
-		<token>phrase</token>
-		<token>demo</token>
-		<token><exception>exception</exception></token>
-	</phrase>
-	<phrase id="COMPLEX_PHRASE">
-		<token>complex</token>
-		<includephrases>
-			<phraseref idref="NP"/>
-		</includephrases>
-	</phrase>
-</phrases>
 
 </rules>
