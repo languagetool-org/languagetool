@@ -140,7 +140,7 @@ class PatternRuleHandler extends XMLRuleHandler {
       if (attrs.getValue("case_sensitive") != null
           && attrs.getValue("case_sensitive").equals("yes"))
         caseSensitive = true;
-    } else if (qName.equals("token")) {
+    } else if (qName.equals("token") && !inPhrases) {
       inToken = true;
       if (attrs.getValue("negate") != null) {
         stringNegation = attrs.getValue("negate").equals("yes");
@@ -173,7 +173,7 @@ class PatternRuleHandler extends XMLRuleHandler {
         stringRegExp = attrs.getValue("regexp").equals("yes");
       }
 
-    } else if (qName.equals("exception")) {
+    } else if (qName.equals("exception") && !inPhrases) {
       inException = true;      
       exceptions = new StringBuffer();
 
@@ -243,7 +243,7 @@ class PatternRuleHandler extends XMLRuleHandler {
       if (elementList != null) {
         elementList.clear();
       }
-    } else if (qName.equals("exception")) {
+    } else if (qName.equals("exception") && !inPhrases) {
       inException = false;
       if (!exceptionSet) {
       stringElement = new Element(elements.toString(), caseSensitive, stringRegExp,
@@ -260,7 +260,7 @@ class PatternRuleHandler extends XMLRuleHandler {
         exceptionPosToken = null;
       }
       
-    } else if (qName.equals("token")) {
+    } else if (qName.equals("token") && !inPhrases){
       if (!exceptionSet || stringElement==null) {
       stringElement = new Element(elements.toString(), caseSensitive, stringRegExp,
           stringInflected);
