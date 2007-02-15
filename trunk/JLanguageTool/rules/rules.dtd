@@ -25,13 +25,13 @@ Note for grammar rules:
 <!ELEMENT phrases (phrase)*>
 
 <!-- individual phrase definition -->
-<!ELEMENT phrase (token)*>
+<!ELEMENT phrase (token|includephrases)*>
 <!ATTLIST phrase id ID #REQUIRED>
 <!ATTLIST phrase case_sensitive (yes|no) #IMPLIED>
 
 <!-- element that points to the defined phrase -->
 <!ELEMENT phraseref EMPTY>
-<!ATTLIST ref idref IDREF #IMPLIED>
+<!ATTLIST phraseref idref IDREF #IMPLIED>
 
 <!-- OR operator for phrases -->
 <!ELEMENT includephrases (phraseref)*>
