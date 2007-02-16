@@ -21,6 +21,8 @@ package de.danielnaber.languagetool.rules.patterns;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.HashMap;
+import java.util.Iterator;
 
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
@@ -69,6 +71,10 @@ public class PatternRuleLoader extends DefaultHandler {
 class PatternRuleHandler extends XMLRuleHandler {
 
   private String id;
+
+  /** Current phrase ID. **/
+  private String phraseId;
+  
   private boolean caseSensitive = false;
   private boolean stringRegExp = false;
   private boolean stringNegation = false;
@@ -94,6 +100,12 @@ class PatternRuleHandler extends XMLRuleHandler {
   
   
   private List<Element> elementList = null;
+  
+  /** Phrase store - elementLists keyed by phraseIds. **/
+  private HashMap < String, List < Element > > phraseMap = null;
+  
+  /** Phrase element list, as used by phraseref element. **/
+  private List < Element > phraseElementList = null;
   
   private int startPositionCorrection = 0;
   private int endPositionCorrection = 0;
@@ -140,7 +152,7 @@ class PatternRuleHandler extends XMLRuleHandler {
       if (attrs.getValue("case_sensitive") != null
           && attrs.getValue("case_sensitive").equals("yes"))
         caseSensitive = true;
-    } else if (qName.equals("token") && !inPhrases) {
+    } else if (qName.equals("token")) {
       inToken = true;
       if (attrs.getValue("negate") != null) {
         stringNegation = attrs.getValue("negate").equals("yes");
@@ -173,7 +185,7 @@ class PatternRuleHandler extends XMLRuleHandler {
         stringRegExp = attrs.getValue("regexp").equals("yes");
       }
 
-    } else if (qName.equals("exception") && !inPhrases) {
+    } else if (qName.equals("exception")) {
       inException = true;      
       exceptions = new StringBuffer();
 
@@ -220,9 +232,23 @@ class PatternRuleHandler extends XMLRuleHandler {
       incorrectExample.append("<marker>");
     } else if (qName.equals("phrases")) {
       inPhrases = true;
-      phrases = new StringBuffer();
-    }
-    
+    } else if (qName.equals("phrase") && inPhrases) {
+      phraseId = attrs.getValue("id");      
+    } else if (qName.equals("phraseref") && inPhrases) {
+      if (elementList == null) // lazy init
+      {
+        elementList = new ArrayList < Element > ();
+      }
+      if (attrs.getValue("idref") != null) {        
+      if (phraseMap.containsKey(attrs.getValue("idref"))) {
+      phraseElementList = phraseMap.get(attrs.getValue("idref"));              
+      Iterator < Element > it = phraseElementList.iterator(); 
+      while (it.hasNext()) {
+        elementList.add(it.next());
+      }
+      }
+      }
+    }    
   }
 
   @SuppressWarnings("unused")
@@ -243,7 +269,7 @@ class PatternRuleHandler extends XMLRuleHandler {
       if (elementList != null) {
         elementList.clear();
       }
-    } else if (qName.equals("exception") && !inPhrases) {
+    } else if (qName.equals("exception")) {
       inException = false;
       if (!exceptionSet) {
       stringElement = new Element(elements.toString(), caseSensitive, stringRegExp,
@@ -260,7 +286,7 @@ class PatternRuleHandler extends XMLRuleHandler {
         exceptionPosToken = null;
       }
       
-    } else if (qName.equals("token") && !inPhrases){
+    } else if (qName.equals("token") ){
       if (!exceptionSet || stringElement==null) {
       stringElement = new Element(elements.toString(), caseSensitive, stringRegExp,
           stringInflected);
@@ -314,6 +340,25 @@ class PatternRuleHandler extends XMLRuleHandler {
       correctExample.append("</marker>");
     } else if (qName.equals("marker") && inIncorrectExample) {
       incorrectExample.append("</marker>");
+    } else if (qName.equals("phrase") && inPhrases) {
+    
+      if (phraseMap == null) // lazy init
+      {
+        phraseMap = new HashMap<String, List<Element>>();
+      }
+      List < Element > phrElemList = new ArrayList < Element > ();
+      Iterator < Element > it = elementList.iterator(); 
+      while (it.hasNext()) {
+        phrElemList.add(it.next());
+      }      
+      phraseMap.put(phraseId, phrElemList);
+      if (elementList != null) {
+        elementList.clear();
+      }
+    } else if (qName.equals("phraseref") && inPhrases) {
+      if (elementList != null) {
+        elementList.clear();
+      }
     } else if (qName.equals("phrases") && inPhrases) {
       inPhrases = false;
     }
@@ -331,11 +376,7 @@ class PatternRuleHandler extends XMLRuleHandler {
       incorrectExample.append(s);
     } else if (inMessage) {
       message.append(s);
-    } else if (inPhrases) {
-      phrases.append(s);
-      
     }
-
   }
 
 }
