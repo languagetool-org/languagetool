@@ -75,6 +75,9 @@ class PatternRuleHandler extends XMLRuleHandler {
   /** Current phrase ID. **/
   private String phraseId;
   
+  /** ID reference to the phrase **/
+  private String phraseIdRef;
+  
   private boolean caseSensitive = false;
   private boolean stringRegExp = false;
   private boolean stringNegation = false;
@@ -253,19 +256,18 @@ class PatternRuleHandler extends XMLRuleHandler {
     
     } else if (qName.equals("phrase") && inPhrases) {
       phraseId = attrs.getValue("id");      
-    } else if (qName.equals("phraseref") && inIncludePhrases) {
-      if (attrs.getValue("idref") != null) {        
-      if (phraseMap.containsKey(attrs.getValue("idref"))) {
-      ArrayList < ArrayList < Element > > curPhraseElementList = phraseMap.get(attrs.getValue("idref"));              
+    } else if (qName.equals("phraseref")) {
+      if (attrs.getValue("idref") != null) {
+        phraseIdRef = attrs.getValue("idref");
+      if (phraseMap.containsKey(phraseIdRef)) {
+      ArrayList < ArrayList < Element > > curPhraseElementList = phraseMap.get(phraseIdRef);              
       Iterator < ArrayList <Element> > it = curPhraseElementList.iterator();
       ArrayList <Element> prevList = new ArrayList <Element > (elementList);
       if (!phraseElementList.isEmpty()) {
       while (it.hasNext()) {
         Iterator < ArrayList < Element > > phIt = phraseElementList.iterator();
-            //while (phIt.hasNext()) {
             prevList.addAll(it.next());
             phraseElementList.add(new ArrayList <Element>(prevList));
-          //}
       }
       } else {        
         while (it.hasNext()) {
@@ -286,7 +288,30 @@ class PatternRuleHandler extends XMLRuleHandler {
   public void endElement(String namespaceURI, String sName, String qName) {
     
     if (qName.equals("rule")) {
-      PatternRule rule = new PatternRule(id, language, elementList, description, message.toString());
+      if (phraseElementList == null) {
+        phraseElementList = new ArrayList < ArrayList < Element > > ();
+      }
+        if (!phraseElementList.isEmpty()) {
+          Iterator < ArrayList < Element > > phIt = phraseElementList.iterator();
+          while (phIt.hasNext()) {
+            phIt.next().addAll(new ArrayList <Element> (elementList));
+          }
+          Iterator < ArrayList < Element > > it = phraseElementList.iterator();
+            while (it.hasNext()) {
+              PatternRule rule = new PatternRule(id+phraseIdRef, language, it.next(), description, message.toString());      
+              rule.setStartPositionCorrection(startPositionCorrection);
+              rule.setEndPositionCorrection(endPositionCorrection);
+              startPositionCorrection = 0;
+              endPositionCorrection = 0;
+              rule.setCorrectExamples(correctExamples);
+              rule.setIncorrectExamples(incorrectExamples);
+              rule.setCaseSensitive(caseSensitive);
+              rule.setCategory(category);
+              caseSensitive = false;
+              rules.add(rule);              
+            }
+        } else {
+      PatternRule rule = new PatternRule(id, language, elementList, description, message.toString());      
       rule.setStartPositionCorrection(startPositionCorrection);
       rule.setEndPositionCorrection(endPositionCorrection);
       startPositionCorrection = 0;
@@ -297,8 +322,12 @@ class PatternRuleHandler extends XMLRuleHandler {
       rule.setCategory(category);
       caseSensitive = false;
       rules.add(rule);
+      }
       if (elementList != null) {
         elementList.clear();
+      }      
+      if (phraseElementList != null) {
+        phraseElementList.clear();
       }
     } else if (qName.equals("exception")) {
       inException = false;
