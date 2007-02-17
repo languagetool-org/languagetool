@@ -257,25 +257,26 @@ class PatternRuleHandler extends XMLRuleHandler {
       if (attrs.getValue("idref") != null) {        
       if (phraseMap.containsKey(attrs.getValue("idref"))) {
       ArrayList < ArrayList < Element > > curPhraseElementList = phraseMap.get(attrs.getValue("idref"));              
-      Iterator < ArrayList <Element> > it = curPhraseElementList.iterator(); 
+      Iterator < ArrayList <Element> > it = curPhraseElementList.iterator();
+      ArrayList <Element> prevList = new ArrayList <Element > (elementList);
       if (!phraseElementList.isEmpty()) {
       while (it.hasNext()) {
         Iterator < ArrayList < Element > > phIt = phraseElementList.iterator();
-            while (phIt.hasNext()) {
-            phIt.next().addAll(new ArrayList <Element>(it.next()));
-          }
+            //while (phIt.hasNext()) {
+            prevList.addAll(it.next());
+            phraseElementList.add(new ArrayList <Element>(prevList));
+          //}
       }
       } else {        
         while (it.hasNext()) {
-        if (!elementList.isEmpty()) {
-          elementList.addAll(it.next());
-          phraseElementList.add(new ArrayList <Element>(elementList));                
+        if (!prevList.isEmpty()) {
+          prevList.addAll(it.next());
+          phraseElementList.add(new ArrayList <Element>(prevList));                
         } else {        
         phraseElementList.add(new ArrayList <Element>(it.next()));
         }
         }
-      }
-      elementList.clear();
+      }      
       }
       }
     }    
@@ -396,11 +397,10 @@ class PatternRuleHandler extends XMLRuleHandler {
       }
       phraseElementList.clear();
     } else if (qName.equals("phraseref") && inIncludePhrases) {
-      if (elementList != null) {
-        elementList.clear();
-      }
+
     } else if (qName.equals("includephrases") && inPhrases) {
-      inIncludePhrases = false;      
+      inIncludePhrases = false;
+      elementList.clear();
     } else if (qName.equals("phrases") && inPhrases) {
       inPhrases = false;
     }
