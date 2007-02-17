@@ -98,14 +98,20 @@ class PatternRuleHandler extends XMLRuleHandler {
   private boolean exceptionValidNext = true;
   private boolean exceptionSet = false;
   
+  /** Boolean marker of OR operation on 
+   * phrases included in the phrase element.
+   **/ 
+  private boolean inIncludePhrases = false;
   
-  private List<Element> elementList = null;
+  /** List of elements as specified by tokens. **/ 
+  private ArrayList < Element > elementList = null;
   
   /** Phrase store - elementLists keyed by phraseIds. **/
-  private HashMap < String, List < Element > > phraseMap = null;
+  private HashMap < String, ArrayList < ArrayList < Element > > > phraseMap = null;
   
-  /** Phrase element list, as used by phraseref element. **/
-  private List < Element > phraseElementList = null;
+  /** Logically forking element list, used for including
+   * multiple phrases in the current one. **/
+  private ArrayList < ArrayList < Element > > phraseElementList = null;
   
   private int startPositionCorrection = 0;
   private int endPositionCorrection = 0;
@@ -211,10 +217,12 @@ class PatternRuleHandler extends XMLRuleHandler {
         exceptionStringRegExp = attrs.getValue("regexp").equals("yes");
       }
 
-    } else if (qName.equals("example") && attrs.getValue("type").equals("correct")) {
+    } else if (qName.equals("example") 
+        && attrs.getValue("type").equals("correct")) {
       inCorrectExample = true;
       correctExample = new StringBuffer();
-    } else if (qName.equals("example") && attrs.getValue("type").equals("incorrect")) {
+    } else if (qName.equals("example") 
+        && attrs.getValue("type").equals("incorrect")) {
       inIncorrectExample = true;
       incorrectExample = new StringBuffer();
     } else if (qName.equals("message")) {
@@ -232,20 +240,42 @@ class PatternRuleHandler extends XMLRuleHandler {
       incorrectExample.append("<marker>");
     } else if (qName.equals("phrases")) {
       inPhrases = true;
-    } else if (qName.equals("phrase") && inPhrases) {
-      phraseId = attrs.getValue("id");      
-    } else if (qName.equals("phraseref") && inPhrases) {
+    } else if (qName.equals("includephrases")) {
+      inIncludePhrases = true;
+      // lazy init
+      if (phraseElementList == null) {
+        phraseElementList = new ArrayList < ArrayList < Element > > ();
+      }
       if (elementList == null) // lazy init
       {
         elementList = new ArrayList < Element > ();
       }
+    
+    } else if (qName.equals("phrase") && inPhrases) {
+      phraseId = attrs.getValue("id");      
+    } else if (qName.equals("phraseref") && inIncludePhrases) {
       if (attrs.getValue("idref") != null) {        
       if (phraseMap.containsKey(attrs.getValue("idref"))) {
-      phraseElementList = phraseMap.get(attrs.getValue("idref"));              
-      Iterator < Element > it = phraseElementList.iterator(); 
+      ArrayList < ArrayList < Element > > curPhraseElementList = phraseMap.get(attrs.getValue("idref"));              
+      Iterator < ArrayList <Element> > it = curPhraseElementList.iterator(); 
+      if (!phraseElementList.isEmpty()) {
       while (it.hasNext()) {
-        elementList.add(it.next());
+        Iterator < ArrayList < Element > > phIt = phraseElementList.iterator();
+            while (phIt.hasNext()) {
+            phIt.next().addAll(new ArrayList <Element>(it.next()));
+          }
       }
+      } else {        
+        while (it.hasNext()) {
+        if (!elementList.isEmpty()) {
+          elementList.addAll(it.next());
+          phraseElementList.add(new ArrayList <Element>(elementList));                
+        } else {        
+        phraseElementList.add(new ArrayList <Element>(it.next()));
+        }
+        }
+      }
+      elementList.clear();
       }
       }
     }    
@@ -286,8 +316,8 @@ class PatternRuleHandler extends XMLRuleHandler {
         exceptionPosToken = null;
       }
       
-    } else if (qName.equals("token") ){
-      if (!exceptionSet || stringElement==null) {
+    } else if (qName.equals("token")) {
+      if (!exceptionSet || stringElement == null) {
       stringElement = new Element(elements.toString(), caseSensitive, stringRegExp,
           stringInflected);
       stringElement.setNegation(stringNegation);
@@ -341,24 +371,36 @@ class PatternRuleHandler extends XMLRuleHandler {
     } else if (qName.equals("marker") && inIncorrectExample) {
       incorrectExample.append("</marker>");
     } else if (qName.equals("phrase") && inPhrases) {
-    
-      if (phraseMap == null) // lazy init
-      {
-        phraseMap = new HashMap<String, List<Element>>();
-      }
-      List < Element > phrElemList = new ArrayList < Element > ();
-      Iterator < Element > it = elementList.iterator(); 
-      while (it.hasNext()) {
-        phrElemList.add(it.next());
+      
+      // lazy init
+      if (phraseMap == null) {
+        phraseMap = new HashMap < String, ArrayList < ArrayList < Element > > > ();
       }      
-      phraseMap.put(phraseId, phrElemList);
+      if (phraseElementList == null) {
+        phraseElementList = new ArrayList < ArrayList < Element > > ();
+      }
+      
+      if (elementList != null) {
+      if (!phraseElementList.isEmpty()) {
+        Iterator < ArrayList < Element > > phIt = phraseElementList.iterator();
+         while (phIt.hasNext()) {
+           phIt.next().addAll(new ArrayList <Element> (elementList));
+         }
+      } else {
+        phraseElementList.add(new ArrayList < Element > (elementList));
+        }
+      }     
+      phraseMap.put(phraseId, new ArrayList < ArrayList < Element > >(phraseElementList));
       if (elementList != null) {
         elementList.clear();
       }
-    } else if (qName.equals("phraseref") && inPhrases) {
+      phraseElementList.clear();
+    } else if (qName.equals("phraseref") && inIncludePhrases) {
       if (elementList != null) {
         elementList.clear();
       }
+    } else if (qName.equals("includephrases") && inPhrases) {
+      inIncludePhrases = false;      
     } else if (qName.equals("phrases") && inPhrases) {
       inPhrases = false;
     }
