@@ -212,6 +212,8 @@ public class AgreementRule extends GermanRule {
       isRelevantPronomen = false;
     else if (token.equalsIgnoreCase("was"))    // TODO: doesn't have case -- but don't just ignore
       isRelevantPronomen = false;
+    else if (token.equalsIgnoreCase("wer"))
+      isRelevantPronomen = false;
     return isRelevantPronomen;
   }
 
