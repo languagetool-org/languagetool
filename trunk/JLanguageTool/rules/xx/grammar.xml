@@ -2,7 +2,7 @@
 <!--
 A demo rule file for LanguageTool
 Copyright (C) 2005 Daniel Naber (http://www.danielnaber.de)
-$Id: grammar.xml,v 1.15 2007-02-15 22:29:28 milek_pl Exp $
+$Id: grammar.xml,v 1.16 2007-02-17 21:45:35 milek_pl Exp $
 -->
 
 <rules lang="xx">
@@ -14,12 +14,31 @@ $Id: grammar.xml,v 1.15 2007-02-15 22:29:28 milek_pl Exp $
 		<token>phrase</token>
 		<token>demo</token>
 		<token><exception>exception</exception></token>
-		</phrase>
+		</phrase>	
 		<phrase id="COMPLEX_PHRASE">
 		<token>complex</token>
 		<includephrases>
 			<phraseref idref="NP"/>
 		</includephrases>
+		<token>another</token>
+	</phrase>
+	<phrase id="DUMMY_VB1">
+		<token>go</token>
+	</phrase>
+	<phrase id="DUMMY_VB2">
+		<token>goes</token>
+	</phrase>
+	<phrase id="DUMMY_VB3">
+		<token>went</token>
+	</phrase>
+	<phrase id="COMPLEX_MULTIPLE">
+		<token>first</token>
+		<includephrases>
+			<phraseref idref="DUMMY_VB1"/>
+			<phraseref idref="DUMMY_VB2"/>
+			<phraseref idref="DUMMY_VB3"/>
+		</includephrases>
+		<token>last</token>
 	</phrase>
 </phrases>
 
