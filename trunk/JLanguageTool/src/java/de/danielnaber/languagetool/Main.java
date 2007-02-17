@@ -218,7 +218,7 @@ class Main {
         break;
       }          
     }
-    if (! foundLanguage) {
+    if (!foundLanguage) {
       System.out.println("Unknown language '" + lang + "'. Supported languages are: " + supportedLanguages);
       exitWithUsageMessage();
     }
