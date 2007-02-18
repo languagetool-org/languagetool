@@ -2,9 +2,19 @@
 <!--
 Polish Grammar and Typo Rules for LanguageTool
 Copyright (C) 2006 Marcin Miłkowski
-$Id: grammar.xml,v 1.114 2007-02-13 13:24:05 milek_pl Exp $		
+$Id: grammar.xml,v 1.115 2007-02-18 19:11:00 milek_pl Exp $		
 -->
 <rules lang="pl">
+
+<phrases>
+	<phrase id="INTERPUNKCJA">
+		<token regexp="yes">\p{Punct}.*|–|—</token>
+	</phrase>
+	<phrase id="NIE_INTERPUNKCJA">
+	  <token><exception postag="SENT_START"/><exception regexp="yes">[\p{Punct}-—]|tyle</exception></token>
+	</phrase>
+</phrases>
+
 	<category name="Błędy interpunkcyjne">
 		
 		<rulegroup name="Brak przecinka w zdaniu złożonym" id="ZDANIA_ZLOZONE">
@@ -88,7 +98,7 @@ $Id: grammar.xml,v 1.114 2007-02-13 13:24:05 milek_pl Exp $
 		<rulegroup name="Brak przecinka przed „a więc”, „a mianowicie”..." id="MULTISPOJNIKI">
 			<rule>
 				<pattern>
-					<token regexp="yes" negate="yes">[\p{Punct}–—\(]<exception postag="SENT_START"/></token>
+					<phraseref idref="NIE_INTERPUNKCJA"/>
 					<token regexp="yes">a|ale</token>
 					<token regexp="yes">więc|mianowicie|przeto|zatem|jednak|choć|chociaż|ponieważ|także|następnie|jeśli|jeżeli|gdyby|gdy|kiedy</token>
 				</pattern>
@@ -101,7 +111,7 @@ $Id: grammar.xml,v 1.114 2007-02-13 13:24:05 milek_pl Exp $
 		<rulegroup name="Brak przecinka w zbiegu dwóch spójników" id="DWUZNACZNOSC_W_COFANIU">
 			<rule>
 				<pattern>
-				<token negate="yes" regexp="yes">\p{Punct}|–|—<exception postag="SENT_START"/></token>
+				<phraseref idref="NIE_INTERPUNKCJA"/>
 				<token regexp="yes">chyba|dlatego|właśnie|tak</token>
 				<token regexp="yes">że|iż</token>
 				</pattern>
@@ -111,7 +121,7 @@ $Id: grammar.xml,v 1.114 2007-02-13 13:24:05 milek_pl Exp $
 			</rule>
 			<rule>
 				<pattern>
-				<token negate="yes" regexp="yes">\p{Punct}<exception postag="SENT_START"/></token>
+				<phraseref idref="NIE_INTERPUNKCJA"/>
 				<token regexp="yes">chyba|dlatego|właśnie|tak|tylko</token>
 				<token regexp="yes">gdy|kiedy</token>
 				</pattern>
@@ -251,7 +261,7 @@ $Id: grammar.xml,v 1.114 2007-02-13 13:24:05 milek_pl Exp $
 		
 		<rule>
 			<pattern>
-			  <token><exception postag="SENT_START"/><exception regexp="yes">[\p{Punct}-—]</exception></token>
+				<phraseref idref="NIE_INTERPUNKCJA"/>
 				<token>a</token>
 				<token>,</token>
 				<token regexp="yes">więc|mianowicie|zatem|przeto|jednak|choć|chociaż|ponieważ|także|następnie|jeśli|jeżeli|gdyby|gdy|kiedy</token>
