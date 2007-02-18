@@ -21,7 +21,9 @@ package de.danielnaber.languagetool;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintStream;
+import java.lang.reflect.Constructor;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -35,25 +37,14 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import org.xml.sax.SAXException;
 
-import de.danielnaber.languagetool.rules.CommaWhitespaceRule;
-import de.danielnaber.languagetool.rules.DoublePunctuationRule;
 import de.danielnaber.languagetool.rules.Rule;
 import de.danielnaber.languagetool.rules.RuleMatch;
-import de.danielnaber.languagetool.rules.UppercaseSentenceStartRule;
-import de.danielnaber.languagetool.rules.WordRepeatRule;
-import de.danielnaber.languagetool.rules.de.AgreementRule;
-import de.danielnaber.languagetool.rules.de.CaseRule;
-import de.danielnaber.languagetool.rules.de.CompoundRule;
-import de.danielnaber.languagetool.rules.de.DashRule;
-import de.danielnaber.languagetool.rules.de.WiederVsWiderRule;
-import de.danielnaber.languagetool.rules.de.WordCoherencyRule;
-import de.danielnaber.languagetool.rules.en.AvsAnRule;
 import de.danielnaber.languagetool.rules.patterns.FalseFriendRuleLoader;
 import de.danielnaber.languagetool.rules.patterns.PatternRule;
 import de.danielnaber.languagetool.rules.patterns.PatternRuleLoader;
-import de.danielnaber.languagetool.rules.pl.PolishWordRepeatRule;
 import de.danielnaber.languagetool.tagging.Tagger;
 import de.danielnaber.languagetool.tokenizers.Tokenizer;
+import de.danielnaber.languagetool.tools.ReflectionUtils;
 
 /**
  * The main class used for checking text against different rules:
@@ -146,7 +137,7 @@ public class JLanguageTool {
     this.language = language;
     this.motherTongue = motherTongue;
     messages = getMessageBundle(language);
-    Rule[] allBuiltinRules = getAllBuiltinRules(messages);
+    Rule[] allBuiltinRules = getAllBuiltinRules(language, messages);
     for (int i = 0; i < allBuiltinRules.length; i++) {
       if (allBuiltinRules[i].supportsLanguage(language))
         builtinRules.add(allBuiltinRules[i]);
@@ -179,27 +170,47 @@ public class JLanguageTool {
     }
   }
 
-  private Rule[] getAllBuiltinRules(ResourceBundle messages) throws IOException {
-    // TODO: use reflection to get a list of all non-pattern rules?:
-    Rule[] allBuiltinRules = new Rule[] { 
-        // Several languages:
-        new CommaWhitespaceRule(messages), 
-        new WordRepeatRule(messages, language),
-        new DoublePunctuationRule(messages),
-        new UppercaseSentenceStartRule(messages, language),
-        // English:
-        new AvsAnRule(messages),        
-        // German:
-        new WordCoherencyRule(messages),
-        new CaseRule(messages),
-        new WiederVsWiderRule(messages),
-        new AgreementRule(messages),
-        new DashRule(messages),
-        new CompoundRule(messages),
-        // Polish:
-        new PolishWordRepeatRule(messages)
-      };
-    return allBuiltinRules;
+  private Rule[] getAllBuiltinRules(Language language, ResourceBundle messages) {
+    // use reflection to get a list of all non-pattern rules under
+    // "de.danielnaber.languagetool.rules"
+    // generic rules first, then language-specific ones
+    // TODO: the order of loading classes are not guaranteed so we may want to implement rule
+    // precedence
+
+    List<Rule> rules = new ArrayList<Rule>();
+    try {
+      // we pass ".*Rule$" regexp to improve efficiency, see javadoc
+      Class[] classes1 = ReflectionUtils.findClasses(Rule.class.getClassLoader(), 
+          Rule.class.getPackage().getName(), ".*Rule$", 0, Rule.class, null);
+      Class[] classes2 = ReflectionUtils.findClasses(Rule.class.getClassLoader(), 
+          Rule.class.getPackage().getName() + "." + language.getShortName(),
+          ".*Rule$", 0, Rule.class, null);
+
+      List<Class> classes = new ArrayList<Class>();
+      classes.addAll(Arrays.asList(classes1));
+      classes.addAll(Arrays.asList(classes2));
+
+      for (Class class1 : classes) {
+        Constructor[] constructors = class1.getConstructors();
+        for (Constructor constructor : constructors) {
+          Class[] paramTypes = constructor.getParameterTypes();
+          if (paramTypes.length == 1 && paramTypes[0].equals(ResourceBundle.class)) {
+            rules.add((Rule) constructor.newInstance(messages));
+            break;
+          }
+          if (paramTypes.length == 2 && paramTypes[0].equals(ResourceBundle.class)
+              && paramTypes[1].equals(Language.class)) {
+            rules.add((Rule) constructor.newInstance(messages, language));
+            break;
+          }
+          throw new RuntimeException("Unkown constructor for rule class: " + class1.getName());
+        }
+      }
+    } catch (Exception e) {
+      throw new RuntimeException("Failed to load rules: " + e.getMessage(), e);
+    }
+    //	System.err.println("Loaded " + rules.size() + " rules");
+    return rules.toArray(new Rule[0]);
   }
   
   /**
