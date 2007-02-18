@@ -64,6 +64,12 @@ TODO:
  -create abstract SentenceRule and TextRule classes to get rid of reset() method?
  -check if there's a nice design that lets us extend PatternRule and PatternRuleLoader
   to make them more powerful, but without having all features in these classes
+ -Make adding language possible without changing the LanguageTool core code:
+ 	-make rule loading dynamic by using reflection (in progress)
+ 	-create the list of languages using reflection (add a LanguageInformation
+ 	 interface that each language needs to implement)
+ 	-Add a "Add language pack..." menu to both the stand-alone version and the
+ 	 OpenOffice.org version
  -see "TODO" / "FIXME" in the source:
  	find . -iname "*.java" -exec egrep -H "TODO|FIXME" {} \;
  -...
