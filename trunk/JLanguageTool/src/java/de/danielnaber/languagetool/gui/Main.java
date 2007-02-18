@@ -33,13 +33,14 @@ import java.awt.event.WindowListener;
 import java.io.File;
 import java.io.IOException;
 import java.io.Reader;
+import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 import java.util.Set;
-import java.util.Enumeration;
 
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
@@ -143,8 +144,13 @@ public final class Main implements ActionListener {
         langBox.addItem(messages.getString(lang.getShortName()));
       }
     }
-    // use the system default language to preselect the language from the combo box: 
-    langBox.setSelectedItem(messages.getString((Locale.getDefault().getLanguage())));
+    // use the system default language to preselect the language from the combo box:
+    try {
+      Locale defaultLocale = Locale.getDefault();
+      langBox.setSelectedItem(messages.getString((defaultLocale.getLanguage())));
+    } catch (MissingResourceException e) {
+      // language not supported, so don't select a default
+    }
     panel.add(langBox, buttonCons);
 
     Container contentPane = frame.getContentPane();
