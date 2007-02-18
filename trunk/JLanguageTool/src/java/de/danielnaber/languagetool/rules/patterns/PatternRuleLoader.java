@@ -168,8 +168,7 @@ class PatternRuleHandler extends XMLRuleHandler {
         skipPos = Integer.parseInt(attrs.getValue("skip"));
       }
       elements = new StringBuffer();
-      if (elementList == null) // lazy init
-      {
+      if (elementList == null) {
         elementList = new ArrayList<Element>();
       }
       // POSElement creation
@@ -180,9 +179,6 @@ class PatternRuleHandler extends XMLRuleHandler {
         }
         if (attrs.getValue("negate_pos") != null) {
           posNegation = attrs.getValue("negate_pos").equals("yes");
-        }
-        if (elementList == null) { // lazy init
-          elementList = new ArrayList<Element>();
         }
       }
       if (attrs.getValue("regexp") != null) {
@@ -245,7 +241,7 @@ class PatternRuleHandler extends XMLRuleHandler {
       }
       if (elementList == null) // lazy init
       {
-        elementList = new ArrayList < Element > ();
+        elementList = new ArrayList < Element >();
       }
     
     } else if (qName.equals("phrase") && inPhrases) {
@@ -394,8 +390,7 @@ class PatternRuleHandler extends XMLRuleHandler {
       correctExample.append("</marker>");
     } else if (qName.equals("marker") && inIncorrectExample) {
       incorrectExample.append("</marker>");
-    } else if (qName.equals("phrase") && inPhrases) {
-      
+    } else if (qName.equals("phrase") && inPhrases) {      
       // lazy init
       if (phraseMap == null) {
         phraseMap = new HashMap < String, ArrayList < ArrayList < Element > > > ();
