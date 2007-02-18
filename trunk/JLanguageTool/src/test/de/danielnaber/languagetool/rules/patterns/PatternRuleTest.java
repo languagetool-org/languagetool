@@ -60,9 +60,11 @@ public class PatternRuleTest extends TestCase {
   }
   
   private void testGrammarRulesFromXML(List rules, JLanguageTool languageTool, Language lang) throws IOException {
-    int noSuggestionCount = 0;
+    int noSuggestionCount = 0;    
+    RuleMatch[] prevMatches = null;
+    boolean alreadyMatched = false, simpleRule = true, lastComplex = false; 
     for (Iterator iter = rules.iterator(); iter.hasNext();) {
-      Rule rule = (Rule) iter.next();
+      PatternRule rule = (PatternRule) iter.next();
       List goodSentences = rule.getCorrectExamples();
       for (Iterator iterator = goodSentences.iterator(); iterator.hasNext();) {
         String goodSentence = (String) iterator.next();
@@ -80,15 +82,18 @@ public class PatternRuleTest extends TestCase {
           fail(lang + ": No error position markup ('<marker>...</marker>') in bad example in rule " + rule);
         }
         String badSentence = cleanXML(origBadSentence);
-        assertTrue(badSentence.trim().length() > 0);
+        assertTrue(badSentence.trim().length() > 0);                
         RuleMatch[] matches = getMatches(rule, badSentence, languageTool);
+        if (prevMatches == null)
+          prevMatches = matches;
+        if (!rule.isWithComplexPhrase()) {  
         assertTrue(lang + ": Did expect one error in: \"" + badSentence + "\" (Rule: "+rule+"), got " + 
             matches.length, matches.length == 1);
         assertEquals(lang + ": Incorrect match position markup (start) for rule " + rule,
             expectedMatchStart, matches[0].getFromPos());
         assertEquals(lang + ": Incorrect match position markup (end) for rule " + rule,
             expectedMatchEnd, matches[0].getToPos());
-        // make sure the suggested correction doesn't produce an error:
+          // make sure the suggested correction doesn't produce an error:
         if (matches[0].getSuggestedReplacements().size() > 0) {
           int fromPos = matches[0].getFromPos();
           int toPos = matches[0].getToPos();
@@ -99,10 +104,69 @@ public class PatternRuleTest extends TestCase {
             assertEquals("Corrected sentence for rule " +rule+ " triggered error: " + fixedSentence,
                 0, matches.length);
           }
-        } else {
+         } else {
           noSuggestionCount++;
-        }
+        }         
+        simpleRule = true;
+        prevMatches = matches;
+        } else { //for multiple rules created with complex phrases
+          simpleRule = false;
+          lastComplex = true;          
+          }                 
+          
+        alreadyMatched = alreadyMatched || matches.length != 0;
+          
+          if (matches.length != 0) {
+                assertTrue(lang + ": Did expect one error in: \"" + badSentence + "\" (Rule: "+rule+"), got " + 
+                    matches.length, matches.length == 1);
+                assertEquals(lang + ": Incorrect match position markup (start) for rule " + rule,
+                    expectedMatchStart, matches[0].getFromPos());
+                assertEquals(lang + ": Incorrect match position markup (end) for rule " + rule,
+                    expectedMatchEnd, matches[0].getToPos());
+                  // make sure the suggested correction doesn't produce an error:
+                if (matches[0].getSuggestedReplacements().size() > 0) {
+                  int fromPos = matches[0].getFromPos();
+                  int toPos = matches[0].getToPos();
+                  for (String repl : matches[0].getSuggestedReplacements()) {
+                    String fixedSentence = badSentence.substring(0, fromPos) + repl +
+                      badSentence.substring(toPos);
+                    matches = getMatches(rule, fixedSentence, languageTool);
+                    assertEquals("Corrected sentence for rule " +rule+ " triggered error: " + fixedSentence,
+                        0, matches.length);
+                  }
+                 } else {
+                  noSuggestionCount++;
+                }
+               }
+          
+        //this gets activated when:
+        //the current rule is simple (and not complex)
+        //or this is the last rule
+        if (!alreadyMatched && (lastComplex && (simpleRule || !iterator.hasNext()))) {          
+          prevMatches = getMatches(rule, badSentence, languageTool);
+          assertTrue(lang + ": Did expect one error in: \"" + badSentence + "\" (Rule: "+rule+"), got " + 
+              prevMatches.length, prevMatches.length == 1);
+          assertEquals(lang + ": Incorrect match position markup (start) for rule " + rule,
+              expectedMatchStart, prevMatches[0].getFromPos());
+          assertEquals(lang + ": Incorrect match position markup (end) for rule " + rule,
+              expectedMatchEnd, prevMatches[0].getToPos());
+            // make sure the suggested correction doesn't produce an error:
+          if (prevMatches[0].getSuggestedReplacements().size() > 0) {
+            int fromPos = prevMatches[0].getFromPos();
+            int toPos = prevMatches[0].getToPos();
+            for (String repl : prevMatches[0].getSuggestedReplacements()) {
+              String fixedSentence = badSentence.substring(0, fromPos) + repl +
+                badSentence.substring(toPos);
+              prevMatches = getMatches(rule, fixedSentence, languageTool);
+              assertEquals("Corrected sentence for rule " +rule+ " triggered error: " + fixedSentence,
+                  0, prevMatches.length);
+            }
+           } else {
+            noSuggestionCount++;
+          }
+          }
       }
+      
     }
   }
   
