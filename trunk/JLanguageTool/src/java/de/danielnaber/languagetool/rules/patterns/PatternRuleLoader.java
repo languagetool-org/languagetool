@@ -101,11 +101,6 @@ class PatternRuleHandler extends XMLRuleHandler {
   private boolean exceptionValidNext = true;
   private boolean exceptionSet = false;
   
-  /** Boolean marker of OR operation on 
-   * phrases included in the phrase element.
-   **/ 
-  private boolean inIncludePhrases = false;
-  
   /** List of elements as specified by tokens. **/ 
   private ArrayList < Element > elementList = null;
   
@@ -244,7 +239,6 @@ class PatternRuleHandler extends XMLRuleHandler {
     } else if (qName.equals("phrases")) {
       inPhrases = true;
     } else if (qName.equals("includephrases")) {
-      inIncludePhrases = true;
       // lazy init
       if (phraseElementList == null) {
         phraseElementList = new ArrayList < ArrayList < Element > > ();
@@ -298,7 +292,7 @@ class PatternRuleHandler extends XMLRuleHandler {
           }
           Iterator < ArrayList < Element > > it = phraseElementList.iterator();
             while (it.hasNext()) {
-              PatternRule rule = new PatternRule(id+phraseIdRef, language, it.next(), description, message.toString());      
+              PatternRule rule = new PatternRule(id, language, it.next(), description, message.toString(), true);      
               rule.setStartPositionCorrection(startPositionCorrection);
               rule.setEndPositionCorrection(endPositionCorrection);
               startPositionCorrection = 0;
@@ -425,10 +419,7 @@ class PatternRuleHandler extends XMLRuleHandler {
         elementList.clear();
       }
       phraseElementList.clear();
-    } else if (qName.equals("phraseref") && inIncludePhrases) {
-
     } else if (qName.equals("includephrases") && inPhrases) {
-      inIncludePhrases = false;
       elementList.clear();
     } else if (qName.equals("phrases") && inPhrases) {
       inPhrases = false;
