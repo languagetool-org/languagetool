@@ -74,7 +74,7 @@ public class ReflectionUtils {
           
           // The LanguageTool ZIP contains two JARs with the core classes,
           // so ignore one of them to avoid rule duplication:
-          if (resource.getPath().endsWith("LanguageTool.jar")) {
+          if (resource.getPath().endsWith("LanguageTool.uno.jar")) {
             continue;
           }
           
