@@ -61,10 +61,8 @@ public class ReflectionUtils {
           // TODO: make sure this is network transparent
           String jarPath = resource.getPath().substring(0, resource.getPath().indexOf('!'));
           uniqResources.add(new URL(jarPath));
-//           System.err.println("added jar: " + jarPath);
        } else {
           uniqResources.add(resource);
-//           System.err.println("added dir: " + resource);
         }
       }
 
@@ -73,7 +71,13 @@ public class ReflectionUtils {
 
         // jars and directories are treated differently
         if (resource.getPath().endsWith("jar")) {
-
+          
+          // The LanguageTool ZIP contains two JARs with the core classes,
+          // so ignore one of them to avoid rule duplication:
+          if (resource.getPath().endsWith("LanguageTool.jar")) {
+            continue;
+          }
+          
           JarFile currentFile = new JarFile(new File(resource.toURI()));
           // jars are flat containers:
           for (Enumeration<JarEntry> e = currentFile.entries(); e.hasMoreElements();) {
@@ -94,6 +98,10 @@ public class ReflectionUtils {
                   continue;
 
                 Class clazz = Class.forName(classNm);
+                if(foundClasses.contains(clazz)) {
+                  throw new RuntimeException("Duplicate class definition:\n" + clazz.getName() +
+                      ", found in\n" + currentFile.getName());
+                }
 
                 if (!isMaterial(clazz))
                   continue;
@@ -174,10 +182,8 @@ public class ReflectionUtils {
    * @return Returns true if class1 extends
    */
   private static boolean isExtending(Class class1, String superclassName) {
-    //System.err.println("  Checking parent for: " + class1.getName());
     Class superclass1 = class1.getSuperclass();
     while (superclass1 != null) {
-      // System.err.println("      " + superclass1.getName());
       if (superclassName.equals(superclass1.getName()))
         return true;
       superclass1 = superclass1.getSuperclass();
