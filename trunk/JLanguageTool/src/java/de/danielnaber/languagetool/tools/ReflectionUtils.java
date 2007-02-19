@@ -93,7 +93,7 @@ public class ReflectionUtils {
                 if (countOccurences(subName, '.') > subdirLevel)
                   continue;
 
-                Class<?> clazz = Class.forName(classNm);
+                Class clazz = Class.forName(classNm);
 
                 if (!isMaterial(clazz))
                   continue;
@@ -119,7 +119,7 @@ public class ReflectionUtils {
             if (file.isFile() && file.getName().endsWith(".class")) {
               String classShortNm = file.getName().substring(0, file.getName().lastIndexOf('.'));
               if (classNameRegEx == null || classShortNm.matches(classNameRegEx)) {
-                Class<?> clazz = Class.forName(packageName + "." + classShortNm);
+                Class clazz = Class.forName(packageName + "." + classShortNm);
 
                 if (!isMaterial(clazz))
                   continue;
@@ -164,7 +164,7 @@ public class ReflectionUtils {
     return i;
   }
 
-  private static boolean isMaterial(Class<?> clazz) {
+  private static boolean isMaterial(Class clazz) {
     return (clazz.getModifiers() & (Modifier.ABSTRACT | Modifier.INTERFACE)) == 0;
   }
 
