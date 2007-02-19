@@ -3,7 +3,7 @@
 English Grammar and Typo Rules for LanguageTool
 See tagset.txt for the meaning of the POS tags
 Copyright (C) 2001-2007 Daniel Naber (http://www.danielnaber.de)
-$Id: grammar.xml,v 1.141 2007-02-04 21:40:38 milek_pl Exp $
+$Id: grammar.xml,v 1.142 2007-02-19 22:45:49 milek_pl Exp $
 -->
 <rules lang="en">
 
@@ -944,7 +944,7 @@ $Id: grammar.xml,v 1.141 2007-02-04 21:40:38 milek_pl Exp $
     <pattern mark_to="-2">
       <token postag="SENT_START"/>
       <token regexp="yes">each|every</token>
-      <token postag="NNS">children</token>
+      <token postag="NNS"/>
       <token postag_regexp="yes" postag="VB.*"><exception postag="NNS"/></token>
     </pattern>
     <message>'Each' and 'every' are used with singular. Did you mean <suggestion>all</suggestion>?</message>
@@ -959,7 +959,7 @@ $Id: grammar.xml,v 1.141 2007-02-04 21:40:38 milek_pl Exp $
       <pattern mark_from="3">
         <token postag="SENT_START"/>
         <token postag="DT"/>
-        <token postag="NNS"><exception postag="NN"/></token>
+        <token postag="NNS"><exception postag_regexp="yes" postag="NN|NN:.*"/></token>
         <token postag="VBZ"/>
       </pattern>
       <message>Possible agreement error -- don't use third-person form of a verb (e.g. 'is') for plural nouns.</message>
@@ -1102,7 +1102,7 @@ $Id: grammar.xml,v 1.141 2007-02-04 21:40:38 milek_pl Exp $
         <token regexp="yes">You</token>
         <token regexp="yes">am|is|was|has</token>
       </pattern>
-      <message>Use second person verb with 'you', e.g. 'you are'</message>
+      <message>Use second person verb with 'you', e.g. 'you are'.</message>
       <example type="correct">You <marker>are</marker> too old for that.</example>
       <example type="incorrect">You <marker>is</marker> too old for that.</example>
     </rule>
@@ -1112,7 +1112,7 @@ $Id: grammar.xml,v 1.141 2007-02-04 21:40:38 milek_pl Exp $
         <token regexp="yes">He</token>
         <token regexp="yes">were|have|be|am|are</token>
       </pattern>
-      <message>Use third person verb with 'he', e.g. 'he is'</message>
+      <message>Use third person verb with 'he', e.g. 'he is'.</message>
       <example type="correct">He <marker>is</marker> too old for that.</example>
       <example type="incorrect">He <marker>were</marker> too old for that.</example>
     </rule>
