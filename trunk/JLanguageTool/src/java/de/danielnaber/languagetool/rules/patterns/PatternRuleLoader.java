@@ -418,6 +418,8 @@ class PatternRuleHandler extends XMLRuleHandler {
       elementList.clear();
     } else if (qName.equals("phrases") && inPhrases) {
       inPhrases = false;
+    } else if (qName.equals("phraseref")) {
+      elementList.clear();
     }
   }
 
