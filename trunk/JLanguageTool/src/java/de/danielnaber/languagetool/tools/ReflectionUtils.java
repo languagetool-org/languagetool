@@ -19,7 +19,9 @@
 package de.danielnaber.languagetool.tools;
 
 import java.io.File;
+import java.io.IOException;
 import java.lang.reflect.Modifier;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -68,91 +70,18 @@ public class ReflectionUtils {
 
       for (URL resource : uniqResources) {
         // System.err.println("trying resource: " + resource);
-
         // jars and directories are treated differently
         if (resource.getPath().endsWith("jar")) {
-          
           // The LanguageTool ZIP contains two JARs with the core classes,
           // so ignore one of them to avoid rule duplication:
           if (resource.getPath().endsWith("LanguageTool.uno.jar")) {
             continue;
           }
-          
-          JarFile currentFile = new JarFile(new File(resource.toURI()));
-          // jars are flat containers:
-          for (Enumeration<JarEntry> e = currentFile.entries(); e.hasMoreElements();) {
-            JarEntry current = (JarEntry) e.nextElement();
-            String name = current.getName();
-            // System.err.println("jar entry: " + name);
-
-            if (name.endsWith(".class")) {
-              String classNm = name.replaceAll("/", ".").replace(".class", "");
-              int pointIdx = classNm.lastIndexOf('.');
-              String classShortNm = pointIdx == -1 ? classNm : classNm.substring(pointIdx + 1);
-
-              if (classNm.startsWith(packageName)
-                  && (classNameRegEx == null || classShortNm.matches(classNameRegEx))) {
-                String subName = classNm.substring(packageName.length() + 1);
-
-                if (countOccurences(subName, '.') > subdirLevel)
-                  continue;
-
-                Class clazz = Class.forName(classNm);
-                if(foundClasses.contains(clazz)) {
-                  throw new RuntimeException("Duplicate class definition:\n" + clazz.getName() +
-                      ", found in\n" + currentFile.getName());
-                }
-
-                if (!isMaterial(clazz))
-                  continue;
-
-                if (classExtends == null || isExtending(clazz, classExtends.getName())) {
-                  if (interfaceImplements == null || isImplementing(clazz, interfaceImplements)) {
-                    foundClasses.add(clazz);
-                    // System.err.println("Added class from jar: " + name);
-                  }
-                }
-              }
-            }
-          }
+          findClassesInJar(packageName, classNameRegEx, subdirLevel, classExtends,
+              interfaceImplements, foundClasses, resource);
         } else {
-          File directory = new File(resource.toURI());
-
-          if (!directory.exists() && !directory.isDirectory()) {
-            throw new Exception("directory does not exist: " + directory.getAbsolutePath());
-          }
-
-          // read classes
-          for (File file : directory.listFiles()) {
-            if (file.isFile() && file.getName().endsWith(".class")) {
-              String classShortNm = file.getName().substring(0, file.getName().lastIndexOf('.'));
-              if (classNameRegEx == null || classShortNm.matches(classNameRegEx)) {
-                Class clazz = Class.forName(packageName + "." + classShortNm);
-
-                if (!isMaterial(clazz))
-                  continue;
-
-                if (classExtends == null || isExtending(clazz, classExtends.getName())) {
-                  if (interfaceImplements == null || isImplementing(clazz, interfaceImplements)) {
-                    foundClasses.add(clazz);
-                    // System.err.println("Added rule from dir: " + classShortNm);
-                  }
-                }
-              }
-            }
-          }
-
-          // then subdirectories if we're traversing
-          if (subdirLevel > 0) {
-            for (File dir : directory.listFiles()) {
-              if (dir.isDirectory()) {
-                Class[] subLevelClasses = findClasses(classLoader, packageName + "."
-                    + dir.getName(), classNameRegEx, subdirLevel - 1, classExtends,
-                    interfaceImplements);
-                foundClasses.addAll(Arrays.asList(subLevelClasses));
-              }
-            }
-          }
+          findClassesInDirectory(classLoader, packageName, classNameRegEx, subdirLevel,
+              classExtends, interfaceImplements, foundClasses, resource);
         }
       }
     } catch (Exception ex) {
@@ -160,6 +89,90 @@ public class ReflectionUtils {
     }
 
     return foundClasses.toArray(new Class[0]);
+  }
+
+  private static void findClassesInDirectory(ClassLoader classLoader, String packageName, 
+      String classNameRegEx, int subdirLevel, Class classExtends, Class interfaceImplements,
+      List<Class> foundClasses, URL resource) throws URISyntaxException, Exception, ClassNotFoundException {
+    File directory = new File(resource.toURI());
+
+    if (!directory.exists() && !directory.isDirectory()) {
+      throw new Exception("directory does not exist: " + directory.getAbsolutePath());
+    }
+
+    // read classes
+    for (File file : directory.listFiles()) {
+      if (file.isFile() && file.getName().endsWith(".class")) {
+        String classShortNm = file.getName().substring(0, file.getName().lastIndexOf('.'));
+        if (classNameRegEx == null || classShortNm.matches(classNameRegEx)) {
+          Class clazz = Class.forName(packageName + "." + classShortNm);
+
+          if (!isMaterial(clazz))
+            continue;
+
+          if (classExtends == null || isExtending(clazz, classExtends.getName())) {
+            if (interfaceImplements == null || isImplementing(clazz, interfaceImplements)) {
+              foundClasses.add(clazz);
+              // System.err.println("Added rule from dir: " + classShortNm);
+            }
+          }
+        }
+      }
+    }
+
+    // then subdirectories if we're traversing
+    if (subdirLevel > 0) {
+      for (File dir : directory.listFiles()) {
+        if (dir.isDirectory()) {
+          Class[] subLevelClasses = findClasses(classLoader, packageName + "."
+              + dir.getName(), classNameRegEx, subdirLevel - 1, classExtends,
+              interfaceImplements);
+          foundClasses.addAll(Arrays.asList(subLevelClasses));
+        }
+      }
+    }
+  }
+
+  private static void findClassesInJar(String packageName, String classNameRegEx, 
+      int subdirLevel, Class classExtends, Class interfaceImplements, List<Class> foundClasses,
+      URL resource) throws IOException, URISyntaxException, ClassNotFoundException {
+    JarFile currentFile = new JarFile(new File(resource.toURI()));
+    // jars are flat containers:
+    for (Enumeration<JarEntry> e = currentFile.entries(); e.hasMoreElements();) {
+      JarEntry current = (JarEntry) e.nextElement();
+      String name = current.getName();
+      // System.err.println("jar entry: " + name);
+
+      if (name.endsWith(".class")) {
+        String classNm = name.replaceAll("/", ".").replace(".class", "");
+        int pointIdx = classNm.lastIndexOf('.');
+        String classShortNm = pointIdx == -1 ? classNm : classNm.substring(pointIdx + 1);
+
+        if (classNm.startsWith(packageName)
+            && (classNameRegEx == null || classShortNm.matches(classNameRegEx))) {
+          String subName = classNm.substring(packageName.length() + 1);
+
+          if (countOccurences(subName, '.') > subdirLevel)
+            continue;
+
+          Class clazz = Class.forName(classNm);
+          if(foundClasses.contains(clazz)) {
+            throw new RuntimeException("Duplicate class definition:\n" + clazz.getName() +
+                ", found in\n" + currentFile.getName());
+          }
+
+          if (!isMaterial(clazz))
+            continue;
+
+          if (classExtends == null || isExtending(clazz, classExtends.getName())) {
+            if (interfaceImplements == null || isImplementing(clazz, interfaceImplements)) {
+              foundClasses.add(clazz);
+              // System.err.println("Added class from jar: " + name);
+            }
+          }
+        }
+      }
+    }
   }
 
   private static int countOccurences(String str, char ch) {
@@ -173,7 +186,8 @@ public class ReflectionUtils {
   }
 
   private static boolean isMaterial(Class clazz) {
-    return (clazz.getModifiers() & (Modifier.ABSTRACT | Modifier.INTERFACE)) == 0;
+    int mod = clazz.getModifiers();
+    return (!Modifier.isAbstract(mod) && !Modifier.isInterface(mod));
   }
 
   /**
