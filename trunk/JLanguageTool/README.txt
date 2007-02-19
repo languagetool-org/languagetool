@@ -70,6 +70,9 @@ TODO:
  	 interface that each language needs to implement)
  	-Add a "Add language pack..." menu to both the stand-alone version and the
  	 OpenOffice.org version
+ -German:
+ 	"*Ich kaufe den Hund einen Knochen" (den -> dem), aber:
+ 	"*Ich kaufe dem Hund." (dem -> den)
  -see "TODO" / "FIXME" in the source:
  	find . -iname "*.java" -exec egrep -H "TODO|FIXME" {} \;
  -...
