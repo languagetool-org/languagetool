@@ -58,26 +58,23 @@ public class ReflectionUtils {
       for (; resources_.hasMoreElements();) {
         URL resource = resources_.nextElement();
         if (resource.getProtocol().equals("jar")) {
-          // TODO: make this network transparent
+          // TODO: make sure this is network transparent
           String jarPath = resource.getPath().substring(0, resource.getPath().indexOf('!'));
           uniqResources.add(new URL(jarPath));
-          // System.err.println("added jar: " + jarPath);
-        } else {
+//           System.err.println("added jar: " + jarPath);
+       } else {
           uniqResources.add(resource);
-          // System.err.println("added dir: " + resource);
+//           System.err.println("added dir: " + resource);
         }
       }
 
       for (URL resource : uniqResources) {
         // System.err.println("trying resource: " + resource);
-        // System.err.println(" path:" + resource.getPath());
 
         // jars and directories are treated differently
         if (resource.getPath().endsWith("jar")) {
-          // String jarPath = resource.getPath().substring(0, resource.getPath().indexOf('!'));
 
-          // TODO: make this network transparent
-          JarFile currentFile = new JarFile(new File(resource.getPath()));
+          JarFile currentFile = new JarFile(new File(resource.toURI()));
           // jars are flat containers:
           for (Enumeration<JarEntry> e = currentFile.entries(); e.hasMoreElements();) {
             JarEntry current = (JarEntry) e.nextElement();
@@ -111,8 +108,7 @@ public class ReflectionUtils {
             }
           }
         } else {
-          // TODO: make it network transparent
-          File directory = new File(resource.getPath());
+          File directory = new File(resource.toURI());
 
           if (!directory.exists() && !directory.isDirectory()) {
             throw new Exception("directory does not exist: " + directory.getAbsolutePath());
