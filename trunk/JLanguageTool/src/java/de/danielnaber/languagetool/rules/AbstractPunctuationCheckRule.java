@@ -35,7 +35,7 @@ import de.danielnaber.languagetool.Language;
  */
 public abstract class AbstractPunctuationCheckRule extends Rule {
 
-	public AbstractPunctuationCheckRule(final ResourceBundle messages) {
+	public AbstractPunctuationCheckRule (final ResourceBundle messages) {
 		super(messages);
 		super.setCategory(new Category(messages.getString("category_misc")));
 	}
