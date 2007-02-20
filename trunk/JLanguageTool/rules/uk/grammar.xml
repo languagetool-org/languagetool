@@ -2,7 +2,7 @@
 <!--
 Ukrainian grammar and typo rules for LanguageTool
 Copyright (C) 2007 Andriy Rysin
-$Id: grammar.xml,v 1.4 2007-02-20 10:43:07 milek_pl Exp $
+$Id: grammar.xml,v 1.5 2007-02-20 14:51:40 milek_pl Exp $
 -->
 
 <rules lang="uk">
@@ -62,63 +62,63 @@ $Id: grammar.xml,v 1.4 2007-02-20 10:43:07 milek_pl Exp $
   
   <category name="Grammar">
   <!-- TODO:
-  		Đ´ĐľĐ´Đ°Ń‚Đ¸ ĐżŃ–Đ´Ń‚Ń€Đ¸ĐĽĐşŃ� POS Ń‚Đ° Ń�Đ»ĐľĐ˛ĐľŃ„ĐľŃ€ĐĽ
+  		додати підтримкѿ POS та ѿловоформ
   -->
   </category>
   
   <category name="Style">
   <!-- TODO:
-  	ĐżŃ€ĐľĐ±Đ»ĐµĐĽĐ¸: 1) ŃŹĐş ĐżŃ€ĐľĐżĐľĐ˝Ń�Đ˛Đ°Ń‚Đ¸ "Đą", ŃŹĐşŃ‰Đľ Đ˝Đ°Ń�Ń‚Ń�ĐżĐ˝Đµ Đ˝Đµ ĐżĐľŃ‡Đ¸Ń‚Đ°Đ˝Ń”Ń‚ŃŚŃ�ŃŹ Đ· "Đą", Ń– "Ń‚Đ°", ŃŹĐşŃ‰Đľ Đ´Đ°Đ»Ń– Đ˝Đµ ĐąĐ´Đµ "Đ°"
-  			  2) ŃŹĐş ĐżŃ€ĐľĐżĐľĐ˝Ń�Đ˛Đ°Ń‚Đ¸ Ń‡Đ°Ń�Ń‚Đ¸Đ˝Ń� Ń�Đ»ĐľĐ˛Đ° "Đ´ĐľŃ‰ ĐąĐ´Đµ" -> "Đ´ĐľŃ‰ Ń–Đ´Đµ"?
+  	проблеми: 1) як пропонѿвати "й", якщо наѿтѿпне не почитанєтьѿя з "й", і "та", якщо далі не йде "а"
+  			  2) як пропонѿвати чаѿтинѿ ѿлова "дощ йде" -> "дощ іде"?
   -->
-	<rulegroup name="ĐśĐ¸Đ»ĐľĐ·Đ˛Ń�Ń‡Đ˝Ń–Ń�Ń‚ŃŚ" id="NICE">
+	<rulegroup name="Милозвѿчніѿть" id="NICE">
 		<!--
 			<rule>
 				<pattern>
-					<token regexp="yes">.*[Đ°ĐµŃ”Đ¸Ń–Ń—ĐľŃ�ŃŽŃŹ]</token>
-					<token regexp="yes">Ń–</token>
+					<token regexp="yes">.*[аеєиіїоѿюя]</token>
+					<token regexp="yes">і</token>
 				</pattern>
-				<message>Đ—Ń–ŃŹĐ˝Đ˝ŃŹ <suggestion>\1 Đą</suggestion> <suggestion>\1 Ń‚Đ°</suggestion></message>
-				<example type="correct">ĐźĐľĐ»Đµ Đą Đ»Ń–Ń�.</example>
-				<example type="correct">ĐźĐľĐ»Đµ Ń‚Đ° Đ»Ń–Ń�.</example>
-				<example type="incorrect"><marker>ĐźĐľĐ»Đµ Ń–</marker> Đ»Ń–Ń�.</example>
+				<message>Зіяння <suggestion>\1 й</suggestion> <suggestion>\1 та</suggestion></message>
+				<example type="correct">Поле й ліѿ.</example>
+				<example type="correct">Поле та ліѿ.</example>
+				<example type="incorrect"><marker>Поле і</marker> ліѿ.</example>
 			</rule>
 		-->
 			<rule>
 				<pattern>
-					<token regexp="yes">.*[Đ°ĐµŃ”Đ¸Ń–Ń—ĐľŃ�ŃŽŃŹ]</token>
-					<token regexp="yes">Ń�</token>
-					<token regexp="yes" negate="yes">Đ˛.*</token>
+					<token regexp="yes">.*[аеєиіїоѿюя]</token>
+					<token regexp="yes">ѿ</token>
+					<token regexp="yes" negate="yes">в.*</token>
 				</pattern>
-				<message>Đ—Ń–ŃŹĐ˝Đ˝ŃŹ <suggestion>\1 Đ˛</suggestion></message>
-				<example type="correct">Đ‘Đ°Đ»ĐşĐ° Đ˛ Ń�Ń‚ĐµĐżŃ�.</example>
-				<example type="incorrect"><marker>Đ‘Đ°Đ»ĐşĐ° Ń� Ń�Ń‚ĐµĐżŃ�</marker>.</example>
+				<message>Зіяння <suggestion>\1 в</suggestion></message>
+				<example type="correct">Балка в ѿтепѿ.</example>
+				<example type="incorrect"><marker>Балка ѿ ѿтепѿ</marker>.</example>
 			</rule>
 			<rule>
 				<pattern>
-					<token regexp="yes">Đ·Ń–</token>
-					<token regexp="yes">[Đ°ĐµŃ”Đ¸Ń–Ń—ĐľŃ�ŃŽŃŹ].*</token>
+					<token regexp="yes">зі</token>
+					<token regexp="yes">[аеєиіїоѿюя].*</token>
 				</pattern>
-				<message>Đ—Ń–ŃŹĐ˝Đ˝ŃŹ <suggestion>Đ· \2</suggestion></message>
-				<example type="correct">ĐźĐľŃ‚ŃŹĐł Đ· Đ�Đ˛Ń�Ń‚Ń€Ń–Ń—.</example>
-				<example type="incorrect">ĐźĐľŃ‚ŃŹĐł <marker>Đ·Ń– Đ�Đ˛Ń�Ń‚Ń€Ń–Ń—</marker>.</example>
+				<message>Зіяння <suggestion>з \2</suggestion></message>
+				<example type="correct">Потяг з пвѿтрії.</example>
+				<example type="incorrect">Потяг <marker>зі пвѿтрії</marker>.</example>
 			</rule>
 	</rulegroup>			
   </category>
   
   <category name="Borrowings">
   <!-- TODO:
-  		1) Đ·Đ°Đ»ĐµĐ¶Đ˝Ń– Đ˛Ń–Đ´ Đ»ĐµĐşŃ�ĐµĐĽ
-  		2) Đ˝ĐµĐ·Đ°Đ»ĐµĐ¶Đ˝Ń– (Đ˝ĐµĐ˛Ń–Đ´ĐĽŃ–Đ˝ŃŽĐ˛Đ°Đ˝Ń–)
+  		1) залежні від лекѿем
+  		2) незалежні (невідмінювані)
   -->
   
-  <!-- Đ˝ĐµĐ·Đ°Đ»ĐµĐ¶Đ˝Ń–
-    <rulegroup id="NON_LEXEM_BORROWING" name="ĐşĐ°Đ»ŃŚĐşŃ�Đ˛Đ°Đ˝Đ˝ŃŹ">
+  <!-- незалежні
+    <rulegroup id="NON_LEXEM_BORROWING" name="калькѿвання">
       <rule>
         <pattern>
 		  <token regexp="yes"></token>
          </pattern>
-        <message>ĐťĐµŃ�ĐşŃ€Đ°Ń—Đ˝Ń�ŃŚĐşĐµ Ń�Đ»ĐľĐ˛Đľ: <suggestion></suggestion>.</message>
+        <message>Неѿкраїнѿьке ѿлово: <suggestion></suggestion>.</message>
       </rule>
 	</rulegroup>  
    -->
