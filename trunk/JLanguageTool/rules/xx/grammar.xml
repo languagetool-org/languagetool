@@ -2,7 +2,7 @@
 <!--
 A demo rule file for LanguageTool
 Copyright (C) 2005 Daniel Naber (http://www.danielnaber.de)
-$Id: grammar.xml,v 1.18 2007-02-18 18:20:45 milek_pl Exp $
+$Id: grammar.xml,v 1.19 2007-02-20 10:39:31 milek_pl Exp $
 -->
 
 <rules lang="xx">
@@ -23,7 +23,7 @@ $Id: grammar.xml,v 1.18 2007-02-18 18:20:45 milek_pl Exp $
 		<token>another</token>
 	</phrase>
 	<phrase id="DUMMY_VB1">
-		<token>go</token>
+		<token regexp="yes">go|goa</token>
 	</phrase>
 	<phrase id="DUMMY_VB2">
 		<token>goes</token>
@@ -41,6 +41,7 @@ $Id: grammar.xml,v 1.18 2007-02-18 18:20:45 milek_pl Exp $
 		<token>last</token>
 	</phrase>
 </phrases>
+
 
 
   <category name="misc">
@@ -75,6 +76,18 @@ $Id: grammar.xml,v 1.18 2007-02-18 18:20:45 milek_pl Exp $
       <example type="correct">a small <marker>test</marker></example>
       <example type="incorrect">a small <marker>toast</marker></example>
     </rule>
+  
+  	<rule id="TEST_GO" name="another test of phrases">
+		<pattern>
+			<token>foo</token>
+			<phraseref idref="DUMMY_VB1"/>
+		</pattern>
+		<message>Error!</message>
+		<example type="correct">foo bar</example>
+		<example type="incorrect"><marker>foo go</marker></example>
+		<example type="incorrect"><marker>foo go</marker> bar</example>
+		<example type="incorrect"><marker>foodd goma</marker> bar</example>
+		</rule>
     
     <rule id="TEST_PHRASES1" name="test phrases mechanism">
     <pattern>
@@ -85,8 +98,7 @@ $Id: grammar.xml,v 1.18 2007-02-18 18:20:45 milek_pl Exp $
     <example type="correct">go here</example>
     <example type="incorrect"><marker>first go last there</marker>, please!</example>
     </rule>
-
-
+	
   </category>
 
 </rules>
