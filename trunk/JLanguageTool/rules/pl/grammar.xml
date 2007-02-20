@@ -2,7 +2,7 @@
 <!--
 Polish Grammar and Typo Rules for LanguageTool
 Copyright (C) 2006 Marcin Miłkowski
-$Id: grammar.xml,v 1.118 2007-02-20 11:58:04 milek_pl Exp $		
+$Id: grammar.xml,v 1.119 2007-02-20 12:27:39 milek_pl Exp $		
 -->
 <rules lang="pl">
 
@@ -4417,6 +4417,15 @@ $Id: grammar.xml,v 1.118 2007-02-20 11:58:04 milek_pl Exp $
 	 </rule>
 	 </rulegroup>
 	 
+	 <rule id="NA_PRZEKOR" name="„chybcika, przekór” (na chybcika, na przekór) itd.">
+	 	<pattern mark_from="1">
+	 		<token><exception regexp="yes">na|\"</exception></token>
+	 		<token regexp="yes">bakier|chybcika|płask|przekór|odchodne|odchodnym|czele|odczepne|odczepnego|odjezdne|odjezdnym|odwyrtkę|opak|oścież|piechotkę|podorędziu|przedzie|roścież|rozcież|schwał|spytki|ścieżaj|udry|umór|wyjezdne|wyjezdnym|wynos|wyrost|wznak|zabój</token>
+	 	</pattern>
+	 	<message>Prawdopodobna literówka; powinno być: <suggestion>na \2</suggestion>.</message>
+	 	<example type="correct">To jest zrobione na chybcika.</example>
+	 	<example type="incorrect">To jest zrobione <marker>chybcika</marker>.</example>
+	 </rule>
 	</category>
 	
 	<category name="Błędy frazeologiczne">
