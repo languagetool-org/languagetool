@@ -49,7 +49,7 @@ public class SimpleReplaceRule extends Rule {
 	private static final String FILE_NAME = "rules" +File.separator+ "uk" +File.separator+ "replace.txt";
 	private static final String FILE_ENCODING = "utf-8";
 
-	private Map<String, String> wrongWords;        // e.g. "Đ˛Ń€ĐµŃ�Ń‚Ń– Ń€ĐµŃ�Ń‚" -> "Đ·Ń€ĐµŃ�Ń‚ĐľŃŽ"
+	private Map<String, String> wrongWords;        // e.g. "вреѿті реѿт" -> "зреѿтою"
 
 	public SimpleReplaceRule(ResourceBundle messages) throws IOException {
 		if (messages != null)
