@@ -10,20 +10,20 @@ import junit.framework.TestCase;
 
 public class SimpleReplaceRuleTest extends TestCase {
 
-	public void testRule() throws IOException {
-		SimpleReplaceRule rule = new SimpleReplaceRule(TestTools.getEnglishMessages());
+    public void testRule() throws IOException {
+        SimpleReplaceRule rule = new SimpleReplaceRule(TestTools.getEnglishMessages());
 
-		RuleMatch[] matches;
-		JLanguageTool langTool = new JLanguageTool(Language.UKRAINIAN);
-		
-		// correct sentences:
-		matches = rule.match(langTool.getAnalyzedSentence("Đ¦Ń– Ń€ŃŹĐ´ĐşĐ¸ ĐżĐľĐ˛Đ¸Đ˝Đ˝Ń– Đ·Đ±Ń–ĐłĐ°Ń‚Đ¸Ń�ŃŹ."));
-		assertEquals(0, matches.length);
+        RuleMatch[] matches;
+        JLanguageTool langTool = new JLanguageTool(Language.UKRAINIAN);
+        
+        // correct sentences:
+        matches = rule.match(langTool.getAnalyzedSentence("Ці рядки повинні збігатиѿя."));
+        assertEquals(0, matches.length);
 
-		// incorrect sentences:
-		matches = rule.match(langTool.getAnalyzedSentence("Đ¦Ń– Ń€ŃŹĐ´ĐşĐ¸ ĐżĐľĐ˛Đ¸Đ˝Đ˝Ń– Ń�ĐżŃ–Đ˛ĐżĐ°Đ´Đ°Ń‚Đ¸."));
-		assertEquals(1, matches.length);
-		assertEquals(1, matches[0].getSuggestedReplacements().size());
-		assertEquals("Đ·Đ±Ń–ĐłĐ°Ń‚Đ¸Ń�ŃŹ", matches[0].getSuggestedReplacements().get(0));
-	}
+        // incorrect sentences:
+        matches = rule.match(langTool.getAnalyzedSentence("Ці рядки повинні ѿпівпадати."));
+        assertEquals(1, matches.length);
+        assertEquals(1, matches[0].getSuggestedReplacements().size());
+        assertEquals("збігатиѿя", matches[0].getSuggestedReplacements().get(0));
+    }
 }
