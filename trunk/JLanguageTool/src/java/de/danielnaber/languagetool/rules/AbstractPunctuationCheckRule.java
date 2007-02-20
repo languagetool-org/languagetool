@@ -25,12 +25,8 @@ import java.util.ResourceBundle;
 import de.danielnaber.languagetool.AnalyzedSentence;
 import de.danielnaber.languagetool.AnalyzedTokenReadings;
 import de.danielnaber.languagetool.Language;
-import de.danielnaber.languagetool.rules.Category;
-import de.danielnaber.languagetool.rules.Rule;
-import de.danielnaber.languagetool.rules.RuleMatch;
 
-/**
- * A rule that matches "..", "::", "-," but not "...", "!..", "?!!", ",-" etc
+/** A rule that matches "..", "::", "-," but not "...", "!..", "?!!", ",-" etc.
  * Languages will have to subclass it and override <code>isPunctsJoinOk()</code>
  * and <code>isPuctuation()</code>
  * to provide language-specific checking
@@ -66,17 +62,17 @@ public abstract class AbstractPunctuationCheckRule extends Rule {
 		for (int i = 0; i < tokens.length; i++) {
 			String tokenStr = tokens[i].getToken();
 			
-			if( isPunctuation(tokenStr) ) {
+			if (isPunctuation(tokenStr)) {
 				tkns += tokenStr;
-				if( i < tokens.length-1 )
+				if (i < tokens.length - 1)
 					continue;
 			}
 
-			if( tkns.length() >= 2 ) {
-				if( ! isPunctsJoinOk(tkns) ) {
+			if (tkns.length() >= 2) {
+				if (!isPunctsJoinOk(tkns)) {
 					String msg = "bad duplication or combination of puctuation signs";
 					RuleMatch ruleMatch = new RuleMatch(this, tokens[i].getStartPos()-tkns.length(), tokens[i].getStartPos(), msg);
-					ruleMatch.setSuggestedReplacement(tkns.substring(0,1));
+					ruleMatch.setSuggestedReplacement(tkns.substring(0, 1));
 					ruleMatches.add(ruleMatch);
 				}
 			}
