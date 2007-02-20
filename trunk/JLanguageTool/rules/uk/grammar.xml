@@ -2,7 +2,7 @@
 <!--
 Ukrainian grammar and typo rules for LanguageTool
 Copyright (C) 2007 Andriy Rysin
-$Id: grammar.xml,v 1.3 2007-02-11 19:42:10 dnaber Exp $
+$Id: grammar.xml,v 1.4 2007-02-20 10:43:07 milek_pl Exp $
 -->
 
 <rules lang="uk">
@@ -34,9 +34,9 @@ $Id: grammar.xml,v 1.3 2007-02-11 19:42:10 dnaber Exp $
 
       <rule id="LIST_AND_NO_COMMA" name="та і або у списках не виділяється комою">
         <pattern mark_from="2">
-          <token regexp="yes">.*</token>
+          <token/>
           <token>,</token>
-          <token regexp="yes">.*</token>
+          <token/>
           <token>,</token>
           <token regexp="yes">і|та|або</token>
         </pattern>
@@ -58,6 +58,70 @@ $Id: grammar.xml,v 1.3 2007-02-11 19:42:10 dnaber Exp $
 	</rulegroup>			
 	
 
+  </category>
+  
+  <category name="Grammar">
+  <!-- TODO:
+  		Đ´ĐľĐ´Đ°Ń‚Đ¸ ĐżŃ–Đ´Ń‚Ń€Đ¸ĐĽĐşŃ� POS Ń‚Đ° Ń�Đ»ĐľĐ˛ĐľŃ„ĐľŃ€ĐĽ
+  -->
+  </category>
+  
+  <category name="Style">
+  <!-- TODO:
+  	ĐżŃ€ĐľĐ±Đ»ĐµĐĽĐ¸: 1) ŃŹĐş ĐżŃ€ĐľĐżĐľĐ˝Ń�Đ˛Đ°Ń‚Đ¸ "Đą", ŃŹĐşŃ‰Đľ Đ˝Đ°Ń�Ń‚Ń�ĐżĐ˝Đµ Đ˝Đµ ĐżĐľŃ‡Đ¸Ń‚Đ°Đ˝Ń”Ń‚ŃŚŃ�ŃŹ Đ· "Đą", Ń– "Ń‚Đ°", ŃŹĐşŃ‰Đľ Đ´Đ°Đ»Ń– Đ˝Đµ ĐąĐ´Đµ "Đ°"
+  			  2) ŃŹĐş ĐżŃ€ĐľĐżĐľĐ˝Ń�Đ˛Đ°Ń‚Đ¸ Ń‡Đ°Ń�Ń‚Đ¸Đ˝Ń� Ń�Đ»ĐľĐ˛Đ° "Đ´ĐľŃ‰ ĐąĐ´Đµ" -> "Đ´ĐľŃ‰ Ń–Đ´Đµ"?
+  -->
+	<rulegroup name="ĐśĐ¸Đ»ĐľĐ·Đ˛Ń�Ń‡Đ˝Ń–Ń�Ń‚ŃŚ" id="NICE">
+		<!--
+			<rule>
+				<pattern>
+					<token regexp="yes">.*[Đ°ĐµŃ”Đ¸Ń–Ń—ĐľŃ�ŃŽŃŹ]</token>
+					<token regexp="yes">Ń–</token>
+				</pattern>
+				<message>Đ—Ń–ŃŹĐ˝Đ˝ŃŹ <suggestion>\1 Đą</suggestion> <suggestion>\1 Ń‚Đ°</suggestion></message>
+				<example type="correct">ĐźĐľĐ»Đµ Đą Đ»Ń–Ń�.</example>
+				<example type="correct">ĐźĐľĐ»Đµ Ń‚Đ° Đ»Ń–Ń�.</example>
+				<example type="incorrect"><marker>ĐźĐľĐ»Đµ Ń–</marker> Đ»Ń–Ń�.</example>
+			</rule>
+		-->
+			<rule>
+				<pattern>
+					<token regexp="yes">.*[Đ°ĐµŃ”Đ¸Ń–Ń—ĐľŃ�ŃŽŃŹ]</token>
+					<token regexp="yes">Ń�</token>
+					<token regexp="yes" negate="yes">Đ˛.*</token>
+				</pattern>
+				<message>Đ—Ń–ŃŹĐ˝Đ˝ŃŹ <suggestion>\1 Đ˛</suggestion></message>
+				<example type="correct">Đ‘Đ°Đ»ĐşĐ° Đ˛ Ń�Ń‚ĐµĐżŃ�.</example>
+				<example type="incorrect"><marker>Đ‘Đ°Đ»ĐşĐ° Ń� Ń�Ń‚ĐµĐżŃ�</marker>.</example>
+			</rule>
+			<rule>
+				<pattern>
+					<token regexp="yes">Đ·Ń–</token>
+					<token regexp="yes">[Đ°ĐµŃ”Đ¸Ń–Ń—ĐľŃ�ŃŽŃŹ].*</token>
+				</pattern>
+				<message>Đ—Ń–ŃŹĐ˝Đ˝ŃŹ <suggestion>Đ· \2</suggestion></message>
+				<example type="correct">ĐźĐľŃ‚ŃŹĐł Đ· Đ�Đ˛Ń�Ń‚Ń€Ń–Ń—.</example>
+				<example type="incorrect">ĐźĐľŃ‚ŃŹĐł <marker>Đ·Ń– Đ�Đ˛Ń�Ń‚Ń€Ń–Ń—</marker>.</example>
+			</rule>
+	</rulegroup>			
+  </category>
+  
+  <category name="Borrowings">
+  <!-- TODO:
+  		1) Đ·Đ°Đ»ĐµĐ¶Đ˝Ń– Đ˛Ń–Đ´ Đ»ĐµĐşŃ�ĐµĐĽ
+  		2) Đ˝ĐµĐ·Đ°Đ»ĐµĐ¶Đ˝Ń– (Đ˝ĐµĐ˛Ń–Đ´ĐĽŃ–Đ˝ŃŽĐ˛Đ°Đ˝Ń–)
+  -->
+  
+  <!-- Đ˝ĐµĐ·Đ°Đ»ĐµĐ¶Đ˝Ń–
+    <rulegroup id="NON_LEXEM_BORROWING" name="ĐşĐ°Đ»ŃŚĐşŃ�Đ˛Đ°Đ˝Đ˝ŃŹ">
+      <rule>
+        <pattern>
+		  <token regexp="yes"></token>
+         </pattern>
+        <message>ĐťĐµŃ�ĐşŃ€Đ°Ń—Đ˝Ń�ŃŚĐşĐµ Ń�Đ»ĐľĐ˛Đľ: <suggestion></suggestion>.</message>
+      </rule>
+	</rulegroup>  
+   -->
   </category>
 
 </rules>
