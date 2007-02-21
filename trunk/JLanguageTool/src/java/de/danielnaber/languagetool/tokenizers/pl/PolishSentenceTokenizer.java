@@ -45,7 +45,7 @@ public class PolishSentenceTokenizer extends SentenceTokenizer {
   private static final Pattern punctUpperLower = Pattern.compile("(" + PAP
       + ")([\\p{Lu}][^\\p{Lu}.])");
   private static final Pattern letterPunct = Pattern.compile("(\\s[\\wąćęłńóśźżĄĆĘŁŃÓŚŹŻ]" + P + ")");
-  private static final Pattern abbrev1 = Pattern.compile("([^-\\wąćęłńóśźżĄĆĘŁŃÓŚŹŻ][\\wąćęłńóśźżĄĆĘŁŃÓŚŹŻ]" + PAP + "\\s)" + EOS);
+  private static final Pattern abbrev1 = Pattern.compile("([^-\\wąćęłńóśźżĄĆĘŁŃÓŚŹŻ”][\\wąćęłńóśźżĄĆĘŁŃÓŚŹŻ]" + PAP + "\\s)" + EOS);
   private static final Pattern abbrev2 = Pattern.compile("([^-\\wąćęłńóśźżĄĆĘŁŃÓŚŹŻ][\\wąćęłńóśźżĄĆĘŁŃÓŚŹŻ]" + P + ")" + EOS);
   private static final Pattern abbrev3 = Pattern.compile("(\\s[\\wąćęłńóśźżĄĆĘŁŃÓŚŹŻ]\\.\\s+)" + EOS);
   private static final Pattern abbrev4 = Pattern.compile("(\\.\\.\\. )" + EOS + "([\\p{Ll}])");
