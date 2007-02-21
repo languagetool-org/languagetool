@@ -2,14 +2,21 @@
 <!--
 Ukrainian grammar and typo rules for LanguageTool
 Copyright (C) 2007 Andriy Rysin
-$Id: grammar.xml,v 1.6 2007-02-20 14:58:37 milek_pl Exp $
+$Id: grammar.xml,v 1.7 2007-02-21 14:38:42 arysin Exp $
 -->
 
 <rules lang="uk">
 
-  <category name="Grammar">
+  <category name="Punctuation">
+  	<!-- TODO:
+  		Вставні вирази: "з іншого боку", "на мою думку", "на жаль" 
+  		Вставні слова : "певно", "напевно", "вірите", ""
+
+		Question:
+			can "surround by commas" rule be more compact-written?
+  	-->
   
-    <rulegroup id="PLEASE_NO_COMMA" name="будь ласка виділяється комами">
+    <rulegroup id="PLEASE_NO_COMMA" name="„будь ласка” виділяється комами">
       <rule>
         <pattern mark_to="0">
           <token>будь</token>
@@ -32,11 +39,35 @@ $Id: grammar.xml,v 1.6 2007-02-20 14:58:37 milek_pl Exp $
       </rule>
 	</rulegroup>
 
+    <rulegroup id="INSERTED_WORDS_NO_COMMA" name="вставні слова, напр., „мабуть”, „щоправда”, виділяються комами">
+      <rule>
+        <pattern mark_to="0">
+		  <token regexp="yes">мабуть|врешті|по-перше|по-друге|по-третє|щоправда|о?крім того|а втім</token>
+          <token negate="yes" regexp="yes">,|\.</token>
+         </pattern>
+        <message>Відсутня права кома: <suggestion>\1, \2</suggestion>.</message>
+        <example type="correct">Це, <marker>мабуть,</marker> водій.</example>
+        <example type="incorrect">Це, <marker>мабуть водій</marker>.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token negate="yes">,<exception postag="SENT_START"/></token>
+		  <token regexp="yes">мабуть|по-перше|по-друге|по-третє|щоправда|о?крім того|а втім</token>
+        </pattern>
+        <message>Відсутня ліва кома: <suggestion>\1, \2</suggestion>.</message>
+        <example type="correct"><marker>Мабуть,</marker> це водій.</example>
+        <example type="correct">Це<marker>, мабуть</marker>, водій.</example>
+        <example type="incorrect"><marker>Це мабуть</marker>, водій.</example>
+      </rule>
+	</rulegroup>
+
+<!--
+	не працює надійно, окрім того може перекриватися з правилами, які вимагають кому
       <rule id="LIST_AND_NO_COMMA" name="та і або у списках не виділяється комою">
         <pattern mark_from="2">
-          <token/>
+          <token regexp="yes">.*</token>
           <token>,</token>
-          <token/>
+          <token regexp="yes">.*</token>
           <token>,</token>
           <token regexp="yes">і|та|або</token>
         </pattern>
@@ -44,7 +75,7 @@ $Id: grammar.xml,v 1.6 2007-02-20 14:58:37 milek_pl Exp $
         <example type="correct">Підтримує німецьку, <marker>англійську та</marker> українську мови.</example>
         <example type="incorrect">Підтримує німецьку, <marker>англійську, та</marker> українську мови.</example>
       </rule>
-	
+-->	
 	<rulegroup name="Відсутня кома перед „але”, „...”" id="COMMA_BEFORE_BUT">
 			<rule>
 				<pattern>
@@ -60,68 +91,68 @@ $Id: grammar.xml,v 1.6 2007-02-20 14:58:37 milek_pl Exp $
 
   </category>
   
-<category name="Grammar">
+  <category name="Grammar">
   <!-- TODO:
-  		додати підтримкѿ POS та ѿловоформ
+  		додати підтримку POS та словоформ
   -->
   </category>
   
   <category name="Style">
   <!-- TODO:
-  	проблеми: 1) як пропонѿвати "й", якщо наѿтѿпне не почитанєтьѿя з "й", і "та", якщо далі не йде "а"
-  			  2) як пропонѿвати чаѿтинѿ ѿлова "дощ йде" -> "дощ іде"?
+  	проблеми: 1) як пропонувати "й", якщо наступне не почитанється з "й", і "та", якщо далі не йде "а"
+  			  2) як пропонувати частину слова "дощ йде" -> "дощ іде"?
   -->
-	<rulegroup name="Милозвѿчніѿть" id="NICE">
+	<rulegroup name="Милозвучність" id="NICE">
 		<!--
 			<rule>
 				<pattern>
-					<token regexp="yes">.*[аеєиіїоѿюя]</token>
+					<token regexp="yes">.*[аеєиіїоуюя]</token>
 					<token regexp="yes">і</token>
 				</pattern>
 				<message>Зіяння <suggestion>\1 й</suggestion> <suggestion>\1 та</suggestion></message>
-				<example type="correct">Поле й ліѿ.</example>
-				<example type="correct">Поле та ліѿ.</example>
-				<example type="incorrect"><marker>Поле і</marker> ліѿ.</example>
+				<example type="correct">Поле й ліс.</example>
+				<example type="correct">Поле та ліс.</example>
+				<example type="incorrect"><marker>Поле і</marker> ліс.</example>
 			</rule>
 		-->
 			<rule>
 				<pattern>
-					<token regexp="yes">.*[аеєиіїоѿюя]</token>
-					<token regexp="yes">ѿ</token>
+					<token regexp="yes">.*[аеєиіїоуюя]</token>
+					<token regexp="yes">у</token>
 					<token regexp="yes" negate="yes">в.*</token>
 				</pattern>
 				<message>Зіяння <suggestion>\1 в</suggestion></message>
-				<example type="correct">Балка в ѿтепѿ.</example>
-				<example type="incorrect"><marker>Балка ѿ ѿтепѿ</marker>.</example>
+				<example type="correct">Балка в степу.</example>
+				<example type="incorrect"><marker>Балка у степу</marker>.</example>
 			</rule>
 			<rule>
 				<pattern>
 					<token regexp="yes">зі</token>
-					<token><exception regexp="yes">[аеєиіїоѿюя].*</exception></token>
+					<token regexp="yes">[аеєиіїоуюя].*</token>
 				</pattern>
 				<message>Зіяння <suggestion>з \2</suggestion></message>
-				<example type="correct">Потяг з пвѿтрії.</example>
-				<example type="incorrect">Потяг <marker>зі пвѿтрії</marker>.</example>
+				<example type="correct">Потяг з Австрії.</example>
+				<example type="incorrect">Потяг <marker>зі Австрії</marker>.</example>
 			</rule>
 	</rulegroup>			
   </category>
   
   <category name="Borrowings">
   <!-- TODO:
-  		1) залежні від лекѿем
+  		1) залежні від лексем
   		2) незалежні (невідмінювані)
   -->
   
   <!-- незалежні
-    <rulegroup id="NON_LEXEM_BORROWING" name="калькѿвання">
+    <rulegroup id="NON_LEXEM_BORROWING" name="калькування">
       <rule>
         <pattern>
 		  <token regexp="yes"></token>
          </pattern>
-        <message>Неѿкраїнѿьке ѿлово: <suggestion></suggestion>.</message>
+        <message>Неукраїнське слово: <suggestion></suggestion>.</message>
       </rule>
 	</rulegroup>  
    -->
   </category>
-  
-  </rules>
+
+</rules>
