@@ -56,12 +56,18 @@ public class QuestionWhitespaceRuleTest extends TestCase {
       matches = rule.match(langTool.getAnalyzedSentence("L'enjeu de ce livre est donc triple: philosophique;"));
       assertEquals(2, matches.length);
       matches = rule.match(langTool.getAnalyzedSentence("L'enjeu de ce livre est donc triple: philosophique ;"));
-      assertEquals(2, matches.length);      
+      assertEquals(2, matches.length);
       // check match positions:
+      assertEquals(2, matches.length);
       assertEquals(29, matches[0].getFromPos());
       assertEquals(36, matches[0].getToPos());
       assertEquals(50, matches[1].getFromPos());
       assertEquals(52, matches[1].getToPos());
+      //guillemets
+      matches = rule.match(langTool.getAnalyzedSentence("Le guillemet ouvrant est suivi d'un espace insécable : « mais le lieu [...] et le guillemet fermant est précédé d'un espace insécable : [...] littérature »."));
+      assertEquals(2, matches.length);
+      matches = rule.match(langTool.getAnalyzedSentence("Le guillemet ouvrant est suivi d'un espace insécable : «mais le lieu [...] et le guillemet fermant est précédé d'un espace insécable : [...] littérature»."));
+      assertEquals(2, matches.length);
     }
     
   }

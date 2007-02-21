@@ -68,62 +68,84 @@ public class QuestionWhitespaceRule extends Rule {
         String suggestionText = null;
             if (token.trim().equals("?") 
                 && prevToken.trim().equals("")) {
-                msg = "Point d'interrogation, point d'exclamation, point-virgule et deux-points sont suivis d'un blanc et précédés d'une espace fine insécable";
+                msg = "Point d'interrogation est précédé d'une espace fine insécable.";
                 // non-breaking space
                 suggestionText = " ?";
                 fixLen = 1;
             } else if (token.trim().equals("!") 
                 && prevToken.trim().equals("")) {
-              msg = "Point d'interrogation, point d'exclamation, point-virgule et deux-points sont suivis d'un blanc et précédés d'une espace fine insécable";
+              msg = "Point d'exclamation est précédé d'une espace fine insécable.";
                 // non-breaking space
                 suggestionText = " !";
                 fixLen = 1;
+            } else if (token.trim().equals("»") 
+                && prevToken.trim().equals("")) {
+              msg = "Le guillemet fermant est précédé d'une espace fine insécable.";
+                // non-breaking space
+                suggestionText = " »";
+                fixLen = 1;
+            } else if (token.trim().equals("") 
+                && prevToken.trim().equals("«")) {
+              msg = "Le guillemet ouvrant est suivi d'une espace fine insécable.";
+                // non-breaking space
+                suggestionText = "« ";
+                fixLen = 1;
             } else if (token.trim().equals(";") 
                 && prevToken.trim().equals("")) {
-              msg = "Point d'interrogation, point d'exclamation, point-virgule et deux-points sont précédés d'une espace fine insécable";
+              msg = "Point-virgule est précédé d'une espace fine insécable.";
                 // non-breaking space
                 suggestionText = " ;";
                 fixLen = 1;
             } else if (token.trim().equals(":") 
                 && prevToken.trim().equals("")) {
-              msg = "Point d'interrogation, point d'exclamation, point-virgule et deux-points sont précédés d'une espace fine insécable";
+              msg = "Deux-points sont précédé d'une espace fine insécable.";
                 // non-breaking space
                 suggestionText = " :";
                 fixLen = 1;
             } else if (token.trim().equals("?") 
                 && !prevToken.trim().equals("")
                 && !prevToken.trim().equals("!")
-                && !(prevToken.trim().charAt(prevToken.length() - 1) 
-                      == '\u00a0')) {
-                msg = "Point d'interrogation, point d'exclamation, point-virgule et deux-points sont précédés d'une espace fine insécable";
+                && !(prevToken.trim().equals("\u00a0"))) {
+                msg = "Point d'interrogation est précédé d'une espace fine insécable.";
                   // non-breaking space
                   suggestionText = prevToken + " ?";
                   fixLen = 1;              
           } else if (token.trim().equals("!") 
               && !prevToken.trim().equals("")
               && !prevToken.trim().equals("?")
-              && !(prevToken.trim().charAt(prevToken.length() - 1) 
-                  == '\u00a0')) {
-            msg = "Point d'interrogation, point d'exclamation, point-virgule et deux-points sont précédés d'une espace fine insécable";
+              && !(prevToken.trim().equals("\u00a0"))) {
+            msg = "Point d'exclamation est précédé d'une espace fine insécable.";
                 // non-breaking space
                 suggestionText = prevToken + " !";
                 fixLen = 1;
           } else if (token.trim().equals(";") 
               && !prevToken.trim().equals("")
-              && !(prevToken.trim().charAt(prevToken.length() - 1) 
-                  == '\u00a0')) {
-              msg = "Point d'interrogation, point d'exclamation, point-virgule et deux-points sont suivis d'un blanc et précédés d'une espace fine insécable";
+              && !(prevToken.trim().equals("\u00a0"))) {
+              msg = "Point-virgule est précédé d'une espace fine insécable.";
                 // non-breaking space
                 suggestionText = prevToken + " ;";
                 fixLen = 1;
           } else if (token.trim().equals(":") 
               && !prevToken.trim().equals("")
-              && !(prevToken.trim().charAt(prevToken.length() - 1) 
-                  == '\u00a0')) {
-              msg = "Point d'interrogation, point d'exclamation, point-virgule et deux-points sont suivis d'un blanc et précédés d'une espace fine insécable";
+              && !(prevToken.trim().equals("\u00a0"))) {
+              msg = "Deux-points précédés d'une espace fine insécable.";
               // non-breaking space
               suggestionText = prevToken + " :";
               fixLen = 1;
+        } else if (!token.trim().equals("")
+            && !token.trim().equals("\u00a0")                 
+            && prevToken.trim().equals("«")) {
+          msg = "Le guillemet ouvrant est suivi d'une espace fine insécable.";
+            // non-breaking space
+            suggestionText = "« ";
+            fixLen = 0;
+        } else if (!prevToken.trim().equals("")
+            && !prevToken.trim().equals("\u00a0")                 
+            && token.trim().equals("»")) {
+          msg = "Le guillemet fermant est précédé d'une espace fine insécable.";
+            // non-breaking space
+            suggestionText = prevToken + " »";
+            fixLen = 1;            
         } 
             
           if (msg != null) {
