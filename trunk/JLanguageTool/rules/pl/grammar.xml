@@ -2,7 +2,7 @@
 <!--
 Polish Grammar and Typo Rules for LanguageTool
 Copyright (C) 2006 Marcin Miłkowski
-$Id: grammar.xml,v 1.123 2007-02-22 15:53:39 milek_pl Exp $		
+$Id: grammar.xml,v 1.124 2007-02-22 23:21:29 milek_pl Exp $		
 -->
 <rules lang="pl">
 
@@ -790,6 +790,16 @@ $Id: grammar.xml,v 1.123 2007-02-22 15:53:39 milek_pl Exp $
 			
 	</category>
 	<category name="Błędy odmiany">
+	
+	<rule name="„miliony ludzie” (miliony ludzi)" id="MILIONY_LUDZIE">
+		<pattern>
+			<token regexp="yes">miliony|tysiące|setki|dziesiątki</token>
+			<token>ludzie</token>
+		</pattern>
+		<message>Prawdopodobny błąd odmiany. Powinno być: <suggestion>\1 ludzi</suggestion>.</message>
+		<example type="correct">Na przemówienie prezydenta czekały tysiące ludzi.</example>
+		<example type="incorrect">Na przemówienie prezydenta czekały <marker>tysiące ludzie</marker>.</example>
+	</rule>
 	
 	 <rule name="„po pół godzinie” (po pół godziny)" id="PO_POL_GODZINIE">
 	 	<pattern>
@@ -1650,6 +1660,16 @@ $Id: grammar.xml,v 1.123 2007-02-22 15:53:39 milek_pl Exp $
 			<example type="incorrect">Uczeni zdecydowali się <marker>ogłosić o odkryciu</marker>.</example>
 		</rule>
 		
+		<rule name="„regulować ruchem” (kierować ruchem)" id="REGULOWAC_RUCHEM">
+			<pattern>
+				<token inflected="yes">regulować</token>
+				<token>ruchem</token>
+			</pattern>
+			<message>Czasownik „regulować” nie łączy się z narzędnikiem, więc powinno być: <suggestion>\1 ruch</suggestion> lub <suggestion>kierować ruchem</suggestion>.</message>
+			<example type="correct">Policjant kierował ruchem pojazdów.</example>
+			<example type="incorrect">Policjant <marker>regulował ruchem</marker> pojazdów.</example>
+		</rule>
+		
 		<rule name="„zarówno... i” („zarówno... jak”)" id="ZAROWNO_I">
 			<pattern>
 				<token skip="-1">zarówno<exception regexp="yes">jak|\(.*</exception></token>				
@@ -2361,15 +2381,89 @@ $Id: grammar.xml,v 1.123 2007-02-22 15:53:39 milek_pl Exp $
 			<example type="incorrect"><marker>Póki co</marker> cieszmy się z innych korzyści.</example>
 		</rule>
 
-		<rule id="KULT_DLA" name="„kult dla czego” (kult czego)">
+		<rule id="KULT_DLA" name="„kult, lekceważenie dla czego” (kult czego)">
 			<pattern>
-				<token inflected="yes">kult</token>
+				<token inflected="yes" regexp="yes" postag_regexp="yes" postag="subst.*">kult|lekceważyć</token>
 				<token>dla</token>
 			</pattern>
 			<message>W tym miejscu należy prawdopodobnie napisać: <suggestion>\1</suggestion> (rzeczownik „kult” łączy się wprost z dopełniaczem).</message>
 			<example type="incorrect">Jarosława cechuje <marker>kult dla</marker> spisków.</example>
+			<example type="incorrect">Jarosława cechuje <marker>lekceważenie dla</marker> demokracji.</example>
 			<example type="correct">Jarosława cechuje kult spisków.</example>
 		</rule>
+		
+		<rule name="„w Węgrzech, w Białorusi” (na Węgrzech, na Białorusi)" id="W_WEGRZECH">
+			<pattern>
+				<token>w</token>
+				<token regexp="yes">Węgrzech|Białorusi|Ukrainie|Syberii|Bukowinie|Morawach|Wołoszczyźnie</token>
+			</pattern>
+			<message>Z tą nazwą geograficzną używa się przyimka „na”: <suggestion>na \2</suggestion>.</message>
+			<example type="correct">Prezydent był z wizytą gospodarską na Białorusi.</example>
+			<example type="incorrect">Prezydent był z wizytą gospodarską <marker>w Białorusi</marker>.</example>
+		</rule>
+		
+		<rulegroup name="„do Węgier, do Białorusi” (na Węgry)" id="DO_WEGIER">
+		<rule>
+			<pattern mark_from="1">
+				<token inflected="yes" regexp="yes">jechać|podróżować|pojechać|wyjechać</token>
+				<token>do</token>
+				<token>Węgier</token>
+			</pattern>
+			<message>Niepoprawna forma. Piszemy: <suggestion>na Węgry</suggestion>.</message>
+			<example type="correct">Jarosław chce pojechać na Węgry.</example>
+			<example type="incorrect">Jarosław chce pojechać <marker>do Węgier</marker> z Alikiem.</example>
+		</rule>
+		<rule>
+			<pattern mark_from="1">
+				<token inflected="yes" regexp="yes">jechać|podróżować|pojechać|wyjechać</token>
+				<token>do</token>
+				<token>Białorusi</token>
+			</pattern>
+			<message>Niepoprawna forma. Piszemy: <suggestion>na Białoruś</suggestion>.</message>
+			<example type="correct">Jarosław chce pojechać na Białoruś.</example>
+			<example type="incorrect">Jarosław chce pojechać <marker>do Białorusi</marker> z Alikiem.</example>
+		</rule>
+		<rule>
+			<pattern mark_from="1">
+				<token inflected="yes" regexp="yes">jechać|podróżować|pojechać|wyjechać</token>
+				<token>do</token>
+				<token>Ukrainy</token>
+			</pattern>
+			<message>Niepoprawna forma. Piszemy: <suggestion>na Ukrainę</suggestion>.</message>
+			<example type="correct">Jarosław chce pojechać na Ukrainę.</example>
+			<example type="incorrect">Jarosław chce pojechać <marker>do Ukrainy</marker> z Alikiem.</example>
+		</rule>		
+		<rule>
+			<pattern mark_from="1">
+				<token inflected="yes" regexp="yes">jechać|podróżować|pojechać|wyjechać</token>
+				<token>do</token>
+				<token>Syberii</token>
+			</pattern>
+			<message>Niepoprawna forma. Piszemy: <suggestion>na Sybierię</suggestion>.</message>
+			<example type="correct">Jarosław chce pojechać na Syberię.</example>
+			<example type="incorrect">Jarosław chce pojechać <marker>do Syberii</marker> z Alikiem.</example>
+		</rule>
+		<rule>
+			<pattern mark_from="1">
+				<token inflected="yes" regexp="yes">jechać|podróżować|pojechać|wyjechać</token>
+				<token>do</token>
+				<token>Moraw</token>
+			</pattern>
+			<message>Niepoprawna forma. Piszemy: <suggestion>na Morawy</suggestion>.</message>
+			<example type="correct">Jarosław chce pojechać na Morawy.</example>
+			<example type="incorrect">Jarosław chce pojechać <marker>do Moraw</marker> z Alikiem.</example>
+		</rule>
+		<rule>
+			<pattern mark_from="1">
+				<token inflected="yes" regexp="yes">jechać|podróżować|pojechać|wyjechać</token>
+				<token>do</token>
+				<token>Wołoszczyzny</token>
+			</pattern>
+			<message>Niepoprawna forma. Piszemy: <suggestion>na Wołoszczyznę</suggestion>.</message>
+			<example type="correct">Jarosław chce pojechać na Wołoszczyznę.</example>
+			<example type="incorrect">Jarosław chce pojechać <marker>do Wołoszczyzny</marker> z Alikiem.</example>
+		</rule>		
+		</rulegroup>
 		
 	</category>
 
@@ -2870,6 +2964,15 @@ $Id: grammar.xml,v 1.123 2007-02-22 15:53:39 milek_pl Exp $
 	</category>
 	<category name="Wyrazy modne i nadużywane">
 	
+		<rule name="„na okoliczność” (w sprawie)" id="NA_OKOLICZNOSC">
+			<pattern>
+				<token>na</token>
+				<token>okoliczność</token>
+			</pattern>
+			<message>To wyrażenie trąci urzędniczą nowomową. Lepiej: <suggestion>w sprawie</suggestion>, <suggestion>w związku z</suggestion>.</message>
+			<example type="correct">Zbigniew przesłuchiwał go w sprawie znieważenia prezydenta.</example>
+			<example type="incorrect">Zbigniew przesłuchiwał go <marker>na okoliczność</marker> znieważenia prezydenta.</example>
+		</rule>
 		<rule name="„na odcinku” (w zakresie)" id="NA_ODCINKU">
 			<pattern case_sensitive="yes" mark_to="-1">
 				<token>na</token>
