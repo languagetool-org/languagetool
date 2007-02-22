@@ -2,7 +2,7 @@
 <!--
 Polish Grammar and Typo Rules for LanguageTool
 Copyright (C) 2006 Marcin Miłkowski
-$Id: grammar.xml,v 1.124 2007-02-22 23:21:29 milek_pl Exp $		
+$Id: grammar.xml,v 1.125 2007-02-22 23:40:30 milek_pl Exp $		
 -->
 <rules lang="pl">
 
@@ -4103,6 +4103,16 @@ $Id: grammar.xml,v 1.124 2007-02-22 23:21:29 milek_pl Exp $
 	</category>
 
 	<category name="Prawdopodobne literówki">
+		
+		<rule id="TEZ_TEZ" name="Mylenie „tez” z „też”">
+			<pattern mark_from="1">
+				<token regexp="yes">są|co|można|należy|warto|ja|on|ona|my|oni|wy|ty|czy</token>
+				<token>tez</token>
+			</pattern>
+			<message>Prawdopodobna literówka. Czy chodziło o <suggestion>też</suggestion>?</message>
+			<example type="correct">Nie wiadomo, czy Jarosław chce zostać królem, czy też nie.</example>
+			<example type="incorrect">Nie wiadomo, czy Jarosław chce zostać królem, czy <marker>tez</marker> nie.</example>
+		</rule>
 		
 		<rule name="„prostu” (po prostu)" id="PROSTU">
 			<pattern mark_from="1">
