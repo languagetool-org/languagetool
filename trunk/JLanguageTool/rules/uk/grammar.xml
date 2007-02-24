@@ -2,7 +2,7 @@
 <!--
 Ukrainian grammar and typo rules for LanguageTool
 Copyright (C) 2007 Andriy Rysin
-$Id: grammar.xml,v 1.7 2007-02-21 14:38:42 arysin Exp $
+$Id: grammar.xml,v 1.8 2007-02-24 18:34:14 arysin Exp $
 -->
 
 <rules lang="uk">
@@ -16,7 +16,7 @@ $Id: grammar.xml,v 1.7 2007-02-21 14:38:42 arysin Exp $
 			can "surround by commas" rule be more compact-written?
   	-->
   
-    <rulegroup id="PLEASE_NO_COMMA" name="„будь ласка” виділяється комами">
+    <rulegroup id="PLEASE_NO_COMMA" name="«будь ласка» виділяється комами">
       <rule>
         <pattern mark_to="0">
           <token>будь</token>
@@ -39,7 +39,7 @@ $Id: grammar.xml,v 1.7 2007-02-21 14:38:42 arysin Exp $
       </rule>
 	</rulegroup>
 
-    <rulegroup id="INSERTED_WORDS_NO_COMMA" name="вставні слова, напр., „мабуть”, „щоправда”, виділяються комами">
+    <rulegroup id="INSERTED_WORDS_NO_COMMA" name="вставні слова, напр., «мабуть», «щоправда», виділяються комами">
       <rule>
         <pattern mark_to="0">
 		  <token regexp="yes">мабуть|врешті|по-перше|по-друге|по-третє|щоправда|о?крім того|а втім</token>
@@ -76,7 +76,7 @@ $Id: grammar.xml,v 1.7 2007-02-21 14:38:42 arysin Exp $
         <example type="incorrect">Підтримує німецьку, <marker>англійську, та</marker> українську мови.</example>
       </rule>
 -->	
-	<rulegroup name="Відсутня кома перед „але”, „...”" id="COMMA_BEFORE_BUT">
+	<rulegroup name="Відсутня кома перед «але», ..." id="COMMA_BEFORE_BUT">
 			<rule>
 				<pattern>
 					<token regexp="yes" negate="yes">[\p{Punct}–—\(]<exception postag="SENT_START"/></token>
@@ -95,6 +95,32 @@ $Id: grammar.xml,v 1.7 2007-02-21 14:38:42 arysin Exp $
   <!-- TODO:
   		додати підтримку POS та словоформ
   -->
+	<rulegroup name="Узгодженість" id="CONISTENCY1">
+			<rule>
+				<pattern>
+					<token regexp="yes">в|у</token>
+					<token postag="verb"/>
+				</pattern>
+				<message>Прийменник перед дієсловом <suggestion>\2</suggestion></message>
+				<example type="correct">Їм треба їхати.</example>
+				<example type="correct">Їм треба вїхати.</example>
+				<example type="incorrect">Їм треба <marker>в їхати</marker>.</example>
+			</rule>
+	</rulegroup>
+	
+	<!-- нереальне правило - лише для тестування теґу "refl"
+	<rulegroup name="Узгодженість 2" id="CONISTENCY2">
+			<rule>
+				<pattern>
+					<token regexp="yes" negate="yes">мусиш|хочеш</token>
+					<token postag="refl"/>
+				</pattern>
+				<message>Невірне використання зворотного дієслова <suggestion>Хочеш \2</suggestion></message>
+				<example type="correct">Хочеш дивитися?</example>
+				<example type="incorrect">Велике <marker>дерево дивитися</marker>.</example>
+			</rule>
+	</rulegroup>
+	 -->
   </category>
   
   <category name="Style">
