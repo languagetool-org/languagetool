@@ -75,7 +75,7 @@ class PatternRuleHandler extends XMLRuleHandler {
   /** Current phrase ID. **/
   private String phraseId;
   
-  /** ID reference to the phrase **/
+  /** ID reference to the phrase. **/
   private String phraseIdRef;
   
   private boolean caseSensitive = false;
@@ -101,15 +101,18 @@ class PatternRuleHandler extends XMLRuleHandler {
   private boolean exceptionValidNext = true;
   private boolean exceptionSet = false;
   
+  /** true when phraseref is the last element in the rule. **/ 
+  private boolean lastPhrase = false;
+  
   /** List of elements as specified by tokens. **/ 
-  private ArrayList < Element > elementList = null;
+  private ArrayList < Element > elementList = null;  
   
   /** Phrase store - elementLists keyed by phraseIds. **/
   private HashMap < String, ArrayList < ArrayList < Element > > > phraseMap = null;
   
   /** Logically forking element list, used for including
    * multiple phrases in the current one. **/
-  private ArrayList < ArrayList < Element > > phraseElementList = null;
+  private ArrayList < ArrayList < Element > > phraseElementList = null;  
   
   private int startPositionCorrection = 0;
   private int endPositionCorrection = 0;
@@ -158,6 +161,12 @@ class PatternRuleHandler extends XMLRuleHandler {
         caseSensitive = true;
     } else if (qName.equals("token")) {
       inToken = true;
+      
+      if (lastPhrase && elementList != null) {
+        elementList.clear();
+      }
+      
+      lastPhrase = false;
       if (attrs.getValue("negate") != null) {
         stringNegation = attrs.getValue("negate").equals("yes");
       }
@@ -239,40 +248,33 @@ class PatternRuleHandler extends XMLRuleHandler {
       if (phraseElementList == null) {
         phraseElementList = new ArrayList < ArrayList < Element > > ();
       }
-      if (elementList == null) // lazy init
-      {
+      if (elementList == null) {
         elementList = new ArrayList < Element >();
       }
-    
+          
     } else if (qName.equals("phrase") && inPhrases) {
       phraseId = attrs.getValue("id");      
     } else if (qName.equals("phraseref")) {
       if (attrs.getValue("idref") != null) {
         phraseIdRef = attrs.getValue("idref");
-      if (phraseMap.containsKey(phraseIdRef)) {
+      if (phraseMap.containsKey(phraseIdRef)) {      
       ArrayList < ArrayList < Element > > curPhraseElementList = phraseMap.get(phraseIdRef);              
       Iterator < ArrayList <Element> > it = curPhraseElementList.iterator();
-      ArrayList <Element> prevList = new ArrayList <Element > (elementList);
-      if (!phraseElementList.isEmpty()) {
-      while (it.hasNext()) {
-        Iterator < ArrayList < Element > > phIt = phraseElementList.iterator();
-            prevList.addAll(it.next());
-            phraseElementList.add(new ArrayList <Element>(prevList));
-      }
-      } else {        
-        while (it.hasNext()) {
-        if (!prevList.isEmpty()) {
+      ArrayList <Element> prevList = new ArrayList <Element > (elementList);                                   
+      
+      while (it.hasNext()) {              
+        if (!prevList.isEmpty()) {          
           prevList.addAll(it.next());
           phraseElementList.add(new ArrayList <Element>(prevList));                
         } else {        
         phraseElementList.add(new ArrayList <Element>(it.next()));
-        }
-        }
-      }      
+        }       
       }
-      }
-    }    
-  }
+      lastPhrase = true;
+      }                     
+     }
+    }
+   }
 
   @SuppressWarnings("unused")
   public void endElement(String namespaceURI, String sName, String qName) {
@@ -281,14 +283,18 @@ class PatternRuleHandler extends XMLRuleHandler {
       if (phraseElementList == null) {
         phraseElementList = new ArrayList < ArrayList < Element > > ();
       }
-        if (!phraseElementList.isEmpty()) {
-          Iterator < ArrayList < Element > > phIt = phraseElementList.iterator();
+        if (!phraseElementList.isEmpty()) {                                       
+          
+          if (!elementList.isEmpty()) { 
+          Iterator < ArrayList < Element > > phIt = phraseElementList.iterator();                    
           while (phIt.hasNext()) {
             phIt.next().addAll(new ArrayList <Element> (elementList));
           }
+          }
+          
           Iterator < ArrayList < Element > > it = phraseElementList.iterator();
             while (it.hasNext()) {
-              PatternRule rule = new PatternRule(id, language, it.next(), description, message.toString(), true);      
+              PatternRule rule = new PatternRule(id, language, it.next(), description, message.toString(), phraseElementList.size()>1);      
               rule.setStartPositionCorrection(startPositionCorrection);
               rule.setEndPositionCorrection(endPositionCorrection);
               startPositionCorrection = 0;
@@ -313,12 +319,14 @@ class PatternRuleHandler extends XMLRuleHandler {
       caseSensitive = false;
       rules.add(rule);
       }
-      if (elementList != null) {
+      
+       if (elementList != null) {
         elementList.clear();
       }      
-      if (phraseElementList != null) {
+       if (phraseElementList != null) {
         phraseElementList.clear();
       }
+      
     } else if (qName.equals("exception")) {
       inException = false;
       if (!exceptionSet) {
@@ -370,6 +378,9 @@ class PatternRuleHandler extends XMLRuleHandler {
 
     } else if (qName.equals("pattern")) {
       inPattern = false;
+      if (lastPhrase) {
+        elementList.clear();
+      }
     } else if (qName.equals("example")) {
       if (inCorrectExample) {
         correctExamples.add(correctExample.toString());
@@ -414,13 +425,11 @@ class PatternRuleHandler extends XMLRuleHandler {
         elementList.clear();
       }
       phraseElementList.clear();
-    } else if (qName.equals("includephrases") && inPhrases) {
-      elementList.clear();
+    } else if (qName.equals("includephrases")) {
+      elementList.clear();      
     } else if (qName.equals("phrases") && inPhrases) {
       inPhrases = false;
-    } else if (qName.equals("phraseref")) {
-      elementList.clear();
-    }
+    } 
   }
 
   public void characters(final char buf [], int offset, int len) {
