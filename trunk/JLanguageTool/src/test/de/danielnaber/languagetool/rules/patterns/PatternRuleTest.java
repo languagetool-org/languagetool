@@ -116,7 +116,7 @@ public class PatternRuleTest extends TestCase {
           
         alreadyMatched = alreadyMatched || matches.length != 0;
           
-          if (matches.length != 0) {
+          if ((matches.length != 0) && !simpleRule) {
                 assertTrue(lang + ": Did expect one error in: \"" + badSentence + "\" (Rule: "+rule+"), got " + 
                     matches.length, matches.length == 1);
                 assertEquals(lang + ": Incorrect match position markup (start) for rule " + rule,
