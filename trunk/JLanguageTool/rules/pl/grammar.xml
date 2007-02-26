@@ -2,13 +2,13 @@
 <!--
 Polish Grammar and Typo Rules for LanguageTool
 Copyright (C) 2006 Marcin Miłkowski
-$Id: grammar.xml,v 1.126 2007-02-25 01:15:30 milek_pl Exp $		
+$Id: grammar.xml,v 1.127 2007-02-26 01:24:41 milek_pl Exp $		
 -->
 <rules lang="pl">
 
 <phrases>
 	<phrase id="INTERPUNKCJA">
-		<token regexp="yes">\p{Punct}.*|–|—</token>
+		<token regexp="yes">[\p{Punct}–—]</token>
 	</phrase>
 	<phrase id="NIE_INTERPUNKCJA">
 	  <token><exception postag="SENT_START"/><exception regexp="yes">[\p{Punct}-—]|tyle</exception></token>
@@ -93,7 +93,7 @@ $Id: grammar.xml,v 1.126 2007-02-25 01:15:30 milek_pl Exp $
 				<example type="incorrect">Marek <marker>pomoże Romanowi przecież miał kupić łososia.</marker></example>
 			</rule>
 		</rulegroup>
-		
+			
 		<rule name="Brak przecinka przed „a więc”, „a mianowicie”..." id="MULTISPOJNIKI">
 				<pattern>
 					<phraseref idref="NIE_INTERPUNKCJA"/>

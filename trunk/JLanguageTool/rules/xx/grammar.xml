@@ -2,7 +2,7 @@
 <!--
 A demo rule file for LanguageTool
 Copyright (C) 2005 Daniel Naber (http://www.danielnaber.de)
-$Id: grammar.xml,v 1.19 2007-02-20 10:39:31 milek_pl Exp $
+$Id: grammar.xml,v 1.20 2007-02-26 01:24:41 milek_pl Exp $
 -->
 
 <rules lang="xx">
@@ -39,6 +39,23 @@ $Id: grammar.xml,v 1.19 2007-02-20 10:39:31 milek_pl Exp $
 			<phraseref idref="DUMMY_VB3"/>
 		</includephrases>
 		<token>last</token>
+	</phrase>
+	<phrase id="SINGLE_TOKEN">
+		<token>single</token>
+	</phrase>
+	<phrase id="TEST_INCLUDE">
+		<includephrases>
+			<phraseref idref="COMPLEX_MULTIPLE"/>			
+			<phraseref idref="SINGLE_TOKEN"/>
+		</includephrases>
+	</phrase>
+	<phrase id="trivial_include">
+		<includephrases>
+			<phraseref idref="DUMMY_VB1"/>
+		</includephrases>
+		<includephrases>
+			<phraseref idref="DUMMY_VB2"/>
+		</includephrases>
 	</phrase>
 </phrases>
 
@@ -86,7 +103,7 @@ $Id: grammar.xml,v 1.19 2007-02-20 10:39:31 milek_pl Exp $
 		<example type="correct">foo bar</example>
 		<example type="incorrect"><marker>foo go</marker></example>
 		<example type="incorrect"><marker>foo go</marker> bar</example>
-		<example type="incorrect"><marker>foodd goma</marker> bar</example>
+		<example type="incorrect"><marker>foo goa</marker> bar</example>
 		</rule>
     
     <rule id="TEST_PHRASES1" name="test phrases mechanism">
@@ -99,6 +116,28 @@ $Id: grammar.xml,v 1.19 2007-02-20 10:39:31 milek_pl Exp $
     <example type="incorrect"><marker>first go last there</marker>, please!</example>
     </rule>
 	
+	<!--  these rules fail! 
+		<rule id="test_include" name="test two includeblocks">
+		<pattern>
+			<phraseref idref="TEST_INCLUDE"/>			
+		</pattern>
+		<message>Matched: \1 \2.</message>
+		<example type="correct">Any string.</example>
+		<example type="incorrect">Some words, <marker>first went last single</marker></example>
+		</rule>  
+
+			
+		<rule id="test_two_phrases" name="test two phrases">
+		<pattern>
+			<phraseref idref="COMPLEX_MULTIPLE"/>
+			<phraseref idref="SINGLE_TOKEN"/>
+		</pattern>
+		<message>Matched: \1 \2.</message>
+		<example type="correct">Any string.</example>
+		<example type="incorrect">First words and <marker>first went last single</marker></example>
+		</rule>  
+		 -->
+		
   </category>
 
 </rules>
