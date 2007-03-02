@@ -2,7 +2,7 @@
 <!--
 Polish Grammar and Typo Rules for LanguageTool
 Copyright (C) 2006 Marcin Miłkowski
-$Id: grammar.xml,v 1.128 2007-03-02 15:24:55 milek_pl Exp $		
+$Id: grammar.xml,v 1.129 2007-03-02 15:39:54 milek_pl Exp $		
 -->
 <rules lang="pl">
 
@@ -3217,13 +3217,36 @@ $Id: grammar.xml,v 1.128 2007-03-02 15:24:55 milek_pl Exp $
 		
 		<rule id="VCE" name="„v-ce” (wice)">
 			<pattern>
-				<token>v-ce</token>
+				<token regexp="yes">v-ce|w-ce</token>
 				<token postag="subst.*" postag_regexp="yes"/>
 			</pattern>
 			<message>To zbędny i błędny skrót (dłuższy od skracanego wyrazu). Lepiej napisać: <suggestion>wice\2</suggestion>.</message>
 			<example type="correct">Spotkałem się z wiceprezesem gminnej spółdzielni, towarzyszem Gosiewskim.</example>
 			<example type="incorrect">Spotkałem się z <marker>v-ce prezesem</marker> gminnej spółdzielni, towarzyszem Gosiewskim.</example>
 		</rule>
+		
+		<rulegroup id="TYS" name="„tyś.” (tys.)">
+		<rule>
+		<pattern mark_from="1">
+			<token regexp="yes">\d+</token>
+			<token>tyś</token>
+			<token>.</token>
+		</pattern>
+		<message>Błędny skrót. Poprawnie: <suggestion>tys.</suggestion>.</message>
+		<example type="correct">Do Afganistanu pojedzie 100 tys. żołnierzy z Radomia.</example>
+		<example type="incorrect">Do Afganistanu pojedzie 100 <marker>tyś.</marker>. żołnierzy z Radomia.</example>
+		</rule>
+		<rule>
+		<pattern mark_from="1" mark_to="-1">
+			<token regexp="yes">\d+</token>
+			<token>tyś</token>
+			<token negate="yes">.</token>
+		</pattern>
+		<message>Błędny skrót. Poprawnie: <suggestion>tys.</suggestion>.</message>
+		<example type="correct">Do Afganistanu pojedzie 100 tys. żołnierzy z Radomia.</example>
+		<example type="incorrect">Do Afganistanu pojedzie 100 <marker>tyś</marker> żołnierzy z Radomia.</example>
+		</rule>
+		</rulegroup>
 		
 		<rule id="SP-NIA" name="„sp-nia” (spółdz.)">
 			<pattern>
@@ -3682,7 +3705,7 @@ $Id: grammar.xml,v 1.128 2007-03-02 15:24:55 milek_pl Exp $
 				<token>in</token>
 				<token negate="yes">.<exception regexp="yes">absentia|abstracto|aeternum|aqua|blanco|crudo|dubio|effectu|effigie|extenso|extremis|fidem|flagranti|genere|gratiam|gremio|margine|medias|memoriam|minus|octavo|persona|plus|praxi|puncto|saecula|spe|statu|triplo|vitro|vivo|rebus</exception></token>
 			</pattern>
-			<message>Ten skrót piszemy z kropką: <suggestion>\1.</suggestion>.</message>
+			<message>Ten skrót piszemy z kropką: <suggestion>\2.</suggestion>.</message>
 			<example type="correct">M.in. Kowalski napisał dwa donosy.</example>
 			<example type="correct">Zapłodnienie in vitro pomaga wielu kobietom.</example>
 			<example type="correct">Substancje diagnostyczne in vitro i in vivo</example>
