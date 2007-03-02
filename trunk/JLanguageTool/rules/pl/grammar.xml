@@ -2,7 +2,7 @@
 <!--
 Polish Grammar and Typo Rules for LanguageTool
 Copyright (C) 2006 Marcin Miłkowski
-$Id: grammar.xml,v 1.127 2007-02-26 01:24:41 milek_pl Exp $		
+$Id: grammar.xml,v 1.128 2007-03-02 15:24:55 milek_pl Exp $		
 -->
 <rules lang="pl">
 
@@ -3654,32 +3654,42 @@ $Id: grammar.xml,v 1.127 2007-02-26 01:24:41 milek_pl Exp $
 			<example type="incorrect">Jest to osoba <marker>z poza</marker> Australii.</example>
 		</rule>
 
-		<rule id="SKROTY_BEZ_KROPKI" name="Pisownia skrótów wg, dr, mgr, nr">
-			<pattern mark_from="0" case_sensitive="no">
-				<token regexp="yes">[Ww]g|[Dd]r|[Mm]gr|[Nn]r</token>
+		<rule id="SKROTY_BEZ_KROPKI" name="Pisownia skrótów dr, mgr, nr">
+			<pattern>
+				<token regexp="yes">dr|mgr|nr</token>
 				<token>.</token>
+				<token postag_regexp="yes" postag=".*nom.*"/>
 			</pattern>
-			<message>Skróty <suggestion>wg, dr, mgr</suggestion> piszemy bez skropki.</message>
+			<message>Ten skrót piszemy bez kropki: <suggestion>\1 \3</suggestion>. </message>
 			<example type="correct">Mgr Kowalski napisał dwa donosy.</example>
-			<example type="incorrect"><marker>Mgr.</marker> Kowalski napisał dwa donosy.</example>
+			<example type="incorrect"><marker>Mgr. Kowalski</marker> napisał dwa donosy.</example>
+			<example type="correct">To samodzielna praca mgr. Kowalskiego.</example>
 		</rule>
 
-		<rule id="SKROTY_Z_KROPKA" name="Pisownia skrótów np., inż.">
-			<pattern mark_from="0">
-				<token regexp="yes">np|inż|ds|cdn|dł|dn|egz|dyr|g|godz|ibid|hr|in|itd|itp|kard|kom|kpr|kpt|ks|wiceadm|ww|woj|wsch|wys|zach|zał</token>
+		<rulegroup id="SKROTY_Z_KROPKA" name="Pisownia skrótów np., inż.">
+		<rule>
+			<pattern mark_to="-1">
+				<token regexp="yes">np|inż|ds|cdn|dł|dn|egz|dyr|g|godz|ibid|hr|itd|itp|kard|kom|kpr|kpt|ks|wiceadm|ww|woj|wsch|wys|zach|zał</token>
 				<token negate="yes">.</token>
 			</pattern>
 			<message>Ten skrót piszemy z kropką: <suggestion>\1.</suggestion>.</message>
 			<example type="correct">Np. Kowalski napisał dwa donosy.</example>
-			<example type="incorrect"><marker>Np Kowalski</marker> napisał dwa donosy.</example>
+			<example type="incorrect"><marker>Np</marker> Kowalski napisał dwa donosy.</example>
+		</rule>		
+		<rule>
+			<pattern mark_to="-1" mark_from="1">
+				<token regexp="yes">i|\.</token>
+				<token>in</token>
+				<token negate="yes">.<exception regexp="yes">absentia|abstracto|aeternum|aqua|blanco|crudo|dubio|effectu|effigie|extenso|extremis|fidem|flagranti|genere|gratiam|gremio|margine|medias|memoriam|minus|octavo|persona|plus|praxi|puncto|saecula|spe|statu|triplo|vitro|vivo|rebus</exception></token>
+			</pattern>
+			<message>Ten skrót piszemy z kropką: <suggestion>\1.</suggestion>.</message>
+			<example type="correct">M.in. Kowalski napisał dwa donosy.</example>
+			<example type="correct">Zapłodnienie in vitro pomaga wielu kobietom.</example>
+			<example type="correct">Substancje diagnostyczne in vitro i in vivo</example>
+			<example type="incorrect">M.<marker>in</marker> Kowalski napisał dwa donosy.</example>			
 		</rule>
-	
-	<!-- rule id="SKROTY_BEZ_KROPKI" name="Pisownia skrótu m.in.">
-		<pattern mark_from="0" case_sensitive="no">"m" "."" " "in"</pattern>
-		<message>Skrót <em>m.in.</em> piszemy bez spacji między oboma członami.</message>
-	</rule 
-	-->
-	
+		</rulegroup>
+		
 		<rule id="POD_KONTEM" name="„pod kontem czegoś” (pod kątem)">
 			<pattern mark_to="-1">
 				<token regexp="yes">pod|po</token>
