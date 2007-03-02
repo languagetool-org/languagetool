@@ -3,7 +3,7 @@
 English Grammar and Typo Rules for LanguageTool
 See tagset.txt for the meaning of the POS tags
 Copyright (C) 2001-2007 Daniel Naber (http://www.danielnaber.de)
-$Id: grammar.xml,v 1.142 2007-02-19 22:45:49 milek_pl Exp $
+$Id: grammar.xml,v 1.143 2007-03-02 13:17:09 milek_pl Exp $
 -->
 <rules lang="en">
 
@@ -932,6 +932,17 @@ $Id: grammar.xml,v 1.142 2007-02-19 22:45:49 milek_pl Exp $
       <example type="incorrect">This is a transcript of the <marker>presidents</marker> speech.</example>
     </rule>
     </rulegroup>
+    
+    <rule id="ANY_BODY" name="any body(anybody)">
+    <pattern>
+    	<token regexp="yes">any|no|some</token>
+    	<token>body</token>
+    </pattern>
+    <message>Possible typo. Did you mean <suggestion>\1\2</suggestion>?</message>
+    <example type="correct">Anybody needs help here?</example>
+    <example type="incorrect"><marker>Any body</marker> need help here?</example>
+    </rule>
+    
   </category>
   
   <!-- ====================================================================== -->
@@ -1987,6 +1998,17 @@ $Id: grammar.xml,v 1.142 2007-02-19 22:45:49 milek_pl Exp $
   	<example type="correct"><marker>The reason we were late is that</marker> there was an accident.</example>
   </rule>
   
+  <rule id="BECAUSE_OF_I" name="because of we(because we)">
+  	<pattern>
+  		<token>because</token>
+  		<token>of</token>
+  		<token regexp="yes">I|he|she|we|they</token>
+  	</pattern>
+  	<message>Probably usage error. Use <suggestion>\1 \3</suggestion> instead.</message>
+  	<example type="incorrect"><marker>Because of we</marker> didn't want a big train, but we want a fast train.</example>
+  	<example type="correct"><marker>Because we</marker> didn't want a big train, but we want a fast train.</example>
+  </rule>
+  
   </category>
 
   <!-- ====================================================================== -->
@@ -2265,6 +2287,19 @@ $Id: grammar.xml,v 1.142 2007-02-19 22:45:49 milek_pl Exp $
 		</rule>
 		
 		</rulegroup>
+  </category>
+  
+  <category name="Slang">
+  	
+  	<rule id="AN_INVITE" name="an invite(invitation)">
+  		<pattern mark_from="1">
+  		<token>an</token>
+  		<token>invite</token>
+  		</pattern>
+  		<message>This word is considered slang. Use only in informal register. In other registers, <suggestion>invitation</suggestion> should be used.</message>
+  		<example type="incorrect">Is that an <marker>invite</marker>...?</example>
+	 		<example type="correct">Is that an <marker>invitation</marker>...?</example>
+  	</rule>
   </category>
 
 </rules>
