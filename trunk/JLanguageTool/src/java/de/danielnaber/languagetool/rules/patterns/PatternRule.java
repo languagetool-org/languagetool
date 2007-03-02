@@ -118,6 +118,11 @@ public class PatternRule extends Rule {
     return isMemberOfDisjunctiveSet;
   }
   
+  /** Reset complex status - used for testing. **/
+  public final void notComplexPhrase() {
+    isMemberOfDisjunctiveSet = false;
+  }
+  
   public final Language[] getLanguages() {
     return language;
   }

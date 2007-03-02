@@ -260,12 +260,14 @@ class PatternRuleHandler extends XMLRuleHandler {
       if (phraseMap.containsKey(phraseIdRef)) {      
       ArrayList < ArrayList < Element > > curPhraseElementList = phraseMap.get(phraseIdRef);              
       Iterator < ArrayList <Element> > it = curPhraseElementList.iterator();
-      ArrayList <Element> prevList = new ArrayList <Element > (elementList);                                   
+      //ArrayList <Element> prevList = new ArrayList <Element > (elementList);                                   
       
       while (it.hasNext()) {              
-        if (!prevList.isEmpty()) {          
+        if (!elementList.isEmpty()) {
+          ArrayList <Element> prevList = new ArrayList <Element > (elementList);
           prevList.addAll(it.next());
-          phraseElementList.add(new ArrayList <Element>(prevList));                
+          phraseElementList.add(new ArrayList <Element>(prevList));
+          prevList.clear();
         } else {        
         phraseElementList.add(new ArrayList <Element>(it.next()));
         }       
