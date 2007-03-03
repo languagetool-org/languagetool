@@ -23,13 +23,12 @@ public class UnpairedQuotesBracketsRule extends Rule {
   
   private static final String[] EN_START_SYMBOLS  = {"[", "(", "{", "‘", "“"};
   private static final String[] EN_END_SYMBOLS  = {"]", ")", "}", "’", "”"};
-  
-  
+    
   private static final String[] PL_START_SYMBOLS  = {"[", "(", "{", "„", "»"};
   private static final String[] PL_END_SYMBOLS  = {"]", ")", "}", "”", "«"};
   
-  private static final String[] FR_START_SYMBOLS  = {"[", "(", "{", "»"};
-  private static final String[] FR_END_SYMBOLS  = {"]", ")", "}", "«"};
+  private static final String[] FR_START_SYMBOLS  = {"[", "(", "{", "»", "‘"};
+  private static final String[] FR_END_SYMBOLS  = {"]", ")", "}", "«", "’"};
   
   private static final String[] DE_START_SYMBOLS  = {"[", "(", "{", "„", "»", "‘"};
   private static final String[] DE_END_SYMBOLS  = {"]", ")", "}", "“", "«", "’"};
@@ -40,6 +39,11 @@ public class UnpairedQuotesBracketsRule extends Rule {
   private static final String[] UK_START_SYMBOLS  = {"[", "(", "{", "„", "«"};
   private static final String[] UK_END_SYMBOLS  = {"]", ")", "}", "“", "»"};
   
+  private static final String[] NL_START_SYMBOLS  = {"[", "(", "{", "„", "“", "‘"};
+  private static final String[] NL_END_SYMBOLS  = {"]", ")", "}", "”", "”", "’"};
+  
+  private static final String[] IT_START_SYMBOLS  = {"[", "(", "{", "»", "‘"};
+  private static final String[] IT_END_SYMBOLS  = {"]", ")", "}", "«", "’"};
   
   public UnpairedQuotesBracketsRule(final ResourceBundle messages, final Language language) {
     super(messages);
@@ -57,12 +61,18 @@ public class UnpairedQuotesBracketsRule extends Rule {
     } else if (language == Language.GERMAN) {
       startSymbols = DE_START_SYMBOLS;
       endSymbols = DE_END_SYMBOLS;
+    } else if (language == Language.DUTCH) {
+      startSymbols = NL_START_SYMBOLS;
+      endSymbols = NL_END_SYMBOLS;
     } else if (language == Language.SPANISH) {
       startSymbols = ES_START_SYMBOLS;
       endSymbols = ES_END_SYMBOLS;
     } else if (language == Language.UKRAINIAN) {
       startSymbols = UK_START_SYMBOLS;
       endSymbols = UK_END_SYMBOLS;
+    } else if (language == Language.ITALIAN) {
+      startSymbols = IT_START_SYMBOLS;
+      endSymbols = IT_END_SYMBOLS;
     } else {
       startSymbols = START_SYMBOLS;
       endSymbols = END_SYMBOLS; 

@@ -79,4 +79,16 @@ public class UnpairedQuotesBracketsRuleTest extends TestCase {
     assertEquals(1, matches.length);        
   }  
   
+  public void testRuleDutch() throws IOException {
+    UnpairedQuotesBracketsRule rule = new UnpairedQuotesBracketsRule(TestTools.getEnglishMessages(), Language.DUTCH);
+    RuleMatch[] matches;
+    JLanguageTool langTool = new JLanguageTool(Language.DUTCH);
+    // correct sentences:
+    matches = rule.match(langTool.getAnalyzedSentence("Het centrale probleem van het werk is de ‘dichterlijke kuischheid’."));
+    assertEquals(0, matches.length);
+    // incorrect sentences:
+    matches = rule.match(langTool.getAnalyzedSentence("Het centrale probleem van het werk is de ‘dichterlijke kuischheid."));
+    assertEquals(1, matches.length);        
+  }
+  
 }
