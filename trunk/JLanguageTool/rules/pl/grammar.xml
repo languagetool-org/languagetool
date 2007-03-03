@@ -2,7 +2,7 @@
 <!--
 Polish Grammar and Typo Rules for LanguageTool
 Copyright (C) 2006 Marcin Miłkowski
-$Id: grammar.xml,v 1.129 2007-03-02 15:39:54 milek_pl Exp $		
+$Id: grammar.xml,v 1.130 2007-03-03 00:52:49 milek_pl Exp $		
 -->
 <rules lang="pl">
 
@@ -2746,6 +2746,16 @@ $Id: grammar.xml,v 1.129 2007-03-02 15:39:54 milek_pl Exp $
 			<example type="incorrect">Cieszymy się z możliwości zakupu <marker>pełnego kompletu</marker>.</example>			
 		</rule>
 
+		<rule name="„skład surowcowy” (skład)" id="SKLAD_SUROWCOWY">
+			<pattern>
+				<token inflected="yes">skład</token>
+				<token inflected="yes" postag_regexp="yes" postag="adj:.*m:pneg.*">surowcowy</token>
+			</pattern>
+			<message>To wyrażenie to pleonazm. Wystarczy powiedzieć <suggestion>\1</suggestion>.</message>
+			<example type="correct">Te pierniczki mają od lat ten sam skład.</example>			
+			<example type="incorrect">Te pierniczki mają od lat ten sam <marker>skład surowcowy</marker>.</example>			
+		</rule>
+
 		<rule name="„dzień dzisiejszy” (dzisiaj)" id="DZIEN_DZISIEJSZY">
 			<pattern>
 				<token inflected="yes">dzień</token>
@@ -4143,6 +4153,16 @@ $Id: grammar.xml,v 1.129 2007-03-02 15:39:54 milek_pl Exp $
 			<message>Prawdopodobna literówka. Czy chodziło o <suggestion>też</suggestion>?</message>
 			<example type="correct">Nie wiadomo, czy Jarosław chce zostać królem, czy też nie.</example>
 			<example type="incorrect">Nie wiadomo, czy Jarosław chce zostać królem, czy <marker>tez</marker> nie.</example>
+		</rule>
+		
+		<rule name="„postanie” (powstanie)" id="POSTANIE">
+			<pattern mark_from="1">
+				<token><exception>nie</exception></token>
+				<token>postanie</token>
+			</pattern>
+			<message>Prawdopodobna literówka. Czy chodziło o <suggestion>powstanie</suggestion>?</message>
+			<example type="correct">Moja noga nigdy tu więcej nie postanie.</example>
+			<example type="incorrect"><marker>Postanie</marker> Warszawskie było wielką tragedią.</example>
 		</rule>
 		
 		<rule name="„prostu” (po prostu)" id="PROSTU">
