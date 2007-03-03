@@ -63,7 +63,7 @@ public class UkrainianMyspellTagger implements Tagger {
     if( wordsToPos == null ) {
     	wordsToPos = new HashMap<String, String[]>();
     	File resourceFile = JLanguageTool.getAbsoluteFile(RESOURCE_FILENAME);
-       	System.err.println("reading dict: " + resourceFile);
+       	//System.err.println("reading dict: " + resourceFile);
         
     	BufferedReader input = new BufferedReader( new InputStreamReader( new FileInputStream(resourceFile), Charset.forName("UTF-8")) );
 
@@ -95,7 +95,7 @@ public class UkrainianMyspellTagger implements Tagger {
     				wordsToPos.put(wrd[0], posTags.toArray(new String[0]));
     		}
     	}
-		System.err.println("POSed words: " + wordsToPos.size());
+		//System.err.println("POSed words: " + wordsToPos.size());
     }
     
 	for (Iterator<String> iter = sentenceTokens.iterator(); iter.hasNext();) {
