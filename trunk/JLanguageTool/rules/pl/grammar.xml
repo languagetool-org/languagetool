@@ -2,7 +2,7 @@
 <!--
 Polish Grammar and Typo Rules for LanguageTool
 Copyright (C) 2006 Marcin Miłkowski
-$Id: grammar.xml,v 1.130 2007-03-03 00:52:49 milek_pl Exp $		
+$Id: grammar.xml,v 1.131 2007-03-03 00:57:34 milek_pl Exp $		
 -->
 <rules lang="pl">
 
@@ -657,53 +657,7 @@ $Id: grammar.xml,v 1.130 2007-03-03 00:52:49 milek_pl Exp $
 			<example type="incorrect">Nie ma <marker>to nawiasem mówiąc sensu</marker>.</example>
 		</rule>
 	</rulegroup>
-		
-<!-- 
-	<rulegroup name="Tylko nawias otwierający lub zamykający" id="NAWIAS">
-	<rule>
-		<pattern>
-			<token skip="-1">(<exception regexp="yes">adw|afr|akad|am|amer|arch|art|artyst|astr|austr|bałt|bdb|bł|bm|br|bryt|centr|ces|chem|chiń|chir|c.k|c.o|cyg|cyw|czes|czw|cd|czyt|ćw|ćwicz|daw|dcn|dekl|demokr|det|diec|dł|dn|doc|dop|dost|dosł|h.c|ds|dst|duszp|dypl|egz|ekol|ekon|elektr|em|etc|ew|fab|farm|fot|fr|gat|gastr|geogr|geol|gimn|głęb|gm|godz|górn|gosp|gr|gram|hist|hiszp|hr|hot|id|in|im|iron|jn|kard|kat|katol|k.k|kk|klas|kol|k.p.a|kpc|k.p.c|kpt|kr|k.r|krak|k.r.o|kryt|kult|laic|łac|np|p.n.e|m.in|itd|itp|pt|cdn|dyr|hab|inż|jw|lek|n.e|nb|rys|tj|tzw|tzn|zob|ang|ul|pl|al|prof|gen|k|n|ks|ok|tys|r|proc|ww|\)</exception></token>
-			<token skip="-1" regexp="yes">\.|!|\?</token>
-		</pattern>
-		<message>W zdaniu brak nawiasu zamykającego: „)”.</message>
-		<example type="correct">Mam na myśli zamek (budowlę).</example>
-		<example type="incorrect">Mam na myśli zamek <marker>(budowlę.</marker></example>
-	</rule>
-	<rule>
-		<pattern>
-			<token postag="SENT_START" skip="-1"><exception regexp="yes">adw|afr|akad|am|amer|arch|art|artyst|astr|austr|bałt|bdb|bł|bm|br|bryt|centr|ces|chem|chiń|chir|c.k|c.o|cyg|cyw|czes|czw|cd|czyt|ćw|ćwicz|daw|dcn|dekl|demokr|det|diec|dł|dn|doc|dop|dost|dosł|h.c|ds|dst|duszp|dypl|egz|ekol|ekon|elektr|em|etc|ew|fab|farm|fot|fr|gat|gastr|geogr|geol|gimn|głęb|gm|godz|górn|gosp|gr|gram|hist|hiszp|hr|hot|id|in|im|iron|jn|kard|kat|katol|k.k|kk|klas|kol|k.p.a|kpc|k.p.c|kpt|kr|k.r|krak|k.r.o|kryt|kult|laic|łac|np|p.n.e|m.in|itd|itp|pt|cdn|dyr|hab|inż|jw|lek|n.e|nb|rys|tj|tzw|tzn|zob|ang|ul|pl|al|prof|gen|k|n|ks|ok|tys|r|proc|ww|\(</exception></token>
-			<token skip="-1">)</token>
-			<token regexp="yes">\.|!|\?</token>
-		</pattern>
-		<message>W zdaniu brak nawiasu otwierającego: „(”.</message>
-		<example type="correct">Mam na myśli zamek (budowlę).</example>
-		<example type="incorrect"><marker>Mam na myśli zamek budowlę).</marker></example>
-	</rule>		
-	</rulegroup>
-
-	<rulegroup name="Tylko cudzysłów otwierający lub zamykający" id="CUDZYSLOW">
-	<rule>
-		<pattern>
-			<token skip="-1" regexp="yes">„.*<exception regexp="yes">adw|afr|akad|am|amer|arch|art|artyst|astr|austr|bałt|bdb|bł|bm|br|bryt|centr|ces|chem|chiń|chir|c.k|c.o|cyg|cyw|czes|czw|cd|czyt|ćw|ćwicz|daw|dcn|dekl|demokr|det|diec|dł|dn|doc|dop|dost|dosł|h.c|ds|dst|duszp|dypl|egz|ekol|ekon|elektr|em|etc|ew|fab|farm|fot|fr|gat|gastr|geogr|geol|gimn|głęb|gm|godz|górn|gosp|gr|gram|hist|hiszp|hr|hot|id|in|im|iron|jn|kard|kat|katol|k.k|kk|klas|kol|k.p.a|kpc|k.p.c|kpt|kr|k.r|krak|k.r.o|kryt|kult|laic|łac|np|p.n.e|m.in|itd|itp|pt|cdn|dyr|hab|inż|jw|lek|n.e|nb|rys|tj|tzw|tzn|zob|ang|ul|pl|al|prof|gen|k|n|ks|ok|tys|r|proc|ww|.*”.*</exception></token>
-			<token regexp="yes">[\.!?]|.*…</token>
-		</pattern>
-		<message>W zdaniu brak cudzysłowu zamykającego: ”.</message>
-		<example type="correct">Lech powiedział: „ona wywodzi się z określonych środowisk”.</example>
-		<example type="incorrect">Lech powiedział: <marker>„ona wywodzi się z określonych środowisk.</marker></example>
-	</rule>
-	<rule>
-		<pattern>
-			<token postag="SENT_START" skip="-1"><exception regexp="yes">adw|afr|akad|am|amer|arch|art|artyst|astr|austr|bałt|bdb|bł|bm|br|bryt|centr|ces|chem|chiń|chir|c.k|c.o|cyg|cyw|czes|czw|cd|czyt|ćw|ćwicz|daw|dcn|dekl|demokr|det|diec|dł|dn|doc|dop|dost|dosł|h.c|ds|dst|duszp|dypl|egz|ekol|ekon|elektr|em|etc|ew|fab|farm|fot|fr|gat|gastr|geogr|geol|gimn|głęb|gm|godz|górn|gosp|gr|gram|hist|hiszp|hr|hot|id|in|im|iron|jn|kard|kat|katol|k.k|kk|klas|kol|k.p.a|kpc|k.p.c|kpt|kr|k.r|krak|k.r.o|kryt|kult|laic|łac|np|p.n.e|m.in|itd|itp|pt|cdn|dyr|hab|inż|jw|lek|n.e|nb|rys|tj|tzw|tzn|zob|ang|ul|pl|al|prof|gen|k|n|ks|ok|tys|r|proc|ww|„.*</exception></token>
-			<token skip="-1" regexp="yes">.*”</token>
-			<token regexp="yes">[\.!?]|.*…</token>
-		</pattern>
-		<message>W zdaniu brak cudzysłowu otwierającego: „.</message>
-		<example type="correct">Lech powiedział: „ona wywodzi się z określonych środowisk”.</example>
-		<example type="incorrect"><marker>Lech powiedział: ona wywodzi się z określonych środowisk”.</marker></example>
-	</rule>		
-	</rulegroup>
- -->
- 				
+						
 	<rulegroup id="PRZECINEK_ANI" name="Zbędny przecinek przed „ani”, „bądź”, „i”, „lub”, „oraz”">
 	<rule>
 		<pattern case_sensitive="yes">
