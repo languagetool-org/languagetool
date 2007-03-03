@@ -54,8 +54,7 @@ TODO:
  -enable style registers and/or rule classes
  -clean up rule descriptions so that they coherently contain the error or the rule
   (e.g. "did + baseform" vs. "did + non-baseform")
- -add more rules, especially agreement stuff
- -add UnpairedQuotesBracketsRule (for pairing "(), [], {}, ��, "", ��, depending on the language)
+ -add more rules, especially agreement stuff 
  -add simple sentence/word complexity test like that: http://www.ooomacros.org/user.php#111318 
  -use regular expressions and POS tags to create complex suggestions (for example, suggesting another
   grammatical case or a word without an apostrophe)
