@@ -282,11 +282,15 @@ public class PatternRule extends Rule {
         }
         boolean startsWithUppercase = StringTools.startsWithUppercase(tokens[firstMatchToken
             + startPositionCorrection].toString());
-        RuleMatch ruleMatch = new RuleMatch(this, tokens[firstMatchToken + startPositionCorrection]
-            .getStartPos(), tokens[lastMatchToken + endPositionCorrection].getStartPos()
-            + tokens[lastMatchToken + endPositionCorrection].getToken().length(), errMessage,
-            startsWithUppercase);
-        ruleMatches.add(ruleMatch);
+        int fromPos = tokens[firstMatchToken + startPositionCorrection]
+                             .getStartPos();
+        int toPos = tokens[lastMatchToken + endPositionCorrection].getStartPos()
+        + tokens[lastMatchToken + endPositionCorrection].getToken().length();
+        if (fromPos < toPos) { //this can happen with some skip="-1" when the last token is not matched
+        RuleMatch ruleMatch = new RuleMatch(this, fromPos, toPos, errMessage,
+            startsWithUppercase);        
+          ruleMatches.add(ruleMatch);        
+        }
       } else {
         firstMatchToken = -1;
         lastMatchToken = -1;
