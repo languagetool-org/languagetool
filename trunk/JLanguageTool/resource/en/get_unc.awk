@@ -7075,6 +7075,9 @@ else
 	if (word~/plasty:::/)
 		print $1 FS $2 FS $3":UN"
 	else
+	if (word~/ity:::/ && word!~/acclivity|amenity|annuity|calamity|callosity|cavity|city|commodity|dacoity|declivity|eventuality|extremity|gratuity|laity|majority|municipality|muzzle-velocity|nativity|nonentity|principality|proclivity|sorority|speciality|trinity|university|varsity/)
+		print $1 FS $2 FS $3":UN"
+	else
 	#doctrines
 	if (tolower(word)==word && word~/ism:::/ && word!~/anachronism|anglicism|aphorism|atavism|colloqualism|euphuism|gallicism|__ism+++|malapropism|mannerism|micro-organism|organism|prism|solecism|spoonerism|specialism|syllogism|truism|witticism/)
 	print $1 FS $2 FS $3":UN"
