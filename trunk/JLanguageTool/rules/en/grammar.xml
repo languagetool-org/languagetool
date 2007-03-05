@@ -3,7 +3,7 @@
 English Grammar and Typo Rules for LanguageTool
 See tagset.txt for the meaning of the POS tags
 Copyright (C) 2001-2007 Daniel Naber (http://www.danielnaber.de)
-$Id: grammar.xml,v 1.144 2007-03-04 21:22:37 milek_pl Exp $
+$Id: grammar.xml,v 1.145 2007-03-05 22:42:42 milek_pl Exp $
 -->
 <rules lang="en">
 
@@ -932,7 +932,32 @@ $Id: grammar.xml,v 1.144 2007-03-04 21:22:37 milek_pl Exp $
       <example type="incorrect">This is a transcript of the <marker>presidents</marker> speech.</example>
     </rule>
     </rulegroup>
-    
+		
+		<rulegroup id="APOSTROPHE_PLURAL" name="Possesive form instead of plural">
+			<rule>
+			<pattern mark_to="-1">
+					<token postag_regexp="yes" regexp="yes" postag="NN|NN:.*|NNP"/>
+					<token regexp="yes">'|’</token>
+					<token>s</token>
+					<token postag_regexp="yes" regexp="yes" postag="VBD|VBP"><exception postag_regexp="yes" postag="NN.*"/></token>
+			</pattern>
+			<message>Probably you need to use a plural form here: <suggestion>\1\3</suggestion>.</message>
+			<example type="correct">7 reasons why <marker>teachers</marker> found us top class</example>
+			<example type="incorrect">7 reasons why <marker>teacher's</marker> found us top class</example>
+			</rule>			
+			<rule>
+			<pattern mark_to="-1">
+					<token postag_regexp="yes" regexp="yes" postag="NN|NN:.*|NNP"/>
+					<token regexp="yes">'|’</token>
+					<token>s</token>
+					<token postag_regexp="yes" regexp="yes" postag="WRB"/>
+			</pattern>
+			<message>Probably you need to use a plural form here: <suggestion>\1\3</suggestion>.</message>
+			<example type="correct">7 reasons why</example>
+			<example type="incorrect">7 <marker>reason's</marker> why</example>
+			</rule>						
+		</rulegroup>
+		    
     <rule id="ANY_BODY" name="any body(anybody)">
     <pattern>
     	<token regexp="yes">any|no|some</token>
