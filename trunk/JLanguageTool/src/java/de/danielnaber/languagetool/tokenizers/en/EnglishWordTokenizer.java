@@ -35,7 +35,7 @@ public class EnglishWordTokenizer implements Tokenizer {
   
   public List<String> tokenize(final String text) {
     List<String> l = new ArrayList<String>();
-    StringTokenizer st = new StringTokenizer(text, " \u00a0,.;()[]{}!?:\"'„“”\\/\n", true);
+    StringTokenizer st = new StringTokenizer(text, " \u00a0,.;()[]{}!?:\"'’‘„“”\\/\n", true);
     while (st.hasMoreElements()) {
       l.add(st.nextToken());
     }
