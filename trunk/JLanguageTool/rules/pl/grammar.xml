@@ -2,7 +2,7 @@
 <!--
 Polish Grammar and Typo Rules for LanguageTool
 Copyright (C) 2006 Marcin Miłkowski
-$Id: grammar.xml,v 1.133 2007-03-05 00:50:45 milek_pl Exp $		
+$Id: grammar.xml,v 1.134 2007-03-05 22:55:14 milek_pl Exp $		
 -->
 <rules lang="pl">
 
@@ -37,18 +37,19 @@ $Id: grammar.xml,v 1.133 2007-03-05 00:50:45 milek_pl Exp $
 			<rule>
 				<pattern>
 					<token skip="-1" postag_regexp="yes" postag="pred"><exception scope="current" postag_regexp="yes" postag="subst:.*|adj.*|ppron.*|verb:inf.*|adv:comp|prep.*|qub|indecl"/><exception scope="current" regexp="yes">może|lecz|jedna|będ.*</exception><exception scope="next" inflected="yes" regexp="yes">[\-—–,!\?;\(\):r]|bądź|czy|ani|lub|albo|oraz|i|kiedy|gdy|który|jaki|że|iż|bo|gdyż|jeśli|jeżeli|aby|żeby|ażeby|zanim|dopóki</exception></token>
-					<token skip="-1" postag_regexp="yes" postag="pred|verb:.*(sg|pl).*|verb:imps.*|pcon:imperf|pant:perf"><exception scope="current" postag_regexp="yes" postag="subst:.*|adj.[\.:][mn\.:].*|ppron.*|verb:inf.*|adv:comp|prep.*|qub|indecl"/><exception scope="current" regexp="yes">może|lecz|jedna|będ.*|było</exception></token>
+					<token skip="-1" postag_regexp="yes" postag="pred|verb:.*(sg|pl).*|verb:imps.*|pcon:imperf|pant:perf"><exception scope="current" postag_regexp="yes" postag="subst:.*|adj.[\.:][mn\.:].*|ppron.*|verb:inf.*|adv:comp|prep.*|qub|indecl"/><exception scope="current" regexp="yes">może|lecz|jedna|będ.*|było|byłoby</exception></token>
 					<phraseref idref="INTERPUNKCJA"/>
 				</pattern>
 				<message>W tym zdaniu złożonym brakuje przecinka lub spójnika między jednym zdaniem a drugim.</message>
 				<example type="correct">Trzeba kupić wino, można narwać owoców w ogrodzie.</example>
 				<example type="correct">Trzeba było kupić wino, można było narwać owoców w ogrodzie.</example>
+				<example type="correct">Trzeba byłoby kupić wino, można byłoby narwać owoców w ogrodzie.</example>
 				<example type="correct">Było trzeba kupić wino, było można narwać owoców w ogrodzie.</example>
 				<example type="incorrect"><marker>Trzeba kupić wino można narwać owoców w ogrodzie.</marker></example>	
 			</rule>
 			<rule>
 				<pattern>
-					<token skip="-1" postag_regexp="yes" postag="verb:.*(sg|pl).*|pcon:imperf" regexp="yes">będ.*<exception scope="next" inflected="yes" regexp="yes">[\-—–,!\?;\(\):r]|bądź|czy|ani|lub|albo|oraz|i|kiedy|gdy|który|jaki|że|iż|aby|żeby|iżby|gdyż|bo|jeśli|jeżeli|aby|żeby|ażeby|zanim|dopóki</exception></token>
+					<token skip="-1" postag_regexp="yes" postag="verb:bedzie.*|pcon:imperf" regexp="yes">będ.*<exception scope="next" inflected="yes" regexp="yes">[\-—–,!\?;\(\):r]|bądź|czy|ani|lub|albo|oraz|i|kiedy|gdy|który|jaki|że|iż|aby|żeby|iżby|gdyż|bo|jeśli|jeżeli|aby|żeby|ażeby|zanim|dopóki</exception></token>
 					<token skip="-1" postag_regexp="yes" postag="pred|verb:.*(sg|pl).*|verb:imps.*|pcon:imperf|pant:perf"><exception scope="current" postag_regexp="yes" postag="subst:.*|adj.*|ppron.*|adv:comp|prep.*|qub|indecl|verb:praet.*"/><exception scope="current" regexp="yes">jedna|może|lecz</exception></token>
 					<phraseref idref="INTERPUNKCJA"/>
 				</pattern>
@@ -61,7 +62,7 @@ $Id: grammar.xml,v 1.133 2007-03-05 00:50:45 milek_pl Exp $
 			<rule>
 				<pattern>
 					<token skip="-1" postag_regexp="yes" postag="pred|verb:.*(sg|pl).*|verb:imps.*|pcon:imperf|pant:perf"><exception scope="current" postag_regexp="yes" postag="subst:.*|adj.*|ppron.*|adv:comp|prep.*|qub|indecl|verb:praet.*"/><exception scope="current" regexp="yes">jedna|może|lecz|trzeba|można|wolno</exception><exception scope="next" inflected="yes" regexp="yes">–|\-|—|[,!\?;\(\):r]|bądź|czy|ani|lub|albo|oraz|i|kiedy|gdy|gdyż|który|jaki|że|aby|żeby|iżby|ażeby|zanim|dopóki</exception></token>
-					<token skip="-1" postag_regexp="yes" postag="verb:.*(sg|pl).*|pcon:imperf" regexp="yes">będ.*</token>			
+					<token skip="-1" postag_regexp="yes" postag="verb:bedzie.*|pcon:imperf" regexp="yes">będ.*</token>			
 					<phraseref idref="INTERPUNKCJA"/>
 				</pattern>
 				<message>W tym zdaniu złożonym brakuje przecinka lub spójnika między jednym zdaniem a drugim.</message>
@@ -398,16 +399,17 @@ $Id: grammar.xml,v 1.133 2007-03-05 00:50:45 milek_pl Exp $
 		<rulegroup id="BRAK_PRZECINKA_ZE" name="Brak przecinka przed „że” i „iż”">
 		<rule>
 			<pattern>
-				<token negate="yes" regexp="yes">\p{Punct}|–|—|a|ale|albo|lecz|lub|czy|tym|bardziej|chyba|i|ile|jako|oraz|szczególnie|tyle|tylko|zwłaszcza|pomimo|mimo|także|również|czyli|dlatego|właśnie<exception postag="SENT_START"/></token>
+				<token negate="yes" regexp="yes">\p{Punct}|–|—|bardziej|chyba|ile|szczególnie|tyle|zwłaszcza|pomimo|mimo|także|również|dlatego|właśnie|prawie<exception postag_regexp="yes" postag="SENT_START|conj"/></token>
 				<token regexp="yes">że|iż</token>
 			</pattern>
 			<message>Przed spójnikiem „że” stawiamy przecinek: <suggestion>\1, \2</suggestion>.</message>
 			<example type="correct">Przemysław zdradził, że ma na drugie imię Edgar.</example>
+			<example type="correct">Przemysław ostrzegł, że się zemści, chyba że przestaniemy wołać na niego Edgar.</example>
 			<example type="incorrect">Przemysław <marker>zdradził że</marker> ma na drugie imię Edgar.</example>
 		</rule>
 		<rule>
 			<pattern>
-				<token negate="yes" regexp="yes">\p{Punct}|–|—|,|a|lecz|ale|albo|lub|ani<exception postag="SENT_START"/></token>
+				<token negate="yes" regexp="yes">\p{Punct}|–|—<exception postag_regexp="yes" postag="SENT_START|conj"/></token>
 				<token regexp="yes">ile|jako|szczególnie|tyle|tylko|zwłaszcza|pomimo|mimo<exception postag="SENT_START"/></token>
 				<token regexp="yes">że|iż</token>
 			</pattern>
@@ -422,7 +424,7 @@ $Id: grammar.xml,v 1.133 2007-03-05 00:50:45 milek_pl Exp $
 		<rulegroup id="BRAK_PRZECINKA_JESLI" name="Brak przecinka przed „jeśli”, „jeżeli”, „gdyby” itd.">
 		<rule>
 			<pattern>
-				<token negate="yes" regexp="yes" inflected="yes">\p{Punct}|–|—<exception regexp="yes">a|jak|ale|i|oraz|czy|lub|albo|lecz|który|jaki|zwłaszcza|szczególnie|że|nawet|więc|to|jednak|gdyż|ponieważ|niemniej|tylko|natomiast</exception><exception postag="SENT_START"/></token>
+				<token negate="yes" regexp="yes" inflected="yes">\p{Punct}|–|—<exception regexp="yes">który|jaki|zwłaszcza|szczególnie|nawet|niemniej</exception><exception postag_regexp="yes" postag="SENT_START|conj"/></token>
 				<token regexp="yes" inflected="yes">jeśli|jeżeli|gdyby|jeżeliby|jeśliby</token>
 			</pattern>
 			<message>Przed spójnikiem stawiamy przecinek:<suggestion>\1, \2</suggestion>.</message>
@@ -431,7 +433,7 @@ $Id: grammar.xml,v 1.133 2007-03-05 00:50:45 milek_pl Exp $
 		</rule>
 		<rule>
 			<pattern>
-				<token negate="yes" regexp="yes">\p{Punct}|–|—<exception postag="SENT_START"/><exception regexp="yes">a|ale|i|lub|albo|lecz|oraz</exception></token>
+				<token negate="yes" regexp="yes">\p{Punct}|–|—<exception postag_regexp="yes" postag="SENT_START|conj"/></token>
 				<token regexp="yes" inflected="yes">a|ale|i|lub|albo|lecz|oraz|który|jaki|zwłaszcza|jak|szczególnie|że|nawet|więc|jednak</token>
 				<token regexp="yes" inflected="yes">jeśli|jeżeli|gdyby|jeżeliby|jeśliby</token>
 			</pattern>
@@ -444,7 +446,7 @@ $Id: grammar.xml,v 1.133 2007-03-05 00:50:45 milek_pl Exp $
 		<rulegroup id="BRAK_PRZECINKA_ZEBY" name="Brak przecinka przed „żeby”, „aby”, „ażeby”, „iżby”">
 		<rule>
 			<pattern>
-				<token negate="yes" regexp="yes">\p{Punct}|—|–|że|iż|chyba|jak|tylko|tak|ale|i|lecz|oraz|lub<exception postag="SENT_START"/></token>
+				<token negate="yes" regexp="yes">\p{Punct}|—|–|chyba<exception postag_regexp="yes" postag="SENT_START|conj"/></token>
 				<token regexp="yes" inflected="yes">żeby|aby|ażeby|iżby</token>
 			</pattern>
 			<message>Przed tym spójnikiem stawiamy przecinek: <suggestion>\1, \2</suggestion>.</message>
@@ -467,7 +469,7 @@ $Id: grammar.xml,v 1.133 2007-03-05 00:50:45 milek_pl Exp $
 		<rulegroup id="BRAK_PRZECINKA_GDY" name="Brak przecinka przed „gdy” i „kiedy”">
 		<rule>
 			<pattern>
-				<token negate="yes" regexp="yes">,|a|od|ale|i|lecz|chyba|czy|dopiero|podczas|nawet|potem|więc|teraz|właśnie|wtedy|zwłaszcza|szczególnie|to|że|czasie|czasach|wypadku|przypadku|razie<exception postag="SENT_START"/><exception regexp="yes">\p{Punct}|–|—</exception></token>
+				<token negate="yes" regexp="yes">,|od|chyba|dopiero|podczas|nawet|potem|więc|teraz|właśnie|wtedy|zwłaszcza|szczególnie|że|czasie|czasach|wypadku|przypadku|razie<exception postag_regexp="yes" postag="SENT_START|conj"/><exception regexp="yes">\p{Punct}|–|—</exception></token>
 				<token regexp="yes">gdy|kiedy</token>
 			</pattern>
 			<message>Przed tym spójnikiem stawiamy przecinek: <suggestion>\1, \2</suggestion>.</message>
@@ -490,8 +492,8 @@ $Id: grammar.xml,v 1.133 2007-03-05 00:50:45 milek_pl Exp $
 		<rulegroup id="BRAK_PRZECINKA_SPOJNIK_PROSTY" name="Brak przecinka przed spójnikami prostymi (acz, aczkolwiek, choć...)">
 			<rule>
 				<pattern>
-					<token negate="yes" regexp="yes">\p{Punct}|–|—|i|a|ale|lecz|lub|czy|bądź|oraz|ani|to|że<exception postag="SENT_START"/></token>
-					<token regexp="yes">acz|aczkolwiek|albowiem|ale|aleć|aliści|azali|bo|byleby|czyli|czyliż|dopóki|dopóty|gdyż|gdyżby|ilekolwiek|ilekroć|póki|tedy</token>
+					<token negate="yes" regexp="yes">\p{Punct}|–|—<exception postag_regexp="yes" postag="SENT_START|conj"/></token>
+					<token regexp="yes">acz|aczkolwiek|albowiem|ale|aleć|aliści|azali|bo|byleby|czyli|czyliż|dopóki|dopóty|gdyż|gdyżby|ilekolwiek|ilekroć|póki</token>
 				</pattern>
 				<message>Przed tym spójnikiem stawiamy przecinek: <suggestion>\1, \2</suggestion>.</message>
 				<example type="correct">Lubię cię, ale musisz mi oddać pieniądze.</example>
@@ -499,7 +501,7 @@ $Id: grammar.xml,v 1.133 2007-03-05 00:50:45 milek_pl Exp $
 			</rule>
 			<rule>
 				<pattern>
-					<token negate="yes" regexp="yes">\p{Punct}|–|—|i|a|ale|lecz|lub|czy|bądź|oraz|ani|to|że|tylko<exception postag="SENT_START"/></token>
+					<token negate="yes" regexp="yes">\p{Punct}|–|—<exception postag_regexp="yes" postag="SENT_START|conj"/></token>
 					<token>dlaczego</token>
 				</pattern>
 				<message>Przed tym spójnikiem stawiamy przecinek: <suggestion>\1, \2</suggestion>.</message>
@@ -509,7 +511,7 @@ $Id: grammar.xml,v 1.133 2007-03-05 00:50:45 milek_pl Exp $
 			</rule>
 			<rule>
 				<pattern>
-				<token negate="yes" regexp="yes">\p{Punct}|a|ale|albo|i|oraz|lub|że|–|—<exception postag="SENT_START"/></token>
+				<token negate="yes" regexp="yes">\p{Punct}|–|—<exception postag_regexp="yes" postag="SENT_START|conj"/></token>
 					<token regexp="yes">ponieważ</token>
 				</pattern>
 				<message>Przed tym spójnikiem stawiamy przecinek: <suggestion>\1, \2</suggestion>.</message>
@@ -519,7 +521,7 @@ $Id: grammar.xml,v 1.133 2007-03-05 00:50:45 milek_pl Exp $
 			</rule>
 			<rule>
 				<pattern>
-					<token negate="yes" regexp="yes">\p{Punct}|–|—|a|lecz|jeszcze|ale|czy|lub|albo<exception postag="SENT_START"/></token>
+					<token negate="yes" regexp="yes">\p{Punct}|–|—|jeszcze<exception postag_regexp="yes" postag="SENT_START|conj"/></token>
 					<token>zanim</token>
 				</pattern>				
 				<message>Przed tym spójnikiem stawiamy przecinek: <suggestion>\1, \2</suggestion>.</message>
@@ -2889,9 +2891,9 @@ $Id: grammar.xml,v 1.133 2007-03-05 00:50:45 milek_pl Exp $
 		<rule>
 			<pattern>
 				<token>z</token>
-				<token regexp="yes">s[wftśsrłndwpgklcbmżń].*|[zśźż][wftśsrłndwpgklzcbmżń].*|[rs]z[wftśsrłndwpgklzcbmżń].*|[wf][wftśswpgzcbmżń].*|w[n][^io].*|w[k][^ł].*|fd.*|wd[^zię].*|Lwowa|mną|mnie|snu<exception regexp="yes">[\"„]</exception></token>				
+				<token regexp="yes">s[wftśsrłndwpgklcbmżń].*|[zśźż][wftśsrłndwpgklzcbmżń].*|[rs]z[wftśsrłndwpgklzcbmżń].*|[wf][wftśwpgzcbmżń].*|w[n][^io].*|w[k][^ł].*|f[dsk].*|wd[^zię].*|ws[^ze].*|Lwowa|mną|mnie|snu<exception regexp="yes">[\"„]</exception></token>				
 			</pattern>
-			<message>Prawdopodobnie ten przyimek należy zapisać tak: <suggestion>ze \2</suggestion>.</message>
+			<message>Prawdopodobnie ten przyimek należy zapisać tak: <suggestion>\1e \2</suggestion>.</message>
 			<example type="correct">Ludwik ma kochankę ze Świecia</example>
 			<example type="incorrect">Ludwik ma kochankę <marker>z Świecia</marker>.</example>
 		</rule>
@@ -4202,7 +4204,7 @@ $Id: grammar.xml,v 1.133 2007-03-05 00:50:45 milek_pl Exp $
 			<message>Prawdopodobna literówka. Czy miało być <suggestion>po \1</suggestion>?</message>
 			<example type="correct">Jadzia mówi po niemiecku i angielsku.</example>
 			<example type="incorrect">Jadzia mówi <marker>niemiecku</marker> i angielsku.</example>
-			<!-- example type="incorrect"><marker>Prostu</marker> się mylisz.</example -->
+			<example type="incorrect"><marker>Prostu</marker> się mylisz.</example>
 		</rule>
 		
 		<rule name="„w odróżnieniu do” (w odróżnieniu od)" id="W_ODROZNIENIU_DO">
@@ -4694,7 +4696,8 @@ $Id: grammar.xml,v 1.133 2007-03-05 00:50:45 milek_pl Exp $
 	 	<example type="incorrect">Mieszkam <marker>w z</marker> Warszawie.</example>
 	 </rule>
 	 
-	 <rule id="ZE_ZE" name="„ze” (że)">
+	 <rulegroup id="ZE_ZE" name="„ze” (że)">
+	 <rule>
 	 	<pattern mark_to="-1">
 	 		<token>ze</token>
 	 		<token postag_regexp="yes" postag="verb.*"><exception postag_regexp="yes" postag="verb:irreg|subst.*"/></token>
@@ -4704,6 +4707,19 @@ $Id: grammar.xml,v 1.133 2007-03-05 00:50:45 milek_pl Exp $
 		<example type="correct">Tak często dzieje się ze zbitymi jajkami.</example>
 		<example type="incorrect">Premier poinformował ministrów, <marker>ze</marker> chce iść na spacer.</example>
 	 </rule>
+	 <rule>
+	 	<pattern mark_from="2" mark_to="-1">
+	 		<token postag_regexp="yes" postag="verb:.*(sg|pl).*"/>
+	 		<token>,</token>
+	 		<token>ze</token>
+	 		<token><exception postag_regexp="yes" postag=".*gen[\.:].*|.*inst[\.:].*"/></token>
+	 	</pattern>
+	 	<message>Prawdopodobna literówka. Czy chodziło o <suggestion>że</suggestion>?</message>
+		<example type="correct">Premier poinformował, że chce iść na spacer.</example>
+		<example type="incorrect">Premier poinformował, <marker>ze</marker> chce iść na spacer.</example>
+	 </rule>	 
+	 </rulegroup>
+	 
 	 
 	 <rulegroup id="Z_POWODY" name="„z powody (z powodu)” itp.">
 	 <rule>
@@ -4745,8 +4761,8 @@ $Id: grammar.xml,v 1.133 2007-03-05 00:50:45 milek_pl Exp $
 		<token regexp="yes">[\.!?…\(](?:'|«|\"|”|\)|\]|\})?</token>
 		</pattern>
 		<message>W tym zdaniu występuje czasownik zwrotny, a brakuje wyrazu „się”.</message>
-		<example type="correct">Ludwik niczego się nie boi.</example>
-		<example type="incorrect"><marker>Ludwik niczego nie boi.</marker></example>
+		<example type="correct">Ludwik niczego się nie bał.</example>
+		<example type="incorrect"><marker>Ludwik niczego nie bał.</marker></example>
 	</rule>	
 	 
 	</category>
