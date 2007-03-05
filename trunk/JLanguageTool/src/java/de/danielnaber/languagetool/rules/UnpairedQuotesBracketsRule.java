@@ -21,8 +21,8 @@ public class UnpairedQuotesBracketsRule extends Rule {
   private final String[] startSymbols;
   private final String[] endSymbols;
   
-  private static final String[] EN_START_SYMBOLS  = {"[", "(", "{", "‘", "“"};
-  private static final String[] EN_END_SYMBOLS  = {"]", ")", "}", "’", "”"};
+  private static final String[] EN_START_SYMBOLS  = {"[", "(", "{","“"};
+  private static final String[] EN_END_SYMBOLS  = {"]", ")", "}", "”"};
     
   private static final String[] PL_START_SYMBOLS  = {"[", "(", "{", "„", "»"};
   private static final String[] PL_END_SYMBOLS  = {"]", ")", "}", "”", "«"};
