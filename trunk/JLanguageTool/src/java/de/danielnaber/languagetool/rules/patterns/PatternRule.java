@@ -168,9 +168,10 @@ public class PatternRule extends Rule {
   }
 
   public final RuleMatch[] match(final AnalyzedSentence text) {
-    List<RuleMatch> ruleMatches = new ArrayList<RuleMatch>();
+    List<RuleMatch> ruleMatches = new ArrayList<RuleMatch>();    
     AnalyzedTokenReadings[] tokens = text.getTokensWithoutWhitespace();
-
+    int[] tokenPositions = new int[tokens.length+1];
+    
     int tokenPos = 0;
     int prevSkipNext = 0;
     int skipNext = 0;
@@ -238,6 +239,7 @@ public class PatternRule extends Rule {
               matched = true;
               matchPos = m;
               skipShift = matchPos - nextPos;
+              tokenPositions[matchingTokens] = skipShift + 1;
             }
             skipMatch = (skipMatch || matched) && !exceptionMatched;
           }
@@ -262,9 +264,9 @@ public class PatternRule extends Rule {
         }
         if (!allElementsMatch) {
           break;
-        } else {
+        } else {          
           matchingTokens++;
-          lastMatchToken = matchPos; // nextPos;
+          lastMatchToken = matchPos; // nextPos;          
           if (firstMatchToken == -1)
             firstMatchToken = matchPos; // nextPos;
         }
@@ -272,20 +274,46 @@ public class PatternRule extends Rule {
 
       if (allElementsMatch) {
         String errMessage = message;
-        // TODO: implement skipping tokens while marking error tokens
-        // replace back references like \1 in message:
-        if (firstMatchToken + matchingTokens >= tokens.length)
+        
+        // replace back references like \1 in message, 
+        // and take care of skipping 
+        if (firstMatchToken + matchingTokens >= tokens.length) {
           matchingTokens = tokens.length - firstMatchToken;
-        for (int j = 0; j < matchingTokens; j++) {
-          errMessage = errMessage.replaceAll("\\\\" + (j + 1), tokens[firstMatchToken + j]
-              .getToken());
         }
+        for (int j = 0; j < matchingTokens; j++) {
+          int repTokenPos = 0;
+          for (int l = 0; l <= j; l++) {
+            repTokenPos += tokenPositions[l];
+          }
+          errMessage = errMessage.replaceAll("\\\\" + (j + 1), 
+                tokens[firstMatchToken + repTokenPos -1].getToken());
+        }        
+        
+        int correctedStPos = 0;
+        if (startPositionCorrection > 0) {        
+        for (int l = 0; l <= startPositionCorrection; l++) {
+          correctedStPos +=  tokenPositions[l];
+        }
+        correctedStPos--;
+        }        
+        
+        int correctedEndPos = 0;
+        if (endPositionCorrection < 0) {
+          int l = 0;
+          while (l > endPositionCorrection) {
+            int test = matchingTokens + l - 1;
+            test = tokenPositions[test];
+            correctedEndPos =  correctedEndPos - tokenPositions[matchingTokens + l - 1];
+            l--;
+          }
+          }         
+        
         boolean startsWithUppercase = StringTools.startsWithUppercase(tokens[firstMatchToken
-            + startPositionCorrection].toString());
-        int fromPos = tokens[firstMatchToken + startPositionCorrection]
+                                                                             + correctedStPos].toString());
+        int fromPos = tokens[firstMatchToken + correctedStPos]
                              .getStartPos();
-        int toPos = tokens[lastMatchToken + endPositionCorrection].getStartPos()
-        + tokens[lastMatchToken + endPositionCorrection].getToken().length();
+        int toPos = tokens[lastMatchToken + correctedEndPos].getStartPos()
+        + tokens[lastMatchToken + correctedEndPos].getToken().length();
         if (fromPos < toPos) { //this can happen with some skip="-1" when the last token is not matched
         RuleMatch ruleMatch = new RuleMatch(this, fromPos, toPos, errMessage,
             startsWithUppercase);        
