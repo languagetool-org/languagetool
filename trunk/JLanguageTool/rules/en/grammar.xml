@@ -3,7 +3,7 @@
 English Grammar and Typo Rules for LanguageTool
 See tagset.txt for the meaning of the POS tags
 Copyright (C) 2001-2007 Daniel Naber (http://www.danielnaber.de)
-$Id: grammar.xml,v 1.145 2007-03-05 22:42:42 milek_pl Exp $
+$Id: grammar.xml,v 1.146 2007-03-06 14:47:28 milek_pl Exp $
 -->
 <rules lang="en">
 
@@ -2012,15 +2012,16 @@ $Id: grammar.xml,v 1.145 2007-03-05 22:42:42 milek_pl Exp $
   </rule>
   
   <rule id="REASON_IS_BECAUSE" name="'the reason... is because'">
-  	<pattern>
+  	<pattern mark_from="2">
   		<token>the</token>
   		<token skip="6">reason</token>
   		<token>is</token>
   		<token>because</token>
   	</pattern>
-  	<message>Probably an incorrect phrase. Use <suggestion>the reason is that</suggestion> or <suggestion>because</suggestion>.</message>
-  	<example type="incorrect"><marker>The reason we were late is because</marker> there was an accident.</example>
-  	<example type="correct"><marker>The reason we were late is that</marker> there was an accident.</example>
+  	<!--  or <suggestion>because</suggestion> -->
+  	<message>Probably an incorrect phrase. Use 'the reason <suggestion>is that</suggestion>'.</message>
+  	<example type="incorrect">The reason we were late <marker>is because</marker> there was an accident.</example>
+  	<example type="correct">The reason we were late <marker>is that</marker> there was an accident.</example>
   </rule>
   
   <rule id="BECAUSE_OF_I" name="because of we(because we)">

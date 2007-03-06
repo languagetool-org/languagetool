@@ -2,7 +2,7 @@
 <!--
 Polish Grammar and Typo Rules for LanguageTool
 Copyright (C) 2006 Marcin Miłkowski
-$Id: grammar.xml,v 1.134 2007-03-05 22:55:14 milek_pl Exp $		
+$Id: grammar.xml,v 1.135 2007-03-06 14:47:27 milek_pl Exp $		
 -->
 <rules lang="pl">
 
@@ -670,56 +670,75 @@ $Id: grammar.xml,v 1.134 2007-03-05 22:55:14 milek_pl Exp $
 		</rule>
 	</rulegroup>
 						
-	<rulegroup id="PRZECINEK_ANI" name="Zbędny przecinek przed „ani”, „bądź”, „i”, „lub”, „oraz”">
+	<rulegroup id="PRZECINEK_ANI" name="Zbędny przecinek przed „ani”, „albo”, „bądź”, „i”, „lub”, „oraz”">
 	<rule>
-		<pattern case_sensitive="yes">
-			<token skip="-1" postag="SENT_START"><exception>ani</exception></token>
+		<pattern case_sensitive="yes" mark_from="2">
+			<token postag="SENT_START"/>
+			<token skip="-1"><exception>ani</exception><exception scope="current">Ani</exception></token>
 			<token>,</token>
 			<token regexp="yes">ani</token>
 		</pattern>
-		<message>Przecinek przed „ani” w powyższym zdaniu jest zbędny.</message>
+		<message>Prawdopodobnie zbędny przecinek, powinno być: <suggestion>\4</suggestion>.</message>
 		<example type="correct">Nie kupiłem gruszek ani jabłek.</example>
-		<example type="incorrect"><marker>Nie kupiłem gruszek, ani</marker> jabłek.</example>
+		<example type="correct">Ani prośby, ani groźby, nie przekonają nas, że czarne jest czarne, a białe jest białe.</example>
+		<example type="incorrect">Nie kupiłem gruszek<marker>, ani</marker> jabłek.</example>
 	</rule>
 	<rule>
-		<pattern>
-			<token skip="-1" postag="SENT_START"><exception>i</exception></token>
+		<pattern case_sensitive="yes" mark_from="2">
+			<token postag="SENT_START"/>
+			<token skip="-1"><exception>albo</exception><exception scope="current">Albo</exception></token>
+			<token>,</token>
+			<token regexp="yes">albo</token>
+		</pattern>
+		<message>Prawdopodobnie zbędny przecinek, powinno być: <suggestion>\4</suggestion>.</message>
+		<example type="correct">Kup gruszek albo jabłek.</example>
+		<example type="correct">Albo pójdziesz stąd, albo dam Ci w ryja.</example>
+		<example type="incorrect">Kup gruszek<marker>, albo</marker> jabłek.</example>
+	</rule>	
+	<rule>
+		<pattern mark_from="2" case_sensitive="yes">
+			<token postag="SENT_START"/>
+			<token skip="-1"><exception>i</exception><exception scope="current">I</exception></token>
 			<token>,</token>
 			<token regexp="yes">i</token>
 		</pattern>
-		<message>Przecinek przed „i” w powyższym zdaniu jest zbędny.</message>
+		<message>Prawdopodobnie zbędny przecinek, powinno być: <suggestion>\4</suggestion>.</message>
 		<example type="correct">Kupiłem trochę gruszek i jabłek.</example>
-		<example type="incorrect"><marker>Kupiłem trochę gruszek, i</marker> jabłek.</example>
+		<example type="correct">I tak, i siak.</example>
+		<example type="incorrect">Kupiłem trochę gruszek<marker>, i</marker> jabłek.</example>
 	</rule>
 	<rule>
-		<pattern case_sensitive="yes">
-			<token skip="-1" postag="SENT_START"><exception>lub</exception></token>
+		<pattern case_sensitive="yes" mark_from="2">
+			<token postag="SENT_START"/>
+			<token skip="-1"><exception>lub</exception><exception scope="current">Lub</exception></token>
 			<token>,</token>
 			<token regexp="yes">lub</token>
 		</pattern>
-		<message>Przecinek przed „lub” w powyższym zdaniu jest zbędny.</message>
+		<message>Prawdopodobnie zbędny przecinek, powinno być: <suggestion>\4</suggestion>.</message>
 		<example type="correct">Może kupię kilo gruszek lub jabłek.</example>
-		<example type="incorrect"><marker>Lubię zjeść trochę gruszek, lub</marker> jabłek.</example>
+		<example type="incorrect">Lubię zjeść trochę gruszek<marker>, lub</marker> jabłek.</example>
 	</rule>
 	<rule>
-		<pattern case_sensitive="yes">
-			<token skip="-1" postag="SENT_START"><exception>oraz</exception></token>
+		<pattern case_sensitive="yes" mark_from="2">
+			<token postag="SENT_START"/>
+			<token skip="-1"><exception>oraz</exception><exception scope="current">Oraz</exception></token>
 			<token>,</token>
 			<token regexp="yes">oraz</token>
 		</pattern>
-		<message>Przecinek przed „oraz” w powyższym zdaniu jest zbędny.</message>
+		<message>Prawdopodobnie zbędny przecinek, powinno być: <suggestion>\4</suggestion>.</message>
 		<example type="correct">Nie kupiłem gruszek oraz zjadłem jogurt.</example>
-		<example type="incorrect"><marker>Kupiłem trochę gruszek, oraz</marker> zjadłem krowę.</example>
+		<example type="incorrect">Kupiłem trochę gruszek<marker>, oraz</marker> zjadłem krowę.</example>
 	</rule>
 	<rule>
-		<pattern case_sensitive="yes">
-			<token skip="-1" postag="SENT_START"><exception>bądź</exception></token>
+		<pattern case_sensitive="yes" mark_from="2">
+			<token postag="SENT_START"/>
+			<token skip="-1"><exception>bądź</exception><exception scope="current">Bądź</exception></token>
 			<token>,</token>
 			<token regexp="yes">bądź</token>
 		</pattern>
-		<message>Przecinek przed „bądź” w powyższym zdaniu jest zbędny.</message>
+		<message>Prawdopodobnie zbędny przecinek, powinno być: <suggestion>\4</suggestion>.</message>
 		<example type="correct">Nie kupiłem gruszek bądź zjadłem jogurt.</example>
-		<example type="incorrect"><marker>Kupiłem trochę gruszek, bądź</marker> zjadłem krowę.</example>
+		<example type="incorrect">Kupiłem trochę gruszek<marker>, bądź</marker> zjadłem krowę.</example>
 	</rule>		
 	</rulegroup>
 	
@@ -739,54 +758,54 @@ $Id: grammar.xml,v 1.134 2007-03-05 22:55:14 milek_pl Exp $
 	<rulegroup id="PODMIOT_ORZECZENIE" name="Zbędny przecinek między podmiotem a orzeczeniem">
 
 		<rule>
-			<pattern>
+			<pattern mark_from="2">
 				<token postag="SENT_START"/>
 				<token skip="-1" postag_regexp="yes" postag="subst:sg:nom.*"><exception postag_regexp="yes" postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf|pant:perf"/><exception scope="next" inflected="yes" regexp="yes">[\-—–!\?;\(\):]|kiedy|gdy|który|jaki|że|iż|bo|a|jeśli|jeżeli|aby|żeby|ażeby|zanim|acz|aczkolwiek|albowiem|ale|aleć|aliści|azali|bo|byleby|czyli|czyliż|dlaczego|dopóki|dopóty|gdyż|gdyżby|ilekolwiek|ilekroć|póki|tedy</exception></token>
 				<token>,</token>
 				<token postag_regexp="yes" postag="verb:(praet:|aglt:|fin:|)sg:ter.*"/>
 			</pattern>
-			<message>Przecinek między podmiotem a orzeczeniem jest zbędny.</message>
+			<message>Przecinek między podmiotem a orzeczeniem jest zbędny, powinno być: <suggestion>\4</suggestion>.</message>
 			<example type="correct">Gazeta jest źródłem informacji.</example>
-			<example type="incorrect"><marker>Gazeta, jest</marker> źródłem informacji.</example>
+			<example type="incorrect">Gazeta<marker>, jest</marker> źródłem informacji.</example>
 		</rule>
 
 		<rule>
-			<pattern>
+			<pattern mark_from="3">
 				<token postag="SENT_START"/>
 				<token postag_regexp="yes" postag=".*adj:sg:(nom|nom\.voc):f.*"/>
 				<token skip="-1" postag_regexp="yes" postag="subst:sg:nom:f"><exception postag_regexp="yes" postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf|pant:perf"/><exception postag_regexp="yes" postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf|pant:perf"/><exception scope="next" inflected="yes" regexp="yes">[\-—–!\?;\(\):]|kiedy|gdy|który|jaki|że|iż|bo|a|jeśli|jeżeli|aby|żeby|ażeby|zanim|acz|aczkolwiek|albowiem|ale|aleć|aliści|azali|bo|byleby|czyli|czyliż|dlaczego|dopóki|dopóty|gdyż|gdyżby|ilekolwiek|ilekroć|póki|tedy</exception></token>
 				<token>,</token>
 				<token postag_regexp="yes" postag="verb:(praet:|aglt:|fin:|)sg:ter.*"/>
 			</pattern>
-			<message>Przecinek między podmiotem a orzeczeniem jest zbędny.</message>
+			<message>Przecinek między podmiotem a orzeczeniem jest zbędny, powinno być: <suggestion>\5</suggestion>.</message>
 			<example type="correct">Każda gazeta jest źródłem informacji.</example>
-			<example type="incorrect"><marker>Każda Gazeta, jest</marker> źródłem informacji.</example>
+			<example type="incorrect">Każda Gazeta<marker>, jest</marker> źródłem informacji.</example>
 		</rule>
 		
 		<rule>
-			<pattern>
+			<pattern mark_from="3">
 				<token postag="SENT_START"/>
 				<token postag_regexp="yes" postag=".*adj:sg:(nom|nom\.acc\.voc|nom\.voc):n(:pneg|:neg|).*"/>
 				<token skip="-1" postag_regexp="yes" postag="subst:sg:nom.*:n"><exception postag_regexp="yes" postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf|pant:perf"/><exception postag_regexp="yes" postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf|pant:perf"/><exception scope="next" inflected="yes" regexp="yes">[\-—–!\?;\(\):]|kiedy|gdy|który|jaki|że|iż|bo|a|jeśli|jeżeli|aby|żeby|ażeby|zanim|acz|aczkolwiek|albowiem|ale|aleć|aliści|azali|bo|byleby|czyli|czyliż|dlaczego|dopóki|dopóty|gdyż|gdyżby|ilekolwiek|ilekroć|póki|tedy</exception></token>
 				<token>,</token>				
 				<token postag_regexp="yes" postag="verb:(praet:|aglt:|fin:|)sg:ter.*"/>
 			</pattern>
-			<message>Przecinek między podmiotem a orzeczeniem jest zbędny.</message>
+			<message>Przecinek między podmiotem a orzeczeniem jest zbędny, powinno być: <suggestion>\5</suggestion>.</message>
 			<example type="correct">Każde dziecko wie, jak wspaniały jest nasz premier.</example>
-			<example type="incorrect"><marker>Każde dziecko, wie</marker>, jak wspaniały jest nasz premier.</example>
+			<example type="incorrect">Każde dziecko<marker>, wie</marker>, jak wspaniały jest nasz premier.</example>
 		</rule>
 		
 		<rule>
-			<pattern>
+			<pattern mark_from="3">
 				<token postag="SENT_START"/>
 				<token postag_regexp="yes" postag=".*adj:sg:(nom|nom\.acc\.voc|nom\.voc):m[\d]*(:pneg|:neg|).*"/>
 				<token skip="-1" postag_regexp="yes" postag="subst:sg:nom.*:m[\d]*"><exception postag_regexp="yes" postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf|pant:perf"/><exception scope="next" inflected="yes" regexp="yes">[\-—–!\?;\(\):]|kiedy|gdy|który|jaki|że|iż|bo|a|jeśli|jeżeli|aby|żeby|ażeby|zanim|acz|aczkolwiek|albowiem|ale|aleć|aliści|azali|bo|byleby|czyli|czyliż|dlaczego|dopóki|dopóty|gdyż|gdyżby|ilekolwiek|ilekroć|póki|tedy</exception></token>
 				<token>,</token>				
 				<token postag_regexp="yes" postag="verb:(praet:|aglt:|fin:|)sg:ter.*"/>
 			</pattern>
-			<message>Przecinek między podmiotem a orzeczeniem jest zbędny.</message>
+			<message>Przecinek między podmiotem a orzeczeniem jest zbędny, powinno być: <suggestion>\5</suggestion>.</message>
 			<example type="correct">Każdy urzędnik wie, jak wspaniały jest nasz premier.</example>
-			<example type="incorrect"><marker>Każdy urzędnik, wie</marker>, jak wspaniały jest nasz premier.</example>
+			<example type="incorrect">Każdy urzędnik<marker>, wie</marker>, jak wspaniały jest nasz premier.</example>
 		</rule>
 
 	</rulegroup>
@@ -1416,13 +1435,13 @@ $Id: grammar.xml,v 1.134 2007-03-05 22:55:14 milek_pl Exp $
 		</rule>
 		
 		<rule name="Błąd związku rzędu: „rozumieć coś pod czymś” (przez coś)" id="ROZUMIEC_POD">
-			<pattern mark_from="1">
+			<pattern mark_from="3">
 				<token negate="yes" skip="1">przez</token>
 				<token inflected="yes" skip="5">rozumieć<exception>przez</exception></token>
 				<token>pod</token>
 			</pattern>
-			<message>Mówimy <suggestion>rozumieć coś przez</suggestion> coś.</message>
-			<example type="incorrect"><marker>Rozumiał czasem pod</marker> tym pojęciem wolę.</example>
+			<message>Mówimy rozumieć coś <suggestion>przez</suggestion> coś.</message>
+			<example type="incorrect">Rozumiał czasem <marker>pod</marker> tym pojęciem wolę.</example>
 			<example type="correct">Kartezjusz rozumiał czasem przez to pojęcie wolę.</example>
 			<example type="correct">Kartezjusz rozumiał przez to wolę, pod którą podciągał inne pojęcia.</example>
 		</rule>
@@ -1548,36 +1567,38 @@ $Id: grammar.xml,v 1.134 2007-03-05 22:55:14 milek_pl Exp $
 	
 		
 		<rule name="„w gazecie pisze” (było napisane)" id="PISZE">
-			<pattern case_sensitive="yes">
+			<pattern case_sensitive="yes" mark_from="2" mark_to="-1">
 				<token regexp="yes" skip="-1">[Nn]a|[Ww]</token>
-				<token regexp="yes" skip="-1">gazecie|internecie|artykule|plakacie|książce|instukcji|księdze</token>
+				<token regexp="yes" skip="-1">gazecie|dzienniku|internecie|artykule|plakacie|książce|instukcji|księdze|stronie</token>
 				<token regexp="yes" skip="1">pisze|pisało|stoi|stało</token>
-				<token>że</token>
+				<token regexp="yes">że|iż</token>
 			</pattern>
 			<message>Mówimy <suggestion>było napisane</suggestion>, a nie „pisze”.</message>
 			<example type="correct">W gazecie było napisane, że w Polsce rośnie szczurosałata.</example>
-			<example type="incorrect"><marker>W gazecie pisało, że</marker> w Polsce rośnie szczurosałata.</example>
+			<example type="incorrect">W gazecie <marker>pisało</marker>, że w Polsce rośnie szczurosałata.</example>
 		</rule>
+		
 		<rule name="„tam pisze” (tam było napisane)" id="TAM_PISZE">
-			<pattern>
-				<token regexp="yes" skip="3">tam|tutaj|gdzie</token>
+			<pattern mark_from="1" mark_to="-1">
+				<token regexp="yes" skip="3">tam|tutaj|gdzie|gdzieś</token>
 				<token regexp="yes" skip="1">pisze|pisało|stoi|stało</token>
 				<token>że</token>
 			</pattern>
 			<message>Mówimy <suggestion>było napisane</suggestion>, a nie „pisze”.</message>
 			<example type="correct">Tam było napisane, że w Polsce rośnie szczurosałata.</example>
-			<example type="incorrect"><marker>Tam pisało, że</marker> w Polsce rośnie szczurosałata.</example>
+			<example type="incorrect">Tam <marker>pisało</marker>, że w Polsce rośnie szczurosałata.</example>
 		</rule>
+		
 		<rule name="„nie tyle... co” (nie tyle..., ile)" id="NIE_TYLE_CO">
-			<pattern>
+			<pattern mark_from="2">
 				<token>nie</token>
 				<token skip="-1">tyle<exception>ile</exception></token>
 				<token>co</token>
 			</pattern>
-			<message>Mówimy <suggestion>nie tyle..., ile...</suggestion>.</message>
+			<message>Mówimy nie tyle..., <suggestion>ile</suggestion>...</message>
 			<example type="correct">Jestem przekonany, że wielkim nieprzyjacielem prawdy jest nie tyle kłamstwo, ile monotonia.</example>
 			<example type="correct">Nieprzyjacielem prawdy jest nie tyle kłamstwo, ile monotonia, co wykazały zresztą moje badania.</example>
-			<example type="incorrect">Takie nadmierne wchłanianie wapnia spowodowane jest <marker>nie tyle przesadnym spożyciem, co</marker> zaburzeniami.</example>
+			<example type="incorrect">Takie nadmierne wchłanianie wapnia spowodowane jest nie tyle przesadnym spożyciem, <marker>co</marker> zaburzeniami.</example>
 		</rule>
 	
 		
@@ -1590,6 +1611,7 @@ $Id: grammar.xml,v 1.134 2007-03-05 22:55:14 milek_pl Exp $
 			<example type="correct">Ludwik był uznany za wielkiego aktora</example>
 			<example type="incorrect">Ludwik był uznawany <marker>wielkim</marker> aktorem.</example>
 		</rule>
+		
 		<rule id="ZAINTERESOWANIE_DLA" name="„zainteresowanie dla czego” (czym)">
 			<pattern>
 				<token inflected="yes">zainteresować</token>
@@ -1700,28 +1722,29 @@ $Id: grammar.xml,v 1.134 2007-03-05 22:55:14 milek_pl Exp $
 		</rule>
 		
 		<rule name="„zarówno... i” („zarówno... jak”)" id="ZAROWNO_I">
-			<pattern>
+			<pattern mark_from="1">
 				<token skip="-1">zarówno<exception regexp="yes">jak|\(.*</exception></token>				
 				<token skip="-1">i</token>
 			</pattern>
 			<message>Po „zarówno” piszemy <suggestion>jak i</suggestion>.</message>
 			<example type="correct">Wiążą się z tym zarówno zyski, jak i zalety.</example>
-			<example type="incorrect">Wiążą się z tym <marker>zarówno zyski i</marker> zalety.</example>
+			<example type="incorrect">Wiążą się z tym zarówno zyski <marker>i</marker> zalety.</example>
 			<!-- example type="correct">Wiążą się z tym zarówno zyski i zalety, jak i pewne wady.</example -->
 		</rule>
 	
 		<rule name="„czym... tym” (im... tym)" id="CZYM_TYM">
-			<pattern>
+			<pattern mark_to="-3">
 				<token skip="-1">czym</token>
 				<token postag="(adj|adv).*:comp" postag_regexp="yes" skip="-1"/>
 				<token>tym</token>
 				<token postag="(adj|adv).*:comp" postag_regexp="yes"/>
 			</pattern>
-			<message>Mówimy <suggestion>Im..., tym</suggestion>.</message>
+			<message>Mówimy <suggestion>Im</suggestion>..., tym...</message>
 			<example type="correct">Im większa, tym lepiej.</example>
-			<example type="incorrect"><marker>Czym większa, tym lepiej</marker>.</example>
+			<example type="incorrect"><marker>Czym</marker> większa, tym lepiej.</example>
 		</rule>
 	</category>
+	
 	<category name="Błędy leksykalne">
 	
 		<rule id="ZAKRAWAC_O" name="„zakrawać o” (zakrawać na)">
@@ -1958,14 +1981,14 @@ $Id: grammar.xml,v 1.134 2007-03-05 22:55:14 milek_pl Exp $
 		</rule>
 	
 		<rule name="„czekać za” (na)" id="CZEKAC_ZA">
-			<pattern>
+			<pattern mark_from="1" mark_to="-1">
 				<token inflected="yes" skip="4">czekać<exception>na</exception></token>
 				<token>za</token>
 				<token postag=".*inst.*" postag_regexp="yes"/>
 			</pattern>
-			<message>Mówi się <suggestion>czekać na</suggestion> co, a nie „za czymś”.</message>
+			<message>Mówi się „czekać <suggestion>na</suggestion> co”, a nie „za czymś”.</message>
 			<example type="correct">Czekałem dwie godziny na pociąg.</example>
-			<example type="incorrect"><marker>Czekałem dwie godziny za pociągiem</marker>.</example>
+			<example type="incorrect">Czekałem dwie godziny <marker>za</marker> pociągiem.</example>
 			<example type="correct">Czekałem godzinę na pociąg za granicę.</example>
 		</rule>
 	
@@ -1992,12 +2015,12 @@ $Id: grammar.xml,v 1.134 2007-03-05 22:55:14 milek_pl Exp $
 	
 		
 		<rule name="„odgrywać znaczenie” (rolę)" id="ODGRYWAC_ZNACZENIE">
-			<pattern>
+			<pattern mark_from="1">
 				<token skip="2" inflected="yes" regexp="yes">grać|odgrywać</token>
 				<token>znaczenie</token>
 			</pattern>
 			<message>Mówimy „odgrywać <suggestion>rolę</suggestion>”, a nie „odgrywać znaczenie”.</message>
-			<example type="incorrect"><marker>Odgrywa duże znaczenie</marker> w żegludze różnych typów statków.</example>
+			<example type="incorrect">Odgrywa duże <marker>znaczenie</marker> w żegludze różnych typów statków.</example>
 			<example type="correct"><marker>Odgrywa dużą rolę</marker> w żegludze różnych typów statków.</example>
 		</rule>
 	
@@ -2044,14 +2067,14 @@ $Id: grammar.xml,v 1.134 2007-03-05 22:55:14 milek_pl Exp $
 			<example type="correct">Rzepowa także czuła, że to gorąco, to zimno przebiega ją od stóp do <marker>głów</marker>.</example>
 		</rule>
 		<rule name="„wprowadzić coś w obieg” (puścić w obieg)" id="WPROWADZIC_W_OBIEG">
-			<pattern>
+			<pattern mark_to="-2">
 				<token inflected="yes" skip="-1" regexp="yes">wprowadzić|wprowadzać</token>
 				<token>w</token>
 				<token>obieg</token>
 			</pattern>
-			<message>Mówi się <suggestion>puszczać w obieg</suggestion>, a nie „wprowadzać w obieg”.</message>
+			<message>Mówi się „<suggestion>puszczać</suggestion> w obieg”, a nie „wprowadzać w obieg”.</message>
 			<example type="correct">Mafia puściła w obieg sfałszowane dolary.</example>
-			<example type="incorrect">Mafia <marker>wprowadziła niebawem w obieg</marker> sfałszowane dolary.</example>
+			<example type="incorrect">Mafia <marker>wprowadziła</marker> niebawem w obieg sfałszowane dolary.</example>
 		</rule>
 		
 		<rule id="WYSOKA_FORMA" name="„wysoka forma” (dobra forma, doskonała forma)">
@@ -2318,11 +2341,11 @@ $Id: grammar.xml,v 1.134 2007-03-05 22:55:14 milek_pl Exp $
 				<token skip="-1" inflected="yes" regexp="yes">uznać|uznawać<exception regexp="yes">za|,|który|jaki|co|.*ania</exception></token>
 				<token>jako</token>
 			</pattern>
-			<message>Mówi się „uznać coś <suggestion>za</suggestion> jakieś”</message>
+			<message>Mówi się „uznać coś <suggestion>za</suggestion> jakieś”.</message>
 			<example type="correct">Ludwik był uznany za wielkiego aktora.</example>
 			<example type="correct">Ludwik był uznawany za wielkiego aktora.</example>
 			<example type="incorrect">Ludwik był uznany <marker>jako</marker> wielki aktor.</example>
-			<example type="incorrect">Uznałem <marker>go jako</marker> straconego dla sprawy.</example>
+			<example type="incorrect">Uznałem go <marker>jako</marker> straconego dla sprawy.</example>
 			<example type="correct">Ludwik był uznawany za świetnego księgowego, jako że dbał o finanse firmy.</example>
 			<example type="correct">Ludzie uznawali ją za piękność.</example>
 		</rule>
@@ -3800,22 +3823,22 @@ $Id: grammar.xml,v 1.134 2007-03-05 22:55:14 milek_pl Exp $
 		</rule>
 			
 		<rule name="„za równo” (zarówno)" id="ZA_ROWNO">
-			<pattern mark_from="0" mark_to="0">
+			<pattern mark_from="0" mark_to="-1">
 				<token>za</token>
 				<token skip="-1">równo</token>
 				<token regexp="yes">jak|jaki</token>
 			</pattern>
 			<message>Wyraz <suggestion>zarówno</suggestion> piszemy łącznie.</message>
-			<example type="incorrect">Sam program PHARE spotkał się z poważną krytyką i negatywną oceną <marker>za równo ze strony europejskiego Trybunału Obrachunkowego jak</marker> i dwukrotnie polskiej NIK.</example>
+			<example type="incorrect">Sam program PHARE spotkał się z poważną krytyką i negatywną oceną <marker>za równo</marker> ze strony europejskiego Trybunału Obrachunkowego jak i dwukrotnie polskiej NIK.</example>
 			<example type="correct">Sam program PHARE spotkał się z poważną krytyką i negatywną oceną zarówno ze strony europejskiego Trybunału Obrachunkowego, jak i dwukrotnie polskiej NIK.</example>
 		</rule>
 		<rule name="„zarówno... jaki” (zarówno... jak i)" id="ZA_ROWNO_JAKI">
-			<pattern mark_from="0" mark_to="0">
-				<token regexp="yes" skip="-1">równo|zarówno<exception>jak</exception></token>
+			<pattern mark_from="1" mark_to="0">
+				<token regexp="yes" skip="-1">równo|zarówno<exception>jak</exception></token>				
 				<token regexp="yes">jaki</token>
 			</pattern>
-			<message>To wyrażenie ma poprawną postać: <suggestion>zarówno... jak i</suggestion>.</message>
-			<example type="incorrect">Sam program PHARE spotkał się z poważną krytyką i negatywną oceną za <marker>równo ze strony europejskiego Trybunału Obrachunkowego jaki</marker> dwukrotnie polskiej NIK.</example>
+			<message>To wyrażenie ma poprawną postać: zarówno... <suggestion>jak i</suggestion>.</message>
+			<example type="incorrect">Sam program PHARE spotkał się z poważną krytyką i negatywną oceną za równo ze strony europejskiego Trybunału Obrachunkowego <marker>jaki</marker> dwukrotnie polskiej NIK.</example>
 			<example type="correct">Sam program PHARE spotkał się z poważną krytyką i negatywną oceną zarówno ze strony europejskiego Trybunału Obrachunkowego, jak i dwukrotnie polskiej NIK.</example>
 			<example type="correct">Sam program PHARE zarówno ze strony europejskiego Trybunału Obrachunkowego, jak i sądu ludowego, jaki powołał premier.</example>
 		</rule>
@@ -4755,14 +4778,14 @@ $Id: grammar.xml,v 1.134 2007-03-05 22:55:14 milek_pl Exp $
 	 </rule>
 	 
  	<rule id="ZWROTNE_BEZ_SIE" name="czasowniki zwrotne bez „się”">
-		<pattern>
+		<pattern mark_from="1" mark_to="-1">
 		<token postag="SENT_START" skip="-1"><exception>się</exception></token>
   	<token skip="-1" inflected="yes" regexp="yes" postag_regexp="yes" postag="verb.*|pcon:imperf|pant:perf">absentować|afiszować|awanturować|bać|bestwić|biedzić|biesić|bisurmanić|blamować|bliźnić|błaźnić|błąkać|błocić|boczyć|bogacić|borykać|brandzlować|bratać|brzydzić|buńczuczyć|buzować|byczyć|cackać|cedzić|ceregielić|ceremoniować|certolić|certować|chachać|chajtać|chajtnąć|chełpić|chichrać|chlubić|chmurzyć|ciaćkać|ciekać|cielić|cieszyć|cknić|cnić|czaić|czapierzyć|czołgać|czubić|czulić|czupurzyć|czworzyć|dąsać|dekoltować|delektować|dematerializować|depopularyzować|desocjalizować|destandaryzować|dezaktualizować|dłużyć|dochrapać|dochrapywać|doczołgać|dodzwaniać|dodzwonić|dogadać|dogadywać|doigrać|doktoryzować|domagać|domniemać|domniemywać|domyślać|domyślić|dopominać|dopomnieć|dopytać|dopytywać|dorozumieć|dorozumiewać|dostukać|doszukać|doszukiwać|dotelefonować|dotelepać|dotlić|dowiadywać|dowiedzieć|dowiercić|dowojować|dowołać|dowoływać|doziębić|droczyć|drożyć|dymić|dziwić|dziwować|egalitaryzować|egzaltować|elegantować|elektryzować|emocjonować|entuzjazmować|fajczyć|fałdować|fechtować|filcować|fiokować|frajerować|frasować|fraternizować|gapić|garbić|garnąć|głowić|gniewać|gnieździć|goić|gramolić|grudkować|gurbić|guzdrać|gzić|handryczyć|hazardować|hultaić|ikrzyć|imać|indyczyć|jagnić|jarzyć|jaskrawić|jawić|jąkać|kajać|katulać|kiełbasić|kitwasić|kluć|kłaczyć|kłaniać|kłębić|kłonić|kłopotać|kłosić|kłócić|kocić|kokainizować|kokosić|kolegować|koligacić|konsonantyzować|kontentować|korzenić|korzyć|kotłować|krupić|krygować|krzątać|krztusić|kulić|kumplować|kurczyć|kwapić|laicyzować|lampartować|lasować|ląc|leksykalizować|lenić|lęgnąć|lękać|litować|lochać|logować|lubować|lustrzyć|łajdaczyć|łakomić|łasić|łaszczyć|marcować|markocić|masturbować|mazgaić|mądrzyć|mechacić|metropolizować|mienić|migdalić|mizdrzyć|modlić|modrzyć|morfinizować|morusać|mozolić|mrowić|mścić|nabiadać|nabiedować|nabiedzić|nabłąkać|naborykać|nabuńczuczyć|naburmuszyć|nabzdyczać|nabzdyczyć|nachlać|nachłeptać|nachmurzyć|nachorować|nachrapać|nacierpieć|nacieszyć|naczekać|naczupirzyć|naczupurzyć|naczytać|naćpać|nadarzać|nadarzyć|nadąsać|nadenerwować|nadłubać|nadowiadywać|nadrałować|nadreptać|nadrzemać|nadwęglić|nadziękować|nadziwić|nadźwigać|nafruwać|nagardłować|nagimnastykować|nagłodować|nagłowić|naharować|nahulać|naigrawać|naindyczyć|nairytować|najadać|najeść|najeździć|najeżyć|najęczeć|nakrzątać|nalatać|nałykać|namachać|namęczyć|namocować|namordować|namozolić|namyślać|namyśleć|namyślić|napalać|napatoczyć|napatrzeć|napatrzyć|napić|napłakać|napocić|napodróżować|napokutować|napolitykować|napolować|naponiewierać|napościć|napracować|napraszać|naprzeklinać|naprzyglądać|naprzykrzać|naprzykrzyć|naradzać|naradzić|narozprawiać|nasapać|naschodzić|nasiedzieć|nasilać|nasilić|naskakać|naskamlać|nasłuchać|nasłużyć|nasrożyć|nassać|nastać|naszamotać|naszczebiotać|naszlochać|naszperać|naszukać|naślęczeć|naśmiać|naśmiewać|natachać|natańczyć|natęsknić|natknąć|natrudzić|natrząsać|natułać|natykać|natyrać|nauganiać|naumieć|nauwijać|naużerać|nawarstwiać|nawarstwić|nawąchać|nawdychać|nawędrować|nawojować|nawściekać|nawychwalać|nawykłócać|nawysługiwać|nawzdychać|nazabiegać|nazachwycać|naziewać|naziębić|nazjeżdżać|nazlatywać|nazłazić|nażartować|nażłopać|nażreć|nażyć|niebieszczyć|niebieścić|niecierpliwić|nikotynizować|obabić|obawiać|obcmokiwać|obcyndalać|obeżreć|objadać|obkupić|obławiać|obłowić|obsunąć|obsuwać|obślizgiwać|obślizgnąć|obśliznąć|obyć|obywać|obżerać|ochajtać|ochajtnąć|ochlać|ociągać|ocielić|ocieplić|ocknąć|odchrzanić|odczołgać|odczołgiwać|odechcieć|odechciewać|odezwać|odgałęziać|odgałęzić|odgrażać|odjadać|odjeść|odkłaniać|odkłonić|odkochać|odkochiwać|odmeldować|odmeldowywać|odpalantować|odpalantowywać|odpierwiastkować|odrodzić|odrzekać|odstawić|odstrychnąć|odsztyftować|odtentegować|odwarstwiać|odwarstwić|odważać|odważyć|odwdzięczać|odwdzięczyć|odwidzieć|odzywać|odżegnać|odżegnywać|ognić|okocić|omsknąć|onanizować|opamiętać|opamiętywać|opiekować|oprosić|orientować|ostać|osunąć|osuwać|oszczenić|oślizgnąć|ośliznąć|otrzaskać|ozwać|ozywać|oźrebić|ożenić|ożłopać|pałętać|panoszyć|parać|parkać|parkocić|pastwić|patyczkować|perlić|piąć|pieklić|pienić|pierzyć|pietrać|pindrzyć|plenić|pleść|płonić|płozić|płożyć|poawanturować|pobłąkać|pobogacić|pobyczyć|pochlubić|pocić|poczołgać|poczubić|poczuwać|podąsać|podczołgać|podczołgiwać|podedrzeć|podkochiwać|podlić|podlizać|podlizywać|podobać|podopalać|podowiadywać|podroczyć|podśmiewać|podwalać|podźwigać|podźwignąć|pofatygować|pogapić|pogłowić|pogniewać|pojawiać|pojawić|pojedynkować|pokajać|pokapować|pokłonić|pokłócić|pokrzątać|pokulić|pokumać|pokwapić|poleczyć|połakomić|połapywać|połasić|połaszczyć|pomartwić|pomieniać|pomocować|pomodlić|popisywać|popluskać|poprzekomarzać|poprztykać|poprzyglądać|porać|porodzić|porozbiegać|porozchodzić|porozgałęziać|porozglądać|porozjeżdżać|porozlatywać|porozłazić|porozpadać|porozrastać|porozsiadać|porozsychać|porozumieć|porozumiewać|porozwidlać|poróżnić|posilać|posilić|poskurczać|posługiwać|posmęcić|posmucić|posnobować|posnuć|pospierać|pospolitować|posprzeczać|postarać|postarzeć|poswarzyć|poszczęścić|poszczycić|poszkapić|poszwendać|poślizgać|poślizgiwać|poślizgnąć|pośliznąć|pośmiać|potaplać|potargować|potknąć|potrudzić|potykać|poufalić|poumizgać|poumizgiwać|pouśmiechać|powałęsać|powdzięczyć|poweselić|powichrować|powieść|powinąć|powstydzić|powściekać|powychylać|powygłupiać|powygrzewać|powylęgać|powyludniać|powymądrzać|powymykać|powyrabiać|powyradzać|powystrajać|powyślizgiwać|powyzbywać|powzdymać|pozabliźniać|pozakorzeniać|pozalęgać|pozapadać|pozapełniać|pozaprzyjaźniać|pozasklepiać|pozbiegać|pozbyć|pozbywać|pozderzać|pozmawiać|poznęcać|pozrastać|pozrzekać|pozsiadać|pozsychać|pozwoływać|pozżymać|pożalić|pożywiać|późnić|prawować|procesować|profesjonalizować|proletaryzować|prostytuować|prowadzać|próżniaczyć|przebarwić|przebudzać|przechadzać|przecharakteryzować|przechwalać|przeciskać|przeczołgać|przeczołgiwać|przedawniać|przedawnić|przedostać|przedostawać|przedzierzgać|przedzierzgnąć|przedźwigać|przedźwignąć|przejaśniać|przejaśnić|przejęzyczać|przejęzyczyć|przekomarzać|przekradać|przekraść|przekrwić|przeląc|przelęknąć|przemęczać|przemęczyć|przemordować|przepoczwarczać|przepoczwarczyć|przepoczwarzać|przepoczwarzyć|przeprawiać|przeprawić|przeradzać|przerodzić|przesiadać|przesiąść|przesilać|przesilić|przesłyszeć|przesmykiwać|przesmyknąć|prześlizgać|prześlizgiwać|prześlizgnąć|prześliznąć|prześmiewać|przewałęsać|przewiadywać|przewiedzieć|przewłóczyć|przeziębiać|przeziębić|przeżegnać|przeżreć|przybłąkać|przychrzaniać|przychrzanić|przyczaić|przyczajać|przyczołgać|przyczołgiwać|przyczyniać|przyczynić|przydać|przydarzać|przydarzyć|przygarbić|przyglądać|przyjaźnić|przyjrzeć|przykrzyć|przymawiać|przymglić|przymilać|przymilić|przypatrywać|przypatrzyć|przypętać|przyplątać|przyplątywać|przypochlebiać|przypochlebić|przypodobać|przypytać|przysłuchać|przysłuchiwać|przysłużyć|przyśnić|przytaić|przytarabanić|przytelepać|przytrafiać|przytrafić|przywałęsać|przywidywać|przywidzieć|przyżeniać|przyżenić|puszyć|pysznić|rdzawić|rewanżować|roić|rozamorować|rozanielać|rozanielić|rozbalować|rozbałaganić|rozbałamucić|rozbarwiać|rozbarwić|rozbeczeć|rozbiec|rozbiegać|rozbisurmaniać|rozbisurmanić|rozbrykać|rozbrzęczeć|rozcharakteryzować|rozcharakteryzowywać|rozchichotać|rozchlipać|rozchmurzać|rozchmurzyć|rozchodzić|rozchorować|rozchuliganić|rozczmuchać|rozczmuchiwać|rozczytać|rozczytywać|rozćwierkać|rozdąsać|rozdeszczyć|rozdokazywać|rozdygotać|rozdyskutować|rozdzwaniać|rozdzwonić|rozdźwięczeć|rozedrgać|rozegzaltować|rozegzaltowywać|rozejrzeć|rozejść|rozełkać|rozeprzeć|rozeschnąć|roześmiać|rozfalować|rozfanatyzować|rozfiglować|rozflirtować|rozgałęziać|rozgałęzić|rozgaszczać|rozgaworzyć|rozgdakać|rozgęgać|rozglądać|rozglądnąć|rozgorączkować|rozgościć|rozgwieździć|rozhałasować|rozhasać|rozhisteryzować|rozhuczeć|rozhukać|rozhulać|rozhultaić|rozigrać|rozindyczyć|roziskrzać|roziskrzyć|rozjazgotać|rozjeść|rozjęczeć|rozkasłać|rozkaszlać|rozkaszleć|rozklaskać|rozkląć|rozkorzeniać|rozkorzenić|rozkoszować|rozkrochmalać|rozkrochmalić|rozkrzyczeć|rozkwiczeć|rozkwilać|rozkwilić|rozlatywać|rozlecieć|rozlec|rozlegać|rozlegnąć|rozleźć|rozlśnić|rozłajdaczyć|rozłakamiać|rozłakomić|rozłazić|rozłobuzować|rozmachnąć|rozmaić|rozmarudzić|rozmazgaić|rozmazgajać|rozmigotać|rozmijać|rozminąć|rozmodlić|rozmówić|rozmyślić|rozochocić|rozpadać|rozpanoszyć|rozpaść|rozpaść|rozpełzać|rozpełznąć|rozperorować|rozpękać|rozpęknąć|rozpić|rozpierać|rozpierzchać|rozpierzchnąć|rozpijaczyć|rozpląsać|rozpłakać|rozpłynąć|rozpływać|rozpoetyzować|rozpolitykować|rozprawić|rozpróżniaczać|rozpróżniaczyć|rozradzać|rozrastać|rozrechotać|rozrodzić|rozrosnąć|rozryczeć|rozsadowić|rozsapać|rozsiadać|rozsiąpić|rozsiąść|rozskakać|rozsłocić|rozsmakować|rozsmakowywać|rozstać|rozstawać|rozstąpić|rozstępować|rozswawolić|rozsychać|rozsypiać|rozszaleć|rozszczebiotać|rozszczekać|rozszeptać|rozszlochać|rozszumieć|rozszwargotać|rozślimaczyć|rozśmiać|rozśnieżyć|rozśpiewać|rozśpiewywać|rozświegotać|rozświergotać|roztańczyć|rozterkotać|roztęsknić|roztętnić|roztlić|roztrajkotać|roztrenować|roztrysnąć|roztrzepotać|roztyć|rozwałęsać|rozwarcholić|rozwarczeć|rozwidlać|rozwidlić|rozwidniać|rozwidnić|rozwielmożniać|rozwielmożnić|rozwierzgać|rozwieść|rozwrzeszczeć|rozwydrzać|rozwydrzyć|rozzbytkować|rozzieleniać|rozzielenić|rozziewać|rozżalać|rozżalić|różnić|samodoskonalić|samofinansować|schlać|schmurzyć|schronić|scukrować|scukrzyć|sfajdać|sfrajerować|silić|siłować|skłaczyć|skłębić|skoligacić|skonsonantyzować|skonsultować|skozaczyć|skradać|skrupiać|skrupić|skrzyć|skulać|skulić|skumać|skurczyć|skuzynować|słaniać|smużyć|snobizować|snobować|solidaryzować|spaczyć|spanoszyć|specjalizować|spierać|spieszyć|spietrać|spiknąć|spłakać|spłonić|spocić|spodlić|spodobać|spodziewać|spokrewniać|spokrewnić|spospolitować|spowinowacać|spowinowacić|spóźniać|spóźnić|spracować|sproletaryzować|sprzeciwiać|sprzeciwić|sprzeczać|sprzykrzyć|sprzymierzać|sprzymierzyć|sprzysiąc|sprzysięgać|srożyć|starać|starzeć|stawić|stelefonować|stęsknić|stlić|stowarzyszać|stowarzyszyć|strapić|stropić|strwożyć|sturlać|sumitować|swarzyć|szarogęsić|szczenić|szczęścić|szczycić|szlajać|szmacić|sztachać|sztachnąć|sztafirować|szwendać|ślimaczyć|ślizgać|śmiać|śpieszyć|taplać|tarzać|telepać|tlić|troić|tropnąć|troskać|troszczyć|trudnić|tułać|turbować|tyczyć|ubiegać|ubzdryngolić|uchlać|ucieleśnić|udławić|ukłonić|ukorzeniać|ukorzenić|ukorzyć|ulatniać|uląc|uląc|uleżeć|ulęgać|ulęgnąć|ulęknąć|ulitować|ulotnić|umartwiać|umawiać|umiarkować|umizgać|umizgiwać|umizgnąć|umówić|unormować|uobecniać|uobecnić|upajać|upierać|upierzyć|upijać|uplasować|upłakać|upłakiwać|uporać|upowszechniać|uprzeć|uprzykrzyć|uskarżać|usmarkać|ustatkować|ustosunkować|ustosunkowywać|uszarpać|uśmiać|uśmiechać|uśmiechnąć|utyrać|uwalić|uwielokrotniać|uwijać|uwinąć|uwziąć|uznoić|użalać|użalić|użerać|wahać|wahnąć|wałęsać|wałkonić|wczołgać|wczołgiwać|wczuć|wczuwać|wczytać|wczytywać|wdać|wdawać|wdrapać|wdrapywać|wdzierać|wdzięczyć|wedrzeć|wemknąć|weselić|weżreć|wgapić|wgramolić|wgryzać|wgryźć|wichrować|wichrzyć|wkradać|wkraść|wkulać|wkulić|wkupić|wkupywać|włamać|włamywać|wmykać|wmyślać|wmyślić|worywać|wpatrywać|wpatrzyć|wpraszać|wprosić|wrąbać|wrąbywać|wrodzić|wsłuchać|wsłuchiwać|wspiąć|wspinać|współubiegać|wstydzić|wściec|wściekać|wślizgać|wślizgiwać|wślizgnąć|wśliznąć|wtarabaniać|wtarabanić|wturlać|wybeczeć|wyboczyć|wybyczyć|wycielić|wycwanić|wyczołgać|wyczołgiwać|wydarzać|wydarzyć|wydąsać|wydekoltować|wydokazywać|wydurniać|wyfajdać|wyfioczyć|wyfiokować|wyforować|wyfraczyć|wygalować|wygarbiać|wygimnastykować|wygłupiać|wygłupić|wygramolić|wyguzdrać|wygwieździć|wyhasać|wyhulać|wyhuśtać|wyiskrzać|wyiskrzyć|wyjęzyczać|wyjęzyczyć|wykaraskać|wykasłać|wykaszlać|wykaszleć|wykliniać|wyklinić|wyklinować|wyklinowywać|wykluć|wykluwać|wykłamać|wykłamywać|wykłaszać|wykłosić|wykłócać|wykłócić|wykocić|wykopyrtnąć|wykosztować|wykosztowywać|wykrwawiać|wykrwawić|wyląc|wylegiwać|wyletniać|wyletnić|wyleżeć|wylęgać|wylęgnąć|wylęknąć|wylogować|wyłabudać|wyłgać|wyłgiwać|wyłobuzować|wymądrzać|wymądrzyć|wymigać|wymigiwać|wymknąć|wymsknąć|wymydlić|wymykać|wynaradawiać|wynarodawiać|wynaturzać|wynaturzyć|wynurzać|wynurzyć|wyobcować|wyobcowywać|wyokrąglać|wyokrąglić|wypierzać|wypierzyć|wypindrzyć|wypłonić|wypłycać|wypoczwarzać|wypoczwarzyć|wypogadzać|wypogodzić|wypościć|wyprztykać|wypsnąć|wypylić|wyradzać|wyrajać|wyrodzić|wyroić|wysforować|wysforowywać|wysikać|wysilać|wysilić|wysiusiać|wyskakać|wyskarżyć|wysławiać|wysłowić|wysmażyć|wysmykiwać|wysmyknąć|wyspać|wysrać|wystać|wystarać|wystrzegać|wysypiać|wyszaleć|wysztafirować|wyszumieć|wyślizgnąć|wyśliznąć|wytańczyć|wytrząsać|wywczasować|wywdzięczać|wywdzięczyć|wywiadywać|wywiązać|wywiązywać|wywiedzieć|wywnętrzać|wywnętrzyć|wywyższać|wywyższyć|wywzajemniać|wywzajemnić|wyzbyć|wyzbywać|wyzłościć|wyzłośliwiać|wyzłośliwić|wyzwierzać|wyzwierzyć|wyżalać|wyżalić|wyżywać|wzbić|wzbijać|wzdragać|wzdrygać|wzdrygnąć|wzorować|wzwyczaić|wzwyczajać|wżąć|wżenić|wżerać|wżyć|wżynać|wżywać|zabliźniać|zabliźnić|zabłąkać|zabujać|zachcieć|zachciewać|zachlać|zachlewać|zachłysnąć|zachłystywać|zachmurzać|zachmurzyć|zacietrzewiać|zacietrzewić|zacukać|zaczaić|zaczajać|zaczerwienić|zaczołgać|zadamawiać|zadąsać|zadeszczyć|zadłużać|zadłużyć|zadomawiać|zadomowić|zadumać|zadurzyć|zadyszeć|zafrasować|zagalopować|zagalopowywać|zagapić|zagłębiać|zagłębić|zagnieść|zagnieździć|zagnieżdżać|zagoić|zagrypić|zaharować|zaharowywać|zaiskrzyć|zajarzyć|zająkiwać|zająknąć|zakałapućkać|zakatarzyć|zakłębić|zakochać|zakochiwać|zakolegować|zakorzeniać|zakorzenić|zakotłować|zakradać|zakraść|zakrzątnąć|zakrztusić|zaląc|zalęgać|zalęgnąć|zalęknąć|zalogować|załgać|załgiwać|załzawić|zamachnąć|zamartwiać|zamartwić|zamglić|zamodlić|zamordowywać|zamortyzować|zamroczyć|zamrowić|zamrozić|zamyślać|zamyślić|zaopiekować|zapacać|zapatrywać|zapatrzyć|zaperzać|zaperzyć|zapiec|zapieklić|zapienić|zapłakiwać|zapłonić|zapocić|zapoczwarzyć|zapowietrzać|zapóźniać|zapóźnić|zaprzedać|zaprzyjaźniać|zaprzyjaźnić|zarabować|zaroić|zarykiwać|zarzec|zarzekać|zasapać|zasępiać|zasępić|zasiedzieć|zaskorupiać|zaskorupić|zaskrzyć|zasłuchać|zasmarkać|zasrebrzyć|zastać|zastanawiać|zastanowić|zaszklić|zaśmiać|zaśmiewać|zaśniecić|zatchnąć|zatlić|zatroskać|zatroszczyć|zatrwożyć|zatyrać|zawahać|zawziąć|zawzinać|zazębiać|zazębić|zaziębiać|zaziębić|zażenować|zażerać|zbeczeć|zbiesić|zbisurmanić|zblamować|zbłaźnić|zbłąkać|zbratać|zbrylać|zbrylić|zdarzać|zdarzyć|zdawać|zdekapitalizować|zdeklarować|zdeklasować|zderzać|zderzyć|zdrzemnąć|zdumieć|zdziwić|zdzwaniać|zdzwonić|zdźwigać|zemścić|zeschnąć|zesikać|zesmrodzić|zesrać|zesrywać|zestarzeć|zeszczać|ześlizgiwać|ześlizgnąć|ześliznąć|ześwinić|zetlić|zeźlić|zgadać|zgadzać|zgapić|zgarbić|zgorączkować|zgramolić|zgruźlać|zgruźlić|zgrzać|zgurbić|zhasać|zhulać|zielenić|zjawiać|zjawić|zląc|zleksykalizować|zleżeć|zlęknąć|zlisić|zlitować|złakomić|złasić|zmachać|zmagać|zmądrzyć|zmetamorfizować|zmierzchać|zmierzchnąć|zmiłować|zmineralizować|zmizerować|zmorfologizować|zmotoryzować|zmówić|zmroczyć|zmumifikować|znęcać|zniecierpliwić|znoić|zorientować|zrastać|zreflektować|zrelaksować|zrepolonizować|zresorbować|zrewanżować|zromanizować|zrosnąć|zrzec|zrzekać|zrzygać|zsikać|zsiusiać|zsolidaryzować|zsumitować|zsychać|zwapnić|zwidywać|zwidzieć|zwierzać|zwierzyć|zwokalizować|zziajać|zżyć|zżymać|zżymnąć|zżywać|źrebić|żachać|żachnąć|żalić|żarzyć|żenić<exception scope="current" postag="subst:ger.*|ppas.*|adj.*" postag_regexp="yes"/><exception postag_regexp="yes" postag="subst.*"/><exception regexp="yes">różnie|śmiał.*</exception><exception scope="next">się</exception></token>
 		<token regexp="yes">[\.!?…\(](?:'|«|\"|”|\)|\]|\})?</token>
 		</pattern>
-		<message>W tym zdaniu występuje czasownik zwrotny, a brakuje wyrazu „się”.</message>
+		<message>W tym zdaniu występuje czasownik zwrotny, a brakuje wyrazu „się”; powinno być: <suggestion>\2 się</suggestion> lub <suggestion>się \2</suggestion>.</message>
 		<example type="correct">Ludwik niczego się nie bał.</example>
-		<example type="incorrect"><marker>Ludwik niczego nie bał.</marker></example>
+		<example type="incorrect">Ludwik niczego nie <marker>bał</marker>.</example>
 	</rule>	
 	 
 	</category>
