@@ -170,13 +170,17 @@ public class PatternRule extends Rule {
   public final RuleMatch[] match(final AnalyzedSentence text) {
     List<RuleMatch> ruleMatches = new ArrayList<RuleMatch>();    
     AnalyzedTokenReadings[] tokens = text.getTokensWithoutWhitespace();
-    int[] tokenPositions = new int[tokens.length+1];
+    int[] tokenPositions = new int[tokens.length + 1 ];
     
     int tokenPos = 0;
     int prevSkipNext = 0;
     int skipNext = 0;
     int matchPos = 0;
     int skipShift = 0;
+    // this variable keeps the total number
+    // of tokens skipped - used to avoid
+    // that nextPos gets back to unmatched tokens...
+    int skipShiftTotal = 0;
 
     int firstMatchToken = -1;
     int lastMatchToken = -1;
@@ -207,7 +211,7 @@ public class PatternRule extends Rule {
         }
         elem = patternElements.get(k);
         skipNext = elem.getSkipNext();
-        int nextPos = tokenPos + k + skipShift;
+        int nextPos = tokenPos + k + skipShiftTotal;
         if (nextPos >= tokens.length) {
           allElementsMatch = false;
           break;
@@ -238,8 +242,8 @@ public class PatternRule extends Rule {
             } else {
               matched = true;
               matchPos = m;
-              skipShift = matchPos - nextPos;
-              tokenPositions[matchingTokens] = skipShift + 1;
+              skipShift = matchPos - nextPos;              
+              tokenPositions[matchingTokens] = skipShift + 1;              
             }
             skipMatch = (skipMatch || matched) && !exceptionMatched;
           }
@@ -248,9 +252,11 @@ public class PatternRule extends Rule {
           if (!thisMatched && !prevMatched) {
             exceptionMatched = false;
           }
+                    
           if (skipMatch) {
             break;
           }
+          
         }
         //disallow exceptions that should match only current tokens        
         if (!thisMatched && !prevMatched) {
@@ -263,15 +269,19 @@ public class PatternRule extends Rule {
           prevSkipNext = 0;
         }
         if (!allElementsMatch) {
-          break;
+          skipShiftTotal = 0;
+          break;          
         } else {          
           matchingTokens++;
           lastMatchToken = matchPos; // nextPos;          
           if (firstMatchToken == -1)
             firstMatchToken = matchPos; // nextPos;
+          skipShiftTotal += skipShift;
         }
       }
-
+      
+      tokenPos++;
+      
       if (allElementsMatch) {
         String errMessage = message;
         
@@ -286,7 +296,7 @@ public class PatternRule extends Rule {
             repTokenPos += tokenPositions[l];
           }
           errMessage = errMessage.replaceAll("\\\\" + (j + 1), 
-                tokens[firstMatchToken + repTokenPos -1].getToken());
+                tokens[firstMatchToken + repTokenPos - 1].getToken());
         }        
         
         int correctedStPos = 0;
@@ -322,8 +332,9 @@ public class PatternRule extends Rule {
       } else {
         firstMatchToken = -1;
         lastMatchToken = -1;
+        skipShiftTotal = 0;
       }
-      tokenPos++;
+      //
     }
 
     return (RuleMatch[]) ruleMatches.toArray(new RuleMatch[0]);
