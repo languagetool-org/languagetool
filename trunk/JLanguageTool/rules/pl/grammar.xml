@@ -2,7 +2,7 @@
 <!--
 Polish Grammar and Typo Rules for LanguageTool
 Copyright (C) 2006 Marcin Miłkowski
-$Id: grammar.xml,v 1.135 2007-03-06 14:47:27 milek_pl Exp $		
+$Id: grammar.xml,v 1.136 2007-03-07 18:36:38 milek_pl Exp $		
 -->
 <rules lang="pl">
 
@@ -47,9 +47,10 @@ $Id: grammar.xml,v 1.135 2007-03-06 14:47:27 milek_pl Exp $
 				<example type="correct">Było trzeba kupić wino, było można narwać owoców w ogrodzie.</example>
 				<example type="incorrect"><marker>Trzeba kupić wino można narwać owoców w ogrodzie.</marker></example>	
 			</rule>
+
 			<rule>
 				<pattern>
-					<token skip="-1" postag_regexp="yes" postag="verb:bedzie.*|pcon:imperf" regexp="yes">będ.*<exception scope="next" inflected="yes" regexp="yes">[\-—–,!\?;\(\):r]|bądź|czy|ani|lub|albo|oraz|i|kiedy|gdy|który|jaki|że|iż|aby|żeby|iżby|gdyż|bo|jeśli|jeżeli|aby|żeby|ażeby|zanim|dopóki</exception></token>
+					<token skip="-1" postag_regexp="yes" postag="verb:bedzie.*|pcon:imperf" regexp="yes">będ.*<exception scope="next" inflected="yes" regexp="yes">[\-—–,!\?;\(\):r]|bądź|czy|ani|lub|albo|oraz|i|kiedy|gdy|który|jaki|że|iż|aby|żeby|iżby|gdyż|bo|jeśli|jeżeli|ażeby|zanim|dopóki</exception></token>
 					<token skip="-1" postag_regexp="yes" postag="pred|verb:.*(sg|pl).*|verb:imps.*|pcon:imperf|pant:perf"><exception scope="current" postag_regexp="yes" postag="subst:.*|adj.*|ppron.*|adv:comp|prep.*|qub|indecl|verb:praet.*"/><exception scope="current" regexp="yes">jedna|może|lecz</exception></token>
 					<phraseref idref="INTERPUNKCJA"/>
 				</pattern>
@@ -59,6 +60,7 @@ $Id: grammar.xml,v 1.135 2007-03-06 14:47:27 milek_pl Exp $
 				<example type="correct">Trzeba będzie pomóc Jurkowi odrabiać lekcje za Romana.</example>				
 				<example type="incorrect">Marek <marker>będzie szukać okularów a Jurek pomoże Romanowi odrabiać lekcje.</marker></example>
 			</rule>	
+
 			<rule>
 				<pattern>
 					<token skip="-1" postag_regexp="yes" postag="pred|verb:.*(sg|pl).*|verb:imps.*|pcon:imperf|pant:perf"><exception scope="current" postag_regexp="yes" postag="subst:.*|adj.*|ppron.*|adv:comp|prep.*|qub|indecl|verb:praet.*"/><exception scope="current" regexp="yes">jedna|może|lecz|trzeba|można|wolno</exception><exception scope="next" inflected="yes" regexp="yes">–|\-|—|[,!\?;\(\):r]|bądź|czy|ani|lub|albo|oraz|i|kiedy|gdy|gdyż|który|jaki|że|aby|żeby|iżby|ażeby|zanim|dopóki</exception></token>
@@ -71,6 +73,7 @@ $Id: grammar.xml,v 1.135 2007-03-06 14:47:27 milek_pl Exp $
 				<example type="correct">Marek będzie pomagał Jurkowi odrabiać lekcje za Romana.</example>
 				<example type="incorrect">Jurek <marker>pomoże Romanowi odrabiać lekcje a Marek będzie szukać okularów.</marker></example>
 			</rule>	
+
 			<rule>
 				<pattern>
 					<token skip="-1" postag_regexp="yes" postag="verb:.*(sg|pl).*|verb:irreg|verb:imps.*|pcon:imperf|pant:perf" regexp="yes" inflected="yes">mieć<exception scope="current">miano</exception><exception scope="next" regexp="yes">–|\-|—|[,!\?;\(\):r]|bądź|czy|ani|lub|albo|oraz|i|kiedy|gdy|który|jaki|że|aby|żeby|ażeby|iżby|zanim|dopóki</exception></token>
@@ -82,6 +85,7 @@ $Id: grammar.xml,v 1.135 2007-03-06 14:47:27 milek_pl Exp $
 				<example type="correct">Marek miał pomagać i pomagał Jurkowi odrabiać lekcje za Romana.</example>
 				<example type="incorrect">Marek <marker>miał szukać okularów a Jurek pomoże Romanowi odrabiać lekcje.</marker></example>
 			</rule>	
+
 			<rule>
 				<pattern>
 					<token skip="-1" postag_regexp="yes" postag="pred|verb:.*(sg|pl).*|verb:imps.*|pcon:imperf|pant:perf"><exception scope="current" postag_regexp="yes" postag="subst:.*|adj.*|ppron.*|verb:inf.*|adv:comp|prep.*|qub|indecl|adv.*"/><exception scope="current" regexp="yes">może|lecz|jedna|będ.*</exception><exception scope="next" inflected="yes" regexp="yes">[\-—–,!\?;\(\):r]|bądź|czy|ani|lub|albo|oraz|i|kiedy|gdy|który|jaki|że|iż|bo|gdyż|aby|ażeby|żeby|iżby|zanim|dopóki</exception><exception scope="current" inflected="yes">mieć</exception></token>
@@ -669,6 +673,7 @@ $Id: grammar.xml,v 1.135 2007-03-06 14:47:27 milek_pl Exp $
 			<example type="incorrect">Nie ma <marker>to nawiasem mówiąc sensu</marker>.</example>
 		</rule>
 	</rulegroup>
+
 						
 	<rulegroup id="PRZECINEK_ANI" name="Zbędny przecinek przed „ani”, „albo”, „bądź”, „i”, „lub”, „oraz”">
 	<rule>
