@@ -3,7 +3,7 @@
 English Grammar and Typo Rules for LanguageTool
 See tagset.txt for the meaning of the POS tags
 Copyright (C) 2001-2007 Daniel Naber (http://www.danielnaber.de)
-$Id: grammar.xml,v 1.146 2007-03-06 14:47:28 milek_pl Exp $
+$Id: grammar.xml,v 1.147 2007-03-07 18:35:14 milek_pl Exp $
 -->
 <rules lang="en">
 
@@ -2035,6 +2035,18 @@ $Id: grammar.xml,v 1.146 2007-03-06 14:47:28 milek_pl Exp $
   	<example type="correct"><marker>Because we</marker> didn't want a big train, but we want a fast train.</example>
   </rule>
   
+  <rule id="BOTH_AS_WELL_AS" name="both... as well as(and)">
+  	<pattern mark_from="1">
+  		<token skip="-1">both<exception>and</exception></token>
+  		<token>as</token>
+  		<token>well</token>
+  		<token>as</token>
+  	</pattern>
+  	<message>Probably usage error. Use <suggestion>and</suggestion> after 'both'.</message>
+		<example type="correct">He is both rich and handsome.</example>
+		<example type="incorrect">He is both very rich <marker>as well as</marker> handsome.</example>
+  </rule>
+
   </category>
 
   <!-- ====================================================================== -->
