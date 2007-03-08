@@ -3,7 +3,7 @@
 English Grammar and Typo Rules for LanguageTool
 See tagset.txt for the meaning of the POS tags
 Copyright (C) 2001-2007 Daniel Naber (http://www.danielnaber.de)
-$Id: grammar.xml,v 1.147 2007-03-07 18:35:14 milek_pl Exp $
+$Id: grammar.xml,v 1.148 2007-03-08 17:22:28 milek_pl Exp $
 -->
 <rules lang="en">
 
@@ -1206,8 +1206,9 @@ $Id: grammar.xml,v 1.147 2007-03-07 18:35:14 milek_pl Exp $
     <pattern mark_from="1" mark_to="-2">
       <token regexp="yes">as</token>
       <token regexp="yes">many|few</token>
-      <token regexp="yes">air|money|software|cattle|knowledge|sand|furniture|meat|food|news|success|water|freedom|maturity|intelligence|life|information</token>
-      <token>as</token>
+      <token postag_regexp="yes" postag="NN:U"/>
+<!--      <token regexp="yes">air|money|software|cattle|knowledge|sand|furniture|meat|food|news|success|water|freedom|maturity|intelligence|life|information</token>
+ -->     <token>as</token>
     </pattern>
     <message>Use <suggestion>much</suggestion> or <suggestion>little</suggestion> with uncountable nouns</message>
     <example type="correct">John eats as <marker>much</marker> food as Peter.</example>
@@ -1223,15 +1224,15 @@ $Id: grammar.xml,v 1.147 2007-03-07 18:35:14 milek_pl Exp $
     http://www.geocities.com/Athens/Olympus/7583/ncntlist.html
     -->
    <rule id="A_UNCOUNTABLE" name="Articles: a + uncountable noun">
-     <pattern mark_to="-2">
+     <pattern mark_to="-1">
        <token regexp="yes">a|an</token>
-       <token regexp="yes">air|accomodation|advice|baggage|bread|equipment|garbage|luggage|money|cattle|knowledge|sand|furniture|meat|food|news|pasta|progress|research|water|freedom|maturity|intelligence|travel|pollution|traffic</token>
-       <token postag_regexp="yes" postag="RP|VBZ"/>
+       <token regexp="yes">air|accomodation|advice|access|baggage|bread|equipment|garbage|luggage|money|cattle|knowledge|sand|furniture|meat|food|news|pasta|progress|research|water|freedom|maturity|intelligence|travel|pollution|traffic</token>
+       <token postag_regexp="yes" postag="RP|VBZ|IN"/>
      </pattern>
-     <message>Uncountable nouns are usually not used with an indefinite article.</message>
-     <example type="correct"><marker>The</marker> information in your files is correct.</example>
-     <example type="correct"><marker>An</marker> intelligence service is known to be corrupt here.</example>
-     <example type="incorrect"><marker>An</marker> accomodation is too expensive.</example>
+     <message>Uncountable nouns are usually not used with an indefinite article. Use simply <suggestion>\2</suggestion>.</message>
+     <example type="correct"><marker>The information</marker> in your files is correct.</example>
+     <example type="correct"><marker>An intelligence</marker> service is known to be corrupt here.</example>
+     <example type="incorrect"><marker>An accomodation</marker> is too expensive.</example>
    </rule>
 
   <rule id="MOST_SOME_OF_NNS" name="Articles: 'most/some of' + plural noun">
@@ -2046,6 +2047,18 @@ $Id: grammar.xml,v 1.147 2007-03-07 18:35:14 milek_pl Exp $
 		<example type="correct">He is both rich and handsome.</example>
 		<example type="incorrect">He is both very rich <marker>as well as</marker> handsome.</example>
   </rule>
+
+	<rule id="ACCORDING_TO_ME" name="according to me(in my opinion)">
+		<pattern>
+			<token postag="SENT_START"/>
+			<token>according</token>
+			<token>to</token>
+			<token>me</token>
+		</pattern>
+		<message>This phrase can sound awkward in English. Consider using <suggestion>in my opinion</suggestion> or <suggestion>I think</suggestion>.</message>
+		<example type="correct">In my opinion, this is a great movie.</example>
+		<example type="incorrect"><marker>According to me</marker>, this is a great movie.</example>
+	</rule>
 
   </category>
 
