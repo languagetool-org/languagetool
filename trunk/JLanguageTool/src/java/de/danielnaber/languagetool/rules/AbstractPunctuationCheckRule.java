@@ -58,12 +58,17 @@ public abstract class AbstractPunctuationCheckRule extends Rule {
 		List<RuleMatch> ruleMatches = new ArrayList<RuleMatch>();
 		AnalyzedTokenReadings[] tokens = text.getTokens();
 
+        int startTokenIdx = -1;
 		String tkns = "";
 		for (int i = 0; i < tokens.length; i++) {
 			String tokenStr = tokens[i].getToken();
 			
 			if (isPunctuation(tokenStr)) {
 				tkns += tokenStr;
+                
+                if( startTokenIdx == -1 )
+                  startTokenIdx = i;
+                
 				if (i < tokens.length - 1)
 					continue;
 			}
@@ -71,12 +76,14 @@ public abstract class AbstractPunctuationCheckRule extends Rule {
 			if (tkns.length() >= 2) {
 				if (!isPunctsJoinOk(tkns)) {
 					String msg = "bad duplication or combination of puctuation signs";
-					RuleMatch ruleMatch = new RuleMatch(this, tokens[i].getStartPos()-tkns.length(), tokens[i].getStartPos(), msg);
+					RuleMatch ruleMatch = new RuleMatch(this, tokens[startTokenIdx].getStartPos(), 
+                        tokens[startTokenIdx].getStartPos() + tkns.length(), msg);
 					ruleMatch.setSuggestedReplacement(tkns.substring(0, 1));
 					ruleMatches.add(ruleMatch);
 				}
 			}
 			tkns = "";
+            startTokenIdx = -1;
 		}
 
 		return toRuleMatchArray(ruleMatches);
