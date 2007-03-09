@@ -2,7 +2,7 @@
 <!--
 Polish Grammar and Typo Rules for LanguageTool
 Copyright (C) 2006 Marcin Miłkowski
-$Id: grammar.xml,v 1.136 2007-03-07 18:36:38 milek_pl Exp $		
+$Id: grammar.xml,v 1.137 2007-03-09 11:51:59 milek_pl Exp $		
 -->
 <rules lang="pl">
 
@@ -1752,6 +1752,37 @@ $Id: grammar.xml,v 1.136 2007-03-07 18:36:38 milek_pl Exp $
 	
 	<category name="Błędy leksykalne">
 	
+		<rulegroup id="WARTY" name="„warty” (wart)">
+			<rule>
+				<pattern case_sensitive="yes" mark_from="1">
+				<token regexp="yes">niewiele|wiele|więcej|mniej|mało|jest|był|będzie|byłby|być</token>
+				<token>warty</token>
+				</pattern>
+				<message>Niepoprawna forma orzecznika. Powinno być: <suggestion>wart</suggestion>.</message>
+				<example type="correct">Ten świstek od Antoniego jest niewiele wart.</example>
+				<example type="incorrect">Ten świstek od Antoniego jest niewiele <marker>warty</marker>.</example>
+			</rule>
+			<rule>
+				<pattern>
+				<token>niewarty</token>
+				</pattern>
+				<message>Niepoprawna forma orzecznika. Powinno być: <suggestion>niewart</suggestion>.</message>
+				<example type="correct">Ten świstek od Antoniego jest nic niewart.</example>
+				<example type="incorrect">Ten świstek od Antoniego jest nic <marker>niewarty</marker>.</example>
+			</rule>				
+		</rulegroup>
+	
+		<rule id="ZA_SWIADKA" name="„być za świadka” (świadkiem)">
+			<pattern mark_from="1">
+				<token inflected="yes">być</token>
+				<token>za</token>
+				<token>świadka</token>
+			</pattern>
+			<message>Prawdopodobnie błędny związek. Powinno być: <suggestion>świadkiem</suggestion>.</message>
+			<example type="incorrect">Ale na koniec dowiedziałam się, że szwagier nie może być <marker>za świadka</marker> na mojej sprawie.</example>
+			<example type="correct">Ale na koniec dowiedziałam się, że szwagier nie może być <marker>świadkiem</marker> na mojej sprawie.</example>
+		</rule>
+		
 		<rule id="ZAKRAWAC_O" name="„zakrawać o” (zakrawać na)">
 			<pattern mark_from="1">
 				<token inflected="yes">zakrawać</token>
