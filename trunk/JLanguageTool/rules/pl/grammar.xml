@@ -2,7 +2,7 @@
 <!--
 Polish Grammar and Typo Rules for LanguageTool
 Copyright (C) 2006 Marcin Miłkowski
-$Id: grammar.xml,v 1.137 2007-03-09 11:51:59 milek_pl Exp $		
+$Id: grammar.xml,v 1.138 2007-03-09 19:50:17 milek_pl Exp $		
 -->
 <rules lang="pl">
 
@@ -2397,6 +2397,55 @@ $Id: grammar.xml,v 1.137 2007-03-09 11:51:59 milek_pl Exp $
 			<example type="correct">W każdym razie premier nie miał racji.</example>
 			<example type="incorrect"><marker>W każdym bądź razie</marker> premier nie miał racji.</example>
 		</rule>
+		
+		<rulegroup id="KTOKOLWIEK_BADZ" name="„ktokolwiek bądź” (ktokolwiek)">
+			<rule>
+				<pattern mark_to="-1">
+					<token inflected="yes">ktokolwiek</token>
+					<token>bądź</token>
+					<token><exception inflected="yes">cokolwiek</exception><exception>co</exception></token>
+				</pattern>
+				<message>To wyrażenie jest niepoprawne. Poprawnie: <suggestion>\1</suggestion>.</message>
+				<example type="incorrect"><marker>Ktokolwiek bądź</marker> wbrew prawu wydanemu przez mego boskiego rodzica i niniejszemu rozkazowi mojemu poważy się składać ofiary, tego spotka stosowna kara i natychmiastowy wyrok.</example>
+				<example type="correct"><marker>Ktokolwiek</marker> wbrew prawu wydanemu przez mego boskiego rodzica i niniejszemu rozkazowi mojemu poważy się składać ofiary, tego spotka stosowna kara i natychmiastowy wyrok.</example>
+				<example type="correct">Jednak wówczas nikomu jakoś nie chciało siie ujawniać stanów posiadania, a co dopiero oddawać komukolwiek bądź co bądź nowych lokomotyw.</example>
+			</rule>
+			
+			<rule>
+				<pattern mark_to="-1">
+					<token inflected="yes">cokolwiek</token>
+					<token>bądź</token>
+					<token><exception inflected="yes">ktokolwiek</exception><exception>co</exception></token>
+				</pattern>
+				<message>To wyrażenie jest prawdopodobnie niepoprawne. Poprawnie: <suggestion>\1</suggestion>.</message>
+				<example type="incorrect"><marker>Cokolwiek bądź</marker> robisz, rób starannie i zdobądź dobre imię.</example>
+				<example type="correct"><marker>Cokolwiek</marker> robisz, rób starannie i zdobądź dobre imię.</example>
+				<example type="correct">Cokolwiek bądź kogokolwiek te grupy religijnej lewicy reprezentują, na pewno nie odzwierciedlają poglądów większości wiernych.</example>
+			</rule>
+
+			<rule>
+				<pattern mark_to="-1">
+					<token inflected="yes" regexp="yes">gdziekolwiek|jakikolwiek|kiedykolwiek|czyjkolwiek|ilekolwiek|dokądkolwiek|jakiśkolwiek|cośkolwiek|jakkolwiek|skądkolwiek</token>
+					<token>bądź</token>
+					<token><exception regexp="yes" inflected="yes">ktokolwiek|cokolwiek</exception><exception>co</exception></token>
+				</pattern>
+				<message>To wyrażenie jest prawdopodobnie niepoprawne. Poprawnie: <suggestion>\1</suggestion>.</message>
+				<example type="incorrect"><marker>Jakkolwiek bądź</marker> kiedyś nauka roztrzygnie, w rzeczywistości mowa kaszubska jak dotąd pozostanie wobec polskiego języka w roli narzecza.</example>
+				<example type="correct">Jakkolwiek kiedyś nauka roztrzygnie, w rzeczywistości mowa kaszubska jak dotąd pozostanie wobec polskiego języka w roli narzecza.</example>
+			</rule>
+			
+		</rulegroup>
+
+	<rule id="PO_PIERWSZE_PRIMO" name="„po pierwsze primo” (po pierwsze)">
+		<pattern>
+			<token>po</token>
+			<token regexp="yes">pierwsze|drugie|trzecie|czwarte</token>
+			<token>primo</token>
+		</pattern>
+		<message>Ten zwrot bywa używany żartobliwie. Jeśli tekst jest oficjalny, powinno być: <suggestion>\1 \2</suggestion>.</message>
+		<example type="correct">Ja po pierwsze się krępuję.</example>
+		<example type="incorrect">Ja <marker>po pierwsze primo</marker> się krępuję.</example>
+	</rule>
 
 	<rulegroup id="W_TEMACIE" name="„w temacie” (na temat)">
 		<rule>
@@ -4828,6 +4877,16 @@ $Id: grammar.xml,v 1.137 2007-03-09 11:51:59 milek_pl Exp $
 
 	<category name="Błędy frazeologiczne">
 	
+		<rule name="„krępacja” (skrępowanie)" id="KREPACJA_BEZ_BEZ">
+			<pattern mark_from="1">
+				<token negate="yes">bez</token>
+				<token inflected="yes">krępacja</token>
+			</pattern>
+			<message>To wyraz niesamodzielny i może wystąpić tylko w zwrocie <suggestion>bez krępacji</suggestion>. W innych kontekstach używa się rzeczownika <suggestion>skrępowanie</suggestion>.</message>
+			<example type="incorrect">Nie chodzi tu o temat, ale o sam fakt <marker>krępacji</marker> wynikający z uczestniczenia w dialogu z dziewczyną.</example>
+			<example type="correct">Nie chodzi tu o temat, ale o sam fakt <marker>skrępowania</marker> wynikający z uczestniczenia w dialogu z dziewczyną.</example>
+		</rule>
+		
 		<rule name="„stanąć dębem (dęba)" id="STANAC_DEBEM">
 			<pattern mark_from="1">
 				<token inflected="yes" regexp="yes">stanąć|stawać</token>
