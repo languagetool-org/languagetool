@@ -3,7 +3,7 @@
 English Grammar and Typo Rules for LanguageTool
 See tagset.txt for the meaning of the POS tags
 Copyright (C) 2001-2007 Daniel Naber (http://www.danielnaber.de)
-$Id: grammar.xml,v 1.148 2007-03-08 17:22:28 milek_pl Exp $
+$Id: grammar.xml,v 1.149 2007-03-10 08:58:14 milek_pl Exp $
 -->
 <rules lang="en">
 
@@ -2060,6 +2060,43 @@ $Id: grammar.xml,v 1.148 2007-03-08 17:22:28 milek_pl Exp $
 		<example type="incorrect"><marker>According to me</marker>, this is a great movie.</example>
 	</rule>
 
+	<rulegroup id="AFRAID_OF_HEIGHT" name="'afraid of' + singular">
+	<rule>
+		<pattern mark_from="2" mark_to="-1">
+			<token>afraid</token>
+			<token>of</token>
+			<token postag_regexp="yes" postag="NN:.*"><exception postag_regexp="yes" postag="NNS|NNPS"></exception><exception regexp="yes">dark|wind|rain</exception></token>
+			<token><exception postag_regexp="yes" postag="JJ.*|NN.*"/></token>
+		</pattern>
+		<message>The noun \3 should be probably in the plural form.</message>
+		<example type="incorrect">I'm afraid of <marker>height</marker>.</example>
+		<example type="correct">I'm afraid of <marker>heights</marker>.</example>
+	</rule>
+		<rule>
+		<pattern mark_from="3" mark_to="-1">
+			<token>afraid</token>
+			<token>of</token>
+			<token postag_regexp="yes" postag="JJ.*"><exception postag_regexp="yes" postag="NNS|NNPS"></exception></token>
+			<token postag_regexp="yes" postag="NN:.*"><exception postag_regexp="yes" postag="NNS|NNPS"></exception></token>
+			<token><exception postag_regexp="yes" postag="JJ.*|NN.*"/></token>
+		</pattern>
+		<message>The noun \4 should be probably in the plural form.</message>
+		<example type="incorrect">I'm afraid of open <marker>space</marker>.</example>
+		<example type="correct">I'm afraid of open <marker>spaces</marker>.</example>
+	</rule>
+	<rule>
+		<pattern mark_from="2" mark_to="-1">
+			<token>afraid</token>
+			<token>of</token>
+			<token regexp="yes">dark|wind|rain</token>
+			<token><exception postag_regexp="yes" postag="JJ.*|NN.*"/></token>
+		</pattern>
+		<message>You probably should use this form here: <suggestion>the \3</suggestion>.</message>
+		<example type="incorrect">I'm afraid of <marker>dark</marker>.</example>
+		<example type="correct">I'm afraid of <marker>the dark</marker>.</example>
+	</rule>
+	</rulegroup>
+	
   </category>
 
   <!-- ====================================================================== -->
