@@ -20,10 +20,13 @@ package de.danielnaber.languagetool;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
+import java.util.Set;
 
 import junit.framework.TestCase;
 
@@ -33,16 +36,38 @@ import junit.framework.TestCase;
  * @author Daniel Naber
  */
 public class TranslationTest extends TestCase {
-  
+
+  public void testTranslationKeyExistence() throws IOException {
+    // use English version as the reference:
+    File englishFile = getTranslationFile(Language.ENGLISH);
+    Properties enProps = new Properties();
+    enProps.load(new FileInputStream(englishFile));
+    Set<Object> englishKeys = enProps.keySet();
+    for (int i = 0; i < Language.LANGUAGES.length; i++) {
+      Language lang = Language.LANGUAGES[i];
+      if (lang == Language.ENGLISH || lang == Language.DEMO)
+        continue;
+      Properties langProps = new Properties();
+      File langFile = getTranslationFile(lang);
+      langProps.load(new FileInputStream(langFile));
+      Set<Object> langKeys = langProps.keySet();
+      for (Object englishKey : englishKeys) {
+        if (!langKeys.contains(englishKey)) {
+          System.err.println("***** No key '" + englishKey + "' in file " + langFile);
+        }
+      }
+    }
+  }
+
   /**
    * Make sure values are not empty.
    */
   public void testTranslationsAreNotEmpty() throws IOException {
     for (int i = 0; i < Language.LANGUAGES.length; i++) {
       Language lang = Language.LANGUAGES[i];
-      File file = new File("src" + File.separator + "java" + File.separator
-        + "de" + File.separator + "danielnaber"+ File.separator +"languagetool" 
-        + File.separator + "MessagesBundle_" + lang.getShortName()+".properties");
+      if (lang == Language.DEMO)
+        continue;
+      File file = getTranslationFile(lang);
       if (!file.exists()) {
         System.err.println("Note: no translation available for " + lang);
         continue;
@@ -50,9 +75,7 @@ public class TranslationTest extends TestCase {
       List<String> lines = loadFile(file);
       for (String line : lines) {
         line = line.trim();
-        if (line.startsWith("#"))
-          continue;
-        if (line.equals(""))
+        if (line.startsWith("#") || line.equals(""))
           continue;
         String[] parts = line.split("=");
         if (parts.length < 2) {
@@ -79,6 +102,12 @@ public class TranslationTest extends TestCase {
       if (fr != null) fr.close();
     }
     return l;
+  }
+
+  private File getTranslationFile(Language lang) {
+    return new File("src" + File.separator + "java" + File.separator
+        + "de" + File.separator + "danielnaber" + File.separator + "languagetool" 
+        + File.separator + "MessagesBundle_" + lang.getShortName() + ".properties");
   }
 
 }
