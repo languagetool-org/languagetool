@@ -2,7 +2,7 @@
 <!--
 Polish Grammar and Typo Rules for LanguageTool
 Copyright (C) 2006 Marcin Miłkowski
-$Id: grammar.xml,v 1.138 2007-03-09 19:50:17 milek_pl Exp $		
+$Id: grammar.xml,v 1.139 2007-03-10 10:52:12 milek_pl Exp $		
 -->
 <rules lang="pl">
 
@@ -1705,6 +1705,29 @@ $Id: grammar.xml,v 1.138 2007-03-09 19:50:17 milek_pl Exp $
 		</rule>
 		</rulegroup>
 		
+		<rule name="„opatrzyć w co” (czymś)" id="OPATRZYC_W">
+			<pattern>
+				<token inflected="yes" regexp="yes">opatrzyć|opatrywać</token>
+				<token>w</token>
+				<token postag_regexp="yes" postag=".*acc.*|.*nom.*"><exception postag_regexp="yes" postag=".*inst.*|.*loc.*"/></token>
+			</pattern>
+			<message>Ten czasownik nie jest używany z przyimkiem „w”. Poprawnie <suggestion>za\1 \2 \3</suggestion> lub <suggestion>\1</suggestion> z narzędnikiem (np. „opatrywać godłem”).</message>
+			<example type="incorrect">Prace należy <marker>opatrzyć w osobiste</marker> godło.</example>
+			<example type="correct">Prace należy <marker>opatrzyć osobistym</marker> godłem.</example>
+		</rule>
+
+		<rule name="„postulować o co” (postulować co)" id="POSTULOWAC_O">
+			<pattern>
+				<token inflected="yes" regexp="yes">postulować|zapostulować</token>
+				<token>o</token>
+				<token postag_regexp="yes" postag=".*acc.*|.*nom.*"><exception postag_regexp="yes" postag=".*inst.*|.*loc.*"/></token>
+			</pattern>
+			<message>Ten czasownik nie jest używany z przyimkiem „o”. Poprawnie <suggestion>\1 \3</suggestion>.</message>
+			<example type="incorrect">Mickiewicz w 1843 roku we Francji <marker>postulował o utworzenie</marker> teatru.</example>
+			<example type="correct">Mickiewicz w 1843 roku we Francji <marker>postulował utworzenie</marker> teatru.</example>
+		</rule>
+
+		
 		<rule name="„ogłosić o” (ogłosić co)" id="OGLOSIC_O">
 			<pattern>
 				<token inflected="yes" regexp="yes">ogłosić|ogłaszać<exception postag_regexp="yes" postag="subst:ger.*"/></token>
@@ -1752,6 +1775,16 @@ $Id: grammar.xml,v 1.138 2007-03-09 19:50:17 milek_pl Exp $
 	
 	<category name="Błędy leksykalne">
 	
+		<rule id="SPELNIAC_OPIEKE" name="„spełniać opiekę” (sprawować opiekę)">
+			<pattern>
+				<token regexp="yes" inflected="yes">spełniać|pełnić</token>
+				<token>opiekę</token>
+			</pattern>
+			<message>Niepoprawny zwrot. Mówi się <suggestion>sprawować \2</suggestion> lub <suggestion>opiekować się</suggestion>.</message>
+			<example type="incorrect">Jako hufcowy nadal będę <marker>pełnił opiekę</marker> nad drużyną.</example>
+			<example type="correct">Jako hufcowy nadal będę <marker>sprawował opiekę</marker> nad drużyną.</example>
+		</rule>		
+		
 		<rulegroup id="WARTY" name="„warty” (wart)">
 			<rule>
 				<pattern case_sensitive="yes" mark_from="1">
