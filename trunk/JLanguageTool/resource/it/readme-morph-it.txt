@@ -1,26 +1,25 @@
-
+===================================================================
                             Morph-it!
 
        A free morphological lexicon for the Italian Language
 ===================================================================
 
-                         version 0.4.3
-                         March 24 2006
-
+                         version 0.4.7
+                         March 08 2007
 
 *******************************************************************
-		THIS README IS NOT UP TO DATE
-		    A NEW VERSION OF THIS
-		     README FILE WILL BE
-		  RELEASED (HOPEFULLY) SOON
+                THIS README IS NOT REALLY UP TO DATE
+                      A NEW VERSION OF THIS
+                       README FILE WILL BE
+                    RELEASED (HOPEFULLY) SOON
+                (BUT I WOULDN'T COUNT ON THAT...)
 *******************************************************************
 
-
-                      Copyright (c) 2004-2006
-                Marco Baroni (baroni@sslmit.unibo.it)
+                     Copyright (c) 2004-2007
+              Marco Baroni  (marco.baroni@unitn.it)
               Eros Zanchetta (eros@sslmit.unibo.it)
 
-    http://sslmitdev-online.sslmit.unibo.it/linguistics/morph-it.php
+                 http://sslmit.unibo.it/morphit
 
 
 Morph-it! is a free (as in free speech and in free beer) morphological
@@ -33,7 +32,7 @@ gattini		gattino		NOUN-M:p
 andarono	andare		VER:ind+past+3+p
 fastidiosetto	fastidioso	ADJ:dim+m+s
 
-As of version 0.4.2 the list contains 506,153 entries and 34,928
+As of version 0.4.7 the list contains 504,906 entries and 34,968
 lemmas.
 
 Morph-it! can be used as a data source for an Italian lemmatizer /
@@ -49,18 +48,14 @@ regular-expression-based rules and manual checking. We are currently
 writing a paper that describes the procedure we used to build the
 resource.
 
-This is the first version of Morph-it!, and there is little doubt that
-it will contain many gaps, unlikely forms, etc. We will be very
-grateful if you let us know about missing forms, problems, and
-ideas/resources that can help us expanding or cleaning the list
-(sslmitdevonline@sslmit.unibo.it).
+Morph-it! is still under development and there may still be gaps,
+unlikely forms, etc. We will be very grateful if you let us know
+about missing forms, problems, and ideas/resources that can help
+us expanding or cleaning the list (sslmitdevonline@sslmit.unibo.it).
 
 Notice in particular that, since we extracted data from an Italian
 newspaper corpus (the la Repubblica corpus, also accessible from our
 site), we have many gaps in basic, every-day vocabulary.
-
-Moreover, the current version does not contain proper nouns. We plan
-to add a reasonable set of names in a future version.
 
 Also, the current version does not distinguish between coordinative
 and subordinative conjunctions. We plan to do this in the near
@@ -328,6 +323,15 @@ WH-CHE
 LICENSING INFORMATION
 ======================
 
+This program is dual-licensed free software; you can redistribute it
+and/or modify it under the terms of the under the Creative Commons 
+Attribution ShareAlike 2.0 License and the GNU Lesser General Public
+License.
+
+***********************************************
+* Creative Commons Attribution ShareAlike 2.0 *
+***********************************************
+
 Morph-it! is licensed under the Creative Commons Attribution
 ShareAlike 2.0 License.
 
@@ -351,8 +355,28 @@ Your fair use and other rights are in no way affected by the above.
 
 You can find a link to the full license from the Morph-it! website.
 
-Copyright (c) 2004-2006 Marco Baroni and Eros Zanchetta.
+Copyright (C) 2004-2007 Marco Baroni and Eros Zanchetta.
 
+*************************************
+* GNU Lesser General Public License *
+*************************************
+
+Morph-it! A free morphological lexicon for the Italian Language
+Copyright (C) 2004-2007 Marco Baroni and Eros Zanchetta
+
+This program is free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 2 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License along
+with this program; if not, write to the Free Software Foundation, Inc.,
+51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 AKNOWLEDGMENTS
 ==============
