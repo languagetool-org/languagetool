@@ -2,7 +2,7 @@
 <!--
 Polish Grammar and Typo Rules for LanguageTool
 Copyright (C) 2006 Marcin Miłkowski
-$Id: grammar.xml,v 1.139 2007-03-10 10:52:12 milek_pl Exp $		
+$Id: grammar.xml,v 1.140 2007-03-11 22:53:23 milek_pl Exp $		
 -->
 <rules lang="pl">
 
@@ -2085,7 +2085,7 @@ $Id: grammar.xml,v 1.139 2007-03-10 10:52:12 milek_pl Exp $
 		
 		<rule name="„odgrywać znaczenie” (rolę)" id="ODGRYWAC_ZNACZENIE">
 			<pattern mark_from="1">
-				<token skip="2" inflected="yes" regexp="yes">grać|odgrywać</token>
+				<token skip="2" inflected="yes" regexp="yes">grać|odgrywać|odegrać</token>
 				<token>znaczenie</token>
 			</pattern>
 			<message>Mówimy „odgrywać <suggestion>rolę</suggestion>”, a nie „odgrywać znaczenie”.</message>
@@ -2093,6 +2093,47 @@ $Id: grammar.xml,v 1.139 2007-03-10 10:52:12 milek_pl Exp $
 			<example type="correct"><marker>Odgrywa dużą rolę</marker> w żegludze różnych typów statków.</example>
 		</rule>
 	
+		<rule name="„przedkładać wniosek” (przedstawiać wniosek)" id="PRZEDKLADAC_WNIOSEK">
+			<pattern mark_to="-1">
+				<token skip="3" inflected="yes" regexp="yes">przedkładać|przedłożyć</token>
+				<token>wniosek</token>
+			</pattern>
+			<message>Prawdopodobnie użyto niewłaściwego czasownika. Powinno być: <suggestion>przedstawić</suggestion>, <suggestion>zgłaszać</suggestion>, <suggestion>wysuwać</suggestion>.</message>
+			<example type="incorrect">Organizacje producentów mogą <marker>przedkładać</marker> tylko jeden wniosek o przyznanie pomocy w ciągu roku.</example>
+			<example type="correct">Organizacje producentów mogą <marker>zgłaszać</marker> tylko jeden wniosek o przyznanie pomocy w ciągu roku.</example>
+		</rule>
+		
+		<rule name="„wywierać piętno” (odciskać piętno)" id="WYWIERAC_PIETNO">
+			<pattern mark_to="-1">
+				<token skip="2" inflected="yes" regexp="yes">wywierać|wywrzeć</token>
+				<token>piętno</token>
+			</pattern>
+			<message>Prawdopodobnie użyto niewłaściwego czasownika. Powinno być: <suggestion>odcisnąć</suggestion> lub <suggestion>wycisnąć</suggestion>.</message>
+			<example type="incorrect">Bez wątpienia jednak <marker>wywarł</marker> wielkie piętno na historii Stanów Zjednoczonych XX wieku.</example>
+			<example type="correct">Bez wątpienia jednak <marker>odcisnął</marker> wielkie piętno na historii Stanów Zjednoczonych XX wieku.</example>
+		</rule>
+
+		<rule name="„wyrządzić stratę” (spowodować stratę)" id="WYRZADZIC_STRATE">
+			<pattern mark_to="-1">
+				<token skip="2" inflected="yes" regexp="yes">wyrządzić|wyrządzać</token>
+				<token regexp="yes">stratę|straty</token>
+			</pattern>
+			<message>Prawdopodobnie użyto niewłaściwego czasownika. Powinno być: <suggestion>spowodować</suggestion> lub <suggestion>powodować</suggestion>.</message>
+			<example type="incorrect"><marker>Wyrządził</marker> straty na około 300 złotych.</example>
+			<example type="correct"><marker>Spowodował</marker> straty na około 300 złotych.</example>
+		</rule>
+
+		<rule name="„zdjąć ze stanowiska” (zwolnić ze stanowiska)" id="ZDJAC_ZE_STANOWISKA">
+			<pattern mark_to="-2">
+				<token skip="2" inflected="yes" regexp="yes">zdjąć|zdejmować</token>
+				<token>ze</token>
+				<token>stanowiska</token>
+			</pattern>
+			<message>Prawdopodobnie użyto niewłaściwego czasownika (wyrażenie jest niepoprawnym rusycyzmem). Powinno być: <suggestion>usunąć</suggestion> lub <suggestion>zwolnić</suggestion>.</message>
+			<example type="incorrect">Straty Vietcongu były tak duże, że komuniści zdecydowali się <marker>zdjąć</marker> Vo ze stanowiska.</example>
+			<example type="correct">Straty Vietcongu były tak duże, że komuniści zdecydowali się <marker>usunąć</marker> Vo ze stanowiska.</example>
+		</rule>
+		
 		<rule name="„domyśleć się” (domyślić się)" id="DOMYSLEC_SIE">
 			<pattern mark_to="-1">
 				<token inflected="yes">domyśleć<exception inflected="yes" regexp="yes">domyślać|domyślić</exception></token>
@@ -2101,6 +2142,30 @@ $Id: grammar.xml,v 1.139 2007-03-10 10:52:12 milek_pl Exp $
 			<message>Czasownik „domyśleć” oznacza „przemyśleć coś wyczerpująco”. W znaczeniu „odgadnąć”, „przewidzieć” używa się czasownika <suggestion>domyślić</suggestion>.</message>
 			<example type="correct">Przemysław domyślał się, że Ludwik zatruł kota Jarosława.</example>
 			<example type="incorrect">Przemysław nie potrafił <marker>domyśleć</marker> się, że Ludwik zatruł kota Jarosława.</example>			
+		</rule>
+
+		<rule name="„przez przeciąg kilku dni” (w ciągu)" id="PRZEZ_PRZECIAG">
+			<pattern mark_to="-2">
+				<token>przez</token>
+				<token>przeciąg</token>
+				<token/>
+				<token regexp="yes">miesięcy|dni|lat|godzin|minut|sekund|kwartałów|tygodni</token>
+			</pattern>
+			<message>Niepoprawne wyrażenie. Powinno być: <suggestion>w ciągu</suggestion> lub <suggestion>przez</suggestion>.</message>
+			<example type="incorrect">Anglia spłacała olbrzymie kwoty <marker>przez przeciąg</marker> dziewięciu lat.</example>
+			<example type="correct">Anglia spłacała olbrzymie kwoty <marker>w ciągu</marker> dziewięciu lat.</example>
+		</rule>
+		
+		<rule name="„na przestrzeni kilku dni” (w ciągu)" id="NA_PRZESTRZENI">
+			<pattern mark_to="-2">
+				<token>na</token>
+				<token>przestrzeni</token>
+				<token/>
+				<token regexp="yes">miesięcy|dni|lat|godzin|minut|sekund|kwartałów|tygodni</token>
+			</pattern>
+			<message>Niepoprawne wyrażenie. Powinno być: <suggestion>w ciągu</suggestion> lub <suggestion>przez</suggestion>.</message>
+			<example type="incorrect">Anglia spłacała olbrzymie kwoty <marker>na przestrzeni</marker> dziewięciu lat.</example>
+			<example type="correct">Anglia spłacała olbrzymie kwoty <marker>w ciągu</marker> dziewięciu lat.</example>
 		</rule>
 		
 		<rule name="„do teraz” (dotąd)" id="DO_TERAZ">
@@ -2635,6 +2700,17 @@ $Id: grammar.xml,v 1.139 2007-03-10 10:52:12 milek_pl Exp $
 		</rule>		
 		</rulegroup>
 		
+		<rule name="„pracować, trenować na hali” (w hali)" id="PRACOWAC_NA_HALI">
+			<pattern mark_from="1">
+				<token inflected="yes" regexp="yes">pracować|trenować</token>
+				<token>na</token>
+				<token>hali</token>
+			</pattern>
+			<message>Niepoprawny przyimek. Powinno być: <suggestion>w hali</suggestion>.</message>
+			<example type="incorrect">W najbliższych dniach będą też trenować <marker>na hali</marker> i w siłowni.</example>
+			<example type="correct">W najbliższych dniach będą też trenować <marker>w hali</marker> i w siłowni.</example>
+		</rule>
+		
 	</category>
 
 	<category name="Pleonazmy">
@@ -3140,9 +3216,33 @@ $Id: grammar.xml,v 1.139 2007-03-10 10:52:12 milek_pl Exp $
 			<example type="incorrect">Kazio bawił się <marker>pantałykiem</marker>.</example>
 		</rule>
 	
-
 	</category>
+	
+	<category name="Błędy rodzaju gramatycznego">
+		
+		<rule name="„ten perfum” (te perfumy)" id="TEN_PERFUM">
+			<pattern>
+				<token postag_regexp="yes" postag="adj.*[\:\.]m[\d]*.*"><exception postag_regexp="yes" postag="adj.*[\:\.]f.*"/></token>
+				<token>perfum</token>
+			</pattern>
+			<message>Ten rzeczonik ma inny rodzaj gramatyczny i liczbę. Mówimy <suggestion>perfumy</suggestion> (zawsze w liczbie mnogiej).</message>
+			<example type="incorrect">Uwielbiam <marker>ten perfum</marker>...</example>
+			<example type="correct">Uwielbiam <marker>te perfumy</marker>...</example>
+		</rule>
+	
+	</category>
+	
 	<category name="Wyrazy modne i nadużywane">
+	
+		<rule name="„ja osobiście” (sam, sama)" id="JA_OSOBISCIE">
+			<pattern>
+				<token>ja</token>
+				<token>osobiście</token>
+			</pattern>
+			<message>Ta zbitka jest nadużywana i nic nie wnosi. Lepiej pominąć lub zastąpić przez <suggestion>sam</suggestion> lub <suggestion>sama</suggestion>.</message>
+			<example type="incorrect"><marker>Ja osobiście</marker> polecam ta metodę jak najbardziej, musisz koniecznie spróbować.</example>
+			<example type="correct">Polecam ta metodę jak najbardziej, musisz koniecznie spróbować.</example>
+		</rule>
 	
 		<rule name="„na okoliczność” (w sprawie)" id="NA_OKOLICZNOSC">
 			<pattern>
