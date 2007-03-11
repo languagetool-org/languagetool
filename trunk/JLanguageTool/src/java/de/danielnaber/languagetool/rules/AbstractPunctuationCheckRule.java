@@ -45,7 +45,7 @@ public abstract class AbstractPunctuationCheckRule extends Rule {
 	}
 
 	public String getDescription() {
-		return messages.getString("desc_punctuation_generic_check");
+		return "Use of unusual combination of punctuation characters";
 	}
 
 	public abstract Language[] getLanguages();
