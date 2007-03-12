@@ -29,6 +29,7 @@ import com.dawidweiss.stemmers.Lametyzator;
 import de.danielnaber.languagetool.AnalyzedToken;
 import de.danielnaber.languagetool.AnalyzedTokenReadings;
 import de.danielnaber.languagetool.tagging.Tagger;
+import de.danielnaber.languagetool.tools.Tools;
 import de.danielnaber.languagetool.JLanguageTool; 
 
 
@@ -51,8 +52,8 @@ public class PolishTagger implements Tagger {
     //caching Lametyzator instance - lazy init
 	if (morfologik == null) {	
 	   File resourceFile = JLanguageTool.getAbsoluteFile(RESOURCE_FILENAME); 
-	   System.setProperty(Lametyzator.PROPERTY_NAME_LAMETYZATOR_DICT, resourceFile.getAbsolutePath());
-	   morfologik = new Lametyzator();
+	   morfologik = new Lametyzator(Tools.getInputStream(resourceFile.getAbsolutePath()),
+              "iso8859-2", '+', true, true);
 	}
 	
     for (Iterator<String> iter = sentenceTokens.iterator(); iter.hasNext();) {
