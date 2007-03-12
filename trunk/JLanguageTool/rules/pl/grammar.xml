@@ -2,16 +2,16 @@
 <!--
 Polish Grammar and Typo Rules for LanguageTool
 Copyright (C) 2006 Marcin Miłkowski
-$Id: grammar.xml,v 1.140 2007-03-11 22:53:23 milek_pl Exp $		
+$Id: grammar.xml,v 1.141 2007-03-12 15:11:16 milek_pl Exp $		
 -->
 <rules lang="pl">
 
 <phrases>
 	<phrase id="INTERPUNKCJA">
-		<token regexp="yes">[\p{Punct}–—]</token>
+		<token regexp="yes">[\p{Punct}–—„«»]</token>
 	</phrase>
 	<phrase id="NIE_INTERPUNKCJA">
-	  <token><exception postag="SENT_START"/><exception regexp="yes">[\p{Punct}-—]|tyle</exception></token>
+	  <token><exception postag="SENT_START"/><exception regexp="yes">[\p{Punct}–—„«»]|tyle</exception></token>
 	</phrase>
 </phrases>
 
@@ -136,7 +136,7 @@ $Id: grammar.xml,v 1.140 2007-03-11 22:53:23 milek_pl Exp $
 		<rulegroup id="COFANIE_PRZECINKA" name="Przecinek wewnątrz spójnika złożonego">
 		<rule>
 			<pattern>
-			  <token><exception postag="SENT_START"/><exception regexp="yes">[\p{Punct}-—]</exception></token>
+			  <token><exception postag="SENT_START"/><exception regexp="yes">[\p{Punct}–—„«»]</exception></token>
 				<token regexp="yes">ile|jako|oraz|szczególnie|zwłaszcza|pomimo|mimo|ledwie|niby|prawie|ledwo</token>
 				<token>,</token>
 				<token>że</token>
@@ -195,7 +195,7 @@ $Id: grammar.xml,v 1.140 2007-03-11 22:53:23 milek_pl Exp $
 		
 		<rule>
 			<pattern>
-				<token><exception postag="SENT_START"/><exception regexp="yes">[\p{Punct}-—]|o|na|tylko</exception></token>
+				<token><exception postag="SENT_START"/><exception regexp="yes">[\p{Punct}–—„«»]|o|na|tylko</exception></token>
 				<token regexp="yes">tyle</token>
 				<token>,</token>
 				<token>że</token>
@@ -286,7 +286,7 @@ $Id: grammar.xml,v 1.140 2007-03-11 22:53:23 milek_pl Exp $
 		</rule>
 				<rule>
 			<pattern mark_from="1">
-		  <token regexp="yes">[\p{Punct}-—]<exception>'</exception></token>
+		  <token regexp="yes">[\p{Punct}–—„«»]<exception>'</exception></token>
 				<token>a</token>
 				<token>,</token>
 				<token regexp="yes">więc|mianowicie|zatem|przeto|jednak|choć|chociaż|ponieważ|także|następnie|jeśli|jeżeli|gdyby|gdy|kiedy</token>
@@ -298,7 +298,7 @@ $Id: grammar.xml,v 1.140 2007-03-11 22:53:23 milek_pl Exp $
 		
 		<rule>
 			<pattern>
-			  <token><exception postag="SENT_START"/><exception regexp="yes">[\p{Punct}-—]</exception></token>
+			  <token><exception postag="SENT_START"/><exception regexp="yes">[\p{Punct}–—„«»]</exception></token>
 				<token regexp="yes" inflected="yes">a|ale|lecz|który|jaki|zwłaszcza|szczególnie|że|przynajmniej|nawet|więc|to</token>
 				<token>,</token>
 				<token regexp="yes" inflected="yes">jeśli|jeżeli|gdyby|jeżeliby|jeśliby</token>
@@ -332,7 +332,7 @@ $Id: grammar.xml,v 1.140 2007-03-11 22:53:23 milek_pl Exp $
 				
 		<rule>
 			<pattern>
-			  <token><exception postag="SENT_START"/><exception regexp="yes">[,;:!–-—]</exception></token>
+			  <token><exception postag="SENT_START"/><exception regexp="yes">[\p{Punct}–—„«»]</exception></token>
 				<token regexp="yes">że|iż|chyba|jak|tylko</token>
 				<token>,</token>
 				<token regexp="yes" inflected="yes">żeby|aby|ażeby|iżby</token>
@@ -366,7 +366,7 @@ $Id: grammar.xml,v 1.140 2007-03-11 22:53:23 milek_pl Exp $
 		
 		<rule>
 			<pattern>
-			  <token><exception postag="SENT_START"/><exception regexp="yes">[,;:!–-—]</exception></token>
+			  <token><exception postag="SENT_START"/><exception regexp="yes">[\p{Punct}–—„«»]</exception></token>
 				<token regexp="yes">jeszcze</token>
 				<token>,</token>
 				<token regexp="yes">zanim</token>
@@ -403,7 +403,7 @@ $Id: grammar.xml,v 1.140 2007-03-11 22:53:23 milek_pl Exp $
 		<rulegroup id="BRAK_PRZECINKA_ZE" name="Brak przecinka przed „że” i „iż”">
 		<rule>
 			<pattern>
-				<token negate="yes" regexp="yes">\p{Punct}|–|—|bardziej|chyba|ile|szczególnie|tyle|zwłaszcza|pomimo|mimo|także|również|dlatego|właśnie|prawie<exception postag_regexp="yes" postag="SENT_START|conj"/></token>
+				<token negate="yes" regexp="yes">[\p{Punct}–—„«»]|bardziej|chyba|ile|szczególnie|tyle|zwłaszcza|pomimo|mimo|także|również|dlatego|właśnie|prawie<exception postag_regexp="yes" postag="SENT_START|conj"/></token>
 				<token regexp="yes">że|iż</token>
 			</pattern>
 			<message>Przed spójnikiem „że” stawiamy przecinek: <suggestion>\1, \2</suggestion>.</message>
@@ -413,7 +413,7 @@ $Id: grammar.xml,v 1.140 2007-03-11 22:53:23 milek_pl Exp $
 		</rule>
 		<rule>
 			<pattern>
-				<token negate="yes" regexp="yes">\p{Punct}|–|—<exception postag_regexp="yes" postag="SENT_START|conj"/></token>
+				<token negate="yes" regexp="yes">[\p{Punct}–—„«»]<exception postag_regexp="yes" postag="SENT_START|conj"/></token>
 				<token regexp="yes">ile|jako|szczególnie|tyle|tylko|zwłaszcza|pomimo|mimo<exception postag="SENT_START"/></token>
 				<token regexp="yes">że|iż</token>
 			</pattern>
@@ -428,7 +428,7 @@ $Id: grammar.xml,v 1.140 2007-03-11 22:53:23 milek_pl Exp $
 		<rulegroup id="BRAK_PRZECINKA_JESLI" name="Brak przecinka przed „jeśli”, „jeżeli”, „gdyby” itd.">
 		<rule>
 			<pattern>
-				<token negate="yes" regexp="yes" inflected="yes">\p{Punct}|–|—<exception regexp="yes">który|jaki|zwłaszcza|szczególnie|nawet|niemniej</exception><exception postag_regexp="yes" postag="SENT_START|conj"/></token>
+				<token negate="yes" regexp="yes" inflected="yes">[\p{Punct}–—„«»]<exception regexp="yes">który|jaki|zwłaszcza|szczególnie|nawet|niemniej</exception><exception postag_regexp="yes" postag="SENT_START|conj"/></token>
 				<token regexp="yes" inflected="yes">jeśli|jeżeli|gdyby|jeżeliby|jeśliby</token>
 			</pattern>
 			<message>Przed spójnikiem stawiamy przecinek:<suggestion>\1, \2</suggestion>.</message>
@@ -437,7 +437,7 @@ $Id: grammar.xml,v 1.140 2007-03-11 22:53:23 milek_pl Exp $
 		</rule>
 		<rule>
 			<pattern>
-				<token negate="yes" regexp="yes">\p{Punct}|–|—<exception postag_regexp="yes" postag="SENT_START|conj"/></token>
+				<token negate="yes" regexp="yes">[\p{Punct}–—„«»]<exception postag_regexp="yes" postag="SENT_START|conj"/></token>
 				<token regexp="yes" inflected="yes">a|ale|i|lub|albo|lecz|oraz|który|jaki|zwłaszcza|jak|szczególnie|że|nawet|więc|jednak</token>
 				<token regexp="yes" inflected="yes">jeśli|jeżeli|gdyby|jeżeliby|jeśliby</token>
 			</pattern>
@@ -450,7 +450,7 @@ $Id: grammar.xml,v 1.140 2007-03-11 22:53:23 milek_pl Exp $
 		<rulegroup id="BRAK_PRZECINKA_ZEBY" name="Brak przecinka przed „żeby”, „aby”, „ażeby”, „iżby”">
 		<rule>
 			<pattern>
-				<token negate="yes" regexp="yes">\p{Punct}|—|–|chyba<exception postag_regexp="yes" postag="SENT_START|conj"/></token>
+				<token negate="yes" regexp="yes">[\p{Punct}–—„«»]|chyba<exception postag_regexp="yes" postag="SENT_START|conj"/></token>
 				<token regexp="yes" inflected="yes">żeby|aby|ażeby|iżby</token>
 			</pattern>
 			<message>Przed tym spójnikiem stawiamy przecinek: <suggestion>\1, \2</suggestion>.</message>
@@ -473,7 +473,7 @@ $Id: grammar.xml,v 1.140 2007-03-11 22:53:23 milek_pl Exp $
 		<rulegroup id="BRAK_PRZECINKA_GDY" name="Brak przecinka przed „gdy” i „kiedy”">
 		<rule>
 			<pattern>
-				<token negate="yes" regexp="yes">,|od|chyba|dopiero|podczas|nawet|potem|więc|teraz|właśnie|wtedy|zwłaszcza|szczególnie|że|czasie|czasach|wypadku|przypadku|razie<exception postag_regexp="yes" postag="SENT_START|conj"/><exception regexp="yes">\p{Punct}|–|—</exception></token>
+				<token negate="yes" regexp="yes">,|od|chyba|dopiero|podczas|nawet|potem|więc|teraz|właśnie|wtedy|zwłaszcza|szczególnie|że|czasie|czasach|wypadku|przypadku|razie<exception postag_regexp="yes" postag="SENT_START|conj"/><exception regexp="yes">[\p{Punct}–—„«»]</exception></token>
 				<token regexp="yes">gdy|kiedy</token>
 			</pattern>
 			<message>Przed tym spójnikiem stawiamy przecinek: <suggestion>\1, \2</suggestion>.</message>
@@ -482,7 +482,7 @@ $Id: grammar.xml,v 1.140 2007-03-11 22:53:23 milek_pl Exp $
 		</rule>
 		<rule>
 			<pattern>
-				<token negate="yes" regexp="yes">\p{Punct}|–|—<exception postag="SENT_START"/></token>
+				<token negate="yes" regexp="yes">[\p{Punct}–—„«»]<exception postag="SENT_START"/></token>
 				<token regexp="yes">nawet|dopiero|od|podczas|potem|teraz|właśnie|wtedy|zwłaszcza|szczególnie|że</token>
 				<token regexp="yes">gdy|kiedy</token>
 			</pattern>
@@ -496,7 +496,7 @@ $Id: grammar.xml,v 1.140 2007-03-11 22:53:23 milek_pl Exp $
 		<rulegroup id="BRAK_PRZECINKA_SPOJNIK_PROSTY" name="Brak przecinka przed spójnikami prostymi (acz, aczkolwiek, choć...)">
 			<rule>
 				<pattern>
-					<token negate="yes" regexp="yes">\p{Punct}|–|—<exception postag_regexp="yes" postag="SENT_START|conj"/></token>
+					<token negate="yes" regexp="yes">[\p{Punct}–—„«»]<exception postag_regexp="yes" postag="SENT_START|conj"/></token>
 					<token regexp="yes">acz|aczkolwiek|albowiem|ale|aleć|aliści|azali|bo|byleby|czyli|czyliż|dopóki|dopóty|gdyż|gdyżby|ilekolwiek|ilekroć|póki</token>
 				</pattern>
 				<message>Przed tym spójnikiem stawiamy przecinek: <suggestion>\1, \2</suggestion>.</message>
@@ -505,7 +505,7 @@ $Id: grammar.xml,v 1.140 2007-03-11 22:53:23 milek_pl Exp $
 			</rule>
 			<rule>
 				<pattern>
-					<token negate="yes" regexp="yes">\p{Punct}|–|—<exception postag_regexp="yes" postag="SENT_START|conj"/></token>
+					<token negate="yes" regexp="yes">[\p{Punct}–—„«»]<exception postag_regexp="yes" postag="SENT_START|conj"/></token>
 					<token>dlaczego</token>
 				</pattern>
 				<message>Przed tym spójnikiem stawiamy przecinek: <suggestion>\1, \2</suggestion>.</message>
@@ -515,7 +515,7 @@ $Id: grammar.xml,v 1.140 2007-03-11 22:53:23 milek_pl Exp $
 			</rule>
 			<rule>
 				<pattern>
-				<token negate="yes" regexp="yes">\p{Punct}|–|—<exception postag_regexp="yes" postag="SENT_START|conj"/></token>
+				<token negate="yes" regexp="yes">[\p{Punct}–—„«»]<exception postag_regexp="yes" postag="SENT_START|conj"/></token>
 					<token regexp="yes">ponieważ</token>
 				</pattern>
 				<message>Przed tym spójnikiem stawiamy przecinek: <suggestion>\1, \2</suggestion>.</message>
@@ -525,7 +525,7 @@ $Id: grammar.xml,v 1.140 2007-03-11 22:53:23 milek_pl Exp $
 			</rule>
 			<rule>
 				<pattern>
-					<token negate="yes" regexp="yes">\p{Punct}|–|—|jeszcze<exception postag_regexp="yes" postag="SENT_START|conj"/></token>
+					<token negate="yes" regexp="yes">[\p{Punct}–—„«»]|jeszcze<exception postag_regexp="yes" postag="SENT_START|conj"/></token>
 					<token>zanim</token>
 				</pattern>				
 				<message>Przed tym spójnikiem stawiamy przecinek: <suggestion>\1, \2</suggestion>.</message>
@@ -539,7 +539,7 @@ $Id: grammar.xml,v 1.140 2007-03-11 22:53:23 milek_pl Exp $
 		<rulegroup name="Brak przecinka przed „który” i „jaki”" id="BRAK_PRZECINKA_KTORY">
 			<rule>
 				<pattern>
-					<token negate="yes">,<exception regexp="yes">[\p{Punct}–—„]</exception><exception postag_regexp="yes" postag="conj|SENT_START"/></token>
+					<token negate="yes">,<exception regexp="yes">[\p{Punct}–—„«»]</exception><exception postag_regexp="yes" postag="conj|SENT_START"/></token>
 					<token postag_regexp="yes" postag="adv.*"/>
 					<token postag_regexp="yes" postag="prep.*"/>
 					<token regexp="yes" inflected="yes">który|jaki</token>
@@ -552,7 +552,7 @@ $Id: grammar.xml,v 1.140 2007-03-11 22:53:23 milek_pl Exp $
 			</rule>
 			<rule>
 				<pattern>
-					<token negate="yes">,<exception regexp="yes">[\p{Punct}–—„]</exception><exception postag_regexp="yes" postag="conj|SENT_START"/></token>
+					<token negate="yes">,<exception regexp="yes">[\p{Punct}–—„«»]</exception><exception postag_regexp="yes" postag="conj|SENT_START"/></token>
 					<token postag_regexp="yes" postag="prep.*"/>
 					<token postag_regexp="yes" postag="prep.*"/>
 					<token regexp="yes" inflected="yes">który|jaki</token>
@@ -564,7 +564,7 @@ $Id: grammar.xml,v 1.140 2007-03-11 22:53:23 milek_pl Exp $
 			</rule>	
 			<rule>
 				<pattern>
-					<token negate="yes">,<exception regexp="yes">[\p{Punct}–—„]</exception><exception postag_regexp="yes" postag="conj|adv.*|prep.*|SENT_START"/></token>
+					<token negate="yes">,<exception regexp="yes">[\p{Punct}–—„«»]</exception><exception postag_regexp="yes" postag="conj|adv.*|prep.*|SENT_START"/></token>
 					<token postag_regexp="yes" postag="prep.*"/>
 					<token regexp="yes" inflected="yes">który|jaki</token>
 				</pattern>
@@ -575,7 +575,7 @@ $Id: grammar.xml,v 1.140 2007-03-11 22:53:23 milek_pl Exp $
 			</rule>		
 			<rule>
 				<pattern>
-					<token negate="yes">,<exception regexp="yes">[{\p{Punct}–—„]|mało|rzadko|pomocą|podstawie|mocy|braku|razie</exception><exception postag_regexp="yes" postag="conj|adv.*|prep.*|SENT_START"/></token>
+					<token negate="yes">,<exception regexp="yes">[\p{Punct}–—„«»]|mało|rzadko|pomocą|podstawie|mocy|braku|razie</exception><exception postag_regexp="yes" postag="conj|adv.*|prep.*|SENT_START"/></token>
 					<token regexp="yes" inflected="yes">który|jaki</token>
 				</pattern>
 				<message>Brak przecinka w tym fragmencie zdania. Przecinek prawdopodobnie należy
@@ -592,7 +592,7 @@ $Id: grammar.xml,v 1.140 2007-03-11 22:53:23 milek_pl Exp $
 				<token postag="SENT_START"/>
 				<token>innymi</token>
 				<token>słowy</token>
-				<token negate="yes">,<exception regexp="yes">\p{Punct}|–|—</exception></token>
+				<token negate="yes">,<exception regexp="yes">[\p{Punct}–—„«»]</exception></token>
 			</pattern>
 			<message>Wyrażenie „\2 \3” wydziela się przecinkami lub myślnikami od reszty zdania. Poprawnie: <suggestion>\2 \3, \4</suggestion>.</message>
 			<example type="correct">Innymi słowy, nie ma to sensu.</example>
@@ -600,10 +600,10 @@ $Id: grammar.xml,v 1.140 2007-03-11 22:53:23 milek_pl Exp $
 		</rule>
 		<rule>
 			<pattern>
-			<token negate="yes">,<exception regexp="yes">\p{Punct}|–|—</exception><exception postag="SENT_START"/></token>
+			<token negate="yes">,<exception regexp="yes">[\p{Punct}–—„«»]</exception><exception postag="SENT_START"/></token>
 				<token>innymi</token>
 				<token>słowy</token>
-			<token negate="yes">,<exception regexp="yes">\p{Punct}|–|—</exception></token>
+			<token negate="yes">,<exception regexp="yes">[\p{Punct}–—„«»]</exception></token>
 			</pattern>
 			<message>Wyrażenie „\1 \2” wydziela się przecinkami lub myślnikami od reszty zdania. Poprawnie: <suggestion>\1, \2 \3, \4</suggestion>.</message>
 			<example type="correct">Nie ma to, innymi słowy, sensu.</example>
@@ -617,7 +617,7 @@ $Id: grammar.xml,v 1.140 2007-03-11 22:53:23 milek_pl Exp $
 				<token postag="SENT_START"/>
 				<token>co</token>
 				<token regexp="yes">więcej|gorsza</token>
-				<token negate="yes">,<exception regexp="yes">\p{Punct}|–|—</exception></token>
+				<token negate="yes">,<exception regexp="yes">[\p{Punct}–—„«»]</exception></token>
 			</pattern>
 			<message>Wyrażenie „\2 \3” oddziela się przecinkami lub myślnikami od reszty zdania. Poprawnie: <suggestion>\2 \3, \4</suggestion>.</message>
 			<example type="correct">Co gorsza, nie ma to sensu.</example>
@@ -625,10 +625,10 @@ $Id: grammar.xml,v 1.140 2007-03-11 22:53:23 milek_pl Exp $
 		</rule>
 		<rule>
 			<pattern>
-			<token negate="yes">,<exception regexp="yes">\p{Punct}|–|—|i|lub|albo</exception><exception postag="SENT_START"/></token>
+			<token negate="yes">,<exception regexp="yes">[\p{Punct}–—„«»]|i|lub|albo</exception><exception postag="SENT_START"/></token>
 				<token>co</token>
 				<token regexp="yes">więcej|gorsza</token>
-			<token negate="yes">,<exception regexp="yes">\p{Punct}|–|—</exception></token>
+			<token negate="yes">,<exception regexp="yes">[\p{Punct}–—„«»]</exception></token>
 			</pattern>
 			<message>Wyrażenie „\1 \2” wydziela się przecinkami lub myślnikami od reszty zdania. Poprawnie: <suggestion>\1, \2 \3, \4</suggestion>.</message>
 			<example type="correct">Nie ma to, co więcej, sensu.</example>
@@ -640,7 +640,7 @@ $Id: grammar.xml,v 1.140 2007-03-11 22:53:23 milek_pl Exp $
 			<token regexp="yes">i|lub|albo</token>
 				<token>co</token>
 				<token regexp="yes">więcej|gorsza</token>
-			<token negate="yes">,<exception regexp="yes">\p{Punct}|–|—</exception></token>
+			<token negate="yes">,<exception regexp="yes">[\p{Punct}–—„«»]</exception></token>
 			</pattern>
 			<message>Wyrażenie „\2 \3” wydziela się w takim kontekście myślnikami od reszty zdania. Poprawnie: <suggestion>\1 – \2 \3 – \4</suggestion>.</message>
 			<example type="correct">Nie ma to, co gorsza, sensu.</example>
@@ -655,7 +655,7 @@ $Id: grammar.xml,v 1.140 2007-03-11 22:53:23 milek_pl Exp $
 				<token postag="SENT_START"/>
 				<token>nawiasem</token>
 				<token>mówiąc</token>
-				<token negate="yes">,<exception regexp="yes">\p{Punct}|–|—</exception></token>
+				<token negate="yes">,<exception regexp="yes">[\p{Punct}–—„«»]</exception></token>
 			</pattern>
 			<message>Wyrażenie „\2 \3” wydziela się przecinkami lub myślnikami od reszty zdania. Poprawnie: <suggestion>\2 \3, \4</suggestion>.</message>
 			<example type="correct">Nawiasem mówiąc, nie ma to sensu.</example>
@@ -663,10 +663,10 @@ $Id: grammar.xml,v 1.140 2007-03-11 22:53:23 milek_pl Exp $
 		</rule>
 		<rule>
 			<pattern>
-			<token negate="yes">,<exception regexp="yes">\p{Punct}|–|—</exception><exception postag="SENT_START"/></token>
+			<token negate="yes">,<exception regexp="yes">[\p{Punct}–—„«»]</exception><exception postag="SENT_START"/></token>
 				<token>nawiasem</token>
 				<token>mówiąc</token>
-			<token negate="yes">,<exception regexp="yes">\p{Punct}|–|—</exception></token>
+			<token negate="yes">,<exception regexp="yes">[\p{Punct}–—„«»]</exception></token>
 			</pattern>
 			<message>Wyrażenie „\1 \2” wydziela się przecinkami lub myślnikami od reszty zdania. Poprawnie: <suggestion>\1, \2 \3, \4</suggestion>.</message>
 			<example type="correct">Nie ma to, nawiasem mówiąc, sensu.</example>
@@ -842,6 +842,18 @@ $Id: grammar.xml,v 1.140 2007-03-11 22:53:23 milek_pl Exp $
 		
 	</category>
 	<category name="Błędy odmiany">
+	
+	<rule name="„przez całych x lat” (przez całe x lat)" id="PRZEZ_CALYCH_X_LAT">
+		<pattern>
+			<token>przez</token>
+			<token>całych</token>
+			<token/>
+			<token>lat</token>
+			</pattern>
+		<message>Błędna odmiana. Powinno być: <suggestion>\1 całe \3 \4</suggestion>.</message>
+		<example type="incorrect">Potem bawił ponownie we Włoszech <marker>przez całych dziesięć lat</marker>.</example>
+		<example type="correct">Potem bawił ponownie we Włoszech <marker>przez całe dziesięć lat</marker>.</example>
+	</rule>
 	
 	<rule name="„miliony ludzie” (miliony ludzi)" id="MILIONY_LUDZIE">
 		<pattern>
@@ -1228,7 +1240,7 @@ $Id: grammar.xml,v 1.140 2007-03-11 22:53:23 milek_pl Exp $
 	</category>
 	
 	<category name="Błędy w szyku wyrazów">
-		<rule id="BOWIEM_ZAS" name="„Bowiem”, „ale”, „zaś” na początku zdania”">
+		<rule id="BOWIEM_ZAS" name="„Bowiem”, „ale”, „zaś” na początku zdania">
 			<pattern mark_from="1" mark_to="-1">
 				<token postag="SENT_START"/>
 				<token regexp="yes">bowiem|ale|zaś|lecz</token>
@@ -1240,7 +1252,146 @@ $Id: grammar.xml,v 1.140 2007-03-11 22:53:23 milek_pl Exp $
 		</rule>
 	</category>
 	<category name="Błędy składniowe">
-	
+		
+		<rulegroup name="„co by się nie stało” (cokolwiek by się stało)" id="CO_BY_SIE_NIE">
+			<rule>
+				<pattern mark_to="-1">
+					<token>co</token>
+					<token>by</token>
+					<token>się</token>
+					<token>nie</token>
+					<token>stało</token>
+					<token><exception>wiadome</exception></token>
+				</pattern>
+			<message>To wyrażenie jest niepoprawnym rusycyzmem. Powinno być: <suggestion>cokolwiek by się stało</suggestion>.</message>
+			<example type="incorrect">I także 5 maja, <marker>co by się nie stało</marker> w Sejmie, to będzie początek kampanii wyborczej.</example>
+			<example type="correct">I także 5 maja, <marker>cokolwiek by się stało</marker> w Sejmie, to będzie początek kampanii wyborczej.</example>
+			</rule>
+			<rule>
+			<pattern mark_to="-1">
+					<token>kto</token>
+					<token>by</token>
+					<token>nie</token>
+					<token>był</token>
+					<token><exception postag_regexp="yes" postag="adj.*[\:\.]m[\d]*.*"/><exception regexp="yes">\?|za</exception></token>
+				</pattern>
+			<message>To wyrażenie jest niepoprawnym rusycyzmem. Powinno być: <suggestion>ktokolwiek by był</suggestion>.</message>
+			<example type="incorrect">Nie, nie, dlatego że <marker>kto by nie był</marker>, będziemy z nim współpracować.</example>
+			<example type="correct">Nie, nie, dlatego że <marker>ktokolwiek by był</marker>, będziemy z nim współpracować.</example>
+			</rule>
+			<rule>
+				<pattern>
+					<token>jak</token>
+					<token>by</token>
+					<token>nie</token>
+					<token>było</token>
+				</pattern>
+			<message>To wyrażenie jest niepoprawnym rusycyzmem. Powinno być: <suggestion>jakkolwiek by było</suggestion> lub <suggestion>bądź co bądź</suggestion>.</message>
+			<example type="incorrect"><marker>Jak by nie było</marker>, będzie bardzo miło.</example>
+			<example type="correct"><marker>Jakkolwiek by było</marker>, będzie bardzo miło.</example>
+			</rule>
+			
+		</rulegroup>
+		
+		<rulegroup id="ZAIMKI_KROTKIE" name="Krótkie formy zaimków na początku zdania">
+		<rule>
+			<pattern>
+				<token postag="SENT_START"/>
+				<token>mi</token>
+			</pattern>
+			<message>Na początku zdania należy użyć dłuższej formy zaimka: <suggestion>Mnie</suggestion>.</message>
+			<example type="correct">Mnie się wydaje, żeś kiep i pacan.</example>
+			<example type="incorrect"><marker>Mi</marker> się wydaje, żeś kiep i pacan.</example>
+		</rule>
+		<rule>
+			<pattern>
+				<token postag="SENT_START"/>
+				<token>ci</token>
+			</pattern>
+			<message>Na początku zdania należy użyć dłuższej formy zaimka: <suggestion>Tobie</suggestion>.</message>
+			<example type="correct">Tobie się wydaje, żeś kiep i pacan.</example>
+			<example type="incorrect"><marker>Ci</marker> się wydaje, żeś kiep i pacan.</example>
+		</rule>
+		<rule>
+			<pattern>
+				<token postag="SENT_START"/>
+				<token>cię</token>
+			</pattern>
+			<message>Na początku zdania należy użyć dłuższej formy zaimka: <suggestion>Ciebie</suggestion>.</message>
+			<example type="correct">Ciebie kocham.</example>
+			<example type="incorrect"><marker>Cię</marker> kocham.</example>
+		</rule>
+		<rule>
+			<pattern>
+				<token postag="SENT_START"/>
+				<token>go</token>
+			</pattern>
+			<message>Na początku zdania należy użyć dłuższej formy zaimka: <suggestion>Jego</suggestion>.</message>
+			<example type="correct">Jego kocham</example>
+			<example type="incorrect"><marker>Go</marker> kocham.</example>
+		</rule>
+		<rule>
+			<pattern>
+				<token postag="SENT_START"/>
+				<token>mu</token>
+			</pattern>
+			<message>Na początku zdania należy użyć dłuższej formy zaimka: <suggestion>Jemu</suggestion>.</message>
+			<example type="correct">Jemu się wydaje, żeś kiep i pacan.</example>
+			<example type="incorrect"><marker>Mu</marker> się wydaje, żeś kiep i pacan.</example>
+		</rule>		
+		</rulegroup>
+		
+		<rulegroup id="ZAIMKI_DLUZSZE" name="Dłuższe formy zaimków po czasownikach i przyimkach">
+			<rule>
+				<pattern mark_from="1">
+					<token postag_regexp="yes" postag="verb.*|prep.*"/>
+					<token>mnie</token>
+				</pattern>
+				<message>W tym miejscu prawdopodobnie należy użyć krótszej formy zaimka: <suggestion>mi</suggestion>.</message>
+				<example type="correct">Daj mi tę noc.</example>
+				<example type="incorrect">Daj <marker>mnie</marker> tę noc.</example>
+			</rule>
+			<rule>
+				<pattern mark_from="1">
+					<token postag_regexp="yes" postag="verb.*|prep.*"/>
+					<token>ciebie</token>
+				</pattern>
+				<message>W tym miejscu prawdopodobnie należy użyć krótszej formy zaimka: <suggestion>cię</suggestion>.</message>
+				<example type="correct">Kocham cię.</example>
+				<example type="incorrect">Kocham <marker>ciebie</marker>.</example>
+			</rule>			
+			<rule>
+				<pattern mark_from="1">
+					<token postag_regexp="yes" postag="verb.*|prep.*"/>
+					<token>tobie</token>
+				</pattern>
+				<message>W tym miejscu prawdopodobnie należy użyć krótszej formy zaimka: <suggestion>ci</suggestion>.</message>
+				<example type="correct">Dał ci tę noc.</example>
+				<example type="incorrect">Dał <marker>tobie</marker> tę noc.</example>
+			</rule>
+			<rule>
+				<pattern mark_from="1">
+					<token postag_regexp="yes" postag="verb.*|prep.*"/>
+					<token>jemu</token>
+				</pattern>
+				<message>W tym miejscu prawdopodobnie należy użyć krótszej formy zaimka: <suggestion>mu</suggestion>.</message>
+				<example type="correct">Dała mu tę noc.</example>
+				<example type="incorrect">Dała <marker>jemu</marker> tę noc.</example>
+			</rule>
+			<rule>
+				<pattern mark_from="1" mark_to="-1">
+					<token postag_regexp="yes" postag="verb.*|prep.*"/>
+					<token>jego</token>
+					<token><exception postag_regexp="yes" postag="subst.*"/></token>
+				</pattern>
+				<message>W tym miejscu prawdopodobnie należy użyć krótszej formy zaimka: <suggestion>mu</suggestion>.</message>
+				<example type="correct">Kochała go</example>
+				<example type="incorrect">Kochała <marker>jego</marker>.</example>
+				<example type="correct">Kochała jego żółwia.</example>
+			</rule>
+						
+		</rulegroup>	
+		
 		<rule id="KLIKNAC_W_NA" name="„kliknąć na/w” (kliknąć co)">
 		<pattern>
 			<token inflected="yes">kliknąć</token>
@@ -1775,6 +1926,20 @@ $Id: grammar.xml,v 1.140 2007-03-11 22:53:23 milek_pl Exp $
 	
 	<category name="Błędy leksykalne">
 	
+	<rule id="BYNAJMNIEJ" name="„bynajmniej” (przynajmniej)">
+		<pattern mark_from="2" mark_to="-1">
+		<token postag="SENT_START" skip="-1"><exception>nie</exception></token>
+		<token skip="-1"><exception>nie</exception></token>
+  	<token skip="-1">bynajmniej<exception scope="next">nie</exception></token>
+		<token regexp="yes">[\.!?…\(](?:'|«|\"|”|\)|\]|\})?</token>
+		</pattern>
+		<message>Prawdopodobnie błędnie użyto wyrazu „bynajmniej”, powinno być: <suggestion>przynajmniej</suggestion>.</message>
+		<example type="incorrect">Wiersz po prostu śliczny, <marker>bynajmniej</marker> dla mnie.</example>
+		<example type="correct">Wiersz po prostu śliczny, <marker>przynajmniej</marker> dla mnie.</example>
+		<example type="correct">Bynajmniej.</example>
+	</rule>	
+	
+	
 		<rule id="SPELNIAC_OPIEKE" name="„spełniać opiekę” (sprawować opiekę)">
 			<pattern>
 				<token regexp="yes" inflected="yes">spełniać|pełnić</token>
@@ -2082,6 +2247,15 @@ $Id: grammar.xml,v 1.140 2007-03-11 22:53:23 milek_pl Exp $
 			<example type="incorrect"><marker>W ślad za</marker> tymi działaniami gospodarka się ożywiła.</example>
 		</rule>
 	
+		<rule name="„grać mecz” (rozegrać mecz)" id="GRAC_MECZ">
+			<pattern mark_to="-1">
+				<token inflected="yes" regexp="yes">grać|grywać</token>
+				<token>mecz</token>
+			</pattern>
+			<message>Użyto niewłaściwego czasownika. Powinno być: <suggestion>rozegrać</suggestion> lub <suggestion>rozgrywać</suggestion>.</message>
+			<example type="incorrect">Wisła chce <marker>grać</marker> mecz w czwartek.</example>
+			<example type="correct">Wisła chce <marker>rozegrać</marker>  mecz w czwartek.</example>
+		</rule>
 		
 		<rule name="„odgrywać znaczenie” (rolę)" id="ODGRYWAC_ZNACZENIE">
 			<pattern mark_from="1">
@@ -2715,6 +2889,17 @@ $Id: grammar.xml,v 1.140 2007-03-11 22:53:23 milek_pl Exp $
 
 	<category name="Pleonazmy">
 	
+		<rule name="„grać fair play” (grać fair)" id="GRAC_FAIR_PLAY">
+			<pattern mark_from="1">
+			 <token skip="1" inflected="yes" regexp="yes">grać|zagrać|grywać</token>
+			 <token>fair</token>
+			 <token>play</token>
+			</pattern>
+			<message>Błędny związek frazeologiczny. Powinno być <suggestion>\2</suggestion>.</message>
+			<example type="correct">Przemysław gra zawsze fair w bierki.</example>
+			<example type="incorrect">Przemysław gra zawsze <marker>fair play</marker> w bierki.</example>
+		</rule>
+		
 		<rule name="„adres zamieszkania” (adres, miejsce zamieszkania)" id="ADRES_ZAMIESZKANIA">
 			<pattern>
 				<token inflected="yes">adres</token>
@@ -3150,6 +3335,26 @@ $Id: grammar.xml,v 1.140 2007-03-11 22:53:23 milek_pl Exp $
 			<example type="incorrect">Nawet Horacy drwił <marker>ze "niewinnego</marker> hazardu".</example>
 		</rule>
 		</rulegroup>
+		
+		<rule name="„od mnie” (ode mnie)" id="OD_MNIE">
+			<pattern mark_to="-1">
+				<token>od</token>
+				<token>mnie</token>
+			</pattern>
+			<message>Ten przyimek należy zapisać tak: <suggestion>ode</suggestion>.</message>
+			<example type="correct">Jak będziesz w szpitalu wariatów, pozdrów Antoniego ode mnie!</example>
+			<example type="incorrect">Jak będziesz w szpitalu wariatów, pozdrów Antoniego <marker>od</marker> mnie!</example>
+		</rule>
+		
+		<rule name="„ode czego” (od czego)" id="ODE_CZEGO">
+			<pattern mark_to="-1">
+				<token>ode</token>
+				<token><exception regexp="yes">mnie|drzwi|drogi|złego|wsi|Lwowa</exception></token>
+			</pattern>
+			<message>Ten przyimek należy zapisać tak: <suggestion>od</suggestion>; jeśli chodziło o biernik od „oda”, to należy napisać: <suggestion>odę</suggestion>.</message>
+			<example type="correct">Jak będziesz w szpitalu wariatów, pozdrów Antoniego od Aleksandra!</example>
+			<example type="incorrect">Jak będziesz w szpitalu wariatów, pozdrów Antoniego <marker>ode</marker> Aleksandra!</example>
+		</rule>
 	</category>
 		
 		<category name="Błędy różne">
@@ -3230,10 +3435,80 @@ $Id: grammar.xml,v 1.140 2007-03-11 22:53:23 milek_pl Exp $
 			<example type="correct">Uwielbiam <marker>te perfumy</marker>...</example>
 		</rule>
 	
+		<rulegroup name="„golonko” (golonka)" id="GOLONKO">
+			<rule>
+				<pattern>
+				<token postag_regexp="yes" postag="adj.*[\:\.]n.*"><exception postag_regexp="yes" postag="adj:pl.*[\:\.]f.*"/></token>
+				<token>golonko</token>
+			</pattern>
+			<message>Ten rzeczonik ma inny rodzaj gramatyczny i liczbę. Mówimy <suggestion>golonka</suggestion> (zawsze w rodzaju żeńskim).</message>
+			<example type="correct">Lech z Antonim jedli pyszną golonkę.</example>
+			<example type="incorrect">Lech z Antonim jedli <marker>pyszne golonko</marker>.</example>
+			</rule>
+			<rule>
+				<pattern>
+				<token>golonko</token>
+				<token postag_regexp="yes" postag="adj.*[\:\.]n.*"><exception postag_regexp="yes" postag="adj:pl.*[\:\.]f.*"/></token>
+			</pattern>
+			<message>Ten rzeczonik ma inny rodzaj gramatyczny i liczbę. Mówimy <suggestion>golonka</suggestion> (zawsze w rodzaju żeńskim).</message>
+			<example type="correct">Specjalnością zakładu jest golonka staropolska.</example>
+			<example type="incorrect">Specjalnością zakładu jest <marker>golonko staropolskie</marker>.</example>
+			</rule>
+		</rulegroup>
+		
 	</category>
 	
 	<category name="Wyrazy modne i nadużywane">
 	
+		<rule name="„cały szereg” (wiele)" id="CALY_SZEREG">
+			<pattern>
+				<token inflected="yes" postag_regexp="yes" postag="adj.*[\:\.]m[\d]*.*">cały</token>
+				<token inflected="yes">szereg</token>
+			</pattern>
+			<message>To nadużywane wyrażenie. Lepiej: <suggestion>wiele</suggestion>, <suggestion>mnóstwo</suggestion>, <suggestion>bardzo wiele</suggestion>.</message>
+			<example type="incorrect">Na kształcenie polonistyczne składa się <marker>cały szereg</marker> różnorodnych kompetencji.</example>
+			<example type="correct">Na kształcenie polonistyczne składa się wiele różnorodnych kompetencji.</example>
+		</rule>
+		
+		<rulegroup name="„występuje brak” (brakuje" id="WYSTEPUJE_BRAK">
+		<rule>
+			<pattern>
+				<token>występuje</token>
+				<token>brak</token>
+			</pattern>
+			<message>Błędne wyrażenie. Powinno być: <suggestion>brakuje</suggestion>.</message>
+			<example type="correct">Brakuje chleba.</example>
+			<example type="incorrect"><marker>Występuje brak</marker> chleba.</example>
+		</rule>
+		<rule>
+			<pattern>
+				<token>wystąpi</token>
+				<token>brak</token>
+			</pattern>
+			<message>Błędne wyrażenie. Powinno być: <suggestion>będzie brakować</suggestion>.</message>
+			<example type="correct">Brakuje chleba.</example>
+			<example type="incorrect"><marker>Wystąpi brak</marker> chleba.</example>			
+		</rule>
+		<rule>
+			<pattern>
+				<token>wystąpił</token>
+				<token>brak</token>
+			</pattern>
+			<message>Błędne wyrażenie. Powinno być: <suggestion>brakowało</suggestion>.</message>
+			<example type="correct">Brakuje chleba.</example>
+			<example type="incorrect"><marker>Wystąpił brak</marker> chleba.</example>			
+		</rule>
+		<rule>
+			<pattern>
+				<token>wystąpiłby</token>
+				<token>brak</token>
+			</pattern>
+			<message>Błędne wyrażenie. Powinno być: <suggestion>brakowałoby</suggestion>.</message>
+			<example type="correct">Brakuje chleba.</example>
+			<example type="incorrect"><marker>Wystąpiłby brak</marker> chleba.</example>			
+		</rule>
+		</rulegroup>
+		
 		<rule name="„ja osobiście” (sam, sama)" id="JA_OSOBISCIE">
 			<pattern>
 				<token>ja</token>
@@ -4168,12 +4443,23 @@ $Id: grammar.xml,v 1.140 2007-03-11 22:53:23 milek_pl Exp $
 
 		<rule name="„dwa/trzy/wiele kroć” (dwakroć, trzykroć)" id="DWA_KROC">
 			<pattern>
-				<token regexp="yes">dwa|trzy|wiele</token>
+				<token regexp="yes">dwa|trzy|wiele|ile|tyle|często|kilka|paro|sto</token>
 				<token>kroć</token>
 			</pattern>
 			<message>Wyraz <suggestion>\1\2</suggestion> piszemy łącznie.</message>
 			<example type="correct">Dwakroć prosiłem Przemysława, by nie budował stacji we Włoszczowie.</example>
 			<example type="incorrect"><marker>Dwa kroć</marker> prosiłem Przemysława, by nie budował stacji we Włoszczowie.</example>
+		</rule>
+		
+		<rule name="„na tych miast” (natychmiast)" id="NATYCH_MIAST">
+			<pattern>
+				<token>na</token>
+				<token regexp="yes">tych|to</token>
+				<token>miast</token>
+			</pattern>
+			<message>Wyraz <suggestion>\1\2\3</suggestion> piszemy łącznie.</message>
+			<example type="correct">Natomiast Jarosław ma kota.</example>
+			<example type="incorrect"><marker>Na to miast</marker> Jarosław ma kota.</example>
 		</rule>
 		
 		<rule name="„do póty” (dopóty)" id="DO_POTY">
@@ -4413,10 +4699,19 @@ $Id: grammar.xml,v 1.140 2007-03-11 22:53:23 milek_pl Exp $
 	 	<example type="incorrect"><marker>Szkoła Podstawowa Nr</marker> 41</example>
 	 </rule>
 	
+		<rule id="RABY_ROMBY" name="„rąby” (romby)">
+			<pattern>
+				<token>rąby</token>
+			</pattern>
+			<message>Prawdopodobny błąd ortograficzny. Czy chodziło o <suggestion>romby</suggestion> (=figurę geometryczną)?</message>
+			<example type="correct">Kot Alik ma piękny sweterek w romby.</example>
+			<example type="incorrect">Kot Alik ma piękny sweterek w <marker>rąby</marker>.</example>
+		</rule>
+	
 	</category>
 
 	<category name="Prawdopodobne literówki">
-		
+				
 		<rule id="TEZ_TEZ" name="Mylenie „tez” z „też”">
 			<pattern mark_from="1">
 				<token regexp="yes">są|co|można|należy|warto|ja|on|ona|my|oni|wy|ty|czy</token>
@@ -5020,7 +5315,7 @@ $Id: grammar.xml,v 1.140 2007-03-11 22:53:23 milek_pl Exp $
 			<example type="correct">Nie chodzi tu o temat, ale o sam fakt <marker>skrępowania</marker> wynikający z uczestniczenia w dialogu z dziewczyną.</example>
 		</rule>
 		
-		<rule name="„stanąć dębem (dęba)" id="STANAC_DEBEM">
+		<rule name="„stanąć dębem” (dęba)" id="STANAC_DEBEM">
 			<pattern mark_from="1">
 				<token inflected="yes" regexp="yes">stanąć|stawać</token>
 				<token>dębem</token>				
