@@ -2,7 +2,7 @@
 <!--
 Polish Grammar and Typo Rules for LanguageTool
 Copyright (C) 2006 Marcin Miłkowski
-$Id: grammar.xml,v 1.141 2007-03-12 15:11:16 milek_pl Exp $		
+$Id: grammar.xml,v 1.142 2007-03-13 01:01:08 milek_pl Exp $		
 -->
 <rules lang="pl">
 
@@ -1925,6 +1925,72 @@ $Id: grammar.xml,v 1.141 2007-03-12 15:11:16 milek_pl Exp $
 	</category>
 	
 	<category name="Błędy leksykalne">
+	
+	<rulegroup id="ROZCHODZI_SIE" name="„rozchodzić się o” (chodzić o)">
+		<rule>
+			<pattern>
+				<token>rozchodzi</token>
+				<token>się</token>
+				<token>o</token>
+			</pattern>
+			<message>Błędny czasownik. Powinno być <suggestion>chodzi o</suggestion>.</message>
+			<example type="incorrect"><marker>Rozchodzi się o</marker> forda mondeo kombi 2001.</example>
+			<example type="correct"><marker>Chodzi o</marker> forda mondeo kombi 2001.</example>
+		</rule>
+		<rule>
+			<pattern>
+				<token>rozchodziło</token>
+				<token>się</token>
+				<token>o</token>
+			</pattern>
+			<message>Błędny czasownik. Powinno być <suggestion>chodziło o</suggestion>.</message>
+			<example type="incorrect"><marker>Rozchodziło się o</marker> forda mondeo kombi 2001.</example>
+			<example type="correct"><marker>Chodziło o</marker> forda mondeo kombi 2001.</example>
+		</rule>
+		<rule>
+			<pattern>
+				<token>rozchodziłoby</token>
+				<token>się</token>
+				<token>o</token>
+			</pattern>
+			<message>Błędny czasownik. Powinno być <suggestion>chodziłoby o</suggestion>.</message>
+			<example type="incorrect"><marker>Rozchodziłoby się o</marker> forda mondeo kombi 2001.</example>
+			<example type="correct"><marker>Chodziłoby o</marker> forda mondeo kombi 2001.</example>
+		</rule>
+		<rule>
+			<pattern>
+				<token>rozchodzi</token>
+				<token/>
+				<token>się</token>
+				<token>o</token>
+			</pattern>
+			<message>Błędny czasownik. Powinno być <suggestion>chodzi \2 o</suggestion>.</message>
+			<example type="incorrect"><marker>Rozchodzi mi się o</marker> forda mondeo kombi 2001.</example>
+			<example type="correct"><marker>Chodzi mi o</marker> forda mondeo kombi 2001.</example>
+		</rule>
+		<rule>
+			<pattern>
+				<token>rozchodziło</token>
+				<token/>
+				<token>się</token>
+				<token>o</token>
+			</pattern>
+			<message>Błędny czasownik. Powinno być <suggestion>chodziło \2 o</suggestion>.</message>
+			<example type="incorrect"><marker>Rozchodziło ci się o</marker> forda mondeo kombi 2001.</example>
+			<example type="correct"><marker>Chodziło ci o</marker> forda mondeo kombi 2001.</example>
+		</rule>
+		<rule>
+			<pattern>
+				<token>rozchodziłoby</token>
+				<token/>
+				<token>się</token>
+				<token>o</token>
+			</pattern>
+			<message>Błędny czasownik. Powinno być <suggestion>chodziłoby \2 o</suggestion>.</message>
+			<example type="incorrect"><marker>Rozchodziłoby mu się o</marker> forda mondeo kombi 2001.</example>
+			<example type="correct"><marker>Chodziłoby mu o</marker> forda mondeo kombi 2001.</example>
+		</rule>		
+	</rulegroup>
 	
 	<rule id="BYNAJMNIEJ" name="„bynajmniej” (przynajmniej)">
 		<pattern mark_from="2" mark_to="-1">
