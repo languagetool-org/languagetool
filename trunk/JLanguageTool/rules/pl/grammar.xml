@@ -2,7 +2,7 @@
 <!--
 Polish Grammar and Typo Rules for LanguageTool
 Copyright (C) 2006 Marcin Miłkowski
-$Id: grammar.xml,v 1.143 2007-03-13 11:30:01 milek_pl Exp $		
+$Id: grammar.xml,v 1.144 2007-03-13 22:02:33 milek_pl Exp $		
 -->
 <rules lang="pl">
 
@@ -2893,6 +2893,28 @@ $Id: grammar.xml,v 1.143 2007-03-13 11:30:01 milek_pl Exp $
 		</rule>	
 	</rulegroup>
 	
+	<rule id="ANALOGICZNY_Z" name="„analogiczny z” (do)">
+		<pattern>
+			<token inflected="yes">analogiczny</token>
+			<token>z</token>
+			<token postag_regexp="yes" postag=".*inst.*"/>
+		</pattern>
+		<message>Prawdopodobnie niepoprawny przyimek. Powinno być <suggestion>\1 do (\3)</suggestion> (przypadek ostatniego wyrazu należy zmienić na dopełniacz).</message>
+		<example type="incorrect">Dla profesora stan wojenny był <marker>analogiczny z nadużyciem</marker> władzy i tragiczną branką młodzieży.</example>
+		<example type="correct">Dla profesora stan wojenny był <marker>analogiczny do nadużycia</marker> władzy i tragiczną branką młodzieży.</example>
+	</rule>
+
+	<rule id="PRZEZNACZAC_CZAS" name="„przeznaczać czas dla” (na)">
+	<pattern>
+		<token inflected="yes" regexp="yes">przeznaczać|przeznaczyć</token>
+		<token>czas</token>
+		<token>dla</token>
+	</pattern>
+	<message>Prawdopodobnie użyto błędnego przyimka. Powinno być: <suggestion>\1 \2 na</suggestion> lub <suggestion>poświęcić \2</suggestion> (z narzędnikiem).</message>
+	<example type="incorrect"><marker>Przeznacz czas dla</marker> bardziej produktywnych zadań.</example>
+	<example type="correct">Przeznacz czas na bardziej produktywne zadania.</example>
+	</rule>	
+	
 	<!-- odnośnie do -->
 		<rule id="ODNOSNIE_DO" name="„odnośnie czegoś” (odnośnie do)">
 			<pattern mark_from="0" case_sensitive="no">
@@ -3036,6 +3058,42 @@ $Id: grammar.xml,v 1.143 2007-03-13 11:30:01 milek_pl Exp $
 
 	<category name="Pleonazmy">
 	
+	<rulegroup name="„cofać się do tyłu” (cofać się)" id="COFAC_SIE_DO_TYLU">
+	<rule>
+		<pattern>
+			<token inflected="yes" regexp="yes">cofać|cofnąć</token>
+			<token/>
+			<token>do</token>
+			<token>tyłu</token>
+		</pattern>
+		<message>To pleonazm. Wystarczy powiedzieć: <suggestion>\1 \2</suggestion>.</message>
+		<example type="correct">Cofnij się!</example>
+		<example type="incorrect"><marker>Cofnij się do tyłu</marker>!</example>
+	</rule>
+		<rule>
+		<pattern>
+			<token inflected="yes" regexp="yes">cofać|cofnąć</token>			
+			<token>do</token>
+			<token>tyłu</token>
+		</pattern>
+		<message>To pleonazm. Wystarczy powiedzieć: <suggestion>\1</suggestion>.</message>
+		<example type="correct">Uważaj przy cofaniu!</example>
+		<example type="incorrect">Uważaj przy <marker>cofaniu do tyłu</marker>!</example>
+	</rule>
+	
+	</rulegroup>	
+	<rule name="„poprawić się na lepsze” (poprawić się)" id="POPRAWIC_SIE_NA_LEPSZE">
+		<pattern>
+			<token inflected="yes" regexp="yes">poprawić|poprawiać</token>
+			<token>się</token>
+			<token>na</token>
+			<token inflected="yes">lepszy</token>
+		</pattern>
+		<message>To pleonazm (nic nie może poprawić się na gorsze). Mówimy po prostu <suggestion>\1 \2</suggestion> lub <suggestion>\1</suggestion>.</message>
+		<example type="incorrect">W Amwayu wiele w moim życiu <marker>poprawiło się na lepsze</marker>.</example>
+		<example type="correct">W Amwayu wiele w moim życiu <marker>poprawiło się</marker>.</example>
+	</rule>
+	
 		<rule name="„grać fair play” (grać fair)" id="GRAC_FAIR_PLAY">
 			<pattern mark_from="1">
 			 <token skip="1" inflected="yes" regexp="yes">grać|zagrać|grywać</token>
@@ -3125,19 +3183,7 @@ $Id: grammar.xml,v 1.143 2007-03-13 11:30:01 milek_pl Exp $
 				<example type="incorrect">Mimo zmęczenia Przemysław postanowił <marker>z powrotem wrócić</marker> i zbudować lotnisko we Włoszczowie.</example>
 			</rule>			
 		</rulegroup>
-		
-		<rule name="„cofać się do tyłu” (cofać się)" id="COFAC_SIE_DO_TYLU">
-			<pattern>
-				<token inflected="yes" regexp="yes">cofać|cofnąć</token>
-				<token>się</token>
-				<token>do</token>
-				<token>tyłu</token>
-			</pattern>
-			<message>To wyrażenie to pleonazm. Wystarczy powiedzieć <suggestion>\1 \2</suggestion>.</message>
-			<example type="correct">Proszę cofnąć się.</example>
-			<example type="incorrect">Proszę <marker>cofnąć się do tyłu</marker>.</example>
-		</rule>
-		
+			
 		<rulegroup name="„fakt autentyczny/konkretny” (fakt)" id="FAKT_AUTENTYCZNY">
 			<rule>
 				<pattern>
