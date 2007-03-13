@@ -2,7 +2,7 @@
 <!--
 Polish Grammar and Typo Rules for LanguageTool
 Copyright (C) 2006 Marcin Miłkowski
-$Id: grammar.xml,v 1.142 2007-03-13 01:01:08 milek_pl Exp $		
+$Id: grammar.xml,v 1.143 2007-03-13 11:30:01 milek_pl Exp $		
 -->
 <rules lang="pl">
 
@@ -842,6 +842,19 @@ $Id: grammar.xml,v 1.142 2007-03-13 01:01:08 milek_pl Exp $
 		
 	</category>
 	<category name="Błędy odmiany">
+	
+	<rule name="„w dniu x stycznia” (x stycznia)" id="W_DNIU_1_STYCZNIA">
+		<pattern>
+			<token>w</token>
+			<token>dniu</token>
+			<token postag_regexp="yes" postag="adj.*gen.*"/>
+			<token regexp="yes">stycznia|lutego|marca|kwietnia|maja|czerwca|lipca|sierpnia|września|października|listopada|grudnia</token>	
+		</pattern>
+		<message>Niepoprawna postać daty (nie istnieje „drugi sierpień”, jedynie „drugi [dzień] sierpnia”); poprawnie: <suggestion>\3 \4</suggestion>.</message>
+		<!--  dodać też formę narzędnika: w dniu (narzędnik od \3) \4 -->
+		<example type="incorrect">Przyczyna wojny był atak Saddama Husseina na Kuwejt <marker>w dniu drugiego sierpnia</marker> 1990 roku.</example>
+		<example type="correct">Przyczyna wojny był atak Saddama Husseina na Kuwejt <marker>drugiego sierpnia</marker> 1990 roku.</example>
+	</rule>
 	
 	<rule name="„przez całych x lat” (przez całe x lat)" id="PRZEZ_CALYCH_X_LAT">
 		<pattern>
@@ -1926,6 +1939,54 @@ $Id: grammar.xml,v 1.142 2007-03-13 01:01:08 milek_pl Exp $
 	
 	<category name="Błędy leksykalne">
 	
+	<rulegroup id="POSIADAC_MIEC" name="„posiadać” (mieć)">
+		<rule>
+			<pattern mark_to="-1">
+				<token inflected="yes" postag_regexp="yes" postag="verb.*">posiadać</token>
+				<token regexp="yes">brodę|wąsy|bilet|wymiary|klimatyzację|rekord</token>				
+			</pattern>
+			<message>Niepoprawne jest łączenie czasownika „posiadać” z nazwami rzeczy drobnych. Poprawnie: <suggestion>mieć</suggestion>.</message>
+			<example type="incorrect">Wzrostu około 175 cm, włosy ciemne, <marker>posiada</marker> brodę i wąsy.</example>
+			<example type="correct">Wzrostu około 175 cm, włosy ciemne, <marker>ma</marker> brodę i wąsy.</example>
+		</rule>
+	</rulegroup>
+	
+	<rulegroup id="BYC_ZNAJDOWAC_SIE_W_POSIADANIU" name="„być/znajdować się w posiadaniu” (mieć, posiadać)">
+		<rule>
+			<pattern>
+				<token inflected="yes">być</token>
+				<token>w</token>
+				<token>posiadaniu</token>
+			</pattern>
+			<message>Wyrażenie niepoprawne. Poprawnie: <suggestion>mieć</suggestion>, <suggestion>posiadać</suggestion>.</message>
+			<example type="incorrect">Nie <marker>jestem w posiadaniu</marker> tego obrazu.</example>
+			<example type="correct">Nie mam tego obrazu.</example>
+		</rule>
+		<rule>
+			<pattern>
+				<token inflected="yes" regexp="yes">znajdować|znaleźć</token>
+				<token>się</token>
+				<token skip="1">w</token>
+				<token>posiadaniu</token>
+			</pattern>
+			<message>Wyrażenie niepoprawne. Poprawnie: <suggestion>mieć</suggestion>, <suggestion>posiadać</suggestion> (całe zdanie należy przeredagować, zmieniając podmiot gramatyczny).</message>
+			<example type="incorrect">Ten obraz nie <marker>znajduje się w jego posiadaniu</marker>.</example>
+			<example type="correct">On nie ma tego obrazu.</example>
+		</rule>
+	</rulegroup>
+	
+	<rule id="W_POWOLANIU_SIE_NA" name="„w powołaniu się na” (powołując się na)">
+		<pattern>
+			<token>w</token>
+			<token>powołaniu</token>
+			<token>się</token>
+			<token>na</token>
+		</pattern>
+		<message>To wyrażenie jest może być niepoprawne. Lepiej: <suggestion>powołując się na</suggestion>, <suggestion>ze względu na</suggestion>, <suggestion>na mocy</suggestion>.</message>
+		<example type="incorrect">Dokument ma uprawomocnić żądanie natychmiastowego wstrzymania wzbogacania uranu <marker>w powołaniu się na</marker> artykuł 39, względnie 40 Karty NZ.</example>
+		<example type="correct">Dokument ma uprawomocnić żądanie natychmiastowego wstrzymania wzbogacania uranu <marker>ze względu na</marker> artykuł 39, względnie 40 Karty NZ.</example>
+	</rule>
+	
 	<rulegroup id="ROZCHODZI_SIE" name="„rozchodzić się o” (chodzić o)">
 		<rule>
 			<pattern>
@@ -2321,6 +2382,26 @@ $Id: grammar.xml,v 1.142 2007-03-13 01:01:08 milek_pl Exp $
 			<message>Użyto niewłaściwego czasownika. Powinno być: <suggestion>rozegrać</suggestion> lub <suggestion>rozgrywać</suggestion>.</message>
 			<example type="incorrect">Wisła chce <marker>grać</marker> mecz w czwartek.</example>
 			<example type="correct">Wisła chce <marker>rozegrać</marker>  mecz w czwartek.</example>
+		</rule>
+
+		<rule name="„ponosić nakłady” (koszty)" id="PONOSIC_NAKLADY">
+			<pattern mark_from="1">
+				<token inflected="yes" regexp="yes">ponosić|ponieść</token>
+				<token>nakłady</token>
+			</pattern>
+			<message>Tego czasownika nie używamy z rzeczownikiem \2. Powinno być: <suggestion>koszty</suggestion>.</message>
+			<example type="incorrect">Nowoczesna firma ponosi <marker>nakłady</marker> na innowacje.</example>
+			<example type="correct">Nowoczesna firma ponosi <marker>koszty</marker> związane z innowacjami.</example>
+		</rule>
+		
+		<rule name="„zestawić listę” (ułożyć listę)" id="ZESTAWIC_LISTE">
+			<pattern mark_to="-1">
+				<token inflected="yes" regexp="yes" postag_regexp="yes" postag="verb.*">zestawiać|zestawić</token>
+				<token>listę</token>
+			</pattern>
+			<message>Prawdopodobnie użyto niewłaściwego czasownika. Mówimy raczej: <suggestion>ułożyć</suggestion> lub <suggestion>utworzyć</suggestion>.</message>
+			<example type="incorrect">Można <marker>zestawić</marker> listę praw, jakie Kościół przyznaje człowiekowi.</example>
+			<example type="correct">Można ułożyć listę praw, jakie Kościół odbiera człowiekowi.</example>
 		</rule>
 		
 		<rule name="„odgrywać znaczenie” (rolę)" id="ODGRYWAC_ZNACZENIE">
@@ -3490,6 +3571,42 @@ $Id: grammar.xml,v 1.142 2007-03-13 01:01:08 milek_pl Exp $
 	</category>
 	
 	<category name="Błędy rodzaju gramatycznego">
+
+	<rulegroup name="„ten pomarańcz” (ta pomarańcza)" id="TEN_POMARANCZ">
+		<rule>
+			<pattern>
+				<token postag_regexp="yes" postag="adj.*[\:\.]m[\d]*.*"><exception postag_regexp="yes" postag="adj.*[\:\.]f.*"/></token>
+				<token>pomarańcz</token>
+			</pattern>
+			<message>Rzeczownik „pomarańcza” (=owoc cytrusowy) jest rodzaju żeńskiego. Poprawnie: <suggestion>\1 pomarańcza</suggestion> (należy dostosować końcówkę przymiotnika!). Wyjątkiem jest tylko nazwa koloru pomarańczowego (rodzaj męski).</message>
+			<example type="correct">Jaka smaczna pomarańcza!</example>
+			<example type="incorrect">Jaki <marker>smaczny pomarańcz</marker>!</example>
+		</rule>
+		<rule>
+			<pattern mark_from="2" mark_to="-2">
+				<token postag_regexp="yes" postag=".*nom.*"><exception postag_regexp="yes" postag=".*gen.*"/></token>
+				<token>,</token>
+				<token>pomarańcz</token>
+				<token>,</token>
+				<token postag_regexp="yes" postag=".*nom.*"><exception postag_regexp="yes" postag=".*gen.*"/></token>
+			</pattern>
+			<message>Rzeczownik „pomarańcza” (=owoc cytrusowy) jest rodzaju żeńskiego. Poprawnie: <suggestion>pomarańcza</suggestion>. Wyjątkiem jest tylko nazwa koloru pomarańczowego (rodzaj męski).</message>
+			<example type="correct">Soki Cappy (porzeczka, pomarańcza, jabłko, grejpfrut, pomidor)</example>
+			<example type="incorrect">Soki Cappy (porzeczka, <marker>pomarańcz</marker>, jabłko, grejpfrut, pomidor)</example>
+		</rule>
+	</rulegroup>
+	
+	<rule name="„ta pora” (por)" id="TA_PORA">
+		<pattern mark_from="2">
+			<token skip="-1" regexp="yes">pietruszka|cebula|seler|papryka|pomidory</token>
+			<token>,</token>
+			<token>pora</token>		
+		</pattern>
+		<message>Prawdopodobnie pomylony rodzaj gramatyczny. Mówimy <suggestion>por</suggestion> (=rodzaj warzywa).</message>
+		<example type="incorrect">W skład gospodarstwa wchodzi również przydomowy ogródek z warzywami tj. marchew, pietruszka, <marker>pora</marker> itp.</example>
+		<example type="correct">W skład gospodarstwa wchodzi również przydomowy ogródek z warzywami tj. marchew, pietruszka, <marker>por</marker> itp.</example>
+		<example type="correct">Pora najwyższa jeść pora.</example>
+	</rule>
 		
 		<rule name="„ten perfum” (te perfumy)" id="TEN_PERFUM">
 			<pattern>
@@ -5371,6 +5488,18 @@ $Id: grammar.xml,v 1.142 2007-03-13 01:01:08 milek_pl Exp $
 
 	<category name="Błędy frazeologiczne">
 	
+	<rule name="„inna strona medalu” (druga strona)" id="INNA_STRONA_MEDALU">
+			<pattern>
+				<token inflected="yes" postag_regexp="yes" postag="adj:.*:(f|f.n):pneg">inny</token>
+				<token inflected="yes">strona</token>
+				<token>medalu</token>
+			</pattern>
+			<!--  dodać odmianę "odwrotna" i "druga" -->
+			<message>To wyrażenie jest niepoprawnie. Poprawnie: <suggestion>odwrotna \2 \3</suggestion> lub <suggestion>druga \2 \3</suggestion>.</message>
+			<example type="incorrect"><marker>Inna strona medalu</marker> jest taka, że nie chce być wyśmiana przez innych.</example>
+			<example type="correct"><marker>Odwrotna strona medalu</marker> jest taka, że nie chce być wyśmiana przez innych.</example>
+		</rule>
+		
 		<rule name="„krępacja” (skrępowanie)" id="KREPACJA_BEZ_BEZ">
 			<pattern mark_from="1">
 				<token negate="yes">bez</token>
