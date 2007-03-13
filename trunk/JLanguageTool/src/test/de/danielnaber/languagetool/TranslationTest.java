@@ -49,6 +49,8 @@ public class TranslationTest extends TestCase {
         continue;
       Properties langProps = new Properties();
       File langFile = getTranslationFile(lang);
+      if (!langFile.exists())
+        continue;
       langProps.load(new FileInputStream(langFile));
       Set<Object> langKeys = langProps.keySet();
       for (Object englishKey : englishKeys) {
