@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+A demo rule file for LanguageTool
+Copyright (C) 2005 Daniel Naber (http://www.danielnaber.de)
+$Id$
+-->
+
+<rules lang="cs">
+
+  <category name="misc">
+
+    <!-- a trivialdemo rule that matches "foo" followed by "bar" -->
+    <rule id="DEMO_RULE" name="Find 'foo bar'">
+      <pattern mark_from="0" case_sensitive="no">
+        <token>foo</token>
+        <token>bar</token>
+      </pattern>
+      <message>Did you mean <suggestion>fuu bah</suggestion>?</message>
+      <example type="correct">This is <marker>fuu bah</marker>.</example>
+      <example type="incorrect">This is <marker>foo bar</marker>.</example>
+    </rule>
+
+  </category>
+
+</rules>
