@@ -247,8 +247,8 @@ public class ConfigurationDialog implements ActionListener {
     motherTongues.add(NO_MOTHER_TONGUE);
     for (Language lang : Language.LANGUAGES) {
       if (lang != Language.DEMO) {
-        //motherTongues.add(messages.getString(lang.getShortName()));
-        motherTongues.add(lang);
+        motherTongues.add(messages.getString(lang.getShortName()));
+        //motherTongues.add(lang);
       }
     }
     return motherTongues.toArray();
