@@ -24,6 +24,7 @@ import de.danielnaber.languagetool.tagging.Tagger;
 import de.danielnaber.languagetool.tagging.de.GermanTagger;
 import de.danielnaber.languagetool.tagging.en.EnglishTagger;
 import de.danielnaber.languagetool.tagging.pl.PolishTagger;
+import de.danielnaber.languagetool.tagging.cs.CzechTagger;
 import de.danielnaber.languagetool.tagging.fr.FrenchTagger;
 import de.danielnaber.languagetool.tagging.es.SpanishTagger;
 import de.danielnaber.languagetool.tagging.it.ItalianTagger;
@@ -35,6 +36,7 @@ import de.danielnaber.languagetool.tokenizers.de.GermanSentenceTokenizer;
 import de.danielnaber.languagetool.tokenizers.en.EnglishWordTokenizer;
 import de.danielnaber.languagetool.tokenizers.nl.DutchSentenceTokenizer;
 import de.danielnaber.languagetool.tokenizers.pl.PolishSentenceTokenizer;
+import de.danielnaber.languagetool.tokenizers.cs.CzechSentenceTokenizer;
 import de.danielnaber.languagetool.tokenizers.Tokenizer;
 import de.danielnaber.languagetool.tokenizers.WordTokenizer;
 
@@ -74,6 +76,10 @@ public final class Language {
   public static final Language UKRAINIAN =
     new Language("Ukrainian", "uk", new Locale("uk"), new UkrainianTagger(), new SentenceTokenizer(), new WordTokenizer());
   
+   public static final Language CZECH = 
+         new Language("Czech", "cs", new Locale("cs"), new CzechTagger(), new CzechSentenceTokenizer(), new WordTokenizer());
+
+  
   public static final Language DEMO = 
     new Language("Testlanguage", "xx", new Locale("en"), new DemoTagger(), new SentenceTokenizer(), new WordTokenizer());
 
@@ -89,7 +95,7 @@ public final class Language {
    * All languages supported by LanguageTool.
    */
   public static final Language[] LANGUAGES = new Language[] {
-    ENGLISH, GERMAN, POLISH, FRENCH, SPANISH, ITALIAN, DUTCH, LITHUANIAN, UKRAINIAN, DEMO
+    ENGLISH, GERMAN, POLISH, FRENCH, SPANISH, ITALIAN, DUTCH, LITHUANIAN, UKRAINIAN, CZECH, DEMO
   };
 
   /**
