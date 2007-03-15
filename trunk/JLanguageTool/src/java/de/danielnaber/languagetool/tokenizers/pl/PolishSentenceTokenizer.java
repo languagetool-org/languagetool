@@ -66,10 +66,10 @@ public class PolishSentenceTokenizer extends SentenceTokenizer {
         "krak|k.r.o|kryt|kult|laic|łac|niem|woj|np|pol|m.in|itd|itp|pt|cdn|jw|" +
         "nb|rys|tj|tzw|tzn|zob|ang|ul|pl|al|k|n|ok|tys|proc|ww|ur|zm|żyd|żarg|żart|żyw|wył|" +
         "up|tow|o|zn|zew|zewn|zdr|zazw|zast|zaw|zał|zal|zam|zak|zakł|zagr|zach|"+
-        "adw|lek|mec|doc|dyr|inż|mgr|dr|red|prof|hab|ks|gen";
+        "adw|lek|mec|doc|dyr|inż|mgr|dr|red|prof|hab|ks|gen|por|s";
   
   /** Abbreviations which can occur at the end of sentence **/
-  private static final String ENDABBREVLIST ="proc|r|itd|itp|cdn|jw|n.e"; 
+  private static final String ENDABBREVLIST ="proc|r|itd|itp|cdn|jw|n.e|w|nn|n"; 
   
   private StringTokenizer stringTokenizer = null;
 
