@@ -65,8 +65,7 @@ public class PolishSentenceTokenizerTest extends TestCase {
     testSplit(new String[] { "This is a sentence. ", "And this is another one." });
     testSplit(new String[] { "This is a sentence.", "Isn't it?", "Yes, it is." });
     
-    // changed the example: spaces after dots are not permissible in most Polish abbrevs anyway
-    testSplit(new String[] { "Don't split strings like U.S.A. either." });
+    testSplit(new String[] { "Don't split strings like U. S. A. either." });
     testSplit(new String[] { "Don't split... ", "Well you know. ", "Here comes more text." });
     testSplit(new String[] { "Don't split... well you know. ", "Here comes more text." });
     testSplit(new String[] { "The \".\" should not be a delimiter in quotes." });

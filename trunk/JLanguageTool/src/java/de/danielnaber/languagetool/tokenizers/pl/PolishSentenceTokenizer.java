@@ -44,10 +44,11 @@ public class PolishSentenceTokenizer extends SentenceTokenizer {
   // \p{Lu} = uppercase, with obeying Unicode (\p{Upper} is just US-ASCII!):
   private static final Pattern punctUpperLower = Pattern.compile("(" + PAP
       + ")([\\p{Lu}][^\\p{Lu}.])");
-  private static final Pattern letterPunct = Pattern.compile("(\\s[\\wąćęłńóśźżĄĆĘŁŃÓŚŹŻ]" + P + ")");
-  private static final Pattern abbrev1 = Pattern.compile("([^-\\wąćęłńóśźżĄĆĘŁŃÓŚŹŻ”][\\wąćęłńóśźżĄĆĘŁŃÓŚŹŻ]" + PAP + "\\s)" + EOS);
-  private static final Pattern abbrev2 = Pattern.compile("([^-\\wąćęłńóśźżĄĆĘŁŃÓŚŹŻ][\\wąćęłńóśźżĄĆĘŁŃÓŚŹŻ]" + P + ")" + EOS);
-  //private static final Pattern abbrev3 = Pattern.compile("(\\s[\\wąćęłńóśźżĄĆĘŁŃÓŚŹŻ]\\.\\s+)" + EOS);
+  private static final Pattern letterPunct = Pattern.compile("(\\s[\\w]" + P + ")");
+  private static final Pattern abbrev1 = Pattern.compile("([^-\\w”][\\w]" + PAP + "\\s)" + EOS);
+  private static final Pattern abbrev2 = Pattern.compile("([^-\\w][\\w]" + P + ")" + EOS);
+  //** Lookahead regexp excludes some possible abbrevs here
+  private static final Pattern abbrev3 = Pattern.compile("(\\s[(?![rwn])\\w]\\.\\s+)" + EOS);
   private static final Pattern abbrev4 = Pattern.compile("(\\.\\.\\. )" + EOS + "([\\p{Ll}])");
   private static final Pattern abbrev5 = Pattern.compile("(['\"]" + P + "['\"]\\s+)" + EOS);
   private static final Pattern abbrev6 = Pattern.compile("([\"”']\\s*)" + EOS + "(\\s*[\\p{Ll}])");
@@ -59,14 +60,15 @@ public class PolishSentenceTokenizer extends SentenceTokenizer {
   
   /** Polish abbreviations as a single regexp. **/
   private static final String ABBREVLIST = "adw|afr|akad|am|amer|arch|art|artyst|astr|austr|" +
-        "bałt|bdb|bł|bm|br|bryt|centr|ces|chem|chiń|chir|c.k|c.o|cyg|cyw|czes|czw|cd|czyt|ćw|ćwicz|" +
+        "bałt|bdb|bł|bm|br|bryt|centr|ces|chem|chiń|chir|c.k|c.o|cyg|cyw|cyt|" +
+        "czes|czw|cd|czyt|ćw|ćwicz|" +
         "daw|dcn|dekl|demokr|det|diec|dł|dn|dop|dost|dosł|h.c|ds|dst|duszp|dypl|egz|ekol|ekon|" +
         "elektr|em|etc|ew|fab|farm|fot|fr|gat|gastr|geogr|geol|gimn|głęb|gm|godz|górn|gosp|gr|gram|" +
         "hist|hiszp|hr|hot|id|in|im|iron|jn|kard|kat|katol|k.k|kk|klas|kol|k.p.a|kpc|k.p.c|kpt|kr|k.r|" +
         "krak|k.r.o|kryt|kult|laic|łac|niem|woj|np|pol|m.in|itd|itp|pt|cdn|jw|" +
         "nb|rys|tj|tzw|tzn|zob|ang|ul|pl|al|k|n|ok|tys|proc|ww|ur|zm|żyd|żarg|żart|żyw|wył|" +
         "up|tow|o|zn|zew|zewn|zdr|zazw|zast|zaw|zał|zal|zam|zak|zakł|zagr|zach|"+
-        "adw|lek|mec|doc|dyr|inż|mgr|dr|red|prof|hab|ks|gen|por|s";
+        "adw|lek|mec|doc|dyr|inż|mgr|dr|red|prof|hab|ks|gen|por|s|przyp";
   
   /** Abbreviations which can occur at the end of sentence **/
   private static final String ENDABBREVLIST ="proc|r|itd|itp|cdn|jw|n.e|w|nn|n"; 
@@ -132,23 +134,19 @@ public class PolishSentenceTokenizer extends SentenceTokenizer {
     // Don't split after a white-space followed by a single letter followed
     // by a dot followed by another whitespace.
     // e.g. " p. "
-    //s = abbrev3.matcher(s).replaceAll("$1");
+    s = abbrev3.matcher(s).replaceAll("$1");
     // Don't split at "bla bla... yada yada" (TODO: use \.\.\.\s+ instead?)
     s = abbrev4.matcher(s).replaceAll("$1$2");
     // Don't split [.?!] when the're quoted:
     s = abbrev5.matcher(s).replaceAll("$1");
 
     // Don't split at abbreviations, treat them case insensitive
-    //TODO: don't split at some abbreviations followed by uppercase
-    //E.g., "Wojna rozpoczęła się w 1918 r. To była krwawa jatka"
-    //should be split at "r."... But
-    //"Ks. Jankowski jest analfabetą" shouldn't be split...
-    //this requires a special list of abbrevs used before names etc.
 
     //removing the loop and using only one regexp - this is definitely much, much faster
     Pattern pattern = Pattern.compile("(?u)(\\b(" + ABBREVLIST +")"+ PAP + "\\s)" + EOS );
     s = pattern.matcher(s).replaceAll("$1");
-    
+
+    //a special list of abbrevs used at the end of sentence
     Pattern patternPerson = Pattern.compile("(?u)(\\b(" + ENDABBREVLIST +")"+ PAP + "\\s)" + EOS +"(\\p{Lt})");
     s = patternPerson.matcher(s).replaceAll("$1$3");
     
