@@ -65,7 +65,8 @@ public class PolishSentenceTokenizerTest extends TestCase {
     testSplit(new String[] { "This is a sentence. ", "And this is another one." });
     testSplit(new String[] { "This is a sentence.", "Isn't it?", "Yes, it is." });
     
-    testSplit(new String[] { "Don't split strings like U. S. A. either." });
+    // changed the example: spaces after dots are not permissible in most Polish abbrevs anyway
+    testSplit(new String[] { "Don't split strings like U.S.A. either." });
     testSplit(new String[] { "Don't split... ", "Well you know. ", "Here comes more text." });
     testSplit(new String[] { "Don't split... well you know. ", "Here comes more text." });
     testSplit(new String[] { "The \".\" should not be a delimiter in quotes." });
@@ -89,7 +90,8 @@ public class PolishSentenceTokenizerTest extends TestCase {
     testSplit(new String[] { "James is from the Ireland!", "He lives in Spain now." });
     // From the abbreviation list:
     testSplit(new String[] { "Ks. Jankowski jest prof. teologii." });    
-    testSplit(new String[] { "To wydarzyło się w 1939 r. To był burzliwy rok." });
+    testSplit(new String[] { "To wydarzyło się w 1939 r.", "To był burzliwy rok." });
+    testSplit(new String[] { "Prezydent jest popierany przez 20 proc. społeczeństwa." });
   }
 
   public final void testSplit(final String[] sentences) {
