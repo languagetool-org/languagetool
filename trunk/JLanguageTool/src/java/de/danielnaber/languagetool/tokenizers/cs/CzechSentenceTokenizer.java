@@ -30,12 +30,12 @@ public class CzechSentenceTokenizer extends SentenceTokenizer
     /** Punctuation.
      *
      */
-    private static final String P = "[\\.!?â€¦]";
+    private static final String P = "[\\.!?…]";
     
     /** After punctuation.
      *
      */
-    private static final String AP = "(?:'|Â«|\"|â€ť|\\)|\\]|\\})?";
+    private static final String AP = "(?:'|«|\"|”|\\)|\\]|\\})?";
     private static final String PAP = P + AP;
     
     // Check out the private methods for comments and examples about these
@@ -49,22 +49,22 @@ public class CzechSentenceTokenizer extends SentenceTokenizer
     // \p{Lu} = uppercase, with obeying Unicode (\p{Upper} is just US-ASCII!):
     private static final Pattern punctUpperLower = Pattern.compile("(" + PAP
             + ")([\\p{Lu}][^\\p{Lu}.])");
-    private static final Pattern letterPunct = Pattern.compile("(\\s[\\wĂˇÄŤÄŹĂ©Ä›Ă­ĹĂłĹ™ĹˇĹĄĂşĹŻĂ˝ĹľĂÄŚÄŽĂ‰ÄšĂŤĹ‡Ă“ĹĹ Ĺ¤ĂšĹ®ĂťĹ˝]" + P + ")");
-    private static final Pattern abbrev1 = Pattern.compile("([^-\\wĂˇÄŤÄŹĂ©Ä›Ă­ĹĂłĹ™ĹˇĹĄĂşĹŻĂ˝ĹľĂÄŚÄŽĂ‰ÄšĂŤĹ‡Ă“ĹĹ Ĺ¤ĂšĹ®ĂťĹ˝][\\wĂˇÄŤÄŹĂ©Ä›Ă­ĹĂłĹ™ĹˇĹĄĂşĹŻĂ˝ĹľĂÄŚÄŽĂ‰ÄšĂŤĹ‡Ă“ĹĹ Ĺ¤ĂšĹ®ĂťĹ˝]" + PAP + "\\s)" + EOS);
-    private static final Pattern abbrev2 = Pattern.compile("([^-\\wĂˇÄŤÄŹĂ©Ä›Ă­ĹĂłĹ™ĹˇĹĄĂşĹŻĂ˝ĹľĂÄŚÄŽĂ‰ÄšĂŤĹ‡Ă“ĹĹ Ĺ¤ĂšĹ®ĂťĹ˝][\\wĂˇÄŤÄŹĂ©Ä›Ă­ĹĂłĹ™ĹˇĹĄĂşĹŻĂ˝ĹľĂÄŚÄŽĂ‰ÄšĂŤĹ‡Ă“ĹĹ Ĺ¤ĂšĹ®ĂťĹ˝]" + P + ")" + EOS);
-    private static final Pattern abbrev3 = Pattern.compile("(\\s[\\wĂˇÄŤÄŹĂ©Ä›Ă­ĹĂłĹ™ĹˇĹĄĂşĹŻĂ˝ĹľĂÄŚÄŽĂ‰ÄšĂŤĹ‡Ă“ĹĹ Ĺ¤ĂšĹ®ĂťĹ˝]\\.\\s+)" + EOS);
+    private static final Pattern letterPunct = Pattern.compile("(\\s[\\wáčďéěíňóřšťúůýžÁČĎÉĚÍŇÓŘŠŤÚŮÝŽ]" + P + ")");
+    private static final Pattern abbrev1 = Pattern.compile("([^-\\wáčďéěíňóřšťúůýžÁČĎÉĚÍŇÓŘŠŤÚŮÝŽ][\\wáčďéěíňóřšťúůýžÁČĎÉĚÍŇÓŘŠŤÚŮÝŽ]" + PAP + "\\s)" + EOS);
+    private static final Pattern abbrev2 = Pattern.compile("([^-\\wáčďéěíňóřšťúůýžÁČĎÉĚÍŇÓŘŠŤÚŮÝŽ][\\wáčďéěíňóřšťúůýžÁČĎÉĚÍŇÓŘŠŤÚŮÝŽ]" + P + ")" + EOS);
+    private static final Pattern abbrev3 = Pattern.compile("(\\s[\\wáčďéěíňóřšťúůýžÁČĎÉĚÍŇÓŘŠŤÚŮÝŽ]\\.\\s+)" + EOS);
     private static final Pattern abbrev4 = Pattern.compile("(\\.\\.\\. )" + EOS + "([\\p{Ll}])");
     private static final Pattern abbrev5 = Pattern.compile("(['\"]" + P + "['\"]\\s+)" + EOS);
     private static final Pattern abbrev6 = Pattern.compile("([\"']\\s*)" + EOS + "(\\s*[\\p{Ll}])");
     private static final Pattern abbrev7 = Pattern.compile("(\\s" + PAP + "\\s)" + EOS);
     // z.b. 3.10. (im Datum):
     private static final Pattern abbrev8 = Pattern.compile("(\\d{1,2}\\.\\d{1,2}\\.\\s+)" + EOS);
-    private static final Pattern repair1 = Pattern.compile("('[\\wĂˇÄŤÄŹĂ©Ä›Ă­ĹĂłĹ™ĹˇĹĄĂşĹŻĂ˝ĹľĂÄŚÄŽĂ‰ÄšĂŤĹ‡Ă“ĹĹ Ĺ¤ĂšĹ®ĂťĹ˝]" + P + ")(\\s)");
+    private static final Pattern repair1 = Pattern.compile("('[\\wáčďéěíňóřšťúůýžÁČĎÉĚÍŇÓŘŠŤÚŮÝŽ]" + P + ")(\\s)");
     private static final Pattern repair2 = Pattern.compile("(\\sno\\.)(\\s+)(?!\\d)");
     
     // Czech abbreviations (ver. 0.1, probably needs revision & update)
     // as a single regexp:
-    private static final String abbrev_list = "abt|ad|a.i|aj|angl|anon|apod|atd|atp|aut|bd|biogr|b.m|b.p|b.r|cca|cit|cizojaz|c.k|col|ÄŤes|ÄŤĂ­n|ÄŤj|ed|facs|fasc|fol|fot|franc|h.c|hist|hl|hrsg|ibid|il|ind|inv.ÄŤ|jap|jhdt|jv|koed|kol|korej|kl|krit|lat|lit|m.a|maÄŹ|mj|mp|nĂˇsl|napĹ™|nepubl|nÄ›m|no|nr|n.s|okr|odd|odp|obr|opr|orig|phil|pl|pokraÄŤ|pol|port|pozn|prof|pĹ™.kr|pĹ™.n.l|pĹ™el|pĹ™eprac|pĹ™Ă­l|pseud|pt|red|repr|resp|revid|rkp|roÄŤ|roz|rozĹˇ|samost|sect|sest|seĹˇ|sign|sl|srv|stol|sv|Ĺˇk|Ĺˇk.ro|Ĺˇpan|tab|t.ÄŤ|tis|tj|tĹ™|tzv|univ|uspoĹ™|vol|vl.jm|vs|vyd|vyobr|zal|zejm|zkr|zprac|zvl|n.p";
+    private static final String abbrev_list = "abt|ad|a.i|aj|angl|anon|apod|atd|atp|aut|bd|biogr|b.m|b.p|b.r|cca|cit|cizojaz|c.k|col|čes|čín|čj|ed|facs|fasc|fol|fot|franc|h.c|hist|hl|hrsg|ibid|il|ind|inv.č|jap|jhdt|jv|koed|kol|korej|kl|krit|lat|lit|m.a|maď|mj|mp|násl|např|nepubl|něm|no|nr|n.s|okr|odd|odp|obr|opr|orig|phil|pl|pokrač|pol|port|pozn|prof|př.kr|př.n.l|přel|přeprac|příl|pseud|pt|red|repr|resp|revid|rkp|roč|roz|rozš|samost|sect|sest|seš|sign|sl|srv|stol|sv|šk|šk.ro|špan|tab|t.č|tis|tj|tř|tzv|univ|uspoř|vol|vl.jm|vs|vyd|vyobr|zal|zejm|zkr|zprac|zvl|n.p";
     
     private StringTokenizer stringTokenizer = null;
     
@@ -141,9 +141,9 @@ public class CzechSentenceTokenizer extends SentenceTokenizer
         
         // Don't split at abbreviations, treat them case insensitive
         //TODO: don't split at some abbreviations followed by uppercase
-        //E.g., "Wojna rozpoczÄ™Ĺ‚a siÄ™ w 1918 r. To byĹ‚a krwawa jatka"
+        //E.g., "Wojna rozpoczęła się w 1918 r. To była krwawa jatka"
         //should be split at "r."... But
-        //"Ks. Jankowski jest analfabetÄ…" shouldn't be split...
+        //"Ks. Jankowski jest analfabetą" shouldn't be split...
         //this requires a special list of abbrevs used before names etc.
         
         //removing the loop and using only one regexp - this is definitely much, much faster
