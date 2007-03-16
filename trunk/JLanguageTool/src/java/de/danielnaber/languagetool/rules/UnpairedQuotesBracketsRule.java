@@ -116,7 +116,6 @@ public class UnpairedQuotesBracketsRule extends Rule {
         String msg = messages.getString("unpaired_brackets");
         @SuppressWarnings("null")
         RuleMatch ruleMatch = new RuleMatch(this, matchToken.getStartPos(), matchToken.getStartPos()+1, msg);
-        //ruleMatch.setSuggestedReplacement(".");
         ruleMatches.add(ruleMatch);
     }    
    }
@@ -124,7 +123,11 @@ public class UnpairedQuotesBracketsRule extends Rule {
   }
 
   public void reset() {
-    // nothing
+    /** FIXME: check previous sentence match (create internal list,
+    and add new matches only if they don't pair with previous ones)
+    How can I know that the rule found paragraph end? (resetting at 
+    paragraph ends seems best but it depends on tokenizers...) 
+    **/
   }
 
 }
