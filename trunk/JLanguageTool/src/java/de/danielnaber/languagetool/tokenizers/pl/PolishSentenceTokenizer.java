@@ -44,18 +44,18 @@ public class PolishSentenceTokenizer extends SentenceTokenizer {
   // \p{Lu} = uppercase, with obeying Unicode (\p{Upper} is just US-ASCII!):
   private static final Pattern punctUpperLower = Pattern.compile("(" + PAP
       + ")([\\p{Lu}][^\\p{Lu}.])");
-  private static final Pattern letterPunct = Pattern.compile("(\\s[\\w]" + P + ")");
-  private static final Pattern abbrev1 = Pattern.compile("([^-\\w”][\\w]" + PAP + "\\s)" + EOS);
-  private static final Pattern abbrev2 = Pattern.compile("([^-\\w][\\w]" + P + ")" + EOS);
+  private static final Pattern letterPunct = Pattern.compile("(\\s[\\p{L}]" + P + ")");
+private static final Pattern abbrev1 = Pattern.compile("([^-\\p{L}”][\\p{L}]" + PAP + "\\s)" + EOS);
+  private static final Pattern abbrev2 = Pattern.compile("([^-\\p{L}][\\p{L}]" + P + ")" + EOS);
   //** Lookahead regexp excludes some possible abbrevs here
-  private static final Pattern abbrev3 = Pattern.compile("(\\s[(?![rwn])\\w]\\.\\s+)" + EOS);
+  private static final Pattern abbrev3 = Pattern.compile("(\\s(?![rwn])[\\p{L}]\\.\\s+)" + EOS);
   private static final Pattern abbrev4 = Pattern.compile("(\\.\\.\\. )" + EOS + "([\\p{Ll}])");
   private static final Pattern abbrev5 = Pattern.compile("(['\"]" + P + "['\"]\\s+)" + EOS);
   private static final Pattern abbrev6 = Pattern.compile("([\"”']\\s*)" + EOS + "(\\s*[\\p{Ll}])");
   private static final Pattern abbrev7 = Pattern.compile("(\\s" + PAP + "\\s)" + EOS);
   // z.b. 3.10. (im Datum):
   private static final Pattern abbrev8 = Pattern.compile("(\\d{1,2}\\.\\d{1,2}\\.\\s+)" + EOS);
-  private static final Pattern repair1 = Pattern.compile("('[\\wąćęłńóśźżĄĆĘŁŃÓŚŹŻ]" + P + ")(\\s)");
+  private static final Pattern repair1 = Pattern.compile("('[\\p{L}]" + P + ")(\\s)");
   private static final Pattern repair2 = Pattern.compile("(\\sno\\.)(\\s+)(?!\\d)");
   
   /** Polish abbreviations as a single regexp. **/
