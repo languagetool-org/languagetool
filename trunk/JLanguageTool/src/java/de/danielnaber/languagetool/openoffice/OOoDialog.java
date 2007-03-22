@@ -46,6 +46,7 @@ import javax.swing.JRootPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTextPane;
 import javax.swing.KeyStroke;
+import javax.swing.text.html.HTMLEditorKit;
 
 import com.sun.star.beans.UnknownPropertyException;
 import com.sun.star.container.NoSuchElementException;
@@ -85,6 +86,7 @@ public class OOoDialog implements ActionListener {
   private JButton changeButton = null;
   private JButton optionsButton = null;
   private JButton closeButton = null;
+  private HTMLEditorKit editorKit = null;
   
   private XTextDocument xTextDoc = null;
   private List<CheckedParagraph> checkedParagraphs = null;
@@ -157,6 +159,8 @@ public class OOoDialog implements ActionListener {
     cons.gridx = 0;
     cons.gridy = 0;
     cons.gridheight = 3;
+    editorKit = new HTMLEditorKit();  // seems to be needed for NeoOffice so it doesn't show plain text
+    contextArea.setEditorKit(editorKit);
     contextArea.setContentType("text/html");
     contextArea.setEditable(false);
     contentPane.add(new JScrollPane(contextArea), cons);
@@ -184,6 +188,7 @@ public class OOoDialog implements ActionListener {
     contentPane.add(optionsButton, cons);
 
     messageArea = new JTextPane();
+    messageArea.setEditorKit(editorKit);
     messageArea.setContentType("text/html");
     messageArea.setEditable(false);
     cons.fill = GridBagConstraints.BOTH;
