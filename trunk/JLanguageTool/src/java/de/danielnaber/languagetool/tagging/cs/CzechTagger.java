@@ -44,6 +44,8 @@ public class CzechTagger implements Tagger {
     "czech.dict"; 
     private Lametyzator morfologik = null; 
     
+    
+    
   public final List<AnalyzedTokenReadings> tag(final List<String> sentenceTokens) throws IOException {
     String[] taggerTokens;
     
@@ -60,33 +62,61 @@ public class CzechTagger implements Tagger {
       String word = iter.next();
       List<AnalyzedToken> l = new ArrayList<AnalyzedToken>();      
       String[] lowerTaggerTokens = null;
-        taggerTokens = morfologik.stemAndForm(word);
-        if (word != word.toLowerCase()) {
+      taggerTokens = morfologik.stemAndForm(word);
+      if (word != word.toLowerCase()) {
         lowerTaggerTokens = morfologik.stemAndForm(word.toLowerCase());
         }
-                
-    if (taggerTokens != null) {
-       int i = 0;
+        
+      
+
+      if (taggerTokens != null) {
+        // Lametyzator returns data as String[]
+        // first lemma, then annotations
+/*
+        if(taggerTokens.length > 2)
+        {
+          for (String currStr : taggerTokens)
+            System.out.print(currStr + " ");
+          
+          System.out.println();
+        }
+    */    
+        String lemma = new String();
+        int i = 0;
         while (i < taggerTokens.length) {
-            //Lametyzator returns data as String[]
-            //first lemma, then annotations
-            l.add(new AnalyzedToken(word, taggerTokens[i + 1], taggerTokens[i]));
-            i = i + 2;
-        } 
+          // Czech POS tags:
+          // If there are multiple tags, they behave as one, i.e. they
+          // are connected
+          // on one line with '+' character
+          lemma = taggerTokens[i];
+          String[] tagsArr = taggerTokens[i + 1].split("\\+");
+
+          for (String currTag : tagsArr)
+            l.add(new AnalyzedToken(word, currTag, lemma));
+
+          i += 2;
+        }
       }     
-    if (lowerTaggerTokens != null) {
-      int i = 0;
-       while (i < lowerTaggerTokens.length) {
-           //Lametyzator returns data as String[]
-           //first lemma, then annotations
-           l.add(new AnalyzedToken(word, lowerTaggerTokens[i + 1], lowerTaggerTokens[i]));
-           i = i + 2;
-       } 
-     }        
     
-    if (lowerTaggerTokens == null && taggerTokens == null) {
-            l.add(new AnalyzedToken(word, null, pos));                       
-    }
+      if (lowerTaggerTokens != null) {
+        
+        String lemma = new String();
+        int i = 0;
+        while (i < lowerTaggerTokens.length) {
+          // Czech POS tags again
+          lemma = lowerTaggerTokens[i];
+          String[] tagsArr = lowerTaggerTokens[i + 1].split("\\+");
+
+          for (String currTag : tagsArr)
+            l.add(new AnalyzedToken(word, currTag, lemma));
+
+          i += 2;
+        }
+      }
+
+      if (lowerTaggerTokens == null && taggerTokens == null) {
+        l.add(new AnalyzedToken(word, null, pos));
+      }
       pos += word.length();
       tokenReadings.add(new AnalyzedTokenReadings((AnalyzedToken[])l.toArray(new AnalyzedToken[0])));
    }
