@@ -2,9 +2,23 @@ LanguageTool Change Log
 
 0.8.9 (2007-xx-yy)
 
- -Make OpenOffice.org integration work with NeoOffice (by Ray Hazlip)
+ -Security: The embedded webserver didn't escape HTML when an error
+  message was returned which led to the possibility to inject
+  Javascript via cross site scripting (thanks to "sumit")
  
+ -A lot of new Polish rules
+ 
+ -Improved German rules to give less false alarms
+
+ -Improved English rules
+
  -Added initial support for Czech (by Jozef Licko)
+
+ -Added initial support for Ukrainian (by Andriy Rysin)
+
+ -Make OpenOffice.org integration work with NeoOffice (by Ray Hazlip) 
+
+ -Added disambiguator interface used to filter POS tags (by Jozef Licko)
 
  -Enabled use of much more compact dictionaries for languages with 
   heavy use of infixes or prefixes (mostly Slavic languages).
@@ -18,29 +32,17 @@ LanguageTool Change Log
  -New French punctuation rule for inserting a non-breakable
   space before '!', '?', ':', and ';' and after or before 
   French quotation marks ('«' and '»').
- 
- -A lot of new Polish rules
- 
+  
  -Fixed crash when started in an unsupported locale
  
  -Added support for declaring phrases (or chunks) in rules,
   which allows reusing same structures in various rules. This 
   could be thought of as simplified chunking.
 
- -The embedded webserver didn't escape HTML when an error
-  message was returned which led to the possibility to inject
-  Javascript via cross site scripting (thanks to "sumit")
- 
  -The command line version (LanguageTool.jar) can now be started
   from any directory. In previous versions, you had to be in the
   LanguageTool installation directory to start it.
  
- -Improved German rules to give less false alarms
-
- -Improved English rules
-
- -Added initial support for Ukrainian (by Andriy Rysin)
-
  -Internal change: rules are loaded dynamically to make adding
   a new language easier in the future (patch by Andriy Rysin)
  
