@@ -43,6 +43,7 @@ import de.danielnaber.languagetool.rules.patterns.FalseFriendRuleLoader;
 import de.danielnaber.languagetool.rules.patterns.PatternRule;
 import de.danielnaber.languagetool.rules.patterns.PatternRuleLoader;
 import de.danielnaber.languagetool.tagging.Tagger;
+import de.danielnaber.languagetool.tagging.disambiguation.Disambiguator;
 import de.danielnaber.languagetool.tokenizers.Tokenizer;
 import de.danielnaber.languagetool.tools.ReflectionUtils;
 
@@ -77,6 +78,7 @@ public class JLanguageTool {
 
   private Language language = null;
   private Language motherTongue = null;
+  private Disambiguator disambiguator = null;
   private Tagger tagger = null;
   private Tokenizer sentenceTokenizer = null;
   private Tokenizer wordTokenizer = null;
@@ -142,6 +144,7 @@ public class JLanguageTool {
       if (allBuiltinRules[i].supportsLanguage(language))
         builtinRules.add(allBuiltinRules[i]);
     }
+    disambiguator = language.getDisambiguator();
     tagger = language.getTagger();
     sentenceTokenizer = language.getSentenceTokenizer();
     wordTokenizer = language.getWordTokenizer();
@@ -447,7 +450,11 @@ public class JLanguageTool {
       tokenArray[toArrayCount++] = posTag;
       startPos += tokenStr.length();
     }
-    return new AnalyzedSentence(tokenArray);
+    
+    AnalyzedSentence finalSentence = new AnalyzedSentence(tokenArray);
+    // disambiguate assigned tags
+    finalSentence = disambiguator.disambiguate(finalSentence);
+    return finalSentence;
   }
 
   private boolean isWord(final String token) {
