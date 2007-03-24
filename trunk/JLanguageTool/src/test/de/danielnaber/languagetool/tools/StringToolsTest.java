@@ -25,6 +25,32 @@ import junit.framework.TestCase;
  */
 public class StringToolsTest extends TestCase {
 
+  public void testAssureSet() {
+    String s = "";
+    try {
+      StringTools.assureSet(s, "varName");
+      fail();
+    } catch (IllegalArgumentException e) {
+      // expected exception
+    }
+    s = " \t";
+    try {
+      StringTools.assureSet(s, "varName");
+      fail();
+    } catch (IllegalArgumentException e) {
+      // expected exception
+    }
+    s = null;
+    try {
+      StringTools.assureSet(s, "varName");
+      fail();
+    } catch (NullPointerException e) {
+      // expected exception
+    }
+    s = "foo";
+    StringTools.assureSet(s, "varName");
+  }
+  
   public void testIsAllUppercase() {
     assertTrue(StringTools.isAllUppercase("A"));
     assertTrue(StringTools.isAllUppercase("ABC"));
@@ -54,4 +80,15 @@ public class StringToolsTest extends TestCase {
     assertEquals("ßa", StringTools.uppercaseFirstChar("ßa"));
   }
 
+  public void testEscapeXMLandHTML() {
+    assertEquals("!ä&quot;&lt;&gt;&amp;&amp;", StringTools.escapeXML("!ä\"<>&&"));
+    assertEquals("!ä&quot;&lt;&gt;&amp;&amp;", StringTools.escapeHTML("!ä\"<>&&"));
+  }
+  
+  public void testGetContext() {
+    String input = "This is a test sentence. Here's another sentence with more text.";
+    String result = StringTools.getContext(8, 14, input, 5);
+    assertEquals("...s is a test sent...\n        ^^^^^^     ", result);
+  }
+  
 }
