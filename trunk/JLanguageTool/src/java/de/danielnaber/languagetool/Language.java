@@ -41,6 +41,7 @@ import de.danielnaber.languagetool.tokenizers.pl.PolishSentenceTokenizer;
 import de.danielnaber.languagetool.tokenizers.cs.CzechSentenceTokenizer;
 import de.danielnaber.languagetool.tokenizers.Tokenizer;
 import de.danielnaber.languagetool.tokenizers.WordTokenizer;
+import de.danielnaber.languagetool.tools.StringTools;
 
 /**
  * Constants for supported languages (English, German, etc).
@@ -108,8 +109,9 @@ public final class Language {
    * @return a Language object or <code>null</code>
    */
   public static Language getLanguageForShortName(final String shortLanguageCode) {
-    if (shortLanguageCode == null)
-      throw new NullPointerException("Language code cannot be null");
+    StringTools.assureSet(shortLanguageCode, "shortLanguageCode");
+    if (shortLanguageCode.length() != "xx".length())
+      throw new IllegalArgumentException("'" + shortLanguageCode + "' isn't a two-character code");
     for (int i = 0; i < Language.LANGUAGES.length; i++) {
       if (shortLanguageCode.equals(Language.LANGUAGES[i].getShortName())) {
         return Language.LANGUAGES[i];
@@ -121,7 +123,7 @@ public final class Language {
   /**
    * Get the Language object for the given language name.
    * 
-   * @param languageName e.g. <code>English</code> or <code>German</code>
+   * @param languageName e.g. <code>English</code> or <code>German</code> (case is significant)
    * @return a Language object or <code>null</code>
    */
   public static Language getLanguageForName(final String languageName) {
@@ -135,6 +137,18 @@ public final class Language {
 
   private Language(final String name, final String shortForm, final Locale locale, final Disambiguator disambiguator,
 		  final Tagger tagger, final SentenceTokenizer sentenceTokenizer, final Tokenizer wordTokenizer) {
+    StringTools.assureSet(name, "name");
+    StringTools.assureSet(shortForm, "shortForm");
+    if (disambiguator == null)
+      throw new NullPointerException("disambiguator cannot be null");
+    if (tagger == null)
+      throw new NullPointerException("tagger cannot be null");
+    if (locale == null)
+      throw new NullPointerException("locale cannot be null");
+    if (sentenceTokenizer == null)
+      throw new NullPointerException("sentenceTokenizer cannot be null");
+    if (wordTokenizer == null)
+      throw new NullPointerException("wordTokenizer cannot be null");
     this.name = name;
     this.shortForm = shortForm;
     this.disambiguator = disambiguator;
@@ -163,8 +177,11 @@ public final class Language {
   }
 
   
+  /**
+   * Get this language's part-of-speech disambiguator implemenation.
+   */
   public Disambiguator getDisambiguator() {
-	    return disambiguator;
+    return disambiguator;
   }
   
   /**
@@ -174,10 +191,16 @@ public final class Language {
     return tagger;
   }
 
+  /**
+   * Get this language's sentence tokenizer implemenation.
+   */
   public SentenceTokenizer getSentenceTokenizer() {
     return sentenceTokenizer;
   }
 
+  /**
+   * Get this language's word tokenizer implemenation.
+   */
   public Tokenizer getWordTokenizer() {
     return wordTokenizer;
   }

@@ -44,6 +44,16 @@ public final class StringTools {
   }
 
   /**
+   * Throw exception if the given string is null or empty or only whitespace.
+   */
+  public static void assureSet(final String s, final String varName) {
+    if (s == null)
+      throw new NullPointerException(varName + " cannot be null");
+    if (s.trim().equals(""))
+      throw new IllegalArgumentException(varName + " cannot be empty or whitespace only");
+  }
+  
+  /**
    * Read a file's content.
    */
   public static String readFile(final String filename) throws IOException {
