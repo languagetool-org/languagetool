@@ -87,7 +87,7 @@ public class CzechSentenceTokenizerTest extends TestCase {
     testSplit(new String[] { "James is from the Ireland!", "He lives in Spain now." });
     // From the abbreviation list:
     testSplit(new String[] { "V češtině jsou zkr. i pro jazyky, např. angl., maď. a jiné." });
-    testSplit(new String[] { "Titul jako doc. RNDr. Adam �?ezník, Ph.D. se může vyskytnout." });
+    testSplit(new String[] { "Titul jako doc. RNDr. Adam Řezník, Ph.D. se může vyskytnout." });
     testSplit(new String[] { "Starověký Egypt vznikl okolo r. 3150 př.n.l. (anebo 3150 př.kr.). ",
         "A zanikl v r. 31 př.kr." });
   }
