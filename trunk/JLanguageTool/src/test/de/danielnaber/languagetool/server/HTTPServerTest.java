@@ -49,7 +49,7 @@ public class HTTPServerTest extends TestCase {
       validator.validateXMLString(result, "resource/api-output.dtd", "matches");
       validator.checkSimpleXMLString(result);
       //System.err.println(result);
-      // make sure XMl chars are escaped in the result to avoid invalid XML
+      // make sure XML chars are escaped in the result to avoid invalid XML
       // and XSS attacks:
       assertTrue(check(Language.GERMAN, "bla <script>").indexOf("<script>") == -1);
     } catch (Exception e) {
