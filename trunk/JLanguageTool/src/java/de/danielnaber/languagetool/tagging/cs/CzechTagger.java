@@ -18,7 +18,7 @@
  */
 package de.danielnaber.languagetool.tagging.cs;
 
-import java.io.File; 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -30,8 +30,7 @@ import de.danielnaber.languagetool.AnalyzedToken;
 import de.danielnaber.languagetool.AnalyzedTokenReadings;
 import de.danielnaber.languagetool.tagging.Tagger;
 import de.danielnaber.languagetool.tools.Tools;
-import de.danielnaber.languagetool.JLanguageTool; 
-
+import de.danielnaber.languagetool.JLanguageTool;
 
 /**
  * Czech POS tagger based on FSA morphological dictionaries.
@@ -40,47 +39,43 @@ import de.danielnaber.languagetool.JLanguageTool;
  */
 public class CzechTagger implements Tagger {
 
-    private static final String RESOURCE_FILENAME = "resource" +File.separator+ "cs" +File.separator+
-    "czech.dict"; 
-    private Lametyzator morfologik = null; 
-    
-    
-    
-  public final List<AnalyzedTokenReadings> tag(final List<String> sentenceTokens) throws IOException {
+  private static final String RESOURCE_FILENAME = "resource" + File.separator + "cs"
+      + File.separator + "czech.dict";
+
+  private Lametyzator morfologik = null;
+
+  public final List<AnalyzedTokenReadings> tag(final List<String> sentenceTokens)
+      throws IOException {
     String[] taggerTokens;
-    
+
     List<AnalyzedTokenReadings> tokenReadings = new ArrayList<AnalyzedTokenReadings>();
     int pos = 0;
     //caching Lametyzator instance - lazy init
-    if (morfologik == null) {   
-       File resourceFile = JLanguageTool.getAbsoluteFile(RESOURCE_FILENAME); 
-       morfologik = new Lametyzator(Tools.getInputStream(resourceFile.getAbsolutePath()),
-              "iso8859-2", '+', true, true);
+    if (morfologik == null) {
+      File resourceFile = JLanguageTool.getAbsoluteFile(RESOURCE_FILENAME);
+      morfologik = new Lametyzator(Tools.getInputStream(resourceFile.getAbsolutePath()),
+          "iso8859-2", '+', true, true);
     }
-    
+
     for (Iterator<String> iter = sentenceTokens.iterator(); iter.hasNext();) {
       String word = iter.next();
-      List<AnalyzedToken> l = new ArrayList<AnalyzedToken>();      
+      List<AnalyzedToken> l = new ArrayList<AnalyzedToken>();
       String[] lowerTaggerTokens = null;
       taggerTokens = morfologik.stemAndForm(word);
       if (word != word.toLowerCase()) {
         lowerTaggerTokens = morfologik.stemAndForm(word.toLowerCase());
-        }
-        
-      
+      }
 
       if (taggerTokens != null) {
         // Lametyzator returns data as String[]
         // first lemma, then annotations
-/*
-        if(taggerTokens.length > 2)
-        {
-          for (String currStr : taggerTokens)
-            System.out.print(currStr + " ");
-          
-          System.out.println();
-        }
-    */    
+        /*
+         if(taggerTokens.length > 2) {
+           for (String currStr : taggerTokens)
+           System.out.print(currStr + " ");
+         System.out.println();
+         }
+         */
         String lemma = new String();
         int i = 0;
         while (i < taggerTokens.length) {
@@ -96,10 +91,10 @@ public class CzechTagger implements Tagger {
 
           i += 2;
         }
-      }     
-    
+      }
+
       if (lowerTaggerTokens != null) {
-        
+
         String lemma = new String();
         int i = 0;
         while (i < lowerTaggerTokens.length) {
@@ -118,14 +113,16 @@ public class CzechTagger implements Tagger {
         l.add(new AnalyzedToken(word, null, pos));
       }
       pos += word.length();
-      tokenReadings.add(new AnalyzedTokenReadings((AnalyzedToken[])l.toArray(new AnalyzedToken[0])));
-   }
-    
+      tokenReadings
+          .add(new AnalyzedTokenReadings((AnalyzedToken[]) l.toArray(new AnalyzedToken[0])));
+    }
+
     return tokenReadings;
 
   }
+
   public Object createNullToken(final String token, final int startPos) {
-      return new AnalyzedTokenReadings(new AnalyzedToken(token, null, startPos));
+    return new AnalyzedTokenReadings(new AnalyzedToken(token, null, startPos));
   }
 
 }
