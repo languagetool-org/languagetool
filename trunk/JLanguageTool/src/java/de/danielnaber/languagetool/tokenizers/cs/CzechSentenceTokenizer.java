@@ -62,9 +62,14 @@ public class CzechSentenceTokenizer extends SentenceTokenizer
     private static final Pattern repair1 = Pattern.compile("('[\\wáčďéěíňóřšťúůýžÁČĎÉĚÍŇÓŘŠŤÚŮÝŽ]" + P + ")(\\s)");
     private static final Pattern repair2 = Pattern.compile("(\\sno\\.)(\\s+)(?!\\d)");
     
-    // Czech abbreviations (ver. 0.1, probably needs revision & update)
+    //  Czech abbreviations (ver. 0.2)
+
+    // various titles
+    private static String titles_list = "Bc|BcA|Ing|Ing.arch|MUDr|MVDr|MgA|Mgr|JUDr|PhDr|RNDr|PharmDr|ThLic|ThDr|Ph.D|Th.D|prof|doc|CSc|DrSc|dr. h. c|PaedDr|Dr|PhMr|DiS";
+    
     // as a single regexp:
-    private static final String abbrev_list = "abt|ad|a.i|aj|angl|anon|apod|atd|atp|aut|bd|biogr|b.m|b.p|b.r|cca|cit|cizojaz|c.k|col|čes|čín|čj|ed|facs|fasc|fol|fot|franc|h.c|hist|hl|hrsg|ibid|il|ind|inv.č|jap|jhdt|jv|koed|kol|korej|kl|krit|lat|lit|m.a|maď|mj|mp|násl|např|nepubl|něm|no|nr|n.s|okr|odd|odp|obr|opr|orig|phil|pl|pokrač|pol|port|pozn|prof|př.kr|př.n.l|přel|přeprac|příl|pseud|pt|red|repr|resp|revid|rkp|roč|roz|rozš|samost|sect|sest|seš|sign|sl|srv|stol|sv|šk|šk.ro|špan|tab|t.č|tis|tj|tř|tzv|univ|uspoř|vol|vl.jm|vs|vyd|vyobr|zal|zejm|zkr|zprac|zvl|n.p";
+    private static final String abbrev_list = "abt|ad|a.i|aj|angl|anon|apod|atd|atp|aut|bd|biogr|b.m|b.p|b.r|cca|cit|cizojaz|c.k|col|čes|čín|čj|ed|facs|fasc|fol|fot|franc|h.c|hist|hl|hrsg|ibid|il|ind|inv.č|jap|jhdt|jv|koed|kol|korej|kl|krit|lat|lit|m.a|maď|mj|mp|násl|např|nepubl|něm|no|nr|n.s|okr|odd|odp|obr|opr|orig|phil|pl|pokrač|pol|port|pozn|př.kr|př.n.l|přel|přeprac|příl|pseud|pt|red|repr|resp|revid|rkp|roč|roz|rozš|samost|sect|sest|seš|sign|sl|srv|stol|sv|šk|šk.ro|špan|tab|t.č|tis|tj|tř|tzv|univ|uspoř|vol|vl.jm|vs|vyd|vyobr|zal|zejm|zkr|zprac|zvl|n.p"
+       + "|" + titles_list;
     
     private StringTokenizer stringTokenizer = null;
     
