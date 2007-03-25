@@ -2,9 +2,20 @@
 <!--
 French Grammar and Typo Rules for LanguageTool
 Copyright (C) 2006 Marcin Miłkowski
-$Id: grammar.xml,v 1.9 2007-03-25 20:10:24 milek_pl Exp $
+$Id: grammar.xml,v 1.10 2007-03-25 20:46:01 milek_pl Exp $
 -->
 <rules lang="fr">
+
+<phrases>
+	<phrase id="V_NON_N">
+			<token postag="V.*" postag_regexp="yes"><exception postag="N.*" postag_regexp="yes"/></token>
+	</phrase>		
+
+	<phrase id="V_R_NON_N">
+			<token postag="V.*|R.*" postag_regexp="yes"><exception postag="N.*" postag_regexp="yes"/></token>
+	</phrase>		
+	
+</phrases>
 
   <category name="Pléonasmes">
 
@@ -35,7 +46,7 @@ $Id: grammar.xml,v 1.9 2007-03-25 20:10:24 milek_pl Exp $
 		<rule id="SA_CA" name="sa (ça)">
 			<pattern mark_to="-1">
 				<token>sa</token>
-				<token postag="V.*|R.*" postag_regexp="yes"><exception postag="N.*" postag_regexp="yes"/></token>
+				<phraseref idref="V_R_NON_N"/>
 			</pattern>
 			<message>Voulez vous écrire <suggestion>ça</suggestion>?</message>
 			<example type="correct">Ça va?</example>
@@ -44,7 +55,7 @@ $Id: grammar.xml,v 1.9 2007-03-25 20:10:24 milek_pl Exp $
 		</rule>
 		<rule id="A_A_ACCENT" name="a (à)">
 			<pattern mark_from="1">
-				<token postag="V.*" postag_regexp="yes"/>
+				<phraseref idref="V_NON_N"/>
 				<token>a</token>
 			</pattern>
 			<message>Voulez vous écrire <suggestion>à</suggestion>?</message>
@@ -72,7 +83,7 @@ $Id: grammar.xml,v 1.9 2007-03-25 20:10:24 milek_pl Exp $
 		<rule name="ma (m'a)" id="MA">
 			<pattern mark_to="-1">
 				<token>ma</token>
-				<token postag="V.*" postag_regexp="yes"><exception postag="N.*" postag_regexp="yes"/></token>
+				<phraseref idref="V_NON_N"/>
 			</pattern>
 			<message>Voulez vous écrire <suggestion>m'a</suggestion>?</message>
 			<example type="incorrect">Il <marker>ma</marker> répondu.</example>
