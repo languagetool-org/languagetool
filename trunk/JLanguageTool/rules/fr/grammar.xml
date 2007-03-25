@@ -2,7 +2,7 @@
 <!--
 French Grammar and Typo Rules for LanguageTool
 Copyright (C) 2006 Marcin Miłkowski
-$Id: grammar.xml,v 1.8 2007-03-25 19:12:07 milek_pl Exp $
+$Id: grammar.xml,v 1.9 2007-03-25 20:10:24 milek_pl Exp $
 -->
 <rules lang="fr">
 
@@ -40,7 +40,7 @@ $Id: grammar.xml,v 1.8 2007-03-25 19:12:07 milek_pl Exp $
 			<message>Voulez vous écrire <suggestion>ça</suggestion>?</message>
 			<example type="correct">Ça va?</example>
 			<example type="incorrect"><marker>Sa</marker> va?</example>
-			<example type="correct">Ça voiture est en panne</example>
+			<example type="correct">Ça voiture est en panne.</example>
 		</rule>
 		<rule id="A_A_ACCENT" name="a (à)">
 			<pattern mark_from="1">
@@ -72,11 +72,12 @@ $Id: grammar.xml,v 1.8 2007-03-25 19:12:07 milek_pl Exp $
 		<rule name="ma (m'a)" id="MA">
 			<pattern mark_to="-1">
 				<token>ma</token>
-				<token postag="V.*" postag_regexp="yes"/>
+				<token postag="V.*" postag_regexp="yes"><exception postag="N.*" postag_regexp="yes"/></token>
 			</pattern>
 			<message>Voulez vous écrire <suggestion>m'a</suggestion>?</message>
 			<example type="incorrect">Il <marker>ma</marker> répondu.</example>
 			<example type="correct">Il <marker>m'a</marker> répondu.</example>
+			<example type="correct">C'est ma voiture.</example>
 		</rule>
 		<rule name="sont (son)" id="SONT_SON">
 			<pattern mark_to="-1">
