@@ -318,8 +318,13 @@ public class PatternRule extends Rule {
           }
           }         
         
-        boolean startsWithUppercase = StringTools.startsWithUppercase(tokens[firstMatchToken
-                                                                             + correctedStPos].toString());
+        AnalyzedTokenReadings firstMatchTokenObj = tokens[firstMatchToken + correctedStPos];
+        boolean startsWithUppercase = StringTools.startsWithUppercase(firstMatchTokenObj.toString());
+        if (firstMatchTokenObj.isSentStart() && tokens.length > firstMatchToken + correctedStPos + 1) {
+          // make uppercasing work also at sentence start: 
+          firstMatchTokenObj = tokens[firstMatchToken + correctedStPos + 1];
+          startsWithUppercase = StringTools.startsWithUppercase(firstMatchTokenObj.toString());
+        }
         int fromPos = tokens[firstMatchToken + correctedStPos]
                              .getStartPos();
         int toPos = tokens[lastMatchToken + correctedEndPos].getStartPos()

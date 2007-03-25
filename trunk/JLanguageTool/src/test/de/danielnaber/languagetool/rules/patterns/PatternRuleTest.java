@@ -180,6 +180,18 @@ public class PatternRuleTest extends TestCase {
     return matches;
   }
 
+  public void testUppercasingSuggestion() throws IOException, ParserConfigurationException, SAXException {
+    JLanguageTool langTool = new JLanguageTool(Language.ENGLISH);
+    langTool.activateDefaultPatternRules();
+    List<RuleMatch> matches = langTool.check("Were are in the process of ...");
+    assertEquals(1, matches.size());
+    RuleMatch match = matches.get(0);
+    List<String> sugg = match.getSuggestedReplacements();
+    assertEquals(2, sugg.size());
+    assertEquals("Where", sugg.get(0));
+    assertEquals("We", sugg.get(1));
+  }
+  
   public void testRule() throws IOException {
     PatternRule pr;
     RuleMatch[] matches;
