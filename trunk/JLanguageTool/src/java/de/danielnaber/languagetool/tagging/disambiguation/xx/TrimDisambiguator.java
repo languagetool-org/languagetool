@@ -13,14 +13,15 @@ import de.danielnaber.languagetool.tagging.disambiguation.Disambiguator;
  */
 public class TrimDisambiguator implements Disambiguator {
 
-	public AnalyzedSentence disambiguate(AnalyzedSentence input) {
+	public final AnalyzedSentence disambiguate(final AnalyzedSentence input) {
 		
 		AnalyzedTokenReadings[] anTokens = input.getTokens();
-		AnalyzedTokenReadings[] output = new AnalyzedTokenReadings[anTokens.length];
+		AnalyzedTokenReadings[] output = 
+          new AnalyzedTokenReadings[anTokens.length];
 		
 		for (int i = 0; i < anTokens.length; i++) {
 			
-			if(anTokens[i].getReadingsLength() > 1) {
+			if (anTokens[i].getReadingsLength() > 1) {
 				AnalyzedToken[] firstToken = new AnalyzedToken[1];
 				firstToken[0] = anTokens[i].getAnalyzedToken(0);
 				
