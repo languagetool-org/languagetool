@@ -12,7 +12,7 @@ import de.danielnaber.languagetool.tagging.disambiguation.Disambiguator;
  */
 public class DemoDisambiguator implements Disambiguator {
 
-	public AnalyzedSentence disambiguate(AnalyzedSentence input) {
+	public final AnalyzedSentence disambiguate(final AnalyzedSentence input) {
 		return input;
 	}
 
