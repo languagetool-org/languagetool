@@ -85,6 +85,10 @@ public class PolishWordRepeatRule extends PolishRule {
 	        	}
            //too many false alarms here:     
                 String lemma = tokens[i].getAnalyzedToken(k).getLemma();
+                if (lemma == null) {
+                  hasLemma = false;
+                  break;
+                }
                 Matcher m1 = pExc1.matcher(lemma);
                 if (m1.matches()) {
                     isWord = false;
