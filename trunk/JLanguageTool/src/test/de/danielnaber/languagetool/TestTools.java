@@ -28,6 +28,7 @@ import java.util.ResourceBundle;
 import junit.framework.TestCase;
 
 import de.danielnaber.languagetool.tagging.Tagger;
+import de.danielnaber.languagetool.tagging.disambiguation.Disambiguator;
 import de.danielnaber.languagetool.tokenizers.SentenceTokenizer;
 import de.danielnaber.languagetool.tokenizers.Tokenizer;
 
@@ -88,6 +89,69 @@ public final class TestTools {
     TestCase.assertEquals(expected, outputStr.toString());
   }
 
+  public static void myAssert(String input, String expected, Tokenizer tokenizer, SentenceTokenizer sentenceTokenizer, Tagger tagger, Disambiguator disambiguator) throws IOException {
+    StringBuffer outputStr = new StringBuffer();
+    List<String> sentences = sentenceTokenizer.tokenize(input);
+    for (Iterator<String> iter = sentences.iterator(); iter.hasNext();) {
+      String sentence = iter.next();
+      List<String> tokens = tokenizer.tokenize(sentence);
+      List<String> noWhitespaceTokens = new ArrayList<String>();
+    // whitespace confuses tagger, so give it the tokens but no whitespace tokens:
+    for (String token : tokens) {
+      if (isWord(token)) {
+        noWhitespaceTokens.add(token);
+      }
+    }
+    List<AnalyzedTokenReadings> aTokens = tagger.tag(noWhitespaceTokens);
+    AnalyzedTokenReadings[] tokenArray = new AnalyzedTokenReadings[tokens.size()+1];
+    AnalyzedToken[] startTokenArray = new AnalyzedToken[1];  
+    int toArrayCount = 0;
+    AnalyzedToken sentenceStartToken = new AnalyzedToken("", "SENT_START", 0);
+    startTokenArray[0]=sentenceStartToken;
+    tokenArray[toArrayCount++]=new AnalyzedTokenReadings(startTokenArray);
+    int startPos = 0;
+    int noWhitespaceCount = 0;
+    for (String tokenStr : tokens) {
+      AnalyzedTokenReadings posTag = null;
+      if (isWord(tokenStr)) {      
+        posTag = (AnalyzedTokenReadings)aTokens.get(noWhitespaceCount);
+        posTag.startPos = startPos;
+        noWhitespaceCount++;
+      } else {
+        posTag = (AnalyzedTokenReadings)tagger.createNullToken(tokenStr, startPos); 
+      }
+      tokenArray[toArrayCount++] = posTag;
+      startPos += tokenStr.length();
+    }
+    
+    AnalyzedSentence finalSentence = new AnalyzedSentence(tokenArray);
+    // disambiguate assigned tags
+    finalSentence = disambiguator.disambiguate(finalSentence);
+    
+    AnalyzedTokenReadings[] output = finalSentence.getTokens();
+        
+    for (int i = 0; i < output.length; i++) {
+      AnalyzedTokenReadings token = (AnalyzedTokenReadings) output[i];
+      int readingsNumber = token.getReadingsLength();
+      for (int j = 0; j < readingsNumber; j++) {
+      outputStr.append(token.getAnalyzedToken(j).getToken());
+      outputStr.append("/[");
+      outputStr.append(token.getAnalyzedToken(j).getLemma());
+      outputStr.append("]");
+      outputStr.append(token.getAnalyzedToken(j).getPOSTag());
+      if (readingsNumber > 1 && j < readingsNumber - 1) {
+      outputStr.append("|");
+      }
+      }
+      if (i < output.length - 1)
+        outputStr.append(" ");
+    }
+    }
+    TestCase.assertEquals(expected, outputStr.toString());
+  }
+
+  
+  
   public static boolean isWord(String token) {
     for (int i = 0; i < token.length(); i++) {
       char c = token.charAt(i);
