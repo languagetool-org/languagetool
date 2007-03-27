@@ -55,6 +55,23 @@ public class AnalyzedTokenReadings {
 		return anTokReadings[i];
 	}
 
+  public final void addReading (final AnalyzedToken tok) {
+    
+    if (anTokReadings[anTokReadings.length - 1].getPOSTag() != null) {
+    int oldSize = java.lang.reflect.Array.getLength(anTokReadings);
+    Class elementType = anTokReadings.getClass().getComponentType();
+    Object newArray = java.lang.reflect.Array.newInstance(
+          elementType,anTokReadings.length + 1);
+    int preserveLength = Math.min(oldSize,anTokReadings.length);
+    if (preserveLength > 0)
+       System.arraycopy (anTokReadings,0,newArray,0,preserveLength);
+    anTokReadings = (AnalyzedToken[]) newArray; 
+    anTokReadings[anTokReadings.length - 1] = tok;
+    } else {
+      anTokReadings[anTokReadings.length - 1] = tok;
+    }
+  }
+  
   public final int getReadingsLength() {
     return anTokReadings.length;
   }
