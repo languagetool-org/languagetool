@@ -22,6 +22,7 @@ import java.util.Locale;
 
 import de.danielnaber.languagetool.tagging.disambiguation.Disambiguator;
 import de.danielnaber.languagetool.tagging.disambiguation.xx.DemoDisambiguator;
+import de.danielnaber.languagetool.tagging.disambiguation.pl.PolishChunker;
 import de.danielnaber.languagetool.tagging.Tagger;
 import de.danielnaber.languagetool.tagging.de.GermanTagger;
 import de.danielnaber.languagetool.tagging.en.EnglishTagger;
@@ -59,7 +60,7 @@ public final class Language {
     new Language("German", "de", new Locale("de"), new DemoDisambiguator(), new GermanTagger(), new GermanSentenceTokenizer(), new WordTokenizer());
   
   public static final Language POLISH = 
-    new Language("Polish", "pl", new Locale("pl"), new DemoDisambiguator(), new PolishTagger(), new PolishSentenceTokenizer(), new WordTokenizer());
+    new Language("Polish", "pl", new Locale("pl"), new PolishChunker(), new PolishTagger(), new PolishSentenceTokenizer(), new WordTokenizer());
   
   public static final Language FRENCH = 
     new Language("French", "fr", new Locale("fr"), new DemoDisambiguator(), new FrenchTagger(), new SentenceTokenizer(), new WordTokenizer());
