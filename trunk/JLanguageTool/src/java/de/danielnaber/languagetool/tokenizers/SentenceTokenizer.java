@@ -117,6 +117,16 @@ public class SentenceTokenizer implements Tokenizer {
   }
 
   /**
+   * Check how paragraphs are separated.
+   * @return whether paragraphs are separated by single line breaks.
+   *  
+   */
+  //FIXME: is this really needed for chunking?
+  public boolean singleLineBreakMarksParagraph(){
+    return paragraph == paragraphByLineBreak;
+  }
+  
+  /**
    * Tokenize the given string to sentences.
    */
   public List<String> tokenize(String s) {
