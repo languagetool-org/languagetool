@@ -43,7 +43,7 @@ public class UnpairedQuotesBracketsRule extends Rule {
   private static final String[] NL_END_SYMBOLS  = {"]", ")", "}", "”", "”", "’"};
   
   private static final String[] IT_START_SYMBOLS  = {"[", "(", "{", "»", "‘"};
-  private static final String[] IT_END_SYMBOLS  = {"]", ")", "}", "«", "’"};
+  private static final String[] IT_END_SYMBOLS  = {"]", ")", "}", "«", "’"};    
   
   public UnpairedQuotesBracketsRule(final ResourceBundle messages, final Language language) {
     super(messages);
@@ -76,7 +76,8 @@ public class UnpairedQuotesBracketsRule extends Rule {
     } else {
       startSymbols = START_SYMBOLS;
       endSymbols = END_SYMBOLS; 
-    }    
+    }
+            
   }
 
   public String getId() {
@@ -103,12 +104,22 @@ public class UnpairedQuotesBracketsRule extends Rule {
         symbolCounter = 0;        
       for (int i = 0; i < tokens.length; i++) {
         String token = tokens[i].getToken();
-      if (token.trim().equals(startSymbols[j])) {
+      if (token.trim().equals(startSymbols[j])) {        
         symbolCounter++;
-        pos = i;
+        pos = i;        
       } else if (token.trim().equals(endSymbols[j])) {
+        if (i > 2 && endSymbols[j].equals(")")) {
+          // exception for bulletting: 1), 2), 3)...
+          if (!(tokens[i - 1].
+              getToken().
+              matches("\\d|M*(D?C{0,3}|C[DM])(L?X{0,3}|X[LC])(V?I{0,3}|I[VX])$") && symbolCounter == 0)) {
+            symbolCounter--;
+            pos = i;
+          }
+        } else {
         symbolCounter--;
         pos = i;
+        }
       }
       }
       if (symbolCounter != 0) {
@@ -127,7 +138,7 @@ public class UnpairedQuotesBracketsRule extends Rule {
     and add new matches only if they don't pair with previous ones)
     How can I know that the rule found paragraph end? (resetting at 
     paragraph ends seems best but it depends on tokenizers...) 
-    **/
+    **/    
   }
 
 }
