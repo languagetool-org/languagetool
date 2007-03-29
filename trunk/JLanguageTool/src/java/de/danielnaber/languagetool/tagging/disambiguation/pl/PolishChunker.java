@@ -50,23 +50,6 @@ public class PolishChunker implements Disambiguator {
         }
         }
         
-        AnalyzedToken sentenceEnd = 
-          new AnalyzedToken(output[anTokens.length - 1].getToken(), 
-              "SENT_END",
-              output[anTokens.length - 1].getAnalyzedToken(0).getLemma());
-        output[output.length - 1].addReading(sentenceEnd);
-        
-        if (anTokens.length == 2) {
-          if (anTokens[0].isSentStart() 
-              && anTokens[1].getToken().equals("\n")) {
-            AnalyzedToken paragraphEnd =
-            new AnalyzedToken(output[anTokens.length - 1].getToken(),
-                "PARA_END",
-                output[anTokens.length - 1].getAnalyzedToken(0).getLemma());
-            output[output.length - 1].addReading(paragraphEnd);
-          }
-        }
-        
         return new AnalyzedSentence(output);
     }
 
