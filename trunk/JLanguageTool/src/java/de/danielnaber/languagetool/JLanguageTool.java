@@ -46,6 +46,7 @@ import de.danielnaber.languagetool.tagging.Tagger;
 import de.danielnaber.languagetool.tagging.disambiguation.Disambiguator;
 import de.danielnaber.languagetool.tokenizers.Tokenizer;
 import de.danielnaber.languagetool.tools.ReflectionUtils;
+import de.danielnaber.languagetool.tagging.de.AnalyzedGermanToken;
 
 /**
  * The main class used for checking text against different rules:
@@ -69,6 +70,8 @@ public class JLanguageTool {
   public static final String FALSE_FRIEND_FILE = "false-friends.xml";
   
   public static final String SENTENCE_START_TAGNAME = "SENT_START";
+  public static final String SENTENCE_END_TAGNAME = "SENT_END";
+  public static final String PARAGRAPH_END_TAGNAME = "PARA_END";
 
   private List<Rule> builtinRules = new ArrayList<Rule>();
   private List<Rule> userRules = new ArrayList<Rule>();     // rules added via addRule() method
@@ -450,10 +453,32 @@ public class JLanguageTool {
       tokenArray[toArrayCount++] = posTag;
       startPos += tokenStr.length();
     }
+
+    //add additional tags
+    int lastToken = toArrayCount - 1;
+    AnalyzedToken sentenceEnd = 
+      new AnalyzedToken(tokenArray[lastToken].getToken(), 
+          SENTENCE_END_TAGNAME,
+          tokenArray[lastToken].getAnalyzedToken(0).getLemma());
+        tokenArray[lastToken].addReading(sentenceEnd);
+    
+    
+    if (tokenArray.length == 2) {
+    if (tokenArray[0].isSentStart() 
+        && tokenArray[1].getToken().equals("\n")) {
+      AnalyzedToken paragraphEnd =
+      new AnalyzedToken(tokenArray[lastToken].getToken(),
+          PARAGRAPH_END_TAGNAME,
+          tokenArray[lastToken].getAnalyzedToken(0).getLemma());
+      tokenArray[lastToken].addReading(paragraphEnd);        
+      }
+    }
     
     AnalyzedSentence finalSentence = new AnalyzedSentence(tokenArray);
-    // disambiguate assigned tags
+    // disambiguate assigned tags            
     finalSentence = disambiguator.disambiguate(finalSentence);
+    
+  
     return finalSentence;
   }
 

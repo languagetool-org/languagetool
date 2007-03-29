@@ -21,6 +21,7 @@ package de.danielnaber.languagetool;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.ArrayList;
 
 /**
  * An array of {@link AnalyzedToken}s used to store multiple POS tags and lemmas
@@ -56,20 +57,19 @@ public class AnalyzedTokenReadings {
 	}
 
   public final void addReading (final AnalyzedToken tok) {
-    
-    if (anTokReadings[anTokReadings.length - 1].getPOSTag() != null) {
-    int oldSize = java.lang.reflect.Array.getLength(anTokReadings);
-    Class elementType = anTokReadings.getClass().getComponentType();
-    Object newArray = java.lang.reflect.Array.newInstance(
-          elementType,anTokReadings.length + 1);
-    int preserveLength = Math.min(oldSize,anTokReadings.length);
-    if (preserveLength > 0)
-       System.arraycopy (anTokReadings,0,newArray,0,preserveLength);
-    anTokReadings = (AnalyzedToken[]) newArray; 
-    anTokReadings[anTokReadings.length - 1] = tok;
-    } else {
-      anTokReadings[anTokReadings.length - 1] = tok;
+    ArrayList <AnalyzedToken> l = new ArrayList <AnalyzedToken>(); 
+        
+    for (int i = 0; i < anTokReadings.length - 1; i++) {
+     l.add(anTokReadings[i]);     
     }
+        
+    if (anTokReadings[anTokReadings.length - 1].getPOSTag() != null) {
+      l.add(anTokReadings[anTokReadings.length - 1]);
+    }
+    
+    l.add(tok);
+    
+    anTokReadings = l.toArray(new AnalyzedToken[0]);
   }
   
   public final int getReadingsLength() {
