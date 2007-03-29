@@ -41,14 +41,22 @@ public class AnalyzedGermanTokenReadings extends AnalyzedTokenReadings {
   public AnalyzedGermanTokenReadings(AnalyzedGermanToken aToken) {
     super(aToken);
   }
+      
   
   /**
    * @return a list of {@link AnalyzedGermanToken}s.
    */
   public List<AnalyzedGermanToken> getGermanReadings() {
     List<AnalyzedGermanToken> l = new ArrayList<AnalyzedGermanToken>();
-    for (int i = 0; i < anTokReadings.length; i++) {
-      l.add((AnalyzedGermanToken)anTokReadings[i]);
+    for (AnalyzedToken reading : anTokReadings) {
+      if (reading.getPOSTag() != null) {
+        if (!reading.getPOSTag().equals("SENT_END")) {
+          l.add((AnalyzedGermanToken)reading);
+        }
+      } else {
+        l.add((AnalyzedGermanToken)reading);
+      }
+       
     }
     return l;
   }
@@ -57,6 +65,11 @@ public class AnalyzedGermanTokenReadings extends AnalyzedTokenReadings {
     if (anTokReadings == null)
       return false;
     for (AnalyzedToken reading : anTokReadings) {
+      if (reading.getPOSTag() != null) {
+        if (reading.getPOSTag().equals("SENT_END")) {      
+          return false;
+        }
+      }
       AnalyzedGermanToken germanReading = (AnalyzedGermanToken) reading;
       if (germanReading.getType() == type)
         return true;

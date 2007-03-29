@@ -107,7 +107,7 @@ public class AnalyzedGermanToken extends AnalyzedToken {
         ; // not yet used
       
       //else
-      //  System.err.println("unknown: " + posTagString + " for fullform " + fullform);
+        //System.err.println("unknown: " + posTagString + " for fullform " + fullform);
       // TODO: add else here that throws execption?!
     }
     
