@@ -50,7 +50,7 @@ public class AnalyzedGermanTokenReadings extends AnalyzedTokenReadings {
     List<AnalyzedGermanToken> l = new ArrayList<AnalyzedGermanToken>();
     for (AnalyzedToken reading : anTokReadings) {
       if (reading.getPOSTag() != null) {
-        if (!reading.getPOSTag().equals("SENT_END")) {
+        if (!reading.getPOSTag().equals("SENT_END") && !reading.getPOSTag().equals("PARA_END")) {
           l.add((AnalyzedGermanToken)reading);
         }
       } else {
@@ -66,7 +66,7 @@ public class AnalyzedGermanTokenReadings extends AnalyzedTokenReadings {
       return false;
     for (AnalyzedToken reading : anTokReadings) {
       if (reading.getPOSTag() != null) {
-        if (reading.getPOSTag().equals("SENT_END")) {      
+        if (reading.getPOSTag().equals("SENT_END") || reading.getPOSTag().equals("PARA_END")) {      
           return false;
         }
       }
