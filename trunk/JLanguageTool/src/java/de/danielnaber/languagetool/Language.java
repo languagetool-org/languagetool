@@ -54,38 +54,49 @@ public final class Language {
   // IMPORTANT: keep these in sync with LANGUAGES array below:
   
   public static final Language ENGLISH = 
-    new Language("English", "en", new Locale("en"), new DemoDisambiguator(), new EnglishTagger(), new SentenceTokenizer(), new EnglishWordTokenizer());
-  
+    new Language("English", "en", new Locale("en"), new DemoDisambiguator(), new EnglishTagger(),
+        new SentenceTokenizer(), new EnglishWordTokenizer(), "Marcin Miłkowski, Daniel Naber");
+
   public static final Language GERMAN = 
-    new Language("German", "de", new Locale("de"), new DemoDisambiguator(), new GermanTagger(), new GermanSentenceTokenizer(), new WordTokenizer());
+    new Language("German", "de", new Locale("de"), new DemoDisambiguator(), new GermanTagger(),
+        new GermanSentenceTokenizer(), new WordTokenizer(), "Daniel Naber");
   
   public static final Language POLISH = 
-    new Language("Polish", "pl", new Locale("pl"), new PolishChunker(), new PolishTagger(), new PolishSentenceTokenizer(), new WordTokenizer());
+    new Language("Polish", "pl", new Locale("pl"), new PolishChunker(), new PolishTagger(),
+        new PolishSentenceTokenizer(), new WordTokenizer(), "Marcin Miłkowski");
   
   public static final Language FRENCH = 
-    new Language("French", "fr", new Locale("fr"), new DemoDisambiguator(), new FrenchTagger(), new SentenceTokenizer(), new WordTokenizer());
+    new Language("French", "fr", new Locale("fr"), new DemoDisambiguator(), new FrenchTagger(),
+        new SentenceTokenizer(), new WordTokenizer(), null);
   
   public static final Language SPANISH = 
-    new Language("Spanish", "es", new Locale("es"), new DemoDisambiguator(), new SpanishTagger(), new SentenceTokenizer(), new WordTokenizer());
+    new Language("Spanish", "es", new Locale("es"), new DemoDisambiguator(), new SpanishTagger(),
+        new SentenceTokenizer(), new WordTokenizer(), null);
   
   public static final Language ITALIAN = 
-    new Language("Italian", "it", new Locale("it"), new DemoDisambiguator(), new ItalianTagger(), new SentenceTokenizer(), new WordTokenizer());
+    new Language("Italian", "it", new Locale("it"), new DemoDisambiguator(), new ItalianTagger(),
+        new SentenceTokenizer(), new WordTokenizer(), null);
   
   public static final Language DUTCH = 
-    new Language("Dutch", "nl", new Locale("nl"), new DemoDisambiguator(), new DutchTagger(), new DutchSentenceTokenizer(), new WordTokenizer());
+    new Language("Dutch", "nl", new Locale("nl"), new DemoDisambiguator(), new DutchTagger(),
+        new DutchSentenceTokenizer(), new WordTokenizer(), "Ruud Baars");
 
   public static final Language LITHUANIAN =
-    new Language("Lithuanian", "lt", new Locale("lt"), new DemoDisambiguator(), new DemoTagger(), new SentenceTokenizer(), new WordTokenizer());
+    new Language("Lithuanian", "lt", new Locale("lt"), new DemoDisambiguator(), new DemoTagger(),
+        new SentenceTokenizer(), new WordTokenizer(), "Mantas Kriaučiūnas");
   
   public static final Language UKRAINIAN =
-    new Language("Ukrainian", "uk", new Locale("uk"), new DemoDisambiguator(), new UkrainianTagger(), new SentenceTokenizer(), new WordTokenizer());
+    new Language("Ukrainian", "uk", new Locale("uk"), new DemoDisambiguator(), new UkrainianTagger(),
+        new SentenceTokenizer(), new WordTokenizer(), "Andriy Rysin");
   
-   public static final Language CZECH = 
-    new Language("Czech", "cs", new Locale("cs"), new DemoDisambiguator(), new CzechTagger(), new CzechSentenceTokenizer(), new WordTokenizer());
+  public static final Language CZECH = 
+    new Language("Czech", "cs", new Locale("cs"), new DemoDisambiguator(), new CzechTagger(),
+        new CzechSentenceTokenizer(), new WordTokenizer(), "Jozef Ličko");
 
   
   public static final Language DEMO = 
-    new Language("Testlanguage", "xx", new Locale("en"), new DemoDisambiguator(), new DemoTagger(), new SentenceTokenizer(), new WordTokenizer());
+    new Language("Testlanguage", "xx", new Locale("en"), new DemoDisambiguator(), new DemoTagger(),
+        new SentenceTokenizer(), new WordTokenizer(), null);
 
   private String name;
   private String shortForm;
@@ -94,6 +105,7 @@ public final class Language {
   private SentenceTokenizer sentenceTokenizer;
   private Tokenizer wordTokenizer;
   private Locale locale;
+  private String maintainers;
 
   // IMPORTANT: keep in sync with objects above
   /**
@@ -137,7 +149,8 @@ public final class Language {
   }
 
   private Language(final String name, final String shortForm, final Locale locale, final Disambiguator disambiguator,
-		  final Tagger tagger, final SentenceTokenizer sentenceTokenizer, final Tokenizer wordTokenizer) {
+		  final Tagger tagger, final SentenceTokenizer sentenceTokenizer, final Tokenizer wordTokenizer,
+      final String maintainers) {
     StringTools.assureSet(name, "name");
     StringTools.assureSet(shortForm, "shortForm");
     if (disambiguator == null)
@@ -157,6 +170,7 @@ public final class Language {
     this.locale = locale;
     this.sentenceTokenizer = sentenceTokenizer;
     this.wordTokenizer = wordTokenizer;
+    this.maintainers = maintainers;
   }
 
   public String toString() {
@@ -208,6 +222,13 @@ public final class Language {
 
   public Locale getLocale() {
     return locale;
+  }
+
+  /**
+   * Get the name(s) of the maintainer(s) for this language.
+   */
+  public String getMaintainers() {
+    return maintainers;
   }
 
 }
