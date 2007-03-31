@@ -37,8 +37,8 @@ public class PolishSentenceTokenizer extends SentenceTokenizer {
   // regular expressions:
 
   private Pattern paragraph = null;
-  private static final Pattern paragraphByTwoLineBreaks = Pattern.compile("(\\n\\s*\\n)");
-  private static final Pattern paragraphByLineBreak = Pattern.compile("(\\n)");
+  private static final Pattern paragraphByTwoLineBreaks = Pattern.compile("(\\n\\s*\\n[\\t]*)");
+  private static final Pattern paragraphByLineBreak = Pattern.compile("(\\n[\\t]*)");
   
   private static final Pattern punctWhitespace = Pattern.compile("(" + PAP + "\\s)");
   // \p{Lu} = uppercase, with obeying Unicode (\p{Upper} is just US-ASCII!):
