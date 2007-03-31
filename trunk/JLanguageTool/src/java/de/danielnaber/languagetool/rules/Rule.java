@@ -18,6 +18,7 @@
  */
 package de.danielnaber.languagetool.rules;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -58,6 +59,20 @@ public abstract class Rule {
 
   public abstract Language[] getLanguages();
 
+  /**
+   * Used by paragraph rules to signal that they can
+   * remove previous rule matches.
+   */
+  private boolean paragraphBackTrack = false;
+  
+  /**
+   * The final list of RuleMatches, without removed
+   * matches.
+   */
+  private List <RuleMatch> previousMatches = null;
+  
+  private List <RuleMatch> removedMatches = null;
+  
   /**
    * Check whether the given text matche this error rule, i.e. whether the
    * text contains this error.
@@ -129,5 +144,73 @@ public abstract class Rule {
   protected RuleMatch[] toRuleMatchArray(final List<RuleMatch> ruleMatches) {
     return (RuleMatch[])ruleMatches.toArray(new RuleMatch[0]);
   }
+  
+  public boolean isParagraphBackTrack() {
+    return paragraphBackTrack;
+  }
+  
+  public void setParagraphBackTrack(boolean backTrack) {
+    paragraphBackTrack = backTrack;
+  }
 
+  /**
+   * Method to add matches.
+   * @param r RuleMatch - matched rule added by check()
+   */
+  public final void addRuleMatch(RuleMatch r) {
+    if (previousMatches == null) {
+      previousMatches = new ArrayList <RuleMatch>();
+    }
+    previousMatches.add(r);
+  }   
+  
+  /**
+   * Deletes (or disables) previously matched rule.
+   * @param i Index of the rule that should be deleted.
+   */
+  public final void setAsDeleted(int i) {
+    if (removedMatches == null) { 
+    removedMatches = new ArrayList <RuleMatch>();
+    }
+    removedMatches.add(previousMatches.get(i));
+  }
+      
+  public final boolean isInRemoved(RuleMatch r) {
+    if (removedMatches == null) {
+      return false;
+    } else {
+      return removedMatches.contains(r);
+    }
+  }
+  
+  public final boolean isInMatches(int i) {
+    if (previousMatches == null) {
+      return false;
+    } else {
+      if (previousMatches.size() >= i) {
+      return (previousMatches.get(i) != null);
+      } else {
+        return false;
+      }
+    }
+  }
+  
+  public final void clearMatches() {
+    if (previousMatches != null) {
+      previousMatches.clear();
+    }
+  }
+  
+  public final int getMatchesIndex() {
+    if (previousMatches == null) {
+      return 0;
+    } else {
+      return previousMatches.size();
+    }
+  }
+  
+  public final List <RuleMatch> getMatches() {
+    return previousMatches;
+  }
+  
 }

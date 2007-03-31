@@ -350,6 +350,17 @@ public class JLanguageTool {
       String sentence = iter.next();
       sentenceCount++;
       AnalyzedSentence analyzedText = getAnalyzedSentence(sentence);
+      
+      if (sentenceCount == sentences.size()) {
+        AnalyzedTokenReadings[] anTokens = analyzedText.getTokens();
+        AnalyzedToken paragraphEnd =
+          new AnalyzedToken(anTokens[anTokens.length - 1].getToken(),
+              PARAGRAPH_END_TAGNAME,
+              anTokens[anTokens.length - 1].getAnalyzedToken(0).getLemma());
+        anTokens[anTokens.length - 1].addReading(paragraphEnd);
+        analyzedText = new AnalyzedSentence(anTokens); 
+      }
+      
       List<RuleMatch> sentenceMatches = new ArrayList<RuleMatch>();
       printIfVerbose(analyzedText.toString());
       for (Iterator<Rule> iterator = allRules.iterator(); iterator.hasNext();) {
@@ -366,7 +377,7 @@ public class JLanguageTool {
               thisMatches[i].getMessage());
           thisMatch.setSuggestedReplacements(thisMatches[i].getSuggestedReplacements());
           String sentencePartToError = sentence.substring(0, thisMatches[i].getFromPos());
-          String sentencePartToEndOfError = sentence.substring(0, thisMatches[i].getToPos());
+          String sentencePartToEndOfError = sentence.substring(0, thisMatches[i].getToPos());          
           int lastLineBreakPos = sentencePartToError.lastIndexOf("\n");
           int column = -1;
           int endColumn = -1;
@@ -387,10 +398,14 @@ public class JLanguageTool {
           thisMatch.setEndLine(lineCount + lineBreaksToEndOfError);
           thisMatch.setColumn(column);
           thisMatch.setEndColumn(endColumn);
-          thisMatch.setOffset(thisMatches[i].getFromPos()+tokenCount);
+          thisMatch.setOffset(thisMatches[i].getFromPos() + tokenCount);
           sentenceMatches.add(thisMatch);
-        }
+          if (rule.isParagraphBackTrack()) {
+            rule.addRuleMatch(thisMatch);
+          }
+        }        
       }
+                  
       Collections.sort(sentenceMatches);
       ruleMatches.addAll(sentenceMatches);
       tokenCount += sentence.length();
@@ -403,6 +418,21 @@ public class JLanguageTool {
         columnCount = sentence.length() - linebreakPos - 1;
       }
     }
+    
+    //removing false positives in paragraph-level rules
+    for (Rule rule : allRules) {
+      if (rule.isParagraphBackTrack()) {
+        if (rule.getMatches() != null) {
+        List <RuleMatch> rm = rule.getMatches();           
+          for (RuleMatch r : rm) {
+            if (rule.isInRemoved(r)) {
+              ruleMatches.remove(r);
+            }
+          }
+       }
+     }          
+    }
+    
     return ruleMatches;
   }
   
@@ -477,8 +507,7 @@ public class JLanguageTool {
     AnalyzedSentence finalSentence = new AnalyzedSentence(tokenArray);
     // disambiguate assigned tags            
     finalSentence = disambiguator.disambiguate(finalSentence);
-    
-  
+      
     return finalSentence;
   }
 

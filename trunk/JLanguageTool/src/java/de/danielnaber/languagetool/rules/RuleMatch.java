@@ -170,8 +170,8 @@ public class RuleMatch implements Comparable<RuleMatch> {
    */
   public String getMessage() {
     return message;
-  }
-
+  }  
+  
   /**
    * @see #getSuggestedReplacements()
    */

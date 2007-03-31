@@ -45,10 +45,19 @@ public class UnpairedQuotesBracketsRule extends Rule {
   private static final String[] IT_START_SYMBOLS  = {"[", "(", "{", "»", "‘"};
   private static final String[] IT_END_SYMBOLS  = {"]", ")", "}", "«", "’"};    
   
+  /**
+   * The counter used for pairing symbols.
+   */
+  private int[] symbolCounter;  
+    
+  private int[] ruleMatchArray; 
+  
   public UnpairedQuotesBracketsRule(final ResourceBundle messages, final Language language) {
     super(messages);
     super.setCategory(new Category(messages.getString("category_misc")));
    
+    setParagraphBackTrack(true);
+    
     if (language == Language.POLISH) {
       startSymbols = PL_START_SYMBOLS;
       endSymbols = PL_END_SYMBOLS;
@@ -77,7 +86,14 @@ public class UnpairedQuotesBracketsRule extends Rule {
       startSymbols = START_SYMBOLS;
       endSymbols = END_SYMBOLS; 
     }
-            
+    
+    symbolCounter = new int [startSymbols.length];    
+    ruleMatchArray = new int[startSymbols.length];
+    
+     for (int i = 0; i < startSymbols.length; i++) {
+       symbolCounter[i] = 0;       
+       ruleMatchArray[i] = 0;
+     }
   }
 
   public String getId() {
@@ -93,52 +109,79 @@ public class UnpairedQuotesBracketsRule extends Rule {
             Language.SPANISH, Language.ITALIAN, Language.DUTCH, Language.LITHUANIAN };
   }
 
-  public RuleMatch[] match(final AnalyzedSentence text) {
+  public final RuleMatch[] match(final AnalyzedSentence text) {
     List < RuleMatch > ruleMatches = new ArrayList<RuleMatch>();
     AnalyzedTokenReadings[] tokens = text.getTokens();
     AnalyzedToken matchToken = null;
-            
-    int symbolCounter = 0;
+    int ruleMatchIndex = getMatchesIndex();
+        
     int pos = 0;          
-      for (int j = 0; j < startSymbols.length; j++) {
-        symbolCounter = 0;        
+      for (int j = 0; j < startSymbols.length; j++) {      
       for (int i = 0; i < tokens.length; i++) {
         String token = tokens[i].getToken();
       if (token.trim().equals(startSymbols[j])) {        
-        symbolCounter++;
-        pos = i;        
+        symbolCounter[j]++;
+        pos = i;
       } else if (token.trim().equals(endSymbols[j])) {
         if (i > 2 && endSymbols[j].equals(")")) {
           // exception for bulletting: 1), 2), 3)...
           if (!(tokens[i - 1].
               getToken().
-              matches("\\d|M*(D?C{0,3}|C[DM])(L?X{0,3}|X[LC])(V?I{0,3}|I[VX])$") && symbolCounter == 0)) {
-            symbolCounter--;
+              matches("\\d|M*(D?C{0,3}|C[DM])(L?X{0,3}|X[LC])(V?I{0,3}|I[VX])$") && symbolCounter[j] == 0)) {
+            symbolCounter[j]--;
             pos = i;
           }
         } else {
-        symbolCounter--;
+        symbolCounter[j]--;
         pos = i;
         }
       }
+      }      
+      
+      for (int i = 0; i < symbolCounter.length; i++) {
+      if (symbolCounter[i] != 0) {                        
+        if (ruleMatchArray[i] != 0) {           
+            if (isInMatches(ruleMatchArray[i] - 1)) {
+              setAsDeleted(ruleMatchArray[i] - 1);
+              ruleMatchArray[i] = 0;
+            } else {
+              ruleMatchIndex++;
+              ruleMatchArray[i] = ruleMatchIndex;
+              matchToken = tokens[pos].getAnalyzedToken(0);
+              String msg = messages.getString("unpaired_brackets");
+              @SuppressWarnings("null")
+              RuleMatch ruleMatch = new RuleMatch(this, matchToken.getStartPos(), matchToken.getStartPos()+1, msg);
+              ruleMatches.add(ruleMatch);
+            }
+        } else {
+          ruleMatchIndex++;
+          ruleMatchArray[i] = ruleMatchIndex;
+          matchToken = tokens[pos].getAnalyzedToken(0);
+          String msg = messages.getString("unpaired_brackets");
+          @SuppressWarnings("null")
+          RuleMatch ruleMatch = new RuleMatch(this, matchToken.getStartPos(), matchToken.getStartPos()+1, msg);
+          ruleMatches.add(ruleMatch);
+        }
+        
+        symbolCounter[i] = 0;        
+                
+       }
       }
-      if (symbolCounter != 0) {
-        matchToken = tokens[pos].getAnalyzedToken(0);
-        String msg = messages.getString("unpaired_brackets");
-        @SuppressWarnings("null")
-        RuleMatch ruleMatch = new RuleMatch(this, matchToken.getStartPos(), matchToken.getStartPos()+1, msg);
-        ruleMatches.add(ruleMatch);
-    }    
-   }
-    return toRuleMatchArray(ruleMatches);
+   }      
+      
+      if (tokens[tokens.length - 1].isParaEnd()) {
+        reset();
+      }     
+      
+      return toRuleMatchArray(ruleMatches);     
   }
 
   public void reset() {
-    /** FIXME: check previous sentence match (create internal list,
-    and add new matches only if they don't pair with previous ones)
-    How can I know that the rule found paragraph end? (resetting at 
-    paragraph ends seems best but it depends on tokenizers...) 
-    **/    
+    for (int i = 0; i < symbolCounter.length; i++) {
+      symbolCounter[i] = 0;
+      ruleMatchArray[i] = 0;
+    }
+    clearMatches();
   }
 
 }
