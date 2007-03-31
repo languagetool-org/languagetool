@@ -49,11 +49,10 @@ public class PolishWordRepeatRule extends PolishRule {
 	 * 
 	 */
 	@Override
-	public RuleMatch[] match(final AnalyzedSentence text) {
+	public final RuleMatch[] match(final AnalyzedSentence text) {
 	    List<RuleMatch> ruleMatches = new ArrayList<RuleMatch>();
 	    AnalyzedTokenReadings[] tokens = text.getTokens();
 	    boolean repetition = false;
-	    //boolean hasLemma = true;
 	    List<String> inflectedWords = new ArrayList<String>();
 	    String prevLemma, curLemma;
 	    int pos = 0;
@@ -83,7 +82,7 @@ public class PolishWordRepeatRule extends PolishRule {
 	        		isWord = false;
 	        		break;
 	        	}
-           //too many false alarms here:     
+           //FIXME: too many false alarms here:     
                 String lemma = tokens[i].getAnalyzedToken(k).getLemma();
                 if (lemma == null) {
                   hasLemma = false;
