@@ -166,8 +166,10 @@ public class PatternRule extends Rule {
   public final void setEndPositionCorrection(final int endPositionCorrection) {
     this.endPositionCorrection = endPositionCorrection;
   }
-
+  
+  
   public final RuleMatch[] match(final AnalyzedSentence text) {
+            
     List<RuleMatch> ruleMatches = new ArrayList<RuleMatch>();    
     AnalyzedTokenReadings[] tokens = text.getTokensWithoutWhitespace();
     int[] tokenPositions = new int[tokens.length + 1 ];
@@ -313,7 +315,7 @@ public class PatternRule extends Rule {
           while (l > endPositionCorrection) {
             int test = matchingTokens + l - 1;
             test = tokenPositions[test];
-            correctedEndPos =  correctedEndPos - tokenPositions[matchingTokens + l - 1];
+            correctedEndPos -= tokenPositions[matchingTokens + l - 1];
             l--;
           }
           }         
