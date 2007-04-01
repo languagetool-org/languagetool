@@ -105,7 +105,7 @@ public class AnalyzedTokenReadings {
   
   /**
    * @author Marcin Miłkowski
-   * @return true when the token is a last token in a paragraph. 
+   * @return true when the token is a last token in a sentence. 
    * */   
   public final boolean isSentEnd() {
    boolean isSE = false;
