@@ -70,10 +70,13 @@ public class AnalyzedSentence {
         sb.append("[");
       }
       for (int j = 0; j < tokens[i].getReadingsLength(); j++) {
-        if (JLanguageTool.SENTENCE_START_TAGNAME.equals(tokens[i].getAnalyzedToken(j).getPOSTag())) {
+        String posTag = tokens[i].getAnalyzedToken(j).getPOSTag();
+        if (JLanguageTool.SENTENCE_START_TAGNAME.equals(posTag)) {
           sb.append("<S>");
+        } else if (JLanguageTool.SENTENCE_END_TAGNAME.equals(posTag)) {
+          sb.append("</S>");
         } else if (tokens[i].getAnalyzedToken(j) != null
-            && tokens[i].getAnalyzedToken(j).getPOSTag() == null
+            && posTag == null
             && !(tokens[i] instanceof AnalyzedGermanTokenReadings)) {
           // FIXME: don't depend on AnalyzedGermanTokenReadings here
           sb.append(tokens[i].getAnalyzedToken(j).getToken());
