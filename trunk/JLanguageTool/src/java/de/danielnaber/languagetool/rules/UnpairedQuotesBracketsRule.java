@@ -132,10 +132,10 @@ public class UnpairedQuotesBracketsRule extends Rule {
       } else if (token.trim().equals(endSymbols[j])) {
         if (i > 2 && endSymbols[j].equals(")")) {
           // exception for bulletting: 1), 2), 3)...,
-          // II) and 1a).
+          // II), 2') and 1a).
           if (!(tokens[i - 1].
               getToken().
-              matches("(?i)\\d[\\w]*|M*(D?C{0,3}|C[DM])(L?X{0,3}|X[LC])(V?I{0,3}|I[VX])$") && symbolCounter[j] == 0)) {
+              matches("(?i)\\d[\\w']*|M*(D?C{0,3}|C[DM])(L?X{0,3}|X[LC])(V?I{0,3}|I[VX])$") && symbolCounter[j] == 0)) {
             symbolCounter[j]--;
             pos = i;
           }
