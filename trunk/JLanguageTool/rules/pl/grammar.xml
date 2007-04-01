@@ -2,7 +2,7 @@
 <!--
 Polish Grammar and Typo Rules for LanguageTool
 Copyright (C) 2006 Marcin Miłkowski
-$Id: grammar.xml,v 1.156 2007-04-01 21:13:37 milek_pl Exp $		
+$Id: grammar.xml,v 1.157 2007-04-01 21:41:09 milek_pl Exp $		
 -->
 <rules lang="pl">
 
@@ -3824,11 +3824,11 @@ $Id: grammar.xml,v 1.156 2007-04-01 21:13:37 milek_pl Exp $
 		</rule>
 		<rule id="WYDAWAC_SIE_BYC" name="„wydaje się być” (wydaje się)">
 			<pattern>
-				<token inflected="yes">wydawać</token>
+				<token inflected="yes" regexp="yes">wydawać|zdawać|wydać|zdać</token>
 				<token>się</token>
 				<token>być</token>
 			</pattern>
-			<message>Wyrażenie „wydaje się być” jest modne i nadużywane, lecz niepoprawne. Poprawna jest forma <suggestion>wydaje się</suggestion>.</message>
+			<message>Wyrażenie „\1 się być” jest modne i nadużywane, lecz niepoprawne. Poprawna jest forma <suggestion>\1 się</suggestion>.</message>
 			<example type="incorrect">Emitowanie programu Firma <marker>wydaje się być</marker> bardzo pożyteczne.</example>
 			<example type="correct">Emitowanie programu Firma wydaje się bardzo pożyteczne.</example>
 		</rule>
