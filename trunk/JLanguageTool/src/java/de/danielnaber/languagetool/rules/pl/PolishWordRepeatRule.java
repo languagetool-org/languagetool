@@ -5,6 +5,7 @@ package de.danielnaber.languagetool.rules.pl;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.HashMap;
 import java.util.ResourceBundle;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
@@ -53,7 +54,7 @@ public class PolishWordRepeatRule extends PolishRule {
 	    List<RuleMatch> ruleMatches = new ArrayList<RuleMatch>();
 	    AnalyzedTokenReadings[] tokens = text.getTokens();
 	    boolean repetition = false;
-	    List<String> inflectedWords = new ArrayList<String>();
+	    HashMap <String, String> inflectedWords = new HashMap<String, String>();
 	    String prevLemma, curLemma;
 	    int pos = 0;
         Pattern pExc1 = Pattern.compile("to|siebie|być|ani|albo|lub|czy|bądź|jako|zł|coraz|bardzo|ten|jak|mln|tys|swój|mój|twój|nasz|wasz|i");
@@ -116,18 +117,20 @@ public class PolishWordRepeatRule extends PolishRule {
 	        	   if (hasLemma) {
 	        	   curLemma = tokens[i].getAnalyzedToken(j).getLemma();
 	        	   if (!prevLemma.equals(curLemma)) {
-	        	   if (inflectedWords.contains(curLemma)) {
+	        	   if (inflectedWords.containsKey(curLemma)) {
 	        		   repetition = true;
       	       	   } else {	        			   	           
-      	       		   inflectedWords.add(tokens[i].getAnalyzedToken(j).getLemma());
+      	       		   inflectedWords.put(tokens[i].getAnalyzedToken(j).getLemma(), 
+                           tokens[i].getToken());
       	       	   }
 	        	   }
 	        	   prevLemma = curLemma;
 	        	   } else {
-	        		   if (inflectedWords.contains(tokens[i].getToken())) {
+	        		   if (inflectedWords.containsKey(tokens[i].getToken())) {
 	        			   repetition = true;
 	        		   } else {
-	        			   inflectedWords.add(tokens[i].getToken());
+	        			   inflectedWords.put(tokens[i].getToken(), 
+                               tokens[i].getToken());
 	        		   }
 	        	   }
 	        	   
