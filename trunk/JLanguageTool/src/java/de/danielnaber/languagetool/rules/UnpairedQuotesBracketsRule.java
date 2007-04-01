@@ -52,6 +52,8 @@ public class UnpairedQuotesBracketsRule extends Rule {
     
   private int[] ruleMatchArray; 
   
+  private boolean reachedEndOfParagraph = false;
+  
   public UnpairedQuotesBracketsRule(final ResourceBundle messages, final Language language) {
     super(messages);
     super.setCategory(new Category(messages.getString("category_misc")));
@@ -113,6 +115,11 @@ public class UnpairedQuotesBracketsRule extends Rule {
     List < RuleMatch > ruleMatches = new ArrayList<RuleMatch>();
     AnalyzedTokenReadings[] tokens = text.getTokens();
     AnalyzedToken matchToken = null;
+    
+    if (reachedEndOfParagraph) {
+      reset();
+    }
+    
     int ruleMatchIndex = getMatchesIndex();
         
     int pos = 0;          
@@ -124,10 +131,11 @@ public class UnpairedQuotesBracketsRule extends Rule {
         pos = i;
       } else if (token.trim().equals(endSymbols[j])) {
         if (i > 2 && endSymbols[j].equals(")")) {
-          // exception for bulletting: 1), 2), 3)...
+          // exception for bulletting: 1), 2), 3)...,
+          // II) and 1a).
           if (!(tokens[i - 1].
               getToken().
-              matches("\\d|M*(D?C{0,3}|C[DM])(L?X{0,3}|X[LC])(V?I{0,3}|I[VX])$") && symbolCounter[j] == 0)) {
+              matches("(?i)\\d[\\w]*|M*(D?C{0,3}|C[DM])(L?X{0,3}|X[LC])(V?I{0,3}|I[VX])$") && symbolCounter[j] == 0)) {
             symbolCounter[j]--;
             pos = i;
           }
@@ -170,7 +178,7 @@ public class UnpairedQuotesBracketsRule extends Rule {
    }      
       
       if (tokens[tokens.length - 1].isParaEnd()) {
-        reset();
+        reachedEndOfParagraph = true;
       }     
       
       return toRuleMatchArray(ruleMatches);     
@@ -182,6 +190,7 @@ public class UnpairedQuotesBracketsRule extends Rule {
       ruleMatchArray[i] = 0;
     }
     clearMatches();
+    reachedEndOfParagraph = false;
   }
 
 }
