@@ -37,13 +37,11 @@ public class AnalyzedToken {
   }
   
   public AnalyzedToken(final String token, final String posTag, final String lemma) {
-	    this.token = token;
-	    this.posTag = posTag;
-	    this.lemma = lemma;
-	  }
+    this.token = token;
+    this.posTag = posTag;
+    this.lemma = lemma;
+  }
 	  
-  
-    
   public final String getToken() {
     return token;
   }
@@ -65,4 +63,3 @@ public class AnalyzedToken {
   }
 
 }
-
