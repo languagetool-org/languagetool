@@ -21,6 +21,10 @@ public class UnpairedQuotesBracketsRuleTest extends TestCase {
     // numerical bullets
     matches = rule.match(langTool.getAnalyzedSentence("We discussed this in Chapter 1)."));
     assertEquals(0, matches.length);
+    matches = rule.match(langTool.getAnalyzedSentence("We discussed this in section 1a)."));
+    assertEquals(0, matches.length);
+    matches = rule.match(langTool.getAnalyzedSentence("We discussed this in section iv)."));
+    assertEquals(0, matches.length);
     // incorrect sentences:
     matches = rule.match(langTool.getAnalyzedSentence("(This is a test sentence."));
     assertEquals(1, matches.length);
