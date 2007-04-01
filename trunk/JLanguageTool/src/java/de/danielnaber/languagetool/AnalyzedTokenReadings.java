@@ -103,6 +103,20 @@ public class AnalyzedTokenReadings {
    return isPE;
   }
   
+  /**
+   * @author Marcin Miłkowski
+   * @return true when the token is a last token in a paragraph. 
+   * */   
+  public final boolean isSentEnd() {
+   boolean isSE = false;
+   for (AnalyzedToken reading: anTokReadings)
+   if (reading.posTag != null) {
+     isSE = isSE || reading.posTag.equals(JLanguageTool.SENTENCE_END_TAGNAME);
+   }
+   return isSE;
+  }
+  
+  
   public final int getStartPos() {
 		return startPos;
 	}
