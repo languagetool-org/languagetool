@@ -2,7 +2,7 @@
 <!--
 Polish Grammar and Typo Rules for LanguageTool
 Copyright (C) 2006 Marcin Miłkowski
-$Id: grammar.xml,v 1.155 2007-04-01 19:34:05 milek_pl Exp $		
+$Id: grammar.xml,v 1.156 2007-04-01 21:13:37 milek_pl Exp $		
 -->
 <rules lang="pl">
 
@@ -405,7 +405,7 @@ $Id: grammar.xml,v 1.155 2007-04-01 19:34:05 milek_pl Exp $
 		<rulegroup id="BRAK_PRZECINKA_ZE" name="Brak przecinka przed „że” i „iż”">
 		<rule>
 			<pattern>
-				<token> negate="yes" regexp="yes">[\p{Punct}–—„«»]|bardziej|chyba|ile|szczególnie|tyle|zwłaszcza|pomimo|mimo|także|również|dlatego|właśnie|prawie|ledwie|ledwo<exception postag_regexp="yes" postag="SENT_START"/></token>
+				<token negate="yes" regexp="yes">[\p{Punct}–—„«»]|bardziej|chyba|ile|szczególnie|tyle|zwłaszcza|pomimo|mimo|także|również|dlatego|właśnie|prawie|ledwie|ledwo<exception postag_regexp="yes" postag="SENT_START|conj"/></token>
 				<token regexp="yes">że|iż</token>
 			</pattern>
 			<message>Przed spójnikiem „że” stawiamy przecinek: <suggestion>\1, \2</suggestion>.</message>
@@ -567,12 +567,13 @@ $Id: grammar.xml,v 1.155 2007-04-01 19:34:05 milek_pl Exp $
 			<rule>
 				<pattern>
 					<token negate="yes">,<exception regexp="yes">[\p{Punct}–—„«»]</exception><exception postag_regexp="yes" postag="conj|adv.*|prep.*|SENT_START"/></token>
-					<token postag_regexp="yes" postag="prep.*"/>
+					<token postag_regexp="yes" postag="prep.*"><exception postag_regexp="yes" postag="&lt;/PREP:.*&gt;"/></token>
 					<token regexp="yes" inflected="yes">który|jaki</token>
 				</pattern>
 				<message>Brak przecinka w tym fragmencie zdania. Przecinek prawdopodobnie należy
 				postawić tak: <suggestion>\1, \2 \3</suggestion>.</message>
 				<example type="correct">Nie wiedziałem, do którego rozporządzenia zgłosił on uwagę.</example>
+				<example type="correct">Istnieją dwa powody, z uwagi na które może on tak myśleć.</example>
 				<example type="incorrect">Nie <marker>wiedziałem do którego</marker> rozporządzenia zgłosił on uwagę.</example>
 			</rule>		
 			<rule>
@@ -3186,7 +3187,7 @@ $Id: grammar.xml,v 1.155 2007-04-01 19:34:05 milek_pl Exp $
 					<token inflected="yes" postag_regexp="yes" postag="adj.*:m.*" regexp="yes">autentyczny|konkretny</token>
 					<token inflected="yes">fakt</token>
 				</pattern>
-				<message>To wyrażenie to pleonazm. Każdy fakt jest autentyczny i konkretny. Wystarczy napisać <suggestion>\1</suggestion>.</message>
+				<message>To wyrażenie to pleonazm. Każdy fakt jest autentyczny i konkretny. Wystarczy napisać <suggestion>\2</suggestion>.</message>
 				<example type="correct">Ten film jest oparty na faktach.</example>
 				<example type="incorrect">Ten film jest oparty na <marker>autentycznych faktach</marker>.</example>
 				<example type="incorrect">Ten film jest oparty na <marker>konkretnych faktach</marker>.</example>
