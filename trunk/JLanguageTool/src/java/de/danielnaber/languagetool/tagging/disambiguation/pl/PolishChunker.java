@@ -26,13 +26,15 @@ public class PolishChunker implements Disambiguator {
      */
   private static final String TOKEN_DEFINITIONS = "...|ELLIPSIS\n" 
       + "to znaczy|TO_ZNACZY\nTo znaczy|TO_ZNACZY\n" 
-      + "to jest|TO_JEST\nTo jest|TO_JEST";
+      + "to jest|TO_JEST\nTo jest|TO_JEST\n" 
+      + "z uwagi na|PREP:ACC\n" 
+      + "ze względu na|PREP:ACC\n";
   
     public final AnalyzedSentence disambiguate(final AnalyzedSentence input) {
         
       HashMap <String, String> mStartSpace = new HashMap <String, String>();
       HashMap <String, String> mStartNoSpace = new HashMap <String, String>();
-      HashMap<String, String> mFull = new HashMap <String, String>();      
+      HashMap <String, String> mFull = new HashMap <String, String>();      
       
         String[] posTokens = TOKEN_DEFINITIONS.split("\n");
         for (String posToken : posTokens) {
@@ -44,7 +46,7 @@ public class PolishChunker implements Disambiguator {
             firstTokens = new String[tokenAndTag[0].length()];
             firstToken = tokenAndTag[0].substring(0, 1);
             for (int i = 1; i < tokenAndTag[0].length(); i++) {
-              firstTokens [i] = tokenAndTag[0].substring(0 + (i-1), i);
+              firstTokens [i] = tokenAndTag[0].substring(0 + (i - 1), i);
             }
             if (!mStartNoSpace.containsKey(firstToken)) {
               mStartNoSpace.put(firstToken, Integer.toString(firstTokens.length));
@@ -55,7 +57,7 @@ public class PolishChunker implements Disambiguator {
             }
           } else {            
             firstTokens = tokenAndTag[0].split(" ");
-            firstToken = firstTokens[0];                                            
+            firstToken = firstTokens[0];
           
             if (!mStartSpace.containsKey(firstToken)) {
               mStartSpace.put(firstToken, Integer.toString(firstTokens.length));
@@ -78,14 +80,15 @@ public class PolishChunker implements Disambiguator {
           String tok = output[i].getToken();          
           StringBuffer tokens = new StringBuffer();
           
+          int finalLen = 0;
           if (mStartSpace.containsKey(tok)) {
             int len = Integer.parseInt(mStartSpace.get(tok)); 
             if (i + len * 2 < anTokens.length) {
               int j = i;
               int lenCounter = 0;
-                while (j <= i + len && j < anTokens.length) {
+                while (j < anTokens.length) {
                     if (!anTokens[j].getToken().trim().equals("")) {
-                        tokens.append(anTokens[j].getToken());                        
+                        tokens.append(anTokens[j].getToken());
                         lenCounter++;
                         if (lenCounter == len) {
                           break;
@@ -94,6 +97,7 @@ public class PolishChunker implements Disambiguator {
                         }
                      }
                     j++;
+                    finalLen = j;
                 }
             }            
           if (mFull.containsKey(tokens.toString())) {            
@@ -101,8 +105,8 @@ public class PolishChunker implements Disambiguator {
                  new AnalyzedToken(tok, "<"+mFull.get(tokens.toString())+">", tokens.toString());
                output[i].addReading(tokenStart);
                AnalyzedToken tokenEnd = 
-                 new AnalyzedToken(tok, "</"+mFull.get(tokens.toString())+">", tokens.toString());
-               output[i + 2].addReading(tokenEnd);
+                 new AnalyzedToken(anTokens[finalLen].getToken(), "</"+mFull.get(tokens.toString())+">", tokens.toString());
+               output[finalLen].addReading(tokenEnd);
           }          
         }
                
@@ -118,8 +122,8 @@ public class PolishChunker implements Disambiguator {
                  new AnalyzedToken(tok, "<"+mFull.get(tokens.toString())+">", tokens.toString());
                output[i].addReading(tokenStart);
                AnalyzedToken tokenEnd = 
-                 new AnalyzedToken(tok, "</"+mFull.get(tokens.toString())+">", tokens.toString());
-               output[i + 2].addReading(tokenEnd);
+                 new AnalyzedToken(anTokens[i + len - 1].getToken(), "</"+mFull.get(tokens.toString())+">", tokens.toString());
+               output[i + len  - 1].addReading(tokenEnd);
           }          
         }
         }
