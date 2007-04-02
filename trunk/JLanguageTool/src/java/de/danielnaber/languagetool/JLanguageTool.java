@@ -486,6 +486,13 @@ public class JLanguageTool {
 
     //add additional tags
     int lastToken = toArrayCount - 1;
+    //make SENT_END appear at last not whitespace token
+    for (int i = 0; i < lastToken; i++) {
+     if (!tokenArray[lastToken - i].getToken().trim().equals("")) {
+        lastToken -= i;
+        break;
+    }
+    }
     AnalyzedToken sentenceEnd = 
       new AnalyzedToken(tokenArray[lastToken].getToken(), 
           SENTENCE_END_TAGNAME,
