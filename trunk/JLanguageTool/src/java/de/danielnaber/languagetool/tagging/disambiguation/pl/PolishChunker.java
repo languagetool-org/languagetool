@@ -16,9 +16,7 @@ import java.util.HashMap;
 public class PolishChunker implements Disambiguator {
       
     /**
-     * Implements punctuation chunking: 
-     * SENT_END for sentence end,
-     * PARA_END for paragraph end, 
+     * Implements multiword POS tags, e.g., 
      * &lt;ELLIPSIS&gt; for ellipsis (...) start, 
      * and &lt;/ELLIPSIS&gt; for ellipsis end.
      * @param input The tokens to be chunked.
@@ -28,7 +26,8 @@ public class PolishChunker implements Disambiguator {
       + "to znaczy|TO_ZNACZY\nTo znaczy|TO_ZNACZY\n" 
       + "to jest|TO_JEST\nTo jest|TO_JEST\n" 
       + "z uwagi na|PREP:ACC\n" 
-      + "ze względu na|PREP:ACC\n";
+      + "ze względu na|PREP:ACC\n" 
+      + "odnośnie do|PREP:GEN\n";
   
     public final AnalyzedSentence disambiguate(final AnalyzedSentence input) {
         
