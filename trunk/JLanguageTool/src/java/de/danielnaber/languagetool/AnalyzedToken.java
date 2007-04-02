@@ -41,7 +41,14 @@ public class AnalyzedToken {
     this.posTag = posTag;
     this.lemma = lemma;
   }
-	  
+
+  public AnalyzedToken(final String token, final String posTag, final String lemma, int startPos) {
+    this.token = token;
+    this.posTag = posTag;
+    this.lemma = lemma;
+    this.startPos = startPos;
+  }
+
   public final String getToken() {
     return token;
   }
