@@ -3,7 +3,7 @@
 German grammar and typo rules for LanguageTool
 See resource/de/tagset.txt for the meaning of the POS tags
 Copyright (C) 2001-2006 Daniel Naber (http://www.danielnaber.de)
-$Id: grammar.xml,v 1.75 2007-02-13 21:22:02 dnaber Exp $
+$Id: grammar.xml,v 1.76 2007-04-02 21:51:02 dnaber Exp $
 -->
 <rules lang="de">
 
@@ -779,6 +779,51 @@ $Id: grammar.xml,v 1.75 2007-02-13 21:22:02 dnaber Exp $
   </category>
 
   <category name="Grammatik">
+
+    <rulegroup id="DEN_DEM" name="Grammatik: 'dem/den' (nur für wenige Verben)">
+      <!-- TODO: the lits of words needs to be extended -->
+      <rule>
+        <pattern mark_from="1" mark_to="-2" case_sensitive="yes">
+          <token regexp="yes">beantworte|kaufe|kaufte|kaufst|kaufen|verkaufe|verwünsche</token>
+          <token>dem</token>
+          <token postag_regexp="yes" postag="SUB:.*" />
+          <token postag="SENT_END"/>
+        </pattern>
+        <message>Meinten Sie <suggestion>den</suggestion>?</message>
+        <example type="correct">Ich beantworte <marker>den</marker> Brief.</example>
+        <example type="correct">Ich beantworte <marker>dem</marker> Mann seine Frage.</example>
+        <example type="correct">Ich kaufe <marker>den</marker> Hund.</example>
+        <example type="incorrect">Ich beantworte <marker>dem</marker> Brief.</example>
+        <example type="incorrect">Ich beantworte <marker>dem</marker> Mann.</example>
+        <example type="incorrect">Ich kaufe <marker>dem</marker> Hund.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="1" mark_to="-4" case_sensitive="yes">
+          <token regexp="yes">beschreibe|zeichne|zeige</token>
+          <token>den</token>
+          <token postag_regexp="yes" postag="SUB:.*" />
+          <!-- noun phrase: -->
+          <token regexp="yes">dem|den|ein|einen|der|die|das</token>
+          <token postag_regexp="yes" postag="SUB:.*" />
+          <token postag="SENT_END"/>
+        </pattern>
+        <message>Meinten Sie <suggestion>dem</suggestion>?</message>
+        <example type="correct">Ich zeichne <marker>den</marker> Mann.</example>
+        <example type="correct">Ich zeichne <marker>dem</marker> Mann ein Bild.</example>
+        <example type="incorrect">Ich zeichne <marker>den</marker> Mann ein Bild.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="1" mark_to="-2" case_sensitive="yes">
+          <token regexp="yes">antworte|frage|beschreibe|zeichne</token>
+          <token>den</token>
+          <token postag_regexp="yes" postag="SUB:.*" />
+          <token postag="SENT_END"/>
+        </pattern>
+        <message>Meinten Sie <suggestion>dem</suggestion>?</message>
+        <example type="correct">Ich antworte <marker>dem</marker> Mann.</example>
+        <example type="incorrect">Ich antworte <marker>den</marker> Mann.</example>
+      </rule>
+    </rulegroup>
 
     <rule id="AN_HERR" name="Grammatik: 'an/für Herr(Herrn)'">
       <pattern mark_from="1" mark_to="-1" case_sensitive="yes">
