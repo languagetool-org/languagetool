@@ -356,7 +356,8 @@ public class JLanguageTool {
         AnalyzedToken paragraphEnd =
           new AnalyzedToken(anTokens[anTokens.length - 1].getToken(),
               PARAGRAPH_END_TAGNAME,
-              anTokens[anTokens.length - 1].getAnalyzedToken(0).getLemma());
+              anTokens[anTokens.length - 1].getAnalyzedToken(0).getLemma(),
+              anTokens[anTokens.length - 1].getAnalyzedToken(0).getStartPos());
         anTokens[anTokens.length - 1].addReading(paragraphEnd);
         analyzedText = new AnalyzedSentence(anTokens); 
       }
