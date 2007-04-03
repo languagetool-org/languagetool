@@ -23,7 +23,19 @@ public class PolishChunker implements Disambiguator {
       + "to jest|TO_JEST\nTo jest|TO_JEST\n" 
       + "z uwagi na|PREP:ACC\n" 
       + "ze względu na|PREP:ACC\n" 
+      + "bez względu na|PREP:ACC\n"
+      + "w związku z|PREP:INST\n"
+      + "w zgodzie z|PREP:INST\n"
+      + "w porównaniu z|PREP:INST\n"
       + "odnośnie do|PREP:GEN\n"
+      + "za pomocą|PREP:GEN\n"
+      + "na mocy|PREP:GEN\n"
+      + "na podstawie|PREP:GEN\n"
+      + "w braku|PREP:GEN\n"
+      + "w razie|PREP:GEN\n"
+      + "w odniesieniu do|PREP:GEN\n"
+      + "w stosunku do|PREP:GEN\n"
+      + "w relacji do|PREP:GEN\n"
       + "a także|CONJ\n";
   
   /**
