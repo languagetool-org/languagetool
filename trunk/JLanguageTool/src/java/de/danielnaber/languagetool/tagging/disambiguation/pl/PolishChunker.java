@@ -7,9 +7,7 @@ import de.danielnaber.languagetool.tagging.disambiguation.Disambiguator;
 import java.util.HashMap;
 
 /**
- * Mainly punctuation chunker for Polish. 
- * Probably could be made more universal.
- *   
+ * Multiword tagger-chunker for Polish. 
  * 
  * @author Marcin Miłkowski
  */
