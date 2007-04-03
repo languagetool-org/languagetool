@@ -455,34 +455,19 @@ public class JLanguageTool {
    * @throws IOException 
    */
   public AnalyzedSentence getAnalyzedSentence(final String sentence) throws IOException {
-    List<String> tokens = wordTokenizer.tokenize(sentence);
-    List<String> noWhitespaceTokens = new ArrayList<String>();
-    // whitespace confuses tagger, so give it the tokens but no whitespace tokens:
-    for (String token : tokens) {
-      if (isWord(token)) {
-        noWhitespaceTokens.add(token);
-      }
-    }
-    List<AnalyzedTokenReadings> aTokens = tagger.tag(noWhitespaceTokens);
-    AnalyzedTokenReadings[] tokenArray = new AnalyzedTokenReadings[tokens.size()+1];
+    List<String> tokens = wordTokenizer.tokenize(sentence);    
+    List<AnalyzedTokenReadings> aTokens = tagger.tag(tokens);
+    AnalyzedTokenReadings[] tokenArray = new AnalyzedTokenReadings[tokens.size() + 1];
     AnalyzedToken[] startTokenArray = new AnalyzedToken[1];  
     int toArrayCount = 0;
     AnalyzedToken sentenceStartToken = new AnalyzedToken("", SENTENCE_START_TAGNAME, 0);
-    startTokenArray[0]=sentenceStartToken;
-    tokenArray[toArrayCount++]=new AnalyzedTokenReadings(startTokenArray);
+    startTokenArray[0] = sentenceStartToken;
+    tokenArray[toArrayCount++] = new AnalyzedTokenReadings(startTokenArray);
     int startPos = 0;
-    int noWhitespaceCount = 0;
-    for (String tokenStr : tokens) {
-      AnalyzedTokenReadings posTag = null;
-      if (isWord(tokenStr)) {      
-        posTag = (AnalyzedTokenReadings)aTokens.get(noWhitespaceCount);
-        posTag.startPos = startPos;
-        noWhitespaceCount++;
-      } else {
-        posTag = (AnalyzedTokenReadings)tagger.createNullToken(tokenStr, startPos); 
-      }
+    for (AnalyzedTokenReadings posTag : aTokens) {
+      posTag.startPos = startPos;
       tokenArray[toArrayCount++] = posTag;
-      startPos += tokenStr.length();
+      startPos += posTag.getToken().length();
     }
 
     //add additional tags
@@ -492,7 +477,7 @@ public class JLanguageTool {
      if (!tokenArray[lastToken - i].getToken().trim().equals("")) {
         lastToken -= i;
         break;
-    }
+     }
     }
     AnalyzedToken sentenceEnd = 
       new AnalyzedToken(tokenArray[lastToken].getToken(), 
@@ -500,8 +485,7 @@ public class JLanguageTool {
           tokenArray[lastToken].getAnalyzedToken(0).getLemma(),
           tokenArray[lastToken].getAnalyzedToken(0).getStartPos());
         tokenArray[lastToken].addReading(sentenceEnd);
-    
-    
+        
     if (tokenArray.length == 2) {
     if (tokenArray[0].isSentStart() 
         && tokenArray[1].getToken().equals("\n")) {
@@ -520,16 +504,7 @@ public class JLanguageTool {
       
     return finalSentence;
   }
-
-  private boolean isWord(final String token) {
-    for (int i = 0; i < token.length(); i++) {
-      char c = token.charAt(i);
-      if (Character.isLetter(c) || Character.isDigit(c))
-        return true;
-    }
-    return false;
-  }
-
+  
   /**
    * Get all rules for the current language that are built-in or that have been
    * added using {@link #addRule}.
