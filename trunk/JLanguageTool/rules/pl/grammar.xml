@@ -2,7 +2,7 @@
 <!--
 Polish Grammar and Typo Rules for LanguageTool
 Copyright (C) 2006 Marcin Miłkowski
-$Id: grammar.xml,v 1.158 2007-04-02 22:52:07 milek_pl Exp $		
+$Id: grammar.xml,v 1.159 2007-04-03 23:32:01 milek_pl Exp $		
 -->
 <rules lang="pl">
 
@@ -53,13 +53,14 @@ $Id: grammar.xml,v 1.158 2007-04-02 22:52:07 milek_pl Exp $
 			<rule>
 				<pattern>
 					<token skip="-1" postag_regexp="yes" postag="verb:bedzie.*|pcon:imperf" regexp="yes">będ.*<exception scope="next" inflected="yes" regexp="yes">[\p{Punct}—–„«»](?&lt;!\.)|bądź|czy|ani|lub|albo|oraz|i|kiedy|gdy|który|jaki|że|iż|aby|żeby|iżby|gdyż|bo|jeśli|jeżeli|ażeby|zanim|dopóki</exception><exception scope="next" postag="&lt;ELLIPSIS&gt;"/></token>
-					<token skip="-1" postag_regexp="yes" postag="pred|verb:.*(sg|pl).*|verb:imps.*|pcon:imperf|pant:perf"><exception scope="current" postag_regexp="yes" postag="subst:.*|adj.*|ppron.*|verb:inf.*|adv:comp|prep.*|qub|indecl|verb:praet.*"/><exception scope="current" regexp="yes">jedna|może|lecz</exception></token>
+					<token skip="-1" postag_regexp="yes" postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf|pant:perf"><exception scope="current" postag_regexp="yes" postag="subst:.*|adj.*|ppron.*|verb:inf.*|adv:comp|prep.*|qub|indecl|verb:praet.*"/><exception scope="current" regexp="yes">jedna|może|lecz</exception></token>
 					<phraseref idref="INTERPUNKCJA"/>
 				</pattern>
 				<message>W tym zdaniu złożonym brakuje przecinka lub spójnika między jednym zdaniem a drugim.</message>
 				<example type="correct">Marek pomagał będzie Jurkowi odrabiać lekcje za Romana.</example>
 				<example type="correct">Marek będzie pomagał Jurkowi odrabiać lekcje za Romana.</example>
 				<example type="correct">Trzeba będzie pomóc Jurkowi odrabiać lekcje za Romana.</example>				
+				<example type="correct">Trzeba będzie to zrobić.</example>
 				<example type="incorrect">Marek <marker>będzie szukać okularów a Jurek pomoże Romanowi odrabiać lekcje.</marker></example>
 			</rule>	
 
@@ -105,7 +106,7 @@ $Id: grammar.xml,v 1.158 2007-04-02 22:52:07 milek_pl Exp $
 				<pattern>
 					<phraseref idref="NIE_INTERPUNKCJA"/>
 					<token regexp="yes">a</token>
-					<token regexp="yes">więc|mianowicie|przeto|zatem|jednak|choć|chociaż|ponieważ|także|następnie|jeśli|jeżeli|gdyby|gdy|kiedy</token>
+					<token regexp="yes" inflected="yes">więc|mianowicie|przeto|zatem|jednak|choć|chociaż|ponieważ|także|następnie|jeśli|jeżeli|gdyby|gdy|kiedy</token>
 				</pattern>
 				<message>W tym miejscu stawia się przecinek: <suggestion>\1, \2 \3</suggestion></message>
 				<example type="correct">Minister miał coś do zakomunikowania, a mianowicie, że nic nie wie.</example>
@@ -268,7 +269,7 @@ $Id: grammar.xml,v 1.158 2007-04-02 22:52:07 milek_pl Exp $
 				<phraseref idref="NIE_INTERPUNKCJA"/>
 				<token>a</token>
 				<token>,</token>
-				<token regexp="yes">więc|mianowicie|zatem|przeto|jednak|choć|chociaż|ponieważ|także|następnie|jeśli|jeżeli|gdyby|gdy|kiedy</token>
+				<token regexp="yes" inflected="yes">więc|mianowicie|zatem|przeto|jednak|choć|chociaż|ponieważ|także|następnie|jeśli|jeżeli|gdyby|gdy|kiedy</token>
 			</pattern>
 			<message>Spójników złożonych nie rozdziela się, przecinek stawia się przed nimi: <suggestion>\1, a \4</suggestion>.</message>
 			<example type="correct">Do partii rządzącej zapisują się tylko idioci, a więc nadajesz się znakomicie.</example>
@@ -280,7 +281,7 @@ $Id: grammar.xml,v 1.158 2007-04-02 22:52:07 milek_pl Exp $
 			  <token postag="SENT_START"/>
 				<token>a</token>
 				<token>,</token>
-				<token regexp="yes">więc|mianowicie|zatem|przeto|jednak|choć|chociaż|ponieważ|także|następnie|jeśli|jeżeli|gdyby|gdy|kiedy</token>
+				<token regexp="yes" inflected="yes">więc|mianowicie|zatem|przeto|jednak|choć|chociaż|ponieważ|także|następnie|jeśli|jeżeli|gdyby|gdy|kiedy</token>
 			</pattern>
 			<message>Spójników złożonych nie rozdziela się: <suggestion>A \4</suggestion>.</message>
 			<example type="correct">A więc nadajesz się znakomicie.</example>
@@ -291,7 +292,7 @@ $Id: grammar.xml,v 1.158 2007-04-02 22:52:07 milek_pl Exp $
 		  <token regexp="yes">[\p{Punct}–—„«»]<exception>'</exception></token>
 				<token>a</token>
 				<token>,</token>
-				<token regexp="yes">więc|mianowicie|zatem|przeto|jednak|choć|chociaż|ponieważ|także|następnie|jeśli|jeżeli|gdyby|gdy|kiedy</token>
+				<token regexp="yes" inflected="yes">więc|mianowicie|zatem|przeto|jednak|choć|chociaż|ponieważ|także|następnie|jeśli|jeżeli|gdyby|gdy|kiedy</token>
 			</pattern>
 			<message>Spójników złożonych nie rozdziela się: <suggestion>a \4</suggestion>.</message>
 			<example type="correct">Jesteś mierny, ale wierny, a więc nadajesz się znakomicie.</example>
@@ -470,6 +471,17 @@ $Id: grammar.xml,v 1.158 2007-04-02 22:52:07 milek_pl Exp $
 			<example type="incorrect">Przemysław poszedł do <marker>domu tylko żeby</marker> spryskać się Przemysławką.</example>
 			<example type="correct">Chyba że żartujesz.</example>
 		</rule>			
+		<rule>
+			<pattern mark_to="-1">
+				<token negate="yes" regexp="yes">[\p{Punct}–—„«»]|chyba<exception postag_regexp="yes" postag="SENT_START|conj"/></token>
+				<token skip="-1" regexp="yes" inflected="yes">by</token>
+				<token postag_regexp="yes" postag="verb:inf.*"/>
+			</pattern>
+			<message>Przed tym spójnikiem prawdopodobnie należy postawić przecinek: <suggestion>\1, \2</suggestion>.</message>
+			<example type="correct">Przemysław wstąpił do domu, by spryskać się Przemysławką.</example>
+			<example type="incorrect">Przemysław wstąpił do <marker>domu by</marker> spryskać się Przemysławką.</example>
+		</rule>
+		
 		</rulegroup>
 		
 		<rulegroup id="BRAK_PRZECINKA_GDY" name="Brak przecinka przed „gdy” i „kiedy”">
@@ -578,15 +590,27 @@ $Id: grammar.xml,v 1.158 2007-04-02 22:52:07 milek_pl Exp $
 			</rule>		
 			<rule>
 				<pattern>
-					<token negate="yes">,<exception regexp="yes">[\p{Punct}–—„«»]|mało|rzadko|pomocą|podstawie|mocy|braku|razie</exception><exception postag_regexp="yes" postag="conj|adv.*|prep.*|SENT_START"/></token>
+					<token negate="yes">,<exception regexp="yes">[\p{Punct}–—„«»]|mało|rzadko</exception><exception postag_regexp="yes" postag="conj|adv.*|prep.*|SENT_START|&lt;/CONJ&gt;|&lt;/PREP:.+&gt;"/></token>
 					<token regexp="yes" inflected="yes">który|jaki</token>
 				</pattern>
 				<message>Brak przecinka w tym fragmencie zdania. Przecinek prawdopodobnie należy
 				postawić tak: <suggestion>\1, \2</suggestion>.</message>
 				<example type="correct">To Marek, którego Jurek nienawidzi.</example>
 				<example type="correct">Mało który spełnia warunki formalne.</example>
+				<example type="correct">To młotek, za pomocą którego Przemysław zamęczał kotka.</example>
 				<example type="incorrect">To <marker>Marek którego</marker> Jurek nienawidzi.</example>
-			</rule>		
+			</rule>
+			<rule>
+				<pattern mark_to="-1">
+					<token negate="yes">,<exception regexp="yes">[\p{Punct}–—„«»]</exception><exception postag_regexp="yes" postag="conj|adv.*|prep.*|SENT_START"/></token>				
+					<token skip="4" postag_regexp="yes" postag="&lt;PREP:.*&gt;"/>
+					<token regexp="yes" inflected="yes">który|jaki</token>
+				</pattern>
+				<message>Brak przecinka w tym fragmencie zdania. Przecinek prawdopodobnie należy
+				postawić tak: <suggestion>\1, \2</suggestion>.</message>
+				<example type="correct">Istnieją dwa <marker>powody, z</marker> uwagi na które może on tak myśleć.</example>
+				<example type="incorrect">Istnieją dwa <marker>powody z</marker> uwagi na które może on tak myśleć.</example>
+			</rule>					
 		</rulegroup>
 
 	<rulegroup name="Brak wydzielenia „innymi słowy”" id="INNYMI_SLOWY">
@@ -768,12 +792,13 @@ $Id: grammar.xml,v 1.158 2007-04-02 22:52:07 milek_pl Exp $
 		<rule>
 			<pattern mark_from="2">
 				<token postag="SENT_START"/>
-				<token skip="-1" postag_regexp="yes" postag="subst:sg:nom.*"><exception scope="current" regexp="yes">nic|co|jak</exception><exception postag_regexp="yes" postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf|pant:perf"/><exception scope="next" inflected="yes" regexp="yes">[\-—–!\?;\(\):]|kiedy|gdy|który|jaki|że|iż|bo|a|jeśli|jeżeli|aby|żeby|ażeby|zanim|acz|aczkolwiek|albowiem|ale|aleć|aliści|azali|bo|byleby|czyli|czyliż|dlaczego|dopóki|dopóty|gdyż|gdyżby|ilekolwiek|ilekroć|póki|tedy</exception></token>
+				<token skip="-1" postag_regexp="yes" postag="subst:sg:nom.*"><exception scope="current" regexp="yes">nic|co|jak</exception><exception postag_regexp="yes" postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf|pant:perf"/><exception scope="next" inflected="yes" regexp="yes">[\-—–!\?;\(\):]|kiedy|gdy|który|jaki|że|iż|bo|a|jeśli|jeżeli|aby|żeby|ażeby|zanim|acz|aczkolwiek|albowiem|ale|aleć|aliści|azali|bo|byleby|czyli|czyliż|dlaczego|dopóki|dopóty|gdyż|gdyżby|ilekolwiek|ilekroć|póki|tedy</exception><exception scope="next" postag_regexp="yes" postag="verb:(praet:|aglt:|fin:|)sg:ter.*"/></token>
 				<token>,</token>
 				<token postag_regexp="yes" postag="verb:(praet:|aglt:|fin:|)sg:ter.*"/>
 			</pattern>
 			<message>Przecinek między podmiotem a orzeczeniem jest zbędny, powinno być: <suggestion>\4</suggestion>.</message>
 			<example type="correct">Gazeta jest źródłem informacji.</example>
+			<example type="correct">Dyspozycyjność każdej własności jest jej cechą wewnętrzną, jest rysem jej natury.</example>
 			<example type="incorrect">Gazeta<marker>, jest</marker> źródłem informacji.</example>
 		</rule>
 
@@ -781,7 +806,7 @@ $Id: grammar.xml,v 1.158 2007-04-02 22:52:07 milek_pl Exp $
 			<pattern mark_from="3">
 				<token postag="SENT_START"/>
 				<token postag_regexp="yes" postag=".*adj:sg:(nom|nom\.voc):f.*"/>
-				<token skip="-1" postag_regexp="yes" postag="subst:sg:nom:f"><exception postag_regexp="yes" postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf|pant:perf"/><exception postag_regexp="yes" postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf|pant:perf"/><exception scope="next" inflected="yes" regexp="yes">[\-—–!\?;\(\):]|kiedy|gdy|który|jaki|że|iż|bo|a|jeśli|jeżeli|aby|żeby|ażeby|zanim|acz|aczkolwiek|albowiem|ale|aleć|aliści|azali|bo|byleby|czyli|czyliż|dlaczego|dopóki|dopóty|gdyż|gdyżby|ilekolwiek|ilekroć|póki|tedy</exception></token>
+				<token skip="-1" postag_regexp="yes" postag="subst:sg:nom:f"><exception postag_regexp="yes" postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf|pant:perf"/><exception postag_regexp="yes" postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf|pant:perf"/><exception scope="next" inflected="yes" regexp="yes">[\-—–!\?;\(\):]|kiedy|gdy|który|jaki|że|iż|bo|a|jeśli|jeżeli|aby|żeby|ażeby|zanim|acz|aczkolwiek|albowiem|ale|aleć|aliści|azali|bo|byleby|czyli|czyliż|dlaczego|dopóki|dopóty|gdyż|gdyżby|ilekolwiek|ilekroć|póki|tedy</exception><exception scope="current" regexp="yes">nic|co|jak</exception><exception postag_regexp="yes" postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf|pant:perf"/><exception scope="next" inflected="yes" regexp="yes">[\-—–!\?;\(\):]|kiedy|gdy|który|jaki|że|iż|bo|a|jeśli|jeżeli|aby|żeby|ażeby|zanim|acz|aczkolwiek|albowiem|ale|aleć|aliści|azali|bo|byleby|czyli|czyliż|dlaczego|dopóki|dopóty|gdyż|gdyżby|ilekolwiek|ilekroć|póki|tedy</exception><exception scope="next" postag_regexp="yes" postag="verb:(praet:|aglt:|fin:|)sg:ter.*"/></token>
 				<token>,</token>
 				<token postag_regexp="yes" postag="verb:(praet:|aglt:|fin:|)sg:ter.*"/>
 			</pattern>
@@ -794,7 +819,7 @@ $Id: grammar.xml,v 1.158 2007-04-02 22:52:07 milek_pl Exp $
 			<pattern mark_from="3">
 				<token postag="SENT_START"/>
 				<token postag_regexp="yes" postag=".*adj:sg:(nom|nom\.acc\.voc|nom\.voc):n(:pneg|:neg|).*"/>
-				<token skip="-1" postag_regexp="yes" postag="subst:sg:nom.*:n"><exception postag_regexp="yes" postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf|pant:perf"/><exception postag_regexp="yes" postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf|pant:perf"/><exception scope="next" inflected="yes" regexp="yes">[\-—–!\?;\(\):]|kiedy|gdy|który|jaki|że|iż|bo|a|jeśli|jeżeli|aby|żeby|ażeby|zanim|acz|aczkolwiek|albowiem|ale|aleć|aliści|azali|bo|byleby|czyli|czyliż|dlaczego|dopóki|dopóty|gdyż|gdyżby|ilekolwiek|ilekroć|póki|tedy</exception></token>
+				<token skip="-1" postag_regexp="yes" postag="subst:sg:nom.*:n"><exception postag_regexp="yes" postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf|pant:perf"/><exception postag_regexp="yes" postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf|pant:perf"/><exception scope="next" inflected="yes" regexp="yes">[\-—–!\?;\(\):]|kiedy|gdy|który|jaki|że|iż|bo|a|jeśli|jeżeli|aby|żeby|ażeby|zanim|acz|aczkolwiek|albowiem|ale|aleć|aliści|azali|bo|byleby|czyli|czyliż|dlaczego|dopóki|dopóty|gdyż|gdyżby|ilekolwiek|ilekroć|póki|tedy</exception><exception scope="current" regexp="yes">nic|co|jak</exception><exception postag_regexp="yes" postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf|pant:perf"/><exception scope="next" inflected="yes" regexp="yes">[\-—–!\?;\(\):]|kiedy|gdy|który|jaki|że|iż|bo|a|jeśli|jeżeli|aby|żeby|ażeby|zanim|acz|aczkolwiek|albowiem|ale|aleć|aliści|azali|bo|byleby|czyli|czyliż|dlaczego|dopóki|dopóty|gdyż|gdyżby|ilekolwiek|ilekroć|póki|tedy</exception><exception scope="next" postag_regexp="yes" postag="verb:(praet:|aglt:|fin:|)sg:ter.*"/></token>
 				<token>,</token>				
 				<token postag_regexp="yes" postag="verb:(praet:|aglt:|fin:|)sg:ter.*"/>
 			</pattern>
@@ -807,7 +832,7 @@ $Id: grammar.xml,v 1.158 2007-04-02 22:52:07 milek_pl Exp $
 			<pattern mark_from="3">
 				<token postag="SENT_START"/>
 				<token postag_regexp="yes" postag=".*adj:sg:(nom|nom\.acc\.voc|nom\.voc):m[\d]*(:pneg|:neg|).*"/>
-				<token skip="-1" postag_regexp="yes" postag="subst:sg:nom.*:m[\d]*"><exception postag_regexp="yes" postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf|pant:perf"/><exception scope="next" inflected="yes" regexp="yes">[\-—–!\?;\(\):]|kiedy|gdy|który|jaki|że|iż|bo|a|jeśli|jeżeli|aby|żeby|ażeby|zanim|acz|aczkolwiek|albowiem|ale|aleć|aliści|azali|bo|byleby|czyli|czyliż|dlaczego|dopóki|dopóty|gdyż|gdyżby|ilekolwiek|ilekroć|póki|tedy</exception></token>
+				<token skip="-1" postag_regexp="yes" postag="subst:sg:nom.*:m[\d]*"><exception postag_regexp="yes" postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf|pant:perf"/><exception scope="next" inflected="yes" regexp="yes">[\-—–!\?;\(\):]|kiedy|gdy|który|jaki|że|iż|bo|a|jeśli|jeżeli|aby|żeby|ażeby|zanim|acz|aczkolwiek|albowiem|ale|aleć|aliści|azali|bo|byleby|czyli|czyliż|dlaczego|dopóki|dopóty|gdyż|gdyżby|ilekolwiek|ilekroć|póki|tedy</exception><exception scope="current" regexp="yes">nic|co|jak</exception><exception postag_regexp="yes" postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf|pant:perf"/><exception scope="next" inflected="yes" regexp="yes">[\-—–!\?;\(\):]|kiedy|gdy|który|jaki|że|iż|bo|a|jeśli|jeżeli|aby|żeby|ażeby|zanim|acz|aczkolwiek|albowiem|ale|aleć|aliści|azali|bo|byleby|czyli|czyliż|dlaczego|dopóki|dopóty|gdyż|gdyżby|ilekolwiek|ilekroć|póki|tedy</exception><exception scope="next" postag_regexp="yes" postag="verb:(praet:|aglt:|fin:|)sg:ter.*"/></token>
 				<token>,</token>				
 				<token postag_regexp="yes" postag="verb:(praet:|aglt:|fin:|)sg:ter.*"/>
 			</pattern>
@@ -816,6 +841,29 @@ $Id: grammar.xml,v 1.158 2007-04-02 22:52:07 milek_pl Exp $
 			<example type="incorrect">Każdy urzędnik<marker>, wie</marker>, jak wspaniały jest nasz premier.</example>
 		</rule>
 
+	<rule id="PRZECINEK_A" name="Zbędny przecinek przed „a”">
+		<pattern mark_from="1" mark_to="-1">
+			<token skip="-1">między<exception>a</exception></token>
+			<token>,</token>
+			<token>a</token>
+			<token><exception regexp="yes" inflected="yes">nie|więc|mianowicie|przeto|zatem|jednak|choć|chociaż|ponieważ|także|następnie|jeśli|jeżeli|gdyby|gdy|kiedy</exception></token>
+		</pattern>
+		<message>W tym miejscu przecinek jest prawdopodobnie zbędny. Powinno być: <suggestion>a</suggestion>.</message>
+		<example type="correct">Nie ma żadnej różnicy między Pawłem a Gawłem.</example>
+		<example type="incorrect">Nie ma żadnej różnicy między Pawłem<marker>, a</marker> Gawłem.</example>
+	</rule>
+	
+	<rule id="PRZECINEK_OTOZ" name="Zbędny przecinek po „otóż”">
+		<pattern>
+			<token postag="SENT_START"/>
+			<token>otóż</token>
+			<token>,</token>
+		</pattern>
+		<message>Przecinek jest w tym miejscu prawdopodobnie zbędny. Powinno być: <suggestion>Otóż</suggestion>.</message>
+		<example type="incorrect"><marker>Otóż,</marker> poniżej zamieszczam przepis dodania strony do wyszukiwarki Google.</example>
+		<example type="correct">Otóż poniżej zamieszczam przepis dodania strony do wyszukiwarki Google.</example>
+	</rule>
+	
 	</rulegroup>
 	
 	</category>
@@ -1902,7 +1950,7 @@ $Id: grammar.xml,v 1.158 2007-04-02 22:52:07 milek_pl Exp $
 		
 		<rule name="„zarówno... i” („zarówno... jak”)" id="ZAROWNO_I">
 			<pattern mark_from="1">
-				<token skip="-1">zarówno<exception regexp="yes">jak|\(.*</exception></token>				
+				<token skip="-1">zarówno<exception regexp="yes">jak|\(.*|„</exception></token>				
 				<token skip="-1">i</token>
 			</pattern>
 			<message>Po „zarówno” piszemy <suggestion>jak i</suggestion>.</message>
@@ -1922,6 +1970,21 @@ $Id: grammar.xml,v 1.158 2007-04-02 22:52:07 milek_pl Exp $
 			<example type="correct">Im większa, tym lepiej.</example>
 			<example type="incorrect"><marker>Czym</marker> większa, tym lepiej.</example>
 		</rule>
+		
+		<rule name="„im... o tyle” (im... tym)" id="IM_O_TYLE">
+			<pattern mark_from="2" mark_to="-1">
+				<token skip="-1">im</token>
+				<token postag="(adj|adv).*:comp" postag_regexp="yes" skip="-1"><exception>tym</exception></token>
+				<token>o</token>
+				<token skip="1">tyle</token>
+				<token postag="(adj|adv).*:comp" postag_regexp="yes"/>
+			</pattern>
+			<message>Mówimy Im..., <suggestion>tym</suggestion>...</message>
+			<example type="correct">Im większa, tym lepiej, o ile mi wiadomo.</example>
+			<example type="incorrect">Im większa, <marker>o tyle</marker> lepiej.</example>
+		</rule>
+		
+		
 	</category>
 	
 	<category name="Błędy leksykalne">
@@ -2399,6 +2462,16 @@ $Id: grammar.xml,v 1.158 2007-04-02 22:52:07 milek_pl Exp $
 			<message>Mówimy „odgrywać <suggestion>rolę</suggestion>”, a nie „odgrywać znaczenie”.</message>
 			<example type="incorrect">Odgrywa duże <marker>znaczenie</marker> w żegludze różnych typów statków.</example>
 			<example type="correct"><marker>Odgrywa dużą rolę</marker> w żegludze różnych typów statków.</example>
+		</rule>
+
+		<rule name="„pełnić rolę” (odgrywać rolę)" id="PELNIC_ROLE">
+			<pattern>
+				<token skip="2" inflected="yes" regexp="yes">pełnić|spełniać</token>
+				<token regexp="yes">rolę|role</token>
+			</pattern>
+			<message>Mówimy <suggestion>\1 funkcję</suggestion> lub <suggestion>odgrywać \2</suggestion>, a nie „pełnić rolę”.</message>
+			<example type="incorrect"><marker>Pełni istotną rolę</marker> w żegludze różnych typów statków.</example>
+			<example type="correct"><marker>Odgrywa istotną rolę</marker> w żegludze różnych typów statków.</example>
 		</rule>
 	
 		<rule name="„przedkładać wniosek” (przedstawiać wniosek)" id="PRZEDKLADAC_WNIOSEK">
@@ -4295,7 +4368,7 @@ $Id: grammar.xml,v 1.158 2007-04-02 22:52:07 milek_pl Exp $
 		<rulegroup id="NIE_RZECZOWNIK" name="Rozłączna pisownia „nie” z rzeczownikami i przymiotnikami">
 		<rule>
 			<pattern mark_from="1" case_sensitive="no" mark_to="-1">
-				<token negate="yes" regexp="yes">bynajmniej|przez|na|ale|lecz|a|raczej|wcale|jak|jeśli|gdyby</token>
+				<token negate="yes" regexp="yes">bynajmniej|przez|na|ale|lecz|a|raczej|wcale|jak|jeśli|gdyby|choć|chociaż</token>
 				<token>nie</token>
 				<token postag_regexp="yes" postag=".*:pneg|subst:ger.*"><exception postag_regexp="yes" postag="verb.*|pred"/></token>
 				<token postag="SENT_END"><exception>,</exception></token>
@@ -4316,7 +4389,7 @@ $Id: grammar.xml,v 1.158 2007-04-02 22:52:07 milek_pl Exp $
 		</rule>
 		<rule>
 			<pattern mark_from="1" case_sensitive="no" mark_to="-2">
-				<token negate="yes" regexp="yes">bynajmniej|przez|na|ale|lecz|a|raczej|wcale|jak|jeśli|gdyby</token>
+				<token negate="yes" regexp="yes">bynajmniej|przez|na|ale|lecz|a|raczej|wcale|jak|jeśli|gdyby|choć|chociaż</token>
 				<token>nie</token>
 				<token postag_regexp="yes" postag=".*:pneg|subst:ger.*"><exception postag_regexp="yes" postag="verb.*|pred"/></token>
 				<token negate="yes">,</token>
