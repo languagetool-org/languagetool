@@ -24,6 +24,7 @@ public class PolishChunker implements Disambiguator {
       + "z uwagi na|PREP:ACC\n" 
       + "ze względu na|PREP:ACC\n" 
       + "bez względu na|PREP:ACC\n"
+      + "w oparciu o|PREP:ACC\n"
       + "w związku z|PREP:INST\n"
       + "w zgodzie z|PREP:INST\n"
       + "w porównaniu z|PREP:INST\n"
