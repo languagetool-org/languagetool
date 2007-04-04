@@ -45,10 +45,10 @@ public class PolishSentenceTokenizer extends SentenceTokenizer {
   private static final Pattern punctUpperLower = Pattern.compile("(" + PAP
       + ")([\\p{Lu}][^\\p{Lu}.])");
   private static final Pattern letterPunct = Pattern.compile("(\\s[\\p{L}]" + P + ")");
-private static final Pattern abbrev1 = Pattern.compile("([^-\\p{L}”][\\p{L}]" + PAP + "\\s)" + EOS);
+  private static final Pattern abbrev1 = Pattern.compile("([^-\\p{L}”][\\p{L}]" + PAP + "\\s)" + EOS);
   private static final Pattern abbrev2 = Pattern.compile("([^-\\p{L}][\\p{L}]" + P + ")" + EOS);
   //** Lookahead regexp excludes some possible abbrevs here
-  private static final Pattern abbrev3 = Pattern.compile("(\\s(?![rwn])[\\p{L}]\\.\\s+)" + EOS);
+  private static final Pattern abbrev3 = Pattern.compile("(\\s(?![rwn])[\\p{L}]\\.\\s+)" + EOS +"(\\p{Ll}\\p{Ll}|\\p{Lu}[\\p{Punct}\\s\\p{Lu}])");
   private static final Pattern abbrev4 = Pattern.compile("(\\.\\.\\. )" + EOS + "([\\p{Ll}])");
   private static final Pattern abbrev5 = Pattern.compile("(['\"]" + P + "['\"]\\s+)" + EOS);
   private static final Pattern abbrev6 = Pattern.compile("([\"”']\\s*)" + EOS + "(\\s*[\\p{Ll}])");
@@ -57,7 +57,7 @@ private static final Pattern abbrev1 = Pattern.compile("([^-\\p{L}”][\\p{L}]" 
   private static final Pattern abbrev8 = Pattern.compile("(\\d{1,2}\\.\\d{1,2}\\.\\s+)" + EOS);
   private static final Pattern repair1 = Pattern.compile("('[\\p{L}]" + P + ")(\\s)");
   private static final Pattern repair2 = Pattern.compile("(\\sno\\.)(\\s+)(?!\\d)");
-  
+    
   /** Polish abbreviations as a single regexp. **/
   private static final String ABBREVLIST = "adw|afr|akad|am|amer|arch|art|artyst|astr|austr|" +
         "bałt|bdb|bł|bm|br|bryt|centr|ces|chem|chiń|chir|c.k|c.o|cyg|cyw|cyt|" +
@@ -66,12 +66,19 @@ private static final Pattern abbrev1 = Pattern.compile("([^-\\p{L}”][\\p{L}]" 
         "elektr|em|etc|ew|fab|farm|fot|fr|gat|gastr|geogr|geol|gimn|głęb|gm|godz|górn|gosp|gr|gram|" +
         "hist|hiszp|hr|hot|id|in|im|iron|jn|kard|kat|katol|k.k|kk|klas|kol|k.p.a|kpc|k.p.c|kpt|kr|k.r|" +
         "krak|k.r.o|kryt|kult|laic|łac|niem|woj|np|pol|m.in|itd|itp|pt|cdn|jw|" +
-        "nb|rys|tj|tzw|tzn|zob|ang|ul|pl|al|k|n|ok|tys|proc|ww|ur|zm|żyd|żarg|żart|żyw|wył|" +
+        "nb|rys|tj|tzw|tzn|zob|ang|ul|pl|al|k|n|ok|tys|ww|ur|zm|żyd|żarg|żart|żyw|wył|" +
         "up|tow|o|zn|zew|zewn|zdr|zazw|zast|zaw|zał|zal|zam|zak|zakł|zagr|zach|"+
         "adw|lek|mec|doc|dyr|inż|mgr|dr|red|prof|hab|ks|gen|por|s|przyp";
   
-  /** Abbreviations which can occur at the end of sentence **/
-  private static final String ENDABBREVLIST ="proc|r|itd|itp|cdn|jw|n.e|w|nn|n"; 
+  /** Abbreviations which can occur at the end of sentence. **/
+  private static final String ENDABBREVLIST 
+    = "proc|r|itd|itp|cdn|jw|n.e|w|nn|n"; 
+  
+  private static final Pattern ABREVLIST_PATTERN 
+    = Pattern.compile("(?u)(\\b(" + ABBREVLIST +")"+ PAP + "\\s)" + EOS );
+  
+  private static final Pattern ENDABREVLIST_PATTERN 
+    = Pattern.compile("(?u)(\\b(" + ENDABBREVLIST +")"+ PAP + "\\s)" + EOS +"(\\p{Ll})");
   
   private StringTokenizer stringTokenizer = null;
 
@@ -134,21 +141,17 @@ private static final Pattern abbrev1 = Pattern.compile("([^-\\p{L}”][\\p{L}]" 
     // Don't split after a white-space followed by a single letter followed
     // by a dot followed by another whitespace.
     // e.g. " p. "
-    s = abbrev3.matcher(s).replaceAll("$1");
+    s = abbrev3.matcher(s).replaceAll("$1$2");
     // Don't split at "bla bla... yada yada" (TODO: use \.\.\.\s+ instead?)
     s = abbrev4.matcher(s).replaceAll("$1$2");
     // Don't split [.?!] when the're quoted:
     s = abbrev5.matcher(s).replaceAll("$1");
 
     // Don't split at abbreviations, treat them case insensitive
-
-    //removing the loop and using only one regexp - this is definitely much, much faster
-    Pattern pattern = Pattern.compile("(?u)(\\b(" + ABBREVLIST +")"+ PAP + "\\s)" + EOS );
-    s = pattern.matcher(s).replaceAll("$1");
+    s = ABREVLIST_PATTERN.matcher(s).replaceAll("$1");
 
     //a special list of abbrevs used at the end of sentence
-    Pattern patternPerson = Pattern.compile("(?u)(\\b(" + ENDABBREVLIST +")"+ PAP + "\\s)" + EOS +"(\\p{Lt})");
-    s = patternPerson.matcher(s).replaceAll("$1$3");
+    s = ENDABREVLIST_PATTERN.matcher(s).replaceAll("$1$3");
     
     // Don't break after quote unless there's a capital letter:
     // e.g.: "That's right!" he said.
@@ -163,10 +166,6 @@ private static final Pattern abbrev1 = Pattern.compile("([^-\\p{L}”][\\p{L}]" 
 
     // e.g. "Das ist . so." -> assume one sentence
     s = abbrev8.matcher(s).replaceAll("$1");
-
-    // extension by dnaber --commented out, doesn't help:
-    // text = re.compile("(:\s+)%s(\s*[%s])" % (self.EOS, string.lowercase),
-    // re.DOTALL).sub("\\1\\2", text)
    
       s = s.replaceAll("(\\d+\\.) " + EOS + "([\\p{L}&&[^\\p{Lu}]]+)", "$1 $2");
 
