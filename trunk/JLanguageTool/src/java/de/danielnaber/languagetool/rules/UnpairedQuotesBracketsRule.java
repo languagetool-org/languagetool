@@ -186,12 +186,18 @@ public class UnpairedQuotesBracketsRule extends Rule {
       return toRuleMatchArray(ruleMatches);     
   }
 
-  public void reset() {
+  /**
+   * Reset the state information for the rule,
+   * including paragraph-level information.
+   */
+  public final void reset() {
     for (int i = 0; i < symbolCounter.length; i++) {
       symbolCounter[i] = 0;
       ruleMatchArray[i] = 0;
     }
-    //clearMatches();
+    if (!reachedEndOfParagraph) {
+      clearMatches();
+    }
     reachedEndOfParagraph = false;
   }
 
