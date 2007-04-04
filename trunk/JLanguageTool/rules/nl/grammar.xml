@@ -2,7 +2,7 @@
 <!--
 Dutch Grammar and Typo Rules for LanguageTool
 Copyright (C) 2006,2007 Ruud J. Baars (r.j.baars -at- hccnet nl)
-$Id: grammar.xml,v 1.20 2007-02-13 21:37:38 dnaber Exp $
+$Id: grammar.xml,v 1.21 2007-04-04 20:58:23 milek_pl Exp $
 -->
 <rules lang="nl">
   <!--  # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # -->
@@ -1549,7 +1549,9 @@ $Id: grammar.xml,v 1.20 2007-02-13 21:37:38 dnaber Exp $
     <rulegroup id="BREUKSTREEP" name="Breukstreep vermijden">
       <rule>
         <pattern>
-          <token regexp="yes">.*/.*<exception regexp="yes">km/h|km/u|m/s|km/uur|en/of</exception></token>
+          <token><exception regexp="yes">km|km|m|km|en</exception></token>
+          <token>/</token>
+          <token><exception regexp="yes">h|u|s|uur|of</exception></token>
         </pattern>
         <message>De / moet kan beter worden vermeden buiten berekeningen of eenheden. Gebruik een <suggestion>-</suggestion> voor gelijkwaardige begrippen, of <suggestion>omschrijf</suggestion> de relatie tussen de woorden.</message>
         <example type="incorrect">De <marker>man/vrouw-verhouding</marker> is ongelijk.</example>

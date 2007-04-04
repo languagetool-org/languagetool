@@ -2,7 +2,7 @@
 <!--
 Polish Grammar and Typo Rules for LanguageTool
 Copyright (C) 2006 Marcin Miłkowski
-$Id: grammar.xml,v 1.159 2007-04-03 23:32:01 milek_pl Exp $		
+$Id: grammar.xml,v 1.160 2007-04-04 20:58:55 milek_pl Exp $		
 -->
 <rules lang="pl">
 
@@ -473,13 +473,24 @@ $Id: grammar.xml,v 1.159 2007-04-03 23:32:01 milek_pl Exp $
 		</rule>			
 		<rule>
 			<pattern mark_to="-1">
-				<token negate="yes" regexp="yes">[\p{Punct}–—„«»]|chyba<exception postag_regexp="yes" postag="SENT_START|conj"/></token>
-				<token skip="-1" regexp="yes" inflected="yes">by</token>
+				<token negate="yes" regexp="yes">[\p{Punct}–—„«»]|chyba<exception postag_regexp="yes" postag="SENT_START|conj|pred"/></token>
+				<token skip="-1" regexp="yes" inflected="yes">by<exception scope="next" inflected="yes" regexp="yes">[\p{Punct}—–„«»](?&lt;!\.)|bądź|czy|ani|lub|albo|oraz|i|kiedy|gdy|który|jaki|że|iż|bo|gdyż|a|jeśli|jeżeli|gdyby|aby|żeby|ażeby|zanim|dopóki</exception><exception scope="next" postag_regexp="yes" postag="&lt;ELLIPSIS&gt;|verb:praet:.*"/></token>
 				<token postag_regexp="yes" postag="verb:inf.*"/>
 			</pattern>
 			<message>Przed tym spójnikiem prawdopodobnie należy postawić przecinek: <suggestion>\1, \2</suggestion>.</message>
 			<example type="correct">Przemysław wstąpił do domu, by spryskać się Przemysławką.</example>
 			<example type="incorrect">Przemysław wstąpił do <marker>domu by</marker> spryskać się Przemysławką.</example>
+		</rule>
+		<rule>
+			<pattern>
+				<token postag_regexp="yes" postag="SENT_START"/>
+				<token skip="-1" regexp="yes" inflected="yes">by|żeby|aby|ażeby|iżby</token>
+				<token skip="-1" postag_regexp="yes" postag="verb:inf.*"><exception scope="current" regexp="yes">może|lecz|jedna</exception><exception scope="next" inflected="yes" regexp="yes">[\p{Punct}—–„«»](?&lt;!\.)|bądź|czy|ani|lub|albo|oraz|i|kiedy|gdy|który|jaki|że|iż|bo|gdyż|a|jeśli|jeżeli|gdyby|aby|żeby|ażeby|zanim|dopóki</exception><exception scope="next" postag="&lt;ELLIPSIS&gt;"/></token>
+				<token postag_regexp="yes" postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf|pant:perf"><exception scope="current" postag_regexp="yes" postag="subst:.*|adj.*|ppron.*|verb:inf.*|verb:bedzie.*|adv:comp|prep.*|qub|indecl|adv.*"/><exception scope="current" regexp="yes">może|lecz|jedna</exception></token>
+			</pattern>
+			<message>W tym fragmencie zdania prawdopodobnie brakuje przecinka.</message>
+			<example type="correct">Aby spryskać się Przemysławką, Przemysław wstąpił do domu.</example>
+			<example type="incorrect"><marker>Aby spryskać się Przemysławką Przemysław wstąpił</marker> do domu.</example>
 		</rule>
 		
 		</rulegroup>
@@ -589,21 +600,50 @@ $Id: grammar.xml,v 1.159 2007-04-03 23:32:01 milek_pl Exp $
 				<example type="incorrect">Nie <marker>wiedziałem do którego</marker> rozporządzenia zgłosił on uwagę.</example>
 			</rule>		
 			<rule>
-				<pattern>
-					<token negate="yes">,<exception regexp="yes">[\p{Punct}–—„«»]|mało|rzadko</exception><exception postag_regexp="yes" postag="conj|adv.*|prep.*|SENT_START|&lt;/CONJ&gt;|&lt;/PREP:.+&gt;"/></token>
+				<pattern mark_from="1">
+					<token><exception postag_regexp="yes" postag="prep.*"></exception></token>
+					<token negate="yes">,<exception regexp="yes">[\p{Punct}–—„«»]|mało|rzadko</exception><exception postag_regexp="yes" postag="conj|adv.*|prep.*|SENT_START|&lt;/CONJ&gt;|&lt;/PREP:.+&gt;|subst.*"/></token>
 					<token regexp="yes" inflected="yes">który|jaki</token>
 				</pattern>
 				<message>Brak przecinka w tym fragmencie zdania. Przecinek prawdopodobnie należy
-				postawić tak: <suggestion>\1, \2</suggestion>.</message>
+				postawić tak: <suggestion>\2, \3</suggestion>.</message>
+				<example type="correct">To Marek, którego Jurek nienawidzi.</example>
+				<example type="correct">Mało który spełnia warunki formalne.</example>
+				<example type="correct">To młotek, za pomocą którego Przemysław zamęczał kotka.</example>
+				<example type="incorrect">To węgiel <marker>kamienny którego</marker> Jurek nienawidzi.</example>
+			</rule>
+			<rule>
+				<pattern mark_from="1">
+					<token><exception postag_regexp="yes" postag="prep.*"></exception></token>
+					<token postag_regexp="yes" postag="subst.*"><exception regexp="yes">[\p{Punct}–—„«»]|mało|rzadko</exception><exception postag_regexp="yes" postag="conj|adv.*|prep.*|SENT_START|&lt;/CONJ&gt;|&lt;/PREP:.+&gt;"/></token>
+					<token regexp="yes" inflected="yes">który|jaki</token>
+				</pattern>
+				<message>Brak przecinka w tym fragmencie zdania. Przecinek prawdopodobnie należy
+				postawić tak: <suggestion>\2, \3</suggestion>.</message>
 				<example type="correct">To Marek, którego Jurek nienawidzi.</example>
 				<example type="correct">Mało który spełnia warunki formalne.</example>
 				<example type="correct">To młotek, za pomocą którego Przemysław zamęczał kotka.</example>
 				<example type="incorrect">To <marker>Marek którego</marker> Jurek nienawidzi.</example>
 			</rule>
 			<rule>
+				<pattern mark_from="1">
+					<token><exception>,</exception></token>
+					<token postag_regexp="yes" postag="prep.*"/>
+					<token postag_regexp="yes" postag="subst.*"><exception regexp="yes">[\p{Punct}–—„«»]|mało|rzadko</exception><exception postag_regexp="yes" postag="conj|adv.*|prep.*|SENT_START|&lt;/CONJ&gt;|&lt;/PREP:.+&gt;"/></token>
+					<token regexp="yes" inflected="yes">który|jaki</token>
+				</pattern>
+				<message>Brak przecinka i błędny szyk w tym fragmencie zdania. Przecinek prawdopodobnie należy
+				postawić tak: <suggestion>\1 \3 \2</suggestion>.</message>
+				<example type="correct">To Marek, którego Jurek nienawidzi.</example>
+				<example type="correct">Mało który spełnia warunki formalne.</example>
+				<example type="correct">To młotek, za pomocą którego Przemysław zamęczał kotka.</example>
+				<example type="incorrect">To coś <marker>na bazie którego</marker> Jurek zbuduje imperium.</example>
+			</rule>
+			
+			<rule>
 				<pattern mark_to="-1">
 					<token negate="yes">,<exception regexp="yes">[\p{Punct}–—„«»]</exception><exception postag_regexp="yes" postag="conj|adv.*|prep.*|SENT_START"/></token>				
-					<token skip="4" postag_regexp="yes" postag="&lt;PREP:.*&gt;"/>
+					<token skip="4" postag_regexp="yes" postag="&lt;PREP:.*&gt;"><exception scope="next">,</exception></token>
 					<token regexp="yes" inflected="yes">który|jaki</token>
 				</pattern>
 				<message>Brak przecinka w tym fragmencie zdania. Przecinek prawdopodobnie należy
@@ -1452,7 +1492,7 @@ $Id: grammar.xml,v 1.159 2007-04-03 23:32:01 milek_pl Exp $
 			<pattern mark_from="1">
 				<token>,</token>
 				<token postag_regexp="yes" postag="prep:.*"/>
-				<token postag_regexp="yes" postag="subst:.*"><exception regexp="yes">pomocą|podstawie|mocy|braku|razie</exception></token>
+				<token postag_regexp="yes" postag="subst:.*"><exception postag_regexp="yes" postag="&lt;/PREP.*&gt;"/></token>
 				<token inflected="yes" regexp="yes">który|jaki</token>
 			</pattern>
 				<message>Ten szyk wyrazów jest błędny. Poprawnie: <suggestion>\2 \4 \3</suggestion>.</message>
@@ -3522,7 +3562,7 @@ $Id: grammar.xml,v 1.159 2007-04-03 23:32:01 milek_pl Exp $
 		<rule>
 			<pattern>
 				<token>we</token>
-				<token negate="yes" regexp="yes">[WFwf].*|Lwowie|środę|czwartek|dw.*|tr.*|mnie|znaki|drzwiach|krwi|śnie|dnie|mgle<exception regexp="yes">[\"„]</exception></token>
+				<token negate="yes" regexp="yes">[WFwf].*|Lwowie|środę|czwartek|dw.*|tr.*|mnie|znaki|drzwiach|krwi|śnie|dnie|mgle|łbie<exception regexp="yes">[\"„]</exception></token>
 			</pattern>
 			<message>Prawdopodobnie ten przyimek należy zapisać tak: <suggestion>w \2</suggestion>.</message>
 			<example type="correct">Ludwik ma randkę z Przemysławem w Łodzi.</example>
@@ -4024,7 +4064,7 @@ $Id: grammar.xml,v 1.159 2007-04-03 23:32:01 milek_pl Exp $
 	
 		<rule name="Skrótowce bez dywizu w przypadkach zależnych" id="SKROTOWCE_BEZ_DYWIZU">
 			<pattern>
-				<token regexp="yes">\p{Lu}+[i]*\p{Lu}+[\p{L}&amp;&amp;[^\p{Lu}]]+<exception regexp="yes">GKKFicie|JCMości|JCMością|JCWysokości|JCWysokością|JKMości|JKMością|JKWysokości|JKWysokością|PZKol|PZMocie|PZMot|SJPDor|WPan|WPani|WPaństwo|BCh|COr|CSSp|GHz|MHz|MKOl|PKOl|UWr|REDakcj.*</exception></token>
+				<token regexp="yes">\p{Lu}{2}+[i]*\p{Lu}+[\p{L}&amp;&amp;[^\p{Lu}]]{1,4}+<exception regexp="yes">GKKFicie|JCMości|JCMością|JCWysokości|JCWysokością|JKMości|JKMością|JKWysokości|JKWysokością|PZKol|PZMocie|PZMot|SJPDor|WPan|WPani|WPaństwo|BCh|COr|CSSp|GHz|MHz|MKOl|PKOl|UWr|REDakcj.*</exception></token>
 			</pattern>
 			<message>Prawdopodobny błąd zapisu odmiany: skrótowce odmieniamy z dywizem, np. „SMS-y”, „SMS-em”.</message>
 			<example type="correct">Ludwik dostał kilkaset SMS-ów z pogróżkami od Przemysława.</example>
@@ -4810,6 +4850,7 @@ $Id: grammar.xml,v 1.159 2007-04-03 23:32:01 milek_pl Exp $
 				<example type="incorrect">Zabiła się na pewno <marker>dla tego, że</marker> zabrakło jej forsy na zbytki.</example>
 			</rule>
 		</rulegroup>
+		
 		<rule name="„dla czego” (dlaczego)" id="DLA_CZEGO">
 			<pattern>
 				<token>dla</token>
@@ -4819,60 +4860,51 @@ $Id: grammar.xml,v 1.159 2007-04-03 23:32:01 milek_pl Exp $
 			<example type="incorrect"><marker>Dla czego</marker> płaczesz?</example>
 			<example type="correct">Dlaczego płaczesz?</example>
 		</rule>
+		
 		<rule name="„d/s” (ds.)" id="DS">
 			<pattern>
-				<token>d/s</token>
+				<token>d</token>
+				<token>/</token>
+				<token>s</token>
 			</pattern>
 			<message>Ten skrót piszemy <suggestion>ds.</suggestion>.</message>
 			<example type="incorrect">Pełnomocnik rządu <marker>d/s</marker> miłości narodu do premiera.</example>
 			<example type="correct">Pełnomocnik rządu ds. miłości narodu do premiera.</example>
 		</rule>
-		<rulegroup name="„k/” (k.)" id="K">
-			<rule>
+		
+		<rule name="„k/” (k.)" id="K">
 				<pattern mark_to="-1">
-					<token>k/</token>
+					<token>k</token>
+					<token>/</token>
 					<token regexp="yes">\p{Lu}.*</token>
 				</pattern>
 				<message>Ten skrót zapisujemy: <suggestion>k.</suggestion> (np. „k. Krakowa”).</message>
 				<example type="correct">Mieszkamy w Korzkwi k. Krakowa.</example>
 				<example type="incorrect">Mieszkamy w Korzkwi <marker>k/</marker> Krakowa.</example>
-			</rule>
-			<rule>
-				<pattern>
-					<token regexp="yes">k/\p{Lu}.*</token>
-				</pattern>
-				<message>Ten skrót zapisujemy: <suggestion>k.</suggestion> (np. „k. Krakowa”).</message>
-				<example type="correct">Mieszkamy w Korzkwi k. Krakowa.</example>
-				<example type="incorrect">Mieszkamy w Korzkwi <marker>k/Krakowa</marker>.</example>
-			</rule>
-		</rulegroup>
+		</rule>
+
 		<rule name="„w/g” (wg)" id="WG">
 			<pattern>
-				<token>w/g</token>
+				<token>w</token>
+				<token>/</token>
+				<token>g</token>
 			</pattern>
 			<message>Ten skrót poprawnie zapisujemy jako <suggestion>wg</suggestion>, bez ukośników.</message>
 			<example type="correct">Sklepy wyświetlono wg lokalizacji.</example>
 			<example type="incorrect">Sklepy wyświetlono <marker>w/g</marker> lokalizacji.</example>
 		</rule>
-		<rulegroup name="„n/” (n.)" id="N">
-			<rule>
+
+		<rule name="„n/” (n.)" id="N">
 				<pattern mark_to="-1">
-					<token>n/</token>
+					<token>n</token>
+					<token>/</token>
 					<token regexp="yes">\p{Lu}.*</token>
 				</pattern>
 				<message>Ten skrót zapisujemy z kropką: <suggestion>n.</suggestion>, np. „Kazimierz n. Wisłą”.</message>
 				<example type="incorrect">Kazimierz <marker>n/</marker> Wisłą.</example>
 				<example type="correct">Kazimierz n. Wisłą.</example>
 			</rule>
-			<rule>
-				<pattern>
-					<token regexp="yes">n/\p{Lu}.*</token>
-				</pattern>
-				<message>Ten skrót zapisujemy z kropką: <suggestion>n.</suggestion>, np. „Kazimierz n. Wisłą”.</message>
-				<example type="incorrect">Kazimierz <marker>n/Wisłą</marker>.</example>
-				<example type="correct">Kazimierz n. Wisłą.</example>
-			</rule>
-		</rulegroup>
+
 
 	<rule name="„niema” (nie ma)" id="NIEMA_NIE_MA">
 	<pattern mark_to="-1">
