@@ -54,9 +54,7 @@ public class PolishSentenceTokenizer extends SentenceTokenizer {
   private static final Pattern abbrev6 = Pattern.compile("([\"”']\\s*)" + EOS + "(\\s*[\\p{Ll}])");
   private static final Pattern abbrev7 = Pattern.compile("(\\s" + PAP + "\\s)" + EOS);
   // z.b. 3.10. (im Datum):
-  private static final Pattern abbrev8 = Pattern.compile("(\\d{1,2}\\.\\d{1,2}\\.\\s+)" + EOS);
-  private static final Pattern repair1 = Pattern.compile("('[\\p{L}]" + P + ")(\\s)");
-  private static final Pattern repair2 = Pattern.compile("(\\sno\\.)(\\s+)(?!\\d)");
+  private static final Pattern abbrev8 = Pattern.compile("(\\d{1,2}\\.\\d{1,2}\\.\\s+)" + EOS);  
     
   /** Polish abbreviations as a single regexp. **/
   private static final String ABBREVLIST = "adw|afr|akad|am|amer|arch|art|artyst|astr|austr|" +
@@ -68,17 +66,17 @@ public class PolishSentenceTokenizer extends SentenceTokenizer {
         "krak|k.r.o|kryt|kult|laic|łac|niem|woj|np|pol|m.in|itd|itp|pt|cdn|jw|" +
         "nb|rys|tj|tzw|tzn|zob|ang|ul|pl|al|k|n|ok|tys|ww|ur|zm|żyd|żarg|żart|żyw|wył|" +
         "up|tow|o|zn|zew|zewn|zdr|zazw|zast|zaw|zał|zal|zam|zak|zakł|zagr|zach|"+
-        "adw|lek|mec|doc|dyr|inż|mgr|dr|red|prof|hab|ks|gen|por|s|przyp";
+        "adw|lek|mec|doc|dyr|inż|mgr|dr|red|prof|hab|ks|gen|por|przyp";
   
   /** Abbreviations which can occur at the end of sentence. **/
   private static final String ENDABBREVLIST 
     = "proc|r|itd|itp|cdn|jw|n.e|w|nn|n"; 
   
   private static final Pattern ABREVLIST_PATTERN 
-    = Pattern.compile("(?u)(\\b(" + ABBREVLIST +")"+ PAP + "\\s)" + EOS );
+    = Pattern.compile("(?iu)(\\b(" + ABBREVLIST + ")"+ PAP + "\\s)" + EOS );
   
   private static final Pattern ENDABREVLIST_PATTERN 
-    = Pattern.compile("(?u)(\\b(" + ENDABBREVLIST +")"+ PAP + "\\s)" + EOS +"(\\p{Ll})");
+    = Pattern.compile("(?iu)(\\b(" + ENDABBREVLIST + ")"+ PAP + "\\s)" + EOS +"(\\p{Ll})");
   
   private StringTokenizer stringTokenizer = null;
 
@@ -103,7 +101,7 @@ public class PolishSentenceTokenizer extends SentenceTokenizer {
   public final List<String> tokenize(String s) {
     s = firstSentenceSplitting(s);
     s = removeFalseEndOfSentence(s);
-    s = splitUnsplitStuff(s);
+    //s = splitUnsplitStuff(s);
     stringTokenizer = new StringTokenizer(s, EOS);
     List<String> l = new ArrayList<String>();
     while (stringTokenizer.hasMoreTokens()) {
@@ -184,9 +182,7 @@ public class PolishSentenceTokenizer extends SentenceTokenizer {
     // Not sure about this one, leaving out four now:
     // text = re.compile("(%s\s)(\s*\()" % self.PAP, re.DOTALL).sub("\\1%s\\2" % self.EOS, text)
     // Split e.g.: He won't. #Really.
-    s = repair1.matcher(s).replaceAll("$1" + EOS + "$2");
-    // Split e.g.: He won't say no. Not really.
-    s = repair2.matcher(s).replaceAll("$1" + EOS + "$2");    
+    //s = repair1.matcher(s).replaceAll("$1" + EOS + "$2");
     return s;
   }
 
