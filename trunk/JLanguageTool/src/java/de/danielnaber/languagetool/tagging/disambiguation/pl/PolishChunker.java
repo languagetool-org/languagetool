@@ -52,10 +52,10 @@ public class PolishChunker implements Disambiguator {
       HashMap <String, String> mStartNoSpace = new HashMap <String, String>();
       HashMap <String, String> mFull = new HashMap <String, String>();      
       
-        String[] posTokens = TOKEN_DEFINITIONS.split("\n");
+        final String[] posTokens = TOKEN_DEFINITIONS.split("\n");
         for (String posToken : posTokens) {
           String[] tokenAndTag = posToken.split("\\|");
-          boolean containsSpace = tokenAndTag[0].indexOf(" ") > 0;
+          boolean containsSpace = tokenAndTag[0].indexOf(' ') > 0;
           String firstToken = "";
           String[] firstTokens;
           if (!containsSpace) {
@@ -108,13 +108,13 @@ public class PolishChunker implements Disambiguator {
               int j = i;
               int lenCounter = 0;
                 while (j < anTokens.length) {
-                    if (!anTokens[j].getToken().trim().equals("")) {
+                    if (!anTokens[j].isWhitespace()) {
                         tokens.append(anTokens[j].getToken());
                         lenCounter++;
                         if (lenCounter == len) {
                           break;
                         } else {
-                          tokens.append(" ");
+                          tokens.append(' ');
                         }
                      }
                     j++;

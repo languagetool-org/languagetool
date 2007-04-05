@@ -408,7 +408,7 @@ public final class Main implements ActionListener {
         sb.append("</font></b><br>");
         ex.printStackTrace();
       }
-      String checkDone = Tools.makeTexti18n(messages, "checkDone", new Object[] { new Integer(matches) });
+      String checkDone = Tools.makeTexti18n(messages, "checkDone", new Object[] { Integer.valueOf(matches) });
       sb.append(checkDone + "<br>\n");
       resultArea.setText(HTML_FONT_START + sb.toString() + HTML_FONT_END);
       resultArea.setCaretPosition(0);
@@ -422,7 +422,7 @@ public final class Main implements ActionListener {
     int i = 0;
     for (RuleMatch match : ruleMatches) {
       String output = Tools.makeTexti18n(messages, "result1", new Object[] {
-          new Integer(i+1), new Integer(match.getLine()+1), new Integer(match.getColumn())
+          Integer.valueOf(i+1), Integer.valueOf(match.getLine()+1), Integer.valueOf(match.getColumn())
       });
       sb.append(output);
       String msg = match.getMessage();

@@ -46,7 +46,6 @@ import de.danielnaber.languagetool.tagging.Tagger;
 import de.danielnaber.languagetool.tagging.disambiguation.Disambiguator;
 import de.danielnaber.languagetool.tokenizers.Tokenizer;
 import de.danielnaber.languagetool.tools.ReflectionUtils;
-import de.danielnaber.languagetool.tagging.de.AnalyzedGermanToken;
 
 /**
  * The main class used for checking text against different rules:

@@ -144,8 +144,8 @@ public class Configuration {
       props.setProperty(DISABLED_RULES_CONFIG_KEY, sb.toString());
     if (motherTongue != null)
       props.setProperty(MOTHER_TONGUE_CONFIG_KEY, motherTongue.getShortName());
-    props.setProperty(SERVER_RUN_CONFIG_KEY, new Boolean(runServer).toString());
-    props.setProperty(SERVER_PORT_CONFIG_KEY, new Integer(serverPort).toString());
+    props.setProperty(SERVER_RUN_CONFIG_KEY, Boolean.valueOf(runServer).toString());
+    props.setProperty(SERVER_PORT_CONFIG_KEY, Integer.valueOf(serverPort).toString());
     FileOutputStream fos = null;
     try {
       fos = new FileOutputStream(configFile);

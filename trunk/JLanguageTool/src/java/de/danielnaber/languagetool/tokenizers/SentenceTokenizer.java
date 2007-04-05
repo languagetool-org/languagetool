@@ -98,7 +98,7 @@ public class SentenceTokenizer implements Tokenizer {
    * Create a sentence tokenizer with the given list of abbreviations,
    * additionally to the built-in ones.
    */
-  public SentenceTokenizer(String[] abbrevList) {
+  public SentenceTokenizer(final String[] abbrevList) {
     this();
     for (int i = 0; i < abbrevList.length; i++) {
       abbreviations.add(abbrevList[i]);
@@ -115,17 +115,7 @@ public class SentenceTokenizer implements Tokenizer {
     else
       paragraph = paragraphByTwoLineBreaks;
   }
-
-  /**
-   * Check how paragraphs are separated.
-   * @return whether paragraphs are separated by single line breaks.
-   *  
-   */
-  //FIXME: is this really needed for chunking?
-  public boolean singleLineBreakMarksParagraph(){
-    return paragraph == paragraphByLineBreak;
-  }
-  
+    
   /**
    * Tokenize the given string to sentences.
    */
@@ -136,7 +126,7 @@ public class SentenceTokenizer implements Tokenizer {
     stringTokenizer = new StringTokenizer(s, EOS);
     List<String> l = new ArrayList<String>();
     while (stringTokenizer.hasMoreTokens()) {
-      String sentence = stringTokenizer.nextToken();
+      final String sentence = stringTokenizer.nextToken();
       l.add(sentence);
     }
     return l;

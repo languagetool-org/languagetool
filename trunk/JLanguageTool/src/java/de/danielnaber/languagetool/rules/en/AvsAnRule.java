@@ -126,14 +126,14 @@ public class AvsAnRule extends EnglishRule {
         //System.err.println(prevToken + " " +token + ", a="+doesRequireA + ", an="+doesRequireAn);
         //TODO: add exception for 'A and B are cities...'
         String msg = null;
-        if (prevToken.toLowerCase().equals("a") && doesRequireAn) {
+        if (prevToken.equalsIgnoreCase("a") && doesRequireAn) {
           String repl = "an";
           if (prevToken.equals("A"))
             repl = "An";
           msg = "Use <suggestion>" +repl+ "</suggestion> instead of '" +prevToken+ "' if the following "+
           "word starts with a vowel sound, e.g. 'an article', "+
           "'an hour'";
-        } else if (prevToken.toLowerCase().equals("an") && doesRequireA) {
+        } else if (prevToken.equalsIgnoreCase("an") && doesRequireA) {
           String repl = "a";
           if (prevToken.equals("An"))
             repl = "A";
@@ -171,9 +171,9 @@ public class AvsAnRule extends EnglishRule {
       String line;
       while ((line = br.readLine()) != null) {
         line = line.trim();
-        if (line.startsWith("#"))       // ignore comments
+        if (line.charAt(0) == '#')       // ignore comments
           continue;
-        if (line.startsWith("*"))       // case sensitive
+        if (line.charAt(0) == '*')       // case sensitive
           set.add(line.substring(1));
         else
           set.add(line.toLowerCase());

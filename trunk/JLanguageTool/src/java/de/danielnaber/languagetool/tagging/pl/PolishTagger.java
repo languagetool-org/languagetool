@@ -88,7 +88,7 @@ public class PolishTagger implements Tagger {
             l.add(new AnalyzedToken(word, null, pos));                       
     }
       pos += word.length();
-      tokenReadings.add(new AnalyzedTokenReadings((AnalyzedToken[])l.toArray(new AnalyzedToken[0])));
+      tokenReadings.add(new AnalyzedTokenReadings((AnalyzedToken[]) l.toArray(new AnalyzedToken[l.size()])));
    }
     
     return tokenReadings;

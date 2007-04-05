@@ -59,7 +59,7 @@ public class AnalyzedSentence {
             l.add(token);
 	      }
 	    }
-	    return (AnalyzedTokenReadings[])l.toArray(new AnalyzedTokenReadings[0]);
+	    return (AnalyzedTokenReadings[])l.toArray(new AnalyzedTokenReadings[l.size()]);
 	  }
   
   public final String toString() {

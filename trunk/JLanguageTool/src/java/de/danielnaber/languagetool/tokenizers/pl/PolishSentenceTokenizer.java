@@ -78,7 +78,7 @@ public class PolishSentenceTokenizer extends SentenceTokenizer {
   private static final Pattern ENDABREVLIST_PATTERN 
     = Pattern.compile("(?iu)(\\b(" + ENDABBREVLIST + ")"+ PAP + "\\s)" + EOS +"(\\p{Ll})");
   
-  private StringTokenizer stringTokenizer = null;
+  //private StringTokenizer stringTokenizer = null;
 
   /**
    * Create a sentence tokenizer.
@@ -92,20 +92,21 @@ public class PolishSentenceTokenizer extends SentenceTokenizer {
    *  with <code>false</code>, only two ore more consecutive line breaks end a paragraph
    */
   public final void setSingleLineBreaksMarksParagraph(final boolean lineBreakParagraphs) {
-    if (lineBreakParagraphs)
+    if (lineBreakParagraphs) {
       paragraph = paragraphByLineBreak;
-    else
+    } else {
       paragraph = paragraphByTwoLineBreaks;
+    }
   }
 
   public final List<String> tokenize(String s) {
     s = firstSentenceSplitting(s);
     s = removeFalseEndOfSentence(s);
     //s = splitUnsplitStuff(s);
-    stringTokenizer = new StringTokenizer(s, EOS);
-    List<String> l = new ArrayList<String>();
+    final StringTokenizer stringTokenizer = new StringTokenizer(s, EOS);
+    final List<String> l = new ArrayList<String>();
     while (stringTokenizer.hasMoreTokens()) {
-      String sentence = stringTokenizer.nextToken();
+      final String sentence = stringTokenizer.nextToken();
       l.add(sentence);
     }
     return l;
@@ -140,7 +141,7 @@ public class PolishSentenceTokenizer extends SentenceTokenizer {
     // by a dot followed by another whitespace.
     // e.g. " p. "
     s = abbrev3.matcher(s).replaceAll("$1$2");
-    // Don't split at "bla bla... yada yada" (TODO: use \.\.\.\s+ instead?)
+    // Don't split at "bla bla... yada yada" 
     s = abbrev4.matcher(s).replaceAll("$1$2");
     // Don't split [.?!] when the're quoted:
     s = abbrev5.matcher(s).replaceAll("$1");

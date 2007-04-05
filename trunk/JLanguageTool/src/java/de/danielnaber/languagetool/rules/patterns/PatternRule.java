@@ -344,7 +344,7 @@ public class PatternRule extends Rule {
       //
     }
 
-    return (RuleMatch[]) ruleMatches.toArray(new RuleMatch[0]);
+    return (RuleMatch[]) ruleMatches.toArray(new RuleMatch[ruleMatches.size()]);
   }
 
   public void reset() {

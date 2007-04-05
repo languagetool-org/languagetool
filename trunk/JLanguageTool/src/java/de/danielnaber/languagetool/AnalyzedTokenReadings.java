@@ -69,7 +69,7 @@ public class AnalyzedTokenReadings {
     
     l.add(tok);
     
-    anTokReadings = l.toArray(new AnalyzedToken[0]);
+    anTokReadings = l.toArray(new AnalyzedToken[l.size()]);
   }
   
   public final int getReadingsLength() {
@@ -77,14 +77,21 @@ public class AnalyzedTokenReadings {
   }
   
   public final boolean isWhitespace() {
-    return token.trim().equals("");
+    //return token.trim().equals("");
+    final char[] chrs = token.toCharArray();      
+    for (int i = 0; i < chrs.length; i++) {
+      if (!Character.isWhitespace(chrs[i])) {
+        return false;
+      }
+    }
+    return true;
   }
   
   
   public final boolean isSentStart() {
     //helper method added after profiling
    boolean isSE = false;
-   if (anTokReadings[0].posTag!= null) {
+   if (anTokReadings[0].posTag != null) {
      isSE = anTokReadings[0].posTag.equals(JLanguageTool.SENTENCE_START_TAGNAME);
    }
    return isSE;
@@ -96,9 +103,10 @@ public class AnalyzedTokenReadings {
    * */   
   public final boolean isParaEnd() {
    boolean isPE = false;
-   for (AnalyzedToken reading: anTokReadings)
-   if (reading.posTag != null) {
-     isPE = isPE || reading.posTag.equals(JLanguageTool.PARAGRAPH_END_TAGNAME);
+   for (AnalyzedToken reading : anTokReadings) {
+     if (reading.posTag != null) {
+      isPE = isPE || reading.posTag.equals(JLanguageTool.PARAGRAPH_END_TAGNAME);
+     }
    }
    return isPE;
   }
@@ -109,9 +117,10 @@ public class AnalyzedTokenReadings {
    * */   
   public final boolean isSentEnd() {
    boolean isSE = false;
-   for (AnalyzedToken reading: anTokReadings)
-   if (reading.posTag != null) {
-     isSE = isSE || reading.posTag.equals(JLanguageTool.SENTENCE_END_TAGNAME);
+   for (AnalyzedToken reading : anTokReadings) {
+     if (reading.posTag != null) {
+      isSE = isSE || reading.posTag.equals(JLanguageTool.SENTENCE_END_TAGNAME);
+     }
    }
    return isSE;
   }
