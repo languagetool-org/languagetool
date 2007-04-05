@@ -52,6 +52,9 @@ public class Element {
   
   private Pattern p = null;
   private Pattern pPos = null;
+  
+  private Matcher m = null;
+  private Matcher mPos = null;
 
   Element(final String token, final boolean caseSensitive, final boolean regExp,
       final boolean inflected) {
@@ -215,8 +218,12 @@ public class Element {
     } else
     // changed to match regexps
     if (token.getPOSTag() != null) {
-      Matcher m = pPos.matcher(token.getPOSTag());
-      match = m.matches();                     
+      if (mPos == null) {
+        mPos = pPos.matcher(token.getPOSTag());
+      } else {
+        mPos.reset(token.getPOSTag());
+      }
+      match = mPos.matches();                     
     }
     return match;
   }
@@ -242,7 +249,11 @@ public class Element {
       }
     } else {
       if (token.getToken() != null) {
-        Matcher m = p.matcher(testToken);
+        if (m == null) {
+          m = p.matcher(testToken);
+        } else {
+          m.reset(testToken);
+        }
         return m.matches();
       }
     }
