@@ -171,6 +171,9 @@ public class AvsAnRule extends EnglishRule {
       String line;
       while ((line = br.readLine()) != null) {
         line = line.trim();
+        if (line.length() < 1) {
+          continue;
+        }
         if (line.charAt(0) == '#')       // ignore comments
           continue;
         if (line.charAt(0) == '*')       // case sensitive
