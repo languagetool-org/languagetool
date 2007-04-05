@@ -134,8 +134,7 @@ public class Configuration {
         
     if (disabledRuleIds == null) {
       props.setProperty(DISABLED_RULES_CONFIG_KEY, "");
-    }
-    else {
+    } else {
       StringBuilder sb = new StringBuilder();
       for (Iterator<String> iter = disabledRuleIds.iterator(); iter.hasNext();) {
         String id = iter.next();

@@ -21,7 +21,6 @@ package de.danielnaber.languagetool.rules.patterns;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
 import java.util.ArrayList;
-import java.util.Iterator;
 
 import de.danielnaber.languagetool.AnalyzedToken;
 import de.danielnaber.languagetool.JLanguageTool;
@@ -78,9 +77,10 @@ public class Element {
     boolean testString = true;
     if (stringToken == null) {
       testString = false;
-    }
+    } else {
     if (stringToken.equals("")) {
       testString = false;
+      }
     }
     if (testString) {
       return (matchStringToken(token) != negation) && (matchPosToken(token) != posNegation);
@@ -100,9 +100,8 @@ public class Element {
   final boolean exceptionValid() {
     boolean eNext = false;
     if (exceptionSet) {
-      Iterator<Element> it = exceptionList.iterator();
-      while (it.hasNext()) {
-        eNext = eNext || it.next().exceptionValidNext;
+      for (Element testException : exceptionList) {
+        eNext |= testException.exceptionValidNext;
         if (eNext) {
           break;
         }
@@ -114,9 +113,7 @@ public class Element {
   final boolean exceptionMatch(final AnalyzedToken token) {
     boolean exceptionMatched = false;
     if (exceptionSet) {
-      Iterator<Element> it = exceptionList.iterator();
-      while (it.hasNext()) {
-        Element testException = it.next();
+      for (Element testException : exceptionList) {
         exceptionMatched |= testException.match(token);
         if (exceptionMatched) {
           break;
@@ -128,10 +125,8 @@ public class Element {
 
   final boolean prevExceptionMatch(final AnalyzedToken token) {
     boolean exceptionMatched = false;
-    if (exceptionSet) {
-      Iterator<Element> it = exceptionList.iterator();
-      while (it.hasNext()) {
-        Element testException = it.next();
+    if (exceptionSet) {      
+      for (Element testException : exceptionList) {
         if (testException.exceptionValidNext) {
           exceptionMatched |= testException.match(token);
         }
@@ -256,9 +251,6 @@ public class Element {
       }
     } else {
       if (token.getToken() != null) {
-        if (p == null) {
-          p = Pattern.compile(regToken);
-        }
         Matcher m = p.matcher(testToken);
         return m.matches();
       }

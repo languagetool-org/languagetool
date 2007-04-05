@@ -5,7 +5,6 @@ import java.io.IOException;
 import de.danielnaber.languagetool.TestTools;
 import de.danielnaber.languagetool.tokenizers.WordTokenizer;
 import de.danielnaber.languagetool.tokenizers.pl.PolishSentenceTokenizer;
-import de.danielnaber.languagetool.tagging.disambiguation.pl.PolishChunker;
 import de.danielnaber.languagetool.tagging.pl.*;
 
 /* LanguageTool, a natural language style checker 

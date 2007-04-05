@@ -183,25 +183,25 @@ class FalseFriendRuleHandler extends XMLRuleHandler {
 	    	exceptionSet = true;
 	    	exceptions = new StringBuffer();
 	    	
-	    	if (attrs.getValue("negate")!=null) {
+	    	if (attrs.getValue("negate") != null) {
 		 		exceptionStringNegation=attrs.getValue("negate").equals("yes");
 	    	}
             if (attrs.getValue("scope") != null) {
               exceptionValidNext = attrs.getValue("scope").equals("next");
             }
-	    	if (attrs.getValue("inflected")!=null) {
+	    	if (attrs.getValue("inflected") != null) {
 		 		exceptionStringInflected=attrs.getValue("inflected").equals("yes");
 	    	}
-	    	if (attrs.getValue("postag")!=null) {    		
+	    	if (attrs.getValue("postag") != null) {    		
 	    		exceptionPosToken = attrs.getValue("postag");
-	    		if (attrs.getValue("postag_regexp")!=null) {
+	    		if (attrs.getValue("postag_regexp") != null) {
 	    			exceptionPosRegExp = attrs.getValue("postag_regexp").equals("yes");
 	    		}
-	    		if (attrs.getValue("negate_pos")!=null) {
+	    		if (attrs.getValue("negate_pos") != null) {
 	    	 		exceptionPosNegation = attrs.getValue("negate_pos").equals("yes");
 	        	}    	 	
 	    	}
-	    	if (attrs.getValue("regexp")!=null) {
+	    	if (attrs.getValue("regexp") != null) {
 	    		exceptionStringRegExp = attrs.getValue("regexp").equals("yes");
 	    	}
 	    	

@@ -63,7 +63,7 @@ public class SpanishTagger implements Tagger {
       List<AnalyzedToken> l = new ArrayList<AnalyzedToken>();
       String[] lowerTaggerTokens = null;
       taggerTokens = morfologik_spanish.stemAndForm(word);
-      if (word != word.toLowerCase()) {
+      if (!word.equals(word.toLowerCase())) {
         lowerTaggerTokens = morfologik_spanish.stemAndForm(word.toLowerCase());
       }
 

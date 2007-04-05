@@ -62,7 +62,7 @@ public class CzechTagger implements Tagger {
       List<AnalyzedToken> l = new ArrayList<AnalyzedToken>();
       String[] lowerTaggerTokens = null;
       taggerTokens = morfologik.stemAndForm(word);
-      if (word != word.toLowerCase()) {
+      if (!word.equals(word.toLowerCase())) {
         lowerTaggerTokens = morfologik.stemAndForm(word.toLowerCase());
       }
 
@@ -75,15 +75,14 @@ public class CzechTagger implements Tagger {
            System.out.print(currStr + " ");
          System.out.println();
          }
-         */
-        String lemma = new String();
+         */        
         int i = 0;
         while (i < taggerTokens.length) {
           // Czech POS tags:
           // If there are multiple tags, they behave as one, i.e. they
           // are connected
           // on one line with '+' character
-          lemma = taggerTokens[i];
+          String lemma = taggerTokens[i];
           String[] tagsArr = taggerTokens[i + 1].split("\\+");
 
           for (String currTag : tagsArr)
@@ -94,12 +93,11 @@ public class CzechTagger implements Tagger {
       }
 
       if (lowerTaggerTokens != null) {
-
-        String lemma = new String();
+        
         int i = 0;
         while (i < lowerTaggerTokens.length) {
           // Czech POS tags again
-          lemma = lowerTaggerTokens[i];
+          String lemma = lowerTaggerTokens[i];
           String[] tagsArr = lowerTaggerTokens[i + 1].split("\\+");
 
           for (String currTag : tagsArr)

@@ -62,7 +62,7 @@ public class DutchTagger implements Tagger {
       List<AnalyzedToken> l = new ArrayList<AnalyzedToken>();
       String[] lowerTaggerTokens = null;
       taggerTokens = morfologik.stemAndForm(word);
-      if (word != word.toLowerCase()) {
+      if (!word.equals(word.toLowerCase())) {
         lowerTaggerTokens = morfologik.stemAndForm(word.toLowerCase());
       }
 

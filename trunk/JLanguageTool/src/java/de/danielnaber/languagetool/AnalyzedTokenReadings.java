@@ -22,7 +22,6 @@ package de.danielnaber.languagetool;
 import java.util.Arrays;
 import java.util.List;
 import java.util.ArrayList;
-import de.danielnaber.languagetool.tools.StringTools;
 
 /**
  * An array of {@link AnalyzedToken}s used to store multiple POS tags and lemmas
@@ -57,7 +56,7 @@ public class AnalyzedTokenReadings {
 		return anTokReadings[i];
 	}
 
-  public final void addReading (final AnalyzedToken tok) {
+  public final void addReading(final AnalyzedToken tok) {
     ArrayList <AnalyzedToken> l = new ArrayList <AnalyzedToken>(); 
         
     for (int i = 0; i < anTokReadings.length - 1; i++) {
