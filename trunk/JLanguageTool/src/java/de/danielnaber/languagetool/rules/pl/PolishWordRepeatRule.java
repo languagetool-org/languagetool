@@ -24,6 +24,30 @@ import de.danielnaber.languagetool.rules.RuleMatch;
  */
 public class PolishWordRepeatRule extends PolishRule {
 
+  /**
+   * Excluded dictionary words.
+   */
+  private static final Pattern EXC_WORDS 
+    = Pattern.compile("nie|to|siebie|być|ani|albo|" +
+        "lub|czy|bądź|jako|zł|coraz" +
+        "|bardzo|ten|jak|mln|tys|swój|mój|" +
+        "twój|nasz|wasz|i|zbyt");
+  
+  /**
+   * Excluded part of speech classes.
+   */
+  private static final Pattern EXC_POS 
+    = Pattern.compile("prep:.*|ppron.*");
+  
+  /**
+   * Excluded non-words (special symbols,
+   * Roman numerals etc.
+   */
+  private static final Pattern EXC_NONWORDS 
+    = Pattern.compile("&quot|&gt|&lt|&amp|[0-9].*|" +
+        "M*(D?C{0,3}|C[DM])(L?X{0,3}|X[LC])(V?I{0,3}|I[VX])$");
+
+  
   public PolishWordRepeatRule(final ResourceBundle messages) {
     if (messages != null)
       super.setCategory(new Category(messages.getString("category_misc")));
@@ -57,10 +81,6 @@ public class PolishWordRepeatRule extends PolishRule {
 	    HashMap <String, String> inflectedWords = new HashMap<String, String>();
 	    String prevLemma, curLemma;
 	    int pos = 0;
-        Pattern pExc1 = Pattern.compile("to|siebie|być|ani|albo|lub|czy|bądź|jako|zł|coraz|bardzo|ten|jak|mln|tys|swój|mój|twój|nasz|wasz|i");
-        Pattern pExc2 = Pattern.compile("prep:.*|ppron.*");
-        // Roman numbers regexp added
-        Pattern pExc3 = Pattern.compile("nie|&quot|&gt|&lt|&amp|[0-9].*|M*(D?C{0,3}|C[DM])(L?X{0,3}|X[LC])(V?I{0,3}|I[VX])$");
         
 	    for (int i = 0; i < tokens.length; i++) {
 	      String token = tokens[i].getToken();
@@ -68,14 +88,12 @@ public class PolishWordRepeatRule extends PolishRule {
 	        // avoid "..." etc. to be matched:
 	        boolean isWord = true;
 	        boolean hasLemma = true;
-	        if (token.length() == 1) {
-	          char c = token.charAt(0);
-		  // Polish '\u0347' is not classified as letter by isLetter
-	          if (!Character.isLetter(c)) {
-	            isWord = false;
-	          }
-	        }
-            int readingsLen = tokens[i].getReadingsLength();
+	        
+          if (token.length() < 2) {
+            isWord = false;
+          }
+	        
+          int readingsLen = tokens[i].getReadingsLength();
 	        for (int k = 0; k < readingsLen; k++) {
 	        	String posTag = tokens[i].getAnalyzedToken(k).getPOSTag();
 	        	if (posTag != null) {
@@ -89,13 +107,13 @@ public class PolishWordRepeatRule extends PolishRule {
                   hasLemma = false;
                   break;
                 }
-                Matcher m1 = pExc1.matcher(lemma);
+                Matcher m1 = EXC_WORDS.matcher(lemma);
                 if (m1.matches()) {
                     isWord = false;
                     break;
                  }
         
-                Matcher m2 = pExc2.matcher(posTag);
+                Matcher m2 = EXC_POS.matcher(posTag);
                 if (m2.matches()) {
 	        		isWord = false;
 	        		break;
@@ -106,7 +124,7 @@ public class PolishWordRepeatRule extends PolishRule {
                                        		    
 	        }
 
-            Matcher m1 = pExc3.matcher(tokens[i].getToken());
+            Matcher m1 = EXC_NONWORDS.matcher(tokens[i].getToken());
             if (m1.matches()) {
                 isWord = false;
             }
