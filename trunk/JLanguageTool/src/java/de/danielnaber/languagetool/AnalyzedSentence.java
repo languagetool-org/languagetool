@@ -32,6 +32,8 @@ public class AnalyzedSentence {
 
   private AnalyzedTokenReadings[] tokens;
   
+  private AnalyzedTokenReadings[] nonBlankTokens;
+  
   /**
    * Sets {@link AnalyzedTokenReadings}. 
    * Whitespace is also a token.
@@ -53,14 +55,17 @@ public class AnalyzedSentence {
    * but with the artificial <code>SENT_START</code> token included.
    */
   public final AnalyzedTokenReadings[] getTokensWithoutWhitespace() {
-	    List<AnalyzedTokenReadings> l = new ArrayList<AnalyzedTokenReadings>();
+    if (nonBlankTokens == null) {
+	    List <AnalyzedTokenReadings> l = new ArrayList<AnalyzedTokenReadings>();
 	    for (AnalyzedTokenReadings token : tokens) {
 	      if (!token.isWhitespace() || token.isSentStart() || token.isSentEnd() || token.isParaEnd()) {
             l.add(token);
 	      }
 	    }
-	    return (AnalyzedTokenReadings[])l.toArray(new AnalyzedTokenReadings[l.size()]);
-	  }
+	    nonBlankTokens = (AnalyzedTokenReadings[]) l.toArray(new AnalyzedTokenReadings[l.size()]);
+	  }  
+    return nonBlankTokens;
+  }
   
   public final String toString() {
     StringBuilder sb = new StringBuilder();
