@@ -222,15 +222,6 @@ public class Element {
   }
 
   final boolean matchStringToken(final AnalyzedToken token) {
-    // if no string set
-    // defaulting to true
-    if (stringToken == null) {
-      return true;
-    }
-    if (stringToken.equals("")) {
-      return true;
-    }
-
     String testToken = null;
     // enables using words with lemmas and without lemmas
     // in the same regexp with inflected="yes"
