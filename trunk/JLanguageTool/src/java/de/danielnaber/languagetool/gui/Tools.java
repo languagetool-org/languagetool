@@ -73,9 +73,10 @@ public class Tools {
    * Get the context (<code>contextSize</code> characters) of the given text range,
    * highlighting the range with the given marker strings.
    */
-  public static String getContext(int fromPos, int toPos, String fileContents, int contextSize,
-      String markerStart, String markerEnd) {
-    fileContents = fileContents.replaceAll("\n", " ");
+  public static final String getContext(final int fromPos, final int toPos, 
+      String fileContents, final int contextSize,
+      final String markerStart, final String markerEnd) {
+    fileContents = fileContents.replace('\n', ' ');
     // calculate context region:
     int startContent = fromPos - contextSize;    
     String prefix = "...";
@@ -88,7 +89,7 @@ public class Tools {
     }
     int endContent = toPos + contextSize;
     int fileLen = fileContents.length();
-    if (endContent > fileLen ) {
+    if (endContent > fileLen) {
       postfix = "";
       endContent = fileLen;
     }
@@ -107,8 +108,8 @@ public class Tools {
     sb.append(fileContents.substring(startContent, endContent));
     String markerStr = markerPrefix + marker.substring(startContent, endContent);
     sb.append(postfix);
-    int startMark = markerStr.indexOf("^");
-    int endMark = markerStr.lastIndexOf("^");
+    int startMark = markerStr.indexOf('^');
+    int endMark = markerStr.lastIndexOf('^');
     String result = sb.toString();
     result = result.substring(0, startMark) + markerStart + 
       result.substring(startMark, endMark+1) + markerEnd + result.substring(endMark+1);
