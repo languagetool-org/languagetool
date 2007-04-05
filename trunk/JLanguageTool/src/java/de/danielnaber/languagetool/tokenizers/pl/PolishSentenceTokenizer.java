@@ -48,7 +48,7 @@ public class PolishSentenceTokenizer extends SentenceTokenizer {
   private static final Pattern abbrev1 = Pattern.compile("([^-\\p{L}”][\\p{L}]" + PAP + "\\s)" + EOS);
   private static final Pattern abbrev2 = Pattern.compile("([^-\\p{L}][\\p{L}]" + P + ")" + EOS);
   //** Lookahead regexp excludes some possible abbrevs here
-  private static final Pattern abbrev3 = Pattern.compile("(\\s(?![rwn])[\\p{L}]\\.\\s+)" + EOS +"(\\p{Ll}\\p{Ll}|\\p{Lu}[\\p{Punct}\\s\\p{Lu}])");
+  private static final Pattern abbrev3 = Pattern.compile("(\\s(?![rwn])[\\p{L}]\\.\\s+)" + EOS +"(\\p{Ll}\\p{Ll}|\\p{Lu}[\\p{Punct}\\p{Lu}])");
   private static final Pattern abbrev4 = Pattern.compile("(\\.\\.\\. )" + EOS + "([\\p{Ll}])");
   private static final Pattern abbrev5 = Pattern.compile("(['\"]" + P + "['\"]\\s+)" + EOS);
   private static final Pattern abbrev6 = Pattern.compile("([\"”']\\s*)" + EOS + "(\\s*[\\p{Ll}])");
