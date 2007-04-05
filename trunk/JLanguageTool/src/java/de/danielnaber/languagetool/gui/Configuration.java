@@ -131,17 +131,20 @@ public class Configuration {
 
   public void saveConfiguration() throws IOException {
     Properties props = new Properties();
-    StringBuilder sb = new StringBuilder();
-    for (Iterator<String> iter = disabledRuleIds.iterator(); iter.hasNext();) {
-      String id = iter.next();
-      sb.append(id);
-      if (iter.hasNext())
-        sb.append(",");
-    }
-    if (disabledRuleIds == null)
+        
+    if (disabledRuleIds == null) {
       props.setProperty(DISABLED_RULES_CONFIG_KEY, "");
-    else
+    }
+    else {
+      StringBuilder sb = new StringBuilder();
+      for (Iterator<String> iter = disabledRuleIds.iterator(); iter.hasNext();) {
+        String id = iter.next();
+        sb.append(id);
+        if (iter.hasNext())
+          sb.append(",");
+      }
       props.setProperty(DISABLED_RULES_CONFIG_KEY, sb.toString());
+    }
     if (motherTongue != null)
       props.setProperty(MOTHER_TONGUE_CONFIG_KEY, motherTongue.getShortName());
     props.setProperty(SERVER_RUN_CONFIG_KEY, Boolean.valueOf(runServer).toString());

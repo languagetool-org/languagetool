@@ -173,7 +173,7 @@ public final class Main implements ActionListener {
     cons.gridx = 0;
     cons.gridy = 2;
     cons.weighty = 0.0f;
-    cons.insets = new Insets(3,3,3,3);
+    cons.insets = new Insets(3, 3, 3, 3);
     //cons.fill = GridBagConstraints.NONE;
     contentPane.add(label, cons);
     cons.gridy = 3;
@@ -337,7 +337,7 @@ public final class Main implements ActionListener {
     String langName = langBox.getSelectedItem().toString();
     String lang = langName;
     for (Enumeration<String> e = messages.getKeys(); e.hasMoreElements();) {
-      String elem = e.nextElement().toString();
+      String elem = e.nextElement();
       if (messages.getString(elem).equals(langName)) {
         lang = elem;
         break;
@@ -442,7 +442,8 @@ public final class Main implements ActionListener {
     }
     long endTime = System.currentTimeMillis();
     sb.append(Tools.makeTexti18n(messages, "resultTime", new Object[] {
-       new Long(endTime - startTime), new Long(endTime - startTimeMatching)
+       Long.valueOf(endTime - startTime), 
+       Long.valueOf(endTime - startTimeMatching)
     }));
     return ruleMatches.size();
   }
