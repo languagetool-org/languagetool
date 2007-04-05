@@ -176,7 +176,7 @@ class Main {
         encoding = args[++i];
       } else if (args[i].equals("-b")) {
         singleLineBreakMarksParagraph = true;
-      } else if (i == args.length-1) {
+      } else if (i == args.length - 1) {
         filename = args[i];
       } else if (args[i].equals("--api")) {
         apiFormat = true;
