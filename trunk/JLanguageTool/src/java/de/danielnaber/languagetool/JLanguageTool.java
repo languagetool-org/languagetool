@@ -472,8 +472,8 @@ public class JLanguageTool {
     //add additional tags
     int lastToken = toArrayCount - 1;
     //make SENT_END appear at last not whitespace token
-    for (int i = 0; i < lastToken; i++) {
-     if (!tokenArray[lastToken - i].getToken().trim().equals("")) {
+    for (int i = 0; i < toArrayCount - 1; i++) {
+     if (!tokenArray[lastToken - i].isWhitespace()) {
         lastToken -= i;
         break;
      }

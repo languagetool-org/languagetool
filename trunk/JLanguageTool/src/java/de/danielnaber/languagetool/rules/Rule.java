@@ -96,7 +96,7 @@ public abstract class Rule {
   public boolean supportsLanguage(final Language language) {
     Language[] languages = getLanguages();
     for (int i = 0; i < languages.length; i++) {
-      if (language == languages[i])
+      if (language.equals(languages[i]))
         return true;
     }
     return false;

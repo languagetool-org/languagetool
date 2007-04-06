@@ -60,28 +60,28 @@ public class UnpairedQuotesBracketsRule extends Rule {
    
     setParagraphBackTrack(true);
     
-    if (language == Language.POLISH) {
+    if (language.equals(Language.POLISH)) {
       startSymbols = PL_START_SYMBOLS;
       endSymbols = PL_END_SYMBOLS;
-    } else if (language == Language.FRENCH) {
+    } else if (language.equals(Language.FRENCH)) {
       startSymbols = FR_START_SYMBOLS;
       endSymbols = FR_END_SYMBOLS;
-    } else if (language == Language.ENGLISH) {
+    } else if (language.equals(Language.ENGLISH)) {
       startSymbols = EN_START_SYMBOLS;
       endSymbols = EN_END_SYMBOLS;
-    } else if (language == Language.GERMAN) {
+    } else if (language.equals(Language.GERMAN)) {
       startSymbols = DE_START_SYMBOLS;
       endSymbols = DE_END_SYMBOLS;
-    } else if (language == Language.DUTCH) {
+    } else if (language.equals(Language.DUTCH)) {
       startSymbols = NL_START_SYMBOLS;
       endSymbols = NL_END_SYMBOLS;
-    } else if (language == Language.SPANISH) {
+    } else if (language.equals(Language.SPANISH)) {
       startSymbols = ES_START_SYMBOLS;
       endSymbols = ES_END_SYMBOLS;
-    } else if (language == Language.UKRAINIAN) {
+    } else if (language.equals(Language.UKRAINIAN)) {
       startSymbols = UK_START_SYMBOLS;
       endSymbols = UK_END_SYMBOLS;
-    } else if (language == Language.ITALIAN) {
+    } else if (language.equals(Language.ITALIAN)) {
       startSymbols = IT_START_SYMBOLS;
       endSymbols = IT_END_SYMBOLS;
     } else {
