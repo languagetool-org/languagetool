@@ -176,7 +176,7 @@ public class PolishSentenceTokenizer extends SentenceTokenizer {
   /**
    * Treat some more special cases that make up a sentence boundary. Insert the special break
    * character at these positions.
-   */
+   
   private String splitUnsplitStuff(String s) {
     // e.g. "x5. bla..." -- not sure, leaving commented out:
     // text = re.compile("(\D\d+)(%s)(\s+)" % self.P, re.DOTALL).sub("\\1\\2%s\\3" % self.EOS, text)
@@ -186,5 +186,6 @@ public class PolishSentenceTokenizer extends SentenceTokenizer {
     //s = repair1.matcher(s).replaceAll("$1" + EOS + "$2");
     return s;
   }
+  */
 
 }

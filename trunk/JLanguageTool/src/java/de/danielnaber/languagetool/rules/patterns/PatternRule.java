@@ -44,8 +44,7 @@ public class PatternRule extends Rule {
 
   private int startPositionCorrection = 0;
   private int endPositionCorrection = 0;
-  private boolean caseSensitive = false;
-  private boolean regExp = false;
+ 
   private List<Element> patternElements;
 
   /** Marks whether the rule is a member of a 
@@ -134,34 +133,10 @@ public class PatternRule extends Rule {
   public final void setMessage(final String message) {
     this.message = message;
   }
-
-  public final boolean getCaseSensitive() {
-    return caseSensitive;
-  }
-
-  public final void setCaseSensitive(final boolean caseSensitive) {
-    this.caseSensitive = caseSensitive;
-  }
-
-  public final boolean getregExpSetting() {
-    return regExp;
-  }
-
-  public final void setregExpSetting(final boolean regExp) {
-    this.regExp = regExp;
-  }
-
-  public final int getStartPositionCorrection() {
-    return startPositionCorrection;
-  }
-
+  
   public final void setStartPositionCorrection(final int startPositionCorrection) {
     this.startPositionCorrection = startPositionCorrection;
-  }
-
-  public final int getEndPositionCorrection() {
-    return endPositionCorrection;
-  }
+  }  
 
   public final void setEndPositionCorrection(final int endPositionCorrection) {
     this.endPositionCorrection = endPositionCorrection;
@@ -171,7 +146,7 @@ public class PatternRule extends Rule {
   public final RuleMatch[] match(final AnalyzedSentence text) {
             
     List<RuleMatch> ruleMatches = new ArrayList<RuleMatch>();    
-    AnalyzedTokenReadings[] tokens = text.getTokensWithoutWhitespace();
+    final AnalyzedTokenReadings[] tokens = text.getTokensWithoutWhitespace();
     int[] tokenPositions = new int[tokens.length + 1 ];
     
     int tokenPos = 0;
@@ -188,7 +163,7 @@ public class PatternRule extends Rule {
     int lastMatchToken = -1;
     int patternSize = patternElements.size();
     Element elem = null, prevElement = null;
-    boolean startWithSentStart = patternElements.get(0).isSentStart();
+    final boolean startWithSentStart = patternElements.get(0).isSentStart();
 
     for (int i = 0; i < tokens.length; i++) {
       boolean allElementsMatch = true;
@@ -270,15 +245,15 @@ public class PatternRule extends Rule {
         } else {
           prevSkipNext = 0;
         }
-        if (!allElementsMatch) {
-          skipShiftTotal = 0;
-          break;          
-        } else {          
+        if (allElementsMatch) {                              
           matchingTokens++;
           lastMatchToken = matchPos; // nextPos;          
           if (firstMatchToken == -1)
             firstMatchToken = matchPos; // nextPos;
           skipShiftTotal += skipShift;
+        } else {
+          skipShiftTotal = 0;
+          break;
         }
       }
       

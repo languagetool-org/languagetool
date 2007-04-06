@@ -91,27 +91,6 @@ public class Element {
       return (!negation) && (matchPosToken(token) != posNegation);
     }
   }
-
-  /** Tests if the exception is valid for next tokens 
-   * (used to define exception scope). 
-   * 
-   * @author Marcin Milkowski
-   * 
-   * @return boolean 
-   * 
-   */  
-  final boolean exceptionValid() {
-    boolean eNext = false;
-    if (exceptionSet) {
-      for (Element testException : exceptionList) {
-        eNext |= testException.exceptionValidNext;
-        if (eNext) {
-          break;
-        }
-      }
-    }
-    return eNext;
-  }
   
   final boolean exceptionMatch(final AnalyzedToken token) {
     boolean exceptionMatched = false;
@@ -267,10 +246,6 @@ public class Element {
 
   public final void setSkipNext(final int i) {
     skip = i;
-  }
-
-  final String getTokens() {
-    return stringToken;
   }
 
   /**

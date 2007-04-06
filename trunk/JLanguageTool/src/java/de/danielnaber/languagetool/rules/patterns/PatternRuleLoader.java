@@ -302,8 +302,7 @@ class PatternRuleHandler extends XMLRuleHandler {
               startPositionCorrection = 0;
               endPositionCorrection = 0;
               rule.setCorrectExamples(correctExamples);
-              rule.setIncorrectExamples(incorrectExamples);
-              rule.setCaseSensitive(caseSensitive);
+              rule.setIncorrectExamples(incorrectExamples);              
               rule.setCategory(category);
               caseSensitive = false;
               rules.add(rule);              
@@ -315,8 +314,7 @@ class PatternRuleHandler extends XMLRuleHandler {
       startPositionCorrection = 0;
       endPositionCorrection = 0;
       rule.setCorrectExamples(correctExamples);
-      rule.setIncorrectExamples(incorrectExamples);
-      rule.setCaseSensitive(caseSensitive);
+      rule.setIncorrectExamples(incorrectExamples);      
       rule.setCategory(category);
       caseSensitive = false;
       rules.add(rule);

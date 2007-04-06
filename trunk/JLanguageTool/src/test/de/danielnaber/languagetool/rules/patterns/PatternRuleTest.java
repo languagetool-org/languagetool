@@ -267,8 +267,7 @@ public class PatternRuleTest extends TestCase {
         elems.add(se);
         pos = false;
       }    
-    PatternRule rule = new PatternRule("ID1", Language.ENGLISH, elems, "test rule", "user visible message");
-    rule.setCaseSensitive(caseSensitive);
+    PatternRule rule = new PatternRule("ID1", Language.ENGLISH, elems, "test rule", "user visible message");    
     return rule;
   }
 
