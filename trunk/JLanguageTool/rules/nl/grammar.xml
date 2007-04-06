@@ -2,7 +2,7 @@
 <!--
 Dutch Grammar and Typo Rules for LanguageTool
 Copyright (C) 2006,2007 Ruud J. Baars (r.j.baars -at- hccnet nl)
-$Id: grammar.xml,v 1.21 2007-04-04 20:58:23 milek_pl Exp $
+$Id: grammar.xml,v 1.22 2007-04-06 19:33:48 milek_pl Exp $
 -->
 <rules lang="nl">
   <!--  # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # -->
@@ -32,18 +32,18 @@ $Id: grammar.xml,v 1.21 2007-04-04 20:58:23 milek_pl Exp $
     <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  -->
     <rulegroup id="DE_NAAM" name="'De met hoofdletter als eigennaam">
       <rule>
-        <pattern>
-          <token regexp="yes">[d]e</token>
-          <token regexp="yes">Telegraaf|Tijd|Stijl|Standaard|Limburger</token>
+        <pattern case_sensitive="yes">
+          <token>de</token>
+          <token regexp="yes">[tT]elegraaf|[tT]ijd|[sS]tijl|[sS]tandaard|[lL]imburger</token>
         </pattern>
         <message>[a] Wanneer u hier het blad bedoelt, dan horen zowel \1 en \2 met  <suggestion>hoofdletters </suggestion> te worden geschreven.</message>
         <example type="correct">Ik lees <marker>De Standaard</marker>.</example>
         <example type="incorrect">Ik lees <marker>de standaard</marker>.</example>
       </rule>
       <rule>
-        <pattern mark_from="1">
+        <pattern case_sensitive="yes" mark_from="1">
           <token>het</token>
-          <token regexp="yes">[a]lgemeen</token>
+          <token regexp="yes">algemeen</token>
           <token regexp="yes">Dagblad</token>
         </pattern>
         <message>[a] Wanneer u hier het blad bedoelt, dan horen zowel \1 and \2 met  <suggestion>hoofdletters</suggestion> te worden geschreven.</message>
@@ -58,9 +58,9 @@ $Id: grammar.xml,v 1.21 2007-04-04 20:58:23 milek_pl Exp $
     <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  -->
     <rulegroup id="GEO_HOOFDL" name="Hoofdletter of niet? Maas of maas, geul of Geul">
       <rule>
-        <pattern mark_from="1">
+        <pattern case_sensitive="yes" mark_from="1">
           <token regexp="yes">de|den</token>
-          <token regexp="yes">[d]ommel|[g]eeuw|[g]ein|[g]eul|[g]ulp|[k]ale|[l]ek|[l]iede|[l]inde|[m]aas|[n]oord|[r]aam|[r]oer|[r]otte|[v]echt|[v]oer|[w]orm</token>
+          <token regexp="yes">dommel|geeuw|gein|geul|gulp|kale|lek|liede|linde|maas|noord|raam|roer|rotte|vecht|voer|worm</token>
         </pattern>
         <message>[a] Wanneer u de rivier bedoelt, dan is een <suggestion>hoofdletter</suggestion> op zijn plaats.</message>
         <example type="correct">Daar ligt de <marker>Lek</marker>.</example>
@@ -70,8 +70,8 @@ $Id: grammar.xml,v 1.21 2007-04-04 20:58:23 milek_pl Exp $
     <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  -->
     <rulegroup id="GEO_HOOFDL2" name="Hoofdletter of niet? De Bilt etc">
       <rule>
-        <pattern>
-          <token regexp="yes">[d]e</token>
+        <pattern case_sensitive="yes">
+          <token regexp="yes">de</token>
           <token regexp="yes">Baarsjes|Bilt|Klinge|Meern|Moeren|Ronde|Wolden</token>
         </pattern>
         <message>Wanneer u het aardrijkskundige begrip bedoelt, dan is het: <suggestion>De \2</suggestion> .</message>
@@ -84,7 +84,7 @@ $Id: grammar.xml,v 1.21 2007-04-04 20:58:23 milek_pl Exp $
       <!-- TODO: tag voor alle geografische begippen -->
       <rule>
         <pattern case_sensitive="yes">
-          <token regexp="yes">[g]olf|[b]ocht|[b]aai|[k]anaal|([h]oog|[l]aag)land|[n]auw|[m]eer|[p]lateau|[s]traat|[z]ee|[l]and|[l]andengte|[v]allei|[v]lakte|[b]ekken</token>
+          <token regexp="yes">golf|bocht|baai|kanaal|(hoog|laag)land|nauw|meer|plateau|straat|zee|land|landengte|vallei|vlakte|bekken</token>
           <token>van</token>
           <token regexp="yes">[A-Z].+</token>
         </pattern>
@@ -157,7 +157,7 @@ $Id: grammar.xml,v 1.21 2007-04-04 20:58:23 milek_pl Exp $
     <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  -->
     <rulegroup id="MIDDELLANDSE_ZEE" name="Middellandse Zee">
       <rule>
-        <pattern>
+        <pattern case_sensitive="yes">
           <!-- vang alle zeeën als zee klein is geschreven -->
           <token regexp="yes">dode|caraïbische|caribische|arabische|andamanse|middellandse|adriatische|Egeïsche|Gele|Ierse|Ionische|Japanse|Kaspische|Keltische|Ligurische|Molukse|Noorse|Oost-Chinese|Oost-Siberische|Rode|Tyrreense|Witte|Zuid-Chinese|Zwarte</token>
           <token regexp="yes">[z]ee.*</token>
@@ -168,7 +168,7 @@ $Id: grammar.xml,v 1.21 2007-04-04 20:58:23 milek_pl Exp $
       </rule>
       <!-- vang alle zeeën als zee klein is geschreven -->
       <rule>
-        <pattern>
+        <pattern case_sensitive="yes">
           <token regexp="yes">[d]ode|[g]ele|[r]ode|[w]itte|[z]warte</token>
           <token regexp="yes">zee.*|rivier.*</token>
         </pattern>
@@ -552,16 +552,16 @@ $Id: grammar.xml,v 1.21 2007-04-04 20:58:23 milek_pl Exp $
     <rulegroup id="TWEEDE_KAMER" name="Tweede Kamer">
       <!-- score -->
       <rule>
-        <pattern>
-          <token regexp="yes">[t]weede|[e]erste</token>
-          <token regexp="yes">[k]amer.*</token>
+        <pattern case_sensitive="yes">
+          <token regexp="yes">tweede|eerste</token>
+          <token regexp="yes">kamer.*</token>
         </pattern>
         <message>[a] Bedoelt u misschien <suggestion>Tweede Kamer</suggestion>?</message>
         <example type="correct">De <marker>Eerste Kamer</marker> vergadert vandaag.</example>
         <example type="incorrect">De <marker>tweede kamer</marker> vergadert morgen.</example>
       </rule>
       <rule>
-        <pattern>
+        <pattern case_sensitive="no">
           <token regexp="yes">tweede-kamer.*</token>
         </pattern>
         <message>[b] bedoelt u <suggestion>Tweede Kamer</suggestion>?</message>
@@ -569,7 +569,7 @@ $Id: grammar.xml,v 1.21 2007-04-04 20:58:23 milek_pl Exp $
         <example type="incorrect">Dit <marker>Tweede-Kamerstuk</marker> is gevoelig materiaal.</example>
       </rule>
       <rule>
-        <pattern>
+        <pattern case_sensitive="no">
           <token regexp="yes">eerste-kamer.+</token>
         </pattern>
         <message>[c] bedoelt u <suggestion>Eerste Kamer</suggestion>?</message>
@@ -580,9 +580,9 @@ $Id: grammar.xml,v 1.21 2007-04-04 20:58:23 milek_pl Exp $
     <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  -->
     <rulegroup id="RODE_KRUIS" name="Rode Kruis">
       <rule>
-        <pattern>
+        <pattern case_sensitive="yes">
           <token>rode</token>
-          <token regexp="yes">[k]ruis.*</token>
+          <token regexp="yes">kruis.*</token>
         </pattern>
         <message>[a] Bedoelt u misschien <suggestion>Rode Kruis</suggestion>?</message>
         <example type="correct">Het <marker>Rode Kruis</marker> helpt.</example>
