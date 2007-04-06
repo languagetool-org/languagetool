@@ -65,9 +65,7 @@ public class Element {
     if (!stringToken.equals("") && stringRegExp) {
       regToken = stringToken;
       if (!caseSensitive) {
-//FIXME: it should be (?i) but this breaks Dutch rules
-        //wait for a new release and then change
-        regToken = "(?u)".concat(stringToken);
+        regToken = "(?iu)".concat(stringToken);
       }
       p = Pattern.compile(regToken);
     }
@@ -174,7 +172,7 @@ public class Element {
     if (!stringToken.equals("") && stringRegExp) {
       regToken = stringToken;
       if (!caseSensitive) {
-        regToken = "(?u)".concat(stringToken);
+        regToken = "(?iu)".concat(stringToken);
       }
       p = Pattern.compile(regToken);
     }
