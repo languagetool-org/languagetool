@@ -44,7 +44,7 @@ import de.danielnaber.languagetool.tagging.Tagger;
 public class UkrainianMyspellTagger implements Tagger {
 
   private static final String RESOURCE_FILENAME = "resource" + File.separator + "uk"
-      + File.separator + "uk_UA.dic";
+      + File.separator + "ukrainian.dict";
 
 //  private Lametyzator morfologik = null;
   private HashMap<String, String[]> wordsToPos;
