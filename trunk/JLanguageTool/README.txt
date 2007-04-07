@@ -44,6 +44,7 @@ Known bugs:
 TODO:
  -add a layer to use the simple XML so the LanguageTool GUIs can use An Gramadoir?
  -load (language-specific) abbreviations from external file
+ -Tools.getBaseDir() expects LanguageTool.jar, which doesn't exists during development
  -OpenOffice.org: make the dialog modal
  -stand-alone GUI: mark errors in upper part of window
  -stand-alone GUI: Make it work no matter from which directory it was started.
