@@ -23,6 +23,7 @@ import java.io.FileFilter;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.net.URL;
 
 import de.danielnaber.languagetool.JLanguageTool;
 import de.danielnaber.languagetool.Language;
@@ -61,13 +62,13 @@ public class Overview {
       Language lang = Language.LANGUAGES[i];
       System.out.print("<tr>");
       System.out.print("<td>" + lang.getName() + "</td>");
-      String xmlFile = "rules" + File.separator + lang.getShortName() + File.separator + "grammar.xml";
-      File f = new File(xmlFile);
-      if (!f.exists()) {
+      String xmlFile = "/rules" + File.separator + lang.getShortName() + File.separator + "grammar.xml";
+      java.net.URL url = this.getClass().getResource(xmlFile);    
+      if (url == null) {
         System.out.println("<td align=\"right\">0</td>");
       } else {
         // count XML rules:
-        String xmlRules = StringTools.readFile(xmlFile);
+        String xmlRules = StringTools.readFile(this.getClass().getResourceAsStream(xmlFile));
         xmlRules = xmlRules.replaceAll("(?s)<!--.*?-->", "");
         xmlRules = xmlRules.replaceAll("(?s)<rules.*?>", "");
         int pos = 0;
