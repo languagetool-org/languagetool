@@ -45,49 +45,54 @@ public class Overview {
   }
   
   private void run() throws IOException {
-    System.out.println("Rules in LanguageTool " + JLanguageTool.VERSION + "<br />");
+    System.out.println("<b>Rules in LanguageTool " + JLanguageTool.VERSION + "</b><br />");
     System.out.println("Date: " + new SimpleDateFormat("yyyy-MM-dd").format(new Date()) + "<br /><br />\n");
+    System.out.println("<table>");
+    System.out.println("<tr>");
+    System.out.println("  <th></th>");
+    System.out.println("  <th align=\"right\">XML rules</th>");
+    System.out.println("  <th>&nbsp;&nbsp;</th>");
+    System.out.println("  <th align=\"right\">Java rules</th>");
+    System.out.println("</tr>");
     for (int i = 0; i < Language.LANGUAGES.length; i++) {
-      if (Language.LANGUAGES[i] != Language.DEMO) {
-        Language lang = Language.LANGUAGES[i];
-        System.out.print(lang.getName() + ": ");
-        String xmlFile = "rules" + File.separator + lang.getShortName() + File.separator + "grammar.xml";
-        File f = new File(xmlFile);
-        if (!f.exists()) {
-          System.out.println("  0 XML rules<br />");
-        } else {
-          // count XML rules:
-          String xmlRules = StringTools.readFile(xmlFile);
-          xmlRules = xmlRules.replaceAll("(?s)<!--.*?-->", "");
-          xmlRules = xmlRules.replaceAll("(?s)<rules.*?>", "");
-          int pos = 0;
-          int count = 0;
-          while (pos != -1) {
-            pos = xmlRules.indexOf("<rule", pos+1);
-            if (pos == -1)
-              break;
-            count++;
-          }
-          if (count == 1)
-            System.out.print(" " + count + " XML rule, ");
-          else
-            System.out.print(" " + count + " XML rules, ");
-        }
-        // count Java rules:
-        File dir = new File("src/java/de/danielnaber/languagetool/rules/" + lang.getShortName());
-        if (!dir.exists()) {
-          System.out.print(" 0 Java rules");
-        } else {
-          File[] javaRules = dir.listFiles(new JavaFilter());
-          int javaCount = javaRules.length-1;   // minus 1: one is always "<Language>Rule.java"
-          if (javaCount == 1)
-            System.out.print("  " + javaCount + " Java rule");
-          else
-            System.out.print(" " + javaCount + " Java rules");    
-        }
-        System.out.println("<br />");    
+      if (Language.LANGUAGES[i] == Language.DEMO) {
+        continue;
       }
+      Language lang = Language.LANGUAGES[i];
+      System.out.print("<tr>");
+      System.out.print("<td>" + lang.getName() + "</td>");
+      String xmlFile = "rules" + File.separator + lang.getShortName() + File.separator + "grammar.xml";
+      File f = new File(xmlFile);
+      if (!f.exists()) {
+        System.out.println("<td align=\"right\">0</td>");
+      } else {
+        // count XML rules:
+        String xmlRules = StringTools.readFile(xmlFile);
+        xmlRules = xmlRules.replaceAll("(?s)<!--.*?-->", "");
+        xmlRules = xmlRules.replaceAll("(?s)<rules.*?>", "");
+        int pos = 0;
+        int count = 0;
+        while (pos != -1) {
+          pos = xmlRules.indexOf("<rule", pos+1);
+          if (pos == -1)
+            break;
+          count++;
+        }
+        System.out.print("<td align=\"right\">" + count + "</td>");
+      }
+      System.out.print("<td></td>");
+      // count Java rules:
+      File dir = new File("src/java/de/danielnaber/languagetool/rules/" + lang.getShortName());
+      if (!dir.exists()) {
+        System.out.print("<td align=\"right\">0</td>");
+      } else {
+        File[] javaRules = dir.listFiles(new JavaFilter());
+        int javaCount = javaRules.length-1;   // minus 1: one is always "<Language>Rule.java"
+        System.out.print("<td align=\"right\">" + javaCount + "</td>");
+      }
+      System.out.println("</tr>");    
     }
+    System.out.println("</table>");    
   }
 
 }
