@@ -52,8 +52,7 @@ public class CzechTagger implements Tagger {
           "iso8859-2", '+', true, true);
     }
 
-    for (Iterator<String> iter = sentenceTokens.iterator(); iter.hasNext();) {
-      String word = iter.next();
+    for (String word : sentenceTokens) {
       List<AnalyzedToken> l = new ArrayList<AnalyzedToken>();
       String[] lowerTaggerTokens = null;
       taggerTokens = morfologik.stemAndForm(word);
