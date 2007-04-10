@@ -23,11 +23,9 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 import de.danielnaber.languagetool.rules.Category;
-import de.danielnaber.languagetool.rules.Rule;
 import de.danielnaber.languagetool.rules.RuleMatch;
 import de.danielnaber.languagetool.AnalyzedSentence;
 import de.danielnaber.languagetool.AnalyzedTokenReadings;
-import de.danielnaber.languagetool.Language;
 
 /**
  * A rule that matches spaces before ?,:,; and ! (required for 
@@ -35,10 +33,10 @@ import de.danielnaber.languagetool.Language;
  * 
  * @author Marcin Miłkowski
  */
-public class QuestionWhitespaceRule extends Rule {
+public class QuestionWhitespaceRule extends FrenchRule {
 
   public QuestionWhitespaceRule(final ResourceBundle messages) {
-    super(messages);
+    //super(messages);
     super.setCategory(new Category(messages.getString("category_misc")));
   }
   
@@ -49,10 +47,7 @@ public class QuestionWhitespaceRule extends Rule {
   public String getDescription() {
     return ("Insertion des espaces fines insécables");
   }
-
-  public Language[] getLanguages() {
-    return new Language[] { Language.FRENCH };
-  }
+  
 
   public RuleMatch[] match(final AnalyzedSentence text) {
     List < RuleMatch > ruleMatches = new ArrayList<RuleMatch>();
