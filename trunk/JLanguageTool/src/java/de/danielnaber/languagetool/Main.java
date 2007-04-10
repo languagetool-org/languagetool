@@ -19,6 +19,7 @@
 package de.danielnaber.languagetool;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -62,7 +63,7 @@ class Main {
       SAXException, ParserConfigurationException {
     this.verbose = verbose;
     this.apiFormat = apiFormat;
-    lt = new JLanguageTool(language, motherTongue, Tools.getBaseDir());
+    lt = new JLanguageTool(language, motherTongue);
     lt.activateDefaultPatternRules();
     lt.activateDefaultFalseFriendRules();
     // disable rules that are disabled explicitly:
@@ -113,7 +114,7 @@ class Main {
       lt.setOutput(System.err);
     if (!apiFormat)
       System.out.println("Working on " + filename + "...");
-    String fileContents = StringTools.readFile(filename, encoding);
+    String fileContents = StringTools.readFile(new FileInputStream(filename), encoding);
     return filterXML(fileContents);
   }
     

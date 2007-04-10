@@ -18,7 +18,6 @@
  */
 package de.danielnaber.languagetool.tagging.es;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -28,21 +27,18 @@ import com.dawidweiss.stemmers.Lametyzator;
 
 import de.danielnaber.languagetool.AnalyzedToken;
 import de.danielnaber.languagetool.AnalyzedTokenReadings;
-import de.danielnaber.languagetool.JLanguageTool;
 import de.danielnaber.languagetool.tagging.Tagger;
-import de.danielnaber.languagetool.tools.Tools;
 
 /** Spanish Tagger
  * 
  * Based on FreeLing tagger dictionary 
- * and Spanish Wikipedia corpus tagged with FreeLing
+ * and Spanish Wikipedia corpus tagged with FreeLing.
  * 
  * @author Marcin Milkowski
  */
 public class SpanishTagger implements Tagger {
 
-  private static final String RESOURCE_FILENAME = "resource" + File.separator + "es"
-      + File.separator + "spanish.dict";
+  private static final String RESOURCE_FILENAME = "/resource/es/spanish.dict";
 
   private Lametyzator morfologik_spanish = null;
 
@@ -52,9 +48,7 @@ public class SpanishTagger implements Tagger {
     int pos = 0;
     //caching Lametyzator instance - lazy init
     if (morfologik_spanish == null) {
-      File resourceFile = JLanguageTool.getAbsoluteFile(RESOURCE_FILENAME);
-      //System.setProperty(Lametyzator.PROPERTY_NAME_LAMETYZATOR_DICT, resourceFile.getAbsolutePath());
-      morfologik_spanish = new Lametyzator(Tools.getInputStream(resourceFile.getAbsolutePath()),
+      morfologik_spanish = new Lametyzator(this.getClass().getResourceAsStream(RESOURCE_FILENAME),
           "iso8859-1", '+');
     }
 

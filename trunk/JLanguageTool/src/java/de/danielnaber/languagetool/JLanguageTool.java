@@ -64,7 +64,7 @@ public class JLanguageTool {
 
   public static final String VERSION = "0.9-dev";      // keep in sync with build.xml!
 
-  public static final String RULES_DIR = "rules";
+  public static final String RULES_DIR = "/rules";
   public static final String PATTERN_FILE = "grammar.xml";
   public static final String FALSE_FRIEND_FILE = "false-friends.xml";
   
@@ -76,7 +76,7 @@ public class JLanguageTool {
   private List<Rule> userRules = new ArrayList<Rule>();     // rules added via addRule() method
   private Set<String> disabledRules = new HashSet<String>();
   
-  private static File basedir = null;
+  //private static File basedir = null;
 
   private Language language = null;
   private Language motherTongue = null;
@@ -137,7 +137,7 @@ public class JLanguageTool {
     if (language == null) {
       throw new NullPointerException("language cannot be null");
     }
-    basedir = basedirArg;
+    //basedir = basedirArg;
     this.language = language;
     this.motherTongue = motherTongue;
     messages = getMessageBundle(language);
@@ -208,7 +208,7 @@ public class JLanguageTool {
             rules.add((Rule) constructor.newInstance(messages, language));
             break;
           }
-          throw new RuntimeException("Unkown constructor for rule class: " + class1.getName());
+          throw new RuntimeException("Unknown constructor for rule class: " + class1.getName());
         }
       }
     } catch (Exception e) {
@@ -230,12 +230,13 @@ public class JLanguageTool {
    * Get the File, assuming it's under the base directory.
    * 
    * @param relFilename a non-absolute file name 
-   */
-  public static File getAbsoluteFile(final String relFilename) {
+   
+  public File getAbsoluteFile(final String relFilename) {    
     if (basedir == null)
       return new File(relFilename);
     return new File(basedir, relFilename);
   }
+  */
 
   /**
    * Load pattern rules from an XML file. Use {@link #addRule} to add
@@ -278,7 +279,7 @@ public class JLanguageTool {
    */
   public void activateDefaultPatternRules() throws ParserConfigurationException, SAXException, IOException {
     String defaultPatternFilename = 
-      RULES_DIR +File.separator+ language.getShortName() +File.separator+ PATTERN_FILE;
+      RULES_DIR + "/" + language.getShortName() + "/" + PATTERN_FILE;
     List<PatternRule> patternRules = loadPatternRules(defaultPatternFilename);
     userRules.addAll(patternRules);
   }
@@ -291,7 +292,7 @@ public class JLanguageTool {
    * @throws IOException
    */
   public void activateDefaultFalseFriendRules() throws ParserConfigurationException, SAXException, IOException {
-    String falseFriendRulesFilename =  RULES_DIR +File.separator+ FALSE_FRIEND_FILE;
+    String falseFriendRulesFilename =  RULES_DIR + "/" + FALSE_FRIEND_FILE;
     List<PatternRule> patternRules = loadFalseFriendRules(falseFriendRulesFilename);
     userRules.addAll(patternRules);
   }
@@ -378,7 +379,7 @@ public class JLanguageTool {
           thisMatch.setSuggestedReplacements(thisMatches[i].getSuggestedReplacements());
           String sentencePartToError = sentence.substring(0, thisMatches[i].getFromPos());
           String sentencePartToEndOfError = sentence.substring(0, thisMatches[i].getToPos());          
-          int lastLineBreakPos = sentencePartToError.lastIndexOf("\n");
+          int lastLineBreakPos = sentencePartToError.lastIndexOf('\n');
           int column = -1;
           int endColumn = -1;
           if (lastLineBreakPos == -1) {
@@ -386,7 +387,7 @@ public class JLanguageTool {
           } else {
             column = sentencePartToError.length() - lastLineBreakPos - 1;
           }
-          int lastLineBreakPosInError = sentencePartToEndOfError.lastIndexOf("\n");
+          int lastLineBreakPosInError = sentencePartToEndOfError.lastIndexOf('\n');
           if (lastLineBreakPosInError == -1) {
             endColumn = sentencePartToEndOfError.length() + columnCount + 1;
           } else {
@@ -411,7 +412,7 @@ public class JLanguageTool {
       tokenCount += sentence.length();
       lineCount += countLineBreaks(sentence);
       // calculate matching column:
-      int linebreakPos = sentence.indexOf("\n");
+      int linebreakPos = sentence.indexOf('\n');
       if (linebreakPos == -1) {
         columnCount += sentence.length();
       } else {
@@ -440,7 +441,7 @@ public class JLanguageTool {
     int pos = -1;
     int count = 0;
     while (true) {
-      int nextPos = s.indexOf("\n", pos+1);
+      int nextPos = s.indexOf('\n', pos + 1);
       if (nextPos == -1)
         break;
       pos = nextPos;

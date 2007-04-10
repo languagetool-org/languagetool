@@ -18,7 +18,6 @@
  */
 package de.danielnaber.languagetool;
 
-import java.io.File;
 import java.io.IOException;
 
 import javax.xml.parsers.ParserConfigurationException;
@@ -33,14 +32,14 @@ public class ValidateXMLTest extends TestCase {
     XMLValidator validator = new XMLValidator();
     for (int i = 0; i < Language.LANGUAGES.length; i++) {
       Language lang = Language.LANGUAGES[i];
-      String grammarFile = "rules" + File.separator + lang.getShortName() + File.separator + "grammar.xml";
-      validator.validate(grammarFile, "rules/rules.dtd", "rules");
+      String grammarFile = "/rules/" + lang.getShortName() + "/grammar.xml";
+      validator.validate(grammarFile, "/rules/rules.dtd", "rules");
     }
   }
 
   public void testFalseFriendsXML() throws SAXException, IOException, ParserConfigurationException {
     XMLValidator validator = new XMLValidator();
-    validator.validate("rules" + File.separator + "false-friends.xml", "rules/false-friends.dtd", "rules");
+    validator.validate("/rules/false-friends.xml", "/rules/false-friends.dtd", "rules");
   }
 
 }

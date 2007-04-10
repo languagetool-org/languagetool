@@ -18,7 +18,6 @@
  */
 package de.danielnaber.languagetool.tagging.fr;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -28,32 +27,27 @@ import com.dawidweiss.stemmers.Lametyzator;
 
 import de.danielnaber.languagetool.AnalyzedToken;
 import de.danielnaber.languagetool.AnalyzedTokenReadings;
-import de.danielnaber.languagetool.JLanguageTool;
 import de.danielnaber.languagetool.tagging.Tagger;
-import de.danielnaber.languagetool.tools.Tools;
 
 /** French Tagger
  * 
- * Based on inDICO, implemented in FSA
+ * Based on inDICO, implemented in FSA.
  * 
  * @author Marcin Milkowski
  */
 public class FrenchTagger implements Tagger {
 
-  private static final String RESOURCE_FILENAME = "resource" + File.separator + "fr"
-      + File.separator + "french.dict";
+  private static final String RESOURCE_FILENAME = "/resource/fr/french.dict";
 
   private Lametyzator morfologik = null;
 
-  public List<AnalyzedTokenReadings> tag(final List<String> sentenceTokens) throws IOException {
+  public final List<AnalyzedTokenReadings> tag(final List<String> sentenceTokens) throws IOException {
     String[] taggerTokens;
     List<AnalyzedTokenReadings> tokenReadings = new ArrayList<AnalyzedTokenReadings>();
     int pos = 0;
     //caching Lametyzator instance - lazy init
     if (morfologik == null) {
-      File resourceFile = JLanguageTool.getAbsoluteFile(RESOURCE_FILENAME);
-      //System.setProperty(Lametyzator.PROPERTY_NAME_LAMETYZATOR_DICT, resourceFile.getAbsolutePath());
-      morfologik = new Lametyzator(Tools.getInputStream(resourceFile.getAbsolutePath()),
+      morfologik = new Lametyzator(this.getClass().getResourceAsStream(RESOURCE_FILENAME),
           "iso8859-15", '+');
     }
 
@@ -90,7 +84,7 @@ public class FrenchTagger implements Tagger {
       }
       pos += word.length();
       tokenReadings
-          .add(new AnalyzedTokenReadings((AnalyzedToken[]) l.toArray(new AnalyzedToken[0])));
+          .add(new AnalyzedTokenReadings((AnalyzedToken[]) l.toArray(new AnalyzedToken[l.size()])));
     }
 
     return tokenReadings;

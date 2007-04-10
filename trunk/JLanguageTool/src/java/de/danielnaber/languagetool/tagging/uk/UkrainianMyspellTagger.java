@@ -19,8 +19,7 @@
 package de.danielnaber.languagetool.tagging.uk;
 
 import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
+import java.io.InputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.charset.Charset;
@@ -31,7 +30,6 @@ import java.util.List;
 
 import de.danielnaber.languagetool.AnalyzedToken;
 import de.danielnaber.languagetool.AnalyzedTokenReadings;
-import de.danielnaber.languagetool.JLanguageTool;
 import de.danielnaber.languagetool.tagging.Tagger;
 
 /**
@@ -43,8 +41,7 @@ import de.danielnaber.languagetool.tagging.Tagger;
  */
 public class UkrainianMyspellTagger implements Tagger {
 
-  private static final String RESOURCE_FILENAME = "resource" + File.separator + "uk"
-      + File.separator + "ukrainian.dict";
+  private static final String RESOURCE_FILENAME = "/resource/uk/ukrainian.dict";
 
 //  private Lametyzator morfologik = null;
   private HashMap<String, String[]> wordsToPos;
@@ -62,10 +59,10 @@ public class UkrainianMyspellTagger implements Tagger {
 //    }
     if( wordsToPos == null ) {
     	wordsToPos = new HashMap<String, String[]>();
-    	File resourceFile = JLanguageTool.getAbsoluteFile(RESOURCE_FILENAME);
+    	InputStream resourceFile = this.getClass().getResourceAsStream(RESOURCE_FILENAME);
        	//System.err.println("reading dict: " + resourceFile);
         
-    	BufferedReader input = new BufferedReader( new InputStreamReader( new FileInputStream(resourceFile), Charset.forName("UTF-8")) );
+    	BufferedReader input = new BufferedReader( new InputStreamReader( resourceFile, Charset.forName("UTF-8")) );
 
     	String line;
     	while ((line = input.readLine()) != null) {
@@ -82,8 +79,7 @@ public class UkrainianMyspellTagger implements Tagger {
     				posTags.add(IPOSTag.TAG_NOUN);
     				if( flags.equals("b") )
     					posTags.add(IPOSTag.TAG_PLURAL);
-    			}
-    			else if( flags.matches("[ABCDEFGHIJKLMN]+") ) {
+    			} else if( flags.matches("[ABCDEFGHIJKLMN]+") ) {
     				posTags.add(IPOSTag.TAG_VERB);
     				if( flags.matches("^[BDFHJLN]+") )
         				posTags.add(IPOSTag.TAG_REFL);
@@ -96,6 +92,9 @@ public class UkrainianMyspellTagger implements Tagger {
     		}
     	}
 		//System.err.println("POSed words: " + wordsToPos.size());
+      if (input != null) {
+        input.close();
+      }
     }
     
 	for (Iterator<String> iter = sentenceTokens.iterator(); iter.hasNext();) {
@@ -127,7 +126,7 @@ public class UkrainianMyspellTagger implements Tagger {
 			analyzedTokens.add(new AnalyzedToken(word, null, pos));
 
 		pos += word.length();
-		tokenReadings.add(new AnalyzedTokenReadings(analyzedTokens.toArray(new AnalyzedToken[0])));
+		tokenReadings.add(new AnalyzedTokenReadings(analyzedTokens.toArray(new AnalyzedToken[analyzedTokens.size()])));
 	}
 
 	return tokenReadings;

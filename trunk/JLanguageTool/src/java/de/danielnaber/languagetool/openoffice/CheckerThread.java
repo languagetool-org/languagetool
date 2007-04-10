@@ -18,7 +18,7 @@
  */
 package de.danielnaber.languagetool.openoffice;
 
-import java.io.File;
+//import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,7 +32,7 @@ class CheckerThread extends Thread {
   private List<String> paragraphs;
   private Language docLanguage;
   private Configuration config;
-  private File baseDir;
+  //private File baseDir;
   
   private ProgressInformation progressInfo;
   
@@ -41,11 +41,11 @@ class CheckerThread extends Thread {
   private boolean done = false;
   
   CheckerThread(final List<String> paragraphs, final Language docLanguage, final Configuration config,
-      final File baseDir, final ProgressInformation progressInfo) {
+      final ProgressInformation progressInfo) {
     this.paragraphs = paragraphs;
     this.docLanguage = docLanguage;
     this.config = config;
-    this.baseDir = baseDir;
+    //this.baseDir = baseDir;
     this.progressInfo = progressInfo;
     progressInfo.setMaxProgress(paragraphs.size());
   }
@@ -64,7 +64,7 @@ class CheckerThread extends Thread {
 
   public void run() {
     try {
-      langTool = new JLanguageTool(docLanguage, config.getMotherTongue(), baseDir);
+      langTool = new JLanguageTool(docLanguage, config.getMotherTongue());
       langTool.activateDefaultPatternRules();
       langTool.activateDefaultFalseFriendRules();
       if (config.getDisabledRuleIds() != null) {

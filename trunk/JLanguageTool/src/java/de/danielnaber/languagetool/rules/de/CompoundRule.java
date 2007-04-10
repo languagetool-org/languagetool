@@ -19,8 +19,7 @@
 package de.danielnaber.languagetool.rules.de;
 
 import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
+import java.io.InputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
@@ -37,7 +36,6 @@ import java.util.concurrent.ArrayBlockingQueue;
 import de.danielnaber.languagetool.AnalyzedSentence;
 import de.danielnaber.languagetool.AnalyzedToken;
 import de.danielnaber.languagetool.AnalyzedTokenReadings;
-import de.danielnaber.languagetool.JLanguageTool;
 import de.danielnaber.languagetool.rules.Category;
 import de.danielnaber.languagetool.rules.RuleMatch;
 import de.danielnaber.languagetool.tools.StringTools;
@@ -49,8 +47,7 @@ import de.danielnaber.languagetool.tools.StringTools;
  */
 public class CompoundRule extends GermanRule {
 
-  private static final String FILE_NAME = "resource" +File.separator+ "de" +File.separator+
-    "compounds.txt";
+  private static final String FILE_NAME = "/resource/de/compounds.txt";
   
   private final static int MAX_TERMS = 5;
   
@@ -61,7 +58,7 @@ public class CompoundRule extends GermanRule {
   public CompoundRule(final ResourceBundle messages) throws IOException {
     if (messages != null)
       super.setCategory(new Category(messages.getString("category_misc")));
-    loadCompoundFile(JLanguageTool.getAbsoluteFile(FILE_NAME), "UTF-8");
+    loadCompoundFile(this.getClass().getResourceAsStream(FILE_NAME), "UTF-8");
   }
   
   public String getId() {
@@ -201,13 +198,11 @@ public class CompoundRule extends GermanRule {
     }
   }
 
-  private void loadCompoundFile(final File file, final String encoding) throws IOException {
+  private void loadCompoundFile(final InputStream file, final String encoding) throws IOException {
     InputStreamReader isr = null;
-    BufferedReader br = null;
-    FileInputStream fis = null;
+    BufferedReader br = null;   
     try {
-      fis = new FileInputStream(file);
-      isr = new InputStreamReader(fis, encoding);
+      isr = new InputStreamReader(file, encoding);
       br = new BufferedReader(isr);
       String line;
       while ((line = br.readLine()) != null) {
@@ -222,10 +217,10 @@ public class CompoundRule extends GermanRule {
         if (parts.length == 1)
           throw new IOException("Not a compound: " + line);
         if (line.endsWith("+")) {
-          line = line.substring(0, line.length()-1);    // cut off "+"
+          line = line.substring(0, line.length() - 1);    // cut off "+"
           noDashSuggestion.add(line.toLowerCase());
         } else if (line.endsWith("*")) {
-          line = line.substring(0, line.length()-1);    // cut off "*"
+          line = line.substring(0, line.length() - 1);    // cut off "*"
           onlyDashSuggestion.add(line.toLowerCase());
         }
         incorrectCompounds.add(line.toLowerCase());
@@ -233,7 +228,6 @@ public class CompoundRule extends GermanRule {
     } finally {
       if (br != null) br.close();
       if (isr != null) isr.close();
-      if (fis != null) fis.close();
     }
   }
 

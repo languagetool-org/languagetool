@@ -20,7 +20,7 @@ package de.danielnaber.languagetool.rules.de;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileInputStream;
+import java.io.InputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
@@ -32,7 +32,6 @@ import java.util.ResourceBundle;
 import de.danielnaber.languagetool.AnalyzedSentence;
 import de.danielnaber.languagetool.AnalyzedToken;
 import de.danielnaber.languagetool.AnalyzedTokenReadings;
-import de.danielnaber.languagetool.JLanguageTool;
 import de.danielnaber.languagetool.rules.Category;
 import de.danielnaber.languagetool.rules.RuleMatch;
 
@@ -49,7 +48,7 @@ import de.danielnaber.languagetool.rules.RuleMatch;
  */
 public class WordCoherencyRule extends GermanRule {
 
-  private static final String FILE_NAME = "rules" +File.separator+ "de" +File.separator+ "coherency.txt";
+  private static final String FILE_NAME = "/rules" +File.separator+ "de" +File.separator+ "coherency.txt";
   private static final String FILE_ENCODING = "utf-8";
   
   private Map<String, String> relevantWords;        // e.g. "aufwendig -> aufwändig"
@@ -60,7 +59,7 @@ public class WordCoherencyRule extends GermanRule {
   public WordCoherencyRule(ResourceBundle messages) throws IOException {
     if (messages != null)
       super.setCategory(new Category(messages.getString("category_misc")));
-    relevantWords = loadWords(JLanguageTool.getAbsoluteFile(FILE_NAME)); 
+    relevantWords = loadWords(this.getClass().getResourceAsStream(FILE_NAME)); 
     germanLemmatizer = new GermanLemmatizer();
   }
   
@@ -121,14 +120,14 @@ public class WordCoherencyRule extends GermanRule {
     return toRuleMatchArray(ruleMatches);
   }
 
-  private Map<String, String> loadWords(File file) throws IOException {
+  private Map<String, String> loadWords(InputStream file) throws IOException {
     Map<String, String> map = new HashMap<String, String>();
-    FileInputStream fis = null;
+    //FileInputStream fis = null;
     InputStreamReader isr = null;
     BufferedReader br = null;
     try {
-      fis = new FileInputStream(file);
-      isr = new InputStreamReader(fis, FILE_ENCODING);
+      //fis = new FileInputStream(file);
+      isr = new InputStreamReader(file, FILE_ENCODING);
       br = new BufferedReader(isr);
       String line;
       while ((line = br.readLine()) != null) {
@@ -137,7 +136,7 @@ public class WordCoherencyRule extends GermanRule {
           continue;
         String[] parts = line.split(";");
         if (parts.length != 2) {
-          throw new IOException("Format error in file " +file.getAbsolutePath()+ ", line: " + line);
+          throw new IOException("Format error in file " +this.getClass().getResource(FILE_NAME)+ ", line: " + line);
         }
         map.put(parts[0], parts[1]);
         map.put(parts[1], parts[0]);
@@ -145,7 +144,7 @@ public class WordCoherencyRule extends GermanRule {
     } finally {
       if (br != null) br.close();
       if (isr != null) isr.close();
-      if (fis != null) fis.close();
+      //if (fis != null) fis.close();
     }
     return map;
   }

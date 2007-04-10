@@ -19,9 +19,7 @@
 package de.danielnaber.languagetool.tagging.nl;
 
 import de.danielnaber.languagetool.tagging.Tagger;
-import de.danielnaber.languagetool.tools.Tools;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -31,7 +29,6 @@ import com.dawidweiss.stemmers.Lametyzator;
 
 import de.danielnaber.languagetool.AnalyzedToken;
 import de.danielnaber.languagetool.AnalyzedTokenReadings;
-import de.danielnaber.languagetool.JLanguageTool;
 
 /**
  * Dutch tagger
@@ -40,8 +37,7 @@ import de.danielnaber.languagetool.JLanguageTool;
  */
 public class DutchTagger implements Tagger {
 
-  private static final String RESOURCE_FILENAME = "resource" + File.separator + "nl"
-      + File.separator + "dutch.dict";
+  private static final String RESOURCE_FILENAME = "/resource/nl/dutch.dict";
 
   private Lametyzator morfologik = null;
 
@@ -51,9 +47,7 @@ public class DutchTagger implements Tagger {
     int pos = 0;
     //caching Lametyzator instance - lazy init
     if (morfologik == null) {
-      File resourceFile = JLanguageTool.getAbsoluteFile(RESOURCE_FILENAME);
-      //System.setProperty(Lametyzator.PROPERTY_NAME_LAMETYZATOR_DICT, resourceFile.getAbsolutePath());
-      morfologik = new Lametyzator(Tools.getInputStream(resourceFile.getAbsolutePath()),
+      morfologik = new Lametyzator(this.getClass().getResourceAsStream(RESOURCE_FILENAME),
           "iso8859-9", '+');
     }
 

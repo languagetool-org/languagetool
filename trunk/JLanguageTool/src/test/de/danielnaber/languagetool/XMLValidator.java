@@ -72,8 +72,8 @@ public class XMLValidator {
   /**
    * Validate XML file with the given DTD. Throws exception on error. 
    */
-  public void validate(String filename, String dtdFile, String docType) throws SAXException, IOException, ParserConfigurationException {
-    String xml = StringTools.readFile(filename);
+  public final void validate(String filename, String dtdFile, String docType) throws SAXException, IOException, ParserConfigurationException {
+    String xml = StringTools.readFile(this.getClass().getResourceAsStream(filename));
     validateInternal(xml, dtdFile, docType);
   }
 
@@ -83,7 +83,7 @@ public class XMLValidator {
     SAXParser saxParser = factory.newSAXParser();
     final String decl = "<?xml version=\"1.0\"";
     final String endDecl = "?>";
-    final String dtd = "<!DOCTYPE "+doctype+" PUBLIC \"-//W3C//DTD Rules 0.1//EN\" \"file:" +dtdFile+ "\">";
+    final String dtd = "<!DOCTYPE "+doctype+" PUBLIC \"-//W3C//DTD Rules 0.1//EN\" \"" +this.getClass().getResource(dtdFile)+ "\">";
     int pos = xml.indexOf(decl);
     int endPos = xml.indexOf(endDecl);
     if (pos == -1)

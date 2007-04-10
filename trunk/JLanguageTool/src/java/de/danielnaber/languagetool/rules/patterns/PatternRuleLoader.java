@@ -32,7 +32,6 @@ import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
-import de.danielnaber.languagetool.JLanguageTool;
 import de.danielnaber.languagetool.Language;
 import de.danielnaber.languagetool.rules.Category;
 
@@ -48,12 +47,12 @@ public class PatternRuleLoader extends DefaultHandler {
   public PatternRuleLoader() {
   }
 
-  public List<PatternRule> getRules(String filename) throws ParserConfigurationException,
+  public final List<PatternRule> getRules(final String filename) throws ParserConfigurationException,
       SAXException, IOException {
     PatternRuleHandler handler = new PatternRuleHandler();
     SAXParserFactory factory = SAXParserFactory.newInstance();
     SAXParser saxParser = factory.newSAXParser();
-    saxParser.parse(JLanguageTool.getAbsoluteFile(filename), handler);
+    saxParser.parse(this.getClass().getResourceAsStream(filename), handler);
     rules = handler.getRules();
     return rules;
   }
@@ -62,7 +61,7 @@ public class PatternRuleLoader extends DefaultHandler {
   public static void main(String[] args) throws ParserConfigurationException, SAXException,
       IOException {
     PatternRuleLoader prg = new PatternRuleLoader();
-    List<PatternRule> l = prg.getRules("rules/de/grammar.xml");
+    List<PatternRule> l = prg.getRules("/rules/de/grammar.xml");
     System.out.println(l);
   }
 

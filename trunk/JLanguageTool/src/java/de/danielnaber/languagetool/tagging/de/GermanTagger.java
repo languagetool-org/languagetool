@@ -18,7 +18,6 @@
  */
 package de.danielnaber.languagetool.tagging.de;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -26,7 +25,6 @@ import java.util.List;
 import com.dawidweiss.stemmers.Lametyzator;
 
 import de.danielnaber.languagetool.AnalyzedTokenReadings;
-import de.danielnaber.languagetool.JLanguageTool;
 import de.danielnaber.languagetool.tagging.ManualTagger;
 import de.danielnaber.languagetool.tagging.Tagger;
 
@@ -37,10 +35,8 @@ import de.danielnaber.languagetool.tagging.Tagger;
  */
 public class GermanTagger implements Tagger {
 
-  private static final String DICT_FILENAME = "resource" + File.separator + "de"
-      + File.separator + "german.dict";
-  private static final String USER_DICT_FILENAME = "resource" + File.separator + "de"
-      + File.separator + "added.txt";
+  private static final String DICT_FILENAME = "/resource/de/german.dict";
+  private static final String USER_DICT_FILENAME = "/resource/de/added.txt";
 
   private Lametyzator morfologik = null;
   private ManualTagger manualTagger = null;
@@ -69,12 +65,11 @@ public class GermanTagger implements Tagger {
     int pos = 0;
     // caching Lametyzator instance - lazy init
     if (morfologik == null) {
-      File resourceFile = JLanguageTool.getAbsoluteFile(DICT_FILENAME);
-      System.setProperty(Lametyzator.PROPERTY_NAME_LAMETYZATOR_DICT, resourceFile.getAbsolutePath());
-      morfologik = new Lametyzator();
+      morfologik = new Lametyzator(this.getClass().getResourceAsStream(DICT_FILENAME),
+          "iso8859-1", '+');
     }
     if (manualTagger == null) {
-      manualTagger = new ManualTagger(JLanguageTool.getAbsoluteFile(USER_DICT_FILENAME));
+      manualTagger = new ManualTagger(this.getClass().getResourceAsStream(USER_DICT_FILENAME));
     }
 
     for (String word: sentenceTokens) {
@@ -97,7 +92,7 @@ public class GermanTagger implements Tagger {
       }
       pos += word.length();
       //tokenReadings.add(new AnalyzedGermanToken(new AnalyzedTokenReadings((AnalyzedToken[]) l.toArray(new AnalyzedToken[0]))));
-      tokenReadings.add(new AnalyzedGermanTokenReadings(l.toArray(new AnalyzedGermanToken[0])));
+      tokenReadings.add(new AnalyzedGermanTokenReadings(l.toArray(new AnalyzedGermanToken[l.size()])));
     }
     return tokenReadings;
   }

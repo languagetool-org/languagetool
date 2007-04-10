@@ -35,7 +35,6 @@ import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
-import de.danielnaber.languagetool.JLanguageTool;
 import de.danielnaber.languagetool.Language;
 
 /**
@@ -50,11 +49,11 @@ public class FalseFriendRuleLoader extends DefaultHandler {
   public FalseFriendRuleLoader() {
   }
 
-  public List<PatternRule> getRules(String filename, Language textLanguage, Language motherTongue) throws ParserConfigurationException, SAXException, IOException {
+  public final List<PatternRule> getRules(final String filename, final Language textLanguage, final Language motherTongue) throws ParserConfigurationException, SAXException, IOException {
     FalseFriendRuleHandler handler = new FalseFriendRuleHandler(textLanguage, motherTongue);
     SAXParserFactory factory = SAXParserFactory.newInstance();
     SAXParser saxParser = factory.newSAXParser();
-    saxParser.parse(JLanguageTool.getAbsoluteFile(filename), handler);
+    saxParser.parse(this.getClass().getResourceAsStream(filename), handler);
     rules = handler.getRules();
     // Add suggestions to each rule:
     ResourceBundle messages = ResourceBundle.getBundle("de.danielnaber.languagetool.MessagesBundle",
@@ -210,24 +209,22 @@ class FalseFriendRuleHandler extends XMLRuleHandler {
 		  if (attrs.getValue("negate") != null){
 			  tokenNegated = attrs.getValue("negate").equals("yes");
 		  }
-		  if (attrs.getValue("inflected") != null){
+		  if (attrs.getValue("inflected") != null) {
 			  tokenInflected = attrs.getValue("inflected").equals("yes");
 		  }
-		  if (attrs.getValue("skip") != null){
+		  if (attrs.getValue("skip") != null) {
 			  skipPos = Integer.parseInt(attrs.getValue("skip"));
 		  }
 		  elements = new StringBuffer();
-		  if (elementList == null) //lazy init
-		  {
+		  if (elementList == null) {
 			  elementList = new ArrayList<Element>();
 		  }
-		  if (attrs.getValue("postag") != null)
-		  {
+		  if (attrs.getValue("postag") != null) {
 			  posToken = attrs.getValue("postag");
-			  if (attrs.getValue("postag_regexp") != null){
+			  if (attrs.getValue("postag_regexp") != null) {
 				  regular = attrs.getValue("postag_regexp").equals("yes");
 			  }
-			  if (attrs.getValue("negate_pos") != null){
+			  if (attrs.getValue("negate_pos") != null) {
 				  posNegation = (attrs.getValue("negate_pos").equals("yes"));
 			  }
 			  
@@ -235,7 +232,7 @@ class FalseFriendRuleHandler extends XMLRuleHandler {
 				  elementList = new ArrayList<Element>();
 			  }
 		  }
-		  if (attrs.getValue("regexp") != null){
+		  if (attrs.getValue("regexp") != null) {
 			  regExpression = attrs.getValue("regexp").equals("yes");
 		  }
 		  
@@ -312,20 +309,19 @@ class FalseFriendRuleHandler extends XMLRuleHandler {
                     exceptionPosToken = null;
                   }
 	  } else if (qName.equals("token")) {
-		  if (inToken)
-		  {
-            if (!exceptionSet || stringElement==null) {
+		  if (inToken) {
+            if (!exceptionSet || stringElement == null) {
               stringElement = new Element(elements.toString(), caseSensitive, regExpression,
                   tokenInflected);
               stringElement.setNegation(tokenNegated);
               } else {
                 stringElement.setStringElement(elements.toString());
               }
-			  if (skipPos!=0) {
+			  if (skipPos != 0) {
 				  stringElement.setSkipNext(skipPos);
 				  skipPos = 0;
 			  }
-			  if (posToken!=null) {
+			  if (posToken != null) {
 			 		stringElement.setPosElement(posToken, regular, posNegation);
 			 		posToken = null;
 			 	}
@@ -388,7 +384,7 @@ class FalseFriendRuleHandler extends XMLRuleHandler {
     return sb.toString();
   }
 
-  public void characters(char buf[], int offset, int len) {
+  public void characters(final char[] buf, final int offset, final int len) {
     String s = new String(buf, offset, len);
     if (inException) {
         exceptions.append(s);

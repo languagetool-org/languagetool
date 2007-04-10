@@ -19,7 +19,6 @@
 package de.danielnaber.languagetool.tools;
 
 import java.io.BufferedReader;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -56,8 +55,8 @@ public final class StringTools {
   /**
    * Read a file's content.
    */
-  public static String readFile(final String filename) throws IOException {
-    return readFile(filename, null);
+  public static String readFile(final InputStream file) throws IOException {
+    return readFile(file, null);
   }
   
   /**
@@ -68,17 +67,17 @@ public final class StringTools {
    * @return a string with the file's content, lines separated by <code>\n</code>
    * @throws IOException
    */
-  public static String readFile(final String filename, final String encoding) throws IOException {
+  public static String readFile(final InputStream file, final String encoding) throws IOException {
     InputStreamReader isr = null;
     BufferedReader br = null;
-    FileInputStream fis = null;
+    //FileInputStream fis = null;
     StringBuilder sb = new StringBuilder();
     try {
-      fis = new FileInputStream(filename);
+      //fis = new FileInputStream(filename);
       if (encoding != null)
-        isr = new InputStreamReader(fis, encoding);
+        isr = new InputStreamReader(file, encoding);
       else
-        isr = new InputStreamReader(fis);
+        isr = new InputStreamReader(file);
       br = new BufferedReader(isr);
       String line;
       while ((line = br.readLine()) != null) {
@@ -88,7 +87,7 @@ public final class StringTools {
     } finally {
       if (br != null) br.close();
       if (isr != null) isr.close();
-      if (fis != null) fis.close();
+      //if (fis != null) fis.close();
     }
     return sb.toString();
   }
@@ -248,7 +247,7 @@ public final class StringTools {
   }
   
   public static String getContext(int fromPos, int toPos, String fileContents, int contextSize) {
-    fileContents = fileContents.replaceAll("\n", " ");
+    fileContents = fileContents.replace('\n', ' ');
     // calculate context region:
     int startContent = fromPos - contextSize;
     String prefix = "...";

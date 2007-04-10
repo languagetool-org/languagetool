@@ -18,7 +18,6 @@
  */
 package de.danielnaber.languagetool.tagging.cs;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -29,8 +28,6 @@ import com.dawidweiss.stemmers.Lametyzator;
 import de.danielnaber.languagetool.AnalyzedToken;
 import de.danielnaber.languagetool.AnalyzedTokenReadings;
 import de.danielnaber.languagetool.tagging.Tagger;
-import de.danielnaber.languagetool.tools.Tools;
-import de.danielnaber.languagetool.JLanguageTool;
 
 /**
  * Czech POS tagger based on FSA morphological dictionaries.
@@ -39,8 +36,7 @@ import de.danielnaber.languagetool.JLanguageTool;
  */
 public class CzechTagger implements Tagger {
 
-  private static final String RESOURCE_FILENAME = "resource" + File.separator + "cs"
-      + File.separator + "czech.dict";
+  private static final String RESOURCE_FILENAME = "/resource/cs/czech.dict";
 
   private Lametyzator morfologik = null;
 
@@ -52,8 +48,7 @@ public class CzechTagger implements Tagger {
     int pos = 0;
     //caching Lametyzator instance - lazy init
     if (morfologik == null) {
-      File resourceFile = JLanguageTool.getAbsoluteFile(RESOURCE_FILENAME);
-      morfologik = new Lametyzator(Tools.getInputStream(resourceFile.getAbsolutePath()),
+      morfologik = new Lametyzator(this.getClass().getResourceAsStream(RESOURCE_FILENAME),
           "iso8859-2", '+', true, true);
     }
 

@@ -19,8 +19,8 @@
 package de.danielnaber.languagetool.tagging;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.FileInputStream;
+import java.io.InputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
@@ -42,7 +42,7 @@ public class ManualTagger {
 
   private Map<String, List<LookedUpTerm>> mapping = null;
   
-  public ManualTagger(File file) throws IOException {
+  public ManualTagger(InputStream file) throws IOException {
     mapping = loadMapping(file, "utf8");
   }
   
@@ -69,14 +69,12 @@ public class ManualTagger {
     return plainResult.toArray(new String[]{});
   }
   
-  private Map<String, List<LookedUpTerm>> loadMapping(final File file, final String encoding) throws IOException {
+  private Map<String, List<LookedUpTerm>> loadMapping(final InputStream file, final String encoding) throws IOException {
     Map<String, List<LookedUpTerm>> map = new HashMap<String, List<LookedUpTerm>>();
     InputStreamReader isr = null;
-    BufferedReader br = null;
-    FileInputStream fis = null;
-    try {
-      fis = new FileInputStream(file);
-      isr = new InputStreamReader(fis, encoding);
+    BufferedReader br = null;   
+    try {    
+      isr = new InputStreamReader(file, encoding);
       br = new BufferedReader(isr);
       String line;
       while ((line = br.readLine()) != null) {
@@ -84,7 +82,7 @@ public class ManualTagger {
           continue;
         String[] parts = line.split("\t");
         if (parts.length != 3) {
-          throw new IOException("Unknown format in " +file.getAbsolutePath()+ ": " + line);
+          throw new IOException("Unknown format in " + file + ": " + line);
         }
         if (map.containsKey(parts[0])) {
           List<LookedUpTerm> l = map.get(parts[0]);
@@ -99,7 +97,6 @@ public class ManualTagger {
     } finally {
       if (br != null) br.close();
       if (isr != null) isr.close();
-      if (fis != null) fis.close();
     }
     return map;
   }

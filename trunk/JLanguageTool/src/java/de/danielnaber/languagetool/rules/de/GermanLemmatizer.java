@@ -20,13 +20,11 @@ package de.danielnaber.languagetool.rules.de;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileInputStream;
+import java.io.InputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.HashMap;
 import java.util.Map;
-
-import de.danielnaber.languagetool.JLanguageTool;
 
 /**
  * Trivial German lemmatizer that can simply find the baseforms of
@@ -36,28 +34,26 @@ import de.danielnaber.languagetool.JLanguageTool;
  */
 class GermanLemmatizer {
 
-  private static final String FILE_NAME = "rules" +File.separator+ "de" +File.separator+
+  private static final String FILE_NAME = "/rules" +File.separator+ "de" +File.separator+
     "fullform2baseform.txt";
   private static final String FILE_ENCODING = "utf-8";
   
   private Map<String, String> fullform2baseform;
   
   GermanLemmatizer() throws IOException {
-    fullform2baseform = loadWords(JLanguageTool.getAbsoluteFile(FILE_NAME));
+    fullform2baseform = loadWords(this.getClass().getResourceAsStream(FILE_NAME));
   }
   
   String getBaseform(final String fullform) {
     return fullform2baseform.get(fullform);
   }
   
-  private Map<String, String> loadWords(File file) throws IOException {
+  private Map<String, String> loadWords(InputStream file) throws IOException {
     Map<String, String> map = new HashMap<String, String>();
-    FileInputStream fis = null;
     InputStreamReader isr = null;
     BufferedReader br = null;
     try {
-      fis = new FileInputStream(file);
-      isr = new InputStreamReader(fis, FILE_ENCODING);
+      isr = new InputStreamReader(file, FILE_ENCODING);
       br = new BufferedReader(isr);
       String line;
       while ((line = br.readLine()) != null) {
@@ -68,7 +64,7 @@ class GermanLemmatizer {
           continue;
         String[] parts = line.split(":");
         if (parts.length != 2) {
-          throw new IOException("Format error in file " +file.getAbsolutePath()+ ", line: " + line);
+          throw new IOException("Format error in file " +this.getClass().getResource(FILE_NAME)+", line: " + line);
         }
         String baseform = parts[0];
         String[] fullforms = parts[1].split(",");
@@ -79,7 +75,6 @@ class GermanLemmatizer {
     } finally {
       if (br != null) br.close();
       if (isr != null) isr.close();
-      if (fis != null) fis.close();
     }
     return map;
   }

@@ -82,7 +82,7 @@ public final class Main implements ActionListener {
   private static final String HTML_FONT_START = "<font face='Arial,Helvetica'>";
   private static final String HTML_FONT_END = "</font>";
   
-  private static final Icon SYSTEM_TRAY_ICON = new ImageIcon("resource"+File.separator+"TrayIcon.png");
+  private final Icon SYSTEM_TRAY_ICON = new ImageIcon( this.getClass().getResource("/resource/TrayIcon.png"));
   private static final String SYSTEM_TRAY_TOOLTIP = "LanguageTool";
   private static final String CONFIG_FILE = ".languagetool.cfg";
 
@@ -111,7 +111,7 @@ public final class Main implements ActionListener {
     frame = new JFrame("LanguageTool " + JLanguageTool.VERSION);
     frame.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
     frame.addWindowListener(new CloseListener());
-    frame.setIconImage(Tools.WINDOW_ICON);
+    frame.setIconImage(new ImageIcon(this.getClass().getResource("/resource/TrayIcon.png")).getImage());
     frame.setJMenuBar(new MainMenuBar(this, messages));
 
     textArea = new JTextArea(messages.getString("guiDemoText"));
@@ -208,7 +208,7 @@ public final class Main implements ActionListener {
       File file = jfc.getSelectedFile();
       if (file == null)   // user cancelled
         return;
-      String fileContents = StringTools.readFile(file.getAbsolutePath());
+      String fileContents = StringTools.readFile(this.getClass().getResourceAsStream((file.getAbsolutePath())));
       textArea.setText(fileContents);
       JLanguageTool langTool = getCurrentLanguageTool();
       checkTextAndDisplayResults(langTool, getCurrentLanguage());

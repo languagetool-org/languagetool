@@ -44,7 +44,7 @@ public class JLanguageToolTest extends TestCase {
     matches = tool.check("I can give you more a detailed description.");
     assertEquals(0, matches.size());
     assertEquals(6, tool.getAllRules().size());
-    List rules = tool.loadPatternRules("rules/en/grammar.xml");
+    List rules = tool.loadPatternRules("/rules/en/grammar.xml");
     for (Iterator iter = rules.iterator(); iter.hasNext();) {
       Rule rule = (Rule) iter.next();
       tool.addRule(rule);
@@ -63,7 +63,7 @@ public class JLanguageToolTest extends TestCase {
     assertEquals(0, matches.size());
     matches = tool.check("Ein Test Test, der Fehler geben sollte.");
     assertEquals(1, matches.size());
-    List rules = tool.loadPatternRules("rules/de/grammar.xml");
+    List rules = tool.loadPatternRules("/rules/de/grammar.xml");
     for (Iterator iter = rules.iterator(); iter.hasNext();) {
       Rule rule = (Rule) iter.next();
       tool.addRule(rule);
@@ -79,7 +79,7 @@ public class JLanguageToolTest extends TestCase {
     assertEquals(0, matches.size());
     matches = tool.check("Een test test, die een fout moet geven.");
     assertEquals(1, matches.size());
-    List rules = tool.loadPatternRules("rules/nl/grammar.xml");
+    List rules = tool.loadPatternRules("/rules/nl/grammar.xml");
     for (Iterator iter = rules.iterator(); iter.hasNext();) {
       Rule rule = (Rule) iter.next();
       tool.addRule(rule);

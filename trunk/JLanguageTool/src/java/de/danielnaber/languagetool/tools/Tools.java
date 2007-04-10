@@ -36,13 +36,12 @@ import de.danielnaber.languagetool.rules.RuleMatch;
 public final class Tools {
 
   private static final int DEFAULT_CONTEXT_SIZE = 25;
-  private static final String LANGUAGETOOL_JAR = "LanguageTool.jar";
-
+  
   private Tools() {
     // cannot construct, static methods only
   }
 
-  public static File getBaseDir() {
+/*  public static File getBaseDir() {
     String classpath = System.getProperty("java.class.path");
     if (classpath == null) {
       System.err.println("java.class.path is not set");
@@ -61,7 +60,7 @@ public final class Tools {
       return null;
     }
     return new File(languageToolJarPath).getParentFile();
-  }
+  }*/
 
   public static int checkText(final String contents, JLanguageTool lt) throws IOException {
     return checkText(contents, lt, false, -1);

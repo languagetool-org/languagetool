@@ -46,7 +46,7 @@ public class HTTPServerTest extends TestCase {
       assertTrue(result.indexOf("WIEDER_WILLEN") != -1);
       assertTrue(result.indexOf("öäüß") != -1);   // special chars are intact
       XMLValidator validator = new XMLValidator();
-      validator.validateXMLString(result, "resource/api-output.dtd", "matches");
+      validator.validateXMLString(result, "/resource/api-output.dtd", "matches");
       validator.checkSimpleXMLString(result);
       //System.err.println(result);
       // make sure XML chars are escaped in the result to avoid invalid XML

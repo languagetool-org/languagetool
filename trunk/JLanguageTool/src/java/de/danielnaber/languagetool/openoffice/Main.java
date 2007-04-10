@@ -302,7 +302,7 @@ public class Main {
         return;
       ProgressDialog progressDialog = new ProgressDialog(messages);
       CheckerThread checkerThread = new CheckerThread(textToCheck.paragraphs, docLanguage, config, 
-          baseDir, progressDialog);
+          progressDialog);
       checkerThread.start();
       while (true) {
         if (checkerThread.done()) {
@@ -346,8 +346,8 @@ public class Main {
 
     private File getBaseDir() throws IOException {
       java.net.URL url = Main.class.getResource("/de/danielnaber/languagetool/openoffice/Main.class");
-      String urlString = url.getFile();
-      urlString = URLDecoder.decode(urlString);
+      String urlString = url.getFile();            
+      urlString = URLDecoder.decode(urlString, "UTF-8");
       File file = new File(urlString.substring("file:".length(), urlString.indexOf("!")));
       if (!file.exists()) {
         throw new IOException("File not found: " + file.getAbsolutePath());

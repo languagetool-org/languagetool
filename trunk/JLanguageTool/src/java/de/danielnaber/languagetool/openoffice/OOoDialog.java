@@ -23,6 +23,7 @@ import java.awt.Dimension;
 import java.awt.Frame;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.Image;
 import java.awt.Insets;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
@@ -37,6 +38,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 import java.util.Set;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JDialog;
@@ -139,7 +141,9 @@ public class OOoDialog implements ActionListener {
     // set icon in the left upper corner:
     Frame owner = (Frame) dialog.getOwner();
     if (owner != null) {
-      owner.setIconImage(Tools.WINDOW_ICON);
+      final Image WINDOW_ICON = 
+      new ImageIcon(this.getClass().getResource(Tools.WINDOW_ICON_FILE)).getImage();
+      owner.setIconImage(WINDOW_ICON);
     }
     // close when user presses Escape key:
     bindKey(dialog, KeyEvent.VK_ESCAPE, new EscapeActionListener(dialog));

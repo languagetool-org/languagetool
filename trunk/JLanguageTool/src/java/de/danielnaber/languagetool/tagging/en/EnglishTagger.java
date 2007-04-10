@@ -18,7 +18,6 @@
  */
 package de.danielnaber.languagetool.tagging.en;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -28,9 +27,7 @@ import com.dawidweiss.stemmers.Lametyzator;
 
 import de.danielnaber.languagetool.AnalyzedToken;
 import de.danielnaber.languagetool.AnalyzedTokenReadings;
-import de.danielnaber.languagetool.JLanguageTool;
 import de.danielnaber.languagetool.tagging.Tagger;
-import de.danielnaber.languagetool.tools.Tools;
 
 /** English Part-of-speech tagger.
  * Based on part-of-speech lists in Public Domain.
@@ -41,8 +38,7 @@ import de.danielnaber.languagetool.tools.Tools;
  */
 public class EnglishTagger implements Tagger {
 
-  private static final String RESOURCE_FILENAME = "resource" + File.separator + "en"
-      + File.separator + "english.dict";
+  private static final String RESOURCE_FILENAME = "/resource/en/english.dict";
 
   private Lametyzator morfologik = null;
 
@@ -54,8 +50,7 @@ public class EnglishTagger implements Tagger {
     int pos = 0;
     // caching Lametyzator instance - lazy init
     if (morfologik == null) {
-      File resourceFile = JLanguageTool.getAbsoluteFile(RESOURCE_FILENAME);
-      morfologik = new Lametyzator(Tools.getInputStream(resourceFile.getAbsolutePath()),
+      morfologik = new Lametyzator(this.getClass().getResourceAsStream(RESOURCE_FILENAME),
           "iso8859-1", '+');
     }
 
@@ -92,7 +87,7 @@ public class EnglishTagger implements Tagger {
       }
       pos += word.length();
       tokenReadings
-          .add(new AnalyzedTokenReadings((AnalyzedToken[]) l.toArray(new AnalyzedToken[0])));
+          .add(new AnalyzedTokenReadings((AnalyzedToken[]) l.toArray(new AnalyzedToken[l.size()])));
     }
 
     return tokenReadings;

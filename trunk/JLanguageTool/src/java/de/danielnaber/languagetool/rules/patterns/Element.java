@@ -45,7 +45,7 @@ public class Element {
   private boolean inflected = false;
 
   private ArrayList<Element> exceptionList;
-  public boolean exceptionValidNext = true;
+  private boolean exceptionValidNext = true;
   private boolean exceptionSet = false;
 
   private int skip = 0;
