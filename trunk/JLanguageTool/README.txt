@@ -27,7 +27,7 @@ Known bugs:
    -doesn't check table content
    -getParagraphContent() iterates differently than OOoDialog.showError() so
     that there's an offset when showing the errors in documents with tables,
-    i.e. the wrong text is marked
+    i.e., the wrong text is marked
    -LanguageTool gets confused when the text is changed while the LanguageTool 
     dialog is open
    -LanguageTool doesn't work if you have a Windows username with special characters
@@ -38,12 +38,12 @@ Known bugs:
     at $Proxy17.gotoRange(Unknown Source)
    -usability: pressing Esc too long will close both dialogs, should close only one
  -general:
-   -for some rules there may be a lot of false alarms, i.e. LanguageTool complains
+   -for some rules there may be a lot of false alarms, i.e., LanguageTool complains
     about text which is actually correct
    
 TODO:
  -add a layer to use the simple XML so the LanguageTool GUIs can use An Gramadoir?
- -load (language-specific) abbreviations from external file
+ -load (language-specific) abbreviations from an external file
  -Tools.getBaseDir() expects LanguageTool.jar, which doesn't exist during development
  -OpenOffice.org: make the dialog modal
  -stand-alone GUI: mark errors in upper part of window
@@ -54,9 +54,9 @@ TODO:
  -Auto-reload rules if file timestamp has changed?
  -enable style registers and/or rule classes
  -clean up rule descriptions so that they coherently contain the error or the rule
-  (e.g. "did + baseform" vs. "did + non-baseform")
+  (e.g., "did + baseform" vs. "did + non-baseform")
  -add more rules, especially agreement stuff 
- -add simple sentence/word complexity test like that: http://www.ooomacros.org/user.php#111318 
+ -add a simple sentence/word complexity test like that: http://www.ooomacros.org/user.php#111318 
  -use regular expressions and POS tags to create complex suggestions (for example, suggesting another
   grammatical case or a word without an apostrophe)
  -German rule: Vergleichs vs Vergleiches etc -> only one variant per document should be used
@@ -68,7 +68,7 @@ TODO:
  	-make rule loading dynamic by using reflection (in progress)
  	-create the list of languages using reflection (add a LanguageInformation
  	 interface that each language needs to implement)
- 	-Add a "Add language pack..." menu to both the stand-alone version and the
+ 	-Add an "Add language pack..." menu to both the stand-alone version and the
  	 OpenOffice.org version
  -German:
  	"*Ich kaufe den Hund einen Knochen" (den -> dem), aber:
