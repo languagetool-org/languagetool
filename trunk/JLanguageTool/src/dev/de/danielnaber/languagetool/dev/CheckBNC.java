@@ -20,6 +20,7 @@
 package de.danielnaber.languagetool.dev;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.List;
 
@@ -75,7 +76,7 @@ public final class CheckBNC {
       }
     } else {
       System.out.println("Checking " + file.getAbsolutePath());
-      String text = StringTools.readFile(file.getAbsolutePath());
+      String text = StringTools.readFile(new FileInputStream(file.getAbsolutePath()));
       text = textFilter.filter(text);
       if (CHECK_BY_SENTENCE) {
         SentenceTokenizer st = new SentenceTokenizer();

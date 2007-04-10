@@ -19,6 +19,7 @@
 package de.danielnaber.languagetool.dev;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -73,7 +74,7 @@ public class Indexer  {
       Document doc = new Document();
       if (count % 50 == 0)
         System.out.println("Indexing file #" + count);
-      String s = StringTools.readFile(file.getAbsolutePath(), "iso-8859-1");
+      String s = StringTools.readFile(new FileInputStream(file.getAbsolutePath()), "iso-8859-1");
       // XML data:
       s = getParagraphs(s);
       //s = s.replaceAll("(\\w)([.,?!])", "$1 $2");

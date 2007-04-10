@@ -6,18 +6,40 @@
 	</projects>
 	<buildSpec>
 		<buildCommand>
+			<name>org.eclipse.hyades.probekit.probekitbuilder</name>
+			<arguments>
+			</arguments>
+		</buildCommand>
+		<buildCommand>
 			<name>org.eclipse.jdt.core.javabuilder</name>
 			<arguments>
 			</arguments>
 		</buildCommand>
 		<buildCommand>
-			<name>edu.umd.cs.findbugs.plugin.eclipse.findbugsBuilder</name>
+			<name>org.eclipse.ui.externaltools.ExternalToolBuilder</name>
+			<triggers>full,incremental,</triggers>
+			<arguments>
+				<dictionary>
+					<key>LaunchConfigHandle</key>
+					<value>&lt;project&gt;/.externalToolBuilders/net.sourceforge.pmd.runtime.pmdBuilder.launch</value>
+				</dictionary>
+			</arguments>
+		</buildCommand>
+		<buildCommand>
+			<name>org.eclipse.hyades.probekit.probekitbundler</name>
+			<arguments>
+			</arguments>
+		</buildCommand>
+		<buildCommand>
+			<name>com.stateofflow.eclipse.metrics.MetricsBuilder</name>
 			<arguments>
 			</arguments>
 		</buildCommand>
 	</buildSpec>
 	<natures>
 		<nature>org.eclipse.jdt.core.javanature</nature>
-		<nature>edu.umd.cs.findbugs.plugin.eclipse.findbugsNature</nature>
+		<nature>net.sourceforge.pmd.runtime.pmdNature</nature>
+		<nature>org.eclipse.hyades.probekit.probekitnature</nature>
+		<nature>com.stateofflow.eclipse.metrics.MetricsNature</nature>
 	</natures>
 </projectDescription>
