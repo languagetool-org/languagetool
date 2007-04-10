@@ -30,7 +30,6 @@ Known bugs:
     i.e., the wrong text is marked
    -LanguageTool gets confused when the text is changed while the LanguageTool 
     dialog is open
-   -LanguageTool doesn't work if you have a Windows username with special characters
    -changing options only takes effect on next check
    -some errors trigger two rules at the same position, this makes the "Change text"
     button work wrong
@@ -44,7 +43,6 @@ Known bugs:
 TODO:
  -add a layer to use the simple XML so the LanguageTool GUIs can use An Gramadoir?
  -load (language-specific) abbreviations from an external file
- -Tools.getBaseDir() expects LanguageTool.jar, which doesn't exist during development
  -OpenOffice.org: make the dialog modal
  -stand-alone GUI: mark errors in upper part of window
  -stand-alone GUI: Make it work no matter from which directory it was started.
