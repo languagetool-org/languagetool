@@ -31,6 +31,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
+import java.net.JarURLConnection;
 
 public class ReflectionUtils {
 
@@ -59,19 +60,13 @@ public class ReflectionUtils {
       Set<URL> uniqResources = new HashSet<URL>();
       for (; resources_.hasMoreElements();) {
         URL resource = resources_.nextElement();
-        if (resource.getProtocol().equals("jar")) {
-          // TODO: make sure this is network transparent
-          String jarPath = resource.getPath().substring(0, resource.getPath().indexOf('!'));
-          uniqResources.add(new URL(jarPath));
-       } else {
           uniqResources.add(resource);
-        }
       }
 
       for (URL resource : uniqResources) {
-        // System.err.println("trying resource: " + resource);
+         //System.err.println("trying resource: " + resource);
         // jars and directories are treated differently
-        if (resource.getPath().endsWith("jar")) {
+        if (resource.getProtocol().startsWith("jar")) {        
           // The LanguageTool ZIP contains two JARs with the core classes,
           // so ignore one of them to avoid rule duplication:
           if (resource.getPath().endsWith("LanguageTool.uno.jar")) {
@@ -136,7 +131,8 @@ public class ReflectionUtils {
   private static void findClassesInJar(String packageName, String classNameRegEx, 
       int subdirLevel, Class classExtends, Class interfaceImplements, List<Class> foundClasses,
       URL resource) throws IOException, URISyntaxException, ClassNotFoundException {
-    JarFile currentFile = new JarFile(new File(resource.toURI()));
+    JarURLConnection conn = (JarURLConnection) resource.openConnection();
+    JarFile currentFile = conn.getJarFile(); //new JarFile(new File(resource.toURI()));
     // jars are flat containers:
     for (Enumeration<JarEntry> e = currentFile.entries(); e.hasMoreElements();) {
       JarEntry current = (JarEntry) e.nextElement();
