@@ -35,7 +35,7 @@ import de.danielnaber.languagetool.Language;
 public class FalseFriendRuleTest extends TestCase {
 
   public void testHintsForGermanSpeakers() throws IOException, ParserConfigurationException, SAXException {
-    JLanguageTool langTool = new JLanguageTool(Language.ENGLISH, Language.GERMAN, null);
+    JLanguageTool langTool = new JLanguageTool(Language.ENGLISH, Language.GERMAN);
     langTool.activateDefaultFalseFriendRules();
     assertErrors(1, "We will berate you.", langTool);
     assertErrors(0, "We will give you advice.", langTool);
@@ -43,7 +43,7 @@ public class FalseFriendRuleTest extends TestCase {
   }
 
   public void testHintsForEnglishSpeakers() throws IOException, ParserConfigurationException, SAXException {
-    JLanguageTool langTool = new JLanguageTool(Language.GERMAN, Language.ENGLISH, null);
+    JLanguageTool langTool = new JLanguageTool(Language.GERMAN, Language.ENGLISH);
     langTool.activateDefaultFalseFriendRules();
     assertErrors(1, "Man sollte ihn nicht so beraten.", langTool);
     assertErrors(0, "Man sollte ihn nicht so beschimpfen.", langTool);

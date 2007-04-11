@@ -41,27 +41,6 @@ public final class Tools {
     // cannot construct, static methods only
   }
 
-/*  public static File getBaseDir() {
-    String classpath = System.getProperty("java.class.path");
-    if (classpath == null) {
-      System.err.println("java.class.path is not set");
-      return null;
-    }
-    String[] parts = classpath.split(File.pathSeparator);
-    String languageToolJarPath = null;
-    for (int i = 0; i < parts.length; i++) {
-      if (parts[i].endsWith(LANGUAGETOOL_JAR)) {
-        languageToolJarPath = parts[i];
-        break;
-      }
-    }
-    if (languageToolJarPath == null) {
-      System.err.println("No " + LANGUAGETOOL_JAR + " found in classpath: " + classpath);
-      return null;
-    }
-    return new File(languageToolJarPath).getParentFile();
-  }*/
-
   public static int checkText(final String contents, JLanguageTool lt) throws IOException {
     return checkText(contents, lt, false, -1);
   }

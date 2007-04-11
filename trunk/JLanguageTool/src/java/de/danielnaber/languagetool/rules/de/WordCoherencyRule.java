@@ -19,7 +19,6 @@
 package de.danielnaber.languagetool.rules.de;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.InputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -48,7 +47,7 @@ import de.danielnaber.languagetool.rules.RuleMatch;
  */
 public class WordCoherencyRule extends GermanRule {
 
-  private static final String FILE_NAME = "/rules" +File.separator+ "de" +File.separator+ "coherency.txt";
+  private static final String FILE_NAME = "/rules/de/coherency.txt";
   private static final String FILE_ENCODING = "utf-8";
   
   private Map<String, String> relevantWords;        // e.g. "aufwendig -> aufwändig"
@@ -122,21 +121,23 @@ public class WordCoherencyRule extends GermanRule {
 
   private Map<String, String> loadWords(InputStream file) throws IOException {
     Map<String, String> map = new HashMap<String, String>();
-    //FileInputStream fis = null;
     InputStreamReader isr = null;
     BufferedReader br = null;
     try {
-      //fis = new FileInputStream(file);
       isr = new InputStreamReader(file, FILE_ENCODING);
       br = new BufferedReader(isr);
       String line;
       while ((line = br.readLine()) != null) {
         line = line.trim();
-        if (line.startsWith("#"))       // ignore comments
+        if (line.length() < 1) {
           continue;
+        }
+        if (line.charAt(0) == '#') {      // ignore comments
+          continue;
+        }
         String[] parts = line.split(";");
         if (parts.length != 2) {
-          throw new IOException("Format error in file " +this.getClass().getResource(FILE_NAME)+ ", line: " + line);
+          throw new IOException("Format error in file " + FILE_NAME + ", line: " + line);
         }
         map.put(parts[0], parts[1]);
         map.put(parts[1], parts[0]);
@@ -144,7 +145,6 @@ public class WordCoherencyRule extends GermanRule {
     } finally {
       if (br != null) br.close();
       if (isr != null) isr.close();
-      //if (fis != null) fis.close();
     }
     return map;
   }

@@ -76,8 +76,6 @@ public class JLanguageTool {
   private List<Rule> userRules = new ArrayList<Rule>();     // rules added via addRule() method
   private Set<String> disabledRules = new HashSet<String>();
   
-  //private static File basedir = null;
-
   private Language language = null;
   private Language motherTongue = null;
   private Disambiguator disambiguator = null;
@@ -102,42 +100,20 @@ public class JLanguageTool {
    * @throws IOException 
    */
   public JLanguageTool(final Language language) throws IOException {
-    this(language, null, null);
-  }
-
-  /**
-   * Create a JLanguageTool and setup the built-in rules appropriate for the
-   * given language, ignoring false friend hints.
-   * @param basedirArg the installation directory of LanguageTool
-   * @throws IOException 
-   */
-  public JLanguageTool(final Language language, final File basedirArg) throws IOException {
-    this(language, null, basedirArg);
+    this(language, null);
   }
 
   /**
    * Create a JLanguageTool and setup the built-in rules appropriate for the
    * given language.
-   * @param language the text language
+   * @param language the language to be used.
    * @param motherTongue the user's mother tongue or <code>null</code>
    * @throws IOException 
    */
   public JLanguageTool(final Language language, final Language motherTongue) throws IOException {
-    this(language, motherTongue, null);
-  }
-
-  /**
-   * Create a JLanguageTool and setup the built-in rules appropriate for the
-   * given language.
-   * @param motherTongue the user's mother tongue or <code>null</code>
-   * @param basedirArg the installation directory of LanguageTool
-   * @throws IOException 
-   */
-  public JLanguageTool(final Language language, final Language motherTongue, final File basedirArg) throws IOException {
     if (language == null) {
       throw new NullPointerException("language cannot be null");
     }
-    //basedir = basedirArg;
     this.language = language;
     this.motherTongue = motherTongue;
     messages = getMessageBundle(language);

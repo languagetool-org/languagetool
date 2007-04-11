@@ -207,8 +207,12 @@ public class CompoundRule extends GermanRule {
       String line;
       while ((line = br.readLine()) != null) {
         line = line.trim();
-        if (line.equals("") || line.startsWith("#"))    // "#" starts a comment
+        if (line.length() < 1) {
           continue;
+        }
+        if (line.charAt(0) == '#') {      // ignore comments
+          continue;
+        }
         // the set contains the incorrect spellings, i.e. the ones without hyphen
         line = line.replace('-', ' ');
         String[] parts = line.split(" ");

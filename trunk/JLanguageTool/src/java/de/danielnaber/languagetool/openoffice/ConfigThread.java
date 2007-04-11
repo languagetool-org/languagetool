@@ -59,7 +59,7 @@ class ConfigThread extends Thread {
 
   public void run() {
     try {
-      JLanguageTool langTool = new JLanguageTool(docLanguage, baseDir);
+      JLanguageTool langTool = new JLanguageTool(docLanguage);
       langTool.activateDefaultPatternRules();
       cfgDialog.show(langTool.getAllRules());
       config.setDisabledRuleIds(cfgDialog.getDisabledRuleIds());

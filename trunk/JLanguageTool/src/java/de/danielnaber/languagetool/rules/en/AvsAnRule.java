@@ -160,11 +160,9 @@ public class AvsAnRule extends EnglishRule {
    * Load words, normalized to lowercase.
    */
   private Set<String> loadWords(final InputStream file) throws IOException {
-    //FileReader fr = null;
     BufferedReader br = null;
     Set<String> set = new HashSet<String>();
     try {
-      //fr = new FileReader(file);
       br = new BufferedReader(new InputStreamReader(file));
       String line;
       while ((line = br.readLine()) != null) {
@@ -181,7 +179,6 @@ public class AvsAnRule extends EnglishRule {
       }
     } finally {
       if (br != null) br.close();
-      //if (fr != null) fr.close();
     }
     return set;
   }

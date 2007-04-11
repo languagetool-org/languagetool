@@ -19,7 +19,6 @@
 package de.danielnaber.languagetool.rules.de;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.InputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -34,8 +33,7 @@ import java.util.Map;
  */
 class GermanLemmatizer {
 
-  private static final String FILE_NAME = "/rules" +File.separator+ "de" +File.separator+
-    "fullform2baseform.txt";
+  private static final String FILE_NAME = "/rules/de/fullform2baseform.txt";
   private static final String FILE_ENCODING = "utf-8";
   
   private Map<String, String> fullform2baseform;
@@ -58,10 +56,12 @@ class GermanLemmatizer {
       String line;
       while ((line = br.readLine()) != null) {
         line = line.trim();
-        if (line.startsWith("#"))       // ignore comments
+        if (line.length() < 1) { //ignore empty lines
           continue;
-        if (line.equals(""))       // ignore empty lines
+        }
+        if (line.charAt(0) == '#') {      // ignore comments
           continue;
+        }
         String[] parts = line.split(":");
         if (parts.length != 2) {
           throw new IOException("Format error in file " +this.getClass().getResource(FILE_NAME)+", line: " + line);
