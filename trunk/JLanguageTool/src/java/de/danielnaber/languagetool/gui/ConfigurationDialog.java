@@ -154,7 +154,7 @@ public class ConfigurationDialog implements ActionListener {
     motherTonguePanel.add(new JLabel(messages.getString("guiMotherTongue")), cons);
     motherTongueBox = new JComboBox(getPossibleMotherTongues());
     if (motherTongue != null)
-      motherTongueBox.setSelectedItem(motherTongue);
+      motherTongueBox.setSelectedItem(messages.getString(motherTongue.getShortName()));
     motherTonguePanel.add(motherTongueBox, cons);
 
     JPanel portPanel = new JPanel();
@@ -270,9 +270,9 @@ public class ConfigurationDialog implements ActionListener {
         i++;
       }
       if (motherTongueBox.getSelectedItem() instanceof String)
-        motherTongue = null;
+        motherTongue = getLanguageForLocalizedName(motherTongueBox.getSelectedItem().toString());
       else
-        motherTongue = (Language)motherTongueBox.getSelectedItem();
+        motherTongue = (Language) motherTongueBox.getSelectedItem();
       if (serverCheckbox != null) {
         serverMode = serverCheckbox.isSelected();
         serverPort = Integer.parseInt(serverPortField.getText());
@@ -299,6 +299,21 @@ public class ConfigurationDialog implements ActionListener {
 
   public Language getMotherTongue() {
     return motherTongue;
+  }
+  
+  /**
+   * Get the Language object for the given localized language name.
+   * 
+   * @param languageName e.g. <code>English</code> or <code>German</code> (case is significant)
+   * @return a Language object or <code>null</code>
+   */
+  private Language getLanguageForLocalizedName(final String languageName) {
+    for (int i = 0; i < Language.LANGUAGES.length; i++) {
+      if (languageName.equals(messages.getString(Language.LANGUAGES[i].getShortName()))) {
+        return Language.LANGUAGES[i];
+      }
+    }
+    return null;
   }
 
   public void setRunServer(boolean serverMode) {
