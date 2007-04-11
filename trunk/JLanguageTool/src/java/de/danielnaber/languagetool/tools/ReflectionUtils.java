@@ -68,8 +68,8 @@ public class ReflectionUtils {
         // jars and directories are treated differently
         if (resource.getProtocol().startsWith("jar")) {        
           // The LanguageTool ZIP contains two JARs with the core classes,
-          // so ignore one of them to avoid rule duplication:
-          if (resource.getPath().endsWith("LanguageTool.uno.jar")) {
+          // so ignore one of them to avoid rule duplication:          
+          if (resource.getPath().contains("LanguageTool.uno.jar")) {
             continue;
           }
           findClassesInJar(packageName, classNameRegEx, subdirLevel, classExtends,
