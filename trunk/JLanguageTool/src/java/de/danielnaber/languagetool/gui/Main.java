@@ -31,6 +31,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.Reader;
 import java.util.Enumeration;
@@ -208,7 +209,7 @@ public final class Main implements ActionListener {
       File file = jfc.getSelectedFile();
       if (file == null)   // user cancelled
         return;
-      String fileContents = StringTools.readFile(this.getClass().getResourceAsStream((file.getAbsolutePath())));
+      String fileContents = StringTools.readFile(new FileInputStream(file.getAbsolutePath()));
       textArea.setText(fileContents);
       JLanguageTool langTool = getCurrentLanguageTool();
       checkTextAndDisplayResults(langTool, getCurrentLanguage());
