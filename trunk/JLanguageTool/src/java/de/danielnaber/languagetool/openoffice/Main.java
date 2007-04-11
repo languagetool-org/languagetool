@@ -115,7 +115,7 @@ public class Main {
           Language lang = getLanguage();
           if (lang == null)
             return;
-          ConfigThread configThread = new ConfigThread(lang, config, baseDir);
+          ConfigThread configThread = new ConfigThread(lang, config);
           configThread.start();
           while (true) {
             if (configThread.done()) {

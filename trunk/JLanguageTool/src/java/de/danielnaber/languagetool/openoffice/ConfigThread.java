@@ -30,16 +30,14 @@ class ConfigThread extends Thread {
 
   private Language docLanguage;
   private Configuration config;
-  private File baseDir;
   private boolean done = false;
   
   private JLanguageTool langTool; 
   private ConfigurationDialog cfgDialog;
   
-  ConfigThread(final Language docLanguage, final Configuration config, final File baseDir) {
+  ConfigThread(final Language docLanguage, final Configuration config) {
     this.docLanguage = docLanguage;
-    this.config = config;
-    this.baseDir = baseDir;
+    this.config = config;  
     cfgDialog = new ConfigurationDialog(null, true);
     cfgDialog.setDisabledRules(config.getDisabledRuleIds());
     cfgDialog.setMotherTongue(config.getMotherTongue());
@@ -51,11 +49,7 @@ class ConfigThread extends Thread {
   
   public Set<String> getDisabledRuleIds() {
     return cfgDialog.getDisabledRuleIds();
-  }
-
-  JLanguageTool getLanguageTool() {
-    return langTool;
-  }
+  }  
 
   public void run() {
     try {
