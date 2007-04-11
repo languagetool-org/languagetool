@@ -55,8 +55,8 @@ public class PatternRuleTest extends TestCase {
       Language lang = Language.LANGUAGES[i];
       PatternRuleLoader ruleLoader = new PatternRuleLoader();
       JLanguageTool languageTool = new JLanguageTool(lang);
-      List rules = ruleLoader.getRules("/rules" + File.separator
-          + lang.getShortName() + File.separator + "grammar.xml");
+      List rules = ruleLoader.getRules(this.getClass().getResourceAsStream("/rules/" 
+          + lang.getShortName() + "/grammar.xml"));
       testGrammarRulesFromXML(rules, languageTool, lang);
     }
   }

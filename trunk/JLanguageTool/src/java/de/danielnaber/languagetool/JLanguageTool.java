@@ -225,7 +225,7 @@ public class JLanguageTool {
    */
   public List<PatternRule> loadPatternRules(final String filename) throws ParserConfigurationException, SAXException, IOException {
     PatternRuleLoader ruleLoader = new PatternRuleLoader();
-    return ruleLoader.getRules(filename);
+    return ruleLoader.getRules(this.getClass().getResourceAsStream(filename));
   }
 
   /**
@@ -243,7 +243,7 @@ public class JLanguageTool {
     if (motherTongue == null)
       return new ArrayList<PatternRule>();
     FalseFriendRuleLoader ruleLoader = new FalseFriendRuleLoader();
-    return ruleLoader.getRules(filename, language, motherTongue);
+    return ruleLoader.getRules(this.getClass().getResourceAsStream(filename), language, motherTongue);
   }
 
   /**

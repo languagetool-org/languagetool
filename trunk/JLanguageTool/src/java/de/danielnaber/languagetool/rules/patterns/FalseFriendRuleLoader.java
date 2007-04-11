@@ -19,6 +19,7 @@
 package de.danielnaber.languagetool.rules.patterns;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -49,11 +50,11 @@ public class FalseFriendRuleLoader extends DefaultHandler {
   public FalseFriendRuleLoader() {
   }
 
-  public final List<PatternRule> getRules(final String filename, final Language textLanguage, final Language motherTongue) throws ParserConfigurationException, SAXException, IOException {
+  public final List<PatternRule> getRules(final InputStream file, final Language textLanguage, final Language motherTongue) throws ParserConfigurationException, SAXException, IOException {
     FalseFriendRuleHandler handler = new FalseFriendRuleHandler(textLanguage, motherTongue);
     SAXParserFactory factory = SAXParserFactory.newInstance();
     SAXParser saxParser = factory.newSAXParser();
-    saxParser.parse(this.getClass().getResourceAsStream(filename), handler);
+    saxParser.parse(file, handler);
     rules = handler.getRules();
     // Add suggestions to each rule:
     ResourceBundle messages = ResourceBundle.getBundle("de.danielnaber.languagetool.MessagesBundle",
@@ -83,16 +84,16 @@ public class FalseFriendRuleLoader extends DefaultHandler {
   }
   
   /** Testing only. */
-  public static void main(String[] args) throws ParserConfigurationException, SAXException, IOException {
+  public void main(String[] args) throws ParserConfigurationException, SAXException, IOException {
     FalseFriendRuleLoader prg = new FalseFriendRuleLoader();
-    List<PatternRule> l = prg.getRules("rules/false-friends.xml", Language.ENGLISH, Language.GERMAN);
+    List<PatternRule> l = prg.getRules(this.getClass().getResourceAsStream("/rules/false-friends.xml"), Language.ENGLISH, Language.GERMAN);
     System.out.println("Hints for German native speakers:");
     for (PatternRule rule : l) {
       System.out.println(rule);
     }
     System.out.println("=======================================");
     System.out.println("Hints for English native speakers:");
-    l = prg.getRules("rules/false-friends.xml", Language.GERMAN, Language.ENGLISH);
+    l = prg.getRules(this.getClass().getResourceAsStream("/rules/false-friends.xml"), Language.GERMAN, Language.ENGLISH);
     for (PatternRule rule : l) {
       System.out.println(rule);
     }

@@ -23,6 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.io.InputStream;
 
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
@@ -47,21 +48,21 @@ public class PatternRuleLoader extends DefaultHandler {
   public PatternRuleLoader() {
   }
 
-  public final List<PatternRule> getRules(final String filename) throws ParserConfigurationException,
+  public final List<PatternRule> getRules(final InputStream filename) throws ParserConfigurationException,
       SAXException, IOException {
     PatternRuleHandler handler = new PatternRuleHandler();
     SAXParserFactory factory = SAXParserFactory.newInstance();
     SAXParser saxParser = factory.newSAXParser();
-    saxParser.parse(this.getClass().getResourceAsStream(filename), handler);
+    saxParser.parse(filename, handler);
     rules = handler.getRules();
     return rules;
   }
 
   /** Testing only. */
-  public static void main(String[] args) throws ParserConfigurationException, SAXException,
+  public void main(String[] args) throws ParserConfigurationException, SAXException,
       IOException {
     PatternRuleLoader prg = new PatternRuleLoader();
-    List<PatternRule> l = prg.getRules("/rules/de/grammar.xml");
+    List<PatternRule> l = prg.getRules(this.getClass().getResourceAsStream("/rules/de/grammar.xml"));
     System.out.println(l);
   }
 
