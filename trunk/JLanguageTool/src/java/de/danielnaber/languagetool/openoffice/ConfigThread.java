@@ -32,7 +32,6 @@ class ConfigThread extends Thread {
   private Configuration config;
   private boolean done = false;
   
-  private JLanguageTool langTool; 
   private ConfigurationDialog cfgDialog;
   
   ConfigThread(final Language docLanguage, final Configuration config) {
