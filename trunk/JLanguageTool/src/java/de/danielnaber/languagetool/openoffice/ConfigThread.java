@@ -18,7 +18,6 @@
  */
 package de.danielnaber.languagetool.openoffice;
 
-import java.io.File;
 import java.util.Set;
 
 import de.danielnaber.languagetool.JLanguageTool;
