@@ -45,8 +45,6 @@ TODO:
  -load (language-specific) abbreviations from an external file
  -OpenOffice.org: make the dialog modal
  -stand-alone GUI: mark errors in upper part of window
- -stand-alone GUI: Make it work no matter from which directory it was started.
-  Currently you have to start it from the directory it's installed in.
  -GUI: put nice icon in window corner (currently works only if resource/TrayIcon.png
   exists relative to the directory where LanguageTool was started)
  -Auto-reload rules if file timestamp has changed?
