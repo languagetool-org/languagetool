@@ -62,7 +62,7 @@ public final class StringTools {
   /**
    * Read the text file using the given encoding.
    * 
-   * @param filename name of the file
+   * @param file InputStream to a file to be read
    * @param encoding the file's character encoding (e.g. <code>iso-8859-1</code>)
    * @return a string with the file's content, lines separated by <code>\n</code>
    * @throws IOException
