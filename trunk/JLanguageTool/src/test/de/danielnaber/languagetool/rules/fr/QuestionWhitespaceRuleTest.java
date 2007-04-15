@@ -40,7 +40,7 @@ public class QuestionWhitespaceRuleTest extends TestCase {
       JLanguageTool langTool = new JLanguageTool(Language.FRENCH);
       
       // correct sentences:
-      //assertEquals(0, rule.match(langTool.getAnalyzedSentence("C'est vrai !")).length);
+      assertEquals(0, rule.match(langTool.getAnalyzedSentence("C'est vrai !")).length);
       assertEquals(0, rule.match(langTool.getAnalyzedSentence("Qu'est ce que c'est ?")).length);
       assertEquals(0, rule.match(langTool.getAnalyzedSentence("L'enjeu de ce livre est donc triple : philosophique")).length);
       
