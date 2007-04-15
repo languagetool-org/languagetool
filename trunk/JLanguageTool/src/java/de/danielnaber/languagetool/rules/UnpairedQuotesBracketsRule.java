@@ -15,17 +15,17 @@ public class UnpairedQuotesBracketsRule extends Rule {
    * and the sequence of starting symbols must match exactly
    * the sequence of ending symbols.
    */
-  private static final String[] START_SYMBOLS = { "[", "(", "{" };
-  private static final String[] END_SYMBOLS = {"]", ")", "}"};
+  private static final String[] START_SYMBOLS = { "[", "(", "{", "\"", "'" };
+  private static final String[] END_SYMBOLS = {"]", ")", "}", "\"", "'"};
 
   private final String[] startSymbols;
   private final String[] endSymbols;
   
-  private static final String[] EN_START_SYMBOLS  = {"[", "(", "{","“"};
-  private static final String[] EN_END_SYMBOLS  = {"]", ")", "}", "”"};
+  private static final String[] EN_START_SYMBOLS  = {"[", "(", "{","“", "\"", "'"};
+  private static final String[] EN_END_SYMBOLS  = {"]", ")", "}", "”", "\"","'"};
     
-  private static final String[] PL_START_SYMBOLS  = {"[", "(", "{", "„", "»"};
-  private static final String[] PL_END_SYMBOLS  = {"]", ")", "}", "”", "«"};
+  private static final String[] PL_START_SYMBOLS  = {"[", "(", "{", "„", "»", "\""};
+  private static final String[] PL_END_SYMBOLS  = {"]", ")", "}", "”", "«", "\""};
   
   private static final String[] FR_START_SYMBOLS  = {"[", "(", "{", "»", "‘"};
   private static final String[] FR_END_SYMBOLS  = {"]", ")", "}", "«", "’"};
@@ -53,6 +53,8 @@ public class UnpairedQuotesBracketsRule extends Rule {
   private int[] ruleMatchArray; 
   
   private boolean reachedEndOfParagraph = false;
+  
+  private Language ruleLang;
   
   public UnpairedQuotesBracketsRule(final ResourceBundle messages, final Language language) {
     super(messages);
@@ -96,6 +98,7 @@ public class UnpairedQuotesBracketsRule extends Rule {
        symbolCounter[i] = 0;       
        ruleMatchArray[i] = 0;
      }
+    ruleLang = language;
   }
 
   public String getId() {
@@ -126,10 +129,48 @@ public class UnpairedQuotesBracketsRule extends Rule {
       for (int j = 0; j < startSymbols.length; j++) {      
       for (int i = 0; i < tokens.length; i++) {
         String token = tokens[i].getToken();
-      if (token.trim().equals(startSymbols[j])) {        
+        boolean precededByWhitespace = true;
+        if (i > 1) {
+          precededByWhitespace = tokens[i - 1].isWhitespace()
+          || tokens[i - 1].getToken().matches("\\p{Punct}");
+        }
+        boolean followedByWhitespace = true;
+        if (i < tokens.length - 1) {
+          followedByWhitespace = tokens[i + 1].isWhitespace() 
+            || tokens[i + 1].getToken().matches("\\p{Punct}");
+        }
+        boolean noException = true; 
+        
+        // exception for English inches, e.g., 20"
+        if ((precededByWhitespace || followedByWhitespace)
+            && i > 1
+            && ruleLang.equals(Language.ENGLISH)
+            && token.trim().equals("\"")) {          
+          if (tokens[i - 1].getToken().matches("[\\d]+")) {
+            noException = false;
+          }
+          }
+        
+        // Exception for English plural saxon genetive
+        if ((precededByWhitespace || followedByWhitespace) 
+            && ruleLang.equals(Language.ENGLISH) 
+            && token.trim().equals("'")
+            && i > 1
+            && noException) {
+          if (tokens[i - 1].getToken().charAt(
+                  tokens[i - 1].getToken().length() - 1) == 's') {
+            noException = false;
+          }
+          }
+               
+      if (noException 
+          && precededByWhitespace 
+          && token.trim().equals(startSymbols[j])) {        
         symbolCounter[j]++;
         pos = i;
-      } else if (token.trim().equals(endSymbols[j])) {
+      } else if (noException 
+          && followedByWhitespace 
+          && token.trim().equals(endSymbols[j])) {
         if (i > 2 && endSymbols[j].equals(")") 
             && symbolCounter[j] == 0) {
           // exception for bulletting: 1), 2), 3)...,
