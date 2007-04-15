@@ -111,7 +111,7 @@ public final class Language {
   /**
    * All languages supported by LanguageTool.
    */
-  public static final Language[] LANGUAGES = new Language[] {
+  public static final Language[] LANGUAGES = {
     ENGLISH, GERMAN, POLISH, FRENCH, SPANISH, ITALIAN, DUTCH, LITHUANIAN, UKRAINIAN, CZECH, DEMO
   };
 
