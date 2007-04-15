@@ -523,7 +523,7 @@ public final class Main implements ActionListener {
     
   }
   
-  class PlainTextFilter extends FileFilter {
+  static class PlainTextFilter extends FileFilter {
 
     public boolean accept(final File f) {
       if (f.getName().toLowerCase().endsWith(".txt"))
