@@ -3,7 +3,7 @@
 English Grammar and Typo Rules for LanguageTool
 See tagset.txt for the meaning of the POS tags
 Copyright (C) 2001-2007 Daniel Naber (http://www.danielnaber.de)
-$Id: grammar.xml,v 1.1 2007-04-10 21:43:42 milek_pl Exp $
+$Id: grammar.xml,v 1.2 2007-04-15 11:21:09 milek_pl Exp $
 -->
 <rules lang="en">
 
@@ -906,7 +906,7 @@ $Id: grammar.xml,v 1.1 2007-04-10 21:43:42 milek_pl Exp $
         <token postag="NN|NN:.*" postag_regexp="yes" regexp="yes">.{2,}<exception regexp="yes">today|yesterday|tomorrow|now|in|are</exception><exception postag_regexp="yes" postag="VBG|VB|VBP|VBD|VBN|VBG|RB|MD|IN|JJ.*|CC"/></token>
         <token><exception regexp="yes">\p{Punct}</exception></token>
       </pattern>
-      <message>Possible typo: apostrophe is missing. Did you mean <suggestion>\2'</suggestion> or the singular?</message>
+      <message>Possible typo: apostrophe is missing. Did you mean <suggestion>\3'</suggestion> or the singular?</message>
       <example type="correct">This is a transcript of the president's speech.</example>
       <example type="correct">Publishers today are at loss...</example>
       <example type="correct">Owen was seven years younger.</example>
@@ -923,7 +923,7 @@ $Id: grammar.xml,v 1.1 2007-04-10 21:43:42 milek_pl Exp $
         <token postag="NN|NN:.*" postag_regexp="yes" regexp="yes">.{2,}<exception regexp="yes">today|yesterday|tomorrow|now|in</exception><exception postag_regexp="yes" postag="RB|MD|IN|JJ.*|CC|VBP|VBG"/></token>
         <token regexp="yes">\p{Punct}</token>
       </pattern>
-      <message>Possible typo: apostrophe is missing. Did you mean <suggestion>\2'</suggestion> or the singular?</message>
+      <message>Possible typo: apostrophe is missing. Did you mean <suggestion>\3'</suggestion> or the singular?</message>
       <example type="correct">This is a transcript of the president's speech.</example>
       <example type="correct">Publishers today are at loss...</example>
       <example type="correct">The Romans may have marked the centre of Londinium.</example>
