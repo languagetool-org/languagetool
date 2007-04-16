@@ -441,4 +441,80 @@
   	<exec executable="resource/de/make-dict-de.sh" />
   </target>
 	
+	<target name="jnlp" depends="ooo-internal" description="Builds JNLP distribution file">
+    <mkdir dir="${dist.dir}/web"/>
+		<mkdir dir="${dist.dir}/web/linux"/>
+		<mkdir dir="${dist.dir}/web/windows"/>
+		<mkdir dir="${dist.dir}/web/sunos"/>
+		
+		<copy file="./LanguageTool.jnlp" todir="${dist.dir}/web" />
+	  <jar compress="yes" basedir="${dist.dir}" destfile="${dist.dir}/web/resource.jar"
+	  	includes="resource/**" />
+	  <jar compress="yes" basedir="${dist.dir}" destfile="${dist.dir}/web/rules.jar"
+	  	includes="rules/**" />
+	  <signjar jar="${dist.dir}/web/resource.jar"
+	  	lazy="true" keystore="./keystore.ks" keypass="blabla" 
+	  	storepass="blabla" alias="myalias"/>
+	  <signjar jar="${dist.dir}/web/rules.jar"
+	  	lazy="true" keystore="./keystore.ks" keypass="blabla" 
+	  	storepass="blabla" alias="myalias"/>
+	 	
+		<copy file="${dist.dir}/LanguageToolGUI.jar" todir="${dist.dir}/web/" />
+	  <signjar jar="${dist.dir}/web/LanguageToolGUI.jar"
+	  	lazy="true" keystore="./keystore.ks" keypass="blabla" 
+	  	storepass="blabla" alias="myalias"/>
+		<copy file="${dist.dir}/LanguageTool.jar" todir="${dist.dir}/web/" />
+		  <signjar jar="${dist.dir}/web/LanguageTool.jar"
+		  	lazy="true" keystore="./keystore.ks" keypass="blabla" 
+		  	storepass="blabla" alias="myalias"/>
+		<copy file="${ext.stempelator.lib}" todir="${dist.dir}/web/" />
+	  <signjar jar="${dist.dir}/web/${stempelator.lib}"
+	  	lazy="true" keystore="./keystore.ks" keypass="blabla" 
+	  	storepass="blabla" alias="myalias"/>
+		<copy file="${ext.jaminid.lib}" todir="${dist.dir}/web/" />
+		<signjar jar="${dist.dir}/web/jaminid.jar"
+			  	lazy="true" keystore="./keystore.ks" keypass="blabla" 
+			  	storepass="blabla" alias="myalias"/>
+		<copy file="${ext.jdic.lib}" todir="${dist.dir}/web/" />
+		<signjar jar="${dist.dir}/web/jdic.jar"
+			  	lazy="true" keystore="./keystore.ks" keypass="blabla" 
+			  	storepass="blabla" alias="myalias"/>
+
+		<copy file="${dist.dir}/linux/jdic_stub.jar" todir="${dist.dir}/web/linux" />
+		<signjar jar="${dist.dir}/web/linux/jdic_stub.jar"
+			  	lazy="true" keystore="./keystore.ks" keypass="blabla" 
+			  	storepass="blabla" alias="myalias"/>
+	  <jar compress="yes" basedir="${dist.dir}/linux/x86" destfile="${dist.dir}/web/linux/jdic-native.jar"
+	  	includes="**" />
+		<signjar jar="${dist.dir}/web/linux/jdic-native.jar"
+			  	lazy="true" keystore="./keystore.ks" keypass="blabla" 
+			  	storepass="blabla" alias="myalias"/>
+
+		<copy file="${dist.dir}/sunos/jdic_stub.jar" todir="${dist.dir}/web/sunos" />
+		<signjar jar="${dist.dir}/web/sunos/jdic_stub.jar"
+				  	lazy="true" keystore="./keystore.ks" keypass="blabla" 
+				  	storepass="blabla" alias="myalias"/>
+	  <jar compress="yes" basedir="${dist.dir}/sunos/x86" destfile="${dist.dir}/web/sunos/jdic-x86.jar"
+		  	includes="**" />
+		<signjar jar="${dist.dir}/web/sunos/jdic-x86.jar"
+				  	lazy="true" keystore="./keystore.ks" keypass="blabla" 
+				  	storepass="blabla" alias="myalias"/>
+	  <jar compress="yes" basedir="${dist.dir}/sunos/sparc" destfile="${dist.dir}/web/sunos/jdic-sparc.jar"
+	  	includes="**" />
+		<signjar jar="${dist.dir}/web/sunos/jdic-sparc.jar"
+			  	lazy="true" keystore="./keystore.ks" keypass="blabla" 
+			  	storepass="blabla" alias="myalias"/>
+
+		<copy file="${dist.dir}/windows/jdic_stub.jar" todir="${dist.dir}/web/windows" />
+		<signjar jar="${dist.dir}/web/windows/jdic_stub.jar"
+			  	lazy="true" keystore="./keystore.ks" keypass="blabla" 
+			  	storepass="blabla" alias="myalias"/>
+	  <jar compress="yes" basedir="${dist.dir}/windows/x86" 
+	  	destfile="${dist.dir}/web/windows/jdic-native.jar"
+	  	includes="**" />
+		<signjar jar="${dist.dir}/web/windows/jdic-native.jar"
+			  	lazy="true" keystore="./keystore.ks" keypass="blabla" 
+			  	storepass="blabla" alias="myalias"/>		
+  </target>
+	
 </project>
