@@ -1,0 +1,57 @@
+<?xml version='1.0' encoding='UTF-8'?>
+
+<jnlp version="0.9-dev" codebase="http://www.danielnaber.de/languagetool/webstart/web/">
+    <information>
+        <title>LanguageTool</title>
+        <vendor>Daniel Naber</vendor>
+        <homepage href="http://www.danielnaber.de/languagetool/"/>
+        <icon href="LanguageToolBig.gif"/>
+        <offline-allowed/>
+				<shortcut>
+            <!-- put a shortcut on the desktop -->
+            <desktop/>
+            <!-- put shortcut in start menu too -->
+            <menu submenu="LanguageTool"/>
+        </shortcut>	
+    </information>
+	
+
+    <security>
+        <all-permissions/>
+    </security>
+
+    <resources>
+        <j2se version="1.5"/>
+        <j2se version="1.6+"/>        
+	<jar href="jaminid.jar"/>
+	<jar href="stempelator-nodict-1.0.6.jar"/>
+	<jar href="rules.jar"/>
+	<jar href="jdic.jar"/> 
+	<jar href="resource.jar"/>
+	<jar href="LanguageTool.jar"/>
+         <jar href="LanguageToolGUI.jar" main="true"/>	 
+    </resources>
+
+<resources os="Windows">
+	<jar href="windows/jdic_stub.jar"/> 
+        <nativelib href="windows/jdic-native.jar"/>
+</resources>
+  <resources os="Linux">
+        <jar       href="linux/jdic_stub.jar"/> 
+        <nativelib href="linux/jdic-native.jar"/>
+  </resources>
+
+<resources os="SunOS" arch="sparc">
+        <jar       href="sunos/jdic_stub.jar"/> 
+        <nativelib href="sunos/jdic-sparc.jar"/>
+ </resources>
+
+<resources os="SunOS" arch="x86">
+        <jar       href="sunos/jdic_stub.jar"/> 
+        <nativelib href="sunos/jdic-x86.jar"/>
+ </resources>
+
+<application-desc>    
+    </application-desc>
+
+</jnlp>
