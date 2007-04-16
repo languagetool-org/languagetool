@@ -2,7 +2,7 @@
 <!--
 Polish Grammar and Typo Rules for LanguageTool
 Copyright (C) 2006 Marcin Miłkowski
-$Id: grammar.xml,v 1.3 2007-04-15 22:41:22 milek_pl Exp $		
+$Id: grammar.xml,v 1.4 2007-04-16 21:16:31 milek_pl Exp $		
 -->
 <rules lang="pl">
 
@@ -5106,6 +5106,16 @@ $Id: grammar.xml,v 1.3 2007-04-15 22:41:22 milek_pl Exp $
 			<message>Prawdopodobny błąd ortograficzny. Czy chodziło o <suggestion>romby</suggestion> (=figurę geometryczną)?</message>
 			<example type="correct">Kot Alik ma piękny sweterek w romby.</example>
 			<example type="incorrect">Kot Alik ma piękny sweterek w <marker>rąby</marker>.</example>
+		</rule>
+		
+		<rule id="WSZECH_OBECNY" name="„wszech obecny” (wszechobecny)">
+			<pattern>
+				<token>wszech</token>
+				<token inflected="yes" regexp="yes">obecny|mogący|potężny|mocny|świat|wiedza|moc|władza</token>
+			</pattern>
+			<message>Prawdopodobny błąd ortograficzny. Powinno być: <suggestion>\1\2</suggestion>.</message>
+			<example type="incorrect">No i tu zaczyna się problem - <marker>wszech obecny</marker> dym papierosowy.</example>
+			<example type="correct">No i tu zaczyna się problem - <marker>wszechobecny</marker> dym papierosowy.</example>
 		</rule>
 	
 	</category>
