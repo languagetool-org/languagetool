@@ -37,13 +37,13 @@ class MainMenuBar extends JMenuBar implements ActionListener {
   private ResourceBundle messages = null;
   
   // File:
-  private static String openText;
-  private static String checkClipboardText;
-  private static String docktoTrayText;
-  private static String optionsText;
-  private static String quitText;
+  private String openText;
+  private String checkClipboardText;
+  private String docktoTrayText;
+  private String optionsText;
+  private String quitText;
   // Help:
-  private static String aboutText;
+  private String aboutText;
 
   private Main prg = null;
   private JMenu fileMenu = null;
