@@ -31,6 +31,7 @@ import javax.swing.JOptionPane;
 import javax.swing.KeyStroke;
 
 import de.danielnaber.languagetool.JLanguageTool;
+import de.danielnaber.languagetool.Language;
 
 class MainMenuBar extends JMenuBar implements ActionListener {
 
@@ -120,10 +121,23 @@ class MainMenuBar extends JMenuBar implements ActionListener {
     } else if (e.getActionCommand().equals(quitText)) {
       prg.quit();
     } else if (e.getActionCommand().equals(aboutText)) {
+      StringBuilder maintainersInfo = new StringBuilder();
+      for (Language lang : Language.LANGUAGES) {
+        if (lang != Language.DEMO) {
+          String m = lang.getMaintainers();
+          if (m != null) {
+          maintainersInfo.append(messages.getString(lang.getShortName()));
+          maintainersInfo.append(" – ");
+          maintainersInfo.append(m);
+          maintainersInfo.append("\n");
+          }
+        }
+      }
       JOptionPane.showMessageDialog(null, "LanguageTool " + JLanguageTool.VERSION + "\n" + 
           "Copyright (C) 2005-2007 Daniel Naber\n"+
           "This software is licensed under the GNU Lesser General Public License.\n"+
-          "LanguageTool Homepage: http://www.danielnaber.de/languagetool",
+          "LanguageTool Homepage: http://www.danielnaber.de/languagetool\n\n"+
+          maintainersInfo.toString(),
           aboutText, JOptionPane.INFORMATION_MESSAGE);
     } else {
       throw new IllegalArgumentException("Unknown action " + e);
