@@ -123,7 +123,8 @@ class MainMenuBar extends JMenuBar implements ActionListener {
       JOptionPane.showMessageDialog(null, "LanguageTool " + JLanguageTool.VERSION + "\n" + 
           "Copyright (C) 2005-2007 Daniel Naber\n"+
           "This software is licensed under the GNU Lesser General Public License.\n"+
-          "LanguageTool Homepage: http://www.danielnaber.de/languagetool");
+          "LanguageTool Homepage: http://www.danielnaber.de/languagetool",
+          aboutText, JOptionPane.INFORMATION_MESSAGE);
     } else {
       throw new IllegalArgumentException("Unknown action " + e);
     }
