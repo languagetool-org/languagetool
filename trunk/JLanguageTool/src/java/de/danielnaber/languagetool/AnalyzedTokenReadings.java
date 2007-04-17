@@ -97,7 +97,10 @@ public class AnalyzedTokenReadings {
    boolean isPE = false;
    for (AnalyzedToken reading : anTokReadings) {
      if (reading.posTag != null) {
-      isPE = isPE || reading.posTag.equals(JLanguageTool.PARAGRAPH_END_TAGNAME);
+      isPE |= reading.posTag.equals(JLanguageTool.PARAGRAPH_END_TAGNAME);
+      if (isPE) {
+        return isPE;
+      }
      }
    }
    return isPE;
@@ -110,7 +113,10 @@ public class AnalyzedTokenReadings {
    boolean isSE = false;
    for (AnalyzedToken reading : anTokReadings) {
      if (reading.posTag != null) {
-      isSE = isSE || reading.posTag.equals(JLanguageTool.SENTENCE_END_TAGNAME);
+      isSE |= reading.posTag.equals(JLanguageTool.SENTENCE_END_TAGNAME);
+      if (isSE) {
+        return isSE;
+      }
      }
    }
    return isSE;
