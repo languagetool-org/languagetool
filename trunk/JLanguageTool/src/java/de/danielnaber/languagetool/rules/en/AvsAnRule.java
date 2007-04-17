@@ -24,7 +24,9 @@ import java.io.InputStreamReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.TreeSet;
 import java.util.List;
+import java.util.Collections;
 import java.util.ResourceBundle;
 import java.util.Set;
 
@@ -49,8 +51,8 @@ public class AvsAnRule extends EnglishRule {
   private static final String FILENAME_A = "/rules/en/det_a.txt";
   private static final String FILENAME_AN = "/rules/en/det_an.txt";
 
-  private Set<String> requiresA;
-  private Set<String> requiresAn;
+  private TreeSet<String> requiresA;
+  private TreeSet<String> requiresAn;
   
   public AvsAnRule(final ResourceBundle messages) throws IOException {
     if (messages != null)
@@ -159,9 +161,9 @@ public class AvsAnRule extends EnglishRule {
   /**
    * Load words, normalized to lowercase.
    */
-  private Set<String> loadWords(final InputStream file) throws IOException {
+  private TreeSet<String> loadWords(final InputStream file) throws IOException {
     BufferedReader br = null;
-    Set<String> set = new HashSet<String>();
+    TreeSet<String> set = new TreeSet<String>();
     try {
       br = new BufferedReader(new InputStreamReader(file));
       String line;

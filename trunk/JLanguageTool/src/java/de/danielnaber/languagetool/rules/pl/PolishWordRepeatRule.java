@@ -5,7 +5,7 @@ package de.danielnaber.languagetool.rules.pl;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.HashMap;
+import java.util.TreeSet;
 import java.util.ResourceBundle;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
@@ -76,15 +76,13 @@ public class PolishWordRepeatRule extends PolishRule {
 	@Override
 	public final RuleMatch[] match(final AnalyzedSentence text) {
 	    List<RuleMatch> ruleMatches = new ArrayList<RuleMatch>();
-	    AnalyzedTokenReadings[] tokens = text.getTokens();
+	    AnalyzedTokenReadings[] tokens = text.getTokensWithoutWhitespace();
 	    boolean repetition = false;
-	    HashMap <String, String> inflectedWords = new HashMap<String, String>();
-	    String prevLemma, curLemma;
-	    int pos = 0;
+	    TreeSet <String> inflectedWords = new TreeSet<String>();
+	    String prevLemma, curLemma;	    
         
 	    for (int i = 0; i < tokens.length; i++) {
 	      String token = tokens[i].getToken();
-	      if (!token.trim().equals("")) {
 	        // avoid "..." etc. to be matched:
 	        boolean isWord = true;
 	        boolean hasLemma = true;
@@ -135,20 +133,18 @@ public class PolishWordRepeatRule extends PolishRule {
 	        	   if (hasLemma) {
 	        	   curLemma = tokens[i].getAnalyzedToken(j).getLemma();
 	        	   if (!prevLemma.equals(curLemma)) {
-	        	   if (inflectedWords.containsKey(curLemma)) {
+	        	   if (inflectedWords.contains(curLemma)) {
 	        		   repetition = true;
       	       	   } else {	        			   	           
-      	       		   inflectedWords.put(tokens[i].getAnalyzedToken(j).getLemma(), 
-                           tokens[i].getToken());
+      	       		   inflectedWords.add(tokens[i].getAnalyzedToken(j).getLemma());
       	       	   }
 	        	   }
 	        	   prevLemma = curLemma;
 	        	   } else {
-	        		   if (inflectedWords.containsKey(tokens[i].getToken())) {
+	        		   if (inflectedWords.contains(tokens[i].getToken())) {
 	        			   repetition = true;
 	        		   } else {
-	        			   inflectedWords.put(tokens[i].getToken(), 
-                               tokens[i].getToken());
+	        			   inflectedWords.add(tokens[i].getToken());                               
 	        		   }
 	        	   }
 	        	   
@@ -157,13 +153,13 @@ public class PolishWordRepeatRule extends PolishRule {
 	        
 	         if (repetition) {
 	          String msg = "Powtórzony wyraz w zdaniu";
+            int pos = tokens[i].getStartPos();
 	          RuleMatch ruleMatch = new RuleMatch(this, pos, pos+token.length(), msg);
 	          ruleMatch.setSuggestedReplacement(tokens[i].getToken());
 	          ruleMatches.add(ruleMatch);
 	          repetition = false;
 	        }
-	      }
-	      pos += token.length();
+        
 	    }
 	    return toRuleMatchArray(ruleMatches);
 	  }
