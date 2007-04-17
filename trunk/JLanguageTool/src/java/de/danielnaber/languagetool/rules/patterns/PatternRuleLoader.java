@@ -228,6 +228,12 @@ class PatternRuleHandler extends XMLRuleHandler {
         && attrs.getValue("type").equals("incorrect")) {
       inIncorrectExample = true;
       incorrectExample = new StringBuffer();
+      //kludgy but simple
+      if (attrs.getValue("correction") != null) {
+        incorrectExample.append("<correction>" 
+            + attrs.getValue("correction")
+            + "</correction>");
+      }
     } else if (qName.equals("message")) {
       inMessage = true;
       message = new StringBuffer();

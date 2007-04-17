@@ -2,7 +2,7 @@
 <!--
 Polish Grammar and Typo Rules for LanguageTool
 Copyright (C) 2006 Marcin Miłkowski
-$Id: grammar.xml,v 1.4 2007-04-16 21:16:31 milek_pl Exp $		
+$Id: grammar.xml,v 1.5 2007-04-17 11:54:53 milek_pl Exp $		
 -->
 <rules lang="pl">
 
@@ -110,7 +110,9 @@ $Id: grammar.xml,v 1.4 2007-04-16 21:16:31 milek_pl Exp $
 				</pattern>
 				<message>W tym miejscu stawia się przecinek: <suggestion>\1, \2 \3</suggestion></message>
 				<example type="correct">Minister miał coś do zakomunikowania, a mianowicie, że nic nie wie.</example>
-				<example type="incorrect">Minister miał coś do <marker>zakomunikowania a mianowicie</marker>, że nic nie wie.</example>
+				<example type="incorrect" correction="zakomunikowania, a mianowicie">
+					Minister miał coś do <marker>zakomunikowania a mianowicie</marker>, że nic nie wie.
+				</example>
 		</rule>
 
 		<rulegroup name="Brak przecinka w zbiegu dwóch spójników" id="DWUZNACZNOSC_W_COFANIU">
@@ -122,7 +124,9 @@ $Id: grammar.xml,v 1.4 2007-04-16 21:16:31 milek_pl Exp $
 				</pattern>
 				<message>Należy postawić przecinek w zależności od intonacji i sensu zdania: <suggestion>\1 \2, \3</suggestion> lub <suggestion>\1, \2 \3</suggestion>.</message>
 				<example type="correct">Nie rozumiał tego właśnie, że upadł na głowę.</example>
-				<example type="incorrect">Nie rozumiał <marker>tego właśnie że</marker> upadł na głowę.</example>
+				<example type="incorrect" correction="tego właśnie, że|tego, właśnie że">
+					Nie rozumiał <marker>tego właśnie że</marker> upadł na głowę.
+				</example>
 			</rule>
 			<rule>
 				<pattern>
@@ -132,7 +136,9 @@ $Id: grammar.xml,v 1.4 2007-04-16 21:16:31 milek_pl Exp $
 				</pattern>
 				<message>Należy postawić przecinek w zależności od intonacji i sensu zdania: <suggestion>\1 \2, \3</suggestion> lub <suggestion>\1, \2 \3</suggestion>.</message>
 				<example type="correct">Nie rozumiał tego właśnie, kiedy upadł na głowę.</example>
-				<example type="incorrect">Nie rozumiał <marker>tego właśnie kiedy</marker> upadł na głowę.</example>
+				<example type="incorrect" correction="tego właśnie, kiedy|tego, właśnie kiedy">
+					Nie rozumiał <marker>tego właśnie kiedy</marker> upadł na głowę.
+				</example>
 			</rule>
 		</rulegroup>
 				
@@ -146,7 +152,7 @@ $Id: grammar.xml,v 1.4 2007-04-16 21:16:31 milek_pl Exp $
 			</pattern>	
 			<message>Spójników złożonych nie rozdziela się, a przecinek stawia się przed nimi: <suggestion>\1, \2 że</suggestion>.</message>
 			<example type="correct">Poszedłem tam, mimo że nie chciałem.</example>
-			<example type="incorrect">Poszedłem <marker>tam mimo, że</marker> nie chciałem.</example>
+			<example type="incorrect" correction="tam, mimo że">Poszedłem <marker>tam mimo, że</marker> nie chciałem.</example>
 		</rule>
 		<!--  FIXME: to zależy od kontekstu!
 		<rule>
@@ -183,7 +189,7 @@ $Id: grammar.xml,v 1.4 2007-04-16 21:16:31 milek_pl Exp $
 			</pattern>	
 			<message>Spójników złożonych nie rozdziela się: <suggestion>\2 że</suggestion>.</message>
 			<example type="correct">Mimo że nie chciałem, poszedłem tam.</example>
-			<example type="incorrect"><marker>Mimo, że</marker> nie chciałem, poszedłem tam.</example>
+			<example type="incorrect" correction="Mimo że"><marker>Mimo, że</marker> nie chciałem, poszedłem tam.</example>
 		</rule>
 		<rule>
 			<pattern mark_from="1">
@@ -194,7 +200,7 @@ $Id: grammar.xml,v 1.4 2007-04-16 21:16:31 milek_pl Exp $
 			</pattern>	
 			<message>Spójników złożonych nie rozdziela się: <suggestion>\2 że</suggestion>.</message>
 			<example type="correct">Poszedłem tam, mimo że nie chciałem.</example>
-			<example type="incorrect">Poszedłem tam, <marker>mimo, że</marker> nie chciałem.</example>
+			<example type="incorrect" correction="mimo że">Poszedłem tam, <marker>mimo, że</marker> nie chciałem.</example>
 		</rule>		
 
 <!-- FIXME: tu trzeba wykrywać w ogóle brak przecinka, a nie jego pozycję
@@ -241,7 +247,7 @@ $Id: grammar.xml,v 1.4 2007-04-16 21:16:31 milek_pl Exp $
 			</pattern>	
 			<message>Spójników złożonych nie rozdziela się, przecinek stawia się przed nimi: <suggestion>\1, \2 \4</suggestion>.</message>
 			<example type="correct">Poszedłem, podczas gdy on siedział na kanapie.</example>
-			<example type="incorrect"><marker>Poszedłem podczas, gdy</marker> on siedział na kanapie.</example>
+			<example type="incorrect" correction="Poszedłem, podczas gdy"><marker>Poszedłem podczas, gdy</marker> on siedział na kanapie.</example>
 		</rule>
 		<rule>
 			<pattern mark_from="1">
@@ -252,7 +258,7 @@ $Id: grammar.xml,v 1.4 2007-04-16 21:16:31 milek_pl Exp $
 			</pattern>	
 			<message>Spójników złożonych nie rozdziela się: <suggestion>\2 \4</suggestion>.</message>
 			<example type="correct">Podczas gdy on siedział na kanapie, jadłem śledzia.</example>
-			<example type="incorrect"><marker>Podczas, gdy</marker> on siedział na kanapie, jadłem śledzia.</example>
+			<example type="incorrect" correction="Podczas gdy"><marker>Podczas, gdy</marker> on siedział na kanapie, jadłem śledzia.</example>
 		</rule>
 		<rule>
 			<pattern mark_from="1">
@@ -263,7 +269,7 @@ $Id: grammar.xml,v 1.4 2007-04-16 21:16:31 milek_pl Exp $
 			</pattern>	
 			<message>Spójników złożonych nie rozdziela się: <suggestion>\2 \4</suggestion>.</message>
 			<example type="correct">Jadłem śledzia, podczas gdy on siedział na kanapie.</example>
-			<example type="incorrect">Jadłem śledzia, <marker>podczas, gdy</marker> on siedział na kanapie.</example>
+			<example type="incorrect" correction="podczas gdy">Jadłem śledzia, <marker>podczas, gdy</marker> on siedział na kanapie.</example>
 		</rule>
 		
 		<rule>
@@ -276,7 +282,7 @@ $Id: grammar.xml,v 1.4 2007-04-16 21:16:31 milek_pl Exp $
 			<message>Spójników złożonych nie rozdziela się, przecinek stawia się przed nimi: <suggestion>\1, a \4</suggestion>.</message>
 			<example type="correct">Do partii rządzącej zapisują się tylko idioci, a więc nadajesz się znakomicie.</example>
 			<example type="correct">Nie lubię Deleuze'a, choć inni lubią.</example>
-			<example type="incorrect">Do partii rządzącej zapisują się tylko <marker>idioci a, więc</marker> nadajesz się znakomicie.</example>
+			<example type="incorrect" correction="idioci, a więc">Do partii rządzącej zapisują się tylko <marker>idioci a, więc</marker> nadajesz się znakomicie.</example>
 		</rule>
 		<rule>
 			<pattern mark_from="1"> 
@@ -286,8 +292,12 @@ $Id: grammar.xml,v 1.4 2007-04-16 21:16:31 milek_pl Exp $
 				<token regexp="yes" inflected="yes">więc|mianowicie|zatem|przeto|jednak|choć|chociaż|ponieważ|także|następnie|jeśli|jeżeli|gdyby|gdy|kiedy</token>
 			</pattern>
 			<message>Spójników złożonych nie rozdziela się: <suggestion>A \4</suggestion>.</message>
-			<example type="correct">A więc nadajesz się znakomicie.</example>
-			<example type="incorrect"><marker>A, więc</marker> nadajesz się znakomicie.</example>
+			<example type="correct">
+				A więc nadajesz się znakomicie.
+			</example>
+			<example type="incorrect" correction="A więc">
+				<marker>A, więc</marker> nadajesz się znakomicie.
+			</example>
 		</rule>
 				<rule>
 			<pattern mark_from="1">
@@ -298,7 +308,7 @@ $Id: grammar.xml,v 1.4 2007-04-16 21:16:31 milek_pl Exp $
 			</pattern>
 			<message>Spójników złożonych nie rozdziela się: <suggestion>a \4</suggestion>.</message>
 			<example type="correct">Jesteś mierny, ale wierny, a więc nadajesz się znakomicie.</example>
-			<example type="incorrect">Jesteś mierny, ale wierny, <marker>a, więc</marker> nadajesz się znakomicie.</example>
+			<example type="incorrect" correction="a więc">Jesteś mierny, ale wierny, <marker>a, więc</marker> nadajesz się znakomicie.</example>
 		</rule>		
 		
 		<rule>

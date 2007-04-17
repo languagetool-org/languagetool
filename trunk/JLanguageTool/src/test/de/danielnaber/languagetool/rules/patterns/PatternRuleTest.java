@@ -66,17 +66,30 @@ public class PatternRuleTest extends TestCase {
     HashMap <String, PatternRule> complexRules = new HashMap <String, PatternRule> ();        
     for (Iterator iter = rules.iterator(); iter.hasNext();) {
       PatternRule rule = (PatternRule) iter.next();      
-      List goodSentences = rule.getCorrectExamples();
-      for (Iterator iterator = goodSentences.iterator(); iterator.hasNext();) {
-        String goodSentence = (String) iterator.next();
+      List<String> goodSentences = rule.getCorrectExamples();
+      for (String goodSentence : goodSentences) {
+        //enable indentation use
+        goodSentence = goodSentence.replaceAll("[\\n\\t]+", "");
         goodSentence = cleanXML(goodSentence);
         assertTrue(goodSentence.trim().length() > 0);
         assertFalse(lang + ": Did not expect error in: " + goodSentence + " (Rule: "+rule+")",
             match(rule, goodSentence, languageTool));
       }
-      List badSentences = rule.getIncorrectExamples();
-      for (Iterator iterator = badSentences.iterator(); iterator.hasNext();) {        
-        String origBadSentence = (String) iterator.next();
+      List<String> badSentences = rule.getIncorrectExamples();
+      for (String origBadSentence : badSentences) {
+        //enable indentation use
+        origBadSentence = origBadSentence.replaceAll("[\\n\\t]+", "");
+        List<String> suggestedCorrection = new ArrayList <String>();
+        if (origBadSentence.indexOf("<correction>") > -1) {
+          int corStart = origBadSentence.indexOf("<correction>");
+          int corEnd = origBadSentence.indexOf("</correction>");
+          String sugCorrection = origBadSentence.substring(corStart 
+              + "<correction>".length(), corEnd);
+          suggestedCorrection = java.util.Arrays.asList(sugCorrection.split("\\|"));
+          origBadSentence = origBadSentence.substring(corEnd  
+              + "</correction>".length());
+          
+        }
         int expectedMatchStart = origBadSentence.indexOf("<marker>");
         int expectedMatchEnd = origBadSentence.indexOf("</marker>") - "<marker>".length();
         if (expectedMatchStart == -1 || expectedMatchEnd == -1) {
@@ -91,7 +104,16 @@ public class PatternRuleTest extends TestCase {
         assertEquals(lang + ": Incorrect match position markup (start) for rule " + rule,
             expectedMatchStart, matches[0].getFromPos());
         assertEquals(lang + ": Incorrect match position markup (end) for rule " + rule,
-            expectedMatchEnd, matches[0].getToPos());
+            expectedMatchEnd, matches[0].getToPos());        
+        // make sure suggestion is what we expect it to be
+        if (suggestedCorrection.size() > 0) {
+        assertTrue(lang 
+            + ": Incorrect suggestions: " 
+            + suggestedCorrection.toString()
+            + " != " + matches[0].getSuggestedReplacements()
+            + "for rule " + rule,
+            suggestedCorrection.equals(matches[0].getSuggestedReplacements()));
+        }
           // make sure the suggested correction doesn't produce an error:
         if (matches[0].getSuggestedReplacements().size() > 0) {
           int fromPos = matches[0].getFromPos();
@@ -121,6 +143,15 @@ public class PatternRuleTest extends TestCase {
               expectedMatchStart, matches[0].getFromPos());
           assertEquals(lang + ": Incorrect match position markup (end) for rule " + rule,
               expectedMatchEnd, matches[0].getToPos());
+          // make sure suggestion is what we expect it to be
+          if (suggestedCorrection.size() > 0) {
+          assertTrue(lang
+              + ": Incorrect suggestions: " 
+              + suggestedCorrection.toString()
+              + " != " + matches[0].getSuggestedReplacements()
+              + "for rule " + rule,                       
+              suggestedCorrection.equals(matches[0].getSuggestedReplacements()));
+          }
             // make sure the suggested correction doesn't produce an error:
           if (matches[0].getSuggestedReplacements().size() > 0) {
             int fromPos = matches[0].getFromPos();
