@@ -2,7 +2,7 @@
 <!--
 Polish Grammar and Typo Rules for LanguageTool
 Copyright (C) 2006 Marcin Miłkowski
-$Id: grammar.xml,v 1.7 2007-04-17 16:03:08 milek_pl Exp $		
+$Id: grammar.xml,v 1.8 2007-04-17 18:13:06 milek_pl Exp $		
 -->
 <rules lang="pl">
 
@@ -1538,7 +1538,7 @@ $Id: grammar.xml,v 1.7 2007-04-17 16:03:08 milek_pl Exp $
 				<token inflected="yes" regexp="yes">który|jaki</token>
 			</pattern>
 				<message>Ten szyk wyrazów jest błędny. Poprawnie: <suggestion>\2 \4 \3</suggestion>.</message>
-				<example type="incorrect">Zesłanie, <marker>w czasie którego</marker> musiał imać się wielu prac, było mordęgą.</example>
+				<example type="incorrect" correction="w którego czasie">Zesłanie, <marker>w czasie którego</marker> musiał imać się wielu prac, było mordęgą.</example>
 				<example type="correct">Zesłanie, <marker>w którego czasie</marker> musiał imać się wielu prac, było mordęgą.</example>
 				<example type="correct">To jest ustawa, na podstawie której skazano zbrodniarza.</example>
 		</rule>
@@ -2004,7 +2004,7 @@ $Id: grammar.xml,v 1.7 2007-04-17 16:03:08 milek_pl Exp $
 				<token postag_regexp="yes" postag=".*acc.*|.*nom.*"><exception postag_regexp="yes" postag=".*inst.*|.*loc.*"/></token>
 			</pattern>
 			<message>Ten czasownik nie jest używany z przyimkiem „o”. Poprawnie <suggestion>\1 \3</suggestion>.</message>
-			<example type="incorrect">Mickiewicz w 1843 roku we Francji <marker>postulował o utworzenie</marker> teatru.</example>
+			<example type="incorrect" correction="postulował utworzenie">Mickiewicz w 1843 roku we Francji <marker>postulował o utworzenie</marker> teatru.</example>
 			<example type="correct">Mickiewicz w 1843 roku we Francji <marker>postulował utworzenie</marker> teatru.</example>
 		</rule>
 
@@ -2037,7 +2037,7 @@ $Id: grammar.xml,v 1.7 2007-04-17 16:03:08 milek_pl Exp $
 			</pattern>
 			<message>Po „zarówno” piszemy <suggestion>jak i</suggestion>.</message>
 			<example type="correct">Wiążą się z tym zarówno zyski, jak i zalety.</example>
-			<example type="incorrect">Wiążą się z tym zarówno zyski <marker>i</marker> zalety.</example>
+			<example type="incorrect" correction="jak i">Wiążą się z tym zarówno zyski <marker>i</marker> zalety.</example>
 			<!-- example type="correct">Wiążą się z tym zarówno zyski i zalety, jak i pewne wady.</example -->
 		</rule>
 	
@@ -2331,7 +2331,7 @@ $Id: grammar.xml,v 1.7 2007-04-17 16:03:08 milek_pl Exp $
 			<token postag_regexp="yes" postag="(subst|adj|ppron|ppron3|ppas|pact).*gen.*"/>
 			</pattern>
 			<message>Nie mówi się „\1 do”, wystarczy powiedzieć <suggestion>\1</suggestion> (lub <suggestion>powód do</suggestion>).</message>
-			<example type="incorrect">Miłość Mistrza i Małgorzaty uczyń <marker>przyczyną do</marker> przyjrzenia się różnym rodzajom miłości.</example>
+			<example type="incorrect" correction="przyczyną|powód do">Miłość Mistrza i Małgorzaty uczyń <marker>przyczyną do</marker> przyjrzenia się różnym rodzajom miłości.</example>
 			<example type="correct">Miłość Mistrza i Małgorzaty uczyń <marker>punktem wyjścia do</marker> przyjrzenia się różnym rodzajom miłości.</example>
 			<example type="correct">Przyczyna do dziś pozostaje nieznana.</example>
 		</rule>
@@ -5519,7 +5519,7 @@ $Id: grammar.xml,v 1.7 2007-04-17 16:03:08 milek_pl Exp $
 		</pattern>
 		<message>Prawdopodobna literówka. Czy chodziło o <suggestion>\1 \2i \3</suggestion>?</message>
 		<example type="correct">Andrzej oszukał Jarka w taki sposób, że Romanowi odjęło mowę.</example>		
-		<example type="incorrect">Andrzej oszukał Jarka <marker>w tak sposób</marker>, że Romanowi odjęło mowę.</example>		
+		<example type="incorrect" correction="w taki sposób">Andrzej oszukał Jarka <marker>w tak sposób</marker>, że Romanowi odjęło mowę.</example>		
 		</rule>
 
 		<rule name="„ot jest” (to jest)" id="OT_JEST">
