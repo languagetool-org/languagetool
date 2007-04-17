@@ -109,9 +109,13 @@ public class SimpleReplaceRule extends Rule {
 			
 			while ((line = br.readLine()) != null) {
 				line = line.trim();
-				if (line.startsWith("#") || line.length() == 0 )       // ignore comments
-					continue;
-				String[] parts = line.split("=");
+        if (line.length() < 1) {
+          continue;
+        }
+        if (line.charAt(0) == '#') {      // ignore comments
+          continue;
+        }
+ 				String[] parts = line.split("=");
 				if (parts.length != 2) {
 					throw new IOException("Format error in file " +this.getClass().getResource(FILE_NAME)+ ", line: " + line);
 				}
