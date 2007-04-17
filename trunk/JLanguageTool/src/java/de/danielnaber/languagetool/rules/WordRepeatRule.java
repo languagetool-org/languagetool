@@ -56,23 +56,17 @@ public class WordRepeatRule extends Rule {
 
   public RuleMatch[] match(final AnalyzedSentence text) {
     List<RuleMatch> ruleMatches = new ArrayList<RuleMatch>();
-    AnalyzedTokenReadings[] tokens = text.getTokens();
+    AnalyzedTokenReadings[] tokens = text.getTokensWithoutWhitespace();
     String prevToken = "";
     String prevPrevToken = "";
-    int pos = 0;
-    int prevPos = 0;
-    for (int i = 0; i < tokens.length; i++) {
-    	//getting only the first token
-    	//because the rule is purely syntactical
+    //note: we start from token 1
+    //token no. 0 is guaranteed to be SENT_START
+    for (int i = 1; i < tokens.length; i++) {
       String token = tokens[i].getToken();
-      if (token.trim().equals("")) {
-        // ignore
-      } else {
         // avoid "..." etc. to be matched:
         boolean isWord = true;
         if (token.length() == 1) {
           char c = token.charAt(0);
-	  // Polish '\u0347' is not classified as letter by isLetter
           if (!Character.isLetter(c)) {
             isWord = false;
           }
@@ -80,20 +74,19 @@ public class WordRepeatRule extends Rule {
         boolean germanException = false;
         // Don't mark error for cases like:
         // "wie Honda und Samsung, die die Bezahlung ihrer Firmenchefs..."
-        if (prevPrevToken.equals(",") && language == Language.GERMAN) {
+        if (prevPrevToken.equals(",") && language.equals(Language.GERMAN)) {
           germanException = true;
         }
         if (isWord && prevToken.toLowerCase().equals(token.toLowerCase()) && !germanException) {
           String msg = messages.getString("repetition");
+          int prevPos = tokens[i - 1].getStartPos();
+          int pos = tokens[i].getStartPos();
           RuleMatch ruleMatch = new RuleMatch(this, prevPos, pos+prevToken.length(), msg);
           ruleMatch.setSuggestedReplacement(prevToken);
           ruleMatches.add(ruleMatch);
         }
         prevPrevToken = prevToken;
         prevToken = token;
-        prevPos = pos;
-      }
-      pos += token.length();
     }
     return toRuleMatchArray(ruleMatches);
   }

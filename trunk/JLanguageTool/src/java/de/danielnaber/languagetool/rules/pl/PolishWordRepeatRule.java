@@ -80,8 +80,8 @@ public class PolishWordRepeatRule extends PolishRule {
 	    boolean repetition = false;
 	    TreeSet <String> inflectedWords = new TreeSet<String>();
 	    String prevLemma, curLemma;	    
-        
-	    for (int i = 0; i < tokens.length; i++) {
+      //start from real token, 0 = SENT_START  
+	    for (int i = 1; i < tokens.length; i++) {
 	      String token = tokens[i].getToken();
 	        // avoid "..." etc. to be matched:
 	        boolean isWord = true;

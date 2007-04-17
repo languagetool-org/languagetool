@@ -65,26 +65,21 @@ public class SimpleReplaceRule extends Rule {
 
 	public RuleMatch[] match(AnalyzedSentence text) {
 		List<RuleMatch> ruleMatches = new ArrayList<RuleMatch>();
-		AnalyzedTokenReadings[] tokens = text.getTokens();
-		int pos = 0;
+		AnalyzedTokenReadings[] tokens = text.getTokensWithoutWhitespace();
 
-		for (int i = 0; i < tokens.length; i++) {
+    for (int i = 1; i < tokens.length; i++) {
 			String token = tokens[i].getToken();
-
-			if (token.trim().equals("")) {
-				// ignore
-			} else {
+			
 				String origToken = token;
 				if (wrongWords.containsKey(token)) {
 					String replacement = wrongWords.get(token);
 					String msg = token + " is not valid, use " + replacement;
+          int pos = tokens[i].getStartPos(); 
 					RuleMatch potentialRuleMatch = new RuleMatch(this, pos, pos+origToken.length(), msg);
 					potentialRuleMatch.setSuggestedReplacement(replacement);
 //					shouldNotAppearWord.put(shouldNotAppear, potentialRuleMatch);
 					ruleMatches.add(potentialRuleMatch);
 				}
-			}
-			pos += tokens[i].getToken().length();
 		}
 		return toRuleMatchArray(ruleMatches);
 	}

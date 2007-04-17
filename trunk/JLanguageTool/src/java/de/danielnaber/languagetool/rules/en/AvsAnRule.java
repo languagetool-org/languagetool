@@ -70,11 +70,9 @@ public class AvsAnRule extends EnglishRule {
     List<RuleMatch> ruleMatches = new ArrayList<RuleMatch>();
     AnalyzedTokenReadings[] tokens = text.getTokensWithoutWhitespace();
     String prevToken = "";
-    for (int i = 0; i < tokens.length; i++) {
-    	//defaulting to the first token
-    	//the rule is based on spelling
-    	//so it should be safe
-      String token = tokens[i].getAnalyzedToken(0).getToken();
+    //ignoring token 0, i.e., SENT_START
+    for (int i = 1; i < tokens.length; i++) {
+      String token = tokens[i].getToken();
         boolean doesRequireA = false;
         boolean doesRequireAn = false;
         // check for exceptions:
