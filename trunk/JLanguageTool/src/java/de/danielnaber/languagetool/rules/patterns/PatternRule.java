@@ -123,7 +123,7 @@ public class PatternRule extends Rule {
   }
   
   public final Language[] getLanguages() {
-    return language;
+    return language.clone();
   }
 
   public final String toString() {

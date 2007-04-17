@@ -70,10 +70,8 @@ public final class StringTools {
   public static String readFile(final InputStream file, final String encoding) throws IOException {
     InputStreamReader isr = null;
     BufferedReader br = null;
-    //FileInputStream fis = null;
     StringBuilder sb = new StringBuilder();
     try {
-      //fis = new FileInputStream(filename);
       if (encoding != null)
         isr = new InputStreamReader(file, encoding);
       else
@@ -87,7 +85,6 @@ public final class StringTools {
     } finally {
       if (br != null) br.close();
       if (isr != null) isr.close();
-      //if (fis != null) fis.close();
     }
     return sb.toString();
   }

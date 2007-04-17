@@ -36,7 +36,7 @@ public class AnalyzedTokenReadings {
 	protected String token; 
 	
 	public AnalyzedTokenReadings(final AnalyzedToken[] r) {
-		anTokReadings = r;
+		anTokReadings = r.clone();
 		token = anTokReadings[0].getToken();
 		this.startPos = anTokReadings[0].getStartPos();
 	}

@@ -39,7 +39,7 @@ public class AnalyzedSentence {
    * Whitespace is also a token.
    */
   public AnalyzedSentence(final AnalyzedTokenReadings[] tokens) {
-    this.tokens = tokens;
+    this.tokens = tokens.clone();
   }
 
   /**
@@ -47,7 +47,7 @@ public class AnalyzedSentence {
    * Whitespace is also a token.
    */
   public final AnalyzedTokenReadings[] getTokens() {
-    return tokens;
+    return tokens.clone();
   }
 
   /**
@@ -64,7 +64,7 @@ public class AnalyzedSentence {
 	    }
 	    nonBlankTokens = (AnalyzedTokenReadings[]) l.toArray(new AnalyzedTokenReadings[l.size()]);
 	  }  
-    return nonBlankTokens;
+    return nonBlankTokens.clone();
   }
   
   public final String toString() {
