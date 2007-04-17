@@ -2,7 +2,7 @@
 <!--
 Polish Grammar and Typo Rules for LanguageTool
 Copyright (C) 2006 Marcin Miłkowski
-$Id: grammar.xml,v 1.8 2007-04-17 18:13:06 milek_pl Exp $		
+$Id: grammar.xml,v 1.9 2007-04-17 20:49:25 milek_pl Exp $		
 -->
 <rules lang="pl">
 
@@ -3059,13 +3059,13 @@ $Id: grammar.xml,v 1.8 2007-04-17 18:13:06 milek_pl Exp $
 	
 	<!-- odnośnie do -->
 		<rule id="ODNOSNIE_DO" name="„odnośnie czegoś” (odnośnie do)">
-			<pattern mark_from="0" case_sensitive="no">
+			<pattern mark_to="-1" case_sensitive="no">
 				<token>odnośnie</token>
 				<token negate="yes">do</token>
 			</pattern>
 			<message>Poprawną formą jest <suggestion>odnośnie do</suggestion> czegoś.</message>
 			<example type="correct">Piszę odnośnie do pańskiej propozycji...</example>
-			<example type="incorrect">Piszę <marker>odnośnie pańskiej</marker> propozycji...</example>
+			<example type="incorrect" correction="odnośnie do">Piszę <marker>odnośnie</marker> pańskiej propozycji...</example>
 		</rule>
 	
 		<rule id="PODDAWAC_W_WATPLIWOSC" name="„poddawać w wątpliwość” (podawać w wątpliwość)">
@@ -3617,10 +3617,10 @@ $Id: grammar.xml,v 1.8 2007-04-17 18:13:06 milek_pl Exp $
 				<token regexp="yes">[\"„]</token>				
 				<token negate="yes" regexp="yes">[WFwf].+|Lwowie|środę|czwartek|dw.+|tr.+|mnie<exception regexp="yes">[\"„]</exception></token>
 			</pattern>
-			<message>Prawdopodobnie ten przyimek należy zapisać tak: <suggestion>w \2</suggestion>.</message>
+			<message>Prawdopodobnie ten przyimek należy zapisać tak: <suggestion>w \2\3</suggestion>.</message>
 			<example type="correct">Ludwik ma randkę z Przemysławem w Łodzi.</example>
 			<example type="correct">Krakusy mówią, że kaczki przeglądają się we wodzie.</example>
-			<example type="incorrect">Ludwik ma randkę z Przemysławem <marker>we "pięknej</marker> Łodzi".</example>
+			<example type="incorrect" correction="w &quot;pięknej">Ludwik ma randkę z Przemysławem <marker>we "pięknej</marker> Łodzi".</example>
 		</rule>		
 		</rulegroup>
 		
@@ -3640,9 +3640,9 @@ $Id: grammar.xml,v 1.8 2007-04-17 18:13:06 milek_pl Exp $
 				<token regexp="yes">[\"„]</token>
 				<token regexp="yes">s[wftśsrłndwpgklcbmżń].+|[zśźż][wftśsrłndwpgklzcbmżń].+|[rs]z[wftśsrłndwpgklzcbmżń].+|[wf][wftśsndwpgkzcbmżń].+|Lwowa|mną|mnie|snu<exception regexp="yes">[\"„]</exception></token>				
 			</pattern>
-			<message>Prawdopodobnie ten przyimek należy zapisać tak: <suggestion>ze \2</suggestion>.</message>
+			<message>Prawdopodobnie ten przyimek należy zapisać tak: <suggestion>ze \2\3</suggestion>.</message>
 			<example type="correct">Ludwik ma kochankę ze Świecia</example>
-			<example type="incorrect">Ludwik ma kochankę <marker>z "strasznego</marker> Świecia".</example>
+			<example type="incorrect" correction="ze &quot;strasznego">Ludwik ma kochankę <marker>z "strasznego</marker> Świecia".</example>
 		</rule>
 		
 	  </rulegroup>
@@ -3664,10 +3664,10 @@ $Id: grammar.xml,v 1.8 2007-04-17 18:13:06 milek_pl Exp $
 				<token regexp="yes">[\"„]</token>
 				<token negate="yes" regexp="yes">[wszśźżWSZŚŹŻ].+|[SRrr]z[wftśsrłndwpgklzcbmżń].+|Lwowa|mną|mnie|snu<exception regexp="yes">[\"„]</exception></token>				
 			</pattern>
-			<message>Prawdopodobnie ten przyimek należy zapisać tak: <suggestion>z \2</suggestion>.</message>
+			<message>Prawdopodobnie ten przyimek należy zapisać tak: <suggestion>z \2\3</suggestion>.</message>
 			<example type="correct">Ludwik ma kochankę z Łodzi.</example>
 			<example type="correct">Nawet Horacy drwił <marker>ze "szkodliwego</marker> hazardu".</example>
-			<example type="incorrect">Nawet Horacy drwił <marker>ze "niewinnego</marker> hazardu".</example>
+			<example type="incorrect" correction="z &quot;niewinnego">Nawet Horacy drwił <marker>ze "niewinnego</marker> hazardu".</example>
 		</rule>
 		</rulegroup>
 		
