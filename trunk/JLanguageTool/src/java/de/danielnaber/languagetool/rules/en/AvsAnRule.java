@@ -71,19 +71,13 @@ public class AvsAnRule extends EnglishRule {
 
   public RuleMatch[] match(final AnalyzedSentence text) {
     List<RuleMatch> ruleMatches = new ArrayList<RuleMatch>();
-    AnalyzedTokenReadings[] tokens = text.getTokens();
+    AnalyzedTokenReadings[] tokens = text.getTokensWithoutWhitespace();
     String prevToken = "";
-    int pos = 0;
-    int prevPos = 0;
     for (int i = 0; i < tokens.length; i++) {
     	//defaulting to the first token
     	//the rule is based on spelling
     	//so it should be safe
       String token = tokens[i].getAnalyzedToken(0).getToken();
-      String origToken = token;
-      if (token.trim().equals("")) {
-        // ignore
-      } else {
         boolean doesRequireA = false;
         boolean doesRequireAn = false;
         // check for exceptions:
@@ -96,7 +90,6 @@ public class AvsAnRule extends EnglishRule {
         //html entities!
         token = token.replaceAll("&quot|&amp|&lt|&gt|[^a-zA-Z0-9]", "");         // e.g. >>an "industry party"<<
         if (token.length() == 0) {
-          pos += origToken.length();
           continue;
         }
         char tokenFirstChar = token.charAt(0);
@@ -142,13 +135,11 @@ public class AvsAnRule extends EnglishRule {
           "'a university'";
         }
         if (msg != null) {
+          int prevPos = tokens[i - 1].getStartPos();
           RuleMatch ruleMatch = new RuleMatch(this, prevPos, prevPos+prevToken.length(), msg);
           ruleMatches.add(ruleMatch);
         }
         prevToken = token;
-        prevPos = pos;
-      }
-      pos += origToken.length();
     }
     return toRuleMatchArray(ruleMatches);
   }
