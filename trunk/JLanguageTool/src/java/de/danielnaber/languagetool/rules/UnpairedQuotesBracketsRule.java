@@ -127,18 +127,30 @@ public class UnpairedQuotesBracketsRule extends Rule {
         
     int pos = 0;          
       for (int j = 0; j < startSymbols.length; j++) {      
-      for (int i = 0; i < tokens.length; i++) {
+      for (int i = 1; i < tokens.length; i++) {
         String token = tokens[i].getToken();
-        boolean precededByWhitespace = true;
-        if (i > 1) {
-          precededByWhitespace = tokens[i - 1].isWhitespace()
+        boolean precededByWhitespace = tokens[i - 1].isWhitespace()
           || tokens[i - 1].getToken().matches("\\p{Punct}");
-        }
+        
         boolean followedByWhitespace = true;
         if (i < tokens.length - 1) {
           followedByWhitespace = tokens[i + 1].isWhitespace() 
             || tokens[i + 1].getToken().matches("\\p{Punct}");
         }
+        
+        if (followedByWhitespace
+            && precededByWhitespace) {
+          if (i == tokens.length) {
+          precededByWhitespace = false;
+          } else if (startSymbols[j].equals(endSymbols[j])) {
+            if (symbolCounter[j] > 0) {
+              precededByWhitespace = false;
+            } else {
+              followedByWhitespace = false;              
+            }
+          }
+        }
+        
         boolean noException = true; 
         
         // exception for English inches, e.g., 20"

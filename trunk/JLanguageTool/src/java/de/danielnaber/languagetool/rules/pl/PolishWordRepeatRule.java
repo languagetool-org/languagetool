@@ -29,7 +29,7 @@ public class PolishWordRepeatRule extends PolishRule {
    */
   private static final Pattern EXC_WORDS 
     = Pattern.compile("nie|to|siebie|być|ani|albo|" +
-        "lub|czy|bądź|jako|zł|coraz" +
+        "lub|czy|bądź|jako|zł|np|coraz" +
         "|bardzo|ten|jak|mln|tys|swój|mój|" +
         "twój|nasz|wasz|i|zbyt");
   

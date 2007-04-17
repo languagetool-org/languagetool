@@ -63,6 +63,9 @@ public class UnpairedQuotesBracketsRuleTest extends TestCase {
     // correct sentences:
     matches = rule.match(langTool.getAnalyzedSentence("(To jest zdanie do testowania)."));
     assertEquals(0, matches.length);
+//  correct sentences:
+    matches = rule.match(langTool.getAnalyzedSentence("Piosenka ta trafiła na wiele list \"Best of...\", włączając w to te, które zostały utworzone przez magazyn Rolling Stone."));
+    assertEquals(0, matches.length);
     // incorrect sentences:
     matches = rule.match(langTool.getAnalyzedSentence("W tym zdaniu jest niesparowany „cudzysłów."));
     assertEquals(1, matches.length);
