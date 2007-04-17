@@ -39,7 +39,7 @@ import de.danielnaber.languagetool.tools.StringTools;
  * 
  * @author Daniel Naber
  */
-public class XMLValidator {
+public final class XMLValidator {
 
   public XMLValidator() {
   }

@@ -60,7 +60,7 @@ import de.danielnaber.languagetool.tools.ReflectionUtils;
  * 
  * @author Daniel Naber
  */
-public class JLanguageTool {
+public final class JLanguageTool {
 
   public static final String VERSION = "0.9-dev";      // keep in sync with build.xml!
 

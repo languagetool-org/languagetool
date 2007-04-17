@@ -152,6 +152,7 @@ public class UnpairedQuotesBracketsRule extends Rule {
           }
         
         // Exception for English plural saxon genetive
+        //TODO: add POS checking
         if ((precededByWhitespace || followedByWhitespace) 
             && ruleLang.equals(Language.ENGLISH) 
             && token.trim().equals("'")

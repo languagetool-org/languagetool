@@ -48,7 +48,7 @@ public class HTTPServer extends ContentOracle {
   
   private static final int CONTEXT_SIZE = 40;   // characters
 
-  private static Daemon daemon;
+  private Daemon daemon;
   private int port = DEFAULT_PORT;
   
   private static final Set<String> allowedIPs = new HashSet<String>();

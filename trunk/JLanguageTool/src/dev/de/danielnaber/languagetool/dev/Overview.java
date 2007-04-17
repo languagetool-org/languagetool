@@ -34,7 +34,7 @@ import de.danielnaber.languagetool.tools.StringTools;
  * 
  * @author Daniel Naber
  */
-public class Overview {
+public final class Overview {
 
   public static void main(String[] args) throws IOException {
     Overview prg = new Overview();
