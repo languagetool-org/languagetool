@@ -2,7 +2,7 @@
 <!--
 Polish Grammar and Typo Rules for LanguageTool
 Copyright (C) 2006 Marcin Miłkowski
-$Id: grammar.xml,v 1.9 2007-04-17 20:49:25 milek_pl Exp $		
+$Id: grammar.xml,v 1.10 2007-04-17 22:52:45 milek_pl Exp $		
 -->
 <rules lang="pl">
 
@@ -719,6 +719,17 @@ $Id: grammar.xml,v 1.9 2007-04-17 20:49:25 milek_pl Exp $
 			<example type="incorrect" correction="to, innymi słowy, sensu">Nie ma <marker>to innymi słowy sensu</marker>.</example>
 		</rule>
 	</rulegroup>
+	
+	<rule name="Brak przecinka przed „jak i”" id="JAK_I">
+		<pattern>
+			  <token><exception postag_regexp="yes" postag="SENT_START"/><exception regexp="yes">[\p{Punct}–—„«»]|tyle|i|lub|albo|ani|oraz|bądź|czy|tak</exception></token>
+				<token>jak</token>
+				<token>i</token>
+		</pattern>
+		<message>Tu prawdopodobnie brakuje przecinka. Powinno być: <suggestion>\1, \2 \3</suggestion>.</message>
+		<example type="correct">Lubię zarówno Lecha, jak i Jarosława.</example>
+		<example type="incorrect" correction="Lecha, jak i">Lubię zarówno <marker>Lecha jak i</marker> Jarosława.</example>
+	</rule>
 
 	<rulegroup name="Brak wydzielenia „co więcej” i „co gorsza”" id="CO_WIECEJ">
 		<rule>
@@ -885,6 +896,18 @@ $Id: grammar.xml,v 1.9 2007-04-17 20:49:25 milek_pl Exp $
 		</rule>
 
 		<rule>
+			<pattern mark_from="2">
+				<token postag="SENT_START"/>
+				<token skip="-1" postag_regexp="yes" postag="subst:sg:nom.*"><exception scope="current" regexp="yes">nic|co|jak</exception><exception postag_regexp="yes" postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf|pant:perf"/><exception scope="next" inflected="yes" regexp="yes">[\-—–!\?;\(\):]|kiedy|gdy|który|jaki|że|iż|bo|a|jeśli|jeżeli|aby|żeby|ażeby|zanim|acz|aczkolwiek|albowiem|ale|aleć|aliści|azali|bo|byleby|czyli|czyliż|dlaczego|dopóki|dopóty|gdyż|gdyżby|ilekolwiek|ilekroć|póki|tedy</exception><exception scope="next" postag_regexp="yes" postag="verb:(praet:|aglt:|fin:|)sg:ter.*|pcon:imperf|pant:perf"/></token>
+				<token>,</token>
+				<token>to</token>
+			</pattern>
+			<message>Przecinek między podmiotem a orzeczeniem jest zbędny, powinno być: <suggestion>\4</suggestion>.</message>
+			<example type="correct">Gazeta to źródło informacji.</example>
+			<example type="incorrect" correction="to">Gazeta<marker>, to</marker> źródło informacji.</example>
+		</rule>
+
+		<rule>
 			<pattern mark_from="3">
 				<token postag="SENT_START"/>
 				<token postag_regexp="yes" postag=".*adj:sg:(nom|nom\.voc):f.*"/>
@@ -894,9 +917,22 @@ $Id: grammar.xml,v 1.9 2007-04-17 20:49:25 milek_pl Exp $
 			</pattern>
 			<message>Przecinek między podmiotem a orzeczeniem jest zbędny, powinno być: <suggestion>\5</suggestion>.</message>
 			<example type="correct">Każda gazeta jest źródłem informacji.</example>
-			<example type="incorrect" correction="jest">Każda Gazeta<marker>, jest</marker> źródłem informacji.</example>
+			<example type="incorrect" correction="jest">Każda gazeta<marker>, jest</marker> źródłem informacji.</example>
 		</rule>
 		
+		<rule>
+			<pattern mark_from="3">
+				<token postag="SENT_START"/>
+				<token postag_regexp="yes" postag=".*adj:sg:(nom|nom\.voc):f.*"/>
+				<token skip="-1" postag_regexp="yes" postag="subst:sg:nom:f"><exception postag_regexp="yes" postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf|pant:perf"/><exception postag_regexp="yes" postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf|pant:perf"/><exception scope="next" inflected="yes" regexp="yes">[\-—–!\?;\(\):]|kiedy|gdy|który|jaki|że|iż|bo|a|jeśli|jeżeli|aby|żeby|ażeby|zanim|acz|aczkolwiek|albowiem|ale|aleć|aliści|azali|bo|byleby|czyli|czyliż|dlaczego|dopóki|dopóty|gdyż|gdyżby|ilekolwiek|ilekroć|póki|tedy</exception><exception scope="current" regexp="yes">nic|co|jak</exception><exception postag_regexp="yes" postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf|pant:perf"/><exception scope="next" inflected="yes" regexp="yes">[\-—–!\?;\(\):]|kiedy|gdy|który|jaki|że|iż|bo|a|jeśli|jeżeli|aby|żeby|ażeby|zanim|acz|aczkolwiek|albowiem|ale|aleć|aliści|azali|bo|byleby|czyli|czyliż|dlaczego|dopóki|dopóty|gdyż|gdyżby|ilekolwiek|ilekroć|póki|tedy</exception><exception scope="next" postag_regexp="yes" postag="verb:(praet:|aglt:|fin:|)sg:ter.*|pcon:imperf|pant:perf"/></token>
+				<token>,</token>
+				<token>to</token>
+			</pattern>
+			<message>Przecinek między podmiotem a orzeczeniem jest zbędny, powinno być: <suggestion>\5</suggestion>.</message>
+			<example type="correct">Każda gazeta to źródło informacji.</example>
+			<example type="incorrect" correction="to">Każda gazeta<marker>, to</marker> źródło informacji.</example>
+		</rule>
+				
 		<rule>
 			<pattern mark_from="3">
 				<token postag="SENT_START"/>
@@ -913,6 +949,19 @@ $Id: grammar.xml,v 1.9 2007-04-17 20:49:25 milek_pl Exp $
 		<rule>
 			<pattern mark_from="3">
 				<token postag="SENT_START"/>
+				<token postag_regexp="yes" postag=".*adj:sg:(nom|nom\.acc\.voc|nom\.voc):n(:pneg|:neg|).*"/>
+				<token skip="-1" postag_regexp="yes" postag="subst:sg:nom.*:n"><exception postag_regexp="yes" postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf|pant:perf"/><exception postag_regexp="yes" postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf|pant:perf"/><exception scope="next" inflected="yes" regexp="yes">[\-—–!\?;\(\):]|kiedy|gdy|który|jaki|że|iż|bo|a|jeśli|jeżeli|aby|żeby|ażeby|zanim|acz|aczkolwiek|albowiem|ale|aleć|aliści|azali|bo|byleby|czyli|czyliż|dlaczego|dopóki|dopóty|gdyż|gdyżby|ilekolwiek|ilekroć|póki|tedy</exception><exception scope="current" regexp="yes">nic|co|jak</exception><exception postag_regexp="yes" postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf|pant:perf"/><exception scope="next" inflected="yes" regexp="yes">[\-—–!\?;\(\):]|kiedy|gdy|który|jaki|że|iż|bo|a|jeśli|jeżeli|aby|żeby|ażeby|zanim|acz|aczkolwiek|albowiem|ale|aleć|aliści|azali|bo|byleby|czyli|czyliż|dlaczego|dopóki|dopóty|gdyż|gdyżby|ilekolwiek|ilekroć|póki|tedy</exception><exception scope="next" postag_regexp="yes" postag="verb:(praet:|aglt:|fin:|)sg:ter.*|pcon:imperf|pant:perf"/></token>
+				<token>,</token>				
+				<token>to</token>
+			</pattern>
+			<message>Przecinek między podmiotem a orzeczeniem jest zbędny, powinno być: <suggestion>\5</suggestion>.</message>
+			<example type="correct">Każde dziecko to wspaniały narybek naszej ojczyzny.</example>
+			<example type="incorrect" correction="to">Każde dziecko<marker>, to</marker> wspaniały narybek naszej ojczyzny.</example>
+		</rule>
+		
+		<rule>
+			<pattern mark_from="3">
+				<token postag="SENT_START"/>
 				<token postag_regexp="yes" postag=".*adj:sg:(nom|nom\.acc\.voc|nom\.voc):m[\d]*(:pneg|:neg|).*"/>
 				<token skip="-1" postag_regexp="yes" postag="subst:sg:nom.*:m[\d]*"><exception postag_regexp="yes" postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf|pant:perf"/><exception scope="next" inflected="yes" regexp="yes">[\-—–!\?;\(\):]|kiedy|gdy|który|jaki|że|iż|bo|a|jeśli|jeżeli|aby|żeby|ażeby|zanim|acz|aczkolwiek|albowiem|ale|aleć|aliści|azali|bo|byleby|czyli|czyliż|dlaczego|dopóki|dopóty|gdyż|gdyżby|ilekolwiek|ilekroć|póki|tedy</exception><exception scope="current" regexp="yes">nic|co|jak</exception><exception postag_regexp="yes" postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf|pant:perf"/><exception scope="next" inflected="yes" regexp="yes">[\-—–!\?;\(\):]|kiedy|gdy|który|jaki|że|iż|bo|a|jeśli|jeżeli|aby|żeby|ażeby|zanim|acz|aczkolwiek|albowiem|ale|aleć|aliści|azali|bo|byleby|czyli|czyliż|dlaczego|dopóki|dopóty|gdyż|gdyżby|ilekolwiek|ilekroć|póki|tedy</exception><exception scope="next" postag_regexp="yes" postag="verb:(praet:|aglt:|fin:|)sg:ter.*|pcon:imperf|pant:perf"/></token>
 				<token>,</token>				
@@ -922,7 +971,22 @@ $Id: grammar.xml,v 1.9 2007-04-17 20:49:25 milek_pl Exp $
 			<example type="correct">Każdy urzędnik wie, jak wspaniały jest nasz premier.</example>
 			<example type="incorrect" correction="wie">Każdy urzędnik<marker>, wie</marker>, jak wspaniały jest nasz premier.</example>
 		</rule>
-
+		
+		<rule>
+			<pattern mark_from="3">
+				<token postag="SENT_START"/>
+				<token postag_regexp="yes" postag=".*adj:sg:(nom|nom\.acc\.voc|nom\.voc):m[\d]*(:pneg|:neg|).*"/>
+				<token skip="-1" postag_regexp="yes" postag="subst:sg:nom.*:m[\d]*"><exception postag_regexp="yes" postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf|pant:perf"/><exception scope="next" inflected="yes" regexp="yes">[\-—–!\?;\(\):]|kiedy|gdy|który|jaki|że|iż|bo|a|jeśli|jeżeli|aby|żeby|ażeby|zanim|acz|aczkolwiek|albowiem|ale|aleć|aliści|azali|bo|byleby|czyli|czyliż|dlaczego|dopóki|dopóty|gdyż|gdyżby|ilekolwiek|ilekroć|póki|tedy</exception><exception scope="current" regexp="yes">nic|co|jak</exception><exception postag_regexp="yes" postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf|pant:perf"/><exception scope="next" inflected="yes" regexp="yes">[\-—–!\?;\(\):]|kiedy|gdy|który|jaki|że|iż|bo|a|jeśli|jeżeli|aby|żeby|ażeby|zanim|acz|aczkolwiek|albowiem|ale|aleć|aliści|azali|bo|byleby|czyli|czyliż|dlaczego|dopóki|dopóty|gdyż|gdyżby|ilekolwiek|ilekroć|póki|tedy</exception><exception scope="next" postag_regexp="yes" postag="verb:(praet:|aglt:|fin:|)sg:ter.*|pcon:imperf|pant:perf"/></token>
+				<token>,</token>				
+				<token>to</token>
+			</pattern>
+			<message>Przecinek między podmiotem a orzeczeniem jest zbędny, powinno być: <suggestion>\5</suggestion>.</message>
+			<example type="correct">Każdy urzędnik to podnóżek naszego premiera.</example>
+			<example type="incorrect" correction="to">Każdy urzędnik<marker>, to</marker> podnóżek naszego premiera.</example>
+		</rule>
+				
+	</rulegroup>
+	
 	<rule id="PRZECINEK_A" name="Zbędny przecinek przed „a”">
 		<pattern mark_from="1" mark_to="-1">
 			<token skip="-1">między<exception>a</exception></token>
@@ -945,9 +1009,7 @@ $Id: grammar.xml,v 1.9 2007-04-17 20:49:25 milek_pl Exp $
 		<example type="incorrect" correction="Otóż"><marker>Otóż,</marker> poniżej zamieszczam przepis dodania strony do wyszukiwarki Google.</example>
 		<example type="correct">Otóż poniżej zamieszczam przepis dodania strony do wyszukiwarki Google.</example>
 	</rule>
-	
-	</rulegroup>
-	
+			
 	</category>
 	
 	<category name="Błędy typograficzne">

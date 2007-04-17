@@ -55,7 +55,9 @@ public class PolishSentenceTokenizer extends SentenceTokenizer {
   private static final Pattern abbrev7 = Pattern.compile("(\\s" + PAP + "\\s)" + EOS);
   // z.b. 3.10. (im Datum):
   private static final Pattern abbrev8 = Pattern.compile("(\\d{1,2}\\.\\d{1,2}\\.\\s+)" + EOS);  
-    
+  
+  private static final Pattern ELLIPSIS = Pattern.compile("([\\[]*(\\.\\.\\.|…)[\\]]*\\s)" + EOS + "(\\p{Ll})");
+  
   /** Polish abbreviations as a single regexp. **/
   private static final String ABBREVLIST = "adw|afr|akad|am|amer|arch|art|artyst|astr|austr|" +
         "bałt|bdb|bł|bm|br|bryt|centr|ces|chem|chiń|chir|c.k|c.o|cyg|cyw|cyt|" +
@@ -166,7 +168,9 @@ public class PolishSentenceTokenizer extends SentenceTokenizer {
     // e.g. "Das ist . so." -> assume one sentence
     s = abbrev8.matcher(s).replaceAll("$1");
    
-      s = s.replaceAll("(\\d+\\.) " + EOS + "([\\p{L}&&[^\\p{Lu}]]+)", "$1 $2");
+    s = ELLIPSIS.matcher(s).replaceAll("$1$3");
+    
+    s = s.replaceAll("(\\d+\\.) " + EOS + "([\\p{L}&&[^\\p{Lu}]]+)", "$1 $2");
 
     // z.B. "Das hier ist ein(!) Satz."
       s = s.replaceAll("\\(([!?]+)\\) " + EOS, "($1) ");

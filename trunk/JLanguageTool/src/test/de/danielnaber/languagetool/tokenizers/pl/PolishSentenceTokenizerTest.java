@@ -92,7 +92,9 @@ public class PolishSentenceTokenizerTest extends TestCase {
     testSplit(new String[] { "To wydarzyło się w 1939 r.", "To był burzliwy rok." });
     testSplit(new String[] { "Prezydent jest popierany przez 20 proc. społeczeństwa." });
     testSplit(new String[] { "Moje wystąpienie ma na celu zmobilizowanie zarządu partii do działań, które umożliwią uzyskanie 40 proc.", "Nie widzę dziś na scenie politycznej formacji, która lepiej by łączyła różne poglądy" });
-    testSplit(new String[] {"To jest zmienna A.", "Zaś to jest zmienna B."}); 
+    testSplit(new String[] {"To jest zmienna A.", "Zaś to jest zmienna B."});
+    //ellipsis
+    testSplit(new String[] { "Rytmem tej wiecznie przemijającej światowej egzystencji […] rytmem mesjańskiej natury jest szczęście." });
   }
 
   public final void testSplit(final String[] sentences) {
