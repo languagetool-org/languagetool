@@ -250,6 +250,8 @@ public class Element {
 
   /**
    * Negates the meaning of match().
+   * @param negation - true if the meaning of match()
+   * is to be negated.
    */
   final void setNegation(final boolean negation) {
     this.negation = negation;
