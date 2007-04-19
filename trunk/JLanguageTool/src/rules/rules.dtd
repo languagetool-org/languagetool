@@ -124,7 +124,8 @@ to currently produce false alarms: -->
 <!ATTLIST example type (correct|incorrect|triggers_error) #REQUIRED>
 <!-- Used to explain 'triggers_error': -->
 <!ATTLIST example reason CDATA #IMPLIED>
-<!-- used to check if the suggested correction is correct -->
+<!-- used to check if the suggested correction is correct; multiple
+suggestions are joined with "|". -->
 <!ATTLIST example correction CDATA #IMPLIED>
 
 <!-- Put this around the error, i.e. the part of the text that should be
@@ -138,4 +139,10 @@ replacement of the text marked as an error. The test cases use this
 text to replace the text between the 'marker' tags and then re-check
 the text. The example with the incorrect text replace by this text
 may not produde an error anymore, otherwise the test case fails: -->
-<!ELEMENT suggestion (#PCDATA)>
+<!ELEMENT suggestion (#PCDATA|match)*>
+
+<!-- Refers to matched elements of the pattern. Can be used in
+suggestions and in references in the pattern. -->
+<!ELEMENT match (#PCDATA)>
+<!-- Number of the matched token. -->
+<!ATTLIST match no CDATA #REQUIRED>
