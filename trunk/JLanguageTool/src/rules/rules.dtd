@@ -146,3 +146,12 @@ suggestions and in references in the pattern. -->
 <!ELEMENT match (#PCDATA)>
 <!-- Number of the matched token. -->
 <!ATTLIST match no CDATA #REQUIRED>
+<!-- Target POS tag, i.e., part of speech tag of the 
+token that should be generated based on a given matched token -->
+<!ATTLIST match postag CDATA #IMPLIED>
+<!-- Whether the string in 'postag' is a regular expression: -->
+<!ATTLIST token postag_regexp (yes|no) "no">
+<!-- Optional regular expression that specifies parts in the token -->
+<!ATTLIST match regexp_match CDATA #IMPLIED>
+<!-- Optional regular expression that what how to replace the token -->
+<!ATTLIST match regexp_replace CDATA #IMPLIED>
