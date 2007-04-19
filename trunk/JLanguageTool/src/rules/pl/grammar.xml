@@ -2,7 +2,7 @@
 <!--
 Polish Grammar and Typo Rules for LanguageTool
 Copyright (C) 2006 Marcin Miłkowski
-$Id: grammar.xml,v 1.10 2007-04-17 22:52:45 milek_pl Exp $		
+$Id: grammar.xml,v 1.11 2007-04-19 13:39:05 milek_pl Exp $		
 -->
 <rules lang="pl">
 
@@ -4413,9 +4413,10 @@ $Id: grammar.xml,v 1.10 2007-04-17 22:52:45 milek_pl Exp $
 		</rule>
 
 		<rule name="„z za” (zza)" id="Z_ZA">
-			<pattern>
+			<pattern mark_to="-1">
 				<token>z</token>
 				<token>za</token>
+				<token><exception>granicą</exception></token>
 			</pattern>
 			<message>Ten wyraz piszemy łącznie, tj. <suggestion>\1\2</suggestion>.</message>
 			<example type="correct">Wstrętny ryj wychynął zza rogu.</example>
@@ -5189,7 +5190,41 @@ $Id: grammar.xml,v 1.10 2007-04-17 22:52:45 milek_pl Exp $
 			<example type="incorrect">No i tu zaczyna się problem - <marker>wszech obecny</marker> dym papierosowy.</example>
 			<example type="correct">No i tu zaczyna się problem - <marker>wszechobecny</marker> dym papierosowy.</example>
 		</rule>
-	
+		
+		<rule id="HONG_KONG" name="„Hong Kong” (Hongkong)">
+			<pattern>
+				<token>Hong</token>
+				<token inflected="yes">Kong</token>
+			</pattern>				
+			<message>Ten wyraz piszemy łącznie. Powinno być: <suggestion>\1\2</suggestion>.</message>
+			<example type="correct">Całe terytorium Hongkongu stało się jednym obszarem miejskim.</example>
+			<!-- FIXME: zła podpowiedź! -->
+			<example type="incorrect" correction="HongKongu">Całe terytorium <marker>Hong Kongu</marker> stało się jednym obszarem miejskim.</example>
+		</rule>
+		
+		<rule id="ZAGRANICA-ZA_GRANICA" name="„zagranicą” (za granicą)">
+				<pattern mark_from="1">
+					<token postag="SENT_START" skip="-1"><exception scope="next" postag_regexp="yes" postag="prep:.*inst"/><exception inflected="yes" regexp="yes">zainteresowanie|zainteresowany|nazywany</exception></token>
+					<token>zagranicą</token>
+				</pattern>
+				<message>W tym wypadku prawdopodobnie należy napisać rozłącznie: <suggestion>za granicą</suggestion> (gdzie? za granicą! czym? zagranicą!).</message>
+				<example type="correct">Polacy za granicą</example>
+				<example type="correct">Nie ma różnicy między krajem a zagranicą.</example>
+				<example type="correct">To człowiek od kontaktów z zagranicą</example>
+				<example type="incorrect">Polacy <marker>zagranicą</marker></example>
+		</rule>
+		
+		<rule id="ZA_GRANICA-ZAGRANICA" name="„za granicą” (zagranicą)">
+			<pattern>
+				<token>z</token>
+				<token>za</token>
+				<token>granicą</token>
+			</pattern>
+			<message>Błąd ortograficzny lub literówka. Powinno być: <suggestion>i za granicą</suggestion> (gdzie?) lub <suggestion>z zagranicą</suggestion> (z czym?).</message>
+			<example type="correct">Miał 24 wystawy indywidualne w kraju i za granicą.</example>
+			<example type="incorrect" correction="i za granicą|z zagranicą">Miał 24 wystawy indywidualne w kraju <marker>z za granicą</marker>.</example>
+		</rule>
+		
 	</category>
 
 	<category name="Prawdopodobne literówki">
