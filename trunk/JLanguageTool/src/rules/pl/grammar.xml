@@ -2,7 +2,7 @@
 <!--
 Polish Grammar and Typo Rules for LanguageTool
 Copyright (C) 2006 Marcin Miłkowski
-$Id: grammar.xml,v 1.11 2007-04-19 13:39:05 milek_pl Exp $		
+$Id: grammar.xml,v 1.12 2007-04-19 17:07:40 milek_pl Exp $		
 -->
 <rules lang="pl">
 
@@ -1422,7 +1422,7 @@ $Id: grammar.xml,v 1.11 2007-04-19 13:39:05 milek_pl Exp $
 		<rulegroup id="PRAWDOPODOBNYM_JEST" name="orzecznik w narzędniku (zamiast mianownika)">
 		<rule>
 		<pattern mark_to="-3">
-			<token postag_regexp="yes" postag=".*(adj|ppas):sg:inst\.loc:[mn].*"><exception>tym</exception></token>
+			<token skip="-1" postag_regexp="yes" postag=".*(adj|ppas):sg:inst\.loc:[mn].*"><exception scope="current">tym</exception><exception scope="next" postag_regexp="yes" postag="subst:.*inst.*m[0-9]?"/></token>
 			<token regexp="yes">jest|było|będzie|byłoby</token>
 			<token>,</token>
 			<token regexp="yes" inflected="yes">że|iż|aby|iżby|by|żeby</token>
@@ -1430,6 +1430,7 @@ $Id: grammar.xml,v 1.11 2007-04-19 13:39:05 milek_pl Exp $
 		<message>Przymiotnik \1 powinien być w mianowniku, rodzaju nijakim i liczbie pojedynczej (domyślnym podmiotem jest „to”).</message>
 		<example type="incorrect">Bez wątpienia <marker>dobrym</marker> jest, żeby szkoły były umundurowane.</example>
 		<example type="incorrect"><marker>Pożądanym</marker> jest, aby szkoły były umundurowane.</example>
+		<example type="incorrect"><marker>Niewątpliwym</marker> również jest, że Roman kocha się w Andrzeju.</example>
 		<example type="correct">Pożądane jest, aby szkoły były umundurowane.</example>
 		</rule>		
 		<rule>
@@ -4398,7 +4399,7 @@ $Id: grammar.xml,v 1.11 2007-04-19 13:39:05 milek_pl Exp $
 				<token>goła</token>
 			</pattern>
 			<message>Ten wyraz piszemy łącznie, tj. <suggestion>\1\2</suggestion>.</message>
-			<example type="correct">Przy takim pojmowaniu historii jasnym jest, że nie ma tu zgoła miejsca dla wybitnych jednostek, a niewiele go zostaje dla wolności woli.</example>
+			<example type="correct">Przy takim pojmowaniu historii jasne jest, że nie ma tu zgoła miejsca dla wybitnych jednostek, a niewiele go zostaje dla wolności woli.</example>
 			<example type="incorrect">Przy takim pojmowaniu historii jasnym jest, że nie ma tu <marker>z goła</marker> miejsca dla wybitnych jednostek, a niewiele go zostaje dla wolności woli.</example>
 		</rule>
 
