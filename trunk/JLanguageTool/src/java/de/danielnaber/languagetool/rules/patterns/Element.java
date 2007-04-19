@@ -55,6 +55,9 @@ public class Element {
   
   private Matcher m = null;
   private Matcher mPos = null;
+  
+  /** matches only tokens without any POS tag **/
+  private final static String UNKNOWN_TAG = "UNKNOWN";
 
   Element(final String token, final boolean caseSensitive, final boolean regExp,
       final boolean inflected) {
@@ -185,7 +188,30 @@ public class Element {
     exceptionList.add(stringException);
   }
 
+  /**
+   * Tests if part of speech matches a given string.
+   * @param token Token to test.
+   * @return true if matches
+   * 
+   * Special value UNKNOWN_TAG matches null POS tags.
+   * 
+   */
   final boolean matchPosToken(final AnalyzedToken token) {
+    
+    if (token.getPOSTag() == null) {
+      if (!posRegExp) {
+        if (UNKNOWN_TAG.equals(posToken)) {
+              return true;
+        }
+      } else {
+        if (mPos == null) {
+          mPos = pPos.matcher(UNKNOWN_TAG);
+        } else {
+          mPos.reset(UNKNOWN_TAG);
+        }
+        return mPos.matches();
+      }        
+    }
     // if no POS set
     // defaulting to true
     if (posToken == null) {
@@ -194,9 +220,7 @@ public class Element {
     boolean match = false;
     if (!posRegExp) {
       match = posToken.equals(token.getPOSTag());              
-    } else
-    // changed to match regexps
-    if (token.getPOSTag() != null) {
+    } else if (token.getPOSTag() != null) {
       if (mPos == null) {
         mPos = pPos.matcher(token.getPOSTag());
       } else {
