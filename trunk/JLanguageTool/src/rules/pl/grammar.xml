@@ -2,7 +2,7 @@
 <!--
 Polish Grammar and Typo Rules for LanguageTool
 Copyright (C) 2006 Marcin Miłkowski
-$Id: grammar.xml,v 1.13 2007-04-20 21:36:41 milek_pl Exp $		
+$Id: grammar.xml,v 1.14 2007-04-20 22:22:38 milek_pl Exp $		
 -->
 <rules lang="pl">
 
@@ -2253,7 +2253,7 @@ $Id: grammar.xml,v 1.13 2007-04-20 21:36:41 milek_pl Exp $
 		<token postag="SENT_START" skip="-1"><exception>nie</exception></token>
 		<token skip="-1"><exception>nie</exception></token>
   	<token skip="-1">bynajmniej<exception scope="next">nie</exception></token>
-		<token regexp="yes">[\.!?…\(](?:'|«|\"|”|\)|\]|\})?</token>
+		<token postag="SENT_END"/>
 		</pattern>
 		<message>Prawdopodobnie błędnie użyto wyrazu „bynajmniej”, powinno być: <suggestion>przynajmniej</suggestion>.</message>
 		<example type="incorrect">Wiersz po prostu śliczny, <marker>bynajmniej</marker> dla mnie.</example>
@@ -4297,11 +4297,12 @@ $Id: grammar.xml,v 1.13 2007-04-20 21:36:41 milek_pl Exp $
 			<pattern>
 				<token regexp="yes">^([0-9]+-)([mt]*y|[w]*si|[w]*szy|[w]*sze|[w]*szym[i]*|[w]*si|tym|tymi|ci|a|ce|ch|cia|cie|ciej|cim|cio|cioletnią|ciu|ego|ej|ga|gi|gie|gim|go|im|ki|krotnie|któregoś|leci.*|ma|me|miu|mo|o|ro|stoletniego|stu|sza|[tm]*a|[mt]*e|[tm]*ego|[mt]*ej|tka|tki|to|[mt]*[i]*oletni.*|[mt]*u|[mt]*ą|[mt]*ych|[mt]*e)</token>
 			</pattern>
-			<message>Liczebniki porządkowe zapisujemy nie z końcówkami przypadków, tylko z kropką: <suggestion>.</suggestion>.</message>
+			<message>Liczebniki porządkowe zapisujemy nie z końcówkami przypadków, tylko z kropką: 
+				<suggestion><match no="1" regexp_match="(\d+)-(.*)" regexp_replace="$1"/>.</suggestion>.</message>
 			<example type="correct">Ten system jest 32-bitowy.</example>
-			<example type="incorrect">To już <marker>5-ty</marker> raz!</example>
-			<example type="incorrect">To już <marker>1-wszy</marker> raz!</example>
-			<example type="incorrect">Rosjanie byli <marker>1-wsi</marker> w kosmosie.</example>
+			<example type="incorrect" correction="5.">To już <marker>5-ty</marker> raz!</example>
+			<example type="incorrect" correction="1.">To już <marker>1-wszy</marker> raz!</example>
+			<example type="incorrect" correction="1.">Rosjanie byli <marker>1-wsi</marker> w kosmosie.</example>
 		</rule>
 		
 		<rule name="„tym czasem” (tymczasem)" id="TYMCZASEM">
@@ -4871,11 +4872,14 @@ $Id: grammar.xml,v 1.13 2007-04-20 21:36:41 milek_pl Exp $
 			<pattern>
 				<token regexp="yes">^(neo|post|pre|anty|arcy|eks|bez|beze|ekstra|hiper|infra|kontr|maksi|midi|między|mini|nad|nade|około|ponad|post|przeciw|pseudo|super|śród|ultra|wice|wokół|wokoło)[-–].+</token>
 			</pattern>
-			<message>Wyrazy z przedrostkami „neo-, post-, pre-, anty-, arcy-, eks-, bez-, beze-, ekstra-, hiper-, infra-, kontr-, maksi-, midi-, między-, mini-, nad-, nade-, około-, ponad-, post-, przeciw-, pseudo-, super-, śród-, ultra-, wice-, wokół-, wokoło-” piszemy łącznie.</message>
+			<message>Ten wyraz piszemy bez łącznika:
+				<suggestion><match no="1" 
+				regexp_match="(?iu)^(neo|post|pre|anty|arcy|eks|bez|beze|ekstra|hiper|infra|kontr|maksi|midi|między|mini|nad|nade|około|ponad|post|przeciw|pseudo|super|śród|ultra|wice|wokół|wokoło)[-–](.*)"
+				regexp_replace="$1$2"/></suggestion>.</message>
 			<example type="correct">Tym prądem intelektualnym jest postmodernizm.</example>
-			<example type="incorrect">Wiktor to mój <marker>eks-mąż</marker>.</example>
-			<example type="incorrect">Jadzia kupiła sobie <marker>mini-spódniczkę</marker>.</example>
-			<example type="incorrect"><marker>Arcy–książę</marker> Ferdynand lubił polować w tutejszych lasach.</example>
+			<example type="incorrect" correction="eksmąż">Wiktor to mój <marker>eks-mąż</marker>.</example>
+			<example type="incorrect" correction="minispódniczkę">Jadzia kupiła sobie <marker>mini-spódniczkę</marker>.</example>
+			<example type="incorrect" correction="Arcyksiążę"><marker>Arcy–książę</marker> Ferdynand lubił polować w tutejszych lasach.</example>
 		</rule>
 		<rule name="„co nie miara” (co niemiara)" id="CO_NIE_MIARA">
 			<pattern>
