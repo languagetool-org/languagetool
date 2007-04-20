@@ -93,7 +93,11 @@ public final class Language {
     new Language("Czech", "cs", new Locale("cs"), new DemoDisambiguator(), new CzechTagger(),
         new CzechSentenceTokenizer(), new WordTokenizer(), "Jozef Ličko");
 
+  public static final Language SLOVENIAN = 
+    new Language("Slovenian", "sl", new Locale("sl"), new DemoDisambiguator(), new DemoTagger(),
+      new SentenceTokenizer(), new WordTokenizer(), "Martin Srebotnjak");
   
+
   public static final Language DEMO = 
     new Language("Testlanguage", "xx", new Locale("en"), new DemoDisambiguator(), new DemoTagger(),
         new SentenceTokenizer(), new WordTokenizer(), null);
@@ -112,7 +116,7 @@ public final class Language {
    * All languages supported by LanguageTool.
    */
   public static final Language[] LANGUAGES = {
-    ENGLISH, GERMAN, POLISH, FRENCH, SPANISH, ITALIAN, DUTCH, LITHUANIAN, UKRAINIAN, CZECH, DEMO
+    ENGLISH, GERMAN, POLISH, FRENCH, SPANISH, ITALIAN, DUTCH, LITHUANIAN, UKRAINIAN, CZECH, SLOVENIAN, DEMO
   };
 
   /**
