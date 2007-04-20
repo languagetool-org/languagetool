@@ -281,19 +281,21 @@ public class PatternRule extends Rule {
           if (suggestionMatches != null) {
             if (matchCounter < suggestionMatches.size()) {
               if (suggestionMatches.get(matchCounter) != null) {
+                while (errMessage.indexOf("\\" + (j + 1)) > 0) { 
                 suggestionMatches.get(matchCounter)
-                  .setToken(tokens[firstMatchToken + repTokenPos - 1]);
-                errMessage = errMessage.replaceAll("\\\\" + (j + 1), 
+                  .setToken(tokens[firstMatchToken + repTokenPos - 1]);                
+                errMessage = errMessage.replaceFirst("\\\\" + (j + 1), 
                     suggestionMatches.get(matchCounter).toString());
+                matchCounter++;
                 newWay = true;
                 }
+              }
               }
             }           
           if (!newWay) {
           errMessage = errMessage.replaceAll("\\\\" + (j + 1), 
                 tokens[firstMatchToken + repTokenPos - 1].getToken());          
-          }
-          matchCounter++;
+          }          
          }  
         }        
         
