@@ -56,8 +56,8 @@ public class Element {
   private Matcher m = null;
   private Matcher mPos = null;
   
-  /** matches only tokens without any POS tag **/
-  private final static String UNKNOWN_TAG = "UNKNOWN";
+  /** Matches only tokens without any POS tag. **/
+  private static final String UNKNOWN_TAG = "UNKNOWN";
 
   Element(final String token, final boolean caseSensitive, final boolean regExp,
       final boolean inflected) {

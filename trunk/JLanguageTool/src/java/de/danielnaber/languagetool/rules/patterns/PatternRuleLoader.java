@@ -114,6 +114,8 @@ class PatternRuleHandler extends XMLRuleHandler {
    * multiple phrases in the current one. **/
   private ArrayList < ArrayList < Element > > phraseElementList = null;  
   
+  private ArrayList<Match> suggestionMatches = null;
+  
   private int startPositionCorrection = 0;
   private int endPositionCorrection = 0;
   private int skipPos = 0;
@@ -243,6 +245,20 @@ class PatternRuleHandler extends XMLRuleHandler {
       inRuleGroup = true;
     } else if (qName.equals("suggestion") && inMessage) {
       message.append("<suggestion>");
+    } else if (qName.equals("match") && inMessage) {
+      if (suggestionMatches == null) {
+        suggestionMatches = new ArrayList<Match>();        
+      }
+      Match mWorker;
+      Match.CaseConversion caseConv = Match.CaseConversion.NONE; 
+      if (attrs.getValue("case_conversion") != null) {
+        caseConv = Match.CaseConversion.toCase(
+              attrs.getValue("case_conversion").toUpperCase());
+      }      
+      mWorker = new Match(attrs.getValue("regexp_match"), 
+          attrs.getValue("regexp_replace"), caseConv);       
+      suggestionMatches.add(mWorker);
+      message.append("\\" + attrs.getValue("no"));
     } else if (qName.equals("marker") && inCorrectExample) {
       correctExample.append("<marker>");
     } else if (qName.equals("marker") && inIncorrectExample) {
@@ -311,6 +327,12 @@ class PatternRuleHandler extends XMLRuleHandler {
               rule.setIncorrectExamples(incorrectExamples);              
               rule.setCategory(category);
               caseSensitive = false;
+              if (suggestionMatches != null) {
+                for (Match m : suggestionMatches) {
+                  rule.addSuggestionMatch(m);
+                }
+                suggestionMatches.clear();
+              }
               rules.add(rule);              
             }
         } else {
@@ -323,6 +345,12 @@ class PatternRuleHandler extends XMLRuleHandler {
       rule.setIncorrectExamples(incorrectExamples);      
       rule.setCategory(category);
       caseSensitive = false;
+      if (suggestionMatches != null) {
+        for (Match m : suggestionMatches) {
+          rule.addSuggestionMatch(m);
+        }
+        suggestionMatches.clear();
+      }
       rules.add(rule);
       }
       

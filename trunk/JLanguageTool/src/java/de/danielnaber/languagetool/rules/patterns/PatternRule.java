@@ -46,6 +46,9 @@ public class PatternRule extends Rule {
   private int endPositionCorrection = 0;
  
   private List<Element> patternElements;
+  
+  /** Formatted suggestion elements **/  
+  private List<Match> suggestionMatches;
 
   /** Marks whether the rule is a member of a 
    * disjunctive set (in case of OR operation on phraserefs). 
@@ -267,13 +270,31 @@ public class PatternRule extends Rule {
         if (firstMatchToken + matchingTokens >= tokens.length) {
           matchingTokens = tokens.length - firstMatchToken;
         }
+        int matchCounter = 0;
         for (int j = 0; j < matchingTokens; j++) {
           int repTokenPos = 0;
           for (int l = 0; l <= j; l++) {
             repTokenPos += tokenPositions[l];
           }
+          if (errMessage.indexOf("\\" + (j + 1)) > 0) {
+          boolean newWay = false;
+          if (suggestionMatches != null) {
+            if (matchCounter < suggestionMatches.size()) {
+              if (suggestionMatches.get(matchCounter) != null) {
+                suggestionMatches.get(matchCounter)
+                  .setToken(tokens[firstMatchToken + repTokenPos - 1]);
+                errMessage = errMessage.replaceAll("\\\\" + (j + 1), 
+                    suggestionMatches.get(matchCounter).toString());
+                newWay = true;
+                }
+              }
+            }           
+          if (!newWay) {
           errMessage = errMessage.replaceAll("\\\\" + (j + 1), 
-                tokens[firstMatchToken + repTokenPos - 1].getToken());
+                tokens[firstMatchToken + repTokenPos - 1].getToken());          
+          }
+          matchCounter++;
+         }  
         }        
         
         int correctedStPos = 0;
@@ -322,6 +343,13 @@ public class PatternRule extends Rule {
     return (RuleMatch[]) ruleMatches.toArray(new RuleMatch[ruleMatches.size()]);
   }
 
+  public void addSuggestionMatch(final Match m) {
+    if (suggestionMatches == null) {
+      suggestionMatches = new ArrayList<Match>();      
+    }
+    suggestionMatches.add(m);
+  }
+  
   public void reset() {
     // nothing
   }

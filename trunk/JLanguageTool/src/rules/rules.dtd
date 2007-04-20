@@ -113,7 +113,7 @@ i.e., the validity scope of the exception: -->
 <!ATTLIST exception scope (current|next|previous) "current">
 
 <!-- Message shown to the user if a rule matches: -->
-<!ELEMENT message (#PCDATA|suggestion)*>
+<!ELEMENT message (#PCDATA|suggestion|match)*>
 
 <!-- The examples are used for the unit test cases. An 'incorrect'
 example is supposed to trigger an error message, in an 'correct'
@@ -157,4 +157,4 @@ token that should be generated based on a given matched token -->
 <!ATTLIST match regexp_replace CDATA #IMPLIED>
 <!-- Optional attribute: how to change the case of the token: start with lower 
 case, start with upper case, all letters upper case, all letters lower case -->
-<!ATTLIST match case_conversion (startlower|startupper|upper|lower) #IMPLIED>
+<!ATTLIST match case_conversion (startlower|startupper|allupper|alllower) #IMPLIED>

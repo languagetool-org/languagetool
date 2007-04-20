@@ -2,7 +2,7 @@
 <!--
 A demo rule file for LanguageTool
 Copyright (C) 2005 Daniel Naber (http://www.danielnaber.de)
-$Id: grammar.xml,v 1.1 2007-04-10 21:43:49 milek_pl Exp $
+$Id: grammar.xml,v 1.2 2007-04-20 21:36:41 milek_pl Exp $
 -->
 
 <rules lang="xx">
@@ -71,9 +71,9 @@ $Id: grammar.xml,v 1.1 2007-04-10 21:43:49 milek_pl Exp $
         <token>foo</token>
         <token>bar</token>
       </pattern>
-      <message>Did you mean <suggestion>fuu bah</suggestion>?</message>
+      <message>Did you mean <suggestion><match no="1"/> fuu bah</suggestion>?</message>
       <example type="correct">This is <marker>fuu bah</marker>.</example>
-      <example type="incorrect">This is <marker>foo bar</marker>.</example>
+      <example type="incorrect" correction="foo fuu bah">This is <marker>foo bar</marker>.</example>
     </rule>
 
     <rule id="API_OUTPUT_TEST_RULE" name="Find 'foo bar'">
@@ -113,7 +113,7 @@ $Id: grammar.xml,v 1.1 2007-04-10 21:43:49 milek_pl Exp $
     	<phraseref idref="COMPLEX_MULTIPLE"/>
     	<token>there</token>
     </pattern>
-    <message>This is the matched text: \1 \2</message>
+    <message>This is the matched text: <match no="1"/><match no="2"/></message>
     <example type="correct">go here</example>
     <example type="incorrect"><marker>first goes last there</marker>, please!</example>
     </rule>	
@@ -122,7 +122,7 @@ $Id: grammar.xml,v 1.1 2007-04-10 21:43:49 milek_pl Exp $
 		<pattern>
 			<phraseref idref="TEST_INCLUDE"/>			
 		</pattern>
-		<message>Matched: \1 \2.</message>
+		<message>Matched: <match no="1"/><match no="2"/></message>
 		<example type="correct">Any string.</example>
 		<example type="incorrect">Some words, <marker>beginning first go last end</marker></example>
 		</rule>
@@ -132,7 +132,7 @@ $Id: grammar.xml,v 1.1 2007-04-10 21:43:49 milek_pl Exp $
 			<phraseref idref="COMPLEX_MULTIPLE"/>
 			<phraseref idref="SINGLE_TOKEN"/>
 		</pattern>
-		<message>Matched: \1 \2.</message>
+		<message>Matched: <match no="1"/><match no="2"/></message>
 		<example type="correct">Any string.</example>
 		<example type="incorrect">First words and <marker>first go last</marker></example>
 		</rule>  
