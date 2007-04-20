@@ -3,7 +3,7 @@
 English Grammar and Typo Rules for LanguageTool
 See tagset.txt for the meaning of the POS tags
 Copyright (C) 2001-2007 Daniel Naber (http://www.danielnaber.de)
-$Id: grammar.xml,v 1.2 2007-04-15 11:21:09 milek_pl Exp $
+$Id: grammar.xml,v 1.3 2007-04-20 18:04:23 milek_pl Exp $
 -->
 <rules lang="en">
 
@@ -913,7 +913,7 @@ $Id: grammar.xml,v 1.2 2007-04-15 11:21:09 milek_pl Exp $
 			<example type="correct">My random thoughts day after day...</example>
       <example type="correct">The Romans may have marked the centre of Londinium.</example>
       <example type="correct">Universities A and B are old universities...</example>
-      <example type="incorrect">This is a transcript of the <marker>presidents</marker> oration from March.</example>
+      <example type="incorrect" correction="presidents'">This is a transcript of the <marker>presidents</marker> oration from March.</example>
     </rule>
     <rule>
       <pattern mark_to="-2" mark_from="2">
@@ -929,7 +929,7 @@ $Id: grammar.xml,v 1.2 2007-04-15 11:21:09 milek_pl Exp $
       <example type="correct">The Romans may have marked the centre of Londinium.</example>
       <example type="correct">Owen was seven years younger.</example>
       <example type="correct">Universities A and B are old universities...</example>
-      <example type="incorrect">This is a transcript of the <marker>presidents</marker> speech.</example>
+      <example type="incorrect" correction="presidents'">This is a transcript of the <marker>presidents</marker> speech.</example>
     </rule>
     </rulegroup>
 		
@@ -943,7 +943,7 @@ $Id: grammar.xml,v 1.2 2007-04-15 11:21:09 milek_pl Exp $
 			</pattern>
 			<message>Probably you need to use a plural form here: <suggestion>\1\3</suggestion>.</message>
 			<example type="correct">7 reasons why <marker>teachers</marker> found us top class</example>
-			<example type="incorrect">7 reasons why <marker>teacher's</marker> found us top class</example>
+			<example type="incorrect" correction="teachers">7 reasons why <marker>teacher's</marker> found us top class</example>
 			</rule>			
 			<rule>
 			<pattern mark_to="-1">
@@ -954,14 +954,14 @@ $Id: grammar.xml,v 1.2 2007-04-15 11:21:09 milek_pl Exp $
 			</pattern>
 			<message>Probably you need to use a plural form here: <suggestion>\1\3</suggestion>.</message>
 			<example type="correct">7 reasons why</example>
-			<example type="incorrect">7 <marker>reason's</marker> why</example>
+			<example type="incorrect" correction="reasons">7 <marker>reason's</marker> why</example>
 			</rule>						
 		</rulegroup>
 		    
     <rule id="ANY_BODY" name="any body(anybody)">
     <pattern>
     	<token regexp="yes">any|no|some</token>
-    	<token>body</token>
+    	<token regexp="yes">body|one</token>
     </pattern>
     <message>Possible typo. Did you mean <suggestion>\1\2</suggestion>?</message>
     <example type="correct">Anybody needs help here?</example>
@@ -1244,7 +1244,7 @@ $Id: grammar.xml,v 1.2 2007-04-15 11:21:09 milek_pl Exp $
     <message>After '\1 of', you should use 'the' (<suggestion>\1 \2 the \3</suggestion>) or simply say '<suggestion>\1 \3</suggestion>'.</message>
     <example type="correct">Most students do their homework.</example>
     <example type="correct">Some of his students do their homework.</example>
-    <example type="incorrect"><marker>Most of students</marker> do their homework.</example>
+    <example type="incorrect" correction="Most of the students|Most students"><marker>Most of students</marker> do their homework.</example>
     <example type="correct"><marker>Some of the students</marker> do their homework.</example>
   </rule>
 
@@ -1261,7 +1261,7 @@ $Id: grammar.xml,v 1.2 2007-04-15 11:21:09 milek_pl Exp $
         <token><exception postag_regexp="yes" postag="NN.*"/></token>
       </pattern>
       <message>The article is missing before the noun: <suggestion>the \3</suggestion>, <suggestion>a \3</suggestion> or <suggestion>an \3</suggestion>.</message>
-      <example type="incorrect">He is <marker>friend</marker>.</example>
+      <example type="incorrect" correction="the friend|a friend|an friend">He is <marker>friend</marker>.</example>
       <example type="correct">He is a friend.</example>    
       <example type="correct">He is my friend.</example>
     </rule>
@@ -1273,7 +1273,7 @@ $Id: grammar.xml,v 1.2 2007-04-15 11:21:09 milek_pl Exp $
         <token><exception postag_regexp="yes" postag="NN.*"/></token>
       </pattern>
       <message>The article is missing before the noun: <suggestion>the \3</suggestion>, <suggestion>a \3</suggestion> or <suggestion>an \3</suggestion>.</message>
-      <example type="incorrect">He does <marker>lot</marker> of things.</example>
+      <example type="incorrect" correction="the lot|a lot|an lot">He does <marker>lot</marker> of things.</example>
       <example type="correct">He does need us.</example>    
       <example type="correct">We do have this kind of attitude.</example>
     </rule>
@@ -1288,7 +1288,7 @@ $Id: grammar.xml,v 1.2 2007-04-15 11:21:09 milek_pl Exp $
       <message>The article is missing before the noun: <suggestion>the \3</suggestion>, <suggestion>a \3</suggestion> or <suggestion>an \3</suggestion>.</message>
       <example type="correct">He takes his brother to school.</example>    
       <example type="correct">The event takes place here.</example>    
-      <example type="incorrect">He takes <marker>brother</marker> with him.</example>
+      <example type="incorrect" correction="the brother|a brother|an brother">He takes <marker>brother</marker> with him.</example>
     </rule>
     <rule>
       <pattern mark_from="2" mark_to="-1">
@@ -1300,7 +1300,7 @@ $Id: grammar.xml,v 1.2 2007-04-15 11:21:09 milek_pl Exp $
       <message>The article is missing before the noun: <suggestion>the \3</suggestion>, <suggestion>a \3</suggestion> or <suggestion>an \3</suggestion>.</message>
       <example type="correct">He gives his brother a bar of chocolate.</example>    
       <example type="correct">This event gives rise to a new era.</example>    
-      <example type="incorrect">He gives <marker>brother</marker> a bar of chocolate.</example>
+      <example type="incorrect" correction="the brother|a brother|an brother">He gives <marker>brother</marker> a bar of chocolate.</example>
     </rule>
     <rule>
       <pattern mark_from="2" mark_to="-1">
@@ -1310,7 +1310,7 @@ $Id: grammar.xml,v 1.2 2007-04-15 11:21:09 milek_pl Exp $
         <token><exception postag_regexp="yes" postag="NN.*"/></token>
       </pattern>
       <message>The article is missing before the noun: <suggestion>the \3</suggestion>, <suggestion>a \3</suggestion> or <suggestion>an \3</suggestion>.</message>
-      <example type="incorrect">He goes <marker>step</marker> too far.</example>    
+      <example type="incorrect" correction="the step|a step|an step">He goes <marker>step</marker> too far.</example>    
       <example type="correct">He goes a step too far.</example>    
       <example type="correct">This goes <marker>hand</marker> in hand...</example>
     </rule>
@@ -1322,7 +1322,7 @@ $Id: grammar.xml,v 1.2 2007-04-15 11:21:09 milek_pl Exp $
         <token><exception postag_regexp="yes" postag="NN.*"/></token>
       </pattern>
       <message>The article is missing before the noun: <suggestion>the \3</suggestion>, <suggestion>a \3</suggestion> or <suggestion>an \3</suggestion>.</message>
-      <example type="incorrect">It falls <marker>tad</marker>.</example>    
+      <example type="incorrect" correction="the tad|a tad|an tad">It falls <marker>tad</marker>.</example>    
       <example type="correct">Inflation falls a tad.</example>    
       <example type="correct">The website falls <marker>victim</marker> to...</example>
     </rule>  
@@ -1335,7 +1335,7 @@ $Id: grammar.xml,v 1.2 2007-04-15 11:21:09 milek_pl Exp $
         <token><exception postag_regexp="yes" postag="NN.*"/></token>
       </pattern>
       <message>The article is missing before the noun: <suggestion>the \3 \4</suggestion>, <suggestion>a \3 \4</suggestion> or <suggestion>an \3 \4</suggestion>.</message>
-      <example type="incorrect">He is <marker>good friend</marker>.</example>
+      <example type="incorrect" correction="the good friend|a good friend|an good friend">He is <marker>good friend</marker>.</example>
       <example type="correct">He is a good friend.</example>
     </rule>
 
@@ -1349,7 +1349,8 @@ $Id: grammar.xml,v 1.2 2007-04-15 11:21:09 milek_pl Exp $
         <token><exception postag_regexp="yes" postag="NN.*"/></token>
       </pattern>
       <message>The article is missing before the noun: <suggestion>\3 a \4</suggestion>, <suggestion>\3 an \4</suggestion>, <suggestion>\3 the \4</suggestion>.</message>
-      <example type="incorrect">Recently I have <marker>experienced problem</marker>.</example>
+      <example type="incorrect" correction="experienced a problem|experienced an problem|experienced the problem">
+      	Recently I have <marker>experienced problem</marker>.</example>
       <example type="correct">Recently I have <marker>experienced a problem</marker>.</example>
     </rule>
 
@@ -1363,7 +1364,7 @@ $Id: grammar.xml,v 1.2 2007-04-15 11:21:09 milek_pl Exp $
         <token><exception postag_regexp="yes" postag="NN.*"/></token>
       </pattern>
       <message>The article is missing before the noun: <suggestion>\3 a \4 \5</suggestion>, <suggestion>\3 an \4 \5</suggestion>, <suggestion>\3 the \4 \5</suggestion>.</message>
-      <example type="incorrect">Recently I have <marker>experienced serious problem</marker>.</example>
+      <example type="incorrect" correction="experienced a serious problem|experienced an serious problem|experienced the serious problem">Recently I have <marker>experienced serious problem</marker>.</example>
       <example type="correct">Recently I have <marker>experienced a serious problem</marker>.</example>
     </rule>
 
@@ -1376,7 +1377,7 @@ $Id: grammar.xml,v 1.2 2007-04-15 11:21:09 milek_pl Exp $
         <token><exception postag_regexp="yes" postag="NN.*"/></token>
       </pattern>
       <message>The article is missing before the noun: <suggestion>a \2 \3</suggestion>, <suggestion>an \2 \3</suggestion>, <suggestion>the \2 \3</suggestion>.</message>
-      <example type="incorrect">He is <marker>experienced soldier</marker>.</example>
+      <example type="incorrect" correction="a experienced soldier|an experienced soldier|the experienced soldier">He is <marker>experienced soldier</marker>.</example>
       <example type="correct">He is <marker>an experienced soldier</marker>.</example>
     </rule>
     
@@ -1390,7 +1391,7 @@ $Id: grammar.xml,v 1.2 2007-04-15 11:21:09 milek_pl Exp $
         <token><exception postag_regexp="yes" postag="NN.*"/></token>
       </pattern>
       <message>The article is missing before the noun: <suggestion>a \2 \3 \4</suggestion>, <suggestion>an \2 \3 \4</suggestion>, <suggestion>the \2 \3 \4</suggestion>.</message>
-      <example type="incorrect">He is <marker>extremely experienced soldier</marker>.</example>
+      <example type="incorrect" correction="a extremely experienced soldier|an extremely experienced soldier|the extremely experienced soldier">He is <marker>extremely experienced soldier</marker>.</example>
       <example type="correct">He is <marker>an extremely experienced soldier</marker>.</example>
     </rule>
 
@@ -1404,7 +1405,7 @@ $Id: grammar.xml,v 1.2 2007-04-15 11:21:09 milek_pl Exp $
         <token><exception postag_regexp="yes" postag="NN.*"/></token>
       </pattern>
       <message>The article is missing before the noun: <suggestion>the \2</suggestion>, <suggestion>a \2</suggestion> or <suggestion>an \2</suggestion>.</message>
-      <example type="incorrect">He was waiting at <marker>airport</marker>.</example>
+      <example type="incorrect" correction="the airport|a airport|an airport">He was waiting at <marker>airport</marker>.</example>
       <example type="correct">He was waiting at <marker>the airport</marker>.</example>
     </rule>
     <rule>
@@ -1414,8 +1415,8 @@ $Id: grammar.xml,v 1.2 2007-04-15 11:21:09 milek_pl Exp $
         <token postag="NN"><exception postag_regexp="yes" postag="DT|RP|JJ|IN|CD|JJR|RBS|VBD|VBN|MD|NNP|NNS"/><exception>glance</exception></token>
         <token><exception postag_regexp="yes" postag="NN.*"/><exception>free</exception></token>
       </pattern>
-      <message>The article is missing before the noun: <suggestion>the \2</suggestion>, <suggestion>a \2</suggestion> or <suggestion>an \2</suggestion>.</message>
-      <example type="incorrect">He was waiting at <marker>new airport</marker>.</example>
+      <message>The article is missing before the noun: <suggestion>the \2 \3</suggestion>, <suggestion>a \2 \3</suggestion> or <suggestion>an \2 \3</suggestion>.</message>
+      <example type="incorrect" correction="the new airport|a new airport|an new airport">He was waiting at <marker>new airport</marker>.</example>
       <example type="correct">He was waiting at <marker>the new airport</marker>.</example>
     </rule>   
     <rule>
@@ -1425,7 +1426,7 @@ $Id: grammar.xml,v 1.2 2007-04-15 11:21:09 milek_pl Exp $
         <token><exception postag_regexp="yes" postag="NN.*"/><exception>free</exception></token>
       </pattern>
       <message>The article is missing before the noun: <suggestion>the \2</suggestion>, <suggestion>a \2</suggestion> or <suggestion>an \2</suggestion>.</message>
-      <example type="incorrect">He was waiting by <marker>river</marker>.</example>
+      <example type="incorrect" correction="the river|a river|an river">He was waiting by <marker>river</marker>.</example>
       <example type="correct">He was waiting by <marker>the river</marker>.</example>
       <example type="correct">He works by <marker>day</marker>.</example>
     </rule>
@@ -1436,8 +1437,8 @@ $Id: grammar.xml,v 1.2 2007-04-15 11:21:09 milek_pl Exp $
         <token postag="NN"><exception postag_regexp="yes" postag="DT|RP|JJ|IN|CD|JJR|RBS|VBD|VBN|MD|NNP|NNS"/><exception>fiat</exception></token>
         <token><exception postag_regexp="yes" postag="NN.*"/><exception>free</exception></token>
       </pattern>
-      <message>The article is missing before the noun: <suggestion>the \2 \3</suggestion>, <suggestion>a \2 \3</suggestion> or <suggestion>an \2</suggestion>.</message>
-      <example type="incorrect">He was waiting by <marker>small river</marker>.</example>
+      <message>The article is missing before the noun: <suggestion>the \2 \3</suggestion>, <suggestion>a \2 \3</suggestion> or <suggestion>an \2 \3</suggestion>.</message>
+      <example type="incorrect" correction="the small river|a small river|an small river">He was waiting by <marker>small river</marker>.</example>
       <example type="correct">He was waiting by <marker>the small river</marker>.</example>
     </rule>
     <rule>
@@ -1447,7 +1448,7 @@ $Id: grammar.xml,v 1.2 2007-04-15 11:21:09 milek_pl Exp $
         <token><exception postag_regexp="yes" postag="NN.*"/><exception>free</exception></token>
       </pattern>
       <message>The article is mising before the noun: <suggestion>the \2</suggestion>, <suggestion>a \2</suggestion> or <suggestion>an \2</suggestion>.</message>
-      <example type="incorrect">He was waiting for <marker>answer</marker>.</example>
+      <example type="incorrect" correction="the answer|a answer|an answer">He was waiting for <marker>answer</marker>.</example>
       <example type="correct">He was waiting for <marker>your answer</marker>.</example>
       <example type="correct"><marker>For example</marker>, he wrote a letter to me.</example>
     </rule>
@@ -1458,8 +1459,8 @@ $Id: grammar.xml,v 1.2 2007-04-15 11:21:09 milek_pl Exp $
         <token postag="NN"><exception postag_regexp="yes" postag="DT|RP|JJ|IN|CD|JJR|RBS|VBD|VBN|MD|NNP|NNS"/></token>
         <token><exception postag_regexp="yes" postag="NN.*"/><exception>free</exception></token>
       </pattern>
-      <message>The article is missing before the noun: <suggestion>the \2</suggestion>, <suggestion>a \2</suggestion> or <suggestion>an \2</suggestion>.</message>
-      <example type="incorrect">He was waiting for <marker>swift answer</marker>.</example>
+      <message>The article is missing before the noun: <suggestion>the \2 \3</suggestion>, <suggestion>a \2 \3</suggestion> or <suggestion>an \2 \3</suggestion>.</message>
+      <example type="incorrect" correction="the swift answer|a swift answer|an swift answer">He was waiting for <marker>swift answer</marker>.</example>
       <example type="correct">He was waiting for <marker>your swift answer</marker>.</example>
       <example type="correct"><marker>For example</marker>, he wrote a letter to me.</example>
     </rule>
@@ -1470,8 +1471,8 @@ $Id: grammar.xml,v 1.2 2007-04-15 11:21:09 milek_pl Exp $
         <token postag="NN"><exception postag_regexp="yes" postag="VBG|DT|RP|JJ|IN|CD|JJS|JJR|RBS|VBD|VBN|MD|NNP|NNS"/><exception regexp="yes">fact|hand|paperback|person|retrospect|studio|summary|mood|name|turn|deed|word|day|week|outlook|favor|phase</exception></token>
         <token><exception postag_regexp="yes" postag="NN.*|JJ"/><exception regexp="yes">\d+</exception></token>
       </pattern>
-      <message>The article is mising before the noun: <suggestion>the \2</suggestion>, <suggestion>a \2</suggestion> or <suggestion>an \2</suggestion>.</message>
-      <example type="incorrect">The dog spent all day in <marker>kitchen</marker>.</example>
+      <message>The article is mising before the noun: <suggestion>the \3</suggestion>, <suggestion>a \3</suggestion> or <suggestion>an \3</suggestion>.</message>
+      <example type="incorrect" correction="the kitchen|a kitchen|an kitchen">The dog spent all day in <marker>kitchen</marker>.</example>
       <example type="correct">He was waiting in the <marker>lobby</marker>.</example>
       <example type="correct">I have exhausted myself day in day out</example>
       <example type="correct"><marker>In fact</marker>, he wrote a letter to me.</example>
@@ -1485,7 +1486,7 @@ $Id: grammar.xml,v 1.2 2007-04-15 11:21:09 milek_pl Exp $
         <token><exception postag_regexp="yes" postag="NN.*|JJ"/><exception regexp="yes">\d+</exception></token>
       </pattern>
       <message>The article is mising before the noun: <suggestion>the \3</suggestion>, <suggestion>a \3</suggestion> or <suggestion>an \3</suggestion>.</message>
-      <example type="incorrect">He was waiting in <marker>lobby</marker>.</example>
+      <example type="incorrect" correction="the lobby|a lobby|an lobby">He was waiting in <marker>lobby</marker>.</example>
       <example type="correct">He was waiting in the <marker>lobby</marker>.</example>
       <example type="correct"><marker>In fact</marker>, he wrote a letter to me.</example>
     </rule>
@@ -1496,8 +1497,8 @@ $Id: grammar.xml,v 1.2 2007-04-15 11:21:09 milek_pl Exp $
         <token postag="NN"><exception postag_regexp="yes" postag="DT|RP|JJ.*|IN|CD|RB.*|VBD|VBN|MD|NNP|NNS|NNPS|PRP.*"/></token>
         <token><exception postag_regexp="yes" postag="NN.*|JJ"/><exception regexp="yes">\d+</exception></token>
       </pattern>
-      <message>The article is missing before the noun: <suggestion>the \2</suggestion>, <suggestion>a \2</suggestion> or <suggestion>an \2</suggestion>.</message>
-      <example type="incorrect">He was waiting in <marker>large lobby</marker>.</example>
+      <message>The article is missing before the noun: <suggestion>the \2 \3</suggestion>, <suggestion>a \2 \3</suggestion> or <suggestion>an \2 \3</suggestion>.</message>
+      <example type="incorrect" correction="the large lobby|a large lobby|an large lobby">He was waiting in <marker>large lobby</marker>.</example>
       <example type="correct">He was waiting in the <marker>large lobby</marker>.</example>
       <example type="correct"><marker>In fact</marker>, he wrote a letter to me.</example>
     </rule>
@@ -1510,7 +1511,7 @@ $Id: grammar.xml,v 1.2 2007-04-15 11:21:09 milek_pl Exp $
         <token><exception postag_regexp="yes" postag="NN.*"/></token>
       </pattern>
       <message>The article is missing before the noun: <suggestion>the \2</suggestion>, <suggestion>a \2</suggestion> or <suggestion>an \2</suggestion>.</message>
-      <example type="incorrect">ACET would not be able to reclaim tax on <marker>covenant</marker>.</example>
+      <example type="incorrect" correction="the covenant|a covenant|an covenant">ACET would not be able to reclaim tax on <marker>covenant</marker>.</example>
       <example type="correct">Rob Brydon is Keith and Steve Coogan plays Geoff, seen for the first time on screen</example>
     </rule>
     <rule>
@@ -1520,8 +1521,8 @@ $Id: grammar.xml,v 1.2 2007-04-15 11:21:09 milek_pl Exp $
         <token postag="NN"><exception postag_regexp="yes" postag="DT|RP|JJ.*|IN|CD|RBS|VBD|VBN|MD|NNP|NNS|NNPS"/></token>
         <token><exception postag_regexp="yes" postag="NN.*"/><exception>free</exception></token>
       </pattern>
-      <message>The article is missing before the noun: <suggestion>the \2</suggestion>, <suggestion>a \2</suggestion> or <suggestion>an \2</suggestion>.</message>
-      <example type="incorrect">This remark is on <marker>previous page</marker>.</example>
+      <message>The article is missing before the noun: <suggestion>the \2 \3</suggestion>, <suggestion>a \2 \3</suggestion> or <suggestion>an \2 \3</suggestion>.</message>
+      <example type="incorrect" correction="the previous page|a previous page|an previous page">This remark is on <marker>previous page</marker>.</example>
       <example type="correct">This remark is on <marker>the previous page</marker>.</example>
     </rule>       
     <rule>
@@ -1534,7 +1535,7 @@ $Id: grammar.xml,v 1.2 2007-04-15 11:21:09 milek_pl Exp $
         <token><exception postag_regexp="yes" postag="NN.*"/><exception>free</exception></token>
       </pattern>
       <message>The article is missing before the noun: <suggestion>the \4</suggestion>, <suggestion>a \4</suggestion> or <suggestion>an \4</suggestion>.</message>
-      <example type="incorrect">He is talking about <marker>friend</marker>.</example>
+      <example type="incorrect" correction="the friend|a friend|an friend">He is talking about <marker>friend</marker>.</example>
       <example type="correct">He is talking about a friend.</example>
     </rule>
     <rule>
@@ -1547,7 +1548,7 @@ $Id: grammar.xml,v 1.2 2007-04-15 11:21:09 milek_pl Exp $
         <token><exception postag_regexp="yes" postag="NN.*"/><exception>free</exception></token>
       </pattern>
       <message>The article is missing before the noun: <suggestion>the \4 \5</suggestion>, <suggestion>a \4 \5</suggestion> or <suggestion>an \4 \5</suggestion>.</message>
-      <example type="incorrect">He is talking about <marker>good friend</marker>.</example>
+      <example type="incorrect" correction="the good friend|a good friend|an good friend">He is talking about <marker>good friend</marker>.</example>
       <example type="correct">He is talking about a good friend.</example>
     </rule>  
     <rule>
@@ -1561,7 +1562,7 @@ $Id: grammar.xml,v 1.2 2007-04-15 11:21:09 milek_pl Exp $
         <token><exception postag_regexp="yes" postag="NN.*|JJ"/></token>
       </pattern>
       <message>The article is missing before the noun: <suggestion>the \3</suggestion>, <suggestion>a \3</suggestion> or <suggestion>an \3</suggestion>.</message>
-      <example type="incorrect">About <marker>month</marker> before I left it was discussed...</example>
+      <example type="incorrect" correction="the month|a month|an month">About <marker>month</marker> before I left it was discussed...</example>
       <example type="correct">About <marker>a month</marker> before I left it was discussed...</example>
     </rule>
     <rule>
@@ -1574,7 +1575,7 @@ $Id: grammar.xml,v 1.2 2007-04-15 11:21:09 milek_pl Exp $
         <token><exception postag_regexp="yes" postag="NN.*|JJ"/></token>
       </pattern>
       <message>The article is missing before the noun: <suggestion>the \3 \4</suggestion>, <suggestion>a \3 \4</suggestion> or <suggestion>an \3 \4</suggestion>.</message>
-      <example type="incorrect">About <marker>large boat</marker>.</example>
+      <example type="incorrect" correction="the large boat|a large boat|an large boat">About <marker>large boat</marker>.</example>
       <example type="correct">About <marker>a large boat</marker>.</example>    
     </rule>
     <rule>
@@ -1584,7 +1585,7 @@ $Id: grammar.xml,v 1.2 2007-04-15 11:21:09 milek_pl Exp $
         <token><exception postag_regexp="yes" postag="NN.*"/><exception>free</exception></token>
       </pattern>
       <message>The article is missing before the noun: <suggestion>a \2</suggestion> or <suggestion>an \2</suggestion>.</message>
-      <example type="incorrect">He is talking of such <marker>friend</marker>.</example>
+      <example type="incorrect" correction="a friend|an friend">He is talking of such <marker>friend</marker>.</example>
       <example type="correct">He is talking of such a friend.</example>
     </rule>
     <rule>
@@ -1594,8 +1595,8 @@ $Id: grammar.xml,v 1.2 2007-04-15 11:21:09 milek_pl Exp $
         <token postag="NN"><exception postag_regexp="yes" postag="DT|RP|JJ|IN|CD|JJR|RBS|VBD|VBN|MD|NNP|NNS"/></token>
         <token><exception postag_regexp="yes" postag="NN.*"/><exception>free</exception></token>
       </pattern>
-      <message>The article is missing before the noun: <suggestion>a \2</suggestion> or <suggestion>an \2</suggestion>.</message>
-      <example type="incorrect">He is talking of such <marker>good friend</marker>.</example>
+      <message>The article is missing before the noun: <suggestion>a \2 \3</suggestion> or <suggestion>an \2 \3</suggestion>.</message>
+      <example type="incorrect" correction="a good friend|an good friend">He is talking of such <marker>good friend</marker>.</example>
       <example type="correct">He is talking of such a good friend.</example>
     </rule>    
   </rulegroup>
@@ -1884,8 +1885,8 @@ $Id: grammar.xml,v 1.2 2007-04-15 11:21:09 milek_pl Exp $
     </pattern>
     <message>Did you mean <suggestion>a more \3</suggestion>?</message>
     <example type="correct">I can give you <marker>a more detailed</marker> description of what's necessary.</example>
-    <example type="incorrect">I can give you <marker>more a detailed</marker> description of what's necessary.</example>
-    <example type="incorrect">I wish it was <marker>more an analyzed</marker> case</example>
+    <example type="incorrect" correction="a more detailed">I can give you <marker>more a detailed</marker> description of what's necessary.</example>
+    <example type="incorrect" correction="a more analyzed">I wish it was <marker>more an analyzed</marker> case</example>
   </rule>
 
   <!-- this works now, and accounts for subjunctive
@@ -2009,7 +2010,7 @@ $Id: grammar.xml,v 1.2 2007-04-15 11:21:09 milek_pl Exp $
   	</pattern>
   	<message>Don't include '\3' after a classification term. Use simply <suggestion>\1 \2</suggestion>.</message>
   	<example type="correct">What kind of man is Bush?</example>
-  	<example type="incorrect">What <marker>kind of a</marker> man is Bush?</example>
+  	<example type="incorrect" correction="kind of">What <marker>kind of a</marker> man is Bush?</example>
   </rule>
   
   <rule id="REASON_IS_BECAUSE" name="'the reason... is because'">
@@ -2032,7 +2033,7 @@ $Id: grammar.xml,v 1.2 2007-04-15 11:21:09 milek_pl Exp $
   		<token regexp="yes">I|he|she|we|they</token>
   	</pattern>
   	<message>Probably usage error. Use <suggestion>\1 \3</suggestion> instead.</message>
-  	<example type="incorrect"><marker>Because of we</marker> didn't want a big train, but we want a fast train.</example>
+  	<example type="incorrect" correction="Because we"><marker>Because of we</marker> didn't want a big train, but we want a fast train.</example>
   	<example type="correct"><marker>Because we</marker> didn't want a big train, but we want a fast train.</example>
   </rule>
   
@@ -2123,7 +2124,7 @@ $Id: grammar.xml,v 1.2 2007-04-15 11:21:09 milek_pl Exp $
 		</pattern>
 	<message>Duplicated 'the' in the phrase: '\1 \2 \3'. Did you mean <suggestion>\2 \3</suggestion>?</message>
 	<example type="correct">It is exactly the same thing.</example>
-	<example type="incorrect">It is <marker>the exactly the</marker> same thing.</example>
+	<example type="incorrect" correction="exactly the">It is <marker>the exactly the</marker> same thing.</example>
 	</rule>
 	
   <rule id="DT_DT" name="Two consecutive articles, e.g. 'the a'">
@@ -2142,7 +2143,7 @@ $Id: grammar.xml,v 1.2 2007-04-15 11:21:09 milek_pl Exp $
     <message>Maybe you need to remove the second determiner so that only <suggestion>\2</suggestion> is left.
     Or add a comma between them: <suggestion>\2, \3</suggestion>.</message>
     <example type="correct"><marker>The</marker> thing is this.</example>
-    <example type="incorrect"><marker>The a</marker> thing is this.</example>
+    <example type="incorrect" correction="The|The, a"><marker>The a</marker> thing is this.</example>
   <example type="correct">The Thames was once a much broader river.</example>
   </rule>
 
@@ -2194,7 +2195,7 @@ $Id: grammar.xml,v 1.2 2007-04-15 11:21:09 milek_pl Exp $
     </pattern>
     <message>This is a non-standard contraction. Use <suggestion>\1 have \4</suggestion> or <suggestion>\1've got \4</suggestion> to express posession.</message>
     <example type="correct">I've got a new car.</example>
-    <example type="incorrect"><marker>I've a</marker> new car.</example>
+    <example type="incorrect" correction="I have a|I've got a"><marker>I've a</marker> new car.</example>
   </rule>
     <rule>
     <pattern>
@@ -2204,7 +2205,7 @@ $Id: grammar.xml,v 1.2 2007-04-15 11:21:09 milek_pl Exp $
     </pattern>
     <message>This is a non-standard contraction. Use <suggestion>have \3</suggestion> or <suggestion>'ve got</suggestion> to express posession.</message>
     <example type="correct">I've got three new cars.</example>
-    <example type="incorrect">I<marker>'ve three</marker> new cars.</example>
+    <example type="incorrect" correction="have three|'ve got">I<marker>'ve three</marker> new cars.</example>
   </rule>
   
   </rulegroup>
@@ -2360,7 +2361,7 @@ $Id: grammar.xml,v 1.2 2007-04-15 11:21:09 milek_pl Exp $
 			</pattern>
 			<message>'Everyday' is an adjective, and the comma is missing. Did you mean <suggestion>every day, \3</suggestion>?</message>
 			<example type="correct">Every day, he gets up early.</example>
-			<example type="incorrect"><marker>Everyday he</marker> gets up early.</example>
+			<example type="incorrect" correction="Every day, he"><marker>Everyday he</marker> gets up early.</example>
 		</rule>
 			<rule>
 			<pattern mark_to="-2">
