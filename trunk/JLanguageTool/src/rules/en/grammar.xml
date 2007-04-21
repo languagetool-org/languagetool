@@ -3,7 +3,7 @@
 English Grammar and Typo Rules for LanguageTool
 See tagset.txt for the meaning of the POS tags
 Copyright (C) 2001-2007 Daniel Naber (http://www.danielnaber.de)
-$Id: grammar.xml,v 1.5 2007-04-21 14:45:12 milek_pl Exp $
+$Id: grammar.xml,v 1.6 2007-04-21 16:00:17 milek_pl Exp $
 -->
 <rules lang="en">
 
@@ -1100,9 +1100,10 @@ $Id: grammar.xml,v 1.5 2007-04-21 14:45:12 milek_pl Exp $
         <token postag="VB|VBP" postag_regexp="yes"><exception postag_regexp="yes" postag="VBZ|VBN|VBD|VBG|IN|RB"/></token>
         <token postag_regexp="yes" postag="DT|JJ"><exception postag="VB.*" postag_regexp="yes"/></token>
       </pattern>
-      <message>Possible agreement error - use third-person verb forms for singular and mass nouns.</message>
+      <message>Possible agreement error - use third-person verb forms for singular and mass nouns:
+      	<suggestion><match no="3" postag="VBZ"/></suggestion>.</message>
       <example type="incorrect">Marketing <marker>are</marker> bad for you.</example>
-      <example type="incorrect">Marketing <marker>mean</marker> a lot of trouble.</example>
+      <example type="incorrect" correction="means">Marketing <marker>mean</marker> a lot of trouble.</example>
       <example type="correct">Marketing is bad for you.</example>
       <example type="correct">I think it is bad for you.</example>
     </rule>
@@ -1140,9 +1141,9 @@ $Id: grammar.xml,v 1.5 2007-04-21 14:45:12 milek_pl Exp $
         <token regexp="yes">You</token>
         <token regexp="yes">am|is|was|has</token>
       </pattern>
-      <message>Use second person verb with 'you', e.g. 'you are'.</message>
+      <message>Use second person verb with 'you': <suggestion>are</suggestion>.</message>
       <example type="correct">You <marker>are</marker> too old for that.</example>
-      <example type="incorrect">You <marker>is</marker> too old for that.</example>
+      <example type="incorrect" correction="are">You <marker>is</marker> too old for that.</example>
     </rule>
     <rule>
       <pattern mark_from="2">
@@ -1150,9 +1151,10 @@ $Id: grammar.xml,v 1.5 2007-04-21 14:45:12 milek_pl Exp $
         <token regexp="yes">He</token>
         <token regexp="yes">were|have|be|am|are</token>
       </pattern>
-      <message>Use third person verb with 'he', e.g. 'he is'.</message>
+      <message>Use third person verb with 'he': <suggestion><match no="3" postag="VBZ"/></suggestion>
+      or <suggestion>was</suggestion>.</message>
       <example type="correct">He <marker>is</marker> too old for that.</example>
-      <example type="incorrect">He <marker>were</marker> too old for that.</example>
+      <example type="incorrect" correction="is|was">He <marker>were</marker> too old for that.</example>
     </rule>
     <rule>
       <pattern mark_from="2">
@@ -1160,9 +1162,10 @@ $Id: grammar.xml,v 1.5 2007-04-21 14:45:12 milek_pl Exp $
         <token regexp="yes">We</token>
         <token regexp="yes">am|is|was|has</token>
       </pattern>
-      <message>Use first person plural verb with 'we', e.g. 'we are'</message>
+      <message>Use first person plural verb with 'we': <suggestion>are</suggestion>, 
+      <suggestion>were</suggestion>.</message>
       <example type="correct">We <marker>are</marker> too old for that.</example>
-      <example type="incorrect">We <marker>is</marker> too old for that.</example>
+      <example type="incorrect" correction="are|were">We <marker>is</marker> too old for that.</example>
     </rule>
     <rule>
       <pattern mark_from="2">
@@ -1170,9 +1173,10 @@ $Id: grammar.xml,v 1.5 2007-04-21 14:45:12 milek_pl Exp $
         <token regexp="yes">They</token>
         <token regexp="yes">am|is|was|has</token>
       </pattern>
-      <message>Use third person plural verb with 'they', e.g. 'they are'</message>
+      <message>Use third person plural verb with 'they': <suggestion>are</suggestion>, 
+      <suggestion>were</suggestion>.</message>
       <example type="correct">They <marker>are</marker> too old for that.</example>
-      <example type="incorrect">They <marker>is</marker> too old for that.</example>
+      <example type="incorrect" correction="are|were">They <marker>is</marker> too old for that.</example>
     </rule>
   </rulegroup>
   
@@ -1197,10 +1201,10 @@ $Id: grammar.xml,v 1.5 2007-04-21 14:45:12 milek_pl Exp $
   <!-- currently doesn't fail test case :)  -->
    <rule id="TO_NON_BASE" name="'to' + non-base form">
       <pattern mark_from="1"><token regexp="yes">to</token><token postag="VBZ"><exception>is</exception><exception postag_regexp="yes" postag="NNS|NNP|NNPS"/></token></pattern>
-      <message>You might need to use the base form of the verb here (e.g. 'learn' instead of 'learned/learning/...').</message>
+      <message>You might need to use the base form of the verb here: <suggestion><match no="2" postag="VBP"/></suggestion>.</message>
       <example type="correct">I was surprised to <marker>learn</marker> this. </example>
       <example type="correct">He spoke to chosen people.</example>
-      <example type="incorrect">I was surprised to <marker>learns</marker> this. </example>
+      <example type="incorrect" correction="learn">I was surprised to <marker>learns</marker> this. </example>
    </rule>
 
   <rule id="MANY_FEW_UNCOUNTABLE" name="'many/few' + uncountable noun, e.g. 'many(much) food'">

@@ -144,16 +144,21 @@ public class Match {
         } else {
           int readingCount = formattedToken.getReadingsLength();
           List<String> wordForms = new ArrayList<String>();
+          String prevLemma = "";
           for (int i = 0; i < readingCount; i++) {
-          String[] possibleWordForms = 
-            synthesizer.synthesize(
-                formattedToken.getAnalyzedToken(i).getLemma(),
-                posTag);
-          if (possibleWordForms != null) {
-            for (String form : possibleWordForms) {           
-              wordForms.add(form);
+            if (!prevLemma.equals(formattedToken.
+                  getAnalyzedToken(i).getLemma())) {
+                String[] possibleWordForms = 
+                  synthesizer.synthesize(
+                    formattedToken.getAnalyzedToken(i).getLemma(),
+                    posTag);
+                prevLemma = formattedToken.getAnalyzedToken(i).getLemma();            
+                if (possibleWordForms != null) {
+                  for (String form : possibleWordForms) {           
+                    wordForms.add(form);
+                  }
+                }
             }
-          }
           }
           if (wordForms != null) {
             formattedString = wordForms.toArray(new String[wordForms.size()]);

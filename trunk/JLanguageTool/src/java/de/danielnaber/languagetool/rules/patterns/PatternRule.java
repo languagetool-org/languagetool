@@ -362,12 +362,26 @@ public class PatternRule extends Rule {
               + suggestionRight
               + rightSide;              
             } else {
-//FIXME: dummy implementation, suggestion part should be duplicated              
-              errorMessage = leftSide 
-              + suggestionLeft
-              + matches[0]
-              + suggestionRight
-              + rightSide;
+//FIXME: dummy implementation, suggestion part should be duplicated            
+             errorMessage = leftSide;
+             String prevMatch = "";
+             int lastLeftSugEnd = leftSide.indexOf("</suggestion>");
+             int lastLeftSugStart = leftSide.lastIndexOf("<suggestion>");
+                for (String formatMatch : matches) {
+                  if (!prevMatch.equals(formatMatch)) {
+                  errorMessage += suggestionLeft
+                  + formatMatch 
+                  + suggestionRight;
+                  if (lastLeftSugEnd == -1 && lastLeftSugStart > 0) {
+                    errorMessage += "</suggestion>, <suggestion>";
+                  }
+                  }
+                  prevMatch = formatMatch;
+                }
+             int correctionSug = errorMessage.lastIndexOf("<suggestion>");
+             if (correctionSug + "<suggestion>".length() == errorMessage.length())
+               errorMessage = errorMessage.substring(0, correctionSug);
+             errorMessage += rightSide;             
             }
             matchCounter++;
             newWay = true;
@@ -375,7 +389,7 @@ public class PatternRule extends Rule {
             boolean manyVersions = false;
             int sugStart = leftSide.indexOf("<suggestion>");            
             if (sugStart > 0) {
-              int lastLeftSugStart = leftSide.lastIndexOf("<suggestion>");
+              
               int lastLeftSugEnd = leftSide.indexOf("</suggestion>");            
               if (lastLeftSugStart > 0) {
                 if (lastLeftSugEnd > 0) {
@@ -399,14 +413,7 @@ public class PatternRule extends Rule {
               }
             }
             
-            if (manyVersions) {
-              errorMessage = leftSide;
-              for (String formatMatch : matches) {
-                errorMessage += suggestionLeft
-                + formatMatch 
-                + suggestionRight;                
-              }
-              errorMessage += rightSide;
+            
             } else {
               errorMessage = leftSide 
               + suggestionLeft
@@ -415,8 +422,7 @@ public class PatternRule extends Rule {
               + rightSide;
             }
             }
-            matchCounter++;
-            newWay = true;
+            
 */            }
           }
           }
