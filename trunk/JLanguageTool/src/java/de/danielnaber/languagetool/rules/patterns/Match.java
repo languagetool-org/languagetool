@@ -21,8 +21,7 @@ package de.danielnaber.languagetool.rules.patterns;
 import de.danielnaber.languagetool.AnalyzedTokenReadings;
 import de.danielnaber.languagetool.synthesis.Synthesizer;
 import java.util.regex.Pattern;
-import java.util.List;
-import java.util.ArrayList;
+import java.util.TreeSet;
 import java.io.IOException;
 
 /**
@@ -118,7 +117,7 @@ public class Match {
           switch (caseConversionType) {
             default : formattedString[0] = formattedToken.getToken(); break;
             case NONE : formattedString[0] = formattedToken.getToken(); break;
-            case STARTLOWER : formattedString[0]= formattedToken.getToken().
+            case STARTLOWER : formattedString[0] = formattedToken.getToken().
                     substring(0, 1).toLowerCase() 
                     + formattedToken.getToken().substring(1); break;
             case STARTUPPER : formattedString[0] = formattedToken.getToken().
@@ -128,38 +127,32 @@ public class Match {
                   toUpperCase(); break;
             case ALLLOWER : formattedString[0] = formattedToken.getToken().
                   toLowerCase(); break;              
-          }
-            
+          }         
         } else {
         formattedString[0] 
         = pRegexMatch.matcher(formattedToken
               .getToken()).replaceAll(regexReplace);
         }
       } else {
-//FIXME: dummy implementation
+//TODO: add POS regexp mechanisms
         if (synthesizer == null) {
         formattedString[0] = formattedToken.getToken();
           //= pRegexMatch.matcher(formattedToken
             //  .getToken()).replaceAll(regexReplace);
         } else {
           int readingCount = formattedToken.getReadingsLength();
-          List<String> wordForms = new ArrayList<String>();
-          String prevLemma = "";
+          TreeSet<String> wordForms = new TreeSet<String>();
           for (int i = 0; i < readingCount; i++) {
-            if (!prevLemma.equals(formattedToken.
-                  getAnalyzedToken(i).getLemma())) {
                 String[] possibleWordForms = 
                   synthesizer.synthesize(
                     formattedToken.getAnalyzedToken(i).getLemma(),
                     posTag);
-                prevLemma = formattedToken.getAnalyzedToken(i).getLemma();            
                 if (possibleWordForms != null) {
                   for (String form : possibleWordForms) {           
                     wordForms.add(form);
                   }
                 }
             }
-          }
           if (wordForms != null) {
             formattedString = wordForms.toArray(new String[wordForms.size()]);
           } else {

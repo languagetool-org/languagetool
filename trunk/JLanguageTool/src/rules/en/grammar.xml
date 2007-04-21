@@ -3,7 +3,7 @@
 English Grammar and Typo Rules for LanguageTool
 See tagset.txt for the meaning of the POS tags
 Copyright (C) 2001-2007 Daniel Naber (http://www.danielnaber.de)
-$Id: grammar.xml,v 1.6 2007-04-21 16:00:17 milek_pl Exp $
+$Id: grammar.xml,v 1.7 2007-04-21 19:54:28 milek_pl Exp $
 -->
 <rules lang="en">
 
@@ -1028,16 +1028,16 @@ $Id: grammar.xml,v 1.6 2007-04-21 16:00:17 milek_pl Exp $
         <token postag_regexp="yes" postag="VBD|VBP|VB"><exception postag_regexp="yes" postag="VBN|NN:U.*|JJ.*|RB"/></token>
         <token><exception postag="VBG"/></token>
       </pattern>
-      <message>Possible agreement error -- don't use past or present tense instead of past participle.</message>
+      <message>Possible agreement error -- use past participle here: <suggestion><match no="2" postag="VBN"/></suggestion>.</message>
       <example type="correct">I must have done that.</example>
-      <example type="incorrect">I must have <marker>wrote</marker> that.</example>
+      <example type="incorrect" correction="writ|written">I must have <marker>wrote</marker> that.</example>
       <example type="correct">I have liked her.</example>
       <example type="correct">It has become difficult.</example>
       <example type="correct">We have air conditioning.</example>
       <example type="correct">We do not have soap.</example>
       <example type="correct">We have soap.</example>
       <example type="correct">We do have soap.</example>
-      <example type="incorrect">I could have <marker>wrote</marker> this letter.</example>
+      <example type="incorrect" correction="writ|written">I could have <marker>wrote</marker> this letter.</example>
     </rule>
     <rule>
       <pattern mark_from="2" mark_to="-1">
@@ -1046,9 +1046,9 @@ $Id: grammar.xml,v 1.6 2007-04-21 16:00:17 milek_pl Exp $
         <token postag_regexp="yes" postag="VBD|VBP|VB"><exception postag_regexp="yes" postag="VBN|RB"/></token>
         <token><exception postag="VBG"/></token>
       </pattern>
-      <message>Possible agreement error -- don't use past or present tense instead of past participle.</message>
+      <message>Possible agreement error -- use past participle here: <suggestion><match no="3" postag="VBN"/></suggestion>.</message>
       <example type="correct">I have always done that.</example>
-      <example type="incorrect">I must have always <marker>wrote</marker> that.</example>
+      <example type="incorrect" correction="writ|written">I must have always <marker>wrote</marker> that.</example>
       <example type="correct">I have always liked her.</example>      
     </rule>
     <rule>
@@ -1057,8 +1057,8 @@ $Id: grammar.xml,v 1.6 2007-04-21 16:00:17 milek_pl Exp $
         <token postag_regexp="yes" postag="VBD|VBP|VB"><exception postag_regexp="yes" postag="VBN"/></token>
         <token postag="PRP"/>
       </pattern>
-      <message>Possible agreement error -- don't use past or present tense instead of past participle.</message>
-      <example type="incorrect">I have <marker>like</marker> her.</example>
+      <message>Possible agreement error -- use past participle here: <suggestion><match no="2" postag="VBN"/></suggestion>.</message>
+      <example type="incorrect" correction="liked">I have <marker>like</marker> her.</example>
       <example type="correct">I have <marker>liked</marker> her.</example>
     </rule>
   </rulegroup>
@@ -1070,9 +1070,9 @@ $Id: grammar.xml,v 1.6 2007-04-21 16:00:17 milek_pl Exp $
         <token postag_regexp="yes" postag="VBD|VBP|VB"><exception postag_regexp="yes" postag="VBN|JJ.*|RB.*"/></token>
         <token><exception>'</exception></token>
       </pattern>
-      <message>Possible agreement error -- don't use past or present tense instead of past participle.</message>
-      <example type="incorrect">The program has been <marker>release</marker>.</example>
-      <example type="incorrect">The gift has been <marker>gave</marker>.</example>
+      <message>Possible agreement error -- use past participle here: <suggestion><match no="2" postag="VBN"/></suggestion>.</message>
+      <example type="incorrect" correction="released">The program has been <marker>release</marker>.</example>
+      <example type="incorrect" correction="given">The gift has been <marker>gave</marker>.</example>
       <example type="correct">The park has been open for many years.</example>
       <example type="correct">It has been done.</example>
       <example type="correct">It has been love's whip.</example>
@@ -1085,9 +1085,9 @@ $Id: grammar.xml,v 1.6 2007-04-21 16:00:17 milek_pl Exp $
         <token postag_regexp="yes" postag="VBD|VBP|VB"><exception postag_regexp="yes" postag="VBN|JJ"/></token>
         <token><exception>'</exception></token>
       </pattern>
-      <message>Possible agreement error -- don't use past or present tense instead of past participle.</message>
+      <message>Possible agreement error -- use past participle here: <suggestion><match no="3" postag="VBN"/></suggestion>.</message>
       <example type="correct">It has always been hated.</example>
-      <example type="incorrect">I must have been always <marker>wrote</marker> that.</example>
+      <example type="incorrect" correction="writ|written">I must have been always <marker>wrote</marker> that.</example>
       <example type="correct">It has always been liked.</example>      
     </rule>
   </rulegroup>    
@@ -1751,18 +1751,18 @@ $Id: grammar.xml,v 1.6 2007-04-21 16:00:17 milek_pl Exp $
         <token regexp="yes">did|will|could|can|should|would|does</token>
         <token postag="(VBD|VBG|VBZ)" postag_regexp="yes"><exception postag_regexp="yes" postag="VBP|NNP"/><exception inflected="yes">be</exception></token>
       </pattern>
-      <message>The verb '\3' requires base form of this verb: '\4'.</message>
+      <message>The verb '<match no="3"/>' requires base form of the verb: <suggestion><match no="4" postag="VB"/></suggestion>.</message>
       <example type="correct">They will <marker>come</marker> home.</example>
       <!-- 'did' is used for emphasis here: -->
       <example type="correct">All I did was to go to the cinema.</example>
       <example type="correct">Peter did <marker>go</marker> to the cinema.</example>
       <example type="correct">They commonly produce much stronger odors than they would sitting under water in a western toilet.</example>
-      <example type="incorrect">Peter did <marker>went</marker> to the cinema.</example>
-      <example type="incorrect">He did <marker>walked</marker> to his house.</example>
-      <example type="incorrect">He did <marker>walking</marker> to his house.</example>
-      <example type="incorrect">They will <marker>comes</marker> home.</example>
-      <example type="incorrect">He did <marker>walks</marker> to his house.</example>
-      <example type="incorrect">They will <marker>came</marker> home.</example>
+      <example type="incorrect" correction="go|wend">Peter did <marker>went</marker> to the cinema.</example>
+      <example type="incorrect" correction="walk">He did <marker>walked</marker> to his house.</example>
+      <example type="incorrect" correction="walk">He did <marker>walking</marker> to his house.</example>
+      <example type="incorrect" correction="come">They will <marker>comes</marker> home.</example>
+      <example type="incorrect" correction="walk">He did <marker>walks</marker> to his house.</example>
+      <example type="incorrect" correction="come">They will <marker>came</marker> home.</example>
     </rule>
     <rule>
       <pattern mark_from="4">
@@ -1772,9 +1772,9 @@ $Id: grammar.xml,v 1.6 2007-04-21 16:00:17 milek_pl Exp $
         <token>not</token>
         <token postag="(VBD|VBG|VBZ)" postag_regexp="yes"><exception postag="VBP"/><exception inflected="yes">be</exception></token>
       </pattern>
-      <message>The verb '\3' requires base form of this verb: '\4'.</message>
+      <message>The verb '<match no="3"/>' requires base form of the verb: <suggestion><match no="5" postag="VB"/></suggestion>.</message>
       <example type="correct">Since he does not <marker>have</marker> any connection with us...</example>
-      <example type="incorrect">Since he does not <marker>has</marker> any connection with us...</example>
+      <example type="incorrect" correction="have">Since he does not <marker>has</marker> any connection with us...</example>
     </rule>
     <rule>
       <pattern mark_from="5">
@@ -1785,9 +1785,9 @@ $Id: grammar.xml,v 1.6 2007-04-21 16:00:17 milek_pl Exp $
         <token>t</token>
         <token postag="(VBD|VBG|VBZ)" postag_regexp="yes"><exception postag="VBP"/><exception inflected="yes">be</exception></token>
       </pattern>
-      <message>The verb '\3''t requires base form of this verb: '\4'.</message>
+      <message>The verb '<match no="3"/>''t requires base form of this verb: <suggestion><match no="6" postag="VB"/></suggestion>.</message>
       <example type="correct">Since he doesn't <marker>have</marker> any connection with us...</example>
-      <example type="incorrect">Since he doesn't <marker>has</marker> any connection with us...</example>
+      <example type="incorrect" correction="have">Since he doesn't <marker>has</marker> any connection with us...</example>
     </rule>
     
   </rulegroup>
@@ -1827,12 +1827,12 @@ $Id: grammar.xml,v 1.6 2007-04-21 16:00:17 milek_pl Exp $
       <token>to</token>
       <token postag="(VBG|VBZ|VBN|VBD)" postag_regexp="yes"/>
     </pattern>
-    <message>Use the base form of the verb with <suggestion>eager to</suggestion>.</message>
+    <message>With 'eager to', use the base form of the verb: <suggestion><match no="3" postag="VB"/></suggestion>.</message>
     <example type="correct">I'd be eager to <marker>try</marker> out your patch.</example>
     <example type="correct">Bangladesh eager to <marker>buy</marker> cars from Iran' </example>
-    <example type="incorrect">I'd be eager to <marker>trying</marker> out your patch.</example>
-    <example type="incorrect">Bangladesh eager to <marker>buying</marker> cars from Iran'</example>
-    <example type="incorrect">Bangladesh eager to <marker>bought</marker> cars from Iran'</example>
+    <example type="incorrect" correction="try">I'd be eager to <marker>trying</marker> out your patch.</example>
+    <example type="incorrect" correction="buy">Bangladesh eager to <marker>buying</marker> cars from Iran'</example>
+    <example type="incorrect" correction="buy">Bangladesh eager to <marker>bought</marker> cars from Iran'</example>
   </rule>
   
   <!-- 106(less..)+319(more...) in complete BNC, all(?) because "...as" -->
@@ -1904,9 +1904,9 @@ $Id: grammar.xml,v 1.6 2007-04-21 16:00:17 milek_pl Exp $
         <token regexp="yes">he|she</token>
         <token postag="VB|VBG|VBP" postag_regexp="yes"><exception postag_regexp="yes" postag="VBN|VBD|JJ.*|RB"/></token>
       </pattern>
-      <message>'He' must be used with a third person verb, e.g. 'he walks'</message>
+      <message>'He' must be used with a third person verb: <suggestion><match no="3" postag="VBZ"/></suggestion>.</message>
       <example type="correct">He <marker>walks</marker> to the building.</example>
-      <example type="incorrect">He <marker>walk</marker> to the building.</example>
+      <example type="incorrect" correction="walks">He <marker>walk</marker> to the building.</example>
       <example type="correct">He <marker>walked</marker> to the building.</example>
     </rule>
     <!--  subjunctive with 'that' -->
@@ -1917,9 +1917,9 @@ $Id: grammar.xml,v 1.6 2007-04-21 16:00:17 milek_pl Exp $
         <token regexp="yes">he|she</token>
         <token postag="VBG" postag_regexp="yes"></token>
       </pattern>
-      <message>'He' must be used with a third person verb, e.g. 'he walks'</message>
+      <message>'He' in subjunctive clause must be used base form of the verb: <suggestion><match no="4" postag="VB"/></suggestion>.</message>
       <example type="correct">She recommended that he <marker>walk</marker> to the building.</example>
-      <example type="incorrect">She stipulates that he <marker>walking</marker> to the building.</example>
+      <example type="incorrect" correction="walk">She stipulates that he <marker>walking</marker> to the building.</example>
       <example type="correct">He <marker>walked</marker> to the building.</example>
     </rule>
     <!--  subjunctive without 'that' -->
@@ -1929,9 +1929,9 @@ $Id: grammar.xml,v 1.6 2007-04-21 16:00:17 milek_pl Exp $
         <token regexp="yes">he|she</token>
         <token postag="VBG" postag_regexp="yes"></token>
       </pattern>
-      <message>'He' must be used with a third person verb, e.g. 'he walks'</message>
+      <message>'He' in subjunctive clause must be used with a base form of a verb: <suggestion><match no="3" postag="VB"/></suggestion>.</message>
       <example type="correct">She recommended he <marker>walk</marker> to the building.</example>
-      <example type="incorrect">She stipulates he <marker>walking</marker> to the building.</example>
+      <example type="incorrect" correction="walk">She stipulates he <marker>walking</marker> to the building.</example>
       <example type="correct">He <marker>walked</marker> to the building.</example>
     </rule>   
     <rule>
@@ -1941,9 +1941,9 @@ $Id: grammar.xml,v 1.6 2007-04-21 16:00:17 milek_pl Exp $
         <token postag="VB|VBP" postag_regexp="yes" regexp="yes">\p{Lower}+<exception postag_regexp="yes" postag="VBN|VBD|JJ|IN"/></token>
         <token postag_regexp="yes" postag="IN|DT"/>
       </pattern>
-      <message>The proper name in singular (\2) must be used with a third person verb, e.g. '\2 walks'</message>
+      <message>The proper name in singular (<match no="2"/>) must be used with a third person verb: <suggestion><match no="3" postag="VBZ"/></suggestion>.</message>
       <example type="correct">Bill <marker>walks</marker> to the building.</example>
-      <example type="incorrect">Ann <marker>walk</marker> to the building.</example>
+      <example type="incorrect" correction="walks">Ann <marker>walk</marker> to the building.</example>
       <example type="correct">Guiness <marker>walked</marker> to the building.</example>
       <example type="correct">Roosevelt and Hoover speak each other's lines.</example>
     </rule>
@@ -2075,8 +2075,8 @@ $Id: grammar.xml,v 1.6 2007-04-21 16:00:17 milek_pl Exp $
 			<token postag_regexp="yes" postag="NN:.*"><exception postag_regexp="yes" postag="NNS|NNPS"></exception><exception regexp="yes">dark|wind|rain</exception></token>
 			<token><exception postag_regexp="yes" postag="JJ.*|NN.*"/></token>
 		</pattern>
-		<message>The noun \3 should be probably in the plural form.</message>
-		<example type="incorrect">I'm afraid of <marker>height</marker>.</example>
+		<message>The noun should be probably in the plural form: <suggestion><match no="3" postag="NNS"/></suggestion>.</message>
+		<example type="incorrect" correction="heights">I'm afraid of <marker>height</marker>.</example>
 		<example type="correct">I'm afraid of <marker>heights</marker>.</example>
 	</rule>
 		<rule>
@@ -2087,8 +2087,8 @@ $Id: grammar.xml,v 1.6 2007-04-21 16:00:17 milek_pl Exp $
 			<token postag_regexp="yes" postag="NN:.*"><exception postag_regexp="yes" postag="NNS|NNPS"></exception></token>
 			<token><exception postag_regexp="yes" postag="JJ.*|NN.*"/></token>
 		</pattern>
-		<message>The noun \4 should be probably in the plural form.</message>
-		<example type="incorrect">I'm afraid of open <marker>space</marker>.</example>
+		<message>The noun should be probably in the plural form: <suggestion><match no="4" postag="NNS"/></suggestion>.</message>
+		<example type="incorrect" correction="spaces">I'm afraid of open <marker>space</marker>.</example>
 		<example type="correct">I'm afraid of open <marker>spaces</marker>.</example>
 	</rule>
 	<rule>

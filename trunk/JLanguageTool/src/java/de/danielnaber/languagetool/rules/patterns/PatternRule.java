@@ -362,21 +362,16 @@ public class PatternRule extends Rule {
               + suggestionRight
               + rightSide;              
             } else {
-//FIXME: dummy implementation, suggestion part should be duplicated            
              errorMessage = leftSide;
-             String prevMatch = "";
              int lastLeftSugEnd = leftSide.indexOf("</suggestion>");
              int lastLeftSugStart = leftSide.lastIndexOf("<suggestion>");
                 for (String formatMatch : matches) {
-                  if (!prevMatch.equals(formatMatch)) {
                   errorMessage += suggestionLeft
                   + formatMatch 
                   + suggestionRight;
                   if (lastLeftSugEnd == -1 && lastLeftSugStart > 0) {
                     errorMessage += "</suggestion>, <suggestion>";
                   }
-                  }
-                  prevMatch = formatMatch;
                 }
              int correctionSug = errorMessage.lastIndexOf("<suggestion>");
              if (correctionSug + "<suggestion>".length() == errorMessage.length())
@@ -385,45 +380,7 @@ public class PatternRule extends Rule {
             }
             matchCounter++;
             newWay = true;
-/*            else {
-            boolean manyVersions = false;
-            int sugStart = leftSide.indexOf("<suggestion>");            
-            if (sugStart > 0) {
-              
-              int lastLeftSugEnd = leftSide.indexOf("</suggestion>");            
-              if (lastLeftSugStart > 0) {
-                if (lastLeftSugEnd > 0) {
-                  if (lastLeftSugEnd > lastLeftSugStart) {
-                  //</suggestion> ends before match, i.e.,
-                  //the match is not to be duplicated
-                  } else {
-                    manyVersions = true;                  
-                    suggestionLeft = leftSide.substring(lastLeftSugStart
-                        + "<suggestion>".length());
-                    leftSide = leftSide.substring(0, lastLeftSugStart);
-                  }
-                } else {
-                  manyVersions = false;
-                }
-              }              
-              int sugEnd = rightSide.indexOf("</suggestion>");
-              if (sugEnd > 0 && manyVersions) {
-                suggestionRight = rightSide.substring(0, sugEnd);
-                rightSide = rightSide.substring(sugEnd+"</suggestion>".length());
-              }
             }
-            
-            
-            } else {
-              errorMessage = leftSide 
-              + suggestionLeft
-              + matches[0]
-              + suggestionRight
-              + rightSide;
-            }
-            }
-            
-*/            }
           }
           }
         }           
