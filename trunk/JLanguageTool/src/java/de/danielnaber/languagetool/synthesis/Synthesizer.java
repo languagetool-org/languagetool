@@ -33,7 +33,7 @@ public interface Synthesizer {
    * @param lemma Word's base form
    * @param posTag POS tag of the form to be generated.
    **/
-  public String synthesize(final String lemma, final String posTag) throws IOException;
+  public String[] synthesize(final String lemma, final String posTag) throws IOException;
 
   /** Generates a form of the word with a given POS tag for a given lemma.
    * POS tag can be specified using regular expressions. 
@@ -42,5 +42,5 @@ public interface Synthesizer {
    * @param posTagRegExp Specifies whether the posTag string is a 
    *  regular expression. 
    **/
-  public String synthesize(final String lemma, final String posTag, boolean posTagRegExp) throws IOException;
+  public String[] synthesize(final String lemma, final String posTag, boolean posTagRegExp) throws IOException;
 }

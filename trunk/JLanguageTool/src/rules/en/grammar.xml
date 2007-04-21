@@ -3,7 +3,7 @@
 English Grammar and Typo Rules for LanguageTool
 See tagset.txt for the meaning of the POS tags
 Copyright (C) 2001-2007 Daniel Naber (http://www.danielnaber.de)
-$Id: grammar.xml,v 1.4 2007-04-20 22:32:31 milek_pl Exp $
+$Id: grammar.xml,v 1.5 2007-04-21 14:45:12 milek_pl Exp $
 -->
 <rules lang="en">
 
@@ -1114,8 +1114,8 @@ $Id: grammar.xml,v 1.4 2007-04-20 22:32:31 milek_pl Exp $
         <token postag="VB|VBP" postag_regexp="yes"><exception postag_regexp="yes" postag="VBZ|VBN|VBD|VBG|JJ"/></token>
         <token postag_regexp="yes" postag="DT|JJ"><exception postag="VB.*" postag_regexp="yes"/></token>
       </pattern>
-      <message>Possible agreement error - use third-person verb forms for singular and mass nouns.</message>
-      <example type="incorrect">The marketing <marker>are</marker> bad for you.</example>
+      <message>Possible agreement error - use third-person verb forms for singular and mass nouns: <suggestion><match no="4" postag="VBZ"/></suggestion>.</message>
+      <example type="incorrect" correction="is">The marketing <marker>are</marker> bad for you.</example>
       <example type="correct">The marketing is bad for you.</example>
       <example type="correct">The city is an international transport hub and a popular tourist destination.</example>
       <!-- example type="incorrect">The city is popular, and this marketing <marker>are</marker> bad for you.</example --> 

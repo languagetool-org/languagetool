@@ -19,7 +19,11 @@
 package de.danielnaber.languagetool.rules.patterns;
 
 import de.danielnaber.languagetool.AnalyzedTokenReadings;
+import de.danielnaber.languagetool.synthesis.Synthesizer;
 import java.util.regex.Pattern;
+import java.util.List;
+import java.util.ArrayList;
+import java.io.IOException;
 
 /**
  * Reference to a matched token in a pattern,
@@ -53,6 +57,9 @@ public class Match {
   
   private AnalyzedTokenReadings formattedToken;
   
+  /** Word form generator for POS tags **/
+  private Synthesizer synthesizer;
+  
   /** Pattern used to define parts of the matched token. **/
   private Pattern pRegexMatch = null;  
   
@@ -72,7 +79,7 @@ public class Match {
   Match(final String posTag, final boolean postagRegexp, 
         final String regexMatch,
         final String regexReplace,
-        final CaseConversion caseConversionType) {
+        final CaseConversion caseConversionType)  {
   this.posTag = posTag;
   this.postagRegexp = postagRegexp;
   this.caseConversionType = caseConversionType;
@@ -99,36 +106,61 @@ public class Match {
     formattedToken = token;
   }
   
-  public String toString() {
-    String formattedString = "";
+  public void setSynthesizer(final Synthesizer synth) throws IOException {
+    synthesizer = synth;
+  }    
+  
+  public String[] toFinalString() throws IOException {
+    String[] formattedString = new String[1];
     if (formattedToken != null) {
       if (posTag == null) {
         if (pRegexMatch == null) {          
           switch (caseConversionType) {
-            default : formattedString = formattedToken.getToken(); break;
-            case NONE : formattedString = formattedToken.getToken(); break;
-            case STARTLOWER : formattedString = formattedToken.getToken().
+            default : formattedString[0] = formattedToken.getToken(); break;
+            case NONE : formattedString[0] = formattedToken.getToken(); break;
+            case STARTLOWER : formattedString[0]= formattedToken.getToken().
                     substring(0, 1).toLowerCase() 
                     + formattedToken.getToken().substring(1); break;
-            case STARTUPPER : formattedString = formattedToken.getToken().
+            case STARTUPPER : formattedString[0] = formattedToken.getToken().
                   substring(0, 1).toUpperCase() 
                   + formattedToken.getToken().substring(1); break;
-            case ALLUPPER : formattedString = formattedToken.getToken().
+            case ALLUPPER : formattedString[0] = formattedToken.getToken().
                   toUpperCase(); break;
-            case ALLLOWER : formattedString = formattedToken.getToken().
+            case ALLLOWER : formattedString[0] = formattedToken.getToken().
                   toLowerCase(); break;              
           }
             
         } else {
-        formattedString 
+        formattedString[0] 
         = pRegexMatch.matcher(formattedToken
               .getToken()).replaceAll(regexReplace);
         }
       } else {
-//FIXME: dummy implementation        
-        formattedString 
-          = pRegexMatch.matcher(formattedToken
-              .getToken()).replaceAll(regexReplace);          
+//FIXME: dummy implementation
+        if (synthesizer == null) {
+        formattedString[0] = formattedToken.getToken();
+          //= pRegexMatch.matcher(formattedToken
+            //  .getToken()).replaceAll(regexReplace);
+        } else {
+          int readingCount = formattedToken.getReadingsLength();
+          List<String> wordForms = new ArrayList<String>();
+          for (int i = 0; i < readingCount; i++) {
+          String[] possibleWordForms = 
+            synthesizer.synthesize(
+                formattedToken.getAnalyzedToken(i).getLemma(),
+                posTag);
+          if (possibleWordForms != null) {
+            for (String form : possibleWordForms) {           
+              wordForms.add(form);
+            }
+          }
+          }
+          if (wordForms != null) {
+            formattedString = wordForms.toArray(new String[wordForms.size()]);
+          } else {
+            formattedString[0] = formattedToken.getToken();
+          }
+        }
       }
     }
     return formattedString;

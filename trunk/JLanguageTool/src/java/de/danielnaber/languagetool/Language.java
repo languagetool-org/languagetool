@@ -42,6 +42,8 @@ import de.danielnaber.languagetool.tokenizers.pl.PolishSentenceTokenizer;
 import de.danielnaber.languagetool.tokenizers.cs.CzechSentenceTokenizer;
 import de.danielnaber.languagetool.tokenizers.Tokenizer;
 import de.danielnaber.languagetool.tokenizers.WordTokenizer;
+import de.danielnaber.languagetool.synthesis.Synthesizer;
+import de.danielnaber.languagetool.synthesis.en.EnglishSynthesizer;
 import de.danielnaber.languagetool.tools.StringTools;
 
 /**
@@ -55,7 +57,8 @@ public final class Language {
   
   public static final Language ENGLISH = 
     new Language("English", "en", new Locale("en"), new DemoDisambiguator(), new EnglishTagger(),
-        new SentenceTokenizer(), new EnglishWordTokenizer(), "Marcin Miłkowski, Daniel Naber");
+        new SentenceTokenizer(), new EnglishWordTokenizer(), new EnglishSynthesizer(), 
+        "Marcin Miłkowski, Daniel Naber");
 
   public static final Language GERMAN = 
     new Language("German", "de", new Locale("de"), new DemoDisambiguator(), new GermanTagger(),
@@ -110,6 +113,7 @@ public final class Language {
   private Tokenizer wordTokenizer;
   private Locale locale;
   private String maintainers;
+  private Synthesizer synthesizer = null;
 
   // IMPORTANT: keep in sync with objects above
   /**
@@ -177,6 +181,18 @@ public final class Language {
     this.maintainers = maintainers;
   }
 
+  private Language(final String name, final String shortForm, final Locale locale, final Disambiguator disambiguator,
+      final Tagger tagger, final SentenceTokenizer sentenceTokenizer, final Tokenizer wordTokenizer,
+      final Synthesizer synthesizer, final String maintainers) {
+    this(name, shortForm, locale, disambiguator,
+      tagger, sentenceTokenizer, wordTokenizer,
+      maintainers);
+    if (synthesizer == null) {
+      throw new NullPointerException("synthesizer cannot be null");
+    }
+    this.synthesizer = synthesizer;
+  }
+  
   public String toString() {
     return name;
   }
@@ -197,33 +213,40 @@ public final class Language {
 
   
   /**
-   * Get this language's part-of-speech disambiguator implemenation.
+   * Get this language's part-of-speech disambiguator implementation.
    */
   public Disambiguator getDisambiguator() {
     return disambiguator;
   }
   
   /**
-   * Get this language's part-of-speech tagger implemenation.
+   * Get this language's part-of-speech tagger implementation.
    */
   public Tagger getTagger() {
     return tagger;
   }
 
   /**
-   * Get this language's sentence tokenizer implemenation.
+   * Get this language's sentence tokenizer implementation.
    */
   public SentenceTokenizer getSentenceTokenizer() {
     return sentenceTokenizer;
   }
 
   /**
-   * Get this language's word tokenizer implemenation.
+   * Get this language's word tokenizer implementation.
    */
   public Tokenizer getWordTokenizer() {
     return wordTokenizer;
   }
 
+  /**
+   * Get this language's part-of-speech synthesizer implementation.
+   */
+  public Synthesizer getSynthesizer() {
+    return synthesizer;
+  }
+  
   public Locale getLocale() {
     return locale;
   }

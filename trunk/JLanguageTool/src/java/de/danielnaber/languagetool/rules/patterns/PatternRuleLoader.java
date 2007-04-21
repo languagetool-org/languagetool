@@ -255,7 +255,8 @@ class PatternRuleHandler extends XMLRuleHandler {
         caseConv = Match.CaseConversion.toCase(
               attrs.getValue("case_conversion").toUpperCase());
       }      
-      mWorker = new Match(attrs.getValue("regexp_match"), 
+      mWorker = new Match(attrs.getValue("postag"),
+          false, attrs.getValue("regexp_match"), 
           attrs.getValue("regexp_replace"), caseConv);       
       suggestionMatches.add(mWorker);
       message.append("\\" + attrs.getValue("no"));

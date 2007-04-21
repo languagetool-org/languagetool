@@ -18,6 +18,7 @@
  */
 package de.danielnaber.languagetool.rules;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -80,7 +81,16 @@ public abstract class Rule {
    * @param text a pre-analyzed sentence
    * @return an array of RuleMatch object for each match.
    */
-  public abstract RuleMatch[] match(AnalyzedSentence text);
+  //public abstract RuleMatch[] match(AnalyzedSentence text);
+  
+  /**
+   * Check whether the given text matche this error rule, i.e. whether the
+   * text contains this error.
+   * 
+   * @param text a pre-analyzed sentence
+   * @return an array of RuleMatch object for each match.
+   */
+  public abstract RuleMatch[] match(AnalyzedSentence text) throws IOException ;
   
   /**
    * If a rule keeps it state over more than the check of one
