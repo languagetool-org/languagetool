@@ -22,7 +22,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.List;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.regex.Pattern;
@@ -30,7 +29,6 @@ import java.util.regex.Matcher;
 
 import com.dawidweiss.stemmers.Lametyzator;
 
-import de.danielnaber.languagetool.rules.RuleMatch;
 import de.danielnaber.languagetool.synthesis.Synthesizer;
 
 /** English word form synthesizer.
