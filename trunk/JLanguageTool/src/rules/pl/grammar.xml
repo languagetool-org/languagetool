@@ -2,7 +2,7 @@
 <!--
 Polish Grammar and Typo Rules for LanguageTool
 Copyright (C) 2006 Marcin Miłkowski
-$Id: grammar.xml,v 1.15 2007-04-22 19:18:50 milek_pl Exp $		
+$Id: grammar.xml,v 1.16 2007-04-22 22:09:34 milek_pl Exp $		
 -->
 <rules lang="pl">
 
@@ -1422,7 +1422,7 @@ $Id: grammar.xml,v 1.15 2007-04-22 19:18:50 milek_pl Exp $
 		<rulegroup id="PRAWDOPODOBNYM_JEST" name="orzecznik w narzędniku (zamiast mianownika)">
 		<rule>
 		<pattern mark_to="-3">
-			<token skip="-1" postag_regexp="yes" postag=".*(adj|ppas):sg:inst\.loc:[mn].*"><exception scope="current">tym</exception><exception scope="next" postag_regexp="yes" postag="subst:.*inst.*m[0-9]?"/></token>
+			<token skip="-1" postag_regexp="yes" postag=".*(adj|ppas):sg:inst\.loc:[mn].*"><exception scope="current">tym</exception><exception scope="next" postag_regexp="yes" postag="subst:.*inst.*m[0-9]?"/><exception scope="next" regexp="yes">\p{Punct}</exception></token>
 			<token regexp="yes">jest|było|będzie|byłoby</token>
 			<token>,</token>
 			<token regexp="yes" inflected="yes">że|iż|aby|iżby|by|żeby</token>
