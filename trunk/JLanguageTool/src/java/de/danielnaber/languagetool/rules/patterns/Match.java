@@ -137,8 +137,25 @@ public class Match {
 //TODO: add POS regexp mechanisms
         if (synthesizer == null) {
         formattedString[0] = formattedToken.getToken();
-          //= pRegexMatch.matcher(formattedToken
-            //  .getToken()).replaceAll(regexReplace);
+        } else if (postagRegexp) {
+          int readingCount = formattedToken.getReadingsLength();
+          TreeSet<String> wordForms = new TreeSet<String>();
+          for (int i = 0; i < readingCount; i++) {
+                String[] possibleWordForms = 
+                  synthesizer.synthesize(
+                    formattedToken.getAnalyzedToken(i).getLemma(),
+                    posTag, true);
+                if (possibleWordForms != null) {
+                  for (String form : possibleWordForms) {           
+                    wordForms.add(form);
+                  }
+                }
+            }
+          if (wordForms != null) {
+            formattedString = wordForms.toArray(new String[wordForms.size()]);
+          } else {
+            formattedString[0] = formattedToken.getToken();
+          }
         } else {
           int readingCount = formattedToken.getReadingsLength();
           TreeSet<String> wordForms = new TreeSet<String>();
