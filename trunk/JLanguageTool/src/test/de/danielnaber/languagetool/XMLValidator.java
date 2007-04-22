@@ -72,9 +72,15 @@ public final class XMLValidator {
   /**
    * Validate XML file with the given DTD. Throws exception on error. 
    */
-  public final void validate(String filename, String dtdFile, String docType) throws SAXException, IOException, ParserConfigurationException {
-    String xml = StringTools.readFile(this.getClass().getResourceAsStream(filename));
-    validateInternal(xml, dtdFile, docType);
+  public final void validate(String filename, String dtdFile, String docType) throws IOException {
+    try {
+      String xml = StringTools.readFile(this.getClass().getResourceAsStream(filename));
+      validateInternal(xml, dtdFile, docType);
+    } catch (Exception e) {
+      IOException ioe = new IOException("Cannot load or parse '"+filename+"'");
+      ioe.initCause(e);
+      throw ioe;
+    }
   }
 
   private void validateInternal(String xml, String dtdFile, String doctype) throws SAXException, IOException, ParserConfigurationException {

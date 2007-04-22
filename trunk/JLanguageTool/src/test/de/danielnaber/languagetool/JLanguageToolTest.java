@@ -22,20 +22,15 @@ import java.io.IOException;
 import java.util.Iterator;
 import java.util.List;
 
-import javax.xml.parsers.ParserConfigurationException;
-
-import org.xml.sax.SAXException;
-
-import de.danielnaber.languagetool.rules.Rule;
-
 import junit.framework.TestCase;
+import de.danielnaber.languagetool.rules.Rule;
 
 /**
  * @author Daniel Naber
  */
 public class JLanguageToolTest extends TestCase {
 
-  public void testEnglish() throws IOException, ParserConfigurationException, SAXException {
+  public void testEnglish() throws IOException {
     JLanguageTool tool = new JLanguageTool(Language.ENGLISH);
     List matches = tool.check("A test that should not give errors.");
     assertEquals(0, matches.size());
@@ -57,7 +52,7 @@ public class JLanguageToolTest extends TestCase {
     assertEquals(0, matches.size());
   }
   
-  public void testGerman() throws IOException, ParserConfigurationException, SAXException {
+  public void testGerman() throws IOException {
     JLanguageTool tool = new JLanguageTool(Language.GERMAN);
     List matches = tool.check("Ein Test, der keine Fehler geben sollte.");
     assertEquals(0, matches.size());
@@ -73,7 +68,7 @@ public class JLanguageToolTest extends TestCase {
     assertEquals(0, matches.size());
   }
 
-  public void testDutch() throws IOException, ParserConfigurationException, SAXException {
+  public void testDutch() throws IOException {
     JLanguageTool tool = new JLanguageTool(Language.DUTCH);
     List matches = tool.check("Een test, die geen fouten mag geven.");
     assertEquals(0, matches.size());

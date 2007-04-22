@@ -20,15 +20,11 @@ package de.danielnaber.languagetool;
 
 import java.io.IOException;
 
-import javax.xml.parsers.ParserConfigurationException;
-
 import junit.framework.TestCase;
-
-import org.xml.sax.SAXException;
 
 public class ValidateXMLTest extends TestCase {
 
-  public void testPatternFile() throws SAXException, IOException, ParserConfigurationException {
+  public void testPatternFile() throws IOException {
     XMLValidator validator = new XMLValidator();
     for (int i = 0; i < Language.LANGUAGES.length; i++) {
       Language lang = Language.LANGUAGES[i];
@@ -37,7 +33,7 @@ public class ValidateXMLTest extends TestCase {
     }
   }
 
-  public void testFalseFriendsXML() throws SAXException, IOException, ParserConfigurationException {
+  public void testFalseFriendsXML() throws IOException {
     XMLValidator validator = new XMLValidator();
     validator.validate("/rules/false-friends.xml", "/rules/false-friends.dtd", "rules");
   }

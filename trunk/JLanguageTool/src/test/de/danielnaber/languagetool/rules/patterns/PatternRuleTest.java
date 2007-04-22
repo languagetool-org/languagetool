@@ -18,20 +18,14 @@
  */
 package de.danielnaber.languagetool.rules.patterns;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.HashMap;
 import java.util.Set;
 
-import javax.xml.parsers.ParserConfigurationException;
-
 import junit.framework.TestCase;
-
-import org.xml.sax.SAXException;
-
 import de.danielnaber.languagetool.AnalyzedSentence;
 import de.danielnaber.languagetool.JLanguageTool;
 import de.danielnaber.languagetool.Language;
@@ -50,13 +44,13 @@ public class PatternRuleTest extends TestCase {
       langTool = new JLanguageTool(Language.ENGLISH);
   }
 
-  public void testGrammarRulesFromXML() throws IOException, ParserConfigurationException, SAXException {
+  public void testGrammarRulesFromXML() throws IOException {
     for (int i = 0; i < Language.LANGUAGES.length; i++) {
       Language lang = Language.LANGUAGES[i];
       PatternRuleLoader ruleLoader = new PatternRuleLoader();
       JLanguageTool languageTool = new JLanguageTool(lang);
-      List rules = ruleLoader.getRules(this.getClass().getResourceAsStream("/rules/" 
-          + lang.getShortName() + "/grammar.xml"));
+      String name = "/rules/" + lang.getShortName() + "/grammar.xml";
+      List rules = ruleLoader.getRules(this.getClass().getResourceAsStream(name), name);
       testGrammarRulesFromXML(rules, languageTool, lang);
     }
   }
@@ -210,7 +204,7 @@ public class PatternRuleTest extends TestCase {
     return matches;
   }
 
-  public void testUppercasingSuggestion() throws IOException, ParserConfigurationException, SAXException {
+  public void testUppercasingSuggestion() throws IOException {
     JLanguageTool langTool = new JLanguageTool(Language.ENGLISH);
     langTool.activateDefaultPatternRules();
     List<RuleMatch> matches = langTool.check("Were are in the process of ...");

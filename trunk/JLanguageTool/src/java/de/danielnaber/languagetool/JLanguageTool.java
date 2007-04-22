@@ -222,9 +222,9 @@ public final class JLanguageTool {
    * @throws IOException
    * @return a List of {@link PatternRule} objects
    */
-  public List<PatternRule> loadPatternRules(final String filename) throws ParserConfigurationException, SAXException, IOException {
+  public List<PatternRule> loadPatternRules(final String filename) throws IOException {
     PatternRuleLoader ruleLoader = new PatternRuleLoader();
-    return ruleLoader.getRules(this.getClass().getResourceAsStream(filename));
+    return ruleLoader.getRules(this.getClass().getResourceAsStream(filename), filename);
   }
 
   /**
@@ -252,7 +252,7 @@ public final class JLanguageTool {
    * @throws SAXException
    * @throws IOException
    */
-  public void activateDefaultPatternRules() throws ParserConfigurationException, SAXException, IOException {
+  public void activateDefaultPatternRules() throws IOException {
     String defaultPatternFilename = 
       RULES_DIR + "/" + language.getShortName() + "/" + PATTERN_FILE;
     List<PatternRule> patternRules = loadPatternRules(defaultPatternFilename);

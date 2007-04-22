@@ -19,13 +19,12 @@
 package de.danielnaber.languagetool.rules.patterns;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.io.InputStream;
+import java.util.List;
 
-import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
@@ -48,21 +47,26 @@ public class PatternRuleLoader extends DefaultHandler {
   public PatternRuleLoader() {
   }
 
-  public final List<PatternRule> getRules(final InputStream filename) throws ParserConfigurationException,
-      SAXException, IOException {
-    PatternRuleHandler handler = new PatternRuleHandler();
-    SAXParserFactory factory = SAXParserFactory.newInstance();
-    SAXParser saxParser = factory.newSAXParser();
-    saxParser.parse(filename, handler);
-    rules = handler.getRules();
-    return rules;
+  public final List<PatternRule> getRules(final InputStream is, final String filename) throws IOException {
+    try {
+      PatternRuleHandler handler = new PatternRuleHandler();
+      SAXParserFactory factory = SAXParserFactory.newInstance();
+      SAXParser saxParser = factory.newSAXParser();
+      saxParser.parse(is, handler);
+      rules = handler.getRules();
+      return rules;
+    } catch (Exception e) {
+      IOException ioe = new IOException("Cannot load or parse '"+filename+"'");
+      ioe.initCause(e);
+      throw ioe;
+    }
   }
 
   /** Testing only. */
-  public void main(String[] args) throws ParserConfigurationException, SAXException,
-      IOException {
+  public void main(String[] args) throws IOException {
     PatternRuleLoader prg = new PatternRuleLoader();
-    List<PatternRule> l = prg.getRules(this.getClass().getResourceAsStream("/rules/de/grammar.xml"));
+    String name = "/rules/de/grammar.xml";
+    List<PatternRule> l = prg.getRules(this.getClass().getResourceAsStream(name), name);
     System.out.println(l);
   }
 
