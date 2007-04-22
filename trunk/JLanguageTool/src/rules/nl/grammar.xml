@@ -2,7 +2,7 @@
 <!--
 Dutch Grammar and Typo Rules for LanguageTool
 Copyright (C) 2006,2007 Ruud J. Baars (r.j.baars -at- hccnet nl)
-$Id: grammar.xml,v 1.1 2007-04-10 21:43:48 milek_pl Exp $
+$Id: grammar.xml,v 1.2 2007-04-22 14:44:21 dnaber Exp $
 -->
 <rules lang="nl">
   <!--  # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # -->
@@ -30,11 +30,11 @@ $Id: grammar.xml,v 1.1 2007-04-10 21:43:48 milek_pl Exp $
       </rule>
     </rulegroup>
     <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  -->
-    <rulegroup id="DE_NAAM" name="'De met hoofdletter als eigennaam">
+    <rulegroup id="DE_NAAM" name="De met hoofdletter als eigennaam">
       <rule>
         <pattern case_sensitive="yes">
           <token>de</token>
-          <token regexp="yes">[tT]elegraaf|[tT]ijd|[sS]tijl|[sS]tandaard|[lL]imburger</token>
+          <token regexp="yes">telegraaf|tijd|stijl|standaard|limburger</token>
         </pattern>
         <message>[a] Wanneer u hier het blad bedoelt, dan horen zowel \1 en \2 met  <suggestion>hoofdletters </suggestion> te worden geschreven.</message>
         <example type="correct">Ik lees <marker>De Standaard</marker>.</example>
@@ -49,6 +49,17 @@ $Id: grammar.xml,v 1.1 2007-04-10 21:43:48 milek_pl Exp $
         <message>[a] Wanneer u hier het blad bedoelt, dan horen zowel \1 and \2 met  <suggestion>hoofdletters</suggestion> te worden geschreven.</message>
         <example type="correct">Ik lees het <marker>Algemeen Dagblad</marker>.</example>
         <example type="incorrect">Ik lees het <marker>algemeen Dagblad</marker>.</example>
+      </rule>
+    </rulegroup>
+    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  -->
+    <rulegroup id="TITELS" name="Titels">
+      <rule>
+        <pattern case_sensitive="yes">
+          <token regexp="yes">Prinses|Prins|Koning|Koningin|Graaf|Hertog|Minister|Staatssecretaris</token>
+        </pattern>
+        <message>[a] Titels worden <suggestion>zonder hoofdletter</suggestion> geschreven.</message>
+        <example type="correct">Ik zie <marker>prinses</marker> Alexia.</example>
+        <example type="incorrect">Ik zie <marker>Prinses</marker> Alexia.</example>
       </rule>
     </rulegroup>
     <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  -->
@@ -96,7 +107,7 @@ $Id: grammar.xml,v 1.1 2007-04-10 21:43:48 milek_pl Exp $
         <pattern case_sensitive="yes">
           <!-- controleer of tweede woord foutief klein is geschreven -->
           <token regexp="yes">[A-Z].+</token>
-          <token regexp="yes">([h]oog|[l]aag)(vlakte|land.*|te|ten)|[a]lpen|[a]rchipel|[b]ekken|[b]ergland|[b]innenzee|[b]ocht|[e]ilanden|[h]oogten|[k]anaal|[k]ustvlakte|[g]ebergte|[r]ug|[s]chiereiland|[w]oestijn|[w]oud</token>
+          <token regexp="yes">(hoog|laag)(vlakte|land.*|te|ten)|alpen|archipel|bekken|bergland|binnenzee|bocht|eilanden|hoogten|kanaal|kustvlakte|gebergte|rug|schiereiland|woestijn|woud</token>
         </pattern>
         <message>[b] Wanneer u een aardrijkskundig begrip bedoelt, dan dient u <suggestion>hoofdletters</suggestion> te gebruiken.</message>
         <example type="incorrect">Het <marker>Belgisch laagland</marker>.</example>
@@ -110,7 +121,7 @@ $Id: grammar.xml,v 1.1 2007-04-10 21:43:48 milek_pl Exp $
         <pattern mark_from="2" case_sensitive="yes">
           <token>'</token>
           <token>t</token>
-          <token regexp="yes">[b]ergje|[b]uurtje|[e]ind|[g]oy|[h]aagje|[h]aantje|[h]arde|[h]eem|[h]oekske|[h]of|[h]orntje|[k]abel|[k]looster|[k]ruis|[l]aar|[l]oo|[r]ijpje|[r]ooth|[s]chot|[v]eld|[v]en|[w]aar|[w]oud|[w]oudt|[z]and|[z]andstervoorwerk|[z]andt</token>
+          <token regexp="yes">bergje|buurtje|eind|goy|haagje|haantje|harde|heem|hoekske|hof|horntje|kabel|klooster|kruis|laar|loo|rijpje|rooth|schot|veld|ven|waar|woud|woudt|zand|zandstervoorwerk|zandt</token>
         </pattern>
         <message>[a] Wanneer u hier de plaats of dorp bedoelt, gebruik dan een<suggestion>hoofdletter</suggestion>..</message>
         <example type="correct">hij woont in 't <marker>Bergje</marker>.</example>
@@ -125,7 +136,7 @@ $Id: grammar.xml,v 1.1 2007-04-10 21:43:48 milek_pl Exp $
           <token regexp="yes">Alphen|Capelle|Egmond|Koudekerk|Krimpen|Nieuwerkerk|Ouderkerk</token>
           <token>aan</token>
           <token>de</token>
-          <token regexp="yes">[I][J]ssel|[R]ijn|[H]oef</token>
+          <token regexp="yes">IJssel|Rijn|Hoef</token>
         </pattern>
         <message>[a] U bedoelt waarschijnlijk \1 \2 <suggestion>den</suggestion> \3. Vergeet de hoofdletters niet.</message>
         <example type="correct">Krimpen aan <marker>den</marker> IJssel.</example>
@@ -169,10 +180,10 @@ $Id: grammar.xml,v 1.1 2007-04-10 21:43:48 milek_pl Exp $
       <!-- vang alle zeeën als zee klein is geschreven -->
       <rule>
         <pattern case_sensitive="yes">
-          <token regexp="yes">[d]ode|[g]ele|[r]ode|[w]itte|[z]warte</token>
+          <token regexp="yes">dode|gele|rode|witte|zwarte</token>
           <token regexp="yes">zee.*|rivier.*</token>
         </pattern>
-        <message>[b] Wanneer u hier naar een geografische plaats verwijst, dan moeten zowel \1 als \2 een  <suggestion>hoofdletter</suggestion> hebben.</message>
+        <message>[b] Wanneer u hier naar een geografische plaats verwijst, dan moeten zowel \1 als \2 een  <suggestion>letter</suggestion> hebben.</message>
         <example type="incorrect">Lekker baden in de <marker>dode zee</marker>.</example>
         <example type="correct">Lekker baden in de <marker>Dode Zee</marker>.</example>
       </rule>
@@ -231,6 +242,14 @@ $Id: grammar.xml,v 1.1 2007-04-10 21:43:48 milek_pl Exp $
         <message>[b] Hoewel het woord correct is, is er een grote kans dat het een <suggestion>typefout</suggestion> is. Zo niet, dan is het waarschijnlijk een ouderwetse uitdrukking.</message>
         <example type="incorrect">Wij <marker>veile</marker> het huis.</example>
         <example type="correct">Het <marker>veile</marker> huis.</example>
+      </rule>
+      <rule>
+        <pattern >
+          <token>email</token>
+        </pattern>
+        <message>[c] Bedoelt u <suggestion>e-mail</suggestion> ?</message>
+        <example type="incorrect">Wij sturen een <marker>email</marker>.</example>
+        <example type="correct">Wij sturen een<marker>e-mail</marker>.</example>
       </rule>
     </rulegroup>
     <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  -->
