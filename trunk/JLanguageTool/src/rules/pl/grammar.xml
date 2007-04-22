@@ -2,7 +2,7 @@
 <!--
 Polish Grammar and Typo Rules for LanguageTool
 Copyright (C) 2006 Marcin Miłkowski
-$Id: grammar.xml,v 1.16 2007-04-22 22:09:34 milek_pl Exp $		
+$Id: grammar.xml,v 1.17 2007-04-22 23:10:34 milek_pl Exp $		
 -->
 <rules lang="pl">
 
@@ -1421,13 +1421,14 @@ $Id: grammar.xml,v 1.16 2007-04-22 22:09:34 milek_pl Exp $
 		
 		<rulegroup id="PRAWDOPODOBNYM_JEST" name="orzecznik w narzędniku (zamiast mianownika)">
 		<rule>
-		<pattern mark_to="-3">
-			<token skip="-1" postag_regexp="yes" postag=".*(adj|ppas):sg:inst\.loc:[mn].*"><exception scope="current">tym</exception><exception scope="next" postag_regexp="yes" postag="subst:.*inst.*m[0-9]?"/><exception scope="next" regexp="yes">\p{Punct}</exception></token>
+		<pattern mark_from="1" mark_to="-3">
+			<token><exception postag_regexp="yes" postag="subst:sg:.*(inst|loc).*(m[0-9]?|n)"/></token>
+			<token skip="-1" postag_regexp="yes" postag=".*(adj|ppas):sg:inst\.loc:[mn].*"><exception regexp="yes" scope="current">tym|którym|żadnym</exception><exception scope="next" postag_regexp="yes" postag="subst:sg.*(inst|loc).*(m[0-9]?|n)|.*(ppas|adj):sg:nom.acc.voc:n.*"/><exception scope="next" regexp="yes">\p{Punct}</exception></token>
 			<token regexp="yes">jest|było|będzie|byłoby</token>
 			<token>,</token>
 			<token regexp="yes" inflected="yes">że|iż|aby|iżby|by|żeby</token>
 		</pattern>
-		<message>Przymiotnik \1 powinien być w mianowniku, rodzaju nijakim i liczbie pojedynczej (domyślnym podmiotem jest „to”).</message>
+		<message>Przymiotnik \2 powinien być w mianowniku, rodzaju nijakim i liczbie pojedynczej (domyślnym podmiotem jest „to”).</message>
 		<example type="incorrect">Bez wątpienia <marker>dobrym</marker> jest, żeby szkoły były umundurowane.</example>
 		<example type="incorrect"><marker>Pożądanym</marker> jest, aby szkoły były umundurowane.</example>
 		<example type="incorrect"><marker>Niewątpliwym</marker> również jest, że Roman kocha się w Andrzeju.</example>
