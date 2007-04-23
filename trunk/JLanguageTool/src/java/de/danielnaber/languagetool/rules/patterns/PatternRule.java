@@ -21,8 +21,6 @@ package de.danielnaber.languagetool.rules.patterns;
 import java.util.ArrayList;
 import java.util.List;
 import java.io.IOException;
-import java.util.regex.Pattern;
-import java.util.regex.Matcher;
 
 import de.danielnaber.languagetool.AnalyzedSentence;
 import de.danielnaber.languagetool.AnalyzedToken;
