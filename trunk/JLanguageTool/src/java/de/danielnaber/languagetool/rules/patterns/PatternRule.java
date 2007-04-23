@@ -21,6 +21,8 @@ package de.danielnaber.languagetool.rules.patterns;
 import java.util.ArrayList;
 import java.util.List;
 import java.io.IOException;
+import java.util.regex.Pattern;
+import java.util.regex.Matcher;
 
 import de.danielnaber.languagetool.AnalyzedSentence;
 import de.danielnaber.languagetool.AnalyzedToken;
@@ -308,7 +310,6 @@ public class PatternRule extends Rule {
         lastMatchToken = -1;
         skipShiftTotal = 0;
       }
-      //
     }
 
     return (RuleMatch[]) ruleMatches.toArray(new RuleMatch[ruleMatches.size()]);
@@ -327,7 +328,7 @@ public class PatternRule extends Rule {
   **/
   public final String formatMatches(final AnalyzedTokenReadings[] toks,
       final int[] positions, final int firstMatchTok, int matchingTok,
-        final String errorMsg) throws IOException {
+      final String errorMsg) throws IOException {
     String errorMessage = errorMsg;
     // replace back references like \1 in message, 
     // and take care of skipping 
@@ -335,61 +336,74 @@ public class PatternRule extends Rule {
       matchingTok = toks.length - firstMatchTok;
     }
     int matchCounter = 0;
-    for (int j = 0; j < matchingTok; j++) {
-      int repTokenPos = 0;
-      for (int l = 0; l <= j; l++) {
-        repTokenPos += positions[l];
-      }
-      if (errorMessage.indexOf("\\" + (j + 1)) > 0) {
-      boolean newWay = false;
-      if (suggestionMatches != null) {
-        if (matchCounter < suggestionMatches.size()) {
-          if (suggestionMatches.get(matchCounter) != null) {
-            while (errorMessage.indexOf("\\" + (j + 1)) > 0) { 
-            suggestionMatches.get(matchCounter)
-              .setToken(toks[firstMatchTok + repTokenPos - 1]);
-            suggestionMatches.get(matchCounter).setSynthesizer(language[0].getSynthesizer());
-            int ind = errorMessage.indexOf("\\" + (j + 1));
-            String leftSide = errorMessage.substring(0, ind);
-            String suggestionLeft = "";
-            String suggestionRight = "";
-            String rightSide = errorMessage.substring(ind + 2);
-            String[] matches = suggestionMatches.get(matchCounter).toFinalString();
-            if (matches.length == 1) {
-              errorMessage = leftSide 
-              + suggestionLeft
-              + matches[0]
-              + suggestionRight
-              + rightSide;              
-            } else {
-             errorMessage = leftSide;
-             int lastLeftSugEnd = leftSide.indexOf("</suggestion>");
-             int lastLeftSugStart = leftSide.lastIndexOf("<suggestion>");
-                for (String formatMatch : matches) {
-                  errorMessage += suggestionLeft
-                  + formatMatch 
-                  + suggestionRight;
-                  if (lastLeftSugEnd == -1 && lastLeftSugStart > 0) {
-                    errorMessage += "</suggestion>, <suggestion>";
+    boolean newWay = false;
+    int errLen = errorMessage.length();
+    int errMarker = errorMessage.indexOf("\\");
+    boolean numberFollows = false;
+    if (errMarker > 0 & errMarker < errLen - 1) {
+      numberFollows = errorMessage.charAt(errMarker + 1) >= '1'
+        & errorMessage.charAt(errMarker + 1) <= '9';
+    }
+    while (errMarker > 0 & numberFollows) {
+      for (int j = 0; j < matchingTok; j++) {
+        int repTokenPos = 0;
+        for (int l = 0; l <= j; l++) {
+          repTokenPos += positions[l];
+        }
+        int ind = errorMessage.indexOf("\\" + (j + 1)); 
+        if (ind > 0) {      
+          if (suggestionMatches != null) {
+            if (matchCounter < suggestionMatches.size()) {
+              if (suggestionMatches.get(matchCounter) != null) {             
+                suggestionMatches.get(matchCounter)
+                .setToken(toks[firstMatchTok + repTokenPos - 1]);
+                suggestionMatches.get(matchCounter).setSynthesizer(language[0].getSynthesizer());              
+                String leftSide = errorMessage.substring(0, ind);
+                String suggestionLeft = "";
+                String suggestionRight = "";
+                String rightSide = errorMessage.substring(ind + 2);
+                String[] matches = suggestionMatches.get(matchCounter).toFinalString();
+                if (matches.length == 1) {
+                  errorMessage = leftSide 
+                  + suggestionLeft
+                  + matches[0]
+                            + suggestionRight
+                            + rightSide;              
+                } else {
+                  errorMessage = leftSide;
+                  int lastLeftSugEnd = leftSide.indexOf("</suggestion>");
+                  int lastLeftSugStart = leftSide.lastIndexOf("<suggestion>");
+                  for (String formatMatch : matches) {
+                    errorMessage += suggestionLeft
+                    + formatMatch 
+                    + suggestionRight;
+                    if (lastLeftSugEnd == -1 && lastLeftSugStart > 0) {
+                      errorMessage += "</suggestion>, <suggestion>";
+                    }
                   }
+                  int correctionSug = errorMessage.lastIndexOf("<suggestion>");
+                  if (correctionSug + "<suggestion>".length() == errorMessage.length())
+                    errorMessage = errorMessage.substring(0, correctionSug);
+                  errorMessage += rightSide;             
                 }
-             int correctionSug = errorMessage.lastIndexOf("<suggestion>");
-             if (correctionSug + "<suggestion>".length() == errorMessage.length())
-               errorMessage = errorMessage.substring(0, correctionSug);
-             errorMessage += rightSide;             
+                matchCounter++;
+                newWay = true;
+              }
             }
-            matchCounter++;
-            newWay = true;
-            }
-          }
           }
         }           
-      if (!newWay) {
-      errorMessage = errorMessage.replaceAll("\\\\" + (j + 1), 
-            toks[firstMatchTok + repTokenPos - 1].getToken());          
-      }          
-     }  
-    }           
+        if (!newWay) {
+          errorMessage = errorMessage.replaceAll("\\\\" + (j + 1), 
+              toks[firstMatchTok + repTokenPos - 1].getToken());          
+        }
+      }
+      errMarker = errorMessage.indexOf("\\");
+      numberFollows = false;
+      if (errMarker > 0 & errMarker < errLen - 1) {
+        numberFollows = errorMessage.charAt(errMarker + 1) >= '1'
+          & errorMessage.charAt(errMarker + 1) <= '9';
+      }      
+    }
     return errorMessage;
   }
   
