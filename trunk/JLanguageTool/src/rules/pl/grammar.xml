@@ -2,7 +2,7 @@
 <!--
 Polish Grammar and Typo Rules for LanguageTool
 Copyright (C) 2006 Marcin Miłkowski
-$Id: grammar.xml,v 1.19 2007-04-23 20:34:09 milek_pl Exp $		
+$Id: grammar.xml,v 1.20 2007-04-23 22:56:43 milek_pl Exp $		
 -->
 <rules lang="pl">
 
@@ -1046,9 +1046,10 @@ $Id: grammar.xml,v 1.19 2007-04-23 20:34:09 milek_pl Exp $
 			<token postag_regexp="yes" postag="adj.*gen.*"/>
 			<token regexp="yes">stycznia|lutego|marca|kwietnia|maja|czerwca|lipca|sierpnia|września|października|listopada|grudnia</token>	
 		</pattern>
-		<message>Niepoprawna postać daty (nie istnieje „drugi sierpień”, jedynie „drugi [dzień] sierpnia”); poprawnie: <suggestion>\3 \4</suggestion>.</message>
+		<message>Niepoprawna postać daty (nie istnieje „drugi sierpień”, jedynie „drugi [dzień] sierpnia”); poprawnie: <suggestion><match no="3"/> <match no="4"/></suggestion>
+		 	lub <suggestion>w dniu <match no="3" postag_regexp="yes" postag=".*adj:sg:inst.loc:m:pneg"/> <match no="4"/></suggestion>.</message>
 		<!--  dodać też formę narzędnika: w dniu (narzędnik od \3) \4 -->
-		<example type="incorrect" correction="drugiego sierpnia">Przyczyna wojny był atak Saddama Husseina na Kuwejt <marker>w dniu drugiego sierpnia</marker> 1990 roku.</example>
+		<example type="incorrect" correction="drugiego sierpnia|w dniu drugim sierpnia">Przyczyna wojny był atak Saddama Husseina na Kuwejt <marker>w dniu drugiego sierpnia</marker> 1990 roku.</example>
 		<example type="correct">Przyczyna wojny był atak Saddama Husseina na Kuwejt <marker>drugiego sierpnia</marker> 1990 roku.</example>
 	</rule>
 	
@@ -1165,137 +1166,61 @@ $Id: grammar.xml,v 1.19 2007-04-23 20:34:09 milek_pl Exp $
 		<example type="incorrect">Jutro jadę <marker>do Niemczech</marker>.</example>
 		</rule>
 	
-		<rule name="„sto gram” (sto gramów) itp." id="STO_GRAM">
+		<rulegroup name="„sto gram” (sto gramów) itp." id="STO_GRAM">
+		<rule>
 			<pattern mark_from="1">
-				<token regexp="yes" inflected="yes">^(dwa|trzy|cztery|pięć|sześć|siedem|osiem|dziewięć|dziesięć|jedenaście|dwanaście|trzynaście|czternaście|piętnaście|szesnaście|siedemnaście|osiemnaście|dziewiętnaście|dwadzieścia|trzydzieści|czterdzieści|pięćdziesiąt|sześćdziesiąt|siedemdziesiąt|osiemdziesiąt|dziewięćdziesiąt|sto|dwieście|trzysta|czterysta|pięćset|sześćset|siedemset|osiemset|dziewięćset|tysiąc|milion|miliard|bilion)</token>
+				<token regexp="yes" inflected="yes">^(pięć|sześć|siedem|osiem|dziewięć|dziesięć|jedenaście|dwanaście|trzynaście|czternaście|piętnaście|szesnaście|siedemnaście|osiemnaście|dziewiętnaście|dwadzieścia|trzydzieści|czterdzieści|pięćdziesiąt|sześćdziesiąt|siedemdziesiąt|osiemdziesiąt|dziewięćdziesiąt|sto|dwieście|trzysta|czterysta|pięćset|sześćset|siedemset|osiemset|dziewięćset|tysiąc|milion|miliard|bilion)</token>
 				<token regexp="yes">^(wat|gram|amper|kilowat|kilogram|kiloamper|wolt|kilowolt|złoty|kilometr|metr|centymetr)</token>
 			</pattern>
-			<message>Nazwy jednostek miary odmienia się. W tym wypadku powinny być w dopełniaczu.</message>
+			<message>Nazwy jednostek miary odmienia się. W tym wypadku powinny być w dopełniaczu:
+				<suggestion><match no="2" postag_regexp="yes" postag="subst:pl:gen.*"/></suggestion>.</message>
 			<example type="correct">Ludwik kupił sto gramów szyneczki.</example>
-			<example type="incorrect">Ludwik kupił sto <marker>gram</marker> szyneczki.</example>
+			<example type="incorrect" correction="gramów">Ludwik kupił sto <marker>gram</marker> szyneczki.</example>
 		</rule>
+		<rule>
+			<pattern mark_from="1">
+				<token regexp="yes" inflected="yes">^(dwa|trzy|cztery)</token>
+				<token regexp="yes">^(wat|gram|amper|kilowat|kilogram|kiloamper|wolt|kilowolt|złoty|kilometr|metr|centymetr)</token>
+			</pattern>
+			<message>Nazwy jednostek miary odmienia się. W tym wypadku powinny być w mianowniku liczby mnogiej:
+				<suggestion><match no="2" postag_regexp="yes" postag="subst:pl:nom.*"/></suggestion>.</message>
+			<example type="correct">Ludwik kupił sto gramów szyneczki.</example>
+			<example type="incorrect" correction="kilogramy">Ludwik kupił dwa <marker>kilogram</marker> szyneczki.</example>
+		</rule>
+		</rulegroup>
 
 		<rule name="„te”, „jedne”, „tamte” + rzeczownik r. nijakiego w l.poj." id="JEDNE_DZIECKO">
 			<pattern mark_to="-1">
 				<token postag_regexp="yes" postag="adj:pl:nom.*"><exception postag_regexp="yes" postag=".*adj:sg:nom.*|verb.+"/></token>
 				<token postag_regexp="yes" postag="subst.*:sg:nom.acc.*:n"/>
 			</pattern>
-			<message>Ten przymiotnik lub zaimek jest w liczbie mnogiej. Prawdopodobnie należy użyć liczby pojedynczej.</message>
+			<message>Ten przymiotnik lub zaimek jest w liczbie mnogiej. Prawdopodobnie należy użyć liczby pojedynczej:
+				<suggestion><match no="1" postag_regexp="yes" postag="adj:sg:nom.*[\.:]n[1-2]?[^o].*"/></suggestion>.</message>
 			<example type="correct">To dziecko zachowuje się grzecznie.</example>
-			<example type="incorrect"><marker>Te</marker> dziecko zachowuje się grzecznie.</example>
+			<example type="incorrect" correction="To"><marker>Te</marker> dziecko zachowuje się grzecznie.</example>
 		</rule>
-		<rulegroup name="Błędna odmiana miesiąca w datach, np. 1 styczeń 2010 (1 stycznia)" id="PIERWSZY_STYCZEN_1993">
-		<rule>
+		
+		<rule name="Błędna odmiana miesiąca w datach, np. 1 styczeń 2010 (1 stycznia)" id="PIERWSZY_STYCZEN_1993">
 			<pattern mark_from="1" mark_to="-1">
 				<token regexp="yes">\d+</token>
-				<token>styczeń</token>
+				<token regexp="yes">styczeń|luty|marzec|kwiecień|maj|czerwiec|lipiec|sierpień|wrzesień|październik|listopad|grudzień</token>
 				<token regexp="yes">\d+</token>
 			</pattern>
-			<message>Nazwy miesięcy w datach podajemy w dopełniaczu: <suggestion>stycznia</suggestion>.</message>
+			<message>Nazwy miesięcy w datach podajemy w dopełniaczu: <suggestion><match no="2" postag_regexp="yes" postag="subst:sg:(acc\.)?gen[\.:]m[0-9]?.*"/></suggestion>.</message>
 			<example type="correct">1 stycznia 1999</example>
-			<example type="incorrect">1 <marker>styczeń</marker> 2000</example>
-		</rule>		<rule>
-			<pattern mark_from="1" mark_to="-1">
-				<token regexp="yes">\d+</token>
-				<token>luty</token>
-				<token regexp="yes">\d+</token>
-			</pattern>
-			<message>Nazwy miesięcy w datach podajemy w dopełniaczu: <suggestion>lutego</suggestion>.</message>
-			<example type="correct">1 lutego 1939.</example>
-			<example type="incorrect">26 <marker>luty</marker> 1939.</example>
-		</rule>		<rule>
-			<pattern mark_from="1" mark_to="-1">
-				<token regexp="yes">\d+</token>
-				<token>marzec</token>
-				<token regexp="yes">\d+</token>
-			</pattern>
-			<message>Nazwy miesięcy w datach podajemy w dopełniaczu: <suggestion>marca</suggestion>.</message>
-			<example type="correct">1 marca 1939.</example>
-			<example type="incorrect">12 <marker>marzec</marker> 1944</example>
-		</rule>		<rule>
-			<pattern mark_from="1" mark_to="-1">
-				<token regexp="yes">\d+</token>
-				<token>kwiecień</token>
-				<token regexp="yes">\d+</token>
-			</pattern>
-			<message>Nazwy miesięcy w datach podajemy w dopełniaczu: <suggestion>kwietnia</suggestion>.</message>
-			<example type="correct">Wojna wybuchła 1 kwietnia 1939.</example>
-			<example type="incorrect">Wojna wybuchła 1 <marker>kwiecień</marker> 1939.</example>
-		</rule>		<rule>
-			<pattern mark_from="1" mark_to="-1">
-				<token regexp="yes">\d+</token>
-				<token>maj</token>
-				<token regexp="yes">\d+</token>
-			</pattern>
-			<message>Nazwy miesięcy w datach podajemy w dopełniaczu: <suggestion>maja</suggestion>.</message>
-			<example type="correct">31 maja 1939.</example>
-			<example type="incorrect">13 <marker>maj</marker> 1939.</example>
-		</rule>		<rule>
-			<pattern mark_from="1" mark_to="-1">
-				<token regexp="yes">\d+</token>
-				<token>czerwiec</token>
-				<token regexp="yes">\d+</token>
-			</pattern>
-			<message>Nazwy miesięcy w datach podajemy w dopełniaczu: <suggestion>czerwca</suggestion>.</message>
-			<example type="correct">1 czerwca 1939.</example>
-			<example type="incorrect">1 <marker>czerwiec</marker> 1939.</example>
-		</rule>		<rule>
-			<pattern mark_from="1" mark_to="-1">
-				<token regexp="yes">\d+</token>
-				<token>lipiec</token>
-				<token regexp="yes">\d+</token>
-			</pattern>
-			<message>Nazwy miesięcy w datach podajemy w dopełniaczu: <suggestion>lipca</suggestion>.</message>
-			<example type="correct">1 lipca 1939.</example>
-			<example type="incorrect">12 <marker>lipiec</marker> 1939.</example>
-		</rule>		<rule>
-			<pattern mark_from="1" mark_to="-1">
-				<token regexp="yes">\d+</token>
-				<token>sierpień</token>
-				<token regexp="yes">\d+</token>
-			</pattern>
-			<message>Nazwy miesięcy w datach podajemy w dopełniaczu: <suggestion>sierpnia</suggestion>.</message>
-			<example type="correct">1 sierpnia 1939.</example>
-			<example type="incorrect">1 <marker>sierpień</marker> 1939.</example>
-		</rule>		<rule>
-			<pattern mark_from="1" mark_to="-1">
-				<token regexp="yes">\d+</token>
-				<token>wrzesień</token>
-				<token regexp="yes">\d+</token>
-			</pattern>
-			<message>Nazwy miesięcy w datach podajemy w dopełniaczu: <suggestion>września</suggestion>.</message>
-			<example type="correct">Wojna wybuchła 1 września 1939.</example>
-			<example type="incorrect">Wojna wybuchła 1 <marker>wrzesień</marker> 1939.</example>
-		</rule>		<rule>
-			<pattern mark_from="1" mark_to="-1">
-				<token regexp="yes">\d+</token>
-				<token>październik</token>
-				<token regexp="yes">\d+</token>
-			</pattern>
-			<message>Nazwy miesięcy w datach podajemy w dopełniaczu: <suggestion>października</suggestion>.</message>
-			<example type="correct">1 października 1939.</example>
-			<example type="incorrect">1 <marker>październik</marker> 1939.</example>
+			<example type="incorrect" correction="stycznia">1 <marker>styczeń</marker> 2000</example>
+			<example type="incorrect" correction="lutego">26 <marker>luty</marker> 1939.</example>
+			<example type="incorrect" correction="marca">12 <marker>marzec</marker> 1944</example>
+			<example type="incorrect" correction="kwietnia">Wojna wybuchła 1 <marker>kwiecień</marker> 1939.</example>
+			<example type="incorrect" correction="maja">13 <marker>maj</marker> 1939.</example>
+			<example type="incorrect" correction="czerwca">1 <marker>czerwiec</marker> 1939.</example>
+			<example type="incorrect" correction="lipca">12 <marker>lipiec</marker> 1939.</example>			
+			<example type="incorrect" correction="sierpnia">1 <marker>sierpień</marker> 1939.</example>
+			<example type="incorrect" correction="września">Wojna wybuchła 1 <marker>wrzesień</marker> 1939.</example>
+			<example type="incorrect" correction="października">1 <marker>październik</marker> 1939.</example>
+			<example type="incorrect" correction="listopada">1 <marker>listopad</marker> 1939.</example>
+			<example type="incorrect" correction="grudnia">13 <marker>grudzień</marker> 1939.</example>
 		</rule>
-		<rule>
-			<pattern mark_from="1" mark_to="-1">
-				<token regexp="yes">\d+</token>
-				<token>listopad</token>
-				<token regexp="yes">\d+</token>
-			</pattern>
-			<message>Nazwy miesięcy w datach podajemy w dopełniaczu:<suggestion>listopada</suggestion>.</message>
-			<example type="correct">1 listopada 1939.</example>
-			<example type="incorrect">1 <marker>listopad</marker> 1939.</example>
-		</rule>		<rule>
-			<pattern mark_from="1" mark_to="-1">
-				<token regexp="yes">\d+</token>
-				<token>grudzień</token>
-				<token regexp="yes">\d+</token>
-			</pattern>
-			<message>Nazwy miesięcy w datach podajemy w dopełniaczu: <suggestion>grudnia</suggestion>.</message>
-			<example type="correct">13 grudnia 1939.</example>
-			<example type="incorrect">13 <marker>grudzień</marker> 1939.</example>
-		</rule>
-		</rulegroup>
 		
 		<rulegroup name="Brak odmiany imienia „Bruno”, „Hugo”, „Pablo”" id="BRUNO_HUGO">
 		<rule>
