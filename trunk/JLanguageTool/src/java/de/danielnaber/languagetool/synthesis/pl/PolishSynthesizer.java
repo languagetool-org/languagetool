@@ -30,6 +30,7 @@ import java.util.regex.Matcher;
 import com.dawidweiss.stemmers.Lametyzator;
 
 import de.danielnaber.languagetool.synthesis.Synthesizer;
+import de.danielnaber.languagetool.AnalyzedToken;
 
 /** Polish word form synthesizer.
  * Based on project Morfologik.
@@ -48,15 +49,17 @@ public class PolishSynthesizer implements Synthesizer {
 
   private ArrayList<String> possibleTags = null;
   
-  public String[] synthesize(String lemma, String posTag) throws IOException {
+  public String[] synthesize(AnalyzedToken token, String posTag) throws IOException {
     if (synthesizer == null) {
       synthesizer = 
         new Lametyzator(this.getClass().getResourceAsStream(RESOURCE_FILENAME),
           "iso8859-2", '+');
     }
+    boolean isNegated = posTag.indexOf(":neg") > 0 || token.getPOSTag().indexOf(":neg") > 0;
+
     String[] wordForms = null;
-    if (posTag.indexOf(":neg") > 0) {
-      wordForms = synthesizer.stem(lemma + "|" + posTag.replaceFirst(":neg", ":pneg"));
+    if (isNegated) {
+      wordForms = synthesizer.stem(token.getLemma() + "|" + posTag.replaceFirst(":neg", ":pneg"));
       if (wordForms != null) {
         String[] negForms = wordForms;
         for (int i = 0; i < wordForms.length; i++) {
@@ -65,12 +68,12 @@ public class PolishSynthesizer implements Synthesizer {
         wordForms = negForms;
       }
     } else {
-    wordForms = synthesizer.stem(lemma + "|" + posTag);
+    wordForms = synthesizer.stem(token.getLemma() + "|" + posTag);
     }
     return wordForms;
   }
 
-  public String[] synthesize(String lemma, String posTag, boolean posTagRegExp)
+  public String[] synthesize(AnalyzedToken token, String posTag, boolean posTagRegExp)
       throws IOException {
     
     if (posTagRegExp) {
@@ -84,12 +87,15 @@ public class PolishSynthesizer implements Synthesizer {
     }    
     Pattern p = Pattern.compile(posTag);
     ArrayList<String> results = new ArrayList<String>();
+    
+    boolean isNegated = posTag.indexOf(":neg") > 0 || token.getPOSTag().indexOf(":neg") > 0;
+    
     for (String tag : possibleTags) {
       Matcher m = p.matcher(tag);
         if (m.matches()) {
           String[] wordForms = null;          
-          if (posTag.indexOf(":neg") > 0) {
-            wordForms = synthesizer.stem(lemma + "|" + tag.replaceAll(":neg", ":pneg"));
+          if (isNegated) {
+            wordForms = synthesizer.stem(token.getLemma() + "|" + tag.replaceAll(":neg", ":pneg"));
             if (wordForms != null) {
               String[] negForms = wordForms;
               for (int i = 0; i < wordForms.length; i++) {
@@ -98,7 +104,7 @@ public class PolishSynthesizer implements Synthesizer {
               wordForms = negForms;
             }
           } else { 
-          wordForms = synthesizer.stem(lemma + "|" + tag);
+          wordForms = synthesizer.stem(token.getLemma() + "|" + tag);
           }
           if (wordForms != null) {
             results.addAll(Arrays.asList(wordForms));
@@ -107,7 +113,7 @@ public class PolishSynthesizer implements Synthesizer {
     }
        return (String[]) results.toArray(new String[results.size()]);    
     } else {
-      return synthesize(lemma, posTag);
+      return synthesize(token, posTag);
     }    
   }
 

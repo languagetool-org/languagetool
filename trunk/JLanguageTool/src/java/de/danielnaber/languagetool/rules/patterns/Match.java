@@ -134,16 +134,16 @@ public class Match {
               .getToken()).replaceAll(regexReplace);
         }
       } else {
-//TODO: add POS regexp mechanisms
+//TODO: add POS regexp replace mechanisms
         if (synthesizer == null) {
         formattedString[0] = formattedToken.getToken();
         } else if (postagRegexp) {
           int readingCount = formattedToken.getReadingsLength();
-          TreeSet<String> wordForms = new TreeSet<String>();
+          TreeSet<String> wordForms = new TreeSet<String>();          
           for (int i = 0; i < readingCount; i++) {
                 String[] possibleWordForms = 
                   synthesizer.synthesize(
-                    formattedToken.getAnalyzedToken(i).getLemma(),
+                    formattedToken.getAnalyzedToken(i),
                     posTag, true);
                 if (possibleWordForms != null) {
                   for (String form : possibleWordForms) {           
@@ -162,7 +162,7 @@ public class Match {
           for (int i = 0; i < readingCount; i++) {
                 String[] possibleWordForms = 
                   synthesizer.synthesize(
-                    formattedToken.getAnalyzedToken(i).getLemma(),
+                    formattedToken.getAnalyzedToken(i),
                     posTag);
                 if (possibleWordForms != null) {
                   for (String form : possibleWordForms) {           

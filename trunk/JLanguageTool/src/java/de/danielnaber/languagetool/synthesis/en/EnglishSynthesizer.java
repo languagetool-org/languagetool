@@ -30,6 +30,7 @@ import java.util.regex.Matcher;
 import com.dawidweiss.stemmers.Lametyzator;
 
 import de.danielnaber.languagetool.synthesis.Synthesizer;
+import de.danielnaber.languagetool.AnalyzedToken;
 
 /** English word form synthesizer.
  * Based on part-of-speech lists in Public Domain.
@@ -50,18 +51,25 @@ public class EnglishSynthesizer implements Synthesizer {
 
   private ArrayList<String> possibleTags = null;
   
-  public String[] synthesize(String lemma, String posTag) throws IOException {
+  /**
+   * Get a form of a given AnalyzedToken, where the
+   * form is defined by a part-of-speech tag.
+   * @param token AnalyzedToken to be inflected.
+   * @param posTag A desired part-of-speech tag.
+   * @return String value - inflected word.
+   */
+  public String[] synthesize(final AnalyzedToken token, final String posTag) throws IOException {
     if (synthesizer == null) {
       synthesizer = 
         new Lametyzator(this.getClass().getResourceAsStream(RESOURCE_FILENAME),
           "iso8859-1", '+');
     }
     String[] wordForms = null;
-    wordForms = synthesizer.stem(lemma + "|" + posTag);
+    wordForms = synthesizer.stem(token.getLemma() + "|" + posTag);
     return wordForms;
   }
 
-  public String[] synthesize(String lemma, String posTag, boolean posTagRegExp)
+  public String[] synthesize(AnalyzedToken token, String posTag, boolean posTagRegExp)
       throws IOException {
     
     if (posTagRegExp) {
@@ -79,7 +87,7 @@ public class EnglishSynthesizer implements Synthesizer {
       Matcher m = p.matcher(tag);
         if (m.matches()) {
           String[] wordForms = null;
-          wordForms = synthesizer.stem(lemma + "|" + tag);
+          wordForms = synthesizer.stem(token.getLemma() + "|" + tag);
           if (wordForms != null) {
             results.addAll(Arrays.asList(wordForms));
           }
@@ -87,7 +95,7 @@ public class EnglishSynthesizer implements Synthesizer {
     }
        return (String[]) results.toArray(new String[results.size()]);    
     } else {
-      return synthesize(lemma, posTag);
+      return synthesize(token, posTag);
     }    
   }
 
