@@ -44,6 +44,7 @@ import de.danielnaber.languagetool.tokenizers.Tokenizer;
 import de.danielnaber.languagetool.tokenizers.WordTokenizer;
 import de.danielnaber.languagetool.synthesis.Synthesizer;
 import de.danielnaber.languagetool.synthesis.en.EnglishSynthesizer;
+import de.danielnaber.languagetool.synthesis.pl.PolishSynthesizer;
 import de.danielnaber.languagetool.tools.StringTools;
 
 /**
@@ -66,7 +67,8 @@ public final class Language {
   
   public static final Language POLISH = 
     new Language("Polish", "pl", new Locale("pl"), new PolishChunker(), new PolishTagger(),
-        new PolishSentenceTokenizer(), new WordTokenizer(), "Marcin Miłkowski");
+        new PolishSentenceTokenizer(), new WordTokenizer(), new PolishSynthesizer(), 
+        "Marcin Miłkowski");
   
   public static final Language FRENCH = 
     new Language("French", "fr", new Locale("fr"), new DemoDisambiguator(), new FrenchTagger(),
