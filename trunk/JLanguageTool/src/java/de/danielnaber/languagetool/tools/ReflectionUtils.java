@@ -23,7 +23,6 @@ import java.io.IOException;
 import java.lang.reflect.Modifier;
 import java.net.URISyntaxException;
 import java.net.URL;
-import java.net.URI;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Enumeration;
@@ -58,26 +57,26 @@ public class ReflectionUtils {
       String packagePath = packageName.replace('.', '/');
       Enumeration<URL> resources_ = classLoader.getResources(packagePath);
 
-      Set<URI> uniqResources = new HashSet<URI>();
+      Set<URL> uniqResources = new HashSet<URL>();
       for (; resources_.hasMoreElements();) {
         URL resource = resources_.nextElement();
-          uniqResources.add(resource.toURI());
+          uniqResources.add(resource);
       }
 
-      for (URI resource : uniqResources) {
+      for (URL resource : uniqResources) {
          //System.err.println("trying resource: " + resource);
         // jars and directories are treated differently
-        if (resource.toURL().getProtocol().startsWith("jar")) {        
+        if (resource.getProtocol().startsWith("jar")) {        
           // The LanguageTool ZIP contains two JARs with the core classes,
           // so ignore one of them to avoid rule duplication:          
           if (resource.getPath().contains("LanguageTool.uno.jar")) {
             continue;
           }
           findClassesInJar(packageName, classNameRegEx, subdirLevel, classExtends,
-              interfaceImplements, foundClasses, resource.toURL());
+              interfaceImplements, foundClasses, resource);
         } else {
           findClassesInDirectory(classLoader, packageName, classNameRegEx, subdirLevel,
-              classExtends, interfaceImplements, foundClasses, resource.toURL());
+              classExtends, interfaceImplements, foundClasses, resource);
         }
       }
     } catch (Exception ex) {
