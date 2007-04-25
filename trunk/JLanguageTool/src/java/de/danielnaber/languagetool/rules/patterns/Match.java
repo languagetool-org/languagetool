@@ -52,56 +52,46 @@ public class Match {
   private String posTag = null;
   private boolean postagRegexp = false;
   private String regexReplace;
+  private String posTagReplace;
   private CaseConversion caseConversionType;
   
   private AnalyzedTokenReadings formattedToken;
   
-  /** Word form generator for POS tags **/
+  /** Word form generator for POS tags. **/
   private Synthesizer synthesizer;
   
   /** Pattern used to define parts of the matched token. **/
   private Pattern pRegexMatch = null;  
   
   /** Pattern used to define parts of the matched POS token. **/
-  private Pattern pPosRegexMatch = null;
-  
-  /** Pattern used to define parts of the generated token with a 
-   * given POS tag. **/
-  private Pattern pPosFindRegexMatch = null;
-   
+  private Pattern pPosRegexMatch = null;     
   
   Match(final String regMatch, final String regReplace, 
       final CaseConversion caseConvType) {
-    this(null, false, regMatch, regReplace, caseConvType);
+    this(null, null, false, regMatch, regReplace, caseConvType);
   }
   
-  Match(final String posTag, final boolean postagRegexp, 
-        final String regexMatch,
-        final String regexReplace,
-        final CaseConversion caseConversionType)  {
-  this.posTag = posTag;
-  this.postagRegexp = postagRegexp;
-  this.caseConversionType = caseConversionType;
-  
-  if (posTag == null) {
+  Match(final String posTag, final String posTagReplace,
+      final boolean postagRegexp,      
+      final String regexMatch,
+      final String regexReplace,      
+      final CaseConversion caseConversionType)  {
+    this.posTag = posTag;
+    this.postagRegexp = postagRegexp;
+    this.caseConversionType = caseConversionType;
+
     if (regexMatch != null) {
-    pRegexMatch = Pattern.compile(regexMatch);
+      pRegexMatch = Pattern.compile(regexMatch);
     }
-  } else {
-    if (regexMatch != null) { 
-    pPosRegexMatch = Pattern.compile(regexMatch);
+    if (postagRegexp & posTag != null) {
+      pPosRegexMatch = Pattern.compile(posTag);
     }
+
+    this.regexReplace = regexReplace;  
+    this.posTagReplace = posTagReplace;
   }
   
-  if (postagRegexp) {
-    pPosFindRegexMatch = Pattern.compile(posTag);
-  }
-  
-  this.regexReplace = regexReplace;  
-  
-  }
-  
-  public void setToken (final AnalyzedTokenReadings token) {
+  public void setToken (final AnalyzedTokenReadings token) {    
     formattedToken = token;
   }
   
@@ -112,8 +102,7 @@ public class Match {
   public String[] toFinalString() throws IOException {
     String[] formattedString = new String[1];
     if (formattedToken != null) {
-      if (posTag == null) {
-        if (pRegexMatch == null) {          
+      if (posTag == null) {                  
           switch (caseConversionType) {
             default : formattedString[0] = formattedToken.getToken(); break;
             case NONE : formattedString[0] = formattedToken.getToken(); break;
@@ -128,10 +117,9 @@ public class Match {
             case ALLLOWER : formattedString[0] = formattedToken.getToken().
                   toLowerCase(); break;              
           }         
-        } else {
+        if (pRegexMatch != null) {          
         formattedString[0] 
-        = pRegexMatch.matcher(formattedToken
-              .getToken()).replaceAll(regexReplace);
+        = pRegexMatch.matcher(formattedString[0]).replaceAll(regexReplace);
         }
       } else {
 //TODO: add POS regexp replace mechanisms
@@ -139,12 +127,16 @@ public class Match {
         formattedString[0] = formattedToken.getToken();
         } else if (postagRegexp) {
           int readingCount = formattedToken.getReadingsLength();
+          String targetPosTag = posTag;
+          if (pPosRegexMatch != null & posTagReplace != null) {            
+            targetPosTag = pPosRegexMatch.matcher(posTag).replaceAll(posTagReplace);  
+          }
           TreeSet<String> wordForms = new TreeSet<String>();          
           for (int i = 0; i < readingCount; i++) {
                 String[] possibleWordForms = 
                   synthesizer.synthesize(
                     formattedToken.getAnalyzedToken(i),
-                    posTag, true);
+                    targetPosTag, true);
                 if (possibleWordForms != null) {
                   for (String form : possibleWordForms) {           
                     wordForms.add(form);

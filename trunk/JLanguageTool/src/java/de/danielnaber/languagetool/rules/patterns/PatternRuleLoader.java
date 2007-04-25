@@ -260,6 +260,7 @@ class PatternRuleHandler extends XMLRuleHandler {
               attrs.getValue("case_conversion").toUpperCase());
       }      
       mWorker = new Match(attrs.getValue("postag"),
+          attrs.getValue("postag_replace"),
           "yes".equals(attrs.getValue("postag_regexp")),
           attrs.getValue("regexp_match"), 
           attrs.getValue("regexp_replace"), caseConv);       
