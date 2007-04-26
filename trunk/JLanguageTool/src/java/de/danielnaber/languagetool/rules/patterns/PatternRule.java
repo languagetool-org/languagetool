@@ -328,8 +328,6 @@ public class PatternRule extends Rule {
       final int[] positions, final int firstMatchTok, int matchingTok,
       final String errorMsg) throws IOException {
     String errorMessage = errorMsg;
-    // replace back references like \1 in message, 
-    // and take care of skipping 
     if (firstMatchTok + matchingTok >= toks.length) {
       matchingTok = toks.length - firstMatchTok;
     }
@@ -343,13 +341,15 @@ public class PatternRule extends Rule {
         & errorMessage.charAt(errMarker + 1) <= '9';
     }
     while (errMarker > 0 & numberFollows) {
-      for (int j = 0; j < matchingTok; j++) {
-        int repTokenPos = 0;
-        for (int l = 0; l <= j; l++) {
-          repTokenPos += positions[l];
-        }
-        int ind = errorMessage.indexOf("\\" + (j + 1)); 
-        if (ind > 0) {      
+      int ind = errorMessage.indexOf("\\"); 
+      if (ind > 0) {
+        if (errorMessage.charAt(ind + 1) >= '1'
+          & errorMessage.charAt(ind + 1) <= '9') {            
+          int j = errorMessage.charAt(ind + 1) - '1';
+          int repTokenPos = 0;
+          for (int l = 0; l <= j; l++) {
+            repTokenPos += positions[l];
+          }          
           if (suggestionMatches != null) {
             if (matchCounter < suggestionMatches.size()) {
               if (suggestionMatches.get(matchCounter) != null) {             
@@ -389,18 +389,29 @@ public class PatternRule extends Rule {
               }
             }
           }
-        }           
-        if (!newWay) {
-          errorMessage = errorMessage.replaceAll("\\\\" + (j + 1), 
-              toks[firstMatchTok + repTokenPos - 1].getToken());          
+
+          if (!newWay) {
+            //in case <match> elements weren't used (yet)
+            errorMessage = errorMessage.replaceAll("\\\\" + (j + 1), 
+                toks[firstMatchTok + repTokenPos - 1].getToken());          
+            errMarker = errorMessage.indexOf("\\");
+            numberFollows = false;
+            errLen = errorMessage.length();
+            if (errMarker > 0 & errMarker < errLen - 1) {
+              numberFollows = errorMessage.charAt(errMarker + 1) >= '1'
+                & errorMessage.charAt(errMarker + 1) <= '9';
+            }
+          }
+        }
+      } else {
+        errMarker = errorMessage.indexOf("\\");
+        numberFollows = false;
+        errLen = errorMessage.length();
+        if (errMarker > 0 & errMarker < errLen - 1) {
+          numberFollows = errorMessage.charAt(errMarker + 1) >= '1'
+            & errorMessage.charAt(errMarker + 1) <= '9';
         }
       }
-      errMarker = errorMessage.indexOf("\\");
-      numberFollows = false;
-      if (errMarker > 0 & errMarker < errLen - 1) {
-        numberFollows = errorMessage.charAt(errMarker + 1) >= '1'
-          & errorMessage.charAt(errMarker + 1) <= '9';
-      }      
     }
     return errorMessage;
   }

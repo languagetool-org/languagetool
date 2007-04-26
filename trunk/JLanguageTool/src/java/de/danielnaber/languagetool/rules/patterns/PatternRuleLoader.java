@@ -250,16 +250,17 @@ class PatternRuleHandler extends XMLRuleHandler {
     } else if (qName.equals("suggestion") && inMessage) {
       message.append("<suggestion>");
     } else if (qName.equals("match") && inMessage) {
+      inMatch = true;
+      match = new StringBuffer();
       if (suggestionMatches == null) {
         suggestionMatches = new ArrayList<Match>();        
-      }
-      Match mWorker;
+      }      
       Match.CaseConversion caseConv = Match.CaseConversion.NONE; 
       if (attrs.getValue("case_conversion") != null) {
         caseConv = Match.CaseConversion.toCase(
               attrs.getValue("case_conversion").toUpperCase());
       }      
-      mWorker = new Match(attrs.getValue("postag"),
+      Match mWorker = new Match(attrs.getValue("postag"),
           attrs.getValue("postag_replace"),
           "yes".equals(attrs.getValue("postag_regexp")),
           attrs.getValue("regexp_match"), 
@@ -433,7 +434,10 @@ class PatternRuleHandler extends XMLRuleHandler {
       correctExample = new StringBuffer();
       incorrectExample = new StringBuffer();
     } else if (qName.equals("message")) {
-      inMessage = false;
+      inMessage = false; 
+    } else if (qName.equals("match")) {
+      suggestionMatches.get(suggestionMatches.size() - 1).setLemmaString(match.toString());
+      inMatch = false;
     } else if (qName.equals("rulegroup")) {
       inRuleGroup = false;
     } else if (qName.equals("suggestion") && inMessage) {
@@ -483,6 +487,8 @@ class PatternRuleHandler extends XMLRuleHandler {
       correctExample.append(s);
     } else if (inIncorrectExample) {
       incorrectExample.append(s);
+    } else if (inMatch) {
+      match.append(s);
     } else if (inMessage) {
       message.append(s);
     }

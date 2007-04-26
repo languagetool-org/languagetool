@@ -2,7 +2,7 @@
 <!--
 Polish Grammar and Typo Rules for LanguageTool
 Copyright (C) 2006 Marcin Miłkowski
-$Id: grammar.xml,v 1.20 2007-04-23 22:56:43 milek_pl Exp $		
+$Id: grammar.xml,v 1.21 2007-04-26 15:30:31 milek_pl Exp $		
 -->
 <rules lang="pl">
 
@@ -2011,7 +2011,7 @@ $Id: grammar.xml,v 1.20 2007-04-23 22:56:43 milek_pl Exp $
 				<token>o</token>
 				<token postag_regexp="yes" postag=".*[:\.]loc[:\.].*"/>
 			</pattern>
-			<message>Czasownik „ogłosić” łączy się z biernikiem. Powinno być: <suggestion>\1</suggestion> co.</message>
+			<message>Czasownik „ogłosić” łączy się z biernikiem. Powinno być: <suggestion><match no="1"/></suggestion> co.</message>
 			<example type="correct">Uczeni zdecydowali się ogłosić odkrycie.</example>
 			<example type="incorrect">Uczeni zdecydowali się <marker>ogłosić o odkryciu</marker>.</example>
 		</rule>
@@ -2021,9 +2021,10 @@ $Id: grammar.xml,v 1.20 2007-04-23 22:56:43 milek_pl Exp $
 				<token inflected="yes">regulować</token>
 				<token>ruchem</token>
 			</pattern>
-			<message>Czasownik „regulować” nie łączy się z narzędnikiem, więc powinno być: <suggestion>\1 ruch</suggestion> lub <suggestion>kierować ruchem</suggestion>.</message>
+			<message>Czasownik „regulować” nie łączy się z narzędnikiem, więc powinno być: 
+				<suggestion><match no="1"/> ruch</suggestion> lub <suggestion><match no="1" postag="verb:.*perf">kierować</match> ruchem</suggestion>.</message>
 			<example type="correct">Policjant kierował ruchem pojazdów.</example>
-			<example type="incorrect">Policjant <marker>regulował ruchem</marker> pojazdów.</example>
+			<example type="incorrect" correction="regulował ruch|kierował ruchem">Policjant <marker>regulował ruchem</marker> pojazdów.</example>
 		</rule>
 		
 		<rule name="„zarówno... i” („zarówno... jak”)" id="ZAROWNO_I">
@@ -2073,8 +2074,9 @@ $Id: grammar.xml,v 1.20 2007-04-23 22:56:43 milek_pl Exp $
 				<token inflected="yes" postag_regexp="yes" postag="verb.*">posiadać</token>
 				<token regexp="yes">brodę|wąsy|bilet|wymiary|klimatyzację|rekord</token>				
 			</pattern>
-			<message>Niepoprawne jest łączenie czasownika „posiadać” z nazwami rzeczy drobnych. Poprawnie: <suggestion>mieć</suggestion>.</message>
-			<example type="incorrect">Wzrostu około 175 cm, włosy ciemne, <marker>posiada</marker> brodę i wąsy.</example>
+			<message>Niepoprawne jest łączenie czasownika „posiadać” z nazwami rzeczy drobnych. Poprawnie: 
+			<suggestion><match no="1" postag="(verb)(:fin)?(.*):(\?perf|perf|imperf)" postag_replace="$1$2$3:$4|$1:fin$3:imperf">mieć</match></suggestion>.</message>
+			<example type="incorrect" correction="ma">Wzrostu około 175 cm, włosy ciemne, <marker>posiada</marker> brodę i wąsy.</example>
 			<example type="correct">Wzrostu około 175 cm, włosy ciemne, <marker>ma</marker> brodę i wąsy.</example>
 		</rule>
 	</rulegroup>
@@ -2086,8 +2088,9 @@ $Id: grammar.xml,v 1.20 2007-04-23 22:56:43 milek_pl Exp $
 				<token>w</token>
 				<token>posiadaniu</token>
 			</pattern>
-			<message>Wyrażenie niepoprawne. Poprawnie: <suggestion>mieć</suggestion>, <suggestion>posiadać</suggestion>.</message>
-			<example type="incorrect">Nie <marker>jestem w posiadaniu</marker> tego obrazu.</example>
+			<message>Wyrażenie niepoprawne. Poprawnie: <suggestion><match no="1" postag="(verb)(:fin)?(.*):(\?perf|perf|imperf)" postag_replace="$1$2$3:$4|$1:fin$3:imperf">mieć</match></suggestion>, 
+			<suggestion><match no="1" postag="(verb)(:fin)?(.*):(\?perf|perf|imperf)" postag_replace="$1$2$3:$4|$1$3:\?perf">posiadać</match></suggestion>.</message>
+			<example type="incorrect" correction="(mieć)|posiadam">Nie <marker>jestem w posiadaniu</marker> tego obrazu.</example>
 			<example type="correct">Nie mam tego obrazu.</example>
 		</rule>
 		<rule>
@@ -2200,8 +2203,9 @@ $Id: grammar.xml,v 1.20 2007-04-23 22:56:43 milek_pl Exp $
 				<token regexp="yes" inflected="yes">spełniać|pełnić</token>
 				<token>opiekę</token>
 			</pattern>
-			<message>Niepoprawny zwrot. Mówi się <suggestion>sprawować \2</suggestion> lub <suggestion>opiekować się</suggestion>.</message>
-			<example type="incorrect">Jako hufcowy nadal będę <marker>pełnił opiekę</marker> nad drużyną.</example>
+			<message>Niepoprawny zwrot. Mówi się <suggestion><match no="1" postag="verb.*">sprawować</match> <match no="2"/></suggestion> 
+				lub <suggestion><match no="1" postag="verb.*">opiekować</match> się</suggestion>.</message>
+			<example type="incorrect" correction="sprawował opiekę|opiekował się">Jako hufcowy nadal będę <marker>pełnił opiekę</marker> nad drużyną.</example>
 			<example type="correct">Jako hufcowy nadal będę <marker>sprawował opiekę</marker> nad drużyną.</example>
 		</rule>		
 		
@@ -2261,9 +2265,10 @@ $Id: grammar.xml,v 1.20 2007-04-23 22:56:43 milek_pl Exp $
 				<token regexp="yes" inflected="yes">zdać<exception postag_regexp="yes" postag="subst:ger.*|ppas:.*"/></token>
 				<token>sprawozdanie</token>
 			</pattern>
-			<message>To wyrażenie jest niepoprawną kontaminacją. Poprawnie: <suggestion>\1 sprawę</suggestion>, <suggestion>złożyć \2</suggestion>, <suggestion>przedstawić \2</suggestion>.</message>
+			<message>To wyrażenie jest niepoprawną kontaminacją. Poprawnie: <suggestion><match no="1"/> sprawę</suggestion>, 
+				<suggestion><match no="1" postag="verb.*">złożyć</match> <match no="2"/></suggestion>, <suggestion><match no="1" postag="verb.*">przedstawić</match> <match no="2"/></suggestion>.</message>
 			<example type="correct">Zdałem sprawę ze zła, które uczyniłem.</example>
-			<example type="incorrect"><marker>Zdałem sprawozdanie</marker> ze zła, które uczyniłem.</example>
+			<example type="incorrect" correction="Zdałem sprawę|Złożyłem sprawozdanie|Przedstawiłem sprawozdanie"><marker>Zdałem sprawozdanie</marker> ze zła, które uczyniłem.</example>
 		</rule>
 		
 		<rule id="WYJSC_Z_PROPOZYCJA" name="„wyjść z propozycją” (zaproponować)">

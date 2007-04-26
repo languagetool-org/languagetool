@@ -32,6 +32,7 @@ class XMLRuleHandler extends DefaultHandler {
   StringBuffer correctExample = new StringBuffer();
   StringBuffer incorrectExample = new StringBuffer();
   StringBuffer message = new StringBuffer();
+  StringBuffer match = new StringBuffer();
   StringBuffer elements = null;
   StringBuffer exceptions = null;
   
@@ -42,6 +43,7 @@ class XMLRuleHandler extends DefaultHandler {
   boolean inCorrectExample = false;
   boolean inIncorrectExample = false;
   boolean inMessage = false;
+  boolean inMatch = false;
   boolean inRuleGroup = false;
   boolean inToken= false;
   boolean inException = false;

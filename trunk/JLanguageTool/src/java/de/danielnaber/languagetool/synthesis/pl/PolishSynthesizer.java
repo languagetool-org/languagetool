@@ -55,7 +55,11 @@ public class PolishSynthesizer implements Synthesizer {
         new Lametyzator(this.getClass().getResourceAsStream(RESOURCE_FILENAME),
           "iso8859-2", '+');
     }
-    boolean isNegated = posTag.indexOf(":neg") > 0 || token.getPOSTag().indexOf(":neg") > 0;
+    boolean isNegated = false;
+    if (posTag != null && token.getPOSTag() != null) {
+      isNegated = posTag.indexOf(":neg") > 0 
+      || token.getPOSTag().indexOf(":neg") > 0;
+    }
 
     String[] wordForms = null;
     if (isNegated) {
@@ -85,10 +89,14 @@ public class PolishSynthesizer implements Synthesizer {
         new Lametyzator(this.getClass().getResourceAsStream(RESOURCE_FILENAME),
           "iso8859-2", '+');
     }    
-    Pattern p = Pattern.compile(posTag);
+    Pattern p = Pattern.compile(posTag.replaceAll("\\+", "|"));
     ArrayList<String> results = new ArrayList<String>();
     
-    boolean isNegated = posTag.indexOf(":neg") > 0 || token.getPOSTag().indexOf(":neg") > 0;
+    boolean isNegated = false;
+    if (posTag != null && token.getPOSTag() != null) {
+      isNegated = posTag.indexOf(":neg") > 0 
+      || token.getPOSTag().indexOf(":neg") > 0;
+    }
     
     for (String tag : possibleTags) {
       Matcher m = p.matcher(tag);
