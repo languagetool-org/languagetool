@@ -53,8 +53,6 @@ TODO:
   (e.g., "did + baseform" vs. "did + non-baseform")
  -add more rules, especially agreement stuff 
  -add a simple sentence/word complexity test like that: http://www.ooomacros.org/user.php#111318 
- -use regular expressions and POS tags to create complex suggestions (for example, suggesting another
-  grammatical case or a word without an apostrophe)
  -German rule: Vergleichs vs Vergleiches etc -> only one variant per document should be used
  -check if and how unification can be added to the XML rules
  -create abstract SentenceRule and TextRule classes to get rid of reset() method?
