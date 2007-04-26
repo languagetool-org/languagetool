@@ -2,10 +2,10 @@ package de.danielnaber.languagetool.rules;
 
 import java.io.IOException;
 
+import junit.framework.TestCase;
 import de.danielnaber.languagetool.JLanguageTool;
 import de.danielnaber.languagetool.Language;
 import de.danielnaber.languagetool.TestTools;
-import junit.framework.TestCase;
 
 public class UnpairedQuotesBracketsRuleTest extends TestCase {
 

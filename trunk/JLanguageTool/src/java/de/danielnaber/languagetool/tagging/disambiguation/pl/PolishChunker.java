@@ -1,10 +1,11 @@
 package de.danielnaber.languagetool.tagging.disambiguation.pl;
 
+import java.util.HashMap;
+
 import de.danielnaber.languagetool.AnalyzedSentence;
 import de.danielnaber.languagetool.AnalyzedToken;
 import de.danielnaber.languagetool.AnalyzedTokenReadings;
 import de.danielnaber.languagetool.tagging.disambiguation.Disambiguator;
-import java.util.HashMap;
 
 /**
  * Multiword tagger-chunker for Polish. 

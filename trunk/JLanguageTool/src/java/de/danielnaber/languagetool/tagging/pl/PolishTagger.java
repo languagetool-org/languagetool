@@ -18,9 +18,9 @@
  */
 package de.danielnaber.languagetool.tagging.pl;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.io.IOException;
 
 import com.dawidweiss.stemmers.Lametyzator;
 
@@ -63,7 +63,13 @@ public class PolishTagger implements Tagger {
         while (i < taggerTokens.length) {
             //Lametyzator returns data as String[]
             //first lemma, then annotations
-            l.add(new AnalyzedToken(word, taggerTokens[i + 1], taggerTokens[i]));
+            //use Jozef's idea
+            String lemma = taggerTokens[i];
+            String[] tagsArr = taggerTokens[i + 1].split("\\+");
+
+            for (String currTag : tagsArr) {
+              l.add(new AnalyzedToken(word, currTag, lemma));
+            }
             i = i + 2;
         } 
       }     
@@ -72,7 +78,13 @@ public class PolishTagger implements Tagger {
        while (i < lowerTaggerTokens.length) {
            //Lametyzator returns data as String[]
            //first lemma, then annotations
-           l.add(new AnalyzedToken(word, lowerTaggerTokens[i + 1], lowerTaggerTokens[i]));
+           //use Jozef's idea
+           String lemma = lowerTaggerTokens[i];
+           String[] tagsArr = lowerTaggerTokens[i + 1].split("\\+");
+
+           for (String currTag : tagsArr) {
+             l.add(new AnalyzedToken(word, currTag, lemma));
+           }
            i = i + 2;
        } 
      }        

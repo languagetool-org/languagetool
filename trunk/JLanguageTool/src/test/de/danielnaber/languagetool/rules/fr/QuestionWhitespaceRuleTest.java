@@ -18,12 +18,13 @@
    */
 
 package de.danielnaber.languagetool.rules.fr;
-import junit.framework.TestCase;
 import java.io.IOException;
+
+import junit.framework.TestCase;
 import de.danielnaber.languagetool.JLanguageTool;
 import de.danielnaber.languagetool.Language;
-import de.danielnaber.languagetool.rules.RuleMatch;
 import de.danielnaber.languagetool.TestTools;
+import de.danielnaber.languagetool.rules.RuleMatch;
 
 
 /**

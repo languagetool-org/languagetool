@@ -18,12 +18,13 @@
  */
 package de.danielnaber.languagetool.rules.patterns;
 
-import de.danielnaber.languagetool.AnalyzedTokenReadings;
-import de.danielnaber.languagetool.AnalyzedToken;
-import de.danielnaber.languagetool.synthesis.Synthesizer;
-import java.util.regex.Pattern;
-import java.util.TreeSet;
 import java.io.IOException;
+import java.util.TreeSet;
+import java.util.regex.Pattern;
+
+import de.danielnaber.languagetool.AnalyzedToken;
+import de.danielnaber.languagetool.AnalyzedTokenReadings;
+import de.danielnaber.languagetool.synthesis.Synthesizer;
 
 /**
  * Reference to a matched token in a pattern,
@@ -168,8 +169,18 @@ public class Match {
               targetPosTag = targetPosTag.replaceAll("\\?", "\\\\?");
               }
           } else {
+            int numRead = formattedToken.getReadingsLength();
+            for (int i = 0; i < numRead; i++) {
+              String tst = formattedToken.getAnalyzedToken(i).getPOSTag();
+              if (tst != null) {
+              if (pPosRegexMatch.matcher(tst).matches()) {
+                targetPosTag = formattedToken.getAnalyzedToken(i).getPOSTag();
+                break;
+              }
+              }
+            }
           if (pPosRegexMatch != null & posTagReplace != null) {            
-            targetPosTag = pPosRegexMatch.matcher(posTag).replaceAll(posTagReplace);  
+            targetPosTag = pPosRegexMatch.matcher(targetPosTag).replaceAll(posTagReplace);  
           }
           }
           TreeSet<String> wordForms = new TreeSet<String>();          

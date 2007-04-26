@@ -18,8 +18,6 @@
  */
 package de.danielnaber.languagetool.tagging.it;
 
-import de.danielnaber.languagetool.tagging.Tagger;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -28,6 +26,7 @@ import com.dawidweiss.stemmers.Lametyzator;
 
 import de.danielnaber.languagetool.AnalyzedToken;
 import de.danielnaber.languagetool.AnalyzedTokenReadings;
+import de.danielnaber.languagetool.tagging.Tagger;
 
 /**
  * Italian tagger

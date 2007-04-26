@@ -24,13 +24,13 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.regex.Pattern;
 import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import com.dawidweiss.stemmers.Lametyzator;
 
-import de.danielnaber.languagetool.synthesis.Synthesizer;
 import de.danielnaber.languagetool.AnalyzedToken;
+import de.danielnaber.languagetool.synthesis.Synthesizer;
 
 /** Polish word form synthesizer.
  * Based on project Morfologik.

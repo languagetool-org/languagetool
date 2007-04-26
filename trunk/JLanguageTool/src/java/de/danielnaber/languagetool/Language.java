@@ -20,31 +20,31 @@ package de.danielnaber.languagetool;
 
 import java.util.Locale;
 
-import de.danielnaber.languagetool.tagging.disambiguation.Disambiguator;
-import de.danielnaber.languagetool.tagging.disambiguation.xx.DemoDisambiguator;
-import de.danielnaber.languagetool.tagging.disambiguation.pl.PolishChunker;
+import de.danielnaber.languagetool.synthesis.Synthesizer;
+import de.danielnaber.languagetool.synthesis.en.EnglishSynthesizer;
+import de.danielnaber.languagetool.synthesis.pl.PolishSynthesizer;
 import de.danielnaber.languagetool.tagging.Tagger;
-import de.danielnaber.languagetool.tagging.de.GermanTagger;
-import de.danielnaber.languagetool.tagging.en.EnglishTagger;
-import de.danielnaber.languagetool.tagging.pl.PolishTagger;
 import de.danielnaber.languagetool.tagging.cs.CzechTagger;
-import de.danielnaber.languagetool.tagging.fr.FrenchTagger;
+import de.danielnaber.languagetool.tagging.de.GermanTagger;
+import de.danielnaber.languagetool.tagging.disambiguation.Disambiguator;
+import de.danielnaber.languagetool.tagging.disambiguation.pl.PolishChunker;
+import de.danielnaber.languagetool.tagging.disambiguation.xx.DemoDisambiguator;
+import de.danielnaber.languagetool.tagging.en.EnglishTagger;
 import de.danielnaber.languagetool.tagging.es.SpanishTagger;
+import de.danielnaber.languagetool.tagging.fr.FrenchTagger;
 import de.danielnaber.languagetool.tagging.it.ItalianTagger;
 import de.danielnaber.languagetool.tagging.nl.DutchTagger;
+import de.danielnaber.languagetool.tagging.pl.PolishTagger;
 import de.danielnaber.languagetool.tagging.uk.UkrainianTagger;
 import de.danielnaber.languagetool.tagging.xx.DemoTagger;
 import de.danielnaber.languagetool.tokenizers.SentenceTokenizer;
+import de.danielnaber.languagetool.tokenizers.Tokenizer;
+import de.danielnaber.languagetool.tokenizers.WordTokenizer;
+import de.danielnaber.languagetool.tokenizers.cs.CzechSentenceTokenizer;
 import de.danielnaber.languagetool.tokenizers.de.GermanSentenceTokenizer;
 import de.danielnaber.languagetool.tokenizers.en.EnglishWordTokenizer;
 import de.danielnaber.languagetool.tokenizers.nl.DutchSentenceTokenizer;
 import de.danielnaber.languagetool.tokenizers.pl.PolishSentenceTokenizer;
-import de.danielnaber.languagetool.tokenizers.cs.CzechSentenceTokenizer;
-import de.danielnaber.languagetool.tokenizers.Tokenizer;
-import de.danielnaber.languagetool.tokenizers.WordTokenizer;
-import de.danielnaber.languagetool.synthesis.Synthesizer;
-import de.danielnaber.languagetool.synthesis.en.EnglishSynthesizer;
-import de.danielnaber.languagetool.synthesis.pl.PolishSynthesizer;
 import de.danielnaber.languagetool.tools.StringTools;
 
 /**

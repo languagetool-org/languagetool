@@ -22,7 +22,6 @@ import java.io.IOException;
 import java.util.List;
 
 import de.danielnaber.languagetool.AnalyzedToken;
-// required by javadoc
 import de.danielnaber.languagetool.AnalyzedTokenReadings;
 
 /**

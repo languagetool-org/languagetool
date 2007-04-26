@@ -22,10 +22,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
-import de.danielnaber.languagetool.rules.Category;
-import de.danielnaber.languagetool.rules.RuleMatch;
 import de.danielnaber.languagetool.AnalyzedSentence;
 import de.danielnaber.languagetool.AnalyzedTokenReadings;
+import de.danielnaber.languagetool.rules.Category;
+import de.danielnaber.languagetool.rules.RuleMatch;
 
 /**
  * A rule that matches spaces before ?,:,; and ! (required for 

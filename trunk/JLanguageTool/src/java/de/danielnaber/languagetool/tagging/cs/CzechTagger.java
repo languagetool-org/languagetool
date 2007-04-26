@@ -18,9 +18,9 @@
  */
 package de.danielnaber.languagetool.tagging.cs;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.io.IOException;
 
 import com.dawidweiss.stemmers.Lametyzator;
 

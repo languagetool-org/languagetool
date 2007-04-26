@@ -21,6 +21,7 @@ package de.danielnaber.languagetool.tokenizers.en;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.StringTokenizer;
+
 import de.danielnaber.languagetool.tokenizers.Tokenizer;
 
 /**

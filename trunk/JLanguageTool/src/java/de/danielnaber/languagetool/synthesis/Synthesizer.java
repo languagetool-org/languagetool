@@ -19,6 +19,7 @@
 package de.danielnaber.languagetool.synthesis;
 
 import java.io.IOException;
+
 import de.danielnaber.languagetool.AnalyzedToken;
 
 /**

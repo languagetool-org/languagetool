@@ -3,9 +3,8 @@ package de.danielnaber.languagetool.synthesis.pl;
 import java.io.IOException;
 import java.util.Arrays;
 
-import de.danielnaber.languagetool.AnalyzedToken;
-
 import junit.framework.TestCase;
+import de.danielnaber.languagetool.AnalyzedToken;
 
 public class PolishSynthesizerTest extends TestCase {
   private final AnalyzedToken dummyToken(String tokenStr) {

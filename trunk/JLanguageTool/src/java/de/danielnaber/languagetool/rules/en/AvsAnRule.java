@@ -19,13 +19,13 @@
 package de.danielnaber.languagetool.rules.en;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.TreeSet;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.TreeSet;
 
 import de.danielnaber.languagetool.AnalyzedSentence;
 import de.danielnaber.languagetool.AnalyzedTokenReadings;

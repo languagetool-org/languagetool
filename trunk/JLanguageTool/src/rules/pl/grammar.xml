@@ -2,7 +2,7 @@
 <!--
 Polish Grammar and Typo Rules for LanguageTool
 Copyright (C) 2006 Marcin Miłkowski
-$Id: grammar.xml,v 1.21 2007-04-26 15:30:31 milek_pl Exp $		
+$Id: grammar.xml,v 1.22 2007-04-26 21:20:18 milek_pl Exp $		
 -->
 <rules lang="pl">
 
@@ -602,6 +602,26 @@ $Id: grammar.xml,v 1.21 2007-04-26 15:30:31 milek_pl Exp $
 			<example type="correct">To ktoś, kto nie potrafi pływać.</example>
 			<example type="incorrect" correction="ktoś, kto">To <marker>ktoś kto</marker> nie potrafi pływać.</example>
 		</rule>	
+		<rule>
+			<pattern>
+				<token>tyle</token>
+				<token>co</token>
+			</pattern>
+			<message>Brak przecinka. Powinno być: <suggestion>\1, \2</suggestion>.</message>
+			<example type="correct">To tyle, co nic.</example>			
+			<example type="incorrect" correction="tyle, co">To <marker>tyle co</marker> nic.</example>			
+		</rule>
+		<rule>
+			<pattern mark_from="0" mark_to="-2">
+				<token negate="yes">,<exception regexp="yes">[\p{Punct}–—„«»]</exception><exception postag_regexp="yes" postag="conj|SENT_START"/></token>
+				<token postag_regexp="yes" postag="prep:.*"><exception postag_regexp="yes" postag="&lt;/ADV;&gt;|&lt;/PREP.*&gt;"/></token>
+				<token inflected="yes">co</token>
+				<token><exception postag="SENT_END"/></token>
+			</pattern>
+			<message>Prawdopodobnie brak przecinka. Powinno być: <suggestion><match no="1"/>, <match no="2"/></suggestion>.</message>
+			<example type="correct">Nie wiadomo, w związku z czym zabrał głos.</example>
+			<example type="incorrect"><marker>Oto do</marker> czego doprowadziły rządy ludzi niespełna rozumu.</example>
+		</rule>
 		</rulegroup>
 	
 		<rulegroup name="Brak przecinka przed „który” i „jaki”" id="BRAK_PRZECINKA_KTORY">
@@ -789,7 +809,7 @@ $Id: grammar.xml,v 1.21 2007-04-26 15:30:31 milek_pl Exp $
 				<token>mówiąc</token>
 			<token negate="yes">,<exception regexp="yes">[\p{Punct}–—„«»]</exception></token>
 			</pattern>
-			<message>Wyrażenie „\1 \2” wydziela się przecinkami lub myślnikami od reszty zdania. Poprawnie: <suggestion>\1, \2 \3, \4</suggestion>.</message>
+			<message>Wyrażenie „\2 \3” wydziela się przecinkami lub myślnikami od reszty zdania. Poprawnie: <suggestion>\1, \2 \3, \4</suggestion>.</message>
 			<example type="correct">Nie ma to, nawiasem mówiąc, sensu.</example>
 			<example type="incorrect" correction="to, nawiasem mówiąc, sensu">Nie ma <marker>to nawiasem mówiąc sensu</marker>.</example>
 		</rule>
@@ -822,15 +842,17 @@ $Id: grammar.xml,v 1.21 2007-04-26 15:30:31 milek_pl Exp $
 		<example type="incorrect" correction="albo">Kup gruszek<marker>, albo</marker> jabłek.</example>
 	</rule>	
 	<rule>
-		<pattern mark_from="2" case_sensitive="yes">
+		<pattern mark_from="2" mark_to="-1" case_sensitive="yes">
 			<token postag="SENT_START"/>
 			<token skip="-1"><exception>i</exception><exception scope="current">I</exception></token>
 			<token>,</token>
 			<token regexp="yes">i</token>
+			<token><exception regexp="yes">tak|to|kwita|już|owszem|koniec</exception></token>
 		</pattern>
 		<message>Prawdopodobnie zbędny przecinek, powinno być: <suggestion>\4</suggestion>.</message>
 		<example type="correct">Kupiłem trochę gruszek i jabłek.</example>
 		<example type="correct">I tak, i siak.</example>
+		<example type="correct">Spadł śnieg, i to obfity.</example>
 		<example type="incorrect" correction="i">Kupiłem trochę gruszek<marker>, i</marker> jabłek.</example>
 	</rule>
 	<rule>
@@ -1833,6 +1855,7 @@ $Id: grammar.xml,v 1.21 2007-04-26 15:30:31 milek_pl Exp $
 			<example type="incorrect">Ten nowy dysk jest większy <marker>jak</marker> stary.</example>
 			<example type="incorrect">Ten nowy dysk jest lepszy <marker>jak</marker> stary.</example>
 		</rule>
+		
 		<rule name="„więcej jak” (więcej od, więcej niż)" id="WIECEJ_JAK">
 			<pattern mark_from="1">
 				<token>więcej</token>
@@ -1884,12 +1907,13 @@ $Id: grammar.xml,v 1.21 2007-04-26 15:30:31 milek_pl Exp $
 		<rule name="„uznać jakimś” (za jakieś)" id="UZNAC_JAKIMS">
 			<pattern mark_from="1">
 				<token skip="2" inflected="yes" regexp="yes">uznać|uznawać<exception regexp="yes">za|,|na|przy|między|nad|nade|znad|o|po|w</exception><exception postag_regexp="yes" postag="conj"/></token>
-				<token postag_regexp="yes" postag="(adj|subst).*inst.*"><exception postag_regexp="yes" postag=".*[:\.]f.*"/></token>
+				<token postag_regexp="yes" postag="(adj|subst).*inst.*"><exception postag_regexp="yes" postag=".*(acc|inst)[:\.]f.*"/></token>
 			</pattern>
-			<message>Mówi się „uznać <suggestion>za</suggestion> jakieś”.</message>
+			<!--  FIXME: nie bierze pod uwagę żywotnych męskich... -->
+			<message>Mówi się „uznać <suggestion>za <match no="2" postag_regexp="yes" postag="(adj|subst):(sg|pl):(inst.loc|inst)(:.*)(:?neg)" postag_replace=".*$1:$2.*(acc|gen).*$4$5.*"/></suggestion>”.</message>
 			<example type="correct">Ludwik był uznany za wielkiego aktora</example>
 			<example type="correct">Ten filozof uznaje przyczynową rolę za istotną.</example>
-			<example type="incorrect">Ludwik był uznawany <marker>wielkim</marker> aktorem.</example>
+			<example type="incorrect" correction="za wielki|za wielkiego">Ludwik był uznawany <marker>wielkim</marker> aktorem.</example>
 		</rule>
 		
 		<rule id="ZAINTERESOWANIE_DLA" name="„zainteresowanie dla czego” (czym)">
@@ -1902,6 +1926,7 @@ $Id: grammar.xml,v 1.21 2007-04-26 15:30:31 milek_pl Exp $
 			<example type="correct">Wyraził żywe zainteresowanie zaplanowaną dyskusją na temat nauczania matematyki.</example>
 			<example type="incorrect">Wyraził żywe <marker>zainteresowanie dla zaplanowanej</marker> dyskusji na temat nauczania matematyki.</example>
 		</rule>
+		
 		<rule id="POLTOREJ" name="„półtorej” + rzeczownik rodzaju męskiego lub nijakiego (półtora)">
 			<pattern mark_to="-1">
 				<token>półtorej</token>
@@ -1970,7 +1995,7 @@ $Id: grammar.xml,v 1.21 2007-04-26 15:30:31 milek_pl Exp $
 		<rule>
 			<pattern mark_from="1" mark_to="-1">
 				<token inflected="yes">przestrzegać<exception postag_regexp="yes" postag="subst:ger.*|ppas:.*"/></token>
-				<token postag_regexp="yes" postag="(ppron|ppron3):.*:(nom|acc|nom\.acc\.voc|nom\.acc).*"><exception postag_regexp="yes" postag=".*gen.*|conj|adv.*|prep.*"/></token>
+				<token postag_regexp="yes" postag="(ppron|ppron3):.*:(acc|nom\.acc\.voc|nom\.acc).*"><exception postag_regexp="yes" postag=".*gen.*|conj|adv.*|prep.*"/></token>
 				<token negate_pos="yes" postag_regexp="yes" postag=".*gen.*"/>
 			</pattern>
 			<message>Mówi się przestrzegać „czego”, a nie „przestrzegać coś”.</message>
@@ -2011,9 +2036,9 @@ $Id: grammar.xml,v 1.21 2007-04-26 15:30:31 milek_pl Exp $
 				<token>o</token>
 				<token postag_regexp="yes" postag=".*[:\.]loc[:\.].*"/>
 			</pattern>
-			<message>Czasownik „ogłosić” łączy się z biernikiem. Powinno być: <suggestion><match no="1"/></suggestion> co.</message>
+			<message>Czasownik „ogłosić” łączy się z biernikiem. Powinno być: <suggestion><match no="1"/> <match no="3" postag_regexp="yes" postag="(.*:)(sg|pl).*loc.*(:.*)" postag_replace=".*$1$2.*acc.*$3"/></suggestion>.</message>
 			<example type="correct">Uczeni zdecydowali się ogłosić odkrycie.</example>
-			<example type="incorrect">Uczeni zdecydowali się <marker>ogłosić o odkryciu</marker>.</example>
+			<example type="incorrect" correction="ogłosić odkrycie">Uczeni zdecydowali się <marker>ogłosić o odkryciu</marker>.</example>
 		</rule>
 		
 		<rule name="„regulować ruchem” (kierować ruchem)" id="REGULOWAC_RUCHEM">
@@ -2067,6 +2092,16 @@ $Id: grammar.xml,v 1.21 2007-04-26 15:30:31 milek_pl Exp $
 	</category>
 	
 	<category name="Błędy leksykalne">
+	
+	<rule id="POTRAFIACY" name="„potrafiący” (umiejący)">
+		<pattern>
+			<token inflected="yes">potrafiący</token>			
+		</pattern>
+		<message>Czasownik „potrafić” nie ma imiesłowu czynnego. Poprawnie:
+			<suggestion><match no="1" postag="adj.*">umiejący</match></suggestion>.</message>
+			<example type="incorrect" correction="umiejący">Skuteczny obserwator <marker>potrafiący</marker> wyciągać wnioski.</example>
+			<example type="correct">Skuteczny obserwator umiejący wyciągać wnioski.</example>
+	</rule>
 	
 	<rulegroup id="POSIADAC_MIEC" name="„posiadać” (mieć)">
 		<rule>
@@ -2277,10 +2312,10 @@ $Id: grammar.xml,v 1.21 2007-04-26 15:30:31 milek_pl Exp $
 			<token>z</token>
 			<token>propozycją</token>
 		</pattern>
-		<message>Niepoprawnie zbudowane wyrażenie. Lepiej: <suggestion>zaproponować</suggestion>, <suggestion>uczynić propozycję</suggestion>,
-		<suggestion>wystąpić z propozycją</suggestion>.</message>
+		<message>Niepoprawnie zbudowane wyrażenie. Lepiej: <suggestion><match no="1" postag="verb.*">zaproponować</match></suggestion>, <suggestion><match no="1" postag="verb.*">uczynić</match> propozycję</suggestion>,
+		<suggestion><match no="1" postag="verb.*">wystąpić</match> z propozycją</suggestion>.</message>
 		<example type="correct">Kazimierz zaproponował, że zostanie szefem banku.</example>
-		<example type="incorrect">Kazimierz <marker>wyszedł z propozycją</marker>, że zostanie szefem banku.</example>
+		<example type="incorrect" correction="zaproponował|uczynił propozycję|wystąpił z propozycją">Kazimierz <marker>wyszedł z propozycją</marker>, że zostanie szefem banku.</example>
 		</rule>
 		
 		<rule id="WYRAZIC_POPARCIE" name="„wyrazić poparcie” (udzielić poparcia, poprzeć)">
@@ -2288,8 +2323,9 @@ $Id: grammar.xml,v 1.21 2007-04-26 15:30:31 milek_pl Exp $
 				<token inflected="yes" regexp="yes">wyrazić|wyrażać</token>
 				<token>poparcie</token>
 			</pattern>
-			<message>Niepoprawne wyrażenie. Poprawnie: <suggestion>udzielić poparcia</suggestion>, <suggestion>poprzeć</suggestion>.</message>
-			<example type="incorrect">Na tej stronie można <marker>wyrazić poparcie</marker> dla budowy IV RP.</example>
+			<message>Niepoprawne wyrażenie. Poprawnie: <suggestion><match no="1" postag="verb.*">udzielić</match> poparcia</suggestion>, 
+				<suggestion><match no="1" postag="verb.*">poprzeć</match></suggestion>.</message>
+			<example type="incorrect" correction="udzielić poparcia|poprzeć">Na tej stronie można <marker>wyrazić poparcie</marker> dla budowy IV RP.</example>
 			<example type="correct">Na tej stronie można <marker>udzielić poparcia</marker> budowie IV RP.</example>
 		</rule>
 		
@@ -3830,7 +3866,7 @@ $Id: grammar.xml,v 1.21 2007-04-26 15:30:31 milek_pl Exp $
 		<rulegroup name="„golonko” (golonka)" id="GOLONKO">
 			<rule>
 				<pattern>
-				<token postag_regexp="yes" postag="adj.*[\:\.]n.*"><exception postag_regexp="yes" postag="adj:pl.*[\:\.]f.*"/></token>
+				<token postag_regexp="yes" postag="adj.*[\:\.]n.*"><exception postag_regexp="yes" postag="adj:pl.*inst.*[\:\.]f.*"/></token>
 				<token>golonko</token>
 			</pattern>
 			<message>Ten rzeczonik ma inny rodzaj gramatyczny i liczbę. Mówimy <suggestion>golonka</suggestion> (zawsze w rodzaju żeńskim).</message>
@@ -3840,7 +3876,7 @@ $Id: grammar.xml,v 1.21 2007-04-26 15:30:31 milek_pl Exp $
 			<rule>
 				<pattern>
 				<token>golonko</token>
-				<token postag_regexp="yes" postag="adj.*[\:\.]n.*"><exception postag_regexp="yes" postag="adj:pl.*[\:\.]f.*"/></token>
+				<token postag_regexp="yes" postag="adj.*[\:\.]n.*"><exception postag_regexp="yes" postag="adj:pl.*inst.*[\:\.]f.*"/></token>
 			</pattern>
 			<message>Ten rzeczonik ma inny rodzaj gramatyczny i liczbę. Mówimy <suggestion>golonka</suggestion> (zawsze w rodzaju żeńskim).</message>
 			<example type="correct">Specjalnością zakładu jest golonka staropolska.</example>
@@ -3862,7 +3898,7 @@ $Id: grammar.xml,v 1.21 2007-04-26 15:30:31 milek_pl Exp $
 			<example type="correct">Na kształcenie polonistyczne składa się wiele różnorodnych kompetencji.</example>
 		</rule>
 		
-		<rulegroup name="„występuje brak” (brakuje" id="WYSTEPUJE_BRAK">
+		<rulegroup name="„występuje brak” (brakuje)" id="WYSTEPUJE_BRAK">
 		<rule>
 			<pattern>
 				<token>występuje</token>
@@ -3920,6 +3956,7 @@ $Id: grammar.xml,v 1.21 2007-04-26 15:30:31 milek_pl Exp $
 			<example type="correct">Zbigniew przesłuchiwał go w sprawie znieważenia prezydenta.</example>
 			<example type="incorrect">Zbigniew przesłuchiwał go <marker>na okoliczność</marker> znieważenia prezydenta.</example>
 		</rule>
+		
 		<rule name="„na odcinku” (w zakresie)" id="NA_ODCINKU">
 			<pattern case_sensitive="yes" mark_to="-1">
 				<token>na</token>
@@ -3998,6 +4035,7 @@ $Id: grammar.xml,v 1.21 2007-04-26 15:30:31 milek_pl Exp $
 			<example type="incorrect"><marker>Generalnie</marker> pan minister ma rację.</example>
 			<example type="correct">Pan minister ma w ogólności rację.</example>
 		</rule>
+		
 		<rule id="WYDAWAC_SIE_BYC" name="„wydaje się być” (wydaje się)">
 			<pattern>
 				<token inflected="yes" regexp="yes">wydawać|zdawać|wydać|zdać</token>
@@ -4442,6 +4480,7 @@ $Id: grammar.xml,v 1.21 2007-04-26 15:30:31 milek_pl Exp $
 			<example type="correct">Zanadto się wygłupiasz.</example>
 			<example type="incorrect"><marker>Za nad to</marker> się wygłupiasz.</example>
 		</rule>				
+		
 		<rule name="„z pośród” (spośród)" id="Z_POSROD">
 			<pattern>
 				<token>z</token>
@@ -4473,6 +4512,7 @@ $Id: grammar.xml,v 1.21 2007-04-26 15:30:31 milek_pl Exp $
 			<example type="correct">W międzyczasie Robert zjadł kanapki z szynką.</example>
 			<example type="incorrect">W <marker>między czasie</marker> Robert zjadł kanapki z szynką.</example>
 		</rule>
+		
 			<!-- błąd ortograficzny - pisownia łączna rzeczowników z "nie" -->
 		<rulegroup id="NIE_RZECZOWNIK" name="Rozłączna pisownia „nie” z rzeczownikami i przymiotnikami">
 		<rule>
@@ -4541,7 +4581,7 @@ $Id: grammar.xml,v 1.21 2007-04-26 15:30:31 milek_pl Exp $
 				<token>ponad</token>
 				<token>to</token>
 			</pattern>
-			<message>Wyraz <suggestion>ponadto</suggestion> w sensie "poza tym", "oprócz tego" piszemy łącznie.</message>
+			<message>Wyraz <suggestion>ponadto</suggestion> w sensie „poza tym”, „oprócz tego” piszemy łącznie.</message>
 			<example type="correct">Ponadto samochód wyposażony jest w ogromny bagażnik.</example>
 			<example type="incorrect"><marker>Ponad to</marker> samochód wyposażony jest w ogromny bagażnik.</example>
 		</rule>
@@ -4550,7 +4590,7 @@ $Id: grammar.xml,v 1.21 2007-04-26 15:30:31 milek_pl Exp $
 				<token>po</token>
 				<token>nadto</token>
 			</pattern>
-			<message>Wyraz <suggestion>ponadto</suggestion> w sensie "poza tym", "oprócz tego" piszemy łącznie.</message>
+			<message>Wyraz <suggestion>ponadto</suggestion> w sensie „poza tym”, „oprócz tego” piszemy łącznie.</message>
 			<example type="correct">Ponadto samochód wyposażony jest w ogromny bagażnik.</example>
 			<example type="incorrect"><marker>Po nadto</marker> samochód wyposażony jest w ogromny bagażnik.</example>
 		</rule>
@@ -4560,7 +4600,7 @@ $Id: grammar.xml,v 1.21 2007-04-26 15:30:31 milek_pl Exp $
 				<token>nad</token>
 				<token>to</token>
 			</pattern>
-			<message>Wyraz <suggestion>ponadto</suggestion> w sensie "poza tym", "oprócz tego" piszemy łącznie.</message>
+			<message>Wyraz <suggestion>ponadto</suggestion> w sensie „poza tym”, „oprócz tego” piszemy łącznie.</message>
 			<example type="correct">Ponadto samochód wyposażony jest w ogromny bagażnik.</example>
 			<example type="incorrect"><marker>Po nad to</marker> samochód wyposażony jest w ogromny bagażnik.</example>
 		</rule>
@@ -4644,9 +4684,10 @@ $Id: grammar.xml,v 1.21 2007-04-26 15:30:31 milek_pl Exp $
 				<token inflected="yes">Gal</token>
 				<token regexp="yes">Anonim|Anonima|Anonimie|Anonimem|Anonimowi</token>
 			</pattern>
-			<message>Poprawnie piszemy <suggestion>Gall</suggestion> Anonim.</message>
+			<message>Poprawnie piszemy <suggestion><match no="1" postag="subst.*">Gall</match></suggestion> Anonim.</message>
 			<example type="correct">To kronika Galla Anonima.</example>
-			<example type="incorrect">To kronika <marker>Gala</marker> Anonima.</example>
+			<!--  FIXME: incomplete dictionary -->
+			<example type="incorrect" correction="(Gall)">To kronika <marker>Gala</marker> Anonima.</example>
 		</rule>
 		
 		<rule id="SPOZA" name="„z poza” (spoza)">

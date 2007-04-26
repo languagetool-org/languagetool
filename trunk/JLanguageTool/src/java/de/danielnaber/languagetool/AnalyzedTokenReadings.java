@@ -19,9 +19,9 @@
 
 package de.danielnaber.languagetool;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.ArrayList;
 
 /**
  * An array of {@link AnalyzedToken}s used to store multiple POS tags and lemmas

@@ -18,9 +18,9 @@
  */
 package de.danielnaber.languagetool.rules.patterns;
 
-import java.util.regex.Pattern;
-import java.util.regex.Matcher;
 import java.util.ArrayList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import de.danielnaber.languagetool.AnalyzedToken;
 import de.danielnaber.languagetool.JLanguageTool;

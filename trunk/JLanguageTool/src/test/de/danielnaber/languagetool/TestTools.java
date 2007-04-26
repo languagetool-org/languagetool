@@ -26,7 +26,6 @@ import java.util.Locale;
 import java.util.ResourceBundle;
 
 import junit.framework.TestCase;
-
 import de.danielnaber.languagetool.tagging.Tagger;
 import de.danielnaber.languagetool.tagging.disambiguation.Disambiguator;
 import de.danielnaber.languagetool.tokenizers.SentenceTokenizer;

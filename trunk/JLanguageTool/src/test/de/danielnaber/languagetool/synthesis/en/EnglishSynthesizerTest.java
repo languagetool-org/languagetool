@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.util.Arrays;
 
 import junit.framework.TestCase;
-
 import de.danielnaber.languagetool.AnalyzedToken;
 
 public class EnglishSynthesizerTest extends TestCase {

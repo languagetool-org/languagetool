@@ -1,11 +1,12 @@
 package de.danielnaber.languagetool.tagging.disambiguation.pl;
 
-import junit.framework.TestCase;
 import java.io.IOException;
+
+import junit.framework.TestCase;
 import de.danielnaber.languagetool.TestTools;
+import de.danielnaber.languagetool.tagging.pl.PolishTagger;
 import de.danielnaber.languagetool.tokenizers.WordTokenizer;
 import de.danielnaber.languagetool.tokenizers.pl.PolishSentenceTokenizer;
-import de.danielnaber.languagetool.tagging.pl.*;
 
 /* LanguageTool, a natural language style checker 
  * Copyright (C) 2006 Daniel Naber (http://www.danielnaber.de)
@@ -47,7 +48,7 @@ public class PolishChunkerTest extends TestCase {
       //TestTools.myAssert("blablabla","/[null]SENT_START blablabla/[null]SENT_END", tokenizer, sentenceTokenizer, tagger, disambiguator);
       TestTools.myAssert("To test... dezambiguacji","/[null]SENT_START To/[to]conj|To/[ten]adj:sg:nom.acc.voc:n1.n2  /[null]null test/[test]subst:sg:nom.acc:m3|test/[testo]subst:pl:gen:n ./[...]<ELLIPSIS> ./[null]null ./[...]</ELLIPSIS>  /[null]null dezambiguacji/[null]null", tokenizer, sentenceTokenizer, tagger, disambiguator);
       TestTools.myAssert("On, to znaczy premier, jest niezbyt mądry","/[null]SENT_START On/[on]ppron3:sg:nom:m1.m2.m3:ter ,/[null]null  /[null]null to/[to]conj|to/[ten]adj:sg:nom.acc.voc:n1.n2|to/[to znaczy]<TO_ZNACZY>  /[null]null znaczy/[znaczyć]verb:sg:ter:?perf|znaczy/[to znaczy]</TO_ZNACZY>  /[null]null premier/[premier]subst:sg:nom.acc:m3|premier/[premiera]subst:pl:gen:f ,/[null]null  /[null]null jest/[być]verb:fin:sg:ter:imperf  /[null]null niezbyt/[zbyt]adv:neg  /[null]null mądry/[mądry]adj:sg:nom:m|mądry/[mądry]adj:sg:nom:m:pneg", tokenizer, sentenceTokenizer, tagger, disambiguator);
-      TestTools.myAssert("Lubię go z uwagi na krótkie włosy.","/[null]SENT_START Lubię/[lubić]verb:sg:pri:?perf  /[null]null go/[on]ppron3:sg:gen:m1.m2.m3.n1.n2:ter:nakc:npraep+ppron3:sg:acc:m1.m2.m3:ter:nakc:npraep  /[null]null z/[z]prep:gen.inst|z/[z uwagi na]<PREP:ACC>  /[null]null uwagi/[uwaga]subst:sg:gen:f  /[null]null na/[na]prep:acc.loc|na/[z uwagi na]</PREP:ACC>  /[null]null krótkie/[krótki]adj:pl:nom.acc.voc:m2.m3.n1.n2.f:pneg+adj:sg:nom.acc:n1.n2:pneg  /[null]null włosy/[włosy]subst:pltant:nom:m|włosy/[włos]subst:pl:nom:m ./[null]null", tokenizer, sentenceTokenizer, tagger, disambiguator);
+      TestTools.myAssert("Lubię go z uwagi na krótkie włosy.","/[null]SENT_START Lubię/[lubić]verb:sg:pri:?perf  /[null]null go/[on]ppron3:sg:gen:m1.m2.m3.n1.n2:ter:nakc:npraep|go/[on]ppron3:sg:acc:m1.m2.m3:ter:nakc:npraep  /[null]null z/[z]prep:gen.inst|z/[z uwagi na]<PREP:ACC>  /[null]null uwagi/[uwaga]subst:sg:gen:f  /[null]null na/[na]prep:acc.loc|na/[z uwagi na]</PREP:ACC>  /[null]null krótkie/[krótki]adj:pl:nom.acc.voc:m2.m3.n1.n2.f:pneg|krótkie/[krótki]adj:sg:nom.acc:n1.n2:pneg  /[null]null włosy/[włosy]subst:pltant:nom:m|włosy/[włos]subst:pl:nom:m ./[null]null", tokenizer, sentenceTokenizer, tagger, disambiguator);
     }
 
   }
