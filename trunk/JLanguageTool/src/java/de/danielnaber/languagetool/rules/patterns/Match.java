@@ -145,7 +145,6 @@ public class Match {
           }         
         
       } else {
-//TODO: add POS regexp replace mechanisms
         if (synthesizer == null) {
         formattedString[0] = formattedToken.getToken();
         } else if (postagRegexp) {
