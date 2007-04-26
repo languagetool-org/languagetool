@@ -18,9 +18,9 @@
  */
 package de.danielnaber.languagetool.rules.patterns;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.io.IOException;
 
 import de.danielnaber.languagetool.AnalyzedSentence;
 import de.danielnaber.languagetool.AnalyzedToken;
@@ -367,8 +367,18 @@ public class PatternRule extends Rule {
                   + matches[0]
                             + suggestionRight
                             + rightSide;              
-                } else {
-                  errorMessage = leftSide;
+                } else {                  
+                  suggestionLeft = leftSide.substring(leftSide.lastIndexOf("<suggestion>") +"<suggestion>".length());
+                  if (suggestionLeft.equals("")) {
+                    errorMessage = leftSide;
+                  } else {
+                    errorMessage = leftSide.substring(0, leftSide.lastIndexOf("<suggestion>"))
+                      + "<suggestion>";
+                  }
+                  suggestionRight = rightSide.substring(0, rightSide.indexOf("</suggestion>"));
+                  if (!suggestionRight.equals("")) {
+                    rightSide = rightSide.substring(rightSide.indexOf("</suggestion>"));
+                  }
                   int lastLeftSugEnd = leftSide.indexOf("</suggestion>");
                   int lastLeftSugStart = leftSide.lastIndexOf("<suggestion>");
                   for (String formatMatch : matches) {
@@ -379,8 +389,8 @@ public class PatternRule extends Rule {
                       errorMessage += "</suggestion>, <suggestion>";
                     }
                   }
-                  int correctionSug = errorMessage.lastIndexOf("<suggestion>");
-                  if (correctionSug + "<suggestion>".length() == errorMessage.length())
+                  int correctionSug = errorMessage.lastIndexOf(", <suggestion>");
+                  if (correctionSug + ", <suggestion>".length() == errorMessage.length())
                     errorMessage = errorMessage.substring(0, correctionSug);
                   errorMessage += rightSide;             
                 }
