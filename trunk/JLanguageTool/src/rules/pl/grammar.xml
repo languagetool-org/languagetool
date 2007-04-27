@@ -2,7 +2,7 @@
 <!--
 Polish Grammar and Typo Rules for LanguageTool
 Copyright (C) 2006 Marcin Miłkowski
-$Id: grammar.xml,v 1.24 2007-04-27 22:14:16 milek_pl Exp $		
+$Id: grammar.xml,v 1.25 2007-04-27 22:33:40 milek_pl Exp $		
 -->
 <rules lang="pl">
 
@@ -145,15 +145,26 @@ $Id: grammar.xml,v 1.24 2007-04-27 22:14:16 milek_pl Exp $
 			<rule>
 				<pattern>
 				<phraseref idref="NIE_INTERPUNKCJA"/>
-				<token regexp="yes">chyba|dlatego|właśnie|tak</token>
+				<token regexp="yes">chyba|dlatego|właśnie|tak|tylko</token>
 				<token regexp="yes">że|iż</token>
 				</pattern>
 				<message>Należy postawić przecinek w zależności od intonacji i sensu zdania: <suggestion>\1 \2, \3</suggestion> lub <suggestion>\1, \2 \3</suggestion>.</message>
 				<example type="correct">Nie rozumiał tego właśnie, że upadł na głowę.</example>
-				<example type="incorrect" correction="tego właśnie, że|tego, właśnie że">
-					Nie rozumiał <marker>tego właśnie że</marker> upadł na głowę.
-				</example>
+				<example type="incorrect" correction="tego właśnie, że|tego, właśnie że">Nie rozumiał <marker>tego właśnie że</marker> upadł na głowę.</example>
+				<example type="correct">Przemysław jest wierny, tylko że nic nie potrafi.</example>
+				<example type="incorrect" correction="wierny tylko, że|wierny, tylko że">Przemysław jest <marker>wierny tylko że</marker> nic nie potrafi.</example>				
 			</rule>
+			<rule>
+				<pattern>
+				<token>tyle</token>
+				<token regexp="yes">tylko</token>
+				<token regexp="yes">że|iż</token>
+				</pattern>
+				<message>Należy postawić przecinek w zależności od intonacji i sensu zdania: <suggestion>\1 \2, \3</suggestion> lub <suggestion>\1, \2 \3</suggestion>.</message>
+				<example type="correct">Przemysław jest wierny, tylko że nic nie potrafi.</example>
+				<example type="incorrect" correction="tyle tylko, że|tyle, tylko że">Przemysław jest wierny <marker>tyle tylko że</marker> nic nie potrafi.</example>				
+			</rule>
+			
 			<rule>
 				<pattern>
 				<phraseref idref="NIE_INTERPUNKCJA"/>
@@ -165,7 +176,7 @@ $Id: grammar.xml,v 1.24 2007-04-27 22:14:16 milek_pl Exp $
 				<example type="incorrect" correction="tego właśnie, kiedy|tego, właśnie kiedy">
 					Nie rozumiał <marker>tego właśnie kiedy</marker> upadł na głowę.
 				</example>
-			</rule>
+			</rule>			
 		</rulegroup>
 				
 		<rulegroup id="COFANIE_PRZECINKA" name="Przecinek wewnątrz spójnika złożonego">
@@ -180,31 +191,6 @@ $Id: grammar.xml,v 1.24 2007-04-27 22:14:16 milek_pl Exp $
 			<example type="correct">Poszedłem tam, mimo że nie chciałem.</example>
 			<example type="incorrect" correction="tam, mimo że">Poszedłem <marker>tam mimo, że</marker> nie chciałem.</example>
 		</rule>
-		<!--  FIXME: to zależy od kontekstu!
-		<rule>
-			<pattern>
-			  <phraseref idref="NIE_INTERPUNKCJA"/>
-				<token>tylko</token>
-				<token>,</token>
-				<token>że</token>
-			</pattern>	
-			<message>Spójników złożonych nie rozdziela się, a przecinek stawia się przed nimi: <suggestion>\1, \2 że</suggestion>.</message>
-			<example type="correct">Przemysław jest wierny, tylko że nic nie potrafi.</example>
-			<example type="incorrect">Przemysław jest <marker>wierny tylko, że</marker> nic nie potrafi.</example>
-		</rule>		
-		<rule>
-			<pattern>
-				<phraseref idref="NIE_INTERPUNKCJA"/>
- 				<token>tyle</token>
-				<token>tylko</token>
-				<token>,</token>
-				<token>że</token>
-			</pattern>	
-			<message>Spójników złożonych nie rozdziela się, a przecinek stawia się przed nimi: <suggestion>\1, \2 \3 że</suggestion>.</message>
-			<example type="correct">Przemysław jest wierny, tyle tylko że nic nie potrafi.</example>
-			<example type="incorrect">Przemysław jest <marker>wierny tyle tylko, że</marker> nic nie potrafi.</example>
-		</rule>
--->
 		
 		<rule>
 			<pattern mark_from="1">
@@ -241,6 +227,7 @@ $Id: grammar.xml,v 1.24 2007-04-27 22:14:16 milek_pl Exp $
 			<example type="correct">Upił się na tyle, że nie mógł ustać na nogach.</example>
 			<example type="incorrect">Wprawdzie upił <marker>się tyle, że</marker> akurat on nie prowadził samochodu, więc nic się nie stało.</example>
 		</rule>
+		-->
 		<rule>
 			<pattern mark_from="1">
 				<token postag="SENT_START"/>
@@ -263,7 +250,7 @@ $Id: grammar.xml,v 1.24 2007-04-27 22:14:16 milek_pl Exp $
 			<example type="correct">Wprawdzie upił się, tyle że potrafił trzymać język za zębami.</example>
 			<example type="incorrect">Wprawdzie upił się, <marker>tyle, że</marker> akurat on nie prowadził samochodu.</example>
 		</rule>
--->		
+		
 		<rule>
 			<pattern>
 				<token><exception regexp="yes">tylko|[,;:!–-—]</exception><exception postag_regexp="yes" postag="conj|SENT_START"/></token>
@@ -455,7 +442,7 @@ $Id: grammar.xml,v 1.24 2007-04-27 22:14:16 milek_pl Exp $
 		<rule>
 			<pattern>
 				<token negate="yes" regexp="yes">[\p{Punct}–—„«»]<exception postag_regexp="yes" postag="SENT_START|conj"/></token>
-				<token regexp="yes">ile|jako|szczególnie|tyle|tylko|zwłaszcza|pomimo|mimo<exception postag="SENT_START"/></token>
+				<token regexp="yes">ile|jako|szczególnie|tyle|zwłaszcza|pomimo|mimo<exception postag="SENT_START"/></token>
 				<token regexp="yes">że|iż</token>
 			</pattern>
 			<message>Przecinek stawiamy przed całym spójnikiem złożonym: <suggestion>\1, \2 \3</suggestion>.</message>
