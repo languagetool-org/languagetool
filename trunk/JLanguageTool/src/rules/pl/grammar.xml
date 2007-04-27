@@ -2,7 +2,7 @@
 <!--
 Polish Grammar and Typo Rules for LanguageTool
 Copyright (C) 2006 Marcin Miłkowski
-$Id: grammar.xml,v 1.22 2007-04-26 21:20:18 milek_pl Exp $		
+$Id: grammar.xml,v 1.23 2007-04-27 21:49:59 milek_pl Exp $		
 -->
 <rules lang="pl">
 
@@ -1250,18 +1250,18 @@ $Id: grammar.xml,v 1.22 2007-04-26 21:20:18 milek_pl Exp $
 				<token>Bruno</token>
 				<token inflected="yes">Schulz<exception postag="subst:sg:nom:m1"/></token>
 			</pattern>	
-			<message>Imię Bruno odmienia się według wzoru: <suggestion>Brunona</suggestion>, <suggestion>Brunonowi</suggestion>, <suggestion>Brunonem</suggestion>, <suggestion>Brunonie</suggestion>.</message>
+			<message>Imię Bruno jest odmienne: <suggestion><match no="2" postag_regexp="yes" postag="(subst.*)(:m)" postag_replace="$1:m(1)*">Brunon</match></suggestion>.</message>
 			<example type="correct">Uwielbiam prozę Brunona Schulza.</example>
-			<example type="incorrect">Uwielbiam prozę <marker>Bruno</marker> Schulza.</example>
+			<example type="incorrect" correction="Brunona">Uwielbiam prozę <marker>Bruno</marker> Schulza.</example>
 		</rule>
 		<rule>
 			<pattern mark_to="-1">
 				<token>Hugo</token>
 				<token inflected="yes">Kołłątaj<exception postag="subst:sg:nom:m1"/></token>
 			</pattern>	
-			<message>Imię Hugo odmienia się według wzoru: <suggestion>Hugona</suggestion>, <suggestion>Hugonowi</suggestion>, <suggestion>Hugonem</suggestion>, <suggestion>Hugonie</suggestion>.</message>
+			<message>Imię Hugo jest odmienne: <suggestion><match no="2" postag_regexp="yes" postag="(subst.*)(:m)" postag_replace="$1:m(1)*">Hugon</match></suggestion>.</message>
 			<example type="correct">Uwielbiam pisma Hugona Kołłątaja.</example>
-			<example type="incorrect">Polacy zamierzają ufundować pomnik <marker>Hugo</marker> Kołłątajowi.</example>
+			<example type="incorrect" correction="Hugonowi">Polacy zamierzają ufundować pomnik <marker>Hugo</marker> Kołłątajowi.</example>
 		</rule>
 		<rule>
 			<pattern mark_to="-1">
@@ -1301,9 +1301,9 @@ $Id: grammar.xml,v 1.22 2007-04-26 21:20:18 milek_pl Exp $
 				<token>szeregu</token>
 				<token postag_regexp="yes" postag=".*loc.*|.*instr.*"><exception postag_regexp="yes" postag=".*[\.:]gen[\.:].*"/></token>
 			</pattern>
-			<message>Wyrażenie „w szeregu” jest używane z dopełniaczem, nie z miejscownikiem ani narzędnikiem.</message>
+			<message>Wyrażenie „w szeregu” jest używane z dopełniaczem: <suggestion><match no="3" postag_regexp="yes" postag=".*pl:.*gen.*"/></suggestion>.</message>
 			<example type="correct">W szeregu przypadków komisja śledcza zachowywała się niegodnie.</example>
-			<example type="incorrect">W szeregu <marker>przypadkach</marker> komisja śledcza zachowywała się niegodnie.</example>			
+			<example type="incorrect" correction="przypadków">W szeregu <marker>przypadkach</marker> komisja śledcza zachowywała się niegodnie.</example>			
 		</rule>
 		<rule id="KONIAMI" name="„koniami” (końmi)">
 			<pattern mark_from="1">
@@ -1563,7 +1563,7 @@ $Id: grammar.xml,v 1.22 2007-04-26 21:20:18 milek_pl Exp $
 			<pattern mark_from="1">
 				<token negate="yes">tym</token>
 				<token>bardziej</token>
-				<token inflected="yes" regexp="yes">^(akumulacyjny|ambicyjny|ambiwalentny|ankietowy|anomalny|ateistyczny|audiencjonalny|audiencyjny|autochtoniczny|autochtoński|bajoński|bezdenny|bezimienny|bezprodukcyjny|bezproduktywny|bezpyłowy|bezpylny|bezustanny|bezwietrzny|bilateralny|bledziutki|bombowy|braterski|chwytny|dekoratorski|długoletni|długowiekowy|dodatkowy|dopingowy|dostateczny|drugorzędny|dwoisty|dwuletni|dwuroczny|dyplomatyczny|dyplomowany|dyskrecjonalny|dyżurny|dzisiejszy|ekstranowoczesny|ekstremalny|ewentualny|fenomenalny|finalny|gadulski|generalny|genetyczny|gigantyczny|goły|gotowy|hipoalergiczny|humanistyczny|identyczny|iluzyjny|innowierczy|inny|intelektualny|intensyfikacyjny|introspekcyjny|introspektywny|istny|jazzowy|jazzrockowy|jednaki|jednakowy|jednoczesny|jednomyślny|jedyny|kapitalny|klasycystyczny|kochaneńki|kompilacyjny|kompilatorski|komplementarny|konceptualny|kontrastowy|kopiasty|krańcowy|kulturowy|leciuchny|leciutki|lekuchny|letni|ludyczny|maksymalistyczny|maksymalny|martwy|mikroskopijny|możebny|nadmierny|nagi|nagminny|neutralny|niebiański|niebotyczny|niebyły|niebywały|niedaleki|niedawny|niedosięgły|niedościgły|niedozwolony|nienawykły|nieprzywykły|nieoceniony|niepamiętny|niepisany|niepodległy|nieporównany|nieporuszony|nieprawdopodobny|nieproszony|niesamowity|niespożyty|niestrudzony|nieustraszony|nieutulony|niewinny|niewyczerpany|niewytłumaczalny|niewzruszony|niezamącony|niezaprzeczalny|niezawodny|niezbity|niezgorszy|niezmącony|niezrównany|nijaki|obecny|obłąkany|obojętny|oddzielny|odmienny|odrębny|odwieczny|ogromny|optymalny|patentowy|pełnowartościowy|permanentny|piekielny|pierworodny|pierwszoplanowy|pierwszorzędny|pitny|podległy|pokrewny|pomniejszy|pośredni|potencjalny|praworęczny|propedeutyczny|przeciwstawny|przedwczesny|przedwieczny|przenośny|przeświadczony|przewoźny|przyciężki|przydługi|przykrótki|przysłowiowy|pusty|racjonalizacyjny|racjonalizatorski|realny|równoległy|równorzędny|rutyniarski|rutynowany|skonany|standardowy|sukcesywny|sytuowany|średni|świecki|totalny|ubożuchny|ubożutki|wart|wieczny|wielowiekowy|winien|własny|wspólny|wszechmogący|wszechmocny|wszechwiedzący|wszystkowiedzący|wszyściutki|wszyściuteńki|wszyściuchny|wyborowy|wyjątkowy|wzajemny|zależny|zawisły|zdradziecki|zdrowotny|zupełny|zwierzchni|żądny)</token>
+				<token inflected="yes" regexp="yes">^(akumulacyjny|ambicyjny|ambiwalentny|ankietowy|anomalny|ateistyczny|audiencjonalny|audiencyjny|autochtoniczny|autochtoński|bajoński|bezdenny|bezimienny|bezprodukcyjny|bezproduktywny|bezpyłowy|bezpylny|bezustanny|bezwietrzny|bilateralny|bledziutki|bombowy|braterski|chwytny|dekoratorski|długoletni|długowiekowy|dodatkowy|dopingowy|dostateczny|drugorzędny|dwoisty|dwuletni|dwuroczny|dyplomatyczny|dyplomowany|dyskrecjonalny|dyżurny|dzisiejszy|ekstranowoczesny|ekstremalny|ewentualny|fenomenalny|finalny|gadulski|generalny|genetyczny|gigantyczny|goły|gotowy|hipoalergiczny|humanistyczny|identyczny|iluzyjny|innowierczy|inny|intelektualny|intensyfikacyjny|introspekcyjny|introspektywny|istny|jazzowy|jazzrockowy|jednaki|jednakowy|jednoczesny|jednomyślny|jedyny|kapitalny|klasycystyczny|kochaneńki|kompilacyjny|kompilatorski|komplementarny|konceptualny|kontrastowy|kopiasty|krańcowy|kulturowy|leciuchny|leciutki|lekuchny|letni|ludyczny|maksymalistyczny|maksymalny|martwy|mikroskopijny|możebny|nadmierny|nagi|nagminny|neutralny|niebiański|niebotyczny|niebyły|niebywały|niedaleki|niedawny|niedosięgły|niedościgły|niedozwolony|nienawykły|nieprzywykły|nieoceniony|niepamiętny|niepisany|niepodległy|nieporównany|nieporuszony|nieprawdopodobny|nieproszony|niesamowity|niespożyty|niestrudzony|nieustraszony|nieutulony|niewinny|niewyczerpany|niewytłumaczalny|niewzruszony|niezamącony|niezaprzeczalny|niezawodny|niezbity|niezgorszy|niezmącony|niezrównany|nijaki|obecny|obłąkany|obojętny|oddzielny|odmienny|odrębny|odwieczny|ogromny|optymalny|patentowy|pełnowartościowy|permanentny|piekielny|pierworodny|pierwszoplanowy|pierwszorzędny|pitny|podległy|pokrewny|pomniejszy|pośredni|potencjalny|praworęczny|propedeutyczny|przeciwstawny|przedwczesny|przedwieczny|przenośny|przeświadczony|przewoźny|przyciężki|przydługi|przykrótki|przysłowiowy|pusty|racjonalizacyjny|racjonalizatorski|realny|równoległy|równorzędny|rutyniarski|rutynowany|skonany|standardowy|sukcesywny|sytuowany|średni|świecki|totalny|ubożuchny|ubożutki|wart|wieczny|wielowiekowy|winien|własny|wspólny|wszechmogący|wszechmocny|wszechwiedzący|wszystkowiedzący|wszyściutki|wszyściuteńki|wszyściuchny|wyborowy|wyjątkowy|wzajemny|zależny|zawisły|zdradziecki|zdrowotny|zupełny|zwierzchni|żądny)<exception postag_regexp="yes" postag="adv.*"/></token>
 			</pattern>
 			<message>Ten przymiotnik nie może być stopniowany. Poprawnie: <suggestion>\3</suggestion>.</message>
 			<example type="correct">To rozwiązanie jest optymalne.</example>
@@ -1573,7 +1573,7 @@ $Id: grammar.xml,v 1.22 2007-04-26 21:20:18 milek_pl Exp $
 		<rule id="STOPIEN_NAJWYZSZY_NIESTOPNIOWANEGO" name="Stopień najwyższy przymiotnika niestopniowanego (np. najbardziej optymalny)">
 			<pattern>
 				<token>najbardziej</token>
-				<token inflected="yes" regexp="yes">^(akumulacyjny|ambicyjny|ambiwalentny|ankietowy|anomalny|ateistyczny|audiencjonalny|audiencyjny|autochtoniczny|autochtoński|bajoński|bezdenny|bezimienny|bezprodukcyjny|bezproduktywny|bezpyłowy|bezpylny|bezustanny|bezwietrzny|bilateralny|bledziutki|bombowy|braterski|chwytny|dekoratorski|długoletni|długowiekowy|dodatkowy|dopingowy|dostateczny|drugorzędny|dwoisty|dwuletni|dwuroczny|dyplomatyczny|dyplomowany|dyskrecjonalny|dyżurny|dzisiejszy|ekstranowoczesny|ekstremalny|ewentualny|fenomenalny|finalny|gadulski|generalny|genetyczny|gigantyczny|goły|gotowy|hipoalergiczny|humanistyczny|identyczny|iluzyjny|innowierczy|inny|intelektualny|intensyfikacyjny|introspekcyjny|introspektywny|istny|jazzowy|jazzrockowy|jednaki|jednakowy|jednoczesny|jednomyślny|jedyny|kapitalny|klasycystyczny|kochaneńki|kompilacyjny|kompilatorski|komplementarny|konceptualny|kontrastowy|kopiasty|krańcowy|kulturowy|leciuchny|leciutki|lekuchny|letni|ludyczny|maksymalistyczny|maksymalny|martwy|mikroskopijny|możebny|nadmierny|nagi|nagminny|neutralny|niebiański|niebotyczny|niebyły|niebywały|niedaleki|niedawny|niedosięgły|niedościgły|niedozwolony|nienawykły|nieprzywykły|nieoceniony|niepamiętny|niepisany|niepodległy|nieporównany|nieporuszony|nieprawdopodobny|nieproszony|niesamowity|niespożyty|niestrudzony|nieustraszony|nieutulony|niewinny|niewyczerpany|niewytłumaczalny|niewzruszony|niezamącony|niezaprzeczalny|niezawodny|niezbity|niezgorszy|niezmącony|niezrównany|nijaki|obecny|obłąkany|obojętny|oddzielny|odmienny|odrębny|odwieczny|ogromny|optymalny|patentowy|pełnowartościowy|permanentny|piekielny|pierworodny|pierwszoplanowy|pierwszorzędny|pitny|podległy|pokrewny|pomniejszy|pośredni|potencjalny|praworęczny|propedeutyczny|przeciwstawny|przedwczesny|przedwieczny|przenośny|przeświadczony|przewoźny|przyciężki|przydługi|przykrótki|przysłowiowy|pusty|racjonalizacyjny|racjonalizatorski|realny|równoległy|równorzędny|rutyniarski|rutynowany|skonany|standardowy|sukcesywny|sytuowany|średni|świecki|totalny|ubożuchny|ubożutki|wart|wieczny|wielowiekowy|winien|własny|wspólny|wszechmogący|wszechmocny|wszechwiedzący|wszystkowiedzący|wszyściutki|wszyściuteńki|wszyściuchny|wyborowy|wyjątkowy|wzajemny|zależny|zawisły|zdradziecki|zdrowotny|zupełny|zwierzchni|żądny)</token>
+				<token inflected="yes" regexp="yes">^(akumulacyjny|ambicyjny|ambiwalentny|ankietowy|anomalny|ateistyczny|audiencjonalny|audiencyjny|autochtoniczny|autochtoński|bajoński|bezdenny|bezimienny|bezprodukcyjny|bezproduktywny|bezpyłowy|bezpylny|bezustanny|bezwietrzny|bilateralny|bledziutki|bombowy|braterski|chwytny|dekoratorski|długoletni|długowiekowy|dodatkowy|dopingowy|dostateczny|drugorzędny|dwoisty|dwuletni|dwuroczny|dyplomatyczny|dyplomowany|dyskrecjonalny|dyżurny|dzisiejszy|ekstranowoczesny|ekstremalny|ewentualny|fenomenalny|finalny|gadulski|generalny|genetyczny|gigantyczny|goły|gotowy|hipoalergiczny|humanistyczny|identyczny|iluzyjny|innowierczy|inny|intelektualny|intensyfikacyjny|introspekcyjny|introspektywny|istny|jazzowy|jazzrockowy|jednaki|jednakowy|jednoczesny|jednomyślny|jedyny|kapitalny|klasycystyczny|kochaneńki|kompilacyjny|kompilatorski|komplementarny|konceptualny|kontrastowy|kopiasty|krańcowy|kulturowy|leciuchny|leciutki|lekuchny|letni|ludyczny|maksymalistyczny|maksymalny|martwy|mikroskopijny|możebny|nadmierny|nagi|nagminny|neutralny|niebiański|niebotyczny|niebyły|niebywały|niedaleki|niedawny|niedosięgły|niedościgły|niedozwolony|nienawykły|nieprzywykły|nieoceniony|niepamiętny|niepisany|niepodległy|nieporównany|nieporuszony|nieprawdopodobny|nieproszony|niesamowity|niespożyty|niestrudzony|nieustraszony|nieutulony|niewinny|niewyczerpany|niewytłumaczalny|niewzruszony|niezamącony|niezaprzeczalny|niezawodny|niezbity|niezgorszy|niezmącony|niezrównany|nijaki|obecny|obłąkany|obojętny|oddzielny|odmienny|odrębny|odwieczny|ogromny|optymalny|patentowy|pełnowartościowy|permanentny|piekielny|pierworodny|pierwszoplanowy|pierwszorzędny|pitny|podległy|pokrewny|pomniejszy|pośredni|potencjalny|praworęczny|propedeutyczny|przeciwstawny|przedwczesny|przedwieczny|przenośny|przeświadczony|przewoźny|przyciężki|przydługi|przykrótki|przysłowiowy|pusty|racjonalizacyjny|racjonalizatorski|realny|równoległy|równorzędny|rutyniarski|rutynowany|skonany|standardowy|sukcesywny|sytuowany|średni|świecki|totalny|ubożuchny|ubożutki|wart|wieczny|wielowiekowy|winien|własny|wspólny|wszechmogący|wszechmocny|wszechwiedzący|wszystkowiedzący|wszyściutki|wszyściuteńki|wszyściuchny|wyborowy|wyjątkowy|wzajemny|zależny|zawisły|zdradziecki|zdrowotny|zupełny|zwierzchni|żądny)<exception postag_regexp="yes" postag="adv.*"/></token>
 			</pattern>
 			<message>Ten przymiotnik nie może być stopniowany. Poprawnie: <suggestion>\2</suggestion>.</message>
 			<example type="correct">To rozwiązanie jest optymalne.</example>
@@ -1605,7 +1605,7 @@ $Id: grammar.xml,v 1.22 2007-04-26 21:20:18 milek_pl Exp $
 			<pattern mark_from="1">
 				<token negate="yes">tym</token>
 				<token>bardziej</token>
-				<token inflected="yes" regexp="yes">^(brzydki|cichy|ciekawy|ciężki|daleki|długi|dobry|dokładny|duży|dziwny|głęboki|głośny|gruby|grzeczny|korzystny|koszmarny|lekki|luźny|łagodny|łatwy|miły|młody|mocny|okropny|piękny|potworny|prosty|silny|słaby|stary|trwały|ważny|wąski|wolny|wstrętny|wytrwały|zimny|zły|znaczny)</token>
+				<token inflected="yes" regexp="yes">^(brzydki|cichy|ciekawy|ciężki|daleki|długi|dobry|dokładny|duży|dziwny|głęboki|głośny|gruby|grzeczny|korzystny|koszmarny|lekki|luźny|łagodny|łatwy|miły|młody|mocny|okropny|piękny|potworny|prosty|silny|słaby|stary|trwały|ważny|wąski|wolny|wstrętny|wytrwały|zimny|zły|znaczny)<exception postag_regexp="yes" postag="adv.*"/></token>
 			</pattern>
 			<message>Ten przymiotnik stopniuje się bez wyrazu „bardziej”.</message>
 			<example type="incorrect"><marker>Bardziej ważny</marker> jest dla mnie ten fragment.</example>
@@ -1619,7 +1619,7 @@ $Id: grammar.xml,v 1.22 2007-04-26 21:20:18 milek_pl Exp $
 		<rule id="STOPIEN_NAJWYZSZY" name="Opisowa forma stopnia najwyższego przymiotnika (zamiast prostej)">
 			<pattern>
 				<token>najbardziej</token>
-				<token inflected="yes" regexp="yes">^(brzydki|cichy|ciekawy|ciężki|daleki|długi|dobry|dokładny|duży|dziwny|głęboki|głośny|gruby|grzeczny|korzystny|koszmarny|lekki|luźny|łagodny|łatwy|miły|młody|mocny|okropny|piękny|potworny|prosty|silny|słaby|stary|trwały|ważny|wąski|wolny|wstrętny|wytrwały|zimny|zły|znaczny)</token>
+				<token inflected="yes" regexp="yes">^(brzydki|cichy|ciekawy|ciężki|daleki|długi|dobry|dokładny|duży|dziwny|głęboki|głośny|gruby|grzeczny|korzystny|koszmarny|lekki|luźny|łagodny|łatwy|miły|młody|mocny|okropny|piękny|potworny|prosty|silny|słaby|stary|trwały|ważny|wąski|wolny|wstrętny|wytrwały|zimny|zły|znaczny)<exception postag_regexp="yes" postag="adv.*"/></token>
 			</pattern>
 			<message>Ten przymiotnik stopniuje się bez wyrazu „najbardziej”.</message>
 			<example type="incorrect"><marker>Najbardziej ważny</marker> jest dla mnie ten fragment.</example>
@@ -1922,9 +1922,9 @@ $Id: grammar.xml,v 1.22 2007-04-26 21:20:18 milek_pl Exp $
 				<token>dla</token>
 				<token postag_regexp="yes" postag=".*gen.*"/>
 			</pattern>
-			<message>Nie mówi się „zainteresowanie dla czegoś”, lecz <suggestion>zainteresowanie czymś</suggestion>.</message>
+			<message>Nie mówi się „zainteresowanie dla czegoś”, lecz <suggestion>zainteresowanie <match no="3" postag_regexp="yes" postag="(adj|subst):(sg|pl).*inst.*"/></suggestion>.</message>
 			<example type="correct">Wyraził żywe zainteresowanie zaplanowaną dyskusją na temat nauczania matematyki.</example>
-			<example type="incorrect">Wyraził żywe <marker>zainteresowanie dla zaplanowanej</marker> dyskusji na temat nauczania matematyki.</example>
+			<example type="incorrect" correction="zainteresowanie zaplanowaną">Wyraził żywe <marker>zainteresowanie dla zaplanowanej</marker> dyskusji na temat nauczania matematyki.</example>
 		</rule>
 		
 		<rule id="POLTOREJ" name="„półtorej” + rzeczownik rodzaju męskiego lub nijakiego (półtora)">
@@ -1964,9 +1964,9 @@ $Id: grammar.xml,v 1.22 2007-04-26 21:20:18 milek_pl Exp $
 				<token><exception postag_regexp="yes" postag=".*gen.*"/></token>
 			</pattern>
 			<message>Czasownik „<match no="1" postag_regexp="yes" postag="verb:inf.*"/>” łączy
-				się z dopełniaczem.</message>
+				się z dopełniaczem: <suggestion><match no="2" postag_regexp="yes" postag="ppron.*gen.*:npraep"/></suggestion>.</message>
 				<example type="correct">Używają one starych żelazek.</example>		
-				<example type="incorrect">Używają <marker>je</marker> w domu.</example>
+				<example type="incorrect" correction="go|ich|jego|jej">Używają <marker>je</marker> w domu.</example>
 		</rule>
 		<rule>
 			<pattern mark_to="-2">
@@ -1974,10 +1974,11 @@ $Id: grammar.xml,v 1.22 2007-04-26 21:20:18 milek_pl Exp $
 					<token regexp="yes" inflected="yes">używać|użyć<exception postag_regexp="yes" postag="subst:ger.*|ppas:.*|verb:irreg"/></token>
 					<token regexp="yes">do|\.</token>
 			</pattern>
-			<message>Mówi się „używać czegoś”, a nie „używać coś”.</message>
+			<message>Czasownik „<match no="2" postag_regexp="yes" postag="verb:inf.*"/>” łączy
+			się z dopełniaczem: <suggestion><match no="1" postag_regexp="yes" postag=".*gen.*"/></suggestion>.</message>
 			<example type="correct">Starego żelazka używa do golenia.</example>		
-			<example type="incorrect">Długo tę <marker>książkę</marker> używam.</example>
-			<example type="incorrect">Stare <marker>żelazko</marker> używa do golenia.</example>
+			<example type="incorrect" correction="książek|książki">Długo tę <marker>książkę</marker> używam.</example>
+			<example type="incorrect" correction="żelazek|żelazka">Stare <marker>żelazko</marker> używa do golenia.</example>
 		</rule>		
 		</rulegroup>
 
@@ -1987,8 +1988,9 @@ $Id: grammar.xml,v 1.22 2007-04-26 21:20:18 milek_pl Exp $
 				<token inflected="yes">przestrzegać<exception postag_regexp="yes" postag="subst:ger.*|ppas:.*"/></token>
 				<token postag_regexp="yes" postag="(adj|subst|ppas|pact):.*:(nom|acc|nom\.acc\.voc|nom\.acc).*"><exception postag_regexp="yes" postag=".*gen.*|conj|adv.*|prep.*"/></token>
 			</pattern>
-			<message>Mówi się przestrzegać „czego”, a nie „przestrzegać coś”.</message>
-			<example type="incorrect">Renata przestrzega <marker>przepisy</marker> polskiego prawa.</example>
+			<message>Czasownik „<match no="1" postag_regexp="yes" postag="verb:inf.*"/>” łączy
+			się z dopełniaczem: <suggestion><match no="2" postag_regexp="yes" postag=".*gen.*"/></suggestion>.</message>
+			<example type="incorrect" correction="przepisu|przepisów">Renata przestrzega <marker>przepisy</marker> polskiego prawa.</example>
 			<example type="correct">Renata przestrzega <marker>przepisów</marker> polskiego prawa.</example>
 			<example type="correct">Przestrzegają oni <marker>przepisów</marker> polskiego prawa.</example>
 		</rule>
@@ -1998,8 +2000,9 @@ $Id: grammar.xml,v 1.22 2007-04-26 21:20:18 milek_pl Exp $
 				<token postag_regexp="yes" postag="(ppron|ppron3):.*:(acc|nom\.acc\.voc|nom\.acc).*"><exception postag_regexp="yes" postag=".*gen.*|conj|adv.*|prep.*"/></token>
 				<token negate_pos="yes" postag_regexp="yes" postag=".*gen.*"/>
 			</pattern>
-			<message>Mówi się przestrzegać „czego”, a nie „przestrzegać coś”.</message>
-			<example type="incorrect">Renata przestrzega <marker>je</marker>.</example>
+			<message>Czasownik „<match no="1" postag_regexp="yes" postag="verb:inf.*"/>” łączy
+				się z dopełniaczem: <suggestion><match no="2" postag_regexp="yes" postag="ppron.*gen.*:npraep"/></suggestion>.</message>
+			<example type="incorrect" correction="go|ich|jego|jej">Renata przestrzega <marker>je</marker>.</example>
 			<example type="correct">Renata przestrzega <marker>przepisów</marker> polskiego prawa.</example>
 			<example type="correct">Renata przestrzega <marker>ich</marker>.</example>
 			<example type="correct">Przestrzegają oni <marker>ich</marker>.</example>		
