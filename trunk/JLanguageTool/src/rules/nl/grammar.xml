@@ -2,9 +2,23 @@
 <!--
 Dutch Grammar and Typo Rules for LanguageTool
 Copyright (C) 2006,2007 Ruud J. Baars (r.j.baars -at- hccnet nl)
-$Id: grammar.xml,v 1.2 2007-04-22 14:44:21 dnaber Exp $
+$Id: grammar.xml,v 1.3 2007-04-27 21:01:11 dnaber Exp $
 -->
 <rules lang="nl">
+<!--
+  <category name="Test">
+    <rulegroup id="test" name="Test">
+      <rule>
+        <pattern>
+          <token postag="UNRECOGNIZED"></token>
+        </pattern>
+        <message>Onbekend</message>
+        <example type="incorrect">Een <marker>qklq</marker> kan.</example>
+        <example type="correct">Een <marker>fiets</marker> kan.</example>
+      </rule>
+    </rulegroup>
+</category>
+-->
   <!--  # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # -->
   <category name="Punten en komma's, interpunctie">
     <rulegroup id="EN_KOMMA" name="En, gevolgd door komma">
@@ -67,6 +81,7 @@ $Id: grammar.xml,v 1.2 2007-04-22 14:44:21 dnaber Exp $
   <!--  # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # -->
   <category name="Aardrijkskundige begrippen">
     <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  -->
+
     <rulegroup id="GEO_HOOFDL" name="Hoofdletter of niet? Maas of maas, geul of Geul">
       <rule>
         <pattern case_sensitive="yes" mark_from="1">
@@ -243,6 +258,9 @@ $Id: grammar.xml,v 1.2 2007-04-22 14:44:21 dnaber Exp $
         <example type="incorrect">Wij <marker>veile</marker> het huis.</example>
         <example type="correct">Het <marker>veile</marker> huis.</example>
       </rule>
+    </rulegroup>
+    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  -->
+    <rulegroup id="EMAIL" name="Email vs e-mail">
       <rule>
         <pattern >
           <token>email</token>
@@ -250,6 +268,18 @@ $Id: grammar.xml,v 1.2 2007-04-22 14:44:21 dnaber Exp $
         <message>[c] Bedoelt u <suggestion>e-mail</suggestion> ?</message>
         <example type="incorrect">Wij sturen een <marker>email</marker>.</example>
         <example type="correct">Wij sturen een<marker>e-mail</marker>.</example>
+      </rule>
+    </rulegroup>
+    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  -->
+    <rulegroup id="SLIB" name="slibben vs slippen">
+      <rule>
+        <pattern mark_to="-1">
+          <token regexp="yes">slippen|slipt|slipte|slipten</token>
+          <token>dicht</token>
+        </pattern>
+        <message>Bedoelt u sli<suggestion>b</suggestion> ?</message>
+        <example type="incorrect">De rivier <marker>slipt</marker> dicht.</example>
+        <example type="correct">De rivier <marker>slibt</marker> dicht.</example>
       </rule>
     </rulegroup>
     <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  -->
@@ -722,6 +752,31 @@ $Id: grammar.xml,v 1.2 2007-04-22 14:44:21 dnaber Exp $
         <message>[b] Bedoelt u <suggestion>te allen tijde</suggestion>? Is <suggestion>altijd</suggestion> een optie?</message>
         <example type="incorrect">Dit is <marker>te alle tijden</marker> fout.</example>
         <example type="correct">Dit is <marker>te allen tijde</marker> in orde.</example>
+      </rule>
+    </rulegroup>
+    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  -->
+  </category>
+  <!--  # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # -->
+  <category name="Informeel taalgebruik">
+    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  -->
+    <rulegroup id="GEEN_EEN" name="Geen een(s)">
+      <rule>
+        <pattern>
+          <token>geen</token>
+          <token>een</token>
+        </pattern>
+        <message>[a] Dit  is spreektaal. Beter is <suggestion>niet een</suggestion> of <suggestion>geen enkele</suggestion>.</message>
+        <example type="incorrect">Ik heb er <marker>geen een</marker>.</example>
+        <example type="correct">Ik heb er <marker>niet een</marker>.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>geen</token>
+          <token>eens</token>
+        </pattern>
+        <message>[b] Dit is spreektaal. Beter is <suggestion>niet eens</suggestion>.</message>
+        <example type="incorrect">Ik heb het <marker>geen eens</marker> gezien.</example>
+        <example type="correct">Ik heb het <marker>niet eens</marker> gezien.</example>
       </rule>
     </rulegroup>
     <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  -->
@@ -1250,6 +1305,7 @@ $Id: grammar.xml,v 1.2 2007-04-22 14:44:21 dnaber Exp $
         <example type="incorrect"><marker>De</marker> grote huis is in orde.</example>
       </rule>
 
+
       <rule>
         <pattern mark_to="-2">
           <token>het</token>
@@ -1605,4 +1661,45 @@ $Id: grammar.xml,v 1.2 2007-04-22 14:44:21 dnaber Exp $
     <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  -->
   </category>
   <!--  # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # -->
+<!--
+  <category name="Werkwoordsvormen">
+    <rulegroup id="VOLTOOID" name="Fout in voltooide tijd">
+      <rule>
+        <pattern mark_from="1">
+          <token postag="verb(sg3)"/>
+          <token postag="verb(sg3)"/>
+        </pattern>
+        <message>[a] U bedoelt vast \1 <suggestion> met een d</suggestion></message>
+        <example type="incorrect">Dit wordt <marker>bedoelt</marker>.</example>
+        <example type="correct">Dit wordt <marker>bedoeld</marker>.</example>
+      </rule>
+    </rulegroup>
+</category>
+-->
+  <!--  # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # -->
+  <category name="Toepassing van het en de">
+    <rulegroup id="DEZE_DIE_DIT" name="Fout tegen de- en hetvormen">
+      <rule>
+        <pattern mark_to="-1">
+          <token regexp="yes">die|deze</token>
+          <token postag_regexp="yes" postag="noun\(het.*"/>
+        </pattern>
+        <message>[a] U bedoelt vast <suggestion>dit</suggestion> of <suggestion>dat</suggestion> \2</message>
+        <example type="incorrect">Kijk eens naar <marker>deze</marker> huis.</example>
+        <example type="correct">Kijk eens naar <marker>dit</marker> huis.</example>
+      </rule>
+<!-- hier moet het exact noun deel in komen !
+      <rule>
+        <pattern mark_to="-1">
+          <token regexp="yes">dit|dat</token>
+          <token postag_regexp="yes" postag="noun\(de.*"></token>
+        </pattern>
+        <message>[b] U bedoelt vast <suggestion>deze</suggestion> of <suggestion>die</suggestion> \2</message>
+        <example type="incorrect">Kijk eens naar <marker>dit</marker> aal.</example>
+        <example type="correct">Kijk eens naar <marker>deze</marker> vrouw.</example>
+      </rule>
+-->
+    </rulegroup>
+</category>
 </rules>
+
