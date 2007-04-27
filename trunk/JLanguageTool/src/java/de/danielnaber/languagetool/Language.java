@@ -28,6 +28,7 @@ import de.danielnaber.languagetool.tagging.cs.CzechTagger;
 import de.danielnaber.languagetool.tagging.de.GermanTagger;
 import de.danielnaber.languagetool.tagging.disambiguation.Disambiguator;
 import de.danielnaber.languagetool.tagging.disambiguation.pl.PolishChunker;
+import de.danielnaber.languagetool.tagging.disambiguation.rules.fr.FrenchRuleDisambiguator;
 import de.danielnaber.languagetool.tagging.disambiguation.xx.DemoDisambiguator;
 import de.danielnaber.languagetool.tagging.en.EnglishTagger;
 import de.danielnaber.languagetool.tagging.es.SpanishTagger;
@@ -71,7 +72,7 @@ public final class Language {
         "Marcin Miłkowski");
   
   public static final Language FRENCH = 
-    new Language("French", "fr", new Locale("fr"), new DemoDisambiguator(), new FrenchTagger(),
+    new Language("French", "fr", new Locale("fr"), new FrenchRuleDisambiguator(), new FrenchTagger(),
         new SentenceTokenizer(), new WordTokenizer(), null);
   
   public static final Language SPANISH = 

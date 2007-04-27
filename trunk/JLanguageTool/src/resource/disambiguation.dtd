@@ -1,0 +1,76 @@
+<!--
+Disambiguation Rules DTD
+Agnès Souque, 2007
+
+This DTD defines a format for disambiguation rules
+-->
+
+<!ENTITY % Languages "(en|de|pl|fr|es|it|nl|lt|uk|cs|xx)">
+
+<!ELEMENT rules (rule|rulegroup)*>
+<!ATTLIST rules lang %Languages; #REQUIRED>
+
+<!-- Use the rulegroup element to group similar 'rule' elements
+that should appear as a single rule to the user: -->
+<!ELEMENT rulegroup (rule+)>
+<!-- A unique ID for rulegroup: -->
+<!ATTLIST rulegroup id ID #REQUIRED>
+<!-- A short description of the words disambiguated by this rule: -->
+<!ATTLIST rulegroup name CDATA #IMPLIED>
+
+<!ELEMENT rule (pattern,disambig)>
+<!-- A unique ID for this rule (not required if this rule is inside 
+a rulegroup): -->
+<!ATTLIST rule id ID #IMPLIED>
+<!-- A short description displayed to the user in the configuration dialog: -->
+<!ATTLIST rule name CDATA #IMPLIED>
+
+<!ELEMENT pattern (token)*>
+<!-- The position of the ambiguous token in the pattern. mark_from="0" refers to the first token, etc: -->
+<!ATTLIST pattern mark CDATA #REQUIRED>
+
+<!-- token element - tokens matched by rules, could be specified as regular expressions,
+regexp="yes"; postag contains any POS tags. POS tags can be specified as regular
+expressions as well using postag_regexp="yes"
+-->
+<!ELEMENT token (#PCDATA|exception)*>
+<!-- Is token a lemma that should be expanded? For example, "walk" would be
+expanded to "walks", "walked" etc. before the rule matches if this is
+set to 'yes': -->
+<!ATTLIST token inflected (yes|no) "no">
+<!-- Is token a regexp? -->
+<!ATTLIST token regexp (yes|no) "no">
+<!-- Is token negated? Set to 'yes' to make tokens match that didn't match 
+before and vice versa:-->
+<!ATTLIST token negate (yes|no) "no">
+<!-- The part-of-speech tag of the token: -->
+<!ATTLIST token postag CDATA #IMPLIED>
+<!-- Whether the string in 'postag' is a regular expression: -->
+<!ATTLIST token postag_regexp (yes|no) "no">
+<!-- Whether the postag match should be negated: -->
+<!ATTLIST token negate_pos (yes|no) "no">
+<!-- Maximum number of tags to skip before the match is found: -->
+
+<!-- Exception element -->
+<!ELEMENT exception (#PCDATA)>
+<!-- Is exception a lemma? -->
+<!ATTLIST exception inflected (yes|no) "no">
+<!-- Is exception a regexp? -->
+<!ATTLIST exception regexp (yes|no) "no">
+<!-- Is exception negated? - instead of ^ in 0.8.2 -->
+<!ATTLIST exception negate (yes|no) "no">
+<!-- The part-of-speech tag of the token: -->
+<!ATTLIST exception postag CDATA #IMPLIED>
+<!-- Whether the string in 'postag' is a regular expression: -->
+<!ATTLIST exception postag_regexp (yes|no) "no">
+<!-- Whether the postag match should be negated: -->
+<!ATTLIST exception negate_pos (yes|no) "no">
+
+<!-- defines if the exception should apply to skipped tokens
+i.e., the validity scope of the exception: -->
+<!ATTLIST exception scope (current|next|previous) "current">
+
+<!-- disambig is used to give the correct tag to the ambiguous word -->
+<!ELEMENT disambig (#PCDATA)>
+<!ATTLIST disambig postag CDATA #REQUIRED>
+

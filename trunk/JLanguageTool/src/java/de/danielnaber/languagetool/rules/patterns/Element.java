@@ -59,7 +59,7 @@ public class Element {
   /** Matches only tokens without any POS tag. **/
   private static final String UNKNOWN_TAG = "UNKNOWN";
 
-  Element(final String token, final boolean caseSensitive, final boolean regExp,
+  public Element(final String token, final boolean caseSensitive, final boolean regExp,
       final boolean inflected) {
     this.stringToken = token;
     this.caseSensitive = caseSensitive;
@@ -74,7 +74,7 @@ public class Element {
     }
   }
 
-  final boolean match(final AnalyzedToken token) {
+  public final boolean match(final AnalyzedToken token) {
     // this var is used to determine
     // if calling matchStringToken
     // has any sense - this method takes
@@ -95,7 +95,7 @@ public class Element {
     }
   }
   
-  final boolean exceptionMatch(final AnalyzedToken token) {
+  public final boolean exceptionMatch(final AnalyzedToken token) {
     boolean exceptionMatched = false;
     if (exceptionSet) {
       for (Element testException : exceptionList) {
@@ -108,7 +108,7 @@ public class Element {
     return exceptionMatched;
   }
 
-  final boolean prevExceptionMatch(final AnalyzedToken token) {
+  public final boolean prevExceptionMatch(final AnalyzedToken token) {
     boolean exceptionMatched = false;
     if (exceptionSet) {      
       for (Element testException : exceptionList) {
@@ -277,7 +277,7 @@ public class Element {
    * @param negation - true if the meaning of match()
    * is to be negated.
    */
-  final void setNegation(final boolean negation) {
+  public final void setNegation(final boolean negation) {
     this.negation = negation;
   }
 

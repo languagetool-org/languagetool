@@ -91,6 +91,7 @@ public abstract class Rule {
    * @return an array of RuleMatch object for each match.
    */
   public abstract RuleMatch[] match(AnalyzedSentence text) throws IOException ;
+    
   
   /**
    * If a rule keeps it state over more than the check of one
