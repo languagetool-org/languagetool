@@ -2,7 +2,7 @@
 <!--
 A demo rule file for LanguageTool
 Copyright (C) 2005 Daniel Naber (http://www.danielnaber.de)
-$Id: grammar.xml,v 1.3 2007-04-22 19:18:50 milek_pl Exp $
+$Id: grammar.xml,v 1.4 2007-04-28 23:20:49 milek_pl Exp $
 -->
 
 <rules lang="xx">
@@ -137,6 +137,24 @@ $Id: grammar.xml,v 1.3 2007-04-22 19:18:50 milek_pl Exp $
 		<example type="incorrect">First words and <marker>first go last</marker></example>
 		</rule>  
 				
+		<rule id="test_and_operator" name="test logical AND">
+			<pattern mark_to="-1">
+				<and>
+					<token regexp="yes">A.*</token>
+					<token regexp="yes">[A-Z]B.*</token>
+					<token negate="yes">ABC</token>
+					<token regexp="yes">.*D<exception>ABED</exception></token>
+				</and>
+				<token>test</token>
+			</pattern>
+			<message>Matched: <match no="1"/></message>
+			<example type="correct">CB test</example>
+			<example type="correct">ABC test</example>
+			<example type="incorrect"><marker>ABCD</marker> test</example>
+			<example type="incorrect"><marker>ABEED</marker> test</example>
+			<example type="correct"><marker>ABED</marker> test</example>
+		</rule>
+		
   </category>
 
 </rules>

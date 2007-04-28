@@ -17,7 +17,6 @@ public class FrenchRuleDisambiguator extends RuleDisambiguator {
 
   static final String DISAMB_FILE = "disambiguation.xml";
   private List<DisambiguationPatternRule> disambiguationRules = null;
-  public Language language = null;
   
   /**
    * Load disambiguation rules from an XML file. Use {@link #addRule} to add

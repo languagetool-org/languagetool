@@ -45,9 +45,10 @@ class XMLRuleHandler extends DefaultHandler {
   boolean inMessage = false;
   boolean inMatch = false;
   boolean inRuleGroup = false;
-  boolean inToken= false;
+  boolean inToken = false;
   boolean inException = false;
   boolean inPhrases = false;
+  boolean inAndGroup = false;
   
   List<PatternRule> getRules() {
     return rules;

@@ -87,7 +87,7 @@ public class Match {
     if (regexMatch != null) {
       pRegexMatch = Pattern.compile(regexMatch);
     }
-    if (postagRegexp & posTag != null) {
+    if (postagRegexp && posTag != null) {
       pPosRegexMatch = Pattern.compile(posTag);
     }
 
@@ -109,7 +109,7 @@ public class Match {
         formattedToken = new AnalyzedTokenReadings(new AnalyzedToken(lemmaString, null, lemmaString));
         staticLemma = true;
         postagRegexp = true;
-        if (postagRegexp & posTag != null) {
+        if (postagRegexp && posTag != null) {
           pPosRegexMatch = Pattern.compile(posTag);
         }
       }
@@ -130,7 +130,6 @@ public class Match {
           = pRegexMatch.matcher(formattedString[0]).replaceAll(regexReplace);
           }        
           switch (caseConversionType) {
-            default : formattedString[0] = formattedString[0]; break;
             case NONE : formattedString[0] = formattedString[0]; break;
             case STARTLOWER : formattedString[0] = formattedString[0].
                     substring(0, 1).toLowerCase() 
@@ -141,7 +140,8 @@ public class Match {
             case ALLUPPER : formattedString[0] = formattedString[0].
                   toUpperCase(); break;
             case ALLLOWER : formattedString[0] = formattedString[0].
-                  toLowerCase(); break;              
+                  toLowerCase(); break;
+            default : formattedString[0] = formattedString[0]; break;
           }         
         
       } else {

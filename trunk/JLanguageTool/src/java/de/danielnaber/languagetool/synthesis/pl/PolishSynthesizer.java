@@ -50,17 +50,22 @@ public class PolishSynthesizer implements Synthesizer {
   private ArrayList<String> possibleTags = null;
   
   public String[] synthesize(AnalyzedToken token, String posTag) throws IOException {
+    if (posTag == null) {
+      return null;
+    }
     if (synthesizer == null) {
       synthesizer = 
         new Lametyzator(this.getClass().getResourceAsStream(RESOURCE_FILENAME),
           "iso8859-2", '+');
     }
     boolean isNegated = false;
-    if (posTag != null && token.getPOSTag() != null) {
+    if (token.getPOSTag() != null) {
       isNegated = posTag.indexOf(":neg") > 0 
       || token.getPOSTag().indexOf(":neg") > 0;
     }
-
+    if (posTag.indexOf("+") > 0) {      
+      return synthesize(token, posTag, true);
+    } else {
     String[] wordForms = null;
     if (isNegated) {
       wordForms = synthesizer.stem(token.getLemma() + "|" + posTag.replaceFirst(":neg", ":pneg"));
@@ -75,11 +80,14 @@ public class PolishSynthesizer implements Synthesizer {
     wordForms = synthesizer.stem(token.getLemma() + "|" + posTag);
     }
     return wordForms;
+    }
   }
 
   public String[] synthesize(AnalyzedToken token, String posTag, boolean posTagRegExp)
       throws IOException {
-    
+    if (posTag == null) {
+      return null;
+    }
     if (posTagRegExp) {
     if (possibleTags == null) {
       possibleTags = loadWords(this.getClass().getResourceAsStream(TAGS_FILE_NAME));
@@ -89,11 +97,11 @@ public class PolishSynthesizer implements Synthesizer {
         new Lametyzator(this.getClass().getResourceAsStream(RESOURCE_FILENAME),
           "iso8859-2", '+');
     }    
-    Pattern p = Pattern.compile(posTag.replaceAll("\\+", "|"));
+    final Pattern p = Pattern.compile(posTag.replaceAll("\\+", "|"));
     ArrayList<String> results = new ArrayList<String>();
     
     boolean isNegated = false;
-    if (posTag != null && token.getPOSTag() != null) {
+    if (token.getPOSTag() != null) {
       isNegated = posTag.indexOf(":neg") > 0 
       || token.getPOSTag().indexOf(":neg") > 0;
     }

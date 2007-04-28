@@ -216,7 +216,8 @@ public class PatternRule extends Rule {
               }
             }
             thisMatched |= elem.match(matchToken);
-            exceptionMatched |= elem.exceptionMatch(matchToken);
+            exceptionMatched |= (elem.exceptionMatch(matchToken) 
+                  || elem.andGroupExceptionMatch(matchToken));
             // Logical OR (cannot be AND):
             if (!thisMatched && !exceptionMatched) {
               matched |= false;
@@ -264,6 +265,9 @@ public class PatternRule extends Rule {
       tokenPos++;
       
       if (allElementsMatch) {
+        if (firstMatchToken + matchingTokens >= tokens.length) {
+          matchingTokens = tokens.length - firstMatchToken;
+        }
         String errMessage = formatMatches(tokens,
             tokenPositions, firstMatchToken, matchingTokens,
             message);
@@ -327,10 +331,7 @@ public class PatternRule extends Rule {
   public final String formatMatches(final AnalyzedTokenReadings[] toks,
       final int[] positions, final int firstMatchTok, int matchingTok,
       final String errorMsg) throws IOException {
-    String errorMessage = errorMsg;
-    if (firstMatchTok + matchingTok >= toks.length) {
-      matchingTok = toks.length - firstMatchTok;
-    }
+    String errorMessage = errorMsg;    
     int matchCounter = 0;
     boolean newWay = false;
     int errLen = errorMessage.length();
@@ -340,7 +341,7 @@ public class PatternRule extends Rule {
       numberFollows = errorMessage.charAt(errMarker + 1) >= '1'
         & errorMessage.charAt(errMarker + 1) <= '9';
     }
-    while (errMarker > 0 & numberFollows) {
+    while (errMarker > 0 && numberFollows) {
       int ind = errorMessage.indexOf("\\"); 
       if (ind > 0) {
         if (errorMessage.charAt(ind + 1) >= '1'

@@ -22,7 +22,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 
 import javax.xml.parsers.SAXParser;
@@ -124,7 +123,9 @@ class PatternRuleHandler extends XMLRuleHandler {
   private int endPositionCorrection = 0;
   private int skipPos = 0;
   
-  private Element stringElement = null;
+  private Element tokenElement = null;
+  
+  private int andGroupCounter = 0;
 
   // ===========================================================
   // SAX DocumentHandler methods
@@ -165,6 +166,8 @@ class PatternRuleHandler extends XMLRuleHandler {
       if (attrs.getValue("case_sensitive") != null
           && attrs.getValue("case_sensitive").equals("yes"))
         caseSensitive = true;
+    } else if (qName.equals("and")) {
+      inAndGroup = true;
     } else if (qName.equals("token")) {
       inToken = true;
       
@@ -260,7 +263,7 @@ class PatternRuleHandler extends XMLRuleHandler {
         caseConv = Match.CaseConversion.toCase(
               attrs.getValue("case_conversion").toUpperCase());
       }      
-      Match mWorker = new Match(attrs.getValue("postag"),
+      final Match mWorker = new Match(attrs.getValue("postag"),
           attrs.getValue("postag_replace"),
           "yes".equals(attrs.getValue("postag_regexp")),
           attrs.getValue("regexp_match"), 
@@ -274,10 +277,7 @@ class PatternRuleHandler extends XMLRuleHandler {
     } else if (qName.equals("phrases")) {
       inPhrases = true;
     } else if (qName.equals("includephrases")) {
-      // lazy init
-      if (phraseElementList == null) {
-        phraseElementList = new ArrayList < ArrayList < Element > > ();
-      }
+      phraseElementInit();      
       if (elementList == null) {
         elementList = new ArrayList < Element >();
       }
@@ -289,17 +289,14 @@ class PatternRuleHandler extends XMLRuleHandler {
         phraseIdRef = attrs.getValue("idref");
       if (phraseMap.containsKey(phraseIdRef)) {      
       ArrayList < ArrayList < Element > > curPhraseElementList = phraseMap.get(phraseIdRef);              
-      Iterator < ArrayList <Element> > it = curPhraseElementList.iterator();
-      //ArrayList <Element> prevList = new ArrayList <Element > (elementList);                                   
-      
-      while (it.hasNext()) {              
+      for (ArrayList < Element > curPhrEl : curPhraseElementList) {              
         if (!elementList.isEmpty()) {
-          ArrayList <Element> prevList = new ArrayList <Element > (elementList);
-          prevList.addAll(it.next());
+          ArrayList < Element > prevList = new ArrayList < Element > (elementList);
+          prevList.addAll(curPhrEl);
           phraseElementList.add(new ArrayList <Element>(prevList));
           prevList.clear();
         } else {        
-        phraseElementList.add(new ArrayList <Element>(it.next()));
+        phraseElementList.add(new ArrayList <Element>(curPhrEl));
         }       
       }
       lastPhrase = true;
@@ -310,114 +307,80 @@ class PatternRuleHandler extends XMLRuleHandler {
 
   @SuppressWarnings("unused")
   public void endElement(String namespaceURI, String sName, String qName) {
-    
+
     if (qName.equals("rule")) {
-      if (phraseElementList == null) {
-        phraseElementList = new ArrayList < ArrayList < Element > > ();
-      }
-        if (!phraseElementList.isEmpty()) {                                       
-          
-          if (!elementList.isEmpty()) { 
-          Iterator < ArrayList < Element > > phIt = phraseElementList.iterator();                    
-          while (phIt.hasNext()) {
-            phIt.next().addAll(new ArrayList <Element> (elementList));
+      phraseElementInit();
+      if (!phraseElementList.isEmpty()) {                                       
+
+        if (!elementList.isEmpty()) { 
+          for (ArrayList < Element > ph : phraseElementList) {
+            ph.addAll(new ArrayList <Element> (elementList));
           }
-          }
-          
-          Iterator < ArrayList < Element > > it = phraseElementList.iterator();
-            while (it.hasNext()) {
-              PatternRule rule = new PatternRule(id, language, it.next(), description, message.toString(), phraseElementList.size()>1);      
-              rule.setStartPositionCorrection(startPositionCorrection);
-              rule.setEndPositionCorrection(endPositionCorrection);
-              startPositionCorrection = 0;
-              endPositionCorrection = 0;
-              rule.setCorrectExamples(correctExamples);
-              rule.setIncorrectExamples(incorrectExamples);              
-              rule.setCategory(category);
-              caseSensitive = false;
-              if (suggestionMatches != null) {
-                for (Match m : suggestionMatches) {
-                  rule.addSuggestionMatch(m);
-                }
-                suggestionMatches.clear();
-              }
-              rules.add(rule);              
-            }
-        } else {
-      PatternRule rule = new PatternRule(id, language, elementList, description, message.toString());      
-      rule.setStartPositionCorrection(startPositionCorrection);
-      rule.setEndPositionCorrection(endPositionCorrection);
-      startPositionCorrection = 0;
-      endPositionCorrection = 0;
-      rule.setCorrectExamples(correctExamples);
-      rule.setIncorrectExamples(incorrectExamples);      
-      rule.setCategory(category);
-      caseSensitive = false;
-      if (suggestionMatches != null) {
-        for (Match m : suggestionMatches) {
-          rule.addSuggestionMatch(m);
         }
-        suggestionMatches.clear();
+
+        for (ArrayList < Element > phraseElement : phraseElementList) {
+          PatternRule rule = new PatternRule(id, language, phraseElement, description, message.toString(), phraseElementList.size()>1);      
+          prepareRule(rule);
+          rules.add(rule);              
+        }
+      } else {
+        PatternRule rule = new PatternRule(id, language, elementList, description, message.toString());
+        prepareRule(rule);
+        rules.add(rule);
       }
-      rules.add(rule);
-      }
-      
-       if (elementList != null) {
+
+      if (elementList != null) {
         elementList.clear();
       }      
-       if (phraseElementList != null) {
+      if (phraseElementList != null) {
         phraseElementList.clear();
       }
-      
+
     } else if (qName.equals("exception")) {
       inException = false;
       if (!exceptionSet) {
-      stringElement = new Element(elements.toString(), caseSensitive, stringRegExp,
-          stringInflected);
-      exceptionSet = true;
+        tokenElement = new Element(elements.toString(), 
+            caseSensitive, stringRegExp, stringInflected);
+        exceptionSet = true;
       }
-      stringElement.setNegation(stringNegation);
-        if (!exceptions.toString().equals("")) {
-        stringElement.setStringException(exceptions.toString(), exceptionStringRegExp, 
+      tokenElement.setNegation(stringNegation);
+      if (!exceptions.toString().equals("")) {
+        tokenElement.setStringException(exceptions.toString(), exceptionStringRegExp, 
             exceptionStringInflected, exceptionStringNegation, exceptionValidNext);
-        }              
+      }              
       if (exceptionPosToken != null) {
-        stringElement.setPosException(exceptionPosToken, exceptionPosRegExp, exceptionPosNegation, exceptionValidNext);
+        tokenElement.setPosException(exceptionPosToken, exceptionPosRegExp, exceptionPosNegation, exceptionValidNext);
         exceptionPosToken = null;
       }
-      
+
+    } else if (qName.equals("and")) {
+      inAndGroup = false;
+      andGroupCounter = 0;
     } else if (qName.equals("token")) {
-      if (!exceptionSet || stringElement == null) {
-      stringElement = new Element(elements.toString(), caseSensitive, stringRegExp,
-          stringInflected);
-      stringElement.setNegation(stringNegation);
+      if (!exceptionSet || tokenElement == null) {
+        tokenElement = new Element(elements.toString(), caseSensitive, stringRegExp,
+            stringInflected);
+        tokenElement.setNegation(stringNegation);
       } else {
-        stringElement.setStringElement(elements.toString());
+        tokenElement.setStringElement(elements.toString());
       }
       if (skipPos != 0) {
-        stringElement.setSkipNext(skipPos);
+        tokenElement.setSkipNext(skipPos);
         skipPos = 0;
       }
       if (posToken != null) {
-        stringElement.setPosElement(posToken, posRegExp, posNegation);
+        tokenElement.setPosElement(posToken, posRegExp, posNegation);
         posToken = null;
-      }      
-      elementList.add(stringElement);
-      stringNegation = false;
-      stringInflected = false;
-      posNegation = false;
-      posRegExp = false;
-      inToken = false;
-      stringRegExp = false;
-
-      exceptionStringNegation = false;
-      exceptionStringInflected = false;
-      exceptionPosNegation = false;
-      exceptionPosRegExp = false;
-      exceptionStringRegExp = false;
-      exceptionValidNext = true;
-      exceptionSet = false;
-
+      }
+      if (inAndGroup && andGroupCounter > 0) {
+        elementList.get(elementList.size() - 1).setAndGroupElement(tokenElement);
+      } else {
+        elementList.add(tokenElement);
+      }
+      if (inAndGroup) {
+        andGroupCounter++;
+      }
+      resetToken();
     } else if (qName.equals("pattern")) {
       inPattern = false;
       if (lastPhrase) {
@@ -451,18 +414,15 @@ class PatternRuleHandler extends XMLRuleHandler {
       if (phraseMap == null) {
         phraseMap = new HashMap < String, ArrayList < ArrayList < Element > > > ();
       }      
-      if (phraseElementList == null) {
-        phraseElementList = new ArrayList < ArrayList < Element > > ();
-      }
-      
+      phraseElementInit();
+
       if (elementList != null) {
-      if (!phraseElementList.isEmpty()) {
-        Iterator < ArrayList < Element > > phIt = phraseElementList.iterator();
-         while (phIt.hasNext()) {
-           phIt.next().addAll(new ArrayList <Element> (elementList));
-         }
-      } else {
-        phraseElementList.add(new ArrayList < Element > (elementList));
+        if (!phraseElementList.isEmpty()) {
+          for (ArrayList < Element > ph : phraseElementList) {
+            ph.addAll(new ArrayList <Element> (elementList));
+          }
+        } else {
+          phraseElementList.add(new ArrayList < Element > (elementList));
         }
       }     
       phraseMap.put(phraseId, new ArrayList < ArrayList < Element > >(phraseElementList));
@@ -477,7 +437,48 @@ class PatternRuleHandler extends XMLRuleHandler {
     } 
   }
 
-  public void characters(final char[] buf, int offset, int len) {
+  private void resetToken() {
+    stringNegation = false;
+    stringInflected = false;
+    posNegation = false;
+    posRegExp = false;
+    inToken = false;
+    stringRegExp = false;
+
+    exceptionStringNegation = false;
+    exceptionStringInflected = false;
+    exceptionPosNegation = false;
+    exceptionPosRegExp = false;
+    exceptionStringRegExp = false;
+    exceptionValidNext = true;
+    exceptionSet = false; 
+  }
+  
+  private void prepareRule(PatternRule rule) {
+    rule.setStartPositionCorrection(startPositionCorrection);
+    rule.setEndPositionCorrection(endPositionCorrection);
+    startPositionCorrection = 0;
+    endPositionCorrection = 0;
+    rule.setCorrectExamples(correctExamples);
+    rule.setIncorrectExamples(incorrectExamples);      
+    rule.setCategory(category);
+    caseSensitive = false;
+    if (suggestionMatches != null) {
+      for (Match m : suggestionMatches) {
+        rule.addSuggestionMatch(m);
+      }
+      suggestionMatches.clear();
+    } 
+  }
+  
+  private void phraseElementInit(){
+    // lazy init
+    if (phraseElementList == null) {
+      phraseElementList = new ArrayList < ArrayList < Element > > ();
+    }
+  }
+  
+  public void characters(final char[] buf, final int offset, final int len) {
     String s = new String(buf, offset, len);
     if (inException) {
       exceptions.append(s);

@@ -47,6 +47,9 @@ public class Element {
   private ArrayList<Element> exceptionList;
   private boolean exceptionValidNext = true;
   private boolean exceptionSet = false;
+  
+  private ArrayList<Element> andGroupList;  
+  private boolean andGroupSet = false;  
 
   private int skip = 0;
   
@@ -89,7 +92,9 @@ public class Element {
       }
     }
     if (testString) {
-      return (matchStringToken(token) != negation) && (matchPosToken(token) != posNegation);
+      return (matchStringToken(token) != negation) 
+          && (matchPosToken(token) != posNegation)
+          && andGroupMatch(token);
     } else {
       return (!negation) && (matchPosToken(token) != posNegation);
     }
@@ -106,6 +111,59 @@ public class Element {
       }
     }
     return exceptionMatched;
+  }
+  
+  /**
+   * Enables to test for multiple conditions specified by
+   * different elements. Doesn't test exceptions.
+   * 
+   * Works as logical AND operator.
+   * 
+   * @param token AnalyzedToken - the token checked. 
+   * @return true if all conditions are met, false otherwise.
+   */
+  public final boolean andGroupMatch(final AnalyzedToken token) {
+    boolean andGroupMatched = true;
+    if (andGroupSet) {
+      for (Element testAndGroup : andGroupList) {
+        andGroupMatched &= testAndGroup.match(token);        
+      }
+    }
+    return andGroupMatched;
+  }
+  
+  /**
+   * Enables to test for multiple conditions specified by
+   * multiple element exceptions.
+   * 
+   * Works as logical AND operator.
+   * 
+   * @param token AnalyzedToken - the token checked for exceptions. 
+   * @return true if all conditions are met, false otherwise.
+   */
+  public final boolean andGroupExceptionMatch(final AnalyzedToken token) {
+    boolean andGroupExceptionMatched = false;
+    if (andGroupSet) {
+      for (Element testAndGroup : andGroupList) {
+        andGroupExceptionMatched |= testAndGroup.exceptionMatch(token);
+        if (andGroupExceptionMatched) {
+          return andGroupExceptionMatched;
+        }
+      }
+    }
+    return andGroupExceptionMatched;
+  }
+  
+  public final void setAndGroupElement(final Element andToken) {
+    if (andToken != null) {
+      if (andGroupList == null) {
+        andGroupList = new ArrayList<Element>();
+      }
+      if (!andGroupSet) {
+        andGroupSet = true;
+      }
+      andGroupList.add(andToken);
+    }
   }
 
   public final boolean prevExceptionMatch(final AnalyzedToken token) {
@@ -134,7 +192,7 @@ public class Element {
   
   public final String toString() {
     if (posToken != null) {
-      return stringToken.concat("/").concat(posToken);
+      return stringToken + "/" + posToken;
     } else {
       return stringToken;
     }
