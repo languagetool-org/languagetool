@@ -43,6 +43,13 @@ public class FrenchRuleDisambiguatorTest extends TestCase {
     TestTools.myAssert("Je danse toutes les semaines au club.",
         "/[null]SENT_START Je/[je]R pers suj 1 s  /[null]null danse/[danser]V sub pres 1 s|danse/[danser]V sub pres 3 s|danse/[danser]V imp pres 2 s|danse/[danser]V ind pres 1 s|danse/[danser]V ind pres 3 s|danse/[danse]N f s  /[null]null toutes/[tous]R f p|toutes/[tout]D f p  /[null]null les/[les]R pers obj 3 p|les/[le]D e p  /[null]null semaines/[semaine]N f p  /[null]null au/[au]D m s  /[null]null club/[club]N m s ./[null]null", 
         tokenizer, sentenceTokenizer, tagger, disamb2);
+    TestTools.myAssert("Quand j'étais petit, je jouais au football.",
+        "/[null]SENT_START Quand/[quand]C sub  /[null]null j/[je]R pers suj 1 s '/[null]null étais/[étai]V etre ind impa 1 s  /[null]null petit/[petit]A|petit/[petit]J m s|petit/[petit]N m s ,/[null]null  /[null]null je/[je]R pers suj 1 s  /[null]null jouais/[jouer]V ind impa 1 s|jouais/[jouer]V ind impa 2 s  /[null]null au/[au]D m s  /[null]null football/[football]N m s ./[null]null", 
+        tokenizer, sentenceTokenizer, tagger, disambiguator);
+    TestTools.myAssert("Quand j'étais petit, je jouais au football.",
+        "/[null]SENT_START Quand/[quand]A|Quand/[quand]C sub  /[null]null j/[je]R pers suj 1 s|j/[j]N m sp '/[null]null étais/[étai]N m p|étais/[être]V etre ind impa 1 s|étais/[être]V etre ind impa 2 s  /[null]null petit/[petit]A|petit/[petit]J m s|petit/[petit]N m s ,/[null]null  /[null]null je/[je]R pers suj 1 s  /[null]null jouais/[jouer]V ind impa 1 s|jouais/[jouer]V ind impa 2 s  /[null]null au/[au]D m s  /[null]null football/[football]N m s ./[null]null", 
+        tokenizer, sentenceTokenizer, tagger, disamb2);
+    
   }
 
 }
