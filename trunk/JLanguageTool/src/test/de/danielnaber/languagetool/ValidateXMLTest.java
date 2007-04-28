@@ -38,4 +38,14 @@ public class ValidateXMLTest extends TestCase {
     validator.validate("/rules/false-friends.xml", "/rules/false-friends.dtd", "rules");
   }
 
+  public void testDisambiguationRuleFile() throws IOException {
+    XMLValidator validator = new XMLValidator();
+    //for (int i = 0; i < Language.LANGUAGES.length; i++) {
+    //  Language lang = Language.LANGUAGES[i];
+    Language lang = Language.FRENCH;
+      String grammarFile = "/resource/" + lang.getShortName() + "/disambiguation.xml";
+      validator.validate(grammarFile, "/resource/disambiguation.dtd", "rules");
+   // }
+  }
+  
 }
