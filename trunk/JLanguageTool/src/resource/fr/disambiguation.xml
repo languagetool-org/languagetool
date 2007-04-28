@@ -14,17 +14,17 @@ RB => Règles Brutes
 -->
 
 <rules lang="fr">
-	<rulegroup name="RP : Pronoms personnels objets" id="RP:PRO_PERS_SUJ">
+	<rulegroup name="RP : Pronoms personnels objets" id="RP:PRO_PERS_OBJ">
 		<rule name="nous">
 			<pattern mark="1">
-				<token postag="R Pers"/>
+				<token postag_regexp="yes" postag="R pers.*"/>
 				<token>nous</token>
 			</pattern>
 			<disambig postag="R pers obj 1 p"/>
 		</rule>
 		<rule name="vous">
 			<pattern mark="1">
-				<token postag="R Pers"/>
+				<token postag_regexp="yes" postag="R pers.*"/>
 				<token>vous</token>
 			</pattern>
 			<disambig postag="R pers obj 2 p"/>
@@ -33,14 +33,14 @@ RB => Règles Brutes
 			<pattern mark="0">
 				<token>s</token>
 				<token postag=".?" postag_regexp="yes"/> 
-				<token postag="V"/>
+				<token postag_regexp="yes" postag="V.*"/>
 			</pattern>
 			<disambig postag="R pers obj 3 sp"/>
 		</rule>
 		<rule name="te">
 			<pattern mark="0">
 				<token>t</token>
-				<token postag="V"/>
+				<token postag_regexp="yes" postag="V.*"/>
 			</pattern>
 			<disambig postag="R pers obj 2 s"/>
 		</rule>
@@ -57,21 +57,21 @@ RB => Règles Brutes
 		<rule name="tu">
 			<pattern mark="0">
 				<token>tu</token>
-				<token postag="V"/>					
+				<token postag_regexp="yes" postag="V.*"/>					
 			</pattern>
 			<disambig postag="R pers suj 2 s"/>
 		</rule>
 		<rule name="nous">
 			<pattern mark="0">
 				<token>nous</token>
-				<token postag="V"/>					
+				<token postag_regexp="yes" postag="V.*"/>					
 			</pattern>
 			<disambig postag="R pers suj 1 p"/>
 		</rule>
 		<rule name="vous">
 			<pattern mark="0">
 				<token>vous</token>
-				<token postag="V"/>					
+				<token postag_regexp="yes" postag="V.*"/>					
 			</pattern>
 			<disambig postag="R pers suj 2 p"/>
 		</rule>
@@ -179,22 +179,22 @@ RB => Règles Brutes
 	<rulegroup name="RP : Infinitif ambigu" id="RP:INFINITIF">
 		<rule name="Infinitifs">
 			<pattern mark="1">
-				<token postag="V"/>
-				<token pastag="V inf"/>
+				<token postag_regexp="yes" postag="V.*"/>
+				<token postag="V inf"/>
 			</pattern>
 			<disambig postag="V inf"/>
 		</rule>
 		<rule name="Infinitif être">
 			<pattern mark="1">
-				<token postag="V"/>
-				<token pastag="V etre inf"/>
+				<token postag_regexp="yes" postag="V.*"/>
+				<token postag="V etre inf"/>
 			</pattern>
 			<disambig postag="V etre inf"/>
 		</rule>
 		<rule name="Infinitif avoir">
 			<pattern mark="1">
-				<token postag="V"/>
-				<token pastag="V avoir inf"/>
+				<token postag_regexp="yes" postag="V.*"/>
+				<token postag="V avoir inf"/>
 			</pattern>
 			<disambig postag="V avoir inf"/>
 		</rule>
@@ -205,42 +205,42 @@ RB => Règles Brutes
 		<rule name="Det masc sing">
 			<pattern mark="0">
 				<token postag="D m s"/>
-				<token postag="N"/>
+				<token postag_regexp="yes" postag="N.*"/>
 			</pattern>
 			<disambig postag="D m s"/>
 		</rule>
 		<rule name="Det masc plur">
 			<pattern mark="0">
 				<token postag="D m p"/>
-				<token postag="N"/>
+				<token postag_regexp="yes" postag="N.*"/>
 			</pattern>
 			<disambig postag="D m p"/>
 		</rule>
 		<rule name="Det fem sing">
 			<pattern mark="0">
 				<token postag="D f s"/>
-				<token postag="N"/>
+				<token postag_regexp="yes" postag="N.*"/>
 			</pattern>
 			<disambig postag="D f s"/>
 		</rule>
 		<rule name="Det fem plur">
 			<pattern mark="0">
 				<token postag="D f p"/>
-				<token postag="N"/>
+				<token postag_regexp="yes" postag="N.*"/>
 			</pattern>
 			<disambig postag="D f p"/>
 		</rule>
 		<rule name="Det épicène sing">
 			<pattern mark="0">
 				<token postag="D e s"/>
-				<token postag="N"/>
+				<token postag_regexp="yes" postag="N.*"/>
 			</pattern>
 			<disambig postag="D e s"/>
 		</rule>
 		<rule name="Det épicène plur">
 			<pattern mark="0">
 				<token postag="D e p"/>
-				<token postag="N"/>
+				<token postag_regexp="yes" postag="N.*"/>
 			</pattern>
 			<disambig postag="D e p"/>
 		</rule>
@@ -250,42 +250,42 @@ RB => Règles Brutes
 		<rule name="Det mas sing">
 			<pattern mark="0">
 				<token postag="D m s"/>
-				<token postag="J"/>
+				<token postag_regexp="yes" postag="J.*"/>
 			</pattern>
 			<disambig postag="D m s"/>
 		</rule>
 		<rule name="Det masc plur">
 			<pattern mark="0">
 				<token postag="D m p"/>
-				<token postag="J"/>
+				<token postag_regexp="yes" postag="J.*"/>
 			</pattern>
 			<disambig postag="D m p"/>
 		</rule>
 		<rule name="Det fem sing">
 			<pattern mark="0">
 				<token postag="D f s"/>
-				<token postag="J"/>
+				<token postag_regexp="yes" postag="J.*"/>
 			</pattern>
 			<disambig postag="D f s"/>
 		</rule>
 		<rule name="Det fem plur">
 			<pattern mark="0">
 				<token postag="D f p"/>
-				<token postag="J"/>
+				<token postag_regexp="yes" postag="J.*"/>
 			</pattern>
 			<disambig postag="D f p"/>
 		</rule>
 		<rule name="Det épicène sing">
 			<pattern mark="0">
 				<token postag="D e s"/>
-				<token postag="J"/>
+				<token postag_regexp="yes" postag="J.*"/>
 			</pattern>
 			<disambig postag="D e s"/>
 		</rule>
 		<rule name="Det épicène plur">
 			<pattern mark="0">
 				<token postag="D e p"/>
-				<token postag="J"/>
+				<token postag_regexp="yes" postag="J.*"/>
 			</pattern>
 			<disambig postag="D e p"/>
 		</rule>
@@ -295,63 +295,63 @@ RB => Règles Brutes
 	<rulegroup name="RP : Det + Nom ambigu" id="RP:D_N_AMBIG">
 		<rule name="Nom masc inv">
 			<pattern mark="1">
-				<token postag="D"/>
+				<token postag_regexp="yes" postag="D.*"/>
 				<token postag="N m sp"/>
 			</pattern>
 			<disambig postag="N m sp"/>
 		</rule>
 		<rule name="Nom fem inv">
 			<pattern mark="1">
-				<token postag="D"/>
+				<token postag_regexp="yes" postag="D.*"/>
 				<token postag="N f sp"/>
 			</pattern>
 			<disambig postag="N f sp"/>
 		</rule>
 		<rule name="Nom épicène inv">
 			<pattern mark="1">
-				<token postag="D"/>
+				<token postag_regexp="yes" postag="D.*"/>
 				<token postag="N e sp"/>
 			</pattern>
 			<disambig postag="N e sp"/>
 		</rule>
 		<rule name="Nom masc sing">
 			<pattern mark="1">
-				<token postag="D"/>
+				<token postag_regexp="yes" postag="D.*"/>
 				<token postag="N m s"/>
 			</pattern>
 			<disambig postag="N m s"/>
 		</rule>
 		<rule name="Nom masc plur">
 			<pattern mark="1">
-				<token postag="D"/>
+				<token postag_regexp="yes" postag="D.*"/>
 				<token postag="N m p"/>
 			</pattern>
 			<disambig postag="N m p"/>
 		</rule>
 		<rule name="Nom fem sing">
 			<pattern mark="1">
-				<token postag="D"/>
+				<token postag_regexp="yes" postag="D.*"/>
 				<token postag="N f s"/>
 			</pattern>
 			<disambig postag="N f s"/>
 		</rule>
 		<rule name="Nom fem plur">
 			<pattern mark="1">
-				<token postag="D"/>
+				<token postag_regexp="yes" postag="D.*"/>
 				<token postag="N f p"/>
 			</pattern>
 			<disambig postag="N f p"/>
 		</rule>
 		<rule name="Nom épicène sing">
 			<pattern mark="1">
-				<token postag="D"/>
+				<token postag_regexp="yes" postag="D.*"/>
 				<token postag="N e s"/>
 			</pattern>
 			<disambig postag="N e s"/>
 		</rule>
 		<rule name="Nom épicène plur">
 			<pattern mark="1">
-				<token postag="D"/>
+				<token postag_regexp="yes" postag="D.*"/>
 				<token postag="N e p"/>
 			</pattern>
 			<disambig postag="N e p"/>
@@ -361,73 +361,73 @@ RB => Règles Brutes
 	<rulegroup name="RP : Det + Adj ambigu + N" id="RP:D_J_AMBIG_N">
 		<rule name="Adj masc inv">
 			<pattern mark="1">
-				<token postag="D"/>
+				<token postag_regexp="yes" postag="D.*"/>
 				<token postag="J m sp"/>
-				<token postag="N"/>
+				<token postag_regexp="yes" postag="N.*"/>
 			</pattern>
 			<disambig postag="J m sp"/>
 		</rule>
 		<rule name="Adj fem inv">
 			<pattern mark="1">
-				<token postag="D"/>
+				<token postag_regexp="yes" postag="D.*"/>
 				<token postag="J f sp"/>
-				<token postag="N"/>
+				<token postag_regexp="yes" postag="N.*"/>
 			</pattern>
 			<disambig postag="J f sp"/>
 		</rule>
 		<rule name="Adj épicène inv">
 			<pattern mark="1">
-				<token postag="D"/>
+				<token postag_regexp="yes" postag="D.*"/>
 				<token postag="J e sp"/>
-				<token postag="N"/>
+				<token postag_regexp="yes" postag="N.*"/>
 			</pattern>
 			<disambig postag="J e sp"/>
 		</rule>
 		<rule name="Adj masc sing">
 			<pattern mark="1">
-				<token postag="D"/>
+				<token postag_regexp="yes" postag="D.*"/>
 				<token postag="J m s"/>
-				<token postag="N"/>
+				<token postag_regexp="yes" postag="N.*"/>
 			</pattern>
 			<disambig postag="J m s"/>
 		</rule>
 		<rule name="Adj masc plur">
 			<pattern mark="1">
-				<token postag="D"/>
+				<token postag_regexp="yes" postag="D.*"/>
 				<token postag="J m p"/>
-				<token postag="N"/>
+				<token postag_regexp="yes" postag="N.*"/>
 			</pattern>
 			<disambig postag="J m p"/>
 		</rule>
 		<rule name="Adj fem sing">
 			<pattern mark="1">
-				<token postag="D"/>
+				<token postag_regexp="yes" postag="D.*"/>
 				<token postag="J f s"/>
-				<token postag="N"/>
+				<token postag_regexp="yes" postag="N.*"/>
 			</pattern>
 			<disambig postag="J f s"/>
 		</rule>
 		<rule name="Adj fem plur">
 			<pattern mark="1">
-				<token postag="D"/>
+				<token postag_regexp="yes" postag="D.*"/>
 				<token postag="J f p"/>
-				<token postag="N"/>
+				<token postag_regexp="yes" postag="N.*"/>
 			</pattern>
 			<disambig postag="J f p"/>
 		</rule>
 		<rule name="Adj épicène sing">
 			<pattern mark="1">
-				<token postag="D"/>
+				<token postag_regexp="yes" postag="D.*"/>
 				<token postag="J e s"/>
-				<token postag="N"/>
+				<token postag_regexp="yes" postag="N.*"/>
 			</pattern>
 			<disambig postag="J e s"/>
 		</rule>
 		<rule name="Adj épicène plur">
 			<pattern mark="1">
-				<token postag="D"/>
+				<token postag_regexp="yes" postag="D.*"/>
 				<token postag="J e p"/>
-				<token postag="N"/>
+				<token postag_regexp="yes" postag="N.*"/>
 			</pattern>
 			<disambig postag="J e p"/>
 		</rule>
@@ -437,35 +437,35 @@ RB => Règles Brutes
 	<rulegroup name="RP : Etre + participe passé ambigu + N" id="RP:ATRE_VPPA_AMBIG">
 		<rule name="Etre + ppa masc sing">
 			<pattern mark="1">
-				<token postag="V etre"/>
+				<token postag_regexp="yes" postag="V etre.*"/>
 				<token postag="V ppa m s"/>
 			</pattern>
 			<disambig postag="V ppa m s"/>
 		</rule>
 		<rule name="Etre + ppa masc plur">
 			<pattern mark="1">
-				<token postag="V etre"/>
+				<token postag_regexp="yes" postag="V etre.*"/>
 				<token postag="V ppa m p"/>
 			</pattern>
 			<disambig postag="V ppa m p"/>
 		</rule>
 		<rule name="Etre + ppa fem sing">
 			<pattern mark="1">
-				<token postag="V etre"/>
+				<token postag_regexp="yes" postag="V etre.*"/>
 				<token postag="V ppa f s"/>
 			</pattern>
 			<disambig postag="V ppa f s"/>
 		</rule>
 		<rule name="Etre + ppa fem plur">
 			<pattern mark="1">
-				<token postag="V etre"/>
+				<token postag_regexp="yes" postag="V etre.*"/>
 				<token postag="V ppa f p"/>
 			</pattern>
 			<disambig postag="V ppa f p"/>
 		</rule>
 		<rule name="Etre + ppa">
 			<pattern mark="1">
-				<token postag="V etre"/>
+				<token postag_regexp="yes" postag="V etre.*"/>
 				<token postag="V ppa"/>
 			</pattern>
 			<disambig postag="V ppa"/>
@@ -475,42 +475,42 @@ RB => Règles Brutes
 	<rulegroup name="RP : Avoir + participe passé ambigu + N" id="RP:AVOIR_VPPA_AMBIG">
 		<rule name="avoir été">
 			<pattern mark="1">
-				<token postag="V avoir"/>
+				<token postag_regexp="yes" postag="V avoir.*"/>				 
 				<token>été</token>
 			</pattern>
 			<disambig postag="V etre ppa m s"/>
 		</rule>
 		<rule name="Avoir + ppa masc sing">
 			<pattern mark="1">
-				<token postag="V avoir"/>
+				<token postag_regexp="yes" postag="V avoir.*"/>				 
 				<token postag="V ppa m s"/>
 			</pattern>
 			<disambig postag="V ppa m s"/>
 		</rule>
 		<rule name="Avoir + ppa masc plur">
 			<pattern mark="1">
-				<token postag="V avoir"/>
+				<token postag_regexp="yes" postag="V avoir.*"/>				 
 				<token postag="V ppa m p"/>
 			</pattern>
 			<disambig postag="V ppa m p"/>
 		</rule>
 		<rule name="Avoir + ppa fem sing">
 			<pattern mark="1">
-				<token postag="V avoir"/>
+				<token postag_regexp="yes" postag="V avoir.*"/>
 				<token postag="V ppa f s"/>
 			</pattern>
 			<disambig postag="V ppa f s"/>
 		</rule>
 		<rule name="Avoir + ppa fem plur">
 			<pattern mark="1">
-				<token postag="V avoir"/>
+				<token postag_regexp="yes" postag="V avoir.*"/>				 
 				<token postag="V ppa f p"/>
 			</pattern>
 			<disambig postag="V ppa f p"/>
 		</rule>
 		<rule name="Avoir + ppa">
 			<pattern mark="1">
-				<token postag="V avoir"/>
+				<token postag_regexp="yes" postag="V avoir.*"/>				 
 				<token postag="V ppa"/>
 			</pattern>
 			<disambig postag="V ppa"/>
@@ -521,28 +521,28 @@ RB => Règles Brutes
 	<rulegroup name="RP : Que" id="RP:QUE">
 		<rule name="que relatif">
 			<pattern mark="1">
-				<token postag="N"/>
+				<token postag_regexp="yes" postag="N.*"/>
 				<token>que</token>
 			</pattern>
 			<disambig postag="R rel e sp"/>
 		</rule>
 		<rule name="que conjonction sub">
 			<pattern mark="1">
-				<token postag="V|A" postag_regexp="yes"/>
+				<token postag="V.*|A.*" postag_regexp="yes"/>
 				<token>que</token>
 			</pattern>
 			<disambig postag="C sub"/>
 		</rule>
 		<rule name="qu relatif">
 			<pattern mark="1">
-				<token postag="N"/>
+				<token postag_regexp="yes" postag="N.*"/>
 				<token>qu</token>
 			</pattern>
 			<disambig postag="R rel e sp"/>
 		</rule>
 		<rule name="qu conjonction sub">
 			<pattern mark="1">
-				<token postag="V|A" postag_regexp="yes"/>
+				<token postag="V.*|A.*" postag_regexp="yes"/>
 				<token>qu</token>
 			</pattern>
 			<disambig postag="C sub"/>
@@ -553,21 +553,21 @@ RB => Règles Brutes
 	<rulegroup name="RP : Indicatif être (suis est sommes)" id="RP:SUIS_EST_SOMMES">
 		<rule name="suis">
 			<pattern mark="1">
-				<token postag="R|J|N|A" postag_regexp="yes"/>
+				<token postag="R.*|J.*|N.*|A.*" postag_regexp="yes"/>
 				<token postag="V etre ind pres 1 s"/>
 			</pattern>
 			<disambig postag="V etre ind pres 1 s"/>
 		</rule>
 		<rule name="est">
 			<pattern mark="1">
-				<token postag="R|J|N|A" postag_regexp="yes"/>
+				<token postag="R.*|J.*|N.*|A.*" postag_regexp="yes"/>
 				<token postag="V etre ind pres 3 s"/>
 			</pattern>
 			<disambig postag="V etre ind pres 3 s"/>
 		</rule>
 		<rule name="sommes">
 			<pattern mark="1">
-				<token postag="R|J|N|A" postag_regexp="yes"/>
+				<token postag="R.*|J.*|N.*|A.*" postag_regexp="yes"/>
 				<token postag="V etre ind pres 1 p"/>
 			</pattern>
 			<disambig postag="V etre ind pres 1 p"/>
@@ -577,21 +577,21 @@ RB => Règles Brutes
 	<rulegroup name="RP : Indicatif avoir (as a ont)" id="RP:AS_A_ONT">
 		<rule name="as">
 			<pattern mark="1">
-				<token postag="R|J|N|A" postag_regexp="yes"/>
+				<token postag="R.*|J.*|N.*|A.*" postag_regexp="yes"/>
 				<token postag="V avoir ind pres 2 s"/>
 			</pattern>
 			<disambig postag="V avoir ind pres 2 s"/>
 		</rule>
 		<rule name="a">
 			<pattern mark="1">
-				<token postag="R|J|N|A|V" postag_regexp="yes"/>
+				<token postag="R.*|J.*|N.*|A.*|V.*" postag_regexp="yes"/>
 				<token postag="V avoir ind pres 3 s"/>
 			</pattern>
 			<disambig postag="V avoir ind pres 3 s"/>
 		</rule>
 		<rule name="ont">
 			<pattern mark="1">
-				<token postag="R|J|N|A" postag_regexp="yes"/>
+				<token postag="R.*|J.*|N.*|A.*" postag_regexp="yes"/>
 				<token postag="V avoir ind pres 3 p"/>
 			</pattern>
 			<disambig postag="V avoir ind pres 3 p"/>
@@ -602,63 +602,63 @@ RB => Règles Brutes
 	<rulegroup name="RP : Être + adj ambigu" id="RP:ETRE_ADJ_AMBIG">
 		<rule name="Adj masc inv">
 			<pattern mark="1">
-				<token postag="V etre"/>
+				<token postag_regexp="yes" postag="V etre.*"/>
 				<token postag="J m sp"/>
 			</pattern>
 			<disambig postag="J m sp"/>
 		</rule>
 		<rule name="Adj fem inv">
 			<pattern mark="1">
-				<token postag="V etre"/>
+				<token postag_regexp="yes" postag="V etre.*"/>
 				<token postag="J f sp"/>
 			</pattern>
 			<disambig postag="J f sp"/>
 		</rule>
 		<rule name="Adj épicène inv">
 			<pattern mark="1">
-				<token postag="V etre"/>
+				<token postag_regexp="yes" postag="V etre.*"/>
 				<token postag="J e sp"/>
 			</pattern>
 			<disambig postag="J e sp"/>
 		</rule>
 		<rule name="Adj masc sing">
 			<pattern mark="1">
-				<token postag="V etre"/>
+				<token postag_regexp="yes" postag="V etre.*"/>
 				<token postag="J m s"/>
 			</pattern>
 			<disambig postag="J m s"/>
 		</rule>
 		<rule name="Adj masc plur">
 			<pattern mark="1">
-				<token postag="V etre"/>
+				<token postag_regexp="yes" postag="V etre.*"/>
 				<token postag="J m p"/>
 			</pattern>
 			<disambig postag="J m p"/>
 		</rule>
 		<rule name="Adj fem sing">
 			<pattern mark="1">
-				<token postag="V etre"/>
+				<token postag_regexp="yes" postag="V etre.*"/>
 				<token postag="J f s"/>
 			</pattern>
 			<disambig postag="J f s"/>
 		</rule>
 		<rule name="Adj fem sing">
 			<pattern mark="1">
-				<token postag="V etre"/>
+				<token postag_regexp="yes" postag="V etre.*"/>
 				<token postag="J f p"/>
 			</pattern>
 			<disambig postag="J f p"/>
 		</rule>
 		<rule name="Adj épicène sing">
 			<pattern mark="1">
-				<token postag="V etre"/>
+				<token postag_regexp="yes" postag="V etre.*"/>
 				<token postag="J e s"/>
 			</pattern>
 			<disambig postag="J e s"/>
 		</rule>
 		<rule name="Adj épicène plur">
 			<pattern mark="1">
-				<token postag="V etre"/>
+				<token postag_regexp="yes" postag="V etre.*"/>
 				<token postag="J e p"/>
 			</pattern>
 			<disambig postag="J e p"/>
@@ -696,7 +696,7 @@ RB => Règles Brutes
 
 	<rule name="RB : Préposition" id="RB:PREPOSITION">
 		<pattern mark="0">
-			<token postag="P"/>
+			<token postag_regexp="yes" postag="P.*"/>
 		</pattern>
 		<disambig postag="P"/>
 	</rule>
