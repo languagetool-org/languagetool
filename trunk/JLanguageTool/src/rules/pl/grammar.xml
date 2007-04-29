@@ -2,7 +2,7 @@
 <!--
 Polish Grammar and Typo Rules for LanguageTool
 Copyright (C) 2006 Marcin Miłkowski
-$Id: grammar.xml,v 1.25 2007-04-27 22:33:40 milek_pl Exp $		
+$Id: grammar.xml,v 1.26 2007-04-29 21:54:19 milek_pl Exp $		
 -->
 <rules lang="pl">
 
@@ -79,7 +79,7 @@ $Id: grammar.xml,v 1.25 2007-04-27 22:33:40 milek_pl Exp $
 
 			<rule>
 				<pattern>
-					<token skip="-1" postag_regexp="yes" postag="verb:.*(sg|pl).*|verb:irreg|verb:imps.*|pcon:imperf|pant:perf" regexp="yes" inflected="yes">mieć<exception scope="current">miano</exception><exception scope="next" regexp="yes">[\p{Punct}—–„«»](?&lt;!\.)|bądź|czy|ani|lub|albo|oraz|i|kiedy|gdy|który|jaki|że|aby|żeby|ażeby|iżby|zanim|dopóki|gdyby|jeśli|jeżeli|dlaczego|którędy</exception><exception scope="next" postag="&lt;ELLIPSIS&gt;"/></token>
+					<token skip="-1" postag_regexp="yes" postag="verb:.*(sg|pl).*|verb:irreg|verb:imps.*|pcon:imperf|pant:perf" regexp="yes" inflected="yes">mieć<exception scope="current">miano</exception><exception scope="next" regexp="yes" inflected="yes">[\p{Punct}—–„«»](?&lt;!\.)|bądź|czy|ani|lub|albo|oraz|i|kiedy|gdy|który|jaki|że|aby|żeby|ażeby|iżby|zanim|dopóki|gdyby|jeśli|jeżeli|dlaczego|którędy</exception><exception scope="next" postag="&lt;ELLIPSIS&gt;"/></token>
 					<token skip="-1" postag_regexp="yes" postag="pred|verb:.*(sg|pl).*|verb:imps.*|pcon:imperf|pant:perf"><exception scope="current" postag_regexp="yes" postag="subst:.*|adj.*|ppron.*|adv.*|verb:inf.*|prep.*|qub|indecl"/><exception scope="current" inflected="yes">mieć</exception><exception scope="current" regexp="yes">jedna|może|lecz|będ.*</exception></token>
 					<phraseref idref="INTERPUNKCJA"/>
 				</pattern>
@@ -104,7 +104,7 @@ $Id: grammar.xml,v 1.25 2007-04-27 22:33:40 milek_pl Exp $
 			<rule>
 				<pattern>
 					<token skip="-1">może<exception scope="next" inflected="yes" regexp="yes">[\p{Punct}—–„«»](?&lt;!\.)|bądź|czy|ani|lub|albo|oraz|i|kiedy|gdy|który|jaki|że|iż|bo|gdyż|aby|ażeby|żeby|iżby|zanim|dopóki|gdyby|jeśli|jeżeli|dlaczego|którędy</exception><exception scope="next" postag_regexp="yes" postag="&lt;ELLIPSIS&gt;|verb:(aglt|bedzie|fin|praet|sg|pl).*(sg|pl).*|verb:imps.*|pcon:imperf|pant:perf"/></token>
-					<token skip="-1" postag_regexp="yes" postag="verb:inf.*"/>
+					<token skip="-1" postag_regexp="yes" postag="verb:inf.*"><exception scope="next" inflected="yes" regexp="yes">[\p{Punct}—–„«»](?&lt;!\.)|bądź|czy|ani|lub|albo|oraz|i|kiedy|gdy|który|jaki|że|iż|bo|gdyż|aby|ażeby|żeby|iżby|zanim|dopóki|gdyby|jeśli|jeżeli|dlaczego|którędy</exception><exception scope="next" postag_regexp="yes" postag="&lt;ELLIPSIS&gt;"/></token>
 					<token skip="-1" postag_regexp="yes" postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf|pant:perf"><exception scope="current" postag_regexp="yes" postag="subst:.*|adj.*|ppron.*|verb:inf.*|verb:bedzie.*|adv:comp|prep.*|qub|indecl|adv.*"/><exception scope="current" regexp="yes">może|lecz|jedna</exception></token>
 					<phraseref idref="INTERPUNKCJA"/>
 				</pattern>
@@ -115,7 +115,7 @@ $Id: grammar.xml,v 1.25 2007-04-27 22:33:40 milek_pl Exp $
 
 			<rule>
 				<pattern>
-					<token skip="-1" postag_regexp="yes" postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf|pant:perf"><exception scope="current" postag_regexp="yes" postag="subst:.*|adj.*|ppron.*|verb:inf.*|verb:bedzie.*|adv:comp|prep.*|qub|indecl|adv.*"/><exception scope="current" regexp="yes">może|lecz|jedna</exception></token>
+					<token skip="-1" postag_regexp="yes" postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf|pant:perf"><exception scope="current" postag_regexp="yes" postag="subst:.*|adj.*|ppron.*|verb:inf.*|verb:bedzie.*|adv:comp|prep.*|qub|indecl|adv.*"/><exception scope="current" regexp="yes">może|lecz|jedna</exception><exception scope="next" inflected="yes" regexp="yes">[\p{Punct}—–„«»](?&lt;!\.)|bądź|czy|ani|lub|albo|oraz|i|kiedy|gdy|który|jaki|że|iż|bo|gdyż|aby|ażeby|żeby|iżby|zanim|dopóki|gdyby|jeśli|jeżeli|dlaczego|którędy</exception><exception scope="next" postag_regexp="yes" postag="&lt;ELLIPSIS&gt;"/></token>
 					<token skip="-1">może<exception scope="next" inflected="yes" regexp="yes">[\p{Punct}—–„«»](?&lt;!\.)|bądź|czy|ani|lub|albo|oraz|i|kiedy|gdy|który|jaki|że|iż|bo|gdyż|aby|ażeby|żeby|iżby|zanim|dopóki|gdyby|jeśli|jeżeli|dlaczego|którędy</exception><exception scope="next" postag_regexp="yes" postag="&lt;ELLIPSIS&gt;|verb:(aglt|bedzie|fin|praet|sg|pl).*(sg|pl).*|verb:imps.*|pcon:imperf|pant:perf"/></token>
 					<token skip="-1" postag_regexp="yes" postag="verb:inf.*"/>
 					<phraseref idref="INTERPUNKCJA"/>
@@ -627,12 +627,13 @@ $Id: grammar.xml,v 1.25 2007-04-27 22:33:40 milek_pl Exp $
 		<rule>
 			<pattern mark_from="0" mark_to="-2">
 				<token negate="yes">,<exception regexp="yes">[\p{Punct}–—„«»]</exception><exception postag_regexp="yes" postag="conj|SENT_START"/></token>
-				<token postag_regexp="yes" postag="prep:.*"><exception postag_regexp="yes" postag="&lt;/ADV;&gt;|&lt;/PREP.*&gt;"/></token>
-				<token inflected="yes">co</token>
+				<token postag_regexp="yes" postag="prep:.*"><exception postag_regexp="yes" postag="&lt;/?ADV&gt;|&lt;/?PREP.*&gt;"/></token>
+				<token inflected="yes">co<exception postag_regexp="yes" postag="&lt;/?ADV&gt;|&lt;/?PREP.*&gt;"/></token>
 				<token><exception postag="SENT_END"/></token>
 			</pattern>
 			<message>Prawdopodobnie brak przecinka. Powinno być: <suggestion><match no="1"/>, <match no="2"/></suggestion>.</message>
 			<example type="correct">Nie wiadomo, w związku z czym zabrał głos.</example>
+			<example type="correct">Łaciny używano na co dzień.</example>
 			<example type="incorrect"><marker>Oto do</marker> czego doprowadziły rządy ludzi niespełna rozumu.</example>
 		</rule>
 		</rulegroup>
@@ -1806,7 +1807,7 @@ $Id: grammar.xml,v 1.25 2007-04-27 22:33:40 milek_pl Exp $
 				<example type="correct">Poszliśmy bez niego.</example>
 				<example type="incorrect">Poszliśmy bez <marker>pieniądze</marker>.</example>
 				<example type="incorrect">Język jest dla <marker>filozofem</marker> tylko topornym narzędziem.</example>
-				<example type="incorrect">Przyszedł wreszcie sam do <marker>urzędniczka</marker>.</example>
+				<example type="incorrect">Przyszedł wreszcie sam do <marker>kierowniczka</marker>.</example>
 			</rule>
 			<rule>
 				<pattern mark_from="1">
