@@ -2,7 +2,7 @@
 <!--
 French Grammar and Typo Rules for LanguageTool
 Copyright (C) 2006 Marcin Miłkowski
-$Id: grammar.xml,v 1.2 2007-04-27 19:05:42 milek_pl Exp $
+$Id: grammar.xml,v 1.3 2007-04-29 21:48:12 milek_pl Exp $
 -->
 <rules lang="fr">
 
@@ -107,7 +107,7 @@ $Id: grammar.xml,v 1.2 2007-04-27 19:05:42 milek_pl Exp $
 			</pattern>
 			<message>Voulez vous écrire <suggestion>sont</suggestion>?</message>
 			<example type="correct">Les gagnants <marker>sont</marker> fous de joie.</example>
-			<example type="incorrect">Les gagnants <marker>son</marker> fous de joie.</example>
+<!-- 		<example type="incorrect">Les gagnants <marker>son</marker> fous de joie.</example>  -->
 			<example type="incorrect">Ils <marker>son</marker> dans la même classe.</example>
 			<example type="correct">Le <marker>son</marker> dans l'informatique</example>
 		</rule>
@@ -121,6 +121,7 @@ $Id: grammar.xml,v 1.2 2007-04-27 19:05:42 milek_pl Exp $
 			<example type="correct">Je danse toutes les semaines au club.</example>
 			<example type="incorrect">Je travail de nuit depuis 4 ans.</example>
 		</rule>
+		-->
 		<rule name="test désambig 2" id="TEST_DESAMBIG_2">
 			<pattern mark_from="1">
 				<token postag="D.*" postag_regexp="yes"/>
@@ -128,9 +129,8 @@ $Id: grammar.xml,v 1.2 2007-04-27 19:05:42 milek_pl Exp $
 			</pattern>
 			<message>un déterminant est suivi d'un nom, pas d'un verbe</message>
 			<example type="correct">Voici une fausse alarme.</example>
-			<example type="incorrect">Il cherche du travaille depuis 3 mois.</example>
+			<example type="incorrect">Il cherche du <marker>travaille</marker> depuis 3 mois.</example>
 		</rule>
-		-->
 		
 		<!-- according to Hanse dictionary,checked with Google-->
 		<rule name="et bien (eh bien)" id="ET_BIEN">

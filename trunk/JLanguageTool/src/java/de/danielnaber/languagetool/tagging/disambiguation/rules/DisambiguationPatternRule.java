@@ -154,7 +154,8 @@ public class DisambiguationPatternRule extends Rule {
   
   public final AnalyzedSentence replace(final AnalyzedSentence text) throws IOException {
                     
-    AnalyzedTokenReadings[] tokens = text.getTokens();
+    final AnalyzedTokenReadings[] tokens = text.getTokensWithoutWhitespace();
+    AnalyzedTokenReadings[] whTokens = text.getTokens();
     int[] tokenPositions = new int[tokens.length + 1 ];
     
     int tokenPos = 0;
@@ -169,7 +170,7 @@ public class DisambiguationPatternRule extends Rule {
 
     int firstMatchToken = -1;
     int lastMatchToken = -1;
-    int patternSize = patternElements.size();
+    final int patternSize = patternElements.size();
     Element elem = null, prevElement = null;
     final boolean startWithSentStart = patternElements.get(0).isSentStart();
 
@@ -180,11 +181,7 @@ public class DisambiguationPatternRule extends Rule {
       if (patternSize + i > tokens.length) {
         allElementsMatch = false;
         break;
-      }
-      
-      if (tokens[i].isWhitespace()) {
-        continue;
-      }        
+      }            
       
       //stop looking for sent_start - it will never match any
       //token except the first
@@ -200,7 +197,8 @@ public class DisambiguationPatternRule extends Rule {
         }
         elem = patternElements.get(k);
         skipNext = elem.getSkipNext();
-        int nextPos = tokenPos + k + skipShiftTotal;
+        final int nextPos = tokenPos + k + skipShiftTotal;
+               
         if (nextPos >= tokens.length) {
           allElementsMatch = false;
           break;
@@ -211,12 +209,12 @@ public class DisambiguationPatternRule extends Rule {
         if (prevSkipNext + nextPos >= tokens.length || prevSkipNext < 0) { // SENT_END?
           prevSkipNext = tokens.length - (nextPos + 1);
         }
-        for (int m = nextPos; m <= nextPos + prevSkipNext; m++) {
+        for (int m = nextPos; m <= nextPos + prevSkipNext; m++) {          
           boolean matched = false;
-          int numberOfReadings = tokens[m].getReadingsLength();
+          final int numberOfReadings = tokens[m].getReadingsLength();
 
           for (int l = 0; l < numberOfReadings; l++) {
-            AnalyzedToken matchToken = tokens[m].getAnalyzedToken(l);
+            final AnalyzedToken matchToken = tokens[m].getAnalyzedToken(l);
             if (prevSkipNext > 0 && prevElement != null) {
               if (prevElement.prevExceptionMatch(matchToken)) {
                 exceptionMatched = true;
@@ -260,8 +258,9 @@ public class DisambiguationPatternRule extends Rule {
         if (allElementsMatch) {                              
           matchingTokens++;
           lastMatchToken = matchPos; // nextPos;          
-          if (firstMatchToken == -1)
+          if (firstMatchToken == -1) {
             firstMatchToken = matchPos; // nextPos;
+          }
           skipShiftTotal += skipShift;
         } else {
           skipShiftTotal = 0;
@@ -291,27 +290,27 @@ public class DisambiguationPatternRule extends Rule {
           }
           }         
         
-        //int fromPos = tokens[firstMatchToken + correctedStPos]
-          //                   .getStartPos();
-        int fromPos = firstMatchToken + correctedStPos;
+        final int fromPos = text.getOriginalPosition(firstMatchToken + correctedStPos);
         //int toPos = lastMatchToken + correctedEndPos;
-          int numRead = tokens[fromPos].getReadingsLength();
-//FIXME: works only for French          
+          final int numRead = whTokens[fromPos].getReadingsLength();         
           String lemma = "";
-          char startChar = disambiguatedPOS.charAt(0);
           for (int l = 0; l < numRead; l++) {
-            if (tokens[fromPos].getAnalyzedToken(l).getLemma().charAt(0) == startChar) {
-              lemma = tokens[fromPos].getAnalyzedToken(l).getLemma();
+            if (whTokens[fromPos].getAnalyzedToken(l).getPOSTag() != null) {
+            if (whTokens[fromPos].getAnalyzedToken(l).getPOSTag().equals(disambiguatedPOS)) {
+              if (whTokens[fromPos].getAnalyzedToken(l).getLemma() != null) {
+                lemma = whTokens[fromPos].getAnalyzedToken(l).getLemma();
+              }
             }
+            } 
           }
           if (lemma.equals("")) {
-            lemma = tokens[fromPos].getAnalyzedToken(0).getLemma();
+            lemma = whTokens[fromPos].getAnalyzedToken(0).getLemma();
           }
           
           AnalyzedTokenReadings toReplace = new AnalyzedTokenReadings(
-                new AnalyzedToken(tokens[fromPos].getToken(), disambiguatedPOS, lemma,
-                    tokens[fromPos].getStartPos()));
-          tokens[fromPos] = toReplace;
+                new AnalyzedToken(whTokens[fromPos].getToken(), disambiguatedPOS, lemma,
+                    whTokens[fromPos].getStartPos()));
+          whTokens[fromPos] = toReplace;
       } else {
         firstMatchToken = -1;
         lastMatchToken = -1;
@@ -319,7 +318,7 @@ public class DisambiguationPatternRule extends Rule {
       }
     }
 
-    return new AnalyzedSentence(tokens);
+    return new AnalyzedSentence(whTokens);
   }
   
   public void reset() {

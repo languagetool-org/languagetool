@@ -34,6 +34,12 @@ public class AnalyzedSentence {
   
   private AnalyzedTokenReadings[] nonBlankTokens;
   
+  /** Array mapping positions of tokens
+   * as returned with getTokensWithoutWhitespace()
+   * to the internal tokens array.
+   */
+  private int[] whPositions;
+  
   /**
    * Sets {@link AnalyzedTokenReadings}. 
    * Whitespace is also a token.
@@ -54,17 +60,37 @@ public class AnalyzedSentence {
    * Returns the {@link AnalyzedTokenReadings} of the analyzed text, with whitespace tokens removed
    * but with the artificial <code>SENT_START</code> token included.
    */
-  public final AnalyzedTokenReadings[] getTokensWithoutWhitespace() {
+  public final AnalyzedTokenReadings[] getTokensWithoutWhitespace() {        
     if (nonBlankTokens == null) {
+      int whCounter = 0;
+      int nonWhCounter = 0;
+      int[] mapping = new int[tokens.length + 1];
 	    List <AnalyzedTokenReadings> l = new ArrayList<AnalyzedTokenReadings>();
-	    for (AnalyzedTokenReadings token : tokens) {
+	    for (AnalyzedTokenReadings token : tokens) {        
 	      if (!token.isWhitespace() || token.isSentStart() || token.isSentEnd() || token.isParaEnd()) {
-            l.add(token);
+            l.add(token);            
+            mapping[nonWhCounter] = whCounter;
+            nonWhCounter++;
 	      }
+        whCounter++;
 	    }
 	    nonBlankTokens = (AnalyzedTokenReadings[]) l.toArray(new AnalyzedTokenReadings[l.size()]);
+      whPositions = mapping.clone();
 	  }  
     return nonBlankTokens.clone();
+  }
+  
+  /**
+   * Get a position of a non-whitespace token in the 
+   * original sentence with whitespace. 
+   * @param nonWhPosition Position of a non-whitespace token
+   * @return int position in the original sentence.
+   */
+  public final int getOriginalPosition(final int nonWhPosition) {
+    if (nonBlankTokens == null) {
+      getTokensWithoutWhitespace();
+    }
+    return whPositions[nonWhPosition];
   }
   
   public final String toString() {
