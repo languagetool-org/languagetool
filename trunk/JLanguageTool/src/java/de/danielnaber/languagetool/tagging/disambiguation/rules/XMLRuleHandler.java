@@ -44,7 +44,7 @@ class XMLRuleHandler extends DefaultHandler {
   boolean inRuleGroup = false;
   boolean inToken= false;
   boolean inException = false;
-  boolean inPhrases = false;
+  boolean inAndGroup = false;
   
   List<DisambiguationPatternRule> getRules() {
     return rules;

@@ -83,8 +83,8 @@ class PatternRuleHandler extends XMLRuleHandler {
   
   private boolean caseSensitive = false;
   private boolean stringRegExp = false;
-  private boolean stringNegation = false;
-  private boolean stringInflected = false;
+  private boolean tokenNegated = false;
+  private boolean tokenInflected = false;
   private String posToken;
   private boolean posNegation = false;
   private boolean posRegExp = false;
@@ -177,10 +177,10 @@ class PatternRuleHandler extends XMLRuleHandler {
       
       lastPhrase = false;
       if (attrs.getValue("negate") != null) {
-        stringNegation = attrs.getValue("negate").equals("yes");
+        tokenNegated = attrs.getValue("negate").equals("yes");
       }
       if (attrs.getValue("inflected") != null) {
-        stringInflected = attrs.getValue("inflected").equals("yes");
+        tokenInflected = attrs.getValue("inflected").equals("yes");
       }
       if (attrs.getValue("skip") != null) {
         skipPos = Integer.parseInt(attrs.getValue("skip"));
@@ -340,10 +340,10 @@ class PatternRuleHandler extends XMLRuleHandler {
       inException = false;
       if (!exceptionSet) {
         tokenElement = new Element(elements.toString(), 
-            caseSensitive, stringRegExp, stringInflected);
+            caseSensitive, stringRegExp, tokenInflected);
         exceptionSet = true;
       }
-      tokenElement.setNegation(stringNegation);
+      tokenElement.setNegation(tokenNegated);
       if (!exceptions.toString().equals("")) {
         tokenElement.setStringException(exceptions.toString(), exceptionStringRegExp, 
             exceptionStringInflected, exceptionStringNegation, exceptionValidNext);
@@ -358,9 +358,9 @@ class PatternRuleHandler extends XMLRuleHandler {
       andGroupCounter = 0;
     } else if (qName.equals("token")) {
       if (!exceptionSet || tokenElement == null) {
-        tokenElement = new Element(elements.toString(), caseSensitive, stringRegExp,
-            stringInflected);
-        tokenElement.setNegation(stringNegation);
+        tokenElement = new Element(elements.toString(), caseSensitive, 
+            stringRegExp, tokenInflected);
+        tokenElement.setNegation(tokenNegated);
       } else {
         tokenElement.setStringElement(elements.toString());
       }
@@ -438,8 +438,8 @@ class PatternRuleHandler extends XMLRuleHandler {
   }
 
   private void resetToken() {
-    stringNegation = false;
-    stringInflected = false;
+    tokenNegated = false;
+    tokenInflected = false;
     posNegation = false;
     posRegExp = false;
     inToken = false;

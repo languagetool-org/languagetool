@@ -49,13 +49,13 @@ public class FrenchRuleDisambiguatorTest extends TestCase {
     TestTools.myAssert("Quand j'étais petit, je jouais au football.",
         "/[null]SENT_START Quand/[quand]A|Quand/[quand]C sub  /[null]null j/[je]R pers suj 1 s|j/[j]N m sp '/[null]null étais/[étai]N m p|étais/[être]V etre ind impa 1 s|étais/[être]V etre ind impa 2 s  /[null]null petit/[petit]A|petit/[petit]J m s|petit/[petit]N m s ,/[null]null  /[null]null je/[je]R pers suj 1 s  /[null]null jouais/[jouer]V ind impa 1 s|jouais/[jouer]V ind impa 2 s  /[null]null au/[au]D m s  /[null]null football/[football]N m s ./[null]null", 
         tokenizer, sentenceTokenizer, tagger, disamb2);
-/*    TestTools.myAssert("Nous vous blabla",
-        "/[null]SENT_START Nous/[nous]R pers suj 1 p  /[null]null vous/[vous]R pers obj 2 p  /[null]null blabla/[blabla]N m s", 
+    TestTools.myAssert("Je suis petite.",
+        "/[null]SENT_START Je/[je]R pers suj 1 s  /[null]null suis/[suivre]V etre ind pres 1 s  /[null]null petite/[petit]J f s ./[null]null", 
         tokenizer, sentenceTokenizer, tagger, disambiguator);
-    TestTools.myAssert("Nous vous blabla",
-        "/[null]SENT_START Nous/[nous]R pers obj 1 p|Nous/[nous]R pers suj 1 p  /[null]null vous/[vous]R pers obj 2 p|vous/[vous]R pers suj 2 p  /[null]null blabla/[blabla]N m s", 
+    TestTools.myAssert("Je suis petite.",
+        "/[null]SENT_START Je/[je]R pers suj 1 s  /[null]null suis/[suivre]V etre ind pres 1 s|suis/[suivre]V imp pres 2 s|suis/[suivre]V ind pres 1 s|suis/[suivre]V ind pres 2 s  /[null]null petite/[petit]J f s ./[null]null", 
         tokenizer, sentenceTokenizer, tagger, disamb2);
-*/  }
+  }
 
 }
 

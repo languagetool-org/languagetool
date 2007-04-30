@@ -61,7 +61,7 @@ public class DisambiguationRuleLoader extends DefaultHandler {
 class DisambiguationRuleHandler extends XMLRuleHandler {
 
   private boolean caseSensitive = false;
-  private boolean regExpression = false;
+  private boolean stringRegExp = false;
   private boolean tokenNegated = false;
   private boolean tokenInflected = false;
   private boolean posNegation = false;
@@ -78,9 +78,9 @@ class DisambiguationRuleHandler extends XMLRuleHandler {
   private boolean exceptionSet = false;
   
   private List<Element> elementList = null;
-  private boolean regular = false; 
+  private boolean posRegExp = false; 
   private int skipPos = 0;
-  private Element stringElement = null;
+  private Element tokenElement = null;
   
   private String id;
   private String name;
@@ -88,11 +88,12 @@ class DisambiguationRuleHandler extends XMLRuleHandler {
   private String ruleGroupId;
   private String ruleGroupName;
   private StringBuilder disamb = new StringBuilder();
-  private List<String> suggestions = new ArrayList<String>();
   
   private String disambiguatedPOS;
   
   private int positionCorrection = 0;
+  
+  private int andGroupCounter = 0;
   
   public DisambiguationRuleHandler() {    
   }    
@@ -119,32 +120,33 @@ class DisambiguationRuleHandler extends XMLRuleHandler {
       if (attrs.getValue("mark") != null)
         positionCorrection = Integer.parseInt(attrs.getValue("mark"));
     } else if (qName.equals("exception")) {
-        inException = true;
-        exceptionSet = true;
-        exceptions = new StringBuffer();
+      inException = true;      
+      exceptions = new StringBuffer();
+
+      if (attrs.getValue("negate") != null) {
+        exceptionStringNegation = attrs.getValue("negate").equals("yes");
+      }
+      if (attrs.getValue("scope") != null) {
+        exceptionValidNext = attrs.getValue("scope").equals("next");
+      }
+      if (attrs.getValue("inflected") != null) {
+        exceptionStringInflected = attrs.getValue("inflected").equals("yes");
+      }
+      if (attrs.getValue("postag") != null) {
+        exceptionPosToken = attrs.getValue("postag");
+        if (attrs.getValue("postag_regexp") != null) {
+          exceptionPosRegExp = attrs.getValue("postag_regexp").equals("yes");
+        }
+        if (attrs.getValue("negate_pos") != null) {
+          exceptionPosNegation = attrs.getValue("negate_pos").equals("yes");
+        }
+      }
+      if (attrs.getValue("regexp") != null) {
+        exceptionStringRegExp = attrs.getValue("regexp").equals("yes");
+      }
         
-        if (attrs.getValue("negate") != null) {
-        exceptionStringNegation=attrs.getValue("negate").equals("yes");
-        }
-            if (attrs.getValue("scope") != null) {
-              exceptionValidNext = attrs.getValue("scope").equals("next");
-            }
-        if (attrs.getValue("inflected") != null) {
-        exceptionStringInflected=attrs.getValue("inflected").equals("yes");
-        }
-        if (attrs.getValue("postag") != null) {       
-          exceptionPosToken = attrs.getValue("postag");
-          if (attrs.getValue("postag_regexp") != null) {
-            exceptionPosRegExp = attrs.getValue("postag_regexp").equals("yes");
-          }
-          if (attrs.getValue("negate_pos") != null) {
-            exceptionPosNegation = attrs.getValue("negate_pos").equals("yes");
-            }       
-        }
-        if (attrs.getValue("regexp") != null) {
-          exceptionStringRegExp = attrs.getValue("regexp").equals("yes");
-        }
-        
+      } else if (qName.equals("and")) {
+        inAndGroup = true;
       } else if (qName.equals("token")) {
       inToken = true;
       if (attrs.getValue("negate") != null) {
@@ -163,18 +165,15 @@ class DisambiguationRuleHandler extends XMLRuleHandler {
       if (attrs.getValue("postag") != null) {
         posToken = attrs.getValue("postag");
         if (attrs.getValue("postag_regexp") != null) {
-          regular = attrs.getValue("postag_regexp").equals("yes");
+          posRegExp = attrs.getValue("postag_regexp").equals("yes");
         }
         if (attrs.getValue("negate_pos") != null) {
           posNegation = (attrs.getValue("negate_pos").equals("yes"));
         }
-        
-        if (elementList == null) { //lazy init
-          elementList = new ArrayList<Element>();
-        }
+                
       }
       if (attrs.getValue("regexp") != null) {
-        regExpression = attrs.getValue("regexp").equals("yes");
+        stringRegExp = attrs.getValue("regexp").equals("yes");
       }
       
     }  else if (qName.equals("disambig")) {
@@ -191,69 +190,61 @@ class DisambiguationRuleHandler extends XMLRuleHandler {
   @SuppressWarnings("unused")
   public void endElement(String namespaceURI, String sName, String qName) {
     if (qName.equals("rule")) {        
-        DisambiguationPatternRule rule = new DisambiguationPatternRule(id, name, 
-            language, elementList, disambiguatedPOS);
-        rule.setStartPositionCorrection(positionCorrection);
-        rules.add(rule);      
-      
-      if (suggestions.size() > 0) {
-        List<String> l = new ArrayList<String>(suggestions);
-        suggestions.clear();
-      }
+      DisambiguationPatternRule rule = new DisambiguationPatternRule(id, name, 
+          language, elementList, disambiguatedPOS);
+      rule.setStartPositionCorrection(positionCorrection);
+      rules.add(rule);      
+
       if (elementList != null) {
         elementList.clear();
       }
-      
+
     } else if (qName.equals("exception")) {     
-        inException = false;
-             if (!exceptionSet) {
-                  stringElement = new Element(elements.toString(), caseSensitive, regExpression,
-                      tokenInflected);
-                  exceptionSet = true;
-                  }
-                  stringElement.setNegation(tokenNegated);
-                    if (!exceptions.toString().equals("")) {
-                    stringElement.setStringException(exceptions.toString(), exceptionStringRegExp, 
-                        exceptionStringInflected, exceptionStringNegation, exceptionValidNext);
-                    }              
-                  if (exceptionPosToken != null) {
-                    stringElement.setPosException(exceptionPosToken, exceptionPosRegExp, exceptionPosNegation, exceptionValidNext);
-                    exceptionPosToken = null;
-                  }
-    } else if (qName.equals("token")) {
-      if (inToken) {
-            if (!exceptionSet || stringElement == null) {
-              stringElement = new Element(elements.toString(), caseSensitive, regExpression,
-                  tokenInflected);
-              stringElement.setNegation(tokenNegated);
-              } else {
-                stringElement.setStringElement(elements.toString());
-              }
-        if (skipPos != 0) {
-          stringElement.setSkipNext(skipPos);
-          skipPos = 0;
-        }
-        if (posToken != null) {
-          stringElement.setPosElement(posToken, regular, posNegation);
-          posToken = null;
-        }
-                        
-        elementList.add(stringElement);
-        tokenNegated = false;
-        tokenInflected = false;
-        posNegation = false;
-          regular = false;
-              exceptionValidNext = true;
+      inException = false;
+      if (!exceptionSet) {
+        tokenElement = new Element(elements.toString(), 
+            caseSensitive, stringRegExp, tokenInflected);
+        exceptionSet = true;
       }
-      inToken = false;
-      regExpression = false;
-      
-      exceptionStringNegation = false;
-      exceptionStringInflected = false;
-      exceptionPosNegation = false;
-      exceptionPosRegExp = false;
-      exceptionStringRegExp = false;
-      
+      tokenElement.setNegation(tokenNegated);
+      if (!exceptions.toString().equals("")) {
+        tokenElement.setStringException(exceptions.toString(), exceptionStringRegExp, 
+            exceptionStringInflected, exceptionStringNegation, exceptionValidNext);
+      }              
+      if (exceptionPosToken != null) {
+        tokenElement.setPosException(exceptionPosToken, exceptionPosRegExp, 
+            exceptionPosNegation, exceptionValidNext);
+        exceptionPosToken = null;
+      }
+    } else if (qName.equals("and")) {
+      inAndGroup = false;
+      andGroupCounter = 0;
+    } else if (qName.equals("token")) {
+          if (!exceptionSet || tokenElement == null) {
+            tokenElement = new Element(elements.toString(), caseSensitive, 
+                stringRegExp, tokenInflected);
+            tokenElement.setNegation(tokenNegated);
+          } else {
+            tokenElement.setStringElement(elements.toString());
+          }
+          if (skipPos != 0) {
+            tokenElement.setSkipNext(skipPos);
+            skipPos = 0;
+          }
+          if (posToken != null) {
+            tokenElement.setPosElement(posToken, posRegExp, posNegation);
+            posToken = null;
+          }
+          if (inAndGroup && andGroupCounter > 0) {
+            elementList.get(elementList.size() - 1).setAndGroupElement(tokenElement);
+          } else {
+            elementList.add(tokenElement);
+          }
+          if (inAndGroup) {
+            andGroupCounter++;
+          }
+          resetToken();
+          
     } else if (qName.equals("pattern")) {
       inPattern = false;
     } else if (qName.equals("disambig")) {
@@ -263,6 +254,23 @@ class DisambiguationRuleHandler extends XMLRuleHandler {
     }
   }
 
+  private void resetToken() {
+    tokenNegated = false;
+    tokenInflected = false;
+    posNegation = false;
+    posRegExp = false;
+    inToken = false;
+    stringRegExp = false;
+
+    exceptionStringNegation = false;
+    exceptionStringInflected = false;
+    exceptionPosNegation = false;
+    exceptionPosRegExp = false;
+    exceptionStringRegExp = false;
+    exceptionValidNext = true;
+    exceptionSet = false; 
+  }
+  
   public void characters(final char[] buf, final int offset, final int len) {
     String s = new String(buf, offset, len);
     if (inException) {

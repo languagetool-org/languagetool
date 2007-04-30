@@ -17,6 +17,7 @@ public class FrenchRuleDisambiguator extends RuleDisambiguator {
 
   static final String DISAMB_FILE = "disambiguation.xml";
   private List<DisambiguationPatternRule> disambiguationRules = null;
+  private Language language;
   
   /**
    * Load disambiguation rules from an XML file. Use {@link #addRule} to add
@@ -35,23 +36,22 @@ public class FrenchRuleDisambiguator extends RuleDisambiguator {
   public final AnalyzedSentence disambiguate(final AnalyzedSentence input) throws IOException {
     AnalyzedSentence sentence = input;
     try {
-    if (disambiguationRules == null) {
-   String defaultPatternFilename = 
-        "/resource/fr/" + DISAMB_FILE;
-    disambiguationRules = loadPatternRules(defaultPatternFilename);
-    }
-    if (language == null) {
-      setLanguage(Language.FRENCH);
-    }
-    for (DisambiguationPatternRule dr : disambiguationRules) {
-      sentence = dr.replace(sentence);
-    }
-        
-                
-  /*  if (!input.toString().equals(sentence.toString())) {
-      System.err.println("INPUT:" + input.toString());
-      System.err.println("OUTPUT:" + sentence.toString());
-      }    */
+      if (disambiguationRules == null) {
+        String defaultPatternFilename = 
+          "/resource/fr/" + DISAMB_FILE;
+        disambiguationRules = loadPatternRules(defaultPatternFilename);
+      }
+      if (language == null) {
+        language = Language.FRENCH;
+      }
+      for (DisambiguationPatternRule dr : disambiguationRules) {
+        sentence = dr.replace(sentence);
+      }
+
+    /*  if (!input.toString().equals(sentence.toString())) {
+        System.err.println("INPUT:" + input.toString());
+        System.err.println("OUTPUT:" + sentence.toString());
+      } */   
     } catch (ParserConfigurationException e) {
       throw new RuntimeException("Problems with parsing disambiguation file: " 
           + language.getShortName()+ "/" + DISAMB_FILE + e.getMessage(), e);
@@ -59,6 +59,6 @@ public class FrenchRuleDisambiguator extends RuleDisambiguator {
       throw new RuntimeException("Problems with parsing disambiguation file: " 
           + e.getMessage(), e);
     }
-   return sentence; 
+    return sentence; 
   }
 }
