@@ -179,8 +179,7 @@ class FalseFriendRuleHandler extends XMLRuleHandler {
 			  throw new SAXException("Unknown language '" + languageStr + "'");
 		  }
 	  } else if (qName.equals("exception")) {
-	    	inException = true;
-	    	exceptionSet = true;
+	    	inException = true;	    	
 	    	exceptions = new StringBuffer();
 	    	
 	    	if (attrs.getValue("negate") != null) {
@@ -342,6 +341,8 @@ class FalseFriendRuleHandler extends XMLRuleHandler {
 		  exceptionPosNegation = false;
 		  exceptionPosRegExp = false;
 		  exceptionStringRegExp = false;
+      exceptionValidNext = true;
+      exceptionSet = false;
 		  
 	  } else if (qName.equals("pattern")) {
 		  inPattern = false;
