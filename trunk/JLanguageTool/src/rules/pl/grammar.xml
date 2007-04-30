@@ -2,7 +2,7 @@
 <!--
 Polish Grammar and Typo Rules for LanguageTool
 Copyright (C) 2006 Marcin Miłkowski
-$Id: grammar.xml,v 1.26 2007-04-29 21:54:19 milek_pl Exp $		
+$Id: grammar.xml,v 1.27 2007-04-30 19:19:41 milek_pl Exp $		
 -->
 <rules lang="pl">
 
@@ -2109,7 +2109,7 @@ $Id: grammar.xml,v 1.26 2007-04-29 21:54:19 milek_pl Exp $
 	</category>
 	
 	<category name="Błędy leksykalne">
-	
+			
 	<rule id="POTRAFIACY" name="„potrafiący” (umiejący)">
 		<pattern>
 			<token inflected="yes">potrafiący</token>			
@@ -2651,15 +2651,26 @@ $Id: grammar.xml,v 1.26 2007-04-29 21:54:19 milek_pl Exp $
 			<example type="correct">Straty Vietcongu były tak duże, że komuniści zdecydowali się <marker>usunąć</marker> Vo ze stanowiska.</example>
 		</rule>
 		
-		<rule name="„domyśleć się” (domyślić się)" id="DOMYSLEC_SIE">
+		<rulegroup name="„domyśleć się” (domyślić się)" id="DOMYSLEC_SIE">
+		<rule>
 			<pattern mark_to="-1">
 				<token inflected="yes">domyśleć<exception inflected="yes" regexp="yes">domyślać|domyślić</exception></token>
 				<token>się</token>
 			</pattern>
-			<message>Czasownik „domyśleć” oznacza „przemyśleć coś wyczerpująco”. W znaczeniu „odgadnąć”, „przewidzieć” używa się czasownika <suggestion>domyślić</suggestion>.</message>
+			<message>Czasownik „domyśleć” oznacza „przemyśleć coś wyczerpująco”. W znaczeniu „odgadnąć”, „przewidzieć” używa się czasownika <suggestion><match no="1">domyślić</match></suggestion>.</message>
 			<example type="correct">Przemysław domyślał się, że Ludwik zatruł kota Jarosława.</example>
-			<example type="incorrect">Przemysław nie potrafił <marker>domyśleć</marker> się, że Ludwik zatruł kota Jarosława.</example>			
+			<example type="incorrect" correction="domyślić">Przemysław nie potrafił <marker>domyśleć</marker> się, że Ludwik zatruł kota Jarosława.</example>			
 		</rule>
+		<rule>
+			<pattern mark_from="1">
+				<token>się</token>
+				<token inflected="yes">domyśleć<exception inflected="yes" regexp="yes">domyślać|domyślić</exception></token>
+			</pattern>
+			<message>Czasownik „domyśleć” oznacza „przemyśleć coś wyczerpująco”. W znaczeniu „odgadnąć”, „przewidzieć” używa się czasownika <suggestion><match no="1">domyślić</match></suggestion>.</message>
+			<example type="correct">Przemysław się domyślał, że Ludwik zatruł kota Jarosława.</example>
+			<example type="incorrect" correction="domyślić">Przemysław nie potrafił się <marker>domyśleć</marker>, że Ludwik zatruł kota Jarosława.</example>			
+		</rule>
+		</rulegroup>
 
 		<rule name="„przez przeciąg kilku dni” (w ciągu)" id="PRZEZ_PRZECIAG">
 			<pattern mark_to="-2">
