@@ -25,9 +25,13 @@ a rulegroup): -->
 <!-- A short description displayed to the user in the configuration dialog: -->
 <!ATTLIST rule name CDATA #IMPLIED>
 
-<!ELEMENT pattern (token)*>
+<!ELEMENT pattern (token|and)*>
 <!-- The position of the ambiguous token in the pattern. mark_from="0" refers to the first token, etc: -->
 <!ATTLIST pattern mark CDATA #REQUIRED>
+
+<!-- Enables logical AND between token elements. -->
+<!ELEMENT and (token+)>
+
 
 <!-- token element - tokens matched by rules, could be specified as regular expressions,
 regexp="yes"; postag contains any POS tags. POS tags can be specified as regular
