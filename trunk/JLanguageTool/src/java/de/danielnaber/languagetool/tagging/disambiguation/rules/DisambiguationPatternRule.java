@@ -222,7 +222,8 @@ public class DisambiguationPatternRule extends Rule {
               }
             }
             thisMatched |= elem.match(matchToken);
-            exceptionMatched |= elem.exceptionMatch(matchToken);
+            exceptionMatched |= (elem.exceptionMatch(matchToken)
+                || elem.andGroupExceptionMatch(matchToken));
             // Logical OR (cannot be AND):
             if (!thisMatched && !exceptionMatched) {
               matched |= false;
