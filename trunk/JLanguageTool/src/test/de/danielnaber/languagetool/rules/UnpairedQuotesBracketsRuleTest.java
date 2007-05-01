@@ -23,7 +23,9 @@ public class UnpairedQuotesBracketsRuleTest extends TestCase {
     matches = rule.match(langTool.getAnalyzedSentence("The screen is 20\" wide."));
     assertEquals(0, matches.length);
     matches = rule.match(langTool.getAnalyzedSentence("This is a [test] sentence..."));
-    assertEquals(0, matches.length);    
+    assertEquals(0, matches.length);
+    matches = rule.match(langTool.getAnalyzedSentence("The plight of Tamil refugees caused a surge of support from most of the Tamil political parties.[90]"));
+    assertEquals(0, matches.length);
     matches = rule.match(langTool.getAnalyzedSentence("(([20] [20] [20]))"));
     assertEquals(0, matches.length);
     // numerical bullets

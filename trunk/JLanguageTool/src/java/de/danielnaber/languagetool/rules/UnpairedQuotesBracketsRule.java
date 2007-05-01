@@ -147,12 +147,15 @@ public class UnpairedQuotesBracketsRule extends Rule {
     int pos = 0;          
       for (int j = 0; j < startSymbols.length; j++) {      
       for (int i = 1; i < tokens.length; i++) {
-        String token = tokens[i].getToken();
-        boolean precededByWhitespace = tokens[i - 1].isWhitespace()
+        final String token = tokens[i].getToken();
+        boolean precededByWhitespace = true;
+        if (startSymbols[j].equals(endSymbols[j])) {
+        precededByWhitespace = tokens[i - 1].isWhitespace()
           || tokens[i - 1].getToken().matches("\\p{Punct}(?<!\\.)");
+        }
         
         boolean followedByWhitespace = true;
-        if (i < tokens.length - 1) {
+        if (i < tokens.length - 1 && startSymbols[j].equals(endSymbols[j])) {
           followedByWhitespace = tokens[i + 1].isWhitespace() 
             || tokens[i + 1].getToken().matches("\\p{Punct}");
         }
