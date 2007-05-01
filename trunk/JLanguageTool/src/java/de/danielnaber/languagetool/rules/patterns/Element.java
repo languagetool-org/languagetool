@@ -96,7 +96,8 @@ public class Element {
           && (matchPosToken(token) != posNegation)
           && andGroupMatch(token);
     } else {
-      return (!negation) && (matchPosToken(token) != posNegation);
+      return (!negation) && (matchPosToken(token) != posNegation)
+      && andGroupMatch(token);
     }
   }
   
@@ -104,7 +105,9 @@ public class Element {
     boolean exceptionMatched = false;
     if (exceptionSet) {
       for (Element testException : exceptionList) {
-        exceptionMatched |= testException.match(token);
+        if (!testException.exceptionValidNext) {
+          exceptionMatched |= testException.match(token);
+        }
         if (exceptionMatched) {
           break;
         }

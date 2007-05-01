@@ -165,7 +165,7 @@ public class PatternRule extends Rule {
 
     int firstMatchToken = -1;
     int lastMatchToken = -1;
-    int patternSize = patternElements.size();
+    final int patternSize = patternElements.size();
     Element elem = null, prevElement = null;
     final boolean startWithSentStart = patternElements.get(0).isSentStart();
 
@@ -205,10 +205,10 @@ public class PatternRule extends Rule {
         }
         for (int m = nextPos; m <= nextPos + prevSkipNext; m++) {
           boolean matched = false;
-          int numberOfReadings = tokens[m].getReadingsLength();
+          final int numberOfReadings = tokens[m].getReadingsLength();
 
           for (int l = 0; l < numberOfReadings; l++) {
-            AnalyzedToken matchToken = tokens[m].getAnalyzedToken(l);
+            final AnalyzedToken matchToken = tokens[m].getAnalyzedToken(l);
             if (prevSkipNext > 0 && prevElement != null) {
               if (prevElement.prevExceptionMatch(matchToken)) {
                 exceptionMatched = true;
@@ -268,7 +268,7 @@ public class PatternRule extends Rule {
         if (firstMatchToken + matchingTokens >= tokens.length) {
           matchingTokens = tokens.length - firstMatchToken;
         }
-        String errMessage = formatMatches(tokens,
+        final String errMessage = formatMatches(tokens,
             tokenPositions, firstMatchToken, matchingTokens,
             message);
                 
@@ -298,9 +298,9 @@ public class PatternRule extends Rule {
           firstMatchTokenObj = tokens[firstMatchToken + correctedStPos + 1];
           startsWithUppercase = StringTools.startsWithUppercase(firstMatchTokenObj.toString());
         }
-        int fromPos = tokens[firstMatchToken + correctedStPos]
+        final int fromPos = tokens[firstMatchToken + correctedStPos]
                              .getStartPos();
-        int toPos = tokens[lastMatchToken + correctedEndPos].getStartPos()
+        final int toPos = tokens[lastMatchToken + correctedEndPos].getStartPos()
         + tokens[lastMatchToken + correctedEndPos].getToken().length();
         if (fromPos < toPos) { //this can happen with some skip="-1" when the last token is not matched
         RuleMatch ruleMatch = new RuleMatch(this, fromPos, toPos, errMessage,
@@ -326,13 +326,16 @@ public class PatternRule extends Rule {
    
   /** Replace back references generated with &lt;match&gt; and \\1 
    *  in message using Match class, and take care of skipping.
-  *    @return String Formatted message. 
+   *  @param errorMsg String containing suggestion markup
+  *   @return String Formatted message.
+  *   @throws IOException 
   **/
-  public final String formatMatches(final AnalyzedTokenReadings[] toks,
+  private final String formatMatches(final AnalyzedTokenReadings[] toks,
       final int[] positions, final int firstMatchTok, int matchingTok,
       final String errorMsg) throws IOException {
     String errorMessage = errorMsg;    
     int matchCounter = 0;
+    int[] numbersToMatches = new int[errorMsg.length()];
     boolean newWay = false;
     int errLen = errorMessage.length();
     int errMarker = errorMessage.indexOf("\\");
@@ -345,14 +348,15 @@ public class PatternRule extends Rule {
       int ind = errorMessage.indexOf("\\"); 
       if (ind > 0) {
         if (errorMessage.charAt(ind + 1) >= '1'
-          & errorMessage.charAt(ind + 1) <= '9') {            
-          int j = errorMessage.charAt(ind + 1) - '1';
+          && errorMessage.charAt(ind + 1) <= '9') {            
+          final int j = errorMessage.charAt(ind + 1) - '1';
           int repTokenPos = 0;
           for (int l = 0; l <= j; l++) {
             repTokenPos += positions[l];
           }          
           if (suggestionMatches != null) {
             if (matchCounter < suggestionMatches.size()) {
+              numbersToMatches[j] = matchCounter;
               if (suggestionMatches.get(matchCounter) != null) {             
                 suggestionMatches.get(matchCounter)
                 .setToken(toks[firstMatchTok + repTokenPos - 1]);
@@ -361,7 +365,7 @@ public class PatternRule extends Rule {
                 String suggestionLeft = "";
                 String suggestionRight = "";
                 String rightSide = errorMessage.substring(ind + 2);
-                String[] matches = suggestionMatches.get(matchCounter).toFinalString();
+                final String[] matches = suggestionMatches.get(matchCounter).toFinalString();
                 if (matches.length == 1) {
                   errorMessage = leftSide 
                   + suggestionLeft
@@ -380,8 +384,8 @@ public class PatternRule extends Rule {
                   if (!suggestionRight.equals("")) {
                     rightSide = rightSide.substring(rightSide.indexOf("</suggestion>"));
                   }
-                  int lastLeftSugEnd = leftSide.indexOf("</suggestion>");
-                  int lastLeftSugStart = leftSide.lastIndexOf("<suggestion>");
+                  final int lastLeftSugEnd = leftSide.indexOf("</suggestion>");
+                  final int lastLeftSugStart = leftSide.lastIndexOf("<suggestion>");
                   for (String formatMatch : matches) {
                     errorMessage += suggestionLeft
                     + formatMatch 
@@ -390,14 +394,17 @@ public class PatternRule extends Rule {
                       errorMessage += "</suggestion>, <suggestion>";
                     }
                   }
-                  int correctionSug = errorMessage.lastIndexOf(", <suggestion>");
+                  final int correctionSug = errorMessage.lastIndexOf(", <suggestion>");
                   if (correctionSug + ", <suggestion>".length() == errorMessage.length())
                     errorMessage = errorMessage.substring(0, correctionSug);
-                  errorMessage += rightSide;             
-                }
-                matchCounter++;
+                  errorMessage += rightSide;                  
+              }
+                matchCounter++;                
                 newWay = true;
               }
+            } else {
+//FIXME: is this correct? this is how we deal with multiple matches              
+              suggestionMatches.add(suggestionMatches.get(numbersToMatches[j]));
             }
           }
 
@@ -414,7 +421,7 @@ public class PatternRule extends Rule {
             }
           }
         }
-      } else {
+      }
         errMarker = errorMessage.indexOf("\\");
         numberFollows = false;
         errLen = errorMessage.length();
@@ -422,7 +429,7 @@ public class PatternRule extends Rule {
           numberFollows = errorMessage.charAt(errMarker + 1) >= '1'
             & errorMessage.charAt(errMarker + 1) <= '9';
         }
-      }
+      
     }
     return errorMessage;
   }

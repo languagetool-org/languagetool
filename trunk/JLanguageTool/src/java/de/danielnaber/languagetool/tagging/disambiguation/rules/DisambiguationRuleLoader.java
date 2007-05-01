@@ -74,7 +74,7 @@ class DisambiguationRuleHandler extends XMLRuleHandler {
   private boolean exceptionStringInflected = false;
   private boolean exceptionPosNegation = false;
   private boolean exceptionPosRegExp = false;
-  private boolean exceptionValidNext = true;
+  private boolean exceptionValidNext = false;
   private boolean exceptionSet = false;
   
   private List<Element> elementList = null;
@@ -178,8 +178,7 @@ class DisambiguationRuleHandler extends XMLRuleHandler {
       
     }  else if (qName.equals("disambig")) {
       inDisamb = true;
-      disambiguatedPOS = attrs.getValue("postag");
-      message = new StringBuffer();
+      disambiguatedPOS = attrs.getValue("postag");      
     } else if (qName.equals("rulegroup")) {
       ruleGroupId = attrs.getValue("id");
       ruleGroupName = attrs.getValue("name");
@@ -267,7 +266,7 @@ class DisambiguationRuleHandler extends XMLRuleHandler {
     exceptionPosNegation = false;
     exceptionPosRegExp = false;
     exceptionStringRegExp = false;
-    exceptionValidNext = true;
+    exceptionValidNext = false;
     exceptionSet = false; 
   }
   

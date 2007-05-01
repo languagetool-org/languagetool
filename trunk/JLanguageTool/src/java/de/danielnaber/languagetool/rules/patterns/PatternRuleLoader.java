@@ -101,7 +101,7 @@ class PatternRuleHandler extends XMLRuleHandler {
   private boolean exceptionStringInflected = false;
   private boolean exceptionPosNegation = false;
   private boolean exceptionPosRegExp = false;
-  private boolean exceptionValidNext = true;
+  private boolean exceptionValidNext = false;
   private boolean exceptionSet = false;
   
   /** true when phraseref is the last element in the rule. **/ 
@@ -450,7 +450,7 @@ class PatternRuleHandler extends XMLRuleHandler {
     exceptionPosNegation = false;
     exceptionPosRegExp = false;
     exceptionStringRegExp = false;
-    exceptionValidNext = true;
+    exceptionValidNext = false;
     exceptionSet = false; 
   }
   
