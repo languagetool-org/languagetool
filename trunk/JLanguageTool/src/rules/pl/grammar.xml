@@ -2,7 +2,7 @@
 <!--
 Polish Grammar and Typo Rules for LanguageTool
 Copyright (C) 2006 Marcin Miłkowski
-$Id: grammar.xml,v 1.27 2007-04-30 19:19:41 milek_pl Exp $		
+$Id: grammar.xml,v 1.28 2007-05-01 22:26:43 milek_pl Exp $		
 -->
 <rules lang="pl">
 
@@ -103,12 +103,13 @@ $Id: grammar.xml,v 1.27 2007-04-30 19:19:41 milek_pl Exp $
 			
 			<rule>
 				<pattern>
-					<token skip="-1">może<exception scope="next" inflected="yes" regexp="yes">[\p{Punct}—–„«»](?&lt;!\.)|bądź|czy|ani|lub|albo|oraz|i|kiedy|gdy|który|jaki|że|iż|bo|gdyż|aby|ażeby|żeby|iżby|zanim|dopóki|gdyby|jeśli|jeżeli|dlaczego|którędy</exception><exception scope="next" postag_regexp="yes" postag="&lt;ELLIPSIS&gt;|verb:(aglt|bedzie|fin|praet|sg|pl).*(sg|pl).*|verb:imps.*|pcon:imperf|pant:perf"/></token>
-					<token skip="-1" postag_regexp="yes" postag="verb:inf.*"><exception scope="next" inflected="yes" regexp="yes">[\p{Punct}—–„«»](?&lt;!\.)|bądź|czy|ani|lub|albo|oraz|i|kiedy|gdy|który|jaki|że|iż|bo|gdyż|aby|ażeby|żeby|iżby|zanim|dopóki|gdyby|jeśli|jeżeli|dlaczego|którędy</exception><exception scope="next" postag_regexp="yes" postag="&lt;ELLIPSIS&gt;"/></token>
-					<token skip="-1" postag_regexp="yes" postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf|pant:perf"><exception scope="current" postag_regexp="yes" postag="subst:.*|adj.*|ppron.*|verb:inf.*|verb:bedzie.*|adv:comp|prep.*|qub|indecl|adv.*"/><exception scope="current" regexp="yes">może|lecz|jedna</exception></token>
+					<token skip="-1">może<exception scope="next" inflected="yes" regexp="yes">[\p{Punct}—–„«»](?&lt;!\.)|bądź|czy|ani|lub|albo|oraz|i|kiedy|gdy|który|jaki|że|iż|bo|gdyż|aby|ażeby|żeby|iżby|zanim|dopóki|gdyby|jeśli|jeżeli|dlaczego|którędy</exception><exception scope="next" postag_regexp="yes" postag="&lt;ELLIPSIS&gt;|verb:(aglt|fin|bedzie|praet):(sg|pl).*|verb:imps.*|pcon:imperf|pant:perf"/></token>
+ 					<token skip="-1" postag_regexp="yes" postag="verb:inf.*"><exception scope="next" inflected="yes" regexp="yes">[\p{Punct}—–„«»](?&lt;!\.)|bądź|czy|ani|lub|albo|oraz|i|kiedy|gdy|który|jaki|że|iż|bo|gdyż|aby|ażeby|żeby|iżby|zanim|dopóki|gdyby|jeśli|jeżeli|dlaczego|którędy</exception><exception scope="next" postag_regexp="yes" postag="&lt;ELLIPSIS&gt;"/></token>
+					<token skip="-1" postag_regexp="yes" postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf|pant:perf"><exception scope="current" postag_regexp="yes" postag="subst:.*|adj.*|ppron.*|verb:inf.*|verb:bedzie.*|adv:comp|prep.*|qub|indecl|adv.*"/><exception scope="current" regexp="yes">może|lecz|jedna</exception></token>		
 					<phraseref idref="INTERPUNKCJA"/>
 				</pattern>
-				<message>W tym zdaniu złożonym brakuje przecinka lub spójnika między jednym zdaniem a drugim.</message>
+				
+				<message>alaW tym zdaniu złożonym brakuje przecinka lub spójnika między jednym zdaniem a drugim.</message>
 				<example type="correct">Marek nie pomagał ani nie miał pomagać Jurkowi odrabiać lekcje za Romana.</example>
 				<example type="incorrect">Marek <marker>może być marszałkiem pozostając w partii opozycyjnej.</marker></example>
 			</rule>
@@ -116,17 +117,18 @@ $Id: grammar.xml,v 1.27 2007-04-30 19:19:41 milek_pl Exp $
 			<rule>
 				<pattern>
 					<token skip="-1" postag_regexp="yes" postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf|pant:perf"><exception scope="current" postag_regexp="yes" postag="subst:.*|adj.*|ppron.*|verb:inf.*|verb:bedzie.*|adv:comp|prep.*|qub|indecl|adv.*"/><exception scope="current" regexp="yes">może|lecz|jedna</exception><exception scope="next" inflected="yes" regexp="yes">[\p{Punct}—–„«»](?&lt;!\.)|bądź|czy|ani|lub|albo|oraz|i|kiedy|gdy|który|jaki|że|iż|bo|gdyż|aby|ażeby|żeby|iżby|zanim|dopóki|gdyby|jeśli|jeżeli|dlaczego|którędy</exception><exception scope="next" postag_regexp="yes" postag="&lt;ELLIPSIS&gt;"/></token>
-					<token skip="-1">może<exception scope="next" inflected="yes" regexp="yes">[\p{Punct}—–„«»](?&lt;!\.)|bądź|czy|ani|lub|albo|oraz|i|kiedy|gdy|który|jaki|że|iż|bo|gdyż|aby|ażeby|żeby|iżby|zanim|dopóki|gdyby|jeśli|jeżeli|dlaczego|którędy</exception><exception scope="next" postag_regexp="yes" postag="&lt;ELLIPSIS&gt;|verb:(aglt|bedzie|fin|praet|sg|pl).*(sg|pl).*|verb:imps.*|pcon:imperf|pant:perf"/></token>
+					<token skip="-1">może<exception scope="next" inflected="yes" regexp="yes">[\p{Punct}—–„«»](?&lt;!\.)|bądź|czy|ani|lub|albo|oraz|i|kiedy|gdy|który|jaki|że|iż|bo|gdyż|aby|ażeby|żeby|iżby|zanim|dopóki|gdyby|jeśli|jeżeli|dlaczego|którędy</exception><exception scope="next" postag_regexp="no" postag="&lt;ELLIPSIS&gt;|verb:(aglt|fin|bedzie|praet):(sg|pl).*|verb:imps.*|pcon:imperf|pant:perf"/></token>
 					<token skip="-1" postag_regexp="yes" postag="verb:inf.*"/>
 					<phraseref idref="INTERPUNKCJA"/>
 				</pattern>
 				<message>W tym zdaniu złożonym brakuje przecinka lub spójnika między jednym zdaniem a drugim.</message>
 				<example type="correct">Marek nie pomagał ani nie miał pomagać Jurkowi odrabiać lekcje za Romana.</example>
 				<example type="incorrect">Marek <marker>pozostając w partii opozycyjnej może być marszałkiem.</marker></example>
-			</rule>
-			
+			</rule>			
 			
 		</rulegroup>
+
+
 			
 		<rule name="Brak przecinka przed „a więc”, „a mianowicie”..." id="MULTISPOJNIKI">
 				<pattern>
@@ -947,7 +949,7 @@ $Id: grammar.xml,v 1.27 2007-04-30 19:19:41 milek_pl Exp $
 		<rule>
 			<pattern mark_from="3">
 				<token postag="SENT_START"/>
-				<token postag_regexp="yes" postag=".*adj:sg:(nom|nom\.voc):f.*"/>
+				<token postag_regexp="yes" postag="adj:sg:(nom|nom\.voc):f.*"/>
 				<token skip="-1" postag_regexp="yes" postag="subst:sg:nom:f"><exception postag_regexp="yes" postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf|pant:perf"/><exception postag_regexp="yes" postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf|pant:perf"/><exception scope="next" inflected="yes" regexp="yes">[\-—–!\?;\(\):]|kiedy|gdy|który|jaki|że|iż|bo|a|jeśli|jeżeli|aby|żeby|ażeby|zanim|acz|aczkolwiek|albowiem|ale|aleć|aliści|azali|bo|byleby|czyli|czyliż|dlaczego|dopóki|dopóty|gdyż|gdyżby|ilekolwiek|ilekroć|póki|tedy</exception><exception scope="current" regexp="yes">nic|co|jak</exception><exception postag_regexp="yes" postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf|pant:perf"/><exception scope="next" inflected="yes" regexp="yes">[\-—–!\?;\(\):]|kiedy|gdy|który|jaki|że|iż|bo|a|jeśli|jeżeli|aby|żeby|ażeby|zanim|acz|aczkolwiek|albowiem|ale|aleć|aliści|azali|bo|byleby|czyli|czyliż|dlaczego|dopóki|dopóty|gdyż|gdyżby|ilekolwiek|ilekroć|póki|tedy</exception><exception scope="next" postag_regexp="yes" postag="verb:(praet:|aglt:|fin:|)sg:ter.*|pcon:imperf|pant:perf"/></token>
 				<token>,</token>
 				<token postag_regexp="yes" postag="verb:(praet:|aglt:|fin:|)sg:ter.*"/>
@@ -973,7 +975,7 @@ $Id: grammar.xml,v 1.27 2007-04-30 19:19:41 milek_pl Exp $
 		<rule>
 			<pattern mark_from="3">
 				<token postag="SENT_START"/>
-				<token postag_regexp="yes" postag=".*adj:sg:(nom|nom\.acc\.voc|nom\.voc):n(:pneg|:neg|).*"/>
+				<token postag_regexp="yes" postag=".*adj:sg:(nom|nom\.acc\.voc|nom\.voc):n(:pos:aff|:neg|).*"/>
 				<token skip="-1" postag_regexp="yes" postag="subst:sg:nom.*:n"><exception postag_regexp="yes" postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf|pant:perf"/><exception postag_regexp="yes" postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf|pant:perf"/><exception scope="next" inflected="yes" regexp="yes">[\-—–!\?;\(\):]|kiedy|gdy|który|jaki|że|iż|bo|a|jeśli|jeżeli|aby|żeby|ażeby|zanim|acz|aczkolwiek|albowiem|ale|aleć|aliści|azali|bo|byleby|czyli|czyliż|dlaczego|dopóki|dopóty|gdyż|gdyżby|ilekolwiek|ilekroć|póki|tedy</exception><exception scope="current" regexp="yes">nic|co|jak</exception><exception postag_regexp="yes" postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf|pant:perf"/><exception scope="next" inflected="yes" regexp="yes">[\-—–!\?;\(\):]|kiedy|gdy|który|jaki|że|iż|bo|a|jeśli|jeżeli|aby|żeby|ażeby|zanim|acz|aczkolwiek|albowiem|ale|aleć|aliści|azali|bo|byleby|czyli|czyliż|dlaczego|dopóki|dopóty|gdyż|gdyżby|ilekolwiek|ilekroć|póki|tedy</exception><exception scope="next" postag_regexp="yes" postag="verb:(praet:|aglt:|fin:|)sg:ter.*|pcon:imperf|pant:perf"/></token>
 				<token>,</token>				
 				<token postag_regexp="yes" postag="verb:(praet:|aglt:|fin:|)sg:ter.*"/>
@@ -986,7 +988,7 @@ $Id: grammar.xml,v 1.27 2007-04-30 19:19:41 milek_pl Exp $
 		<rule>
 			<pattern mark_from="3">
 				<token postag="SENT_START"/>
-				<token postag_regexp="yes" postag=".*adj:sg:(nom|nom\.acc\.voc|nom\.voc):n(:pneg|:neg|).*"/>
+				<token postag_regexp="yes" postag=".*adj:sg:(nom|nom\.acc\.voc|nom\.voc):n(:pos:aff|:neg|).*"/>
 				<token skip="-1" postag_regexp="yes" postag="subst:sg:nom.*:n"><exception postag_regexp="yes" postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf|pant:perf"/><exception postag_regexp="yes" postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf|pant:perf"/><exception scope="next" inflected="yes" regexp="yes">[\-—–!\?;\(\):]|kiedy|gdy|który|jaki|że|iż|bo|a|jeśli|jeżeli|aby|żeby|ażeby|zanim|acz|aczkolwiek|albowiem|ale|aleć|aliści|azali|bo|byleby|czyli|czyliż|dlaczego|dopóki|dopóty|gdyż|gdyżby|ilekolwiek|ilekroć|póki|tedy</exception><exception scope="current" regexp="yes">nic|co|jak</exception><exception postag_regexp="yes" postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf|pant:perf"/><exception scope="next" inflected="yes" regexp="yes">[\-—–!\?;\(\):]|kiedy|gdy|który|jaki|że|iż|bo|a|jeśli|jeżeli|aby|żeby|ażeby|zanim|acz|aczkolwiek|albowiem|ale|aleć|aliści|azali|bo|byleby|czyli|czyliż|dlaczego|dopóki|dopóty|gdyż|gdyżby|ilekolwiek|ilekroć|póki|tedy</exception><exception scope="next" postag_regexp="yes" postag="verb:(praet:|aglt:|fin:|)sg:ter.*|pcon:imperf|pant:perf"/></token>
 				<token>,</token>				
 				<token>to</token>
@@ -999,7 +1001,7 @@ $Id: grammar.xml,v 1.27 2007-04-30 19:19:41 milek_pl Exp $
 		<rule>
 			<pattern mark_from="3">
 				<token postag="SENT_START"/>
-				<token postag_regexp="yes" postag=".*adj:sg:(nom|nom\.acc\.voc|nom\.voc):m[\d]*(:pneg|:neg|).*"/>
+				<token postag_regexp="yes" postag=".*adj:sg:(nom|nom\.acc\.voc|nom\.voc):m[\d]*(:pos:aff|:neg|).*"/>
 				<token skip="-1" postag_regexp="yes" postag="subst:sg:nom.*:m[\d]*"><exception postag_regexp="yes" postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf|pant:perf"/><exception scope="next" inflected="yes" regexp="yes">[\-—–!\?;\(\):]|kiedy|gdy|który|jaki|że|iż|bo|a|jeśli|jeżeli|aby|żeby|ażeby|zanim|acz|aczkolwiek|albowiem|ale|aleć|aliści|azali|bo|byleby|czyli|czyliż|dlaczego|dopóki|dopóty|gdyż|gdyżby|ilekolwiek|ilekroć|póki|tedy</exception><exception scope="current" regexp="yes">nic|co|jak</exception><exception postag_regexp="yes" postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf|pant:perf"/><exception scope="next" inflected="yes" regexp="yes">[\-—–!\?;\(\):]|kiedy|gdy|który|jaki|że|iż|bo|a|jeśli|jeżeli|aby|żeby|ażeby|zanim|acz|aczkolwiek|albowiem|ale|aleć|aliści|azali|bo|byleby|czyli|czyliż|dlaczego|dopóki|dopóty|gdyż|gdyżby|ilekolwiek|ilekroć|póki|tedy</exception><exception scope="next" postag_regexp="yes" postag="verb:(praet:|aglt:|fin:|)sg:ter.*|pcon:imperf|pant:perf"/></token>
 				<token>,</token>				
 				<token postag_regexp="yes" postag="verb:(praet:|aglt:|fin:|)sg:ter.*"/>
@@ -1012,7 +1014,7 @@ $Id: grammar.xml,v 1.27 2007-04-30 19:19:41 milek_pl Exp $
 		<rule>
 			<pattern mark_from="3">
 				<token postag="SENT_START"/>
-				<token postag_regexp="yes" postag=".*adj:sg:(nom|nom\.acc\.voc|nom\.voc):m[\d]*(:pneg|:neg|).*"/>
+				<token postag_regexp="yes" postag=".*adj:sg:(nom|nom\.acc\.voc|nom\.voc):m[\d]*(:pos:aff|:neg|).*"/>
 				<token skip="-1" postag_regexp="yes" postag="subst:sg:nom.*:m[\d]*"><exception postag_regexp="yes" postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf|pant:perf"/><exception scope="next" inflected="yes" regexp="yes">[\-—–!\?;\(\):]|kiedy|gdy|który|jaki|że|iż|bo|a|jeśli|jeżeli|aby|żeby|ażeby|zanim|acz|aczkolwiek|albowiem|ale|aleć|aliści|azali|bo|byleby|czyli|czyliż|dlaczego|dopóki|dopóty|gdyż|gdyżby|ilekolwiek|ilekroć|póki|tedy</exception><exception scope="current" regexp="yes">nic|co|jak</exception><exception postag_regexp="yes" postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf|pant:perf"/><exception scope="next" inflected="yes" regexp="yes">[\-—–!\?;\(\):]|kiedy|gdy|który|jaki|że|iż|bo|a|jeśli|jeżeli|aby|żeby|ażeby|zanim|acz|aczkolwiek|albowiem|ale|aleć|aliści|azali|bo|byleby|czyli|czyliż|dlaczego|dopóki|dopóty|gdyż|gdyżby|ilekolwiek|ilekroć|póki|tedy</exception><exception scope="next" postag_regexp="yes" postag="verb:(praet:|aglt:|fin:|)sg:ter.*|pcon:imperf|pant:perf"/></token>
 				<token>,</token>				
 				<token>to</token>
@@ -1083,7 +1085,7 @@ $Id: grammar.xml,v 1.27 2007-04-30 19:19:41 milek_pl Exp $
 			<token regexp="yes">stycznia|lutego|marca|kwietnia|maja|czerwca|lipca|sierpnia|września|października|listopada|grudnia</token>	
 		</pattern>
 		<message>Niepoprawna postać daty (nie istnieje „drugi sierpień”, jedynie „drugi [dzień] sierpnia”); poprawnie: <suggestion><match no="3"/> <match no="4"/></suggestion>
-		 	lub <suggestion>w dniu <match no="3" postag_regexp="yes" postag=".*adj:sg:inst.loc:m:pneg"/> <match no="4"/></suggestion>.</message>
+		 	lub <suggestion>w dniu <match no="3" postag_regexp="yes" postag=".*adj:sg:inst.loc:m:pos:aff"/> <match no="4"/></suggestion>.</message>
 		<!--  dodać też formę narzędnika: w dniu (narzędnik od \3) \4 -->
 		<example type="incorrect" correction="drugiego sierpnia|w dniu drugim sierpnia">Przyczyna wojny był atak Saddama Husseina na Kuwejt <marker>w dniu drugiego sierpnia</marker> 1990 roku.</example>
 		<example type="correct">Przyczyna wojny był atak Saddama Husseina na Kuwejt <marker>drugiego sierpnia</marker> 1990 roku.</example>
@@ -1225,16 +1227,28 @@ $Id: grammar.xml,v 1.27 2007-04-30 19:19:41 milek_pl Exp $
 		</rule>
 		</rulegroup>
 
-		<rule name="„te”, „jedne”, „tamte” + rzeczownik r. nijakiego w l.poj." id="JEDNE_DZIECKO">
+		<rulegroup name="„te”, „jedne”, „tamte” + rzeczownik r. nijakiego w l.poj." id="JEDNE_DZIECKO">
+		<rule>
 			<pattern mark_to="-1">
-				<token postag_regexp="yes" postag="adj:pl:nom.*"><exception postag_regexp="yes" postag=".*adj:sg:nom.*|verb.+"/></token>
+				<token postag_regexp="yes" postag="adj:pl:nom.*"><exception postag_regexp="yes" postag="adj:sg:nom.*|verb.+"/></token>
 				<token postag_regexp="yes" postag="subst.*:sg:nom.acc.*:n"/>
 			</pattern>
 			<message>Ten przymiotnik lub zaimek jest w liczbie mnogiej. Prawdopodobnie należy użyć liczby pojedynczej:
 				<suggestion><match no="1" postag_regexp="yes" postag="adj:sg:nom.*[\.:]n[1-2]?[^o].*"/></suggestion>.</message>
+			<example type="correct">Jedno dziecko zachowuje się grzecznie.</example>
+			<example type="incorrect" correction="Jedno"><marker>Jedne</marker> dziecko zachowuje się grzecznie.</example>
+		</rule>
+		<rule>
+			<pattern mark_to="-1">
+				<token>te</token>
+				<token postag_regexp="yes" postag="subst.*:sg:nom.acc.*:n"/>
+			</pattern>
+			<message>Ten przymiotnik lub zaimek jest w liczbie mnogiej. Należy użyć liczby pojedynczej:
+				<suggestion>to</suggestion>.</message>
 			<example type="correct">To dziecko zachowuje się grzecznie.</example>
 			<example type="incorrect" correction="To"><marker>Te</marker> dziecko zachowuje się grzecznie.</example>
 		</rule>
+		</rulegroup>
 		
 		<rule name="Błędna odmiana miesiąca w datach, np. 1 styczeń 2010 (1 stycznia)" id="PIERWSZY_STYCZEN_1993">
 			<pattern mark_from="1" mark_to="-1">
@@ -1751,7 +1765,7 @@ $Id: grammar.xml,v 1.27 2007-04-30 19:19:41 milek_pl Exp $
 		<rule name="Błąd związku rzędu: „rozumieć coś pod czymś” (przez coś)" id="ROZUMIEC_POD">
 			<pattern mark_from="3">
 				<token negate="yes" skip="1">przez</token>
-				<token inflected="yes" skip="5">rozumieć<exception>przez</exception></token>
+				<token inflected="yes" skip="5">rozumieć<exception scope="next">przez</exception></token>
 				<token>pod</token>
 			</pattern>
 			<message>Mówimy rozumieć coś <suggestion>przez</suggestion> coś.</message>
@@ -1907,7 +1921,7 @@ $Id: grammar.xml,v 1.27 2007-04-30 19:19:41 milek_pl Exp $
 		<rule name="„nie tyle... co” (nie tyle..., ile)" id="NIE_TYLE_CO">
 			<pattern mark_from="2" mark_to="-1">
 				<token>nie</token>
-				<token skip="-1">tyle<exception>ile</exception></token>
+				<token skip="-1">tyle<exception scope="next">ile</exception></token>
 				<token>co</token>
 				<token><exception regexp="yes">najmniej|najwyżej</exception></token>
 			</pattern>
@@ -1918,17 +1932,32 @@ $Id: grammar.xml,v 1.27 2007-04-30 19:19:41 milek_pl Exp $
 		</rule>
 	
 		
-		<rule name="„uznać jakimś” (za jakieś)" id="UZNAC_JAKIMS">
+		<rulegroup name="„uznać jakimś” (za jakieś)" id="UZNAC_JAKIMS">
+		<rule>
+			<pattern mark_from="1" mark_to="-1">
+				<token skip="2" inflected="yes" regexp="yes">uznać|uznawać<exception regexp="yes">za|,|na|przy|między|nad|nade|znad|o|po|w</exception><exception scope="next" postag_regexp="yes" postag="conj"/></token>
+				<token postag_regexp="yes" postag="(adj|subst).*inst.*"><exception postag_regexp="yes" postag=".*(acc|inst)[:\.]f.*"/></token>
+				<token><exception postag_regexp="yes" postag="(adj|subst).*inst.*"></exception></token>
+			</pattern>
+			<!--  FIXME: nie bierze pod uwagę żywotnych męskich... -->
+			<message>Mówi się „uznać <suggestion>za <match no="2" postag_regexp="yes" postag="(adj|subst):(sg|pl):(inst.loc|inst):.*" postag_replace="$1:$2.*gen.*"/></suggestion>”.</message>
+			<example type="correct">Ludwik był uznany za aktora</example>
+			<example type="correct">Ten filozof uznaje przyczynową rolę za istotną.</example>
+			<example type="incorrect" correction="za aktora">Ludwik był uznawany <marker>aktorem</marker>.</example>
+		</rule>
+		<rule>
 			<pattern mark_from="1">
-				<token skip="2" inflected="yes" regexp="yes">uznać|uznawać<exception regexp="yes">za|,|na|przy|między|nad|nade|znad|o|po|w</exception><exception postag_regexp="yes" postag="conj"/></token>
+				<token skip="2" inflected="yes" regexp="yes">uznać|uznawać<exception regexp="yes">za|,|na|przy|między|nad|nade|znad|o|po|w</exception><exception scope="next" postag_regexp="yes" postag="conj"/></token>
+				<token postag_regexp="yes" postag="(adj|subst).*inst.*"><exception postag_regexp="yes" postag=".*(acc|inst)[:\.]f.*"/></token>
 				<token postag_regexp="yes" postag="(adj|subst).*inst.*"><exception postag_regexp="yes" postag=".*(acc|inst)[:\.]f.*"/></token>
 			</pattern>
 			<!--  FIXME: nie bierze pod uwagę żywotnych męskich... -->
-			<message>Mówi się „uznać <suggestion>za <match no="2" postag_regexp="yes" postag="(adj|subst):(sg|pl):(inst.loc|inst)(:.*)(:?neg)" postag_replace=".*$1:$2.*(acc|gen).*$4$5.*"/></suggestion>”.</message>
+			<message>Mówi się „uznać <suggestion>za <match no="2" postag_regexp="yes" postag="(adj|subst):(sg|pl):(inst.loc|inst)(:.*)(:neg|:aff)" postag_replace=".*$1:$2.*(acc|gen).*$4$5.*"/> <match no="3" postag_regexp="yes" postag="(adj|subst):(sg|pl):(inst.loc|inst):.*" postag_replace="$1:$2.*gen.*"/></suggestion>”.</message>
 			<example type="correct">Ludwik był uznany za wielkiego aktora</example>
 			<example type="correct">Ten filozof uznaje przyczynową rolę za istotną.</example>
-			<example type="incorrect" correction="za wielki|za wielkiego">Ludwik był uznawany <marker>wielkim</marker> aktorem.</example>
+			<example type="incorrect" correction="za wielki aktora|za wielkiego aktora">Ludwik był uznawany <marker>wielkim aktorem</marker>.</example>
 		</rule>
+		</rulegroup>
 		
 		<rule id="ZAINTERESOWANIE_DLA" name="„zainteresowanie dla czego” (czym)">
 			<pattern>
@@ -2071,7 +2100,7 @@ $Id: grammar.xml,v 1.27 2007-04-30 19:19:41 milek_pl Exp $
 		
 		<rule name="„zarówno... i” („zarówno... jak”)" id="ZAROWNO_I">
 			<pattern mark_from="1">
-				<token skip="-1">zarówno<exception regexp="yes">jak|\(.*|„</exception></token>				
+				<token skip="-1">zarówno<exception scope="next" regexp="yes">jak|\(.*|„</exception></token>				
 				<token skip="-1">i</token>
 			</pattern>
 			<message>Po „zarówno” piszemy <suggestion>jak i</suggestion>.</message>
@@ -2141,7 +2170,7 @@ $Id: grammar.xml,v 1.27 2007-04-30 19:19:41 milek_pl Exp $
 				<token>posiadaniu</token>
 			</pattern>
 			<message>Wyrażenie niepoprawne. Poprawnie: <suggestion><match no="1" postag="(verb)(:fin)?(.*):(\?perf|perf|imperf)" postag_replace="$1$2$3:$4|$1:fin$3:imperf">mieć</match></suggestion>, 
-			<suggestion><match no="1" postag="(verb)(:fin)?(.*):(\?perf|perf|imperf)" postag_replace="$1$2$3:$4|$1$3:\?perf">posiadać</match></suggestion>.</message>
+			<suggestion><match no="1" postag="(verb)(.*):(\?perf|perf|imperf)" postag_replace="$1$2:$3|$1$2:\?perf">posiadać</match></suggestion>.</message>
 			<example type="incorrect" correction="(mieć)|posiadam">Nie <marker>jestem w posiadaniu</marker> tego obrazu.</example>
 			<example type="correct">Nie mam tego obrazu.</example>
 		</rule>
@@ -2256,7 +2285,7 @@ $Id: grammar.xml,v 1.27 2007-04-30 19:19:41 milek_pl Exp $
 				<token>opiekę</token>
 			</pattern>
 			<message>Niepoprawny zwrot. Mówi się <suggestion><match no="1" postag="verb.*">sprawować</match> <match no="2"/></suggestion> 
-				lub <suggestion><match no="1" postag="verb.*">opiekować</match> się</suggestion>.</message>
+				lub <suggestion><match no="1" postag="(verb.*):(\?perf|imperf|perf)" postag_replace="$1:refl:.*">opiekować</match> się</suggestion>.</message>
 			<example type="incorrect" correction="sprawował opiekę|opiekował się">Jako hufcowy nadal będę <marker>pełnił opiekę</marker> nad drużyną.</example>
 			<example type="correct">Jako hufcowy nadal będę <marker>sprawował opiekę</marker> nad drużyną.</example>
 		</rule>		
@@ -2741,7 +2770,7 @@ $Id: grammar.xml,v 1.27 2007-04-30 19:19:41 milek_pl Exp $
 		
 		<rule id="WYSOKA_FORMA" name="„wysoka forma” (dobra forma, doskonała forma)">
 			<pattern>
-				<token inflected="yes" postag_regexp="yes" postag=".*:f:pneg">wysoki</token>
+				<token inflected="yes" postag_regexp="yes" postag=".*:f:pos:aff">wysoki</token>
 				<token inflected="yes">forma</token>
 			</pattern>
 			<message>Nie mówi się „wysoka forma”, lecz <suggestion>dobra forma</suggestion>, <suggestion>doskonała forma</suggestion>.</message>
@@ -2827,9 +2856,10 @@ $Id: grammar.xml,v 1.27 2007-04-30 19:19:41 milek_pl Exp $
 			<example type="incorrect"><marker>Co i raz</marker> media informują o tym, że któryś z prominentnych polityków koalicji rządzącej załatwił coś dla siebie.</example>
 			<example type="correct">Raz po raz media informują o tym, że któryś z prominentnych polityków koalicji rządzącej załatwił coś dla siebie.</example>
 		</rule>
+		
 		<rule id="OKRAGLY_ROK" name="„okrągły rok” (cały rok)">
 			<pattern>
-				<token inflected="yes" postag_regexp="yes" postag=".*:m[\d]*:[p]*neg">okrągły</token>
+				<token inflected="yes" postag_regexp="yes" postag=".*:m[\d]*:(pos:aff|neg)">okrągły</token>
 				<token inflected="yes">rok</token>
 			</pattern>
 			<message>Wyrażenie to jest niepoprawne. Poprawnie mówi się: <suggestion>cały rok</suggestion>.</message>
@@ -3000,7 +3030,7 @@ $Id: grammar.xml,v 1.27 2007-04-30 19:19:41 milek_pl Exp $
 	
 		<rule name="„uznać jako” (za)" id="UZNAC_JAKO">
 			<pattern mark_from="1">
-				<token skip="-1" inflected="yes" regexp="yes">uznać|uznawać<exception regexp="yes">za|,|który|jaki|co|.*ania</exception></token>
+				<token skip="-1" inflected="yes" regexp="yes">uznać|uznawać<exception scope="next" regexp="yes">za|,|który|jaki|co|.*ania</exception></token>
 				<token>jako</token>
 			</pattern>
 			<message>Mówi się „uznać coś <suggestion>za</suggestion> jakieś”.</message>
@@ -3416,7 +3446,7 @@ $Id: grammar.xml,v 1.27 2007-04-30 19:19:41 milek_pl Exp $
 		
 		<rule name="„długi upływ czasu” (długi czas)" id="DLUGI_UPLYW">
 			<pattern>
-				<token inflected="yes" postag="adj:sg:.*:m.*neg" postag_regexp="yes">długi</token>
+				<token inflected="yes" postag="adj:sg:.*:m.*(:pos:aff|neg)" postag_regexp="yes">długi</token>
 				<token inflected="yes">upływ</token>
 				<token>czasu</token>
 			</pattern>
@@ -3428,7 +3458,7 @@ $Id: grammar.xml,v 1.27 2007-04-30 19:19:41 milek_pl Exp $
 	
 		<rule name="„potencjalna możliwość” (możliwość)" id="POTENCJALNA_MOZLIWOSC">
 			<pattern>
-				<token inflected="yes" postag_regexp="yes" postag="adj:.*:(f|f.n):pneg">potencjalny</token>
+				<token inflected="yes" postag_regexp="yes" postag="adj:.*:(f|f.n):pos:aff">potencjalny</token>
 				<token inflected="yes">możliwość</token>
 			</pattern>
 			<message>To wyrażenie to pleonazm. Wystarczy powiedzieć <suggestion>\2</suggestion>.</message>
@@ -3438,7 +3468,7 @@ $Id: grammar.xml,v 1.27 2007-04-30 19:19:41 milek_pl Exp $
 	
 		<rule name="„przychylna akceptacja” (akceptacja)" id="PRZYCHYLNA_AKCEPTACJA">
 			<pattern>
-				<token inflected="yes" postag_regexp="yes" postag="adj:.*:(f|f.n):pneg">przychylny</token>
+				<token inflected="yes" postag_regexp="yes" postag="adj:.*:(f|f.n):pos:aff">przychylny</token>
 				<token inflected="yes">akceptacja</token>
 			</pattern>
 			<message>To wyrażenie to pleonazm. Wystarczy powiedzieć <suggestion>\2</suggestion>.</message>
@@ -3479,16 +3509,18 @@ $Id: grammar.xml,v 1.27 2007-04-30 19:19:41 milek_pl Exp $
 			<example type="incorrect">Trwało to <marker>miesiąc czasu</marker>.</example>
 			<example type="incorrect">Trwało to <marker>godzinę czasu</marker>.</example>
 		</rule>
+		
 		<rule id="AURA_POGODOWA" name="„aura pogodowa” (aura)">
 			<pattern>
 				<token inflected="yes">aura</token>
-				<token inflected="yes" postag_regexp="yes" postag="adj:sg:.*:f:pneg">pogodowy</token>
+				<token inflected="yes" postag_regexp="yes" postag="adj:sg:.*:f:pos:aff">pogodowy</token>
 			</pattern>
 			<message>Wyrażenie „aura pogodowa” jest pleonazmem: wystarczy albo sama <suggestion>\1</suggestion>, albo <suggestion>pogoda</suggestion>.</message>
 			<example type="incorrect">Taka <marker>aura pogodowa</marker> dała się wszystkim obywatelom we znaki.</example>
 			<example type="correct">Ta pogoda dała się wszystkim we znaki.</example>
 			<example type="correct">Przy takiej aurze pogodowych anomalii spodziewać się nie można.</example>
 		</rule>
+		
 		<rule id="KAZDY_WTOREK" name="„każdy wtorek miesiąca”">
 			<pattern>
 				<token inflected="yes" regexp="yes">każdy</token>
@@ -3499,6 +3531,7 @@ $Id: grammar.xml,v 1.27 2007-04-30 19:19:41 milek_pl Exp $
 			<example type="correct">Śmieci są wywożone w każdy wtorek.</example>
 			<example type="incorrect">Śmieci są wywożone w <marker>każdy wtorek tygodnia</marker>.</example>
 		</rule>
+		
 		<rule id="W_GLORII_CHWALY" name="„w glorii chwały” (w glorii)">
 			<pattern>
 				<token>w</token>
@@ -3509,6 +3542,7 @@ $Id: grammar.xml,v 1.27 2007-04-30 19:19:41 milek_pl Exp $
 			<example type="incorrect">Piłkarska reprezentacja Ekwadoru <marker>w glorii chwały</marker> wróciła do swojego kraju.</example>
 			<example type="correct">Piłkarska reprezentacja Ekwadoru w glorii wróciła do swojego kraju.</example>
 		</rule>
+		
 		<rule id="KURS_NAUKI" name="„kurs nauki” (kurs)">
 			<pattern>
 				<token inflected="yes">kurs</token>
@@ -3518,6 +3552,7 @@ $Id: grammar.xml,v 1.27 2007-04-30 19:19:41 milek_pl Exp $
 			<example type="correct">Zapraszamy na kurs języka angielskiego!</example>
 			<example type="incorrect">Zapraszamy na <marker>kurs nauki</marker> języka angielskiego!</example>
 		</rule>
+		
 		<rule name="„miesiąc lipiec” itp." id="W_MIESIACU_LIPCU">
 			<pattern>
 				<token inflected="yes">miesiąc</token>
@@ -3541,7 +3576,7 @@ $Id: grammar.xml,v 1.27 2007-04-30 19:19:41 milek_pl Exp $
 		
 		<rule name="„wzajemna wymiana, współpraca” (wymiana, współpraca)" id="WZAJEMNA_WYMIANA">
 			<pattern>
-				<token inflected="yes" postag_regexp="yes" postag="adj:.*:(f|f.n):pneg">wzajemny</token>
+				<token inflected="yes" postag_regexp="yes" postag="adj:.*:(f|f.n):pos:aff">wzajemny</token>
 				<token inflected="yes" regexp="yes">wymiana|współpraca|kooperacja</token>
 			</pattern>
 			<message>To wyrażenie to pleonazm. Wystarczy powiedzieć <suggestion>\2</suggestion>.</message>
@@ -3551,7 +3586,7 @@ $Id: grammar.xml,v 1.27 2007-04-30 19:19:41 milek_pl Exp $
 		
 		<rule name="„wzajemne współdziałanie” (współdziałanie)" id="WZAJEMNE_WSPOLDZIALANIE">
 			<pattern>
-				<token inflected="yes" postag_regexp="yes" postag="adj:sg:.*:pneg.*">wzajemny</token>
+				<token inflected="yes" postag_regexp="yes" postag="adj:sg:.*:pos:aff">wzajemny</token>
 				<token inflected="yes" postag_regexp="yes" postag="subst:ger.*">współdziałać</token>
 			</pattern>
 			<message>To wyrażenie to pleonazm. Wystarczy powiedzieć <suggestion>\2</suggestion>.</message>
@@ -3561,7 +3596,7 @@ $Id: grammar.xml,v 1.27 2007-04-30 19:19:41 milek_pl Exp $
 
 		<rule name="„całkowite” (fiasko)" id="CALKOWITE_FIASKO">
 			<pattern>
-				<token regexp="yes" inflected="yes" postag_regexp="yes" postag="adj:sg:.*:pneg.*">całkowity|kompletny|zupełny</token>
+				<token regexp="yes" inflected="yes" postag_regexp="yes" postag="adj:sg:.*:pos:aff">całkowity|kompletny|zupełny</token>
 				<token inflected="yes">fiasko</token>
 			</pattern>
 			<message>To wyrażenie to pleonazm. Wystarczy powiedzieć <suggestion>\2</suggestion>.</message>
@@ -3571,7 +3606,7 @@ $Id: grammar.xml,v 1.27 2007-04-30 19:19:41 milek_pl Exp $
 		
 		<rule name="„pełny komplet” (komplet)" id="PELNY_KOMPLET">
 			<pattern>
-				<token inflected="yes" postag_regexp="yes" postag="adj:.*m:pneg.*">pełny</token>
+				<token inflected="yes" postag_regexp="yes" postag="adj:.*m:pos:aff">pełny</token>
 				<token inflected="yes">komplet</token>
 			</pattern>
 			<message>To wyrażenie to pleonazm. Wystarczy powiedzieć <suggestion>\2</suggestion>.</message>
@@ -3582,7 +3617,7 @@ $Id: grammar.xml,v 1.27 2007-04-30 19:19:41 milek_pl Exp $
 		<rule name="„skład surowcowy” (skład)" id="SKLAD_SUROWCOWY">
 			<pattern>
 				<token inflected="yes">skład</token>
-				<token inflected="yes" postag_regexp="yes" postag="adj:.*m:pneg.*">surowcowy</token>
+				<token inflected="yes" postag_regexp="yes" postag="adj:.*m:pos:aff">surowcowy</token>
 			</pattern>
 			<message>To wyrażenie to pleonazm. Wystarczy powiedzieć <suggestion>\1</suggestion>.</message>
 			<example type="correct">Te pierniczki mają od lat ten sam skład.</example>			
@@ -3592,7 +3627,7 @@ $Id: grammar.xml,v 1.27 2007-04-30 19:19:41 milek_pl Exp $
 		<rule name="„dzień dzisiejszy” (dzisiaj)" id="DZIEN_DZISIEJSZY">
 			<pattern>
 				<token inflected="yes">dzień</token>
-				<token inflected="yes" postag_regexp="yes" postag="adj:sg.*m:pneg.*">dzisiejszy</token>
+				<token inflected="yes" postag_regexp="yes" postag="adj:sg.*m:(pos:)?aff">dzisiejszy</token>
 			</pattern>
 			<message>To wyrażenie to pleonazm. Wystarczy powiedzieć <suggestion>dzisiaj</suggestion> lub <suggestion>dziś</suggestion>.</message>
 			<example type="correct">Szkoła dzisiaj</example>			
@@ -3602,7 +3637,7 @@ $Id: grammar.xml,v 1.27 2007-04-30 19:19:41 milek_pl Exp $
 		<rule name="„dzień jutrzejszy” (jutro)" id="DZIEN_JUTRZEJSZY">
 			<pattern>
 				<token inflected="yes">dzień</token>
-				<token inflected="yes" postag_regexp="yes" postag="adj:sg.*m:pneg.*">jutrzejszy</token>
+				<token inflected="yes" postag_regexp="yes" postag="adj:sg.*m:(pos:)?aff">jutrzejszy</token>
 			</pattern>
 			<message>To wyrażenie to pleonazm. Wystarczy powiedzieć <suggestion>jutro</suggestion>.</message>
 			<example type="correct">Nie należy też zbytnio trwożyć się tym, co przyniesie <marker>jutro</marker>.</example>			
@@ -3612,7 +3647,7 @@ $Id: grammar.xml,v 1.27 2007-04-30 19:19:41 milek_pl Exp $
 		<rule name="„dzień wczorajszy” (wczoraj)" id="DZIEN_WCZORAJSZY">
 			<pattern>
 				<token inflected="yes">dzień</token>
-				<token inflected="yes" postag_regexp="yes" postag="adj:sg.*m:pneg.*">wczorajszy</token>
+				<token inflected="yes" postag_regexp="yes" postag="adj:sg.*m:(pos:)?aff">wczorajszy</token>
 			</pattern>
 			<message>To wyrażenie to pleonazm. Wystarczy powiedzieć <suggestion>wczoraj</suggestion>.</message>
 			<example type="correct">Wczoraj minęło spokojnie.</example>			
@@ -3632,7 +3667,7 @@ $Id: grammar.xml,v 1.27 2007-04-30 19:19:41 milek_pl Exp $
 		<rule>
 			<pattern>
 				<token inflected="yes">żółtko</token>
-				<token regexp="yes" inflected="yes" postag_regexp="yes" postag=".*adj:sg.*n:pneg.*">jajowy|jajeczny</token>
+				<token regexp="yes" inflected="yes" postag_regexp="yes" postag=".*adj:sg.*n:pos:aff">jajowy|jajeczny</token>
 			</pattern>
 			<message>To wyrażenie to pleonazm. Wystarczy powiedzieć <suggestion>\1</suggestion>.</message>
 			<example type="correct">Do ciasta dodać jedno żółtko.</example>		
@@ -3792,7 +3827,7 @@ $Id: grammar.xml,v 1.27 2007-04-30 19:19:41 milek_pl Exp $
 		
 		<rule id="WACHLARZ_CZEGO" name="„szeroki wachlarz” (wiele)">
 			<pattern mark_to="-1">
-				<token inflected="yes" regexp="yes" postag_regexp="yes" postag="adj:sg.*m[\d]*:pneg">szeroki|bogaty</token>
+				<token inflected="yes" regexp="yes" postag_regexp="yes" postag="adj:sg.*m[\d]*:pos:aff">szeroki|bogaty</token>
 				<token inflected="yes">wachlarz</token>
 				<token postag_regexp="yes" postag=".*gen.*"/>
 			</pattern>
@@ -4547,7 +4582,7 @@ $Id: grammar.xml,v 1.27 2007-04-30 19:19:41 milek_pl Exp $
 			<pattern mark_from="1" case_sensitive="no" mark_to="-1">
 				<token negate="yes" regexp="yes">bynajmniej|przez|na|ale|lecz|a|raczej|wcale|jak|jeśli|gdyby|choć|chociaż</token>
 				<token>nie</token>
-				<token postag_regexp="yes" postag=".*:pneg|subst:ger.*"><exception postag_regexp="yes" postag="verb.*|pred"/></token>
+				<token postag_regexp="yes" postag=".*:aff|subst:ger.*"><exception postag_regexp="yes" postag="verb.*|pred"/></token>
 				<token postag="SENT_END"><exception>,</exception></token>
 			</pattern>
 			<message>„Nie” z rzeczownikami, przysłówkami i przymiotnikami piszemy łącznie, czyli poprawnie będzie <suggestion>nie\3</suggestion>.</message>
@@ -4568,7 +4603,7 @@ $Id: grammar.xml,v 1.27 2007-04-30 19:19:41 milek_pl Exp $
 			<pattern mark_from="1" case_sensitive="no" mark_to="-2">
 				<token negate="yes" regexp="yes">bynajmniej|przez|na|ale|lecz|a|raczej|wcale|jak|jeśli|gdyby|choć|chociaż</token>
 				<token>nie</token>
-				<token postag_regexp="yes" postag=".*:pneg|subst:ger.*"><exception postag_regexp="yes" postag="verb.*|pred"/></token>
+				<token postag_regexp="yes" postag=".*:aff|subst:ger.*"><exception postag_regexp="yes" postag="verb.*|pred"/></token>
 				<token negate="yes">,</token>
 				<token negate="yes" regexp="yes">a|ale|lecz</token>
 			</pattern>
@@ -4821,7 +4856,7 @@ $Id: grammar.xml,v 1.27 2007-04-30 19:19:41 milek_pl Exp $
 		</rule>
 		<rule name="„zarówno... jaki” (zarówno... jak i)" id="ZA_ROWNO_JAKI">
 			<pattern mark_from="1" mark_to="0">
-				<token regexp="yes" skip="-1">równo|zarówno<exception>jak</exception></token>				
+				<token regexp="yes" skip="-1">równo|zarówno<exception scope="next">jak</exception></token>				
 				<token regexp="yes">jaki</token>
 			</pattern>
 			<message>To wyrażenie ma poprawną postać: zarówno... <suggestion>jak i</suggestion>.</message>
@@ -5825,9 +5860,9 @@ $Id: grammar.xml,v 1.27 2007-04-30 19:19:41 milek_pl Exp $
 	 
  	<rule id="ZWROTNE_BEZ_SIE" name="czasowniki zwrotne bez „się”">
 		<pattern mark_from="1" mark_to="-1">
-		<token postag="SENT_START" skip="-1"><exception>się</exception></token>
-  	<token skip="-1" inflected="yes" regexp="yes" postag_regexp="yes" postag="verb.*|pcon:imperf|pant:perf">^(absentować|afiszować|awanturować|bać|bestwić|biedzić|biesić|bisurmanić|blamować|bliźnić|błaźnić|błąkać|błocić|boczyć|bogacić|borykać|brandzlować|bratać|brzydzić|buńczuczyć|buzować|byczyć|cackać|ceregielić|ceremoniować|certolić|certować|chachać|chajtać|chajtnąć|chełpić|chichrać|chlubić|chmurzyć|ciaćkać|ciekać|cielić|cknić|cnić|czaić|czapierzyć|czołgać|czubić|czulić|czupurzyć|czworzyć|dąsać|dekoltować|delektować|dematerializować|depopularyzować|desocjalizować|destandaryzować|dezaktualizować|dłużyć|dochrapać|dochrapywać|doczołgać|dodzwaniać|dodzwonić|dogadać|dogadywać|doigrać|doktoryzować|domagać|domniemać|domniemywać|domyślać|domyślić|dopominać|dopomnieć|dopytać|dopytywać|dorozumieć|dorozumiewać|dostukać|doszukać|doszukiwać|dotelefonować|dotelepać|dotlić|dowiadywać|dowiedzieć|dowiercić|dowojować|dowołać|dowoływać|doziębić|droczyć|drożyć|dymić|dziwować|egalitaryzować|egzaltować|elegantować|elektryzować|emocjonować|entuzjazmować|fajczyć|fałdować|fechtować|filcować|fiokować|frajerować|frasować|fraternizować|gapić|garbić|garnąć|głowić|gniewać|gnieździć|goić|gramolić|grudkować|gurbić|guzdrać|gzić|handryczyć|hazardować|hultaić|ikrzyć|imać|indyczyć|jagnić|jarzyć|jaskrawić|jawić|jąkać|kajać|katulać|kiełbasić|kitwasić|kluć|kłaczyć|kłaniać|kłębić|kłonić|kłopotać|kłosić|kłócić|kocić|kokainizować|kokosić|kolegować|koligacić|konsonantyzować|kontentować|korzenić|korzyć|kotłować|krupić|krygować|krzątać|krztusić|kulić|kumplować|kurczyć|kwapić|laicyzować|lampartować|lasować|ląc|leksykalizować|lenić|lęgnąć|lękać|litować|lochać|logować|lubować|lustrzyć|łajdaczyć|łakomić|łasić|łaszczyć|marcować|markocić|masturbować|mazgaić|mądrzyć|mechacić|metropolizować|mienić|migdalić|mizdrzyć|modlić|modrzyć|morfinizować|morusać|mozolić|mrowić|mścić|nabiadać|nabiedować|nabiedzić|nabłąkać|naborykać|nabuńczuczyć|naburmuszyć|nabzdyczać|nabzdyczyć|nachlać|nachłeptać|nachmurzyć|nachorować|nachrapać|nacierpieć|nacieszyć|naczekać|naczupirzyć|naczupurzyć|naczytać|naćpać|nadarzać|nadarzyć|nadąsać|nadenerwować|nadłubać|nadowiadywać|nadrałować|nadreptać|nadrzemać|nadwęglić|nadziękować|nadziwić|nadźwigać|nafruwać|nagardłować|nagimnastykować|nagłodować|nagłowić|naharować|nahulać|naigrawać|naindyczyć|nairytować|najadać|najeść|najeździć|najeżyć|najęczeć|nakrzątać|nalatać|nałykać|namachać|namęczyć|namocować|namordować|namozolić|namyślać|namyśleć|namyślić|napalać|napatoczyć|napatrzeć|napatrzyć|napić|napłakać|napocić|napodróżować|napokutować|napolitykować|napolować|naponiewierać|napościć|napracować|napraszać|naprzeklinać|naprzyglądać|naprzykrzać|naprzykrzyć|naradzać|naradzić|narozprawiać|nasapać|naschodzić|nasiedzieć|nasilać|nasilić|naskakać|naskamlać|nasłuchać|nasłużyć|nasrożyć|nassać|nastać|naszamotać|naszczebiotać|naszlochać|naszperać|naszukać|naślęczeć|naśmiać|naśmiewać|natachać|natańczyć|natęsknić|natknąć|natrudzić|natrząsać|natułać|natykać|natyrać|nauganiać|naumieć|nauwijać|naużerać|nawarstwiać|nawarstwić|nawąchać|nawdychać|nawędrować|nawojować|nawściekać|nawychwalać|nawykłócać|nawysługiwać|nawzdychać|nazabiegać|nazachwycać|naziewać|naziębić|nazjeżdżać|nazlatywać|nazłazić|nażartować|nażłopać|nażreć|nażyć|niebieszczyć|niebieścić|niecierpliwić|nikotynizować|obabić|obawiać|obcmokiwać|obcyndalać|obeżreć|objadać|obkupić|obławiać|obłowić|obsunąć|obsuwać|obślizgiwać|obślizgnąć|obśliznąć|obyć|obywać|obżerać|ochajtać|ochajtnąć|ochlać|ociągać|ocielić|ocknąć|odchrzanić|odczołgać|odczołgiwać|odechcieć|odechciewać|odezwać|odgałęziać|odgałęzić|odgrażać|odjadać|odjeść|odkłaniać|odkłonić|odkochać|odkochiwać|odmeldować|odmeldowywać|odpalantować|odpalantowywać|odpierwiastkować|odrodzić|odrzekać|odstawić|odstrychnąć|odsztyftować|odtentegować|odwarstwiać|odwarstwić|odważać|odważyć|odwdzięczać|odwdzięczyć|odwidzieć|odzywać|odżegnać|odżegnywać|ognić|okocić|omsknąć|onanizować|opamiętać|opamiętywać|opiekować|oprosić|orientować|ostać|osunąć|osuwać|oszczenić|oślizgnąć|ośliznąć|otrzaskać|ozwać|ozywać|oźrebić|ożłopać|pałętać|panoszyć|parać|parkać|parkocić|pastwić|patyczkować|perlić|piąć|pieklić|pienić|pierzyć|pietrać|pindrzyć|plenić|płonić|płozić|płożyć|poawanturować|pobłąkać|pobogacić|pobyczyć|pochlubić|pocić|poczołgać|poczubić|poczuwać|podąsać|podczołgać|podczołgiwać|podedrzeć|podkochiwać|podlić|podlizać|podlizywać|podobać|podopalać|podowiadywać|podroczyć|podśmiewać|podwalać|podźwigać|podźwignąć|pofatygować|pogapić|pogłowić|pogniewać|pojawiać|pojawić|pojedynkować|pokajać|pokapować|pokłonić|pokłócić|pokrzątać|pokulić|pokumać|pokwapić|poleczyć|połakomić|połapywać|połasić|połaszczyć|pomartwić|pomieniać|pomocować|pomodlić|popisywać|popluskać|poprzekomarzać|poprztykać|poprzyglądać|porać|porodzić|porozbiegać|porozchodzić|porozgałęziać|porozglądać|porozjeżdżać|porozlatywać|porozłazić|porozpadać|porozrastać|porozsiadać|porozsychać|porozumieć|porozumiewać|porozwidlać|posilać|posilić|poskurczać|posługiwać|posmęcić|posmucić|posnobować|posnuć|pospierać|pospolitować|posprzeczać|postarać|postarzeć|poswarzyć|poszczęścić|poszczycić|poszkapić|poszwendać|poślizgać|poślizgiwać|poślizgnąć|pośliznąć|pośmiać|potaplać|potargować|potknąć|potrudzić|potykać|poufalić|poumizgać|poumizgiwać|pouśmiechać|powałęsać|powdzięczyć|poweselić|powichrować|powieść|powinąć|powstydzić|powściekać|powychylać|powygłupiać|powygrzewać|powylęgać|powyludniać|powymądrzać|powymykać|powyrabiać|powyradzać|powystrajać|powyślizgiwać|powyzbywać|powzdymać|pozabliźniać|pozakorzeniać|pozalęgać|pozapadać|pozapełniać|pozaprzyjaźniać|pozasklepiać|pozbiegać|pozbyć|pozbywać|pozderzać|pozmawiać|poznęcać|pozrastać|pozrzekać|pozsiadać|pozsychać|pozwoływać|pozżymać|pożalić|pożywiać|późnić|prawować|procesować|profesjonalizować|proletaryzować|prostytuować|prowadzać|próżniaczyć|przebarwić|przebudzać|przechadzać|przecharakteryzować|przechwalać|przeciskać|przeczołgać|przeczołgiwać|przedawniać|przedawnić|przedostać|przedostawać|przedzierzgać|przedzierzgnąć|przedźwigać|przedźwignąć|przejaśniać|przejaśnić|przejęzyczać|przejęzyczyć|przekomarzać|przekradać|przekraść|przekrwić|przeląc|przelęknąć|przemęczać|przemęczyć|przemordować|przepoczwarczać|przepoczwarczyć|przepoczwarzać|przepoczwarzyć|przeprawiać|przeprawić|przeradzać|przerodzić|przesiadać|przesiąść|przesilać|przesilić|przesłyszeć|przesmykiwać|przesmyknąć|prześlizgać|prześlizgiwać|prześlizgnąć|prześliznąć|prześmiewać|przewałęsać|przewiadywać|przewiedzieć|przewłóczyć|przeziębiać|przeziębić|przeżegnać|przeżreć|przybłąkać|przychrzaniać|przychrzanić|przyczaić|przyczajać|przyczołgać|przyczołgiwać|przyczyniać|przyczynić|przydać|przydarzać|przydarzyć|przygarbić|przyglądać|przyjaźnić|przyjrzeć|przykrzyć|przymawiać|przymglić|przymilać|przymilić|przypatrywać|przypatrzyć|przypętać|przyplątać|przyplątywać|przypochlebiać|przypochlebić|przypodobać|przypytać|przysłuchać|przysłuchiwać|przysłużyć|przyśnić|przytaić|przytarabanić|przytelepać|przytrafiać|przytrafić|przywałęsać|przywidywać|przywidzieć|przyżeniać|przyżenić|puszyć|pysznić|rdzawić|rewanżować|roić|rozamorować|rozanielać|rozanielić|rozbalować|rozbałaganić|rozbałamucić|rozbarwiać|rozbarwić|rozbeczeć|rozbiec|rozbiegać|rozbisurmaniać|rozbisurmanić|rozbrykać|rozbrzęczeć|rozcharakteryzować|rozcharakteryzowywać|rozchichotać|rozchlipać|rozchmurzać|rozchmurzyć|rozchodzić|rozchorować|rozchuliganić|rozczmuchać|rozczmuchiwać|rozczytać|rozczytywać|rozćwierkać|rozdąsać|rozdeszczyć|rozdokazywać|rozdygotać|rozdyskutować|rozdzwaniać|rozdzwonić|rozdźwięczeć|rozedrgać|rozegzaltować|rozegzaltowywać|rozejrzeć|rozejść|rozełkać|rozeprzeć|rozeschnąć|roześmiać|rozfalować|rozfanatyzować|rozfiglować|rozflirtować|rozgałęziać|rozgałęzić|rozgaszczać|rozgaworzyć|rozgdakać|rozgęgać|rozglądać|rozglądnąć|rozgorączkować|rozgościć|rozgwieździć|rozhałasować|rozhasać|rozhisteryzować|rozhuczeć|rozhukać|rozhulać|rozhultaić|rozigrać|rozindyczyć|roziskrzać|roziskrzyć|rozjazgotać|rozjeść|rozjęczeć|rozkasłać|rozkaszlać|rozkaszleć|rozklaskać|rozkląć|rozkorzeniać|rozkorzenić|rozkoszować|rozkrochmalać|rozkrochmalić|rozkrzyczeć|rozkwiczeć|rozkwilać|rozkwilić|rozlatywać|rozlecieć|rozlec|rozlegać|rozlegnąć|rozleźć|rozlśnić|rozłajdaczyć|rozłakamiać|rozłakomić|rozłazić|rozłobuzować|rozmachnąć|rozmaić|rozmarudzić|rozmazgaić|rozmazgajać|rozmigotać|rozmijać|rozminąć|rozmodlić|rozmówić|rozmyślić|rozochocić|rozpadać|rozpanoszyć|rozpaść|rozpaść|rozpełzać|rozpełznąć|rozperorować|rozpękać|rozpęknąć|rozpić|rozpierać|rozpierzchać|rozpierzchnąć|rozpijaczyć|rozpląsać|rozpłakać|rozpłynąć|rozpływać|rozpoetyzować|rozpolitykować|rozprawić|rozpróżniaczać|rozpróżniaczyć|rozradzać|rozrastać|rozrechotać|rozrodzić|rozrosnąć|rozryczeć|rozsadowić|rozsapać|rozsiadać|rozsiąpić|rozsiąść|rozskakać|rozsłocić|rozsmakować|rozsmakowywać|rozstać|rozstawać|rozstąpić|rozstępować|rozswawolić|rozsychać|rozsypiać|rozszaleć|rozszczebiotać|rozszczekać|rozszeptać|rozszlochać|rozszumieć|rozszwargotać|rozślimaczyć|rozśmiać|rozśnieżyć|rozśpiewać|rozśpiewywać|rozświegotać|rozświergotać|roztańczyć|rozterkotać|roztęsknić|roztętnić|roztlić|roztrajkotać|roztrenować|roztrysnąć|roztrzepotać|roztyć|rozwałęsać|rozwarcholić|rozwarczeć|rozwidlać|rozwidlić|rozwidniać|rozwidnić|rozwielmożniać|rozwielmożnić|rozwierzgać|rozwieść|rozwrzeszczeć|rozwydrzać|rozwydrzyć|rozzbytkować|rozzieleniać|rozzielenić|rozziewać|rozżalać|rozżalić|samodoskonalić|samofinansować|schlać|schmurzyć|schronić|scukrować|scukrzyć|sfajdać|sfrajerować|silić|siłować|skłaczyć|skłębić|skoligacić|skonsonantyzować|skonsultować|skozaczyć|skradać|skrupiać|skrupić|skrzyć|skulać|skulić|skumać|skurczyć|skuzynować|słaniać|smużyć|snobizować|snobować|solidaryzować|spaczyć|spanoszyć|specjalizować|spierać|spieszyć|spietrać|spiknąć|spłakać|spłonić|spocić|spodlić|spodobać|spodziewać|spokrewniać|spokrewnić|spospolitować|spowinowacać|spowinowacić|spóźniać|spóźnić|spracować|sproletaryzować|sprzeciwiać|sprzeciwić|sprzeczać|sprzykrzyć|sprzymierzać|sprzymierzyć|sprzysiąc|sprzysięgać|srożyć|starać|starzeć|stawić|stelefonować|stęsknić|stlić|stowarzyszać|stowarzyszyć|strapić|stropić|strwożyć|sturlać|sumitować|swarzyć|szarogęsić|szczenić|szczęścić|szczycić|szlajać|szmacić|sztachać|sztachnąć|sztafirować|szwendać|ślimaczyć|ślizgać|śmiać|śpieszyć|taplać|tarzać|telepać|tlić|troić|tropnąć|troskać|troszczyć|trudnić|tułać|turbować|ubiegać|ubzdryngolić|uchlać|ucieleśnić|udławić|ukłonić|ukorzeniać|ukorzenić|ukorzyć|ulatniać|uląc|uląc|uleżeć|ulęgać|ulęgnąć|ulęknąć|ulitować|ulotnić|umartwiać|umawiać|umiarkować|umizgać|umizgiwać|umizgnąć|umówić|unormować|uobecniać|uobecnić|upajać|upierać|upierzyć|upijać|uplasować|upłakać|upłakiwać|uporać|upowszechniać|uprzeć|uprzykrzyć|uskarżać|usmarkać|ustatkować|ustosunkować|ustosunkowywać|uszarpać|uśmiać|uśmiechać|uśmiechnąć|utyrać|uwalić|uwielokrotniać|uwijać|uwinąć|uwziąć|uznoić|użalać|użalić|użerać|wahać|wahnąć|wałęsać|wałkonić|wczołgać|wczołgiwać|wczuć|wczuwać|wczytać|wczytywać|wdać|wdawać|wdrapać|wdrapywać|wdzierać|wdzięczyć|wedrzeć|wemknąć|weselić|weżreć|wgapić|wgramolić|wgryzać|wgryźć|wichrować|wichrzyć|wkradać|wkraść|wkulać|wkulić|wkupić|wkupywać|włamać|włamywać|wmykać|wmyślać|wmyślić|worywać|wpatrywać|wpatrzyć|wpraszać|wprosić|wrąbać|wrąbywać|wrodzić|wsłuchać|wsłuchiwać|wspiąć|wspinać|współubiegać|wstydzić|wściec|wściekać|wślizgać|wślizgiwać|wślizgnąć|wśliznąć|wtarabaniać|wtarabanić|wturlać|wybeczeć|wyboczyć|wybyczyć|wycielić|wycwanić|wyczołgać|wyczołgiwać|wydarzać|wydarzyć|wydąsać|wydekoltować|wydokazywać|wydurniać|wyfajdać|wyfioczyć|wyfiokować|wyforować|wyfraczyć|wygalować|wygarbiać|wygimnastykować|wygłupiać|wygłupić|wygramolić|wyguzdrać|wygwieździć|wyhasać|wyhulać|wyhuśtać|wyiskrzać|wyiskrzyć|wyjęzyczać|wyjęzyczyć|wykaraskać|wykasłać|wykaszlać|wykaszleć|wykliniać|wyklinić|wyklinować|wyklinowywać|wykluć|wykluwać|wykłamać|wykłamywać|wykłaszać|wykłosić|wykłócać|wykłócić|wykocić|wykopyrtnąć|wykosztować|wykosztowywać|wykrwawiać|wykrwawić|wyląc|wylegiwać|wyletniać|wyletnić|wyleżeć|wylęgać|wylęgnąć|wylęknąć|wylogować|wyłabudać|wyłgać|wyłgiwać|wyłobuzować|wymądrzać|wymądrzyć|wymigać|wymigiwać|wymknąć|wymsknąć|wymydlić|wymykać|wynaradawiać|wynarodawiać|wynaturzać|wynaturzyć|wynurzać|wynurzyć|wyobcować|wyobcowywać|wyokrąglać|wyokrąglić|wypierzać|wypierzyć|wypindrzyć|wypłonić|wypłycać|wypoczwarzać|wypoczwarzyć|wypogadzać|wypogodzić|wypościć|wyprztykać|wypsnąć|wypylić|wyradzać|wyrajać|wyrodzić|wyroić|wysforować|wysforowywać|wysikać|wysilać|wysilić|wysiusiać|wyskakać|wyskarżyć|wysmażyć|wysmykiwać|wysmyknąć|wyspać|wystarać|wystrzegać|wysypiać|wyszaleć|wysztafirować|wytańczyć|wywczasować|wywdzięczać|wywdzięczyć|wywiadywać|wywiązać|wywiązywać|wywiedzieć|wywnętrzać|wywnętrzyć|wywzajemniać|wywzajemnić|wyzbyć|wyzbywać|wyzłościć|wyzłośliwiać|wyzłośliwić|wyzwierzać|wyzwierzyć|wyżalać|wyżalić|wyżywać|wzdragać|wzdrygać|wzdrygnąć|wzwyczaić|wzwyczajać|wżąć|wżenić|wżerać|wżyć|wżynać|wżywać|zabliźniać|zabliźnić|zabłąkać|zabujać|zachcieć|zachciewać|zachłysnąć|zachłystywać|zachmurzać|zachmurzyć|zacietrzewiać|zacietrzewić|zacukać|zaczaić|zaczajać|zaczołgać|zadamawiać|zadąsać|zadeszczyć|zadomawiać|zadomowić|zadumać|zadurzyć|zagalopować|zagalopowywać|zagapić|zagnieździć|zagnieżdżać|zagrypić|zaharować|zaharowywać|zajarzyć|zająkiwać|zająknąć|zakałapućkać|zakatarzyć|zakłębić|zakochać|zakochiwać|zakolegować|zakorzeniać|zakorzenić|zakotłować|zakradać|zakraść|zakrzątnąć|zakrztusić|zaląc|zalęgać|zalęgnąć|zalęknąć|zalogować|załgać|załgiwać|załzawić|zamachnąć|zamartwiać|zamartwić|zamglić|zamodlić|zamordowywać|zamortyzować|zamroczyć|zamrowić|zamrozić|zaopiekować|zapacać|zapatrywać|zapatrzyć|zaperzać|zaperzyć|zapiec|zapieklić|zapienić|zapłakiwać|zapłonić|zapocić|zapoczwarzyć|zapowietrzać|zapóźniać|zapóźnić|zaprzedać|zaprzyjaźniać|zaprzyjaźnić|zarabować|zaroić|zarykiwać|zarzec|zarzekać|zasapać|zasępiać|zasępić|zasiedzieć|zaskorupiać|zaskorupić|zaskrzyć|zasłuchać|zasmarkać|zasrebrzyć|zastanawiać|zastanowić|zaszklić|zaśmiać|zaśmiewać|zaśniecić|zatchnąć|zatlić|zatroskać|zatroszczyć|zatyrać|zawahać|zawziąć|zawzinać|zazębiać|zazębić|zaziębiać|zaziębić|zażenować|zażerać|zbeczeć|zbiesić|zbisurmanić|zblamować|zbłaźnić|zbłąkać|zbratać|zbrylać|zbrylić|zdarzać|zdarzyć|zdekapitalizować|zdeklarować|zdeklasować|zdrzemnąć|zdumieć|zdzwaniać|zdzwonić|zdźwigać|zemścić|zeschnąć|zesikać|zesmrodzić|zesrać|zesrywać|zestarzeć|zeszczać|ześlizgiwać|ześlizgnąć|ześliznąć|ześwinić|zetlić|zeźlić|zgadać|zgadzać|zgapić|zgarbić|zgorączkować|zgramolić|zgruźlać|zgruźlić|zgrzać|zgurbić|zhasać|zhulać|zielenić|zjawiać|zjawić|zląc|zleksykalizować|zleżeć|zlęknąć|zlisić|zlitować|złakomić|złasić|zmachać|zmagać|zmądrzyć|zmetamorfizować|zmierzchać|zmierzchnąć|zmiłować|zmineralizować|zmizerować|zmorfologizować|zmotoryzować|zmówić|zmroczyć|zmumifikować|znęcać|zniecierpliwić|znoić|zorientować|zrastać|zreflektować|zrelaksować|zrepolonizować|zresorbować|zrewanżować|zromanizować|zrosnąć|zrzec|zrzekać|zrzygać|zsikać|zsiusiać|zsolidaryzować|zsumitować|zsychać|zwapnić|zwidywać|zwidzieć|zwierzać|zwierzyć|zwokalizować|zziajać|zżyć|zżymać|zżymnąć|zżywać|źrebić|żachać|żachnąć|żalić|żarzyć)<exception scope="current" postag="subst:ger.*|ppas.*|adj.*" postag_regexp="yes"/><exception postag_regexp="yes" postag="subst.*"/><exception regexp="yes">różnie|rozmaicie|śmiał.*</exception><exception scope="next">się</exception></token>
-  	<token postag="SENT_END"/>
+		<token postag="SENT_START" skip="-1"><exception scope="next">się</exception></token>
+  		<token skip="-1" inflected="yes" regexp="yes" postag_regexp="yes" postag=".*refl.*"><exception scope="current" postag="subst:ger.*|ppas.*|adj.*" postag_regexp="yes"/><exception postag_regexp="yes" postag="subst.*"/><exception regexp="yes">rozmaicie|śmiał.*</exception><exception scope="next">się</exception></token>
+  		<token postag="SENT_END"/>
 		</pattern>
 		<message>W tym zdaniu występuje czasownik zwrotny, a brakuje wyrazu „się”; powinno być: <suggestion>\2 się</suggestion> lub <suggestion>się \2</suggestion>.</message>
 		<example type="correct">Ludwik niczego się nie bał.</example>
@@ -5840,7 +5875,7 @@ $Id: grammar.xml,v 1.27 2007-04-30 19:19:41 milek_pl Exp $
 	
 	<rule name="„inna strona medalu” (druga strona)" id="INNA_STRONA_MEDALU">
 			<pattern>
-				<token inflected="yes" postag_regexp="yes" postag="adj:.*:(f|f.n):pneg">inny</token>
+				<token inflected="yes" postag_regexp="yes" postag="adj:.*:(f|f.n):pos">inny</token>
 				<token inflected="yes">strona</token>
 				<token>medalu</token>
 			</pattern>
@@ -5871,16 +5906,16 @@ $Id: grammar.xml,v 1.27 2007-04-30 19:19:41 milek_pl Exp $
 		</rule>
 		
 		<rule name="„między Bogiem a prawdą” (Bogiem a prawdą)" id="BOGIEM_A_PRAWDA">
-	  <pattern>
-	  	<token>między</token>
-	  	<token>Bogiem</token>
-	  	<token>a</token>
-	  	<token>prawdą</token>
-	  </pattern>
-	  <message>To wyrażenie jest niepoprawne. Poprawnie: <suggestion>Bogiem a prawdą</suggestion>.</message>
-	  <example type="incorrect"><marker>Między Bogiem a prawdą</marker> jedynymi osobami, które mogą mieć niekłamaną satysfakcję ze zdobycia Everestu, są Hilary i Tenzing.</example>
-	  <example type="correct">Bogiem a prawdą jedynymi osobami, które mogą mieć niekłamaną satysfakcję ze zdobycia Everestu, są Hilary i Tenzing.</example>
-	  </rule>
+	  	<pattern>
+	  		<token>między</token>
+	  		<token>Bogiem</token>
+	  		<token>a</token>
+	  		<token>prawdą</token>
+	  	</pattern>
+	  	<message>To wyrażenie jest niepoprawne. Poprawnie: <suggestion>Bogiem a prawdą</suggestion>.</message>
+	  	<example type="incorrect"><marker>Między Bogiem a prawdą</marker> jedynymi osobami, które mogą mieć niekłamaną satysfakcję ze zdobycia Everestu, są Hilary i Tenzing.</example>
+	  	<example type="correct">Bogiem a prawdą jedynymi osobami, które mogą mieć niekłamaną satysfakcję ze zdobycia Everestu, są Hilary i Tenzing.</example>
+	  	</rule>
 	  
 	  <rule name="„po prawo” (po prawej)" id="PO_PRAWO">
 			<pattern mark_to="-1">

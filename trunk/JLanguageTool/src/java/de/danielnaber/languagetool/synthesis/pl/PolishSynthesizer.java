@@ -44,6 +44,9 @@ public class PolishSynthesizer implements Synthesizer {
   private static final String RESOURCE_FILENAME = "/resource/pl/polish_synth.dict";
   
   private static final String TAGS_FILE_NAME = "/resource/pl/polish_tags.txt";
+  
+  private static final String POTENTIAL_NEGATION_TAG = ":aff";
+  private static final String NEGATION_TAG = ":neg";
 
   private Lametyzator synthesizer = null;
 
@@ -60,15 +63,15 @@ public class PolishSynthesizer implements Synthesizer {
     }
     boolean isNegated = false;
     if (token.getPOSTag() != null) {
-      isNegated = posTag.indexOf(":neg") > 0 
-      || token.getPOSTag().indexOf(":neg") > 0;
+      isNegated = posTag.indexOf(NEGATION_TAG) > 0 
+      || token.getPOSTag().indexOf(NEGATION_TAG) > 0;
     }
     if (posTag.indexOf("+") > 0) {      
       return synthesize(token, posTag, true);
     } else {
     String[] wordForms = null;
     if (isNegated) {
-      wordForms = synthesizer.stem(token.getLemma() + "|" + posTag.replaceFirst(":neg", ":pneg"));
+      wordForms = synthesizer.stem(token.getLemma() + "|" + posTag.replaceFirst(NEGATION_TAG, POTENTIAL_NEGATION_TAG));
       if (wordForms != null) {
         String[] negForms = wordForms;
         for (int i = 0; i < wordForms.length; i++) {
@@ -96,22 +99,27 @@ public class PolishSynthesizer implements Synthesizer {
       synthesizer = 
         new Lametyzator(this.getClass().getResourceAsStream(RESOURCE_FILENAME),
           "iso8859-2", '+');
-    }    
-    final Pattern p = Pattern.compile(posTag.replaceAll("\\+", "|"));
+    }        
     ArrayList<String> results = new ArrayList<String>();
     
     boolean isNegated = false;
     if (token.getPOSTag() != null) {
-      isNegated = posTag.indexOf(":neg") > 0 
-      || token.getPOSTag().indexOf(":neg") > 0;
+      isNegated = posTag.indexOf(NEGATION_TAG) > 0 
+      || token.getPOSTag().indexOf(NEGATION_TAG) > 0;
     }
     
+    if (isNegated) {
+      posTag = posTag.replaceAll(NEGATION_TAG, POTENTIAL_NEGATION_TAG + "?");
+    }
+    
+    final Pattern p = Pattern.compile(posTag.replaceAll("\\+", "|"));    
+        
     for (String tag : possibleTags) {
-      Matcher m = p.matcher(tag);
+      final Matcher m = p.matcher(tag);
         if (m.matches()) {
           String[] wordForms = null;          
           if (isNegated) {
-            wordForms = synthesizer.stem(token.getLemma() + "|" + tag.replaceAll(":neg", ":pneg"));
+            wordForms = synthesizer.stem(token.getLemma() + "|" + tag.replaceAll(NEGATION_TAG, POTENTIAL_NEGATION_TAG));
             if (wordForms != null) {
               String[] negForms = wordForms;
               for (int i = 0; i < wordForms.length; i++) {
