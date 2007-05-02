@@ -3,7 +3,7 @@
 English Grammar and Typo Rules for LanguageTool
 See tagset.txt for the meaning of the POS tags
 Copyright (C) 2001-2007 Daniel Naber (http://www.danielnaber.de)
-$Id: grammar.xml,v 1.11 2007-05-02 12:28:22 milek_pl Exp $
+$Id: grammar.xml,v 1.12 2007-05-02 16:31:36 milek_pl Exp $
 -->
 <rules lang="en">
 
@@ -1437,14 +1437,17 @@ $Id: grammar.xml,v 1.11 2007-05-02 12:28:22 milek_pl Exp $
       <example type="correct">He was waiting at <marker>the new airport</marker>.</example>
     </rule>   
     <rule>
-      <pattern mark_from="1" mark_to="-1" case_sensitive="yes">
+      <pattern mark_from="2" mark_to="-1" case_sensitive="yes">
+      	<token/>
         <token regexp="yes">[Bb]y</token>
-        <token postag="NN"><exception postag_regexp="yes" postag="DT|RB|RP|JJ|IN|CD|JJS|JJR|RBS|VBD|VBN|MD|NNP|NNS"/><exception regexp="yes">bit|word|step|way|example|dint|crook|hook|hand|machine|word|cheque|accident|day|means|mistake|name|train|rail|coach|bus|boat|automobile|helicopter|taxi|ambulance|plane|airplane|foot|section|article|page|road|letter|phone|telephone|mail|storm|arrangement|satellite|decree|year-end|lot|profession|district|week|eye|covenant|fiat</exception></token>
+        <and><token postag="NN"><exception postag_regexp="yes" postag="DT|RB|RP|JJ|IN|CD|JJS|JJR|RBS|VBD|VBN|MD|NNP|NNS"/><exception regexp="yes">bit|word|step|way|example|dint|crook|hook|hand|machine|word|cheque|accident|day|means|mistake|name|train|rail|coach|bus|boat|automobile|helicopter|taxi|ambulance|plane|airplane|foot|section|article|page|road|letter|phone|telephone|mail|storm|arrangement|satellite|decree|year-end|lot|profession|district|week|eye|covenant|fiat</exception></token>
+        <token negate="yes"><match no="1"/></token></and>
         <token><exception postag_regexp="yes" postag="NN.*"/><exception>free</exception></token>
       </pattern>
-      <message>The article is missing before the noun: <suggestion>the \2</suggestion>, <suggestion>a \2</suggestion> or <suggestion>an \2</suggestion>.</message>
+      <message>The article is missing before the noun: <suggestion>the \3</suggestion>, <suggestion>a \3</suggestion> or <suggestion>an \3</suggestion>.</message>
       <example type="incorrect" correction="the river|a river|an river">He was waiting by <marker>river</marker>.</example>
       <example type="correct">He was waiting by <marker>the river</marker>.</example>
+      <example type="correct">The attack minute by minute</example>
       <example type="correct">He works by <marker>day</marker>.</example>
     </rule>
     <rule>
@@ -1485,7 +1488,10 @@ $Id: grammar.xml,v 1.11 2007-05-02 12:28:22 milek_pl Exp $
       <pattern mark_from="2" mark_to="-1">
         <token regexp="yes">day|week</token>
         <token>in</token>
-        <token postag="NN"><exception postag_regexp="yes" postag="VBG|DT|RP|JJ|IN|CD|JJS|JJR|RBS|VBD|VBN|MD|NNP|NNS"/><exception regexp="yes">fact|hand|paperback|person|retrospect|studio|summary|mood|name|turn|deed|word|day|week|outlook|favor|phase</exception></token>
+        <and>
+	        <token postag="NN"><exception postag_regexp="yes" postag="VBG|DT|RP|JJ|IN|CD|JJS|JJR|RBS|VBD|VBN|MD|NNP|NNS"/><exception regexp="yes">fact|hand|paperback|person|retrospect|studio|summary|mood|name|turn|deed|word|outlook|favor|phase</exception></token>
+    	    <token negate="yes"><match no="0"/></token>
+        </and>        
         <token><exception postag_regexp="yes" postag="NN.*|JJ"/><exception regexp="yes">\d+</exception></token>
       </pattern>
       <message>The article is mising before the noun: <suggestion>the \3</suggestion>, <suggestion>a \3</suggestion> or <suggestion>an \3</suggestion>.</message>
@@ -1505,6 +1511,7 @@ $Id: grammar.xml,v 1.11 2007-05-02 12:28:22 milek_pl Exp $
       <message>The article is mising before the noun: <suggestion>the \3</suggestion>, <suggestion>a \3</suggestion> or <suggestion>an \3</suggestion>.</message>
       <example type="incorrect" correction="the lobby|a lobby|an lobby">He was waiting in <marker>lobby</marker>.</example>
       <example type="correct">He was waiting in the <marker>lobby</marker>.</example>
+      <example type="incorrect">Later in <marker>week</marker>.</example>    
       <example type="correct"><marker>In fact</marker>, he wrote a letter to me.</example>
     </rule>
     <rule>
