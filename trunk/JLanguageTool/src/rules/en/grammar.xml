@@ -3,7 +3,7 @@
 English Grammar and Typo Rules for LanguageTool
 See tagset.txt for the meaning of the POS tags
 Copyright (C) 2001-2007 Daniel Naber (http://www.danielnaber.de)
-$Id: grammar.xml,v 1.9 2007-05-02 11:57:19 milek_pl Exp $
+$Id: grammar.xml,v 1.10 2007-05-02 12:19:41 milek_pl Exp $
 -->
 <rules lang="en">
 
@@ -2103,6 +2103,18 @@ $Id: grammar.xml,v 1.9 2007-05-02 11:57:19 milek_pl Exp $
 		<example type="correct">I'm afraid of <marker>the dark</marker>.</example>
 	</rule>
 	</rulegroup>
+	
+	<rule id="DOES_XX_CAN" name="Wrong usage of modal verbs in questions">
+		<pattern>
+			<token postag="SENT_START"/>
+			<token regexp="yes">Does|Do</token>
+			<token postag_regexp="yes" postag="NN:U|PRP\$|PRP"/>
+			<token postag="MD"/>
+		</pattern>
+		<message>Possibly wrong usage of '\2' in the question. Try: <suggestion>\4 \3</suggestion>.</message>
+		<example type="incorrect" correction="Can someone"><marker>Does someone can</marker> reproduce what I described before?</example>
+		<example type="correct"><marker>Can someone</marker> reproduce what I described before?</example>
+	</rule>
 	
   </category>
 
