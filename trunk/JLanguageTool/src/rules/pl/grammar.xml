@@ -2,7 +2,7 @@
 <!--
 Polish Grammar and Typo Rules for LanguageTool
 Copyright (C) 2006 Marcin Miłkowski
-$Id: grammar.xml,v 1.28 2007-05-01 22:26:43 milek_pl Exp $		
+$Id: grammar.xml,v 1.29 2007-05-02 11:57:53 milek_pl Exp $		
 -->
 <rules lang="pl">
 
@@ -836,7 +836,7 @@ $Id: grammar.xml,v 1.28 2007-05-01 22:26:43 milek_pl Exp $
 	<rule>
 		<pattern case_sensitive="yes" mark_from="2">
 			<token postag="SENT_START"/>
-			<token skip="-1"><exception>ani</exception><exception scope="current">Ani</exception></token>
+			<token skip="-1"><exception scope="next">ani</exception><exception scope="current">Ani</exception></token>
 			<token>,</token>
 			<token regexp="yes">ani</token>
 		</pattern>
@@ -848,7 +848,7 @@ $Id: grammar.xml,v 1.28 2007-05-01 22:26:43 milek_pl Exp $
 	<rule>
 		<pattern case_sensitive="yes" mark_from="2">
 			<token postag="SENT_START"/>
-			<token skip="-1"><exception>albo</exception><exception scope="current">Albo</exception></token>
+			<token skip="-1"><exception scope="next">albo</exception><exception scope="current">Albo</exception></token>
 			<token>,</token>
 			<token regexp="yes">albo</token>
 		</pattern>
@@ -860,13 +860,14 @@ $Id: grammar.xml,v 1.28 2007-05-01 22:26:43 milek_pl Exp $
 	<rule>
 		<pattern mark_from="2" mark_to="-1" case_sensitive="yes">
 			<token postag="SENT_START"/>
-			<token skip="-1"><exception>i</exception><exception scope="current">I</exception></token>
+			<token skip="-1"><exception scope="next">i</exception><exception scope="current">I</exception></token>
 			<token>,</token>
 			<token regexp="yes">i</token>
 			<token><exception regexp="yes">tak|to|kwita|już|owszem|koniec</exception></token>
 		</pattern>
 		<message>Prawdopodobnie zbędny przecinek, powinno być: <suggestion>\4</suggestion>.</message>
 		<example type="correct">Kupiłem trochę gruszek i jabłek.</example>
+		<example type="correct">Ten rząd jest i lewicowy, i liberalny.</example>
 		<example type="correct">I tak, i siak.</example>
 		<example type="correct">Spadł śnieg, i to obfity.</example>
 		<example type="incorrect" correction="i">Kupiłem trochę gruszek<marker>, i</marker> jabłek.</example>
@@ -874,7 +875,7 @@ $Id: grammar.xml,v 1.28 2007-05-01 22:26:43 milek_pl Exp $
 	<rule>
 		<pattern case_sensitive="yes" mark_from="2">
 			<token postag="SENT_START"/>
-			<token skip="-1"><exception>lub</exception><exception scope="current">Lub</exception></token>
+			<token skip="-1"><exception scope="next">lub</exception><exception scope="current">Lub</exception></token>
 			<token>,</token>
 			<token regexp="yes">lub</token>
 		</pattern>
@@ -885,7 +886,7 @@ $Id: grammar.xml,v 1.28 2007-05-01 22:26:43 milek_pl Exp $
 	<rule>
 		<pattern case_sensitive="yes" mark_from="2">
 			<token postag="SENT_START"/>
-			<token skip="-1"><exception>oraz</exception><exception scope="current">Oraz</exception></token>
+			<token skip="-1"><exception scope="next">oraz</exception><exception scope="current">Oraz</exception></token>
 			<token>,</token>
 			<token regexp="yes">oraz</token>
 		</pattern>
@@ -896,7 +897,7 @@ $Id: grammar.xml,v 1.28 2007-05-01 22:26:43 milek_pl Exp $
 	<rule>
 		<pattern case_sensitive="yes" mark_from="2">
 			<token postag="SENT_START"/>
-			<token skip="-1"><exception>bądź</exception><exception scope="current">Bądź</exception></token>
+			<token skip="-1"><exception scope="next">bądź</exception><exception scope="current">Bądź</exception></token>
 			<token>,</token>
 			<token regexp="yes">bądź</token>
 		</pattern>
@@ -1028,7 +1029,7 @@ $Id: grammar.xml,v 1.28 2007-05-01 22:26:43 milek_pl Exp $
 	
 	<rule id="PRZECINEK_A" name="Zbędny przecinek przed „a”">
 		<pattern mark_from="1" mark_to="-1">
-			<token skip="-1">między<exception>a</exception></token>
+			<token skip="-1">między<exception scope="next">a</exception></token>
 			<token>,</token>
 			<token>a</token>
 			<token><exception regexp="yes" inflected="yes">nie|więc|mianowicie|przeto|zatem|jednak|choć|chociaż|ponieważ|także|następnie|jeśli|jeżeli|gdyby|gdy|kiedy</exception></token>
@@ -1069,9 +1070,9 @@ $Id: grammar.xml,v 1.28 2007-05-01 22:26:43 milek_pl Exp $
 			<pattern>
 				<token>“</token>
 			</pattern>
-			<message>Cudzysłów otwierający niezgodny z polskimi normami typograficznymi. Poprawnie: <suggestion>„</suggestion>.</message>
+			<message>Cudzysłów niezgodny z polskimi normami typograficznymi. Poprawnie: <suggestion>„</suggestion> lub <suggestion>”</suggestion> (jeśli użyto na końcu wyrazu).</message>
 			<example type="correct">To jest wyraz „krowa”.</example>
-			<example type="incorrect">To jest wyraz <marker>“</marker>krowa”.</example>
+			<example type="incorrect" correction="„|”">To jest wyraz <marker>“</marker>krowa”.</example>
 		</rule>
 		
 	</category>
@@ -1287,7 +1288,7 @@ $Id: grammar.xml,v 1.28 2007-05-01 22:26:43 milek_pl Exp $
 				<token>Hugo</token>
 				<token inflected="yes">Kołłątaj<exception postag="subst:sg:nom:m1"/></token>
 			</pattern>	
-			<message>Imię Hugo jest odmienne: <suggestion><match no="2" postag_regexp="yes" postag="(subst.*)(:m)" postag_replace="$1:m(1)*">Hugon</match></suggestion>.</message>
+			<message>Imię „Hugo” jest odmienne: <suggestion><match no="2" postag_regexp="yes" postag="(subst.*)(:m)" postag_replace="$1:m(1)*">Hugon</match></suggestion>.</message>
 			<example type="correct">Uwielbiam pisma Hugona Kołłątaja.</example>
 			<example type="incorrect" correction="Hugonowi">Polacy zamierzają ufundować pomnik <marker>Hugo</marker> Kołłątajowi.</example>
 		</rule>
@@ -1296,10 +1297,10 @@ $Id: grammar.xml,v 1.28 2007-05-01 22:26:43 milek_pl Exp $
 				<token regexp="yes">Pablo</token>
 				<token regexp="yes" inflected="yes">Picasso<exception postag="subst:sg:nom:m1"/></token>
 			</pattern>	
-			<message>Imię Pablo odmienia się według wzoru: <suggestion>Pabla</suggestion>, <suggestion>Pablowi</suggestion>, <suggestion>Pablem</suggestion>, <suggestion>Pablu</suggestion>.</message>
+			<message>Imię „Pablo” jest odmienne: <suggestion><match no="2" postag_regexp="yes" postag="(subst:)(irreg)?(sg.*)(:m)" postag_replace="$1$3:m(1)*">Pablo</match></suggestion>.</message>
 			<example type="correct">Uwielbiam obrazy Pabla Picassa.</example>
-			<example type="incorrect">Polacy zamierzają ufundować pomnik <marker>Pablo</marker> Picassowi.</example>
-			<example type="incorrect">Uwielbiam rzeźbę <marker>Pablo</marker> Picassa.</example>
+			<example type="incorrect" correction="Pablowi">Polacy zamierzają ufundować pomnik <marker>Pablo</marker> Picassowi.</example>
+			<example type="incorrect" correction="(Pablo)">Uwielbiam rzeźbę <marker>Pablo</marker> Picassa.</example>
 		</rule>
 		</rulegroup>
 		
@@ -1496,7 +1497,7 @@ $Id: grammar.xml,v 1.28 2007-05-01 22:26:43 milek_pl Exp $
 		<rule>
 			<pattern mark_to="-1">
 				<token postag="SENT_START"/>
-				<token skip="-1">ci<exception postag_regexp="yes" postag="verb:.*pl.*"/></token>
+				<token skip="-1">ci<exception scope="next" postag_regexp="yes" postag="verb:.*pl.*"/></token>
 				<token postag_regexp="yes" postag="verb:.*sg.*"/>
 			</pattern>
 			<message>Na początku zdania należy użyć dłuższej formy zaimka: <suggestion>Tobie</suggestion>.</message>
@@ -1935,7 +1936,7 @@ $Id: grammar.xml,v 1.28 2007-05-01 22:26:43 milek_pl Exp $
 		<rulegroup name="„uznać jakimś” (za jakieś)" id="UZNAC_JAKIMS">
 		<rule>
 			<pattern mark_from="1" mark_to="-1">
-				<token skip="2" inflected="yes" regexp="yes">uznać|uznawać<exception regexp="yes">za|,|na|przy|między|nad|nade|znad|o|po|w</exception><exception scope="next" postag_regexp="yes" postag="conj"/></token>
+				<token skip="2" inflected="yes" regexp="yes">uznać|uznawać<exception scope="next" regexp="yes">za|,|na|przy|między|nad|nade|znad|o|po|w</exception><exception scope="next" postag_regexp="yes" postag="conj"/></token>
 				<token postag_regexp="yes" postag="(adj|subst).*inst.*"><exception postag_regexp="yes" postag=".*(acc|inst)[:\.]f.*"/></token>
 				<token><exception postag_regexp="yes" postag="(adj|subst).*inst.*"></exception></token>
 			</pattern>
@@ -1947,7 +1948,7 @@ $Id: grammar.xml,v 1.28 2007-05-01 22:26:43 milek_pl Exp $
 		</rule>
 		<rule>
 			<pattern mark_from="1">
-				<token skip="2" inflected="yes" regexp="yes">uznać|uznawać<exception regexp="yes">za|,|na|przy|między|nad|nade|znad|o|po|w</exception><exception scope="next" postag_regexp="yes" postag="conj"/></token>
+				<token skip="2" inflected="yes" regexp="yes">uznać|uznawać<exception scope="next" regexp="yes">za|,|na|przy|między|nad|nade|znad|o|po|w</exception><exception scope="next" postag_regexp="yes" postag="conj"/></token>
 				<token postag_regexp="yes" postag="(adj|subst).*inst.*"><exception postag_regexp="yes" postag=".*(acc|inst)[:\.]f.*"/></token>
 				<token postag_regexp="yes" postag="(adj|subst).*inst.*"><exception postag_regexp="yes" postag=".*(acc|inst)[:\.]f.*"/></token>
 			</pattern>
@@ -2124,7 +2125,7 @@ $Id: grammar.xml,v 1.28 2007-05-01 22:26:43 milek_pl Exp $
 		<rule name="„im... o tyle” (im... tym)" id="IM_O_TYLE">
 			<pattern mark_from="2" mark_to="-1">
 				<token skip="-1">im</token>
-				<token postag="(adj|adv).*:comp" postag_regexp="yes" skip="-1"><exception>tym</exception></token>
+				<token postag="(adj|adv).*:comp" postag_regexp="yes" skip="-1"><exception scope="next">tym</exception></token>
 				<token>o</token>
 				<token skip="1">tyle</token>
 				<token postag="(adj|adv).*:comp" postag_regexp="yes"/>
@@ -2267,9 +2268,9 @@ $Id: grammar.xml,v 1.28 2007-05-01 22:26:43 milek_pl Exp $
 	
 	<rule id="BYNAJMNIEJ" name="„bynajmniej” (przynajmniej)">
 		<pattern mark_from="2" mark_to="-1">
-		<token postag="SENT_START" skip="-1"><exception>nie</exception></token>
-		<token skip="-1"><exception>nie</exception></token>
-  	<token skip="-1">bynajmniej<exception scope="next">nie</exception></token>
+		<token postag="SENT_START" skip="-1"><exception scope="next">nie</exception></token>
+		<token skip="-1"><exception scope="next">nie</exception></token>
+  		<token skip="-1">bynajmniej<exception scope="next">nie</exception></token>
 		<token postag="SENT_END"/>
 		</pattern>
 		<message>Prawdopodobnie błędnie użyto wyrazu „bynajmniej”, powinno być: <suggestion>przynajmniej</suggestion>.</message>
@@ -2558,7 +2559,7 @@ $Id: grammar.xml,v 1.28 2007-05-01 22:26:43 milek_pl Exp $
 	
 		<rule name="„czekać za” (na)" id="CZEKAC_ZA">
 			<pattern mark_from="1" mark_to="-1">
-				<token inflected="yes" skip="4">czekać<exception>na</exception></token>
+				<token inflected="yes" skip="4">czekać<exception scope="next">na</exception></token>
 				<token>za</token>
 				<token postag=".*inst.*" postag_regexp="yes"/>
 			</pattern>
@@ -5861,7 +5862,7 @@ $Id: grammar.xml,v 1.28 2007-05-01 22:26:43 milek_pl Exp $
  	<rule id="ZWROTNE_BEZ_SIE" name="czasowniki zwrotne bez „się”">
 		<pattern mark_from="1" mark_to="-1">
 		<token postag="SENT_START" skip="-1"><exception scope="next">się</exception></token>
-  		<token skip="-1" inflected="yes" regexp="yes" postag_regexp="yes" postag=".*refl.*"><exception scope="current" postag="subst:ger.*|ppas.*|adj.*" postag_regexp="yes"/><exception postag_regexp="yes" postag="subst.*"/><exception regexp="yes">rozmaicie|śmiał.*</exception><exception scope="next">się</exception></token>
+  		<token skip="-1" inflected="yes" regexp="yes" postag_regexp="yes" postag=".*refl.*"><exception scope="current" postag="subst:.*|ppas.*|adj.*" postag_regexp="yes"/><exception regexp="yes">rozmaicie|śmiał.*</exception><exception scope="next">się</exception></token>
   		<token postag="SENT_END"/>
 		</pattern>
 		<message>W tym zdaniu występuje czasownik zwrotny, a brakuje wyrazu „się”; powinno być: <suggestion>\2 się</suggestion> lub <suggestion>się \2</suggestion>.</message>
