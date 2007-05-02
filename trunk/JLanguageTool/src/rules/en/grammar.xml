@@ -3,7 +3,7 @@
 English Grammar and Typo Rules for LanguageTool
 See tagset.txt for the meaning of the POS tags
 Copyright (C) 2001-2007 Daniel Naber (http://www.danielnaber.de)
-$Id: grammar.xml,v 1.10 2007-05-02 12:19:41 milek_pl Exp $
+$Id: grammar.xml,v 1.11 2007-05-02 12:28:22 milek_pl Exp $
 -->
 <rules lang="en">
 
@@ -968,6 +968,17 @@ $Id: grammar.xml,v 1.10 2007-05-02 12:19:41 milek_pl Exp $
     <message>Possible typo. Did you mean <suggestion>\1\2</suggestion>?</message>
     <example type="correct">Anybody needs help here?</example>
     <example type="incorrect"><marker>Any body</marker> need help here?</example>
+    </rule>
+    
+    <rule id="MAY_BE_I" name="may be(maybe)">
+    	<pattern mark_to="-1">
+    		<token>may</token>
+    		<token>be</token>
+    		<token postag="PRP"/>
+    	</pattern>
+    	<message>Possible typo. Did you mean <suggestion>maybe</suggestion> (=perhaps)?</message>
+    	<example type="incorrect" correction="Maybe"><marker>May be</marker> I don't understand.</example>
+    	<example type="correct"><marker>Maybe</marker> I don't understand.</example>    	
     </rule>
     
   </category>
