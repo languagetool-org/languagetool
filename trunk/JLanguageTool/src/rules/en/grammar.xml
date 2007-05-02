@@ -3,7 +3,7 @@
 English Grammar and Typo Rules for LanguageTool
 See tagset.txt for the meaning of the POS tags
 Copyright (C) 2001-2007 Daniel Naber (http://www.danielnaber.de)
-$Id: grammar.xml,v 1.12 2007-05-02 16:31:36 milek_pl Exp $
+$Id: grammar.xml,v 1.13 2007-05-02 22:24:59 milek_pl Exp $
 -->
 <rules lang="en">
 
@@ -885,7 +885,7 @@ $Id: grammar.xml,v 1.12 2007-05-02 16:31:36 milek_pl Exp $
   </rule>
   
     
-  <rule id="ONES" name="ones (one's)">
+  <rule id="ONES" name="Possible typo 'ones' (one's)">
     <pattern mark_to="-1" mark_from="1">
     	<token><exception postag_regexp="yes" postag="JJ.*"/></token>
       <token>ones</token>
@@ -960,7 +960,7 @@ $Id: grammar.xml,v 1.12 2007-05-02 16:31:36 milek_pl Exp $
 			</rule>						
 		</rulegroup>
 		    
-    <rule id="ANY_BODY" name="any body(anybody)">
+    <rule id="ANY_BODY" name="Possible typo 'any body' (anybody)">
     <pattern>
     	<token regexp="yes">any|no|some</token>
     	<token regexp="yes">body|one</token>
@@ -970,7 +970,7 @@ $Id: grammar.xml,v 1.12 2007-05-02 16:31:36 milek_pl Exp $
     <example type="incorrect"><marker>Any body</marker> need help here?</example>
     </rule>
     
-    <rule id="MAY_BE_I" name="may be(maybe)">
+    <rule id="MAY_BE_I" name="Possible typo 'may be' (maybe)">
     	<pattern mark_to="-1">
     		<token>may</token>
     		<token>be</token>
@@ -980,6 +980,30 @@ $Id: grammar.xml,v 1.12 2007-05-02 16:31:36 milek_pl Exp $
     	<example type="incorrect" correction="Maybe"><marker>May be</marker> I don't understand.</example>
     	<example type="correct"><marker>Maybe</marker> I don't understand.</example>    	
     </rule>
+    
+    		<rulegroup id="ONCE_AND_A_WHILE" name="Possible typo 'once and a while' (once in a while)">
+		<rule>
+			<pattern>
+				<token>once</token>
+				<token>and</token>
+				<token>a</token>
+				<token>while</token>
+			</pattern>
+			<message>This is a non-standard phrase. Did you mean <suggestion>once in a while</suggestion>?</message>
+			<example type="incorrect" correction="once in a while">My computer starts up only <marker>once and a while</marker>.</example>
+			<example type="correct">My computer starts up only <marker>once in a while</marker>.</example>
+		</rule>
+		<rule>
+			<pattern>
+				<token>once</token>
+				<token>and</token>
+				<token>awhile</token>
+			</pattern>
+			<message>This is a non-standard phrase. Did you mean <suggestion>once in a while</suggestion>?</message>
+			<example type="incorrect" correction="once in a while">My computer starts up only <marker>once and awhile</marker>.</example>
+			<example type="correct">My computer starts up only <marker>once in a while</marker>.</example>
+		</rule>
+		</rulegroup>
     
   </category>
   
@@ -2338,7 +2362,7 @@ $Id: grammar.xml,v 1.12 2007-05-02 16:31:36 milek_pl Exp $
 
   <category name="Commonly Confused Words">
 
-    <rule name="econonomical growth etc. (economic)" id="ECONOMICAL_ECONOMIC">
+    <rule name="'econonomical growth' etc. (economic)" id="ECONOMICAL_ECONOMIC">
       <pattern mark_to="-1">
         <token>economical</token>
         <token regexp="yes">growth|development|policy|activity|recovery|reform|policies|crisis|co-operation|problems|conditions|system|reforms|performance|history|climate|indicators|relations|power|situation|community|life|planning|affairs|theory|recession|change|review|factors|aid|benefits|circumstances|decline|sanctions|interests|analysis|strategy|difficulties|integration|issues|efficiency|assistance|position|terms|management|base|programme|digest|environment|union|activities|modelling|structure|success|reasons|sense|changes|forces|order|progress|loss|consequences|prosperity|resources|pressures|commission|depression|systems|miracle|regeneration|structures|trends|blockade|adviser|impact|restructuring|developments|measures|prospects|independence|stability|cooperation|status|support|expansion</token>
@@ -2348,7 +2372,7 @@ $Id: grammar.xml,v 1.12 2007-05-02 16:31:36 milek_pl Exp $
       <example type="correct">This article deals with <marker>economic</marker> development of the Third World.</example>
     </rule>
 
-    <rule name="econonomic car etc. (economical)" id="ECONOMIC_ECONOMICAL">
+    <rule name="'econonomic car' etc. (economical)" id="ECONOMIC_ECONOMICAL">
       <pattern mark_to="-1">
         <token>economic</token>
         <token regexp="yes">way|use|repair|means|methods|method|price|proposition|manner|basis|car|cooking|design|heating|motoring|shopper</token>
@@ -2358,7 +2382,7 @@ $Id: grammar.xml,v 1.12 2007-05-02 16:31:36 milek_pl Exp $
       <example type="correct"> This is a very <marker>economical</marker> car.</example>
     </rule>
 
-		<rulegroup name="say (tell)" id="SAY_TELL">
+		<rulegroup name="'say' (tell)" id="SAY_TELL">
 		<rule>
 			<pattern mark_to="-1">
 				<token>say</token>
@@ -2388,7 +2412,7 @@ $Id: grammar.xml,v 1.12 2007-05-02 16:31:36 milek_pl Exp $
 		</rule>
 		</rulegroup>
 		
-		<rulegroup name="everyday (every day)" id="EVERYDAY_EVERY_DAY">
+		<rulegroup name="'everyday' (every day)" id="EVERYDAY_EVERY_DAY">
 		<rule>
 			<pattern>
 				<token postag="SENT_START"/>
@@ -2412,11 +2436,12 @@ $Id: grammar.xml,v 1.12 2007-05-02 16:31:36 milek_pl Exp $
 		</rule>
 		
 		</rulegroup>
+		
   </category>
   
   <category name="Slang">
   	
-  	<rule id="AN_INVITE" name="an invite(invitation)">
+  	<rule id="AN_INVITE" name="'an invite' (invitation)">
   		<pattern mark_from="1">
   		<token>an</token>
   		<token>invite</token>
