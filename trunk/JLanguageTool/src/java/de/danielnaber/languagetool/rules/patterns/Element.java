@@ -59,8 +59,18 @@ public class Element {
   private Matcher m = null;
   private Matcher mPos = null;
   
+  /** The reference to another element in the pattern. **/
+  private Match tokenReference = null;
+  
+  /** True when the element stores a formatted reference
+   * to another element of the pattern.
+   */
+  private boolean containsMatches = false;
+  
   /** Matches only tokens without any POS tag. **/
   private static final String UNKNOWN_TAG = "UNKNOWN";
+  
+  private String referenceString = "";
 
   public Element(final String token, final boolean caseSensitive, final boolean regExp,
       final boolean inflected) {
@@ -342,4 +352,39 @@ public class Element {
     this.negation = negation;
   }
 
+  /**
+   * 
+   * @return true when this element refers to another token.
+   */
+  public final boolean referenceElement() {
+    return containsMatches;
+  }
+  
+  /** 
+   * Sets the reference to another token.
+   * @param match Formatting object for the token reference.
+   */
+  public final void setMatch(final Match match) {
+    tokenReference = match;
+    containsMatches = true;
+  }
+  
+  public final Match getMatch() {
+    return tokenReference;
+  }
+  
+  public final void compile() {
+    if ("".equals(referenceString)) {
+      referenceString = stringToken;
+    }
+    stringToken = referenceString.replaceAll("\\\\" + tokenReference.getTokenRef(), 
+        tokenReference.toTokenString());  
+    if (!stringToken.equals("") && stringRegExp) {
+      regToken = stringToken;
+      if (!caseSensitive) {
+        regToken = "(?iu)".concat(stringToken);
+      }
+      p = Pattern.compile(regToken);
+    }
+  }
 }

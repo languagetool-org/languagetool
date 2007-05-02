@@ -61,6 +61,8 @@ public class Match {
   private AnalyzedTokenReadings formattedToken;  
   private AnalyzedTokenReadings matchedToken;
   
+  private int tokenRef = 0;
+  
   /** Word form generator for POS tags. **/
   private Synthesizer synthesizer;
   
@@ -226,5 +228,44 @@ public class Match {
       }
     }
     return formattedString;
+  }
+  
+  /**
+   * Method for getting the formatted match as a single string.
+   * In case of multiple matches, it joins them using a regular
+   * expression operator "|".
+   * @return Formatted string of the matched token.
+   *  
+   */
+  public final String toTokenString() {
+    String output = ""; 
+    try {
+    final String[] stringToFormat = toFinalString();    
+    for (int i = 0; i < stringToFormat.length; i++) {
+      output += stringToFormat[i];
+      if (i + 1 < stringToFormat.length) {
+        output += "|";
+      }
+    }
+    } catch (IOException e) {
+      throw new RuntimeException(e.getMessage());
+    }
+    return output;
+  }
+  
+  /**
+   * Sets the token number referenced by the match.
+   * @param i Token number.
+   */
+  public final void setTokenRef(final int i) {
+    tokenRef = i;
+  }
+  
+  /**
+   * Gets the token number referenced by the match.
+   * @return int - token number.
+   */
+  public final int getTokenRef() {
+    return tokenRef;
   }
 }

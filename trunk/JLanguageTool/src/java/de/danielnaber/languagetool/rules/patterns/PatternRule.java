@@ -190,7 +190,7 @@ public class PatternRule extends Rule {
         if (elem != null) {
           prevElement = elem;
         }
-        elem = patternElements.get(k);
+        elem = patternElements.get(k);        
         skipNext = elem.getSkipNext();
         int nextPos = tokenPos + k + skipShiftTotal;
         if (nextPos >= tokens.length) {
@@ -213,6 +213,15 @@ public class PatternRule extends Rule {
               if (prevElement.prevExceptionMatch(matchToken)) {
                 exceptionMatched = true;
                 prevMatched = true;
+              }
+            }
+            if (elem.referenceElement()) {
+              if (firstMatchToken + elem.getMatch().getTokenRef() 
+                  < tokens.length) {
+                elem.getMatch().setToken(tokens[firstMatchToken 
+                                       + elem.getMatch().getTokenRef()]);
+                elem.getMatch().setSynthesizer(language[0].getSynthesizer());
+                elem.compile();
               }
             }
             thisMatched |= elem.match(matchToken);
@@ -345,7 +354,7 @@ public class PatternRule extends Rule {
         & errorMessage.charAt(errMarker + 1) <= '9';
     }
     while (errMarker > 0 && numberFollows) {
-      int ind = errorMessage.indexOf("\\"); 
+      final int ind = errorMessage.indexOf("\\"); 
       if (ind > 0) {
         if (errorMessage.charAt(ind + 1) >= '1'
           && errorMessage.charAt(ind + 1) <= '9') {            

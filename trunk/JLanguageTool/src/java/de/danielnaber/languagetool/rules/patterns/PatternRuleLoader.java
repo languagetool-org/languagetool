@@ -126,6 +126,8 @@ class PatternRuleHandler extends XMLRuleHandler {
   private Element tokenElement = null;
   
   private int andGroupCounter = 0;
+  
+  private Match tokenReference = null;
 
   // ===========================================================
   // SAX DocumentHandler methods
@@ -252,12 +254,9 @@ class PatternRuleHandler extends XMLRuleHandler {
       inRuleGroup = true;
     } else if (qName.equals("suggestion") && inMessage) {
       message.append("<suggestion>");
-    } else if (qName.equals("match") && inMessage) {
+    } else if (qName.equals("match")) {
       inMatch = true;
-      match = new StringBuffer();
-      if (suggestionMatches == null) {
-        suggestionMatches = new ArrayList<Match>();        
-      }      
+      match = new StringBuffer();      
       Match.CaseConversion caseConv = Match.CaseConversion.NONE; 
       if (attrs.getValue("case_conversion") != null) {
         caseConv = Match.CaseConversion.toCase(
@@ -267,9 +266,26 @@ class PatternRuleHandler extends XMLRuleHandler {
           attrs.getValue("postag_replace"),
           "yes".equals(attrs.getValue("postag_regexp")),
           attrs.getValue("regexp_match"), 
-          attrs.getValue("regexp_replace"), caseConv);       
+          attrs.getValue("regexp_replace"), caseConv);
+      if (inMessage) {
+        if (suggestionMatches == null) {
+          suggestionMatches = new ArrayList<Match>();        
+        }        
       suggestionMatches.add(mWorker);
       message.append("\\" + attrs.getValue("no"));
+      } else if (inToken) {
+        if (attrs.getValue("no") != null) {
+        int refNumber = Integer.parseInt(attrs.getValue("no"));
+          if (refNumber > elementList.size()) {
+            throw new SAXException(
+                "Only backward references in match elements are possible, tried to specify token " + refNumber);
+          } else {
+            mWorker.setTokenRef(refNumber);
+            tokenReference = mWorker;
+            elements.append("\\" + refNumber);
+          }
+        }
+      }
     } else if (qName.equals("marker") && inCorrectExample) {
       correctExample.append("<marker>");
     } else if (qName.equals("marker") && inIncorrectExample) {
@@ -372,6 +388,11 @@ class PatternRuleHandler extends XMLRuleHandler {
         tokenElement.setPosElement(posToken, posRegExp, posNegation);
         posToken = null;
       }
+      
+      if (tokenReference != null) {
+        tokenElement.setMatch(tokenReference);
+      }
+      
       if (inAndGroup && andGroupCounter > 0) {
         elementList.get(elementList.size() - 1).setAndGroupElement(tokenElement);
       } else {
@@ -399,7 +420,12 @@ class PatternRuleHandler extends XMLRuleHandler {
     } else if (qName.equals("message")) {
       inMessage = false; 
     } else if (qName.equals("match")) {
-      suggestionMatches.get(suggestionMatches.size() - 1).setLemmaString(match.toString());
+      if (inMessage) {
+      suggestionMatches.get(suggestionMatches.size() - 1)
+        .setLemmaString(match.toString());
+      } else if (inToken) {
+        tokenReference.setLemmaString(match.toString());
+      }
       inMatch = false;
     } else if (qName.equals("rulegroup")) {
       inRuleGroup = false;
@@ -452,6 +478,7 @@ class PatternRuleHandler extends XMLRuleHandler {
     exceptionStringRegExp = false;
     exceptionValidNext = false;
     exceptionSet = false; 
+    tokenReference = null;
   }
   
   private void prepareRule(PatternRule rule) {

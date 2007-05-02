@@ -2,7 +2,7 @@
 <!--
 A demo rule file for LanguageTool
 Copyright (C) 2005 Daniel Naber (http://www.danielnaber.de)
-$Id: grammar.xml,v 1.4 2007-04-28 23:20:49 milek_pl Exp $
+$Id: grammar.xml,v 1.5 2007-05-02 16:09:36 milek_pl Exp $
 -->
 
 <rules lang="xx">
@@ -154,6 +154,32 @@ $Id: grammar.xml,v 1.4 2007-04-28 23:20:49 milek_pl Exp $
 			<example type="incorrect"><marker>ABEED</marker> test</example>
 			<example type="correct"><marker>ABED</marker> test</example>
 		</rule>
+		
+		<rule id="test_match_ref" name="testing match element...">
+			<pattern>
+			<token/>
+			<token>by</token>
+			<token><match no="0"/></token>
+			</pattern>
+		<message>Found \1 \2 \3.</message>
+		<example type="incorrect"><marker>Step by step</marker>.</example>
+		<example type="correct">blabla</example>
+		<example type="correct">Steb by step</example>
+		</rule>
+		
+		<rule id="test_match_ref_superb" name="testing match element on steroids...">
+			<pattern>
+			<token/>
+			<token>by</token>
+			<token><match no="0"/>on</token>
+			</pattern>
+		<message>Found \1 \2 \3.</message>
+		<example type="correct"><marker>Step by step</marker>.</example>
+		<example type="incorrect"><marker>Step by stepon</marker>.</example>
+		<example type="correct">blabla</example>
+		<example type="correct">Steb by step</example>
+		</rule>
+		
 		
   </category>
 
