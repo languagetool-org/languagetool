@@ -2,7 +2,7 @@
 <!--
 Polish Grammar and Typo Rules for LanguageTool
 Copyright (C) 2006 Marcin Miłkowski
-$Id: grammar.xml,v 1.29 2007-05-02 11:57:53 milek_pl Exp $		
+$Id: grammar.xml,v 1.30 2007-05-03 21:41:48 milek_pl Exp $		
 -->
 <rules lang="pl">
 
@@ -706,7 +706,7 @@ $Id: grammar.xml,v 1.29 2007-05-02 11:57:53 milek_pl Exp $
 			</rule>
 			<rule>
 				<pattern>
-					<token><exception>,</exception></token>
+					<token><exception>,</exception><exception postag_regexp="yes" postag="qub|conj|adv:aff"/></token>
 					<token postag_regexp="yes" postag="prep.*"/>
 					<token postag_regexp="yes" postag="subst.*"><exception regexp="yes">[\p{Punct}–—„«»]|mało|rzadko</exception><exception postag_regexp="yes" postag="conj|adv.*|prep.*|SENT_START|&lt;/CONJ&gt;|&lt;/PREP:.+&gt;"/></token>
 					<token regexp="yes" inflected="yes">który|jaki</token>
@@ -718,7 +718,20 @@ $Id: grammar.xml,v 1.29 2007-05-02 11:57:53 milek_pl Exp $
 				<example type="correct">To młotek, za pomocą którego Przemysław zamęczał kotka.</example>
 				<example type="incorrect" correction="coś, na którego bazie">To <marker>coś na bazie którego</marker> Jurek zbuduje imperium.</example>
 			</rule>
-			
+			<rule>
+				<pattern mark_from="2">
+					<token postag_regexp="yes" postag="qub|conj|adv:aff"/>
+					<token postag_regexp="yes" postag="prep.*"/>
+					<token postag_regexp="yes" postag="subst.*"><exception regexp="yes">[\p{Punct}–—„«»]|mało|rzadko</exception><exception postag_regexp="yes" postag="conj|adv.*|prep.*|SENT_START|&lt;/CONJ&gt;|&lt;/PREP:.+&gt;"/></token>
+					<token regexp="yes" inflected="yes">który|jaki</token>
+				</pattern>
+				<message>Brak przecinka w tym fragmencie zdania. Przecinek prawdopodobnie należy
+				postawić tak: <suggestion>\3, \4</suggestion>.</message>
+				<example type="correct">To Marek, którego Jurek nienawidzi.</example>
+				<example type="correct">Mało który spełnia warunki formalne.</example>
+				<example type="correct">To młotek, za pomocą którego Przemysław zamęczał kotka.</example>
+				<example type="incorrect" correction="zamieszaniu, jakie">Poinformowaliśmy także o <marker>zamieszaniu jakie</marker> powstało</example>
+			</rule>
 			<rule>
 				<pattern mark_to="-1">
 					<token negate="yes">,<exception regexp="yes">[\p{Punct}–—„«»]</exception><exception postag_regexp="yes" postag="conj|adv.*|prep.*|SENT_START"/></token>				
@@ -1305,14 +1318,15 @@ $Id: grammar.xml,v 1.29 2007-05-02 11:57:53 milek_pl Exp $
 		</rulegroup>
 		
 		<rule id="TA_KSIAZKA" name="„tą” jako biernik (tę)">
-			<pattern>
+			<pattern mark_to="-1">
 				<token>tą</token>
 				<token postag="subst:sg:acc:f"/>
 			</pattern>
 			<message>W bierniku zaimek „ta” ma formę <suggestion>tę</suggestion>.</message>
 			<example type="correct">Kupiłem tę książkę za parę groszy.</example>
-			<example type="incorrect">Kupiłem <marker>tą książkę</marker> za parę groszy.</example>
+			<example type="incorrect" correction="tę">Kupiłem <marker>tą</marker> książkę za parę groszy.</example>
 		</rule>
+		
 		<rule id="KOSCIAMI" name="„kościami” (kośćmi)">
 			<pattern mark_from="2">
 				<token negate="yes" regexp="yes" inflected="yes">poczciwy|uczciwy</token>
@@ -1777,7 +1791,7 @@ $Id: grammar.xml,v 1.29 2007-05-02 11:57:53 milek_pl Exp $
 		
 		<rule name="„inny jak” (inny niż)" id="INNY_JAK">
 			<pattern mark_from="2">
-				<token regexp="yes" negate="yes">nie|nic|nikt|któż|kto</token>
+				<token regexp="yes" negate="yes" inflected="yes">nie|nic|nikt|któż|kto</token>
 				<token inflected="yes">inny</token>
 				<token>jak</token>
 			</pattern>
@@ -2140,6 +2154,28 @@ $Id: grammar.xml,v 1.29 2007-05-02 11:57:53 milek_pl Exp $
 	
 	<category name="Błędy leksykalne">
 			
+	<rule id="FORMULA_KREMU" name="„formuła kremu” (skład)">
+		<pattern>
+			<token inflected="yes">formuła</token>
+			<token regexp="yes">kremu|kosmetyku|szamponu|leku|pasty|balsamu|olejku|farby</token>
+		</pattern>
+		<message>Błędne użycie wyrazu „formuła”. Powinno być raczej: <suggestion><match no="1" postag="subst:(sg|pl)(.*):f" postag_replace="subst:$1$2.*">skład</match> <match no="2"/></suggestion>
+		lub <suggestion><match no="1" postag="(.*)" postag_replace="$1">receptura</match> <match no="2"/></suggestion>.</message>
+		<example type="correct">Skład kremu jest utajniony.</example>
+		<example type="incorrect" correction="Skład kremu|Receptura kremu"><marker>Formuła kremu</marker> jest utajniona.</example>
+	</rule>
+	
+	<rule id="W_POWAZNEJ_MIERZE" name="„w poważnej/wysokiej mierze” (w dużej mierze)">
+		<pattern>
+			<token>w</token>
+			<token regexp="yes">poważnej|wysokiej</token>
+			<token>mierze</token>
+		</pattern>
+		<message>Błędna postać wyrażenia. Powinno być: <suggestion>w dużej mierze</suggestion></message>
+		<example type="incorrect" correction="w dużej mierze">Olej silnikowy jest krwią silnika, która decyduje <marker>w wysokiej mierze</marker> o długości życia silnika.</example>
+		<example type="correct">Olej silnikowy jest krwią silnika, która decyduje <marker>w dużej mierze</marker> o jego trwałości.</example>
+	</rule>
+	
 	<rule id="POTRAFIACY" name="„potrafiący” (umiejący)">
 		<pattern>
 			<token inflected="yes">potrafiący</token>			
@@ -2701,6 +2737,29 @@ $Id: grammar.xml,v 1.29 2007-05-02 11:57:53 milek_pl Exp $
 			<example type="incorrect" correction="domyślić">Przemysław nie potrafił się <marker>domyśleć</marker>, że Ludwik zatruł kota Jarosława.</example>			
 		</rule>
 		</rulegroup>
+
+		<rulegroup name="„dopatrzeć się” (dopatrzyć się)" id="DOPATRZEC_SIE">
+		<rule>
+			<pattern mark_from="1" mark_to="-1">
+				<token skip="-1" postag="SENT_START"><exception scope="next" inflected="yes" regexp="yes">dopatrzyć|się</exception></token>
+				<token skip="-1" inflected="yes">dopatrzeć<exception inflected="yes" regexp="yes">dopatrzyć</exception><exception scope="next" inflected="yes">dopatrzyć</exception></token>
+				<token>się</token>
+			</pattern>
+			<message>Niepoprawny czasownik; należy użyć czasownika <suggestion><match no="1">dopatrzyć</match></suggestion>.</message>
+			<example type="correct">Przemysław nie dopatrywał się nic złego w budowie peronu.</example>
+			<example type="incorrect" correction="dopatrzyć">Przemysław nie potrafił <marker>dopatrzeć</marker> się nic złego w budowie peronu.</example>
+		</rule>
+		<rule>
+			<pattern mark_from="1">
+				<token skip="-1">się<exception scope="next" inflected="yes">dopatrzyć</exception></token>
+				<token inflected="yes">dopatrzeć<exception inflected="yes" regexp="yes">dopatrzyć</exception></token>
+			</pattern>
+			<message>Niepoprawny czasownik; należy użyć czasownika <suggestion><match no="2">dopatrzyć</match></suggestion>.</message>
+			<example type="correct">On się dopatrywał czegoś złego w budowie peronu.</example>
+			<example type="incorrect" correction="dopatrzyć">On się nie potrafił <marker>dopatrzeć</marker> nic złego w budowie peronu.</example>
+		</rule>
+		</rulegroup>
+
 
 		<rule name="„przez przeciąg kilku dni” (w ciągu)" id="PRZEZ_PRZECIAG">
 			<pattern mark_to="-2">
@@ -3306,9 +3365,20 @@ $Id: grammar.xml,v 1.29 2007-05-02 11:57:53 milek_pl Exp $
 		</pattern>
 		<message>To pleonazm. Wystarczy powiedzieć: <suggestion>\1 \2</suggestion>.</message>
 		<example type="correct">Cofnij się!</example>
-		<example type="incorrect"><marker>Cofnij się do tyłu</marker>!</example>
+		<example type="incorrect" correction="Cofnij się"><marker>Cofnij się do tyłu</marker>!</example>
 	</rule>
-		<rule>
+	<rule>
+		<pattern>
+			<token inflected="yes" regexp="yes">cofać|cofnąć</token>
+			<token/>
+			<token>w</token>
+			<token>tył</token>
+		</pattern>
+		<message>To pleonazm. Wystarczy powiedzieć: <suggestion>\1 \2</suggestion>.</message>
+		<example type="correct">Cofnij się!</example>
+		<example type="incorrect" correction="Cofnij się"><marker>Cofnij się w tył</marker>!</example>
+	</rule>	
+	<rule>
 		<pattern>
 			<token inflected="yes" regexp="yes">cofać|cofnąć</token>			
 			<token>do</token>
@@ -3317,9 +3387,28 @@ $Id: grammar.xml,v 1.29 2007-05-02 11:57:53 milek_pl Exp $
 		<message>To pleonazm. Wystarczy powiedzieć: <suggestion>\1</suggestion>.</message>
 		<example type="correct">Uważaj przy cofaniu!</example>
 		<example type="incorrect">Uważaj przy <marker>cofaniu do tyłu</marker>!</example>
-	</rule>
-	
+	</rule>		
+	<rule>
+		<pattern>
+			<token inflected="yes" regexp="yes">cofać|cofnąć</token>			
+			<token>w</token>
+			<token>tył</token>
+		</pattern>
+		<message>To pleonazm. Wystarczy powiedzieć: <suggestion>\1</suggestion>.</message>
+		<example type="correct">Uważaj przy cofaniu!</example>
+		<example type="incorrect" correction="cofaniu">Uważaj przy <marker>cofaniu w tył</marker>!</example>		
+	</rule>	
+		<rule>
+		<pattern>
+			<token inflected="yes" regexp="yes">cofać|cofnąć</token>			
+			<token>wstecz</token>
+		</pattern>
+		<message>To pleonazm. Wystarczy powiedzieć: <suggestion>\1</suggestion>.</message>
+		<example type="correct">Uważaj przy cofaniu!</example>
+		<example type="incorrect" correction="cofaniu">Uważaj przy <marker>cofaniu wstecz</marker>!</example>		
+	</rule>		
 	</rulegroup>	
+	
 	<rule name="„poprawić się na lepsze” (poprawić się)" id="POPRAWIC_SIE_NA_LEPSZE">
 		<pattern>
 			<token inflected="yes" regexp="yes">poprawić|poprawiać</token>
@@ -3613,6 +3702,16 @@ $Id: grammar.xml,v 1.29 2007-05-02 11:57:53 milek_pl Exp $
 			<message>To wyrażenie to pleonazm. Wystarczy powiedzieć <suggestion>\2</suggestion>.</message>
 			<example type="correct">Cieszymy się z możliwości zakupu kompletu.</example>			
 			<example type="incorrect">Cieszymy się z możliwości zakupu <marker>pełnego kompletu</marker>.</example>			
+		</rule>
+
+		<rule name="„wolny wakat” (wakat)" id="WOLNY_WAKAT">
+			<pattern>
+				<token inflected="yes" postag_regexp="yes" postag="adj:.*m:pos:aff">wolny</token>
+				<token inflected="yes" regexp="yes">wakat|vacat</token>
+			</pattern>
+			<message>To wyrażenie to pleonazm. Wystarczy powiedzieć <suggestion>\2</suggestion>.</message>
+			<example type="correct">Cieszymy się z wakatu na stanowisku premiera.</example>			
+			<example type="incorrect">Cieszymy się z <marker>wolnego wakatu</marker> na stanowisku premiera.</example>			
 		</rule>
 
 		<rule name="„skład surowcowy” (skład)" id="SKLAD_SUROWCOWY">
@@ -4911,19 +5010,22 @@ $Id: grammar.xml,v 1.29 2007-05-02 11:57:53 milek_pl Exp $
 			<example type="incorrect">Znaleźliśmy się <marker>po między</marker> młotem a kowadłem.</example>
 			<example type="correct">Znaleźliśmy się pomiędzy młotem a kowadłem.</example>
 		</rule>
+		
 		<rule name="przedrostki „neo”, „post”, „pre”, „eks”..." id="PRZEDROSTKI">
 			<pattern>
-				<token regexp="yes">^(neo|post|pre|anty|arcy|eks|bez|beze|ekstra|hiper|infra|kontr|maksi|midi|między|mini|nad|nade|około|ponad|post|przeciw|pseudo|super|śród|ultra|wice|wokół|wokoło)[-–].+</token>
+				<token regexp="yes">^(neo|post|pre|anty|arcy|eks|bez|beze|ekstra|hiper|infra|kontr|maksi|midi|między|mini|nad|nade|około|ponad|post|przeciw|pseudo|super|śród|ultra|wice|wokół|wokoło)[-–]\p{Ll}+</token>
 			</pattern>
 			<message>Ten wyraz piszemy bez łącznika:
 				<suggestion><match no="1" 
 				regexp_match="(?iu)^(neo|post|pre|anty|arcy|eks|bez|beze|ekstra|hiper|infra|kontr|maksi|midi|między|mini|nad|nade|około|ponad|post|przeciw|pseudo|super|śród|ultra|wice|wokół|wokoło)[-–](.*)"
 				regexp_replace="$1$2"/></suggestion>.</message>
 			<example type="correct">Tym prądem intelektualnym jest postmodernizm.</example>
+			<example type="correct">Spotkał się Polak z anty-Polakiem</example>
 			<example type="incorrect" correction="eksmąż">Wiktor to mój <marker>eks-mąż</marker>.</example>
 			<example type="incorrect" correction="minispódniczkę">Jadzia kupiła sobie <marker>mini-spódniczkę</marker>.</example>
 			<example type="incorrect" correction="Arcyksiążę"><marker>Arcy–książę</marker> Ferdynand lubił polować w tutejszych lasach.</example>
 		</rule>
+		
 		<rule name="„co nie miara” (co niemiara)" id="CO_NIE_MIARA">
 			<pattern>
 				<token>co</token>
