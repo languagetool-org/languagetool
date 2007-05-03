@@ -81,7 +81,7 @@ public class Element {
     if (!stringToken.equals("") && stringRegExp) {
       regToken = stringToken;
       if (!caseSensitive) {
-        regToken = "(?iu)".concat(stringToken);
+        regToken = "(?iu)" + stringToken;
       }
       p = Pattern.compile(regToken);
     }
@@ -226,7 +226,7 @@ public class Element {
     if (!stringToken.equals("") && stringRegExp) {
       regToken = stringToken;
       if (!caseSensitive) {
-        regToken = "(?iu)".concat(stringToken);
+        regToken = "(?iu)" + stringToken;
       }
       p = Pattern.compile(regToken);
     }
@@ -383,7 +383,7 @@ public class Element {
     if (!stringToken.equals("") && stringRegExp) {
       regToken = stringToken;
       if (!caseSensitive) {
-        regToken = "(?iu)".concat(stringToken);
+        regToken = "(?iu)" + stringToken;
       }
       p = Pattern.compile(regToken);
     }
