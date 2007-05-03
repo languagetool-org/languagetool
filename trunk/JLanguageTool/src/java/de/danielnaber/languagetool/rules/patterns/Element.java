@@ -70,6 +70,11 @@ public class Element {
   /** Matches only tokens without any POS tag. **/
   private static final String UNKNOWN_TAG = "UNKNOWN";
   
+  /** Parameter passed to regular expression matcher
+   * to enable case insensitive Unicode matching.
+   */
+  private static final String CASE_INSENSITIVE = "(?iu)";
+  
   private String referenceString = "";
 
   public Element(final String token, final boolean caseSensitive, final boolean regExp,
@@ -81,7 +86,7 @@ public class Element {
     if (!stringToken.equals("") && stringRegExp) {
       regToken = stringToken;
       if (!caseSensitive) {
-        regToken = "(?iu)" + stringToken;
+        regToken = CASE_INSENSITIVE + stringToken;
       }
       p = Pattern.compile(regToken);
     }
@@ -226,7 +231,7 @@ public class Element {
     if (!stringToken.equals("") && stringRegExp) {
       regToken = stringToken;
       if (!caseSensitive) {
-        regToken = "(?iu)" + stringToken;
+        regToken = CASE_INSENSITIVE + stringToken;
       }
       p = Pattern.compile(regToken);
     }
@@ -383,7 +388,7 @@ public class Element {
     if (!stringToken.equals("") && stringRegExp) {
       regToken = stringToken;
       if (!caseSensitive) {
-        regToken = "(?iu)" + stringToken;
+        regToken = CASE_INSENSITIVE + stringToken;
       }
       p = Pattern.compile(regToken);
     }
