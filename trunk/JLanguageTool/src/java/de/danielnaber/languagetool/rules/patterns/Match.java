@@ -45,7 +45,7 @@ public class Match {
     public static CaseConversion toCase(final String str) {    
       try {
           return valueOf(str);
-          } catch (Exception ex) {
+          } catch (final Exception ex) {
           return NONE;
          }  
     }
@@ -150,12 +150,12 @@ public class Match {
         if (synthesizer == null) {
         formattedString[0] = formattedToken.getToken();
         } else if (postagRegexp) {
-          int readingCount = formattedToken.getReadingsLength();
+          final int readingCount = formattedToken.getReadingsLength();
           String targetPosTag = posTag;
           if (staticLemma) {
-            int numRead = matchedToken.getReadingsLength();
+            final int numRead = matchedToken.getReadingsLength();
             for (int i = 0; i < numRead; i++) {
-              String tst = matchedToken.getAnalyzedToken(i).getPOSTag();
+              final String tst = matchedToken.getAnalyzedToken(i).getPOSTag();
               if (tst != null) {
               if (pPosRegexMatch.matcher(tst).matches()) {
                 targetPosTag = matchedToken.getAnalyzedToken(i).getPOSTag();
@@ -170,9 +170,9 @@ public class Match {
               targetPosTag = targetPosTag.replaceAll("\\?", "\\\\?");
               }
           } else {
-            int numRead = formattedToken.getReadingsLength();
+            final int numRead = formattedToken.getReadingsLength();
             for (int i = 0; i < numRead; i++) {
-              String tst = formattedToken.getAnalyzedToken(i).getPOSTag();
+              final String tst = formattedToken.getAnalyzedToken(i).getPOSTag();
               if (tst != null) {
               if (pPosRegexMatch.matcher(tst).matches()) {
                 targetPosTag = formattedToken.getAnalyzedToken(i).getPOSTag();
@@ -184,14 +184,14 @@ public class Match {
             targetPosTag = pPosRegexMatch.matcher(targetPosTag).replaceAll(posTagReplace);  
           }
           }
-          TreeSet<String> wordForms = new TreeSet<String>();          
+          final TreeSet<String> wordForms = new TreeSet<String>();          
           for (int i = 0; i < readingCount; i++) {
-                String[] possibleWordForms = 
+                final String[] possibleWordForms = 
                   synthesizer.synthesize(
                     formattedToken.getAnalyzedToken(i),
                     targetPosTag, true);
                 if (possibleWordForms != null) {
-                  for (String form : possibleWordForms) {           
+                  for (final String form : possibleWordForms) {           
                     wordForms.add(form);
                   }
                 }
@@ -206,15 +206,15 @@ public class Match {
             formattedString[0] = formattedToken.getToken();
           }
         } else {
-          int readingCount = formattedToken.getReadingsLength();
-          TreeSet<String> wordForms = new TreeSet<String>();
+          final int readingCount = formattedToken.getReadingsLength();
+          final TreeSet<String> wordForms = new TreeSet<String>();
           for (int i = 0; i < readingCount; i++) {
-                String[] possibleWordForms = 
+                final String[] possibleWordForms = 
                   synthesizer.synthesize(
                     formattedToken.getAnalyzedToken(i),
                     posTag);
                 if (possibleWordForms != null) {
-                  for (String form : possibleWordForms) {           
+                  for (final String form : possibleWordForms) {           
                     wordForms.add(form);
                   }
                 }
@@ -247,7 +247,7 @@ public class Match {
         output += "|";
       }
     }
-    } catch (IOException e) {
+    } catch (final IOException e) {
       throw new RuntimeException(e.getMessage());
     }
     return output;

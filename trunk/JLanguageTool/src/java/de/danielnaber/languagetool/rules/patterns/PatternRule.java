@@ -66,14 +66,18 @@ public class PatternRule extends Rule {
   
   PatternRule(final String id, final Language language, final List<Element> elements, final String description,
       final String message) {
-    if (id == null)
+    if (id == null) {
       throw new NullPointerException("id cannot be null");
-    if (language == null)
+    }
+    if (language == null) {
       throw new NullPointerException("language cannot be null");
-    if (elements == null)
+    }
+    if (elements == null) {
       throw new NullPointerException("elements cannot be null");
-    if (description == null)
+    }
+    if (description == null) {
       throw new NullPointerException("description cannot be null");
+    }
     this.id = id;
     this.language = new Language[] { language };
     this.description = description;
@@ -83,14 +87,18 @@ public class PatternRule extends Rule {
 
   PatternRule(final String id, final Language language, final List<Element> elements, final String description,
       final String message, final boolean isMember) {
-    if (id == null)
+    if (id == null) {
       throw new NullPointerException("id cannot be null");
-    if (language == null)
+    }
+    if (language == null) {
       throw new NullPointerException("language cannot be null");
-    if (elements == null)
+    }
+    if (elements == null) {
       throw new NullPointerException("elements cannot be null");
-    if (description == null)
+    }
+    if (description == null) {
       throw new NullPointerException("description cannot be null");
+    }
     this.id = id;
     this.language = new Language[] { language };
     this.description = description;
@@ -99,10 +107,12 @@ public class PatternRule extends Rule {
     this.isMemberOfDisjunctiveSet = isMember;    
   }  
   
+  @Override
   public final String getId() {
     return id;
   }
 
+  @Override
   public final String getDescription() {
     return description;
   }
@@ -126,10 +136,12 @@ public class PatternRule extends Rule {
     isMemberOfDisjunctiveSet = false;
   }
   
+  @Override
   public final Language[] getLanguages() {
     return language.clone();
   }
 
+  @Override
   public final String toString() {
     return id + ":" + patternElements + ":" + description;
   }
@@ -147,11 +159,12 @@ public class PatternRule extends Rule {
   }
   
   
+  @Override
   public final RuleMatch[] match(final AnalyzedSentence text) throws IOException {
             
-    List<RuleMatch> ruleMatches = new ArrayList<RuleMatch>();    
+    final List<RuleMatch> ruleMatches = new ArrayList<RuleMatch>();    
     final AnalyzedTokenReadings[] tokens = text.getTokensWithoutWhitespace();
-    int[] tokenPositions = new int[tokens.length + 1 ];
+    final int[] tokenPositions = new int[tokens.length + 1 ];
     
     int tokenPos = 0;
     int prevSkipNext = 0;
@@ -192,7 +205,7 @@ public class PatternRule extends Rule {
         }
         elem = patternElements.get(k);        
         skipNext = elem.getSkipNext();
-        int nextPos = tokenPos + k + skipShiftTotal;
+        final int nextPos = tokenPos + k + skipShiftTotal;
         if (nextPos >= tokens.length) {
           allElementsMatch = false;
           break;
@@ -262,8 +275,9 @@ public class PatternRule extends Rule {
         if (allElementsMatch) {                              
           matchingTokens++;
           lastMatchToken = matchPos; // nextPos;          
-          if (firstMatchToken == -1)
+          if (firstMatchToken == -1) {
             firstMatchToken = matchPos; // nextPos;
+          }
           skipShiftTotal += skipShift;
         } else {
           skipShiftTotal = 0;
@@ -312,7 +326,7 @@ public class PatternRule extends Rule {
         final int toPos = tokens[lastMatchToken + correctedEndPos].getStartPos()
         + tokens[lastMatchToken + correctedEndPos].getToken().length();
         if (fromPos < toPos) { //this can happen with some skip="-1" when the last token is not matched
-        RuleMatch ruleMatch = new RuleMatch(this, fromPos, toPos, errMessage,
+        final RuleMatch ruleMatch = new RuleMatch(this, fromPos, toPos, errMessage,
             startsWithUppercase);        
           ruleMatches.add(ruleMatch);        
         }
@@ -323,7 +337,7 @@ public class PatternRule extends Rule {
       }
     }
 
-    return (RuleMatch[]) ruleMatches.toArray(new RuleMatch[ruleMatches.size()]);
+    return ruleMatches.toArray(new RuleMatch[ruleMatches.size()]);
   }
 
   public void addSuggestionMatch(final Match m) {
@@ -340,11 +354,11 @@ public class PatternRule extends Rule {
   *   @throws IOException 
   **/
   private final String formatMatches(final AnalyzedTokenReadings[] toks,
-      final int[] positions, final int firstMatchTok, int matchingTok,
+      final int[] positions, final int firstMatchTok, final int matchingTok,
       final String errorMsg) throws IOException {
     String errorMessage = errorMsg;    
     int matchCounter = 0;
-    int[] numbersToMatches = new int[errorMsg.length()];
+    final int[] numbersToMatches = new int[errorMsg.length()];
     boolean newWay = false;
     int errLen = errorMessage.length();
     int errMarker = errorMessage.indexOf("\\");
@@ -370,7 +384,7 @@ public class PatternRule extends Rule {
                 suggestionMatches.get(matchCounter)
                 .setToken(toks[firstMatchTok + repTokenPos - 1]);
                 suggestionMatches.get(matchCounter).setSynthesizer(language[0].getSynthesizer());              
-                String leftSide = errorMessage.substring(0, ind);
+                final String leftSide = errorMessage.substring(0, ind);
                 String suggestionLeft = "";
                 String suggestionRight = "";
                 String rightSide = errorMessage.substring(ind + 2);
@@ -395,7 +409,7 @@ public class PatternRule extends Rule {
                   }
                   final int lastLeftSugEnd = leftSide.indexOf("</suggestion>");
                   final int lastLeftSugStart = leftSide.lastIndexOf("<suggestion>");
-                  for (String formatMatch : matches) {
+                  for (final String formatMatch : matches) {
                     errorMessage += suggestionLeft
                     + formatMatch 
                     + suggestionRight;
@@ -404,8 +418,9 @@ public class PatternRule extends Rule {
                     }
                   }
                   final int correctionSug = errorMessage.lastIndexOf(", <suggestion>");
-                  if (correctionSug + ", <suggestion>".length() == errorMessage.length())
+                  if (correctionSug + ", <suggestion>".length() == errorMessage.length()) {
                     errorMessage = errorMessage.substring(0, correctionSug);
+                  }
                   errorMessage += rightSide;                  
               }
                 matchCounter++;                
@@ -443,6 +458,7 @@ public class PatternRule extends Rule {
     return errorMessage;
   }
   
+  @Override
   public void reset() {
     // nothing
   }

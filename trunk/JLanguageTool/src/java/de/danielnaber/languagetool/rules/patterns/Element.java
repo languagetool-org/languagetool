@@ -114,7 +114,7 @@ public class Element {
   public final boolean exceptionMatch(final AnalyzedToken token) {
     boolean exceptionMatched = false;
     if (exceptionSet) {
-      for (Element testException : exceptionList) {
+      for (final Element testException : exceptionList) {
         if (!testException.exceptionValidNext) {
           exceptionMatched |= testException.match(token);
         }
@@ -138,7 +138,7 @@ public class Element {
   public final boolean andGroupMatch(final AnalyzedToken token) {
     boolean andGroupMatched = true;
     if (andGroupSet) {
-      for (Element testAndGroup : andGroupList) {
+      for (final Element testAndGroup : andGroupList) {
         andGroupMatched &= testAndGroup.match(token);        
       }
     }
@@ -157,7 +157,7 @@ public class Element {
   public final boolean andGroupExceptionMatch(final AnalyzedToken token) {
     boolean andGroupExceptionMatched = false;
     if (andGroupSet) {
-      for (Element testAndGroup : andGroupList) {
+      for (final Element testAndGroup : andGroupList) {
         andGroupExceptionMatched |= testAndGroup.exceptionMatch(token);
         if (andGroupExceptionMatched) {
           return andGroupExceptionMatched;
@@ -182,7 +182,7 @@ public class Element {
   public final boolean prevExceptionMatch(final AnalyzedToken token) {
     boolean exceptionMatched = false;
     if (exceptionSet) {      
-      for (Element testException : exceptionList) {
+      for (final Element testException : exceptionList) {
         if (testException.exceptionValidNext) {
           exceptionMatched |= testException.match(token);
         }
@@ -203,6 +203,7 @@ public class Element {
     return equals;
   }
   
+  @Override
   public final String toString() {
     if (posToken != null) {
       return stringToken + "/" + posToken;
@@ -233,7 +234,7 @@ public class Element {
   
   public final void setPosException(final String posToken, final boolean regExp,
       final boolean negation, final boolean scope) {
-    Element posException = new Element("", this.caseSensitive, regExp, false);
+    final Element posException = new Element("", this.caseSensitive, regExp, false);
     posException.setPosElement(posToken, regExp, negation);
     posException.exceptionValidNext = scope;
     if (exceptionList == null) {
@@ -247,7 +248,7 @@ public class Element {
 
   public final void setStringException(final String token, final boolean regExp,
       final boolean inflected, final boolean negation, final boolean scope) {
-    Element stringException = new Element(token, this.caseSensitive, regExp, inflected);
+    final Element stringException = new Element(token, this.caseSensitive, regExp, inflected);
     stringException.setNegation(negation);
     stringException.exceptionValidNext = scope;
     if (exceptionList == null) {
