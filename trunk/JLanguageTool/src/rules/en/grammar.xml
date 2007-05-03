@@ -3,7 +3,7 @@
 English Grammar and Typo Rules for LanguageTool
 See tagset.txt for the meaning of the POS tags
 Copyright (C) 2001-2007 Daniel Naber (http://www.danielnaber.de)
-$Id: grammar.xml,v 1.13 2007-05-02 22:24:59 milek_pl Exp $
+$Id: grammar.xml,v 1.14 2007-05-03 12:31:19 milek_pl Exp $
 -->
 <rules lang="en">
 
@@ -499,7 +499,7 @@ $Id: grammar.xml,v 1.13 2007-05-02 22:24:59 milek_pl Exp $
       <token><exception postag="CC"/></token>
       <token><exception>there</exception></token>
       <token>were</token>
-      <token postag="VB|VBP|PRP" postag_regexp="yes"><exception postag_regexp="yes" postag="JJ|VBN"/></token>
+      <token postag="VB|VBP|PRP" postag_regexp="yes"><exception postag_regexp="yes" postag="JJ|VBN|IN"/></token>
     </pattern>
     <message>Did you mean <suggestion>where</suggestion> or <suggestion>we</suggestion>?</message>
     <example type="correct"><marker>We</marker> are in the process of implementing this.</example>
@@ -507,6 +507,7 @@ $Id: grammar.xml,v 1.13 2007-05-02 22:24:59 milek_pl Exp $
     <example type="incorrect">They went <marker>were</marker> they wanted.</example>
     <example type="correct">Black peppercorns were found lodged in the nostrils...</example>
     <example type="correct">There were stage productions...</example>
+    <example type="correct">...and both the hedgehogs were out of sight.</example>
   </rule>
     <rule>
     <pattern mark_to="-1">
@@ -888,8 +889,8 @@ $Id: grammar.xml,v 1.13 2007-05-02 22:24:59 milek_pl Exp $
   <rule id="ONES" name="Possible typo 'ones' (one's)">
     <pattern mark_to="-1" mark_from="1">
     	<token><exception postag_regexp="yes" postag="JJ.*"/></token>
-      <token>ones</token>
-      <token postag="NN.*" postag_regexp="yes"/>
+      	<token>ones</token>
+      	<token postag="NN.*" postag_regexp="yes"/>
     </pattern>
     <message>Did you mean <suggestion>one's</suggestion>?</message>
     <example type="correct">the common  ones clashing with the noble ones</example>
@@ -937,14 +938,16 @@ $Id: grammar.xml,v 1.13 2007-05-02 22:24:59 milek_pl Exp $
 		
 		<rulegroup id="APOSTROPHE_PLURAL" name="Possesive form instead of plural">
 			<rule>
-			<pattern mark_to="-1">
-					<token postag_regexp="yes" regexp="yes" postag="NN|NN:.*|NNP"/>
+			<pattern mark_to="-1" mark_from="1">
+					<token><exception postag_regexp="yes" postag="DT|JJ.*"/></token>
+					<token postag_regexp="yes" regexp="yes" postag="NN|NN:UN"><exception postag="VB"/></token>
 					<token regexp="yes">'|’</token>
 					<token>s</token>
-					<token postag_regexp="yes" regexp="yes" postag="VBD|VBP"><exception postag_regexp="yes" postag="NN.*"/></token>
+					<token postag_regexp="yes" regexp="yes" postag="VBD|VBP"><exception postag_regexp="yes" postag="NN.*|JJ.*"/><exception>got</exception></token>
 			</pattern>
-			<message>Probably you need to use a plural form here: <suggestion>\1\3</suggestion>.</message>
+			<message>Probably you need to use a plural form here: <suggestion>\2\4</suggestion>.</message>
 			<example type="correct">7 reasons why <marker>teachers</marker> found us top class</example>
+			<example type="correct">And how funny it'll seem, sending presents to one's own feet!</example>
 			<example type="incorrect" correction="teachers">7 reasons why <marker>teacher's</marker> found us top class</example>
 			</rule>			
 			<rule>
@@ -960,25 +963,38 @@ $Id: grammar.xml,v 1.13 2007-05-02 22:24:59 milek_pl Exp $
 			</rule>						
 		</rulegroup>
 		    
-    <rule id="ANY_BODY" name="Possible typo 'any body' (anybody)">
-    <pattern>
-    	<token regexp="yes">any|no|some</token>
-    	<token regexp="yes">body|one</token>
+    <rulegroup id="ANY_BODY" name="Possible typo 'any body' (anybody)">
+    <rule>
+    <pattern mark_to="-1">
+    	<token regexp="yes">any|some</token>
+    	<token regexp="yes">one</token>
+    	<token><exception>of</exception></token>
     </pattern>
     <message>Possible typo. Did you mean <suggestion>\1\2</suggestion>?</message>
-    <example type="correct">Anybody needs help here?</example>
-    <example type="incorrect"><marker>Any body</marker> need help here?</example>
+    <example type="correct">Anyone needs help here?</example>
+    <example type="incorrect"><marker>Any one</marker> need help here?</example>
     </rule>
+    <rule>
+    <pattern>
+    	<token regexp="yes">no|any|some</token>
+    	<token regexp="yes">body</token>
+    </pattern>
+    <message>Possible typo. Did you mean <suggestion>\1\2</suggestion>?</message>
+    <example type="correct">Nobody seems to care.</example>
+    <example type="incorrect"><marker>No body</marker> seems to care.</example>
+    </rule>
+    </rulegroup>
     
     <rule id="MAY_BE_I" name="Possible typo 'may be' (maybe)">
     	<pattern mark_to="-1">
     		<token>may</token>
     		<token>be</token>
-    		<token postag="PRP"/>
+    		<token postag="PRP"><exception>one</exception></token>
     	</pattern>
     	<message>Possible typo. Did you mean <suggestion>maybe</suggestion> (=perhaps)?</message>
     	<example type="incorrect" correction="Maybe"><marker>May be</marker> I don't understand.</example>
-    	<example type="correct"><marker>Maybe</marker> I don't understand.</example>    	
+    	<example type="correct"><marker>Maybe</marker> I don't understand.</example>
+    	<example type="correct">That they all may be one...</example>
     </rule>
     
     		<rulegroup id="ONCE_AND_A_WHILE" name="Possible typo 'once and a while' (once in a while)">
@@ -1267,7 +1283,7 @@ $Id: grammar.xml,v 1.13 2007-05-02 22:24:59 milek_pl Exp $
    <rule id="A_UNCOUNTABLE" name="Articles: a + uncountable noun">
      <pattern mark_to="-1">
        <token regexp="yes">a|an</token>
-       <token regexp="yes">air|accomodation|advice|access|baggage|bread|equipment|garbage|luggage|money|cattle|knowledge|sand|furniture|meat|food|news|pasta|progress|research|water|freedom|maturity|intelligence|travel|pollution|traffic</token>
+       <token regexp="yes">accomodation|advice|access|baggage|bread|equipment|garbage|luggage|money|cattle|knowledge|sand|furniture|meat|food|news|pasta|progress|research|water|freedom|maturity|intelligence|travel|pollution|traffic</token>
        <token postag_regexp="yes" postag="RP|VBZ|IN"/>
      </pattern>
      <message>Uncountable nouns are usually not used with an indefinite article. Use simply <suggestion>\2</suggestion>.</message>
@@ -1371,7 +1387,7 @@ $Id: grammar.xml,v 1.13 2007-05-02 22:24:59 milek_pl Exp $
       <pattern mark_from="2" mark_to="-1">
         <token negate_pos="yes" postag="DT"></token>
         <token postag="VBP|VBZ" postag_regexp="yes"><exception postag="JJ"/></token>
-        <token postag="JJ"><exception postag_regexp="yes" postag="VB|RP|RB|CD|IN|CC|MD|VBD|VBN|VBG|DT"/></token>
+        <token postag="JJ"><exception>else</exception><exception postag_regexp="yes" postag="VB|RP|RB|CD|IN|CC|MD|VBD|VBN|VBG|DT"/></token>
         <token postag="NN"><exception postag_regexp="yes" postag="CC|DT|RB|RP|JJ|IN|CD|JJR|RBS|VBD|VBN|MD|NNS"/><exception>are</exception></token>
         <token><exception postag_regexp="yes" postag="NN.*"/></token>
       </pattern>
@@ -1413,7 +1429,7 @@ $Id: grammar.xml,v 1.13 2007-05-02 22:24:59 milek_pl Exp $
 	    <rule>
       <pattern mark_from="1" mark_to="-1">
         <token><exception postag_regexp="yes" postag="PRP.*|NN.*|DT|JJ.*|RB.*|CC|IN|VBG"/><exception regexp="yes">have|has|had|s|\"|\'|[0-9].*|,</exception></token>
-        <token postag_regexp="yes" postag="VBN|JJ"><exception postag_regexp="yes" postag="VB|RP|RB|CD|IN|CC|MD|NNP|DT"/></token>
+        <token postag_regexp="yes" postag="VBN|JJ"><exception>else</exception><exception postag_regexp="yes" postag="VB|RP|RB|CD|IN|CC|MD|NNP|DT"/></token>
         <token postag="NN"><exception postag_regexp="yes" postag="CC|DT|RB|RP|JJ|IN|CD|JJR|RBS|VBD|VBN|MD|NNS|NNPS|NNP"/><exception>are</exception></token>
         <token><exception postag_regexp="yes" postag="NN.*"/></token>
       </pattern>
@@ -1442,7 +1458,7 @@ $Id: grammar.xml,v 1.13 2007-05-02 22:24:59 milek_pl Exp $
      <rule>
       <pattern mark_from="1" mark_to="-1">
         <token>at</token>
-        <token postag="NN"><exception postag_regexp="yes" postag="DT|RP|JJ|IN|CD|JJS|JJR|RBS|VBD|VBN|MD|NNP|NNS"/><exception regexp="yes">bay|birth|ease|fault|first|hand|home|issue|least|length|liberty|sea|source|stake|table|variance</exception></token>
+        <token postag="NN"><exception postag_regexp="yes" postag="CC|UH|DT|RP|JJ|IN|CD|JJS|JJR|RBS|VBD|VBN|MD|NNP|NNS"/><exception regexp="yes">bay|birth|ease|fault|first|hand|home|issue|least|length|liberty|sea|source|stake|table|variance</exception></token>
         <token><exception postag_regexp="yes" postag="NN.*"/></token>
       </pattern>
       <message>The article is missing before the noun: <suggestion>the \2</suggestion>, <suggestion>a \2</suggestion> or <suggestion>an \2</suggestion>.</message>
@@ -1464,7 +1480,7 @@ $Id: grammar.xml,v 1.13 2007-05-02 22:24:59 milek_pl Exp $
       <pattern mark_from="2" mark_to="-1" case_sensitive="yes">
       	<token/>
         <token regexp="yes">[Bb]y</token>
-        <and><token postag="NN"><exception postag_regexp="yes" postag="DT|RB|RP|JJ|IN|CD|JJS|JJR|RBS|VBD|VBN|MD|NNP|NNS"/><exception regexp="yes">bit|word|step|way|example|dint|crook|hook|hand|machine|word|cheque|accident|day|means|mistake|name|train|rail|coach|bus|boat|automobile|helicopter|taxi|ambulance|plane|airplane|foot|section|article|page|road|letter|phone|telephone|mail|storm|arrangement|satellite|decree|year-end|lot|profession|district|week|eye|covenant|fiat</exception></token>
+        <and><token postag="NN"><exception postag_regexp="yes" postag="CC|UH|DT|RB|RP|JJ|IN|CD|JJS|JJR|RBS|VBD|VBN|MD|NNP|NNS"/><exception regexp="yes">bit|word|step|way|example|dint|crook|hook|hand|machine|word|cheque|accident|day|means|mistake|name|train|rail|railway|coach|bus|boat|automobile|helicopter|taxi|ambulance|plane|airplane|foot|section|article|page|road|letter|phone|telephone|mail|storm|arrangement|satellite|decree|year-end|lot|profession|district|week|eye|covenant|fiat</exception></token>
         <token negate="yes"><match no="1"/></token></and>
         <token><exception postag_regexp="yes" postag="NN.*"/><exception>free</exception></token>
       </pattern>
@@ -1488,7 +1504,7 @@ $Id: grammar.xml,v 1.13 2007-05-02 22:24:59 milek_pl Exp $
     <rule>
       <pattern mark_from="1" mark_to="-1">
         <token>for</token>
-        <token postag="NN"><exception postag_regexp="yes" postag="CC|VBD|VBG|VBN|DT|RP|JJ|IN|CD|JJS|JJR|RBS|VBD|MD|NNP"/><exception regexp="yes">are|instance|example|sale|word</exception></token>
+        <token postag="NN"><exception postag_regexp="yes" postag="UH|CC|VBD|VBG|VBN|DT|RP|JJ|IN|CD|JJS|JJR|RBS|VBD|MD|NNP"/><exception regexp="yes">are|instance|example|sale|word</exception></token>
         <token><exception postag_regexp="yes" postag="NN.*"/><exception>free</exception></token>
       </pattern>
       <message>The article is mising before the noun: <suggestion>the \2</suggestion>, <suggestion>a \2</suggestion> or <suggestion>an \2</suggestion>.</message>
@@ -1513,7 +1529,7 @@ $Id: grammar.xml,v 1.13 2007-05-02 22:24:59 milek_pl Exp $
         <token regexp="yes">day|week</token>
         <token>in</token>
         <and>
-	        <token postag="NN"><exception postag_regexp="yes" postag="VBG|DT|RP|JJ|IN|CD|JJS|JJR|RBS|VBD|VBN|MD|NNP|NNS"/><exception regexp="yes">fact|hand|paperback|person|retrospect|studio|summary|mood|name|turn|deed|word|outlook|favor|phase</exception></token>
+	        <token postag="NN"><exception postag_regexp="yes" postag="VBG|DT|RP|JJ|IN|CD|JJS|JJR|RBS|VBD|VBN|MD|NNP|NNS"/><exception regexp="yes">fact|hand|paperback|person|retrospect|studio|summary|mood|name|turn|deed|word|outlook|favor|phase|reply|chorus</exception></token>
     	    <token negate="yes"><match no="0"/></token>
         </and>        
         <token><exception postag_regexp="yes" postag="NN.*|JJ"/><exception regexp="yes">\d+</exception></token>
@@ -1529,7 +1545,7 @@ $Id: grammar.xml,v 1.13 2007-05-02 22:24:59 milek_pl Exp $
       <pattern mark_from="2" mark_to="-1">
         <token><exception regexp="yes">day|week</exception></token>
         <token>in</token>
-        <token postag="NN"><exception postag_regexp="yes" postag="VBG|DT|RP|JJ|IN|CD|JJS|JJR|RBS|VBD|VBN|MD|NNP|NNS"/><exception regexp="yes">fact|hand|paperback|person|retrospect|studio|summary|mood|name|turn|deed|word|outlook|favor|phase</exception></token>
+        <token postag="NN"><exception postag_regexp="yes" postag="VBG|DT|RP|JJ|IN|CD|JJS|JJR|RBS|VBD|VBN|MD|NNP|NNS"/><exception regexp="yes">fact|hand|paperback|person|retrospect|studio|summary|mood|name|turn|deed|word|outlook|favor|phase|reply|chorus</exception></token>
         <token><exception postag_regexp="yes" postag="NN.*|JJ"/><exception regexp="yes">\d+</exception></token>
       </pattern>
       <message>The article is mising before the noun: <suggestion>the \3</suggestion>, <suggestion>a \3</suggestion> or <suggestion>an \3</suggestion>.</message>
@@ -1555,7 +1571,7 @@ $Id: grammar.xml,v 1.13 2007-05-02 22:24:59 milek_pl Exp $
     <rule>
       <pattern mark_from="1" mark_to="-1">
         <token>on</token>
-        <token postag="NN"><exception postag_regexp="yes" postag="DT|RP|JJ|IN|CD|JJS|JJR|RB.*|VBD|VBN|MD|NNP|NNS"/><exception regexp="yes">board|display|foot|hand|sale|affidavit|camera|cassette|chat|coach|deposit|diskette|end|file|lease|oath|offer|page|screen|site|strike|target|tour|track</exception></token>
+        <token postag="NN"><exception postag_regexp="yes" postag="CC|UH|DT|RP|JJ|IN|CD|JJS|JJR|RB.*|VBD|VBN|MD|NNP|NNS"/><exception regexp="yes">board|display|foot|hand|sale|affidavit|camera|cassette|chat|coach|deposit|diskette|end|file|lease|oath|offer|page|screen|site|strike|target|tour|track</exception></token>
         <token><exception postag_regexp="yes" postag="NN.*"/></token>
       </pattern>
       <message>The article is missing before the noun: <suggestion>the \2</suggestion>, <suggestion>a \2</suggestion> or <suggestion>an \2</suggestion>.</message>
@@ -1566,7 +1582,7 @@ $Id: grammar.xml,v 1.13 2007-05-02 22:24:59 milek_pl Exp $
       <pattern mark_from="1" mark_to="-1">
         <token>on</token>
         <token postag="JJ"><exception postag_regexp="yes" postag="VBG|VB|RB.*|CD|IN|DT|NNP"/></token>
-        <token postag="NN"><exception postag_regexp="yes" postag="DT|RP|JJ.*|IN|CD|RBS|VBD|VBN|MD|NNP|NNS|NNPS"/></token>
+        <token postag="NN"><exception postag_regexp="yes" postag="CC|DT|RP|JJ.*|IN|CD|RBS|VBD|VBN|MD|NNP|NNS|NNPS"/></token>
         <token><exception postag_regexp="yes" postag="NN.*"/><exception>free</exception></token>
       </pattern>
       <message>The article is missing before the noun: <suggestion>the \2 \3</suggestion>, <suggestion>a \2 \3</suggestion> or <suggestion>an \2 \3</suggestion>.</message>
@@ -1579,10 +1595,10 @@ $Id: grammar.xml,v 1.13 2007-05-02 22:24:59 milek_pl Exp $
         <token><exception postag_regexp="yes" postag="DT"/></token>
         <token><exception postag_regexp="yes" postag="VBN|VBD"/></token>
         <token postag="IN"><exception regexp="yes">as|at|by|for|in|on|to|of|following|than</exception><exception postag="JJ.*" postag_regexp="yes"/></token>
-        <token postag="NN"><exception postag_regexp="yes" postag="DT|RP|JJ.*|IN|CD|RB.*|VBD|VBZ|VBN|MD|NNP|NNS|NNPS|PRP.*"/></token>
+        <token postag="NN"><exception postag_regexp="yes" postag="CC|UH|DT|RP|JJ.*|IN|CD|RB.*|VBD|VBZ|VBN|MD|NNP|NNS|NNPS|PRP.*"/></token>
         <token><exception postag_regexp="yes" postag="NN.*"/><exception>free</exception></token>
       </pattern>
-      <message>The article is missing before the noun: <suggestion>the \4</suggestion>, <suggestion>a \4</suggestion> or <suggestion>an \4</suggestion>.</message>
+      <message>The article is probably missing before the noun: <suggestion>the \4</suggestion>, <suggestion>a \4</suggestion> or <suggestion>an \4</suggestion>.</message>
       <example type="incorrect" correction="the friend|a friend|an friend">He is talking about <marker>friend</marker>.</example>
       <example type="correct">He is talking about a friend.</example>
     </rule>
@@ -1590,9 +1606,9 @@ $Id: grammar.xml,v 1.13 2007-05-02 22:24:59 milek_pl Exp $
       <pattern mark_from="3" mark_to="-1">
         <token><exception postag_regexp="yes" postag="DT"/></token>
         <token><exception postag_regexp="yes" postag="VBN|VBD"/></token>    
-        <token postag="IN"><exception regexp="yes">as|at|by|for|in|on|to|of|following</exception><exception postag="JJ.*" postag_regexp="yes"/></token>
+        <token postag="IN"><exception regexp="yes">as|at|by|for|in|on|to|of|following|re</exception><exception postag="JJ.*" postag_regexp="yes"/></token>
         <token postag="JJ"><exception postag_regexp="yes" postag="VBG|VB|RB.*|CD|IN|DT|NNP"/></token>
-        <token postag="NN"><exception postag_regexp="yes" postag="DT|RP|JJ|IN|CD|JJR|RBS|VBD|VBN|MD|NNP|NNS"/></token>
+        <token postag="NN"><exception postag_regexp="yes" postag="CC|DT|RP|JJ|IN|CD|JJR|RBS|VBD|VBN|MD|NNP|NNS"/></token>
         <token><exception postag_regexp="yes" postag="NN.*"/><exception>free</exception></token>
       </pattern>
       <message>The article is missing before the noun: <suggestion>the \4 \5</suggestion>, <suggestion>a \4 \5</suggestion> or <suggestion>an \4 \5</suggestion>.</message>
@@ -1606,7 +1622,7 @@ $Id: grammar.xml,v 1.13 2007-05-02 22:24:59 milek_pl Exp $
         prepositions with exceptions-->
         <token postag="SENT_START"/>
         <token postag="IN"><exception regexp="yes">as|at|by|for|in|on|to|of|following</exception><exception postag="JJ.*" postag_regexp="yes"/></token>
-        <token postag="NN"><exception postag_regexp="yes" postag="DT|RP|JJ.*|IN|CD|RB.*|VBD|VBN|MD|NNP|NNS|NNPS|PRP.*"/></token>
+        <token postag="NN"><exception postag_regexp="yes" postag="CC|UH|DT|RP|JJ.*|IN|CD|RB.*|VBD|VBN|MD|NNP|NNS|NNPS|PRP.*"/></token>
         <token><exception postag_regexp="yes" postag="NN.*|JJ"/></token>
       </pattern>
       <message>The article is missing before the noun: <suggestion>the \3</suggestion>, <suggestion>a \3</suggestion> or <suggestion>an \3</suggestion>.</message>
@@ -1627,23 +1643,25 @@ $Id: grammar.xml,v 1.13 2007-05-02 22:24:59 milek_pl Exp $
       <example type="correct">About <marker>a large boat</marker>.</example>    
     </rule>
     <rule>
-      <pattern mark_from="1" mark_to="-1">
+      <pattern mark_from="2" mark_to="-1">
+      	<token><exception>no</exception></token>
         <token>such</token>
         <token postag="NN"><exception postag_regexp="yes" postag="DT|RP|JJ|IN|CD|JJR|RBS|VBD|VBN|MD|NNP|NNS"/></token>
         <token><exception postag_regexp="yes" postag="NN.*"/><exception>free</exception></token>
       </pattern>
-      <message>The article is missing before the noun: <suggestion>a \2</suggestion> or <suggestion>an \2</suggestion>.</message>
+      <message>The article is missing before the noun: <suggestion>a \3</suggestion> or <suggestion>an \3</suggestion>.</message>
       <example type="incorrect" correction="a friend|an friend">He is talking of such <marker>friend</marker>.</example>
       <example type="correct">He is talking of such a friend.</example>
     </rule>
     <rule>
-      <pattern mark_from="1" mark_to="-1">
+      <pattern mark_from="2" mark_to="-1">
+      	<token><exception>no</exception></token>
         <token>such</token>
         <token postag="JJ"><exception postag_regexp="yes" postag="VBG|VB|RB.*|CD|IN|DT|NNP"/></token>
         <token postag="NN"><exception postag_regexp="yes" postag="DT|RP|JJ|IN|CD|JJR|RBS|VBD|VBN|MD|NNP|NNS"/></token>
         <token><exception postag_regexp="yes" postag="NN.*"/><exception>free</exception></token>
       </pattern>
-      <message>The article is missing before the noun: <suggestion>a \2 \3</suggestion> or <suggestion>an \2 \3</suggestion>.</message>
+      <message>The article is missing before the noun: <suggestion>a \3 \4</suggestion> or <suggestion>an \3 \4</suggestion>.</message>
       <example type="incorrect" correction="a good friend|an good friend">He is talking of such <marker>good friend</marker>.</example>
       <example type="correct">He is talking of such a good friend.</example>
     </rule>    
@@ -1655,10 +1673,10 @@ $Id: grammar.xml,v 1.13 2007-05-02 22:24:59 milek_pl Exp $
         <token regexp="yes" inflected="yes">afford|choose|deserve|pretend|strive|struggle</token>
         <token postag="VBG"/>
       </pattern>
-      <message>This verb is used with infinitive (e.g., \1 to do sth.).</message>
+      <message>This verb is used with infinitive: <suggestion>to <match no="2" postag="VB"/></suggestion>.</message>
       <example type="correct">We cannot afford to spend the whole month in Alps.</example>
       <example type="correct">He didn't deserve to lose his job.</example>
-      <example type="incorrect">We cannot afford <marker>spending</marker> the whole month in Alps.</example>
+      <example type="incorrect" correction="to spend">We cannot afford <marker>spending</marker> the whole month in Alps.</example>
     </rule>
     <rule>
       <pattern mark_from="2">
@@ -1666,55 +1684,162 @@ $Id: grammar.xml,v 1.13 2007-05-02 22:24:59 milek_pl Exp $
         <token>not</token>
         <token postag="VBG"/>
       </pattern>
-      <message>This verb is used with infinitive (e.g., \1 not to do sth.).</message>
+      <message>This verb is used with infinitive: <suggestion>to <match no="3" postag="VB"/></suggestion>.</message>
       <example type="correct">We cannot afford not to spend the whole month in Alps.</example>
-      <example type="incorrect">We cannot afford not <marker>spending</marker> the whole month in Alps.</example>
+      <example type="incorrect" correction="to spend">We cannot afford not <marker>spending</marker> the whole month in Alps.</example>
     </rule>
   </rulegroup>
 
   <rulegroup id="ADVISE_VBG" name="'advise', 'help' and 'remind' used with gerund instead of infinitive">
     <rule>
       <pattern mark_from="1">
-        <token inflected="yes" regexp="yes">advise|help|remind</token>
+        <token inflected="yes" regexp="yes">advise|remind</token>
         <token postag="VBG"/>
       </pattern>
-      <message>Verbs 'advise', 'help', and 'remind' are used with infinitive (advise someone to do sth.).</message>
+      <message>Verbs 'advise' and 'remind' are used with infinitive: <suggestion>to <match no="2" postag="VB"/></suggestion>.</message>
       <example type="correct">He advised to stay calm.</example>
       <example type="correct">He reminded to stay calm.</example>
-      <example type="incorrect">He advised <marker>staying</marker> calm.</example>
+      <example type="incorrect" correction="to stay">He advised <marker>staying</marker> calm.</example>
     </rule>
     <rule>
       <pattern mark_from="2">
-        <token inflected="yes" regexp="yes">advise|help|remind</token>
+        <token inflected="yes" regexp="yes">advise|remind</token>
         <token>not</token>
         <token postag="VBG"/>
       </pattern>
-      <message>Verbs 'advise', 'help', and 'remind' are used with infinitive (advise someone to do sth.).</message>
+      <message>Verbs 'advise' and 'remind' are used with infinitive: <suggestion>to <match no="3" postag="VB"/></suggestion>.</message>
       <example type="correct">He advised not to stay calm.</example>
-      <example type="incorrect">He advised not <marker>staying</marker> calm.</example>
+      <example type="incorrect" correction="to stay">He advised not <marker>staying</marker> calm.</example>
     </rule>
     <rule>
       <pattern mark_from="2">
-        <token inflected="yes" regexp="yes">advise|help|remind</token>
+        <token inflected="yes" regexp="yes">advise|remind</token>
         <token postag="PRP"/>
         <token postag="VBG"/>
       </pattern>
-      <message>Verbs 'advise', 'help', and 'remind' are used with infinitive (advise someone to do sth.).</message>
+      <message>Verbs 'advise' and 'remind' are used with infinitive: <suggestion>to <match no="4" postag="VB"/></suggestion>.</message>
       <example type="correct">He advised us to stay calm.</example>
       <example type="correct">He helped us to get on the bus.</example>
-      <example type="incorrect">He advised us <marker>staying</marker> calm.</example>
+      <example type="incorrect" correction="to stay">He advised us <marker>staying</marker> calm.</example>
     </rule>
     <rule>
       <pattern mark_from="3">
-        <token inflected="yes" regexp="yes">advise|help|remind</token>
+        <token inflected="yes" regexp="yes">advise|remind</token>
         <token postag="PRP"/>        
         <token>not</token>
         <token postag="VBG"/>
       </pattern>
-      <message>Verbs 'advise', 'help', and 'remind' are used with infinitive (advise someone to do sth.).</message>
+      <message>Verbs 'advise' and 'remind' are used with infinitive: <suggestion>to <match no="5" postag="VB"/></suggestion>.</message>
       <example type="correct">He advised us not to stay calm.</example>
-      <example type="incorrect">He advised us not <marker>staying</marker> calm.</example>
+      <example type="incorrect" correction="to stay">He advised us not <marker>staying</marker> calm.</example>
     </rule>
+     <rule>
+      <pattern mark_from="4">
+      	<token><exception regexp="yes">couldn|can</exception></token>
+      	<token><exception regexp="yes">'|could</exception></token>
+      	<token><exception regexp="yes">t|cannot|not</exception></token>
+        <token inflected="yes" regexp="yes">help</token>
+        <token postag="VBG"/>
+      </pattern>
+      <message>The verb 'help' is used with infinitive: <suggestion>to <match no="5" postag="VB"/></suggestion>
+      	or <suggestion><match no="5" postag="VB"/></suggestion>.</message>
+      <example type="correct">All he did was to help to carry the bags.</example>
+      <example type="correct">But she could not help thinking there must be more to come.</example>
+      <example type="incorrect" correction="to carry|carry">All he did was to help <marker>carrying</marker> the bags.</example>
+    </rule>
+     <rule>
+      <pattern mark_from="4">
+      	<token postag="SENT_START"/>
+      	<token><exception>cannot</exception></token>
+        <token inflected="yes" regexp="yes">help</token>
+        <token postag="VBG"/>
+      </pattern>
+      <message>The verb 'help' is used with infinitive: <suggestion>to <match no="5" postag="VB"/></suggestion>
+      	or <suggestion><match no="5" postag="VB"/></suggestion>.</message>
+      <example type="correct">He helped to carry the bags.</example>
+      <example type="incorrect" correction="to carry|carry">He helped <marker>carrying</marker> the bags.</example>
+    </rule>    
+    <rule>
+      <pattern mark_from="4">
+      	<token postag="SENT_START"/>
+      	<token><exception>cannot</exception></token>
+        <token inflected="yes" regexp="yes">help</token>
+        <token>not</token>
+        <token postag="VBG"/>
+      </pattern>
+      <message>The verb 'help' is used with infinitive: <suggestion>to <match no="5" postag="VB"/></suggestion>.</message>
+      <example type="correct">He helped not to buy some crap.</example>	
+      <example type="incorrect" correction="to buy">He helped not <marker>buying</marker> some crap.</example>	
+    </rule>
+    <rule>
+      <pattern mark_from="5">
+    	<token><exception regexp="yes">couldn|can</exception></token>
+      	<token><exception regexp="yes">'|could</exception></token>
+      	<token><exception regexp="yes">t|cannot|not</exception></token>
+        <token inflected="yes" regexp="yes">help</token>
+        <token>not</token>
+        <token postag="VBG"/>
+      </pattern>
+      <message>The verb 'help' is used with infinitive: <suggestion>to <match no="6" postag="VB"/></suggestion>.</message>
+     <example type="correct">All he did was to help not to carry the bags.</example>
+     <example type="incorrect" correction="to carry">All he did was to help not <marker>carrying</marker> the bags.</example>
+	</rule>    
+    <rule>
+      <pattern mark_from="5">
+      	<token postag="SENT_START"/>
+      	<token><exception>cannot</exception></token>      
+        <token inflected="yes" regexp="yes">help</token>
+        <token postag="PRP"/>
+        <token postag="VBG"/>
+      </pattern>
+      <message>The verb 'help' is used with infinitive: <suggestion>to <match no="6" postag="VB"/></suggestion>
+      	or <suggestion><match no="6" postag="VB"/></suggestion>.</message>
+      <example type="correct">He helped us to get on the bus.</example>
+      <example type="incorrect" correction="to get|get">He helped us <marker>getting</marker> on the bus.</example>
+    </rule>
+    <rule>
+      <pattern mark_from="6">
+      	<token><exception regexp="yes">couldn|can</exception></token>
+      	<token><exception regexp="yes">'|could</exception></token>
+      	<token><exception regexp="yes">t|cannot|not</exception></token>      
+        <token inflected="yes" regexp="yes">help</token>
+        <token postag="PRP"/>
+        <token postag="VBG"/>
+      </pattern>
+      <message>The verb 'help' is used with infinitive: <suggestion>to <match no="6" postag="VB"/></suggestion>
+      	or <suggestion><match no="6" postag="VB"/></suggestion>.</message>
+      <example type="correct">All he did was to help us to get on the bus.</example>
+      <example type="incorrect" correction="to get|get">All he did was to help us <marker>getting</marker> on the bus.</example>
+    </rule>
+        
+    <rule>
+      <pattern mark_from="6">
+       	<token postag="SENT_START"/>
+      	<token><exception>cannot</exception></token>           
+        <token inflected="yes" regexp="yes">help</token>
+        <token postag="PRP"/>        
+        <token>not</token>
+        <token postag="VBG"/>
+      </pattern>
+      <message>The verb 'help' is used with infinitive: : <suggestion>to <match no="7" postag="VB"/></suggestion>.</message>
+      <example type="correct">He helped us not to stay calm.</example>
+      <example type="incorrect" correction="to stay">He helped us not <marker>staying</marker> calm.</example>
+    </rule>
+    <rule>
+      <pattern mark_from="7">
+      	<token><exception regexp="yes">couldn|can</exception></token>
+      	<token><exception regexp="yes">'|could</exception></token>
+      	<token><exception regexp="yes">t|cannot|not</exception></token>      
+        <token inflected="yes" regexp="yes">help</token>
+        <token postag="PRP"/>        
+        <token>not</token>
+        <token postag="VBG"/>
+      </pattern>
+      <message>The verb 'help' is used with infinitive: : <suggestion>to <match no="8" postag="VB"/></suggestion>.</message>
+      <example type="correct">All he did was to help us not to stay calm.</example>
+      <example type="incorrect" correction="to stay">All he did was to help us not <marker>staying</marker> calm.</example>
+    </rule>
+    
   </rulegroup>
 
   <rulegroup id="THIS_NNS" name="'this' vs. 'these'">
@@ -1827,7 +1952,7 @@ $Id: grammar.xml,v 1.13 2007-05-02 22:24:59 milek_pl Exp $
         <token>t</token>
         <token postag="(VBD|VBG|VBZ)" postag_regexp="yes"><exception postag="VBP"/><exception inflected="yes">be</exception></token>
       </pattern>
-      <message>The verb '<match no="3"/>''t requires base form of this verb: <suggestion><match no="6" postag="VB"/></suggestion>.</message>
+      <message>The verb '<match no="3"/>'t' requires base form of this verb: <suggestion><match no="6" postag="VB"/></suggestion>.</message>
       <example type="correct">Since he doesn't <marker>have</marker> any connection with us...</example>
       <example type="incorrect" correction="have">Since he doesn't <marker>has</marker> any connection with us...</example>
     </rule>
@@ -1942,11 +2067,11 @@ $Id: grammar.xml,v 1.13 2007-05-02 22:24:59 milek_pl Exp $
   <rulegroup id="HE_VERB_AGR" name="Agreement error: Non-third person verb with 'he'">
     <rule>
       <pattern mark_from="2">
-        <token regexp="yes" negate="yes">(that|has|will|must|could|can|should|would|does|did|may|might)</token>
+        <token regexp="yes" negate="yes">(that|has|will|must|could|can|should|would|does|did|may|might|t)</token>
         <token regexp="yes">he|she</token>
         <token postag="VB|VBG|VBP" postag_regexp="yes"><exception postag_regexp="yes" postag="VBN|VBD|JJ.*|RB"/></token>
       </pattern>
-      <message>'He' must be used with a third person verb: <suggestion><match no="3" postag="VBZ"/></suggestion>.</message>
+      <message>The pronoun '<match no="2"/>' must be used with a third person verb: <suggestion><match no="3" postag="VBZ"/></suggestion>.</message>
       <example type="correct">He <marker>walks</marker> to the building.</example>
       <example type="incorrect" correction="walks">He <marker>walk</marker> to the building.</example>
       <example type="correct">He <marker>walked</marker> to the building.</example>
@@ -1978,7 +2103,7 @@ $Id: grammar.xml,v 1.13 2007-05-02 22:24:59 milek_pl Exp $
     </rule>   
     <rule>
       <pattern mark_from="2" mark_to="-1">
-        <token><exception regexp="yes">(that|has|will|must|could|can|should|would|does|did|may|might)</exception><exception postag_regexp="yes" postag="CC|IN|DT|MD"/></token>
+        <token><exception regexp="yes">(that|has|will|must|could|can|should|would|does|did|may|might|t)</exception><exception postag_regexp="yes" postag="CC|IN|DT|MD"/></token>
         <token postag="NNP" regexp="yes">.{2,}<exception postag_regexp="yes" postag="JJ|CC|RP|DT|PRP\$"/></token>
         <token postag="VB|VBP" postag_regexp="yes" regexp="yes">\p{Lower}+<exception postag_regexp="yes" postag="VBN|VBD|JJ|IN"/></token>
         <token postag_regexp="yes" postag="IN|DT"/>
@@ -2157,6 +2282,250 @@ $Id: grammar.xml,v 1.13 2007-05-02 22:24:59 milek_pl Exp $
 		<example type="incorrect" correction="Can someone"><marker>Does someone can</marker> reproduce what I described before?</example>
 		<example type="correct"><marker>Can someone</marker> reproduce what I described before?</example>
 	</rule>
+	
+	<rulegroup id="THERE_S_MANY" name="Possible agreement error 'there's' + plural noun">
+	<rule>
+		<pattern>
+			<token>there</token>
+			<token>'</token>
+			<token>s</token>
+			<token postag_regexp="yes" postag="NNS|NNPS"><exception postag_regexp="yes" postag="NN:.*|NN|NNP|JJ.*"/></token>
+		</pattern>
+		<message>Possible agreement error. Did you mean <suggestion>\1're \4</suggestion>?</message>
+		<example type="incorrect" correction="There're problems"><marker>There's problems</marker> in Iraq but it is not a terrible situation.</example>
+		<example type="correct">There're problems in Iraq.</example>
+	</rule>
+	<rule>
+		<pattern>
+			<token>there</token>
+			<token>'</token>
+			<token>s</token>
+			<token postag_regexp="yes" postag="DT|JJ.*"><exception postag_regexp="yes" postag="NN:.*|NN|NNP"/></token>
+			<token postag_regexp="yes" postag="NNS|NNPS"><exception postag_regexp="yes" postag="NN:.*|NN|NNP"/></token>
+		</pattern>
+		<message>Possible agreement error. Did you mean <suggestion>\1're \4 \5</suggestion>?</message>
+		<example type="incorrect" correction="There're many problems"><marker>There's many problems</marker> in Iraq but it is not a terrible situation.</example>
+		<example type="correct">There're many problems in Iraq.</example>
+	</rule>	
+		<rule>
+		<pattern>
+			<token>there</token>
+			<token>is</token>
+			<token postag_regexp="yes" postag="NNS|NNPS"><exception postag_regexp="yes" postag="NN:.*|NN|NNP|JJ.*"/></token>
+		</pattern>
+		<message>Possible agreement error. Did you mean <suggestion>\1 are \3</suggestion>?</message>
+		<example type="incorrect" correction="There are problems"><marker>There is problems</marker> in Iraq but it is not a terrible situation.</example>
+		<example type="correct">There are problems in Iraq.</example>
+	</rule>
+	<rule>
+		<pattern>
+			<token>there</token>
+			<token>is</token>
+			<token postag_regexp="yes" postag="DT|JJ.*"><exception postag_regexp="yes" postag="NN:.*|NN|NNP"/></token>
+			<token postag_regexp="yes" postag="NNS|NNPS"><exception postag_regexp="yes" postag="NN:.*|NN|NNP"/></token>
+		</pattern>
+		<message>Possible agreement error. Did you mean <suggestion>\1 are \3 \4</suggestion>?</message>
+		<example type="incorrect" correction="There are many problems"><marker>There is many problems</marker> in Iraq but it is not a terrible situation.</example>
+		<example type="correct">There are many problems in Iraq.</example>
+	</rule>	
+	
+	</rulegroup>
+
+	<rulegroup id="THERE_RE_MANY" name="Possible agreement error 'there're' + singular noun">
+	<rule>
+		<pattern mark_to="-1">
+			<token>there</token>
+			<token>'</token>
+			<token>re</token>
+			<token postag_regexp="yes" postag="NN:.*|NN|NNP"><exception postag_regexp="yes" postag="NNS|NNPS|JJ.*"/></token>
+			<token><exception postag_regexp="yes" postag="NNS|NNPS"/></token>
+		</pattern>
+		<message>Possible agreement error. Did you mean <suggestion><match no="1"/>'re <match no="4" postag_regexp="yes" postag="NNS|NNPS"/></suggestion>?</message>
+		<example type="incorrect" correction="There're problems"><marker>There're problem</marker> in Iraq but it is not a terrible situation.</example>
+		<example type="correct">There're problems in Iraq.</example>
+	</rule>
+	<rule>
+		<pattern mark_to="-1">
+			<token>there</token>
+			<token>'</token>
+			<token>re</token>
+			<token postag_regexp="yes" postag="DT|JJ.*"><exception postag_regexp="yes" postag="NNS|NNPS"/><exception regexp="yes">a|an</exception></token>	
+			<token postag_regexp="yes" postag="NN:.*|NN|NNP"><exception postag_regexp="yes" postag="NNS|NNPS"/></token>
+			<token><exception postag_regexp="yes" postag="NNS|NNPS"/></token>
+		</pattern>
+		<message>Possible agreement error. Did you mean <suggestion><match no="1"/>'re <match no="4"/> <match no="5" postag_regexp="yes" postag="NNS|NNPS"/></suggestion>?</message>
+		<example type="incorrect" correction="There're many problems"><marker>There're many problem</marker> in Iraq but it is not a terrible situation.</example>
+		<example type="correct">There're many problems in Iraq.</example>
+	</rule>
+	<rule>
+		<pattern>
+			<token>there</token>
+			<token>'</token>
+			<token>re</token>
+			<token regexp="yes">a|an</token>	
+			<token postag_regexp="yes" postag="NN:.*|NN|NNP"><exception postag_regexp="yes" postag="NNS|NNPS|JJ.*"/></token>
+		</pattern>
+		<message>Possible agreement error. Did you mean <suggestion><match no="1"/>'s <match no="4"/> <match no="5"/></suggestion>?</message>
+		<example type="incorrect" correction="There's a lot"><marker>There're a lot</marker> problem in Iraq but it is not a terrible situation.</example>
+		<example type="correct">There's a whole lot of problems in Iraq.</example>
+	</rule>
+		<rule>
+		<pattern mark_to="-1">
+			<token>there</token>			
+			<token>are</token>
+			<token postag_regexp="yes" postag="NN:.*|NN|NNP"><exception postag_regexp="yes" postag="NNS|NNPS|JJ.*"/></token>
+			<token><exception postag_regexp="yes" postag="NNS|NNPS"/></token>
+		</pattern>
+		<message>Possible agreement error. Did you mean <suggestion><match no="1"/> are <match no="3" postag_regexp="yes" postag="NNS|NNPS"/></suggestion>?</message>
+		<example type="incorrect" correction="There are problems"><marker>There are problem</marker> in Iraq but it is not a terrible situation.</example>
+		<example type="correct">There are problems in Iraq.</example>
+	</rule>
+	<rule>
+		<pattern mark_to="-1">
+			<token>there</token>
+			<token>are</token>
+			<token postag_regexp="yes" postag="DT|JJ.*"><exception postag_regexp="yes" postag="NNS|NNPS"/><exception regexp="yes">a|an</exception></token>	
+			<token postag_regexp="yes" postag="NN:.*|NN|NNP"><exception postag_regexp="yes" postag="NNS|NNPS"/></token>
+			<token><exception postag_regexp="yes" postag="NNS|NNPS"/></token>
+		</pattern>
+		<message>Possible agreement error. Did you mean <suggestion><match no="1"/> are <match no="3"/> <match no="4" postag_regexp="yes" postag="NNS|NNPS"/></suggestion>?</message>
+		<example type="incorrect" correction="There are many problems"><marker>There are many problem</marker> in Iraq but it is not a terrible situation.</example>
+		<example type="correct">There are many problems in Iraq.</example>
+	</rule>
+	<rule>
+		<pattern>
+			<token>there</token>
+			<token>are</token>
+			<token regexp="yes">a|an</token>	
+			<token postag_regexp="yes" postag="NN:.*|NN|NNP"><exception postag_regexp="yes" postag="NNS|NNPS|JJ.*"/></token>
+		</pattern>
+		<message>Possible agreement error. Did you mean <suggestion><match no="1"/> is <match no="3"/> <match no="4"/></suggestion>?</message>
+		<example type="incorrect" correction="There is a lot"><marker>There are a lot</marker> problem in Iraq but it is not a terrible situation.</example>
+		<example type="correct">There is a whole lot of problems in Iraq.</example>
+	</rule>
+	</rulegroup>
+
+	<rule id="A_LOT_OF_NN" name="Possible agreement error: 'a lot/bunch/couple of' + singular countable noun">
+		<pattern mark_to="-1">
+			<token>a</token>
+			<token regexp="yes">lot|bunch|couple|lack</token>
+			<token>of</token>
+			<token postag_regexp="yes" postag="NN:UN|NN|NNP"><exception postag_regexp="yes" postag="NN:U|NNS|NNPS|JJ.*"/></token>			
+			<token><exception postag_regexp="yes" postag="NNS|NNPS"/></token>
+		</pattern>
+		<message>Possible agreement error. The noun <match no="4"/> seems to be countable, so probably you 
+		should use: <suggestion>a <match no="2"/> of <match no="4" postag_regexp="yes" postag="NNS|NNPS"/></suggestion>.</message>
+		<example type="incorrect" correction="a lot of cars">I have <marker>a lot of car</marker>.</example>
+		<example type="correct">I have <marker>a lot of cars</marker>.</example>
+		<example type="correct">I have <marker>a lot of wine</marker>.</example>
+	</rule>
+	
+	<rule id="LOTS_OF_NN" name="Possible agreement error: 'lots/plenty of' + singular countable noun">
+		<pattern mark_to="-1">
+			<token regexp="yes">lots|plenty</token>
+			<token>of</token>
+			<token postag_regexp="yes" postag="NN|NNP"><exception postag_regexp="yes" postag="NN:.*|NNS|NNPS|JJ.*"/></token>			
+			<token><exception postag_regexp="yes" postag="NNS|NNPS"/></token>
+		</pattern>
+		<message>Possible agreement error. The noun <match no="3"/> seems to be countable, so probably you 
+		should use: <suggestion><match no="1"/> of <match no="3" postag_regexp="yes" postag="NNS|NNPS"/></suggestion>.</message>
+		<example type="incorrect" correction="lots of books">I have got <marker>lots of book</marker>.</example>
+		<example type="correct">I have got <marker>lots of books</marker>.</example>
+		<example type="correct">I have got <marker>lots of wine</marker>.</example>
+	</rule>
+	
+	<rule id="MANY_NN" name="Possible agreement error: 'many/several/few' + singular countable noun">
+		<pattern mark_to="-1">
+			<token regexp="yes">many|several|few|enough</token>
+			<token postag_regexp="yes" postag="NN:UN|NN|NNP"><exception postag_regexp="yes" postag="NN:U|NNS|NNPS|JJ.*"/></token>			
+			<token><exception postag_regexp="yes" postag="NNS|NNPS"/></token>
+		</pattern>
+		<message>Possible agreement error. The noun <match no="2"/> seems to be countable, so probably you 
+		should use: <suggestion><match no="1"/> <match no="2" postag_regexp="yes" postag="NNS|NNPS"/></suggestion>.</message>
+		<example type="incorrect" correction="several books">I have <marker>several book</marker>.</example>
+		<example type="correct">I have <marker>many books</marker>.</example>
+		<example type="correct">I have <marker>much wine</marker>.</example>
+		<example type="incorrect" correction="many ways">... which is right in <marker>many way</marker>.</example>
+	</rule>
+	
+	<rulegroup id="MANY_NN:U" name="Possible agreement error: 'many/several/few' + uncountable noun">
+	<rule>
+		<pattern mark_to="-1">
+			<token regexp="yes">many</token>
+			<token postag_regexp="yes" postag="NN:U"><exception postag_regexp="yes" postag="NN:UN|NN|NNP|NNS|NNPS|JJ.*"/></token>			
+			<token><exception postag_regexp="yes" postag="NNS|NNPS|CC"/></token>
+		</pattern>
+		<message>Possible agreement error. The noun <match no="2"/> seems to be uncountable, so probably you 
+		should use: <suggestion>much <match no="2"/></suggestion>, 
+		<suggestion>a good deal of <match no="2"/></suggestion>.</message>
+		<example type="incorrect" correction="much wine|a good deal of wine">I have <marker>many wine</marker>.</example>
+		<example type="correct">I have <marker>much wine</marker>.</example>
+		<example type="correct">How many wine bars are there in Cheshire?</example>
+	</rule>
+	<rule>
+		<pattern mark_to="-3">
+			<token regexp="yes">many</token>
+			<token postag_regexp="yes" postag="NN:U"><exception postag_regexp="yes" postag="NN:UN|NN|NNP|NNS|NNPS|JJ.*"/></token>			
+			<token postag="CC"/>
+			<token><exception postag_regexp="yes" postag="NNS|NNPS"/></token>
+			<token><exception postag_regexp="yes" postag="NNS|NNPS"/></token>
+		</pattern>
+		<message>Possible agreement error. The noun <match no="2"/> seems to be uncountable, so probably you 
+		should use: <suggestion>much <match no="2"/></suggestion>, 
+		<suggestion>a good deal of <match no="2"/></suggestion>.</message>
+		<example type="incorrect" correction="much wine|a good deal of wine">There are <marker>many wine</marker> and a lot is happening this spring.</example>
+		<example type="correct">There are many wine and food festivals this spring.</example>
+	</rule>	
+	<rule>
+		<pattern mark_to="-1">
+			<token regexp="yes">few</token>
+			<token postag_regexp="yes" postag="NN:U"><exception postag_regexp="yes" postag="NN:UN|NN|NNP|NNS|NNPS|JJ.*"/></token>			
+			<token><exception postag_regexp="yes" postag="NNS|NNPS"/></token>
+		</pattern>
+		<message>Possible agreement error. The noun <match no="2"/> seems to be uncountable, so probably you 
+		should use: <suggestion>little <match no="2"/></suggestion>.</message>
+		<example type="incorrect" correction="little wine">I have a <marker>few wine</marker>.</example>
+		<example type="correct">I have <marker>little wine</marker>.</example>
+	</rule>
+	<rule>
+		<pattern mark_to="-3">
+			<token regexp="yes">few</token>
+			<token postag_regexp="yes" postag="NN:U"><exception postag_regexp="yes" postag="NN:UN|NN|NNP|NNS|NNPS|JJ.*"/></token>			
+			<token postag="CC"/>
+			<token><exception postag_regexp="yes" postag="NNS|NNPS"/></token>
+			<token><exception postag_regexp="yes" postag="NNS|NNPS"/></token>
+		</pattern>
+		<message>Possible agreement error. The noun <match no="2"/> seems to be uncountable, so probably you 
+		should use: <suggestion>little <match no="2"/></suggestion>.</message>
+		<example type="incorrect" correction="little wine">There is <marker>few wine</marker> and a lot is happening this spring.</example>
+		<example type="correct">There are few wine and food festivals this spring.</example>
+	</rule>		
+	<rule>
+		<pattern mark_to="-1">
+			<token regexp="yes">several</token>
+			<token postag_regexp="yes" postag="NN:U"><exception postag_regexp="yes" postag="NN:UN|NN|NNP|NNS|NNPS|JJ.*"/></token>			
+			<token><exception postag_regexp="yes" postag="NNS|NNPS"/></token>
+		</pattern>
+		<message>Possible agreement error. The noun <match no="2"/> seems to be uncountable, so probably you 
+		should use: <suggestion>some <match no="2"/></suggestion>.</message>
+		<example type="incorrect" correction="some wine">I have <marker>several wine</marker>.</example>		
+		<example type="correct">I have <marker>some wine</marker>.</example>
+	</rule>
+	<rule>
+		<pattern mark_to="-3">
+			<token regexp="yes">several</token>
+			<token postag_regexp="yes" postag="NN:U"><exception postag_regexp="yes" postag="NN:UN|NN|NNP|NNS|NNPS|JJ.*"/></token>			
+			<token postag="CC"/>
+			<token><exception postag_regexp="yes" postag="NNS|NNPS"/></token>
+			<token><exception postag_regexp="yes" postag="NNS|NNPS"/></token>
+		</pattern>
+		<message>Possible agreement error. The noun <match no="2"/> seems to be uncountable, so probably you 
+		should use: <suggestion>some <match no="2"/></suggestion>.</message>
+		<example type="incorrect" correction="some wine">There is <marker>several wine</marker> and a lot is happening this spring.</example>
+		<example type="correct">There are several wine and food festivals this spring.</example>
+	</rule>		
+	
+	</rulegroup>	
 	
   </category>
 
