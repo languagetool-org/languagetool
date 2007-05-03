@@ -61,14 +61,14 @@ total=0
 if ($1"_END"!~/ly_END/ || $1"_END"~/early_END/) print $1 "\t" $1 "\tJJ"; else print $1 "\t" $1 "\tRB"
 for (n in jjr_forms) {
 	#if ($i"_END"!~/er_END/) 
-	if (jjr_forms[n]!~/\?|<|\./)
+	if (jjr_forms[n]!~/\?|<|\.|!/)
 		{print jjr_forms[n] "\t" $1 "\tJJR"
 		JJR[jjr_forms[n]]=$1
 		set++
 		}
 	}
 for (n in jjs_forms) {	
-	if (jjs_forms[n]!~/\?|<|\./)
+	if (jjs_forms[n]!~/\?|<|\.|!/)
 		{print jjs_forms[n] "\t" $1 "\tJJS"
 		JJS[jjs_forms[n]]=$1
 		set++

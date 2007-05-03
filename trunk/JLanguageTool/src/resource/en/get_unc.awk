@@ -15,6 +15,7 @@ while ((getline < english_file)  > 0){
 		}
 
 #explicit list U
+lemma["wonderland"]="uncount"
 lemma["connoisseurship"]="uncount"
 lemma["behalf"]="uncount"
 lemma["senate"]="uncount"
@@ -7094,6 +7095,12 @@ else
 	else
 	if (gerund[$1]=="uncount" || gerund[maybe_gerund[2]]=="uncount")
 		print $1 FS $2 FS $3":UN"
+	else 
+	if (lemma[maybe_gerund[2]]=="uncount")
+		{print $1 FS $2 FS $3":U"}
+	else 
+	if (partly_noncount[maybe_gerund[2]]=="uncount")
+		{print $1 FS $2 FS $3":UN"}	
 	else
 		print $0}
 	}
