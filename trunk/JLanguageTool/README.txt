@@ -64,6 +64,9 @@ TODO:
  	 interface that each language needs to implement)
  	-Add an "Add language pack..." menu to both the stand-alone version and the
  	 OpenOffice.org version
+ -create a general mechanism for setting and storing rule parameters (including
+  Java rules and XML rules) like sensitivity level
+ -create a Firefox/Thunderbird extension using some of SpellBound extension code
  -German:
  	"*Ich kaufe den Hund einen Knochen" (den -> dem), aber:
  	"*Ich kaufe dem Hund." (dem -> den)
