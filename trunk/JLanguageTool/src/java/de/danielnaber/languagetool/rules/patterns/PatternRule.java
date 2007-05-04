@@ -241,7 +241,7 @@ public class PatternRule extends Rule {
             exceptionMatched |= (elem.exceptionMatch(matchToken) 
                   || elem.andGroupExceptionMatch(matchToken));
             // Logical OR (cannot be AND):
-            if (!thisMatched && !exceptionMatched) {
+            if (!(thisMatched || exceptionMatched)) {
               matched |= false;
             } else {
               matched = true;
@@ -253,7 +253,7 @@ public class PatternRule extends Rule {
           }
           
           //disallow exceptions that should match only current tokens          
-          if (!thisMatched && !prevMatched) {
+          if (!(thisMatched || prevMatched)) {
             exceptionMatched = false;
           }
                     
@@ -263,7 +263,7 @@ public class PatternRule extends Rule {
           
         }
         //disallow exceptions that should match only current tokens        
-        if (!thisMatched && !prevMatched) {
+        if (!(thisMatched || prevMatched)) {
           skipMatch = false;
         }
         allElementsMatch = skipMatch;
