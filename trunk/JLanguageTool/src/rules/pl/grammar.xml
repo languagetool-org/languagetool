@@ -2,7 +2,7 @@
 <!--
 Polish Grammar and Typo Rules for LanguageTool
 Copyright (C) 2006 Marcin Miłkowski
-$Id: grammar.xml,v 1.30 2007-05-03 21:41:48 milek_pl Exp $		
+$Id: grammar.xml,v 1.31 2007-05-04 11:21:16 milek_pl Exp $		
 -->
 <rules lang="pl">
 
@@ -2136,6 +2136,18 @@ $Id: grammar.xml,v 1.30 2007-05-03 21:41:48 milek_pl Exp $
 			<example type="incorrect"><marker>Czym</marker> większa, tym lepiej.</example>
 		</rule>
 		
+		<rule name="„tym bardziej... ponieważ” (tym bardziej... że)" id="TYM_BARDZIEJ_PONIEWAZ">
+			<pattern mark_from="3">
+				<token>tym</token>
+				<token skip="-1">bardziej<exception scope="next" regexp="yes">że|iż</exception></token>
+				<token>ponieważ</token>
+			</pattern>
+			<message>Prawdopodobnie błędnie użyto skorelowanego spójnika „tym bardziej” w zdaniu złożonym. 
+			Powinno być: <suggestion>że</suggestion>.</message>
+			<example type="incorrect" correction="że">Tym bardziej żałuję, <marker>ponieważ</marker> rzecz jest całkowicie inna, aniżeli usiłowali to niektórzy śledczy przedstawić.</example>
+			<example type="correct">Tym bardziej żałuję, że rzecz jest całkowicie inna, aniżeli usiłowali to niektórzy śledczy przedstawić.</example>
+		</rule>
+		
 		<rule name="„im... o tyle” (im... tym)" id="IM_O_TYLE">
 			<pattern mark_from="2" mark_to="-1">
 				<token skip="-1">im</token>
@@ -3782,7 +3794,7 @@ $Id: grammar.xml,v 1.30 2007-05-03 21:41:48 milek_pl Exp $
 		<rule>
 			<pattern>
 				<token>w</token>
-				<token regexp="yes">[wf][tśsrłndwpgklzcbmż].*|Lwowie|mgle<exception regexp="yes">[\"„]</exception></token>				
+				<token regexp="yes">[wf][tśsrłndwpgklzcbmż].*|Lwowie|mgle<exception regexp="yes">[\"„]</exception><exception postag="UNKNOWN"/></token>				
 			</pattern>
 			<message>Prawdopodobnie ten przyimek należy zapisać tak: <suggestion>we \2</suggestion>.</message>
 			<example type="correct">Ludwik ma randkę z Przemysławem we wtorek.</example>
@@ -3792,7 +3804,7 @@ $Id: grammar.xml,v 1.30 2007-05-03 21:41:48 milek_pl Exp $
 			<pattern>
 				<token>w</token>
 				<token regexp="yes">[\"„]</token>				
-				<token regexp="yes">[wf][tśsrłndwpgklzcbmż].*|Lwowie<exception regexp="yes">[\"„]</exception></token>				
+				<token regexp="yes">[wf][tśsrłndwpgklzcbmż].*|Lwowie<exception regexp="yes">[\"„]</exception><exception postag="UNKNOWN"/></token>				
 			</pattern>
 			<message>Prawdopodobnie ten przyimek należy zapisać tak: <suggestion>we \2</suggestion>.</message>
 			<example type="correct">Ludwik ma randkę z Przemysławem we wtorek.</example>
@@ -3804,7 +3816,7 @@ $Id: grammar.xml,v 1.30 2007-05-03 21:41:48 milek_pl Exp $
 		<rule>
 			<pattern>
 				<token>we</token>
-				<token negate="yes" regexp="yes">[WFwf].+|Lwowie|środę|czwartek|dw.+|tr.+|mnie|znaki|drzwiach|krwi|śnie|dnie|mgle|łbie<exception regexp="yes">[\"„]</exception></token>
+				<token negate="yes" regexp="yes">[WFwf].+|Lwowie|środę|czwartek|dw.+|tr.+|mnie|znaki|drzwiach|krwi|śnie|dnie|mgle|łbie<exception regexp="yes">[\"„]</exception><exception postag="UNKNOWN"/></token>
 			</pattern>
 			<message>Prawdopodobnie ten przyimek należy zapisać tak: <suggestion>w \2</suggestion>.</message>
 			<example type="correct">Ludwik ma randkę z Przemysławem w Łodzi.</example>
@@ -3815,7 +3827,7 @@ $Id: grammar.xml,v 1.30 2007-05-03 21:41:48 milek_pl Exp $
 			<pattern>
 				<token>we</token>
 				<token regexp="yes">[\"„]</token>				
-				<token negate="yes" regexp="yes">[WFwf].+|Lwowie|środę|czwartek|dw.+|tr.+|mnie<exception regexp="yes">[\"„]</exception></token>
+				<token negate="yes" regexp="yes">[WFwf].+|Lwowie|środę|czwartek|dw.+|tr.+|mnie<exception regexp="yes">[\"„]</exception><exception postag="UNKNOWN"/></token>
 			</pattern>
 			<message>Prawdopodobnie ten przyimek należy zapisać tak: <suggestion>w \2\3</suggestion>.</message>
 			<example type="correct">Ludwik ma randkę z Przemysławem w Łodzi.</example>
@@ -3828,17 +3840,17 @@ $Id: grammar.xml,v 1.30 2007-05-03 21:41:48 milek_pl Exp $
 		<rule>
 			<pattern>
 				<token>z</token>
-				<token regexp="yes">s[wftśsrłndwpgklcbmżń].+|[zśźż][wftśsrłndwpgklzcbmżń].+|[rs]z[wftśsrłndwpgklzcbmżń].+|[wf][wftśwpgzcbmżń].+|w[n][^io].+|w[k][^ł].+|f[dsk].+|wd[^zię].+|ws[^ze].+|Lwowa|mną|mnie|snu<exception regexp="yes">[\"„]</exception></token>				
+				<token regexp="yes">s[wftśsrłndwpgklcbmżń].+|[zśźż][wftśsrłndwpgklzcbmżń].+|[rs]z[wftśsrłndwpgklzcbmżń].+|[wf][wftśwpgzcbmżń].+|w[n][^io].+|w[k][^ł].+|f[dsk].+|wd[^zię].+|ws[^ze].+|Lwowa|mną|mnie|snu<exception regexp="yes">[\"„]</exception><exception postag="UNKNOWN"/></token>				
 			</pattern>
 			<message>Prawdopodobnie ten przyimek należy zapisać tak: <suggestion>\1e \2</suggestion>.</message>
 			<example type="correct">Ludwik ma kochankę ze Świecia</example>
 			<example type="incorrect">Ludwik ma kochankę <marker>z Świecia</marker>.</example>
 		</rule>
-				<rule>
+		<rule>
 			<pattern>
 				<token>z</token>
 				<token regexp="yes">[\"„]</token>
-				<token regexp="yes">s[wftśsrłndwpgklcbmżń].+|[zśźż][wftśsrłndwpgklzcbmżń].+|[rs]z[wftśsrłndwpgklzcbmżń].+|[wf][wftśsndwpgkzcbmżń].+|Lwowa|mną|mnie|snu<exception regexp="yes">[\"„]</exception></token>				
+				<token regexp="yes">s[wftśsrłndwpgklcbmżń].+|[zśźż][wftśsrłndwpgklzcbmżń].+|[rs]z[wftśsrłndwpgklzcbmżń].+|[wf][wftśsndwpgkzcbmżń].+|Lwowa|mną|mnie|snu<exception regexp="yes">[\"„]</exception><exception postag="UNKNOWN"/></token>				
 			</pattern>
 			<message>Prawdopodobnie ten przyimek należy zapisać tak: <suggestion>ze \2\3</suggestion>.</message>
 			<example type="correct">Ludwik ma kochankę ze Świecia</example>
@@ -3851,7 +3863,7 @@ $Id: grammar.xml,v 1.30 2007-05-03 21:41:48 milek_pl Exp $
 		<rule>
 			<pattern>
 				<token>ze</token>
-				<token negate="yes" regexp="yes">[wszśźżWSZŚŹŻ].+|[SRrr]z[wftśsrłndwpgklzcbmżń].+|Lwowa|mną|mnie|snu<exception regexp="yes">[\"„]</exception></token>				
+				<token negate="yes" regexp="yes">[wszśźżWSZŚŹŻ].+|[SRrr]z[wftśsrłndwpgklzcbmżń].+|Lwowa|mną|mnie|snu<exception regexp="yes">[\"„]</exception><exception postag="UNKNOWN"/></token>				
 			</pattern>
 			<message>Prawdopodobnie ten przyimek należy zapisać tak: <suggestion>z \2</suggestion>.</message>
 			<example type="correct">Ludwik ma kochankę z Łodzi.</example>
@@ -3862,7 +3874,7 @@ $Id: grammar.xml,v 1.30 2007-05-03 21:41:48 milek_pl Exp $
 			<pattern>
 				<token>ze</token>
 				<token regexp="yes">[\"„]</token>
-				<token negate="yes" regexp="yes">[wszśźżWSZŚŹŻ].+|[SRrr]z[wftśsrłndwpgklzcbmżń].+|Lwowa|mną|mnie|snu<exception regexp="yes">[\"„]</exception></token>				
+				<token negate="yes" regexp="yes">[wszśźżWSZŚŹŻ].+|[SRrr]z[wftśsrłndwpgklzcbmżń].+|Lwowa|mną|mnie|snu<exception regexp="yes">[\"„]</exception><exception postag="UNKNOWN"/></token>				
 			</pattern>
 			<message>Prawdopodobnie ten przyimek należy zapisać tak: <suggestion>z \2\3</suggestion>.</message>
 			<example type="correct">Ludwik ma kochankę z Łodzi.</example>
@@ -3890,6 +3902,27 @@ $Id: grammar.xml,v 1.30 2007-05-03 21:41:48 milek_pl Exp $
 			<example type="correct">Jak będziesz w szpitalu wariatów, pozdrów Antoniego od Aleksandra!</example>
 			<example type="incorrect">Jak będziesz w szpitalu wariatów, pozdrów Antoniego <marker>ode</marker> Aleksandra!</example>
 		</rule>
+		
+		<rule name="„przede czym” (przed czym)" id="PRZEDE_CZYM">
+			<pattern mark_to="-1">
+				<token>przede</token>
+				<token><exception regexp="yes">mną|mnie|dniu|dniem|drzwiami|wszystkim</exception></token>
+			</pattern>
+			<message>Ten przyimek należy zapisać tak: <suggestion>przed</suggestion>.</message>
+			<example type="correct">Zarząd określił w tym czasie zadania stojące <marker>przed</marker> nim.</example>			
+			<example type="incorrect" correction="przed">Zarząd określił w tym czasie zadania stojące <marker>przede</marker> nim.</example>
+		</rule>
+		
+		<rule name="„przed mną” (przede mną)" id="PRZED_MNA">
+			<pattern mark_to="-1">
+				<token>przed</token>
+				<token regexp="yes">mną|mnie|dniu|dniem|drzwiami|wszystkim</token>
+			</pattern>
+			<message>Ten przyimek prawdopodobnie należy zapisać tak: <suggestion>przede</suggestion> (w wypadku „wszystkim” zależy to od kontekstu).</message>
+			<example type="correct">Może coś przede mną chowasz?</example>
+			<example type="incorrect" correction="przede">Może coś <marker>przed</marker> mną chowasz?</example>
+		</rule>
+		
 	</category>
 		
 		<category name="Błędy różne">
@@ -4222,6 +4255,16 @@ $Id: grammar.xml,v 1.30 2007-05-03 21:41:48 milek_pl Exp $
 	</category>
 
 	<category name="Błędy ortograficzne">
+
+	<rule name="„przede dniu” (przededniu)" id="PRZEDE_DNIU">
+		<pattern>
+			<token>przede</token>
+			<token>dniu</token>
+		</pattern>
+		<message>Ten wyraz piszemy razem: <suggestion>\1\2</suggestion>.</message>
+		<example type="incorrect" correction="przededniu">Królestwo Polskie w <marker>przede dniu</marker> Powstania Styczniowego 1856-1861. </example>
+		<example type="correct">Królestwo Polskie w przededniu Powstania Styczniowego 1856-1861. </example>
+	</rule>
 
 	<rulegroup name="„a nóż” (a nuż)" id="A_NUZ">
 		<rule>
