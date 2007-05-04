@@ -75,6 +75,27 @@ i.e., the validity scope of the exception: -->
 <!ATTLIST exception scope (current|next|previous) "current">
 
 <!-- disambig is used to give the correct tag to the ambiguous word -->
-<!ELEMENT disambig (#PCDATA)>
-<!ATTLIST disambig postag CDATA #REQUIRED>
+<!ELEMENT disambig (match*)>
+<!ATTLIST disambig postag CDATA #IMPLIED>
 
+<!-- Refers to matched elements of the pattern. Can be used in
+suggestions and in references in the pattern. -->
+<!ELEMENT match (#PCDATA)>
+<!-- Number of the matched token. -->
+<!ATTLIST match no CDATA #REQUIRED>
+<!-- Target POS tag, i.e., part of speech tag of the 
+token that should be generated based on a given matched token -->
+<!ATTLIST match postag CDATA #IMPLIED>
+<!-- Whether the string in 'postag' is a regular expression: -->
+<!ATTLIST match postag_regexp (yes|no) "no">
+<!-- Optional regular expression that specifies how the original
+POS tag should be replaced in order to find a form. It is implied
+that the original POS tag is defined by the 'postag' attribute.-->
+<!ATTLIST match postag_replace CDATA #IMPLIED>
+<!-- Optional regular expression that specifies parts in the token -->
+<!ATTLIST match regexp_match CDATA #IMPLIED>
+<!-- Optional regular expression that what how to replace the token -->
+<!ATTLIST match regexp_replace CDATA #IMPLIED>
+<!-- Optional attribute: how to change the case of the token: start with lower 
+case, start with upper case, all letters upper case, all letters lower case -->
+<!ATTLIST match case_conversion (startlower|startupper|allupper|alllower) #IMPLIED>

@@ -27,6 +27,7 @@ import de.danielnaber.languagetool.AnalyzedToken;
 import de.danielnaber.languagetool.AnalyzedTokenReadings;
 import de.danielnaber.languagetool.Language;
 import de.danielnaber.languagetool.rules.patterns.Element;
+import de.danielnaber.languagetool.rules.patterns.Match;
 
 /**
  * A Rule that describes a pattern of words or part-of-speech tags used
@@ -38,7 +39,7 @@ public class DisambiguationPatternRule {
 
   private String id;
 
-  private Language[] language;
+  private Language language;
   private String description;
 
   private int startPositionCorrection = 0;
@@ -47,6 +48,8 @@ public class DisambiguationPatternRule {
   private List<Element> patternElements;
   
   private String disambiguatedPOS;
+  
+  private Match matchToken;
     
   /**
    * @param id Id of the Rule
@@ -66,10 +69,10 @@ public class DisambiguationPatternRule {
       throw new NullPointerException("elements cannot be null");
     if (description == null)
       throw new NullPointerException("description cannot be null");
-    if (disamb == null)
-      throw new NullPointerException("disambiguated POS cannot be null");
+    //if (disamb == null)
+      //throw new NullPointerException("disambiguated POS cannot be null");
     this.id = id;
-    this.language = new Language[] { language };
+    this.language = language;
     this.description = description;    
     this.patternElements = new ArrayList<Element>(elements); // copy elements
     this.disambiguatedPOS = disamb;
@@ -94,7 +97,16 @@ public class DisambiguationPatternRule {
   public final void setEndPositionCorrection(final int endPositionCorrection) {
     this.endPositionCorrection = endPositionCorrection;
   }
-    
+
+  /**
+   * Sets a Match element used for selecting POS tags
+   * in the &lt;disambig&gt; element.
+   * @param tokenRef Match object to set.
+   */
+  public final void setMatchToken(final Match tokenRef) {
+    matchToken = tokenRef;
+  }
+  
   public final AnalyzedSentence replace(final AnalyzedSentence text) throws IOException {
                     
     final AnalyzedTokenReadings[] tokens = text.getTokensWithoutWhitespace();
@@ -112,7 +124,7 @@ public class DisambiguationPatternRule {
     int skipShiftTotal = 0;
 
     int firstMatchToken = -1;
-    int lastMatchToken = -1;
+    //int lastMatchToken = -1;
     final int patternSize = patternElements.size();
     Element elem = null, prevElement = null;
     final boolean startWithSentStart = patternElements.get(0).isSentStart();
@@ -164,6 +176,15 @@ public class DisambiguationPatternRule {
                 prevMatched = true;
               }
             }
+            if (elem.referenceElement()) {
+              if (firstMatchToken + elem.getMatch().getTokenRef() 
+                  < tokens.length) {
+                elem.getMatch().setToken(tokens[firstMatchToken 
+                                       + elem.getMatch().getTokenRef()]);
+                elem.getMatch().setSynthesizer(language.getSynthesizer());
+                elem.compile();
+              }
+            }
             thisMatched |= elem.match(matchToken);
             exceptionMatched |= (elem.exceptionMatch(matchToken)
                 || elem.andGroupExceptionMatch(matchToken));
@@ -201,9 +222,9 @@ public class DisambiguationPatternRule {
         }
         if (allElementsMatch) {                              
           matchingTokens++;
-          lastMatchToken = matchPos; // nextPos;          
+        //  lastMatchToken = matchPos;           
           if (firstMatchToken == -1) {
-            firstMatchToken = matchPos; // nextPos;
+            firstMatchToken = matchPos; 
           }
           skipShiftTotal += skipShift;
         } else {
@@ -236,7 +257,8 @@ public class DisambiguationPatternRule {
         
         final int fromPos = text.getOriginalPosition(firstMatchToken + correctedStPos);
         //int toPos = lastMatchToken + correctedEndPos;
-          final int numRead = whTokens[fromPos].getReadingsLength();         
+          final int numRead = whTokens[fromPos].getReadingsLength();
+          if (matchToken == null) {
           String lemma = "";
           for (int l = 0; l < numRead; l++) {
             if (whTokens[fromPos].getAnalyzedToken(l).getPOSTag() != null) {
@@ -251,13 +273,18 @@ public class DisambiguationPatternRule {
             lemma = whTokens[fromPos].getAnalyzedToken(0).getLemma();
           }
           
-          AnalyzedTokenReadings toReplace = new AnalyzedTokenReadings(
+          final AnalyzedTokenReadings toReplace = new AnalyzedTokenReadings(
                 new AnalyzedToken(whTokens[fromPos].getToken(), disambiguatedPOS, lemma,
                     whTokens[fromPos].getStartPos()));
           whTokens[fromPos] = toReplace;
+          } else {
+            // using the match element
+            matchToken.setToken(whTokens[fromPos]);
+            whTokens[fromPos] = matchToken.filterReadings(whTokens[fromPos]);
+          }
       } else {
         firstMatchToken = -1;
-        lastMatchToken = -1;
+        //lastMatchToken = -1;
         skipShiftTotal = 0;
       }
     }

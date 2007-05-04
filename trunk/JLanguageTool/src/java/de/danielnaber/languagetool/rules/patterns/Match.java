@@ -19,6 +19,7 @@
 package de.danielnaber.languagetool.rules.patterns;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.TreeSet;
 import java.util.regex.Pattern;
 
@@ -71,13 +72,8 @@ public class Match {
   
   /** Pattern used to define parts of the matched POS token. **/
   private Pattern pPosRegexMatch = null;     
-  
-  Match(final String regMatch, final String regReplace, 
-      final CaseConversion caseConvType) {
-    this(null, null, false, regMatch, regReplace, caseConvType);
-  }
-  
-  Match(final String posTag, final String posTagReplace,
+      
+  public Match(final String posTag, final String posTagReplace,
       final boolean postagRegexp,      
       final String regexMatch,
       final String regexReplace,      
@@ -122,10 +118,16 @@ public class Match {
     synthesizer = synth;
   }    
   
-  public String[] toFinalString() throws IOException {
+  /**
+   * Gets all strings formatted using the match
+   * element.
+   * @return String[] array of strings
+   * @throws IOException 
+   * .
+   */
+  public final String[] toFinalString() throws IOException {
     String[] formattedString = new String[1];
-    if (formattedToken != null) {
-      if (posTag == null) {
+    if (formattedToken != null) {      
         formattedString[0] = formattedToken.getToken();
         if (pRegexMatch != null) {          
           formattedString[0] 
@@ -145,8 +147,7 @@ public class Match {
                   toLowerCase(); break;
             default : formattedString[0] = formattedString[0]; break;
           }         
-        
-      } else {
+     if (posTag != null) {              
         if (synthesizer == null) {
         formattedString[0] = formattedToken.getToken();
         } else if (postagRegexp) {
@@ -268,4 +269,79 @@ public class Match {
   public final int getTokenRef() {
     return tokenRef;
   }
-}
+  
+  public final AnalyzedTokenReadings filterReadings(final AnalyzedTokenReadings tokenToFilter) {
+    String token = formattedToken.getToken();
+    ArrayList <AnalyzedToken> l = new ArrayList <AnalyzedToken>();
+    if (formattedToken != null) {                  
+      if (pRegexMatch != null) {          
+        token = pRegexMatch.matcher(token).replaceAll(regexReplace);
+      }        
+      switch (caseConversionType) {
+        case NONE : break;
+        case STARTLOWER : token = token.substring(0, 1).toLowerCase() 
+        + formattedToken.getToken().substring(1); break;
+        case STARTUPPER : token = token.substring(0, 1).toUpperCase() 
+        + formattedToken.getToken().substring(1); break;
+        case ALLUPPER : token = token.toUpperCase(); break;
+        case ALLLOWER : token = token.toLowerCase(); break;
+        default : break;
+      }                   
+      if (posTag != null) {
+        final int numRead = formattedToken.getReadingsLength();      
+        if (postagRegexp) {            
+          String targetPosTag = posTag;                      
+          for (int i = 0; i < numRead; i++) {
+            final String tst = formattedToken.getAnalyzedToken(i).getPOSTag();
+            if (tst != null) {
+              if (pPosRegexMatch.matcher(tst).matches()) {
+                targetPosTag = formattedToken.getAnalyzedToken(i).getPOSTag();
+                if (pPosRegexMatch != null & posTagReplace != null) {            
+                  targetPosTag = pPosRegexMatch.matcher(targetPosTag).replaceAll(posTagReplace);  
+                }
+                l.add(new AnalyzedToken(token, targetPosTag,
+                    formattedToken.getAnalyzedToken(i).getLemma(),
+                    formattedToken.getAnalyzedToken(i).getStartPos()));                  
+              }
+            }
+          }
+          if (l.size() == 0) {
+            String lemma = "";
+            for (int j = 0; j < numRead; j++) {
+              if (formattedToken.getAnalyzedToken(j).getPOSTag() != null) {
+                if (formattedToken.getAnalyzedToken(j).getPOSTag().equals(posTag)) {
+                  if (formattedToken.getAnalyzedToken(j).getLemma() != null) {
+                    lemma = formattedToken.getAnalyzedToken(j).getLemma();
+                  }
+                }
+                if (lemma.equals("")) {
+                  lemma = formattedToken.getAnalyzedToken(0).getLemma();
+                }
+                l.add(new AnalyzedToken(token, posTag, lemma,
+                    formattedToken.getStartPos()));
+              }
+            }               
+          }
+        } else {
+          String lemma = "";
+          for (int j = 0; j < numRead; j++) {
+            if (formattedToken.getAnalyzedToken(j).getPOSTag() != null) {
+              if (formattedToken.getAnalyzedToken(j).getPOSTag().equals(posTag)) {
+                if (formattedToken.getAnalyzedToken(j).getLemma() != null) {
+                  lemma = formattedToken.getAnalyzedToken(j).getLemma();
+                }
+              }
+              if (lemma.equals("")) {
+                lemma = formattedToken.getAnalyzedToken(0).getLemma();
+              }
+              l.add(new AnalyzedToken(token, posTag, lemma,
+                  formattedToken.getStartPos()));
+            }
+          }  
+        }
+      }
+    }
+      return new AnalyzedTokenReadings(l.toArray(new AnalyzedToken[l.size()]));
+    }
+
+  }

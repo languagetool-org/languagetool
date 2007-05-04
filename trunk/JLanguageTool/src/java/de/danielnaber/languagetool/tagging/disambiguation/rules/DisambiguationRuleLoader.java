@@ -33,6 +33,7 @@ import org.xml.sax.helpers.DefaultHandler;
 
 import de.danielnaber.languagetool.Language;
 import de.danielnaber.languagetool.rules.patterns.Element;
+import de.danielnaber.languagetool.rules.patterns.Match;
 
 /**
  * Loads {@link DisambiguationPatternRule}s from a 
@@ -94,6 +95,10 @@ class DisambiguationRuleHandler extends XMLRuleHandler {
   private int positionCorrection = 0;
   
   private int andGroupCounter = 0;
+  
+  private Match tokenReference = null;
+  
+  private Match posSelector = null;
   
   public DisambiguationRuleHandler() {    
   }    
@@ -179,6 +184,43 @@ class DisambiguationRuleHandler extends XMLRuleHandler {
     }  else if (qName.equals("disambig")) {
       inDisamb = true;
       disambiguatedPOS = attrs.getValue("postag");      
+    } else if (qName.equals("match")) {
+      inMatch = true;
+      match = new StringBuffer();      
+      Match.CaseConversion caseConv = Match.CaseConversion.NONE; 
+      if (attrs.getValue("case_conversion") != null) {
+        caseConv = Match.CaseConversion.toCase(
+              attrs.getValue("case_conversion").toUpperCase());
+      }      
+      final Match mWorker = new Match(attrs.getValue("postag"),
+          attrs.getValue("postag_replace"),
+          "yes".equals(attrs.getValue("postag_regexp")),
+          attrs.getValue("regexp_match"), 
+          attrs.getValue("regexp_replace"), caseConv);
+      if (inDisamb) {
+        if (attrs.getValue("no") != null) {
+          final int refNumber = Integer.parseInt(attrs.getValue("no"));
+            if (refNumber > elementList.size()) {
+              throw new SAXException(
+                  "Only backward references in match elements are possible, tried to specify token " + refNumber);
+            } else {
+              mWorker.setTokenRef(refNumber);
+              posSelector = mWorker;
+            }
+        }
+      } else if (inToken) {
+        if (attrs.getValue("no") != null) {
+        final int refNumber = Integer.parseInt(attrs.getValue("no"));
+          if (refNumber > elementList.size()) {
+            throw new SAXException(
+                "Only backward references in match elements are possible, tried to specify token " + refNumber);
+          } else {
+            mWorker.setTokenRef(refNumber);
+            tokenReference = mWorker;
+            elements.append("\\" + refNumber);
+          }
+        }
+      }
     } else if (qName.equals("rulegroup")) {
       ruleGroupId = attrs.getValue("id");
       ruleGroupName = attrs.getValue("name");
@@ -192,12 +234,15 @@ class DisambiguationRuleHandler extends XMLRuleHandler {
       DisambiguationPatternRule rule = new DisambiguationPatternRule(id, name, 
           language, elementList, disambiguatedPOS);
       rule.setStartPositionCorrection(positionCorrection);
+      if (posSelector != null) {
+        rule.setMatchToken(posSelector);
+      }
       rules.add(rule);      
 
       if (elementList != null) {
         elementList.clear();
       }
-
+      posSelector = null;      
     } else if (qName.equals("exception")) {     
       inException = false;
       if (!exceptionSet) {
@@ -234,6 +279,11 @@ class DisambiguationRuleHandler extends XMLRuleHandler {
             tokenElement.setPosElement(posToken, posRegExp, posNegation);
             posToken = null;
           }
+          
+          if (tokenReference != null) {
+            tokenElement.setMatch(tokenReference);
+          }
+          
           if (inAndGroup && andGroupCounter > 0) {
             elementList.get(elementList.size() - 1).setAndGroupElement(tokenElement);
           } else {
