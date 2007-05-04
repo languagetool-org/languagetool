@@ -49,7 +49,7 @@ public class AnalyzedTokenReadings {
 	}
   
   public final List<AnalyzedToken> getReadings() {
-    return (List<AnalyzedToken>) Arrays.asList(anTokReadings);
+    return Arrays.asList(anTokReadings);
   }
 
   public final AnalyzedToken getAnalyzedToken(final int i) {
@@ -57,7 +57,7 @@ public class AnalyzedTokenReadings {
 	}
 
   public final void addReading(final AnalyzedToken tok) {
-    ArrayList <AnalyzedToken> l = new ArrayList <AnalyzedToken>(); 
+    final ArrayList <AnalyzedToken> l = new ArrayList <AnalyzedToken>(); 
         
     for (int i = 0; i < anTokReadings.length - 1; i++) {
      l.add(anTokReadings[i]);     
@@ -95,7 +95,7 @@ public class AnalyzedTokenReadings {
    */   
   public final boolean isParaEnd() {
    boolean isPE = false;
-   for (AnalyzedToken reading : anTokReadings) {
+   for (final AnalyzedToken reading : anTokReadings) {
      if (reading.posTag != null) {
       isPE |= reading.posTag.equals(JLanguageTool.PARAGRAPH_END_TAGNAME);
       if (isPE) {
@@ -111,7 +111,7 @@ public class AnalyzedTokenReadings {
    */   
   public final boolean isSentEnd() {
    boolean isSE = false;
-   for (AnalyzedToken reading : anTokReadings) {
+   for (final AnalyzedToken reading : anTokReadings) {
      if (reading.posTag != null) {
       isSE |= reading.posTag.equals(JLanguageTool.SENTENCE_END_TAGNAME);
       if (isSE) {
@@ -131,10 +131,11 @@ public class AnalyzedTokenReadings {
 		return token;
 	}
 	
+  @Override
   public String toString() {
-    StringBuilder sb = new StringBuilder();
-    for (int i = 0; i < anTokReadings.length; i++) {
-      sb.append(anTokReadings[i]);
+    final StringBuilder sb = new StringBuilder();
+    for (AnalyzedToken element : anTokReadings) {
+      sb.append(element);
     }
     return sb.toString();
   }
