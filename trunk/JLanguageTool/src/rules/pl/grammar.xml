@@ -2,7 +2,7 @@
 <!--
 Polish Grammar and Typo Rules for LanguageTool
 Copyright (C) 2006 Marcin Miłkowski
-$Id: grammar.xml,v 1.31 2007-05-04 11:21:16 milek_pl Exp $		
+$Id: grammar.xml,v 1.32 2007-05-05 22:29:38 milek_pl Exp $		
 -->
 <rules lang="pl">
 
@@ -20,8 +20,8 @@ $Id: grammar.xml,v 1.31 2007-05-04 11:21:16 milek_pl Exp $
 		<rulegroup name="Brak przecinka w zdaniu złożonym" id="ZDANIA_ZLOZONE">
 			<rule>
 				<pattern>					
-					<token skip="-1" postag_regexp="yes" postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf|pant:perf"><exception scope="current" postag_regexp="yes" postag="subst:.*|adj.*|ppron.*|verb:inf.*|verb:bedzie.*|adv:comp|prep.*|qub|indecl|adv.*|&lt;/TO_(ZNACZY|JEST)&gt;"/><exception scope="current" regexp="yes">może|lecz|jedna</exception><exception scope="next" inflected="yes" regexp="yes">[\p{Punct}—–„«»](?&lt;!\.)|bądź|czy|ani|lub|albo|oraz|i|kiedy|gdy|który|jaki|że|iż|bo|gdyż|a|jeśli|jeżeli|gdyby|aby|żeby|ażeby|zanim|dopóki|dlaczego|którędy</exception><exception scope="next" postag="&lt;ELLIPSIS&gt;"/></token>
-					<token skip="-1" postag_regexp="yes" postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf|pant:perf"><exception scope="current" postag_regexp="yes" postag="subst:.*|adj.*|ppron.*|verb:inf.*|verb:bedzie.*|adv:comp|prep.*|qub|indecl|adv.*"/><exception scope="current" regexp="yes">może|lecz|jedna</exception></token>
+					<token skip="-1" postag_regexp="yes" postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf|pant:perf"><exception scope="current" postag_regexp="yes" postag="subst:.*|adj.*|ppron.*|verb:inf.*|verb:bedzie.*|adv:comp|prep.*|qub|indecl|adv.*|conj|&lt;/TO_(ZNACZY|JEST)&gt;"/><exception scope="current" regexp="yes">może|jedna</exception><exception scope="next" inflected="yes" regexp="yes">[\p{Punct}—–„«»](?&lt;!\.)|bądź|czy|ani|lub|albo|oraz|i|kiedy|gdy|który|jaki|że|iż|bo|gdyż|a|jeśli|jeżeli|gdyby|aby|żeby|ażeby|zanim|dopóki|dlaczego|którędy</exception><exception scope="next" postag="&lt;ELLIPSIS&gt;"/></token>
+					<token skip="-1" postag_regexp="yes" postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf|pant:perf"><exception scope="current" postag_regexp="yes" postag="subst:.*|adj.*|ppron.*|verb:inf.*|verb:bedzie.*|adv:comp|prep.*|qub|indecl|adv.*|conj"/><exception scope="current" regexp="yes">może|jedna</exception></token>
 					<phraseref idref="INTERPUNKCJA"/>
 				</pattern>
 				<message>W tym zdaniu złożonym brakuje przecinka lub spójnika między jednym zdaniem a drugim.</message>
@@ -38,8 +38,8 @@ $Id: grammar.xml,v 1.31 2007-05-04 11:21:16 milek_pl Exp $
 			</rule>
 			<rule>
 				<pattern>
-					<token skip="-1" postag_regexp="yes" postag="pred"><exception scope="current" postag_regexp="yes" postag="subst:.*|adj.*|ppron.*|verb:inf.*|verb:bedzie.*|adv:comp|prep.*|qub|indecl|&lt;/TO_(ZNACZY|JEST)&gt;"/><exception scope="current" regexp="yes">może|lecz|jedna</exception><exception scope="next" inflected="yes" regexp="yes">[\p{Punct}—–„«»](?&lt;!\.)|bądź|czy|ani|lub|albo|oraz|i|kiedy|gdy|który|jaki|że|iż|bo|gdyż|jeśli|jeżeli|gdyby|aby|żeby|ażeby|zanim|dopóki|dlaczego|którędy</exception><exception scope="next" postag="&lt;ELLIPSIS&gt;"/></token>
-					<token skip="-1" postag_regexp="yes" postag="pred|verb:.*(sg|pl).*|verb:imps.*|pcon:imperf|pant:perf"><exception scope="current" postag_regexp="yes" postag="subst:.*|adj.[\.:][mn\.:].*|ppron.*|verb:inf.*|verb:bedzie.*|adv:comp|prep.*|qub|indecl"/><exception scope="current" regexp="yes">może|lecz|jedna|było|byłoby</exception></token>
+					<token skip="-1" postag_regexp="yes" postag="pred"><exception scope="current" postag_regexp="yes" postag="subst:.*|adj.*|ppron.*|verb:inf.*|verb:bedzie.*|adv:.*|prep.*|qub|indecl|conj|&lt;/TO_(ZNACZY|JEST)&gt;"/><exception scope="current" regexp="yes">może|jedna</exception><exception scope="next" inflected="yes" regexp="yes">[\p{Punct}—–„«»](?&lt;!\.)|bądź|czy|ani|lub|albo|oraz|i|kiedy|gdy|który|jaki|że|iż|bo|gdyż|jeśli|jeżeli|gdyby|aby|żeby|ażeby|zanim|dopóki|dlaczego|którędy</exception><exception scope="next" postag="&lt;ELLIPSIS&gt;"/></token>
+					<token skip="-1" postag_regexp="yes" postag="pred|verb:.*(sg|pl).*|verb:imps.*|pcon:imperf|pant:perf"><exception scope="current" postag_regexp="yes" postag="subst:.*|adj.[\.:][mn\.:].*|ppron.*|verb:inf.*|verb:bedzie.*|adv:comp|prep.*|qub|indecl|conj"/><exception scope="current" regexp="yes">może|jedna|było|byłoby</exception></token>
 					<phraseref idref="INTERPUNKCJA"/>
 				</pattern>
 				<message>W tym zdaniu złożonym brakuje przecinka lub spójnika między jednym zdaniem a drugim.</message>
@@ -53,7 +53,7 @@ $Id: grammar.xml,v 1.31 2007-05-04 11:21:16 milek_pl Exp $
 			<rule>
 				<pattern>
 					<token skip="-1" postag_regexp="yes" postag="verb:bedzie.*|pcon:imperf" regexp="yes">będ.*<exception scope="next" inflected="yes" regexp="yes">[\p{Punct}—–„«»](?&lt;!\.)|bądź|czy|ani|lub|albo|oraz|i|kiedy|gdy|który|jaki|że|iż|aby|żeby|iżby|gdyż|bo|jeśli|jeżeli|ażeby|zanim|dopóki|dlaczego|którędy</exception><exception scope="next" postag="&lt;ELLIPSIS&gt;"/></token>
-					<token skip="-1" postag_regexp="yes" postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf|pant:perf"><exception scope="current" postag_regexp="yes" postag="subst:.*|adj.*|ppron.*|verb:inf.*|adv:comp|prep.*|qub|indecl|verb:praet.*"/><exception scope="current" regexp="yes">jedna|może|lecz</exception></token>
+					<token skip="-1" postag_regexp="yes" postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf|pant:perf"><exception scope="current" postag_regexp="yes" postag="subst:.*|adj.*|ppron.*|verb:inf.*|adv:.*|prep.*|qub|indecl|conj|verb:praet.*"/><exception scope="current" regexp="yes">jedna|może</exception></token>
 					<phraseref idref="INTERPUNKCJA"/>
 				</pattern>
 				<message>W tym zdaniu złożonym brakuje przecinka lub spójnika między jednym zdaniem a drugim.</message>
@@ -66,7 +66,7 @@ $Id: grammar.xml,v 1.31 2007-05-04 11:21:16 milek_pl Exp $
 
 			<rule>
 				<pattern>
-					<token skip="-1" postag_regexp="yes" postag="pred|verb:.*(sg|pl).*|verb:imps.*|pcon:imperf|pant:perf"><exception scope="current" postag_regexp="yes" postag="subst:.*|adj.*|ppron.*|adv:comp|prep.*|qub|indecl|verb:praet.*|verb:inf.*|&lt;/TO_(ZNACZY|JEST)&gt;"/><exception scope="current" regexp="yes">jedna|może|lecz|trzeba|można|wolno</exception><exception scope="next" inflected="yes" regexp="yes">[\p{Punct}—–„«»](?&lt;!\.)|bądź|czy|ani|lub|albo|oraz|i|kiedy|gdy|gdyż|który|jaki|że|aby|żeby|iżby|ażeby|zanim|dopóki|jeśli|jeżeli|gdyby|dlaczego|którędy</exception><exception scope="next" postag="&lt;ELLIPSIS&gt;"/></token>
+					<token skip="-1" postag_regexp="yes" postag="pred|verb:.*(sg|pl).*|verb:imps.*|pcon:imperf|pant:perf"><exception scope="current" postag_regexp="yes" postag="subst:.*|adj.*|ppron.*|adv:.*|prep.*|qub|indecl|conj|verb:praet.*|verb:inf.*|&lt;/TO_(ZNACZY|JEST)&gt;"/><exception scope="current" regexp="yes">jedna|może|trzeba|można|wolno</exception><exception scope="next" inflected="yes" regexp="yes">[\p{Punct}—–„«»](?&lt;!\.)|bądź|czy|ani|lub|albo|oraz|i|kiedy|gdy|gdyż|który|jaki|że|aby|żeby|iżby|ażeby|zanim|dopóki|jeśli|jeżeli|gdyby|dlaczego|którędy</exception><exception scope="next" postag="&lt;ELLIPSIS&gt;"/></token>
 					<token skip="-1" postag_regexp="yes" postag="verb:bedzie.*|pcon:imperf" regexp="yes">będ.*</token>			
 					<phraseref idref="INTERPUNKCJA"/>
 				</pattern>
@@ -80,7 +80,7 @@ $Id: grammar.xml,v 1.31 2007-05-04 11:21:16 milek_pl Exp $
 			<rule>
 				<pattern>
 					<token skip="-1" postag_regexp="yes" postag="verb:.*(sg|pl).*|verb:irreg|verb:imps.*|pcon:imperf|pant:perf" regexp="yes" inflected="yes">mieć<exception scope="current">miano</exception><exception scope="next" regexp="yes" inflected="yes">[\p{Punct}—–„«»](?&lt;!\.)|bądź|czy|ani|lub|albo|oraz|i|kiedy|gdy|który|jaki|że|aby|żeby|ażeby|iżby|zanim|dopóki|gdyby|jeśli|jeżeli|dlaczego|którędy</exception><exception scope="next" postag="&lt;ELLIPSIS&gt;"/></token>
-					<token skip="-1" postag_regexp="yes" postag="pred|verb:.*(sg|pl).*|verb:imps.*|pcon:imperf|pant:perf"><exception scope="current" postag_regexp="yes" postag="subst:.*|adj.*|ppron.*|adv.*|verb:inf.*|prep.*|qub|indecl"/><exception scope="current" inflected="yes">mieć</exception><exception scope="current" regexp="yes">jedna|może|lecz|będ.*</exception></token>
+					<token skip="-1" postag_regexp="yes" postag="pred|verb:.*(sg|pl).*|verb:imps.*|pcon:imperf|pant:perf"><exception scope="current" postag_regexp="yes" postag="subst:.*|adj.*|ppron.*|adv.*|verb:inf.*|prep.*|qub|indecl|conj|"/><exception scope="current" inflected="yes">mieć</exception><exception scope="current" regexp="yes">jedna|może|będ.*</exception></token>
 					<phraseref idref="INTERPUNKCJA"/>
 				</pattern>
 				<message>W tym zdaniu złożonym brakuje przecinka lub spójnika między jednym zdaniem a drugim.</message>
@@ -91,7 +91,7 @@ $Id: grammar.xml,v 1.31 2007-05-04 11:21:16 milek_pl Exp $
 
 			<rule>
 				<pattern>
-					<token skip="-1" postag_regexp="yes" postag="pred|verb:.*(sg|pl).*|verb:imps.*|pcon:imperf|pant:perf"><exception scope="current" postag_regexp="yes" postag="subst:.*|adj.*|ppron.*|verb:inf.*|adv:comp|prep.*|qub|indecl|adv.*"/><exception scope="current" regexp="yes">może|lecz|jedna|będ.*</exception><exception scope="next" inflected="yes" regexp="yes">[\p{Punct}—–„«»](?&lt;!\.)|bądź|czy|ani|lub|albo|oraz|i|kiedy|gdy|który|jaki|że|iż|bo|gdyż|aby|ażeby|żeby|iżby|zanim|dopóki|gdyby|jeśli|jeżeli|dlaczego|którędy</exception><exception scope="current" inflected="yes">mieć</exception><exception scope="next" postag="&lt;ELLIPSIS&gt;"/></token>
+					<token skip="-1" postag_regexp="yes" postag="pred|verb:.*(sg|pl).*|verb:imps.*|pcon:imperf|pant:perf"><exception scope="current" postag_regexp="yes" postag="subst:.*|adj.*|ppron.*|verb:inf.*|adv:.*|conj|prep.*|qub|indecl|adv.*"/><exception scope="current" regexp="yes">może|jedna|będ.*</exception><exception scope="next" inflected="yes" regexp="yes">[\p{Punct}—–„«»](?&lt;!\.)|bądź|czy|ani|lub|albo|oraz|i|kiedy|gdy|który|jaki|że|iż|bo|gdyż|aby|ażeby|żeby|iżby|zanim|dopóki|gdyby|jeśli|jeżeli|dlaczego|którędy</exception><exception scope="current" inflected="yes">mieć</exception><exception scope="next" postag="&lt;ELLIPSIS&gt;"/></token>
 					<token skip="-1" postag_regexp="yes" inflected="yes" postag="verb:.*(sg|pl).*|verb:imps.*|verb:irreg|pcon:imperf|pant:perf">mieć<exception scope="current">miano</exception></token>
 					<phraseref idref="INTERPUNKCJA"/>
 				</pattern>
@@ -105,7 +105,7 @@ $Id: grammar.xml,v 1.31 2007-05-04 11:21:16 milek_pl Exp $
 				<pattern>
 					<token skip="-1">może<exception scope="next" inflected="yes" regexp="yes">[\p{Punct}—–„«»](?&lt;!\.)|bądź|czy|ani|lub|albo|oraz|i|kiedy|gdy|który|jaki|że|iż|bo|gdyż|aby|ażeby|żeby|iżby|zanim|dopóki|gdyby|jeśli|jeżeli|dlaczego|którędy</exception><exception scope="next" postag_regexp="yes" postag="&lt;ELLIPSIS&gt;|verb:(aglt|fin|bedzie|praet):(sg|pl).*|verb:imps.*|pcon:imperf|pant:perf"/></token>
  					<token skip="-1" postag_regexp="yes" postag="verb:inf.*"><exception scope="next" inflected="yes" regexp="yes">[\p{Punct}—–„«»](?&lt;!\.)|bądź|czy|ani|lub|albo|oraz|i|kiedy|gdy|który|jaki|że|iż|bo|gdyż|aby|ażeby|żeby|iżby|zanim|dopóki|gdyby|jeśli|jeżeli|dlaczego|którędy</exception><exception scope="next" postag_regexp="yes" postag="&lt;ELLIPSIS&gt;"/></token>
-					<token skip="-1" postag_regexp="yes" postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf|pant:perf"><exception scope="current" postag_regexp="yes" postag="subst:.*|adj.*|ppron.*|verb:inf.*|verb:bedzie.*|adv:comp|prep.*|qub|indecl|adv.*"/><exception scope="current" regexp="yes">może|lecz|jedna</exception></token>		
+					<token skip="-1" postag_regexp="yes" postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf|pant:perf"><exception scope="current" postag_regexp="yes" postag="subst:.*|adj.*|ppron.*|verb:inf.*|verb:bedzie.*|conj|prep.*|qub|indecl|adv.*"/><exception scope="current" regexp="yes">może|jedna</exception></token>		
 					<phraseref idref="INTERPUNKCJA"/>
 				</pattern>
 				
@@ -116,7 +116,7 @@ $Id: grammar.xml,v 1.31 2007-05-04 11:21:16 milek_pl Exp $
 
 			<rule>
 				<pattern>
-					<token skip="-1" postag_regexp="yes" postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf|pant:perf"><exception scope="current" postag_regexp="yes" postag="subst:.*|adj.*|ppron.*|verb:inf.*|verb:bedzie.*|adv:comp|prep.*|qub|indecl|adv.*"/><exception scope="current" regexp="yes">może|lecz|jedna</exception><exception scope="next" inflected="yes" regexp="yes">[\p{Punct}—–„«»](?&lt;!\.)|bądź|czy|ani|lub|albo|oraz|i|kiedy|gdy|który|jaki|że|iż|bo|gdyż|aby|ażeby|żeby|iżby|zanim|dopóki|gdyby|jeśli|jeżeli|dlaczego|którędy</exception><exception scope="next" postag_regexp="yes" postag="&lt;ELLIPSIS&gt;"/></token>
+					<token skip="-1" postag_regexp="yes" postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf|pant:perf"><exception scope="current" postag_regexp="yes" postag="subst:.*|adj.*|ppron.*|verb:inf.*|verb:bedzie.*|conj|prep.*|qub|indecl|adv.*"/><exception scope="current" regexp="yes">może|jedna</exception><exception scope="next" inflected="yes" regexp="yes">[\p{Punct}—–„«»](?&lt;!\.)|bądź|czy|ani|lub|albo|oraz|i|kiedy|gdy|który|jaki|że|iż|bo|gdyż|aby|ażeby|żeby|iżby|zanim|dopóki|gdyby|jeśli|jeżeli|dlaczego|którędy</exception><exception scope="next" postag_regexp="yes" postag="&lt;ELLIPSIS&gt;"/></token>
 					<token skip="-1">może<exception scope="next" inflected="yes" regexp="yes">[\p{Punct}—–„«»](?&lt;!\.)|bądź|czy|ani|lub|albo|oraz|i|kiedy|gdy|który|jaki|że|iż|bo|gdyż|aby|ażeby|żeby|iżby|zanim|dopóki|gdyby|jeśli|jeżeli|dlaczego|którędy</exception><exception scope="next" postag_regexp="no" postag="&lt;ELLIPSIS&gt;|verb:(aglt|fin|bedzie|praet):(sg|pl).*|verb:imps.*|pcon:imperf|pant:perf"/></token>
 					<token skip="-1" postag_regexp="yes" postag="verb:inf.*"/>
 					<phraseref idref="INTERPUNKCJA"/>
@@ -127,8 +127,6 @@ $Id: grammar.xml,v 1.31 2007-05-04 11:21:16 milek_pl Exp $
 			</rule>			
 			
 		</rulegroup>
-
-
 			
 		<rule name="Brak przecinka przed „a więc”, „a mianowicie”..." id="MULTISPOJNIKI">
 				<pattern>
@@ -500,7 +498,7 @@ $Id: grammar.xml,v 1.31 2007-05-04 11:21:16 milek_pl Exp $
 		</rule>			
 		<rule>
 			<pattern mark_to="-1">
-				<token negate="yes" regexp="yes">[\p{Punct}–—„«»]|chyba<exception postag_regexp="yes" postag="SENT_START|conj|pred"/></token>
+				<token negate="yes" regexp="yes">[\p{Punct}–—„«»]|chyba|może<exception postag_regexp="yes" postag="SENT_START|conj|pred"/></token>
 				<token skip="-1" regexp="yes" inflected="yes">by<exception scope="next" inflected="yes" regexp="yes">[\p{Punct}—–„«»](?&lt;!\.)|bądź|czy|ani|lub|albo|oraz|i|kiedy|gdy|który|jaki|że|iż|bo|gdyż|a|jeśli|jeżeli|gdyby|aby|żeby|ażeby|zanim|dopóki</exception><exception scope="next" postag_regexp="yes" postag="&lt;ELLIPSIS&gt;|verb:praet:.*"/></token>
 				<token postag_regexp="yes" postag="verb:inf.*"/>
 			</pattern>
@@ -512,8 +510,8 @@ $Id: grammar.xml,v 1.31 2007-05-04 11:21:16 milek_pl Exp $
 			<pattern>
 				<token postag_regexp="yes" postag="SENT_START"/>
 				<token skip="-1" regexp="yes" inflected="yes">by|żeby|aby|ażeby|iżby</token>
-				<token skip="-1" postag_regexp="yes" postag="verb:inf.*"><exception scope="current" regexp="yes">może|lecz|jedna</exception><exception scope="next" inflected="yes" regexp="yes">[\p{Punct}—–„«»](?&lt;!\.)|bądź|czy|ani|lub|albo|oraz|i|kiedy|gdy|który|jaki|że|iż|bo|gdyż|a|jeśli|jeżeli|gdyby|aby|żeby|ażeby|zanim|dopóki</exception><exception scope="next" postag="&lt;ELLIPSIS&gt;"/></token>
-				<token postag_regexp="yes" postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf|pant:perf"><exception scope="current" postag_regexp="yes" postag="subst:.*|adj.*|ppron.*|verb:inf.*|verb:bedzie.*|adv:comp|prep.*|qub|indecl|adv.*"/><exception scope="current" regexp="yes">może|lecz|jedna</exception></token>
+				<token skip="-1" postag_regexp="yes" postag="verb:inf.*"><exception scope="current" regexp="yes">może|lecz|jedna|lub</exception><exception scope="next" inflected="yes" regexp="yes">[\p{Punct}—–„«»](?&lt;!\.)|bądź|czy|ani|lub|albo|oraz|i|kiedy|gdy|który|jaki|że|iż|bo|gdyż|a|jeśli|jeżeli|gdyby|aby|żeby|ażeby|zanim|dopóki</exception><exception scope="next" postag="&lt;ELLIPSIS&gt;"/></token>
+				<token postag_regexp="yes" postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf|pant:perf"><exception scope="current" postag_regexp="yes" postag="subst:.*|adj.*|ppron.*|verb:inf.*|verb:bedzie.*|adv:comp|prep.*|qub|indecl|adv.*"/><exception scope="current" regexp="yes">może|lecz|jedna|lub</exception></token>
 			</pattern>
 			<message>W tym fragmencie zdania prawdopodobnie brakuje przecinka.</message>
 			<example type="correct">Aby spryskać się Przemysławką, Przemysław wstąpił do domu.</example>
@@ -590,12 +588,14 @@ $Id: grammar.xml,v 1.31 2007-05-04 11:21:16 milek_pl Exp $
 		
 		<rulegroup name="Brak przecinka przed „kto” i „co”" id="BRAK_PRZECINKA_TEN_CO">
 		<rule>
-			<pattern>
+			<pattern mark_from="1">
+				<token><exception>,</exception></token>
 				<token inflected="yes">ten</token>
 				<token inflected="yes" regexp="yes">kto|co<exception postag="&lt;ADV&gt;"/></token>
 			</pattern>
-			<message>Prawdopodobny brak przecinka. Powinno być: <suggestion>\1, \2</suggestion>.</message>
+			<message>Prawdopodobny brak przecinka. Powinno być: <suggestion>\2, \3</suggestion>.</message>
 			<example type="correct">Ten, kto sieje wiatr, zbiera burzę.</example>
+			<example type="correct">No, a jak powiem jej imię i nazwisko, to co będzie?</example>
 			<example type="incorrect" correction="Ten, kto"><marker>Ten kto</marker> sieje wiatr, zbiera burzę.</example>
 			<example type="correct">Jednak ulica ta co najmniej od 2003 roku jest przejezdna.</example>
 		</rule>
@@ -610,13 +610,24 @@ $Id: grammar.xml,v 1.31 2007-05-04 11:21:16 milek_pl Exp $
 		</rule>	
 		<rule>
 			<pattern>
-				<token inflected="yes">ktoś</token>
+				<token inflected="yes" regexp="yes">ktoś|każdy</token>
 				<token inflected="yes">kto</token>
 			</pattern>
 			<message>Prawdopodobny brak przecinka. Powinno być: <suggestion>\1, \2</suggestion>.</message>
 			<example type="correct">To ktoś, kto nie potrafi pływać.</example>
 			<example type="incorrect" correction="ktoś, kto">To <marker>ktoś kto</marker> nie potrafi pływać.</example>
 		</rule>	
+		<rule>
+			<pattern mark_to="-1">
+				<token inflected="yes">wszystek</token>
+				<token inflected="yes">co</token>
+				<token><exception regexp="yes">do|chwila|miesiąc|godzina|prawda|dzień|noc</exception><exception postag_regexp="yes" postag=".*comp.*|.*sup.*"/></token>
+			</pattern>
+			<message>Prawdopodobny brak przecinka. Powinno być: <suggestion>\1, \2</suggestion>.</message>
+			<example type="incorrect" correction="wszystkim, co">Treść nadąża za <marker>wszystkim co</marker> istotnego wydarzyło się w ciągu tych miesięcy.</example>
+			<example type="correct">Wszyscy co miesiąc muszą płacić.</example>
+			<example type="correct">Podpisywaliśmy ze wszystkimi co najmniej roczne kontrakty.</example>
+		</rule>
 		<rule>
 			<pattern>
 				<token>tyle</token>
@@ -861,6 +872,18 @@ $Id: grammar.xml,v 1.31 2007-05-04 11:21:16 milek_pl Exp $
 	<rule>
 		<pattern case_sensitive="yes" mark_from="2">
 			<token postag="SENT_START"/>
+			<token skip="-1"><exception scope="next">ni</exception><exception scope="current">Ni</exception></token>
+			<token>,</token>
+			<token regexp="yes">ni</token>
+		</pattern>
+		<message>Prawdopodobnie zbędny przecinek, powinno być: <suggestion>\4</suggestion>.</message>
+		<example type="correct">Nie kupiłem gruszek ni jabłek.</example>
+		<example type="correct">Ni to, ni sio.</example>
+		<example type="incorrect" correction="ni">Nie kupiłem gruszek<marker>, ni</marker> jabłek.</example>
+	</rule>	
+	<rule>
+		<pattern case_sensitive="yes" mark_from="2">
+			<token postag="SENT_START"/>
 			<token skip="-1"><exception scope="next">albo</exception><exception scope="current">Albo</exception></token>
 			<token>,</token>
 			<token regexp="yes">albo</token>
@@ -919,6 +942,18 @@ $Id: grammar.xml,v 1.31 2007-05-04 11:21:16 milek_pl Exp $
 		<example type="incorrect" correction="bądź">Kupiłem trochę gruszek<marker>, bądź</marker> zjadłem krowę.</example>
 	</rule>		
 	</rulegroup>
+
+	<rule id="BRAK_PRZECINEK_ANI" name="Brakujący przecinek przed powtórzonym „ani”, „albo”, „bądź”, „i”, „lub”, „oraz”">
+		<pattern mark_from="1">
+			<token skip="-1" regexp="yes">ani|ni|i|lub|bądź|czy|oraz</token>
+			<token><exception regexp="yes">,|ani|i|lub|bądź|czy|oraz</exception></token>
+			<token><match no="0"/></token>
+		</pattern>
+		<message>Prawdopodobnie brakuje przecinka. Powinno być: <suggestion>\2, \3</suggestion>.</message>
+		<example type="correct">Nie kupiłem gruszek ani jabłek.</example>
+		<example type="incorrect" correction="prośby, ani">Ani <marker>prośby ani</marker> groźby, nie przekonają nas, że czarne jest czarne, a białe jest białe.</example>
+		<example type="correct">Nie kupiłem ani gruszek, ani jabłek.</example>
+	</rule>
 	
 	<rule id="PRZECINEK_CO_DO" name="Zbędny przecinek przed „co do”">
 		<pattern mark_to="-1">
@@ -1053,10 +1088,11 @@ $Id: grammar.xml,v 1.31 2007-05-04 11:21:16 milek_pl Exp $
 	</rule>
 	
 	<rule id="PRZECINEK_OTOZ" name="Zbędny przecinek po „otóż”">
-		<pattern>
+		<pattern mark_to="-1">
 			<token postag="SENT_START"/>
 			<token>otóż</token>
 			<token>,</token>
+			<token><exception regexp="yes">acz|aczkolwiek|albowiem|ale|aleć|aliści|azali|bo|byleby|czyli|czyliż|dopóki|dopóty|gdyż|gdyżby|ilekolwiek|ilekroć|póki|którędy</exception></token>
 		</pattern>
 		<message>Przecinek jest w tym miejscu prawdopodobnie zbędny. Powinno być: <suggestion>Otóż</suggestion>.</message>
 		<example type="incorrect" correction="Otóż"><marker>Otóż,</marker> poniżej zamieszczam przepis dodania strony do wyszukiwarki Google.</example>
@@ -1338,6 +1374,7 @@ $Id: grammar.xml,v 1.31 2007-05-04 11:21:16 milek_pl Exp $
 			<example type="incorrect">Cezar bawił się <marker>kościami</marker> legionistów nad Rubikonem.</example>
 			<example type="correct">Zdzichu jest człowiekiem poczciwym z kościami.</example>
 		</rule>
+		
 		<rule id="W_SZEREGU_PRZYPADKACH" name="„w szeregu” + miejscownik/narzędnik (dopełniacz)">
 			<pattern mark_from="2">
 				<token>w</token>
@@ -1348,6 +1385,7 @@ $Id: grammar.xml,v 1.31 2007-05-04 11:21:16 milek_pl Exp $
 			<example type="correct">W szeregu przypadków komisja śledcza zachowywała się niegodnie.</example>
 			<example type="incorrect" correction="przypadków">W szeregu <marker>przypadkach</marker> komisja śledcza zachowywała się niegodnie.</example>			
 		</rule>
+		
 		<rule id="KONIAMI" name="„koniami” (końmi)">
 			<pattern mark_from="1">
 				<token negate="yes">starymi</token>
@@ -1358,6 +1396,7 @@ $Id: grammar.xml,v 1.31 2007-05-04 11:21:16 milek_pl Exp $
 			<example type="correct">My ze Zdzichem jesteśmy takimi starymi koniami, jak papużki nierozłączki, panie dziejaszku.</example>
 			<example type="incorrect">Księżna od maleńkości fascynowała się <marker>koniami</marker>.</example>
 		</rule>
+		
 		<rulegroup id="RP_PRZYM" name="Błędy odmiany „Rzeczypospolitej Polskiej”">
 			<rule>
 			<pattern case_sensitive="yes">
@@ -1413,8 +1452,8 @@ $Id: grammar.xml,v 1.31 2007-05-04 11:21:16 milek_pl Exp $
 		<rulegroup id="PRAWDOPODOBNYM_JEST" name="orzecznik w narzędniku (zamiast mianownika)">
 		<rule>
 		<pattern mark_from="1" mark_to="-3">
-			<token><exception postag_regexp="yes" postag="subst:sg:.*(inst|loc).*(m[0-9]?|n)"/></token>
-			<token skip="-1" postag_regexp="yes" postag=".*(adj|ppas):sg:inst\.loc:[mn].*"><exception regexp="yes" scope="current">tym|którym|żadnym</exception><exception scope="next" postag_regexp="yes" postag="subst:sg.*(inst|loc).*(m[0-9]?|n)|.*(ppas|adj):sg:nom.acc.voc:n.*"/><exception scope="next" regexp="yes">\p{Punct}</exception></token>
+			<token><exception postag_regexp="yes" postag="subst:(ger:)*sg:.*(inst|loc).*(m[0-9]?|n)"/></token>
+			<token skip="-1" postag_regexp="yes" postag="(adj|ppas):sg:inst\.loc:[mn].*"><exception regexp="yes" scope="current">tym|którym|żadnym</exception><exception scope="next" postag_regexp="yes" postag="subst:(ger:)*sg.*(inst|loc).*(m[0-9]?|n)|.*(ppas|adj):sg:nom.acc.voc:n.*"/><exception scope="next" regexp="yes">\p{Punct}</exception></token>
 			<token regexp="yes">jest|było|będzie|byłoby</token>
 			<token>,</token>
 			<token regexp="yes" inflected="yes">że|iż|aby|iżby|by|żeby</token>
@@ -1437,11 +1476,41 @@ $Id: grammar.xml,v 1.31 2007-05-04 11:21:16 milek_pl Exp $
 		<message>Przymiotnik powinien być w mianowniku: 
 			<suggestion><match no="2" postag_regexp="yes" postag=".*(adj|ppas):sg:nom.acc.voc[:\.]n.*"/></suggestion> 
 			(domyślnym podmiotem jest „to”).</message>
-		<example type="incorrect" correction="dobre">Bez wątpienia jest <marker>dobrym</marker>, żeby szkoły były umundurowane.</example>
 		<example type="incorrect" correction="pożądane">Jest <marker>pożądanym</marker> , aby szkoły były umundurowane.</example>
 		<example type="correct">Jest pożądane, aby szkoły były umundurowane.</example>
 		</rule>		
 		</rulegroup>
+		
+		<rule id="POL_RAZY" name="„pół razy” (pół raza)">
+			<pattern>
+				<token regexp="yes">pół|półtora</token>
+				<token>razy</token>
+			</pattern>
+			<message>W tym kontekście poprawna jest konstrukcja: <suggestion>\1 raza</suggestion>.</message>
+			<example type="incorrect" correction="pół raza">Dwa i <marker>pół razy</marker> więcej niż kwota, której zażądał Rywin od Michnika.</example>
+			<example type="correct">Dwa i <marker>pół raza</marker> więcej niż kwota, której zażądał Rywin od Michnika.</example>
+		</rule>
+		
+		<rule id="PEWNEGO_RAZU" name="„pewnego raza” (pewnego razu)">
+			<pattern mark_from="1">
+				<token regexp="yes">od|pewnego|jednego|ostatniego|ani</token>
+				<token>raza</token>
+			</pattern>
+			<message>W tym kontekście należy użyć formy: <suggestion>razu</suggestion>.</message>
+			<example type="incorrect" correction="razu">Od <marker>raza</marker> rzuciły się na nas wściekle hieny.</example>
+			<example type="correct">Od razu rzuciły się na nas wściekle hieny.</example>
+		</rule>
+		
+		<rule id="ANI_RAZ" name="„ani raz” (ani razu)">
+			<pattern mark_from="1">
+				<token>ani</token>
+				<token>raz</token>
+			</pattern>
+			<message>W tym kontekście należy użyć formy: <suggestion>razu</suggestion>.</message>
+			<example type="incorrect" correction="razu">Podczas całego przedstawienia ani <marker>raz</marker> nie spojrzałem na zegarek. </example>
+			<example type="correct">Podczas całego przedstawienia ani <marker>razu</marker> nie spojrzałem na zegarek. </example>
+		</rule>
+			
 	</category>
 	
 	<category name="Błędy w szyku wyrazów">
@@ -3117,13 +3186,13 @@ $Id: grammar.xml,v 1.31 2007-05-04 11:21:16 milek_pl Exp $
 		<rule id="W_KAZDYM_BADZ" name="„w każdym bądź razie” (w każdym razie)">
 			<pattern mark_from="0" case_sensitive="no">
 				<token>w</token>
-				<token>każdym</token>
+				<token regexp="yes">każdym|takim</token>
 				<token>bądź</token>
 				<token>razie</token>
 			</pattern>
-			<message>Poprawną formą jest <suggestion>w każdym razie</suggestion>.</message>
+			<message>Poprawną formą jest <suggestion>w \2 razie</suggestion>.</message>
 			<example type="correct">W każdym razie premier nie miał racji.</example>
-			<example type="incorrect"><marker>W każdym bądź razie</marker> premier nie miał racji.</example>
+			<example type="incorrect" correction="W każdym razie"><marker>W każdym bądź razie</marker> premier nie miał racji.</example>
 		</rule>
 		
 		<rulegroup id="KTOKOLWIEK_BADZ" name="„ktokolwiek bądź” (ktokolwiek)">
@@ -3361,6 +3430,16 @@ $Id: grammar.xml,v 1.31 2007-05-04 11:21:16 milek_pl Exp $
 			<message>Niepoprawny przyimek. Powinno być: <suggestion>w hali</suggestion>.</message>
 			<example type="incorrect">W najbliższych dniach będą też trenować <marker>na hali</marker> i w siłowni.</example>
 			<example type="correct">W najbliższych dniach będą też trenować <marker>w hali</marker> i w siłowni.</example>
+		</rule>
+		
+		<rule name="„ilekroć razy” (ilekroć)" id="ILEKROC_RAZY">
+			<pattern>
+				<token>ilekroć</token>
+				<token>razy</token>
+			</pattern>
+			<message>Niepoprawne wyrażenie. Powinno być: <suggestion>\1</suggestion> lub <suggestion>ile \2</suggestion>.</message>
+			<example type="incorrect" correction="Ilekroć|Ile razy"><marker>Ilekroć razy</marker> mam problem, nawet najdrobniejszy, to Jezus pomaga mi.</example>
+			<example type="correct">Ilekroć mam problem, nawet najdrobniejszy, to Jezus pomaga mi.</example>
 		</rule>
 		
 	</category>
@@ -3840,7 +3919,7 @@ $Id: grammar.xml,v 1.31 2007-05-04 11:21:16 milek_pl Exp $
 		<rule>
 			<pattern>
 				<token>z</token>
-				<token regexp="yes">s[wftśsrłndwpgklcbmżń].+|[zśźż][wftśsrłndwpgklzcbmżń].+|[rs]z[wftśsrłndwpgklzcbmżń].+|[wf][wftśwpgzcbmżń].+|w[n][^io].+|w[k][^ł].+|f[dsk].+|wd[^zię].+|ws[^ze].+|Lwowa|mną|mnie|snu<exception regexp="yes">[\"„]</exception><exception postag="UNKNOWN"/></token>				
+				<token regexp="yes">s[wftśsrłndwpgklcbmżń].+|[zśźż][wftśsrłndwpgklzcbmżń].+|[rs]z[wftśsrłndwpgklzcbmżń].+|[wf][wftśwpgzcbmżń].+|wk[^ł].+|f[dsk].+|wd[^zię].+|ws[^ze].+|Lwowa|mną|mnie|snu<exception regexp="yes">[\"„]</exception><exception postag="UNKNOWN"/></token>				
 			</pattern>
 			<message>Prawdopodobnie ten przyimek należy zapisać tak: <suggestion>\1e \2</suggestion>.</message>
 			<example type="correct">Ludwik ma kochankę ze Świecia</example>
@@ -3850,7 +3929,7 @@ $Id: grammar.xml,v 1.31 2007-05-04 11:21:16 milek_pl Exp $
 			<pattern>
 				<token>z</token>
 				<token regexp="yes">[\"„]</token>
-				<token regexp="yes">s[wftśsrłndwpgklcbmżń].+|[zśźż][wftśsrłndwpgklzcbmżń].+|[rs]z[wftśsrłndwpgklzcbmżń].+|[wf][wftśsndwpgkzcbmżń].+|Lwowa|mną|mnie|snu<exception regexp="yes">[\"„]</exception><exception postag="UNKNOWN"/></token>				
+				<token regexp="yes">s[wftśsrłndwpgklcbmżń].+|[zśźż][wftśsrłndwpgklzcbmżń].+|[rs]z[wftśsrłndwpgklzcbmżń].+|[wf][wftśwpgzcbmżń].+|wk[^ł].+|f[dsk].+|wd[^zię].+|ws[^ze].+|Lwowa|mną|mnie|snu<exception regexp="yes">[\"„]</exception><exception postag="UNKNOWN"/></token>				
 			</pattern>
 			<message>Prawdopodobnie ten przyimek należy zapisać tak: <suggestion>ze \2\3</suggestion>.</message>
 			<example type="correct">Ludwik ma kochankę ze Świecia</example>
@@ -3958,16 +4037,6 @@ $Id: grammar.xml,v 1.31 2007-05-04 11:21:16 milek_pl Exp $
 		</rule>
 		</rulegroup>
 		
-		<rule id="WACHLARZ_CZEGO" name="„szeroki wachlarz” (wiele)">
-			<pattern mark_to="-1">
-				<token inflected="yes" regexp="yes" postag_regexp="yes" postag="adj:sg.*m[\d]*:pos:aff">szeroki|bogaty</token>
-				<token inflected="yes">wachlarz</token>
-				<token postag_regexp="yes" postag=".*gen.*"/>
-			</pattern>
-			<message>To wyrażenie jest rozwlekłe i niezalecane. Lepiej po prostu: <suggestion>wiele</suggestion>.</message>
-			<example type="correct">W sklepie jest wiele towarów.</example>
-			<example type="incorrect">W sklepie jest <marker>szeroki wachlarz</marker> towarów.</example>			
-		</rule>
 		<rule id="Z_WIELKIEJ_LITERY" name="Rusycyzm: „z wielkiej/małej litery” (wielką literą)">
 			<pattern>
 				<token>z</token>
@@ -4083,6 +4152,17 @@ $Id: grammar.xml,v 1.31 2007-05-04 11:21:16 milek_pl Exp $
 	</category>
 	
 	<category name="Wyrazy modne i nadużywane">
+	
+		<rule id="WACHLARZ_CZEGO" name="„szeroki wachlarz” (wiele)">
+			<pattern mark_to="-1">
+				<token inflected="yes" regexp="yes" postag_regexp="yes" postag="adj:sg.*m[\d]*:pos:aff">szeroki|bogaty</token>
+				<token inflected="yes">wachlarz</token>
+				<token postag_regexp="yes" postag=".*gen.*"/>
+			</pattern>
+			<message>To wyrażenie jest rozwlekłe i niezalecane. Lepiej po prostu: <suggestion>wiele</suggestion>.</message>
+			<example type="correct">W sklepie jest wiele towarów.</example>
+			<example type="incorrect">W sklepie jest <marker>szeroki wachlarz</marker> towarów.</example>			
+		</rule>
 	
 		<rule name="„cały szereg” (wiele)" id="CALY_SZEREG">
 			<pattern>
