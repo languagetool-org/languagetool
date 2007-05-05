@@ -60,7 +60,8 @@ public class DisambiguationPatternRule {
    */
   
   DisambiguationPatternRule(final String id, final String description,
-      final Language language, final List<Element> elements, final String disamb) {
+      final Language language, final List<Element> elements, final String disamb,
+      final Match posSelect) {
     if (id == null)
       throw new NullPointerException("id cannot be null");
     if (language == null)
@@ -69,13 +70,14 @@ public class DisambiguationPatternRule {
       throw new NullPointerException("elements cannot be null");
     if (description == null)
       throw new NullPointerException("description cannot be null");
-    //if (disamb == null)
-      //throw new NullPointerException("disambiguated POS cannot be null");
+    if (disamb == null && posSelect == null)
+      throw new NullPointerException("disambiguated POS cannot be null");
     this.id = id;
     this.language = language;
     this.description = description;    
     this.patternElements = new ArrayList<Element>(elements); // copy elements
     this.disambiguatedPOS = disamb;
+    this.matchToken = posSelect;
   }
      
   public final String getId() {
@@ -97,15 +99,7 @@ public class DisambiguationPatternRule {
   public final void setEndPositionCorrection(final int endPositionCorrection) {
     this.endPositionCorrection = endPositionCorrection;
   }
-
-  /**
-   * Sets a Match element used for selecting POS tags
-   * in the &lt;disambig&gt; element.
-   * @param tokenRef Match object to set.
-   */
-  public final void setMatchToken(final Match tokenRef) {
-    matchToken = tokenRef;
-  }
+  
   
   public final AnalyzedSentence replace(final AnalyzedSentence text) throws IOException {
                     

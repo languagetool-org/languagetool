@@ -232,11 +232,8 @@ class DisambiguationRuleHandler extends XMLRuleHandler {
   public void endElement(String namespaceURI, String sName, String qName) {
     if (qName.equals("rule")) {        
       DisambiguationPatternRule rule = new DisambiguationPatternRule(id, name, 
-          language, elementList, disambiguatedPOS);
-      rule.setStartPositionCorrection(positionCorrection);
-      if (posSelector != null) {
-        rule.setMatchToken(posSelector);
-      }
+          language, elementList, disambiguatedPOS, posSelector);
+      rule.setStartPositionCorrection(positionCorrection);      
       rules.add(rule);      
 
       if (elementList != null) {
@@ -320,8 +317,8 @@ class DisambiguationRuleHandler extends XMLRuleHandler {
     exceptionSet = false; 
   }
   
-  public void characters(final char[] buf, final int offset, final int len) {
-    String s = new String(buf, offset, len);
+  public final void characters(final char[] buf, final int offset, final int len) {
+    final String s = new String(buf, offset, len);
     if (inException) {
         exceptions.append(s);
     } else if (inToken && inPattern) {
