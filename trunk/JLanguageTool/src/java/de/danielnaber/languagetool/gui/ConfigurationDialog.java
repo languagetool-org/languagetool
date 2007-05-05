@@ -150,11 +150,16 @@ public class ConfigurationDialog implements ActionListener {
       prevID = rule.getId();
     }
 
-    JPanel motherTonguePanel = new JPanel();
+    final JPanel motherTonguePanel = new JPanel();
     motherTonguePanel.add(new JLabel(messages.getString("guiMotherTongue")), cons);
     motherTongueBox = new JComboBox(getPossibleMotherTongues());
-    if (motherTongue != null)
+    if (motherTongue != null) {
+      if (motherTongue == Language.DEMO) {
+        motherTongueBox.setSelectedItem(NO_MOTHER_TONGUE);
+      } else {
       motherTongueBox.setSelectedItem(messages.getString(motherTongue.getShortName()));
+      }
+    }
     motherTonguePanel.add(motherTongueBox, cons);
 
     JPanel portPanel = new JPanel();
@@ -184,7 +189,7 @@ public class ConfigurationDialog implements ActionListener {
       portPanel.add(serverPortField, cons);
     }
 
-    JPanel buttonPanel = new JPanel();
+    final JPanel buttonPanel = new JPanel();
     buttonPanel.setLayout(new GridBagLayout());
     okButton = new JButton(messages.getString("guiOKButton"));
     okButton.setMnemonic('o');
@@ -197,7 +202,7 @@ public class ConfigurationDialog implements ActionListener {
     buttonPanel.add(okButton, cons);
     buttonPanel.add(cancelButton, cons);
     
-    Container contentPane = dialog.getContentPane();
+    final Container contentPane = dialog.getContentPane();
     contentPane.setLayout(new GridBagLayout());
     cons = new GridBagConstraints();
     cons.insets = new Insets(4, 4, 4, 4);
@@ -248,7 +253,6 @@ public class ConfigurationDialog implements ActionListener {
     for (Language lang : Language.LANGUAGES) {
       if (lang != Language.DEMO) {
         motherTongues.add(messages.getString(lang.getShortName()));
-        //motherTongues.add(lang);
       }
     }
     return motherTongues.toArray();
@@ -264,7 +268,7 @@ public class ConfigurationDialog implements ActionListener {
       inactiveRuleIds.clear();
       for (JCheckBox checkBox : checkBoxes) {
         if (!checkBox.isSelected()) {
-          String ruleId = checkBoxesRuleIds.get(i);
+          final String ruleId = checkBoxesRuleIds.get(i);
           inactiveRuleIds.add(ruleId);
         }
         i++;
@@ -309,8 +313,12 @@ public class ConfigurationDialog implements ActionListener {
    */
   private Language getLanguageForLocalizedName(final String languageName) {
     for (int i = 0; i < Language.LANGUAGES.length; i++) {
+      if (NO_MOTHER_TONGUE.equals(languageName)) {
+        return Language.DEMO;
+      } else {
       if (languageName.equals(messages.getString(Language.LANGUAGES[i].getShortName()))) {
         return Language.LANGUAGES[i];
+      }
       }
     }
     return null;
@@ -353,9 +361,9 @@ public class ConfigurationDialog implements ActionListener {
 class CategoryComparator implements Comparator<Rule> {
 
   public int compare(Rule r1, Rule r2) {
-    boolean hasCat = r1.getCategory() != null && r2.getCategory() != null;
+    final boolean hasCat = r1.getCategory() != null && r2.getCategory() != null;
     if (hasCat) {
-      int res = r1.getCategory().getName().compareTo(r2.getCategory().getName());
+      final int res = r1.getCategory().getName().compareTo(r2.getCategory().getName());
       if (res == 0) {
         return r1.getDescription().compareToIgnoreCase(r2.getDescription());  
       } else {
