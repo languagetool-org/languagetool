@@ -37,6 +37,7 @@ import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
 import de.danielnaber.languagetool.Language;
+import de.danielnaber.languagetool.rules.Category;
 
 /**
  * Loads {@link PatternRule}s from a false friends XML file.
@@ -280,6 +281,7 @@ class FalseFriendRuleHandler extends XMLRuleHandler {
 					  description);
 			  rule.setCorrectExamples(correctExamples);
 			  rule.setIncorrectExamples(incorrectExamples);
+        rule.setCategory(new Category(messages.getString("category_false_friend")));
 			  rules.add(rule);
 		  }
 		  
@@ -387,7 +389,7 @@ class FalseFriendRuleHandler extends XMLRuleHandler {
   }
 
   public void characters(final char[] buf, final int offset, final int len) {
-    String s = new String(buf, offset, len);
+    final String s = new String(buf, offset, len);
     if (inException) {
         exceptions.append(s);
     } else if (inToken && inPattern) {

@@ -137,9 +137,9 @@ class PatternRuleHandler extends XMLRuleHandler {
   public void startElement(String namespaceURI, String lName, String qName, Attributes attrs)
       throws SAXException {
     if (qName.equals("category")) {
-      String catName = attrs.getValue("name");
-      String prioStr = attrs.getValue("priority");
-      int prio = 0;
+      final String catName = attrs.getValue("name");
+      final String prioStr = attrs.getValue("priority");
+      //int prio = 0;
       if (prioStr != null)
         category = new Category(catName, Integer.parseInt(prioStr));
       else
