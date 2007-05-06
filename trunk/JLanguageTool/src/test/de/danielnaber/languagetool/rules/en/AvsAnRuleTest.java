@@ -96,4 +96,11 @@ public class AvsAnRuleTest extends TestCase {
     assertEquals(1, matches.length);
   }
     
+  public void testSuggestions() throws IOException {
+    AvsAnRule rule = new AvsAnRule(null);
+    assertEquals("a string", rule.suggestAorAn("string"));
+    assertEquals("a university", rule.suggestAorAn("university"));
+    assertEquals("an hour", rule.suggestAorAn("hour"));
+    assertEquals("UNESCO", rule.suggestAorAn("UNESCO"));
+  }
 }

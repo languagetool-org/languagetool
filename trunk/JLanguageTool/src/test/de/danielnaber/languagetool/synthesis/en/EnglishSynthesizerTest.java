@@ -23,6 +23,9 @@ public class EnglishSynthesizerTest extends TestCase {
     //with regular expressions
     assertEquals("[tested]", Arrays.toString(synth.synthesize(dummyToken("test"), "VBD", true)));    
     assertEquals("[tested, testing]", Arrays.toString(synth.synthesize(dummyToken("test"), "VBD|VBG", true)));
+    //with special indefinite article
+    assertEquals("[a university, the university]", Arrays.toString(synth.synthesize(dummyToken("university"), "+DT", false)));
+    assertEquals("[an hour, the hour]", Arrays.toString(synth.synthesize(dummyToken("hour"), "+DT", false)));
   }
 
 }

@@ -239,19 +239,19 @@ public class Match {
    *  
    */
   public final String toTokenString() {
-    String output = ""; 
+    final StringBuilder output = new StringBuilder(); 
     try {
       final String[] stringToFormat = toFinalString();    
       for (int i = 0; i < stringToFormat.length; i++) {
-        output += stringToFormat[i];
+        output.append(stringToFormat[i]);
         if (i + 1 < stringToFormat.length) {
-          output += "|";
+          output.append("|");
         }
       }
     } catch (final IOException e) {
       throw new RuntimeException(e.getMessage());
     }
-    return output;
+    return output.toString();
   }
 
   /**

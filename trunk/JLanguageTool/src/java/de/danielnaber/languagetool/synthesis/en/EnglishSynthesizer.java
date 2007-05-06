@@ -30,6 +30,7 @@ import java.util.regex.Pattern;
 import com.dawidweiss.stemmers.Lametyzator;
 
 import de.danielnaber.languagetool.AnalyzedToken;
+import de.danielnaber.languagetool.rules.en.AvsAnRule;
 import de.danielnaber.languagetool.synthesis.Synthesizer;
 
 /** English word form synthesizer.
@@ -46,6 +47,8 @@ public class EnglishSynthesizer implements Synthesizer {
   private static final String RESOURCE_FILENAME = "/resource/en/english_synth.dict";
   
   private static final String TAGS_FILE_NAME = "/resource/en/english_tags.txt";
+  
+  private static final String ADD_DETERMINER = "+DT";
 
   private Lametyzator synthesizer = null;
 
@@ -59,6 +62,10 @@ public class EnglishSynthesizer implements Synthesizer {
    * @return String value - inflected word.
    */
   public String[] synthesize(final AnalyzedToken token, final String posTag) throws IOException {
+    if (ADD_DETERMINER.equals(posTag)) {
+      final AvsAnRule rule = new AvsAnRule(null);
+      return new String[] {rule.suggestAorAn(token.getToken()), "the " + token.getToken()};
+    } else {
     if (synthesizer == null) {
       synthesizer = 
         new Lametyzator(this.getClass().getResourceAsStream(RESOURCE_FILENAME),
@@ -67,6 +74,7 @@ public class EnglishSynthesizer implements Synthesizer {
     String[] wordForms = null;
     wordForms = synthesizer.stem(token.getLemma() + "|" + posTag);
     return wordForms;
+    }
   }
 
   public String[] synthesize(AnalyzedToken token, String posTag, boolean posTagRegExp)

@@ -139,6 +139,63 @@ public class AvsAnRule extends EnglishRule {
     return toRuleMatchArray(ruleMatches);
   }
 
+  /**
+   * Adds "a" or "an" to the English noun. 
+   * Used for suggesting the proper form of the
+   * indefinite article.
+   * @param noun Word that needs an article.
+   * @return String containing the word with a determiner, 
+   * or just the word if the word is an abbreviation.
+   */
+  public final String suggestAorAn(final String noun) {
+    String word = noun;
+    boolean doesRequireA = false;
+    boolean doesRequireAn = false;
+    // check for exceptions:
+    boolean isException = false;
+    final String[] parts = word.split("[-']");  // for example, in "one-way" only "one" is relevant
+    if (parts.length >= 1 &&
+        !parts[0].equalsIgnoreCase("a")) {  // avoid false alarm on "A-levels are..."
+      word = parts[0];
+    }
+    //html entities!
+    word = word.replaceAll("&quot|&amp|&lt|&gt|[^a-zA-Z0-9]", "");         // e.g. >>an "industry party"<<
+    if (word.length() == 0) {
+      return word;
+    }
+    char tokenFirstChar = word.charAt(0);
+    if (requiresA.contains(word.toLowerCase()) || requiresA.contains(word)) {
+      isException = true;
+      doesRequireA = true;
+    }
+    if (requiresAn.contains(word.toLowerCase()) || requiresAn.contains(word)) {
+      if (isException) {
+        throw new IllegalStateException(word + " is listed in both det_a.txt and det_an.txt");
+      }
+      isException = true;
+      doesRequireAn = true;
+    }
+    if (!isException) {
+      if (StringTools.isAllUppercase(word)) {
+        // we don't know how all-uppercase words (often abbreviations) are pronounced, 
+        // so never complain about these:
+        doesRequireAn = false;
+        doesRequireA = false;
+      } else if (isVowel(tokenFirstChar)) {
+        doesRequireAn = true;
+      } else {
+        doesRequireA = true;
+      }
+    }
+    if (doesRequireA) {
+      return "a " + word;
+    } else if (doesRequireAn) {
+      return "an " + word;
+    } else {
+      return word;
+    }
+  }
+  
   private boolean isVowel(char c) {
     c = Character.toLowerCase(c);
     return c == 'a' || c == 'e' || c == 'i' || c == 'o' || c == 'u'; 
