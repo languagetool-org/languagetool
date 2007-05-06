@@ -26,7 +26,7 @@ public class FrenchRuleDisambiguatorTest extends TestCase {
 
   public void testChunker() throws IOException {
     TestTools.myAssert("Je ne suis pas la seule.",
-        "/[null]SENT_START Je/[je]R pers suj 1 s  /[null]null ne/[ne]A  /[null]null suis/[suivre]V etre ind pres 1 s  /[null]null pas/[pas]A|pas/[pas]N m sp  /[null]null la/[le]D f s  /[null]null seule/[seul]D f s|seule/[seul]J f s ./[null]null", 
+        "/[null]SENT_START Je/[je]R pers suj 1 s  /[null]null ne/[ne]A  /[null]null suis/[suivre]V etre ind pres 1 s  /[null]null pas/[pas]A  /[null]null la/[le]D f s  /[null]null seule/[seul]D f s|seule/[seul]J f s ./[null]null", 
         tokenizer, sentenceTokenizer, tagger, disambiguator);
     TestTools.myAssert("Je ne suis pas la seule.",
         "/[null]SENT_START Je/[je]R pers suj 1 s  /[null]null ne/[ne]A  /[null]null suis/[suivre]V etre ind pres 1 s|suis/[suivre]V imp pres 2 s|suis/[suivre]V ind pres 1 s|suis/[suivre]V ind pres 2 s  /[null]null pas/[pas]A|pas/[pas]N m sp  /[null]null la/[le]D f s|la/[la]N m sp|la/[la]R pers obj 3 f s  /[null]null seule/[seul]D f s|seule/[seul]J f s ./[null]null", 

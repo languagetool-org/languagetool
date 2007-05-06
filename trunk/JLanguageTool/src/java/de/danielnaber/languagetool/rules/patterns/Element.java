@@ -107,12 +107,19 @@ public class Element {
       testString = false;
       }
     }
+    boolean matched;
     if (testString) {
-      return (matchStringToken(token) != negation) 
+      matched = (matchStringToken(token) != negation) 
           && (matchPosToken(token) != posNegation);
     } else {
-      return (!negation) && (matchPosToken(token) != posNegation);
+      matched = (!negation) && (matchPosToken(token) != posNegation);
     }
+    
+    if (andGroupSet) {
+      andGroupCheck[0] |= matched;
+    }
+    
+    return matched;
   }
   
   public final boolean exceptionMatch(final AnalyzedToken token) {
@@ -144,12 +151,13 @@ public class Element {
     boolean andGroupMatched = false;
     if (andGroupSet) {
       for (int i = 0; i < andGroupList.size(); i++) {
+        if (!andGroupCheck[i + 1]) {
         final Element testAndGroup = andGroupList.get(i);
         if (testAndGroup.match(token)) {
           andGroupMatched = true;
-          andGroupCheck[i] = true;
+          andGroupCheck[i + 1] = true;
         }
-        
+        }
       }
     }
     return andGroupMatched;
@@ -157,7 +165,7 @@ public class Element {
   
   public final void setupAndGroup() {
     if (andGroupSet) {
-    andGroupCheck = new boolean[andGroupList.size()];
+    andGroupCheck = new boolean[andGroupList.size() + 1];
     for (int i = 0; i < andGroupList.size(); i++) {
       andGroupCheck[i] = false;
     }
