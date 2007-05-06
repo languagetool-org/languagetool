@@ -43,7 +43,7 @@ public class PolishWordRepeatRule extends PolishRule {
    * Excluded dictionary words.
    */
   private static final Pattern EXC_WORDS 
-  = Pattern.compile("nie|aż|to|siebie|być|ani|ni|albo|" +
+  = Pattern.compile("nie|tuż|aż|to|siebie|być|ani|ni|albo|" +
       "lub|czy|bądź|jako|zł|np|coraz" +
       "|bardzo|bardziej|proc|ten|jak|mln|tys|swój|mój|" +
        "twój|nasz|wasz|i|zbyt");
