@@ -237,7 +237,30 @@ public class PatternRule extends Rule {
                 elem.compile();
               }
             }
-            thisMatched |= elem.match(matchToken);
+            
+            if (elem.hasAndGroup()) {
+              for (Element andElement : elem.getAndGroup()) {
+                if (andElement.referenceElement()) {
+                if (firstMatchToken + andElement.getMatch().getTokenRef() 
+                    < tokens.length) {
+                  andElement.getMatch().setToken(tokens[firstMatchToken 
+                                         + andElement.getMatch().getTokenRef()]);
+                  andElement.getMatch().setSynthesizer(language[0].getSynthesizer());
+                  andElement.compile();
+                }                
+               }
+              }
+              if (l == 0) { 
+                elem.setupAndGroup();
+              }
+            }
+                        
+            //note: do not use "||" here, we need full evaluation, no short-circuiting
+            thisMatched |= elem.match(matchToken) | elem.andGroupMatch(matchToken);
+            
+            if (l + 1 == numberOfReadings && elem.hasAndGroup()) {
+              thisMatched &= elem.checkAndGroup(thisMatched);
+            }
             exceptionMatched |= (elem.exceptionMatch(matchToken) 
                   || elem.andGroupExceptionMatch(matchToken));
             // Logical OR (cannot be AND):

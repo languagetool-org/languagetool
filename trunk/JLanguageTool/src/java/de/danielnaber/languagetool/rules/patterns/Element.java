@@ -50,6 +50,7 @@ public class Element {
   
   private ArrayList<Element> andGroupList;  
   private boolean andGroupSet = false;  
+  private boolean[] andGroupCheck;
 
   private int skip = 0;
   
@@ -108,11 +109,9 @@ public class Element {
     }
     if (testString) {
       return (matchStringToken(token) != negation) 
-          && (matchPosToken(token) != posNegation)
-          && andGroupMatch(token);
+          && (matchPosToken(token) != posNegation);
     } else {
-      return (!negation) && (matchPosToken(token) != posNegation)
-      && andGroupMatch(token);
+      return (!negation) && (matchPosToken(token) != posNegation);
     }
   }
   
@@ -135,19 +134,46 @@ public class Element {
    * Enables to test for multiple conditions specified by
    * different elements. Doesn't test exceptions.
    * 
-   * Works as logical AND operator.
+   * Works as logical AND operator only if preceded
+   * with setupAndGroup(), and followed by checkAndGroup().
    * 
    * @param token AnalyzedToken - the token checked. 
-   * @return true if all conditions are met, false otherwise.
+   * @return true if any condition is met, false otherwise.
    */
   public final boolean andGroupMatch(final AnalyzedToken token) {
-    boolean andGroupMatched = true;
+    boolean andGroupMatched = false;
     if (andGroupSet) {
-      for (final Element testAndGroup : andGroupList) {
-        andGroupMatched &= testAndGroup.match(token);        
+      for (int i = 0; i < andGroupList.size(); i++) {
+        final Element testAndGroup = andGroupList.get(i);
+        if (testAndGroup.match(token)) {
+          andGroupMatched = true;
+          andGroupCheck[i] = true;
+        }
+        
       }
     }
     return andGroupMatched;
+  }
+  
+  public final void setupAndGroup() {
+    if (andGroupSet) {
+    andGroupCheck = new boolean[andGroupList.size()];
+    for (int i = 0; i < andGroupList.size(); i++) {
+      andGroupCheck[i] = false;
+    }
+    }
+  }
+  
+  public final boolean checkAndGroup(final boolean previousValue) {
+    if (andGroupSet) {
+      boolean allConditionsMatch = true;
+      for (boolean testValue : andGroupCheck) {
+        allConditionsMatch &= testValue;
+      }
+      return allConditionsMatch;
+    } else {
+      return previousValue;
+    }
   }
   
   /**
@@ -184,6 +210,24 @@ public class Element {
     }
   }
 
+  /**
+   * Checks if this element has an AND group associated with it.
+   * @return true if the element has a group of elements that
+   * all should match.
+   */
+  public final boolean hasAndGroup() {
+    return andGroupSet;
+  }
+  
+  /**
+   * Returns the group of elements linked with AND
+   * operator.
+   * @return List of Elements.
+   */
+  public final ArrayList<Element> getAndGroup() {
+    return andGroupList;
+  }
+  
   public final boolean prevExceptionMatch(final AnalyzedToken token) {
     boolean exceptionMatched = false;
     if (exceptionSet) {      
@@ -210,10 +254,14 @@ public class Element {
   
   @Override
   public final String toString() {
+    String negate = ""; 
+    if (negation) {
+      negate = "!"; 
+    }
     if (posToken != null) {
-      return stringToken + "/" + posToken;
+      return negate + stringToken + "/" + posToken;
     } else {
-      return stringToken;
+      return negate + stringToken;
     }
   }
 

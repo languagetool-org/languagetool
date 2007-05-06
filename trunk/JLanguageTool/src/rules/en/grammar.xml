@@ -3,7 +3,7 @@
 English Grammar and Typo Rules for LanguageTool
 See tagset.txt for the meaning of the POS tags
 Copyright (C) 2001-2007 Daniel Naber (http://www.danielnaber.de)
-$Id: grammar.xml,v 1.15 2007-05-06 11:31:22 milek_pl Exp $
+$Id: grammar.xml,v 1.16 2007-05-06 13:43:34 milek_pl Exp $
 -->
 <rules lang="en">
 
@@ -1480,8 +1480,10 @@ $Id: grammar.xml,v 1.15 2007-05-06 11:31:22 milek_pl Exp $
       <pattern mark_from="2" mark_to="-1" case_sensitive="yes">
       	<token/>
         <token regexp="yes">[Bb]y</token>
-        <and><token postag="NN"><exception postag_regexp="yes" postag="CC|UH|DT|RB|RP|JJ|IN|CD|JJS|JJR|RBS|VBD|VBN|MD|NNP|NNS"/><exception regexp="yes">bit|word|step|way|example|dint|crook|hook|hand|machine|word|cheque|accident|day|means|mistake|name|train|rail|railway|coach|bus|boat|automobile|helicopter|taxi|ambulance|plane|airplane|foot|section|article|page|road|letter|phone|telephone|mail|storm|arrangement|satellite|decree|year-end|lot|profession|district|week|eye|covenant|fiat</exception></token>
-        <token negate="yes"><match no="1"/></token></and>
+        <and>
+        	<token postag="NN"><exception postag_regexp="yes" postag="CC|UH|DT|RB|RP|JJ|IN|CD|JJS|JJR|RBS|VBD|VBN|MD|NNP|NNS"/><exception regexp="yes">bit|word|step|way|example|dint|crook|hook|hand|machine|word|cheque|accident|day|means|mistake|name|train|rail|railway|coach|bus|boat|automobile|helicopter|taxi|ambulance|plane|airplane|foot|section|article|page|road|letter|phone|telephone|mail|storm|arrangement|satellite|decree|year-end|lot|profession|district|week|eye|covenant|fiat</exception></token>
+        	<token negate="yes"><match no="0"/></token>
+        </and>
         <token><exception postag_regexp="yes" postag="NN.*"/><exception>free</exception></token>
       </pattern>
       <message>The article is missing before the noun: <suggestion><match no="3" postag="+DT"/></suggestion>.</message>
