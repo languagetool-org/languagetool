@@ -2,7 +2,7 @@
 <!--
 Polish Grammar and Typo Rules for LanguageTool
 Copyright (C) 2006 Marcin Miłkowski
-$Id: grammar.xml,v 1.33 2007-05-06 10:40:39 milek_pl Exp $		
+$Id: grammar.xml,v 1.34 2007-05-06 23:39:08 milek_pl Exp $		
 -->
 <rules lang="pl">
 
@@ -312,7 +312,7 @@ $Id: grammar.xml,v 1.33 2007-05-06 10:40:39 milek_pl Exp $
 				<marker>A, więc</marker> nadajesz się znakomicie.
 			</example>
 		</rule>
-				<rule>
+		<rule>
 			<pattern mark_from="1">
 		  <token regexp="yes">[\p{Punct}–—„«»]<exception>'</exception></token>
 				<token>a</token>
@@ -361,9 +361,9 @@ $Id: grammar.xml,v 1.33 2007-05-06 10:40:39 milek_pl Exp $
 		<rule>
 			<pattern>
 			  <token><exception postag="SENT_START"/><exception regexp="yes">[\p{Punct}–—„«»]|nie</exception></token>
-				<token regexp="yes">że|iż|chyba|jak|tylko</token>
+				<token regexp="yes">że|iż|chyba|jak|tylko|tak</token>
 				<token>,</token>
-				<token regexp="yes" inflected="yes">żeby|aby|ażeby|iżby</token>
+				<token regexp="yes" inflected="yes">żeby|aby|ażeby|iżby|by</token>
 			</pattern>
 			<message>Spójników złożonych nie rozdziela się, przecinek stawia się przed nimi: <suggestion>\1, \2 \4</suggestion>. Wyjątkiem mogą być tutaj wtrącenia.</message>
 			<example type="correct">Premier powołał go na stanowisko, chyba żeby go poniżyć.</example>
@@ -372,9 +372,9 @@ $Id: grammar.xml,v 1.33 2007-05-06 10:40:39 milek_pl Exp $
 		<rule>
 			<pattern>
 			 <token postag="SENT_START"/>
-				<token regexp="yes">że|iż|chyba|jak|tylko</token>
+				<token regexp="yes">że|iż|chyba|jak|tylko|tak</token>
 				<token>,</token>
-				<token regexp="yes" inflected="yes">żeby|aby|ażeby|iżby</token>
+				<token regexp="yes" inflected="yes">żeby|aby|ażeby|iżby|by</token>
 			</pattern>
 			<message>Spójników złożonych nie rozdziela się: <suggestion>\2 \4</suggestion>. Wyjątkiem mogą być tutaj wtrącenia.</message>
 			<example type="correct">Chyba żeby go poniżyć; innego powodu nie widzę.</example>
@@ -383,9 +383,9 @@ $Id: grammar.xml,v 1.33 2007-05-06 10:40:39 milek_pl Exp $
 		<rule>
 			<pattern mark_from="1">
 				<phraseref idref="INTERPUNKCJA"/>
-				<token regexp="yes">że|iż|chyba|jak|tylko</token>
+				<token regexp="yes">że|iż|chyba|jak|tylko|tak</token>
 				<token>,</token>
-				<token regexp="yes" inflected="yes">żeby|aby|ażeby|iżby</token>
+				<token regexp="yes" inflected="yes">żeby|aby|ażeby|iżby|by</token>
 			</pattern>
 			<message>Spójników złożonych nie rozdziela się: <suggestion>\2 \4</suggestion>. Wyjątkiem mogą być tutaj wtrącenia.</message>
 			<example type="correct">Premier powołał go na stanowisko, chyba żeby go poniżyć.</example>
@@ -498,7 +498,7 @@ $Id: grammar.xml,v 1.33 2007-05-06 10:40:39 milek_pl Exp $
 		</rule>			
 		<rule>
 			<pattern mark_to="-1">
-				<token negate="yes" regexp="yes">[\p{Punct}–—„«»]|chyba|może<exception postag_regexp="yes" postag="SENT_START|conj|pred"/></token>
+				<token negate="yes" regexp="yes">[\p{Punct}–—„«»]|tak|chyba|może|cóż|co|.*kolwiek|próżno|długo<exception postag_regexp="yes" postag="SENT_START|conj|pred"/></token>
 				<token skip="-1" regexp="yes" inflected="yes">by<exception scope="next" inflected="yes" regexp="yes">[\p{Punct}—–„«»](?&lt;!\.)|bądź|czy|ani|lub|albo|oraz|i|kiedy|gdy|który|jaki|że|iż|bo|gdyż|a|jeśli|jeżeli|gdyby|aby|żeby|ażeby|zanim|dopóki</exception><exception scope="next" postag_regexp="yes" postag="&lt;ELLIPSIS&gt;|verb:praet:.*"/></token>
 				<token postag_regexp="yes" postag="verb:inf.*"/>
 			</pattern>
@@ -507,11 +507,22 @@ $Id: grammar.xml,v 1.33 2007-05-06 10:40:39 milek_pl Exp $
 			<example type="incorrect" correction="domu, by">Przemysław wstąpił do <marker>domu by</marker> spryskać się Przemysławką.</example>
 		</rule>
 		<rule>
+			<pattern mark_to="-1">
+				<token negate="yes" regexp="yes">[\p{Punct}–—„«»]<exception postag_regexp="yes" postag="SENT_START|conj|pred"/></token>
+				<token>tak</token>
+				<token skip="-1" regexp="yes" inflected="yes">by<exception scope="next" inflected="yes" regexp="yes">[\p{Punct}—–„«»](?&lt;!\.)|bądź|czy|ani|lub|albo|oraz|i|kiedy|gdy|który|jaki|że|iż|bo|gdyż|a|jeśli|jeżeli|gdyby|aby|żeby|ażeby|zanim|dopóki</exception><exception scope="next" postag_regexp="yes" postag="&lt;ELLIPSIS&gt;|verb:praet:.*"/></token>
+				<token postag_regexp="yes" postag="verb:inf.*"/>
+			</pattern>
+			<message>Przed tym spójnikiem prawdopodobnie należy postawić przecinek: <suggestion>\1, \2 \3</suggestion>.</message>
+			<example type="correct">Przemysław wstąpił do domu, tak by spryskać się Przemysławką.</example>
+			<example type="incorrect" correction="domu, tak by">Przemysław wstąpił do <marker>domu tak by</marker> spryskać się Przemysławką.</example>
+		</rule>		
+		<rule>
 			<pattern>
 				<token postag_regexp="yes" postag="SENT_START"/>
 				<token skip="-1" regexp="yes" inflected="yes">by|żeby|aby|ażeby|iżby</token>
 				<token skip="-1" postag_regexp="yes" postag="verb:inf.*"><exception scope="current" regexp="yes">może|lecz|jedna|lub</exception><exception scope="next" inflected="yes" regexp="yes">[\p{Punct}—–„«»](?&lt;!\.)|bądź|czy|ani|lub|albo|oraz|i|kiedy|gdy|który|jaki|że|iż|bo|gdyż|a|jeśli|jeżeli|gdyby|aby|żeby|ażeby|zanim|dopóki</exception><exception scope="next" postag="&lt;ELLIPSIS&gt;"/></token>
-				<token postag_regexp="yes" postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf|pant:perf"><exception scope="current" postag_regexp="yes" postag="subst:.*|adj.*|ppron.*|verb:inf.*|verb:bedzie.*|adv:comp|prep.*|qub|indecl|adv.*"/><exception scope="current" regexp="yes">może|lecz|jedna|lub</exception></token>
+				<token postag_regexp="yes" postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf|pant:perf"><exception scope="current" postag_regexp="yes" postag="subst:.*|adj.*|ppron.*|verb:inf.*|verb:bedzie.*|adv:.*|prep.*|qub|indecl|conj"/><exception scope="current" regexp="yes">może|jedna</exception></token>
 			</pattern>
 			<message>W tym fragmencie zdania prawdopodobnie brakuje przecinka.</message>
 			<example type="correct">Aby spryskać się Przemysławką, Przemysław wstąpił do domu.</example>
@@ -1620,7 +1631,7 @@ $Id: grammar.xml,v 1.33 2007-05-06 10:40:39 milek_pl Exp $
 		<rulegroup id="ZAIMKI_DLUZSZE" name="Dłuższe formy zaimków po czasownikach i przyimkach">
 			<rule>
 				<pattern mark_from="1">
-					<token postag_regexp="yes" postag="verb.*"/>
+					<token postag_regexp="yes" postag="verb.*"><exception postag_regexp="yes" postag="subst.*"/></token> 
 					<token>ciebie</token>
 				</pattern>
 				<message>W tym miejscu prawdopodobnie należy użyć krótszej formy zaimka: <suggestion>cię</suggestion>.</message>
@@ -2271,7 +2282,7 @@ $Id: grammar.xml,v 1.33 2007-05-06 10:40:39 milek_pl Exp $
 		<rule>
 			<pattern mark_to="-1">
 				<token inflected="yes" postag_regexp="yes" postag="verb.*">posiadać</token>
-				<token regexp="yes">brodę|wąsy|bilet|wymiary|klimatyzację|rekord</token>				
+				<token regexp="yes">brodę|wąsy|bilet|wymiary|klimatyzację|rekord|inicjatywę|prawo|uprawnienie|kwalifikacje|informacje|wykształcenie|dziecko|umiejętność|przewagę|znaczenie|sens|słuszność|możliwość|możliwości|doświadczenie|przewagę|koncepcję|znajomość</token>				
 			</pattern>
 			<message>Niepoprawne jest łączenie czasownika „posiadać” z nazwami rzeczy drobnych. Poprawnie: 
 			<suggestion><match no="1" postag="(verb)(:fin)?(.*):(\?perf|perf|imperf)" postag_replace="$1$2$3:$4|$1:fin$3:imperf">mieć</match></suggestion>.</message>
@@ -2936,9 +2947,9 @@ $Id: grammar.xml,v 1.33 2007-05-06 10:40:39 milek_pl Exp $
 				<token inflected="yes" regexp="yes">wysoki|niski</token>
 				<token inflected="yes">frekwencja</token>
 			</pattern>
-			<message>Nie mówi się „wysoka frekwencja” czy „niska frekwencja”, tylko <suggestion>duża frekwencja</suggestion> i <suggestion>mała frekwencja</suggestion>.</message>
-			<example type="incorrect">W tym roku w wyborach była bardzo <marker>wysoka frekwencja</marker>.</example>
-			<example type="incorrect">W tym roku w wyborach była bardzo <marker>niska frekwencja</marker>.</example>
+			<message>Nie mówi się „wysoka frekwencja” czy „niska frekwencja”, tylko <suggestion><match no="1" postag_regexp="yes" postag="(.*)" postag_replace=".*$1.*">duży</match> <match no="2"/></suggestion> i <suggestion><match no="1" regexp_match="(.*k)(.*)" regexp_replace="mał$2"/> <match no="2"/></suggestion>.</message>
+			<example type="incorrect" correction="duża frekwencja|mała frekwencja">W tym roku w wyborach była bardzo <marker>wysoka frekwencja</marker>.</example>
+			<example type="incorrect" correction="dużą frekwencję|małą frekwencję">W tym roku w wyborach narzekaliśmy na bardzo <marker>niską frekwencję</marker>.</example>
 			<example type="correct">W tym roku w wyborach była bardzo duża frekwencja.</example>
 			<example type="correct">W tym roku w wyborach była bardzo mała frekwencja.</example>
 		</rule>
@@ -3440,6 +3451,40 @@ $Id: grammar.xml,v 1.33 2007-05-06 10:40:39 milek_pl Exp $
 			<message>Niepoprawne wyrażenie. Powinno być: <suggestion>\1</suggestion> lub <suggestion>ile \2</suggestion>.</message>
 			<example type="incorrect" correction="Ilekroć|Ile razy"><marker>Ilekroć razy</marker> mam problem, nawet najdrobniejszy, to Jezus pomaga mi.</example>
 			<example type="correct">Ilekroć mam problem, nawet najdrobniejszy, to Jezus pomaga mi.</example>
+		</rule>
+		
+		<rule name="„identyczny do” (odentyczny z)" id="IDENTYCZNY_DO">
+			<pattern>
+				<token inflected="yes">identyczny</token>
+				<token>do</token>
+				<token/>
+			</pattern>
+			<message>Ten przymiotnik jest używany z przyimkiem „z”: <suggestion><match no="1"/> z <match no="3" postag_regexp="yes" postag="(.*):(sg|pl):(.*):(m[0-9]?|n|f):.*" postag_replace="$1:$2.*inst.*$4.*"/></suggestion>.</message>
+			<example type="incorrect" correction="identyczny z bolszewickim">Serwilizm demoliberalny jest <marker>identyczny do bolszewickiego</marker>.</example>
+			<example type="correct">Program jest identyczny z poprzednio wyemitowanym.</example>
+		</rule>
+
+		<rule name="„identyczny jak” (odentyczny z)" id="IDENTYCZNY_JAK">
+			<pattern>
+				<token inflected="yes">identyczny</token>
+				<token>jak</token>
+				<token/>
+			</pattern>
+			<message>Ten przymiotnik jest używany z przyimkiem „z”: <suggestion><match no="1"/> z <match no="3" postag_regexp="yes" postag="(.*):(sg|pl):(.*):(m[0-9]?|n|f):.*" postag_replace="$1:$2.*inst.*$4.*"/></suggestion>.</message>
+			<example type="incorrect" correction="identyczny z bolszewickim">Serwilizm demoliberalny jest <marker>identyczny jak bolszewicki</marker>.</example>
+			<example type="correct">Program jest identyczny z poprzednio wyemitowanym.</example>
+		</rule>
+		
+		<rule name="„bezpieczny przed” (zabezpieczony przed, bezpieczny od)" id="BEZPIECZNY_PRZED">
+			<pattern>
+				<token inflected="yes">bezpieczny</token>
+				<token>przed</token>
+				<token/>
+			</pattern>
+			<message>Błędny przyimek. Powinno być: <suggestion><match no="1" postag_regexp="yes" postag="(.*):(sg|pl):(.*):(m[0-9]?|n|f).*" postag_replace="ppas:$2:$3:$4.*">zabezpieczyć</match> przed <match no="3"/></suggestion> lub 
+			<suggestion><match no="1"/> od <match no="3" postag_regexp="yes" postag="(.*):(sg|pl):(.*):(m[0-9]?|n|f).*" postag_replace="$1:$2.*gen.*$4.*"/></suggestion>.</message>
+			<example type="incorrect" correction="zabezpieczeni przed gniewem|bezpieczni od gniewu">Wtedy będziecie <marker>bezpieczni przed gniewem</marker> tegoż społeczeństwa.</example>
+			<example type="correct">Zabytek bezpieczny od wody.</example>			
 		</rule>
 		
 	</category>
@@ -4336,6 +4381,18 @@ $Id: grammar.xml,v 1.33 2007-05-06 10:40:39 milek_pl Exp $
 
 	<category name="Błędy ortograficzne">
 
+	<rule name="„w raz” (wraz)" id="W_RAZ">
+		<pattern mark_from="1" mark_to="-1">
+			<token><exception>raz</exception></token>
+			<token>w</token>
+			<token>raz</token>
+			<token>z</token>
+		</pattern>
+		<message>Prawdopodobny błąd ortograficzny. Ten wyraz piszemy łącznie: <suggestion>\2\3</suggestion>.</message>
+		<example type="incorrect" correction="Wraz"><marker>W raz</marker> z nią popierał rozwój nauki i sztuki.</example>
+		<example type="correct">Raz w raz wstaje wielka postać, że ino jej skrzydeł dostać.</example>
+	</rule>
+	
 	<rule name="„przede dniu” (przededniu)" id="PRZEDE_DNIU">
 		<pattern>
 			<token>przede</token>
@@ -5506,6 +5563,76 @@ $Id: grammar.xml,v 1.33 2007-05-06 10:40:39 milek_pl Exp $
 
 	<category name="Prawdopodobne literówki">
 				
+		<rulegroup id="TUZ_PRED" name="„tuz” (tuż)">
+		<rule>
+			<pattern case_sensitive="yes" mark_to="-2">
+				<token>tuz</token>
+				<token postag_regexp="yes" postag="prep:.*"/>
+				<token><exception inflected="yes">tuz</exception></token>
+			</pattern>
+			<message>Prawdopodobna literówka. Czy chodziło o wyraz <suggestion>tuż</suggestion>?</message>
+			<example type="incorrect" correction="tuż">Wmieszawszy się w tłum, <marker>tuz</marker> przed 19:00 znalazłem się w klubie.</example>
+			<example type="correct">Wmieszawszy się w tłum, <marker>tuż</marker> przed 19:00 znalazłem się w klubie.</example>
+		</rule>
+		<rule>
+			<pattern>
+				<token>tuz</token>
+				<token>tuz</token>
+			</pattern>
+			<message>Prawdopodobna literówka. Czy chodziło o <suggestion>tuż, tuż</suggestion>?</message>
+			<example type="incorrect" correction="tuż, tuż">Wakacje <marker>tuz tuz</marker>.</example>
+			<example type="correct">Wakacje tuż, tuż</example>
+		</rule>
+		<rule>
+			<pattern>
+				<token>tuz</token>
+				<token>,</token>
+				<token>tuz</token>
+			</pattern>
+			<message>Prawdopodobna literówka. Czy chodziło o <suggestion>tuż, tuż</suggestion>?</message>
+			<example type="incorrect" correction="tuż, tuż">Wakacje <marker>tuz, tuz</marker>.</example>
+			<example type="correct">Wakacje tuż, tuż</example>
+		</rule>
+		<rule>
+			<pattern>
+				<token>tuż</token>
+				<token>tuz</token>
+			</pattern>
+			<message>Prawdopodobna literówka. Czy chodziło o <suggestion>tuż, tuż</suggestion>?</message>
+			<example type="incorrect" correction="tuż, tuż">Wakacje <marker>tuż tuz</marker>.</example>
+			<example type="correct">Wakacje tuż, tuż</example>
+		</rule>
+		<rule>
+			<pattern>
+				<token>tuż</token>
+				<token>,</token>
+				<token>tuz</token>
+			</pattern>
+			<message>Prawdopodobna literówka. Czy chodziło o <suggestion>tuż, tuż</suggestion>?</message>
+			<example type="incorrect" correction="tuż, tuż">Wakacje <marker>tuż, tuz</marker>.</example>
+			<example type="correct">Wakacje tuż, tuż</example>
+		</rule>
+		<rule>
+			<pattern>
+				<token>tuz</token>
+				<token>tuż</token>
+			</pattern>
+			<message>Prawdopodobna literówka. Czy chodziło o <suggestion>tuż, tuż</suggestion>?</message>
+			<example type="incorrect" correction="tuż, tuż">Wakacje <marker>tuz tuż</marker>.</example>
+			<example type="correct">Wakacje tuż, tuż</example>
+		</rule>
+		<rule>
+			<pattern>
+				<token>tuz</token>
+				<token>,</token>
+				<token>tuż</token>
+			</pattern>
+			<message>Prawdopodobna literówka. Czy chodziło o <suggestion>tuż, tuż</suggestion>?</message>
+			<example type="incorrect" correction="tuż, tuż">Wakacje <marker>tuz, tuż</marker>.</example>
+			<example type="correct">Wakacje tuż, tuż</example>
+		</rule>		
+		</rulegroup>
+		
 		<rule id="TEZ_TEZ" name="Mylenie „tez” z „też”">
 			<pattern mark_from="1">
 				<token regexp="yes">są|co|można|należy|warto|ja|on|ona|my|oni|wy|ty|czy</token>
