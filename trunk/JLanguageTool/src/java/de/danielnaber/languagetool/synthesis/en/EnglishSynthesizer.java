@@ -33,12 +33,19 @@ import de.danielnaber.languagetool.AnalyzedToken;
 import de.danielnaber.languagetool.rules.en.AvsAnRule;
 import de.danielnaber.languagetool.synthesis.Synthesizer;
 
-/** English word form synthesizer.
+/** English word form synthesizer. <br/>
  * Based on part-of-speech lists in Public Domain.
- * see readme.txt for details, the POS tagset is
- * described in tagset.txt
+ * See readme.txt for details, the POS tagset is
+ * described in tagset.txt.
  * 
- * @author Marcin Milkowski
+ * There are to special additions:
+ * <ol>
+ *  <li>+DT - tag that adds "a" or "an" (according to the
+ *  way the word is pronounced) and "the"</li>
+ *  <li>+INDT - a tag that adds only "a" or "an"</li>
+ *  </ol>
+ * 
+ * @author Marcin Miłkowski
  */
 
 
@@ -48,8 +55,12 @@ public class EnglishSynthesizer implements Synthesizer {
   
   private static final String TAGS_FILE_NAME = "/resource/en/english_tags.txt";
   
+  /** A special tag to add determiners. **/   
   private static final String ADD_DETERMINER = "+DT";
 
+  /** A special tag to add only indefinite articles. **/   
+  private static final String ADD_IND_DETERMINER = "+INDT";
+  
   private Lametyzator synthesizer = null;
 
   private ArrayList<String> possibleTags = null;
@@ -65,15 +76,18 @@ public class EnglishSynthesizer implements Synthesizer {
     if (ADD_DETERMINER.equals(posTag)) {
       final AvsAnRule rule = new AvsAnRule(null);
       return new String[] {rule.suggestAorAn(token.getToken()), "the " + token.getToken()};
+    } else if (ADD_IND_DETERMINER.equals(posTag)) { 
+      final AvsAnRule rule = new AvsAnRule(null);
+      return new String[] {rule.suggestAorAn(token.getToken())};
     } else {
-    if (synthesizer == null) {
-      synthesizer = 
-        new Lametyzator(this.getClass().getResourceAsStream(RESOURCE_FILENAME),
-          "iso8859-1", '+');
-    }
-    String[] wordForms = null;
-    wordForms = synthesizer.stem(token.getLemma() + "|" + posTag);
-    return wordForms;
+      if (synthesizer == null) {
+        synthesizer = 
+          new Lametyzator(this.getClass().getResourceAsStream(RESOURCE_FILENAME),
+              "iso8859-1", '+');
+      }
+      String[] wordForms = null;
+      wordForms = synthesizer.stem(token.getLemma() + "|" + posTag);
+      return wordForms;
     }
   }
 
