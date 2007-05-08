@@ -2,7 +2,7 @@
 <!--
 Polish Grammar and Typo Rules for LanguageTool
 Copyright (C) 2006 Marcin Miłkowski
-$Id: grammar.xml,v 1.35 2007-05-08 13:08:30 milek_pl Exp $		
+$Id: grammar.xml,v 1.36 2007-05-08 15:19:31 milek_pl Exp $		
 -->
 <rules lang="pl">
 
@@ -1679,7 +1679,7 @@ $Id: grammar.xml,v 1.35 2007-05-08 13:08:30 milek_pl Exp $
 			</pattern>
 			<message>Ten przymiotnik nie może być stopniowany. Poprawnie: <suggestion>\3</suggestion>.</message>
 			<example type="correct">To rozwiązanie jest optymalne.</example>
-			<example type="incorrect">To rozwiązanie jest <marker>bardziej optymalne</marker>.</example>
+			<example type="incorrect" correction="optymalne">To rozwiązanie jest <marker>bardziej optymalne</marker>.</example>
 		</rule>
 
 		<rule id="STOPIEN_NAJWYZSZY_NIESTOPNIOWANEGO" name="Stopień najwyższy przymiotnika niestopniowanego (np. najbardziej optymalny)">
@@ -1689,7 +1689,7 @@ $Id: grammar.xml,v 1.35 2007-05-08 13:08:30 milek_pl Exp $
 			</pattern>
 			<message>Ten przymiotnik nie może być stopniowany. Poprawnie: <suggestion>\2</suggestion>.</message>
 			<example type="correct">To rozwiązanie jest optymalne.</example>
-			<example type="incorrect">To rozwiązanie jest <marker>najbardziej optymalne</marker>.</example>
+			<example type="incorrect" correction="optymalne">To rozwiązanie jest <marker>najbardziej optymalne</marker>.</example>
 		</rule>
 
 		<rule id="STOPIEN_WYZSZY_NIESTOPNIOWANEGO_ADV" name="Stopień wyższy przysłówka niestopniowanego (np. bardziej optymalnie)">
@@ -1700,7 +1700,7 @@ $Id: grammar.xml,v 1.35 2007-05-08 13:08:30 milek_pl Exp $
 			</pattern>
 			<message>Ten przysłówek nie może być stopniowany. Poprawnie: <suggestion>\3</suggestion>.</message>
 			<example type="correct">Wykonano to optymalnie.</example>
-			<example type="incorrect">Wykonano to <marker>bardziej optymalnie</marker>.</example>
+			<example type="incorrect" correction="optymalnie">Wykonano to <marker>bardziej optymalnie</marker>.</example>
 		</rule>		
 		
 		<rule id="STOPIEN_NAJWYZSZY_NIESTOPNIOWANEGO_ADV" name="Stopień najwyższy przysłówka niestopniowanego (np. bardziej optymalnie)">
@@ -1710,7 +1710,7 @@ $Id: grammar.xml,v 1.35 2007-05-08 13:08:30 milek_pl Exp $
 			</pattern>
 			<message>Ten przysłówek nie może być stopniowany. Poprawnie: <suggestion>\2</suggestion>.</message>
 			<example type="correct">Wykonano to optymalnie.</example>
-			<example type="incorrect">Wykonano to <marker>najbardziej optymalnie</marker>.</example>
+			<example type="incorrect" correction="optymalnie">Wykonano to <marker>najbardziej optymalnie</marker>.</example>
 		</rule>		
 				
 		<rule id="STOPIEN_WYZSZY" name="Opisowa forma stopnia wyższego przymiotnika (zamiast prostej)">
@@ -1776,8 +1776,9 @@ $Id: grammar.xml,v 1.35 2007-05-08 13:08:30 milek_pl Exp $
 			</pattern>
 			<message>Prosty stopień wyższy przymiotnika nie powinien być używany z wyrazem „bardziej”. Wystarczy powiedzieć: <suggestion>\2</suggestion>.</message>
 			<example type="correct">To jest ważniejsze.</example>
-			<example type="incorrect">To jest <marker>bardziej ważniejsze</marker>.</example>
+			<example type="incorrect" correction="ważniejsze">To jest <marker>bardziej ważniejsze</marker>.</example>
 		</rule>
+		
 		<rule name="„najbardziej” i stopień wyższy przymiotnika" id="NAJBARDZIEJ_COMP">
 			<pattern>
 				<token>najbardziej</token>
@@ -1785,8 +1786,9 @@ $Id: grammar.xml,v 1.35 2007-05-08 13:08:30 milek_pl Exp $
 			</pattern>
 			<message>Prosty stopień wyższy przymiotnika nie powinien być używany z wyrazem „najbardziej”. Wystarczy powiedzieć: <suggestion>\2</suggestion>.</message>
 			<example type="correct">To jest ważniejsze.</example>
-			<example type="incorrect">To jest <marker>najbardziej ważniejsze</marker>.</example>
+			<example type="incorrect" correction="ważniejsze">To jest <marker>najbardziej ważniejsze</marker>.</example>
 		</rule>
+		
 		<rule name="„bardziej” i stopień najwyższy przymiotnika" id="BARDZIEJ_SUP">
 			<pattern>
 				<token>bardziej</token>
@@ -1794,8 +1796,9 @@ $Id: grammar.xml,v 1.35 2007-05-08 13:08:30 milek_pl Exp $
 			</pattern>
 			<message>Prosty stopień najwyższy przymiotnika nie powinien być używany z wyrazem „bardziej”. Wystarczy powiedzieć: <suggestion>\2</suggestion>.</message>
 			<example type="correct">To jest ważniejsze.</example>
-			<example type="incorrect">To jest <marker>bardziej najważniejsze</marker>.</example>
+			<example type="incorrect" correction="najważniejsze">To jest <marker>bardziej najważniejsze</marker>.</example>
 		</rule>
+		
 		<rule name="„najbardziej” i stopień najwyższy przymiotnika" id="NAJBARDZIEJ_SUP">
 			<pattern>
 				<token>najbardziej</token>
@@ -1803,7 +1806,7 @@ $Id: grammar.xml,v 1.35 2007-05-08 13:08:30 milek_pl Exp $
 			</pattern>
 			<message>Prosty stopień najwyższy przymiotnika nie powinien być używany z wyrazem „najbardziej”. Wystarczy powiedzieć: <suggestion>\2</suggestion>.</message>
 			<example type="correct">To jest ważniejsze.</example>
-			<example type="incorrect">To jest <marker>najbardziej najważniejsze</marker>.</example>
+			<example type="incorrect" correction="najważniejsze">To jest <marker>najbardziej najważniejsze</marker>.</example>
 		</rule>
 
 		<rule name="„bardziej” i stopień wyższy przysłówka" id="BARDZIEJ_ADV_COMP">
@@ -1813,7 +1816,7 @@ $Id: grammar.xml,v 1.35 2007-05-08 13:08:30 milek_pl Exp $
 			</pattern>
 			<message>Prosty stopień wyższy przysłówka nie powinien być używany z wyrazem „bardziej”. Wystarczy powiedzieć: <suggestion>\2</suggestion>.</message>
 			<example type="correct">Przemysław jest bliżej Lecha.</example>
-			<example type="incorrect">Przemysław jest <marker>bardziej bliżej</marker> Lecha.</example>
+			<example type="incorrect" correction="bliżej">Przemysław jest <marker>bardziej bliżej</marker> Lecha.</example>
 		</rule>
 		
 		<rule name="„najbardziej” i stopień wyższy przysłówka" id="NAJBARDZIEJ_ADV_COMP">
@@ -1823,7 +1826,7 @@ $Id: grammar.xml,v 1.35 2007-05-08 13:08:30 milek_pl Exp $
 			</pattern>
 			<message>Prosty stopień wyższy przysłówka nie powinien być używany z wyrazem „najbardziej”. Wystarczy powiedzieć: <suggestion>\2</suggestion>.</message>
 			<example type="correct">Przemysław jest bliżej Lecha.</example>
-			<example type="incorrect">Przemysław jest <marker>najbardziej bliżej</marker> Lecha.</example>
+			<example type="incorrect" correction="bliżej">Przemysław jest <marker>najbardziej bliżej</marker> Lecha.</example>
 		</rule>
 
 		<rule name="„bardziej” i stopień najwyższy przysłówka" id="BARDZIEJ_ADV_SUP">
@@ -1833,7 +1836,7 @@ $Id: grammar.xml,v 1.35 2007-05-08 13:08:30 milek_pl Exp $
 			</pattern>
 			<message>Prosty stopień najwyższy przysłówka nie powinien być używany z wyrazem „bardziej”. Wystarczy powiedzieć: <suggestion>\2</suggestion>.</message>
 			<example type="correct">Przemysław jest najbliżej Lecha.</example>
-			<example type="incorrect">Przemysław jest <marker>bardziej najbliżej</marker> Lecha.</example>
+			<example type="incorrect" correction="najbliżej">Przemysław jest <marker>bardziej najbliżej</marker> Lecha.</example>
 		</rule>
 		
 		<rule name="„najbardziej” i stopień najwyższy przysłówka" id="NAJBARDZIEJ_ADV_SUP">
@@ -1843,7 +1846,7 @@ $Id: grammar.xml,v 1.35 2007-05-08 13:08:30 milek_pl Exp $
 			</pattern>
 			<message>Prosty stopień najwyższy przysłówka nie powinien być używany z wyrazem „najbardziej”. Wystarczy powiedzieć: <suggestion>\2</suggestion>.</message>
 			<example type="correct">Przemysław jest najbliżej Lecha.</example>
-			<example type="incorrect">Przemysław jest <marker>najbardziej najbliżej</marker> Lecha.</example>
+			<example type="incorrect" correction="najbliżej">Przemysław jest <marker>najbardziej najbliżej</marker> Lecha.</example>
 		</rule>
 		
 		<rule name="Błąd związku rzędu: „rozumieć coś pod czymś” (przez coś)" id="ROZUMIEC_POD">
@@ -2012,7 +2015,7 @@ $Id: grammar.xml,v 1.35 2007-05-08 13:08:30 milek_pl Exp $
 			<message>Mówimy nie tyle..., <suggestion>ile</suggestion>...</message>
 			<example type="correct">Jestem przekonany, że wielkim nieprzyjacielem prawdy jest nie tyle kłamstwo, ile monotonia.</example>
 			<example type="correct">Nieprzyjacielem prawdy jest nie tyle kłamstwo, ile monotonia, co wykazały zresztą moje badania.</example>
-			<example type="incorrect">Takie nadmierne wchłanianie wapnia spowodowane jest nie tyle przesadnym spożyciem, <marker>co</marker> zaburzeniami.</example>
+			<example type="incorrect" correction="ile">Takie nadmierne wchłanianie wapnia spowodowane jest nie tyle przesadnym spożyciem, <marker>co</marker> zaburzeniami.</example>
 		</rule>
 	
 		
@@ -2200,9 +2203,9 @@ $Id: grammar.xml,v 1.35 2007-05-08 13:08:30 milek_pl Exp $
 				<token>tym</token>
 				<token postag="(adj|adv).*:comp" postag_regexp="yes"/>
 			</pattern>
-			<message>Mówimy <suggestion>Im</suggestion>..., tym...</message>
+			<message>Mówimy <suggestion>im</suggestion>..., tym...</message>
 			<example type="correct">Im większa, tym lepiej.</example>
-			<example type="incorrect"><marker>Czym</marker> większa, tym lepiej.</example>
+			<example type="incorrect" correction="Im"><marker>Czym</marker> większa, tym lepiej.</example>
 		</rule>
 		
 		<rule name="„tym bardziej... ponieważ” (tym bardziej... że)" id="TYM_BARDZIEJ_PONIEWAZ">
@@ -3312,10 +3315,10 @@ $Id: grammar.xml,v 1.35 2007-05-08 13:08:30 milek_pl Exp $
 				<token>w</token>
 				<token>wątpliwość</token>
 			</pattern>
-			<message>Poprawną formą jest <suggestion>podawać w wątpliwość</suggestion>.</message>
+			<message>Poprawną formą jest <suggestion><match no="1" regexp_match="podd(.*)" regexp_replace="pod$1"/> w wątpliwość</suggestion>.</message>
 			<example type="correct">Nie będę tego podawać w wątpliwość.</example>
-			<example type="incorrect">Nie będę tego <marker>poddawał w wątpliwość</marker>.</example>
-			<example type="incorrect">Józio <marker>poddał w wątpliwość</marker> cały proces wychowawczy.</example>
+			<example type="incorrect" correction="podawał w wątpliwość">Nie będę tego <marker>poddawał w wątpliwość</marker>.</example>
+			<example type="incorrect" correction="podał w wątpliwość">Józio <marker>poddał w wątpliwość</marker> cały proces wychowawczy.</example>
 		</rule>
 	
 		<rule id="BALSAM_DLA_WLOSOW" name="„szampon dla włosów” (szampon do włosów)">
@@ -5040,10 +5043,9 @@ $Id: grammar.xml,v 1.35 2007-05-08 13:08:30 milek_pl Exp $
 				<token inflected="yes">Gal</token>
 				<token regexp="yes">Anonim|Anonima|Anonimie|Anonimem|Anonimowi</token>
 			</pattern>
-			<message>Poprawnie piszemy <suggestion><match no="1" postag="subst.*">Gall</match></suggestion> Anonim.</message>
+			<message>Poprawnie piszemy <suggestion><match no="1" regexp_match="Gal(.*)" regexp_replace="Gall$1"/></suggestion> Anonim.</message>
 			<example type="correct">To kronika Galla Anonima.</example>
-			<!--  FIXME: incomplete dictionary -->
-			<example type="incorrect" correction="(Gall)">To kronika <marker>Gala</marker> Anonima.</example>
+			<example type="incorrect" correction="Galla">To kronika <marker>Gala</marker> Anonima.</example>
 		</rule>
 		
 		<rule id="SPOZA" name="„z poza” (spoza)">
@@ -5053,7 +5055,7 @@ $Id: grammar.xml,v 1.35 2007-05-08 13:08:30 milek_pl Exp $
 			</pattern>
 			<message>Wyraz <suggestion>spoza</suggestion> piszemy łącznie.</message>
 			<example type="correct">Jest to osoba spoza Australii.</example>
-			<example type="incorrect">Jest to osoba <marker>z poza</marker> Australii.</example>
+			<example type="incorrect" correction="spoza">Jest to osoba <marker>z poza</marker> Australii.</example>
 		</rule>
 
 		<rule id="SKROTY_BEZ_KROPKI" name="Pisownia skrótów dr, mgr, nr">
@@ -5064,7 +5066,7 @@ $Id: grammar.xml,v 1.35 2007-05-08 13:08:30 milek_pl Exp $
 			</pattern>
 			<message>Ten skrót piszemy bez kropki: <suggestion>\1 \3</suggestion>. </message>
 			<example type="correct">Mgr Kowalski napisał dwa donosy.</example>
-			<example type="incorrect"><marker>Mgr. Kowalski</marker> napisał dwa donosy.</example>
+			<example type="incorrect" correction="Mgr Kowalski"><marker>Mgr. Kowalski</marker> napisał dwa donosy.</example>
 			<example type="correct">To samodzielna praca mgr. Kowalskiego.</example>
 		</rule>
 
@@ -5100,7 +5102,7 @@ $Id: grammar.xml,v 1.35 2007-05-08 13:08:30 milek_pl Exp $
 			</pattern>
 			<message>Prawdopodobnie chodziło o wyrażenie <suggestion>\1 kątem</suggestion>, czyli o narzędnik rzeczownika „kąt”, a nie o „konto”.</message>
 			<example type="correct">To zagadnienie analizowaliśmy pod kątem użyteczności.</example>
-			<example type="incorrect">To zagadnienie analizowaliśmy <marker>pod kontem</marker> użyteczności.</example>
+			<example type="incorrect" correction="pod kątem">To zagadnienie analizowaliśmy <marker>pod kontem</marker> użyteczności.</example>
 		</rule>
 
 		<rule id="DO_TYCH_CZAS" name="„do tych czas” (dotychczas)">
@@ -5147,6 +5149,7 @@ $Id: grammar.xml,v 1.35 2007-05-08 13:08:30 milek_pl Exp $
 			<example type="incorrect">Sam program PHARE spotkał się z poważną krytyką i negatywną oceną <marker>za równo</marker> ze strony europejskiego Trybunału Obrachunkowego jak i dwukrotnie polskiej NIK.</example>
 			<example type="correct">Sam program PHARE spotkał się z poważną krytyką i negatywną oceną zarówno ze strony europejskiego Trybunału Obrachunkowego, jak i dwukrotnie polskiej NIK.</example>
 		</rule>
+		
 		<rule name="„zarówno... jaki” (zarówno... jak i)" id="ZA_ROWNO_JAKI">
 			<pattern mark_from="1" mark_to="0">
 				<token regexp="yes" skip="-1">równo|zarówno<exception scope="next">jak</exception></token>				
@@ -5167,6 +5170,7 @@ $Id: grammar.xml,v 1.35 2007-05-08 13:08:30 milek_pl Exp $
 			<example type="incorrect">Malarz oddziałuje na nas <marker>po przez</marker> swoje malarstwo.</example>
 			<example type="correct">Malarz oddziałuje na nas poprzez swoje malarstwo.</example>
 		</rule>
+		
 		<rule name="„po nad” (ponad)" id="PO_NAD">
 			<pattern case_sensitive="yes">
 				<token regexp="yes">[Pp]o</token>
@@ -5244,9 +5248,10 @@ $Id: grammar.xml,v 1.35 2007-05-08 13:08:30 milek_pl Exp $
 			<pattern>
 				<token regexp="yes">mass[–-]medi.*</token>
 			</pattern>
-			<message>To wyrażenie piszemy rozłącznie: <suggestion>mass media</suggestion>.</message>
+			<message>To wyrażenie piszemy rozłącznie: <suggestion><match no="1" regexp_match="[Mm]ass[-–](medi.*)" regexp_replace="mass $1"/></suggestion>.</message>
 			<example type="correct">Mass media poinformowały o sukcesach Polski w zmniejszaniu płac najniżej zarabiających.</example>
-			<example type="incorrect"><marker>Mass-media</marker> poinformowały o sukcesach Polski w zmniejszaniu płac najniżej zarabiających.</example>
+			<example type="incorrect" correction="Mass media"><marker>Mass-media</marker> poinformowały o sukcesach Polski w zmniejszaniu płac najniżej zarabiających.</example>
+			<example type="incorrect" correction="mass mediach">Marszałek sejmu myślał dzisiaj o <marker>mass-mediach</marker>.</example>
 		</rule>
 	
 		<rule name="„do póki” (dopóki)" id="DO_POKI">
@@ -5276,7 +5281,7 @@ $Id: grammar.xml,v 1.35 2007-05-08 13:08:30 milek_pl Exp $
 			</pattern>
 			<message>Wyraz <suggestion>\1\2</suggestion> piszemy łącznie.</message>
 			<example type="correct">Dwakroć prosiłem Przemysława, by nie budował stacji we Włoszczowie.</example>
-			<example type="incorrect"><marker>Dwa kroć</marker> prosiłem Przemysława, by nie budował stacji we Włoszczowie.</example>
+			<example type="incorrect" correction="Dwakroć"><marker>Dwa kroć</marker> prosiłem Przemysława, by nie budował stacji we Włoszczowie.</example>			
 		</rule>
 		
 		<rule name="„na tych miast” (natychmiast)" id="NATYCH_MIAST">
@@ -5340,7 +5345,7 @@ $Id: grammar.xml,v 1.35 2007-05-08 13:08:30 milek_pl Exp $
 				<token>s</token>
 			</pattern>
 			<message>Ten skrót piszemy <suggestion>ds.</suggestion>.</message>
-			<example type="incorrect">Pełnomocnik rządu <marker>d/s</marker> miłości narodu do premiera.</example>
+			<example type="incorrect" correction="ds.">Pełnomocnik rządu <marker>d/s</marker> miłości narodu do premiera.</example>
 			<example type="correct">Pełnomocnik rządu ds. miłości narodu do premiera.</example>
 		</rule>
 		
@@ -5481,7 +5486,7 @@ $Id: grammar.xml,v 1.35 2007-05-08 13:08:30 milek_pl Exp $
 	</pattern>
 	<message>Błąd ortograficzny. Wyrazy z cząstką „auto” piszemy razem: <suggestion>\1\2</suggestion>.</message>
 	<example type="correct">Zapraszamy do autokomisu!</example>
-	<example type="incorrect">Zapraszamy do <marker>auto komisu</marker>!</example>
+	<example type="incorrect" correction="autokomisu">Zapraszamy do <marker>auto komisu</marker>!</example>
 	</rule>
 	
 	<rulegroup name="„za zwyczaj” (zazwyczaj)" id="ZA_ZWYCZAJ">
@@ -5545,7 +5550,6 @@ $Id: grammar.xml,v 1.35 2007-05-08 13:08:30 milek_pl Exp $
 			</pattern>				
 			<message>Ten wyraz piszemy łącznie. Powinno być: <suggestion><match no="1"/><match case_conversion="startlower" no="2"/></suggestion>.</message>
 			<example type="correct">Całe terytorium Hongkongu stało się jednym obszarem miejskim.</example>
-			<!-- FIXME: zła podpowiedź! -->
 			<example type="incorrect" correction="Hongkongu">Całe terytorium <marker>Hong Kongu</marker> stało się jednym obszarem miejskim.</example>
 		</rule>
 		
@@ -5671,10 +5675,10 @@ $Id: grammar.xml,v 1.35 2007-05-08 13:08:30 milek_pl Exp $
 				<token><exception regexp="yes">i|po</exception></token>
 				<token postag="adjp"><exception postag_regexp="yes" postag="subst.*"/></token>
 			</pattern>
-			<message>Prawdopodobna literówka. Czy miało być <suggestion>po \1</suggestion>?</message>
+			<message>Prawdopodobna literówka. Czy miało być <suggestion>po <match no="2" case_conversion="startlower"/></suggestion>?</message>
 			<example type="correct">Jadzia mówi po niemiecku i angielsku.</example>
-			<example type="incorrect">Jadzia mówi <marker>niemiecku</marker> i angielsku.</example>
-			<example type="incorrect"><marker>Prostu</marker> się mylisz.</example>
+			<example type="incorrect" correction="po niemiecku">Jadzia mówi <marker>niemiecku</marker> i angielsku.</example>
+			<example type="incorrect" correction="Po prostu"><marker>Prostu</marker> się mylisz.</example>
 		</rule>
 		
 		<rule name="„w odróżnieniu do” (w odróżnieniu od)" id="W_ODROZNIENIU_DO">
@@ -5684,7 +5688,7 @@ $Id: grammar.xml,v 1.35 2007-05-08 13:08:30 milek_pl Exp $
 		<token>do</token>
 		</pattern>
 		<message>Prawdopodobna literówka; powinno być <suggestion>\1 \2 od</suggestion>.</message>
-		<example type="incorrect">Ponadto czarownicy <marker>w odróżnieniu do</marker> czartów są zdecydowanie liczniejsi.</example>
+		<example type="incorrect" correction="w odróżnieniu od">Ponadto czarownicy <marker>w odróżnieniu do</marker> czartów są zdecydowanie liczniejsi.</example>
 		<example type="correct">Ponadto czarownicy <marker>w odróżnieniu od</marker> czartów są zdecydowanie liczniejsi.</example>
 		</rule>
 
@@ -5695,7 +5699,7 @@ $Id: grammar.xml,v 1.35 2007-05-08 13:08:30 milek_pl Exp $
 		<token>od</token>
 		</pattern>
 		<message>Prawdopodobna literówka; powinno być <suggestion>\1 \2 do</suggestion>.</message>
-		<example type="incorrect">Ponadto czarownicy <marker>w przeciwieństwie od</marker> czartów są zdecydowanie liczniejsi.</example>
+		<example type="incorrect" correction="w przeciwieństwie do">Ponadto czarownicy <marker>w przeciwieństwie od</marker> czartów są zdecydowanie liczniejsi.</example>
 		<example type="correct">Ponadto czarownicy <marker>w przeciwieństwie do</marker> czartów są zdecydowanie liczniejsi.</example>
 		</rule>
 
@@ -5819,6 +5823,7 @@ $Id: grammar.xml,v 1.35 2007-05-08 13:08:30 milek_pl Exp $
 			<example type="correct">Eryk podrapał się po głowie.</example>
 			<example type="incorrect">Eryk podrapał <marker>sie</marker> po głowie.</example>
 		</rule>
+		
 		<rule name="czasownik + „si” (się)" id="CZASOWNIK_SI">
 			<pattern mark_from="1">
 				<token postag="verb.*" postag_regexp="yes"/>
@@ -6245,10 +6250,10 @@ $Id: grammar.xml,v 1.35 2007-05-08 13:08:30 milek_pl Exp $
 				<token inflected="yes">strona</token>
 				<token>medalu</token>
 			</pattern>
-			<!--  dodać odmianę "odwrotna" i "druga" -->
-			<message>To wyrażenie jest niepoprawnie. Poprawnie: <suggestion>odwrotna \2 \3</suggestion> lub <suggestion>druga \2 \3</suggestion>.</message>
-			<example type="incorrect"><marker>Inna strona medalu</marker> jest taka, że nie chce być wyśmiana przez innych.</example>
+			<message>To wyrażenie jest niepoprawnie. Poprawnie: <suggestion><match no="1" postag="adj(.*)" postag_replace="adj$1:aff">odwrotny</match> <match no="2"/> <match no="3"/></suggestion> lub <suggestion><match no="1" postag="adj(.*)" postag_replace="adj$1:aff">drugi</match> <match no="2"/> <match no="3"/></suggestion>.</message>			
+			<example type="incorrect" correction="Odwrotna strona medalu|Druga strona medalu"><marker>Inna strona medalu</marker> jest taka, że nie chce być wyśmiana przez innych.</example>
 			<example type="correct"><marker>Odwrotna strona medalu</marker> jest taka, że nie chce być wyśmiana przez innych.</example>
+			<example type="incorrect" correction="odwrotnej stronie medalu|drugiej stronie medalu">Nie zapominajmy o <marker>innej stronie medalu</marker>.</example>
 		</rule>
 		
 		<rule name="„krępacja” (skrępowanie)" id="KREPACJA_BEZ_BEZ">
