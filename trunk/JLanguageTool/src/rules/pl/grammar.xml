@@ -2,7 +2,7 @@
 <!--
 Polish Grammar and Typo Rules for LanguageTool
 Copyright (C) 2006 Marcin Miłkowski
-$Id: grammar.xml,v 1.34 2007-05-06 23:39:08 milek_pl Exp $		
+$Id: grammar.xml,v 1.35 2007-05-08 13:08:30 milek_pl Exp $		
 -->
 <rules lang="pl">
 
@@ -103,7 +103,7 @@ $Id: grammar.xml,v 1.34 2007-05-06 23:39:08 milek_pl Exp $
 			
 			<rule>
 				<pattern>
-					<token skip="-1">może<exception scope="next" inflected="yes" regexp="yes">[\p{Punct}—–„«»](?&lt;!\.)|bądź|czy|ani|lub|albo|oraz|i|kiedy|gdy|który|jaki|że|iż|bo|gdyż|aby|ażeby|żeby|iżby|zanim|dopóki|gdyby|jeśli|jeżeli|dlaczego|którędy</exception><exception scope="next" postag_regexp="yes" postag="&lt;ELLIPSIS&gt;|verb:(aglt|fin|bedzie|praet):(sg|pl).*|verb:imps.*|pcon:imperf|pant:perf"/></token>
+					<token skip="-1">może<exception scope="next" inflected="yes" regexp="yes">[\p{Punct}—–„«»](?&lt;!\.)|bądź|czy|ani|lub|albo|oraz|i|kiedy|gdy|który|jaki|że|iż|bo|gdyż|aby|ażeby|żeby|iżby|zanim|dopóki|gdyby|jeśli|jeżeli|dlaczego|którędy</exception><exception scope="next" postag_regexp="yes" postag="&lt;ELLIPSIS&gt;|verb:(pot|fin|bedzie|praet):(sg|pl).*|verb:imps.*|pcon:imperf|pant:perf"/></token>
  					<token skip="-1" postag_regexp="yes" postag="verb:inf.*"><exception scope="next" inflected="yes" regexp="yes">[\p{Punct}—–„«»](?&lt;!\.)|bądź|czy|ani|lub|albo|oraz|i|kiedy|gdy|który|jaki|że|iż|bo|gdyż|aby|ażeby|żeby|iżby|zanim|dopóki|gdyby|jeśli|jeżeli|dlaczego|którędy</exception><exception scope="next" postag_regexp="yes" postag="&lt;ELLIPSIS&gt;"/></token>
 					<token skip="-1" postag_regexp="yes" postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf|pant:perf"><exception scope="current" postag_regexp="yes" postag="subst:.*|adj.*|ppron.*|verb:inf.*|verb:bedzie.*|conj|prep.*|qub|indecl|adv.*"/><exception scope="current" regexp="yes">może|jedna</exception></token>		
 					<phraseref idref="INTERPUNKCJA"/>
@@ -117,7 +117,7 @@ $Id: grammar.xml,v 1.34 2007-05-06 23:39:08 milek_pl Exp $
 			<rule>
 				<pattern>
 					<token skip="-1" postag_regexp="yes" postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf|pant:perf"><exception scope="current" postag_regexp="yes" postag="subst:.*|adj.*|ppron.*|verb:inf.*|verb:bedzie.*|conj|prep.*|qub|indecl|adv.*"/><exception scope="current" regexp="yes">może|jedna</exception><exception scope="next" inflected="yes" regexp="yes">[\p{Punct}—–„«»](?&lt;!\.)|bądź|czy|ani|lub|albo|oraz|i|kiedy|gdy|który|jaki|że|iż|bo|gdyż|aby|ażeby|żeby|iżby|zanim|dopóki|gdyby|jeśli|jeżeli|dlaczego|którędy</exception><exception scope="next" postag_regexp="yes" postag="&lt;ELLIPSIS&gt;"/></token>
-					<token skip="-1">może<exception scope="next" inflected="yes" regexp="yes">[\p{Punct}—–„«»](?&lt;!\.)|bądź|czy|ani|lub|albo|oraz|i|kiedy|gdy|który|jaki|że|iż|bo|gdyż|aby|ażeby|żeby|iżby|zanim|dopóki|gdyby|jeśli|jeżeli|dlaczego|którędy</exception><exception scope="next" postag_regexp="no" postag="&lt;ELLIPSIS&gt;|verb:(aglt|fin|bedzie|praet):(sg|pl).*|verb:imps.*|pcon:imperf|pant:perf"/></token>
+					<token skip="-1">może<exception scope="next" inflected="yes" regexp="yes">[\p{Punct}—–„«»](?&lt;!\.)|bądź|czy|ani|lub|albo|oraz|i|kiedy|gdy|który|jaki|że|iż|bo|gdyż|aby|ażeby|żeby|iżby|zanim|dopóki|gdyby|jeśli|jeżeli|dlaczego|którędy</exception><exception scope="next" postag_regexp="no" postag="&lt;ELLIPSIS&gt;|verb:(pot|fin|bedzie|praet):(sg|pl).*|verb:imps.*|pcon:imperf|pant:perf"/></token>
 					<token skip="-1" postag_regexp="yes" postag="verb:inf.*"/>
 					<phraseref idref="INTERPUNKCJA"/>
 				</pattern>
@@ -984,9 +984,9 @@ $Id: grammar.xml,v 1.34 2007-05-06 23:39:08 milek_pl Exp $
 		<rule>
 			<pattern mark_from="2">
 				<token postag="SENT_START"/>
-				<token skip="-1" postag_regexp="yes" postag="subst:sg:nom.*"><exception scope="current" regexp="yes">nic|co|jak</exception><exception postag_regexp="yes" postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf|pant:perf"/><exception scope="next" inflected="yes" regexp="yes">[\-—–!\?;\(\):]|kiedy|gdy|który|jaki|że|iż|bo|a|jeśli|jeżeli|aby|żeby|ażeby|zanim|acz|aczkolwiek|albowiem|ale|aleć|aliści|azali|bo|byleby|czyli|czyliż|dlaczego|dopóki|dopóty|gdyż|gdyżby|ilekolwiek|ilekroć|póki|tedy</exception><exception scope="next" postag_regexp="yes" postag="verb:(praet:|aglt:|fin:|)sg:ter.*|pcon:imperf|pant:perf"/></token>
+				<token skip="-1" postag_regexp="yes" postag="subst:sg:nom.*"><exception scope="current" regexp="yes">nic|co|jak</exception><exception postag_regexp="yes" postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf|pant:perf"/><exception scope="next" inflected="yes" regexp="yes">[\-—–!\?;\(\):]|kiedy|gdy|który|jaki|że|iż|bo|a|jeśli|jeżeli|aby|żeby|ażeby|zanim|acz|aczkolwiek|albowiem|ale|aleć|aliści|azali|bo|byleby|czyli|czyliż|dlaczego|dopóki|dopóty|gdyż|gdyżby|ilekolwiek|ilekroć|póki|tedy</exception><exception scope="next" postag_regexp="yes" postag="verb:(praet:|pot:|fin:|)sg:ter.*|pcon:imperf|pant:perf"/></token>
 				<token>,</token>
-				<token postag_regexp="yes" postag="verb:(praet:|aglt:|fin:|)sg:ter.*"/>
+				<token postag_regexp="yes" postag="verb:(praet:|pot:|fin:|)sg:ter.*"/>
 			</pattern>
 			<message>Przecinek między podmiotem a orzeczeniem jest zbędny, powinno być: <suggestion>\4</suggestion>.</message>
 			<example type="correct">Gazeta jest źródłem informacji.</example>
@@ -997,7 +997,7 @@ $Id: grammar.xml,v 1.34 2007-05-06 23:39:08 milek_pl Exp $
 		<rule>
 			<pattern mark_from="2">
 				<token postag="SENT_START"/>
-				<token skip="-1" postag_regexp="yes" postag="subst:sg:nom.*"><exception scope="current" regexp="yes">nic|co|jak</exception><exception postag_regexp="yes" postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf|pant:perf"/><exception scope="next" inflected="yes" regexp="yes">[\-—–!\?;\(\):]|kiedy|gdy|który|jaki|że|iż|bo|a|jeśli|jeżeli|aby|żeby|ażeby|zanim|acz|aczkolwiek|albowiem|ale|aleć|aliści|azali|bo|byleby|czyli|czyliż|dlaczego|dopóki|dopóty|gdyż|gdyżby|ilekolwiek|ilekroć|póki|tedy</exception><exception scope="next" postag_regexp="yes" postag="verb:(praet:|aglt:|fin:|)sg:ter.*|pcon:imperf|pant:perf"/></token>
+				<token skip="-1" postag_regexp="yes" postag="subst:sg:nom.*"><exception scope="current" regexp="yes">nic|co|jak</exception><exception postag_regexp="yes" postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf|pant:perf"/><exception scope="next" inflected="yes" regexp="yes">[\-—–!\?;\(\):]|kiedy|gdy|który|jaki|że|iż|bo|a|jeśli|jeżeli|aby|żeby|ażeby|zanim|acz|aczkolwiek|albowiem|ale|aleć|aliści|azali|bo|byleby|czyli|czyliż|dlaczego|dopóki|dopóty|gdyż|gdyżby|ilekolwiek|ilekroć|póki|tedy</exception><exception scope="next" postag_regexp="yes" postag="verb:(praet:|pot:|fin:|)sg:ter.*|pcon:imperf|pant:perf"/></token>
 				<token>,</token>
 				<token>to</token>
 			</pattern>
@@ -1009,10 +1009,10 @@ $Id: grammar.xml,v 1.34 2007-05-06 23:39:08 milek_pl Exp $
 		<rule>
 			<pattern mark_from="3">
 				<token postag="SENT_START"/>
-				<token postag_regexp="yes" postag="adj:sg:(nom|nom\.voc):f.*"/>
-				<token skip="-1" postag_regexp="yes" postag="subst:sg:nom:f"><exception postag_regexp="yes" postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf|pant:perf"/><exception postag_regexp="yes" postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf|pant:perf"/><exception scope="next" inflected="yes" regexp="yes">[\-—–!\?;\(\):]|kiedy|gdy|który|jaki|że|iż|bo|a|jeśli|jeżeli|aby|żeby|ażeby|zanim|acz|aczkolwiek|albowiem|ale|aleć|aliści|azali|bo|byleby|czyli|czyliż|dlaczego|dopóki|dopóty|gdyż|gdyżby|ilekolwiek|ilekroć|póki|tedy</exception><exception scope="current" regexp="yes">nic|co|jak</exception><exception postag_regexp="yes" postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf|pant:perf"/><exception scope="next" inflected="yes" regexp="yes">[\-—–!\?;\(\):]|kiedy|gdy|który|jaki|że|iż|bo|a|jeśli|jeżeli|aby|żeby|ażeby|zanim|acz|aczkolwiek|albowiem|ale|aleć|aliści|azali|bo|byleby|czyli|czyliż|dlaczego|dopóki|dopóty|gdyż|gdyżby|ilekolwiek|ilekroć|póki|tedy</exception><exception scope="next" postag_regexp="yes" postag="verb:(praet:|aglt:|fin:|)sg:ter.*|pcon:imperf|pant:perf"/></token>
+				<token postag_regexp="yes" postag="adj:sg:nom\.voc:f.*"/>
+				<token skip="-1" postag_regexp="yes" postag="subst:sg:nom:f"><exception postag_regexp="yes" postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf|pant:perf"/><exception postag_regexp="yes" postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf|pant:perf"/><exception scope="next" inflected="yes" regexp="yes">[\-—–!\?;\(\):]|kiedy|gdy|który|jaki|że|iż|bo|a|jeśli|jeżeli|aby|żeby|ażeby|zanim|acz|aczkolwiek|albowiem|ale|aleć|aliści|azali|bo|byleby|czyli|czyliż|dlaczego|dopóki|dopóty|gdyż|gdyżby|ilekolwiek|ilekroć|póki|tedy</exception><exception scope="current" regexp="yes">nic|co|jak</exception><exception postag_regexp="yes" postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf|pant:perf"/><exception scope="next" inflected="yes" regexp="yes">[\-—–!\?;\(\):]|kiedy|gdy|który|jaki|że|iż|bo|a|jeśli|jeżeli|aby|żeby|ażeby|zanim|acz|aczkolwiek|albowiem|ale|aleć|aliści|azali|bo|byleby|czyli|czyliż|dlaczego|dopóki|dopóty|gdyż|gdyżby|ilekolwiek|ilekroć|póki|tedy</exception><exception scope="next" postag_regexp="yes" postag="verb:(praet:|pot:|fin:|)sg:ter.*|pcon:imperf|pant:perf"/></token>
 				<token>,</token>
-				<token postag_regexp="yes" postag="verb:(praet:|aglt:|fin:|)sg:ter.*"/>
+				<token postag_regexp="yes" postag="verb:(praet:|pot:|fin:|)sg:ter.*"/>
 			</pattern>
 			<message>Przecinek między podmiotem a orzeczeniem jest zbędny, powinno być: <suggestion>\5</suggestion>.</message>
 			<example type="correct">Każda gazeta jest źródłem informacji.</example>
@@ -1022,8 +1022,8 @@ $Id: grammar.xml,v 1.34 2007-05-06 23:39:08 milek_pl Exp $
 		<rule>
 			<pattern mark_from="3">
 				<token postag="SENT_START"/>
-				<token postag_regexp="yes" postag=".*adj:sg:(nom|nom\.voc):f.*"/>
-				<token skip="-1" postag_regexp="yes" postag="subst:sg:nom:f"><exception postag_regexp="yes" postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf|pant:perf"/><exception postag_regexp="yes" postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf|pant:perf"/><exception scope="next" inflected="yes" regexp="yes">[\-—–!\?;\(\):]|kiedy|gdy|który|jaki|że|iż|bo|a|jeśli|jeżeli|aby|żeby|ażeby|zanim|acz|aczkolwiek|albowiem|ale|aleć|aliści|azali|bo|byleby|czyli|czyliż|dlaczego|dopóki|dopóty|gdyż|gdyżby|ilekolwiek|ilekroć|póki|tedy</exception><exception scope="current" regexp="yes">nic|co|jak</exception><exception postag_regexp="yes" postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf|pant:perf"/><exception scope="next" inflected="yes" regexp="yes">[\-—–!\?;\(\):]|kiedy|gdy|który|jaki|że|iż|bo|a|jeśli|jeżeli|aby|żeby|ażeby|zanim|acz|aczkolwiek|albowiem|ale|aleć|aliści|azali|bo|byleby|czyli|czyliż|dlaczego|dopóki|dopóty|gdyż|gdyżby|ilekolwiek|ilekroć|póki|tedy</exception><exception scope="next" postag_regexp="yes" postag="verb:(praet:|aglt:|fin:|)sg:ter.*|pcon:imperf|pant:perf"/></token>
+				<token postag_regexp="yes" postag="adj:sg:nom\.voc:f.*"/>
+				<token skip="-1" postag_regexp="yes" postag="subst:sg:nom:f"><exception postag_regexp="yes" postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf|pant:perf"/><exception postag_regexp="yes" postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf|pant:perf"/><exception scope="next" inflected="yes" regexp="yes">[\-—–!\?;\(\):]|kiedy|gdy|który|jaki|że|iż|bo|a|jeśli|jeżeli|aby|żeby|ażeby|zanim|acz|aczkolwiek|albowiem|ale|aleć|aliści|azali|bo|byleby|czyli|czyliż|dlaczego|dopóki|dopóty|gdyż|gdyżby|ilekolwiek|ilekroć|póki|tedy</exception><exception scope="current" regexp="yes">nic|co|jak</exception><exception postag_regexp="yes" postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf|pant:perf"/><exception scope="next" inflected="yes" regexp="yes">[\-—–!\?;\(\):]|kiedy|gdy|który|jaki|że|iż|bo|a|jeśli|jeżeli|aby|żeby|ażeby|zanim|acz|aczkolwiek|albowiem|ale|aleć|aliści|azali|bo|byleby|czyli|czyliż|dlaczego|dopóki|dopóty|gdyż|gdyżby|ilekolwiek|ilekroć|póki|tedy</exception><exception scope="next" postag_regexp="yes" postag="verb:(praet:|pot:|fin:|)sg:ter.*|pcon:imperf|pant:perf"/></token>
 				<token>,</token>
 				<token>to</token>
 			</pattern>
@@ -1035,10 +1035,10 @@ $Id: grammar.xml,v 1.34 2007-05-06 23:39:08 milek_pl Exp $
 		<rule>
 			<pattern mark_from="3">
 				<token postag="SENT_START"/>
-				<token postag_regexp="yes" postag=".*adj:sg:(nom|nom\.acc\.voc|nom\.voc):n(:pos:aff|:neg|).*"/>
-				<token skip="-1" postag_regexp="yes" postag="subst:sg:nom.*:n"><exception postag_regexp="yes" postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf|pant:perf"/><exception postag_regexp="yes" postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf|pant:perf"/><exception scope="next" inflected="yes" regexp="yes">[\-—–!\?;\(\):]|kiedy|gdy|który|jaki|że|iż|bo|a|jeśli|jeżeli|aby|żeby|ażeby|zanim|acz|aczkolwiek|albowiem|ale|aleć|aliści|azali|bo|byleby|czyli|czyliż|dlaczego|dopóki|dopóty|gdyż|gdyżby|ilekolwiek|ilekroć|póki|tedy</exception><exception scope="current" regexp="yes">nic|co|jak</exception><exception postag_regexp="yes" postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf|pant:perf"/><exception scope="next" inflected="yes" regexp="yes">[\-—–!\?;\(\):]|kiedy|gdy|który|jaki|że|iż|bo|a|jeśli|jeżeli|aby|żeby|ażeby|zanim|acz|aczkolwiek|albowiem|ale|aleć|aliści|azali|bo|byleby|czyli|czyliż|dlaczego|dopóki|dopóty|gdyż|gdyżby|ilekolwiek|ilekroć|póki|tedy</exception><exception scope="next" postag_regexp="yes" postag="verb:(praet:|aglt:|fin:|)sg:ter.*|pcon:imperf|pant:perf"/></token>
+				<token postag_regexp="yes" postag="adj:sg:nom\.acc\.voc:n(:pos:aff|:neg|).*"/>
+				<token skip="-1" postag_regexp="yes" postag="subst:sg:nom.*:n"><exception postag_regexp="yes" postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf|pant:perf"/><exception postag_regexp="yes" postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf|pant:perf"/><exception scope="next" inflected="yes" regexp="yes">[\-—–!\?;\(\):]|kiedy|gdy|który|jaki|że|iż|bo|a|jeśli|jeżeli|aby|żeby|ażeby|zanim|acz|aczkolwiek|albowiem|ale|aleć|aliści|azali|bo|byleby|czyli|czyliż|dlaczego|dopóki|dopóty|gdyż|gdyżby|ilekolwiek|ilekroć|póki|tedy</exception><exception scope="current" regexp="yes">nic|co|jak</exception><exception postag_regexp="yes" postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf|pant:perf"/><exception scope="next" inflected="yes" regexp="yes">[\-—–!\?;\(\):]|kiedy|gdy|który|jaki|że|iż|bo|a|jeśli|jeżeli|aby|żeby|ażeby|zanim|acz|aczkolwiek|albowiem|ale|aleć|aliści|azali|bo|byleby|czyli|czyliż|dlaczego|dopóki|dopóty|gdyż|gdyżby|ilekolwiek|ilekroć|póki|tedy</exception><exception scope="next" postag_regexp="yes" postag="verb:(praet:|pot:|fin:|)sg:ter.*|pcon:imperf|pant:perf"/></token>
 				<token>,</token>				
-				<token postag_regexp="yes" postag="verb:(praet:|aglt:|fin:|)sg:ter.*"/>
+				<token postag_regexp="yes" postag="verb:(praet:|pot:|fin:|)sg:ter.*"/>
 			</pattern>
 			<message>Przecinek między podmiotem a orzeczeniem jest zbędny, powinno być: <suggestion>\5</suggestion>.</message>
 			<example type="correct">Każde dziecko wie, jak wspaniały jest nasz premier.</example>
@@ -1048,8 +1048,8 @@ $Id: grammar.xml,v 1.34 2007-05-06 23:39:08 milek_pl Exp $
 		<rule>
 			<pattern mark_from="3">
 				<token postag="SENT_START"/>
-				<token postag_regexp="yes" postag=".*adj:sg:(nom|nom\.acc\.voc|nom\.voc):n(:pos:aff|:neg|).*"/>
-				<token skip="-1" postag_regexp="yes" postag="subst:sg:nom.*:n"><exception postag_regexp="yes" postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf|pant:perf"/><exception postag_regexp="yes" postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf|pant:perf"/><exception scope="next" inflected="yes" regexp="yes">[\-—–!\?;\(\):]|kiedy|gdy|który|jaki|że|iż|bo|a|jeśli|jeżeli|aby|żeby|ażeby|zanim|acz|aczkolwiek|albowiem|ale|aleć|aliści|azali|bo|byleby|czyli|czyliż|dlaczego|dopóki|dopóty|gdyż|gdyżby|ilekolwiek|ilekroć|póki|tedy</exception><exception scope="current" regexp="yes">nic|co|jak</exception><exception postag_regexp="yes" postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf|pant:perf"/><exception scope="next" inflected="yes" regexp="yes">[\-—–!\?;\(\):]|kiedy|gdy|który|jaki|że|iż|bo|a|jeśli|jeżeli|aby|żeby|ażeby|zanim|acz|aczkolwiek|albowiem|ale|aleć|aliści|azali|bo|byleby|czyli|czyliż|dlaczego|dopóki|dopóty|gdyż|gdyżby|ilekolwiek|ilekroć|póki|tedy</exception><exception scope="next" postag_regexp="yes" postag="verb:(praet:|aglt:|fin:|)sg:ter.*|pcon:imperf|pant:perf"/></token>
+				<token postag_regexp="yes" postag="adj:sg:nom\.acc\.voc:n(:pos:aff|:neg|).*"/>
+				<token skip="-1" postag_regexp="yes" postag="subst:sg:nom.*:n"><exception postag_regexp="yes" postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf|pant:perf"/><exception postag_regexp="yes" postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf|pant:perf"/><exception scope="next" inflected="yes" regexp="yes">[\-—–!\?;\(\):]|kiedy|gdy|który|jaki|że|iż|bo|a|jeśli|jeżeli|aby|żeby|ażeby|zanim|acz|aczkolwiek|albowiem|ale|aleć|aliści|azali|bo|byleby|czyli|czyliż|dlaczego|dopóki|dopóty|gdyż|gdyżby|ilekolwiek|ilekroć|póki|tedy</exception><exception scope="current" regexp="yes">nic|co|jak</exception><exception postag_regexp="yes" postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf|pant:perf"/><exception scope="next" inflected="yes" regexp="yes">[\-—–!\?;\(\):]|kiedy|gdy|który|jaki|że|iż|bo|a|jeśli|jeżeli|aby|żeby|ażeby|zanim|acz|aczkolwiek|albowiem|ale|aleć|aliści|azali|bo|byleby|czyli|czyliż|dlaczego|dopóki|dopóty|gdyż|gdyżby|ilekolwiek|ilekroć|póki|tedy</exception><exception scope="next" postag_regexp="yes" postag="verb:(praet:|pot:|fin:|)sg:ter.*|pcon:imperf|pant:perf"/></token>
 				<token>,</token>				
 				<token>to</token>
 			</pattern>
@@ -1061,10 +1061,10 @@ $Id: grammar.xml,v 1.34 2007-05-06 23:39:08 milek_pl Exp $
 		<rule>
 			<pattern mark_from="3">
 				<token postag="SENT_START"/>
-				<token postag_regexp="yes" postag=".*adj:sg:(nom|nom\.acc\.voc|nom\.voc):m[\d]*(:pos:aff|:neg|).*"/>
-				<token skip="-1" postag_regexp="yes" postag="subst:sg:nom.*:m[\d]*"><exception postag_regexp="yes" postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf|pant:perf"/><exception scope="next" inflected="yes" regexp="yes">[\-—–!\?;\(\):]|kiedy|gdy|który|jaki|że|iż|bo|a|jeśli|jeżeli|aby|żeby|ażeby|zanim|acz|aczkolwiek|albowiem|ale|aleć|aliści|azali|bo|byleby|czyli|czyliż|dlaczego|dopóki|dopóty|gdyż|gdyżby|ilekolwiek|ilekroć|póki|tedy</exception><exception scope="current" regexp="yes">nic|co|jak</exception><exception postag_regexp="yes" postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf|pant:perf"/><exception scope="next" inflected="yes" regexp="yes">[\-—–!\?;\(\):]|kiedy|gdy|który|jaki|że|iż|bo|a|jeśli|jeżeli|aby|żeby|ażeby|zanim|acz|aczkolwiek|albowiem|ale|aleć|aliści|azali|bo|byleby|czyli|czyliż|dlaczego|dopóki|dopóty|gdyż|gdyżby|ilekolwiek|ilekroć|póki|tedy</exception><exception scope="next" postag_regexp="yes" postag="verb:(praet:|aglt:|fin:|)sg:ter.*|pcon:imperf|pant:perf"/></token>
+				<token postag_regexp="yes" postag="adj:sg:nom.voc:m1.m2(:pos:aff|:neg|).*"/>
+				<token skip="-1" postag_regexp="yes" postag="subst:sg:nom.*:m[\d]*"><exception postag_regexp="yes" postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf|pant:perf"/><exception scope="next" inflected="yes" regexp="yes">[\-—–!\?;\(\):]|kiedy|gdy|który|jaki|że|iż|bo|a|jeśli|jeżeli|aby|żeby|ażeby|zanim|acz|aczkolwiek|albowiem|ale|aleć|aliści|azali|bo|byleby|czyli|czyliż|dlaczego|dopóki|dopóty|gdyż|gdyżby|ilekolwiek|ilekroć|póki|tedy</exception><exception scope="current" regexp="yes">nic|co|jak</exception><exception postag_regexp="yes" postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf|pant:perf"/><exception scope="next" inflected="yes" regexp="yes">[\-—–!\?;\(\):]|kiedy|gdy|który|jaki|że|iż|bo|a|jeśli|jeżeli|aby|żeby|ażeby|zanim|acz|aczkolwiek|albowiem|ale|aleć|aliści|azali|bo|byleby|czyli|czyliż|dlaczego|dopóki|dopóty|gdyż|gdyżby|ilekolwiek|ilekroć|póki|tedy</exception><exception scope="next" postag_regexp="yes" postag="verb:(praet:|pot:|fin:|)sg:ter.*|pcon:imperf|pant:perf"/></token>
 				<token>,</token>				
-				<token postag_regexp="yes" postag="verb:(praet:|aglt:|fin:|)sg:ter.*"/>
+				<token postag_regexp="yes" postag="verb:(praet:|pot:|fin:|)sg:ter.*"/>
 			</pattern>
 			<message>Przecinek między podmiotem a orzeczeniem jest zbędny, powinno być: <suggestion>\5</suggestion>.</message>
 			<example type="correct">Każdy urzędnik wie, jak wspaniały jest nasz premier.</example>
@@ -1074,8 +1074,8 @@ $Id: grammar.xml,v 1.34 2007-05-06 23:39:08 milek_pl Exp $
 		<rule>
 			<pattern mark_from="3">
 				<token postag="SENT_START"/>
-				<token postag_regexp="yes" postag=".*adj:sg:(nom|nom\.acc\.voc|nom\.voc):m[\d]*(:pos:aff|:neg|).*"/>
-				<token skip="-1" postag_regexp="yes" postag="subst:sg:nom.*:m[\d]*"><exception postag_regexp="yes" postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf|pant:perf"/><exception scope="next" inflected="yes" regexp="yes">[\-—–!\?;\(\):]|kiedy|gdy|który|jaki|że|iż|bo|a|jeśli|jeżeli|aby|żeby|ażeby|zanim|acz|aczkolwiek|albowiem|ale|aleć|aliści|azali|bo|byleby|czyli|czyliż|dlaczego|dopóki|dopóty|gdyż|gdyżby|ilekolwiek|ilekroć|póki|tedy</exception><exception scope="current" regexp="yes">nic|co|jak</exception><exception postag_regexp="yes" postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf|pant:perf"/><exception scope="next" inflected="yes" regexp="yes">[\-—–!\?;\(\):]|kiedy|gdy|który|jaki|że|iż|bo|a|jeśli|jeżeli|aby|żeby|ażeby|zanim|acz|aczkolwiek|albowiem|ale|aleć|aliści|azali|bo|byleby|czyli|czyliż|dlaczego|dopóki|dopóty|gdyż|gdyżby|ilekolwiek|ilekroć|póki|tedy</exception><exception scope="next" postag_regexp="yes" postag="verb:(praet:|aglt:|fin:|)sg:ter.*|pcon:imperf|pant:perf"/></token>
+				<token postag_regexp="yes" postag="adj:sg:nom.voc:m1.m2(:pos:aff|:neg|).*"/>
+				<token skip="-1" postag_regexp="yes" postag="subst:sg:nom.*:m[\d]*"><exception postag_regexp="yes" postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf|pant:perf"/><exception scope="next" inflected="yes" regexp="yes">[\-—–!\?;\(\):]|kiedy|gdy|który|jaki|że|iż|bo|a|jeśli|jeżeli|aby|żeby|ażeby|zanim|acz|aczkolwiek|albowiem|ale|aleć|aliści|azali|bo|byleby|czyli|czyliż|dlaczego|dopóki|dopóty|gdyż|gdyżby|ilekolwiek|ilekroć|póki|tedy</exception><exception scope="current" regexp="yes">nic|co|jak</exception><exception postag_regexp="yes" postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf|pant:perf"/><exception scope="next" inflected="yes" regexp="yes">[\-—–!\?;\(\):]|kiedy|gdy|który|jaki|że|iż|bo|a|jeśli|jeżeli|aby|żeby|ażeby|zanim|acz|aczkolwiek|albowiem|ale|aleć|aliści|azali|bo|byleby|czyli|czyliż|dlaczego|dopóki|dopóty|gdyż|gdyżby|ilekolwiek|ilekroć|póki|tedy</exception><exception scope="next" postag_regexp="yes" postag="verb:(praet:|pot:|fin:|)sg:ter.*|pcon:imperf|pant:perf"/></token>
 				<token>,</token>				
 				<token>to</token>
 			</pattern>
@@ -1146,8 +1146,7 @@ $Id: grammar.xml,v 1.34 2007-05-06 23:39:08 milek_pl Exp $
 			<token regexp="yes">stycznia|lutego|marca|kwietnia|maja|czerwca|lipca|sierpnia|września|października|listopada|grudnia</token>	
 		</pattern>
 		<message>Niepoprawna postać daty (nie istnieje „drugi sierpień”, jedynie „drugi [dzień] sierpnia”); poprawnie: <suggestion><match no="3"/> <match no="4"/></suggestion>
-		 	lub <suggestion>w dniu <match no="3" postag_regexp="yes" postag=".*adj:sg:inst.loc:m:pos:aff"/> <match no="4"/></suggestion>.</message>
-		<!--  dodać też formę narzędnika: w dniu (narzędnik od \3) \4 -->
+		 	lub <suggestion>w dniu <match no="3" postag="adj:sg:inst.loc:m.n:pos:aff"/> <match no="4"/></suggestion>.</message>
 		<example type="incorrect" correction="drugiego sierpnia|w dniu drugim sierpnia">Przyczyna wojny był atak Saddama Husseina na Kuwejt <marker>w dniu drugiego sierpnia</marker> 1990 roku.</example>
 		<example type="correct">Przyczyna wojny był atak Saddama Husseina na Kuwejt <marker>drugiego sierpnia</marker> 1990 roku.</example>
 	</rule>
@@ -1234,7 +1233,7 @@ $Id: grammar.xml,v 1.34 2007-05-06 23:39:08 milek_pl Exp $
 		<rule>
 		<pattern mark_from="2">
 		<token inflected="yes">szkoła</token>
-		<token postag_regexp="yes" postag=".*adj:sg:.*[:\.]f.*"/>
+		<token postag_regexp="yes" postag="adj:sg:.*:f.*"/>
 		<token>imieniem</token>
 		</pattern>
 		<message>Mówi się „<suggestion>imienia</suggestion>”.</message>
@@ -1245,7 +1244,7 @@ $Id: grammar.xml,v 1.34 2007-05-06 23:39:08 milek_pl Exp $
 		<rule>
 		<pattern mark_from="2">
 		<token inflected="yes" regexp="yes">liceum|gimnazjum</token>
-		<token postag_regexp="yes" postag=".*adj:sg:.*[:\.]n.*"/>
+		<token postag_regexp="yes" postag="adj:sg:.*[:\.]n[:\.].*"/>
 		<token>imieniem</token>
 		</pattern>
 		<message>Mówi się „<suggestion>imienia</suggestion>”.</message>
@@ -1288,8 +1287,7 @@ $Id: grammar.xml,v 1.34 2007-05-06 23:39:08 milek_pl Exp $
 		</rule>
 		</rulegroup>
 
-		<rulegroup name="„te”, „jedne”, „tamte” + rzeczownik r. nijakiego w l.poj." id="JEDNE_DZIECKO">
-		<rule>
+		<rule name="„te”, „jedne”, „tamte” + rzeczownik r. nijakiego w l.poj." id="JEDNE_DZIECKO">
 			<pattern mark_to="-1">
 				<token postag_regexp="yes" postag="adj:pl:nom.*"><exception postag_regexp="yes" postag="adj:sg:nom.*|verb.+"/></token>
 				<token postag_regexp="yes" postag="subst.*:sg:nom.acc.*:n"/>
@@ -1298,18 +1296,9 @@ $Id: grammar.xml,v 1.34 2007-05-06 23:39:08 milek_pl Exp $
 				<suggestion><match no="1" postag_regexp="yes" postag="adj:sg:nom.*[\.:]n[1-2]?[^o].*"/></suggestion>.</message>
 			<example type="correct">Jedno dziecko zachowuje się grzecznie.</example>
 			<example type="incorrect" correction="Jedno"><marker>Jedne</marker> dziecko zachowuje się grzecznie.</example>
-		</rule>
-		<rule>
-			<pattern mark_to="-1">
-				<token>te</token>
-				<token postag_regexp="yes" postag="subst.*:sg:nom.acc.*:n"/>
-			</pattern>
-			<message>Ten przymiotnik lub zaimek jest w liczbie mnogiej. Należy użyć liczby pojedynczej:
-				<suggestion>to</suggestion>.</message>
 			<example type="correct">To dziecko zachowuje się grzecznie.</example>
 			<example type="incorrect" correction="To"><marker>Te</marker> dziecko zachowuje się grzecznie.</example>
 		</rule>
-		</rulegroup>
 		
 		<rule name="Błędna odmiana miesiąca w datach, np. 1 styczeń 2010 (1 stycznia)" id="PIERWSZY_STYCZEN_1993">
 			<pattern mark_from="1" mark_to="-1">
@@ -1357,10 +1346,10 @@ $Id: grammar.xml,v 1.34 2007-05-06 23:39:08 milek_pl Exp $
 				<token regexp="yes">Pablo</token>
 				<token regexp="yes" inflected="yes">Picasso<exception postag="subst:sg:nom:m1"/></token>
 			</pattern>	
-			<message>Imię „Pablo” jest odmienne: <suggestion><match no="2" postag_regexp="yes" postag="(subst:)(irreg)?(sg.*)(:m)" postag_replace="$1$3:m(1)*">Pablo</match></suggestion>.</message>
+			<message>Imię „Pablo” jest odmienne: <suggestion><match no="2" postag_regexp="yes" postag="(subst:)(irreg)?(sg:).*(gen|dat|acc|loc|inst|voc).*(:m[1-3]?)" postag_replace="$1$3.*$4.*m(1)*">Pablo</match></suggestion>.</message>
 			<example type="correct">Uwielbiam obrazy Pabla Picassa.</example>
 			<example type="incorrect" correction="Pablowi">Polacy zamierzają ufundować pomnik <marker>Pablo</marker> Picassowi.</example>
-			<example type="incorrect" correction="(Pablo)">Uwielbiam rzeźbę <marker>Pablo</marker> Picassa.</example>
+			<example type="incorrect" correction="Pabla">Uwielbiam rzeźbę <marker>Pablo</marker> Picassa.</example>
 		</rule>
 		</rulegroup>
 		
@@ -1464,13 +1453,13 @@ $Id: grammar.xml,v 1.34 2007-05-06 23:39:08 milek_pl Exp $
 		<rule>
 		<pattern mark_from="1" mark_to="-3">
 			<token><exception postag_regexp="yes" postag="subst:(ger:)*sg:.*(inst|loc).*(m[0-9]?|n)"/></token>
-			<token skip="-1" postag_regexp="yes" postag="(adj|ppas):sg:inst\.loc:[mn].*"><exception regexp="yes" scope="current">tym|którym|żadnym</exception><exception scope="next" postag_regexp="yes" postag="subst:(ger:)*sg.*(inst|loc).*(m[0-9]?|n)|.*(ppas|adj):sg:nom.acc.voc:n.*"/><exception scope="next" regexp="yes">\p{Punct}</exception></token>
+			<token skip="-1" postag_regexp="yes" postag="(adj|ppas):sg:inst\.loc:m\.n.*"><exception regexp="yes" scope="current">tym|którym|żadnym</exception><exception scope="next" postag_regexp="yes" postag="subst:(ger:)*sg.*(inst|loc).*(m[0-9]?|n)|.*(ppas|adj):sg:nom.acc.voc:n.*"/><exception scope="next" regexp="yes">\p{Punct}</exception></token>
 			<token regexp="yes">jest|było|będzie|byłoby</token>
 			<token>,</token>
 			<token regexp="yes" inflected="yes">że|iż|aby|iżby|by|żeby</token>
 		</pattern>
 		<message>Przymiotnik powinien być w mianowniku: 
-			<suggestion><match no="2" postag_regexp="yes" postag=".*(adj|ppas):sg:nom.acc.voc[:\.]n.*"/></suggestion> 
+			<suggestion><match no="2" postag_regexp="yes" postag="(adj|ppas):sg:nom.acc.voc:n.*"/></suggestion> 
 			(domyślnym podmiotem jest „to”).</message>
 		<example type="incorrect" correction="dobre">Bez wątpienia <marker>dobrym</marker> jest, żeby szkoły były umundurowane.</example>
 		<example type="incorrect" correction="Pożądane"><marker>Pożądanym</marker> jest, aby szkoły były umundurowane.</example>
@@ -1480,12 +1469,12 @@ $Id: grammar.xml,v 1.34 2007-05-06 23:39:08 milek_pl Exp $
 		<rule>
 		<pattern mark_from="1" mark_to="-2">
 			<token regexp="yes">jest|było|będzie|byłoby</token>
-			<token postag_regexp="yes" postag=".*(adj|ppas):sg:inst\.loc:[mn].*"><exception>tym</exception></token>
+			<token postag_regexp="yes" postag="(adj|ppas):sg:inst\.loc:m\.n.*"><exception>tym</exception></token>
 			<token>,</token>
 			<token regexp="yes" inflected="yes">że|iż|aby|iżby|by|żeby</token>
 		</pattern>
 		<message>Przymiotnik powinien być w mianowniku: 
-			<suggestion><match no="2" postag_regexp="yes" postag=".*(adj|ppas):sg:nom.acc.voc[:\.]n.*"/></suggestion> 
+			<suggestion><match no="2" postag_regexp="yes" postag="(adj|ppas):sg:nom.acc.voc:n.*"/></suggestion> 
 			(domyślnym podmiotem jest „to”).</message>
 		<example type="incorrect" correction="pożądane">Jest <marker>pożądanym</marker> , aby szkoły były umundurowane.</example>
 		<example type="correct">Jest pożądane, aby szkoły były umundurowane.</example>
@@ -2047,7 +2036,7 @@ $Id: grammar.xml,v 1.34 2007-05-06 23:39:08 milek_pl Exp $
 				<token postag_regexp="yes" postag="(adj|subst).*inst.*"><exception postag_regexp="yes" postag=".*(acc|inst)[:\.]f.*"/></token>
 			</pattern>
 			<!--  FIXME: nie bierze pod uwagę żywotnych męskich... -->
-			<message>Mówi się „uznać <suggestion>za <match no="2" postag_regexp="yes" postag="(adj|subst):(sg|pl):(inst.loc|inst)(:.*)(:neg|:aff)" postag_replace=".*$1:$2.*(acc|gen).*$4$5.*"/> <match no="3" postag_regexp="yes" postag="(adj|subst):(sg|pl):(inst.loc|inst):.*" postag_replace="$1:$2.*gen.*"/></suggestion>”.</message>
+			<message>Mówi się „uznać <suggestion>za <match no="2" postag_regexp="yes" postag="(adj|subst):(sg|pl):(inst.loc|inst)(:.*)(:neg|:aff)" postag_replace="$1:$2.*(acc|gen).*:m[1-3]?.*$5.*"/> <match no="3" postag_regexp="yes" postag="(adj|subst):(sg|pl):(inst.loc|inst):.*" postag_replace="$1:$2.*gen.*"/></suggestion>”.</message>
 			<example type="correct">Ludwik był uznany za wielkiego aktora</example>
 			<example type="correct">Ten filozof uznaje przyczynową rolę za istotną.</example>
 			<example type="incorrect" correction="za wielki aktora|za wielkiego aktora">Ludwik był uznawany <marker>wielkim aktorem</marker>.</example>
@@ -2414,7 +2403,7 @@ $Id: grammar.xml,v 1.34 2007-05-06 23:39:08 milek_pl Exp $
 				<token>opiekę</token>
 			</pattern>
 			<message>Niepoprawny zwrot. Mówi się <suggestion><match no="1" postag="verb.*">sprawować</match> <match no="2"/></suggestion> 
-				lub <suggestion><match no="1" postag="(verb.*):(\?perf|imperf|perf)" postag_replace="$1:refl:.*">opiekować</match> się</suggestion>.</message>
+				lub <suggestion><match no="1" postag="verb.*">opiekować</match> się</suggestion>.</message>
 			<example type="incorrect" correction="sprawował opiekę|opiekował się">Jako hufcowy nadal będę <marker>pełnił opiekę</marker> nad drużyną.</example>
 			<example type="correct">Jako hufcowy nadal będę <marker>sprawował opiekę</marker> nad drużyną.</example>
 		</rule>		
@@ -2922,7 +2911,7 @@ $Id: grammar.xml,v 1.34 2007-05-06 23:39:08 milek_pl Exp $
 		
 		<rule id="WYSOKA_FORMA" name="„wysoka forma” (dobra forma, doskonała forma)">
 			<pattern>
-				<token inflected="yes" postag_regexp="yes" postag=".*:f:pos:aff">wysoki</token>
+				<token inflected="yes" postag_regexp="yes" postag="adj:sg:.*:f.*:pos:aff">wysoki</token>
 				<token inflected="yes">forma</token>
 			</pattern>
 			<message>Nie mówi się „wysoka forma”, lecz <suggestion>dobra forma</suggestion>, <suggestion>doskonała forma</suggestion>.</message>
@@ -2942,12 +2931,13 @@ $Id: grammar.xml,v 1.34 2007-05-06 23:39:08 milek_pl Exp $
 			<example type="incorrect">Przykładem klasycznym są <marker>w tym względzie</marker> dominujące nurty psychologii.</example>
 			<example type="correct">Przykładem klasycznym są w tym zakresie dominujące nurty psychologii.</example>
 		</rule>
+		
 		<rule id="WYSOKA_FREKWENCJA" name="„wysoka/niska frekwencja” (duża/mała)">
 			<pattern>
-				<token inflected="yes" regexp="yes">wysoki|niski</token>
+				<token inflected="yes" regexp="yes" postag_regexp="yes" postag="adj:sg:.*:f.*:pos:aff">wysoki|niski</token>
 				<token inflected="yes">frekwencja</token>
 			</pattern>
-			<message>Nie mówi się „wysoka frekwencja” czy „niska frekwencja”, tylko <suggestion><match no="1" postag_regexp="yes" postag="(.*)" postag_replace=".*$1.*">duży</match> <match no="2"/></suggestion> i <suggestion><match no="1" regexp_match="(.*k)(.*)" regexp_replace="mał$2"/> <match no="2"/></suggestion>.</message>
+			<message>Nie mówi się „wysoka frekwencja” czy „niska frekwencja”, tylko <suggestion><match no="1" postag="adj.*">duży</match> <match no="2"/></suggestion> i <suggestion><match no="1" postag="adj.*">mały</match> <match no="2"/></suggestion>.</message>
 			<example type="incorrect" correction="duża frekwencja|mała frekwencja">W tym roku w wyborach była bardzo <marker>wysoka frekwencja</marker>.</example>
 			<example type="incorrect" correction="dużą frekwencję|małą frekwencję">W tym roku w wyborach narzekaliśmy na bardzo <marker>niską frekwencję</marker>.</example>
 			<example type="correct">W tym roku w wyborach była bardzo duża frekwencja.</example>
@@ -2997,6 +2987,7 @@ $Id: grammar.xml,v 1.34 2007-05-06 23:39:08 milek_pl Exp $
 			<example type="incorrect"><marker>Co i rusz</marker> media informują o tym, że któryś z prominentnych polityków koalicji rządzącej załatwił coś dla siebie.</example>
 			<example type="correct">Raz po raz media informują o tym, że któryś z prominentnych polityków koalicji rządzącej załatwił coś dla siebie.</example>
 		</rule>
+		
 		<rule id="CO_I_RAZ" name="„co i raz” (co chwila)">
 			<pattern>
 				<token>co</token>
@@ -3288,8 +3279,8 @@ $Id: grammar.xml,v 1.34 2007-05-06 23:39:08 milek_pl Exp $
 			<token>z</token>
 			<token postag_regexp="yes" postag=".*inst.*"/>
 		</pattern>
-		<message>Prawdopodobnie niepoprawny przyimek. Powinno być <suggestion>\1 do (\3)</suggestion> (przypadek ostatniego wyrazu należy zmienić na dopełniacz).</message>
-		<example type="incorrect">Dla profesora stan wojenny był <marker>analogiczny z nadużyciem</marker> władzy i tragiczną branką młodzieży.</example>
+		<message>Prawdopodobnie niepoprawny przyimek. Powinno być <suggestion><match no="1"/> do <match no="3" postag_regexp="yes" postag=".*gen.*"/></suggestion>.</message>
+		<example type="incorrect" correction="analogiczny do nadużycia|analogiczny do nadużyć">Dla profesora stan wojenny był <marker>analogiczny z nadużyciem</marker> władzy i tragiczną branką młodzieży.</example>
 		<example type="correct">Dla profesora stan wojenny był <marker>analogiczny do nadużycia</marker> władzy i tragiczną branką młodzieży.</example>
 	</rule>
 
@@ -3459,7 +3450,7 @@ $Id: grammar.xml,v 1.34 2007-05-06 23:39:08 milek_pl Exp $
 				<token>do</token>
 				<token/>
 			</pattern>
-			<message>Ten przymiotnik jest używany z przyimkiem „z”: <suggestion><match no="1"/> z <match no="3" postag_regexp="yes" postag="(.*):(sg|pl):(.*):(m[0-9]?|n|f):.*" postag_replace="$1:$2.*inst.*$4.*"/></suggestion>.</message>
+			<message>Ten przymiotnik jest używany z przyimkiem „z”: <suggestion><match no="1"/> z <match no="3" postag_regexp="yes" postag="(.*):(sg|pl):(.*):(m[0-9]?)?(n|f)?:.*" postag_replace="$1:$2.*inst.*$4?$5.*"/></suggestion>.</message>
 			<example type="incorrect" correction="identyczny z bolszewickim">Serwilizm demoliberalny jest <marker>identyczny do bolszewickiego</marker>.</example>
 			<example type="correct">Program jest identyczny z poprzednio wyemitowanym.</example>
 		</rule>
@@ -3470,7 +3461,7 @@ $Id: grammar.xml,v 1.34 2007-05-06 23:39:08 milek_pl Exp $
 				<token>jak</token>
 				<token/>
 			</pattern>
-			<message>Ten przymiotnik jest używany z przyimkiem „z”: <suggestion><match no="1"/> z <match no="3" postag_regexp="yes" postag="(.*):(sg|pl):(.*):(m[0-9]?|n|f):.*" postag_replace="$1:$2.*inst.*$4.*"/></suggestion>.</message>
+			<message>Ten przymiotnik jest używany z przyimkiem „z”: <suggestion><match no="1"/> z <match no="3" postag_regexp="yes" postag="(.*):(sg|pl):(.*):(m[0-9]?)?(n|f)?:.*" postag_replace="$1:$2.*inst.*$4?$5.*"/></suggestion>.</message>
 			<example type="incorrect" correction="identyczny z bolszewickim">Serwilizm demoliberalny jest <marker>identyczny jak bolszewicki</marker>.</example>
 			<example type="correct">Program jest identyczny z poprzednio wyemitowanym.</example>
 		</rule>
@@ -3651,7 +3642,7 @@ $Id: grammar.xml,v 1.34 2007-05-06 23:39:08 milek_pl Exp $
 			<rule>
 				<pattern>
 					<token inflected="yes">fakt</token>
-					<token inflected="yes" postag_regexp="yes" postag="adj.*:m.*" regexp="yes">autentyczny|konkretny</token>
+					<token inflected="yes" postag_regexp="yes" postag="adj:(sg|pl):.*:.*m.*:.*" regexp="yes">autentyczny|konkretny</token>
 				</pattern>
 				<message>To wyrażenie to pleonazm. Każdy fakt jest autentyczny i konkretny. Wystarczy napisać <suggestion>\1</suggestion>.</message>
 				<example type="correct">Ten film jest oparty na faktach.</example>
@@ -3660,7 +3651,7 @@ $Id: grammar.xml,v 1.34 2007-05-06 23:39:08 milek_pl Exp $
 			</rule>
 			<rule>
 				<pattern>
-					<token inflected="yes" postag_regexp="yes" postag="adj.*:m.*" regexp="yes">autentyczny|konkretny</token>
+					<token inflected="yes" postag_regexp="yes" postag="adj:(sg|pl):.*:.*m.*:.*" regexp="yes">autentyczny|konkretny</token>
 					<token inflected="yes">fakt</token>
 				</pattern>
 				<message>To wyrażenie to pleonazm. Każdy fakt jest autentyczny i konkretny. Wystarczy napisać <suggestion>\2</suggestion>.</message>
@@ -3672,7 +3663,7 @@ $Id: grammar.xml,v 1.34 2007-05-06 23:39:08 milek_pl Exp $
 		
 		<rule name="„długi upływ czasu” (długi czas)" id="DLUGI_UPLYW">
 			<pattern>
-				<token inflected="yes" postag="adj:sg:.*:m.*(:pos:aff|neg)" postag_regexp="yes">długi</token>
+				<token inflected="yes" postag="adj:(sg|pl):.*:.*m.*:(pos:aff|neg)" postag_regexp="yes">długi</token>
 				<token inflected="yes">upływ</token>
 				<token>czasu</token>
 			</pattern>
@@ -3684,7 +3675,7 @@ $Id: grammar.xml,v 1.34 2007-05-06 23:39:08 milek_pl Exp $
 	
 		<rule name="„potencjalna możliwość” (możliwość)" id="POTENCJALNA_MOZLIWOSC">
 			<pattern>
-				<token inflected="yes" postag_regexp="yes" postag="adj:.*:(f|f.n):pos:aff">potencjalny</token>
+				<token inflected="yes" postag_regexp="yes" postag="adj:.*:(f|f.n.*):pos:aff">potencjalny</token>
 				<token inflected="yes">możliwość</token>
 			</pattern>
 			<message>To wyrażenie to pleonazm. Wystarczy powiedzieć <suggestion>\2</suggestion>.</message>
@@ -3694,7 +3685,7 @@ $Id: grammar.xml,v 1.34 2007-05-06 23:39:08 milek_pl Exp $
 	
 		<rule name="„przychylna akceptacja” (akceptacja)" id="PRZYCHYLNA_AKCEPTACJA">
 			<pattern>
-				<token inflected="yes" postag_regexp="yes" postag="adj:.*:(f|f.n):pos:aff">przychylny</token>
+				<token inflected="yes" postag_regexp="yes" postag="adj:.*:(f|f.n.*):pos:aff">przychylny</token>
 				<token inflected="yes">akceptacja</token>
 			</pattern>
 			<message>To wyrażenie to pleonazm. Wystarczy powiedzieć <suggestion>\2</suggestion>.</message>
@@ -3802,7 +3793,7 @@ $Id: grammar.xml,v 1.34 2007-05-06 23:39:08 milek_pl Exp $
 		
 		<rule name="„wzajemna wymiana, współpraca” (wymiana, współpraca)" id="WZAJEMNA_WYMIANA">
 			<pattern>
-				<token inflected="yes" postag_regexp="yes" postag="adj:.*:(f|f.n):pos:aff">wzajemny</token>
+				<token inflected="yes" postag_regexp="yes" postag="adj:.*:(f|f.n.*):pos:aff">wzajemny</token>
 				<token inflected="yes" regexp="yes">wymiana|współpraca|kooperacja</token>
 			</pattern>
 			<message>To wyrażenie to pleonazm. Wystarczy powiedzieć <suggestion>\2</suggestion>.</message>
@@ -3832,7 +3823,7 @@ $Id: grammar.xml,v 1.34 2007-05-06 23:39:08 milek_pl Exp $
 		
 		<rule name="„pełny komplet” (komplet)" id="PELNY_KOMPLET">
 			<pattern>
-				<token inflected="yes" postag_regexp="yes" postag="adj:.*m:pos:aff">pełny</token>
+				<token inflected="yes" postag_regexp="yes" postag="adj:(sg|pl):.*:.*m.*:pos:aff">pełny</token>
 				<token inflected="yes">komplet</token>
 			</pattern>
 			<message>To wyrażenie to pleonazm. Wystarczy powiedzieć <suggestion>\2</suggestion>.</message>
@@ -3842,7 +3833,7 @@ $Id: grammar.xml,v 1.34 2007-05-06 23:39:08 milek_pl Exp $
 
 		<rule name="„wolny wakat” (wakat)" id="WOLNY_WAKAT">
 			<pattern>
-				<token inflected="yes" postag_regexp="yes" postag="adj:.*m:pos:aff">wolny</token>
+				<token inflected="yes" postag_regexp="yes" postag="adj:(sg|pl):.*:.*m.*:pos:aff">wolny</token>
 				<token inflected="yes" regexp="yes">wakat|vacat</token>
 			</pattern>
 			<message>To wyrażenie to pleonazm. Wystarczy powiedzieć <suggestion>\2</suggestion>.</message>
@@ -3853,7 +3844,7 @@ $Id: grammar.xml,v 1.34 2007-05-06 23:39:08 milek_pl Exp $
 		<rule name="„skład surowcowy” (skład)" id="SKLAD_SUROWCOWY">
 			<pattern>
 				<token inflected="yes">skład</token>
-				<token inflected="yes" postag_regexp="yes" postag="adj:.*m:pos:aff">surowcowy</token>
+				<token inflected="yes" postag_regexp="yes" postag="adj:(sg|pl):.*:.*m.*:pos:aff">surowcowy</token>
 			</pattern>
 			<message>To wyrażenie to pleonazm. Wystarczy powiedzieć <suggestion>\1</suggestion>.</message>
 			<example type="correct">Te pierniczki mają od lat ten sam skład.</example>			
@@ -3863,7 +3854,7 @@ $Id: grammar.xml,v 1.34 2007-05-06 23:39:08 milek_pl Exp $
 		<rule name="„dzień dzisiejszy” (dzisiaj)" id="DZIEN_DZISIEJSZY">
 			<pattern>
 				<token inflected="yes">dzień</token>
-				<token inflected="yes" postag_regexp="yes" postag="adj:sg.*m:(pos:)?aff">dzisiejszy</token>
+				<token inflected="yes" postag_regexp="yes" postag="adj:sg.*:.*m.*:pos:aff">dzisiejszy</token>
 			</pattern>
 			<message>To wyrażenie to pleonazm. Wystarczy powiedzieć <suggestion>dzisiaj</suggestion> lub <suggestion>dziś</suggestion>.</message>
 			<example type="correct">Szkoła dzisiaj</example>			
@@ -3873,7 +3864,7 @@ $Id: grammar.xml,v 1.34 2007-05-06 23:39:08 milek_pl Exp $
 		<rule name="„dzień jutrzejszy” (jutro)" id="DZIEN_JUTRZEJSZY">
 			<pattern>
 				<token inflected="yes">dzień</token>
-				<token inflected="yes" postag_regexp="yes" postag="adj:sg.*m:(pos:)?aff">jutrzejszy</token>
+				<token inflected="yes" postag_regexp="yes" postag="adj:sg.*:.*m.*:pos:aff">jutrzejszy</token>
 			</pattern>
 			<message>To wyrażenie to pleonazm. Wystarczy powiedzieć <suggestion>jutro</suggestion>.</message>
 			<example type="correct">Nie należy też zbytnio trwożyć się tym, co przyniesie <marker>jutro</marker>.</example>			
@@ -3883,7 +3874,7 @@ $Id: grammar.xml,v 1.34 2007-05-06 23:39:08 milek_pl Exp $
 		<rule name="„dzień wczorajszy” (wczoraj)" id="DZIEN_WCZORAJSZY">
 			<pattern>
 				<token inflected="yes">dzień</token>
-				<token inflected="yes" postag_regexp="yes" postag="adj:sg.*m:(pos:)?aff">wczorajszy</token>
+				<token inflected="yes" postag_regexp="yes" postag="adj:sg.*:.*m.*:pos:aff">wczorajszy</token>
 			</pattern>
 			<message>To wyrażenie to pleonazm. Wystarczy powiedzieć <suggestion>wczoraj</suggestion>.</message>
 			<example type="correct">Wczoraj minęło spokojnie.</example>			
@@ -3903,7 +3894,7 @@ $Id: grammar.xml,v 1.34 2007-05-06 23:39:08 milek_pl Exp $
 		<rule>
 			<pattern>
 				<token inflected="yes">żółtko</token>
-				<token regexp="yes" inflected="yes" postag_regexp="yes" postag=".*adj:sg.*n:pos:aff">jajowy|jajeczny</token>
+				<token regexp="yes" inflected="yes" postag_regexp="yes" postag="adj:sg.*n[:\.].*pos:aff">jajowy|jajeczny</token>
 			</pattern>
 			<message>To wyrażenie to pleonazm. Wystarczy powiedzieć <suggestion>\1</suggestion>.</message>
 			<example type="correct">Do ciasta dodać jedno żółtko.</example>		
@@ -4110,12 +4101,12 @@ $Id: grammar.xml,v 1.34 2007-05-06 23:39:08 milek_pl Exp $
 	<rulegroup name="„ten pomarańcz” (ta pomarańcza)" id="TEN_POMARANCZ">
 		<rule>
 			<pattern>
-				<token postag_regexp="yes" postag="adj.*[\:\.]m[\d]*.*"><exception postag_regexp="yes" postag="adj.*[\:\.]f.*"/></token>
+				<token postag_regexp="yes" postag="adj:sg:nom\.acc.m3.*"><exception postag_regexp="yes" postag="adj.*:f.*"/></token>
 				<token>pomarańcz</token>
 			</pattern>
-			<message>Rzeczownik „pomarańcza” (=owoc cytrusowy) jest rodzaju żeńskiego. Poprawnie: <suggestion>\1 pomarańcza</suggestion> (należy dostosować końcówkę przymiotnika!). Wyjątkiem jest tylko nazwa koloru pomarańczowego (rodzaj męski).</message>
+			<message>Rzeczownik „pomarańcza” (=owoc cytrusowy) jest rodzaju żeńskiego. Poprawnie: <suggestion><match no="1" postag_regexp="yes" postag="adj:sg:nom.voc:f.*"/> pomarańcza</suggestion>. Wyjątkiem jest tylko nazwa koloru pomarańczowego (rodzaj męski).</message>
 			<example type="correct">Jaka smaczna pomarańcza!</example>
-			<example type="incorrect">Jaki <marker>smaczny pomarańcz</marker>!</example>
+			<example type="incorrect" correction="smaczna pomarańcza">Jaki <marker>smaczny pomarańcz</marker>!</example>
 		</rule>
 		<rule>
 			<pattern mark_from="2" mark_to="-2">
@@ -4138,6 +4129,16 @@ $Id: grammar.xml,v 1.34 2007-05-06 23:39:08 milek_pl Exp $
 		<example type="correct">Sok z pomarańczy</example>
 		<example type="incorrect">Sok z <marker>pomarańcza</marker></example>		
 		</rule>
+		<rule>
+			<pattern>
+				<token postag_regexp="yes" postag="adj:sg:acc.m2.m3.n.*"></token>
+				<token>pomarańcza</token>
+			</pattern>
+			<message>Rzeczownik „pomarańcza” (=owoc cytrusowy) jest rodzaju żeńskiego. Poprawnie: <suggestion><match no="1" postag_regexp="yes" postag="adj:sg:acc.inst:f.*"/> pomarańczę</suggestion>. Wyjątkiem jest tylko nazwa koloru pomarańczowego (rodzaj męski).</message>
+			<example type="correct">Jaka smaczna pomarańcza!</example>
+			<example type="incorrect" correction="jedną pomarańczę">Kupiła <marker>jednego pomarańcza</marker>.</example>
+		</rule>
+		
 	</rulegroup>
 	
 	<rulegroup name="„ta pora” (por)" id="TA_PORA">
@@ -4176,7 +4177,7 @@ $Id: grammar.xml,v 1.34 2007-05-06 23:39:08 milek_pl Exp $
 		<rulegroup name="„golonko” (golonka)" id="GOLONKO">
 			<rule>
 				<pattern>
-				<token postag_regexp="yes" postag="adj.*[\:\.]n.*"><exception postag_regexp="yes" postag="adj:pl.*inst.*[\:\.]f.*"/></token>
+				<token postag_regexp="yes" postag="adj.*[:\.]n[:\.].*"/>
 				<token>golonko</token>
 			</pattern>
 			<message>Ten rzeczonik ma inny rodzaj gramatyczny i liczbę. Mówimy <suggestion>golonka</suggestion> (zawsze w rodzaju żeńskim).</message>
@@ -4186,7 +4187,7 @@ $Id: grammar.xml,v 1.34 2007-05-06 23:39:08 milek_pl Exp $
 			<rule>
 				<pattern>
 				<token>golonko</token>
-				<token postag_regexp="yes" postag="adj.*[\:\.]n.*"><exception postag_regexp="yes" postag="adj:pl.*inst.*[\:\.]f.*"/></token>
+				<token postag_regexp="yes" postag="adj.*[\:\.]n[:\.].*"/>
 			</pattern>
 			<message>Ten rzeczonik ma inny rodzaj gramatyczny i liczbę. Mówimy <suggestion>golonka</suggestion> (zawsze w rodzaju żeńskim).</message>
 			<example type="correct">Specjalnością zakładu jest golonka staropolska.</example>
@@ -4200,7 +4201,7 @@ $Id: grammar.xml,v 1.34 2007-05-06 23:39:08 milek_pl Exp $
 	
 		<rule id="WACHLARZ_CZEGO" name="„szeroki wachlarz” (wiele)">
 			<pattern mark_to="-1">
-				<token inflected="yes" regexp="yes" postag_regexp="yes" postag="adj:sg.*m[\d]*:pos:aff">szeroki|bogaty</token>
+				<token inflected="yes" regexp="yes" postag_regexp="yes" postag="adj:sg.*:.*m.*:pos:aff">szeroki|bogaty</token>
 				<token inflected="yes">wachlarz</token>
 				<token postag_regexp="yes" postag=".*gen.*"/>
 			</pattern>
@@ -4211,7 +4212,7 @@ $Id: grammar.xml,v 1.34 2007-05-06 23:39:08 milek_pl Exp $
 	
 		<rule name="„cały szereg” (wiele)" id="CALY_SZEREG">
 			<pattern>
-				<token inflected="yes" postag_regexp="yes" postag="adj.*[\:\.]m[\d]*.*">cały</token>
+				<token inflected="yes" postag_regexp="yes" postag="adj:sg.*:.*m.*:pos:aff">cały</token>
 				<token inflected="yes">szereg</token>
 			</pattern>
 			<message>To nadużywane wyrażenie. Lepiej: <suggestion>wiele</suggestion>, <suggestion>mnóstwo</suggestion>, <suggestion>bardzo wiele</suggestion>.</message>
@@ -4483,7 +4484,7 @@ $Id: grammar.xml,v 1.34 2007-05-06 23:39:08 milek_pl Exp $
 	</rule>
 	<rule>
 	<pattern mark_from="1">
-	<token postag_regexp="yes" postag=".*adj.*[\.:]n[0-9\.:].*"/>
+	<token postag_regexp="yes" postag="adj.*[\.:]n[0-9\.:].*"/>
 	<token>widzi</token>
 	<token>mi</token>
 	<token>się</token>
@@ -4519,15 +4520,27 @@ $Id: grammar.xml,v 1.34 2007-05-06 23:39:08 milek_pl Exp $
 			<example type="incorrect" correction="SMS-ów">Ludwik dostał kilkaset <marker>SMSów</marker> z pogróżkami od Przemysława.</example>
 			<example type="correct">Nasze radio nadaje na częstotliwości 102 MHz.</example>
 		</rule>
+	
+		<rule id="IMIONA_Z_APOSTROFAMI" name="Niepotrzebne apostrofy w formach odmiennych">
+			<pattern>
+				<token postag="subst:sg:nom:m1" regexp="yes">.*{2}+[^ye]|.*{2}+e[^s]</token>
+				<token>'</token>
+				<token regexp="yes">a|ie|owi|em|ach|ami|om|owie|ów</token>
+			</pattern>
+			<message>Ten wyraz odmienia się prawdopodobnie bez apostrofów: <suggestion>\1\3</suggestion>.</message>
+			<example type="incorrect" correction="Johnie">Porozmawiajmy o <marker>John'ie</marker> Lennonie.</example>
+			<example type="correct">Porozmawiajmy o <marker>Johnie</marker> Lennonie.</example>
+			<example type="correct">To wielka szansa dla <marker>Jacques'a</marker>.</example>
+		</rule>
 
 		<rule id="CHART_DUCHA" name="„chart ducha” (hart ducha)">
 			<pattern mark_to="-1">
 				<token inflected="yes">chart</token>
 				<token>ducha</token>
 			</pattern>
-			<message>Prawdopodobny błąd ortograficzny, powinno być <suggestion>hart</suggestion> (przez samo „h” i w odpowiednim przypadku).</message>
+			<message>Prawdopodobny błąd ortograficzny, powinno być <suggestion><match no="1" regexp_match="c(hart.*)" regexp_replace="$1"/></suggestion>.</message>
 			<example type="correct">Ludwik musi się wykazywać ogromnym hartem ducha przy Romanie.</example>
-			<example type="incorrect">Ludwik musi się wykazywać ogromnym <marker>chartem</marker> ducha przy Romanie.</example>
+			<example type="incorrect" correction="hartem">Ludwik musi się wykazywać ogromnym <marker>chartem</marker> ducha przy Romanie.</example>
 		</rule>
 
 		<rule id="MAZE_O" name="„mażę o” (marzę o)">
@@ -4626,7 +4639,7 @@ $Id: grammar.xml,v 1.34 2007-05-06 23:39:08 milek_pl Exp $
 		
 		<rule name="„tym czasem” (tymczasem)" id="TYMCZASEM">
 			<pattern mark_from="1">
-				<token regexp="yes" negate="yes" negate_pos="yes" postag=".*verb.*" postag_regexp="yes">z|przed|poza|za|nad</token>
+				<token regexp="yes" negate="yes" negate_pos="yes" postag="verb.*" postag_regexp="yes">z|przed|poza|za|nad</token>
 				<token>tym</token>
 				<token>czasem</token>
 			</pattern>
@@ -5771,7 +5784,7 @@ $Id: grammar.xml,v 1.34 2007-05-06 23:39:08 milek_pl Exp $
 		<rule>
 			<pattern mark_to="-1">
 				<token>struj</token>
-				<token postag_regexp="yes" postag="subst:sg:gen.*|adj:sg:.*"/>
+				<token postag_regexp="yes" postag="subst:sg:gen.*|adj:sg.*:.*m.*:pos:aff"/>
 			</pattern>
 			<message>Prawdopodobnie chodziło o wyraz <suggestion>strój</suggestion> (ubranie), a nie o tryb rozkazujący od czasownika „struć”.</message>
 			<example type="incorrect">To <marker>struj</marker> łucznika.</example>
@@ -5779,7 +5792,7 @@ $Id: grammar.xml,v 1.34 2007-05-06 23:39:08 milek_pl Exp $
 		</rule>
 		<rule>
 			<pattern mark_from="1">
-				<token postag_regexp="yes" postag="adj:sg:.*"/>
+				<token postag_regexp="yes" postag="adj:sg.*:.*m.*:pos:aff"/>
 				<token>struj</token>	
 			</pattern>
 			<message>Prawdopodobnie chodziło o wyraz <suggestion>strój</suggestion> (ubranie), a nie o tryb rozkazujący od czasownika „struć”.</message>
@@ -5808,12 +5821,12 @@ $Id: grammar.xml,v 1.34 2007-05-06 23:39:08 milek_pl Exp $
 		</rule>
 		<rule name="czasownik + „si” (się)" id="CZASOWNIK_SI">
 			<pattern mark_from="1">
-				<token postag=".*verb..*" postag_regexp="yes"/>
+				<token postag="verb.*" postag_regexp="yes"/>
 				<token>si</token>
 			</pattern>
 			<message>Literówka: powinno być <suggestion>się</suggestion>.</message>
 			<example type="correct">Eryk podrapał się po głowie.</example>
-			<example type="incorrect">Eryk podrapał <marker>si</marker> po głowie.</example>
+			<example type="incorrect" correction="się">Eryk podrapał <marker>si</marker> po głowie.</example>
 		</rule>
 	
 		<rule name="„kłuć się” (kłóć się)" id="KLOC_SIE">
@@ -6045,9 +6058,9 @@ $Id: grammar.xml,v 1.34 2007-05-06 23:39:08 milek_pl Exp $
 		</rule>
 		<rule>
 		<pattern mark_from="1" mark_to="-1">
-		<token negate="yes">po<exception postag_regexp="yes" postag=".*adj.*gen.*m[0-9\.:].*"/></token>
+		<token negate="yes">po<exception postag_regexp="yes" postag="adj:sg:acc:m2.m3.n.*"/></token>
 		<token>porostu</token>
-		<token><exception postag_regexp="yes" postag=".*adj.*gen.*m[0-9\.:].*"/></token>
+		<token><exception postag_regexp="yes" postag="adj:sg:acc:m2.m3.n.*"/></token>
 		</pattern>
 		<message>Prawdopodobna literówka. Czy chodziło o <suggestion>po prostu</suggestion>?</message>
 		<example type="correct">To jest <marker>po prostu</marker> uczciwy minister.</example>
@@ -6182,7 +6195,7 @@ $Id: grammar.xml,v 1.34 2007-05-06 23:39:08 milek_pl Exp $
 	 <rule>
 	 	<pattern mark_from="1">
 	 		<token regexp="yes">z|wiele|tyle|mało</token>
-	 		<token regexp="yes" postag_regexp="yes" postag=".*subst.*[:\.]m.*">.*y<exception postag_regexp="yes" postag=".*[\.:]gen[\.:].*"/></token>
+	 		<token regexp="yes" postag_regexp="yes" postag="subst.*[:\.]m.*">.*y<exception postag_regexp="yes" postag=".*[\.:]gen[\.:].*"/></token>
 	 	</pattern>
 	 	<message>Prawdopodobna literówka: czy końcówka wyrazu jest prawidłowa?</message>
 	 	<example type="correct">Nie ma go z powodu grypy.</example>
@@ -6193,7 +6206,7 @@ $Id: grammar.xml,v 1.34 2007-05-06 23:39:08 milek_pl Exp $
 	 	<pattern mark_from="2">
 	 		<token>z</token>
 	 		<token>tego</token>
-	 		<token regexp="yes" postag_regexp="yes" postag=".*subst.*[:\.]m.*">.*y<exception postag_regexp="yes" postag=".*[\.:]gen[\.:].*"/></token>
+	 		<token regexp="yes" postag_regexp="yes" postag="subst.*[:\.]m.*">.*y<exception postag_regexp="yes" postag=".*[\.:]gen[\.:].*"/></token>
 	 	</pattern>
 	 	<message>Prawdopodobna literówka: czy końcówka wyrazu jest prawidłowa?</message>
 	 	<example type="correct">Nie ma go z tego powodu, że ma grypę.</example>
@@ -6214,7 +6227,7 @@ $Id: grammar.xml,v 1.34 2007-05-06 23:39:08 milek_pl Exp $
  	<rule id="ZWROTNE_BEZ_SIE" name="czasowniki zwrotne bez „się”">
 		<pattern mark_from="1" mark_to="-1">
 		<token postag="SENT_START" skip="-1"><exception scope="next">się</exception></token>
-  		<token skip="-1" inflected="yes" regexp="yes" postag_regexp="yes" postag=".*refl.*"><exception scope="current" postag="subst:.*|ppas.*|adj.*" postag_regexp="yes"/><exception regexp="yes">rozmaicie|śmiał.*</exception><exception scope="next">się</exception></token>
+  		<token skip="-1" inflected="yes" regexp="yes" postag_regexp="yes" postag="refl"><exception scope="current" postag="subst:.*|ppas.*|adj.*" postag_regexp="yes"/><exception regexp="yes">rozmaicie|śmiał.*</exception><exception scope="next">się</exception></token>
   		<token postag="SENT_END"/>
 		</pattern>
 		<message>W tym zdaniu występuje czasownik zwrotny, a brakuje wyrazu „się”; powinno być: <suggestion>\2 się</suggestion> lub <suggestion>się \2</suggestion>.</message>
@@ -6228,7 +6241,7 @@ $Id: grammar.xml,v 1.34 2007-05-06 23:39:08 milek_pl Exp $
 	
 	<rule name="„inna strona medalu” (druga strona)" id="INNA_STRONA_MEDALU">
 			<pattern>
-				<token inflected="yes" postag_regexp="yes" postag="adj:.*:(f|f.n):pos">inny</token>
+				<token inflected="yes" postag_regexp="yes" postag="adj:.*:f.*:pos">inny</token>
 				<token inflected="yes">strona</token>
 				<token>medalu</token>
 			</pattern>

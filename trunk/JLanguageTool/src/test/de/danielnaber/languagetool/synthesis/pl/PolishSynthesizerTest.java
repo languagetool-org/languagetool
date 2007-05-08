@@ -17,11 +17,11 @@ public class PolishSynthesizerTest extends TestCase {
     
     assertEquals("[Aaru]", Arrays.toString(synth.synthesize(dummyToken("Aar"), "subst:sg:gen:m3")));
     assertEquals("[Abchazem]", Arrays.toString(synth.synthesize(dummyToken("Abchaz"), "subst:sg:inst:m3")));
-    assertEquals("[nieduży]", Arrays.toString(synth.synthesize(dummyToken("duży"), "adj:sg:nom:m:pos:neg")));
+    assertEquals("[nieduży]", Arrays.toString(synth.synthesize(dummyToken("duży"), "adj:sg:nom.voc:m1.m2:pos:neg")));        
     assertEquals("[miała]", Arrays.toString(synth.synthesize(dummyToken("mieć"), "verb:praet:sg:ter:f:?perf")));    
     //with regular expressions
     assertEquals("[tonera]", Arrays.toString(synth.synthesize(dummyToken("toner"), ".*sg:gen.*", true)));
-    assertEquals("[niedużego, niedużemu, nieduży]", Arrays.toString(synth.synthesize(dummyToken("duży"), "adj:sg.*m[0-9]?:pos:neg", true)));    
+    assertEquals("[niedużego, niedużemu, niedużym, nieduży, nieduży]", Arrays.toString(synth.synthesize(dummyToken("duży"), "adj:sg.*(m[0-9]?|m.n):pos:neg", true)));    
     assertEquals("[miałabym, miałbym, miałabyś, miałbyś, miałaby, miałby, miałoby, miałam, miałem, miałaś, miałeś, miała, miał, miało]", 
           Arrays.toString(synth.synthesize(dummyToken("mieć"), ".*praet:sg.*", true)));
   }
