@@ -436,7 +436,7 @@ public class PatternRule extends Rule {
                     errorMessage += suggestionLeft
                     + formatMatch 
                     + suggestionRight;
-                    if (lastLeftSugEnd == -1 && lastLeftSugStart > 0) {
+                    if (lastLeftSugEnd < lastLeftSugStart && lastLeftSugStart > 0) {
                       errorMessage += "</suggestion>, <suggestion>";
                     }
                   }
