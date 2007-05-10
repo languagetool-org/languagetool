@@ -2,7 +2,7 @@
 <!--
 Polish Grammar and Typo Rules for LanguageTool
 Copyright (C) 2006 Marcin Miłkowski
-$Id: grammar.xml,v 1.39 2007-05-10 18:55:02 milek_pl Exp $		
+$Id: grammar.xml,v 1.40 2007-05-10 21:01:26 milek_pl Exp $		
 -->
 <rules lang="pl">
 
@@ -1136,7 +1136,7 @@ $Id: grammar.xml,v 1.39 2007-05-10 18:55:02 milek_pl Exp $
 		</rule>
 		
 	</category>
-	<category name="Błędy odmiany">
+	<category name="Błędy odmiany">	
 	
 	<rule name="„w dniu x stycznia” (x stycznia)" id="W_DNIU_1_STYCZNIA">
 		<pattern>
@@ -1509,6 +1509,18 @@ $Id: grammar.xml,v 1.39 2007-05-10 18:55:02 milek_pl Exp $
 			<message>W tym kontekście należy użyć formy: <suggestion>razu</suggestion>.</message>
 			<example type="incorrect" correction="razu">Podczas całego przedstawienia ani <marker>raz</marker> nie spojrzałem na zegarek. </example>
 			<example type="correct">Podczas całego przedstawienia ani <marker>razu</marker> nie spojrzałem na zegarek. </example>
+		</rule>
+		
+		<rule id="X_X_PROCENTA" name="„0,1 procenta” (0,1 procent)">
+			<pattern mark_from="3">
+				<token regexp="yes">\d+</token>
+				<token>,</token>
+				<token regexp="yes">\d+</token>
+				<token regexp="yes">procentu|procenta</token>
+			</pattern>
+			<message>W połączeniu z liczbami ułamkowymi nie odmienia się wyrazu <suggestion>procent</suggestion>.</message>
+			<example type="incorrect" correction="procent">Dzisiaj indeks WIG-20 wzrósł o 15, 7 <marker>procenta</marker>.</example>
+			<example type="correct">Nie było dziś 1 procenta uczniów.</example>
 		</rule>
 			
 	</category>
@@ -3968,14 +3980,15 @@ $Id: grammar.xml,v 1.39 2007-05-10 18:55:02 milek_pl Exp $
 		</rule>
 		</rulegroup>
 		
-		<rule name="„od mnie” (ode mnie)" id="OD_MNIE">
+		<rule name="„od/bez mnie” (ode/beze mnie)" id="OD_MNIE">
 			<pattern mark_to="-1">
-				<token>od</token>
+				<token regexp="yes">od|bez</token>
 				<token>mnie</token>
 			</pattern>
-			<message>Ten przyimek należy zapisać tak: <suggestion>ode</suggestion>.</message>
+			<message>Ten przyimek należy zapisać tak: <suggestion>\1e</suggestion>.</message>
 			<example type="correct">Jak będziesz w szpitalu wariatów, pozdrów Antoniego ode mnie!</example>
 			<example type="incorrect" correction="ode">Jak będziesz w szpitalu wariatów, pozdrów Antoniego <marker>od</marker> mnie!</example>
+			<example type="incorrect" correction="beze">Możesz <marker>bez</marker> mnie żyć...</example>
 		</rule>
 		
 		<rule name="„ode czego” (od czego)" id="ODE_CZEGO">
@@ -3986,6 +3999,16 @@ $Id: grammar.xml,v 1.39 2007-05-10 18:55:02 milek_pl Exp $
 			<message>Ten przyimek należy zapisać tak: <suggestion>od</suggestion>; jeśli chodziło o biernik od „oda”, to należy napisać: <suggestion>odę</suggestion>.</message>
 			<example type="correct">Jak będziesz w szpitalu wariatów, pozdrów Antoniego od Aleksandra!</example>
 			<example type="incorrect" correction="od|odę">Jak będziesz w szpitalu wariatów, pozdrów Antoniego <marker>ode</marker> Aleksandra!</example>
+		</rule>
+		
+		<rule name="„beze czego” (bez czego)" id="BEZE_CZEGO">
+			<pattern mark_to="-1">
+				<token>beze</token>
+				<token><exception>mnie</exception></token>
+			</pattern>
+			<message>Ten przyimek należy zapisać tak: <suggestion>bez</suggestion>.</message>
+			<example type="incorrect" correction="bez">Teraz nie mogę dnia zacząć <marker>beze</marker> tego</example>
+			<example type="correct">Teraz nie mogę dnia zacząć bez tego.</example>
 		</rule>
 		
 		<rule name="„przede czym” (przed czym)" id="PRZEDE_CZYM">
