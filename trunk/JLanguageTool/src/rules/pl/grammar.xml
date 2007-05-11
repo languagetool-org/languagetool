@@ -2,7 +2,7 @@
 <!--
 Polish Grammar and Typo Rules for LanguageTool
 Copyright (C) 2006 Marcin Miłkowski
-$Id: grammar.xml,v 1.40 2007-05-10 21:01:26 milek_pl Exp $		
+$Id: grammar.xml,v 1.41 2007-05-11 22:09:20 milek_pl Exp $		
 -->
 <rules lang="pl">
 
@@ -2729,23 +2729,46 @@ $Id: grammar.xml,v 1.40 2007-05-10 21:01:26 milek_pl Exp $
 			<example type="correct"><marker>Odgrywa dużą rolę</marker> w żegludze różnych typów statków.</example>
 		</rule>
 
-		<rule name="„pełnić rolę” (odgrywać rolę)" id="PELNIC_ROLE">
+		<rulegroup name="„pełnić rolę” (odgrywać rolę)" id="PELNIC_ROLE">
+		<rule>		
 			<pattern>
-				<token skip="2" inflected="yes" regexp="yes">pełnić|spełniać</token>
+				<token inflected="yes" regexp="yes">pełnić|spełniać</token>
 				<token regexp="yes">rolę|role</token>
 			</pattern>
-			<message>Mówimy <suggestion>\1 funkcję</suggestion> lub <suggestion>odgrywać \2</suggestion>, a nie „pełnić rolę”.</message>
-			<example type="incorrect"><marker>Pełni istotną rolę</marker> w żegludze różnych typów statków.</example>
+			<message>Mówimy <suggestion><match no="1"/> funkcję</suggestion> lub <suggestion><match no="1" postag="verb.*">odgrywać</match> <match no="2"/></suggestion>, a nie „pełnić rolę”.</message>
+			<example type="incorrect" correction="Pełni funkcję|Odgrywa rolę"><marker>Pełni rolę</marker> w żegludze różnych typów statków.</example>
 			<example type="correct"><marker>Odgrywa istotną rolę</marker> w żegludze różnych typów statków.</example>
 		</rule>
+		<rule>		
+			<pattern>
+				<token inflected="yes" regexp="yes">pełnić|spełniać</token>
+				<token postag_regexp="yes" postag="adj:.*acc.*"/>
+				<token regexp="yes">rolę|role</token>
+			</pattern>
+			<message>Mówimy <suggestion><match no="1"/> <match no="2"/> funkcję</suggestion> lub <suggestion><match no="1" postag="verb.*">odgrywać</match> <match no="2"/> <match no="3"/></suggestion>, a nie „pełnić rolę”.</message>
+			<example type="incorrect" correction="Pełni istotną funkcję|Odgrywa istotną rolę"><marker>Pełni istotną rolę</marker> w żegludze różnych typów statków.</example>
+			<example type="correct"><marker>Odgrywa istotną rolę</marker> w żegludze różnych typów statków.</example>
+		</rule>		
+		<rule>		
+			<pattern>
+				<token inflected="yes" regexp="yes">pełnić|spełniać</token>
+				<token postag_regexp="yes" postag="adv.*"/>
+				<token postag_regexp="yes" postag="adj:.*acc.*"/>
+				<token regexp="yes">rolę|role</token>
+			</pattern>
+			<message>Mówimy <suggestion><match no="1"/> <match no="2"/> <match no="3"/> funkcję</suggestion> lub <suggestion><match no="1" postag="verb.*">odgrywać</match> <match no="2"/> <match no="3"/> <match no="4"/></suggestion>, a nie „pełnić rolę”.</message>
+			<example type="incorrect" correction="Pełni naprawdę istotną funkcję|Odgrywa naprawdę istotną rolę"><marker>Pełni naprawdę istotną rolę</marker> w żegludze różnych typów statków.</example>
+			<example type="correct"><marker>Odgrywa istotną rolę</marker> w żegludze różnych typów statków.</example>
+		</rule>				
+		</rulegroup>
 	
 		<rule name="„przedkładać wniosek” (przedstawiać wniosek)" id="PRZEDKLADAC_WNIOSEK">
 			<pattern mark_to="-1">
 				<token skip="3" inflected="yes" regexp="yes">przedkładać|przedłożyć</token>
 				<token>wniosek</token>
 			</pattern>
-			<message>Prawdopodobnie użyto niewłaściwego czasownika. Powinno być: <suggestion>przedstawić</suggestion>, <suggestion>zgłaszać</suggestion>, <suggestion>wysuwać</suggestion>.</message>
-			<example type="incorrect">Organizacje producentów mogą <marker>przedkładać</marker> tylko jeden wniosek o przyznanie pomocy w ciągu roku.</example>
+			<message>Prawdopodobnie użyto niewłaściwego czasownika. Powinno być: <suggestion><match no="1" postag="verb.*">przedstawić</match></suggestion>, <suggestion><match no="1" postag="verb.*">zgłaszać</match></suggestion>, <suggestion><match no="1" postag="verb.*">wysuwać</match></suggestion>.</message>
+			<example type="incorrect" correction="przedstawią|zgłaszają|wysuwają">Organizacje producentów <marker>przedkładają</marker> tylko jeden wniosek o przyznanie pomocy w ciągu roku.</example>
 			<example type="correct">Organizacje producentów mogą <marker>zgłaszać</marker> tylko jeden wniosek o przyznanie pomocy w ciągu roku.</example>
 		</rule>
 		
@@ -2754,8 +2777,8 @@ $Id: grammar.xml,v 1.40 2007-05-10 21:01:26 milek_pl Exp $
 				<token skip="2" inflected="yes" regexp="yes">wywierać|wywrzeć</token>
 				<token>piętno</token>
 			</pattern>
-			<message>Prawdopodobnie użyto niewłaściwego czasownika. Powinno być: <suggestion>odcisnąć</suggestion> lub <suggestion>wycisnąć</suggestion>.</message>
-			<example type="incorrect">Bez wątpienia jednak <marker>wywarł</marker> wielkie piętno na historii Stanów Zjednoczonych XX wieku.</example>
+			<message>Prawdopodobnie użyto niewłaściwego czasownika. Powinno być: <suggestion><match no="1" postag="verb.*">odcisnąć</match></suggestion> lub <suggestion><match no="1" postag="verb.*">wycisnąć</match></suggestion>.</message>
+			<example type="incorrect" correction="odcisnął|wycisnął">Bez wątpienia jednak <marker>wywarł</marker> wielkie piętno na historii Stanów Zjednoczonych XX wieku.</example>
 			<example type="correct">Bez wątpienia jednak <marker>odcisnął</marker> wielkie piętno na historii Stanów Zjednoczonych XX wieku.</example>
 		</rule>
 
@@ -2764,8 +2787,8 @@ $Id: grammar.xml,v 1.40 2007-05-10 21:01:26 milek_pl Exp $
 				<token skip="2" inflected="yes" regexp="yes">wyrządzić|wyrządzać</token>
 				<token regexp="yes">stratę|straty</token>
 			</pattern>
-			<message>Prawdopodobnie użyto niewłaściwego czasownika. Powinno być: <suggestion>spowodować</suggestion> lub <suggestion>powodować</suggestion>.</message>
-			<example type="incorrect"><marker>Wyrządził</marker> straty na około 300 złotych.</example>
+			<message>Prawdopodobnie użyto niewłaściwego czasownika. Powinno być: <suggestion><match no="1" postag="verb.*">spowodować</match></suggestion> lub <suggestion><match no="1" postag="verb.*">powodować</match></suggestion>.</message>
+			<example type="incorrect" correction="Spowodował|Powodował"><marker>Wyrządził</marker> straty na około 300 złotych.</example>
 			<example type="correct"><marker>Spowodował</marker> straty na około 300 złotych.</example>
 		</rule>
 
@@ -2775,8 +2798,8 @@ $Id: grammar.xml,v 1.40 2007-05-10 21:01:26 milek_pl Exp $
 				<token>ze</token>
 				<token>stanowiska</token>
 			</pattern>
-			<message>Prawdopodobnie użyto niewłaściwego czasownika (wyrażenie jest niepoprawnym rusycyzmem). Powinno być: <suggestion>usunąć</suggestion> lub <suggestion>zwolnić</suggestion>.</message>
-			<example type="incorrect">Straty Vietcongu były tak duże, że komuniści zdecydowali się <marker>zdjąć</marker> Vo ze stanowiska.</example>
+			<message>Prawdopodobnie użyto niewłaściwego czasownika (wyrażenie jest niepoprawnym rusycyzmem). Powinno być: <suggestion><match no="1" postag="verb.*">usunąć</match></suggestion> lub <suggestion><match no="1" postag="verb.*">zwolnić</match></suggestion>.</message>
+			<example type="incorrect" correction="usunęli|zwolnili">Straty Vietcongu były tak duże, że komuniści <marker>zdjęli</marker> Vo ze stanowiska.</example>
 			<example type="correct">Straty Vietcongu były tak duże, że komuniści zdecydowali się <marker>usunąć</marker> Vo ze stanowiska.</example>
 		</rule>
 		
@@ -2825,6 +2848,7 @@ $Id: grammar.xml,v 1.40 2007-05-10 21:01:26 milek_pl Exp $
 
 
 		<rule name="„przez przeciąg kilku dni” (w ciągu)" id="PRZEZ_PRZECIAG">
+		<!-- FIXME: brak dostosowania form -->
 			<pattern mark_to="-2">
 				<token>przez</token>
 				<token>przeciąg</token>
@@ -2832,11 +2856,12 @@ $Id: grammar.xml,v 1.40 2007-05-10 21:01:26 milek_pl Exp $
 				<token regexp="yes">miesięcy|dni|lat|godzin|minut|sekund|kwartałów|tygodni</token>
 			</pattern>
 			<message>Niepoprawne wyrażenie. Powinno być: <suggestion>w ciągu</suggestion> lub <suggestion>przez</suggestion>.</message>
-			<example type="incorrect">Anglia spłacała olbrzymie kwoty <marker>przez przeciąg</marker> dziewięciu lat.</example>
+			<example type="incorrect" correction="w ciągu|przez">Anglia spłacała olbrzymie kwoty <marker>przez przeciąg</marker> dziewięciu lat.</example>
 			<example type="correct">Anglia spłacała olbrzymie kwoty <marker>w ciągu</marker> dziewięciu lat.</example>
 		</rule>
 		
 		<rule name="„na przestrzeni kilku dni” (w ciągu)" id="NA_PRZESTRZENI">
+		<!-- FIXME: brak dostosowania form -->
 			<pattern mark_to="-2">
 				<token>na</token>
 				<token>przestrzeni</token>
@@ -2844,7 +2869,7 @@ $Id: grammar.xml,v 1.40 2007-05-10 21:01:26 milek_pl Exp $
 				<token regexp="yes">miesięcy|dni|lat|godzin|minut|sekund|kwartałów|tygodni</token>
 			</pattern>
 			<message>Niepoprawne wyrażenie. Powinno być: <suggestion>w ciągu</suggestion> lub <suggestion>przez</suggestion>.</message>
-			<example type="incorrect">Anglia spłacała olbrzymie kwoty <marker>na przestrzeni</marker> dziewięciu lat.</example>
+			<example type="incorrect" correction="w ciągu|przez">Anglia spłacała olbrzymie kwoty <marker>na przestrzeni</marker> dziewięciu lat.</example>
 			<example type="correct">Anglia spłacała olbrzymie kwoty <marker>w ciągu</marker> dziewięciu lat.</example>
 		</rule>
 		
@@ -2855,7 +2880,7 @@ $Id: grammar.xml,v 1.40 2007-05-10 21:01:26 milek_pl Exp $
 			</pattern>
 			<message>To wyrażenie jest niepoprawne. Poprawnie: <suggestion>dotąd</suggestion>.</message>
 			<example type="correct">Dotąd nie wiadomo, za co Jarosław nie lubi Lecha.</example>
-			<example type="incorrect"><marker>Do teraz</marker> nie wiadomo, za co Jarosław nie lubi Lecha.</example>			
+			<example type="incorrect" correction="Dotąd"><marker>Do teraz</marker> nie wiadomo, za co Jarosław nie lubi Lecha.</example>			
 		</rule>
 		
 		<rule name="„po najmniejszej linii oporu” (po linii najmniejszego oporu)" id="PO_NAJMNIEJSZEJ_LINII">
@@ -2867,8 +2892,9 @@ $Id: grammar.xml,v 1.40 2007-05-10 21:01:26 milek_pl Exp $
 			</pattern>
 			<message>To wyrażenie jest niepoprawne. Poprawnie: <suggestion>po linii najmniejszego oporu</suggestion>.</message>
 			<example type="correct">Ludwik poszedł po linii najmniejszego oporu i oskarżył Przemysława o perfumowanie się „Przemysławką”.</example>
-			<example type="incorrect">Ludwik poszedł <marker>po najmniejszej linii oporu</marker> i oskarżył Przemysława o perfumowanie się „Przemysławką”.</example>
+			<example type="incorrect" correction="po linii najmniejszego oporu">Ludwik poszedł <marker>po najmniejszej linii oporu</marker> i oskarżył Przemysława o perfumowanie się „Przemysławką”.</example>
 		</rule>
+		
 		<rule name="„od stóp do głowy” (od stóp do głów)" id="OD_STOP_DO_GLOWY">
 			<pattern mark_from="3">
 				<token>od</token>
@@ -2877,18 +2903,19 @@ $Id: grammar.xml,v 1.40 2007-05-10 21:01:26 milek_pl Exp $
 				<token>głowy</token>
 			</pattern>
 			<message>To niepoprawna postać wyrażenia. Ostatni wyraz powinien brzmieć: <suggestion>głów</suggestion>.</message>
-			<example type="incorrect">Rzepowa także czuła, że to gorąco, to zimno przebiega ją od stóp do <marker>głowy</marker>.</example>
+			<example type="incorrect" correction="głów">Rzepowa także czuła, że to gorąco, to zimno przebiega ją od stóp do <marker>głowy</marker>.</example>
 			<example type="correct">Rzepowa także czuła, że to gorąco, to zimno przebiega ją od stóp do <marker>głów</marker>.</example>
 		</rule>
+		
 		<rule name="„wprowadzić coś w obieg” (puścić w obieg)" id="WPROWADZIC_W_OBIEG">
 			<pattern mark_to="-2">
 				<token inflected="yes" skip="-1" regexp="yes">wprowadzić|wprowadzać</token>
 				<token>w</token>
 				<token>obieg</token>
 			</pattern>
-			<message>Mówi się „<suggestion>puszczać</suggestion> w obieg”, a nie „wprowadzać w obieg”.</message>
+			<message>Mówi się „<suggestion><match no="1" postag="verb.*">puszczać</match></suggestion> w obieg”, „<suggestion><match no="1" postag="verb.*">puścić</match></suggestion> w obieg”, a nie „wprowadzać w obieg”.</message>
 			<example type="correct">Mafia puściła w obieg sfałszowane dolary.</example>
-			<example type="incorrect">Mafia <marker>wprowadziła</marker> niebawem w obieg sfałszowane dolary.</example>
+			<example type="incorrect" correction="puszczała|puściła">Mafia <marker>wprowadziła</marker> niebawem w obieg sfałszowane dolary.</example>
 		</rule>
 		
 		<rule id="WYSOKA_FORMA" name="„wysoka forma” (dobra forma, doskonała forma)">
@@ -2896,9 +2923,10 @@ $Id: grammar.xml,v 1.40 2007-05-10 21:01:26 milek_pl Exp $
 				<token inflected="yes" postag_regexp="yes" postag="adj:sg:.*:f.*:pos:aff">wysoki</token>
 				<token inflected="yes">forma</token>
 			</pattern>
-			<message>Nie mówi się „wysoka forma”, lecz <suggestion>dobra forma</suggestion>, <suggestion>doskonała forma</suggestion>.</message>
+			<message>Nie mówi się „wysoka forma”, lecz <suggestion><match no="1" postag="adj.*">dobry</match> <match no="2"/></suggestion>, <suggestion><match no="1" postag="adj.*">doskonały</match> <match no="2"/></suggestion>.</message>
 			<example type="correct">Małysz jest w doskonałej formie.</example>
-			<example type="incorrect"><marker>Wysoka forma</marker> Małysza daje nam nadzieję.</example>
+			<example type="incorrect" correction="dobrej formie|doskonałej formie">Małysz jest w <marker>wysokiej formie</marker>.</example>
+			<example type="incorrect" correction="Dobra forma|Doskonała forma"><marker>Wysoka forma</marker> Małysza daje nam nadzieję.</example>
 			<example type="correct">W górach wysokich forma Małyszowi dopisywała.</example>
 		</rule>
 	
@@ -2910,7 +2938,7 @@ $Id: grammar.xml,v 1.40 2007-05-10 21:01:26 milek_pl Exp $
 				<token>względzie</token>
 			</pattern>
 			<message>Wyrażenie „w tym względzie” jest niezalecane. Lepiej:<suggestion>w tej sprawie</suggestion>, <suggestion>w tym zakresie</suggestion>.</message>
-			<example type="incorrect">Przykładem klasycznym są <marker>w tym względzie</marker> dominujące nurty psychologii.</example>
+			<example type="incorrect" correction="w tej sprawie|w tym zakresie">Przykładem klasycznym są <marker>w tym względzie</marker> dominujące nurty psychologii.</example>
 			<example type="correct">Przykładem klasycznym są w tym zakresie dominujące nurty psychologii.</example>
 		</rule>
 		
@@ -2934,7 +2962,7 @@ $Id: grammar.xml,v 1.40 2007-05-10 21:01:26 milek_pl Exp $
 			</pattern>
 			<message>Wyrażenie „pod zamknięciem” jest niepoprawne. Lepiej mówić <suggestion>w zamknięciu</suggestion>, <suggestion>pod kluczem</suggestion> (ten błąd występuje nawet w polskim prawie).</message>
 			<example type="correct">Towary trzymamy pod kluczem.</example>
-			<example type="incorrect">Towary trzymamy <marker>pod zamknięciem</marker>.</example>
+			<example type="incorrect" correction="w zamknięciu|pod kluczem">Towary trzymamy <marker>pod zamknięciem</marker>.</example>
 		</rule>
 		
 		<rule id="W_DRODZE_WYJATKU" name="„w drodze wyjątku” (wyjątkowo)">
@@ -2945,7 +2973,7 @@ $Id: grammar.xml,v 1.40 2007-05-10 21:01:26 milek_pl Exp $
 			</pattern>
 			<message>Wyrażenie „w drodze wyjątku” jest niezalecane (żargon urzędniczy). Lepsza jest forma <suggestion>wyjątkowo</suggestion>.</message>
 			<example type="correct">Lokalne władze tylko wyjątkowo zezwalają na wjazd.</example>
-			<example type="incorrect"><marker>W drodze wyjątku</marker> lokalne władze zezwalają na wjazd.</example>
+			<example type="incorrect" correction="Wyjątkowo"><marker>W drodze wyjątku</marker> lokalne władze zezwalają na wjazd.</example>
 		</rule>
 	
 		<rule id="W_POSROD" name="„w pośród” (pośród)">
@@ -2955,30 +2983,19 @@ $Id: grammar.xml,v 1.40 2007-05-10 21:01:26 milek_pl Exp $
 			</pattern>
 			<message>Wyrażenie to jest niepoprawne. Poprawnie: <suggestion>\2</suggestion>.</message>
 			<example type="correct">Pośród serdecznych przyjaciół psy zająca zjadły.</example>
-			<example type="incorrect"><marker>W pośród</marker> serdecznych przyjaciół psy zająca zjadły.</example>			
+			<example type="incorrect" correction="Pośród"><marker>W pośród</marker> serdecznych przyjaciół psy zająca zjadły.</example>			
 		</rule>
 		
-		<rule id="CO_I_RUSZ" name="„co i rusz” (co chwila)">
+		<rule id="CO_I_RAZ" name="„co i raz/rusz” (co chwila)">
 			<pattern>
 				<token>co</token>
 				<token>i</token>
-				<token>rusz</token>
+				<token regexp="yes">raz|rusz</token>
 			</pattern>
-			<message>Wyrażenie „co i rusz” jest niepoprawne. Poprawnie mówi się: <suggestion>co chwila</suggestion>, <suggestion>co krok</suggestion>
+			<message>Wyrażenie „co i \3” jest często uznawane za niepoprawne. Poprawnie mówi się: <suggestion>co chwila</suggestion>, <suggestion>co krok</suggestion>
 			</message>
-			<example type="incorrect"><marker>Co i rusz</marker> media informują o tym, że któryś z prominentnych polityków koalicji rządzącej załatwił coś dla siebie.</example>
-			<example type="correct">Raz po raz media informują o tym, że któryś z prominentnych polityków koalicji rządzącej załatwił coś dla siebie.</example>
-		</rule>
-		
-		<rule id="CO_I_RAZ" name="„co i raz” (co chwila)">
-			<pattern>
-				<token>co</token>
-				<token>i</token>
-				<token>raz</token>
-			</pattern>
-			<message>Wyrażenie „co i raz” jest często uznawane za niepoprawne. Poprawnie mówi się: <suggestion>co chwila</suggestion>, <suggestion>co krok</suggestion>
-			</message>
-			<example type="incorrect"><marker>Co i raz</marker> media informują o tym, że któryś z prominentnych polityków koalicji rządzącej załatwił coś dla siebie.</example>
+			<example type="incorrect" correction="Co chwila|Co krok"><marker>Co i rusz</marker> media informują o tym, że któryś z prominentnych polityków koalicji rządzącej załatwił coś dla siebie.</example>
+			<example type="incorrect" correction="Co chwila|Co krok"><marker>Co i raz</marker> media informują o tym, że któryś z prominentnych polityków koalicji rządzącej załatwił coś dla siebie.</example>
 			<example type="correct">Raz po raz media informują o tym, że któryś z prominentnych polityków koalicji rządzącej załatwił coś dla siebie.</example>
 		</rule>
 		
@@ -2987,9 +3004,9 @@ $Id: grammar.xml,v 1.40 2007-05-10 21:01:26 milek_pl Exp $
 				<token inflected="yes" postag_regexp="yes" postag=".*:m[\d]*:(pos:aff|neg)">okrągły</token>
 				<token inflected="yes">rok</token>
 			</pattern>
-			<message>Wyrażenie to jest niepoprawne. Poprawnie mówi się: <suggestion>cały rok</suggestion>.</message>
+			<message>Wyrażenie to jest niepoprawne. Poprawnie mówi się: <suggestion><match no="1" postag="adj.*">cały</match> <match no="2"/></suggestion>.</message>
 			<example type="correct">Czekaliśmy na to cały rok.</example>
-			<example type="incorrect">Czekaliśmy na to <marker>okrągły rok</marker>.</example>
+			<example type="incorrect" correction="całego roku">Nie ma jeszcze <marker>okrągłego roku</marker> od śmierci kota premiera.</example>
 		</rule>
 		
 		<rule id="POD_RZAD" name="„pod rząd” (z rzędu)">
@@ -2999,7 +3016,7 @@ $Id: grammar.xml,v 1.40 2007-05-10 21:01:26 milek_pl Exp $
 			</pattern>
 			<message>To wyrażenie jest niepoprawnie. Poprawne piszemy: <suggestion>z rzędu</suggestion>, <suggestion>po kolei</suggestion>, <suggestion>jedno po drugim</suggestion>.</message>
 			<example type="correct">Mówiłem o tym kilka razy z rzędu.</example>
-			<example type="incorrect">Mówiłem o tym kilka razy <marker>pod rząd</marker>.</example>
+			<example type="incorrect" correction="z rzędu|po kolei|jedno po drugim">Mówiłem o tym kilka razy <marker>pod rząd</marker>.</example>
 		</rule>
 		
 		<rule id="ZA_WYJATKIEM" name="„za wyjątkiem” (z wyjątkiem)">
@@ -3008,7 +3025,7 @@ $Id: grammar.xml,v 1.40 2007-05-10 21:01:26 milek_pl Exp $
 				<token>wyjątkiem</token>
 			</pattern>
 			<message>Wyrażenie „za wyjątkiem” jest niepoprawne. Poprawne wyrażenie: <suggestion>z wyjątkiem</suggestion>.</message>
-			<example type="incorrect"><marker>Za wyjątkiem</marker> powyższych sytuacji, będziemy używać i ujawniać informacje o twoim zdrowiu.</example>
+			<example type="incorrect" correction="Z wyjątkiem"><marker>Za wyjątkiem</marker> powyższych sytuacji, będziemy używać i ujawniać informacje o twoim zdrowiu.</example>
 			<example type="correct">Wyjąwszy powyższe sytuacje, będziemy korzystać z informacji o państwa zdrowiu oraz je ujawniać.</example>
 		</rule>
 		
@@ -3020,17 +3037,19 @@ $Id: grammar.xml,v 1.40 2007-05-10 21:01:26 milek_pl Exp $
 			</pattern>
 			<message>To wyrażenie jest niepoprawne. Poprawnie: <suggestion>\1 za \3</suggestion>.</message>
 			<example type="correct">Ludwik wziął za męża Kunegundę.</example>
-			<example type="incorrect">Ludwik <marker>wziął na męża</marker> Kunegundę.</example>
+			<example type="incorrect" correction="wziął za męża">Ludwik <marker>wziął na męża</marker> Kunegundę.</example>
 		</rule>	
+		
 		<rule id="SPRZED_LATY" name="„sprzed laty” (sprzed lat, przed laty)">
 			<pattern>
 				<token>sprzed</token>
 				<token>laty</token>
 			</pattern>
 			<message>To wyrażenie jest niepoprawne. Poprawnie piszemy <suggestion>przed laty</suggestion> lub <suggestion>sprzed lat</suggestion> (w zależności od zamierzonego sensu).</message>
-			<example type="incorrect">Tego pytania nie postawiłem sobie <marker>sprzed laty</marker>.</example>
+			<example type="incorrect" correction="przed laty|sprzed lat">Tego pytania nie postawiłem sobie <marker>sprzed laty</marker>.</example>
 			<example type="correct">Tego pytania nie postawiłem sobie <marker>przed laty</marker>.</example>
 		</rule>
+		
 		<rule id="NA_WSKUTEK" name="„na wskutek” (wskutek)">
 			<pattern>
 				<token>na</token>
@@ -3038,7 +3057,7 @@ $Id: grammar.xml,v 1.40 2007-05-10 21:01:26 milek_pl Exp $
 			</pattern>
 			<message>To wyrażenie jest niepoprawne; poprawnie jest: <suggestion>wskutek</suggestion> lub <suggestion>na skutek</suggestion>.</message>
 			<example type="correct">Przemysław rozchorował się na skutek docinków Ludwika.</example>
-			<example type="incorrect">Przemysław rozchorował się <marker>na wskutek</marker> docinków Ludwika.</example>
+			<example type="incorrect" correction="wskutek|na skutek">Przemysław rozchorował się <marker>na wskutek</marker> docinków Ludwika.</example>
 		</rule>
 		
 		<rule id="CIEZKI_ORZECH" name="„ciężki orzech do zgryzienia” (twardy orzech...)">
@@ -3048,98 +3067,31 @@ $Id: grammar.xml,v 1.40 2007-05-10 21:01:26 milek_pl Exp $
 				<token>do</token>
 				<token>zgryzienia</token>
 			</pattern>
-			<message>To wyrażenie ma dwie poprawne formy: <suggestion>twardy orzech do zgryzienia</suggestion> lub <suggestion>trudny orzech do zgryzienia</suggestion>.</message>
-			<example type="incorrect">Gabriel ma trochę diaboliczny wygląd to i tak miał <marker>ciężki orzech do zgryzienia</marker>, z którym poradził sobie jak wiewiórka.</example>
+			<message>To wyrażenie ma dwie poprawne formy: <suggestion><match no="1" postag="adj.*">twardy</match> <match no="2"/> do zgryzienia</suggestion> lub <suggestion><match no="1" postag="adj.*">trudny</match> <match no="2"/> do zgryzienia</suggestion>.</message>
+			<example type="incorrect" correction="twardy orzech do zgryzienia|trudny orzech do zgryzienia">Gabriel ma trochę diaboliczny wygląd to i tak miał <marker>ciężki orzech do zgryzienia</marker>, z którym poradził sobie jak wiewiórka.</example>
 			<example type="correct">Gabriel ma trochę diaboliczny wygląd to i dlatego miał twardy orzech do zgryzienia, z którym poradził sobie jak wiewiórka.</example>
 		</rule>
-	
-		<rulegroup id="DLATEGO_BO" name="„dlatego bo” (dlatego)">
-			<rule>
-				<pattern>
-					<token>dlatego</token>
-					<token>bo</token>
-				</pattern>
-				<message>Zbitka „dlatego bo” jest niepoprawna. Zamiast należy pisać <suggestion>dlatego że</suggestion>, <suggestion>gdyż</suggestion>, <suggestion>bo</suggestion>, <suggestion>ponieważ</suggestion> itd.</message>
-				<example type="correct">Kowalski nie czytał gazet, gdyż nie umiał czytać.</example>
-				<example type="incorrect">Kowalski nie czytał gazet, <marker>dlatego bo</marker> nie umiał czytać.</example>
-			</rule>
-	
-			<rule>
-				<pattern mark_from="0" case_sensitive="no">
-					<token>dlatego</token>
-					<token>,</token>
-					<token>bo</token>
-				</pattern>
-				<message>Zbitka „dlatego, bo” jest niepoprawna. Zamiast należy pisać <suggestion>dlatego że</suggestion>, <suggestion>gdyż</suggestion>, <suggestion>bo</suggestion>, <suggestion>ponieważ</suggestion> itd.</message>
-				<example type="correct">Kowalski nie czytał gazet, gdyż nie umiał czytać.</example>
-				<example type="incorrect">Kowalski nie czytał gazet <marker>dlatego, bo</marker> nie umiał czytać.</example>
-			</rule>
-		</rulegroup>
-
-		<rulegroup id="DLATEGO_BOWIEM" name="„dlatego bowiem” (dlatego)">
-			<rule>
-				<pattern>
-					<token>dlatego</token>
-					<token>bowiem</token>
-				</pattern>
-				<message>Zbitka „dlatego bowiem” jest niepoprawna. Zamiast należy pisać <suggestion>dlatego że</suggestion>, <suggestion>gdyż</suggestion>, <suggestion>bowiem</suggestion>, <suggestion>ponieważ</suggestion> itd.</message>
-				<example type="correct">Kowalski nie czytał gazet, gdyż nie umiał czytać.</example>
-				<example type="incorrect">Kowalski nie czytał gazet, <marker>dlatego bowiem</marker> nie umiał czytać.</example>
-			</rule>
-	
-			<rule>
-				<pattern mark_from="0" case_sensitive="no">
-					<token>dlatego</token>
-					<token>,</token>
-					<token>bowiem</token>
-				</pattern>
-				<message>Zbitka „dlatego, bowiem” jest niepoprawna. Zamiast należy pisać <suggestion>dlatego że</suggestion>, <suggestion>gdyż</suggestion>, <suggestion>bowiem</suggestion>, <suggestion>ponieważ</suggestion> itd.</message>
-				<example type="correct">Kowalski nie czytał gazet, gdyż nie umiał czytać.</example>
-				<example type="incorrect">Kowalski nie czytał gazet <marker>dlatego, bowiem</marker> nie umiał czytać.</example>
-			</rule>
-		</rulegroup>
-
-	
+		
 		<rulegroup id="DLATEGO_PONIEWAZ" name="„dlatego ponieważ” (dlatego)">
 			<rule>
 				<pattern mark_from="0" case_sensitive="no">
 					<token>dlatego</token>
-					<token>ponieważ</token>
+					<token regexp="yes">ponieważ|gdyż|bowiem|bo</token>
 				</pattern>
-				<message>Zbitka „dlatego ponieważ” jest niepoprawna. Zamiast należy pisać <suggestion>dlatego że</suggestion>, <suggestion>gdyż</suggestion>, <suggestion>bo</suggestion>, <suggestion>ponieważ</suggestion> itd.</message>
+				<message>Zbitka „dlatego \1” jest niepoprawna. Zamiast należy pisać <suggestion>dlatego że</suggestion>, <suggestion>gdyż</suggestion>, <suggestion>bo</suggestion>, <suggestion>ponieważ</suggestion> itd.</message>
 				<example type="correct">Kowalski nie czytał gazet, gdyż nie umiał czytać.</example>
-				<example type="incorrect">Kowalski nie czytał gazet, <marker>dlatego ponieważ</marker> nie umiał czytać.</example>
+				<example type="incorrect" correction="dlatego że|gdyż|bo|ponieważ">Kowalski nie czytał gazet, <marker>dlatego ponieważ</marker> nie umiał czytać.</example>
 			</rule>
 			<rule>
 				<pattern>
+					<token/>
 					<token>dlatego</token>
 					<token>,</token>
-					<token>ponieważ</token>
+					<token regexp="yes">ponieważ|gdyż|bowiem|bo</token>
 				</pattern>
-				<message>Zbitka „dlatego, ponieważ” jest niepoprawna. Zamiast należy pisać <suggestion>dlatego że</suggestion>, <suggestion>gdyż</suggestion>, <suggestion>bo</suggestion>, <suggestion>ponieważ</suggestion> itd.</message>
+				<message>Zbitka „dlatego, \1” jest niepoprawna. Zamiast należy pisać <suggestion>\1, dlatego że</suggestion>, <suggestion>\1, gdyż</suggestion>, <suggestion>\1, bo</suggestion>, <suggestion>\1, ponieważ</suggestion> itd.</message>
 				<example type="correct">Kowalski nie czytał gazet, gdyż nie umiał czytać.</example>
-				<example type="incorrect">Kowalski nie czytał gazet <marker>dlatego, ponieważ</marker> nie umiał czytać.</example>
-			</rule>
-		</rulegroup>
-		<rulegroup id="DLATEGO_GDYZ" name="„dlatego gdyż” (dlatego)">
-			<rule>
-				<pattern>
-					<token>dlatego</token>
-					<token>gdyż</token>
-				</pattern>
-				<message>Zbitka „dlatego ponieważ” jest niepoprawna. Zamiast należy pisać <suggestion>dlatego że</suggestion>, <suggestion>gdyż</suggestion>, <suggestion>bo</suggestion>, <suggestion>ponieważ</suggestion> itd.</message>
-				<example type="correct">Kowalski nie czytał gazet, gdyż nie umiał czytać.</example>
-				<example type="incorrect">Kowalski nie czytał gazet, <marker>dlatego gdyż</marker> nie umiał czytać.</example>
-			</rule>
-			<rule>
-				<pattern>
-					<token>dlatego</token>
-					<token>,</token>
-					<token>gdyż</token>
-				</pattern>
-				<message>Zbitka „dlatego, gdyż” jest niepoprawna. Zamiast należy pisać <suggestion>dlatego że</suggestion>, <suggestion>gdyż</suggestion>, <suggestion>bo</suggestion>, <suggestion>ponieważ</suggestion> itd.</message>
-				<example type="correct">Kowalski nie czytał gazet, gdyż nie umiał czytać.</example>
-				<example type="incorrect">Kowalski nie czytał gazet <marker>dlatego, gdyż</marker> nie umiał czytać.</example>
+				<example type="incorrect" correction="gazet, dlatego że|gazet, gdyż|gazet, bo|gazet, ponieważ">Kowalski nie czytał <marker>gazet dlatego, ponieważ</marker> nie umiał czytać.</example>
 			</rule>
 		</rulegroup>
 
@@ -3150,7 +3102,7 @@ $Id: grammar.xml,v 1.40 2007-05-10 21:01:26 milek_pl Exp $
 			</pattern>
 			<message>To wyrażenie to rusycyzm, lepiej użyć <suggestion>niemniej jednak</suggestion>.</message>
 			<example type="correct">Problem potraktowano niemniej jednak poważnie.</example>
-			<example type="incorrect">Problem potraktowano <marker>tym niemniej</marker> poważnie.</example>
+			<example type="incorrect" correction="niemniej jednak">Problem potraktowano <marker>tym niemniej</marker> poważnie.</example>
 		</rule>
 	
 		<rule name="„uznać jako” (za)" id="UZNAC_JAKO">
@@ -3187,7 +3139,7 @@ $Id: grammar.xml,v 1.40 2007-05-10 21:01:26 milek_pl Exp $
 					<token><exception inflected="yes">cokolwiek</exception><exception>co</exception></token>
 				</pattern>
 				<message>To wyrażenie jest niepoprawne. Poprawnie: <suggestion>\1</suggestion>.</message>
-				<example type="incorrect"><marker>Ktokolwiek bądź</marker> wbrew prawu wydanemu przez mego boskiego rodzica i niniejszemu rozkazowi mojemu poważy się składać ofiary, tego spotka stosowna kara i natychmiastowy wyrok.</example>
+				<example type="incorrect" correction="Ktokolwiek"><marker>Ktokolwiek bądź</marker> wbrew prawu wydanemu przez mego boskiego rodzica i niniejszemu rozkazowi mojemu poważy się składać ofiary, tego spotka stosowna kara i natychmiastowy wyrok.</example>
 				<example type="correct"><marker>Ktokolwiek</marker> wbrew prawu wydanemu przez mego boskiego rodzica i niniejszemu rozkazowi mojemu poważy się składać ofiary, tego spotka stosowna kara i natychmiastowy wyrok.</example>
 				<example type="correct">Jednak wówczas nikomu jakoś nie chciało siie ujawniać stanów posiadania, a co dopiero oddawać komukolwiek bądź co bądź nowych lokomotyw.</example>
 			</rule>
@@ -3199,7 +3151,7 @@ $Id: grammar.xml,v 1.40 2007-05-10 21:01:26 milek_pl Exp $
 					<token><exception inflected="yes">ktokolwiek</exception><exception>co</exception></token>
 				</pattern>
 				<message>To wyrażenie jest prawdopodobnie niepoprawne. Poprawnie: <suggestion>\1</suggestion>.</message>
-				<example type="incorrect"><marker>Cokolwiek bądź</marker> robisz, rób starannie i zdobądź dobre imię.</example>
+				<example type="incorrect" correction="Cokolwiek"><marker>Cokolwiek bądź</marker> robisz, rób starannie i zdobądź dobre imię.</example>
 				<example type="correct"><marker>Cokolwiek</marker> robisz, rób starannie i zdobądź dobre imię.</example>
 				<example type="correct">Cokolwiek bądź kogokolwiek te grupy religijnej lewicy reprezentują, na pewno nie odzwierciedlają poglądów większości wiernych.</example>
 			</rule>
@@ -3211,7 +3163,7 @@ $Id: grammar.xml,v 1.40 2007-05-10 21:01:26 milek_pl Exp $
 					<token><exception regexp="yes" inflected="yes">ktokolwiek|cokolwiek</exception><exception>co</exception></token>
 				</pattern>
 				<message>To wyrażenie jest prawdopodobnie niepoprawne. Poprawnie: <suggestion>\1</suggestion>.</message>
-				<example type="incorrect"><marker>Jakkolwiek bądź</marker> kiedyś nauka roztrzygnie, w rzeczywistości mowa kaszubska jak dotąd pozostanie wobec polskiego języka w roli narzecza.</example>
+				<example type="incorrect" correction="Jakkolwiek"><marker>Jakkolwiek bądź</marker> kiedyś nauka roztrzygnie, w rzeczywistości mowa kaszubska jak dotąd pozostanie wobec polskiego języka w roli narzecza.</example>
 				<example type="correct">Jakkolwiek kiedyś nauka roztrzygnie, w rzeczywistości mowa kaszubska jak dotąd pozostanie wobec polskiego języka w roli narzecza.</example>
 			</rule>
 			
@@ -3225,10 +3177,11 @@ $Id: grammar.xml,v 1.40 2007-05-10 21:01:26 milek_pl Exp $
 		</pattern>
 		<message>Ten zwrot bywa używany żartobliwie. Jeśli tekst jest oficjalny, powinno być: <suggestion>\1 \2</suggestion>.</message>
 		<example type="correct">Ja po pierwsze się krępuję.</example>
-		<example type="incorrect">Ja <marker>po pierwsze primo</marker> się krępuję.</example>
+		<example type="incorrect" correction="po pierwsze">Ja <marker>po pierwsze primo</marker> się krępuję.</example>
 	</rule>
 
 	<rulegroup id="W_TEMACIE" name="„w temacie” (na temat)">
+	<!-- FIXME: brak dostosowania przypadka -->
 		<rule>
 			<pattern>
 				<token>w</token>
@@ -3238,7 +3191,7 @@ $Id: grammar.xml,v 1.40 2007-05-10 21:01:26 milek_pl Exp $
 			<suggestion>na temat</suggestion>, <suggestion>jeśli chodzi o</suggestion>, 
 			<suggestion>w sprawie</suggestion>, <suggestion>w dziedzinie</suggestion>; 
 			<suggestion>w wątku</suggestion> (dyskusji).</message>
-			<example type="incorrect">Pan premier nie wypowie się <marker>w temacie</marker> homofobii.</example>
+			<example type="incorrect" correction="na temat|jeśli chodzi o|w sprawie|w dziedzinie|w wątku">Pan premier nie wypowie się <marker>w temacie</marker> homofobii.</example>
 			<example type="correct">Pan premier nie wypowie się <marker>w sprawie</marker> homofobii.</example>
 		</rule>
 		<rule>
@@ -3250,7 +3203,7 @@ $Id: grammar.xml,v 1.40 2007-05-10 21:01:26 milek_pl Exp $
 			<message>W większości kontekstów to wyrażenie jest niepoprawne. Lepiej powiedzieć: 
 			<suggestion>na ten temat</suggestion>, <suggestion>w tej sprawie</suggestion>, <suggestion>w tej dziedzinie</suggestion>; 
 			<suggestion>w tym wątku</suggestion> (dyskusji).</message>
-			<example type="incorrect">Pan premier nie wypowie się <marker>w tym temacie</marker>.</example>
+			<example type="incorrect" correction="na ten temat|w tej sprawie|w tej dziedzinie|w tym wątku">Pan premier nie wypowie się <marker>w tym temacie</marker>.</example>
 			<example type="correct">Pan premier nie wypowie się <marker>w tej sprawie</marker>.</example>
 		</rule>	
 	</rulegroup>
@@ -3267,13 +3220,14 @@ $Id: grammar.xml,v 1.40 2007-05-10 21:01:26 milek_pl Exp $
 	</rule>
 
 	<rule id="PRZEZNACZAC_CZAS" name="„przeznaczać czas dla” (na)">
+	<!--  FIXME: brak rozwiązania zmiany formy na narzędnik -->
 	<pattern>
 		<token inflected="yes" regexp="yes">przeznaczać|przeznaczyć</token>
 		<token>czas</token>
 		<token>dla</token>
 	</pattern>
-	<message>Prawdopodobnie użyto błędnego przyimka. Powinno być: <suggestion>\1 \2 na</suggestion> lub <suggestion>poświęcić \2</suggestion> (z narzędnikiem).</message>
-	<example type="incorrect"><marker>Przeznacz czas dla</marker> bardziej produktywnych zadań.</example>
+	<message>Prawdopodobnie użyto błędnego przyimka. Powinno być: <suggestion><match no="1"/> <match no="2"/> na</suggestion> lub <suggestion><match no="1" postag="verb.*">poświęcić</match> <match no="2"/></suggestion> (z narzędnikiem).</message>
+	<example type="incorrect" correction="Przeznacz czas na|Poświęć czas|Poświęćże czas"><marker>Przeznacz czas dla</marker> bardziej produktywnych zadań.</example>
 	<example type="correct">Przeznacz czas na bardziej produktywne zadania.</example>
 	</rule>	
 	
@@ -3308,7 +3262,7 @@ $Id: grammar.xml,v 1.40 2007-05-10 21:01:26 milek_pl Exp $
 			</pattern>
 			<message>Niepoprawne użycie przyimka „dla”. Mówimy: <suggestion>\1 do włosów</suggestion>.</message>
 			<example type="correct">Antoni napił się znowu szamponu do włosów suchych.</example>
-			<example type="incorrect">Antoni napił się znowu <marker>szamponu dla włosów</marker> suchych.</example>
+			<example type="incorrect" correction="szamponu do włosów">Antoni napił się znowu <marker>szamponu dla włosów</marker> suchych.</example>
 		</rule>
 		
 		<rule id="POKI_CO" name="„póki co” (na razie)">
@@ -3318,7 +3272,7 @@ $Id: grammar.xml,v 1.40 2007-05-10 21:01:26 milek_pl Exp $
 			</pattern>
 			<message>Poprawną formą jest <suggestion>na razie</suggestion>, wyrażenie „póki co” to rusycyzm.</message>
 			<example type="correct">Na razie cieszmy się z innych korzyści.</example>
-			<example type="incorrect"><marker>Póki co</marker> cieszmy się z innych korzyści.</example>
+			<example type="incorrect" correction="Na razie"><marker>Póki co</marker> cieszmy się z innych korzyści.</example>
 		</rule>
 
 		<rule id="KULT_DLA" name="„kult, lekceważenie dla czego” (kult czego)">
@@ -3327,8 +3281,8 @@ $Id: grammar.xml,v 1.40 2007-05-10 21:01:26 milek_pl Exp $
 				<token>dla</token>
 			</pattern>
 			<message>W tym miejscu należy prawdopodobnie napisać: <suggestion>\1</suggestion> (wyraz łączy się wprost z dopełniaczem).</message>
-			<example type="incorrect">Jarosława cechuje <marker>kult dla</marker> spisków.</example>
-			<example type="incorrect">Jarosława cechuje <marker>lekceważenie dla</marker> demokracji.</example>
+			<example type="incorrect" correction="kult">Jarosława cechuje <marker>kult dla</marker> spisków.</example>
+			<example type="incorrect" correction="lekceważenie">Jarosława cechuje <marker>lekceważenie dla</marker> demokracji.</example>
 			<example type="correct">Jarosława cechuje kult spisków.</example>
 		</rule>
 		
@@ -3339,7 +3293,7 @@ $Id: grammar.xml,v 1.40 2007-05-10 21:01:26 milek_pl Exp $
 			</pattern>
 			<message>Z tą nazwą geograficzną używa się przyimka „na”: <suggestion>na \2</suggestion>.</message>
 			<example type="correct">Prezydent był z wizytą gospodarską na Białorusi.</example>
-			<example type="incorrect">Prezydent był z wizytą gospodarską <marker>w Białorusi</marker>.</example>
+			<example type="incorrect" correction="na Białorusi">Prezydent był z wizytą gospodarską <marker>w Białorusi</marker>.</example>
 		</rule>
 		
 		<rulegroup name="„do Węgier, do Białorusi” (na Węgry)" id="DO_WEGIER">
@@ -3351,7 +3305,7 @@ $Id: grammar.xml,v 1.40 2007-05-10 21:01:26 milek_pl Exp $
 			</pattern>
 			<message>Niepoprawna forma. Piszemy: <suggestion>na Węgry</suggestion>.</message>
 			<example type="correct">Jarosław chce pojechać na Węgry.</example>
-			<example type="incorrect">Jarosław chce pojechać <marker>do Węgier</marker> z Alikiem.</example>
+			<example type="incorrect" correction="na Węgry">Jarosław chce pojechać <marker>do Węgier</marker> z Alikiem.</example>
 		</rule>
 		<rule>
 			<pattern mark_from="1">
@@ -3361,7 +3315,7 @@ $Id: grammar.xml,v 1.40 2007-05-10 21:01:26 milek_pl Exp $
 			</pattern>
 			<message>Niepoprawna forma. Piszemy: <suggestion>na Białoruś</suggestion>.</message>
 			<example type="correct">Jarosław chce pojechać na Białoruś.</example>
-			<example type="incorrect">Jarosław chce pojechać <marker>do Białorusi</marker> z Alikiem.</example>
+			<example type="incorrect" correction="na Białoruś">Jarosław chce pojechać <marker>do Białorusi</marker> z Alikiem.</example>
 		</rule>
 		<rule>
 			<pattern mark_from="1">
@@ -3371,7 +3325,7 @@ $Id: grammar.xml,v 1.40 2007-05-10 21:01:26 milek_pl Exp $
 			</pattern>
 			<message>Niepoprawna forma. Piszemy: <suggestion>na Ukrainę</suggestion>.</message>
 			<example type="correct">Jarosław chce pojechać na Ukrainę.</example>
-			<example type="incorrect">Jarosław chce pojechać <marker>do Ukrainy</marker> z Alikiem.</example>
+			<example type="incorrect" correction="na Ukrainę">Jarosław chce pojechać <marker>do Ukrainy</marker> z Alikiem.</example>
 		</rule>		
 		<rule>
 			<pattern mark_from="1">
@@ -3379,9 +3333,9 @@ $Id: grammar.xml,v 1.40 2007-05-10 21:01:26 milek_pl Exp $
 				<token>do</token>
 				<token>Syberii</token>
 			</pattern>
-			<message>Niepoprawna forma. Piszemy: <suggestion>na Sybierię</suggestion>.</message>
+			<message>Niepoprawna forma. Piszemy: <suggestion>na Syberię</suggestion>.</message>
 			<example type="correct">Jarosław chce pojechać na Syberię.</example>
-			<example type="incorrect">Jarosław chce pojechać <marker>do Syberii</marker> z Alikiem.</example>
+			<example type="incorrect" correction="na Syberię">Jarosław chce pojechać <marker>do Syberii</marker> z Alikiem.</example>
 		</rule>
 		<rule>
 			<pattern mark_from="1">
@@ -3391,7 +3345,7 @@ $Id: grammar.xml,v 1.40 2007-05-10 21:01:26 milek_pl Exp $
 			</pattern>
 			<message>Niepoprawna forma. Piszemy: <suggestion>na Morawy</suggestion>.</message>
 			<example type="correct">Jarosław chce pojechać na Morawy.</example>
-			<example type="incorrect">Jarosław chce pojechać <marker>do Moraw</marker> z Alikiem.</example>
+			<example type="incorrect" correction="na Morawy">Jarosław chce pojechać <marker>do Moraw</marker> z Alikiem.</example>
 		</rule>
 		<rule>
 			<pattern mark_from="1">
@@ -3401,7 +3355,7 @@ $Id: grammar.xml,v 1.40 2007-05-10 21:01:26 milek_pl Exp $
 			</pattern>
 			<message>Niepoprawna forma. Piszemy: <suggestion>na Wołoszczyznę</suggestion>.</message>
 			<example type="correct">Jarosław chce pojechać na Wołoszczyznę.</example>
-			<example type="incorrect">Jarosław chce pojechać <marker>do Wołoszczyzny</marker> z Alikiem.</example>
+			<example type="incorrect" correction="na Wołoszczyznę">Jarosław chce pojechać <marker>do Wołoszczyzny</marker> z Alikiem.</example>
 		</rule>		
 		</rulegroup>
 		
@@ -3412,7 +3366,7 @@ $Id: grammar.xml,v 1.40 2007-05-10 21:01:26 milek_pl Exp $
 				<token>hali</token>
 			</pattern>
 			<message>Niepoprawny przyimek. Powinno być: <suggestion>w hali</suggestion>.</message>
-			<example type="incorrect">W najbliższych dniach będą też trenować <marker>na hali</marker> i w siłowni.</example>
+			<example type="incorrect" correction="w hali">W najbliższych dniach będą też trenować <marker>na hali</marker> i w siłowni.</example>
 			<example type="correct">W najbliższych dniach będą też trenować <marker>w hali</marker> i w siłowni.</example>
 		</rule>
 		
@@ -3525,8 +3479,8 @@ $Id: grammar.xml,v 1.40 2007-05-10 21:01:26 milek_pl Exp $
 			<token>na</token>
 			<token inflected="yes">lepszy</token>
 		</pattern>
-		<message>To pleonazm (nic nie może poprawić się na gorsze). Mówimy po prostu <suggestion>\1 \2</suggestion> lub <suggestion>\1</suggestion>.</message>
-		<example type="incorrect">W Amwayu wiele w moim życiu <marker>poprawiło się na lepsze</marker>.</example>
+		<message>To pleonazm (nic nie może poprawić się na gorsze). Mówimy po prostu <suggestion>\1 \2</suggestion>.</message>
+		<example type="incorrect" correction="poprawiło się">W Amwayu wiele w moim życiu <marker>poprawiło się na lepsze</marker>.</example>
 		<example type="correct">W Amwayu wiele w moim życiu <marker>poprawiło się</marker>.</example>
 	</rule>
 	
@@ -3538,17 +3492,18 @@ $Id: grammar.xml,v 1.40 2007-05-10 21:01:26 milek_pl Exp $
 			</pattern>
 			<message>Błędny związek frazeologiczny. Powinno być <suggestion>\2</suggestion>.</message>
 			<example type="correct">Przemysław gra zawsze fair w bierki.</example>
-			<example type="incorrect">Przemysław gra zawsze <marker>fair play</marker> w bierki.</example>
+			<example type="incorrect" correction="fair">Przemysław gra zawsze <marker>fair play</marker> w bierki.</example>
 		</rule>
 		
 		<rule name="„adres zamieszkania” (adres, miejsce zamieszkania)" id="ADRES_ZAMIESZKANIA">
+<!--  FIXME: brak odmiany drugiej sugestii -->		
 			<pattern>
 				<token inflected="yes">adres</token>
 				<token>zamieszkania</token>
 			</pattern>
-			<message>To niepoprawne wyrażenie. Mówimy albo po prostu <suggestion>adres</suggestion>, albo <suggestion>miejsce zamieszkania</suggestion>.</message>
+			<message>To niepoprawne wyrażenie. Mówimy albo po prostu <suggestion>\1</suggestion>, albo <suggestion>miejsce zamieszkania</suggestion>.</message>
 			<example type="correct">Wpisz adres w rubryce 1.</example>
-			<example type="incorrect">Wpisz <marker>adres zamieszkania</marker> w rubryce 1.</example>
+			<example type="incorrect" correction="adres|miejsce zamieszkania">Wpisz <marker>adres zamieszkania</marker> w rubryce 1.</example>
 		</rule>
 	
 		<rulegroup name="„mieć słuszną rację” (mieć rację)" id="MIEC_SLUSZNA_RACJE">
@@ -3559,7 +3514,7 @@ $Id: grammar.xml,v 1.40 2007-05-10 21:01:26 milek_pl Exp $
 		<token>rację</token>
 		</pattern>
 		<message>To pleonazm. Mówimy <suggestion>\1 rację</suggestion> lub <suggestion>\1 słuszność</suggestion>.</message>
-		<example type="incorrect">Pan premier zawsze <marker>ma słuszną rację</marker>.</example>
+		<example type="incorrect" correction="ma rację|ma słuszność">Pan premier zawsze <marker>ma słuszną rację</marker>.</example>
 		<example type="correct">Pan premier zawsze ma rację.</example>
 		</rule>
 		<rule>
@@ -3570,7 +3525,7 @@ $Id: grammar.xml,v 1.40 2007-05-10 21:01:26 milek_pl Exp $
 		<token>rację</token>
 		</pattern>
 		<message>To pleonazm. Mówimy <suggestion>\1 \2 rację</suggestion> lub <suggestion>\1 \2 słuszność</suggestion>.</message>
-		<example type="incorrect">Pan premier <marker>ma zawsze słuszną rację</marker>.</example>
+		<example type="incorrect" correction="ma zawsze rację|ma zawsze słuszność">Pan premier <marker>ma zawsze słuszną rację</marker>.</example>
 		<example type="correct">Pan premier ma zawsze rację.</example>
 		</rule>
 		</rulegroup>
@@ -3583,7 +3538,7 @@ $Id: grammar.xml,v 1.40 2007-05-10 21:01:26 milek_pl Exp $
 				</pattern>
 				<message>To wyrażenie to pleonazm. Wystarczy powiedzieć <suggestion>\1</suggestion>.</message>
 				<example type="correct">Mimo zmęczenia sali Przemysław kontynuował swoją nudną przemowę.</example>
-				<example type="incorrect">Mimo zmęczenia sali Przemysław <marker>kontynuował dalej</marker> swoją nudną przemowę.</example>
+				<example type="incorrect" correction="kontynuował">Mimo zmęczenia sali Przemysław <marker>kontynuował dalej</marker> swoją nudną przemowę.</example>
 			</rule>
 			<rule>
 				<pattern>
@@ -3592,8 +3547,8 @@ $Id: grammar.xml,v 1.40 2007-05-10 21:01:26 milek_pl Exp $
 				</pattern>
 				<message>To wyrażenie to pleonazm. Wystarczy powiedzieć <suggestion>\2</suggestion>.</message>
 				<example type="correct">Mimo zmęczenia sali Przemysław kontynuował swoją nudną przemowę.</example>
-				<example type="incorrect">Mimo zmęczenia sali Przemysław <marker>dalej kontynuował</marker> swoją nudną przemowę.</example>
-				<example type="incorrect">Posiedzenie <marker>dalej trwało</marker>.</example>
+				<example type="incorrect" correction="kontynuował">Mimo zmęczenia sali Przemysław <marker>dalej kontynuował</marker> swoją nudną przemowę.</example>
+				<example type="incorrect" correction="trwało">Posiedzenie <marker>dalej trwało</marker>.</example>
 			</rule>
 	</rulegroup>
 	
@@ -3606,7 +3561,7 @@ $Id: grammar.xml,v 1.40 2007-05-10 21:01:26 milek_pl Exp $
 				</pattern>
 				<message>To wyrażenie to pleonazm. Wystarczy powiedzieć <suggestion>\1</suggestion>.</message>
 				<example type="correct">Mimo zmęczenia Przemysław postanowił wrócić i zbudować lotnisko we Włoszczowie.</example>
-				<example type="incorrect">Mimo zmęczenia Przemysław postanowił <marker>wrócić z powrotem</marker> i zbudować lotnisko we Włoszczowie.</example>
+				<example type="incorrect" correction="wrócić">Mimo zmęczenia Przemysław postanowił <marker>wrócić z powrotem</marker> i zbudować lotnisko we Włoszczowie.</example>
 			</rule>
 			<rule>
 				<pattern>
@@ -3616,7 +3571,7 @@ $Id: grammar.xml,v 1.40 2007-05-10 21:01:26 milek_pl Exp $
 				</pattern>
 				<message>To wyrażenie to pleonazm. Wystarczy powiedzieć <suggestion>\3</suggestion>.</message>
 				<example type="correct">Mimo zmęczenia Przemysław postanowił wrócić i zbudować lotnisko we Włoszczowie.</example>
-				<example type="incorrect">Mimo zmęczenia Przemysław postanowił <marker>z powrotem wrócić</marker> i zbudować lotnisko we Włoszczowie.</example>
+				<example type="incorrect" correction="wrócić">Mimo zmęczenia Przemysław postanowił <marker>z powrotem wrócić</marker> i zbudować lotnisko we Włoszczowie.</example>
 			</rule>			
 		</rulegroup>
 			
@@ -3628,8 +3583,8 @@ $Id: grammar.xml,v 1.40 2007-05-10 21:01:26 milek_pl Exp $
 				</pattern>
 				<message>To wyrażenie to pleonazm. Każdy fakt jest autentyczny i konkretny. Wystarczy napisać <suggestion>\1</suggestion>.</message>
 				<example type="correct">Ten film jest oparty na faktach.</example>
-				<example type="incorrect">Ten film jest oparty na <marker>faktach autentycznych</marker>.</example>
-				<example type="incorrect">Ten film jest oparty na <marker>faktach konkretnych</marker>.</example>
+				<example type="incorrect" correction="faktach">Ten film jest oparty na <marker>faktach autentycznych</marker>.</example>
+				<example type="incorrect" correction="faktach">Ten film jest oparty na <marker>faktach konkretnych</marker>.</example>
 			</rule>
 			<rule>
 				<pattern>
@@ -3638,19 +3593,20 @@ $Id: grammar.xml,v 1.40 2007-05-10 21:01:26 milek_pl Exp $
 				</pattern>
 				<message>To wyrażenie to pleonazm. Każdy fakt jest autentyczny i konkretny. Wystarczy napisać <suggestion>\2</suggestion>.</message>
 				<example type="correct">Ten film jest oparty na faktach.</example>
-				<example type="incorrect">Ten film jest oparty na <marker>autentycznych faktach</marker>.</example>
-				<example type="incorrect">Ten film jest oparty na <marker>konkretnych faktach</marker>.</example>
+				<example type="incorrect" correction="faktach">Ten film jest oparty na <marker>autentycznych faktach</marker>.</example>
+				<example type="incorrect" correction="faktach">Ten film jest oparty na <marker>konkretnych faktach</marker>.</example>
 			</rule>						
 		</rulegroup>
 		
 		<rule name="„długi upływ czasu” (długi czas)" id="DLUGI_UPLYW">
+<!-- FIXME: brak odmiany "czas" w wypadku, gdy "długi" jest odmienione -->		
 			<pattern>
 				<token inflected="yes" postag="adj:(sg|pl):.*:.*m.*:(pos:aff|neg)" postag_regexp="yes">długi</token>
 				<token inflected="yes">upływ</token>
 				<token>czasu</token>
 			</pattern>
 			<message>Wyrażenie „długi upływ czasu” to pleonazm. Lepiej powiedzieć: <suggestion>długi czas</suggestion>.</message>
-			<example type="incorrect">Ze względu na <marker>długi upływ czasu</marker> od momentu spadku wiele informacji na temat tego meteorytu można uznać jako niepewne. </example>
+			<example type="incorrect" correction="długi czas">Ze względu na <marker>długi upływ czasu</marker> od momentu spadku wiele informacji na temat tego meteorytu można uznać jako niepewne. </example>
 			<example type="correct">Ze względu na <marker>długi czas</marker> od momentu spadku wiele informacji o tym meteorycie można uznać za niepewne. </example>
 		</rule>
 	
@@ -3662,7 +3618,7 @@ $Id: grammar.xml,v 1.40 2007-05-10 21:01:26 milek_pl Exp $
 			</pattern>
 			<message>To wyrażenie to pleonazm. Wystarczy powiedzieć <suggestion>\2</suggestion>.</message>
 			<example type="correct">To otwiera nowe możliwości.</example>
-			<example type="incorrect">To otwiera nowe <marker>potencjalne możliwości</marker>.</example>
+			<example type="incorrect" correction="możliwości">To otwiera nowe <marker>potencjalne możliwości</marker>.</example>
 		</rule>
 	
 		<rule name="„przychylna akceptacja” (akceptacja)" id="PRZYCHYLNA_AKCEPTACJA">
@@ -3672,7 +3628,7 @@ $Id: grammar.xml,v 1.40 2007-05-10 21:01:26 milek_pl Exp $
 			</pattern>
 			<message>To wyrażenie to pleonazm. Wystarczy powiedzieć <suggestion>\2</suggestion>.</message>
 			<example type="correct">Ta propozycja spotkała się z akceptacją.</example>
-			<example type="incorrect">W tym wypadku wymagana jest <marker>przychylna akceptacja</marker>.</example>
+			<example type="incorrect" correction="akceptacja">W tym wypadku wymagana jest <marker>przychylna akceptacja</marker>.</example>
 		</rule>
 	
 		<rule name="„geneza powstania” (geneza)" id="GENEZA_POWSTANIA">
@@ -3683,7 +3639,7 @@ $Id: grammar.xml,v 1.40 2007-05-10 21:01:26 milek_pl Exp $
 			</pattern>
 			<message>To wyrażenie to pleonazm. Wystarczy powiedzieć <suggestion>\1</suggestion>.</message>
 			<example type="correct">Geneza tego rękopisu wymaga dalszych badań.</example>
-			<example type="incorrect"><marker>Geneza powstania</marker> tego rękopisu wymaga dalszych badań.</example>
+			<example type="incorrect" correction="Geneza"><marker>Geneza powstania</marker> tego rękopisu wymaga dalszych badań.</example>
 			<example type="correct">Geneza powstania warszawskiego nie jest zagadką.</example>
 		</rule>
 		
@@ -3694,7 +3650,7 @@ $Id: grammar.xml,v 1.40 2007-05-10 21:01:26 milek_pl Exp $
 				<token>dzisiejszy</token>
 			</pattern>
 			<message>To nadużywane i błędne wyrażenie, które stosuje się w celu uzyskania pozornej elegancji wypowiedzi (ze skutkiem przeciwnym). Można je zastąpić wyrazami: <suggestion>obecnie</suggestion>, <suggestion>aktualnie</suggestion>, <suggestion>dzisiaj</suggestion>.</message>
-			<example type="incorrect"><marker>Na dzień dzisiejszy</marker> wykonano 40 procent planu.</example>
+			<example type="incorrect" correction="Obecnie|Aktualnie|Dzisiaj"><marker>Na dzień dzisiejszy</marker> wykonano 40 procent planu.</example>
 			<example type="correct">Wykonano aktualnie 40 procent planu.</example>
 		</rule>
 	
@@ -3705,8 +3661,8 @@ $Id: grammar.xml,v 1.40 2007-05-10 21:01:26 milek_pl Exp $
 			</pattern>
 			<message>Wyrażenia typu „miesiąc czasu”, „okres czasu” są niepoprawne (pleonazmy). Wystarczy: <suggestion>\1</suggestion>.</message>
 			<example type="correct">Trwało to miesiąc.</example>
-			<example type="incorrect">Trwało to <marker>miesiąc czasu</marker>.</example>
-			<example type="incorrect">Trwało to <marker>godzinę czasu</marker>.</example>
+			<example type="incorrect" correction="miesiąc">Trwało to <marker>miesiąc czasu</marker>.</example>
+			<example type="incorrect" correction="godzinę">Trwało to <marker>godzinę czasu</marker>.</example>
 		</rule>
 		
 		<rule id="AURA_POGODOWA" name="„aura pogodowa” (aura)">
@@ -3714,8 +3670,8 @@ $Id: grammar.xml,v 1.40 2007-05-10 21:01:26 milek_pl Exp $
 				<token inflected="yes">aura</token>
 				<token inflected="yes" postag_regexp="yes" postag="adj:sg:.*:f:pos:aff">pogodowy</token>
 			</pattern>
-			<message>Wyrażenie „aura pogodowa” jest pleonazmem: wystarczy albo sama <suggestion>\1</suggestion>, albo <suggestion>pogoda</suggestion>.</message>
-			<example type="incorrect">Taka <marker>aura pogodowa</marker> dała się wszystkim obywatelom we znaki.</example>
+			<message>Wyrażenie „aura pogodowa” jest pleonazmem: wystarczy <suggestion><match no="1"/></suggestion> albo <suggestion><match no="1" postag="subst.*">pogoda</match></suggestion>.</message>
+			<example type="incorrect" correction="aura|pogoda">Taka <marker>aura pogodowa</marker> dała się wszystkim obywatelom we znaki.</example>
 			<example type="correct">Ta pogoda dała się wszystkim we znaki.</example>
 			<example type="correct">Przy takiej aurze pogodowych anomalii spodziewać się nie można.</example>
 		</rule>
@@ -3728,7 +3684,7 @@ $Id: grammar.xml,v 1.40 2007-05-10 21:01:26 milek_pl Exp $
 			</pattern>
 			<message>Wyrażenia typu „każdy wtorek miesiąca” są pleonastyczne. Wystarczy powiedzieć <suggestion>\1 \2</suggestion>.</message>
 			<example type="correct">Śmieci są wywożone w każdy wtorek.</example>
-			<example type="incorrect">Śmieci są wywożone w <marker>każdy wtorek tygodnia</marker>.</example>
+			<example type="incorrect" correction="każdy wtorek">Śmieci są wywożone w <marker>każdy wtorek tygodnia</marker>.</example>
 		</rule>
 		
 		<rule id="W_GLORII_CHWALY" name="„w glorii chwały” (w glorii)">
@@ -3738,7 +3694,7 @@ $Id: grammar.xml,v 1.40 2007-05-10 21:01:26 milek_pl Exp $
 				<token>chwały</token>
 			</pattern>
 			<message>Mówi się <suggestion>w glorii</suggestion> lub <suggestion>w chwale</suggestion>; „w glorii chwały” to za dużo grzybów w barszcz.</message>
-			<example type="incorrect">Piłkarska reprezentacja Ekwadoru <marker>w glorii chwały</marker> wróciła do swojego kraju.</example>
+			<example type="incorrect" correction="w glorii|w chwale">Piłkarska reprezentacja Ekwadoru <marker>w glorii chwały</marker> wróciła do swojego kraju.</example>
 			<example type="correct">Piłkarska reprezentacja Ekwadoru w glorii wróciła do swojego kraju.</example>
 		</rule>
 		
@@ -3749,7 +3705,7 @@ $Id: grammar.xml,v 1.40 2007-05-10 21:01:26 milek_pl Exp $
 			</pattern>
 			<message>Wyrażenie „kurs nauki” jest pleonazmem (masłem maślanym). Wystarczy powiedzieć <suggestion>kurs</suggestion>.</message>
 			<example type="correct">Zapraszamy na kurs języka angielskiego!</example>
-			<example type="incorrect">Zapraszamy na <marker>kurs nauki</marker> języka angielskiego!</example>
+			<example type="incorrect" correction="kurs">Zapraszamy na <marker>kurs nauki</marker> języka angielskiego!</example>
 		</rule>
 		
 		<rule name="„miesiąc lipiec” itp." id="W_MIESIACU_LIPCU">
@@ -3757,9 +3713,9 @@ $Id: grammar.xml,v 1.40 2007-05-10 21:01:26 milek_pl Exp $
 				<token inflected="yes">miesiąc</token>
 				<token inflected="yes" regexp="yes">styczeń|luty|marzec|kwiecień|maj|czerwiec|lipiec|sierpień|wrzesień|październik|listopad|grudzień</token>
 			</pattern>
-			<message>To wyrażenie jest pleonazmem. Wystarczy podać tylko nazwę miesiąca, bez słowa <suggestion>miesiąc</suggestion>.</message>
+			<message>To wyrażenie jest pleonazmem. Wystarczy podać tylko nazwę miesiąca: <suggestion>\2</suggestion>.</message>
 			<example type="correct">W lipcu premier jedzie na wakacje.</example>
-			<example type="incorrect">W <marker>miesiącu lipcu</marker> premier jedzie na wakacje.</example>
+			<example type="incorrect" correction="lipcu">W <marker>miesiącu lipcu</marker> premier jedzie na wakacje.</example>
 		</rule>
 
 		<rule name="„w chwili obecnej” (obecnie)" id="W_CHWILI_OBECNEJ">
@@ -3769,7 +3725,7 @@ $Id: grammar.xml,v 1.40 2007-05-10 21:01:26 milek_pl Exp $
 				<token>obecnej</token>
 			</pattern>
 			<message>To nadużywane i błędne wyrażenie, które stosuje się w celu uzyskania pozornej elegancji wypowiedzi (ze skutkiem przeciwnym). Można je zastąpić wyrazami: <suggestion>obecnie</suggestion>, <suggestion>aktualnie</suggestion>, <suggestion>teraz</suggestion>.</message>
-			<example type="incorrect"><marker>W chwili obecnej</marker> posiłki przygotowuje kuchnia polowa.</example>
+			<example type="incorrect" correction="Obecnie|Aktualnie|Teraz"><marker>W chwili obecnej</marker> posiłki przygotowuje kuchnia polowa.</example>			
 			<example type="correct"><marker>Obecnie</marker> posiłki przygotowuje kuchnia polowa.</example>
 		</rule>
 		
@@ -3780,7 +3736,7 @@ $Id: grammar.xml,v 1.40 2007-05-10 21:01:26 milek_pl Exp $
 			</pattern>
 			<message>To wyrażenie to pleonazm. Wystarczy powiedzieć <suggestion>\2</suggestion>.</message>
 			<example type="correct">Cieszymy się z możliwości współpracy.</example>			
-			<example type="incorrect">Cieszymy się z możliwości <marker>wzajemnej współpracy</marker>.</example>			
+			<example type="incorrect" correction="współpracy">Cieszymy się z możliwości <marker>wzajemnej współpracy</marker>.</example>			
 		</rule>
 		
 		<rule name="„wzajemne współdziałanie” (współdziałanie)" id="WZAJEMNE_WSPOLDZIALANIE">
@@ -3790,7 +3746,7 @@ $Id: grammar.xml,v 1.40 2007-05-10 21:01:26 milek_pl Exp $
 			</pattern>
 			<message>To wyrażenie to pleonazm. Wystarczy powiedzieć <suggestion>\2</suggestion>.</message>
 			<example type="correct">Cieszymy się z możliwości współdziałania.</example>			
-			<example type="incorrect">Cieszymy się z możliwości <marker>wzajemnego współdziałania</marker>.</example>			
+			<example type="incorrect" correction="współdziałania">Cieszymy się z możliwości <marker>wzajemnego współdziałania</marker>.</example>			
 		</rule>
 
 		<rule name="„całkowite” (fiasko)" id="CALKOWITE_FIASKO">
@@ -3800,7 +3756,7 @@ $Id: grammar.xml,v 1.40 2007-05-10 21:01:26 milek_pl Exp $
 			</pattern>
 			<message>To wyrażenie to pleonazm. Wystarczy powiedzieć <suggestion>\2</suggestion>.</message>
 			<example type="correct">Przemysław odpowiada za fiasko rozmów z Andrzejem.</example>			
-			<example type="incorrect">Przemysław odpowiada za <marker>kompletne fiasko</marker> rozmów z Andrzejem.</example>			
+			<example type="incorrect" correction="fiasko">Przemysław odpowiada za <marker>kompletne fiasko</marker> rozmów z Andrzejem.</example>			
 		</rule>
 		
 		<rule name="„pełny komplet” (komplet)" id="PELNY_KOMPLET">
@@ -3810,7 +3766,7 @@ $Id: grammar.xml,v 1.40 2007-05-10 21:01:26 milek_pl Exp $
 			</pattern>
 			<message>To wyrażenie to pleonazm. Wystarczy powiedzieć <suggestion>\2</suggestion>.</message>
 			<example type="correct">Cieszymy się z możliwości zakupu kompletu.</example>			
-			<example type="incorrect">Cieszymy się z możliwości zakupu <marker>pełnego kompletu</marker>.</example>			
+			<example type="incorrect" correction="kompletu">Cieszymy się z możliwości zakupu <marker>pełnego kompletu</marker>.</example>			
 		</rule>
 
 		<rule name="„wolny wakat” (wakat)" id="WOLNY_WAKAT">
@@ -3820,7 +3776,7 @@ $Id: grammar.xml,v 1.40 2007-05-10 21:01:26 milek_pl Exp $
 			</pattern>
 			<message>To wyrażenie to pleonazm. Wystarczy powiedzieć <suggestion>\2</suggestion>.</message>
 			<example type="correct">Cieszymy się z wakatu na stanowisku premiera.</example>			
-			<example type="incorrect">Cieszymy się z <marker>wolnego wakatu</marker> na stanowisku premiera.</example>			
+			<example type="incorrect" correction="wakatu">Cieszymy się z <marker>wolnego wakatu</marker> na stanowisku premiera.</example>			
 		</rule>
 
 		<rule name="„skład surowcowy” (skład)" id="SKLAD_SUROWCOWY">
@@ -3830,7 +3786,7 @@ $Id: grammar.xml,v 1.40 2007-05-10 21:01:26 milek_pl Exp $
 			</pattern>
 			<message>To wyrażenie to pleonazm. Wystarczy powiedzieć <suggestion>\1</suggestion>.</message>
 			<example type="correct">Te pierniczki mają od lat ten sam skład.</example>			
-			<example type="incorrect">Te pierniczki mają od lat ten sam <marker>skład surowcowy</marker>.</example>			
+			<example type="incorrect" correction="skład">Te pierniczki mają od lat ten sam <marker>skład surowcowy</marker>.</example>			
 		</rule>
 
 		<rule name="„dzień dzisiejszy” (dzisiaj)" id="DZIEN_DZISIEJSZY">
@@ -3840,7 +3796,7 @@ $Id: grammar.xml,v 1.40 2007-05-10 21:01:26 milek_pl Exp $
 			</pattern>
 			<message>To wyrażenie to pleonazm. Wystarczy powiedzieć <suggestion>dzisiaj</suggestion> lub <suggestion>dziś</suggestion>.</message>
 			<example type="correct">Szkoła dzisiaj</example>			
-			<example type="incorrect"><marker>Dzień dzisiejszy</marker> szkoły</example>			
+			<example type="incorrect" correction="Dzisiaj|Dziś"><marker>Dzień dzisiejszy</marker> szkoły</example>			
 		</rule>
 
 		<rule name="„dzień jutrzejszy” (jutro)" id="DZIEN_JUTRZEJSZY">
@@ -3850,7 +3806,7 @@ $Id: grammar.xml,v 1.40 2007-05-10 21:01:26 milek_pl Exp $
 			</pattern>
 			<message>To wyrażenie to pleonazm. Wystarczy powiedzieć <suggestion>jutro</suggestion>.</message>
 			<example type="correct">Nie należy też zbytnio trwożyć się tym, co przyniesie <marker>jutro</marker>.</example>			
-			<example type="incorrect">Nie należy też zbytnio trwożyć się tym, co przyniesie <marker>dzień jutrzejszy</marker>.</example>			
+			<example type="incorrect" correction="jutro">Nie należy też zbytnio trwożyć się tym, co przyniesie <marker>dzień jutrzejszy</marker>.</example>			
 		</rule>
 
 		<rule name="„dzień wczorajszy” (wczoraj)" id="DZIEN_WCZORAJSZY">
@@ -3860,7 +3816,7 @@ $Id: grammar.xml,v 1.40 2007-05-10 21:01:26 milek_pl Exp $
 			</pattern>
 			<message>To wyrażenie to pleonazm. Wystarczy powiedzieć <suggestion>wczoraj</suggestion>.</message>
 			<example type="correct">Wczoraj minęło spokojnie.</example>			
-			<example type="incorrect"><marker>Dzień wczorajszy</marker> minął spokojnie.</example>			
+			<example type="incorrect" correction="Wczoraj"><marker>Dzień wczorajszy</marker> minął spokojnie.</example>			
 		</rule>
 		
 		<rulegroup name="„żółtko jaja, jajeczne...” (żółtko)" id="ZOLTKO_JAJA">
@@ -3871,7 +3827,7 @@ $Id: grammar.xml,v 1.40 2007-05-10 21:01:26 milek_pl Exp $
 			</pattern>
 			<message>To wyrażenie to pleonazm. Wystarczy powiedzieć <suggestion>\1</suggestion>.</message>
 			<example type="correct">Do ciasta dodać jedno żółtko.</example>		
-			<example type="incorrect">Do ciasta dodać jedno <marker>żółtko jaja</marker>.</example>		
+			<example type="incorrect" correction="żółtko">Do ciasta dodać jedno <marker>żółtko jaja</marker>.</example>		
 		</rule>
 		<rule>
 			<pattern>
@@ -3880,9 +3836,20 @@ $Id: grammar.xml,v 1.40 2007-05-10 21:01:26 milek_pl Exp $
 			</pattern>
 			<message>To wyrażenie to pleonazm. Wystarczy powiedzieć <suggestion>\1</suggestion>.</message>
 			<example type="correct">Do ciasta dodać jedno żółtko.</example>		
-			<example type="incorrect">Do ciasta dodać jedno <marker>żółtko jajeczne</marker>.</example>		
+			<example type="incorrect" correction="żółtko">Do ciasta dodać jedno <marker>żółtko jajeczne</marker>.</example>		
 		</rule>		
 		</rulegroup>
+		
+		<rule id="JEDNYM_DUSZKIEM" name="„jednym duszkiem” (duszkiem)">
+			<pattern>
+				<token>jednym</token>
+				<token>duszkiem</token>
+			</pattern>
+			<message>To wyrażenie to pleonazm. Wystarczy powiedzieć <suggestion>\2</suggestion>.</message>
+			<example type="incorrect" correction="duszkiem">Pijcie <marker>jednym duszkiem</marker>.</example>
+			<example type="correct">Pijcie duszkiem.</example>
+		</rule>
+		
 	</category>
 
 	<category name="Błędy fonetyczne">
@@ -4211,7 +4178,7 @@ $Id: grammar.xml,v 1.40 2007-05-10 21:01:26 milek_pl Exp $
 			</pattern>
 			<message>Błędne wyrażenie. Powinno być: <suggestion>brakuje</suggestion>.</message>
 			<example type="correct">Brakuje chleba.</example>
-			<example type="incorrect"><marker>Występuje brak</marker> chleba.</example>
+			<example type="incorrect" correction="Brakuje"><marker>Występuje brak</marker> chleba.</example>
 		</rule>
 		<rule>
 			<pattern>
@@ -4220,7 +4187,7 @@ $Id: grammar.xml,v 1.40 2007-05-10 21:01:26 milek_pl Exp $
 			</pattern>
 			<message>Błędne wyrażenie. Powinno być: <suggestion>będzie brakować</suggestion>.</message>
 			<example type="correct">Brakuje chleba.</example>
-			<example type="incorrect"><marker>Wystąpi brak</marker> chleba.</example>			
+			<example type="incorrect" correction="Będzie brakować"><marker>Wystąpi brak</marker> chleba.</example>			
 		</rule>
 		<rule>
 			<pattern>
@@ -4229,7 +4196,7 @@ $Id: grammar.xml,v 1.40 2007-05-10 21:01:26 milek_pl Exp $
 			</pattern>
 			<message>Błędne wyrażenie. Powinno być: <suggestion>brakowało</suggestion>.</message>
 			<example type="correct">Brakuje chleba.</example>
-			<example type="incorrect"><marker>Wystąpił brak</marker> chleba.</example>			
+			<example type="incorrect" correction="Brakowało"><marker>Wystąpił brak</marker> chleba.</example>			
 		</rule>
 		<rule>
 			<pattern>
@@ -4238,7 +4205,7 @@ $Id: grammar.xml,v 1.40 2007-05-10 21:01:26 milek_pl Exp $
 			</pattern>
 			<message>Błędne wyrażenie. Powinno być: <suggestion>brakowałoby</suggestion>.</message>
 			<example type="correct">Brakuje chleba.</example>
-			<example type="incorrect"><marker>Wystąpiłby brak</marker> chleba.</example>			
+			<example type="incorrect" correction="Brakowałoby"><marker>Wystąpiłby brak</marker> chleba.</example>			
 		</rule>
 		</rulegroup>
 		
@@ -4248,7 +4215,7 @@ $Id: grammar.xml,v 1.40 2007-05-10 21:01:26 milek_pl Exp $
 				<token>osobiście</token>
 			</pattern>
 			<message>Ta zbitka jest nadużywana i nic nie wnosi. Lepiej pominąć lub zastąpić przez <suggestion>sam</suggestion> lub <suggestion>sama</suggestion>.</message>
-			<example type="incorrect"><marker>Ja osobiście</marker> polecam ta metodę jak najbardziej, musisz koniecznie spróbować.</example>
+			<example type="incorrect" correction="Sam|Sama"><marker>Ja osobiście</marker> polecam ta metodę jak najbardziej, musisz koniecznie spróbować.</example>
 			<example type="correct">Polecam ta metodę jak najbardziej, musisz koniecznie spróbować.</example>
 		</rule>
 	
@@ -4259,7 +4226,7 @@ $Id: grammar.xml,v 1.40 2007-05-10 21:01:26 milek_pl Exp $
 			</pattern>
 			<message>To wyrażenie trąci urzędniczą nowomową. Lepiej: <suggestion>w sprawie</suggestion>, <suggestion>w związku z</suggestion>.</message>
 			<example type="correct">Zbigniew przesłuchiwał go w sprawie znieważenia prezydenta.</example>
-			<example type="incorrect">Zbigniew przesłuchiwał go <marker>na okoliczność</marker> znieważenia prezydenta.</example>
+			<example type="incorrect" correction="w sprawie|w związku z">Zbigniew przesłuchiwał go <marker>na okoliczność</marker> znieważenia prezydenta.</example>
 		</rule>
 		
 		<rule name="„na odcinku” (w zakresie)" id="NA_ODCINKU">
@@ -4271,7 +4238,7 @@ $Id: grammar.xml,v 1.40 2007-05-10 21:01:26 milek_pl Exp $
 			<message>To wyrażenie w znaczeniu metaforycznym trąci urzędniczą nowomową. Lepiej: <suggestion>w zakresie</suggestion>, <suggestion>w</suggestion>. Ewentualnie należy przeredagować i uprościć całe zdanie.</message>
 			<example type="correct">Trwają prace na odcinku Rzepin-Berlin.</example>
 			<example type="correct">Przemarsz na odcinku ul. Nowy Świat-Wiejska</example>
-			<example type="incorrect">Bogate tradycje szkoły należy odnotować również <marker>na odcinku</marker> rozwoju zespołów artystycznych.</example>
+			<example type="incorrect" correction="w zakresie|w">Bogate tradycje szkoły należy odnotować również <marker>na odcinku</marker> rozwoju zespołów artystycznych.</example>
 		</rule>
 		
 		<rule name="„wiodący” (przodujący)" id="WIADACY">
