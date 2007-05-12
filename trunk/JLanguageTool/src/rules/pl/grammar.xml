@@ -2,7 +2,7 @@
 <!--
 Polish Grammar and Typo Rules for LanguageTool
 Copyright (C) 2006 Marcin Miłkowski
-$Id: grammar.xml,v 1.41 2007-05-11 22:09:20 milek_pl Exp $		
+$Id: grammar.xml,v 1.42 2007-05-12 20:03:12 milek_pl Exp $		
 -->
 <rules lang="pl">
 
@@ -80,7 +80,7 @@ $Id: grammar.xml,v 1.41 2007-05-11 22:09:20 milek_pl Exp $
 			<rule>
 				<pattern>
 					<token skip="-1" postag_regexp="yes" postag="verb:.*(sg|pl).*|verb:irreg|verb:imps.*|pcon:imperf|pant:perf" regexp="yes" inflected="yes">mieć<exception scope="current">miano</exception><exception scope="next" regexp="yes" inflected="yes">[\p{Punct}—–„«»](?&lt;!\.)|bądź|czy|ani|lub|albo|oraz|i|kiedy|gdy|który|jaki|że|aby|żeby|ażeby|iżby|zanim|dopóki|gdyby|jeśli|jeżeli|dlaczego|którędy</exception><exception scope="next" postag="&lt;ELLIPSIS&gt;"/></token>
-					<token skip="-1" postag_regexp="yes" postag="pred|verb:.*(sg|pl).*|verb:imps.*|pcon:imperf|pant:perf"><exception scope="current" postag_regexp="yes" postag="subst:.*|adj.*|ppron.*|adv.*|verb:inf.*|prep.*|qub|indecl|conj|"/><exception scope="current" inflected="yes">mieć</exception><exception scope="current" regexp="yes">jedna|może|będ.*</exception></token>
+					<token skip="-1" postag_regexp="yes" postag="pred|verb:.*(sg|pl).*|verb:imps.*|pcon:imperf|pant:perf"><exception scope="current" postag_regexp="yes" postag="subst:.*|adj.*|ppron.*|adv.*|verb:inf.*|prep.*|qub|indecl|conj"/><exception scope="current" inflected="yes">mieć</exception><exception scope="current" regexp="yes">jedna|może|będ.*</exception></token>
 					<phraseref idref="INTERPUNKCJA"/>
 				</pattern>
 				<message>W tym zdaniu złożonym brakuje przecinka lub spójnika między jednym zdaniem a drugim.</message>
@@ -237,7 +237,7 @@ $Id: grammar.xml,v 1.41 2007-05-11 22:09:20 milek_pl Exp $
 			</pattern>	
 			<message>Spójników złożonych nie rozdziela się: <suggestion>\2 że</suggestion>.</message>
 			<example type="correct">Tyle że był głupi.</example>
-			<example type="incorrect"><marker>Tyle, że</marker> akurat on nie prowadził samochodu.</example>
+			<example type="incorrect" correction="Tyle że"><marker>Tyle, że</marker> akurat on nie prowadził samochodu.</example>
 		</rule>
 		<rule>
 			<pattern mark_from="1">
@@ -248,7 +248,7 @@ $Id: grammar.xml,v 1.41 2007-05-11 22:09:20 milek_pl Exp $
 			</pattern>	
 			<message>Spójników złożonych nie rozdziela się: <suggestion>\2 że</suggestion>.</message>
 			<example type="correct">Wprawdzie upił się, tyle że potrafił trzymać język za zębami.</example>
-			<example type="incorrect">Wprawdzie upił się, <marker>tyle, że</marker> akurat on nie prowadził samochodu.</example>
+			<example type="incorrect" correction="tyle że">Wprawdzie upił się, <marker>tyle, że</marker> akurat on nie prowadził samochodu.</example>
 		</rule>
 		
 		<rule>
@@ -658,7 +658,7 @@ $Id: grammar.xml,v 1.41 2007-05-11 22:09:20 milek_pl Exp $
 			<message>Prawdopodobnie brak przecinka. Powinno być: <suggestion><match no="1"/>, <match no="2"/></suggestion>.</message>
 			<example type="correct">Nie wiadomo, w związku z czym zabrał głos.</example>
 			<example type="correct">Łaciny używano na co dzień.</example>
-			<example type="incorrect"><marker>Oto do</marker> czego doprowadziły rządy ludzi niespełna rozumu.</example>
+			<example type="incorrect" correction="Oto, do"><marker>Oto do</marker> czego doprowadziły rządy ludzi niespełna rozumu.</example>
 		</rule>
 		</rulegroup>
 	
@@ -1122,7 +1122,7 @@ $Id: grammar.xml,v 1.41 2007-05-11 22:09:20 milek_pl Exp $
 				<token>)</token>
 			</pattern>
 			<message>W języku polskim zwyczaj typograficzny nakazuje trzykropek umieszczać w nawiasie kwadratowym: <suggestion>[...]</suggestion>.</message>
-			<example type="incorrect">„prawdziwe arcydzieło <marker>(...)</marker> o wprost ogromnej teoretycznej doniosłości</example>
+			<example type="incorrect" correction="[...]">„prawdziwe arcydzieło <marker>(...)</marker> o wprost ogromnej teoretycznej doniosłości</example>
 			<example type="correct">„prawdziwe arcydzieło [...] o wprost ogromnej teoretycznej doniosłości</example>
 		</rule>
 
@@ -1414,7 +1414,7 @@ $Id: grammar.xml,v 1.41 2007-05-11 22:09:20 milek_pl Exp $
 				<token>Polska</token>
 			</pattern>
 				<message>Uwaga. Użyta forma to wołacz, poprawnie w mianowniku mówi się: <suggestion>Rzeczpospolita Polska</suggestion>.</message>
-				<example type="incorrect">My z bratem uważamy, że <marker>Rzeczypospolita Polska</marker> to nie jest kraj dezerterów.</example>
+				<example type="incorrect" correction="Rzeczpospolita Polska">My z bratem uważamy, że <marker>Rzeczypospolita Polska</marker> to nie jest kraj dezerterów.</example>
 				<example type="correct">My z bratem uważamy, że <marker>Rzeczpospolita Polska</marker> to nie jest kraj dezerterów.</example>
 			</rule>
 		</rulegroup>
@@ -1862,6 +1862,7 @@ $Id: grammar.xml,v 1.41 2007-05-11 22:09:20 milek_pl Exp $
 		</rule>
 		
 		<rule name="Błąd związku rzędu: „rozumieć coś pod czymś” (przez coś)" id="ROZUMIEC_POD">
+		<!-- FIXME: podpowiedź nie uwzględnia odmiany -->
 			<pattern mark_from="3">
 				<token negate="yes" skip="1">przez</token>
 				<token inflected="yes" skip="5">rozumieć<exception scope="next">przez</exception></token>
@@ -1882,7 +1883,7 @@ $Id: grammar.xml,v 1.41 2007-05-11 22:09:20 milek_pl Exp $
 			<message>Mówimy „inny” <suggestion>niż</suggestion>, a nie „inny jak”.</message>
 			<example type="correct">Któż inny jak nie on!</example>
 			<example type="correct">Jarosław jest inny niż wszyscy Kaczyńscy.</example>
-			<example type="incorrect">Jarosław jest inny <marker>jak</marker> wszyscy Kaczyńscy.</example>
+			<example type="incorrect" correction="niż">Jarosław jest inny <marker>jak</marker> wszyscy Kaczyńscy.</example>
 		</rule>
 	
 		<rule name="„w lato” (w lecie, latem)" id="W_LATO">
@@ -1892,7 +1893,7 @@ $Id: grammar.xml,v 1.41 2007-05-11 22:09:20 milek_pl Exp $
 			</pattern>
 			<message>Mówimy <suggestion>latem</suggestion>, <suggestion>w lecie</suggestion>, a nie „w lato”.</message>
 			<example type="correct">W lecie wybieramy się do Danii.</example>
-			<example type="incorrect"><marker>W lato</marker> wybieramy się do Danii.</example>
+			<example type="incorrect" correction="Latem|W lecie"><marker>W lato</marker> wybieramy się do Danii.</example>
 		</rule>
 		
 		<rule name="„jakiś” + dopełniacz l.mn. (jakichś)" id="JAKIS_DZIEWCZYN">
@@ -1902,7 +1903,7 @@ $Id: grammar.xml,v 1.41 2007-05-11 22:09:20 milek_pl Exp $
 			</pattern>
 			<message>Zaimek „jakiś” w dopełniaczu liczby mnogiej ma postać: <suggestion>jakichś</suggestion>.</message>
 			<example type="correct">A nie widziałeś tam jakichś dziewczyn?</example>
-			<example type="incorrect">A nie widziałeś tam <marker>jakiś</marker> dziewczyn?</example>
+			<example type="incorrect" correction="jakichś">A nie widziałeś tam <marker>jakiś</marker> dziewczyn?</example>
 		</rule>
 
 
@@ -2329,7 +2330,7 @@ $Id: grammar.xml,v 1.41 2007-05-11 22:09:20 milek_pl Exp $
 			<token>na</token>
 		</pattern>
 		<message>To wyrażenie jest może być niepoprawne. Lepiej: <suggestion>powołując się na</suggestion>, <suggestion>ze względu na</suggestion>, <suggestion>na mocy</suggestion>.</message>
-		<example type="incorrect" correction="powołując się na|ze względu na|na mocy|">Dokument ma uprawomocnić żądanie natychmiastowego wstrzymania wzbogacania uranu <marker>w powołaniu się na</marker> artykuł 39, względnie 40 Karty NZ.</example>
+		<example type="incorrect" correction="powołując się na|ze względu na|na mocy">Dokument ma uprawomocnić żądanie natychmiastowego wstrzymania wzbogacania uranu <marker>w powołaniu się na</marker> artykuł 39, względnie 40 Karty NZ.</example>
 		<example type="correct">Dokument ma uprawomocnić żądanie natychmiastowego wstrzymania wzbogacania uranu <marker>ze względu na</marker> artykuł 39, względnie 40 Karty NZ.</example>
 	</rule>
 	
@@ -2428,7 +2429,7 @@ $Id: grammar.xml,v 1.41 2007-05-11 22:09:20 milek_pl Exp $
 			</pattern>
 			<message>Z tym czasownikiem używa się przyimka <suggestion>na</suggestion>.</message>
 			<example type="correct">To zakrawa na skandal.</example>
-			<example type="incorrect">To zakrawa <marker>o</marker> skandal.</example>
+			<example type="incorrect" correction="na">To zakrawa <marker>o</marker> skandal.</example>
 		</rule>
 		
 		<rule id="PRZY_UDZIALE" name="„przy udziale” (z udziałem)">
@@ -2438,7 +2439,7 @@ $Id: grammar.xml,v 1.41 2007-05-11 22:09:20 milek_pl Exp $
 			</pattern>
 			<message>To wyrażenie jest niepoprawne. Mówimy: <suggestion>z udziałem</suggestion>.</message>
 			<example type="correct">Konferencja odbywała się z udziałem prezydenta.</example>
-			<example type="incorrect">Konferencja odbywała się <marker>przy udziale</marker> prezydenta.</example>
+			<example type="incorrect" correction="z udziałem">Konferencja odbywała się <marker>przy udziale</marker> prezydenta.</example>
 		</rule>
 	
 		<rule id="ZDAC_SPRAWOZDANIE" name="„zdać sprawozdanie” (zdać sprawę)">
@@ -2481,7 +2482,7 @@ $Id: grammar.xml,v 1.41 2007-05-11 22:09:20 milek_pl Exp $
 				<token>pośrodku</token>
 			</pattern>
 			<message>Wyrażenie „w pośrodku” jest przestarzałe i obecnie niepoprawne. Używa się wyrażenia <suggestion>pośrodku</suggestion>.</message>
-			<example type="incorrect"><marker>W pośrodku</marker> rynku stoi studnia.</example>
+			<example type="incorrect" correction="Pośrodku"><marker>W pośrodku</marker> rynku stoi studnia.</example>
 			<example type="correct">Na środku rynku stoi studnia.</example>
 		</rule>
 
@@ -2491,7 +2492,7 @@ $Id: grammar.xml,v 1.41 2007-05-11 22:09:20 milek_pl Exp $
 				<token>wzdłuż</token>
 			</pattern>
 			<message>Wyrażenie „na wzdłuż” jest niepoprawne. Piszemy po prostu <suggestion>wzdłuż</suggestion>.</message>
-			<example type="incorrect">Opona pękła <marker>na wzdłuż</marker>.</example>
+			<example type="incorrect" correction="wzdłuż">Opona pękła <marker>na wzdłuż</marker>.</example>
 			<example type="correct">Opona pękła <marker>wzdłuż</marker>.</example>
 		</rule>
 
@@ -2504,10 +2505,11 @@ $Id: grammar.xml,v 1.41 2007-05-11 22:09:20 milek_pl Exp $
 			</pattern>
 			<message>To niepoprawne wyrażenie. Poprawnie: <suggestion>po dziś dzień</suggestion>.</message>
 			<example type="correct">Te przesądy utrzymują się po dziś dzień.</example>
-			<example type="incorrect">Te przesądy utrzymują się <marker>do dziś dzień</marker>.</example>
+			<example type="incorrect" correction="po dziś dzień">Te przesądy utrzymują się <marker>do dziś dzień</marker>.</example>
 		</rule>
 		
 		<rule name="„przyczyna do” (przyczyna, powód do)" id="PRZYCZYNA_DO">
+		<!--  FIXME: nie do końca poprawna podpowiedź -->
 			<pattern mark_to="-1">
 			<token inflected="yes">przyczyna</token>
 			<token>do</token>
@@ -2527,7 +2529,7 @@ $Id: grammar.xml,v 1.41 2007-05-11 22:09:20 milek_pl Exp $
 			</pattern>
 			<message>To niepoprawne wyrażenie. Poprawnie: <suggestion>za wszelką cenę</suggestion>.</message>		
 			<example type="correct">Przemysław chciał zaimponować Jarosławowi za wszelką cenę.</example>
-			<example type="incorrect">Przemysław chciał zaimponować Jarosławowi <marker>za każdą cenę</marker>.</example>		
+			<example type="incorrect" correction="za wszelką cenę">Przemysław chciał zaimponować Jarosławowi <marker>za każdą cenę</marker>.</example>		
 		</rule>
 		
 		<rule name="„tania cena” (niska cena)" id="TANIA_CENA">
@@ -2535,9 +2537,9 @@ $Id: grammar.xml,v 1.41 2007-05-11 22:09:20 milek_pl Exp $
 				<token postag_regexp="yes" inflected="yes" postag="adj.*[:\.]f[:\.].*">tani</token>
 				<token inflected="yes">cena</token>
 			</pattern>
-			<message>Ceny nie mogą być tanie. Mogą być <suggestion>niskie</suggestion>.</message>
+			<message>Ceny nie mogą być tanie. Poprawnie: <suggestion><match no="1" postag="adj.*">niski</match></suggestion>.</message>
 			<example type="correct">W tym roku wszędzie mamy niskie ceny.</example>
-			<example type="incorrect">W tym roku wszędzie mamy <marker>tanie</marker> ceny.</example>
+			<example type="incorrect" correction="niskie">W tym roku wszędzie mamy <marker>tanie</marker> ceny.</example>
 		</rule>
 
 		<rule name="„droga cena” (wysoka cena)" id="DROGA_CENA">
@@ -2545,9 +2547,9 @@ $Id: grammar.xml,v 1.41 2007-05-11 22:09:20 milek_pl Exp $
 				<token postag_regexp="yes" inflected="yes" postag="adj.*[:\.]f[:\.].*">drogi</token>
 				<token inflected="yes">cena</token>
 			</pattern>
-			<message>Ceny nie mogą być drogie. Mogą być <suggestion>wysokie</suggestion>.</message>
+			<message>Ceny nie mogą być drogie. Poprawnie: <suggestion><match no="1" postag="adj.*">wysoki</match></suggestion>.</message>
 			<example type="correct">W tym roku wszędzie mamy wysokie ceny.</example>
-			<example type="incorrect">W tym roku wszędzie mamy <marker>drogie</marker> ceny.</example>
+			<example type="incorrect" correction="wysokie">W tym roku wszędzie mamy <marker>drogie</marker> ceny.</example>
 		</rule>
 				
 		<rulegroup name="„kosztować taniej/drożej” (mniej/więcej)" id="KOSZTOWAC_TANIEJ">
@@ -2557,7 +2559,7 @@ $Id: grammar.xml,v 1.41 2007-05-11 22:09:20 milek_pl Exp $
 					<token>taniej</token>
 				</pattern>
 				<message>To niepoprawne wyrażenie. Poprawnie: <suggestion>\1 mniej</suggestion>.</message>
-				<example type="incorrect">Samochód Jurka <marker>kosztował taniej</marker>.</example>
+				<example type="incorrect" correction="kosztował mniej">Samochód Jurka <marker>kosztował taniej</marker>.</example>
 				<example type="correct">Samochód Jurka kosztował mniej.</example>
 			</rule>
 			<rule>
@@ -2566,7 +2568,7 @@ $Id: grammar.xml,v 1.41 2007-05-11 22:09:20 milek_pl Exp $
 					<token>drożej</token>
 				</pattern>
 				<message>To niepoprawne wyrażenie. Poprawnie: <suggestion>\1 więcej</suggestion>.</message>
-				<example type="incorrect">Samochód Jurka <marker>kosztował drożej</marker>.</example>
+				<example type="incorrect" correction="kosztował więcej">Samochód Jurka <marker>kosztował drożej</marker>.</example>
 				<example type="correct">Samochód Jurka kosztował mniej.</example>				
 			</rule>
 			<rule>
@@ -2575,7 +2577,7 @@ $Id: grammar.xml,v 1.41 2007-05-11 22:09:20 milek_pl Exp $
 					<token>tanio</token>
 				</pattern>
 				<message>To niepoprawne wyrażenie. Poprawnie: <suggestion>\1 mało</suggestion>.</message>
-				<example type="incorrect">Samochód Jurka <marker>kosztował tanio</marker>.</example>
+				<example type="incorrect" correction="kosztował mało">Samochód Jurka <marker>kosztował tanio</marker>.</example>
 				<example type="correct">Samochód Jurka kosztował mało.</example>
 			</rule>
 			<rule>
@@ -2584,7 +2586,7 @@ $Id: grammar.xml,v 1.41 2007-05-11 22:09:20 milek_pl Exp $
 					<token>drogo</token>
 				</pattern>
 				<message>To niepoprawne wyrażenie. Poprawnie: <suggestion>\1 dużo</suggestion>.</message>
-				<example type="incorrect">Samochód Jurka <marker>kosztował drogo</marker>.</example>
+				<example type="incorrect" correction="kosztował dużo">Samochód Jurka <marker>kosztował drogo</marker>.</example>
 				<example type="correct">Samochód Jurka kosztował mniej.</example>				
 			</rule>
 			<rule>
@@ -2592,8 +2594,8 @@ $Id: grammar.xml,v 1.41 2007-05-11 22:09:20 milek_pl Exp $
 					<token>taniej</token>
 					<token inflected="yes">kosztować</token>
 				</pattern>
-				<message>To niepoprawne wyrażenie. Poprawnie: <suggestion>mniej \1</suggestion>.</message>
-				<example type="incorrect">Samochód Jurka <marker>taniej kosztował</marker>.</example>
+				<message>To niepoprawne wyrażenie. Poprawnie: <suggestion>mniej \2</suggestion>.</message>
+				<example type="incorrect" correction="mniej kosztował">Samochód Jurka <marker>taniej kosztował</marker>.</example>
 				<example type="correct">Samochód Jurka mniej kosztował.</example>
 			</rule>
 			<rule>
@@ -2601,8 +2603,8 @@ $Id: grammar.xml,v 1.41 2007-05-11 22:09:20 milek_pl Exp $
 					<token>drożej</token>
 					<token inflected="yes">kosztować</token>
 					</pattern>
-				<message>To niepoprawne wyrażenie. Poprawnie: <suggestion>więcej \1</suggestion>.</message>
-				<example type="incorrect">Samochód Jurka <marker>drożej kosztował</marker>.</example>
+				<message>To niepoprawne wyrażenie. Poprawnie: <suggestion>więcej \2</suggestion>.</message>
+				<example type="incorrect" correction="więcej kosztował">Samochód Jurka <marker>drożej kosztował</marker>.</example>
 				<example type="correct">Samochód Jurka kosztował mniej.</example>				
 			</rule>
 			<rule>
@@ -2610,8 +2612,8 @@ $Id: grammar.xml,v 1.41 2007-05-11 22:09:20 milek_pl Exp $
 					<token>tanio</token>
 					<token inflected="yes">kosztować</token>
 				</pattern>
-				<message>To niepoprawne wyrażenie. Poprawnie: <suggestion>mało \1</suggestion>.</message>
-				<example type="incorrect">Samochód Jurka <marker>tanio kosztował</marker>.</example>
+				<message>To niepoprawne wyrażenie. Poprawnie: <suggestion>mało \2</suggestion>.</message>
+				<example type="incorrect" correction="mało kosztował">Samochód Jurka <marker>tanio kosztował</marker>.</example>
 				<example type="correct">Samochód Jurka mało kosztował.</example>
 			</rule>
 			<rule>
@@ -2619,8 +2621,8 @@ $Id: grammar.xml,v 1.41 2007-05-11 22:09:20 milek_pl Exp $
 					<token>drogo</token>
 					<token inflected="yes">kosztować</token>					
 				</pattern>
-				<message>To niepoprawne wyrażenie. Poprawnie: <suggestion>dużo \1</suggestion>.</message>
-				<example type="incorrect">Samochód Jurka <marker>drogo kosztował</marker>.</example>
+				<message>To niepoprawne wyrażenie. Poprawnie: <suggestion>dużo \2</suggestion>.</message>
+				<example type="incorrect" correction="dużo kosztował">Samochód Jurka <marker>drogo kosztował</marker>.</example>
 				<example type="correct">Samochód Jurka kosztował mniej.</example>				
 			</rule>						
 		</rulegroup>
@@ -2657,14 +2659,15 @@ $Id: grammar.xml,v 1.41 2007-05-11 22:09:20 milek_pl Exp $
 		</rule>
 	
 		<rule name="„czekać za” (na)" id="CZEKAC_ZA">
-			<pattern mark_from="1" mark_to="-1">
+		<!--  FIXME: podpowiedź nie uwzględnia złożonych grup nominalnych -->
+			<pattern mark_from="1">
 				<token inflected="yes" skip="4">czekać<exception scope="next">na</exception></token>
 				<token>za</token>
 				<token postag=".*inst.*" postag_regexp="yes"/>
 			</pattern>
-			<message>Mówi się „czekać <suggestion>na</suggestion> co”, a nie „za czymś”.</message>
+			<message>Nie mówimy „czekać za czymś”. Poprawnie: <suggestion>na <match no="3" postag_regexp="yes" postag="(.*)(sg|pl).*inst.*" postag_replace="$1$2.*acc.*"/></suggestion>.</message>
 			<example type="correct">Czekałem dwie godziny na pociąg.</example>
-			<example type="incorrect">Czekałem dwie godziny <marker>za</marker> pociągiem.</example>
+			<example type="incorrect" correction="na pociąg">Czekałem dwie godziny <marker>za pociągiem</marker>.</example>
 			<example type="correct">Czekałem godzinę na pociąg za granicę.</example>
 		</rule>
 	
@@ -2676,9 +2679,12 @@ $Id: grammar.xml,v 1.41 2007-05-11 22:09:20 milek_pl Exp $
 			</pattern>
 			<message>Mówimy <suggestion>na przodzie</suggestion>, <suggestion>w przodzie</suggestion>.</message>
 			<example type="correct">Pierwszy sekretarz stał na przodzie pochodu pierwszomajowego.</example>
-			<example type="incorrect">Pierwszy sekretarz stał <marker>w przedzie</marker> pochodu pierwszomajowego.</example>
+			<example type="incorrect" correction="na przodzie|w przodzie">Pierwszy sekretarz stał <marker>w przedzie</marker> pochodu pierwszomajowego.</example>
 		</rule>
+		
 		<rule name="„w ślad za” (w następstwie)" id="W_SLAD_ZA">
+		<!-- FIXME: dostosować przypadki i zbudować różne 
+			reguły dla różnych grup nominalnych -->
 			<pattern>
 				<token>w</token>
 				<token>ślad</token>
@@ -2694,9 +2700,9 @@ $Id: grammar.xml,v 1.41 2007-05-11 22:09:20 milek_pl Exp $
 				<token inflected="yes" regexp="yes">grać|grywać</token>
 				<token>mecz</token>
 			</pattern>
-			<message>Użyto niewłaściwego czasownika. Powinno być: <suggestion>rozegrać</suggestion> lub <suggestion>rozgrywać</suggestion>.</message>
-			<example type="incorrect">Wisła chce <marker>grać</marker> mecz w czwartek.</example>
-			<example type="correct">Wisła chce <marker>rozegrać</marker>  mecz w czwartek.</example>
+			<message>Użyto niewłaściwego czasownika. Powinno być: <suggestion><match no="1" postag="verb.*">rozegrać</match></suggestion> lub <suggestion><match no="1" postag="verb.*">rozgrywać</match></suggestion>.</message>
+			<example type="incorrect" correction="rozegrała|rozgrywała">Wisła <marker>grała</marker> mecz w czwartek.</example>
+			<example type="correct">Wisła <marker>rozegrała</marker>  mecz w czwartek.</example>
 		</rule>
 
 		<rule name="„ponosić nakłady” (koszty)" id="PONOSIC_NAKLADY">
@@ -2705,7 +2711,7 @@ $Id: grammar.xml,v 1.41 2007-05-11 22:09:20 milek_pl Exp $
 				<token>nakłady</token>
 			</pattern>
 			<message>Tego czasownika nie używamy z rzeczownikiem „\2”. Powinno być: <suggestion>koszty</suggestion>.</message>
-			<example type="incorrect">Nowoczesna firma ponosi <marker>nakłady</marker> na innowacje.</example>
+			<example type="incorrect" correction="koszty">Nowoczesna firma ponosi <marker>nakłady</marker> na innowacje.</example>
 			<example type="correct">Nowoczesna firma ponosi <marker>koszty</marker> związane z innowacjami.</example>
 		</rule>
 		
@@ -2714,20 +2720,43 @@ $Id: grammar.xml,v 1.41 2007-05-11 22:09:20 milek_pl Exp $
 				<token inflected="yes" regexp="yes" postag_regexp="yes" postag="verb.*">zestawiać|zestawić</token>
 				<token>listę</token>
 			</pattern>
-			<message>Prawdopodobnie użyto niewłaściwego czasownika. Mówimy raczej: <suggestion>ułożyć</suggestion> lub <suggestion>utworzyć</suggestion>.</message>
-			<example type="incorrect">Można <marker>zestawić</marker> listę praw, jakie Kościół przyznaje człowiekowi.</example>
+			<message>Prawdopodobnie użyto niewłaściwego czasownika. Mówimy raczej: <suggestion><match no="1" postag="verb.*">ułożyć</match></suggestion> lub <suggestion><match no="1" postag="verb.*">utworzyć</match></suggestion>.</message>
+			<example type="incorrect" correction="ułożył|utworzył">Sędzia <marker>zestawił</marker> listę praw, jakie Kościół przyznaje człowiekowi.</example>
 			<example type="correct">Można ułożyć listę praw, jakie Kościół odbiera człowiekowi.</example>
 		</rule>
 		
-		<rule name="„odgrywać znaczenie” (rolę)" id="ODGRYWAC_ZNACZENIE">
+		<rulegroup name="„odgrywać znaczenie” (rolę)" id="ODGRYWAC_ZNACZENIE">		
+		<rule>
 			<pattern mark_from="1">
-				<token skip="2" inflected="yes" regexp="yes">grać|odgrywać|odegrać</token>
+				<token inflected="yes" regexp="yes">grać|odgrywać|odegrać</token>
 				<token>znaczenie</token>
 			</pattern>
-			<message>Mówimy „odgrywać <suggestion>rolę</suggestion>”, a nie „odgrywać znaczenie”.</message>
-			<example type="incorrect">Odgrywa duże <marker>znaczenie</marker> w żegludze różnych typów statków.</example>
+			<message>Mówimy „\1 <suggestion>rolę</suggestion>”, a nie „odgrywać znaczenie”.</message>
+			<example type="incorrect" correction="rolę">Odgrywa <marker>znaczenie</marker> w żegludze różnych typów statków.</example>
+			<example type="correct"><marker>Odgrywa rolę</marker> w żegludze różnych typów statków.</example>
+		</rule>
+		<rule>
+			<pattern mark_from="1">
+				<token inflected="yes" regexp="yes">grać|odgrywać|odegrać</token>
+				<token postag_regexp="yes" postag="adj:.*acc.*"/>
+				<token>znaczenie</token>
+			</pattern>
+			<message>Nie mówimy „odgrywać znaczenie”; poprawnie: <match no="1"/> <suggestion><match no="2" postag_regexp="yes" postag="adj:sg.*acc.*[\.:]f.*" /> rolę</suggestion>.</message>
+			<example type="incorrect" correction="dużą rolę">Odgrywa <marker>duże znaczenie</marker> w żegludze różnych typów statków.</example>
 			<example type="correct"><marker>Odgrywa dużą rolę</marker> w żegludze różnych typów statków.</example>
 		</rule>
+		<rule>
+			<pattern mark_from="1">
+				<token inflected="yes" regexp="yes">grać|odgrywać|odegrać</token>
+				<token postag_regexp="yes" postag="adv.*"/>
+				<token postag_regexp="yes" postag="adj:.*acc.*"/>				
+				<token>znaczenie</token>
+			</pattern>
+			<message>Nie mówimy „odgrywać znaczenie”; poprawnie: „<match no="1"/> <suggestion><match no="2"/> <match no="3" postag_regexp="yes" postag="adj:sg.*acc.*[\.:]f.*" /> rolę</suggestion>.</message>
+			<example type="incorrect" correction="naprawdę dużą rolę">Odgrywa <marker>naprawdę duże znaczenie</marker> w żegludze różnych typów statków.</example>
+			<example type="correct"><marker>Odgrywa dużą rolę</marker> w żegludze różnych typów statków.</example>
+		</rule>		
+		</rulegroup>
 
 		<rulegroup name="„pełnić rolę” (odgrywać rolę)" id="PELNIC_ROLE">
 		<rule>		
@@ -3113,8 +3142,8 @@ $Id: grammar.xml,v 1.41 2007-05-11 22:09:20 milek_pl Exp $
 			<message>Mówi się „uznać coś <suggestion>za</suggestion> jakieś”.</message>
 			<example type="correct">Ludwik był uznany za wielkiego aktora.</example>
 			<example type="correct">Ludwik był uznawany za wielkiego aktora.</example>
-			<example type="incorrect">Ludwik był uznany <marker>jako</marker> wielki aktor.</example>
-			<example type="incorrect">Uznałem go <marker>jako</marker> straconego dla sprawy.</example>
+			<example type="incorrect" correction="za">Ludwik był uznany <marker>jako</marker> wielki aktor.</example>
+			<example type="incorrect" correction="za">Uznałem go <marker>jako</marker> straconego dla sprawy.</example>
 			<example type="correct">Ludwik był uznawany za świetnego księgowego, jako że dbał o finanse firmy.</example>
 			<example type="correct">Ludzie uznawali ją za piękność.</example>
 		</rule>
@@ -3449,7 +3478,7 @@ $Id: grammar.xml,v 1.41 2007-05-11 22:09:20 milek_pl Exp $
 		</pattern>
 		<message>To pleonazm. Wystarczy powiedzieć: <suggestion>\1</suggestion>.</message>
 		<example type="correct">Uważaj przy cofaniu!</example>
-		<example type="incorrect">Uważaj przy <marker>cofaniu do tyłu</marker>!</example>
+		<example type="incorrect" correction="cofaniu">Uważaj przy <marker>cofaniu do tyłu</marker>!</example>
 	</rule>		
 	<rule>
 		<pattern>
@@ -3862,7 +3891,7 @@ $Id: grammar.xml,v 1.41 2007-05-11 22:09:20 milek_pl Exp $
 			</pattern>
 			<message>Prawdopodobnie ten przyimek należy zapisać tak: <suggestion>we \2</suggestion>.</message>
 			<example type="correct">Ludwik ma randkę z Przemysławem we wtorek.</example>
-			<example type="incorrect">Ludwik ma randkę z Przemysławem <marker>w wtorek</marker>.</example>
+			<example type="incorrect" correction="we wtorek">Ludwik ma randkę z Przemysławem <marker>w wtorek</marker>.</example>
 		</rule>
 		<rule>
 			<pattern>
@@ -3870,9 +3899,9 @@ $Id: grammar.xml,v 1.41 2007-05-11 22:09:20 milek_pl Exp $
 				<token regexp="yes">[\"„]</token>				
 				<token regexp="yes">[wf][tśsrłndwpgklzcbmż].*|Lwowie<exception regexp="yes">[\"„]</exception><exception postag="UNKNOWN"/></token>				
 			</pattern>
-			<message>Prawdopodobnie ten przyimek należy zapisać tak: <suggestion>we \2</suggestion>.</message>
+			<message>Prawdopodobnie ten przyimek należy zapisać tak: <suggestion>we \2\3</suggestion>.</message>
 			<example type="correct">Ludwik ma randkę z Przemysławem we wtorek.</example>
-			<example type="incorrect">Ludwik ma randkę z Przemysławem <marker>w "wczorajszy</marker> wtorek.</example>
+			<example type="incorrect" correction="we &quot;wczorajszy">Ludwik ma randkę z Przemysławem <marker>w "wczorajszy</marker> wtorek.</example>
 		</rule>		
 		</rulegroup>
 				
@@ -3885,7 +3914,7 @@ $Id: grammar.xml,v 1.41 2007-05-11 22:09:20 milek_pl Exp $
 			<message>Prawdopodobnie ten przyimek należy zapisać tak: <suggestion>w \2</suggestion>.</message>
 			<example type="correct">Ludwik ma randkę z Przemysławem w Łodzi.</example>
 			<example type="correct">Krakusy mówią, że kaczki przeglądają się we wodzie.</example>
-			<example type="incorrect">Ludwik ma randkę z Przemysławem <marker>we Łodzi</marker>.</example>
+			<example type="incorrect" correction="w Łodzi">Ludwik ma randkę z Przemysławem <marker>we Łodzi</marker>.</example>
 		</rule>
 		<rule>
 			<pattern>
@@ -3908,7 +3937,7 @@ $Id: grammar.xml,v 1.41 2007-05-11 22:09:20 milek_pl Exp $
 			</pattern>
 			<message>Prawdopodobnie ten przyimek należy zapisać tak: <suggestion>\1e \2</suggestion>.</message>
 			<example type="correct">Ludwik ma kochankę ze Świecia</example>
-			<example type="incorrect">Ludwik ma kochankę <marker>z Świecia</marker>.</example>
+			<example type="incorrect" correction="ze Świecia">Ludwik ma kochankę <marker>z Świecia</marker>.</example>
 		</rule>
 		<rule>
 			<pattern>
@@ -3932,7 +3961,7 @@ $Id: grammar.xml,v 1.41 2007-05-11 22:09:20 milek_pl Exp $
 			<message>Prawdopodobnie ten przyimek należy zapisać tak: <suggestion>z \2</suggestion>.</message>
 			<example type="correct">Ludwik ma kochankę z Łodzi.</example>
 			<example type="correct">Nawet Horacy drwił ze "szkodliwego hazardu".</example>
-			<example type="incorrect">Ludwik ma kochankę <marker>ze Łodzi</marker>.</example>
+			<example type="incorrect" correction="z Łodzi">Ludwik ma kochankę <marker>ze Łodzi</marker>.</example>
 		</rule>
 		<rule>
 			<pattern>
@@ -4124,16 +4153,27 @@ $Id: grammar.xml,v 1.41 2007-05-11 22:09:20 milek_pl Exp $
 	</rule>
 	</rulegroup>	
 	
-		<rule name="„ten perfum” (te perfumy)" id="TEN_PERFUM">
-	<!--  FIXME: problem związku zgody w podpowiedzi -->
+		<rulegroup name="„ten perfum” (te perfumy)" id="TEN_PERFUM">
+		<rule>
 			<pattern>
-				<token postag_regexp="yes" postag="adj.*[\:\.]m[\d]*.*"><exception postag_regexp="yes" postag="adj.*[\:\.]f.*"/></token>
+				<token postag_regexp="yes" postag="adj:sg.*[\:\.]m[\d]*.*"><exception postag_regexp="yes" postag="adj.*[\:\.]f.*"/></token>
 				<token>perfum</token>
 			</pattern>
-			<message>Ten rzeczonik ma inny rodzaj gramatyczny i liczbę. Mówimy <suggestion>perfumy</suggestion> (zawsze w liczbie mnogiej).</message>
-			<example type="incorrect">Uwielbiam <marker>ten perfum</marker>...</example>
+			<message>Ten rzeczownik ma inny rodzaj gramatyczny i występuje tylko w liczbie mnogiej. Poprawnie: <suggestion><match no="1" postag="adj:pl:nom.acc.voc:f.n.*" postag_regexp="yes"/> perfumy</suggestion>.</message>
+			<example type="incorrect" correction="te perfumy">Uwielbiam <marker>ten perfum</marker>...</example>
 			<example type="correct">Uwielbiam <marker>te perfumy</marker>...</example>
 		</rule>
+		<rule>
+			<pattern>
+				<token postag_regexp="yes" postag="adj:sg.*[\:\.]m[\d]*.*"><exception postag_regexp="yes" postag="adj.*[\:\.]f.*"/></token>
+				<token postag_regexp="yes" postag="adj:sg.*[\:\.]m[\d]*.*"><exception postag_regexp="yes" postag="adj.*[\:\.]f.*"/></token>
+				<token>perfum</token>
+			</pattern>
+			<message>Ten rzeczownik ma inny rodzaj gramatyczny i występuje tylko w liczbie mnogiej. Poprawnie: <suggestion><match no="1" postag="adj:pl:nom.acc.voc:f.n.*" postag_regexp="yes"/> <match no="2" postag="adj:pl:nom.acc.voc:f.n.*" postag_regexp="yes"/> perfumy</suggestion>.</message>
+			<example type="incorrect" correction="takie dobre perfumy">On kupił sobie <marker>taki dobry perfum</marker>.</example>
+			<example type="correct">Uwielbiam <marker>te perfumy</marker>...</example>
+		</rule>		
+		</rulegroup>
 	
 		<rule name="„golonko” (golonka)" id="GOLONKO">
 	<!--  FIXME: problem związku zgody w podpowiedzi -->
@@ -4247,10 +4287,10 @@ $Id: grammar.xml,v 1.41 2007-05-11 22:09:20 milek_pl Exp $
 				<token><exception>do</exception></token>
 			</pattern>
 			<message>Ten rusycyzm jest błędnie używany po polsku w znaczeniu:
-			<suggestion>przodujący</suggestion>, <suggestion>główny</suggestion>, <suggestion>przewodni</suggestion>, 
-			<suggestion>zasadniczy</suggestion>, <suggestion>najlepszy</suggestion>.</message>
+			<suggestion><match no="1" postag="adj.*">przodujący</match></suggestion>, <suggestion><match no="1" postag="adj.*">główny</match></suggestion>, <suggestion><match no="1" postag="adj.*">przewodni</match></suggestion>, 
+			<suggestion><match no="1" postag="adj.*">zasadniczy</match></suggestion>, <suggestion><match no="1" postag_regexp="yes" postag="(adj.*):pos.*" postag_replace="$1:sup">najlepszy</match></suggestion>.</message>
 			<example type="correct">Tematem przewodnim tej książki jest mądrość premiera.</example>
-			<example type="incorrect">Tematem <marker>wiodącym</marker> tej książki jest mądrość premiera.</example>
+			<example type="incorrect" correction="przodującym|głównym|przewodnim|zasadniczym|najlepszym">Tematem <marker>wiodącym</marker> tej książki jest mądrość premiera.</example>
 		</rule>
 	
 			<rule name="„powiem tak”" id="POWIEM_TAK">
@@ -4272,7 +4312,7 @@ $Id: grammar.xml,v 1.41 2007-05-11 22:09:20 milek_pl Exp $
 			</pattern>
 			<message>Wyraz „dokładnie” oznacza „w sposób ścisły, skrupulatny” i jest błędnie używane w sensie <suggestion>właśnie</suggestion>, <suggestion>owszem</suggestion>.</message>
 			<example type="correct">Owszem.</example>
-			<example type="incorrect"><marker>Dokładnie</marker>!</example>
+			<example type="incorrect" correction="Właśnie|Owszem"><marker>Dokładnie</marker>!</example>
 		</rule>
 	
 		<rule name="„dokładnie tak” (owszem, właśnie)" id="DOKLADNIE_TAK">
@@ -4284,11 +4324,12 @@ $Id: grammar.xml,v 1.41 2007-05-11 22:09:20 milek_pl Exp $
 			</pattern>
 			<message>Wyraz „dokładnie” oznacza „w sposób ścisły, skrupulatny” i jest błędnie używane w sensie <suggestion>właśnie</suggestion>, <suggestion>owszem</suggestion>.</message>
 			<example type="correct">Owszem.</example>
-			<example type="incorrect"><marker>Dokładnie tak</marker>!</example>
+			<example type="incorrect" correction="Właśnie|Owszem"><marker>Dokładnie tak</marker>!</example>
 		</rule>
 
 
 		<rule id="W_OPARCIU" name="„w oparciu o” (na podstawie)">
+		<!--  FIXME: nie ma zmiany przypadka w podpowiedzi -->
 			<pattern>
 				<token>w</token>
 				<token>oparciu</token>
@@ -5995,7 +6036,7 @@ $Id: grammar.xml,v 1.41 2007-05-11 22:09:20 milek_pl Exp $
 		<rule name="„pryz” (przy)" id="PRYZ_PRZY">
 		<pattern mark_to="-1">
 		<token>pryz</token>
-		<token postag_regexp="yes" postag=".*loc.*|"/>
+		<token postag_regexp="yes" postag=".*loc.*"/>
 		</pattern>
 		<message>Prawdopodobna literówka. Czy chodziło o przyimek <suggestion>przy</suggestion>?</message>
 		<example type="correct">Ludwik nie lubi stać przy Przemysławie.</example>
