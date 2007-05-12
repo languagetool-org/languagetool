@@ -45,7 +45,7 @@ public class GermanTaggerTest extends TestCase {
     aToken = tagger.lookup("Interessen");
     assertEquals("Interessen[SUB:DAT:PLU:NEU, SUB:NOM:PLU:NEU, SUB:AKK:PLU:NEU, SUB:GEN:PLU:NEU]",
         aToken.toString());
-    //
+    // words that are not in the dictionary but that are recognized thanks to noun splitting:
     aToken = tagger.lookup("Donaudampfschiff");
     assertEquals("Donaudampfschiff[SUB:AKK:SIN:NEU, SUB:DAT:SIN:NEU, SUB:NOM:SIN:NEU]",
         aToken.toString());
