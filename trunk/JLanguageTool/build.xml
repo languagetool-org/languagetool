@@ -15,6 +15,7 @@
     <pathelement location="${ext.stempelator.lib}"/>
     <pathelement location="${ext.jdic.lib}"/>
     <pathelement location="${ext.jaminid.lib}"/>
+    <pathelement location="${ext.jwordsplitter.lib}"/>
   	<!-- -->
     <pathelement location="${ext.ooo.juh.lib}"/>
     <pathelement location="${ext.ooo.unoil.lib}"/>
@@ -101,7 +102,7 @@
 	
   	<junit printsummary="true"
            errorproperty="tests.failed"
-           showoutput="true"
+           showoutput="true" maxmemory="64M"
            fork="yes" forkmode="once">
 	  
       <formatter type="brief" usefile="false"/>
@@ -252,7 +253,7 @@
 		excludes="**/*.java">
 		<manifest>
 			<attribute name="Main-Class" value="de.danielnaber.languagetool.Main" />
-			<attribute name="Class-Path" value="./ ./rules ./resource ./stempelator-nodict-1.0.7.jar ./jdic.jar ./jaminid.jar" />
+			<attribute name="Class-Path" value="./ ./rules ./resource ./stempelator-nodict-1.0.7.jar ./jdic.jar ./jaminid.jar ./ext.jwordsplitter.lib" />
 			<attribute name="Implementation-Version" value="${version}" />
 			<attribute name="Implementation-Date" value="${date}" />
 		</manifest>
@@ -264,7 +265,7 @@
 		includes="de/danielnaber/languagetool/gui/*.class">
 		<manifest>
 			<attribute name="Main-Class" value="de.danielnaber.languagetool.gui.Main" />
-			<attribute name="Class-Path" value="./LanguageTool.jar ./ ./resource ./rules ./stempelator-nodict-1.0.7.jar ./jdic.jar ./jaminid.jar" />
+			<attribute name="Class-Path" value="./LanguageTool.jar ./ ./resource ./rules ./stempelator-nodict-1.0.7.jar ./jdic.jar ./jaminid.jar ./ext.jwordsplitter.lib" />
 			<attribute name="Implementation-Version" value="${version}" />
 			<attribute name="Implementation-Date" value="${date}" />
 		</manifest>
@@ -404,7 +405,8 @@
 	<copy file="${ext.stempelator.lib}" todir="${dist.dir}" />
 	<copy file="${ext.jdic.lib}" todir="${dist.dir}" />
 	<copy file="${ext.jaminid.lib}" todir="${dist.dir}" />
-  
+	<copy file="${ext.jwordsplitter.lib}" todir="${dist.dir}" />
+  	
  	<copy todir="${dist.dir}/linux">
  		  	<fileset dir="${ext.dir}/linux"/>
 	</copy>
@@ -476,6 +478,10 @@
 	  	storepass="blabla" alias="myalias"/>
 		<copy file="${ext.jaminid.lib}" todir="${dist.dir}/web/" />
 		<signjar jar="${dist.dir}/web/jaminid.jar"
+			  	lazy="true" keystore="./keystore.ks" keypass="blabla" 
+			  	storepass="blabla" alias="myalias"/>
+		<copy file="${ext.jwordsplitter.lib}" todir="${dist.dir}/web/" />
+		<signjar jar="${dist.dir}/web/jWordSplitter.jar"
 			  	lazy="true" keystore="./keystore.ks" keypass="blabla" 
 			  	storepass="blabla" alias="myalias"/>
 		<copy file="${ext.jdic.lib}" todir="${dist.dir}/web/" />

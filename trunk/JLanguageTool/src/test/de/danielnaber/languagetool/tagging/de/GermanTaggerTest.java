@@ -45,6 +45,13 @@ public class GermanTaggerTest extends TestCase {
     aToken = tagger.lookup("Interessen");
     assertEquals("Interessen[SUB:DAT:PLU:NEU, SUB:NOM:PLU:NEU, SUB:AKK:PLU:NEU, SUB:GEN:PLU:NEU]",
         aToken.toString());
+    //
+    aToken = tagger.lookup("Donaudampfschiff");
+    assertEquals("Donaudampfschiff[SUB:AKK:SIN:NEU, SUB:DAT:SIN:NEU, SUB:NOM:SIN:NEU]",
+        aToken.toString());
+    aToken = tagger.lookup("Häuserkämpfe");
+    assertEquals("Häuserkämpfe[SUB:AKK:PLU:MAS, SUB:GEN:PLU:MAS, SUB:NOM:PLU:MAS]",
+        aToken.toString());
   }
   
 }

@@ -27,6 +27,8 @@ import com.dawidweiss.stemmers.Lametyzator;
 import de.danielnaber.languagetool.AnalyzedTokenReadings;
 import de.danielnaber.languagetool.tagging.ManualTagger;
 import de.danielnaber.languagetool.tagging.Tagger;
+import de.danielnaber.languagetool.tokenizers.de.GermanCompoundTokenizer;
+import de.danielnaber.languagetool.tools.StringTools;
 
 /**
  * German tagger, requires data file in <code>resource/de/german.dict</code>.
@@ -40,6 +42,7 @@ public class GermanTagger implements Tagger {
 
   private Lametyzator morfologik = null;
   private ManualTagger manualTagger = null;
+  private GermanCompoundTokenizer compoundTokenizer = null;
   
   public GermanTagger() {
   }
@@ -71,6 +74,9 @@ public class GermanTagger implements Tagger {
     if (manualTagger == null) {
       manualTagger = new ManualTagger(this.getClass().getResourceAsStream(USER_DICT_FILENAME));
     }
+    if (compoundTokenizer == null) {
+      compoundTokenizer = new GermanCompoundTokenizer();
+    }
 
     for (String word: sentenceTokens) {
       List<AnalyzedGermanToken> l = new ArrayList<AnalyzedGermanToken>();
@@ -80,15 +86,27 @@ public class GermanTagger implements Tagger {
         firstWord = false;
       }
       if (taggerTokens != null) {
-        int i = 0;
-        while (i < taggerTokens.length) {
-          // Lametyzator returns data as String[]
-          // first lemma, then annotations
-          l.add(new AnalyzedGermanToken(word, taggerTokens[i + 1], taggerTokens[i]));
-          i = i + 2;
-        }
+        tagWord(taggerTokens, word, l);
       } else {
-        l.add(new AnalyzedGermanToken(word, null, pos));
+        // word not known, try to decompose it and use the last part for POS tagging:
+        if (!word.trim().equals("")) {
+          List<String> compoundParts = compoundTokenizer.tokenize(word);
+          if (compoundParts.size() <= 1) {
+            l.add(new AnalyzedGermanToken(word, null, pos));
+          } else {
+            // last part governs a word's POS:
+            String lastPart = compoundParts.get(compoundParts.size()-1);
+            lastPart = StringTools.uppercaseFirstChar(lastPart);
+            taggerTokens = lexiconLookup(lastPart);
+            if (taggerTokens != null) {
+              tagWord(taggerTokens, word, l);
+            } else {
+              l.add(new AnalyzedGermanToken(word, null, pos));
+            }
+          }
+        } else {
+          l.add(new AnalyzedGermanToken(word, null, pos));
+        }
       }
       pos += word.length();
       //tokenReadings.add(new AnalyzedGermanToken(new AnalyzedTokenReadings((AnalyzedToken[]) l.toArray(new AnalyzedToken[0]))));
@@ -97,6 +115,16 @@ public class GermanTagger implements Tagger {
     return tokenReadings;
   }
 
+  private void tagWord(String[] taggerTokens, String word, List<AnalyzedGermanToken> l) {
+    int i = 0;
+    while (i < taggerTokens.length) {
+      // Lametyzator returns data as String[]
+      // first lemma, then annotations
+      l.add(new AnalyzedGermanToken(word, taggerTokens[i + 1], taggerTokens[i]));
+      i = i + 2;
+    }
+  }
+  
   private String[] lexiconLookup(final String word) {
     String[] posTagsFromUserDict = manualTagger.lookup(word);
     String[] posTagsFromDict = morfologik.stemAndForm(word);
