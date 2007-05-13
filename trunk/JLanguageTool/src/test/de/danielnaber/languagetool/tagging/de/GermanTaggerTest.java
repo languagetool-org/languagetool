@@ -52,6 +52,10 @@ public class GermanTaggerTest extends TestCase {
     aToken = tagger.lookup("Häuserkämpfe");
     assertEquals("Häuserkämpfe[SUB:AKK:PLU:MAS, SUB:GEN:PLU:MAS, SUB:NOM:PLU:MAS]",
         aToken.toString());
+    aToken = tagger.lookup("Häuserkampfes");
+    assertEquals("Häuserkampfes[SUB:GEN:SIN:MAS]", aToken.toString());
+    aToken = tagger.lookup("Häuserkampfs");
+    assertEquals("Häuserkampfs[SUB:GEN:SIN:MAS]", aToken.toString());
   }
   
 }
