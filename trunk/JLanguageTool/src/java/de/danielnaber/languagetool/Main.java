@@ -81,6 +81,10 @@ class Main {
     }
   }
   
+  private void setListUnknownWords(boolean listUnknownWords) {
+    lt.setListUnknownWords(listUnknownWords);
+  }
+
   JLanguageTool getJLanguageTool() {
     return lt;
   }
@@ -131,7 +135,7 @@ class Main {
   private static void exitWithUsageMessage() {
     System.out.println("Usage: java de.danielnaber.languagetool.Main " +
             "[-r|--recursive] [-v|--verbose] [-l|--language LANG] [-m|--mothertongue LANG] [-d|--disable RULES] " +
-            "[-e|--enable RULES] [-c|--encoding] [-b] <file>");
+            "[-e|--enable RULES] [-c|--encoding] [-u|--list-unknown] [-b] <file>");
     System.exit(1);
   }
 
@@ -139,13 +143,14 @@ class Main {
    * Command line tool to check plain text files.
    */
   public static void main(String[] args) throws IOException, ParserConfigurationException, SAXException {
-    if (args.length < 1 || args.length > 8) {
+    if (args.length < 1 || args.length > 9) {
       exitWithUsageMessage();
     }
     boolean verbose = false;
     boolean recursive = false;
     boolean singleLineBreakMarksParagraph = false;
     boolean apiFormat = false;
+    boolean listUnknown = false;
     Language language = null;
     Language motherTongue = null;
     String encoding = null;
@@ -175,6 +180,8 @@ class Main {
         motherTongue = getLanguageOrExit(args[++i]);
       } else if (args[i].equals("-c") || args[i].equals("--encoding")) {
         encoding = args[++i];
+      } else if (args[i].equals("-u") || args[i].equals("--list-unknown")) {
+        listUnknown = true;
       } else if (args[i].equals("-b")) {
         singleLineBreakMarksParagraph = true;
       } else if (i == args.length - 1) {
@@ -198,11 +205,15 @@ class Main {
     }
     language.getSentenceTokenizer().setSingleLineBreaksMarksParagraph(singleLineBreakMarksParagraph);
     Main prg = new Main(verbose, language, motherTongue, disabledRules, enabledRules, apiFormat);
+    prg.setListUnknownWords(listUnknown);
     if (recursive) {
       prg.runRecursive(filename, encoding);
     } else {
       String text = prg.getFilteredText(filename, encoding);
       Tools.checkText(text, prg.getJLanguageTool(), apiFormat);
+      if (listUnknown) {
+        System.out.println("Unknown words: " + prg.getJLanguageTool().getUnknownWords());
+      }
     }
   }
 

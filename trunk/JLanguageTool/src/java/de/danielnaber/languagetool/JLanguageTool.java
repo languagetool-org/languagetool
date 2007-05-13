@@ -87,6 +87,9 @@ public final class JLanguageTool {
   private int sentenceCount = 0;
   
   private ResourceBundle messages = null;
+  
+  private boolean listUnknownWords = false;
+  private Set<String> unknownWords = null;
 
   // just for testing:
   /*private Rule[] allBuiltinRules = new Rule[] {
@@ -127,6 +130,14 @@ public final class JLanguageTool {
     wordTokenizer = language.getWordTokenizer();
   }
 
+  /**
+   * Whether the check() method stores unknown words. If set to <code>true</code>
+   * (default: false), you can get the list of unknown words using getUnknownWords(). 
+   */
+  public void setListUnknownWords(boolean listUnknownWords) {
+    this.listUnknownWords = listUnknownWords;    
+  }
+  
   /**
    * Gets the ResourceBundle for the default language of the user's system.
    */
@@ -321,10 +332,12 @@ public final class JLanguageTool {
     int tokenCount = 0;
     int lineCount = 0;
     int columnCount = 0;
+    unknownWords = new HashSet<String>();
     for (Iterator<String> iter = sentences.iterator(); iter.hasNext();) {
       String sentence = iter.next();
       sentenceCount++;
       AnalyzedSentence analyzedText = getAnalyzedSentence(sentence);
+      rememberUnknownWords(analyzedText);
       
       if (sentenceCount == sentences.size()) {
         AnalyzedTokenReadings[] anTokens = analyzedText.getTokens();
@@ -410,6 +423,30 @@ public final class JLanguageTool {
     }
     
     return ruleMatches;
+  }
+  
+  private void rememberUnknownWords(AnalyzedSentence analyzedText) {
+    if (listUnknownWords) {
+      AnalyzedTokenReadings[] atr = analyzedText.getTokensWithoutWhitespace();
+      for (int i = 0; i < atr.length; i++) {
+        AnalyzedTokenReadings t = atr[i];
+        if (t.getReadings().toString().equals("[null]"))
+          unknownWords.add(t.getToken());
+      }
+    }
+  }
+
+  /**
+   * Get the list of unknown words in the last run of the check() method.
+   * @throws IllegalStateException listUnknownWords is set to <code>false</code>
+   */
+  public List getUnknownWords() {
+    if (!listUnknownWords) {
+      throw new IllegalStateException("listUnknownWords is set to false, unknown words not stored");
+    }
+    List<String> words = new ArrayList<String>(unknownWords);
+    Collections.sort(words);
+    return words;
   }
   
   static int countLineBreaks(final String s) {
@@ -511,5 +548,5 @@ public final class JLanguageTool {
     if (printStream != null)
       printStream.println(s);
   }
-  
+
 }
