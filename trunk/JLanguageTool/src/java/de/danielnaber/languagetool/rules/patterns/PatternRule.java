@@ -342,8 +342,13 @@ public class PatternRule extends Rule {
           firstMatchTokenObj = tokens[firstMatchToken + correctedStPos + 1];
           startsWithUppercase = StringTools.startsWithUppercase(firstMatchTokenObj.toString());
         }
-        final int fromPos = tokens[firstMatchToken + correctedStPos]
+        int fromPos = tokens[firstMatchToken + correctedStPos]
                              .getStartPos();
+         if (errMessage.contains("<suggestion>,")) {
+            fromPos = tokens[firstMatchToken + correctedStPos - 1].getStartPos() 
+                  + tokens[firstMatchToken + correctedStPos - 1].getToken().length();          
+        }
+        
         final int toPos = tokens[lastMatchToken + correctedEndPos].getStartPos()
         + tokens[lastMatchToken + correctedEndPos].getToken().length();
         if (fromPos < toPos) { //this can happen with some skip="-1" when the last token is not matched
