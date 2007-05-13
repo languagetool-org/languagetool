@@ -73,13 +73,25 @@ public class PatternRuleLoader extends DefaultHandler {
 
 class PatternRuleHandler extends XMLRuleHandler {
 
+  /** Defines "yes" value in XML files. 
+   * 
+   * **/   
+  private static final String YES = "yes";  
+  private static final String POSTAG = "postag";
+  private static final String POSTAG_REGEXP = "postag_regexp";
+  private static final String REGEXP = "regexp";
+  private static final String NEGATE = "negate";
+  private static final String INFLECTED = "inflected";
+  private static final String NEGATE_POS = "negate_pos";
+  private static final String MARKER = "marker";
+  
   private String id;
 
   /** Current phrase ID. **/
-  private String phraseId;
+  String phraseId;
   
   /** ID reference to the phrase. **/
-  private String phraseIdRef;
+  String phraseIdRef;
   
   private boolean caseSensitive = false;
   private boolean stringRegExp = false;
@@ -108,16 +120,16 @@ class PatternRuleHandler extends XMLRuleHandler {
   private boolean lastPhrase = false;
   
   /** List of elements as specified by tokens. **/ 
-  private ArrayList < Element > elementList = null;  
+  private List < Element > elementList = null;  
   
   /** Phrase store - elementLists keyed by phraseIds. **/
   private HashMap < String, ArrayList < ArrayList < Element > > > phraseMap = null;
   
   /** Logically forking element list, used for including
    * multiple phrases in the current one. **/
-  private ArrayList < ArrayList < Element > > phraseElementList = null;  
+  private List < ArrayList < Element > > phraseElementList = null;  
   
-  private ArrayList<Match> suggestionMatches = null;
+  private List<Match> suggestionMatches = null;
   
   private int startPositionCorrection = 0;
   private int endPositionCorrection = 0;
@@ -134,7 +146,7 @@ class PatternRuleHandler extends XMLRuleHandler {
   // ===========================================================
 
   @SuppressWarnings("unused")
-  public void startElement(String namespaceURI, String lName, String qName, Attributes attrs)
+  public void startElement(final String namespaceURI, final String lName, final String qName, Attributes attrs)
       throws SAXException {
     if (qName.equals("category")) {
       final String catName = attrs.getValue("name");
@@ -145,7 +157,7 @@ class PatternRuleHandler extends XMLRuleHandler {
       else
         category = new Category(catName);
     } else if (qName.equals("rules")) {
-      String languageStr = attrs.getValue("lang");
+      final String languageStr = attrs.getValue("lang");
       language = Language.getLanguageForShortName(languageStr);
       if (language == null) {
         throw new SAXException("Unknown language '" + languageStr + "'");
@@ -166,7 +178,7 @@ class PatternRuleHandler extends XMLRuleHandler {
       if (attrs.getValue("mark_to") != null)
         endPositionCorrection = Integer.parseInt(attrs.getValue("mark_to"));
       if (attrs.getValue("case_sensitive") != null
-          && attrs.getValue("case_sensitive").equals("yes"))
+          && YES.equals(attrs.getValue("case_sensitive")))
         caseSensitive = true;
     } else if (qName.equals("and")) {
       inAndGroup = true;
@@ -178,11 +190,11 @@ class PatternRuleHandler extends XMLRuleHandler {
       }
       
       lastPhrase = false;
-      if (attrs.getValue("negate") != null) {
-        tokenNegated = attrs.getValue("negate").equals("yes");
+      if (attrs.getValue(NEGATE) != null) {
+        tokenNegated = YES.equals(attrs.getValue(NEGATE));
       }
-      if (attrs.getValue("inflected") != null) {
-        tokenInflected = attrs.getValue("inflected").equals("yes");
+      if (attrs.getValue(INFLECTED) != null) {
+        tokenInflected = YES.equals(attrs.getValue(INFLECTED));
       }
       if (attrs.getValue("skip") != null) {
         skipPos = Integer.parseInt(attrs.getValue("skip"));
@@ -192,43 +204,43 @@ class PatternRuleHandler extends XMLRuleHandler {
         elementList = new ArrayList<Element>();
       }
       // POSElement creation
-      if (attrs.getValue("postag") != null) {
-        posToken = attrs.getValue("postag");
-        if (attrs.getValue("postag_regexp") != null) {
-          posRegExp = attrs.getValue("postag_regexp").equals("yes");
+      if (attrs.getValue(POSTAG) != null) {
+        posToken = attrs.getValue(POSTAG);
+        if (attrs.getValue(POSTAG_REGEXP) != null) {
+          posRegExp = YES.equals(attrs.getValue(POSTAG_REGEXP));
         }
-        if (attrs.getValue("negate_pos") != null) {
-          posNegation = attrs.getValue("negate_pos").equals("yes");
+        if (attrs.getValue(NEGATE_POS) != null) {
+          posNegation = YES.equals(attrs.getValue(NEGATE_POS));
         }
       }
-      if (attrs.getValue("regexp") != null) {
-        stringRegExp = attrs.getValue("regexp").equals("yes");
+      if (attrs.getValue(REGEXP) != null) {
+        stringRegExp = YES.equals(attrs.getValue(REGEXP));
       }
 
     } else if (qName.equals("exception")) {
       inException = true;      
       exceptions = new StringBuffer();
 
-      if (attrs.getValue("negate") != null) {
-        exceptionStringNegation = attrs.getValue("negate").equals("yes");
+      if (attrs.getValue(NEGATE) != null) {
+        exceptionStringNegation = YES.equals(attrs.getValue(NEGATE));
       }
       if (attrs.getValue("scope") != null) {
         exceptionValidNext = attrs.getValue("scope").equals("next");
       }
-      if (attrs.getValue("inflected") != null) {
-        exceptionStringInflected = attrs.getValue("inflected").equals("yes");
+      if (attrs.getValue(INFLECTED) != null) {
+        exceptionStringInflected = YES.equals(attrs.getValue(INFLECTED));
       }
-      if (attrs.getValue("postag") != null) {
-        exceptionPosToken = attrs.getValue("postag");
-        if (attrs.getValue("postag_regexp") != null) {
-          exceptionPosRegExp = attrs.getValue("postag_regexp").equals("yes");
+      if (attrs.getValue(POSTAG) != null) {
+        exceptionPosToken = attrs.getValue(POSTAG);
+        if (attrs.getValue(POSTAG_REGEXP) != null) {
+          exceptionPosRegExp = YES.equals(attrs.getValue(POSTAG_REGEXP));
         }
-        if (attrs.getValue("negate_pos") != null) {
-          exceptionPosNegation = attrs.getValue("negate_pos").equals("yes");
+        if (attrs.getValue(NEGATE_POS) != null) {
+          exceptionPosNegation = YES.equals(attrs.getValue(NEGATE_POS));
         }
       }
-      if (attrs.getValue("regexp") != null) {
-        exceptionStringRegExp = attrs.getValue("regexp").equals("yes");
+      if (attrs.getValue(REGEXP) != null) {
+        exceptionStringRegExp = YES.equals(attrs.getValue(REGEXP));
       }
 
     } else if (qName.equals("example") 
@@ -262,9 +274,9 @@ class PatternRuleHandler extends XMLRuleHandler {
         caseConv = Match.CaseConversion.toCase(
               attrs.getValue("case_conversion").toUpperCase());
       }      
-      final Match mWorker = new Match(attrs.getValue("postag"),
+      final Match mWorker = new Match(attrs.getValue(POSTAG),
           attrs.getValue("postag_replace"),
-          "yes".equals(attrs.getValue("postag_regexp")),
+          "yes".equals(attrs.getValue(POSTAG_REGEXP)),
           attrs.getValue("regexp_match"), 
           attrs.getValue("regexp_replace"), caseConv);
       if (inMessage) {
@@ -273,9 +285,8 @@ class PatternRuleHandler extends XMLRuleHandler {
         }        
       suggestionMatches.add(mWorker);
       message.append("\\" + attrs.getValue("no"));
-      } else if (inToken) {
-        if (attrs.getValue("no") != null) {
-        int refNumber = Integer.parseInt(attrs.getValue("no"));
+      } else if (inToken && attrs.getValue("no") != null) {
+        final int refNumber = Integer.parseInt(attrs.getValue("no"));
           if (refNumber > elementList.size()) {
             throw new SAXException(
                 "Only backward references in match elements are possible, tried to specify token " + refNumber);
@@ -284,11 +295,10 @@ class PatternRuleHandler extends XMLRuleHandler {
             tokenReference = mWorker;
             elements.append("\\" + refNumber);
           }
-        }
       }
-    } else if (qName.equals("marker") && inCorrectExample) {
+    } else if (qName.equals(MARKER) && inCorrectExample) {
       correctExample.append("<marker>");
-    } else if (qName.equals("marker") && inIncorrectExample) {
+    } else if (qName.equals(MARKER) && inIncorrectExample) {
       incorrectExample.append("<marker>");
     } else if (qName.equals("phrases")) {
       inPhrases = true;
@@ -300,34 +310,37 @@ class PatternRuleHandler extends XMLRuleHandler {
           
     } else if (qName.equals("phrase") && inPhrases) {
       phraseId = attrs.getValue("id");      
-    } else if (qName.equals("phraseref")) {
-      if (attrs.getValue("idref") != null) {
-        phraseIdRef = attrs.getValue("idref");
+    } else if (qName.equals("phraseref") 
+        && (attrs.getValue("idref") != null)) {
+      phraseIdRef = attrs.getValue("idref");
       if (phraseMap.containsKey(phraseIdRef)) {      
-      ArrayList < ArrayList < Element > > curPhraseElementList = phraseMap.get(phraseIdRef);              
-      for (ArrayList < Element > curPhrEl : curPhraseElementList) {              
-        if (!elementList.isEmpty()) {
-          ArrayList < Element > prevList = new ArrayList < Element > (elementList);
-          prevList.addAll(curPhrEl);
-          phraseElementList.add(new ArrayList <Element>(prevList));
-          prevList.clear();
-        } else {        
-        phraseElementList.add(new ArrayList <Element>(curPhrEl));
-        }       
-      }
-      lastPhrase = true;
+        ArrayList < ArrayList < Element > > curPhraseElementList = phraseMap.get(phraseIdRef);              
+        for (ArrayList < Element > curPhrEl : curPhraseElementList) {              
+          if (elementList.isEmpty()) {
+            phraseElementList.add(new ArrayList <Element>(curPhrEl));
+          } else {
+            ArrayList < Element > prevList = new ArrayList < Element > (elementList);
+            prevList.addAll(curPhrEl);
+            phraseElementList.add(new ArrayList <Element>(prevList));
+            prevList.clear();
+          }       
+        }
+        lastPhrase = true;
       }                     
-     }
     }
-   }
+  }
+   
 
   @SuppressWarnings("unused")
-  public void endElement(String namespaceURI, String sName, String qName) {
+  public void endElement(final String namespaceURI, final String sName, final String qName) {
 
     if (qName.equals("rule")) {
       phraseElementInit();
-      if (!phraseElementList.isEmpty()) {                                       
-
+      if (phraseElementList.isEmpty()) {                                       
+        PatternRule rule = new PatternRule(id, language, elementList, description, message.toString());
+        prepareRule(rule);
+        rules.add(rule);        
+      } else {
         if (!elementList.isEmpty()) { 
           for (ArrayList < Element > ph : phraseElementList) {
             ph.addAll(new ArrayList <Element> (elementList));
@@ -339,10 +352,6 @@ class PatternRuleHandler extends XMLRuleHandler {
           prepareRule(rule);
           rules.add(rule);              
         }
-      } else {
-        PatternRule rule = new PatternRule(id, language, elementList, description, message.toString());
-        prepareRule(rule);
-        rules.add(rule);
       }
 
       if (elementList != null) {
@@ -431,9 +440,9 @@ class PatternRuleHandler extends XMLRuleHandler {
       inRuleGroup = false;
     } else if (qName.equals("suggestion") && inMessage) {
       message.append("</suggestion>");
-    } else if (qName.equals("marker") && inCorrectExample) {
+    } else if (qName.equals(MARKER) && inCorrectExample) {
       correctExample.append("</marker>");
-    } else if (qName.equals("marker") && inIncorrectExample) {
+    } else if (qName.equals(MARKER) && inIncorrectExample) {
       incorrectExample.append("</marker>");
     } else if (qName.equals("phrase") && inPhrases) {      
       // lazy init
@@ -443,12 +452,12 @@ class PatternRuleHandler extends XMLRuleHandler {
       phraseElementInit();
 
       if (elementList != null) {
-        if (!phraseElementList.isEmpty()) {
+        if (phraseElementList.isEmpty()) {
+          phraseElementList.add(new ArrayList < Element > (elementList));                    
+        } else {
           for (ArrayList < Element > ph : phraseElementList) {
             ph.addAll(new ArrayList <Element> (elementList));
           }
-        } else {
-          phraseElementList.add(new ArrayList < Element > (elementList));
         }
       }     
       phraseMap.put(phraseId, new ArrayList < ArrayList < Element > >(phraseElementList));
@@ -459,7 +468,7 @@ class PatternRuleHandler extends XMLRuleHandler {
     } else if (qName.equals("includephrases")) {
       elementList.clear();      
     } else if (qName.equals("phrases") && inPhrases) {
-      inPhrases = false;
+      inPhrases = false;      
     } 
   }
 
@@ -506,7 +515,7 @@ class PatternRuleHandler extends XMLRuleHandler {
   }
   
   public void characters(final char[] buf, final int offset, final int len) {
-    String s = new String(buf, offset, len);
+    final String s = new String(buf, offset, len);
     if (inException) {
       exceptions.append(s);
     } else if (inToken) {
