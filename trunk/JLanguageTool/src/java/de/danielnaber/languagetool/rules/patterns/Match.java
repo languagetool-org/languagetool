@@ -167,7 +167,7 @@ public class Match {
             if (pPosRegexMatch != null & posTagReplace != null) {            
               targetPosTag = pPosRegexMatch.matcher(targetPosTag).replaceAll(posTagReplace);  
             }
-            if (targetPosTag.indexOf("?") > 0) {
+            if (targetPosTag.indexOf('?') > 0) {
               targetPosTag = targetPosTag.replaceAll("\\?", "\\\\?");
             }
           } else {
@@ -198,10 +198,10 @@ public class Match {
             }
           }
           if (wordForms != null) {
-            if (wordForms.size() > 0) {
-              formattedString = wordForms.toArray(new String[wordForms.size()]);
+            if (wordForms.isEmpty()) {
+              formattedString[0] = "(" + formattedToken.getToken() + ")";              
             } else {
-              formattedString[0] = "(" + formattedToken.getToken() + ")";            
+              formattedString = wordForms.toArray(new String[wordForms.size()]);            
             }
           } else {
             formattedString[0] = formattedToken.getToken();
@@ -220,10 +220,10 @@ public class Match {
               }
             }
           }
-          if (wordForms != null) {
-            formattedString = wordForms.toArray(new String[wordForms.size()]);
+          if (wordForms == null) {
+            formattedString[0] = formattedToken.getToken();            
           } else {
-            formattedString[0] = formattedToken.getToken();
+            formattedString = wordForms.toArray(new String[wordForms.size()]);
           }
         }
       }
@@ -270,10 +270,10 @@ public class Match {
     return tokenRef;
   }
 
-  public final AnalyzedTokenReadings filterReadings(final AnalyzedTokenReadings tokenToFilter) {
-    String token = formattedToken.getToken();
+  public final AnalyzedTokenReadings filterReadings(final AnalyzedTokenReadings tokenToFilter) {    
     final ArrayList <AnalyzedToken> l = new ArrayList <AnalyzedToken>();
-    if (formattedToken != null) {                  
+    if (formattedToken != null) {
+      String token = formattedToken.getToken();
       if (pRegexMatch != null) {          
         token = pRegexMatch.matcher(token).replaceAll(regexReplace);
       }        
@@ -305,16 +305,15 @@ public class Match {
               }
             }
           }
-          if (l.size() == 0) {
+          if (l.isEmpty()) {
             String lemma = "";
             for (int j = 0; j < numRead; j++) {
               if (formattedToken.getAnalyzedToken(j).getPOSTag() != null) {
-                if (formattedToken.getAnalyzedToken(j).getPOSTag().equals(posTag)) {
-                  if (formattedToken.getAnalyzedToken(j).getLemma() != null) {
+                if (formattedToken.getAnalyzedToken(j).getPOSTag().equals(posTag)
+                    && (formattedToken.getAnalyzedToken(j).getLemma() != null)) {
                     lemma = formattedToken.getAnalyzedToken(j).getLemma();
-                  }
-                }
-                if (lemma.equals("")) {
+                  }                
+                if ("".equals(lemma)) {
                   lemma = formattedToken.getAnalyzedToken(0).getLemma();
                 }
                 l.add(new AnalyzedToken(token, posTag, lemma,
@@ -326,12 +325,11 @@ public class Match {
           String lemma = "";
           for (int j = 0; j < numRead; j++) {
             if (formattedToken.getAnalyzedToken(j).getPOSTag() != null) {
-              if (formattedToken.getAnalyzedToken(j).getPOSTag().equals(posTag)) {
-                if (formattedToken.getAnalyzedToken(j).getLemma() != null) {
+              if (formattedToken.getAnalyzedToken(j).getPOSTag().equals(posTag) 
+                && (formattedToken.getAnalyzedToken(j).getLemma() != null)) {
                   lemma = formattedToken.getAnalyzedToken(j).getLemma();
-                }
-              }
-              if (lemma.equals("")) {
+                }              
+              if ("".equals(lemma)) {
                 lemma = formattedToken.getAnalyzedToken(0).getLemma();
               }
               l.add(new AnalyzedToken(token, posTag, lemma,
@@ -341,7 +339,7 @@ public class Match {
         }
       }
     }
-    if (l.size() == 0) {
+    if (l.isEmpty()) {
       return formattedToken;
     } else {
       return new AnalyzedTokenReadings(l.toArray(new AnalyzedToken[l.size()]));
