@@ -2,7 +2,7 @@
 <!--
 Polish Grammar and Typo Rules for LanguageTool
 Copyright (C) 2006 Marcin Miłkowski
-$Id: grammar.xml,v 1.44 2007-05-13 21:25:20 milek_pl Exp $
+$Id: grammar.xml,v 1.45 2007-05-13 22:37:10 milek_pl Exp $
 -->
 <rules lang="pl">
 
@@ -865,7 +865,6 @@ $Id: grammar.xml,v 1.44 2007-05-13 21:25:20 milek_pl Exp $
 			<example type="incorrect" correction="to, nawiasem mówiąc, sensu">Nie ma <marker>to nawiasem mówiąc sensu</marker>.</example>
 		</rule>
 	</rulegroup>
-
 						
 	<rulegroup id="PRZECINEK_ANI" name="Zbędny przecinek przed „ani”, „albo”, „bądź”, „i”, „lub”, „oraz”">
 	<rule>
@@ -954,15 +953,41 @@ $Id: grammar.xml,v 1.44 2007-05-13 21:25:20 milek_pl Exp $
 	</rule>		
 	</rulegroup>
 
-	<rule id="BRAK_PRZECINEK_ANI" name="Brakujący przecinek przed powtórzonym „ani”, „albo”, „bądź”, „i”, „lub”, „oraz”">
-		<pattern mark_from="1">
-			<token skip="-1" regexp="yes">ani|ni|i|lub|bądź|czy|oraz<exception scope="next">,</exception></token>			
+	<rulegroup id="BRAK_PRZECINKA_ANI" name="Brakujący przecinek przed powtórzonym „ani”, „albo”, „bądź”, „i”, „lub”, „oraz”">
+	<rule>
+		<pattern mark_from="2">
+			<token skip="-1" regexp="yes">ani|ni|i|lub|albo|czy|oraz<exception scope="next">,</exception></token>			
+			<token skip="-1"><exception>,</exception><exception scope="next">,</exception></token>
 			<token><match no="0"/></token>
 		</pattern>
-		<message>Prawdopodobnie brakuje przecinka. Powinno być: <suggestion>, \2</suggestion>.</message>
+		<message>Prawdopodobnie brakuje przecinka. Powinno być: <suggestion>, \3</suggestion>.</message>
 		<example type="correct">Nie kupiłem gruszek ani jabłek.</example>
 		<example type="incorrect" correction=", ani">Ani prośby<marker> ani</marker> groźby, nie przekonają nas, że czarne jest czarne, a białe jest białe.</example>
 		<example type="correct">Nie kupiłem ani gruszek, ani jabłek.</example>
+	</rule>
+	
+	<rule>
+		<pattern mark_from="2">
+			<token regexp="yes">bądź<exception scope="next">,</exception></token>			
+			<token skip="-1"><exception regexp="yes">,|co</exception><exception scope="next">,</exception></token>
+			<token>bądź</token>
+		</pattern>
+		<message>Prawdopodobnie brakuje przecinka. Powinno być: <suggestion>, \3</suggestion>.</message>
+		<example type="correct">Kup gruszek bądź jabłek.</example>
+		<example type="incorrect" correction=", bądź">Dojadę tam bądź rowerem<marker> bądź</marker> hulajnogą.</example>
+		<example type="correct">Masz bądź co bądź duży majątek.</example>
+	</rule>
+	</rulegroup>
+
+	<rule id="BRAK_PRZECINKA_I_KWITA" name="Brak przecinka przed „i kwita”, „i tak” itp.">
+		<pattern>
+	  		<token><exception postag_regexp="yes" postag="SENT_START"/><exception regexp="yes">[\p{Punct}–—„«»]|tyle|i|lub|albo|ani|oraz|bądź|czy</exception></token>
+			<token>i</token>
+			<token regexp="yes">tak|to|kwita|już|owszem|koniec</token>
+		</pattern>
+		<message>Prawdopodobnie brak przecinka. Powinno być: <suggestion>\1, \2 \3</suggestion>.</message>
+		<example type="correct">Nie warto się wysilać, i tak ludzie tego nie docenią.</example>
+		<example type="incorrect" correction="wysilać, i tak">Nie warto się <marker>wysilać i tak</marker> ludzie tego nie docenią.</example>
 	</rule>
 	
 	<rule id="PRZECINEK_CO_DO" name="Zbędny przecinek przed „co do”">
