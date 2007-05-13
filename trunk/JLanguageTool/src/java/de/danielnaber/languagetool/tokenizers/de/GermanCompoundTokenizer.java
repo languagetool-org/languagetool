@@ -34,7 +34,7 @@ public class GermanCompoundTokenizer implements Tokenizer {
   private GermanWordSplitter wordSplitter = null;
   
   public GermanCompoundTokenizer() throws IOException {
-    wordSplitter = new GermanWordSplitter();
+    wordSplitter = new GermanWordSplitter(false);
   }
   
   public List<String> tokenize(String word) {
