@@ -47,6 +47,8 @@ public class PolishSynthesizer implements Synthesizer {
   
   private static final String POTENTIAL_NEGATION_TAG = ":aff";
   private static final String NEGATION_TAG = ":neg";
+  private static final String COMP_TAG = "comp";
+  private static final String SUP_TAG = "sup";
 
   private Lametyzator synthesizer = null;
 
@@ -64,9 +66,11 @@ public class PolishSynthesizer implements Synthesizer {
     boolean isNegated = false;
     if (token.getPOSTag() != null) {
       isNegated = posTag.indexOf(NEGATION_TAG) > 0 
-      || token.getPOSTag().indexOf(NEGATION_TAG) > 0;
+      || token.getPOSTag().indexOf(NEGATION_TAG) > 0
+      && !(posTag.indexOf(COMP_TAG) > 0)
+      && !(posTag.indexOf(SUP_TAG) > 0);
     }
-    if (posTag.indexOf("+") > 0) {      
+    if (posTag.indexOf('+') > 0) {      
       return synthesize(token, posTag, true);
     } else {
     String[] wordForms = null;
@@ -105,14 +109,16 @@ public class PolishSynthesizer implements Synthesizer {
     boolean isNegated = false;
     if (token.getPOSTag() != null) {
       isNegated = posTag.indexOf(NEGATION_TAG) > 0 
-      || token.getPOSTag().indexOf(NEGATION_TAG) > 0;
+      || token.getPOSTag().indexOf(NEGATION_TAG) > 0
+      && !(posTag.indexOf(COMP_TAG) > 0)
+      && !(posTag.indexOf(SUP_TAG) > 0);
     }
     
     if (isNegated) {
       posTag = posTag.replaceAll(NEGATION_TAG, POTENTIAL_NEGATION_TAG + "?");
     }
     
-    final Pattern p = Pattern.compile(posTag.replaceAll("\\+", "|"));    
+    final Pattern p = Pattern.compile(posTag.replace('+', '|'));    
         
     for (String tag : possibleTags) {
       final Matcher m = p.matcher(tag);
