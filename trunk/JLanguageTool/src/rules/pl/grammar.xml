@@ -2,7 +2,7 @@
 <!--
 Polish Grammar and Typo Rules for LanguageTool
 Copyright (C) 2006 Marcin Miłkowski
-$Id: grammar.xml,v 1.42 2007-05-12 20:03:12 milek_pl Exp $		
+$Id: grammar.xml,v 1.43 2007-05-13 13:44:54 milek_pl Exp $		
 -->
 <rules lang="pl">
 
@@ -1138,6 +1138,16 @@ $Id: grammar.xml,v 1.42 2007-05-12 20:03:12 milek_pl Exp $
 	</category>
 	<category name="Błędy odmiany">	
 	
+	<rule name="„dwutysięczny pierwszy” (dwa tysiące pierwszy)" id="DWUTYSIECZNY_PIERWSZY">
+		<pattern>
+			<token inflected="yes">dwutysięczny</token>
+			<token inflected="yes" regexp="yes">pierwszy|drugi|trzeci|czwarty|piąty|szósty|siódmy|ósmy|dziewiąty|dziesiąty|jedenasty|dwunasty|trzynasty|czternasty|piętnasty|szesnasty|siedemnasty|osiemnasty|dziewiętnasty|dwudziesty|trzydziesty|czterdziesty|pięćdziesiąty|sześćdziesiąty|siedemdziesiąty|osiemdziesiąty|dziewięćdziesiąty</token>
+		</pattern>
+		<message>Błędna forma liczebnika porządkowego. Powinno być: <suggestion>dwa tysiące \2</suggestion>.</message>
+		<example type="incorrect" correction="dwa tysiące drugiego">Słoneczne lato roku <marker>dwutysięcznego drugiego</marker> płynęło sobie powoli i sielankowo.</example>
+		<example type="correct">Słoneczne lato roku dwa tysiące drugiego upłynęło sielankowo.</example>
+	</rule>	
+	
 	<rule name="„w dniu x stycznia” (x stycznia)" id="W_DNIU_1_STYCZNIA">
 		<pattern>
 			<token>w</token>
@@ -1536,7 +1546,22 @@ $Id: grammar.xml,v 1.42 2007-05-12 20:03:12 milek_pl Exp $
 			<example type="correct">Ludwik bowiem chciał być wicepremierem.</example>
 			<example type="incorrect"><marker>Bowiem</marker> Ludwik chciał być wicepremierem.</example>
 		</rule>
+		
+		<rule id="SIE_SENT_END" name="„Się” na końcu zdania">
+			<pattern mark_from="3" mark_to="-1">
+			<token><exception postag="SENT_START"/></token>
+			<token><exception regexp="yes">\p{Punct}</exception></token>
+			<token/>
+			<token>się</token>
+			<token postag="SENT_END"/>
+			</pattern>
+			<message>Zaimek „się” nie powinien znajdować się na końcu zdania.</message>
+			<example type="incorrect">Wędrował sam po lesie i o mało nie zgubił <marker>się</marker>.</example>
+			<example type="correct">Nie bój się.</example>
+		</rule>
+		
 	</category>
+	
 	<category name="Błędy składniowe">
 		
 		<rulegroup name="„co by się nie stało” (cokolwiek by się stało)" id="CO_BY_SIE_NIE">
@@ -2329,9 +2354,20 @@ $Id: grammar.xml,v 1.42 2007-05-12 20:03:12 milek_pl Exp $
 			<token>się</token>
 			<token>na</token>
 		</pattern>
-		<message>To wyrażenie jest może być niepoprawne. Lepiej: <suggestion>powołując się na</suggestion>, <suggestion>ze względu na</suggestion>, <suggestion>na mocy</suggestion>.</message>
+		<message>To wyrażenie może być niepoprawne. Lepiej: <suggestion>powołując się na</suggestion>, <suggestion>ze względu na</suggestion>, <suggestion>na mocy</suggestion>.</message>
 		<example type="incorrect" correction="powołując się na|ze względu na|na mocy">Dokument ma uprawomocnić żądanie natychmiastowego wstrzymania wzbogacania uranu <marker>w powołaniu się na</marker> artykuł 39, względnie 40 Karty NZ.</example>
 		<example type="correct">Dokument ma uprawomocnić żądanie natychmiastowego wstrzymania wzbogacania uranu <marker>ze względu na</marker> artykuł 39, względnie 40 Karty NZ.</example>
+	</rule>
+
+	<rule id="W_NAWIAZANIU_DO" name="„w nawiązaniu do” (nawiązując do)">
+		<pattern>
+			<token>w</token>
+			<token>nawiązaniu</token>
+			<token>do</token>
+		</pattern>
+		<message>To wyrażenie może być niepoprawne. Lepiej: <suggestion>nawiązując do</suggestion>.</message>
+		<example type="incorrect" correction="Nawiązując do"><marker>W nawiązaniu do</marker> rozmowy telefonicznej przesyłam pytania, które chcę zadać panu Michałowi Kleiberowi.</example>
+		<example type="correct">Nawiązując do rozmowy telefonicznej, przesyłam pytania, które chcę zadać panu Michałowi Kleiberowi.</example>	
 	</rule>
 	
 	<rulegroup id="ROZCHODZI_SIE" name="„rozchodzić się o” (chodzić o)">
@@ -3260,7 +3296,6 @@ $Id: grammar.xml,v 1.42 2007-05-12 20:03:12 milek_pl Exp $
 	<example type="correct">Przeznacz czas na bardziej produktywne zadania.</example>
 	</rule>	
 	
-	<!-- odnośnie do -->
 		<rule id="ODNOSNIE_DO" name="„odnośnie czegoś” (odnośnie do)">
 			<pattern mark_to="-1" case_sensitive="no">
 				<token>odnośnie</token>
@@ -3443,6 +3478,7 @@ $Id: grammar.xml,v 1.42 2007-05-12 20:03:12 milek_pl Exp $
 			<example type="correct">Zabytek bezpieczny od wody.</example>			
 		</rule>
 		
+
 	</category>
 
 	<category name="Pleonazmy">
