@@ -2,7 +2,7 @@
 <!--
 Polish Grammar and Typo Rules for LanguageTool
 Copyright (C) 2006 Marcin Miłkowski
-$Id: grammar.xml,v 1.43 2007-05-13 13:44:54 milek_pl Exp $		
+$Id: grammar.xml,v 1.44 2007-05-13 21:25:20 milek_pl Exp $
 -->
 <rules lang="pl">
 
@@ -956,13 +956,12 @@ $Id: grammar.xml,v 1.43 2007-05-13 13:44:54 milek_pl Exp $
 
 	<rule id="BRAK_PRZECINEK_ANI" name="Brakujący przecinek przed powtórzonym „ani”, „albo”, „bądź”, „i”, „lub”, „oraz”">
 		<pattern mark_from="1">
-			<token skip="-1" regexp="yes">ani|ni|i|lub|bądź|czy|oraz</token>
-			<token><exception regexp="yes">,|ani|i|lub|bądź|czy|oraz</exception></token>
+			<token skip="-1" regexp="yes">ani|ni|i|lub|bądź|czy|oraz<exception scope="next">,</exception></token>			
 			<token><match no="0"/></token>
 		</pattern>
-		<message>Prawdopodobnie brakuje przecinka. Powinno być: <suggestion>\2, \3</suggestion>.</message>
+		<message>Prawdopodobnie brakuje przecinka. Powinno być: <suggestion>, \2</suggestion>.</message>
 		<example type="correct">Nie kupiłem gruszek ani jabłek.</example>
-		<example type="incorrect" correction="prośby, ani">Ani <marker>prośby ani</marker> groźby, nie przekonają nas, że czarne jest czarne, a białe jest białe.</example>
+		<example type="incorrect" correction=", ani">Ani prośby<marker> ani</marker> groźby, nie przekonają nas, że czarne jest czarne, a białe jest białe.</example>
 		<example type="correct">Nie kupiłem ani gruszek, ani jabłek.</example>
 	</rule>
 	
@@ -1086,7 +1085,8 @@ $Id: grammar.xml,v 1.43 2007-05-13 13:44:54 milek_pl Exp $
 				
 	</rulegroup>
 	
-	<rule id="PRZECINEK_A" name="Zbędny przecinek przed „a”">
+	<rulegroup id="PRZECINEK_A" name="Zbędny przecinek przed „a”">
+	<rule>
 		<pattern mark_from="1" mark_to="-1">
 			<token skip="-1">między<exception scope="next">a</exception></token>
 			<token>,</token>
@@ -1097,6 +1097,18 @@ $Id: grammar.xml,v 1.43 2007-05-13 13:44:54 milek_pl Exp $
 		<example type="correct">Nie ma żadnej różnicy między Pawłem a Gawłem.</example>
 		<example type="incorrect" correction="a">Nie ma żadnej różnicy między Pawłem<marker>, a</marker> Gawłem.</example>
 	</rule>
+	<rule>
+		<pattern>
+			<token/>
+			<token>,</token>
+			<token>a</token>
+			<token><match no="0"/></token>			
+		</pattern>
+		<message>Prawdopodobnie zbędny przecinek. Powinno być: <suggestion><match no="1"/> <match no="3"/> <match no="4"/></suggestion></message>
+		<example type="incorrect" correction="mnożyć a mnożyć">Przykłady można by <marker>mnożyć, a mnożyć</marker>.</example>
+		<example type="correct">Taki a taki lekarz przyjmuje w takich a takich godzinach.</example>
+	</rule>
+	</rulegroup>
 	
 	<rule id="PRZECINEK_OTOZ" name="Zbędny przecinek po „otóż”">
 		<pattern mark_to="-1">
@@ -3307,15 +3319,16 @@ $Id: grammar.xml,v 1.43 2007-05-13 13:44:54 milek_pl Exp $
 		</rule>
 	
 		<rule id="PODDAWAC_W_WATPLIWOSC" name="„poddawać w wątpliwość” (podawać w wątpliwość)">
-			<pattern mark_from="0" case_sensitive="no">
-				<token inflected="yes" regexp="yes">poddawać|poddać</token>
+			<pattern mark_to="-2" case_sensitive="no">
+				<token skip="2" inflected="yes" regexp="yes">poddawać|poddać</token>
 				<token>w</token>
 				<token>wątpliwość</token>
 			</pattern>
-			<message>Poprawną formą jest <suggestion><match no="1" regexp_match="podd(.*)" regexp_replace="pod$1"/> w wątpliwość</suggestion>.</message>
+			<message>Poprawną formą jest <suggestion><match no="1" regexp_match="podd(.*)" regexp_replace="pod$1"/></suggestion>.</message>
 			<example type="correct">Nie będę tego podawać w wątpliwość.</example>
-			<example type="incorrect" correction="podawał w wątpliwość">Nie będę tego <marker>poddawał w wątpliwość</marker>.</example>
-			<example type="incorrect" correction="podał w wątpliwość">Józio <marker>poddał w wątpliwość</marker> cały proces wychowawczy.</example>
+			<example type="incorrect" correction="podali">Działacze <marker>poddali</marker> wyrok w wątpliwość.</example>			
+			<example type="incorrect" correction="podawał">Nie będę tego <marker>poddawał</marker> w wątpliwość.</example>
+			<example type="incorrect" correction="podał">Józio <marker>poddał</marker> w wątpliwość cały proces wychowawczy.</example>
 		</rule>
 	
 		<rule id="BALSAM_DLA_WLOSOW" name="„szampon dla włosów” (szampon do włosów)">
@@ -4408,6 +4421,18 @@ $Id: grammar.xml,v 1.43 2007-05-13 13:44:54 milek_pl Exp $
 	</category>
 
 	<category name="Błędy ortograficzne">
+	
+	<rule name="„na około czego” (naokoło)" id="NA_OKOLO">
+		<pattern mark_to="-1">
+			<token>na</token>
+			<token>około</token>
+			<token postag_regexp="yes" postag=".*gen.*"><exception postag_regexp="yes" postag="num.*"/></token>
+		</pattern>
+		<message>Prawdopodobny błąd ortograficzny. Powinno być: <suggestion>\1\2</suggestion>.</message>
+		<example type="incorrect" correction="naokoło">Latam <marker>na około</marker> księżyca.</example>
+		<example type="correct">Komisja wyceniła straty na około pięć milionów.</example>
+		<example type="correct">Komisja wyceniła straty na około 12 milionów.</example>
+	</rule>
 
 	<rule name="„w raz” (wraz)" id="W_RAZ">
 		<pattern mark_from="1" mark_to="-1">
@@ -4419,6 +4444,16 @@ $Id: grammar.xml,v 1.43 2007-05-13 13:44:54 milek_pl Exp $
 		<message>Prawdopodobny błąd ortograficzny. Ten wyraz piszemy łącznie: <suggestion>\2\3</suggestion>.</message>
 		<example type="incorrect" correction="Wraz"><marker>W raz</marker> z nią popierał rozwój nauki i sztuki.</example>
 		<example type="correct">Raz w raz wstaje wielka postać, że ino jej skrzydeł dostać.</example>
+	</rule>
+	
+	<rule name="„po pod” (popod)" id="PO_POD">
+		<pattern case_sensitive="yes">
+		<token regexp="yes">[Pp]o</token>
+		<token>pod</token>
+		</pattern>
+		<message>Ten przyimek piszemy razem: <suggestion>\1\2</suggestion>.</message>
+		<example type="incorrect" correction="popod">Widzimy parę kozic, pyrgających <marker>po pod</marker> kosówką.</example>
+		<example type="correct">Korty byłego posła PO pod lupą radnych</example>
 	</rule>
 	
 	<rule name="„przede dniu” (przededniu)" id="PRZEDE_DNIU">
