@@ -228,28 +228,26 @@ public class PatternRule extends Rule {
                 prevMatched = true;
               }
             }
-            if (elem.referenceElement()) {
-              if (firstMatchToken + elem.getMatch().getTokenRef() 
-                  < tokens.length) {
+            if (elem.referenceElement()
+              && (firstMatchToken + elem.getMatch().getTokenRef() 
+                  < tokens.length)) {
                 elem.getMatch().setToken(tokens[firstMatchToken 
                                        + elem.getMatch().getTokenRef()]);
                 elem.getMatch().setSynthesizer(language[0].getSynthesizer());
                 elem.compile();
-              }
-            }
+              }            
             
             if (elem.hasAndGroup()) {
               for (Element andElement : elem.getAndGroup()) {
-                if (andElement.referenceElement()) {
-                if (firstMatchToken + andElement.getMatch().getTokenRef() 
-                    < tokens.length) {
+                if (andElement.referenceElement()
+                 && (firstMatchToken + andElement.getMatch().getTokenRef() 
+                    < tokens.length)) {
                   andElement.getMatch().setToken(tokens[firstMatchToken 
                                          + andElement.getMatch().getTokenRef()]);
                   andElement.getMatch().setSynthesizer(language[0].getSynthesizer());
                   andElement.compile();
                 }                
-               }
-              }
+               }              
               if (l == 0) { 
                 elem.setupAndGroup();
               }
@@ -384,7 +382,7 @@ public class PatternRule extends Rule {
     final int[] numbersToMatches = new int[errorMsg.length()];
     boolean newWay = false;
     int errLen = errorMessage.length();
-    int errMarker = errorMessage.indexOf("\\");
+    int errMarker = errorMessage.indexOf('\\');
     boolean numberFollows = false;
     if (errMarker > 0 & errMarker < errLen - 1) {
       numberFollows = errorMessage.charAt(errMarker + 1) >= '1'
@@ -420,14 +418,14 @@ public class PatternRule extends Rule {
                             + rightSide;              
                 } else {                  
                   suggestionLeft = leftSide.substring(leftSide.lastIndexOf("<suggestion>") +"<suggestion>".length());
-                  if (suggestionLeft.equals("")) {
+                  if ("".equals(suggestionLeft)) {
                     errorMessage = leftSide;
                   } else {
                     errorMessage = leftSide.substring(0, leftSide.lastIndexOf("<suggestion>"))
                       + "<suggestion>";
                   }
                   suggestionRight = rightSide.substring(0, rightSide.indexOf("</suggestion>"));
-                  if (!suggestionRight.equals("")) {
+                  if (!"".equals(suggestionRight)) {
                     rightSide = rightSide.substring(rightSide.indexOf("</suggestion>"));
                   }
                   final int lastLeftSugEnd = leftSide.indexOf("</suggestion>");
@@ -459,7 +457,7 @@ public class PatternRule extends Rule {
             //in case <match> elements weren't used (yet)
             errorMessage = errorMessage.replaceAll("\\\\" + (j + 1), 
                 toks[firstMatchTok + repTokenPos - 1].getToken());          
-            errMarker = errorMessage.indexOf("\\");
+            errMarker = errorMessage.indexOf('\\');
             numberFollows = false;
             errLen = errorMessage.length();
             if (errMarker > 0 & errMarker < errLen - 1) {
@@ -469,7 +467,7 @@ public class PatternRule extends Rule {
           }
         }
       }
-        errMarker = errorMessage.indexOf("\\");
+        errMarker = errorMessage.indexOf('\\');
         numberFollows = false;
         errLen = errorMessage.length();
         if (errMarker > 0 & errMarker < errLen - 1) {
