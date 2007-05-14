@@ -2,7 +2,7 @@
 <!--
 Polish Grammar and Typo Rules for LanguageTool
 Copyright (C) 2006 Marcin Miłkowski
-$Id: grammar.xml,v 1.45 2007-05-13 22:37:10 milek_pl Exp $
+$Id: grammar.xml,v 1.46 2007-05-14 19:35:10 milek_pl Exp $
 -->
 <rules lang="pl">
 
@@ -2911,7 +2911,7 @@ $Id: grammar.xml,v 1.45 2007-05-13 22:37:10 milek_pl Exp $
 				<token inflected="yes">domyśleć<exception inflected="yes" regexp="yes">domyślać|domyślić</exception></token>
 				<token>się</token>
 			</pattern>
-			<message>Czasownik „domyśleć” oznacza „przemyśleć coś wyczerpująco”. W znaczeniu „odgadnąć”, „przewidzieć” używa się czasownika <suggestion><match no="1">domyślić</match></suggestion>.</message>
+			<message>Czasownik „domyśleć” oznacza „przemyśleć coś wyczerpująco”. W znaczeniu „odgadnąć”, „przewidzieć” używa się czasownika <suggestion><match no="1" postag="verb.*">domyślić</match></suggestion>.</message>
 			<example type="correct">Przemysław domyślał się, że Ludwik zatruł kota Jarosława.</example>
 			<example type="incorrect" correction="domyślić">Przemysław nie potrafił <marker>domyśleć</marker> się, że Ludwik zatruł kota Jarosława.</example>			
 		</rule>
@@ -2920,7 +2920,7 @@ $Id: grammar.xml,v 1.45 2007-05-13 22:37:10 milek_pl Exp $
 				<token>się</token>
 				<token inflected="yes">domyśleć<exception inflected="yes" regexp="yes">domyślać|domyślić</exception></token>
 			</pattern>
-			<message>Czasownik „domyśleć” oznacza „przemyśleć coś wyczerpująco”. W znaczeniu „odgadnąć”, „przewidzieć” używa się czasownika <suggestion><match no="1">domyślić</match></suggestion>.</message>
+			<message>Czasownik „domyśleć” oznacza „przemyśleć coś wyczerpująco”. W znaczeniu „odgadnąć”, „przewidzieć” używa się czasownika <suggestion><match no="2" postag="verb.*">domyślić</match></suggestion>.</message>
 			<example type="correct">Przemysław się domyślał, że Ludwik zatruł kota Jarosława.</example>
 			<example type="incorrect" correction="domyślić">Przemysław nie potrafił się <marker>domyśleć</marker>, że Ludwik zatruł kota Jarosława.</example>			
 		</rule>
@@ -2930,24 +2930,64 @@ $Id: grammar.xml,v 1.45 2007-05-13 22:37:10 milek_pl Exp $
 		<rule>
 			<pattern mark_from="1" mark_to="-1">
 				<token skip="-1" postag="SENT_START"><exception scope="next" inflected="yes" regexp="yes">dopatrzyć|się</exception></token>
-				<token skip="-1" inflected="yes">dopatrzeć<exception inflected="yes" regexp="yes">dopatrzyć</exception><exception scope="next" inflected="yes">dopatrzyć</exception></token>
+				<token skip="-1" inflected="yes">dopatrzeć<exception inflected="yes">dopatrzyć</exception><exception scope="next" inflected="yes">dopatrzyć</exception></token>
 				<token>się</token>
 			</pattern>
-			<message>Niepoprawny czasownik; należy użyć czasownika <suggestion><match no="1">dopatrzyć</match></suggestion>.</message>
+			<message>Niepoprawny czasownik; należy użyć czasownika <suggestion><match no="2" postag="verb.*">dopatrzyć</match></suggestion>.</message>
 			<example type="correct">Przemysław nie dopatrywał się nic złego w budowie peronu.</example>
 			<example type="incorrect" correction="dopatrzyć">Przemysław nie potrafił <marker>dopatrzeć</marker> się nic złego w budowie peronu.</example>
-		</rule>
+		</rule>						
 		<rule>
 			<pattern mark_from="1">
 				<token skip="-1">się<exception scope="next" inflected="yes">dopatrzyć</exception></token>
-				<token inflected="yes">dopatrzeć<exception inflected="yes" regexp="yes">dopatrzyć</exception></token>
+				<token inflected="yes">dopatrzeć<exception inflected="yes">dopatrzyć</exception></token>
 			</pattern>
-			<message>Niepoprawny czasownik; należy użyć czasownika <suggestion><match no="2">dopatrzyć</match></suggestion>.</message>
+			<message>Niepoprawny czasownik; należy użyć czasownika <suggestion><match no="2" postag="verb.*">dopatrzyć</match></suggestion>.</message>
 			<example type="correct">On się dopatrywał czegoś złego w budowie peronu.</example>
 			<example type="incorrect" correction="dopatrzyć">On się nie potrafił <marker>dopatrzeć</marker> nic złego w budowie peronu.</example>
 		</rule>
 		</rulegroup>
 
+		<rulegroup name="„opatrzeć się” (opatrzyć się)" id="OPATRZEC_SIE">
+		<rule>
+			<pattern mark_from="1" mark_to="-1">
+				<token skip="-1" postag="SENT_START"><exception scope="next" inflected="yes" regexp="yes">opatrzyć|się</exception></token>
+				<token skip="-1" inflected="yes">opatrzeć<exception inflected="yes">opatrzyć</exception><exception scope="next" inflected="yes">opatrzyć</exception></token>
+				<token>się</token>
+			</pattern>
+			<message>Niepoprawny czasownik; należy użyć czasownika <suggestion><match no="2" postag="verb.*">opatrzyć</match></suggestion>.</message>
+			<example type="correct">Ta sukienka zdążyła opatrzyć się już dawno.</example>
+			<example type="incorrect" correction="opatrzyć">Ta sukienka zdążyła <marker>opatrzeć</marker> się już dawno.</example>
+		</rule>						
+		<rule>
+			<pattern mark_from="1">
+				<token skip="-1">się<exception scope="next" inflected="yes">opatrzyć</exception></token>
+				<token inflected="yes">opatrzeć<exception inflected="yes">opatrzyć</exception></token>
+			</pattern>
+			<message>Niepoprawny czasownik; należy użyć czasownika <suggestion><match no="2" postag="verb.*">opatrzyć</match></suggestion>.</message>
+			<example type="correct">Ta sukienka zdążyła się już opatrzyć.</example>
+			<example type="incorrect" correction="opatrzyć">Ta sukienka zdążyła się już <marker>opatrzeć</marker>.</example>
+		</rule>
+		</rulegroup>
+
+		<rule name="„przepatrzeć” (przepatrzyć)" id="PRZEPATRZEC">
+			<pattern>
+				<token inflected="yes">przepatrzeć<exception inflected="yes">przepatrzyć</exception></token>
+			</pattern>
+			<message>Niepoprawny czasownik; należy użyć czasownika <suggestion><match no="1" postag="verb.*">przepatrzyć</match></suggestion>.</message>
+			<example type="correct">Muszę przepatrzyć szuflady.</example>
+			<example type="incorrect" correction="przepatrzyć">Muszę <marker>przepatrzeć</marker> szuflady.</example>
+		</rule>
+
+		<rule name="„rozpatrzeć” (rozpatrzyć)" id="ROZPATRZEC">
+			<pattern>
+				<token inflected="yes">rozpatrzeć<exception inflected="yes">rozpatrzyć</exception><exception postag="verb:inf:?perf"/></token>
+			</pattern>
+			<message>Ten czasownik może być używany tylko w bezokoliczniku. W pozostałych wypadkach należy użyć czasownika <suggestion><match no="1" postag="verb.*">rozpatrzyć</match></suggestion>.</message>
+			<example type="correct">Ludwik rozpatrzył tę sprawę.</example>
+			<example type="correct">Muszę rozpatrzeć się w tej okolicy.</example>
+			<example type="incorrect" correction="rozpatrzył">Ludwik <marker>rozpatrzał</marker> tę sprawę.</example>
+		</rule>
 
 		<rule name="„przez przeciąg kilku dni” (w ciągu)" id="PRZEZ_PRZECIAG">
 		<!-- FIXME: brak dostosowania form -->
@@ -4262,6 +4302,15 @@ $Id: grammar.xml,v 1.45 2007-05-13 22:37:10 milek_pl Exp $
 	</category>
 	
 	<category name="Wyrazy modne i nadużywane">
+		
+		<rule id="PRZEKONYWUJACY" name="„przekonywujący” (przekonujący, przekonywający)">
+			<pattern>
+				<token regexp="yes">przekonywując.*</token>
+			</pattern>
+			<message>Ten wyraz jest niepoprawny gramatycznie i uważany za rażący; dopuszczają go nieliczne słowniki. Poprawnie: <suggestion><match no="1" regexp_match="(?iu)przekonywuj(.*)" regexp_replace="przekonywaj$1"/></suggestion>, <suggestion><match no="1" regexp_match="(?iu)przekonywuj(.*)" regexp_replace="przekonuj$1"/></suggestion>.</message>
+			<example type="incorrect" correction="przekonywające|przekonujące">Te przykłady nie są <marker>przekonywujące</marker>.</example>
+			<example type="correct">Te przykłady nie są <marker>przekonujące</marker>.</example>
+		</rule>
 	
 		<rule id="WACHLARZ_CZEGO" name="„szeroki wachlarz” (wiele)">
 			<pattern mark_to="-1">
