@@ -48,24 +48,24 @@ public class PatternRuleLoader extends DefaultHandler {
 
   public final List<PatternRule> getRules(final InputStream is, final String filename) throws IOException {
     try {
-      PatternRuleHandler handler = new PatternRuleHandler();
-      SAXParserFactory factory = SAXParserFactory.newInstance();
-      SAXParser saxParser = factory.newSAXParser();
+      final PatternRuleHandler handler = new PatternRuleHandler();
+      final SAXParserFactory factory = SAXParserFactory.newInstance();
+      final SAXParser saxParser = factory.newSAXParser();
       saxParser.parse(is, handler);
       rules = handler.getRules();
       return rules;
-    } catch (Exception e) {
-      IOException ioe = new IOException("Cannot load or parse '"+filename+"'");
+    } catch (final Exception e) {
+      final IOException ioe = new IOException("Cannot load or parse '"+filename+"'");
       ioe.initCause(e);
       throw ioe;
     }
   }
 
   /** Testing only. */
-  public void main(String[] args) throws IOException {
-    PatternRuleLoader prg = new PatternRuleLoader();
-    String name = "/rules/de/grammar.xml";
-    List<PatternRule> l = prg.getRules(this.getClass().getResourceAsStream(name), name);
+  public final void main(final String[] args) throws IOException {
+    final PatternRuleLoader prg = new PatternRuleLoader();
+    final String name = "/rules/de/grammar.xml";
+    final List<PatternRule> l = prg.getRules(this.getClass().getResourceAsStream(name), name);
     System.out.println(l);
   }
 
@@ -145,17 +145,19 @@ class PatternRuleHandler extends XMLRuleHandler {
   // SAX DocumentHandler methods
   // ===========================================================
 
+  @Override
   @SuppressWarnings("unused")
-  public void startElement(final String namespaceURI, final String lName, final String qName, Attributes attrs)
+  public void startElement(final String namespaceURI, final String lName, final String qName, final Attributes attrs)
       throws SAXException {
     if (qName.equals("category")) {
       final String catName = attrs.getValue("name");
       final String prioStr = attrs.getValue("priority");
       //int prio = 0;
-      if (prioStr != null)
+      if (prioStr != null) {
         category = new Category(catName, Integer.parseInt(prioStr));
-      else
+      } else {
         category = new Category(catName);
+      }
     } else if (qName.equals("rules")) {
       final String languageStr = attrs.getValue("lang");
       language = Language.getLanguageForShortName(languageStr);
@@ -164,22 +166,27 @@ class PatternRuleHandler extends XMLRuleHandler {
       }
     } else if (qName.equals("rule")) {
       id = attrs.getValue("id");
-      if (inRuleGroup && id == null)
+      if (inRuleGroup && id == null) {
         id = ruleGroupId;
+      }
       description = attrs.getValue("name");
-      if (inRuleGroup && description == null)
+      if (inRuleGroup && description == null) {
         description = ruleGroupDescription;
+      }
       correctExamples = new ArrayList<String>();
       incorrectExamples = new ArrayList<String>();
     } else if (qName.equals("pattern")) {
       inPattern = true;
-      if (attrs.getValue("mark_from") != null)
+      if (attrs.getValue("mark_from") != null) {
         startPositionCorrection = Integer.parseInt(attrs.getValue("mark_from"));
-      if (attrs.getValue("mark_to") != null)
+      }
+      if (attrs.getValue("mark_to") != null) {
         endPositionCorrection = Integer.parseInt(attrs.getValue("mark_to"));
+      }
       if (attrs.getValue("case_sensitive") != null
-          && YES.equals(attrs.getValue("case_sensitive")))
+          && YES.equals(attrs.getValue("case_sensitive"))) {
         caseSensitive = true;
+      }
     } else if (qName.equals("and")) {
       inAndGroup = true;
     } else if (qName.equals("token")) {
@@ -276,7 +283,7 @@ class PatternRuleHandler extends XMLRuleHandler {
       }      
       final Match mWorker = new Match(attrs.getValue(POSTAG),
           attrs.getValue("postag_replace"),
-          "yes".equals(attrs.getValue(POSTAG_REGEXP)),
+          YES.equals(attrs.getValue(POSTAG_REGEXP)),
           attrs.getValue("regexp_match"), 
           attrs.getValue("regexp_replace"), caseConv);
       if (inMessage) {
@@ -313,13 +320,12 @@ class PatternRuleHandler extends XMLRuleHandler {
     } else if (qName.equals("phraseref") 
         && (attrs.getValue("idref") != null)) {
       phraseIdRef = attrs.getValue("idref");
-      if (phraseMap.containsKey(phraseIdRef)) {      
-        ArrayList < ArrayList < Element > > curPhraseElementList = phraseMap.get(phraseIdRef);              
-        for (ArrayList < Element > curPhrEl : curPhraseElementList) {              
+      if (phraseMap.containsKey(phraseIdRef)) {                            
+        for (final ArrayList < Element > curPhrEl : phraseMap.get(phraseIdRef)) {              
           if (elementList.isEmpty()) {
             phraseElementList.add(new ArrayList <Element>(curPhrEl));
           } else {
-            ArrayList < Element > prevList = new ArrayList < Element > (elementList);
+            final ArrayList < Element > prevList = new ArrayList < Element > (elementList);
             prevList.addAll(curPhrEl);
             phraseElementList.add(new ArrayList <Element>(prevList));
             prevList.clear();
@@ -331,24 +337,25 @@ class PatternRuleHandler extends XMLRuleHandler {
   }
    
 
+  @Override
   @SuppressWarnings("unused")
   public void endElement(final String namespaceURI, final String sName, final String qName) {
 
     if (qName.equals("rule")) {
       phraseElementInit();
       if (phraseElementList.isEmpty()) {                                       
-        PatternRule rule = new PatternRule(id, language, elementList, description, message.toString());
+        final PatternRule rule = new PatternRule(id, language, elementList, description, message.toString());
         prepareRule(rule);
         rules.add(rule);        
       } else {
         if (!elementList.isEmpty()) { 
-          for (ArrayList < Element > ph : phraseElementList) {
+          for (final ArrayList < Element > ph : phraseElementList) {
             ph.addAll(new ArrayList <Element> (elementList));
           }
         }
 
-        for (ArrayList < Element > phraseElement : phraseElementList) {
-          PatternRule rule = new PatternRule(id, language, phraseElement, description, message.toString(), phraseElementList.size()>1);      
+        for (final ArrayList < Element > phraseElement : phraseElementList) {
+          final PatternRule rule = new PatternRule(id, language, phraseElement, description, message.toString(), phraseElementList.size()>1);      
           prepareRule(rule);
           rules.add(rule);              
         }
@@ -455,7 +462,7 @@ class PatternRuleHandler extends XMLRuleHandler {
         if (phraseElementList.isEmpty()) {
           phraseElementList.add(new ArrayList < Element > (elementList));                    
         } else {
-          for (ArrayList < Element > ph : phraseElementList) {
+          for (final ArrayList < Element > ph : phraseElementList) {
             ph.addAll(new ArrayList <Element> (elementList));
           }
         }
@@ -490,7 +497,7 @@ class PatternRuleHandler extends XMLRuleHandler {
     tokenReference = null;
   }
   
-  private void prepareRule(PatternRule rule) {
+  private void prepareRule(final PatternRule rule) {
     rule.setStartPositionCorrection(startPositionCorrection);
     rule.setEndPositionCorrection(endPositionCorrection);
     startPositionCorrection = 0;
@@ -500,7 +507,7 @@ class PatternRuleHandler extends XMLRuleHandler {
     rule.setCategory(category);
     caseSensitive = false;
     if (suggestionMatches != null) {
-      for (Match m : suggestionMatches) {
+      for (final Match m : suggestionMatches) {
         rule.addSuggestionMatch(m);
       }
       suggestionMatches.clear();
@@ -514,6 +521,7 @@ class PatternRuleHandler extends XMLRuleHandler {
     }
   }
   
+  @Override
   public void characters(final char[] buf, final int offset, final int len) {
     final String s = new String(buf, offset, len);
     if (inException) {
