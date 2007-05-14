@@ -3,7 +3,7 @@
 German grammar and typo rules for LanguageTool
 See resource/de/tagset.txt for the meaning of the POS tags
 Copyright (C) 2001-2006 Daniel Naber (http://www.danielnaber.de)
-$Id: grammar.xml,v 1.3 2007-05-13 16:03:52 dnaber Exp $
+$Id: grammar.xml,v 1.4 2007-05-14 19:34:10 milek_pl Exp $
 -->
 <rules lang="de">
 
@@ -177,12 +177,11 @@ $Id: grammar.xml,v 1.3 2007-05-13 16:03:52 dnaber Exp $
     <pattern>
       <token regexp="yes">(.*)-(und|oder|bzw)</token>
     </pattern>
-    <!-- TODO: we need a way to refer to regex parts for a better message -->
-    <message>Möglicherweise fehlt ein Leerzeichen nach dem Bindestrich.</message>
+    <message>Möglicherweise fehlt ein Leerzeichen nach dem Bindestrich: <suggestion><match no="1" regexp_match="(.*)-(und|oder|bzw)" regexp_replace="$1- $2" /></suggestion>.</message>
     <example type="correct">Das ist <marker>Haus- bzw</marker>. Grundbesitz.</example>
-    <example type="incorrect">Das ist <marker>Haus-bzw</marker>. Grundbesitz.</example>
+    <example type="incorrect" correction="Haus- bzw">Das ist <marker>Haus-bzw</marker>. Grundbesitz.</example>
     <example type="correct">Das ist <marker>Haus- und</marker> Grundbesitz.</example>
-    <example type="incorrect">Das ist <marker>Haus-und</marker> Grundbesitz.</example>
+    <example type="incorrect" correction="Haus- und">Das ist <marker>Haus-und</marker> Grundbesitz.</example>
   </rule>
 
   <rulegroup id="HAUTE_COUTURE" name="Möglicher Tippfehler 'Haut(Haute) Couture'">
@@ -785,7 +784,7 @@ $Id: grammar.xml,v 1.3 2007-05-13 16:03:52 dnaber Exp $
   <category name="Grammatik">
 
     <rulegroup id="DEN_DEM" name="Grammatik: 'dem/den' (nur für wenige Verben)">
-      <!-- TODO: the lits of words needs to be extended -->
+      <!-- TODO: the list of words needs to be extended -->
       <rule>
         <pattern mark_from="1" mark_to="-2" case_sensitive="yes">
           <token regexp="yes">beantworte|kaufe|kaufte|kaufst|kaufen|verkaufe|verwünsche</token>
