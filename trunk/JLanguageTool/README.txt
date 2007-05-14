@@ -58,6 +58,10 @@ TODO:
  -create abstract SentenceRule and TextRule classes to get rid of reset() method?
  -check if there's a nice design that lets us extend PatternRule and PatternRuleLoader
   to make them more powerful, but without having all features in these classes
+ -XML rules: fix marking errors for rules with phrases
+ -XML rules: enable referring to whole phrases in suggestions, and changing their 
+  POS tags appropriately
+ -add more docs and examples
  -Make adding language possible without changing the LanguageTool core code:
  	-make rule loading dynamic by using reflection (in progress)
  	-create the list of languages using reflection (add a LanguageInformation
@@ -65,7 +69,7 @@ TODO:
  	-Add an "Add language pack..." menu to both the stand-alone version and the
  	 OpenOffice.org version
  -create a general mechanism for setting and storing rule parameters (including
-  Java rules and XML rules) like sensitivity level
+  Java rules and XML rules) like sensitivity level  
  -create a Firefox/Thunderbird extension using some of SpellBound extension code
  -German:
  	"*Ich kaufe den Hund einen Knochen" (den -> dem), aber:
