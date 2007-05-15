@@ -2,7 +2,7 @@
 <!--
 Polish Grammar and Typo Rules for LanguageTool
 Copyright (C) 2006 Marcin Miłkowski
-$Id: grammar.xml,v 1.47 2007-05-14 23:40:48 milek_pl Exp $
+$Id: grammar.xml,v 1.48 2007-05-15 10:54:01 milek_pl Exp $
 -->
 <rules lang="pl">
 
@@ -5344,7 +5344,7 @@ $Id: grammar.xml,v 1.47 2007-05-14 23:40:48 milek_pl Exp $
 			<example type="correct">Znaleźliśmy się pomiędzy młotem a kowadłem.</example>
 		</rule>
 		
-		<rule name="przedrostki „neo”, „post”, „pre”, „eks”..." id="PRZEDROSTKI">
+		<rule name="Przedrostki błędnie pisane z łącznikiem: „neo”, „post”, „pre”, „eks”..." id="PRZEDROSTKI">
 			<pattern>
 				<token regexp="yes">^(neo|post|pre|anty|arcy|eks|bez|beze|ekstra|hiper|infra|kontr|maksi|midi|między|mini|nad|nade|około|ponad|post|przeciw|pseudo|super|śród|ultra|wice|wokół|wokoło)[-–]\p{Ll}+</token>
 			</pattern>
@@ -5357,6 +5357,16 @@ $Id: grammar.xml,v 1.47 2007-05-14 23:40:48 milek_pl Exp $
 			<example type="incorrect" correction="eksmąż">Wiktor to mój <marker>eks-mąż</marker>.</example>
 			<example type="incorrect" correction="minispódniczkę">Jadzia kupiła sobie <marker>mini-spódniczkę</marker>.</example>
 			<example type="incorrect" correction="Arcyksiążę"><marker>Arcy–książę</marker> Ferdynand lubił polować w tutejszych lasach.</example>
+		</rule>
+		
+		<rule name="Przedrostki „niby” i „quasi” błędnie pisane bez łącznika" id="PRZEDROSTEK_NIBY">
+			<pattern>
+				<token regexp="yes" postag="UNKNOWN">(niby|quasi)[^-–].*</token>
+			</pattern>
+			<message>Tylko utarte terminy fachowe z cząstką „niby” piszemy bez łącznika. Poprawnie: <suggestion><match no="1" regexp_match="([Nn]iby|[Qq]uasi)(.*)" regexp_replace="$1-$2"/></suggestion>.</message>
+			<example type="correct">Ale masz śliczne nibynóżki!</example>
+			<example type="incorrect" correction="quasi-naukę">Ten plagiator nie uprawia nauki, on uprawia <marker>quasinaukę</marker>.</example>
+			<example type="incorrect" correction="niby-Polak">To nie jest patriota, to jest <marker>nibyPolak</marker>!</example>
 		</rule>
 		
 		<rule name="„co nie miara” (co niemiara)" id="CO_NIE_MIARA">
