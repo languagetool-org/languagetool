@@ -82,7 +82,6 @@ public class PatternRuleTest extends TestCase {
           suggestedCorrection = java.util.Arrays.asList(sugCorrection.split("\\|"));
           origBadSentence = origBadSentence.substring(corEnd  
               + "</correction>".length());
-          
         }
         int expectedMatchStart = origBadSentence.indexOf("<marker>");
         int expectedMatchEnd = origBadSentence.indexOf("</marker>") - "<marker>".length();
@@ -275,24 +274,25 @@ public class PatternRuleTest extends TestCase {
   private PatternRule makePatternRule(String s, boolean caseSensitive, boolean regex) {
     List<Element> elems = new ArrayList<Element>();
     String[] parts = s.split(" ");
-    boolean pos=false;
+    boolean pos = false;
     Element se = null;
     for (int i = 0; i < parts.length; i++) {
-    	if (parts[i].equals("SENT_START")) {
-    		pos=true;
-    	}
-    	if (!pos) {
-    	se = new Element(parts[i], caseSensitive, regex, false);
-    	} else {
-    	 se = new Element("", caseSensitive, regex, false);    	
-    	}
-        if (pos) {
-         se.setPosElement(parts[i], false, false);
-        }        
-        elems.add(se);
-        pos = false;
-      }    
-    PatternRule rule = new PatternRule("ID1", Language.ENGLISH, elems, "test rule", "user visible message");    
+      if (parts[i].equals("SENT_START")) {
+        pos = true;
+      }
+      if (!pos) {
+        se = new Element(parts[i], caseSensitive, regex, false);
+      } else {
+        se = new Element("", caseSensitive, regex, false);
+      }
+      if (pos) {
+        se.setPosElement(parts[i], false, false);
+      }
+      elems.add(se);
+      pos = false;
+    }
+    PatternRule rule = new PatternRule("ID1", Language.ENGLISH, elems, "test rule",
+        "user visible message");
     return rule;
   }
 
@@ -307,58 +307,4 @@ public class PatternRuleTest extends TestCase {
     assertEquals(1, matches.length);
   }
 
-  
-/*public void testNegation() throws IOException {
-    PatternRule pr;
-    RuleMatch[] matches;
-
-    pr = makePatternRule("\"one\" ^\"two\"");
-    matches = pr.match(langTool.getAnalyzedSentence("Here's one two."));
-    assertEquals(0, matches.length);
-    matches = pr.match(langTool.getAnalyzedSentence("Here's one four."));
-    assertEquals(1, matches.length);
-
-    pr = makePatternRule("\"one\" ^\"two|three\"");
-    matches = pr.match(langTool.getAnalyzedSentence("Here's one two."));
-    assertEquals(0, matches.length);
-    matches = pr.match(langTool.getAnalyzedSentence("Here's one three."));
-    assertEquals(0, matches.length);
-    matches = pr.match(langTool.getAnalyzedSentence("Here's one four."));
-    assertEquals(1, matches.length);
-
-    pr = makePatternRule("SENT_START ^\"One\"");
-    matches = pr.match(langTool.getAnalyzedSentence("One two."));
-    assertEquals(0, matches.length);
-    matches = pr.match(langTool.getAnalyzedSentence("Two three."));
-    assertEquals(1, matches.length);
-
-    pr = makePatternRule("\"One\" ^CD");
-    matches = pr.match(langTool.getAnalyzedSentence("One two."));
-    assertEquals(0, matches.length);
-    matches = pr.match(langTool.getAnalyzedSentence("One walk."));
-    assertEquals(1, matches.length);
-
-    pr = makePatternRule("CD^one \"foo\"");
-    matches = pr.match(langTool.getAnalyzedSentence("One foo."));
-    assertEquals(0, matches.length);
-    matches = pr.match(langTool.getAnalyzedSentence("Two foo."));
-    assertEquals(1, matches.length);
-
-    pr = makePatternRule("CD^one|three|five \"foo\"");
-    matches = pr.match(langTool.getAnalyzedSentence("One foo."));
-    assertEquals(0, matches.length);
-    matches = pr.match(langTool.getAnalyzedSentence("Three foo."));
-    assertEquals(0, matches.length);
-    matches = pr.match(langTool.getAnalyzedSentence("Five foo."));
-    assertEquals(0, matches.length);
-    matches = pr.match(langTool.getAnalyzedSentence("Eight foo."));
-    assertEquals(1, matches.length);
-
-    pr = makePatternRule("CD^one \"foo\"", true);
-    matches = pr.match(langTool.getAnalyzedSentence("One foo."));
-    assertEquals(1, matches.length);
-    matches = pr.match(langTool.getAnalyzedSentence("the one foo."));
-    assertEquals(0, matches.length);
-  }
-*/
 }
