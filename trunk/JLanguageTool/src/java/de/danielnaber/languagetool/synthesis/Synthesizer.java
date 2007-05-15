@@ -32,14 +32,14 @@ import de.danielnaber.languagetool.AnalyzedToken;
 public interface Synthesizer {
 
   /** Generates a form of the word with a given POS tag for a given lemma. 
-   * @param lemma Word's base form
+   * @param token the token to be used for synthesis
    * @param posTag POS tag of the form to be generated.
    **/
   public String[] synthesize(final AnalyzedToken token, final String posTag) throws IOException;
 
   /** Generates a form of the word with a given POS tag for a given lemma.
    * POS tag can be specified using regular expressions. 
-   * @param lemma Word's base form
+   * @param token the token to be used for synthesis
    * @param posTag POS tag of the form to be generated.
    * @param posTagRegExp Specifies whether the posTag string is a 
    *  regular expression. 
