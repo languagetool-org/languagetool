@@ -233,6 +233,13 @@
 	  debug="${debug}">
       <classpath refid="classpath"/>
     </javac>
+  	<javac encoding="${encoding}"
+      srcdir="${src.test.dir}"
+      includes="de/danielnaber/languagetool/rules/patterns/PatternRuleTest.java"
+      destdir="${build.classes}"
+	  debug="${debug}">
+      <classpath refid="classpath"/>
+    </javac>
 
   </target>
 
@@ -406,7 +413,8 @@
 	<copy file="${ext.jdic.lib}" todir="${dist.dir}" />
 	<copy file="${ext.jaminid.lib}" todir="${dist.dir}" />
 	<copy file="${ext.jwordsplitter.lib}" todir="${dist.dir}" />
-  	
+	<copy file="${ext.junit.lib}" todir="${dist.dir}" />
+
  	<copy todir="${dist.dir}/linux">
  		  	<fileset dir="${ext.dir}/linux"/>
 	</copy>
@@ -432,6 +440,7 @@
 	<copy file="${resource.dir}/it/readme-morph-it.txt" todir="${dist.dir}/resource/it" />
  	<copy file="${resource.dir}/fr/french.dict" todir="${dist.dir}/resource/fr" />
  	<copy file="${resource.dir}/fr/readme.txt" todir="${dist.dir}/resource/fr" />
+ 	<copy file="${resource.dir}/fr/disambiguation.xml" todir="${dist.dir}/resource/fr" />
 	<copy file="${resource.dir}/es/spanish.dict" todir="${dist.dir}/resource/es" />
 	<copy file="${resource.dir}/es/etiquetas-eagles.txt" todir="${dist.dir}/resource/es" />  	
 	<copy file="${resource.dir}/de/german.dict" todir="${dist.dir}/resource/de" />

@@ -21,6 +21,7 @@ package de.danielnaber.languagetool.rules.patterns;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
@@ -45,8 +46,19 @@ public class PatternRuleTest extends TestCase {
   }
 
   public void testGrammarRulesFromXML() throws IOException {
+    testGrammarRulesFromXML(null, false);
+  }
+  
+  private void testGrammarRulesFromXML(Set ignoredLanguages, boolean verbose) throws IOException {
     for (int i = 0; i < Language.LANGUAGES.length; i++) {
       Language lang = Language.LANGUAGES[i];
+      if (ignoredLanguages != null && ignoredLanguages.contains(lang)) {
+        if (verbose)
+          System.out.println("Ignoring tests for " + lang.getName());
+        continue;
+      }
+      if (verbose)
+        System.out.println("Running tests for " + lang.getName() + "...");
       PatternRuleLoader ruleLoader = new PatternRuleLoader();
       JLanguageTool languageTool = new JLanguageTool(lang);
       String name = "/rules/" + lang.getShortName() + "/grammar.xml";
@@ -307,4 +319,17 @@ public class PatternRuleTest extends TestCase {
     assertEquals(1, matches.length);
   }
 
+  /**
+   * Test XML patterns, as a help for people developing rules that are not programmers.
+   */
+  public static void main(String[] args) throws IOException {
+    PatternRuleTest prt = new PatternRuleTest();
+    System.out.println("Running XML pattern tests...");
+    prt.setUp();
+    Set<Language> ignoredLanguages = new HashSet<Language>();
+    ignoredLanguages.add(Language.CZECH);   // has no XML rules yet
+    prt.testGrammarRulesFromXML(ignoredLanguages, true);
+    System.out.println("Tests successful.");
+  }
+  
 }
