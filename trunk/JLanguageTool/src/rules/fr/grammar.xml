@@ -2,7 +2,7 @@
 <!--
 French Grammar and Typo Rules for LanguageTool
 Copyright (C) 2006 Marcin Miłkowski
-$Id: grammar.xml,v 1.3 2007-04-29 21:48:12 milek_pl Exp $
+$Id: grammar.xml,v 1.4 2007-05-17 16:28:29 milek_pl Exp $
 -->
 <rules lang="fr">
 
@@ -13,12 +13,15 @@ $Id: grammar.xml,v 1.3 2007-04-29 21:48:12 milek_pl Exp $
 
 	<phrase id="V_R_NON_N">
 			<token postag="V.*|R.*" postag_regexp="yes"><exception postag="N.*" postag_regexp="yes"/></token>
-	</phrase>		
+	</phrase>	
 	
+	<phrase id="A_NON_N">
+			<token postag="V.*" postag_regexp="yes"><exception postag="N.*" postag_regexp="yes"/></token>
+	</phrase>
 </phrases>
 
-  <category name="Pléonasmes">
 
+	<category name="Pléonasmes">
 		<rule id="AJOUTER_EN_PLUS" name="«ajouter en plus» (ajouter)">
 			<pattern>
 				<token inflected="yes">ajouter</token>
@@ -30,14 +33,15 @@ $Id: grammar.xml,v 1.3 2007-04-29 21:48:12 milek_pl Exp $
 			<example type="incorrect">Je voudrais <marker>ajouter en plus</marker> quelque chose de particulièrement important.</example>
 			<example type="incorrect">On <marker>ajoutera en plus</marker> dans notre liste une ou deux bonnettes.</example>	
 		</rule>
-
-  </category>
+	</category>
+	
 	<!-- ported from Myriam's Gramadoir rules -->
-	<category name="Fautes de frappe">
+	
+	<category name="Proximité phonétique">
 		<rule id="CA_SA" name="ça (sa)">
 			<pattern mark_to="-1">
 				<token>ça</token>
-				<token postag="N.*" postag_regexp="yes"/>
+				<token postag="N.*|J.*" postag_regexp="yes"/>
 			</pattern>
 			<message>Voulez vous écrire <suggestion>sa</suggestion>?</message>
 			<example type="incorrect">Il parle de <marker>ça</marker> soeur</example>
@@ -65,7 +69,7 @@ $Id: grammar.xml,v 1.3 2007-04-29 21:48:12 milek_pl Exp $
 		<rule id="SE_CE" name="se (ce)">
 			<pattern mark_to="-1">
 				<token>se</token>
-				<token postag="N.*" postag_regexp="yes"/>
+				<token postag="N.*|J.*" postag_regexp="yes"/>
 			</pattern>
 			<message>Voulez vous écrire <suggestion>ce</suggestion>?</message>
 			<example type="incorrect"><marker>Se</marker> test montre que ça fonctionne.</example>
@@ -74,7 +78,7 @@ $Id: grammar.xml,v 1.3 2007-04-29 21:48:12 milek_pl Exp $
 		<rule id="CE_SE" name="ce (se)">
 			<pattern mark_to="-1">
 				<token>ce</token>
-				<token postag="V.*" postag_regexp="yes"/>
+				<token postag="V.*" postag_regexp="yes"><exception inflected="yes" regexp="yes">être|devoir|pouvoir</exception></token>
 			</pattern>
 			<message>Voulez vous écrire <suggestion>se</suggestion>?</message>
 			<example type="incorrect">Ce phenomene <marker>ce</marker> transforme en phenomene de société</example>
@@ -93,7 +97,7 @@ $Id: grammar.xml,v 1.3 2007-04-29 21:48:12 milek_pl Exp $
 		<rule name="sont (son)" id="SONT_SON">
 			<pattern mark_to="-1">
 				<token>sont</token>
-				<token postag="N.*" postag_regexp="yes"/>
+				<token postag="N.*|J.*" postag_regexp="yes"/>
 			</pattern>
 			<message>Voulez vous écrire <suggestion>son</suggestion>?</message>
 			<example type="incorrect">Le problème c'est qu'apparemment elle n'a pas <marker>sont</marker> mot de passe...</example>
@@ -103,36 +107,17 @@ $Id: grammar.xml,v 1.3 2007-04-29 21:48:12 milek_pl Exp $
 			<pattern mark_to="-1" mark_from="1">
 				<token regexp="yes" negate="yes">le|du|un</token>
 				<token>son</token>
-				<token postag="V.*|R.*|P" postag_regexp="yes"/>
+				<token postag="V.*|R.*|P" postag_regexp="yes"><exception postag="N.*" postag_regexp="yes"/></token>
 			</pattern>
 			<message>Voulez vous écrire <suggestion>sont</suggestion>?</message>
-			<example type="correct">Les gagnants <marker>sont</marker> fous de joie.</example>
-<!-- 		<example type="incorrect">Les gagnants <marker>son</marker> fous de joie.</example>  -->
+			<example type="correct">Les Chinoises sont celles qui se marient le plus avec les Sud-Coréens.</example>
+			<example type="incorrect">Les Chinoises <marker>son</marker> celles qui se marient le plus avec les Sud-Coréens.</example>
 			<example type="incorrect">Ils <marker>son</marker> dans la même classe.</example>
 			<example type="correct">Le <marker>son</marker> dans l'informatique</example>
 		</rule>
-		<!-- 
-		<rule name="test désambig 1" id="TEST_DESAMBIG_1">
-			<pattern mark_from="1">
-				<token postag="R pers suj .*" postag_regexp="yes"/>
-				<token postag="N.*" postag_regexp="yes"><exception regexp="yes">n|ne</exception></token>
-			</pattern>
-			<message>il faut un verbe, et non un nom, après un pronom personnel sujet</message>
-			<example type="correct">Je danse toutes les semaines au club.</example>
-			<example type="incorrect">Je travail de nuit depuis 4 ans.</example>
-		</rule>
-		-->
-		<rule name="test désambig 2" id="TEST_DESAMBIG_2">
-			<pattern mark_from="1">
-				<token postag="D.*" postag_regexp="yes"/>
-				<token postag="V.*" postag_regexp="yes"/>
-			</pattern>
-			<message>un déterminant est suivi d'un nom, pas d'un verbe</message>
-			<example type="correct">Voici une fausse alarme.</example>
-			<example type="incorrect">Il cherche du <marker>travaille</marker> depuis 3 mois.</example>
-		</rule>
 		
 		<!-- according to Hanse dictionary,checked with Google-->
+		
 		<rule name="et bien (eh bien)" id="ET_BIEN">
 			<pattern mark_from="1" mark_to="-1">
 				<token postag="SENT_START"/>
@@ -143,37 +128,326 @@ $Id: grammar.xml,v 1.3 2007-04-29 21:48:12 milek_pl Exp $
 			<example type="correct">Eh bien, soit!</example>
 			<example type="incorrect"><marker>Et</marker> bien, soit!</example>
 		</rule>
-	</category>
-	
-	<!-- Détection d'erreurs portant sur le groupe verbal-->
+		
+		<!-- added by Agnes Souque -->
 
-	<category name="SV">
-		<rulegroup id="VCONJ_VCONJ" name="V conj + V conj">
-			<rule>
-				<pattern mark_from="1">
-					<token postag="V .*" postag_regexp="yes"><exception postag="V inf" postag_regexp="yes" regexp="yes" inflected="yes">être|paraître|sembler|devenir|demeurer|rester|avoir</exception></token>
-					<token postag="V ppa .*" postag_regexp="yes"/>
+		<rule id="CONF_VERBE_NOM" name="confusion verbe-nom">
+			<pattern mark_from="1">
+				<token postag="R pers suj .*" postag_regexp="yes"/>
+				<token postag="N.*" postag_regexp="yes"/>
+			</pattern>
+			<message>Un verbe est attendu après le pronom personnel <suggestion>\1</suggestion>, pas un nom.</message>
+			<example type="correct">Je <marker>travaille</marker> tard.</example>
+			<example type="incorrect">On <marker>désir</marker> rester ici.</example>
+		</rule>
+		
+		<rule id="CETTE_CEST" name="cette (c'est)">
+			<pattern mark_to="-1">
+				<token regexp="yes">cette|cet</token>
+				<token regexp="yes">un|une</token>
+			</pattern>
+			<message>Vouliez vous écrire <suggestion>c'est</suggestion> au lieu de '\1' ?</message>
+			<example type="correct"><marker>C'est</marker> une belle maison.</example>
+			<example type="incorrect"><marker>Cet</marker> un garçon !</example>
+		</rule>
+		<rule id="CEST_CETTE" name="c'est (cette)">
+			<pattern mark_to="-1">
+				<token skip="1">c</token>
+				<token>est</token>
+				<token postag="N.*" postag_regexp="yes"/>
+			</pattern>
+			<message>Vouliez vous écrire <suggestion>ces</suggestion>, <suggestion>cet</suggestion> ou <suggestion>cette</suggestion> au lieu de '\1'\2'?</message>
+			<example type="incorrect"><marker>C'est</marker> chambre est grande.</example>
+			<example type="correct"><marker>Cette</marker> école est réputée.</example>
+		</rule>
+		
+		<rule id="EN_TANT_QUE" name="en tant que">
+			<pattern mark_to="-1">
+				<token>en</token>
+				<token>temps</token>
+				<token regexp="yes">que|qu</token>
+			</pattern>
+			<message>La bonne expression est : <suggestion>en tant</suggestion>.</message>
+			<example type="incorrect">Il est venu <marker>en temps</marker> que maire.</example>
+			<example type="correct">Il est interrogé <marker>en tant</marker> que témoin.</example>
+		</rule>
+		
+		<rule id="ON_ONT" name="on (ont)">
+			<pattern mark_to="-1">
+				<token>ont</token>
+				<token postag="V.*" postag_regexp="yes"><exception postag="V ppa .*" postag_regexp="yes"/></token>
+			</pattern>
+			<message>Vouliez vous écrire <suggestion>on</suggestion> ?</message>
+			<example type="correct"><marker>On</marker> a fini.</example>
+			<example type="incorrect"><marker>Ont</marker> a tendance à ralentir.</example>
+		</rule>
+	</category>
+		
+<!-- Rules on nominal group, ported from Myriam's Gramadoir rules -->		
+
+	<category name="Groupe nominal">
+		<rulegroup name="accord en nombre" id="ACCORD_NOMBRE">
+			<rule name="sing + plur">
+				<pattern mark_from="0" mark_to="0">
+					<token postag="D .* s|J .* s|N .* s" postag_regexp="yes"/>
+					<token postag="J .* p|N .* p" postag_regexp="yes"/>
 				</pattern>
-				<message>Il faut utiliser l'infinitif après un verbe conjugué</message>
-				<example type="correct">Il aime danser</example>
-				<example type="incorrect">Il aime <marker>dansé</marker></example>
+				<message>'\1' et '\2' ne semblent pas bien accordés en nombre</message>
+				<example type="correct">un canard</example>
+				<example type="correct">des oies dodues </example>
+				<example type="incorrect"><marker>un vaches</marker> laitières</example>
+			</rule>
+
+			<rule name="plur + sing">
+				<pattern mark_from="0" mark_to="0">
+					<token postag="D .* p|J .* p|N .* p" postag_regexp="yes"/>
+					<token postag="J .* s|N .* s" postag_regexp="yes"/>
+				</pattern>
+				<message>'\1' et '\2' ne semblent pas bien accordés en nombre</message>
+				<example type="correct">un canard gras</example>
+				<example type="correct">des oies</example>
+				<example type="incorrect"><marker>des poulet</marker> fermiers</example>
 			</rule>
 		</rulegroup>
 		
-		<rulegroup id="AUX_VCONJ" name="Aux + V conj">
-			<rule>
-				<pattern mark_from="1">
-					<token postag="V etre .*|V avoir .*" postag_regexp="yes"/>
-					<token postag="V .*" postag_regexp="yes"><exception postag="V ppa .*" postag_regexp="yes"/></token>
+		<rulegroup name="accord en genre" id="ACCORD_GENRE">
+			<rule name="masc + fem">
+				<pattern>
+					<token postag="D m .*|J m .*|N m .*" postag_regexp="yes"/>
+					<token postag="J f .*|N f .*" postag_regexp="yes"/>
 				</pattern>
-				<message>Après l'auxiliaire être ou avoir, le verbe est au participe passé</message>
-				<example type="correct">Il a signé le contrat</example>
-				<example type="correct">Il a reçu ta lettre </example>
-				<example type="incorrect">Il a <marker>signer</marker> le contrat</example>
-				<example type="incorrect">Il a <marker>reçut</marker> ta lettre</example>
+				<message>'\1' et '\2' ne semblent pas bien accordés en genre</message>
+				<example type="correct">le violon</example>
+				<example type="correct">la belle guitare</example>
+				<example type="incorrect"><marker>le scène</marker> finale</example>
+			</rule>
+			<rule name="fem + masc">
+				<pattern>
+					<token postag="D f .*|J f .*|N f .*" postag_regexp="yes"/>
+					<token postag="J m .*|N m .*" postag_regexp="yes"/>
+				</pattern>
+				<message>'\1' et '\2' ne semblent pas bien accordés en genre</message>
+				<example type="correct">le violon</example>
+				<example type="correct">la vieille guitare</example>
+				<example type="incorrect">la <marker>scène final</marker></example>
 			</rule>
 		</rulegroup>
-	
+
+		<rule id="MON_NFS" name="mon/ton/son + N f s">
+			<pattern>
+				<token regexp="yes">mon|ton|son</token>
+				<token negate="yes" postag="N f s" regexp="yes">(a|h|â|e|i|o|u|é|î).*</token>
+			</pattern>
+			<message>'\1' ne peut pas être suivi du nom féminin '\2'. Utilisez un déterminant féminin à la place de '\1'.</message>
+			<example type="correct">Mon chien</example>
+			<example type="correct">Ton histoire</example>
+			<example type="incorrect"><marker>Mon fille</marker></example>
+		</rule>		
 	</category>
-	
+
+
+
+		
+
+<!-- Rules on verbal group, ported from Myriam's Gramadoir rules -->	
+
+	<category name="SV">
+		<rule id="VCONJ_VCONJ" name="V conj + V conj">
+			<pattern mark_from="1">
+				<token postag="V .*" postag_regexp="yes" skip="1"><exception postag="V inf" postag_regexp="yes" regexp="yes" inflected="yes">être|paraître|sembler|devenir|demeurer|rester|avoir</exception></token>
+				<token postag="V ppa .*" postag_regexp="yes"/>
+			</pattern>
+			<message>L'infinitif est attendu après un verbe conjugué '\1'.</message>
+			<example type="correct">Il aime danser</example>
+			<example type="incorrect">Il aime <marker>dansé</marker></example>
+		</rule>
+		
+		<rule id="AUX_VCONJ" name="Aux + V conj">
+			<pattern mark_from="1">
+				<token postag="V etre .*|V avoir .*" postag_regexp="yes" skip="1"/>
+				<token postag="V .*" postag_regexp="yes"><exception postag="V ppa .*|V etre ppa .*|V avoir ppa .*" postag_regexp="yes"/></token>
+			</pattern>
+			<message>Après l'auxiliaire '\1', le verbe devrait être au participe passé</message>
+			<example type="correct">Il a signé le contrat</example>
+			<example type="correct">Il a reçu ta lettre </example>
+			<example type="incorrect">Il a <marker>signer</marker> le contrat</example>
+			<example type="incorrect">Il a <marker>reçut</marker> ta lettre</example>
+		</rule>
+		
+		<!--FIXME: arrivé is disambiguated to a noun. This is probably wrong...
+
+		<rule id="PREP_VPPA" name="prep + V ppa">
+			<pattern mark_from="1">
+				<token postag="P"/>
+				<token postag="V.*" postag_regexp="yes"><exception postag="V inf|V ppr" postag_regexp="yes"/></token>
+			</pattern>
+			<message>Le verbe devrait être à l'infinitif après la préposition '\1'</message>
+			
+			<example type="correct">Il court pour arriver à l'heure</example>
+			<example type="incorrect">Il court pour <marker>arrivé</marker> à l'heure</example>
+		</rule>
+		
+		--><rulegroup id="ETRE_VPPA_OU_ADJ" name="V ppa ou adjectifs après être">
+			<rule name="elle">
+				<pattern mark_from="2">
+					<token>elle</token>
+					<token postag="V etre .*" postag_regexp="yes" skip="1"/>
+					<token postag="V ppa m .*|J m .*|V ppa f p|J f p" postag_regexp="yes"/>
+				</pattern>
+				<message>Après '\1', '\3' devrait être au féminin singulier.</message>
+				<example type="correct">elle est partie</example>
+				<example type="incorrect">elle est <marker>parties</marker></example>
+				<example type="incorrect">elle est <marker>parti</marker></example>
+			</rule>
+			<rule name="il/on">
+				<pattern mark_from="2">
+					<token regexp="yes">il|on</token>
+					<token postag="V etre .*" postag_regexp="yes" skip="1"/>
+					<token postag="V ppa f .*|J f .*|V ppa m p|J m p" postag_regexp="yes"/>
+				</pattern>
+				<message>Après '\1', '\3' devrait être au masculin singulier.</message>
+				<example type="correct">il est parti</example>
+				<example type="incorrect">il est <marker>partis</marker></example>
+				<example type="incorrect">il est <marker>partie</marker></example>
+			</rule>
+			<rule name="elles">
+				<pattern mark_from="2">
+					<token>elles</token>
+					<token postag="V etre .*" postag_regexp="yes" skip="1"/>
+					<token postag="V ppa m .*|J m .*|V ppa f s|J f s" postag_regexp="yes"/>
+				</pattern>
+				<message>Après '\1', '\3' devrait être au féminin pluriel</message>
+				<example type="correct">elles sont parties</example>
+				<example type="incorrect">elles sont <marker>partie</marker></example>
+				<example type="incorrect">elles sont <marker>parti</marker></example>
+			</rule>
+			<rule name="ils">
+				<pattern mark_from="2">
+					<token>ils</token>
+					<token postag="V etre .*" postag_regexp="yes" skip="1"/>
+					<token postag="V ppa f .*|J f .*|V ppa m s|J m s" postag_regexp="yes"/>
+				</pattern>
+				<message>Après '\1', '\3' devrait être au masculin pluriel</message>
+				<example type="correct">ils sont partis</example>
+				<example type="incorrect">ils sont <marker>partie</marker></example>
+				<example type="incorrect">ils sont <marker>parti</marker></example>
+			</rule>
+			<rule name="V plur + Vppa ou Adj sing">
+				<pattern mark_from="1">
+					<token skip="3" postag="SENT_START"><exception postag="R pers suj.*" postag_regexp="yes" scope="next"/></token>
+					<token postag="V etre .* p" postag_regexp="yes" skip="1"/>
+					<token postag="V ppa .* s|J .* s" postag_regexp="yes"/>
+				</pattern>
+				<message>'\3' devrait être au pluriel après '\2'.</message>
+				<example type="correct">Les voisins sont <marker>partis</marker></example>
+				<example type="incorrect">Les voisins <marker>sont revenu</marker></example>
+			</rule>
+			<rule name="V sing + plur">
+				<pattern mark_from="1">
+					<token skip="3" postag="SENT_START"><exception postag="R pers suj.*" postag_regexp="yes" scope="next"/></token>
+					<token postag="V etre .* s" postag_regexp="yes" skip="1"><exception>été</exception></token>
+					<token postag="V ppa .* p|J .* p" postag_regexp="yes"/>
+				</pattern>
+				<message>'\3' devrait être au singulier après '\2'.</message>
+				<example type="correct">Le chef est parti</example>
+				<example type="incorrect">Le chef <marker>est revenus</marker></example>
+			</rule>
+		</rulegroup>
+
+		<rulegroup id="ACCORD_R_PERS_VERBE" name="accord pro pers avec le verbe">
+			<rule name="je + (x) + V">
+				<pattern>
+					<token postag="R pers suj 1 s" postag_regexp="yes" skip="1"/>
+					<token postag="V .* 1 p|V .* 2 .*|V .* 3 .*" postag_regexp="yes"><exception postag="V .* 1 s" postag_regexp="yes"/></token>
+				</pattern>
+				<message>Vérifiez l'accord entre le pronom '\1' et le verbe '\2'.</message>
+				<example type="correct">je travaille</example>
+				<example type="incorrect"><marker>je travaillons</marker></example>
+			</rule>
+			<rule name="tu + (x) + V">
+				<pattern>
+					<token postag="R pers suj 2 s" postag_regexp="yes" skip="1"/>
+					<token postag="V .* 2 p|V .* 1 .*|V .* 3 .*" postag_regexp="yes"><exception postag="V .* 2 s" postag_regexp="yes"/></token>
+				</pattern>
+				<message>Vérifiez l'accord entre le pronom '\1' et le verbe '\2'.</message>
+				<example type="correct">tu travailles</example>
+				<example type="incorrect"><marker>tu travaillez</marker></example>
+			</rule>
+			<rule name="il/elle/on + (x) + V">
+				<pattern>
+					<token postag="R pers suj 3 .* s" postag_regexp="yes" skip="1"/>
+					<token postag="V .* 3 p|V .* 3 p|V .* 2 .*|V .* 1 .*" postag_regexp="yes"><exception postag="V .* 3 s" postag_regexp="yes"/></token>
+				</pattern>
+				<message>Vérifiez l'accord entre le pronom '\1' et le verbe '\2'.</message>
+				<example type="correct">il travaille</example>
+				<example type="incorrect"><marker>il travaillent</marker></example>
+			</rule>
+			<rule name="nous + (x) + V">
+				<pattern>
+					<token postag="R pers suj 1 p" postag_regexp="yes" skip="1"/>
+					<token postag="V .* 1 s|V .* 2 .*|V .* 3 .*" postag_regexp="yes"/>
+				</pattern>
+				<message>Vérifiez l'accord entre le pronom '\1' et le verbe '\2'.</message>
+				<example type="correct">nous perdons</example>
+				<example type="incorrect"><marker>nous perds</marker></example>
+			</rule>
+			<rule name="vous + (x) + V">
+				<pattern>
+					<token postag="R pers suj 2 p" postag_regexp="yes" skip="1"/>
+					<token postag="V .* 2 s|V .* 1 .*|V .* 3 .*" postag_regexp="yes"/>
+				</pattern>
+				<message>Vérifiez l'accord entre le pronom '\1' et le verbe '\2'.</message>
+				<example type="correct">vous travaillez</example>
+				<example type="incorrect"><marker>vous travaille</marker></example>
+			</rule>			
+			<rule name="ils/elles + (x) + V">
+				<pattern>
+					<token postag="R pers suj 3 .* p" postag_regexp="yes" skip="1"/>
+					<token postag="V .* 3 s|V .* 1 .*|V .* 2 .*" postag_regexp="yes"/>
+				</pattern>
+				<message>Vérifiez l'accord entre le pronom '\1' et le verbe '\2'.</message>
+				<example type="correct">ils travaillent</example>
+				<example type="incorrect"><marker>ils travaille</marker></example>
+			</rule>
+		</rulegroup>
+		
+<!-- added by Agnes Souque -->		
+		
+		<rule id="QUI_VCONJ" name="qui relatif + V conj">
+			<pattern mark_from="1">
+				<token postag="R pers .*|P" postag_regexp="yes" negate_pos="yes"/>
+				<token postag="R rel .*" postag_regexp="yes" skip="1">qui</token>
+				<token postag="V .* 1 .*|V .* 2 .*" postag_regexp="yes"/>
+			</pattern>
+			<message>Le verbe de la relative devrait être à la 3ème personne</message>
+			<example type="correct">Les enfants <marker>qui jouent</marker> en bas font du bruit.</example>
+			<!--  FIXME: absurd example just to fix it -->
+			<example type="incorrect">Les gens <marker>qui étalais</marker> là sont partis.</example>
+		</rule>
+		
+		<rulegroup id="ACC_SN_V" name="accord SN-verbe">
+			<rule name="sujet sing + verbe plur">
+				<pattern mark_from="3">
+					<token postag="SENT_START"/>
+					<token postag="D.*" postag_regexp="yes"/>
+					<token postag="N .* s" postag_regexp="yes"/>
+					<token postag="V.*" postag_regexp="yes"><exception postag="V .* 3 s" postag_regexp="yes"/></token>
+				</pattern>
+				<message>Le verbe '\4' devrait être à la 3ème personne du singulier</message>
+				<example type="correct">Le voisin <marker>joue</marker> en bas.</example>
+				<example type="incorrect">Le voisin <marker>étaient</marker> parti.</example>
+			</rule>
+			<rule name="sujet plur + verbe sing">
+				<pattern mark_from="3">
+					<token postag="SENT_START"/>
+					<token postag="D.*" postag_regexp="yes"/>
+					<token postag="N .* p" postag_regexp="yes"/>
+					<token postag="V.*" postag_regexp="yes"><exception postag="V .* 3 p" postag_regexp="yes"/></token>
+				</pattern>
+				<message>Le verbe '\4' devrait être à la 3ème personne du pluriel</message>
+				<example type="correct">Les enfants <marker>jouent</marker> en bas.</example>
+				<example type="incorrect">Les gens <marker>était</marker> partis.</example>
+			</rule>
+		</rulegroup>
+	</category>
 </rules>
