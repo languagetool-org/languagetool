@@ -301,7 +301,7 @@ public class Match {
                 }
                 l.add(new AnalyzedToken(token, targetPosTag,
                     formattedToken.getAnalyzedToken(i).getLemma(),
-                    formattedToken.getAnalyzedToken(i).getStartPos()));                  
+                    formattedToken.getStartPos()));                  
               }
             }
           }
