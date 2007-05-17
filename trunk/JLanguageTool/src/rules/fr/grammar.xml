@@ -2,7 +2,7 @@
 <!--
 French Grammar and Typo Rules for LanguageTool
 Copyright (C) 2006 Marcin Miłkowski
-$Id: grammar.xml,v 1.4 2007-05-17 16:28:29 milek_pl Exp $
+$Id: grammar.xml,v 1.5 2007-05-17 16:42:05 milek_pl Exp $
 -->
 <rules lang="fr">
 
@@ -33,6 +33,29 @@ $Id: grammar.xml,v 1.4 2007-05-17 16:28:29 milek_pl Exp $
 			<example type="incorrect">Je voudrais <marker>ajouter en plus</marker> quelque chose de particulièrement important.</example>
 			<example type="incorrect">On <marker>ajoutera en plus</marker> dans notre liste une ou deux bonnettes.</example>	
 		</rule>
+		
+		  <rule id="MONTER_EN_HAUT" name="monter en haut">
+      <pattern>
+        <token inflected="yes">monter</token>
+        <token>en</token>
+		<token>haut</token>
+      </pattern>
+      <message>Pléonasme. Écrivez simplement <suggestion>\1</suggestion>.</message>
+      <example type="correct">Je vais <marker>monter</marker>.</example>
+      <example type="incorrect">Je vais <marker>monter en haut</marker>.</example>
+    </rule>
+
+    <rule id="DESCENDRE_EN_BAS" name="descendre en bas">
+      <pattern>
+        <token inflected="yes">descendre</token>
+        <token>en</token>
+		<token>bas</token>
+      </pattern>
+      <message>Pléonasme. Écrivez simplement <suggestion>\1</suggestion>.</message>
+      <example type="correct">Je vais <marker>descendre</marker>.</example>
+      <example type="incorrect">Je vais <marker>descendre en bas</marker>.</example>
+    </rule>
+		
 	</category>
 	
 	<!-- ported from Myriam's Gramadoir rules -->
@@ -450,4 +473,161 @@ $Id: grammar.xml,v 1.4 2007-05-17 16:28:29 milek_pl Exp $
 			</rule>
 		</rulegroup>
 	</category>
+	
+	<category name="Régionalismes">
+
+    <rule id="PARLURE" name="parlure">
+      <pattern>
+        <token regexp="yes">parlure|parlures</token>
+      </pattern>
+      <message>Parlure est un québécisme familier. Pour être compris de tous les francophones, employez plutôt le nom <suggestion>parler</suggestion>.</message>
+      <example type="incorrect">La <marker>parlure</marker> de Charlevoix a son charme.</example>
+      <example type="correct">Le <marker>parler</marker> de Charlevoix a son charme.</example>
+    </rule>
+
+    <rule id="MOUCHE_A_FEU" name="mouche à feu">
+      <pattern>
+        <token regexp="yes">mouche|mouches</token>
+        <token regexp="yes">à</token>
+        <token regexp="yes">feu</token>
+      </pattern>
+      <message>Mouche à feu un québécisme (mais pas un anglicisme comme on l'a souvent prétendu). Pour être compris de tous les francophones, employez plutôt <suggestion>luciole</suggestion>.</message>
+      <example type="incorrect">La <marker>mouche à feu</marker> brille dans la nuit.</example>
+      <example type="correct">La <marker>luciole</marker> brille dans la nuit.</example>
+    </rule>
+
+  </category>
+  
+  	<category name="Calques">
+
+   <rule id="ARCHE_DU_PIED" name="arche du pied">
+      <pattern>
+        <token inflected="yes">arche</token>
+        <token regexp="yes">du|des</token>
+        <token inflected="yes">pied</token>
+      </pattern>
+      <message>Arche du pied est un  calque (arch of the foot). Employez plutôt  <suggestion>cambrure du pied</suggestion>.</message>
+      <example type="correct">J'ai des douleurs au tendon et à <marker>la cambrure du pied</marker>.</example>
+      <example type="incorrect">J'ai des douleurs au tendon et à  l'<marker>arche du pied</marker>.</example>
+    </rule>
+
+    <rule id="BUDGET_DOPERATION" name="budget d'opération">
+      <pattern>
+        <token inflected="yes">budget</token>
+        <token>d</token>
+        <token>'</token>
+        <token>opération</token>
+      </pattern>
+      <message>Budget d'opération est un calque. Employez plutôt <suggestion>budget d'exploitation</suggestion> ou <suggestion>budget de fonctionnement</suggestion>.</message>
+      <example type="incorrect">Le <marker>budget d'opération</marker> n'est pas raisonnable.</example>
+      <example type="correct">Le <marker>budget d'exploitation</marker> n'est pas raisonnable est une technologie très appréciée.</example>
+    </rule>
+
+   <rule id="PASSE_DATE" name="passé date">
+      <pattern>
+        <token>passé</token>
+        <token regexp="yes">date</token>
+      </pattern>
+      <message>Passé date est calque (past due). Employez plutôt <suggestion>périmé</suggestion> ou <suggestion>expiré</suggestion>.</message>
+      <example type="incorrect">Ce produit est <marker>passé date</marker>.</example>
+      <example type="correct">Ce produit est <marker>périmé</marker>.</example>
+    </rule>
+
+   <rule id="PATE_A_DENTS" name="pâte à dents">
+      <pattern>
+        <token>pâte</token>
+        <token regexp="yes">à</token>
+        <token regexp="yes">dent|dents</token>
+      </pattern>
+      <message>Pâte à dents est un calque (toothpaste). Employez plutôt <suggestion>dentifrice</suggestion> ou <suggestion>pâte dentifrice</suggestion>.</message>
+      <example type="incorrect">J'aime bien cette <marker>pâte à dents</marker>.</example>
+      <example type="correct">J'aime bien ce <marker>dentifrice</marker>.</example>
+    </rule>
+
+   <rule id="MON_NOM_EST" name="mon nom est [nom]">
+      <pattern>
+        <token regexp="yes">mon|son|leur|leurs</token>
+        <token regexp="yes">nom|noms</token>
+        <token inflected="yes">être</token>
+      </pattern>
+      <message>Calque (my name is...). Pour présenter un nom, employez <suggestion>je m'appelle</suggestion>.</message>
+      <example type="incorrect"><marker>Mon nom est</marker> Victor.</example>
+      <example type="correct"><marker>Je m'appelle</marker> Victor.</example>
+    </rule>
+
+   <rule id="PRENDRE_FORCE" name="prendre force">
+      <pattern>
+        <token inflected="yes">prendre</token>
+        <token regexp="yes">force</token>
+      </pattern>
+      <message>Prendre force est un calque (to take force). En parlant d'une loi, employez plutôt <suggestion>entrer en vigueur</suggestion>.</message>
+      <example type="incorrect">La loi a <marker>pris force</marker>.</example>
+      <example type="correct">La loi<marker> est entrée en vigueur</marker>.</example>
+    </rule>
+
+   <rule id="ANNEE_FISCALE" name="année fiscale">
+      <pattern>
+        <token inflected="yes">année</token>
+        <token inflected="yes">fiscal</token>
+      </pattern>
+      <message>Année fiscale est un calque (fiscale year). Employez plutôt <suggestion>exercice financier</suggestion>.</message>
+      <example type="incorrect"><marker>Année fiscale</marker> est un calque.</example>
+      <example type="correct"><marker>Exercice financier</marker> n'est pas un calque.</example>
+    </rule>
+
+  </category>
+
+ 	<category name="Anglicismes">
+ 	
+ 	   <rule id="BOOKCROSSING" name="bookcrossing">
+      <pattern>
+        <token>bookcrossing</token>
+      </pattern>
+      <message>Bookcrossing est un anglicisme. La CGT propose <suggestion>passe-livres</suggestion> et l'OQLF propose <suggestion>bouquinomadisme</suggestion> pour le remplacer.</message>
+      <example type="incorrect">Le <marker>bookcrossing</marker> est un phénomène nouveau.</example>
+      <example type="correct">Le <marker>passe-livres</marker> est un phénomène nouveau.</example>
+    </rule>
+	
+   <rule id="HOME_CINEMA" name="home cinema">
+      <pattern>
+        <token regexp="yes">home</token>
+        <token regexp="yes">cinema|cinemas|cinémas|cinéma</token>
+      </pattern>
+      <message>Home cinema est un anglicisme. La CGT propose <suggestion>cinéma  à domicile</suggestion> et <suggestion>cinédom</suggestion> pour le remplacer et l'OQLF propose <suggestion>cinéma maison</suggestion>.</message>
+      <example type="incorrect">Le <marker>home cinema</marker> est un phénomène nouveau.</example>
+      <example type="correct">Le <marker>cinéma à domicile</marker> est un phénomène nouveau.</example>
+    </rule>	
+	
+   <rule id="EBOOK" name="ebook">
+      <pattern>
+        <token regexp="yes">ebook|e-books|ebook|ebooks</token>
+      </pattern>
+      <message>Ebook est un anglicisme. La CGT et l'OQLF proposent <suggestion>livre électronique</suggestion> pour le remplacer. L'OQLF propose également <suggestion>livrel</suggestion>.</message>
+      <example type="incorrect">Les <marker>ebooks</marker> sont difficiles à lire.</example>
+      <example type="correct">Les <marker>livres électroniques</marker> sont difficiles à lire.</example>
+    </rule>	
+	
+    <rulegroup id="PEER_TO_PEER" name="peer-to-peer">
+    <rule>
+      <pattern>
+       <token regexp="yes">peer-to-peer|P2P|p2p|P-to-P</token>
+      </pattern>
+      <message>P2P est un anglicisme. La CGT et l'OQLF propose de le remplacer par <suggestion>paire à paire</suggestion> ou <suggestion>poste à poste</suggestion>.</message>
+      <example type="correct">Le <marker>poste à poste</marker> est une technologie très appréciée.</example>
+      <example type="incorrect">Le <marker>peer-to-peer</marker> est une technologie très appréciée.</example>
+    </rule>	
+    <rule>
+      <pattern>
+       <token>peer</token>
+       <token>to</token>
+       <token>peer</token>
+      </pattern>
+      <message>P2P est un anglicisme. La CGT et l'OQLF propose de le remplacer par <suggestion>paire à paire</suggestion> ou <suggestion>poste à poste</suggestion>.</message>
+      <example type="correct">Le <marker>poste à poste</marker> est une technologie très appréciée.</example>
+      <example type="incorrect">Le <marker>peer to peer</marker> est une technologie très appréciée.</example>
+    </rule>	    
+    </rulegroup>
+	
+  </category>
+	
 </rules>
