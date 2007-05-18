@@ -5,7 +5,7 @@ title="Easy editing stylesheet" ?>
 <!--
 Polish Grammar and Typo Rules for LanguageTool
 Copyright (C) 2006 Marcin Miłkowski
-$Id: grammar.xml,v 1.50 2007-05-18 20:17:29 milek_pl Exp $
+$Id: grammar.xml,v 1.51 2007-05-18 21:36:16 milek_pl Exp $
 -->
 <rules lang="pl">
 
@@ -561,10 +561,11 @@ $Id: grammar.xml,v 1.50 2007-05-18 20:17:29 milek_pl Exp $
 			<rule>
 				<pattern>
 					<token negate="yes" regexp="yes">[\p{Punct}–—„«»]<exception postag_regexp="yes" postag="SENT_START|conj"/></token>
-					<token regexp="yes">acz|aczkolwiek|albowiem|ale|aleć|aliści|azali|bo|byleby|czyli|czyliż|dopóki|dopóty|gdyż|gdyżby|ilekolwiek|ilekroć|póki|którędy|wszelako</token>
+					<token regexp="yes">acz|aczkolwiek|albowiem|ale|aleć|aliści|azali|bo|byleby|czyli|czyliż|dopóki|dopóty|gdyż|gdyżby|ilekolwiek|ilekroć|lecz|póki|którędy|wszelako</token>
 				</pattern>
 				<message>Przed tym spójnikiem stawiamy przecinek: <suggestion>\1, \2</suggestion>.</message>
 				<example type="correct">Lubię cię, ale musisz mi oddać pieniądze.</example>
+				<example type="incorrect" correction="cię, lecz">Lubię <marker>cię lecz</marker> musisz mi oddać pieniądze.</example>
 				<example type="incorrect" correction="cię, ale">Lubię <marker>cię ale</marker> musisz mi oddać pieniądze.</example>
 			</rule>
 			<rule>
