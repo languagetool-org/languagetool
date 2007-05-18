@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="../print.xsl" 
-title="Pretty print" ?>
+<?xml-stylesheet type="text/xsl" href="../print.xsl" ?>
 <?xml-stylesheet type="text/css" href="../rules.css" 
 title="Easy editing stylesheet" ?>
 <!--
 English Grammar and Typo Rules for LanguageTool
 See tagset.txt for the meaning of the POS tags
 Copyright (C) 2001-2007 Daniel Naber (http://www.danielnaber.de)
-$Id: grammar.xml,v 1.17 2007-05-18 19:53:18 milek_pl Exp $
+$Id: grammar.xml,v 1.18 2007-05-18 22:56:39 milek_pl Exp $
 -->
 <rules lang="en">
 
@@ -2551,14 +2550,15 @@ $Id: grammar.xml,v 1.17 2007-05-18 19:53:18 milek_pl Exp $
     <example type="incorrect">You will buy some eggs <marker>also</marker>.</example>
   </rule>
 
-	<rule id="THE_EXACTLY_THE" name="'the exactly the'">
+	<rule id="THE_EXACTLY_THE" name="Duplicated 'the' surrounding an adverb">
 		<pattern>
 			<token>the</token>
-			<token>exactly</token>
+			<token postag="RB"/>
 			<token>the</token>
 		</pattern>
-	<message>Duplicated 'the' in the phrase: '\1 \2 \3'. Did you mean <suggestion>\2 \3</suggestion>?</message>
+	<message>Duplicated 'the' in the phrase: '\1 \2 \3'. Did you mean <suggestion>\2 \3</suggestion>?</message>	
 	<example type="correct">It is exactly the same thing.</example>
+	<example type="incorrect" correction="really the">That’s <marker>the really the</marker> point of these songs.</example>
 	<example type="incorrect" correction="exactly the">It is <marker>the exactly the</marker> same thing.</example>
 	</rule>
 	
@@ -2620,7 +2620,7 @@ $Id: grammar.xml,v 1.17 2007-05-18 19:53:18 milek_pl Exp $
   
   </rulegroup>
 
-  <rulegroup name="non-standard contractions '(I've a...)'" id="I_VE_A">
+  <rulegroup name="Non-standard contractions '(I've a...)'" id="I_VE_A">
   <rule>
     <pattern>
       <token/>
