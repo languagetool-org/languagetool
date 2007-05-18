@@ -95,6 +95,10 @@ before and vice versa:-->
 <!ATTLIST token negate_pos (yes|no) "no">
 <!-- Maximum number of tags to skip before the match is found: -->
 <!ATTLIST token skip CDATA #IMPLIED>
+<!-- Spaces are important for matching, leave them alone: -->
+<!ATTLIST token
+ xml:space (preserve) #FIXED 'preserve'>
+
 
 <!-- Exception element -->
 <!ELEMENT exception (#PCDATA)>
@@ -118,6 +122,9 @@ NOTE that 'previous' is not yet implemented in LT -->
 
 <!-- Message shown to the user if a rule matches: -->
 <!ELEMENT message (#PCDATA|suggestion|match)*>
+<!-- Spaces are important for creating suggestions, leave them alone: -->
+<!ATTLIST message
+ xml:space (preserve) #FIXED 'preserve'>
 
 <!-- The examples are used for the unit test cases. An 'incorrect'
 example is supposed to trigger an error message, in an 'correct'
@@ -131,6 +138,9 @@ to currently produce false alarms: -->
 <!-- used to check if the suggested correction is correct; multiple
 suggestions are joined with "|". -->
 <!ATTLIST example correction CDATA #IMPLIED>
+<!-- Spaces are important for testing suggestions, leave them alone: -->
+<!ATTLIST example
+ xml:space (preserve) #FIXED 'preserve'>
 
 <!-- Put this around the error, i.e. the part of the text that should be
 shown to the user as incorrect. This is used by the test cases to see
