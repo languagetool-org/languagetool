@@ -53,7 +53,7 @@
 			<xsl:when test="//rules[@lang='de']">Korrekt: </xsl:when>
 			<xsl:when test="//rules[@lang='fr']">Correctement : </xsl:when>
 			<xsl:when test="//rules[@lang='nl']">Correct: </xsl:when>
-			<xsl:when test="//rules[@lang='nl']">Correctamente: </xsl:when>
+			<xsl:when test="//rules[@lang='es']">Correctamente: </xsl:when>
 			</xsl:choose>
 				<strong style="color: #339900;">
 					<xsl:value-of select="@correction"/>
