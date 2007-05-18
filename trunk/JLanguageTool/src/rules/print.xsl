@@ -8,7 +8,7 @@
 		java -jar saxon8.jar grammar.xml print.xsl
 		
 	-->
-	<xsl:output method="html" encoding="windows-1250" indent="yes" />
+	<xsl:output method="html" encoding="UTF-8" indent="yes" />
 
 	<xsl:template match="text()" />
 
@@ -46,7 +46,14 @@
 	<xsl:template match="//rule/example[@type='incorrect']">
 		<li>
 			<xsl:apply-templates select="*|text()" /> <br/>
-			<xsl:if test="@correction !=''">Poprawnie:
+			<xsl:if test="@correction !=''">
+			<xsl:choose>
+			<xsl:when test="//rules[@lang='pl']">Poprawnie: </xsl:when>
+			<xsl:when test="//rules[@lang='en']">Correctly: </xsl:when>
+			<xsl:when test="//rules[@lang='de']">Korrekt: </xsl:when>
+			<xsl:when test="//rules[@lang='fr']">Correctement : </xsl:when>
+			<xsl:when test="//rules[@lang='nl']">Correct: </xsl:when>
+			</xsl:choose>
 				<strong style="color: #339900;">
 					<xsl:value-of select="@correction"/>
 				</strong>				
