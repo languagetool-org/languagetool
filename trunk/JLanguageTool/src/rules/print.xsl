@@ -12,7 +12,7 @@
 
 	<xsl:template match="text()" />
 
-	<xsl:template match="*">
+	<xsl:template match="*">	
 			<xsl:apply-templates select="*">
 				<xsl:sort select="@name"/>
 			</xsl:apply-templates>
@@ -79,5 +79,33 @@
 			<xsl:value-of select="./text()" />
 		</strong>
 	</xsl:template>
-
+	
+	<xsl:template match="//rules">	
+	<html>
+	<body>
+		<xsl:choose>
+		<xsl:when test="//rules[@lang='pl']">Liczba reguł: </xsl:when>
+		<xsl:when test="//rules[@lang='en']">Number of rules: </xsl:when>
+		<xsl:when test="//rules[@lang='de']">Regeln: </xsl:when>
+		<xsl:otherwise>Number of rules: </xsl:otherwise>
+		</xsl:choose>
+		<strong>
+			<xsl:value-of select="count(//rule)"/>
+		</strong>
+		<br/>
+		<xsl:choose>
+		<xsl:when test="//rules[@lang='pl']">W tym z podpowiedziami: </xsl:when>
+		<xsl:when test="//rules[@lang='en']">Rules with suggestions: </xsl:when>
+		<xsl:otherwise>Rules with suggestions: </xsl:otherwise>
+		</xsl:choose>
+		<strong>
+			<xsl:value-of select="count(//message[suggestion!=''])"/>
+		</strong>
+			<xsl:apply-templates select="*">
+				<xsl:sort select="@name"/>
+			</xsl:apply-templates>
+	</body>
+	</html>
+	</xsl:template>	
+	
 </xsl:stylesheet>
