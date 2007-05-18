@@ -12,21 +12,29 @@
 
 	<xsl:template match="text()" />
 
+	<xsl:template match="*">
+			<xsl:apply-templates select="*">
+				<xsl:sort select="@name"/>
+			</xsl:apply-templates>
+	</xsl:template>
+	
 	<xsl:template match="//category">
 		<p>
 			<xsl:element name="strong">
 				<xsl:value-of select="@name" />
 			</xsl:element>
 		</p>
-		<ol>
-			<xsl:apply-templates select="*" />
+		<ol>			
+			<xsl:apply-templates select="*">
+				<xsl:sort select="@name"/>
+			</xsl:apply-templates>
 		</ol>
 	</xsl:template>
 
 
 	<xsl:template match="//rule[@id!='']">
 		<li>
-			<xsl:value-of select="@name" />
+			<xsl:value-of select="@name" />			
 		</li>
 		<ul>
 			<xsl:apply-templates select="*" />
