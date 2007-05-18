@@ -1,0 +1,182 @@
+phrases, category, rule, rules, pattern {
+    display: block;
+    padding-bottom: 20;
+}
+
+category:before {
+	content: "Category: "
+	text-field(attribute, name,
+                        columns, 30);
+}
+
+phrase:before{
+	content: "Id: " 
+	text-field(attribute, id,
+		columns, 20);
+    font-size: smaller;		
+	display:inline;
+}					
+
+phraseref:before{
+	content: "Phrase ID: "
+	text-field(attribute, idref);
+    font-size: smaller;
+	display:inline;
+}					
+
+
+marker, suggestion {
+    display: inline;
+    font-weight: bold;
+}
+
+phraseref, exception, token {
+    display: block;
+    font-size: smaller;
+    padding: 1px; /* Needed to display the red border of the selection */
+}
+
+exception:before {
+	display: inline-block;
+	content: "Exception: "
+			check-box(label, "negated"
+				attribute, negate,
+				unchecked-value, "no", 
+                       checked-value, "yes")
+				check-box(label, "regexp", 
+					   attribute, regexp, 
+                       unchecked-value, "no", 
+                       checked-value, "yes")
+				check-box(label, "inflected", 
+					   attribute, inflected, 
+                       unchecked-value, "no", 
+                       checked-value, "yes")
+				check-box(label, "postag_regexp", 
+					   attribute, postag_regexp, 
+                       unchecked-value, "no", 
+                       checked-value, "yes")
+				text-field(attribute, postag,
+					columns, 15)				
+				check-box(label, "negated POS", 
+					attribute, negate_pos,
+					unchecked-value, "no", 
+                    checked-value, "yes")
+				radio-buttons(attribute, scope,
+					values, "current\A next",
+					checked-value, "current")						
+				;
+			background-color: rgb(195, 217, 255);			
+}
+
+token:before {
+	display: inline-block;
+	content: "Token: "
+				insert-before-button()
+				check-box(label, "negated"
+				attribute, negate,
+				unchecked-value, "no", 
+                       checked-value, "yes")
+				check-box(label, "regexp", 
+					   attribute, regexp, 
+                       unchecked-value, "no", 
+                       checked-value, "yes")
+				check-box(label, "inflected", 
+					   attribute, inflected, 
+                       unchecked-value, "no", 
+                       checked-value, "yes")
+				check-box(label, "postag_regexp", 
+					   attribute, postag_regexp, 
+                       unchecked-value, "no", 
+                       checked-value, "yes")
+				text-field(attribute, postag,
+					columns, 15)
+				check-box(label, "negated POS", 
+					attribute, negate_pos,
+					unchecked-value, "no", 
+                    checked-value, "yes")
+				"skip: "				
+				number-field(attribute, skip,
+				columns, 1)				
+				insert-after-button()
+				;
+}
+
+example:before {
+	content: insert-before-button()
+	"Example: ";
+	font-size:smaller;
+	display:block;
+}
+
+example {	
+	border: 1 solid gray;
+    padding: 2;
+}
+
+example:after {
+	content:
+		"Type: "
+		radio-buttons(attribute, type,
+		values, "correct\A incorrect\A triggers error",
+		checked-value, "incorrect"),
+		"Correction: "
+		text-field(attribute, correction, 
+				columns, 10
+				color, green),
+		insert-after-button();				
+	font-size: small;
+	display:block;
+		
+}
+ 
+rulegroup:before, 
+rulegroup.rule:before, 
+rule:before {
+	content: text-field(attribute, id
+			columns, 10,
+           missing-color, gray)
+	" "
+	text-field(attribute,name);
+	display: block;
+}					
+
+rulegroup:after {
+	padding: 10px;
+	}
+
+match:before {
+	content: label(attribute, no);
+	font-weight: bold;
+	display:inline;
+}
+
+match:after {
+	content: attributes-editor(2, argument-list(#C0E0E0, color, navy));
+}
+
+and:before {
+	content: "AND (";
+}
+
+and:after {
+	content: ")"
+	}
+
+message {
+	margin-bottom: 10px;
+	white-space: pre;
+}
+
+* {
+    content: value-editor();
+}
+
+* {
+    display: block;
+    collapsible: yes;
+    not-collapsible-head: 1;
+    border: 1 solid gray;
+    padding: 1;
+    margin: 8 4;
+}
+
