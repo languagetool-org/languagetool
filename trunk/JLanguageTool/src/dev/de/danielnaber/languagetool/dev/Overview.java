@@ -73,12 +73,20 @@ public final class Overview {
         int pos = 0;
         int count = 0;
         while (pos != -1) {
-          pos = xmlRules.indexOf("<rule", pos+1);
-          if (pos == -1)
-            break;
+          pos = xmlRules.indexOf("<rule ", pos + 1);          
+          if (pos == -1) 
+            break;          
           count++;
         }
-        System.out.print("<td align=\"right\">" + count + "</td>");
+        pos = 0;
+        int countInRulegroup = 0;
+        while (pos != -1) {
+          pos = xmlRules.indexOf("<rule>", pos + 1);          
+          if (pos == -1) 
+            break;          
+          countInRulegroup++;
+        }
+        System.out.print("<td align=\"right\">" + (count + countInRulegroup) + "</td>");
       }
       System.out.print("<td></td>");
       // count Java rules:
