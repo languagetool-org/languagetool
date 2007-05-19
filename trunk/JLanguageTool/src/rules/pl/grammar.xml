@@ -5,7 +5,7 @@ title="Easy editing stylesheet" ?>
 <!--
 Polish Grammar and Typo Rules for LanguageTool
 Copyright (C) 2006 Marcin Miłkowski
-$Id: grammar.xml,v 1.51 2007-05-18 21:36:16 milek_pl Exp $
+$Id: grammar.xml,v 1.52 2007-05-19 10:05:53 milek_pl Exp $
 -->
 <rules lang="pl">
 
@@ -5195,9 +5195,10 @@ $Id: grammar.xml,v 1.51 2007-05-18 21:36:16 milek_pl Exp $
 			<example type="incorrect" correction="spoza">Jest to osoba <marker>z poza</marker> Australii.</example>
 		</rule>
 
-		<rule id="SKROTY_BEZ_KROPKI" name="Pisownia skrótów dr, mgr, nr">
+		<rulegroup id="SKROTY_BEZ_KROPKI" name="Pisownia skrótów dr, mgr, nr">
+		<rule>
 			<pattern>
-				<token regexp="yes">dr|mgr|nr</token>
+				<token regexp="yes">dr|mgr|mjr</token>
 				<token>.</token>
 				<token postag_regexp="yes" postag=".*nom.*"/>
 			</pattern>
@@ -5206,6 +5207,29 @@ $Id: grammar.xml,v 1.51 2007-05-18 21:36:16 milek_pl Exp $
 			<example type="incorrect" correction="Mgr Kowalski"><marker>Mgr. Kowalski</marker> napisał dwa donosy.</example>
 			<example type="correct">To samodzielna praca mgr. Kowalskiego.</example>
 		</rule>
+		<rule>
+			<pattern mark_from='1'>
+				<token><exception postag_regexp="yes" postag="prep:gen|prep:dat|prep:inst|prep:acc\.loc|prep:gen\.dat|prep:acc\.loc|prep:gen\.acc\.inst|prep:acc\.inst|prep:loc"/></token>
+				<token>nr</token>
+				<token>.</token>
+				<token regexp="yes">\d+</token>
+			</pattern>
+			<message>Ten skrót piszemy bez kropki: <suggestion>\2 \4</suggestion>. </message>
+			<example type="correct">On mieszka pod nr. 2.</example>
+			<example type="correct">Oto samochód nr 2.</example>			
+			<example type="incorrect" correction="nr 2">Oto samochód <marker>nr. 2</marker>.</example>			
+		</rule>
+		<rule>
+			<pattern>
+				<token regexp="yes">dag|ha|cm|m|zł|gr|kg|mln|mld|min|npl|pkt|pg|tg|cos|cosec|sec|sin|rkm|wg</token>
+				<token>.<exception postag="SENT_END"/></token>
+			</pattern>
+			<message>Ten skrót piszemy bez kropki: <suggestion>\1</suggestion>. </message>
+			<example type="correct">Brakuje nam 3 mln złotych.</example>			
+			<example type="correct">Wczoraj wygrałem 10 mld.</example>
+			<example type="incorrect" correction="mln">Brakuje nam 3 <marker>mln.</marker> złotych.</example>			
+		</rule>		
+		</rulegroup>
 
 		<rulegroup id="SKROTY_Z_KROPKA" name="Pisownia skrótów np., inż.">
 		<rule>
