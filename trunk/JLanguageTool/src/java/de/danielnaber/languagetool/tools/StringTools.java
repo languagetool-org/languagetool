@@ -46,10 +46,12 @@ public final class StringTools {
    * Throw exception if the given string is null or empty or only whitespace.
    */
   public static void assureSet(final String s, final String varName) {
-    if (s == null)
+    if (s == null) {
       throw new NullPointerException(varName + " cannot be null");
-    if (s.trim().equals(""))
+    }
+    if (s.trim().equals("")) {
       throw new IllegalArgumentException(varName + " cannot be empty or whitespace only");
+    }
   }
   
   /**
@@ -70,12 +72,13 @@ public final class StringTools {
   public static String readFile(final InputStream file, final String encoding) throws IOException {
     InputStreamReader isr = null;
     BufferedReader br = null;
-    StringBuilder sb = new StringBuilder();
+    final StringBuilder sb = new StringBuilder();
     try {
-      if (encoding != null)
+      if (encoding != null) {
         isr = new InputStreamReader(file, encoding);
-      else
+      } else {
         isr = new InputStreamReader(file);
+      }
       br = new BufferedReader(isr);
       String line;
       while ((line = br.readLine()) != null) {
@@ -83,8 +86,12 @@ public final class StringTools {
         sb.append("\n");
       }
     } finally {
-      if (br != null) br.close();
-      if (isr != null) isr.close();
+      if (br != null) {
+        br.close();
+      }
+      if (isr != null) {
+        isr.close();
+      }
     }
     return sb.toString();
   }
@@ -93,7 +100,7 @@ public final class StringTools {
    * Returns true if <code>str</code> is made up of all-uppercase characters
    * (ignoring characters for which no upper-/lowercase distinction exists).
    */
-  public static boolean isAllUppercase(String str) {
+  public static boolean isAllUppercase(final String str) {
     if (str.toUpperCase().equals(str)) {
       return true;
     }
@@ -104,11 +111,13 @@ public final class StringTools {
    * Whether the first character of <code>str</code> is an uppercase character.
    */
   public static boolean startsWithUppercase(final String str) {
-    if (str.length() == 0)
+    if (str.length() == 0) {
       return false;
-    char firstChar = str.charAt(0);
-    if (Character.isUpperCase(firstChar))
+    }
+    final char firstChar = str.charAt(0);
+    if (Character.isUpperCase(firstChar)) {
       return true;
+    }
     return false;
   }
 
@@ -117,19 +126,21 @@ public final class StringTools {
    * uppercase character.
    */
   public static String uppercaseFirstChar(final String str) {
-    if (str.length() == 0)
+    if (str.length() == 0) {
       return str;
-    char firstChar = str.charAt(0);
-    if (str.length() == 1)
+    }
+    final char firstChar = str.charAt(0);
+    if (str.length() == 1) {
       return str.toUpperCase();
-    else
+    } else {
       return Character.toUpperCase(firstChar) + str.substring(1);
+    }
   }
   
-  public static String readerToString(Reader reader) throws IOException {
-    StringBuilder sb = new StringBuilder();
+  public static String readerToString(final Reader reader) throws IOException {
+    final StringBuilder sb = new StringBuilder();
     int readbytes = 0;
-    char[] chars = new char[4000];
+    final char[] chars = new char[4000];
     while (readbytes >= 0) {
       readbytes = reader.read(chars, 0, 4000);
       if (readbytes <= 0) {
@@ -140,8 +151,8 @@ public final class StringTools {
     return sb.toString();
   }
 
-  public static String streamToString(InputStream is) throws IOException {
-    InputStreamReader isr = new InputStreamReader(is);
+  public static String streamToString(final InputStream is) throws IOException {
+    final InputStreamReader isr = new InputStreamReader(is);
     try {
       return readerToString(isr);
     } finally {
@@ -162,10 +173,10 @@ public final class StringTools {
   public static String escapeHTML(final String s) {
     //this version is much faster
     //than using s.replaceAll        
-    StringBuilder sb = new StringBuilder();
-    int n = s.length();
+    final StringBuilder sb = new StringBuilder();
+    final int n = s.length();
     for (int i = 0; i < n; i++) {
-       char c = s.charAt(i);
+       final char c = s.charAt(i);
        switch (c) {
          case '<': sb.append("&lt;"); break;
          case '>': sb.append("&gt;"); break;
@@ -189,11 +200,11 @@ public final class StringTools {
     //
     // IMPORTANT: people rely on this format, don't change it!
     //
-    StringBuilder xml = new StringBuilder();
+    final StringBuilder xml = new StringBuilder();
     xml.append("<?xml version=\"1.0\" encoding=\"" +System.getProperty("file.encoding")+ "\"?>\n");
     xml.append("<matches>\n");
     int i = 1;
-    for (RuleMatch match : ruleMatches) {
+    for (final RuleMatch match : ruleMatches) {
       xml.append("<error" +
           " fromy=\"" + match.getLine() + "\"" + 
           " fromx=\"" + match.getColumn() + "\"" +
@@ -201,7 +212,7 @@ public final class StringTools {
           " tox=\"" + match.getEndColumn() + "\"" +
           " ruleId=\"" +match.getRule().getId()+ "\"" 
           );
-      String msg = match.getMessage().replaceAll("</?suggestion>", "'");
+      final String msg = match.getMessage().replaceAll("</?suggestion>", "'");
       xml.append(" msg=\"" + escapeXMLForAPIOutput(msg)+ "\"");
       final String START_MARKER = "__languagetoo_start_marker";
       String context = Tools.getContext(match.getFromPos(), match.getToPos(),
@@ -209,7 +220,7 @@ public final class StringTools {
       xml.append(" replacements=\"" + 
           escapeXMLForAPIOutput(listToString(match.getSuggestedReplacements(), "#")) + "\"");
       // get position of error in context and remove artificial marker again:
-      int contextOffset = context.indexOf(START_MARKER);
+      final int contextOffset = context.indexOf(START_MARKER);
       context = context.replaceFirst(START_MARKER, "");
       xml.append(" context=\"" +escapeXMLForAPIOutput(context)+ "\"");
       xml.append(" contextoffset=\"" +contextOffset+ "\"");
@@ -228,22 +239,23 @@ public final class StringTools {
     return s;
   }
   
-  public static String listToString(List l, String delimiter) {
-    StringBuilder sb = new StringBuilder();
-    for (Iterator iter = l.iterator(); iter.hasNext();) {
-      String str = (String) iter.next();
+  public static String listToString(final List l, final String delimiter) {
+    final StringBuilder sb = new StringBuilder();
+    for (final Iterator iter = l.iterator(); iter.hasNext();) {
+      final String str = (String) iter.next();
       sb.append(str);
-      if (iter.hasNext())
+      if (iter.hasNext()) {
         sb.append(delimiter);
+      }
     }
     return sb.toString();
   }
 
-  public static String getContext(int fromPos, int toPos, String fileContents) {
+  public static String getContext(final int fromPos, final int toPos, final String fileContents) {
     return getContext(fromPos, toPos, fileContents, DEFAULT_CONTEXT_SIZE);
   }
   
-  public static String getContext(int fromPos, int toPos, String fileContents, int contextSize) {
+  public static String getContext(final int fromPos, final int toPos, String fileContents, final int contextSize) {
     fileContents = fileContents.replace('\n', ' ');
     // calculate context region:
     int startContent = fromPos - contextSize;
@@ -261,15 +273,16 @@ public final class StringTools {
       endContent = fileContents.length();
     }
     // make "^" marker. inefficient but robust implementation:
-    StringBuilder marker = new StringBuilder();
+    final StringBuilder marker = new StringBuilder();
     for (int i = 0; i < fileContents.length() + prefix.length(); i++) {
-      if (i >= fromPos && i < toPos)
+      if (i >= fromPos && i < toPos) {
         marker.append("^");
-      else
+      } else {
         marker.append(" ");
+      }
     }
     // now build context string plus marker:
-    StringBuilder sb = new StringBuilder();
+    final StringBuilder sb = new StringBuilder();
     sb.append(prefix);
     sb.append(fileContents.substring(startContent, endContent));
     sb.append(postfix);
@@ -278,4 +291,22 @@ public final class StringTools {
     return sb.toString();
   }
 
+  /**
+   * Filters any whitespace characters. Useful for
+   * trimming the contents of token elements that
+   * cannot possibly contain any spaces.
+   * @param str String to be filtered.
+   * @return Filtered string.
+   */
+  public static String trimWhitespace(final String str) {
+    final StringBuilder filter = new StringBuilder();
+    for (int i = 0; i < str.length(); i++) {
+      final char c = str.charAt(i);
+      if (c != '\n' && c != ' ' && c != '\t') {
+        filter.append(c);
+      }
+    }
+    return filter.toString();
+  }  
+  
 }

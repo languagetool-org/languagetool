@@ -33,6 +33,7 @@ import org.xml.sax.helpers.DefaultHandler;
 
 import de.danielnaber.languagetool.Language;
 import de.danielnaber.languagetool.rules.Category;
+import de.danielnaber.languagetool.tools.StringTools;
 
 /**
  * Loads {@link PatternRule}s from an XML file.
@@ -371,13 +372,13 @@ class PatternRuleHandler extends XMLRuleHandler {
     } else if (qName.equals("exception")) {
       inException = false;
       if (!exceptionSet) {
-        tokenElement = new Element(elements.toString(), 
+        tokenElement = new Element(StringTools.trimWhitespace(elements.toString()), 
             caseSensitive, stringRegExp, tokenInflected);
         exceptionSet = true;
       }
       tokenElement.setNegation(tokenNegated);
       if (!exceptions.toString().equals("")) {
-        tokenElement.setStringException(exceptions.toString(), exceptionStringRegExp, 
+        tokenElement.setStringException(StringTools.trimWhitespace(exceptions.toString()), exceptionStringRegExp, 
             exceptionStringInflected, exceptionStringNegation, exceptionValidNext);
       }              
       if (exceptionPosToken != null) {
@@ -390,11 +391,11 @@ class PatternRuleHandler extends XMLRuleHandler {
       andGroupCounter = 0;
     } else if (qName.equals("token")) {
       if (!exceptionSet || tokenElement == null) {
-        tokenElement = new Element(elements.toString(), caseSensitive, 
+        tokenElement = new Element(StringTools.trimWhitespace(elements.toString()), caseSensitive, 
             stringRegExp, tokenInflected);
         tokenElement.setNegation(tokenNegated);
       } else {
-        tokenElement.setStringElement(elements.toString());
+        tokenElement.setStringElement(StringTools.trimWhitespace(elements.toString()));
       }
       if (skipPos != 0) {
         tokenElement.setSkipNext(skipPos);
