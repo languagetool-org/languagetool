@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE rules SYSTEM "../rules.dtd">
 <?xml-stylesheet type="text/xsl" href="../print.xsl" 
 title="Pretty print" ?>
@@ -7,45 +7,40 @@ title="Easy editing stylesheet" ?>
 <!--
 Spanish Grammar and Typo Rules for LanguageTool
 Copyright (C) 2006 Marcin Miłkowski
-$Id: grammar.xml,v 1.4 2007-05-19 17:32:01 milek_pl Exp $
+$Id: grammar.xml,v 1.5 2007-05-19 19:59:15 milek_pl Exp $
 -->
 <rules lang="es">
-
   <category name="misc">
-
     <!-- from Spanish Wikipedia -->
     <rule id="DE_GRATIS" name="«de gratis» (gratis)">
-      <pattern mark_from="0" case_sensitive="no">
+      <pattern case_sensitive="no" mark_from="0">
         <token>de</token>
         <token>gratis</token>
       </pattern>
-      <message>
-        La forma correcta es decir <suggestion>gratis</suggestion>.</message>
+      <message>La forma correcta es decir <suggestion>gratis</suggestion>.</message>
       <example type="correct">El agua es gratis.</example>
-      <example type="incorrect">El agua es <marker>de gratis</marker>.</example>
+      <example correction="gratis" type="incorrect">El agua es <marker>de gratis</marker>.</example>
     </rule>
-
   </category>
-
-	<category name="Palabras de difícil ortografía">
-		<rule id="AH_INF" name="ah (a)">
-			<pattern case_sensitive="no">
-				<token>ah</token>				
-				<token postag="VMN0000"/>
-			</pattern>
-			<message>Esta palabra se escribe sin h: <suggestion>a \2</suggestion>.</message>
-			<example type="incorrect" correction="a hablar">Voy <marker>ah hablar</marker> con ella.</example>
-			<example type="correct">Voy <marker>a hablar</marker> con ella.</example>
-		</rule>
-		<rule id="VOY_HA_INF" name="ir ha + infinitivo (a)">
-			<pattern>
-				<token inflected="yes">ir</token>
-				<token>ha</token>
-				<token postag="VMN0000"/>
-			</pattern>
-			<message>Esta palabra se escribe sin h: <suggestion>\1 a \3</suggestion>.</message>
-			<example type="incorrect" correction="Voy a hablar"><marker>Voy ha hablar</marker> con ella.</example>
-			<example type="correct"><marker>Voy a hablar</marker> con ella.</example>
-		</rule>
-	</category>
+  <category name="Palabras de difícil ortografía">
+    <rule id="AH_INF" name="ah (a)">
+      <pattern case_sensitive="no">
+        <token>ah</token>
+        <token postag="VMN0000"/>
+      </pattern>
+      <message>Esta palabra se escribe sin h: <suggestion>a \2</suggestion>.</message>
+      <example correction="a hablar" type="incorrect">Voy <marker>ah hablar</marker> con ella.</example>
+      <example type="correct">Voy <marker>a hablar</marker> con ella.</example>
+    </rule>
+    <rule id="VOY_HA_INF" name="ir ha + infinitivo (a)">
+      <pattern>
+        <token inflected="yes">ir</token>
+        <token>ha</token>
+        <token postag="VMN0000"/>
+      </pattern>
+      <message>Esta palabra se escribe sin h: <suggestion>\1 a \3</suggestion>.</message>
+      <example correction="Voy a hablar" type="incorrect"><marker>Voy ha hablar</marker> con ella.</example>
+      <example type="correct"><marker>Voy a hablar</marker> con ella.</example>
+    </rule>
+  </category>
 </rules>
