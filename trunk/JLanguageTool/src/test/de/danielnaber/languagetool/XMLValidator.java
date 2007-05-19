@@ -87,6 +87,8 @@ public final class XMLValidator {
     SAXParserFactory factory = SAXParserFactory.newInstance();
     factory.setValidating(true);
     SAXParser saxParser = factory.newSAXParser();
+    //used for removing existing DOCTYPE from grammar.xml files
+    xml = xml.replaceAll("<!DOCTYPE.+>", "");
     final String decl = "<?xml version=\"1.0\"";
     final String endDecl = "?>";
     final String dtd = "<!DOCTYPE "+doctype+" PUBLIC \"-//W3C//DTD Rules 0.1//EN\" \"" +this.getClass().getResource(dtdFile)+ "\">";
