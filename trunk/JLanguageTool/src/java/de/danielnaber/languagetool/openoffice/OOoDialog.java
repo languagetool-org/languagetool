@@ -33,7 +33,6 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.IOException;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.Set;
@@ -364,8 +363,7 @@ public class OOoDialog implements ActionListener {
         // get the text to show in our dialog:
         int j = 0;
         String contentForDisplay = null;
-        for (Iterator iter = textToCheck.paragraphs.iterator(); iter.hasNext();) {
-          String para = (String) iter.next();
+        for (final String para : textToCheck.paragraphs) {          
           if (paragraphNumber == j) {
             contentForDisplay = para;
             break;
