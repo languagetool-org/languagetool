@@ -360,7 +360,7 @@ public final class JLanguageTool {
         for (int i = 0; i < thisMatches.length; i++) {
           // change positions so they are relative to the complete text,
           // not just to the sentence:
-          RuleMatch thisMatch = new RuleMatch(thisMatches[i].getRule(),
+          final RuleMatch thisMatch = new RuleMatch(thisMatches[i].getRule(),
               thisMatches[i].getFromPos() + tokenCount,
               thisMatches[i].getToPos() + tokenCount,
               thisMatches[i].getMessage());
@@ -491,7 +491,7 @@ public final class JLanguageTool {
         break;
      }
     }
-    AnalyzedToken sentenceEnd = 
+    final AnalyzedToken sentenceEnd = 
       new AnalyzedToken(tokenArray[lastToken].getToken(), 
           SENTENCE_END_TAGNAME,
           tokenArray[lastToken].getAnalyzedToken(0).getLemma(),
@@ -501,7 +501,7 @@ public final class JLanguageTool {
     if (tokenArray.length == 2) {
     if (tokenArray[0].isSentStart() 
         && tokenArray[1].getToken().equals("\n")) {
-      AnalyzedToken paragraphEnd =
+      final AnalyzedToken paragraphEnd =
       new AnalyzedToken(tokenArray[lastToken].getToken(),
           PARAGRAPH_END_TAGNAME,
           tokenArray[lastToken].getAnalyzedToken(0).getLemma(),
