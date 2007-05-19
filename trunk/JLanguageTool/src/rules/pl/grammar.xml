@@ -5,7 +5,7 @@ title="Easy editing stylesheet" ?>
 <!--
 Polish Grammar and Typo Rules for LanguageTool
 Copyright (C) 2006 Marcin Miłkowski
-$Id: grammar.xml,v 1.52 2007-05-19 10:05:53 milek_pl Exp $
+$Id: grammar.xml,v 1.53 2007-05-19 12:30:57 milek_pl Exp $
 -->
 <rules lang="pl">
 
@@ -5198,7 +5198,7 @@ $Id: grammar.xml,v 1.52 2007-05-19 10:05:53 milek_pl Exp $
 		<rulegroup id="SKROTY_BEZ_KROPKI" name="Pisownia skrótów dr, mgr, nr">
 		<rule>
 			<pattern>
-				<token regexp="yes">dr|mgr|mjr</token>
+				<token regexp="yes">dr|mgr|mjr|bp|płk</token>
 				<token>.</token>
 				<token postag_regexp="yes" postag=".*nom.*"/>
 			</pattern>
@@ -5207,6 +5207,19 @@ $Id: grammar.xml,v 1.52 2007-05-19 10:05:53 milek_pl Exp $
 			<example type="incorrect" correction="Mgr Kowalski"><marker>Mgr. Kowalski</marker> napisał dwa donosy.</example>
 			<example type="correct">To samodzielna praca mgr. Kowalskiego.</example>
 		</rule>
+		<rule>
+			<pattern mark_to="-3">
+				<token regexp="yes">dr</token>
+				<token>.</token>
+				<token regexp="yes">hab|wet|med</token>
+				<token>.</token>
+				<token postag_regexp="yes" postag=".*nom.*"/>
+			</pattern>
+			<message>Ten skrót piszemy bez kropki: <suggestion>\1</suggestion>. </message>
+			<example type="correct">Dr hab. Kowalski napisał dwa donosy.</example>
+			<example type="incorrect" correction="Dr"><marker>Dr.</marker> hab. Kowalski napisał dwa donosy.</example>
+			<example type="correct">To samodzielna praca dr. hab. Kowalskiego.</example>
+		</rule>		
 		<rule>
 			<pattern mark_from='1'>
 				<token><exception postag_regexp="yes" postag="prep:gen|prep:dat|prep:inst|prep:acc\.loc|prep:gen\.dat|prep:acc\.loc|prep:gen\.acc\.inst|prep:acc\.inst|prep:loc"/></token>
@@ -5221,7 +5234,7 @@ $Id: grammar.xml,v 1.52 2007-05-19 10:05:53 milek_pl Exp $
 		</rule>
 		<rule>
 			<pattern>
-				<token regexp="yes">dag|ha|cm|m|zł|gr|kg|mln|mld|min|npl|pkt|pg|tg|cos|cosec|sec|sin|rkm|wg</token>
+				<token regexp="yes">dl|ml|dag|ha|cm|dm|m|zł|gr|kg|mln|mld|min|npl|pkt|pg|tg|cos|cosec|sec|sin|rkm|wg</token>
 				<token>.<exception postag="SENT_END"/></token>
 			</pattern>
 			<message>Ten skrót piszemy bez kropki: <suggestion>\1</suggestion>. </message>

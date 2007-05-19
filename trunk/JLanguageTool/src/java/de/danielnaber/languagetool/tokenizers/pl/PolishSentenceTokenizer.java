@@ -70,7 +70,7 @@ public class PolishSentenceTokenizer extends SentenceTokenizer {
         "up|tow|o|zn|zew|zewn|zdr|zazw|zast|zaw|zał|zal|zam|zak|zakł|zagr|zach|"+
         "adw|lek|mec|doc|dyr|inż|mgr|dr|red|prof|hab|ks|gen|por|przyp"+
         // needed for SKROTY_BEZ_KROPKI rule
-        "dag|ha|cm|m|zł|gr|kg|mln|mld|min|npl|pkt|pg|tg|cos|cosec|sec|sin|rkm|wg";
+        "dl|ml|dag|ha|cm|dm|m|zł|gr|kg|mln|mld|min|npl|pkt|pg|tg|cos|cosec|sec|sin|rkm|wg";
   
   /** Abbreviations which can occur at the end of sentence. **/
   private static final String ENDABBREVLIST 
