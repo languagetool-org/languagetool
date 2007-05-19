@@ -24,6 +24,14 @@ phraseref:before{
 	display:inline;
 }					
 
+pattern:before {
+	content: "mark_from"
+	number-field(attribute, mark_from,
+	data-type, int, columns, 2)
+	"mark_to"
+	number-field(attribute, mark_to, 
+	data-type, int, columns, 2);
+	}
 
 marker, suggestion {
     display: inline;
@@ -130,8 +138,7 @@ example:after {
 }
  
 rulegroup:before, 
-rulegroup.rule:before, 
-rule:before {
+category.rule:before {
 	content: text-field(attribute, id
 			columns, 10,
            missing-color, gray)
@@ -139,6 +146,10 @@ rule:before {
 	text-field(attribute,name);
 	display: block;
 }					
+
+rulegroup.rule:before {
+	display:block
+	}
 
 rulegroup:after {
 	padding: 10px;
