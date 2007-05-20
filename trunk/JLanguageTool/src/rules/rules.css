@@ -1,12 +1,15 @@
-phrases, category, rule, rules, pattern {
+phrases, category, rulegroup, rulegroup.rule, rules, pattern,
+category > rule {
     display: block;
     padding-bottom: 20;
+    collapsible: yes;
 }
 
 category:before {
 	content: "Category: "
 	text-field(attribute, name,
-                        columns, 30);
+                        columns, 30)
+	collapser() " ";
 }
 
 phrase:before{
@@ -21,7 +24,7 @@ phraseref:before{
 	content: "Phrase ID: "
 	text-field(attribute, idref);
     font-size: smaller;
-	display:inline;
+	display:inline-block;
 }					
 
 pattern:before {
@@ -30,8 +33,13 @@ pattern:before {
 	data-type, int, columns, 2)
 	"mark_to"
 	number-field(attribute, mark_to, 
-	data-type, int, columns, 2);
-	}
+	data-type, int, columns, 2)
+	" case sensitive: "
+	radio-buttons(attribute, case_sensitive,
+		values, "yes\A no\A",
+		checked-value, "no"),
+	collapser() " ";
+}
 
 marker, suggestion {
     display: inline;
@@ -118,7 +126,9 @@ example:before {
 
 example {	
 	border: 1 solid gray;
-    padding: 2;
+	collapsible:yes;
+	padding: 2;
+    display: block;
 }
 
 example:after {
@@ -133,22 +143,23 @@ example:after {
 				color, green),
 		insert-after-button();				
 	font-size: small;
-	display:block;
-		
+	collapsible:yes;
+	display:block;		
 }
  
 rulegroup:before, 
-category.rule:before {
+category > rule:before {
 	content: text-field(attribute, id
-			columns, 10,
-           missing-color, gray)
-	" "
-	text-field(attribute,name);
+				columns, 10,
+           		missing-color, gray)
+     		" "
+			text-field(attribute,name,
+			columns, 40);
 	display: block;
 }					
 
 rulegroup.rule:before {
-	display:block
+	display:block;
 	}
 
 rulegroup:after {
@@ -158,11 +169,11 @@ rulegroup:after {
 match:before {
 	content: label(attribute, no);
 	font-weight: bold;
-	display:inline;
+	display:inline-block;
 }
 
 match:after {
-	content: attributes-editor(2, argument-list(#C0E0E0, color, navy));
+	content: attributes-editor(2, argument-list(#C0E0E0, color, navy));	
 }
 
 and:before {
@@ -176,6 +187,7 @@ and:after {
 message {
 	margin-bottom: 10px;
 	white-space: pre;
+	collapsible:yes;
 }
 
 * {
