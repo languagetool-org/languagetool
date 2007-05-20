@@ -6,7 +6,7 @@ title="Easy editing stylesheet" ?>
 <!--
 Polish Grammar and Typo Rules for LanguageTool
 Copyright (C) 2006-2007 Marcin Miłkowski
-$Id: grammar.xml,v 1.56 2007-05-20 15:44:19 milek_pl Exp $
+$Id: grammar.xml,v 1.57 2007-05-20 18:45:12 milek_pl Exp $
 -->
 <rules lang="pl">
   <phrases>
@@ -1059,7 +1059,7 @@ $Id: grammar.xml,v 1.56 2007-05-20 15:44:19 milek_pl Exp $
     <rulegroup id="PRZECINEK_A" name="Zbędny przecinek przed „a”">
       <rule>
         <pattern mark_from="1" mark_to="-1">
-          <token skip="-1">między<exception scope="next">a</exception></token>
+          <token skip="-1" regexp="yes">pomiędzy|między<exception scope="next">a</exception></token>
           <token>,</token>
           <token>a</token>
           <token><exception inflected="yes" regexp="yes">nie|więc|mianowicie|przeto|zatem|jednak|choć|chociaż|ponieważ|także|następnie|jeśli|jeżeli|gdyby|gdy|kiedy</exception></token>
@@ -4571,7 +4571,7 @@ $Id: grammar.xml,v 1.56 2007-05-20 15:44:19 milek_pl Exp $
       <pattern>
         <token>z</token>
         <token>po</token>
-        <token>między</token>
+        <token regexp="yes">mi[eę]dzy</token>
       </pattern>
       <message>Ten wyraz piszemy łącznie, tj. <suggestion>spomiędzy</suggestion>.</message>
       <example type="correct">Wstrętny ryj wychynął spomiędzy sztachet.</example>
@@ -4648,7 +4648,7 @@ $Id: grammar.xml,v 1.56 2007-05-20 15:44:19 milek_pl Exp $
     <rule id="W_MIEDZY_CZASIE" name="„w między czasie” (w międzyczasie)">
       <pattern mark_from="1">
         <token>w</token>
-        <token>między</token>
+        <token regexp="yes">mi[eę]dzy</token>
         <token>czasie</token>
       </pattern>
       <message>W tym wyrażeniu drugi wyraz zapisujemy łącznie: <suggestion>międzyczasie</suggestion>.</message>
@@ -4997,8 +4997,9 @@ $Id: grammar.xml,v 1.56 2007-05-20 15:44:19 milek_pl Exp $
     </rule>
     <rule id="PO_MIEDZY" name="„po między” (pomiędzy)">
       <pattern case_sensitive="yes">
+      	<token><exception regexp="yes">[zZ]</exception></token>
         <token regexp="yes">[Pp]o</token>
-        <token>między</token>
+        <token regexp="yes">mi[eę]dzy</token>
       </pattern>
       <message>Wyraz <suggestion>pomiędzy</suggestion> piszemy łącznie.</message>
       <example correction="pomiędzy" type="incorrect">Znaleźliśmy się <marker>po między</marker> młotem a kowadłem.</example>
@@ -6026,7 +6027,7 @@ $Id: grammar.xml,v 1.56 2007-05-20 15:44:19 milek_pl Exp $
     </rule>
     <rule id="BOGIEM_A_PRAWDA" name="„między Bogiem a prawdą” (Bogiem a prawdą)">
       <pattern>
-        <token>między</token>
+        <token regexp="yes">(po)?między</token>
         <token>Bogiem</token>
         <token>a</token>
         <token>prawdą</token>
