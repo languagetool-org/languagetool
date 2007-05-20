@@ -362,11 +362,8 @@
   	<copy todir="${dist.dir}/openoffice/images">
 	  	<fileset dir="openoffice/images" excludes="CVS" />
 	</copy>
-  	<copy todir="${dist.dir}/libs">
-	  	<fileset dir="libs" excludes="CVS,**/build/**" />
-	</copy>
   	<copy todir="${dist.dir}/src">
-	  	<fileset dir="src" excludes="CVS" />
+	  	<fileset dir="src" excludes="CVS,resource/**,rules/**,scripts/**" />
 	</copy>
   	<zip compress="yes" destfile="${dist.dir}/LanguageTool-${version}-src.zip"
   		basedir="${dist.dir}"
