@@ -2,8 +2,8 @@
 
 <project name="LanguageTool" default="dist" basedir=".">
 
-  <property name="version" value="0.9-dev"/>
-  <property name="date" value="2007-xx-yy"/>
+  <property name="version" value="0.9"/>
+  <property name="date" value="2007-05-20"/>
 	
   <property name="javadoctitle" value="LanguageTool API ${version}"/>
   
@@ -70,6 +70,7 @@
     <mkdir dir="${dist.dir}/linux"/>
     <mkdir dir="${dist.dir}/windows"/>
     <mkdir dir="${dist.dir}/sunos"/>
+    <mkdir dir="${dist.dir}/mac"/>
   </target>
 
   <!-- ================================================================== -->
@@ -369,7 +370,7 @@
 	</copy>
   	<zip compress="yes" destfile="${dist.dir}/LanguageTool-${version}-src.zip"
   		basedir="${dist.dir}"
-  		includes="**" excludes="turn.sh,deploy.sh,undeploy.sh,jdic.jar,linux/**,windows/**,sunos/**" />
+  		includes="**" excludes="turn.sh,deploy.sh,undeploy.sh,jdic.jar,linux/**,windows/**,sunos/**,mac/**" />
   </target>
 
   <!-- ================================================================== -->
@@ -380,14 +381,14 @@
   	<zip compress="yes" destfile="${dist.dir}/LanguageTool-${version}.zip"
   		basedir="${dist.dir}"
   		includes="**"
-  		excludes="deploy.sh,undeploy.sh,turn.sh,jdic.jar,linux/**,windows/**,sunos/**" />
+  		excludes="deploy.sh,undeploy.sh,turn.sh,jdic.jar,linux/**,windows/**,sunos/**,mac/**" />
   </target>
 
   <target name="fast" depends="ooo-internal" description="like dist, but without ZIP compression (for development only)">
   	<zip compress="no" destfile="${dist.dir}/LanguageTool-${version}.zip"
   		basedir="${dist.dir}"
   		includes="**" 
-  		excludes="deploy.sh,undeploy.sh,turn.sh,jdic.jar,linux/**,windows/**,sunos/**" />
+  		excludes="deploy.sh,undeploy.sh,turn.sh,jdic.jar,linux/**,windows/**,sunos/**,mac/**" />
   </target>
 
   <target name="ooo-internal" depends="clean,init,build,ooo-build">
@@ -454,6 +455,7 @@
   	<copy file="${resource.dir}/pl/polish_tags.txt" todir="${dist.dir}/resource/pl" />
   	<copy file="${resource.dir}/nl/dutch.dict" todir="${dist.dir}/resource/nl" />
   	<copy file="${resource.dir}/uk/ukrainian.dict" todir="${dist.dir}/resource/uk" />
+  	<copy file="${resource.dir}/xx/dummy.dict" tofile="${dist.dir}/resource/cs/czech.dict" />
   </target>
 
   <target name="dict-de" description="Build the German tagger dictionary from Morphy data">

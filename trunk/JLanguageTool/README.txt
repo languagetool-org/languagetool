@@ -41,6 +41,8 @@ Known bugs:
     about text which is actually correct
    
 TODO:
+ -improve error message if http server cannot be started (e.g., on port 80)
+ -RMB menu for system tray
  -add a layer to use the simple XML so the LanguageTool GUIs can use An Gramadoir?
  -load (language-specific) abbreviations from an external file
  -OpenOffice.org: make the dialog modal
