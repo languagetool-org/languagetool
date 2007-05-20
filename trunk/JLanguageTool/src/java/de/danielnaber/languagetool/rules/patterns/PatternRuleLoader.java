@@ -52,7 +52,7 @@ public class PatternRuleLoader extends DefaultHandler {
       final PatternRuleHandler handler = new PatternRuleHandler();
       final SAXParserFactory factory = SAXParserFactory.newInstance();
       final SAXParser saxParser = factory.newSAXParser();
-      saxParser.getXMLReader().setFeature("http://xml.org/sax/features/validation", true);      
+      saxParser.getXMLReader().setFeature("http://xml.org/sax/features/validation", false);      
       saxParser.parse(is, handler);
       rules = handler.getRules();
       return rules;
