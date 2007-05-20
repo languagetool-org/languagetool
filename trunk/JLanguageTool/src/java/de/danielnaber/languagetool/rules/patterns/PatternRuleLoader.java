@@ -51,8 +51,9 @@ public class PatternRuleLoader extends DefaultHandler {
     try {
       final PatternRuleHandler handler = new PatternRuleHandler();
       final SAXParserFactory factory = SAXParserFactory.newInstance();
-      final SAXParser saxParser = factory.newSAXParser();
-      saxParser.getXMLReader().setFeature("http://xml.org/sax/features/validation", false);      
+      final SAXParser saxParser = factory.newSAXParser();      
+      saxParser.getXMLReader().setFeature("http://apache.org/xml/features/nonvalidating/load-external-dtd",
+          false);      
       saxParser.parse(is, handler);
       rules = handler.getRules();
       return rules;
