@@ -36,6 +36,7 @@ Known bugs:
    -Checking of selected text sometimes throws java.lang.reflect.UndeclaredThrowableException
     at $Proxy17.gotoRange(Unknown Source)
    -usability: pressing Esc too long will close both dialogs, should close only one
+   -false friend rules do not display in the configuration dialog in OOo
  -general:
    -for some rules there may be a lot of false alarms, i.e., LanguageTool complains
     about text which is actually correct
