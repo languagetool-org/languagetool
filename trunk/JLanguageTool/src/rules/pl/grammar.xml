@@ -6,7 +6,7 @@ title="Easy editing stylesheet" ?>
 <!--
 Polish Grammar and Typo Rules for LanguageTool
 Copyright (C) 2006-2007 Marcin Miłkowski
-$Id: grammar.xml,v 1.55 2007-05-19 21:48:53 milek_pl Exp $
+$Id: grammar.xml,v 1.56 2007-05-20 15:44:19 milek_pl Exp $
 -->
 <rules lang="pl">
   <phrases>
@@ -4423,17 +4423,28 @@ $Id: grammar.xml,v 1.55 2007-05-19 21:48:53 milek_pl Exp $
       <example type="correct">Ad 1.</example>
       <example correction="Ad" type="incorrect"><marker>Ad.</marker> 1.</example>
     </rule>
-    <rule id="LICZEBNIKI" name="Liczebniki porządkowe z końcówkami przypadków">
-      <pattern>
-        <token regexp="yes">^([0-9]+-)([mt]*y|[w]*si|[w]*szy|[w]*sze|[w]*szym[i]*|[w]*si|tym|tymi|ci|a|ce|ch|cia|cie|ciej|cim|cio|cioletnią|ciu|ego|ej|ga|gi|gie|gim|go|im|ki|krotnie|któregoś|leci.*|ma|me|miu|mo|o|ro|stoletniego|stu|sza|[tm]*a|[mt]*e|[tm]*ego|[mt]*ej|tka|tki|to|[mt]*[i]*oletni.*|[mt]*u|[mt]*ą|[mt]*ych|[mt]*e)</token>
-      </pattern>
-      <message>Liczebniki porządkowe zapisujemy nie z końcówkami przypadków, tylko z kropką: 
+    <rulegroup id="LICZEBNIKI" name="Liczebniki porządkowe z końcówkami przypadków">
+      <rule>
+        <pattern>
+          <token regexp="yes">^(\d+)-([mt]*y|[w]*si|[w]*szy|[w]*sze|[w]*szym[i]*|[w]*si|tym|tymi|ci|a|ce|ch|cia|cie|ciej|cim|cio|cioletnią|ciu|ego|ej|ga|gi|gie|gim|go|im|ki|krotnie|któregoś|leci.*|ma|me|miu|mo|o|ro|stoletniego|stu|sza|[tm]*a|[mt]*e|[tm]*ego|[mt]*ej|tka|tki|to|[mt]*[i]*oletni.*|[mt]*u|[mt]*ą|[mt]*ych|[mt]*e)</token>
+        </pattern>
+        <message>Liczebniki porządkowe zapisujemy nie z końcówkami przypadków, tylko z kropką: 
 				<suggestion><match no="1" regexp_match="(\d+)-(.*)" regexp_replace="$1"/>.</suggestion>.</message>
-      <example type="correct">Ten system jest 32-bitowy.</example>
-      <example correction="5." type="incorrect">To już <marker>5-ty</marker> raz!</example>
-      <example correction="1." type="incorrect">To już <marker>1-wszy</marker> raz!</example>
-      <example correction="1." type="incorrect">Rosjanie byli <marker>1-wsi</marker> w kosmosie.</example>
-    </rule>
+        <example type="correct">Ten system jest 32-bitowy.</example>
+        <example correction="5." type="incorrect">To już <marker>5-ty</marker> raz!</example>
+        <example correction="1." type="incorrect">To już <marker>1-wszy</marker> raz!</example>
+        <example correction="1." type="incorrect">Rosjanie byli <marker>1-wsi</marker> w kosmosie.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">M*(D?C{0,3}|C[DM])(L?X{0,3}|X[LC])(V?I{0,3}|I[VX])-([mt]*y|[w]*si|[w]*szy|[w]*sze|[w]*szym[i]*|[w]*si|tym|tymi|ci|a|ce|ch|cia|cie|ciej|cim|cio|cioletnią|ciu|ego|ej|ga|gi|gie|gim|go|im|ki|krotnie|któregoś|leci.*|ma|me|miu|mo|o|ro|stoletniego|stu|sza|[tm]*a|[mt]*e|[tm]*ego|[mt]*ej|tka|tki|to|[mt]*[i]*oletni.*|[mt]*u|[mt]*ą|[mt]*ych|[mt]*e)</token>
+        </pattern>
+        <message>Liczebniki porządkowe pisane liczbami rzymskimi zapisujemy bez żadnych końcówek przypadków. Poprawnie:
+ <suggestion><match no="1" regexp_match="(M*(D?C{0,3}|C[DM])(L?X{0,3}|X[LC])(V?I{0,3}|I[VX]))-.*" regexp_replace="$1"/></suggestion></message>
+        <example correction="XIX" type="incorrect">To poglądy rodem z <marker>XIX-go</marker> wieku.</example>
+        <example type="correct">To poglądy rodem z XIX wieku.</example>
+      </rule>
+    </rulegroup>
     <rule id="TYMCZASEM" name="„tym czasem” (tymczasem)">
       <pattern mark_from="1">
         <token negate="yes" negate_pos="yes" postag="verb.*" postag_regexp="yes" regexp="yes">z|przed|poza|za|nad</token>
