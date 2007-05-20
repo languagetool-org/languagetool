@@ -8,7 +8,7 @@ title="Easy editing stylesheet" ?>
 German grammar and typo rules for LanguageTool
 See resource/de/tagset.txt for the meaning of the POS tags
 Copyright (C) 2001-2007 Daniel Naber (http://www.danielnaber.de)
-$Id: grammar.xml,v 1.7 2007-05-20 09:54:03 milek_pl Exp $
+$Id: grammar.xml,v 1.8 2007-05-20 10:42:50 milek_pl Exp $
 -->
 <rules lang="de">
   <category name="Mögliche Tippfehler">
@@ -724,6 +724,15 @@ $Id: grammar.xml,v 1.7 2007-05-20 09:54:03 milek_pl Exp $
       <message>Meinten Sie <suggestion>Folge</suggestion>?</message>
       <example type="correct">Das hatte ein Anhalten des Zuges zur <marker>Folge</marker>.</example>
       <example type="incorrect">Das hatte ein Anhalten des Zuges zur <marker>folge</marker>.</example>
+    </rule>
+    <rule id="IN_RUHE" name="Groß-/Kleinschreibung: 'in ruhe(Ruhe)'">
+      <pattern case_sensitive="yes" mark_from="1">
+        <token>in</token>
+        <token>ruhe</token>
+      </pattern>
+      <message>Meinten Sie <suggestion>Ruhe</suggestion>?</message>
+      <example correction="Ruhe" type="incorrect">Lass mich in <marker>ruhe</marker>.</example>
+      <example type="correct">Rabbit in Ruhe</example>
     </rule>
   </category>
   <category name="Grammatik">
