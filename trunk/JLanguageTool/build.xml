@@ -531,13 +531,24 @@
 		<copy file="${dist.dir}/windows/jdic_stub.jar" todir="${dist.dir}/web/windows" />
 		<signjar jar="${dist.dir}/web/windows/jdic_stub.jar"
 			  	lazy="true" keystore="./keystore.ks" keypass="blabla" 
-			  	storepass="blabla" alias="myalias"/>
-	  <jar compress="yes" basedir="${dist.dir}/windows/x86" 
+			  	storepass="blabla" alias="myalias"/>	 
+		<jar compress="yes" basedir="${dist.dir}/windows/x86" 
 	  	destfile="${dist.dir}/web/windows/jdic-native.jar"
 	  	includes="**" />
 		<signjar jar="${dist.dir}/web/windows/jdic-native.jar"
 			  	lazy="true" keystore="./keystore.ks" keypass="blabla" 
-			  	storepass="blabla" alias="myalias"/>		
+			  	storepass="blabla" alias="myalias"/>
+		
+		<copy file="${dist.dir}/mac/jdic_stub.jar" todir="${dist.dir}/web/mac" />
+				<signjar jar="${dist.dir}/web/mac/jdic_stub.jar"
+					  	lazy="true" keystore="./keystore.ks" keypass="blabla" 
+					  	storepass="blabla" alias="myalias"/>	 
+				<jar compress="yes" basedir="${dist.dir}/mac/ppc" 
+			  	destfile="${dist.dir}/web/mac/jdic-native.jar"
+			  	includes="**" />
+				<signjar jar="${dist.dir}/web/mac/jdic-native.jar"
+					  	lazy="true" keystore="./keystore.ks" keypass="blabla" 
+					  	storepass="blabla" alias="myalias"/>
   </target>
 	
 </project>
