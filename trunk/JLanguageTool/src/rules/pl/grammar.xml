@@ -6,7 +6,7 @@ title="Easy editing stylesheet" ?>
 <!--
 Polish Grammar and Typo Rules for LanguageTool
 Copyright (C) 2006-2007 Marcin Miłkowski
-$Id: grammar.xml,v 1.58 2007-05-21 17:29:42 milek_pl Exp $
+$Id: grammar.xml,v 1.59 2007-05-21 21:40:00 milek_pl Exp $
 -->
 <rules lang="pl">
   <phrases>
@@ -489,14 +489,35 @@ $Id: grammar.xml,v 1.58 2007-05-21 17:29:42 milek_pl Exp $
       </rule>
       <rule>
         <pattern>
-          <token postag="SENT_START" postag_regexp="yes"/>
           <token inflected="yes" regexp="yes" skip="-1">by|żeby|aby|ażeby|iżby</token>
-          <token postag="verb:inf.*" postag_regexp="yes" skip="-1"><exception regexp="yes" scope="current">może|lecz|jedna|lub</exception><exception inflected="yes" regexp="yes" scope="next">[\p{Punct}—–„«»](?&lt;!\.)|bądź|czy|ani|lub|albo|oraz|i|kiedy|gdy|który|jaki|że|iż|bo|gdyż|a|jeśli|jeżeli|gdyby|aby|żeby|ażeby|zanim|dopóki</exception><exception postag="&lt;ELLIPSIS&gt;" scope="next"/></token>
-          <token postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf|pant:perf" postag_regexp="yes"><exception postag="subst:.*|adj.*|ppron.*|verb:inf.*|verb:bedzie.*|adv:.*|prep.*|qub|indecl|conj" postag_regexp="yes" scope="current"/><exception regexp="yes" scope="current">może|jedna</exception></token>
+          <token postag="verb:inf.*" postag_regexp="yes" skip="-1"><exception regexp="yes" scope="current">może|lecz|jedna|lub</exception><exception inflected="yes" negate="no" regexp="yes" scope="next">[\p{Punct}—–„«»](?&lt;!\.)|bądź|czy|ani|lub|albo|oraz|i|kiedy|gdy|który|jaki|że|iż|bo|gdyż|a|jeśli|jeżeli|gdyby|aby|żeby|ażeby|zanim|dopóki</exception><exception postag="&lt;ELLIPSIS&gt;" scope="next"/></token>
+          <token postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf|pant:perf|pred" postag_regexp="yes" regexp="no"><exception negate="no" postag="subst:.*|adj.*|ppron.*|verb:inf.*|verb:bedzie.*|adv:.*|prep.*|qub|indecl|conj" postag_regexp="yes" scope="current"/><exception regexp="yes" scope="current">może|jedna</exception></token>
         </pattern>
         <message>W tym fragmencie zdania prawdopodobnie brakuje przecinka.</message>
         <example type="correct">Aby spryskać się Przemysławką, Przemysław wstąpił do domu.</example>
         <example type="incorrect"><marker>Aby spryskać się Przemysławką Przemysław wstąpił</marker> do domu.</example>
+      </rule>
+    </rulegroup>
+    <rulegroup id="BRAK_PRZECINKA_ZAMIAST" name="Brak przecinka przed „zamiast”">
+      <rule>
+        <pattern case_sensitive="no" mark_to="-1">
+          <phraseref idref="NIE_INTERPUNKCJA"/>
+          <token skip="4">zamiast<exception inflected="yes" postag="&lt;ELLIPSIS&gt;" scope="next"/><exception postag="" postag_regexp="no" regexp="yes" scope="next">[\p{Punct}—–„«»](?&lt;!\.)|bądź|czy|ani|lub|albo|oraz|i|kiedy|gdy|który|jaki|że|iż|bo|gdyż|a|jeśli|jeżeli|gdyby|aby|żeby|ażeby|zanim|dopóki</exception></token>
+          <token postag="verb:inf.*" postag_regexp="yes"/>
+        </pattern>
+        <message>Prawdopodobnie brak przecinka. Powinno być: <suggestion>\1, \2</suggestion>.</message>
+        <example type="correct">Po co tu stoi i moknie, zamiast szukać schronienia pod dachem.</example>
+        <example correction="moknie, zamiast" type="incorrect">Po co tu stoi i <marker>moknie zamiast</marker> szukać schronienia pod dachem.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token skip="4">zamiast<exception inflected="yes" postag="&lt;ELLIPSIS&gt;" scope="next"/><exception postag="" postag_regexp="no" regexp="yes" scope="next">[\p{Punct}—–„«»](?&lt;!\.)|bądź|czy|ani|lub|albo|oraz|i|kiedy|gdy|który|jaki|że|iż|bo|gdyż|a|jeśli|jeżeli|gdyby|aby|żeby|ażeby|zanim|dopóki</exception></token>
+          <token postag="verb:inf.*" postag_regexp="yes" skip="-1"><exception regexp="yes" scope="current">może|lecz|jedna|lub</exception><exception inflected="yes" regexp="yes" scope="next">[\p{Punct}—–„«»](?&lt;!\.)|bądź|czy|ani|lub|albo|oraz|i|kiedy|gdy|który|jaki|że|iż|bo|gdyż|a|jeśli|jeżeli|gdyby|aby|żeby|ażeby|zanim|dopóki</exception><exception postag="&lt;ELLIPSIS&gt;" scope="next"/></token>
+          <token postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf|pant:perf|pred" postag_regexp="yes"><exception postag="subst:.*|adj.*|ppron.*|verb:inf.*|verb:bedzie.*|adv:.*|prep.*|qub|indecl|conj" postag_regexp="yes" scope="current"/><exception regexp="yes" scope="current">może|jedna</exception></token>
+        </pattern>
+        <message>Prawdopodobnie brak przecinka w tym fragmencie zdania.</message>
+        <example type="correct">Zamiast wytrwać przy nauce do końca, niespełna w rok rzucił szkołę.</example>
+        <example type="incorrect"><marker>Zamiast wytrwać przy nauce do końca niespełna w rok rzucił</marker> szkołę.</example>
       </rule>
     </rulegroup>
     <rulegroup id="BRAK_PRZECINKA_GDY" name="Brak przecinka przed „gdy” i „kiedy”">
@@ -1059,7 +1080,7 @@ $Id: grammar.xml,v 1.58 2007-05-21 17:29:42 milek_pl Exp $
     <rulegroup id="PRZECINEK_A" name="Zbędny przecinek przed „a”">
       <rule>
         <pattern mark_from="1" mark_to="-1">
-          <token skip="-1" regexp="yes">pomiędzy|między<exception scope="next">a</exception></token>
+          <token regexp="yes" skip="-1">pomiędzy|między<exception scope="next">a</exception></token>
           <token>,</token>
           <token>a</token>
           <token><exception inflected="yes" regexp="yes">nie|więc|mianowicie|przeto|zatem|jednak|choć|chociaż|ponieważ|także|następnie|jeśli|jeżeli|gdyby|gdy|kiedy</exception></token>
@@ -1273,27 +1294,40 @@ $Id: grammar.xml,v 1.58 2007-05-21 17:29:42 milek_pl Exp $
       <example type="correct">To dziecko zachowuje się grzecznie.</example>
       <example correction="To" type="incorrect"><marker>Te</marker> dziecko zachowuje się grzecznie.</example>
     </rule>
-    <rule id="PIERWSZY_STYCZEN_1993" name="Błędna odmiana miesiąca w datach, np. 1 styczeń 2010 (1 stycznia)">
-      <pattern mark_from="1" mark_to="-1">
-        <token regexp="yes">\d+</token>
-        <token regexp="yes">styczeń|luty|marzec|kwiecień|maj|czerwiec|lipiec|sierpień|wrzesień|październik|listopad|grudzień</token>
-        <token regexp="yes">\d+</token>
-      </pattern>
-      <message>Nazwy miesięcy w datach podajemy w dopełniaczu: <suggestion><match no="2" postag="subst:sg:(acc\.)?gen[\.:]m[0-9]?.*" postag_regexp="yes"/></suggestion>.</message>
-      <example type="correct">1 stycznia 1999</example>
-      <example correction="stycznia" type="incorrect">1 <marker>styczeń</marker> 2000</example>
-      <example correction="lutego" type="incorrect">26 <marker>luty</marker> 1939.</example>
-      <example correction="marca" type="incorrect">12 <marker>marzec</marker> 1944</example>
-      <example correction="kwietnia" type="incorrect">Wojna wybuchła 1 <marker>kwiecień</marker> 1939.</example>
-      <example correction="maja" type="incorrect">13 <marker>maj</marker> 1939.</example>
-      <example correction="czerwca" type="incorrect">1 <marker>czerwiec</marker> 1939.</example>
-      <example correction="lipca" type="incorrect">12 <marker>lipiec</marker> 1939.</example>
-      <example correction="sierpnia" type="incorrect">1 <marker>sierpień</marker> 1939.</example>
-      <example correction="września" type="incorrect">Wojna wybuchła 1 <marker>wrzesień</marker> 1939.</example>
-      <example correction="października" type="incorrect">1 <marker>październik</marker> 1939.</example>
-      <example correction="listopada" type="incorrect">1 <marker>listopad</marker> 1939.</example>
-      <example correction="grudnia" type="incorrect">13 <marker>grudzień</marker> 1939.</example>
-    </rule>
+    <rulegroup id="PIERWSZY_STYCZEN_1993" name="Błędna odmiana miesiąca w datach, np. 1 styczeń 2010 (1 stycznia)">
+      <rule>
+        <pattern mark_from="1" mark_to="-1">
+          <token regexp="yes">\d{1,2}</token>
+          <token regexp="yes">styczeń|luty|marzec|kwiecień|maj|czerwiec|lipiec|sierpień|wrzesień|październik|listopad|grudzień</token>
+          <token regexp="yes">\d+</token>
+        </pattern>
+        <message>Nazwy miesięcy w datach podajemy w dopełniaczu: <suggestion><match no="2" postag="subst:sg:(acc\.)?gen[\.:]m[0-9]?.*" postag_regexp="yes"/></suggestion>.</message>
+        <example type="correct">1 stycznia 1999</example>
+        <example correction="stycznia" type="incorrect">1 <marker>styczeń</marker> 2000</example>
+        <example correction="lutego" type="incorrect">26 <marker>luty</marker> 1939.</example>
+        <example correction="marca" type="incorrect">12 <marker>marzec</marker> 1944</example>
+        <example correction="kwietnia" type="incorrect">Wojna wybuchła 1 <marker>kwiecień</marker> 1939.</example>
+        <example correction="maja" type="incorrect">13 <marker>maj</marker> 1939.</example>
+        <example correction="czerwca" type="incorrect">1 <marker>czerwiec</marker> 1939.</example>
+        <example correction="lipca" type="incorrect">12 <marker>lipiec</marker> 1939.</example>
+        <example correction="sierpnia" type="incorrect">1 <marker>sierpień</marker> 1939.</example>
+        <example correction="września" type="incorrect">Wojna wybuchła 1 <marker>wrzesień</marker> 1939.</example>
+        <example correction="października" type="incorrect">1 <marker>październik</marker> 1939.</example>
+        <example correction="listopada" type="incorrect">1 <marker>listopad</marker> 1939.</example>
+        <example correction="grudnia" type="incorrect">13 <marker>grudzień</marker> 1939.</example>
+      </rule>
+      <rule>
+        <pattern mark_to="-1">
+          <token regexp="yes">\d{1,2}</token>
+          <token>.</token>
+          <token regexp="yes">styczeń|luty|marzec|kwiecień|maj|czerwiec|lipiec|sierpień|wrzesień|październik|listopad|grudzień</token>
+          <token regexp="yes">\d+</token>
+        </pattern>
+        <message>Nazwy miesięcy w datach podajemy w dopełniaczu, a dni bez kropki: <suggestion><match no="1"/> <match no="3" postag="subst:sg:(acc\.)?gen[\.:]m[0-9]?.*" postag_regexp="yes"/></suggestion>.</message>
+        <example type="correct">1 stycznia 1999</example>
+        <example correction="1 stycznia" type="incorrect"><marker>1. styczeń</marker> 2000</example>
+      </rule>
+    </rulegroup>
     <rulegroup id="BRUNO_HUGO" name="Brak odmiany imienia „Bruno”, „Hugo”, „Pablo”">
       <rule>
         <pattern mark_to="-1">
@@ -2168,6 +2202,14 @@ $Id: grammar.xml,v 1.58 2007-05-21 17:29:42 milek_pl Exp $
     </rule>
   </category>
   <category name="Błędy leksykalne">
+    <rule id="SPRAWOZDAWAC" name="„sprawozdawać” (zdawać sprawę)">
+      <pattern>
+        <token inflected="yes">sprawozdawać</token>
+      </pattern>
+      <message>Ten czasownik jest uważany przez językoznawców za niepoprawny. Lepiej: <suggestion><match no="1" postag="verb.*">zdawać</match> sprawę</suggestion>.</message>
+      <example correction="zdawał sprawę" type="incorrect">Rzecznik konsumentów <marker>sprawozdawał</marker>.</example>
+      <example type="correct">Rzecznik konsumentów zdawał sprawę.</example>
+    </rule>
     <rule id="FORMULA_KREMU" name="„formuła kremu” (skład)">
       <pattern>
         <token inflected="yes">formuła</token>
@@ -4004,6 +4046,15 @@ $Id: grammar.xml,v 1.58 2007-05-21 17:29:42 milek_pl Exp $
     </rule>
   </category>
   <category name="Wyrazy modne i nadużywane">
+    <rule id="WZGLEDNIE_LUB" name="„względnie” (lub)">
+      <pattern mark_to="-1">
+        <token>względnie</token>
+        <token><exception postag="adj.*|adv.*" postag_regexp="yes"/></token>
+      </pattern>
+      <message>Ten wyraz należy do żargonu urzędniczego. Lepiej: <suggestion>ewentualnie</suggestion>, <suggestion>albo</suggestion>, <suggestion>bądź</suggestion>.</message>
+      <example correction="ewentualnie|albo|bądź" type="incorrect">Klucze przekazujemy osobom wynajmującym <marker>względnie</marker> administratorom domów.</example>
+      <example type="correct">Liczby względnie pierwsze</example>
+    </rule>
     <rule id="PRZEKONYWUJACY" name="„przekonywujący” (przekonujący, przekonywający)">
       <pattern>
         <token regexp="yes">przekonywując.*</token>
@@ -4445,6 +4496,16 @@ $Id: grammar.xml,v 1.58 2007-05-21 17:29:42 milek_pl Exp $
         <example type="correct">To poglądy rodem z XIX wieku.</example>
       </rule>
     </rulegroup>
+    <rule id="DATA_KROPKA_PO_DNIU" name="Zbędne kropki liczebniku w dacie">
+      <pattern mark_to="-1">
+        <token regexp="yes">\d{1,2}</token>
+        <token>.</token>
+        <token regexp="yes">stycznia|lutego|marca|kwietnia|maja|czerwca|lipca|sierpnia|września|października|listopada|grudnia</token>
+      </pattern>
+      <message>W datach o takim formacie liczebniki zapisujemy bez kropki: <suggestion>\1</suggestion>.</message>
+      <example type="correct">1 stycznia 1999</example>
+      <example correction="1" type="incorrect"><marker>1.</marker> stycznia 2000</example>
+    </rule>
     <rule id="TYMCZASEM" name="„tym czasem” (tymczasem)">
       <pattern mark_from="1">
         <token negate="yes" negate_pos="yes" postag="verb.*" postag_regexp="yes" regexp="yes">z|przed|poza|za|nad</token>
@@ -4996,8 +5057,8 @@ $Id: grammar.xml,v 1.58 2007-05-21 17:29:42 milek_pl Exp $
       <example type="correct">Pomimo początkowych problemów, wylądował bowiem w wodach Kanału La Manche</example>
     </rule>
     <rule id="PO_MIEDZY" name="„po między” (pomiędzy)">
-      <pattern mark_from="1" case_sensitive="yes">
-      	<token><exception regexp="yes">[zZ]</exception></token>
+      <pattern case_sensitive="yes" mark_from="1">
+        <token><exception regexp="yes">[zZ]</exception></token>
         <token regexp="yes">[Pp]o</token>
         <token regexp="yes">mi[eę]dzy</token>
       </pattern>
@@ -5386,6 +5447,26 @@ $Id: grammar.xml,v 1.58 2007-05-21 17:29:42 milek_pl Exp $
     </rule>
   </category>
   <category name="Prawdopodobne literówki">
+    <rulegroup id="ZDROWA_ZDROWIA" name="„zdrowa” (zdrowia)">
+      <rule>
+        <pattern mark_from="1">
+          <token inflected="yes" regexp="yes">minister|ochrona|służba|stan|dla|ośrodek|sprawa|resort|ministerstwo</token>
+          <token>zdrowa</token>
+        </pattern>
+        <message>Prawdopodobna literówka. Czy chodziło o <suggestion>zdrowia</suggestion>?</message>
+        <example type="correct">Ministerstwo Zdrowia podwyższy płace pielęgniarkom za 50 lat.</example>
+        <example correction="Zdrowia" type="incorrect">Ministerstwo <marker>Zdrowa</marker> podwyższy płace pielęgniarkom za 50 lat.</example>
+      </rule>
+      <rule>
+        <pattern mark_to="-1">
+          <token regexp="no">zdrowa</token>
+          <token postag="adj:sg:acc\.gen:m.*" postag_regexp="yes"/>
+        </pattern>
+        <message>Prawdopodobna literówka. Czy chodziło o <suggestion>zdrowia</suggestion>?</message>
+        <example type="correct">Poradnia zdrowia psychicznego</example>
+        <example correction="zdrowia" type="incorrect">Poradnia <marker>zdrowa</marker> psychicznego</example>
+      </rule>
+    </rulegroup>
     <rulegroup id="TUZ_PRED" name="„tuz” (tuż)">
       <rule>
         <pattern case_sensitive="yes" mark_to="-2">
