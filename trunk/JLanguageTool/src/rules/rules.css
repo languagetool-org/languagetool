@@ -36,8 +36,10 @@ pattern:before {
 	data-type, int, columns, 2)
 	" case sensitive: "
 	radio-buttons(attribute, case_sensitive,
-		values, "yes\A no\A",
-		checked-value, "no"),
+		values, "yes\A no",
+		checked-value, "no", 
+		remove-value, "yes")
+	insert-button()				
 	collapser() " ";
 }
 
@@ -57,26 +59,26 @@ exception:before {
 	content: "Exception: "
 			check-box(label, "negated"
 				attribute, negate,
-				unchecked-value, "no", 
-                       checked-value, "yes")
+                checked-value, "yes",
+                remove-value, "yes")
 				check-box(label, "regexp", 
 					   attribute, regexp, 
-                       unchecked-value, "no", 
-                       checked-value, "yes")
+                       checked-value, "yes",
+                       remove-value, "yes")
 				check-box(label, "inflected", 
 					   attribute, inflected, 
-                       unchecked-value, "no", 
-                       checked-value, "yes")
+                       checked-value, "yes",
+                       remove-value, "yes")
 				check-box(label, "postag_regexp", 
 					   attribute, postag_regexp, 
-                       unchecked-value, "no", 
-                       checked-value, "yes")
+                       checked-value, "yes",
+                       remove-value, "yes")
 				text-field(attribute, postag,
 					columns, 15)				
 				check-box(label, "negated POS", 
 					attribute, negate_pos,
-					unchecked-value, "no", 
-                    checked-value, "yes")
+                    checked-value, "yes",
+                    remove-value, "yes")
 				radio-buttons(attribute, scope,
 					values, "current\A next",
 					checked-value, "current")						
@@ -90,30 +92,32 @@ token:before {
 				insert-before-button()
 				check-box(label, "negated"
 				attribute, negate,
-				unchecked-value, "no", 
-                       checked-value, "yes")
+                       checked-value, "yes",
+                       remove-value, "yes")
 				check-box(label, "regexp", 
 					   attribute, regexp, 
-                       unchecked-value, "no", 
-                       checked-value, "yes")
+                       checked-value, "yes",
+                       remove-value, "yes")
 				check-box(label, "inflected", 
 					   attribute, inflected, 
-                       unchecked-value, "no", 
-                       checked-value, "yes")
+                       checked-value, "yes",
+                       remove-value, "yes")
 				check-box(label, "postag_regexp", 
 					   attribute, postag_regexp, 
-                       unchecked-value, "no", 
-                       checked-value, "yes")
+                       checked-value, "yes",
+                       remove-value, "yes")
 				text-field(attribute, postag,
 					columns, 15)
 				check-box(label, "negated POS", 
 					attribute, negate_pos,
-					unchecked-value, "no", 
-                    checked-value, "yes")
+                    checked-value, "yes",
+                       remove-value, "yes")
 				"skip: "				
 				number-field(attribute, skip,
-				data-type, int, columns, 1)				
+				data-type, int, columns, 1,
+				remove-value, "yes")				
 				insert-after-button()
+				insert-button()
 				;
 }
 
