@@ -245,6 +245,24 @@ public final class Main implements ActionListener {
       popupMenu.add(new JMenuItem("Quit"));
       trayIcon.setPopupMenu(popupMenu);*/
       tray.addTrayIcon(trayIcon);
+      // Java 1.6 only: the right button menu works here under KDE
+      // but still looks strange:
+      /*
+      java.awt.SystemTray sTray = java.awt.SystemTray.getSystemTray();
+      Image img = Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("/resource/TrayIcon.png"));
+      PopupMenu popup = new PopupMenu();
+      popup.add(new MenuItem("fixme 1"));
+      popup.add(new MenuItem("fixme 2"));
+      MenuItem defaultItem = new MenuItem("Exit");
+      ActionListener exitListener = new ActionListener() {
+        public void actionPerformed(ActionEvent e) {
+            System.exit(0);
+        }
+      };
+      defaultItem.addActionListener(exitListener);
+      popup.add(defaultItem);
+      sTray.add(new java.awt.TrayIcon(img, "tooltip", popup));
+      */
     }
     frame.setVisible(false);
   }
