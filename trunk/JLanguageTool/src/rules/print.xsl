@@ -8,7 +8,7 @@
 		java -jar saxon8.jar grammar.xml print.xsl
 		
 	-->
-	<xsl:output method="html" encoding="UTF-8" indent="yes" />
+	<xsl:output method="html" encoding="UTF-8" indent="no" />
 
 	<xsl:template match="text()" />
 
@@ -71,7 +71,7 @@
 			<xsl:apply-templates select="*|text()" /> <br/>
 			<xsl:if test="@correction !=''">
 			<xsl:choose>
-			<xsl:when test="//rules[@lang='pl']">
+			<xsl:when test="//rules[@lang='pl']">Poprawnie: 
 			<!--  two problems: parse correction, i.e., split it on "|" 
 			and replace \1 with ../pattern/token[1]/text() 
 			<xsl:copy-of select="../pattern/token[2]/text()"/>
@@ -103,7 +103,6 @@
 			</xsl:otherwise>
 			</xsl:choose>
 						-->
-		    Poprawnie: 
 			</xsl:when>
 			<xsl:when test="//rules[@lang='en']">Correctly: </xsl:when>
 			<xsl:when test="//rules[@lang='de']">Korrekt: </xsl:when>
@@ -134,6 +133,7 @@
 	
 	<xsl:template match="//rules">	
 	<html>
+	<meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
 	<header>
 	<script language="javascript">
 	<xsl:text>
