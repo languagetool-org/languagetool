@@ -71,15 +71,16 @@
 			<xsl:apply-templates select="*|text()" /> <br/>
 			<xsl:if test="@correction !=''">
 			<xsl:choose>
-			<xsl:when test="//rules[@lang='pl']">Poprawnie: 
+			<xsl:when test="not(contains(@correction, '|')) and not(contains(../message/text(), '\')) and count(../message/text()) &lt; 3">
+			<xsl:copy-of select="../message/text()[1]"/>
+			<strong style="color: #339900;"><xsl:value-of select="@correction"/></strong>
+			<xsl:copy-of select="../message/text()[2]"/>
+			</xsl:when>
+			<xsl:otherwise>
 			<!--  two problems: parse correction, i.e., split it on "|" 
 			and replace \1 with ../pattern/token[1]/text() 
 			<xsl:copy-of select="../pattern/token[2]/text()"/>
-
-			<xsl:choose>
-			<xsl:when test="contains(@correction, '|')">			
-			<xsl:variable name="message_cnt" select="1"/>
-			<xsl:copy-of select="../message/text()[$message_cnt]"/>
+			for now, we simply print "Correction", and skip the message						
 			<xsl:variable name="cor_text" select="substring-before(@correction, '|')"/>
 			<strong style="color: #339900;">
 				<xsl:value-of select="$cor_text"/>
@@ -103,7 +104,8 @@
 			</xsl:otherwise>
 			</xsl:choose>
 						-->
-			</xsl:when>
+			<xsl:choose>
+			<xsl:when test="//rules[@lang='pl']">Poprawnie: </xsl:when>
 			<xsl:when test="//rules[@lang='en']">Correctly: </xsl:when>
 			<xsl:when test="//rules[@lang='de']">Korrekt: </xsl:when>
 			<xsl:when test="//rules[@lang='fr']">Correctement : </xsl:when>
@@ -117,6 +119,8 @@
 			<xsl:variable name="text_count" select="count(../message/text())"/>
 			<xsl:value-of select="../message/text()[$text_count]"/>			
 			 -->
+			 </xsl:otherwise>
+			 </xsl:choose>
 			</xsl:if>
 		</li>
 	</xsl:template>
