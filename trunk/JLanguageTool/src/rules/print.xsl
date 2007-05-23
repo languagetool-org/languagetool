@@ -138,7 +138,7 @@
 	<xsl:template match="//rules">	
 	<html>
 	<meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
-	<header>
+	<head>
 	<script language="javascript">
 	<xsl:text>
 	  function toggleDiv(divid){
@@ -150,8 +150,9 @@
 	  }
 	 </xsl:text>
 	</script>
-	</header>
+	</head>
 	<body>
+        <noscript><p><strong>Note:</strong> this page requires Javascript to work</p></noscript>
 		<xsl:choose>
 		<xsl:when test="//rules[@lang='pl']">Liczba reguł: </xsl:when>
 		<xsl:when test="//rules[@lang='en']">Number of rules: </xsl:when>
