@@ -86,7 +86,9 @@ public final class Overview {
             break;          
           countInRulegroup++;
         }
-        System.out.print("<td align=\"right\">" + (count + countInRulegroup) + "</td>");
+        System.out.print("<td align=\"right\">" + (count + countInRulegroup) +
+            " (<a href=\"http://languagetool.cvs.sourceforge.net/*checkout*/languagetool/" +
+            "JLanguageTool/src/rules/" + lang.getShortName() + "/grammar.xml\">show</a>)" + "</td>");
       }
       System.out.print("<td></td>");
       // count Java rules:
