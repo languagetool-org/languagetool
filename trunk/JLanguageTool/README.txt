@@ -43,8 +43,11 @@ Known bugs:
    
 TODO:
  -improve error message if http server cannot be started (e.g., on port 80)
+ 	-> cannot re-start at all if set to port 80 once
  -RMB menu for system tray
  -put licenses in extra subdir
+ -check if some rules from xml-copy-editor.sourceforge.net are useful for us
+  (see its source in the xmlcopyeditor-1.0.9.5/src/rulesets directory)
  -make the dist-src work (= compile out of the box)
  -add a layer to use the simple XML so the LanguageTool GUIs can use An Gramadoir?
  -load (language-specific) abbreviations from an external file
