@@ -22,7 +22,10 @@ import java.io.File;
 import java.io.FileFilter;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
+import java.util.List;
 
 import de.danielnaber.languagetool.JLanguageTool;
 import de.danielnaber.languagetool.Language;
@@ -54,11 +57,16 @@ public final class Overview {
     System.out.println("  <th>&nbsp;&nbsp;</th>");
     System.out.println("  <th align=\"right\">Java rules</th>");
     System.out.println("</tr>");
+    List<String> sortedLanguages = new ArrayList<String>();
     for (int i = 0; i < Language.LANGUAGES.length; i++) {
       if (Language.LANGUAGES[i] == Language.DEMO) {
         continue;
       }
-      Language lang = Language.LANGUAGES[i];
+      sortedLanguages.add(Language.LANGUAGES[i].getName());
+    }
+    Collections.sort(sortedLanguages);
+    for (String langName : sortedLanguages) {
+      Language lang = Language.getLanguageForName(langName);
       System.out.print("<tr>");
       System.out.print("<td>" + lang.getName() + "</td>");
       String xmlFile = "/rules" + File.separator + lang.getShortName() + File.separator + "grammar.xml";
