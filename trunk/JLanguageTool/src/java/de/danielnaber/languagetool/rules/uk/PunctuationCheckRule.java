@@ -20,7 +20,6 @@ package de.danielnaber.languagetool.rules.uk;
 
 import java.util.ResourceBundle;
 
-import de.danielnaber.languagetool.Language;
 import de.danielnaber.languagetool.rules.AbstractPunctuationCheckRule;
 
 /**
@@ -34,13 +33,6 @@ public class PunctuationCheckRule extends AbstractPunctuationCheckRule {
 	public PunctuationCheckRule(final ResourceBundle messages) {
 		super(messages);
 //		super.setCategory(new Category(messages.getString("category_misc")));
-	}
-
-	/* (non-Javadoc)
-	 * @see de.danielnaber.languagetool.rules.AbstractPunctuationCheckRule#getLanguages()
-	 */
-	public Language[] getLanguages() {
-		return new Language[] { Language.UKRAINIAN };
 	}
 
 //	private boolean isTripleOk(String token) {

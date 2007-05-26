@@ -25,7 +25,6 @@ import java.util.ResourceBundle;
 import de.danielnaber.languagetool.AnalyzedSentence;
 import de.danielnaber.languagetool.AnalyzedToken;
 import de.danielnaber.languagetool.AnalyzedTokenReadings;
-import de.danielnaber.languagetool.Language;
 
 /**
  * A rule that matches ".." (but not "..." etc) and ",,".
@@ -45,12 +44,6 @@ public class DoublePunctuationRule extends Rule {
 
   public String getDescription() {
     return messages.getString("desc_double_punct");
-  }
-
-  public Language[] getLanguages() {
-
-    return new Language[] { Language.ENGLISH, Language.GERMAN, Language.POLISH, Language.FRENCH, 
-    		Language.SPANISH, Language.ITALIAN, Language.DUTCH, Language.LITHUANIAN, Language.UKRAINIAN, Language.CZECH };
   }
 
   public RuleMatch[] match(final AnalyzedSentence text) {

@@ -18,7 +18,9 @@
  */
 package de.danielnaber.languagetool.language;
 
+import java.util.HashSet;
 import java.util.Locale;
+import java.util.Set;
 
 import de.danielnaber.languagetool.Language;
 import de.danielnaber.languagetool.tagging.Tagger;
@@ -46,6 +48,16 @@ public class Spanish extends Language {
 
   public String[] getMaintainers() {
     return null;
+  }
+
+  public Set<String> getRelevantRuleIDs() {
+    Set<String> ids = new HashSet<String>();
+    ids.add("COMMA_PARENTHESIS_WHITESPACE");
+    ids.add("DOUBLE_PUNCTUATION");
+    ids.add("UNPAIRED_BRACKETS");
+    ids.add("UPPERCASE_SENTENCE_START");
+    ids.add("WORD_REPEAT_RULE");
+    return ids;
   }
 
 }

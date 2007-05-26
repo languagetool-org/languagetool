@@ -18,7 +18,6 @@
  */
 package de.danielnaber.languagetool.rules.pl;
 
-import de.danielnaber.languagetool.Language;
 import de.danielnaber.languagetool.rules.Rule;
 
 /**
@@ -28,10 +27,5 @@ import de.danielnaber.languagetool.rules.Rule;
  *
  */
 public abstract class PolishRule extends Rule {
-
-  @Override
-  public final Language[] getLanguages() {
-    return new Language[] {Language.POLISH};
-  }
 
 }

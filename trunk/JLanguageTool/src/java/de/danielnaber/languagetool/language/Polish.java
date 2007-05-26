@@ -18,7 +18,9 @@
  */
 package de.danielnaber.languagetool.language;
 
+import java.util.HashSet;
 import java.util.Locale;
+import java.util.Set;
 
 import de.danielnaber.languagetool.Language;
 import de.danielnaber.languagetool.synthesis.Synthesizer;
@@ -67,6 +69,18 @@ public class Polish extends Language {
 
   public String[] getMaintainers() {
     return new String[]{"Marcin Miłkowski"};
+  }
+
+  public Set<String> getRelevantRuleIDs() {
+    Set<String> ids = new HashSet<String>();
+    ids.add("COMMA_PARENTHESIS_WHITESPACE");
+    ids.add("DOUBLE_PUNCTUATION");
+    ids.add("UNPAIRED_BRACKETS");
+    ids.add("UPPERCASE_SENTENCE_START");
+    ids.add("WORD_REPEAT_RULE");
+    // specific to Polish:
+    ids.add("PL_WORD_REPEAT");
+    return ids;
   }
 
 }

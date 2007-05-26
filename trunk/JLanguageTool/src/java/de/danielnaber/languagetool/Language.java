@@ -19,6 +19,7 @@
 package de.danielnaber.languagetool;
 
 import java.util.Locale;
+import java.util.Set;
 
 import de.danielnaber.languagetool.language.Czech;
 import de.danielnaber.languagetool.language.Demo;
@@ -92,6 +93,12 @@ public abstract class Language {
    */
   public abstract Locale getLocale();
 
+  /**
+   * Get the IDs of the global rules that should run for texts in this language
+   * or <code>null</code>.
+   */
+  public abstract Set<String> getRelevantRuleIDs();
+    
   /**
    * Get this language's part-of-speech disambiguator implementation.
    */

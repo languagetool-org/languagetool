@@ -18,7 +18,6 @@
  */
 package de.danielnaber.languagetool.rules.en;
 
-import de.danielnaber.languagetool.Language;
 import de.danielnaber.languagetool.rules.Rule;
 
 /**
@@ -27,9 +26,5 @@ import de.danielnaber.languagetool.rules.Rule;
  * @author Daniel Naber
  */
 public abstract class EnglishRule extends Rule {
-
-  public final Language[] getLanguages() {
-    return new Language[] { Language.ENGLISH };
-  }
 
 }

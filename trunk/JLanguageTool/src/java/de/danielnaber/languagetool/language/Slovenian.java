@@ -19,6 +19,7 @@
 package de.danielnaber.languagetool.language;
 
 import java.util.Locale;
+import java.util.Set;
 
 import de.danielnaber.languagetool.Language;
 
@@ -38,6 +39,10 @@ public class Slovenian extends Language {
 
   public String[] getMaintainers() {
     return new String[]{"Martin Srebotnjak"};
+  }
+
+  public Set<String> getRelevantRuleIDs() {
+    return null;
   }
 
 }

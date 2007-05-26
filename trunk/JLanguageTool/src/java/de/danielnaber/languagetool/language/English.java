@@ -18,7 +18,9 @@
  */
 package de.danielnaber.languagetool.language;
 
+import java.util.HashSet;
 import java.util.Locale;
+import java.util.Set;
 
 import de.danielnaber.languagetool.Language;
 import de.danielnaber.languagetool.synthesis.Synthesizer;
@@ -60,6 +62,18 @@ public class English extends Language {
 
   public String[] getMaintainers() {
     return new String[]{"Marcin Miłkowski", "Daniel Naber"};
+  }
+
+  public Set<String> getRelevantRuleIDs() {
+    Set<String> ids = new HashSet<String>();
+    ids.add("COMMA_PARENTHESIS_WHITESPACE");
+    ids.add("DOUBLE_PUNCTUATION");
+    ids.add("UNPAIRED_BRACKETS");
+    ids.add("UPPERCASE_SENTENCE_START");
+    ids.add("WORD_REPEAT_RULE");
+    // specific to English:
+    ids.add("EN_A_VS_AN");
+    return ids;
   }
 
 }

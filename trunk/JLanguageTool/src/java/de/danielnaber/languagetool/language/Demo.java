@@ -19,6 +19,7 @@
 package de.danielnaber.languagetool.language;
 
 import java.util.Locale;
+import java.util.Set;
 
 import de.danielnaber.languagetool.Language;
 import de.danielnaber.languagetool.tagging.Tagger;
@@ -45,6 +46,10 @@ public class Demo extends Language {
   }
 
   public String[] getMaintainers() {
+    return null;
+  }
+
+  public Set<String> getRelevantRuleIDs() {
     return null;
   }
 

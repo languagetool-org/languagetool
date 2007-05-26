@@ -137,11 +137,6 @@ public class PatternRule extends Rule {
   }
   
   @Override
-  public final Language[] getLanguages() {
-    return language.clone();
-  }
-
-  @Override
   public final String toString() {
     return id + ":" + patternElements + ":" + description;
   }

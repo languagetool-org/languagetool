@@ -50,10 +50,6 @@ public class WordRepeatRule extends Rule {
     return messages.getString("desc_repetition");
   }
 
-  public Language[] getLanguages() {
-    return new Language[] { Language.ENGLISH, Language.GERMAN, Language.POLISH, Language.FRENCH, Language.SPANISH, Language.ITALIAN, Language.DUTCH};
-  }
-
   public RuleMatch[] match(final AnalyzedSentence text) {
     List<RuleMatch> ruleMatches = new ArrayList<RuleMatch>();
     AnalyzedTokenReadings[] tokens = text.getTokensWithoutWhitespace();

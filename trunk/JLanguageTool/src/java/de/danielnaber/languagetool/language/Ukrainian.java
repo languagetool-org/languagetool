@@ -18,7 +18,9 @@
  */
 package de.danielnaber.languagetool.language;
 
+import java.util.HashSet;
 import java.util.Locale;
+import java.util.Set;
 
 import de.danielnaber.languagetool.Language;
 import de.danielnaber.languagetool.tagging.Tagger;
@@ -46,6 +48,16 @@ public class Ukrainian extends Language {
 
   public String[] getMaintainers() {
     return new String[]{"Andriy Rysin"};
+  }
+
+  public Set<String> getRelevantRuleIDs() {
+    Set<String> ids = new HashSet<String>();
+    ids.add("COMMA_PARENTHESIS_WHITESPACE");
+    ids.add("DOUBLE_PUNCTUATION");
+    ids.add("UPPERCASE_SENTENCE_START");
+    // specific to Ukrainian:
+    ids.add("UK_SIMPLE_REPLACE");
+    return ids;
   }
 
 }

@@ -18,7 +18,9 @@
  */
 package de.danielnaber.languagetool.language;
 
+import java.util.HashSet;
 import java.util.Locale;
+import java.util.Set;
 
 import de.danielnaber.languagetool.Language;
 import de.danielnaber.languagetool.tagging.Tagger;
@@ -46,4 +48,13 @@ public class Lithuanian extends Language {
     return new String[]{"Mantas Kriaučiūnas"};
   }
 
+  public Set<String> getRelevantRuleIDs() {
+    Set<String> ids = new HashSet<String>();
+    ids.add("COMMA_PARENTHESIS_WHITESPACE");
+    ids.add("DOUBLE_PUNCTUATION");
+    ids.add("UNPAIRED_BRACKETS");
+    ids.add("UPPERCASE_SENTENCE_START");
+    return ids;
+  }
+  
 }

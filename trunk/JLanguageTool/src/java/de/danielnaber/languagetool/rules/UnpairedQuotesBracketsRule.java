@@ -128,11 +128,6 @@ public class UnpairedQuotesBracketsRule extends Rule {
     return messages.getString("desc_unpaired_brackets");
   }
 
-  public Language[] getLanguages() {
-    return new Language[] { Language.ENGLISH, Language.GERMAN, Language.POLISH, Language.FRENCH, 
-            Language.SPANISH, Language.ITALIAN, Language.DUTCH, Language.LITHUANIAN };
-  }
-
   public final RuleMatch[] match(final AnalyzedSentence text) {
     List < RuleMatch > ruleMatches = new ArrayList<RuleMatch>();
     AnalyzedTokenReadings[] tokens = text.getTokens();

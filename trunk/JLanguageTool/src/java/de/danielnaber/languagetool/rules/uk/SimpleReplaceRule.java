@@ -30,7 +30,6 @@ import java.util.ResourceBundle;
 
 import de.danielnaber.languagetool.AnalyzedSentence;
 import de.danielnaber.languagetool.AnalyzedTokenReadings;
-import de.danielnaber.languagetool.Language;
 import de.danielnaber.languagetool.rules.Category;
 import de.danielnaber.languagetool.rules.Rule;
 import de.danielnaber.languagetool.rules.RuleMatch;
@@ -86,11 +85,6 @@ public class SimpleReplaceRule extends Rule {
 
 	@Override
 	public void reset() {
-	}
-
-	@Override
-	public Language[] getLanguages() {
-		return new Language[] { Language.UKRAINIAN };
 	}
 
 	private Map<String, String> loadWords(InputStream file) throws IOException {

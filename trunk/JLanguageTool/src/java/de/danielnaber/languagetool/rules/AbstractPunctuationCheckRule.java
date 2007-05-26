@@ -24,7 +24,6 @@ import java.util.ResourceBundle;
 
 import de.danielnaber.languagetool.AnalyzedSentence;
 import de.danielnaber.languagetool.AnalyzedTokenReadings;
-import de.danielnaber.languagetool.Language;
 
 /** A rule that matches "..", "::", "-," but not "...", "!..", "?!!", ",-" etc.
  * Languages will have to subclass it and override <code>isPunctsJoinOk()</code>
@@ -47,8 +46,6 @@ public abstract class AbstractPunctuationCheckRule extends Rule {
 	public String getDescription() {
 		return "Use of unusual combination of punctuation characters";
 	}
-
-	public abstract Language[] getLanguages();
 
 	protected abstract boolean isPunctsJoinOk(String tkns);
 

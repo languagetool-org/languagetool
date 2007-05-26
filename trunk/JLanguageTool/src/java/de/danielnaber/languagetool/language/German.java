@@ -18,7 +18,9 @@
  */
 package de.danielnaber.languagetool.language;
 
+import java.util.HashSet;
 import java.util.Locale;
+import java.util.Set;
 
 import de.danielnaber.languagetool.Language;
 import de.danielnaber.languagetool.tagging.Tagger;
@@ -53,6 +55,23 @@ public class German extends Language {
 
   public String[] getMaintainers() {
     return new String[]{"Daniel Naber"};
+  }
+
+  public Set<String> getRelevantRuleIDs() {
+    Set<String> ids = new HashSet<String>();
+    ids.add("COMMA_PARENTHESIS_WHITESPACE");
+    ids.add("DOUBLE_PUNCTUATION");
+    ids.add("UNPAIRED_BRACKETS");
+    ids.add("UPPERCASE_SENTENCE_START");
+    ids.add("WORD_REPEAT_RULE");
+    // specific to German:
+    ids.add("DE_AGREEMENT");
+    ids.add("DE_CASE");
+    ids.add("DE_COMPOUNDS");
+    ids.add("DE_DASH");
+    ids.add("DE_WORD_COHERENCY");
+    ids.add("DE_WIEDER_VS_WIDER");
+    return ids;
   }
 
 }

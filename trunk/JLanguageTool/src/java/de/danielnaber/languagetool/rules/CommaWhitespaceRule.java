@@ -24,7 +24,6 @@ import java.util.ResourceBundle;
 
 import de.danielnaber.languagetool.AnalyzedSentence;
 import de.danielnaber.languagetool.AnalyzedTokenReadings;
-import de.danielnaber.languagetool.Language;
 
 /**
  * A rule that matches commas and closing parenthesis preceeded by whitespace
@@ -45,11 +44,6 @@ public class CommaWhitespaceRule extends Rule {
 
   public String getDescription() {
     return messages.getString("desc_comma_whitespace");
-  }
-
-  public Language[] getLanguages() {
-    return new Language[] { Language.ENGLISH, Language.GERMAN, Language.POLISH, Language.FRENCH, 
-    		Language.SPANISH, Language.ITALIAN, Language.DUTCH, Language.LITHUANIAN, Language.UKRAINIAN, Language.CZECH };
   }
 
   public RuleMatch[] match(final AnalyzedSentence text) {

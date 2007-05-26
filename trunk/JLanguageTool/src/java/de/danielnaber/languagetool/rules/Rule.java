@@ -22,6 +22,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.Set;
 
 import de.danielnaber.languagetool.AnalyzedSentence;
 import de.danielnaber.languagetool.Language;
@@ -57,8 +58,6 @@ public abstract class Rule {
   public abstract String getId();
   
   public abstract String getDescription();
-
-  public abstract Language[] getLanguages();
 
   /**
    * Used by paragraph rules to signal that they can
@@ -105,9 +104,10 @@ public abstract class Rule {
    * Whether this rule can be used for text in the given language.
    */
   public boolean supportsLanguage(final Language language) {
-    Language[] languages = getLanguages();
+    Language[] languages = Language.LANGUAGES;
     for (int i = 0; i < languages.length; i++) {
-      if (language.equals(languages[i]))
+      Set<String> relevantIDs = language.getRelevantRuleIDs();
+      if (relevantIDs != null && relevantIDs.contains(getId()))
         return true;
     }
     return false;
