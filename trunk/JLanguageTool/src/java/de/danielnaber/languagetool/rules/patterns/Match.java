@@ -114,7 +114,7 @@ public class Match {
     }
   }
 
-  public void setSynthesizer(final Synthesizer synth) throws IOException {
+  public void setSynthesizer(final Synthesizer synth) {
     synthesizer = synth;
   }    
 
@@ -123,7 +123,6 @@ public class Match {
    * element.
    * @return String[] array of strings
    * @throws IOException 
-   * .
    */
   public final String[] toFinalString() throws IOException {
     String[] formattedString = new String[1];
