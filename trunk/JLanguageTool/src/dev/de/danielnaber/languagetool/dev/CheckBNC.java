@@ -24,10 +24,6 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.List;
 
-import javax.xml.parsers.ParserConfigurationException;
-
-import org.xml.sax.SAXException;
-
 import de.danielnaber.languagetool.JLanguageTool;
 import de.danielnaber.languagetool.Language;
 import de.danielnaber.languagetool.TextFilter;
@@ -56,7 +52,7 @@ public final class CheckBNC {
     prg.run(new File(args[0]));
   }
   
-  private CheckBNC() throws IOException, ParserConfigurationException, SAXException {
+  private CheckBNC() throws IOException {
     langTool = new JLanguageTool(Language.ENGLISH);
     langTool.activateDefaultPatternRules();
     String[] disRules = new String[] {"UPPERCASE_SENTENCE_START", "COMMA_PARENTHESIS_WHITESPACE",
