@@ -76,7 +76,7 @@ public abstract class Language {
   private final static Disambiguator DEMO_DISAMBIGUATOR = new DemoDisambiguator();
   private final static Tagger DEMO_TAGGER = new DemoTagger();
   private final static SentenceTokenizer SENTENCE_TOKENIZER = new SentenceTokenizer();
-  private final static WordTokenizer WORD_TOKENIZERr = new WordTokenizer();
+  private final static WordTokenizer WORD_TOKENIZER = new WordTokenizer();
 
   /**
    * Get this language's two character code, e.g. <code>en</code> for English.
@@ -124,7 +124,7 @@ public abstract class Language {
    * Get this language's word tokenizer implementation.
    */
   public Tokenizer getWordTokenizer() {
-    return WORD_TOKENIZERr;
+    return WORD_TOKENIZER;
   }
 
   /**
