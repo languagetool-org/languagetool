@@ -20,111 +20,117 @@ package de.danielnaber.languagetool;
 
 import java.util.Locale;
 
+import de.danielnaber.languagetool.language.Czech;
+import de.danielnaber.languagetool.language.Demo;
+import de.danielnaber.languagetool.language.Dutch;
+import de.danielnaber.languagetool.language.English;
+import de.danielnaber.languagetool.language.French;
+import de.danielnaber.languagetool.language.German;
+import de.danielnaber.languagetool.language.Italian;
+import de.danielnaber.languagetool.language.Lithuanian;
+import de.danielnaber.languagetool.language.Polish;
+import de.danielnaber.languagetool.language.Slovenian;
+import de.danielnaber.languagetool.language.Spanish;
+import de.danielnaber.languagetool.language.Ukrainian;
 import de.danielnaber.languagetool.synthesis.Synthesizer;
-import de.danielnaber.languagetool.synthesis.en.EnglishSynthesizer;
-import de.danielnaber.languagetool.synthesis.pl.PolishSynthesizer;
 import de.danielnaber.languagetool.tagging.Tagger;
-import de.danielnaber.languagetool.tagging.cs.CzechTagger;
-import de.danielnaber.languagetool.tagging.de.GermanTagger;
 import de.danielnaber.languagetool.tagging.disambiguation.Disambiguator;
-import de.danielnaber.languagetool.tagging.disambiguation.pl.PolishChunker;
-import de.danielnaber.languagetool.tagging.disambiguation.rules.fr.FrenchRuleDisambiguator;
 import de.danielnaber.languagetool.tagging.disambiguation.xx.DemoDisambiguator;
-import de.danielnaber.languagetool.tagging.en.EnglishTagger;
-import de.danielnaber.languagetool.tagging.es.SpanishTagger;
-import de.danielnaber.languagetool.tagging.fr.FrenchTagger;
-import de.danielnaber.languagetool.tagging.it.ItalianTagger;
-import de.danielnaber.languagetool.tagging.nl.DutchTagger;
-import de.danielnaber.languagetool.tagging.pl.PolishTagger;
-import de.danielnaber.languagetool.tagging.uk.UkrainianTagger;
 import de.danielnaber.languagetool.tagging.xx.DemoTagger;
 import de.danielnaber.languagetool.tokenizers.SentenceTokenizer;
 import de.danielnaber.languagetool.tokenizers.Tokenizer;
 import de.danielnaber.languagetool.tokenizers.WordTokenizer;
-import de.danielnaber.languagetool.tokenizers.cs.CzechSentenceTokenizer;
-import de.danielnaber.languagetool.tokenizers.de.GermanSentenceTokenizer;
-import de.danielnaber.languagetool.tokenizers.en.EnglishWordTokenizer;
-import de.danielnaber.languagetool.tokenizers.nl.DutchSentenceTokenizer;
-import de.danielnaber.languagetool.tokenizers.pl.PolishSentenceTokenizer;
 import de.danielnaber.languagetool.tools.StringTools;
 
 /**
- * Constants for supported languages (English, German, etc).
+ * Base class for any supported language (English, German, etc).
  * 
  * @author Daniel Naber
  */
-public final class Language {
+public abstract class Language {
 
-  // IMPORTANT: keep these in sync with LANGUAGES array below:
+  // NOTE: keep in sync with array below!
+  public final static Language CZECH = new Czech();
+  public final static Language DUTCH = new Dutch();
+  public final static Language ENGLISH = new English();
+  public final static Language FRENCH = new French();
+  public final static Language GERMAN = new German();
+  public final static Language ITALIAN = new Italian();
+  public final static Language LITHUANIAN = new Lithuanian();
+  public final static Language POLISH = new Polish();
+  public final static Language SLOVENIAN = new Slovenian();
+  public final static Language SPANISH = new Spanish();
+  public final static Language UKRAINIAN = new Ukrainian();
   
-  public static final Language ENGLISH = 
-    new Language("English", "en", new Locale("en"), new DemoDisambiguator(), new EnglishTagger(),
-        new SentenceTokenizer(), new EnglishWordTokenizer(), new EnglishSynthesizer(), 
-        "Marcin Miłkowski, Daniel Naber");
-
-  public static final Language GERMAN = 
-    new Language("German", "de", new Locale("de"), new DemoDisambiguator(), new GermanTagger(),
-        new GermanSentenceTokenizer(), new WordTokenizer(), "Daniel Naber");
+  public final static Language DEMO = new Demo();
   
-  public static final Language POLISH = 
-    new Language("Polish", "pl", new Locale("pl"), new PolishChunker(), new PolishTagger(),
-        new PolishSentenceTokenizer(), new WordTokenizer(), new PolishSynthesizer(), 
-        "Marcin Miłkowski");
-  
-  public static final Language FRENCH = 
-    new Language("French", "fr", new Locale("fr"), new FrenchRuleDisambiguator(), new FrenchTagger(),
-        new SentenceTokenizer(), new WordTokenizer(), null);
-  
-  public static final Language SPANISH = 
-    new Language("Spanish", "es", new Locale("es"), new DemoDisambiguator(), new SpanishTagger(),
-        new SentenceTokenizer(), new WordTokenizer(), null);
-  
-  public static final Language ITALIAN = 
-    new Language("Italian", "it", new Locale("it"), new DemoDisambiguator(), new ItalianTagger(),
-        new SentenceTokenizer(), new WordTokenizer(), null);
-  
-  public static final Language DUTCH = 
-    new Language("Dutch", "nl", new Locale("nl"), new DemoDisambiguator(), new DutchTagger(),
-        new DutchSentenceTokenizer(), new WordTokenizer(), "Ruud Baars");
-
-  public static final Language LITHUANIAN =
-    new Language("Lithuanian", "lt", new Locale("lt"), new DemoDisambiguator(), new DemoTagger(),
-        new SentenceTokenizer(), new WordTokenizer(), "Mantas Kriaučiūnas");
-  
-  public static final Language UKRAINIAN =
-    new Language("Ukrainian", "uk", new Locale("uk"), new DemoDisambiguator(), new UkrainianTagger(),
-        new SentenceTokenizer(), new WordTokenizer(), "Andriy Rysin");
-  
-  public static final Language CZECH = 
-    new Language("Czech", "cs", new Locale("cs"), new DemoDisambiguator(), new CzechTagger(),
-        new CzechSentenceTokenizer(), new WordTokenizer(), "Jozef Ličko");
-
-  public static final Language SLOVENIAN = 
-    new Language("Slovenian", "sl", new Locale("sl"), new DemoDisambiguator(), new DemoTagger(),
-      new SentenceTokenizer(), new WordTokenizer(), "Martin Srebotnjak");
-  
-
-  public static final Language DEMO = 
-    new Language("Testlanguage", "xx", new Locale("en"), new DemoDisambiguator(), new DemoTagger(),
-        new SentenceTokenizer(), new WordTokenizer(), null);
-
-  private String name;
-  private String shortForm;
-  private Disambiguator disambiguator;
-  private Tagger tagger;
-  private SentenceTokenizer sentenceTokenizer;
-  private Tokenizer wordTokenizer;
-  private Locale locale;
-  private String maintainers;
-  private Synthesizer synthesizer = null;
-
-  // IMPORTANT: keep in sync with objects above
   /**
    * All languages supported by LanguageTool.
    */
   public static final Language[] LANGUAGES = {
     ENGLISH, GERMAN, POLISH, FRENCH, SPANISH, ITALIAN, DUTCH, LITHUANIAN, UKRAINIAN, CZECH, SLOVENIAN, DEMO
+    // FIXME: load dynamically from classpath
   };
+  
+  private final static Disambiguator DEMO_DISAMBIGUATOR = new DemoDisambiguator();
+  private final static Tagger DEMO_TAGGER = new DemoTagger();
+  private final static SentenceTokenizer SENTENCE_TOKENIZER = new SentenceTokenizer();
+  private final static WordTokenizer WORD_TOKENIZERr = new WordTokenizer();
+
+  /**
+   * Get this language's two character code, e.g. <code>en</code> for English.
+   */
+  public abstract String getShortName();
+
+  /**
+   * Get this language's name in English, e.g. <code>English</code> or <code>German</code>.
+   */
+  public abstract String getName();
+  
+  /**
+   * Get this language's Java locale.
+   */
+  public abstract Locale getLocale();
+
+  /**
+   * Get this language's part-of-speech disambiguator implementation.
+   */
+  public Disambiguator getDisambiguator() {
+    return DEMO_DISAMBIGUATOR;
+  }
+
+  /**
+   * Get this language's part-of-speech tagger implementation.
+   */
+  public Tagger getTagger() {
+    return DEMO_TAGGER;
+  }
+
+  /**
+   * Get this language's sentence tokenizer implementation.
+   */
+  public SentenceTokenizer getSentenceTokenizer() {
+    return SENTENCE_TOKENIZER;
+  }
+
+  /**
+   * Get this language's word tokenizer implementation.
+   */
+  public Tokenizer getWordTokenizer() {
+    return WORD_TOKENIZERr;
+  }
+
+  /**
+   * Get this language's part-of-speech synthesizer implementation or <code>null</code>.
+   */
+  public Synthesizer getSynthesizer() {
+    return null;
+  }
+
+  /**
+   * Get the name(s) of the maintainer(s) for this language or <code>null</code>.
+   */
+  public abstract String[] getMaintainers();
 
   /**
    * Get the Language object for the given short language name.
@@ -158,107 +164,9 @@ public final class Language {
     }
     return null;
   }
-
-  private Language(final String name, final String shortForm, final Locale locale, final Disambiguator disambiguator,
-		  final Tagger tagger, final SentenceTokenizer sentenceTokenizer, final Tokenizer wordTokenizer,
-      final String maintainers) {
-    StringTools.assureSet(name, "name");
-    StringTools.assureSet(shortForm, "shortForm");
-    if (disambiguator == null)
-      throw new NullPointerException("disambiguator cannot be null");
-    if (tagger == null)
-      throw new NullPointerException("tagger cannot be null");
-    if (locale == null)
-      throw new NullPointerException("locale cannot be null");
-    if (sentenceTokenizer == null)
-      throw new NullPointerException("sentenceTokenizer cannot be null");
-    if (wordTokenizer == null)
-      throw new NullPointerException("wordTokenizer cannot be null");
-    this.name = name;
-    this.shortForm = shortForm;
-    this.disambiguator = disambiguator;
-    this.tagger = tagger;
-    this.locale = locale;
-    this.sentenceTokenizer = sentenceTokenizer;
-    this.wordTokenizer = wordTokenizer;
-    this.maintainers = maintainers;
-  }
-
-  private Language(final String name, final String shortForm, final Locale locale, final Disambiguator disambiguator,
-      final Tagger tagger, final SentenceTokenizer sentenceTokenizer, final Tokenizer wordTokenizer,
-      final Synthesizer synthesizer, final String maintainers) {
-    this(name, shortForm, locale, disambiguator,
-      tagger, sentenceTokenizer, wordTokenizer,
-      maintainers);
-    if (synthesizer == null) {
-      throw new NullPointerException("synthesizer cannot be null");
-    }
-    this.synthesizer = synthesizer;
-  }
   
   public String toString() {
-    return name;
-  }
-
-  /**
-   * Get this language's name, e.g. <code>English</code> or <code>German</code>.
-   */
-  public String getName() {
-    return name;
-  }
-
-  /**
-   * Get this language's two character code, e.g. <code>en</code> for English.
-   */
-  public String getShortName() {
-    return shortForm;
-  }
-
-  
-  /**
-   * Get this language's part-of-speech disambiguator implementation.
-   */
-  public Disambiguator getDisambiguator() {
-    return disambiguator;
+    return getName();
   }
   
-  /**
-   * Get this language's part-of-speech tagger implementation.
-   */
-  public Tagger getTagger() {
-    return tagger;
-  }
-
-  /**
-   * Get this language's sentence tokenizer implementation.
-   */
-  public SentenceTokenizer getSentenceTokenizer() {
-    return sentenceTokenizer;
-  }
-
-  /**
-   * Get this language's word tokenizer implementation.
-   */
-  public Tokenizer getWordTokenizer() {
-    return wordTokenizer;
-  }
-
-  /**
-   * Get this language's part-of-speech synthesizer implementation.
-   */
-  public Synthesizer getSynthesizer() {
-    return synthesizer;
-  }
-  
-  public Locale getLocale() {
-    return locale;
-  }
-
-  /**
-   * Get the name(s) of the maintainer(s) for this language.
-   */
-  public String getMaintainers() {
-    return maintainers;
-  }
-
 }
