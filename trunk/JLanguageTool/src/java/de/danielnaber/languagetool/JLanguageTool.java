@@ -528,7 +528,7 @@ public final class JLanguageTool {
     rules.addAll(builtinRules);
     rules.addAll(userRules);
     // Some rules have an internal state so they can do checks over sentence
-    // boundaries. These need to be reset so the checks don't suddendly
+    // boundaries. These need to be reset so the checks don't suddenly
     // work on different texts with the same data:
     for (Rule rule : rules) {
       rule.reset();
