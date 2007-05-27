@@ -18,7 +18,11 @@
  */
 package de.danielnaber.languagetool;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
+import java.util.MissingResourceException;
+import java.util.ResourceBundle;
 import java.util.Set;
 
 import de.danielnaber.languagetool.language.Czech;
@@ -65,18 +69,24 @@ public abstract class Language {
   
   public final static Language DEMO = new Demo();
   
+  private static List<Language> externalLanguages = new ArrayList<Language>();
+  
   /**
    * All languages supported by LanguageTool.
    */
-  public static final Language[] LANGUAGES = {
+  public static Language[] LANGUAGES = {
     ENGLISH, GERMAN, POLISH, FRENCH, SPANISH, ITALIAN, DUTCH, LITHUANIAN, UKRAINIAN, CZECH, SLOVENIAN, DEMO
     // FIXME: load dynamically from classpath
   };
-  
+
+  private static final Language[] BUILTIN_LANGUAGES = LANGUAGES;
+
   private final static Disambiguator DEMO_DISAMBIGUATOR = new DemoDisambiguator();
   private final static Tagger DEMO_TAGGER = new DemoTagger();
   private final static SentenceTokenizer SENTENCE_TOKENIZER = new SentenceTokenizer();
   private final static WordTokenizer WORD_TOKENIZER = new WordTokenizer();
+
+  // -------------------------------------------------------------------------
 
   /**
    * Get this language's two character code, e.g. <code>en</code> for English.
@@ -94,11 +104,25 @@ public abstract class Language {
   public abstract Locale getLocale();
 
   /**
+   * Get the name(s) of the maintainer(s) for this language or <code>null</code>.
+   */
+  public abstract String[] getMaintainers();
+
+  /**
    * Get the IDs of the global rules that should run for texts in this language
    * or <code>null</code>.
    */
   public abstract Set<String> getRelevantRuleIDs();
-    
+
+  // -------------------------------------------------------------------------
+
+  /**
+   * Get the location of the rule file.
+   */
+  public String getRuleFileName() {
+    return "/rules/" +getShortName()+ "/grammar.xml";
+  }
+
   /**
    * Get this language's part-of-speech disambiguator implementation.
    */
@@ -135,10 +159,41 @@ public abstract class Language {
   }
 
   /**
-   * Get the name(s) of the maintainer(s) for this language or <code>null</code>.
+   * Get the name of the language translated to the current locale,
+   * if available. Otherwise, get the untranslated name.
    */
-  public abstract String[] getMaintainers();
+  public String getTranslatedName(ResourceBundle messages) {
+    try {
+      return messages.getString(getShortName());
+    } catch (MissingResourceException e) {
+      return getName();
+    }
+  }
 
+  // -------------------------------------------------------------------------
+  
+  /**
+   * Re-inits the built-in languages and adds the specified ones.
+   */
+  public static void reInit(final List<Language> languages) {
+    LANGUAGES = new Language[BUILTIN_LANGUAGES.length + languages.size()];
+    int i = 0;
+    for (; i < BUILTIN_LANGUAGES.length; i++) {
+      LANGUAGES[i] = BUILTIN_LANGUAGES[i];
+    }
+    for (Language lang : languages) {
+      LANGUAGES[i++] = lang;
+    }
+    externalLanguages = languages;
+  }
+
+  /**
+   * Return languages that are not built-in but have been added manually.
+   */
+  public static List<Language> getExternalLanguages() {
+    return externalLanguages;
+  }
+  
   /**
    * Get the Language object for the given short language name.
    * 

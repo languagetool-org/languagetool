@@ -37,6 +37,7 @@ class MainMenuBar extends JMenuBar implements ActionListener {
   private String openText;
   private String checkClipboardText;
   private String dockToTrayText;
+  private String addLanguageText;
   private String optionsText;
   private String quitText;
   // Help:
@@ -71,6 +72,12 @@ class MainMenuBar extends JMenuBar implements ActionListener {
     dockToTrayItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_D, Event.CTRL_MASK));
     dockToTrayItem.addActionListener(this);
     fileMenu.add(dockToTrayItem);
+    // "Add Language":
+    JMenuItem addLanguageItem = new JMenuItem(addLanguageText);
+    addLanguageItem.setMnemonic('a');
+    addLanguageItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_A, Event.CTRL_MASK));
+    addLanguageItem.addActionListener(this);
+    fileMenu.add(addLanguageItem);
     // "Options":
     JMenuItem optionsItem = new JMenuItem(optionsText);
     optionsItem.setMnemonic('s');
@@ -99,6 +106,7 @@ class MainMenuBar extends JMenuBar implements ActionListener {
     openText = messages.getString("guiMenuOpen");
     checkClipboardText = messages.getString("guiMenuCheckClipboard");
     dockToTrayText = messages.getString("guiMenuHide");
+    addLanguageText = "Add language..."; //messages.getString("guiMenuAddLanguage");   // FIXME
     optionsText = messages.getString("guiMenuOptions");
     quitText = messages.getString("guiMenuQuit");
     // Help:
@@ -112,6 +120,8 @@ class MainMenuBar extends JMenuBar implements ActionListener {
       prg.checkClipboardText();
     } else if (e.getActionCommand().equals(dockToTrayText)) {
       prg.hideToTray();
+    } else if (e.getActionCommand().equals(addLanguageText)) {
+      prg.addLanguage();
     } else if (e.getActionCommand().equals(optionsText)) {
       prg.showOptions();
     } else if (e.getActionCommand().equals(quitText)) {

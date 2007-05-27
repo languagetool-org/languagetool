@@ -25,8 +25,7 @@ import java.util.ResourceBundle;
 
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
-
-import de.danielnaber.languagetool.gui.Main.PlainTextFilter;
+import javax.swing.filechooser.FileFilter;
 
 /**
  * GUI-related tools.
@@ -120,9 +119,9 @@ public class Tools {
    * Show a file chooser dialog and return the file selected by the user
    * or <code>null</code>.
    */
-  static File openFileDialog(Frame frame) {
+  static File openFileDialog(Frame frame, FileFilter fileFilter) {
     JFileChooser jfc = new JFileChooser();
-    jfc.setFileFilter(new PlainTextFilter());
+    jfc.setFileFilter(fileFilter);
     jfc.showOpenDialog(frame);
     File file = jfc.getSelectedFile();
     if (file == null)   // user cancelled

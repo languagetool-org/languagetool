@@ -139,11 +139,7 @@ public final class Main implements ActionListener {
     buttonCons.gridx = 2;
     buttonCons.gridy = 0;
     langBox = new JComboBox();
-    for (Language lang : Language.LANGUAGES) {
-      if (lang != Language.DEMO) {
-        langBox.addItem(messages.getString(lang.getShortName()));
-      }
-    }
+    populateLanguageBox();
     // use the system default language to preselect the language from the combo box:
     try {
       Locale defaultLocale = Locale.getDefault();
@@ -183,6 +179,20 @@ public final class Main implements ActionListener {
     frame.setSize(600, 550);
   }
 
+  private void populateLanguageBox() {
+    langBox.removeAllItems();
+    for (Language lang : Language.LANGUAGES) {
+      if (lang != Language.DEMO) {
+        try {
+          langBox.addItem(messages.getString(lang.getShortName()));
+        } catch (MissingResourceException e) {
+          // can happen with external rules:
+          langBox.addItem(lang.getName());
+        }
+      }
+    }
+  }
+
   private void showGUI() {
     frame.setVisible(true);
   }
@@ -201,7 +211,7 @@ public final class Main implements ActionListener {
   }
 
   void loadFile() {
-    File file = Tools.openFileDialog(frame);
+    File file = Tools.openFileDialog(frame, new PlainTextFilter());
     if (file == null)   // user cancelled
       return;
     try {
@@ -255,6 +265,13 @@ public final class Main implements ActionListener {
       */
     }
     frame.setVisible(false);
+  }
+
+  void addLanguage() {
+    LanguageManagerDialog lmd = new LanguageManagerDialog(frame, Language.getExternalLanguages());
+    lmd.show();
+    Language.reInit(lmd.getLanguages());
+    populateLanguageBox();
   }
   
   void showOptions() {
@@ -352,6 +369,10 @@ public final class Main implements ActionListener {
         break;
       }
     }
+    // external rules:
+    if (lang.length() > 2) {
+      return Language.getLanguageForName(lang);
+    }
     return Language.getLanguageForShortName(lang);
   }
   
@@ -400,7 +421,7 @@ public final class Main implements ActionListener {
     } else {
       StringBuilder sb = new StringBuilder();
       String startChecktext = Tools.makeTexti18n(messages, "startChecking", 
-          new Object[] { messages.getString(lang.getShortName()) });
+          new Object[] { lang.getTranslatedName(messages) });
       resultArea.setText(HTML_FONT_START + startChecktext +"<br>\n" + HTML_FONT_END);
       resultArea.repaint(); // FIXME: why doesn't this work?
       //TODO: resultArea.setCursor(new Cursor(Cursor.WAIT_CURSOR)); 

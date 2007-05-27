@@ -18,7 +18,9 @@
  */
 package de.danielnaber.languagetool;
 
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.PrintStream;
 import java.lang.reflect.Constructor;
 import java.util.ArrayList;
@@ -235,7 +237,12 @@ public final class JLanguageTool {
    */
   public List<PatternRule> loadPatternRules(final String filename) throws IOException {
     PatternRuleLoader ruleLoader = new PatternRuleLoader();
-    return ruleLoader.getRules(this.getClass().getResourceAsStream(filename), filename);
+    InputStream is = this.getClass().getResourceAsStream(filename);
+    if (is == null) {
+      // happens for external rules plugged in as an XML file:
+      is = new FileInputStream(filename);
+    }
+    return ruleLoader.getRules(is, filename);
   }
 
   /**
@@ -264,8 +271,7 @@ public final class JLanguageTool {
    * @throws IOException
    */
   public void activateDefaultPatternRules() throws IOException {
-    String defaultPatternFilename = 
-      RULES_DIR + "/" + language.getShortName() + "/" + PATTERN_FILE;
+    String defaultPatternFilename = language.getRuleFileName();
     List<PatternRule> patternRules = loadPatternRules(defaultPatternFilename);
     userRules.addAll(patternRules);
   }
