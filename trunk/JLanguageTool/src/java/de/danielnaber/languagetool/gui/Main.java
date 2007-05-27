@@ -47,7 +47,6 @@ import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
-import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -197,33 +196,24 @@ public final class Main implements ActionListener {
         throw new IllegalArgumentException("Unknown action " + e);
       }
     } catch (Exception exc) {
-      showError(exc);
+      Tools.showError(exc);
     }
   }
 
   void loadFile() {
-    JFileChooser jfc = new JFileChooser();
-    jfc.setFileFilter(new PlainTextFilter());
-    jfc.showOpenDialog(frame);
+    File file = Tools.openFileDialog(frame);
+    if (file == null)   // user cancelled
+      return;
     try {
-      File file = jfc.getSelectedFile();
-      if (file == null)   // user cancelled
-        return;
       String fileContents = StringTools.readFile(new FileInputStream(file.getAbsolutePath()));
       textArea.setText(fileContents);
       JLanguageTool langTool = getCurrentLanguageTool();
       checkTextAndDisplayResults(langTool, getCurrentLanguage());
     } catch (IOException e) {
-      showError(e);
+      Tools.showError(e);
     }
   }
   
-  private static void showError(final Exception e) {
-    String msg = de.danielnaber.languagetool.tools.Tools.getFullStackTrace(e);
-    JOptionPane.showMessageDialog(null, msg, "Error", JOptionPane.ERROR_MESSAGE);
-    e.printStackTrace();
-  }
-
   void hideToTray() {
     if (trayIcon == null) {
       try {
@@ -328,7 +318,7 @@ public final class Main implements ActionListener {
     try {
       config.saveConfiguration();
     } catch (IOException e) {
-      showError(e);
+      Tools.showError(e);
     }
     if (trayIcon != null) {
       SystemTray tray = SystemTray.getDefaultSystemTray();
@@ -406,7 +396,7 @@ public final class Main implements ActionListener {
 
   private void checkTextAndDisplayResults(final JLanguageTool langTool, final Language lang) {
     if (textArea.getText().trim().equals("")) {
-      textArea.setText("enterText2");
+      textArea.setText(messages.getString("enterText2"));
     } else {
       StringBuilder sb = new StringBuilder();
       String startChecktext = Tools.makeTexti18n(messages, "startChecking", 
@@ -483,7 +473,7 @@ public final class Main implements ActionListener {
               prg.setTrayMode(true);
               prg.hideToTray();
             } catch (Exception e) {
-              showError(e);
+              Tools.showError(e);
             }
           }
         });
@@ -497,13 +487,13 @@ public final class Main implements ActionListener {
               prg.createGUI();
               prg.showGUI();
             } catch (Exception e) {
-              showError(e);
+              Tools.showError(e);
             }
           }
         });
       }
     } catch (Exception e) {
-      showError(e);
+      Tools.showError(e);
     }
   }
 

@@ -98,7 +98,6 @@ public class ConfigurationDialog implements ActionListener {
   
   public void show(List<Rule> rules) {
     dialog = new JDialog(owner, true);
-    // TODO: i18n:
     dialog.setTitle(messages.getString("guiConfigWindowTitle"));
     checkBoxes.clear();
     checkBoxesRuleIds.clear();

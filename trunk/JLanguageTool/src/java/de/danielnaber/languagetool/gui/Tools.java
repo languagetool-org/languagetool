@@ -18,8 +18,15 @@
  */
 package de.danielnaber.languagetool.gui;
 
+import java.awt.Frame;
+import java.io.File;
 import java.text.MessageFormat;
 import java.util.ResourceBundle;
+
+import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
+
+import de.danielnaber.languagetool.gui.Main.PlainTextFilter;
 
 /**
  * GUI-related tools.
@@ -107,6 +114,29 @@ public class Tools {
     result = result.substring(0, startMark) + markerStart + 
       result.substring(startMark, endMark+1) + markerEnd + result.substring(endMark+1);
     return result;
+  }
+
+  /**
+   * Show a file chooser dialog and return the file selected by the user
+   * or <code>null</code>.
+   */
+  static File openFileDialog(Frame frame) {
+    JFileChooser jfc = new JFileChooser();
+    jfc.setFileFilter(new PlainTextFilter());
+    jfc.showOpenDialog(frame);
+    File file = jfc.getSelectedFile();
+    if (file == null)   // user cancelled
+      return null;
+    return file;
+  }
+
+  /**
+   * Show the exception in a dialog and print it to STDERR.
+   */
+  static void showError(final Exception e) {
+    String msg = de.danielnaber.languagetool.tools.Tools.getFullStackTrace(e);
+    JOptionPane.showMessageDialog(null, msg, "Error", JOptionPane.ERROR_MESSAGE);
+    e.printStackTrace();
   }
 
 }
