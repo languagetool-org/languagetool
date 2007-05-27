@@ -55,6 +55,7 @@ import com.sun.star.uno.XComponentContext;
 
 import de.danielnaber.languagetool.JLanguageTool;
 import de.danielnaber.languagetool.Language;
+import de.danielnaber.languagetool.gui.AboutDialog;
 import de.danielnaber.languagetool.gui.Configuration;
 import de.danielnaber.languagetool.gui.Tools;
 import de.danielnaber.languagetool.rules.Rule;
@@ -127,6 +128,9 @@ public class Main {
               break;
             }
           }
+        } else if (sEvent.equals("about")) {
+          AboutDialogThread aboutthread = new AboutDialogThread(messages);
+          aboutthread.start();
         } else {
           System.err.println("Sorry, don't know what to do, sEvent = " + sEvent);
         }        
@@ -430,6 +434,21 @@ class DialogThread extends Thread {
   
   public void run() {
     JOptionPane.showMessageDialog(null, text);
+  }
+  
+}
+
+class AboutDialogThread extends Thread {
+
+  private ResourceBundle messages;
+
+  AboutDialogThread(final ResourceBundle messages) {
+    this.messages = messages;
+  }
+  
+  public void run() {
+    AboutDialog about = new AboutDialog(messages);
+    about.show();
   }
   
 }
