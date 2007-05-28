@@ -35,8 +35,8 @@ public class ItalianTaggerTest extends TestCase {
   }
 
   public void testTagger() throws IOException {
-    TestTools.myAssert("Non c'è linguaggio senza inganno.", "Non/[non]ADV c/[null]null è/[essere]VER:ind+pres+3+s|è/[essere]AUX:ind+pres+3+s linguaggio/[linguaggio]NOUN-M:s senza/[senza]CON|senza/[senza]PRE inganno/[inganno]NOUN-M:s|inganno/[ingannare]VER:ind+pres+1+s", tokenizer, tagger);
-    TestTools.myAssert("Amo quelli che desiderano l'impossibile.", "Amo/[amare]VER:ind+pres+1+s quelli/[quello]DET-DEMO:m+p|quelli/[quelli]PRO-DEMO-M-P che/[che]CON|che/[che]DET-WH:m+p|che/[che]DET-WH:m+s|che/[che]DET-WH:f+p|che/[che]DET-WH:f+s|che/[che]WH-CHE desiderano/[desiderare]VER:ind+pres+3+p l/[null]null impossibile/[impossibile]ADJ:pos+f+s|impossibile/[impossibile]ADJ:pos+m+s", tokenizer, tagger);
+    TestTools.myAssert("Non c'è linguaggio senza inganno.", "Non/[non]ADV c/[null]null è/[essere]AUX:ind+pres+3+s|è/[essere]VER:ind+pres+3+s linguaggio/[linguaggio]NOUN-M:s senza/[senza]CON|senza/[senza]PRE inganno/[inganno]NOUN-M:s|inganno/[ingannare]VER:ind+pres+1+s", tokenizer, tagger);
+    TestTools.myAssert("Amo quelli che desiderano l'impossibile.", "Amo/[amare]VER:ind+pres+1+s quelli/[quelli]PRO-DEMO-M-P|quelli/[quello]DET-DEMO:m+p che/[che]CON|che/[che]DET-WH:f+p|che/[che]DET-WH:f+s|che/[che]DET-WH:m+p|che/[che]DET-WH:m+s|che/[che]WH-CHE desiderano/[desiderare]VER:ind+pres+3+p l/[null]null impossibile/[impossibile]ADJ:pos+f+s|impossibile/[impossibile]ADJ:pos+m+s", tokenizer, tagger);
     TestTools.myAssert("blablabla","blablabla/[null]null", tokenizer, tagger);        
   }
 

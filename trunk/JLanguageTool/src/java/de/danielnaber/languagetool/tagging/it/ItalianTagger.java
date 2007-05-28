@@ -43,18 +43,18 @@ public class ItalianTagger implements Tagger {
 
   private Lametyzator morfologik = null;
 
-  public List<AnalyzedTokenReadings> tag(final List<String> sentenceTokens) throws IOException {
+  public final List<AnalyzedTokenReadings> tag(final List<String> sentenceTokens) throws IOException {
     String[] taggerTokens;
-    List<AnalyzedTokenReadings> tokenReadings = new ArrayList<AnalyzedTokenReadings>();
+    final List<AnalyzedTokenReadings> tokenReadings = new ArrayList<AnalyzedTokenReadings>();
     int pos = 0;
     //caching Lametyzator instance - lazy init
     if (morfologik == null) {
       morfologik = new Lametyzator(this.getClass().getResourceAsStream(RESOURCE_FILENAME),
-          "iso8859-15", '+');
+          "iso8859-15", '_');
     }
 
-    for (String word : sentenceTokens) {
-      List<AnalyzedToken> l = new ArrayList<AnalyzedToken>();
+    for (final String word : sentenceTokens) {
+      final List<AnalyzedToken> l = new ArrayList<AnalyzedToken>();
       String[] lowerTaggerTokens = null;
       taggerTokens = morfologik.stemAndForm(word);
       if (!word.equals(word.toLowerCase())) {
@@ -85,7 +85,7 @@ public class ItalianTagger implements Tagger {
       }
       pos += word.length();
       tokenReadings
-          .add(new AnalyzedTokenReadings((AnalyzedToken[]) l.toArray(new AnalyzedToken[l.size()])));
+          .add(new AnalyzedTokenReadings(l.toArray(new AnalyzedToken[l.size()])));
     }
 
     return tokenReadings;
