@@ -27,6 +27,8 @@ import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileFilter;
 
+import de.danielnaber.languagetool.tools.StringTools;
+
 /**
  * GUI-related tools.
  * 
@@ -65,17 +67,35 @@ public class Tools {
    * highlighting the range with HTML code.
    */
   public static String getContext(int fromPos, int toPos, String fileContents, int contextSize) {
-    return getContext(fromPos, toPos, fileContents, contextSize, MARKER_START, MARKER_END);
+    return getContext(fromPos, toPos, fileContents, contextSize, MARKER_START, MARKER_END, true);
   }
-  
+
+  /**
+   * Get the context (<code>contextSize</code> characters) of the given text range,
+   * highlighting the range with the given marker strings, not escaping HTML.
+   */
+  public static final String getContext(final int fromPos, final int toPos, 
+      final String fileContents, final int contextSize,
+      final String markerStart, final String markerEnd) {
+    return getContext(fromPos, toPos, fileContents, contextSize, markerStart, 
+        markerEnd, false);
+  }
   /**
    * Get the context (<code>contextSize</code> characters) of the given text range,
    * highlighting the range with the given marker strings.
+   * 
+   * @param fromPos the start position of the error in characters
+   * @param endPos the end position of the error in characters
+   * @param text the text from which the context should be taken
+   * @param contextSize the size of the context in characters
+   * @param markerStart the string used to mark the beginning of the error
+   * @param markerEnd the string used to mark the end of the error
+   * @param escapeHTML whether HTML/XML characters should be escaped
    */
   public static final String getContext(final int fromPos, final int toPos, 
-      String fileContents, final int contextSize,
-      final String markerStart, final String markerEnd) {
-    fileContents = fileContents.replace('\n', ' ');
+      String text, final int contextSize,
+      final String markerStart, final String markerEnd, final boolean escapeHTML) {
+    text = text.replace('\n', ' ');
     // calculate context region:
     int startContent = fromPos - contextSize;    
     String prefix = "...";
@@ -87,7 +107,7 @@ public class Tools {
       startContent = 0;
     }
     int endContent = toPos + contextSize;
-    int fileLen = fileContents.length();
+    int fileLen = text.length();
     if (endContent > fileLen) {
       postfix = "";
       endContent = fileLen;
@@ -104,14 +124,22 @@ public class Tools {
     // now build context string plus marker:
     StringBuilder sb = new StringBuilder();
     sb.append(prefix);
-    sb.append(fileContents.substring(startContent, endContent));
+    sb.append(text.substring(startContent, endContent));
     String markerStr = markerPrefix + marker.substring(startContent, endContent);
     sb.append(postfix);
     int startMark = markerStr.indexOf('^');
     int endMark = markerStr.lastIndexOf('^');
     String result = sb.toString();
-    result = result.substring(0, startMark) + markerStart + 
+    if (escapeHTML) {
+      result = StringTools.escapeHTML(result.substring(0, startMark))
+        + markerStart 
+        + StringTools.escapeHTML(result.substring(startMark, endMark+1))
+        + markerEnd 
+        + StringTools.escapeHTML(result.substring(endMark+1));
+    } else {
+      result = result.substring(0, startMark) + markerStart + 
       result.substring(startMark, endMark+1) + markerEnd + result.substring(endMark+1);
+    }
     return result;
   }
 
