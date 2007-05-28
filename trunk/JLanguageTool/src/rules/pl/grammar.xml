@@ -6,7 +6,7 @@ title="Easy editing stylesheet" ?>
 <!--
 Polish Grammar and Typo Rules for LanguageTool
 Copyright (C) 2006-2007 Marcin Miłkowski
-$Id: grammar.xml,v 1.59 2007-05-21 21:40:00 milek_pl Exp $
+$Id: grammar.xml,v 1.60 2007-05-28 18:43:32 milek_pl Exp $
 -->
 <rules lang="pl">
   <phrases>
@@ -546,12 +546,22 @@ $Id: grammar.xml,v 1.59 2007-05-21 21:40:00 milek_pl Exp $
       <rule>
         <pattern>
           <token negate="yes" regexp="yes">[\p{Punct}–—„«»]<exception postag="SENT_START|conj" postag_regexp="yes"/></token>
-          <token regexp="yes">acz|aczkolwiek|albowiem|ale|aleć|aliści|azali|bo|byleby|czyli|czyliż|dopóki|dopóty|gdyż|gdyżby|ilekolwiek|ilekroć|lecz|póki|którędy|wszelako</token>
+          <token regexp="yes">acz|aczkolwiek|albowiem|ale|aleć|aliści|azali|bo|byleby|czyli|czyliż|dopóki|dopóty|gdyż|gdyżby|ilekolwiek|ilekroć|lecz|którędy|wszelako</token>
         </pattern>
         <message>Przed tym spójnikiem stawiamy przecinek: <suggestion>\1, \2</suggestion>.</message>
         <example type="correct">Lubię cię, ale musisz mi oddać pieniądze.</example>
         <example correction="cię, lecz" type="incorrect">Lubię <marker>cię lecz</marker> musisz mi oddać pieniądze.</example>
         <example correction="cię, ale" type="incorrect">Lubię <marker>cię ale</marker> musisz mi oddać pieniądze.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token negate="yes" regexp="yes">[\p{Punct}–—„«»]|do<exception postag="SENT_START|conj" postag_regexp="yes"/></token>
+          <token regexp="yes">póki</token>
+        </pattern>
+        <message>Przed tym spójnikiem stawiamy przecinek: <suggestion>\1, \2</suggestion>.</message>
+        <example type="correct">Nie odezwę się do ciebie, póki nie oddasz mi forsy.</example>
+        <example correction="ciebie, póki" type="incorrect">Nie odezwę się do <marker>ciebie póki</marker> nie oddasz mi forsy.</example>
+        <example correction="" type="correct">Nie zrobię tego, do póki nie zapłacisz całej sumy.</example>
       </rule>
       <rule>
         <pattern>
