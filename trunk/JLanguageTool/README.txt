@@ -42,6 +42,8 @@ Known bugs:
     about text which is actually correct
    
 TODO:
+ -Add an attribute to the DTD so rules can be disabled by default
+ -Add the possibility to disable complete rule groups in the GUI
  -improve error message if http server cannot be started (e.g., on port 80)
  	-> cannot re-start at all if set to port 80 once
  -RMB menu for system tray
