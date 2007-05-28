@@ -30,7 +30,7 @@
 		<xsl:attribute name="onmousedown">toggleDiv('<xsl:copy-of select="$cat_id"/>');</xsl:attribute>
 		<xsl:value-of select="$category_name"/>
 		</xsl:element>
-        (<xsl:value-of select="count(rule)+count(rulegroup)"/>)
+        (<xsl:value-of select="count(rule)"/>)
 		</h4>
 		<ol>			
 			<xsl:apply-templates select="*">
@@ -44,7 +44,7 @@
 		<xsl:attribute name="onmousedown">toggleDiv('<xsl:copy-of select="$cat_id"/>');</xsl:attribute>
 		<xsl:value-of select="$category_name"/>
 		</xsl:element>
-        (<xsl:value-of select="count(rule)+count(rulegroup)"/>)
+        (<xsl:value-of select="count(rule)"/>)
 		</h4>
 	</xsl:template>
 
