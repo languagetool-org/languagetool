@@ -7,7 +7,7 @@ title="Easy editing stylesheet" ?>
 English Grammar and Typo Rules for LanguageTool
 See tagset.txt for the meaning of the POS tags
 Copyright (C) 2001-2007 Daniel Naber (http://www.danielnaber.de)
-$Id: grammar.xml,v 1.22 2007-05-29 16:04:11 milek_pl Exp $
+$Id: grammar.xml,v 1.23 2007-05-29 16:15:53 milek_pl Exp $
 -->
 <rules lang="en">
   <!-- ====================================================================== -->
@@ -1018,6 +1018,18 @@ $Id: grammar.xml,v 1.22 2007-05-29 16:04:11 milek_pl Exp $
         <example correction="are" type="incorrect">The dogs <marker>is</marker> released.</example>
       </rule>
       <rule>
+        <pattern mark_from="3">
+          <token postag="SENT_START"/>
+          <token postag="DT"/>
+          <token postag="NNS"><exception postag="NN|NN:.*" postag_regexp="yes"/></token>
+          <token>was</token>
+        </pattern>
+        <message>Possible agreement error. You should probably use: <suggestion>were</suggestion>.</message>
+        <example type="correct">The dogs <marker>were</marker> released.</example>
+        <example type="correct">The dog was released.</example>
+        <example correction="were" type="incorrect">The dogs <marker>was</marker> released.</example>
+      </rule>
+      <rule>
         <pattern mark_from="5">
           <token postag="SENT_START"/>
           <token postag="DT"/>
@@ -1030,6 +1042,20 @@ $Id: grammar.xml,v 1.22 2007-05-29 16:04:11 milek_pl Exp $
         <example type="correct">The dogs of war <marker>are</marker> released.</example>
         <example type="correct">The dog of war is released.</example>
         <example correction="are" type="incorrect">The dogs of war <marker>is</marker> released.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="5">
+          <token postag="SENT_START"/>
+          <token postag="DT"/>
+          <token postag="NNS"/>
+          <token>of</token>
+          <token postag="NN|NN:.*" postag_regexp="yes"/>
+          <token>was</token>
+        </pattern>
+        <message>Possible agreement error. You should probably use: <suggestion>were</suggestion>.</message>
+        <example type="correct">The dogs of war <marker>are</marker> released.</example>
+        <example type="correct">The dog of war was released.</example>
+        <example correction="were" type="incorrect">The dogs of war <marker>was</marker> released.</example>
       </rule>
     </rulegroup>
     <rulegroup id="HAVE_PART_AGREEMENT" name="Agreement: have + past/present tense">
@@ -1245,7 +1271,7 @@ $Id: grammar.xml,v 1.22 2007-05-29 16:04:11 milek_pl Exp $
       <message>Uncountable nouns are usually not used with an indefinite article. Use simply <suggestion>\2</suggestion>.</message>
       <example type="correct"><marker>The information</marker> in your files is correct.</example>
       <example type="correct"><marker>An intelligence</marker> service is known to be corrupt here.</example>
-      <example type="incorrect"><marker>An accommodation</marker> is too expensive.</example>
+      <example correction="Accommodation" type="incorrect"><marker>An accommodation</marker> is too expensive.</example>
     </rule>
     <rule id="MOST_SOME_OF_NNS" name="Articles: 'most/some of' + plural noun">
       <pattern>
@@ -1795,7 +1821,7 @@ $Id: grammar.xml,v 1.22 2007-05-29 16:04:11 milek_pl Exp $
         <message>Did you mean <suggestion>these</suggestion>?</message>
         <example type="correct">These errors are easy to fix.</example>
         <example type="incorrect"><marker>This</marker> errors are easy to fix.</example>
-        <example type="correct">This forms a sharp contract with...</example>
+        <example correction="These" type="correct">This forms a sharp contract with...</example>
       </rule>
       <rule>
         <pattern mark_to="0">
