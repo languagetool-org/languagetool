@@ -6,7 +6,7 @@ title="Easy editing stylesheet" ?>
 <!--
 Polish Grammar and Typo Rules for LanguageTool
 Copyright (C) 2006-2007 Marcin Miłkowski
-$Id: grammar.xml,v 1.60 2007-05-28 18:43:32 milek_pl Exp $
+$Id: grammar.xml,v 1.61 2007-05-29 15:42:46 milek_pl Exp $
 -->
 <rules lang="pl">
   <phrases>
@@ -947,7 +947,7 @@ $Id: grammar.xml,v 1.60 2007-05-28 18:43:32 milek_pl Exp $
     <rulegroup id="BRAK_PRZECINKA_ANI" name="Brakujący przecinek przed powtórzonym „ani”, „albo”, „bądź”, „i”, „lub”, „oraz”">
       <rule>
         <pattern mark_from="2">
-          <token regexp="yes" skip="-1">ani|ni|i|lub|albo|czy|oraz<exception scope="next">,</exception></token>
+          <token regexp="yes" skip="-1">ani|ni|lub|albo|czy|oraz<exception scope="next">,</exception></token>
           <token skip="-1"><exception>,</exception><exception scope="next">,</exception></token>
           <token><match no="0"/></token>
         </pattern>
@@ -1121,6 +1121,37 @@ $Id: grammar.xml,v 1.60 2007-05-28 18:43:32 milek_pl Exp $
       <message>Przecinek jest w tym miejscu prawdopodobnie zbędny. Powinno być: <suggestion>Otóż</suggestion>.</message>
       <example correction="Otóż" type="incorrect"><marker>Otóż,</marker> poniżej zamieszczam przepis dodania strony do wyszukiwarki Google.</example>
       <example type="correct">Otóż poniżej zamieszczam przepis dodania strony do wyszukiwarki Google.</example>
+    </rule>
+    <rulegroup id="BRAK_ZNAKU_ZAPYTANIA" name="Brak pytajnika na końcu pytania">
+      <rule>
+        <pattern mark_from="2">
+          <token postag="SENT_START"/>
+          <token skip="-1">Czy</token>
+          <token postag="SENT_END">.</token>
+        </pattern>
+        <message>To zdanie jest prawdopodobnie pytaniem i powinno kończyć się znakiem zapytania: <suggestion>?</suggestion>.</message>
+        <example type="correct">Czy zatem pożyczysz mi stówkę?</example>
+        <example correction="?" type="incorrect">Czy zatem pożyczysz mi stówkę<marker>.</marker></example>
+      </rule>
+      <rule>
+        <pattern mark_from="2">
+          <token postag="SENT_START"/>
+          <token regexp="yes" skip="-1">Czemu|Czego|Dlaczego|Dlaczegóż|Dokąd|Dokądże<exception scope="next">,</exception></token>
+          <token postag="SENT_END">.</token>
+        </pattern>
+        <message>To zdanie jest prawdopodobnie pytaniem i powinno kończyć się znakiem zapytania: <suggestion>?</suggestion>.</message>
+        <example type="correct">Dokąd idziesz na wycieczkę?</example>
+        <example correction="?" type="incorrect">Dokąd idziesz na wycieczkę<marker>.</marker></example>
+      </rule>
+    </rulegroup>
+    <rule id="BRAK_KROPKI" name="Brak kropki na końcu zdania">
+      <pattern mark_from="1">
+        <token postag="verb:.*(sg|pl).*|verb:imps.*|verb:irreg|pred" postag_regexp="yes" skip="-1"/>
+        <token negate="yes" postag="SENT_END">.</token>
+      </pattern>
+      <message>To zdanie nie kończy się kropką. Powinno być: <suggestion>\2.</suggestion></message>
+      <example correction="złotych." type="incorrect">Pożycz mi sto <marker>złotych</marker></example>
+      <example type="correct">Pożycz mi sto złotych.</example>
     </rule>
   </category>
   <category name="Błędy typograficzne">
@@ -4252,6 +4283,26 @@ $Id: grammar.xml,v 1.60 2007-05-28 18:43:32 milek_pl Exp $
       <example type="correct">Komisja wyceniła straty na około pięć milionów.</example>
       <example type="correct">Komisja wyceniła straty na około 12 milionów.</example>
     </rule>
+    <rule id="DWU_PRZYMIOTNIK" name="Błędna pisownia rozłączna „jedno-”, „dwu-”, „trzy-” i „stu-”">
+      <pattern>
+        <token regexp="yes">jedno|dwu|trzy|stu</token>
+        <token inflected="yes" regexp="yes">aktowy|barwny|biegowy|cyfrowy|częściowy|daniowy|dniowy|drzwiowy|fazowy|głosowy|godzinny|języczny|kilogramowy|kilowy|klasowy|kołowy|kondygnacyjny|konny|krotny|letni|listny|literowy|litrowy|lufowy|metrowy|miesięczny|milowy|minutowy|osobowy|pasmowy|piętrowy|płatowy|piętrowy|pokoleniowy|procentowy|ramienny|składnikowy|tomowy|tonowy|tygodniowy|wiekowy</token>
+      </pattern>
+      <message>Prawdopodobnie błąd ortogaficzny. Ten wyraz piszemy razem: <suggestion>\1\2</suggestion>.</message>
+      <example type="correct">Ta droga jest dwupasmowa.</example>
+      <example correction="dwupasmowa" type="incorrect">Ta droga jest <marker>dwu pasmowa</marker>.</example>
+    </rule>
+    <rule id="DWU_I_POL_PRZYMIOTNIK" name="Błędna pisownia rozłączna przymiotników typu „dwuipółkrotny”">
+      <pattern>
+        <token regexp="yes">(.*)jedno|dwu|trzy|cztero|pięcio|sześcio|siedmio|ośmio|dziewięcio|dziesięcio|jedenasto|stu|dwustu</token>
+        <token>i</token>
+        <token>pół</token>
+        <token inflected="yes" regexp="yes">letni|godzinny|krotny</token>
+      </pattern>
+      <message>Prawdopodobnie błąd ortogaficzny. Ten wyraz piszemy razem: <suggestion>\1\2\3\4</suggestion>.</message>
+      <example type="correct">Zebranie będzie dwuipółgodzine.</example>
+      <example correction="dwuipółgodzinne" type="incorrect">Zebranie będzie <marker>dwu i pół godzinne</marker>.</example>
+    </rule>
     <rule id="W_RAZ" name="„w raz” (wraz)">
       <pattern mark_from="1" mark_to="-1">
         <token><exception>raz</exception></token>
@@ -5457,6 +5508,15 @@ $Id: grammar.xml,v 1.60 2007-05-28 18:43:32 milek_pl Exp $
     </rule>
   </category>
   <category name="Prawdopodobne literówki">
+    <rule id="DO_ZROBIENI" name="„do zrobieni” (do zrobienia)">
+      <pattern mark_from="1">
+        <token postag="prep:gen"/>
+        <token postag="ppas:pl:nom.voc:m1"/>
+      </pattern>
+      <message>Prawdopodobna literówka. Czy chodziło o <suggestion>\2a</suggestion>?</message>
+      <example type="correct">Mam wiele rzeczy do zrobienia.</example>
+      <example correction="zrobienia" type="incorrect">Mam wiele rzeczy do <marker>zrobieni</marker>.</example>
+    </rule>
     <rulegroup id="ZDROWA_ZDROWIA" name="„zdrowa” (zdrowia)">
       <rule>
         <pattern mark_from="1">
