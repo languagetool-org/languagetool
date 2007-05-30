@@ -156,23 +156,30 @@
 	<body>
         <noscript><p><strong>Note:</strong> this page requires Javascript to work</p></noscript>
 		<xsl:choose>
-		<xsl:when test="//rules[@lang='pl']">Liczba reguł: </xsl:when>
-		<xsl:when test="//rules[@lang='en']">Number of rules: </xsl:when>
-		<xsl:when test="//rules[@lang='de']">Regeln: </xsl:when>
-		<xsl:otherwise>Number of rules: </xsl:otherwise>
+		<xsl:when test="//rules[@lang='pl']">Łączna liczba reguł: </xsl:when>
+		<xsl:otherwise>Total number of rules: </xsl:otherwise>
 		</xsl:choose>
 		<strong>
 			<xsl:value-of select="count(//rule)"/>
-		</strong>
+		</strong>		
 		<br/>
 		<xsl:choose>
 		<xsl:when test="//rules[@lang='pl']">W tym z podpowiedziami: </xsl:when>
-		<xsl:when test="//rules[@lang='en']">Rules with suggestions: </xsl:when>
 		<xsl:otherwise>Rules with suggestions: </xsl:otherwise>
 		</xsl:choose>
 		<strong>
 			<xsl:value-of select="count(//message[suggestion!=''])"/>
 		</strong>
+		<br/>
+		<xsl:choose>
+		<xsl:when test="//rules[@lang='pl']">Liczba widocznych typów reguł: </xsl:when>
+		<xsl:otherwise>Total number of visible rule types: </xsl:otherwise>
+		</xsl:choose>
+		<strong>
+			<xsl:value-of select="count(//rule[@id!=''])+count(//rulegroup[@id!=''])"/>
+		</strong>		
+		<br/>
+	
 			<xsl:apply-templates select="*">
 				<xsl:sort select="@name"/>
 			</xsl:apply-templates>
