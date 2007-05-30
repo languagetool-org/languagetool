@@ -30,10 +30,12 @@ phraseref:before{
 pattern:before {
 	content: "mark_from"
 	number-field(attribute, mark_from,
-	data-type, int, columns, 2)
+	data-type, int, columns, 2,
+	remove-value, "yes")
 	"mark_to"
 	number-field(attribute, mark_to, 
-	data-type, int, columns, 2)
+	data-type, int, columns, 2,
+	remove-value, "yes")
 	" case sensitive: "
 	radio-buttons(attribute, case_sensitive,
 		values, "yes\A no",
@@ -74,7 +76,8 @@ exception:before {
                        checked-value, "yes",
                        remove-value, "yes")
 				text-field(attribute, postag,
-					columns, 15)				
+					columns, 15)
+                remove-attribute-button(attribute, postag)				
 				check-box(label, "negated POS", 
 					attribute, negate_pos,
                     checked-value, "yes",
@@ -108,6 +111,7 @@ token:before {
                        remove-value, "yes")
 				text-field(attribute, postag,
 					columns, 15)
+                remove-attribute-button(attribute, postag)									
 				check-box(label, "negated POS", 
 					attribute, negate_pos,
                     checked-value, "yes",
