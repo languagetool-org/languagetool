@@ -6,7 +6,7 @@ title="Easy editing stylesheet" ?>
 <!--
 Polish Grammar and Typo Rules for LanguageTool
 Copyright (C) 2006-2007 Marcin Miłkowski
-$Id: grammar.xml,v 1.61 2007-05-29 15:42:46 milek_pl Exp $
+$Id: grammar.xml,v 1.62 2007-05-31 22:41:18 milek_pl Exp $
 -->
 <rules lang="pl">
   <phrases>
@@ -4655,11 +4655,12 @@ $Id: grammar.xml,v 1.61 2007-05-29 15:42:46 milek_pl Exp $
     <rule id="Z_GOLA" name="„z goła” (zgoła)">
       <pattern>
         <token>z</token>
-        <token>goła</token>
+        <token regexp="yes">goła|nów|razu</token>
       </pattern>
       <message>Ten wyraz piszemy łącznie, tj. <suggestion>\1\2</suggestion>.</message>
       <example type="correct">Przy takim pojmowaniu historii jasne jest, że nie ma tu zgoła miejsca dla wybitnych jednostek, a niewiele go zostaje dla wolności woli.</example>
       <example correction="zgoła" type="incorrect">Przy takim pojmowaniu historii jasnym jest, że nie ma tu <marker>z goła</marker> miejsca dla wybitnych jednostek, a niewiele go zostaje dla wolności woli.</example>
+      <example correction="znów" type="incorrect">Premier <marker>z nów</marker> wpłacił pieniądze na konto mamusi.</example>
     </rule>
     <rule id="Z_PRZED" name="„z przed” (sprzed)">
       <pattern>
@@ -4916,11 +4917,12 @@ $Id: grammar.xml,v 1.61 2007-05-29 15:42:46 milek_pl Exp $
     <rule id="NAPRZECIWKO" name="„na przeciwko/przeciw” (naprzeciwko/naprzeciw)">
       <pattern>
         <token>na</token>
-        <token regexp="yes">przeciwko|przeciw</token>
+        <token regexp="yes">przeciwko|przeciw|daremnie|umyślnie|wet</token>
       </pattern>
       <message>Wyrażenie <suggestion>\1\2</suggestion> piszemy łącznie.</message>
       <example type="correct">Ala mieszkała naprzeciwko.</example>
       <example correction="naprzeciw" type="incorrect">Sam wyszedłeś mu <marker>na przeciw</marker>.</example>
+      <example correction="nadaremnie" type="incorrect">Nigdy nie wymawiaj mojego imienia <marker>na daremnie</marker>.</example>
       <example correction="Naprzeciwko" type="incorrect"><marker>Na przeciwko</marker> moich okien są takie same okna innego budynku na naszym terenie.</example>
     </rule>
     <rule id="ZNAD" name="„z nad” (znad)">
@@ -5093,10 +5095,11 @@ $Id: grammar.xml,v 1.61 2007-05-29 15:42:46 milek_pl Exp $
     <rule id="PO_NAD" name="„po nad” (ponad)">
       <pattern case_sensitive="yes">
         <token regexp="yes">[Pp]o</token>
-        <token>nad</token>
+        <token regexp="yes">nad|jutrze|pojutrze</token>
       </pattern>
-      <message>Wyraz <suggestion>ponad</suggestion> piszemy łącznie.</message>
+      <message>Wyraz <suggestion>\1\2</suggestion> piszemy zwykle łącznie.</message>
       <example correction="ponad" type="incorrect">Byłem w <marker>po nad</marker> trzydziestu krajach.</example>
+      <example correction="Pojutrze" type="incorrect"><marker>Po jutrze</marker> jadę do Krakowa.</example>
       <example type="correct">Byłem w ponad trzydziestu krajach.</example>
     </rule>
     <rule id="W_CALE" name="„w cale” (wcale)">
@@ -5116,6 +5119,15 @@ $Id: grammar.xml,v 1.61 2007-05-29 15:42:46 milek_pl Exp $
       <message>Wyraz <suggestion>pomimo</suggestion> piszemy łącznie.</message>
       <example correction="Pomimo" type="incorrect"><marker>Po mimo</marker> początkowych problemów, wylądował bowiem w wodach Kanału La Manche.</example>
       <example type="correct">Pomimo początkowych problemów, wylądował bowiem w wodach Kanału La Manche</example>
+    </rule>
+    <rule id="PRZED_WCZORAJ" name="„przed wczoraj” (przedwczoraj)">
+      <pattern case_sensitive="no">
+        <token>przed</token>
+        <token>wczoraj</token>
+      </pattern>
+      <message>Wyraz <suggestion>\1\2</suggestion> piszemy łącznie.</message>
+      <example correction="Przedwczoraj" type="incorrect"><marker>Przed wczoraj</marker> premier oświadczył, że nie jest wcieleniem Teletubisia.</example>
+      <example type="correct">Przedwczoraj Teletubisie zapowiedziały strajk ostrzegawczy.</example>
     </rule>
     <rule id="PO_MIEDZY" name="„po między” (pomiędzy)">
       <pattern case_sensitive="yes" mark_from="1">
@@ -5185,14 +5197,17 @@ $Id: grammar.xml,v 1.61 2007-05-29 15:42:46 milek_pl Exp $
       <example type="correct">Będę jadł lody, dopóki będę miał ochotę.</example>
       <example correction="dopóki" type="incorrect">Będę jadł lody, <marker>do póki</marker> będę miał ochotę.</example>
     </rule>
-    <rule id="W_TEDY" name="„w tedy” (wtedy)">
+    <rule id="W_TEDY" name="„w tedy”, „w niwecz”, „w pław”, „w pośród” (wtedy, wniwecz, wpław, wpośród) itp.">
       <pattern>
         <token>w</token>
-        <token>tedy</token>
+        <token regexp="yes">tedy|niwecz|pław|pośród|prost|ręcz|szerz</token>
       </pattern>
-      <message>Wyraz <suggestion>wtedy</suggestion> piszemy łącznie.</message>
+      <message>Wyraz <suggestion>\1\2</suggestion> piszemy łącznie.</message>
       <example type="correct">Wtedy Przemysław poczuł, że premier jest najmądrzejszy na świecie.</example>
       <example correction="Wtedy" type="incorrect"><marker>W tedy</marker> Przemysław poczuł, że premier jest najmądrzejszy na świecie.</example>
+      <example correction="wniwecz" type="incorrect">Jego życzenia obróciły się <marker>w niwecz</marker>.</example>
+      <example correction="wpław" type="incorrect">Popłyniemy <marker>w pław</marker>.</example>
+      <example correction="Wprost" type="incorrect">Tygodnik „<marker>W prost</marker>” jest szmatławcem.</example>
     </rule>
     <rule id="DWA_KROC" name="„dwa/trzy/wiele kroć” (dwakroć, trzykroć)">
       <pattern>
@@ -5506,8 +5521,38 @@ $Id: grammar.xml,v 1.61 2007-05-29 15:42:46 milek_pl Exp $
       <example type="correct">Miał 24 wystawy indywidualne w kraju i za granicą.</example>
       <example correction="i za granicą|z zagranicą" type="incorrect">Miał 24 wystawy indywidualne w kraju <marker>z za granicą</marker>.</example>
     </rule>
+    <rulegroup id="WAZY_WARZY" name="„warzy” (waży)">
+      <rule>
+        <pattern mark_from="1" mark_to="-1">
+          <token skip="5">ile</token>
+          <token>warzy</token>
+          <token negate="yes" regexp="yes">\d+</token>
+        </pattern>
+        <message>Prawdopodobny błąd ortograficzny. Czy chodziło o <suggestion>waży</suggestion> (=jaką ma wagę)?</message>
+        <example correction="waży" type="incorrect">Ile w końcu <marker>warzy</marker> ten monitor?</example>
+        <example type="correct">Ile waży kot premiera?</example>
+      </rule>
+      <rule>
+        <pattern mark_to="-1">
+          <token skip="3">warzy</token>
+          <token inflected="yes" regexp="yes">\d+|jeden|dwa|trzy|cztery|pięć|sześć|siedem|osiem|dziewięć|dziesięć|jedenaście|dwanaście|sto|tysiąc</token>
+        </pattern>
+        <message>Prawdopodobny błąd ortograficzny. Czy chodziło o <suggestion>waży</suggestion> (=jaką ma wagę)?</message>
+        <example correction="waży" type="incorrect">Ten kot <marker>warzy</marker> 2 kilo.</example>
+        <example type="correct">Ten chomik waży 100 g.</example>
+      </rule>
+    </rulegroup>
   </category>
   <category name="Prawdopodobne literówki">
+    <rule id="PRZE_TO" name="„prze to” (przez to, przeto)">
+      <pattern>
+        <token>prze</token>
+        <token>to</token>
+      </pattern>
+      <message>Prawdopodobna literówka. Czy chodziło o <suggestion>przez to</suggestion> czy o <suggestion>przeto</suggestion>?</message>
+      <example correction="przez to|przeto" type="incorrect">Należy <marker>prze to</marker> rozumieć organy działające w szkole.</example>
+      <example type="correct">Należy przez to rozumieć organy działające w szkole.</example>
+    </rule>
     <rule id="DO_ZROBIENI" name="„do zrobieni” (do zrobienia)">
       <pattern mark_from="1">
         <token postag="prep:gen"/>
