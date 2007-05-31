@@ -148,10 +148,10 @@ public class PolishWordRepeatRule extends PolishRule {
         for (int j = 0; j < readingsLen; j++) {          
           if (hasLemma) {            
             curLemma = tokens[i].getAnalyzedToken(j).getLemma();            
-            final String Pos = tokens[i].getAnalyzedToken(j).getPOSTag();
+            final String pos = tokens[i].getAnalyzedToken(j).getPOSTag();
             boolean notSentEnd = false;
-            if (Pos != null) {
-              notSentEnd = "SENT_END".equals(Pos);
+            if (pos != null) {
+              notSentEnd = "SENT_END".equals(pos);
               }            
             if (!prevLemma.equals(curLemma) && !notSentEnd) {
               if (inflectedWords.contains(curLemma)) {
