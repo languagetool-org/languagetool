@@ -131,7 +131,7 @@ public class PolishWordRepeatRule extends PolishRule {
           if (m2.matches()) {
             isWord = false;
             break;
-          }
+          }          
         } else {
           hasLemma = false;
         }
@@ -145,10 +145,15 @@ public class PolishWordRepeatRule extends PolishRule {
 
       prevLemma = "";
       if (isWord) {
-        for (int j = 0; j < readingsLen; j++) {
-          if (hasLemma) {
-            curLemma = tokens[i].getAnalyzedToken(j).getLemma();
-            if (!prevLemma.equals(curLemma)) {
+        for (int j = 0; j < readingsLen; j++) {          
+          if (hasLemma) {            
+            curLemma = tokens[i].getAnalyzedToken(j).getLemma();            
+            final String Pos = tokens[i].getAnalyzedToken(j).getPOSTag();
+            boolean notSentEnd = false;
+            if (Pos != null) {
+              notSentEnd = "SENT_END".equals(Pos);
+              }            
+            if (!prevLemma.equals(curLemma) && !notSentEnd) {
               if (inflectedWords.contains(curLemma)) {
                 repetition = true;
               } else {	        			   	           
