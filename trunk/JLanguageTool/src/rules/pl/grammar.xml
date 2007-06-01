@@ -6,7 +6,7 @@ title="Easy editing stylesheet" ?>
 <!--
 Polish Grammar and Typo Rules for LanguageTool
 Copyright (C) 2006-2007 Marcin Miłkowski
-$Id: grammar.xml,v 1.62 2007-05-31 22:41:18 milek_pl Exp $
+$Id: grammar.xml,v 1.63 2007-06-01 20:48:09 milek_pl Exp $
 -->
 <rules lang="pl">
   <phrases>
@@ -3251,6 +3251,15 @@ $Id: grammar.xml,v 1.62 2007-05-31 22:41:18 milek_pl Exp $
       <example correction="podawał" type="incorrect">Nie będę tego <marker>poddawał</marker> w wątpliwość.</example>
       <example correction="podał" type="incorrect">Józio <marker>poddał</marker> w wątpliwość cały proces wychowawczy.</example>
     </rule>
+    <rule id="JEZYK_MACIERZYSTY" name="„język macierzysty” (język ojczysty)">
+      <pattern>
+        <token inflected="yes">język</token>
+        <token inflected="yes" postag="adj.*[\.:]m.*" postag_regexp="yes">macierzysty</token>
+      </pattern>
+      <message>To niepoprawne wyrażenie. Poprawnie: <suggestion><match no="1"/> <match no="2" postag="adj.*">ojczysty</match></suggestion>,</message>
+      <example correction="Językiem ojczystym" type="incorrect"><marker>Językiem macierzystym</marker> Goethego była niemczyzna.</example>
+      <example type="correct">Przemysław słabo posługuje się swoim językiem ojczystym.</example>
+    </rule>
     <rule id="BALSAM_DLA_WLOSOW" name="„szampon dla włosów” (szampon do włosów)">
       <pattern>
         <token inflected="yes" regexp="yes">szampon|balsam|odżywka</token>
@@ -4538,7 +4547,7 @@ $Id: grammar.xml,v 1.62 2007-05-31 22:41:18 milek_pl Exp $
     <rulegroup id="LICZEBNIKI" name="Liczebniki porządkowe z końcówkami przypadków">
       <rule>
         <pattern>
-          <token regexp="yes">^(\d+)-([mt]*y|[w]*si|[w]*szy|[w]*sze|[w]*szym[i]*|[w]*si|tym|tymi|ci|a|ce|ch|cia|cie|ciej|cim|cio|cioletnią|ciu|ego|ej|ga|gi|gie|gim|go|im|ki|krotnie|któregoś|leci.*|ma|me|miu|mo|o|ro|stoletniego|stu|sza|[tm]*a|[mt]*e|[tm]*ego|[mt]*ej|tka|tki|to|[mt]*[i]*oletni.*|[mt]*u|[mt]*ą|[mt]*ych|[mt]*e)</token>
+          <token regexp="yes">^(\d+)-([mt]*y|[w]*si|[w]*szy|[w]*sze|[w]*szym[i]*|[w]*si|tym|tymi|ci|a|ce|ch|cia|cie|ciej|cim|cioletnią|ciu|ego|ej|ga|gi|gie|gim|go|im|ki|krotnie|któregoś|leci.*|ma|me|miu|stoletniego|stu|sza|[tm]*a|[mt]*e|[tm]*ego|[mt]*ej|tka|tki|to|[mt]*[i]*oletni.*|[mt]*u|[mt]*ą|[mt]*ych|[mt]*e)</token>
         </pattern>
         <message>Liczebniki porządkowe zapisujemy nie z końcówkami przypadków, tylko z kropką: 
 				<suggestion><match no="1" regexp_match="(\d+)-(.*)" regexp_replace="$1"/>.</suggestion>.</message>
@@ -4546,6 +4555,37 @@ $Id: grammar.xml,v 1.62 2007-05-31 22:41:18 milek_pl Exp $
         <example correction="5." type="incorrect">To już <marker>5-ty</marker> raz!</example>
         <example correction="1." type="incorrect">To już <marker>1-wszy</marker> raz!</example>
         <example correction="1." type="incorrect">Rosjanie byli <marker>1-wsi</marker> w kosmosie.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">^(\d+)-([cm]?io|mo|o|[t]?[e]?ro|sto|to|dmio|dno|[w]?u|y|rzy)</token>
+          <token postag="adj.*" postag_regexp="yes"/>
+        </pattern>
+        <message>Przymiotniki zawierające liczby zapisujemy łącznie i z myślnikiem: <suggestion><match no="1" regexp_match="(\d+)-(.*)" regexp_replace="$1"/>-<match no="2"/></suggestion>.</message>
+        <example type="correct">Ten system jest 32-bitowy.</example>
+        <example correction="32-bitowy" type="incorrect">To już <marker>32-u bitowy</marker> komputer.</example>
+        <example correction="4-pasmowa" type="incorrect">Ta droga jest <marker>4-ro pasmowa</marker>.</example>
+        <example correction="6-miesięcznego" type="incorrect">Kupiłem <marker>6-cio miesięcznego</marker> kota.</example>
+      </rule>
+      <rule>
+        <pattern mark_to="-1">
+          <token regexp="yes">^(\d+)-([cm]?io|mo|o|[t]?[e]?ro|sto|to|dmio|dno|[w]?u|y|rzy)</token>
+          <token postag="conj" postag_regexp="yes"/>
+        </pattern>
+        <message>W wypadku rozdzielenia przymiotników zawierających liczby pierwszy piszemy tylko z łącznikiem: <suggestion><match no="1" regexp_match="(\d+)-(.*)" regexp_replace="$1"/>-</suggestion>.</message>
+        <example type="correct">Ten system jest 32-bitowy.</example>
+        <example correction="32-" type="incorrect">W tym czasie istniały maszyny <marker>32-u</marker> i 64-bitowe.</example>
+        <example correction="4-" type="incorrect">Ta droga jest <marker>4-ro</marker> lub 6-pasmowa.</example>
+        <example correction="6-" type="incorrect">Kupiłem <marker>6-cio</marker> oraz 2-miesięcznego kota.</example>
+      </rule>
+      <rule>
+        <pattern mark_to="-1">
+          <token regexp="yes">^(\d+)-([cm]?io|mo|o|[t]?[e]?ro|sto|to|dmio|dno|[w]?u|y|rzy)</token>
+          <token negate_pos="yes" postag="conj|adj.*" postag_regexp="yes"/>
+        </pattern>
+        <message>Nigdy nie dodaje się końcówek do odmienanych liczb; piszemy je po prostu: <suggestion><match no="1" regexp_match="(\d+)-(.*)" regexp_replace="$1"/></suggestion> lub <suggestion><match no="1" regexp_match="(\d+)-(.*)" regexp_replace="$1"/>.</suggestion> (w wypadku liczebników porządkowych.</message>
+        <example type="correct">Ten system jest 32-bitowy.</example>
+        <example correction="10|10." type="incorrect">Odnotowano <marker>10-cio</marker> proc. wzrost.</example>
       </rule>
       <rule>
         <pattern>
@@ -5389,6 +5429,62 @@ $Id: grammar.xml,v 1.62 2007-05-31 22:41:18 milek_pl Exp $
         <message>Prawdopodobny błąd ortograficzny. Powinno być: <suggestion>naprawdę</suggestion> (=faktycznie, rzeczywiście).</message>
         <example correction="naprawdę" type="incorrect">Ale my <marker>na prawdę</marker> nie wyjechaliśmy do Włoszczowy.</example>
         <example type="correct">Ale my naprawdę nie jechaliśmy do Włoszczowy.</example>
+      </rule>
+    </rulegroup>
+    <rulegroup id="PO_SRODKU" name="„po środku” (pośrodku)">
+      <rule>
+        <pattern mark_from="1">
+          <token inflected="yes" skip="5"><exception>pośrodku</exception>leżeć</token>
+          <token>po</token>
+          <token>środku</token>
+        </pattern>
+        <message>Prawdopodobny błąd ortograficzny. Powinno być: <suggestion>pośrodku</suggestion> (=w środku).</message>
+        <example correction="pośrodku" type="incorrect">Prawda pewnie leży jak zwykle <marker>po środku</marker>.</example>
+        <example type="correct">Prawda leży pośrodku.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="1" mark_to="-1">
+          <token postag="SENT_START" skip="-1"><exception inflected="yes">leżeć</exception></token>
+          <token>po</token>
+          <token>środku</token>
+          <token><exception postag="(adj|ppas):sg:inst.loc:m.n.*" postag_regexp="yes"/></token>
+        </pattern>
+        <message>Prawdopodobny błąd ortograficzny. Powinno być: <suggestion>pośrodku</suggestion> (=w środku).</message>
+        <example type="correct">Mam bóle po środku przeczyszczającym.</example>
+        <example correction="pośrodku" type="incorrect">Sfrustrowani i coraz bardziej zdenerwowani zatrzymaliśmy się na placyku <marker>po środku</marker> sennego miasteczka.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="1" mark_to="0">
+          <token postag="SENT_START" skip="-1"><exception inflected="yes">leżeć</exception></token>
+          <token>po</token>
+          <token postag="SENT_END">środku</token>
+        </pattern>
+        <message>Prawdopodobny błąd ortograficzny. Powinno być: <suggestion>pośrodku</suggestion> (=w środku).</message>
+        <example type="correct">Mam bóle po środku przeczyszczającym.</example>
+        <example correction="pośrodku" type="incorrect">Prawda <marker>po środku</marker></example>
+      </rule>
+    </rulegroup>
+    <rulegroup id="PO_WOLI" name="„po woli” (powoli)">
+      <rule>
+        <pattern case_sensitive="yes">
+          <token>po</token>
+          <token postag="SENT_END">woli</token>
+        </pattern>
+        <message>Prawdopodobny błąd ortograficzny. Czy chodziło o <suggestion>powoli</suggestion> (=wolno)?</message>
+        <example correction="powoli" type="incorrect">Śpieszcie się <marker>po woli</marker></example>
+        <example type="correct">Śpiesz się powoli</example>
+        <example type="correct">Spacerkiem po Woli</example>
+      </rule>
+      <rule>
+        <pattern case_sensitive="yes" mark_to="-1">
+          <token>po</token>
+          <token>woli</token>
+          <token><exception postag="subst.*gen.*" postag_regexp="yes"/></token>
+        </pattern>
+        <message>Prawdopodobny błąd ortograficzny. Czy chodziło o <suggestion>powoli</suggestion> (=wolno)?</message>
+        <example correction="powoli" type="incorrect">Śpieszcie się <marker>po woli</marker>!</example>
+        <example type="correct">Wielkość narodu poznaje się po woli dotarcia do prawdy o sobie samym.</example>
+        <example correction="powoli" type="incorrect">Obóz <marker>po woli</marker> pustoszeje.</example>
       </rule>
     </rulegroup>
     <rule id="PRZED_POKOJ" name="„przed pokój” (przedpokój)">
