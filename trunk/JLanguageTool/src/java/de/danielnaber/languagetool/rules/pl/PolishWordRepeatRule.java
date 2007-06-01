@@ -145,14 +145,14 @@ public class PolishWordRepeatRule extends PolishRule {
 
       prevLemma = "";
       if (isWord) {
+        boolean notSentEnd = false;
         for (int j = 0; j < readingsLen; j++) {          
+          final String pos = tokens[i].getAnalyzedToken(j).getPOSTag();            
+          if (pos != null) {
+            notSentEnd |= "SENT_END".equals(pos);
+            }            
           if (hasLemma) {            
             curLemma = tokens[i].getAnalyzedToken(j).getLemma();            
-            final String pos = tokens[i].getAnalyzedToken(j).getPOSTag();
-            boolean notSentEnd = false;
-            if (pos != null) {
-              notSentEnd = "SENT_END".equals(pos);
-              }            
             if (!prevLemma.equals(curLemma) && !notSentEnd) {
               if (inflectedWords.contains(curLemma)) {
                 repetition = true;
@@ -162,7 +162,7 @@ public class PolishWordRepeatRule extends PolishRule {
             }
             prevLemma = curLemma;
           } else {
-            if (inflectedWords.contains(tokens[i].getToken())) {
+            if (inflectedWords.contains(tokens[i].getToken()) && !notSentEnd) {
               repetition = true;
             } else {
               inflectedWords.add(tokens[i].getToken());                               
