@@ -6,7 +6,7 @@ title="Easy editing stylesheet" ?>
 <!--
 Polish Grammar and Typo Rules for LanguageTool
 Copyright (C) 2006-2007 Marcin Miłkowski
-$Id: grammar.xml,v 1.64 2007-06-02 11:46:00 milek_pl Exp $
+$Id: grammar.xml,v 1.65 2007-06-02 23:02:13 milek_pl Exp $
 -->
 <rules lang="pl">
   <phrases>
@@ -944,7 +944,7 @@ $Id: grammar.xml,v 1.64 2007-06-02 11:46:00 milek_pl Exp $
         <example correction="bądź" type="incorrect">Kupiłem trochę gruszek<marker>, bądź</marker> zjadłem krowę.</example>
       </rule>
     </rulegroup>
-    <rulegroup id="BRAK_PRZECINKA_ANI" name="Brakujący przecinek przed powtórzonym „ani”, „albo”, „bądź”, „i”, „lub”, „oraz”">
+    <rulegroup id="BRAK_PRZECINKA_ANI" name="Brak przecinka przed powtórzonym „ani”, „albo”, „bądź”, „i”, „lub”, „oraz”">
       <rule>
         <pattern mark_from="2">
           <token regexp="yes" skip="-1">ani|ni|lub|albo|czy|oraz<exception scope="next">,</exception></token>
@@ -990,6 +990,19 @@ $Id: grammar.xml,v 1.64 2007-06-02 11:46:00 milek_pl Exp $
       <example type="correct">Mam wątpliwości co do tego raportu.</example>
       <example correction="wątpliwości co do" type="incorrect">Mam <marker>wątpliwości, co do</marker> tego raportu.</example>
     </rule>
+    <rulegroup id="PRZECINEK_POROWNANIE" name="Zbędny przecinek przed „jak” i „niż”">
+      <rule>
+        <pattern mark_from="1" mark_to="-1">
+          <token postag="SENT_START" skip="-1"><exception regexp="yes">równie|zarówno|tak</exception></token>
+          <token>,</token>
+          <token regexp="yes" skip="-1"><exception postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf|pant:perf|pred" postag_regexp="yes" scope="next"/>jak|niż|jakby|niczym|niby</token>
+          <token postag="SENT_END"/>
+        </pattern>
+        <message>Prawdopodobnie zbędny przecinek. Powinno być: <suggestion>\3</suggestion>.</message>
+        <example correction="jak" type="incorrect">On jest zdrów<marker>, jak</marker> rydz.</example>
+        <example type="correct">On jest zdrów jak rydz.</example>
+      </rule>
+    </rulegroup>
     <rulegroup id="PODMIOT_ORZECZENIE" name="Zbędny przecinek między podmiotem a orzeczeniem">
       <rule>
         <pattern mark_from="2">
@@ -1147,9 +1160,9 @@ $Id: grammar.xml,v 1.64 2007-06-02 11:46:00 milek_pl Exp $
     <rule id="BRAK_KROPKI" name="Brak kropki na końcu zdania">
       <pattern mark_from="1">
         <token postag="verb:.*(sg|pl).*|verb:imps.*|verb:irreg|pred" postag_regexp="yes" skip="-1"/>
-        <token negate="yes" postag="SENT_END">.</token>
+        <token postag="SENT_END"><exception regexp="yes">\p{Punct}</exception></token>
       </pattern>
-      <message>To zdanie nie kończy się kropką. Powinno być: <suggestion>\2.</suggestion></message>
+      <message>To zdanie nie kończy się kropką ani innym znakiem interpunkcyjnym. Powinno być: <suggestion>\2.</suggestion></message>
       <example correction="złotych." type="incorrect">Pożycz mi sto <marker>złotych</marker></example>
       <example type="correct">Pożycz mi sto złotych.</example>
     </rule>
