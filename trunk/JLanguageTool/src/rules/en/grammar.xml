@@ -7,7 +7,7 @@ title="Easy editing stylesheet" ?>
 English Grammar and Typo Rules for LanguageTool
 See tagset.txt for the meaning of the POS tags
 Copyright (C) 2001-2007 Daniel Naber (http://www.danielnaber.de)
-$Id: grammar.xml,v 1.26 2007-05-30 20:17:01 milek_pl Exp $
+$Id: grammar.xml,v 1.27 2007-06-02 12:00:48 milek_pl Exp $
 -->
 <rules lang="en">
   <!-- ====================================================================== -->
@@ -2782,6 +2782,16 @@ $Id: grammar.xml,v 1.26 2007-05-30 20:17:01 milek_pl Exp $
         <example correction="Every day" type="incorrect"><marker>Everyday</marker>, he gets up early.</example>
       </rule>
     </rulegroup>
+    <rule id="WHIP_CREAM" name="'whip cream' (whipped cream)">
+      <pattern mark_from="1">
+        <token postag="DT|JJ.*|VBZ|VBD" postag_regexp="yes"/>
+        <token>whip</token>
+        <token>cream</token>
+      </pattern>
+      <message>Did you mean <suggestion>whipped cream</suggestion>?</message>
+      <example correction="whipped cream" type="incorrect">Whip cream until it becomes <marker>whip cream</marker>.</example>
+      <example type="correct">Whip cream until it becomes whipped cream.</example>
+    </rule>
   </category>
   <category name="Slang">
     <rule id="AN_INVITE" name="'an invite' (invitation)">
