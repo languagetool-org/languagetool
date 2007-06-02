@@ -6,7 +6,7 @@ title="Easy editing stylesheet" ?>
 <!--
 Polish Grammar and Typo Rules for LanguageTool
 Copyright (C) 2006-2007 Marcin Miłkowski
-$Id: grammar.xml,v 1.63 2007-06-01 20:48:09 milek_pl Exp $
+$Id: grammar.xml,v 1.64 2007-06-02 11:46:00 milek_pl Exp $
 -->
 <rules lang="pl">
   <phrases>
@@ -502,7 +502,7 @@ $Id: grammar.xml,v 1.63 2007-06-01 20:48:09 milek_pl Exp $
       <rule>
         <pattern case_sensitive="no" mark_to="-1">
           <phraseref idref="NIE_INTERPUNKCJA"/>
-          <token skip="4">zamiast<exception inflected="yes" postag="&lt;ELLIPSIS&gt;" scope="next"/><exception postag="" postag_regexp="no" regexp="yes" scope="next">[\p{Punct}—–„«»](?&lt;!\.)|bądź|czy|ani|lub|albo|oraz|i|kiedy|gdy|który|jaki|że|iż|bo|gdyż|a|jeśli|jeżeli|gdyby|aby|żeby|ażeby|zanim|dopóki</exception></token>
+          <token skip="4">zamiast<exception inflected="yes" postag="&lt;ELLIPSIS&gt;" scope="next"/><exception postag_regexp="no" regexp="yes" scope="next">[\p{Punct}—–„«»](?&lt;!\.)|bądź|czy|ani|lub|albo|oraz|i|kiedy|gdy|który|jaki|że|iż|bo|gdyż|a|jeśli|jeżeli|gdyby|aby|żeby|ażeby|zanim|dopóki</exception></token>
           <token postag="verb:inf.*" postag_regexp="yes"/>
         </pattern>
         <message>Prawdopodobnie brak przecinka. Powinno być: <suggestion>\1, \2</suggestion>.</message>
@@ -511,7 +511,7 @@ $Id: grammar.xml,v 1.63 2007-06-01 20:48:09 milek_pl Exp $
       </rule>
       <rule>
         <pattern>
-          <token skip="4">zamiast<exception inflected="yes" postag="&lt;ELLIPSIS&gt;" scope="next"/><exception postag="" postag_regexp="no" regexp="yes" scope="next">[\p{Punct}—–„«»](?&lt;!\.)|bądź|czy|ani|lub|albo|oraz|i|kiedy|gdy|który|jaki|że|iż|bo|gdyż|a|jeśli|jeżeli|gdyby|aby|żeby|ażeby|zanim|dopóki</exception></token>
+          <token skip="4">zamiast<exception inflected="yes" postag="&lt;ELLIPSIS&gt;" scope="next"/><exception postag_regexp="no" regexp="yes" scope="next">[\p{Punct}—–„«»](?&lt;!\.)|bądź|czy|ani|lub|albo|oraz|i|kiedy|gdy|który|jaki|że|iż|bo|gdyż|a|jeśli|jeżeli|gdyby|aby|żeby|ażeby|zanim|dopóki</exception></token>
           <token postag="verb:inf.*" postag_regexp="yes" skip="-1"><exception regexp="yes" scope="current">może|lecz|jedna|lub</exception><exception inflected="yes" regexp="yes" scope="next">[\p{Punct}—–„«»](?&lt;!\.)|bądź|czy|ani|lub|albo|oraz|i|kiedy|gdy|który|jaki|że|iż|bo|gdyż|a|jeśli|jeżeli|gdyby|aby|żeby|ażeby|zanim|dopóki</exception><exception postag="&lt;ELLIPSIS&gt;" scope="next"/></token>
           <token postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf|pant:perf|pred" postag_regexp="yes"><exception postag="subst:.*|adj.*|ppron.*|verb:inf.*|verb:bedzie.*|adv:.*|prep.*|qub|indecl|conj" postag_regexp="yes" scope="current"/><exception regexp="yes" scope="current">może|jedna</exception></token>
         </pattern>
@@ -561,7 +561,7 @@ $Id: grammar.xml,v 1.63 2007-06-01 20:48:09 milek_pl Exp $
         <message>Przed tym spójnikiem stawiamy przecinek: <suggestion>\1, \2</suggestion>.</message>
         <example type="correct">Nie odezwę się do ciebie, póki nie oddasz mi forsy.</example>
         <example correction="ciebie, póki" type="incorrect">Nie odezwę się do <marker>ciebie póki</marker> nie oddasz mi forsy.</example>
-        <example correction="" type="correct">Nie zrobię tego, do póki nie zapłacisz całej sumy.</example>
+        <example type="correct">Nie zrobię tego, do póki nie zapłacisz całej sumy.</example>
       </rule>
       <rule>
         <pattern>
@@ -3129,14 +3129,13 @@ $Id: grammar.xml,v 1.63 2007-06-01 20:48:09 milek_pl Exp $
     <!-- w każdym bądź razie -->
     <rule id="W_KAZDYM_BADZ" name="„w każdym bądź razie” (w każdym razie)">
       <pattern case_sensitive="no" mark_from="0">
-        <token>w</token>
-        <token regexp="yes">każdym|takim</token>
         <token>bądź</token>
         <token>razie</token>
       </pattern>
-      <message>Poprawną formą jest <suggestion>w \2 razie</suggestion>.</message>
+      <message>Poprawną formą jest <suggestion>razie</suggestion>.</message>
       <example type="correct">W każdym razie premier nie miał racji.</example>
-      <example correction="W każdym razie" type="incorrect"><marker>W każdym bądź razie</marker> premier nie miał racji.</example>
+      <example correction="razie" type="incorrect">W każdym <marker>bądź razie</marker> premier nie miał racji.</example>
+      <example correction="razie" type="incorrect">W przeciwnym <marker>bądź razie</marker> premier poda się do dymisji.</example>
     </rule>
     <rulegroup id="KTOKOLWIEK_BADZ" name="„ktokolwiek bądź” (ktokolwiek)">
       <rule>
@@ -4646,6 +4645,19 @@ $Id: grammar.xml,v 1.63 2007-06-01 20:48:09 milek_pl Exp $
       <example correction="wśród" type="incorrect">Jarosław Kaczyński jest najwybitniejszym mężem stanu <marker>w śród</marker> wszystkich Kaczyńskich.</example>
       <example type="correct">Jarosław Kaczyński jest najwybitniejszym mężem stanu wśród wszystkich Kaczyńskich.</example>
     </rule>
+    <!--brakuje wielu innych przypadków (np. "wszyscy w koło się upijali")-->
+    <rulegroup id="W_KOLO" name="„w koło” (wkoło)">
+      <rule>
+        <pattern mark_to="-1">
+          <token>w</token>
+          <token>koło</token>
+          <token>jest</token>
+        </pattern>
+        <message>Prawdopodobny błąd ortograficzny. Czy chodziło o <suggestion>wkoło</suggestion> (=wokół)?</message>
+        <example correction="wkoło" type="incorrect">Ale <marker>w koło</marker> jest wesoło.</example>
+        <example type="correct">Policja strzeliła w koło Poloneza.</example>
+      </rule>
+    </rulegroup>
     <rule id="DO_NIE_DAWNA" name="„do nie dawna” (do niedawna)">
       <pattern>
         <token>do</token>
@@ -5431,6 +5443,61 @@ $Id: grammar.xml,v 1.63 2007-06-01 20:48:09 milek_pl Exp $
         <example type="correct">Ale my naprawdę nie jechaliśmy do Włoszczowy.</example>
       </rule>
     </rulegroup>
+    <rulegroup id="ZA_DOSC" name="„za dość” (zadość)">
+      <rule>
+        <pattern mark_from="1">
+          <token inflected="yes" regexp="yes" skip="5">czynić|uczynić</token>
+          <token>za</token>
+          <token>dość</token>
+        </pattern>
+        <message>Prawdopodobny błąd ortograficzny. Czy chodziło o <suggestion>zadość</suggestion>?</message>
+        <example correction="zadość" type="incorrect">Tym czynił <marker>za dość</marker> tradycji.</example>
+        <example type="correct">Czynił zadość tradycji.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="0" mark_to="-1">
+          <token>za</token>
+          <token>dość</token>
+          <token inflected="yes" regexp="yes">czynić|uczynić</token>
+        </pattern>
+        <message>Prawdopodobny błąd ortograficzny. Czy chodziło o <suggestion>zadość</suggestion>?</message>
+        <example correction="Zadość" type="incorrect"><marker>Za dość</marker> czynił tradycji.</example>
+        <example type="correct">Zadość czynił tradycji.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="2">
+          <token>stało</token>
+          <token skip="3">się</token>
+          <token>za</token>
+          <token>dość</token>
+        </pattern>
+        <message>Prawdopodobny błąd ortograficzny. Czy chodziło o <suggestion>zadość</suggestion>?</message>
+        <example correction="zadość" type="incorrect">Stało się wreszcie <marker>za dość</marker> tradycji.</example>
+        <example type="correct">Stało się zadość tradycji.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="0" mark_to="-2">
+          <token>za</token>
+          <token>dość</token>
+          <token>się</token>
+          <token>stało</token>
+        </pattern>
+        <message>Prawdopodobny błąd ortograficzny. Czy chodziło o <suggestion>zadość</suggestion>?</message>
+        <example correction="Zadość" type="incorrect"><marker>Za dość</marker> się stało tradycji.</example>
+        <example type="correct">Zadość się stało tradycji.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="0" mark_to="-2">
+          <token>za</token>
+          <token>dość</token>
+          <token>stało</token>
+          <token>się</token>
+        </pattern>
+        <message>Prawdopodobny błąd ortograficzny. Czy chodziło o <suggestion>zadość</suggestion>?</message>
+        <example correction="Zadość" type="incorrect"><marker>Za dość</marker> stało się tradycji.</example>
+        <example type="correct">Zadość stało się tradycji.</example>
+      </rule>
+    </rulegroup>
     <rulegroup id="PO_SRODKU" name="„po środku” (pośrodku)">
       <rule>
         <pattern mark_from="1">
@@ -5516,6 +5583,27 @@ $Id: grammar.xml,v 1.63 2007-06-01 20:48:09 milek_pl Exp $
         <message>Prawdopodobny błąd ortograficzny. Powinno być <suggestion>zresztą</suggestion> (=nawiasem mówiąc, notabene).</message>
         <example type="correct">Zresztą nikogo to nie obchodziło.</example>
         <example correction="Zresztą" type="incorrect"><marker>Z resztą</marker> nikogo to nie obchodziło.</example>
+      </rule>
+    </rulegroup>
+    <rulegroup id="ZA_RAZEM" name="„za razem” (zarazem)">
+      <rule>
+        <pattern mark_from="1">
+          <token><exception>raz</exception></token>
+          <token>za</token>
+          <token>razem</token>
+        </pattern>
+        <message>Prawdopodobny błąd ortograficzny. Czy chodziło o <suggestion>zarazem</suggestion> (=jednocześnie)?</message>
+        <example correction="zarazem" type="incorrect">Pokręcone,śmieszne i smutne <marker>za razem</marker>.</example>
+        <example type="correct">Raz za razem razowcem się razem posilajmy.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="0">
+          <token>raz</token>
+          <token>zarazem</token>
+        </pattern>
+        <message>Prawdopodobny błąd ortograficzny. Czy chodziło o wyrażenie <suggestion>raz za razem</suggestion> (=raz po raz)?</message>
+        <example correction="raz za razem" type="incorrect">To Ikarus prowadził grę i <marker>raz zarazem</marker> zapędzał się pod pole karne Strzelca.</example>
+        <example type="correct">To śmieszne i żałosne zarazem.</example>
       </rule>
     </rulegroup>
     <rule id="W_SKUTEK" name="„w skutek czego” (wskutek czego)">
