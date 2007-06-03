@@ -6,7 +6,7 @@ title="Easy editing stylesheet" ?>
 <!--
 Polish Grammar and Typo Rules for LanguageTool
 Copyright (C) 2006-2007 Marcin Miłkowski
-$Id: grammar.xml,v 1.65 2007-06-02 23:02:13 milek_pl Exp $
+$Id: grammar.xml,v 1.66 2007-06-03 11:01:50 milek_pl Exp $
 -->
 <rules lang="pl">
   <phrases>
@@ -797,6 +797,42 @@ $Id: grammar.xml,v 1.65 2007-06-02 23:02:13 milek_pl Exp $
       <example type="correct">Lubię zarówno Lecha, jak i Jarosława.</example>
       <example correction="Lecha, jak i" type="incorrect">Lubię zarówno <marker>Lecha jak i</marker> Jarosława.</example>
     </rule>
+    <rulegroup id="ROWNIE_JAK" name="Brak przecinka w porównaniach typu „równie... jak”">
+      <rule>
+        <pattern mark_from="2" mark_to="-1">
+          <token regexp="yes">tak|równie</token>
+          <token skip="-1"><exception regexp="yes" scope="next">[,–-—]</exception></token>
+          <token>jak</token>
+          <token><exception regexp="yes">i|gdyby</exception></token>
+        </pattern>
+        <message>Prawdopodobny brak przecinka. Powinno być: <suggestion>, jak</suggestion>.</message>
+        <example type="correct">Widać, żeś równie szlachetny, jak odważny.</example>
+        <example correction=", jak" type="incorrect">Widać, żeś równie szlachetny<marker> jak</marker> odważny.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="3" mark_to="0">
+          <token>tak</token>
+          <token>jak</token>
+          <token skip="-1"><exception regexp="yes" scope="next">[,–-—]</exception></token>
+          <!--FIXME: tu powinno być exception scope="previous", żeby sprawdzać obecność znaku interpunkcyjnego
+bezpośrednio przed „tak”-->
+          <token>tak</token>
+        </pattern>
+        <message>Prawdopodobny brak przecinka. Powinno być: <suggestion>, tak</suggestion>.</message>
+        <example type="correct">Tak jak poprzednio, tak i teraz w pełni zamieszkuję pustkę.</example>
+        <example correction=", tak" type="incorrect">Tak jak poprzednio<marker> tak</marker> i teraz w pełni zamieszkuję pustkę.</example>
+      </rule>
+    </rulegroup>
+    <rule id="PRZECINEK_JAKO_TEZ" name="Brak przecinka przed „jako też”">
+      <pattern>
+        <phraseref idref="NIE_INTERPUNKCJA"/>
+        <token>jako</token>
+        <token>też</token>
+      </pattern>
+      <message>Brak przecinka. Powinno być: <suggestion>\1, \2 \3</suggestion>.</message>
+      <example type="correct">Biskupi nosili się długo w stroju stanowi swemu przyzwoitym tak na publicznych miejscach, jako też w domach swoich.</example>
+      <example correction="miejscach, jako też" type="incorrect">Biskupi nosili się długo w stroju stanowi swemu przyzwoitym tak na publicznych <marker>miejscach jako też</marker> w domach swoich.</example>
+    </rule>
     <rulegroup id="CO_WIECEJ" name="Brak wydzielenia „co więcej” i „co gorsza”">
       <rule>
         <pattern>
@@ -1003,6 +1039,17 @@ $Id: grammar.xml,v 1.65 2007-06-02 23:02:13 milek_pl Exp $
         <example type="correct">On jest zdrów jak rydz.</example>
       </rule>
     </rulegroup>
+    <rule id="PRZECINEK_TAK_JAK" name="Zbędny przecinek przed „tak jak”">
+      <pattern mark_to="-1">
+        <token>,</token>
+        <token>tak</token>
+        <token regexp="yes" skip="-1"><exception postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf|pant:perf|pred" postag_regexp="yes" scope="next"/>jak|jakby</token>
+        <token postag="SENT_END"/>
+      </pattern>
+      <message>Prawdopodobnie zbędny przecinek. Powinno być: <suggestion>\2 \3</suggestion>.</message>
+      <example type="correct">Dziś jest tak jak wczoraj.</example>
+      <example correction="tak jak" type="incorrect">Dziś jest<marker>, tak jak</marker> wczoraj.</example>
+    </rule>
     <rulegroup id="PODMIOT_ORZECZENIE" name="Zbędny przecinek między podmiotem a orzeczeniem">
       <rule>
         <pattern mark_from="2">
