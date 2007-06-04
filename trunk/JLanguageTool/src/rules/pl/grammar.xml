@@ -6,7 +6,7 @@ title="Easy editing stylesheet" ?>
 <!--
 Polish Grammar and Typo Rules for LanguageTool
 Copyright (C) 2006-2007 Marcin Miłkowski
-$Id: grammar.xml,v 1.66 2007-06-03 11:01:50 milek_pl Exp $
+$Id: grammar.xml,v 1.67 2007-06-04 17:51:51 milek_pl Exp $
 -->
 <rules lang="pl">
   <phrases>
@@ -787,6 +787,16 @@ $Id: grammar.xml,v 1.66 2007-06-03 11:01:50 milek_pl Exp $
         <example correction="to, innymi słowy, sensu" type="incorrect">Nie ma <marker>to innymi słowy sensu</marker>.</example>
       </rule>
     </rulegroup>
+    <rule id="WOLACZ_BEZ_PRZECINKA" name="Brak przecinka po wołaczu na początku zdania">
+      <pattern mark_from="2">
+        <token postag="SENT_START"/>
+        <token postag=".*voc.*" postag_regexp="yes" skip="-1"><exception regexp="yes" scope="next">[,-–—]</exception><exception postag=".*nom.*" postag_regexp="yes" scope="current"/></token>
+        <token negate_pos="yes" postag=".*voc.*" postag_regexp="yes"/>
+      </pattern>
+      <message>Prawdopodobnie brak przecinka. Powinno być: <suggestion>, \3</suggestion>.</message>
+      <example type="incorrect">Agato<marker> czas</marker> na Colgate!</example>
+      <example type="correct">Agato, czas na Colgate!</example>
+    </rule>
     <rule id="JAK_I" name="Brak przecinka przed „jak i”">
       <pattern>
         <token><exception postag="SENT_START" postag_regexp="yes"/><exception regexp="yes">[\p{Punct}–—„«»]|tyle|i|lub|albo|ani|oraz|bądź|czy|tak</exception></token>
@@ -896,16 +906,18 @@ bezpośrednio przed „tak”-->
     </rulegroup>
     <rulegroup id="PRZECINEK_ANI" name="Zbędny przecinek przed „ani”, „albo”, „bądź”, „i”, „lub”, „oraz”">
       <rule>
-        <pattern case_sensitive="yes" mark_from="2">
+        <pattern case_sensitive="yes" mark_from="2" mark_to="-1">
           <token postag="SENT_START"/>
           <token skip="-1"><exception scope="next">ani</exception><exception scope="current">Ani</exception></token>
           <token>,</token>
           <token regexp="yes">ani</token>
+          <token><exception regexp="yes">nawet|też</exception></token>
         </pattern>
         <message>Prawdopodobnie zbędny przecinek, powinno być: <suggestion>\4</suggestion>.</message>
         <example type="correct">Nie kupiłem gruszek ani jabłek.</example>
         <example type="correct">Ani prośby, ani groźby, nie przekonają nas, że czarne jest czarne, a białe jest białe.</example>
         <example correction="ani" type="incorrect">Nie kupiłem gruszek<marker>, ani</marker> jabłek.</example>
+        <example type="correct">Nie oddał pieniędzy, ani też nie przeprosił.</example>
       </rule>
       <rule>
         <pattern case_sensitive="yes" mark_from="2">
@@ -920,15 +932,17 @@ bezpośrednio przed „tak”-->
         <example correction="ni" type="incorrect">Nie kupiłem gruszek<marker>, ni</marker> jabłek.</example>
       </rule>
       <rule>
-        <pattern case_sensitive="yes" mark_from="2">
+        <pattern case_sensitive="yes" mark_from="2" mark_to="-1">
           <token postag="SENT_START"/>
           <token skip="-1"><exception scope="next">albo</exception><exception scope="current">Albo</exception></token>
           <token>,</token>
           <token regexp="yes">albo</token>
+          <token><exception regexp="yes">raczej|lepiej</exception></token>
         </pattern>
         <message>Prawdopodobnie zbędny przecinek, powinno być: <suggestion>\4</suggestion>.</message>
         <example type="correct">Kup gruszek albo jabłek.</example>
         <example type="correct">Albo pójdziesz stąd, albo dam Ci w ryja.</example>
+        <example type="correct">Był to żwawy staruszek, albo raczej zaciekły i wredny staruch.</example>
         <example correction="albo" type="incorrect">Kup gruszek<marker>, albo</marker> jabłek.</example>
       </rule>
       <rule>
@@ -947,15 +961,17 @@ bezpośrednio przed „tak”-->
         <example correction="i" type="incorrect">Kupiłem trochę gruszek<marker>, i</marker> jabłek.</example>
       </rule>
       <rule>
-        <pattern case_sensitive="yes" mark_from="2">
+        <pattern case_sensitive="yes" mark_from="2" mark_to="-1">
           <token postag="SENT_START"/>
           <token skip="-1"><exception scope="next">lub</exception><exception scope="current">Lub</exception></token>
           <token>,</token>
           <token regexp="yes">lub</token>
+          <token><exception>raczej</exception></token>
         </pattern>
         <message>Prawdopodobnie zbędny przecinek, powinno być: <suggestion>\4</suggestion>.</message>
         <example type="correct">Może kupię kilo gruszek lub jabłek.</example>
         <example correction="lub" type="incorrect">Lubię zjeść trochę gruszek<marker>, lub</marker> jabłek.</example>
+        <example type="correct">Przemysław jest wierny, lub raczej wierny jak pies.</example>
       </rule>
       <rule>
         <pattern case_sensitive="yes" mark_from="2">
