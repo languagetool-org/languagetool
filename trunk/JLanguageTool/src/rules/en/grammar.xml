@@ -7,7 +7,7 @@ title="Easy editing stylesheet" ?>
 English Grammar and Typo Rules for LanguageTool
 See tagset.txt for the meaning of the POS tags
 Copyright (C) 2001-2007 Daniel Naber (http://www.danielnaber.de)
-$Id: grammar.xml,v 1.27 2007-06-02 12:00:48 milek_pl Exp $
+$Id: grammar.xml,v 1.28 2007-06-04 23:17:06 milek_pl Exp $
 -->
 <rules lang="en">
   <!-- ====================================================================== -->
@@ -919,11 +919,12 @@ $Id: grammar.xml,v 1.27 2007-06-02 12:00:48 milek_pl Exp $
       <rule>
         <pattern>
           <token regexp="yes">no|any|some</token>
-          <token regexp="yes">body</token>
+          <token regexp="yes">body|thing</token>
         </pattern>
         <message>Possible typo. Did you mean <suggestion>\1\2</suggestion>?</message>
         <example type="correct">Nobody seems to care.</example>
         <example type="incorrect"><marker>No body</marker> seems to care.</example>
+        <example correction="nothing" type="incorrect">There's <marker>no thing</marker> wrong with this sentence.</example>
       </rule>
     </rulegroup>
     <rule id="MAY_BE_I" name="Possible typo 'may be' (maybe)">
