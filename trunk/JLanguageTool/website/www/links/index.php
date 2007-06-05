@@ -41,7 +41,7 @@ CVS commit messages: <?=show_link("Subscribe/Unsubscribe", "http://lists.sourcef
 ?>)<br />
 
 <p><strong>Resources:</strong><br />
-<?=show_link("XML file with 221 collected English grammar errors", "download/errors.xml", 0) ?>, 23KB<br />
+<?=show_link("XML file with 221 collected English grammar errors", "/download/errors.xml", 0) ?>, 23KB<br />
 <?=show_link("Another English error collection", 
 "http://languagetool.cvs.sourceforge.net/languagetool/JLanguageTool/resource/en/errors.txt?view=markup", 1) ?><br />
 <?=show_link("German error collection", 
