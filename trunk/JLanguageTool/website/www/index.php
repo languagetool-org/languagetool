@@ -45,7 +45,7 @@ requires <?=show_link("Java", "http://www.java.com/en/download/manual.jsp", 1)?>
 	in OpenOffice.org 2.0.x). Open a new window of OpenOffice.org (Ctrl-N)
 	and you'll see a new menu entry "LanguageTool" that will check the current text.</li>
 
-	<li>Also see <?=show_link("Usage", "usage.html", 0)?> for using LanguageTool outside of OpenOffice.org.</li>
+	<li>Also see <?=show_link("Usage", "usage/", 0)?> for using LanguageTool outside of OpenOffice.org.</li>
 </ul>
 
 <p><strong>If installation fails:</strong>

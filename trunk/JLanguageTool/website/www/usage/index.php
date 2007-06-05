@@ -2,13 +2,13 @@
 $page = "usage";
 $title = "LanguageTool";
 $title2 = "Usage";
-$lastmod = "2007-06-02 15:00:00 CET";
+$lastmod = "2007-06-05 15:00:00 CET";
 include("../../include/header.php");
 ?>
 		
 <p><strong>Installation and Usage outside OpenOffice.org</strong></p>
 
-<p>See <?=show_link("Overview", "./", 0)?> for a description of how to use LanguageTool
+<p>See <?=show_link("Overview", "/", 0)?> for a description of how to use LanguageTool
 with OpenOffice.org.</p>
 
 <ul class="largelist">
@@ -28,7 +28,7 @@ with OpenOffice.org.</p>
 	LanguageTool only supports plain text files.</li>
 
 	<li><strong>Embedding LanguageTool in Java applications:</strong> See
-	<?=show_link("the API documentation", "api/", 0) ?>. You just need to create a JLanguageTool object and use that
+	<?=show_link("the API documentation", "/api/", 0) ?>. You just need to create a JLanguageTool object and use that
 	to check your text.</li>
 
 	<li><strong>Using LanguageTool from other applications:</strong> Start the stand-alone
