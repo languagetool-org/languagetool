@@ -46,13 +46,13 @@ French, Italian, Dutch, Czech, Lithuanian, Ukrainian, and Slovenian.</p>
 	<li>Subscribe to the <?=show_link("mailing list",
 		"http://lists.sourceforge.net/lists/listinfo/languagetool-devel", 1)?></li>
 	<li>Try writing rules. For English and German, see the lists of errors
-		on the <?=show_link("Links page", "links.html", 0)?>. Many of those
+		on the <?=show_link("Links page", "/links/", 0)?>. Many of those
 		errors are not yet detected.</li>
 </ol>
 
 <p><a name="installation"><strong>Installation and usage</strong></a><br />
 Please see the README file that comes with LanguageTool and the 
-<?=show_link("Usage page", "usage.html", 0) ?>.</p>
+<?=show_link("Usage page", "/usage/", 0) ?>.</p>
 
 <p><a name="process"><strong>Language checking process</strong></a><br />
 <ol>
@@ -315,18 +315,12 @@ then adapt your tagger to use it (e.g. copy <tt>EnglishTagger.java</tt> and chan
 in that file and copy those lines, adapting them to your language.
 </p>
 
-<!--
-<p><strong>Performance</strong> (version 0.8.1 using Java 1.4)<br />
-English: checks about 250 sentences/second, using up to 20 MB RAM<br />
-German: checks about 25 sentences/second, using up to 4 MB RAM
--->
-
 <p><a name="background"><strong>Background</strong></a><br />
 For background information, my diploma thesis 
 about LanguageTool is available (note that this refers to an earlier version of LanguageTool
 which was written in Python):<br />
-<?=show_link("PDF, 650 KB", "download/style_and_grammar_checker.pdf", 0) ?>
-<br /><?=show_link("Postscript (.ps.gz), 630 KB", "download/style_and_grammar_checker.ps.gz", 0) ?>
+<?=show_link("PDF, 650 KB", "http://www.danielnaber.de/languagetool/download/style_and_grammar_checker.pdf", 0) ?>
+<br /><?=show_link("Postscript (.ps.gz), 630 KB", "http://www.danielnaber.de/languagetool/download/style_and_grammar_checker.ps.gz", 0) ?>
 </p>
 
 <?php
