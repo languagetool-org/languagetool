@@ -5,6 +5,20 @@ $title2 = "Links";
 $lastmod = "2007-06-02 15:00:00 CET";
 include("../../include/header.php");
 ?>
+
+<p><strong>Contact:</strong><br />
+LanguageTool was originally written by Daniel Naber and is now maintained by 
+Daniel Naber and Marcin Miłkowski. To contact me, subscribe to 
+the mailing list or see my homepage at <a href="http://www.danielnaber.de">www.danielnaber.de</a>.</p>
+
+<p><strong>Mailing lists:</strong><br />
+Development and user discussion:
+ <?=show_link("Subscribe/Unsubscribe",  "http://lists.sourceforge.net/mailman/listinfo/languagetool-devel", 0) ?>
+ (<?=show_link("archive", "http://sourceforge.net/mailarchive/forum.php?forum_name=languagetool-devel", 0)
+?>)<br />
+CVS commit messages: <?=show_link("Subscribe/Unsubscribe", "http://lists.sourceforge.net/mailman/listinfo/languagetool-cvs", 0) ?>
+ (<?=show_link("archive", "http://sourceforge.net/mailarchive/forum.php?forum_name=languagetool-cvs", 0)
+?>)</p>
 		
 <p class="firstpara"><strong>Links</strong> to other Open Source language tools:<br />
 <?=show_link("An Gramad&oacute;ir", "http://borel.slu.edu/gramadoir/", 0)?>,
@@ -28,17 +42,6 @@ agreement checker written in Python<br />
 <?=show_link("LanguageTool in Python", "http://tkltrans.sourceforge.net/#r03", 0) ?>, a much older
 and less powerful version without OpenOffice.org integration but support for Hungarian<br />
 </p>
-
-
-
-<p><strong>Mailing lists:</strong><br />
-Development and user discussion:
- <?=show_link("Subscribe/Unsubscribe",  "http://lists.sourceforge.net/mailman/listinfo/languagetool-devel", 0) ?>
- (<?=show_link("archive", "http://sourceforge.net/mailarchive/forum.php?forum_name=languagetool-devel", 0)
-?>)<br />
-CVS commit messages: <?=show_link("Subscribe/Unsubscribe", "http://lists.sourceforge.net/mailman/listinfo/languagetool-cvs", 0) ?>
- (<?=show_link("archive", "http://sourceforge.net/mailarchive/forum.php?forum_name=languagetool-cvs", 0)
-?>)<br />
 
 <p><strong>Resources:</strong><br />
 <?=show_link("XML file with 221 collected English grammar errors", "/download/errors.xml", 0) ?>, 23KB<br />
