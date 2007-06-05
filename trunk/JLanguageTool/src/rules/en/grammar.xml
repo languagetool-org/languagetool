@@ -7,13 +7,22 @@ title="Easy editing stylesheet" ?>
 English Grammar and Typo Rules for LanguageTool
 See tagset.txt for the meaning of the POS tags
 Copyright (C) 2001-2007 Daniel Naber (http://www.danielnaber.de)
-$Id: grammar.xml,v 1.29 2007-06-05 09:08:29 milek_pl Exp $
+$Id: grammar.xml,v 1.30 2007-06-05 18:34:07 milek_pl Exp $
 -->
 <rules lang="en">
   <!-- ====================================================================== -->
   <!-- Possible typos -->
   <!-- ====================================================================== -->
   <category name="Possible Typo">
+    <rule id="FOR_AWHILE" name="Possible typo: 'awhile (a while)'">
+      <pattern mark_from="1">
+        <token postag="IN"/>
+        <token>awhile</token>
+      </pattern>
+      <message>Possible typo. Did you mean <suggestion>a while</suggestion>?</message>
+      <example correction="a while" type="incorrect">I haven't posted in <marker>awhile</marker>.</example>
+      <example type="correct">I haven't posted in a while.</example>
+    </rule>
     <rulegroup id="IT_IS_NO" name="Possible typo 'It is no(It is not/It is now)'">
       <rule>
         <pattern mark_from="2" mark_to="-1">
