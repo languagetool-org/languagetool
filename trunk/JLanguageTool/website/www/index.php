@@ -1,7 +1,7 @@
 <?php
 $page = "homepage";
 $title = "LanguageTool";
-$title2 = "&nbsp;";
+$title2 = "Open Source language checker";
 $lastmod = "2007-06-05 20:35:00 CET";
 include("../include/header.php");
 ?>
