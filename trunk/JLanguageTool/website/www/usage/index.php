@@ -28,7 +28,7 @@ with OpenOffice.org.</p>
 	LanguageTool only supports plain text files.</li>
 
 	<li><strong>Embedding LanguageTool in Java applications:</strong> See
-	<?=show_link("the API documentation", "/api/", 0) ?>. You just need to create a JLanguageTool object and use that
+	<?=show_link("the API documentation", "/development/api/", 0) ?>. You just need to create a JLanguageTool object and use that
 	to check your text.</li>
 
 	<li><strong>Using LanguageTool from other applications:</strong> Start the stand-alone
