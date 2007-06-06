@@ -35,7 +35,13 @@ function makeEntry($name, $visName) {
 <table border="0">
 <tr>
 	<td></td>
-	<td><h1><?php print $title ?></h1></td>
+	<td>
+		<?php if ($page == "homepage") { ?>
+			<h1><?php print $title ?></h1>
+		<?php } else { ?>
+			<h1 id="hplink"><a href="/"><?php print $title ?></a></h1>
+		<?php } ?>
+	</td>
 	<td><h2><?php print $title2 ?></h2></td>
 </tr>
 <tr>
