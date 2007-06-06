@@ -2,15 +2,9 @@
 $page = "development";
 $title = "LanguageTool";
 $title2 = "Development";
-$lastmod = "2007-06-02 15:00:00 CET";
+$lastmod = "2007-06-06 20:00:00 CET";
 include("../../include/header.php");
 include('../../include/geshi/geshi.php');
-
-function hl($xml) {
-	$geshi = new GeSHi($xml, "XML", "../../include/geshi/");
-	$geshi->set_header_type(GESHI_HEADER_NONE);
-	print "<div class='xmlcode'>".$geshi->parse_code()."</div>";
-}
 ?>
 		
 <p class="firstpara">This is a collection of the developer documentation available for LanguageTool.
@@ -72,18 +66,18 @@ address words or part-of-speech tags.
 Here are some examples of patterns that can be used in that file:</p>
 
 <ul class="largelist">
-	<li><?php hl('<token bla="x">think</token>'); ?>
+	<li><?php hl('<token bla="x">think</token>', "xmlcodeNoIndent"); ?>
 		matches the word <em>think</em></li>
-	<li><?php hl('<token regexp="yes">think|say</token>'); ?>
+	<li><?php hl('<token regexp="yes">think|say</token>', "xmlcodeNoIndent"); ?>
 		matches the regular expression
 		<tt>think|say</tt>, i.e. the word <em>think</em> or <em>say</em></li>
-	<li><?php hl('<token postag="VB" /> <token>house</token>'); ?>
+	<li><?php hl('<token postag="VB" /> <token>house</token>', "xmlcodeNoIndent"); ?>
 		matches a base form verb followed by the word <em>house</em>.
 		See resource/en/tagset.txt for a list of possible part-of-speech tags.</li>
-	<li><?php hl('<token>cause</token> <token regexp="yes" negate="yes">and|to</token>'); ?>
+	<li><?php hl('<token>cause</token> <token regexp="yes" negate="yes">and|to</token>', "xmlcodeNoIndent"); ?>
 		matches the word <em>cause</em> followed
 		by any word that is not <em>and</em> or <em>to</em></li>
-	<li><?php hl('<token postag="SENT_START" /> <token>foobar</token>'); ?>
+	<li><?php hl('<token postag="SENT_START" /> <token>foobar</token>', "xmlcodeNoIndent"); ?>
 		matches the word <em>foobar</em> only
 		at the beginning of a sentence</li>
 </ul>

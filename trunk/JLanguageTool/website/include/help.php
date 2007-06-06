@@ -1,4 +1,10 @@
 <?php
+function hl($xml, $class="xmlcode") {
+	$geshi = new GeSHi($xml, "XML", "../../include/geshi/");
+	$geshi->set_header_type(GESHI_HEADER_NONE);
+	print "<div class='".$class."'>".$geshi->parse_code()."</div>";
+}
+
 function show_link($title, $url, $show_alt, $title_attr="") {
 	global $homepage;
 	$html = "";

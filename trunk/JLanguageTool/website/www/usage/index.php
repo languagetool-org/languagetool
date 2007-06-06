@@ -2,8 +2,9 @@
 $page = "usage";
 $title = "LanguageTool";
 $title2 = "Usage";
-$lastmod = "2007-06-05 15:00:00 CET";
+$lastmod = "2007-06-06 15:00:00 CET";
 include("../../include/header.php");
+include('../../include/geshi/geshi.php');
 ?>
 		
 <p><strong>Installation and Usage outside OpenOffice.org</strong></p>
@@ -42,19 +43,17 @@ with OpenOffice.org.</p>
 	text itself (you may need to encode it for URLs). You can use both POST and
 	GET to send your requests to the LanguageTool server.<br />
 	For the input "this is a test" the LanguageTool server will reply with this
-	XML response:
+	XML response:<br/><br/>
 	
-<pre>
-&lt;?xml version="1.0" encoding="UTF-8"?>
-&lt;matches>
-&lt;error fromy="0" fromx="0" toy="0" tox="5" 
+<?php hl('<?xml version="1.0" encoding="UTF-8"?>
+<matches>
+<error fromy="0" fromx="0" toy="0" tox="5" 
   ruleId="UPPERCASE_SENTENCE_START" 
   msg="This sentence does not start with an uppercase letter" 
   replacements="This" context="this is a test." 
   contextoffset="0"
   errorlength="4"/>
-&lt;/matches>
-</pre>
+</matches>'); ?>
 
 	<p>The server can also be started on the command line using this command:<br />
 	<tt>java -cp jaminid.jar:LanguageTool.jar de.danielnaber.languagetool.server.HTTPServer</tt>
