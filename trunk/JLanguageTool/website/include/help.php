@@ -45,4 +45,14 @@ function send_last_modified_header() {
 	header("Last-Modified: ".date("D, j M Y G:i:s T", $timestamp));
 }
 
+/** Escape stuff that gets printed to page to avoid cross site scripting. */
+function escape($string) {
+	$string = preg_replace("/&/", "&amp;", $string);
+	$string = preg_replace("/\"/", "&quot;", $string);
+	$string = preg_replace("/'/", "&apos;", $string);
+	$string = preg_replace("/</", "&lt;", $string);
+	$string = preg_replace("/>/", "&gt;", $string);
+	return $string;
+}
+
 ?>
