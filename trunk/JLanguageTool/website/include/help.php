@@ -55,4 +55,33 @@ function escape($string) {
 	return $string;
 }
 
+/** Unescape stuff that gets printed to page to avoid cross site scripting. */
+function unescape($string) {
+	$string = preg_replace("/&quot;/", "\"", $string);
+	$string = preg_replace("/&apos;/", "'", $string);
+	$string = preg_replace("/&lt;/", "<", $string);
+	$string = preg_replace("/&gt;/", ">", $string);
+	$string = preg_replace("/&amp;/", "&", $string);
+	return $string;
+}
+
+function post_request($url, $data, $optional_headers=null) {
+	$params = array('http' => array(
+		'method' => 'POST',
+		'content' => $data));
+	if ($optional_headers !== null) {
+		$params['http']['header'] = $optional_headers;
+	}
+	$ctx = stream_context_create($params);
+	$fp = @fopen($url, 'rb', false, $ctx);
+	if (!$fp) {
+		throw new Exception("Problem with $url, $php_errormsg");
+	}
+	$resp = @stream_get_contents($fp);
+	if ($resp === false) {
+		throw new Exception("Problem reading data from $url: $php_errormsg");
+	}
+	return $resp;
+}
+
 ?>
