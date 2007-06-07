@@ -75,11 +75,11 @@ function post_request($url, $data, $optional_headers=null) {
 	$ctx = stream_context_create($params);
 	$fp = @fopen($url, 'rb', false, $ctx);
 	if (!$fp) {
-		throw new Exception("Problem with $url, $php_errormsg");
+		return "";
 	}
 	$resp = @stream_get_contents($fp);
 	if ($resp === false) {
-		throw new Exception("Problem reading data from $url: $php_errormsg");
+		return "";
 	}
 	return $resp;
 }
