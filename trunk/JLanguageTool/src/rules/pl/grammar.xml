@@ -6,7 +6,7 @@ title="Easy editing stylesheet" ?>
 <!--
 Polish Grammar and Typo Rules for LanguageTool
 Copyright (C) 2006-2007 Marcin Miłkowski
-$Id: grammar.xml,v 1.67 2007-06-04 17:51:51 milek_pl Exp $
+$Id: grammar.xml,v 1.68 2007-06-07 19:26:35 milek_pl Exp $
 -->
 <rules lang="pl">
   <phrases>
@@ -649,14 +649,48 @@ $Id: grammar.xml,v 1.67 2007-06-04 17:51:51 milek_pl Exp $
       <rule>
         <pattern mark_from="0" mark_to="-2">
           <token negate="yes">,<exception regexp="yes">[\p{Punct}–—„«»]</exception><exception postag="conj|SENT_START" postag_regexp="yes"/></token>
-          <token postag="prep:.*" postag_regexp="yes"><exception postag="&lt;/?ADV&gt;|&lt;/?PREP.*&gt;" postag_regexp="yes"/></token>
+          <token postag="prep:.*" postag_regexp="yes"><exception postag="&lt;/?ADV&gt;|&lt;/?PREP.*&gt;" postag_regexp="yes"/><exception>za</exception></token>
           <token inflected="yes">co<exception postag="&lt;/?ADV&gt;|&lt;/?PREP.*&gt;" postag_regexp="yes"/></token>
           <token><exception postag="SENT_END"/></token>
         </pattern>
         <message>Prawdopodobnie brak przecinka. Powinno być: <suggestion><match no="1"/>, <match no="2"/></suggestion>.</message>
         <example type="correct">Nie wiadomo, w związku z czym zabrał głos.</example>
         <example type="correct">Łaciny używano na co dzień.</example>
+        <example type="correct">Naprawdę nie masz za co dziękować.</example>
         <example correction="Oto, do" type="incorrect"><marker>Oto do</marker> czego doprowadziły rządy ludzi niespełna rozumu.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="0" mark_to="-2">
+          <token negate="yes">,<exception regexp="yes">[\p{Punct}–—„«»]</exception><exception postag="conj|SENT_START" postag_regexp="yes"/><exception inflected="yes">mieć</exception></token>
+          <token>za<exception postag="&lt;/?ADV&gt;|&lt;/?PREP.*&gt;" postag_regexp="yes"/></token>
+          <token inflected="yes">co<exception postag="&lt;/?ADV&gt;|&lt;/?PREP.*&gt;" postag_regexp="yes"/></token>
+          <token><exception postag="SENT_END"/></token>
+        </pattern>
+        <message>Prawdopodobnie brak przecinka. Powinno być: <suggestion><match no="1"/>, <match no="2"/></suggestion>.</message>
+        <example correction="Oto, za" type="incorrect"><marker>Oto za</marker> co go skazano.</example>
+        <example type="correct">Naprawdę nie masz za co dziękować.</example>
+      </rule>
+    </rulegroup>
+    <rulegroup id="KTOS_CZYJ" name="Brak przecinka przed „czyj”">
+      <rule>
+        <pattern case_sensitive="no" mark_from="1">
+          <token postag="SENT_START" skip="-1"><exception postag="verb:.*(sg|pl).*|pred|verb:imps.*|pcon:imperf|pant:perf" postag_regexp="yes"/></token>
+          <token inflected="yes" regexp="yes">ktoś|każdy</token>
+          <token inflected="yes">czyj</token>
+        </pattern>
+        <message>Prawdopodobnie brak przecinka. Powinno być: <suggestion>\2, \3</suggestion>.</message>
+        <example type="correct">Świadek to ktoś, czyjego życia i myśli nie da się rozdzielić.</example>
+        <example correction="ktoś, czyjego" type="incorrect">Świadek to <marker>ktoś czyjego</marker> życia i myśli nie da się rozdzielić. </example>
+      </rule>
+      <rule>
+        <pattern case_sensitive="no" mark_from="1">
+          <token postag="SENT_START" skip="-1"><exception postag="verb:.*(sg|pl).*|pred|verb:imps.*|pcon:imperf|pant:perf" postag_regexp="yes"/></token>
+          <token regexp="yes">ten|tego|temu|tych|tym|tymi|te|tą|ta|tej|ci|tę</token>
+          <token inflected="yes">czyj</token>
+        </pattern>
+        <message>Prawdopodobnie brak przecinka. Powinno być: <suggestion>\2, \3</suggestion>.</message>
+        <example type="correct">To ten, czyjego życia i myśli nie da się rozdzielić.</example>
+        <example correction="ten, czyjego" type="incorrect">Oto <marker>ten czyjego</marker> życia i myśli nie da się rozdzielić. </example>
       </rule>
     </rulegroup>
     <rulegroup id="BRAK_PRZECINKA_KTORY" name="Brak przecinka przed „który” i „jaki”">
@@ -3287,7 +3321,7 @@ bezpośrednio przed „tak”-->
     <rule id="ANALOGICZNY_Z" name="„analogiczny z” (do)">
       <pattern>
         <token inflected="yes">analogiczny</token>
-        <token>z</token>
+        <token regexp="yes">z|ze</token>
         <token postag=".*inst.*" postag_regexp="yes"/>
       </pattern>
       <message>Prawdopodobnie niepoprawny przyimek. Powinno być <suggestion><match no="1"/> do <match no="3" postag=".*gen.*" postag_regexp="yes"/></suggestion>.</message>
@@ -4392,11 +4426,29 @@ bezpośrednio przed „tak”-->
         <token><exception>raz</exception></token>
         <token>w</token>
         <token>raz</token>
-        <token>z</token>
+        <token regexp="yes">z|ze</token>
       </pattern>
       <message>Prawdopodobny błąd ortograficzny. Ten wyraz piszemy łącznie: <suggestion>\2\3</suggestion>.</message>
       <example correction="Wraz" type="incorrect"><marker>W raz</marker> z nią popierał rozwój nauki i sztuki.</example>
       <example type="correct">Raz w raz wstaje wielka postać, że ino jej skrzydeł dostać.</example>
+    </rule>
+    <rule id="RAZ_WRAZ" name="„raz wraz” (raz w raz)">
+      <pattern>
+        <token>raz</token>
+        <token>wraz</token>
+      </pattern>
+      <message>Błąd ortograficzny. Powinno być: <suggestion>raz w raz</suggestion>.</message>
+      <example correction="Raz w raz" type="incorrect"><marker>Raz wraz</marker> przerywały jazdę popsute mosty.</example>
+      <example type="correct">Raz w raz przerywały jazdę popsute mosty.</example>
+    </rule>
+    <rule id="OSOBA_TRZECIM" name="„osobą trzecim” (osobom trzecim)">
+      <pattern>
+        <token>osobą</token>
+        <token regexp="yes">trzecim|postronnym|poszkodowanym|fizycznym|niepełnosprawnym|prawnym|uprawnionym|zatrudnionym|nieletnim|bezdomnym|bezrobotnym|zainteresowanym|starszym|chorym|dorosłym</token>
+      </pattern>
+      <message>Prawdopodobny błąd ortograficzny. Powinno być: <suggestion>osobom \2</suggestion>.</message>
+      <example correction="osobom trzecim" type="incorrect">Klientom nie wolno udostępniać świadczonych przez Operatora usług <marker>osobą trzecim</marker>.</example>
+      <example type="correct">Klientom nie wolno udostępniać świadczonych przez Operatora usług osobom trzecim.</example>
     </rule>
     <rule id="PO_POD" name="„po pod” (popod)">
       <pattern case_sensitive="yes">
@@ -4733,6 +4785,16 @@ bezpośrednio przed „tak”-->
         <example correction="wkoło" type="incorrect">Ale <marker>w koło</marker> jest wesoło.</example>
         <example type="correct">Policja strzeliła w koło Poloneza.</example>
       </rule>
+      <rule>
+        <pattern mark_to="-1">
+          <token>w</token>
+          <token>koło</token>
+          <token postag=".*gen.*" postag_regexp="yes"><exception regexp="yes">fortuny|tira|ciągnika|samochodu|pojazdu|Poloneza|naczepy</exception></token>
+        </pattern>
+        <message>Prawdopodobny błąd ortograficzny. Czy chodziło o <suggestion>wkoło</suggestion> (=wokół)?</message>
+        <example correction="wkoło" type="incorrect">Mnóstwo kwiatów rośnie <marker>w koło</marker> domku.</example>
+        <example type="correct">Pojazd uderzył w koło naczepy.</example>
+      </rule>
     </rulegroup>
     <rule id="DO_NIE_DAWNA" name="„do nie dawna” (do niedawna)">
       <pattern>
@@ -5032,7 +5094,47 @@ bezpośrednio przed „tak”-->
       <example type="correct">Wokół Przemysława gromadziło się wielu podejrzanych typów.</example>
       <example correction="Wokół" type="incorrect"><marker>W okół</marker> Przemysława gromadziło się wielu podejrzanych typów.</example>
     </rule>
+    <rule id="ZA_RAZ" name="„za raz” (zaraz)">
+      <pattern mark_from="1">
+        <token postag="SENT_START" skip="-1"><exception inflected="yes" regexp="yes" scope="next">zł|opłata|honorarium|stawka|cena</exception></token>
+        <token>za</token>
+        <token>raz</token>
+      </pattern>
+      <message>Prawdopodobny błąd ortograficzny. Powinno być: <suggestion>zaraz</suggestion>.</message>
+      <example type="correct">25 zł za raz w tygodniu</example>
+      <example correction="zaraz" type="incorrect">Pewnie jeszcze <marker>za raz</marker> mnie ukąsi i będzie bąbel.</example>
+    </rule>
+    <rulegroup id="SZLAK_TRAFIA" name="„szlak... trafi” (szlag)">
+      <rule>
+        <pattern mark_from="0" mark_to="-1">
+          <token skip="6">szlak</token>
+          <token regexp="yes">trafi|trafił|trafia</token>
+        </pattern>
+        <message>Prawdopodobny błąd ortograficzny. Powinno być: <suggestion>szlag</suggestion> („szlak” może być turystyczny i raczej nikogo nie trafia).</message>
+        <example correction="Szlag" type="incorrect"><marker>Szlak</marker> by to trafił!</example>
+        <example type="correct">Szlag by to trafił!</example>
+      </rule>
+      <rule>
+        <pattern mark_from="1" mark_to="0">
+          <token regexp="yes" skip="6">trafi|trafił|trafia</token>
+          <token>szlak</token>
+        </pattern>
+        <message>Prawdopodobny błąd ortograficzny. Powinno być: <suggestion>szlag</suggestion> („szlak” może być turystyczny i raczej nikogo nie trafia).</message>
+        <example correction="szlag" type="incorrect">Zaraz trafi mnie <marker>szlak</marker>!</example>
+        <example type="correct">Zaraz trafi mnie szlag!</example>
+      </rule>
+    </rulegroup>
     <!-- błędna pisownia rozłączna -->
+    <rule id="NA_W_POL" name="„na w pół” (na wpół)">
+      <pattern>
+        <token>na</token>
+        <token>w</token>
+        <token>pół</token>
+      </pattern>
+      <message>Błąd ortograficzny. Powinno być: <suggestion>na wpół</suggestion>.</message>
+      <example type="correct">Przemysław wyszedł z domu na wpół rozebrany.</example>
+      <example correction="na wpół" type="incorrect">Przemysław wyszedł z domu <marker>na w pół</marker> rozebrany.</example>
+    </rule>
     <rule id="PO_ZA" name="„po za” (poza)">
       <pattern case_sensitive="yes" mark_from="0">
         <token regexp="yes">Po|po</token>
@@ -5804,6 +5906,26 @@ bezpośrednio przed „tak”-->
     </rulegroup>
   </category>
   <category name="Prawdopodobne literówki">
+    <rulegroup id="WRAZ_TYM" name="„wraz tym” (wraz z tym)">
+      <rule>
+        <pattern>
+          <token>wraz</token>
+          <token postag=".*inst.*" postag_regexp="yes" regexp="yes"><exception regexp="yes">ze|z</exception>s[wftśsrłndwpgklcbmżń].+|[zśźż][wftśsrłndwpgklzcbmżń].+|[rs]z[wftśsrłndwpgklzcbmżń].+|[wf][wftśwpgzcbmżń].+|wk[^ł].+|f[dsk].+|wd[^zię].+|ws[^ze].+|Lwowa|mną|mnie|snu</token>
+        </pattern>
+        <message>Prawdopodobna literówka. Czy chodziło o <suggestion>\1 ze \2</suggestion>?</message>
+        <example correction="wraz ze mną" type="incorrect">Pojechał <marker>wraz mną</marker> na targ.</example>
+        <example type="correct">Pojechał wraz ze mną na targ.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>wraz</token>
+          <token negate="yes" postag=".*inst.*" postag_regexp="yes" regexp="yes"><exception regexp="yes">ze|z</exception>s[wftśsrłndwpgklcbmżń].+|[zśźż][wftśsrłndwpgklzcbmżń].+|[rs]z[wftśsrłndwpgklzcbmżń].+|[wf][wftśwpgzcbmżń].+|wk[^ł].+|f[dsk].+|wd[^zię].+|ws[^ze].+|Lwowa|mną|mnie|snu</token>
+        </pattern>
+        <message>Prawdopodobna literówka. Czy chodziło o <suggestion>\1 z \2</suggestion>?</message>
+        <example correction="wraz z nim" type="incorrect">Pojechał <marker>wraz nim</marker> na targ.</example>
+        <example type="correct">Pojechał wraz ze mną na targ.</example>
+      </rule>
+    </rulegroup>
     <rule id="PRZE_TO" name="„prze to” (przez to, przeto)">
       <pattern>
         <token>prze</token>
