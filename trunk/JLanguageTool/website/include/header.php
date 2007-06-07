@@ -42,7 +42,7 @@ function makeEntry($name, $visName) {
 			<h1 id="hplink"><a href="/"><?php print $title ?></a></h1>
 		<?php } ?>
 	</td>
-	<td><h2><?php print $title2 ?></h2></td>
+	<td><h1 style="text-align:left"><?php print $title2 ?></h1></td>
 </tr>
 <tr>
 	<td width="88"></td>
