@@ -6,7 +6,7 @@ title="Easy editing stylesheet" ?>
 <!--
 Polish Grammar and Typo Rules for LanguageTool
 Copyright (C) 2006-2007 Marcin Miłkowski
-$Id: grammar.xml,v 1.69 2007-06-08 11:07:18 milek_pl Exp $
+$Id: grammar.xml,v 1.70 2007-06-08 16:43:34 milek_pl Exp $
 -->
 <rules lang="pl">
   <phrases>
@@ -4421,6 +4421,14 @@ bezpośrednio przed „tak”-->
       <message>Prawdopodobnie błąd ortogaficzny. Ten wyraz piszemy razem: <suggestion>\1\2</suggestion>.</message>
       <example type="correct">Ta droga jest dwupasmowa.</example>
       <example correction="dwupasmowa" type="incorrect">Ta droga jest <marker>dwu pasmowa</marker>.</example>
+    </rule>
+    <rule id="PRZECIAGNIJ-I-UPUSC" name="Wyrażenia pisane z wieloma łącznikami">
+      <pattern>
+        <token regexp="yes">\p{L}{2,}-\p{L}+-.*</token>
+      </pattern>
+      <message>Prawdopodobnie to wyrażenie jest kalką z języka obcego. W języku polskim nie łączy się wielu wyrazów łącznikiem w celu uzyskania jednego wyrazu. Poprawnie: <suggestion><match no="1" regexp_match="\-" regexp_replace=" "/></suggestion>.</message>
+      <example correction="przeciągnij i upuść" type="incorrect">Wśród innych aplikacji tego typu wyróżnia się m.in. łatwością obsługi (posiada pełne wsparcie dla technologii <marker>przeciągnij-i-upuść</marker>).</example>
+      <example type="correct">Wśród innych aplikacji tego typu wyróżnia się m.in. łatwością obsługi (w pełni obsługuje metodę „przeciągnij i upuść”).</example>
     </rule>
     <rule id="DWU_I_POL_PRZYMIOTNIK" name="Błędna pisownia rozłączna przymiotników typu „dwuipółkrotny”">
       <pattern>
