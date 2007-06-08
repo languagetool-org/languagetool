@@ -6,7 +6,7 @@ title="Easy editing stylesheet" ?>
 <!--
 Polish Grammar and Typo Rules for LanguageTool
 Copyright (C) 2006-2007 Marcin Miłkowski
-$Id: grammar.xml,v 1.68 2007-06-07 19:26:35 milek_pl Exp $
+$Id: grammar.xml,v 1.69 2007-06-08 11:07:18 milek_pl Exp $
 -->
 <rules lang="pl">
   <phrases>
@@ -2597,6 +2597,18 @@ bezpośrednio przed „tak”-->
       <example correction="wzdłuż" type="incorrect">Opona pękła <marker>na wzdłuż</marker>.</example>
       <example type="correct">Opona pękła <marker>wzdłuż</marker>.</example>
     </rule>
+    <rule id="W_PELNYM_TEGO" name="„w pełnym tego słowa znaczeniu” (w całym znaczeniu tego słowa)">
+      <pattern>
+        <token>w</token>
+        <token>pełnym</token>
+        <token>tego</token>
+        <token>słowa</token>
+        <token>znaczeniu</token>
+      </pattern>
+      <message>Ten zwrot jest uważany za niepoprawny. Poprawnie: <suggestion>w całym znaczeniu tego słowa</suggestion>.</message>
+      <example correction="w całym znaczeniu tego słowa" type="incorrect">Nałęczów jest uzdrowiskiem <marker>w pełnym tego słowa znaczeniu</marker>.</example>
+      <example type="correct">Nałęczów jest uzdrowiskiem <marker>w całym tego słowa znaczeniu</marker>.</example>
+    </rule>
     <rule id="DO_DZIS_DZIEN" name="„do dziś dzień” (po dziś dzień)">
       <pattern>
         <token>do</token>
@@ -4450,6 +4462,29 @@ bezpośrednio przed „tak”-->
       <example correction="osobom trzecim" type="incorrect">Klientom nie wolno udostępniać świadczonych przez Operatora usług <marker>osobą trzecim</marker>.</example>
       <example type="correct">Klientom nie wolno udostępniać świadczonych przez Operatora usług osobom trzecim.</example>
     </rule>
+    <rule id="POT_WPLYWEM" name="„pot wpływem” (pod wpływem)">
+      <pattern>
+        <token>pot</token>
+        <token postag="subst.*nom.*|subst.*inst.*" postag_regexp="yes" regexp="yes"><exception regexp="yes">to|strugami|kroplami</exception>[wtspkdc].*</token>
+      </pattern>
+      <message>Prawdopodobny błąd ortograficzny. Czy chodziło o <suggestion>pod \2</suggestion>?</message>
+      <example correction="pod wpływem" type="incorrect">Rząd jest <marker>pot wpływem</marker> obcych sił.</example>
+      <example type="correct">Rząd jest pod wpływem obcych sił.</example>
+      <example type="correct">Pot strugami spływał z pleców Romana.</example>
+    </rule>
+    <rulegroup id="W_PRAWDZIE" name="„w prawdzie” (wprawdzie)">
+      <rule>
+        <pattern mark_from="1" mark_to="-1">
+          <token postag="SENT_START" skip="-1"><exception inflected="yes" regexp="yes" scope="next">żyć|stać|stanąć|ukazać</exception></token>
+          <token>w</token>
+          <token skip="-1">prawdzie</token>
+          <token regexp="yes">ale|lecz|jednak|jednakże|jednakowóż</token>
+        </pattern>
+        <message>Prawdopodobny błąd ortograficzny. Czy chodziło o <suggestion>wprawdzie</suggestion> (=chociaż)?</message>
+        <example type="incorrect">Dziś mówi się <marker>w prawdzie</marker> wiele o wychowaniu seksualnym, ale często w sposób dość powierzchowny.</example>
+        <example type="correct">Dziś mówi się wprawdzie wiele o wychowaniu seksualnym, ale często w sposób dość powierzchowny.</example>
+      </rule>
+    </rulegroup>
     <rule id="PO_POD" name="„po pod” (popod)">
       <pattern case_sensitive="yes">
         <token regexp="yes">[Pp]o</token>
@@ -4796,6 +4831,15 @@ bezpośrednio przed „tak”-->
         <example type="correct">Pojazd uderzył w koło naczepy.</example>
       </rule>
     </rulegroup>
+    <rule id="WKOLO_MACIEJU" name="„wkoło Macieju” (w koło Macieju)">
+      <pattern>
+        <token>wkoło</token>
+        <token>Macieju</token>
+      </pattern>
+      <message>Bład ortograficzny. Powinno być: <suggestion>w koło Macieju</suggestion>.</message>
+      <example correction="w koło Macieju" type="incorrect">I tak <marker>wkoło Macieju</marker>.</example>
+      <example type="correct">I tak w koło Macieju.</example>
+    </rule>
     <rule id="DO_NIE_DAWNA" name="„do nie dawna” (do niedawna)">
       <pattern>
         <token>do</token>
