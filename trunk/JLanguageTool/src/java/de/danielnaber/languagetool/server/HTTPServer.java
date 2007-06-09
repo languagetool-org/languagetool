@@ -18,6 +18,8 @@
  */
 package de.danielnaber.languagetool.server;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -50,6 +52,7 @@ public class HTTPServer extends ContentOracle {
 
   private Daemon daemon;
   private int port = DEFAULT_PORT;
+  private boolean verbose = false;
   
   private static final Set<String> allowedIPs = new HashSet<String>();
   static {
@@ -67,9 +70,11 @@ public class HTTPServer extends ContentOracle {
 
   /**
    * Prepare a server on the given port - use run() to start it.
+   * @param verbose if true, the text to check will be displayed in case of exceptions
    */
-  public HTTPServer(int port) {
+  public HTTPServer(int port, boolean verbose) {
     this.port = port;
+    this.verbose = verbose;
   }
 
   /**
@@ -85,6 +90,8 @@ public class HTTPServer extends ContentOracle {
   }
 
   public String demultiplex(Request connRequest, Response connResponse) {
+    long timeStart = System.currentTimeMillis();
+    String text = null;
     try {
       if ("".equals(connRequest.getLocation())) {
         connResponse.setStatus(403);
@@ -102,25 +109,38 @@ public class HTTPServer extends ContentOracle {
         JLanguageTool lt = new JLanguageTool(lang);
         lt.activateDefaultPatternRules();
         lt.activateDefaultFalseFriendRules();
-        String text = connRequest.getParamOrNull("text");
+        text = connRequest.getParamOrNull("text");
         if (text == null)
           throw new IllegalArgumentException("Missing 'text' parameter");
-        System.out.println("Checking text with length " + text.length());
+        print("Checking " + text.length() + " characters of text, language " + langParam);
         List<RuleMatch> matches = lt.check(text);
         connResponse.setHeaderLine(ProtocolResponseHeader.Content_Type, "text/xml");
         // TODO: how to set the encoding to utf-8 if we can just return a String?
         connResponse.setHeaderLine(ProtocolResponseHeader.Content_Encoding, System.getProperty("file.encoding"));
-        return StringTools.ruleMatchesToXML(matches, text, CONTEXT_SIZE);      
+        String response = StringTools.ruleMatchesToXML(matches, text, CONTEXT_SIZE);
+        print("Check done in " + (System.currentTimeMillis()-timeStart) + "ms");
+        return response;
       } else {
         connResponse.setStatus(403);
         throw new RuntimeException("Error: Access from " + connRequest.getIPAddressString() + " denied");
       }
     } catch (Exception e) {
+      if (verbose)
+        print("Exceptions was caused by this text: " + text);
       e.printStackTrace();
       connResponse.setStatus(500);
       // escape input to avoid XSS attacks:
       return "Error: " + StringTools.escapeXML(e.toString());
     }
+  }
+
+  private void print(String s) {
+    System.out.println(getDate() + " " + s);
+  }
+
+  private String getDate() {
+    SimpleDateFormat sdf = new SimpleDateFormat();
+    return sdf.format(new Date());
   }
   
   /**
@@ -139,20 +159,22 @@ public class HTTPServer extends ContentOracle {
 
   /**
    * Start the server from command line.
-   * Usage: <tt>HTTPServer [-p|--port port]</tt>
+   * Usage: <tt>HTTPServer [-v|--verbose] [-p|--port port]</tt>
    */
   public static void main(String[] args) {
-    if (args.length == 1 || args.length > 2) {
+    if (args.length > 3) {
       printUsageAndExit();
     }
+    boolean verbose = false;
     int port = DEFAULT_PORT;
-    if (args.length == 2) {
-      if ("-p".equals(args[0]) || "--port".equals(args[0]))
-        port = Integer.parseInt(args[1]);
-      else
-        printUsageAndExit();
+    for (int i = 0; i < args.length; i++) {
+      if ("-p".equals(args[i]) || "--port".equals(args[i])) {
+        port = Integer.parseInt(args[++i]);
+      } else if ("-v".equals(args[i]) || "--verbose".equals(args[i])) {
+        verbose = true;
+      }
     }
-    HTTPServer server = new HTTPServer(port);
+    HTTPServer server = new HTTPServer(port, verbose);
     server.run();
   }
 
