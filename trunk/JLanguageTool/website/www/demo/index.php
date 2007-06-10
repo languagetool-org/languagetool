@@ -2,16 +2,30 @@
 $page = "demo";
 $title = "LanguageTool";
 $title2 = "Demo (Beta)";
-$lastmod = "2007-06-07 15:00:00 CET";
+$lastmod = "2007-06-10 15:00:00 CET";
 include("../../include/header.php");
 ?>
 
 <?php
 
 # TODO:
-# -highlighting incorrect when there are quotes etc in the text
-# -add more languages
+# -gets confused if there's "&lt;" or "&gt;" in the input
 # -usability: show language used before displaying the results
+
+# languages with a very small number of rules are commented out:
+$langs = array();
+#$langs["Czech"] = "cs";
+$langs["Dutch"] = "nl";
+$langs["English"] = "en";
+$langs["French"] = "fr";
+$langs["German"] = "de";
+#$langs["Italian"] = "it";
+#$langs["Lithuanian"] = "lt";
+$langs["Polish"] = "pl";
+#$langs["Slovenian"] = "sl";
+#$langs["Spanish"] = "es";
+$langs["Ukrainian"] = "uk";
+
 
 $base_url = "http://localhost:8081/";
 $limit = 20000;
@@ -20,28 +34,45 @@ $text = "";
 $lang = "";
 if(isset($_POST['text'])) {
 	$lang = $_POST['lang'];
-	if (! ($lang == "en" || $lang == "pl" || $lang == "de" || $lang == "fr" || $lang == "nl")) {
+	$knownLang = 0;
+	foreach ($langs as $knownLang) {
+		if ($knownLang == $lang) {
+			$knownLang = 1;
+			break;
+		}
+	}
+	if ($knownLang == 0) {
 		print "Error: language not supported in online demo";
 		return;
 	}
+
 	$text = $_POST['text'];
 	if (strlen($text) > $limit) {
 		$text = substr($text, 0, $limit);
 		print "<p><b>Note:</b> Text was shortened to $limit bytes.</p>";
 	}
-	# GET:
-	#$url = $base_url . "?language=".$_POST['lang']."&text=".urlencode(utf8_decode($text));
 	# POST:
-	$contents = post_request($base_url, "language=".$_POST['lang']."&text=".urlencode(utf8_decode($text)));
+	#$contents = post_request($base_url, "language=".$_POST['lang']."&text=".urlencode(utf8_decode($text)));
+	$contents = post_request($base_url, "language=".$_POST['lang']."&text=".$text);
 	if (!$contents) {
 		print "Error: Cannot connect LanguageTool server";
 		return;
 	}
-	# Example:
-	# <error fromy="0" fromx="0" toy="0" tox="9" ruleId="DE_AGREEMENT" msg="Mögl..." replacements="" context="Das Test." contextoffset="0" errorlength="8"/>
+
+	# Example output from LanguageTool (in one line):
+	# <error fromy="0" fromx="0" toy="0" tox="9" ruleId="DE_AGREEMENT" msg="Mögl..."
+	# replacements="" context="Das Test." contextoffset="0" errorlength="8"/>
 	
 	#debugging only:
 	#print escape($contents);
+
+	print "<p>Results for checking text in ";
+	foreach (array_keys($langs) as $knownLang) {
+		if ($langs[$knownLang] == $lang) {
+			print $knownLang;
+		}
+	}
+	print ":</p>";
 
 	$lines = split("\n", $contents);
 	print "<table border='0'>";
@@ -54,15 +85,26 @@ if(isset($_POST['text'])) {
 		} else {
 			$errorCount++;
 			preg_match('/msg="(.*?)" replacements="(.*?)" context="(.*?)" contextoffset="(.*?)" errorlength="(.*?)"/', $line, $matches);
-			print "<tr><td valign='top'><b>Message:</b></td> <td>". $matches[1] . "</td></tr>";
-			print "<tr><td valign='top'><b>Replacements:</b></td> <td>" . $matches[2] . "</td></tr>";
 			$context = $matches[3];
 			$errorStart = $matches[4];
 			$errorLen = $matches[5];
-			$context = substr($context, 0, $errorStart) . "<span class='error'>" .
-				substr($context, $errorStart, $errorLen) . "</span>" . 
-				substr($context, $errorStart+$errorLen);
+			$context = utf8_substr($context, 0, $errorStart) . "<span class='error'>" .
+				utf8_substr($context, $errorStart, $errorLen) . "</span>" . 
+				utf8_substr($context, $errorStart+$errorLen, strlen($context));
 			print "<tr><td valign='top'><b>Context:</b></td> <td>" . unescape($context) . "</td></tr>";
+			print "<tr><td valign='top'><b>Message:</b></td> <td>". $matches[1] . "</td></tr>";
+			$repls = preg_split("/#/", $matches[2]);
+			$repl = "";
+			$i = 0;
+			foreach ($repls as $r) {
+				$r = preg_replace("/ /", "&nbsp;", $r);
+				$repl .= "<span class='suggestion'>$r</span>";
+				if ($i < sizeof($repls)-1) {
+					$repl .= ", ";
+				}
+				$i++;
+			}
+			print "<tr><td valign='top'><b>Suggestion:</b></td> <td>" . $repl . "</td></tr>";
 			print "<tr><td>&nbsp;</td></tr>";
 		}
 	}
@@ -75,27 +117,43 @@ if(isset($_POST['text'])) {
 }
 ?>
 
-<form method="post" action="/demo/">
+<form name="ltcheck" method="post" action="/demo/">
 
 <table width="90%">
 <tr>
 	<td colspan="2">
 		Text to check (max. 20KB):<br/>
-		<textarea name="text" style="width:100%" rows="20"><?php print escape($text) ?></textarea><br/>
+		<textarea name="text" style="width:100%" rows="20"><?php
+			if ($text == "") {
+				?>This is a example collection with errors.
+After a comma,there must be whitespace. Because to much snow was on it.
+Some would think you a fortunate man. Kyoto is the most oldest city.
+Its a good opportunity.<?php } else { print escape($text); } ?></textarea><br/>
 	</td>
 </tr>
 <tr>
 	<td>
 		Language:
 		<select name="lang">
-			<option value="en" <?php if ($lang == 'en') { ?> selected="selected"<?php } ?>>English</option>
-			<option value="pl" <?php if ($lang == 'pl') { ?> selected="selected"<?php } ?>>Polish</option>
-			<option value="de" <?php if ($lang == 'de') { ?> selected="selected"<?php } ?>>German</option>
-			<option value="fr" <?php if ($lang == 'fr') { ?> selected="selected"<?php } ?>>French</option>
-			<option value="nl" <?php if ($lang == 'nl') { ?> selected="selected"<?php } ?>>Dutch</option>
+			<option value="en">English</option>
+			<option value="">------</option>
+			<?php
+			reset($langs);
+			foreach (array_keys($langs) as $knownLang) {
+				$code = $langs[$knownLang];
+				?>
+					<option value="<?php print $code ?>"<?php if ($lang == $code) {
+						?> selected="selected"<?php } ?>><?php print $knownLang ?></option>
+				<?php
+			}
+			?>
 		</select>
 	</td>
 	<td align="right">
+		<input type="submit" value="Clear input"
+			onclick="document.forms['ltcheck'].text.value='';return false;" />
+			<noscript>(requires Javascript)</noscript>
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 		<input type="submit" value="Check text"/>
 	</td>
 </tr>
@@ -111,6 +169,7 @@ if(isset($_POST['text'])) {
 Some languages have a very small numbers of rules and thus only very few errors can
 be detected. See <?php print show_link("the language page", "/languages/", 0) ?> for
 a rough overview of how good a language is supported by LanguageTool.</li>
+<li>Some languages with a very small number of rules are not available on this page.</li>
 </ul>
 
 <?php
