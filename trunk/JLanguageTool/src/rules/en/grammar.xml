@@ -7,7 +7,7 @@ title="Easy editing stylesheet" ?>
 English Grammar and Typo Rules for LanguageTool
 See tagset.txt for the meaning of the POS tags
 Copyright (C) 2001-2007 Daniel Naber (http://www.danielnaber.de)
-$Id: grammar.xml,v 1.30 2007-06-05 18:34:07 milek_pl Exp $
+$Id: grammar.xml,v 1.31 2007-06-10 15:49:09 dnaber Exp $
 -->
 <rules lang="en">
   <!-- ====================================================================== -->
@@ -309,6 +309,15 @@ $Id: grammar.xml,v 1.30 2007-06-05 18:34:07 milek_pl Exp $
         <example type="correct">Because <marker>too</marker> much snow was on it.</example>
         <example type="correct">the password provides access <marker>to</marker> much more data.</example>
         <example correction="too" type="incorrect">Because <marker>to</marker> much snow was on it.</example>
+      </rule>
+      <rule>
+        <pattern mark_to="-1">
+          <token regexp="yes">two</token>
+          <token regexp="yes">many</token>
+        </pattern>
+        <message>Did you mean <suggestion>too</suggestion>?</message>
+        <example type="correct">But I see the problem of <marker>too</marker> many files.</example>
+        <example correction="too" type="incorrect">But I see the problem of <marker>two</marker> many files.</example>
       </rule>
     </rulegroup>
     <rule id="THINK_YOU_A" name="Possible typo 'think you a/an(are)'">
