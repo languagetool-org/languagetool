@@ -50,6 +50,7 @@ function makeEntry($name, $visName) {
 		<div id="menu">
 			<?php makeEntry("homepage", "Homepage"); ?>
 			<?php makeEntry("screenshots", "Screenshots"); ?>
+			<?php makeEntry("demo", "Demo"); ?>
 			<?php makeEntry("languages", "Languages"); ?>
 			<?php makeEntry("usage", "Usage"); ?>
 			<?php makeEntry("development", "Development"); ?>
