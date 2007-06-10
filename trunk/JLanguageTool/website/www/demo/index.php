@@ -92,7 +92,10 @@ if(isset($_POST['text'])) {
 				utf8_substr($context, $errorStart, $errorLen) . "</span>" . 
 				utf8_substr($context, $errorStart+$errorLen, strlen($context));
 			print "<tr><td valign='top'><b>Context:</b></td> <td>" . unescape($context) . "</td></tr>";
-			print "<tr><td valign='top'><b>Message:</b></td> <td>". $matches[1] . "</td></tr>";
+			$message = $matches[1];
+			$message = preg_replace("/&lt;i&gt;/", "<em>", $message);
+			$message = preg_replace("/&lt;\/i&gt;/", "</em>", $message);
+			print "<tr><td valign='top'><b>Message:</b></td> <td>". $message . "</td></tr>";
 			$repls = preg_split("/#/", $matches[2]);
 			$repl = "";
 			$i = 0;
