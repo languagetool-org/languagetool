@@ -70,7 +70,15 @@ public class HTTPServer extends ContentOracle {
 
   /**
    * Prepare a server on the given port - use run() to start it.
-   * @param verbose if true, the text to check will be displayed in case of exceptions
+   */
+  public HTTPServer(int port) {
+    this(port, false);
+  }
+
+  /**
+   * Prepare a server on the given port - use run() to start it.
+   * @param verbose if true, the text to check will be displayed in case 
+   * of exceptions (default: false)
    */
   public HTTPServer(int port, boolean verbose) {
     this.port = port;
