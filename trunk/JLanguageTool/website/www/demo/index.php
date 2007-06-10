@@ -10,7 +10,7 @@ include("../../include/header.php");
 
 # TODO:
 # -gets confused if there's "&lt;" or "&gt;" in the input
-# -usability: show language used before displaying the results
+# -show suggetions directly under the errors (monospaced font?)
 
 # languages with a very small number of rules are commented out:
 $langs = array();
@@ -26,12 +26,19 @@ $langs["Polish"] = "pl";
 #$langs["Spanish"] = "es";
 $langs["Ukrainian"] = "uk";
 
+$defaultText["en"] = "This is a example collection with errors. ".
+	"After a comma,there must be whitespace. Because to much snow was on it. ".
+	"Some would think you a fortunate man. Kyoto is the most oldest city. ".
+	"Its a good opportunity.";
 
 $base_url = "http://localhost:8081/";
 $limit = 20000;
 
 $text = "";
 $lang = "";
+if(isset($_GET['lang'])) {
+	$lang = $_GET['lang'];
+}
 if(isset($_POST['text'])) {
 	$lang = $_POST['lang'];
 	$knownLang = 0;
@@ -128,10 +135,14 @@ if(isset($_POST['text'])) {
 		Text to check (max. 20KB):<br/>
 		<textarea name="text" style="width:100%" rows="20"><?php
 			if ($text == "") {
-				?>This is a example collection with errors.
-After a comma,there must be whitespace. Because to much snow was on it.
-Some would think you a fortunate man. Kyoto is the most oldest city.
-Its a good opportunity.<?php } else { print escape($text); } ?></textarea><br/>
+				if ($lang == "en" || $lang == "") {
+					print $defaultText["en"];
+				} else {
+					# empty form
+				}
+			} else {
+				print escape($text);
+			} ?></textarea><br/>
 	</td>
 </tr>
 <tr>
