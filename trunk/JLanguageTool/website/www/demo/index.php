@@ -95,10 +95,12 @@ if(isset($_POST['text'])) {
 			$context = $matches[3];
 			$errorStart = $matches[4];
 			$errorLen = $matches[5];
-			$context = utf8_substr($context, 0, $errorStart) . "<span class='error'>" .
-				utf8_substr($context, $errorStart, $errorLen) . "</span>" . 
+			$context = utf8_substr($context, 0, $errorStart) .
+				"<span class='error'>" .
+				utf8_substr($context, $errorStart, $errorLen) .
+				"</span>" . 
 				utf8_substr($context, $errorStart+$errorLen, strlen($context));
-			print "<tr><td valign='top'><b>Context:</b></td> <td>" . unescape($context) . "</td></tr>";
+			print "<tr><td valign='top'><b>Context:</b></td> <td>" . $context . "</td></tr>";
 			$message = $matches[1];
 			$message = preg_replace("/&lt;i&gt;/", "<em>", $message);
 			$message = preg_replace("/&lt;\/i&gt;/", "</em>", $message);
@@ -118,10 +120,10 @@ if(isset($_POST['text'])) {
 			print "<tr><td>&nbsp;</td></tr>";
 		}
 	}
-	print "</table>";
 	if ($errorCount == 0) {
-		print "<p><b>No matches found by LanguageTool.</b></p>";
+		print "<tr><td><b>No matches found by LanguageTool.</b></td></tr>";
 	}
+	print "</table>";
 	print "<br/>";
 
 }
