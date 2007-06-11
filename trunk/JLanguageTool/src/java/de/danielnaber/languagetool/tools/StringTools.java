@@ -216,13 +216,14 @@ public final class StringTools {
       xml.append(" msg=\"" + escapeXMLForAPIOutput(msg)+ "\"");
       final String START_MARKER = "__languagetoo_start_marker";
       String context = Tools.getContext(match.getFromPos(), match.getToPos(),
-          escapeXML(text), contextSize, START_MARKER, "");
+          text, contextSize, START_MARKER, "", true);
       xml.append(" replacements=\"" + 
           escapeXMLForAPIOutput(listToString(match.getSuggestedReplacements(), "#")) + "\"");
       // get position of error in context and remove artificial marker again:
       final int contextOffset = context.indexOf(START_MARKER);
       context = context.replaceFirst(START_MARKER, "");
-      xml.append(" context=\"" +escapeXMLForAPIOutput(context)+ "\"");
+      context = context.replaceAll("[\n\r]", " ");
+      xml.append(" context=\"" +context+ "\"");
       xml.append(" contextoffset=\"" +contextOffset+ "\"");
       xml.append(" errorlength=\"" +(match.getToPos()-match.getFromPos())+ "\"");
       xml.append("/>\n");
