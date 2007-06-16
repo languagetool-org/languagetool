@@ -6,7 +6,7 @@ title="Easy editing stylesheet" ?>
 <!--
 Polish Grammar and Typo Rules for LanguageTool
 Copyright (C) 2006-2007 Marcin Miłkowski
-$Id: grammar.xml,v 1.71 2007-06-12 10:42:11 milek_pl Exp $
+$Id: grammar.xml,v 1.72 2007-06-16 18:10:25 milek_pl Exp $
 -->
 <rules lang="pl">
   <phrases>
@@ -2007,7 +2007,7 @@ bezpośrednio przed „tak”-->
     </rule>
     <rule id="INNY_JAK" name="„inny jak” (inny niż)">
       <pattern mark_from="2">
-        <token inflected="yes" negate="yes" regexp="yes">nie|nic|nikt|któż|kto</token>
+        <token><exception inflected="yes" regexp="yes">nie|nic|nikt|któż|kto</exception></token>
         <token inflected="yes">inny</token>
         <token>jak</token>
       </pattern>
@@ -2361,6 +2361,26 @@ bezpośrednio przed „tak”-->
       <example correction="zdawał sprawę" type="incorrect">Rzecznik konsumentów <marker>sprawozdawał</marker>.</example>
       <example type="correct">Rzecznik konsumentów zdawał sprawę.</example>
     </rule>
+    <rulegroup id="UBRAC_ZALOZYC" name="„ubrać/założyć futro, golf, kapelusz” (włożyć...)">
+      <rule>
+        <pattern>
+          <token inflected="yes" regexp="yes" skip="2"><exception scope="next">się</exception>ubierać|ubrać</token>
+          <token regexp="yes">futro|golf|sukienkę|kapelusz|płaszcz|sukienkę|garnitur|buty</token>
+        </pattern>
+        <message>Prawdopodobnie użyto błędnego czasownika. Powinno być: <suggestion><match no="1" postag="verb.*">włożyć</match> <match no="2" postag_replace=""/></suggestion>.</message>
+        <example correction="włożył golf" type="incorrect">Przemysław znowu <marker>ubrał golf</marker>.</example>
+        <example type="correct">Przemysław znowu ubrał się w golf.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token inflected="yes" regexp="yes" skip="2">zakładać|założyć</token>
+          <token regexp="yes">futro|golf|sukienkę|kapelusz|płaszcz|sukienkę|garnitur|buty</token>
+        </pattern>
+        <message>Prawdopodobnie użyto błędnego czasownika. Powinno być: <suggestion><match no="1" postag="verb.*">włożyć</match> <match no="2" postag_replace=""/></suggestion>.</message>
+        <example correction="włożył buty" type="incorrect">Przemysław znowu <marker>założył buty</marker>.</example>
+        <example type="correct">Przemysław znowu założył partię.</example>
+      </rule>
+    </rulegroup>
     <rule id="FORMULA_KREMU" name="„formuła kremu” (skład)">
       <pattern>
         <token inflected="yes">formuła</token>
@@ -4470,6 +4490,15 @@ bezpośrednio przed „tak”-->
       <example correction="osobom trzecim" type="incorrect">Klientom nie wolno udostępniać świadczonych przez Operatora usług <marker>osobą trzecim</marker>.</example>
       <example type="correct">Klientom nie wolno udostępniać świadczonych przez Operatora usług osobom trzecim.</example>
     </rule>
+    <rule id="BYC_WSTANIE" name="„być wstanie” (być w stanie)">
+      <pattern mark_from="1">
+        <token inflected="yes" skip="1">być</token>
+        <token>wstanie</token>
+      </pattern>
+      <message>Prawdopodobny błąd ortograficzny. Powinno być: <suggestion>w stanie</suggestion>.</message>
+      <example correction="w stanie" type="incorrect">Walka zapowiadała się bardzo emocjonująco i nikt nie był <marker>wstanie</marker> wskazać lidera.</example>
+      <example type="correct">Nie jestem w stanie tego słuchać.</example>
+    </rule>
     <rule id="POT_WPLYWEM" name="„pot wpływem” (pod wpływem)">
       <pattern>
         <token>pot</token>
@@ -5866,6 +5895,22 @@ bezpośrednio przed „tak”-->
       <example type="correct">Zapraszamy do autokomisu!</example>
       <example correction="autokomisu" type="incorrect">Zapraszamy do <marker>auto komisu</marker>!</example>
     </rule>
+    <rule id="KORZ_KURZ" name="„kórz” (kurz)">
+      <pattern>
+        <token>kórz</token>
+      </pattern>
+      <message>Prawdopodobny błąd ortograficzny. Czy chodziło o <suggestion>kurz</suggestion> („kórz” to tryb rozkazujący od czasownika „korzyć”)?</message>
+      <example correction="kurz" type="incorrect">Było błoto, była woda, był <marker>kórz</marker>...</example>
+      <example type="correct">Było błoto, była woda, był kurz...</example>
+    </rule>
+    <rule id="BROZKA_BROSZKA" name="„brożka” (broszka)">
+      <pattern case_sensitive="yes">
+        <token>brożka</token>
+      </pattern>
+      <message>Prawdopodobny błąd ortograficzny. Czy chodziło o wyraz <suggestion>broszka</suggestion> (=wyrób jubilerski)?</message>
+      <example correction="broszka" type="incorrect">To piękna <marker>brożka</marker> z brylantami.</example>
+      <example type="correct">Spytajmy pana Brożka, czy to jego broszka.</example>
+    </rule>
     <rulegroup id="ZA_ZWYCZAJ" name="„za zwyczaj” (zazwyczaj)">
       <rule>
         <pattern mark_from="2">
@@ -5969,6 +6014,14 @@ bezpośrednio przed „tak”-->
     </rulegroup>
   </category>
   <category name="Prawdopodobne literówki">
+    <rule id="ODJECIE_UJECIE" name="„ujecie, pojecie” (ujęcie, pojęcie) itp.">
+      <pattern>
+        <token regexp="yes">odjecie|ujecie|pojecie|przejecie|przyjecie|wyjecie</token>
+      </pattern>
+      <message>Prawdopodobna literówka. Czy chodziło o <suggestion><match no="1" regexp_match="(.*)jecie" regexp_replace="$1jęcie"/></suggestion></message>
+      <example correction="pojęcie" type="incorrect">Mam o tym zaledwie blade <marker>pojecie</marker>.</example>
+      <example type="correct">Nie mam pojęcia.</example>
+    </rule>
     <rulegroup id="WRAZ_TYM" name="„wraz tym” (wraz z tym)">
       <rule>
         <pattern>
