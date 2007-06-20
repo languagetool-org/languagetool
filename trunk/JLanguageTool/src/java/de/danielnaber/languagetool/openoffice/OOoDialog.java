@@ -242,6 +242,9 @@ public class OOoDialog implements ActionListener {
     dialog.setSize(500, 380);
     centerDialog(dialog);
     dialog.setVisible(true);
+    // Try to fix the problem that the window appears in the
+    // background for some people:
+    dialog.toFront();
     // FIXME: close via "X" in the window must behave like close via "close" button
   }
   
