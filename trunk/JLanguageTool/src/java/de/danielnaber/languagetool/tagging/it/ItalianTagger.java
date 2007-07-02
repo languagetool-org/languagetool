@@ -18,15 +18,7 @@
  */
 package de.danielnaber.languagetool.tagging.it;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-
-import com.dawidweiss.stemmers.Lametyzator;
-
-import de.danielnaber.languagetool.AnalyzedToken;
-import de.danielnaber.languagetool.AnalyzedTokenReadings;
-import de.danielnaber.languagetool.tagging.Tagger;
+import de.danielnaber.languagetool.tagging.BaseTagger;
 
 /**
  * Italian tagger
@@ -37,67 +29,18 @@ import de.danielnaber.languagetool.tagging.Tagger;
  * 
  * @author Marcin Milkowski
  */
-public class ItalianTagger implements Tagger {
+public class ItalianTagger extends BaseTagger {
 
-  private static final String RESOURCE_FILENAME = "/resource/it/italian.dict";
-
-  private Lametyzator morfologik = null;
-
-  public final List<AnalyzedTokenReadings> tag(final List<String> sentenceTokens) throws IOException {
-    String[] taggerTokens;
-    final List<AnalyzedTokenReadings> tokenReadings = new ArrayList<AnalyzedTokenReadings>();
-    int pos = 0;
-    //caching Lametyzator instance - lazy init
-    if (morfologik == null) {
-      morfologik = new Lametyzator(this.getClass().getResourceAsStream(RESOURCE_FILENAME),
-          "iso8859-15", '_');
-    }
-
-    for (final String word : sentenceTokens) {
-      final List<AnalyzedToken> l = new ArrayList<AnalyzedToken>();
-      String[] lowerTaggerTokens = null;
-      taggerTokens = morfologik.stemAndForm(word);
-      if (!word.equals(word.toLowerCase())) {
-        lowerTaggerTokens = morfologik.stemAndForm(word.toLowerCase());
-      }
-
-      if (taggerTokens != null) {
-        int i = 0;
-        while (i < taggerTokens.length) {
-          //Lametyzator returns data as String[]
-          //first lemma, then annotations
-          l.add(new AnalyzedToken(word, taggerTokens[i + 1], taggerTokens[i]));
-          i = i + 2;
-        }
-      }
-      if (lowerTaggerTokens != null) {
-        int i = 0;
-        while (i < lowerTaggerTokens.length) {
-          //Lametyzator returns data as String[]
-          //first lemma, then annotations
-          l.add(new AnalyzedToken(word, lowerTaggerTokens[i + 1], lowerTaggerTokens[i]));
-          i = i + 2;
-        }
-      }
-
-      if (lowerTaggerTokens == null && taggerTokens == null) {
-        l.add(new AnalyzedToken(word, null, pos));
-      }
-      pos += word.length();
-      tokenReadings
-          .add(new AnalyzedTokenReadings(l.toArray(new AnalyzedToken[l.size()])));
-    }
-
-    return tokenReadings;
-
+  public String getFileName() {
+    return "/resource/it/italian.dict";
   }
 
-  /** 
-   * @see de.danielnaber.languagetool.tagging.Tagger#createNullToken(java.lang.String, int)
-   * @return AnalyzedTokenReadings
-   */
-  public final Object createNullToken(final String token, final int startPos) {
-    return new AnalyzedTokenReadings(new AnalyzedToken(token, null, startPos));
+  public String getFileEncoding() {
+    return "iso8859-15";
+  }
+
+  public char getDelimiter() {
+    return '_';
   }
 
 }

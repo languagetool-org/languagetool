@@ -18,15 +18,7 @@
  */
 package de.danielnaber.languagetool.tagging.es;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-
-import com.dawidweiss.stemmers.Lametyzator;
-
-import de.danielnaber.languagetool.AnalyzedToken;
-import de.danielnaber.languagetool.AnalyzedTokenReadings;
-import de.danielnaber.languagetool.tagging.Tagger;
+import de.danielnaber.languagetool.tagging.BaseTagger;
 
 /** Spanish Tagger
  * 
@@ -35,66 +27,14 @@ import de.danielnaber.languagetool.tagging.Tagger;
  * 
  * @author Marcin Milkowski
  */
-public class SpanishTagger implements Tagger {
+public class SpanishTagger extends BaseTagger {
 
-  private static final String RESOURCE_FILENAME = "/resource/es/spanish.dict";
-
-  private Lametyzator morfologik_spanish = null;
-
-  public List<AnalyzedTokenReadings> tag(final List<String> sentenceTokens) throws IOException {
-    String[] taggerTokens;
-    List<AnalyzedTokenReadings> tokenReadings = new ArrayList<AnalyzedTokenReadings>();
-    int pos = 0;
-    //caching Lametyzator instance - lazy init
-    if (morfologik_spanish == null) {
-      morfologik_spanish = new Lametyzator(this.getClass().getResourceAsStream(RESOURCE_FILENAME),
-          "iso8859-1", '+');
-    }
-
-    for (String word : sentenceTokens) {
-      List<AnalyzedToken> l = new ArrayList<AnalyzedToken>();
-      String[] lowerTaggerTokens = null;
-      taggerTokens = morfologik_spanish.stemAndForm(word);
-      if (!word.equals(word.toLowerCase())) {
-        lowerTaggerTokens = morfologik_spanish.stemAndForm(word.toLowerCase());
-      }
-
-      if (taggerTokens != null) {
-        int i = 0;
-        while (i < taggerTokens.length) {
-          //Lametyzator returns data as String[]
-          //first lemma, then annotations
-          l.add(new AnalyzedToken(word, taggerTokens[i + 1], taggerTokens[i]));
-          i = i + 2;
-        }
-      }
-      if (lowerTaggerTokens != null) {
-        int i = 0;
-        while (i < lowerTaggerTokens.length) {
-          //Lametyzator returns data as String[]
-          //first lemma, then annotations
-          l.add(new AnalyzedToken(word, lowerTaggerTokens[i + 1], lowerTaggerTokens[i]));
-          i = i + 2;
-        }
-      }
-
-      if (lowerTaggerTokens == null && taggerTokens == null) {
-        l.add(new AnalyzedToken(word, null, pos));
-      }
-      pos += word.length();
-      tokenReadings
-          .add(new AnalyzedTokenReadings((AnalyzedToken[]) l.toArray(new AnalyzedToken[0])));
-    }
-
-    return tokenReadings;
-
+  public String getFileName() {
+    return "/resource/es/spanish.dict";
   }
 
-  /* (non-Javadoc)
-   * @see de.danielnaber.languagetool.tagging.Tagger#createNullToken(java.lang.String, int)
-   */
-  public final Object createNullToken(final String token, final int startPos) {
-    return new AnalyzedTokenReadings(new AnalyzedToken(token, null, startPos));
+  public String getFileEncoding() {
+    return "iso8859-1";
   }
 
 }
