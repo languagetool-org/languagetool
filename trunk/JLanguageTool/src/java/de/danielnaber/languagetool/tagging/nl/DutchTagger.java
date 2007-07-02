@@ -46,7 +46,7 @@ public class DutchTagger implements Tagger {
     //caching Lametyzator instance - lazy init
     if (morfologik == null) {
       morfologik = new Lametyzator(this.getClass().getResourceAsStream(RESOURCE_FILENAME),
-          "iso8859-9", '+');
+          "iso8859-1", '+');
     }
 
     for (String word : sentenceTokens) {
