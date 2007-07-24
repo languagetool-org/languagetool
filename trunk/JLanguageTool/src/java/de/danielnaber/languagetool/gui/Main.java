@@ -68,6 +68,7 @@ import de.danielnaber.languagetool.Language;
 import de.danielnaber.languagetool.rules.Rule;
 import de.danielnaber.languagetool.rules.RuleMatch;
 import de.danielnaber.languagetool.server.HTTPServer;
+import de.danielnaber.languagetool.server.PortBindingException;
 import de.danielnaber.languagetool.tools.StringTools;
 
 /**
@@ -348,7 +349,12 @@ public final class Main implements ActionListener {
   private void maybeStartServer() {
     if (config.getRunServer()) {
       httpServer = new HTTPServer(config.getServerPort());
-      httpServer.run();
+      try {
+        httpServer.run();
+      } catch (PortBindingException e) {
+        JOptionPane.showMessageDialog(null, e.getMessage(), "Error",
+            JOptionPane.ERROR_MESSAGE);
+      }
     }
   }
 
