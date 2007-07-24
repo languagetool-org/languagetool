@@ -94,7 +94,8 @@ public class HTTPServer extends ContentOracle {
     if (daemon.isRunning()) 
       System.out.println("Server started");
     else
-      throw new RuntimeException("Server could not be started");
+      throw new RuntimeException("Server could not be started on port " + port
+          + ", maybe something else is running on that port already?");
   }
 
   public String demultiplex(Request connRequest, Response connResponse) {
