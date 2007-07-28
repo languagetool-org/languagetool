@@ -27,6 +27,7 @@ import java.util.ResourceBundle;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.KeyStroke;
 
 class MainMenuBar extends JMenuBar implements ActionListener {
@@ -119,7 +120,12 @@ class MainMenuBar extends JMenuBar implements ActionListener {
     } else if (e.getActionCommand().equals(checkClipboardText)) {
       prg.checkClipboardText();
     } else if (e.getActionCommand().equals(dockToTrayText)) {
-      prg.hideToTray();
+      try {
+        prg.hideToTray();
+      } catch (MissingJdicException ex) {
+        JOptionPane.showMessageDialog(null, ex.getMessage(), "Error",
+            JOptionPane.ERROR_MESSAGE);
+      }
     } else if (e.getActionCommand().equals(addLanguageText)) {
       prg.addLanguage();
     } else if (e.getActionCommand().equals(optionsText)) {

@@ -18,16 +18,22 @@
  */
 package de.danielnaber.languagetool.gui;
 
+import java.awt.AWTException;
 import java.awt.Container;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.Image;
 import java.awt.Insets;
+import java.awt.MenuItem;
+import java.awt.PopupMenu;
 import java.awt.Toolkit;
 import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.io.File;
@@ -89,7 +95,6 @@ public final class Main implements ActionListener {
 
   private Configuration config = null;
   
-  private TrayIcon trayIcon = null;
   private JFrame frame = null;
   private JTextArea textArea = null;
   private JTextPane resultArea = null;
@@ -101,6 +106,8 @@ public final class Main implements ActionListener {
 
   // whether clicking on the window close button hides to system tray:
   private boolean trayMode = false;
+
+  private boolean isInTray = false;
 
   private Main() throws IOException {
     config = new Configuration(new File(System.getProperty("user.home")), CONFIG_FILE);
@@ -226,46 +233,53 @@ public final class Main implements ActionListener {
   }
   
   void hideToTray() {
-    if (trayIcon == null) {
+    String version = System.getProperty("java.version");
+    if (!isInTray && version.startsWith("1.5")) {    // we don't run under <= 1.4, so we don't check for that
+      TrayIcon trayIcon = null;
       try {
         trayIcon = new TrayIcon(SYSTEM_TRAY_ICON);
       } catch (NoClassDefFoundError e) {
-        JOptionPane.showMessageDialog(null, "TrayIcon class not found. Please unzip " +
-            "'standalone-libs.zip' in your LanguageTool installation directory.", "Error",
-            JOptionPane.ERROR_MESSAGE);
-        return;
+        throw new MissingJdicException(e);
       }
       SystemTray tray = SystemTray.getDefaultSystemTray();
       trayIcon.addActionListener(new TrayActionListener());
       trayIcon.setToolTip(SYSTEM_TRAY_TOOLTIP);
-      /*
-      FIXME: this menu disappears immediately for me *unless* the main 
-      Window is open:
-      JPopupMenu popupMenu = new JPopupMenu("LanguageTool");
-      popupMenu.add(new JMenuItem("Check text from clipboard"));
-      popupMenu.add(new JMenuItem("Quit"));
-      trayIcon.setPopupMenu(popupMenu);*/
       tray.addTrayIcon(trayIcon);
-      // Java 1.6 only: the right button menu works here under KDE
-      // but still looks strange:
-      /*
-      java.awt.SystemTray sTray = java.awt.SystemTray.getSystemTray();
+    } else if (!isInTray) {
+      // Java 1.6 or later
+      java.awt.SystemTray tray = java.awt.SystemTray.getSystemTray();
       Image img = Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("/resource/TrayIcon.png"));
-      PopupMenu popup = new PopupMenu();
-      popup.add(new MenuItem("fixme 1"));
-      popup.add(new MenuItem("fixme 2"));
-      MenuItem defaultItem = new MenuItem("Exit");
-      ActionListener exitListener = new ActionListener() {
-        public void actionPerformed(ActionEvent e) {
-            System.exit(0);
-        }
-      };
-      defaultItem.addActionListener(exitListener);
-      popup.add(defaultItem);
-      sTray.add(new java.awt.TrayIcon(img, "tooltip", popup));
-      */
+      PopupMenu popup = makePopupMenu();
+      try {
+        java.awt.TrayIcon trayIcon = new java.awt.TrayIcon(img, "tooltip", popup);
+        trayIcon.addMouseListener(new TrayActionListener());
+        trayIcon.setToolTip(SYSTEM_TRAY_TOOLTIP);
+        tray.add(trayIcon);
+      } catch (AWTException e1) {
+        // thrown if there's no system tray
+        Tools.showError(e1);
+      }
     }
+    isInTray = true;
     frame.setVisible(false);
+  }
+
+  private PopupMenu makePopupMenu() {
+    PopupMenu popup = new PopupMenu();
+    ActionListener rmbListener = new TrayActionRMBListener(); 
+    // Check clipboard text:
+    MenuItem checkClipboardItem = new MenuItem(messages.getString("guiMenuCheckClipboard"));
+    checkClipboardItem.addActionListener(rmbListener);
+    popup.add(checkClipboardItem);
+    // Open main window:
+    MenuItem restoreItem = new MenuItem(messages.getString("guiMenuShowMainWindow"));
+    restoreItem.addActionListener(rmbListener);
+    popup.add(restoreItem);
+    // Exit:
+    MenuItem exitItem = new MenuItem(messages.getString("guiMenuQuit"));
+    exitItem.addActionListener(rmbListener);
+    popup.add(exitItem);
+    return popup;
   }
 
   void addLanguage() {
@@ -288,11 +302,15 @@ public final class Main implements ActionListener {
     stopServer();
     maybeStartServer();
   }
-  
+
   private void restoreFromTray() {
-    String s = getClipboardText();
-    // show GUI and check the text from clipboard/selection:
     frame.setVisible(true);
+  }
+  
+  // show GUI and check the text from clipboard/selection:
+  private void restoreFromTrayAndCheck() {
+    String s = getClipboardText();
+    restoreFromTray();
     textArea.setText(s);
     JLanguageTool langTool = getCurrentLanguageTool();
     checkTextAndDisplayResults(langTool, getCurrentLanguage());
@@ -337,10 +355,6 @@ public final class Main implements ActionListener {
       config.saveConfiguration();
     } catch (IOException e) {
       Tools.showError(e);
-    }
-    if (trayIcon != null) {
-      SystemTray tray = SystemTray.getDefaultSystemTray();
-      tray.removeTrayIcon(trayIcon);
     }
     frame.setVisible(false);
     System.exit(0);
@@ -499,8 +513,13 @@ public final class Main implements ActionListener {
               prg.createGUI();
               prg.setTrayMode(true);
               prg.hideToTray();
+            } catch (MissingJdicException e) {
+              JOptionPane.showMessageDialog(null, e.getMessage(), "Error",
+                  JOptionPane.ERROR_MESSAGE);
+              System.exit(1);
             } catch (Exception e) {
               Tools.showError(e);
+              System.exit(1);
             }
           }
         });
@@ -527,19 +546,51 @@ public final class Main implements ActionListener {
   //
   // The System Tray stuff
   //
-  
-  class TrayActionListener implements ActionListener {
 
-    public void actionPerformed(@SuppressWarnings("unused") ActionEvent e) {
+  class TrayActionRMBListener implements ActionListener {
+
+      public void actionPerformed(ActionEvent e) {
+        if (e.getActionCommand().equalsIgnoreCase(messages.getString("guiMenuCheckClipboard"))) {
+          restoreFromTrayAndCheck();
+        } else if (e.getActionCommand().equalsIgnoreCase(messages.getString("guiMenuShowMainWindow"))) {
+          restoreFromTray();
+        } else if (e.getActionCommand().equalsIgnoreCase(messages.getString("guiMenuQuit"))) {
+          quit();
+        } else {
+          JOptionPane.showMessageDialog(null, "Unknown action: " + e.getActionCommand(), "Error",
+              JOptionPane.ERROR_MESSAGE);
+        }
+      }
+      
+  }
+  
+  class TrayActionListener implements ActionListener, MouseListener {
+
+    // for Java 1.5 / Jdic:
+    public void actionPerformed(@SuppressWarnings("unused")ActionEvent e) {
+      handleClick();
+    }
+
+    // Java 1.6:
+    public void mouseClicked(@SuppressWarnings("unused")MouseEvent e) {
+      handleClick();
+    }
+
+    private void handleClick() {
       if (frame.isVisible() && frame.isActive()) {
         frame.setVisible(false);
       } else if (frame.isVisible() && !frame.isActive()) {
         frame.toFront();
-        restoreFromTray();
+        restoreFromTrayAndCheck();
       } else {
-        restoreFromTray();
+        restoreFromTrayAndCheck();
       }
     }
+
+    public void mouseEntered(@SuppressWarnings("unused")MouseEvent e) {}
+    public void mouseExited(@SuppressWarnings("unused")MouseEvent e) {}
+    public void mousePressed(@SuppressWarnings("unused")MouseEvent e) {}
+    public void mouseReleased(@SuppressWarnings("unused")MouseEvent e) {}
     
   }
 
