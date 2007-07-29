@@ -107,7 +107,7 @@ class MainMenuBar extends JMenuBar implements ActionListener {
     openText = messages.getString("guiMenuOpen");
     checkClipboardText = messages.getString("guiMenuCheckClipboard");
     dockToTrayText = messages.getString("guiMenuHide");
-    addLanguageText = "Add language..."; //messages.getString("guiMenuAddLanguage");   // FIXME
+    addLanguageText = messages.getString("guiMenuAddRules");
     optionsText = messages.getString("guiMenuOptions");
     quitText = messages.getString("guiMenuQuit");
     // Help:
