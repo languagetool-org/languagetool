@@ -6,7 +6,7 @@ title="Easy editing stylesheet" ?>
 <!--
 Polish Grammar and Typo Rules for LanguageTool
 Copyright (C) 2006-2007 Marcin Miłkowski
-$Id: grammar.xml,v 1.73 2007-06-24 18:47:41 milek_pl Exp $
+$Id: grammar.xml,v 1.74 2007-08-02 18:27:47 milek_pl Exp $
 -->
 <rules lang="pl">
   <phrases>
@@ -1348,6 +1348,15 @@ bezpośrednio przed „tak”-->
       <example correction="proszę pani" type="incorrect">No tylko, <marker>proszę panią</marker>, wicepremierzy mają też pewne zadania.</example>
       <example type="correct">No tylko, <marker>proszę pani</marker>, wicepremierzy mają też pewne zadania.</example>
     </rule>
+    <rule id="BEZ_REKAW" name="„bez rękaw” (bez rękawów)">
+      <pattern>
+        <token>bez</token>
+        <token regexp="yes">rękaw|rękawa</token>
+      </pattern>
+      <message>Błąd odmiany lub niepoprawna liczba gramatyczna. Poprawnie: <suggestion>bez rękawów</suggestion>.</message>
+      <example correction="bez rękawów" type="incorrect">Koszulka <marker>bez rękaw</marker> tanio!</example>
+      <example type="correct">Kupiłem sobie śliczną koszulę bez rękawów.</example>
+    </rule>
     <rulegroup id="UMIE_ROZUMIE" name="„ja umie”, „ja rozumie” (umiem, rozumiem)">
       <rule>
         <pattern>
@@ -2684,7 +2693,7 @@ bezpośrednio przed „tak”-->
     <rulegroup id="KOSZTOWAC_TANIEJ" name="„kosztować taniej/drożej” (mniej/więcej)">
       <rule>
         <pattern>
-          <token inflected="yes">kosztować</token>
+          <token inflected="yes" regexp="yes">kosztować|płacić|zapłacić</token>
           <token>taniej</token>
         </pattern>
         <message>To niepoprawne wyrażenie. Poprawnie: <suggestion>\1 mniej</suggestion>.</message>
@@ -2693,7 +2702,7 @@ bezpośrednio przed „tak”-->
       </rule>
       <rule>
         <pattern>
-          <token inflected="yes">kosztować</token>
+          <token inflected="yes" regexp="yes">kosztować|płacić|zapłacić</token>
           <token>drożej</token>
         </pattern>
         <message>To niepoprawne wyrażenie. Poprawnie: <suggestion>\1 więcej</suggestion>.</message>
@@ -2702,7 +2711,7 @@ bezpośrednio przed „tak”-->
       </rule>
       <rule>
         <pattern>
-          <token inflected="yes">kosztować</token>
+          <token inflected="yes" regexp="yes">kosztować|płacić|zapłacić</token>
           <token>tanio</token>
         </pattern>
         <message>To niepoprawne wyrażenie. Poprawnie: <suggestion>\1 mało</suggestion>.</message>
@@ -2711,7 +2720,7 @@ bezpośrednio przed „tak”-->
       </rule>
       <rule>
         <pattern>
-          <token inflected="yes">kosztować</token>
+          <token inflected="yes" regexp="yes">kosztować|zapłacić|płacić</token>
           <token>drogo</token>
         </pattern>
         <message>To niepoprawne wyrażenie. Poprawnie: <suggestion>\1 dużo</suggestion>.</message>
@@ -2721,28 +2730,31 @@ bezpośrednio przed „tak”-->
       <rule>
         <pattern>
           <token>taniej</token>
-          <token inflected="yes">kosztować</token>
+          <token inflected="yes" regexp="yes">kosztować|płacić|zapłacić</token>
         </pattern>
         <message>To niepoprawne wyrażenie. Poprawnie: <suggestion>mniej \2</suggestion>.</message>
         <example correction="mniej kosztował" type="incorrect">Samochód Jurka <marker>taniej kosztował</marker>.</example>
+        <example correction="mniej płacą" type="incorrect">Oni <marker>taniej płacą</marker> za marchewkę.</example>
         <example type="correct">Samochód Jurka mniej kosztował.</example>
       </rule>
       <rule>
         <pattern>
           <token>drożej</token>
-          <token inflected="yes">kosztować</token>
+          <token inflected="yes" regexp="yes">kosztować|płacić|zapłacić</token>
         </pattern>
         <message>To niepoprawne wyrażenie. Poprawnie: <suggestion>więcej \2</suggestion>.</message>
         <example correction="więcej kosztował" type="incorrect">Samochód Jurka <marker>drożej kosztował</marker>.</example>
+        <example correction="więcej płacić" type="incorrect">Nie będziemy <marker>drożej płacić</marker> za buble.</example>
         <example type="correct">Samochód Jurka kosztował mniej.</example>
       </rule>
       <rule>
         <pattern>
           <token>tanio</token>
-          <token inflected="yes">kosztować</token>
+          <token inflected="yes" regexp="yes">kosztować|płacić|zapłacić</token>
         </pattern>
         <message>To niepoprawne wyrażenie. Poprawnie: <suggestion>mało \2</suggestion>.</message>
         <example correction="mało kosztował" type="incorrect">Samochód Jurka <marker>tanio kosztował</marker>.</example>
+        <example correction="mało płaci" type="incorrect">Tam się <marker>tanio płaci</marker> za ludzkie życie.</example>
         <example type="correct">Samochód Jurka mało kosztował.</example>
       </rule>
       <rule>
@@ -3662,6 +3674,16 @@ bezpośrednio przed „tak”-->
         <example type="correct">Pan premier ma zawsze rację.</example>
       </rule>
     </rulegroup>
+    <rule id="PRZYPRZEC_DO_SCIANY" name="„przyprzeć do ściany” (przyprzeć do muru)">
+      <pattern mark_from="2">
+        <token inflected="yes" skip="4">przyprzeć</token>
+        <token>do</token>
+        <token>ściany</token>
+      </pattern>
+      <message>Prawdopodobnie niepoprawny związek frazeologiczny. Powinno być: <suggestion>muru</suggestion>.</message>
+      <example correction="muru" type="incorrect">Przyparłem go pytaniami do <marker>ściany</marker>.</example>
+      <example type="correct">Przyparłem go pytaniami do muru.</example>
+    </rule>
     <rulegroup id="KONTYNUOWAC_DALEJ" name="„kontynuować, trwać dalej” (kontynuować, trwać)">
       <rule>
         <pattern>
