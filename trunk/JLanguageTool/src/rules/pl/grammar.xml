@@ -6,7 +6,7 @@ title="Easy editing stylesheet" ?>
 <!--
 Polish Grammar and Typo Rules for LanguageTool
 Copyright (C) 2006-2007 Marcin Miłkowski
-$Id: grammar.xml,v 1.74 2007-08-02 18:27:47 milek_pl Exp $
+$Id: grammar.xml,v 1.75 2007-08-03 09:22:04 milek_pl Exp $
 -->
 <rules lang="pl">
   <phrases>
@@ -2364,6 +2364,16 @@ bezpośrednio przed „tak”-->
     </rule>
   </category>
   <category name="Błędy leksykalne">
+    <rule id="PROTOKOL_Z_CZEGO" name="„protokół z czego” (protokół czego)">
+      <pattern>
+        <token inflected="yes">protokół</token>
+        <token>z</token>
+        <token postag=".*gen.*" postag_regexp="yes"/>
+      </pattern>
+      <message>Prawdopodobnie niepoprawna forma. Poprawnie: <suggestion>\1 \3</suggestion>.</message>
+      <example correction="protokoły zebrania" type="incorrect">Poseł przekazał nam <marker>protokoły z zebrania</marker>.</example>
+      <example type="correct">To protokół zaliczenia.</example>
+    </rule>
     <rule id="SPRAWOZDAWAC" name="„sprawozdawać” (zdawać sprawę)">
       <pattern>
         <token inflected="yes">sprawozdawać</token>
