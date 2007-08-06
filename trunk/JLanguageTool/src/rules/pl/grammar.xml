@@ -6,7 +6,7 @@ title="Easy editing stylesheet" ?>
 <!--
 Polish Grammar and Typo Rules for LanguageTool
 Copyright (C) 2006-2007 Marcin Miłkowski
-$Id: grammar.xml,v 1.75 2007-08-03 09:22:04 milek_pl Exp $
+$Id: grammar.xml,v 1.76 2007-08-06 22:11:36 milek_pl Exp $
 -->
 <rules lang="pl">
   <phrases>
@@ -2364,6 +2364,26 @@ bezpośrednio przed „tak”-->
     </rule>
   </category>
   <category name="Błędy leksykalne">
+    <rulegroup id="JEDEN_DEKO" name="„deko” (deka) czegoś">
+      <rule>
+        <pattern mark_from="1">
+          <token regexp="yes">\d+</token>
+          <token>deko</token>
+        </pattern>
+        <message>Mówimy <suggestion>deka</suggestion> („deka” to skrót od „dekagram”).</message>
+        <example type="correct">Do upieczenia ciasta potrzeba nam 2 deka makaronu.</example>
+        <example correction="deka" type="incorrect">Do upieczenia ciasta potrzeba nam 2 <marker>deko</marker> makaronu.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="1">
+          <token postag="num.*" postag_regexp="yes"/>
+          <token>deko</token>
+        </pattern>
+        <message>Mówimy <suggestion>deka</suggestion> („deka” to skrót od „dekagram”).</message>
+        <example type="correct">Do upieczenia ciasta potrzeba nam dwa deka makaronu.</example>
+        <example correction="deka" type="incorrect">Do upieczenia ciasta potrzeba nam dwa <marker>deko</marker> makaronu.</example>
+      </rule>
+    </rulegroup>
     <rule id="PROTOKOL_Z_CZEGO" name="„protokół z czego” (protokół czego)">
       <pattern>
         <token inflected="yes">protokół</token>
@@ -4125,6 +4145,28 @@ bezpośrednio przed „tak”-->
     </rule>
   </category>
   <category name="Błędy różne">
+    <rulegroup id="LICZBA_PROC" name="liczba słownie + „%” (proc.)">
+      <rule>
+        <pattern mark_from="1" mark_to="-1">
+          <token negate="yes" regexp="yes">(±)?\d</token>
+          <token>%</token>
+          <token negate="yes">.</token>
+        </pattern>
+        <message>Nie stosuje się symbolu procenta, jeśli nie występuje po zapisie liczbowym, tylko skrót: <suggestion>proc.</suggestion></message>
+        <example correction="proc." type="incorrect">W wyborach nasza partia uzyskała dwadzieścia <marker>%</marker> głosów.</example>
+        <example type="correct">W wyborach nasza partia uzyskała 20% głosów.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="1" mark_to="-1">
+          <token negate="yes" regexp="yes">(±)?\d</token>
+          <token>%</token>
+          <token>.</token>
+        </pattern>
+        <message>Nie stosuje się symbolu procenta, jeśli nie występuje po zapisie liczbowym, tylko skrót: <suggestion>proc</suggestion>.</message>
+        <example correction="proc" type="incorrect">W wyborach nasza partia uzyskała dwadzieścia <marker>%</marker>.</example>
+        <example type="correct">W wyborach nasza partia uzyskała 20%.</example>
+      </rule>
+    </rulegroup>
     <rule id="KAZDY_JEDEN" name="„każdy jeden” (każdy)">
       <!--  FIXME: w drugim token użyć <match no="0" postag="adj.*" - nie ma jeszcze obsługi -->
       <pattern>
@@ -4135,26 +4177,6 @@ bezpośrednio przed „tak”-->
       <example type="correct">Każdy Polak kocha swojego prezydenta.</example>
       <example correction="Każdy" type="incorrect"><marker>Każdy jeden</marker> Polak kocha swojego prezydenta.</example>
     </rule>
-    <rulegroup id="JEDEN_DEKO" name="„deko” (deka) czegoś">
-      <rule>
-        <pattern mark_from="1">
-          <token regexp="yes">\d+</token>
-          <token>deko</token>
-        </pattern>
-        <message>Mówimy <suggestion>deka</suggestion> („deka” to skrót od „dekagram”).</message>
-        <example type="correct">Do upieczenia ciasta potrzeba nam 2 deka makaronu.</example>
-        <example correction="deka" type="incorrect">Do upieczenia ciasta potrzeba nam 2 <marker>deko</marker> makaronu.</example>
-      </rule>
-      <rule>
-        <pattern mark_from="1">
-          <token postag="num.*" postag_regexp="yes"/>
-          <token>deko</token>
-        </pattern>
-        <message>Mówimy <suggestion>deka</suggestion> („deka” to skrót od „dekagram”).</message>
-        <example type="correct">Do upieczenia ciasta potrzeba nam dwa deka makaronu.</example>
-        <example correction="deka" type="incorrect">Do upieczenia ciasta potrzeba nam dwa <marker>deko</marker> makaronu.</example>
-      </rule>
-    </rulegroup>
     <rule id="Z_WIELKIEJ_LITERY" name="Rusycyzm: „z wielkiej/małej litery” (wielką literą)">
       <pattern>
         <token>z</token>
@@ -4466,6 +4488,25 @@ bezpośrednio przed „tak”-->
       <example correction="naokoło" type="incorrect">Latam <marker>na około</marker> księżyca.</example>
       <example type="correct">Komisja wyceniła straty na około pięć milionów.</example>
       <example type="correct">Komisja wyceniła straty na około 12 milionów.</example>
+    </rule>
+    <rule id="NAJ_LEPSZY" name="„naj lepszy” (najlepszy)">
+      <pattern>
+        <token>naj</token>
+        <token postag="adj.*:comp" postag_regexp="yes"/>
+      </pattern>
+      <message>Prawdopodobny błąd ortograficzny. Powinno być: <suggestion>\1\2</suggestion>.</message>
+      <example correction="najlepszy" type="incorrect">Ten samochód jest <marker>naj lepszy</marker>.</example>
+      <example type="correct">Mamy najgorszego premiera w historii.</example>
+    </rule>
+    <rule id="W_OKA_MGNIENIU" name="„w oka mgnieniu” (w okamgnieniu)">
+      <pattern>
+        <token>w</token>
+        <token>oka</token>
+        <token>mgnieniu</token>
+      </pattern>
+      <message>Błąd ortograficzny. Powinno być: <suggestion>\1 \2\3</suggestion>.</message>
+      <example correction="w okamgnieniu" type="incorrect">Premier wyniósł się z Sejmu <marker>w oka mgnieniu</marker>.</example>
+      <example type="correct">Koalicja uratowała się w okamgnieniu.</example>
     </rule>
     <rule id="DWU_PRZYMIOTNIK" name="Błędna pisownia rozłączna „jedno-”, „dwu-”, „trzy-” i „stu-”">
       <pattern>
