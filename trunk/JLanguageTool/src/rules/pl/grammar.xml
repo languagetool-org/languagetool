@@ -6,7 +6,7 @@ title="Easy editing stylesheet" ?>
 <!--
 Polish Grammar and Typo Rules for LanguageTool
 Copyright (C) 2006-2007 Marcin Miłkowski
-$Id: grammar.xml,v 1.76 2007-08-06 22:11:36 milek_pl Exp $
+$Id: grammar.xml,v 1.77 2007-08-07 18:55:01 milek_pl Exp $
 -->
 <rules lang="pl">
   <phrases>
@@ -4478,6 +4478,15 @@ bezpośrednio przed „tak”-->
     </rule>
   </category>
   <category name="Błędy ortograficzne">
+    <rule id="BEZ_POSREDNI" name="„bez pośredni, bez wypadkowy...” (bezpośredni, bezwypadkowy)">
+      <pattern>
+        <token>bez</token>
+        <token inflected="yes" regexp="yes"><exception postag=".*gen[\.:].*" postag_regexp="yes"/>adresowy|alkoholowy|awaryjny|apelacyjny|barwny|bateryjny|bolesny|cenny|celowy|chmurny|czelny|czynny|dyskusyjny|duszny|imienny|interesowny|listny|mięsny|partyjny|płatny|płciowy|pośredni|radny|robotny|sensowny|silny|sporny|silny|sporny|sprzeczny|użyteczny|wartościowy|warunkowy|wypadkowy|względny|wolny</token>
+      </pattern>
+      <message>Prawdopodobny błąd ortograficzny. Ten przymiotnik piszemy łącznie: <suggestion>\1\2</suggestion>.</message>
+      <example correction="bezwypadkowy" type="incorrect">Mój samochód jest całkowicie <marker>bez wypadkowy</marker>.</example>
+      <example type="correct">Bez barwnego lakieru nie naprawisz tych zadrapań.</example>
+    </rule>
     <rule id="NA_OKOLO" name="„na około czego” (naokoło)">
       <pattern mark_to="-1">
         <token>na</token>
