@@ -8,10 +8,22 @@ title="Easy editing stylesheet" ?>
 German grammar and typo rules for LanguageTool
 See resource/de/tagset.txt for the meaning of the POS tags
 Copyright (C) 2001-2007 Daniel Naber (http://www.danielnaber.de)
-$Id: grammar.xml,v 1.8 2007-05-20 10:42:50 milek_pl Exp $
+$Id: grammar.xml,v 1.9 2007-08-10 21:46:01 dnaber Exp $
 -->
 <rules lang="de">
   <category name="Mögliche Tippfehler">
+    <rulegroup id="MEISTENS_IMMER" name="Verdoppelung: 'meistens immer'">
+      <rule>
+        <pattern>
+          <token>meistens</token>
+          <token>immer</token>
+        </pattern>
+        <message>Meinten Sie <suggestion>meistens</suggestion> oder <suggestion>immer</suggestion>?</message>
+        <example type="correct">Ich gehe <marker>immer</marker> am Samtsag einkaufen.</example>
+        <example type="correct">Ich gehe <marker>meistens</marker> am Samtsag einkaufen.</example>
+        <example type="incorrect">Ich gehe <marker>meistens immer</marker> am Samtsag einkaufen.</example>
+      </rule>
+    </rulegroup>
     <rulegroup id="WIE_IST_DEN" name="Möglicher Tippfehler: 'wie ist den(denn)'">
       <rule>
         <pattern mark_from="2" mark_to="-1">
