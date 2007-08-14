@@ -41,6 +41,7 @@ public class LanguageBuilder {
    */
   public static Language makeLanguage(final File file) {
     String errMsg = "File must be named rules-<xx>-<language>.xml";
+    if (file!=null) {
     if (!file.getName().endsWith(".xml"))
       throw new IllegalArgumentException(errMsg);
     final String[] parts = file.getName().split("-");
@@ -68,6 +69,9 @@ public class LanguageBuilder {
       }
     };
     return newLanguage;
+    } else {
+      return null;
+    }
   }
   
 }

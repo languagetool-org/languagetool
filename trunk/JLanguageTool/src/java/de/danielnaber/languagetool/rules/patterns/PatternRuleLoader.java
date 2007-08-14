@@ -130,7 +130,10 @@ class PatternRuleHandler extends XMLRuleHandler {
   
   /** Logically forking element list, used for including
    * multiple phrases in the current one. **/
-  private List < ArrayList < Element > > phraseElementList = null;  
+  private List < ArrayList < Element > > phraseElementList = null;
+  
+  /** List containing counts of elements. **/
+  private List < ArrayList < Integer > > phElementCnt = null; 
   
   private List<Match> suggestionMatches = null;
   
@@ -327,10 +330,21 @@ class PatternRuleHandler extends XMLRuleHandler {
         for (final ArrayList < Element > curPhrEl : phraseMap.get(phraseIdRef)) {              
           if (elementList.isEmpty()) {
             phraseElementList.add(new ArrayList <Element>(curPhrEl));
+            if (phElementCnt == null) {
+              phElementCnt = new ArrayList < ArrayList < Integer > >();
+            }
+            phElementCnt.add(new ArrayList < Integer > (curPhrEl.size()));
           } else {
             final ArrayList < Element > prevList = new ArrayList < Element > (elementList);
             prevList.addAll(curPhrEl);
+            if (phElementCnt == null) {
+              phElementCnt = new ArrayList < ArrayList < Integer > >();
+            }
+            for (Element el : prevList) {
+             phElementCnt.add(new ArrayList < Integer > (1));
+            }
             phraseElementList.add(new ArrayList <Element>(prevList));
+            //phElementCnt.add(arg0);
             prevList.clear();
           }       
         }
@@ -498,6 +512,9 @@ class PatternRuleHandler extends XMLRuleHandler {
     exceptionValidNext = false;
     exceptionSet = false; 
     tokenReference = null;
+    if (phElementCnt != null) {
+      phElementCnt.clear();
+    }
   }
   
   private void prepareRule(final PatternRule rule) {

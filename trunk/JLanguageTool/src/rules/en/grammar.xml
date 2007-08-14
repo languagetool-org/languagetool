@@ -7,7 +7,7 @@ title="Easy editing stylesheet" ?>
 English Grammar and Typo Rules for LanguageTool
 See tagset.txt for the meaning of the POS tags
 Copyright (C) 2001-2007 Daniel Naber (http://www.danielnaber.de)
-$Id: grammar.xml,v 1.31 2007-06-10 15:49:09 dnaber Exp $
+$Id: grammar.xml,v 1.32 2007-08-14 09:02:56 milek_pl Exp $
 -->
 <rules lang="en">
   <!-- ====================================================================== -->
@@ -23,7 +23,7 @@ $Id: grammar.xml,v 1.31 2007-06-10 15:49:09 dnaber Exp $
       <example correction="a while" type="incorrect">I haven't posted in <marker>awhile</marker>.</example>
       <example type="correct">I haven't posted in a while.</example>
     </rule>
-    <rulegroup id="IT_IS_NO" name="Possible typo 'It is no(It is not/It is now)'">
+    <rulegroup id="IT_IS_NO" name="Possible typo 'It is no (It is not/It is now)'">
       <rule>
         <pattern mark_from="2" mark_to="-1">
           <token>it</token>
@@ -2859,5 +2859,27 @@ $Id: grammar.xml,v 1.31 2007-06-10 15:49:09 dnaber Exp $
       <example correction="invitation" type="incorrect">Is that an <marker>invite</marker>...?</example>
       <example type="correct">Is that an <marker>invitation</marker>...?</example>
     </rule>
+  </category>
+  <category name="Redundant Phrases">
+    <rulegroup id="ATM_MACHINE" name="Redundant phrase: 'ATM machine (ATM)'">
+      <rule>
+        <pattern>
+          <token>ATM</token>
+          <token>machine</token>
+        </pattern>
+        <message>This phrase is redundant ('M' stands for 'machine'). Use simply <suggestion>\1</suggestion>.</message>
+        <example correction="ATM" type="incorrect"><marker>ATM Machine</marker> Comparison Guide</example>
+        <example type="correct">ATM Comparison Guide</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>ATM</token>
+          <token>machines</token>
+        </pattern>
+        <message>This phrase is redundant ('M' stands for 'machine'). Use simply <suggestion>\1s</suggestion>.</message>
+        <example correction="ATMs" type="incorrect">In the Netherlands, criminals are stealing money from <marker>ATM machines</marker> by blowing them up.</example>
+        <example type="correct">ATMs are quite common in the Netherlands,</example>
+      </rule>
+    </rulegroup>
   </category>
 </rules>
