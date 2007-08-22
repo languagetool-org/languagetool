@@ -6,7 +6,7 @@ title="Easy editing stylesheet" ?>
 <!--
 Polish Grammar and Typo Rules for LanguageTool
 Copyright (C) 2006-2007 Marcin Miłkowski
-$Id: grammar.xml,v 1.78 2007-08-14 09:02:56 milek_pl Exp $
+$Id: grammar.xml,v 1.79 2007-08-22 22:07:08 milek_pl Exp $
 -->
 <rules lang="pl">
   <phrases>
@@ -918,7 +918,7 @@ bezpośrednio przed „tak”-->
       <rule>
         <pattern>
           <token postag="SENT_START"/>
-          <token>nawiasem</token>
+          <token regexp="yes">nawiasem|krótko</token>
           <token>mówiąc</token>
           <token negate="yes">,<exception regexp="yes">[\p{Punct}–—„«»]</exception></token>
         </pattern>
@@ -929,13 +929,14 @@ bezpośrednio przed „tak”-->
       <rule>
         <pattern>
           <token negate="yes">,<exception regexp="yes">[\p{Punct}–—„«»]</exception><exception postag="SENT_START"/></token>
-          <token>nawiasem</token>
+          <token regexp="yes">nawiasem|krótko</token>
           <token>mówiąc</token>
           <token negate="yes">,<exception regexp="yes">[\p{Punct}–—„«»]</exception></token>
         </pattern>
         <message>Wyrażenie „\2 \3” wydziela się przecinkami lub myślnikami od reszty zdania. Poprawnie: <suggestion>\1, \2 \3, \4</suggestion>.</message>
         <example type="correct">Nie ma to, nawiasem mówiąc, sensu.</example>
         <example correction="to, nawiasem mówiąc, sensu" type="incorrect">Nie ma <marker>to nawiasem mówiąc sensu</marker>.</example>
+        <example correction="to, krótko mówiąc, bezprzykładna" type="incorrect">Była <marker>to krótko mówiąc bezprzykładna</marker> agresja opcji.</example>
       </rule>
     </rulegroup>
     <rulegroup id="PRZECINEK_ANI" name="Zbędny przecinek przed „ani”, „albo”, „bądź”, „i”, „lub”, „oraz”">
@@ -1084,8 +1085,8 @@ bezpośrednio przed „tak”-->
           <token regexp="yes" skip="-1"><exception postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf|pant:perf|pred" postag_regexp="yes" scope="next"/>jak|niż|jakby|niczym|niby</token>
           <token postag="SENT_END"/>
         </pattern>
-        <message>Prawdopodobnie zbędny przecinek. Powinno być: <suggestion>\3</suggestion>.</message>
-        <example correction="jak" type="incorrect">On jest zdrów<marker>, jak</marker> rydz.</example>
+        <message>Prawdopodobnie zbędny przecinek. Powinno być: <suggestion> \3</suggestion>.</message>
+        <example correction=" jak" type="incorrect">On jest zdrów<marker>, jak</marker> rydz.</example>
         <example type="correct">On jest zdrów jak rydz.</example>
       </rule>
     </rulegroup>
@@ -1096,9 +1097,9 @@ bezpośrednio przed „tak”-->
         <token regexp="yes" skip="-1"><exception postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf|pant:perf|pred" postag_regexp="yes" scope="next"/>jak|jakby</token>
         <token postag="SENT_END"/>
       </pattern>
-      <message>Prawdopodobnie zbędny przecinek. Powinno być: <suggestion>\2 \3</suggestion>.</message>
+      <message>Prawdopodobnie zbędny przecinek. Powinno być: <suggestion> \2 \3</suggestion>.</message>
       <example type="correct">Dziś jest tak jak wczoraj.</example>
-      <example correction="tak jak" type="incorrect">Dziś jest<marker>, tak jak</marker> wczoraj.</example>
+      <example correction=" tak jak" type="incorrect">Dziś jest<marker>, tak jak</marker> wczoraj.</example>
     </rule>
     <rulegroup id="PODMIOT_ORZECZENIE" name="Zbędny przecinek między podmiotem a orzeczeniem">
       <rule>
@@ -1108,10 +1109,10 @@ bezpośrednio przed „tak”-->
           <token>,</token>
           <token postag="verb:(praet:|pot:|fin:|)sg:ter.*" postag_regexp="yes"/>
         </pattern>
-        <message>Przecinek między podmiotem a orzeczeniem jest zbędny, powinno być: <suggestion>\4</suggestion>.</message>
+        <message>Przecinek między podmiotem a orzeczeniem jest zbędny, powinno być: <suggestion> \4</suggestion>.</message>
         <example type="correct">Gazeta jest źródłem informacji.</example>
         <example type="correct">Dyspozycyjność każdej własności jest jej cechą wewnętrzną, jest rysem jej natury.</example>
-        <example correction="jest" type="incorrect">Gazeta<marker>, jest</marker> źródłem informacji.</example>
+        <example correction=" jest" type="incorrect">Gazeta<marker>, jest</marker> źródłem informacji.</example>
       </rule>
       <rule>
         <pattern mark_from="2">
@@ -1120,9 +1121,9 @@ bezpośrednio przed „tak”-->
           <token>,</token>
           <token>to</token>
         </pattern>
-        <message>Przecinek między podmiotem a orzeczeniem jest zbędny, powinno być: <suggestion>\4</suggestion>.</message>
+        <message>Przecinek między podmiotem a orzeczeniem jest zbędny, powinno być: <suggestion> \4</suggestion>.</message>
         <example type="correct">Gazeta to źródło informacji.</example>
-        <example correction="to" type="incorrect">Gazeta<marker>, to</marker> źródło informacji.</example>
+        <example correction=" to" type="incorrect">Gazeta<marker>, to</marker> źródło informacji.</example>
       </rule>
       <rule>
         <pattern mark_from="3">
@@ -1132,9 +1133,9 @@ bezpośrednio przed „tak”-->
           <token>,</token>
           <token postag="verb:(praet:|pot:|fin:|)sg:ter.*" postag_regexp="yes"/>
         </pattern>
-        <message>Przecinek między podmiotem a orzeczeniem jest zbędny, powinno być: <suggestion>\5</suggestion>.</message>
+        <message>Przecinek między podmiotem a orzeczeniem jest zbędny, powinno być: <suggestion> \5</suggestion>.</message>
         <example type="correct">Każda gazeta jest źródłem informacji.</example>
-        <example correction="jest" type="incorrect">Każda gazeta<marker>, jest</marker> źródłem informacji.</example>
+        <example correction=" jest" type="incorrect">Każda gazeta<marker>, jest</marker> źródłem informacji.</example>
       </rule>
       <rule>
         <pattern mark_from="3">
@@ -1144,9 +1145,9 @@ bezpośrednio przed „tak”-->
           <token>,</token>
           <token>to</token>
         </pattern>
-        <message>Przecinek między podmiotem a orzeczeniem jest zbędny, powinno być: <suggestion>\5</suggestion>.</message>
+        <message>Przecinek między podmiotem a orzeczeniem jest zbędny, powinno być:<suggestion> \5</suggestion>.</message>
         <example type="correct">Każda gazeta to źródło informacji.</example>
-        <example correction="to" type="incorrect">Każda gazeta<marker>, to</marker> źródło informacji.</example>
+        <example correction=" to" type="incorrect">Każda gazeta<marker>, to</marker> źródło informacji.</example>
       </rule>
       <rule>
         <pattern mark_from="3">
@@ -1156,9 +1157,9 @@ bezpośrednio przed „tak”-->
           <token>,</token>
           <token postag="verb:(praet:|pot:|fin:|)sg:ter.*" postag_regexp="yes"/>
         </pattern>
-        <message>Przecinek między podmiotem a orzeczeniem jest zbędny, powinno być: <suggestion>\5</suggestion>.</message>
+        <message>Przecinek między podmiotem a orzeczeniem jest zbędny, powinno być: <suggestion> \5</suggestion>.</message>
         <example type="correct">Każde dziecko wie, jak wspaniały jest nasz premier.</example>
-        <example correction="wie" type="incorrect">Każde dziecko<marker>, wie</marker>, jak wspaniały jest nasz premier.</example>
+        <example correction=" wie" type="incorrect">Każde dziecko<marker>, wie</marker>, jak wspaniały jest nasz premier.</example>
       </rule>
       <rule>
         <pattern mark_from="3">
@@ -1168,9 +1169,9 @@ bezpośrednio przed „tak”-->
           <token>,</token>
           <token>to</token>
         </pattern>
-        <message>Przecinek między podmiotem a orzeczeniem jest zbędny, powinno być: <suggestion>\5</suggestion>.</message>
+        <message>Przecinek między podmiotem a orzeczeniem jest zbędny, powinno być: <suggestion> \5</suggestion>.</message>
         <example type="correct">Każde dziecko to wspaniały narybek naszej ojczyzny.</example>
-        <example correction="to" type="incorrect">Każde dziecko<marker>, to</marker> wspaniały narybek naszej ojczyzny.</example>
+        <example correction=" to" type="incorrect">Każde dziecko<marker>, to</marker> wspaniały narybek naszej ojczyzny.</example>
       </rule>
       <rule>
         <pattern mark_from="3">
@@ -1180,9 +1181,9 @@ bezpośrednio przed „tak”-->
           <token>,</token>
           <token postag="verb:(praet:|pot:|fin:|)sg:ter.*" postag_regexp="yes"/>
         </pattern>
-        <message>Przecinek między podmiotem a orzeczeniem jest zbędny, powinno być: <suggestion>\5</suggestion>.</message>
+        <message>Przecinek między podmiotem a orzeczeniem jest zbędny, powinno być: <suggestion> \5</suggestion>.</message>
         <example type="correct">Każdy urzędnik wie, jak wspaniały jest nasz premier.</example>
-        <example correction="wie" type="incorrect">Każdy urzędnik<marker>, wie</marker>, jak wspaniały jest nasz premier.</example>
+        <example correction=" wie" type="incorrect">Każdy urzędnik<marker>, wie</marker>, jak wspaniały jest nasz premier.</example>
       </rule>
       <rule>
         <pattern mark_from="3">
@@ -1192,9 +1193,9 @@ bezpośrednio przed „tak”-->
           <token>,</token>
           <token>to</token>
         </pattern>
-        <message>Przecinek między podmiotem a orzeczeniem jest zbędny, powinno być: <suggestion>\5</suggestion>.</message>
+        <message>Przecinek między podmiotem a orzeczeniem jest zbędny, powinno być: <suggestion> \5</suggestion>.</message>
         <example type="correct">Każdy urzędnik to podnóżek naszego premiera.</example>
-        <example correction="to" type="incorrect">Każdy urzędnik<marker>, to</marker> podnóżek naszego premiera.</example>
+        <example correction=" to" type="incorrect">Każdy urzędnik<marker>, to</marker> podnóżek naszego premiera.</example>
       </rule>
     </rulegroup>
     <rulegroup id="PRZECINEK_A" name="Zbędny przecinek przed „a”">
@@ -1205,9 +1206,9 @@ bezpośrednio przed „tak”-->
           <token>a</token>
           <token><exception inflected="yes" regexp="yes">nie|więc|mianowicie|przeto|zatem|jednak|choć|chociaż|ponieważ|także|następnie|jeśli|jeżeli|gdyby|gdy|kiedy</exception></token>
         </pattern>
-        <message>W tym miejscu przecinek jest prawdopodobnie zbędny. Powinno być: <suggestion>a</suggestion>.</message>
+        <message>W tym miejscu przecinek jest prawdopodobnie zbędny. Powinno być: <suggestion> a</suggestion>.</message>
         <example type="correct">Nie ma żadnej różnicy między Pawłem a Gawłem.</example>
-        <example correction="a" type="incorrect">Nie ma żadnej różnicy między Pawłem<marker>, a</marker> Gawłem.</example>
+        <example correction=" a" type="incorrect">Nie ma żadnej różnicy między Pawłem<marker>, a</marker> Gawłem.</example>
       </rule>
       <rule>
         <pattern>
@@ -1679,6 +1680,31 @@ bezpośrednio przed „tak”-->
     </rule>
   </category>
   <category name="Błędy w szyku wyrazów">
+    <rulegroup id="Z_KIMS_NA_CZELE" name="„z... na czele” (na czele z...)">
+      <rule>
+        <pattern>
+          <token>z</token>
+          <token postag=".*inst.*" postag_regexp="yes"/>
+          <token>na</token>
+          <token>czele</token>
+        </pattern>
+        <message>Niepoprawny szyk wyrazów. Powinno być: <suggestion>\3 \4 \1 \2</suggestion>.</message>
+        <example correction="na czele z premierem" type="incorrect">Władzę wykonawczą sprawuje rząd powoływany przez prezydenta, <marker>z premierem na czele</marker>.</example>
+        <example type="correct">Władzę wykonawczą sprawuje rząd powoływany przez prezydenta, na czele z premierem.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>z</token>
+          <token postag=".*inst.*" postag_regexp="yes"/>
+          <token postag=".*inst.*" postag_regexp="yes"/>
+          <token>na</token>
+          <token>czele</token>
+        </pattern>
+        <message>Niepoprawny szyk wyrazów. Powinno być: <suggestion>\4 \5 \1 \2 \3</suggestion>.</message>
+        <example correction="na czele z tramwajem konnym" type="incorrect">Nową trasą ruszy uroczysta parada <marker>z tramwajem konnym na czele</marker>.</example>
+        <example type="correct">Nową trasą ruszy uroczysta parada na czele z tramwajem konnym.</example>
+      </rule>
+    </rulegroup>
     <rule id="BOWIEM_ZAS" name="„Bowiem”, „ale”, „zaś” na początku zdania">
       <pattern mark_from="1" mark_to="-1">
         <token postag="SENT_START"/>
@@ -3205,10 +3231,9 @@ bezpośrednio przed „tak”-->
         <token>i</token>
         <token regexp="yes">raz|rusz</token>
       </pattern>
-      <message>Wyrażenie „co i \3” jest często uznawane za niepoprawne. Poprawnie mówi się: <suggestion>co chwila</suggestion>, <suggestion>co krok</suggestion>
-			</message>
-      <example correction="Co chwila|Co krok" type="incorrect"><marker>Co i rusz</marker> media informują o tym, że któryś z prominentnych polityków koalicji rządzącej załatwił coś dla siebie.</example>
-      <example correction="Co chwila|Co krok" type="incorrect"><marker>Co i raz</marker> media informują o tym, że któryś z prominentnych polityków koalicji rządzącej załatwił coś dla siebie.</example>
+      <message>Wyrażenie „co i \3” jest często uznawane za niepoprawne. Poprawnie mówi się: <suggestion>co chwila</suggestion>, <suggestion>co krok</suggestion> lub <suggestion>co rusz</suggestion>.</message>
+      <example correction="Co chwila|Co krok|Co rusz" type="incorrect"><marker>Co i rusz</marker> media informują o tym, że któryś z prominentnych polityków koalicji rządzącej załatwił coś dla siebie.</example>
+      <example correction="Co chwila|Co krok|Co rusz" type="incorrect"><marker>Co i raz</marker> media informują o tym, że któryś z prominentnych polityków koalicji rządzącej załatwił coś dla siebie.</example>
       <example type="correct">Raz po raz media informują o tym, że któryś z prominentnych polityków koalicji rządzącej załatwił coś dla siebie.</example>
     </rule>
     <rule id="OKRAGLY_ROK" name="„okrągły rok” (cały rok)">
@@ -4487,6 +4512,27 @@ bezpośrednio przed „tak”-->
     </rule>
   </category>
   <category name="Błędy ortograficzne">
+    <rulegroup id="CO_I_ROZ" name="„co i róż” (co rusz)">
+      <rule>
+        <pattern>
+          <token>co</token>
+          <token>i</token>
+          <token>róż</token>
+        </pattern>
+        <message>Błąd ortograficzny. Poprawnie: <suggestion>co rusz</suggestion>.</message>
+        <example correction="Co rusz" type="incorrect"><marker>Co i róż</marker> media informują o tym, że któryś z prominentnych polityków koalicji rządzącej załatwił coś dla siebie.</example>
+        <example type="correct">Raz po raz media informują o tym, że któryś z prominentnych polityków koalicji rządzącej załatwił coś dla siebie.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>co</token>
+          <token>róż</token>
+        </pattern>
+        <message>Błąd ortograficzny. Poprawnie: <suggestion>co rusz</suggestion>.</message>
+        <example correction="Co rusz" type="incorrect"><marker>Co róż</marker> media informują o tym, że któryś z prominentnych polityków koalicji rządzącej załatwił coś dla siebie.</example>
+        <example type="correct">Raz po raz media informują o tym, że któryś z prominentnych polityków koalicji rządzącej załatwił coś dla siebie.</example>
+      </rule>
+    </rulegroup>
     <rule id="BEZ_POSREDNI" name="„bez pośredni, bez wypadkowy...” (bezpośredni, bezwypadkowy)">
       <pattern>
         <token>bez</token>
