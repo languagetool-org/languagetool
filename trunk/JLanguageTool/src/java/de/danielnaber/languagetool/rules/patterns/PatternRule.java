@@ -294,7 +294,7 @@ public class PatternRule extends Rule {
           if (firstMatchToken == -1) {
             firstMatchToken = matchPos; // nextPos;
           }
-          skipShiftTotal += skipShift;
+          skipShiftTotal += skipShift;         
         } else {
           skipShiftTotal = 0;
           break;
@@ -303,10 +303,16 @@ public class PatternRule extends Rule {
       
       tokenPos++;
       
+      if (firstMatchToken + matchingTokens >= tokens.length) {
+        matchingTokens = tokens.length - firstMatchToken;
+      }
+      
+      if (firstMatchToken + skipShiftTotal + matchingTokens > tokens.length) {
+        allElementsMatch = false;
+      }
+      
       if (allElementsMatch) {
-        if (firstMatchToken + matchingTokens >= tokens.length) {
-          matchingTokens = tokens.length - firstMatchToken;
-        }
+              
         final String errMessage = formatMatches(tokens,
             tokenPositions, firstMatchToken, matchingTokens,
             message);
@@ -362,7 +368,7 @@ public class PatternRule extends Rule {
     return ruleMatches.toArray(new RuleMatch[ruleMatches.size()]);
   }
 
-  public void addSuggestionMatch(final Match m) {
+  public final void addSuggestionMatch(final Match m) {
     if (suggestionMatches == null) {
       suggestionMatches = new ArrayList<Match>();      
     }
@@ -370,12 +376,18 @@ public class PatternRule extends Rule {
   }
    
   /** Replace back references generated with &lt;match&gt; and \\1 
-   *  in message using Match class, and take care of skipping.
+   *  in message using Match class, and take care of skipping.   *  
+   *  @param toks Array of AnalyzedTokenReadings that were matched against
+   *  the pattern
+   *  @param positions Array of relative positions of matched tokens
+   *  @param firstMatchTok Position of the first matched token
+   *  @param matchingTok Count of matched tokens
    *  @param errorMsg String containing suggestion markup
   *   @return String Formatted message.
   *   @throws IOException 
+  *   
   **/
-  private final String formatMatches(final AnalyzedTokenReadings[] toks,
+  private String formatMatches(final AnalyzedTokenReadings[] toks,
       final int[] positions, final int firstMatchTok, final int matchingTok,
       final String errorMsg) throws IOException {
     String errorMessage = errorMsg;    
