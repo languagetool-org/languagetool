@@ -6,7 +6,7 @@ title="Easy editing stylesheet" ?>
 <!--
 Polish Grammar and Typo Rules for LanguageTool
 Copyright (C) 2006-2007 Marcin Miłkowski
-$Id: grammar.xml,v 1.79 2007-08-22 22:07:08 milek_pl Exp $
+$Id: grammar.xml,v 1.80 2007-08-27 21:51:50 milek_pl Exp $
 -->
 <rules lang="pl">
   <phrases>
@@ -1055,15 +1055,27 @@ bezpośrednio przed „tak”-->
         <example type="correct">Masz bądź co bądź duży majątek.</example>
       </rule>
     </rulegroup>
-    <rule id="BRAK_PRZECINKA_I_KWITA" name="Brak przecinka przed „i kwita”, „i tak” itp.">
+    <rule id="BRAK_PRZECINKA_I_KWITA" name="Brak przecinka przed „i kwita” itp.">
       <pattern>
         <token><exception postag="SENT_START" postag_regexp="yes"/><exception regexp="yes">[\p{Punct}–—„«»]|tyle|i|lub|albo|ani|oraz|bądź|czy</exception></token>
         <token>i</token>
         <token regexp="yes">tak|to|kwita|już|owszem|koniec</token>
       </pattern>
+      <message>Prawdopodobnie brak przecinka, jeśli to jest dopowiedzenie lub wtrącenie. Powinno być: <suggestion>\1, \2 \3</suggestion>.</message>
+      <example type="correct">Padał deszcz, i to obfity.</example>
+      <example correction="deszcz, i to" type="incorrect">Padał <marker>deszcz i to</marker> obfity.</example>
+    </rule>
+    <rule id="BRAK_PRZECINKA_I_TAK" name="Brak przecinka przed „i tak”">
+      <pattern mark_to="-1">
+        <token><exception postag="SENT_START" postag_regexp="yes"/><exception regexp="yes">[\p{Punct}–—„«»]|tyle|i|lub|albo|ani|oraz|bądź|czy</exception></token>
+        <token>i</token>
+        <token>tak</token>
+        <token><exception>dalej</exception></token>
+      </pattern>
       <message>Prawdopodobnie brak przecinka. Powinno być: <suggestion>\1, \2 \3</suggestion>.</message>
       <example type="correct">Nie warto się wysilać, i tak ludzie tego nie docenią.</example>
       <example correction="wysilać, i tak" type="incorrect">Nie warto się <marker>wysilać i tak</marker> ludzie tego nie docenią.</example>
+      <example type="correct">Kupiłem dwa rewolwery, procę, strzelbę, armatę i tak dalej.</example>
     </rule>
     <rule id="PRZECINEK_CO_DO" name="Zbędny przecinek przed „co do”">
       <pattern mark_to="-1">
@@ -1080,7 +1092,7 @@ bezpośrednio przed „tak”-->
     <rulegroup id="PRZECINEK_POROWNANIE" name="Zbędny przecinek przed „jak” i „niż”">
       <rule>
         <pattern mark_from="1" mark_to="-1">
-          <token postag="SENT_START" skip="-1"><exception regexp="yes">równie|zarówno|tak</exception></token>
+          <token postag="SENT_START" skip="-1"><exception regexp="yes" scope="next">równie|zarówno|tak</exception></token>
           <token>,</token>
           <token regexp="yes" skip="-1"><exception postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf|pant:perf|pred" postag_regexp="yes" scope="next"/>jak|niż|jakby|niczym|niby</token>
           <token postag="SENT_END"/>
@@ -1256,11 +1268,12 @@ bezpośrednio przed „tak”-->
       </rule>
     </rulegroup>
     <rule id="BRAK_KROPKI" name="Brak kropki na końcu zdania">
-      <pattern mark_from="1">
+      <pattern mark_from="2">
+        <token postag="SENT_START" skip="-1"/>
         <token postag="verb:.*(sg|pl).*|verb:imps.*|verb:irreg|pred" postag_regexp="yes" skip="-1"/>
         <token postag="SENT_END"><exception regexp="yes">\p{Punct}</exception></token>
       </pattern>
-      <message>To zdanie nie kończy się kropką ani innym znakiem interpunkcyjnym. Powinno być: <suggestion>\2.</suggestion></message>
+      <message>To zdanie nie kończy się kropką ani innym znakiem interpunkcyjnym. Powinno być: <suggestion>\3.</suggestion></message>
       <example correction="złotych." type="incorrect">Pożycz mi sto <marker>złotych</marker></example>
       <example type="correct">Pożycz mi sto złotych.</example>
     </rule>
@@ -3631,6 +3644,15 @@ bezpośrednio przed „tak”-->
     </rule>
   </category>
   <category name="Pleonazmy">
+    <rule id="WLASNA_AUTOPSJA" name="„własna autopsja” (autopsja)">
+      <pattern>
+        <token inflected="yes" postag="adj:.*:(f|f.n.*):pos:aff" postag_regexp="yes">własny</token>
+        <token inflected="yes">autopsja</token>
+      </pattern>
+      <message>To pleonazm. Wystarczy powiedzieć <suggestion>\2</suggestion>.</message>
+      <example correction="autopsji" type="incorrect">Znam to z <marker>własnej autopsji</marker>.</example>
+      <example type="correct">Znam to z autopsji.</example>
+    </rule>
     <rulegroup id="COFAC_SIE_DO_TYLU" name="„cofać się do tyłu” (cofać się)">
       <rule>
         <pattern>
@@ -4512,6 +4534,17 @@ bezpośrednio przed „tak”-->
     </rule>
   </category>
   <category name="Błędy ortograficzne">
+    <rule id="BUL_GLOWY" name="„bul” (bul)">
+      <pattern mark_from="1" mark_to="-2">
+        <token postag="SENT_START" postag_regexp="yes" skip="-1"/>
+        <token>bul</token>
+        <token negate="yes" regexp="yes">,|bul</token>
+        <token negate="yes">bul</token>
+      </pattern>
+      <message>Prawdopodobny błąd ortograficzny. Czy chodziło o <suggestion>ból</suggestion> (=nieprzyjemne odczucie)?</message>
+      <example correction="ból" type="incorrect">Mam powtorny <marker>bul</marker> głowy.</example>
+      <example type="correct">Bul, bul, bul, a może ból?</example>
+    </rule>
     <rulegroup id="CO_I_ROZ" name="„co i róż” (co rusz)">
       <rule>
         <pattern>
