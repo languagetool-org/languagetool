@@ -48,9 +48,17 @@ public class PatternRule extends Rule {
  
   private List<Element> patternElements;
   
-  /** Formatted suggestion elements **/  
+  /** Formatted suggestion elements. **/  
   private List<Match> suggestionMatches;
 
+  /** A list of elements as they appear
+   * in XML file (phrases count as single tokens 
+   * in case of matches or skipping).
+   */
+  private List<Integer> elementNo;
+  
+  private boolean useList = false;
+  
   /** Marks whether the rule is a member of a 
    * disjunctive set (in case of OR operation on phraserefs). 
    **/
@@ -83,27 +91,41 @@ public class PatternRule extends Rule {
     this.description = description;
     this.message = message;
     this.patternElements = new ArrayList<Element>(elements); // copy elements
+    
+    this.elementNo = new ArrayList <Integer>();
+    String prevName = "";
+    String curName = "";
+    int cnt = 0;
+    int loopCnt = 0;
+    for (Element e : patternElements) {
+      if (!e.isPartOfPhrase()) {
+        if (cnt > 0) {
+          elementNo.add(cnt);
+        }
+        elementNo.add(1);
+      } else {
+        curName = e.getPhraseName();
+        if (prevName.equals(curName) || prevName.equals("")) {
+          cnt++;
+          useList = true;
+        } else {
+          elementNo.add(cnt);
+          prevName = "";
+          curName = "";
+          cnt = 0;
+        }
+        prevName = curName;
+        loopCnt++;
+        if (loopCnt == patternElements.size() && !prevName.equals("")) {
+          elementNo.add(cnt);
+        }
+      }
+    }    
   }
 
   PatternRule(final String id, final Language language, final List<Element> elements, final String description,
-      final String message, final boolean isMember) {
-    if (id == null) {
-      throw new NullPointerException("id cannot be null");
-    }
-    if (language == null) {
-      throw new NullPointerException("language cannot be null");
-    }
-    if (elements == null) {
-      throw new NullPointerException("elements cannot be null");
-    }
-    if (description == null) {
-      throw new NullPointerException("description cannot be null");
-    }
-    this.id = id;
-    this.language = new Language[] { language };
-    this.description = description;
-    this.message = message;
-    this.patternElements = new ArrayList<Element>(elements); // copy elements
+      final String message, final boolean isMember) {    
+    this(id, language, elements, description, message);
     this.isMemberOfDisjunctiveSet = isMember;    
   }  
   
@@ -199,7 +221,7 @@ public class PatternRule extends Rule {
           prevElement = elem;
         }
         elem = patternElements.get(k);        
-        skipNext = elem.getSkipNext();
+        skipNext = translateElementNo(elem.getSkipNext());
         final int nextPos = tokenPos + k + skipShiftTotal;
         if (nextPos >= tokens.length) {
           allElementsMatch = false;
@@ -375,6 +397,23 @@ public class PatternRule extends Rule {
     suggestionMatches.add(m);
   }
    
+  /**
+   * Gets the index of the element indexed by i,
+   * adding any offsets because of the phrases in the rule.
+   * @param i Current element index.
+   * @return int Index translated into XML element no.
+   */
+  private int translateElementNo(final int i) {
+    if (!useList | i < 0) {
+      return i;
+    }
+    int j = 0;    
+      for (int k = 0; k < i; k++) {
+        j += elementNo.get(k); 
+    }
+    return j;
+  }
+      
   /** Replace back references generated with &lt;match&gt; and \\1 
    *  in message using Match class, and take care of skipping.   *  
    *  @param toks Array of AnalyzedTokenReadings that were matched against
@@ -387,6 +426,7 @@ public class PatternRule extends Rule {
   *   @throws IOException 
   *   
   **/
+//TODO: add support for phrase matches that requires complex concatenation...
   private String formatMatches(final AnalyzedTokenReadings[] toks,
       final int[] positions, final int firstMatchTok, final int matchingTok,
       final String errorMsg) throws IOException {

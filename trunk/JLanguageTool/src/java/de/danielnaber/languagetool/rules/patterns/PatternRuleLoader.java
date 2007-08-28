@@ -132,9 +132,6 @@ class PatternRuleHandler extends XMLRuleHandler {
    * multiple phrases in the current one. **/
   private List < ArrayList < Element > > phraseElementList = null;
   
-  /** List containing counts of elements. **/
-  private List < ArrayList < Integer > > phElementCnt = null; 
-  
   private List<Match> suggestionMatches = null;
   
   private int startPositionCorrection = 0;
@@ -228,7 +225,7 @@ class PatternRuleHandler extends XMLRuleHandler {
       }
       if (attrs.getValue(REGEXP) != null) {
         stringRegExp = YES.equals(attrs.getValue(REGEXP));
-      }
+      }            
 
     } else if (qName.equals("exception")) {
       inException = true;      
@@ -327,24 +324,16 @@ class PatternRuleHandler extends XMLRuleHandler {
         && (attrs.getValue("idref") != null)) {
       phraseIdRef = attrs.getValue("idref");
       if (phraseMap.containsKey(phraseIdRef)) {                            
-        for (final ArrayList < Element > curPhrEl : phraseMap.get(phraseIdRef)) {              
+        for (final ArrayList < Element > curPhrEl : phraseMap.get(phraseIdRef)) {
+          for (final Element e : curPhrEl) {
+            e.setPhraseName(phraseIdRef);
+          }
           if (elementList.isEmpty()) {
-            phraseElementList.add(new ArrayList <Element>(curPhrEl));
-            if (phElementCnt == null) {
-              phElementCnt = new ArrayList < ArrayList < Integer > >();
-            }
-            phElementCnt.add(new ArrayList < Integer > (curPhrEl.size()));
+            phraseElementList.add(new ArrayList <Element>(curPhrEl));                        
           } else {
             final ArrayList < Element > prevList = new ArrayList < Element > (elementList);
-            prevList.addAll(curPhrEl);
-            if (phElementCnt == null) {
-              phElementCnt = new ArrayList < ArrayList < Integer > >();
-            }
-            for (Element el : prevList) {
-             phElementCnt.add(new ArrayList < Integer > (1));
-            }
-            phraseElementList.add(new ArrayList <Element>(prevList));
-            //phElementCnt.add(arg0);
+            prevList.addAll(curPhrEl);            
+            phraseElementList.add(new ArrayList <Element>(prevList));            
             prevList.clear();
           }       
         }
@@ -512,9 +501,6 @@ class PatternRuleHandler extends XMLRuleHandler {
     exceptionValidNext = false;
     exceptionSet = false; 
     tokenReference = null;
-    if (phElementCnt != null) {
-      phElementCnt.clear();
-    }
   }
   
   private void prepareRule(final PatternRule rule) {

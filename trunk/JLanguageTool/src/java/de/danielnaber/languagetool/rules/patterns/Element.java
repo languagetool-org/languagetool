@@ -59,7 +59,7 @@ public class Element {
   
   private Matcher m = null;
   private Matcher mPos = null;
-  
+    
   /** The reference to another element in the pattern. **/
   private Match tokenReference = null;
   
@@ -78,6 +78,10 @@ public class Element {
   
   private String referenceString = "";
 
+  /** String ID of the phrase the element is in. **/
+  private String phraseName = null; 
+
+  
   public Element(final String token, final boolean caseSensitive, final boolean regExp,
       final boolean inflected) {
     this.stringToken = token;
@@ -449,4 +453,30 @@ public class Element {
       p = Pattern.compile(regToken);
     }
   }
+  
+  /**
+   * Sets the phrase the element is in.
+   * @param s ID of the phrase.
+   */
+  public final void setPhraseName(final String s) {
+    phraseName = s;
+  }
+  
+  /**
+   * Checks if the Element is in any phrase.
+   * @return True if the Element is contained
+   * in the phrase.
+   */
+  public final boolean isPartOfPhrase() {
+    return phraseName != null;
+  }
+  
+  /** 
+   * Gets the phrase the element is in.
+   * @return String The name of the phrase.
+   */
+  public final String getPhraseName() {
+    return phraseName;
+  }
+  
 }
