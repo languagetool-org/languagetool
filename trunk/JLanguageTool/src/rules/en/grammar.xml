@@ -7,7 +7,7 @@ title="Easy editing stylesheet" ?>
 English Grammar and Typo Rules for LanguageTool
 See tagset.txt for the meaning of the POS tags
 Copyright (C) 2001-2007 Daniel Naber (http://www.danielnaber.de)
-$Id: grammar.xml,v 1.32 2007-08-14 09:02:56 milek_pl Exp $
+$Id: grammar.xml,v 1.33 2007-08-28 12:26:10 milek_pl Exp $
 -->
 <rules lang="en">
   <!-- ====================================================================== -->
@@ -22,6 +22,78 @@ $Id: grammar.xml,v 1.32 2007-08-14 09:02:56 milek_pl Exp $
       <message>Possible typo. Did you mean <suggestion>a while</suggestion>?</message>
       <example correction="a while" type="incorrect">I haven't posted in <marker>awhile</marker>.</example>
       <example type="correct">I haven't posted in a while.</example>
+    </rule>
+    <rule id="FOR_ALL_INTENSIVE_PURPOSES" name="Possible typo: 'for all intensive purposes (for all intents and purposes)'">
+      <pattern>
+        <token>for</token>
+        <token>all</token>
+        <token>intensive</token>
+        <token>purposes</token>
+      </pattern>
+      <message>Did you mean <suggestion>\1 all intents and purposes</suggestion>?</message>
+      <example correction="for all intents and purposes" type="incorrect">Well, not all of it, but <marker>for all intensive purposes</marker>, I read it.</example>
+      <example type="correct">Well, not all of it, but for all intents and purposes, I read it.</example>
+    </rule>
+    <rule id="YOUR_S" name="Possible typo: 'your's (yours)'">
+      <pattern>
+        <token regexp="yes">your|hers|our|their</token>
+        <token>'</token>
+        <token>s</token>
+      </pattern>
+      <message>Possible typo. Did you mean <suggestion>\1</suggestion> or <suggestion>\1\3</suggestion>?</message>
+      <example correction="your|yours" type="incorrect">It's not mine, it's <marker>your's</marker>.</example>
+      <example type="correct">It's not mine, it's yours.</example>
+    </rule>
+    <rulegroup id="HERE_HEAR" name="Possible typo: 'here (hear)'">
+      <rule>
+        <pattern mark_from="1" mark_to="-1">
+          <token>can</token>
+          <token>here</token>
+          <token postag="PRP|DT" postag_regexp="yes"/>
+        </pattern>
+        <message>Possible typo. Did you mean <suggestion>hear</suggestion>?</message>
+        <example correction="hear" type="incorrect">I can <marker>here</marker> you!</example>
+        <example type="correct">I can hear you!</example>
+      </rule>
+      <rule>
+        <pattern mark_from="2" mark_to="-1">
+          <token>can</token>
+          <token postag="RB"/>
+          <token>here</token>
+          <token postag="PRP|DT" postag_regexp="yes"/>
+        </pattern>
+        <message>Possible typo. Did you mean <suggestion>hear</suggestion>?</message>
+        <example correction="hear" type="incorrect">I can almost <marker>here</marker> you crying.</example>
+        <example type="correct">I can almost hear you crying.</example>
+      </rule>
+    </rulegroup>
+    <rule id="HEAR_HERE" name="Possible typo 'hear (here)'">
+      <pattern mark_to="-1">
+        <token postag="SENT_START"/>
+        <token>hear</token>
+        <token>is</token>
+      </pattern>
+      <message>Possible typo. Did you mean <suggestion>here</suggestion>?</message>
+      <example type="correct">Here is an entertainment fit for giants.</example>
+      <example correction="Here" type="incorrect"><marker>Hear</marker> is an entertainment fit for giants.</example>
+    </rule>
+    <rule id="TOT_HE" name="Possible typo 'tot he (to the)'">
+      <pattern>
+        <token>tot</token>
+        <token>he</token>
+      </pattern>
+      <message>Possible typo. Did you mean <suggestion>to the</suggestion>?</message>
+      <example correction="to the" type="incorrect">The Hitchhiker's Guide <marker>tot he</marker> Galaxy</example>
+      <example type="correct">The Hitchhiker's Guide to the Galaxy</example>
+    </rule>
+    <rule id="WITH_OUT" name="Possible typo 'with out (without)">
+      <pattern>
+        <token>with</token>
+        <token>out</token>
+      </pattern>
+      <message>This word is usually written together. Did you mean <suggestion>without</suggestion>?</message>
+      <example correction="without" type="incorrect">We must take the bus before it leaves <marker>with out</marker> us.</example>
+      <example type="correct">We must take the bus before it leaves without us.</example>
     </rule>
     <rulegroup id="IT_IS_NO" name="Possible typo 'It is no (It is not/It is now)'">
       <rule>
@@ -270,6 +342,15 @@ $Id: grammar.xml,v 1.32 2007-08-14 09:02:56 milek_pl Exp $
       <example type="correct">And <marker>then</marker> it became clear.</example>
       <example type="incorrect"><marker>Them</marker> it became clear.</example>
       <example type="incorrect"><marker>Than</marker> it became clear.</example>
+    </rule>
+    <rule id="TOO_TO" name="Possible typo 'too go (to go)'">
+      <pattern>
+        <token>too</token>
+        <token postag="VB"/>
+      </pattern>
+      <message>Possible typo. Did you mean <suggestion>to \2</suggestion>?</message>
+      <example correction="to go" type="incorrect">I want <marker>too go</marker> abroad.</example>
+      <example type="correct">I want to go abroad.</example>
     </rule>
     <rulegroup id="TO_TOO" name="Possible typo 'to/two(too) late/soon/much'">
       <rule>
@@ -1117,7 +1198,7 @@ $Id: grammar.xml,v 1.32 2007-08-14 09:02:56 milek_pl Exp $
     <rulegroup id="HAVE_PART_AGREEMENT" name="Agreement: have + past/present tense">
       <rule>
         <pattern mark_from="1" mark_to="-1">
-          <token regexp="yes">has|have</token>
+          <token regexp="yes">has|have|had</token>
           <token postag="VBD|VBP|VB" postag_regexp="yes"><exception postag="VBN|NN:U.*|JJ.*|RB" postag_regexp="yes"/></token>
           <token><exception postag="VBG"/></token>
         </pattern>
@@ -1134,7 +1215,7 @@ $Id: grammar.xml,v 1.32 2007-08-14 09:02:56 milek_pl Exp $
       </rule>
       <rule>
         <pattern mark_from="2" mark_to="-1">
-          <token regexp="yes">has|have</token>
+          <token regexp="yes">has|have|had</token>
           <token postag="RB"><exception>no</exception><exception postag="IN|RP|CC" postag_regexp="yes"/></token>
           <token postag="VBD|VBP|VB" postag_regexp="yes"><exception postag="VBN|RB" postag_regexp="yes"/></token>
           <token><exception postag="VBG"/></token>
@@ -1146,7 +1227,7 @@ $Id: grammar.xml,v 1.32 2007-08-14 09:02:56 milek_pl Exp $
       </rule>
       <rule>
         <pattern mark_from="1" mark_to="-1">
-          <token regexp="yes">has|have</token>
+          <token regexp="yes">has|have|had</token>
           <token postag="VBD|VBP|VB" postag_regexp="yes"><exception postag="VBN" postag_regexp="yes"/></token>
           <token postag="PRP"/>
         </pattern>
@@ -1936,7 +2017,7 @@ $Id: grammar.xml,v 1.32 2007-08-14 09:02:56 milek_pl Exp $
       <pattern mark_to="-1">
         <token regexp="yes">more|most</token>
         <token postag="JJR|RBR" postag_regexp="yes"/>
-        <token postag="NN.*" postag_regexp="yes"/>
+        <token postag="NN.*|IN" postag_regexp="yes"/>
       </pattern>
       <message>Use only <suggestion>\2</suggestion> (without '\1') when you use the comparative.</message>
       <example type="correct">Kyoto is an <marker>older</marker> city.</example>
@@ -2881,5 +2962,14 @@ $Id: grammar.xml,v 1.32 2007-08-14 09:02:56 milek_pl Exp $
         <example type="correct">ATMs are quite common in the Netherlands,</example>
       </rule>
     </rulegroup>
+    <rule id="VERY_UNIQUE" name="Redundant phrase: 'very unique (unique)'">
+      <pattern>
+        <token regexp="yes">very|strikingly|most</token>
+        <token>unique</token>
+      </pattern>
+      <message>This phrase is redundant. Use simply <suggestion>\2</suggestion>.</message>
+      <example correction="unique" type="incorrect">Walk until you see the <marker>very unique</marker> building on your right.</example>
+      <example type="correct">Walk until you see a unique building on your right.</example>
+    </rule>
   </category>
 </rules>
