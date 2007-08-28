@@ -7,7 +7,7 @@ title="Easy editing stylesheet" ?>
 English Grammar and Typo Rules for LanguageTool
 See tagset.txt for the meaning of the POS tags
 Copyright (C) 2001-2007 Daniel Naber (http://www.danielnaber.de)
-$Id: grammar.xml,v 1.34 2007-08-28 21:09:53 milek_pl Exp $
+$Id: grammar.xml,v 1.35 2007-08-28 21:22:05 milek_pl Exp $
 -->
 <rules lang="en">
   <!-- ====================================================================== -->
@@ -1239,7 +1239,7 @@ $Id: grammar.xml,v 1.34 2007-08-28 21:09:53 milek_pl Exp $
     <rulegroup id="BEEN_PART_AGREEMENT" name="Agreement: 'been' or 'was' + past tense">
       <rule>
         <pattern mark_from="1" mark_to="-1">
-          <token regexp="yes">been|was|were</token>
+          <token regexp="yes">been|was|were|is|are|am</token>
           <token postag="VBD|VBP|VB" postag_regexp="yes"><exception postag="VBN|JJ.*|RB.*" postag_regexp="yes"/><exception regexp="yes">are|am</exception></token>
           <token><exception>'</exception></token>
         </pattern>
@@ -1254,7 +1254,7 @@ $Id: grammar.xml,v 1.34 2007-08-28 21:09:53 milek_pl Exp $
       </rule>
       <rule>
         <pattern mark_from="2" mark_to="-1">
-          <token regexp="yes">been|was|were</token>
+          <token regexp="yes">been|was|were|is|are|am</token>
           <token postag="RB"><exception>in</exception><exception postag="VBN|JJ.*" postag_regexp="yes"/></token>
           <token postag="VBD|VBP|VB" postag_regexp="yes"><exception postag="VBN|JJ" postag_regexp="yes"/></token>
           <token><exception>'</exception></token>
