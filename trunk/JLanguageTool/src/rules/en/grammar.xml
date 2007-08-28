@@ -7,7 +7,7 @@ title="Easy editing stylesheet" ?>
 English Grammar and Typo Rules for LanguageTool
 See tagset.txt for the meaning of the POS tags
 Copyright (C) 2001-2007 Daniel Naber (http://www.danielnaber.de)
-$Id: grammar.xml,v 1.33 2007-08-28 12:26:10 milek_pl Exp $
+$Id: grammar.xml,v 1.34 2007-08-28 21:09:53 milek_pl Exp $
 -->
 <rules lang="en">
   <!-- ====================================================================== -->
@@ -2666,6 +2666,16 @@ $Id: grammar.xml,v 1.33 2007-08-28 12:26:10 milek_pl Exp $
   <!-- Miscellaneous -->
   <!-- ====================================================================== -->
   <category name="Miscellaneous">
+    <rule id="EVER_SO_OFTEN" name="Misused phrase: 'ever so often (every so often)'">
+      <pattern>
+        <token>ever</token>
+        <token>so</token>
+        <token>often</token>
+      </pattern>
+      <message>This phrase is non-standard in most writing. Did you mean <suggestion>every \2 \3</suggestion>?</message>
+      <example correction="Every so often" type="incorrect"><marker>Ever so often</marker>, we put down the books, and go sailing!</example>
+      <example type="correct">Every so often, we put down the books, and go sailing! </example>
+    </rule>
     <rule id="ALSO_SENT_END" name="'also' at the end of the sentence">
       <pattern mark_to="-1">
         <token>also</token>
