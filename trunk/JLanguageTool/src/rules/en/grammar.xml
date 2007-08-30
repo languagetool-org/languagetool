@@ -7,13 +7,23 @@ title="Easy editing stylesheet" ?>
 English Grammar and Typo Rules for LanguageTool
 See tagset.txt for the meaning of the POS tags
 Copyright (C) 2001-2007 Daniel Naber (http://www.danielnaber.de)
-$Id: grammar.xml,v 1.35 2007-08-28 21:22:05 milek_pl Exp $
+$Id: grammar.xml,v 1.36 2007-08-30 21:23:16 milek_pl Exp $
 -->
 <rules lang="en">
   <!-- ====================================================================== -->
   <!-- Possible typos -->
   <!-- ====================================================================== -->
   <category name="Possible Typo">
+    <rule id="VE_GO_TO" name="Possible typo: 'I've go to (I've got to)'">
+      <pattern mark_from="1" mark_to="-1">
+        <token>ve</token>
+        <token>go</token>
+        <token>to</token>
+      </pattern>
+      <message>Possible typo. Did you mean <suggestion>got</suggestion>?</message>
+      <example correction="got" type="incorrect">I've <marker>go</marker> to go.</example>
+      <example type="correct">I've got to go.</example>
+    </rule>
     <rule id="FOR_AWHILE" name="Possible typo: 'awhile (a while)'">
       <pattern mark_from="1">
         <token postag="IN"/>
@@ -2927,6 +2937,15 @@ $Id: grammar.xml,v 1.35 2007-08-28 21:22:05 milek_pl Exp $
         <message>'Everyday' is an adjective. Did you mean <suggestion>every day</suggestion>?</message>
         <example type="correct">Every day, he gets up early.</example>
         <example correction="Every day" type="incorrect"><marker>Everyday</marker>, he gets up early.</example>
+      </rule>
+      <rule>
+        <pattern mark_to="-1">
+          <token>everyday</token>
+          <token negate_pos="yes" postag="NN.*|PRP" postag_regexp="yes"/>
+        </pattern>
+        <message>'Everyday' is an adjective. Did you mean <suggestion>every day</suggestion>?</message>
+        <example correction="every day" type="incorrect">He gets up early <marker>everyday</marker>.</example>
+        <example type="correct">He gets up early every day.</example>
       </rule>
     </rulegroup>
     <rule id="WHIP_CREAM" name="'whip cream' (whipped cream)">
