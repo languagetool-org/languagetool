@@ -7,7 +7,7 @@ title="Easy editing stylesheet" ?>
 English Grammar and Typo Rules for LanguageTool
 See tagset.txt for the meaning of the POS tags
 Copyright (C) 2001-2007 Daniel Naber (http://www.danielnaber.de)
-$Id: grammar.xml,v 1.36 2007-08-30 21:23:16 milek_pl Exp $
+$Id: grammar.xml,v 1.37 2007-08-31 22:02:08 milek_pl Exp $
 -->
 <rules lang="en">
   <!-- ====================================================================== -->
@@ -2877,6 +2877,16 @@ $Id: grammar.xml,v 1.36 2007-08-30 21:23:16 milek_pl Exp $
       <message>Did you mean <suggestion>economic</suggestion> (=connected with economy)?</message>
       <example correction="economic" type="incorrect">This article deals with <marker>economical</marker> development of the Third World.</example>
       <example type="correct">This article deals with <marker>economic</marker> development of the Third World.</example>
+    </rule>
+    <rule id="IN_PRINCIPAL" name="'in principal' (principle)">
+      <pattern mark_to="-1">
+        <token>in</token>
+        <token>principal</token>
+        <token negate_pos="yes" postag="NN.*" postag_regexp="yes"/>
+      </pattern>
+      <message>Did you mean <suggestion>in principle</suggestion> (=as a rule)?</message>
+      <example type="incorrect"><marker>In principal</marker> I don't think it will be too difficult.</example>
+      <example type="correct">In principle, I don't think it will be too difficult.</example>
     </rule>
     <rule id="ECONOMIC_ECONOMICAL" name="'econonomic car' etc. (economical)">
       <pattern mark_to="-1">
