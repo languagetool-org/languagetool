@@ -7,7 +7,7 @@ title="Easy editing stylesheet" ?>
 English Grammar and Typo Rules for LanguageTool
 See tagset.txt for the meaning of the POS tags
 Copyright (C) 2001-2007 Daniel Naber (http://www.danielnaber.de)
-$Id: grammar.xml,v 1.37 2007-08-31 22:02:08 milek_pl Exp $
+$Id: grammar.xml,v 1.38 2007-09-06 20:24:19 milek_pl Exp $
 -->
 <rules lang="en">
   <!-- ====================================================================== -->
@@ -365,9 +365,9 @@ $Id: grammar.xml,v 1.37 2007-08-31 22:02:08 milek_pl Exp $
     <rulegroup id="TO_TOO" name="Possible typo 'to/two(too) late/soon/much'">
       <rule>
         <pattern mark_from="1" mark_to="-1">
-          <token regexp="yes">much|is|was|be|were|are|been</token>
+          <token regexp="yes">much|is|was|be|were|are|been|s|re</token>
           <token regexp="yes">to|two</token>
-          <token>late</token>
+          <token regexp="yes">late|easy</token>
         </pattern>
         <message>Did you mean <suggestion>too</suggestion>?</message>
         <example type="correct">It was <marker>too</marker> late.</example>
@@ -377,7 +377,7 @@ $Id: grammar.xml,v 1.37 2007-08-31 22:02:08 milek_pl Exp $
       </rule>
       <rule>
         <pattern mark_from="1" mark_to="-2">
-          <token regexp="yes">comes|came|much|is|was|were|are|been</token>
+          <token regexp="yes">comes|came|much|is|was|were|are|been|s|re</token>
           <token regexp="yes">to|two</token>
           <token>soon</token>
           <token><exception postag="VB"/></token>
@@ -409,6 +409,29 @@ $Id: grammar.xml,v 1.37 2007-08-31 22:02:08 milek_pl Exp $
         <message>Did you mean <suggestion>too</suggestion>?</message>
         <example type="correct">But I see the problem of <marker>too</marker> many files.</example>
         <example correction="too" type="incorrect">But I see the problem of <marker>two</marker> many files.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="1" mark_to="-2">
+          <token regexp="yes">is|was|be|were|are|been|s|re</token>
+          <token>to</token>
+          <token postag="JJ?" postag_regexp="yes"/>
+          <token postag="SENT_END"/>
+        </pattern>
+        <message>Did you mean <suggestion>too</suggestion>?</message>
+        <example correction="too" type="incorrect">It's <marker>to</marker> early.</example>
+        <example type="correct">It's too early.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="1" mark_to="-3">
+          <token regexp="yes">is|was|be|were|are|been|s|re</token>
+          <token>to</token>
+          <token postag="JJ?" postag_regexp="yes"/>
+          <token>to</token>
+          <token postag="VB"/>
+        </pattern>
+        <message>Did you mean <suggestion>too</suggestion>?</message>
+        <example correction="too" type="incorrect">It's <marker>to</marker> good to be true.</example>
+        <example type="correct">It's too good to be true.</example>
       </rule>
     </rulegroup>
     <rule id="THINK_YOU_A" name="Possible typo 'think you a/an(are)'">
@@ -777,6 +800,18 @@ $Id: grammar.xml,v 1.37 2007-08-31 22:02:08 milek_pl Exp $
       <message>Did you mean <suggestion>can't</suggestion> or <suggestion>cannot</suggestion>?</message>
       <example type="correct">I <marker>can't</marker> view pdf files in Explorer.</example>
       <example type="incorrect">I <marker>cant</marker> view pdf files in Explorer.</example>
+    </rule>
+    <rule id="LETS_LET" name="Possible typo: 'let's/lets'">
+      <pattern mark_to="-1">
+        <token>let</token>
+        <token>'</token>
+        <token>s</token>
+        <token><exception postag="VB|RB?" postag_regexp="yes"/></token>
+      </pattern>
+      <message>Possible typo. Did you mean <suggestion>\1s</suggestion> or <suggestion>\1</suggestion>?</message>
+      <example correction="lets|let" type="incorrect">It <marker>let's</marker> you quickly search for the product.</example>
+      <example type="correct">Let's go home!</example>
+      <example type="correct">It lets you quickly search for the product,</example>
     </rule>
     <rulegroup id="IT_IS" name="Possible typo 'its/it's'">
       <rule>
