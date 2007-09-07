@@ -57,6 +57,10 @@ public class PatternRule extends Rule {
    */
   private List<Integer> elementNo;
   
+  /** 
+   * This property is used for short-circuiting
+   * evaluation of the elementNo list order.
+   */
   private boolean useList = false;
   
   /** Marks whether the rule is a member of a 
@@ -97,12 +101,13 @@ public class PatternRule extends Rule {
     String curName = "";
     int cnt = 0;
     int loopCnt = 0;
-    for (Element e : patternElements) {
+    for (final Element e : patternElements) {
       if (!e.isPartOfPhrase()) {
         if (cnt > 0) {
           elementNo.add(cnt);
         }
         elementNo.add(1);
+        loopCnt++;
       } else {
         curName = e.getPhraseName();
         if (prevName.equals(curName) || prevName.equals("")) {
@@ -255,7 +260,7 @@ public class PatternRule extends Rule {
               }            
             
             if (elem.hasAndGroup()) {
-              for (Element andElement : elem.getAndGroup()) {
+              for (final Element andElement : elem.getAndGroup()) {
                 if (andElement.referenceElement()
                  && (firstMatchToken + andElement.getMatch().getTokenRef() 
                     < tokens.length)) {
@@ -413,7 +418,96 @@ public class PatternRule extends Rule {
     }
     return j;
   }
-      
+  
+  /**
+   * Returns true when the token in the rule 
+   * references a phrase composed of many tokens.
+   * @param i The index of the token.
+   * @return true if the phrase is under the index, 
+   * false otherwise.
+   **/
+  private int phraseLen(final int i) {
+    if (!useList || i > (elementNo.size() - 1)) {
+      return 1;
+    }
+    return elementNo.get(i);
+  }
+  
+  /**
+   * Creates a Cartesian product of the arrays stored in the
+   * input array.
+   * @param input Array of string arrays to combine.
+   * @param output Work array of strings.
+   * @param r Starting parameter (use 0 to get all combinations).
+   * @return Combined array of @String.
+   */
+  private static String[] combineLists(final String[][] input, 
+        final String[] output, final int r) {
+   final List <String> outputList = new ArrayList<String>();  
+   if (r == input.length) {
+     final StringBuilder sb = new StringBuilder();     
+     for (int k = 0; k < output.length; k++) {
+      sb.append(output[k]);
+      if (k < output.length - 1) { 
+        sb.append(" ");
+      }
+     }
+     outputList.add(sb.toString());     
+   } else {
+      for (int c = 0; c < input[r].length; c++) {
+          output[r] = input[r][c];
+          String[] sList; 
+          sList = combineLists(input, output, r + 1);
+          for (final String s : sList) {
+            outputList.add(s);
+          }
+      }
+     }
+   return outputList.toArray(new String[outputList.size()]);
+  }
+
+  
+  /**
+   * Concatenates the matches, and takes care of 
+   * phrases (including inflection using synthesis).
+   * @param start Position of the element 
+   *  as referenced by match element in the rule.
+   * @param index The index of the element found in the 
+   *  matching sentence.
+   * @param tokenIndex The position of the token in the 
+   *  AnalyzedTokenReadings array. 
+   * @param tokens Array of @AnalyzedTokenReadings
+   * @return @String[] Array of concatenated strings 
+   * @throws IOException in case disk operations (used in 
+   * synthesizer) go wrong.
+   */
+  private String[] concatMatches(final int start, final int index, 
+       final int tokenIndex, final AnalyzedTokenReadings[] tokens) 
+      throws IOException {
+    String[] finalMatch = null;
+    if (suggestionMatches.get(start) != null) {
+      final int len = phraseLen(index); 
+      if (len == 1) {
+      suggestionMatches.get(start)
+      .setToken(tokens[tokenIndex - 1]);
+      suggestionMatches.get(start).setSynthesizer(language[0].getSynthesizer());
+      finalMatch = suggestionMatches.get(start).toFinalString();
+      } else {
+        final List <String[]> matchList = new ArrayList <String[]>();
+        for (int i = 0; i < len; i++) {
+          suggestionMatches.get(start)
+          .setToken(tokens[tokenIndex - 1 + i]);
+          suggestionMatches.get(start).setSynthesizer(language[0].
+                getSynthesizer());
+          matchList.add(suggestionMatches.get(start).toFinalString());
+        }
+        return combineLists(matchList.toArray(new String[matchList.size()][]), 
+            new String[matchList.size()], 0);
+      }
+    }    
+    return finalMatch;
+  }
+  
   /** Replace back references generated with &lt;match&gt; and \\1 
    *  in message using Match class, and take care of skipping.   *  
    *  @param toks Array of AnalyzedTokenReadings that were matched against
@@ -426,10 +520,9 @@ public class PatternRule extends Rule {
   *   @throws IOException 
   *   
   **/
-//TODO: add support for phrase matches that requires complex concatenation...
   private String formatMatches(final AnalyzedTokenReadings[] toks,
       final int[] positions, final int firstMatchTok, final int matchingTok,
-      final String errorMsg) throws IOException {
+      final String errorMsg) throws IOException {         
     String errorMessage = errorMsg;    
     int matchCounter = 0;
     final int[] numbersToMatches = new int[errorMsg.length()];
@@ -454,30 +547,31 @@ public class PatternRule extends Rule {
           if (suggestionMatches != null) {
             if (matchCounter < suggestionMatches.size()) {
               numbersToMatches[j] = matchCounter;
-              if (suggestionMatches.get(matchCounter) != null) {             
-                suggestionMatches.get(matchCounter)
-                .setToken(toks[firstMatchTok + repTokenPos - 1]);
-                suggestionMatches.get(matchCounter).setSynthesizer(language[0].getSynthesizer());              
-                final String leftSide = errorMessage.substring(0, ind);
-                String suggestionLeft = "";
-                String suggestionRight = "";
-                String rightSide = errorMessage.substring(ind + 2);
-                final String[] matches = suggestionMatches.get(matchCounter).toFinalString();
+              if (suggestionMatches.get(matchCounter) != null) {
+                final String[] matches = concatMatches(matchCounter, j, firstMatchTok + repTokenPos, toks);
+                final String leftSide = errorMessage.substring(0, ind);                                
+                String rightSide = errorMessage.substring(ind + 2);                
                 if (matches.length == 1) {
                   errorMessage = leftSide 
-                  + suggestionLeft
-                  + matches[0]
-                            + suggestionRight
-                            + rightSide;              
-                } else {                  
-                  suggestionLeft = leftSide.substring(leftSide.lastIndexOf("<suggestion>") +"<suggestion>".length());
+                    + matches[0]
+                    + rightSide;              
+                } else {
+                  String suggestionLeft = "";
+                  String suggestionRight = "";
+                  final int sPos = leftSide.lastIndexOf("<suggestion>");
+                  if (sPos > 0) {
+                    suggestionLeft = leftSide.substring(sPos +"<suggestion>".length());
+                  }
                   if ("".equals(suggestionLeft)) {
                     errorMessage = leftSide;
                   } else {
                     errorMessage = leftSide.substring(0, leftSide.lastIndexOf("<suggestion>"))
                       + "<suggestion>";
                   }
-                  suggestionRight = rightSide.substring(0, rightSide.indexOf("</suggestion>"));
+                  final int rPos = rightSide.indexOf("</suggestion>");
+                  if (rPos > 0) {
+                    suggestionRight = rightSide.substring(0, rPos);
+                  }
                   if (!"".equals(suggestionRight)) {
                     rightSide = rightSide.substring(rightSide.indexOf("</suggestion>"));
                   }

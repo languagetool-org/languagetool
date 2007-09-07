@@ -516,7 +516,9 @@ class PatternRuleHandler extends XMLRuleHandler {
       for (final Match m : suggestionMatches) {
         rule.addSuggestionMatch(m);
       }
+    if (phraseElementList.size() <= 1) {
       suggestionMatches.clear();
+    }
     } 
   }
   
