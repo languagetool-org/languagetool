@@ -6,7 +6,7 @@ title="Easy editing stylesheet" ?>
 <!--
 Polish Grammar and Typo Rules for LanguageTool
 Copyright (C) 2006-2007 Marcin Miłkowski
-$Id: grammar.xml,v 1.82 2007-08-30 21:18:01 milek_pl Exp $
+$Id: grammar.xml,v 1.83 2007-09-07 19:48:16 milek_pl Exp $
 -->
 <rules lang="pl">
   <phrases>
@@ -15,6 +15,25 @@ $Id: grammar.xml,v 1.82 2007-08-30 21:18:01 milek_pl Exp $
     </phrase>
     <phrase id="NIE_INTERPUNKCJA">
       <token><exception postag="SENT_START" postag_regexp="yes"/><exception regexp="yes">[\p{Punct}–—„«»]|tyle|i|lub|albo|ani|oraz|bądź|czy</exception></token>
+    </phrase>
+    <phrase id="ACC_NOM_1">
+      <token postag=".*acc.*|.*nom.*" postag_regexp="yes"><exception postag=".*inst.*|.*loc.*" postag_regexp="yes"/></token>
+      <token negate_pos="yes" postag=".*acc.*|.*nom.*" postag_regexp="yes"/>
+    </phrase>
+    <phrase id="ACC_NOM_2">
+      <token postag=".*:sg:.*acc.*:f(:pos)?(:aff)?|.*:sg:.*nom.*:f(:pos)?(:aff)?" postag_regexp="yes"><exception postag=".*inst.*|.*loc.*" postag_regexp="yes"/></token>
+      <token postag=".*:sg:.*acc.*:f(:pos)?(:aff)?|.*:sg:.*nom.*:f(:pos)?(:aff)?" postag_regexp="yes"><exception postag=".*inst.*|.*loc.*" postag_regexp="yes"/></token>
+    </phrase>
+    <phrase id="ACC_NOM_3">
+      <token postag=".*:sg:.*acc.*:(m?.|n?)(:pos)?(:aff)?|.*:sg:.*nom.*:(m?.|n?)(:pos)?(:aff)?" postag_regexp="yes"><exception postag=".*inst.*|.*loc.*" postag_regexp="yes"/></token>
+      <token postag=".*sg:.*acc.*:(m?.|n?)(:pos)?(:aff)?|.*:sg:.*nom.*:(m?.|n?)(:pos)?(:aff)?" postag_regexp="yes"><exception postag=".*inst.*|.*loc.*" postag_regexp="yes"/></token>
+    </phrase>
+    <phrase id="ACC_NOM">
+      <includephrases>
+        <phraseref idref="ACC_NOM_1"/>
+        <phraseref idref="ACC_NOM_2"/>
+        <phraseref idref="ACC_NOM_3"/>
+      </includephrases>
     </phrase>
   </phrases>
   <category name="Błędy interpunkcyjne">
@@ -2339,10 +2358,10 @@ bezpośrednio przed „tak”-->
       <pattern>
         <token inflected="yes" regexp="yes">opatrzyć|opatrywać</token>
         <token regexp="yes">w|we</token>
-        <token postag=".*acc.*|.*nom.*" postag_regexp="yes"><exception postag=".*inst.*|.*loc.*" postag_regexp="yes"/></token>
+        <phraseref idref="ACC_NOM"/>
       </pattern>
-      <message>Ten czasownik nie jest używany z przyimkiem „w”. Poprawnie <suggestion>za<match no="1"/> <match no="2"/> <match no="3"/></suggestion> lub <suggestion><match no="1"/> <match no="3" postag="(.*)(sg|pl):.*" postag_regexp="yes" postag_replace="$1$2.*inst.*"/></suggestion>.</message>
-      <example correction="zaopatrzyć w osobiste|opatrzyć osobistym|opatrzyć osobistą" type="incorrect">Prace należy <marker>opatrzyć w osobiste</marker> godło.</example>
+      <message>Ten czasownik nie jest używany z przyimkiem „w”. Poprawnie <suggestion>za<match no="1"/> <match no="2"/> <match no="3"/></suggestion> lub <suggestion><match no="1"/> <match no="3" postag="(.*)(sg|pl):.*:(m?.|n|f)?.*" postag_regexp="yes" postag_replace="$1$2.*inst.*$3.*"/></suggestion>.</message>
+      <example correction="zaopatrzyć w osobiste godło|opatrzyć osobistym godłem|opatrzyć osobistą godłem" type="incorrect">Prace należy <marker>opatrzyć w osobiste godło</marker>.</example>
       <example type="correct">Prace należy <marker>opatrzyć osobistym</marker> godłem.</example>
     </rule>
     <rule id="POSTULOWAC_O" name="„postulować o co” (postulować co)">

@@ -7,12 +7,12 @@ title="Easy editing stylesheet" ?>
 <!--
 A demo rule file for LanguageTool
 Copyright (C) 2005 Daniel Naber (http://www.danielnaber.de)
-$Id: grammar.xml,v 1.7 2007-05-19 17:32:03 milek_pl Exp $
+$Id: grammar.xml,v 1.8 2007-09-07 19:48:16 milek_pl Exp $
 -->
 
 <rules lang="xx">
 
-<!-- devising phrase syntax, not for production yet -->
+<!-- tests for phrase syntax -->
 <phrases>
 	<phrase id="NP">
 		<token>trivial</token>
@@ -127,17 +127,30 @@ $Id: grammar.xml,v 1.7 2007-05-19 17:32:03 milek_pl Exp $
 		<pattern>
 			<phraseref idref="TEST_INCLUDE"/>			
 		</pattern>
-		<message>Matched: <match no="1"/><match no="2"/></message>
+		<message>Matched: <suggestion>test <match no="1"/>trala</suggestion></message>
 		<example type="correct">Any string.</example>
 		<example type="incorrect">Some words, <marker>beginning first go last end</marker></example>
 		</rule>
-			
+		
+		<rule id="test_include_and_skip" name="test two includeblocks">
+		<pattern>		
+			<token skip="2">any</token>
+			<phraseref idref="TEST_INCLUDE"/>
+			<token>word</token>
+		</pattern>
+		<message>Matched: <suggestion><match no="1"/> test</suggestion></message>
+		<example type="correct">Any string.</example>
+		<example type="incorrect">Some words, <marker>any word beginning first go last end word</marker></example>
+		</rule>
+		
+		<!--  why should this work this way? two phraserefs generate a logical
+		disjunction for some obscure reason! -->
 		<rule id="test_two_phrases" name="test two phrases">
 		<pattern>
 			<phraseref idref="COMPLEX_MULTIPLE"/>
 			<phraseref idref="SINGLE_TOKEN"/>
 		</pattern>
-		<message>Matched: <match no="1"/><match no="2"/></message>
+		<message>Matched: <match no="1"/></message>
 		<example type="correct">Any string.</example>
 		<example type="incorrect">First words and <marker>first go last</marker></example>
 		</rule>  
