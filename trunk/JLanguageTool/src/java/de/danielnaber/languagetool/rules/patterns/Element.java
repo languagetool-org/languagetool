@@ -179,7 +179,7 @@ public class Element {
   public final boolean checkAndGroup(final boolean previousValue) {
     if (andGroupSet) {
       boolean allConditionsMatch = true;
-      for (boolean testValue : andGroupCheck) {
+      for (final boolean testValue : andGroupCheck) {
         allConditionsMatch &= testValue;
       }
       return allConditionsMatch;
