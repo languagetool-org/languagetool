@@ -409,7 +409,7 @@ public class PatternRule extends Rule {
    * @return int Index translated into XML element no.
    */
   private int translateElementNo(final int i) {
-    if (!useList | i < 0) {
+    if (!useList || i < 0) {
       return i;
     }
     int j = 0;    

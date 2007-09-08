@@ -54,7 +54,7 @@ public class PolishSynthesizer implements Synthesizer {
 
   private ArrayList<String> possibleTags = null;
   
-  public String[] synthesize(AnalyzedToken token, String posTag) throws IOException {
+  public String[] synthesize(final AnalyzedToken token, final String posTag) throws IOException {
     if (posTag == null) {
       return null;
     }
@@ -77,7 +77,7 @@ public class PolishSynthesizer implements Synthesizer {
     if (isNegated) {
       wordForms = synthesizer.stem(token.getLemma() + "|" + posTag.replaceFirst(NEGATION_TAG, POTENTIAL_NEGATION_TAG));
       if (wordForms != null) {
-        String[] negForms = wordForms;
+        final String[] negForms = wordForms;
         for (int i = 0; i < wordForms.length; i++) {
           negForms[i] = "nie" + wordForms[i];
         }
@@ -90,7 +90,7 @@ public class PolishSynthesizer implements Synthesizer {
     }
   }
 
-  public String[] synthesize(AnalyzedToken token, String posTag, boolean posTagRegExp)
+  public String[] synthesize(final AnalyzedToken token, String posTag, final boolean posTagRegExp)
       throws IOException {
     if (posTag == null) {
       return null;
@@ -104,7 +104,7 @@ public class PolishSynthesizer implements Synthesizer {
         new Lametyzator(this.getClass().getResourceAsStream(RESOURCE_FILENAME),
           "iso8859-2", '+');
     }        
-    ArrayList<String> results = new ArrayList<String>();
+    final ArrayList<String> results = new ArrayList<String>();
     
     boolean isNegated = false;
     if (token.getPOSTag() != null) {
@@ -120,14 +120,14 @@ public class PolishSynthesizer implements Synthesizer {
     
     final Pattern p = Pattern.compile(posTag.replace('+', '|'));    
         
-    for (String tag : possibleTags) {
+    for (final String tag : possibleTags) {
       final Matcher m = p.matcher(tag);
         if (m.matches()) {
           String[] wordForms = null;          
           if (isNegated) {
             wordForms = synthesizer.stem(token.getLemma() + "|" + tag.replaceAll(NEGATION_TAG, POTENTIAL_NEGATION_TAG));
             if (wordForms != null) {
-              String[] negForms = wordForms;
+              final String[] negForms = wordForms;
               for (int i = 0; i < wordForms.length; i++) {
                 negForms[i] = "nie" + wordForms[i];
               }
@@ -141,14 +141,14 @@ public class PolishSynthesizer implements Synthesizer {
           }
       }
     }
-       return (String[]) results.toArray(new String[results.size()]);    
+       return results.toArray(new String[results.size()]);    
     } else {
       return synthesize(token, posTag);
     }    
   }
 
-  private ArrayList<String> loadWords(InputStream file) throws IOException {
-    ArrayList<String> set = new ArrayList<String>();
+  private ArrayList<String> loadWords(final InputStream file) throws IOException {
+    final ArrayList<String> set = new ArrayList<String>();
     InputStreamReader isr = null;
     BufferedReader br = null;
     try {
@@ -168,8 +168,12 @@ public class PolishSynthesizer implements Synthesizer {
       }
       
     } finally {
-      if (br != null) br.close();
-      if (isr != null) isr.close();
+      if (br != null) {
+        br.close();
+      }
+      if (isr != null) {
+        isr.close();
+      }
     }
     return set;
   }

@@ -91,7 +91,7 @@ public class EnglishSynthesizer implements Synthesizer {
     }
   }
 
-  public String[] synthesize(AnalyzedToken token, String posTag, boolean posTagRegExp)
+  public String[] synthesize(final AnalyzedToken token, final String posTag, final boolean posTagRegExp)
       throws IOException {
     
     if (posTagRegExp) {
@@ -103,10 +103,10 @@ public class EnglishSynthesizer implements Synthesizer {
         new Lametyzator(this.getClass().getResourceAsStream(RESOURCE_FILENAME),
           "iso8859-1", '+');
     }    
-    Pattern p = Pattern.compile(posTag);
-    ArrayList<String> results = new ArrayList<String>();
-    for (String tag : possibleTags) {
-      Matcher m = p.matcher(tag);
+    final Pattern p = Pattern.compile(posTag);
+    final ArrayList<String> results = new ArrayList<String>();
+    for (final String tag : possibleTags) {
+      final Matcher m = p.matcher(tag);
         if (m.matches()) {
           String[] wordForms = null;
           wordForms = synthesizer.stem(token.getLemma() + "|" + tag);
@@ -115,14 +115,14 @@ public class EnglishSynthesizer implements Synthesizer {
           }
       }
     }
-       return (String[]) results.toArray(new String[results.size()]);    
+       return results.toArray(new String[results.size()]);    
     } else {
       return synthesize(token, posTag);
     }    
   }
 
-  private ArrayList<String> loadWords(InputStream file) throws IOException {
-    ArrayList<String> set = new ArrayList<String>();
+  private ArrayList<String> loadWords(final InputStream file) throws IOException {
+    final ArrayList<String> set = new ArrayList<String>();
     InputStreamReader isr = null;
     BufferedReader br = null;
     try {
@@ -142,8 +142,12 @@ public class EnglishSynthesizer implements Synthesizer {
       }
       
     } finally {
-      if (br != null) br.close();
-      if (isr != null) isr.close();
+      if (br != null) {
+        br.close();
+      }
+      if (isr != null) {
+        isr.close();
+      }
     }
     return set;
   }
