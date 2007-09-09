@@ -6,7 +6,7 @@ title="Easy editing stylesheet" ?>
 <!--
 Polish Grammar and Typo Rules for LanguageTool
 Copyright (C) 2006-2007 Marcin Miłkowski
-$Id: grammar.xml,v 1.83 2007-09-07 19:48:16 milek_pl Exp $
+$Id: grammar.xml,v 1.84 2007-09-09 11:59:45 milek_pl Exp $
 -->
 <rules lang="pl">
   <phrases>
@@ -1762,9 +1762,10 @@ bezpośrednio przed „tak”-->
   </category>
   <category name="Błędy składniowe">
     <rule id="NIE_A" name="„nie..., a...” (nie..., lecz)">
-      <pattern mark_from="1">
-        <token skip="5">nie</token>
+      <pattern mark_from="1" mark_to="-1">
+        <token skip="5"><exception scope="next">między</exception>nie</token>
         <token>a</token>
+        <token negate="yes" regexp="yes">priori|posteriori</token>
       </pattern>
       <message>Po przeczeniu zaleca się użycie spójników <suggestion>ale</suggestion>, <suggestion>lecz</suggestion> lub <suggestion>tylko</suggestion>.</message>
       <example correction="ale|lecz|tylko" type="incorrect">Nie potrzeby ogółu, <marker>a</marker> potrzeby wojny są teraz najważniejsze.</example>
