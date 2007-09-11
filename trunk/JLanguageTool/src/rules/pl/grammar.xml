@@ -6,7 +6,7 @@ title="Easy editing stylesheet" ?>
 <!--
 Polish Grammar and Typo Rules for LanguageTool
 Copyright (C) 2006-2007 Marcin Miłkowski
-$Id: grammar.xml,v 1.84 2007-09-09 11:59:45 milek_pl Exp $
+$Id: grammar.xml,v 1.85 2007-09-11 22:18:39 milek_pl Exp $
 -->
 <rules lang="pl">
   <phrases>
@@ -1651,7 +1651,7 @@ bezpośrednio przed „tak”-->
           <token inflected="yes" regexp="yes">że|iż|aby|iżby|by|żeby</token>
         </pattern>
         <message>Przymiotnik powinien być w mianowniku: 
-			<suggestion><match no="2" postag="(adj|ppas):sg:nom.acc.voc:n.*" postag_regexp="yes"/></suggestion> 
+			<suggestion><match no="2" postag="(adj|ppas):sg:.*" postag_regexp="yes" postag_replace="$1:sg:nom.acc.voc:n.*"/></suggestion> 
 			(domyślnym podmiotem jest „to”).</message>
         <example correction="dobre" type="incorrect">Bez wątpienia <marker>dobrym</marker> jest, żeby szkoły były umundurowane.</example>
         <example correction="Pożądane" type="incorrect"><marker>Pożądanym</marker> jest, aby szkoły były umundurowane.</example>
@@ -2282,11 +2282,11 @@ bezpośrednio przed „tak”-->
           <token postag="(adj|subst|ppas|pact):.*:(nom|acc|nom\.acc\.voc|nom\.acc|acc\.inst|inst).*" postag_regexp="yes"><exception postag=".*gen.*|conj|adv.*|prep.*" postag_regexp="yes"/></token>
         </pattern>
         <message>Czasownik „<match no="1" postag="verb:inf.*" postag_regexp="yes"/>” łączy
-			się z dopełniaczem: <suggestion><match no="2" postag=".*gen.*" postag_regexp="yes"/></suggestion>.</message>
+			się z dopełniaczem: <suggestion><match no="2" postag="(adj|subst|ppas|pact):(sg|pl):.*gen.*" postag_replace="$1:$2.*gen.*" postag_regexp="yes"/></suggestion>.</message>
         <example type="correct">Używam starego żelazka.</example>
-        <example correction="starego|starej|starych|starów" type="incorrect">Używam <marker>stare</marker> żelazko.</example>
+        <example correction="starego|starej|starych" type="incorrect">Używam <marker>stare</marker> żelazko.</example>
         <example correction="żelazek|żelazka" type="incorrect">Używam <marker>żelazko</marker>.</example>
-        <example correction="słowa" type="incorrect">Pan poseł używa <marker>słowo</marker> „zlecenie”.</example>
+        <example correction="słowa|słów" type="incorrect">Pan poseł używa <marker>słowo</marker> „zlecenie”.</example>
         <example correction="młotka|młotków" type="incorrect">Używam <marker>młotek</marker>.</example>
         <example type="correct">To żelazko jest używane przez królową angielską.</example>
         <example type="correct">To żelazko było używane jak dawniej.</example>
@@ -2485,7 +2485,7 @@ bezpośrednio przed „tak”-->
           <token inflected="yes" regexp="yes" skip="2"><exception scope="next">się</exception>ubierać|ubrać</token>
           <token regexp="yes">futro|golf|sukienkę|kapelusz|płaszcz|sukienkę|garnitur|buty</token>
         </pattern>
-        <message>Prawdopodobnie użyto błędnego czasownika. Powinno być: <suggestion><match no="1" postag="verb.*">włożyć</match> <match no="2" postag_replace=""/></suggestion>.</message>
+        <message>Prawdopodobnie użyto błędnego czasownika. Powinno być: <suggestion><match no="1" postag="verb(.*):(im)?perf" postag_replace="verb$1:perf">włożyć</match> <match no="2"/></suggestion>.</message>
         <example correction="włożył golf" type="incorrect">Przemysław znowu <marker>ubrał golf</marker>.</example>
         <example type="correct">Przemysław znowu ubrał się w golf.</example>
       </rule>
@@ -2521,10 +2521,10 @@ bezpośrednio przed „tak”-->
     </rule>
     <rule id="POTRAFIACY" name="„potrafiący” (umiejący)">
       <pattern>
-        <token inflected="yes">potrafiący</token>
+        <token inflected="yes" postag_regexp="yes" postag="pact.*">potrafić</token>
       </pattern>
       <message>Czasownik „potrafić” nie ma imiesłowu czynnego. Poprawnie:
-			<suggestion><match no="1" postag="adj.*">umiejący</match></suggestion>.</message>
+			<suggestion><match no="1" postag="pact.*">umieć</match></suggestion>.</message>
       <example correction="umiejący" type="incorrect">Skuteczny obserwator <marker>potrafiący</marker> wyciągać wnioski.</example>
       <example type="correct">Skuteczny obserwator umiejący wyciągać wnioski.</example>
     </rule>
@@ -2549,7 +2549,7 @@ bezpośrednio przed „tak”-->
         </pattern>
         <message>Wyrażenie niepoprawne. Poprawnie: <suggestion><match no="1" postag="(verb)(:fin)?(.*):(\?perf|perf|imperf)" postag_replace="$1$2$3:$4|$1:fin$3:imperf">mieć</match></suggestion>, 
 			<suggestion><match no="1" postag="(verb)(.*):(\?perf|perf|imperf)" postag_replace="$1$2:$3|$1$2:\?perf">posiadać</match></suggestion>.</message>
-        <example correction="(mieć)|posiadam" type="incorrect">Nie <marker>jestem w posiadaniu</marker> tego obrazu.</example>
+        <example correction="mam|posiadam" type="incorrect">Nie <marker>jestem w posiadaniu</marker> tego obrazu.</example>
         <example type="correct">Nie mam tego obrazu.</example>
       </rule>
       <rule>
@@ -2940,7 +2940,7 @@ bezpośrednio przed „tak”-->
         <token inflected="yes" regexp="yes">grać|grywać</token>
         <token>mecz</token>
       </pattern>
-      <message>Użyto niewłaściwego czasownika. Powinno być: <suggestion><match no="1" postag="verb.*">rozegrać</match></suggestion> lub <suggestion><match no="1" postag="verb.*">rozgrywać</match></suggestion>.</message>
+      <message>Użyto niewłaściwego czasownika. Powinno być: <suggestion><match no="1" postag="(verb.*):(im)?perf" postag_replace="$1:perf">rozegrać</match></suggestion> lub <suggestion><match no="1" postag="(verb.*):(im)?perf" postag_replace="$1:imperf">rozgrywać</match></suggestion>.</message>
       <example correction="rozegrała|rozgrywała" type="incorrect">Wisła <marker>grała</marker> mecz w czwartek.</example>
       <example type="correct">Wisła <marker>rozegrała</marker>  mecz w czwartek.</example>
     </rule>
@@ -3031,7 +3031,7 @@ bezpośrednio przed „tak”-->
         <token inflected="yes" regexp="yes" skip="3">przedkładać|przedłożyć</token>
         <token>wniosek</token>
       </pattern>
-      <message>Prawdopodobnie użyto niewłaściwego czasownika. Powinno być: <suggestion><match no="1" postag="verb.*">przedstawić</match></suggestion>, <suggestion><match no="1" postag="verb.*">zgłaszać</match></suggestion>, <suggestion><match no="1" postag="verb.*">wysuwać</match></suggestion>.</message>
+      <message>Prawdopodobnie użyto niewłaściwego czasownika. Powinno być: <suggestion><match no="1" postag="(verb.*):(im)?perf" postag_replace="$1:perf">przedstawić</match></suggestion>, <suggestion><match no="1" postag="(verb.*):(im)?perf" postag_replace="$1:imperf">zgłaszać</match></suggestion>, <suggestion><match no="1" postag="(verb.*):(im)?perf" postag_replace="$1:imperf">wysuwać</match></suggestion>.</message>
       <example correction="przedstawią|zgłaszają|wysuwają" type="incorrect">Organizacje producentów <marker>przedkładają</marker> tylko jeden wniosek o przyznanie pomocy w ciągu roku.</example>
       <example type="correct">Organizacje producentów mogą <marker>zgłaszać</marker> tylko jeden wniosek o przyznanie pomocy w ciągu roku.</example>
     </rule>
@@ -3049,7 +3049,7 @@ bezpośrednio przed „tak”-->
         <token inflected="yes" regexp="yes" skip="2">wyrządzić|wyrządzać</token>
         <token regexp="yes">stratę|straty</token>
       </pattern>
-      <message>Prawdopodobnie użyto niewłaściwego czasownika. Powinno być: <suggestion><match no="1" postag="verb.*">spowodować</match></suggestion> lub <suggestion><match no="1" postag="verb.*">powodować</match></suggestion>.</message>
+      <message>Prawdopodobnie użyto niewłaściwego czasownika. Powinno być: <suggestion><match no="1" postag="(verb.*):(im)?perf" postag_replace="$1:perf">spowodować</match></suggestion> lub <suggestion><match no="1" postag="(verb.*):(im)?perf" postag_replace="$1:imperf">powodować</match></suggestion>.</message>
       <example correction="Spowodował|Powodował" type="incorrect"><marker>Wyrządził</marker> straty na około 300 złotych.</example>
       <example type="correct"><marker>Spowodował</marker> straty na około 300 złotych.</example>
     </rule>
@@ -3135,7 +3135,7 @@ bezpośrednio przed „tak”-->
     </rule>
     <rule id="ROZPATRZEC" name="„rozpatrzeć” (rozpatrzyć)">
       <pattern>
-        <token inflected="yes">rozpatrzeć<exception inflected="yes">rozpatrzyć</exception><exception postag="verb:inf:?perf"/></token>
+        <token inflected="yes">rozpatrzeć<exception inflected="yes">rozpatrzyć</exception><exception postag="verb:inf:perf"/></token>
       </pattern>
       <message>Ten czasownik może być używany tylko w bezokoliczniku. W pozostałych wypadkach należy użyć czasownika <suggestion><match no="1" postag="verb.*">rozpatrzyć</match></suggestion>.</message>
       <example type="correct">Ludwik rozpatrzył tę sprawę.</example>
@@ -3203,7 +3203,7 @@ bezpośrednio przed „tak”-->
         <token>w</token>
         <token>obieg</token>
       </pattern>
-      <message>Mówi się „<suggestion><match no="1" postag="verb.*">puszczać</match></suggestion> w obieg”, „<suggestion><match no="1" postag="verb.*">puścić</match></suggestion> w obieg”, a nie „wprowadzać w obieg”.</message>
+      <message>Mówi się „<suggestion><match no="1" postag="(verb.*):(im)?perf" postag_replace="$1:imperf">puszczać</match></suggestion> w obieg”, „<suggestion><match no="1" postag="(verb.*):(im)?perf" postag_replace="$1:perf">puścić</match></suggestion> w obieg”, a nie „wprowadzać w obieg”.</message>
       <example type="correct">Mafia puściła w obieg sfałszowane dolary.</example>
       <example correction="puszczała|puściła" type="incorrect">Mafia <marker>wprowadziła</marker> niebawem w obieg sfałszowane dolary.</example>
     </rule>
@@ -3476,8 +3476,8 @@ bezpośrednio przed „tak”-->
         <token regexp="yes">z|ze</token>
         <token postag=".*inst.*" postag_regexp="yes"/>
       </pattern>
-      <message>Prawdopodobnie niepoprawny przyimek. Powinno być <suggestion><match no="1"/> do <match no="3" postag=".*gen.*" postag_regexp="yes"/></suggestion>.</message>
-      <example correction="analogiczny do nadużycia|analogiczny do nadużyć" type="incorrect">Dla profesora stan wojenny był <marker>analogiczny z nadużyciem</marker> władzy i tragiczną branką młodzieży.</example>
+      <message>Prawdopodobnie niepoprawny przyimek. Powinno być <suggestion><match no="1"/> do <match no="3" postag="(.*):(sg|pl):.*" postag_replace="$1:$2.*gen.*" postag_regexp="yes"/></suggestion>.</message>   
+      <example correction="analogiczny do nadużycia" type="incorrect">Dla profesora stan wojenny był <marker>analogiczny z nadużyciem</marker> władzy i tragiczną branką młodzieży.</example>
       <example type="correct">Dla profesora stan wojenny był <marker>analogiczny do nadużycia</marker> władzy i tragiczną branką młodzieży.</example>
     </rule>
     <rule id="PRZEZNACZAC_CZAS" name="„przeznaczać czas dla” (na)">
@@ -4483,12 +4483,12 @@ bezpośrednio przed „tak”-->
     </rule>
     <rule id="WIADACY" name="„wiodący” (przodujący)">
       <pattern mark_to="-1">
-        <token inflected="yes">wiodący</token>
+        <token inflected="yes" postag_regexp="yes" postag="pact.*">wieść</token>
         <token><exception>do</exception></token>
       </pattern>
       <message>Ten rusycyzm jest błędnie używany po polsku w znaczeniu:
-			<suggestion><match no="1" postag="adj.*">przodujący</match></suggestion>, <suggestion><match no="1" postag="adj.*">główny</match></suggestion>, <suggestion><match no="1" postag="adj.*">przewodni</match></suggestion>, 
-			<suggestion><match no="1" postag="adj.*">zasadniczy</match></suggestion>, <suggestion><match no="1" postag="(adj.*):pos.*" postag_regexp="yes" postag_replace="$1:sup">najlepszy</match></suggestion>.</message>
+			<suggestion><match no="1" postag="pact.*">przodować</match></suggestion>, <suggestion><match no="1" postag="pact(.*):aff" postag_replace="adj$1:pos:aff">główny</match></suggestion>, <suggestion><match no="1" postag="pact(.*):aff" postag_replace="adj$1:pos:aff">przewodni</match></suggestion>, 
+			<suggestion><match no="1" postag="pact(.*):aff" postag_replace="adj$1:pos:aff">zasadniczy</match></suggestion>, <suggestion><match no="1" postag="pact(.*):aff" postag_replace="adj$1:sup">najlepszy</match></suggestion>.</message>
       <example type="correct">Tematem przewodnim tej książki jest mądrość premiera.</example>
       <example correction="przodującym|głównym|przewodnim|zasadniczym|najlepszym" type="incorrect">Tematem <marker>wiodącym</marker> tej książki jest mądrość premiera.</example>
     </rule>
@@ -6767,7 +6767,7 @@ bezpośrednio przed „tak”-->
         <pattern mark_to="-1">
           <token>nad</token>
           <token>zwyczaj</token>
-          <token postag="adv.*|adj.*" postag_regexp="yes"/>
+          <token postag="adv.*|adj.*|ppas.*|pact.*" postag_regexp="yes"/>
         </pattern>
         <message>Prawdopodobna literówka. Powinno być <suggestion>nadzwyczaj</suggestion> (=niezwykle).</message>
         <example type="correct">Ku zaskoczeniu wszystkich działało to nadzwyczaj dobrze.</example>
@@ -6775,7 +6775,7 @@ bezpośrednio przed „tak”-->
       </rule>
       <rule>
         <pattern mark_from="1" mark_to="-1">
-          <token postag="adv.*|adj.*" postag_regexp="yes"/>
+          <token postag="adv.*|adj.*|ppas.*|pact.*" postag_regexp="yes"/>
           <token>nad</token>
           <token>zwyczaj</token>
           <token negate_pos="yes" postag="adv.*|adj.*" postag_regexp="yes"/>
