@@ -65,6 +65,7 @@ TODO:
  	inside <token>
  	-create XML definitions of unification rules based on
  	POS regular expression transformations
+ -add scope="previous" to exception element
  -create abstract SentenceRule and TextRule classes to get rid of reset() method?
  -check if there's a nice design that lets us extend PatternRule and PatternRuleLoader
   to make them more powerful, but without having all features in these classes
