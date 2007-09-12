@@ -60,7 +60,11 @@ TODO:
  -add more rules, especially agreement stuff 
  -add a simple sentence/word complexity test like that: http://www.ooomacros.org/user.php#111318 
  -German rule: Vergleichs vs Vergleiches etc -> only one variant per document should be used
- -check if and how unification can be added to the XML rules
+ -add unification to the XML rules in two steps:
+ 	-add possibility to refer to matched tokens' POS in <match>
+ 	inside <token>
+ 	-create XML definitions of unification rules based on
+ 	POS regular expression transformations
  -create abstract SentenceRule and TextRule classes to get rid of reset() method?
  -check if there's a nice design that lets us extend PatternRule and PatternRuleLoader
   to make them more powerful, but without having all features in these classes
