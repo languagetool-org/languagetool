@@ -21,7 +21,7 @@ public class PolishSynthesizerTest extends TestCase {
     assertEquals("[miała]", Arrays.toString(synth.synthesize(dummyToken("mieć"), "verb:praet:sg:ter:f:perf")));    
     assertEquals("[brzydziej]", Arrays.toString(synth.synthesize(dummyToken("brzydko"), "adv:comp")));
     //with regular expressions
-    assertEquals("[tonera]", Arrays.toString(synth.synthesize(dummyToken("toner"), ".*sg:gen.*", true)));
+    assertEquals("[tonera]", Arrays.toString(synth.synthesize(dummyToken("toner"), ".*sg.*[\\.:]gen.*", true)));
     assertEquals("[niedużego, niedużemu, niedużym, nieduży, nieduży]", Arrays.toString(synth.synthesize(dummyToken("duży"), "adj:sg.*(m[0-9]?|m.n):pos:neg", true)));    
     assertEquals("[miałabym, miałbym, miałabyś, miałbyś, miałaby, miałby, miałoby, miałam, miałem, miałaś, miałeś, miała, miał, miało]", 
           Arrays.toString(synth.synthesize(dummyToken("mieć"), ".*praet:sg.*", true)));
