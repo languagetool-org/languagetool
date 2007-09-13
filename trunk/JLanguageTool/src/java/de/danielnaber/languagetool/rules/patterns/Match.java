@@ -150,21 +150,8 @@ public class Match {
         formattedString[0] 
                         = pRegexMatch.matcher(formattedString[0]).
                         replaceAll(regexReplace);
-      }        
-      switch (caseConversionType) {
-        case NONE : formattedString[0] = formattedString[0]; break;
-        case STARTLOWER : formattedString[0] = formattedString[0].
-        substring(0, 1).toLowerCase() 
-        + formattedToken.getToken().substring(1); break;
-        case STARTUPPER : formattedString[0] = formattedString[0].
-        substring(0, 1).toUpperCase() 
-        + formattedToken.getToken().substring(1); break;
-        case ALLUPPER : formattedString[0] = formattedString[0].
-        toUpperCase(); break;
-        case ALLLOWER : formattedString[0] = formattedString[0].
-        toLowerCase(); break;
-        default : formattedString[0] = formattedString[0]; break;
-      }         
+      }
+      formattedString[0] = convertCase(formattedString[0]);               
       if (posTag != null) {              
         if (synthesizer == null) {
           formattedString[0] = formattedToken.getToken();
@@ -300,6 +287,27 @@ public class Match {
     return tokenRef;
   }
 
+  /**
+   * Converts case of the string token according to
+   * match element attributes.
+   * @param s @String Token to be converted. 
+   * @return @String Converted string.
+   */
+  private String convertCase(final String s) {
+    String token = s;
+    switch (caseConversionType) {
+      case NONE : break;
+      case STARTLOWER : token = token.substring(0, 1).toLowerCase() 
+      + formattedToken.getToken().substring(1); break;
+      case STARTUPPER : token = token.substring(0, 1).toUpperCase() 
+      + formattedToken.getToken().substring(1); break;
+      case ALLUPPER : token = token.toUpperCase(); break;
+      case ALLLOWER : token = token.toLowerCase(); break;
+      default : break;
+    }
+    return token;
+  }
+  
   public final AnalyzedTokenReadings filterReadings(
       final AnalyzedTokenReadings tokenToFilter) {    
     final ArrayList <AnalyzedToken> l = new ArrayList <AnalyzedToken>();
@@ -308,16 +316,7 @@ public class Match {
       if (pRegexMatch != null) {          
         token = pRegexMatch.matcher(token).replaceAll(regexReplace);
       }        
-      switch (caseConversionType) {
-        case NONE : break;
-        case STARTLOWER : token = token.substring(0, 1).toLowerCase() 
-        + formattedToken.getToken().substring(1); break;
-        case STARTUPPER : token = token.substring(0, 1).toUpperCase() 
-        + formattedToken.getToken().substring(1); break;
-        case ALLUPPER : token = token.toUpperCase(); break;
-        case ALLLOWER : token = token.toLowerCase(); break;
-        default : break;
-      }                   
+      token = convertCase(token);
       if (posTag != null) {
         final int numRead = formattedToken.getReadingsLength();      
         if (postagRegexp) {            
