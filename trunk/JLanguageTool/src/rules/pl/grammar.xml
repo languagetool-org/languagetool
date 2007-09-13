@@ -6,7 +6,7 @@ title="Easy editing stylesheet" ?>
 <!--
 Polish Grammar and Typo Rules for LanguageTool
 Copyright (C) 2006-2007 Marcin Miłkowski
-$Id: grammar.xml,v 1.86 2007-09-12 23:11:31 milek_pl Exp $
+$Id: grammar.xml,v 1.87 2007-09-13 18:37:34 milek_pl Exp $
 -->
 <rules lang="pl">
   <phrases>
@@ -1763,7 +1763,7 @@ bezpośrednio przed „tak”-->
   <category name="Błędy składniowe">
     <rule id="NIE_A" name="„nie..., a...” (nie..., lecz)">
       <pattern mark_from="1" mark_to="-1">
-        <token skip="5"><exception scope="next">między</exception>nie</token>
+        <token skip="5"><exception scope="next" regexp="yes">między|;</exception>nie</token>
         <token>a</token>
         <token><exception regexp="yes">priori|posteriori|tym|i|im|to|po|przy|z|może|de|w</exception></token>
       </pattern>
@@ -1822,7 +1822,7 @@ bezpośrednio przed „tak”-->
       <rule>
         <pattern mark_to="-1">
           <token postag="SENT_START"/>
-          <token skip="-1">ci<exception postag="verb:.*pl.*" postag_regexp="yes" scope="next"/></token>
+          <token skip="-1">ci<exception postag="verb:.*pl.*" postag_regexp="yes" scope="next"/><exception postag_regexp="yes" postag="adj:pl.*" regexp="yes" inflected="yes" scope="next">który|jaki</exception></token>
           <token postag="verb:.*sg.*" postag_regexp="yes"/>
         </pattern>
         <message>Na początku zdania należy użyć dłuższej formy zaimka: <suggestion>Tobie</suggestion>.</message>
