@@ -42,9 +42,9 @@ Known bugs:
     about text which is actually correct
    
 TODO:
+ -finish "Add language..." work
  -Add an attribute to the DTD so rules can be disabled by default
  -Add the possibility to disable complete rule groups in the GUI
- -RMB menu for system tray
  -put licenses in extra subdir
  -check if some rules from xml-copy-editor.sourceforge.net are useful for us
   (see its source in the xmlcopyeditor-1.0.9.5/src/rulesets directory)
