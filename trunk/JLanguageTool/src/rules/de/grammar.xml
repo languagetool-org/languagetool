@@ -8,10 +8,36 @@ title="Easy editing stylesheet" ?>
 German grammar and typo rules for LanguageTool
 See resource/de/tagset.txt for the meaning of the POS tags
 Copyright (C) 2001-2007 Daniel Naber (http://www.danielnaber.de)
-$Id: grammar.xml,v 1.9 2007-08-10 21:46:01 dnaber Exp $
+$Id: grammar.xml,v 1.10 2007-09-15 19:00:33 dnaber Exp $
 -->
 <rules lang="de">
   <category name="Mögliche Tippfehler">
+    <rulegroup id="MUEHLHEIM_A_D_RUHR" name="Tippfehler: Mühlheim(Mülheim) an der Ruhr">
+      <rule>
+        <pattern>
+          <token>Mühlheim</token>
+          <token>an</token>
+          <token>der</token>
+          <token>Ruhr</token>
+        </pattern>
+        <message>Meinten Sie <suggestion>Mülheim an der Ruhr</suggestion> (Mülheim ohne "h")?</message>
+        <example type="correct"><marker>Mülheim an der Ruhr</marker> ist eine kreisfreie Stadt im westlichen Ruhrgebiet.</example>
+        <example type="incorrect"><marker>Mühlheim an der Ruhr</marker> ist eine kreisfreie Stadt im westlichen Ruhrgebiet.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>Mühlheim</token>
+          <token>a</token>
+          <token>.</token>
+          <token>d</token>
+          <token>.</token>
+          <token>Ruhr</token>
+        </pattern>
+        <message>Meinten Sie <suggestion>Mülheim a. d. Ruhr</suggestion> (Mülheim ohne "h")?</message>
+        <example type="correct"><marker>Mülheim a. d. Ruhr</marker> ist eine kreisfreie Stadt im westlichen Ruhrgebiet.</example>
+        <example type="incorrect"><marker>Mühlheim a. d. Ruhr</marker> ist eine kreisfreie Stadt im westlichen Ruhrgebiet.</example>
+      </rule>
+    </rulegroup>
     <rulegroup id="MEISTENS_IMMER" name="Verdoppelung: 'meistens immer'">
       <rule>
         <pattern>
