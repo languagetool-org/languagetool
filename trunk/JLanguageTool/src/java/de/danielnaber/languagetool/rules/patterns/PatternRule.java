@@ -280,17 +280,17 @@ public class PatternRule extends Rule {
             
             if (l + 1 == numberOfReadings && elem.hasAndGroup()) {
               thisMatched &= elem.checkAndGroup(thisMatched);
-            }
+            }                
             exceptionMatched |= (elem.exceptionMatch(matchToken) 
                   || elem.andGroupExceptionMatch(matchToken));
-            if (elem.hasPreviousException() && m > 0) {
+            if (!exceptionMatched && elem.hasPreviousException() && m > 0) {
               final int numReadings = tokens[m - 1].getReadingsLength();
               for (int p = 0; p < numReadings; p++) {
                 final AnalyzedToken matchExceptionToken = tokens[m - 1].getAnalyzedToken(p);
               exceptionMatched |= elem.scopePreviousExceptionMatch(matchExceptionToken);
             }
             }
-              
+            
             // Logical OR (cannot be AND):
             if (!(thisMatched || exceptionMatched)) {
               matched |= false;
