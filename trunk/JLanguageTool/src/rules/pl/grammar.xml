@@ -6,7 +6,7 @@ title="Easy editing stylesheet" ?>
 <!--
 Polish Grammar and Typo Rules for LanguageTool
 Copyright (C) 2006-2007 Marcin Miłkowski
-$Id: grammar.xml,v 1.88 2007-09-16 18:41:41 milek_pl Exp $
+$Id: grammar.xml,v 1.89 2007-09-16 19:45:11 milek_pl Exp $
 -->
 <rules lang="pl">
   <phrases>
@@ -1760,7 +1760,7 @@ $Id: grammar.xml,v 1.88 2007-09-16 18:41:41 milek_pl Exp $
   <category name="Błędy składniowe">
     <rule id="NIE_A" name="„nie..., a...” (nie..., lecz)">
       <pattern mark_from="1" mark_to="-1">
-        <token skip="5"><exception scope="next" regexp="yes">między|;</exception>nie</token>
+        <token skip="5"><exception regexp="yes" scope="next">między|;</exception>nie</token>
         <token>a</token>
         <token><exception regexp="yes">priori|posteriori|tym|i|im|to|po|przy|z|może|de|w</exception></token>
       </pattern>
@@ -1819,7 +1819,7 @@ $Id: grammar.xml,v 1.88 2007-09-16 18:41:41 milek_pl Exp $
       <rule>
         <pattern mark_to="-1">
           <token postag="SENT_START"/>
-          <token skip="-1">ci<exception postag="verb:.*pl.*" postag_regexp="yes" scope="next"/><exception postag_regexp="yes" postag="adj:pl.*" regexp="yes" inflected="yes" scope="next">który|jaki</exception></token>
+          <token skip="-1">ci<exception postag="verb:.*pl.*" postag_regexp="yes" scope="next"/><exception inflected="yes" postag="adj:pl.*" postag_regexp="yes" regexp="yes" scope="next">który|jaki</exception></token>
           <token postag="verb:.*sg.*" postag_regexp="yes"/>
         </pattern>
         <message>Na początku zdania należy użyć dłuższej formy zaimka: <suggestion>Tobie</suggestion>.</message>
@@ -5250,13 +5250,12 @@ $Id: grammar.xml,v 1.88 2007-09-16 18:41:41 milek_pl Exp $
     <!-- błąd ortograficzny - pisownia łączna rzeczowników z "nie" -->
     <rulegroup id="NIE_RZECZOWNIK" name="Rozłączna pisownia „nie” z rzeczownikami i przymiotnikami">
       <rule>
-        <pattern case_sensitive="no" mark_from="1" mark_to="-1">
-          <token negate="yes" regexp="yes">bynajmniej|przez|na|ale|lecz|a|raczej|wcale|jak|jeśli|gdyby|choć|chociaż</token>
-          <token>nie</token>
+        <pattern case_sensitive="no" mark_from="0" mark_to="-1">
+          <token>nie<exception regexp="yes" scope="previous">bynajmniej|przez|na|ale|lecz|a|raczej|wcale|jak|jeśli|gdyby|choć|chociaż</exception></token>
           <token postag=".*:aff|subst:ger.*" postag_regexp="yes"><exception postag="verb.*|pred" postag_regexp="yes"/></token>
           <token postag="SENT_END"><exception>,</exception></token>
         </pattern>
-        <message>„Nie” z rzeczownikami, przysłówkami i przymiotnikami piszemy łącznie, czyli poprawnie będzie <suggestion>nie\3</suggestion>.</message>
+        <message>„Nie” z rzeczownikami, przysłówkami i przymiotnikami piszemy łącznie, czyli poprawnie będzie <suggestion>nie\2</suggestion>.</message>
         <example type="correct">Prosimy o niepalenie.</example>
         <example type="correct">Tu nie można palić.</example>
         <example type="correct">To jest Marysia, a nie Hania.</example>
@@ -5271,14 +5270,13 @@ $Id: grammar.xml,v 1.88 2007-09-16 18:41:41 milek_pl Exp $
         <example correction="niepalenie" type="incorrect">Prosimy o <marker>nie palenie</marker>.</example>
       </rule>
       <rule>
-        <pattern case_sensitive="no" mark_from="1" mark_to="-2">
-          <token negate="yes" regexp="yes">bynajmniej|przez|na|ale|lecz|a|raczej|wcale|jak|jeśli|gdyby|choć|chociaż</token>
-          <token>nie</token>
+        <pattern case_sensitive="no" mark_from="0" mark_to="-2">
+          <token>nie<exception regexp="yes" scope="previous">bynajmniej|przez|na|ale|lecz|a|raczej|wcale|jak|jeśli|gdyby|choć|chociaż</exception></token>
           <token postag=".*:aff|subst:ger.*" postag_regexp="yes"><exception postag="verb.*|pred" postag_regexp="yes"/></token>
           <token negate="yes">,</token>
-          <token negate="yes" regexp="yes">a|ale|lecz</token>
+          <token negate="yes" regexp="yes">a|ale|lecz|tylko</token>
         </pattern>
-        <message>„Nie” z rzeczownikami, przysłówkami i przymiotnikami piszemy łącznie, czyli poprawnie będzie <suggestion>nie\3</suggestion>.</message>
+        <message>„Nie” z rzeczownikami, przysłówkami i przymiotnikami piszemy łącznie, czyli poprawnie będzie <suggestion>nie\2</suggestion>.</message>
         <example type="correct">Prosimy o niepalenie.</example>
         <example type="correct">Tu nie można palić.</example>
         <example type="correct">To jest Marysia, a nie Hania.</example>
