@@ -44,9 +44,34 @@ public class Element {
   private boolean stringRegExp = false;
   private boolean inflected = false;
 
+  /**
+   * List of exceptions that are valid for 
+   * the current token and / or some next
+   * tokens.
+   */
   private ArrayList<Element> exceptionList;
+  
+  /**
+   * True if scope=="next".
+   */
   private boolean exceptionValidNext = true;
+  
+  /** 
+   * True if any exception with a scope=="current"
+   * or scope=="next" is set for the element.
+   */
   private boolean exceptionSet = false;
+  
+  /**
+   * True if attribute scope=="previous".
+   */
+  private boolean exceptionValidPrevious = false;
+  
+  /**
+   * List of exceptions that are valid for 
+   * a previous token.
+   */
+  private ArrayList<Element> previousExceptionList;
   
   private ArrayList<Element> andGroupList;  
   private boolean andGroupSet = false;  
@@ -88,7 +113,7 @@ public class Element {
     this.caseSensitive = caseSensitive;
     this.stringRegExp = regExp;
     this.inflected = inflected;
-    if (!stringToken.equals("") && stringRegExp) {
+    if (!"".equals(stringToken) && stringRegExp) {
       regToken = stringToken;
       if (!caseSensitive) {
         regToken = CASE_INSENSITIVE + stringToken;
@@ -97,6 +122,12 @@ public class Element {
     }
   }
 
+  /**
+   * Checks whether the rule element matches the token
+   * given as a parameter.
+   * @param token @AnalyzedToken to check matching against
+   * @return True if token matches, false otherwise.
+   */
   public final boolean match(final AnalyzedToken token) {
     // this var is used to determine
     // if calling matchStringToken
@@ -107,7 +138,7 @@ public class Element {
     if (stringToken == null) {
       testString = false;
     } else {
-    if (stringToken.equals("")) {
+    if (("").equals(stringToken)) {
       testString = false;
       }
     }
@@ -126,6 +157,11 @@ public class Element {
     return matched;
   }
   
+  /**
+   * Checks whether an exception matches.
+   * @param token @AnalyzedToken to check matching against
+   * @return True if any of the exceptions matches (logical disjunction).
+   */
   public final boolean exceptionMatch(final AnalyzedToken token) {
     boolean exceptionMatched = false;
     if (exceptionSet) {
@@ -142,7 +178,7 @@ public class Element {
   }
   
   /**
-   * Enables to test for multiple conditions specified by
+   * Enables testing multiple conditions specified by
    * different elements. Doesn't test exceptions.
    * 
    * Works as logical AND operator only if preceded
@@ -189,7 +225,7 @@ public class Element {
   }
   
   /**
-   * Enables to test for multiple conditions specified by
+   * Enables testing multiple conditions specified by
    * multiple element exceptions.
    * 
    * Works as logical AND operator.
@@ -240,7 +276,13 @@ public class Element {
     return andGroupList;
   }
   
-  public final boolean prevExceptionMatch(final AnalyzedToken token) {
+  /**
+   * Checks whether a previously set exception matches
+   * (in case the exception had scope == "next").
+   * @param token @AnalyzedToken to check matching against.
+   * @return True if any of the exceptions matches.
+   */
+  public final boolean scopeNextExceptionMatch(final AnalyzedToken token) {
     boolean exceptionMatched = false;
     if (exceptionSet) {      
       for (final Element testException : exceptionList) {
@@ -255,11 +297,37 @@ public class Element {
     return exceptionMatched;
   }
   
+  /**
+   * Checks whether an exception for a previous token matches
+   * (in case the exception had scope == "previous").
+   * @param token @AnalyzedToken to check matching against.
+   * @return True if any of the exceptions matches.
+   */
+  public final boolean previousExceptionMatch(final AnalyzedToken token) {
+    boolean exceptionMatched = false;
+    if (exceptionValidPrevious) {      
+      for (final Element testException : previousExceptionList) {
+        if (!testException.exceptionValidNext) {
+          exceptionMatched |= testException.match(token);
+        }
+        if (exceptionMatched) {
+          break;
+        }
+      }
+    }
+    return exceptionMatched;
+  }
+  
+  
+  /**
+   * Checks if the token is a SENT_START.
+   * @return True if the token starts the sentence.
+   */
   public final boolean isSentStart() {
     boolean equals = false;
     if (posToken != null) {
       // not sure if this should be logical AND
-      equals = posToken.equals(JLanguageTool.SENTENCE_START_TAGNAME) && posNegation;
+      equals = JLanguageTool.SENTENCE_START_TAGNAME.equals(posToken) && posNegation;
     }
     return equals;
   }
@@ -288,7 +356,7 @@ public class Element {
 
   public final void setStringElement(final String token) {
     this.stringToken = token;
-    if (!stringToken.equals("") && stringRegExp) {
+    if (!"".equals(stringToken) && stringRegExp) {
       regToken = stringToken;
       if (!caseSensitive) {
         regToken = CASE_INSENSITIVE + stringToken;
@@ -296,33 +364,74 @@ public class Element {
       p = Pattern.compile(regToken);
     }
   }
-  
+  /**
+   * Sets a POS-type exception for matching string tokens.
+   * @param posToken The part of the speech tag in the exception.
+   * @param regExp True if the POS is specified as a regular
+   * expression.
+   * @param negation True if the exception is negated.
+   * @param scopeNext True if the exception scope is next tokens.
+   * @param scopePrevious True if the exception should match only a single
+   * previous token.
+   */
   public final void setPosException(final String posToken, final boolean regExp,
-      final boolean negation, final boolean scope) {
-    final Element posException = new Element("", this.caseSensitive, regExp, false);
+      final boolean negation, final boolean scopeNext, final boolean scopePrevious) {
+    final Element posException = 
+        new Element("", this.caseSensitive, regExp, false);
     posException.setPosElement(posToken, regExp, negation);
-    posException.exceptionValidNext = scope;
-    if (exceptionList == null) {
+    posException.exceptionValidNext = scopeNext;
+    exceptionValidPrevious = scopePrevious;
+    if (exceptionList == null && !scopePrevious) {
       exceptionList = new ArrayList<Element>();
     }
-    if (!exceptionSet) {
+    if (previousExceptionList == null && scopePrevious) {
+      previousExceptionList = new ArrayList <Element>();
+    }
+    if (!exceptionSet && !scopePrevious) {
       exceptionSet = true;
     }
+    if (exceptionSet && !scopePrevious) {
     exceptionList.add(posException);
+    } 
+    if (scopePrevious) {
+      previousExceptionList.add(posException);
+    }
   }
 
+  /**
+   * Sets a string-type exception for matching string tokens.
+   * @param token The string in the exception.
+   * @param regExp True if the string is specified as a regular
+   * expression.
+   * @param inflected True if the string is a base form (lemma).
+   * @param negation True if the exception is negated.
+   * @param scopeNext True if the exception scope is next tokens.
+   * @param scopePrevious True if the exception should match only a single
+   * previous token.
+   */
   public final void setStringException(final String token, final boolean regExp,
-      final boolean inflected, final boolean negation, final boolean scope) {
-    final Element stringException = new Element(token, this.caseSensitive, regExp, inflected);
+      final boolean inflected, final boolean negation, final boolean scopeNext,
+      final boolean scopePrevious) {
+    final Element stringException = new Element(
+          token, this.caseSensitive, regExp, inflected);
     stringException.setNegation(negation);
-    stringException.exceptionValidNext = scope;
-    if (exceptionList == null) {
+    stringException.exceptionValidNext = scopeNext;
+    exceptionValidPrevious = scopePrevious;
+    if (exceptionList == null && !scopePrevious) {
       exceptionList = new ArrayList<Element>();
     }
-    if (!exceptionSet) {
+    if (previousExceptionList == null && scopePrevious) {
+      previousExceptionList = new ArrayList <Element>();
+    }
+    if (!exceptionSet && !scopePrevious) {
       exceptionSet = true;
     }
+    if (exceptionSet && !scopePrevious) {
     exceptionList.add(stringException);
+    } 
+    if (scopePrevious) {
+      previousExceptionList.add(stringException);
+    }
   }
 
   /**
@@ -368,6 +477,11 @@ public class Element {
     return match;
   }
 
+  /**
+   * Tests whether the string token element matches a given token.
+   * @param token @AnalyzedToken to match against.
+   * @return True if matches.
+   */
   final boolean matchStringToken(final AnalyzedToken token) {
     String testToken = null;
     // enables using words with lemmas and without lemmas
@@ -401,14 +515,32 @@ public class Element {
     return false;
   }
 
+  /**
+   * Gets the exception scope length.
+   * @return @int Scope length.
+   */
   public final int getSkipNext() {
     return skip;
   }
 
+  /**
+   * Sets the exception scope length.
+   * @param i @int Exception scope length.
+   */
   public final void setSkipNext(final int i) {
     skip = i;
   }
 
+  /**
+   * Checks if the element has an exception for a
+   * previous token.
+   * @return True if the element has a previous token 
+   * matching exception.
+   */
+  public final boolean hasPreviousException() {
+    return exceptionValidPrevious;
+  }
+  
   /**
    * Negates the meaning of match().
    * @param negation - true if the meaning of match()
@@ -443,9 +575,10 @@ public class Element {
     if ("".equals(referenceString)) {
       referenceString = stringToken;
     }
-    stringToken = referenceString.replaceAll("\\\\" + tokenReference.getTokenRef(), 
+    stringToken = referenceString.replaceAll("\\\\"  
+        + tokenReference.getTokenRef(), 
         tokenReference.toTokenString());  
-    if (!stringToken.equals("") && stringRegExp) {
+    if (!"".equals(stringToken) && stringRegExp) {
       regToken = stringToken;
       if (!caseSensitive) {
         regToken = CASE_INSENSITIVE + stringToken;

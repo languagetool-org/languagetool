@@ -117,6 +117,7 @@ class PatternRuleHandler extends XMLRuleHandler {
   private boolean exceptionPosNegation = false;
   private boolean exceptionPosRegExp = false;
   private boolean exceptionValidNext = false;
+  private boolean exceptionValidPrev = false;
   private boolean exceptionSet = false;
   
   /** true when phraseref is the last element in the rule. **/ 
@@ -236,6 +237,7 @@ class PatternRuleHandler extends XMLRuleHandler {
       }
       if (attrs.getValue("scope") != null) {
         exceptionValidNext = attrs.getValue("scope").equals("next");
+        exceptionValidPrev = attrs.getValue("scope").equals("previous");
       }
       if (attrs.getValue(INFLECTED) != null) {
         exceptionStringInflected = YES.equals(attrs.getValue(INFLECTED));
@@ -382,12 +384,14 @@ class PatternRuleHandler extends XMLRuleHandler {
         exceptionSet = true;
       }
       tokenElement.setNegation(tokenNegated);
-      if (!exceptions.toString().equals("")) {
-        tokenElement.setStringException(StringTools.trimWhitespace(exceptions.toString()), exceptionStringRegExp, 
-            exceptionStringInflected, exceptionStringNegation, exceptionValidNext);
+      if (!"".equals(exceptions.toString())) {
+        tokenElement.setStringException(StringTools.trimWhitespace(exceptions.toString()), 
+            exceptionStringRegExp, exceptionStringInflected, exceptionStringNegation, 
+            exceptionValidNext, exceptionValidPrev);
       }              
       if (exceptionPosToken != null) {
-        tokenElement.setPosException(exceptionPosToken, exceptionPosRegExp, exceptionPosNegation, exceptionValidNext);
+        tokenElement.setPosException(exceptionPosToken, exceptionPosRegExp, 
+            exceptionPosNegation, exceptionValidNext, exceptionValidPrev);
         exceptionPosToken = null;
       }
 
@@ -499,6 +503,7 @@ class PatternRuleHandler extends XMLRuleHandler {
     exceptionPosRegExp = false;
     exceptionStringRegExp = false;
     exceptionValidNext = false;
+    exceptionValidPrev = false;
     exceptionSet = false; 
     tokenReference = null;
   }

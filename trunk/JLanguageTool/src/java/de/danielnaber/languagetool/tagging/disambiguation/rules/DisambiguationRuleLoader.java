@@ -76,6 +76,7 @@ class DisambiguationRuleHandler extends XMLRuleHandler {
   private boolean exceptionPosNegation = false;
   private boolean exceptionPosRegExp = false;
   private boolean exceptionValidNext = false;
+  private boolean exceptionValidPrev = false;
   private boolean exceptionSet = false;
   
   private List<Element> elementList = null;
@@ -122,8 +123,9 @@ class DisambiguationRuleHandler extends XMLRuleHandler {
       language = Language.getLanguageForShortName(attrs.getValue("lang"));
     } else if (qName.equals("pattern")) {
       inPattern = true;
-      if (attrs.getValue("mark") != null)
+      if (attrs.getValue("mark") != null) {
         positionCorrection = Integer.parseInt(attrs.getValue("mark"));
+      }
     } else if (qName.equals("exception")) {
       inException = true;      
       exceptions = new StringBuffer();
@@ -133,6 +135,7 @@ class DisambiguationRuleHandler extends XMLRuleHandler {
       }
       if (attrs.getValue("scope") != null) {
         exceptionValidNext = attrs.getValue("scope").equals("next");
+        exceptionValidPrev = attrs.getValue("scope").equals("previous");
       }
       if (attrs.getValue("inflected") != null) {
         exceptionStringInflected = attrs.getValue("inflected").equals("yes");
@@ -250,11 +253,12 @@ class DisambiguationRuleHandler extends XMLRuleHandler {
       tokenElement.setNegation(tokenNegated);
       if (!exceptions.toString().equals("")) {
         tokenElement.setStringException(exceptions.toString(), exceptionStringRegExp, 
-            exceptionStringInflected, exceptionStringNegation, exceptionValidNext);
+            exceptionStringInflected, exceptionStringNegation, 
+            exceptionValidNext, exceptionValidPrev);
       }              
       if (exceptionPosToken != null) {
         tokenElement.setPosException(exceptionPosToken, exceptionPosRegExp, 
-            exceptionPosNegation, exceptionValidNext);
+            exceptionPosNegation, exceptionValidNext, exceptionValidPrev);
         exceptionPosToken = null;
       }
     } else if (qName.equals("and")) {

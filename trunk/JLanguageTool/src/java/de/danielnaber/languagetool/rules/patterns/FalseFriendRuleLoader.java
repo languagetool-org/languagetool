@@ -124,7 +124,8 @@ class FalseFriendRuleHandler extends XMLRuleHandler {
   private boolean exceptionStringInflected = false;
   private boolean exceptionPosNegation = false;
   private boolean exceptionPosRegExp = false;
-  private boolean exceptionValidNext = true;
+  private boolean exceptionValidNext = false;
+  private boolean exceptionValidPrev = false;
   private boolean exceptionSet = false;
   
   private List<Element> elementList = null;
@@ -188,6 +189,7 @@ class FalseFriendRuleHandler extends XMLRuleHandler {
 	    	}
             if (attrs.getValue("scope") != null) {
               exceptionValidNext = attrs.getValue("scope").equals("next");
+              exceptionValidPrev = attrs.getValue("scope").equals("previous");
             }
 	    	if (attrs.getValue("inflected") != null) {
 		 		exceptionStringInflected=attrs.getValue("inflected").equals("yes");
@@ -303,11 +305,12 @@ class FalseFriendRuleHandler extends XMLRuleHandler {
                   }
                   stringElement.setNegation(tokenNegated);
                     if (!exceptions.toString().equals("")) {
-                    stringElement.setStringException(exceptions.toString(), exceptionStringRegExp, 
-                        exceptionStringInflected, exceptionStringNegation, exceptionValidNext);
+                    stringElement.setStringException(exceptions.toString(), 
+                        exceptionStringRegExp, exceptionStringInflected, 
+                        exceptionStringNegation, exceptionValidNext, exceptionValidPrev);
                     }              
                   if (exceptionPosToken != null) {
-                    stringElement.setPosException(exceptionPosToken, exceptionPosRegExp, exceptionPosNegation, exceptionValidNext);
+                    stringElement.setPosException(exceptionPosToken, exceptionPosRegExp, exceptionPosNegation, exceptionValidNext, exceptionValidPrev);
                     exceptionPosToken = null;
                   }
 	  } else if (qName.equals("token")) {

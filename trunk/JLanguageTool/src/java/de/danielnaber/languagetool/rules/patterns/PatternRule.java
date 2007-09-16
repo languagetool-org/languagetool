@@ -245,7 +245,7 @@ public class PatternRule extends Rule {
           for (int l = 0; l < numberOfReadings; l++) {
             final AnalyzedToken matchToken = tokens[m].getAnalyzedToken(l);
             if (prevSkipNext > 0 && prevElement != null) {
-              if (prevElement.prevExceptionMatch(matchToken)) {
+              if (prevElement.scopeNextExceptionMatch(matchToken)) {
                 exceptionMatched = true;
                 prevMatched = true;
               }
@@ -276,13 +276,21 @@ public class PatternRule extends Rule {
             }
                         
             //note: do not use "||" here, we need full evaluation, no short-circuiting
-            thisMatched |= elem.match(matchToken) | elem.andGroupMatch(matchToken);
+            thisMatched |= elem.match(matchToken) | elem.andGroupMatch(matchToken);            
             
             if (l + 1 == numberOfReadings && elem.hasAndGroup()) {
               thisMatched &= elem.checkAndGroup(thisMatched);
             }
             exceptionMatched |= (elem.exceptionMatch(matchToken) 
                   || elem.andGroupExceptionMatch(matchToken));
+            if (elem.hasPreviousException() && m > nextPos) {
+              final int numReadings = tokens[m - 1].getReadingsLength();
+              for (int p = 0; p < numReadings; p++) {
+                final AnalyzedToken matchExceptionToken = tokens[m - 1].getAnalyzedToken(p);
+              exceptionMatched |= elem.previousExceptionMatch(matchExceptionToken);
+            }
+            }
+              
             // Logical OR (cannot be AND):
             if (!(thisMatched || exceptionMatched)) {
               matched |= false;
