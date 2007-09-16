@@ -166,7 +166,19 @@ etc as an error:</p>
 	only for the token the exception is specified (scope="current") or for 
 	skipped tokens (scope="next"). Default behavior is scope="current". 
 	Using scopes is useful where several different exceptions should be 
-	applied to avoid false alarms.</p>
+	applied to avoid false alarms. In some cases, it's usefule to use 
+	<tt>scope="previous"</tt> in rules that already have <tt>skip="-1"</tt>.
+	This way, you can set an exception against a single token that immediately
+	preceeds that token that is matched. For example, we want to match "jak"
+	which is not preceeded by a comma</p>:
+	
+	<? hl('<token>tak</token>
+          <token skip="-1">jak</token>
+          <token>tak<exception scope="previous">,</exception></token>'); ?>
+	
+	<p>In this case, the rule excludes all sentences, where there is a comma 
+	before "jak". Note that it's very hard to make such an exclusion otherwise.	
+	</p>
 
 	<p><strong>3. Using variables in rules</strong>
 	
