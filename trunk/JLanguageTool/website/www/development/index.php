@@ -173,8 +173,8 @@ etc as an error:</p>
 	which is not preceeded by a comma:</p>
 	
 	<? hl('<token>tak</token>
-          <token skip="-1">jak</token>
-          <token>tak<exception scope="previous">,</exception></token>'); ?>
+<token skip="-1">jak</token>
+<token>tak<exception scope="previous">,</exception></token>'); ?>
 	
 	<p>In this case, the rule excludes all sentences, where there is a comma 
 	before "jak". Note that it's very hard to make such an exclusion otherwise.	
