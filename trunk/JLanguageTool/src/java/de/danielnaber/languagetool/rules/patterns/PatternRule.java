@@ -287,7 +287,7 @@ public class PatternRule extends Rule {
               final int numReadings = tokens[m - 1].getReadingsLength();
               for (int p = 0; p < numReadings; p++) {
                 final AnalyzedToken matchExceptionToken = tokens[m - 1].getAnalyzedToken(p);
-              exceptionMatched |= elem.previousExceptionMatch(matchExceptionToken);
+              exceptionMatched |= elem.scopePreviousExceptionMatch(matchExceptionToken);
             }
             }
               

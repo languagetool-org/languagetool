@@ -303,7 +303,7 @@ public class Element {
    * @param token @AnalyzedToken to check matching against.
    * @return True if any of the exceptions matches.
    */
-  public final boolean previousExceptionMatch(final AnalyzedToken token) {
+  public final boolean scopePreviousExceptionMatch(final AnalyzedToken token) {
     boolean exceptionMatched = false;
     if (exceptionValidPrevious) {      
       for (final Element testException : previousExceptionList) {
