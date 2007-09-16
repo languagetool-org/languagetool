@@ -169,7 +169,7 @@ etc as an error:</p>
 	applied to avoid false alarms. In some cases, it's usefule to use 
 	<tt>scope="previous"</tt> in rules that already have <tt>skip="-1"</tt>.
 	This way, you can set an exception against a single token that immediately
-	preceeds that token that is matched. For example, we want to match "jak"
+	preceeds the matched token. For example, we want to match "jak"
 	which is not preceeded by a comma</p>:
 	
 	<? hl('<token>tak</token>
