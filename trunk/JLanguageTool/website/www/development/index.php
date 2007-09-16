@@ -170,7 +170,7 @@ etc as an error:</p>
 	<tt>scope="previous"</tt> in rules that already have <tt>skip="-1"</tt>.
 	This way, you can set an exception against a single token that immediately
 	preceeds the matched token. For example, we want to match "jak"
-	which is not preceeded by a comma</p>:
+	which is not preceeded by a comma:</p>
 	
 	<? hl('<token>tak</token>
           <token skip="-1">jak</token>
