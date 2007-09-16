@@ -283,7 +283,7 @@ public class PatternRule extends Rule {
             }
             exceptionMatched |= (elem.exceptionMatch(matchToken) 
                   || elem.andGroupExceptionMatch(matchToken));
-            if (elem.hasPreviousException() && m > nextPos) {
+            if (elem.hasPreviousException() && m > 0) {
               final int numReadings = tokens[m - 1].getReadingsLength();
               for (int p = 0; p < numReadings; p++) {
                 final AnalyzedToken matchExceptionToken = tokens[m - 1].getAnalyzedToken(p);
