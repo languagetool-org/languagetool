@@ -6,7 +6,7 @@ title="Easy editing stylesheet" ?>
 <!--
 Polish Grammar and Typo Rules for LanguageTool
 Copyright (C) 2006-2007 Marcin Miłkowski
-$Id: grammar.xml,v 1.89 2007-09-16 19:45:11 milek_pl Exp $
+$Id: grammar.xml,v 1.90 2007-09-16 21:00:30 milek_pl Exp $
 -->
 <rules lang="pl">
   <phrases>
@@ -846,7 +846,7 @@ $Id: grammar.xml,v 1.89 2007-09-16 19:45:11 milek_pl Exp $
         <token postag=".*voc.*" postag_regexp="yes" skip="-1"><exception regexp="yes" scope="next">[,-–—]</exception><exception postag=".*nom.*|conj|pred|verb.*|adv" postag_regexp="yes" scope="current"/></token>
         <token negate_pos="yes" postag=".*voc.*" postag_regexp="yes"/>
       </pattern>
-      <message>Prawdopodobnie brak przecinka. Powinno być: <suggestion>, \3</suggestion>.</message>
+      <message>Prawdopodobnie brak przecinka po rzeczowniku w wołaczu. Powinno być: <suggestion>, \3</suggestion>.</message>
       <example type="incorrect">Agato<marker> czas</marker> na Colgate!</example>
       <example type="correct">Agato, czas na Colgate!</example>
     </rule>
@@ -868,7 +868,7 @@ $Id: grammar.xml,v 1.89 2007-09-16 19:45:11 milek_pl Exp $
           <token>jak</token>
           <token><exception regexp="yes">i|gdyby</exception></token>
         </pattern>
-        <message>Prawdopodobny brak przecinka. Powinno być: <suggestion>, jak</suggestion>.</message>
+        <message>Prawdopodobny brak przecinka w ramach porównania. Powinno być: <suggestion>, jak</suggestion>.</message>
         <example type="correct">Widać, żeś równie szlachetny, jak odważny.</example>
         <example correction=", jak" type="incorrect">Widać, żeś równie szlachetny<marker> jak</marker> odważny.</example>
       </rule>
@@ -1317,6 +1317,35 @@ $Id: grammar.xml,v 1.89 2007-09-16 19:45:11 milek_pl Exp $
     </rule>
   </category>
   <category name="Błędy odmiany">
+    <rule id="POL_KILA" name="„pół kila” (pół kilo)">
+      <pattern mark_from="1">
+        <token regexp="yes">pół|półtora|tora|dwa</token>
+        <token>kila</token>
+      </pattern>
+      <message>Prawdopodobny błąd odmiany. Powinno być <suggestion>kilo</suggestion> (=kilogram).</message>
+      <example correction="kilo" type="incorrect">Kup pół <marker>kila</marker> makaronu.</example>
+      <example type="correct">Kup dwa kilo kiełbasy.</example>
+    </rule>
+    <rulegroup id="JEDEN_DEKO" name="„deko” (deka) czegoś">
+      <rule>
+        <pattern mark_from="1">
+          <token regexp="yes">\d+</token>
+          <token>deko</token>
+        </pattern>
+        <message>Mówimy <suggestion>deka</suggestion> („deka” to skrót od „dekagram”).</message>
+        <example type="correct">Do upieczenia ciasta potrzeba nam 2 deka makaronu.</example>
+        <example correction="deka" type="incorrect">Do upieczenia ciasta potrzeba nam 2 <marker>deko</marker> makaronu.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="1">
+          <token postag="num.*" postag_regexp="yes"/>
+          <token>deko</token>
+        </pattern>
+        <message>Mówimy <suggestion>deka</suggestion> („deka” to skrót od „dekagram”).</message>
+        <example type="correct">Do upieczenia ciasta potrzeba nam dwa deka makaronu.</example>
+        <example correction="deka" type="incorrect">Do upieczenia ciasta potrzeba nam dwa <marker>deko</marker> makaronu.</example>
+      </rule>
+    </rulegroup>
     <rule id="DWUTYSIECZNY_PIERWSZY" name="„dwutysięczny pierwszy” (dwa tysiące pierwszy)">
       <pattern>
         <token inflected="yes">dwutysięczny</token>
@@ -1760,8 +1789,8 @@ $Id: grammar.xml,v 1.89 2007-09-16 19:45:11 milek_pl Exp $
   <category name="Błędy składniowe">
     <rule id="NIE_A" name="„nie..., a...” (nie..., lecz)">
       <pattern mark_from="1" mark_to="-1">
-        <token skip="5"><exception regexp="yes" scope="next">między|;</exception>nie</token>
-        <token>a</token>
+        <token skip="5"><exception scope="next">między</exception>nie</token>
+        <token><exception scope="previous">;</exception>a</token>
         <token><exception regexp="yes">priori|posteriori|tym|i|im|to|po|przy|z|może|de|w</exception></token>
       </pattern>
       <message>Po przeczeniu zaleca się użycie spójników <suggestion>ale</suggestion>, <suggestion>lecz</suggestion> lub <suggestion>tylko</suggestion>.</message>
@@ -2438,26 +2467,6 @@ $Id: grammar.xml,v 1.89 2007-09-16 19:45:11 milek_pl Exp $
     </rule>
   </category>
   <category name="Błędy leksykalne">
-    <rulegroup id="JEDEN_DEKO" name="„deko” (deka) czegoś">
-      <rule>
-        <pattern mark_from="1">
-          <token regexp="yes">\d+</token>
-          <token>deko</token>
-        </pattern>
-        <message>Mówimy <suggestion>deka</suggestion> („deka” to skrót od „dekagram”).</message>
-        <example type="correct">Do upieczenia ciasta potrzeba nam 2 deka makaronu.</example>
-        <example correction="deka" type="incorrect">Do upieczenia ciasta potrzeba nam 2 <marker>deko</marker> makaronu.</example>
-      </rule>
-      <rule>
-        <pattern mark_from="1">
-          <token postag="num.*" postag_regexp="yes"/>
-          <token>deko</token>
-        </pattern>
-        <message>Mówimy <suggestion>deka</suggestion> („deka” to skrót od „dekagram”).</message>
-        <example type="correct">Do upieczenia ciasta potrzeba nam dwa deka makaronu.</example>
-        <example correction="deka" type="incorrect">Do upieczenia ciasta potrzeba nam dwa <marker>deko</marker> makaronu.</example>
-      </rule>
-    </rulegroup>
     <rule id="PROTOKOL_Z_CZEGO" name="„protokół z czego” (protokół czego)">
       <pattern>
         <token inflected="yes">protokół</token>
@@ -4560,6 +4569,61 @@ $Id: grammar.xml,v 1.89 2007-09-16 19:45:11 milek_pl Exp $
     </rule>
   </category>
   <category name="Błędy ortograficzne">
+    <rulegroup id="WIEZY_WIERZY" name="„wieży w” (wierzy)">
+      <rule>
+        <pattern mark_to="-2">
+          <token regexp="yes"><exception>nie</exception>wieży|wieżę</token>
+          <token>w</token>
+          <token regexp="yes">Boga|możliwość|miłość|siebie|sukces|skuteczność|awans|swoje|zwycięstwo|swój|swoją|ciebie|zapewnienia|cuda|te|istnienie|takie|duchy</token>
+        </pattern>
+        <message>Prawdopodobny błąd ortograficzny. Czy chodziło o <suggestion><match no="1" regexp_match="([Ww])ież(.*)" regexp_replace="$1ierz$2"/></suggestion> (formę czasownika „wierzyć”)?</message>
+        <example correction="Wierzę" type="incorrect"><marker>Wieżę</marker> w cuda.</example>
+        <example type="correct">Wierzę w cuda.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="1" mark_to="0">
+          <token>nie</token>
+          <token regexp="yes">wieży|wieżę</token>
+        </pattern>
+        <message>Prawdopodobny błąd ortograficzny. Czy chodziło o <suggestion><match no="2" regexp_match="([Ww])ież(.*)" regexp_replace="$1ierz$2"/></suggestion> (formę czasownika „wierzyć”)?</message>
+        <example correction="wierzę" type="incorrect">Nie <marker>wieżę</marker> w cuda.</example>
+        <example type="correct">Nie wierzę w cuda.</example>
+      </rule>
+    </rulegroup>
+    <rulegroup id="POL_TORA" name="„pół tora czego” (półtora)">
+      <rule>
+        <pattern mark_to="-1">
+          <token>pół</token>
+          <token regexp="yes">tora|torej</token>
+          <token postag=".*[\.:]gen.*" postag_regexp="yes"/>
+        </pattern>
+        <message>Prawdopodobny błąd ortograficzny. Ten wyraz piszemy łącznie: <suggestion>\1\2</suggestion> (=jeden i pół).</message>
+        <example correction="półtora" type="incorrect">To trwało ponad <marker>pół tora</marker> miesiąca.</example>
+        <example type="correct">To trwało ponad półtora miesiąca.</example>
+      </rule>
+      <rule>
+        <pattern mark_to="-1">
+          <token>pół</token>
+          <token regexp="yes">tora|torej</token>
+          <token regexp="yes">kilo|deko</token>
+        </pattern>
+        <message>Prawdopodobny błąd ortograficzny. Ten wyraz piszemy łącznie: <suggestion>\1\2</suggestion> (=jeden i pół).</message>
+        <example correction="półtora" type="incorrect">Kup <marker>pół tora</marker> kilo kaszanki!</example>
+        <example type="correct">Kup półtora kilo kaszanki!</example>
+      </rule>
+    </rulegroup>
+    <rulegroup id="POMORZE_POMOZE" name="„nie pomorze” (pomoże)">
+      <rule>
+        <pattern case_sensitive="yes" mark_from="1">
+          <token inflected="yes" regexp="yes">nie|ja|ty|który|co|wy|kto|pewno|niewiele|że|iż|on|ona|pan|pewność</token>
+          <token>pomorze</token>
+        </pattern>
+        <message>Prawdopodobny błąd ortograficzny. Czy chodziło o <suggestion>pomoże</suggestion> (formę czasownika „pomóc”)?</message>
+        <example correction="pomoże" type="incorrect">On ci nie <marker>pomorze</marker>.</example>
+        <example type="correct">Mowa o pomorze świń.</example>
+        <example type="correct">On już nic nam nie pomoże.</example>
+      </rule>
+    </rulegroup>
     <rule id="BUL_GLOWY" name="„bul” (bul)">
       <pattern mark_from="1" mark_to="-2">
         <token postag="SENT_START" postag_regexp="yes" skip="-1"/>
@@ -6208,8 +6272,27 @@ $Id: grammar.xml,v 1.89 2007-09-16 19:45:11 milek_pl Exp $
         <example type="correct">Ten chomik waży 100 g.</example>
       </rule>
     </rulegroup>
+    <rule id="NIE_KTORY" name="„nie który” (niektóry)">
+      <pattern mark_to="-1">
+        <token>nie</token>
+        <token inflected="yes">który</token>
+        <token postag="subst.*" postag_regexp="yes"/>
+      </pattern>
+      <message>Prawdopodobny błąd ortograficzny. Czy chodziło o wyraz <suggestion>\1\2</suggestion>?</message>
+      <example correction="niektórych" type="incorrect">To jeden z <marker>nie których</marker> przykładów jego głupoty.</example>
+      <example type="correct">To jeden z niektórych przykładów jego głupoty.</example>
+      <example type="correct">Należy natomiast szukać odpowiedzi na pytanie, nie który, ale jaki system jest najlepszy.</example>
+    </rule>
   </category>
   <category name="Prawdopodobne literówki">
+    <rule id="WLADCE" name="„władce, twórce” (władcę, twórcę)">
+      <pattern>
+        <token postag=".*m1:depr" postag_regexp="yes" regexp="yes">.*ce</token>
+      </pattern>
+      <message>Prawdopodobna literówka. Czy chodziło o <suggestion><match no="1" regexp_match="(.*)ce" regexp_replace="$1cę"/></suggestion>?</message>
+      <example correction="twórcę" type="incorrect">Uwielbiam tego gruzińskiego <marker>twórce</marker> ludowego.</example>
+      <example type="correct">Uwielbiam tego gruzińskiego twórcę ludowego</example>
+    </rule>
     <rule id="ODJECIE_UJECIE" name="„ujecie, pojecie” (ujęcie, pojęcie) itp.">
       <pattern>
         <token regexp="yes">odjecie|ujecie|pojecie|przejecie|przyjecie|wyjecie</token>
