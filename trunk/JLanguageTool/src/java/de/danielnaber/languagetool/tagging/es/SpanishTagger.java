@@ -18,6 +18,7 @@
  */
 package de.danielnaber.languagetool.tagging.es;
 
+import morfologik.stemmers.Lametyzator;
 import de.danielnaber.languagetool.tagging.BaseTagger;
 
 /** Spanish Tagger
@@ -29,12 +30,8 @@ import de.danielnaber.languagetool.tagging.BaseTagger;
  */
 public class SpanishTagger extends BaseTagger {
 
-  public String getFileName() {
-    return "/resource/es/spanish.dict";
+  public final void setFileName() {
+    System.setProperty(Lametyzator.PROPERTY_NAME_LAMETYZATOR_DICTIONARY, 
+        "/resource/es/spanish.dict");    
   }
-
-  public String getFileEncoding() {
-    return "iso8859-1";
-  }
-
 }

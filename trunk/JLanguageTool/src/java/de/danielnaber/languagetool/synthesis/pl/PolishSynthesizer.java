@@ -27,7 +27,7 @@ import java.util.Arrays;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import com.dawidweiss.stemmers.Lametyzator;
+import morfologik.stemmers.Lametyzator;
 
 import de.danielnaber.languagetool.AnalyzedToken;
 import de.danielnaber.languagetool.synthesis.Synthesizer;
@@ -53,15 +53,20 @@ public class PolishSynthesizer implements Synthesizer {
   private Lametyzator synthesizer = null;
 
   private ArrayList<String> possibleTags = null;
+
+  private void setFileName() {
+    System.setProperty(Lametyzator.PROPERTY_NAME_LAMETYZATOR_DICTIONARY, 
+        RESOURCE_FILENAME);    
+  }
   
   public String[] synthesize(final AnalyzedToken token, final String posTag) throws IOException {
     if (posTag == null) {
       return null;
     }
     if (synthesizer == null) {
+      setFileName();
       synthesizer = 
-        new Lametyzator(this.getClass().getResourceAsStream(RESOURCE_FILENAME),
-          "iso8859-2", '+');
+        new Lametyzator();
     }
     boolean isNegated = false;
     if (token.getPOSTag() != null) {
@@ -100,9 +105,9 @@ public class PolishSynthesizer implements Synthesizer {
       possibleTags = loadWords(this.getClass().getResourceAsStream(TAGS_FILE_NAME));
     }
     if (synthesizer == null) {
+      setFileName();
       synthesizer = 
-        new Lametyzator(this.getClass().getResourceAsStream(RESOURCE_FILENAME),
-          "iso8859-2", '+');
+        new Lametyzator();
     }        
     final ArrayList<String> results = new ArrayList<String>();
     

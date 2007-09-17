@@ -22,7 +22,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.dawidweiss.stemmers.Lametyzator;
+import morfologik.stemmers.Lametyzator;
 
 import de.danielnaber.languagetool.AnalyzedTokenReadings;
 import de.danielnaber.languagetool.tagging.ManualTagger;
@@ -44,6 +44,7 @@ public class GermanTagger implements Tagger {
   private ManualTagger manualTagger = null;
   private GermanCompoundTokenizer compoundTokenizer = null;
   
+  
   public GermanTagger() {
   }
 
@@ -57,6 +58,11 @@ public class GermanTagger implements Tagger {
     return atr;
   }
 
+  public void setFileName() {
+    System.setProperty(Lametyzator.PROPERTY_NAME_LAMETYZATOR_DICTIONARY, 
+        DICT_FILENAME);    
+  }
+  
   public List<AnalyzedTokenReadings> tag(final List<String> sentenceTokens) throws IOException {
     return tag(sentenceTokens, true);
   }
@@ -68,8 +74,8 @@ public class GermanTagger implements Tagger {
     int pos = 0;
     // caching Lametyzator instance - lazy init
     if (morfologik == null) {
-      morfologik = new Lametyzator(this.getClass().getResourceAsStream(DICT_FILENAME),
-          "iso8859-1", '+');
+      setFileName();
+      morfologik = new Lametyzator();
     }
     if (manualTagger == null) {
       manualTagger = new ManualTagger(this.getClass().getResourceAsStream(USER_DICT_FILENAME));

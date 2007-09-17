@@ -19,6 +19,7 @@
 package de.danielnaber.languagetool.tagging.en;
 
 import de.danielnaber.languagetool.tagging.BaseTagger;
+import morfologik.stemmers.Lametyzator;
 
 /** English Part-of-speech tagger.
  * Based on part-of-speech lists in Public Domain.
@@ -29,12 +30,8 @@ import de.danielnaber.languagetool.tagging.BaseTagger;
  */
 public class EnglishTagger extends BaseTagger {
 
-  public String getFileName() {
-    return "/resource/en/english.dict";
+  public void setFileName() {
+    System.setProperty(Lametyzator.PROPERTY_NAME_LAMETYZATOR_DICTIONARY, 
+        "/resource/en/english.dict");    
   }
-
-  public String getFileEncoding() {
-    return "iso8859-1";
-  }
-
 }

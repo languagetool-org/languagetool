@@ -22,32 +22,38 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.dawidweiss.stemmers.Lametyzator;
+import morfologik.stemmers.Lametyzator;
 
 import de.danielnaber.languagetool.AnalyzedToken;
 import de.danielnaber.languagetool.AnalyzedTokenReadings;
-import de.danielnaber.languagetool.tagging.Tagger;
+import de.danielnaber.languagetool.tagging.BaseTagger;
 
 /**
  * Polish POS tagger based on FSA morphological dictionaries.
  * 
  * @author Marcin Milkowski
  */
-public class PolishTagger implements Tagger {
+
+
+public class PolishTagger extends BaseTagger {
 
 	private static final String RESOURCE_FILENAME = "/resource/pl/polish.dict"; 
 	private Lametyzator morfologik = null; 
-	
+
+  public void setFileName() {
+    System.setProperty(Lametyzator.PROPERTY_NAME_LAMETYZATOR_DICTIONARY, 
+        RESOURCE_FILENAME);    
+  }
+
   public final List<AnalyzedTokenReadings> tag(final List<String> sentenceTokens) throws IOException {
     String[] taggerTokens;
     
 	List<AnalyzedTokenReadings> tokenReadings = new ArrayList<AnalyzedTokenReadings>();
     int pos = 0;
     //caching Lametyzator instance - lazy init
-	if (morfologik == null) {	
-	   morfologik = new Lametyzator(
-         this.getClass().getResourceAsStream(RESOURCE_FILENAME),
-              "iso8859-2", '+', true, true);
+	if (morfologik == null){
+     setFileName();
+	   morfologik = new Lametyzator();
 	}
 	
     for (String word : sentenceTokens) {
@@ -64,8 +70,8 @@ public class PolishTagger implements Tagger {
             //Lametyzator returns data as String[]
             //first lemma, then annotations
             //use Jozef's idea
-            String lemma = taggerTokens[i];
-            String[] tagsArr = taggerTokens[i + 1].split("\\+");
+            final String lemma = taggerTokens[i];
+            final String[] tagsArr = taggerTokens[i + 1].split("\\+");
 
             for (String currTag : tagsArr) {
               l.add(new AnalyzedToken(word, currTag, lemma));
@@ -79,8 +85,8 @@ public class PolishTagger implements Tagger {
            //Lametyzator returns data as String[]
            //first lemma, then annotations
            //use Jozef's idea
-           String lemma = lowerTaggerTokens[i];
-           String[] tagsArr = lowerTaggerTokens[i + 1].split("\\+");
+           final String lemma = lowerTaggerTokens[i];
+           final String[] tagsArr = lowerTaggerTokens[i + 1].split("\\+");
 
            for (String currTag : tagsArr) {
              l.add(new AnalyzedToken(word, currTag, lemma));
@@ -98,9 +104,6 @@ public class PolishTagger implements Tagger {
     
     return tokenReadings;
 
-  }
-  public Object createNullToken(final String token, final int startPos) {
-	  return new AnalyzedTokenReadings(new AnalyzedToken(token, null, startPos));
-  }
+  }  
 
 }

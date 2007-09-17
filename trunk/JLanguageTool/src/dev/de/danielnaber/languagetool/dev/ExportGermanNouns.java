@@ -11,7 +11,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
-import com.dawidweiss.fsa.FSA;
+import morfologik.fsa.core.FSA;
 
 /**
  * Export German nouns as a serialized Java HashSet, to be used

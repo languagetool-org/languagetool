@@ -22,23 +22,28 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.dawidweiss.stemmers.Lametyzator;
+import morfologik.stemmers.Lametyzator;
 
 import de.danielnaber.languagetool.AnalyzedToken;
 import de.danielnaber.languagetool.AnalyzedTokenReadings;
-import de.danielnaber.languagetool.tagging.Tagger;
+import de.danielnaber.languagetool.tagging.BaseTagger;
 
 /**
  * Czech POS tagger based on FSA morphological dictionaries.
  * 
  * @author Jozef Licko
  */
-public class CzechTagger implements Tagger {
+public class CzechTagger extends BaseTagger {
 
   private static final String RESOURCE_FILENAME = "/resource/cs/czech.dict";
 
   private Lametyzator morfologik = null;
 
+  public void setFileName() {
+    System.setProperty(Lametyzator.PROPERTY_NAME_LAMETYZATOR_DICTIONARY, 
+        RESOURCE_FILENAME);    
+  }
+  
   public final List<AnalyzedTokenReadings> tag(final List<String> sentenceTokens)
       throws IOException {
     String[] taggerTokens;
@@ -47,8 +52,8 @@ public class CzechTagger implements Tagger {
     int pos = 0;
     //caching Lametyzator instance - lazy init
     if (morfologik == null) {
-      morfologik = new Lametyzator(this.getClass().getResourceAsStream(RESOURCE_FILENAME),
-          "iso8859-2", '+', true, true);
+      setFileName();
+      morfologik = new Lametyzator();
     }
 
     for (String word : sentenceTokens) {
@@ -110,10 +115,6 @@ public class CzechTagger implements Tagger {
 
     return tokenReadings;
 
-  }
-
-  public Object createNullToken(final String token, final int startPos) {
-    return new AnalyzedTokenReadings(new AnalyzedToken(token, null, startPos));
   }
 
 }

@@ -22,11 +22,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.dawidweiss.stemmers.Lametyzator;
+import morfologik.stemmers.Lametyzator;
 
 import de.danielnaber.languagetool.AnalyzedToken;
 import de.danielnaber.languagetool.AnalyzedTokenReadings;
-import de.danielnaber.languagetool.tagging.Tagger;
 
 /** Base tagger using Lametyzator.
  * 
@@ -36,31 +35,19 @@ public abstract class BaseTagger implements Tagger {
 
   private Lametyzator morfologik = null;
 
-  /**
-   * Return filename in a JAR, eg. <tt>/resource/fr/french.dict</tt>.
-   */
-  public abstract String getFileName();
+ /**
+  * Set the filename in a JAR, eg. <tt>/resource/fr/french.dict</tt>.
+  **/   
+  public abstract void setFileName();
 
-  /**
-   * Return encoding of file referred by getFileName(), eg. <tt>iso8859-15</tt>.
-   */
-  public abstract String getFileEncoding();
-
-  /**
-   * Return delimiter used in file referred by getFileName(), eg. <tt>+</tt> (the default).
-   */
-  public char getDelimiter() {
-    return '+';
-  }
-
-  public final List<AnalyzedTokenReadings> tag(final List<String> sentenceTokens) throws IOException {
+  public List<AnalyzedTokenReadings> tag(final List<String> sentenceTokens) throws IOException {
     String[] taggerTokens;
     List<AnalyzedTokenReadings> tokenReadings = new ArrayList<AnalyzedTokenReadings>();
     int pos = 0;
     //caching Lametyzator instance - lazy init
     if (morfologik == null) {
-      morfologik = new Lametyzator(this.getClass().getResourceAsStream(getFileName()),
-          getFileEncoding(), getDelimiter());
+      setFileName();
+      morfologik = new Lametyzator();
     }
 
     for (String word : sentenceTokens) {

@@ -27,7 +27,7 @@ import java.util.Arrays;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import com.dawidweiss.stemmers.Lametyzator;
+import morfologik.stemmers.Lametyzator;
 
 import de.danielnaber.languagetool.AnalyzedToken;
 import de.danielnaber.languagetool.rules.en.AvsAnRule;
@@ -65,6 +65,10 @@ public class EnglishSynthesizer implements Synthesizer {
 
   private ArrayList<String> possibleTags = null;
   
+  private void setFileName() {
+    System.setProperty(Lametyzator.PROPERTY_NAME_LAMETYZATOR_DICTIONARY, 
+        RESOURCE_FILENAME);    
+  }
   /**
    * Get a form of a given AnalyzedToken, where the
    * form is defined by a part-of-speech tag.
@@ -81,9 +85,9 @@ public class EnglishSynthesizer implements Synthesizer {
       return new String[] {rule.suggestAorAn(token.getToken())};
     } else {
       if (synthesizer == null) {
+        setFileName();
         synthesizer = 
-          new Lametyzator(this.getClass().getResourceAsStream(RESOURCE_FILENAME),
-              "iso8859-1", '+');
+          new Lametyzator();
       }
       String[] wordForms = null;
       wordForms = synthesizer.stem(token.getLemma() + "|" + posTag);
@@ -99,9 +103,9 @@ public class EnglishSynthesizer implements Synthesizer {
       possibleTags = loadWords(this.getClass().getResourceAsStream(TAGS_FILE_NAME));
     }
     if (synthesizer == null) {
+      setFileName();
       synthesizer = 
-        new Lametyzator(this.getClass().getResourceAsStream(RESOURCE_FILENAME),
-          "iso8859-1", '+');
+        new Lametyzator();
     }    
     final Pattern p = Pattern.compile(posTag);
     final ArrayList<String> results = new ArrayList<String>();

@@ -18,6 +18,7 @@
  */
 package de.danielnaber.languagetool.tagging.fr;
 
+import morfologik.stemmers.Lametyzator;
 import de.danielnaber.languagetool.tagging.BaseTagger;
 
 /** French Tagger
@@ -28,12 +29,8 @@ import de.danielnaber.languagetool.tagging.BaseTagger;
  */
 public class FrenchTagger extends BaseTagger {
 
-  public String getFileName() {
-    return "/resource/fr/french.dict";
+  public final void setFileName() {
+    System.setProperty(Lametyzator.PROPERTY_NAME_LAMETYZATOR_DICTIONARY, 
+        "/resource/fr/french.dict");    
   }
-
-  public String getFileEncoding() {
-    return "iso8859-15";
-  }
-
 }

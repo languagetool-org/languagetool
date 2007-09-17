@@ -18,6 +18,7 @@
  */
 package de.danielnaber.languagetool.tagging.it;
 
+import morfologik.stemmers.Lametyzator;
 import de.danielnaber.languagetool.tagging.BaseTagger;
 
 /**
@@ -31,16 +32,9 @@ import de.danielnaber.languagetool.tagging.BaseTagger;
  */
 public class ItalianTagger extends BaseTagger {
 
-  public String getFileName() {
-    return "/resource/it/italian.dict";
-  }
-
-  public String getFileEncoding() {
-    return "iso8859-15";
-  }
-
-  public char getDelimiter() {
-    return '_';
+  public final void setFileName() {
+    System.setProperty(Lametyzator.PROPERTY_NAME_LAMETYZATOR_DICTIONARY, 
+        "/resource/it/italian.dict");    
   }
 
 }
