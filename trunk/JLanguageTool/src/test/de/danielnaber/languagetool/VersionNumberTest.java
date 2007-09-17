@@ -29,8 +29,8 @@ import junit.framework.TestCase;
 public class VersionNumberTest extends TestCase {
 
   public void testVersionNumber() throws IOException {
-    String buildFile = load("build.xml");
-    Pattern p1 = Pattern.compile("name=\"version\" value=\"(.*?)\"");
+    String buildFile = load("build.properties");
+    Pattern p1 = Pattern.compile("version = ([0-9\\.]+(-dev)?)");
     Matcher m1 = p1.matcher(buildFile);
     m1.find();
     String javaFile = load("src/java/de/danielnaber/languagetool/JLanguageTool.java");
@@ -45,9 +45,9 @@ public class VersionNumberTest extends TestCase {
     FileReader fr = new FileReader(filename);
     BufferedReader br = new BufferedReader(fr);
     StringBuffer sb = new StringBuffer();
-    String line;
-    while ((line = br.readLine()) != null) {
-      sb.append(line);
+    String line;    
+    while ((line = br.readLine()) != null) {      
+        sb.append(line);                
     }
     br.close();
     fr.close();
