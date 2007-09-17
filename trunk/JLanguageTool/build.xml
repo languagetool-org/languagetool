@@ -362,7 +362,8 @@
   	<copy file="build.xml" todir="${dist.dir}" />
   	<copy file="build.properties" todir="${dist.dir}" />
   	<copy file="openoffice/Addons.xcu" todir="${dist.dir}/openoffice" />
-  	<copy todir="${dist.dir}/openoffice/META-INF">
+  	<filter filtersFile="build.properties"/>
+  	<copy filtering="true" todir="${dist.dir}/openoffice/META-INF">
 	  	<fileset dir="openoffice/META-INF" excludes="CVS" />
 	</copy>
   	<copy todir="${dist.dir}/openoffice/images">
@@ -371,6 +372,7 @@
   	<copy todir="${dist.dir}/src">
 	  	<fileset dir="src" excludes="CVS,resource/**,rules/**,scripts/**" />
 	</copy>
+  	<copy file="openoffice/description.xml" todir="${dist.dir}/openoffice/" filtering="true"/>  	
   	<zip compress="yes" destfile="${dist.dir}/LanguageTool-${version}-src.zip"
   		basedir="${dist.dir}"
   		includes="**" excludes="turn.sh,deploy.sh,undeploy.sh,jdic.jar,linux/**,windows/**,sunos/**,mac/**" />
@@ -381,7 +383,7 @@
   <!-- ================================================================== -->
 	
   <target name="dist" depends="ooo-internal" description="Builds one ZIP for both OpenOffice.org and stand-alone use">
-  	<zip compress="yes" destfile="${dist.dir}/LanguageTool-${version}.zip"
+  	<zip compress="yes" destfile="${dist.dir}/LanguageTool-${version}.oxt"
   		basedir="${dist.dir}"
   		includes="**"
   		excludes="deploy.sh,undeploy.sh,turn.sh,jdic.jar,linux/**,windows/**,sunos/**,mac/**" />
@@ -396,8 +398,9 @@
 
   <target name="ooo-internal" depends="clean,init,build,ooo-build">
   	<copy file="${resource.dir}/TrayIcon.png" todir="${dist.dir}/resource/" />
-  	<copy todir="${dist.dir}/">
-	  	<fileset dir="openoffice/" includes="Addons.xcu,images/**,META-INF/**" />
+  	<filter filtersFile="build.properties"/>
+  	<copy filtering="true" todir="${dist.dir}/">
+	  	<fileset dir="openoffice/" includes="description.xml,Addons.xcu,images/**,META-INF/**" />
 	</copy>
   	<copy todir="${dist.dir}/rules">
 	  	<fileset dir="src/rules" excludes="CVS" />

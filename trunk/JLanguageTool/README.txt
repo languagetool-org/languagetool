@@ -69,7 +69,6 @@ TODO:
  -check if there's a nice design that lets us extend PatternRule and PatternRuleLoader
   to make them more powerful, but without having all features in these classes
  -add more docs and examples
- -distribute OOo extension in .oxt format that allows updates
  -Make adding language possible without changing the LanguageTool core code:
  	-make rule loading dynamic by using reflection (in progress)
  	-create the list of languages using reflection (add a LanguageInformation
