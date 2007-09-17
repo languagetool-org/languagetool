@@ -28,10 +28,10 @@ requires <?=show_link("Java", "http://www.java.com/en/download/manual.jsp", 1)?>
  (includes latest version in CVS)<br />
 </p>
 
-<!-- 
+<!-- -->
 <p><strong>Try LanguageTool via Java WebStart:</strong><br />
-<?=show_link("Start LanguageTool (8&nbsp;MB)", "webstart/LanguageTool.jnlp", 0) ?></p>
--->
+<?=show_link("Start LanguageTool (9&nbsp;MB)", "webstart/LanguageTool.jnlp", 0) ?></p>
+<!-- -->
     
 <p><strong>Installation and Usage:</strong>
 
