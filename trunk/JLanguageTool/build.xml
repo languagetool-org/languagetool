@@ -2,8 +2,7 @@
 
 <project name="LanguageTool" default="dist" basedir=".">
 
-  <property name="version" value="0.9.1"/>
-  <property name="date" value="2007-09-17"/>
+  <property name="date" value="2007-xx-y"/>
 	
   <property name="javadoctitle" value="LanguageTool API ${version}"/>
   
@@ -266,7 +265,7 @@
 		excludes="**/*.java">
 		<manifest>
 			<attribute name="Main-Class" value="de.danielnaber.languagetool.Main" />
-			<attribute name="Class-Path" value="./ ./rules ./resource ./stempelator-nodict-1.0.7.jar ./jdic.jar ./jaminid.jar ./jWordSplitter.jar" />
+			<attribute name="Class-Path" value="./ ./rules ./resource ./${stempelator.lib} ./jdic.jar ./jaminid.jar ./jWordSplitter.jar" />
 			<attribute name="Implementation-Version" value="${version}" />
 			<attribute name="Implementation-Date" value="${date}" />
 		</manifest>
@@ -278,7 +277,7 @@
 		includes="de/danielnaber/languagetool/gui/*.class">
 		<manifest>
 			<attribute name="Main-Class" value="de.danielnaber.languagetool.gui.Main" />
-			<attribute name="Class-Path" value="./LanguageTool.jar ./ ./resource ./rules ./stempelator-nodict-1.0.7.jar ./jdic.jar ./jaminid.jar ./jWordSplitter.jar" />
+			<attribute name="Class-Path" value="./LanguageTool.jar ./ ./resource ./rules ./${stempelator.lib} ./jdic.jar ./jaminid.jar ./jWordSplitter.jar" />
 			<attribute name="Implementation-Version" value="${version}" />
 			<attribute name="Implementation-Date" value="${date}" />
 		</manifest>
@@ -350,7 +349,7 @@
 		  	<attribute name="RegistrationClassName" value="de.danielnaber.languagetool.openoffice.Main" />
 			<attribute name="Implementation-Version" value="${version}" />
 			<attribute name="Implementation-Date" value="${date}" />
-			<attribute name="Class-Path" value="./ ./rules ./resource ./LanguageTool.jar ./stempelator-nodict-1.0.7.jar ./jdic.jar ./jaminid.jar ./jWordSplitter.jar" />
+			<attribute name="Class-Path" value="./ ./rules ./resource ./LanguageTool.jar ./${stempelator.lib} ./jdic.jar ./jaminid.jar ./jWordSplitter.jar" />
   		</manifest>
 	</jar>
   </target>
@@ -410,7 +409,7 @@
   	<replace file="${dist.dir}/README.txt" token="###VERSION###" value="${version}"></replace>
   	<replace file="${dist.dir}/README.txt" token="###DATE###" value="${date}"></replace>
   	<copy file="${ext.dir}/LGPL.txt" todir="${dist.dir}" />
-  	<copy file="${ext.dir}/Stempelator-nodict-license.txt" tofile="${dist.dir}/Stempelator-license.txt" />
+  	<copy file="${ext.dir}/Morfologik-nodict-license.txt" tofile="${dist.dir}/Stempelator-license.txt" />
   	<copy file="${ext.dir}/CPL.txt" tofile="${dist.dir}/junit-license.txt" />
   	<copy file="${ext.dir}/Apache-License.txt" tofile="${dist.dir}/jWordSplitter-license.txt" />
   	<copy file="${ext.dir}/README" tofile="${dist.dir}/README-license.txt" />
@@ -443,22 +442,31 @@
  	<copy file="${resource.dir}/api-output.dtd" todir="${dist.dir}/resource" />
  	<copy file="${resource.dir}/en/tagset.txt" todir="${dist.dir}/resource/en" />
 	<copy file="${resource.dir}/en/english.dict" todir="${dist.dir}/resource/en" />
+	<copy file="${resource.dir}/en/english.info" todir="${dist.dir}/resource/en" />
 	<copy file="${resource.dir}/en/english_synth.dict" todir="${dist.dir}/resource/en" />  	
- 	<copy file="${resource.dir}/en/english_tags.txt" todir="${dist.dir}/resource/en" />  	
+	<copy file="${resource.dir}/en/english_synth.info" todir="${dist.dir}/resource/en" />  	
+  	<copy file="${resource.dir}/en/english_tags.txt" todir="${dist.dir}/resource/en" />  	
   	<copy file="${resource.dir}/it/italian.dict" todir="${dist.dir}/resource/it" />
-	<copy file="${resource.dir}/it/readme-morph-it.txt" todir="${dist.dir}/resource/it" />
+  	<copy file="${resource.dir}/it/italian.info" todir="${dist.dir}/resource/it" />
+  	<copy file="${resource.dir}/it/readme-morph-it.txt" todir="${dist.dir}/resource/it" />
  	<copy file="${resource.dir}/fr/french.dict" todir="${dist.dir}/resource/fr" />
- 	<copy file="${resource.dir}/fr/readme.txt" todir="${dist.dir}/resource/fr" />
+ 	<copy file="${resource.dir}/fr/french.info" todir="${dist.dir}/resource/fr" />
+  	<copy file="${resource.dir}/fr/readme.txt" todir="${dist.dir}/resource/fr" />
  	<copy file="${resource.dir}/fr/disambiguation.xml" todir="${dist.dir}/resource/fr" />
 	<copy file="${resource.dir}/es/spanish.dict" todir="${dist.dir}/resource/es" />
-	<copy file="${resource.dir}/es/etiquetas-eagles.txt" todir="${dist.dir}/resource/es" />  	
+	<copy file="${resource.dir}/es/spanish.info" todir="${dist.dir}/resource/es" />
+  	<copy file="${resource.dir}/es/etiquetas-eagles.txt" todir="${dist.dir}/resource/es" />  	
 	<copy file="${resource.dir}/de/german.dict" todir="${dist.dir}/resource/de" />
-	<copy file="${resource.dir}/de/compounds.txt" todir="${dist.dir}/resource/de" />
+	<copy file="${resource.dir}/de/german.info" todir="${dist.dir}/resource/de" />
+  	<copy file="${resource.dir}/de/compounds.txt" todir="${dist.dir}/resource/de" />
 	<copy file="${resource.dir}/de/added.txt" todir="${dist.dir}/resource/de" />
 	<copy file="${resource.dir}/pl/polish.dict" todir="${dist.dir}/resource/pl" />
+	<copy file="${resource.dir}/pl/polish.info" todir="${dist.dir}/resource/pl" />
   	<copy file="${resource.dir}/pl/polish_synth.dict" todir="${dist.dir}/resource/pl" />
+  	<copy file="${resource.dir}/pl/polish_synth.info" todir="${dist.dir}/resource/pl" />
   	<copy file="${resource.dir}/pl/polish_tags.txt" todir="${dist.dir}/resource/pl" />
-  	<copy file="${resource.dir}/nl/dutch.dict" todir="${dist.dir}/resource/nl" />
+	<copy file="${resource.dir}/nl/dutch.dict" todir="${dist.dir}/resource/nl" />
+	<copy file="${resource.dir}/nl/dutch.info" todir="${dist.dir}/resource/nl" />
   	<copy file="${resource.dir}/uk/ukrainian.dict" todir="${dist.dir}/resource/uk" />
   	<copy file="${resource.dir}/xx/dummy.dict" tofile="${dist.dir}/resource/cs/czech.dict" />
   </target>
@@ -473,7 +481,9 @@
 		<mkdir dir="${dist.dir}/web/windows"/>
 		<mkdir dir="${dist.dir}/web/sunos"/>
 		
-		<copy file="./LanguageTool.jnlp" todir="${dist.dir}/web" />
+		<filter filtersFile="build.properties"/>
+		<copy file="./LanguageTool.jnlp" todir="${dist.dir}/web" 
+		filtering="true"/>
 	  <jar compress="yes" basedir="${dist.dir}" destfile="${dist.dir}/web/resource.jar"
 	  	includes="resource/**" />
 	  <jar compress="yes" basedir="${dist.dir}" destfile="${dist.dir}/web/rules.jar"
@@ -556,6 +566,8 @@
 				<signjar jar="${dist.dir}/web/mac/jdic-native.jar"
 					  	lazy="true" keystore="./keystore.ks" keypass="blabla" 
 					  	storepass="blabla" alias="languagetool"/>
+		
+
   </target>
 	
 </project>
