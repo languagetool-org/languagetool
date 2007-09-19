@@ -25,6 +25,7 @@ import java.util.regex.Pattern;
 
 import de.danielnaber.languagetool.AnalyzedToken;
 import de.danielnaber.languagetool.AnalyzedTokenReadings;
+import de.danielnaber.languagetool.JLanguageTool;
 import de.danielnaber.languagetool.synthesis.Synthesizer;
 
 /**
@@ -155,10 +156,33 @@ public class Match {
       if (posTag != null) {              
         if (synthesizer == null) {
           formattedString[0] = formattedToken.getToken();
-        } else if (postagRegexp) {
+        } else if (postagRegexp) {          
           final int readingCount = formattedToken.getReadingsLength();
-          final String targetPosTag = getTargetPosTag();
           final TreeSet<String> wordForms = new TreeSet<String>();          
+          boolean oneForm = false;
+          for (int k = 0; k < readingCount; k++) {
+            if (formattedToken.getAnalyzedToken(k).getLemma() == null) {
+              final String posUnique = 
+                formattedToken.getAnalyzedToken(k).getPOSTag();             
+              if (posUnique == null) {
+                wordForms.add(formattedToken.getToken());
+                oneForm = true;
+              } else {
+                if (JLanguageTool.SENTENCE_START_TAGNAME.equals(posUnique)
+                    || JLanguageTool.SENTENCE_END_TAGNAME.equals(posUnique)
+                    || JLanguageTool.PARAGRAPH_END_TAGNAME.equals(posUnique)) {
+                  if (!oneForm) {
+                  wordForms.add(formattedToken.getToken());
+                  }
+                  oneForm = true;
+                } else {
+                  oneForm = false;
+                }
+              }
+            }
+          }
+          final String targetPosTag = getTargetPosTag();
+          if (!oneForm) {
           for (int i = 0; i < readingCount; i++) {
             final String[] possibleWordForms = 
               synthesizer.synthesize(
@@ -169,6 +193,7 @@ public class Match {
                 wordForms.add(form);
               }
             }
+          }
           }
           if (wordForms != null) {
             if (wordForms.isEmpty()) {

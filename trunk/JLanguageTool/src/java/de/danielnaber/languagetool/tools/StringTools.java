@@ -26,6 +26,7 @@ import java.io.Reader;
 import java.util.Iterator;
 import java.util.List;
 
+import de.danielnaber.languagetool.Language;
 import de.danielnaber.languagetool.gui.Tools;
 import de.danielnaber.languagetool.rules.RuleMatch;
 
@@ -310,4 +311,35 @@ public final class StringTools {
     return filter.toString();
   }  
   
-}
+  /**
+   * Adds spaces before words that are not punctuation.
+   * @param word Word to add the space before.
+   * @param language Language of the word (to check 
+   * typography conventions). Currently French 
+   * convention of not adding spaces only before '.' and
+   * '.' is implemented; other languages assume that before
+   * ,.;:!? no spaces should be added.
+   * @return String containing a space or an empty string.
+   */
+  public static String addSpace(final String word, final Language language) {
+    String space = " ";  
+    final int len = word.length();
+    if (len == 1) {      
+      final char c = word.charAt(0);
+      if (Language.FRENCH.equals(language)) {
+        if (c == '.' || c == ',') {
+          space = "";
+        }
+      } else {
+        if (c == '.' || c == ','
+          || c == ';' || c == ':'
+            || c == '?' || c == '!') {
+          space = "";
+        } 
+      }
+    }
+    return space;
+  }
+  
+  }
+ 

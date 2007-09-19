@@ -179,6 +179,9 @@ class PatternRuleHandler extends XMLRuleHandler {
       }
       correctExamples = new ArrayList<String>();
       incorrectExamples = new ArrayList<String>();
+      if (suggestionMatches != null) {
+        suggestionMatches.clear();
+      }
     } else if (qName.equals("pattern")) {
       inPattern = true;
       if (attrs.getValue("mark_from") != null) {

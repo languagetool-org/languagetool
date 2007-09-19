@@ -6,7 +6,7 @@ title="Easy editing stylesheet" ?>
 <!--
 Polish Grammar and Typo Rules for LanguageTool
 Copyright (C) 2006-2007 Marcin Miłkowski
-$Id: grammar.xml,v 1.91 2007-09-16 21:06:14 milek_pl Exp $
+$Id: grammar.xml,v 1.92 2007-09-19 17:40:32 milek_pl Exp $
 -->
 <rules lang="pl">
   <phrases>
@@ -2387,8 +2387,9 @@ $Id: grammar.xml,v 1.91 2007-09-16 21:06:14 milek_pl Exp $
         <token regexp="yes">w|we</token>
         <phraseref idref="ACC_NOM"/>
       </pattern>
-      <message>Ten czasownik nie jest używany z przyimkiem „w”. Poprawnie <suggestion>za<match no="1"/> <match no="2"/> <match no="3"/></suggestion> lub <suggestion><match no="1"/> <match no="3" postag="(.*)(sg|pl):.*:(m?.|n|f)?.*" postag_regexp="yes" postag_replace="$1$2.*inst.*$3.*"/></suggestion>.</message>
+      <message>Ten czasownik nie jest używany z przyimkiem „w”. Poprawnie <suggestion><match no="1" postag="(.*):(im)?perf" postag_regexp="no" postag_replace="$1:perf">zaopatrzyć</match> <match no="2"/> <match no="3"/></suggestion> lub <suggestion><match no="1"/> <match no="3" postag="(.*)(sg|pl):.*:(m?.|n|f)?.*" postag_regexp="yes" postag_replace="$1$2.*inst.*$3.*"/></suggestion>.</message>
       <example correction="zaopatrzyć w osobiste godło|opatrzyć osobistym godłem|opatrzyć osobistą godłem" type="incorrect">Prace należy <marker>opatrzyć w osobiste godło</marker>.</example>
+      <example correction="zaopatrzyłem w podpis.|opatrzyłem podpisem." type="incorrect">Pracę <marker>opatrzyłem w podpis.</marker></example>
       <example type="correct">Prace należy <marker>opatrzyć osobistym</marker> godłem.</example>
     </rule>
     <rule id="POSTULOWAC_O" name="„postulować o co” (postulować co)">

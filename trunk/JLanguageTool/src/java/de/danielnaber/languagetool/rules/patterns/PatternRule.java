@@ -39,7 +39,7 @@ public class PatternRule extends Rule {
 
   private String id;
 
-  private Language[] language;
+  private static Language[] language;
   private String description;
   private String message;
 
@@ -441,7 +441,7 @@ public class PatternRule extends Rule {
     }
     return elementNo.get(i);
   }
-  
+    
   /**
    * Creates a Cartesian product of the arrays stored in the
    * input array.
@@ -457,8 +457,8 @@ public class PatternRule extends Rule {
      final StringBuilder sb = new StringBuilder();     
      for (int k = 0; k < output.length; k++) {
       sb.append(output[k]);
-      if (k < output.length - 1) { 
-        sb.append(" ");
+      if (k < output.length - 1) {        
+        sb.append(StringTools.addSpace(output[k + 1], language[0]));
       }
      }
      outputList.add(sb.toString());     
