@@ -293,7 +293,8 @@ class PatternRuleHandler extends XMLRuleHandler {
           attrs.getValue("postag_replace"),
           YES.equals(attrs.getValue(POSTAG_REGEXP)),
           attrs.getValue("regexp_match"), 
-          attrs.getValue("regexp_replace"), caseConv);
+          attrs.getValue("regexp_replace"), caseConv,
+          YES.equals(attrs.getValue("setpos")));
       if (inMessage) {
         if (suggestionMatches == null) {
           suggestionMatches = new ArrayList<Match>();        
@@ -302,6 +303,7 @@ class PatternRuleHandler extends XMLRuleHandler {
       message.append("\\" + attrs.getValue("no"));
       } else if (inToken && attrs.getValue("no") != null) {
         final int refNumber = Integer.parseInt(attrs.getValue("no"));
+//FIXME: move to where rules are created, this is wrong in rules that use phrases!        
           if (refNumber > elementList.size()) {
             throw new SAXException(
                 "Only backward references in match elements are possible, tried to specify token " + refNumber);

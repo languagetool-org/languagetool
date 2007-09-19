@@ -58,7 +58,19 @@ public class Match {
   private String regexReplace;
   private String posTagReplace;
   private CaseConversion caseConversionType;
+  
+  /**
+   * True if this match element formats a statically
+   * defined lemma which is enclosed by the element, 
+   * e.g., <tt>&lt;match...&gt;word&lt;/word&gt;</tt>.
+   */
   private boolean staticLemma = false;
+  
+  /**
+   * True if this match element is used for formatting
+   * POS token.
+   */
+  private boolean setPos = false;
 
   private AnalyzedTokenReadings formattedToken;  
   private AnalyzedTokenReadings matchedToken;
@@ -78,7 +90,8 @@ public class Match {
       final boolean postagRegexp,      
       final String regexMatch,
       final String regexReplace,      
-      final CaseConversion caseConversionType)  {
+      final CaseConversion caseConversionType,
+      final boolean setPOS)  {
     this.posTag = posTag;
     this.postagRegexp = postagRegexp;
     this.caseConversionType = caseConversionType;
@@ -92,6 +105,7 @@ public class Match {
 
     this.regexReplace = regexReplace;  
     this.posTagReplace = posTagReplace;
+    setPos = setPOS;
   }
 
   /**
@@ -108,6 +122,15 @@ public class Match {
     }
   }
 
+  /**
+   * Checks if the Match element is used for 
+   * setting the part of speech Element.
+   * @return True if Match sets POS.
+   */
+  public final boolean setsPos() {
+    return setPos;
+  }
+  
   /**
    * Sets a base form (lemma) that will be formatted, or
    * synthesized, using the specified POS regular expressions.
@@ -234,7 +257,7 @@ public class Match {
    * @return Formatted POS tag as @String.
    */
 //TODO: use this for getting only POS tag in <token><match ...></token>   
- private String getTargetPosTag() {   
+ public final String getTargetPosTag() {   
    String targetPosTag = posTag;
    if (staticLemma) {
      final int numRead = matchedToken.getReadingsLength();

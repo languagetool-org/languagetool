@@ -585,6 +585,12 @@ public class Element {
       }
       p = Pattern.compile(regToken);
     }
+    if (tokenReference.setsPos()) {
+      final String posReference = tokenReference.getTargetPosTag();
+      if (posReference != null) {
+      setPosElement(tokenReference.getTargetPosTag(), posRegExp, negation);
+      }
+    }
   }
   
   /**

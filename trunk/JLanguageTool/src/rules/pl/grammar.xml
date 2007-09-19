@@ -6,7 +6,7 @@ title="Easy editing stylesheet" ?>
 <!--
 Polish Grammar and Typo Rules for LanguageTool
 Copyright (C) 2006-2007 Marcin Miłkowski
-$Id: grammar.xml,v 1.93 2007-09-19 18:49:04 milek_pl Exp $
+$Id: grammar.xml,v 1.94 2007-09-19 22:06:33 milek_pl Exp $
 -->
 <rules lang="pl">
   <phrases>
@@ -21,8 +21,8 @@ $Id: grammar.xml,v 1.93 2007-09-19 18:49:04 milek_pl Exp $
       <token negate_pos="yes" postag=".*acc.*|.*nom.*" postag_regexp="yes"/>
     </phrase>
     <phrase id="ACC_NOM_2">
-      <token postag=".*:sg:.*(acc|nom).*[\.:]f.*" postag_regexp="yes"><exception postag=".*inst.*|.*loc.*|.*:sg:.*(acc|nom).*[\.:][mn].*" postag_regexp="yes"/></token>
-      <token postag=".*:sg:.*(acc|nom).*[\.:]f.*" postag_regexp="yes"><exception postag=".*inst.*|.*loc.*" postag_regexp="yes"/></token>
+      <token postag=".*:sg:.*(acc|nom).*[\.:]f.*" postag_regexp="yes"><exception postag=".*loc.*|.*:sg:.*(acc|nom).*[\.:][mn].*" postag_regexp="yes"/></token>
+      <token postag_regexp="yes"><match no="0" postag=".*[\.:](acc|nom).*" postag_regexp="yes" postag_replace=".*:sg:$1.*" setpos="yes"/></token>
     </phrase>
     <phrase id="ACC_NOM_3">
       <token postag=".*:sg:.*(acc|nom).*[\.:][mn].*" postag_regexp="yes"><exception postag=".*inst.*|.*loc.*" postag_regexp="yes"/></token>
@@ -2297,7 +2297,7 @@ $Id: grammar.xml,v 1.93 2007-09-19 18:49:04 milek_pl Exp $
         <token>półtorej</token>
         <token postag="subst:.*[\.:](m|n).*" postag_regexp="yes"/>
       </pattern>
-      <message>Mówi się <suggestion>półtora</suggestion> kilo, nie „półtorej kilo”.</message>
+      <message>Mówi się <suggestion>półtora</suggestion> \2, nie „półtorej \2”.</message>
       <example type="correct">Kupiłem półtora litra wódki.</example>
       <example correction="półtora" type="incorrect">Kupiłem <marker>półtorej</marker> litra wódki.</example>
     </rule>
