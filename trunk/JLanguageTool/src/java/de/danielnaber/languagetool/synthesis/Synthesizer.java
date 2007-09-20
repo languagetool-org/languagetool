@@ -45,4 +45,15 @@ public interface Synthesizer {
    *  regular expression. 
    **/
   public String[] synthesize(final AnalyzedToken token, final String posTag, boolean posTagRegExp) throws IOException;
+  
+  /**
+   * Gets a corrected version of the POS tag used for synthesis.
+   * Useful when the tagset defines special disjunction that
+   * need to be converted into regexp disjunctions.
+   * @param posTag Original POS tag.
+   * @param @String pattern Pattern of the disjunctive part 
+   * to correct.
+   * @return @String Converted POS tag.
+   */
+  public String getPosTagCorrection(final String posTag, final String pattern);
 }

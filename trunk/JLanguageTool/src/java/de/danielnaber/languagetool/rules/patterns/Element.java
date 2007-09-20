@@ -571,13 +571,22 @@ public class Element {
     return tokenReference;
   }
   
+  /**
+   * Prepare Element for matching by formatting its string token
+   * and POS (if the Element is supposed to refer to some other
+   * token).
+   *
+   */
   public final void compile() {
     if ("".equals(referenceString)) {
       referenceString = stringToken;
     }
+    final boolean setsPos = tokenReference.setsPos(); 
+    if (!setsPos) {
     stringToken = referenceString.replaceAll("\\\\"  
         + tokenReference.getTokenRef(), 
-        tokenReference.toTokenString());  
+        tokenReference.toTokenString());
+    }
     if (!"".equals(stringToken) && stringRegExp) {
       regToken = stringToken;
       if (!caseSensitive) {
@@ -585,11 +594,17 @@ public class Element {
       }
       p = Pattern.compile(regToken);
     }
-    if (tokenReference.setsPos()) {
+    if (setsPos) {
       final String posReference = tokenReference.getTargetPosTag();
       if (posReference != null) {
-      setPosElement(tokenReference.getTargetPosTag(), posRegExp, negation);
+        if (mPos != null) {
+          mPos = null;
+        }
+      setPosElement(posReference, tokenReference.posRegExp(), negation);
       }
+      stringToken = referenceString.replaceAll("\\\\"  
+          + tokenReference.getTokenRef(), "");
+      inflected = true;      
     }
   }
   

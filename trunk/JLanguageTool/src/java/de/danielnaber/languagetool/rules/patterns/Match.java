@@ -132,6 +132,15 @@ public class Match {
   }
   
   /**
+   * Checks if the Match element uses regexp-based
+   * form of the POS tag.
+   * @return True if regexp is used in POS.
+   */
+  public final boolean posRegExp() {
+    return postagRegexp;
+  }
+  
+  /**
    * Sets a base form (lemma) that will be formatted, or
    * synthesized, using the specified POS regular expressions.
    * @param lemmaString @String that specifies the base form.
@@ -277,10 +286,10 @@ public class Match {
      if (targetPosTag.indexOf('?') > 0) {
        targetPosTag = targetPosTag.replaceAll("\\?", "\\\\?");
      }
-   } else {
+   } else {     
      final int numRead = formattedToken.getReadingsLength();
      for (int i = 0; i < numRead; i++) {
-       final String tst = formattedToken.getAnalyzedToken(i).getPOSTag();
+       String tst = formattedToken.getAnalyzedToken(i).getPOSTag();       
        if (tst != null) {
          if (pPosRegexMatch.matcher(tst).matches()) {
            targetPosTag = formattedToken.getAnalyzedToken(i).getPOSTag();
@@ -288,9 +297,12 @@ public class Match {
          }
        }
      }
-     if (pPosRegexMatch != null & posTagReplace != null) {            
+     if (pPosRegexMatch != null & posTagReplace != null) {
+       if (setPos) {
+         targetPosTag = synthesizer.getPosTagCorrection(targetPosTag, "nom.*|acc.*|gen.*|dat.*|loc.*|voc");
+       }
        targetPosTag = pPosRegexMatch.matcher(targetPosTag).
-         replaceAll(posTagReplace);  
+         replaceAll(posTagReplace);         
      }
    }
    return targetPosTag;

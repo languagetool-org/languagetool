@@ -125,6 +125,10 @@ public class EnglishSynthesizer implements Synthesizer {
     }    
   }
 
+  public String getPosTagCorrection(final String posTag, final String pattern) {
+    return posTag;
+  }
+  
   private ArrayList<String> loadWords(final InputStream file) throws IOException {
     final ArrayList<String> set = new ArrayList<String>();
     InputStreamReader isr = null;

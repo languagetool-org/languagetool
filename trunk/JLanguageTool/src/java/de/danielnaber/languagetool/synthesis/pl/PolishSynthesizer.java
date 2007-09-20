@@ -152,6 +152,33 @@ public class PolishSynthesizer implements Synthesizer {
     }    
   }
 
+  public String getPosTagCorrection(final String posTag, final String pattern) {
+    if (posTag.contains(".")) {         
+    final String[] tags = posTag.split(":");
+    int pos = -1;
+    for (int i = 0; i < tags.length; i++) {
+      if (tags[i].contains(".") && tags[i].matches(pattern)) {
+        tags[i] = ".*[\\.:]" 
+          + tags[i].replace(".", "[\\.:].*|[\\.:].*")
+          + "[\\.:].*";
+        pos = i;
+      }
+    }
+    if (pos == -1) {
+      return posTag;
+    } else {
+    String s = tags[0];
+    for (int i = 1; i < tags.length; i++) {
+      s = s + ":" + tags[i];
+      }
+    //s = s + tags[tags.length - 1];
+    return s;
+    }
+    } else {
+      return posTag;
+    }    
+  }
+  
   private ArrayList<String> loadWords(final InputStream file) throws IOException {
     final ArrayList<String> set = new ArrayList<String>();
     InputStreamReader isr = null;
