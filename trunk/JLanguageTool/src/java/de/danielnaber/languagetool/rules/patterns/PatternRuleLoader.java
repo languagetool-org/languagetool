@@ -257,7 +257,6 @@ class PatternRuleHandler extends XMLRuleHandler {
       if (attrs.getValue(REGEXP) != null) {
         exceptionStringRegExp = YES.equals(attrs.getValue(REGEXP));
       }
-
     } else if (qName.equals("example") 
         && attrs.getValue("type").equals("correct")) {
       inCorrectExample = true;
@@ -368,6 +367,7 @@ class PatternRuleHandler extends XMLRuleHandler {
         }
 
         for (final ArrayList < Element > phraseElement : phraseElementList) {
+          processElement(phraseElement);
           final PatternRule rule = new PatternRule(id, language, phraseElement, description, message.toString(), phraseElementList.size()>1);      
           prepareRule(rule);
           rules.add(rule);              
@@ -399,7 +399,7 @@ class PatternRuleHandler extends XMLRuleHandler {
             exceptionPosNegation, exceptionValidNext, exceptionValidPrev);
         exceptionPosToken = null;
       }
-
+      resetException();      
     } else if (qName.equals("and")) {
       inAndGroup = false;
       andGroupCounter = 0;
@@ -501,7 +501,12 @@ class PatternRuleHandler extends XMLRuleHandler {
     posRegExp = false;
     inToken = false;
     stringRegExp = false;
-
+    
+    exceptionSet = false; 
+    tokenReference = null;
+  }
+  
+  private void resetException() {
     exceptionStringNegation = false;
     exceptionStringInflected = false;
     exceptionPosNegation = false;
@@ -509,9 +514,32 @@ class PatternRuleHandler extends XMLRuleHandler {
     exceptionStringRegExp = false;
     exceptionValidNext = false;
     exceptionValidPrev = false;
-    exceptionSet = false; 
-    tokenReference = null;
   }
+  
+  /**
+   * Calculates the offset of the match reference (if any)
+   * in case the match element has been used in the group. 
+   * @param elList Element list where the match element was used. 
+   * It is directly changed.
+   */
+  private void processElement(ArrayList < Element > elList) {
+    int counter = 0;    
+    for (final Element elTest : elList) {
+      if (elTest.getPhraseName() != null && counter > 0) {
+        if (elTest.referenceElement()) {
+          final int tokRef = elTest.getMatch().getTokenRef();          
+          elTest.getMatch().setTokenRef(
+              tokRef + counter - 1);
+          final String offsetToken = 
+            elTest.getString().
+            replace("\\" + tokRef, "\\" + (tokRef + counter - 1));
+          elTest.setStringElement(offsetToken);
+          }        
+        }                           
+      counter++;
+    }
+  }
+      
   
   private void prepareRule(final PatternRule rule) {
     rule.setStartPositionCorrection(startPositionCorrection);

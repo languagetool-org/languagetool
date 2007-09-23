@@ -297,12 +297,12 @@ public class Match {
          }
        }
      }
-     if (pPosRegexMatch != null & posTagReplace != null) {
-       if (setPos) {
-         targetPosTag = synthesizer.getPosTagCorrection(targetPosTag, "nom.*|acc.*|gen.*|dat.*|loc.*|voc");
-       }
+     if (pPosRegexMatch != null & posTagReplace != null) {       
        targetPosTag = pPosRegexMatch.matcher(targetPosTag).
-         replaceAll(posTagReplace);         
+         replaceAll(posTagReplace);
+       if (setPos) {
+         targetPosTag = synthesizer.getPosTagCorrection(targetPosTag);
+       }
      }
    }
    return targetPosTag;

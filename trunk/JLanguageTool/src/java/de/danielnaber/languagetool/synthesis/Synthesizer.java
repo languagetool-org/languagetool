@@ -51,9 +51,8 @@ public interface Synthesizer {
    * Useful when the tagset defines special disjunction that
    * need to be converted into regexp disjunctions.
    * @param posTag Original POS tag.
-   * @param @String pattern Pattern of the disjunctive part 
    * to correct.
    * @return @String Converted POS tag.
    */
-  public String getPosTagCorrection(final String posTag, final String pattern);
+  public String getPosTagCorrection(final String posTag);
 }

@@ -354,6 +354,10 @@ public class Element {
     }
   }
 
+  public final String getString() {
+    return stringToken;
+  }
+  
   public final void setStringElement(final String token) {
     this.stringToken = token;
     if (!"".equals(stringToken) && stringRegExp) {

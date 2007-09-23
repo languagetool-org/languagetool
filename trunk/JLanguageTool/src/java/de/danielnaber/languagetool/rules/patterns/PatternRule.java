@@ -91,7 +91,7 @@ public class PatternRule extends Rule {
       throw new NullPointerException("description cannot be null");
     }
     this.id = id;
-    this.language = new Language[] { language };
+    PatternRule.language = new Language[] { language };
     this.description = description;
     this.message = message;
     this.patternElements = new ArrayList<Element>(elements); // copy elements

@@ -125,7 +125,7 @@ public class EnglishSynthesizer implements Synthesizer {
     }    
   }
 
-  public String getPosTagCorrection(final String posTag, final String pattern) {
+  public String getPosTagCorrection(final String posTag) {
     return posTag;
   }
   

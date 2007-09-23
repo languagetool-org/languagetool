@@ -6,7 +6,7 @@ title="Easy editing stylesheet" ?>
 <!--
 Polish Grammar and Typo Rules for LanguageTool
 Copyright (C) 2006-2007 Marcin Miłkowski
-$Id: grammar.xml,v 1.95 2007-09-20 11:32:58 milek_pl Exp $
+$Id: grammar.xml,v 1.96 2007-09-23 15:15:39 milek_pl Exp $
 -->
 <rules lang="pl">
   <phrases>
@@ -1229,13 +1229,14 @@ $Id: grammar.xml,v 1.95 2007-09-20 11:32:58 milek_pl Exp $
     <rulegroup id="PRZECINEK_A" name="Zbędny przecinek przed „a”">
       <rule>
         <pattern mark_from="1" mark_to="-1">
-          <token regexp="yes" skip="-1">pomiędzy|między<exception scope="next">a</exception></token>
+          <token regexp="yes" skip="-1">pomiędzy|między<exception regexp="yes" scope="next">innymi|a</exception></token>
           <token>,</token>
           <token>a</token>
           <token><exception inflected="yes" regexp="yes">nie|więc|mianowicie|przeto|zatem|jednak|choć|chociaż|ponieważ|także|następnie|jeśli|jeżeli|gdyby|gdy|kiedy</exception></token>
         </pattern>
         <message>W tym miejscu przecinek jest prawdopodobnie zbędny. Powinno być: <suggestion> a</suggestion>.</message>
         <example type="correct">Nie ma żadnej różnicy między Pawłem a Gawłem.</example>
+        <example type="correct">Pośród filozofów dwudziestowiecznych do Kanta nawiązywali w koncepcjach politycznych oraz etycznych między innymi Habermas oraz Rawls, a autentyczne odrodzenie jego myśli miało miejsce w pracach neokantystów: Cohena, Natorpa, Hartmanna i Cassirera.</example>
         <example correction=" a" type="incorrect">Nie ma żadnej różnicy między Pawłem<marker>, a</marker> Gawłem.</example>
       </rule>
       <rule>
@@ -2142,6 +2143,7 @@ $Id: grammar.xml,v 1.95 2007-09-20 11:32:58 milek_pl Exp $
     <!--		FIXME: this requires that all POS tags are matched;
 	current rule syntax doesn't allow that and uses only OR logic
 	this creates many false alarms on alternative POS readings
+	-->
     <rulegroup id="PREP_CASUS" name="Przyimki z nieodpowiednimi przypadkami">
       <rule>
         <pattern mark_from="1">
@@ -2202,7 +2204,6 @@ $Id: grammar.xml,v 1.95 2007-09-20 11:32:58 milek_pl Exp $
         <example type="incorrect">To wszystko przez <marker>pryszczami</marker>.</example>
       </rule>
     </rulegroup>
--->
     <rule id="WIEKSZY_JAK" name="„większy/lepszy jak” (większy/lepszy od/niż)">
       <pattern mark_from="1">
         <token inflected="yes" regexp="yes">większy|lepszy</token>
@@ -2259,7 +2260,7 @@ $Id: grammar.xml,v 1.95 2007-09-20 11:32:58 milek_pl Exp $
     <rulegroup id="UZNAC_JAKIMS" name="„uznać jakimś” (za jakieś)">
       <rule>
         <pattern mark_from="1" mark_to="-1">
-          <token inflected="yes" regexp="yes" skip="2">uznać|uznawać<exception regexp="yes" scope="next">za|,|na|przy|między|nad|nade|znad|o|po|w</exception><exception postag="conj" postag_regexp="yes" scope="next"/></token>
+          <token inflected="yes" regexp="yes" skip="2">uznać|uznawać<exception regexp="yes" scope="next">za|,|na|przy|między|nad|nade|znad|o|po|w</exception><exception postag="ppas.*inst.*" postag_regexp="yes"/><exception postag="conj" postag_regexp="yes" scope="next"/></token>
           <token postag="(adj|pact|ppas|subst).*inst.*" postag_regexp="yes"><exception postag=".*(acc|inst)[:\.]f.*" postag_regexp="yes"/></token>
           <token><exception postag="(adj|ppas|pact|subst).*inst.*" postag_regexp="yes"/></token>
         </pattern>
@@ -2267,11 +2268,12 @@ $Id: grammar.xml,v 1.95 2007-09-20 11:32:58 milek_pl Exp $
         <message>Mówi się „uznać <suggestion>za <match no="2" postag="(adj|subst):(sg|pl):(inst.loc|inst):.*" postag_regexp="yes" postag_replace="$1:$2.*gen.*"/></suggestion>”.</message>
         <example type="correct">Ludwik był uznany za aktora</example>
         <example type="correct">Ten filozof uznaje przyczynową rolę za istotną.</example>
+        <example type="correct">Ludwik był uznanym aktorem.</example>
         <example correction="za aktora" type="incorrect">Ludwik był uznawany <marker>aktorem</marker>.</example>
       </rule>
       <rule>
         <pattern mark_from="1">
-          <token inflected="yes" regexp="yes" skip="2">uznać|uznawać<exception regexp="yes" scope="next">za|,|na|przy|między|nad|nade|znad|o|po|w</exception><exception postag="conj" postag_regexp="yes" scope="next"/></token>
+          <token inflected="yes" regexp="yes" skip="2">uznać|uznawać<exception postag="ppas.*inst.*" postag_regexp="yes" scope="current"/><exception regexp="yes" scope="next">za|,|na|przy|między|nad|nade|znad|o|po|w</exception><exception postag="conj" postag_regexp="yes" scope="next"/></token>
           <token postag="(adj|pact|ppas|subst).*inst.*" postag_regexp="yes"><exception postag=".*(acc|inst)[:\.]f.*" postag_regexp="yes"/></token>
           <token postag="(adj|pact|ppas|subst).*inst.*" postag_regexp="yes"><exception postag=".*(acc|inst)[:\.]f.*" postag_regexp="yes"/></token>
         </pattern>
@@ -2279,6 +2281,7 @@ $Id: grammar.xml,v 1.95 2007-09-20 11:32:58 milek_pl Exp $
         <message>Mówi się „uznać <suggestion>za <match no="2" postag="(adj|subst):(sg|pl):(inst.loc|inst)(:.*)(:neg|:aff)" postag_regexp="yes" postag_replace="$1:$2.*(acc|gen).*:m[1-3]?.*$5.*"/> <match no="3" postag="(adj|subst):(sg|pl):(inst.loc|inst):.*" postag_regexp="yes" postag_replace="$1:$2.*gen.*"/></suggestion>”.</message>
         <example type="correct">Ludwik był uznany za wielkiego aktora</example>
         <example type="correct">Ten filozof uznaje przyczynową rolę za istotną.</example>
+        <example type="correct">Ludwik byl uznanym polskim aktorem.</example>
         <example correction="za wielki aktora|za wielkiego aktora" type="incorrect">Ludwik był uznawany <marker>wielkim aktorem</marker>.</example>
       </rule>
     </rulegroup>
@@ -3218,7 +3221,7 @@ $Id: grammar.xml,v 1.95 2007-09-20 11:32:58 milek_pl Exp $
     <rule id="WYSOKA_FORMA" name="„wysoka forma” (dobra forma, doskonała forma)">
       <pattern>
         <token inflected="yes" postag="adj:sg:.*:f.*:pos:aff" postag_regexp="yes">wysoki</token>
-        <token inflected="yes"><match no="0" postag="adj:sg:(.*):f.*" postag_regexp="yes" postag_replace="subst:sg($1)f" setpos="yes">forma</match></token>
+        <token inflected="yes"><match no="0" postag="adj:sg:(.*):f.*" postag_regexp="yes" postag_replace="subst:sg:$1:f" setpos="yes">forma</match></token>
       </pattern>
       <message>Nie mówi się „wysoka forma”, lecz <suggestion><match no="1" postag="adj.*">dobry</match> <match no="2"/></suggestion>, <suggestion><match no="1" postag="adj.*">doskonały</match> <match no="2"/></suggestion>.</message>
       <example type="correct">Małysz jest w doskonałej formie.</example>
@@ -3240,7 +3243,7 @@ $Id: grammar.xml,v 1.95 2007-09-20 11:32:58 milek_pl Exp $
     <rule id="WYSOKA_FREKWENCJA" name="„wysoka/niska frekwencja” (duża/mała)">
       <pattern>
         <token inflected="yes" postag="adj:sg:.*:f.*:pos:aff" postag_regexp="yes" regexp="yes">wysoki|niski</token>
-        <token inflected="yes"><match no="0" postag="adj:sg:(.*):f.*" postag_regexp="yes" postag_replace="subst:sg($1)f" setpos="yes">frekwencja</match></token>
+        <token inflected="yes"><match no="0" postag="adj:sg:(.*):f.*" postag_regexp="yes" postag_replace="subst:sg:$1:f" setpos="yes">frekwencja</match></token>
       </pattern>
       <message>Nie mówi się „wysoka frekwencja” czy „niska frekwencja”, tylko <suggestion><match no="1" postag="adj.*">duży</match> <match no="2"/></suggestion> i <suggestion><match no="1" postag="adj.*">mały</match> <match no="2"/></suggestion>.</message>
       <example correction="duża frekwencja|mała frekwencja" type="incorrect">W tym roku w wyborach była bardzo <marker>wysoka frekwencja</marker>.</example>
@@ -3888,7 +3891,7 @@ $Id: grammar.xml,v 1.95 2007-09-20 11:32:58 milek_pl Exp $
     <rule id="POTENCJALNA_MOZLIWOSC" name="„potencjalna możliwość” (możliwość)">
       <pattern>
         <token inflected="yes" postag="adj:.*:(f|f.n.*):pos:aff" postag_regexp="yes">potencjalny</token>
-        <token inflected="yes"><match no="0" postag="adj:sg:(.*):f.*" postag_regexp="yes" postag_replace="subst:sg($1)f" setpos="yes"/>możliwość</token>
+        <token inflected="yes"><match no="0" postag="adj:(sg|pl):(.*)(?&lt;!\.):f.*" postag_regexp="yes" postag_replace="subst:$1:$2:f" setpos="yes"/>możliwość</token>
       </pattern>
       <message>To wyrażenie to pleonazm. Wystarczy powiedzieć <suggestion>\2</suggestion>.</message>
       <example type="correct">To otwiera nowe możliwości.</example>

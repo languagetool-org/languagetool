@@ -152,15 +152,15 @@ public class PolishSynthesizer implements Synthesizer {
     }    
   }
 
-  public String getPosTagCorrection(final String posTag, final String pattern) {
+  public String getPosTagCorrection(final String posTag) {
     if (posTag.contains(".")) {         
     final String[] tags = posTag.split(":");
     int pos = -1;
     for (int i = 0; i < tags.length; i++) {
-      if (tags[i].contains(".") && tags[i].matches(pattern)) {
-        tags[i] = ".*[\\.:]" 
-          + tags[i].replace(".", "[\\.:].*|[\\.:].*")
-          + "[\\.:].*";
+      if (tags[i].matches(".*[a-z]\\.[a-z].*")) {
+        tags[i] = "(.*" 
+          + tags[i].replace(".", ".*|.*")
+          + ".*)";
         pos = i;
       }
     }
