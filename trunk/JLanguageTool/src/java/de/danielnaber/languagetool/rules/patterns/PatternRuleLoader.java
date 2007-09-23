@@ -502,6 +502,7 @@ class PatternRuleHandler extends XMLRuleHandler {
     inToken = false;
     stringRegExp = false;
     
+    resetException();
     exceptionSet = false; 
     tokenReference = null;
   }

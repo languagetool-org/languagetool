@@ -262,6 +262,7 @@ class DisambiguationRuleHandler extends XMLRuleHandler {
             exceptionPosNegation, exceptionValidNext, exceptionValidPrev);
         exceptionPosToken = null;
       }
+      resetException();
     } else if (qName.equals("and")) {
       inAndGroup = false;
       andGroupCounter = 0;
@@ -312,14 +313,20 @@ class DisambiguationRuleHandler extends XMLRuleHandler {
     posRegExp = false;
     inToken = false;
     stringRegExp = false;
-
+    
+    resetException();
+    exceptionSet = false;
+    tokenReference = null;
+  }
+  
+  private void resetException() {
     exceptionStringNegation = false;
     exceptionStringInflected = false;
     exceptionPosNegation = false;
     exceptionPosRegExp = false;
     exceptionStringRegExp = false;
     exceptionValidNext = false;
-    exceptionSet = false; 
+    exceptionValidPrev = false;
   }
   
   public final void characters(final char[] buf, final int offset, final int len) {
