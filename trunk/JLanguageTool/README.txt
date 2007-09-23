@@ -61,14 +61,13 @@ TODO:
  -add a simple sentence/word complexity test like that: http://www.ooomacros.org/user.php#111318 
  -German rule: Vergleichs vs Vergleiches etc -> only one variant per document should be used
  -add unification to the XML rules in two steps:
- 	-add possibility to refer to matched tokens' POS in <match>
- 	inside <token>
  	-create XML definitions of unification rules based on
  	POS regular expression transformations
+ -check if it's possible to edit rules directly in OOo using XML Forms document
  -create abstract SentenceRule and TextRule classes to get rid of reset() method?
  -check if there's a nice design that lets us extend PatternRule and PatternRuleLoader
   to make them more powerful, but without having all features in these classes
- -add more docs and examples
+ -add more docs and examples 
  -Make adding language possible without changing the LanguageTool core code:
  	-make rule loading dynamic by using reflection (in progress)
  	-create the list of languages using reflection (add a LanguageInformation
