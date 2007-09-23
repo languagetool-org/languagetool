@@ -47,7 +47,15 @@ import de.danielnaber.languagetool.tagging.disambiguation.Disambiguator;
         + "na co dzień|ADV\n"
         + "co najmniej|ADV\n"
         + "co najwyżej|ADV\n"
-        + "co nieco|ADV\n";
+        + "co nieco|ADV\n"
+        + "mimo wszystko|ADV\nMimo wszystko|ADV\n"
+        + "do czysta|ADV\n"
+        + "do cna|ADV\n"
+        + "do naga|ADV\n"
+        + "do niedawna|ADV\nDo niedawna|ADV\n"
+        + "do równa|ADV\n"
+        + "do syta|ADV\n"
+        + "do żywa|ADV\n";
       
     /* Lazy init, thanks to Artur Trzewik
      */

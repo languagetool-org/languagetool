@@ -66,7 +66,7 @@ public class PolishSentenceTokenizer extends SentenceTokenizer {
         "elektr|em|etc|ew|fab|farm|fot|fr|gat|gastr|geogr|geol|gimn|głęb|gm|godz|górn|gosp|gr|gram|" +
         "hist|hiszp|hr|hot|id|in|im|iron|jn|kard|kat|katol|k.k|kk|klas|kol|k.p.a|kpc|k.p.c|kpt|kr|k.r|" +
         "krak|k.r.o|kryt|kult|laic|łac|niem|woj|np|pol|m.in|itd|itp|pt|cdn|jw|" +
-        "nb|rys|tj|tzw|tzn|zob|ang|ul|pl|al|k|n|ok|tys|ww|ur|zm|żyd|żarg|żart|żyw|wył|" +
+        "nb|rys|tj|tzw|tzn|zob|ang|ul|pl|al|k|n|ok|tys|ww|ur|zm|żyd|żarg|żyw|wył|" +
         "up|tow|o|zn|zew|zewn|zdr|zazw|zast|zaw|zał|zal|zam|zak|zakł|zagr|zach|"+
         "adw|lek|mec|doc|dyr|inż|mgr|dr|red|prof|hab|ks|gen|por|przyp"+
         // needed for SKROTY_BEZ_KROPKI rule
