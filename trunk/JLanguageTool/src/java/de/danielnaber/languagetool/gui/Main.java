@@ -63,6 +63,8 @@ import javax.swing.JTextArea;
 import javax.swing.JTextPane;
 import javax.swing.WindowConstants;
 import javax.swing.filechooser.FileFilter;
+import com.jgoodies.looks.windows.WindowsLookAndFeel;
+import javax.swing.UIManager;
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.jdesktop.jdic.tray.SystemTray;
@@ -335,11 +337,17 @@ public final class Main implements ActionListener {
       clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
     }
     String s = null;
-    Transferable data = clipboard.getContents(this);
+    final Transferable data = clipboard.getContents(this);
     try {
-      DataFlavor df = DataFlavor.getTextPlainUnicodeFlavor();
-      Reader sr = df.getReaderForText(data);
-      s = StringTools.readerToString(sr);
+      if (data != null
+          && data.isDataFlavorSupported(
+              DataFlavor.getTextPlainUnicodeFlavor())) {
+        final DataFlavor df = DataFlavor.getTextPlainUnicodeFlavor();
+        final Reader sr = df.getReaderForText(data);
+        s = StringTools.readerToString(sr);
+      } else {
+        s = "";
+      }
     } catch (Exception ex) {
       ex.printStackTrace();
       s = data.toString();
@@ -512,7 +520,7 @@ public final class Main implements ActionListener {
       final Main prg = new Main();
       if (args.length == 1 && (args[0].equals("-t") || args[0].equals("--tray"))) {
         // dock to systray on startup
-        javax.swing.SwingUtilities.invokeLater(new Runnable() {
+        javax.swing.SwingUtilities.invokeLater(new Runnable() {          
           public void run() {
             try {
               prg.createGUI();
@@ -532,8 +540,16 @@ public final class Main implements ActionListener {
         System.out.println("Usage: java de.danielnaber.languagetool.gui.Main [-t|--tray]");
         System.out.println("  -t, --tray: dock LanguageTool to system tray on startup");
       } else {
-        javax.swing.SwingUtilities.invokeLater(new Runnable() {
+        javax.swing.SwingUtilities.invokeLater(new Runnable() {          
           public void run() {
+          try {
+              UIManager.setLookAndFeel(
+                  new WindowsLookAndFeel());
+          } catch (Exception ex) {
+            System.out.println("Unable to load native look and feel");
+          }
+            
+            
             try {
               prg.createGUI();
               prg.showGUI();
