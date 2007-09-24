@@ -158,10 +158,19 @@ public class Tools {
   }
 
   /**
-   * Show the exception in a dialog and print it to STDERR.
+   * Show the exception (with stacktrace) in a dialog and print it to STDERR.
    */
   static void showError(final Exception e) {
     String msg = de.danielnaber.languagetool.tools.Tools.getFullStackTrace(e);
+    JOptionPane.showMessageDialog(null, msg, "Error", JOptionPane.ERROR_MESSAGE);
+    e.printStackTrace();
+  }
+
+  /**
+   * Show the exception (message without stacktrace) in a dialog and print it to STDERR.
+   */
+  static void showErrorMessage(final Exception e) {
+    String msg = e.getMessage();
     JOptionPane.showMessageDialog(null, msg, "Error", JOptionPane.ERROR_MESSAGE);
     e.printStackTrace();
   }

@@ -71,6 +71,7 @@ import org.xml.sax.SAXException;
 
 import de.danielnaber.languagetool.JLanguageTool;
 import de.danielnaber.languagetool.Language;
+import de.danielnaber.languagetool.language.RuleFilenameException;
 import de.danielnaber.languagetool.rules.Rule;
 import de.danielnaber.languagetool.rules.RuleMatch;
 import de.danielnaber.languagetool.server.HTTPServer;
@@ -285,7 +286,11 @@ public final class Main implements ActionListener {
   void addLanguage() {
     LanguageManagerDialog lmd = new LanguageManagerDialog(frame, Language.getExternalLanguages());
     lmd.show();
-    Language.reInit(lmd.getLanguages());
+    try {
+      Language.reInit(lmd.getLanguages());
+    } catch (RuleFilenameException e) {
+      Tools.showErrorMessage(e);
+    }
     populateLanguageBox();
   }
   

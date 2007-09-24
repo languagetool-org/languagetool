@@ -40,13 +40,12 @@ public class LanguageBuilder {
    * a Language object for that language.
    */
   public static Language makeLanguage(final File file) {
-    String errMsg = "File must be named rules-<xx>-<language>.xml";
     if (file!=null) {
     if (!file.getName().endsWith(".xml"))
-      throw new IllegalArgumentException(errMsg);
+      throw new RuleFilenameException(file);
     final String[] parts = file.getName().split("-");
     if (parts.length != 3 || !parts[0].equals("rules") || parts[1].length() != 2)
-      throw new IllegalArgumentException(errMsg);
+      throw new RuleFilenameException(file);
     
     Language newLanguage = new Language() {
       public Locale getLocale() {
