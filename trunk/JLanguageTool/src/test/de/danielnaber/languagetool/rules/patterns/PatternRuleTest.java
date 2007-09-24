@@ -40,39 +40,41 @@ public class PatternRuleTest extends TestCase {
 
   private static JLanguageTool langTool = null;
   
+  @Override
   public void setUp() throws IOException {
-    if (langTool == null)
+    if (langTool == null) {
       langTool = new JLanguageTool(Language.ENGLISH);
+    }
   }
 
   public void testGrammarRulesFromXML() throws IOException {
     testGrammarRulesFromXML(null, false);
   }
   
-  private void testGrammarRulesFromXML(Set ignoredLanguages, boolean verbose) throws IOException {
-    for (int i = 0; i < Language.LANGUAGES.length; i++) {
-      Language lang = Language.LANGUAGES[i];
+  private void testGrammarRulesFromXML(final Set ignoredLanguages, final boolean verbose) throws IOException {
+    for (final Language lang : Language.LANGUAGES) {
       if (ignoredLanguages != null && ignoredLanguages.contains(lang)) {
-        if (verbose)
+        if (verbose) {
           System.out.println("Ignoring tests for " + lang.getName());
+        }
         continue;
       }
-      if (verbose)
+      if (verbose) {
         System.out.println("Running tests for " + lang.getName() + "...");
-      PatternRuleLoader ruleLoader = new PatternRuleLoader();
-      JLanguageTool languageTool = new JLanguageTool(lang);
-      String name = "/rules/" + lang.getShortName() + "/grammar.xml";
-      List rules = ruleLoader.getRules(this.getClass().getResourceAsStream(name), name);
+      }
+      final PatternRuleLoader ruleLoader = new PatternRuleLoader();
+      final JLanguageTool languageTool = new JLanguageTool(lang);
+      final String name = "/rules/" + lang.getShortName() + "/grammar.xml";
+      final List rules = ruleLoader.getRules(this.getClass().getResourceAsStream(name), name);
       testGrammarRulesFromXML(rules, languageTool, lang);
     }
   }
   
-  private void testGrammarRulesFromXML(List rules, JLanguageTool languageTool, Language lang) throws IOException {
+  private void testGrammarRulesFromXML(final List <PatternRule> rules, final JLanguageTool languageTool, final Language lang) throws IOException {
     int noSuggestionCount = 0;    
-    HashMap <String, PatternRule> complexRules = new HashMap <String, PatternRule> ();        
-    for (Iterator iter = rules.iterator(); iter.hasNext();) {
-      PatternRule rule = (PatternRule) iter.next();      
-      List<String> goodSentences = rule.getCorrectExamples();
+    final HashMap <String, PatternRule> complexRules = new HashMap <String, PatternRule> ();        
+    for (final PatternRule rule : rules) {            
+      final List<String> goodSentences = rule.getCorrectExamples();
       for (String goodSentence : goodSentences) {
         //enable indentation use
         goodSentence = goodSentence.replaceAll("[\\n\\t]+", "");
@@ -81,26 +83,26 @@ public class PatternRuleTest extends TestCase {
         assertFalse(lang + ": Did not expect error in: " + goodSentence + " (Rule: "+rule+")",
             match(rule, goodSentence, languageTool));
       }
-      List<String> badSentences = rule.getIncorrectExamples();
+      final List<String> badSentences = rule.getIncorrectExamples();
       for (String origBadSentence : badSentences) {
         //enable indentation use
         origBadSentence = origBadSentence.replaceAll("[\\n\\t]+", "");
         List<String> suggestedCorrection = new ArrayList <String>();
         if (origBadSentence.indexOf("<correction>") > -1) {
-          int corStart = origBadSentence.indexOf("<correction>");
-          int corEnd = origBadSentence.indexOf("</correction>");
-          String sugCorrection = origBadSentence.substring(corStart 
+          final int corStart = origBadSentence.indexOf("<correction>");
+          final int corEnd = origBadSentence.indexOf("</correction>");
+          final String sugCorrection = origBadSentence.substring(corStart 
               + "<correction>".length(), corEnd);
           suggestedCorrection = java.util.Arrays.asList(sugCorrection.split("\\|"));
           origBadSentence = origBadSentence.substring(corEnd  
               + "</correction>".length());
         }
-        int expectedMatchStart = origBadSentence.indexOf("<marker>");
-        int expectedMatchEnd = origBadSentence.indexOf("</marker>") - "<marker>".length();
+        final int expectedMatchStart = origBadSentence.indexOf("<marker>");
+        final int expectedMatchEnd = origBadSentence.indexOf("</marker>") - "<marker>".length();
         if (expectedMatchStart == -1 || expectedMatchEnd == -1) {
           fail(lang + ": No error position markup ('<marker>...</marker>') in bad example in rule " + rule);
         }
-        String badSentence = cleanXML(origBadSentence);
+        final String badSentence = cleanXML(origBadSentence);
         assertTrue(badSentence.trim().length() > 0);                
         RuleMatch[] matches = getMatches(rule, badSentence, languageTool);
         if (!rule.isWithComplexPhrase()) {            
@@ -121,10 +123,10 @@ public class PatternRuleTest extends TestCase {
         }
           // make sure the suggested correction doesn't produce an error:
         if (matches[0].getSuggestedReplacements().size() > 0) {
-          int fromPos = matches[0].getFromPos();
-          int toPos = matches[0].getToPos();
-          for (String repl : matches[0].getSuggestedReplacements()) {
-            String fixedSentence = badSentence.substring(0, fromPos) + repl +
+          final int fromPos = matches[0].getFromPos();
+          final int toPos = matches[0].getToPos();
+          for (final String repl : matches[0].getSuggestedReplacements()) {
+            final String fixedSentence = badSentence.substring(0, fromPos) + repl +
               badSentence.substring(toPos);
             matches = getMatches(rule, fixedSentence, languageTool);
             assertEquals("Corrected sentence for rule " +rule+ " triggered error: " + fixedSentence,
@@ -136,12 +138,13 @@ public class PatternRuleTest extends TestCase {
         } else { //for multiple rules created with complex phrases        
           
           matches = getMatches(rule, badSentence, languageTool);
-          if (matches.length == 0 && !complexRules.containsKey(rule.getId())) {
-             complexRules.put(rule.getId(), rule);
+          if (matches.length == 0 && 
+              !complexRules.containsKey(rule.getId()+badSentence)) {
+             complexRules.put(rule.getId()+badSentence, rule);
           }                      
                     
          if (matches.length != 0) {
-           complexRules.put(rule.getId(), null);
+           complexRules.put(rule.getId()+badSentence, null);
           assertTrue(lang + ": Did expect one error in: \"" + badSentence + "\" (Rule: "+rule+"), got " + 
               matches.length, matches.length == 1);
           assertEquals(lang + ": Incorrect match position markup (start) for rule " + rule,
@@ -159,10 +162,10 @@ public class PatternRuleTest extends TestCase {
           }
             // make sure the suggested correction doesn't produce an error:
           if (matches[0].getSuggestedReplacements().size() > 0) {
-            int fromPos = matches[0].getFromPos();
-            int toPos = matches[0].getToPos();
-            for (String repl : matches[0].getSuggestedReplacements()) {
-              String fixedSentence = badSentence.substring(0, fromPos) + repl +
+            final int fromPos = matches[0].getFromPos();
+            final int toPos = matches[0].getToPos();
+            for (final String repl : matches[0].getSuggestedReplacements()) {
+              final String fixedSentence = badSentence.substring(0, fromPos) + repl +
                 badSentence.substring(toPos);
               matches = getMatches(rule, fixedSentence, languageTool);
               assertEquals("Corrected sentence for rule " +rule+ " triggered error: " + fixedSentence,
@@ -177,11 +180,11 @@ public class PatternRuleTest extends TestCase {
       }      
     }
     if (!complexRules.isEmpty()) {
-      Set set = complexRules.keySet();
-      List < PatternRule > badRules = new ArrayList < PatternRule > ();
-      Iterator iter = set.iterator();       
+      final Set set = complexRules.keySet();
+      final List < PatternRule > badRules = new ArrayList < PatternRule > ();
+      final Iterator iter = set.iterator();       
       while (iter.hasNext()) {
-        PatternRule badRule = (PatternRule) complexRules.get(iter.next());
+        final PatternRule badRule = complexRules.get(iter.next());
         if (badRule != null) {
           badRule.notComplexPhrase();
           badRules.add(badRule);
@@ -193,22 +196,22 @@ public class PatternRuleTest extends TestCase {
     }
   }
   
-  private String cleanXML(String str) {
+  private String cleanXML(final String str) {
     return str.replaceAll("<.*?>", "");
   }
 
-  private boolean match(Rule rule, String sentence, JLanguageTool languageTool) throws IOException {
-    AnalyzedSentence text = languageTool.getAnalyzedSentence(sentence);
-    RuleMatch[] matches = rule.match(text);
+  private boolean match(final Rule rule, final String sentence, final JLanguageTool languageTool) throws IOException {
+    final AnalyzedSentence text = languageTool.getAnalyzedSentence(sentence);
+    final RuleMatch[] matches = rule.match(text);
     /*for (int i = 0; i < matches.length; i++) {
       System.err.println(matches[i]);
     }*/
     return matches.length > 0;
   }
 
-  private RuleMatch[] getMatches(Rule rule, String sentence, JLanguageTool languageTool) throws IOException {
-    AnalyzedSentence text = languageTool.getAnalyzedSentence(sentence);
-    RuleMatch[] matches = rule.match(text);
+  private RuleMatch[] getMatches(final Rule rule, final String sentence, final JLanguageTool languageTool) throws IOException {
+    final AnalyzedSentence text = languageTool.getAnalyzedSentence(sentence);
+    final RuleMatch[] matches = rule.match(text);
     /*for (int i = 0; i < matches.length; i++) {
       System.err.println(matches[i]);
     }*/
@@ -216,12 +219,12 @@ public class PatternRuleTest extends TestCase {
   }
 
   public void testUppercasingSuggestion() throws IOException {
-    JLanguageTool langTool = new JLanguageTool(Language.ENGLISH);
+    final JLanguageTool langTool = new JLanguageTool(Language.ENGLISH);
     langTool.activateDefaultPatternRules();
-    List<RuleMatch> matches = langTool.check("Were are in the process of ...");
+    final List<RuleMatch> matches = langTool.check("Were are in the process of ...");
     assertEquals(1, matches.size());
-    RuleMatch match = matches.get(0);
-    List<String> sugg = match.getSuggestedReplacements();
+    final RuleMatch match = matches.get(0);
+    final List<String> sugg = match.getSuggestedReplacements();
     assertEquals(2, sugg.size());
     assertEquals("Where", sugg.get(0));
     assertEquals("We", sugg.get(1));
@@ -279,31 +282,31 @@ public class PatternRuleTest extends TestCase {
     assertEquals(1, matches.length);
   }
 
-  private PatternRule makePatternRule(String s) {
+  private PatternRule makePatternRule(final String s) {
     return makePatternRule(s, false, false);
   }
 
-  private PatternRule makePatternRule(String s, boolean caseSensitive, boolean regex) {
-    List<Element> elems = new ArrayList<Element>();
-    String[] parts = s.split(" ");
+  private PatternRule makePatternRule(final String s, final boolean caseSensitive, final boolean regex) {
+    final List<Element> elems = new ArrayList<Element>();
+    final String[] parts = s.split(" ");
     boolean pos = false;
     Element se = null;
-    for (int i = 0; i < parts.length; i++) {
-      if (parts[i].equals("SENT_START")) {
+    for (final String element : parts) {
+      if (element.equals("SENT_START")) {
         pos = true;
       }
       if (!pos) {
-        se = new Element(parts[i], caseSensitive, regex, false);
+        se = new Element(element, caseSensitive, regex, false);
       } else {
         se = new Element("", caseSensitive, regex, false);
       }
       if (pos) {
-        se.setPosElement(parts[i], false, false);
+        se.setPosElement(element, false, false);
       }
       elems.add(se);
       pos = false;
     }
-    PatternRule rule = new PatternRule("ID1", Language.ENGLISH, elems, "test rule",
+    final PatternRule rule = new PatternRule("ID1", Language.ENGLISH, elems, "test rule",
         "user visible message");
     return rule;
   }
@@ -322,11 +325,11 @@ public class PatternRuleTest extends TestCase {
   /**
    * Test XML patterns, as a help for people developing rules that are not programmers.
    */
-  public static void main(String[] args) throws IOException {
-    PatternRuleTest prt = new PatternRuleTest();
+  public static void main(final String[] args) throws IOException {
+    final PatternRuleTest prt = new PatternRuleTest();
     System.out.println("Running XML pattern tests...");
     prt.setUp();
-    Set<Language> ignoredLanguages = new HashSet<Language>();
+    final Set<Language> ignoredLanguages = new HashSet<Language>();
     ignoredLanguages.add(Language.CZECH);   // has no XML rules yet
     prt.testGrammarRulesFromXML(ignoredLanguages, true);
     System.out.println("Tests successful.");
