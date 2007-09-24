@@ -234,6 +234,7 @@ class PatternRuleHandler extends XMLRuleHandler {
     } else if (qName.equals("exception")) {
       inException = true;      
       exceptions = new StringBuffer();
+      resetException();
 
       if (attrs.getValue(NEGATE) != null) {
         exceptionStringNegation = YES.equals(attrs.getValue(NEGATE));
@@ -302,7 +303,6 @@ class PatternRuleHandler extends XMLRuleHandler {
       message.append("\\" + attrs.getValue("no"));
       } else if (inToken && attrs.getValue("no") != null) {
         final int refNumber = Integer.parseInt(attrs.getValue("no"));
-//FIXME: move to where rules are created, this is wrong in rules that use phrases!        
           if (refNumber > elementList.size()) {
             throw new SAXException(
                 "Only backward references in match elements are possible, tried to specify token " + refNumber);
@@ -482,7 +482,8 @@ class PatternRuleHandler extends XMLRuleHandler {
           }
         }
       }     
-      phraseMap.put(phraseId, new ArrayList < ArrayList < Element > >(phraseElementList));
+      phraseMap.put(phraseId, 
+            new ArrayList < ArrayList < Element > >(phraseElementList));
       if (elementList != null) {
         elementList.clear();
       }

@@ -54,7 +54,7 @@ public class Element {
   /**
    * True if scope=="next".
    */
-  private boolean exceptionValidNext = true;
+  private boolean exceptionValidNext = false;
   
   /** 
    * True if any exception with a scope=="current"

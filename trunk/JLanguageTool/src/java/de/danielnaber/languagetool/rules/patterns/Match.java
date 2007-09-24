@@ -265,7 +265,8 @@ public class Match {
    * Format POS tag using parameters already defined in the class.
    * @return Formatted POS tag as @String.
    */
-//TODO: use this for getting only POS tag in <token><match ...></token>   
+//FIXME: gets only the first POS tag that matches, this can be wrong
+//on the other hand, many POS tags = too many suggestions? 
  public final String getTargetPosTag() {   
    String targetPosTag = posTag;
    if (staticLemma) {
@@ -289,7 +290,7 @@ public class Match {
    } else {     
      final int numRead = formattedToken.getReadingsLength();
      for (int i = 0; i < numRead; i++) {
-       String tst = formattedToken.getAnalyzedToken(i).getPOSTag();       
+       final String tst = formattedToken.getAnalyzedToken(i).getPOSTag();       
        if (tst != null) {
          if (pPosRegexMatch.matcher(tst).matches()) {
            targetPosTag = formattedToken.getAnalyzedToken(i).getPOSTag();
