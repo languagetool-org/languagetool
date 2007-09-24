@@ -123,7 +123,9 @@ public class PolishSynthesizer implements Synthesizer {
       posTag = posTag.replaceAll(NEGATION_TAG, POTENTIAL_NEGATION_TAG + "?");
     }
     
-    final Pattern p = Pattern.compile(posTag.replace('+', '|'));    
+    final Pattern p = Pattern.compile(
+        posTag.replace('+', '|').
+          replaceAll("m[1-5]", "m[1-5]?"));    
         
     for (final String tag : possibleTags) {
       final Matcher m = p.matcher(tag);
