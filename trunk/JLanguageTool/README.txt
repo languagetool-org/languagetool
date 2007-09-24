@@ -8,14 +8,25 @@ Requirements:
  -Java 1.5 or later
 
 Usage:
- -To integrate LanguageTool into OpenOffice.org:
-  In OpenOffice.org, call Tools -> Package Manager (since 
-  OpenOffice.org 2.1: Extension Manager) -> Add... and
-  add the LanguageTool ZIP file. Open a new document (File -> New ->
-  Text document) and you'll have a new menu item "LanguageTool"
+ -To integrate LanguageTool into OpenOffice.org, you
+ can use two methods:
+ 
+ 1. Double-click LanguageTool-###VERSION###.oxt. If you
+ have OpenOffice.org >2.0.4 integrated into the environment,
+ the extension should start installing. Follow the on-screen
+ instructions.
+ 
+ 2. If the above method doesn't work, in OpenOffice.org, 
+  call Tools -> Package Manager (since OpenOffice.org 2.1: 
+  Extension Manager) -> Add... and browse for the 
+  LanguageTool-###VERSION###.oxt file. 
+  
+  Open a new document (File -> New ->  Text document) and 
+  you'll have a new menu item "LanguageTool"
   which checks your text.
   
- -To use the simple demo GUI:
+ -To use the simple demo GUI, first rename the .oxt file
+  to zip, then unzip it to a directory and call:
   java -jar LanguageToolGUI.jar
 
  -To check plain text files from the command line:
