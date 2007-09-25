@@ -63,7 +63,6 @@ import javax.swing.JTextArea;
 import javax.swing.JTextPane;
 import javax.swing.WindowConstants;
 import javax.swing.filechooser.FileFilter;
-import com.jgoodies.looks.windows.WindowsLookAndFeel;
 import javax.swing.UIManager;
 import javax.xml.parsers.ParserConfigurationException;
 
@@ -541,15 +540,7 @@ public final class Main implements ActionListener {
         System.out.println("  -t, --tray: dock LanguageTool to system tray on startup");
       } else {
         javax.swing.SwingUtilities.invokeLater(new Runnable() {          
-          public void run() {
-          try {
-              UIManager.setLookAndFeel(
-                  new WindowsLookAndFeel());
-          } catch (Exception ex) {
-            System.out.println("Unable to load native look and feel");
-          }
-            
-            
+          public void run() {                                 
             try {
               prg.createGUI();
               prg.showGUI();

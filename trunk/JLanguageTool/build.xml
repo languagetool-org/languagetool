@@ -14,7 +14,6 @@
 
   <path id="common.classpath">
     <pathelement location="${ext.stempelator.lib}"/>
-  	<pathelement location="${ext.looks.lib}"/>
     <pathelement location="${ext.jdic.lib}"/>
     <pathelement location="${ext.jaminid.lib}"/>
     <pathelement location="${ext.jwordsplitter.lib}"/>
@@ -268,7 +267,7 @@
 		excludes="**/*.java">
 		<manifest>
 			<attribute name="Main-Class" value="de.danielnaber.languagetool.Main" />
-			<attribute name="Class-Path" value="./ ./rules ./resource ./${stempelator.lib} ./${looks.lib} ./jdic.jar ./jaminid.jar ./jWordSplitter.jar" />
+			<attribute name="Class-Path" value="./ ./rules ./resource ./${stempelator.lib}  ./jdic.jar ./jaminid.jar ./jWordSplitter.jar" />
 			<attribute name="Implementation-Version" value="${version}" />
 			<attribute name="Implementation-Date" value="${date}" />
 		</manifest>
@@ -280,7 +279,7 @@
 		includes="de/danielnaber/languagetool/gui/*.class">
 		<manifest>
 			<attribute name="Main-Class" value="de.danielnaber.languagetool.gui.Main" />
-			<attribute name="Class-Path" value="./LanguageTool.jar ./ ./resource ./rules ./${stempelator.lib} ./${looks.lib} ./jdic.jar ./jaminid.jar ./jWordSplitter.jar" />
+			<attribute name="Class-Path" value="./LanguageTool.jar ./ ./resource ./rules ./${stempelator.lib}  ./jdic.jar ./jaminid.jar ./jWordSplitter.jar" />
 			<attribute name="Implementation-Version" value="${version}" />
 			<attribute name="Implementation-Date" value="${date}" />
 		</manifest>
@@ -352,7 +351,7 @@
 		  	<attribute name="RegistrationClassName" value="de.danielnaber.languagetool.openoffice.Main" />
 			<attribute name="Implementation-Version" value="${version}" />
 			<attribute name="Implementation-Date" value="${date}" />
-			<attribute name="Class-Path" value="./ ./rules ./resource ./LanguageTool.jar ./${stempelator.lib} ./${looks.lib} ./jdic.jar ./jaminid.jar ./jWordSplitter.jar" />
+			<attribute name="Class-Path" value="./ ./rules ./resource ./LanguageTool.jar ./${stempelator.lib}  ./jdic.jar ./jaminid.jar ./jWordSplitter.jar" />
   		</manifest>
 	</jar>
   </target>
@@ -418,14 +417,12 @@
   	<copy file="${ext.dir}/Morfologik-nodict-license.txt" tofile="${dist.dir}/Morfologik-license.txt" />
   	<copy file="${ext.dir}/CPL.txt" tofile="${dist.dir}/junit-license.txt" />
   	<copy file="${ext.dir}/Apache-License.txt" tofile="${dist.dir}/jWordSplitter-license.txt" />
-  	<copy file="${ext.dir}/looks-LICENSE.txt" tofile="${dist.dir}/looks-license.txt" />
   	
 	<filter filtersFile="build.properties"/>
   	<copy file="${ext.dir}/README" tofile="${dist.dir}/README-license.txt" 
   	filtering="true"/>
   		
 	<copy file="${ext.stempelator.lib}" todir="${dist.dir}" />
-	<copy file="${ext.looks.lib}" todir="${dist.dir}" />
 	<copy file="${ext.jdic.lib}" todir="${dist.dir}" />
 	<copy file="${ext.jaminid.lib}" todir="${dist.dir}" />
 	<copy file="${ext.jwordsplitter.lib}" todir="${dist.dir}" />
@@ -515,10 +512,6 @@
 		  	lazy="true" keystore="./keystore.ks" keypass="blabla" 
 		  	storepass="blabla" alias="languagetool"/>
 		<copy file="${ext.stempelator.lib}" todir="${dist.dir}/web/" />
-	  <signjar jar="${dist.dir}/web/${stempelator.lib}"
-	  	lazy="true" keystore="./keystore.ks" keypass="blabla" 
-	  	storepass="blabla" alias="languagetool"/>
-		<copy file="${ext.looks.lib}" todir="${dist.dir}/web/" />
 	  <signjar jar="${dist.dir}/web/${stempelator.lib}"
 	  	lazy="true" keystore="./keystore.ks" keypass="blabla" 
 	  	storepass="blabla" alias="languagetool"/>

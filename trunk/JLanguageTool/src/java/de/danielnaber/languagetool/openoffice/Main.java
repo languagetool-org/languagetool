@@ -97,7 +97,7 @@ public class Main {
         xTextDoc = (XTextDocument) UnoRuntime.queryInterface(XTextDocument.class, xComponent);
         baseDir = getBaseDir();
         config = new Configuration(baseDir);
-        messages = JLanguageTool.getMessageBundle();
+        messages = JLanguageTool.getMessageBundle();        
       } catch (Throwable e) {
         writeError(e);
         e.printStackTrace();
@@ -146,7 +146,7 @@ public class Main {
         DialogThread dt = new DialogThread("Error: LanguageTool requires Java 1.5 or later. Current version: " + version);
         dt.start();
         return false;
-      }
+      }    
       return true;
     }
 

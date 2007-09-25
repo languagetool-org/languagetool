@@ -20,6 +20,7 @@ package de.danielnaber.languagetool.rules.patterns;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.TreeSet;
 import java.util.regex.Pattern;
 
@@ -269,6 +270,7 @@ public class Match {
 //on the other hand, many POS tags = too many suggestions? 
  public final String getTargetPosTag() {   
    String targetPosTag = posTag;
+   List <String> posTags = new ArrayList <String> ();
    if (staticLemma) {
      final int numRead = matchedToken.getReadingsLength();
      for (int i = 0; i < numRead; i++) {
@@ -276,7 +278,8 @@ public class Match {
        if (tst != null) {
          if (pPosRegexMatch.matcher(tst).matches()) {
            targetPosTag = matchedToken.getAnalyzedToken(i).getPOSTag();
-           break;
+           //break;
+           posTags.add(targetPosTag);
          }
        }
      }            
@@ -294,16 +297,25 @@ public class Match {
        if (tst != null) {
          if (pPosRegexMatch.matcher(tst).matches()) {
            targetPosTag = formattedToken.getAnalyzedToken(i).getPOSTag();
-           break;
+           //break;
+           posTags.add(targetPosTag);
          }
        }
      }
-     if (pPosRegexMatch != null & posTagReplace != null) {       
-       targetPosTag = pPosRegexMatch.matcher(targetPosTag).
+     if (pPosRegexMatch != null & posTagReplace != null) {
+       if (posTags.size() == 0) {
+         posTags.add(targetPosTag);
+       }
+       targetPosTag = "";
+       for (String lposTag : posTags) {
+         lposTag = pPosRegexMatch.matcher(lposTag).
          replaceAll(posTagReplace);
        if (setPos) {
-         targetPosTag = synthesizer.getPosTagCorrection(targetPosTag);
+         lposTag = synthesizer.getPosTagCorrection(lposTag);
        }
+       targetPosTag = lposTag + "|" + targetPosTag;
+       }
+       targetPosTag = targetPosTag.replaceAll("\\|$","");
      }
    }
    return targetPosTag;
