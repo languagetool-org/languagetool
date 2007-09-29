@@ -52,14 +52,15 @@ public class Configuration {
   private boolean runServer = false;
   private int serverPort = HTTPServer.DEFAULT_PORT;
 
-  public Configuration(File baseDir, String filename) throws IOException {
-    if (!baseDir.isDirectory())
+  public Configuration(final File baseDir, final String filename) throws IOException {
+    if (!baseDir.isDirectory()) {
       throw new IllegalArgumentException("Not a directory: " + baseDir);
+    }
     configFile = new File(baseDir, filename);
     loadConfiguration();
   }
   
-  public Configuration(File baseDir) throws IOException {
+  public Configuration(final File baseDir) throws IOException {
     this(baseDir, CONFIG_FILE);
   }
   
@@ -67,7 +68,7 @@ public class Configuration {
     return disabledRuleIds;
   }
 
-  public void setDisabledRuleIds(Set<String> ruleIDs) {
+  public void setDisabledRuleIds(final Set<String> ruleIDs) {
     disabledRuleIds = ruleIDs;
   }
 
@@ -75,7 +76,7 @@ public class Configuration {
     return motherTongue;
   }
 
-  public void setMotherTongue(Language motherTongue) {
+  public void setMotherTongue(final Language motherTongue) {
     this.motherTongue = motherTongue;
   }
 
@@ -83,7 +84,7 @@ public class Configuration {
     return runServer;
   }
 
-  public void setRunServer(boolean runServer) {
+  public void setRunServer(final boolean runServer) {
     this.runServer = runServer;
   }
 
@@ -91,7 +92,7 @@ public class Configuration {
     return serverPort;
   }
 
-  public void setServerPort(int serverPort) {
+  public void setServerPort(final int serverPort) {
     this.serverPort = serverPort;
   }
 
@@ -99,28 +100,29 @@ public class Configuration {
     FileInputStream fis = null;
     try {
       fis = new FileInputStream(configFile);
-      Properties props = new Properties();
+      final Properties props = new Properties();
       props.load(fis);
-      String val = (String)props.get(DISABLED_RULES_CONFIG_KEY);
+      final String val = (String) props.get(DISABLED_RULES_CONFIG_KEY);
       if (val != null) {
-        String[] ids = val.split(",");
-        for (String id : ids) {
+        final String[] ids = val.split(",");
+        for (final String id : ids) {
           disabledRuleIds.add(id);
         }
       }
-      String motherTongueStr = (String)props.get(MOTHER_TONGUE_CONFIG_KEY);
+//TODO: add category handling here      
+      final String motherTongueStr = (String) props.get(MOTHER_TONGUE_CONFIG_KEY);
       if (motherTongueStr != null) {
         motherTongue = Language.getLanguageForShortName(motherTongueStr);
       }
-      String runServerString = (String)props.get(SERVER_RUN_CONFIG_KEY);
+      final String runServerString = (String) props.get(SERVER_RUN_CONFIG_KEY);
       if (runServerString != null) {
         runServer = runServerString.equals("true");
       }
-      String serverPortString = (String)props.get(SERVER_PORT_CONFIG_KEY);
+      final String serverPortString = (String) props.get(SERVER_PORT_CONFIG_KEY);
       if (serverPortString != null) {
         serverPort = Integer.parseInt(serverPortString);
       }
-    } catch (FileNotFoundException e) {
+    } catch (final FileNotFoundException e) {
       // file not found: okay, leave disabledRuleIds empty
     } finally {
       if (fis != null) {
@@ -130,22 +132,24 @@ public class Configuration {
   }
 
   public void saveConfiguration() throws IOException {
-    Properties props = new Properties();
+    final Properties props = new Properties();
         
     if (disabledRuleIds == null) {
       props.setProperty(DISABLED_RULES_CONFIG_KEY, "");
     } else {
-      StringBuilder sb = new StringBuilder();
-      for (Iterator<String> iter = disabledRuleIds.iterator(); iter.hasNext();) {
-        String id = iter.next();
+      final StringBuilder sb = new StringBuilder();
+      for (final Iterator<String> iter = disabledRuleIds.iterator(); iter.hasNext();) {
+        final String id = iter.next();
         sb.append(id);
-        if (iter.hasNext())
+        if (iter.hasNext()) {
           sb.append(",");
+        }
       }
       props.setProperty(DISABLED_RULES_CONFIG_KEY, sb.toString());
     }
-    if (motherTongue != null)
+    if (motherTongue != null) {
       props.setProperty(MOTHER_TONGUE_CONFIG_KEY, motherTongue.getShortName());
+    }
     props.setProperty(SERVER_RUN_CONFIG_KEY, Boolean.valueOf(runServer).toString());
     props.setProperty(SERVER_PORT_CONFIG_KEY, Integer.valueOf(serverPort).toString());
     FileOutputStream fos = null;
