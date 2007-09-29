@@ -30,6 +30,21 @@ import de.danielnaber.languagetool.rules.Rule;
  */
 public class JLanguageToolTest extends TestCase {
 
+  // used on http://www.languagetool.org/usage/
+  /*
+  public void testDemo() throws IOException {
+    JLanguageTool langTool = new JLanguageTool(Language.ENGLISH);
+    langTool.activateDefaultPatternRules();
+    List<RuleMatch> matches = langTool.check("A sentence with a error in the " +
+        "Hitchhiker's Guide tot he Galaxy");
+    for (RuleMatch match : matches) {
+      System.out.println("Potential error at line " + match.getEndLine() +
+          ", column " + match.getColumn() + ": " + match.getMessage());
+      System.out.println("Suggested correction: " + match.getSuggestedReplacements());
+    }
+  }
+  */
+  
   public void testEnglish() throws IOException {
     JLanguageTool tool = new JLanguageTool(Language.ENGLISH);
     List matches = tool.check("A test that should not give errors.");
