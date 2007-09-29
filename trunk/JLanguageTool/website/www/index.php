@@ -2,7 +2,7 @@
 $page = "homepage";
 $title = "LanguageTool";
 $title2 = "Open Source language checker";
-$lastmod = "2007-06-05 20:35:00 CET";
+$lastmod = "2007-09-29 20:35:00 CET";
 include("../include/header.php");
 ?>
 		
@@ -20,18 +20,16 @@ bug fixes. See the <?=show_link("Changelog", "download/CHANGES.txt", 0) ?> for d
 
 <p><strong>Download:</strong><br />
 <strong><?=show_link("LanguageTool 0.9.1", "download/LanguageTool-0.9.1.zip", 0) ?></strong>, 9&nbsp;MB,
-requires <?=show_link("Java", "http://www.java.com/en/download/manual.jsp", 1)?>&nbsp;5.0 (also called 1.5) or later<br />
-<!-- 
-<?=show_link("LanguageTool 0.9 with source code", "download/LanguageTool-0.9-src.zip", 0) ?>, 8.5&nbsp;MB<br />
- -->
-<?=show_link("Project page at Sourceforge", "http://sourceforge.net/projects/languagetool/", 1) ?>
- (includes latest version in CVS)<br />
-</p>
+requires <?=show_link("Java", "http://www.java.com/en/download/manual.jsp", 1)?>&nbsp;5.0
+or later</p>
 
 <!-- -->
 <p><strong>Try LanguageTool via Java WebStart:</strong><br />
 <?=show_link("Start LanguageTool (9&nbsp;MB)", "webstart/LanguageTool.jnlp", 0) ?></p>
 <!-- -->
+
+<p>The source is available <?=show_link("at Sourceforge", "http://sourceforge.net/projects/languagetool/", 1) ?>
+ via CVS</p>
     
 <p><strong>Installation and Usage:</strong>
 
