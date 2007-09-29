@@ -134,6 +134,7 @@ public final class Main implements ActionListener {
     resultArea.setEditable(false);
     JLabel label = new JLabel(messages.getString("enterText"));
     JButton button = new JButton(messages.getString("checkText"));
+//FIXME: mnemonics should be localized and set by the "ampersand convention"
     button.setMnemonic('c'); 
     button.addActionListener(this);
 
