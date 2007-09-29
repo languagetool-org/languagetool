@@ -4,7 +4,7 @@
  * -------
  * Author: Nigel McNie (nigel@geshi.org)
  * Copyright: (c) 2004 Nigel McNie (http://qbnz.com/highlighter/)
- * Release Version: 1.0.7.19
+ * Release Version: 1.0.7.20
  * Date Started: 2004/09/01
  *
  * XML language file for GeSHi. Based on the idea/file by Christian Weiske
@@ -98,7 +98,6 @@ $language_data = array (
 		),
 	'REGEXPS' => array(
 		0 => array(
-			#dnaber, 2007-06-03: added "_" to fix attributes:
 			GESHI_SEARCH => '([a-z_\-:]+)(=)',
 			GESHI_REPLACE => '\\1',
 			GESHI_MODIFIERS => 'i',
@@ -140,7 +139,8 @@ $language_data = array (
 		1 => false,
 		2 => false,
 		3 => true
-		)
+        ),
+    'TAB_WIDTH' => 4
 );
 
 ?>
