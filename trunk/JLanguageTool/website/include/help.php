@@ -5,6 +5,12 @@ function hl($xml, $class="xmlcode") {
 	print "<div class='".$class."'>".$geshi->parse_code()."</div>";
 }
 
+function hljava($code, $class="xmlcode") {
+	$geshi = new GeSHi($code, "Java5", "../../include/geshi/");
+	$geshi->set_header_type(GESHI_HEADER_NONE);
+	print "<div class='".$class."'>".$geshi->parse_code()."</div>";
+}
+
 function show_link($title, $url, $show_alt, $title_attr="") {
 	global $homepage;
 	$html = "";

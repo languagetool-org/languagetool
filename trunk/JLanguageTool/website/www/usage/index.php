@@ -2,7 +2,7 @@
 $page = "usage";
 $title = "LanguageTool";
 $title2 = "Usage";
-$lastmod = "2007-06-06 15:00:00 CET";
+$lastmod = "2007-09-29 17:00:00 CET";
 include("../../include/header.php");
 include('../../include/geshi/geshi.php');
 ?>
@@ -29,8 +29,22 @@ with OpenOffice.org.</p>
 	LanguageTool only supports plain text files.</li>
 
 	<li><strong>Embedding LanguageTool in Java applications:</strong> See
-	<?=show_link("the API documentation", "/development/api/", 0) ?>. You just need to create a JLanguageTool object and use that
-	to check your text.</li>
+	<?=show_link("the API documentation", "/development/api/", 0) ?>. You just need to create a 
+	JLanguageTool object and use that
+	to check your text. For example:
+	<br /><br />
+	
+	<?php hljava('JLanguageTool langTool = new JLanguageTool(Language.ENGLISH);
+langTool.activateDefaultPatternRules();
+List<RuleMatch> matches = langTool.check("A sentence with a error in the " +
+    "Hitchhiker\'s Guide tot he Galaxy");
+for (RuleMatch match : matches) {
+  System.out.println("Potential error at line " + match.getEndLine() +
+      ", column " + match.getColumn() + ": " + match.getMessage());
+  System.out.println("Suggested correction: " + match.getSuggestedReplacements());
+}'); ?>
+	<br />		
+	</li>
 
 	<li><strong>Using LanguageTool from other applications:</strong> Start the stand-alone
 	application and configure it to listen on a port that is not used yet (the default
