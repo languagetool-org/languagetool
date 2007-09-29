@@ -36,12 +36,14 @@ with OpenOffice.org.</p>
 	
 	<?php hljava('JLanguageTool langTool = new JLanguageTool(Language.ENGLISH);
 langTool.activateDefaultPatternRules();
-List<RuleMatch> matches = langTool.check("A sentence with a error in the " +
-    "Hitchhiker\'s Guide tot he Galaxy");
+List<RuleMatch> matches = langTool.check("A sentence " + 
+    "with a error in the Hitchhiker\'s Guide tot he Galaxy");
 for (RuleMatch match : matches) {
-  System.out.println("Potential error at line " + match.getEndLine() +
-      ", column " + match.getColumn() + ": " + match.getMessage());
-  System.out.println("Suggested correction: " + match.getSuggestedReplacements());
+  System.out.println("Potential error at line " +
+      match.getEndLine() + ", column " +
+      match.getColumn() + ": " + match.getMessage());
+  System.out.println("Suggested correction: " +
+      match.getSuggestedReplacements());
 }'); ?>
 	<br />		
 	</li>
