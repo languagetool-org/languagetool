@@ -41,6 +41,7 @@ public class Configuration {
 
   private static final String CONFIG_FILE = "languagetool.properties";
   private static final String DISABLED_RULES_CONFIG_KEY = "disabledRules";
+  private static final String DISABLED_CATEGORIES_CONFIG_KEY = "disabledCategories";
   private static final String MOTHER_TONGUE_CONFIG_KEY = "motherTongue";
   private static final String SERVER_RUN_CONFIG_KEY = "serverMode";
   private static final String SERVER_PORT_CONFIG_KEY = "serverPort";
@@ -48,6 +49,7 @@ public class Configuration {
   private File configFile = null;
 
   private Set<String> disabledRuleIds = new HashSet<String>();
+  private Set<String> disabledCategoryNames = new HashSet<String>();
   private Language motherTongue;
   private boolean runServer = false;
   private int serverPort = HTTPServer.DEFAULT_PORT;
@@ -68,8 +70,16 @@ public class Configuration {
     return disabledRuleIds;
   }
 
+  public Set<String> getDisabledCategoryNames() {
+    return disabledCategoryNames;
+  }
+  
   public void setDisabledRuleIds(final Set<String> ruleIDs) {
     disabledRuleIds = ruleIDs;
+  }
+  
+  public void setDisabledCategoryNames(final Set<String> categoryNames) {
+    disabledCategoryNames = categoryNames;
   }
 
   public Language getMotherTongue() {
@@ -109,7 +119,15 @@ public class Configuration {
           disabledRuleIds.add(id);
         }
       }
-//TODO: add category handling here      
+      
+      final String cat = (String) props.get(DISABLED_CATEGORIES_CONFIG_KEY);
+      if (cat != null) {
+        final String[] names = cat.split(",");
+        for (final String name : names) {
+          disabledCategoryNames.add(name);
+        }
+      }      
+      
       final String motherTongueStr = (String) props.get(MOTHER_TONGUE_CONFIG_KEY);
       if (motherTongueStr != null) {
         motherTongue = Language.getLanguageForShortName(motherTongueStr);
@@ -147,6 +165,21 @@ public class Configuration {
       }
       props.setProperty(DISABLED_RULES_CONFIG_KEY, sb.toString());
     }
+    
+    if (disabledCategoryNames == null) {
+      props.setProperty(DISABLED_CATEGORIES_CONFIG_KEY, "");
+    } else {
+      final StringBuilder sb = new StringBuilder();
+      for (final Iterator<String> iter = disabledCategoryNames.iterator(); iter.hasNext();) {
+        final String name = iter.next();
+        sb.append(name);
+        if (iter.hasNext()) {
+          sb.append(",");
+        }
+      }
+      props.setProperty(DISABLED_CATEGORIES_CONFIG_KEY, sb.toString());
+    }
+        
     if (motherTongue != null) {
       props.setProperty(MOTHER_TONGUE_CONFIG_KEY, motherTongue.getShortName());
     }

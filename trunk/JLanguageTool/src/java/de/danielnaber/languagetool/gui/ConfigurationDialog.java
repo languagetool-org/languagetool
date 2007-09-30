@@ -75,12 +75,16 @@ public class ConfigurationDialog implements ActionListener {
   
   private JComboBox motherTongueBox;
 
+  private JPanel checkBoxPanel;
   private JCheckBox serverCheckbox;
   private JTextField serverPortField;
 
   private List<JCheckBox> checkBoxes = new ArrayList<JCheckBox>();
   private List<String> checkBoxesRuleIds = new ArrayList<String>();
   private Set<String> inactiveRuleIds = new HashSet<String>();
+  private Set<String> inactiveCategoryNames = new HashSet<String>();
+  private List<JCheckBox> categoryCheckBoxes = new ArrayList<JCheckBox>();
+  private List<String> checkBoxesCategoryNames = new ArrayList<String>();
   private Language motherTongue;
   private boolean serverMode = false;
   private int serverPort;
@@ -101,11 +105,13 @@ public class ConfigurationDialog implements ActionListener {
     dialog.setTitle(messages.getString("guiConfigWindowTitle"));
     checkBoxes.clear();
     checkBoxesRuleIds.clear();
+    categoryCheckBoxes.clear();
+    checkBoxesCategoryNames.clear();
     
     Collections.sort(rules, new CategoryComparator());
     
     // close dialog when user presses Escape key:
-    KeyStroke stroke = KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0);
+    final KeyStroke stroke = KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0);
     ActionListener actionListener = new ActionListener() {
       @SuppressWarnings("unused")
       public void actionPerformed(ActionEvent actionEvent) {
@@ -116,7 +122,8 @@ public class ConfigurationDialog implements ActionListener {
     JRootPane rootPane = dialog.getRootPane();
     rootPane.registerKeyboardAction(actionListener, stroke, JComponent.WHEN_IN_FOCUSED_WINDOW);
     
-    JPanel checkBoxPanel = new JPanel();
+    //JPanel 
+    checkBoxPanel = new JPanel();
     checkBoxPanel.setLayout(new GridBagLayout());
     GridBagConstraints cons = new GridBagConstraints();
     cons.anchor = GridBagConstraints.NORTHWEST;
@@ -129,7 +136,8 @@ public class ConfigurationDialog implements ActionListener {
       if (prevID == null || (prevID != null && !prevID.equals(rule.getId()))) {
         cons.gridy = row;
         JCheckBox checkBox = new JCheckBox(rule.getDescription());
-        if (inactiveRuleIds != null && inactiveRuleIds.contains(rule.getId()))
+        if (inactiveRuleIds != null && (inactiveRuleIds.contains(rule.getId())
+            || inactiveCategoryNames.contains(rule.getCategory().getName())))
           checkBox.setSelected(false);
         else
           checkBox.setSelected(true);
@@ -137,7 +145,20 @@ public class ConfigurationDialog implements ActionListener {
         checkBoxesRuleIds.add(rule.getId());
         boolean showHeadline = (rule.getCategory() != null && !rule.getCategory().getName().equals(prevCategory));
         if ((showHeadline || prevCategory == null) && rule.getCategory() != null) {
-          checkBoxPanel.add(new JLabel(rule.getCategory().getName()), cons);
+          
+//FIXME: use a Tree of Checkboxes here, like in:  
+//http://www.javaworld.com/javaworld/jw-09-2007/jw-09-checkboxtree.html                    
+          final JCheckBox categoryCheckBox 
+            = new JCheckBox(rule.getCategory().getName());
+          if (inactiveCategoryNames != null && inactiveCategoryNames.contains(rule.getCategory().getName())) {
+            categoryCheckBox.setSelected(false);
+          } else {
+            categoryCheckBox.setSelected(true);
+          }
+          categoryCheckBox.addActionListener(this);
+          categoryCheckBoxes.add(categoryCheckBox);
+          checkBoxesCategoryNames.add(rule.getCategory().getName());
+          checkBoxPanel.add(categoryCheckBox, cons);
           prevCategory = rule.getCategory().getName();
           cons.gridy++;
           row++;
@@ -264,6 +285,15 @@ public class ConfigurationDialog implements ActionListener {
   public void actionPerformed(ActionEvent e) {
     if (e.getSource() == okButton) {
       int i = 0;
+      inactiveCategoryNames.clear();
+      for (JCheckBox checkBox : categoryCheckBoxes) {
+        if (!checkBox.isSelected()) {
+          final String categoryName = checkBoxesCategoryNames.get(i);
+          inactiveCategoryNames.add(categoryName);
+        }
+        i++;
+      }
+      i = 0;
       inactiveRuleIds.clear();
       for (JCheckBox checkBox : checkBoxes) {
         if (!checkBox.isSelected()) {
@@ -272,6 +302,7 @@ public class ConfigurationDialog implements ActionListener {
         }
         i++;
       }
+                  
       if (motherTongueBox.getSelectedItem() instanceof String)
         motherTongue = getLanguageForLocalizedName(motherTongueBox.getSelectedItem().toString());
       else
@@ -285,7 +316,7 @@ public class ConfigurationDialog implements ActionListener {
     } else if (e.getSource() == cancelButton) {
       isClosed = true;
       dialog.setVisible(false);
-    }
+    } 
   }
   
   public void setDisabledRules(Set<String> ruleIDs) {
@@ -295,7 +326,15 @@ public class ConfigurationDialog implements ActionListener {
   public Set<String> getDisabledRuleIds() {
     return inactiveRuleIds;
   }
+  
+  public void setDisabledCategories(Set<String> categoryNames) {
+    inactiveCategoryNames = categoryNames;
+  }
 
+  public Set<String> getDisabledCategoryNames() {
+    return inactiveCategoryNames;
+  }
+  
   public void setMotherTongue(Language motherTongue) {
     this.motherTongue = motherTongue;
   }

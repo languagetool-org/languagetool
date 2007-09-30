@@ -76,6 +76,8 @@ public final class JLanguageTool {
   private List<Rule> userRules = new ArrayList<Rule>();     // rules added via addRule() method
   private Set<String> disabledRules = new HashSet<String>();
   
+  private Set<String> disabledCategories = new HashSet<String>();
+  
   private Language language = null;
   private Language motherTongue = null;
   private Disambiguator disambiguator = null;
@@ -305,6 +307,15 @@ public final class JLanguageTool {
     // TODO: check if such a rule exists
     disabledRules.add(ruleId);
   }
+  
+  /**
+   * Disable a given category so {@link #check} won't use it.
+   * @param categoryName the id of the category to disable
+   */
+  public void disableCategory(final String categoryName) {
+    // TODO: check if such a rule exists
+    disabledCategories.add(categoryName);
+  }    
 
   /**
    * Get rule ids of the rules that have been explicitly disabled.
@@ -313,6 +324,14 @@ public final class JLanguageTool {
     return disabledRules;
   }
 
+  /**
+   * Get category ids of the rules that have been explicitly disabled.
+   */
+  public Set<String> getDisabledCategories() {
+    return disabledCategories;
+  }
+
+  
   /**
    * Re-enable a given rule so {@link #check} will use it.
    * @param ruleId the id of the rule to enable
@@ -361,7 +380,12 @@ public final class JLanguageTool {
       for (final Rule rule : allRules) {
         if (disabledRules.contains(rule.getId())) {
           continue;
+        }                
+        
+        if (disabledCategories.contains(rule.getCategory().getName())) {
+          continue;
         }
+        
         final RuleMatch[] thisMatches = rule.match(analyzedText);
         for (final RuleMatch element1 : thisMatches) {
           // change positions so they are relative to the complete text,

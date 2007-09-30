@@ -63,7 +63,6 @@ import javax.swing.JTextArea;
 import javax.swing.JTextPane;
 import javax.swing.WindowConstants;
 import javax.swing.filechooser.FileFilter;
-import javax.swing.UIManager;
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.jdesktop.jdic.tray.SystemTray;
@@ -244,7 +243,7 @@ public final class Main implements ActionListener {
       } catch (NoClassDefFoundError e) {
         throw new MissingJdicException(e);
       }
-      SystemTray tray = SystemTray.getDefaultSystemTray();
+      final SystemTray tray = SystemTray.getDefaultSystemTray();
       trayIcon.addActionListener(new TrayActionListener());
       trayIcon.setToolTip(SYSTEM_TRAY_TOOLTIP);
       tray.addTrayIcon(trayIcon);
@@ -302,6 +301,7 @@ public final class Main implements ActionListener {
     ConfigurationDialog configDialog = getCurrentConfigDialog();
     configDialog.show(rules);   // this blocks until OK/Cancel is clicked in the dialog
     config.setDisabledRuleIds(configDialog.getDisabledRuleIds());
+    config.setDisabledCategoryNames(configDialog.getDisabledCategoryNames());
     config.setMotherTongue(configDialog.getMotherTongue());
     config.setRunServer(configDialog.getRunServer());
     config.setServerPort(configDialog.getServerPort());
@@ -418,6 +418,7 @@ public final class Main implements ActionListener {
       configDialog = new ConfigurationDialog(frame, false);
       configDialog.setMotherTongue(config.getMotherTongue());
       configDialog.setDisabledRules(config.getDisabledRuleIds());
+      configDialog.setDisabledCategories(config.getDisabledCategoryNames());
       configDialog.setRunServer(config.getRunServer());
       configDialog.setServerPort(config.getServerPort());
       configDialogs.put(language, configDialog);
@@ -436,6 +437,12 @@ public final class Main implements ActionListener {
       if (disabledRules != null) {
         for (String ruleId : disabledRules) {
           langTool.disableRule(ruleId);
+        }
+      }
+      Set<String> disabledCategories = configDialog.getDisabledCategoryNames();
+      if (disabledCategories != null) {
+        for (String categoryName : disabledCategories) {
+          langTool.disableCategory(categoryName);
         }
       }
     } catch (IOException ioe) {

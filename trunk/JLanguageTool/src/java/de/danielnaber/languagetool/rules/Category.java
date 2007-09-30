@@ -54,7 +54,7 @@ public class Category {
   }
   
   public String toString() {
-    return name + "(prio=" +priority+ ")";
+    return name + "(prio=" + priority + ")";
   }
   
 }
