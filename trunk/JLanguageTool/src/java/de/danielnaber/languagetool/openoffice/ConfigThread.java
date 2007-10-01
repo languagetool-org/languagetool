@@ -35,11 +35,11 @@ class ConfigThread extends Thread {
   
   ConfigThread(final Language docLanguage, final Configuration config) {
     this.docLanguage = docLanguage;
-    this.config = config;  
+    this.config = config;      
     cfgDialog = new ConfigurationDialog(null, true);
     cfgDialog.setDisabledRules(config.getDisabledRuleIds());
     cfgDialog.setDisabledCategories(config.getDisabledCategoryNames());
-    cfgDialog.setMotherTongue(config.getMotherTongue());
+    cfgDialog.setMotherTongue(config.getMotherTongue());        
   }
   
   public boolean done() {
@@ -50,10 +50,11 @@ class ConfigThread extends Thread {
     return cfgDialog.getDisabledRuleIds();
   }  
 
-  public void run() {
+  public void run() {    
     try {
-      JLanguageTool langTool = new JLanguageTool(docLanguage);
+      JLanguageTool langTool = new JLanguageTool(docLanguage, cfgDialog.getMotherTongue());
       langTool.activateDefaultPatternRules();
+      langTool.activateDefaultFalseFriendRules();
       cfgDialog.show(langTool.getAllRules());
       config.setDisabledRuleIds(cfgDialog.getDisabledRuleIds());
       config.setDisabledCategoryNames(cfgDialog.getDisabledCategoryNames());

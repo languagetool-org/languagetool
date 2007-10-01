@@ -295,7 +295,7 @@ public class OOoDialog implements ActionListener {
     msg = msg.replaceAll("<suggestion>", "<b>");
     msg = msg.replaceAll("</suggestion>", "</b>");
     StringBuilder sb = new StringBuilder();
-    int totalMatches = getTotalRuleMatches();
+    final int totalMatches = getTotalRuleMatches();
     sb.append(messages.getString("guiMatchCount") + " " +  totalMatches);
     sb.append("<br>\n<br>\n<b>" +(i+1)+ ".</b> ");
     sb.append(msg);
@@ -470,8 +470,10 @@ public class OOoDialog implements ActionListener {
       ConfigurationDialog cfgDialog = new ConfigurationDialog(null, true);
       cfgDialog.setMotherTongue(configuration.getMotherTongue());
       cfgDialog.setDisabledRules(configuration.getDisabledRuleIds());
+      cfgDialog.setDisabledCategories(configuration.getDisabledCategoryNames());
       cfgDialog.show(rules);
       configuration.setDisabledRuleIds(cfgDialog.getDisabledRuleIds());
+      configuration.setDisabledCategoryNames(cfgDialog.getDisabledCategoryNames());
       configuration.setMotherTongue(cfgDialog.getMotherTongue());
     } else if (event.getSource() == closeButton) {
       close();

@@ -21,6 +21,7 @@ package de.danielnaber.languagetool.openoffice;
 //import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import de.danielnaber.languagetool.JLanguageTool;
 import de.danielnaber.languagetool.Language;
@@ -70,6 +71,12 @@ class CheckerThread extends Thread {
       if (config.getDisabledRuleIds() != null) {
         for (String id : config.getDisabledRuleIds()) {
           langTool.disableRule(id);
+        }
+      }
+      Set<String> disabledCategories = config.getDisabledCategoryNames();
+      if (disabledCategories != null) {
+        for (String categoryName : disabledCategories) {
+          langTool.disableCategory(categoryName);
         }
       }
       int paraCount = 0;
