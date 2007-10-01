@@ -18,8 +18,8 @@
  */
 package de.danielnaber.languagetool.tagging.en;
 
-import de.danielnaber.languagetool.tagging.BaseTagger;
 import morfologik.stemmers.Lametyzator;
+import de.danielnaber.languagetool.tagging.BaseTagger;
 
 /** English Part-of-speech tagger.
  * Based on part-of-speech lists in Public Domain.

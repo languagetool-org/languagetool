@@ -353,7 +353,7 @@ public final class JLanguageTool {
     sentenceCount = 0;
     final List<String> sentences = sentenceTokenizer.tokenize(text);
     final List<RuleMatch> ruleMatches = new ArrayList<RuleMatch>();
-    final List<Rule> allRules = getAllRules();
+    final List<Rule> allRules = getAllRules();           
     printIfVerbose(allRules.size() + " rules activated for language " + language);
     int tokenCount = 0;
     int lineCount = 0;
@@ -563,7 +563,7 @@ public final class JLanguageTool {
     // work on different texts with the same data:
     for (final Rule rule : rules) {
       rule.reset();
-    }
+    }    
     return rules;
   }
   

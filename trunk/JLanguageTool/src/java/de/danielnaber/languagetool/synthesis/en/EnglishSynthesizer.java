@@ -28,7 +28,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import morfologik.stemmers.Lametyzator;
-
 import de.danielnaber.languagetool.AnalyzedToken;
 import de.danielnaber.languagetool.rules.en.AvsAnRule;
 import de.danielnaber.languagetool.synthesis.Synthesizer;

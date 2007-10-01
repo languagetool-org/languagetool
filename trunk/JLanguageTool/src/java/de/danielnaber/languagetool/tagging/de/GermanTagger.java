@@ -23,7 +23,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import morfologik.stemmers.Lametyzator;
-
 import de.danielnaber.languagetool.AnalyzedTokenReadings;
 import de.danielnaber.languagetool.tagging.ManualTagger;
 import de.danielnaber.languagetool.tagging.Tagger;

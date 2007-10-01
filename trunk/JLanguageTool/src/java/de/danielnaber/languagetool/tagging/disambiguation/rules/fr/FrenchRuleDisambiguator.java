@@ -9,6 +9,7 @@ import org.xml.sax.SAXException;
 
 import de.danielnaber.languagetool.AnalyzedSentence;
 import de.danielnaber.languagetool.Language;
+import de.danielnaber.languagetool.rules.patterns.PatternRule;
 import de.danielnaber.languagetool.tagging.disambiguation.rules.DisambiguationPatternRule;
 import de.danielnaber.languagetool.tagging.disambiguation.rules.DisambiguationRuleLoader;
 import de.danielnaber.languagetool.tagging.disambiguation.rules.RuleDisambiguator;

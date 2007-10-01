@@ -2,12 +2,12 @@ package de.danielnaber.languagetool.tagging.disambiguation.rules.fr;
 
 import java.io.IOException;
 
-import de.danielnaber.languagetool.TestTools;
-import de.danielnaber.languagetool.tagging.fr.FrenchTagger;
-import de.danielnaber.languagetool.tokenizers.WordTokenizer;
-import de.danielnaber.languagetool.tokenizers.SentenceTokenizer;
-import de.danielnaber.languagetool.tagging.disambiguation.xx.DemoDisambiguator;
 import junit.framework.TestCase;
+import de.danielnaber.languagetool.TestTools;
+import de.danielnaber.languagetool.tagging.disambiguation.xx.DemoDisambiguator;
+import de.danielnaber.languagetool.tagging.fr.FrenchTagger;
+import de.danielnaber.languagetool.tokenizers.SentenceTokenizer;
+import de.danielnaber.languagetool.tokenizers.WordTokenizer;
 
 public class FrenchRuleDisambiguatorTest extends TestCase {
   private FrenchTagger tagger;

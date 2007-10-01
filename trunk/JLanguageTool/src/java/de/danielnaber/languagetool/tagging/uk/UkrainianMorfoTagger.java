@@ -19,7 +19,6 @@
 package de.danielnaber.languagetool.tagging.uk;
 
 import morfologik.stemmers.Lametyzator;
-
 import de.danielnaber.languagetool.tagging.BaseTagger;
 
 /** Ukrainian Part-of-speech tagger.
