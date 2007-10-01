@@ -33,6 +33,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashSet;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.Set;
@@ -81,6 +83,8 @@ public class ConfigurationDialog implements ActionListener {
 
   private List<JCheckBox> checkBoxes = new ArrayList<JCheckBox>();
   private List<String> checkBoxesRuleIds = new ArrayList<String>();
+  private List<String> checkBoxesCategories = new ArrayList<String>();
+  
   private Set<String> inactiveRuleIds = new HashSet<String>();
   private Set<String> inactiveCategoryNames = new HashSet<String>();
   private List<JCheckBox> categoryCheckBoxes = new ArrayList<JCheckBox>();
@@ -135,18 +139,37 @@ public class ConfigurationDialog implements ActionListener {
       // avoid displaying rules from rule groups more than once:
       if (prevID == null || (prevID != null && !prevID.equals(rule.getId()))) {
         cons.gridy = row;
-        JCheckBox checkBox = new JCheckBox(rule.getDescription());
+        final JCheckBox checkBox = new JCheckBox(rule.getDescription());
         if (inactiveRuleIds != null && (inactiveRuleIds.contains(rule.getId())
             || inactiveCategoryNames.contains(rule.getCategory().getName())))
           checkBox.setSelected(false);
         else
           checkBox.setSelected(true);
+        
+        ActionListener ruleCheckBoxListener = new ActionListener() {
+          public void actionPerformed(final ActionEvent actionEvent) {
+            final JCheckBox cBox = (JCheckBox) actionEvent.getSource();
+            final boolean selected = 
+              cBox.getModel().isSelected();
+            int i = 0;
+            for (JCheckBox chBox : checkBoxes) {
+              if (chBox.equals(cBox)) {
+                final int catNo = checkBoxesCategoryNames.indexOf(
+                    checkBoxesCategories.get(i));                      
+                categoryCheckBoxes.get(catNo).setSelected(selected);
+              }                
+              i++;
+            }              
+          }
+        };
+        checkBox.addActionListener(ruleCheckBoxListener);
         checkBoxes.add(checkBox);
         checkBoxesRuleIds.add(rule.getId());
+        checkBoxesCategories.add(rule.getCategory().getName());
         boolean showHeadline = (rule.getCategory() != null && !rule.getCategory().getName().equals(prevCategory));
         if ((showHeadline || prevCategory == null) && rule.getCategory() != null) {
           
-//FIXME: use a Tree of Checkboxes here, like in:  
+//TODO: maybe use a Tree of Checkboxes here, like in:  
 //http://www.javaworld.com/javaworld/jw-09-2007/jw-09-checkboxtree.html                    
           final JCheckBox categoryCheckBox 
             = new JCheckBox(rule.getCategory().getName());
@@ -155,7 +178,25 @@ public class ConfigurationDialog implements ActionListener {
           } else {
             categoryCheckBox.setSelected(true);
           }
-          categoryCheckBox.addActionListener(this);
+          
+          ActionListener categoryCheckBoxListener = new ActionListener() {
+            public void actionPerformed(final ActionEvent actionEvent) {
+              final JCheckBox cBox = (JCheckBox) actionEvent.getSource();
+              final boolean selected = 
+                cBox.getModel().isSelected();
+              int i = 0;
+              for (JCheckBox ruleBox : checkBoxes) {
+                if (ruleBox.isSelected() != selected) {
+                  if (checkBoxesCategories.get(i).equals(cBox.getText())) {
+                    ruleBox.setSelected(selected);
+                  }
+                }
+                i++;
+              }
+            }
+          };
+          
+          categoryCheckBox.addActionListener(categoryCheckBoxListener);
           categoryCheckBoxes.add(categoryCheckBox);
           checkBoxesCategoryNames.add(rule.getCategory().getName());
           checkBoxPanel.add(categoryCheckBox, cons);
