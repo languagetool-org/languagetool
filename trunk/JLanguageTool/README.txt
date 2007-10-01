@@ -55,7 +55,6 @@ Known bugs:
 TODO:
  -finish "Add language..." work
  -Add an attribute to the DTD so rules can be disabled by default
- -Add the possibility to disable complete rule groups in the GUI
  -put licenses in extra subdir
  -check if some rules from xml-copy-editor.sourceforge.net are useful for us
   (see its source in the xmlcopyeditor-1.0.9.5/src/rulesets directory)
@@ -74,7 +73,6 @@ TODO:
  -add unification to the XML rules in two steps:
  	-create XML definitions of unification rules based on
  	POS regular expression transformations
- -check if it's possible to edit rules directly in OOo using XML Forms document
  -create abstract SentenceRule and TextRule classes to get rid of reset() method?
  -check if there's a nice design that lets us extend PatternRule and PatternRuleLoader
   to make them more powerful, but without having all features in these classes
