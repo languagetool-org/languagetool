@@ -7,7 +7,7 @@ title="Easy editing stylesheet" ?>
 English Grammar and Typo Rules for LanguageTool
 See tagset.txt for the meaning of the POS tags
 Copyright (C) 2001-2007 Daniel Naber (http://www.danielnaber.de)
-$Id: grammar.xml,v 1.38 2007-09-06 20:24:19 milek_pl Exp $
+$Id: grammar.xml,v 1.39 2007-10-02 18:59:11 milek_pl Exp $
 -->
 <rules lang="en">
   <!-- ====================================================================== -->
@@ -2704,6 +2704,29 @@ $Id: grammar.xml,v 1.38 2007-09-06 20:24:19 milek_pl Exp $
 		should use: <suggestion>some <match no="2"/></suggestion>.</message>
         <example correction="some wine" type="incorrect">There is <marker>several wine</marker> and a lot is happening this spring.</example>
         <example type="correct">There are several wine and food festivals this spring.</example>
+      </rule>
+    </rulegroup>
+  </category>
+  <category name="Collocations">
+    <rulegroup id="SUPERIOR_THAN" name="Wrong preposition: 'superior/inferior than' (superior/inferior to)">
+      <rule>
+        <pattern mark_from="1">
+          <token regexp="yes"><exception scope="previous">more</exception>superior|inferior</token>
+          <token>than</token>
+        </pattern>
+        <message>The adjective \1 is normally used with <suggestion>to</suggestion>.</message>
+        <example correction="to" type="incorrect">Chinese people will think black guys are inferior <marker>than</marker> us.</example>
+        <example type="correct">Some people think Afroamericans are inferior to them.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="0">
+          <token>more</token>
+          <token regexp="yes">superior|inferior</token>
+          <token>than</token>
+        </pattern>
+        <message>The adjective \1 is normally used with to and does not need 'more' (so called implicit comparative). Probably you need to write: <suggestion>\2 to</suggestion>.</message>
+        <example correction="inferior to" type="incorrect">Chinese people will think black guys are <marker>more inferior than</marker> us.</example>
+        <example type="correct">Some people think Afroamericans are inferior to them.</example>
       </rule>
     </rulegroup>
   </category>
