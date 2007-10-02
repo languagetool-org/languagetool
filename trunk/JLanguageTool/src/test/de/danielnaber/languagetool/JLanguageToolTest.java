@@ -24,6 +24,7 @@ import java.util.List;
 
 import junit.framework.TestCase;
 import de.danielnaber.languagetool.rules.Rule;
+import de.danielnaber.languagetool.rules.patterns.PatternRule;
 
 /**
  * @author Daniel Naber
@@ -49,7 +50,7 @@ public class JLanguageToolTest extends TestCase {
   
   
   public void testEnglish() throws IOException {
-    JLanguageTool tool = new JLanguageTool(Language.ENGLISH);
+    final JLanguageTool tool = new JLanguageTool(Language.ENGLISH);
     List matches = tool.check("A test that should not give errors.");
     assertEquals(0, matches.size());
     matches = tool.check("A test test that should give errors.");
@@ -57,9 +58,9 @@ public class JLanguageToolTest extends TestCase {
     matches = tool.check("I can give you more a detailed description.");
     assertEquals(0, matches.size());
     assertEquals(6, tool.getAllRules().size());
-    List rules = tool.loadPatternRules("/rules/en/grammar.xml");
-    for (Iterator iter = rules.iterator(); iter.hasNext();) {
-      Rule rule = (Rule) iter.next();
+    final List rules = tool.loadPatternRules("/rules/en/grammar.xml");
+    for (final Iterator iter = rules.iterator(); iter.hasNext();) {
+      final Rule rule = (Rule) iter.next();
       tool.addRule(rule);
     }
     assertTrue(tool.getAllRules().size() > 3);
@@ -74,14 +75,14 @@ public class JLanguageToolTest extends TestCase {
   }
   
   public void testGerman() throws IOException {
-    JLanguageTool tool = new JLanguageTool(Language.GERMAN);
+    final JLanguageTool tool = new JLanguageTool(Language.GERMAN);
     List matches = tool.check("Ein Test, der keine Fehler geben sollte.");
     assertEquals(0, matches.size());
     matches = tool.check("Ein Test Test, der Fehler geben sollte.");
     assertEquals(1, matches.size());
-    List rules = tool.loadPatternRules("/rules/de/grammar.xml");
-    for (Iterator iter = rules.iterator(); iter.hasNext();) {
-      Rule rule = (Rule) iter.next();
+    final List rules = tool.loadPatternRules("/rules/de/grammar.xml");
+    for (final Iterator iter = rules.iterator(); iter.hasNext();) {
+      final Rule rule = (Rule) iter.next();
       tool.addRule(rule);
     }
     // German rule has no effect with English error:
@@ -90,17 +91,40 @@ public class JLanguageToolTest extends TestCase {
   }
 
   public void testDutch() throws IOException {
-    JLanguageTool tool = new JLanguageTool(Language.DUTCH);
+    final JLanguageTool tool = new JLanguageTool(Language.DUTCH);
     List matches = tool.check("Een test, die geen fouten mag geven.");
     assertEquals(0, matches.size());
     matches = tool.check("Een test test, die een fout moet geven.");
     assertEquals(1, matches.size());
-    List rules = tool.loadPatternRules("/rules/nl/grammar.xml");
-    for (Iterator iter = rules.iterator(); iter.hasNext();) {
-      Rule rule = (Rule) iter.next();
+    final List rules = tool.loadPatternRules("/rules/nl/grammar.xml");
+    for (final Iterator iter = rules.iterator(); iter.hasNext();) {
+      final Rule rule = (Rule) iter.next();
       tool.addRule(rule);
     }
     // Dutch rule has no effect with English error:
+    matches = tool.check("I can give you more a detailed description");
+    assertEquals(0, matches.size());
+  }
+  
+  public void testPolish() throws IOException {
+    final JLanguageTool tool = new JLanguageTool(Language.POLISH);
+    List matches = tool.check("To jest całkowicie prawidłowe zdanie.");
+    assertEquals(0, matches.size());
+    matches = tool.check("To jest jest problem.");
+    assertEquals(1, matches.size());
+    //this rule is by default off
+    matches = tool.check("Był on bowiem pięknym strzelcem bowiem.");
+    assertEquals(0, matches.size());
+    tool.enableDefaultOffRule("PL_WORD_REPEAT");
+    matches = tool.check("Był on bowiem pięknym strzelcem bowiem.");
+    assertEquals(1, matches.size());
+    final List<PatternRule> rules = tool.loadPatternRules("/rules/pl/grammar.xml");
+    for (final PatternRule rule : rules) {
+      tool.addRule(rule);
+    }
+    matches = tool.check("Premier drapie się w ucho co i rusz.");
+    assertEquals(1, matches.size());
+    // Polish rule has no effect with English error:
     matches = tool.check("I can give you more a detailed description");
     assertEquals(0, matches.size());
   }

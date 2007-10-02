@@ -75,6 +75,7 @@ public final class JLanguageTool {
   private List<Rule> builtinRules = new ArrayList<Rule>();
   private List<Rule> userRules = new ArrayList<Rule>();     // rules added via addRule() method
   private Set<String> disabledRules = new HashSet<String>();
+  private Set<String> enabledRules = new HashSet<String>();
   
   private Set<String> disabledCategories = new HashSet<String>();
   
@@ -325,6 +326,15 @@ public final class JLanguageTool {
   }
 
   /**
+   * Enable a rule that was switched off by default.
+   * @param ruleId the id of the turned off rule to enable. 
+   * 
+   */
+  public void enableDefaultOffRule(final String ruleId) {
+    enabledRules.add(ruleId);
+  }
+  
+  /**
    * Get category ids of the rules that have been explicitly disabled.
    */
   public Set<String> getDisabledCategories() {
@@ -378,7 +388,8 @@ public final class JLanguageTool {
       final List<RuleMatch> sentenceMatches = new ArrayList<RuleMatch>();
       printIfVerbose(analyzedText.toString());
       for (final Rule rule : allRules) {
-        if (disabledRules.contains(rule.getId())) {
+        if (disabledRules.contains(rule.getId())
+            || (rule.isDefaultOff() && !enabledRules.contains(rule.getId()))) {
           continue;
         }                
         

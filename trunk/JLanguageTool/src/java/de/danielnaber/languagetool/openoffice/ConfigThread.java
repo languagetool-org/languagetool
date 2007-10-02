@@ -38,6 +38,7 @@ class ConfigThread extends Thread {
     this.config = config;      
     cfgDialog = new ConfigurationDialog(null, true);
     cfgDialog.setDisabledRules(config.getDisabledRuleIds());
+    cfgDialog.setEnabledRules(config.getEnabledRuleIds());
     cfgDialog.setDisabledCategories(config.getDisabledCategoryNames());
     cfgDialog.setMotherTongue(config.getMotherTongue());        
   }
@@ -57,6 +58,7 @@ class ConfigThread extends Thread {
       langTool.activateDefaultFalseFriendRules();
       cfgDialog.show(langTool.getAllRules());
       config.setDisabledRuleIds(cfgDialog.getDisabledRuleIds());
+      config.setEnabledRuleIds(cfgDialog.getEnabledRuleIds());
       config.setDisabledCategoryNames(cfgDialog.getDisabledCategoryNames());
       config.setMotherTongue(cfgDialog.getMotherTongue());
       config.saveConfiguration();

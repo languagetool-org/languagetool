@@ -303,6 +303,7 @@ public final class Main implements ActionListener {
     ConfigurationDialog configDialog = getCurrentConfigDialog();
     configDialog.show(rules);   // this blocks until OK/Cancel is clicked in the dialog
     config.setDisabledRuleIds(configDialog.getDisabledRuleIds());
+    config.setEnabledRuleIds(configDialog.getEnabledRuleIds());
     config.setDisabledCategoryNames(configDialog.getDisabledCategoryNames());
     config.setMotherTongue(configDialog.getMotherTongue());
     config.setRunServer(configDialog.getRunServer());
@@ -420,6 +421,7 @@ public final class Main implements ActionListener {
       configDialog = new ConfigurationDialog(frame, false);
       configDialog.setMotherTongue(config.getMotherTongue());
       configDialog.setDisabledRules(config.getDisabledRuleIds());
+      configDialog.setEnabledRules(config.getEnabledRuleIds());
       configDialog.setDisabledCategories(config.getDisabledCategoryNames());
       configDialog.setRunServer(config.getRunServer());
       configDialog.setServerPort(config.getServerPort());

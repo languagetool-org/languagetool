@@ -104,6 +104,8 @@ class PatternRuleHandler extends XMLRuleHandler {
   private boolean posNegation = false;
   private boolean posRegExp = false;
   
+  private boolean defaultOff = false;
+  
   private Language language;
   private Category category;
   private String description;
@@ -170,6 +172,7 @@ class PatternRuleHandler extends XMLRuleHandler {
       }
     } else if (qName.equals("rule")) {
       id = attrs.getValue("id");
+      defaultOff = "off".equals(attrs.getValue("default"));
       if (inRuleGroup && id == null) {
         id = ruleGroupId;
       }
@@ -353,11 +356,11 @@ class PatternRuleHandler extends XMLRuleHandler {
   @SuppressWarnings("unused")
   public void endElement(final String namespaceURI, final String sName, final String qName) {
 
-    if (qName.equals("rule")) {
+    if (qName.equals("rule")) {      
       phraseElementInit();
       if (phraseElementList.isEmpty()) {                                       
         final PatternRule rule = new PatternRule(id, language, elementList, description, message.toString());
-        prepareRule(rule);
+        prepareRule(rule);        
         rules.add(rule);        
       } else {
         if (!elementList.isEmpty()) { 
@@ -559,7 +562,10 @@ class PatternRuleHandler extends XMLRuleHandler {
     if (phraseElementList.size() <= 1) {
       suggestionMatches.clear();
     }
-    } 
+    }
+    if (defaultOff) {
+      rule.setDefaultOff();
+    }
   }
   
   private void phraseElementInit(){

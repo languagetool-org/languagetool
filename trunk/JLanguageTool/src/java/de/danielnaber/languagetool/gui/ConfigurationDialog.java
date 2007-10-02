@@ -84,7 +84,10 @@ public class ConfigurationDialog implements ActionListener {
   private List<String> checkBoxesRuleIds = new ArrayList<String>();
   private List<String> checkBoxesCategories = new ArrayList<String>();
   
+  private List<String> defaultOffRules = new ArrayList<String>();
+  
   private Set<String> inactiveRuleIds = new HashSet<String>();
+  private Set<String> enabledRuleIds = new HashSet<String>();
   private Set<String> inactiveCategoryNames = new HashSet<String>();
   private List<JCheckBox> categoryCheckBoxes = new ArrayList<JCheckBox>();
   private List<String> checkBoxesCategoryNames = new ArrayList<String>();
@@ -145,6 +148,14 @@ public class ConfigurationDialog implements ActionListener {
         else
           checkBox.setSelected(true);
         
+        if (rule.isDefaultOff() && !enabledRuleIds.contains(rule.getId())) {
+          checkBox.setSelected(false);
+        }
+        
+        if (rule.isDefaultOff()) {
+          defaultOffRules.add(rule.getId());
+        }
+        
         ActionListener ruleCheckBoxListener = new ActionListener() {
           public void actionPerformed(final ActionEvent actionEvent) {
             final JCheckBox cBox = (JCheckBox) actionEvent.getSource();
@@ -154,8 +165,10 @@ public class ConfigurationDialog implements ActionListener {
             for (JCheckBox chBox : checkBoxes) {
               if (chBox.equals(cBox)) {
                 final int catNo = checkBoxesCategoryNames.indexOf(
-                    checkBoxesCategories.get(i));                      
-                categoryCheckBoxes.get(catNo).setSelected(selected);
+                    checkBoxesCategories.get(i));
+                if (selected
+                    && !categoryCheckBoxes.get(catNo).isSelected())
+                categoryCheckBoxes.get(catNo).setSelected(true);
               }                
               i++;
             }              
@@ -341,11 +354,22 @@ public class ConfigurationDialog implements ActionListener {
       }
       i = 0;
       inactiveRuleIds.clear();
+      enabledRuleIds.clear();
       for (JCheckBox checkBox : checkBoxes) {
         if (!checkBox.isSelected()) {
           final String ruleId = checkBoxesRuleIds.get(i);
-          inactiveRuleIds.add(ruleId);
+          if (!defaultOffRules.contains(ruleId)) {                   
+            inactiveRuleIds.add(ruleId);
+          }
         }
+        
+        if (checkBox.isSelected()) {
+          final String ruleId = checkBoxesRuleIds.get(i);
+          if (defaultOffRules.contains(ruleId)) {
+            enabledRuleIds.add(ruleId);
+          }
+        }
+        
         i++;
       }
                   
@@ -371,6 +395,14 @@ public class ConfigurationDialog implements ActionListener {
 
   public Set<String> getDisabledRuleIds() {
     return inactiveRuleIds;
+  }
+
+  public void setEnabledRules(Set<String> ruleIDs) {
+    enabledRuleIds = ruleIDs;
+  }
+
+  public Set<String> getEnabledRuleIds() {
+    return enabledRuleIds;
   }
   
   public void setDisabledCategories(Set<String> categoryNames) {

@@ -38,7 +38,7 @@ import de.danielnaber.languagetool.rules.RuleMatch;
  *
  */
 public class PolishWordRepeatRule extends PolishRule {
-
+  
   /**
    * Excluded dictionary words.
    */
@@ -67,6 +67,7 @@ public class PolishWordRepeatRule extends PolishRule {
     if (messages != null) {
       super.setCategory(new Category(messages.getString("category_misc")));
     }
+    setDefaultOff();
   }
 
   /* (non-Javadoc)

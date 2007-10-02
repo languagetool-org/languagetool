@@ -41,6 +41,7 @@ public class Configuration {
 
   private static final String CONFIG_FILE = "languagetool.properties";
   private static final String DISABLED_RULES_CONFIG_KEY = "disabledRules";
+  private static final String ENABLED_RULES_CONFIG_KEY = "enabledRules";
   private static final String DISABLED_CATEGORIES_CONFIG_KEY = "disabledCategories";
   private static final String MOTHER_TONGUE_CONFIG_KEY = "motherTongue";
   private static final String SERVER_RUN_CONFIG_KEY = "serverMode";
@@ -49,6 +50,7 @@ public class Configuration {
   private File configFile = null;
 
   private Set<String> disabledRuleIds = new HashSet<String>();
+  private Set<String> enabledRuleIds = new HashSet<String>();
   private Set<String> disabledCategoryNames = new HashSet<String>();
   private Language motherTongue;
   private boolean runServer = false;
@@ -69,6 +71,10 @@ public class Configuration {
   public Set<String> getDisabledRuleIds() {
     return disabledRuleIds;
   }
+  
+  public Set<String> getEnabledRuleIds() {
+    return enabledRuleIds;
+  }
 
   public Set<String> getDisabledCategoryNames() {
     return disabledCategoryNames;
@@ -76,6 +82,10 @@ public class Configuration {
   
   public void setDisabledRuleIds(final Set<String> ruleIDs) {
     disabledRuleIds = ruleIDs;
+  }
+  
+  public void setEnabledRuleIds(final Set<String> ruleIDs) {
+    enabledRuleIds = ruleIDs;
   }
   
   public void setDisabledCategoryNames(final Set<String> categoryNames) {
@@ -117,6 +127,14 @@ public class Configuration {
         final String[] ids = val.split(",");
         for (final String id : ids) {
           disabledRuleIds.add(id);
+        }
+      }
+      
+      final String enRul = (String) props.get(ENABLED_RULES_CONFIG_KEY);
+      if (enRul != null) {
+        final String[] ids = enRul.split(",");
+        for (final String id : ids) {
+          enabledRuleIds.add(id);
         }
       }
       
@@ -164,6 +182,20 @@ public class Configuration {
         }
       }
       props.setProperty(DISABLED_RULES_CONFIG_KEY, sb.toString());
+    }
+    
+    if (enabledRuleIds == null) {
+      props.setProperty(ENABLED_RULES_CONFIG_KEY, "");
+    } else {
+      final StringBuilder sb = new StringBuilder();
+      for (final Iterator<String> iter = enabledRuleIds.iterator(); iter.hasNext();) {
+        final String id = iter.next();
+        sb.append(id);
+        if (iter.hasNext()) {
+          sb.append(",");
+        }
+      }
+      props.setProperty(ENABLED_RULES_CONFIG_KEY, sb.toString());
     }
     
     if (disabledCategoryNames == null) {

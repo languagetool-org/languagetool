@@ -39,6 +39,12 @@ public abstract class Rule {
   private List<String> correctExamples;
   private List<String> incorrectExamples;
   private Category category = null;
+  
+  /**
+   * If true, then the rule is turned off
+   * by default.
+   */
+  private boolean defaultOff = false;
 
   protected ResourceBundle messages;
 
@@ -222,6 +228,23 @@ public abstract class Rule {
   
   public final List <RuleMatch> getMatches() {
     return previousMatches;
+  }
+ 
+  /**
+   * Checks whether the rule has been turned off
+   * by default by the rule author.
+   * @return True if the rule is turned off by
+   * default.
+   */
+  public final boolean isDefaultOff() {
+    return defaultOff;
+  }
+  
+  /**
+   * Turns the rule by default off.   
+   **/
+  public final void setDefaultOff() {
+    defaultOff = true;
   }
   
 }
