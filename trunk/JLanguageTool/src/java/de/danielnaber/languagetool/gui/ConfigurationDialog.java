@@ -56,6 +56,7 @@ import de.danielnaber.languagetool.JLanguageTool;
 import de.danielnaber.languagetool.Language;
 import de.danielnaber.languagetool.rules.Rule;
 import de.danielnaber.languagetool.server.HTTPServer;
+import de.danielnaber.languagetool.tools.StringTools;
 
 /**
  * Dialog that offers the available rules so they can be turned on/off
@@ -232,8 +233,10 @@ public class ConfigurationDialog implements ActionListener {
     cons.fill = GridBagConstraints.NONE;
     cons.weightx = 0.0f;
     if (!insideOOo) {
-      serverCheckbox = new JCheckBox(messages.getString("guiRunOnPort"));
-      serverCheckbox.setMnemonic('r');
+      serverCheckbox = new JCheckBox(StringTools.getLabel(
+          messages.getString("guiRunOnPort")));
+      serverCheckbox.setMnemonic(StringTools.getMnemonic(
+          messages.getString("guiRunOnPort")));
       serverCheckbox.setSelected(serverMode);
       portPanel.add(serverCheckbox, cons);
       serverPortField = new JTextField(serverPort + "");
@@ -250,11 +253,15 @@ public class ConfigurationDialog implements ActionListener {
 
     final JPanel buttonPanel = new JPanel();
     buttonPanel.setLayout(new GridBagLayout());
-    okButton = new JButton(messages.getString("guiOKButton"));
-    okButton.setMnemonic('o');
+    okButton = new JButton(StringTools.getLabel(
+        messages.getString("guiOKButton")));
+    okButton.setMnemonic(StringTools.getMnemonic(
+        messages.getString("guiOKButton")));
     okButton.addActionListener(this);
-    cancelButton = new JButton(messages.getString("guiCancelButton"));
-    cancelButton.setMnemonic('c');
+    cancelButton = new JButton(StringTools.getLabel(
+        messages.getString("guiCancelButton")));
+    cancelButton.setMnemonic(StringTools.getMnemonic(
+        messages.getString("guiCancelButton")));
     cancelButton.addActionListener(this);
     cons = new GridBagConstraints();
     cons.insets = new Insets(0, 4, 0, 0);

@@ -132,9 +132,10 @@ public final class Main implements ActionListener {
     resultArea.setText(HTML_FONT_START + messages.getString("resultAreaText") + HTML_FONT_END);
     resultArea.setEditable(false);
     JLabel label = new JLabel(messages.getString("enterText"));
-    JButton button = new JButton(messages.getString("checkText"));
-//FIXME: mnemonics should be localized and set by the "ampersand convention"
-    button.setMnemonic('c'); 
+    JButton button = new JButton(StringTools.getLabel(
+        messages.getString("checkText")));
+    button.setMnemonic(StringTools.getMnemonic(
+        messages.getString("checkText"))); 
     button.addActionListener(this);
 
     JPanel panel = new JPanel();
@@ -209,7 +210,8 @@ public final class Main implements ActionListener {
   
   public void actionPerformed(final ActionEvent e) {
     try {
-      if (e.getActionCommand().equals(messages.getString("checkText"))) {
+      if (e.getActionCommand().equals(StringTools.getLabel(
+          messages.getString("checkText")))) {
         JLanguageTool langTool = getCurrentLanguageTool();
         checkTextAndDisplayResults(langTool, getCurrentLanguage());
       } else {

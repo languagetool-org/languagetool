@@ -91,4 +91,17 @@ public class StringToolsTest extends TestCase {
     assertEquals("...s is a test sent...\n        ^^^^^^     ", result);
   }
   
+  public void testGetLabel() {    
+    assertEquals("This is a Label", StringTools.getLabel("This is a &Label"));
+    assertEquals("Bits & Pieces", StringTools.getLabel("Bits && Pieces"));
+  }
+  
+  public void testGetMnemonic() {
+    assertEquals('F', StringTools.getMnemonic("&File"));
+    assertEquals('O', StringTools.getMnemonic("&OK"));
+    assertEquals('\u0000', 
+        StringTools.getMnemonic("File && String operations"));
+    assertEquals('O', 
+      StringTools.getMnemonic("File && String &Operations"));
+  }
 }
