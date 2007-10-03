@@ -52,50 +52,51 @@ public class FalseFriendRuleLoader extends DefaultHandler {
   }
 
   public final List<PatternRule> getRules(final InputStream file, final Language textLanguage, final Language motherTongue) throws ParserConfigurationException, SAXException, IOException {
-    FalseFriendRuleHandler handler = new FalseFriendRuleHandler(textLanguage, motherTongue);
-    SAXParserFactory factory = SAXParserFactory.newInstance();
-    SAXParser saxParser = factory.newSAXParser();
+    final FalseFriendRuleHandler handler = new FalseFriendRuleHandler(textLanguage, motherTongue);
+    final SAXParserFactory factory = SAXParserFactory.newInstance();
+    final SAXParser saxParser = factory.newSAXParser();
     saxParser.parse(file, handler);
     rules = handler.getRules();
     // Add suggestions to each rule:
-    ResourceBundle messages = ResourceBundle.getBundle("de.danielnaber.languagetool.MessagesBundle",
+    final ResourceBundle messages = ResourceBundle.getBundle("de.danielnaber.languagetool.MessagesBundle",
         motherTongue.getLocale());
-    for (PatternRule rule : rules) {
-      List<String> sugg = handler.getSuggestionMap().get(rule.getId());
+    for (final PatternRule rule : rules) {
+      final List<String> sugg = handler.getSuggestionMap().get(rule.getId());
       if (sugg != null) {
-        MessageFormat msgFormat = new MessageFormat(messages.getString("false_friend_suggestion"));
-        Object [] msg = new Object[] {formatSuggestions(sugg)};
+        final MessageFormat msgFormat = new MessageFormat(messages.getString("false_friend_suggestion"));
+        final Object [] msg = new Object[] {formatSuggestions(sugg)};
         rule.setMessage(rule.getMessage() + " " + msgFormat.format(msg));
       }
     }
     return rules;
   }
   
-  private String formatSuggestions(List<String> l) {
-    StringBuilder sb = new StringBuilder();
-    for (Iterator iter = l.iterator(); iter.hasNext();) {
-      String s = (String) iter.next();
+  private String formatSuggestions(final List<String> l) {
+    final StringBuilder sb = new StringBuilder();
+    for (final Iterator iter = l.iterator(); iter.hasNext();) {
+      final String s = (String) iter.next();
       sb.append("<suggestion>");
       sb.append(s);
       sb.append("</suggestion>");
-      if (iter.hasNext())
+      if (iter.hasNext()) {
         sb.append(", ");
+      }
     }
     return sb.toString();
   }
   
   /** Testing only. */
-  public void main(String[] args) throws ParserConfigurationException, SAXException, IOException {
-    FalseFriendRuleLoader prg = new FalseFriendRuleLoader();
+  public void main(final String[] args) throws ParserConfigurationException, SAXException, IOException {
+    final FalseFriendRuleLoader prg = new FalseFriendRuleLoader();
     List<PatternRule> l = prg.getRules(this.getClass().getResourceAsStream("/rules/false-friends.xml"), Language.ENGLISH, Language.GERMAN);
     System.out.println("Hints for German native speakers:");
-    for (PatternRule rule : l) {
+    for (final PatternRule rule : l) {
       System.out.println(rule);
     }
     System.out.println("=======================================");
     System.out.println("Hints for English native speakers:");
     l = prg.getRules(this.getClass().getResourceAsStream("/rules/false-friends.xml"), Language.GERMAN, Language.ENGLISH);
-    for (PatternRule rule : l) {
+    for (final PatternRule rule : l) {
       System.out.println(rule);
     }
   }
@@ -115,6 +116,8 @@ class FalseFriendRuleHandler extends XMLRuleHandler {
   private boolean tokenNegated = false;
   private boolean tokenInflected = false;
   private boolean posNegation = false;
+  
+  private boolean defaultOff = false;
   
   private String posToken;
   
@@ -146,7 +149,7 @@ class FalseFriendRuleHandler extends XMLRuleHandler {
   
   private boolean inTranslation = false;
   
-  public FalseFriendRuleHandler(Language textLanguage, Language motherTongue) {
+  public FalseFriendRuleHandler(final Language textLanguage, final Language motherTongue) {
     messages = ResourceBundle.getBundle("de.danielnaber.languagetool.MessagesBundle",
         motherTongue.getLocale());
     formatter = new MessageFormat("");
@@ -164,18 +167,23 @@ class FalseFriendRuleHandler extends XMLRuleHandler {
   // SAX DocumentHandler methods
   //===========================================================
 
+  @Override
   @SuppressWarnings("unused")
-  public void startElement(String namespaceURI, String lName, String qName, Attributes attrs) throws SAXException {
+  public void startElement(final String namespaceURI, final String lName, final String qName, final Attributes attrs) throws SAXException {
 	  if (qName.equals("rule")) {
 		  translations = new ArrayList<StringBuilder>();
 		  id = attrs.getValue("id");
-		  if (inRuleGroup && id == null)
-			  id = ruleGroupId;
+      if (!(inRuleGroup && defaultOff)) {
+        defaultOff = "off".equals(attrs.getValue("default"));
+      }
+		  if (inRuleGroup && id == null) {
+        id = ruleGroupId;
+      }
 		  correctExamples = new ArrayList<String>();
 		  incorrectExamples = new ArrayList<String>();
 	  } else if (qName.equals("pattern")) {
 		  inPattern = true;
-		  String languageStr = attrs.getValue("lang");
+		  final String languageStr = attrs.getValue("lang");
 		  language = Language.getLanguageForShortName(languageStr);
 		  if (language == null) {
 			  throw new SAXException("Unknown language '" + languageStr + "'");
@@ -241,8 +249,8 @@ class FalseFriendRuleHandler extends XMLRuleHandler {
 		  
 	  } else if (qName.equals("translation")) {
 		  inTranslation = true;
-		  String languageStr = attrs.getValue("lang");
-      Language tmpLang = Language.getLanguageForShortName(languageStr);
+		  final String languageStr = attrs.getValue("lang");
+      final Language tmpLang = Language.getLanguageForShortName(languageStr);
       currentTranslationLanguage = tmpLang;
       if (tmpLang == motherTongue) {
         translationLanguage = tmpLang;
@@ -262,33 +270,39 @@ class FalseFriendRuleHandler extends XMLRuleHandler {
 	  } else if (qName.equals("rulegroup")) {
 		  ruleGroupId = attrs.getValue("id");
 		  inRuleGroup = true;
+      defaultOff = "off".equals(attrs.getValue("default"));
 	  }
   }
 
+  @Override
   @SuppressWarnings("unused")
-  public void endElement(String namespaceURI, String sName, String qName) {
+  public void endElement(final String namespaceURI, final String sName, final String qName) {
 	  if (qName.equals("rule")) {
 		  if (language == textLanguage && translationLanguage != null && translationLanguage == motherTongue
           && language != motherTongue) {
 			  formatter.applyPattern(messages.getString("false_friend_hint"));
-			  Object[] messageArguments = {
+			  final Object[] messageArguments = {
 					  elements.toString().replace('|', '/'),
             messages.getString(textLanguage.getShortName()),
 					  formatTranslations(translations),
             messages.getString(motherTongue.getShortName())
 			  };
-			  String description = formatter.format(messageArguments);
-			  PatternRule rule = new PatternRule(id, language, elementList, 
-					  messages.getString("false_friend_desc") + " " + elements.toString().replace('|', '/'),
+			  final String description = formatter.format(messageArguments);
+			  final PatternRule rule = new PatternRule(id, language, 
+            elementList, messages.getString("false_friend_desc") 
+            + " " + elements.toString().replace('|', '/'),
 					  description);
 			  rule.setCorrectExamples(correctExamples);
 			  rule.setIncorrectExamples(incorrectExamples);
         rule.setCategory(new Category(messages.getString("category_false_friend")));
+        if (defaultOff) {
+          rule.setDefaultOff();
+        }
 			  rules.add(rule);
 		  }
 		  
       if (suggestions.size() > 0) {
-        List<String> l = new ArrayList<String>(suggestions);
+        final List<String> l = new ArrayList<String>(suggestions);
         suggestionMap.put(id, l);
         suggestions.clear();
       }
@@ -378,19 +392,21 @@ class FalseFriendRuleHandler extends XMLRuleHandler {
 	  }
   }
 
-  private String formatTranslations(List<StringBuilder> translations) {
-    StringBuilder sb = new StringBuilder();
-    for (Iterator<StringBuilder> iter = translations.iterator(); iter.hasNext();) {
-      StringBuilder trans = iter.next();
+  private String formatTranslations(final List<StringBuilder> translations) {
+    final StringBuilder sb = new StringBuilder();
+    for (final Iterator<StringBuilder> iter = translations.iterator(); iter.hasNext();) {
+      final StringBuilder trans = iter.next();
       sb.append("\"");
       sb.append(trans.toString());
       sb.append("\"");
-      if (iter.hasNext())
+      if (iter.hasNext()) {
         sb.append(", ");
+      }
     }
     return sb.toString();
   }
 
+  @Override
   public void characters(final char[] buf, final int offset, final int len) {
     final String s = new String(buf, offset, len);
     if (inException) {

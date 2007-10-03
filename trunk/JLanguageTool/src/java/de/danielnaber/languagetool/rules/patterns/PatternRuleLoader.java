@@ -172,7 +172,7 @@ class PatternRuleHandler extends XMLRuleHandler {
       }
     } else if (qName.equals("rule")) {
       id = attrs.getValue("id");
-      if (!inRuleGroup) {
+      if (!(inRuleGroup && defaultOff)) {
         defaultOff = "off".equals(attrs.getValue("default"));
       }
       if (inRuleGroup && id == null) {
