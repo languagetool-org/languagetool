@@ -51,6 +51,14 @@ public class FalseFriendRuleTest extends TestCase {
     assertErrors(1, "Ich gehe in Blubbstadt zur Hochschule.", langTool);
   }
 
+  public void testHintsForPolishSpeakers() throws IOException, ParserConfigurationException, SAXException {
+    JLanguageTool langTool = new JLanguageTool(Language.ENGLISH, Language.POLISH);
+    langTool.activateDefaultFalseFriendRules();
+    assertErrors(1, "This is an absurd.", langTool);
+    assertErrors(0, "This is absurdity.", langTool);
+    assertErrors(1, "I have to speak to my advocate.", langTool);
+  }
+  
   private void assertErrors(int errorCount, String s, JLanguageTool langTool) throws IOException {
     List matches = langTool.check(s);
     //System.err.println(matches);
