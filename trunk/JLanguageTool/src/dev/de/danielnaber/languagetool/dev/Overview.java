@@ -38,8 +38,8 @@ import de.danielnaber.languagetool.tools.StringTools;
  */
 public final class Overview {
 
-  public static void main(String[] args) throws IOException {
-    Overview prg = new Overview();
+  public static void main(final String[] args) throws IOException {
+    final Overview prg = new Overview();
     prg.run();
   }
   
@@ -56,21 +56,34 @@ public final class Overview {
     System.out.println("  <th align=\"right\">XML rules</th>");
     System.out.println("  <th>&nbsp;&nbsp;</th>");
     System.out.println("  <th align=\"right\">Java rules</th>");
+    System.out.println("  <th>&nbsp;&nbsp;</th>");
+    System.out.println("  <th align=\"right\">False friends<th><td>" +
+        " (<a href=\"http://languagetool.cvs.sourceforge.net/*checkout*/languagetool/" +
+        "JLanguageTool/src/rules/false-friends.xml\">show</a>)</td>");
     System.out.println("</tr>");
-    List<String> sortedLanguages = new ArrayList<String>();
-    for (int i = 0; i < Language.LANGUAGES.length; i++) {
-      if (Language.LANGUAGES[i] == Language.DEMO) {
+    final List<String> sortedLanguages = new ArrayList<String>();
+    for (Language element : Language.LANGUAGES) {
+      if (element == Language.DEMO) {
         continue;
       }
-      sortedLanguages.add(Language.LANGUAGES[i].getName());
+      sortedLanguages.add(element.getName());
     }
     Collections.sort(sortedLanguages);
-    for (String langName : sortedLanguages) {
-      Language lang = Language.getLanguageForName(langName);
+
+    //setup false friends counting
+    final String ffFile = "/rules" + File.separator + "false-friends.xml";
+    final java.net.URL ffurl = this.getClass().getResource(ffFile);    
+    String ffRules = StringTools.readFile(this.getClass().getResourceAsStream(ffFile));
+    ffRules = ffRules.replaceAll("(?s)<!--.*?-->", "");
+    ffRules = ffRules.replaceAll("(?s)<rules.*?>", "");
+
+    
+    for (final String langName : sortedLanguages) {
+      final Language lang = Language.getLanguageForName(langName);
       System.out.print("<tr>");
       System.out.print("<td>" + lang.getName() + "</td>");
-      String xmlFile = "/rules" + File.separator + lang.getShortName() + File.separator + "grammar.xml";
-      java.net.URL url = this.getClass().getResource(xmlFile);    
+      final String xmlFile = "/rules" + File.separator + lang.getShortName() + File.separator + "grammar.xml";
+      final java.net.URL url = this.getClass().getResource(xmlFile);    
       if (url == null) {
         System.out.println("<td align=\"right\">0</td>");
       } else {
@@ -82,16 +95,18 @@ public final class Overview {
         int count = 0;
         while (pos != -1) {
           pos = xmlRules.indexOf("<rule ", pos + 1);          
-          if (pos == -1) 
-            break;          
+          if (pos == -1) {
+            break;
+          }          
           count++;
         }
         pos = 0;
         int countInRulegroup = 0;
         while (pos != -1) {
           pos = xmlRules.indexOf("<rule>", pos + 1);          
-          if (pos == -1) 
-            break;          
+          if (pos == -1) {
+            break;
+          }          
           countInRulegroup++;
         }
         System.out.print("<td align=\"right\">" + (count + countInRulegroup) +
@@ -99,17 +114,40 @@ public final class Overview {
             "JLanguageTool/src/rules/" + lang.getShortName() + "/grammar.xml\">show</a>)" + "</td>");
       }
       System.out.print("<td></td>");
+
+      System.out.print("<td></td>");
       // count Java rules:
-      File dir = new File("src/java/de/danielnaber/languagetool/rules/" + lang.getShortName());
+      final File dir = new File("src/java/de/danielnaber/languagetool/rules/" + lang.getShortName());
       if (!dir.exists()) {
         System.out.print("<td align=\"right\">0</td>");
       } else {
-        File[] javaRules = dir.listFiles(new JavaFilter());
-        int javaCount = javaRules.length-1;   // minus 1: one is always "<Language>Rule.java"
+        final File[] javaRules = dir.listFiles(new JavaFilter());
+        final int javaCount = javaRules.length-1;   // minus 1: one is always "<Language>Rule.java"
         System.out.print("<td align=\"right\">" + javaCount + "</td>");
       }
+
+//    false friends
+      System.out.println("<td></td><td></td>"); 
+      if (ffurl == null) {
+        System.out.println("<td align=\"right\">0</td>");
+      } else {
+        // count XML rules:
+        int pos = 0;
+        int count = 0;
+        while (pos != -1) {
+          pos = ffRules.indexOf("<pattern lang=\""+ lang.getShortName(), pos + 1);          
+          if (pos == -1) {
+            break;
+          }          
+          count++;
+        }
+        System.out.print("<td align=\"left\">" + (count) +
+            "</td></tr>");
+      }
+      
       System.out.println("</tr>");    
     }
+
     System.out.println("</table>");    
   }
 
@@ -117,9 +155,10 @@ public final class Overview {
 
 class JavaFilter implements FileFilter {
 
-  public boolean accept(File f) {
-    if (f.getName().endsWith(".java"))
+  public boolean accept(final File f) {
+    if (f.getName().endsWith(".java")) {
       return true;
+    }
     return false;
   }
 
