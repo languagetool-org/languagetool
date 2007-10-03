@@ -2,7 +2,7 @@
 <!--
 Rules: False Friends
 Copyright (C) 2001-2005 Daniel Naber (http://www.danielnaber.de)
-$Id: false-friends.xml,v 1.2 2007-10-03 15:35:06 milek_pl Exp $
+$Id: false-friends.xml,v 1.3 2007-10-03 18:50:22 milek_pl Exp $
 TODO: berate = beschimpfen
 -->
 <rules>
@@ -52,7 +52,7 @@ TODO: berate = beschimpfen
 			<translation lang="en">(the) latest</translation>
 			<translation lang="en">up-to-date</translation>
 		</rule>		
-		<rule>
+		<rule default="off">
 			<pattern lang="pl"><token inflected="yes">aktualny</token></pattern>
 			<translation lang="en">current</translation>
 			<translation lang="en">(the) latest</translation>
@@ -64,11 +64,17 @@ TODO: berate = beschimpfen
 		<rule>
 			<pattern lang="en"><token regexp="yes">actualised|actualized</token></pattern>
 			<translation lang="de">verwirklicht</translation>
+			<translation lang="pl">urzeczywistniony</translation>
+			<translation lang="pl">urzeczywistniony</translation>
 		</rule>
 		<rule>
 			<pattern lang="de"><token>aktualisiert</token></pattern>
 			<translation lang="en">updated</translation>
 		</rule>		
+		<rule>
+			<pattern lang="pl"><token inflected="yes" postag_regexp="yes" postag="ppas.*">zaktualizować</token></pattern>
+			<translation lang="en">updated</translation>
+		</rule>				
 	</rulegroup>
 
 	<rulegroup id="ACTUALIZE">
@@ -168,12 +174,19 @@ TODO: berate = beschimpfen
 			<pattern lang="en"><token>billion</token></pattern>
 			<translation lang="de">Billion (BE 'billion')</translation>
 			<translation lang="de">Milliarde (US 'billion')</translation>
+			<translation lang="pl">bilion (UK 'billion')</translation>
+			<translation lang="pl">miliard (US 'billion')</translation>			
 		</rule>
 		<rule>
 			<pattern lang="de"><token>Billion</token></pattern>
 			<translation lang="en">trillion (US)</translation>
 			<translation lang="en">billion (BE)</translation>
 		</rule>
+		<rule>
+			<pattern lang="pl"><token inflected="yes">bilion</token></pattern>
+			<translation lang="en">trillion (US)</translation>
+			<translation lang="en">billion (BE)</translation>
+		</rule>		
 	</rulegroup>
 
 	<rulegroup id="BLAME">
@@ -209,6 +222,17 @@ TODO: berate = beschimpfen
 		<rule>
 			<pattern lang="de"><token>brav</token></pattern>
 			<translation lang="en">well-behaved</translation>
+		</rule>
+	</rulegroup>
+
+	<rulegroup id="CAMERA">
+		<rule>
+			<pattern lang="en"><token>camera</token></pattern>
+			<translation lang="pl">aparat fotograficzny</translation>
+		</rule>
+		<rule>
+			<pattern lang="pl"><token inflected="yes">kamera</token></pattern>
+			<translation lang="en">(motion-picture) camera</translation>
 		</rule>
 	</rulegroup>
 
@@ -285,8 +309,8 @@ TODO: berate = beschimpfen
 			<pattern lang="de"><token>Dom</token></pattern>
 			<translation lang="en">cathedral</translation>
 		</rule>
-	</rulegroup>
-
+	</rulegroup>	
+	
 	<rulegroup id="ENGAGEMENT">
 		<rule>
 			<pattern lang="en"><token>engagement</token></pattern>
@@ -318,12 +342,19 @@ TODO: berate = beschimpfen
 			<pattern lang="en"><token>eventually</token></pattern>
 			<translation lang="de">schließlich</translation>
 			<translation lang="de">endlich</translation>
+			<translation lang="pl">wreszcie</translation>
+			<translation lang="pl">w końcu</translation>
 		</rule>
 		<rule>
 			<pattern lang="de"><token>eventuell</token></pattern>
 			<translation lang="en">possibly</translation>
 		</rule>
-	</rulegroup>
+		<rule>
+			<pattern lang="pl"><token>ewentualnie</token></pattern>
+			<translation lang="en">possibly</translation>
+			<example type="incorrect">Ewentualnie sąd skazał go na wieloletnią karę więzienia.</example>			
+		</rule>		
+	</rulegroup>	
 
 	<rulegroup id="EVERGREEN">
 		<rule>
@@ -369,7 +400,7 @@ TODO: berate = beschimpfen
 			<translation lang="en">almost</translation>
 		</rule>
 	</rulegroup>
-
+	
 	<rulegroup id="FORMULA">
 		<rule>
 			<pattern lang="en"><token>formula</token></pattern>
@@ -474,6 +505,17 @@ TODO: berate = beschimpfen
 			<pattern lang="de"><token>Handy</token></pattern>
 			<translation lang="en">cell phone</translation>
 			<translation lang="en">mobile phone</translation>
+		</rule>
+	</rulegroup>
+	
+	<rulegroup id="HAZARD">
+		<rule>
+			<pattern lang="en"><token>hazard</token></pattern>
+			<translation lang="pl">niebezpieczeństwo</translation>
+		</rule>
+		<rule>
+			<pattern lang="pl"><token inflected="yes">hazard</token></pattern>
+			<translation lang="en">gambling</translation>
 		</rule>
 	</rulegroup>
 
@@ -662,6 +704,19 @@ TODO: berate = beschimpfen
 		</rule>
 	</rulegroup>
 
+	<rulegroup id="OCCUPANT">
+		<rule>
+			<pattern lang="en"><token>occupant</token></pattern>
+			<translation lang="pl">mieszkaniec</translation>
+			<translation lang="pl">lokator</translation>			
+		</rule>
+		<rule>
+			<pattern lang="pl"><token inflected="yes">okupant</token></pattern>
+			<translation lang="en">invader</translation>					
+			<translation lang="en">occupier</translation>					
+		</rule>
+	</rulegroup>
+
 	<rulegroup id="ORDINARY">
 		<rule>
 			<pattern lang="en"><token>ordinary</token></pattern>
@@ -720,26 +775,53 @@ TODO: berate = beschimpfen
 		</rule>
 	</rulegroup>
 
+	<rulegroup id="PHYSICIAN">
+		<rule>
+			<pattern lang="en"><token>physician</token></pattern>
+			<translation lang="pl">lekarz</translation>
+			<translation lang="pl">medyk</translation>
+		</rule>
+		<rule>
+			<pattern lang="pl"><token inflected="yes">fizyk</token></pattern>
+			<translation lang="en">physicist</translation>
+		</rule>
+	</rulegroup>
+
 	<rulegroup id="PENSION">
 		<rule>
 			<pattern lang="en"><token>pension</token></pattern>
 			<translation lang="de">Rente</translation>
+			<translation lang="pl">emerytura</translation>
+			<translation lang="pl">renta</translation>
 		</rule>
 		<!-- NOTE special case: an english native speaker who writes
 			'Pension' and means 'Rente' is right (those words are synonym).
 			Not the other way round: A German speaker who writes 'pension'
 			and means 'a small hotel' needs to be warned.
 		-->
+		<rule>
+			<pattern lang="pl"><token inflected="yes">pensja</token></pattern>
+			<translation lang="en">wage</translation>
+			<translation lang="en">salary</translation>
+			<translation lang="de">Gehalt</translation>
+			<translation lang="de">Arbeitsentgelt</translation>
+		</rule>
 	</rulegroup>
 
 	<rulegroup id="PRESERVATIVE">
 		<rule>
 			<pattern lang="en"><token>preservative</token></pattern> <!-- TODO: '(food) preservative' -->
 			<translation lang="de">Konservierungmittel</translation>
+			<translation lang="pl">konserwant</translation>
 		</rule>
 		<rule>
 			<pattern lang="de"><token>Präservativ</token></pattern>
 			<translation lang="en">condom</translation>
+		</rule>
+		<rule>
+			<pattern lang="pl"><token inflected="yes">prezerwatywa</token></pattern>
+			<translation lang="en">condom</translation>
+			<translation lang="en">prophylactic</translation>
 		</rule>
 	</rulegroup>
 
@@ -932,6 +1014,19 @@ TODO: berate = beschimpfen
 			<translation lang="en">stern (ship)</translation>
 		</rule>
 	</rulegroup>
+	
+	<rulegroup id="SUPPORT">
+		<rule>
+			<pattern lang="en"><token>support</token></pattern>
+			<translation lang="pl">obsługiwać (urządzenie)</translation>
+			<translation lang="pl">wspierać (osobę)</translation>
+		</rule>
+		<rule>
+			<pattern lang="pl"><token inflected="yes">wspierać</token></pattern>
+			<translation lang="en">help</translation>
+			<translation lang="en">support (only about people)</translation>
+		</rule>
+	</rulegroup>
 
 	<rulegroup id="SYMPATHETIC">
 		<rule>
@@ -1025,11 +1120,18 @@ TODO: berate = beschimpfen
 			<pattern lang="en"><token>unsympathetic</token></pattern>
 			<translation lang="de">ablehnend</translation>
 			<translation lang="de">mit wenig Mitgefühl</translation>
+			<translation lang="pl">bezduszny</translation>
+			<translation lang="pl">nieludzki</translation>
 		</rule>
 		<rule>
 			<pattern lang="de"><token>unsympatisch</token></pattern>
 			<translation lang="en">not likable</translation>
 			<translation lang="en">disagreeable</translation>
+		</rule>
+		<rule>
+			<pattern lang="pl"><token inflected="yes">niesympatyczny</token></pattern>
+			<translation lang="en">not likable</translation>
+			<translation lang="en">disagreeable</translation>			
 		</rule>
 	</rulegroup>
 

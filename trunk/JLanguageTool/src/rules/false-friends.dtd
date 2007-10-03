@@ -18,8 +18,12 @@ redundancy.
 <!ELEMENT rules (rulegroup)+>
 <!ELEMENT rulegroup (rule+)>
 <!ATTLIST rulegroup id ID #REQUIRED>
+<!-- Whether the rule is switched by default off -->
+<!ATTLIST rulegroup default (off|on) #IMPLIED>
 
 <!ELEMENT rule (pattern, translation+, example*)>
+<!-- Whether the rule is switched by default off -->
+<!ATTLIST rule default (off|on) #IMPLIED>
 
 <!ELEMENT pattern (token)*>
 <!ATTLIST pattern lang %Languages; #REQUIRED>
