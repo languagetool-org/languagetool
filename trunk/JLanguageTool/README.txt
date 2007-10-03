@@ -53,7 +53,6 @@ Known bugs:
    
 TODO:
  -finish "Add language..." work
- -Add an attribute to the DTD so rules can be disabled by default
  -put licenses in extra subdir
  -check if some rules from xml-copy-editor.sourceforge.net are useful for us
   (see its source in the xmlcopyeditor-1.0.9.5/src/rulesets directory)
