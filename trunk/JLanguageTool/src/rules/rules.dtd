@@ -47,6 +47,8 @@ that should appear as a single rule to the user: -->
 <!ATTLIST rulegroup id ID #REQUIRED>
 <!-- A short description of the error detected by this rule: -->
 <!ATTLIST rulegroup name CDATA #IMPLIED>
+<!-- Whether the rulegroup is switched by default off -->
+<!ATTLIST rulegroup default (off|on) #IMPLIED>
 
 <!ELEMENT rule (pattern,message,example,example+)>
 <!-- A unique ID for this rule (not required if this rule is inside 
@@ -54,7 +56,7 @@ a rulegroup): -->
 <!ATTLIST rule id ID #IMPLIED>
 <!-- A short description displayed to the user in the configuration dialog: -->
 <!ATTLIST rule name CDATA #IMPLIED>
-<!-- Whether the rule is switched default off -->
+<!-- Whether the rule is switched by default off -->
 <!ATTLIST rule default (off|on) #IMPLIED>
 
 <!ELEMENT pattern (token|phraseref|and)*>

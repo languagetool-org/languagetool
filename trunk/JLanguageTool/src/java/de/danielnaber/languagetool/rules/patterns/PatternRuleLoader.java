@@ -172,7 +172,9 @@ class PatternRuleHandler extends XMLRuleHandler {
       }
     } else if (qName.equals("rule")) {
       id = attrs.getValue("id");
-      defaultOff = "off".equals(attrs.getValue("default"));
+      if (!inRuleGroup) {
+        defaultOff = "off".equals(attrs.getValue("default"));
+      }
       if (inRuleGroup && id == null) {
         id = ruleGroupId;
       }
@@ -281,6 +283,7 @@ class PatternRuleHandler extends XMLRuleHandler {
     } else if (qName.equals("rulegroup")) {
       ruleGroupId = attrs.getValue("id");
       ruleGroupDescription = attrs.getValue("name");
+      defaultOff = "off".equals(attrs.getValue("default"));
       inRuleGroup = true;
     } else if (qName.equals("suggestion") && inMessage) {
       message.append("<suggestion>");
