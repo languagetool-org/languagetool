@@ -6,7 +6,7 @@ title="Easy editing stylesheet" ?>
 <!--
 Polish Grammar and Typo Rules for LanguageTool
 Copyright (C) 2006-2007 Marcin Miłkowski
-$Id: grammar.xml,v 1.101 2007-09-30 22:32:09 milek_pl Exp $
+$Id: grammar.xml,v 1.102 2007-10-03 18:00:35 milek_pl Exp $
 -->
 <rules lang="pl">
   <phrases>
@@ -2466,6 +2466,70 @@ $Id: grammar.xml,v 1.101 2007-09-30 22:32:09 milek_pl Exp $
     </rule>
   </category>
   <category name="Błędy leksykalne">
+    <rule id="JUSTYFIKACJA" name="„justyfikacja” (justowanie)">
+      <pattern>
+        <token inflected="yes">justyfikacja</token>
+      </pattern>
+      <message>Ten wyraz jest kalką z języka angielskiego, utworzoną niezgodnie z polskimi zasadami słowotwórstwa. Poprawnie: <suggestion><match no="1" postag="subst:(sg|pl):(nom|acc|gen|dat|inst|voc|loc).*:f" postag_regexp="yes" postag_replace="subst:ger:$1:.*$2.*">justować</match></suggestion>.</message>
+      <example correction="justowania" type="incorrect">Ten parametr służy do ustawiania <marker>justyfikacji</marker>.</example>
+      <example type="correct">Justowanie nadaje tekstowi estetyczny wygląd.</example>
+    </rule>
+    <rule id="ZORIENTOWANY_OBIEKTOWO" name="„zorientowany obiektowo” (obiektowy)">
+      <pattern>
+        <token inflected="yes" postag="ppas.*" postag_regexp="yes">zorientować</token>
+        <token>obiektowo</token>
+      </pattern>
+      <message>To wyrażenie jest kalką z języka angielskiego. Lepiej: <suggestion><match no="1" postag="ppas(.*)" postag_regexp="yes" postag_replace="adj$1:pos:aff">obiektowy</match></suggestion>.</message>
+      <example correction="obiektowe" type="incorrect">Programowanie <marker>zorientowane obiektowo</marker></example>
+      <example type="correct">Programowanie obiektowe</example>
+    </rule>
+    <rule id="PRZYJAZNY_DLA_UZYTKOWNIKA" name="„przyjazny dla użytkownika” (łatwy w obsłudze)">
+      <pattern>
+        <token inflected="yes">przyjazny</token>
+        <token>dla</token>
+        <token>użytkownika</token>
+      </pattern>
+      <message>To wyrażenie jest kalką z języka angielskiego. Lepiej: <suggestion><match no="1" postag="adj.*">łatwy</match> w obsłudze</suggestion>, <suggestion><match no="1" postag="adj.*">łatwy</match> w użytku</suggestion>.</message>
+      <example correction="łatwy w obsłudze|łatwy w użytku" type="incorrect">Ten program jest <marker>przyjazny dla użytkownika</marker>.</example>
+      <example type="correct">Ten program jest łatwy w użytku.</example>
+    </rule>
+    <rule id="GORACY_KLAWISZ" name="„gorący klawisz” (klawisz skrótu)">
+      <pattern>
+        <token inflected="yes">gorący</token>
+        <token inflected="yes">klawisz</token>
+      </pattern>
+      <message>To wyrażenie jest kalką z angielskiego. Poprawnie: <suggestion>\2 skrótu</suggestion>.</message>
+      <example correction="klawisze skrótu" type="incorrect">Użytkownik może zdefiniować <marker>gorące klawisze</marker>.</example>
+      <example type="correct">Użytkownik może zdefiniować klawisze skrótu.</example>
+    </rule>
+    <rule id="DRAJWER" name="„drajwer” (sterownik)">
+      <pattern>
+        <token inflected="yes">drajwer</token>
+      </pattern>
+      <message>Ten wyraz jest slangowy. Lepiej: <suggestion><match no="1" postag="subst.*">sterownik</match></suggestion>.</message>
+      <example correction="sterownika" type="incorrect">Nie mam <marker>drajwera</marker> tej karty graficznej.</example>
+      <example type="correct">Nie mam sterownika tej karty graficznej.</example>
+    </rule>
+    <rulegroup id="KLIKNAC_PODWOJNIE" name="„kliknąć podwójnie” (kliknąć dwukrotnie)">
+      <rule>
+        <pattern>
+          <token>podwójnie</token>
+          <token inflected="yes">kliknąć</token>
+        </pattern>
+        <message>Nieprawidłowy zwrot. Mówimy: <suggestion>\2 dwukrotnie</suggestion>.</message>
+        <example correction="Kliknij dwukrotnie" type="incorrect"><marker>Podwójnie kliknij</marker> ikonę na pulpicie.</example>
+        <example type="correct">Kliknij dwukrotnie ikonę na pulpicie.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token inflected="yes">kliknąć</token>
+          <token>podwójnie</token>
+        </pattern>
+        <message>Nieprawidłowy zwrot. Mówimy: <suggestion>\1 dwukrotnie</suggestion>.</message>
+        <example correction="Kliknij dwukrotnie" type="incorrect"><marker>Kliknij podwójnie</marker> ikonę na pulpicie.</example>
+        <example type="correct">Kliknij dwukrotnie ikonę na pulpicie.</example>
+      </rule>
+    </rulegroup>
     <rule id="PROTOKOL_Z_CZEGO" name="„protokół z czego” (protokół czego)">
       <pattern>
         <token inflected="yes">protokół</token>
