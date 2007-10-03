@@ -249,11 +249,21 @@ etc as an error:</p>
 	will be inflected just the way the matched verb was originally inflected. The reason why you 
 	need to specify the POS tag is that the matched token can have several POS tags (several readings).</p>
 	
-	<p>Note that currently <tt>&lt;match&gt;</tt> element inside the <tt>&lt;token&gt;</tt> element inserts only a string – 
+	<p>Note that by default <tt>&lt;match&gt;</tt> element inside the <tt>&lt;token&gt;</tt> element inserts only a string – 
 	so it matches a string, and not part of speech tags. So even if it refers to 
 	a token with a POS tag, it copies the matched token, and not its POS token. However, 
-	you can use all above attributes to change the form of the token. This can be 
-	useful for creating rules specifying grammatical agreement.</p>
+	you can use all above attributes to change the form of the token.</p>
+	<p>You can however use the <tt>&lt;match&gt;</tt> element to copy POS tags alone but to do so,
+	you must use the attribute <tt>setpos="yes"</tt>. All other attributes can be applied so that
+	the POS could be converted appropriately. This can be useful for creating rules specifying grammatical 
+	agreement. Currently, such rules must be quite wordy, somewhat more terse syntax is in 
+	development.</p>
+	<p><strong>4. Turning the rule off</strong></p>
+	<p>Some rules can be optional, useful only in specific registers,
+	or very sensitive. You can turn them off by default by using an 
+	attribute <tt>default="off"</tt>. The user can turn the rule in the
+	Options dialog box, and this setting is being saved in the configuration
+	file.</p>
 	</li>
 </ul>
 
@@ -268,8 +278,10 @@ add your rule to <tt>JLanguageTool.java</tt> to activate it.</p>
 <p><a name="translation"><strong>Translating the user interface</strong></a><br />
 To translate the user interface, just copy <tt>MessagesBundle_en.properties</tt>
 to <tt>MessagesBundle_xx.properties</tt> (whereas <tt>xx</tt> is the code of your
-language) and translate the text. The next time you start LanguageTool, it should
-show your translation (assuming your computer is configured to use your language -- if
+language) and translate the text. Note that hot keys for menu items are specified
+with the <tt>&amp;</tt> character (for example, <tt>&amp;File<tt>).
+The next time you start LanguageTool, it should show your translation (assuming your computer is configured to use your 
+language -- if
 that's not the case, start LanguageTool with <tt>java -Duser.language=xx -jar LanguageToolGUI.jar</tt>).
 </p>
 
