@@ -12,12 +12,6 @@
 
 	<xsl:template match="text()" />
 
-	<xsl:template match="*">	
-			<xsl:apply-templates select="*">
-				<xsl:sort select="@lang"/>
-			</xsl:apply-templates>
-	</xsl:template>
-	
 	<xsl:template match="token">
 	<strong style="color: #339900;">		
 		<xsl:value-of select="translate(.,'|',',')"/>
@@ -31,9 +25,7 @@
 	</xsl:template>
 
 	<xsl:template match="//rule">
-		<xsl:apply-templates select="*">
-			<xsl:sort select="pattern/token"/>
-		</xsl:apply-templates>
+		<xsl:apply-templates select="*"/>
 	</xsl:template>
 	
 	<xsl:template match="translation">
@@ -49,8 +41,8 @@
 	<html>
 	<meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
 	<body>	
-			<xsl:apply-templates select="*">
-				<xsl:sort select="token"/>
+			<xsl:apply-templates select="//rule">
+				<xsl:sort select="pattern"/>
 			</xsl:apply-templates>
 	</body>
 	</html>
