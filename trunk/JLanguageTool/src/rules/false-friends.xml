@@ -1,1440 +1,1879 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE rules SYSTEM "false-friends.dtd">
 <?xml-stylesheet type="text/xsl" href="print-ff.xsl" 
 title="Pretty print" ?>
+<?xml-stylesheet type="text/css" href="false-friends.css" 
+title="Easy editing stylesheet" ?>
 <!--
 Rules: False Friends
 Copyright (C) 2001-2005 Daniel Naber (http://www.danielnaber.de)
-$Id: false-friends.xml,v 1.9 2007-10-04 21:30:25 milek_pl Exp $
+$Id: false-friends.xml,v 1.10 2007-10-05 10:51:20 milek_pl Exp $
 TODO: berate = beschimpfen
 -->
 <rules>
-
-	<rulegroup id="ABSURD">
-	<rule>
-	<pattern lang="en"><token>an</token><token>absurd</token></pattern>
-	<translation lang="pl">absurdalny</translation>
-	<example type="correct">This is an absurd suggestion!</example>
-	</rule>
-	<rule>
-	<pattern lang="pl"><token>absurd</token></pattern>
-	<translation lang="en">absurdity</translation>
-	<example type="correct">To absurd!</example>
-	</rule>
-	</rulegroup>
-	
-	<rulegroup id="ALSO">
-		<rule>
-			<pattern lang="en"><token>also</token></pattern>
-			<translation lang="de">auch</translation>
-			<example type="correct">Did he also work at that company?</example>
-		</rule>
-		<rule>
-			<pattern lang="de"><token>also</token></pattern>
-			<translation lang="en">thus</translation>
-			<translation lang="en">therefore</translation>
-			<translation lang="en">so</translation>
-			<example type="correct">Also haben wir uns für die Alternative entschieden.</example>
-		</rule>
-	</rulegroup>
-	
-	<rulegroup id="ACTUAL">
-		<rule>
-			<pattern lang="en"><token regexp="yes">actual|actually</token></pattern>
-			<translation lang="de">eigentlich</translation>
-			<translation lang="pl">rzeczywisty</translation>
-			<translation lang="fr">vrai</translation>
-			<translation lang="fr">effectif</translation>
-		</rule>
-		<rule>
-			<pattern lang="de"><token>aktuell</token></pattern>
-			<translation lang="en">current</translation>
-			<translation lang="en">(the) latest</translation>
-			<translation lang="en">up-to-date</translation>
-		</rule>		
-		<rule default="off">
-			<pattern lang="pl"><token inflected="yes">aktualny</token></pattern>
-			<translation lang="en">current</translation>
-			<translation lang="en">(the) latest</translation>
-			<translation lang="en">up-to-date</translation>
-		</rule>		
-	</rulegroup>
-	
-	<rulegroup id="ACTUALIZED">
-		<rule>
-			<pattern lang="en"><token regexp="yes">actualised|actualized</token></pattern>
-			<translation lang="de">verwirklicht</translation>
-			<translation lang="pl">urzeczywistniony</translation>
-			<translation lang="pl">urzeczywistniony</translation>
-		</rule>
-		<rule>
-			<pattern lang="de"><token>aktualisiert</token></pattern>
-			<translation lang="en">updated</translation>
-		</rule>		
-		<rule>
-			<pattern lang="pl"><token inflected="yes" postag_regexp="yes" postag="ppas.*">zaktualizować</token></pattern>
-			<translation lang="en">updated</translation>
-		</rule>				
-	</rulegroup>
-
-	<rulegroup id="ACTUALIZE">
-		<rule>
-			<pattern lang="en"><token regexp="yes">actualise|actualize</token></pattern>
-			<translation lang="de">verwirklichen</translation>
-			<translation lang="de">realistisch darstellen</translation>
-		</rule>
-		<rule>
-			<pattern lang="de"><token>aktualisieren</token></pattern>
-			<translation lang="en">update</translation>
-		</rule>		
-	</rulegroup>
-	
-	<rulegroup id="ADEPT">
-		<rule>
-			<pattern lang="en"><token>adept</token></pattern>
-			<translation lang="pl">biegły</translation>
-			<translation lang="pl">mistrz</translation>			
-			<translation lang="fr">expert</translation>
-			<translation lang="es">experto</translation>
-			<translation lang="es">hábil</translation>
-		</rule>
-		<rule>
-			<pattern lang="pl"><token inflected="yes">adept</token></pattern>
-			<translation lang="en">follower</translation>
-			<translation lang="en">admirer</translation>
-		</rule>
-		<rule>
-			<pattern lang="fr"><token inflected="yes">adepte</token></pattern>
-			<translation lang="en">follower</translation>
-			<translation lang="en">admirer</translation>
-		</rule>		
-		<rule>
-			<pattern lang="es"><token inflected="yes">adepto</token></pattern>
-			<translation lang="en">follower</translation>
-			<translation lang="en">admirer</translation>
-		</rule>		
-	</rulegroup>
-
-	<rulegroup id="ADVOCATE">
-		<rule>
-			<pattern lang="en"><token>advocate</token></pattern>
-			<translation lang="de">Befürworter</translation>
-			<translation lang="pl">rzecznik</translation>
-		</rule>
-		<rule>
-			<pattern lang="de"><token>Advokat</token></pattern>
-			<translation lang="en">attorney</translation>
-			<translation lang="en">lawyer</translation>
-		</rule>
-		<rule>
-			<pattern lang="pl"><token inflected="yes">adwokat</token></pattern>
-			<translation lang="en">attorney</translation>
-			<translation lang="en">lawyer</translation>
-		</rule>
-	</rulegroup>
-
-	<rulegroup id="ARGUMENT">
-		<rule>
-			<pattern lang="en"><token>argument</token></pattern>
-			<translation lang="de">Streit</translation>
-		</rule>
-		<rule>
-			<pattern lang="de"><token>Argument</token></pattern>
-			<translation lang="en">point</translation>
-			<translation lang="en">reasoned argument</translation>
-		</rule>
-	</rulegroup>
-
-	<rulegroup id="ART">
-		<rule>
-			<pattern lang="en"><token>art</token></pattern>
-			<translation lang="de">Kunst</translation>
-		</rule>
-		<rule>
-			<pattern lang="de"><token>Art</token></pattern>
-			<translation lang="en">kind</translation>
-			<translation lang="en">manner</translation>
-			<translation lang="en">way</translation>
-			<translation lang="en">type</translation>
-		</rule>
-	</rulegroup>
-
-	<rulegroup id="AUDITION">
-		<rule>
-			<pattern lang="en"><token>audition</token></pattern>
-			<translation lang="pl">przesłuchanie (do roli)</translation>
-		</rule>		
-		<rule>
-			<pattern lang="pl"><token inflected="yes">audycja</token></pattern>
-			<translation lang="en">broadcast</translation>
-			<translation lang="en">program</translation>
-		</rule>
-	</rulegroup>
-
-	<rulegroup id="BALD">
-		<rule>
-			<pattern lang="en"><token>bald</token></pattern>
-			<translation lang="de">glatzköpfig</translation>
-			<translation lang="de">kahl</translation>
-		</rule>
-		<rule>
-			<pattern lang="de"><token>bald</token></pattern>
-			<translation lang="en">soon</translation>
-		</rule>
-	</rulegroup>
-
-	<rulegroup id="BECOME">
-		<rule>
-			<pattern lang="en"><token>become</token></pattern>
-			<translation lang="de">werden</translation>
-		</rule>
-		<rule>
-			<pattern lang="de"><token>bekommen</token></pattern>
-			<translation lang="en">to get</translation>
-			<translation lang="en">receive</translation>
-		</rule>
-	</rulegroup>
-
-	<rulegroup id="BERATE">
-		<rule>
-			<pattern lang="en"><token>berate</token></pattern>
-			<translation lang="de">beschimpfen</translation>
-		</rule>
-		<rule>
-			<pattern lang="de"><token>beraten</token></pattern>
-			<translation lang="en">to provide advice</translation>
-			<translation lang="en">to give advice</translation>
-		</rule>
-	</rulegroup>
-
-	<rulegroup id="BILLION">
-		<rule>
-			<pattern lang="en"><token>billion</token></pattern>
-			<translation lang="de">Billion (BE 'billion')</translation>
-			<translation lang="de">Milliarde (US 'billion')</translation>
-			<translation lang="pl">bilion (UK 'billion')</translation>
-			<translation lang="pl">miliard (US 'billion')</translation>			
-		</rule>
-		<rule>
-			<pattern lang="de"><token>Billion</token></pattern>
-			<translation lang="en">trillion (US)</translation>
-			<translation lang="en">billion (BE)</translation>
-		</rule>
-		<rule>
-			<pattern lang="pl"><token inflected="yes">bilion</token></pattern>
-			<translation lang="en">trillion (US)</translation>
-			<translation lang="en">billion (BE)</translation>
-		</rule>		
-	</rulegroup>
-
-	<rulegroup id="BLAME">
-		<rule>
-			<pattern lang="en"><token>blame</token></pattern>
-			<translation lang="de">Schuld</translation>
-			<translation lang="de">jemandem die Schuld zuweisen</translation>
-		</rule>
-		<rule>
-			<pattern lang="de"><token>blamieren</token></pattern>
-			<translation lang="en">embarrass</translation>
-			<translation lang="en">make a fool of oneself</translation>
-		</rule>
-	</rulegroup>
-
-	<rulegroup id="BOX">
-		<rule>
-			<pattern lang="en"><token>box</token></pattern>
-			<translation lang="de">Kasten</translation>
-		</rule>
-		<rule>
-			<pattern lang="de"><token>Box</token></pattern>	<!-- TODO: Lautsprecher -->
-			<translation lang="en">speaker (stereo system)</translation>
-		</rule>
-	</rulegroup>
-
-	<rulegroup id="BRAVE">
-		<rule>
-			<pattern lang="en"><token>brave</token></pattern>
-			<translation lang="de">mutig</translation>
-			<translation lang="de">tapfer</translation>
-		</rule>
-		<rule>
-			<pattern lang="de"><token>brav</token></pattern>
-			<translation lang="en">well-behaved</translation>
-		</rule>
-	</rulegroup>
-
-	<rulegroup id="CAMERA">
-		<rule>
-			<pattern lang="en"><token>camera</token></pattern>
-			<translation lang="pl">aparat fotograficzny</translation>
-		</rule>
-		<rule>
-			<pattern lang="pl"><token inflected="yes">kamera</token></pattern>
-			<translation lang="en">(motion-picture) camera</translation>
-		</rule>
-	</rulegroup>
-
-	<rulegroup id="CHEF">
-		<rule>
-			<pattern lang="en"><token>chef</token></pattern>
-			<translation lang="de">Chefkoch</translation>
-			<translation lang="de">Koch</translation>
-			<translation lang="pl">szef kuchni</translation>
-			<translation lang="pl">kucharz</translation>
-		</rule>
-		<rule>
-			<pattern lang="de"><token>Chef</token></pattern>
-			<translation lang="en">boss</translation>
-			<translation lang="en">chief</translation>
-		</rule>
-		<rule>
-			<pattern lang="pl"><token inflected="yes">szef</token></pattern>
-			<translation lang="en">boss</translation>
-			<translation lang="en">chief</translation>		
-		</rule>
-	</rulegroup>
-
-	<rulegroup id="CONQUER">
-		<rule>
-			<pattern lang="en"><token>conquer</token></pattern>
-			<translation lang="de">erobern</translation>
-		</rule>
-		<rule>
-			<pattern lang="en"><token>concur</token></pattern>
-			<translation lang="de">übereinstimmen</translation>
-		</rule>
-		<rule>
-			<pattern lang="de"><token>konkurrieren</token></pattern>
-			<translation lang="en">compete</translation>
-		</rule>
-	</rulegroup>
-
-	<rulegroup id="CONSEQUENT">
-		<rule>
-			<pattern lang="en"><token regexp="yes">consequent|consequently</token></pattern>
-			<translation lang="de">folglich</translation>
-		</rule>
-		<rule>
-			<pattern lang="de"><token>konsequent</token></pattern>
-			<translation lang="en">consistent</translation>
-		</rule>
-	</rulegroup>
-
-	<rulegroup id="CRAVAT">
-		<rule>
-		<pattern lang="en"><token>cravat</token></pattern>
-		<translation lang="pl">apaszka</translation>
-		</rule>
-		<rule>
-			<pattern lang="pl"><token inflected="yes">krawat</token></pattern>
-			<translation lang="en">tie</translation>
-		</rule>
-	</rulegroup>
-	
-	<rulegroup id="CURIOUS">
-		<rule>
-			<pattern lang="en"><token>curious</token></pattern>
-			<translation lang="de">neugierig</translation>
-		</rule>
-		<rule>
-			<pattern lang="de"><token>kurios</token></pattern>
-			<translation lang="en">odd</translation>
-			<translation lang="en">queer</translation>
-		</rule>
-	</rulegroup>
-
-	<rulegroup id="DECENT">
-		<rule>
-			<pattern lang="en"><token>decent</token></pattern>
-			<translation lang="de">anständig</translation>
-			<translation lang="de">ordentlich</translation>
-		</rule>
-		<rule>
-			<pattern lang="de"><token>dezent</token></pattern>
-			<translation lang="en">discreet(ly)</translation>
-			<translation lang="en">unobtrusive</translation>
-		</rule>
-	</rulegroup>
-
-	<rulegroup id="DIVAN">
-		<rule>
-			<pattern lang="en"><token>divan</token></pattern>
-			<translation lang="pl">otomanka (wyściełana ława)</translation>
-		</rule>
-		<rule>
-			<pattern lang="pl"><token inflected="yes">dywan</token></pattern>
-			<translation lang="en">carpet</translation>
-		</rule>
-	</rulegroup>
-	
-	<rulegroup id="DOME">
-		<rule>
-			<pattern lang="en"><token>dome</token></pattern>
-			<translation lang="de">Kuppel</translation>
-		</rule>
-		<rule>
-			<pattern lang="de"><token>Dom</token></pattern>
-			<translation lang="en">cathedral</translation>
-		</rule>
-	</rulegroup>	
-	
-	<rulegroup id="DRESS">
-		<rule>
-			<pattern lang="en"><token>dress</token></pattern>
-			<translation lang="pl">suknia</translation>
-			<translation lang="pl">sukienka</translation>
-		</rule>
-		<rule>
-			<pattern lang="pl"><token inflected="yes">dres</token></pattern>
-			<translation lang="en">tracksuit</translation>
-			<translation lang="en">sweat suit</translation>
-		</rule>
-	</rulegroup>
-	
-	<rulegroup id="ENGAGEMENT">
-		<rule>
-			<pattern lang="en"><token>engagement</token></pattern>
-			<translation lang="de">Verpflichtung</translation>
-			<translation lang="de">Beschäftigung</translation>
-			<translation lang="de">Verlobung</translation>
-		</rule>
-		<rule>
-			<pattern lang="de"><token>Engagement</token></pattern>
-			<translation lang="en">motivation</translation>
-			<translation lang="en">commitment</translation>
-			<translation lang="en">engagement</translation>	<!-- TODO: theater, film -->
-		</rule>
-	</rulegroup>
-
-	<rulegroup id="ETIQUETTE">
-		<rule>
-			<pattern lang="en"><token>etiquette</token></pattern>
-			<translation lang="de">Etikette</translation>
-			<translation lang="pl">etykieta (zasady grzeczności)</translation>
-		</rule>
-		<rule>
-			<pattern lang="de"><token>Etikett</token></pattern>
-			<translation lang="en">label</translation>
-		</rule>
-		<rule>
-			<pattern lang="pl"><token inflected="yes">etykietka</token></pattern>
-			<translation lang="en">label</translation>
-		</rule>
-		<rule>
-			<pattern lang="pl"><token inflected="yes">etykieta</token></pattern>
-			<translation lang="en">label</translation>
-		</rule>
-	</rulegroup>
-
-	<rulegroup id="EVENTUALLY">
-		<rule>
-			<pattern lang="en"><token>eventually</token></pattern>
-			<translation lang="de">schließlich</translation>
-			<translation lang="de">endlich</translation>
-			<translation lang="pl">wreszcie</translation>
-			<translation lang="pl">w końcu</translation>
-		</rule>
-		<rule>
-			<pattern lang="de"><token>eventuell</token></pattern>
-			<translation lang="en">possibly</translation>
-		</rule>
-		<rule>
-			<pattern lang="pl"><token>ewentualnie</token></pattern>
-			<translation lang="en">possibly</translation>
-			<example type="incorrect">Ewentualnie sąd skazał go na wieloletnią karę więzienia.</example>			
-		</rule>		
-	</rulegroup>	
-
-	<rulegroup id="EVERGREEN">
-		<rule>
-			<pattern lang="en"><token>evergreen</token></pattern>
-			<translation lang="de">immergrüne Pflanze</translation>
-		</rule>
-		<rule>
-			<pattern lang="de"><token>Evergreen</token></pattern>
-			<translation lang="en">classic song</translation>
-		</rule>
-	</rulegroup>
-
-	<rulegroup id="EXCEPTIONAL">
-		<rule>
-			<pattern lang="en"><token regexp="yes">exceptional|exceptionally</token></pattern>
-			<translation lang="de">außergewöhnlich</translation>
-		</rule>
-		<rule>
-			<pattern lang="de"><token>ausnahmsweise</token></pattern>
-			<translation lang="en">as an exception</translation>
-		</rule>
-	</rulegroup>
-
-	<rulegroup id="EXPEDIENT">
-		<rule>
-			<pattern lang="en"><token>expedient</token></pattern>
-			<translation lang="pl">celowy</translation>
-			<translation lang="pl">stosowny</translation>
-		</rule>
-		<rule>
-			<pattern lang="pl"><token inflected="yes">ekspedient</token></pattern>
-			<translation lang="en">sales assistant</translation>
-		</rule>
-	</rulegroup>
-
-	<rulegroup id="FAMILIAR">
-		<rule>
-			<pattern lang="en"><token>familiar</token></pattern>
-			<translation lang="de">bekannt</translation>
-			<translation lang="de">vertraut</translation>
-		</rule>
-		<rule>
-			<pattern lang="de"><token>familiär</token></pattern>
-			<translation lang="en">family-related</translation>
-		</rule>
-	</rulegroup>
-
-	<rulegroup id="FAST">
-		<rule>
-			<pattern lang="en"><token>fast</token></pattern>
-			<translation lang="de">schnell</translation>
-		</rule>
-		<rule>
-			<pattern lang="de"><token>fast</token></pattern>
-			<translation lang="en">almost</translation>
-		</rule>
-	</rulegroup>
-	
-	<rulegroup id="FORMULA">
-		<rule>
-			<pattern lang="en"><token>formula</token></pattern>
-			<translation lang="de">Formel</translation>
-		</rule>
-		<rule>
-			<pattern lang="de"><token>Formular</token></pattern>
-			<translation lang="en">form</translation>
-		</rule>
-	</rulegroup>
-
-	<rulegroup id="FANTASY">
-		<rule>
-			<pattern lang="en"><token>fantasy</token></pattern>
-			<translation lang="de">Tagtraum</translation>
-		</rule>
-		<rule>
-			<pattern lang="de"><token>Fantasie</token></pattern>
-			<translation lang="en">imagination</translation>
-		</rule>
-	</rulegroup>
-
-	<rulegroup id="FRACTION">
-		<rule>
-			<pattern lang="en"><token>fraction</token></pattern>
-			<translation lang="de">Bruchteil</translation>
-		</rule>
-		<rule>
-			<pattern lang="de"><token>Fraktion</token></pattern>
-			<translation lang="en">political party/group</translation>
-		</rule>
-	</rulegroup>
-
-	<rulegroup id="FREIER">
-		<rule>
-			<pattern lang="de"><token>Freier</token></pattern>
-			<translation lang="pl">zalotnik</translation>
-			<translation lang="pl">klient prostytutki</translation>
-		</rule>
-		<rule>
-			<pattern lang="pl"><token inflected="yes">frajer</token></pattern>
-			<translation lang="de">Dummerjan</translation>
-		</rule>
-	</rulegroup>
-
-	<rulegroup id="FUNDATION">
-		<rule>
-			<pattern lang="de"><token>Fundation</token></pattern>
-			<translation lang="pl">fundacja kościelna</translation>
-		</rule>		
-		<rule>
-			<pattern lang="pl"><token inflected="yes">fundacja</token></pattern>
-			<translation lang="de">Stiftung</translation>
-		</rule>
-	</rulegroup>
-
-	<rulegroup id="GASOLINE">
-		<rule>
-			<pattern lang="en"><token>gasoline</token></pattern>
-			<translation lang="de">Benzin</translation>
-		</rule>
-		<rule>
-			<pattern lang="de"><token>Gas</token></pattern>
-			<translation lang="en">(natural) gas</translation>
-		</rule>
-	</rulegroup>
-
-	<rulegroup id="GARAGE">
-		<rule>
-			<pattern lang="en"><token>garage</token></pattern>
-			<translation lang="de">Autowerkstatt</translation>
-			<translation lang="de">Garage</translation>
-		</rule>
-		<rule>
-			<pattern lang="de"><token>Garage</token></pattern>
-			<translation lang="en">garage (of a house)</translation>
-		</rule>
-	</rulegroup>
-	
-	<rulegroup id="GENIAL">
-		<rule>
-			<pattern lang="en"><token>genial</token></pattern>
-			<translation lang="pl">miły</translation>
-			<translation lang="pl">towarzyski</translation>
-		</rule>
-		<rule>
-			<pattern lang="pl"><token inflected="yes">genialny</token></pattern>
-			<translation lang="en">brilliant</translation>
-		</rule>
-	</rulegroup>
-
-	<rulegroup id="GIFT">
-		<rule>
-			<pattern lang="en"><token>gift</token></pattern>
-			<translation lang="de">Geschenk</translation>
-		</rule>
-		<rule>
-			<pattern lang="de"><token>Gift</token></pattern>
-			<translation lang="en">poison</translation>
-		</rule>
-	</rulegroup>
-
-	<rulegroup id="GROSS">
-		<rule>
-			<pattern lang="en"><token>gross</token></pattern>
-			<translation lang="de">ekelhaft</translation>
-			<translation lang="de">grob</translation>
-			<translation lang="de">Brutto-</translation>
-		</rule>
-		<rule>
-			<pattern lang="de"><token>groß</token></pattern>
-			<translation lang="en">big</translation>
-			<translation lang="en">large</translation>
-		</rule>
-	</rulegroup>
-
-	<rulegroup id="GYM">
-		<rule>
-			<pattern lang="en"><token>gym</token></pattern>	<!-- TODO: gymnasium -->
-			<translation lang="de">Turnhalle</translation>
-			<translation lang="de">Sporthalle</translation>
-		</rule>
-		<rule>
-			<pattern lang="de"><token>Gymnasium</token></pattern>
-			<translation lang="en">high school</translation>
-			<translation lang="en">secondary school</translation>
-		</rule>
-	</rulegroup>
-
-	<rulegroup id="HANDY">
-		<rule>
-			<pattern lang="en"><token>handy</token></pattern>
-			<translation lang="de">praktisch</translation>
-			<translation lang="de">handlich</translation>
-		</rule>
-		<rule>
-			<pattern lang="de"><token>Handy</token></pattern>
-			<translation lang="en">cell phone</translation>
-			<translation lang="en">mobile phone</translation>
-		</rule>
-	</rulegroup>
-	
-	<rulegroup id="HAZARD">
-		<rule>
-			<pattern lang="en"><token>hazard</token></pattern>
-			<translation lang="pl">niebezpieczeństwo</translation>
-		</rule>
-		<rule>
-			<pattern lang="pl"><token inflected="yes">hazard</token></pattern>
-			<translation lang="en">gambling</translation>
-		</rule>
-	</rulegroup>
-	
-	<rulegroup id="HERB">
-		<rule>
-			<pattern lang="en"><token>herb</token></pattern>
-			<translation lang="pl">zioło</translation>
-		</rule>
-		<rule>
-			<pattern lang="pl"><token inflected="yes">herb</token></pattern>
-			<translation lang="en">coat of arms</translation>
-		</rule>
-	</rulegroup>
-
-	<rulegroup id="HIGH_SCHOOL">
-		<rule>
-			<pattern lang="en"><token>high</token> <token>school</token></pattern>
-			<translation lang="de">Gesamtschule</translation>
-			<translation lang="de">Gymnasium</translation>
-		</rule>
-		<rule>
-			<pattern lang="de"><token>Hochschule</token></pattern>
-			<translation lang="en">university</translation>
-			<translation lang="en">college</translation>
-		</rule>
-	</rulegroup>
-
-	<rulegroup id="CONFESSION">
-		<rule>
-			<pattern lang="en"><token>confession</token></pattern>
-			<translation lang="de">Geständnis</translation>
-			<translation lang="de">Beichte</translation>
-		</rule>
-		<rule>
-			<pattern lang="de"><token>Konfession</token></pattern>
-			<translation lang="en">religious denomination</translation>
-		</rule>
-	</rulegroup>
-
-	<rulegroup id="KNOT">
-		<rule>
-			<pattern lang="en"><token>knot</token></pattern>
-			<translation lang="pl">węzeł</translation>
-		</rule>
-		<rule>
-			<pattern lang="pl"><token inflected="yes">knot</token></pattern>
-			<translation lang="en">wick</translation>
-		</rule>
-	</rulegroup>
-
-	<rulegroup id="LABOR">
-		<rule>
-			<pattern lang="en"><token>labor</token></pattern>
-			<translation lang="de">Arbeit</translation>
-		</rule>
-		<rule>
-			<pattern lang="de"><token>Labor</token></pattern>
-			<translation lang="en">laboratory</translation>
-		</rule>
-	</rulegroup>
-
-	<rulegroup id="LAST_NIGHT">
-		<rule>
-			<pattern lang="en"><token>last</token> <token>night</token></pattern>
-			<translation lang="de">gestern Abend</translation>
-		</rule>
-		<rule>
-			<pattern lang="de"><token>letzte</token> <token>Nacht</token></pattern>
-			<translation lang="en">during the last night</translation>
-		</rule>
-	</rulegroup>
-
-	<rulegroup id="LIST">
-		<rule>
-			<pattern lang="en"><token>list</token></pattern>
-			<translation lang="de">Liste</translation>
-			<translation lang="de">Verzeichnis</translation>
-		</rule>
-		<rule>
-			<pattern lang="de"><token>List</token></pattern>
-			<translation lang="en">cunning</translation>
-			<translation lang="en">trick</translation>
-		</rule>
-	</rulegroup>
-
-	<!-- TODO: maybe this belongs to words.xml -->
-	<rulegroup id="LIVE">
-		<rule>
-			<pattern lang="de"><token>live</token></pattern>
-			<translation lang="en">only in the sense of a "live" performance</translation>
-		</rule>
-	</rulegroup>
-
-	<rulegroup id="LOCAL">
-		<rule>
-			<pattern lang="en"><token>local</token></pattern>
-			<translation lang="de">örtlich</translation>
-		</rule>
-		<rule>
-			<pattern lang="de"><token>Lokal</token></pattern>
-			<translation lang="en">pub</translation>
-			<translation lang="en">inn</translation>
-		</rule>
-	</rulegroup>
-
-	<rulegroup id="LUNATIC">
-		<rule>
-			<pattern lang="en"><token>lunatic</token></pattern>
-			<translation lang="pl">obłąkany</translation>
-		</rule>
-		<rule>
-			<pattern lang="pl"><token inflected="yes">lunatyk</token></pattern>
-			<translation lang="en">sleepwalker</translation>
-			<translation lang="en">somnambulist</translation>
-		</rule>
-	</rulegroup>
-
-	<rulegroup id="MAP">
-		<rule>
-			<pattern lang="en"><token>map</token></pattern>
-			<translation lang="de">Landkarte</translation>
-		</rule>
-		<rule>
-			<pattern lang="de"><token>Mappe</token></pattern>
-			<translation lang="en">folder</translation>
-		</rule>
-	</rulegroup>
-
-	<rulegroup id="MARMALADE">
-		<rule>
-			<pattern lang="en"><token>marmalade</token></pattern>
-			<translation lang="de">Orangenmarmelade</translation>
-			<translation lang="pl">dżem pomarańczowy</translation>
-		</rule>
-		<rule>
-			<pattern lang="de"><token>Marmelade</token></pattern>
-			<translation lang="en">jam</translation>
-		</rule>
-		<rule>
-			<pattern lang="pl"><token inflected="yes">marmolada</token></pattern>
-			<translation lang="en">jam</translation>
-		</rule>		
-	</rulegroup>
-
-	<rulegroup id="MEANING">
-		<rule>
-			<pattern lang="en"><token>meaning</token></pattern>
-			<translation lang="de">Bedeutung</translation>
-		</rule>
-		<rule>
-			<pattern lang="de"><token>Meinung</token></pattern>
-			<translation lang="en">opinion</translation>
-		</rule>
-	</rulegroup>
-
-	<rulegroup id="MENU">
-		<rule>
-			<pattern lang="en"><token>menu</token></pattern>
-			<translation lang="de">Speisekarte</translation>
-		</rule>
-		<rule>
-			<pattern lang="de"><token>Menü</token></pattern>
-			<translation lang="en">daily special (restaurant)</translation>
-		</rule>
-	</rulegroup>
-
-	<rulegroup id="MURDER">
-		<rule>
-			<pattern lang="en"><token>murder</token></pattern>
-			<translation lang="de">Mord</translation>
-		</rule>
-		<rule>
-			<pattern lang="de"><token>Mörder</token></pattern>
-			<translation lang="en">murderer</translation>
-		</rule>
-	</rulegroup>
-
-	<rulegroup id="MIST">
-		<rule>
-			<pattern lang="en"><token>mist</token></pattern>
-			<translation lang="de">Nebel</translation>
-			<translation lang="de">Dunst</translation>
-		</rule>
-		<rule>
-			<pattern lang="de"><token>Mist</token></pattern>
-			<translation lang="en">manure</translation>
-			<translation lang="en">dung</translation>
-		</rule>
-	</rulegroup>
-
-	<rulegroup id="NATURAL">
-		<rule>
-			<pattern lang="en"><token regexp="yes">natural|naturally</token></pattern>
-			<translation lang="de">auf natürliche Art und Weise</translation>
-		</rule>
-		<rule>
-			<pattern lang="de"><token>natürlich</token></pattern>	<!-- TODO: selbstverständlich -->
-			<translation lang="en">of course</translation>
-		</rule>
-	</rulegroup>
-
-	<rulegroup id="NOTICE">
-		<rule>
-			<pattern lang="en"><token>notice</token></pattern>
-			<translation lang="de">Anhang</translation>
-			<translation lang="de">Bekanntmachung</translation>
-			<translation lang="de">Anzeige</translation>
-		</rule>
-		<rule>
-			<pattern lang="de"><token>Notiz</token></pattern>
-			<translation lang="en">written note</translation>
-			<translation lang="en">written notes</translation>
-			<translation lang="en">brief report</translation>
-		</rule>
-	</rulegroup>
-	
-	<rulegroup id="NOVEL">
-		<rule>
-			<pattern lang="en"><token>novel</token></pattern>
-			<translation lang="pl">powieść</translation>
-		</rule>
-		<rule>
-			<pattern lang="pl"><token inflected="yes">nowela</token></pattern>
-			<translation lang="en">short story</translation>
-		</rule>
-	</rulegroup>
-
-	<rulegroup id="OBJECTIVE">
-		<rule>
-			<pattern lang="en"><token>objective</token></pattern>
-			<translation lang="de">Ziel</translation>
-			<translation lang="pl">cel</translation>
-		</rule>
-		<rule>
-			<pattern lang="de"><token>Objektiv</token></pattern>
-			<translation lang="en">camera lens</translation>
-		</rule>
-	</rulegroup>
-
-	<rulegroup id="OCCUPANT">
-		<rule>
-			<pattern lang="en"><token>occupant</token></pattern>
-			<translation lang="pl">mieszkaniec</translation>
-			<translation lang="pl">lokator</translation>			
-		</rule>
-		<rule>
-			<pattern lang="pl"><token inflected="yes">okupant</token></pattern>
-			<translation lang="en">invader</translation>					
-			<translation lang="en">occupier</translation>					
-		</rule>
-	</rulegroup>
-
-	<rulegroup id="ORDINARY">
-		<rule>
-			<pattern lang="en"><token>ordinary</token></pattern>
-			<translation lang="de">normal</translation>
-			<translation lang="de">üblich</translation>
-			<translation lang="pl">zwykły</translation>
-		</rule>
-		<rule>
-			<pattern lang="de"><token>ordinär</token></pattern>
-			<translation lang="en">vulgar</translation>
-		</rule>
-		<rule>
-			<pattern lang="pl"><token inflected="yes">ordynarny</token></pattern>
-			<translation lang="en">vulgar</translation>
-			<translation lang="en">foul-mouthed</translation>
-		</rule>		
-	</rulegroup>
-
-	<rulegroup id="OVERHEAR">
-		<rule>
-			<pattern lang="en"><token>overhear</token></pattern>
-			<translation lang="de">zufällig hören</translation>
-		</rule>
-		<rule>
-			<pattern lang="de"><token>überhören</token></pattern>
-			<translation lang="en">miss</translation>
-			<translation lang="en">not to hear</translation>
-		</rule>
-	</rulegroup>
-
-	<rulegroup id="OVERWIND">
-		<rule>
-			<pattern lang="en"><token>overwind</token></pattern>
-			<translation lang="de">überdrehen (eine mechanische Uhr)</translation>
-		</rule>
-		<rule>
-			<pattern lang="de"><token>überwinden</token></pattern>
-			<translation lang="en">to get over (a problem)</translation>
-		</rule>
-	</rulegroup>
-
-	<rulegroup id="PARAGRAPH">
-		<rule>
-			<pattern lang="en"><token>paragraph</token></pattern>
-			<translation lang="de">Absatz</translation>
-			<translation lang="de">Abschnitt</translation>
-			<translation lang="pl">akapit</translation>
-			<translation lang="pl">ustęp</translation>
-		</rule>
-		<rule> <!-- todo: "Paragraf" geht auch -->
-			<pattern lang="de"><token>Paragraph</token></pattern>
-			<translation lang="en">section (of a law)</translation>
-		</rule>		
-		<rule>
-			<pattern lang="pl"><token inflected="yes">paragraf</token></pattern>
-			<translation lang="en">section (of a law)</translation>
-		</rule>		
-	</rulegroup>
-	
-	<rulegroup id="PARAPET">
-		<rule>
-			<pattern lang="en"><token>parapet</token></pattern>
-			<translation lang="pl">gzyms</translation>
-			<translation lang="pl">balustrada</translation>			
-		</rule>
-		<rule>
-			<pattern lang="pl"><token inflected="yes">parapet</token></pattern>
-			<translation lang="en">windowsill</translation>
-			<translation lang="en">window ledge</translation>
-		</rule>
-	</rulegroup>
-	
-	<rulegroup id="PATHETIC">
-		<rule>
-			<pattern lang="en"><token>pathetic</token></pattern>
-			<translation lang="pl">żałosny</translation>
-		</rule>
-		<rule>
-			<pattern lang="pl"><token inflected="yes">patetyczny</token></pattern>
-			<translation lang="en">solemn</translation>
-			<translation lang="en">pompous</translation>
-		</rule>
-	</rulegroup>
-
-	<rulegroup id="PHOTOGRAPH">
-		<rule>
-			<pattern lang="en"><token>photograph</token></pattern>
-			<translation lang="de">Foto</translation>
-			<translation lang="pl">zdjęcie</translation>
-			<translation lang="pl">fotografia</translation>
-		</rule>
-		<rule>
-			<pattern lang="de"><token>Fotograf</token></pattern>
-			<translation lang="en">photographer</translation>
-		</rule>
-		<rule>
-			<pattern lang="pl"><token inflected="yes">fotograf</token></pattern>
-			<translation lang="en">photographer</translation>
-		</rule>		
-	</rulegroup>
-
-	<rulegroup id="PHYSICIAN">
-		<rule>
-			<pattern lang="en"><token>physician</token></pattern>
-			<translation lang="pl">lekarz</translation>
-			<translation lang="pl">medyk</translation>
-		</rule>
-		<rule>
-			<pattern lang="pl"><token inflected="yes">fizyk</token></pattern>
-			<translation lang="en">physicist</translation>
-		</rule>
-	</rulegroup>
-
-	<rulegroup id="PENSION">
-		<rule>
-			<pattern lang="en"><token>pension</token></pattern>
-			<translation lang="de">Rente</translation>
-			<translation lang="pl">emerytura</translation>
-			<translation lang="pl">renta</translation>
-		</rule>
-		<!-- NOTE special case: an english native speaker who writes
+  <rulegroup id="ABSURD">
+    <rule>
+      <pattern lang="en">
+        <token>an</token>
+        <token>absurd</token>
+      </pattern>
+      <translation lang="pl">absurdalny</translation>
+      <example type="correct">This is an absurd suggestion!</example>
+    </rule>
+    <rule>
+      <pattern lang="pl">
+        <token>absurd</token>
+      </pattern>
+      <translation lang="en">absurdity</translation>
+      <example type="correct">To absurd!</example>
+    </rule>
+  </rulegroup>
+  <rulegroup id="ALSO">
+    <rule>
+      <pattern lang="en">
+        <token>also</token>
+      </pattern>
+      <translation lang="de">auch</translation>
+      <example type="correct">Did he also work at that company?</example>
+    </rule>
+    <rule>
+      <pattern lang="de">
+        <token>also</token>
+      </pattern>
+      <translation lang="en">thus</translation>
+      <translation lang="en">therefore</translation>
+      <translation lang="en">so</translation>
+      <example type="correct">Also haben wir uns für die Alternative entschieden.</example>
+    </rule>
+  </rulegroup>
+  <rulegroup id="ACTUAL">
+    <rule>
+      <pattern lang="en">
+        <token regexp="yes">actual|actually</token>
+      </pattern>
+      <translation lang="de">eigentlich</translation>
+      <translation lang="pl">rzeczywisty</translation>
+      <translation lang="fr">vrai</translation>
+      <translation lang="fr">effectif</translation>
+    </rule>
+    <rule>
+      <pattern lang="de">
+        <token>aktuell</token>
+      </pattern>
+      <translation lang="en">current</translation>
+      <translation lang="en">(the) latest</translation>
+      <translation lang="en">up-to-date</translation>
+    </rule>
+    <rule default="off">
+      <pattern lang="pl">
+        <token inflected="yes">aktualny</token>
+      </pattern>
+      <translation lang="en">current</translation>
+      <translation lang="en">(the) latest</translation>
+      <translation lang="en">up-to-date</translation>
+    </rule>
+  </rulegroup>
+  <rulegroup id="ACTUALIZED">
+    <rule>
+      <pattern lang="en">
+        <token regexp="yes">actualised|actualized</token>
+      </pattern>
+      <translation lang="de">verwirklicht</translation>
+      <translation lang="pl">urzeczywistniony</translation>
+      <translation lang="pl">urzeczywistniony</translation>
+    </rule>
+    <rule>
+      <pattern lang="de">
+        <token>aktualisiert</token>
+      </pattern>
+      <translation lang="en">updated</translation>
+    </rule>
+    <rule>
+      <pattern lang="pl">
+        <token inflected="yes" postag="ppas.*" postag_regexp="yes">zaktualizować</token>
+      </pattern>
+      <translation lang="en">updated</translation>
+    </rule>
+  </rulegroup>
+  <rulegroup id="ACTUALIZE">
+    <rule>
+      <pattern lang="en">
+        <token regexp="yes">actualise|actualize</token>
+      </pattern>
+      <translation lang="de">verwirklichen</translation>
+      <translation lang="de">realistisch darstellen</translation>
+    </rule>
+    <rule>
+      <pattern lang="de">
+        <token>aktualisieren</token>
+      </pattern>
+      <translation lang="en">update</translation>
+    </rule>
+  </rulegroup>
+  <rulegroup id="ADEPT">
+    <rule>
+      <pattern lang="en">
+        <token>adept</token>
+      </pattern>
+      <translation lang="pl">biegły</translation>
+      <translation lang="pl">mistrz</translation>
+      <translation lang="fr">expert</translation>
+      <translation lang="es">experto</translation>
+      <translation lang="es">hábil</translation>
+    </rule>
+    <rule>
+      <pattern lang="pl">
+        <token inflected="yes">adept</token>
+      </pattern>
+      <translation lang="en">follower</translation>
+      <translation lang="en">admirer</translation>
+    </rule>
+    <rule>
+      <pattern lang="fr">
+        <token inflected="yes">adepte</token>
+      </pattern>
+      <translation lang="en">follower</translation>
+      <translation lang="en">admirer</translation>
+    </rule>
+    <rule>
+      <pattern lang="es">
+        <token inflected="yes">adepto</token>
+      </pattern>
+      <translation lang="en">follower</translation>
+      <translation lang="en">admirer</translation>
+    </rule>
+  </rulegroup>
+  <rulegroup id="ADVOCATE">
+    <rule>
+      <pattern lang="en">
+        <token>advocate</token>
+      </pattern>
+      <translation lang="de">Befürworter</translation>
+      <translation lang="pl">rzecznik</translation>
+    </rule>
+    <rule>
+      <pattern lang="de">
+        <token>Advokat</token>
+      </pattern>
+      <translation lang="en">attorney</translation>
+      <translation lang="en">lawyer</translation>
+    </rule>
+    <rule>
+      <pattern lang="pl">
+        <token inflected="yes">adwokat</token>
+      </pattern>
+      <translation lang="en">attorney</translation>
+      <translation lang="en">lawyer</translation>
+    </rule>
+  </rulegroup>
+  <rulegroup id="APARTMENT">
+    <rule>
+      <pattern lang="en">
+        <token>apartment</token>
+      </pattern>
+      <translation lang="pl">mieszkanie</translation>
+    </rule>
+    <rule>
+      <pattern lang="pl">
+        <token inflected="yes" postag="subst:sg:.*" postag_regexp="yes">apartament</token>
+      </pattern>
+      <translation lang="en">suite (in a hotel)</translation>
+      <translation lang="en">luxury apartment</translation>
+    </rule>
+  </rulegroup>
+  <rulegroup id="ARGUMENT">
+    <rule>
+      <pattern lang="en">
+        <token>argument</token>
+      </pattern>
+      <translation lang="de">Streit</translation>
+    </rule>
+    <rule>
+      <pattern lang="de">
+        <token>Argument</token>
+      </pattern>
+      <translation lang="en">point</translation>
+      <translation lang="en">reasoned argument</translation>
+    </rule>
+  </rulegroup>
+  <rulegroup id="ART">
+    <rule>
+      <pattern lang="en">
+        <token>art</token>
+      </pattern>
+      <translation lang="de">Kunst</translation>
+    </rule>
+    <rule>
+      <pattern lang="de">
+        <token>Art</token>
+      </pattern>
+      <translation lang="en">kind</translation>
+      <translation lang="en">manner</translation>
+      <translation lang="en">way</translation>
+      <translation lang="en">type</translation>
+    </rule>
+  </rulegroup>
+  <rulegroup id="AUDITION">
+    <rule>
+      <pattern lang="en">
+        <token>audition</token>
+      </pattern>
+      <translation lang="pl">przesłuchanie (do roli)</translation>
+    </rule>
+    <rule>
+      <pattern lang="pl">
+        <token inflected="yes">audycja</token>
+      </pattern>
+      <translation lang="en">broadcast</translation>
+      <translation lang="en">program</translation>
+    </rule>
+  </rulegroup>
+  <rulegroup id="BALD">
+    <rule>
+      <pattern lang="en">
+        <token>bald</token>
+      </pattern>
+      <translation lang="de">glatzköpfig</translation>
+      <translation lang="de">kahl</translation>
+    </rule>
+    <rule>
+      <pattern lang="de">
+        <token>bald</token>
+      </pattern>
+      <translation lang="en">soon</translation>
+    </rule>
+  </rulegroup>
+  <rulegroup id="BARRACKS">
+    <rule>
+      <pattern lang="en">
+        <token>barracks</token>
+      </pattern>
+      <translation lang="pl">koszary</translation>
+    </rule>
+    <rule>
+      <pattern lang="pl">
+        <token inflected="yes">barak</token>
+      </pattern>
+      <translation lang="en">shed</translation>
+      <translation lang="en">bull pen</translation>
+    </rule>
+  </rulegroup>
+  <rulegroup id="BATON">
+    <rule>
+      <pattern lang="en">
+        <token>baton</token>
+      </pattern>
+      <translation lang="pl">pałeczka</translation>
+      <translation lang="pl">batuta</translation>
+    </rule>
+    <rule>
+      <pattern lang="pl">
+        <token inflected="yes">baton</token>
+      </pattern>
+      <translation lang="en">bar (e.g., chocolate bar)</translation>
+    </rule>
+  </rulegroup>
+  <rulegroup id="BECOME">
+    <rule>
+      <pattern lang="en">
+        <token>become</token>
+      </pattern>
+      <translation lang="de">werden</translation>
+    </rule>
+    <rule>
+      <pattern lang="de">
+        <token>bekommen</token>
+      </pattern>
+      <translation lang="en">to get</translation>
+      <translation lang="en">receive</translation>
+    </rule>
+  </rulegroup>
+  <rulegroup id="BERATE">
+    <rule>
+      <pattern lang="en">
+        <token>berate</token>
+      </pattern>
+      <translation lang="de">beschimpfen</translation>
+    </rule>
+    <rule>
+      <pattern lang="de">
+        <token>beraten</token>
+      </pattern>
+      <translation lang="en">to provide advice</translation>
+      <translation lang="en">to give advice</translation>
+    </rule>
+  </rulegroup>
+  <rulegroup id="BILLION">
+    <rule>
+      <pattern lang="en">
+        <token>billion</token>
+      </pattern>
+      <translation lang="de">Billion (BE 'billion')</translation>
+      <translation lang="de">Milliarde (US 'billion')</translation>
+      <translation lang="pl">bilion (UK 'billion')</translation>
+      <translation lang="pl">miliard (US 'billion')</translation>
+    </rule>
+    <rule>
+      <pattern lang="de">
+        <token>Billion</token>
+      </pattern>
+      <translation lang="en">trillion (US)</translation>
+      <translation lang="en">billion (BE)</translation>
+    </rule>
+    <rule>
+      <pattern lang="pl">
+        <token inflected="yes">bilion</token>
+      </pattern>
+      <translation lang="en">trillion (US)</translation>
+      <translation lang="en">billion (BE)</translation>
+    </rule>
+  </rulegroup>
+  <rulegroup id="BLAME">
+    <rule>
+      <pattern lang="en">
+        <token>blame</token>
+      </pattern>
+      <translation lang="de">Schuld</translation>
+      <translation lang="de">jemandem die Schuld zuweisen</translation>
+    </rule>
+    <rule>
+      <pattern lang="de">
+        <token>blamieren</token>
+      </pattern>
+      <translation lang="en">embarrass</translation>
+      <translation lang="en">make a fool of oneself</translation>
+    </rule>
+  </rulegroup>
+  <rulegroup id="BLANKET">
+    <rule>
+      <pattern lang="en">
+        <token>blanket</token>
+      </pattern>
+      <translation lang="pl">koc</translation>
+    </rule>
+    <rule>
+      <pattern lang="pl">
+        <token inflected="yes">blankiet</token>
+      </pattern>
+      <translation lang="en">form</translation>
+    </rule>
+  </rulegroup>
+  <rulegroup id="BOX">
+    <rule>
+      <pattern lang="en">
+        <token>box</token>
+      </pattern>
+      <translation lang="de">Kasten</translation>
+    </rule>
+    <rule>
+      <pattern lang="de">
+        <token>Box</token>
+      </pattern>
+      <!-- TODO: Lautsprecher -->
+      <translation lang="en">speaker (stereo system)</translation>
+    </rule>
+  </rulegroup>
+  <rulegroup id="BRAVE">
+    <rule>
+      <pattern lang="en">
+        <token>brave</token>
+      </pattern>
+      <translation lang="de">mutig</translation>
+      <translation lang="de">tapfer</translation>
+    </rule>
+    <rule>
+      <pattern lang="de">
+        <token>brav</token>
+      </pattern>
+      <translation lang="en">well-behaved</translation>
+    </rule>
+  </rulegroup>
+  <rulegroup id="CAMERA">
+    <rule>
+      <pattern lang="en">
+        <token>camera</token>
+      </pattern>
+      <translation lang="pl">aparat fotograficzny</translation>
+    </rule>
+    <rule>
+      <pattern lang="pl">
+        <token inflected="yes">kamera</token>
+      </pattern>
+      <translation lang="en">(motion-picture) camera</translation>
+    </rule>
+  </rulegroup>
+  <rulegroup id="CHEF">
+    <rule>
+      <pattern lang="en">
+        <token>chef</token>
+      </pattern>
+      <translation lang="de">Chefkoch</translation>
+      <translation lang="de">Koch</translation>
+      <translation lang="pl">szef kuchni</translation>
+      <translation lang="pl">kucharz</translation>
+    </rule>
+    <rule>
+      <pattern lang="de">
+        <token>Chef</token>
+      </pattern>
+      <translation lang="en">boss</translation>
+      <translation lang="en">chief</translation>
+    </rule>
+    <rule>
+      <pattern lang="pl">
+        <token inflected="yes">szef</token>
+      </pattern>
+      <translation lang="en">boss</translation>
+      <translation lang="en">chief</translation>
+    </rule>
+  </rulegroup>
+  <rulegroup id="CONQUER">
+    <rule>
+      <pattern lang="en">
+        <token>conquer</token>
+      </pattern>
+      <translation lang="de">erobern</translation>
+    </rule>
+    <rule>
+      <pattern lang="en">
+        <token>concur</token>
+      </pattern>
+      <translation lang="de">übereinstimmen</translation>
+    </rule>
+    <rule>
+      <pattern lang="de">
+        <token>konkurrieren</token>
+      </pattern>
+      <translation lang="en">compete</translation>
+    </rule>
+  </rulegroup>
+  <rulegroup id="CONSEQUENT">
+    <rule>
+      <pattern lang="en">
+        <token regexp="yes">consequent|consequently</token>
+      </pattern>
+      <translation lang="de">folglich</translation>
+    </rule>
+    <rule>
+      <pattern lang="de">
+        <token>konsequent</token>
+      </pattern>
+      <translation lang="en">consistent</translation>
+    </rule>
+  </rulegroup>
+  <rulegroup id="CRAVAT">
+    <rule>
+      <pattern lang="en">
+        <token>cravat</token>
+      </pattern>
+      <translation lang="pl">apaszka</translation>
+    </rule>
+    <rule>
+      <pattern lang="pl">
+        <token inflected="yes">krawat</token>
+      </pattern>
+      <translation lang="en">tie</translation>
+    </rule>
+  </rulegroup>
+  <rulegroup id="CURIOUS">
+    <rule>
+      <pattern lang="en">
+        <token>curious</token>
+      </pattern>
+      <translation lang="de">neugierig</translation>
+    </rule>
+    <rule>
+      <pattern lang="de">
+        <token>kurios</token>
+      </pattern>
+      <translation lang="en">odd</translation>
+      <translation lang="en">queer</translation>
+    </rule>
+  </rulegroup>
+  <rulegroup id="DECENT">
+    <rule>
+      <pattern lang="en">
+        <token>decent</token>
+      </pattern>
+      <translation lang="de">anständig</translation>
+      <translation lang="de">ordentlich</translation>
+    </rule>
+    <rule>
+      <pattern lang="de">
+        <token>dezent</token>
+      </pattern>
+      <translation lang="en">discreet(ly)</translation>
+      <translation lang="en">unobtrusive</translation>
+    </rule>
+  </rulegroup>
+  <rulegroup id="DIVAN">
+    <rule>
+      <pattern lang="en">
+        <token>divan</token>
+      </pattern>
+      <translation lang="pl">otomanka (wyściełana ława)</translation>
+    </rule>
+    <rule>
+      <pattern lang="pl">
+        <token inflected="yes">dywan</token>
+      </pattern>
+      <translation lang="en">carpet</translation>
+    </rule>
+  </rulegroup>
+  <rulegroup id="DOME">
+    <rule>
+      <pattern lang="en">
+        <token>dome</token>
+      </pattern>
+      <translation lang="de">Kuppel</translation>
+    </rule>
+    <rule>
+      <pattern lang="de">
+        <token>Dom</token>
+      </pattern>
+      <translation lang="en">cathedral</translation>
+    </rule>
+  </rulegroup>
+  <rulegroup id="DRESS">
+    <rule>
+      <pattern lang="en">
+        <token>dress</token>
+      </pattern>
+      <translation lang="pl">suknia</translation>
+      <translation lang="pl">sukienka</translation>
+    </rule>
+    <rule>
+      <pattern lang="pl">
+        <token inflected="yes">dres</token>
+      </pattern>
+      <translation lang="en">tracksuit</translation>
+      <translation lang="en">sweat suit</translation>
+    </rule>
+  </rulegroup>
+  <rulegroup id="ENGAGEMENT">
+    <rule>
+      <pattern lang="en">
+        <token>engagement</token>
+      </pattern>
+      <translation lang="de">Verpflichtung</translation>
+      <translation lang="de">Beschäftigung</translation>
+      <translation lang="de">Verlobung</translation>
+    </rule>
+    <rule>
+      <pattern lang="de">
+        <token>Engagement</token>
+      </pattern>
+      <translation lang="en">motivation</translation>
+      <translation lang="en">commitment</translation>
+      <translation lang="en">engagement</translation>
+      <!-- TODO: theater, film -->
+    </rule>
+  </rulegroup>
+  <rulegroup id="ETIQUETTE">
+    <rule>
+      <pattern lang="en">
+        <token>etiquette</token>
+      </pattern>
+      <translation lang="de">Etikette</translation>
+      <translation lang="pl">etykieta (zasady grzeczności)</translation>
+    </rule>
+    <rule>
+      <pattern lang="de">
+        <token>Etikett</token>
+      </pattern>
+      <translation lang="en">label</translation>
+    </rule>
+    <rule>
+      <pattern lang="pl">
+        <token inflected="yes">etykietka</token>
+      </pattern>
+      <translation lang="en">label</translation>
+    </rule>
+    <rule>
+      <pattern lang="pl">
+        <token inflected="yes">etykieta</token>
+      </pattern>
+      <translation lang="en">label</translation>
+    </rule>
+  </rulegroup>
+  <rulegroup id="EVENTUALLY">
+    <rule>
+      <pattern lang="en">
+        <token>eventually</token>
+      </pattern>
+      <translation lang="de">schließlich</translation>
+      <translation lang="de">endlich</translation>
+      <translation lang="pl">wreszcie</translation>
+      <translation lang="pl">w końcu</translation>
+    </rule>
+    <rule>
+      <pattern lang="de">
+        <token>eventuell</token>
+      </pattern>
+      <translation lang="en">possibly</translation>
+    </rule>
+    <rule>
+      <pattern lang="pl">
+        <token>ewentualnie</token>
+      </pattern>
+      <translation lang="en">possibly</translation>
+      <example type="incorrect">Ewentualnie sąd skazał go na wieloletnią karę więzienia.</example>
+    </rule>
+  </rulegroup>
+  <rulegroup id="EVERGREEN">
+    <rule>
+      <pattern lang="en">
+        <token>evergreen</token>
+      </pattern>
+      <translation lang="de">immergrüne Pflanze</translation>
+    </rule>
+    <rule>
+      <pattern lang="de">
+        <token>Evergreen</token>
+      </pattern>
+      <translation lang="en">classic song</translation>
+    </rule>
+  </rulegroup>
+  <rulegroup id="EXCEPTIONAL">
+    <rule>
+      <pattern lang="en">
+        <token regexp="yes">exceptional|exceptionally</token>
+      </pattern>
+      <translation lang="de">außergewöhnlich</translation>
+    </rule>
+    <rule>
+      <pattern lang="de">
+        <token>ausnahmsweise</token>
+      </pattern>
+      <translation lang="en">as an exception</translation>
+    </rule>
+  </rulegroup>
+  <rulegroup id="EXPEDIENT">
+    <rule>
+      <pattern lang="en">
+        <token>expedient</token>
+      </pattern>
+      <translation lang="pl">celowy</translation>
+      <translation lang="pl">stosowny</translation>
+    </rule>
+    <rule>
+      <pattern lang="pl">
+        <token inflected="yes">ekspedient</token>
+      </pattern>
+      <translation lang="en">sales assistant</translation>
+    </rule>
+  </rulegroup>
+  <rulegroup id="FAMILIAR">
+    <rule>
+      <pattern lang="en">
+        <token>familiar</token>
+      </pattern>
+      <translation lang="de">bekannt</translation>
+      <translation lang="de">vertraut</translation>
+    </rule>
+    <rule>
+      <pattern lang="de">
+        <token>familiär</token>
+      </pattern>
+      <translation lang="en">family-related</translation>
+    </rule>
+  </rulegroup>
+  <rulegroup id="FAST">
+    <rule>
+      <pattern lang="en">
+        <token>fast</token>
+      </pattern>
+      <translation lang="de">schnell</translation>
+    </rule>
+    <rule>
+      <pattern lang="de">
+        <token>fast</token>
+      </pattern>
+      <translation lang="en">almost</translation>
+    </rule>
+  </rulegroup>
+  <rulegroup id="FORMULA">
+    <rule>
+      <pattern lang="en">
+        <token>formula</token>
+      </pattern>
+      <translation lang="de">Formel</translation>
+    </rule>
+    <rule>
+      <pattern lang="de">
+        <token>Formular</token>
+      </pattern>
+      <translation lang="en">form</translation>
+    </rule>
+  </rulegroup>
+  <rulegroup id="FANTASY">
+    <rule>
+      <pattern lang="en">
+        <token>fantasy</token>
+      </pattern>
+      <translation lang="de">Tagtraum</translation>
+    </rule>
+    <rule>
+      <pattern lang="de">
+        <token>Fantasie</token>
+      </pattern>
+      <translation lang="en">imagination</translation>
+    </rule>
+  </rulegroup>
+  <rulegroup id="FRACTION">
+    <rule>
+      <pattern lang="en">
+        <token>fraction</token>
+      </pattern>
+      <translation lang="de">Bruchteil</translation>
+    </rule>
+    <rule>
+      <pattern lang="de">
+        <token>Fraktion</token>
+      </pattern>
+      <translation lang="en">political party/group</translation>
+    </rule>
+  </rulegroup>
+  <rulegroup id="FREIER">
+    <rule>
+      <pattern lang="de">
+        <token>Freier</token>
+      </pattern>
+      <translation lang="pl">zalotnik</translation>
+      <translation lang="pl">klient prostytutki</translation>
+    </rule>
+    <rule>
+      <pattern lang="pl">
+        <token inflected="yes">frajer</token>
+      </pattern>
+      <translation lang="de">Dummerjan</translation>
+    </rule>
+  </rulegroup>
+  <rulegroup id="FUNDATION">
+    <rule>
+      <pattern lang="de">
+        <token>Fundation</token>
+      </pattern>
+      <translation lang="pl">fundacja kościelna</translation>
+    </rule>
+    <rule>
+      <pattern lang="pl">
+        <token inflected="yes">fundacja</token>
+      </pattern>
+      <translation lang="de">Stiftung</translation>
+    </rule>
+  </rulegroup>
+  <rulegroup id="GASOLINE">
+    <rule>
+      <pattern lang="en">
+        <token>gasoline</token>
+      </pattern>
+      <translation lang="de">Benzin</translation>
+    </rule>
+    <rule>
+      <pattern lang="de">
+        <token>Gas</token>
+      </pattern>
+      <translation lang="en">(natural) gas</translation>
+    </rule>
+  </rulegroup>
+  <rulegroup id="GARAGE">
+    <rule>
+      <pattern lang="en">
+        <token>garage</token>
+      </pattern>
+      <translation lang="de">Autowerkstatt</translation>
+      <translation lang="de">Garage</translation>
+    </rule>
+    <rule>
+      <pattern lang="de">
+        <token>Garage</token>
+      </pattern>
+      <translation lang="en">garage (of a house)</translation>
+    </rule>
+  </rulegroup>
+  <rulegroup id="GENIAL">
+    <rule>
+      <pattern lang="en">
+        <token>genial</token>
+      </pattern>
+      <translation lang="pl">miły</translation>
+      <translation lang="pl">towarzyski</translation>
+    </rule>
+    <rule>
+      <pattern lang="pl">
+        <token inflected="yes">genialny</token>
+      </pattern>
+      <translation lang="en">brilliant</translation>
+    </rule>
+  </rulegroup>
+  <rulegroup id="GIFT">
+    <rule>
+      <pattern lang="en">
+        <token>gift</token>
+      </pattern>
+      <translation lang="de">Geschenk</translation>
+    </rule>
+    <rule>
+      <pattern lang="de">
+        <token>Gift</token>
+      </pattern>
+      <translation lang="en">poison</translation>
+    </rule>
+  </rulegroup>
+  <rulegroup id="GROSS">
+    <rule>
+      <pattern lang="en">
+        <token>gross</token>
+      </pattern>
+      <translation lang="de">ekelhaft</translation>
+      <translation lang="de">grob</translation>
+      <translation lang="de">Brutto-</translation>
+    </rule>
+    <rule>
+      <pattern lang="de">
+        <token>groß</token>
+      </pattern>
+      <translation lang="en">big</translation>
+      <translation lang="en">large</translation>
+    </rule>
+  </rulegroup>
+  <rulegroup id="GYM">
+    <rule>
+      <pattern lang="en">
+        <token>gym</token>
+      </pattern>
+      <!-- TODO: gymnasium -->
+      <translation lang="de">Turnhalle</translation>
+      <translation lang="de">Sporthalle</translation>
+    </rule>
+    <rule>
+      <pattern lang="de">
+        <token>Gymnasium</token>
+      </pattern>
+      <translation lang="en">high school</translation>
+      <translation lang="en">secondary school</translation>
+    </rule>
+  </rulegroup>
+  <rulegroup id="HANDY">
+    <rule>
+      <pattern lang="en">
+        <token>handy</token>
+      </pattern>
+      <translation lang="de">praktisch</translation>
+      <translation lang="de">handlich</translation>
+    </rule>
+    <rule>
+      <pattern lang="de">
+        <token>Handy</token>
+      </pattern>
+      <translation lang="en">cell phone</translation>
+      <translation lang="en">mobile phone</translation>
+    </rule>
+  </rulegroup>
+  <rulegroup id="HAZARD">
+    <rule>
+      <pattern lang="en">
+        <token>hazard</token>
+      </pattern>
+      <translation lang="pl">niebezpieczeństwo</translation>
+    </rule>
+    <rule>
+      <pattern lang="pl">
+        <token inflected="yes">hazard</token>
+      </pattern>
+      <translation lang="en">gambling</translation>
+    </rule>
+  </rulegroup>
+  <rulegroup id="HERB">
+    <rule>
+      <pattern lang="en">
+        <token>herb</token>
+      </pattern>
+      <translation lang="pl">zioło</translation>
+    </rule>
+    <rule>
+      <pattern lang="pl">
+        <token inflected="yes">herb</token>
+      </pattern>
+      <translation lang="en">coat of arms</translation>
+    </rule>
+  </rulegroup>
+  <rulegroup id="HIGH_SCHOOL">
+    <rule>
+      <pattern lang="en">
+        <token>high</token>
+        <token>school</token>
+      </pattern>
+      <translation lang="de">Gesamtschule</translation>
+      <translation lang="de">Gymnasium</translation>
+    </rule>
+    <rule>
+      <pattern lang="de">
+        <token>Hochschule</token>
+      </pattern>
+      <translation lang="en">university</translation>
+      <translation lang="en">college</translation>
+    </rule>
+  </rulegroup>
+  <rulegroup id="CONFESSION">
+    <rule>
+      <pattern lang="en">
+        <token>confession</token>
+      </pattern>
+      <translation lang="de">Geständnis</translation>
+      <translation lang="de">Beichte</translation>
+    </rule>
+    <rule>
+      <pattern lang="de">
+        <token>Konfession</token>
+      </pattern>
+      <translation lang="en">religious denomination</translation>
+    </rule>
+  </rulegroup>
+  <rulegroup id="KNOT">
+    <rule>
+      <pattern lang="en">
+        <token>knot</token>
+      </pattern>
+      <translation lang="pl">węzeł</translation>
+    </rule>
+    <rule>
+      <pattern lang="pl">
+        <token inflected="yes">knot</token>
+      </pattern>
+      <translation lang="en">wick</translation>
+    </rule>
+  </rulegroup>
+  <rulegroup id="LABOR">
+    <rule>
+      <pattern lang="en">
+        <token>labor</token>
+      </pattern>
+      <translation lang="de">Arbeit</translation>
+    </rule>
+    <rule>
+      <pattern lang="de">
+        <token>Labor</token>
+      </pattern>
+      <translation lang="en">laboratory</translation>
+    </rule>
+  </rulegroup>
+  <rulegroup id="LAST_NIGHT">
+    <rule>
+      <pattern lang="en">
+        <token>last</token>
+        <token>night</token>
+      </pattern>
+      <translation lang="de">gestern Abend</translation>
+    </rule>
+    <rule>
+      <pattern lang="de">
+        <token>letzte</token>
+        <token>Nacht</token>
+      </pattern>
+      <translation lang="en">during the last night</translation>
+    </rule>
+  </rulegroup>
+  <rulegroup id="LIST">
+    <rule>
+      <pattern lang="en">
+        <token>list</token>
+      </pattern>
+      <translation lang="de">Liste</translation>
+      <translation lang="de">Verzeichnis</translation>
+    </rule>
+    <rule>
+      <pattern lang="de">
+        <token>List</token>
+      </pattern>
+      <translation lang="en">cunning</translation>
+      <translation lang="en">trick</translation>
+    </rule>
+  </rulegroup>
+  <!-- TODO: maybe this belongs to words.xml -->
+  <rulegroup id="LIVE">
+    <rule>
+      <pattern lang="de">
+        <token>live</token>
+      </pattern>
+      <translation lang="en">only in the sense of a "live" performance</translation>
+    </rule>
+  </rulegroup>
+  <rulegroup id="LOCAL">
+    <rule>
+      <pattern lang="en">
+        <token>local</token>
+      </pattern>
+      <translation lang="de">örtlich</translation>
+    </rule>
+    <rule>
+      <pattern lang="de">
+        <token>Lokal</token>
+      </pattern>
+      <translation lang="en">pub</translation>
+      <translation lang="en">inn</translation>
+    </rule>
+  </rulegroup>
+  <rulegroup id="LUNATIC">
+    <rule>
+      <pattern lang="en">
+        <token>lunatic</token>
+      </pattern>
+      <translation lang="pl">obłąkany</translation>
+    </rule>
+    <rule>
+      <pattern lang="pl">
+        <token inflected="yes">lunatyk</token>
+      </pattern>
+      <translation lang="en">sleepwalker</translation>
+      <translation lang="en">somnambulist</translation>
+    </rule>
+  </rulegroup>
+  <rulegroup id="MAP">
+    <rule>
+      <pattern lang="en">
+        <token>map</token>
+      </pattern>
+      <translation lang="de">Landkarte</translation>
+    </rule>
+    <rule>
+      <pattern lang="de">
+        <token>Mappe</token>
+      </pattern>
+      <translation lang="en">folder</translation>
+    </rule>
+  </rulegroup>
+  <rulegroup id="MARMALADE">
+    <rule>
+      <pattern lang="en">
+        <token>marmalade</token>
+      </pattern>
+      <translation lang="de">Orangenmarmelade</translation>
+      <translation lang="pl">dżem pomarańczowy</translation>
+    </rule>
+    <rule>
+      <pattern lang="de">
+        <token>Marmelade</token>
+      </pattern>
+      <translation lang="en">jam</translation>
+    </rule>
+    <rule>
+      <pattern lang="pl">
+        <token inflected="yes">marmolada</token>
+      </pattern>
+      <translation lang="en">jam</translation>
+    </rule>
+  </rulegroup>
+  <rulegroup id="MEANING">
+    <rule>
+      <pattern lang="en">
+        <token>meaning</token>
+      </pattern>
+      <translation lang="de">Bedeutung</translation>
+    </rule>
+    <rule>
+      <pattern lang="de">
+        <token>Meinung</token>
+      </pattern>
+      <translation lang="en">opinion</translation>
+    </rule>
+  </rulegroup>
+  <rulegroup id="MENU">
+    <rule>
+      <pattern lang="en">
+        <token>menu</token>
+      </pattern>
+      <translation lang="de">Speisekarte</translation>
+    </rule>
+    <rule>
+      <pattern lang="de">
+        <token>Menü</token>
+      </pattern>
+      <translation lang="en">daily special (restaurant)</translation>
+    </rule>
+  </rulegroup>
+  <rulegroup id="MURDER">
+    <rule>
+      <pattern lang="en">
+        <token>murder</token>
+      </pattern>
+      <translation lang="de">Mord</translation>
+    </rule>
+    <rule>
+      <pattern lang="de">
+        <token>Mörder</token>
+      </pattern>
+      <translation lang="en">murderer</translation>
+    </rule>
+  </rulegroup>
+  <rulegroup id="MIST">
+    <rule>
+      <pattern lang="en">
+        <token>mist</token>
+      </pattern>
+      <translation lang="de">Nebel</translation>
+      <translation lang="de">Dunst</translation>
+    </rule>
+    <rule>
+      <pattern lang="de">
+        <token>Mist</token>
+      </pattern>
+      <translation lang="en">manure</translation>
+      <translation lang="en">dung</translation>
+    </rule>
+  </rulegroup>
+  <rulegroup id="NATURAL">
+    <rule>
+      <pattern lang="en">
+        <token regexp="yes">natural|naturally</token>
+      </pattern>
+      <translation lang="de">auf natürliche Art und Weise</translation>
+    </rule>
+    <rule>
+      <pattern lang="de">
+        <token>natürlich</token>
+      </pattern>
+      <!-- TODO: selbstverständlich -->
+      <translation lang="en">of course</translation>
+    </rule>
+  </rulegroup>
+  <rulegroup id="NOTICE">
+    <rule>
+      <pattern lang="en">
+        <token>notice</token>
+      </pattern>
+      <translation lang="de">Anhang</translation>
+      <translation lang="de">Bekanntmachung</translation>
+      <translation lang="de">Anzeige</translation>
+    </rule>
+    <rule>
+      <pattern lang="de">
+        <token>Notiz</token>
+      </pattern>
+      <translation lang="en">written note</translation>
+      <translation lang="en">written notes</translation>
+      <translation lang="en">brief report</translation>
+    </rule>
+  </rulegroup>
+  <rulegroup id="NOVEL">
+    <rule>
+      <pattern lang="en">
+        <token>novel</token>
+      </pattern>
+      <translation lang="pl">powieść</translation>
+    </rule>
+    <rule>
+      <pattern lang="pl">
+        <token inflected="yes">nowela</token>
+      </pattern>
+      <translation lang="en">short story</translation>
+    </rule>
+  </rulegroup>
+  <rulegroup id="OBJECTIVE">
+    <rule>
+      <pattern lang="en">
+        <token>objective</token>
+      </pattern>
+      <translation lang="de">Ziel</translation>
+      <translation lang="pl">cel</translation>
+    </rule>
+    <rule>
+      <pattern lang="de">
+        <token>Objektiv</token>
+      </pattern>
+      <translation lang="en">camera lens</translation>
+    </rule>
+  </rulegroup>
+  <rulegroup id="OCCUPANT">
+    <rule>
+      <pattern lang="en">
+        <token>occupant</token>
+      </pattern>
+      <translation lang="pl">mieszkaniec</translation>
+      <translation lang="pl">lokator</translation>
+    </rule>
+    <rule>
+      <pattern lang="pl">
+        <token inflected="yes">okupant</token>
+      </pattern>
+      <translation lang="en">invader</translation>
+      <translation lang="en">occupier</translation>
+    </rule>
+  </rulegroup>
+  <rulegroup id="ORDINARY">
+    <rule>
+      <pattern lang="en">
+        <token>ordinary</token>
+      </pattern>
+      <translation lang="de">normal</translation>
+      <translation lang="de">üblich</translation>
+      <translation lang="pl">zwykły</translation>
+    </rule>
+    <rule>
+      <pattern lang="de">
+        <token>ordinär</token>
+      </pattern>
+      <translation lang="en">vulgar</translation>
+    </rule>
+    <rule>
+      <pattern lang="pl">
+        <token inflected="yes">ordynarny</token>
+      </pattern>
+      <translation lang="en">vulgar</translation>
+      <translation lang="en">foul-mouthed</translation>
+    </rule>
+  </rulegroup>
+  <rulegroup id="OVERHEAR">
+    <rule>
+      <pattern lang="en">
+        <token>overhear</token>
+      </pattern>
+      <translation lang="de">zufällig hören</translation>
+    </rule>
+    <rule>
+      <pattern lang="de">
+        <token>überhören</token>
+      </pattern>
+      <translation lang="en">miss</translation>
+      <translation lang="en">not to hear</translation>
+    </rule>
+  </rulegroup>
+  <rulegroup id="OVERWIND">
+    <rule>
+      <pattern lang="en">
+        <token>overwind</token>
+      </pattern>
+      <translation lang="de">überdrehen (eine mechanische Uhr)</translation>
+    </rule>
+    <rule>
+      <pattern lang="de">
+        <token>überwinden</token>
+      </pattern>
+      <translation lang="en">to get over (a problem)</translation>
+    </rule>
+  </rulegroup>
+  <rulegroup id="PARAGRAPH">
+    <rule>
+      <pattern lang="en">
+        <token>paragraph</token>
+      </pattern>
+      <translation lang="de">Absatz</translation>
+      <translation lang="de">Abschnitt</translation>
+      <translation lang="pl">akapit</translation>
+      <translation lang="pl">ustęp</translation>
+    </rule>
+    <rule>
+      <!-- todo: "Paragraf" geht auch -->
+      <pattern lang="de">
+        <token>Paragraph</token>
+      </pattern>
+      <translation lang="en">section (of a law)</translation>
+    </rule>
+    <rule>
+      <pattern lang="pl">
+        <token inflected="yes">paragraf</token>
+      </pattern>
+      <translation lang="en">section (of a law)</translation>
+    </rule>
+  </rulegroup>
+  <rulegroup id="PARAPET">
+    <rule>
+      <pattern lang="en">
+        <token>parapet</token>
+      </pattern>
+      <translation lang="pl">gzyms</translation>
+      <translation lang="pl">balustrada</translation>
+    </rule>
+    <rule>
+      <pattern lang="pl">
+        <token inflected="yes">parapet</token>
+      </pattern>
+      <translation lang="en">windowsill</translation>
+      <translation lang="en">window ledge</translation>
+    </rule>
+  </rulegroup>
+  <rulegroup id="PATHETIC">
+    <rule>
+      <pattern lang="en">
+        <token>pathetic</token>
+      </pattern>
+      <translation lang="pl">żałosny</translation>
+    </rule>
+    <rule>
+      <pattern lang="pl">
+        <token inflected="yes">patetyczny</token>
+      </pattern>
+      <translation lang="en">solemn</translation>
+      <translation lang="en">pompous</translation>
+    </rule>
+  </rulegroup>
+  <rulegroup id="PHOTOGRAPH">
+    <rule>
+      <pattern lang="en">
+        <token>photograph</token>
+      </pattern>
+      <translation lang="de">Foto</translation>
+      <translation lang="pl">zdjęcie</translation>
+      <translation lang="pl">fotografia</translation>
+    </rule>
+    <rule>
+      <pattern lang="de">
+        <token>Fotograf</token>
+      </pattern>
+      <translation lang="en">photographer</translation>
+    </rule>
+    <rule>
+      <pattern lang="pl">
+        <token inflected="yes">fotograf</token>
+      </pattern>
+      <translation lang="en">photographer</translation>
+    </rule>
+  </rulegroup>
+  <rulegroup id="PHYSICIAN">
+    <rule>
+      <pattern lang="en">
+        <token>physician</token>
+      </pattern>
+      <translation lang="pl">lekarz</translation>
+      <translation lang="pl">medyk</translation>
+    </rule>
+    <rule>
+      <pattern lang="pl">
+        <token inflected="yes">fizyk</token>
+      </pattern>
+      <translation lang="en">physicist</translation>
+    </rule>
+  </rulegroup>
+  <rulegroup id="PENSION">
+    <rule>
+      <pattern lang="en">
+        <token>pension</token>
+      </pattern>
+      <translation lang="de">Rente</translation>
+      <translation lang="pl">emerytura</translation>
+      <translation lang="pl">renta</translation>
+    </rule>
+    <!-- NOTE special case: an english native speaker who writes
 			'Pension' and means 'Rente' is right (those words are synonym).
 			Not the other way round: A German speaker who writes 'pension'
 			and means 'a small hotel' needs to be warned.
 		-->
-		<rule>
-			<pattern lang="pl"><token inflected="yes">pensja</token></pattern>
-			<translation lang="en">wage</translation>
-			<translation lang="en">salary</translation>
-			<translation lang="de">Gehalt</translation>
-			<translation lang="de">Arbeitsentgelt</translation>
-		</rule>
-	</rulegroup>
-
-	<rulegroup id="PET">
-		<rule>
-			<pattern lang="en"><token>pet</token></pattern>
-			<translation lang="pl">zwierzątko domowe</translation>
-			<translation lang="pl">pupil</translation>
-		</rule>
-		<rule>
-			<pattern lang="pl"><token inflected="yes">pet</token></pattern>
-			<translation lang="en">fag end</translation>
-			<translation lang="en">dog-end</translation>
-		</rule>		
-	</rulegroup>
-	
-	<rulegroup id="POLYGON">
-		<rule>
-			<pattern lang="en"><token>polygon</token></pattern>
-			<translation lang="pl">wielokąt</translation>
-		</rule>
-		<rule>
-			<pattern lang="pl"><token inflected="yes">poligon</token></pattern>
-			<translation lang="en">military area</translation>
-			<translation lang="en">range</translation>
-		</rule>
-	</rulegroup>
-
-	<rulegroup id="PRESERVATIVE">
-		<rule>
-			<pattern lang="en"><token>preservative</token></pattern> <!-- TODO: '(food) preservative' -->
-			<translation lang="de">Konservierungmittel</translation>
-			<translation lang="pl">konserwant</translation>
-		</rule>
-		<rule>
-			<pattern lang="de"><token>Präservativ</token></pattern>
-			<translation lang="en">condom</translation>
-		</rule>
-		<rule>
-			<pattern lang="pl"><token inflected="yes">prezerwatywa</token></pattern>
-			<translation lang="en">condom</translation>
-			<translation lang="en">prophylactic</translation>
-		</rule>
-	</rulegroup>
-
-	<rulegroup id="PROSPECT">
-		<rule>
-			<pattern lang="en"><token>prospect</token></pattern>
-			<translation lang="de">Aussicht (fig.)</translation>
-		</rule>
-		<rule>
-			<pattern lang="de"><token>Prospekt</token></pattern>
-			<translation lang="en">brochure</translation>
-		</rule>
-	</rulegroup>
-
-	<rulegroup id="PROOF">
-		<rule>
-			<pattern lang="en"><token>proof</token></pattern>
-			<translation lang="de">Beweis</translation>
-			<translation lang="de">Probe</translation>
-		</rule>
-		<rule>
-			<pattern lang="en"><token>prove</token></pattern>
-			<translation lang="de">beweisen</translation>
-		</rule>
-		<rule>
-			<pattern lang="de"><token>prüfen</token></pattern>
-			<translation lang="en">check</translation>
-			<translation lang="en">test</translation>
-		</rule>
-	</rulegroup>
-
-	<rulegroup id="PUBLIC">
-		<rule>
-			<pattern lang="en"><token>public</token></pattern>
-			<translation lang="de">Öffentlichkeit</translation>
-			<translation lang="de">öffentlich</translation>
-		</rule>
-		<rule>
-			<pattern lang="de"><token>Publikum</token></pattern>
-			<translation lang="en">audience</translation>
-		</rule>
-	</rulegroup>
-	
-	<rulegroup id="PUPIL">
-		<rule>
-			<pattern lang="en"><token>pupil</token></pattern>
-			<translation lang="pl">uczeń</translation>
-		</rule>
-		<rule>
-			<pattern lang="pl"><token inflected="yes">pupil</token></pattern>
-			<translation lang="en">favourite</translation>
-			<translation lang="en">pet</translation>
-		</rule>
-	</rulegroup>
-
-	<rulegroup id="REALIZE">
-		<rule>
-			<pattern lang="en"><token>realize</token></pattern>	<!-- TODO: realise?? -->
-			<translation lang="de">erkennen</translation>
-			<translation lang="de">begreifen</translation>
-			<translation lang="pl">zdawać sobie sprawę</translation>
-			<translation lang="pl">pojmować</translation>			
-		</rule>
-		<rule>
-			<pattern lang="de"><token>realisieren</token></pattern>
-			<translation lang="en">produce</translation>
-			<translation lang="en">realize</translation>
-		</rule>
-		<rule>
-			<pattern lang="pl"><token inflected="yes">realizować</token></pattern>
-			<translation lang="en">produce</translation>
-			<translation lang="en">realize</translation>
-		</rule>		
-	</rulegroup>
-
-	<rulegroup id="RENTABLE">
-		<rule>
-			<pattern lang="en"><token>rentable</token></pattern>
-			<translation lang="de">zu vermieten</translation>
-		</rule>
-		<rule>
-			<pattern lang="de"><token>rentabel</token></pattern>
-			<translation lang="en">profitable</translation>
-			<translation lang="en">viable</translation>
-		</rule>
-	</rulegroup>
-
-	<rulegroup id="RECEIPT">
-		<rule>
-			<pattern lang="en"><token>receipt</token></pattern>
-			<translation lang="de">Quittung</translation>
-			<translation lang="de">Beleg</translation>
-			<translation lang="pl">pokwitowanie</translation>
-			<translation lang="pl">kwitek</translation>
-		</rule>
-		<rule>
-			<pattern lang="de"><token>Rezept</token></pattern>
-			<translation lang="en">recipe</translation>
-			<translation lang="en">prescription</translation>  <!-- todo: medizinisch?! -->
-		</rule>
-		<rule>
-			<pattern lang="pl"><token inflected="yes">recepta</token></pattern>
-			<translation lang="en">prescription</translation>  <!-- todo: medizinisch?! -->
-		</rule>		
-	</rulegroup>
-
-	<rulegroup id="ROMAN">
-		<rule>
-			<pattern lang="en"><token>Roman</token></pattern>
-			<translation lang="de">Römer</translation>
-		</rule>
-		<rule>
-			<pattern lang="de"><token>Roman</token></pattern>
-			<translation lang="en">novel</translation>
-		</rule>
-	</rulegroup>
-
-	<rulegroup id="SENSIBLE">
-		<rule>
-			<pattern lang="en"><token>sensible</token></pattern>
-			<translation lang="de">vernünftig</translation>
-		</rule>
-		<rule>
-			<pattern lang="de"><token>sensibel</token></pattern>
-			<translation lang="en">sensitive</translation>
-		</rule>
-	</rulegroup>
-
-	<rulegroup id="SEA">
-		<rule>
-			<pattern lang="en"><token>sea</token></pattern>
-			<translation lang="de">die See</translation>
-			<translation lang="de">das Meer</translation>
-		</rule>
-		<rule>
-			<pattern lang="de"><token>See</token></pattern>
-			<translation lang="en">lake</translation>
-		</rule>
-	</rulegroup>
-
-	<rulegroup id="SERIOUS">
-		<rule>
-			<pattern lang="en"><token>serious</token></pattern>
-			<translation lang="de">ernst</translation>
-			<translation lang="de">ernsthaft</translation>
-		</rule>
-		<rule>
-			<pattern lang="de"><token>seriös</token></pattern>
-			<translation lang="en">trustworthy</translation>
-			<translation lang="en">reliable</translation>
-		</rule>
-	</rulegroup>
-
-	<rulegroup id="SIDE">
-		<!-- TODO: test!! -->
-		<rule>
-			<pattern lang="en"><token>side</token></pattern>
-			<translation lang="de">Seite</translation>
-		</rule>
-		<rule>
-			<pattern lang="en"><token>site</token></pattern>
-			<translation lang="de">Lage</translation>
-			<translation lang="de">Schauplatz</translation>
-		</rule>
-		<rule>
-			<pattern lang="de"><token>Seite</token></pattern>
-			<translation lang="en">page (of a book)</translation>
-			<translation lang="en">side</translation>
-		</rule>
-	</rulegroup>
-
-	<rulegroup id="SPARE">
-		<rule>
-			<pattern lang="en"><token>spare</token></pattern>
-			<translation lang="de">Ersatz</translation>
-		</rule>
-		<rule>
-			<pattern lang="de"><token>sparen</token></pattern>
-			<translation lang="en">save (time)</translation>
-		</rule>
-	</rulegroup>
-
-	<rulegroup id="SPEND">
-		<rule>
-			<pattern lang="en"><token>spend</token></pattern>
-			<translation lang="de">ausgeben (Geld)</translation>
-			<translation lang="de">verbringen (Zeit)</translation>
-		</rule>
-		<rule>
-			<pattern lang="de"><token>spenden</token></pattern>
-			<translation lang="en">to donate</translation>
-		</rule>
-	</rulegroup>
-
-	<rulegroup id="STAR">
-		<rule>
-			<pattern lang="en"><token>star</token></pattern>
-			<translation lang="de">Stern</translation>
-		</rule>
-		<rule>
-			<pattern lang="de"><token>Star</token></pattern>
-			<translation lang="en">film star</translation>
-		</rule>
-	</rulegroup>
-
-	<rulegroup id="STERN">
-		<rule>
-			<pattern lang="en"><token>stern</token></pattern>
-			<translation lang="de">Heck (Schiff)</translation>
-			<translation lang="de">streng (Adj.)</translation>
-		</rule>
-		<rule>
-			<pattern lang="de"><token>Stern</token></pattern>
-			<translation lang="en">star</translation>
-			<translation lang="en">stern (ship)</translation>
-		</rule>
-	</rulegroup>
-	
-	<rulegroup id="SUPPORT">
-		<rule>
-			<pattern lang="en"><token>support</token></pattern>
-			<translation lang="pl">obsługiwać (urządzenie)</translation>
-			<translation lang="pl">wspierać (osobę)</translation>
-		</rule>
-		<rule>
-			<pattern lang="pl"><token inflected="yes">wspierać</token></pattern>
-			<translation lang="en">help</translation>
-			<translation lang="en">support (only about people)</translation>
-		</rule>
-	</rulegroup>
-
-	<rulegroup id="SYMPATHETIC">
-		<rule>
-			<pattern lang="en"><token>sympathetic</token></pattern>
-			<translation lang="de">Mitleid haben</translation>
-			<translation lang="de">Mitgefühl haben</translation>
-			<translation lang="pl">współczujący</translation>
-		</rule>
-		<rule>
-			<pattern lang="de"><token>sympatisch</token></pattern>
-			<translation lang="en">nice</translation>
-			<translation lang="en">friendly</translation>
-		</rule>
-		<rule>
-			<pattern lang="pl"><token inflected="yes">sympatyczny</token></pattern>		
-			<translation lang="en">nice</translation>
-			<translation lang="en">friendly</translation>			
-		</rule>
-	</rulegroup>
-
-	<rulegroup id="SYMPATHY">
-		<rule>
-			<pattern lang="en"><token>sympathy</token></pattern>
-			<translation lang="de">Mitleid</translation>
-			<translation lang="de">Mitgefühl</translation>
-			<translation lang="pl">współczucie</translation>
-		</rule>
-		<rule>
-			<pattern lang="de"><token>Sympathie</token></pattern>
-			<translation lang="en">liking</translation>
-			<translation lang="en">solidarity</translation>
-			<translation lang="en">good will</translation>
-		</rule>
-		<rule>
-			<pattern lang="pl"><token inflected="yes">sympatia</token></pattern>
-			<translation lang="en">liking</translation>
-			<translation lang="en">solidarity</translation>
-			<translation lang="en">good will</translation>
-		</rule>			
-	</rulegroup>
-
-	<rulegroup id="TABLET">
-		<rule>
-			<pattern lang="en"><token>tablet</token></pattern>
-			<translation lang="de">Tablette</translation>
-		</rule>
-		<rule>
-			<pattern lang="de"><token>Tablett</token></pattern>
-			<translation lang="en">tray</translation>
-		</rule>
-	</rulegroup>
-
-	<rulegroup id="OVERSIGHT">
-		<rule>
-			<pattern lang="en"><token>oversight</token></pattern>
-			<translation lang="de">Versehen</translation>
-		</rule>
-		<rule>
-			<pattern lang="de"><token>Übersicht</token></pattern>
-			<translation lang="en">overview</translation>
-		</rule>
-	</rulegroup>
-
-	<rulegroup id="OVERSEE">
-		<rule>
-			<pattern lang="en"><token>oversee</token></pattern>
-			<translation lang="de">überwachen</translation>
-			<translation lang="de">beaufsichtigen</translation>
-		</rule>
-		<rule>
-			<!-- TODO: nur diese Form wird gefunden, bei Nomen entspr. nur Singular etc -->
-			<pattern lang="de"><token>übersehen</token></pattern>
-			<translation lang="en">to overlook</translation>
-			<translation lang="en">to miss (something)</translation>
-		</rule>
-	</rulegroup>
-
-	<rulegroup id="PASS">
-		<rule>
-			<pattern lang="en"><token>pass</token></pattern>
-			<translation lang="de">vorbeigehen</translation>
-		</rule>
-		<rule>
-			<pattern lang="de"><token>Pass</token></pattern>
-			<translation lang="en">passport</translation>
-		</rule>
-	</rulegroup>
-
-	<rulegroup id="UNSYMPATHETIC">
-		<rule>
-			<pattern lang="en"><token>unsympathetic</token></pattern>
-			<translation lang="de">ablehnend</translation>
-			<translation lang="de">mit wenig Mitgefühl</translation>
-			<translation lang="pl">bezduszny</translation>
-			<translation lang="pl">nieludzki</translation>
-		</rule>
-		<rule>
-			<pattern lang="de"><token>unsympatisch</token></pattern>
-			<translation lang="en">not likable</translation>
-			<translation lang="en">disagreeable</translation>
-		</rule>
-		<rule>
-			<pattern lang="pl"><token inflected="yes">niesympatyczny</token></pattern>
-			<translation lang="en">not likable</translation>
-			<translation lang="en">disagreeable</translation>			
-		</rule>
-	</rulegroup>
-
-	<rulegroup id="UNDERTAKER">
-		<rule>
-			<pattern lang="en"><token>undertaker</token></pattern>
-			<translation lang="de">Leichenbestatter</translation>
-		</rule>
-		<rule>
-			<pattern lang="de"><token>Unternehmer</token></pattern>
-			<translation lang="en">business person</translation>
-			<translation lang="en">employer</translation>
-		</rule>
-	</rulegroup>
-
-	<rulegroup id="WAREHOUSE">
-		<rule>
-			<pattern lang="en"><token>warehouse</token></pattern>
-			<translation lang="de">Lagerhaus</translation>
-		</rule>
-		<rule>
-			<pattern lang="de"><token>Warenhaus</token></pattern>
-			<translation lang="en">department store</translation>
-		</rule>
-	</rulegroup>
-
+    <rule>
+      <pattern lang="pl">
+        <token inflected="yes">pensja</token>
+      </pattern>
+      <translation lang="en">wage</translation>
+      <translation lang="en">salary</translation>
+      <translation lang="de">Gehalt</translation>
+      <translation lang="de">Arbeitsentgelt</translation>
+    </rule>
+  </rulegroup>
+  <rulegroup id="PET">
+    <rule>
+      <pattern lang="en">
+        <token>pet</token>
+      </pattern>
+      <translation lang="pl">zwierzątko domowe</translation>
+      <translation lang="pl">pupil</translation>
+    </rule>
+    <rule>
+      <pattern lang="pl">
+        <token inflected="yes">pet</token>
+      </pattern>
+      <translation lang="en">fag end</translation>
+      <translation lang="en">dog-end</translation>
+    </rule>
+  </rulegroup>
+  <rulegroup id="POLYGON">
+    <rule>
+      <pattern lang="en">
+        <token>polygon</token>
+      </pattern>
+      <translation lang="pl">wielokąt</translation>
+    </rule>
+    <rule>
+      <pattern lang="pl">
+        <token inflected="yes">poligon</token>
+      </pattern>
+      <translation lang="en">military area</translation>
+      <translation lang="en">range</translation>
+    </rule>
+  </rulegroup>
+  <rulegroup id="PRESERVATIVE">
+    <rule>
+      <pattern lang="en">
+        <token>preservative</token>
+      </pattern>
+      <!-- TODO: '(food) preservative' -->
+      <translation lang="de">Konservierungmittel</translation>
+      <translation lang="pl">konserwant</translation>
+    </rule>
+    <rule>
+      <pattern lang="de">
+        <token>Präservativ</token>
+      </pattern>
+      <translation lang="en">condom</translation>
+    </rule>
+    <rule>
+      <pattern lang="pl">
+        <token inflected="yes">prezerwatywa</token>
+      </pattern>
+      <translation lang="en">condom</translation>
+      <translation lang="en">prophylactic</translation>
+    </rule>
+  </rulegroup>
+  <rulegroup id="PROSPECT">
+    <rule>
+      <pattern lang="en">
+        <token>prospect</token>
+      </pattern>
+      <translation lang="de">Aussicht (fig.)</translation>
+    </rule>
+    <rule>
+      <pattern lang="de">
+        <token>Prospekt</token>
+      </pattern>
+      <translation lang="en">brochure</translation>
+    </rule>
+  </rulegroup>
+  <rulegroup id="PROOF">
+    <rule>
+      <pattern lang="en">
+        <token>proof</token>
+      </pattern>
+      <translation lang="de">Beweis</translation>
+      <translation lang="de">Probe</translation>
+    </rule>
+    <rule>
+      <pattern lang="en">
+        <token>prove</token>
+      </pattern>
+      <translation lang="de">beweisen</translation>
+    </rule>
+    <rule>
+      <pattern lang="de">
+        <token>prüfen</token>
+      </pattern>
+      <translation lang="en">check</translation>
+      <translation lang="en">test</translation>
+    </rule>
+  </rulegroup>
+  <rulegroup id="PUBLIC">
+    <rule>
+      <pattern lang="en">
+        <token>public</token>
+      </pattern>
+      <translation lang="de">Öffentlichkeit</translation>
+      <translation lang="de">öffentlich</translation>
+    </rule>
+    <rule>
+      <pattern lang="de">
+        <token>Publikum</token>
+      </pattern>
+      <translation lang="en">audience</translation>
+    </rule>
+  </rulegroup>
+  <rulegroup id="PUPIL">
+    <rule>
+      <pattern lang="en">
+        <token>pupil</token>
+      </pattern>
+      <translation lang="pl">uczeń</translation>
+    </rule>
+    <rule>
+      <pattern lang="pl">
+        <token inflected="yes">pupil</token>
+      </pattern>
+      <translation lang="en">favourite</translation>
+      <translation lang="en">pet</translation>
+    </rule>
+  </rulegroup>
+  <rulegroup id="REALIZE">
+    <rule>
+      <pattern lang="en">
+        <token>realize</token>
+      </pattern>
+      <!-- TODO: realise?? -->
+      <translation lang="de">erkennen</translation>
+      <translation lang="de">begreifen</translation>
+      <translation lang="pl">zdawać sobie sprawę</translation>
+      <translation lang="pl">pojmować</translation>
+    </rule>
+    <rule>
+      <pattern lang="de">
+        <token>realisieren</token>
+      </pattern>
+      <translation lang="en">produce</translation>
+      <translation lang="en">realize</translation>
+    </rule>
+    <rule>
+      <pattern lang="pl">
+        <token inflected="yes">realizować</token>
+      </pattern>
+      <translation lang="en">produce</translation>
+      <translation lang="en">realize</translation>
+    </rule>
+  </rulegroup>
+  <rulegroup id="RENTABLE">
+    <rule>
+      <pattern lang="en">
+        <token>rentable</token>
+      </pattern>
+      <translation lang="de">zu vermieten</translation>
+    </rule>
+    <rule>
+      <pattern lang="de">
+        <token>rentabel</token>
+      </pattern>
+      <translation lang="en">profitable</translation>
+      <translation lang="en">viable</translation>
+    </rule>
+  </rulegroup>
+  <rulegroup id="RECEIPT">
+    <rule>
+      <pattern lang="en">
+        <token>receipt</token>
+      </pattern>
+      <translation lang="de">Quittung</translation>
+      <translation lang="de">Beleg</translation>
+      <translation lang="pl">pokwitowanie</translation>
+      <translation lang="pl">kwitek</translation>
+    </rule>
+    <rule>
+      <pattern lang="de">
+        <token>Rezept</token>
+      </pattern>
+      <translation lang="en">recipe</translation>
+      <translation lang="en">prescription</translation>
+      <!-- todo: medizinisch?! -->
+    </rule>
+    <rule>
+      <pattern lang="pl">
+        <token inflected="yes">recepta</token>
+      </pattern>
+      <translation lang="en">prescription</translation>
+      <!-- todo: medizinisch?! -->
+    </rule>
+  </rulegroup>
+  <rulegroup id="ROMAN">
+    <rule>
+      <pattern lang="en">
+        <token>Roman</token>
+      </pattern>
+      <translation lang="de">Römer</translation>
+    </rule>
+    <rule>
+      <pattern lang="de">
+        <token>Roman</token>
+      </pattern>
+      <translation lang="en">novel</translation>
+    </rule>
+  </rulegroup>
+  <rulegroup id="SENSIBLE">
+    <rule>
+      <pattern lang="en">
+        <token>sensible</token>
+      </pattern>
+      <translation lang="de">vernünftig</translation>
+    </rule>
+    <rule>
+      <pattern lang="de">
+        <token>sensibel</token>
+      </pattern>
+      <translation lang="en">sensitive</translation>
+    </rule>
+  </rulegroup>
+  <rulegroup id="SEA">
+    <rule>
+      <pattern lang="en">
+        <token>sea</token>
+      </pattern>
+      <translation lang="de">die See</translation>
+      <translation lang="de">das Meer</translation>
+    </rule>
+    <rule>
+      <pattern lang="de">
+        <token>See</token>
+      </pattern>
+      <translation lang="en">lake</translation>
+    </rule>
+  </rulegroup>
+  <rulegroup id="SERIOUS">
+    <rule>
+      <pattern lang="en">
+        <token>serious</token>
+      </pattern>
+      <translation lang="de">ernst</translation>
+      <translation lang="de">ernsthaft</translation>
+    </rule>
+    <rule>
+      <pattern lang="de">
+        <token>seriös</token>
+      </pattern>
+      <translation lang="en">trustworthy</translation>
+      <translation lang="en">reliable</translation>
+    </rule>
+  </rulegroup>
+  <rulegroup id="SIDE">
+    <!-- TODO: test!! -->
+    <rule>
+      <pattern lang="en">
+        <token>side</token>
+      </pattern>
+      <translation lang="de">Seite</translation>
+    </rule>
+    <rule>
+      <pattern lang="en">
+        <token>site</token>
+      </pattern>
+      <translation lang="de">Lage</translation>
+      <translation lang="de">Schauplatz</translation>
+    </rule>
+    <rule>
+      <pattern lang="de">
+        <token>Seite</token>
+      </pattern>
+      <translation lang="en">page (of a book)</translation>
+      <translation lang="en">side</translation>
+    </rule>
+  </rulegroup>
+  <rulegroup id="SPARE">
+    <rule>
+      <pattern lang="en">
+        <token>spare</token>
+      </pattern>
+      <translation lang="de">Ersatz</translation>
+    </rule>
+    <rule>
+      <pattern lang="de">
+        <token>sparen</token>
+      </pattern>
+      <translation lang="en">save (time)</translation>
+    </rule>
+  </rulegroup>
+  <rulegroup id="SPEND">
+    <rule>
+      <pattern lang="en">
+        <token>spend</token>
+      </pattern>
+      <translation lang="de">ausgeben (Geld)</translation>
+      <translation lang="de">verbringen (Zeit)</translation>
+    </rule>
+    <rule>
+      <pattern lang="de">
+        <token>spenden</token>
+      </pattern>
+      <translation lang="en">to donate</translation>
+    </rule>
+  </rulegroup>
+  <rulegroup id="STAR">
+    <rule>
+      <pattern lang="en">
+        <token>star</token>
+      </pattern>
+      <translation lang="de">Stern</translation>
+    </rule>
+    <rule>
+      <pattern lang="de">
+        <token>Star</token>
+      </pattern>
+      <translation lang="en">film star</translation>
+    </rule>
+  </rulegroup>
+  <rulegroup id="STERN">
+    <rule>
+      <pattern lang="en">
+        <token>stern</token>
+      </pattern>
+      <translation lang="de">Heck (Schiff)</translation>
+      <translation lang="de">streng (Adj.)</translation>
+    </rule>
+    <rule>
+      <pattern lang="de">
+        <token>Stern</token>
+      </pattern>
+      <translation lang="en">star</translation>
+      <translation lang="en">stern (ship)</translation>
+    </rule>
+  </rulegroup>
+  <rulegroup id="SUPPORT">
+    <rule>
+      <pattern lang="en">
+        <token>support</token>
+      </pattern>
+      <translation lang="pl">obsługiwać (urządzenie)</translation>
+      <translation lang="pl">wspierać (osobę)</translation>
+    </rule>
+    <rule>
+      <pattern lang="pl">
+        <token inflected="yes">wspierać</token>
+      </pattern>
+      <translation lang="en">help</translation>
+      <translation lang="en">support (only about people)</translation>
+    </rule>
+  </rulegroup>
+  <rulegroup id="SYMPATHETIC">
+    <rule>
+      <pattern lang="en">
+        <token>sympathetic</token>
+      </pattern>
+      <translation lang="de">Mitleid haben</translation>
+      <translation lang="de">Mitgefühl haben</translation>
+      <translation lang="pl">współczujący</translation>
+    </rule>
+    <rule>
+      <pattern lang="de">
+        <token>sympatisch</token>
+      </pattern>
+      <translation lang="en">nice</translation>
+      <translation lang="en">friendly</translation>
+    </rule>
+    <rule>
+      <pattern lang="pl">
+        <token inflected="yes">sympatyczny</token>
+      </pattern>
+      <translation lang="en">nice</translation>
+      <translation lang="en">friendly</translation>
+    </rule>
+  </rulegroup>
+  <rulegroup id="SYMPATHY">
+    <rule>
+      <pattern lang="en">
+        <token>sympathy</token>
+      </pattern>
+      <translation lang="de">Mitleid</translation>
+      <translation lang="de">Mitgefühl</translation>
+      <translation lang="pl">współczucie</translation>
+    </rule>
+    <rule>
+      <pattern lang="de">
+        <token>Sympathie</token>
+      </pattern>
+      <translation lang="en">liking</translation>
+      <translation lang="en">solidarity</translation>
+      <translation lang="en">good will</translation>
+    </rule>
+    <rule>
+      <pattern lang="pl">
+        <token inflected="yes">sympatia</token>
+      </pattern>
+      <translation lang="en">liking</translation>
+      <translation lang="en">solidarity</translation>
+      <translation lang="en">good will</translation>
+    </rule>
+  </rulegroup>
+  <rulegroup id="TABLET">
+    <rule>
+      <pattern lang="en">
+        <token>tablet</token>
+      </pattern>
+      <translation lang="de">Tablette</translation>
+    </rule>
+    <rule>
+      <pattern lang="de">
+        <token>Tablett</token>
+      </pattern>
+      <translation lang="en">tray</translation>
+    </rule>
+  </rulegroup>
+  <rulegroup id="OVERSIGHT">
+    <rule>
+      <pattern lang="en">
+        <token>oversight</token>
+      </pattern>
+      <translation lang="de">Versehen</translation>
+    </rule>
+    <rule>
+      <pattern lang="de">
+        <token>Übersicht</token>
+      </pattern>
+      <translation lang="en">overview</translation>
+    </rule>
+  </rulegroup>
+  <rulegroup id="OVERSEE">
+    <rule>
+      <pattern lang="en">
+        <token>oversee</token>
+      </pattern>
+      <translation lang="de">überwachen</translation>
+      <translation lang="de">beaufsichtigen</translation>
+    </rule>
+    <rule>
+      <!-- TODO: nur diese Form wird gefunden, bei Nomen entspr. nur Singular etc -->
+      <pattern lang="de">
+        <token>übersehen</token>
+      </pattern>
+      <translation lang="en">to overlook</translation>
+      <translation lang="en">to miss (something)</translation>
+    </rule>
+  </rulegroup>
+  <rulegroup id="PASS">
+    <rule>
+      <pattern lang="en">
+        <token>pass</token>
+      </pattern>
+      <translation lang="de">vorbeigehen</translation>
+    </rule>
+    <rule>
+      <pattern lang="de">
+        <token>Pass</token>
+      </pattern>
+      <translation lang="en">passport</translation>
+    </rule>
+  </rulegroup>
+  <rulegroup id="UNSYMPATHETIC">
+    <rule>
+      <pattern lang="en">
+        <token>unsympathetic</token>
+      </pattern>
+      <translation lang="de">ablehnend</translation>
+      <translation lang="de">mit wenig Mitgefühl</translation>
+      <translation lang="pl">bezduszny</translation>
+      <translation lang="pl">nieludzki</translation>
+    </rule>
+    <rule>
+      <pattern lang="de">
+        <token>unsympatisch</token>
+      </pattern>
+      <translation lang="en">not likable</translation>
+      <translation lang="en">disagreeable</translation>
+    </rule>
+    <rule>
+      <pattern lang="pl">
+        <token inflected="yes">niesympatyczny</token>
+      </pattern>
+      <translation lang="en">not likable</translation>
+      <translation lang="en">disagreeable</translation>
+    </rule>
+  </rulegroup>
+  <rulegroup id="UNDERTAKER">
+    <rule>
+      <pattern lang="en">
+        <token>undertaker</token>
+      </pattern>
+      <translation lang="de">Leichenbestatter</translation>
+    </rule>
+    <rule>
+      <pattern lang="de">
+        <token>Unternehmer</token>
+      </pattern>
+      <translation lang="en">business person</translation>
+      <translation lang="en">employer</translation>
+    </rule>
+  </rulegroup>
+  <rulegroup id="WAREHOUSE">
+    <rule>
+      <pattern lang="en">
+        <token>warehouse</token>
+      </pattern>
+      <translation lang="de">Lagerhaus</translation>
+    </rule>
+    <rule>
+      <pattern lang="de">
+        <token>Warenhaus</token>
+      </pattern>
+      <translation lang="en">department store</translation>
+    </rule>
+  </rulegroup>
 </rules>

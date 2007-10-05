@@ -42,6 +42,9 @@ redundancy.
 <!ATTLIST token postag_exceptions CDATA #IMPLIED>
 <!-- number of tags to skip before the match is found -->
 <!ATTLIST token skip CDATA #IMPLIED>
+<!-- Spaces are important for matching, leave them alone: -->
+<!ATTLIST token
+ xml:space (preserve) #FIXED 'preserve'>
 
 <!-- exception element -->
 <!ELEMENT exception (#PCDATA)>
@@ -66,3 +69,7 @@ redundancy.
 
 <!ELEMENT example (#PCDATA)>
 <!ATTLIST example type (correct|incorrect) #REQUIRED>
+<!-- Spaces are important for testing suggestions, leave them alone: -->
+<!ATTLIST example
+ xml:space (preserve) #FIXED 'preserve'>
+

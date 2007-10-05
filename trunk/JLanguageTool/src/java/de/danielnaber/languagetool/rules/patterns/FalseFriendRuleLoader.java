@@ -55,6 +55,8 @@ public class FalseFriendRuleLoader extends DefaultHandler {
     final FalseFriendRuleHandler handler = new FalseFriendRuleHandler(textLanguage, motherTongue);
     final SAXParserFactory factory = SAXParserFactory.newInstance();
     final SAXParser saxParser = factory.newSAXParser();
+    saxParser.getXMLReader().setFeature("http://apache.org/xml/features/nonvalidating/load-external-dtd",
+        false);      
     saxParser.parse(file, handler);
     rules = handler.getRules();
     // Add suggestions to each rule:
