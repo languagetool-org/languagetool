@@ -13,10 +13,22 @@
 	<xsl:template match="text()" />
 
 	<xsl:template match="token">
-	<strong style="color: #339900;">		
-		<xsl:value-of select="translate(.,'|',',')"/>
-		<xsl:text> </xsl:text>
-	</strong>
+		<xsl:choose>
+			<xsl:when test="@negate='yes'">
+				<strike>
+					<strong style="color: #339900;">
+						<xsl:value-of select="translate(.,'|',',')" />
+						<xsl:text> </xsl:text>
+					</strong>
+				</strike>
+			</xsl:when>
+			<xsl:otherwise>
+				<strong style="color: #339900;">
+					<xsl:value-of select="translate(.,'|',',')" />
+					<xsl:text> </xsl:text>
+				</strong>
+			</xsl:otherwise>
+		</xsl:choose>
 	</xsl:template>
 
 	<xsl:template match="pattern">
