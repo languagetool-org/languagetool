@@ -7,7 +7,7 @@ title="Easy editing stylesheet" ?>
 English Grammar and Typo Rules for LanguageTool
 See tagset.txt for the meaning of the POS tags
 Copyright (C) 2001-2007 Daniel Naber (http://www.danielnaber.de)
-$Id: grammar.xml,v 1.40 2007-10-03 15:35:45 milek_pl Exp $
+$Id: grammar.xml,v 1.41 2007-10-05 12:19:39 milek_pl Exp $
 -->
 <rules lang="en">
   <!-- ====================================================================== -->
@@ -53,6 +53,16 @@ $Id: grammar.xml,v 1.40 2007-10-03 15:35:45 milek_pl Exp $
       <message>Possible typo. Did you mean <suggestion>\1</suggestion> or <suggestion>\1\3</suggestion>?</message>
       <example correction="your|yours" type="incorrect">It's not mine, it's <marker>your's</marker>.</example>
       <example type="correct">It's not mine, it's yours.</example>
+    </rule>
+    <rule id="YOURS_APOSTROPHE" name="Possible typo: Possesive pronoun with apostrophe">
+      <pattern mark_from="1">
+        <token postag="SENT_START" postag_regexp="yes" skip="-1"><exception scope="next">'</exception></token>
+        <token postag="PRP$" postag_regexp="yes"/>
+        <token>'</token>
+      </pattern>
+      <message>An apostrophe is never used to form possessive case pronouns. Did you mean: <suggestion>\2</suggestion>?</message>
+      <example correction="yours" type="incorrect">This house is <marker>yours'</marker>.</example>
+      <example type="correct">My heart is hers.</example>
     </rule>
     <rulegroup id="HERE_HEAR" name="Possible typo: 'here (hear)'">
       <rule>

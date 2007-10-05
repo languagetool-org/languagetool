@@ -7,7 +7,7 @@ title="Easy editing stylesheet" ?>
 <!--
 Rules: False Friends
 Copyright (C) 2001-2005 Daniel Naber (http://www.danielnaber.de)
-$Id: false-friends.xml,v 1.10 2007-10-05 10:51:20 milek_pl Exp $
+$Id: false-friends.xml,v 1.11 2007-10-05 12:19:38 milek_pl Exp $
 TODO: berate = beschimpfen
 -->
 <rules>
@@ -358,6 +358,23 @@ TODO: berate = beschimpfen
       <translation lang="en">form</translation>
     </rule>
   </rulegroup>
+  <rulegroup default="off" id="BOOT">
+    <rule>
+      <pattern lang="en">
+        <token>boot</token>
+      </pattern>
+      <translation lang="pl">trzewik</translation>
+      <translation lang="pl">kozak</translation>
+      <translation lang="pl">but (z cholewką)</translation>
+    </rule>
+    <rule>
+      <pattern lang="pl">
+        <token inflected="yes">but</token>
+      </pattern>
+      <translation lang="en">shoe</translation>
+      <translation lang="en">boot (only if large)</translation>
+    </rule>
+  </rulegroup>
   <rulegroup id="BOX">
     <rule>
       <pattern lang="en">
@@ -400,6 +417,21 @@ TODO: berate = beschimpfen
         <token inflected="yes">kamera</token>
       </pattern>
       <translation lang="en">(motion-picture) camera</translation>
+    </rule>
+  </rulegroup>
+  <rulegroup id="CARTOON">
+    <rule>
+      <pattern lang="en">
+        <token inflected="yes">cartoon</token>
+      </pattern>
+      <translation lang="pl">komiks</translation>
+      <translation lang="pl">film animowany</translation>
+    </rule>
+    <rule>
+      <pattern lang="pl">
+        <token inflected="yes">karton</token>
+      </pattern>
+      <translation lang="en">cardboard</translation>
     </rule>
   </rulegroup>
   <rulegroup id="CHEF">
@@ -475,6 +507,22 @@ TODO: berate = beschimpfen
       <translation lang="en">tie</translation>
     </rule>
   </rulegroup>
+  <rulegroup id="CRIMINAL">
+    <rule>
+      <pattern lang="en">
+        <token>criminal</token>
+      </pattern>
+      <translation lang="pl">przestępca</translation>
+      <translation lang="en">kryminalista</translation>
+    </rule>
+    <rule>
+      <pattern lang="pl">
+        <token inflected="yes">kryminał</token>
+      </pattern>
+      <translation lang="en">whodunit</translation>
+      <translation lang="en">prison</translation>
+    </rule>
+  </rulegroup>
   <rulegroup id="CURIOUS">
     <rule>
       <pattern lang="en">
@@ -548,6 +596,34 @@ TODO: berate = beschimpfen
       </pattern>
       <translation lang="en">tracksuit</translation>
       <translation lang="en">sweat suit</translation>
+    </rule>
+  </rulegroup>
+  <rulegroup id="DRINK">
+    <rule>
+      <pattern lang="en">
+        <token>drink</token>
+      </pattern>
+      <translation lang="pl">napój (każdego rodzaju, nie tylko alkoholowy)</translation>
+    </rule>
+    <rule>
+      <pattern lang="pl">
+        <token inflected="yes">drink</token>
+      </pattern>
+      <translation lang="en">(alcoholic) drink</translation>
+    </rule>
+  </rulegroup>
+  <rulegroup id="ELEWATOR">
+    <rule>
+      <pattern lang="en">
+        <token>elevator</token>
+      </pattern>
+      <translation lang="pl">winda</translation>
+    </rule>
+    <rule>
+      <pattern lang="pl">
+        <token inflected="yes">elewator</token>
+      </pattern>
+      <translation lang="pl">(grain) elevator</translation>
     </rule>
   </rulegroup>
   <rulegroup id="ENGAGEMENT">
@@ -841,11 +917,12 @@ TODO: berate = beschimpfen
   <rulegroup id="GYM">
     <rule>
       <pattern lang="en">
-        <token>gym</token>
+        <token regexp="yes">gym|gymnasium</token>
       </pattern>
-      <!-- TODO: gymnasium -->
+      <!-- added: gymnasium -->
       <translation lang="de">Turnhalle</translation>
       <translation lang="de">Sporthalle</translation>
+      <translation lang="pl">sala gimnastyczna</translation>
     </rule>
     <rule>
       <pattern lang="de">
@@ -853,6 +930,12 @@ TODO: berate = beschimpfen
       </pattern>
       <translation lang="en">high school</translation>
       <translation lang="en">secondary school</translation>
+    </rule>
+    <rule>
+      <pattern lang="pl">
+        <token inflected="yes">gimnazjum</token>
+      </pattern>
+      <translation lang="en">(lower) secondary school</translation>
     </rule>
   </rulegroup>
   <rulegroup id="HANDY">
@@ -914,6 +997,37 @@ TODO: berate = beschimpfen
       </pattern>
       <translation lang="en">university</translation>
       <translation lang="en">college</translation>
+    </rule>
+  </rulegroup>
+  <rulegroup id="IMPOTENT">
+    <rule>
+      <pattern lang="en">
+        <token>impotent</token>
+        <token negate="yes">man</token>
+      </pattern>
+      <translation lang="pl">bezsilny</translation>
+      <translation lang="pl">zniedołężniały</translation>
+    </rule>
+    <rule>
+      <pattern lang="pl">
+        <token inflected="yes">impotent</token>
+      </pattern>
+      <translation lang="en">impotent man</translation>
+    </rule>
+  </rulegroup>
+  <rulegroup id="JURY">
+    <rule>
+      <pattern lang="en">
+        <token>jury</token>
+      </pattern>
+      <translation lang="pl">ława przysięgłych</translation>
+    </rule>
+    <rule>
+      <pattern lang="pl">
+        <token>jury</token>
+      </pattern>
+      <translation lang="en">judges</translation>
+      <translation lang="en">panel of experts</translation>
     </rule>
   </rulegroup>
   <rulegroup id="CONFESSION">
