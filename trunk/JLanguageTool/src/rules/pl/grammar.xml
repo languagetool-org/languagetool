@@ -6,7 +6,7 @@ title="Easy editing stylesheet" ?>
 <!--
 Polish Grammar and Typo Rules for LanguageTool
 Copyright (C) 2006-2007 Marcin Miłkowski
-$Id: grammar.xml,v 1.102 2007-10-03 18:00:35 milek_pl Exp $
+$Id: grammar.xml,v 1.103 2007-10-09 09:34:27 milek_pl Exp $
 -->
 <rules lang="pl">
   <phrases>
@@ -1251,7 +1251,36 @@ $Id: grammar.xml,v 1.102 2007-10-03 18:00:35 milek_pl Exp $
         <example correction="mnożyć a mnożyć" type="incorrect">Przykłady można by <marker>mnożyć, a mnożyć</marker>.</example>
         <example type="correct">Taki a taki lekarz przyjmuje w takich a takich godzinach.</example>
       </rule>
+      <rule>
+        <pattern>
+          <token>tak</token>
+          <token>,</token>
+          <token>a</token>
+          <token>nie</token>
+          <token>inaczej</token>
+        </pattern>
+        <message>W tym wyrażeniu zgodnie z tradycją nie stawiamy przecinka. Poprawnie: <suggestion>\1 \3 \4 \5</suggestion>.</message>
+        <example correction="tak a nie inaczej" type="incorrect">Należy to zrobić <marker>tak, a nie inaczej</marker>.</example>
+        <example type="correct">Należy to zrobić tak a nie inaczej.</example>
+      </rule>
     </rulegroup>
+    <rule id="BRAK_PRZECINKA_A" name="Brak przecinka przed „a” w sensie przeciwstawnym">
+      <pattern case_sensitive="no" mark_from="1" mark_to="-1">
+        <token/>
+        <phraseref idref="NIE_INTERPUNKCJA"/>
+        <token>a</token>
+        <and>
+          <token regexp="yes">nie|i|to|już|owszem|potem|wreszcie|nawet|zarazem|także|również|przynajmniej|jednocześnie|raczej</token>
+          <token negate="yes"><match no="0"/></token>
+        </and>
+        <token negate="yes">inaczej</token>
+      </pattern>
+      <message>Prawdopodobnie brak przecinka, jeśli spójnik „a” nie występuje w sensie łącznym, tylko przeciwstawnym, wynikowym lub przed dopowiedzeniem. 
+Powinno być: <suggestion>\2, \3 \4</suggestion>.</message>
+      <example type="correct">To a to należy zrobić.</example>
+      <example type="correct">Zrobiłem to tak a nie inaczej.</example>
+      <example correction="fascynujący, a zarazem" type="incorrect">Był to spektakl <marker>fascynujący a zarazem</marker> przerażający.</example>
+    </rule>
     <rule id="PRZECINEK_OTOZ" name="Zbędny przecinek po „otóż”">
       <pattern mark_to="-1">
         <token postag="SENT_START"/>
@@ -1791,10 +1820,11 @@ $Id: grammar.xml,v 1.102 2007-10-03 18:00:35 milek_pl Exp $
   </category>
   <category name="Błędy składniowe">
     <rule id="NIE_A" name="„nie..., a...” (nie..., lecz)">
-      <pattern mark_from="1" mark_to="-1">
+      <pattern mark_from="1" mark_to="-2">
         <token skip="5"><exception scope="next">między</exception>nie</token>
         <token><exception scope="previous">;</exception>a</token>
-        <token><exception regexp="yes">priori|posteriori|tym|i|im|to|po|przy|z|może|de|w</exception></token>
+        <token skip="-1"><exception regexp="yes">priori|posteriori|tym|i|im|to|po|przy|z|może|de|w</exception></token>
+        <token postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf|pant:perf" postag_regexp="yes"/>
       </pattern>
       <message>Po przeczeniu zaleca się użycie spójników <suggestion>ale</suggestion>, <suggestion>lecz</suggestion> lub <suggestion>tylko</suggestion>.</message>
       <example correction="ale|lecz|tylko" type="incorrect">Nie potrzeby ogółu, <marker>a</marker> potrzeby wojny są teraz najważniejsze.</example>
@@ -4635,6 +4665,15 @@ $Id: grammar.xml,v 1.102 2007-10-03 18:00:35 milek_pl Exp $
     </rule>
   </category>
   <category name="Błędy ortograficzne">
+    <rule id="POKARZ" name="„pokarz” (pokaż)">
+      <pattern>
+        <token>pokarz</token>
+      </pattern>
+      <message>Prawdopodobnie błąd ortograficzny. Czy na pewno chodzi o tryb rozkazujący od „pokarać” (=ukarać)? 
+Znacznie częściej ta forma jest mylona z trybem rozkazującym od „pokazać”, czyli <suggestion>pokaż</suggestion>.</message>
+      <example correction="Pokaż" type="incorrect"><marker>Pokarz</marker> mi swój samochód, a nie powiem ci, kim jesteś.</example>
+      <example type="correct">Pokaż mi swój samochód.</example>
+    </rule>
     <rulegroup id="WIEZY_WIERZY" name="„wieży w” (wierzy)">
       <rule>
         <pattern mark_to="-2">
@@ -7022,6 +7061,15 @@ $Id: grammar.xml,v 1.102 2007-10-03 18:00:35 milek_pl Exp $
       <message>Prawdopodobna literówka; powinno być: <suggestion>na \2</suggestion>.</message>
       <example type="correct">To jest zrobione na chybcika.</example>
       <example correction="na chybcika" type="incorrect">To jest zrobione <marker>chybcika</marker>.</example>
+    </rule>
+    <rule id="TYM_BARDZIE" name="„bardzie” (bardziej)">
+      <pattern mark_from="1">
+        <token regexp="yes">tym|coraz|znacznie|jeszcze|wiele|im</token>
+        <token>bardzie</token>
+      </pattern>
+      <message>Prawdopodobna literówka. Czy chodziło o <suggestion>bardziej</suggestion>?</message>
+      <example correction="bardziej" type="incorrect">Im <marker>bardzie</marker> Prosiaczek tam zaglądał, tym bardziej Puchatka tam nie było.</example>
+      <example type="correct">Czytałem artykuł o czeskim bardzie, wybitnym poecie.</example>
     </rule>
     <rule id="ZWROTNE_BEZ_SIE" name="czasowniki zwrotne bez „się”">
       <pattern mark_from="1" mark_to="-1">
