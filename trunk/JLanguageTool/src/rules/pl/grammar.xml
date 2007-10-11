@@ -6,7 +6,7 @@ title="Easy editing stylesheet" ?>
 <!--
 Polish Grammar and Typo Rules for LanguageTool
 Copyright (C) 2006-2007 Marcin Miłkowski
-$Id: grammar.xml,v 1.105 2007-10-11 12:45:22 milek_pl Exp $
+$Id: grammar.xml,v 1.106 2007-10-11 23:09:43 milek_pl Exp $
 -->
 <rules lang="pl">
   <phrases>
@@ -4193,6 +4193,24 @@ Powinno być: <suggestion>\2, \3 \4</suggestion>.</message>
       <example correction="duszkiem" type="incorrect">Pijcie <marker>jednym duszkiem</marker>.</example>
       <example type="correct">Pijcie duszkiem.</example>
     </rule>
+    <rule id="FALSZYWY_MIRAZ" name="„fałszywy/złudny/zwodniczy miraż” (miraż)">
+      <pattern>
+        <token inflected="yes" postag="adj:(sg|pl):.*:.*m.*:.*" postag_regexp="yes" regexp="yes">złudny|zwodniczy|fałszywy</token>
+        <token inflected="yes">miraż</token>
+      </pattern>
+      <message>To wyrażenie to pleonazm. Wystarczy powiedzieć <suggestion>\2</suggestion>.</message>
+      <example correction="miraż" type="incorrect">Własność intelektualna to <marker>zwodniczy miraż</marker>.</example>
+      <example type="correct">Własność intelektualna to miraż.</example>
+    </rule>
+    <rule id="WZAJEMNE_ANTAGONIZMY" name="„wzajemne antagonizmy” (antagonizmy)">
+      <pattern>
+        <token inflected="yes" postag="adj.*m.*" postag_regexp="yes">wzajemny</token>
+        <token inflected="yes">antagonizm</token>
+      </pattern>
+      <message>To wyrażenie to pleonazm. Wystarczy powiedzieć <suggestion>\2</suggestion>.</message>
+      <example correction="antagonizmy" type="incorrect">Między Krakowem a Warszawą trwają <marker>wzajemne antagonizmy</marker>.</example>
+      <example type="correct">Między Krakowem a Warszawą trwają antagonizmy.</example>
+    </rule>
   </category>
   <category name="Błędy fonetyczne">
     <rulegroup id="W_WE" name="„w” przed „f/w…” i spółgłoską (we)">
@@ -4477,6 +4495,15 @@ Powinno być: <suggestion>\2, \3 \4</suggestion>.</message>
       <message>To wołacz od słowa „golonka” (rodzaj żeński); jeśli nie chodziło o mówienie do golonki, należy napisać: <suggestion>golonka</suggestion> lub <suggestion>golonkę</suggestion> (w bierniku).</message>
       <example type="correct">Lech z Antonim jedli pyszną golonkę.</example>
       <example correction="golonka|golonkę" type="incorrect">Lech z Antonim jedli pyszne <marker>golonko</marker>.</example>
+    </rule>
+    <rule id="WIORKA_KOKOSOWE" name="„wiórka” (wiórki)">
+      <pattern>
+        <token>wiórka</token>
+        <token postag="adj:pl:nom.acc.voc.*" postag_regexp="yes"/>
+      </pattern>
+      <message>„Wiórka” to dopełniacz liczby pojedynczej. Prawdopodobnie należało napisać <suggestion>wiórki \2</suggestion>.</message>
+      <example correction="wiórki kokosowe" type="incorrect">Oferujemy znakomite <marker>wiórka kokosowe</marker> produkcji gruzińskiej.</example>
+      <example type="correct">Nie uronił ani jednego wiórka z całego opakowania.</example>
     </rule>
   </category>
   <category name="Wyrazy modne i nadużywane">
@@ -6388,8 +6415,61 @@ Znacznie częściej ta forma jest mylona z trybem rozkazującym od „pokazać�
       <example type="correct">To jeden z niektórych przykładów jego głupoty.</example>
       <example type="correct">Należy natomiast szukać odpowiedzi na pytanie, nie który, ale jaki system jest najlepszy.</example>
     </rule>
+    <rule id="TUDZIEZ" name="„tu dzież” (tudzież)">
+      <pattern>
+        <token>tu</token>
+        <token>dzież</token>
+      </pattern>
+      <message>Prawdopodobny błąd ortograficzny. Ten wyraz piszemy łącznie: <suggestion>\1\2</suggestion>.</message>
+      <example type="correct">Rysio tudzież Wiesio lubią grzybki w marynacie.</example>
+      <example correction="tudzież" type="incorrect">Rysio <marker>tu dzież</marker> Wiesio lubią grzybki w marynacie.</example>
+    </rule>
+    <rule id="INSTRUKTARZ" name="„instruktarz” (instruktaż)">
+      <pattern>
+        <token inflected="yes">instruktarz</token>
+      </pattern>
+      <message>Wyraz „instruktarz” jest przestarzały i oznacza zbiór przepisów lub instrukcji. W znaczeniu „szkolenie” piszemy <suggestion><match no="1" regexp_match="(.*)rz" regexp_replace="$1ż"/></suggestion>.</message>
+      <example correction="Instruktaż" type="incorrect"><marker>Instruktarz</marker> BHP przy maszynie</example>
+      <example type="correct">Instruktaż BHP przy maszynie</example>
+    </rule>
   </category>
   <category name="Prawdopodobne literówki">
+    <rule id="KILA_GEN" name="„kila czego” (kilka)">
+      <pattern>
+        <token>kila</token>
+        <token postag="(adj|ppas):pl.*gen.*|subst:pl.*gen.*" postag_regexp="yes"/>
+      </pattern>
+      <message>Prawdopodobna literówka. Czy chodziło o <suggestion>kilka \2</suggestion>?</message>
+      <example correction="kilka problemów" type="incorrect">Mam jeszcze tylko <marker>kila problemów</marker> z podsłuchami.</example>
+      <example type="correct">Ugięcie kila musi mieścić się w wymiarach...</example>
+    </rule>
+    <rule id="W_KILU_LOC" name="„w kilu” (w kilku)">
+      <pattern>
+        <token>kilu</token>
+        <token postag="subst:pl:loc.*|(adj|ppas):pl.*loc.*" postag_regexp="yes"/>
+      </pattern>
+      <message>Prawdopodobna literówka. Czy chodziło o <suggestion>kilku \2</suggestion>?</message>
+      <example correction="kilku miejscach" type="incorrect">W <marker>kilu miejscach</marker> miałem wątpliwości.</example>
+      <example type="correct">Mógłby usiąść na kilu i powiosłować.</example>
+    </rule>
+    <rule id="POPRZEK" name="„poprzek” (w poprzek, na poprzek)">
+      <pattern mark_from="1">
+        <token negate="yes" regexp="yes">na|w</token>
+        <token>poprzek</token>
+      </pattern>
+      <message>Prawdopodobna literówka. Czy chodziło o <suggestion>na \2</suggestion> lub <suggestion>w \2</suggestion>?</message>
+      <example correction="na poprzek|w poprzek" type="incorrect">Droga <marker>poprzek</marker> stoku to już historia.</example>
+      <example type="correct">Droga w poprzek stoku to już historia.</example>
+    </rule>
+    <rule id="ODGRYWAC_ROLE" name="„odgrywać role” (rolę)">
+      <pattern>
+        <token inflected="yes" regexp="yes">odgrywać|odegrać</token>
+        <token>role</token>
+      </pattern>
+      <message>Prawdopodobna literówka, czy „role” miały być na pewno w liczbie mnogiej? A może chodziło o <suggestion>\1 rolę</suggestion>?</message>
+      <example correction="odegrał rolę" type="incorrect">Dyskutant <marker>odegrał role</marker> chłopca do bicia.</example>
+      <example type="correct">To narzędzie odegrało rolę kluczową w całej sprawie.</example>
+    </rule>
     <rule id="WLADCE" name="„władce, twórce” (władcę, twórcę)">
       <pattern>
         <token postag=".*m1:depr" postag_regexp="yes" regexp="yes"><exception postag="subst:sg:dat.loc:f"/>.*ce</token>
