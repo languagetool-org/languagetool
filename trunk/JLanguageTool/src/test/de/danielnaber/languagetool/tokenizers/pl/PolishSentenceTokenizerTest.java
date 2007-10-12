@@ -93,6 +93,9 @@ public class PolishSentenceTokenizerTest extends TestCase {
     testSplit(new String[] { "Prezydent jest popierany przez 20 proc. społeczeństwa." });
     testSplit(new String[] { "Moje wystąpienie ma na celu zmobilizowanie zarządu partii do działań, które umożliwią uzyskanie 40 proc.", "Nie widzę dziś na scenie politycznej formacji, która lepiej by łączyła różne poglądy" });
     testSplit(new String[] {"To jest zmienna A.", "Zaś to jest zmienna B."});
+    //SKROTY_BEZ_KROPKI in ENDABREVLIST
+    testSplit(new String[] {"Mam już 20 mln.", "To powinno mi wystarczyć"});
+    testSplit(new String[] {"Mam już 20 mln. buraków."});
     //ellipsis
     testSplit(new String[] { "Rytmem tej wiecznie przemijającej światowej egzystencji […] rytmem mesjańskiej natury jest szczęście." });
   }

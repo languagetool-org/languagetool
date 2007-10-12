@@ -68,16 +68,16 @@ public class PolishSentenceTokenizer extends SentenceTokenizer {
         "krak|k.r.o|kryt|kult|laic|łac|niem|woj|np|pol|m.in|itd|itp|pt|cdn|jw|" +
         "nb|rys|tj|tzw|tzn|zob|ang|ul|pl|al|k|n|ok|tys|ww|ur|zm|żyd|żarg|żyw|wył|" +
         "up|tow|o|zn|zew|zewn|zdr|zazw|zast|zaw|zał|zal|zam|zak|zakł|zagr|zach|"+
-        "adw|lek|mec|doc|dyr|inż|mgr|dr|red|prof|hab|ks|gen|por|przyp"+
-        // needed for SKROTY_BEZ_KROPKI rule
-        "dl|ml|dag|ha|cm|dm|m|zł|gr|kg|mln|mld|min|npl|pkt|pg|tg|cos|cosec|sec|sin|rkm|wg";
+        "adw|lek|mec|doc|dyr|inż|mgr|dr|red|prof|hab|ks|gen|por|przyp";
   
   /** Abbreviations which can occur at the end of sentence. **/
   private static final String ENDABBREVLIST 
-    = "proc|r|itd|itp|cdn|jw|n.e|w|nn|n"; 
+    = "proc|r|itd|itp|cdn|jw|n.e|w|nn|n"
+    // needed for SKROTY_BEZ_KROPKI rule
+    + "dl|ml|dag|ha|cm|dm|m|zł|gr|kg|mln|mld|min|npl|pkt|pg|tg|cos|cosec|sec|sin|rkm|wg"; 
   
   private static final Pattern ABREVLIST_PATTERN 
-    = Pattern.compile("(?iu)(\\b(" + ABBREVLIST + ")"+ PAP + "\\s)" + EOS );
+    = Pattern.compile("(?iu)(\\b(" + ABBREVLIST + ")" + PAP + "\\s)" + EOS);
   
   private static final Pattern ENDABREVLIST_PATTERN 
     = Pattern.compile("(?iu)(\\b(" + ENDABBREVLIST + ")"+ PAP + "\\s)" + EOS +"(\\p{Ll})");
