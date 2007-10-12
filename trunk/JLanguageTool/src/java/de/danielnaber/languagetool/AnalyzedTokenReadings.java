@@ -134,7 +134,7 @@ public class AnalyzedTokenReadings {
   @Override
   public String toString() {
     final StringBuilder sb = new StringBuilder();
-    for (AnalyzedToken element : anTokReadings) {
+    for (final AnalyzedToken element : anTokReadings) {
       sb.append(element);
     }
     return sb.toString();
