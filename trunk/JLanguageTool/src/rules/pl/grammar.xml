@@ -6,7 +6,7 @@ title="Easy editing stylesheet" ?>
 <!--
 Polish Grammar and Typo Rules for LanguageTool
 Copyright (C) 2006-2007 Marcin Miłkowski
-$Id: grammar.xml,v 1.106 2007-10-11 23:09:43 milek_pl Exp $
+$Id: grammar.xml,v 1.107 2007-10-12 12:54:02 milek_pl Exp $
 -->
 <rules lang="pl">
   <phrases>
@@ -4689,6 +4689,17 @@ Powinno być: <suggestion>\2, \3 \4</suggestion>.</message>
       <message>Nie mówi się \1 \2, tylko <suggestion>znacznie \2</suggestion>.</message>
       <example type="correct">Dziś jestem znacznie zdrowszy.</example>
       <example correction="znacznie zdrowszy" type="incorrect">Dziś jestem <marker>dużo zdrowszy</marker>.</example>
+    </rule>
+    <rule default="off" id="W_WYPADKU" name="„w wypadku” (w razie)">
+      <pattern mark_to="-1">
+        <token>w</token>
+        <token>wypadku</token>
+        <token postag=".*gen.*" postag_regexp="yes"/>
+      </pattern>
+      <message>To wyrażenie jest nadużywane. Językoznawcy zalecają: <suggestion>\1 razie</suggestion>.</message>
+      <example correction="W razie" type="incorrect"><marker>W wypadku</marker> braku ubezpieczenia poszkodowany nie może liczyć na pomoc państwa.</example>
+      <example type="correct">W wypadku udział wzięły dwa samochody osobowe.</example>
+      <example type="correct">W razie braku ubezpieczenia poszkodowany nie może liczyć na pomoc państwa.</example>
     </rule>
   </category>
   <category name="Błędy ortograficzne">
