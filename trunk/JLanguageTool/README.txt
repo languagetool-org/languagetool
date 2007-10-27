@@ -52,6 +52,7 @@ Known bugs:
     about text which is actually correct
    
 TODO:
+ -rules: I/You/We/You/They does (not)-> do (not), He/She/It do (not)
  -finish "Add language..." work
  -put licenses in extra subdir
  -check if some rules from xml-copy-editor.sourceforge.net are useful for us
