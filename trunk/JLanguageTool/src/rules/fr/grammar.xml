@@ -7,7 +7,7 @@ title="Easy editing stylesheet" ?>
 <!--
 French Grammar and Typo Rules for LanguageTool
 Copyright (C) 2006 Marcin Miłkowski
-$Id: grammar.xml,v 1.8 2007-05-20 09:40:22 milek_pl Exp $
+$Id: grammar.xml,v 1.9 2007-11-05 19:40:31 milek_pl Exp $
 -->
 <rules lang="fr">
   <phrases>
@@ -22,7 +22,7 @@ $Id: grammar.xml,v 1.8 2007-05-20 09:40:22 milek_pl Exp $
     </phrase>
   </phrases>
   <category name="Pléonasmes">
-    <rule id="AJOUTER_EN_PLUS" name="«ajouter en plus» (ajouter)">
+    <rule id="AJOUTER_EN_PLUS" name="ajouter en plus">
       <pattern>
         <token inflected="yes" regexp="yes">ajouter|ajoute</token>
         <token>en</token>
@@ -55,8 +55,8 @@ $Id: grammar.xml,v 1.8 2007-05-20 09:40:22 milek_pl Exp $
     </rule>
   </category>
   <!-- ported from Myriam's Gramadoir rules -->
-  <category name="Proximité phonétique">
-    <rule id="CA_SA" name="ça (sa)">
+  <category name="Confusion d'homonymes">
+    <rule id="CA_SA" name="ÇA au lieu de SA">
       <pattern mark_to="-1">
         <token>ça</token>
         <token postag="N.*|J.*" postag_regexp="yes"/>
@@ -65,7 +65,7 @@ $Id: grammar.xml,v 1.8 2007-05-20 09:40:22 milek_pl Exp $
       <example type="incorrect">Il parle de <marker>ça</marker> soeur</example>
       <example type="correct">Il parle de sa soeur.</example>
     </rule>
-    <rule id="SA_CA" name="sa (ça)">
+    <rule id="SA_CA" name="SA au lieu de ÇA">
       <pattern mark_to="-1">
         <token>sa</token>
         <phraseref idref="V_R_NON_N"/>
@@ -75,7 +75,7 @@ $Id: grammar.xml,v 1.8 2007-05-20 09:40:22 milek_pl Exp $
       <example type="incorrect"><marker>Sa</marker> va?</example>
       <example type="correct">Ça voiture est en panne.</example>
     </rule>
-    <rule id="A_A_ACCENT" name="a (à)">
+    <rule id="A_A_ACCENT" name="A au lieu de À">
       <pattern mark_from="1">
         <phraseref idref="V_NON_N"/>
         <token>a</token>
@@ -84,7 +84,7 @@ $Id: grammar.xml,v 1.8 2007-05-20 09:40:22 milek_pl Exp $
       <example type="correct">Ils s'apprêtent à commencer le premier trou.</example>
       <example type="incorrect">Ils s'apprêtent <marker>a</marker> commencer le premier trou.</example>
     </rule>
-    <rule id="SE_CE" name="se (ce)">
+    <rule id="SE_CE" name="SE au lieu de CE">
       <pattern mark_to="-1">
         <token>se</token>
         <token postag="N.*|J.*" postag_regexp="yes"/>
@@ -93,7 +93,7 @@ $Id: grammar.xml,v 1.8 2007-05-20 09:40:22 milek_pl Exp $
       <example type="incorrect"><marker>Se</marker> test montre que ça fonctionne.</example>
       <example type="correct"><marker>Ce</marker> test montre que ça fonctionne.</example>
     </rule>
-    <rule id="CE_SE" name="ce (se)">
+    <rule id="CE_SE" name="CE au lieu de SE">
       <pattern mark_to="-1">
         <token>ce</token>
         <token postag="V.*" postag_regexp="yes"><exception inflected="yes" regexp="yes">être|devoir|pouvoir</exception></token>
@@ -102,7 +102,7 @@ $Id: grammar.xml,v 1.8 2007-05-20 09:40:22 milek_pl Exp $
       <example type="incorrect">Ce phénomène <marker>ce</marker> transforme en phénomène de société</example>
       <example type="correct">Ce phénomène <marker>se</marker> transforme en phénomène de société</example>
     </rule>
-    <rule id="MA" name="ma (m'a)">
+    <rule id="MA" name="MA au lieu de M'A">
       <pattern mark_to="-1">
         <token>ma</token>
         <phraseref idref="V_NON_N"/>
@@ -112,7 +112,7 @@ $Id: grammar.xml,v 1.8 2007-05-20 09:40:22 milek_pl Exp $
       <example type="correct">Il <marker>m'a</marker> répondu.</example>
       <example type="correct">C'est ma voiture.</example>
     </rule>
-    <rule id="SONT_SON" name="sont (son)">
+    <rule id="SONT_SON" name="SONT au lieu de SON">
       <pattern mark_to="-1">
         <token>sont</token>
         <token postag="N.*|J.*" postag_regexp="yes"/>
@@ -121,7 +121,7 @@ $Id: grammar.xml,v 1.8 2007-05-20 09:40:22 milek_pl Exp $
       <example type="incorrect">Le problème c'est qu'apparemment elle n'a pas <marker>sont</marker> mot de passe...</example>
       <example type="correct">Le problème c'est qu'apparemment elle n'a pas <marker>son</marker> mot de passe...</example>
     </rule>
-    <rule id="SON_SONT" name="son (sont)">
+    <rule id="SON_SONT" name="SON au lieu de SONT">
       <pattern mark_from="1" mark_to="-1">
         <token negate="yes" regexp="yes">le|du|un</token>
         <token>son</token>
@@ -134,7 +134,7 @@ $Id: grammar.xml,v 1.8 2007-05-20 09:40:22 milek_pl Exp $
       <example type="correct">Le <marker>son</marker> dans l'informatique</example>
     </rule>
     <!-- according to Hanse dictionary,checked with Google-->
-    <rule id="ET_BIEN" name="et bien (eh bien)">
+    <rule id="ET_BIEN" name="ET BIEN au lieu de EH BIEN">
       <pattern mark_from="1" mark_to="-1">
         <token postag="SENT_START"/>
         <token>Et</token>
@@ -145,7 +145,7 @@ $Id: grammar.xml,v 1.8 2007-05-20 09:40:22 milek_pl Exp $
       <example type="incorrect"><marker>Et</marker> bien, soit!</example>
     </rule>
     <!-- added by Agnes Souque -->
-    <rule id="CONF_VERBE_NOM" name="confusion verbe-nom">
+    <rule id="CONF_VERBE_NOM" name="Nom au lieu de Verbe">
       <pattern mark_from="1">
         <token postag="R pers suj .*" postag_regexp="yes"/>
         <token postag="N.*" postag_regexp="yes"/>
@@ -154,7 +154,7 @@ $Id: grammar.xml,v 1.8 2007-05-20 09:40:22 milek_pl Exp $
       <example type="correct">Je <marker>travaille</marker> tard.</example>
       <example type="incorrect">On <marker>désir</marker> rester ici.</example>
     </rule>
-    <rule id="CETTE_CEST" name="cette (c'est)">
+    <rule id="CETTE_CEST" name="CETTE au lieu de C'EST">
       <pattern mark_to="-1">
         <token regexp="yes">cette|cet</token>
         <token regexp="yes">un|une</token>
@@ -163,7 +163,7 @@ $Id: grammar.xml,v 1.8 2007-05-20 09:40:22 milek_pl Exp $
       <example type="correct"><marker>C'est</marker> une belle maison.</example>
       <example type="incorrect"><marker>Cet</marker> un garçon !</example>
     </rule>
-    <rule id="CEST_CETTE" name="c'est (cette)">
+    <rule id="CEST_CETTE" name="C'EST au lieu de CETTE CET ou CES">
       <pattern mark_to="-1">
         <token skip="1">c</token>
         <token>est</token>
@@ -173,7 +173,7 @@ $Id: grammar.xml,v 1.8 2007-05-20 09:40:22 milek_pl Exp $
       <example type="incorrect"><marker>C'est</marker> chambre est grande.</example>
       <example type="correct"><marker>Cette</marker> école est réputée.</example>
     </rule>
-    <rule id="EN_TANT_QUE" name="en tant que">
+    <rule id="EN_TANT_QUE" name="EN TEMPS QUE au lieu de EN TANT QUE">
       <pattern mark_to="-1">
         <token>en</token>
         <token>temps</token>
@@ -183,7 +183,7 @@ $Id: grammar.xml,v 1.8 2007-05-20 09:40:22 milek_pl Exp $
       <example type="incorrect">Il est venu <marker>en temps</marker> que maire.</example>
       <example type="correct">Il est interrogé <marker>en tant</marker> que témoin.</example>
     </rule>
-    <rule id="ON_ONT" name="on (ont)">
+    <rule id="ON_ONT" name="ON au lieu de ONT">
       <pattern mark_to="-1">
         <token>ont</token>
         <token postag="V.*" postag_regexp="yes"><exception postag="V ppa .*" postag_regexp="yes"/></token>
@@ -195,8 +195,8 @@ $Id: grammar.xml,v 1.8 2007-05-20 09:40:22 milek_pl Exp $
   </category>
   <!-- Rules on nominal group, ported from Myriam's Gramadoir rules -->
   <category name="Groupe nominal">
-    <rulegroup id="ACCORD_NOMBRE" name="accord en nombre">
-      <rule name="sing + plur">
+    <rulegroup id="ACCORD_NOMBRE" name="Accord en nombre">
+      <rule name="singulier suivi du pluriel">
         <pattern mark_from="0" mark_to="0">
           <token postag="D .* s|J .* s|N .* s" postag_regexp="yes"/>
           <token postag="J .* p|N .* p" postag_regexp="yes"/>
@@ -206,7 +206,7 @@ $Id: grammar.xml,v 1.8 2007-05-20 09:40:22 milek_pl Exp $
         <example type="correct">des oies dodues </example>
         <example type="incorrect"><marker>un vaches</marker> laitières</example>
       </rule>
-      <rule name="plur + sing">
+      <rule name="pluriel suivi du singulier">
         <pattern mark_from="0" mark_to="0">
           <token postag="D .* p|J .* p|N .* p" postag_regexp="yes"/>
           <token postag="J .* s|N .* s" postag_regexp="yes"/>
@@ -217,8 +217,8 @@ $Id: grammar.xml,v 1.8 2007-05-20 09:40:22 milek_pl Exp $
         <example type="incorrect"><marker>des poulet</marker> fermiers</example>
       </rule>
     </rulegroup>
-    <rulegroup id="ACCORD_GENRE" name="accord en genre">
-      <rule name="masc + fem">
+    <rulegroup id="ACCORD_GENRE" name="Accord en genre">
+      <rule name="masculin suivi du féminin">
         <pattern>
           <token postag="D m .*|J m .*|N m .*" postag_regexp="yes"/>
           <token postag="J f .*|N f .*" postag_regexp="yes"/>
@@ -228,7 +228,7 @@ $Id: grammar.xml,v 1.8 2007-05-20 09:40:22 milek_pl Exp $
         <example type="correct">la belle guitare</example>
         <example type="incorrect"><marker>le scène</marker> finale</example>
       </rule>
-      <rule name="fem + masc">
+      <rule name="féminin suivi du masculin">
         <pattern>
           <token postag="D f .*|J f .*|N f .*" postag_regexp="yes"/>
           <token postag="J m .*|N m .*" postag_regexp="yes"/>
@@ -239,7 +239,7 @@ $Id: grammar.xml,v 1.8 2007-05-20 09:40:22 milek_pl Exp $
         <example type="incorrect">la <marker>scène final</marker></example>
       </rule>
     </rulegroup>
-    <rule id="MON_NFS" name="mon/ton/son + N f s">
+    <rule id="MON_NFS" name="mon/ton/son suivi d'un nom féminin singulier">
       <pattern>
         <token regexp="yes">mon|ton|son</token>
         <token negate="yes" postag="N f s" regexp="yes">(a|h|â|e|i|o|u|é|î).*</token>
@@ -252,7 +252,7 @@ $Id: grammar.xml,v 1.8 2007-05-20 09:40:22 milek_pl Exp $
   </category>
   <!-- Rules on verbal group, ported from Myriam's Gramadoir rules -->
   <category name="SV">
-    <rule id="VCONJ_VCONJ" name="V conj + V conj">
+    <rule id="VCONJ_VCONJ" name="Verbe conjugué suivi d'un verbe conjugué">
       <pattern mark_from="1">
         <token postag="V .*" postag_regexp="yes" skip="1"><exception inflected="yes" postag="V inf" postag_regexp="yes" regexp="yes">être|paraître|sembler|devenir|demeurer|rester|avoir</exception></token>
         <token postag="V ppa .*" postag_regexp="yes"/>
@@ -261,7 +261,7 @@ $Id: grammar.xml,v 1.8 2007-05-20 09:40:22 milek_pl Exp $
       <example type="correct">Il aime danser</example>
       <example type="incorrect">Il aime <marker>dansé</marker></example>
     </rule>
-    <rule id="AUX_VCONJ" name="Aux + V conj">
+    <rule id="AUX_VCONJ" name="Auxiliaire suivi d'un verbe conjugué">
       <pattern mark_from="1">
         <token postag="V etre .*|V avoir .*" postag_regexp="yes" skip="1"/>
         <token postag="V .*" postag_regexp="yes"><exception postag="V ppa .*|V etre ppa .*|V avoir ppa .*" postag_regexp="yes"/></token>
@@ -286,8 +286,8 @@ $Id: grammar.xml,v 1.8 2007-05-20 09:40:22 milek_pl Exp $
 		</rule>
 		
 		-->
-    <rulegroup id="ETRE_VPPA_OU_ADJ" name="V ppa ou adjectifs après être">
-      <rule name="elle">
+    <rulegroup id="ETRE_VPPA_OU_ADJ" name="Accord participe passé ou adjectif après être">
+      <rule name="accord avec elle">
         <pattern mark_from="2">
           <token>elle</token>
           <token postag="V etre .*" postag_regexp="yes" skip="1"/>
@@ -298,7 +298,7 @@ $Id: grammar.xml,v 1.8 2007-05-20 09:40:22 milek_pl Exp $
         <example type="incorrect">elle est <marker>parties</marker></example>
         <example type="incorrect">elle est <marker>parti</marker></example>
       </rule>
-      <rule name="il/on">
+      <rule name="accord avec il/on">
         <pattern mark_from="2">
           <token regexp="yes">il|on</token>
           <token postag="V etre .*" postag_regexp="yes" skip="1"/>
@@ -309,7 +309,7 @@ $Id: grammar.xml,v 1.8 2007-05-20 09:40:22 milek_pl Exp $
         <example type="incorrect">il est <marker>partis</marker></example>
         <example type="incorrect">il est <marker>partie</marker></example>
       </rule>
-      <rule name="elles">
+      <rule name="accord avec elles">
         <pattern mark_from="2">
           <token>elles</token>
           <token postag="V etre .*" postag_regexp="yes" skip="1"/>
@@ -320,7 +320,7 @@ $Id: grammar.xml,v 1.8 2007-05-20 09:40:22 milek_pl Exp $
         <example type="incorrect">elles sont <marker>partie</marker></example>
         <example type="incorrect">elles sont <marker>parti</marker></example>
       </rule>
-      <rule name="ils">
+      <rule name="accord avec ils">
         <pattern mark_from="2">
           <token>ils</token>
           <token postag="V etre .*" postag_regexp="yes" skip="1"/>
@@ -331,7 +331,7 @@ $Id: grammar.xml,v 1.8 2007-05-20 09:40:22 milek_pl Exp $
         <example type="incorrect">ils sont <marker>partie</marker></example>
         <example type="incorrect">ils sont <marker>parti</marker></example>
       </rule>
-      <rule name="V plur + Vppa ou Adj sing">
+      <rule name="Verbe au pluriel + adjectif ou participe passé singulier">
         <pattern mark_from="1">
           <token postag="SENT_START" skip="3"><exception postag="R pers suj.*" postag_regexp="yes" scope="next"/></token>
           <token postag="V etre .* p" postag_regexp="yes" skip="1"/>
@@ -341,7 +341,7 @@ $Id: grammar.xml,v 1.8 2007-05-20 09:40:22 milek_pl Exp $
         <example type="correct">Les voisins sont <marker>partis</marker></example>
         <example type="incorrect">Les voisins <marker>sont revenu</marker></example>
       </rule>
-      <rule name="V sing + plur">
+      <rule name="Verbe au singulier + adjectif ou participe passé pluriel">
         <pattern mark_from="1">
           <token postag="SENT_START" skip="3"><exception postag="R pers suj.*" postag_regexp="yes" scope="next"/></token>
           <token postag="V etre .* s" postag_regexp="yes" skip="1"><exception>été</exception></token>
@@ -352,8 +352,8 @@ $Id: grammar.xml,v 1.8 2007-05-20 09:40:22 milek_pl Exp $
         <example type="incorrect">Le chef <marker>est revenus</marker></example>
       </rule>
     </rulegroup>
-    <rulegroup id="ACCORD_R_PERS_VERBE" name="accord pro pers avec le verbe">
-      <rule name="je + (x) + V">
+    <rulegroup id="ACCORD_R_PERS_VERBE" name="accord pronom personnel avec verbe">
+      <rule name="je + (x) + Verbe">
         <pattern>
           <token postag="R pers suj 1 s" postag_regexp="yes" skip="1"/>
           <token postag="V .* 1 p|V .* 2 .*|V .* 3 .*" postag_regexp="yes"><exception postag="V .* 1 s" postag_regexp="yes"/></token>
@@ -362,7 +362,7 @@ $Id: grammar.xml,v 1.8 2007-05-20 09:40:22 milek_pl Exp $
         <example type="correct">je travaille</example>
         <example type="incorrect"><marker>je travaillons</marker></example>
       </rule>
-      <rule name="tu + (x) + V">
+      <rule name="tu + (x) + Verbe">
         <pattern>
           <token postag="R pers suj 2 s" postag_regexp="yes" skip="1"/>
           <token postag="V .* 2 p|V .* 1 .*|V .* 3 .*" postag_regexp="yes"><exception postag="V .* 2 s" postag_regexp="yes"/></token>
@@ -371,7 +371,7 @@ $Id: grammar.xml,v 1.8 2007-05-20 09:40:22 milek_pl Exp $
         <example type="correct">tu travailles</example>
         <example type="incorrect"><marker>tu travaillez</marker></example>
       </rule>
-      <rule name="il/elle/on + (x) + V">
+      <rule name="il/elle/on + (x) + Verbe">
         <pattern>
           <token postag="R pers suj 3 .* s" postag_regexp="yes" skip="1"/>
           <token postag="V .* 3 p|V .* 3 p|V .* 2 .*|V .* 1 .*" postag_regexp="yes"><exception postag="V .* 3 s" postag_regexp="yes"/></token>
@@ -380,7 +380,7 @@ $Id: grammar.xml,v 1.8 2007-05-20 09:40:22 milek_pl Exp $
         <example type="correct">il travaille</example>
         <example type="incorrect"><marker>il travaillent</marker></example>
       </rule>
-      <rule name="nous + (x) + V">
+      <rule name="nous + (x) + Verbe">
         <pattern>
           <token postag="R pers suj 1 p" postag_regexp="yes" skip="1"/>
           <token postag="V .* 1 s|V .* 2 .*|V .* 3 .*" postag_regexp="yes"/>
@@ -389,7 +389,7 @@ $Id: grammar.xml,v 1.8 2007-05-20 09:40:22 milek_pl Exp $
         <example type="correct">nous perdons</example>
         <example type="incorrect"><marker>nous perds</marker></example>
       </rule>
-      <rule name="vous + (x) + V">
+      <rule name="vous + (x) + Verbe">
         <pattern>
           <token postag="R pers suj 2 p" postag_regexp="yes" skip="1"/>
           <token postag="V .* 2 s|V .* 1 .*|V .* 3 .*" postag_regexp="yes"/>
@@ -398,7 +398,7 @@ $Id: grammar.xml,v 1.8 2007-05-20 09:40:22 milek_pl Exp $
         <example type="correct">vous travaillez</example>
         <example type="incorrect"><marker>vous travaille</marker></example>
       </rule>
-      <rule name="ils/elles + (x) + V">
+      <rule name="ils/elles + (x) + Verbe">
         <pattern>
           <token postag="R pers suj 3 .* p" postag_regexp="yes" skip="1"/>
           <token postag="V .* 3 s|V .* 1 .*|V .* 2 .*" postag_regexp="yes"/>
@@ -409,7 +409,7 @@ $Id: grammar.xml,v 1.8 2007-05-20 09:40:22 milek_pl Exp $
       </rule>
     </rulegroup>
     <!-- added by Agnes Souque -->
-    <rule id="QUI_VCONJ" name="qui relatif + V conj">
+    <rule id="QUI_VCONJ" name="Verbe conjugué après pronom relatif qui">
       <pattern mark_from="1">
         <token negate_pos="yes" postag="R pers .*|P" postag_regexp="yes"/>
         <token postag="R rel .*" postag_regexp="yes" skip="1">qui</token>
@@ -420,8 +420,8 @@ $Id: grammar.xml,v 1.8 2007-05-20 09:40:22 milek_pl Exp $
       <!--  FIXME: absurd example just to fix it -->
       <example type="incorrect">Les gens <marker>qui étalais</marker> là sont partis.</example>
     </rule>
-    <rulegroup id="ACC_SN_V" name="accord SN-verbe">
-      <rule name="sujet sing + verbe plur">
+    <rulegroup id="ACC_SN_V" name="Accord verbe avec groupe nominal">
+      <rule name="sujet singulier + verbe pluriel">
         <pattern mark_from="3">
           <token postag="SENT_START"/>
           <token postag="D.*" postag_regexp="yes"/>
@@ -432,7 +432,7 @@ $Id: grammar.xml,v 1.8 2007-05-20 09:40:22 milek_pl Exp $
         <example type="correct">Le voisin <marker>joue</marker> en bas.</example>
         <example type="incorrect">Le voisin <marker>étaient</marker> parti.</example>
       </rule>
-      <rule name="sujet plur + verbe sing">
+      <rule name="sujet pluriel + verbe singulier">
         <pattern mark_from="3">
           <token postag="SENT_START"/>
           <token postag="D.*" postag_regexp="yes"/>
