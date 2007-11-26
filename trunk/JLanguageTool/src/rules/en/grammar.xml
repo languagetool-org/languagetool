@@ -7,7 +7,7 @@ title="Easy editing stylesheet" ?>
 English Grammar and Typo Rules for LanguageTool
 See tagset.txt for the meaning of the POS tags
 Copyright (C) 2001-2007 Daniel Naber (http://www.danielnaber.de)
-$Id: grammar.xml,v 1.42 2007-10-25 10:29:52 milek_pl Exp $
+$Id: grammar.xml,v 1.43 2007-11-26 22:50:47 milek_pl Exp $
 -->
 <rules lang="en">
   <!-- ====================================================================== -->
@@ -57,7 +57,7 @@ $Id: grammar.xml,v 1.42 2007-10-25 10:29:52 milek_pl Exp $
     <rule id="YOURS_APOSTROPHE" name="Possible typo: Possesive pronoun with apostrophe">
       <pattern mark_from="1">
         <token postag="SENT_START" postag_regexp="yes" skip="-1"><exception scope="next">'</exception></token>
-        <token postag="PRP$" postag_regexp="yes"/>
+        <token postag="PRP$" postag_regexp="yes" regexp="yes">.*s</token>
         <token>'</token>
       </pattern>
       <message>An apostrophe is never used to form possessive case pronouns. Did you mean: <suggestion>\2</suggestion>?</message>
