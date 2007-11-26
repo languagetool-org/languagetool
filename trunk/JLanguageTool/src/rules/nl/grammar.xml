@@ -7,7 +7,7 @@ title="Easy editing stylesheet" ?>
 <!--
 Dutch Grammar and Typo Rules for LanguageTool
 Copyright (C) 2006,2007 Ruud J. Baars (r.j.baars -at- hccnet nl)
-$Id: grammar.xml,v 1.5 2007-05-19 17:32:03 milek_pl Exp $
+$Id: grammar.xml,v 1.6 2007-11-26 22:47:50 milek_pl Exp $
 -->
 <rules lang="nl">
 <!--
@@ -282,7 +282,7 @@ $Id: grammar.xml,v 1.5 2007-05-19 17:32:03 milek_pl Exp $
           <token regexp="yes">slippen|slipt|slipte|slipten</token>
           <token>dicht</token>
         </pattern>
-        <message>Bedoelt u sli<suggestion>b</suggestion> ?</message>
+        <message>Bedoelt u <suggestion>slib</suggestion>?</message>
         <example type="incorrect">De rivier <marker>slipt</marker> dicht.</example>
         <example type="correct">De rivier <marker>slibt</marker> dicht.</example>
       </rule>
@@ -927,6 +927,15 @@ $Id: grammar.xml,v 1.5 2007-05-19 17:32:03 milek_pl Exp $
         <example type="incorrect">Is dit <marker>jou huis</marker>?</example>
         <example type="correct">Is dit <marker>jouw huis</marker>?</example>
       </rule>
+      <rule>
+        <pattern>
+          <token>jouw</token>
+			 <token postag="SENT_END"/>
+        </pattern>
+        <message>[b] U bedoelt vast <suggestion>jou</suggestion>?</message>
+        <example type="incorrect">Is dit van <marker>jouw?</marker></example>
+        <example type="correct">Is dit van <marker>jou?</marker></example>
+      </rule>
     </rulegroup>
     <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  -->
     <rulegroup id="EIGEN_GE" name="Eigengemaakt etc">
@@ -1127,9 +1136,9 @@ $Id: grammar.xml,v 1.5 2007-05-19 17:32:03 milek_pl Exp $
       <rule>
         <pattern>
           <token regexp="yes">als|dan</token>
-          <token regexp="yes">mij|hem</token>
+          <token regexp="yes">mij|hem|jou</token>
         </pattern >
-        <message>[d] Bedoelt u: <suggestion> dan ik/hij</suggestion></message>
+        <message>[d] Bedoelt u: <suggestion> dan ik/hij/jij</suggestion></message>
         <example type="incorrect">Hij is even groot <marker>als mij</marker>.</example>
         <example type="correct">Hij is groter <marker>dan ik</marker>.</example>
       </rule>
