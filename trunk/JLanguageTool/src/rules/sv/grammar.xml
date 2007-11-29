@@ -6,59 +6,59 @@ title="Easy editing stylesheet" ?>
 
 <rules lang="sv">
   <!-- ====================================================================== -->
-  <!-- SĂ¤rskrivningar -->
+  <!-- Särskrivningar -->
   <!-- ====================================================================== -->
 
-  <category name="SĂ¤rskrivningar">
-    <rule id="ALLT_IHOP" name="SĂ¤rskrivning 'allt ihop (alltihop)'">
+  <category name="Särskrivningar">
+    <rule id="ALLT_IHOP" name="Särskrivning 'allt ihop (alltihop)'">
       <pattern>
         <token>allt</token>
         <token>ihop</token>
       </pattern>
-      <message>Felaktig sĂ¤rskrivning. Menade du <suggestion>alltihop</suggestion>?</message>
-      <example correction="alltihop" type="incorrect">Det visade sig att <marker>allt ihop</marker> blev sĂ¤rskrivet.</example>
-      <example type="correct">Det visade sig att <marker>alltihop</marker> blev sĂ¤rskrivet.</example>
+      <message>Felaktig särskrivning. Menade du <suggestion>alltihop</suggestion>?</message>
+      <example correction="alltihop" type="incorrect">Det visade sig att <marker>allt ihop</marker> blev särskrivet.</example>
+      <example type="correct">Det visade sig att <marker>alltihop</marker> blev särskrivet.</example>
     </rule>
-	<rule id="ATER_IGEN" name="SĂ¤rskrivning 'ĂĄter igen (ĂĄterigen)'">
+	<rule id="ATER_IGEN" name="Särskrivning 'åter igen (återigen)'">
 		<pattern>
-			<token>ĂĄter</token>
+			<token>åter</token>
 			<token>igen</token>
       </pattern>
-		<message>SĂ¤rskrivning. Menade du <suggestion>ĂĄterigen</suggestion>?</message>
-		<example correction="ĂĄterigen" type="incorrect">Det visade sig att <marker>ĂĄter igen</marker> blev ordet sĂ¤rskrivet.</example>
-		<example type="correct">Det visade sig <marker>ĂĄterigen</marker> att det sĂ¤rskrivna ordet blev rĂ¤ttat.</example>
+		<message>Särskrivning. Menade du <suggestion>återigen</suggestion>?</message>
+		<example correction="återigen" type="incorrect">Det visade sig att <marker>åter igen</marker> blev ordet särskrivet.</example>
+		<example type="correct">Det visade sig <marker>återigen</marker> att det särskrivna ordet blev rättat.</example>
     </rule>
 	  <rule id="E_POST" name="Eventuellt fel 'e post (e-post)'">
       <pattern>
         <token regexp="yes">e</token>
         <token regexp="yes">post|brev|faktura</token>
       </pattern>
-      <message>Dessa ord binds oftast ihop med bindestrĂ¤ck: <suggestion>\1-\2</suggestion>.</message>
-      <example type="correct">Du har fĂĄtt <marker>e-post</marker>.</example>
-      <example correction="e-post" type="incorrect">Du har fĂĄtt <marker>e post</marker>.</example>
+      <message>Dessa ord binds oftast ihop med bindesträck: <suggestion>\1-\2</suggestion>.</message>
+      <example type="correct">Du har fått <marker>e-post</marker>.</example>
+      <example correction="e-post" type="incorrect">Du har fått <marker>e post</marker>.</example>
     </rule>
   </category>
-  <category name="punkter efter fĂ¶rkortningar">
-	<rule id="M_FL" name="FĂ¶rkortningen skrivs normalt med punkter (m.fl.)">
+  <category name="punkter efter förkortningar">
+	<rule id="M_FL" name="Förkortningen skrivs normalt med punkter (m.fl.)">
         <pattern>
           <token>m</token>
           <token>fl</token>
         </pattern>
-        <message>Denna fĂ¶rkortning skrivs i regel med punkter:<suggestion>m.fl.</suggestion>.</message>
-        <example correction="m\.fl\." type="correct">Vi tar med oss Maria, Jens, Sara <marker>m.fl.</marker> och ĂĄker till JĂ¶nkĂ¶ping.</example>
-        <example type="incorrect">Vi tar med oss Maria, Jens, Sara <marker>m fl</marker> och ĂĄker till JĂ¶nkĂ¶ping.</example>
+        <message>Denna förkortning skrivs i regel med punkter:<suggestion>m.fl.</suggestion>.</message>
+        <example correction="m\.fl\." type="correct">Vi tar med oss Maria, Jens, Sara <marker>m.fl.</marker> och åker till Jönköping.</example>
+        <example type="incorrect">Vi tar med oss Maria, Jens, Sara <marker>m fl</marker> och åker till Jönköping.</example>
     </rule>
 
 <!--Maybe implement someting like this later, but have it turned off by default
 
-	<rule id="DUBBELT_OCH" name="Samma ord ĂĄterkommer i meningen, det ger ofta bĂ¤ttre flyt att substituera ordet.">
+	<rule id="DUBBELT_OCH" name="Samma ord återkommer i meningen, det ger ofta bättre flyt att substituera ordet.">
         <pattern mark_from="2">
  	<token regexp="yes" skip="-1">och|ni|till<exception scope="next">,</exception></token>
  	<token><match no="0"/></token>
 	</pattern>
-        <message>Samma ord ĂĄterkommer i meningen, det ger ofta bĂ¤ttre flyt genom att substituera ordet.</message>
+        <message>Samma ord återkommer i meningen, det ger ofta bättre flyt genom att substituera ordet.</message>
         <example type="correct"> \0 \1 \2 </example>
-        <example type="incorrect">Samma ord ĂĄterkommer i meningen, det ger ofta bĂ¤ttre flyt att substituera ordet.</example>
+        <example type="incorrect">Samma ord återkommer i meningen, det ger ofta bättre flyt att substituera ordet.</example>
     </rule>
   -->
   
