@@ -52,23 +52,27 @@ public class AvsAnRule extends EnglishRule {
   private TreeSet<String> requiresAn;
   
   public AvsAnRule(final ResourceBundle messages) throws IOException {
-    if (messages != null)
+    if (messages != null) {
       super.setCategory(new Category(messages.getString("category_misc")));
+    }
     requiresA = loadWords(this.getClass().getResourceAsStream(FILENAME_A));
     requiresAn = loadWords(this.getClass().getResourceAsStream(FILENAME_AN));
   }
   
+  @Override
   public String getId() {
     return "EN_A_VS_AN";
   }
 
+  @Override
   public String getDescription() {
     return "Use of 'a' vs. 'an'";
   }
 
+  @Override
   public RuleMatch[] match(final AnalyzedSentence text) {
-    List<RuleMatch> ruleMatches = new ArrayList<RuleMatch>();
-    AnalyzedTokenReadings[] tokens = text.getTokensWithoutWhitespace();
+    final List<RuleMatch> ruleMatches = new ArrayList<RuleMatch>();
+    final AnalyzedTokenReadings[] tokens = text.getTokensWithoutWhitespace();
     String prevToken = "";
     //ignoring token 0, i.e., SENT_START
     for (int i = 1; i < tokens.length; i++) {
@@ -77,7 +81,7 @@ public class AvsAnRule extends EnglishRule {
         boolean doesRequireAn = false;
         // check for exceptions:
         boolean isException = false;
-        String[] parts = token.split("[-']");  // for example, in "one-way" only "one" is relevant
+        final String[] parts = token.split("[-']");  // for example, in "one-way" only "one" is relevant
         if (parts.length >= 1 &&
             !parts[0].equalsIgnoreCase("a")) {  // avoid false alarm on "A-levels are..."
           token = parts[0];
@@ -87,7 +91,7 @@ public class AvsAnRule extends EnglishRule {
         if (token.length() == 0) {
           continue;
         }
-        char tokenFirstChar = token.charAt(0);
+        final char tokenFirstChar = token.charAt(0);
         if (requiresA.contains(token.toLowerCase()) || requiresA.contains(token)) {
           isException = true;
           doesRequireA = true;
@@ -116,22 +120,24 @@ public class AvsAnRule extends EnglishRule {
         String msg = null;
         if (prevToken.equalsIgnoreCase("a") && doesRequireAn) {
           String repl = "an";
-          if (prevToken.equals("A"))
+          if (prevToken.equals("A")) {
             repl = "An";
+          }
           msg = "Use <suggestion>" +repl+ "</suggestion> instead of '" +prevToken+ "' if the following "+
-          "word starts with a vowel sound, e.g. 'an article', "+
-          "'an hour'";
+          "word starts with a vowel sound, e.g. 'an article', "
+          + "'an hour'";
         } else if (prevToken.equalsIgnoreCase("an") && doesRequireA) {
           String repl = "a";
-          if (prevToken.equals("An"))
+          if (prevToken.equals("An")) {
             repl = "A";
+          }
           msg = "Use <suggestion>" +repl+ "</suggestion> instead of '" +prevToken+ "' if the following "+
-          "word doesn't start with a vowel sound, e.g. 'a sentence', "+
-          "'a university'";
+          "word doesn't start with a vowel sound, e.g. 'a sentence', "
+          + "'a university'";
         }
         if (msg != null) {
-          int prevPos = tokens[i - 1].getStartPos();
-          RuleMatch ruleMatch = new RuleMatch(this, prevPos, prevPos+prevToken.length(), msg);
+          final int prevPos = tokens[i - 1].getStartPos();
+          final RuleMatch ruleMatch = new RuleMatch(this, prevPos, prevPos+prevToken.length(), msg);
           ruleMatches.add(ruleMatch);
         }
         prevToken = token;
@@ -163,7 +169,7 @@ public class AvsAnRule extends EnglishRule {
     if (word.length() == 0) {
       return word;
     }
-    char tokenFirstChar = word.charAt(0);
+    final char tokenFirstChar = word.charAt(0);
     if (requiresA.contains(word.toLowerCase()) || requiresA.contains(word)) {
       isException = true;
       doesRequireA = true;
@@ -206,7 +212,7 @@ public class AvsAnRule extends EnglishRule {
    */
   private TreeSet<String> loadWords(final InputStream file) throws IOException {
     BufferedReader br = null;
-    TreeSet<String> set = new TreeSet<String>();
+    final TreeSet<String> set = new TreeSet<String>();
     try {
       br = new BufferedReader(new InputStreamReader(file));
       String line;
@@ -215,19 +221,24 @@ public class AvsAnRule extends EnglishRule {
         if (line.length() < 1) {
           continue;
         }
-        if (line.charAt(0) == '#')       // ignore comments
+        if (line.charAt(0) == '#') {
           continue;
-        if (line.charAt(0) == '*')       // case sensitive
+        }
+        if (line.charAt(0) == '*') {
           set.add(line.substring(1));
-        else
+        } else {
           set.add(line.toLowerCase());
+        }
       }
     } finally {
-      if (br != null) br.close();
+      if (br != null) {
+        br.close();
+      }
     }
     return set;
   }
 
+  @Override
   public void reset() {
     // nothing
   }
