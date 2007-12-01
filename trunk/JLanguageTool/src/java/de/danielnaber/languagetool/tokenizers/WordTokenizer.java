@@ -23,7 +23,8 @@ import java.util.List;
 import java.util.StringTokenizer;
 
 /**
- * Tokenizes a sentence into words. Punctuation and whitespace gets its own token.
+ * Tokenizes a sentence into words. 
+ * Punctuation and whitespace gets its own token.
  * 
  * @author Daniel Naber
  */
@@ -33,8 +34,9 @@ public class WordTokenizer implements Tokenizer {
   }
   
   public List<String> tokenize(final String text) {
-    List<String> l = new ArrayList<String>();
-    StringTokenizer st = new StringTokenizer(text, " \u00a0,.;()[]{}!?:/\\\"'«»„”“‘’…¿¡\t\n", true);
+    final List<String> l = new ArrayList<String>();
+    final StringTokenizer st = new StringTokenizer(text, 
+        " \u00a0,.;()[]{}!?:/\\\"'«»„”“‘’…¿¡\t\n", true);
     while (st.hasMoreElements()) {
       l.add(st.nextToken());
     }
