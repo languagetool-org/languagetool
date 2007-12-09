@@ -2,7 +2,7 @@
 $page = "homepage";
 $title = "LanguageTool";
 $title2 = "Open Source language checker";
-$lastmod = "2007-09-29 20:35:00 CET";
+$lastmod = "2007-12-09 15:35:00 CET";
 include("../include/header.php");
 ?>
 		
@@ -28,9 +28,6 @@ or later</p>
 <?=show_link("Start LanguageTool (9&nbsp;MB)", "webstart/LanguageTool.jnlp", 0) ?></p>
 <!-- -->
 
-<p>The source is available <?=show_link("at Sourceforge", "http://sourceforge.net/projects/languagetool/", 1) ?>
- via CVS</p>
-    
 <p><strong>Installation and Usage:</strong>
 
 <ul>
@@ -44,10 +41,13 @@ or later</p>
 </ul>
 
 <p><strong>If installation fails:</strong>
-Make sure <a href="http://www.java.com/en/download/manual.jsp">Java 5.0</a>
-or later is installed on your system. Then make sure this version of Java is configured in OpenOffice.org
+Make sure <a href="http://www.java.com/en/download/manual.jsp">Java 5.0 or later from Sun Microsystems</a>
+is installed on your system. Java versions which are not from Sun Microsystems may not work.
+Then make sure this version of Java is selected in OpenOffice.org
 (under <em>Tools -&gt; Options -&gt; Java</em>).</p>
 
+<p>The source is available <?=show_link("at Sourceforge", "http://sourceforge.net/projects/languagetool/", 1) ?>
+ via CVS</p>
 
 <p><strong>Known bugs:</strong> Please see the <?=show_link("README", "download/README.txt", 0)?> 
 for a list of known problems.</p>
