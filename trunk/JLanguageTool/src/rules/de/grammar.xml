@@ -8,7 +8,7 @@ title="Easy editing stylesheet" ?>
 German grammar and typo rules for LanguageTool
 See resource/de/tagset.txt for the meaning of the POS tags
 Copyright (C) 2001-2007 Daniel Naber (http://www.danielnaber.de)
-$Id: grammar.xml,v 1.10 2007-09-15 19:00:33 dnaber Exp $
+$Id: grammar.xml,v 1.11 2008-01-06 13:55:16 dnaber Exp $
 -->
 <rules lang="de">
   <category name="Mögliche Tippfehler">
@@ -399,6 +399,16 @@ $Id: grammar.xml,v 1.10 2007-09-15 19:00:33 dnaber Exp $
       <message><suggestion>Möglicherweise</suggestion> wird zusammengeschrieben.</message>
       <example type="correct"><marker>Möglicherweise</marker> ist die Gelbphase zu kurz eingestellt.</example>
       <example type="incorrect"><marker>Möglicher Weise</marker> ist die Gelbphase zu kurz eingestellt.</example>
+    </rule>
+    <rule id="FAELSCHLICHER_WEISE" name="Möglicher Tippfehler 'fälschlicher Weise(fälschlicherweise)'">
+      <pattern>
+        <token>fälschlicher</token>
+        <token>Weise</token>
+      </pattern>
+      <message><suggestion>Fälschlicherweise</suggestion> wird zusammengeschrieben.</message>
+      <example type="correct"><marker>fälschlicherweise</marker> ist die Gelbphase zu kurz eingestellt.</example>
+      <example type="incorrect"><marker>fälschlicher Weise</marker> ist die Gelbphase zu kurz eingestellt.</example>
+      <example type="incorrect"><marker>fälschlicher weise</marker> ist die Gelbphase zu kurz eingestellt.</example>
     </rule>
     <rule id="LASEN_LASSEN" name="Möglicher Tippfehler 'zu lasen(lassen)'">
       <pattern case_sensitive="yes" mark_from="1">
