@@ -52,6 +52,8 @@ Known bugs:
     about text which is actually correct
    
 TODO:
+ -use hunspell via jni, see http://tkltrans.sourceforge.net/spell.htm and
+  http://tkltrans.sourceforge.net/magyar/huncheck.tar.gz
  -rules: I/You/We/You/They does (not)-> do (not), He/She/It do (not)
  -finish "Add language..." work
  -put licenses in extra subdir
