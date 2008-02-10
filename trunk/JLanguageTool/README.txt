@@ -1,6 +1,6 @@
 LanguageTool, a language style checker for English, German, Polish,
 and Dutch with initial support for Spanish, French, and Italian
-Copyright (C) 2005,2006,2007 Daniel Naber (naber at danielnaber de)
+Copyright (C) 2005-2008 Daniel Naber (naber at danielnaber de)
 Version ###VERSION###, ###DATE###
 Homepage: http://www.danielnaber.de/languagetool
 
@@ -52,6 +52,16 @@ Known bugs:
     about text which is actually correct
    
 TODO:
+ -menu and toolbar icon is broken (black square) for me
+ -feedback from http://extensions.services.openoffice.org/project/languagetool:
+  1) It does not seem to understand global multi-user installs. If you 
+   install from root it it pushed to all users, however when you try and
+   customize your own settings it's trying to write into the global settings
+   area and fails. Settings should go into $HOME
+  2) The [ Close ] button fails to close the UI and requires the "X" of the 
+   window manager
+  3) The "LT" floating toolbar on initial install is going to cause problems
+   with most of the users. It should be docked on first use.
  -use hunspell via jni, see http://tkltrans.sourceforge.net/spell.htm and
   http://tkltrans.sourceforge.net/magyar/huncheck.tar.gz
  -rules: I/You/We/You/They does (not)-> do (not), He/She/It do (not)
