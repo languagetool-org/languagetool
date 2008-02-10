@@ -83,31 +83,50 @@
         </node>
       </node>
     </node>
-    <node oor:name="OfficeToolBar">
+    <node oor:name="OfficeToolbarMerging">
       <node oor:name="de.danielnaber.languagetool.openoffice.Main" oor:op="replace">
         <node oor:name="m1" oor:op="replace">
-          <prop oor:name="URL" oor:type="xs:string">
-            <value>service:de.danielnaber.languagetool.openoffice.Main?execute</value>
+          <prop oor:name="MergeToolBar">
+            <value>standardbar</value>
           </prop>
-          <prop oor:name="ImageIdentifier" oor:type="xs:string">
+          <prop oor:name="MergePoint">
+            <value>.uno:Save</value>
+          </prop>
+          <prop oor:name="MergeCommand">
+            <value>AddAfter</value>
+          </prop>
+          <prop oor:name="MergeFallback">
+            <value>AddLast</value>
+          </prop>
+          <prop oor:name="MergeContext">
             <value/>
           </prop>
-          <prop oor:name="Title" oor:type="xs:string">
-            <value/>
-            <value xml:lang="en-US">Check Text</value>
-            <value xml:lang="de-DE">Text prüfen</value>
-            <value xml:lang="pl-PL">Sprawdź tekst</value>
-            <value xml:lang="lt-LT">Tikrinti tekstą</value>
-            <value xml:lang="nl-NL">Grammaticacontrole</value>
-            <value xml:lang="fr-FR">Vérifier le texte</value>
-            <value xml:lang="sl-SI">Preveri skladnjo</value>
-          </prop>
-          <prop oor:name="Target" oor:type="xs:string">
-            <value>_self</value>
-          </prop>
-          <prop oor:name="Context" oor:type="xs:string">
-            <value>com.sun.star.text.TextDocument</value>
-          </prop>
+          <node oor:name="ToolBarItems">
+            <node oor:name="B1" oor:op="replace">
+              <prop oor:name="URL" oor:type="xs:string">
+                <value>service:de.danielnaber.languagetool.openoffice.Main?execute</value>
+              </prop>
+              <prop oor:name="ImageIdentifier" oor:type="xs:string">
+                <value/>
+              </prop>
+              <prop oor:name="Title" oor:type="xs:string">
+                <value/>
+                <value xml:lang="en-US">Check Text</value>
+                <value xml:lang="de-DE">Text prüfen</value>
+                <value xml:lang="pl-PL">Sprawdź tekst</value>
+                <value xml:lang="lt-LT">Tikrinti tekstą</value>
+                <value xml:lang="nl-NL">Grammaticacontrole</value>
+                <value xml:lang="fr-FR">Vérifier le texte</value>
+                <value xml:lang="sl-SI">Preveri skladnjo</value>
+              </prop>
+              <prop oor:name="Target" oor:type="xs:string">
+                <value>_self</value>
+              </prop>
+              <prop oor:name="Context" oor:type="xs:string">
+                <value>com.sun.star.text.TextDocument</value>
+              </prop>
+            </node>
+          </node>
         </node>
       </node>
     </node>

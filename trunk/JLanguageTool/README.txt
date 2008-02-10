@@ -60,8 +60,6 @@ TODO:
    area and fails. Settings should go into $HOME
   2) The [ Close ] button fails to close the UI and requires the "X" of the 
    window manager
-  3) The "LT" floating toolbar on initial install is going to cause problems
-   with most of the users. It should be docked on first use.
  -use hunspell via jni, see http://tkltrans.sourceforge.net/spell.htm and
   http://tkltrans.sourceforge.net/magyar/huncheck.tar.gz
  -rules: I/You/We/You/They does (not)-> do (not), He/She/It do (not)
