@@ -21,6 +21,7 @@ package de.danielnaber.languagetool.rules.patterns;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
@@ -33,6 +34,7 @@ import org.xml.sax.helpers.DefaultHandler;
 
 import de.danielnaber.languagetool.Language;
 import de.danielnaber.languagetool.rules.Category;
+import de.danielnaber.languagetool.rules.IncorrectExample;
 import de.danielnaber.languagetool.tools.StringTools;
 
 /**
@@ -183,7 +185,7 @@ class PatternRuleHandler extends XMLRuleHandler {
         description = ruleGroupDescription;
       }
       correctExamples = new ArrayList<String>();
-      incorrectExamples = new ArrayList<String>();
+      incorrectExamples = new ArrayList<IncorrectExample>();
       if (suggestionMatches != null) {
         suggestionMatches.clear();
       }
@@ -271,11 +273,9 @@ class PatternRuleHandler extends XMLRuleHandler {
         && attrs.getValue("type").equals("incorrect")) {
       inIncorrectExample = true;
       incorrectExample = new StringBuffer();
-      //kludgy but simple
+      incorrectCorrection = new StringBuffer();
       if (attrs.getValue("correction") != null) {
-        incorrectExample.append("<correction>" 
-            + attrs.getValue("correction")
-            + "</correction>");
+        incorrectCorrection.append(attrs.getValue("correction"));
       }
     } else if (qName.equals("message")) {
       inMessage = true;
@@ -448,12 +448,20 @@ class PatternRuleHandler extends XMLRuleHandler {
       if (inCorrectExample) {
         correctExamples.add(correctExample.toString());
       } else if (inIncorrectExample) {
-        incorrectExamples.add(incorrectExample.toString());
+        IncorrectExample example = null;
+        String[] corrections = incorrectCorrection.toString().split("\\|");
+        if (corrections.length > 0 && corrections[0].length() > 0) {
+          example = new IncorrectExample(incorrectExample.toString(), corrections);
+        } else {
+          example = new IncorrectExample(incorrectExample.toString());
+        }
+        incorrectExamples.add(example);
       }
       inCorrectExample = false;
       inIncorrectExample = false;
       correctExample = new StringBuffer();
       incorrectExample = new StringBuffer();
+      incorrectCorrection = new StringBuffer();
     } else if (qName.equals("message")) {
       inMessage = false; 
     } else if (qName.equals("match")) {

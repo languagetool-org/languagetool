@@ -38,6 +38,7 @@ import org.xml.sax.helpers.DefaultHandler;
 
 import de.danielnaber.languagetool.Language;
 import de.danielnaber.languagetool.rules.Category;
+import de.danielnaber.languagetool.rules.IncorrectExample;
 
 /**
  * Loads {@link PatternRule}s from a false friends XML file.
@@ -182,7 +183,7 @@ class FalseFriendRuleHandler extends XMLRuleHandler {
         id = ruleGroupId;
       }
 		  correctExamples = new ArrayList<String>();
-		  incorrectExamples = new ArrayList<String>();
+		  incorrectExamples = new ArrayList<IncorrectExample>();
 	  } else if (qName.equals("pattern")) {
 		  inPattern = true;
 		  final String languageStr = attrs.getValue("lang");
@@ -382,7 +383,7 @@ class FalseFriendRuleHandler extends XMLRuleHandler {
 		  if (inCorrectExample) {
 			  correctExamples.add(correctExample.toString());
 		  } else if (inIncorrectExample) {
-			  incorrectExamples.add(incorrectExample.toString());
+			  incorrectExamples.add(new IncorrectExample(incorrectExample.toString()));
 		  }
 		  inCorrectExample = false;
 		  inIncorrectExample = false;

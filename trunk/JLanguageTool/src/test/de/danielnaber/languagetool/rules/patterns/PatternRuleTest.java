@@ -30,6 +30,7 @@ import junit.framework.TestCase;
 import de.danielnaber.languagetool.AnalyzedSentence;
 import de.danielnaber.languagetool.JLanguageTool;
 import de.danielnaber.languagetool.Language;
+import de.danielnaber.languagetool.rules.IncorrectExample;
 import de.danielnaber.languagetool.rules.Rule;
 import de.danielnaber.languagetool.rules.RuleMatch;
 
@@ -83,20 +84,11 @@ public class PatternRuleTest extends TestCase {
         assertFalse(lang + ": Did not expect error in: " + goodSentence + " (Rule: "+rule+")",
             match(rule, goodSentence, languageTool));
       }
-      final List<String> badSentences = rule.getIncorrectExamples();
-      for (String origBadSentence : badSentences) {
+      final List<IncorrectExample> badSentences = rule.getIncorrectExamples();
+      for (IncorrectExample origBadExample : badSentences) {
         //enable indentation use
-        origBadSentence = origBadSentence.replaceAll("[\\n\\t]+", "");
-        List<String> suggestedCorrection = new ArrayList <String>();
-        if (origBadSentence.indexOf("<correction>") > -1) {
-          final int corStart = origBadSentence.indexOf("<correction>");
-          final int corEnd = origBadSentence.indexOf("</correction>");
-          final String sugCorrection = origBadSentence.substring(corStart 
-              + "<correction>".length(), corEnd);
-          suggestedCorrection = java.util.Arrays.asList(sugCorrection.split("\\|"));
-          origBadSentence = origBadSentence.substring(corEnd  
-              + "</correction>".length());
-        }
+        String origBadSentence = origBadExample.getExample().replaceAll("[\\n\\t]+", "");
+        List<String> suggestedCorrection = origBadExample.getCorrections();
         final int expectedMatchStart = origBadSentence.indexOf("<marker>");
         final int expectedMatchEnd = origBadSentence.indexOf("</marker>") - "<marker>".length();
         if (expectedMatchStart == -1 || expectedMatchEnd == -1) {
@@ -113,12 +105,12 @@ public class PatternRuleTest extends TestCase {
         assertEquals(lang + ": Incorrect match position markup (end) for rule " + rule,
             expectedMatchEnd, matches[0].getToPos());        
         // make sure suggestion is what we expect it to be
-        if (suggestedCorrection.size() > 0) {
+        if (suggestedCorrection != null && suggestedCorrection.size() > 0) {
         assertTrue(lang 
             + ": Incorrect suggestions: " 
             + suggestedCorrection.toString()
             + " != " + matches[0].getSuggestedReplacements()
-            + "for rule " + rule,
+            + " for rule " + rule,
             suggestedCorrection.equals(matches[0].getSuggestedReplacements()));
         }
           // make sure the suggested correction doesn't produce an error:
@@ -152,12 +144,12 @@ public class PatternRuleTest extends TestCase {
           assertEquals(lang + ": Incorrect match position markup (end) for rule " + rule,
               expectedMatchEnd, matches[0].getToPos());
           // make sure suggestion is what we expect it to be
-          if (suggestedCorrection.size() > 0) {
+          if (suggestedCorrection != null && suggestedCorrection.size() > 0) {
           assertTrue(lang
               + ": Incorrect suggestions: " 
               + suggestedCorrection.toString()
               + " != " + matches[0].getSuggestedReplacements()
-              + "for rule " + rule,                       
+              + " for rule " + rule,                       
               suggestedCorrection.equals(matches[0].getSuggestedReplacements()));
           }
             // make sure the suggested correction doesn't produce an error:

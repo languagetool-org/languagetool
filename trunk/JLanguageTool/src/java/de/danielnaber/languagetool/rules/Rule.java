@@ -37,7 +37,7 @@ import de.danielnaber.languagetool.Language;
 public abstract class Rule {
 
   private List<String> correctExamples;
-  private List<String> incorrectExamples;
+  private List<IncorrectExample> incorrectExamples;
   private Category category = null;
   
   /**
@@ -138,7 +138,7 @@ public abstract class Rule {
     return correctExamples;
   }
   
-  public void setIncorrectExamples(final List<String> incorrectExamples) {
+  public void setIncorrectExamples(final List<IncorrectExample> incorrectExamples) {
     this.incorrectExamples = incorrectExamples;
   }
 
@@ -146,7 +146,7 @@ public abstract class Rule {
    * Get example sentences that are incorrect and thus will 
    * match this rule.
    */
-  public List<String> getIncorrectExamples() {
+  public List<IncorrectExample> getIncorrectExamples() {
     return incorrectExamples;
   }
 

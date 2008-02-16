@@ -25,19 +25,22 @@ import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
 import org.xml.sax.helpers.DefaultHandler;
 
+import de.danielnaber.languagetool.rules.IncorrectExample;
+
 class XMLRuleHandler extends DefaultHandler {
 
   List<PatternRule> rules = new ArrayList<PatternRule>();
 
   StringBuffer correctExample = new StringBuffer();
   StringBuffer incorrectExample = new StringBuffer();
+  StringBuffer incorrectCorrection = new StringBuffer();
   StringBuffer message = new StringBuffer();
   StringBuffer match = new StringBuffer();
   StringBuffer elements = null;
   StringBuffer exceptions = null;
   
   List<String> correctExamples = new ArrayList<String>();
-  List<String> incorrectExamples = new ArrayList<String>();
+  List<IncorrectExample> incorrectExamples = new ArrayList<IncorrectExample>();
 
   boolean inPattern = false;
   boolean inCorrectExample = false;

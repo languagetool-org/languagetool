@@ -168,6 +168,18 @@ public class PatternRule extends Rule {
     return id + ":" + patternElements + ":" + description;
   }
 
+  /**
+   * Return the pattern as a string.
+   * @since 0.9.2
+   */
+  public final String toPatternString() {
+    List<String> strList = new ArrayList<String>();
+    for (Element patternElement : patternElements) {
+      strList.add(patternElement.toString());
+    }
+    return StringTools.listToString(strList, ", ");
+  }
+
   public final void setMessage(final String message) {
     this.message = message;
   }
