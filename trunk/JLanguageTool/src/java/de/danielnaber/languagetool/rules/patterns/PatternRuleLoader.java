@@ -272,9 +272,9 @@ class PatternRuleHandler extends XMLRuleHandler {
         && attrs.getValue("type").equals("incorrect")) {
       inIncorrectExample = true;
       incorrectExample = new StringBuffer();
-      incorrectCorrection = new StringBuffer();
+      exampleCorrection = new StringBuffer();
       if (attrs.getValue("correction") != null) {
-        incorrectCorrection.append(attrs.getValue("correction"));
+        exampleCorrection.append(attrs.getValue("correction"));
       }
     } else if (qName.equals("message")) {
       inMessage = true;
@@ -448,7 +448,7 @@ class PatternRuleHandler extends XMLRuleHandler {
         correctExamples.add(correctExample.toString());
       } else if (inIncorrectExample) {
         IncorrectExample example = null;
-        String[] corrections = incorrectCorrection.toString().split("\\|");
+        String[] corrections = exampleCorrection.toString().split("\\|");
         if (corrections.length > 0 && corrections[0].length() > 0) {
           example = new IncorrectExample(incorrectExample.toString(), corrections);
         } else {
@@ -460,7 +460,7 @@ class PatternRuleHandler extends XMLRuleHandler {
       inIncorrectExample = false;
       correctExample = new StringBuffer();
       incorrectExample = new StringBuffer();
-      incorrectCorrection = new StringBuffer();
+      exampleCorrection = new StringBuffer();
     } else if (qName.equals("message")) {
       inMessage = false; 
     } else if (qName.equals("match")) {

@@ -33,7 +33,7 @@ class XMLRuleHandler extends DefaultHandler {
 
   StringBuffer correctExample = new StringBuffer();
   StringBuffer incorrectExample = new StringBuffer();
-  StringBuffer incorrectCorrection = new StringBuffer();
+  StringBuffer exampleCorrection = new StringBuffer();
   StringBuffer message = new StringBuffer();
   StringBuffer match = new StringBuffer();
   StringBuffer elements = null;
