@@ -76,7 +76,7 @@ public class FalseFriendRuleLoader extends DefaultHandler {
   
   private String formatSuggestions(final List<String> l) {
     final StringBuilder sb = new StringBuilder();
-    for (final Iterator iter = l.iterator(); iter.hasNext();) {
+    for (final Iterator<String> iter = l.iterator(); iter.hasNext();) {
       final String s = (String) iter.next();
       sb.append("<suggestion>");
       sb.append(s);
