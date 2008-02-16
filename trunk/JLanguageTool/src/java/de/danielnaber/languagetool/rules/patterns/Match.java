@@ -170,33 +170,31 @@ public class Match {
   }    
 
   /**
-   * Gets all strings formatted using the match
-   * element.
-   * @return @String[] array of strings
-   * @throws IOException in case of syntesizer-related
-   * disk problems. 
+   * Gets all strings formatted using the match element.
+   * 
+   * @return
+   * @String[] array of strings
+   * @throws IOException
+   *           in case of syntesizer-related disk problems.
    */
   public final String[] toFinalString() throws IOException {
     String[] formattedString = new String[1];
-    if (formattedToken != null) {      
+    if (formattedToken != null) {
       formattedString[0] = formattedToken.getToken();
-      if (pRegexMatch != null) {          
-        formattedString[0] 
-                        = pRegexMatch.matcher(formattedString[0]).
-                        replaceAll(regexReplace);
+      if (pRegexMatch != null) {
+        formattedString[0] = pRegexMatch.matcher(formattedString[0]).replaceAll(regexReplace);
       }
-      formattedString[0] = convertCase(formattedString[0]);               
-      if (posTag != null) {              
+      formattedString[0] = convertCase(formattedString[0]);
+      if (posTag != null) {
         if (synthesizer == null) {
           formattedString[0] = formattedToken.getToken();
-        } else if (postagRegexp) {          
+        } else if (postagRegexp) {
           final int readingCount = formattedToken.getReadingsLength();
-          final TreeSet<String> wordForms = new TreeSet<String>();          
+          final TreeSet<String> wordForms = new TreeSet<String>();
           boolean oneForm = false;
           for (int k = 0; k < readingCount; k++) {
             if (formattedToken.getAnalyzedToken(k).getLemma() == null) {
-              final String posUnique = 
-                formattedToken.getAnalyzedToken(k).getPOSTag();             
+              final String posUnique = formattedToken.getAnalyzedToken(k).getPOSTag();
               if (posUnique == null) {
                 wordForms.add(formattedToken.getToken());
                 oneForm = true;
@@ -205,7 +203,7 @@ public class Match {
                     || JLanguageTool.SENTENCE_END_TAGNAME.equals(posUnique)
                     || JLanguageTool.PARAGRAPH_END_TAGNAME.equals(posUnique)) {
                   if (!oneForm) {
-                  wordForms.add(formattedToken.getToken());
+                    wordForms.add(formattedToken.getToken());
                   }
                   oneForm = true;
                 } else {
@@ -216,23 +214,21 @@ public class Match {
           }
           final String targetPosTag = getTargetPosTag();
           if (!oneForm) {
-          for (int i = 0; i < readingCount; i++) {
-            final String[] possibleWordForms = 
-              synthesizer.synthesize(
-                  formattedToken.getAnalyzedToken(i),
-                  targetPosTag, true);
-            if (possibleWordForms != null) {
-              for (final String form : possibleWordForms) {           
-                wordForms.add(form);
+            for (int i = 0; i < readingCount; i++) {
+              final String[] possibleWordForms = synthesizer.synthesize(formattedToken
+                  .getAnalyzedToken(i), targetPosTag, true);
+              if (possibleWordForms != null) {
+                for (final String form : possibleWordForms) {
+                  wordForms.add(form);
+                }
               }
             }
           }
-          }
           if (wordForms != null) {
             if (wordForms.isEmpty()) {
-              formattedString[0] = "(" + formattedToken.getToken() + ")";              
+              formattedString[0] = "(" + formattedToken.getToken() + ")";
             } else {
-              formattedString = wordForms.toArray(new String[wordForms.size()]);            
+              formattedString = wordForms.toArray(new String[wordForms.size()]);
             }
           } else {
             formattedString[0] = formattedToken.getToken();
@@ -241,18 +237,16 @@ public class Match {
           final int readingCount = formattedToken.getReadingsLength();
           final TreeSet<String> wordForms = new TreeSet<String>();
           for (int i = 0; i < readingCount; i++) {
-            final String[] possibleWordForms = 
-              synthesizer.synthesize(
-                  formattedToken.getAnalyzedToken(i),
-                  posTag);
+            final String[] possibleWordForms = synthesizer.synthesize(formattedToken
+                .getAnalyzedToken(i), posTag);
             if (possibleWordForms != null) {
-              for (final String form : possibleWordForms) {           
+              for (final String form : possibleWordForms) {
                 wordForms.add(form);
               }
             }
           }
           if (wordForms == null) {
-            formattedString[0] = formattedToken.getToken();            
+            formattedString[0] = formattedToken.getToken();
           } else {
             formattedString = wordForms.toArray(new String[wordForms.size()]);
           }
@@ -264,69 +258,69 @@ public class Match {
 
   /**
    * Format POS tag using parameters already defined in the class.
-   * @return Formatted POS tag as @String.
+   * 
+   * @return Formatted POS tag as
+   * @String.
    */
-//FIXME: gets only the first POS tag that matches, this can be wrong
-//on the other hand, many POS tags = too many suggestions? 
- public final String getTargetPosTag() {   
-   String targetPosTag = posTag;
-   List <String> posTags = new ArrayList <String> ();
-   if (staticLemma) {
-     final int numRead = matchedToken.getReadingsLength();
-     for (int i = 0; i < numRead; i++) {
-       final String tst = matchedToken.getAnalyzedToken(i).getPOSTag();
-       if (tst != null) {
-         if (pPosRegexMatch.matcher(tst).matches()) {
-           targetPosTag = matchedToken.getAnalyzedToken(i).getPOSTag();
-           //break;
-           posTags.add(targetPosTag);
-         }
-       }
-     }            
-     if (pPosRegexMatch != null & posTagReplace != null) {            
-       targetPosTag = pPosRegexMatch.matcher(targetPosTag).
-         replaceAll(posTagReplace);  
-     }
-     if (targetPosTag.indexOf('?') > 0) {
-       targetPosTag = targetPosTag.replaceAll("\\?", "\\\\?");
-     }
-   } else {     
-     final int numRead = formattedToken.getReadingsLength();
-     for (int i = 0; i < numRead; i++) {
-       final String tst = formattedToken.getAnalyzedToken(i).getPOSTag();       
-       if (tst != null) {
-         if (pPosRegexMatch.matcher(tst).matches()) {
-           targetPosTag = formattedToken.getAnalyzedToken(i).getPOSTag();
-           //break;
-           posTags.add(targetPosTag);
-         }
-       }
-     }
-     if (pPosRegexMatch != null & posTagReplace != null) {
-       if (posTags.size() == 0) {
-         posTags.add(targetPosTag);
-       }
-       targetPosTag = "";
-       for (String lposTag : posTags) {
-         lposTag = pPosRegexMatch.matcher(lposTag).
-         replaceAll(posTagReplace);
-       if (setPos) {
-         lposTag = synthesizer.getPosTagCorrection(lposTag);
-       }
-       targetPosTag = lposTag + "|" + targetPosTag;
-       }
-       targetPosTag = targetPosTag.replaceAll("\\|$","");
-     }
-   }
-   return targetPosTag;
- }
+  // FIXME: gets only the first POS tag that matches, this can be wrong
+  // on the other hand, many POS tags = too many suggestions?
+  public final String getTargetPosTag() {   
+    String targetPosTag = posTag;
+    List <String> posTags = new ArrayList <String> ();
+    if (staticLemma) {
+      final int numRead = matchedToken.getReadingsLength();
+      for (int i = 0; i < numRead; i++) {
+        final String tst = matchedToken.getAnalyzedToken(i).getPOSTag();
+        if (tst != null) {
+          if (pPosRegexMatch.matcher(tst).matches()) {
+            targetPosTag = matchedToken.getAnalyzedToken(i).getPOSTag();
+            //break;
+            posTags.add(targetPosTag);
+          }
+        }
+      }
+      if (pPosRegexMatch != null & posTagReplace != null) {            
+        targetPosTag = pPosRegexMatch.matcher(targetPosTag).
+          replaceAll(posTagReplace);  
+      }
+      if (targetPosTag.indexOf('?') > 0) {
+        targetPosTag = targetPosTag.replaceAll("\\?", "\\\\?");
+      }
+    } else {     
+      final int numRead = formattedToken.getReadingsLength();
+      for (int i = 0; i < numRead; i++) {
+        final String tst = formattedToken.getAnalyzedToken(i).getPOSTag();       
+        if (tst != null) {
+          if (pPosRegexMatch.matcher(tst).matches()) {
+            targetPosTag = formattedToken.getAnalyzedToken(i).getPOSTag();
+            //break;
+            posTags.add(targetPosTag);
+          }
+        }
+      }
+      if (pPosRegexMatch != null & posTagReplace != null) {
+        if (posTags.size() == 0) {
+          posTags.add(targetPosTag);
+        }
+        targetPosTag = "";
+        for (String lposTag : posTags) {
+          lposTag = pPosRegexMatch.matcher(lposTag).replaceAll(posTagReplace);
+          if (setPos) {
+            lposTag = synthesizer.getPosTagCorrection(lposTag);
+          }
+          targetPosTag = lposTag + "|" + targetPosTag;
+        }
+        targetPosTag = targetPosTag.replaceAll("\\|$", "");
+      }
+    }
+    return targetPosTag;
+  }
   
   /**
    * Method for getting the formatted match as a single string.
    * In case of multiple matches, it joins them using a regular
    * expression operator "|".
    * @return Formatted string of the matched token.
-   *  
    */
   public final String toTokenString() {
     final StringBuilder output = new StringBuilder(); 
@@ -371,9 +365,9 @@ public class Match {
     switch (caseConversionType) {
       case NONE : break;
       case STARTLOWER : token = token.substring(0, 1).toLowerCase() 
-      + formattedToken.getToken().substring(1); break;
+        + formattedToken.getToken().substring(1); break;
       case STARTUPPER : token = token.substring(0, 1).toUpperCase() 
-      + formattedToken.getToken().substring(1); break;
+        + formattedToken.getToken().substring(1); break;
       case ALLUPPER : token = token.toUpperCase(); break;
       case ALLLOWER : token = token.toLowerCase(); break;
       default : break;
