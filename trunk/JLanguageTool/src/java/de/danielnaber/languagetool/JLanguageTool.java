@@ -481,7 +481,7 @@ public final class JLanguageTool {
    * Get the list of unknown words in the last run of the check() method.
    * @throws IllegalStateException listUnknownWords is set to <code>false</code>
    */
-  public List getUnknownWords() {
+  public List<String> getUnknownWords() {
     if (!listUnknownWords) {
       throw new IllegalStateException("listUnknownWords is set to false, unknown words not stored");
     }

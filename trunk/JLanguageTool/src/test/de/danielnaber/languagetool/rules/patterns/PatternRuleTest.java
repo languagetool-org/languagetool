@@ -66,7 +66,7 @@ public class PatternRuleTest extends TestCase {
       final PatternRuleLoader ruleLoader = new PatternRuleLoader();
       final JLanguageTool languageTool = new JLanguageTool(lang);
       final String name = "/rules/" + lang.getShortName() + "/grammar.xml";
-      final List rules = ruleLoader.getRules(this.getClass().getResourceAsStream(name), name);
+      final List<PatternRule> rules = ruleLoader.getRules(this.getClass().getResourceAsStream(name), name);
       testGrammarRulesFromXML(rules, languageTool, lang);
     }
   }
@@ -172,9 +172,9 @@ public class PatternRuleTest extends TestCase {
       }      
     }
     if (!complexRules.isEmpty()) {
-      final Set set = complexRules.keySet();
-      final List < PatternRule > badRules = new ArrayList < PatternRule > ();
-      final Iterator iter = set.iterator();       
+      final Set<String> set = complexRules.keySet();
+      final List<PatternRule> badRules = new ArrayList < PatternRule > ();
+      final Iterator<String> iter = set.iterator();       
       while (iter.hasNext()) {
         final PatternRule badRule = complexRules.get(iter.next());
         if (badRule != null) {

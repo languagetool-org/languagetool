@@ -241,9 +241,9 @@ public final class StringTools {
     return s;
   }
   
-  public static String listToString(final List l, final String delimiter) {
+  public static String listToString(final List<String> l, final String delimiter) {
     final StringBuilder sb = new StringBuilder();
-    for (final Iterator iter = l.iterator(); iter.hasNext();) {
+    for (final Iterator<String> iter = l.iterator(); iter.hasNext();) {
       final String str = (String) iter.next();
       sb.append(str);
       if (iter.hasNext()) {
