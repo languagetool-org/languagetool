@@ -2,7 +2,7 @@
 $page = "homepage";
 $title = "LanguageTool";
 $title2 = "Open Source language checker";
-$lastmod = "2007-12-09 15:35:00 CET";
+$lastmod = "2008-02-17 19:35:00 CET";
 include("../include/header.php");
 ?>
 		
@@ -14,12 +14,15 @@ up <em>there/their</em>, <em>no/now</em> etc. It can also detect some
 grammar mistakes. It does not include spell checking. See the <?=show_link("languages", "languages/", 0) ?> 
 page for a list of supported languages.</p>
 
-<p><strong>Update 2007-09-17:</strong> Released version 0.9.1:
-Works with OpenOffice.org 2.3, improved rules (mostly Polish and English),
-bug fixes. See the <?=show_link("Changelog", "download/CHANGES.txt", 0) ?> for details.</p>
+<p><strong>Update 2008-02-17:</strong> Released version 0.9.2:
+In OpenOffice.org, LanguageTool is now part of the "Tools" menu. It is now
+distributed as an *.oxt file so you can install it by double-clicking on it.
+Added preliminary support for Swedish. For more changes, see
+the <?=show_link("Changelog", "download/CHANGES.txt", 0) ?> for details.</p>
+
 
 <p><strong>Download:</strong><br />
-<strong><?=show_link("LanguageTool 0.9.1", "download/LanguageTool-0.9.1.zip", 0) ?></strong>, 9&nbsp;MB,
+<strong><?=show_link("LanguageTool 0.9.2", "download/LanguageTool-0.9.2.oxt", 0) ?></strong>, 9&nbsp;MB,
 requires <?=show_link("Java", "http://www.java.com/en/download/manual.jsp", 1)?>&nbsp;5.0
 or later</p>
 
@@ -32,10 +35,10 @@ or later</p>
 
 <ul>
 	<li><strong>In OpenOffice.org</strong>:
-	Do <em>not</em> unzip the archive, just call <em>Tools -&gt; Extension Manager -&gt; Add...</em>
-	to install <tt>LanguageTool-0.9.1.zip</tt> (note that the menu item is called <em>Package Manager</em>
-	in OpenOffice.org 2.0.x). Open a new window of OpenOffice.org (Ctrl-N)
-	and you'll see a new menu entry "LanguageTool" that will check the current text.</li>
+	Double click <tt>LanguageTool-0.9.2.oxt</tt> to install it.
+	If that doesn't work, call <em>Tools -&gt; Extension Manager -&gt; Add...</em>
+	to install it. Open a new window of OpenOffice.org (Ctrl-N)
+	and you'll see a new menu entry "LanguageTool" in the "Tools" menu.</li>
 
 	<li>Also see <?=show_link("Usage", "usage/", 0)?> for using LanguageTool outside of OpenOffice.org.</li>
 </ul>

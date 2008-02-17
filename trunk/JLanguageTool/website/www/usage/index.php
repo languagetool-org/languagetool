@@ -2,7 +2,7 @@
 $page = "usage";
 $title = "LanguageTool";
 $title2 = "Usage";
-$lastmod = "2007-09-29 17:00:00 CET";
+$lastmod = "2008-02-17 19:20:00 CET";
 include("../../include/header.php");
 include('../../include/geshi/geshi.php');
 ?>
@@ -15,8 +15,8 @@ with OpenOffice.org.</p>
 <ul class="largelist">
 
 	<li><strong>As a stand-alone application</strong>:
-	Unzip the archive. Amongst others,
-	an archive called <tt>standalone-libs.zip</tt> will be created. Unzip that, too.
+	Rename the archive so it ends with ".zip" and unzip it. If you're
+	using Java 5.0, also unzip the <tt>standalone-libs.zip</tt> that will be created.
 	Then start <tt>LanguageToolGUI.jar</tt> by double clicking on it. If your computer isn't
 	configured to start jar archives, start it from the command line using<br />
 	<tt>java -jar LanguageToolGUI.jar</tt><br />
