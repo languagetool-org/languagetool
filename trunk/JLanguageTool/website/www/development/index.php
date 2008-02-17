@@ -2,7 +2,7 @@
 $page = "development";
 $title = "LanguageTool";
 $title2 = "Development";
-$lastmod = "2007-06-06 20:00:00 CET";
+$lastmod = "2007-10-03 20:00:00 CET";
 include("../../include/header.php");
 include('../../include/geshi/geshi.php');
 ?>
