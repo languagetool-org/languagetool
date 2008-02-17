@@ -279,7 +279,7 @@ add your rule to <tt>JLanguageTool.java</tt> to activate it.</p>
 To translate the user interface, just copy <tt>MessagesBundle_en.properties</tt>
 to <tt>MessagesBundle_xx.properties</tt> (whereas <tt>xx</tt> is the code of your
 language) and translate the text. Note that hot keys for menu items are specified
-with the <tt>&amp;</tt> character (for example, <tt>&amp;File<tt>).
+with the <tt>&amp;</tt> character (for example, <tt>&amp;File</tt>).
 The next time you start LanguageTool, it should show your translation (assuming your computer is configured to use your 
 language -- if
 that's not the case, start LanguageTool with <tt>java -Duser.language=xx -jar LanguageToolGUI.jar</tt>).
