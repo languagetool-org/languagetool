@@ -142,7 +142,7 @@ public final class Overview {
           count++;
         }
         System.out.print("<td align=\"left\">" + (count) +
-            "</td></tr>");
+            "</td>");
       }
       
       System.out.println("</tr>");    
