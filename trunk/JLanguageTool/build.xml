@@ -402,8 +402,11 @@
   	<copy file="${resource.dir}/TrayIcon.png" todir="${dist.dir}/resource/" />
   	<filter filtersFile="build.properties"/>
   	<copy filtering="true" todir="${dist.dir}/">
-	  	<fileset dir="openoffice/" includes="description.xml,Addons.xcu,images/**,META-INF/**" />
+	  	<fileset dir="openoffice/" includes="description.xml,Addons.xcu,META-INF/**" />
 	</copy>
+    <copy todir="${dist.dir}/">
+        <fileset dir="openoffice/" includes="images/**" />
+    </copy>
   	<copy todir="${dist.dir}/rules">
 	  	<fileset dir="src/rules" excludes="CVS" />
 	</copy>
