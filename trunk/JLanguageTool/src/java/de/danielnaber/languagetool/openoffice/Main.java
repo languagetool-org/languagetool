@@ -21,7 +21,6 @@ package de.danielnaber.languagetool.openoffice;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -72,19 +71,21 @@ public class Main {
   public static class _Main extends WeakBase implements XJobExecutor, XServiceInfo {
 
     private static final String __serviceName = "de.danielnaber.languagetool.openoffice.Main";
+    // use a different name than the stand-alone version to avoid conflicts:
+    private static final String CONFIG_FILE = ".languagetool-ooo.cfg";
 
     private XTextDocument xTextDoc;
     private XTextViewCursor xViewCursor;
     
-    private File baseDir;
+    private File homeDir;
     private Configuration config;
     
     private ResourceBundle messages = null;
 
     /** Testing only. */
     public _Main() throws IOException {
-      baseDir = new File(".");
-      config = new Configuration(baseDir);
+      homeDir = new File(".");
+      config = new Configuration(homeDir, CONFIG_FILE);
       messages = JLanguageTool.getMessageBundle();
     }
     
@@ -95,8 +96,8 @@ public class Main {
         XDesktop xDesktop = (XDesktop) UnoRuntime.queryInterface(XDesktop.class, desktop);
         XComponent xComponent = xDesktop.getCurrentComponent();
         xTextDoc = (XTextDocument) UnoRuntime.queryInterface(XTextDocument.class, xComponent);
-        baseDir = getBaseDir();
-        config = new Configuration(baseDir);
+        homeDir = getHomeDir();
+        config = new Configuration(homeDir, CONFIG_FILE);
         messages = JLanguageTool.getMessageBundle();        
       } catch (Throwable e) {
         writeError(e);
@@ -348,15 +349,12 @@ public class Main {
       }
     }
 
-    private File getBaseDir() throws IOException {
-      java.net.URL url = Main.class.getResource("/de/danielnaber/languagetool/openoffice/Main.class");
-      String urlString = url.getFile();            
-      urlString = URLDecoder.decode(urlString, "UTF-8");
-      File file = new File(urlString.substring("file:".length(), urlString.indexOf("!")));
-      if (!file.exists()) {
-        throw new IOException("File not found: " + file.getAbsolutePath());
+    private File getHomeDir() {
+      String homeDir = System.getProperty("user.home");
+      if (homeDir == null) {
+        throw new RuntimeException("Could not get home directory");
       }
-      return file.getParentFile();
+      return new File(homeDir);
     }
 
   }
