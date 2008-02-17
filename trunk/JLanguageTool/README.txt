@@ -17,16 +17,15 @@ Usage:
  instructions.
  
  2. If the above method doesn't work, in OpenOffice.org, 
-  call Tools -> Package Manager (since OpenOffice.org 2.1: 
-  Extension Manager) -> Add... and browse for the 
+  call Tools -> Extension Manager -> Add... and browse for the 
   LanguageTool-###VERSION###.oxt file. 
   
   Open a new document (File -> New ->  Text document) and 
-  you'll have a new menu item "LanguageTool"
-  which checks your text.
+  you'll have a new menu item "LanguageTool" under the "Tools"
+  menu.
   
  -To use the simple demo GUI, first rename the .oxt file
-  to zip, then unzip it to a directory and call:
+  to zip, then unzip it to a new directory and call:
   java -jar LanguageToolGUI.jar
 
  -To check plain text files from the command line:
