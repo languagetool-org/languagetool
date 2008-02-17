@@ -54,7 +54,7 @@ public class French extends Language {
   }
 
   public String[] getMaintainers() {
-    return null;
+    return new String[]{"Agnes Souque", "Hugo Voisard"};
   }
 
   public Set<String> getRelevantRuleIDs() {
