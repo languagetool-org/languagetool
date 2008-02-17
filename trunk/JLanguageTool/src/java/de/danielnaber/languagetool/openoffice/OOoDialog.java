@@ -68,6 +68,7 @@ import de.danielnaber.languagetool.gui.ConfigurationDialog;
 import de.danielnaber.languagetool.gui.Tools;
 import de.danielnaber.languagetool.rules.Rule;
 import de.danielnaber.languagetool.rules.RuleMatch;
+import de.danielnaber.languagetool.tools.StringTools;
 
 public class OOoDialog implements ActionListener {
 
@@ -220,7 +221,10 @@ public class OOoDialog implements ActionListener {
     cons.weightx = 1.0f;
     cons.weighty = 1.0f;
     cons.fill = GridBagConstraints.HORIZONTAL;
-    changeButton = new JButton(messages.getString("guiOOoChangeButton"));
+    changeButton = new JButton(StringTools.getLabel(
+        messages.getString("guiOOoChangeButton")));
+    changeButton.setMnemonic(StringTools.getMnemonic(
+        messages.getString("guiOOoChangeButton")));
     changeButton.addActionListener(this);
     contentPane.add(changeButton, cons);
 
