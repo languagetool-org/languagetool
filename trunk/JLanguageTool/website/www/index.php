@@ -47,7 +47,10 @@ or later</p>
 Make sure <a href="http://www.java.com/en/download/manual.jsp">Java 5.0 or later from Sun Microsystems</a>
 is installed on your system. Java versions which are not from Sun Microsystems may not work.
 Then make sure this version of Java is selected in OpenOffice.org
-(under <em>Tools -&gt; Options -&gt; Java</em>).</p>
+(under <em>Tools -&gt; Options -&gt; Java</em>). If LanguageTool doesn't start after
+selecting the version of Java in OpenOffice.org and you see no error message,
+check if the extension is enabled in the Extension manager 
+(under <em>Tools -&gt; Extension Manager</em>).</p>
 
 <p>The source is available <?=show_link("at Sourceforge", "http://sourceforge.net/projects/languagetool/", 1) ?>
  via CVS</p>
