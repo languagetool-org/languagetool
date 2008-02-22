@@ -6,7 +6,7 @@ title="Easy editing stylesheet" ?>
 <!--
 Polish Grammar and Typo Rules for LanguageTool
 Copyright (C) 2006-2007 Marcin Miłkowski
-$Id: grammar.xml,v 1.108 2008-02-21 22:09:55 milek_pl Exp $
+$Id: grammar.xml,v 1.109 2008-02-22 11:24:34 milek_pl Exp $
 -->
 <rules lang="pl">
   <phrases>
@@ -5194,7 +5194,7 @@ Znacznie częściej ta forma jest mylona z trybem rozkazującym od „pokazać�
       </rule>
       <rule>
         <pattern>
-          <token regexp="yes"><exception regexp="yes">X-.*</exception>M*(D?C{0,3}|C[DM])(L?X{0,3}|X[LC])(V?I{0,3}|I[VX])-([mt]*y|[w]*si|[w]*szy|[w]*sze|[w]*szym[i]*|[w]*si|tym|tymi|ci|a|ce|ch|cia|cie|ciej|cim|cio|cioletnią|ciu|ego|ej|ga|gi|gie|gim|go|im|ki|krotnie|któregoś|leci.*|ma|me|miu|mo|o|ro|stoletniego|stu|sza|[tm]*a|[mt]*e|[tm]*ego|[mt]*ej|tka|tki|to|[mt]*[i]*oletni.*|[mt]*u|[mt]*ą|[mt]*ych|[mt]*e)</token>
+          <token regexp="yes"><exception regexp="yes">X-.*</exception><exception>v-ce</exception>M*(D?C{0,3}|C[DM])(L?X{0,3}|X[LC])(V?I{0,3}|I[VX])-([mt]*y|[w]*si|[w]*szy|[w]*sze|[w]*szym[i]*|[w]*si|tym|tymi|ci|a|ce|ch|cia|cie|ciej|cim|cio|cioletnią|ciu|ego|ej|ga|gi|gie|gim|go|im|ki|krotnie|któregoś|leci.*|ma|me|miu|mo|o|ro|stoletniego|stu|sza|[tm]*a|[mt]*e|[tm]*ego|[mt]*ej|tka|tki|to|[mt]*[i]*oletni.*|[mt]*u|[mt]*ą|[mt]*ych|[mt]*e)</token>
         </pattern>
         <message>Liczebniki porządkowe pisane liczbami rzymskimi zapisujemy bez żadnych końcówek przypadków. Poprawnie:
  <suggestion><match no="1" regexp_match="(M*(D?C{0,3}|C[DM])(L?X{0,3}|X[LC])(V?I{0,3}|I[VX]))-.*" regexp_replace="$1"/></suggestion></message>
@@ -5867,10 +5867,10 @@ Znacznie częściej ta forma jest mylona z trybem rozkazującym od „pokazać�
     </rule>
     <rule id="PRZEDROSTKI" name="Przedrostki błędnie pisane z łącznikiem: „neo”, „post”, „pre”, „eks”...">
       <pattern>
-        <token regexp="yes">^(neo|post|pre|anty|arcy|eks|bez|beze|ekstra|hiper|infra|kontr|maksi|midi|między|mini|nad|nade|około|ponad|post|przeciw|pseudo|super|śród|ultra|wice|wokół|wokoło)[-–]\p{Ll}+</token>
+        <token regexp="yes">^(neo|post|pre|anty|arcy|eks|bez|beze|ekstra|hiper|infra|kontr|maksi|midi|między|mini|nad|nade|około|ponad|post|pro|przeciw|pseudo|super|śród|ultra|wice|wokół|wokoło)[-–]\p{Ll}+</token>
       </pattern>
       <message>Ten wyraz piszemy bez łącznika:
-				<suggestion><match no="1" regexp_match="(?iu)^(neo|post|pre|anty|arcy|eks|bez|beze|ekstra|hiper|infra|kontr|maksi|midi|między|mini|nad|nade|około|ponad|post|przeciw|pseudo|super|śród|ultra|wice|wokół|wokoło)[-–](.*)" regexp_replace="$1$2"/></suggestion>.</message>
+				<suggestion><match no="1" regexp_match="(?iu)^(neo|post|pre|anty|arcy|eks|bez|beze|ekstra|hiper|infra|kontr|maksi|midi|między|mini|nad|nade|około|ponad|post|pro|przeciw|pseudo|super|śród|ultra|wice|wokół|wokoło)[-–](.*)" regexp_replace="$1$2"/></suggestion>.</message>
       <example type="correct">Tym prądem intelektualnym jest postmodernizm.</example>
       <example type="correct">Spotkał się Polak z anty-Polakiem</example>
       <example correction="eksmąż" type="incorrect">Wiktor to mój <marker>eks-mąż</marker>.</example>
