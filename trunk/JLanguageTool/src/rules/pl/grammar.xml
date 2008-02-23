@@ -6,7 +6,7 @@ title="Easy editing stylesheet" ?>
 <!--
 Polish Grammar and Typo Rules for LanguageTool
 Copyright (C) 2006-2007 Marcin Miłkowski
-$Id: grammar.xml,v 1.109 2008-02-22 11:24:34 milek_pl Exp $
+$Id: grammar.xml,v 1.110 2008-02-23 16:43:41 milek_pl Exp $
 -->
 <rules lang="pl">
   <phrases>
@@ -4704,6 +4704,27 @@ Powinno być: <suggestion>\2, \3 \4</suggestion>.</message>
     </rule>
   </category>
   <category name="Błędy ortograficzne">
+    <rule id="TYM_NIE_MNIEJ" name="„tym nie mniej” (niemniej jednak)">
+      <pattern mark_from="1">
+        <token negate="yes">w</token>
+        <token>tym</token>
+        <token>nie</token>
+        <token>mniej</token>
+      </pattern>
+      <message>Prawdopodobny błąd ortograficzny i rusycyzm. Poprawnie: <suggestion>niemniej jednak</suggestion>.</message>
+      <example correction="Niemniej jednak" type="incorrect"><marker>Tym nie mniej</marker> zrobiłem to, o co prosił.</example>
+      <example type="correct">Do słoika pakujemy 12 ryb, w tym nie mniej niż 7 śledzi.</example>
+    </rule>
+    <rule id="OD_TAK" name="„od tak” (ot, tak)">
+      <pattern mark_to="-1">
+        <token>od</token>
+        <token>tak</token>
+        <token negate="yes">zwanych</token>
+      </pattern>
+      <message>Prawdopodobna literówka. Czy chodziło o <suggestion>ot, tak</suggestion> (=od niechcenia)?</message>
+      <example correction="ot, tak" type="incorrect">Zrobiłem to <marker>od tak</marker>.</example>
+      <example type="correct">Od tak zwanych mikrobów chroni nas produkt firmy chińskiej.</example>
+    </rule>
     <rule id="POKARZ" name="„pokarz” (pokaż)">
       <pattern>
         <token>pokarz</token>
@@ -6446,6 +6467,48 @@ Znacznie częściej ta forma jest mylona z trybem rozkazującym od „pokazać�
     </rule>
   </category>
   <category name="Prawdopodobne literówki">
+    <rule id="SOWICH" name="„sowich” (swoich)">
+      <pattern>
+        <token>sowich</token>
+      </pattern>
+      <message>Prawdopodobna literówka. Czy chodziło o <suggestion>swoich</suggestion>?</message>
+      <example correction="swoich" type="incorrect">Nie pierz tutaj <marker>sowich</marker> brudów.</example>
+      <example type="correct">Nie pierz tutaj swoich brudów.</example>
+    </rule>
+    <rule id="TYKO" name="„tyko” (tylko)">
+      <pattern>
+        <token>tyko</token>
+      </pattern>
+      <message>Prawdopodobna literówka. Czy chodziło o <suggestion>tylko</suggestion>?</message>
+      <example correction="tylko" type="incorrect">Mam <marker>tyko</marker> pięć złotych.</example>
+      <example type="correct">Mam tylko pięć złotych.</example>
+    </rule>
+    <rule id="WYZ_DEMOGRAFICZNY" name="„wyz demograficzny” (wyż demograficzny)">
+      <pattern mark_to="-1">
+        <token>wyz</token>
+        <token regexp="yes">demograficzny|baryczny</token>
+      </pattern>
+      <message>Prawdopodobna literówka. Czy chodziło o <suggestion>wyż</suggestion>?</message>
+      <example correction="wyż" type="incorrect">W Polsce zbliża się <marker>wyz</marker> demograficzny.</example>
+      <example type="correct">Wyz to pyszna ryba.</example>
+    </rule>
+    <rule id="POL_GODZINY" name="„pól godziny” (pół godziny)">
+      <pattern>
+        <token>pól</token>
+        <token regexp="yes">godziny|roku|wieku|miliona|metra|tysiąca|litra|minuty|godzinie|dnia|boiska|kilometra|żartem|etatu|miliarda|tony|drogi|tygodnia|biedy|serio|świata|sekundy|punktu|tuzina|miesiąca|kroku|ceny|rokiem|meczu|życia</token>
+      </pattern>
+      <message>Prawdopodobna literówka. Czy chodziło o <suggestion>pół \2</suggestion>?</message>
+      <example correction="pół godziny" type="incorrect">Czekam tu już <marker>pól godziny</marker>.</example>
+      <example type="correct">Nie ma nic piękniejszego od pól kapusty po horyzont.</example>
+    </rule>
+    <rule id="KROTKO" name="„krotko” (krótko)">
+      <pattern>
+        <token>krotko</token>
+      </pattern>
+      <message>Prawdopodobna literówka. Czy chodziło o wołacz od „krotka”, czy o wyraz <suggestion>krótko</suggestion>?</message>
+      <example correction="krótko" type="incorrect">Mówiąc <marker>krotko</marker>, to masełko jest wyborne.</example>
+      <example type="correct">Mówiąc krótko, to masełko jest wyborne.</example>
+    </rule>
     <rule id="KILA_GEN" name="„kila czego” (kilka)">
       <pattern>
         <token>kila</token>
@@ -7175,6 +7238,39 @@ Znacznie częściej ta forma jest mylona z trybem rozkazującym od „pokazać�
     </rule>
   </category>
   <category name="Błędy frazeologiczne">
+    <rule id="MADREJ_GLOWIE_DOSC_PO_SLOWIE" name="„mądrej głowie dość po słowie” (mądrej głowie dość dwie słowie)">
+      <pattern>
+        <token>mądrej</token>
+        <token>głowie</token>
+        <token>dość</token>
+        <token>po</token>
+        <token>słowie</token>
+      </pattern>
+      <message>Błędna postać związku frazeologicznego. Poprawnie: <suggestion>\1 \2 \3 dwie słowie</suggestion>.</message>
+      <example correction="mądrej głowie dość dwie słowie" type="incorrect">Powiedzmy sobie szczerze: <marker>mądrej głowie dość po słowie</marker>.</example>
+      <example type="correct">Mądrej głowie dość dwie słowie.</example>
+    </rule>
+    <rule id="MOWI_SAMO_PRZEZ_SIE" name="„mówi samo przez się” (mówi samo za siebie)">
+      <pattern>
+        <token regexp="yes">mówi|mówił|mówiła|mówiło</token>
+        <token inflected="yes">sam</token>
+        <token>przez</token>
+        <token>się</token>
+      </pattern>
+      <message>Niepoprawna postać związku frazeologicznego. Poprawnie: <suggestion>\1 \2 za siebie</suggestion>.</message>
+      <example correction="mówi sama za siebie" type="incorrect">Głupota premiera <marker>mówi sama przez się</marker>.</example>
+      <example type="correct">Głupota premiera mówi sama za siebie.</example>
+    </rule>
+    <rule id="PUSZKA_Z_PANDORA" name="„puszka z Pandorą” (puszka Pandory)">
+      <pattern>
+        <token inflected="yes">puszka</token>
+        <token>z</token>
+        <token>Pandorą</token>
+      </pattern>
+      <message>Błędna postać tego wyrażenia. Pandora miała puszkę, a nie była w puszce; poprawnie: <suggestion>\1 Pandory</suggestion>.</message>
+      <example correction="puszkę Pandory" type="incorrect">Minister otworzył istną <marker>puszkę z Pandorą</marker>.</example>
+      <example type="correct">Ta sprawa to puszka Pandory.</example>
+    </rule>
     <rule id="INNA_STRONA_MEDALU" name="„inna strona medalu” (druga strona)">
       <pattern>
         <token inflected="yes" postag="adj:.*:f.*:pos" postag_regexp="yes">inny</token>
