@@ -6,7 +6,7 @@ title="Easy editing stylesheet" ?>
 <!--
 Polish Grammar and Typo Rules for LanguageTool
 Copyright (C) 2006-2007 Marcin Miłkowski
-$Id: grammar.xml,v 1.110 2008-02-23 16:43:41 milek_pl Exp $
+$Id: grammar.xml,v 1.111 2008-02-28 12:01:50 milek_pl Exp $
 -->
 <rules lang="pl">
   <phrases>
@@ -3925,7 +3925,7 @@ Powinno być: <suggestion>\2, \3 \4</suggestion>.</message>
     <rulegroup id="WROCIC_Z_POWROTEM" name="„wrócić z powrotem” (wrócić)">
       <rule>
         <pattern>
-          <token inflected="yes">wrócić</token>
+          <token inflected="yes" regexp="yes">wrócić|wracać</token>
           <token>z</token>
           <token>powrotem</token>
         </pattern>
@@ -3937,7 +3937,7 @@ Powinno być: <suggestion>\2, \3 \4</suggestion>.</message>
         <pattern>
           <token>z</token>
           <token>powrotem</token>
-          <token inflected="yes">wrócić</token>
+          <token inflected="yes" regexp="yes">wrócić|wracać</token>
         </pattern>
         <message>To wyrażenie to pleonazm. Wystarczy powiedzieć <suggestion>\3</suggestion>.</message>
         <example type="correct">Mimo zmęczenia Przemysław postanowił wrócić i zbudować lotnisko we Włoszczowie.</example>
