@@ -6,7 +6,7 @@ title="Easy editing stylesheet" ?>
 <!--
 Polish Grammar and Typo Rules for LanguageTool
 Copyright (C) 2006-2007 Marcin Miłkowski
-$Id: grammar.xml,v 1.111 2008-02-28 12:01:50 milek_pl Exp $
+$Id: grammar.xml,v 1.112 2008-02-29 15:18:21 milek_pl Exp $
 -->
 <rules lang="pl">
   <phrases>
@@ -3468,15 +3468,28 @@ Powinno być: <suggestion>\2, \3 \4</suggestion>.</message>
         <example correction="gazet, dlatego że|gazet, gdyż|gazet, bo|gazet, ponieważ" type="incorrect">Kowalski nie czytał <marker>gazet dlatego, ponieważ</marker> nie umiał czytać.</example>
       </rule>
     </rulegroup>
-    <rule id="RULE_NIEMNIEJ" name="„tym niemniej” (niemniej jednak)">
-      <pattern case_sensitive="no" mark_from="0">
-        <token>tym</token>
-        <token>niemniej</token>
-      </pattern>
-      <message>To wyrażenie to rusycyzm, lepiej użyć <suggestion>niemniej jednak</suggestion>.</message>
-      <example type="correct">Problem potraktowano niemniej jednak poważnie.</example>
-      <example correction="niemniej jednak" type="incorrect">Problem potraktowano <marker>tym niemniej</marker> poważnie.</example>
-    </rule>
+    <rulegroup id="RULE_NIEMNIEJ" name="„tym niemniej” (niemniej jednak)">
+      <rule>
+        <pattern case_sensitive="no" mark_to="-1">
+          <token>tym</token>
+          <token>niemniej</token>
+          <token negate="yes">jednak</token>
+        </pattern>
+        <message>To wyrażenie to rusycyzm, lepiej napisać <suggestion>niemniej jednak</suggestion>.</message>
+        <example type="correct">Problem potraktowano niemniej jednak poważnie.</example>
+        <example correction="niemniej jednak" type="incorrect">Problem potraktowano <marker>tym niemniej</marker> poważnie.</example>
+      </rule>
+      <rule>
+        <pattern case_sensitive="no" mark_from="0">
+          <token>tym</token>
+          <token>niemniej</token>
+          <token>jednak</token>
+        </pattern>
+        <message>To wyrażenie to rusycyzm i pleonazm w jednym. Lepiej napisać <suggestion>niemniej jednak</suggestion>.</message>
+        <example type="correct">Problem potraktowano niemniej jednak poważnie.</example>
+        <example correction="niemniej jednak" type="incorrect">Problem potraktowano <marker>tym niemniej jednak</marker> poważnie.</example>
+      </rule>
+    </rulegroup>
     <rule id="UZNAC_JAKO" name="„uznać jako” (za)">
       <pattern mark_from="1">
         <token inflected="yes" regexp="yes" skip="-1">uznać|uznawać<exception regexp="yes" scope="next">za|,|który|jaki|co|.*ania</exception></token>
