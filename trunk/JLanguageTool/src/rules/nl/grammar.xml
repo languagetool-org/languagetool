@@ -7,7 +7,7 @@ title="Easy editing stylesheet" ?>
 <!--
 Dutch Grammar and Typo Rules for LanguageTool
 Copyright (C) 2006,2007 Ruud J. Baars (r.j.baars -at- hccnet nl)
-$Id: grammar.xml,v 1.6 2007-11-26 22:47:50 milek_pl Exp $
+$Id: grammar.xml,v 1.7 2008-03-02 13:13:06 milek_pl Exp $
 -->
 <rules lang="nl">
 <!--
@@ -133,6 +133,15 @@ $Id: grammar.xml,v 1.6 2007-11-26 22:47:50 milek_pl Exp $
         <example type="incorrect">Het <marker>Belgisch laagland</marker>.</example>
         <example type="correct">De <marker>Schotse Hooglanden</marker>.</example>
       </rule>
+      <rule>
+        <pattern case_sensitive="yes">
+          <token regexp="yes">straat</token>
+          <token regexp="yes">[A-Z].+</token>
+        </pattern>
+        <message>[c] Wanneer u een aardrijkskundig begrip bedoelt, dan dient u <suggestion>hoofdletters</suggestion> te gebruiken.</message>
+        <example type="incorrect">De <marker>straat Bass</marker>.</example>
+        <example type="correct">De <marker>Straat Bass</marker>.</example>
+      </rule>
     </rulegroup>
     <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  -->
     <rulegroup id="T_PLAATS" name="'t Plaats">
@@ -247,13 +256,12 @@ $Id: grammar.xml,v 1.6 2007-11-26 22:47:50 milek_pl Exp $
     <rulegroup id="EINDE_E" name="Eindigt op e">
       <rule>
         <pattern>
-          <token regexp="yes">koste|moge|node|passe|erve|luide|wade|heffe|kruide|stapele|denke|laaie|rekke|bedenke|beruste|melde|schrobbe|motte|rille|wonde|krabbe|wikke|stalle|vergelijke|helpe|huwelijke|make|plante|diene|gebruike|klokke|lakke|morse|kante|hoppe|voege|weide|wrake|neme|proeve|schouwe|belope|pare|rouwe|krimpe|spreke|geve|stele|bloede|glundere|rijde|bonze|grieve|volharde|geniete|wende|raadplege|sloffe|breide|gerieve|dele|bedrage|dage|grave|rade|lande|gronde|perse|bewijze|strijde|eigene|lijve|kunne|gelieve|leve|ruste|vreze</token>
+			<token regexp="yes">danse|machte|nachte|koste|moge|node|passe|erve|luide|wade|heffe|kruide|stapele|denke|laaie|rekke|bedenke|beruste|melde|schrobbe|motte|rille|wonde|krabbe|wikke|stalle|vergelijke|helpe|huwelijke|make|plante|diene|gebruike|klokke|lakke|morse|kante|hoppe|voege|weide|wrake|neme|proeve|schouwe|belope|pare|rouwe|krimpe|spreke|geve|stele|bloede|glundere|rijde|bonze|grieve|volharde|geniete|wende|raadplege|sloffe|breide|gerieve|dele|bedrage|dage|grave|rade|lande|gronde|perse|bewijze|strijde|eigene|lijve|kunne|gelieve|leve|ruste|vreze</token>
         </pattern>
         <message>[a] Hoewel het woord correct is, is er een grote kans dat het een <suggestion>typefout</suggestion> is. Zo niet, dan is het waarschijnlijk een ouderwetse uitdrukking.</message>
         <example type="incorrect"><marker>Moge</marker> het nuttig zijn..</example>
         <example type="correct">Ik <marker>hoop</marker> dat het nuttig is.</example>
       </rule>
-
       <rule>
         <pattern mark_from="1">
           <token negate="yes" regexp="yes">de|het|een|geen</token>	
@@ -267,7 +275,7 @@ $Id: grammar.xml,v 1.6 2007-11-26 22:47:50 milek_pl Exp $
     <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  -->
     <rulegroup id="EMAIL" name="Email vs e-mail">
       <rule>
-        <pattern >
+        <pattern>
           <token>email</token>
         </pattern>
         <message>[c] Bedoelt u <suggestion>e-mail</suggestion> ?</message>
@@ -521,7 +529,7 @@ $Id: grammar.xml,v 1.6 2007-11-26 22:47:50 milek_pl Exp $
       <rule>
         <pattern>
           <token negate="yes">a</token>
-          <token regexp="yes">capella|priori|vista</token>
+          <token regexp="yes">capella|priori|vista|posteriori</token>
         </pattern>
         <message>[a] U bedoelt vast <suggestion>a \2</suggestion>.</message>
         <example type="incorrect">Zij zongen <marker>à capella</marker>.</example>
@@ -533,7 +541,7 @@ $Id: grammar.xml,v 1.6 2007-11-26 22:47:50 milek_pl Exp $
       <rule>
         <pattern>
           <token regexp="yes">a|à</token>
-          <token regexp="yes">capella.+</token>
+          <token regexp="yes">(capella|priori|vista|posteriori).+</token>
         </pattern>
         <message>[b] U bedoelt vast <suggestion>a-\2</suggestion>.</message>
         <example type="incorrect">Zij zongen in een <marker>à capellakoor</marker>.</example>
@@ -545,7 +553,7 @@ $Id: grammar.xml,v 1.6 2007-11-26 22:47:50 milek_pl Exp $
       <rule>
         <pattern>
           <token>a</token>
-          <token regexp="yes">charge|decharge</token>
+          <token regexp="yes">charge|decharge|contrecoeur|propos</token>
         </pattern>
         <message>[a] U bedoelt vast <suggestion>à \2 </suggestion>.</message>
         <example type="incorrect">Getuige <marker>a charge</marker>.</example>
@@ -576,18 +584,6 @@ $Id: grammar.xml,v 1.6 2007-11-26 22:47:50 milek_pl Exp $
         <message>[b] U bedoelt vast <suggestion>à-\2-\3</suggestion>.</message>
         <example type="incorrect">Ik wil graag een <marker>a la cartediner</marker>.</example>
         <example type="correct">Ik wil <marker>graag een à-la-cartediner</marker>.</example>
-      </rule>
-    </rulegroup>
-    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  -->
-    <rulegroup id="A_PROPOS" name="A propos">
-      <rule>
-        <pattern>
-          <token negate="yes">à</token>
-          <token>propos</token>
-        </pattern>
-        <message>U bedoelt vast <suggestion>à \2 </suggestion>.</message>
-        <example type="incorrect">Ik ben van mijn <marker>a propos</marker>.</example>
-        <example type="correct">Ik ben van mijn <marker>à propos</marker>.</example>
       </rule>
     </rulegroup>
     <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  -->
@@ -652,6 +648,74 @@ $Id: grammar.xml,v 1.6 2007-11-26 22:47:50 milek_pl Exp $
       </rule>
     </rulegroup>
     <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  -->
+    <rulegroup id="COMME_IL_FAUT" name="Comme il faut">
+      <rule>
+        <pattern>
+			<token/>
+			<token negate="yes">il</token>
+			<token>faut</token>
+        </pattern>
+        <message>[a] Bedoelt u misschien <suggestion>'comme il faut'</suggestion> of <suggestion>\1 fout</suggestion>?</message>
+        <example type="incorrect">Dit <marker>is erg faut</marker>.</example>
+        <example type="correct">Dat is niet <marker>comme il faut</marker>.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>comme</token>
+          <token>il</token>
+		  <token>faut</token>
+        </pattern>
+        <message>[a] <suggestion>zoals het hoort</suggestion></message>
+        <example type="incorrect">Dat is niet <marker>comme il faut</marker>.</example>
+        <example type="correct">Dat is niet <marker>zoals het hoort</marker>.</example>
+      </rule>
+    </rulegroup>
+    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  -->
+    <rulegroup id="AVONDS" name="'s avonds">
+      <rule>
+        <pattern>
+			<token/>
+			<token negate="yes">s</token>
+			<token regexp="yes">avonds|middags|nachts|ochtends|anderendaags</token>
+        </pattern>
+        <message>[a] <suggestion>'s \2</suggestion>?</message>
+        <example type="incorrect">Dit <marker>kan niet avonds</marker>.</example>
+        <example type="correct">Dit kan niet <marker>'s avonds</marker>.</example>
+      </rule>
+      <rule>
+        <pattern>
+			<token negate="yes">'</token>
+			<token>s</token>
+			<token regexp="yes">avonds|middags|nachts|ochtends|anderendaags</token>
+        </pattern>
+        <message>[b] <suggestion>'s \2</suggestion>?</message>
+        <example type="incorrect">Dit kan <marker>niet s avonds</marker>.</example>
+        <example type="correct">Dit kan niet <marker>'s avonds</marker>.</example>
+      </rule>
+    </rulegroup>
+    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  -->
+    <rulegroup id="AU_BAIN_MARIE" name="Au bain-marie">
+      <rule>
+        <pattern>
+			<token>au</token>
+			<token>bain</token>
+			<token>marie</token>
+        </pattern>
+        <message>[a] Juist is: <suggestion>au bain-marie</suggestion>.</message>
+        <example type="incorrect">Warm het <marker>au bain marie</marker>.</example>
+        <example type="correct">Warm het <marker>au bain-marie</marker>.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>comme</token>
+          <token>il</token>
+		  <token>faut</token>
+        </pattern>
+        <message>[a] <suggestion>zoals het hoort</suggestion></message>
+        <example type="incorrect">Dat is niet <marker>comme il faut</marker>.</example>
+        <example type="correct">Dat is niet <marker>zoals het hoort</marker>.</example>
+      </rule>
+    </rulegroup>
   </category>
   <!--  # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # -->
   <category name="Ambtelijk of formeel">
@@ -900,6 +964,30 @@ $Id: grammar.xml,v 1.6 2007-11-26 22:47:50 milek_pl Exp $
         <message>[d] De grote getallen met -joen en -jard zijn niet voor iedereen duidelijk.</message>
         <example type="incorrect">De regering begrootte 3 <marker>biljoen</marker>.</example>
         <example type="correct">De regering begrootte 3000 <marker>miljoen</marker>.</example>
+      </rule>
+    </rulegroup>
+    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  -->
+    <rulegroup id="BREUKEN" name="Breuken">
+      <rule>
+        <pattern>
+          <token regexp="yes">(een|twee|drie|vier|vijf|zes|zeven|acht|negen|.*tien|elf|twaalf)(twee|der|vier|vijf|zes|zeven|acht|negen|.*tien|elf|twaalf)de</token>
+        </pattern>
+        <message>Breuken worden met een <suggestion>spatie</suggestion> geschreven.</message>
+        <example type="incorrect"><marker>Eenderde</marker> is fout.</example>
+        <example type="correct"><marker>Een derde</marker> is beter.</example>
+      </rule>
+    </rulegroup>
+    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  -->
+    <rulegroup id="EX" name="Ex- vs ex ">
+      <rule>
+        <pattern>
+			<token>ex</token>
+			<token negate="yes" regexp="yes">aequo|cathedra|dividend|libris|tempor.*|voto</token>
+        </pattern>
+        <message>Bedoelt u: <suggestion>ex-\2</suggestion>?</message>
+        <example type="incorrect">Een <marker>ex medewerker</marker>.</example>
+        <example type="correct">Een <marker>ex voto</marker> is goed.</example>
+        <example type="correct">Een <marker>ex-medewerker</marker> is goed.</example>
       </rule>
     </rulegroup>
     <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  -->
