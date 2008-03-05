@@ -23,6 +23,8 @@ import java.util.Locale;
 import java.util.Set;
 
 import de.danielnaber.languagetool.Language;
+import de.danielnaber.languagetool.synthesis.Synthesizer;
+import de.danielnaber.languagetool.synthesis.nl.DutchSynthesizer;
 import de.danielnaber.languagetool.tagging.Tagger;
 import de.danielnaber.languagetool.tagging.nl.DutchTagger;
 import de.danielnaber.languagetool.tokenizers.SentenceTokenizer;
@@ -32,7 +34,8 @@ public class Dutch extends Language {
 
   private Tagger tagger = new DutchTagger();
   private SentenceTokenizer sentenceTokenizer = new DutchSentenceTokenizer();
-
+  private Synthesizer synthesizer = new DutchSynthesizer();
+  
   public Locale getLocale() {
     return new Locale(getShortName());
   }
@@ -49,6 +52,10 @@ public class Dutch extends Language {
     return tagger;
   }
 
+  public Synthesizer getSynthesizer() {
+    return synthesizer;
+  }
+  
   public SentenceTokenizer getSentenceTokenizer() {
     return sentenceTokenizer;
   }
