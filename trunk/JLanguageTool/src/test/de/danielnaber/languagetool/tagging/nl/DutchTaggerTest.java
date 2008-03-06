@@ -35,8 +35,8 @@ public class DutchTaggerTest extends TestCase {
   }
 
   public void testTagger() throws IOException {
-    TestTools.myAssert("Dit is een Nederlandse zin om het programma'tje te testen.", "Dit/[dit]determiner(het,nwh,nmod,pro,nparg) is/[i]noun(both,pl,[])|is/[v_root(ben,zijn)]verb(sg_heeft) een/[een]determiner(een)|een/[een]fixed_part([een])|een/[een]pre_num_adv(pl_indef)|een/[één]pronoun(nwh,thi,sg,both,both,indef) Nederlandse/[Nederlands]adjective(e) zin/[zin]noun(de,sg,[])|zin/[zin]noun(de,sg,sbar)|zin/[zin]noun(de,sg,start_app_measure)|zin/[zin]noun(de,sg,van_sbar)|zin/[zin]noun(de,sg,vp)|zin/[v_root(zin,zinnen)]verb(sg1) om/[om]adjective(pred(nonadv))|om/[om]complementizer(om)|om/[om]particle(om)|om/[om]preposition(om,[heen]) het/[het]determiner(het,nwh,nmod,pro,nparg,wkpro) programma/[programma]noun(het,sg,[])|programma/[programma]noun(het,sg,app_measure) tje/[null]null te/[te]complementizer(te)|te/[te]intensifier|te/[te]me_intensifier|te/[te]preposition(te,[],nodet)|te/[te]vp_om_intensifier|te/[te]vp_om_me_intensifier testen/[test]noun(both,pl,[])|testen/[v_root(test,testen)]verb(inf)", tokenizer, tagger);        
-    TestTools.myAssert("zwijnden","zwijnden/[v_root(zwijn,zwijnen)]verb(past(pl))", tokenizer, tagger);        
+    TestTools.myAssert("Dit is een Nederlandse zin om het programma'tje te testen.", "Dit/[null]null is/[zijn]VB3 een/[null]null Nederlandse/[Nederlandse]NN1f zin/[zin]NN1d|zin/[zinnen]VB1 om/[null]null het/[null]null programma/[programma]NN1d|programma/[programma]NN1h tje/[null]null te/[null]null testen/[testen]VBi", tokenizer, tagger);        
+    TestTools.myAssert("zwijnden","zwijnden/[null]null", tokenizer, tagger);        
   }
 
 }

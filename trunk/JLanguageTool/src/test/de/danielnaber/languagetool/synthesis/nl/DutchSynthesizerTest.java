@@ -16,11 +16,11 @@ public class DutchSynthesizerTest extends TestCase {
     assertNull(synth.synthesize(dummyToken("blablabla"), 
         "blablabla"));
     
-    assertEquals("[Ajaxsupportertje]", Arrays.toString(synth.synthesize(dummyToken("Ajaxsupporter"), "NN1r")));
-    assertEquals("[80-jarigen]", Arrays.toString(synth.synthesize(dummyToken("80-jarige"), "NN2")));
+    assertEquals("[zwommen]", Arrays.toString(synth.synthesize(dummyToken("zwemmen"), "VBh")));
+    assertEquals("[Afro-Surinamers]", Arrays.toString(synth.synthesize(dummyToken("Afro-Surinamer"), "NN2")));
     //with regular expressions
     assertEquals("[doorgeseind]", Arrays.toString(synth.synthesize(dummyToken("doorseinen"), "VBp", true)));    
-    assertEquals("[doorgeseind, doorgeseinde]", Arrays.toString(synth.synthesize(dummyToken("doorseinen"), "VBp.*", true)));
+    assertEquals("[doorseint, doorseinen, doorgeseind]", Arrays.toString(synth.synthesize(dummyToken("doorseinen"), "VB.*", true)));
   }
 
 }
