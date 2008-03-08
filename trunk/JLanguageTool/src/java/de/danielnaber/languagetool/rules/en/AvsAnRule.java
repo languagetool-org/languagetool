@@ -32,6 +32,7 @@ import de.danielnaber.languagetool.AnalyzedTokenReadings;
 import de.danielnaber.languagetool.rules.Category;
 import de.danielnaber.languagetool.rules.RuleMatch;
 import de.danielnaber.languagetool.tools.StringTools;
+import de.danielnaber.languagetool.tools.Tools;
 
 /**
  * Check if the determiner (if any) preceding a word is:
@@ -55,8 +56,8 @@ public class AvsAnRule extends EnglishRule {
     if (messages != null) {
       super.setCategory(new Category(messages.getString("category_misc")));
     }
-    requiresA = loadWords(this.getClass().getResourceAsStream(FILENAME_A));
-    requiresAn = loadWords(this.getClass().getResourceAsStream(FILENAME_AN));
+    requiresA = loadWords(Tools.getStream(FILENAME_A));
+    requiresAn = loadWords(Tools.getStream(FILENAME_AN));
   }
   
   @Override
