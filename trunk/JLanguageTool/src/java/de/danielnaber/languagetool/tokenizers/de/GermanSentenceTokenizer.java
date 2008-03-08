@@ -50,7 +50,7 @@ public class GermanSentenceTokenizer extends SentenceTokenizer {
     "sZ", "Temp", "trans", "Tsd", "übertr", "übl", "ff", "ugs", "univ",
     "urspr", "usw", "vgl", "Vol", "vorm", "vorm", "Vp", "Vs",
     "vs", "wg", "Hd", "Ztr", "zus", "Zus", "zzt", "zz", "Zz", "Zt",
-    "Min"};
+    "Min", "bzgl"};
 
   // einige deutsche Monate, vor denen eine Zahl erscheinen kann,
   // ohne dass eine Satzgrenze erkannt wird (z.B. "am 13. Dezember" -> keine Satzgrenze)
