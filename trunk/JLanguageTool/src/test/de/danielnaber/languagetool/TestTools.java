@@ -95,22 +95,22 @@ public final class TestTools {
       String sentence = iter.next();
       List<String> tokens = tokenizer.tokenize(sentence);
       List<String> noWhitespaceTokens = new ArrayList<String>();
-    // whitespace confuses tagger, so give it the tokens but no whitespace tokens:
-    for (String token : tokens) {
-      if (isWord(token)) {
-        noWhitespaceTokens.add(token);
+      // whitespace confuses tagger, so give it the tokens but no whitespace tokens:
+      for (String token : tokens) {
+        if (isWord(token)) {
+          noWhitespaceTokens.add(token);
+        }
       }
-    }
-    List<AnalyzedTokenReadings> aTokens = tagger.tag(noWhitespaceTokens);
-    AnalyzedTokenReadings[] tokenArray = new AnalyzedTokenReadings[tokens.size()+1];
-    AnalyzedToken[] startTokenArray = new AnalyzedToken[1];  
-    int toArrayCount = 0;
-    AnalyzedToken sentenceStartToken = new AnalyzedToken("", "SENT_START", 0);
-    startTokenArray[0]=sentenceStartToken;
-    tokenArray[toArrayCount++]=new AnalyzedTokenReadings(startTokenArray);
-    int startPos = 0;
-    int noWhitespaceCount = 0;
-    for (String tokenStr : tokens) {
+      List<AnalyzedTokenReadings> aTokens = tagger.tag(noWhitespaceTokens);
+      AnalyzedTokenReadings[] tokenArray = new AnalyzedTokenReadings[tokens.size() + 1];
+      AnalyzedToken[] startTokenArray = new AnalyzedToken[1];
+      int toArrayCount = 0;
+      AnalyzedToken sentenceStartToken = new AnalyzedToken("", "SENT_START", 0);
+      startTokenArray[0] = sentenceStartToken;
+      tokenArray[toArrayCount++] = new AnalyzedTokenReadings(startTokenArray);
+      int startPos = 0;
+      int noWhitespaceCount = 0;
+      for (String tokenStr : tokens) {
         AnalyzedTokenReadings posTag = null;
         if (isWord(tokenStr)) {
           posTag = (AnalyzedTokenReadings) aTokens.get(noWhitespaceCount);
