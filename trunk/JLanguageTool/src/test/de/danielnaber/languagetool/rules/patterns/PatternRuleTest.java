@@ -52,7 +52,8 @@ public class PatternRuleTest extends TestCase {
     testGrammarRulesFromXML(null, false);
   }
   
-  private void testGrammarRulesFromXML(final Set ignoredLanguages, final boolean verbose) throws IOException {
+  private void testGrammarRulesFromXML(final Set<Language> ignoredLanguages, 
+      final boolean verbose) throws IOException {
     for (final Language lang : Language.LANGUAGES) {
       if (ignoredLanguages != null && ignoredLanguages.contains(lang)) {
         if (verbose) {
