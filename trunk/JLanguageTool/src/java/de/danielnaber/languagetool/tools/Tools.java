@@ -132,4 +132,18 @@ public final class Tools {
     return sw.toString();
   }
   
+  /**
+   * Load a file form the classpath using getResourceAsStream().
+   * @param filename
+   * @return the stream of the file
+   * @throws IOException if the file cannot be loaded
+   */
+  public static InputStream getStream(String filename) throws IOException {
+    InputStream is = Tools.class.getClass().getResourceAsStream(filename);
+    if (is == null) {
+      throw new IOException("Could not load file from classpath : " + filename);
+    }
+    return is;
+  }
+  
 }

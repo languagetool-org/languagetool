@@ -25,6 +25,8 @@ import java.io.InputStreamReader;
 import java.util.HashMap;
 import java.util.Map;
 
+import de.danielnaber.languagetool.tools.Tools;
+
 /**
  * Trivial German lemmatizer that can simply find the baseforms of
  * those fullforms listed in <code>rules/de/fullform2baseform.txt</code>.
@@ -39,7 +41,7 @@ class GermanLemmatizer {
   private Map<String, String> fullform2baseform;
   
   GermanLemmatizer() throws IOException {
-    fullform2baseform = loadWords(this.getClass().getResourceAsStream(FILE_NAME));
+    fullform2baseform = loadWords(Tools.getStream(FILE_NAME));
   }
   
   String getBaseform(final String fullform) {

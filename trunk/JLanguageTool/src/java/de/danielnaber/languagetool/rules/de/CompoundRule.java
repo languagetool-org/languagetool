@@ -39,6 +39,7 @@ import de.danielnaber.languagetool.AnalyzedTokenReadings;
 import de.danielnaber.languagetool.rules.Category;
 import de.danielnaber.languagetool.rules.RuleMatch;
 import de.danielnaber.languagetool.tools.StringTools;
+import de.danielnaber.languagetool.tools.Tools;
 
 /**
  * Checks that compounds (if in the list) are not written as separate words.
@@ -58,7 +59,7 @@ public class CompoundRule extends GermanRule {
   public CompoundRule(final ResourceBundle messages) throws IOException {
     if (messages != null)
       super.setCategory(new Category(messages.getString("category_misc")));
-    loadCompoundFile(this.getClass().getResourceAsStream(FILE_NAME), "UTF-8");
+    loadCompoundFile(Tools.getStream(FILE_NAME), "UTF-8");
   }
   
   public String getId() {
@@ -202,6 +203,7 @@ public class CompoundRule extends GermanRule {
     InputStreamReader isr = null;
     BufferedReader br = null;   
     try {
+      System.err.println(">>"+file);
       isr = new InputStreamReader(file, encoding);
       br = new BufferedReader(isr);
       String line;
