@@ -57,7 +57,8 @@ public final class TestTools {
     TestCase.assertEquals(input, stokenizer.tokenize(inputString.toString()));
   }
   
-  public static void myAssert(String input, String expected, Tokenizer tokenizer, Tagger tagger) throws IOException {
+  public static void myAssert(String input, String expected, Tokenizer tokenizer, Tagger tagger) 
+      throws IOException {
     List<String> tokens = tokenizer.tokenize(input);
     List<String> noWhitespaceTokens = new ArrayList<String>();
     // whitespace confuses tagger, so give it the tokens but no whitespace tokens:
@@ -73,14 +74,14 @@ public final class TestTools {
       AnalyzedTokenReadings token = (AnalyzedTokenReadings) iter.next();
       int readingsNumber = token.getReadingsLength();
       for (int j = 0; j < readingsNumber; j++) {
-      outputStr.append(token.getAnalyzedToken(j).getToken());
-      outputStr.append("/[");
-      outputStr.append(token.getAnalyzedToken(j).getLemma());
-      outputStr.append("]");
-      outputStr.append(token.getAnalyzedToken(j).getPOSTag());
-      if (readingsNumber > 1 && j < readingsNumber - 1) {
-      outputStr.append("|");
-      }
+        outputStr.append(token.getAnalyzedToken(j).getToken());
+        outputStr.append("/[");
+        outputStr.append(token.getAnalyzedToken(j).getLemma());
+        outputStr.append("]");
+        outputStr.append(token.getAnalyzedToken(j).getPOSTag());
+        if (readingsNumber > 1 && j < readingsNumber - 1) {
+          outputStr.append("|");
+        }
       }
       if (iter.hasNext())
         outputStr.append(" ");
@@ -88,7 +89,8 @@ public final class TestTools {
     TestCase.assertEquals(expected, outputStr.toString());
   }
 
-  public static void myAssert(String input, String expected, Tokenizer tokenizer, SentenceTokenizer sentenceTokenizer, Tagger tagger, Disambiguator disambiguator) throws IOException {
+  public static void myAssert(String input, String expected, Tokenizer tokenizer,
+      SentenceTokenizer sentenceTokenizer, Tagger tagger, Disambiguator disambiguator) throws IOException {
     StringBuffer outputStr = new StringBuffer();
     List<String> sentences = sentenceTokenizer.tokenize(input);
     for (Iterator<String> iter = sentences.iterator(); iter.hasNext();) {
@@ -111,46 +113,44 @@ public final class TestTools {
     int startPos = 0;
     int noWhitespaceCount = 0;
     for (String tokenStr : tokens) {
-      AnalyzedTokenReadings posTag = null;
-      if (isWord(tokenStr)) {      
-        posTag = (AnalyzedTokenReadings)aTokens.get(noWhitespaceCount);
-        posTag.startPos = startPos;
-        noWhitespaceCount++;
-      } else {
-        posTag = (AnalyzedTokenReadings)tagger.createNullToken(tokenStr, startPos); 
+        AnalyzedTokenReadings posTag = null;
+        if (isWord(tokenStr)) {
+          posTag = (AnalyzedTokenReadings) aTokens.get(noWhitespaceCount);
+          posTag.startPos = startPos;
+          noWhitespaceCount++;
+        } else {
+          posTag = (AnalyzedTokenReadings) tagger.createNullToken(tokenStr, startPos);
+        }
+        tokenArray[toArrayCount++] = posTag;
+        startPos += tokenStr.length();
       }
-      tokenArray[toArrayCount++] = posTag;
-      startPos += tokenStr.length();
-    }
-    
-    AnalyzedSentence finalSentence = new AnalyzedSentence(tokenArray);
-    // disambiguate assigned tags
-    finalSentence = disambiguator.disambiguate(finalSentence);
-    
-    AnalyzedTokenReadings[] output = finalSentence.getTokens();
-        
-    for (int i = 0; i < output.length; i++) {
-      AnalyzedTokenReadings token = (AnalyzedTokenReadings) output[i];
-      int readingsNumber = token.getReadingsLength();
-      for (int j = 0; j < readingsNumber; j++) {
-      outputStr.append(token.getAnalyzedToken(j).getToken());
-      outputStr.append("/[");
-      outputStr.append(token.getAnalyzedToken(j).getLemma());
-      outputStr.append("]");
-      outputStr.append(token.getAnalyzedToken(j).getPOSTag());
-      if (readingsNumber > 1 && j < readingsNumber - 1) {
-      outputStr.append("|");
+
+      AnalyzedSentence finalSentence = new AnalyzedSentence(tokenArray);
+      // disambiguate assigned tags
+      finalSentence = disambiguator.disambiguate(finalSentence);
+
+      AnalyzedTokenReadings[] output = finalSentence.getTokens();
+
+      for (int i = 0; i < output.length; i++) {
+        AnalyzedTokenReadings token = (AnalyzedTokenReadings) output[i];
+        int readingsNumber = token.getReadingsLength();
+        for (int j = 0; j < readingsNumber; j++) {
+          outputStr.append(token.getAnalyzedToken(j).getToken());
+          outputStr.append("/[");
+          outputStr.append(token.getAnalyzedToken(j).getLemma());
+          outputStr.append("]");
+          outputStr.append(token.getAnalyzedToken(j).getPOSTag());
+          if (readingsNumber > 1 && j < readingsNumber - 1) {
+            outputStr.append("|");
+          }
+        }
+        if (i < output.length - 1)
+          outputStr.append(" ");
       }
-      }
-      if (i < output.length - 1)
-        outputStr.append(" ");
-    }
     }
     TestCase.assertEquals(expected, outputStr.toString());
   }
 
-  
-  
   public static boolean isWord(String token) {
     for (int i = 0; i < token.length(); i++) {
       char c = token.charAt(i);
