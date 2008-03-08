@@ -77,7 +77,7 @@ public final class Tools {
         msg = msg.replaceAll("<suggestion>", "'");
         msg = msg.replaceAll("</suggestion>", "'");
         System.out.println("Message: " + msg);
-        List repl = match.getSuggestedReplacements();
+        List<String> repl = match.getSuggestedReplacements();
         if (repl.size() > 0)
           System.out.println("Suggestion: " + StringTools.listToString(repl, "; "));
         System.out.println(StringTools.getContext(match.getFromPos(), match.getToPos(), 
