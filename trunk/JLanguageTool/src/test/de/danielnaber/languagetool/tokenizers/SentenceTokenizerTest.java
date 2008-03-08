@@ -69,6 +69,9 @@ public class SentenceTokenizerTest extends TestCase {
     testSplit(new String[] { "\"Here he comes.\" ", "But this is another sentence." });
     testSplit(new String[] { "\"Here he comes!\". ", "That's what he said." });
     testSplit(new String[] { "The sentence ends here. ", "(Another sentence.)" });
+    testSplit(new String[] { "The sentence (...) ends here." });
+    testSplit(new String[] { "The sentence [...] ends here." });
+    testSplit(new String[] { "The sentence ends here (...). ", "Another sentence." });
     // TODO: known to fail:
     // testSplit(new String[]{"He won't. ", "Really."});
     testSplit(new String[]{"He will not. ", "Really."});

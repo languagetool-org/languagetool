@@ -25,6 +25,8 @@ import java.util.Set;
 import java.util.StringTokenizer;
 import java.util.regex.Pattern;
 
+import de.danielnaber.languagetool.tokenizers.de.GermanSentenceTokenizer;
+
 /**
  * Tokenizes text into sentences by looking for typical end-of-sentence markers,
  * but considering exceptions (e.g. abbreviations).
@@ -34,11 +36,13 @@ import java.util.regex.Pattern;
 public class SentenceTokenizer implements Tokenizer {
 
   // end of sentence marker:
-  private static final String EOS = "\0";
-  // private final static String EOS = "#"; // for testing only
+  //private static final String EOS = "\0";
+  // 
+  private final static String EOS = "#"; // for testing only
   private static final String P = "[\\.!?…]"; // PUNCTUATION
   private static final String AP = "(?:'|«|\"||\\)|\\]|\\})?"; // AFTER PUNCTUATION
   private static final String PAP = P + AP;
+  private static final String PARENS = "[\\(\\)\\[\\]]"; // parentheses
 
   // Check out the private methods for comments and examples about these
   // regular expressions:
@@ -64,7 +68,8 @@ public class SentenceTokenizer implements Tokenizer {
   private static final Pattern repair1 = Pattern.compile("('[\\wüöäÜÖÄß]" + P + ")(\\s)");
   private static final Pattern repair2 = Pattern.compile("(\\sno\\.)(\\s+)(?!\\d)");
   private static final Pattern repair3 = Pattern.compile("([ap]\\.m\\.\\s+)([\\p{Lu}])");
-
+  private static final Pattern repair4 = Pattern.compile("(" + PARENS + ") " + EOS);
+  
   // some abbreviations:
   private static final String[] ABBREV_LIST = {
       // English -- but these work globally for all languages:
@@ -201,6 +206,10 @@ public class SentenceTokenizer implements Tokenizer {
 
     // z.B. "Das hier ist (genau!) ein Satz."
     s = s.replaceAll("([!?]+)([\\)\\]]) " + EOS, "$1$2 ");
+
+    // z.B. "bla (...) blubb" -> kein Satzende
+    s = repair4.matcher(s).replaceAll("$1 ");
+
     return s;
   }
 
@@ -220,6 +229,11 @@ public class SentenceTokenizer implements Tokenizer {
     // Split at "a.m." or "p.m." followed by a capital letter.
     s = repair3.matcher(s).replaceAll("$1" + EOS + "$2");
     return s;
+  }
+  
+  public static void main(String[] args) {
+    SentenceTokenizer st = new GermanSentenceTokenizer();
+    st.tokenize("Er sagte (...) und");
   }
 
 }
