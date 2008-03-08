@@ -19,11 +19,10 @@
 package de.danielnaber.languagetool;
 
 import java.io.IOException;
-import java.util.Iterator;
 import java.util.List;
 
 import junit.framework.TestCase;
-import de.danielnaber.languagetool.rules.Rule;
+import de.danielnaber.languagetool.rules.RuleMatch;
 import de.danielnaber.languagetool.rules.patterns.PatternRule;
 
 /**
@@ -51,17 +50,16 @@ public class JLanguageToolTest extends TestCase {
   
   public void testEnglish() throws IOException {
     final JLanguageTool tool = new JLanguageTool(Language.ENGLISH);
-    List matches = tool.check("A test that should not give errors.");
+    List<RuleMatch> matches = tool.check("A test that should not give errors.");
     assertEquals(0, matches.size());
     matches = tool.check("A test test that should give errors.");
     assertEquals(1, matches.size());
     matches = tool.check("I can give you more a detailed description.");
     assertEquals(0, matches.size());
     assertEquals(6, tool.getAllRules().size());
-    final List rules = tool.loadPatternRules("/rules/en/grammar.xml");
-    for (final Iterator iter = rules.iterator(); iter.hasNext();) {
-      final Rule rule = (Rule) iter.next();
-      tool.addRule(rule);
+    final List<PatternRule> rules = tool.loadPatternRules("/rules/en/grammar.xml");
+    for (PatternRule patternRule : rules) {
+      tool.addRule(patternRule);
     }
     assertTrue(tool.getAllRules().size() > 3);
     matches = tool.check("I can give you more a detailed description.");
@@ -76,14 +74,13 @@ public class JLanguageToolTest extends TestCase {
   
   public void testGerman() throws IOException {
     final JLanguageTool tool = new JLanguageTool(Language.GERMAN);
-    List matches = tool.check("Ein Test, der keine Fehler geben sollte.");
+    List<RuleMatch> matches = tool.check("Ein Test, der keine Fehler geben sollte.");
     assertEquals(0, matches.size());
     matches = tool.check("Ein Test Test, der Fehler geben sollte.");
     assertEquals(1, matches.size());
-    final List rules = tool.loadPatternRules("/rules/de/grammar.xml");
-    for (final Iterator iter = rules.iterator(); iter.hasNext();) {
-      final Rule rule = (Rule) iter.next();
-      tool.addRule(rule);
+    final List<PatternRule> rules = tool.loadPatternRules("/rules/de/grammar.xml");
+    for (PatternRule patternRule : rules) {
+      tool.addRule(patternRule);
     }
     // German rule has no effect with English error:
     matches = tool.check("I can give you more a detailed description");
@@ -92,14 +89,13 @@ public class JLanguageToolTest extends TestCase {
 
   public void testDutch() throws IOException {
     final JLanguageTool tool = new JLanguageTool(Language.DUTCH);
-    List matches = tool.check("Een test, die geen fouten mag geven.");
+    List<RuleMatch> matches = tool.check("Een test, die geen fouten mag geven.");
     assertEquals(0, matches.size());
     matches = tool.check("Een test test, die een fout moet geven.");
     assertEquals(1, matches.size());
-    final List rules = tool.loadPatternRules("/rules/nl/grammar.xml");
-    for (final Iterator iter = rules.iterator(); iter.hasNext();) {
-      final Rule rule = (Rule) iter.next();
-      tool.addRule(rule);
+    final List<PatternRule> rules = tool.loadPatternRules("/rules/nl/grammar.xml");
+    for (PatternRule patternRule : rules) {
+      tool.addRule(patternRule);
     }
     // Dutch rule has no effect with English error:
     matches = tool.check("I can give you more a detailed description");
@@ -108,7 +104,7 @@ public class JLanguageToolTest extends TestCase {
   
   public void testPolish() throws IOException {
     final JLanguageTool tool = new JLanguageTool(Language.POLISH);
-    List matches = tool.check("To jest całkowicie prawidłowe zdanie.");
+    List<RuleMatch> matches = tool.check("To jest całkowicie prawidłowe zdanie.");
     assertEquals(0, matches.size());
     matches = tool.check("To jest jest problem.");
     assertEquals(1, matches.size());
