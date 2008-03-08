@@ -36,14 +36,14 @@ import de.danielnaber.languagetool.tools.StringTools;
  * 
  * @author Daniel Naber
  */
-public final class Overview {
+public final class RuleOverview {
 
   public static void main(final String[] args) throws IOException {
-    final Overview prg = new Overview();
+    final RuleOverview prg = new RuleOverview();
     prg.run();
   }
   
-  private Overview() {
+  private RuleOverview() {
     // no constructor
   }
   
