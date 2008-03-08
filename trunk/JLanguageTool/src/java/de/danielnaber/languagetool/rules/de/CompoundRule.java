@@ -25,7 +25,6 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Queue;
@@ -94,8 +93,8 @@ public class CompoundRule extends GermanRule {
       List<String> stringsToCheck = new ArrayList<String>();
       List<String> origStringsToCheck = new ArrayList<String>();    // original upper/lowercase spelling
       Map<String, AnalyzedTokenReadings> stringToToken = new HashMap<String, AnalyzedTokenReadings>();
-      for (Iterator iter = prevTokens.iterator(); iter.hasNext();) {
-        AnalyzedTokenReadings atr = (AnalyzedTokenReadings) iter.next();
+      for (AnalyzedTokenReadings analyzedTokenReadings : prevTokens) {
+        AnalyzedTokenReadings atr = (AnalyzedTokenReadings) analyzedTokenReadings;
         if (j == 0)
           firstMatchToken = atr;
         sb.append(" ");
@@ -203,7 +202,6 @@ public class CompoundRule extends GermanRule {
     InputStreamReader isr = null;
     BufferedReader br = null;   
     try {
-      System.err.println(">>"+file);
       isr = new InputStreamReader(file, encoding);
       br = new BufferedReader(isr);
       String line;
