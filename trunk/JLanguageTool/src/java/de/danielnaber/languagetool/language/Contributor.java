@@ -27,6 +27,7 @@ public class Contributor {
 
   private String name;
   private String remark;
+  private String url;
 
   Contributor(String name) {
     if (name == null) {
@@ -45,6 +46,14 @@ public class Contributor {
 
   public void setRemark(String remark) {
     this.remark = remark;
+  }
+
+  public String getUrl() {
+    return url;
+  }
+
+  public void setUrl(String url) {
+    this.url = url;
   }
 
 }

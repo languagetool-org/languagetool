@@ -154,7 +154,15 @@ public final class RuleOverview {
             if (!maintainerInfo. toString().equals("")) {
               maintainerInfo.append(", ");
             }
+            if (contributor.getUrl() != null) {
+              maintainerInfo.append("<a href=\""); 
+              maintainerInfo.append(contributor.getUrl()); 
+              maintainerInfo.append("\">");
+            }
             maintainerInfo.append(contributor.getName());
+            if (contributor.getUrl() != null) {
+              maintainerInfo.append("</a>");
+            }
             if (contributor.getRemark() != null) {
               maintainerInfo.append("&nbsp;(" + contributor.getRemark() + ")");
             }

@@ -61,7 +61,9 @@ public class Dutch extends Language {
   }
 
   public Contributor[] getMaintainers() {
-    return new Contributor[] {new Contributor("Ruud Baars")};
+    Contributor contributor = new Contributor("Ruud Baars");
+    contributor.setUrl("http://www.opentaal.org");
+    return new Contributor[] {contributor};
   }
 
   public Set<String> getRelevantRuleIDs() {
