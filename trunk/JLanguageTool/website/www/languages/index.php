@@ -31,7 +31,7 @@ Date: 2008-03-08<br /><br />
 <tr><td>Czech</td><td align="right">1 (<a href="http://languagetool.cvs.sourceforge.net/*checkout*/languagetool/JLanguageTool/src/rules/cs/grammar.xml">show</a>)</td><td></td><td align="right">0</td><td></td>
 <td align="right">0</td><td></td><td align="left">Jozef Ličko</td></tr>
 <tr><td>Dutch</td><td align="right">138 (<a href="http://languagetool.cvs.sourceforge.net/*checkout*/languagetool/JLanguageTool/src/rules/nl/grammar.xml">show</a>)</td><td></td><td align="right">0</td><td></td>
-<td align="right">0</td><td></td><td align="left">Ruud Baars</td></tr>
+<td align="right">0</td><td></td><td align="left"><a href="http://www.opentaal.org">Ruud Baars</a></td></tr>
 <tr><td>English</td><td align="right">256 (<a href="http://languagetool.cvs.sourceforge.net/*checkout*/languagetool/JLanguageTool/src/rules/en/grammar.xml">show</a>)</td><td></td><td align="right">1</td><td></td>
 <td align="right">181</td><td></td><td align="left">Marcin Miłkowski, Daniel Naber</td></tr>
 <tr><td>French</td><td align="right">1669 (<a href="http://languagetool.cvs.sourceforge.net/*checkout*/languagetool/JLanguageTool/src/rules/fr/grammar.xml">show</a>)</td><td></td><td align="right">1</td><td></td>
