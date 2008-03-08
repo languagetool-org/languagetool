@@ -53,8 +53,13 @@ public class French extends Language {
     return disambiguator;
   }
 
-  public String[] getMaintainers() {
-    return new String[]{"Agnes Souque", "Hugo Voisard"};
+  public Contributor[] getMaintainers() {
+    Contributor hVoisard = new Contributor("Hugo Voisard");
+    hVoisard.setRemark("2006-2007");
+    return new Contributor[] {
+        new Contributor("Agnes Souque"),
+        hVoisard
+        };
   }
 
   public Set<String> getRelevantRuleIDs() {

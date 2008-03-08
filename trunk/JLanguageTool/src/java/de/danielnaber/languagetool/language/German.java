@@ -53,8 +53,8 @@ public class German extends Language {
     return sentenceTokenizer;
   }
 
-  public String[] getMaintainers() {
-    return new String[]{"Daniel Naber"};
+  public Contributor[] getMaintainers() {
+    return new Contributor[] {new Contributor("Daniel Naber")};
   }
 
   public Set<String> getRelevantRuleIDs() {

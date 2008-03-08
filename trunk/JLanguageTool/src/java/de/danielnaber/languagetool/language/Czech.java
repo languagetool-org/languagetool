@@ -53,8 +53,8 @@ public class Czech extends Language {
     return sentenceTokenizer;
   }
 
-  public String[] getMaintainers() {
-    return new String[]{"Jozef Ličko"};
+  public Contributor[] getMaintainers() {
+    return new Contributor[] {new Contributor("Jozef Ličko")};
   }
 
   public Set<String> getRelevantRuleIDs() {

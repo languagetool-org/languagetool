@@ -67,8 +67,8 @@ public class Polish extends Language {
     return synthesizer;
   }
 
-  public String[] getMaintainers() {
-    return new String[]{"Marcin Miłkowski"};
+  public Contributor[] getMaintainers() {
+    return new Contributor[] {new Contributor("Marcin Miłkowski")};
   }
 
   public Set<String> getRelevantRuleIDs() {

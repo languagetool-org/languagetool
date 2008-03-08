@@ -18,31 +18,33 @@
  */
 package de.danielnaber.languagetool.language;
 
-import java.util.Locale;
-import java.util.Set;
+/**
+ * A person that contributed rules or code to LanguageTool.
+ * 
+ * @author Daniel Naber
+ */
+public class Contributor {
 
-import de.danielnaber.languagetool.Language;
+  private String name;
+  private String remark;
 
-public class Slovenian extends Language {
-
-  public Locale getLocale() {
-    return new Locale(getShortName());
+  Contributor(String name) {
+    if (name == null) {
+      throw new NullPointerException("name cannot be null");
+    }
+    this.name = name;
   }
-
+  
   public String getName() {
-    return "Slovenian";
+    return name;
   }
 
-  public String getShortName() {
-    return "sl";
+  public String getRemark() {
+    return remark;
   }
 
-  public Contributor[] getMaintainers() {
-    return new Contributor[] {new Contributor("Martin Srebotnjak")};
-  }
-
-  public Set<String> getRelevantRuleIDs() {
-    return null;
+  public void setRemark(String remark) {
+    this.remark = remark;
   }
 
 }

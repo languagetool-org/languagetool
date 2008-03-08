@@ -51,7 +51,7 @@ public class LanguageBuilder {
       public Locale getLocale() {
         return new Locale(getShortName());
       }
-      public String[] getMaintainers() {
+      public Contributor[] getMaintainers() {
         return null;
       }
       public String getShortName() {

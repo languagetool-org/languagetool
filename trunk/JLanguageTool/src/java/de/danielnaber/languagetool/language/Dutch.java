@@ -60,8 +60,8 @@ public class Dutch extends Language {
     return sentenceTokenizer;
   }
 
-  public String[] getMaintainers() {
-    return new String[]{"Ruud Baars"};
+  public Contributor[] getMaintainers() {
+    return new Contributor[] {new Contributor("Ruud Baars")};
   }
 
   public Set<String> getRelevantRuleIDs() {

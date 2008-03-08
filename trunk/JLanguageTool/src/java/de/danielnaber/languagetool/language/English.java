@@ -60,8 +60,9 @@ public class English extends Language {
     return synthesizer;
   }
 
-  public String[] getMaintainers() {
-    return new String[]{"Marcin Miłkowski", "Daniel Naber"};
+  public Contributor[] getMaintainers() {
+    return new Contributor[] {new Contributor("Marcin Miłkowski"),
+        new Contributor("Daniel Naber")};
   }
 
   public Set<String> getRelevantRuleIDs() {

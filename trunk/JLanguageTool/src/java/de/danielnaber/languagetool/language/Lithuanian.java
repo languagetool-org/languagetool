@@ -44,8 +44,8 @@ public class Lithuanian extends Language {
     return new DemoTagger();
   }
 
-  public String[] getMaintainers() {
-    return new String[]{"Mantas Kriaučiūnas"};
+  public Contributor[] getMaintainers() {
+    return new Contributor[] {new Contributor("Mantas Kriaučiūnas")};
   }
 
   public Set<String> getRelevantRuleIDs() {

@@ -46,8 +46,8 @@ public class Swedish extends Language {
     return tagger;
   }
 
-  public String[] getMaintainers() {
-    return new String[]{"Niklas Johansson"};
+  public Contributor[] getMaintainers() {
+    return new Contributor[] {new Contributor("Niklas Johansson")};
   }
 
   public Set<String> getRelevantRuleIDs() {

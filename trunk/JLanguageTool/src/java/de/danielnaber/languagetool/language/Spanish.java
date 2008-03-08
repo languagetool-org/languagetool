@@ -46,7 +46,7 @@ public class Spanish extends Language {
     return tagger;
   }
 
-  public String[] getMaintainers() {
+  public Contributor[] getMaintainers() {
     return null;
   }
 

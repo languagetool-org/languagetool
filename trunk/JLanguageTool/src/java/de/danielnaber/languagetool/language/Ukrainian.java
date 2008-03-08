@@ -46,8 +46,8 @@ public class Ukrainian extends Language {
     return tagger;
   }
 
-  public String[] getMaintainers() {
-    return new String[]{"Andriy Rysin"};
+  public Contributor[] getMaintainers() {
+    return new Contributor[] {new Contributor("Andriy Rysin")};
   }
 
   public Set<String> getRelevantRuleIDs() {

@@ -45,7 +45,7 @@ public class Demo extends Language {
     return tagger;
   }
 
-  public String[] getMaintainers() {
+  public Contributor[] getMaintainers() {
     return null;
   }
 
