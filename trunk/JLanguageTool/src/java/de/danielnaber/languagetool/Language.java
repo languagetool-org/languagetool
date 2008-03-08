@@ -25,6 +25,7 @@ import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 import java.util.Set;
 
+import de.danielnaber.languagetool.language.Contributor;
 import de.danielnaber.languagetool.language.Czech;
 import de.danielnaber.languagetool.language.Demo;
 import de.danielnaber.languagetool.language.Dutch;
@@ -108,7 +109,7 @@ public abstract class Language {
   /**
    * Get the name(s) of the maintainer(s) for this language or <code>null</code>.
    */
-  public abstract String[] getMaintainers();
+  public abstract Contributor[] getMaintainers();
 
   /**
    * Get the IDs of the global rules that should run for texts in this language
