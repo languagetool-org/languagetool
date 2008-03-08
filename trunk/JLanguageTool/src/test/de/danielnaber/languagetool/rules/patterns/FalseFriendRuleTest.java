@@ -29,6 +29,7 @@ import org.xml.sax.SAXException;
 
 import de.danielnaber.languagetool.JLanguageTool;
 import de.danielnaber.languagetool.Language;
+import de.danielnaber.languagetool.rules.RuleMatch;
 
 /**
  * @author Daniel Naber
@@ -60,7 +61,7 @@ public class FalseFriendRuleTest extends TestCase {
   }
   
   private void assertErrors(int errorCount, String s, JLanguageTool langTool) throws IOException {
-    List matches = langTool.check(s);
+    List<RuleMatch> matches = langTool.check(s);
     //System.err.println(matches);
     assertEquals(errorCount, matches.size());
   }

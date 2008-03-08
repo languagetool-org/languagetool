@@ -32,7 +32,7 @@ public class UppercaseSentenceStartRuleTest extends TestCase {
 
   public void testRule() throws IOException {
     JLanguageTool langTool = new JLanguageTool(Language.GERMAN);
-    List matches;
+    List<RuleMatch> matches;
     
     matches = langTool.check("Dies ist ein Satz. Und hier kommt noch einer");
     assertEquals(0, matches.size());
@@ -67,7 +67,7 @@ public class UppercaseSentenceStartRuleTest extends TestCase {
 
   public void testDutchSpecialCases() throws IOException {
     JLanguageTool langTool = new JLanguageTool(Language.DUTCH);
-    List matches;
+    List<RuleMatch> matches;
     
     matches = langTool.check("A sentence.");
     assertEquals(0, matches.size());
