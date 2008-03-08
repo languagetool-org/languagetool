@@ -51,8 +51,7 @@ public final class TestTools {
       input.add(sentences[i]);
     }
     for (String string : input) {
-      String s = (String) string;
-      inputString.append(s);
+      inputString.append(string);
     }
     TestCase.assertEquals(input, stokenizer.tokenize(inputString.toString()));
   }
@@ -62,8 +61,7 @@ public final class TestTools {
     List<String> tokens = tokenizer.tokenize(input);
     List<String> noWhitespaceTokens = new ArrayList<String>();
     // whitespace confuses tagger, so give it the tokens but no whitespace tokens:
-    for (String string : tokens) {
-      String token = (String) string;
+    for (String token : tokens) {
       if (isWord(token)) {
         noWhitespaceTokens.add(token);
       }

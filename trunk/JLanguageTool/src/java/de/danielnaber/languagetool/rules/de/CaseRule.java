@@ -303,8 +303,7 @@ public class CaseRule extends GermanRule {
 
   private boolean isExceptionPhrase(int i, AnalyzedTokenReadings[] tokens) {
     // TODO: speed up?
-    for (String string : myExceptionPhrases) {
-      String exc = (String) string;
+    for (String exc : myExceptionPhrases) {
       String[] parts = exc.split(" ");
       for (int j = 0; j < parts.length; j++) {
         if (parts[j].equals(tokens[i].getToken())) {

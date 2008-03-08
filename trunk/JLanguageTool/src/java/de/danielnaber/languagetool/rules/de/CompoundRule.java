@@ -93,8 +93,7 @@ public class CompoundRule extends GermanRule {
       List<String> stringsToCheck = new ArrayList<String>();
       List<String> origStringsToCheck = new ArrayList<String>();    // original upper/lowercase spelling
       Map<String, AnalyzedTokenReadings> stringToToken = new HashMap<String, AnalyzedTokenReadings>();
-      for (AnalyzedTokenReadings analyzedTokenReadings : prevTokens) {
-        AnalyzedTokenReadings atr = (AnalyzedTokenReadings) analyzedTokenReadings;
+      for (AnalyzedTokenReadings atr : prevTokens) {
         if (j == 0)
           firstMatchToken = atr;
         sb.append(" ");
