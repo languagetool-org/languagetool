@@ -50,26 +50,26 @@ public final class TestTools {
     for (int i = 0; i < sentences.length; i++) {
       input.add(sentences[i]);
     }
-    for (Iterator iter = input.iterator(); iter.hasNext();) {
-      String s = (String) iter.next();
+    for (String string : input) {
+      String s = (String) string;
       inputString.append(s);
     }
     TestCase.assertEquals(input, stokenizer.tokenize(inputString.toString()));
   }
   
   public static void myAssert(String input, String expected, Tokenizer tokenizer, Tagger tagger) throws IOException {
-    List tokens = tokenizer.tokenize(input);
+    List<String> tokens = tokenizer.tokenize(input);
     List<String> noWhitespaceTokens = new ArrayList<String>();
     // whitespace confuses tagger, so give it the tokens but no whitespace tokens:
-    for (Iterator iterator = tokens.iterator(); iterator.hasNext();) {
-      String token = (String) iterator.next();
+    for (String string : tokens) {
+      String token = (String) string;
       if (isWord(token)) {
         noWhitespaceTokens.add(token);
       }
     }
-    List output = tagger.tag(noWhitespaceTokens);
+    List<AnalyzedTokenReadings> output = tagger.tag(noWhitespaceTokens);
     StringBuffer outputStr = new StringBuffer();
-    for (Iterator iter = output.iterator(); iter.hasNext();) {
+    for (Iterator<AnalyzedTokenReadings> iter = output.iterator(); iter.hasNext();) {
       AnalyzedTokenReadings token = (AnalyzedTokenReadings) iter.next();
       int readingsNumber = token.getReadingsLength();
       for (int j = 0; j < readingsNumber; j++) {
