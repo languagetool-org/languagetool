@@ -68,7 +68,10 @@ public class SentenceTokenizer implements Tokenizer {
   private static final Pattern repair1 = Pattern.compile("('[\\wüöäÜÖÄß]" + P + ")(\\s)");
   private static final Pattern repair2 = Pattern.compile("(\\sno\\.)(\\s+)(?!\\d)");
   private static final Pattern repair3 = Pattern.compile("([ap]\\.m\\.\\s+)([\\p{Lu}])");
-  private static final Pattern repair4 = Pattern.compile("(" + PARENS + ") " + EOS);
+  
+  private static final Pattern repair10 = Pattern.compile("([\\(\\[])([!?]+)([\\]\\)]) " + EOS);
+  private static final Pattern repair11 = Pattern.compile("([!?]+)([\\)\\]]) " + EOS);
+  private static final Pattern repair12 = Pattern.compile("(" + PARENS + ") " + EOS);
   
   // some abbreviations:
   private static final String[] ABBREV_LIST = {
@@ -202,13 +205,13 @@ public class SentenceTokenizer implements Tokenizer {
     }
 
     // z.B. "Das hier ist ein(!) Satz."
-    s = s.replaceAll("([\\(\\[])([!?]+)([\\]\\)]) " + EOS, "$1$2$3 ");
+    s = repair10.matcher(s).replaceAll("$1$2$3 ");
 
     // z.B. "Das hier ist (genau!) ein Satz."
-    s = s.replaceAll("([!?]+)([\\)\\]]) " + EOS, "$1$2 ");
+    s = repair11.matcher(s).replaceAll("$1$2 ");
 
     // z.B. "bla (...) blubb" -> kein Satzende
-    s = repair4.matcher(s).replaceAll("$1 ");
+    s = repair12.matcher(s).replaceAll("$1 ");
 
     return s;
   }
