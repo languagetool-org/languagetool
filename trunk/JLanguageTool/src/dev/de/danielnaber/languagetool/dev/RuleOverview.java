@@ -29,6 +29,7 @@ import java.util.List;
 
 import de.danielnaber.languagetool.JLanguageTool;
 import de.danielnaber.languagetool.Language;
+import de.danielnaber.languagetool.language.Contributor;
 import de.danielnaber.languagetool.tools.StringTools;
 
 /**
@@ -57,9 +58,11 @@ public final class RuleOverview {
     System.out.println("  <th>&nbsp;&nbsp;</th>");
     System.out.println("  <th align=\"right\">Java rules</th>");
     System.out.println("  <th>&nbsp;&nbsp;</th>");
-    System.out.println("  <th align=\"right\">False friends<th><td>" +
-        " (<a href=\"http://languagetool.cvs.sourceforge.net/*checkout*/languagetool/" +
-        "JLanguageTool/src/rules/false-friends.xml\">show</a>)</td>");
+    System.out.println("  <th align=\"right\">" +
+        "<a href=\"http://languagetool.cvs.sourceforge.net/*checkout*/languagetool/" +
+        "JLanguageTool/src/rules/false-friends.xml\">False friends</a></th>");
+    System.out.println("  <th>&nbsp;&nbsp;</th>");
+    System.out.println("  <th align=\"left\">Rule Maintainers</th>");
     System.out.println("</tr>");
     final List<String> sortedLanguages = new ArrayList<String>();
     for (Language element : Language.LANGUAGES) {
@@ -115,7 +118,6 @@ public final class RuleOverview {
       }
       System.out.print("<td></td>");
 
-      System.out.print("<td></td>");
       // count Java rules:
       final File dir = new File("src/java/de/danielnaber/languagetool/rules/" + lang.getShortName());
       if (!dir.exists()) {
@@ -126,8 +128,8 @@ public final class RuleOverview {
         System.out.print("<td align=\"right\">" + javaCount + "</td>");
       }
 
-//    false friends
-      System.out.println("<td></td><td></td>"); 
+      // false friends
+      System.out.println("<td></td>"); 
       if (ffurl == null) {
         System.out.println("<td align=\"right\">0</td>");
       } else {
@@ -141,8 +143,25 @@ public final class RuleOverview {
           }          
           count++;
         }
-        System.out.print("<td align=\"left\">" + (count) +
-            "</td>");
+        System.out.print("<td align=\"right\">" + (count) +
+          "</td>");
+
+        // maintainer information:
+        System.out.print("<td></td>");
+        StringBuilder maintainerInfo = new StringBuilder();
+        if (lang.getMaintainers() != null) {
+          for (Contributor contributor : lang.getMaintainers()) {
+            if (!maintainerInfo. toString().equals("")) {
+              maintainerInfo.append(", ");
+            }
+            maintainerInfo.append(contributor.getName());
+            if (contributor.getRemark() != null) {
+              maintainerInfo.append("&nbsp;(" + contributor.getRemark() + ")");
+            }
+          }
+        }
+        System.out.print("<td align=\"left\">" + maintainerInfo.toString() +
+          "</td>");
       }
       
       System.out.println("</tr>");    
