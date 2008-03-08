@@ -38,6 +38,7 @@ import de.danielnaber.languagetool.tools.StringTools;
 public class PatternRule extends Rule {
 
   private String id;
+  private String subId;   // because there can be more than one rule in a rule group
 
   private static Language[] language;
   private String description;
@@ -142,6 +143,14 @@ public class PatternRule extends Rule {
   @Override
   public final String getDescription() {
     return description;
+  }
+
+  public final String getSubId() {
+    return subId;
+  }
+
+  public final void setSubId(String subId) {
+    this.subId = subId;
   }
 
   public final String getMessage() {

@@ -32,6 +32,7 @@ import java.util.Locale;
 
 import de.danielnaber.languagetool.JLanguageTool;
 import de.danielnaber.languagetool.rules.RuleMatch;
+import de.danielnaber.languagetool.rules.patterns.PatternRule;
 
 public final class Tools {
 
@@ -71,8 +72,13 @@ public final class Tools {
       int i = 1;
       for (Iterator<RuleMatch> iter = ruleMatches.iterator(); iter.hasNext();) {
         RuleMatch match = (RuleMatch) iter.next();
-        System.out.println(i + ".) Line " + (match.getLine()+1) + ", column " + match.getColumn() +
-            ", Rule ID: " + match.getRule().getId());
+        String output = i + ".) Line " + (match.getLine()+1) + ", column " + match.getColumn() +
+          ", Rule ID: " + match.getRule().getId();
+        if (match.getRule() instanceof PatternRule) {
+          PatternRule pRule = (PatternRule) match.getRule();
+          output +=  "[" + pRule.getSubId() + "]";
+        }
+        System.out.println(output);
         String msg = match.getMessage();
         msg = msg.replaceAll("<suggestion>", "'");
         msg = msg.replaceAll("</suggestion>", "'");

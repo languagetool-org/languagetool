@@ -90,6 +90,7 @@ class PatternRuleHandler extends XMLRuleHandler {
   private static final String MARKER = "marker";
   
   private String id;
+  private int subId = 0;
 
   /** Current phrase ID. **/
   String phraseId;
@@ -173,6 +174,7 @@ class PatternRuleHandler extends XMLRuleHandler {
       }
     } else if (qName.equals("rule")) {
       id = attrs.getValue("id");
+      subId++;
       if (!(inRuleGroup && defaultOff)) {
         defaultOff = "off".equals(attrs.getValue("default"));
       }
@@ -373,7 +375,8 @@ class PatternRuleHandler extends XMLRuleHandler {
 
         for (final ArrayList < Element > phraseElement : phraseElementList) {
           processElement(phraseElement);
-          final PatternRule rule = new PatternRule(id, language, phraseElement, description, message.toString(), phraseElementList.size()>1);      
+          final PatternRule rule = new PatternRule(id, language, phraseElement, description,
+              message.toString(), phraseElementList.size()>1);      
           prepareRule(rule);
           rules.add(rule);              
         }
@@ -473,6 +476,7 @@ class PatternRuleHandler extends XMLRuleHandler {
       inMatch = false;
     } else if (qName.equals("rulegroup")) {
       inRuleGroup = false;
+      subId = 0;
     } else if (qName.equals("suggestion") && inMessage) {
       message.append("</suggestion>");
     } else if (qName.equals(MARKER) && inCorrectExample) {
@@ -564,6 +568,7 @@ class PatternRuleHandler extends XMLRuleHandler {
     rule.setCorrectExamples(correctExamples);
     rule.setIncorrectExamples(incorrectExamples);      
     rule.setCategory(category);
+    rule.setSubId(subId + "");
     caseSensitive = false;
     if (suggestionMatches != null) {
       for (final Match m : suggestionMatches) {
