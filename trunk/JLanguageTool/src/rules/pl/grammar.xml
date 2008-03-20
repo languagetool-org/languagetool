@@ -6,7 +6,7 @@ title="Easy editing stylesheet" ?>
 <!--
 Polish Grammar and Typo Rules for LanguageTool
 Copyright (C) 2006-2007 Marcin Miłkowski
-$Id: grammar.xml,v 1.112 2008-02-29 15:18:21 milek_pl Exp $
+$Id: grammar.xml,v 1.113 2008-03-20 14:58:48 milek_pl Exp $
 -->
 <rules lang="pl">
   <phrases>
@@ -2497,6 +2497,24 @@ Powinno być: <suggestion>\2, \3 \4</suggestion>.</message>
     </rule>
   </category>
   <category name="Błędy leksykalne">
+    <rule id="INFORMACJE_SENSYTYWNE" name="„informacje sensytywne” (informacje poufne)">
+      <pattern>
+        <token inflected="yes" regexp="yes">informacja|dana</token>
+        <token inflected="yes">sensytywny</token>
+      </pattern>
+      <message>To wyrażenie jest niepoprawną kalką z języka angielskiego. Poprawnie:<suggestion><match no="1"/> <match no="2" postag="adj.*" postag_regexp="yes">poufny</match></suggestion> lub <suggestion><match no="1"/> o szczególnym znaczeniu</suggestion>.</message>
+      <example correction="Informacje poufne|Informacje o szczególnym znaczeniu" type="incorrect"><marker>Informacje sensytywne</marker> odnoszące się do inspekcji należy traktować jako informacje niejawne.</example>
+      <example type="correct">Informacje poufne traktujemy ze szczególną ostrożnością.</example>
+    </rule>
+    <rule id="INFORMACJE_WRAZLIWE" name="„informacje wrażliwe” (informacje poufne)">
+      <pattern>
+        <token inflected="yes" regexp="yes">informacja|dana</token>
+        <token inflected="yes">wrażliwy</token>
+      </pattern>
+      <message>To wyrażenie jest niepoprawną kalką z języka angielskiego. Poprawnie:<suggestion><match no="1"/> <match no="2" postag="adj.*" postag_regexp="yes">poufny</match></suggestion> lub <suggestion><match no="1"/> o szczególnym znaczeniu</suggestion>.</message>
+      <example correction="Informacje poufne|Informacje o szczególnym znaczeniu" type="incorrect"><marker>Informacje wrażliwe</marker> odnoszące się do inspekcji należy traktować jako informacje niejawne.</example>
+      <example type="correct">Informacje poufne traktujemy ze szczególną ostrożnością.</example>
+    </rule>
     <rule id="JUSTYFIKACJA" name="„justyfikacja” (justowanie)">
       <pattern>
         <token inflected="yes">justyfikacja</token>
