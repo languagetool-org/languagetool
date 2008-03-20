@@ -334,14 +334,19 @@ public class Element {
   
   @Override
   public final String toString() {
-    String negate = ""; 
+    String negate = "";
+    String tokString = stringToken;
+    if (phraseName != null) {
+    tokString += " {" + phraseName + "}";
+    }
+    
     if (negation) {
       negate = "!"; 
     }
     if (posToken != null) {
-      return negate + stringToken + "/" + posToken;
+      return negate + tokString + "/" + posToken;
     } else {
-      return negate + stringToken;
+      return negate + tokString;
     }
   }
 
