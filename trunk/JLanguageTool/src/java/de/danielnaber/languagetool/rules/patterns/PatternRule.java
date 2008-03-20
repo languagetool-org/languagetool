@@ -654,7 +654,7 @@ public class PatternRule extends Rule {
       
     }
     return errorMessage;
-  }
+  }  
   
   @Override
   public void reset() {

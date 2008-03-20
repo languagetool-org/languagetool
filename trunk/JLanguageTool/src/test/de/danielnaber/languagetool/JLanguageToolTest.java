@@ -56,7 +56,7 @@ public class JLanguageToolTest extends TestCase {
     assertEquals(1, matches.size());
     matches = tool.check("I can give you more a detailed description.");
     assertEquals(0, matches.size());
-    assertEquals(6, tool.getAllRules().size());
+    assertEquals(7, tool.getAllRules().size());
     final List<PatternRule> rules = tool.loadPatternRules("/rules/en/grammar.xml");
     for (PatternRule patternRule : rules) {
       tool.addRule(patternRule);

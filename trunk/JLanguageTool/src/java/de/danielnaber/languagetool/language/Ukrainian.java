@@ -55,6 +55,7 @@ public class Ukrainian extends Language {
     ids.add("COMMA_PARENTHESIS_WHITESPACE");
     ids.add("DOUBLE_PUNCTUATION");
     ids.add("UPPERCASE_SENTENCE_START");
+    ids.add("WHITESPACE_RULE");
     // specific to Ukrainian:
     ids.add("UK_SIMPLE_REPLACE");
     return ids;

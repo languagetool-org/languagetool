@@ -54,6 +54,7 @@ public class Lithuanian extends Language {
     ids.add("DOUBLE_PUNCTUATION");
     ids.add("UNPAIRED_BRACKETS");
     ids.add("UPPERCASE_SENTENCE_START");
+    ids.add("WHITESPACE_RULE");
     return ids;
   }
   

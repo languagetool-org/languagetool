@@ -72,6 +72,7 @@ public class English extends Language {
     ids.add("UNPAIRED_BRACKETS");
     ids.add("UPPERCASE_SENTENCE_START");
     ids.add("WORD_REPEAT_RULE");
+    ids.add("WHITESPACE_RULE");    
     // specific to English:
     ids.add("EN_A_VS_AN");
     return ids;
