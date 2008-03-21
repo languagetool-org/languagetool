@@ -319,6 +319,13 @@ public final class JLanguageTool {
   }    
 
   /**
+   * Get the language that was used to configure this instance.
+   */
+  public Language getLanguage() {
+    return language;
+  }
+  
+  /**
    * Get rule ids of the rules that have been explicitly disabled.
    */
   public Set<String> getDisabledRules() {
