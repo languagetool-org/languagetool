@@ -228,19 +228,23 @@ public class UnpairedQuotesBracketsRule extends Rule {
             } else {
               ruleMatchIndex++;
               ruleMatchArray[i] = ruleMatchIndex;
-              matchToken = tokens[pos].getAnalyzedToken(0);
-              String msg = messages.getString("unpaired_brackets");
+              matchToken = tokens[pos].getAnalyzedToken(0);              
               @SuppressWarnings("null")
-              RuleMatch ruleMatch = new RuleMatch(this, matchToken.getStartPos(), matchToken.getStartPos()+1, msg);
+              final RuleMatch ruleMatch = 
+                new RuleMatch(this, matchToken.getStartPos(), 
+                    matchToken.getStartPos() + 1, 
+                    messages.getString("unpaired_brackets"));
               ruleMatches.add(ruleMatch);
             }
         } else {
           ruleMatchIndex++;
           ruleMatchArray[i] = ruleMatchIndex;
           matchToken = tokens[pos].getAnalyzedToken(0);
-          String msg = messages.getString("unpaired_brackets");
           @SuppressWarnings("null")
-          RuleMatch ruleMatch = new RuleMatch(this, matchToken.getStartPos(), matchToken.getStartPos()+1, msg);
+          final RuleMatch ruleMatch = 
+            new RuleMatch(this, matchToken.getStartPos(), 
+                matchToken.getStartPos() + 1, 
+                messages.getString("unpaired_brackets"));
           ruleMatches.add(ruleMatch);
         }
         
