@@ -31,6 +31,10 @@ import de.danielnaber.languagetool.AnalyzedTokenReadings;
  *  
  * @author Daniel Naber
  */
+
+//TODO: add logic to check missing whitespace before ([{
+//and after )}]
+
 public class CommaWhitespaceRule extends Rule {
 
   public CommaWhitespaceRule(final ResourceBundle messages) {
@@ -45,7 +49,7 @@ public class CommaWhitespaceRule extends Rule {
   public String getDescription() {
     return messages.getString("desc_comma_whitespace");
   }
-
+  
   public RuleMatch[] match(final AnalyzedSentence text) {
     List<RuleMatch> ruleMatches = new ArrayList<RuleMatch>();
     final AnalyzedTokenReadings[] tokens = text.getTokens();
