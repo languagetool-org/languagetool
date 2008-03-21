@@ -632,7 +632,7 @@ public class PatternRule extends Rule {
 
           if (!newWay) {
             //in case <match> elements weren't used (yet)
-            errorMessage = errorMessage.replaceAll("\\\\" + (j + 1), 
+            errorMessage = errorMessage.replace("\\" + (j + 1), 
                 toks[firstMatchTok + repTokenPos - 1].getToken());          
             errMarker = errorMessage.indexOf('\\');
             numberFollows = false;
