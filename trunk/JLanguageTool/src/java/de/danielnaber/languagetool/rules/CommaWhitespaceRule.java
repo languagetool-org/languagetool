@@ -28,7 +28,7 @@ import de.danielnaber.languagetool.AnalyzedTokenReadings;
 /**
  * A rule that matches commas and closing parenthesis preceeded by whitespace
  * and opening parenthesis followed by whitespace.
- * 
+ *  
  * @author Daniel Naber
  */
 public class CommaWhitespaceRule extends Rule {
@@ -48,14 +48,13 @@ public class CommaWhitespaceRule extends Rule {
 
   public RuleMatch[] match(final AnalyzedSentence text) {
     List<RuleMatch> ruleMatches = new ArrayList<RuleMatch>();
-    AnalyzedTokenReadings[] tokens = text.getTokens();
+    final AnalyzedTokenReadings[] tokens = text.getTokens();
     String prevToken = "";
     int pos = 0;
     for (int i = 0; i < tokens.length; i++) {
-    		String token = tokens[i].getToken();
+    		final String token = tokens[i].getToken();
     		pos += token.length();
     		String msg = null;
-    		int fixPos = 0;
     		int fixLen = 0;
         String suggestionText = null;
     		if (token.trim().equals("") && prevToken.trim().equals("(")) {
@@ -79,9 +78,12 @@ public class CommaWhitespaceRule extends Rule {
     			fixLen = 1;
     		}
     		if (msg != null) {
-    			int fromPos = tokens[i-1].getStartPos() + fixPos;
-    			int toPos = tokens[i-1].getStartPos() + fixPos + fixLen + prevToken.length();
-    			RuleMatch ruleMatch = new RuleMatch(this, fromPos, toPos, msg);
+    			final int fromPos = tokens[i - 1].getStartPos();
+    			final int toPos = 
+            tokens[i - 1].getStartPos()
+            + fixLen + prevToken.length();
+    			final RuleMatch ruleMatch = 
+            new RuleMatch(this, fromPos, toPos, msg);
           if (suggestionText != null)
             ruleMatch.setSuggestedReplacement(suggestionText);
     			ruleMatches.add(ruleMatch);
