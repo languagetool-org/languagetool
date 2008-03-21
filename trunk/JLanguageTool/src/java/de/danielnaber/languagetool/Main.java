@@ -165,10 +165,14 @@ class Main {
     if (!apiFormat)
       System.out.println("Working on " + filename + "...");
     String fileContents = StringTools.readFile(new FileInputStream(filename), encoding);
+    //FIXME: this breaks on files with XML escaped with slashes
+    //for example: Select \<emph\>New -> Select \New
+    //proposed fix: add a cmd line arg to turn off the behavior 
     return filterXML(fileContents);
   }
     
   private String filterXML(String s) {
+    
     Pattern pattern = Pattern.compile("<!--.*?-->", Pattern.DOTALL);
     Matcher matcher = pattern.matcher(s);
     s = matcher.replaceAll(" ");
