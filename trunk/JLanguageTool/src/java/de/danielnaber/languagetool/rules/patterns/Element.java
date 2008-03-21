@@ -592,7 +592,7 @@ public class Element {
     }
     final boolean setsPos = tokenReference.setsPos(); 
     if (!setsPos) {
-    stringToken = referenceString.replaceAll("\\\\"  
+    stringToken = referenceString.replace("\\"  
         + tokenReference.getTokenRef(), 
         tokenReference.toTokenString());
     }
@@ -611,7 +611,7 @@ public class Element {
         }
       setPosElement(posReference, tokenReference.posRegExp(), negation);
       }
-      stringToken = referenceString.replaceAll("\\\\"  
+      stringToken = referenceString.replace("\\"  
           + tokenReference.getTokenRef(), "");
       inflected = true;      
     }
