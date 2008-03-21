@@ -120,11 +120,11 @@ public class UnpairedQuotesBracketsRule extends Rule {
     ruleLang = language;
   }
 
-  public String getId() {
+  public final String getId() {
     return "UNPAIRED_BRACKETS";
   }
 
-  public String getDescription() {
+  public final String getDescription() {
     return messages.getString("desc_unpaired_brackets");
   }
 
