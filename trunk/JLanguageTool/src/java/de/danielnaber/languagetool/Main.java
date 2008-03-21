@@ -18,9 +18,11 @@
  */
 package de.danielnaber.languagetool;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
@@ -47,6 +49,9 @@ class Main {
   private JLanguageTool lt = null;
   private boolean verbose = false;
   private boolean apiFormat = false;
+  
+  /* maximum file size to read in a single read */
+  private static int MAXFILESIZE = 64000;
 
   Main(boolean verbose, Language language, Language motherTongue) throws IOException, 
       ParserConfigurationException, SAXException {
@@ -89,19 +94,60 @@ class Main {
     return lt;
   }
 
+  private void runOnFile(final String filename, final String encoding) throws IOException {
+    final File file = new File(filename);
+    if (file.length() < MAXFILESIZE) {
+      final String text = 
+        getFilteredText(filename, encoding);
+        Tools.checkText(text, lt);
+      } else {
+        if (verbose)
+          lt.setOutput(System.err);
+        if (!apiFormat)
+          System.out.println("Working on " 
+              + filename + "... in a line by line mode");
+        //TODO: change LT default statistics mode to summarize at the end
+        //of processing
+        InputStreamReader isr = null;
+        BufferedReader br = null;
+        try {
+          if (encoding != null) {
+            isr = new InputStreamReader(
+                new FileInputStream(file.getAbsolutePath()), encoding);
+          } else {
+            isr = new InputStreamReader(
+                new FileInputStream(file.getAbsolutePath()));
+          }
+          br = new BufferedReader(isr);
+          String line;
+          while ((line = br.readLine()) != null) {
+            line += "\n";
+            Tools.checkText(filterXML(line), lt);
+          }
+        } finally {
+          if (br != null) {
+            br.close();
+          }
+          if (isr != null) {
+            isr.close();
+          }
+        }         
+      }        
+    }
+
+
   private void runRecursive(final String filename, final String encoding) throws IOException,
-      ParserConfigurationException, SAXException {
-    File dir = new File(filename);
+  ParserConfigurationException, SAXException {
+    final File dir = new File(filename);
     if (!dir.isDirectory()) {
       throw new IllegalArgumentException(dir.getAbsolutePath() + " is not a directory, cannot use recursion");
     }
-    File[] files = dir.listFiles();
+    final File[] files = dir.listFiles();
     for (int i = 0; i < files.length; i++) {
       if (files[i].isDirectory()) {
         runRecursive(files[i].getAbsolutePath(), encoding);
-      } else {
-        String text = getFilteredText(files[i].getAbsolutePath(), encoding);
-        Tools.checkText(text, lt);
+      } else {        
+        runOnFile(files[i].getAbsolutePath(), encoding);
       }
     }
   }
@@ -131,6 +177,8 @@ class Main {
     s = matcher.replaceAll(" ");
     return s;
   }
+  
+  
 
   private static void exitWithUsageMessage() {
     System.out.println("Usage: java de.danielnaber.languagetool.Main " +
@@ -209,8 +257,10 @@ class Main {
     if (recursive) {
       prg.runRecursive(filename, encoding);
     } else {
-      String text = prg.getFilteredText(filename, encoding);
+      /* String text = prg.getFilteredText(filename, encoding);
       Tools.checkText(text, prg.getJLanguageTool(), apiFormat);
+      */
+      prg.runOnFile(filename, encoding);
       if (listUnknown) {
         System.out.println("Unknown words: " + prg.getJLanguageTool().getUnknownWords());
       }
