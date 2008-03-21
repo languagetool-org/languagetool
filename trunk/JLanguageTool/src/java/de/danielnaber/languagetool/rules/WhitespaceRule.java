@@ -41,14 +41,17 @@ public class WhitespaceRule extends Rule {
       super.setCategory(new Category(messages.getString("category_misc")));
     }
     
-    public String getId() {
+    @Override
+    public final String getId() {
       return "WHITESPACE_RULE";
     }
 
-    public String getDescription() {
+    @Override
+    public final String getDescription() {
       return messages.getString("desc_whitespacerepetition");
     }
 
+    @Override
     public RuleMatch[] match(final AnalyzedSentence text) {
       final List<RuleMatch> ruleMatches = new ArrayList<RuleMatch>();
       final AnalyzedTokenReadings[] tokens = text.getTokens();
@@ -65,20 +68,23 @@ public class WhitespaceRule extends Rule {
              prevLen += tokens[i].getToken().length();
              i++;
            }
-            final String msg = messages.getString("whitespace_repetition");            
             final RuleMatch ruleMatch = 
-              new RuleMatch(this, prevPos, pos + prevLen - 1, msg);
+              new RuleMatch(this, prevPos, pos + prevLen - 1, 
+                  messages.getString("whitespace_repetition"));
             ruleMatch.setSuggestedReplacement(" ");
             ruleMatches.add(ruleMatch);
           }
+          if (i < tokens.length) {
           prevWhite = tokens[i].isWhitespace();
           prevLen = tokens[i].getToken().length();
           prevPos = tokens[i].getStartPos();
           i++;
+          }
       }
       return toRuleMatchArray(ruleMatches);
     }
 
+    @Override
     public void reset() {
       // nothing
     }
