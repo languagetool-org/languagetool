@@ -82,6 +82,20 @@ public abstract class Language {
     // FIXME: load dynamically from classpath
   };
 
+  /**
+   * All languages supported by LanguageTool, but without the demo language.
+   */
+  public static Language[] REAL_LANGUAGES = new Language[LANGUAGES.length-1];
+  static {
+    int i = 0;
+    for (Language lang : LANGUAGES) {
+      if (lang != DEMO) {
+        REAL_LANGUAGES[i] = lang;
+        i++;
+      }
+    }
+  }
+
   private static final Language[] BUILTIN_LANGUAGES = LANGUAGES;
 
   private final static Disambiguator DEMO_DISAMBIGUATOR = new DemoDisambiguator();
