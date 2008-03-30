@@ -4,6 +4,7 @@
 package de.danielnaber.languagetool.dev;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -13,6 +14,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Properties;
 
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
@@ -29,7 +31,8 @@ import de.danielnaber.languagetool.gui.Tools;
 import de.danielnaber.languagetool.rules.RuleMatch;
 
 /**
- * Check texts from Wikipedia (http://download.wikimedia.org/backup-index.html).
+ * Check texts from Wikipedia (download "pages-articles.xml.bz2" from
+ * http://download.wikimedia.org/backup-index.html).
  * 
  * @author Daniel Naber
  */
@@ -41,20 +44,25 @@ public class CheckWikipediaDump {
   
   public static void main(String[] args) throws IOException, SAXException, ParserConfigurationException {
     CheckWikipediaDump prg = new CheckWikipediaDump();
-    if (args.length < 2 || args.length > 3) {
-      System.err.println("Usage: CheckWikipediaDump <language> <filename> [maxArticleCheck]");
+    if (args.length < 3 || args.length > 4) {
+      System.err.println("Usage: CheckWikipediaDump <propertyFile> <language> <filename> [maxArticleCheck]");
       System.exit(1);
     }
     int maxArticles = 0;
-    if (args.length == 3)
-      maxArticles = Integer.parseInt(args[2]);
-    prg.run(args[0], args[1], maxArticles);
+    if (args.length == 4)
+      maxArticles = Integer.parseInt(args[3]);
+    File propFile = new File(args[0]);
+    if (!propFile.exists() || propFile.isDirectory()) {
+      throw new IOException("file not found or isn't a file: " + propFile.getAbsolutePath());
+    }
+    prg.run(propFile, args[1], args[2], maxArticles);
   }
   
-  private void run(String language, String filename, int maxArticles) throws IOException, SAXException, ParserConfigurationException {
-    File file = new File(filename);
+  private void run(File propFile, String language, String textFilename, int maxArticles) 
+      throws IOException, SAXException, ParserConfigurationException {
+    File file = new File(textFilename);
     if (!file.exists() || !file.isFile()) {
-      throw new IOException("File doesn't exist or isn't a file: " + filename);
+      throw new IOException("File doesn't exist or isn't a file: " + textFilename);
     }
     Language lang = Language.getLanguageForShortName(language);
     if (lang == null) {
@@ -81,9 +89,9 @@ public class CheckWikipediaDump {
     */
     System.err.println("These rules are disabled: " + lt.getDisabledRules());
     Date dumpDate = getDumpDate(file);
-    String dumpLangCode = getDumpLanguageCode(file);
-    System.out.println("Dump date: " + dumpDate + ", language: " + dumpLangCode);
-    WikiDumpHandler handler = new WikiDumpHandler(lt, maxArticles, dumpDate, dumpLangCode);
+    System.out.println("Dump date: " + dumpDate + ", language: " + language);
+    WikiDumpHandler handler = new WikiDumpHandler(lt, maxArticles, dumpDate,
+        language, propFile);
     SAXParserFactory factory = SAXParserFactory.newInstance();
     SAXParser saxParser = factory.newSAXParser();
     saxParser.parse(file, handler);
@@ -103,29 +111,15 @@ public class CheckWikipediaDump {
     }
   }
 
-  private String getDumpLanguageCode(File file) throws IOException {
-    String filename = file.getName();
-    int wikiPos = filename.indexOf("wiki");
-    if (wikiPos == -1) {
-      throw new IOException("Unexpected filename format, no 'xxwiki': " + file.getName());
-    }
-    return filename.substring(0, wikiPos);
-  }
-
 }
 
 class WikiDumpHandler extends DefaultHandler {
 
-  //FIXME: make configurable
-  private static final String DB_DRIVER = "com.mysql.jdbc.Driver";
-  private static final String DB_URL = "jdbc:mysql://localhost/ltcommunity";
-  private static final String DB_USER = "root";
-  private static final String DB_PASSWORD = "";
-
   private static final int CONTEXT_SIZE = 50;
   private static final String MARKER_START = "<err>";
   private static final String MARKER_END = "</err>";
-  private static final String URL_PREFIX = "http://XX.wikipedia.org/wiki/";
+  private static final String LANG_MARKER = "XX";
+  private static final String URL_PREFIX = "http://" + LANG_MARKER + ".wikipedia.org/wiki/";
   
   private JLanguageTool lt;
   private int ruleMatchCount = 0;
@@ -146,14 +140,21 @@ class WikiDumpHandler extends DefaultHandler {
   // SAX DocumentHandler methods
   //===========================================================
 
-  WikiDumpHandler(JLanguageTool lt, int maxArticles, Date dumpDate, String langCode) {
+  WikiDumpHandler(JLanguageTool lt, int maxArticles, Date dumpDate,
+      String langCode, File propertiesFile) throws IOException {
     this.lt = lt;
     this.maxArticles = maxArticles;
     this.dumpDate = dumpDate;
     this.langCode = langCode;
     try {
-      Class.forName(DB_DRIVER);
-      conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
+      Properties dbProperties = new Properties();
+      dbProperties.load(new FileInputStream(propertiesFile));
+      String dbDriver = getProperty(dbProperties, "dbDriver");
+      String dbUrl = getProperty(dbProperties, "dbUrl");
+      String dbUser = getProperty(dbProperties, "dbUser");
+      String dbPassword = getProperty(dbProperties, "dbPassword");
+      Class.forName(dbDriver);
+      conn = DriverManager.getConnection(dbUrl, dbUser, dbPassword);
     } catch (ClassNotFoundException e) {
       throw new RuntimeException(e);
     } catch (SQLException e) {
@@ -161,6 +162,14 @@ class WikiDumpHandler extends DefaultHandler {
     }
   }
   
+  private String getProperty(Properties prop, String key) {
+    String value = prop.getProperty(key);
+    if (value == null) {
+      throw new RuntimeException("required key '" +key+ "' not found in properties");
+    }
+    return value;
+  }
+
   @SuppressWarnings("unused")
   public void startElement(String namespaceURI, String lName, String qName,
       Attributes attrs) throws SAXException {
@@ -219,7 +228,7 @@ class WikiDumpHandler extends DefaultHandler {
             match.getToPos(), text, CONTEXT_SIZE, MARKER_START, MARKER_END));
       prepSt.setDate(5, new java.sql.Date(dumpDate.getTime()));
       prepSt.setDate(6, new java.sql.Date(new Date().getTime()));
-      prepSt.setString(7, URL_PREFIX.replaceAll("XX", langCode) + title);
+      prepSt.setString(7, URL_PREFIX.replaceAll(LANG_MARKER, langCode) + title);
       prepSt.executeUpdate();
     }
   }
