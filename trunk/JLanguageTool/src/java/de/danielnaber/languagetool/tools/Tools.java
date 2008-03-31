@@ -145,7 +145,9 @@ public final class Tools {
    * @throws IOException if the file cannot be loaded
    */
   public static InputStream getStream(String filename) throws IOException {
-    InputStream is = Tools.class.getClass().getResourceAsStream(filename);
+    // the other ways to load the stream like "Tools.class.getClass().getResourceAsStream(filename)"
+    // don't work in a web context (using Grails):
+    InputStream is = Tools.class.getResourceAsStream(filename);
     if (is == null) {
       throw new IOException("Could not load file from classpath : " + filename);
     }
