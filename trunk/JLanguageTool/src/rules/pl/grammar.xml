@@ -6,7 +6,7 @@ title="Easy editing stylesheet" ?>
 <!--
 Polish Grammar and Typo Rules for LanguageTool
 Copyright (C) 2006-2007 Marcin Miłkowski
-$Id: grammar.xml,v 1.114 2008-03-21 11:54:50 milek_pl Exp $
+$Id: grammar.xml,v 1.115 2008-03-31 11:40:51 milek_pl Exp $
 -->
 <rules lang="pl">
   <phrases>
@@ -5767,15 +5767,17 @@ Znacznie częściej ta forma jest mylona z trybem rozkazującym od „pokazać�
         <example correction="mln" type="incorrect">Brakuje nam 3 <marker>mln.</marker> złotych.</example>
       </rule>
       <rule>
-        <pattern case_sensitive="yes" mark_to="-1">
+        <pattern case_sensitive="yes" mark_from="1" mark_to="-1">
+          <token><exception>.</exception></token>
           <token regexp="yes">m</token>
           <token>.</token>
           <token><exception>in</exception></token>
         </pattern>
-        <message>Ten skrót piszemy bez kropki: <suggestion>\1</suggestion>. </message>
+        <message>Ten skrót piszemy bez kropki: <suggestion>\2</suggestion>. </message>
         <example type="correct">Wiemy to m.in. z pamiętników Edgara.</example>
         <example type="correct">Wczoraj przebiegłem 1000 m.</example>
         <example correction="m" type="incorrect">Brakuje nam 3 <marker>m.</marker> tkaniny.</example>
+        <example type="correct">Ta góra ma wysokość 8031 m n.p.m., a jej szczyt okrywa wieczny śnieg.</example>
       </rule>
     </rulegroup>
     <rulegroup id="SKROTY_Z_KROPKA" name="Pisownia skrótów np., inż.">
