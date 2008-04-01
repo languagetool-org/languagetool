@@ -272,15 +272,18 @@ public final class Main implements ActionListener {
     PopupMenu popup = new PopupMenu();
     ActionListener rmbListener = new TrayActionRMBListener(); 
     // Check clipboard text:
-    MenuItem checkClipboardItem = new MenuItem(messages.getString("guiMenuCheckClipboard"));
+    MenuItem checkClipboardItem = new MenuItem(
+        StringTools.getLabel(messages.getString("guiMenuCheckClipboard")));    
     checkClipboardItem.addActionListener(rmbListener);
     popup.add(checkClipboardItem);
     // Open main window:
-    MenuItem restoreItem = new MenuItem(messages.getString("guiMenuShowMainWindow"));
+    MenuItem restoreItem = new MenuItem(
+        StringTools.getLabel(messages.getString("guiMenuShowMainWindow")));
     restoreItem.addActionListener(rmbListener);
     popup.add(restoreItem);
     // Exit:
-    MenuItem exitItem = new MenuItem(messages.getString("guiMenuQuit"));
+    MenuItem exitItem = new MenuItem(
+        StringTools.getLabel(messages.getString("guiMenuQuit")));
     exitItem.addActionListener(rmbListener);
     popup.add(exitItem);
     return popup;
@@ -574,11 +577,17 @@ public final class Main implements ActionListener {
   class TrayActionRMBListener implements ActionListener {
 
       public void actionPerformed(ActionEvent e) {
-        if (e.getActionCommand().equalsIgnoreCase(messages.getString("guiMenuCheckClipboard"))) {
+        if (e.getActionCommand().equalsIgnoreCase(
+            StringTools.getLabel(
+                messages.getString("guiMenuCheckClipboard")))) {
           restoreFromTrayAndCheck();
-        } else if (e.getActionCommand().equalsIgnoreCase(messages.getString("guiMenuShowMainWindow"))) {
+        } else if (e.getActionCommand().equalsIgnoreCase(
+            StringTools.getLabel(
+            messages.getString("guiMenuShowMainWindow")))) {
           restoreFromTray();
-        } else if (e.getActionCommand().equalsIgnoreCase(messages.getString("guiMenuQuit"))) {
+        } else if (e.getActionCommand().equalsIgnoreCase(
+            StringTools.getLabel(
+            messages.getString("guiMenuQuit")))) {
           quit();
         } else {
           JOptionPane.showMessageDialog(null, "Unknown action: " + e.getActionCommand(), "Error",
