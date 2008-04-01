@@ -7,7 +7,7 @@ title="Easy editing stylesheet" ?>
 English Grammar and Typo Rules for LanguageTool
 See tagset.txt for the meaning of the POS tags
 Copyright (C) 2001-2007 Daniel Naber (http://www.danielnaber.de)
-$Id: grammar.xml,v 1.44 2008-04-01 00:08:28 milek_pl Exp $
+$Id: grammar.xml,v 1.45 2008-04-01 11:56:05 milek_pl Exp $
 -->
 <rules lang="en">
   <!-- ====================================================================== -->
@@ -2325,7 +2325,7 @@ $Id: grammar.xml,v 1.44 2008-04-01 00:08:28 milek_pl Exp $
       <rule>
         <pattern mark_from="2" mark_to="-1">
           <token><exception regexp="yes">(that|has|will|must|could|can|should|would|does|did|may|might|t)</exception><exception postag="CC|IN|DT|MD" postag_regexp="yes"/></token>
-          <token postag="NNP" regexp="yes">.{2,}<exception postag="JJ|CC|RP|DT|PRP\$" postag_regexp="yes"/></token>
+          <token postag="NNP" regexp="yes">.{2,}<exception postag="JJ|CC|RP|DT|PRP\$|NNPS|NNS" postag_regexp="yes"/></token>
           <token postag="VB|VBP" postag_regexp="yes" regexp="yes">\p{Lower}+<exception postag="VBN|VBD|JJ|IN|MD" postag_regexp="yes"/></token>
           <token postag="IN|DT" postag_regexp="yes"/>
         </pattern>
@@ -2334,6 +2334,7 @@ $Id: grammar.xml,v 1.44 2008-04-01 00:08:28 milek_pl Exp $
         <example correction="walks" type="incorrect">Ann <marker>walk</marker> to the building.</example>
         <example type="correct">Guiness <marker>walked</marker> to the building.</example>
         <example type="correct">Roosevelt and Hoover speak each other's lines.</example>
+        <example type="correct">Boys are at higher risk for autism than girls.</example>
       </rule>
     </rulegroup>
     <!-- TODO: fix false alarm for "one of you thinks ...", "even though the world around you thinks"
@@ -3093,6 +3094,24 @@ $Id: grammar.xml,v 1.44 2008-04-01 00:08:28 milek_pl Exp $
         <example type="correct">ATMs are quite common in the Netherlands,</example>
       </rule>
     </rulegroup>
+    <rule id="ABSOLUTELY_ESSENTIAL" name="Redundant phrase: 'absolutely essential/necessary (essential/necessary)'">
+      <pattern>
+        <token>absolutely</token>
+        <token regexp="yes">essential|necessary</token>
+      </pattern>
+      <message>This phrase is redundant. Use simply <suggestion>\2</suggestion>.</message>
+      <example correction="essential" type="incorrect">This is <marker>absolutely essential</marker>.</example>
+      <example type="correct">This was essential.</example>
+    </rule>
+    <rule id="ACTUAL_EXPERIENCE" name="Redundant phrase: 'actual experience/facts (experience/facts)'">
+      <pattern>
+        <token>actual</token>
+        <token regexp="yes">experience|fact|facts</token>
+      </pattern>
+      <message>This phrase is redundant. Use simply <suggestion>\2</suggestion>.</message>
+      <example correction="experience" type="incorrect">This talk is based on <marker>actual experience</marker> gained during recovery operations following a fire at the Washington National Records.</example>
+      <example type="correct">This play is based on facts.</example>
+    </rule>
     <rule id="VERY_UNIQUE" name="Redundant phrase: 'very unique (unique)'">
       <pattern>
         <token regexp="yes">very|strikingly|most</token>
@@ -3112,6 +3131,16 @@ $Id: grammar.xml,v 1.44 2008-04-01 00:08:28 milek_pl Exp $
       <message>Many style books advice that a sentence should not start with 'hopefully'.</message>
       <example type="incorrect"><marker>Hopefully</marker>, this will be a great grammar checker.</example>
       <example type="correct">The prisoner thought hopefully about the prospect for escape.</example>
+    </rule>
+    <rule id="THREE_NN" name="Readability: Three nouns in a row">
+      <pattern>
+        <token postag="NN|NN:.*" postag_regexp="yes" regexp="yes">.{2,}<exception regexp="yes">today|yesterday|tomorrow|now|in|are</exception><exception postag="VBG|VB|VBP|VBD|VBN|VBG|RB|MD|IN|JJ.*|CC" postag_regexp="yes"/></token>
+        <token postag="NN|NN:.*" postag_regexp="yes" regexp="yes">.{2,}<exception regexp="yes">today|yesterday|tomorrow|now|in|are</exception><exception postag="VBG|VB|VBP|VBD|VBN|VBG|RB|MD|IN|JJ.*|CC" postag_regexp="yes"/></token>
+        <token postag="NN|NN:.*" postag_regexp="yes" regexp="yes">.{2,}<exception regexp="yes">today|yesterday|tomorrow|now|in|are</exception><exception postag="VBG|VB|VBP|VBD|VBN|VBG|RB|MD|IN|JJ.*|CC" postag_regexp="yes"/></token>
+      </pattern>
+      <message>You used three nouns after one another, and this might decrease readability. You might consider rewording the sentence.</message>
+      <example type="incorrect">The <marker>security protection software</marker> we offer is the state-of-the art achievement.</example>
+      <example type="correct">The security software we offer is the state-of-the art achievement.</example>
     </rule>
   </category>
 </rules>
