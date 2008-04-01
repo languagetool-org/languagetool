@@ -6,7 +6,7 @@ title="Easy editing stylesheet" ?>
 <!--
 Polish Grammar and Typo Rules for LanguageTool
 Copyright (C) 2006-2007 Marcin Miłkowski
-$Id: grammar.xml,v 1.115 2008-03-31 11:40:51 milek_pl Exp $
+$Id: grammar.xml,v 1.116 2008-04-01 00:08:28 milek_pl Exp $
 -->
 <rules lang="pl">
   <phrases>
@@ -7269,6 +7269,30 @@ Znacznie częściej ta forma jest mylona z trybem rozkazującym od „pokazać�
       <example type="correct">Ludwik niczego się nie bał.</example>
       <example correction="bał się|się bał" type="incorrect">Ludwik niczego nie <marker>bał</marker>.</example>
     </rule>
+    <rulegroup id="O_TY" name="„o ty” (o tym)">
+      <rule>
+        <pattern mark_from="2">
+          <token regexp="yes" skip="3">chodzi|chodziło|chodzić</token>
+          <token>o</token>
+          <token>ty</token>
+        </pattern>
+        <message>Prawdopodobna literówka. Czy chodziło o <suggestion>to</suggestion>?</message>
+        <example correction="to" type="incorrect">Chodzi mu o <marker>ty</marker>, żeby zbudować tu piękny wieżowiec.</example>
+        <example type="correct">Chodzi o to, żebyś zrozumiał wreszcie, ile to waży.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="2" mark_to="-2">
+          <token negate="yes" regexp="yes">chodzi|chodziło|chodzić<exception postag="SENT_START" postag_regexp="yes"/></token>
+          <token>o</token>
+          <token>ty</token>
+          <token>,</token>
+          <token postag="conj" postag_regexp="yes"/>
+        </pattern>
+        <message>Prawdopodobna literówka. Czy chodziło o <suggestion>tym</suggestion>?</message>
+        <example correction="tym" type="incorrect">Mówił o <marker>ty</marker>, że pora na zmiany.</example>
+        <example type="correct">Mówił o tym, że pora na zmiany</example>
+      </rule>
+    </rulegroup>
   </category>
   <category name="Błędy frazeologiczne">
     <rule id="MADREJ_GLOWIE_DOSC_PO_SLOWIE" name="„mądrej głowie dość po słowie” (mądrej głowie dość dwie słowie)">

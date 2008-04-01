@@ -7,13 +7,22 @@ title="Easy editing stylesheet" ?>
 English Grammar and Typo Rules for LanguageTool
 See tagset.txt for the meaning of the POS tags
 Copyright (C) 2001-2007 Daniel Naber (http://www.danielnaber.de)
-$Id: grammar.xml,v 1.43 2007-11-26 22:50:47 milek_pl Exp $
+$Id: grammar.xml,v 1.44 2008-04-01 00:08:28 milek_pl Exp $
 -->
 <rules lang="en">
   <!-- ====================================================================== -->
   <!-- Possible typos -->
   <!-- ====================================================================== -->
   <category name="Possible Typo">
+    <rule id="INSURE_THAT" name="Possible typo: 'Insure that' (Ensure that)">
+      <pattern mark_to="-1">
+        <token>insure</token>
+        <token>that</token>
+      </pattern>
+      <message>Possible typo. Did you mean <suggestion>ensure </suggestion>(=make sure)? 'Insure' means 'pay money to insurance company'.</message>
+      <example type="incorrect">Please <marker>insure</marker> that you are registered with us.</example>
+      <example type="correct">Please insure your car against theft.</example>
+    </rule>
     <rule id="VE_GO_TO" name="Possible typo: 'I've go to (I've got to)'">
       <pattern mark_from="1" mark_to="-1">
         <token>ve</token>
@@ -2630,6 +2639,19 @@ $Id: grammar.xml,v 1.43 2007-11-26 22:50:47 milek_pl Exp $
       <example type="correct">I have got <marker>lots of books</marker>.</example>
       <example type="correct">I have got <marker>lots of wine</marker>.</example>
     </rule>
+    <rule id="CD_NN" name="Possible agreement error: numeral + singular countable noun">
+      <pattern mark_to="-1">
+        <token postag="CD" regexp="yes"><exception>one</exception></token>
+        <token postag="NN:UN|NN|NNP" postag_regexp="yes"><exception postag="NN:U|NNS|NNPS|JJ.*" postag_regexp="yes"/></token>
+        <token><exception postag="NNS|NNPS" postag_regexp="yes"/></token>
+      </pattern>
+      <message>Possible agreement error. The noun <match no="2"/> seems to be countable, so probably you 
+		should use: <suggestion><match no="1"/> <match no="2" postag="NNS|NNPS" postag_regexp="yes"/></suggestion>.</message>
+      <example correction="five books" type="incorrect">I have <marker>five book</marker>.</example>
+      <example type="correct">I have <marker>ten books</marker>.</example>
+      <example type="correct">I have <marker>one bottle</marker> of wine.</example>
+      <example type="correct">I have two book readers in my palmtop.</example>
+    </rule>
     <rule id="MANY_NN" name="Possible agreement error: 'many/several/few' + singular countable noun">
       <pattern mark_to="-1">
         <token regexp="yes">many|several|few|enough</token>
@@ -3079,6 +3101,17 @@ $Id: grammar.xml,v 1.43 2007-11-26 22:50:47 milek_pl Exp $
       <message>This phrase is redundant. Use simply <suggestion>\2</suggestion>.</message>
       <example correction="unique" type="incorrect">Walk until you see the <marker>very unique</marker> building on your right.</example>
       <example type="correct">Walk until you see a unique building on your right.</example>
+    </rule>
+  </category>
+  <category name="Bad style">
+    <rule default="off" id="HOPEFULLY" name="Word order: 'Hopefully' starting a sentence">
+      <pattern>
+        <token postag="SENT_START"/>
+        <token>hopefully</token>
+      </pattern>
+      <message>Many style books advice that a sentence should not start with 'hopefully'.</message>
+      <example type="incorrect"><marker>Hopefully</marker>, this will be a great grammar checker.</example>
+      <example type="correct">The prisoner thought hopefully about the prospect for escape.</example>
     </rule>
   </category>
 </rules>
