@@ -25,6 +25,7 @@ import javax.swing.JOptionPane;
 
 import de.danielnaber.languagetool.JLanguageTool;
 import de.danielnaber.languagetool.Language;
+import de.danielnaber.languagetool.tools.StringTools;
 
 public class AboutDialog {
 
@@ -35,11 +36,11 @@ public class AboutDialog {
   }
   
   public void show() {
-    StringBuilder maintainersInfo = new StringBuilder();
+    final StringBuilder maintainersInfo = new StringBuilder();
     for (Language lang : Language.LANGUAGES) {
       if (lang != Language.DEMO) {
         if (lang.getMaintainers() != null) {
-          String m = Arrays.toString(lang.getMaintainers());
+          final String m = Arrays.toString(lang.getMaintainers());
           maintainersInfo.append(messages.getString(lang.getShortName()));
           maintainersInfo.append(" – ");
           maintainersInfo.append(m);
@@ -47,7 +48,8 @@ public class AboutDialog {
         }
       }
     }
-    String aboutText = messages.getString("guiMenuAbout");
+    final String aboutText = 
+      StringTools.getLabel(messages.getString("guiMenuAbout"));
     JOptionPane.showMessageDialog(null, "LanguageTool " + JLanguageTool.VERSION + "\n" + 
         "Copyright (C) 2005-2007 Daniel Naber\n"+
         "This software is licensed under the GNU Lesser General Public License.\n"+
