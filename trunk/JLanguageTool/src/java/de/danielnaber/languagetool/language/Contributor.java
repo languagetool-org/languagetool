@@ -39,6 +39,10 @@ public class Contributor {
   public String getName() {
     return name;
   }
+  
+  public final String toString() {
+    return getName();
+  }
 
   public String getRemark() {
     return remark;
