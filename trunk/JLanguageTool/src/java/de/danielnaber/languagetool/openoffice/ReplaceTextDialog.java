@@ -31,6 +31,8 @@ import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JTextField;
 
+import de.danielnaber.languagetool.tools.StringTools;
+
 class ReplaceTextDialog implements ActionListener {
 
   private JDialog dialog = null;
@@ -60,13 +62,19 @@ class ReplaceTextDialog implements ActionListener {
     cons.gridx = 0;
     cons.gridy = 1;
     cons.anchor = GridBagConstraints.SOUTH;
-    okButton = new JButton(messages.getString("guiOKButton"));
+    okButton = new JButton(StringTools.getLabel(
+        messages.getString("guiOKButton")));
+    okButton.setMnemonic(StringTools.getMnemonic(
+        messages.getString("guiOKButton")));
     okButton.addActionListener(this);
     contentPane.add(okButton, cons);
 
     cons.gridx = 1;
     cons.gridy = 1;
-    cancelButton = new JButton(messages.getString("guiCancelButton"));
+    cancelButton = new JButton(StringTools.getLabel(
+        messages.getString("guiCancelButton")));
+    cancelButton.setMnemonic(StringTools.getMnemonic(
+        messages.getString("guiCancelButton")));
     cancelButton.addActionListener(this);
     contentPane.add(cancelButton, cons);
 
