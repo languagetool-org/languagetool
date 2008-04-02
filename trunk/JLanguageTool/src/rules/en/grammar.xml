@@ -7,7 +7,7 @@ title="Easy editing stylesheet" ?>
 English Grammar and Typo Rules for LanguageTool
 See tagset.txt for the meaning of the POS tags
 Copyright (C) 2001-2007 Daniel Naber (http://www.danielnaber.de)
-$Id: grammar.xml,v 1.45 2008-04-01 11:56:05 milek_pl Exp $
+$Id: grammar.xml,v 1.46 2008-04-02 18:03:37 milek_pl Exp $
 -->
 <rules lang="en">
   <!-- ====================================================================== -->
@@ -3120,6 +3120,16 @@ $Id: grammar.xml,v 1.45 2008-04-01 11:56:05 milek_pl Exp $
       <message>This phrase is redundant. Use simply <suggestion>\2</suggestion>.</message>
       <example correction="unique" type="incorrect">Walk until you see the <marker>very unique</marker> building on your right.</example>
       <example type="correct">Walk until you see a unique building on your right.</example>
+    </rule>
+    <rule default="off" id="WHETHER_OR_NOT" name="Redundant phrase: 'whether or not (whether)'">
+      <pattern>
+        <token>whether</token>
+        <token>or</token>
+        <token>not</token>
+      </pattern>
+      <message>In most contexts, this phrase is redundant and can be replaced with <suggestion>\1</suggestion>. However, it is correct if you mean 'regardless of whether'.</message>
+      <example correction="whether" type="incorrect">What the government decides to do depends on <marker>whether or not</marker> the bill passes.</example>
+      <example type="correct">What the government decides to do depends on whether the bill passes.</example>
     </rule>
   </category>
   <category name="Bad style">
