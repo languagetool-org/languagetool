@@ -175,19 +175,28 @@ public class OOoDialog implements ActionListener {
     cons.gridx = 1;
     cons.gridy = 0;
     cons.fill = GridBagConstraints.HORIZONTAL;
-    ignoreButton = new JButton(messages.getString("guiOOoIgnoreButton"));
+    ignoreButton = new JButton(
+        StringTools.getLabel(messages.getString("guiOOoIgnoreButton")));
+    ignoreButton.setMnemonic(
+        StringTools.getMnemonic(messages.getString("guiOOoIgnoreButton")));
     ignoreButton.addActionListener(this);
     contentPane.add(ignoreButton, cons);
     
     cons.gridx = 1;
     cons.gridy = 1;
-    ignoreAllButton = new JButton(messages.getString("guiOOoIgnoreAllButton"));
+    ignoreAllButton = new JButton(
+        StringTools.getLabel(messages.getString("guiOOoIgnoreAllButton")));
+    ignoreAllButton.setMnemonic(
+        StringTools.getMnemonic(messages.getString("guiOOoIgnoreAllButton")));
     ignoreAllButton.addActionListener(this);
     contentPane.add(ignoreAllButton, cons);
 
     cons.gridx = 1;
     cons.gridy = 2;
-    optionsButton = new JButton(messages.getString("guiOOoOptionsButton"));
+    optionsButton = new JButton(
+        StringTools.getLabel(messages.getString("guiOOoOptionsButton")));
+    optionsButton.setMnemonic(
+        StringTools.getMnemonic(messages.getString("guiOOoOptionsButton")));
     optionsButton.addActionListener(this);
     contentPane.add(optionsButton, cons);
 
@@ -231,7 +240,10 @@ public class OOoDialog implements ActionListener {
     cons.gridx = 1;
     cons.gridy = 5;
     cons.anchor = GridBagConstraints.SOUTH;
-    closeButton = new JButton(messages.getString("guiOOoCloseButton"));
+    closeButton = new JButton(StringTools.getLabel(
+        messages.getString("guiOOoCloseButton")));
+    closeButton.setMnemonic(StringTools.getMnemonic(
+        messages.getString("guiOOoCloseButton")));
     closeButton.addActionListener(this);
     contentPane.add(closeButton, cons);
 
