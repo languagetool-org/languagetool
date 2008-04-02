@@ -54,8 +54,6 @@ TODO:
  -update languagetool.xml.update automatically (i.e. replace @version@)
  -add more redundancy rules, see e.g.
   http://grammar.about.com/od/words/a/redundancies.htm?p=1
- -"&" is shown in buttons, not interpreted as shortcut anymore (OOo only?!)
- -menu and toolbar icon is broken (black square or empty) for me
  -feedback from http://extensions.services.openoffice.org/project/languagetool:
   1) It does not seem to understand global multi-user installs. If you 
    install from root it it pushed to all users, however when you try and
