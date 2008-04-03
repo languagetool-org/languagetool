@@ -7,7 +7,7 @@ title="Easy editing stylesheet" ?>
 English Grammar and Typo Rules for LanguageTool
 See tagset.txt for the meaning of the POS tags
 Copyright (C) 2001-2007 Daniel Naber (http://www.danielnaber.de)
-$Id: grammar.xml,v 1.47 2008-04-03 15:47:29 milek_pl Exp $
+$Id: grammar.xml,v 1.48 2008-04-03 16:22:03 milek_pl Exp $
 -->
 <rules lang="en">
   <!-- ====================================================================== -->
@@ -1305,12 +1305,12 @@ $Id: grammar.xml,v 1.47 2008-04-03 15:47:29 milek_pl Exp $
       <rule>
         <pattern mark_from="1" mark_to="-1">
           <token regexp="yes">been|was|were|is|are|am</token>
-          <token postag="VBD|VBP|VB" postag_regexp="yes"><exception postag="VBN|JJ.*|RB.*" postag_regexp="yes"/><exception regexp="yes">are|am</exception></token>
+          <token postag="VBD|VBP|VB" postag_regexp="yes"><exception postag="VBN|NN:U.*|JJ.*|RB" postag_regexp="yes"/><exception regexp="yes">are|am</exception></token>
           <token><exception>'</exception></token>
         </pattern>
         <message>Possible agreement error -- use a past participle here: <suggestion><match no="2" postag="VBN"/></suggestion>.</message>
-        <example correction="released" type="incorrect">The software was <marker>release</marker>.</example>
-        <example correction="released" type="incorrect">The program has been <marker>release</marker>.</example>
+        <example correction="introduced" type="incorrect">The software was <marker>introduce</marker> yesterday.</example>
+        <example correction="introduced" type="incorrect">The program has been <marker>introduce</marker>.</example>
         <example correction="given" type="incorrect">The gift has been <marker>gave</marker>.</example>
         <example type="correct">The park has been open for many years.</example>
         <example type="correct">It has been done.</example>
