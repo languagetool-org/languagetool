@@ -15,6 +15,7 @@ while ((getline < english_file)  > 0){
 		}
 
 #explicit list U
+lemma["sleep"]="uncount"
 lemma["wonderland"]="uncount"
 lemma["connoisseurship"]="uncount"
 lemma["behalf"]="uncount"
@@ -4792,7 +4793,6 @@ partly_noncount["cant"]="uncount"
 partly_noncount["capacity"]="uncount"
 partly_noncount["capital"]="uncount"
 partly_noncount["capture"]="uncount"
-partly_noncount["car"]="uncount"
 partly_noncount["caramel"]="uncount"
 partly_noncount["carbohydrate"]="uncount"
 partly_noncount["carbon"]="uncount"
