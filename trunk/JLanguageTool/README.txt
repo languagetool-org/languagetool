@@ -63,7 +63,6 @@ TODO:
    window manager
  -use hunspell via jni, see http://tkltrans.sourceforge.net/spell.htm and
   http://tkltrans.sourceforge.net/magyar/huncheck.tar.gz
- -rules: I/You/We/You/They does (not)-> do (not), He/She/It do (not)
  -finish "Add language..." work
  -put licenses in extra subdir
  -check if some rules from xml-copy-editor.sourceforge.net are useful for us
