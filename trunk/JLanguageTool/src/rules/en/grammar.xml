@@ -7,7 +7,7 @@ title="Easy editing stylesheet" ?>
 English Grammar and Typo Rules for LanguageTool
 See tagset.txt for the meaning of the POS tags
 Copyright (C) 2001-2007 Daniel Naber (http://www.danielnaber.de)
-$Id: grammar.xml,v 1.49 2008-04-04 11:51:13 milek_pl Exp $
+$Id: grammar.xml,v 1.50 2008-04-04 12:16:12 milek_pl Exp $
 -->
 <rules lang="en">
   <!-- ====================================================================== -->
@@ -1512,7 +1512,7 @@ $Id: grammar.xml,v 1.49 2008-04-04 11:51:13 milek_pl Exp $
         <pattern mark_from="2" mark_to="-1">
           <token><exception postag="DT|WDT|JJ|NN.*" postag_regexp="yes"/></token>
           <token regexp="yes">do|does</token>
-          <token postag="NN"><exception postag="DT|RB|RP|JJ|IN|CC|CD|JJR|RBS|VBD|VBN|MD|NNP|NNS|VB|VBP" postag_regexp="yes"/></token>
+          <token postag="NN"><exception postag="DT|WRB|RB|RP|JJ|IN|CC|CD|JJR|RBS|VBD|VBN|MD|NNP|NNS|VB|VBP" postag_regexp="yes"/></token>
           <token><exception postag="NN.*" postag_regexp="yes"/></token>
         </pattern>
         <message>The article is missing before the noun: <suggestion><match no="3" postag="+DT"/></suggestion>.</message>
@@ -1524,7 +1524,7 @@ $Id: grammar.xml,v 1.49 2008-04-04 11:51:13 milek_pl Exp $
         <pattern mark_from="2" mark_to="-1">
           <token><exception postag="DT|WDT|JJ|NN.*" postag_regexp="yes"/></token>
           <token regexp="yes">take|takes</token>
-          <token postag="NN"><exception regexp="yes">place|charge</exception><exception postag="DT|RB|RP|JJ|IN|CC|CD|JJR|RBS|VBD|VBN|MD|NNP|NNS" postag_regexp="yes"/></token>
+          <token postag="NN"><exception regexp="yes">place|charge</exception><exception postag="DT|WRB|RB|RP|JJ|IN|CC|CD|JJR|RBS|VBD|VBN|MD|NNP|NNS" postag_regexp="yes"/></token>
           <token><exception postag="NN.*" postag_regexp="yes"/></token>
         </pattern>
         <message>The article is missing before the noun: <suggestion><match no="3" postag="+DT"/></suggestion>.</message>
@@ -1536,7 +1536,7 @@ $Id: grammar.xml,v 1.49 2008-04-04 11:51:13 milek_pl Exp $
         <pattern mark_from="2" mark_to="-1">
           <token><exception postag="DT|WDT|JJ|NN.*" postag_regexp="yes"/></token>
           <token regexp="yes">give|gives</token>
-          <token postag="NN"><exception regexp="yes">rise|way|room</exception><exception postag="DT|RB|RP|JJ|IN|CC|CD|JJR|RBS|VBD|VBN|MD|NNP|NNS" postag_regexp="yes"/></token>
+          <token postag="NN"><exception regexp="yes">rise|way|room</exception><exception postag="DT|WRB|RB|RP|JJ|IN|CC|CD|JJR|RBS|VBD|VBN|MD|NNP|NNS" postag_regexp="yes"/></token>
           <token><exception postag="NN.*" postag_regexp="yes"/></token>
         </pattern>
         <message>The article is missing before the noun: <suggestion><match no="3" postag="+DT"/></suggestion>.</message>
@@ -1548,7 +1548,7 @@ $Id: grammar.xml,v 1.49 2008-04-04 11:51:13 milek_pl Exp $
         <pattern mark_from="2" mark_to="-1">
           <token><exception postag="DT|WDT|JJ|NN.*" postag_regexp="yes"/></token>
           <token regexp="yes">go|goes</token>
-          <token postag="NN"><exception regexp="yes">hand</exception><exception postag="DT|RB|RP|JJ|IN|CC|CD|JJR|RBS|VBD|VBN|MD|NNP|NNS" postag_regexp="yes"/></token>
+          <token postag="NN"><exception regexp="yes">hand</exception><exception postag="DT|WRB|RB|RP|JJ|IN|CC|CD|JJR|RBS|VBD|VBN|MD|NNP|NNS" postag_regexp="yes"/></token>
           <token><exception postag="NN.*" postag_regexp="yes"/></token>
         </pattern>
         <message>The article is missing before the noun: <suggestion><match no="3" postag="+DT"/></suggestion>.</message>
@@ -1560,7 +1560,7 @@ $Id: grammar.xml,v 1.49 2008-04-04 11:51:13 milek_pl Exp $
         <pattern mark_from="2" mark_to="-1">
           <token><exception postag="DT|WDT|JJ|NN.*" postag_regexp="yes"/></token>
           <token regexp="yes">falls|fall</token>
-          <token postag="NN"><exception regexp="yes">victim</exception><exception postag="DT|RB|RP|JJ|IN|CC|CD|JJR|RBS|VBD|VBN|MD|NNP|NNS" postag_regexp="yes"/></token>
+          <token postag="NN"><exception regexp="yes">victim</exception><exception postag="DT|WRB|RB|RP|JJ|IN|CC|CD|JJR|RBS|VBD|VBN|MD|NNP|NNS" postag_regexp="yes"/></token>
           <token><exception postag="NN.*" postag_regexp="yes"/></token>
         </pattern>
         <message>The article is missing before the noun: <suggestion><match no="3" postag="+DT"/></suggestion>.</message>
@@ -1572,8 +1572,8 @@ $Id: grammar.xml,v 1.49 2008-04-04 11:51:13 milek_pl Exp $
         <pattern mark_from="2" mark_to="-1">
           <token><exception postag="DT|WDT" postag_regexp="yes"/></token>
           <token postag="VBP|VBZ" postag_regexp="yes"><exception postag="JJ"/></token>
-          <token postag="JJ"><exception>else</exception><exception postag="VB|RP|RB|CD|IN|CC|MD|VBD|VBN|VBG|DT" postag_regexp="yes"/></token>
-          <token postag="NN"><exception postag="CC|DT|RB|RP|JJ|IN|CD|JJR|RBS|VBD|VBN|MD|NNS" postag_regexp="yes"/><exception>are</exception></token>
+          <token postag="JJ"><exception>else</exception><exception postag="VB|RP|RB|CD|IN|CC|MD|VBD|VBN|VBG|DT|WRB" postag_regexp="yes"/></token>
+          <token postag="NN"><exception postag="CC|DT|RB|RP|JJ|IN|CD|JJR|RBS|VBD|VBN|MD|NNS|WRB" postag_regexp="yes"/><exception>are</exception></token>
           <token><exception postag="NN.*" postag_regexp="yes"/></token>
         </pattern>
         <message>The article is missing before the noun: <suggestion><match no="3" postag="+DT"/> <match no="4"/></suggestion>.</message>
@@ -1585,7 +1585,7 @@ $Id: grammar.xml,v 1.49 2008-04-04 11:51:13 milek_pl Exp $
         <pattern mark_from="2" mark_to="-1">
           <token postag="PRP|NNP" postag_regexp="yes"/>
           <token regexp="yes">have|has|had</token>
-          <token postag="VBN"><exception postag="VB|RP|RB|CD|IN|CC|MD" postag_regexp="yes"/></token>
+          <token postag="VBN"><exception postag="VB|RP|WRB|RB|CD|IN|CC|MD" postag_regexp="yes"/></token>
           <token postag="NN"><exception postag="CC|DT|WDT|RB|RP|JJ|IN|CD|JJR|RBS|VBD|VBN|MD|NNS|NNP" postag_regexp="yes"/><exception>are</exception></token>
           <token><exception postag="NN.*" postag_regexp="yes"/></token>
         </pattern>
@@ -1598,8 +1598,8 @@ $Id: grammar.xml,v 1.49 2008-04-04 11:51:13 milek_pl Exp $
         <pattern mark_from="2" mark_to="-1">
           <token postag="PRP|NNP" postag_regexp="yes"/>
           <token regexp="yes">have|has|had</token>
-          <token postag="VBN"><exception postag="VB|RP|RB|CD|IN|CC|MD" postag_regexp="yes"/></token>
-          <token postag="JJ"><exception postag="VB|RP|RB|CD|IN|CC|MD|DT|WDT" postag_regexp="yes"/></token>
+          <token postag="VBN"><exception postag="VB|RP|WRB|RB|CD|IN|CC|MD" postag_regexp="yes"/></token>
+          <token postag="JJ"><exception postag="VB|RP|WRB|RB|CD|IN|CC|MD|DT|WDT" postag_regexp="yes"/></token>
           <token postag="NN"><exception postag="CC|DT|RB|RP|JJ|IN|CD|JJR|RBS|VBD|VBN|MD|NNS" postag_regexp="yes"/><exception>are</exception></token>
           <token><exception postag="NN.*" postag_regexp="yes"/></token>
         </pattern>
@@ -1611,7 +1611,7 @@ $Id: grammar.xml,v 1.49 2008-04-04 11:51:13 milek_pl Exp $
       <rule>
         <pattern mark_from="1" mark_to="-1">
           <token><exception postag="PRP.*|NN.*|DT|JJ.*|RB.*|CC|IN|VBG|WRB|WDT" postag_regexp="yes"/><exception regexp="yes">have|has|had|s|\"|\'|[0-9].*|,</exception></token>
-          <token postag="VBN|JJ" postag_regexp="yes"><exception>else</exception><exception postag="VB|RP|RB|CD|IN|CC|MD|NNP|DT" postag_regexp="yes"/></token>
+          <token postag="VBN|JJ" postag_regexp="yes"><exception>else</exception><exception postag="VB|RP|WRB|RB|CD|IN|CC|MD|NNP|DT" postag_regexp="yes"/></token>
           <token postag="NN"><exception postag="CC|DT|RB|RP|JJ|IN|CD|JJR|RBS|VBD|VBN|MD|NNS|NNPS|NNP|WRB" postag_regexp="yes"/><exception>are</exception></token>
           <token><exception postag="NN.*" postag_regexp="yes"/></token>
         </pattern>
@@ -1648,7 +1648,7 @@ $Id: grammar.xml,v 1.49 2008-04-04 11:51:13 milek_pl Exp $
       <rule>
         <pattern mark_from="1" mark_to="-1">
           <token>at</token>
-          <token postag="JJ"><exception postag="VB|RB.*|CD|IN|DT|WDT" postag_regexp="yes"/></token>
+          <token postag="JJ"><exception postag="VB|WRB|RB.*|CD|IN|DT|WDT" postag_regexp="yes"/></token>
           <token postag="NN"><exception postag="DT|WDT|RP|JJ|IN|CD|JJR|RBS|VBD|VBN|MD|NNP|NNS|CC" postag_regexp="yes"/><exception>glance</exception></token>
           <token><exception postag="NN.*" postag_regexp="yes"/><exception>free</exception></token>
         </pattern>
@@ -1675,7 +1675,7 @@ $Id: grammar.xml,v 1.49 2008-04-04 11:51:13 milek_pl Exp $
       <rule>
         <pattern mark_from="1" mark_to="-1">
           <token>by</token>
-          <token postag="JJ"><exception postag="VB|RB.*|CD|IN|DT|WDT" postag_regexp="yes"/></token>
+          <token postag="JJ"><exception postag="VB|WRB|RB.*|CD|IN|DT|WDT" postag_regexp="yes"/></token>
           <token postag="NN"><exception postag="DT|WDT|RP|JJ|IN|CD|JJR|RBS|VBD|VBN|MD|NNP|NNS" postag_regexp="yes"/><exception>fiat</exception></token>
           <token><exception postag="NN.*" postag_regexp="yes"/><exception>free</exception></token>
         </pattern>
@@ -1686,7 +1686,7 @@ $Id: grammar.xml,v 1.49 2008-04-04 11:51:13 milek_pl Exp $
       <rule>
         <pattern mark_from="1" mark_to="-1">
           <token>for</token>
-          <token postag="NN"><exception postag="UH|CC|VBD|VBG|VBN|DT|WDT|RP|JJ|IN|CD|JJS|JJR|RBS|VBD|MD|NNP" postag_regexp="yes"/><exception regexp="yes">are|instance|example|sale|word</exception></token>
+          <token postag="NN"><exception postag="UH|CC|VBD|VBG|VBN|DT|WDT|RP|JJ|IN|CD|JJS|JJR|RBS|VBD|MD|NNP|WRB" postag_regexp="yes"/><exception regexp="yes">are|instance|example|sale|word</exception></token>
           <token><exception postag="NN.*" postag_regexp="yes"/><exception>free</exception></token>
         </pattern>
         <message>The article is missing before the noun: <suggestion><match no="2" postag="+DT"/></suggestion>.</message>
@@ -1697,7 +1697,7 @@ $Id: grammar.xml,v 1.49 2008-04-04 11:51:13 milek_pl Exp $
       <rule>
         <pattern mark_from="1" mark_to="-1">
           <token>for</token>
-          <token postag="JJ"><exception postag="VBG|VB|RB.*|CD|IN|DT|WDT" postag_regexp="yes"/></token>
+          <token postag="JJ"><exception postag="VBG|VB|WRB|RB.*|CD|IN|DT|WDT" postag_regexp="yes"/></token>
           <token postag="NN"><exception postag="DT|WDT|RP|JJ|IN|CD|JJR|RBS|VBD|VBN|MD|NNP|NNS" postag_regexp="yes"/></token>
           <token><exception postag="NN.*" postag_regexp="yes"/><exception>free</exception></token>
         </pattern>
@@ -1739,7 +1739,7 @@ $Id: grammar.xml,v 1.49 2008-04-04 11:51:13 milek_pl Exp $
       <rule>
         <pattern mark_from="1" mark_to="-1">
           <token>in</token>
-          <token postag="JJ"><exception postag="NNP|VBG|VB|RB.*|CD|IN|DT|WDT" postag_regexp="yes"/></token>
+          <token postag="JJ"><exception postag="NNP|VBG|VB|WRB|RB.*|CD|IN|DT|WDT" postag_regexp="yes"/></token>
           <token postag="NN"><exception postag="DT|WDT|RP|JJ.*|IN|CD|RB.*|VBD|VBN|MD|NNP|NNS|NNPS|PRP.*|WRB" postag_regexp="yes"/></token>
           <token><exception postag="NN.*|JJ" postag_regexp="yes"/><exception regexp="yes">\d+</exception></token>
         </pattern>
@@ -1762,7 +1762,7 @@ $Id: grammar.xml,v 1.49 2008-04-04 11:51:13 milek_pl Exp $
       <rule>
         <pattern mark_from="1" mark_to="-1">
           <token>on</token>
-          <token postag="JJ"><exception postag="VBG|VB|RB.*|CD|IN|DT|WDT|NNP" postag_regexp="yes"/></token>
+          <token postag="JJ"><exception postag="VBG|VB|WRB|RB.*|CD|IN|DT|WDT|NNP" postag_regexp="yes"/></token>
           <token postag="NN"><exception postag="CC|DT|WDT|RP|JJ.*|IN|CD|RBS|VBD|VBN|MD|NNP|NNS|NNPS" postag_regexp="yes"/></token>
           <token><exception postag="NN.*" postag_regexp="yes"/><exception>free</exception></token>
         </pattern>
@@ -1788,7 +1788,7 @@ $Id: grammar.xml,v 1.49 2008-04-04 11:51:13 milek_pl Exp $
           <token><exception postag="DT|WDT" postag_regexp="yes"/></token>
           <token><exception postag="VBN|VBD" postag_regexp="yes"/></token>
           <token postag="IN"><exception regexp="yes">as|at|by|for|in|on|to|of|following|re</exception><exception postag="JJ.*" postag_regexp="yes"/></token>
-          <token postag="JJ"><exception postag="VBG|VB|RB.*|CD|IN|DT|WDT|NNP" postag_regexp="yes"/></token>
+          <token postag="JJ"><exception postag="VBG|VB|WRB|RB.*|CD|IN|DT|WDT|NNP" postag_regexp="yes"/></token>
           <token postag="NN"><exception postag="CC|DT|WDT|RP|JJ|IN|CD|JJR|RBS|VBD|VBN|MD|NNP|NNS" postag_regexp="yes"/></token>
           <token><exception postag="NN.*" postag_regexp="yes"/><exception>free</exception></token>
         </pattern>
@@ -1815,7 +1815,7 @@ $Id: grammar.xml,v 1.49 2008-04-04 11:51:13 milek_pl Exp $
           <!-- to include phrases like: 'About a long month ago,...' -->
           <token postag="SENT_START"/>
           <token postag="IN"><exception regexp="yes">as|at|by|for|in|on|to|of|following</exception><exception postag="JJ.*" postag_regexp="yes"/></token>
-          <token postag="JJ"><exception postag="VBG|VB|RB.*|CD|IN|DT|WDT|NNP" postag_regexp="yes"/></token>
+          <token postag="JJ"><exception postag="VBG|VB|WRB|RB.*|CD|IN|DT|WDT|NNP" postag_regexp="yes"/></token>
           <token postag="NN"><exception postag="DT|WDT|RP|JJ|IN|CD|JJR|RBS|VBD|VBN|MD|NNP|NNS" postag_regexp="yes"/></token>
           <token><exception postag="NN.*|JJ" postag_regexp="yes"/></token>
         </pattern>
@@ -1827,7 +1827,7 @@ $Id: grammar.xml,v 1.49 2008-04-04 11:51:13 milek_pl Exp $
         <pattern mark_from="2" mark_to="-1">
           <token><exception>no</exception></token>
           <token>such</token>
-          <token postag="NN"><exception postag="DT|WDT|RP|JJ|IN|CD|JJR|RBS|VBD|VBN|MD|NNP|NNS" postag_regexp="yes"/></token>
+          <token postag="NN"><exception postag="DT|WDT|RP|JJ|IN|CD|JJR|RBS|VBD|VBN|MD|NNP|NNS" postag_regexp="yes"/><exception inflected="yes" regexp="yes">be|have</exception></token>
           <token><exception postag="NN.*" postag_regexp="yes"/><exception>free</exception></token>
         </pattern>
         <message>The article is missing before the noun: <suggestion><match no="3" postag="+INDT"/></suggestion>.</message>
@@ -1838,7 +1838,7 @@ $Id: grammar.xml,v 1.49 2008-04-04 11:51:13 milek_pl Exp $
         <pattern mark_from="2" mark_to="-1">
           <token><exception>no</exception></token>
           <token>such</token>
-          <token postag="JJ"><exception postag="VBG|VB|RB.*|CD|IN|DT|WDT|NNP" postag_regexp="yes"/></token>
+          <token postag="JJ"><exception postag="VBG|VB|WRB|RB.*|CD|IN|DT|WDT|NNP" postag_regexp="yes"/></token>
           <token postag="NN"><exception postag="DT|WDT|RP|JJ|IN|CD|JJR|RBS|VBD|VBN|MD|NNP|NNS" postag_regexp="yes"/></token>
           <token><exception postag="NN.*" postag_regexp="yes"/><exception>free</exception></token>
         </pattern>
