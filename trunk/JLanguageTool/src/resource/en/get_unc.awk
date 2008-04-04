@@ -5651,6 +5651,7 @@ partly_noncount["jersey"]="uncount"
 partly_noncount["jet"]="uncount"
 partly_noncount["joy"]="uncount"
 partly_noncount["judgement"]="uncount"
+partly_noncount["judgment"]="uncount"
 partly_noncount["judicature"]="uncount"
 partly_noncount["jumble"]="uncount"
 partly_noncount["jungle"]="uncount" 
@@ -7033,6 +7034,7 @@ partly_noncount["identity"]="uncount"
 partly_noncount["liturgy"]="uncount"
 partly_noncount["laundry"]="uncount"
 partly_noncount["possibility"]="uncount"
+partly_noncount["mercy"]="uncount"
 
 #not strictly non-count, but used without article
 #in a phrase 'coast to coast'
