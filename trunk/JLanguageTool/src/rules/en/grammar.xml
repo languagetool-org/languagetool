@@ -7,7 +7,7 @@ title="Easy editing stylesheet" ?>
 English Grammar and Typo Rules for LanguageTool
 See tagset.txt for the meaning of the POS tags
 Copyright (C) 2001-2007 Daniel Naber (http://www.danielnaber.de)
-$Id: grammar.xml,v 1.50 2008-04-04 12:16:12 milek_pl Exp $
+$Id: grammar.xml,v 1.51 2008-04-04 18:57:39 milek_pl Exp $
 -->
 <rules lang="en">
   <!-- ====================================================================== -->
@@ -130,7 +130,7 @@ $Id: grammar.xml,v 1.50 2008-04-04 12:16:12 milek_pl Exp $
           <token>it</token>
           <token regexp="yes">is|was</token>
           <token>no</token>
-          <token postag="JJ.*" postag_regexp="yes"><exception>more</exception></token>
+          <token postag="JJ.*" postag_regexp="yes"><exception regexp="yes">more|less</exception></token>
         </pattern>
         <message>Possible typo. Did you mean <suggestion>not</suggestion> or <suggestion>now</suggestion>?</message>
         <example correction="not|now" type="incorrect">It is <marker>no</marker> possible.</example>
@@ -1254,7 +1254,7 @@ $Id: grammar.xml,v 1.50 2008-04-04 12:16:12 milek_pl Exp $
     <rule id="A_PLURAL" name="Agreement: 'a' + plural word">
       <pattern mark_to="-1">
         <token regexp="yes">a|an</token>
-        <token postag="NNS|NNPS" postag_regexp="yes"><exception postag="NN:.*|NN" postag_regexp="yes"/></token>
+        <token postag="NNS|NNPS" postag_regexp="yes"><exception postag="NN:.*|NN|VBZ" postag_regexp="yes"/></token>
         <token><exception postag="NN.*" postag_regexp="yes"/></token>
       </pattern>
       <message>Possible agreement error; don't use indefinite articles with plural words. Did you mean <suggestion><match no="1"/> <match no="2" postag="NN|NN:.*" postag_regexp="yes"/></suggestion> or simply <suggestion><match no="2"/></suggestion>?</message>
@@ -1711,7 +1711,7 @@ $Id: grammar.xml,v 1.50 2008-04-04 12:16:12 milek_pl Exp $
           <token regexp="yes">day|week</token>
           <token>in</token>
           <and>
-            <token postag="NN"><exception postag="VBG|DT|WDT|RP|JJ|IN|CD|JJS|JJR|RBS|VBD|VBN|MD|NNP|NNS" postag_regexp="yes"/><exception regexp="yes">fact|hand|paperback|person|retrospect|studio|summary|mood|name|turn|deed|word|outlook|favor|phase|reply|chorus|quest</exception></token>
+            <token postag="NN"><exception postag="VBG|DT|WDT|RP|JJ|IN|CD|JJS|JJR|RBS|VBD|VBN|MD|NNP|NNS" postag_regexp="yes"/><exception regexp="yes">fact|hand|paperback|person|retrospect|studio|summary|mood|name|turn|deed|word|outlook|favor|phase|reply|chorus|quest|series</exception></token>
             <token negate="yes"><match no="0"/></token>
           </and>
           <token><exception postag="NN.*|JJ" postag_regexp="yes"/><exception regexp="yes">\d+</exception></token>
@@ -1727,7 +1727,7 @@ $Id: grammar.xml,v 1.50 2008-04-04 12:16:12 milek_pl Exp $
         <pattern mark_from="2" mark_to="-1">
           <token><exception regexp="yes">day|week</exception></token>
           <token>in</token>
-          <token postag="NN"><exception postag="VBG|DT|WDT|RP|JJ|IN|CD|JJS|JJR|RBS|VBD|VBN|MD|NNP|NNS" postag_regexp="yes"/><exception regexp="yes">fact|hand|paperback|person|retrospect|studio|summary|mood|name|turn|deed|word|outlook|favor|phase|reply|chorus|quest</exception></token>
+          <token postag="NN"><exception postag="VBG|DT|WDT|RP|JJ|IN|CD|JJS|JJR|RBS|VBD|VBN|MD|NNP|NNS" postag_regexp="yes"/><exception regexp="yes">fact|hand|paperback|person|retrospect|studio|summary|mood|name|turn|deed|word|outlook|favor|phase|reply|chorus|quest|series</exception></token>
           <token><exception postag="NN.*|JJ" postag_regexp="yes"/><exception regexp="yes">\d+</exception></token>
         </pattern>
         <message>The article is missing before the noun: <suggestion><match no="3" postag="+DT"/></suggestion>.</message>
@@ -2195,7 +2195,7 @@ $Id: grammar.xml,v 1.50 2008-04-04 12:16:12 milek_pl Exp $
         <pattern mark_from="1" mark_to="-1">
           <token regexp="yes">more|less</token>
           <token regexp="yes">as</token>
-          <token><exception regexp="yes">to|if</exception></token>
+          <token><exception regexp="yes">to|if|follows</exception></token>
         </pattern>
         <message>Comparison requires <suggestion>than</suggestion>, not 'then' nor 'as'.</message>
         <example type="correct">The tagger will return more <marker>than</marker> one tag.</example>
@@ -2236,7 +2236,7 @@ $Id: grammar.xml,v 1.50 2008-04-04 12:16:12 milek_pl Exp $
    -->
     <rule id="MORE_A_JJ" name="Word order: 'more a ...' instead of 'a more ...'">
       <pattern>
-        <token>more</token>
+        <token>more<exception scope="previous">no</exception></token>
         <token regexp="yes">a|an</token>
         <token postag="JJ|VBN" postag_regexp="yes"/>
       </pattern>
@@ -2244,6 +2244,7 @@ $Id: grammar.xml,v 1.50 2008-04-04 12:16:12 milek_pl Exp $
       <example type="correct">I can give you <marker>a more detailed</marker> description of what's necessary.</example>
       <example correction="a more detailed" type="incorrect">I can give you <marker>more a detailed</marker> description of what's necessary.</example>
       <example correction="a more analyzed" type="incorrect">I wish it was <marker>more an analyzed</marker> case</example>
+      <example type="correct">It is no more a component.</example>
     </rule>
     <!-- this works now, and accounts for subjunctive
   i.e., she recommended that he use his money... -->

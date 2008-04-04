@@ -44,6 +44,9 @@ map["\?"]=""	#as above
 #PRP$, WDT, WP, WP$, WRB only by enumeration
 #MD by enumeration
 
+#kill single-letter entries:
+/^[a-zA-Z][\t ]/ {$0=""}
+
 #adjectives
 /A:|A\?:/ && !/'/ {
 gsub(/{[a-zA-Z:0-9_]+}/,"")
@@ -240,7 +243,7 @@ if (verb_fields[5]!="") {
 			if ($1"_END"!~/ly_END/ || $1"_END"~/early_END/) print $1 "\t" $1 "\tJJ"; else print $1 "\t" $1 "\tRB"
 #	print $1 "\t" $1 "\t"map["v"]
 }
-/\tAV$/ && !/[ ']/{
+/\t(AV|AVti)$/ && !/[ ']/{ #AVti - only two words: articulate, foliate
 	if (JJR[$1]=="" && JJS[$1]=="")  
 			if ($1"_END"!~/ly_END/ || $1"_END"~/early_END/) print $1 "\t" $1 "\tJJ"; else print $1 "\t" $1 "\tRB"
 #	print $1 "\t" $1 "\t"map["V"]
