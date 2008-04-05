@@ -43,9 +43,12 @@ public class ValidateXMLTest extends TestCase {
     //for (int i = 0; i < Language.LANGUAGES.length; i++) {
     //  Language lang = Language.LANGUAGES[i];
     Language lang = Language.FRENCH;
-      String grammarFile = "/resource/" + lang.getShortName() + "/disambiguation.xml";
-      validator.validate(grammarFile, "/resource/disambiguation.dtd", "rules");
-   // }
+    String grammarFile = "/resource/" + lang.getShortName() + "/disambiguation.xml";
+    validator.validate(grammarFile, "/resource/disambiguation.dtd", "rules");
+    lang = Language.ENGLISH;
+    grammarFile = "/resource/" + lang.getShortName() + "/disambiguation.xml";
+    validator.validate(grammarFile, "/resource/disambiguation.dtd", "rules");
+    // }
   }
-  
+
 }

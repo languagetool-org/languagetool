@@ -5044,6 +5044,7 @@ partly_noncount["defacement"]="uncount"
 partly_noncount["default"]="uncount"
 partly_noncount["defeat"]="uncount"
 partly_noncount["defence"]="uncount"
+partly_noncount["defense"]="uncount"
 partly_noncount["deference"]="uncount"
 partly_noncount["defiance"]="uncount"
 partly_noncount["degree"]="uncount"
@@ -7035,6 +7036,7 @@ partly_noncount["liturgy"]="uncount"
 partly_noncount["laundry"]="uncount"
 partly_noncount["possibility"]="uncount"
 partly_noncount["mercy"]="uncount"
+partly_noncount["weakness"]="uncount"
 
 #not strictly non-count, but used without article
 #in a phrase 'coast to coast'

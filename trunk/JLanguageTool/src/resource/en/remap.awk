@@ -161,7 +161,7 @@ if (verb_fields[5]!="") {
 #"BEGIN"$2"END"~/BEGINANEND/ { if (JJR[$1]=="" && JJS[$1]=="") print $1 "\t" $1 "\tJJ"}
 
 
-/\tvA$/ {print $1 "\t" $1 "\t"map["v"]
+/\t(vA|Av)$/ && !/[ ']/ {print $1 "\t" $1 "\t"map["v"]
 	print $1 "\t" $1 "\t"map["A"]}
 
 /\tvAN$/ {print $1 "\t" $1 "\t"map["v"]

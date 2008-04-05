@@ -2,13 +2,13 @@
 <!--
 English Disambiguation Rules for LanguageTool
 Copyright (C) 2008 Marcin Miłkowski
-$Id: disambiguation.xml,v 1.1 2008-04-05 17:31:08 milek_pl Exp $
+$Id: disambiguation.xml,v 1.2 2008-04-05 21:26:04 milek_pl Exp $
 -->
 
 <rules lang="en">
 	
-	<rule name="Modal verb + verb/noun -> modal verb + verb" id="MD VB.*">
-		<pattern mark="2">
+	<rule name="Modal verb + verb/noun -> modal verb + verb" id="MD_VB">
+		<pattern mark="1">
 			<token postag="MD"/>
 			<and>
 			<token postag="VB"/>
@@ -17,5 +17,59 @@ $Id: disambiguation.xml,v 1.1 2008-04-05 17:31:08 milek_pl Exp $
 		</pattern>
 		<disambig postag="VB"/>
 	</rule>
+	
+	<rule name="be + to + verb/... ->be + to + verb" id="BE_TO_VB">
+		<pattern mark="2">
+			<token inflected="yes">be</token>
+			<token>to</token>
+			<and>
+			<token postag="VB"/>
+			<token postag_regexp="yes" postag="JJ|NN.*"/>
+			</and>
+		</pattern>
+		<disambig postag="VB"/>
+	</rule>
+
+	<rule name="have as verb/noun + past participle -> have/modal" id="HAVE_VBN">
+		<pattern mark="0">
+			<token>have</token>
+			<token postag="VBN"/>
+		</pattern>
+		<disambig><match no="1" postag_regexp="yes" postag="MD"/></disambig>
+	</rule>
+
+	<rulegroup name="well + past participle -> well + adjective" id="WELL_VBN">
+	<rule>
+		<pattern mark="0">
+		<token postag="RB">well</token>
+		<token postag="VBN"/>
+		</pattern>
+		<disambig><match no="1" postag_regexp="yes" postag="RB"/></disambig>
+	</rule>	
+	<rule>
+		<pattern mark="2">
+		<token>well</token>
+		<token postag="VBN"/>
+		</pattern>
+		<disambig postag="JJ"/>
+	</rule>
+	</rulegroup>
+	
+	<rulegroup name="in as noun -> in as preposition" id="IN_NN_IN">
+	<rule name="in as noun/preposition + the -> in as preposition" id="IN_IN">
+		<pattern mark="0">
+			<token>in</token>
+			<token postag="DT"/>
+		</pattern>
+		<disambig postag="IN"/>
+	</rule>
+	<rule name="in as noun/preoposition + uncountable noun -> in as preposition" id="IN_NNUN">
+		<pattern mark="0">
+		<token>in</token>
+		<token postag="NN:U.*" postag_regexp="yes"/>
+		</pattern>
+		<disambig postag="IN"/>
+	</rule>
+	</rulegroup>
 
 </rules>
