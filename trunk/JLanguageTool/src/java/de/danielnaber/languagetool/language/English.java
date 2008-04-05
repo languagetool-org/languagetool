@@ -26,6 +26,8 @@ import de.danielnaber.languagetool.Language;
 import de.danielnaber.languagetool.synthesis.Synthesizer;
 import de.danielnaber.languagetool.synthesis.en.EnglishSynthesizer;
 import de.danielnaber.languagetool.tagging.Tagger;
+import de.danielnaber.languagetool.tagging.disambiguation.Disambiguator;
+import de.danielnaber.languagetool.tagging.disambiguation.rules.en.EnglishRuleDisambiguator;
 import de.danielnaber.languagetool.tagging.en.EnglishTagger;
 import de.danielnaber.languagetool.tokenizers.Tokenizer;
 import de.danielnaber.languagetool.tokenizers.en.EnglishWordTokenizer;
@@ -35,6 +37,7 @@ public class English extends Language {
   private Tagger tagger = new EnglishTagger();
   private Tokenizer wordTokenizer = new EnglishWordTokenizer();
   private Synthesizer synthesizer = new EnglishSynthesizer();
+  private Disambiguator disambiguator = new EnglishRuleDisambiguator();
 
   public Locale getLocale() {
     return new Locale(getShortName());
@@ -59,7 +62,12 @@ public class English extends Language {
   public Synthesizer getSynthesizer() {
     return synthesizer;
   }
+  
+  final public Disambiguator getDisambiguator() {
+    return disambiguator;
+  }
 
+  
   public Contributor[] getMaintainers() {
     return new Contributor[] {new Contributor("Marcin Miłkowski"),
         new Contributor("Daniel Naber")};
