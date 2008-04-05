@@ -3,6 +3,8 @@
  */
 package de.danielnaber.languagetool.dev;
 
+import info.bliki.wiki.model.WikiModel;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -20,6 +22,7 @@ import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
+import org.apache.commons.lang.StringEscapeUtils;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
@@ -245,30 +248,21 @@ class WikiDumpHandler extends DefaultHandler {
 class WikipediaTextFilter implements TextFilter {
 
   public String filter(String s) {
-    //[[Bild:Alkalimetalle.jpg|thumb|left|alle 5 stabilen Alkalimetalle]]
-    s = s.replaceAll("(?s)\\[\\[Bild:.*?\\]\\]", "");
-    s = s.replaceAll("(?s)\\[\\[[^\\[]*?\\|(.*?)\\]\\]", "$1");
-    // e.g. [[el:Άτομο]]:
-    s = s.replaceAll("(?s)\\[...?:.*?\\]\\]", "");
-    // e.g. [[Chromosom]]en:
-    s = s.replaceAll("(?s)\\[\\[(.*?)\\]\\]", "$1");
-    s = s.replaceAll("(?s)<math>.*?</math>", "X");
-    s = s.replaceAll("(?s)<!---.*?--->", "");
-    s = s.replaceAll("(?si)\\{\\{prettytable\\}\\}.*?\\}", "");
-    s = s.replaceAll("(?si)\\{\\{Personendaten.*?\\}", "");
-    // e.g. [http://www.klassikakzente.de/page_26289.jsp Arvo Pärt]:
-    s = s.replaceAll("(?si)\\[http://.*?\\]", "Quelle");
-    s = s.replaceAll("(Quelle\\s*)+", "Quelle ");
-    s = s.replaceAll("(Quelle\\*\\s*)+", "Quelle ");
-    s = s.replaceAll("(\\*Quelle\\s*)+", "Quelle ");
-    s = s.replaceAll("(?si)\\{\\{.*?\\}\\}", "");
-    s = s.replaceAll("(?si)\\[\\[.*?\\]\\]", "");
-    s = s.replaceAll("\n\\* ", "\n");
-    s = s.replaceAll("'''", "");
-    s = s.replaceAll("''", "");
-    s = s.replaceAll("<br\\s*/>", "\n");
-    s = s.replaceAll("\n+", "\n");
-    s = s.replaceAll("&nbsp;", " ");
+    // TODO: find general HTML to Text converter?!:
+    WikiModel wikiModel = new WikiModel("${image}", "${title}");
+    s = wikiModel.render(s);
+    //System.out.println("0####"+s);
+    s = s.replaceAll("\n", " ");
+    s = s.replaceAll("\\{\\{.*?\\}\\}", "");
+    s = s.replaceAll("</p>", "\n\n");
+    s = s.replaceAll("</dt>", "\n\n");
+    s = s.replaceAll("</dl>", "\n\n");
+    s = s.replaceAll("</h\\d>", "\n\n");
+    s = s.replaceAll("<a href=\"http://[a-zA-Z-]+\\.wikipedia\\.org/wiki/.*?\">.*?</a>", "");
+    s = s.replaceAll("<.*?>", "");
+    s = s.replaceAll("\n\n+", "\n\n");
+    s = StringEscapeUtils.unescapeHtml(s);
+    //System.out.println("1####"+s);
     return s;
   }
 
