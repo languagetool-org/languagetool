@@ -160,19 +160,38 @@ if (verb_fields[5]!="") {
 "BEGIN"$2"END"~/BEGINvEND/ { print $1 "\t" $1 "\t"map[$2]}
 #"BEGIN"$2"END"~/BEGINANEND/ { if (JJR[$1]=="" && JJS[$1]=="") print $1 "\t" $1 "\tJJ"}
 
+#interjections
+/!/ && !/[ ']/ {
+if ($1!~/!/) {
+	print $1 "\t" $1 "\t"map["!"]
+	gsub(/!/,"")
+	}
+	}
+
 
 /\t(vA|Av)$/ && !/[ ']/ {print $1 "\t" $1 "\t"map["v"]
 	print $1 "\t" $1 "\t"map["A"]}
 
-/\tvAN$/ {print $1 "\t" $1 "\t"map["v"]
+/\tvAN$/ && !/[ ']/ {print $1 "\t" $1 "\t"map["v"]
 	print $1 "\t" $1 "\t"map["A"]
 	print $1 "\t" $1 "\t"map["N"]
 	}
 
+/\tvAtV$/ && !/[ ']/ {print $1 "\t" $1 "\t"map["v"] 
+gsub(/\tvAtV/,"\tAVt")
+}
 
-/\tv/ && !/[ ']/ {print $1 "\t" $1 "\t"map["v"]}
+/\tv$/ && !/[ ']/ {print $1 "\t" $1 "\t"map["v"]}
 
-/\t\|v/ && !/[ ']/ {
+/\tvP$/ && !/[ ']/ {print $1 "\t" $1 "\t"map["v"]
+print $1 "\t" $1 "\t"map["P"]
+}
+
+/\tvN$/ && !/[ ']/ {print $1 "\t" $1 "\t"map["v"]
+print $1 "\t" $1 "\t"map["N"]
+}
+
+/\t(\|v|vP)/ && !/[ ']/ {
 	if (JJR[$1]!="") {
 	print $1 "\t" $1 "\tRBR"}
 	if (JJS[$1]!="") {
@@ -180,6 +199,10 @@ if (verb_fields[5]!="") {
 	if (JJS[$1]=="" && JJS[$1]=="") {
 	print $1 "\t" $1 "\t"map["v"]}
 	}
+
+{gsub(/\tvPC/, "\tPCv")
+ gsub(/\tvC/,"\tCv/")
+}
 
 /\tPCv/ {print $1 "\t" $1 "\t"map["P"]
 	print $1 "\t" $1 "\t"map["C"]
@@ -196,7 +219,11 @@ if (verb_fields[5]!="") {
 		print $1 "\t" $1 "\t"map["t"]
 		print $1 "\t" $1 "\t"map["V"]
 		}
-		
+/\tvNA$/ && !/'/  {
+print $1 "\t" $1 "\t"map["v"]
+gsub(/\tvNA/,"\tNA")
+}
+
 /\t[AN][AN]/ && !/'/ {
 		if (JJR[$1]=="" && JJS[$1]=="" && $1"_END"!~/ism_END/) print $1 "\t" $1 "\tJJ" 
 		if ($1!~/[A-Z]/) print $1 "\t" $1 "\tNN"; else print $1 "\t" $1 "\tNNP"
@@ -243,7 +270,7 @@ if (verb_fields[5]!="") {
 			if ($1"_END"!~/ly_END/ || $1"_END"~/early_END/) print $1 "\t" $1 "\tJJ"; else print $1 "\t" $1 "\tRB"
 #	print $1 "\t" $1 "\t"map["v"]
 }
-/\t(AV|AVti)$/ && !/[ ']/{ #AVti - only two words: articulate, foliate
+/\t(AV|AVti|AVt)$/ && !/[ ']/{ #AVti - only two words: articulate, foliate
 	if (JJR[$1]=="" && JJS[$1]=="")  
 			if ($1"_END"!~/ly_END/ || $1"_END"~/early_END/) print $1 "\t" $1 "\tJJ"; else print $1 "\t" $1 "\tRB"
 #	print $1 "\t" $1 "\t"map["V"]
