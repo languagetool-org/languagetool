@@ -7,7 +7,7 @@ title="Easy editing stylesheet" ?>
 English Grammar and Typo Rules for LanguageTool
 See tagset.txt for the meaning of the POS tags
 Copyright (C) 2001-2007 Daniel Naber (http://www.danielnaber.de)
-$Id: grammar.xml,v 1.53 2008-04-06 10:14:50 milek_pl Exp $
+$Id: grammar.xml,v 1.54 2008-04-07 19:39:18 milek_pl Exp $
 -->
 <rules lang="en">
   <!-- ====================================================================== -->
@@ -840,12 +840,13 @@ $Id: grammar.xml,v 1.53 2008-04-06 10:14:50 milek_pl Exp $
         <pattern mark_from="1" mark_to="-2">
           <token><exception postag="IN|CC" postag_regexp="yes"/></token>
           <token>its</token>
-          <token postag="(CC|DT|IN|MD|POS|PP|RB|WDT|WP|WRB)" postag_regexp="yes"><exception>many</exception></token>
+          <token postag="(CC|DT|IN|MD|POS|PP|RB|WDT|WP|WRB)" postag_regexp="yes"><exception>many</exception><exception postag="NN.*" postag_regexp="yes"/></token>
           <token><exception postag="VBN|JJ" postag_regexp="yes"/></token>
         </pattern>
         <message>Did you mean <suggestion>it's</suggestion> (=<suggestion>it is</suggestion>) instead of 'its' (possessive pronoun)?</message>
         <example type="correct"><marker>It's</marker> where people walk around.</example>
         <example type="incorrect"><marker>Its</marker> where people walk around.</example>
+        <example type="correct">It has not yet found its way either into the pharmacopoeia.</example>
         <example type="correct">London is counting iconic landmarks such as the Houses of Parliament, Tower Bridge and Buckingham Palace amongst its many attractions.</example>
         <example reason="'every' is tagged as AT0" type="triggers_error">London is a necropolis, <marker>its</marker> every corner the site of a murder, its soil a pudding of blood and tears.</example>
       </rule>
@@ -1255,11 +1256,12 @@ $Id: grammar.xml,v 1.53 2008-04-06 10:14:50 milek_pl Exp $
       <pattern mark_to="-1">
         <token regexp="yes">a|an</token>
         <token postag="NNS|NNPS" postag_regexp="yes"><exception postag="NN:.*|NN|VBZ" postag_regexp="yes"/></token>
-        <token><exception postag="NN.*" postag_regexp="yes"/></token>
+        <token><exception postag="NN.*" postag_regexp="yes"/><exception>'</exception></token>
       </pattern>
       <message>Possible agreement error; don't use indefinite articles with plural words. Did you mean <suggestion><match no="1"/> <match no="2" postag="NN|NN:.*" postag_regexp="yes"/></suggestion> or simply <suggestion><match no="2"/></suggestion>?</message>
       <example correction="a criterion|criteria" type="incorrect">I needed to use a text line as <marker>a criteria</marker> to select users for a list.</example>
       <example type="correct">It is a criteria list that we prepared last night.</example>
+      <example type="correct">There was a children's party at the Joneses yesterday.</example>
     </rule>
     <rulegroup id="HAVE_PART_AGREEMENT" name="Agreement: have + past/present tense">
       <rule>
@@ -1686,7 +1688,7 @@ $Id: grammar.xml,v 1.53 2008-04-06 10:14:50 milek_pl Exp $
       <rule>
         <pattern mark_from="1" mark_to="-1">
           <token>for</token>
-          <token postag="NN"><exception postag="UH|CC|VBD|VBG|VBN|DT|WDT|RP|JJ|IN|CD|JJS|JJR|RBS|VBD|MD|NNP|WRB" postag_regexp="yes"/><exception regexp="yes">are|instance|example|sale|word</exception></token>
+          <token postag="NN"><exception postag="UH|CC|VBD|VBG|VBN|DT|WDT|RP|JJ|IN|CD|JJS|JJR|RBS|VBD|MD|NNP|WRB|PRP\$" postag_regexp="yes"/><exception regexp="yes">are|instance|example|sale|word</exception></token>
           <token><exception postag="NN.*" postag_regexp="yes"/><exception>free</exception></token>
         </pattern>
         <message>The article is missing before the noun: <suggestion><match no="2" postag="+DT"/></suggestion>.</message>
@@ -1711,7 +1713,7 @@ $Id: grammar.xml,v 1.53 2008-04-06 10:14:50 milek_pl Exp $
           <token regexp="yes">day|week</token>
           <token>in</token>
           <and>
-            <token postag="NN"><exception postag="VBG|DT|WDT|RP|JJ|IN|CD|JJS|JJR|RBS|VBD|VBN|MD|NNP|NNS" postag_regexp="yes"/><exception regexp="yes">fact|hand|paperback|person|retrospect|studio|summary|mood|name|turn|deed|word|outlook|favor|phase|reply|chorus|quest|series</exception></token>
+            <token postag="NN"><exception postag="VBG|DT|WDT|RP|JJ|IN|CD|JJS|JJR|RBS|VBD|VBN|MD|NNP|NNS" postag_regexp="yes"/><exception regexp="yes">fact|hand|paperback|person|retrospect|studio|summary|mood|name|turn|deed|word|outlook|favor|phase|reply|chorus|quest|series|answer</exception></token>
             <token negate="yes"><match no="0"/></token>
           </and>
           <token><exception postag="NN.*|JJ" postag_regexp="yes"/><exception regexp="yes">\d+</exception></token>
@@ -1727,7 +1729,7 @@ $Id: grammar.xml,v 1.53 2008-04-06 10:14:50 milek_pl Exp $
         <pattern mark_from="2" mark_to="-1">
           <token><exception regexp="yes">day|week</exception></token>
           <token>in</token>
-          <token postag="NN"><exception postag="VBG|DT|WDT|RP|JJ|IN|CD|JJS|JJR|RBS|VBD|VBN|MD|NNP|NNS" postag_regexp="yes"/><exception regexp="yes">fact|hand|paperback|person|retrospect|studio|summary|mood|name|turn|deed|word|outlook|favor|phase|reply|chorus|quest|series</exception></token>
+          <token postag="NN"><exception postag="VBG|DT|WDT|RP|JJ|IN|CD|JJS|JJR|RBS|VBD|VBN|MD|NNP|NNS" postag_regexp="yes"/><exception regexp="yes">fact|hand|paperback|person|retrospect|studio|summary|mood|name|turn|deed|word|outlook|favor|phase|reply|chorus|quest|series|answer</exception></token>
           <token><exception postag="NN.*|JJ" postag_regexp="yes"/><exception regexp="yes">\d+</exception></token>
         </pattern>
         <message>The article is missing before the noun: <suggestion><match no="3" postag="+DT"/></suggestion>.</message>
@@ -1771,11 +1773,28 @@ $Id: grammar.xml,v 1.53 2008-04-06 10:14:50 milek_pl Exp $
         <example type="correct">This remark is on <marker>the previous page</marker>.</example>
       </rule>
       <rule>
+        <!--after, with exception for phrases like 'anecdote after anecdote' (x after x); FIXME: first two tokens should be replaced with a chunk <DT+VBN> marked in a disambig-->
+        <pattern mark_from="3" mark_to="-1">
+          <token><exception postag="DT|WDT" postag_regexp="yes"/></token>
+          <token><exception postag="VBN|VBD" postag_regexp="yes"/></token>
+          <token>after</token>
+          <and>
+            <token postag="NN"><exception postag="CC|UH|DT|WDT|RP|JJ.*|IN|CD|RB.*|VBD|VBZ|VBN|MD|NNP|NNS|NNPS|PRP.*|WRB" postag_regexp="yes"/></token>
+            <token negate="yes"><match no="1"/></token>
+          </and>
+          <token><exception postag="NN.*" postag_regexp="yes"/><exception>free</exception></token>
+        </pattern>
+        <message>The article is probably missing before the noun: <suggestion><match no="4" postag="+DT"/></suggestion>.</message>
+        <example correction="a week|the week" type="incorrect">Change your filter after <marker>week</marker>.</example>
+        <example type="correct">Change your filter after one week.</example>
+        <example type="correct">He told me anecdote after anecdote of that extraordinary man.</example>
+      </rule>
+      <rule>
         <pattern mark_from="3" mark_to="-1">
           <!--  to exclude phrases like: 'the turned up card' -->
           <token><exception postag="DT|WDT" postag_regexp="yes"/></token>
           <token><exception postag="VBN|VBD" postag_regexp="yes"/></token>
-          <token postag="IN"><exception regexp="yes">as|at|by|for|in|on|to|of|following|than</exception><exception postag="JJ.*" postag_regexp="yes"/></token>
+          <token postag="IN"><exception regexp="yes">as|at|by|for|in|on|to|of|following|than|after</exception><exception postag="JJ.*" postag_regexp="yes"/></token>
           <token postag="NN"><exception postag="CC|UH|DT|WDT|RP|JJ.*|IN|CD|RB.*|VBD|VBZ|VBN|MD|NNP|NNS|NNPS|PRP.*|WRB" postag_regexp="yes"/></token>
           <token><exception postag="NN.*" postag_regexp="yes"/><exception>free</exception></token>
         </pattern>
@@ -2020,9 +2039,10 @@ $Id: grammar.xml,v 1.53 2008-04-06 10:14:50 milek_pl Exp $
     </rulegroup>
     <rulegroup id="THIS_NNS" name="'this' vs. 'these'">
       <rule>
-        <pattern mark_to="-1">
+        <pattern mark_to="-2">
           <token>this</token>
           <token postag="NNS"><exception postag="VBZ|NN|JJ.*" postag_regexp="yes"/></token>
+          <token><exception postag="NN|NNP|NN:.*" postag_regexp="yes"/></token>
         </pattern>
         <message>Did you mean <suggestion>these</suggestion>?</message>
         <example type="correct">These errors are easy to fix.</example>
@@ -2030,9 +2050,10 @@ $Id: grammar.xml,v 1.53 2008-04-06 10:14:50 milek_pl Exp $
         <example correction="These" type="correct">This forms a sharp contract with...</example>
       </rule>
       <rule>
-        <pattern mark_to="0">
+        <pattern mark_to="-1">
           <token regexp="yes">these|those</token>
           <token postag="NN|NN:.*" postag_regexp="yes"><exception postag="VBZ|NNS|JJ.*|VBP|MD|CD|RP|DT" postag_regexp="yes"/></token>
+          <token><exception postag="NNS|NNPS" postag_regexp="yes"/></token>
         </pattern>
         <message>Did you mean <suggestion>this <match no="2"/></suggestion>  or <suggestion><match no="1"/> <match no="2" postag="NNS"/></suggestion>?</message>
         <example type="correct">These are errors.</example>
