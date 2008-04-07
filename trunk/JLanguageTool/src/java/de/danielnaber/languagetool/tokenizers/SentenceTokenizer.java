@@ -36,9 +36,8 @@ import de.danielnaber.languagetool.tokenizers.de.GermanSentenceTokenizer;
 public class SentenceTokenizer implements Tokenizer {
 
   // end of sentence marker:
-  //private static final String EOS = "\0";
-  // 
-  private final static String EOS = "#"; // for testing only
+  private static final String EOS = "\0";
+  //private final static String EOS = "#"; // for testing only
   private static final String P = "[\\.!?…]"; // PUNCTUATION
   private static final String AP = "(?:'|«|\"||\\)|\\]|\\})?"; // AFTER PUNCTUATION
   private static final String PAP = P + AP;
