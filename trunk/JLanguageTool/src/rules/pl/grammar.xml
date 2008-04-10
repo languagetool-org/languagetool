@@ -6,7 +6,7 @@ title="Easy editing stylesheet" ?>
 <!--
 Polish Grammar and Typo Rules for LanguageTool
 Copyright (C) 2006-2007 Marcin Miłkowski
-$Id: grammar.xml,v 1.117 2008-04-02 18:02:28 milek_pl Exp $
+$Id: grammar.xml,v 1.118 2008-04-10 20:38:34 milek_pl Exp $
 -->
 <rules lang="pl">
   <phrases>
@@ -1349,6 +1349,16 @@ Powinno być: <suggestion>\2, \3 \4</suggestion>.</message>
     </rule>
   </category>
   <category name="Błędy odmiany">
+    <rule id="PERSONA_NON_GRATA" name="Odmienione wyrażenie „persona non grata”">
+      <pattern>
+        <token inflected="yes">persona<exception>persona</exception></token>
+        <token>non</token>
+        <token>grata</token>
+      </pattern>
+      <message>Pierwszego wyrazu z tego wyrażenia łacińskiego nie odmienia się po polsku (można po łacinie, jeśli ktoś nią włada). Poprawnie: <suggestion>persona \2 \3</suggestion>.</message>
+      <example correction="persona non grata" type="incorrect">Wyrzucono go z Białorusi jako <marker>personę non grata</marker>.</example>
+      <example type="correct">Zbychu jest w naszym pubie persona non grata.</example>
+    </rule>
     <rule id="POL_KILA" name="„pół kila” (pół kilo)">
       <pattern mark_from="1">
         <token regexp="yes">pół|półtora|tora|dwa</token>
@@ -1671,7 +1681,7 @@ Powinno być: <suggestion>\2, \3 \4</suggestion>.</message>
         <example type="correct">My z bratem uważamy, że <marker>Rzeczpospolita Polska</marker> to nie jest kraj dezerterów.</example>
       </rule>
     </rulegroup>
-    <rulegroup id="FOR_FOROW" name="„for” (forów)">
+    <rulegroup id="FOR_FOROW" name="„for/forum” (forów)">
       <rule>
         <pattern mark_from="1">
           <token postag="prep:gen"/>
@@ -1684,7 +1694,7 @@ Powinno być: <suggestion>\2, \3 \4</suggestion>.</message>
       <rule>
         <pattern mark_from="1">
           <token postag="(adj|ppas|pact):pl.*gen.*" postag_regexp="yes"/>
-          <token>for</token>
+          <token regexp="yes">for|forum</token>
         </pattern>
         <message>Prawdopodobnie chodziło o dopełniacz od słowa „forum”, który brzmi <suggestion>forów</suggestion>.</message>
         <example type="correct">Nienawidzę głupich forów.</example>
@@ -1692,11 +1702,12 @@ Powinno być: <suggestion>\2, \3 \4</suggestion>.</message>
       </rule>
       <rule>
         <pattern mark_to="-1">
-          <token>for</token>
+          <token regexp="yes">for|forum</token>
           <token postag="(adj|ppas|pact):pl.*gen.*" postag_regexp="yes"/>
         </pattern>
         <message>Prawdopodobnie chodziło o dopełniacz od słowa „forum”, który brzmi <suggestion>forów</suggestion>.</message>
         <example type="correct">Nienawidzę forów internetowych.</example>
+        <example correction="forów" type="incorrect">Najlepsza oferta według <marker>forum</marker> internetowych.</example>
         <example correction="forów" type="incorrect">Nienawidzę <marker>for</marker> internetowych.</example>
       </rule>
     </rulegroup>
@@ -4735,6 +4746,25 @@ Powinno być: <suggestion>\2, \3 \4</suggestion>.</message>
     </rule>
   </category>
   <category name="Błędy ortograficzne">
+    <rule id="BY_NAJMNIEJ_NIE" name="„by najmniej” (bynajmniej)">
+      <pattern mark_to="-1">
+        <token>by</token>
+        <token>najmniej</token>
+        <token>nie</token>
+      </pattern>
+      <message>Prawdopodobny błąd ortograficzny. Ten wyraz pisze się łącznie: <suggestion>\1\2</suggestion>.</message>
+      <example correction="Bynajmniej" type="incorrect"><marker>By najmniej</marker> nie mówiłem, że uwielbiam prezesa.</example>
+      <example type="correct">Lekarz musi się starać, by najmniej zaszkodzić pacjentowi.</example>
+    </rule>
+    <rule id="TEGO_ROCZNY" name="„tego/pół/cało roczny” (tegoroczny, półroczny, całoroczny)">
+      <pattern>
+        <token regexp="yes">tego|cało|pół|półtora|ćwierć|rok|co|do|drugo|trzecio|średnio|ubiegło|zeszło|przeszło|przyszło|jedno|nowo|pierwszo|dwu</token>
+        <token inflected="yes">roczny</token>
+      </pattern>
+      <message>Prawdopodobny błąd ortograficzny. Ten przymiotnik pisze się łącznie: <suggestion>\1\2</suggestion>.</message>
+      <example correction="noworoczny" type="incorrect">Wznieśmy toast <marker>nowo roczny</marker>!</example>
+      <example type="correct">Tegoroczne zbiory pszenicy są znakomite.</example>
+    </rule>
     <rule id="TYM_NIE_MNIEJ" name="„tym nie mniej” (niemniej jednak)">
       <pattern mark_from="1">
         <token negate="yes">w</token>
@@ -5288,7 +5318,7 @@ Znacznie częściej ta forma jest mylona z trybem rozkazującym od „pokazać�
     <rule id="CO_TYGODNIOWY" name="„co tygodniowy” itd. (cotygodniowy)">
       <pattern>
         <token>co</token>
-        <token inflected="yes" regexp="yes">tygodniowy|miesięczny|dzienny|godzinny|roczny|dziennie|tygodniowo</token>
+        <token inflected="yes" regexp="yes">tygodniowy|miesięczny|dzienny|godzinny||dziennie|tygodniowo</token>
       </pattern>
       <message>Prawdopodobny błąd ortograficzny: ten wyraz piszemy łącznie, tj. <suggestion>\1\2</suggestion>.</message>
       <example correction="cotygodniowo" type="incorrect">Andrzej będzie umawiał się z Renatą przeciwko Przemysławowi <marker>co tygodniowo</marker>.</example>
