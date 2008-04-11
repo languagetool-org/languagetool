@@ -6,7 +6,7 @@ title="Easy editing stylesheet" ?>
 <!--
 Polish Grammar and Typo Rules for LanguageTool
 Copyright (C) 2006-2007 Marcin Miłkowski
-$Id: grammar.xml,v 1.118 2008-04-10 20:38:34 milek_pl Exp $
+$Id: grammar.xml,v 1.119 2008-04-11 11:13:34 milek_pl Exp $
 -->
 <rules lang="pl">
   <phrases>
@@ -1835,7 +1835,7 @@ Powinno być: <suggestion>\2, \3 \4</suggestion>.</message>
       <pattern mark_from="1" mark_to="-2">
         <token skip="5"><exception scope="next">między</exception>nie</token>
         <token><exception scope="previous">;</exception>a</token>
-        <token skip="-1"><exception regexp="yes">priori|posteriori|tym|i|im|to|po|przy|z|może|de|w</exception></token>
+        <token skip="-1"><exception regexp="yes">priori|posteriori|tym|i|im|to|po|przy|z|może|de|w|więc</exception></token>
         <token postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf|pant:perf" postag_regexp="yes"/>
       </pattern>
       <message>Po przeczeniu zaleca się użycie spójników <suggestion>ale</suggestion>, <suggestion>lecz</suggestion> lub <suggestion>tylko</suggestion>.</message>
@@ -4746,6 +4746,26 @@ Powinno być: <suggestion>\2, \3 \4</suggestion>.</message>
     </rule>
   </category>
   <category name="Błędy ortograficzne">
+    <rulegroup id="REPREZENTANT_POLSKI" name="„reprezentant polski” (reprezentant Polski)">
+      <rule>
+        <pattern case_sensitive="yes">
+          <token inflected="yes">reprezentant</token>
+          <token inflected="yes"><exception>Polski</exception>polski</token>
+        </pattern>
+        <message>Prawdopodobnie błędna forma i pisownia. Powinno być: <suggestion>\1 Polski</suggestion>.</message>
+        <example correction="reprezentant Polski" type="incorrect">Małysz to najlepszy <marker>reprezentant polski</marker>.</example>
+        <example type="correct">Małysz to najlepszy reprezentant Polski.</example>
+      </rule>
+      <rule>
+        <pattern case_sensitive="yes">
+          <token inflected="yes"><exception>Polski</exception>polski</token>
+          <token inflected="yes">reprezentant</token>
+        </pattern>
+        <message>Prawdopodobnie błędna forma i pisownia. Powinno być: <suggestion>\2 Polski</suggestion>.</message>
+        <example correction="reprezentantem Polski" type="incorrect">Wiadomo, że on jest najlepszym <marker>polskim reprezentantem</marker>.</example>
+        <example type="correct">Wiadomo, że on jest najlepszym reprezentantem Polski.</example>
+      </rule>
+    </rulegroup>
     <rule id="BY_NAJMNIEJ_NIE" name="„by najmniej” (bynajmniej)">
       <pattern mark_to="-1">
         <token>by</token>
@@ -7323,6 +7343,15 @@ Znacznie częściej ta forma jest mylona z trybem rozkazującym od „pokazać�
         <example type="correct">Mówił o tym, że pora na zmiany</example>
       </rule>
     </rulegroup>
+    <rule id="ZWIERA_ZAWIERA" name="„zwiera” (zawiera)">
+      <pattern case_sensitive="no" mark_to="-1">
+        <token>zwiera</token>
+        <token><exception regexp="yes">szeregi|styki|szyki</exception></token>
+      </pattern>
+      <message>Prawdopodobna literówka. Czy chodziło o <suggestion>zawiera</suggestion>?</message>
+      <example correction="zawiera" type="incorrect">Ta strona <marker>zwiera</marker> wszystkie informacje.</example>
+      <example type="correct">Partia zwiera szeregi przed kolejnymi wyborami.</example>
+    </rule>
   </category>
   <category name="Błędy frazeologiczne">
     <rule id="MADREJ_GLOWIE_DOSC_PO_SLOWIE" name="„mądrej głowie dość po słowie” (mądrej głowie dość dwie słowie)">
@@ -7466,6 +7495,16 @@ Znacznie częściej ta forma jest mylona z trybem rozkazującym od „pokazać�
       <message>Prawdopodobnie niepoprawna forma związku frazeologicznego. Poprawnie: <suggestion>w szczerym polu</suggestion> (=na odludziu).</message>
       <example correction="w szczerym polu" type="incorrect">Budynki wybudowane od fundamentów <marker>na szczerym polu</marker> w I połowie XX wieku.</example>
       <example type="correct">Budynki wybudowane w szczerym polu w XX wieku</example>
+    </rule>
+    <rule default="off" id="NA_CALE_SZCZESCIE" name="„na całe szczęście” (całe szczęście)">
+      <pattern>
+        <token>na</token>
+        <token>całe</token>
+        <token>szczęście</token>
+      </pattern>
+      <message>To wyrażenie bywa potępiane przez językoznawców jako kontaminacja poprawnych zwrotów <suggestion>całe szczęście, że</suggestion> lub <suggestion>na szczęście</suggestion>.</message>
+      <example correction="całe szczęście, że|na szczęście" type="incorrect">Jestem młodym człowiekiem i <marker>na całe szczęście</marker> większość swojego życia spędziłem w demokratycznej III RP.</example>
+      <example type="correct">Jestem młodym człowiekiem i na szczęście większość swojego życia spędziłem w demokratycznej III RP.</example>
     </rule>
   </category>
 </rules>
