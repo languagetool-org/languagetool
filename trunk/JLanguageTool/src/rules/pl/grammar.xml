@@ -6,7 +6,7 @@ title="Easy editing stylesheet" ?>
 <!--
 Polish Grammar and Typo Rules for LanguageTool
 Copyright (C) 2006-2007 Marcin Miłkowski
-$Id: grammar.xml,v 1.119 2008-04-11 11:13:34 milek_pl Exp $
+$Id: grammar.xml,v 1.120 2008-04-12 16:31:34 milek_pl Exp $
 -->
 <rules lang="pl">
   <phrases>
@@ -14,7 +14,7 @@ $Id: grammar.xml,v 1.119 2008-04-11 11:13:34 milek_pl Exp $
       <token regexp="yes">[\p{Punct}–—„«»…]|bądź|czy|ani|lub|albo|oraz|i</token>
     </phrase>
     <phrase id="NIE_INTERPUNKCJA">
-      <token><exception postag="SENT_START" postag_regexp="yes"/><exception regexp="yes">[\p{Punct}–—„«»…]|tyle|i|lub|albo|ani|oraz|bądź|czy</exception></token>
+      <token><exception postag="SENT_START" postag_regexp="yes"/><exception regexp="yes">[\p{Punct}–—„«»…’]|tyle|i|lub|albo|ani|oraz|bądź|czy</exception></token>
     </phrase>
     <phrase id="ACC_NOM_1">
       <token postag=".*acc.*|.*nom.*" postag_regexp="yes"><exception postag=".*inst.*|.*loc.*" postag_regexp="yes"/></token>
@@ -1318,7 +1318,7 @@ Powinno być: <suggestion>\2, \3 \4</suggestion>.</message>
       <pattern mark_from="2">
         <token postag="SENT_START" skip="-1"/>
         <token postag="verb:.*(sg|pl).*|verb:imps.*|verb:irreg|pred" postag_regexp="yes" skip="-1"/>
-        <token postag="SENT_END"><exception regexp="yes">[\p{Punct}…]</exception></token>
+        <token postag="SENT_END"><exception regexp="yes">[\p{Punct}…”]</exception></token>
       </pattern>
       <message>To zdanie nie kończy się kropką ani innym znakiem interpunkcyjnym. Powinno być: <suggestion>\3.</suggestion></message>
       <example correction="złotych." type="incorrect">Pożycz mi sto <marker>złotych</marker></example>
@@ -2283,7 +2283,7 @@ Powinno być: <suggestion>\2, \3 \4</suggestion>.</message>
     <rule id="NIE_TYLE_CO" name="„nie tyle... co” (nie tyle..., ile)">
       <pattern mark_from="2" mark_to="-1">
         <token>nie</token>
-        <token skip="-1">tyle<exception scope="next">ile</exception></token>
+        <token skip="-1">tyle<exception regexp="yes" scope="next">ile|\(|\[</exception></token>
         <token>co</token>
         <token><exception regexp="yes">najmniej|najwyżej</exception></token>
       </pattern>
@@ -5971,7 +5971,7 @@ Znacznie częściej ta forma jest mylona z trybem rozkazującym od „pokazać�
     </rule>
     <rule id="PRZEDROSTKI" name="Przedrostki błędnie pisane z łącznikiem: „neo”, „post”, „pre”, „eks”...">
       <pattern>
-        <token regexp="yes">^(neo|post|pre|anty|arcy|eks|bez|beze|ekstra|hiper|infra|kontr|maksi|midi|między|mini|nad|nade|około|ponad|post|pro|przeciw|pseudo|super|śród|ultra|wice|wokół|wokoło)[-–]\p{Ll}+</token>
+        <token regexp="yes"><exception>nad-ja</exception>^(neo|post|pre|anty|arcy|eks|bez|beze|ekstra|hiper|infra|kontr|maksi|midi|między|mini|nad|nade|około|ponad|post|pro|przeciw|pseudo|super|śród|ultra|wice|wokół|wokoło)[-–]\p{Ll}+</token>
       </pattern>
       <message>Ten wyraz piszemy bez łącznika:
 				<suggestion><match no="1" regexp_match="(?iu)^(neo|post|pre|anty|arcy|eks|bez|beze|ekstra|hiper|infra|kontr|maksi|midi|między|mini|nad|nade|około|ponad|post|pro|przeciw|pseudo|super|śród|ultra|wice|wokół|wokoło)[-–](.*)" regexp_replace="$1$2"/></suggestion>.</message>
