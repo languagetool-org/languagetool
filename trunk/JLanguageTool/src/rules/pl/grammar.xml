@@ -6,7 +6,7 @@ title="Easy editing stylesheet" ?>
 <!--
 Polish Grammar and Typo Rules for LanguageTool
 Copyright (C) 2006-2007 Marcin Miłkowski
-$Id: grammar.xml,v 1.120 2008-04-12 16:31:34 milek_pl Exp $
+$Id: grammar.xml,v 1.121 2008-04-12 21:32:18 milek_pl Exp $
 -->
 <rules lang="pl">
   <phrases>
@@ -4254,6 +4254,16 @@ Powinno być: <suggestion>\2, \3 \4</suggestion>.</message>
       <example correction="antagonizmy" type="incorrect">Między Krakowem a Warszawą trwają <marker>wzajemne antagonizmy</marker>.</example>
       <example type="correct">Między Krakowem a Warszawą trwają antagonizmy.</example>
     </rule>
+    <rule id="W_RAZIE_PRZYPADKU" name="„w razie przypadku” (w razie/w przypadku)">
+      <pattern>
+        <token>w</token>
+        <token>razie</token>
+        <token>przypadku</token>
+      </pattern>
+      <message>To wyrażenie jest pleonazmem. Mówimy <suggestion>w razie</suggestion> lub <suggestion>w przypadku</suggestion>.</message>
+      <example correction="w razie|w przypadku" type="incorrect">Postępowanie <marker>w razie przypadku</marker> niezamierzonego uwolnienia do środowiska</example>
+      <example type="correct">Postępowanie w razie niezamierzonego uwolnienia do. środowiska</example>
+    </rule>
   </category>
   <category name="Błędy fonetyczne">
     <rulegroup id="W_WE" name="„w” przed „f/w…” i spółgłoską (we)">
@@ -4732,6 +4742,24 @@ Powinno być: <suggestion>\2, \3 \4</suggestion>.</message>
       <message>Nie mówi się \1 \2, tylko <suggestion>znacznie \2</suggestion>.</message>
       <example type="correct">Dziś jestem znacznie zdrowszy.</example>
       <example correction="znacznie zdrowszy" type="incorrect">Dziś jestem <marker>dużo zdrowszy</marker>.</example>
+    </rule>
+    <rule id="TLUMACZENIE_PRZYSIEGLE" name="„tłumaczenie przysięgłe (tłumaczenie uwierzytelnione)">
+      <pattern>
+        <token inflected="yes">tłumaczenie</token>
+        <token inflected="yes" postag=".*:n:.*" postag_regexp="yes">przysięgły</token>
+      </pattern>
+      <message>To niepoprawny termin. Tłumacz jest przysięgły, ale jego tłumaczenie jest uwierzytelnione. Poprawnie więc będzie: <suggestion><match no="1"/> <match no="2" postag_replace="" regexp_match="przysięgł(.*)" regexp_replace="uwierzytelnion$1"/></suggestion>.</message>
+      <example correction="Tłumaczenia uwierzytelnione" type="incorrect"><marker>Tłumaczenia przysięgłe</marker>, tanio!</example>
+      <example type="correct">Tłumacz przysięgły wykonuje tłumaczenia uwierzytelnione.</example>
+    </rule>
+    <rule id="KOMUNIKAT_BLEDU" name="„komunikat błędu” (komunikat o błędzie)">
+      <pattern>
+        <token inflected="yes">komunikat</token>
+        <token>błędu</token>
+      </pattern>
+      <message>Niepoprawny termin. Mówi się: <suggestion>\1 o błędzie</suggestion>.</message>
+      <example correction="komunikat o błędzie" type="incorrect">Na ekranie pojawił się <marker>komunikat błędu</marker>.</example>
+      <example type="correct">Na ekranie pojawił się komunikat o błędzie.</example>
     </rule>
     <rule default="off" id="W_WYPADKU" name="„w wypadku” (w razie)">
       <pattern mark_to="-1">
@@ -6550,6 +6578,25 @@ Znacznie częściej ta forma jest mylona z trybem rozkazującym od „pokazać�
     </rule>
   </category>
   <category name="Prawdopodobne literówki">
+    <rule id="ZWIAZKU_Z_TYM" name="„związku z tym” (w związku z tym)">
+      <pattern mark_from="1" mark_to="-2">
+        <token><exception regexp="yes">w|do</exception></token>
+        <token>związku</token>
+        <token>z</token>
+        <token postag=".*inst.*" postag_regexp="yes"/>
+      </pattern>
+      <message>Prawdopodobna literówka. Czy chodziło o <suggestion>w związku</suggestion>?</message>
+      <example correction="w związku" type="incorrect">Nie mam pieniędzy, a <marker>związku</marker> z tym nie zapłacę ani grosza.</example>
+      <example type="correct">Oni pozostają negatywnie nastawieni do związku z ludźmi podejrzanej profesji.</example>
+    </rule>
+    <rule id="PASTWO" name="„pastwo/pastwie/pastwa” (państwo/państwie/państwa">
+      <pattern>
+        <token regexp="yes">pastwo|pastwie|pastwa</token>
+      </pattern>
+      <message>Prawdopodobna literówka. Czy chodziło o <suggestion><match no="1" regexp_match="(?iu)([Pp]a)(stw.*)" regexp_replace="$1ń$2"/></suggestion>?</message>
+      <example correction="Państwo" type="incorrect">Szanowni <marker>Pastwo</marker>!</example>
+      <example type="correct">W państwie duńskim źle się dzieje.</example>
+    </rule>
     <rule id="SOWICH" name="„sowich” (swoich)">
       <pattern>
         <token>sowich</token>
