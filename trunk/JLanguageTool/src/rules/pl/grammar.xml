@@ -6,7 +6,7 @@ title="Easy editing stylesheet" ?>
 <!--
 Polish Grammar and Typo Rules for LanguageTool
 Copyright (C) 2006-2007 Marcin Miłkowski
-$Id: grammar.xml,v 1.121 2008-04-12 21:32:18 milek_pl Exp $
+$Id: grammar.xml,v 1.122 2008-04-17 09:56:47 milek_pl Exp $
 -->
 <rules lang="pl">
   <phrases>
@@ -5997,6 +5997,32 @@ Znacznie częściej ta forma jest mylona z trybem rozkazującym od „pokazać�
       <example correction="pomiędzy" type="incorrect">Znaleźliśmy się <marker>po między</marker> młotem a kowadłem.</example>
       <example type="correct">Znaleźliśmy się pomiędzy młotem a kowadłem.</example>
     </rule>
+    <rule id="HYPER" name="Przedrostek „hyper” (hiper)">
+      <pattern>
+        <token postag="UNKNOWN" regexp="yes">hyper.*</token>
+      </pattern>
+      <message>Przedrostek „hiper” piszemy przez „i”. Poprawnie: <suggestion><match no="1" regexp_match="hyper(.*)" regexp_replace="hiper$1"/></suggestion>.</message>
+      <example correction="hiperodnośniki" type="incorrect">W tym tekście są liczne <marker>hyperodnośniki</marker>.</example>
+      <example type="correct">Księżycem Saturna jest Hyperion.</example>
+    </rule>
+    <rulegroup id="HYPO" name="Przedrostek „hypo” (hipo)">
+      <rule>
+        <pattern>
+          <token postag="UNKNOWN" regexp="yes">hypo.*</token>
+        </pattern>
+        <message>Przedrostek „hipo” piszemy przez „i”. Poprawnie: <suggestion><match no="1" regexp_match="hypo(.*)" regexp_replace="hipo$1"/></suggestion>.</message>
+        <example correction="hipochondrykiem" type="incorrect">On jest <marker>hypochondrykiem</marker>.</example>
+        <example type="correct">Jakie przemyślne hypokaustum!</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token inflected="yes">hypoalergiczny</token>
+        </pattern>
+        <message>Przedrostek „hipo” piszemy przez „i”. Poprawnie: <suggestion><match no="1" regexp_match="hypo(.*)" regexp_replace="hipo$1"/></suggestion>.</message>
+        <example correction="hipoalergiczny" type="incorrect">To świetny krem <marker>hypoalergiczny</marker>.</example>
+        <example type="correct">To świetny krem hipoalergiczny.</example>
+      </rule>
+    </rulegroup>
     <rule id="PRZEDROSTKI" name="Przedrostki błędnie pisane z łącznikiem: „neo”, „post”, „pre”, „eks”...">
       <pattern>
         <token regexp="yes"><exception>nad-ja</exception>^(neo|post|pre|anty|arcy|eks|bez|beze|ekstra|hiper|infra|kontr|maksi|midi|między|mini|nad|nade|około|ponad|post|pro|przeciw|pseudo|super|śród|ultra|wice|wokół|wokoło)[-–]\p{Ll}+</token>
@@ -6575,6 +6601,15 @@ Znacznie częściej ta forma jest mylona z trybem rozkazującym od „pokazać�
       <message>Wyraz „instruktarz” jest przestarzały i oznacza zbiór przepisów lub instrukcji. W znaczeniu „szkolenie” piszemy <suggestion><match no="1" regexp_match="(.*)rz" regexp_replace="$1ż"/></suggestion>.</message>
       <example correction="Instruktaż" type="incorrect"><marker>Instruktarz</marker> BHP przy maszynie</example>
       <example type="correct">Instruktaż BHP przy maszynie</example>
+    </rule>
+    <rule id="GRO_CZEGO" name="„gro” (gros)">
+      <pattern mark_to="-1">
+        <token>gro</token>
+        <token postag=".*[\.:]gen[\.:].*" postag_regexp="yes"><exception postag="prep.*" postag_regexp="yes"/></token>
+      </pattern>
+      <message>Prawdopodobny błąd ortograficzny. Poprawnie: <suggestion>gros</suggestion>.</message>
+      <example type="correct">Gro Harlem Brundtland zjadł tutaj kanapkę.</example>
+      <example correction="gros" type="incorrect">Mam obawy że <marker>gro</marker> osób nie bedzie umiało tego zrobić.</example>
     </rule>
   </category>
   <category name="Prawdopodobne literówki">
@@ -7181,15 +7216,16 @@ Znacznie częściej ta forma jest mylona z trybem rozkazującym od „pokazać�
       <example correction="To jest" type="incorrect"><marker>Ot jest</marker> uczciwy minister.</example>
       <example type="correct"><marker>To jest</marker> uczciwy minister.</example>
     </rule>
-    <rulegroup id="PO_POROSTU" name="„po porostu/porostu” (po prostu)">
+    <rulegroup id="PO_POROSTU" name="„po porostu/porostu/protu” (po prostu)">
       <rule>
         <pattern>
           <token>po</token>
-          <token>porostu</token>
+          <token regexp="yes">porostu|protu</token>
         </pattern>
         <message>Prawdopodobna literówka. Czy chodziło o <suggestion>po prostu</suggestion>?</message>
         <example type="correct">To jest <marker>po prostu</marker> uczciwy minister.</example>
         <example correction="po prostu" type="incorrect">To jest <marker>po porostu</marker> uczciwy minister.</example>
+        <example correction="po prostu" type="incorrect">To jest <marker>po protu</marker> uczciwy minister.</example>
       </rule>
       <rule>
         <pattern mark_from="1" mark_to="-1">
