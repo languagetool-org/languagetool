@@ -219,9 +219,9 @@ class WikiDumpHandler extends DefaultHandler {
 
   private void saveResultToDatabase(List<RuleMatch> ruleMatches,
       String text, Language language) throws SQLException {
-    String sql = "INSERT INTO CorpusMatch " +
-    		"(languageCode, ruleID, message, errorContext, corpusDate, checkDate, sourceUri) "+
-    		"VALUES (?, ?, ?, ?, ?, ?, ?)";
+    String sql = "INSERT INTO corpus_match " +
+    		"(version, language_code, ruleid, message, error_context, corpus_date, check_date, sourceuri) "+
+    		"VALUES (0, ?, ?, ?, ?, ?, ?, ?)";
     PreparedStatement prepSt = conn.prepareStatement(sql);
     for (RuleMatch match : ruleMatches) {
       prepSt.setString(1, language.getShortName());
