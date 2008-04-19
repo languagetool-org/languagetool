@@ -215,7 +215,7 @@ public final class StringTools {
           );
       final String msg = match.getMessage().replaceAll("</?suggestion>", "'");
       xml.append(" msg=\"" + escapeXMLForAPIOutput(msg)+ "\"");
-      final String START_MARKER = "__languagetoo_start_marker";
+      final String START_MARKER = "__languagetool_start_marker";
       String context = Tools.getContext(match.getFromPos(), match.getToPos(),
           text, contextSize, START_MARKER, "", true);
       xml.append(" replacements=\"" + 
