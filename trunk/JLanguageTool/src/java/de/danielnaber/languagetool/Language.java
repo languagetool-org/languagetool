@@ -39,6 +39,7 @@ import de.danielnaber.languagetool.language.Slovenian;
 import de.danielnaber.languagetool.language.Spanish;
 import de.danielnaber.languagetool.language.Swedish;
 import de.danielnaber.languagetool.language.Ukrainian;
+import de.danielnaber.languagetool.language.Russian;
 import de.danielnaber.languagetool.synthesis.Synthesizer;
 import de.danielnaber.languagetool.tagging.Tagger;
 import de.danielnaber.languagetool.tagging.disambiguation.Disambiguator;
@@ -69,6 +70,7 @@ public abstract class Language {
   public final static Language SPANISH = new Spanish();
   public final static Language SWEDISH = new Swedish();
   public final static Language UKRAINIAN = new Ukrainian();
+  public final static Language RUSSIAN = new Russian();
   
   public final static Language DEMO = new Demo();
   
@@ -78,7 +80,7 @@ public abstract class Language {
    * All languages supported by LanguageTool.
    */
   public static Language[] LANGUAGES = {
-    ENGLISH, GERMAN, POLISH, FRENCH, SPANISH, ITALIAN, DUTCH, LITHUANIAN, UKRAINIAN, CZECH, SLOVENIAN, SWEDISH, DEMO
+    ENGLISH, GERMAN, POLISH, FRENCH, SPANISH, ITALIAN, DUTCH, LITHUANIAN, UKRAINIAN, RUSSIAN, CZECH, SLOVENIAN, SWEDISH, DEMO
     // FIXME: load dynamically from classpath
   };
 
