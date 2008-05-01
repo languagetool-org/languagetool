@@ -6,7 +6,7 @@ title="Easy editing stylesheet" ?>
 <!--
 Polish Grammar and Typo Rules for LanguageTool
 Copyright (C) 2006-2007 Marcin Miłkowski
-$Id: grammar.xml,v 1.122 2008-04-17 09:56:47 milek_pl Exp $
+$Id: grammar.xml,v 1.123 2008-05-01 23:00:53 milek_pl Exp $
 -->
 <rules lang="pl">
   <phrases>
@@ -1327,6 +1327,26 @@ Powinno być: <suggestion>\2, \3 \4</suggestion>.</message>
     </rule>
   </category>
   <category name="Błędy typograficzne">
+    <rulegroup id="APOSTROF_DATA" name="błędne apostrofy przed datami rocznymi">
+      <rule>
+        <pattern>
+          <token>'</token>
+          <token regexp="yes">[0-1][0-9]</token>
+        </pattern>
+        <message>Prawdopodobnie błędny skrót daty rocznej; nie stawia się apostrofu przed datami rocznymi, które przypadają w pierwszych dwóch dekadach wieku. Poprawnie: <suggestion>19\2</suggestion> lub <suggestion>20\2</suggestion>.</message>
+        <example correction="1905|2005" type="incorrect">Było to w sierpniu <marker>'05</marker>.</example>
+        <example type="correct">Maj '68 był bardzo gorącym okresem.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>'</token>
+          <token regexp="yes">[1-9][0-9][0-9][0-9]</token>
+        </pattern>
+        <message>Prawdopodobnie zbędny apostrof przed pełną datą roczną. Poprawnie: <suggestion>\2</suggestion>.</message>
+        <example correction="2012" type="incorrect">Zapraszamy na Euro <marker>'2012</marker>.</example>
+        <example type="correct">Zapraszamy na obchody Maja '68.łę</example>
+      </rule>
+    </rulegroup>
     <rule id="POMINIECIE" name="(...) → [...]">
       <pattern>
         <token>(</token>
@@ -1780,6 +1800,26 @@ Powinno być: <suggestion>\2, \3 \4</suggestion>.</message>
       <example correction="procent" type="incorrect">Dzisiaj indeks WIG-20 wzrósł o 15, 7 <marker>procenta</marker>.</example>
       <example type="correct">Nie było dziś 1 procenta uczniów.</example>
     </rule>
+    <rulegroup id="CUDZYSLOW_MNOGI" name="rzeczownik „cudzysłów” niepotrzebnie w liczbnie mnogiej">
+      <rule>
+        <pattern>
+          <token>w</token>
+          <token>cudzysłowach</token>
+        </pattern>
+        <message>Rzeczownik „cudzysłów” oznacza parę znaków, dlatego poprawnie piszemy: <suggestion>w cudzysłowie</suggestion>.</message>
+        <example correction="w cudzysłowie" type="incorrect">Słowo jest tutaj <marker>w cudzysłowach</marker>.</example>
+        <example type="correct">Ten cytat musi być w cudzysłowie.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>w</token>
+          <token>cudzysłowy</token>
+        </pattern>
+        <message>Rzeczownik „cudzysłów” oznacza parę znaków, dlatego poprawnie piszemy: <suggestion>w cudzysłów</suggestion>.</message>
+        <example correction="w cudzysłów" type="incorrect">Jego wypowiedź należy brać <marker>w cudzysłowy</marker>.</example>
+        <example type="correct">Cytaty należy zawsze ujmować w cudzysłów.</example>
+      </rule>
+    </rulegroup>
   </category>
   <category name="Błędy w szyku wyrazów">
     <rulegroup id="Z_KIMS_NA_CZELE" name="„z... na czele” (na czele z...)">
@@ -7434,6 +7474,14 @@ Znacznie częściej ta forma jest mylona z trybem rozkazującym od „pokazać�
       <message>Prawdopodobna literówka. Czy chodziło o <suggestion>zawiera</suggestion>?</message>
       <example correction="zawiera" type="incorrect">Ta strona <marker>zwiera</marker> wszystkie informacje.</example>
       <example type="correct">Partia zwiera szeregi przed kolejnymi wyborami.</example>
+    </rule>
+    <rule id="JETEM" name="„jetem” (jestem)">
+      <pattern mark_from="0">
+        <token><exception regexp="yes" scope="previous">z|jumbo</exception>jetem</token>
+      </pattern>
+      <message>Prawdopodobna literówka. Czy chodziło o <suggestion>jestem</suggestion>?</message>
+      <example correction="jestem" type="incorrect">Nie <marker>jetem</marker> z tego zadowolony.</example>
+      <example type="correct">Leciałem jumbo jetem.</example>
     </rule>
   </category>
   <category name="Błędy frazeologiczne">
