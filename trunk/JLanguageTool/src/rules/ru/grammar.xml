@@ -8,11 +8,11 @@ title="Easy editing stylesheet" ?>
 A Russian rule file for LanguageTool
 Copyright (C) 2005 Daniel Naber (http://www.danielnaber.de)
 Copyright (C) 2008 Yakov Reztsov
-$Id: grammar.xml,v 1.1 2008-04-21 18:58:38 milek_pl Exp $
+$Id: grammar.xml,v 1.2 2008-05-04 21:27:29 milek_pl Exp $
 -->
 <rules lang="ru">
     <category name="Пунктуация">
-        <rulegroup id="POZHALUJTSA" name="«пожалуйста» выделяется запятыми">
+        <rulegroup id="POZHALUJSTA" name="«пожалуйста» выделяется запятыми">
             <rule>
                 <pattern mark_to="0">
                     <token negate="yes" regexp="yes">,|\.</token>
@@ -23,7 +23,34 @@ $Id: grammar.xml,v 1.1 2008-04-21 18:58:38 milek_pl Exp $
                 <example type="incorrect">Закройте <marker>дверь пожалуйста</marker>.</example>
             </rule>
         </rulegroup>
-        <rulegroup default="on" id="A_NO_DA" name="Союзы 'а, но' без запятой ">
+        <rulegroup id="KAK_PRAVILO" name="Вводное сочетание как обычно, как всегда, ...">
+            <!--Вводное сочетание как обычно, как всегда, как правило, как исключение, как сейчас, как нарочно
+-->
+            <rule>
+                <pattern>
+                    <token negate="yes" regexp="yes">,|\.</token>
+                    <token>как</token>
+                    <token regexp="yes">обычно|всегда|правило|исключение|нарочно|сейчас</token>
+                </pattern>
+                <message>Нет запятой: <suggestion>\1, \2 \3,</suggestion>.</message>
+                <example type="correct">Мы<marker>, как правило,</marker> ходим в походы летом.</example>
+                <example type="incorrect" correction="Мы, как правило,"><marker>Мы как правило</marker> ходим в походы летом.</example>
+            </rule>         
+        </rulegroup>
+        <rulegroup id="KAK_I" name="После союза как следует и">
+ <!--TODO: Detect 2 comma.-->
+                <rule>
+                <pattern>
+                    <token negate="yes" regexp="yes">,|\.</token>
+                    <token>как</token>
+                    <token>и</token>
+                </pattern>
+                <message>Оборот "как и" выделяется запятыми: <suggestion>\1, \2 \3 </suggestion>.</message>
+                <example type="correct">Мы<marker>, как и наши товарищи,</marker> любим заниматься спортом.</example>
+                <example type="incorrect"><marker>Мы как и</marker> наши товарищи любим заниматься спортом.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup default="on" id="A_NO_DA" name="Союзы 'а, но'">
             <rule>
                 <pattern>
                     <token negate="yes">,</token>
@@ -43,10 +70,88 @@ $Id: grammar.xml,v 1.1 2008-04-21 18:58:38 milek_pl Exp $
                 <example type="incorrect">Она говорила <marker>мало но</marker> толково.</example>
             </rule>
         </rulegroup>
-    </category>     
-    
+        <rulegroup default="on" id="VVODNOE_SLOVO" name="Вводные слова: по-видимому, ...">
+            <rule>
+                <pattern>
+                    <token negate="yes" regexp="yes">,|\.</token>
+                    <token regexp="yes">по-видимому|по-моему</token>
+                </pattern>
+                <message>Запятая пропущена здесь:<suggestion>\1, \2,</suggestion>.</message>
+                <example type="correct">Это показалось ему, по-видимому, странным.</example>
+                <example type="incorrect" correction="ему, по-видимому,">Это показалось <marker>ему по-видимому</marker> странным.</example>
+            </rule>
+        </rulegroup>
+        
+        <rulegroup default="on" id="PREDLOGI_KROME" name="Дополнения, вводимые предлогами: кроме, ...">
+            <!--Дополнения, вводимые предлогами: кроме, помимо, вместо, сверх, за исключением
+            --> 
+ <!--TODO: Detect 2 comma.-->
+            <rule>
+                <pattern>
+                    <token negate="yes" regexp="yes">,|\.</token>
+                    <token regexp="yes">кроме|помимо|вместо|сверх</token>
+                </pattern>
+                <message>Запятая пропущена здесь:<suggestion>\1, \2</suggestion></message>
+                <example type="correct">Около костра, кроме Ивана, грелось ещё пять человек.</example>
+                <example type="incorrect">Около <marker>костра кроме</marker> Ивана грелось ещё пять человек.</example>
+            </rule>   
+            <rule>
+                <pattern>
+                    <token negate="yes" regexp="yes">,|\.</token>
+                    <token>за</token>
+                    <token>исключением</token>
+                </pattern>
+                <message>Запятая пропущена здесь:<suggestion>\1, \2 \3</suggestion></message>
+                <example type="correct">В поход, за исключением Ивана, пошло ещё пять человек.</example>
+                <example type="incorrect" correction="поход, за исключением">В <marker>поход за исключением</marker> Ивана пошло ещё пять человек.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup default="on" id="NO_KAK_POPALO" name="Что угодно, как попало">
+            <!--Что угодно, как попало  не выделяются запятыми.
+            --> 
+            <rule>
+                <pattern>
+                    <token  regexp="yes">,</token>
+                    <token  regexp="yes">что|как</token>
+                    <token  regexp="yes">попало|угодно</token>
+                </pattern>
+                <message>Запятая не нужна:<suggestion> \2 \3</suggestion></message>
+                <example type="correct">Работа была сделана как попало.</example>
+                <example type="incorrect">Работа была сделана<marker>, как попало</marker>.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup default="on" id="NO_NE_KAK" name="Почти как, не как, ...">
+            <!--Перед сравнительным оборотом стоит не или слова совсем, совершенно, почти, именно запятая не ставится.
+            --> 
+            <rule>
+                <pattern>
+                    <token  regexp="yes">не|совсем|совершенно|почти|именно</token>
+                    <token  regexp="yes">,</token>
+                    <token>как</token>
+                </pattern>
+                <message>Запятая не нужна:<suggestion> \1 \3</suggestion></message>
+                <example type="correct">Работа была сделана совсем как попало.</example>
+                <example type="incorrect">Работа была сделана <marker>совсем, как</marker> попало.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup default="on" id="NO_NE_TO_CHTO" name="Не то что, не так чтобы, не иначе как">
+            <!-- Внутри сочетаний не то что, не то (так) чтобы, не иначе как запятая не ставится.
+            --> 
+            <rule>
+                <pattern>
+                    <token>не</token>
+                    <token  regexp="yes">то|иначе|так</token>
+                     <token  regexp="yes">,</token>
+                    <token  regexp="yes">что|как|чтобы</token>                    
+                </pattern>
+                <message>Запятая не нужна:<suggestion>\1 \2 \4</suggestion></message>
+                <example type="correct">Работа была сделана не иначе как полностью.</example>
+                <example type="incorrect">Работа была сделана <marker>не иначе, как</marker> полностью.</example>
+            </rule>
+        </rulegroup>
+    </category>   
     <category name="Типографика">
-        <rule default="off"  id="KABITCHKI" name="„ → ”">
+        <rule default="off"  id="KAVITCHKI" name="„ → ”">
             <pattern>
                 <token>“</token>
             </pattern>
