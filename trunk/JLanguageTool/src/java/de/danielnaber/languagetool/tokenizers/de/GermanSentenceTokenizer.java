@@ -30,7 +30,7 @@ public class GermanSentenceTokenizer extends SentenceTokenizer {
     "cts", "ct", "ca", "chem", "chin", "Chr", "cresc", "dat", "Dat",
     "desgl", "ders", "dgl", "Di", "Dipl", "Dir", "Do", "Doz", "Dr",
     "dt", "ebd", "Ed", "eigtl", "engl", "Erg", "al", "etc", "etw",
-    "ev", "evtl", "exkl", "Expl", "Exz", "ff", "Fa", "fachspr", "fam",
+    "ev", "evtl", "Evtl", "exkl", "Expl", "Exz", "ff", "Fa", "fachspr", "fam",
     "fem", "Fem", "Fr", "fr", "franz", "frz", "frdl", "Frl",
     "Fut", "Gd", "geb", "gebr", "Gebr", "geh", "geh", "geleg", "gen",
     "Gen", "germ", "gesch", "ges", "get", "ggf", "Ggs", "ggT",
