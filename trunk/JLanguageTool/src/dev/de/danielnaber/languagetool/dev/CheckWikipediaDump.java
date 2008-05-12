@@ -35,7 +35,8 @@ import de.danielnaber.languagetool.rules.RuleMatch;
 
 /**
  * Check texts from Wikipedia (download "pages-articles.xml.bz2" from
- * http://download.wikimedia.org/backup-index.html).
+ * http://download.wikimedia.org/backup-index.html, e.g.
+ * http://download.wikimedia.org/dewiki/latest/dewiki-latest-pages-articles.xml.bz2).
  * 
  * @author Daniel Naber
  */
