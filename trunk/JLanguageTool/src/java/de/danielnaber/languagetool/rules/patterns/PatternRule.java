@@ -403,7 +403,7 @@ public class PatternRule extends Rule {
         int fromPos = tokens[firstMatchToken + correctedStPos]
                              .getStartPos();
 //FIXME: this is fishy, assumes that comma should always come before whitespace        
-         if (errMessage.contains("<suggestion>,")) {
+         if (errMessage.contains("<suggestion>,") && firstMatchToken + correctedStPos >= 1) {
             fromPos = tokens[firstMatchToken + correctedStPos - 1].getStartPos() 
                   + tokens[firstMatchToken + correctedStPos - 1].getToken().length();          
         }
