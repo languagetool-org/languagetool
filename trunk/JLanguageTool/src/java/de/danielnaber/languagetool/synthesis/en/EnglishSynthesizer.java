@@ -31,6 +31,7 @@ import morfologik.stemmers.Lametyzator;
 import de.danielnaber.languagetool.AnalyzedToken;
 import de.danielnaber.languagetool.rules.en.AvsAnRule;
 import de.danielnaber.languagetool.synthesis.Synthesizer;
+import de.danielnaber.languagetool.tools.Tools;
 
 /** English word form synthesizer. <br/>
  * Based on part-of-speech lists in Public Domain.
@@ -99,7 +100,7 @@ public class EnglishSynthesizer implements Synthesizer {
     
     if (posTagRegExp) {
     if (possibleTags == null) {
-      possibleTags = loadWords(this.getClass().getResourceAsStream(TAGS_FILE_NAME));
+      possibleTags = loadWords(Tools.getStream(TAGS_FILE_NAME));
     }
     if (synthesizer == null) {
       setFileName();

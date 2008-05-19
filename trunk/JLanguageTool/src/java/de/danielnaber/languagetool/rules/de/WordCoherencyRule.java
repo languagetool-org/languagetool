@@ -33,6 +33,7 @@ import de.danielnaber.languagetool.AnalyzedToken;
 import de.danielnaber.languagetool.AnalyzedTokenReadings;
 import de.danielnaber.languagetool.rules.Category;
 import de.danielnaber.languagetool.rules.RuleMatch;
+import de.danielnaber.languagetool.tools.Tools;
 
 /**
  * A rule that matches words for which two different spellings are used
@@ -58,7 +59,7 @@ public class WordCoherencyRule extends GermanRule {
   public WordCoherencyRule(ResourceBundle messages) throws IOException {
     if (messages != null)
       super.setCategory(new Category(messages.getString("category_misc")));
-    relevantWords = loadWords(this.getClass().getResourceAsStream(FILE_NAME)); 
+    relevantWords = loadWords(Tools.getStream(FILE_NAME)); 
     germanLemmatizer = new GermanLemmatizer();
   }
   

@@ -33,6 +33,7 @@ import de.danielnaber.languagetool.AnalyzedTokenReadings;
 import de.danielnaber.languagetool.rules.Category;
 import de.danielnaber.languagetool.rules.Rule;
 import de.danielnaber.languagetool.rules.RuleMatch;
+import de.danielnaber.languagetool.tools.Tools;
 
 /**
  * A rule that matches words or phrases which should not be used 
@@ -51,7 +52,7 @@ public class SimpleReplaceRule extends Rule {
 	public SimpleReplaceRule(ResourceBundle messages) throws IOException {
 		if (messages != null)
 			super.setCategory(new Category(messages.getString("category_misc")));
-		wrongWords = loadWords(this.getClass().getResourceAsStream(FILE_NAME)); 
+		wrongWords = loadWords(Tools.getStream(FILE_NAME)); 
 	}
 
 	public String getId() {

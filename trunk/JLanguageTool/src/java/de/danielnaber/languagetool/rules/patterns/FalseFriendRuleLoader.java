@@ -39,6 +39,7 @@ import org.xml.sax.helpers.DefaultHandler;
 import de.danielnaber.languagetool.Language;
 import de.danielnaber.languagetool.rules.Category;
 import de.danielnaber.languagetool.rules.IncorrectExample;
+import de.danielnaber.languagetool.tools.Tools;
 
 /**
  * Loads {@link PatternRule}s from a false friends XML file.
@@ -91,14 +92,14 @@ public class FalseFriendRuleLoader extends DefaultHandler {
   /** Testing only. */
   public void main(final String[] args) throws ParserConfigurationException, SAXException, IOException {
     final FalseFriendRuleLoader prg = new FalseFriendRuleLoader();
-    List<PatternRule> l = prg.getRules(this.getClass().getResourceAsStream("/rules/false-friends.xml"), Language.ENGLISH, Language.GERMAN);
+    List<PatternRule> l = prg.getRules(Tools.getStream("/rules/false-friends.xml"), Language.ENGLISH, Language.GERMAN);
     System.out.println("Hints for German native speakers:");
     for (final PatternRule rule : l) {
       System.out.println(rule);
     }
     System.out.println("=======================================");
     System.out.println("Hints for English native speakers:");
-    l = prg.getRules(this.getClass().getResourceAsStream("/rules/false-friends.xml"), Language.GERMAN, Language.ENGLISH);
+    l = prg.getRules(Tools.getStream("/rules/false-friends.xml"), Language.GERMAN, Language.ENGLISH);
     for (final PatternRule rule : l) {
       System.out.println(rule);
     }

@@ -31,6 +31,7 @@ import de.danielnaber.languagetool.JLanguageTool;
 import de.danielnaber.languagetool.Language;
 import de.danielnaber.languagetool.language.Contributor;
 import de.danielnaber.languagetool.tools.StringTools;
+import de.danielnaber.languagetool.tools.Tools;
 
 /**
  * Command line tool to list supported languages and their number of rules.
@@ -76,7 +77,7 @@ public final class RuleOverview {
     //setup false friends counting
     final String ffFile = "/rules" + File.separator + "false-friends.xml";
     final java.net.URL ffurl = this.getClass().getResource(ffFile);    
-    String ffRules = StringTools.readFile(this.getClass().getResourceAsStream(ffFile));
+    String ffRules = StringTools.readFile(Tools.getStream(ffFile));
     ffRules = ffRules.replaceAll("(?s)<!--.*?-->", "");
     ffRules = ffRules.replaceAll("(?s)<rules.*?>", "");
 
@@ -91,7 +92,7 @@ public final class RuleOverview {
         System.out.println("<td align=\"right\">0</td>");
       } else {
         // count XML rules:
-        String xmlRules = StringTools.readFile(this.getClass().getResourceAsStream(xmlFile));
+        String xmlRules = StringTools.readFile(Tools.getStream(xmlFile));
         xmlRules = xmlRules.replaceAll("(?s)<!--.*?-->", "");
         xmlRules = xmlRules.replaceAll("(?s)<rules.*?>", "");
         int pos = 0;

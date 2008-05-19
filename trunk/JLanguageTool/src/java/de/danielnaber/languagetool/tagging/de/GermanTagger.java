@@ -28,6 +28,7 @@ import de.danielnaber.languagetool.tagging.ManualTagger;
 import de.danielnaber.languagetool.tagging.Tagger;
 import de.danielnaber.languagetool.tokenizers.de.GermanCompoundTokenizer;
 import de.danielnaber.languagetool.tools.StringTools;
+import de.danielnaber.languagetool.tools.Tools;
 
 /**
  * German tagger, requires data file in <code>resource/de/german.dict</code>.
@@ -77,7 +78,7 @@ public class GermanTagger implements Tagger {
       morfologik = new Lametyzator();
     }
     if (manualTagger == null) {
-      manualTagger = new ManualTagger(this.getClass().getResourceAsStream(USER_DICT_FILENAME));
+      manualTagger = new ManualTagger(Tools.getStream(USER_DICT_FILENAME));
     }
     if (compoundTokenizer == null) {
       compoundTokenizer = new GermanCompoundTokenizer();

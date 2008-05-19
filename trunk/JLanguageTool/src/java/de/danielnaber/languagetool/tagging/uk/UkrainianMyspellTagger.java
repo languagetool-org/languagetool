@@ -31,6 +31,7 @@ import java.util.List;
 import de.danielnaber.languagetool.AnalyzedToken;
 import de.danielnaber.languagetool.AnalyzedTokenReadings;
 import de.danielnaber.languagetool.tagging.Tagger;
+import de.danielnaber.languagetool.tools.Tools;
 
 /**
  * Ukrainian Part-of-speech tagger.
@@ -59,7 +60,7 @@ public class UkrainianMyspellTagger implements Tagger {
 //    }
     if( wordsToPos == null ) {
     	wordsToPos = new HashMap<String, String[]>();
-    	InputStream resourceFile = this.getClass().getResourceAsStream(RESOURCE_FILENAME);
+    	InputStream resourceFile = Tools.getStream(RESOURCE_FILENAME);
        	//System.err.println("reading dict: " + resourceFile);
         
     	BufferedReader input = new BufferedReader( new InputStreamReader( resourceFile, Charset.forName("UTF-8")) );

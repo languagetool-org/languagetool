@@ -35,6 +35,7 @@ import de.danielnaber.languagetool.Language;
 import de.danielnaber.languagetool.rules.Category;
 import de.danielnaber.languagetool.rules.IncorrectExample;
 import de.danielnaber.languagetool.tools.StringTools;
+import de.danielnaber.languagetool.tools.Tools;
 
 /**
  * Loads {@link PatternRule}s from an XML file.
@@ -69,7 +70,7 @@ public class PatternRuleLoader extends DefaultHandler {
   public final void main(final String[] args) throws IOException {
     final PatternRuleLoader prg = new PatternRuleLoader();
     final String name = "/rules/de/grammar.xml";
-    final List<PatternRule> l = prg.getRules(this.getClass().getResourceAsStream(name), name);
+    final List<PatternRule> l = prg.getRules(Tools.getStream(name), name);
     System.out.println(l);
   }
 
