@@ -23,6 +23,10 @@ package de.danielnaber.languagetool.openoffice;
  * 
  * @author Marcin Miłkowski
  */
+import java.util.List;
+import java.util.Set;
+import java.io.IOException;
+
 import com.sun.star.beans.UnknownPropertyException;
 import com.sun.star.beans.XPropertySet;
 import com.sun.star.lang.IllegalArgumentException;
@@ -34,14 +38,25 @@ import com.sun.star.text.XTextCursor;
 import com.sun.star.text.XTextDocument;
 import com.sun.star.uno.UnoRuntime;
 
+import de.danielnaber.languagetool.JLanguageTool;
 import de.danielnaber.languagetool.Language;
 import de.danielnaber.languagetool.gui.Configuration;
+import de.danielnaber.languagetool.rules.RuleMatch;
 
 public class NewChecker implements XGrammarChecker {
 
   private Configuration config;
+  private JLanguageTool langTool; 
+  private Language docLanguage;
   
   private XTextDocument xTextDoc;
+  
+  /** Document ID, used by the interface.
+   * is this used to mark which document is checked?
+   * should there be an array indexed by doc Ids for
+   * maintaining some doc info?
+   */
+  private int docID = -1;
 
   //TODO: remove this method and replace with proper one
   // based on XFlatParagraph
@@ -50,29 +65,14 @@ public class NewChecker implements XGrammarChecker {
       return Language.ENGLISH; // for testing with local main() method only
     Locale charLocale;
     try {
-      // look at the global document language
-      /* TODO: make this work
-      XDocumentInfoSupplier xdis = (XDocumentInfoSupplier)
-        UnoRuntime.queryInterface(XDocumentInfoSupplier.class, xTextDoc);
-      XPropertySet docInfo = (XPropertySet) UnoRuntime.queryInterface
-        (XPropertySet.class, xdis.getDocumentInfo()); 
-      Object lang = docInfo.getPropertyValue("language");
-      */
       // just look at the first position in the document and assume that this character's
       // language is the language of the whole document:
       XTextCursor textCursor = xTextDoc.getText().createTextCursor();
       textCursor.gotoStart(false);
       XPropertySet xCursorProps = (XPropertySet) UnoRuntime.queryInterface(XPropertySet.class,
           textCursor);
-      charLocale = (Locale) xCursorProps.getPropertyValue("CharLocale");
-      boolean langIsSupported = false;
-      for (int i = 0; i < Language.LANGUAGES.length; i++) {
-        if (Language.LANGUAGES[i].getShortName().equals(charLocale.Language)) {
-          langIsSupported = true;
-          break;
-        }
-      }
-      if (!langIsSupported) {
+      charLocale = (Locale) xCursorProps.getPropertyValue("CharLocale");      
+      if (!hasLocale(charLocale)) {
         // FIXME: i18n
         DialogThread dt = new DialogThread("Error: Sorry, the document language '" +charLocale.Language+ 
             "' is not supported by LanguageTool.");
@@ -88,16 +88,65 @@ public class NewChecker implements XGrammarChecker {
     return Language.getLanguageForShortName(charLocale.Language);
   }
 
-  
-  public void doGrammarChecking(int arg0, XFlatParagraph arg1, Locale arg2,
-      int arg3, int arg4) throws IllegalArgumentException {
-    // TODO Auto-generated method stub
-
-  }
+  /** Runs LT on text.
+   * @param arg0 int - document ID
+   * arg1 XFlatParagraph - text to check
+   * arg2 Locale - the text Locale  
+   * arg3 int start of sentence position
+   * arg4 int end of sentence position
+   */
+  public final void doGrammarChecking(int arg0,  
+      XFlatParagraph arg1, Locale arg2, 
+      int arg3, int arg4 
+      ) throws IllegalArgumentException {
+    if (hasLocale(arg2) && 
+        (!arg1.isChecked(com.sun.star.text.TextMarkupType.GRAMMAR))) {
+      docLanguage = Language.DEMO;
+      for (int i = 0; i < Language.LANGUAGES.length; i++) {
+        if (Language.LANGUAGES[i].getShortName().equals(arg2.Language)) {
+          docLanguage = Language.LANGUAGES[i];
+          break;
+        }
+      try {
+      langTool = new JLanguageTool(docLanguage, config.getMotherTongue());
+      langTool.activateDefaultPatternRules();
+      langTool.activateDefaultFalseFriendRules();
+      } catch (Exception exception) {
+        //FIXME: write some code?
+        };
+      }
+      if (config.getDisabledRuleIds() != null) {
+        for (String id : config.getDisabledRuleIds()) {
+          langTool.disableRule(id);
+        }
+      }
+      Set<String> disabledCategories = config.getDisabledCategoryNames();
+      if (disabledCategories != null) {
+        for (String categoryName : disabledCategories) {
+          langTool.disableCategory(categoryName);
+        }
+      }
+      try {
+        List<RuleMatch> ruleMatches = langTool.check(arg1.getText());
+        if (ruleMatches.size() > 0) {
+          //TODO: do something?
+          //How do we mark text as wrong???
+          //how to call XGrammarCheckingIterator implemented by the service css.linguistic2.GrammarCheckingIterator
+        } else {
+          //mark the text node as checked
+          arg1.setChecked(com.sun.star.text.TextMarkupType.GRAMMAR, 
+              true);  
+        }
+      } catch (IOException exception) {
+        //FIXME: do something with the exception
+        };      
+      }
+    }
 
   public void endDocument(int arg0) throws IllegalArgumentException {
-    // TODO Auto-generated method stub
-
+    if (docID == arg0) {
+      docID = -1;
+    }
   }
 
   public void endParagraph(int arg0) throws IllegalArgumentException {
@@ -166,8 +215,7 @@ public class NewChecker implements XGrammarChecker {
   }
 
   public void startDocument(int arg0) throws IllegalArgumentException {
-    // TODO Auto-generated method stub
-
+    docID = arg0;
   }
 
   public void startParagraph(int arg0) throws IllegalArgumentException {
@@ -175,14 +223,34 @@ public class NewChecker implements XGrammarChecker {
 
   }
 
-  public Locale[] getLocales() {
-    // TODO Auto-generated method stub
-    return null;
+  /**
+   * @return An array of Locales supported by LT.
+   */
+  public final Locale[] getLocales() {
+    Locale[] aLocales = new Locale[Language.LANGUAGES.length];
+    for (int i = 0; i < Language.LANGUAGES.length; i++) {
+      aLocales[i] = new Locale(
+          Language.LANGUAGES[i].getShortName(),
+          //FIXME: is the below correct??
+          Language.LANGUAGES[i].getLocale().getVariant(),
+          "");
+    }
+    return aLocales;
   }
 
-  public boolean hasLocale(Locale arg0) {
-    // TODO Auto-generated method stub
-    return false;
+  /** @return true if LT supports
+   * the language of a given locale.
+   * @param arg0 The Locale to check.
+   */
+  public final boolean hasLocale(final Locale arg0) {    
+    boolean langIsSupported = false;
+    for (int i = 0; i < Language.LANGUAGES.length; i++) {
+      if (Language.LANGUAGES[i].getShortName().equals(arg0.Language)) {
+        langIsSupported = true;
+        break;
+      }
+    }
+    return langIsSupported;
   }
 
 }
