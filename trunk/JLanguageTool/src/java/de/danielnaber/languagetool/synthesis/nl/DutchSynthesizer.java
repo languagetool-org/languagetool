@@ -18,10 +18,7 @@
  */
 package de.danielnaber.languagetool.synthesis.nl;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.regex.Matcher;
@@ -30,6 +27,7 @@ import java.util.regex.Pattern;
 import morfologik.stemmers.Lametyzator;
 import de.danielnaber.languagetool.AnalyzedToken;
 import de.danielnaber.languagetool.synthesis.Synthesizer;
+import de.danielnaber.languagetool.synthesis.SynthesizerTools;
 import de.danielnaber.languagetool.tools.Tools;
 
 /** Dutch word form synthesizer. <br/>
@@ -71,12 +69,13 @@ public class DutchSynthesizer implements Synthesizer {
     }
   
 
+  // TODO: avoid code duplicattion with EnglishSynthesizer
   public String[] synthesize(final AnalyzedToken token, final String posTag, final boolean posTagRegExp)
       throws IOException {
     
     if (posTagRegExp) {
     if (possibleTags == null) {
-      possibleTags = loadWords(Tools.getStream(TAGS_FILE_NAME));
+      possibleTags = SynthesizerTools.loadWords(Tools.getStream(TAGS_FILE_NAME));
     }
     if (synthesizer == null) {
       setFileName();
@@ -103,37 +102,6 @@ public class DutchSynthesizer implements Synthesizer {
 
   public String getPosTagCorrection(final String posTag) {
     return posTag;
-  }
-  
-  private ArrayList<String> loadWords(final InputStream file) throws IOException {
-    final ArrayList<String> set = new ArrayList<String>();
-    InputStreamReader isr = null;
-    BufferedReader br = null;
-    try {
-      isr = new InputStreamReader(file);
-      br = new BufferedReader(isr);
-      String line;
-      
-      while ((line = br.readLine()) != null) {
-        line = line.trim();
-        if (line.length() < 1) {
-          continue;
-        }
-        if (line.charAt(0) == '#') {      // ignore comments
-          continue;
-        }        
-        set.add(line);
-      }
-      
-    } finally {
-      if (br != null) {
-        br.close();
-      }
-      if (isr != null) {
-        isr.close();
-      }
-    }
-    return set;
   }
   
 }
