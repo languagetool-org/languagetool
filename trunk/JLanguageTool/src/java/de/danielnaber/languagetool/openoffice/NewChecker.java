@@ -129,8 +129,11 @@ public class NewChecker implements XGrammarChecker {
       try {
         List<RuleMatch> ruleMatches = langTool.check(arg1.getText());
         if (ruleMatches.size() > 0) {
-          //TODO: do something?
-          //How do we mark text as wrong???
+          //TODO: The error should be formatted as 
+          //com.sun.star.linguistic2.SingleGrammarError
+          //note that "errortype" there is left undefined...
+          //GrammarCheckingResult is a structure that contains all errors
+          //so we need to convert ruleMatches to GrammarCheckingResult
           //how to call XGrammarCheckingIterator implemented by the service css.linguistic2.GrammarCheckingIterator
         } else {
           //mark the text node as checked
