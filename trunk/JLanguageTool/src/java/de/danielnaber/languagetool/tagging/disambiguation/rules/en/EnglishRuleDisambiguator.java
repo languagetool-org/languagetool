@@ -13,6 +13,7 @@ import de.danielnaber.languagetool.rules.patterns.PatternRule;
 import de.danielnaber.languagetool.tagging.disambiguation.rules.DisambiguationPatternRule;
 import de.danielnaber.languagetool.tagging.disambiguation.rules.DisambiguationRuleLoader;
 import de.danielnaber.languagetool.tagging.disambiguation.rules.RuleDisambiguator;
+import de.danielnaber.languagetool.tools.Tools;
 
 public class EnglishRuleDisambiguator extends RuleDisambiguator {
 
@@ -31,7 +32,7 @@ public class EnglishRuleDisambiguator extends RuleDisambiguator {
    */
   private List<DisambiguationPatternRule> loadPatternRules(final String filename) throws ParserConfigurationException, SAXException, IOException {
     DisambiguationRuleLoader ruleLoader = new DisambiguationRuleLoader();    
-    return ruleLoader.getRules(this.getClass().getResourceAsStream(filename));
+    return ruleLoader.getRules(Tools.getStream(filename));
   }
   
   public final AnalyzedSentence disambiguate(final AnalyzedSentence input) throws IOException {
