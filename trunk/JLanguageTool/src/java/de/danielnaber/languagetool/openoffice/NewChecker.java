@@ -32,7 +32,9 @@ import com.sun.star.beans.XPropertySet;
 import com.sun.star.lang.IllegalArgumentException;
 import com.sun.star.lang.Locale;
 import com.sun.star.lang.WrappedTargetException;
+import com.sun.star.linguistic2.GrammarCheckingResult;
 import com.sun.star.linguistic2.XGrammarChecker;
+import com.sun.star.linguistic2.SingleGrammarError;
 import com.sun.star.text.XFlatParagraph;
 import com.sun.star.text.XTextCursor;
 import com.sun.star.text.XTextDocument;
@@ -129,12 +131,20 @@ public class NewChecker implements XGrammarChecker {
       try {
         List<RuleMatch> ruleMatches = langTool.check(arg1.getText());
         if (ruleMatches.size() > 0) {
-          //TODO: The error should be formatted as 
-          //com.sun.star.linguistic2.SingleGrammarError
-          //note that "errortype" there is left undefined...
-          //GrammarCheckingResult is a structure that contains all errors
-          //so we need to convert ruleMatches to GrammarCheckingResult
-          //how to call XGrammarCheckingIterator implemented by the service css.linguistic2.GrammarCheckingIterator
+          GrammarCheckingResult paRes = new GrammarCheckingResult();
+          paRes.xPara = arg1;
+          paRes.aText = arg1.getText();
+          paRes.aLocale = arg2;          
+          paRes.nEndOfSentencePos = arg4;
+          SingleGrammarError[] errorArray = new SingleGrammarError[ruleMatches.size()];;
+          int i = 0;
+          for (RuleMatch myRuleMatch : ruleMatches) {
+            errorArray[i] = createOOoError(
+                arg0, arg1, arg2, arg3, arg4, myRuleMatch);
+            i++;
+          }
+          paRes.aGrammarErrors = errorArray;
+          //TODO: call listeners to tell them we're done
         } else {
           //mark the text node as checked
           arg1.setChecked(com.sun.star.text.TextMarkupType.GRAMMAR, 
@@ -145,6 +155,32 @@ public class NewChecker implements XGrammarChecker {
         };      
       }
     }
+  
+  /** Creates a SingleGrammarError object for use in OOo.
+   * @param docId int - document ID
+   * para XFlatParagraph - text to check
+   * locale Locale - the text Locale  
+   * sentStart int start of sentence position
+   * sentEnd int end of sentence position
+   * MyMatch ruleMatch - LT rule match
+   * @return SingleGrammarError - object for OOo checker integration
+   */
+  private SingleGrammarError createOOoError(final int docId,
+      XFlatParagraph para, Locale locale, int sentStart, int SentEnd,
+      final RuleMatch myMatch) {
+    SingleGrammarError aError = new SingleGrammarError();
+    aError.nErrorType = com.sun.star.text.TextMarkupType.GRAMMAR;
+    aError.aFullComment = myMatch.getMessage();
+    aError.aShortComment = aError.aFullComment; // we don't support two kinds of comments
+    aError.aSuggestions = (String[]) myMatch.getSuggestedReplacements().toArray();
+    aError.nErrorLevel = 0; // severity level, we don't use it
+    aError.nErrorStart = myMatch.getFromPos();
+    aError.aNewLocale = locale;
+    aError.xGC = this;
+    aError.nErrorLen = myMatch.getToPos() - myMatch.getFromPos(); //?
+    return aError;
+  }
+  
 
   public void endDocument(int arg0) throws IllegalArgumentException {
     if (docID == arg0) {
@@ -160,9 +196,11 @@ public class NewChecker implements XGrammarChecker {
   public int getEndOfSentencePos(int arg0, String arg1, Locale arg2, int arg3)
       throws IllegalArgumentException {
     // TODO Auto-generated method stub
+ //   XBreakIterator xBreakIterator = new XBreakIterator();
+    
     return 0;
-  }
-
+  }  
+  
   public int getStartOfSentencePos(int arg0, String arg1, Locale arg2)
       throws IllegalArgumentException {
     // TODO Auto-generated method stub
@@ -200,7 +238,7 @@ public class NewChecker implements XGrammarChecker {
   /** Runs LT options dialog box. **/
   public final void runOptionsDialog(int arg0) throws IllegalArgumentException {
     // TODO Auto-generated method stub
-    Language lang = getLanguage();
+    final Language lang = getLanguage();
     if (lang == null)
       return;
     final ConfigThread configThread = new ConfigThread(lang, config);
@@ -230,7 +268,7 @@ public class NewChecker implements XGrammarChecker {
    * @return An array of Locales supported by LT.
    */
   public final Locale[] getLocales() {
-    Locale[] aLocales = new Locale[Language.LANGUAGES.length];
+    final Locale[] aLocales = new Locale[Language.LANGUAGES.length];
     for (int i = 0; i < Language.LANGUAGES.length; i++) {
       aLocales[i] = new Locale(
           Language.LANGUAGES[i].getShortName(),
