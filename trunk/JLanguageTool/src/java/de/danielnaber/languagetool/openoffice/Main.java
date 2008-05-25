@@ -350,7 +350,7 @@ public class Main {
     }
 
     private File getHomeDir() {
-      String homeDir = System.getProperty("user.home");
+      final String homeDir = System.getProperty("user.home");
       if (homeDir == null) {
         throw new RuntimeException("Could not get home directory");
       }
