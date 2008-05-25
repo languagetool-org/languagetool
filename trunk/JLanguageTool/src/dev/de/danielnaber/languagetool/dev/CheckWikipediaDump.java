@@ -199,12 +199,13 @@ class WikiDumpHandler extends DefaultHandler {
         try {
           articleCount++;
           if (maxArticles > 0 && articleCount > maxArticles) {
-            System.out.printf("Maximim number of articles reached. Found %d matches in %d articles\n",
+            System.out.printf("Maximum number of articles reached. Found %d matches in %d articles\n",
                 ruleMatchCount, articleCount);
             System.exit(0);
           }
           List<RuleMatch> ruleMatches = lt.check(textToCheck);  
-          System.out.println("Checking article " + articleCount + " (" + title + ")" + 
+          System.out.println("Checking article " + articleCount + " (" +
+              textToCheck.length()/1024 + "KB, '" + title + "')" + 
               ", found " + ruleMatches.size() + " matches");
           saveResultToDatabase(ruleMatches, textToCheck, lt.getLanguage());
           ruleMatchCount += ruleMatches.size();
