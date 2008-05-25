@@ -24,6 +24,7 @@ package de.danielnaber.languagetool.openoffice;
  * @author Marcin Miłkowski
  */
 import java.util.List;
+import java.util.ArrayList;
 import java.util.Set;
 import java.io.IOException;
 
@@ -35,6 +36,7 @@ import com.sun.star.lang.WrappedTargetException;
 import com.sun.star.linguistic2.GrammarCheckingResult;
 import com.sun.star.linguistic2.XGrammarChecker;
 import com.sun.star.linguistic2.SingleGrammarError;
+import com.sun.star.linguistic2.XGrammarCheckingResultListener;
 import com.sun.star.text.XFlatParagraph;
 import com.sun.star.text.XTextCursor;
 import com.sun.star.text.XTextDocument;
@@ -50,6 +52,9 @@ public class NewChecker implements XGrammarChecker {
   private Configuration config;
   private JLanguageTool langTool; 
   private Language docLanguage;
+  //FIXME: in the dummy implementation, it's a mutex, I'm using a simple list...
+  //another problem: how do listeners actually get added??
+  private List<XGrammarCheckingResultListener> gcListeners;
   
   private XTextDocument xTextDoc;
   
@@ -144,7 +149,13 @@ public class NewChecker implements XGrammarChecker {
             i++;
           }
           paRes.aGrammarErrors = errorArray;
-          //TODO: call listeners to tell them we're done
+          if (gcListeners != null) {
+            if (gcListeners.size() > 0) {
+              for (XGrammarCheckingResultListener gcL : gcListeners) {
+                gcL.GrammarCheckingFinished(paRes);
+              }
+            }
+          }
         } else {
           //mark the text node as checked
           arg1.setChecked(com.sun.star.text.TextMarkupType.GRAMMAR, 
@@ -294,4 +305,37 @@ public class NewChecker implements XGrammarChecker {
     return langIsSupported;
   }
 
+  public final boolean addGrammarCheckingResultListener(final XGrammarCheckingResultListener xListener) {
+    //FIXME: dummy mutex
+   Object myMutex = new Object();
+   synchronized(myMutex) {
+  if (gcListeners == null) {
+    gcListeners = new ArrayList<XGrammarCheckingResultListener>();
+   }
+  if (xListener != null) {
+    gcListeners.add(xListener);
+  return true;
+  }
+  else {
+    return false;
+  }
+  }
+  }
+  
+  public final boolean removeGrammarCheckingResultListener(final XGrammarCheckingResultListener xListener) {
+    //FIXME: dummy mutex
+    Object myMutex = new Object();
+    synchronized(myMutex) {   
+    if (gcListeners == null) {
+      return true;
+     }
+    if (xListener != null) {
+      gcListeners.remove(xListener);
+    return true;
+    }
+    else {
+      return false;
+    }
+    }
+  }
 }
