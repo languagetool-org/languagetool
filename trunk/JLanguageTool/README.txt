@@ -51,6 +51,8 @@ Known bugs:
     about text which is actually correct
    
 TODO:
+ -see http://papyr.com/hypertextbooks/grammar/gramchek.htm
+ -German: triebhemmende gets decomposed to triebhemm + ende
  -update languagetool.xml.update automatically (i.e. replace @version@)
  -add more redundancy rules, see e.g.
   http://grammar.about.com/od/words/a/redundancies.htm?p=1
