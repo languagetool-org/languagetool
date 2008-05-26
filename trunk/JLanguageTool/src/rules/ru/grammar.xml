@@ -8,14 +8,14 @@ title="Easy editing stylesheet" ?>
 A Russian rule file for LanguageTool
 Copyright (C) 2005 Daniel Naber (http://www.danielnaber.de)
 Copyright (C) 2008 Yakov Reztsov
-$Id: grammar.xml,v 1.3 2008-05-25 15:57:04 milek_pl Exp $
+$Id: grammar.xml,v 1.4 2008-05-26 20:51:28 milek_pl Exp $
 -->
 <rules lang="ru">
     <category name="Пунктуация">
         <rulegroup id="POZHALUJSTA" name="«пожалуйста» выделяется запятыми">
             <rule>
                 <pattern case_sensitive="yes" mark_to="0">
-                    <token negate="yes" regexp="yes">,<exception postag="SENT_START"/></token>
+                    <token negate="yes" regexp="yes">[\p{Punct}]<exception postag="SENT_START"></exception></token>
                     <token>пожалуйста</token>
                 </pattern>
                 <message>Нет запятой: <suggestion>\1, \2</suggestion>.</message>
@@ -38,7 +38,7 @@ $Id: grammar.xml,v 1.3 2008-05-25 15:57:04 milek_pl Exp $
 -->
             <rule>
                 <pattern case_sensitive="yes">
-                    <token negate="yes" regexp="yes">,<exception postag="SENT_START"/></token>
+                    <token negate="yes" regexp="yes">[\p{Punct}]<exception postag="SENT_START"></exception></token>
                     <token>как</token>
                     <token regexp="yes">обычно|всегда|правило|исключение|нарочно|сейчас</token>
                 </pattern>
@@ -62,7 +62,7 @@ $Id: grammar.xml,v 1.3 2008-05-25 15:57:04 milek_pl Exp $
             <!--TODO: Detect 2 comma.-->
             <rule>
                 <pattern case_sensitive="yes">
-                    <token negate="yes" regexp="yes">,<exception postag="SENT_START"/></token>
+                    <token negate="yes" regexp="yes">[\p{Punct}]<exception postag="SENT_START"></exception></token>
                     <token>как</token>
                     <token>и</token>
                 </pattern>
@@ -74,7 +74,7 @@ $Id: grammar.xml,v 1.3 2008-05-25 15:57:04 milek_pl Exp $
         <rulegroup default="on" id="A_NO_DA" name="Союзы 'а, но'">
             <rule>
                 <pattern case_sensitive="yes">
-                    <token negate="yes" regexp="yes">,<exception postag="SENT_START"/></token>
+                    <token negate="yes" regexp="yes">[\p{Punct}]<exception postag="SENT_START"></exception></token>
                     <token>а</token>
                 </pattern>
                 <message>Запятая пропущена здесь:<suggestion>\1, \2</suggestion>.</message>
@@ -83,7 +83,7 @@ $Id: grammar.xml,v 1.3 2008-05-25 15:57:04 milek_pl Exp $
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
-                    <token negate="yes" regexp="yes">,<exception postag="SENT_START"/></token>
+                    <token negate="yes" regexp="yes">[\p{Punct}]<exception postag="SENT_START"></exception></token>
                     <token>но</token>
                 </pattern>
                 <message>Запятая пропущена здесь:<suggestion>\1, \2</suggestion>.</message>
@@ -94,7 +94,7 @@ $Id: grammar.xml,v 1.3 2008-05-25 15:57:04 milek_pl Exp $
         <rulegroup default="on" id="VVODNOE_SLOVO" name="Вводные слова: по-видимому, ...">
             <rule>
                 <pattern case_sensitive="yes">
-                    <token negate="yes" regexp="yes">,<exception postag="SENT_START"/></token>
+                    <token negate="yes" regexp="yes">[\p{Punct}]<exception postag="SENT_START"></exception></token>
                     <token regexp="yes">по-видимому|по-моему</token>
                 </pattern>
                 <message>Запятая пропущена здесь:<suggestion>\1, \2,</suggestion>.</message>
@@ -114,7 +114,7 @@ $Id: grammar.xml,v 1.3 2008-05-25 15:57:04 milek_pl Exp $
             <rule>
                 <!-- Вводные слова: к счастью, к несчастью, к радости, к ужасу, к сожалению, ...-->
                 <pattern case_sensitive="yes">
-                    <token negate="yes" regexp="yes">,<exception postag="SENT_START"/></token>
+                    <token negate="yes" regexp="yes">[\p{Punct}]<exception postag="SENT_START"></exception></token>
                     <token>к</token>
                     <token regexp="yes">счастью|несчастью|радости|ужасу|сожалению</token>
                 </pattern>
@@ -137,7 +137,7 @@ $Id: grammar.xml,v 1.3 2008-05-25 15:57:04 milek_pl Exp $
             <rule>
                 <!-- Вводные слова: конечно, несомненно, вероятно, может быть, кажется, ...-->
                 <pattern case_sensitive="yes">
-                    <token negate="yes" regexp="yes">,<exception postag="SENT_START"/></token>     
+                    <token negate="yes" regexp="yes">[\p{Punct}]<exception postag="SENT_START"></exception></token>     
                     <token regexp="yes">конечно|несомненно|вероятно|кажется</token>
                 </pattern>
                 <message>Запятая пропущена здесь:<suggestion>\1, \2,</suggestion>.</message>
@@ -157,7 +157,7 @@ $Id: grammar.xml,v 1.3 2008-05-25 15:57:04 milek_pl Exp $
             <rule>
                 <!-- Вводные слова: итак, следовательно, во-первых, наконец, между прочим, ...-->            
                 <pattern case_sensitive="yes">
-                    <token negate="yes" regexp="yes">,<exception postag="SENT_START"/></token>     
+                    <token negate="yes" regexp="yes">[\p{Punct}]<exception postag="SENT_START"></exception></token>     
                     <token regexp="yes">итак|следовательно|во-первых|во-вторых|в-третьих|в-четвертых|наконец</token>
                 </pattern>
                 <message>Запятая пропущена здесь:<suggestion>\1, \2,</suggestion>.</message>
@@ -177,7 +177,7 @@ $Id: grammar.xml,v 1.3 2008-05-25 15:57:04 milek_pl Exp $
             <rule>
                 <!-- Вводные слова:   одним словом, вообще, иначе говоря, так сказать, ...-->
                 <pattern case_sensitive="yes">
-                    <token negate="yes" regexp="yes">,<exception postag="SENT_START"/></token>     
+                    <token negate="yes" regexp="yes">[\p{Punct}]<exception postag="SENT_START"></exception></token>     
                     <token>одним</token>
                     <token>словом</token>
                 </pattern>
@@ -199,7 +199,7 @@ $Id: grammar.xml,v 1.3 2008-05-25 15:57:04 milek_pl Exp $
             <rule> 
                 <!-- Вводные слова:   видишь (ли), понимаешь (ли), ...-->
                 <pattern case_sensitive="yes">
-                    <token negate="yes" regexp="yes">,<exception postag="SENT_START"/></token>    
+                    <token negate="yes" regexp="yes">[\p{Punct}]<exception postag="SENT_START"></exception></token>    
                     <token regexp="yes">видишь|понимаешь</token>
                     <token>ли</token>
                 </pattern>
