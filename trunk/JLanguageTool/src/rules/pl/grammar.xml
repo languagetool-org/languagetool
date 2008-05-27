@@ -6,7 +6,7 @@ title="Easy editing stylesheet" ?>
 <!--
 Polish Grammar and Typo Rules for LanguageTool
 Copyright (C) 2006-2007 Marcin Miłkowski
-$Id: grammar.xml,v 1.123 2008-05-01 23:00:53 milek_pl Exp $
+$Id: grammar.xml,v 1.124 2008-05-27 21:44:53 milek_pl Exp $
 -->
 <rules lang="pl">
   <phrases>
@@ -1071,16 +1071,28 @@ $Id: grammar.xml,v 1.123 2008-05-01 23:00:53 milek_pl Exp $
         <example type="correct">Masz bądź co bądź duży majątek.</example>
       </rule>
     </rulegroup>
-    <rule id="BRAK_PRZECINKA_I_KWITA" name="Brak przecinka przed „i kwita” itp.">
-      <pattern>
-        <token><exception postag="SENT_START" postag_regexp="yes"/><exception regexp="yes" scope="current">[\p{Punct}–—„«»…]|a</exception></token>
-        <token>i</token>
-        <token regexp="yes">to|kwita|już|owszem|koniec</token>
-      </pattern>
-      <message>Prawdopodobnie brak przecinka, jeśli to jest dopowiedzenie lub wtrącenie. Powinno być: <suggestion>\1, \2 \3</suggestion>.</message>
-      <example type="correct">Padał deszcz, i to obfity.</example>
-      <example correction="deszcz, i to" type="incorrect">Padał <marker>deszcz i to</marker> obfity.</example>
-    </rule>
+    <rulegroup id="BRAK_PRZECINKA_I_KWITA" name="Brak przecinka przed „i kwita” itp.">
+      <rule>
+        <pattern>
+          <token><exception postag="SENT_START" postag_regexp="yes"/><exception regexp="yes" scope="current">[\p{Punct}–—„«»…]|a</exception></token>
+          <token>i</token>
+          <token regexp="yes">to|kwita|już|owszem</token>
+        </pattern>
+        <message>Prawdopodobnie brak przecinka, jeśli to jest dopowiedzenie lub wtrącenie. Powinno być: <suggestion>\1, \2 \3</suggestion>.</message>
+        <example type="correct">Padał deszcz, i to obfity.</example>
+        <example correction="deszcz, i to" type="incorrect">Padał <marker>deszcz i to</marker> obfity.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token><exception postag="SENT_START" postag_regexp="yes"/><exception regexp="yes" scope="current">[\p{Punct}–—„«»…]|a</exception><exception>początek</exception></token>
+          <token>i</token>
+          <token>koniec</token>
+        </pattern>
+        <message>Prawdopodobnie brak przecinka, jeśli to jest dopowiedzenie lub wtrącenie. Powinno być: <suggestion>\1, \2 \3</suggestion>.</message>
+        <example type="correct">Każde opowiadanie musi mieć początek i koniec.</example>
+        <example correction="być, i koniec" type="incorrect">Tak już musi <marker>być i koniec</marker>!</example>
+      </rule>
+    </rulegroup>
     <rule id="BRAK_PRZECINKA_I_TAK" name="Brak przecinka przed „i tak”">
       <pattern mark_to="-1">
         <token><exception postag="SENT_START" postag_regexp="yes"/><exception regexp="yes">[\p{Punct}–—„«»…]|a</exception></token>
