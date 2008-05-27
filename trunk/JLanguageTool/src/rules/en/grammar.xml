@@ -7,7 +7,7 @@ title="Easy editing stylesheet" ?>
 English Grammar and Typo Rules for LanguageTool
 See tagset.txt for the meaning of the POS tags
 Copyright (C) 2001-2007 Daniel Naber (http://www.danielnaber.de)
-$Id: grammar.xml,v 1.58 2008-04-10 20:38:34 milek_pl Exp $
+$Id: grammar.xml,v 1.59 2008-05-27 21:29:11 milek_pl Exp $
 -->
 <rules lang="en">
   <!-- ====================================================================== -->
@@ -1041,7 +1041,7 @@ $Id: grammar.xml,v 1.58 2008-04-10 20:38:34 milek_pl Exp $
           <token><exception postag="PRP$"/></token>
           <token postag="DT|JJ.*" postag_regexp="yes" regexp="yes"><exception postag="CD"/></token>
           <token postag="NNS|NNPS" postag_regexp="yes" regexp="yes">.[^']*s<exception>his</exception><exception postag="VBZ|RB|IN|JJ|NN:.*|NN|NNP" postag_regexp="yes"/></token>
-          <token postag="NN|NN:.*" postag_regexp="yes" regexp="yes">.{2,}<exception regexp="yes">today|yesterday|tomorrow|now|in|are</exception><exception postag="VBG|VB|VBP|VBD|VBN|VBG|RB|MD|IN|JJ.*|CC|PRP" postag_regexp="yes"/></token>
+          <token postag="NN|NN:.*" postag_regexp="yes" regexp="yes">.{2,}<exception regexp="yes">today|yesterday|tomorrow|now|in|are</exception><exception postag="VBG|VB|VBP|VBD|VBN|VBG|RB|MD|IN|JJ.*|CC|PRP|NNP.*" postag_regexp="yes"/></token>
           <token><exception regexp="yes">\p{Punct}</exception></token>
         </pattern>
         <message>Possible typo: apostrophe is missing. Did you mean <suggestion><match no="3"/>'</suggestion> or 
@@ -1053,6 +1053,7 @@ $Id: grammar.xml,v 1.58 2008-04-10 20:38:34 milek_pl Exp $
         <example type="correct">The Romans may have marked the centre of Londinium.</example>
         <example type="correct">Universities A and B are old universities...</example>
         <example correction="presidents'|president's" type="incorrect">This is a transcript of the <marker>presidents</marker> oration from March.</example>
+        <example type="correct">Legalized Abortion on Crime, authored by the economists Steven D. Levitt and John Donohue.</example>
       </rule>
       <rule>
         <pattern mark_from="2" mark_to="-2">
