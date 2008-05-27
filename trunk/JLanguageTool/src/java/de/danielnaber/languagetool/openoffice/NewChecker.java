@@ -25,33 +25,42 @@ package de.danielnaber.languagetool.openoffice;
  */
 import java.util.List;
 import java.util.ArrayList;
+import java.util.ResourceBundle;
 import java.util.Set;
+import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 
 import com.sun.star.beans.UnknownPropertyException;
 import com.sun.star.beans.XPropertySet;
+import com.sun.star.frame.XDesktop;
 import com.sun.star.lang.IllegalArgumentException;
 import com.sun.star.lang.Locale;
 import com.sun.star.lang.WrappedTargetException;
+import com.sun.star.lang.XComponent;
+import com.sun.star.lang.XMultiComponentFactory;
+import com.sun.star.lang.XServiceInfo;
 import com.sun.star.lang.XSingleComponentFactory;
 import com.sun.star.lib.uno.helper.Factory;
+import com.sun.star.lib.uno.helper.WeakBase;
 import com.sun.star.linguistic2.GrammarCheckingResult;
 import com.sun.star.linguistic2.XGrammarChecker;
 import com.sun.star.linguistic2.SingleGrammarError;
 import com.sun.star.linguistic2.XGrammarCheckingResultListener;
 import com.sun.star.registry.XRegistryKey;
+import com.sun.star.task.XJobExecutor;
 import com.sun.star.text.XFlatParagraph;
 import com.sun.star.text.XTextCursor;
 import com.sun.star.text.XTextDocument;
 import com.sun.star.uno.UnoRuntime;
+import com.sun.star.uno.XComponentContext;
 
 import de.danielnaber.languagetool.JLanguageTool;
 import de.danielnaber.languagetool.Language;
 import de.danielnaber.languagetool.gui.Configuration;
-import de.danielnaber.languagetool.openoffice.Main._Main;
 import de.danielnaber.languagetool.rules.RuleMatch;
 
-public class NewChecker implements XGrammarChecker {
+public class NewChecker extends WeakBase implements XJobExecutor, XServiceInfo, XGrammarChecker {
 
   private Configuration config;
   private JLanguageTool langTool; 
@@ -61,7 +70,13 @@ public class NewChecker implements XGrammarChecker {
    * 
    */
   private static final String __serviceName = "com.sun.star.linguistic2.GrammarChecker";
+  
+//use a different name than the stand-alone version to avoid conflicts:
+  private static final String CONFIG_FILE = ".languagetool-ooo.cfg";
 
+  
+  private ResourceBundle messages = null;
+  private File homeDir;
   
   //FIXME: in the dummy implementation, it's a mutex, I'm using a simple list...
   //another problem: how do listeners actually get added??
@@ -75,7 +90,23 @@ public class NewChecker implements XGrammarChecker {
    * maintaining some doc info?
    */
   private int docID = -1;
-
+  
+  public NewChecker(final XComponentContext xCompContext) {
+    try {
+      XMultiComponentFactory xMCF = xCompContext.getServiceManager();
+      Object desktop = xMCF.createInstanceWithContext("com.sun.star.frame.Desktop", xCompContext);
+      XDesktop xDesktop = (XDesktop) UnoRuntime.queryInterface(XDesktop.class, desktop);
+      XComponent xComponent = xDesktop.getCurrentComponent();
+      xTextDoc = (XTextDocument) UnoRuntime.queryInterface(XTextDocument.class, xComponent);
+      homeDir = getHomeDir();
+      config = new Configuration(homeDir, CONFIG_FILE);
+      messages = JLanguageTool.getMessageBundle();        
+    } catch (Throwable e) {
+      writeError(e);
+      e.printStackTrace();
+    }
+  }
+  
   //TODO: remove this method and replace with proper one
   // based on XFlatParagraph
   private Language getLanguage() {
@@ -97,7 +128,6 @@ public class NewChecker implements XGrammarChecker {
         dt.start();
         return null;
       }
-      //checkTables();
     } catch (UnknownPropertyException e) {
       throw new RuntimeException(e);
     } catch (WrappedTargetException e) {
@@ -130,8 +160,8 @@ public class NewChecker implements XGrammarChecker {
       langTool.activateDefaultPatternRules();
       langTool.activateDefaultFalseFriendRules();
       } catch (Exception exception) {
-        //FIXME: write some code?
-        };
+        showError(exception);
+        }
       }
       if (config.getDisabledRuleIds() != null) {
         for (String id : config.getDisabledRuleIds()) {
@@ -173,8 +203,8 @@ public class NewChecker implements XGrammarChecker {
               true);  
         }
       } catch (IOException exception) {
-        //FIXME: do something with the exception
-        };      
+        showError(exception);
+        }      
       }
     }
   
@@ -259,7 +289,6 @@ public class NewChecker implements XGrammarChecker {
 
   /** Runs LT options dialog box. **/
   public final void runOptionsDialog(int arg0) throws IllegalArgumentException {
-    // TODO Auto-generated method stub
     final Language lang = getLanguage();
     if (lang == null)
       return;
@@ -378,4 +407,88 @@ public class NewChecker implements XGrammarChecker {
     return Factory.writeRegistryServiceInfo(NewChecker.class.getName(), NewChecker.getServiceNames(), regKey);
   }
     
+  public void trigger(final String sEvent) {
+    if (!javaVersionOkay()) {
+      return;
+    }
+    try {
+      if (sEvent.equals("execute")) {
+        //TODO: start checking - this is dummy code
+        //as we'd have to start the grammar iterator here
+        //and it makes no sense yet as it won't call our
+        //code yet...
+      } else if (sEvent.equals("configure")) {
+        final Language lang = getLanguage();
+        if (lang == null)
+          return;
+        final ConfigThread configThread = new ConfigThread(lang, config);
+        configThread.start();
+        while (true) {
+          if (configThread.done()) {
+            break;
+          }
+          try {
+            Thread.sleep(100);
+          } catch (InterruptedException e) {
+            break;
+          }
+        }
+      } else if (sEvent.equals("about")) {
+        AboutDialogThread aboutthread = new AboutDialogThread(messages);
+        aboutthread.start();
+      } else {
+        System.err.println("Sorry, don't know what to do, sEvent = " + sEvent);
+      }        
+    } catch (Throwable e) {
+      showError(e);
+    }
+  }
+
+  private boolean javaVersionOkay() {
+    String version = System.getProperty("java.version");
+    if (version != null && (version.startsWith("1.0") || version.startsWith("1.1")
+        || version.startsWith("1.2") || version.startsWith("1.3") || version.startsWith("1.4"))) {
+      DialogThread dt = new DialogThread("Error: LanguageTool requires Java 1.5 or later. Current version: " + version);
+      dt.start();
+      return false;
+    }    
+    return true;
+  }
+
+  static void showError(final Throwable e) {
+    String msg = "An error has occured:\n" + e.toString() + "\nStacktrace:\n";
+    StackTraceElement[] elem = e.getStackTrace();
+    for (int i = 0; i < elem.length; i++) {
+      msg += elem[i].toString() + "\n";
+    }
+    DialogThread dt = new DialogThread(msg);
+    dt.start();
+    e.printStackTrace();
+    throw new RuntimeException(e);
+  }
+
+  private void writeError(final Throwable e) {
+    FileWriter fw;
+    try {
+      fw = new FileWriter("languagetool.log");
+      fw.write(e.toString() + "\r\n");
+      StackTraceElement[] el = e.getStackTrace();
+      for (int i = 0; i < el.length; i++) {
+        fw.write(el[i].toString()+ "\r\n");
+      }
+      fw.close();
+    } catch (IOException e1) {
+      e1.printStackTrace();
+    }
+  }
+  
+  private File getHomeDir() {
+    final String homeDir = System.getProperty("user.home");
+    if (homeDir == null) {
+      throw new RuntimeException("Could not get home directory");
+    }
+    return new File(homeDir);
+  }
+
+  
 }
