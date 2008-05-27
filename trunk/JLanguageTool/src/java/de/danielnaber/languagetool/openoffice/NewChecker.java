@@ -33,10 +33,13 @@ import com.sun.star.beans.XPropertySet;
 import com.sun.star.lang.IllegalArgumentException;
 import com.sun.star.lang.Locale;
 import com.sun.star.lang.WrappedTargetException;
+import com.sun.star.lang.XSingleComponentFactory;
+import com.sun.star.lib.uno.helper.Factory;
 import com.sun.star.linguistic2.GrammarCheckingResult;
 import com.sun.star.linguistic2.XGrammarChecker;
 import com.sun.star.linguistic2.SingleGrammarError;
 import com.sun.star.linguistic2.XGrammarCheckingResultListener;
+import com.sun.star.registry.XRegistryKey;
 import com.sun.star.text.XFlatParagraph;
 import com.sun.star.text.XTextCursor;
 import com.sun.star.text.XTextDocument;
@@ -45,6 +48,7 @@ import com.sun.star.uno.UnoRuntime;
 import de.danielnaber.languagetool.JLanguageTool;
 import de.danielnaber.languagetool.Language;
 import de.danielnaber.languagetool.gui.Configuration;
+import de.danielnaber.languagetool.openoffice.Main._Main;
 import de.danielnaber.languagetool.rules.RuleMatch;
 
 public class NewChecker implements XGrammarChecker {
@@ -52,6 +56,13 @@ public class NewChecker implements XGrammarChecker {
   private Configuration config;
   private JLanguageTool langTool; 
   private Language docLanguage;
+  
+  /** Service name required by the OOo API (?).
+   * 
+   */
+  private static final String __serviceName = "com.sun.star.linguistic2.GrammarChecker";
+
+  
   //FIXME: in the dummy implementation, it's a mutex, I'm using a simple list...
   //another problem: how do listeners actually get added??
   private List<XGrammarCheckingResultListener> gcListeners;
@@ -336,6 +347,35 @@ public class NewChecker implements XGrammarChecker {
     else {
       return false;
     }
-    }
+    }           
   }
+  
+  public String[] getSupportedServiceNames() {
+    return getServiceNames();
+  }
+
+  public static String[] getServiceNames() {
+    String[] sSupportedServiceNames = { __serviceName };
+    return sSupportedServiceNames;
+  }
+
+  public boolean supportsService(final String sServiceName) {
+    return sServiceName.equals(__serviceName);
+  }
+
+  public String getImplementationName() {
+    return NewChecker.class.getName();
+  }
+
+  public static XSingleComponentFactory __getComponentFactory(final String sImplName) {
+    XSingleComponentFactory xFactory = null;
+    if (sImplName.equals(NewChecker.class.getName()))
+      xFactory = Factory.createComponentFactory(NewChecker.class, NewChecker.getServiceNames());
+    return xFactory;
+  }
+
+  public static boolean __writeRegistryServiceInfo(final XRegistryKey regKey) {
+    return Factory.writeRegistryServiceInfo(NewChecker.class.getName(), NewChecker.getServiceNames(), regKey);
+  }
+    
 }
