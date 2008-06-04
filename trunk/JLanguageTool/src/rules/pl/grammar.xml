@@ -6,7 +6,7 @@ title="Easy editing stylesheet" ?>
 <!--
 Polish Grammar and Typo Rules for LanguageTool
 Copyright (C) 2006-2007 Marcin Miłkowski
-$Id: grammar.xml,v 1.124 2008-05-27 21:44:53 milek_pl Exp $
+$Id: grammar.xml,v 1.125 2008-06-04 17:37:00 milek_pl Exp $
 -->
 <rules lang="pl">
   <phrases>
@@ -6662,6 +6662,34 @@ Znacznie częściej ta forma jest mylona z trybem rozkazującym od „pokazać�
       <message>Prawdopodobny błąd ortograficzny. Poprawnie: <suggestion>gros</suggestion>.</message>
       <example type="correct">Gro Harlem Brundtland zjadł tutaj kanapkę.</example>
       <example correction="gros" type="incorrect">Mam obawy że <marker>gro</marker> osób nie bedzie umiało tego zrobić.</example>
+    </rule>
+    <rule id="ZA_MAZ_POJSCIE" name="„za mąż pójście” (zamążpójście)">
+      <pattern>
+        <token>za</token>
+        <token>mąż</token>
+        <token inflected="yes">pójście</token>
+      </pattern>
+      <message>Ten wyraz pisze się zwykle łącznie: <suggestion>\1\2\3</suggestion>.</message>
+      <example correction="zamążpójściu" type="incorrect">Józia cieszyła się na myśl o swoim <marker>za mąż pójściu</marker>.</example>
+      <example type="correct">Józia cieszyła się na myśl o swoim zamążpójściu.</example>
+    </rule>
+    <rule id="WNIEBO_WZIETY" name="„w niebo wzięty” (wniebowzięty)">
+      <pattern>
+        <token>w</token>
+        <token>niebo</token>
+        <token inflected="yes">wzięty</token>
+      </pattern>
+      <message>Ten wyraz pisze się zwykle łącznie: <suggestion>\1\2\3</suggestion>.</message>
+      <example correction="wniebowzięty" type="incorrect">Premier na myśl o swoich apanażach był <marker>w niebo wzięty</marker>.</example>
+      <example type="correct">Była wniebowzięta, widząc premiera na białym koniu.</example>
+    </rule>
+    <rule id="BENEFITOWY" name="„benefitowy” (benefisowy)">
+      <pattern>
+        <token regexp="yes">benefitow.*</token>
+      </pattern>
+      <message>Ten wyraz jest niepoprawną kalką z angielskiego. Poprawnie: <suggestion><match no="1" regexp_match="([Bb])enefit(.*)" regexp_replace="$1enefis$2"/></suggestion>.</message>
+      <example correction="benefisową" type="incorrect">Organizujemy imprezę <marker>benefitową</marker>.</example>
+      <example type="correct">Benefisowy bal odbył się u hrabiny Ciapciakowej.</example>
     </rule>
   </category>
   <category name="Prawdopodobne literówki">
