@@ -59,7 +59,7 @@ public class PolishSentenceTokenizer extends SentenceTokenizer {
   private static final Pattern ELLIPSIS = Pattern.compile("([\\[]*(\\.\\.\\.|…)[\\]]*\\s)" + EOS + "(\\p{Ll})");
   
   /** Polish abbreviations as a single regexp. **/
-  private static final String ABBREVLIST = "adw|afr|akad|am|amer|arch|art|artyst|astr|austr|" +
+  private static final String ABBREVLIST = "adw|afr|akad|al|am|amer|arch|art|artyst|astr|austr|" +
         "bałt|bdb|bł|bm|br|bryt|centr|ces|chem|chiń|chir|c.k|c.o|cyg|cyw|cyt|" +
         "czes|czw|cd|czyt|ćw|ćwicz|" +
         "daw|dcn|dekl|demokr|det|diec|dł|dn|dop|dost|dosł|h.c|ds|dst|duszp|dypl|egz|ekol|ekon|" +

@@ -6,7 +6,7 @@ title="Easy editing stylesheet" ?>
 <!--
 Polish Grammar and Typo Rules for LanguageTool
 Copyright (C) 2006-2007 Marcin Miłkowski
-$Id: grammar.xml,v 1.125 2008-06-04 17:37:00 milek_pl Exp $
+$Id: grammar.xml,v 1.126 2008-06-04 19:24:31 milek_pl Exp $
 -->
 <rules lang="pl">
   <phrases>
@@ -1883,6 +1883,16 @@ Powinno być: <suggestion>\2, \3 \4</suggestion>.</message>
     </rule>
   </category>
   <category name="Błędy składniowe">
+    <rule id="INSTRUKCJA_NA" name="„instrukcja na robienie” (instrukcja robienia)">
+      <pattern>
+        <token inflected="yes">instrukcja</token>
+        <token>na</token>
+        <token postag="subst:ger:sg:nom.acc.voc:n"/>
+      </pattern>
+      <message>To błąd składniowy. Poprawnie: <suggestion><match no="1"/> <match no="3" postag="subst:ger:sg:gen:n"/></suggestion>.</message>
+      <example correction="instrukcję podrabiania" type="incorrect">Sprzedam <marker>instrukcję na podrabianie</marker> banknotów.</example>
+      <example type="correct">Sprzedam instrukcję podrabiania fałszywych banknotów.</example>
+    </rule>
     <rule id="NIE_A" name="„nie..., a...” (nie..., lecz)">
       <pattern mark_from="1" mark_to="-2">
         <token skip="5"><exception scope="next">między</exception>nie</token>
@@ -2560,6 +2570,15 @@ Powinno być: <suggestion>\2, \3 \4</suggestion>.</message>
     </rule>
   </category>
   <category name="Błędy leksykalne">
+    <rule id="NAJWIECEJ_LUBIC" name="„najwięcej lubić” (najbardziej lubić)">
+      <pattern>
+        <token>najwięcej</token>
+        <token inflected="yes">lubić</token>
+      </pattern>
+      <message>Niepoprawny związek wyrazów. Poprawnie: <suggestion>najbardziej \2</suggestion>.</message>
+      <example correction="Najbardziej lubię" type="incorrect"><marker>Najwięcej lubię</marker> orędzia naszych polityków.</example>
+      <example type="correct">Lech najbardziej lubi zupę pomidorową.</example>
+    </rule>
     <rule id="INFORMACJE_SENSYTYWNE" name="„informacje sensytywne” (informacje poufne)">
       <pattern>
         <token inflected="yes" regexp="yes">informacja|dana</token>
@@ -4196,6 +4215,15 @@ Powinno być: <suggestion>\2, \3 \4</suggestion>.</message>
       <example type="correct">Cieszymy się z możliwości współdziałania.</example>
       <example correction="współdziałania" type="incorrect">Cieszymy się z możliwości <marker>wzajemnego współdziałania</marker>.</example>
     </rule>
+    <rule id="AUTENTYCZNE_REALIA" name="„autentyczne realia” (realia)">
+      <pattern>
+        <token inflected="yes">autentyczny</token>
+        <token inflected="yes">realia</token>
+      </pattern>
+      <message>To wyrażenie to pleonazm. Wystarczy powiedzieć <suggestion>\2</suggestion>.</message>
+      <example type="correct">Ten film oparto na realiach.</example>
+      <example correction="realiami" type="incorrect">Powieść nie ma związku z <marker>autentycznymi realiami</marker>.</example>
+    </rule>
     <rule id="CALKOWITE_FIASKO" name="„całkowite” (fiasko)">
       <pattern>
         <token inflected="yes" postag="adj:sg:.*:pos:aff" postag_regexp="yes" regexp="yes">całkowity|kompletny|zupełny</token>
@@ -4315,6 +4343,25 @@ Powinno być: <suggestion>\2, \3 \4</suggestion>.</message>
       <message>To wyrażenie jest pleonazmem. Mówimy <suggestion>w razie</suggestion> lub <suggestion>w przypadku</suggestion>.</message>
       <example correction="w razie|w przypadku" type="incorrect">Postępowanie <marker>w razie przypadku</marker> niezamierzonego uwolnienia do środowiska</example>
       <example type="correct">Postępowanie w razie niezamierzonego uwolnienia do. środowiska</example>
+    </rule>
+    <rule id="SLABA_GLOWA_DO_ALKOHOLU" name="„słaba głowa do alkoholu”  (słaba głowa)">
+      <pattern>
+        <token inflected="yes" postag="adj:.*:(f|f.n.*):pos:aff" postag_regexp="yes">słaby</token>
+        <token inflected="yes">głowa</token>
+        <token>do</token>
+        <token>alkoholu</token>
+      </pattern>
+      <message>To wyrażenie to pleonazm. Wystarczy powiedzieć: <suggestion>\1 \2</suggestion>.</message>
+      <example correction="słabą głowę" type="incorrect">Józek zawsze miał <marker>słabą głowę do alkoholu</marker>.</example>
+      <example type="correct">Ala ma kota i słabą głowę.</example>
+    </rule>
+    <rule id="MORALNO_ETYCZNY" name="„moralno-etyczny” (moralny lub etyczny)">
+      <pattern>
+        <token regexp="yes">moralno-etyczn.*</token>
+      </pattern>
+      <message>Ten wyraz jest pleonazmem. Wystarczy powiedzieć <suggestion><match no="1" postag_replace="" regexp_match="moraln(o-)etyczn(.*)" regexp_replace="moraln$2"/></suggestion> lub <suggestion><match no="1" regexp_match="moraln(o-)etyczn(.*)" regexp_replace="etyczn$2" setpos="no"/></suggestion>.</message>
+      <example correction="moralny|etyczny" type="incorrect">Papież zostawił nam ogromny obowiązek <marker>moralno-etyczny</marker>.</example>
+      <example type="correct">Encykliki nie mogą uzasadniać nakazów moralnych.</example>
     </rule>
   </category>
   <category name="Błędy fonetyczne">
@@ -4826,6 +4873,27 @@ Powinno być: <suggestion>\2, \3 \4</suggestion>.</message>
     </rule>
   </category>
   <category name="Błędy ortograficzne">
+    <rulegroup id="AL_UJAZDOWSKIE" name="„aleje Ujazdowskie” (Aleje Ujazdowskie)">
+      <rule>
+        <pattern case_sensitive="yes">
+          <token>al</token>
+          <token>.</token>
+          <token postag="adj.*" postag_regexp="yes" regexp="yes">\p{Lu}\p{Ll}.*</token>
+        </pattern>
+        <message>W wypadku takich adresów pierwszy wyraz również piszemy wielką literą. Poprawnie: <suggestion><match case_conversion="startupper" no="1"/>. <match no="3"/></suggestion>.</message>
+        <example correction="Al. Ujazdowskie" type="incorrect">Kancelaria mieści się w Warszawie, pod adresem <marker>al. Ujazdowskie</marker> 123412.</example>
+        <example type="correct">Kancelaria mieści się w Warszawie, pod adresem Al. Ujazdowskie 12133.</example>
+      </rule>
+      <rule>
+        <pattern case_sensitive="yes">
+          <token>aleje</token>
+          <token postag="adj.*" postag_regexp="yes" regexp="yes">\p{Lu}\p{Ll}.*</token>
+        </pattern>
+        <message>W wypadku takich adresów pierwszy wyraz również piszemy wielką literą. Poprawnie: <suggestion><match case_conversion="startupper" no="1"/> <match no="2"/></suggestion></message>
+        <example correction="Aleje Jerozolimskie" type="incorrect">Jedną z piękniejszych ulic w Warszawie są <marker>aleje Jerozolimskie</marker>.</example>
+        <example type="correct">Przy Alejach Jerozolimskich jest piękna, sztuczna palma.</example>
+      </rule>
+    </rulegroup>
     <rulegroup id="REPREZENTANT_POLSKI" name="„reprezentant polski” (reprezentant Polski)">
       <rule>
         <pattern case_sensitive="yes">
@@ -7525,6 +7593,17 @@ Znacznie częściej ta forma jest mylona z trybem rozkazującym od „pokazać�
     </rule>
   </category>
   <category name="Błędy frazeologiczne">
+    <rule id="SERCE_WALI_JAK_MLOT" name="„serce wali jak młot” (serce wali jak młotem)">
+      <pattern mark_from="1">
+        <token skip="3">serce</token>
+        <token regexp="yes">wali|waliło</token>
+        <token>jak</token>
+        <token>młot</token>
+      </pattern>
+      <message>Niepoprawna postać związku frazeologicznego. Poprawnie: <suggestion>\2 \3 młotem</suggestion>.</message>
+      <example correction="waliło jak młotem" type="incorrect">Serce mi <marker>waliło jak młot</marker>.</example>
+      <example type="correct">Józkowi serce waliło młotem, gdy patrzył na Józkę.</example>
+    </rule>
     <rule id="MADREJ_GLOWIE_DOSC_PO_SLOWIE" name="„mądrej głowie dość po słowie” (mądrej głowie dość dwie słowie)">
       <pattern>
         <token>mądrej</token>
