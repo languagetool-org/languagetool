@@ -6,7 +6,7 @@ title="Easy editing stylesheet" ?>
 <!--
 Polish Grammar and Typo Rules for LanguageTool
 Copyright (C) 2006-2007 Marcin Miłkowski
-$Id: grammar.xml,v 1.128 2008-06-06 15:33:38 milek_pl Exp $
+$Id: grammar.xml,v 1.129 2008-06-06 23:58:12 milek_pl Exp $
 -->
 <rules lang="pl">
   <phrases>
@@ -1050,8 +1050,8 @@ $Id: grammar.xml,v 1.128 2008-06-06 15:33:38 milek_pl Exp $
     <rulegroup id="BRAK_PRZECINKA_ANI" name="Brak przecinka przed powtórzonym „ani”, „albo”, „bądź”, „i”, „lub”, „oraz”">
       <rule>
         <pattern mark_from="2">
-          <token regexp="yes" skip="-1">ani|ni|lub|albo|czy|oraz<exception regexp="yes" scope="next">[,;–-—„”]</exception></token>
-          <token skip="-1"><exception regexp="yes">[,;–-—„”]</exception><exception regexp="yes" scope="next">[,;–-—„”]</exception></token>
+          <token regexp="yes" skip="-1">ani|ni|lub|albo|czy|oraz<exception regexp="yes" scope="next">[.…,;–-—„”]</exception></token>
+          <token skip="-1"><exception regexp="yes">[.…,;–-—„”]</exception><exception regexp="yes" scope="next">[.…,;–-—„”]</exception></token>
           <token><match no="0"/></token>
         </pattern>
         <message>Prawdopodobnie brakuje przecinka. Powinno być: <suggestion>, \3</suggestion>.</message>
@@ -1061,7 +1061,7 @@ $Id: grammar.xml,v 1.128 2008-06-06 15:33:38 milek_pl Exp $
       </rule>
       <rule>
         <pattern mark_from="2">
-          <token regexp="yes">bądź<exception scope="next">[,;–-—]</exception></token>
+          <token regexp="yes">bądź<exception scope="next">[.…,;–-—„”]</exception></token>
           <token skip="-1"><exception regexp="yes">,|co</exception><exception scope="next">,</exception></token>
           <token>bądź</token>
         </pattern>
@@ -1095,7 +1095,7 @@ $Id: grammar.xml,v 1.128 2008-06-06 15:33:38 milek_pl Exp $
     </rulegroup>
     <rule id="BRAK_PRZECINKA_I_TAK" name="Brak przecinka przed „i tak”">
       <pattern mark_to="-1">
-        <token><exception postag="SENT_START" postag_regexp="yes"/><exception regexp="yes">[\p{Punct}–—„«»…]|a</exception></token>
+        <token><exception postag="SENT_START|conj" postag_regexp="yes"/><exception regexp="yes">[\p{Punct}–—„«»…]|już|zresztą</exception></token>
         <token>i</token>
         <token>tak</token>
         <token><exception postag="adv.*|adj.*" postag_regexp="yes"/></token>
@@ -1277,7 +1277,7 @@ $Id: grammar.xml,v 1.128 2008-06-06 15:33:38 milek_pl Exp $
       </rule>
     </rulegroup>
     <rule id="BRAK_PRZECINKA_A" name="Brak przecinka przed „a” w sensie przeciwstawnym">
-      <pattern case_sensitive="no" mark_from="1" mark_to="-1">
+      <pattern case_sensitive="yes" mark_from="1" mark_to="-1">
         <token/>
         <phraseref idref="NIE_INTERPUNKCJA"/>
         <token>a</token>
@@ -1381,6 +1381,37 @@ Powinno być: <suggestion>\2, \3 \4</suggestion>.</message>
     </rule>
   </category>
   <category name="Błędy odmiany">
+    <rulegroup id="Z_LAM" name="„z łam prasy” (z łamów prasy)">
+      <rule>
+        <pattern mark_from="1" mark_to="-1">
+          <token skip="2">z</token>
+          <token>łam</token>
+          <token><exception regexp="yes">prasy|gazet</exception></token>
+        </pattern>
+        <message>Niepoprawna forma. Powinno być: <suggestion>łamów</suggestion>.</message>
+        <example correction="łamów" type="incorrect">Ten temat nie schodzi z <marker>łam</marker> „Misia”.</example>
+        <example type="correct">Warto skorzystać z łamów „Konia polskiego” i zająć się problemem rozmnażania kotów.</example>
+      </rule>
+      <rule>
+        <pattern mark_to="-1">
+          <token><exception scope="previous">z</exception>łam</token>
+          <token regexp="yes">prasy|gazet</token>
+        </pattern>
+        <message>Niepoprawna forma. Powinno być: <suggestion>łamów</suggestion>.</message>
+        <example correction="łamów" type="incorrect">Nie mają czym zapełnić <marker>łam</marker> gazet.</example>
+        <example type="correct">Warto skorzystać z łamów prasy i zająć się problemem rozmnażania kotów.</example>
+      </rule>
+    </rulegroup>
+    <rule id="SKAKAC_PRZEZ_KOZLA" name="„skakać przez kozła” (skakać przez kozioł)">
+      <pattern mark_from="2">
+        <token inflected="yes" regexp="yes" skip="2">skok|skakać|skoczyć</token>
+        <token>przez</token>
+        <token>kozła</token>
+      </pattern>
+      <message>Niepoprawna odmiana wyrazu. Biernik wyrazu „kozioł” (rodzaj przyrządu gimnastycznego) brzmi: <suggestion>kozioł</suggestion>.</message>
+      <example correction="kozioł" type="incorrect">Skok przez <marker>kozła</marker></example>
+      <example type="correct">Skakałem przez kozioł i było mi miło.</example>
+    </rule>
     <rule id="PERSONA_NON_GRATA" name="Odmienione wyrażenie „persona non grata”">
       <pattern>
         <token inflected="yes">persona<exception>persona</exception></token>
@@ -1892,6 +1923,27 @@ Powinno być: <suggestion>\2, \3 \4</suggestion>.</message>
     </rule>
   </category>
   <category name="Błędy składniowe">
+    <rule id="DWADZIESCIA_DWAJ" name="„dwadzieścia dwaj uczniowie” (dwudziestu dwóch uczniów)">
+      <pattern>
+        <token postag="num:pl:nom.acc:m2.m3.f.n"/>
+        <token postag="num:pl:nom:m1:congr"/>
+        <token postag="subst:pl:nom.voc:m1"/>
+      </pattern>
+      <message>Niepoprawna składnia liczebników. Poprawnie: <suggestion><match no="1" postag="num:pl:nom:m1:rec"/> <match no="2" postag="num:pl:gen.loc:m1.m2.m3.f.n2"/> <match no="3" postag="subst:pl:acc.gen:m1"/></suggestion>. Należy też ewentualnie dostosować liczbę czasownika!</message>
+      <example correction="Trzydziestu trzech mężczyzn" type="incorrect"><marker>Trzydzieści trzej mężczyźni</marker> śpią na lekcji.</example>
+      <example type="correct">Czterdziestu pięciu policjantów użyło broni.</example>
+    </rule>
+    <rule id="NIE_ULEGA_WATPLIWOSCI" name="„nie ulega najmniejszyych wątpliwości”">
+      <pattern>
+        <token>nie</token>
+        <token>ulega</token>
+        <token>najmniejszych</token>
+        <token>wątpliwości</token>
+      </pattern>
+      <message>Błędny przypadek gramatyczny. Poprawnie <suggestion>\1 \2 najmniejszym wątpliwościom</suggestion> lub <suggestion>\1 ma \3 \4</suggestion>.</message>
+      <example correction="Nie ulega najmniejszym wątpliwościom|Nie ma najmniejszych wątpliwości" type="incorrect"><marker>Nie ulega najmniejszych wątpliwości</marker>, że on był agentem obcego wywiadu.</example>
+      <example type="correct">Nie ma najmniejszych wątpliwości, że takie bzdury mogą zrodzić się tylko w głowie paranoika.</example>
+    </rule>
     <rule id="DOFINANSOWANIE_DO_CZEGOS" name="„dofinansowanie do czegoś” (dofinansowanie czegoś)">
       <pattern>
         <token inflected="yes">dofinansowanie</token>
@@ -1900,6 +1952,16 @@ Powinno być: <suggestion>\2, \3 \4</suggestion>.</message>
       <message>Nieprawidłowa forma, tego wyrazu używa się bez przyimka „do” (chyba że ten przyimek jest konieczny ze względu na inne wyrazy w zdaniu). Wystarczy: <suggestion>\1</suggestion>.</message>
       <example correction="dofinansowanie" type="incorrect">Gmina otrzymała <marker>dofinansowanie do</marker> budowy sali gimnastycznej.</example>
       <example type="correct">Starałem się o dofinansowanie książki.</example>
+    </rule>
+    <rule id="NA_ILE" name="„na ile” (po ile/jak dalece">
+      <pattern>
+        <token>na</token>
+        <token>ile</token>
+      </pattern>
+      <message>Słowniki poprawnej polszczyzny określają tę zbitkę jako niepoprawną. Poprawnie: 1. <suggestion>po ile</suggestion> (=w jakiej cenie), 
+2. <suggestion>jak dalece</suggestion>, <suggestion>w jakim stopniu</suggestion>, <suggestion>jak bardzo</suggestion>, <suggestion>o ile</suggestion>.</message>
+      <example correction="po ile|jak dalece|w jakim stopniu|jak bardzo|o ile" type="incorrect">Wiemy o sobie tyle, <marker>na ile</marker> na sprawdzono.</example>
+      <example type="correct">Wiemy o sobie tyle, ile nas sprawdzono.</example>
     </rule>
     <rule id="INSTRUKCJA_NA" name="„instrukcja na robienie” (instrukcja robienia)">
       <pattern>
@@ -2321,10 +2383,10 @@ Powinno być: <suggestion>\2, \3 \4</suggestion>.</message>
     </rulegroup>
     <rule id="WIEKSZY_JAK" name="„większy/lepszy jak” (większy/lepszy od/niż)">
       <pattern mark_from="1">
-        <token inflected="yes" regexp="yes">większy|lepszy</token>
+        <token postag="adj.*:comp" postag_regexp="yes"><exception inflected="yes" scope="previous">nie|nic</exception></token>
         <token>jak</token>
       </pattern>
-      <message>Mówimy „większy/lepszy <suggestion>od</suggestion>”, „większy/lepszy <suggestion>niż</suggestion>”.</message>
+      <message>Mówimy „\1 <suggestion>od</suggestion>”, „\1 <suggestion>niż</suggestion>”.</message>
       <example type="correct">Ten nowy dysk jest większy od starego.</example>
       <example type="correct">Ten nowy dysk jest lepszy od starego.</example>
       <example correction="od|niż" type="incorrect">Ten nowy dysk jest większy <marker>jak</marker> stary.</example>
@@ -2332,12 +2394,13 @@ Powinno być: <suggestion>\2, \3 \4</suggestion>.</message>
     </rule>
     <rule id="WIECEJ_JAK" name="„więcej jak” (więcej od, więcej niż)">
       <pattern mark_from="1">
-        <token>więcej</token>
+        <token postag="adv:comp"><exception scope="previous">nie</exception></token>
         <token>jak</token>
       </pattern>
-      <message>Mówimy „więcej <suggestion>od</suggestion>”, „więcej <suggestion>niż</suggestion>”.</message>
+      <message>Mówimy „\1 <suggestion>od</suggestion>” lub „\1 <suggestion>niż</suggestion>” (w zależności od kontekstu).</message>
       <example type="correct">Więcej niż kosmetyk!</example>
       <example correction="od|niż" type="incorrect">Więcej <marker>jak</marker> Kosmetyk!</example>
+      <example correction="od|niż" type="incorrect">Czuł się w pracy lepiej <marker>jak</marker> w domu.</example>
     </rule>
     <rule id="PISZE" name="„w gazecie pisze” (było napisane)">
       <pattern case_sensitive="yes" mark_from="2" mark_to="-1">
@@ -2588,6 +2651,60 @@ Powinno być: <suggestion>\2, \3 \4</suggestion>.</message>
     </rule>
   </category>
   <category name="Błędy leksykalne">
+    <rule id="SZEROKI_ODBIORCA" name="„szeroki odbiorca” (masowy odbiorca)">
+      <pattern>
+        <token inflected="yes" postag="adj:(sg|pl):.*:.*m.*:.*" postag_regexp="yes">szeroki</token>
+        <token inflected="yes">odbiorca</token>
+      </pattern>
+      <message>Niepoprawne wyrażenie. Poprawnie: <suggestion><match no="1" postag="adj.*">masowy</match> <match no="2"/></suggestion>.</message>
+      <example correction="masowego odbiorcy" type="incorrect">To produkt dla <marker>szerokiego odbiorcy</marker>.</example>
+      <example type="correct">To produkt dla masowego odbiorcy.</example>
+    </rule>
+    <rule id="LEPSZE_ZLO" name="„lepsze zło” (mniejsze zło)">
+      <pattern>
+        <token inflected="yes" postag="adj.*n:comp" postag_regexp="yes">lepszy</token>
+        <token inflected="yes">zło</token>
+      </pattern>
+      <message>Prawdopodobnie niepoprawne wyrażenie. Czy chodziło o <suggestion><match no="1" postag="adj.*:comp" postag_regexp="yes">mniejszy</match> <match no="2"/></suggestion>?</message>
+      <example correction="mniejszym złem" type="incorrect">Kiedy stoimy przed takim dylematem, zadowolić się musimy <marker>lepszym złem</marker>.</example>
+      <example type="correct">Generał twierdzi, że wybrał mniejsze zło.</example>
+    </rule>
+    <rule id="POSTAWIC_OPOR" name="„postawić opór” (stawić opór)">
+      <pattern>
+        <token inflected="yes">postawić</token>
+        <token>opór</token>
+      </pattern>
+      <message>Niepoprawne wyrażenie. Poprawnie: <suggestion><match no="1" regexp_match="[pP]o(.*)" regexp_replace="$1"/> <match no="2"/></suggestion>.</message>
+      <example correction="stawił opór" type="incorrect">Oddział Zdzicha <marker>postawił opór</marker> przeważającym siłom wroga i bohatersko wysadził się w powietrze, choć nie miał nawet materiałów wybuchowych.</example>
+      <example type="correct">Stawiłem opór rosnącej fali błędów językowych.</example>
+    </rule>
+    <rule id="KONDYCJA_FINANSOWA" name="„kondycja finansowa” (sytuacja finansowa)">
+      <pattern>
+        <token inflected="yes">kondycja</token>
+        <token inflected="yes" postag="adj:sg:.*:f.*" postag_regexp="yes">finansowy</token>
+      </pattern>
+      <message>Niepoprawna kalka z angielskiego. Lepiej: <suggestion><match no="1" postag="subst.*" postag_regexp="yes">sytuacja</match> <match no="2"/></suggestion>.</message>
+      <example type="correct">Sytuacja finansowa amerykańskich banków pozostawia wiele do życzenia.</example>
+      <example correction="Sytuacja finansowa" type="incorrect"><marker>Kondycja finansowa</marker> amerykańskich banków pozostawia wiele do życzenia.</example>
+    </rule>
+    <rule id="DRUGI_NAJWIEKSZY" name="„drugi największy” (drugi co do wielkości)">
+      <pattern>
+        <token inflected="yes" regexp="yes">drugi|trzeci|czwarty|piąty|szósty</token>
+        <token inflected="yes">największy</token>
+      </pattern>
+      <message>Niepoprawne wyrażenie (kalka z niemieckiego lub angielskiego). Poprawnie: <suggestion>\1 co do wielkości</suggestion>.</message>
+      <example correction="trzecim co do wielkości" type="incorrect">Nasza firma jest <marker>trzecim największym</marker> bankiem na świecie!</example>
+      <example type="correct">Ten bank jest trzecim do wielkości oszustem na rynku hipotecznym.</example>
+    </rule>
+    <rule id="MAPA_DROGOWA" name="„mapa drogowa” (harmonogram, plan działań)">
+      <pattern>
+        <token inflected="yes">mapa</token>
+        <token inflected="yes" postag="adj:sg:.*:f.*" postag_regexp="yes">drogowy</token>
+      </pattern>
+      <message>To wyrażenie jest częstą i niepoprawną kalką z języka angielskiego (jeśli nie jest użyte dosłownie). Poprawnie: <suggestion>plan działań</suggestion>, <suggestion>harmonogram</suggestion>.</message>
+      <example correction="plan działań|harmonogram" type="incorrect">Resort zaprezentuje <marker>mapę drogową</marker> prac nad ustawą.</example>
+      <example type="correct">Mapy są bardzo ważne do jazdy po drogach.</example>
+    </rule>
     <rule id="DYGITALNY" name="„dygitalny” (cyfrowy)">
       <pattern>
         <token inflected="yes">dygitalny</token>
@@ -4918,6 +5035,108 @@ lub <suggestion>\2 na prawach wyłączności</suggestion>.</message>
     </rule>
   </category>
   <category name="Błędy ortograficzne">
+    <rulegroup id="TAM_TEN" name="„tam to dziecko” (tamto dziecko)">
+      <rule>
+        <pattern>
+          <token>tam</token>
+          <token>to</token>
+          <token postag="subst:sg:nom.acc.voc:n"/>
+        </pattern>
+        <message>Prawdopodobny błąd ortograficzny. Czy miało być <suggestion>\1\2 \3</suggestion>?</message>
+        <example correction="tamto dziecko" type="incorrect">Patrzyłem na <marker>tam to dziecko</marker>.</example>
+        <example type="correct">Patrzyłem na tamto dziecko.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>tam</token>
+          <token>ten</token>
+          <token postag="subst:sg:nom.*:m.*" postag_regexp="yes"/>
+        </pattern>
+        <message>Prawdopodobny błąd ortograficzny. Czy miało być <suggestion>\1\2 \3</suggestion>?</message>
+        <example correction="Tamten mężczyzna" type="incorrect"><marker>Tam ten mężczyzna</marker> do mnie podszedł.</example>
+        <example type="correct">Tamten mężczyzna jest mordercą!</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>tam</token>
+          <token>ta</token>
+          <token postag="subst:sg:nom:f"/>
+        </pattern>
+        <message>Prawdopodobny błąd ortograficzny. Czy miało być <suggestion>\1\2 \3</suggestion>?</message>
+        <example correction="Tamta kobieta" type="incorrect"><marker>Tam ta kobieta</marker> wygląda podejrzanie.</example>
+        <example type="correct">Tamta kobieta kupowała jaja na targu.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>tam</token>
+          <token>tej</token>
+          <token postag="subst:sg:gen:f"/>
+        </pattern>
+        <message>Prawdopodobny błąd ortograficzny. Czy miało być <suggestion>\1\2 \3</suggestion>?</message>
+        <example correction="tamtej kobiety" type="incorrect">Nie widziałem nigdy <marker>tam tej kobiety</marker>.</example>
+        <example type="correct">Nigdy nie widziałem tamtej kobiety.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>tam</token>
+          <token>tą</token>
+          <token postag="subst:sg:inst:f"/>
+        </pattern>
+        <message>Prawdopodobny błąd ortograficzny. Czy miało być <suggestion>\1\2 \3</suggestion>?</message>
+        <example correction="tamtą sprawą" type="incorrect">Zająłem się <marker>tam tą sprawą</marker>.</example>
+        <example type="correct">Zająłem się tamtą sprawą.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>tam</token>
+          <token>tym</token>
+          <token postag="subst:pl:dat.*" postag_regexp="yes"/>
+        </pattern>
+        <message>Prawdopodobny błąd ortograficzny. Czy miało być <suggestion>\1\2 \3</suggestion>?</message>
+        <example correction="tamtym ogórkom" type="incorrect">Długo przyglądałem się <marker>tam tym ogórkom</marker>.</example>
+        <example type="correct">Długo przyglądałem się tamtym dziewczynom.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>tam</token>
+          <token>tymi</token>
+          <token postag="subst:pl:inst.*" postag_regexp="yes"/>
+        </pattern>
+        <message>Prawdopodobny błąd ortograficzny. Czy miało być <suggestion>\1\2 \3</suggestion>?</message>
+        <example correction="tamtymi bandziorami" type="incorrect">Nie będę się zadawał z <marker>tam tymi bandziorami</marker>.</example>
+        <example type="correct">Lepiej nie zadzieraj z tamtymi bandziorami.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>tam</token>
+          <token>tych</token>
+          <token postag="subst:pl:(acc|gen|loc).*" postag_regexp="yes"/>
+        </pattern>
+        <message>Prawdopodobny błąd ortograficzny. Czy miało być <suggestion>\1\2 \3</suggestion>?</message>
+        <example correction="tamtych pieniędzy" type="incorrect">Nie ma <marker>tam tych pieniędzy</marker>.</example>
+        <example type="correct">Nie mam już tamtych pieniędzy.</example>
+      </rule>
+    </rulegroup>
+    <rule id="WYWIESC_Z_POLSKI" name="„wywieść z Polski” (wywieźć z Polski)">
+      <pattern mark_to="-2">
+        <token skip="3">wywieść</token>
+        <token>z</token>
+        <token regexp="yes">Polski|miasta|ojczyzny|kraju|terytorium|terenu|Warszawy|Krakowa|lasu</token>
+      </pattern>
+      <message>Prawdopodobny błąd ortograficzny. Poprawnie: <suggestion>wywieźć</suggestion> (=wytransportować).</message>
+      <example correction="wywieźć" type="incorrect">Udało mi się <marker>wywieść</marker> najcenniejsze obrazy z kraju.</example>
+      <example type="correct">Możesz wywieźć z Polski nawet pół litra tlenu.</example>
+    </rule>
+    <rule id="WYWIEZC_Z_POBUDEK" name="„wywieźć z pobudek” (wywieść z pobudek)">
+      <pattern mark_to="-2">
+        <token skip="3">wywieźć</token>
+        <token>z</token>
+        <token regexp="yes" skip="3">pobudek|przesłanek|ustawy|artykułu|art|przepisów|przepisu|konstytucji|praktyki|zasady|zasad</token>
+      </pattern>
+      <message>Prawdopodobny błąd ortograficzny. Czy chodziło o <suggestion>wywieść</suggestion> (=wyprowadzić drogą rozumowania itd.)?</message>
+      <example correction="wywieść" type="incorrect">Ten cwany prawnik zdołał <marker>wywieźć</marker> to uprawnienie z ustawy zasadniczej.</example>
+      <example type="correct">Potrafię wywieść to z całkowicie pewnych przesłanek.</example>
+    </rule>
     <rule id="PO_POLSKU" name="„po Polsku” (po polsku)">
       <pattern case_sensitive="yes" mark_from="1">
         <token>po</token>
@@ -6826,6 +7045,50 @@ Znacznie częściej ta forma jest mylona z trybem rozkazującym od „pokazać�
     </rule>
   </category>
   <category name="Prawdopodobne literówki">
+    <rulegroup id="NIEZGODNOSC_KONCOWEK" name="Niezgodne końcówki rodzaju żeńskiego">
+      <rule>
+        <pattern mark_from="2" mark_to="0">
+          <token>to</token>
+          <token regexp="yes">jest|była|będzie</token>
+          <token postag="adj.*:f.*|subst.*:f" postag_regexp="yes" regexp="yes"><exception regexp="yes">zainteresowana|przerażona|zdziwiona|oburzona|wstrząśnięta</exception>.*a</token>
+          <token postag="adj.*:f.*|subst.*:f" postag_regexp="yes" regexp="yes">.*ą</token>
+        </pattern>
+        <message>Prawdopodobna literówka. Czy chodziło o <suggestion><match no="3"/> <match no="4" regexp_match="(.*)ą$" regexp_replace="$1a"/></suggestion>?</message>
+        <example correction="ważna sprawa" type="incorrect">To była <marker>ważna sprawą</marker>.</example>
+        <example type="correct">Była wstrząśnięta sprawą łapówki w ministerstwie.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="2" mark_to="0">
+          <token>to</token>
+          <token regexp="yes">jest|była|będzie</token>
+          <token postag="adj.*:f.*|subst.*:f" postag_regexp="yes" regexp="yes">.*ą</token>
+          <token postag="adj.*:f.*|subst.*:f" postag_regexp="yes" regexp="yes">.*a</token>
+        </pattern>
+        <message>Prawdopodobna literówka. Czy chodziło o <suggestion><match no="3" regexp_match="(.*)ą$" regexp_replace="$1a"/> <match no="4"/></suggestion>?</message>
+        <example correction="ważna sprawa" type="incorrect">To była <marker>ważną sprawa</marker>.</example>
+        <example type="correct">To była ważna sprawa.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="1" mark_to="0">
+          <token regexp="yes">jest|była|będzie</token>
+          <token postag="adj.*:f.*|subst.*:f" postag_regexp="yes" regexp="yes"><exception regexp="yes">zainteresowana|przerażona|zdziwiona|oburzona|wstrząśnięta</exception>.*a</token>
+          <token postag="adj.*:f.*|subst.*:f" postag_regexp="yes" regexp="yes">.*ą</token>
+        </pattern>
+        <message>Prawdopodobna literówka. Czy chodziło o <suggestion><match no="2" regexp_match="(.*)a$" regexp_replace="$1ą"/> <match no="3"/></suggestion>?</message>
+        <example correction="męską grą" type="incorrect">Koszykówka jest <marker>męska grą</marker>.</example>
+        <example type="correct">Ta placówka jest najnowszą szkołą w rejonie.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="1" mark_to="0">
+          <token regexp="yes">jest|była|będzie</token>
+          <token postag="adj.*:f.*|subst.*:f" postag_regexp="yes" regexp="yes"><exception regexp="yes">zainteresowana|przerażona|zdziwiona|oburzona|wstrząśnięta</exception>.*ą</token>
+          <token postag="adj.*:f.*|subst.*:f" postag_regexp="yes" regexp="yes">.*a</token>
+        </pattern>
+        <message>Prawdopodobna literówka. Czy chodziło o <suggestion><match no="2"/> <match no="3" regexp_match="(.*)a$" regexp_replace="$1ą"/></suggestion>?</message>
+        <example correction="męską grą" type="incorrect">Koszykówka jest <marker>męską gra</marker>.</example>
+        <example type="correct">Ta placówka jest najnowszą szkołą w rejonie.</example>
+      </rule>
+    </rulegroup>
     <rule id="ZWIAZKU_Z_TYM" name="„związku z tym” (w związku z tym)">
       <pattern mark_from="1" mark_to="-2">
         <token><exception regexp="yes">w|do</exception></token>
