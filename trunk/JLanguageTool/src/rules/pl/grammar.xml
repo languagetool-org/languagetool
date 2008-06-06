@@ -6,7 +6,7 @@ title="Easy editing stylesheet" ?>
 <!--
 Polish Grammar and Typo Rules for LanguageTool
 Copyright (C) 2006-2007 Marcin Miłkowski
-$Id: grammar.xml,v 1.127 2008-06-06 10:42:16 milek_pl Exp $
+$Id: grammar.xml,v 1.128 2008-06-06 15:33:38 milek_pl Exp $
 -->
 <rules lang="pl">
   <phrases>
@@ -1869,6 +1869,15 @@ Powinno być: <suggestion>\2, \3 \4</suggestion>.</message>
       <example type="correct">Ludwik bowiem chciał być wicepremierem.</example>
       <example type="incorrect"><marker>Bowiem</marker> Ludwik chciał być wicepremierem.</example>
     </rule>
+    <rule id="BOWIEM_ZAS_PRZECINEK" name="„bowiem” i „zaś” na początku zdania podrzędnego">
+      <pattern mark_from="1">
+        <token regexp="yes">\p{Punct}</token>
+        <token regexp="yes">bowiem|zaś</token>
+      </pattern>
+      <message>Ten wyraz nie powinien występować na początku zdania podrzędnego.</message>
+      <example type="correct">Ludwik chciał być wicepremierem, był bowiem człowiekiem ambitnym.</example>
+      <example type="incorrect">Ludwik chciał być wicepremierem, <marker>bowiem</marker> był człowiekiem ambitnym.</example>
+    </rule>
     <rule id="SIE_SENT_END" name="„Się” na końcu zdania">
       <pattern mark_from="3" mark_to="-1">
         <token><exception postag="SENT_START"/></token>
@@ -2579,6 +2588,14 @@ Powinno być: <suggestion>\2, \3 \4</suggestion>.</message>
     </rule>
   </category>
   <category name="Błędy leksykalne">
+    <rule id="DYGITALNY" name="„dygitalny” (cyfrowy)">
+      <pattern>
+        <token inflected="yes">dygitalny</token>
+      </pattern>
+      <message>Ten wyraz jest bardzo rzadki i książkowy. Lepiej: <suggestion><match no="1" postag="adj.*" postag_regexp="yes">cyfrowy</match></suggestion>.</message>
+      <example correction="cyfrowym" type="incorrect">Tym pięknym aparatem <marker>dygitalnym</marker> Zorka 5 wykonałem kilka zdjęć.</example>
+      <example type="correct">Tym pięknym aparatem cyfrowym wykonałem kilka zdjęć.</example>
+    </rule>
     <rule id="EKSKLUZYWNY_WYWIAD" name="„ekskluzywny wywiad” (wywiad na wyłączność)">
       <pattern>
         <token inflected="yes" postag="adj:(sg|pl):.*:.*m.*:.*" postag_regexp="yes">ekskluzywny</token>
@@ -3918,7 +3935,7 @@ lub <suggestion>\2 na prawach wyłączności</suggestion>.</message>
   <category name="Pleonazmy">
     <rule id="WLASNA_AUTOPSJA" name="„własna autopsja” (autopsja)">
       <pattern>
-        <token inflected="yes" postag="adj:sg:.*:f.*:pos:aff" postag_regexp="yes">własny</token>
+        <token inflected="yes" postag="adj:sg:.*:f.*:pos:aff" postag_regexp="yes" regexp="yes">własny|osobisty</token>
         <token inflected="yes"><match no="0" postag="adj:sg:(.*):f.*" postag_regexp="yes" postag_replace="subst:sg($1)f" setpos="yes">autopsja</match></token>
       </pattern>
       <message>To pleonazm. Wystarczy powiedzieć <suggestion>\2</suggestion>.</message>
