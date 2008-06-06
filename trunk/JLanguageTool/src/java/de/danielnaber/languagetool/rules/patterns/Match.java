@@ -375,6 +375,15 @@ public class Match {
     return token;
   }
   
+  /**
+   * Used to let LT know that it should change the case 
+   * of the match.
+   * @return true if match converts the case of the token.
+   */
+  public boolean convertsCase() {
+    return (caseConversionType != CaseConversion.NONE);
+  }
+  
   public final AnalyzedTokenReadings filterReadings(
       final AnalyzedTokenReadings tokenToFilter) {    
     final ArrayList <AnalyzedToken> l = new ArrayList <AnalyzedToken>();
@@ -443,4 +452,5 @@ public class Match {
       return new AnalyzedTokenReadings(l.toArray(new AnalyzedToken[l.size()]));
     }
   }
+
 }

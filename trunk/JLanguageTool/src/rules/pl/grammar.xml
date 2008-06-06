@@ -6,7 +6,7 @@ title="Easy editing stylesheet" ?>
 <!--
 Polish Grammar and Typo Rules for LanguageTool
 Copyright (C) 2006-2007 Marcin Miłkowski
-$Id: grammar.xml,v 1.126 2008-06-04 19:24:31 milek_pl Exp $
+$Id: grammar.xml,v 1.127 2008-06-06 10:42:16 milek_pl Exp $
 -->
 <rules lang="pl">
   <phrases>
@@ -1883,6 +1883,15 @@ Powinno być: <suggestion>\2, \3 \4</suggestion>.</message>
     </rule>
   </category>
   <category name="Błędy składniowe">
+    <rule id="DOFINANSOWANIE_DO_CZEGOS" name="„dofinansowanie do czegoś” (dofinansowanie czegoś)">
+      <pattern>
+        <token inflected="yes">dofinansowanie</token>
+        <token>do</token>
+      </pattern>
+      <message>Nieprawidłowa forma, tego wyrazu używa się bez przyimka „do” (chyba że ten przyimek jest konieczny ze względu na inne wyrazy w zdaniu). Wystarczy: <suggestion>\1</suggestion>.</message>
+      <example correction="dofinansowanie" type="incorrect">Gmina otrzymała <marker>dofinansowanie do</marker> budowy sali gimnastycznej.</example>
+      <example type="correct">Starałem się o dofinansowanie książki.</example>
+    </rule>
     <rule id="INSTRUKCJA_NA" name="„instrukcja na robienie” (instrukcja robienia)">
       <pattern>
         <token inflected="yes">instrukcja</token>
@@ -2570,6 +2579,25 @@ Powinno być: <suggestion>\2, \3 \4</suggestion>.</message>
     </rule>
   </category>
   <category name="Błędy leksykalne">
+    <rule id="EKSKLUZYWNY_WYWIAD" name="„ekskluzywny wywiad” (wywiad na wyłączność)">
+      <pattern>
+        <token inflected="yes" postag="adj:(sg|pl):.*:.*m.*:.*" postag_regexp="yes">ekskluzywny</token>
+        <token inflected="yes">wywiad</token>
+      </pattern>
+      <message>Kalka z angielskiego. „Ekskluzywny” znaczy po polsku „luksusowy”; należy napisać: <suggestion>\2 na wyłączność</suggestion> 
+lub <suggestion>\2 na prawach wyłączności</suggestion>.</message>
+      <example correction="wywiad na wyłączność|wywiad na prawach wyłączności" type="incorrect">W najnowszym numerze Brukowca gadzinowego drukujemy <marker>ekskluzywny wywiad</marker> z Anodą Katodą.</example>
+      <example type="correct">Udzielił na wywiadu na wyłączność.</example>
+    </rule>
+    <rule id="SWIECIC_SUKCESY" name="„święcić sukcesy” (święcić triumfy)">
+      <pattern mark_from="1">
+        <token inflected="yes" skip="2">święcić</token>
+        <token>sukcesy</token>
+      </pattern>
+      <message>Niepoprawny dobór wyrazów. Powinno być: <suggestion>triumfy</suggestion>.</message>
+      <example correction="triumfy" type="incorrect">Reprezentacja Wąchocka święciła ogromne <marker>sukcesy</marker> w Pcimiu.</example>
+      <example type="correct">Propandziści święcili triumfy w manipulowaniu tłumem.</example>
+    </rule>
     <rule id="NAJWIECEJ_LUBIC" name="„najwięcej lubić” (najbardziej lubić)">
       <pattern>
         <token>najwięcej</token>
@@ -4873,6 +4901,15 @@ Powinno być: <suggestion>\2, \3 \4</suggestion>.</message>
     </rule>
   </category>
   <category name="Błędy ortograficzne">
+    <rule id="PO_POLSKU" name="„po Polsku” (po polsku)">
+      <pattern case_sensitive="yes" mark_from="1">
+        <token>po</token>
+        <token postag="adjp" regexp="yes">\p{Lu}\p{Ll}.*</token>
+      </pattern>
+      <message>Prawdopodobny błąd ortograficzny. Nazwy języków piszemy małą literą. Powinno być: <suggestion><match case_conversion="alllower" no="2"/></suggestion>.</message>
+      <example correction="angielsku" type="incorrect">Czy mówisz po <marker>Angielsku</marker>?</example>
+      <example type="correct">Świetnie piszę po polsku.</example>
+    </rule>
     <rulegroup id="AL_UJAZDOWSKIE" name="„aleje Ujazdowskie” (Aleje Ujazdowskie)">
       <rule>
         <pattern case_sensitive="yes">
@@ -5302,6 +5339,17 @@ Znacznie częściej ta forma jest mylona z trybem rozkazującym od „pokazać�
 			</message>
       <example type="correct">Ludwik dostał kilkaset SMS-ów z pogróżkami od Przemysława.</example>
       <example correction="SMS-ów" type="incorrect">Ludwik dostał kilkaset <marker>SMSów</marker> z pogróżkami od Przemysława.</example>
+      <example type="correct">Nasze radio nadaje na częstotliwości 102 MHz.</example>
+    </rule>
+    <rule id="SKROTOWCE_Z_APOSTROFEM" name="Skrótowce z apostrofem w przypadkach zależnych">
+      <pattern>
+        <token regexp="yes">^\p{Lu}{2}+[i]*\p{Lu}+</token>
+        <token>'</token>
+        <token regexp="yes">[\p{L}&amp;&amp;[^\p{Lu}]]{1,4}+</token>
+      </pattern>
+      <message>Prawdopodobny błąd zapisu odmiany; skrótowce odmieniamy z dywizem: <suggestion>\1-\3</suggestion>.</message>
+      <example type="correct">Ludwik dostał kilkaset SMS-ów z pogróżkami od Przemysława.</example>
+      <example correction="SMS-ów" type="incorrect">Ludwik dostał kilkaset <marker>SMS'ów</marker> z pogróżkami od Przemysława.</example>
       <example type="correct">Nasze radio nadaje na częstotliwości 102 MHz.</example>
     </rule>
     <rule id="IMIONA_Z_APOSTROFAMI" name="Niepotrzebne apostrofy w formach odmiennych">
@@ -7549,6 +7597,18 @@ Znacznie częściej ta forma jest mylona z trybem rozkazującym od „pokazać�
       <message>W tym zdaniu występuje czasownik zwrotny, a brakuje wyrazu „się”; powinno być: <suggestion>\2 się</suggestion> lub <suggestion>się \2</suggestion>.</message>
       <example type="correct">Ludwik niczego się nie bał.</example>
       <example correction="bał się|się bał" type="incorrect">Ludwik niczego nie <marker>bał</marker>.</example>
+    </rule>
+    <rule id="STAWAC_KIM" name="„stawać/stać kim” (stawać/stać się kim)">
+      <pattern mark_from="1" mark_to="-2">
+        <token postag="SENT_START"><exception scope="next">się</exception></token>
+        <token inflected="yes" regexp="yes">stawać|stać</token>
+        <token postag=".*inst.*" postag_regexp="yes"><exception scope="next">się</exception></token>
+        <token postag="SENT_END"/>
+      </pattern>
+      <message>W tym zdaniu prawdopodobnie brakuje wyrazu „się”: <suggestion>się \2</suggestion>.</message>
+      <example correction="się stał" type="correct">On <marker>stał</marker> bardzo ważnym człowiekiem.</example>
+      <example type="correct">On się stał bardzo ważnym człowiekiem.</example>
+      <example type="correct">On stał się bardzo ważnym człowiekiem.</example>
     </rule>
     <rulegroup id="O_TY" name="„o ty” (o tym)">
       <rule>

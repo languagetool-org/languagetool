@@ -41,6 +41,9 @@ public class PatternRule extends Rule {
   private String subId;   // because there can be more than one rule in a rule group
 
   private static Language[] language;
+  
+  private static String suggTag = "<suggestion>";
+  
   private String description;
   private String message;
 
@@ -394,7 +397,10 @@ public class PatternRule extends Rule {
           }         
         
         AnalyzedTokenReadings firstMatchTokenObj = tokens[firstMatchToken + correctedStPos];
-        boolean startsWithUppercase = StringTools.startsWithUppercase(firstMatchTokenObj.toString());
+        boolean startsWithUppercase = 
+          StringTools.startsWithUppercase(firstMatchTokenObj.toString())
+          && !matchConvertsCase();
+        
         if (firstMatchTokenObj.isSentStart() && tokens.length > firstMatchToken + correctedStPos + 1) {
           // make uppercasing work also at sentence start: 
           firstMatchTokenObj = tokens[firstMatchToken + correctedStPos + 1];
@@ -403,7 +409,7 @@ public class PatternRule extends Rule {
         int fromPos = tokens[firstMatchToken + correctedStPos]
                              .getStartPos();
 //FIXME: this is fishy, assumes that comma should always come before whitespace        
-         if (errMessage.contains("<suggestion>,") && firstMatchToken + correctedStPos >= 1) {
+         if (errMessage.contains(suggTag + ",") && firstMatchToken + correctedStPos >= 1) {
             fromPos = tokens[firstMatchToken + correctedStPos - 1].getStartPos() 
                   + tokens[firstMatchToken + correctedStPos - 1].getToken().length();          
         }
@@ -423,6 +429,24 @@ public class PatternRule extends Rule {
     }
 
     return ruleMatches.toArray(new RuleMatch[ruleMatches.size()]);
+  }
+
+  /** 
+   * Checks if the suggestion starts with a match
+   * that is supposed to convert case. If it does,
+   * stop the default conversion to uppercase.
+   * @return true, if the match converts the case of the token.
+   */
+  private boolean matchConvertsCase() {
+    boolean convertsCase = false;
+    if (suggestionMatches != null) {          
+      if (suggestionMatches.size() > 0) {
+        final int sugStart = message.indexOf(suggTag) + suggTag.length();
+        convertsCase = ((suggestionMatches.get(0).convertsCase()
+            && message.charAt(sugStart) == '\\'));
+      }      
+    }
+    return convertsCase;
   }
 
   public final void addSuggestionMatch(final Match m) {
@@ -472,28 +496,28 @@ public class PatternRule extends Rule {
    * @return Combined array of @String.
    */
   private static String[] combineLists(final String[][] input, 
-        final String[] output, final int r) {
-   final List <String> outputList = new ArrayList<String>();  
-   if (r == input.length) {
-     final StringBuilder sb = new StringBuilder();     
-     for (int k = 0; k < output.length; k++) {
-      sb.append(output[k]);
-      if (k < output.length - 1) {        
-        sb.append(StringTools.addSpace(output[k + 1], language[0]));
+      final String[] output, final int r) {
+    final List <String> outputList = new ArrayList<String>();  
+    if (r == input.length) {
+      final StringBuilder sb = new StringBuilder();     
+      for (int k = 0; k < output.length; k++) {
+        sb.append(output[k]);
+        if (k < output.length - 1) {        
+          sb.append(StringTools.addSpace(output[k + 1], language[0]));
+        }
       }
-     }
-     outputList.add(sb.toString());     
-   } else {
+      outputList.add(sb.toString());     
+    } else {
       for (int c = 0; c < input[r].length; c++) {
-          output[r] = input[r][c];
-          String[] sList; 
-          sList = combineLists(input, output, r + 1);
-          for (final String s : sList) {
-            outputList.add(s);
-          }
+        output[r] = input[r][c];
+        String[] sList; 
+        sList = combineLists(input, output, r + 1);
+        for (final String s : sList) {
+          outputList.add(s);
+        }
       }
-     }
-   return outputList.toArray(new String[outputList.size()]);
+    }
+    return outputList.toArray(new String[outputList.size()]);
   }
 
   
@@ -512,23 +536,23 @@ public class PatternRule extends Rule {
    * synthesizer) go wrong.
    */
   private String[] concatMatches(final int start, final int index, 
-       final int tokenIndex, final AnalyzedTokenReadings[] tokens) 
-      throws IOException {
+      final int tokenIndex, final AnalyzedTokenReadings[] tokens) 
+  throws IOException {
     String[] finalMatch = null;
     if (suggestionMatches.get(start) != null) {
       final int len = phraseLen(index); 
       if (len == 1) {
-      suggestionMatches.get(start)
-      .setToken(tokens[tokenIndex - 1]);
-      suggestionMatches.get(start).setSynthesizer(language[0].getSynthesizer());
-      finalMatch = suggestionMatches.get(start).toFinalString();
+        suggestionMatches.get(start)
+        .setToken(tokens[tokenIndex - 1]);
+        suggestionMatches.get(start).setSynthesizer(language[0].getSynthesizer());
+        finalMatch = suggestionMatches.get(start).toFinalString();
       } else {
         final List <String[]> matchList = new ArrayList <String[]>();
         for (int i = 0; i < len; i++) {
           suggestionMatches.get(start)
           .setToken(tokens[tokenIndex - 1 + i]);
           suggestionMatches.get(start).setSynthesizer(language[0].
-                getSynthesizer());
+              getSynthesizer());
           matchList.add(suggestionMatches.get(start).toFinalString());
         }
         return combineLists(matchList.toArray(new String[matchList.size()][]), 
@@ -560,9 +584,9 @@ public class PatternRule extends Rule {
     int errLen = errorMessage.length();
     int errMarker = errorMessage.indexOf('\\');
     boolean numberFollows = false;
-    if (errMarker > 0 & errMarker < errLen - 1) {
+    if (errMarker > 0 && errMarker < errLen - 1) {
       numberFollows = errorMessage.charAt(errMarker + 1) >= '1'
-        & errorMessage.charAt(errMarker + 1) <= '9';
+        && errorMessage.charAt(errMarker + 1) <= '9';
     }
     while (errMarker > 0 && numberFollows) {
       final int ind = errorMessage.indexOf("\\"); 
@@ -583,20 +607,20 @@ public class PatternRule extends Rule {
                 String rightSide = errorMessage.substring(ind + 2);                
                 if (matches.length == 1) {
                   errorMessage = leftSide 
-                    + matches[0]
-                    + rightSide;              
+                  + matches[0]
+                            + rightSide;              
                 } else {
                   String suggestionLeft = "";
                   String suggestionRight = "";
-                  final int sPos = leftSide.lastIndexOf("<suggestion>");
+                  final int sPos = leftSide.lastIndexOf(suggTag);
                   if (sPos > 0) {
-                    suggestionLeft = leftSide.substring(sPos +"<suggestion>".length());
+                    suggestionLeft = leftSide.substring(sPos +suggTag.length());
                   }
                   if ("".equals(suggestionLeft)) {
                     errorMessage = leftSide;
                   } else {
-                    errorMessage = leftSide.substring(0, leftSide.lastIndexOf("<suggestion>"))
-                      + "<suggestion>";
+                    errorMessage = leftSide.substring(0, leftSide.lastIndexOf(suggTag))
+                    + suggTag;
                   }
                   final int rPos = rightSide.indexOf("</suggestion>");
                   if (rPos > 0) {
@@ -606,26 +630,26 @@ public class PatternRule extends Rule {
                     rightSide = rightSide.substring(rightSide.indexOf("</suggestion>"));
                   }
                   final int lastLeftSugEnd = leftSide.indexOf("</suggestion>");
-                  final int lastLeftSugStart = leftSide.lastIndexOf("<suggestion>");
+                  final int lastLeftSugStart = leftSide.lastIndexOf(suggTag);
                   for (final String formatMatch : matches) {
                     errorMessage += suggestionLeft
                     + formatMatch 
                     + suggestionRight;
                     if (lastLeftSugEnd < lastLeftSugStart && lastLeftSugStart > 0) {
-                      errorMessage += "</suggestion>, <suggestion>";
+                      errorMessage += "</suggestion>, " + suggTag;
                     }
                   }
-                  final int correctionSug = errorMessage.lastIndexOf(", <suggestion>");
-                  if (correctionSug + ", <suggestion>".length() == errorMessage.length()) {
+                  final int correctionSug = errorMessage.lastIndexOf(", " + suggTag);
+                  if (correctionSug + (", " + suggTag).length() == errorMessage.length()) {
                     errorMessage = errorMessage.substring(0, correctionSug);
                   }
                   errorMessage += rightSide;                  
-              }
+                }
                 matchCounter++;                
                 newWay = true;
               }
             } else {
-//FIXME: is this correct? this is how we deal with multiple matches              
+//            FIXME: is this correct? this is how we deal with multiple matches              
               suggestionMatches.add(suggestionMatches.get(numbersToMatches[j]));
             }
           }
@@ -637,21 +661,21 @@ public class PatternRule extends Rule {
             errMarker = errorMessage.indexOf('\\');
             numberFollows = false;
             errLen = errorMessage.length();
-            if (errMarker > 0 & errMarker < errLen - 1) {
+            if (errMarker > 0 && errMarker < errLen - 1) {
               numberFollows = errorMessage.charAt(errMarker + 1) >= '1'
-                & errorMessage.charAt(errMarker + 1) <= '9';
+                && errorMessage.charAt(errMarker + 1) <= '9';
             }
           }
         }
       }
-        errMarker = errorMessage.indexOf('\\');
-        numberFollows = false;
-        errLen = errorMessage.length();
-        if (errMarker > 0 & errMarker < errLen - 1) {
-          numberFollows = errorMessage.charAt(errMarker + 1) >= '1'
-            & errorMessage.charAt(errMarker + 1) <= '9';
-        }
-      
+      errMarker = errorMessage.indexOf('\\');
+      numberFollows = false;
+      errLen = errorMessage.length();
+      if (errMarker > 0 && errMarker < errLen - 1) {
+        numberFollows = errorMessage.charAt(errMarker + 1) >= '1'
+          && errorMessage.charAt(errMarker + 1) <= '9';
+      }
+
     }
     return errorMessage;
   }  
