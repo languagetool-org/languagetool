@@ -6,7 +6,7 @@ title="Easy editing stylesheet" ?>
 <!--
 Polish Grammar and Typo Rules for LanguageTool
 Copyright (C) 2006-2007 Marcin Miłkowski
-$Id: grammar.xml,v 1.129 2008-06-06 23:58:12 milek_pl Exp $
+$Id: grammar.xml,v 1.130 2008-06-07 20:57:54 milek_pl Exp $
 -->
 <rules lang="pl">
   <phrases>
@@ -1923,6 +1923,16 @@ Powinno być: <suggestion>\2, \3 \4</suggestion>.</message>
     </rule>
   </category>
   <category name="Błędy składniowe">
+    <rule id="NIE_JAKIKOLWIEK" name="„nie” + „jakikolwiek” (żaden)">
+      <pattern mark_from="2">
+        <token skip="-1"><exception regexp="yes" scope="next">\p{Punct}</exception><exception inflected="yes" scope="next">żaden</exception>nie</token>
+        <token postag="verb:.*|pcon:imperf|pant:perf|pred" postag_regexp="yes" skip="-1"><exception regexp="yes" scope="next">\p{Punct}</exception><exception inflected="yes" scope="next">żaden</exception></token>
+        <token inflected="yes">jakikolwiek</token>
+      </pattern>
+      <message>Po przeczeniu należy użyć wyrazu: <suggestion><match no="3" postag="adj.*" postag_regexp="yes">żaden</match></suggestion>.</message>
+      <example correction="żaden" type="incorrect">Nagrody i wyróżnienia nie podlegają wymianie na <marker>jakikolwiek</marker> ekwiwalent.</example>
+      <example type="correct">Nagrody i wyróżnienia nie podlegają wymianie na żaden ekwiwalent.</example>
+    </rule>
     <rule id="DWADZIESCIA_DWAJ" name="„dwadzieścia dwaj uczniowie” (dwudziestu dwóch uczniów)">
       <pattern>
         <token postag="num:pl:nom.acc:m2.m3.f.n"/>
@@ -2651,6 +2661,15 @@ Powinno być: <suggestion>\2, \3 \4</suggestion>.</message>
     </rule>
   </category>
   <category name="Błędy leksykalne">
+    <rule id="JEZYK_HOLENDERSKI" name="„język holenderski” (język niderlandzki)">
+      <pattern mark_from="1">
+        <token inflected="yes">język</token>
+        <token>holenderski</token>
+      </pattern>
+      <message>To określenie jest bardzo potoczne. Ściślej należy napisać: <suggestion><match no="2" postag="adj.*" postag_regexp="yes">niderlandzki</match></suggestion>.</message>
+      <example correction="niderlandzki" type="incorrect">Znam język <marker>holenderski</marker>.</example>
+      <example type="correct">Mówię w języku niderlandzkim.</example>
+    </rule>
     <rule id="SZEROKI_ODBIORCA" name="„szeroki odbiorca” (masowy odbiorca)">
       <pattern>
         <token inflected="yes" postag="adj:(sg|pl):.*:.*m.*:.*" postag_regexp="yes">szeroki</token>
@@ -2740,6 +2759,15 @@ lub <suggestion>\2 na prawach wyłączności</suggestion>.</message>
       <message>Niepoprawny związek wyrazów. Poprawnie: <suggestion>najbardziej \2</suggestion>.</message>
       <example correction="Najbardziej lubię" type="incorrect"><marker>Najwięcej lubię</marker> orędzia naszych polityków.</example>
       <example type="correct">Lech najbardziej lubi zupę pomidorową.</example>
+    </rule>
+    <rule id="WIECEJ_LUBIC" name="„więcej lubić” (bardziej lubić, woleć)">
+      <pattern>
+        <token>więcej</token>
+        <token inflected="yes">lubić</token>
+      </pattern>
+      <message>Niepoprawny związek wyrazów. Poprawnie: <suggestion>bardziej <match no="2"/></suggestion> lub <suggestion><match no="2" postag="verb.*|pcon.*|pant.*" postag_regexp="yes">woleć</match></suggestion>.</message>
+      <example correction="Bardziej lubię|Wolę" type="incorrect"><marker>Więcej lubię</marker> orędzia naszych polityków od oglądania piłki nożnej.</example>
+      <example type="correct">Lech woli zupę pomidorową.</example>
     </rule>
     <rule id="INFORMACJE_SENSYTYWNE" name="„informacje sensytywne” (informacje poufne)">
       <pattern>
@@ -5035,6 +5063,24 @@ lub <suggestion>\2 na prawach wyłączności</suggestion>.</message>
     </rule>
   </category>
   <category name="Błędy ortograficzne">
+    <rule id="JEZYK_POLSKI" name="Pisownia nazw języków wielką literą">
+      <pattern case_sensitive="yes" mark_from="1">
+        <token inflected="yes">język</token>
+        <token regexp="yes">(Angielski|Polski|Rosyjski|Niemiecki|Francuski|Hiszpański|Łaciński|Grecki|Turecki|Albański|Kataloński|Ukraiński|Czeski|Słowacki|Szwedzki|Niderlandzki|Chiński|Norweski|Litewski|Łotewski|Estoński|Rumuński|Bułgarski|Włoski|Flamandzki|Portugalski|Kastylijski|Fiński|Duński|Indonezyjski|Hebrajski|Koreański|Serbski|Chorwacki|Słoweński|Arabski|Węgierski|Wietnamski|Newarski|Perski|Tajski|Galicyjski|Malajski|Bośniacki|Luksemburski|Macedoński|Gruziński|Islandzki|Walijski|Serbsko-chorwacki).*</token>
+      </pattern>
+      <message>Nazwy języków piszemy małą literą: <suggestion><match case_conversion="alllower" no="2"/></suggestion>.</message>
+      <example correction="katalońskim" type="incorrect">To piękna książka w języku <marker>Katalońskim</marker>.</example>
+      <example type="correct">Dbaj o wymowę w języku polskim.</example>
+    </rule>
+    <rule id="WOJ_MAZOWIECKIE" name="„województwo Mazowieckie” (województwo mazowieckie)">
+      <pattern case_sensitive="yes" mark_from="1">
+        <token inflected="yes">województwo</token>
+        <token inflected="yes" regexp="yes">\p{Lu}\p{Ll}.*ki.*</token>
+      </pattern>
+      <message>Nazwy województw piszemy małą literą: <suggestion><match case_conversion="alllower" no="2"/></suggestion>.</message>
+      <example correction="warmińsko-mazurskie" type="incorrect">Piękne jest zwłaszcza województwo <marker>Warmińsko-Mazurskie</marker>.</example>
+      <example type="correct">Mieszkam w województwie mazowieckim.</example>
+    </rule>
     <rulegroup id="TAM_TEN" name="„tam to dziecko” (tamto dziecko)">
       <rule>
         <pattern>
@@ -5683,10 +5729,309 @@ Znacznie częściej ta forma jest mylona z trybem rozkazującym od „pokazać�
       <example type="correct">Ad 1.</example>
       <example correction="Ad" type="incorrect"><marker>Ad.</marker> 1.</example>
     </rule>
+    <rulegroup id="LICZBY_SLOWNIE_SKROT" name="Skrótowy zapis liczb: 10-tka (dziesiątka) itd.">
+      <rule>
+        <pattern>
+          <token regexp="yes">1-n?(ka|ce|ką|ko|kę|ki|kach|kami|kom|ek)</token>
+        </pattern>
+        <message>Niepoprawny zapis skrótowy liczby. Rzeczowniki odliczebnikowe zawsze zapisuje się słownie: <suggestion><match no="1" regexp_match="1-n?(ka|ce|ką|ko|kę|ki|kach|kami|kom|ek)" regexp_replace="jedyn$1"/></suggestion>; w niektórych kontekstach można też po prostu użyć zapisu liczbowego: <suggestion>1</suggestion>.</message>
+        <example correction="jedynka|1" type="incorrect">Właśnie uciekła mi <marker>1-ka</marker>.</example>
+        <example type="correct">Jechałem jedynką.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">2-j?(ka|ce|ką|ko|kę|ki|kach|kami|kom|ek)</token>
+        </pattern>
+        <message>Niepoprawny zapis skrótowy liczby. Rzeczowniki odliczebnikowe zawsze zapisuje się słownie: <suggestion><match no="1" regexp_match="2-j?(ka|ce|ką|ko|kę|ki|kach|kami|kom|ek)" regexp_replace="dwój$1"/></suggestion>; w niektórych kontekstach można też po prostu użyć zapisu liczbowego: <suggestion>2</suggestion>.</message>
+        <example correction="dwójka|2" type="incorrect">Właśnie uciekła mi <marker>2-jka</marker>.</example>
+        <example type="correct">Jechałem dwójką.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">3-j?(ka|ce|ką|ko|kę|ki|kach|kami|kom|ek)</token>
+        </pattern>
+        <message>Niepoprawny zapis skrótowy liczby. Rzeczowniki odliczebnikowe zawsze zapisuje się słownie: <suggestion><match no="1" regexp_match="3-j?(ka|ce|ką|ko|kę|ki|kach|kami|kom|ek)" regexp_replace="trój$1"/></suggestion>; w niektórych kontekstach można też po prostu użyć zapisu liczbowego: <suggestion>3</suggestion>.</message>
+        <example correction="trójka|3" type="incorrect">Właśnie uciekła mi <marker>3-jka</marker>.</example>
+        <example type="correct">Jechałem trójką.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">4-r?(ka|ce|ką|ko|kę|ki|kach|kami|kom|ek)</token>
+        </pattern>
+        <message>Niepoprawny zapis skrótowy liczby. Rzeczowniki odliczebnikowe zawsze zapisuje się słownie: <suggestion><match no="1" regexp_match="4-r?(ka|ce|ką|ko|kę|ki|kach|kami|kom|ek)" regexp_replace="czwór$1"/></suggestion>; w niektórych kontekstach można też po prostu użyć zapisu liczbowego: <suggestion>4</suggestion>.</message>
+        <example correction="czwórka|4" type="incorrect">Właśnie uciekła mi <marker>4-rka</marker>.</example>
+        <example type="correct">Jechałem czwórką.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">5-t?(ka|ce|ką|ko|kę|ki|kach|kami|kom|ek)</token>
+        </pattern>
+        <message>Niepoprawny zapis skrótowy liczby. Rzeczowniki odliczebnikowe zawsze zapisuje się słownie: <suggestion><match no="1" regexp_match="5-t?(ka|ce|ką|ko|kę|ki|kach|kami|kom|ek)" regexp_replace="piąt$1"/></suggestion>; w niektórych kontekstach można też po prostu użyć zapisu liczbowego: <suggestion>5</suggestion>.</message>
+        <example correction="piątka|5" type="incorrect">Właśnie uciekła mi <marker>5-ka</marker>.</example>
+        <example type="correct">Jechałem piątką.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">6-t?(ka|ce|ką|ko|kę|ki|kach|kami|kom|ek)</token>
+        </pattern>
+        <message>Niepoprawny zapis skrótowy liczby. Rzeczowniki odliczebnikowe zawsze zapisuje się słownie: <suggestion><match no="1" regexp_match="6-t?(ka|ce|ką|ko|kę|ki|kach|kami|kom|ek)" regexp_replace="szóst$1"/></suggestion>; w niektórych kontekstach można też po prostu użyć zapisu liczbowego: <suggestion>6</suggestion>.</message>
+        <example correction="szóstka|6" type="incorrect">Właśnie uciekła mi <marker>6-tka</marker>.</example>
+        <example type="correct">Jechałem szóstką.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">7-m?(ka|ce|ką|ko|kę|ki|kach|kami|kom|ek)</token>
+        </pattern>
+        <message>Niepoprawny zapis skrótowy liczby. Rzeczowniki odliczebnikowe zawsze zapisuje się słownie: <suggestion><match no="1" regexp_match="7-m?(ka|ce|ką|ko|kę|ki|kach|kami|kom|ek)" regexp_replace="siódem$1"/></suggestion>; w niektórych kontekstach można też po prostu użyć zapisu liczbowego: <suggestion>7</suggestion>.</message>
+        <example correction="siódemka|7" type="incorrect">Właśnie uciekła mi <marker>7-ka</marker>.</example>
+        <example type="correct">Jechałem siódemką.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">8-m?(ka|ce|ką|ko|kę|ki|kach|kami|kom|ek)</token>
+        </pattern>
+        <message>Niepoprawny zapis skrótowy liczby. Rzeczowniki odliczebnikowe zawsze zapisuje się słownie: <suggestion><match no="1" regexp_match="8-m?(ka|ce|ką|ko|kę|ki|kach|kami|kom|ek)" regexp_replace="ósem$1"/></suggestion>; w niektórych kontekstach można też po prostu użyć zapisu liczbowego: <suggestion>8</suggestion>.</message>
+        <example correction="ósemka|8" type="incorrect">Właśnie uciekła mi <marker>8-ka</marker>.</example>
+        <example type="correct">Jechałem ósemką.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">9-t?(ka|ce|ką|ko|kę|ki|kach|kami|kom|ek)</token>
+        </pattern>
+        <message>Niepoprawny zapis skrótowy liczby. Rzeczowniki odliczebnikowe zawsze zapisuje się słownie: <suggestion><match no="1" regexp_match="9-t?(ka|ce|ką|ko|kę|ki|kach|kami|kom|ek)" regexp_replace="dziewiąt$1"/></suggestion>; w niektórych kontekstach można też po prostu użyć zapisu liczbowego: <suggestion>9</suggestion>.</message>
+        <example correction="dziewiątka|9" type="incorrect">Właśnie uciekła mi <marker>9-tka</marker>.</example>
+        <example type="correct">Jechałem dziewiątką.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">10-(tka|tce|tką|tko|tkę|tki|tkach|tkami|tkom|tek)</token>
+        </pattern>
+        <message>Niepoprawny zapis skrótowy liczby. Rzeczowniki odliczebnikowe zawsze zapisuje się słownie: <suggestion><match no="1" postag_replace="" regexp_match="10-(tka|tce|tką|tko|tkę|tki|tkach|tkami|tkom|tek)" regexp_replace="dziesią$1"/></suggestion>; w niektórych kontekstach można też po prostu użyć zapisu liczbowego: <suggestion>10</suggestion>.</message>
+        <example correction="dziesiątka|10" type="incorrect">Właśnie uciekła mi <marker>10-tka</marker>.</example>
+        <example type="correct">Jechałem dziesiątką.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">11-(tka|tce|tką|tko|tkę|tki|tkach|tkami|tkom|tek)</token>
+        </pattern>
+        <message>Niepoprawny zapis skrótowy liczby. Rzeczowniki odliczebnikowe zawsze zapisuje się słownie: <suggestion><match no="1" regexp_match="11-(tka|tce|tką|tko|tkę|tki|tkach|tkami|tkom|tek)" regexp_replace="jedenas$1"/></suggestion>; w niektórych kontekstach można też po prostu użyć zapisu liczbowego: <suggestion>11</suggestion>.</message>
+        <example correction="jedenastek|11" type="incorrect">Nienawidzę <marker>11-tek</marker>.</example>
+        <example type="correct">Jechałem jedenastką.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">12-(tka|tce|tką|tko|tkę|tki|tkach|tkami|tkom|tek)</token>
+        </pattern>
+        <message>Niepoprawny zapis skrótowy liczby. Rzeczowniki odliczebnikowe zawsze zapisuje się słownie: <suggestion><match no="1" regexp_match="12-(tka|tce|tką|tko|tkę|tki|tkach|tkami|tkom|tek)" regexp_replace="dwunas$1"/></suggestion>; w niektórych kontekstach można też po prostu użyć zapisu liczbowego: <suggestion>12</suggestion>.</message>
+        <example correction="dwunastek|12" type="incorrect">Nienawidzę <marker>12-tek</marker>.</example>
+        <example type="correct">Jechałem dwunastką.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">13-(tka|tce|tką|tko|tkę|tki|tkach|tkami|tkom|tek)</token>
+        </pattern>
+        <message>Niepoprawny zapis skrótowy liczby. Rzeczowniki odliczebnikowe zawsze zapisuje się słownie: <suggestion><match no="1" regexp_match="13-(tka|tce|tką|tko|tkę|tki|tkach|tkami|tkom|tek)" regexp_replace="trzynas$1"/></suggestion>; w niektórych kontekstach można też po prostu użyć zapisu liczbowego: <suggestion>13</suggestion>.</message>
+        <example correction="trzynastek|13" type="incorrect">Nienawidzę <marker>13-tek</marker>.</example>
+        <example type="correct">Jechałem trzynastką.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">14-(tka|tce|tką|tko|tkę|tki|tkach|tkami|tkom|tek)</token>
+        </pattern>
+        <message>Niepoprawny zapis skrótowy liczby. Rzeczowniki odliczebnikowe zawsze zapisuje się słownie: <suggestion><match no="1" regexp_match="14-(tka|tce|tką|tko|tkę|tki|tkach|tkami|tkom|tek)" regexp_replace="czternas$1"/></suggestion>; w niektórych kontekstach można też po prostu użyć zapisu liczbowego: <suggestion>14</suggestion>.</message>
+        <example correction="czternastek|14" type="incorrect">Nienawidzę <marker>14-tek</marker>.</example>
+        <example type="correct">Jechałem czternastką.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">15-(tka|tce|tką|tko|tkę|tki|tkach|tkami|tkom|tek)</token>
+        </pattern>
+        <message>Niepoprawny zapis skrótowy liczby. Rzeczowniki odliczebnikowe zawsze zapisuje się słownie: <suggestion><match no="1" regexp_match="15-(tka|tce|tką|tko|tkę|tki|tkach|tkami|tkom|tek)" regexp_replace="piętnas$1"/></suggestion>; w niektórych kontekstach można też po prostu użyć zapisu liczbowego: <suggestion>15</suggestion>.</message>
+        <example correction="piętnastek|15" type="incorrect">Nienawidzę <marker>15-tek</marker>.</example>
+        <example type="correct">Jechałem piętnastką.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">16-(tka|tce|tką|tko|tkę|tki|tkach|tkami|tkom|tek)</token>
+        </pattern>
+        <message>Niepoprawny zapis skrótowy liczby. Rzeczowniki odliczebnikowe zawsze zapisuje się słownie: <suggestion><match no="1" regexp_match="16-(tka|tce|tką|tko|tkę|tki|tkach|tkami|tkom|tek)" regexp_replace="szesnas$1"/></suggestion>; w niektórych kontekstach można też po prostu użyć zapisu liczbowego: <suggestion>16</suggestion>.</message>
+        <example correction="szesnastek|16" type="incorrect">Nienawidzę <marker>16-tek</marker>.</example>
+        <example type="correct">Jechałem szesnastką.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">17-(tka|tce|tką|tko|tkę|tki|tkach|tkami|tkom|tek)</token>
+        </pattern>
+        <message>Niepoprawny zapis skrótowy liczby. Rzeczowniki odliczebnikowe zawsze zapisuje się słownie: <suggestion><match no="1" regexp_match="17-(tka|tce|tką|tko|tkę|tki|tkach|tkami|tkom|tek)" regexp_replace="siedemnas$1"/></suggestion>; w niektórych kontekstach można też po prostu użyć zapisu liczbowego: <suggestion>17</suggestion>.</message>
+        <example correction="siedemnastek|17" type="incorrect">Nienawidzę <marker>17-tek</marker>.</example>
+        <example type="correct">Jechałem siedemnastką.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">18-(tka|tce|tką|tko|tkę|tki|tkach|tkami|tkom|tek)</token>
+        </pattern>
+        <message>Niepoprawny zapis skrótowy liczby. Rzeczowniki odliczebnikowe zawsze zapisuje się słownie: <suggestion><match no="1" regexp_match="18-(tka|tce|tką|tko|tkę|tki|tkach|tkami|tkom|tek)" regexp_replace="osiemnas$1"/></suggestion>; w niektórych kontekstach można też po prostu użyć zapisu liczbowego: <suggestion>18</suggestion>.</message>
+        <example correction="osiemnastek|18" type="incorrect">Nienawidzę <marker>18-tek</marker>.</example>
+        <example type="correct">Jechałem osiemnastką.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">19-(tka|tce|tką|tko|tkę|tki|tkach|tkami|tkom|tek)</token>
+        </pattern>
+        <message>Niepoprawny zapis skrótowy liczby. Rzeczowniki odliczebnikowe zawsze zapisuje się słownie: <suggestion><match no="1" regexp_match="19-(tka|tce|tką|tko|tkę|tki|tkach|tkami|tkom|tek)" regexp_replace="dziewiętnas$1"/></suggestion>; w niektórych kontekstach można też po prostu użyć zapisu liczbowego: <suggestion>19</suggestion>.</message>
+        <example correction="dziewiętnastek|19" type="incorrect">Nienawidzę <marker>19-tek</marker>.</example>
+        <example type="correct">Jechałem dziewiętnastką.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">20-(tka|tce|tką|tko|tkę|tki|tkach|tkami|tkom|tek)</token>
+        </pattern>
+        <message>Niepoprawny zapis skrótowy liczby. Rzeczowniki odliczebnikowe zawsze zapisuje się słownie: <suggestion><match no="1" regexp_match="20-(tka|tce|tką|tko|tkę|tki|tkach|tkami|tkom|tek)" regexp_replace="dwudzies$1"/></suggestion>; w niektórych kontekstach można też po prostu użyć zapisu liczbowego: <suggestion>20</suggestion>.</message>
+        <example correction="dwudziestek|20" type="incorrect">Nienawidzę <marker>20-tek</marker>.</example>
+        <example type="correct">Jechałem dwudziestką.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">30-(tka|tce|tką|tko|tkę|tki|tkach|tkami|tkom|tek)</token>
+        </pattern>
+        <message>Niepoprawny zapis skrótowy liczby. Rzeczowniki odliczebnikowe zawsze zapisuje się słownie: <suggestion><match no="1" regexp_match="30-(tka|tce|tką|tko|tkę|tki|tkach|tkami|tkom|tek)" regexp_replace="trzydzies$1"/></suggestion>; w niektórych kontekstach można też po prostu użyć zapisu liczbowego: <suggestion>30</suggestion>.</message>
+        <example correction="trzydziestek|30" type="incorrect">Nienawidzę <marker>30-tek</marker>.</example>
+        <example type="correct">Jechałem trzydziestką.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">40-(tka|tce|tką|tko|tkę|tki|tkach|tkami|tkom|tek)</token>
+        </pattern>
+        <message>Niepoprawny zapis skrótowy liczby. Rzeczowniki odliczebnikowe zawsze zapisuje się słownie: <suggestion><match no="1" regexp_match="40-(tka|tce|tką|tko|tkę|tki|tkach|tkami|tkom|tek)" regexp_replace="czterdzies$1"/></suggestion>; w niektórych kontekstach można też po prostu użyć zapisu liczbowego: <suggestion>40</suggestion>.</message>
+        <example correction="czterdziestek|40" type="incorrect">Nienawidzę <marker>40-tek</marker>.</example>
+        <example type="correct">Jechałem czterdziestką.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">50-(tka|tce|tką|tko|tkę|tki|tkach|tkami|tkom|tek)</token>
+        </pattern>
+        <message>Niepoprawny zapis skrótowy liczby. Rzeczowniki odliczebnikowe zawsze zapisuje się słownie: <suggestion><match no="1" regexp_match="50-(tka|tce|tką|tko|tkę|tki|tkach|tkami|tkom|tek)" regexp_replace="pięćdziesią$1"/></suggestion>; w niektórych kontekstach można też po prostu użyć zapisu liczbowego: <suggestion>50</suggestion>.</message>
+        <example correction="pięćdziesiątek|50" type="incorrect">Nienawidzę <marker>50-tek</marker>.</example>
+        <example type="correct">Nie jestem już ryczącą pięćdziesiątką.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">60-(tka|tce|tką|tko|tkę|tki|tkach|tkami|tkom|tek)</token>
+        </pattern>
+        <message>Niepoprawny zapis skrótowy liczby. Rzeczowniki odliczebnikowe zawsze zapisuje się słownie: <suggestion><match no="1" regexp_match="60-(tka|tce|tką|tko|tkę|tki|tkach|tkami|tkom|tek)" regexp_replace="sześćdziesią$1"/></suggestion>; w niektórych kontekstach można też po prostu użyć zapisu liczbowego: <suggestion>60</suggestion>.</message>
+        <example correction="sześćdziesiątek|60" type="incorrect">Nienawidzę <marker>60-tek</marker>.</example>
+        <example type="correct">Sześćdziesiątki to piękne liczby.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">70-(tka|tce|tką|tko|tkę|tki|tkach|tkami|tkom|tek)</token>
+        </pattern>
+        <message>Niepoprawny zapis skrótowy liczby. Rzeczowniki odliczebnikowe zawsze zapisuje się słownie: <suggestion><match no="1" regexp_match="70-(tka|tce|tką|tko|tkę|tki|tkach|tkami|tkom|tek)" regexp_replace="siedemdziesią$1"/></suggestion>; w niektórych kontekstach można też po prostu użyć zapisu liczbowego: <suggestion>70</suggestion>.</message>
+        <example correction="siedemdziesiątek|70" type="incorrect">Nienawidzę <marker>70-tek</marker>.</example>
+        <example type="correct">Siedemdziesiątki to piękne liczby.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">80-(tka|tce|tką|tko|tkę|tki|tkach|tkami|tkom|tek)</token>
+        </pattern>
+        <message>Niepoprawny zapis skrótowy liczby. Rzeczowniki odliczebnikowe zawsze zapisuje się słownie: <suggestion><match no="1" regexp_match="80-(tka|tce|tką|tko|tkę|tki|tkach|tkami|tkom|tek)" regexp_replace="osiemdziesią$1"/></suggestion>; w niektórych kontekstach można też po prostu użyć zapisu liczbowego: <suggestion>80</suggestion>.</message>
+        <example correction="osiemdziesiątek|80" type="incorrect">Nienawidzę <marker>80-tek</marker>.</example>
+        <example type="correct">Sześćdziesiątki to piękne liczby.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">90-(tka|tce|tką|tko|tkę|tki|tkach|tkami|tkom|tek)</token>
+        </pattern>
+        <message>Niepoprawny zapis skrótowy liczby. Rzeczowniki odliczebnikowe zawsze zapisuje się słownie: <suggestion><match no="1" regexp_match="90-(tka|tce|tką|tko|tkę|tki|tkach|tkami|tkom|tek)" regexp_replace="dziewięćdziesią$1"/></suggestion>; w niektórych kontekstach można też po prostu użyć zapisu liczbowego: <suggestion>90</suggestion>.</message>
+        <example correction="dziewięćdziesiątek|90" type="incorrect">Nienawidzę <marker>90-tek</marker>.</example>
+        <example type="correct">Nie miałem pojęcia o tych dziewięćdziesiątkach.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">100-(tka|tce|tką|tko|tkę|tki|tkach|tkami|tkom|tek)</token>
+        </pattern>
+        <message>Niepoprawny zapis skrótowy liczby. Rzeczowniki odliczebnikowe zawsze zapisuje się słownie: <suggestion><match no="1" regexp_match="100-(tka|tce|tką|tko|tkę|tki|tkach|tkami|tkom|tek)" regexp_replace="se$1"/></suggestion>; w niektórych kontekstach można też po prostu użyć zapisu liczbowego: <suggestion>100</suggestion>.</message>
+        <example correction="setek|100" type="incorrect">Nienawidzę <marker>100-tek</marker>.</example>
+        <example type="correct">Wypijmy setkę.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">200-(tka|tce|tką|tko|tkę|tki|tkach|tkami|tkom|tek)</token>
+        </pattern>
+        <message>Niepoprawny zapis skrótowy liczby. Rzeczowniki odliczebnikowe zawsze zapisuje się słownie: <suggestion><match no="1" regexp_match="200-(tka|tce|tką|tko|tkę|tki|tkach|tkami|tkom|tek)" regexp_replace="dwuse$1"/></suggestion>; w niektórych kontekstach można też po prostu użyć zapisu liczbowego: <suggestion>200</suggestion>.</message>
+        <example correction="dwusetek|200" type="incorrect">Nienawidzę <marker>200-tek</marker>.</example>
+        <example type="correct">Wypijmy dwusetkę.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">300-(tka|tce|tką|tko|tkę|tki|tkach|tkami|tkom|tek)</token>
+        </pattern>
+        <message>Niepoprawny zapis skrótowy liczby. Rzeczowniki odliczebnikowe zawsze zapisuje się słownie: <suggestion><match no="1" regexp_match="300-(tka|tce|tką|tko|tkę|tki|tkach|tkami|tkom|tek)" regexp_replace="trzyse$1"/></suggestion>; w niektórych kontekstach można też po prostu użyć zapisu liczbowego: <suggestion>300</suggestion>.</message>
+        <example correction="trzysetek|300" type="incorrect">Nienawidzę <marker>300-tek</marker>.</example>
+        <example type="correct">Wypijmy trzysetkę.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">400-(tka|tce|tką|tko|tkę|tki|tkach|tkami|tkom|tek)</token>
+        </pattern>
+        <message>Niepoprawny zapis skrótowy liczby. Rzeczowniki odliczebnikowe zawsze zapisuje się słownie: <suggestion><match no="1" regexp_match="400-(tka|tce|tką|tko|tkę|tki|tkach|tkami|tkom|tek)" regexp_replace="czteryse$1"/></suggestion>; w niektórych kontekstach można też po prostu użyć zapisu liczbowego: <suggestion>400</suggestion>.</message>
+        <example correction="czterysetek|400" type="incorrect">Nienawidzę <marker>400-tek</marker>.</example>
+        <example type="correct">Wypijmy czterysetkę.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">500-(tka|tce|tką|tko|tkę|tki|tkach|tkami|tkom|tek)</token>
+        </pattern>
+        <message>Niepoprawny zapis skrótowy liczby. Rzeczowniki odliczebnikowe zawsze zapisuje się słownie: <suggestion><match no="1" regexp_match="500-(tka|tce|tką|tko|tkę|tki|tkach|tkami|tkom|tek)" regexp_replace="pięćse$1"/></suggestion>; w niektórych kontekstach można też po prostu użyć zapisu liczbowego: <suggestion>500</suggestion>.</message>
+        <example correction="pięćsetek|500" type="incorrect">Nienawidzę <marker>500-tek</marker>.</example>
+        <example type="correct">Wypijmy setkę, pięćsetkę lub dziesiątkę.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">600-(tka|tce|tką|tko|tkę|tki|tkach|tkami|tkom|tek)</token>
+        </pattern>
+        <message>Niepoprawny zapis skrótowy liczby. Rzeczowniki odliczebnikowe zawsze zapisuje się słownie: <suggestion><match no="1" regexp_match="600-(tka|tce|tką|tko|tkę|tki|tkach|tkami|tkom|tek)" regexp_replace="sześćse$1"/></suggestion>; w niektórych kontekstach można też po prostu użyć zapisu liczbowego: <suggestion>600</suggestion>.</message>
+        <example correction="sześćsetek|600" type="incorrect">Nienawidzę <marker>600-tek</marker>.</example>
+        <example type="correct">Wypijmy sześćsetkę.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">700-(tka|tce|tką|tko|tkę|tki|tkach|tkami|tkom|tek)</token>
+        </pattern>
+        <message>Niepoprawny zapis skrótowy liczby. Rzeczowniki odliczebnikowe zawsze zapisuje się słownie: <suggestion><match no="1" regexp_match="700-(tka|tce|tką|tko|tkę|tki|tkach|tkami|tkom|tek)" regexp_replace="siedemse$1"/></suggestion>; w niektórych kontekstach można też po prostu użyć zapisu liczbowego: <suggestion>700</suggestion>.</message>
+        <example correction="siedemsetek|700" type="incorrect">Nienawidzę <marker>700-tek</marker>.</example>
+        <example type="correct">Nie mówmy już o tych siedemsetkach reguł, którymi wykrywam błędy.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">800-(tka|tce|tką|tko|tkę|tki|tkach|tkami|tkom|tek)</token>
+        </pattern>
+        <message>Niepoprawny zapis skrótowy liczby. Rzeczowniki odliczebnikowe zawsze zapisuje się słownie: <suggestion><match no="1" regexp_match="800-(tka|tce|tką|tko|tkę|tki|tkach|tkami|tkom|tek)" regexp_replace="osiemse$1"/></suggestion>; w niektórych kontekstach można też po prostu użyć zapisu liczbowego: <suggestion>800</suggestion>.</message>
+        <example correction="osiemsetek|800" type="incorrect">Nienawidzę <marker>800-tek</marker>.</example>
+        <example type="correct">Nie mówmy już o tych osiemsetkach reguł, którymi wykrywam błędy.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">900-(tka|tce|tką|tko|tkę|tki|tkach|tkami|tkom|tek)</token>
+        </pattern>
+        <message>Niepoprawny zapis skrótowy liczby. Rzeczowniki odliczebnikowe zawsze zapisuje się słownie: <suggestion><match no="1" regexp_match="900-(tka|tce|tką|tko|tkę|tki|tkach|tkami|tkom|tek)" regexp_replace="dziewięćse$1"/></suggestion>; w niektórych kontekstach można też po prostu użyć zapisu liczbowego: <suggestion>900</suggestion>.</message>
+        <example correction="dziewięćsetek|900" type="incorrect">Nienawidzę <marker>900-tek</marker>.</example>
+        <example type="correct">Nie mówmy już o tych dziewięćsetkach reguł, którymi wykrywam błędy.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes"><exception regexp="yes">(1|2|3|4|5|6|7|8|9|10|11|12|13|14|15|16|17|18|19|20|30|40|50|60|70|80|90|100|200|300|400|500|600|700|800|900)-.*</exception>\d{1,3}-[mtrj]{1,2}?(ka|ce|ką|ko|kę|ki|kach|kami|kom|ek)</token>
+        </pattern>
+        <message>Niepoprawny zapis skrótowy liczby. Rzeczowniki odliczebnikowe zawsze zapisuje się słownie.</message>
+        <example correction="" type="incorrect">Nienawidzę <marker>912-tek</marker>.</example>
+        <example type="correct">Nie mówmy już o tych dziewięćset dwunastkach reguł, którymi wykrywam błędy.</example>
+        <example type="correct">To jest 500-tka na dwóch.</example>
+      </rule>
+    </rulegroup>
     <rulegroup id="LICZEBNIKI" name="Liczebniki porządkowe z końcówkami przypadków">
       <rule>
         <pattern>
-          <token regexp="yes">^(\d+)-([mt]*y|[w]*si|[w]*szy|[w]*sze|[w]*szym[i]*|[w]*si|tym|tymi|ci|a|ce|ch|cia|cie|ciej|cim|cioletnią|ciu|ego|ej|ga|gi|gie|gim|go|im|ki|krotnie|któregoś|leci.*|ma|me|miu|stoletniego|stu|sza|[tm]*a|[mt]*e|[tm]*ego|[mt]*ej|tka|tki|to|[mt]*[i]*oletni.*|[mt]*u|[mt]*ą|[mt]*ych|[mt]*e)</token>
+          <token regexp="yes">^(\d+)-([mt]*y|[w]*si|[w]*szy|[w]*sze|[w]*szym[i]*|[w]*si|tym|tymi|ci|a|ce|ch|cia|cie|ciej|cim|cioletnią|ciu|ego|ej|ga|gi|gie|gim|go|im|ki|krotnie|któregoś|leci.*|ma|me|miu|stoletniego|stu|sza|[tm]*a|[mt]*e|[tm]*ego|[mt]*ej|to|[mt]*[i]*oletni.*|[mt]*u|[mt]*ą|[mt]*ych|[mt]*e)</token>
         </pattern>
         <message>Liczebniki porządkowe zapisujemy nie z końcówkami przypadków, tylko z kropką: 
 				<suggestion><match no="1" regexp_match="(\d+)-(.*)" regexp_replace="$1"/>.</suggestion>.</message>
