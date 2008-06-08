@@ -145,22 +145,22 @@ public class NewChecker extends WeakBase implements XJobExecutor, XServiceInfo, 
    */
   public final void doGrammarChecking(int arg0,  
       XFlatParagraph arg1, Locale arg2, 
-      int arg3, int arg4 
-      ) throws IllegalArgumentException {
-    if (hasLocale(arg2) && 
-        (!arg1.isChecked(com.sun.star.text.TextMarkupType.GRAMMAR))) {
+      int arg3, int arg4) 
+  throws IllegalArgumentException {
+    if (hasLocale(arg2) 
+        && (!arg1.isChecked(com.sun.star.text.TextMarkupType.GRAMMAR))) {
       docLanguage = Language.DEMO;
       for (int i = 0; i < Language.LANGUAGES.length; i++) {
         if (Language.LANGUAGES[i].getShortName().equals(arg2.Language)) {
           docLanguage = Language.LANGUAGES[i];
           break;
         }
-      try {
-      langTool = new JLanguageTool(docLanguage, config.getMotherTongue());
-      langTool.activateDefaultPatternRules();
-      langTool.activateDefaultFalseFriendRules();
-      } catch (Exception exception) {
-        showError(exception);
+        try {
+          langTool = new JLanguageTool(docLanguage, config.getMotherTongue());
+          langTool.activateDefaultPatternRules();
+          langTool.activateDefaultFalseFriendRules();
+        } catch (Exception exception) {
+          showError(exception);
         }
       }
       if (config.getDisabledRuleIds() != null) {
@@ -204,10 +204,10 @@ public class NewChecker extends WeakBase implements XJobExecutor, XServiceInfo, 
         }
       } catch (IOException exception) {
         showError(exception);
-        }      
-      }
+      }      
     }
-  
+  }
+
   /** Creates a SingleGrammarError object for use in OOo.
    * @param docId int - document ID
    * para XFlatParagraph - text to check
@@ -287,8 +287,12 @@ public class NewChecker extends WeakBase implements XJobExecutor, XServiceInfo, 
 
   }
 
-  /** Runs LT options dialog box. **/
-  public final void runOptionsDialog(int arg0) throws IllegalArgumentException {
+  /** Runs LT options dialog box.
+   * @param arg0 - the Document ID
+   * @throws IllegalArgumentException - not really, we're not using the 
+   * DocID at all, so we don't care
+   **/
+  public final void runOptionsDialog(final int arg0) throws IllegalArgumentException {
     final Language lang = getLanguage();
     if (lang == null)
       return;
@@ -445,7 +449,7 @@ public class NewChecker extends WeakBase implements XJobExecutor, XServiceInfo, 
   }
 
   private boolean javaVersionOkay() {
-    String version = System.getProperty("java.version");
+    final String version = System.getProperty("java.version");
     if (version != null && (version.startsWith("1.0") || version.startsWith("1.1")
         || version.startsWith("1.2") || version.startsWith("1.3") || version.startsWith("1.4"))) {
       DialogThread dt = new DialogThread("Error: LanguageTool requires Java 1.5 or later. Current version: " + version);
