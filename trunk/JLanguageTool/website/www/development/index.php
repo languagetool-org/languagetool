@@ -2,7 +2,7 @@
 $page = "development";
 $title = "LanguageTool";
 $title2 = "Development";
-$lastmod = "2007-10-03 20:00:00 CET";
+$lastmod = "2008-06-08 20:05:00 CET";
 include("../../include/header.php");
 include('../../include/geshi/geshi.php');
 ?>
@@ -42,6 +42,8 @@ French, Italian, Dutch, Czech, Lithuanian, Ukrainian, and Slovenian.</p>
 	<li>Try writing rules. For English and German, see the lists of errors
 		on the <?=show_link("Links page", "/links/", 0)?>. Many of those
 		errors are not yet detected.</li>
+    <li><?=show_link("See the wiki", "http://languagetool.wikidot.com/", 0)?> for 
+        more tips and tricks</li>
 </ol>
 
 <p><a name="installation"><strong>Installation and usage</strong></a><br />
