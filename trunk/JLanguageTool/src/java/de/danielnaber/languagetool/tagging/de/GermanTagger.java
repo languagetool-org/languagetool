@@ -102,7 +102,9 @@ public class GermanTagger implements Tagger {
           } else {
             // last part governs a word's POS:
             String lastPart = compoundParts.get(compoundParts.size()-1);
-            lastPart = StringTools.uppercaseFirstChar(lastPart);
+            if (StringTools.startsWithUppercase(word)) {
+              lastPart = StringTools.uppercaseFirstChar(lastPart);
+            }
             taggerTokens = lexiconLookup(lastPart);
             if (taggerTokens != null) {
               tagWord(taggerTokens, word, l);
