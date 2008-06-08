@@ -7,13 +7,22 @@ title="Easy editing stylesheet" ?>
 English Grammar and Typo Rules for LanguageTool
 See tagset.txt for the meaning of the POS tags
 Copyright (C) 2001-2007 Daniel Naber (http://www.danielnaber.de)
-$Id: grammar.xml,v 1.59 2008-05-27 21:29:11 milek_pl Exp $
+$Id: grammar.xml,v 1.60 2008-06-08 22:37:10 milek_pl Exp $
 -->
 <rules lang="en">
   <!-- ====================================================================== -->
   <!-- Possible typos -->
   <!-- ====================================================================== -->
   <category name="Possible Typo">
+    <rule id="THERE_EXITS" name="Possible typo: 'There exits' (There exists)">
+      <pattern mark_from="1">
+        <token>there</token>
+        <token>exits</token>
+      </pattern>
+      <message>Possible typo. Did you mean <suggestion>exists</suggestion>?</message>
+      <example correction="exists" type="incorrect">There <marker>exits</marker> an α-evaluating homomorphism π.</example>
+      <example type="correct">Then there exists an α-evaluating homomorphism π.</example>
+    </rule>
     <rule id="INSURE_THAT" name="Possible typo: 'Insure that' (Ensure that)">
       <pattern mark_to="-1">
         <token>insure</token>
@@ -3155,6 +3164,133 @@ $Id: grammar.xml,v 1.59 2008-05-27 21:29:11 milek_pl Exp $
       <message>This phrase is redundant. Use simply <suggestion>\2</suggestion>.</message>
       <example correction="experience" type="incorrect">This talk is based on <marker>actual experience</marker> gained during recovery operations following a fire at the Washington National Records.</example>
       <example type="correct">This play is based on facts.</example>
+    </rule>
+    <rule id="ADVANCE_PLANNING" name="Redundant phrase: 'advance planning/preview/reservations/warning (planning/preview/reservations/warning)'">
+      <pattern>
+        <token>advance</token>
+        <token regexp="yes">planning|preview|reservations?|warning</token>
+      </pattern>
+      <message>This phrase might be redundant. Use simply <suggestion>\2</suggestion>.</message>
+      <example correction="Planning" type="incorrect"><marker>Advance planning</marker> is one strategy couples can use to establish legal rights.</example>
+      <example type="correct">Planning is one strategy couples can use to establish legal rights.</example>
+    </rule>
+    <rule id="ADD_AN_ADDITIONAL" name="Redundant phrase: 'add an additional (add)'">
+      <pattern mark_from="0" mark_to="0">
+        <token inflected="yes">add</token>
+        <token>an</token>
+        <token>additional</token>
+        <token/>
+      </pattern>
+      <message>This phrase might be redundant. Use simply <suggestion><match no="1"/> <match no="4" postag="+INDT"/></suggestion>.</message>
+      <example correction="Add a Page" type="incorrect">How to <marker>Add an Additional Page</marker> to a Full Flash Site</example>
+      <example type="correct">How to Add a Page to a Full Flash Site</example>
+    </rule>
+    <rulegroup id="AM_IN_THE_MORNING" name="Redundant phrase: 'AM in the morning (AM)'">
+      <rule>
+        <pattern case_sensitive="yes">
+          <token>AM</token>
+          <token>in</token>
+          <token>the</token>
+          <token>morning</token>
+        </pattern>
+        <message>This phrase is redundant. Use simply <suggestion>\1</suggestion>.</message>
+        <example correction="AM" type="incorrect">It's 5 <marker>AM in the morning</marker>.</example>
+        <example type="correct">It's 5 AM.</example>
+      </rule>
+      <rule>
+        <pattern case_sensitive="yes">
+          <token>A</token>
+          <token>.</token>
+          <token>M</token>
+          <token>.</token>
+          <token>in</token>
+          <token>the</token>
+          <token>morning</token>
+        </pattern>
+        <message>This phrase is redundant. Use simply <suggestion>A.M.</suggestion></message>
+        <example correction="A.M." type="incorrect">It's 5 <marker>A.M. in the morning</marker>.</example>
+        <example type="correct">It's 5 A.M.</example>
+      </rule>
+    </rulegroup>
+    <rule id="AND_ETC" name="Redundant phrase: 'and etc. (etc.)'">
+      <pattern>
+        <token>and</token>
+        <token>etc</token>
+        <token>.</token>
+      </pattern>
+      <message>This phrase is redundant. Use simply <suggestion>\2\3</suggestion>.</message>
+      <example correction="etc." type="incorrect">E-Commerce <marker>and etc.</marker></example>
+      <example type="correct">E-Commerce etc.</example>
+    </rule>
+    <rule id="ANNUAL_ANNIVERSARY" name="Redundant phrase: 'annual anniversary (anniversary)'">
+      <pattern>
+        <token>annual</token>
+        <token>anniversary</token>
+      </pattern>
+      <message>This phrase is redundant. Use simply <suggestion>\2</suggestion> instead.</message>
+      <example correction="Anniversary" type="incorrect">First <marker>Annual Anniversary</marker> Contest</example>
+      <example type="correct">First Anniversary Contest</example>
+    </rule>
+    <rule id="ADDED_BONUS" name="Redundant phrase: 'added bonus (bonus)'">
+      <pattern>
+        <token>added</token>
+        <token>bonus</token>
+      </pattern>
+      <message>This phrase is redundant. Use simply <suggestion>\2</suggestion>.</message>
+      <example correction="Bonus" type="incorrect"><marker>Added bonus</marker>: booting from cdrom.</example>
+      <example type="correct">Bonus: booting from CD-ROM.</example>
+    </rule>
+    <rule id="ASK_THE_QUESTION" name="Redundant phrase: 'ask the question (ask)'">
+      <pattern mark_to="-1">
+        <token inflected="yes">ask</token>
+        <token>the</token>
+        <token>question</token>
+        <token><exception postag="SENT_END"/></token>
+      </pattern>
+      <message>This phrase is redundant. Use simply <suggestion>\1</suggestion> instead.</message>
+      <example type="correct">He asked the question.</example>
+      <example correction="asked" type="incorrect">He <marker>asked the question</marker> whether it's OK to add some rules to LanguageTool.</example>
+    </rule>
+    <rule id="ARMED_GUNMAN" name="Redundant phrase: 'armed gunman (gunman)'">
+      <pattern>
+        <token>armed</token>
+        <token inflected="yes">gunman</token>
+      </pattern>
+      <message>This phrase might be redundant. Use simply <suggestion>\2</suggestion>.</message>
+      <example correction="Gunmen" type="incorrect"><marker>Armed gunmen</marker> entered the room to kill Bill.</example>
+      <example type="correct">Gunmen are very dangerous in this city.</example>
+    </rule>
+    <rule id="ASSEMBLE_ATTACH_TOGETHER" name="Redundant phrase: 'attach/assemble together (attach/assemble)'">
+      <pattern mark_to="-1">
+        <token inflected="yes" regexp="yes">attach|assemble</token>
+        <token>together</token>
+        <token><exception>with</exception></token>
+      </pattern>
+      <message>This phrase might be redundant. Use simply <suggestion>\1</suggestion> instead.</message>
+      <example correction="assemble" type="incorrect">Reelin molecules <marker>assemble together</marker> to form a large protein complex.</example>
+      <example type="correct">Reelin molecules assemble to form a large protein complex</example>
+    </rule>
+    <rule id="AUTOBIOGRAPHY_OF_A_LIFE" name="Redundant phrase: 'autobiography of a life (autobiography)'">
+      <pattern>
+        <token>autobiography</token>
+        <token>of</token>
+        <token>a</token>
+        <token>life</token>
+      </pattern>
+      <message>This phrase is redundant. Use <suggestion>\1</suggestion> or <suggestion>story \2 \3 \4</suggestion> instead.</message>
+      <example correction="autobiography|story of a life" type="incorrect">In this <marker>autobiography of a life</marker> of courage and love, we get to share in the compelling story of a family’s struggles.</example>
+      <example type="correct">In this story of a life of courage and love, we get to share in the compelling story of a family’s struggles</example>
+    </rule>
+    <rule id="BIOGRAPHY_OF_A_LIFE" name="Redundant phrase: 'biography of her life (biography)'">
+      <pattern>
+        <token>biography</token>
+        <token>of</token>
+        <token regexp="yes">a|her|his</token>
+        <token>life</token>
+      </pattern>
+      <message>This phrase is redundant. Use <suggestion>\1</suggestion> or <suggestion>story \2 \3 \4</suggestion> instead.</message>
+      <example correction="biography|story of her life" type="incorrect">In this <marker>biography of her life</marker>, we get to share in the compelling story of a family’s struggles.</example>
+      <example type="correct">In this story of a life of courage and love, we get to share in the compelling story of a family’s struggles</example>
     </rule>
     <rule id="VERY_UNIQUE" name="Redundant phrase: 'very unique (unique)'">
       <pattern>
