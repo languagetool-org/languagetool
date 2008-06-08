@@ -6,7 +6,7 @@ title="Easy editing stylesheet" ?>
 <!--
 Polish Grammar and Typo Rules for LanguageTool
 Copyright (C) 2006-2007 Marcin Miłkowski
-$Id: grammar.xml,v 1.130 2008-06-07 20:57:54 milek_pl Exp $
+$Id: grammar.xml,v 1.131 2008-06-08 18:42:22 milek_pl Exp $
 -->
 <rules lang="pl">
   <phrases>
@@ -2611,7 +2611,7 @@ Powinno być: <suggestion>\2, \3 \4</suggestion>.</message>
         <token>ruchem</token>
       </pattern>
       <message>Czasownik „regulować” nie łączy się z narzędnikiem, więc powinno być: 
-				<suggestion><match no="1"/> ruch</suggestion> lub <suggestion><match no="1" postag="verb:.*perf">kierować</match> ruchem</suggestion>.</message>
+				<suggestion><match no="1"/> ruch</suggestion> lub <suggestion><match no="1" postag="verb:.*perf|pact.*|subst:ger.*">kierować</match> ruchem</suggestion>.</message>
       <example type="correct">Policjant kierował ruchem pojazdów.</example>
       <example correction="regulował ruch|kierował ruchem" type="incorrect">Policjant <marker>regulował ruchem</marker> pojazdów.</example>
     </rule>
@@ -2865,7 +2865,7 @@ lub <suggestion>\2 na prawach wyłączności</suggestion>.</message>
       <pattern>
         <token inflected="yes">sprawozdawać</token>
       </pattern>
-      <message>Ten czasownik jest uważany przez językoznawców za niepoprawny. Lepiej: <suggestion><match no="1" postag="verb.*">zdawać</match> sprawę</suggestion>.</message>
+      <message>Ten czasownik jest uważany przez językoznawców za niepoprawny. Lepiej: <suggestion><match no="1" postag=".*">zdawać</match> sprawę</suggestion>.</message>
       <example correction="zdawał sprawę" type="incorrect">Rzecznik konsumentów <marker>sprawozdawał</marker>.</example>
       <example type="correct">Rzecznik konsumentów zdawał sprawę.</example>
     </rule>
@@ -2884,7 +2884,7 @@ lub <suggestion>\2 na prawach wyłączności</suggestion>.</message>
           <token inflected="yes" regexp="yes" skip="2">zakładać|założyć</token>
           <token regexp="yes">futro|golf|sukienkę|kapelusz|płaszcz|sukienkę|garnitur|buty</token>
         </pattern>
-        <message>Prawdopodobnie użyto błędnego czasownika. Powinno być: <suggestion><match no="1" postag="verb.*">włożyć</match> <match no="2" postag_replace=""/></suggestion>.</message>
+        <message>Prawdopodobnie użyto błędnego czasownika. Powinno być: <suggestion><match no="1" postag=".*">włożyć</match> <match no="2" postag_replace=""/></suggestion>.</message>
         <example correction="włożył buty" type="incorrect">Przemysław znowu <marker>założył buty</marker>.</example>
         <example type="correct">Przemysław znowu założył partię.</example>
       </rule>
@@ -3024,8 +3024,8 @@ lub <suggestion>\2 na prawach wyłączności</suggestion>.</message>
         <token inflected="yes" regexp="yes">spełniać|pełnić</token>
         <token>opiekę</token>
       </pattern>
-      <message>Niepoprawny zwrot. Mówi się <suggestion><match no="1" postag="verb.*">sprawować</match> <match no="2"/></suggestion> 
-				lub <suggestion><match no="1" postag="verb.*">opiekować</match> się</suggestion>.</message>
+      <message>Niepoprawny zwrot. Mówi się <suggestion><match no="1" postag=".*">sprawować</match> <match no="2"/></suggestion> 
+				lub <suggestion><match no="1" postag=".*">opiekować</match> się</suggestion>.</message>
       <example correction="sprawował opiekę|opiekował się" type="incorrect">Jako hufcowy nadal będę <marker>pełnił opiekę</marker> nad drużyną.</example>
       <example type="correct">Jako hufcowy nadal będę <marker>sprawował opiekę</marker> nad drużyną.</example>
     </rule>
@@ -3082,7 +3082,7 @@ lub <suggestion>\2 na prawach wyłączności</suggestion>.</message>
         <token>sprawozdanie</token>
       </pattern>
       <message>To wyrażenie jest niepoprawną kontaminacją. Poprawnie: <suggestion><match no="1"/> sprawę</suggestion>, 
-				<suggestion><match no="1" postag="verb.*">złożyć</match> <match no="2"/></suggestion>, <suggestion><match no="1" postag="verb.*">przedstawić</match> <match no="2"/></suggestion>.</message>
+				<suggestion><match no="1" postag=".*">złożyć</match> <match no="2"/></suggestion>, <suggestion><match no="1" postag=".*">przedstawić</match> <match no="2"/></suggestion>.</message>
       <example type="correct">Zdałem sprawę ze zła, które uczyniłem.</example>
       <example correction="Zdałem sprawę|Złożyłem sprawozdanie|Przedstawiłem sprawozdanie" type="incorrect"><marker>Zdałem sprawozdanie</marker> ze zła, które uczyniłem.</example>
     </rule>
@@ -3092,8 +3092,8 @@ lub <suggestion>\2 na prawach wyłączności</suggestion>.</message>
         <token>z</token>
         <token>propozycją</token>
       </pattern>
-      <message>Niepoprawnie zbudowane wyrażenie. Lepiej: <suggestion><match no="1" postag="verb.*">zaproponować</match></suggestion>, <suggestion><match no="1" postag="verb.*">uczynić</match> propozycję</suggestion>,
-		<suggestion><match no="1" postag="verb.*">wystąpić</match> z propozycją</suggestion>.</message>
+      <message>Niepoprawnie zbudowane wyrażenie. Lepiej: <suggestion><match no="1" postag=".*">zaproponować</match></suggestion>, <suggestion><match no="1" postag=".*">uczynić</match> propozycję</suggestion>,
+		<suggestion><match no="1" postag=".*">wystąpić</match> z propozycją</suggestion>.</message>
       <example type="correct">Kazimierz zaproponował, że zostanie szefem banku.</example>
       <example correction="zaproponował|uczynił propozycję|wystąpił z propozycją" type="incorrect">Kazimierz <marker>wyszedł z propozycją</marker>, że zostanie szefem banku.</example>
     </rule>
@@ -3102,8 +3102,8 @@ lub <suggestion>\2 na prawach wyłączności</suggestion>.</message>
         <token inflected="yes" regexp="yes">wyrazić|wyrażać</token>
         <token>poparcie</token>
       </pattern>
-      <message>Niepoprawne wyrażenie. Poprawnie: <suggestion><match no="1" postag="verb.*">udzielić</match> poparcia</suggestion>, 
-				<suggestion><match no="1" postag="verb.*">poprzeć</match></suggestion>.</message>
+      <message>Niepoprawne wyrażenie. Poprawnie: <suggestion><match no="1" postag=".*">udzielić</match> poparcia</suggestion>, 
+				<suggestion><match no="1" postag=".*">poprzeć</match></suggestion>.</message>
       <example correction="udzielić poparcia|poprzeć" type="incorrect">Na tej stronie można <marker>wyrazić poparcie</marker> dla budowy IV RP.</example>
       <example type="correct">Na tej stronie można <marker>udzielić poparcia</marker> budowie IV RP.</example>
     </rule>
@@ -3330,7 +3330,7 @@ lub <suggestion>\2 na prawach wyłączności</suggestion>.</message>
         <token inflected="yes" regexp="yes">grać|grywać</token>
         <token>mecz</token>
       </pattern>
-      <message>Użyto niewłaściwego czasownika. Powinno być: <suggestion><match no="1" postag="(verb.*):(im)?perf" postag_replace="$1:perf">rozegrać</match></suggestion> lub <suggestion><match no="1" postag="(verb.*):(im)?perf" postag_replace="$1:imperf">rozgrywać</match></suggestion>.</message>
+      <message>Użyto niewłaściwego czasownika. Powinno być: <suggestion><match no="1" postag="(verb.*):(im)?perf|pact.*" postag_replace="$1:perf">rozegrać</match></suggestion> lub <suggestion><match no="1" postag="(verb.*):(im)?perf|pact.*" postag_replace="$1:imperf">rozgrywać</match></suggestion>.</message>
       <example correction="rozegrała|rozgrywała" type="incorrect">Wisła <marker>grała</marker> mecz w czwartek.</example>
       <example type="correct">Wisła <marker>rozegrała</marker>  mecz w czwartek.</example>
     </rule>
@@ -3348,7 +3348,7 @@ lub <suggestion>\2 na prawach wyłączności</suggestion>.</message>
         <token inflected="yes" postag="verb.*" postag_regexp="yes" regexp="yes">zestawiać|zestawić</token>
         <token>listę</token>
       </pattern>
-      <message>Prawdopodobnie użyto niewłaściwego czasownika. Mówimy raczej: <suggestion><match no="1" postag="verb.*">ułożyć</match></suggestion> lub <suggestion><match no="1" postag="verb.*">utworzyć</match></suggestion>.</message>
+      <message>Prawdopodobnie użyto niewłaściwego czasownika. Mówimy raczej: <suggestion><match no="1" postag=".*">ułożyć</match></suggestion> lub <suggestion><match no="1" postag=".*">utworzyć</match></suggestion>.</message>
       <example correction="ułożył|utworzył" type="incorrect">Sędzia <marker>zestawił</marker> listę praw, jakie Kościół przyznaje człowiekowi.</example>
       <example type="correct">Można ułożyć listę praw, jakie Kościół odbiera człowiekowi.</example>
     </rule>
@@ -3390,9 +3390,10 @@ lub <suggestion>\2 na prawach wyłączności</suggestion>.</message>
           <token inflected="yes" regexp="yes">pełnić|spełniać</token>
           <token regexp="yes">rolę|role</token>
         </pattern>
-        <message>Mówimy <suggestion><match no="1"/> funkcję</suggestion> lub <suggestion><match no="1" postag="verb.*">odgrywać</match> <match no="2"/></suggestion>, a nie „pełnić rolę”.</message>
+        <message>Mówimy <suggestion><match no="1"/> funkcję</suggestion> lub <suggestion><match no="1" postag="verb.*|pact.*|ppas.*">odgrywać</match> <match no="2"/></suggestion>, a nie „pełnić rolę”.</message>
         <example correction="Pełni funkcję|Odgrywa rolę" type="incorrect"><marker>Pełni rolę</marker> w żegludze różnych typów statków.</example>
         <example type="correct"><marker>Odgrywa istotną rolę</marker> w żegludze różnych typów statków.</example>
+        <example correction="pełniący funkcję|odgrywający rolę" type="incorrect">To element <marker>pełniący rolę</marker> w robieniu wody z mózgu.</example>
       </rule>
       <rule>
         <pattern>
@@ -3400,7 +3401,7 @@ lub <suggestion>\2 na prawach wyłączności</suggestion>.</message>
           <token postag="(adj|ppas|pact):.*acc.*" postag_regexp="yes"/>
           <token regexp="yes">rolę|role</token>
         </pattern>
-        <message>Mówimy <suggestion><match no="1"/> <match no="2"/> funkcję</suggestion> lub <suggestion><match no="1" postag="verb.*">odgrywać</match> <match no="2"/> <match no="3"/></suggestion>, a nie „pełnić rolę”.</message>
+        <message>Mówimy <suggestion><match no="1"/> <match no="2"/> funkcję</suggestion> lub <suggestion><match no="1" postag="verb.*|pact.*|ppas.*">odgrywać</match> <match no="2"/> <match no="3"/></suggestion>, a nie „pełnić rolę”.</message>
         <example correction="Pełni istotną funkcję|Odgrywa istotną rolę" type="incorrect"><marker>Pełni istotną rolę</marker> w żegludze różnych typów statków.</example>
         <example type="correct"><marker>Odgrywa istotną rolę</marker> w żegludze różnych typów statków.</example>
       </rule>
@@ -3411,7 +3412,7 @@ lub <suggestion>\2 na prawach wyłączności</suggestion>.</message>
           <token postag="(adj|pact|ppas):.*acc.*" postag_regexp="yes"/>
           <token regexp="yes">rolę|role</token>
         </pattern>
-        <message>Mówimy <suggestion><match no="1"/> <match no="2"/> <match no="3"/> funkcję</suggestion> lub <suggestion><match no="1" postag="verb.*">odgrywać</match> <match no="2"/> <match no="3"/> <match no="4"/></suggestion>, a nie „pełnić rolę”.</message>
+        <message>Mówimy <suggestion><match no="1"/> <match no="2"/> <match no="3"/> funkcję</suggestion> lub <suggestion><match no="1" postag="verb.*|pact.*|ppas.*">odgrywać</match> <match no="2"/> <match no="3"/> <match no="4"/></suggestion>, a nie „pełnić rolę”.</message>
         <example correction="Pełni naprawdę istotną funkcję|Odgrywa naprawdę istotną rolę" type="incorrect"><marker>Pełni naprawdę istotną rolę</marker> w żegludze różnych typów statków.</example>
         <example type="correct"><marker>Odgrywa istotną rolę</marker> w żegludze różnych typów statków.</example>
       </rule>
@@ -3430,7 +3431,7 @@ lub <suggestion>\2 na prawach wyłączności</suggestion>.</message>
         <token inflected="yes" regexp="yes" skip="2">wywierać|wywrzeć</token>
         <token>piętno</token>
       </pattern>
-      <message>Prawdopodobnie użyto niewłaściwego czasownika. Powinno być: <suggestion><match no="1" postag="verb.*">odcisnąć</match></suggestion> lub <suggestion><match no="1" postag="verb.*">wycisnąć</match></suggestion>.</message>
+      <message>Prawdopodobnie użyto niewłaściwego czasownika. Powinno być: <suggestion><match no="1" postag="verb.*|pact.*">odcisnąć</match></suggestion> lub <suggestion><match no="1" postag="verb.*|pact.*">wycisnąć</match></suggestion>.</message>
       <example correction="odcisnął|wycisnął" type="incorrect">Bez wątpienia jednak <marker>wywarł</marker> wielkie piętno na historii Stanów Zjednoczonych XX wieku.</example>
       <example type="correct">Bez wątpienia jednak <marker>odcisnął</marker> wielkie piętno na historii Stanów Zjednoczonych XX wieku.</example>
     </rule>
@@ -3449,7 +3450,7 @@ lub <suggestion>\2 na prawach wyłączności</suggestion>.</message>
         <token>ze</token>
         <token>stanowiska</token>
       </pattern>
-      <message>Prawdopodobnie użyto niewłaściwego czasownika (wyrażenie jest niepoprawnym rusycyzmem). Powinno być: <suggestion><match no="1" postag="verb.*">usunąć</match></suggestion> lub <suggestion><match no="1" postag="verb.*">zwolnić</match></suggestion>.</message>
+      <message>Prawdopodobnie użyto niewłaściwego czasownika (wyrażenie jest niepoprawnym rusycyzmem). Powinno być: <suggestion><match no="1" postag="verb.*|ppas.*">usunąć</match></suggestion> lub <suggestion><match no="1" postag="verb.*|ppas.*">zwolnić</match></suggestion>.</message>
       <example correction="usunęli|zwolnili" type="incorrect">Straty Vietcongu były tak duże, że komuniści <marker>zdjęli</marker> Vo ze stanowiska.</example>
       <example type="correct">Straty Vietcongu były tak duże, że komuniści zdecydowali się <marker>usunąć</marker> Vo ze stanowiska.</example>
     </rule>
@@ -3892,7 +3893,7 @@ lub <suggestion>\2 na prawach wyłączności</suggestion>.</message>
         <token>czas</token>
         <token>dla</token>
       </pattern>
-      <message>Prawdopodobnie użyto błędnego przyimka. Powinno być: <suggestion><match no="1"/> <match no="2"/> na</suggestion> lub <suggestion><match no="1" postag="verb.*">poświęcić</match> <match no="2"/></suggestion> (z narzędnikiem).</message>
+      <message>Prawdopodobnie użyto błędnego przyimka. Powinno być: <suggestion><match no="1"/> <match no="2"/> na</suggestion> lub <suggestion><match no="1" postag="verb.*|pact.*|ppas.*" postag_regexp="yes">poświęcić</match> <match no="2"/></suggestion> (z narzędnikiem).</message>
       <example correction="Przeznacz czas na|Poświęć czas|Poświęćże czas" type="incorrect"><marker>Przeznacz czas dla</marker> bardziej produktywnych zadań.</example>
       <example type="correct">Przeznacz czas na bardziej produktywne zadania.</example>
     </rule>
