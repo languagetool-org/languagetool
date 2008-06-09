@@ -104,4 +104,14 @@ public class StringToolsTest extends TestCase {
     assertEquals('O', 
       StringTools.getMnemonic("File && String &Operations"));
   }
+  
+  public void testIsWhitespace() {
+    assertEquals(true, StringTools.isWhitespace("  "));
+    assertEquals(true, StringTools.isWhitespace("\t"));
+    assertEquals(true, StringTools.isWhitespace("\u2002"));
+    //non-breaking space is not a whitespace
+    assertEquals(false, StringTools.isWhitespace("\u00a0"));
+    assertEquals(false, StringTools.isWhitespace("abc"));    
+  }
+  
 }

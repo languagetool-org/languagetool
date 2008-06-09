@@ -23,6 +23,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import de.danielnaber.languagetool.tools.StringTools;
+
 /**
  * An array of {@link AnalyzedToken}s used to store multiple POS tags and lemmas
  * for a given single token.
@@ -77,7 +79,7 @@ public class AnalyzedTokenReadings {
   }
   
   public final boolean isWhitespace() {
-    return token.trim().equals("");    
+    return StringTools.isWhitespace(token);    
   }
   
   

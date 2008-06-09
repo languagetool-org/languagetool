@@ -372,5 +372,24 @@ public final class StringTools {
     }
   }
   
+  /**
+   * Checks if a string contains only whitespace, including
+   * all Unicode whitespace.
+   * @param str String to check
+   * @return true if the string is whitespace-only.
+   */
+  public static boolean isWhitespace(final String str) {
+    final String trimStr = str.trim();
+    if (("").equals(trimStr)) {
+      return true;
+    } else {
+      if (trimStr.length() == 1) {
+        return java.lang.Character.isWhitespace(trimStr.charAt(0));
+      } else {
+        return false;
+      }
+    }    
   }
+}
+  
  
