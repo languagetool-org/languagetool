@@ -31,12 +31,9 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
-import com.sun.star.beans.UnknownPropertyException;
-import com.sun.star.beans.XPropertySet;
 import com.sun.star.frame.XDesktop;
 import com.sun.star.lang.IllegalArgumentException;
 import com.sun.star.lang.Locale;
-import com.sun.star.lang.WrappedTargetException;
 import com.sun.star.lang.XComponent;
 import com.sun.star.lang.XMultiComponentFactory;
 import com.sun.star.lang.XServiceInfo;
@@ -50,14 +47,15 @@ import com.sun.star.linguistic2.XGrammarCheckingResultListener;
 import com.sun.star.registry.XRegistryKey;
 import com.sun.star.task.XJobExecutor;
 import com.sun.star.text.XFlatParagraph;
-import com.sun.star.text.XTextCursor;
 import com.sun.star.text.XTextDocument;
+import com.sun.star.text.XTextViewCursor;
 import com.sun.star.uno.UnoRuntime;
 import com.sun.star.uno.XComponentContext;
 
 import de.danielnaber.languagetool.JLanguageTool;
 import de.danielnaber.languagetool.Language;
 import de.danielnaber.languagetool.gui.Configuration;
+import de.danielnaber.languagetool.gui.Tools;
 import de.danielnaber.languagetool.rules.RuleMatch;
 
 public class NewChecker extends WeakBase implements XJobExecutor, XServiceInfo, XGrammarChecker {
@@ -65,6 +63,8 @@ public class NewChecker extends WeakBase implements XJobExecutor, XServiceInfo, 
   private Configuration config;
   private JLanguageTool langTool; 
   private Language docLanguage;
+  
+  private XTextViewCursor xViewCursor;
   
   /** Service name required by the OOo API (?).
    * 
@@ -84,10 +84,10 @@ public class NewChecker extends WeakBase implements XJobExecutor, XServiceInfo, 
   
   private XTextDocument xTextDoc;
   
-  /** Document ID, used by the interface.
-   * is this used to mark which document is checked?
-   * should there be an array indexed by doc Ids for
-   * maintaining some doc info?
+  /** Document ID. The document IDs can be used 
+   * for storing the document-level state (e.g., for
+   * document-level spelling consistency).
+   * 
    */
   private int docID = -1;
   
@@ -107,30 +107,34 @@ public class NewChecker extends WeakBase implements XJobExecutor, XServiceInfo, 
     }
   }
   
-  //TODO: remove this method and replace with proper one
-  // based on XFlatParagraph
   private Language getLanguage() {
     if (xTextDoc == null)
       return Language.ENGLISH; // for testing with local main() method only
     Locale charLocale;
     try {
-      // just look at the first position in the document and assume that this character's
-      // language is the language of the whole document:
-      XTextCursor textCursor = xTextDoc.getText().createTextCursor();
-      textCursor.gotoStart(false);
-      XPropertySet xCursorProps = (XPropertySet) UnoRuntime.queryInterface(XPropertySet.class,
-          textCursor);
-      charLocale = (Locale) xCursorProps.getPropertyValue("CharLocale");      
+      // just look at the first 200 chars in the document and assume that this is
+      // the language of the whole document:
+      com.sun.star.text.XFlatParagraphIterator xParaAccess = (com.sun.star.text.XFlatParagraphIterator) UnoRuntime
+      .queryInterface(com.sun.star.text.XFlatParagraphIterator.class, 
+          xTextDoc);
+      if (xParaAccess == null) {
+        System.err.println("xParaAccess == null");
+        return null;
+      }          
+      com.sun.star.text.XFlatParagraph xParaEnum = xParaAccess.getFirstPara();
+      int maxLen = xParaEnum.getText().length();
+      if (maxLen > 200) {
+        maxLen = 200;
+      }
+      charLocale = (Locale) xParaEnum.getPrimaryLanguageOfText(1, maxLen);      
       if (!hasLocale(charLocale)) {
         // FIXME: i18n
         DialogThread dt = new DialogThread("Error: Sorry, the document language '" +charLocale.Language+ 
-            "' is not supported by LanguageTool.");
+        "' is not supported by LanguageTool.");
         dt.start();
         return null;
       }
-    } catch (UnknownPropertyException e) {
-      throw new RuntimeException(e);
-    } catch (WrappedTargetException e) {
+    } catch (Exception e) {
       throw new RuntimeException(e);
     }
     return Language.getLanguageForShortName(charLocale.Language);
@@ -233,13 +237,25 @@ public class NewChecker extends WeakBase implements XJobExecutor, XServiceInfo, 
     return aError;
   }
   
-
+ /**
+  * Called when the document check is finished.
+  * @param arg0 - the ID of the document already checked
+  * @throws IllegalArgumentException in case arg0 is not a 
+  * valid docID.
+  */
   public void endDocument(int arg0) throws IllegalArgumentException {
     if (docID == arg0) {
       docID = -1;
     }
   }
 
+  /**
+   * Called to clear the paragraph state. No use in our implementation.
+   * 
+   * @param arg0 - the ID of the document already checked
+   * @throws IllegalArgumentException in case arg0 is not a 
+   *  valid docID.
+   */
   public void endParagraph(int arg0) throws IllegalArgumentException {
     // TODO Auto-generated method stub
 
@@ -310,10 +326,22 @@ public class NewChecker extends WeakBase implements XJobExecutor, XServiceInfo, 
     }
   }
 
+  /**
+   * Called to setup the doc state via ID.
+   * @param arg0 - the doc ID
+   * @throws IllegalArgumentException in case arg0 is not a 
+   *  valid docID.
+   **/
   public void startDocument(int arg0) throws IllegalArgumentException {
     docID = arg0;
   }
 
+  /**
+   * Called to setup the paragraph state in a doc with some ID.
+   * @param arg0 - the doc ID
+   * @throws IllegalArgumentException in case arg0 is not a 
+   *  valid docID.
+   **/
   public void startParagraph(int arg0) throws IllegalArgumentException {
     // TODO Auto-generated method stub
 
@@ -348,7 +376,9 @@ public class NewChecker extends WeakBase implements XJobExecutor, XServiceInfo, 
     }
     return langIsSupported;
   }
+  
 
+  //FIXME: they will be both removed in the new API
   public final boolean addGrammarCheckingResultListener(final XGrammarCheckingResultListener xListener) {
     //FIXME: dummy mutex
    Object myMutex = new Object();
@@ -417,10 +447,9 @@ public class NewChecker extends WeakBase implements XJobExecutor, XServiceInfo, 
     }
     try {
       if (sEvent.equals("execute")) {
-        //TODO: start checking - this is dummy code
-        //as we'd have to start the grammar iterator here
-        //and it makes no sense yet as it won't call our
-        //code yet...
+        //try out the new XFlatParagraph interface...
+        TextToCheck textToCheck = getText();
+        checkText(textToCheck);
       } else if (sEvent.equals("configure")) {
         final Language lang = getLanguage();
         if (lang == null)
@@ -447,7 +476,96 @@ public class NewChecker extends WeakBase implements XJobExecutor, XServiceInfo, 
       showError(e);
     }
   }
+  
+  private void checkText(final TextToCheck textToCheck) {
+    if (textToCheck == null) {
+      return;
+    }
+    Language docLanguage = getLanguage();
+    if (docLanguage == null) {
+      return;
+    }
+    ProgressDialog progressDialog = new ProgressDialog(messages);
+    CheckerThread checkerThread = new CheckerThread(textToCheck.paragraphs, docLanguage, config, 
+        progressDialog);
+    checkerThread.start();
+    while (true) {
+      if (checkerThread.done()) {
+        break;
+      }
+      try {
+        Thread.sleep(100);
+      } catch (InterruptedException e) {
+        // nothing
+      }
+    }
+    progressDialog.close();
 
+    List<CheckedParagraph> checkedParagraphs = checkerThread.getRuleMatches();
+    // TODO: why must these be wrapped in threads to avoid focus problems?
+    if (checkedParagraphs.size() == 0) {
+      String msg;
+      String translatedLangName = messages.getString(docLanguage.getShortName());
+      if (textToCheck.isSelection) {
+        msg = Tools.makeTexti18n(messages, "guiNoErrorsFoundSelectedText", new String[] {translatedLangName});  
+      } else {
+        msg = Tools.makeTexti18n(messages, "guiNoErrorsFound", new String[] {translatedLangName});  
+      }
+      DialogThread dt = new DialogThread(msg);
+      dt.start();
+      // TODO: display number of active rules etc?
+    } else {
+      ResultDialogThread dialog;
+      if (textToCheck.isSelection) {
+        dialog = new ResultDialogThread(config,
+            checkerThread.getLanguageTool().getAllRules(),
+            xTextDoc, checkedParagraphs, xViewCursor, textToCheck);
+      } else {
+        dialog = new ResultDialogThread(config,
+            checkerThread.getLanguageTool().getAllRules(),
+            xTextDoc, checkedParagraphs, null, null);
+      }
+      dialog.start();
+    }
+  }  
+
+  private TextToCheck getText() {
+    com.sun.star.text.XFlatParagraphIterator xParaAccess = (com.sun.star.text.XFlatParagraphIterator) UnoRuntime
+        .queryInterface(com.sun.star.text.XFlatParagraphIterator.class, 
+            xTextDoc);
+    if (xParaAccess == null) {
+      System.err.println("xParaAccess == null");
+      return new TextToCheck(new ArrayList<String>(), false);
+    }        
+    List<String> paragraphs = new ArrayList<String>();
+    try {
+      com.sun.star.text.XFlatParagraph xParaEnum = xParaAccess.getFirstPara();        
+        String paraString = xParaEnum.getText();
+        if (paraString == null) {
+          paragraphs.add("");
+        } else {
+          paragraphs.add(paraString);
+        }
+        while (true) {
+          xParaEnum = xParaAccess.getNextPara();
+          if (xParaEnum != null) {
+          paraString = xParaEnum.getText();
+          if (paraString == null) {
+            paragraphs.add("");
+          } else {
+            paragraphs.add(paraString);
+          } 
+          } else {
+            break;
+          }
+        }        
+    } catch (Exception e) {
+      throw new RuntimeException(e);
+    }
+    return new TextToCheck(paragraphs, false);
+  }
+
+  
   private boolean javaVersionOkay() {
     final String version = System.getProperty("java.version");
     if (version != null && (version.startsWith("1.0") || version.startsWith("1.1")
