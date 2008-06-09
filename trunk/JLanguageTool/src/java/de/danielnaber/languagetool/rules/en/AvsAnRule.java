@@ -88,7 +88,7 @@ public class AvsAnRule extends EnglishRule {
           token = parts[0];
         }
         //html entities!
-        token = token.replaceAll("&quot|&amp|&lt|&gt|[^a-zA-Z0-9]", "");         // e.g. >>an "industry party"<<
+        token = token.replaceAll("&quot|&amp|&lt|&gt|[^a-zA-Z0-9\\.]", "");         // e.g. >>an "industry party"<<
         if (token.length() == 0) {
           continue;
         }

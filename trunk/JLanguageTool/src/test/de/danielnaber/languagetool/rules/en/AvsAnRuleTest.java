@@ -94,6 +94,10 @@ public class AvsAnRuleTest extends TestCase {
     assertEquals(1, matches.length);
     matches = rule.match(langTool.getAnalyzedSentence("In a un-united Germany..."));
     assertEquals(1, matches.length);
+
+    //Test on acronyms/initials:
+    matches = rule.match(langTool.getAnalyzedSentence("A. R.J. Turgot"));
+    assertEquals(0, matches.length);
   }
     
   public void testSuggestions() throws IOException {
