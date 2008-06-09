@@ -407,6 +407,10 @@ public class OOoDialog implements ActionListener {
     suggestionList.setSelectedIndex(0);
   }
 
+  //FIXME: change to XFlatParagraph text access
+  //but it works only starting from 2.4... 
+  //so it would break LT in prev versions
+  //or use XFlatParagraph only if OOo version => 2.4?
   private void changeText() {
     String replacement = (String)suggestionList.getSelectedValue();
     if (replaceWithOtherText.equals(replacement)) {
