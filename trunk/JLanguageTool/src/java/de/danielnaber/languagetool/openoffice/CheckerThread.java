@@ -18,7 +18,6 @@
  */
 package de.danielnaber.languagetool.openoffice;
 
-//import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -33,24 +32,22 @@ class CheckerThread extends Thread {
   private List<String> paragraphs;
   private Language docLanguage;
   private Configuration config;
-  //private File baseDir;
-  
+
   private ProgressInformation progressInfo;
-  
+
   private JLanguageTool langTool; 
   private List<CheckedParagraph> checkedParagraphs = new ArrayList<CheckedParagraph>();
   private boolean done = false;
-  
+
   CheckerThread(final List<String> paragraphs, final Language docLanguage, final Configuration config,
       final ProgressInformation progressInfo) {
     this.paragraphs = paragraphs;
     this.docLanguage = docLanguage;
     this.config = config;
-    //this.baseDir = baseDir;
     this.progressInfo = progressInfo;
     progressInfo.setMaxProgress(paragraphs.size());
   }
-  
+
   public boolean done() {
     return done;
   }
@@ -94,5 +91,5 @@ class CheckerThread extends Thread {
       Main.showError(e);
     }
   }
-  
+
 }
