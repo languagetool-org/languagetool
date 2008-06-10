@@ -7,22 +7,59 @@ title="Easy editing stylesheet" ?>
 English Grammar and Typo Rules for LanguageTool
 See tagset.txt for the meaning of the POS tags
 Copyright (C) 2001-2007 Daniel Naber (http://www.danielnaber.de)
-$Id: grammar.xml,v 1.62 2008-06-10 21:51:00 milek_pl Exp $
+$Id: grammar.xml,v 1.63 2008-06-10 22:50:04 milek_pl Exp $
 -->
 <rules lang="en">
   <!-- ====================================================================== -->
   <!-- Possible typos -->
   <!-- ====================================================================== -->
   <category name="Possible Typo">
-    <rule id="TO_NO_AFFECT" name="Possible typo: 'to no affect (to no effect)'">
-      <pattern mark_from="2">
-        <token>to</token>
-        <token>no</token>
-        <token>affect</token>
+    <rule id="BACK_AND_FOURTH" name="Possible typo: 'back and fourth (back and forth)'">
+      <pattern>
+        <token>back</token>
+        <token>and</token>
+        <token>fourth</token>
       </pattern>
-      <message>Possible typo. Did you mean <suggestion>effect</suggestion>?</message>
-      <example correction="effect" type="incorrect">We tried appeasing the rain gods, but to no <marker>affect</marker>.</example>
-      <example type="correct">We tried appeasing the rain gods, but to no effect.</example>
+      <message>Did you mean <suggestion>back and forth</suggestion>?</message>
+      <example correction="back and forth" type="incorrect">How to move <marker>back and fourth</marker> from linux to xmb?</example>
+      <example type="correct">"How to move back and forth from linux to xmb?" </example>
+    </rule>
+    <rule id="BACK_IN_FORTH" name="Possible typo: 'back in forth (back and forth)">
+      <pattern>
+        <token>back</token>
+        <token>in</token>
+        <token>forth</token>
+      </pattern>
+      <message>Did you mean <suggestion>back and forth</suggestion>?</message>
+      <example correction="back and forth" type="incorrect">I've been texting <marker>back in forth</marker> with him for the past 3 days.</example>
+      <example type="correct">I've been texting back and forth with him for the past 3 days</example>
+    </rule>
+    <rule id="CHALK_FULL" name="Possible typo: 'chalk full (chock-full)'">
+      <pattern>
+        <token>chalk</token>
+        <token>full</token>
+      </pattern>
+      <message>Did you mean <suggestion>chock-full</suggestion>?</message>
+      <example correction="Chock-full" type="incorrect"><marker>Chalk full</marker> of mobile content</example>
+      <example type="correct">Chock-full of mobile content</example>
+    </rule>
+    <rule id="EGG_YOKE" name="Possible typo: 'egg yoke (egg yolk)'">
+      <pattern>
+        <token>egg</token>
+        <token>yoke</token>
+      </pattern>
+      <message>Did you mean <suggestion>egg yolk</suggestion>?</message>
+      <example correction="egg yolk" type="incorrect">Chocolate mousse with <marker>egg yoke</marker></example>
+      <example type="correct">Chocolate mousse with egg yolk</example>
+    </rule>
+    <rule id="EYE_BROW" name="Possible typo: 'eye brow/lash/lid/sight/sore (eyebrow/eyelash/eyelid/eyesight/eyesore)'">
+      <pattern>
+        <token>eye</token>
+        <token inflected="yes" regexp="yes">brow|lash|sight|sore|lid</token>
+      </pattern>
+      <message>This word is usually spelt together: <suggestion>\1\2</suggestion>.</message>
+      <example correction="eyelids" type="incorrect">Calcium deposits on <marker>eye lids</marker></example>
+      <example type="correct">Calcium deposits on eyelids</example>
     </rule>
     <rule id="THERE_EXITS" name="Possible typo: 'There exits' (There exists)">
       <pattern mark_from="1">
@@ -52,15 +89,37 @@ $Id: grammar.xml,v 1.62 2008-06-10 21:51:00 milek_pl Exp $
       <example correction="got" type="incorrect">I've <marker>go</marker> to go.</example>
       <example type="correct">I've got to go.</example>
     </rule>
-    <rule id="FOR_AWHILE" name="Possible typo: 'awhile (a while)'">
-      <pattern mark_from="1">
-        <token postag="IN"/>
-        <token>awhile</token>
+    <rule id="FOR_ALONG_TIME" name="Possible typo: 'for along time (for a long time)'">
+      <pattern>
+        <token>for</token>
+        <token>along</token>
+        <token>time</token>
       </pattern>
-      <message>Possible typo. Did you mean <suggestion>a while</suggestion>?</message>
-      <example correction="a while" type="incorrect">I haven't posted in <marker>awhile</marker>.</example>
-      <example type="correct">I haven't posted in a while.</example>
+      <message>Did you mean <suggestion>for a long time</suggestion>?</message>
+      <example correction="for a long time" type="incorrect">I have been interested in wicca <marker>for along time</marker>.</example>
+      <example type="correct">i have been interested in wicca for a long time.</example>
     </rule>
+    <rulegroup id="FOR_AWHILE" name="Possible typo: 'awhile (a while)'">
+      <rule>
+        <pattern mark_from="1">
+          <token postag="IN"/>
+          <token>awhile</token>
+        </pattern>
+        <message>Possible typo. Did you mean <suggestion>a while</suggestion>?</message>
+        <example correction="a while" type="incorrect">I haven't posted in <marker>awhile</marker>.</example>
+        <example type="correct">I haven't posted in a while.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="2">
+          <token postag="IN"/>
+          <token>quite</token>
+          <token>awhile</token>
+        </pattern>
+        <message>Possible typo. Did you mean <suggestion>a while</suggestion>?</message>
+        <example correction="a while" type="incorrect">I haven't posted in quite <marker>awhile</marker>.</example>
+        <example type="correct">I haven't posted in quite a while.</example>
+      </rule>
+    </rulegroup>
     <rule id="FOR_ALL_INTENSIVE_PURPOSES" name="Possible typo: 'for all intensive purposes (for all intents and purposes)'">
       <pattern>
         <token>for</token>
@@ -3025,6 +3084,28 @@ $Id: grammar.xml,v 1.62 2008-06-10 21:51:00 milek_pl Exp $
      -->
   </category>
   <category name="Commonly Confused Words">
+    <rulegroup id="AFFECT_EFFECT" name="'affect' (effect)">
+      <rule>
+        <pattern mark_from="2">
+          <token>to</token>
+          <token>no</token>
+          <token>affect</token>
+        </pattern>
+        <message>Did you mean <suggestion>effect</suggestion>?</message>
+        <example correction="effect" type="incorrect">We tried appeasing the rain gods, but to no <marker>affect</marker>.</example>
+        <example type="correct">We tried appeasing the rain gods, but to no effect.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="1" mark_to="-1">
+          <token>an</token>
+          <token>affect</token>
+          <token>on</token>
+        </pattern>
+        <message>Did you mean <suggestion>effect</suggestion> (=influence)?</message>
+        <example correction="effect" type="incorrect">Regional factors have an <marker>affect</marker> on hotel guest satisfaction.</example>
+        <example type="correct">Regional factors have an effect on hotel guest satisfaction.</example>
+      </rule>
+    </rulegroup>
     <rule id="ECONOMICAL_ECONOMIC" name="'econonomical growth' etc. (economic)">
       <pattern mark_to="-1">
         <token>economical</token>
