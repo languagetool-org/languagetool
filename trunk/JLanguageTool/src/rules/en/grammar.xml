@@ -7,7 +7,7 @@ title="Easy editing stylesheet" ?>
 English Grammar and Typo Rules for LanguageTool
 See tagset.txt for the meaning of the POS tags
 Copyright (C) 2001-2007 Daniel Naber (http://www.danielnaber.de)
-$Id: grammar.xml,v 1.60 2008-06-08 22:37:10 milek_pl Exp $
+$Id: grammar.xml,v 1.61 2008-06-10 21:26:02 milek_pl Exp $
 -->
 <rules lang="en">
   <!-- ====================================================================== -->
@@ -3187,8 +3187,8 @@ $Id: grammar.xml,v 1.60 2008-06-08 22:37:10 milek_pl Exp $
     </rule>
     <rulegroup id="AM_IN_THE_MORNING" name="Redundant phrase: 'AM in the morning (AM)'">
       <rule>
-        <pattern case_sensitive="yes">
-          <token>AM</token>
+        <pattern case_sensitive="no">
+          <token><exception scope="previous">I</exception>AM</token>
           <token>in</token>
           <token>the</token>
           <token>morning</token>
@@ -3196,6 +3196,7 @@ $Id: grammar.xml,v 1.60 2008-06-08 22:37:10 milek_pl Exp $
         <message>This phrase is redundant. Use simply <suggestion>\1</suggestion>.</message>
         <example correction="AM" type="incorrect">It's 5 <marker>AM in the morning</marker>.</example>
         <example type="correct">It's 5 AM.</example>
+        <example type="correct">He doesn't know where I am in the morning.</example>
       </rule>
       <rule>
         <pattern case_sensitive="yes">
@@ -3210,6 +3211,56 @@ $Id: grammar.xml,v 1.60 2008-06-08 22:37:10 milek_pl Exp $
         <message>This phrase is redundant. Use simply <suggestion>A.M.</suggestion></message>
         <example correction="A.M." type="incorrect">It's 5 <marker>A.M. in the morning</marker>.</example>
         <example type="correct">It's 5 A.M.</example>
+      </rule>
+    </rulegroup>
+    <rulegroup id="PM_IN_THE_EVENING" name="Redundant phrase: 'PM in the evening (PM)'">
+      <rule>
+        <pattern case_sensitive="no">
+          <token>PM</token>
+          <token>in</token>
+          <token>the</token>
+          <token regexp="yes">evening|afternoon</token>
+        </pattern>
+        <message>This phrase is redundant. Use simply <suggestion>\1</suggestion>.</message>
+        <example correction="PM" type="incorrect">It's 5 <marker>PM in the evening</marker>.</example>
+        <example type="correct">It's 5 PM.</example>
+      </rule>
+      <rule>
+        <pattern case_sensitive="no">
+          <token>PM</token>
+          <token>at</token>
+          <token>night</token>
+        </pattern>
+        <message>This phrase is redundant. Use simply <suggestion>\1</suggestion>.</message>
+        <example correction="PM" type="incorrect">It's 1 <marker>PM at night</marker>.</example>
+        <example type="correct">It's 5 PM.</example>
+      </rule>
+      <rule>
+        <pattern case_sensitive="yes">
+          <token>P</token>
+          <token>.</token>
+          <token>M</token>
+          <token>.</token>
+          <token>in</token>
+          <token>the</token>
+          <token regexp="yes">evening|afternoon</token>
+        </pattern>
+        <message>This phrase is redundant. Use simply <suggestion>P.M.</suggestion></message>
+        <example correction="P.M." type="incorrect">It's 5 <marker>P.M. in the afternoon</marker>.</example>
+        <example type="correct">It's 5 P.M.</example>
+      </rule>
+      <rule>
+        <pattern case_sensitive="yes">
+          <token>P</token>
+          <token>.</token>
+          <token>M</token>
+          <token>.</token>
+          <token>at</token>
+          <token>night</token>
+        </pattern>
+        <message>This phrase is redundant. Use simply <suggestion>P.M.</suggestion></message>
+        <example correction="P.M." type="incorrect">It's 1 <marker>P.M. at night</marker>.</example>
+        <example type="correct">It's 5 P.M.</example>
       </rule>
     </rulegroup>
     <rule id="AND_ETC" name="Redundant phrase: 'and etc. (etc.)'">
@@ -3233,10 +3284,10 @@ $Id: grammar.xml,v 1.60 2008-06-08 22:37:10 milek_pl Exp $
     </rule>
     <rule id="ADDED_BONUS" name="Redundant phrase: 'added bonus (bonus)'">
       <pattern>
-        <token>added</token>
+        <token regexp="yes">added|extra</token>
         <token>bonus</token>
       </pattern>
-      <message>This phrase is redundant. Use simply <suggestion>\2</suggestion>.</message>
+      <message>This phrase might be redundant. Use simply <suggestion>\2</suggestion>.</message>
       <example correction="Bonus" type="incorrect"><marker>Added bonus</marker>: booting from cdrom.</example>
       <example type="correct">Bonus: booting from CD-ROM.</example>
     </rule>
@@ -3281,6 +3332,97 @@ $Id: grammar.xml,v 1.60 2008-06-08 22:37:10 milek_pl Exp $
       <example correction="autobiography|story of a life" type="incorrect">In this <marker>autobiography of a life</marker> of courage and love, we get to share in the compelling story of a family’s struggles.</example>
       <example type="correct">In this story of a life of courage and love, we get to share in the compelling story of a family’s struggles</example>
     </rule>
+    <rule id="BASIC_FUNDAMENTALS" name="Redundant phrase: 'basic fundamentals/necessities (fundamentals/necessities)'">
+      <pattern>
+        <token><exception scope="previous">visual</exception>basic</token>
+        <token regexp="yes">fundamentals|necessities</token>
+      </pattern>
+      <message>This phrase is redundant. Use simply <suggestion>\2</suggestion>.</message>
+      <example type="correct">Visual Basic Fundamentals</example>
+      <example correction="fundamentals" type="incorrect">Let’s get back to the <marker>basic fundamentals</marker>!</example>
+    </rule>
+    <rule id="BALD-HEADED" name="Redundant phrase: 'bald-headed (bald)'">
+      <pattern>
+        <token>bald-headed</token>
+      </pattern>
+      <message>This phrase is redundant. Use simply <suggestion>bald</suggestion>.</message>
+      <example correction="bald" type="incorrect">He is <marker>bald-headed</marker>.</example>
+      <example type="correct">Kojak was bald.</example>
+    </rule>
+    <rule id="BALSA_WOOD" name="Redundant phrase: 'balsa wood (balsa)'">
+      <pattern case_sensitive="no">
+        <token>balsa</token>
+        <token>wood</token>
+      </pattern>
+      <message>This phrase is redundant. Use simply <suggestion>\1</suggestion>.</message>
+      <example correction="balsa" type="incorrect">It's made of <marker>balsa wood</marker>.</example>
+      <example type="correct">This table is made of balsa.</example>
+    </rule>
+    <rule id="BARE_NAKED" name="Redundant phrase: 'bare naked (naked)'">
+      <pattern>
+        <token>bare</token>
+        <token>naked</token>
+      </pattern>
+      <message>This phrase is redundant. Use simply <suggestion>\2</suggestion>.</message>
+      <example correction="naked" type="incorrect">The old man ran <marker>bare naked</marker> through the streets.</example>
+      <example type="correct">The old man ran naked through the streets.</example>
+    </rule>
+    <rule default="off" id="BEST_EVER" name="Redundant phrase: 'best ever (best)'">
+      <pattern>
+        <token>best</token>
+        <token>ever</token>
+      </pattern>
+      <message>This phrase might be redundant. Use simply <suggestion>\1</suggestion>.</message>
+      <example correction="best" type="incorrect">Top ten <marker>best ever</marker> beer names.</example>
+      <example type="correct">Top ten best beer names. </example>
+    </rule>
+    <rule id="BITTER_IN_TASTE" name="Redundant phrase: 'bitter in taste (bitter)'">
+      <pattern>
+        <token>bitter</token>
+        <token>in</token>
+        <token>taste</token>
+      </pattern>
+      <message>This phrase is redundant. Use simply <suggestion>\1</suggestion>.</message>
+      <example type="correct">This beer is bitter.</example>
+      <example correction="bitter" type="incorrect">This beer is <marker>bitter in taste</marker>.</example>
+    </rule>
+    <rule default="off" id="BLEND_TOGETHER" name="Redundant phrase: 'blend together (blend)'">
+      <pattern>
+        <token inflected="yes" regexp="yes">assemble|blend|combine|collaborate|confer|congregate|gather|join|meet|merge|mesh|mix|share</token>
+        <token>together</token>
+      </pattern>
+      <message>This phrase might be redundant. Use simply <suggestion>\1</suggestion>.</message>
+      <example correction="blend" type="incorrect">Their voices <marker>blend together</marker> in lovely harmony.</example>
+      <example type="correct">Their voices blend in lovely harmony.</example>
+    </rule>
+    <rule id="BOAT_MARINA" name="Redundant phrase: 'boat marina (marina)'">
+      <pattern>
+        <token>boat</token>
+        <token>marina</token>
+      </pattern>
+      <message>This phrase is redundant. Use simply <suggestion>\2</suggestion>.</message>
+      <example correction="Marina" type="incorrect">Taupo <marker>Boat Marina</marker></example>
+      <example type="correct">Taupo Marina</example>
+    </rule>
+    <rule id="BRIEF_IN_DURATION" name="Redundant phrase: 'brief in duration (brief)'">
+      <pattern>
+        <token>brief</token>
+        <token>in</token>
+        <token>duration</token>
+      </pattern>
+      <message>This phrase is redundant. Use simply <suggestion>\1</suggestion>.</message>
+      <example correction="brief" type="incorrect">However, most wilderness programs are <marker>brief in duration</marker>.</example>
+      <example type="correct">However, most wilderness programs are brief.</example>
+    </rule>
+    <rule default="off" id="BRIEF_MOMENT" name="Redundant phrase: 'brief moment/summary (moment/summary)'">
+      <pattern>
+        <token>brief</token>
+        <token inflected="yes" regexp="yes">moment|summary|cameo</token>
+      </pattern>
+      <message>This phrase is redundant. Use simply <suggestion>\2</suggestion>.</message>
+      <example correction="Moment" type="incorrect">A <marker>Brief Moment</marker> of Compassion</example>
+      <example type="correct">A Moment of Compassion</example>
+    </rule>
     <rule id="BIOGRAPHY_OF_A_LIFE" name="Redundant phrase: 'biography of her life (biography)'">
       <pattern>
         <token>biography</token>
@@ -3292,9 +3434,454 @@ $Id: grammar.xml,v 1.60 2008-06-08 22:37:10 milek_pl Exp $
       <example correction="biography|story of her life" type="incorrect">In this <marker>biography of her life</marker>, we get to share in the compelling story of a family’s struggles.</example>
       <example type="correct">In this story of a life of courage and love, we get to share in the compelling story of a family’s struggles</example>
     </rule>
+    <rule id="BOUQUET_OF_FLOWERS" name="Redundant phrase: 'bouquet of flowers (bouquet)'">
+      <pattern>
+        <token>bouquet</token>
+        <token>of</token>
+        <token>flowers</token>
+      </pattern>
+      <message>This phrase might be redundant. Use simply <suggestion>\1</suggestion>.</message>
+      <example correction="bouquet" type="incorrect">What a beautiful <marker>bouquet of flowers</marker>!</example>
+      <example type="correct">What a beautiful bouquet!</example>
+    </rule>
+    <rule id="BUT_NEVERTHELESS" name="Redundant phrase: 'but nevertheless/however (but)'">
+      <pattern>
+        <token>but</token>
+        <token regexp="yes">nevertheless|however</token>
+      </pattern>
+      <message>This phrase is redundant. Use simply <suggestion>\1</suggestion>.</message>
+      <example correction="but" type="incorrect">I should not have, <marker>but nevertheless</marker> I did.</example>
+      <example type="correct">I should not have, but I did.</example>
+    </rule>
+    <rule id="CD_DISC" name="Redundant phrase: 'CD disc (disc)'">
+      <pattern>
+        <token>CD</token>
+        <token regexp="yes">disk|disc</token>
+      </pattern>
+      <message>This phrase is redundant. Use simply <suggestion>\1</suggestion>.</message>
+      <example correction="CD" type="incorrect">I ordered a <marker>CD disk</marker> with their software.</example>
+      <example type="correct">I ordered a <marker>CD </marker>with their software.</example>
+    </rule>
+    <rule id="CLOSE_SCRUTINY" name="Redundant phrase: 'close scrutiny/proximity (scrutiny/proximity)'">
+      <pattern>
+        <token>close</token>
+        <token regexp="yes">scrutiny|proximity</token>
+      </pattern>
+      <message>This phrase is redundant. Use simply <suggestion>\2</suggestion>.</message>
+      <example correction="scrutiny" type="incorrect">Their manifesto yesterday received the same <marker>close scrutiny</marker> as the other two big parties — and it was an uncomfortable experience.</example>
+      <example type="correct">Their manifesto yesterday received the same scrutiny as the other two big parties — and it was an uncomfortable experience.</example>
+    </rule>
+    <rule id="COMFORTABLE_WITH_VBG" name="Redundant phrase: 'comfortable with doing (comfortable doing)'">
+      <pattern>
+        <token>comfortable</token>
+        <token>with</token>
+        <token postag="VBG"/>
+      </pattern>
+      <message>This phrase is redundant. Use simply <suggestion>\1 \3</suggestion>.</message>
+      <example correction="comfortable dancing" type="incorrect">I am not <marker>comfortable with dancing</marker> with strangers.</example>
+      <example type="correct">I am not comfortable dancing with strangers.</example>
+    </rule>
+    <rule id="COMMON_BOND" name="Redundant phrase: 'common bond (bond)'">
+      <pattern>
+        <token>common</token>
+        <token>bond</token>
+      </pattern>
+      <message>This phrase is redundant. Use simply <suggestion>\2</suggestion>.</message>
+      <example correction="bond" type="incorrect">They formed a <marker>common bond</marker> against the British</example>
+      <example type="correct">They formed a bond against the British</example>
+    </rule>
+    <rule id="COMMUTE_BACK_AND_FORTH" name="Redundant phrase: 'commute back and forth (commute)'">
+      <pattern>
+        <token inflected="yes">commute</token>
+        <token>back</token>
+        <token>and</token>
+        <token>forth</token>
+      </pattern>
+      <message>This phrase is redundant. Use simply <suggestion>\1</suggestion>.</message>
+      <example correction="commute" type="incorrect">She will <marker>commute back and forth</marker> between New Haven and her home in Southern California before relocating to the Elm City this summer.</example>
+      <example type="correct">She will commute between New Haven and her home in Southern California before relocating to the Elm City this summer</example>
+    </rule>
+    <rule id="CONSENSUS_OF_OPINION" name="Redundant phrase: 'consensus of opinion (consensus)'">
+      <pattern>
+        <token>consensus</token>
+        <token>of</token>
+        <token>opinion</token>
+      </pattern>
+      <message>This phrase is redundant. Use simply <suggestion>\1</suggestion>.</message>
+      <example correction="consensus" type="incorrect">Wim Duisenberg, the ECB's Dutch president, is seen as a leader who seeks to fashion a <marker>consensus of opinion</marker> on the council rather than imposing his own views, as some chairmen of the US Federal Reserve have done.</example>
+      <example type="correct">Wim Duisenberg, the ECB's Dutch president, is seen as a leader who seeks to fashion a consensus on the council rather than imposing his own views, as some chairmen of the US Federal Reserve have done.</example>
+    </rule>
+    <rule id="CONTINUE_TO_REMAIN" name="Redundant phrase: 'continue to remain (remain)'">
+      <pattern>
+        <token inflected="yes">continue</token>
+        <token>to</token>
+        <token>remain</token>
+      </pattern>
+      <message>This phrase is redundant. Use simply <suggestion><match no="1" postag=".*">remain</match></suggestion>.</message>
+      <example correction="remained" type="incorrect">We <marker>continued to remain</marker> optimistic.</example>
+      <example type="correct">We remain optimistic.</example>
+    </rule>
+    <rule id="DESCEND_DOWN" name="Redundant phrase: 'descend down (descend)'">
+      <pattern>
+        <token inflected="yes" regexp="yes">descend|dive|fall</token>
+        <token>down</token>
+      </pattern>
+      <message>This phrase might be redundant. Use simply <suggestion>\1</suggestion>.</message>
+      <example correction="descend" type="incorrect">The Pentagon aides and journalists <marker>descend down</marker> the back stairs of the plane as is customary while Rumsfeld comes down the main stairs to meet his welcome party.</example>
+      <example type="correct">The Pentagon aides and journalists descend the back stairs of the plane as is customary while Rumsfeld comes down the main stairs to meet his welcome party.</example>
+    </rule>
+    <rule id="DURING_THE_COURSE_OF" name="Redundant phrase: 'during the course of (during)'">
+      <pattern>
+        <token>during</token>
+        <token>the</token>
+        <token>course</token>
+        <token>of</token>
+      </pattern>
+      <message>This phrase is redundant. Use simply <suggestion>\1</suggestion>.</message>
+      <example correction="during" type="incorrect">He never smiled <marker>during the course of</marker> the trial.</example>
+      <example type="correct">He never smiled during the trial.</example>
+    </rule>
+    <rule id="EACH_AND_EVERY" name="Redundant phrase: 'each and every one (each one)'">
+      <pattern>
+        <token>each</token>
+        <token>and</token>
+        <token>every</token>
+        <token>one</token>
+      </pattern>
+      <message>This phrase is redundant. Use simply <suggestion>\1 \4</suggestion>.</message>
+      <example correction="each one" type="incorrect">God bless <marker>each and every one</marker> of you!</example>
+      <example type="correct">God bless each one of you!</example>
+    </rule>
+    <rule id="EVERY_NOW_AND_THEN" name="Redundant phrase: 'every now and then (now and then)'">
+      <pattern>
+        <token>every</token>
+        <token>now</token>
+        <token>and</token>
+        <token>then</token>
+      </pattern>
+      <message>This phrase is redundant. Use simply <suggestion>\2 \3 \4</suggestion>.</message>
+      <example correction="Now and then" type="incorrect"><marker>Every now and then</marker> the faucet drips.</example>
+      <example type="correct">Now and then the faucet drips.</example>
+    </rule>
+    <rule id="ESTABLISHED_FACT" name="Redundant phrase: 'established fact (fact)'">
+      <pattern>
+        <token>an</token>
+        <token>established</token>
+        <token>fact</token>
+      </pattern>
+      <message>This phrase is redundant. Use simply <suggestion><match no="3" postag="+INDT"/></suggestion>.</message>
+      <example correction="a fact" type="incorrect">This is <marker>an established fact</marker>.</example>
+      <example type="correct">This is a fact.</example>
+    </rule>
+    <rule default="off" id="EXACTLY_THE_SAME" name="Redundant phrase: 'exactly the same/identical (the same/identical)'">
+      <pattern>
+        <token regexp="yes">exactly|precisely</token>
+        <token>the</token>
+        <token regexp="yes">same|identical</token>
+      </pattern>
+      <message>This phrase is redundant. Use simply <suggestion>\2 \3</suggestion>.</message>
+      <example correction="the same" type="incorrect">This shoe is <marker>exactly the same</marker>.</example>
+      <example type="correct">This shoe is the same.</example>
+    </rule>
+    <rule default="off" id="EXACT_SAME" name="Redundant phrase: 'exact same/identical (same/identical)'">
+      <pattern>
+        <token regexp="yes">exact|precise</token>
+        <token regexp="yes">same|identical</token>
+      </pattern>
+      <message>This phrase is redundant. Use simply <suggestion>\2</suggestion>.</message>
+      <example correction="same" type="incorrect">This is the <marker>exact same</marker> situation.</example>
+      <example type="correct">This is the same situation.</example>
+    </rule>
+    <rule id="THE_FALL_SEASON" name="Redundant phrase: 'fall season (fall)'">
+      <pattern>
+        <token>the</token>
+        <token>fall</token>
+        <token>season</token>
+      </pattern>
+      <message>This phrase is redundant. Use simply <suggestion>\2</suggestion>.</message>
+      <example correction="fall" type="incorrect">The leaves turn red and gold in <marker>the fall season</marker>.</example>
+      <example type="correct">The leaves turn red and gold in fall.</example>
+    </rule>
+    <rule id="FAMOUS_CELEBRITY" name="Redundant phrase: 'famous celebrity (celebrity)'">
+      <pattern>
+        <token>famous</token>
+        <token inflected="yes">celebrity</token>
+      </pattern>
+      <message>This phrase is redundant. Use simply <suggestion>\2</suggestion>.</message>
+      <example correction="celebrity" type="incorrect">I'm told that he's a <marker>famous celebrity</marker> now.</example>
+      <example type="correct">I'm told that he's a celebrity now.</example>
+    </rule>
+    <rule id="FELLOW_CLASSMATE" name="Redundant phrase: 'fellow classmates/co-workers/comrades (classmates/co-workers/comrades)'">
+      <pattern>
+        <token>fellow</token>
+        <token inflected="yes" regexp="yes">classmate|co-worker|coworker|comrade</token>
+      </pattern>
+      <message>This phrase is redundant. Use simply <suggestion>\2</suggestion>.</message>
+      <example correction="classmates" type="incorrect">I would enjoy a reunion with my <marker>fellow classmates</marker>.</example>
+      <example type="correct">I would enjoy a reunion with my classmates.</example>
+    </rule>
+    <rule id="FEW_IN_NUMBER" name="Redundant phrase: 'few in number (few)'">
+      <pattern>
+        <token>few</token>
+        <token>in</token>
+        <token>number</token>
+      </pattern>
+      <message>This phrase is redundant. Use simply <suggestion>\1</suggestion>.</message>
+      <example correction="few" type="incorrect">They were <marker>few in number</marker>, but mighty.</example>
+      <example type="correct">They were few, but mighty.</example>
+    </rule>
+    <rule id="FIRST_TIME_EVER" name="Redundant phrase: 'first time ever (first time)'">
+      <pattern>
+        <token>first</token>
+        <token>time</token>
+        <token>ever</token>
+      </pattern>
+      <message>This phrase is redundant. Use simply <suggestion>\1 \2</suggestion>.</message>
+      <example correction="first time" type="incorrect">We have a pig in space for the <marker>first time ever</marker>.</example>
+      <example type="correct">We have a pig in space for the first time.</example>
+    </rule>
+    <rule id="FOREIGN_IMPORT" name="Redundant phrase: 'foreign import (import)'">
+      <pattern>
+        <token>foreign</token>
+        <token inflected="yes">import</token>
+      </pattern>
+      <message>This phrase is redudant. Use simply <suggestion>\2</suggestion>.</message>
+      <example correction="imports" type="incorrect">The rise in <marker>foreign imports</marker>, the argument goes, is forcing some Americans to accept lower pay to remain competitive with, say, Mexican and Chinese workers.</example>
+      <example type="correct">The rise in imports, the argument goes, is forcing some Americans to accept lower pay to remain competitive with, say, Mexican and Chinese workers.</example>
+    </rule>
+    <rule id="FOREVER_AND_EVER" name="Redundant phrase: 'forever and ever (forever)'">
+      <pattern>
+        <token>forever</token>
+        <token>and</token>
+        <token>ever</token>
+      </pattern>
+      <message>This phrase is redundant. Use simply <suggestion>\1</suggestion>.</message>
+      <example correction="forever" type="incorrect">It is you and me, <marker>forever and ever</marker>.</example>
+      <example type="correct">It is you and me, forever.</example>
+    </rule>
+    <rule id="FROM_WHENCE" name="Redundant phrase: 'from whence (whence)'">
+      <pattern>
+        <token>from</token>
+        <token>whence</token>
+      </pattern>
+      <message>This phrase is redundant. Use simply <suggestion>\2</suggestion>.</message>
+      <example correction="whence" type="incorrect">Go back <marker>from whence</marker> you came.</example>
+      <example type="correct">Go back whence you came!</example>
+    </rule>
+    <rule default="off" id="HONEST_TRUTH" name="Redundant phrase: 'honest truth (truth)'">
+      <pattern>
+        <token>honest</token>
+        <token>truth</token>
+      </pattern>
+      <message>This phrase is redundant. Use simply <suggestion>\2</suggestion>.</message>
+      <example correction="truth" type="incorrect">That is the <marker>honest truth</marker> of the matter.</example>
+      <example type="correct">That is the truth of the matter.</example>
+    </rule>
+    <rule default="off" id="IN_ORDER_TO" name="Redundant phrase: 'in order to (to)'">
+      <pattern>
+        <token>in</token>
+        <token>order</token>
+        <token>to</token>
+      </pattern>
+      <message>This phrase might be considered redundant. Use simply <suggestion>\3</suggestion>.</message>
+      <example correction="to" type="incorrect">We opened the door <marker>in order to</marker> enter.</example>
+      <example type="correct">We opened the door to enter.</example>
+    </rule>
+    <rule id="INTRODUCE_FOR_THE_FIRST_TIME" name="Redundant phrase: 'introduce for the first time (introduce)'">
+      <pattern>
+        <token inflected="yes">introduce</token>
+        <token>for</token>
+        <token>the</token>
+        <token>first</token>
+        <token>time</token>
+      </pattern>
+      <message>This phrase is redundant. Use simply <suggestion>\1</suggestion>.</message>
+      <example correction="introduced" type="incorrect">We were <marker>introduced for the first time</marker> a week ago.</example>
+      <example type="correct">We were introduced a week ago.</example>
+    </rule>
+    <rule id="MAIN_FOCUS" name="Redundant phrase: 'main focus (focus)'">
+      <pattern>
+        <token>main</token>
+        <token>focus</token>
+      </pattern>
+      <message>This phrase is redundant. Use simply <suggestion>\2</suggestion>.</message>
+      <example correction="focus" type="incorrect">Redundancies are the <marker>main focus</marker> of my essay.</example>
+      <example type="correct">Redundancies are the focus of my essay. </example>
+    </rule>
+    <rule id="MAJOR_BREAKTHROUGH" name="Redundant phrase: 'major breakthrough (breakthrough)'">
+      <pattern>
+        <token>major</token>
+        <token>breakthrough</token>
+      </pattern>
+      <message>This phrase is redundant. Use simply <suggestion>\2</suggestion>.</message>
+      <example correction="breakthrough" type="incorrect">It was a <marker>major breakthrough</marker> in genetic research.</example>
+      <example type="correct">It was a breakthrough in genetic research.</example>
+    </rule>
+    <rule id="MAY_COULD_POSSIBLY" name="Redundant phrase: 'can/could/may/might possibly (can/could/may/might)'">
+      <pattern>
+        <token regexp="yes">can|could|may|might</token>
+        <token>possibly</token>
+      </pattern>
+      <message>This phrase is redundant. Use simply <suggestion>\1</suggestion>.</message>
+      <example correction="may" type="incorrect">That <marker>may possibly</marker> be the greatest blunder of all.</example>
+      <example type="correct">That may be the greatest blunder of all.</example>
+    </rule>
+    <rule id="MENTAL_TELEPATHY" name="Redundant phrase: 'mental telepathy (telepathy)'">
+      <pattern>
+        <token>mental</token>
+        <token>telepathy</token>
+      </pattern>
+      <message>This phrase is redundant. Use simply <suggestion>\2</suggestion>.</message>
+      <example correction="telepathy" type="incorrect">Do cats really use <marker>mental telepathy</marker>?</example>
+      <example type="correct">Do cats really use telepathy?</example>
+    </rule>
+    <rule id="MUTUALLY_DEPENDENT_ON_EACH_OTHER" name="Redundant phrase: 'mutually dependent on each other (mutually dependent)'">
+      <pattern>
+        <token>mutually</token>
+        <token>dependent</token>
+        <token>on</token>
+        <token>each</token>
+        <token>other</token>
+      </pattern>
+      <message>This phrase is redundant. Use simply <suggestion>\1 \2</suggestion>.</message>
+      <example correction="mutually dependent" type="incorrect">Well, they're <marker>mutually dependent on each other</marker>.</example>
+      <example type="correct">Well, they're mutually dependent.</example>
+    </rule>
+    <rule id="NEVER_AT_ANY_TIME" name="Redundant phrase: 'never at any time (never)'">
+      <pattern>
+        <token>never</token>
+        <token>at</token>
+        <token>any</token>
+        <token>time</token>
+      </pattern>
+      <message>This phrase is redundant. Use simply <suggestion>\1</suggestion>.</message>
+      <example correction="never" type="incorrect">I was <marker>never at any time</marker> with that woman.</example>
+      <example type="correct">I was never with that woman.</example>
+    </rule>
+    <rule id="NOW_CURRENTLY" name="Redundant phrase: 'now currently (now)'">
+      <pattern>
+        <token>now</token>
+        <token>currently</token>
+      </pattern>
+      <message>This phrase is redundant. Use simply <suggestion>\1</suggestion>.</message>
+      <example correction="now" type="incorrect">She is <marker>now currently</marker> the ambassador.</example>
+      <example type="correct">She is now the ambassador.</example>
+    </rule>
+    <rule id="ONE_AND_THE_SAME" name="Redundant phrase: 'one and the same (the same)'">
+      <pattern>
+        <token>one</token>
+        <token>and</token>
+        <token>the</token>
+        <token>same</token>
+      </pattern>
+      <message>This phrase is redundant. Use simply <suggestion>\3 \4</suggestion>.</message>
+      <example correction="the same" type="incorrect">Santa Claus and Saint Nick are <marker>one and the same</marker> person.</example>
+      <example type="correct">Santa Claus and Saint Nick are the same person.</example>
+    </rule>
+    <rule id="OR_ALTERNATIVELY" name="Redundant phrase: 'or alternatively (or)'">
+      <pattern>
+        <token>or</token>
+        <token>alternatively</token>
+      </pattern>
+      <message>This phrase is redundant. Use simply <suggestion>\1</suggestion>.</message>
+      <example correction="or" type="incorrect">We can either do this now <marker>or alternatively</marker> leave it for tomorrow.</example>
+      <example type="correct">We can either do this now or leave it for tomorrow.</example>
+    </rule>
+    <rule id="PASSING_FAD" name="Redundant phrase: 'passing fad (fad)'">
+      <pattern>
+        <token>passing</token>
+        <token regexp="yes">fad|fads</token>
+      </pattern>
+      <message>This phrase is redundant. Use simply <suggestion>\2</suggestion>.</message>
+      <example correction="fad" type="incorrect">Computers are just a <marker>passing fad</marker>.</example>
+      <example type="correct">Computers are just a fad.</example>
+    </rule>
+    <rule id="PAST_EXPERIENCE_MEMORY" name="Redundant phrase: 'past experience/memory (experience/memory)'">
+      <pattern>
+        <token>past</token>
+        <token inflected="yes" regexp="yes">experience|memory</token>
+      </pattern>
+      <message>This phrase is redundant. Use simply <suggestion>\2</suggestion>.</message>
+      <example correction="experience" type="incorrect">We know from <marker>past experience</marker> that weakness breeds contempt.</example>
+      <example type="correct">We know from experience that weakness breeds contempt.</example>
+    </rule>
+    <rule id="PERIOD_OF_TIME" name="Redundant phrase: 'period of time (period)'">
+      <pattern>
+        <token>period</token>
+        <token>of</token>
+        <token>time</token>
+      </pattern>
+      <message>This phrase is redundant. Use simply <suggestion>\1</suggestion>.</message>
+      <example correction="period" type="incorrect">Horses were absent throughout that <marker>period of time</marker>.</example>
+      <example type="correct">Horses were absent throughout that period.</example>
+    </rule>
+    <rule id="PERSONAL_OPINION_FRIENDSHIP" name="Redundant phrase: 'personal charm/belongings/opinion/friendship (charm/belongings/opinion/belongings)'">
+      <pattern>
+        <token>personal</token>
+        <token regexp="yes">charm|belongings|opinion|friendship</token>
+      </pattern>
+      <message>This phrase is redundant. Use simply <suggestion>\2</suggestion>.</message>
+      <example correction="opinion" type="incorrect">In my <marker>personal opinion</marker>, canaries are quite tasty.</example>
+      <example type="correct">In my opinion, canaries are quite tasty.</example>
+    </rule>
+    <rule default="off" id="REASON_WHY" name="Redundant phrase: 'reason why (reason)'">
+      <pattern mark_from="1">
+        <token>the</token>
+        <token>reason</token>
+        <token>why</token>
+      </pattern>
+      <message>This phrase is redundant. Use simply <suggestion>\2</suggestion>.</message>
+      <example correction="reason" type="incorrect">The <marker>reason why</marker> I did that is simple.</example>
+      <example type="correct">The reason I did that is simple.</example>
+    </rule>
+    <rule id="THERAPEUTIC_TREATMENT" name="Redundant phrase: 'therapeutic treatment (treatment)'">
+      <pattern>
+        <token>therapeutic</token>
+        <token>treatment</token>
+      </pattern>
+      <message>This phrase is redundant. Use simply <suggestion>\2</suggestion>.</message>
+      <example correction="treatment" type="incorrect">My swelled knee required special <marker>therapeutic treatment</marker>.</example>
+      <example type="correct">My swelled knee required special treatment.</example>
+    </rule>
+    <rule id="RUSTIC_COUNTRY" name="Redundant phrase: 'rustic country (rustic)'">
+      <pattern>
+        <token>rustic</token>
+        <token>country</token>
+      </pattern>
+      <message>This phrase is redundant. Use simply <suggestion>\1</suggestion>.</message>
+      <example correction="rustic" type="incorrect">She loved her <marker>rustic country</marker> kitchen.</example>
+      <example type="correct">She loved her rustic kitchen.</example>
+    </rule>
+    <rule id="SAFE_HAVEN" name="Redundant phrase: 'safe haven (haven)'">
+      <pattern>
+        <token>safe</token>
+        <token>haven</token>
+      </pattern>
+      <message>This phrase is redundant. Use simply <suggestion>\2</suggestion>.</message>
+      <example correction="haven" type="incorrect">They ran for the forest, searching for a <marker>safe haven</marker>.</example>
+      <example type="correct">They ran for the forest, searching for a haven.</example>
+    </rule>
+    <rule id="SAME_IDENTICAL" name="Redundant phrase: 'same identical (same)'">
+      <pattern>
+        <token>same</token>
+        <token>identical</token>
+      </pattern>
+      <message>This phrase is redundant. Use simply <suggestion>\1</suggestion>.</message>
+      <example correction="same" type="incorrect">They wore the <marker>same identical</marker> dress.</example>
+      <example type="correct">They wore the same dress.</example>
+    </rule>
+    <rule id="USUAL_CUSTOM" name="Redundant phrase: 'usual custom (custom)'">
+      <pattern>
+        <token>usual</token>
+        <token>custom</token>
+      </pattern>
+      <message>This phrase is redundant. Use simply <suggestion>\2</suggestion>.</message>
+      <example correction="custom" type="incorrect">Eggnog on Christmas is our <marker>usual custom</marker>.</example>
+      <example type="correct">Eggnog on Christmas is our custom.</example>
+    </rule>
     <rule id="VERY_UNIQUE" name="Redundant phrase: 'very unique (unique)'">
       <pattern>
-        <token regexp="yes">very|strikingly|most</token>
+        <token regexp="yes">very|strikingly|most|really|totally</token>
         <token>unique</token>
       </pattern>
       <message>This phrase is redundant. Use simply <suggestion>\2</suggestion>.</message>
