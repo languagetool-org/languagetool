@@ -7,13 +7,23 @@ title="Easy editing stylesheet" ?>
 English Grammar and Typo Rules for LanguageTool
 See tagset.txt for the meaning of the POS tags
 Copyright (C) 2001-2007 Daniel Naber (http://www.danielnaber.de)
-$Id: grammar.xml,v 1.61 2008-06-10 21:26:02 milek_pl Exp $
+$Id: grammar.xml,v 1.62 2008-06-10 21:51:00 milek_pl Exp $
 -->
 <rules lang="en">
   <!-- ====================================================================== -->
   <!-- Possible typos -->
   <!-- ====================================================================== -->
   <category name="Possible Typo">
+    <rule id="TO_NO_AFFECT" name="Possible typo: 'to no affect (to no effect)'">
+      <pattern mark_from="2">
+        <token>to</token>
+        <token>no</token>
+        <token>affect</token>
+      </pattern>
+      <message>Possible typo. Did you mean <suggestion>effect</suggestion>?</message>
+      <example correction="effect" type="incorrect">We tried appeasing the rain gods, but to no <marker>affect</marker>.</example>
+      <example type="correct">We tried appeasing the rain gods, but to no effect.</example>
+    </rule>
     <rule id="THERE_EXITS" name="Possible typo: 'There exits' (There exists)">
       <pattern mark_from="1">
         <token>there</token>
