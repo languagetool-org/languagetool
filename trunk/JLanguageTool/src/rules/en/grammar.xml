@@ -7,7 +7,7 @@ title="Easy editing stylesheet" ?>
 English Grammar and Typo Rules for LanguageTool
 See tagset.txt for the meaning of the POS tags
 Copyright (C) 2001-2007 Daniel Naber (http://www.danielnaber.de)
-$Id: grammar.xml,v 1.63 2008-06-10 22:50:04 milek_pl Exp $
+$Id: grammar.xml,v 1.64 2008-06-12 17:07:06 milek_pl Exp $
 -->
 <rules lang="en">
   <!-- ====================================================================== -->
@@ -79,6 +79,62 @@ $Id: grammar.xml,v 1.63 2008-06-10 22:50:04 milek_pl Exp $
       <example type="incorrect">Please <marker>insure</marker> that you are registered with us.</example>
       <example type="correct">Please insure your car against theft.</example>
     </rule>
+    <rule id="IN_MASSE" name="Possible typo: 'in masse (en masse)'">
+      <pattern>
+        <token>in</token>
+        <token>masse</token>
+      </pattern>
+      <message>Possible typo. Did you mean <suggestion>en masse</suggestion>?</message>
+      <example correction="en masse" type="incorrect">HP Already Shipping Linux <marker>in Masse</marker></example>
+      <example type="correct">HP Already Shipping Linux En Masse</example>
+    </rule>
+    <rule id="IN_PARENTHESIS" name="Possible typo: 'in parenthesis (in parentheses)'">
+      <pattern>
+        <token>in</token>
+        <token>parenthesis</token>
+      </pattern>
+      <message>Possible typo. Did you mean <suggestion>in parentheses</suggestion>?</message>
+      <example correction="in parentheses" type="incorrect">This is indicated by the number not <marker>in parenthesis</marker>.</example>
+      <example type="correct">This is indicated by the number not in parentheses. </example>
+    </rule>
+    <rule id="IN_STEAD_OF" name="Possible typo: 'In stead of (instead of)'">
+      <pattern>
+        <token>in</token>
+        <token>stead</token>
+        <token>of</token>
+      </pattern>
+      <message>Possible typo. Did you mean <suggestion>\1\2 \3</suggestion>?</message>
+      <example correction="instead of" type="incorrect">Can my car really use water <marker>in stead of</marker> gas?</example>
+      <example type="correct">Can my car really use water instead of gas?</example>
+    </rule>
+    <rule id="IN_TACT" name="Possible typo: 'in tact (intact)'">
+      <pattern>
+        <token><exception scope="previous">lacking</exception>in</token>
+        <token>tact</token>
+      </pattern>
+      <message>Possible typo. Did you mean <suggestion>intact</suggestion>?</message>
+      <example type="correct">Trendy T-shirts lacking in tact</example>
+      <example correction="Intact" type="incorrect">Outdoor Activities in Louisiana Remain <marker>In Tact</marker></example>
+    </rule>
+    <rule id="IN_VEIN" name="Possible typo: 'in vein (in vain)'">
+      <pattern>
+        <token>in</token>
+        <token>vein</token>
+      </pattern>
+      <message>Possible typo. Did you mean <suggestion>in vain</suggestion> (=unsuccessfully)?</message>
+      <example correction="in vain" type="incorrect">I have been looking <marker>in vein</marker> 30 plus years with no luck.</example>
+      <example type="correct">I have been looking in vain for 30 years.</example>
+    </rule>
+    <rule id="IT_SELF" name="Possible typo: 'it self (itself)'">
+      <pattern>
+        <token>it</token>
+        <token>self</token>
+      </pattern>
+      <message>Possible typo. Did you mean <suggestion>itself</suggestion>?</message>
+      <example correction="itself" type="incorrect">I believe that such advertisements indicate a clear statement about the issue <marker>it self</marker> and they clarify the main caurse of the problem.</example>
+      <example type="correct">Was it self-defence?</example>
+      <example type="correct">I believe that such advertisements indicate a clear statement about the issue itself and they clarify the main caurse of the problem.</example>
+    </rule>
     <rule id="VE_GO_TO" name="Possible typo: 'I've go to (I've got to)'">
       <pattern mark_from="1" mark_to="-1">
         <token>ve</token>
@@ -130,6 +186,62 @@ $Id: grammar.xml,v 1.63 2008-06-10 22:50:04 milek_pl Exp $
       <message>Did you mean <suggestion>\1 all intents and purposes</suggestion>?</message>
       <example correction="for all intents and purposes" type="incorrect">Well, not all of it, but <marker>for all intensive purposes</marker>, I read it.</example>
       <example type="correct">Well, not all of it, but for all intents and purposes, I read it.</example>
+    </rule>
+    <rule id="ONE_IN_THE_SAME" name="Possible typo 'one in the same (one and the same)'">
+      <pattern>
+        <token>one</token>
+        <token>in</token>
+        <token>the</token>
+        <token>same</token>
+      </pattern>
+      <message>Possible typo. Did you mean <suggestion>one and the same</suggestion>?</message>
+      <example correction="one and the same" type="incorrect">Our town is a place where neighbors and friends are <marker>one in the same</marker>.</example>
+      <example type="correct">Our town is a place where neighbors and friends are one and the same.</example>
+    </rule>
+    <rule id="PER_SE" name="Possible typo: 'per say (per se)'">
+      <pattern>
+        <token>per</token>
+        <token>say</token>
+      </pattern>
+      <message>Possible typo. Did you mean <suggestion>per se</suggestion> (=by itself, by themselves)?</message>
+      <example correction="per se" type="incorrect">Not a car lover <marker>per say</marker>… </example>
+      <example type="correct">Not a car lover per se… </example>
+    </rule>
+    <rule id="SNEAK_PEAK" name="Possible typo: 'sneak peak (sneak peek)'">
+      <pattern>
+        <token>sneak</token>
+        <token>peak</token>
+      </pattern>
+      <message>Possible typo. Did you mean <suggestion>\1 peek</suggestion> (=preview)?</message>
+      <example correction="sneak peek" type="incorrect">Yahoo! has released a <marker>sneak peak</marker> into Yahoo! BrowserPlus.</example>
+      <example type="correct">Yahoo! has released a sneak peek into Yahoo! BrowserPlus.</example>
+    </rule>
+    <rule id="SOME_WHAT_JJ" name="Possible typo: 'some what (somewhat)'">
+      <pattern>
+        <token>some</token>
+        <token>what</token>
+      </pattern>
+      <message>Possible typo. Did you mean <suggestion>\1\2</suggestion> (=slightly)?</message>
+      <example correction="Somewhat" type="incorrect"><marker>Some what</marker> disappointed</example>
+      <example type="correct">Somewhat disappointed</example>
+    </rule>
+    <rule id="UNDER_WEAR" name="Possible typo: 'under wear (underwear)'">
+      <pattern>
+        <token>under</token>
+        <token>wear</token>
+      </pattern>
+      <message>Possible typo. Did you mean <suggestion>underwear</suggestion> (=underclothes)?</message>
+      <example correction="Underwear" type="incorrect">Designer's <marker>Under Wear</marker></example>
+      <example type="correct">Designer's Underwear</example>
+    </rule>
+    <rule id="WHERE_AS" name="Possible typo: 'where as/by (whereas/whereby)'">
+      <pattern>
+        <token>where</token>
+        <token regexp="yes">as|by|upon</token>
+      </pattern>
+      <message>Possible typo. Did you mean <suggestion>\1\2</suggestion>?</message>
+      <example correction="whereas" type="incorrect">The northern and urban areas of the state do not generally offer sweet tea in the most restaurants, <marker>where as</marker> it is a staple beverage for the southern part ...</example>
+      <example type="correct">The northern and urban areas of the state do not generally offer sweet tea in the most restaurants, whereas it is a staple beverage for the southern part ...</example>
     </rule>
     <rule id="YOUR_S" name="Possible typo: 'your's (yours)'">
       <pattern>
@@ -3088,7 +3200,7 @@ $Id: grammar.xml,v 1.63 2008-06-10 22:50:04 milek_pl Exp $
       <rule>
         <pattern mark_from="2">
           <token>to</token>
-          <token>no</token>
+          <token regexp="yes">no|the</token>
           <token>affect</token>
         </pattern>
         <message>Did you mean <suggestion>effect</suggestion>?</message>
@@ -3105,6 +3217,24 @@ $Id: grammar.xml,v 1.63 2008-06-10 22:50:04 milek_pl Exp $
         <example correction="effect" type="incorrect">Regional factors have an <marker>affect</marker> on hotel guest satisfaction.</example>
         <example type="correct">Regional factors have an effect on hotel guest satisfaction.</example>
       </rule>
+      <rule>
+        <pattern>
+          <token>in</token>
+          <token>affect</token>
+        </pattern>
+        <message>Did you mean <suggestion>in effect</suggestion> (in substance, virtually)?</message>
+        <example correction="in effect" type="incorrect">Parking Fees are <marker>in affect</marker> in this park.</example>
+        <example type="correct">Parking Fees are in effect in this park</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>side</token>
+          <token>affect</token>
+        </pattern>
+        <message>Did you mean <suggestion>side effect</suggestion> (=adverse effect, unintended consequence)?</message>
+        <example correction="side effect" type="incorrect">A <marker>side affect</marker> of global warming</example>
+        <example type="correct">A side effect of global warming </example>
+      </rule>
     </rulegroup>
     <rule id="ECONOMICAL_ECONOMIC" name="'econonomical growth' etc. (economic)">
       <pattern mark_to="-1">
@@ -3115,16 +3245,27 @@ $Id: grammar.xml,v 1.63 2008-06-10 22:50:04 milek_pl Exp $
       <example correction="economic" type="incorrect">This article deals with <marker>economical</marker> development of the Third World.</example>
       <example type="correct">This article deals with <marker>economic</marker> development of the Third World.</example>
     </rule>
-    <rule id="IN_PRINCIPAL" name="'in principal' (principle)">
-      <pattern mark_to="-1">
-        <token>in</token>
-        <token>principal</token>
-        <token negate_pos="yes" postag="NN.*" postag_regexp="yes"/>
-      </pattern>
-      <message>Did you mean <suggestion>in principle</suggestion> (=as a rule)?</message>
-      <example type="incorrect"><marker>In principal</marker> I don't think it will be too difficult.</example>
-      <example type="correct">In principle, I don't think it will be too difficult.</example>
-    </rule>
+    <rulegroup id="IN_PRINCIPAL" name="'principal' (principle)">
+      <rule>
+        <pattern mark_to="-1">
+          <token>in</token>
+          <token>principal</token>
+          <token negate_pos="yes" postag="NN.*" postag_regexp="yes"/>
+        </pattern>
+        <message>Did you mean <suggestion>in principle</suggestion> (=as a rule)?</message>
+        <example type="incorrect"><marker>In principal</marker> I don't think it will be too difficult.</example>
+        <example type="correct">In principle, I don't think it will be too difficult.</example>
+      </rule>
+      <rule>
+        <pattern mark_to="-1">
+          <token>principle</token>
+          <token regexp="yes">activity|source|use</token>
+        </pattern>
+        <message>Did you mean <suggestion>principal</suggestion> (=main)?</message>
+        <example correction="principal" type="incorrect">The <marker>principle</marker> activity of the Foundation is centred on humanitarian aid and charity, especially with regards to children.</example>
+        <example type="correct">The principal activity of the Foundation is focused on humanitarian aid and charity.</example>
+      </rule>
+    </rulegroup>
     <rule id="ECONOMIC_ECONOMICAL" name="'econonomic car' etc. (economical)">
       <pattern mark_to="-1">
         <token>economic</token>
