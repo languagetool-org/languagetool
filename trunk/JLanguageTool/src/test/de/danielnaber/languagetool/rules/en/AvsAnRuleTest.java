@@ -98,6 +98,10 @@ public class AvsAnRuleTest extends TestCase {
     //Test on acronyms/initials:
     matches = rule.match(langTool.getAnalyzedSentence("A. R.J. Turgot"));
     assertEquals(0, matches.length);
+    
+    //Test on apostrophes    
+    matches = rule.match(langTool.getAnalyzedSentence("Its name in English is a[1] (), plural A's, As, as, or a's."));
+    assertEquals(0, matches.length);    
   }
     
   public void testSuggestions() throws IOException {

@@ -88,7 +88,7 @@ public class AvsAnRule extends EnglishRule {
           token = parts[0];
         }
         //html entities!
-        token = token.replaceAll("&quot|&amp|&lt|&gt|[^a-zA-Z0-9\\.]", "");         // e.g. >>an "industry party"<<
+        token = token.replaceAll("&quot|&amp|&lt|&gt|[^a-zA-Z0-9\\.']", "");         // e.g. >>an "industry party"<<
         if (token.length() == 0) {
           continue;
         }
@@ -104,6 +104,7 @@ public class AvsAnRule extends EnglishRule {
           isException = true;
           doesRequireAn = true;
         }
+                
         if (!isException) {
           if (StringTools.isAllUppercase(token)) {
             // we don't know how all-uppercase words (often abbreviations) are pronounced, 
@@ -203,7 +204,7 @@ public class AvsAnRule extends EnglishRule {
     }
   }
   
-  private boolean isVowel(char c) {
+  private static boolean isVowel(char c) {
     c = Character.toLowerCase(c);
     return c == 'a' || c == 'e' || c == 'i' || c == 'o' || c == 'u'; 
   }
