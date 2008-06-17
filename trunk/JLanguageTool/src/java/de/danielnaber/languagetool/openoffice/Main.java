@@ -16,358 +16,546 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
  */
+
 package de.danielnaber.languagetool.openoffice;
 
+/** OpenOffice 3.x Integration
+ * 
+ * @author Marcin Miłkowski
+ */
+import java.util.List;
+import java.util.ArrayList;
+import java.util.ResourceBundle;
+import java.util.Set;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.ResourceBundle;
 
-import javax.swing.JOptionPane;
-
-import com.sun.star.beans.UnknownPropertyException;
-import com.sun.star.beans.XPropertySet;
-import com.sun.star.container.NoSuchElementException;
-import com.sun.star.container.XEnumeration;
-import com.sun.star.frame.XController;
 import com.sun.star.frame.XDesktop;
-import com.sun.star.frame.XModel;
+import com.sun.star.lang.IllegalArgumentException;
 import com.sun.star.lang.Locale;
-import com.sun.star.lang.WrappedTargetException;
 import com.sun.star.lang.XComponent;
 import com.sun.star.lang.XMultiComponentFactory;
 import com.sun.star.lang.XServiceInfo;
 import com.sun.star.lang.XSingleComponentFactory;
 import com.sun.star.lib.uno.helper.Factory;
 import com.sun.star.lib.uno.helper.WeakBase;
+import com.sun.star.linguistic2.GrammarCheckingResult;
+import com.sun.star.linguistic2.XGrammarChecker;
+import com.sun.star.linguistic2.SingleGrammarError;
 import com.sun.star.registry.XRegistryKey;
 import com.sun.star.task.XJobExecutor;
-import com.sun.star.text.XTextCursor;
+import com.sun.star.text.XFlatParagraph;
+import com.sun.star.text.XFlatParagraphIteratorProvider;
 import com.sun.star.text.XTextDocument;
-import com.sun.star.text.XTextRange;
 import com.sun.star.text.XTextViewCursor;
-import com.sun.star.text.XTextViewCursorSupplier;
 import com.sun.star.uno.UnoRuntime;
 import com.sun.star.uno.XComponentContext;
 
 import de.danielnaber.languagetool.JLanguageTool;
 import de.danielnaber.languagetool.Language;
-import de.danielnaber.languagetool.gui.AboutDialog;
 import de.danielnaber.languagetool.gui.Configuration;
 import de.danielnaber.languagetool.gui.Tools;
-import de.danielnaber.languagetool.rules.Rule;
+import de.danielnaber.languagetool.rules.RuleMatch;
 
-/**
- * OpenOffice.org integration.
- * 
- * @author Daniel Naber
- */
-public class Main {
+public class Main extends WeakBase implements XJobExecutor, XServiceInfo, XGrammarChecker {
 
-  public static final String version = JLanguageTool.VERSION;
+  private Configuration config;
+  private JLanguageTool langTool; 
+  private Language docLanguage;
+  
+  private XTextViewCursor xViewCursor;
+  
+  /** Service name required by the OOo API && our own name.
+   * 
+   */
+  private static final String serviceNames[] = {
+    "com.sun.star.linguistic2.GrammarChecker",
+    "de.danielnaber.languagetool.openoffice.Main"
+  };
+  
+//use a different name than the stand-alone version to avoid conflicts:
+  private static final String CONFIG_FILE = ".languagetool-ooo.cfg";
 
-  public static class _Main extends WeakBase implements XJobExecutor, XServiceInfo {
-
-    private static final String __serviceName = "de.danielnaber.languagetool.openoffice.Main";
-    // use a different name than the stand-alone version to avoid conflicts:
-    private static final String CONFIG_FILE = ".languagetool-ooo.cfg";
-
-    private XTextDocument xTextDoc;
-    private XTextViewCursor xViewCursor;
+  
+  private ResourceBundle messages = null;
+  private File homeDir;
     
-    private File homeDir;
-    private Configuration config;
-    
-    private ResourceBundle messages = null;
-
-    /** Testing only. */
-    public _Main() throws IOException {
-      homeDir = new File(".");
+  //TODO: remove
+  private XTextDocument xTextDoc;
+  
+  private com.sun.star.text.XFlatParagraphIteratorProvider xFlatPI;
+  private XComponent xComponent; 
+  
+  /** Document ID. The document IDs can be used 
+   * for storing the document-level state (e.g., for
+   * document-level spelling consistency).
+   * 
+   */
+  private int myDocID = -1;
+  
+  public Main(final XComponentContext xCompContext) {
+    try {
+      XMultiComponentFactory xMCF = xCompContext.getServiceManager();
+      Object desktop = xMCF.createInstanceWithContext("com.sun.star.frame.Desktop", xCompContext);
+      XDesktop xDesktop = (XDesktop) UnoRuntime.queryInterface(XDesktop.class, desktop);      
+      xComponent = xDesktop.getCurrentComponent();
+      xTextDoc = (XTextDocument) UnoRuntime.queryInterface(XTextDocument.class, xComponent);
+      xFlatPI = 
+        (XFlatParagraphIteratorProvider) UnoRuntime.queryInterface(XFlatParagraphIteratorProvider.class,
+            xComponent);
+      homeDir = getHomeDir();
       config = new Configuration(homeDir, CONFIG_FILE);
       messages = JLanguageTool.getMessageBundle();
+      
+    } catch (Throwable e) {
+      writeError(e);
+      e.printStackTrace();
     }
-    
-    public _Main(final XComponentContext xCompContext) {
-      try {
-        XMultiComponentFactory xMCF = xCompContext.getServiceManager();
-        Object desktop = xMCF.createInstanceWithContext("com.sun.star.frame.Desktop", xCompContext);
-        XDesktop xDesktop = (XDesktop) UnoRuntime.queryInterface(XDesktop.class, desktop);
-        XComponent xComponent = xDesktop.getCurrentComponent();
-        xTextDoc = (XTextDocument) UnoRuntime.queryInterface(XTextDocument.class, xComponent);
-        homeDir = getHomeDir();
-        config = new Configuration(homeDir, CONFIG_FILE);
-        messages = JLanguageTool.getMessageBundle();        
-      } catch (Throwable e) {
-        writeError(e);
-        e.printStackTrace();
+  }
+  
+  private Language getLanguage() {
+    if (xFlatPI == null) {
+      return Language.ENGLISH; // for testing with local main() method only
+    }
+    Locale charLocale;
+    try {
+      // just look at the first 200 chars in the document and assume that this is
+      // the language of the whole document:
+      if (xFlatPI == null) {
+        return null;
       }
-    }
-
-    public void trigger(final String sEvent) {
-      if (!javaVersionOkay()) {
-        return;
-      }
-      try {
-        if (sEvent.equals("execute")) {
-          TextToCheck textToCheck = getText();
-          checkText(textToCheck);
-        } else if (sEvent.equals("configure")) {
-          Language lang = getLanguage();
-          if (lang == null)
-            return;
-          ConfigThread configThread = new ConfigThread(lang, config);
-          configThread.start();
-          while (true) {
-            if (configThread.done()) {
-              break;
-            }
-            try {
-              Thread.sleep(100);
-            } catch (InterruptedException e) {
-              break;
-            }
-          }
-        } else if (sEvent.equals("about")) {
-          AboutDialogThread aboutthread = new AboutDialogThread(messages);
-          aboutthread.start();
-        } else {
-          System.err.println("Sorry, don't know what to do, sEvent = " + sEvent);
-        }        
-      } catch (Throwable e) {
-        showError(e);
-      }
-    }
-
-    private boolean javaVersionOkay() {
-      String version = System.getProperty("java.version");
-      if (version != null && (version.startsWith("1.0") || version.startsWith("1.1")
-          || version.startsWith("1.2") || version.startsWith("1.3") || version.startsWith("1.4"))) {
-        DialogThread dt = new DialogThread("Error: LanguageTool requires Java 1.5 or later. Current version: " + version);
-        dt.start();
-        return false;
-      }    
-      return true;
-    }
-
-    private void writeError(final Throwable e) {
-      FileWriter fw;
-      try {
-        fw = new FileWriter("languagetool.log");
-        fw.write(e.toString() + "\r\n");
-        StackTraceElement[] el = e.getStackTrace();
-        for (int i = 0; i < el.length; i++) {
-          fw.write(el[i].toString()+ "\r\n");
-        }
-        fw.close();
-      } catch (IOException e1) {
-        e1.printStackTrace();
-      }
-    }
-
-    @SuppressWarnings("unused")
-    public void initialize(final Object[] object) {
-    }
-
-    public String[] getSupportedServiceNames() {
-      return getServiceNames();
-    }
-
-    public static String[] getServiceNames() {
-      String[] sSupportedServiceNames = { __serviceName };
-      return sSupportedServiceNames;
-    }
-
-    public boolean supportsService(final String sServiceName) {
-      return sServiceName.equals(__serviceName);
-    }
-
-    public String getImplementationName() {
-      return _Main.class.getName();
-    }
-
-    private Language getLanguage() {
-      if (xTextDoc == null)
-        return Language.ENGLISH; // for testing with local main() method only
-      Locale charLocale;
-      try {
-        // look at the global document language
-        /* TODO: make this work
-        XDocumentInfoSupplier xdis = (XDocumentInfoSupplier)
-          UnoRuntime.queryInterface(XDocumentInfoSupplier.class, xTextDoc);
-        XPropertySet docInfo = (XPropertySet) UnoRuntime.queryInterface
-          (XPropertySet.class, xdis.getDocumentInfo()); 
-        Object lang = docInfo.getPropertyValue("language");
-        */
-        // just look at the first position in the document and assume that this character's
-        // language is the language of the whole document:
-        XTextCursor textCursor = xTextDoc.getText().createTextCursor();
-        textCursor.gotoStart(false);
-        XPropertySet xCursorProps = (XPropertySet) UnoRuntime.queryInterface(XPropertySet.class,
-            textCursor);
-        charLocale = (Locale) xCursorProps.getPropertyValue("CharLocale");
-        boolean langIsSupported = false;
-        for (int i = 0; i < Language.LANGUAGES.length; i++) {
-          if (Language.LANGUAGES[i].getShortName().equals(charLocale.Language)) {
-            langIsSupported= true;
-            break;
-          }
-        }
-        if (!langIsSupported) {
-          // FIXME: i18n
-          DialogThread dt = new DialogThread("Error: Sorry, the document language '" +charLocale.Language+ 
-              "' is not supported by LanguageTool.");
-          dt.start();
-          return null;
-        }
-        //checkTables();
-      } catch (UnknownPropertyException e) {
-        throw new RuntimeException(e);
-      } catch (WrappedTargetException e) {
-        throw new RuntimeException(e);
-      }
-      return Language.getLanguageForShortName(charLocale.Language);
-    }
-    
-    // commented out due to focus problems (clicking "OK" doesn't work, only Escape closes the dialog):
-    /*
-    private void checkTables() {
-      XTextTablesSupplier xTablesSupplier = (XTextTablesSupplier) UnoRuntime.queryInterface(
-          XTextTablesSupplier.class, xTextDoc);
-      XNameAccess xNamedTables = xTablesSupplier.getTextTables();
-      XIndexAccess xIndexedTables = (XIndexAccess) UnoRuntime.queryInterface(XIndexAccess.class,
-          xNamedTables);
-      if (xIndexedTables.getCount() > 0) {
-        DialogThread dt = new DialogThread("Warning: The text contains tables, this may lead to the " +
-            "wrong text marked due to a known bug.");
-        dt.start();
-        try {
-          dt.join();
-        } catch (InterruptedException e) {
-          e.printStackTrace();
-        }
-      }
-    }*/
-
-    private TextToCheck getText() {
-      com.sun.star.container.XEnumerationAccess xParaAccess = (com.sun.star.container.XEnumerationAccess) UnoRuntime
-          .queryInterface(com.sun.star.container.XEnumerationAccess.class, xTextDoc.getText());
+      com.sun.star.text.XFlatParagraphIterator xParaAccess = xFlatPI.getFlatParagraphIterator(com.sun.star.text.TextMarkupType.GRAMMAR, true);
       if (xParaAccess == null) {
         System.err.println("xParaAccess == null");
-        return new TextToCheck(new ArrayList<String>(), false);
+        return null;
+      }          
+      com.sun.star.text.XFlatParagraph xParaEnum = xParaAccess.getFirstPara();
+      int maxLen = xParaEnum.getText().length();
+      if (maxLen > 200) {
+        maxLen = 200;
       }
-      
-      XModel xModel = (XModel)UnoRuntime.queryInterface(XModel.class, xTextDoc);
-      if (xModel == null) {
+      charLocale = (Locale) xParaEnum.getPrimaryLanguageOfText(1, maxLen);      
+      if (!hasLocale(charLocale)) {
         // FIXME: i18n
-        DialogThread dt = new DialogThread("Sorry, only text documents are supported");
+        DialogThread dt = new DialogThread("Error: Sorry, the document language '" +charLocale.Language+ 
+        "' is not supported by LanguageTool.");
         dt.start();
         return null;
       }
-      XController xController = xModel.getCurrentController(); 
-      XTextViewCursorSupplier xViewCursorSupplier = 
-        (XTextViewCursorSupplier)UnoRuntime.queryInterface(XTextViewCursorSupplier.class, xController); 
-      xViewCursor = xViewCursorSupplier.getViewCursor();
-      String textToCheck = xViewCursor.getString();     // user's current selection
-      if (textToCheck.equals("")) {     // no selection = check complete text
-        //System.err.println("check complete text");
-      } else {
-        //System.err.println("check selected text");
-        List<String> l = new ArrayList<String>();
-        // FIXME: if footnotes with a number greater than "9" occur in the selected text
-        // they mess up the error marking in OOoDialog because they appear as "10" etc.
-        // but the code assumes we need to use goRight() once per character...
-        l.add(textToCheck);
-        return new TextToCheck(l, true);
-      }
-      
-      List<String> paragraphs = new ArrayList<String>();
-      try {
-        for (com.sun.star.container.XEnumeration xParaEnum = xParaAccess.createEnumeration(); xParaEnum.hasMoreElements();) {
-          Object para = xParaEnum.nextElement();
-          String paraString = getParagraphContent(para);
-          if (paraString == null) {
-            paragraphs.add("");
-          } else {
-            paragraphs.add(paraString);
-          }
-        }
-      } catch (Exception e) {
-        throw new RuntimeException(e);
-      }
-      return new TextToCheck(paragraphs, false);
+    } catch (Exception e) {
+      throw new RuntimeException(e);
     }
+    return Language.getLanguageForShortName(charLocale.Language);
+  }
 
-    private void checkText(final TextToCheck textToCheck) {
-      if (textToCheck == null)
-        return;
-      Language docLanguage = getLanguage();
-      if (docLanguage == null)
-        return;
-      ProgressDialog progressDialog = new ProgressDialog(messages);
-      CheckerThread checkerThread = new CheckerThread(textToCheck.paragraphs, docLanguage, config, 
-          progressDialog);
-      checkerThread.start();
-      while (true) {
-        if (checkerThread.done()) {
-          break;
-        }
+  /** Runs the grammar checker on paragraph text.
+   * @param docID int - document ID
+   * xPara XFlatParagraph - text to check
+   * locale Locale - the text Locale  
+   * startOfSentencePos int start of sentence position
+   * suggEndOfSentencePos int end of sentence position
+   * @return GrammarCheckingResult containing the results of the check.
+   */
+  public final GrammarCheckingResult doGrammarChecking(int docID,  
+      XFlatParagraph xPara, String paraText, Locale locale, 
+      int startOfSentencePos, int suggEndOfSentencePos) 
+  throws IllegalArgumentException {    
+    GrammarCheckingResult paRes = new GrammarCheckingResult();
+    paRes.nEndOfSentencePos = paraText.length(); //suggEndOfSentencePos;
+    if (hasLocale(locale)
+        //&& (!xPara.isChecked(com.sun.star.text.TextMarkupType.GRAMMAR))    
+    ) {
+      //caching the instance of LT
+      if (!Language.getLanguageForShortName(locale.Language).equals(docLanguage)
+          || langTool == null) {
+        docLanguage = Language.getLanguageForShortName(locale.Language);
+        if (docLanguage == null) {
+          return paRes;
+        }                
         try {
-          Thread.sleep(100);
-        } catch (InterruptedException e) {
-          // nothing
+          langTool = new JLanguageTool(docLanguage, config.getMotherTongue());
+          langTool.activateDefaultPatternRules();
+          langTool.activateDefaultFalseFriendRules();
+        } catch (Exception exception) {
+          showError(exception);
         }
       }
-      progressDialog.close();
-      
-      List<CheckedParagraph> checkedParagraphs = checkerThread.getRuleMatches();
-      // TODO: why must these be wrapped in threads to avoid focus problems?
-      if (checkedParagraphs.size() == 0) {
-        String msg;
-        String translatedLangName = messages.getString(docLanguage.getShortName());
-        if (textToCheck.isSelection) {
-          msg = Tools.makeTexti18n(messages, "guiNoErrorsFoundSelectedText", new String[] {translatedLangName});  
-        } else {
-          msg = Tools.makeTexti18n(messages, "guiNoErrorsFound", new String[] {translatedLangName});  
+      if (config.getDisabledRuleIds() != null) {
+        for (String id : config.getDisabledRuleIds()) {                    
+          langTool.disableRule(id);
         }
-        DialogThread dt = new DialogThread(msg);
-        dt.start();
-        // TODO: display number of active rules etc?
-      } else {
-        ResultDialogThread dialog;
-        if (textToCheck.isSelection) {
-          dialog = new ResultDialogThread(config,
-              checkerThread.getLanguageTool().getAllRules(),
-              xTextDoc, checkedParagraphs, xViewCursor, textToCheck);
-        } else {
-          dialog = new ResultDialogThread(config,
-              checkerThread.getLanguageTool().getAllRules(),
-              xTextDoc, checkedParagraphs, null, null);
+      }
+      Set<String> disabledCategories = config.getDisabledCategoryNames();
+      if (disabledCategories != null) {
+        for (String categoryName : disabledCategories) {          
+          langTool.disableCategory(categoryName);
         }
-        dialog.start();
+      }
+      try {        
+        List<RuleMatch> ruleMatches = langTool.check(paraText);
+        if (ruleMatches.size() > 0) {          
+          paRes.xFlatParagraph = xPara;
+          paRes.aText = paraText; //xPara.getText();
+          paRes.aLocale = locale;                    
+          SingleGrammarError[] errorArray = new SingleGrammarError[ruleMatches.size()];;
+          int i = 0;
+          for (RuleMatch myRuleMatch : ruleMatches) {
+            errorArray[i] = createOOoError(
+                docID, xPara, locale, startOfSentencePos, suggEndOfSentencePos, myRuleMatch);
+            i++;
+          }
+          paRes.aGrammarErrors = errorArray;
+        }
+      } catch (IOException exception) {
+        showError(exception);
+      }      
+    } 
+     return paRes;    
+  }
+
+  /** Creates a SingleGrammarError object for use in OOo.
+   * @param docId int - document ID
+   * para XFlatParagraph - text to check
+   * locale Locale - the text Locale  
+   * sentStart int start of sentence position
+   * sentEnd int end of sentence position
+   * MyMatch ruleMatch - LT rule match
+   * @return SingleGrammarError - object for OOo checker integration
+   */
+  private SingleGrammarError createOOoError(final int docId,
+      XFlatParagraph para, Locale locale, int sentStart, int SentEnd,
+      final RuleMatch myMatch) {
+    SingleGrammarError aError = new SingleGrammarError();
+    aError.nErrorType = com.sun.star.text.TextMarkupType.GRAMMAR;
+    aError.aFullComment = myMatch.getMessage();
+    aError.aShortComment = aError.aFullComment; // we don't support two kinds of comments
+    aError.aSuggestions = (String[]) myMatch.getSuggestedReplacements().toArray(new String [myMatch.getSuggestedReplacements().size ()]);
+    aError.nErrorLevel = 0; // severity level, we don't use it
+    aError.nErrorStart = myMatch.getFromPos();
+    aError.aNewLocale = locale;    
+    aError.nErrorLength = myMatch.getToPos() - myMatch.getFromPos(); //?
+    return aError;
+  }
+  
+ /**
+  * Called when the document check is finished.
+  * @param oldDocID - the ID of the document already checked
+  * @throws IllegalArgumentException in case arg0 is not a 
+  * valid myDocID.
+  */
+  public void endDocument(int oldDocID) throws IllegalArgumentException {
+    if (myDocID == oldDocID) {
+      myDocID = -1;
+    }
+  }
+
+  /**
+   * Called to clear the paragraph state. No use in our implementation.
+   * 
+   * @param myDocID - the ID of the document already checked
+   * @throws IllegalArgumentException in case arg0 is not a 
+   *  valid myDocID.
+   */
+  public void endParagraph(int docID) throws IllegalArgumentException {
+    // TODO Auto-generated method stub
+
+  }
+
+  public int getEndOfSentencePos(int docID, XFlatParagraph para, String paraText, 
+      Locale locale, 
+      int startOfSentence,
+      int suggestedEndOfSentencePos)
+      throws IllegalArgumentException {
+    return paraText.length();
+  }  
+  
+  public int getStartOfSentencePos(int docID, XFlatParagraph para, String paraText, 
+      Locale locale, 
+      int startOfSentence,
+      int suggestedEndOfSentencePos) {
+    // TODO Auto-generated method stub
+    return 0;
+  }
+
+  public boolean hasCheckingDialog() {
+    // TODO Auto-generated method stub
+    return false;
+  }
+
+  /** LT has an options dialog box,
+   * so we return true.
+   * @return true
+   * */
+  public final boolean hasOptionsDialog() {
+    return true;
+  }
+
+  /** LT does not support spell-checking,
+   * so we return false.
+   * @return false
+   */
+  public final boolean isSpellChecker() {
+    return false;
+  }
+
+  public boolean requiresPreviousText() {
+    // TODO Auto-generated method stub
+    return false;
+  }
+
+  public void runCheckingDialog(int arg0) throws IllegalArgumentException {
+    // TODO Auto-generated method stub
+
+  }
+
+  /** Runs LT options dialog box.
+   **/
+  public final void runOptionsDialog() {
+    final Language lang = getLanguage();
+    if (lang == null)
+      return;
+    final ConfigThread configThread = new ConfigThread(lang, config);
+    configThread.start();
+    while (true) {
+      if (configThread.done()) {
+        break;
+      }
+      try {
+        Thread.sleep(100);
+      } catch (InterruptedException e) {
+        break;
       }
     }
+  }
 
-    private File getHomeDir() {
-      final String homeDir = System.getProperty("user.home");
-      if (homeDir == null) {
-        throw new RuntimeException("Could not get home directory");
-      }
-      return new File(homeDir);
+  /**
+   * Called to setup the doc state via ID.
+   * @param docID - the doc ID
+   * @throws IllegalArgumentException in case arg0 is not a 
+   *  valid myDocID.
+   **/
+  public void startDocument(int docID) throws IllegalArgumentException {
+    myDocID = docID;
+    docLanguage = getLanguage();
+    try {
+      langTool = new JLanguageTool(docLanguage, config.getMotherTongue());
+      langTool.activateDefaultPatternRules();
+      langTool.activateDefaultFalseFriendRules();
+    } catch (Exception exception) {
+      showError(exception);
     }
+    DialogThread dt = new DialogThread("Starting the check!");
+    dt.start();
+  }
 
+  /**
+   * Called to setup the paragraph state in a doc with some ID.
+   * @param docID - the doc ID
+   * @throws IllegalArgumentException in case arg0 is not a 
+   *  valid myDocID.
+   **/
+  public void startParagraph(int docID) throws IllegalArgumentException {
+    // TODO Auto-generated method stub
+  }
+
+  /**
+   * @return An array of Locales supported by LT.
+   */
+  public final Locale[] getLocales() {
+    final Locale[] aLocales = new Locale[Language.LANGUAGES.length];
+    for (int i = 0; i < Language.LANGUAGES.length; i++) {
+      aLocales[i] = new Locale(
+          Language.LANGUAGES[i].getShortName(),
+          //FIXME: is the below correct??
+          Language.LANGUAGES[i].getLocale().getVariant(),
+          "");
+    }
+    return aLocales;
+  }
+
+  /** @return true if LT supports
+   * the language of a given locale.
+   * @param arg0 The Locale to check.
+   */
+  public final boolean hasLocale(final Locale arg0) {    
+    for (int i = 0; i < Language.LANGUAGES.length; i++) {
+      if (Language.LANGUAGES[i].getShortName().equals(arg0.Language)) {
+        return true;
+      }
+    }
+    return false;
+  }
+  
+
+  public String[] getSupportedServiceNames() {
+    return getServiceNames();
+  }
+
+  public static String[] getServiceNames() {
+    return serviceNames;
+  }
+
+  public boolean supportsService(final String sServiceName) {
+    for (String sName : serviceNames) {
+      if (sServiceName.equals(sName)) {
+        return true; 
+      }
+    }
+    return false;
+  }
+
+  public String getImplementationName() {
+    return Main.class.getName();
   }
 
   public static XSingleComponentFactory __getComponentFactory(final String sImplName) {
     XSingleComponentFactory xFactory = null;
-    if (sImplName.equals(_Main.class.getName()))
-      xFactory = Factory.createComponentFactory(_Main.class, _Main.getServiceNames());
+    if (sImplName.equals(Main.class.getName()))
+      xFactory = Factory.createComponentFactory(Main.class, Main.getServiceNames());
     return xFactory;
   }
 
   public static boolean __writeRegistryServiceInfo(final XRegistryKey regKey) {
-    return Factory.writeRegistryServiceInfo(_Main.class.getName(), _Main.getServiceNames(), regKey);
+    return Factory.writeRegistryServiceInfo(Main.class.getName(), Main.getServiceNames(), regKey);
+  }
+    
+  public void trigger(final String sEvent) {
+    if (!javaVersionOkay()) {
+      return;
+    }
+    try {
+      if (sEvent.equals("execute")) {
+        //try out the new XFlatParagraph interface...
+        TextToCheck textToCheck = getText();
+        checkText(textToCheck);
+      } else if (sEvent.equals("configure")) {
+        final Language lang = getLanguage();
+        if (lang == null)
+          return;
+        final ConfigThread configThread = new ConfigThread(lang, config);
+        configThread.start();
+        while (true) {
+          if (configThread.done()) {
+            break;
+          }
+          try {
+            Thread.sleep(100);
+          } catch (InterruptedException e) {
+            break;
+          }
+        }
+      } else if (sEvent.equals("about")) {
+        AboutDialogThread aboutthread = new AboutDialogThread(messages);
+        aboutthread.start();
+      } else {
+        System.err.println("Sorry, don't know what to do, sEvent = " + sEvent);
+      }        
+    } catch (Throwable e) {
+      showError(e);
+    }
+  }
+  
+  private void checkText(final TextToCheck textToCheck) {
+    if (textToCheck == null) {      
+      return;
+    }
+    Language docLanguage = getLanguage();
+    if (docLanguage == null) {
+      return;
+    }
+    ProgressDialog progressDialog = new ProgressDialog(messages);
+    CheckerThread checkerThread = new CheckerThread(textToCheck.paragraphs, docLanguage, config, 
+        progressDialog);
+    checkerThread.start();
+    while (true) {
+      if (checkerThread.done()) {
+        break;
+      }
+      try {
+        Thread.sleep(100);
+      } catch (InterruptedException e) {
+        // nothing
+      }
+    }
+    progressDialog.close();
+
+    List<CheckedParagraph> checkedParagraphs = checkerThread.getRuleMatches();
+    // TODO: why must these be wrapped in threads to avoid focus problems?
+    if (checkedParagraphs.size() == 0) {
+      String msg;
+      String translatedLangName = messages.getString(docLanguage.getShortName());
+      if (textToCheck.isSelection) {
+        msg = Tools.makeTexti18n(messages, "guiNoErrorsFoundSelectedText", new String[] {translatedLangName});  
+      } else {
+        msg = Tools.makeTexti18n(messages, "guiNoErrorsFound", new String[] {translatedLangName});  
+      }
+      DialogThread dt = new DialogThread(msg);
+      dt.start();
+      // TODO: display number of active rules etc?
+    } else {
+      ResultDialogThread dialog;            
+      if (textToCheck.isSelection) {
+        dialog = new ResultDialogThread(config,
+            checkerThread.getLanguageTool().getAllRules(),
+            xTextDoc, checkedParagraphs, xViewCursor, textToCheck);
+      } else {
+        dialog = new ResultDialogThread(config,
+            checkerThread.getLanguageTool().getAllRules(),
+            xTextDoc, checkedParagraphs, null, null);
+      }
+      dialog.start();
+    }
+  }  
+
+  private TextToCheck getText() throws IllegalArgumentException {
+    if (xFlatPI == null) {
+      return new TextToCheck(new ArrayList<String>(), false);
+    }
+    com.sun.star.text.XFlatParagraphIterator xParaAccess = 
+      xFlatPI.getFlatParagraphIterator(com.sun.star.text.TextMarkupType.GRAMMAR, false);
+    if (xParaAccess == null) {
+      System.err.println("xParaAccess == null");
+      return new TextToCheck(new ArrayList<String>(), false);
+    }        
+    List<String> paragraphs = new ArrayList<String>();
+    try {
+      com.sun.star.text.XFlatParagraph xParaEnum = xParaAccess.getFirstPara();        
+        String paraString = xParaEnum.getText();
+        if (paraString == null) {
+          paragraphs.add("");
+        } else {
+          paragraphs.add(paraString);
+        }
+        while (true) {
+          xParaEnum = xParaAccess.getNextPara();
+          if (xParaEnum != null) {
+          paraString = xParaEnum.getText();
+          if (paraString == null) {
+            paragraphs.add("");
+          } else {
+            paragraphs.add(paraString);
+          } 
+          } else {
+            break;
+          }
+        }        
+    } catch (Exception e) {
+      throw new RuntimeException(e);
+    }
+    return new TextToCheck(paragraphs, false);
+  }
+
+  
+  private boolean javaVersionOkay() {
+    final String version = System.getProperty("java.version");
+    if (version != null && (version.startsWith("1.0") || version.startsWith("1.1")
+        || version.startsWith("1.2") || version.startsWith("1.3") || version.startsWith("1.4"))) {
+      DialogThread dt = new DialogThread("Error: LanguageTool requires Java 1.5 or later. Current version: " + version);
+      dt.start();
+      return false;
+    }    
+    return true;
   }
 
   static void showError(final Throwable e) {
@@ -382,114 +570,28 @@ public class Main {
     throw new RuntimeException(e);
   }
 
-  static String getParagraphContent(Object para) throws NoSuchElementException, WrappedTargetException, UnknownPropertyException {
-    if (para == null) {
-      // TODO: ??
-      return null;
-    }
-    com.sun.star.container.XEnumerationAccess xPortionAccess = (com.sun.star.container.XEnumerationAccess) UnoRuntime
-        .queryInterface(com.sun.star.container.XEnumerationAccess.class, para);
-    if (xPortionAccess == null) {
-      System.err.println("xPortionAccess is null");
-      return null;
-    }
-    StringBuilder sb = new StringBuilder();
-    for (XEnumeration portionEnum = xPortionAccess.createEnumeration(); portionEnum.hasMoreElements();) {
-      Object textPortion = portionEnum.nextElement();
-      XPropertySet textProps = (XPropertySet) UnoRuntime.queryInterface(XPropertySet.class, textPortion);
-      String type = (String)textProps.getPropertyValue("TextPortionType");
-      if ("Footnote".equals(type) || "DocumentIndexMark".equals(type)) {
-        // a footnote reference appears as one character in the text. we don't use a whitespace
-        // because we don't want to trigger the "no whitespace before comma" rule in this case:
-        // my footnote¹, foo bar
-        sb.append("1");
-      } else {
-        XTextRange xtr = (XTextRange) UnoRuntime.queryInterface(XTextRange.class, textPortion);
-        sb.append(xtr.getString());
+  private void writeError(final Throwable e) {
+    FileWriter fw;
+    try {
+      fw = new FileWriter("languagetool.log");
+      fw.write(e.toString() + "\r\n");
+      StackTraceElement[] el = e.getStackTrace();
+      for (int i = 0; i < el.length; i++) {
+        fw.write(el[i].toString()+ "\r\n");
       }
+      fw.close();
+    } catch (IOException e1) {
+      e1.printStackTrace();
     }
-    return sb.toString();
-  }
-
-  /** Testing only. */
-  public static void main(final String[] args) throws IOException {
-    _Main m = new _Main();
-    List<String> paras = new ArrayList<String>();
-    paras.add("This is an test, don't berate yourself.");
-    TextToCheck ttc = new TextToCheck(paras, false);
-    m.checkText(ttc);
-  }
-
-}
-
-class DialogThread extends Thread {
-
-  private String text;
-
-  DialogThread(final String text) {
-    this.text = text;
   }
   
-  public void run() {
-    JOptionPane.showMessageDialog(null, text);
+  private File getHomeDir() {
+    final String homeDir = System.getProperty("user.home");
+    if (homeDir == null) {
+      throw new RuntimeException("Could not get home directory");
+    }
+    return new File(homeDir);
   }
-  
-}
 
-class AboutDialogThread extends Thread {
-
-  private ResourceBundle messages;
-
-  AboutDialogThread(final ResourceBundle messages) {
-    this.messages = messages;
-  }
   
-  public void run() {
-    AboutDialog about = new AboutDialog(messages);
-    about.show();
-  }
-  
-}
-
-class ResultDialogThread extends Thread {
-
-  private Configuration configuration;
-  private List<Rule> rules;
-  private XTextDocument xTextDoc;
-  private List<CheckedParagraph> checkedParagraphs;
-  private XTextViewCursor xViewCursor;
-  private TextToCheck textTocheck;
-
-  ResultDialogThread(final Configuration configuration, final List<Rule> rules, final XTextDocument xTextDoc,
-      final List<CheckedParagraph> checkedParagraphs, final XTextViewCursor xViewCursor,
-      final TextToCheck textTocheck) {
-    this.configuration = configuration;
-    this.rules = rules;
-    this.xTextDoc = xTextDoc;
-    this.checkedParagraphs = checkedParagraphs;
-    this.xViewCursor = xViewCursor;
-    this.textTocheck = textTocheck;
-  }
-  
-  public void run() {
-    OOoDialog dialog;
-    if (xViewCursor == null)
-      dialog = new OOoDialog(configuration, rules, xTextDoc, checkedParagraphs);
-    else
-      dialog = new OOoDialog(configuration, rules, xTextDoc, checkedParagraphs, xViewCursor, textTocheck);
-    dialog.show();
-  }
-  
-}
-
-class TextToCheck {
-  
-  List<String> paragraphs;
-  boolean isSelection;
-  
-  TextToCheck(final List<String> paragraphs, final boolean isSelection) {
-    this.paragraphs = paragraphs;
-    this.isSelection = isSelection;
-  }
-   
 }
