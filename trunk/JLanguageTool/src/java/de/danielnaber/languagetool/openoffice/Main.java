@@ -32,10 +32,12 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 import com.sun.star.frame.XDesktop;
+import com.sun.star.i18n.XBreakIterator;
 import com.sun.star.lang.IllegalArgumentException;
 import com.sun.star.lang.Locale;
 import com.sun.star.lang.XComponent;
 import com.sun.star.lang.XMultiComponentFactory;
+import com.sun.star.lang.XMultiServiceFactory;
 import com.sun.star.lang.XServiceInfo;
 import com.sun.star.lang.XSingleComponentFactory;
 import com.sun.star.lib.uno.helper.Factory;
@@ -86,6 +88,7 @@ public class Main extends WeakBase implements XJobExecutor, XServiceInfo, XGramm
   
   private com.sun.star.text.XFlatParagraphIteratorProvider xFlatPI;
   private XComponent xComponent; 
+  private XBreakIterator xTokenizer;
   
   /** Document ID. The document IDs can be used 
    * for storing the document-level state (e.g., for
@@ -104,10 +107,14 @@ public class Main extends WeakBase implements XJobExecutor, XServiceInfo, XGramm
       xFlatPI = 
         (XFlatParagraphIteratorProvider) UnoRuntime.queryInterface(XFlatParagraphIteratorProvider.class,
             xComponent);
+      Object xInterface;
+      xInterface = xMCF.createInstanceWithContext(
+          "com.sun.star.i18n.BreakIterator", xCompContext);
+      xTokenizer = (XBreakIterator) UnoRuntime
+          .queryInterface(XBreakIterator.class, xInterface);
       homeDir = getHomeDir();
       config = new Configuration(homeDir, CONFIG_FILE);
-      messages = JLanguageTool.getMessageBundle();
-      
+      messages = JLanguageTool.getMessageBundle();      
     } catch (Throwable e) {
       writeError(e);
       e.printStackTrace();
@@ -163,9 +170,7 @@ public class Main extends WeakBase implements XJobExecutor, XServiceInfo, XGramm
   throws IllegalArgumentException {    
     GrammarCheckingResult paRes = new GrammarCheckingResult();
     paRes.nEndOfSentencePos = paraText.length(); //suggEndOfSentencePos;
-    if (hasLocale(locale)
-        //&& (!xPara.isChecked(com.sun.star.text.TextMarkupType.GRAMMAR))    
-    ) {
+    if (hasLocale(locale)) {
       //caching the instance of LT
       if (!Language.getLanguageForShortName(locale.Language).equals(docLanguage)
           || langTool == null) {
@@ -196,7 +201,7 @@ public class Main extends WeakBase implements XJobExecutor, XServiceInfo, XGramm
         List<RuleMatch> ruleMatches = langTool.check(paraText);
         if (ruleMatches.size() > 0) {          
           paRes.xFlatParagraph = xPara;
-          paRes.aText = paraText; //xPara.getText();
+          paRes.aText = paraText;
           paRes.aLocale = locale;                    
           SingleGrammarError[] errorArray = new SingleGrammarError[ruleMatches.size()];;
           int i = 0;
@@ -211,7 +216,7 @@ public class Main extends WeakBase implements XJobExecutor, XServiceInfo, XGramm
         showError(exception);
       }      
     } 
-     return paRes;    
+    return paRes;    
   }
 
   /** Creates a SingleGrammarError object for use in OOo.
@@ -267,15 +272,23 @@ public class Main extends WeakBase implements XJobExecutor, XServiceInfo, XGramm
       int startOfSentence,
       int suggestedEndOfSentencePos)
       throws IllegalArgumentException {
-    return paraText.length();
+    int pos = -1;
+    if (xTokenizer != null) {
+      pos = xTokenizer.endOfSentence(paraText, startOfSentence, locale);
+    }
+    return pos;
   }  
   
   public int getStartOfSentencePos(int docID, XFlatParagraph para, String paraText, 
       Locale locale, 
-      int startOfSentence,
+      int nPosInSentence,
       int suggestedEndOfSentencePos) {
     // TODO Auto-generated method stub
-    return 0;
+    int pos = -1;
+    if (xTokenizer != null) {
+      pos = xTokenizer.beginOfSentence(paraText, nPosInSentence, locale);
+    }
+    return pos;
   }
 
   public boolean hasCheckingDialog() {
@@ -336,6 +349,8 @@ public class Main extends WeakBase implements XJobExecutor, XServiceInfo, XGramm
    *  valid myDocID.
    **/
   public void startDocument(int docID) throws IllegalArgumentException {
+    DialogThread dt = new DialogThread("Starting the check!");
+    dt.start();
     myDocID = docID;
     docLanguage = getLanguage();
     try {
@@ -343,16 +358,14 @@ public class Main extends WeakBase implements XJobExecutor, XServiceInfo, XGramm
       langTool.activateDefaultPatternRules();
       langTool.activateDefaultFalseFriendRules();
     } catch (Exception exception) {
-      showError(exception);
+      showError(exception);    
     }
-    DialogThread dt = new DialogThread("Starting the check!");
-    dt.start();
   }
 
   /**
    * Called to setup the paragraph state in a doc with some ID.
    * @param docID - the doc ID
-   * @throws IllegalArgumentException in case arg0 is not a 
+   * @throws IllegalArgumentException in case docID is not a 
    *  valid myDocID.
    **/
   public void startParagraph(int docID) throws IllegalArgumentException {
