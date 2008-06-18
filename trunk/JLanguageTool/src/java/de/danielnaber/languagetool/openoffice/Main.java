@@ -23,13 +23,13 @@ package de.danielnaber.languagetool.openoffice;
  * 
  * @author Marcin Miłkowski
  */
-import java.util.List;
-import java.util.ArrayList;
-import java.util.ResourceBundle;
-import java.util.Set;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.ResourceBundle;
+import java.util.Set;
 
 import com.sun.star.frame.XDesktop;
 import com.sun.star.i18n.XBreakIterator;
@@ -37,14 +37,13 @@ import com.sun.star.lang.IllegalArgumentException;
 import com.sun.star.lang.Locale;
 import com.sun.star.lang.XComponent;
 import com.sun.star.lang.XMultiComponentFactory;
-import com.sun.star.lang.XMultiServiceFactory;
 import com.sun.star.lang.XServiceInfo;
 import com.sun.star.lang.XSingleComponentFactory;
 import com.sun.star.lib.uno.helper.Factory;
 import com.sun.star.lib.uno.helper.WeakBase;
 import com.sun.star.linguistic2.GrammarCheckingResult;
-import com.sun.star.linguistic2.XGrammarChecker;
 import com.sun.star.linguistic2.SingleGrammarError;
+import com.sun.star.linguistic2.XGrammarChecker;
 import com.sun.star.registry.XRegistryKey;
 import com.sun.star.task.XJobExecutor;
 import com.sun.star.text.XFlatParagraph;
@@ -169,7 +168,9 @@ public class Main extends WeakBase implements XJobExecutor, XServiceInfo, XGramm
       int startOfSentencePos, int suggEndOfSentencePos) 
   throws IllegalArgumentException {    
     GrammarCheckingResult paRes = new GrammarCheckingResult();
-    paRes.nEndOfSentencePos = paraText.length(); //suggEndOfSentencePos;
+    paRes.nEndOfSentencePos = suggEndOfSentencePos - startOfSentencePos;
+//    DialogThread dt = new DialogThread(paraText.substring(startOfSentencePos, suggEndOfSentencePos));
+//    dt.start();
     if (hasLocale(locale)) {
       //caching the instance of LT
       if (!Language.getLanguageForShortName(locale.Language).equals(docLanguage)
@@ -198,16 +199,16 @@ public class Main extends WeakBase implements XJobExecutor, XServiceInfo, XGramm
         }
       }
       try {        
-        List<RuleMatch> ruleMatches = langTool.check(paraText);
+        List<RuleMatch> ruleMatches = langTool.check(paraText.substring(startOfSentencePos, suggEndOfSentencePos));
         if (ruleMatches.size() > 0) {          
           paRes.xFlatParagraph = xPara;
-          paRes.aText = paraText;
+          paRes.aText = paraText.substring(startOfSentencePos, suggEndOfSentencePos);
           paRes.aLocale = locale;                    
           SingleGrammarError[] errorArray = new SingleGrammarError[ruleMatches.size()];;
           int i = 0;
           for (RuleMatch myRuleMatch : ruleMatches) {
             errorArray[i] = createOOoError(
-                docID, xPara, locale, startOfSentencePos, suggEndOfSentencePos, myRuleMatch);
+                locale, myRuleMatch);
             i++;
           }
           paRes.aGrammarErrors = errorArray;
@@ -220,16 +221,11 @@ public class Main extends WeakBase implements XJobExecutor, XServiceInfo, XGramm
   }
 
   /** Creates a SingleGrammarError object for use in OOo.
-   * @param docId int - document ID
-   * para XFlatParagraph - text to check
-   * locale Locale - the text Locale  
-   * sentStart int start of sentence position
-   * sentEnd int end of sentence position
+   * @param locale Locale - the text Locale     * 
    * MyMatch ruleMatch - LT rule match
    * @return SingleGrammarError - object for OOo checker integration
    */
-  private SingleGrammarError createOOoError(final int docId,
-      XFlatParagraph para, Locale locale, int sentStart, int SentEnd,
+  private SingleGrammarError createOOoError(Locale locale, 
       final RuleMatch myMatch) {
     SingleGrammarError aError = new SingleGrammarError();
     aError.nErrorType = com.sun.star.text.TextMarkupType.GRAMMAR;
@@ -237,9 +233,9 @@ public class Main extends WeakBase implements XJobExecutor, XServiceInfo, XGramm
     aError.aShortComment = aError.aFullComment; // we don't support two kinds of comments
     aError.aSuggestions = (String[]) myMatch.getSuggestedReplacements().toArray(new String [myMatch.getSuggestedReplacements().size ()]);
     aError.nErrorLevel = 0; // severity level, we don't use it
-    aError.nErrorStart = myMatch.getFromPos();
-    aError.aNewLocale = locale;    
-    aError.nErrorLength = myMatch.getToPos() - myMatch.getFromPos(); //?
+    aError.nErrorStart = myMatch.getFromPos();      
+    aError.nErrorLength = myMatch.getToPos() - myMatch.getFromPos();
+    aError.aNewLocale = locale;
     return aError;
   }
   
@@ -272,23 +268,29 @@ public class Main extends WeakBase implements XJobExecutor, XServiceInfo, XGramm
       int startOfSentence,
       int suggestedEndOfSentencePos)
       throws IllegalArgumentException {
+    /*
     int pos = -1;
+    
     if (xTokenizer != null) {
       pos = xTokenizer.endOfSentence(paraText, startOfSentence, locale);
-    }
+    } 
     return pos;
+    */
+    return paraText.length();
   }  
   
   public int getStartOfSentencePos(int docID, XFlatParagraph para, String paraText, 
       Locale locale, 
       int nPosInSentence,
       int suggestedEndOfSentencePos) {
-    // TODO Auto-generated method stub
+    /*
     int pos = -1;
     if (xTokenizer != null) {
       pos = xTokenizer.beginOfSentence(paraText, nPosInSentence, locale);
     }
     return pos;
+    */
+    return 0;
   }
 
   public boolean hasCheckingDialog() {
@@ -348,9 +350,7 @@ public class Main extends WeakBase implements XJobExecutor, XServiceInfo, XGramm
    * @throws IllegalArgumentException in case arg0 is not a 
    *  valid myDocID.
    **/
-  public void startDocument(int docID) throws IllegalArgumentException {
-    DialogThread dt = new DialogThread("Starting the check!");
-    dt.start();
+  public void startDocument(int docID) throws IllegalArgumentException {    
     myDocID = docID;
     docLanguage = getLanguage();
     try {
