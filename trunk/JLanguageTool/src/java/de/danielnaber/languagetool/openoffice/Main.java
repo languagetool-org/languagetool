@@ -169,8 +169,11 @@ public class Main extends WeakBase implements XJobExecutor, XServiceInfo, XGramm
   throws IllegalArgumentException {    
     GrammarCheckingResult paRes = new GrammarCheckingResult();
     paRes.nEndOfSentencePos = suggEndOfSentencePos - startOfSentencePos;
-//    DialogThread dt = new DialogThread(paraText.substring(startOfSentencePos, suggEndOfSentencePos));
-//    dt.start();
+    paRes.xFlatParagraph = xPara;
+    paRes.xGrammarChecker = this;
+    paRes.aText = paraText.substring(startOfSentencePos, suggEndOfSentencePos);
+    paRes.aLocale = locale;                    
+    paRes.nDocumentId = docID;
     if (hasLocale(locale)) {
       //caching the instance of LT
       if (!Language.getLanguageForShortName(locale.Language).equals(docLanguage)
@@ -201,9 +204,6 @@ public class Main extends WeakBase implements XJobExecutor, XServiceInfo, XGramm
       try {        
         List<RuleMatch> ruleMatches = langTool.check(paraText.substring(startOfSentencePos, suggEndOfSentencePos));
         if (ruleMatches.size() > 0) {          
-          paRes.xFlatParagraph = xPara;
-          paRes.aText = paraText.substring(startOfSentencePos, suggEndOfSentencePos);
-          paRes.aLocale = locale;                    
           SingleGrammarError[] errorArray = new SingleGrammarError[ruleMatches.size()];;
           int i = 0;
           for (RuleMatch myRuleMatch : ruleMatches) {
