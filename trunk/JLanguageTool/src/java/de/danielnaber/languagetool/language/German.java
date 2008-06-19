@@ -34,7 +34,7 @@ public class German extends Language {
   private SentenceTokenizer sentenceTokenizer = new GermanSentenceTokenizer();
 
   private static final String[] COUNTRIES = {
-    "FOO", "CH", "AT", "LU", "LI", "BE"
+    "DE", "CH", "AT", "LU", "LI", "BE"
   };
   
   public Locale getLocale() {
