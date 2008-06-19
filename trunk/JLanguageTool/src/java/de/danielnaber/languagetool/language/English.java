@@ -39,6 +39,8 @@ public class English extends Language {
   private Synthesizer synthesizer = new EnglishSynthesizer();
   private Disambiguator disambiguator = new EnglishRuleDisambiguator();
 
+  private static String[] COUNTRIES = {"GB", "US", "AU", "CA" };
+  
   public Locale getLocale() {
     return new Locale(getShortName());
   }
@@ -51,6 +53,10 @@ public class English extends Language {
     return "en";
   }
 
+  public String[] getCountryVariants() {
+    return COUNTRIES;
+  }
+  
   public Tagger getTagger() {
     return tagger;
   }

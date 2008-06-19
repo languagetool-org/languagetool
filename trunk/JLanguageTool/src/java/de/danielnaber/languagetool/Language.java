@@ -74,6 +74,8 @@ public abstract class Language {
   
   public final static Language DEMO = new Demo();
   
+  private static String[] COUNTRIES;
+  
   private static List<Language> externalLanguages = new ArrayList<Language>();
   
   /**
@@ -109,13 +111,21 @@ public abstract class Language {
 
   /**
    * Get this language's two character code, e.g. <code>en</code> for English.
+   * @return String - language code
    */
   public abstract String getShortName();
 
   /**
    * Get this language's name in English, e.g. <code>English</code> or <code>German</code>.
+   * @return String - language name
    */
   public abstract String getName();
+  
+  /**
+   * Get this language's country variants, e.g. <code>US</code> or <code>PL</code>.
+   * @return String[] - array of country variants for the language.
+   */
+  public abstract String[] getCountryVariants();
   
   /**
    * Get this language's Java locale.
@@ -244,7 +254,7 @@ public abstract class Language {
       }
     }
     return null;
-  }
+  }  
   
   public String toString() {
     return getName();

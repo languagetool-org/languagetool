@@ -33,6 +33,10 @@ public class French extends Language {
   private Tagger tagger = new FrenchTagger();
   private Disambiguator disambiguator = new FrenchRuleDisambiguator();
 
+  private static String[] countries = {"FR", "", "BE", "CH", "CA", 
+    "LU", "MC", "CM", "CI", "HI", "ML", "SN", "CD", "MA", "RE"
+  };
+  
   public Locale getLocale() {
     return new Locale(getShortName());
   }
@@ -44,6 +48,11 @@ public class French extends Language {
   public String getShortName() {
     return "fr";
   }
+  
+  public String[] getCountryVariants() {
+    return countries;
+  }
+
 
   public Tagger getTagger() {
     return tagger;

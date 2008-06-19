@@ -32,6 +32,10 @@ import de.danielnaber.languagetool.tagging.ru.RussianTagger;
 
 public class Russian extends Language {
 
+  private static final String[] COUNTRIES = {
+    "RU"
+  };
+  
   private Tagger tagger = new RussianTagger();
 //  private Tokenizer wordTokenizer = new RussianWordTokenizer();
 //  private Synthesizer synthesizer = new RussianSynthesizer();
@@ -48,6 +52,11 @@ public class Russian extends Language {
     return "ru";
   }
 
+  @Override
+  public String[] getCountryVariants() {
+    return COUNTRIES;
+  }
+  
   public Tagger getTagger() {
     return tagger;
   }

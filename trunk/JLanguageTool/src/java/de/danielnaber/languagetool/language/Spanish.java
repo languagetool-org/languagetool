@@ -27,6 +27,12 @@ import de.danielnaber.languagetool.tagging.Tagger;
 import de.danielnaber.languagetool.tagging.es.SpanishTagger;
 
 public class Spanish extends Language {
+  
+  private static final String[] COUNTRIES = {
+    "ES", "", "MX", "GT", "CR", "PA", "DO",
+    "VE", "PE", "AR", "EC", "CL", "UY", "PY",
+    "BO", "SV", "HN", "NI", "PR", "US", "CU"
+  };
 
   private Tagger tagger = new SpanishTagger();
 
@@ -42,6 +48,11 @@ public class Spanish extends Language {
     return "es";
   }
 
+  @Override
+  public String[] getCountryVariants() {
+    return COUNTRIES;
+  }
+  
   public Tagger getTagger() {
     return tagger;
   }

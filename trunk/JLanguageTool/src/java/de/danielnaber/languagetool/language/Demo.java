@@ -41,6 +41,10 @@ public class Demo extends Language {
     return "xx";
   }
 
+  public String[] getCountryVariants() {
+    return new String[] {"XX"};
+  }
+  
   public Tagger getTagger() {
     return tagger;
   }

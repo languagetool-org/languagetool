@@ -57,6 +57,9 @@ public class LanguageBuilder {
         public String getShortName() {
           return parts[1];
         }
+        public String[] getCountryVariants() {
+          return new String[] {""};
+        }
         public String getName() {
           return parts[2].replace(".xml", "");
         }

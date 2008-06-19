@@ -28,6 +28,10 @@ import de.danielnaber.languagetool.tagging.uk.UkrainianTagger;
 
 public class Ukrainian extends Language {
 
+  private static final String[] COUNTRIES = {
+    "UA"
+  };
+  
   private Tagger tagger = new UkrainianTagger();
 
   public Locale getLocale() {
@@ -42,10 +46,15 @@ public class Ukrainian extends Language {
     return "uk";
   }
 
+  @Override
+  public String[] getCountryVariants() {
+    return COUNTRIES;
+  }
+  
   public Tagger getTagger() {
     return tagger;
   }
-
+  
   public Contributor[] getMaintainers() {
     return new Contributor[] {new Contributor("Andriy Rysin")};
   }

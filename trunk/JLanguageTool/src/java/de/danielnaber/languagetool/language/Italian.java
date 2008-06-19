@@ -28,6 +28,10 @@ import de.danielnaber.languagetool.tagging.it.ItalianTagger;
 
 public class Italian extends Language {
 
+  private static final String[] COUNTRIES = {
+    "IT", "CH"
+  };
+  
   private Tagger tagger = new ItalianTagger();
 
   public Locale getLocale() {
@@ -40,6 +44,11 @@ public class Italian extends Language {
 
   public String getShortName() {
     return "it";
+  }
+  
+  @Override
+  public String[] getCountryVariants() {
+    return COUNTRIES;
   }
 
   public Tagger getTagger() {

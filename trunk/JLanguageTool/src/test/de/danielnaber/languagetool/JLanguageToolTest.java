@@ -19,7 +19,11 @@
 package de.danielnaber.languagetool;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
+
+import com.sun.star.lang.Locale;
+
 
 import junit.framework.TestCase;
 import de.danielnaber.languagetool.rules.RuleMatch;
@@ -104,6 +108,7 @@ public class JLanguageToolTest extends TestCase {
   
   public void testPolish() throws IOException {
     final JLanguageTool tool = new JLanguageTool(Language.POLISH);
+    assertEquals("[PL]", Arrays.toString(Language.POLISH.getCountryVariants()));
     List<RuleMatch> matches = tool.check("To jest całkowicie prawidłowe zdanie.");
     assertEquals(0, matches.size());
     matches = tool.check("To jest jest problem.");
@@ -122,7 +127,7 @@ public class JLanguageToolTest extends TestCase {
     assertEquals(1, matches.size());
     // Polish rule has no effect with English error:
     matches = tool.check("I can give you more a detailed description");
-    assertEquals(0, matches.size());
+    assertEquals(0, matches.size());      
   }
 	  
   public void testCountLines() {

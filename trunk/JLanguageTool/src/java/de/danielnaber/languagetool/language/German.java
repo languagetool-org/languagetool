@@ -33,6 +33,10 @@ public class German extends Language {
   private Tagger tagger = new GermanTagger();
   private SentenceTokenizer sentenceTokenizer = new GermanSentenceTokenizer();
 
+  private static final String[] COUNTRIES = {
+    "FOO", "CH", "AT", "LU", "LI", "BE"
+  };
+  
   public Locale getLocale() {
     return new Locale(getShortName());
   }
@@ -45,6 +49,11 @@ public class German extends Language {
     return "de";
   }
 
+  @Override
+  public String[] getCountryVariants() {
+    return COUNTRIES;
+  }
+  
   public Tagger getTagger() {
     return tagger;
   }

@@ -24,6 +24,10 @@ import java.util.Set;
 import de.danielnaber.languagetool.Language;
 
 public class Slovenian extends Language {
+  
+  private static final String[] COUNTRIES = {
+    "SI"
+  };
 
   public Locale getLocale() {
     return new Locale(getShortName());
@@ -35,6 +39,11 @@ public class Slovenian extends Language {
 
   public String getShortName() {
     return "sl";
+  }
+  
+  @Override
+  public String[] getCountryVariants() {
+    return COUNTRIES;
   }
 
   public Contributor[] getMaintainers() {

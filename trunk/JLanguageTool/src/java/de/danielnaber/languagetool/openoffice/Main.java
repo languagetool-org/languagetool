@@ -70,7 +70,7 @@ public class Main extends WeakBase implements XJobExecutor, XServiceInfo, XGramm
   /** Service name required by the OOo API && our own name.
    * 
    */
-  private static final String serviceNames[] = {
+  private static final String[] SERVICE_NAMES = {
     "com.sun.star.linguistic2.GrammarChecker",
     "de.danielnaber.languagetool.openoffice.Main"
   };
@@ -119,7 +119,7 @@ public class Main extends WeakBase implements XJobExecutor, XServiceInfo, XGramm
       e.printStackTrace();
     }
   }
-  
+    
   private Language getLanguage() {
     if (xFlatPI == null) {
       return Language.ENGLISH; // for testing with local main() method only
@@ -376,13 +376,20 @@ public class Main extends WeakBase implements XJobExecutor, XServiceInfo, XGramm
    * @return An array of Locales supported by LT.
    */
   public final Locale[] getLocales() {
-    final Locale[] aLocales = new Locale[Language.LANGUAGES.length];
+    int dims = 0;
     for (int i = 0; i < Language.LANGUAGES.length; i++) {
-      aLocales[i] = new Locale(
+      dims += Language.LANGUAGES[i].getCountryVariants().length;
+    }
+    final Locale[] aLocales = new Locale[dims];
+    int cnt = 0;
+    for (int i = 0; i < Language.LANGUAGES.length; i++) {
+      for (String variant : Language.LANGUAGES[i].getCountryVariants()) {
+      aLocales[cnt] = new Locale(
           Language.LANGUAGES[i].getShortName(),
-          //FIXME: is the below correct??
-          Language.LANGUAGES[i].getLocale().getVariant(),
+          variant,
           "");
+      cnt++; 
+      }
     }
     return aLocales;
   }
@@ -406,11 +413,11 @@ public class Main extends WeakBase implements XJobExecutor, XServiceInfo, XGramm
   }
 
   public static String[] getServiceNames() {
-    return serviceNames;
+    return SERVICE_NAMES;
   }
 
   public boolean supportsService(final String sServiceName) {
-    for (String sName : serviceNames) {
+    for (String sName : SERVICE_NAMES) {
       if (sServiceName.equals(sName)) {
         return true; 
       }

@@ -39,40 +39,56 @@ public class Polish extends Language {
   private Disambiguator disambiguator = new PolishChunker();
   private Synthesizer synthesizer = new PolishSynthesizer();
   
+  private static final String[] COUNTRIES = {"PL"}; 
+  
+  @Override
   public Locale getLocale() {
     return new Locale(getShortName());
   }
 
+  @Override
   public String getName() {
     return "Polish";
   }
 
+  @Override
   public String getShortName() {
     return "pl";
   }
-
+  
+  @Override
+  public String[] getCountryVariants() {
+    return COUNTRIES;
+  }
+  
+  @Override
   public Tagger getTagger() {
     return tagger;
   }
 
+  @Override
   public SentenceTokenizer getSentenceTokenizer() {
     return sentenceTokenizer;
   }
 
+  @Override
   public Disambiguator getDisambiguator() {
     return disambiguator;
   }
 
+  @Override
   public Synthesizer getSynthesizer() {
     return synthesizer;
   }
 
+  @Override
   public Contributor[] getMaintainers() {
     return new Contributor[] {new Contributor("Marcin Miłkowski")};
   }
 
+  @Override
   public Set<String> getRelevantRuleIDs() {
-    Set<String> ids = new HashSet<String>();
+    final Set<String> ids = new HashSet<String>();
     ids.add("COMMA_PARENTHESIS_WHITESPACE");
     ids.add("DOUBLE_PUNCTUATION");
     ids.add("UNPAIRED_BRACKETS");
