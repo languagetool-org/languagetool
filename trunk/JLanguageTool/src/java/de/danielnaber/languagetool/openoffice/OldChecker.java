@@ -59,6 +59,8 @@ import de.danielnaber.languagetool.gui.Configuration;
 import de.danielnaber.languagetool.gui.Tools;
 import de.danielnaber.languagetool.rules.Rule;
 
+//FIXME: remove as soon OOo 3 has spell-grammar dialog working
+
 /**
  * OpenOffice.org integration.
  * 
