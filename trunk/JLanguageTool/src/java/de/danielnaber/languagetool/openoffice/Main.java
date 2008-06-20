@@ -63,9 +63,9 @@ public class Main extends WeakBase implements XJobExecutor, XServiceInfo, XGramm
   private Configuration config;
   private JLanguageTool langTool; 
   private Language docLanguage;
-  
+
   private XTextViewCursor xViewCursor;
-  
+
   /** Service name required by the OOo API && our own name.
    * 
    */
@@ -73,27 +73,27 @@ public class Main extends WeakBase implements XJobExecutor, XServiceInfo, XGramm
     "com.sun.star.linguistic2.GrammarChecker",
     "de.danielnaber.languagetool.openoffice.Main"
   };
-  
+
 //use a different name than the stand-alone version to avoid conflicts:
   private static final String CONFIG_FILE = ".languagetool-ooo.cfg";
 
-  
+
   private ResourceBundle messages = null;
   private File homeDir;
-    
+
   //TODO: remove as soon as the spelling window is used for grammar check
   private XTextDocument xTextDoc;
-  
+
   private com.sun.star.text.XFlatParagraphIteratorProvider xFlatPI;
   private XComponent xComponent; 
-  
+
   /** Document ID. The document IDs can be used 
    * for storing the document-level state (e.g., for
    * document-level spelling consistency).
    * 
    */
   private int myDocID = -1;
-  
+
   public Main(final XComponentContext xCompContext) {
     try {
       final XMultiComponentFactory xMCF = xCompContext.getServiceManager();
@@ -112,7 +112,7 @@ public class Main extends WeakBase implements XJobExecutor, XServiceInfo, XGramm
       e.printStackTrace();
     }
   }
-    
+
   private Language getLanguage() {
     Locale charLocale;
     try {
@@ -178,7 +178,7 @@ public class Main extends WeakBase implements XJobExecutor, XServiceInfo, XGramm
     } else {
       return paRes;
     }
-    
+
     if (hasLocale(locale)) {
       //caching the instance of LT
       if (!Language.getLanguageForShortName(locale.Language).equals(docLanguage)
@@ -236,26 +236,26 @@ public class Main extends WeakBase implements XJobExecutor, XServiceInfo, XGramm
     aError.nErrorType = com.sun.star.text.TextMarkupType.GRAMMAR;    
     //  the API currently has no support for formatting text in comments 
     final String comment =  myMatch.getMessage().
-      replaceAll("<suggestion>", "\"").
-      replaceAll("</suggestion>", "\"");     
+    replaceAll("<suggestion>", "\"").
+    replaceAll("</suggestion>", "\"");     
     aError.aFullComment = comment;    
-      //  we don't support two kinds of comments
+    //  we don't support two kinds of comments
     aError.aShortComment = aError.aFullComment; 
     aError.aSuggestions = myMatch.getSuggestedReplacements()
-      .toArray(new String [myMatch.getSuggestedReplacements().size()]);
+    .toArray(new String [myMatch.getSuggestedReplacements().size()]);
     aError.nErrorLevel = 0; // severity level, we don't use it
     aError.nErrorStart = myMatch.getFromPos();      
     aError.nErrorLength = myMatch.getToPos() - myMatch.getFromPos();
     aError.aNewLocale = locale;
     return aError;
   }
-  
- /**
-  * Called when the document check is finished.
-  * @param oldDocID - the ID of the document already checked
-  * @throws IllegalArgumentException in case arg0 is not a 
-  * valid myDocID.
-  */
+
+  /**
+   * Called when the document check is finished.
+   * @param oldDocID - the ID of the document already checked
+   * @throws IllegalArgumentException in case arg0 is not a 
+   * valid myDocID.
+   */
   public void endDocument(final int oldDocID) throws IllegalArgumentException {
     if (myDocID == oldDocID) {
       myDocID = -1;
@@ -448,7 +448,7 @@ public class Main extends WeakBase implements XJobExecutor, XServiceInfo, XGramm
     }
     return false;
   }
-  
+
 
   public String[] getSupportedServiceNames() {
     return getServiceNames();
@@ -482,7 +482,7 @@ public class Main extends WeakBase implements XJobExecutor, XServiceInfo, XGramm
   public static boolean __writeRegistryServiceInfo(final XRegistryKey regKey) {
     return Factory.writeRegistryServiceInfo(Main.class.getName(), Main.getServiceNames(), regKey);
   }
-    
+
   public void trigger(final String sEvent) {
     if (!javaVersionOkay()) {
       return;
@@ -493,22 +493,7 @@ public class Main extends WeakBase implements XJobExecutor, XServiceInfo, XGramm
         final TextToCheck textToCheck = getText();
         checkText(textToCheck);
       } else if (sEvent.equals("configure")) {
-        final Language lang = getLanguage();
-        if (lang == null) {
-          return;
-        }
-        final ConfigThread configThread = new ConfigThread(lang, config);
-        configThread.start();
-        while (true) {
-          if (configThread.done()) {
-            break;
-          }
-          try {
-            Thread.sleep(100);
-          } catch (final InterruptedException e) {
-            break;
-          }
-        }
+        runOptionsDialog();
       } else if (sEvent.equals("about")) {
         final AboutDialogThread aboutthread = new AboutDialogThread(messages);
         aboutthread.start();
@@ -519,7 +504,7 @@ public class Main extends WeakBase implements XJobExecutor, XServiceInfo, XGramm
       showError(e);
     }
   }
-  
+
   private void checkText(final TextToCheck textToCheck) {
     if (textToCheck == null) {      
       return;
@@ -585,32 +570,32 @@ public class Main extends WeakBase implements XJobExecutor, XServiceInfo, XGramm
     final List<String> paragraphs = new ArrayList<String>();
     try {
       com.sun.star.text.XFlatParagraph xParaEnum = xParaAccess.getFirstPara();        
-        String paraString = xParaEnum.getText();
-        if (paraString == null) {
-          paragraphs.add("");
-        } else {
-          paragraphs.add(paraString);
-        }
-        while (true) {
-          xParaEnum = xParaAccess.getNextPara();
-          if (xParaEnum != null) {
+      String paraString = xParaEnum.getText();
+      if (paraString == null) {
+        paragraphs.add("");
+      } else {
+        paragraphs.add(paraString);
+      }
+      while (true) {
+        xParaEnum = xParaAccess.getNextPara();
+        if (xParaEnum != null) {
           paraString = xParaEnum.getText();
           if (paraString == null) {
             paragraphs.add("");
           } else {
             paragraphs.add(paraString);
           } 
-          } else {
-            break;
-          }
-        }        
+        } else {
+          break;
+        }
+      }        
     } catch (final Exception e) {
       throw new RuntimeException(e);
     }
     return new TextToCheck(paragraphs, false);
   }
 
-  
+
   private boolean javaVersionOkay() {
     final String version = System.getProperty("java.version");
     if (version != null && (version.startsWith("1.0") || version.startsWith("1.1")
@@ -648,7 +633,7 @@ public class Main extends WeakBase implements XJobExecutor, XServiceInfo, XGramm
       e1.printStackTrace();
     }
   }
-  
+
   private File getHomeDir() {
     final String homeDir = System.getProperty("user.home");
     if (homeDir == null) {
@@ -657,5 +642,5 @@ public class Main extends WeakBase implements XJobExecutor, XServiceInfo, XGramm
     return new File(homeDir);
   }
 
-  
+
 }
