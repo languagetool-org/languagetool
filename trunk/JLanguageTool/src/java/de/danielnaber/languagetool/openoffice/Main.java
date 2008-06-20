@@ -32,7 +32,6 @@ import java.util.ResourceBundle;
 import java.util.Set;
 
 import com.sun.star.frame.XDesktop;
-import com.sun.star.i18n.XBreakIterator;
 import com.sun.star.lang.IllegalArgumentException;
 import com.sun.star.lang.Locale;
 import com.sun.star.lang.XComponent;
@@ -82,12 +81,11 @@ public class Main extends WeakBase implements XJobExecutor, XServiceInfo, XGramm
   private ResourceBundle messages = null;
   private File homeDir;
     
-  //TODO: remove
+  //TODO: remove as soon as the spelling window is used for grammar check
   private XTextDocument xTextDoc;
   
   private com.sun.star.text.XFlatParagraphIteratorProvider xFlatPI;
   private XComponent xComponent; 
-  private XBreakIterator xTokenizer;
   
   /** Document ID. The document IDs can be used 
    * for storing the document-level state (e.g., for
@@ -98,32 +96,24 @@ public class Main extends WeakBase implements XJobExecutor, XServiceInfo, XGramm
   
   public Main(final XComponentContext xCompContext) {
     try {
-      XMultiComponentFactory xMCF = xCompContext.getServiceManager();
-      Object desktop = xMCF.createInstanceWithContext("com.sun.star.frame.Desktop", xCompContext);
-      XDesktop xDesktop = (XDesktop) UnoRuntime.queryInterface(XDesktop.class, desktop);      
+      final XMultiComponentFactory xMCF = xCompContext.getServiceManager();
+      final Object desktop = xMCF.createInstanceWithContext("com.sun.star.frame.Desktop", xCompContext);
+      final XDesktop xDesktop = (XDesktop) UnoRuntime.queryInterface(XDesktop.class, desktop);      
       xComponent = xDesktop.getCurrentComponent();
       xTextDoc = (XTextDocument) UnoRuntime.queryInterface(XTextDocument.class, xComponent);
       xFlatPI = 
         (XFlatParagraphIteratorProvider) UnoRuntime.queryInterface(XFlatParagraphIteratorProvider.class,
             xComponent);
-      Object xInterface;
-      xInterface = xMCF.createInstanceWithContext(
-          "com.sun.star.i18n.BreakIterator", xCompContext);
-      xTokenizer = (XBreakIterator) UnoRuntime
-          .queryInterface(XBreakIterator.class, xInterface);
       homeDir = getHomeDir();
       config = new Configuration(homeDir, CONFIG_FILE);
       messages = JLanguageTool.getMessageBundle();      
-    } catch (Throwable e) {
+    } catch (final Throwable e) {
       writeError(e);
       e.printStackTrace();
     }
   }
     
   private Language getLanguage() {
-    if (xFlatPI == null) {
-      return Language.ENGLISH; // for testing with local main() method only
-    }
     Locale charLocale;
     try {
       // just look at the first 200 chars in the document and assume that this is
@@ -131,25 +121,31 @@ public class Main extends WeakBase implements XJobExecutor, XServiceInfo, XGramm
       if (xFlatPI == null) {
         return null;
       }
-      com.sun.star.text.XFlatParagraphIterator xParaAccess = xFlatPI.getFlatParagraphIterator(com.sun.star.text.TextMarkupType.GRAMMAR, true);
+      final com.sun.star.text.XFlatParagraphIterator xParaAccess = xFlatPI.getFlatParagraphIterator(com.sun.star.text.TextMarkupType.GRAMMAR, true);
       if (xParaAccess == null) {
         System.err.println("xParaAccess == null");
         return null;
       }          
       com.sun.star.text.XFlatParagraph xParaEnum = xParaAccess.getFirstPara();
+      if (xParaEnum == null) {
+        xParaEnum = xParaAccess.getNextPara();
+        if (xParaEnum == null) {
+          return null;
+        }
+      }
       int maxLen = xParaEnum.getText().length();
       if (maxLen > 200) {
         maxLen = 200;
       }
-      charLocale = (Locale) xParaEnum.getPrimaryLanguageOfText(1, maxLen);      
+      charLocale = xParaEnum.getPrimaryLanguageOfText(1, maxLen);      
       if (!hasLocale(charLocale)) {
         // FIXME: i18n
-        DialogThread dt = new DialogThread("Error: Sorry, the document language '" +charLocale.Language+ 
+        final DialogThread dt = new DialogThread("Error: Sorry, the document language '" +charLocale.Language+ 
         "' is not supported by LanguageTool.");
         dt.start();
         return null;
       }
-    } catch (Exception e) {
+    } catch (final Exception e) {
       throw new RuntimeException(e);
     }
     return Language.getLanguageForShortName(charLocale.Language);
@@ -157,23 +153,32 @@ public class Main extends WeakBase implements XJobExecutor, XServiceInfo, XGramm
 
   /** Runs the grammar checker on paragraph text.
    * @param docID int - document ID
-   * xPara XFlatParagraph - text to check
-   * locale Locale - the text Locale  
-   * startOfSentencePos int start of sentence position
-   * suggEndOfSentencePos int end of sentence position
+   * @param xPara XFlatParagraph - text to check
+   * @param paraText - paragraph text
+   * @param locale Locale - the text Locale  
+   * @param startOfSentencePos int start of sentence position
+   * @param suggEndOfSentencePos int end of sentence position
    * @return GrammarCheckingResult containing the results of the check.
+   * @throws IllegalArgumentException (not really, LT simply returns
+   * the GrammarCheckingResult with the values supplied)
    */
-  public final GrammarCheckingResult doGrammarChecking(int docID,  
-      XFlatParagraph xPara, String paraText, Locale locale, 
-      int startOfSentencePos, int suggEndOfSentencePos) 
+  public final GrammarCheckingResult doGrammarChecking(final int docID,  
+      final XFlatParagraph xPara, final String paraText, final Locale locale, 
+      final int startOfSentencePos, final int suggEndOfSentencePos) 
   throws IllegalArgumentException {    
-    GrammarCheckingResult paRes = new GrammarCheckingResult();
+    final GrammarCheckingResult paRes = new GrammarCheckingResult();
     paRes.nEndOfSentencePos = suggEndOfSentencePos - startOfSentencePos;
     paRes.xFlatParagraph = xPara;
     paRes.xGrammarChecker = this;
-    paRes.aText = paraText.substring(startOfSentencePos, suggEndOfSentencePos);
     paRes.aLocale = locale;                    
-    paRes.nDocumentId = docID;
+    paRes.nDocumentId = docID;    
+    paRes.aText = paraText;    
+    if (paraText != null) {
+      paRes.nEndOfSentencePos = paraText.length();
+    } else {
+      return paRes;
+    }
+    
     if (hasLocale(locale)) {
       //caching the instance of LT
       if (!Language.getLanguageForShortName(locale.Language).equals(docLanguage)
@@ -186,34 +191,34 @@ public class Main extends WeakBase implements XJobExecutor, XServiceInfo, XGramm
           langTool = new JLanguageTool(docLanguage, config.getMotherTongue());
           langTool.activateDefaultPatternRules();
           langTool.activateDefaultFalseFriendRules();
-        } catch (Exception exception) {
+        } catch (final Exception exception) {
           showError(exception);
         }
       }
       if (config.getDisabledRuleIds() != null) {
-        for (String id : config.getDisabledRuleIds()) {                    
+        for (final String id : config.getDisabledRuleIds()) {                    
           langTool.disableRule(id);
         }
       }
-      Set<String> disabledCategories = config.getDisabledCategoryNames();
+      final Set<String> disabledCategories = config.getDisabledCategoryNames();
       if (disabledCategories != null) {
-        for (String categoryName : disabledCategories) {          
+        for (final String categoryName : disabledCategories) {          
           langTool.disableCategory(categoryName);
         }
       }
       try {        
-        List<RuleMatch> ruleMatches = langTool.check(paraText.substring(startOfSentencePos, suggEndOfSentencePos));
+        final List<RuleMatch> ruleMatches = langTool.check(paraText);
         if (ruleMatches.size() > 0) {          
-          SingleGrammarError[] errorArray = new SingleGrammarError[ruleMatches.size()];;
+          final SingleGrammarError[] errorArray = new SingleGrammarError[ruleMatches.size()];;
           int i = 0;
-          for (RuleMatch myRuleMatch : ruleMatches) {
+          for (final RuleMatch myRuleMatch : ruleMatches) {
             errorArray[i] = createOOoError(
                 locale, myRuleMatch);
             i++;
           }
           paRes.aGrammarErrors = errorArray;
         }
-      } catch (IOException exception) {
+      } catch (final IOException exception) {
         showError(exception);
       }      
     } 
@@ -221,17 +226,23 @@ public class Main extends WeakBase implements XJobExecutor, XServiceInfo, XGramm
   }
 
   /** Creates a SingleGrammarError object for use in OOo.
-   * @param locale Locale - the text Locale     * 
-   * MyMatch ruleMatch - LT rule match
+   * @param locale Locale - the text Locale
+   * @param myMatch ruleMatch - LT rule match
    * @return SingleGrammarError - object for OOo checker integration
    */
-  private SingleGrammarError createOOoError(Locale locale, 
-      final RuleMatch myMatch) {
-    SingleGrammarError aError = new SingleGrammarError();
-    aError.nErrorType = com.sun.star.text.TextMarkupType.GRAMMAR;
-    aError.aFullComment = myMatch.getMessage();
-    aError.aShortComment = aError.aFullComment; // we don't support two kinds of comments
-    aError.aSuggestions = (String[]) myMatch.getSuggestedReplacements().toArray(new String [myMatch.getSuggestedReplacements().size ()]);
+  private SingleGrammarError createOOoError(
+      final Locale locale, final RuleMatch myMatch) {
+    final SingleGrammarError aError = new SingleGrammarError();
+    aError.nErrorType = com.sun.star.text.TextMarkupType.GRAMMAR;    
+    //  the API currently has no support for formatting text in comments 
+    final String comment =  myMatch.getMessage().
+      replaceAll("<suggestion>", "\"").
+      replaceAll("</suggestion>", "\"");     
+    aError.aFullComment = comment;    
+      //  we don't support two kinds of comments
+    aError.aShortComment = aError.aFullComment; 
+    aError.aSuggestions = myMatch.getSuggestedReplacements()
+      .toArray(new String [myMatch.getSuggestedReplacements().size()]);
     aError.nErrorLevel = 0; // severity level, we don't use it
     aError.nErrorStart = myMatch.getFromPos();      
     aError.nErrorLength = myMatch.getToPos() - myMatch.getFromPos();
@@ -245,56 +256,80 @@ public class Main extends WeakBase implements XJobExecutor, XServiceInfo, XGramm
   * @throws IllegalArgumentException in case arg0 is not a 
   * valid myDocID.
   */
-  public void endDocument(int oldDocID) throws IllegalArgumentException {
+  public void endDocument(final int oldDocID) throws IllegalArgumentException {
     if (myDocID == oldDocID) {
       myDocID = -1;
     }
   }
 
   /**
-   * Called to clear the paragraph state. No use in our implementation.
+   * Called to clear the paragraph state. No used yet in our implementation.
    * 
-   * @param myDocID - the ID of the document already checked
-   * @throws IllegalArgumentException in case arg0 is not a 
+   * @param docID - the ID of the document already checked
    *  valid myDocID.
    */
-  public void endParagraph(int docID) throws IllegalArgumentException {
+  public void endParagraph(final int docID) {
     // TODO Auto-generated method stub
-
   }
 
-  public int getEndOfSentencePos(int docID, XFlatParagraph para, String paraText, 
-      Locale locale, 
-      int startOfSentence,
-      int suggestedEndOfSentencePos)
-      throws IllegalArgumentException {
-    /*
-    int pos = -1;
-    
-    if (xTokenizer != null) {
-      pos = xTokenizer.endOfSentence(paraText, startOfSentence, locale);
-    } 
-    return pos;
-    */
-    return paraText.length();
-  }  
-  
-  public int getStartOfSentencePos(int docID, XFlatParagraph para, String paraText, 
-      Locale locale, 
-      int nPosInSentence,
-      int suggestedEndOfSentencePos) {
-    /*
-    int pos = -1;
-    if (xTokenizer != null) {
-      pos = xTokenizer.beginOfSentence(paraText, nPosInSentence, locale);
+  /**
+   * Return the end of the current sentence. As LanguageTool tokenizes the text
+   * according to its internal rules, and doesn't depend on the XBreakIterator
+   * from OOo, we simply return the end of the paragraph.
+   * @param docID - the document ID
+   * @param para - the XFlatParagraph in which the text is
+   * @param paraText - paragraph text
+   * @param locale - the text locale
+   * @param startOfSentence - the position of the sentence start from the
+   * beginning of the paragraph text in characters
+   * @param suggestedEndOfSentencePos - the position, counted in the same way,
+   * suggested as the end of sentence
+   * Note: LT ignores almost all these values.
+   * @return int - the position of the end of sentence in the current 
+   * paragraph, in characters.
+   * because it ignores the values for simplicity.
+   */  
+  public final int getEndOfSentencePos(final int docID, 
+      final XFlatParagraph para, 
+      final String paraText, final Locale locale, 
+      final int startOfSentence, final int suggestedEndOfSentencePos) {
+    if (paraText != null) {
+      return paraText.length();
+    } else {
+      return -1;
     }
-    return pos;
-    */
+  }  
+  /**
+   * Return the position of beginning of the current sentence. 
+   * As LanguageTool tokenizes the text according to its internal rules, 
+   * and doesn't depend on the XBreakIterator from OOo, we simply return 
+   * the beginning of the current paragraph.
+   * @param docID - the document ID
+   * @param para - the XFlatParagraph in which the text is
+   * @param paraText - paragraph text
+   * @param locale - the text locale
+   * @param nPosInSentence - the position in the sentence from which we return
+   * the beginning of the paragraph text in characters
+   * @param suggestedEndOfSentencePos - the position, counted in the same way,
+   * suggested as the end of sentence
+   * Note: LT ignores almost all these values.
+   * @return int - the position of the end of sentence in the current 
+   * paragraph, in characters.
+   * because it ignores the values for simplicity.
+   */    
+  public final int getStartOfSentencePos(final int docID, 
+      final XFlatParagraph para, final String paraText, 
+      final Locale locale, final int nPosInSentence,
+      final int suggestedEndOfSentencePos) {
     return 0;
   }
 
-  public boolean hasCheckingDialog() {
-    // TODO Auto-generated method stub
+  /** This will be removed from the API
+   * as soon the generic spell-grammar window is used.
+   * 
+   * @return false - doesn't really matter
+   */
+  public final boolean hasCheckingDialog() {
     return false;
   }
 
@@ -314,22 +349,30 @@ public class Main extends WeakBase implements XJobExecutor, XServiceInfo, XGramm
     return false;
   }
 
-  public boolean requiresPreviousText() {
-    // TODO Auto-generated method stub
+  /** 
+   * We don't support backtracking to previous paragraphs,
+   * so we say "no" here.
+   * @return false - LT doesn't require previous text.
+   */
+  public final boolean requiresPreviousText() {
     return false;
   }
 
-  public void runCheckingDialog(int arg0) throws IllegalArgumentException {
+  /**
+   * NOTE: This method will probably be removed from the API.
+   * @param arg0 - docID
+   */
+  public void runCheckingDialog(final int arg0) {
     // TODO Auto-generated method stub
-
   }
 
   /** Runs LT options dialog box.
    **/
   public final void runOptionsDialog() {
     final Language lang = getLanguage();
-    if (lang == null)
+    if (lang == null) {
       return;
+    }
     final ConfigThread configThread = new ConfigThread(lang, config);
     configThread.start();
     while (true) {
@@ -338,7 +381,7 @@ public class Main extends WeakBase implements XJobExecutor, XServiceInfo, XGramm
       }
       try {
         Thread.sleep(100);
-      } catch (InterruptedException e) {
+      } catch (final InterruptedException e) {
         break;
       }
     }
@@ -347,28 +390,30 @@ public class Main extends WeakBase implements XJobExecutor, XServiceInfo, XGramm
   /**
    * Called to setup the doc state via ID.
    * @param docID - the doc ID
-   * @throws IllegalArgumentException in case arg0 is not a 
-   *  valid myDocID.
+   * @throws IllegalArgumentException in case docID is not a 
+   *  valid document ID.
    **/
-  public void startDocument(int docID) throws IllegalArgumentException {    
+  public final void startDocument(final int docID) 
+  throws IllegalArgumentException {    
     myDocID = docID;
     docLanguage = getLanguage();
     try {
       langTool = new JLanguageTool(docLanguage, config.getMotherTongue());
       langTool.activateDefaultPatternRules();
       langTool.activateDefaultFalseFriendRules();
-    } catch (Exception exception) {
+    } catch (final Exception exception) {
       showError(exception);    
     }
   }
 
   /**
    * Called to setup the paragraph state in a doc with some ID.
+   * Note yet implemented (probably will be implemented in the future).
    * @param docID - the doc ID
    * @throws IllegalArgumentException in case docID is not a 
    *  valid myDocID.
    **/
-  public void startParagraph(int docID) throws IllegalArgumentException {
+  public void startParagraph(final int docID) throws IllegalArgumentException {
     // TODO Auto-generated method stub
   }
 
@@ -377,18 +422,15 @@ public class Main extends WeakBase implements XJobExecutor, XServiceInfo, XGramm
    */
   public final Locale[] getLocales() {
     int dims = 0;
-    for (int i = 0; i < Language.LANGUAGES.length; i++) {
-      dims += Language.LANGUAGES[i].getCountryVariants().length;
+    for (final Language element : Language.LANGUAGES) {
+      dims += element.getCountryVariants().length;
     }
     final Locale[] aLocales = new Locale[dims];
     int cnt = 0;
-    for (int i = 0; i < Language.LANGUAGES.length; i++) {
-      for (String variant : Language.LANGUAGES[i].getCountryVariants()) {
-      aLocales[cnt] = new Locale(
-          Language.LANGUAGES[i].getShortName(),
-          variant,
-          "");
-      cnt++; 
+    for (final Language element : Language.LANGUAGES) {
+      for (final String variant : element.getCountryVariants()) {
+        aLocales[cnt] = new Locale(element.getShortName(), variant, "");
+        cnt++; 
       }
     }
     return aLocales;
@@ -399,8 +441,8 @@ public class Main extends WeakBase implements XJobExecutor, XServiceInfo, XGramm
    * @param arg0 The Locale to check.
    */
   public final boolean hasLocale(final Locale arg0) {    
-    for (int i = 0; i < Language.LANGUAGES.length; i++) {
-      if (Language.LANGUAGES[i].getShortName().equals(arg0.Language)) {
+    for (final Language element : Language.LANGUAGES) {
+      if (element.getShortName().equals(arg0.Language)) {
         return true;
       }
     }
@@ -417,7 +459,7 @@ public class Main extends WeakBase implements XJobExecutor, XServiceInfo, XGramm
   }
 
   public boolean supportsService(final String sServiceName) {
-    for (String sName : SERVICE_NAMES) {
+    for (final String sName : SERVICE_NAMES) {
       if (sServiceName.equals(sName)) {
         return true; 
       }
@@ -431,8 +473,9 @@ public class Main extends WeakBase implements XJobExecutor, XServiceInfo, XGramm
 
   public static XSingleComponentFactory __getComponentFactory(final String sImplName) {
     XSingleComponentFactory xFactory = null;
-    if (sImplName.equals(Main.class.getName()))
+    if (sImplName.equals(Main.class.getName())) {
       xFactory = Factory.createComponentFactory(Main.class, Main.getServiceNames());
+    }
     return xFactory;
   }
 
@@ -447,12 +490,13 @@ public class Main extends WeakBase implements XJobExecutor, XServiceInfo, XGramm
     try {
       if (sEvent.equals("execute")) {
         //try out the new XFlatParagraph interface...
-        TextToCheck textToCheck = getText();
+        final TextToCheck textToCheck = getText();
         checkText(textToCheck);
       } else if (sEvent.equals("configure")) {
         final Language lang = getLanguage();
-        if (lang == null)
+        if (lang == null) {
           return;
+        }
         final ConfigThread configThread = new ConfigThread(lang, config);
         configThread.start();
         while (true) {
@@ -461,17 +505,17 @@ public class Main extends WeakBase implements XJobExecutor, XServiceInfo, XGramm
           }
           try {
             Thread.sleep(100);
-          } catch (InterruptedException e) {
+          } catch (final InterruptedException e) {
             break;
           }
         }
       } else if (sEvent.equals("about")) {
-        AboutDialogThread aboutthread = new AboutDialogThread(messages);
+        final AboutDialogThread aboutthread = new AboutDialogThread(messages);
         aboutthread.start();
       } else {
         System.err.println("Sorry, don't know what to do, sEvent = " + sEvent);
       }        
-    } catch (Throwable e) {
+    } catch (final Throwable e) {
       showError(e);
     }
   }
@@ -480,12 +524,12 @@ public class Main extends WeakBase implements XJobExecutor, XServiceInfo, XGramm
     if (textToCheck == null) {      
       return;
     }
-    Language docLanguage = getLanguage();
+    final Language docLanguage = getLanguage();
     if (docLanguage == null) {
       return;
     }
-    ProgressDialog progressDialog = new ProgressDialog(messages);
-    CheckerThread checkerThread = new CheckerThread(textToCheck.paragraphs, docLanguage, config, 
+    final ProgressDialog progressDialog = new ProgressDialog(messages);
+    final CheckerThread checkerThread = new CheckerThread(textToCheck.paragraphs, docLanguage, config, 
         progressDialog);
     checkerThread.start();
     while (true) {
@@ -494,23 +538,23 @@ public class Main extends WeakBase implements XJobExecutor, XServiceInfo, XGramm
       }
       try {
         Thread.sleep(100);
-      } catch (InterruptedException e) {
+      } catch (final InterruptedException e) {
         // nothing
       }
     }
     progressDialog.close();
 
-    List<CheckedParagraph> checkedParagraphs = checkerThread.getRuleMatches();
+    final List<CheckedParagraph> checkedParagraphs = checkerThread.getRuleMatches();
     // TODO: why must these be wrapped in threads to avoid focus problems?
     if (checkedParagraphs.size() == 0) {
       String msg;
-      String translatedLangName = messages.getString(docLanguage.getShortName());
+      final String translatedLangName = messages.getString(docLanguage.getShortName());
       if (textToCheck.isSelection) {
         msg = Tools.makeTexti18n(messages, "guiNoErrorsFoundSelectedText", new String[] {translatedLangName});  
       } else {
         msg = Tools.makeTexti18n(messages, "guiNoErrorsFound", new String[] {translatedLangName});  
       }
-      DialogThread dt = new DialogThread(msg);
+      final DialogThread dt = new DialogThread(msg);
       dt.start();
       // TODO: display number of active rules etc?
     } else {
@@ -532,13 +576,13 @@ public class Main extends WeakBase implements XJobExecutor, XServiceInfo, XGramm
     if (xFlatPI == null) {
       return new TextToCheck(new ArrayList<String>(), false);
     }
-    com.sun.star.text.XFlatParagraphIterator xParaAccess = 
+    final com.sun.star.text.XFlatParagraphIterator xParaAccess = 
       xFlatPI.getFlatParagraphIterator(com.sun.star.text.TextMarkupType.GRAMMAR, false);
     if (xParaAccess == null) {
       System.err.println("xParaAccess == null");
       return new TextToCheck(new ArrayList<String>(), false);
     }        
-    List<String> paragraphs = new ArrayList<String>();
+    final List<String> paragraphs = new ArrayList<String>();
     try {
       com.sun.star.text.XFlatParagraph xParaEnum = xParaAccess.getFirstPara();        
         String paraString = xParaEnum.getText();
@@ -560,7 +604,7 @@ public class Main extends WeakBase implements XJobExecutor, XServiceInfo, XGramm
             break;
           }
         }        
-    } catch (Exception e) {
+    } catch (final Exception e) {
       throw new RuntimeException(e);
     }
     return new TextToCheck(paragraphs, false);
@@ -571,7 +615,7 @@ public class Main extends WeakBase implements XJobExecutor, XServiceInfo, XGramm
     final String version = System.getProperty("java.version");
     if (version != null && (version.startsWith("1.0") || version.startsWith("1.1")
         || version.startsWith("1.2") || version.startsWith("1.3") || version.startsWith("1.4"))) {
-      DialogThread dt = new DialogThread("Error: LanguageTool requires Java 1.5 or later. Current version: " + version);
+      final DialogThread dt = new DialogThread("Error: LanguageTool requires Java 1.5 or later. Current version: " + version);
       dt.start();
       return false;
     }    
@@ -580,11 +624,11 @@ public class Main extends WeakBase implements XJobExecutor, XServiceInfo, XGramm
 
   static void showError(final Throwable e) {
     String msg = "An error has occured:\n" + e.toString() + "\nStacktrace:\n";
-    StackTraceElement[] elem = e.getStackTrace();
-    for (int i = 0; i < elem.length; i++) {
-      msg += elem[i].toString() + "\n";
+    final StackTraceElement[] elem = e.getStackTrace();
+    for (final StackTraceElement element : elem) {
+      msg += element.toString() + "\n";
     }
-    DialogThread dt = new DialogThread(msg);
+    final DialogThread dt = new DialogThread(msg);
     dt.start();
     e.printStackTrace();
     throw new RuntimeException(e);
@@ -595,12 +639,12 @@ public class Main extends WeakBase implements XJobExecutor, XServiceInfo, XGramm
     try {
       fw = new FileWriter("languagetool.log");
       fw.write(e.toString() + "\r\n");
-      StackTraceElement[] el = e.getStackTrace();
-      for (int i = 0; i < el.length; i++) {
-        fw.write(el[i].toString()+ "\r\n");
+      final StackTraceElement[] el = e.getStackTrace();
+      for (final StackTraceElement element : el) {
+        fw.write(element.toString()+ "\r\n");
       }
       fw.close();
-    } catch (IOException e1) {
+    } catch (final IOException e1) {
       e1.printStackTrace();
     }
   }
