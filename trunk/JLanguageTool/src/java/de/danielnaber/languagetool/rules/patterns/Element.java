@@ -561,6 +561,7 @@ public class Element {
 
   /**
    * see {@link #setNegation}
+   * @since 0.9.3
    */
   public final boolean getNegation() {
     return this.negation;
@@ -643,6 +644,7 @@ public class Element {
 
   /**
    * Whether the element matches case sensitively.
+   * @since 0.9.3
    */
   public final boolean getCaseSensitive() {
     return caseSensitive;
