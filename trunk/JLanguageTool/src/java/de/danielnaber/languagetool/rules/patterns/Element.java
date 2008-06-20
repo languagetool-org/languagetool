@@ -560,6 +560,13 @@ public class Element {
   }
 
   /**
+   * see {@link #setNegation}
+   */
+  public final boolean getNegation() {
+    return this.negation;
+  }
+
+  /**
    * 
    * @return true when this element refers to another token.
    */
@@ -632,6 +639,13 @@ public class Element {
    */
   public final boolean isPartOfPhrase() {
     return phraseName != null;
+  }
+
+  /**
+   * Whether the element matches case sensitively.
+   */
+  public final boolean getCaseSensitive() {
+    return caseSensitive;
   }
   
   /** 
