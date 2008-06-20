@@ -210,6 +210,8 @@ public class PatternRule extends Rule {
     sb.append("\" mark_to=\"");
     sb.append(endPositionCorrection);
     sb.append("\"");
+    // for now, case sensitivity is per pattern, not per element,
+    // so just use the setting of the first element:
     if (patternElements.get(0).getCaseSensitive()) {
       sb.append(" case_sensitive=\"yes\"");
     }
