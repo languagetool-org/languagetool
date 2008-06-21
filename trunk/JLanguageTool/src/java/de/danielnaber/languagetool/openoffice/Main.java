@@ -57,12 +57,18 @@ import de.danielnaber.languagetool.Language;
 import de.danielnaber.languagetool.gui.Configuration;
 import de.danielnaber.languagetool.gui.Tools;
 import de.danielnaber.languagetool.rules.RuleMatch;
+import de.danielnaber.languagetool.tokenizers.WordTokenizer;
 
 public class Main extends WeakBase implements XJobExecutor, XServiceInfo, XGrammarChecker {
 
   private Configuration config;
   private JLanguageTool langTool; 
   private Language docLanguage;
+  
+  /** 
+   *  Used internally to optimize the online check.
+   */
+  private WordTokenizer w;
 
   private XTextViewCursor xViewCursor;
 
@@ -106,7 +112,8 @@ public class Main extends WeakBase implements XJobExecutor, XServiceInfo, XGramm
             xComponent);
       homeDir = getHomeDir();
       config = new Configuration(homeDir, CONFIG_FILE);
-      messages = JLanguageTool.getMessageBundle();      
+      messages = JLanguageTool.getMessageBundle();
+      w = new WordTokenizer();
     } catch (final Throwable e) {
       writeError(e);
       e.printStackTrace();
@@ -172,7 +179,15 @@ public class Main extends WeakBase implements XJobExecutor, XServiceInfo, XGramm
     paRes.xGrammarChecker = this;
     paRes.aLocale = locale;                    
     paRes.nDocumentId = docID;    
-    paRes.aText = paraText;    
+    paRes.aText = paraText;
+    
+    //skip the check if the text is only a part of word
+    //otherwise the there is a visible slowdown in typing the first
+    //word in the paragraph
+    if (w.tokenize(paraText).size() == 1) {
+      return paRes;
+    }
+    
     if (paraText != null) {
       paRes.nEndOfSentencePos = paraText.length();
     } else {
