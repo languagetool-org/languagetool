@@ -278,7 +278,7 @@ public class Main extends WeakBase implements XJobExecutor, XServiceInfo, XGramm
   }
 
   /**
-   * Called to clear the paragraph state. No used yet in our implementation.
+   * Called to clear the paragraph state. Not used yet in our implementation.
    * 
    * @param docID - the ID of the document already checked
    *  valid myDocID.
@@ -423,7 +423,7 @@ public class Main extends WeakBase implements XJobExecutor, XServiceInfo, XGramm
 
   /**
    * Called to setup the paragraph state in a doc with some ID.
-   * Note yet implemented (probably will be implemented in the future).
+   * Not yet implemented (probably will be implemented in the future).
    * @param docID - the doc ID
    * @throws IllegalArgumentException in case docID is not a 
    *  valid myDocID.
