@@ -198,6 +198,10 @@ public class Main extends WeakBase implements XJobExecutor, XServiceInfo, XGramm
       return paRes;
     }
 
+//TODO: process different language fragments in a paragraph 
+//    according to their language (currently assumed = locale)
+//needs XFlatParagraph to implement getLanguagePortions (currently dummy)     
+    
     if (hasLocale(locale)) {
       //caching the instance of LT
       if (!Language.getLanguageForShortName(locale.Language).equals(docLanguage)
@@ -306,7 +310,6 @@ public class Main extends WeakBase implements XJobExecutor, XServiceInfo, XGramm
    * Note: LT ignores almost all these values.
    * @return int - the position of the end of sentence in the current 
    * paragraph, in characters.
-   * because it ignores the values for simplicity.
    */  
   public final int getEndOfSentencePos(final int docID, 
       final XFlatParagraph para, 
@@ -334,7 +337,6 @@ public class Main extends WeakBase implements XJobExecutor, XServiceInfo, XGramm
    * Note: LT ignores almost all these values.
    * @return int - the position of the end of sentence in the current 
    * paragraph, in characters.
-   * because it ignores the values for simplicity.
    */    
   public final int getStartOfSentencePos(final int docID, 
       final XFlatParagraph para, final String paraText, 
