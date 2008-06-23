@@ -348,7 +348,7 @@ public class OOoDialog implements ActionListener {
             for (com.sun.star.container.XEnumeration xParaEnum = xParaAccess.createEnumeration(); xParaEnum.hasMoreElements();) {
               Object para = xParaEnum.nextElement();
               if (innerParaCount == paragraphNumber) {
-                contentForDisplay = OldChecker.getParagraphContent(para);
+                contentForDisplay = Main.getParagraphContent(para);
                 break;
               }
               innerParaCount++;

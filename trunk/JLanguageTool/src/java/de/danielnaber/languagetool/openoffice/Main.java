@@ -31,13 +31,19 @@ import java.util.List;
 import java.util.ResourceBundle;
 import java.util.Set;
 
+import javax.swing.JOptionPane;
+
+import com.sun.star.awt.XWindow;
+import com.sun.star.awt.XWindowPeer;
 import com.sun.star.frame.XDesktop;
+import com.sun.star.frame.XModel;
 import com.sun.star.lang.IllegalArgumentException;
 import com.sun.star.lang.Locale;
 import com.sun.star.lang.XComponent;
 import com.sun.star.lang.XMultiComponentFactory;
 import com.sun.star.lang.XServiceInfo;
 import com.sun.star.lang.XSingleComponentFactory;
+import com.sun.star.text.XTextCursor;
 import com.sun.star.lib.uno.helper.Factory;
 import com.sun.star.lib.uno.helper.WeakBase;
 import com.sun.star.linguistic2.GrammarCheckingResult;
@@ -51,13 +57,19 @@ import com.sun.star.text.XTextDocument;
 import com.sun.star.text.XTextViewCursor;
 import com.sun.star.uno.UnoRuntime;
 import com.sun.star.uno.XComponentContext;
+import com.sun.star.beans.UnknownPropertyException;
+import com.sun.star.beans.XPropertySet;
+import com.sun.star.container.NoSuchElementException;
+import com.sun.star.container.XEnumeration;
+import com.sun.star.lang.WrappedTargetException;
+import com.sun.star.text.XTextRange;
 
 import de.danielnaber.languagetool.JLanguageTool;
 import de.danielnaber.languagetool.Language;
 import de.danielnaber.languagetool.gui.Configuration;
 import de.danielnaber.languagetool.gui.Tools;
+import de.danielnaber.languagetool.rules.Rule;
 import de.danielnaber.languagetool.rules.RuleMatch;
-//import de.danielnaber.languagetool.tokenizers.WordTokenizer;
 
 public class Main extends WeakBase implements XJobExecutor, XServiceInfo, XGrammarChecker {
 
@@ -65,12 +77,6 @@ public class Main extends WeakBase implements XJobExecutor, XServiceInfo, XGramm
   private JLanguageTool langTool; 
   private Language docLanguage;
   
-  /** 
-   *  Used internally to optimize the online check.
-   FIXME: premature optimization
-  private WordTokenizer w;
-  */
-
   private XTextViewCursor xViewCursor;
 
   /** Service name required by the OOo API && our own name.
@@ -85,7 +91,8 @@ public class Main extends WeakBase implements XJobExecutor, XServiceInfo, XGramm
   private static final String CONFIG_FILE = ".languagetool-ooo.cfg";
 
 
-  private ResourceBundle messages = null;
+  private static final ResourceBundle MESSAGES = JLanguageTool.getMessageBundle();
+  
   private File homeDir;
 
   //TODO: remove as soon as the spelling window is used for grammar check
@@ -113,8 +120,6 @@ public class Main extends WeakBase implements XJobExecutor, XServiceInfo, XGramm
             xComponent);
       homeDir = getHomeDir();
       config = new Configuration(homeDir, CONFIG_FILE);
-      messages = JLanguageTool.getMessageBundle();
-      // w = new WordTokenizer();
     } catch (final Throwable e) {
       writeError(e);
       e.printStackTrace();
@@ -122,43 +127,39 @@ public class Main extends WeakBase implements XJobExecutor, XServiceInfo, XGramm
   }
 
   private Language getLanguage() {
+    if (xTextDoc == null)
+      return Language.ENGLISH; // for testing with local main() method only
     Locale charLocale;
     try {
-      // just look at the first 200 chars in the document and assume that this is
-      // the language of the whole document:
-      if (xFlatPI == null) {
-        return null;
-      }
-      final com.sun.star.text.XFlatParagraphIterator xParaAccess = xFlatPI.getFlatParagraphIterator(com.sun.star.text.TextMarkupType.GRAMMAR, true);
-      if (xParaAccess == null) {
-        System.err.println("xParaAccess == null");
-        return null;
-      }          
-      com.sun.star.text.XFlatParagraph xParaEnum = xParaAccess.getFirstPara();
-      if (xParaEnum == null) {
-        xParaEnum = xParaAccess.getNextPara();
-        if (xParaEnum == null) {
-          return null;
+      // just look at the first position in the document and assume that this character's
+      // language is the language of the whole document:
+      XTextCursor textCursor = xTextDoc.getText().createTextCursor();
+      textCursor.gotoStart(false);
+      XPropertySet xCursorProps = (XPropertySet) UnoRuntime.queryInterface(XPropertySet.class,
+          textCursor);
+      charLocale = (Locale) xCursorProps.getPropertyValue("CharLocale");
+      boolean langIsSupported = false;
+      for (int i = 0; i < Language.LANGUAGES.length; i++) {
+        if (Language.LANGUAGES[i].getShortName().equals(charLocale.Language)) {
+          langIsSupported = true;
+          break;
         }
       }
-      int maxLen = xParaEnum.getText().length();
-      if (maxLen > 200) {
-        maxLen = 200;
-      }
-      charLocale = xParaEnum.getPrimaryLanguageOfText(1, maxLen);      
-      if (!hasLocale(charLocale)) {
+      if (!langIsSupported) {
         // FIXME: i18n
-        final DialogThread dt = new DialogThread("Error: Sorry, the document language '" +charLocale.Language+ 
-        "' is not supported by LanguageTool.");
-        dt.start();
+        JOptionPane.showMessageDialog(null, "Error: Sorry, the document language '" +charLocale.Language+ 
+            "' is not supported by LanguageTool.");
         return null;
       }
-    } catch (final Exception e) {
+      //checkTables();
+    } catch (UnknownPropertyException e) {
+      throw new RuntimeException(e);
+    } catch (WrappedTargetException e) {
       throw new RuntimeException(e);
     }
     return Language.getLanguageForShortName(charLocale.Language);
   }
-
+  
   /** Runs the grammar checker on paragraph text.
    * @param docID int - document ID
    * @param xPara XFlatParagraph - text to check
@@ -181,17 +182,7 @@ public class Main extends WeakBase implements XJobExecutor, XServiceInfo, XGramm
     paRes.aLocale = locale;                    
     paRes.nDocumentId = docID;    
     paRes.aText = paraText;
-    
-    //skip the check if the text is only a part of word
-    //otherwise the there is a visible slowdown in typing the first
-    //word in the paragraph
-    /*
-     * FIXME: premature optimization
-    if (w.tokenize(paraText).size() == 1) {
-      return paRes;
-    }
-    */
-    
+        
     if (paraText != null) {
       paRes.nEndOfSentencePos = paraText.length();
     } else {
@@ -516,7 +507,7 @@ public class Main extends WeakBase implements XJobExecutor, XServiceInfo, XGramm
       } else if (sEvent.equals("configure")) {
         runOptionsDialog();
       } else if (sEvent.equals("about")) {
-        final AboutDialogThread aboutthread = new AboutDialogThread(messages);
+        final AboutDialogThread aboutthread = new AboutDialogThread(MESSAGES);
         aboutthread.start();
       } else {
         System.err.println("Sorry, don't know what to do, sEvent = " + sEvent);
@@ -534,7 +525,7 @@ public class Main extends WeakBase implements XJobExecutor, XServiceInfo, XGramm
     if (docLanguage == null) {
       return;
     }
-    final ProgressDialog progressDialog = new ProgressDialog(messages);
+    final ProgressDialog progressDialog = new ProgressDialog(MESSAGES);
     final CheckerThread checkerThread = new CheckerThread(textToCheck.paragraphs, docLanguage, config, 
         progressDialog);
     checkerThread.start();
@@ -554,11 +545,11 @@ public class Main extends WeakBase implements XJobExecutor, XServiceInfo, XGramm
     // TODO: why must these be wrapped in threads to avoid focus problems?
     if (checkedParagraphs.size() == 0) {
       String msg;
-      final String translatedLangName = messages.getString(docLanguage.getShortName());
+      final String translatedLangName = MESSAGES.getString(docLanguage.getShortName());
       if (textToCheck.isSelection) {
-        msg = Tools.makeTexti18n(messages, "guiNoErrorsFoundSelectedText", new String[] {translatedLangName});  
+        msg = Tools.makeTexti18n(MESSAGES, "guiNoErrorsFoundSelectedText", new String[] {translatedLangName});  
       } else {
-        msg = Tools.makeTexti18n(messages, "guiNoErrorsFound", new String[] {translatedLangName});  
+        msg = Tools.makeTexti18n(MESSAGES, "guiNoErrorsFound", new String[] {translatedLangName});  
       }
       final DialogThread dt = new DialogThread(msg);
       dt.start();
@@ -662,6 +653,108 @@ public class Main extends WeakBase implements XJobExecutor, XServiceInfo, XGramm
     }
     return new File(homeDir);
   }
+  
+//TODO: remove this method when spell-checking dialog window is available 
+  static String getParagraphContent(Object para) throws NoSuchElementException, WrappedTargetException, UnknownPropertyException {
+    if (para == null) {
+      return null;
+    }
+    com.sun.star.container.XEnumerationAccess xPortionAccess = (com.sun.star.container.XEnumerationAccess) UnoRuntime
+        .queryInterface(com.sun.star.container.XEnumerationAccess.class, para);
+    if (xPortionAccess == null) {
+      System.err.println("xPortionAccess is null");
+      return null;
+    }
+    StringBuilder sb = new StringBuilder();
+    for (XEnumeration portionEnum = xPortionAccess.createEnumeration(); portionEnum.hasMoreElements();) {
+      Object textPortion = portionEnum.nextElement();
+      XPropertySet textProps = (XPropertySet) UnoRuntime.queryInterface(XPropertySet.class, textPortion);
+      String type = (String)textProps.getPropertyValue("TextPortionType");
+      if ("Footnote".equals(type) || "DocumentIndexMark".equals(type)) {
+        // a footnote reference appears as one character in the text. we don't use a whitespace
+        // because we don't want to trigger the "no whitespace before comma" rule in this case:
+        // my footnoteÂ¹, foo bar
+        sb.append("1");
+      } else {
+        XTextRange xtr = (XTextRange) UnoRuntime.queryInterface(XTextRange.class, textPortion);
+        sb.append(xtr.getString());
+      }
+    }
+    return sb.toString();
+  }
 
+  class AboutDialogThread extends Thread {
 
+    private ResourceBundle messages;
+
+    AboutDialogThread(final ResourceBundle messages) {
+      this.messages = messages;
+    }
+    
+    public void run() {
+      XModel model = (XModel)UnoRuntime.queryInterface(XModel.class, xComponent);
+      XWindow parentWindow = model.getCurrentController().getFrame().getContainerWindow();
+      XWindowPeer parentWindowPeer = (XWindowPeer) UnoRuntime.queryInterface(XWindowPeer.class, parentWindow);
+      final OOoAboutDialog about = 
+        new OOoAboutDialog(messages, parentWindowPeer);
+      about.show();
+    }
+  }
+  
+}
+
+//TODO: remove these classes step by step, they're becoming obsolete
+
+class DialogThread extends Thread {
+  private String text;
+
+  DialogThread(final String text) {
+    this.text = text;
+  }
+
+  public void run() {
+    JOptionPane.showMessageDialog(null, text);
+  }
+}
+
+class ResultDialogThread extends Thread {
+
+  private Configuration configuration;
+  private List<Rule> rules;
+  private XTextDocument xTextDoc;
+  private List<CheckedParagraph> checkedParagraphs;
+  private XTextViewCursor xViewCursor;
+  private TextToCheck textTocheck;
+
+  ResultDialogThread(final Configuration configuration, final List<Rule> rules, final XTextDocument xTextDoc,
+      final List<CheckedParagraph> checkedParagraphs, final XTextViewCursor xViewCursor,
+      final TextToCheck textTocheck) {
+    this.configuration = configuration;
+    this.rules = rules;
+    this.xTextDoc = xTextDoc;
+    this.checkedParagraphs = checkedParagraphs;
+    this.xViewCursor = xViewCursor;
+    this.textTocheck = textTocheck;
+  }
+  
+  public void run() {
+    OOoDialog dialog;
+    if (xViewCursor == null)
+      dialog = new OOoDialog(configuration, rules, xTextDoc, checkedParagraphs);
+    else
+      dialog = new OOoDialog(configuration, rules, xTextDoc, checkedParagraphs, xViewCursor, textTocheck);
+    dialog.show();
+  }
+  
+}
+class TextToCheck {
+  
+  List<String> paragraphs;
+  boolean isSelection;
+  
+  TextToCheck(final List<String> paragraphs, final boolean isSelection) {
+    this.paragraphs = paragraphs;
+    this.isSelection = isSelection;
+  }
+   
 }
