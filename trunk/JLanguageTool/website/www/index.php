@@ -14,6 +14,11 @@ up <em>there/their</em>, <em>no/now</em> etc. It can also detect some
 grammar mistakes. It does not include spell checking. See the <?=show_link("languages", "languages/", 0) ?> 
 page for a list of supported languages.</p>
 
+<p><strong>Update June 2008:</strong> Please visit our new
+<?=show_link("LanguageTool Community website", "http://community.languagetool.org") ?>
+ that lets you browse all rules for all languages. You can even create 
+new (simple) rules if you're logged in.</p>
+
 <p><strong>Update 2008-02-17:</strong> Released version 0.9.2:
 In OpenOffice.org, LanguageTool is now part of the "Tools" menu. It is now
 distributed as an *.oxt file so you can install it by double-clicking on it.
