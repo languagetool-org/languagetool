@@ -36,14 +36,14 @@ public class OOoAboutDialog {
   private ResourceBundle messages = null;
   private XWindowPeer winPeer = null;
   
-  public OOoAboutDialog(ResourceBundle messages, XWindowPeer parentWindowPeer) {
+  public OOoAboutDialog(final ResourceBundle messages, final XWindowPeer parentWindowPeer) {
     this.messages = messages;
     winPeer = parentWindowPeer;
   }
   
   public void show() {
     final StringBuilder maintainersInfo = new StringBuilder();
-    for (Language lang : Language.LANGUAGES) {
+    for (final Language lang : Language.LANGUAGES) {
       if (lang != Language.DEMO) {
         if (lang.getMaintainers() != null) {
           final String m = Arrays.toString(lang.getMaintainers());
@@ -57,17 +57,18 @@ public class OOoAboutDialog {
     final String aboutText = 
       StringTools.getLabel(messages.getString("guiMenuAbout"));
     
-    XMessageBoxFactory messageBoxFactory = (XMessageBoxFactory) UnoRuntime.queryInterface(XMessageBoxFactory.class,winPeer.getToolkit());
+    final XMessageBoxFactory messageBoxFactory = (XMessageBoxFactory) UnoRuntime.queryInterface(XMessageBoxFactory.class,winPeer.getToolkit());
 
-    Rectangle messageBoxRectangle = new Rectangle();
+    final Rectangle messageBoxRectangle = new Rectangle();
 
-    XMessageBox box = messageBoxFactory.createMessageBox(winPeer, messageBoxRectangle, "infobox", 0, aboutText,         
-        "LanguageTool " + JLanguageTool.VERSION + "\n" + 
-        "Copyright (C) 2005-2007 Daniel Naber\n"+
-        "This software is licensed under the GNU Lesser General Public License.\n"+
-        "LanguageTool Homepage: http://www.danielnaber.de/languagetool\n\n"+
-        "Maintainers of the language modules:\n"+
-        maintainersInfo.toString()) ;
+    final XMessageBox box = messageBoxFactory.createMessageBox(
+        winPeer, messageBoxRectangle, "infobox", 0, aboutText,         
+        "LanguageTool " + JLanguageTool.VERSION + "\n" 
+        + "Copyright (C) 2005-2007 Daniel Naber\n" 
+        + "This software is licensed under the GNU Lesser General Public License.\n"
+        + "LanguageTool Homepage: http://www.danielnaber.de/languagetool\n\n"
+        + "Maintainers of the language modules:\n" 
+        + maintainersInfo.toString());
     box.execute();          
 }
 }
