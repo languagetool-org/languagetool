@@ -15,7 +15,7 @@ grammar mistakes. It does not include spell checking. See the <?=show_link("lang
 page for a list of supported languages.</p>
 
 <p><strong>Update June 2008:</strong> Please visit our new
-<?=show_link("LanguageTool Community website", "http://community.languagetool.org") ?>
+<?=show_link("LanguageTool Community website", "http://community.languagetool.org", 0) ?>
  that lets you browse all rules for all languages. You can even create 
 new (simple) rules if you're logged in.</p>
 
