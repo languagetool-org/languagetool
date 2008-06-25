@@ -6,7 +6,7 @@ title="Easy editing stylesheet" ?>
 <!--
 Polish Grammar and Typo Rules for LanguageTool
 Copyright (C) 2006-2007 Marcin Miłkowski
-$Id: grammar.xml,v 1.132 2008-06-09 21:26:32 milek_pl Exp $
+$Id: grammar.xml,v 1.133 2008-06-25 23:32:36 milek_pl Exp $
 -->
 <rules lang="pl">
   <phrases>
@@ -5064,6 +5064,28 @@ lub <suggestion>\2 na prawach wyłączności</suggestion>.</message>
     </rule>
   </category>
   <category name="Błędy ortograficzne">
+    <rulegroup id="NA_PRZOD" name="„na przód” (naprzód)">
+      <rule>
+        <pattern>
+          <token>cała</token>
+          <token>na</token>
+          <token>przód</token>
+        </pattern>
+        <message>Prawdopodobny błąd ortograficzny. Powinno być: <suggestion>\1 \2\3</suggestion>.</message>
+        <example correction="Cała naprzód" type="incorrect"><marker>Cała na przód</marker> ku nowej przygodzie, taka gratka nie zdarza się co dzień.</example>
+        <example type="correct">Cała naprzód ku nowej przygodzie, taka gratka nie zdarza się co dzień</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token inflected="yes" regexp="yes">krok|iść|ruszyć|posuwać|pójść|przeć|miesiąc</token>
+          <token>na</token>
+          <token>przód</token>
+        </pattern>
+        <message>Prawdopodobny błąd ortograficzny. Powinno być: <suggestion>\1 \2\3</suggestion>.</message>
+        <example correction="krok naprzód" type="incorrect">Uczyniliśmy wielki <marker>krok na przód</marker>.</example>
+        <example type="correct">Uczyniliśmy wielki krok naprzód.</example>
+      </rule>
+    </rulegroup>
     <rule id="JEZYK_POLSKI" name="Pisownia nazw języków wielką literą">
       <pattern case_sensitive="yes" mark_from="1">
         <token inflected="yes">język</token>
