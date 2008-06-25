@@ -7,7 +7,7 @@ title="Easy editing stylesheet" ?>
 English Grammar and Typo Rules for LanguageTool
 See tagset.txt for the meaning of the POS tags
 Copyright (C) 2001-2007 Daniel Naber (http://www.danielnaber.de)
-$Id: grammar.xml,v 1.64 2008-06-12 17:07:06 milek_pl Exp $
+$Id: grammar.xml,v 1.65 2008-06-25 16:21:23 milek_pl Exp $
 -->
 <rules lang="en">
   <!-- ====================================================================== -->
@@ -24,7 +24,7 @@ $Id: grammar.xml,v 1.64 2008-06-12 17:07:06 milek_pl Exp $
       <example correction="back and forth" type="incorrect">How to move <marker>back and fourth</marker> from linux to xmb?</example>
       <example type="correct">"How to move back and forth from linux to xmb?" </example>
     </rule>
-    <rule id="BACK_IN_FORTH" name="Possible typo: 'back in forth (back and forth)">
+    <rule id="BACK_IN_FORTH" name="Possible typo: 'back in forth (back and forth)'">
       <pattern>
         <token>back</token>
         <token>in</token>
@@ -33,6 +33,16 @@ $Id: grammar.xml,v 1.64 2008-06-12 17:07:06 milek_pl Exp $
       <message>Did you mean <suggestion>back and forth</suggestion>?</message>
       <example correction="back and forth" type="incorrect">I've been texting <marker>back in forth</marker> with him for the past 3 days.</example>
       <example type="correct">I've been texting back and forth with him for the past 3 days</example>
+    </rule>
+    <rule id="BYE_THE_WAY" name="Possible typo: 'bye the way (by the way)'">
+      <pattern>
+        <token>bye</token>
+        <token>the</token>
+        <token>way</token>
+      </pattern>
+      <message>Did you mean <suggestion>by the way</suggestion>?</message>
+      <example correction="by the way" type="incorrect">And <marker>bye the way</marker>, this program is open source.</example>
+      <example type="correct">And <marker>by the way</marker>, this program is open source.</example>
     </rule>
     <rule id="CHALK_FULL" name="Possible typo: 'chalk full (chock-full)'">
       <pattern>
