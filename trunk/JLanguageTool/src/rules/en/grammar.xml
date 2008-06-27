@@ -7,7 +7,7 @@ title="Easy editing stylesheet" ?>
 English Grammar and Typo Rules for LanguageTool
 See tagset.txt for the meaning of the POS tags
 Copyright (C) 2001-2007 Daniel Naber (http://www.danielnaber.de)
-$Id: grammar.xml,v 1.65 2008-06-25 16:21:23 milek_pl Exp $
+$Id: grammar.xml,v 1.66 2008-06-27 23:12:24 milek_pl Exp $
 -->
 <rules lang="en">
   <!-- ====================================================================== -->
@@ -1360,6 +1360,15 @@ $Id: grammar.xml,v 1.65 2008-06-25 16:21:23 milek_pl Exp $
   <!-- Grammar -->
   <!-- ====================================================================== -->
   <category name="Grammar">
+    <rule id="THESE_ONES" name="'these/those ones' (these/those)">
+      <pattern>
+        <token regexp="yes">these|those</token>
+        <token>ones</token>
+      </pattern>
+      <message>This phrase is probably grammatically incorrect. Write <suggestion>\1</suggestion> instead.</message>
+      <example correction="These" type="incorrect"><marker>These Ones</marker> Are Bitter.</example>
+      <example type="correct">These Are Bitter.</example>
+    </rule>
     <rule id="EACH_EVERY_NNS" name="'each' or 'every' with plural nouns">
       <pattern mark_to="-2">
         <token postag="SENT_START"/>
@@ -1584,9 +1593,9 @@ $Id: grammar.xml,v 1.65 2008-06-25 16:21:23 milek_pl Exp $
           <token regexp="yes">You</token>
           <token regexp="yes">am|is|was|has</token>
         </pattern>
-        <message>Use second person verb with 'you': <suggestion>are</suggestion>.</message>
+        <message>Use second person verb with 'you': <suggestion>are</suggestion> or <suggestion>were</suggestion>.</message>
         <example type="correct">You <marker>are</marker> too old for that.</example>
-        <example correction="are" type="incorrect">You <marker>is</marker> too old for that.</example>
+        <example correction="are|were" type="incorrect">You <marker>is</marker> too old for that.</example>
       </rule>
       <rule>
         <pattern mark_from="2">
@@ -2261,6 +2270,7 @@ $Id: grammar.xml,v 1.65 2008-06-25 16:21:23 milek_pl Exp $
         <message>Did you mean <suggestion>this <match no="2"/></suggestion>  or <suggestion><match no="1"/> <match no="2" postag="NNS"/></suggestion>?</message>
         <example type="correct">These are errors.</example>
         <example type="correct">These errors are easy to fix.</example>
+        <example correction="This kind|These kinds" type="incorrect"><marker>These kind</marker> of errors are easy to fix.</example>
         <example correction="This error|These errors" type="incorrect"><marker>These error</marker> are easy to fix.</example>
         <example type="correct">This forms a sharp contract with...</example>
         <example type="correct">These eleven authors are right.</example>
@@ -3346,6 +3356,8 @@ $Id: grammar.xml,v 1.65 2008-06-25 16:21:23 milek_pl Exp $
         <example type="correct">He gets up early every day.</example>
       </rule>
     </rulegroup>
+  </category>
+  <category name="Mistaken Phrases">
     <rule id="WHIP_CREAM" name="'whip cream' (whipped cream)">
       <pattern mark_from="1">
         <token postag="DT|JJ.*|VBZ|VBD" postag_regexp="yes"/>
@@ -3355,6 +3367,16 @@ $Id: grammar.xml,v 1.65 2008-06-25 16:21:23 milek_pl Exp $
       <message>Did you mean <suggestion>whipped cream</suggestion>?</message>
       <example correction="whipped cream" type="incorrect">Whip cream until it becomes <marker>whip cream</marker>.</example>
       <example type="correct">Whip cream until it becomes whipped cream.</example>
+    </rule>
+    <rule id="IN_REGARD_TO" name="'in regards to' (regarding, with regard to)">
+      <pattern>
+        <token>in</token>
+        <token>regards</token>
+        <token>to</token>
+      </pattern>
+      <message>This phrase is nonstandard. Use simply <suggestion>regarding</suggestion> or <suggestion>with regard to</suggestion>.</message>
+      <example correction="regarding|with regard to" type="incorrect">Please be aware of the following changes <marker>in regards to</marker> this program.</example>
+      <example type="correct">Please be aware of the following changes in this program.</example>
     </rule>
   </category>
   <category name="Slang">
