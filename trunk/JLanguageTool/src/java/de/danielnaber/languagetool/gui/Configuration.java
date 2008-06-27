@@ -117,6 +117,10 @@ public class Configuration {
   }
 
   private void loadConfiguration() throws IOException {
+    
+//FIXME: disabling a rule X in language Y should not disable it in all 
+//languages - need to add a language parameter
+    
     FileInputStream fis = null;
     try {
       fis = new FileInputStream(configFile);
