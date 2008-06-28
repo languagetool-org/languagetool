@@ -33,6 +33,10 @@ import java.util.Set;
 
 import javax.swing.JOptionPane;
 
+import com.sun.star.awt.XControl;
+import com.sun.star.awt.XListBox;
+import com.sun.star.awt.XControlContainer;
+import com.sun.star.awt.XButton;
 import com.sun.star.awt.XWindow;
 import com.sun.star.awt.XWindowPeer;
 import com.sun.star.frame.XDesktop;
@@ -63,6 +67,11 @@ import com.sun.star.container.NoSuchElementException;
 import com.sun.star.container.XEnumeration;
 import com.sun.star.lang.WrappedTargetException;
 import com.sun.star.text.XTextRange;
+import com.sun.star.container.XNameAccess;
+import com.sun.star.deployment.XPackageInformationProvider;
+import com.sun.star.awt.XDialogProvider;
+import com.sun.star.awt.XDialog;
+
 
 import de.danielnaber.languagetool.JLanguageTool;
 import de.danielnaber.languagetool.Language;
@@ -70,6 +79,7 @@ import de.danielnaber.languagetool.gui.Configuration;
 import de.danielnaber.languagetool.gui.Tools;
 import de.danielnaber.languagetool.rules.Rule;
 import de.danielnaber.languagetool.rules.RuleMatch;
+import de.danielnaber.languagetool.tools.StringTools;
 
 public class Main extends WeakBase implements XJobExecutor, XServiceInfo, XGrammarChecker {
 
@@ -101,6 +111,8 @@ public class Main extends WeakBase implements XJobExecutor, XServiceInfo, XGramm
   private com.sun.star.text.XFlatParagraphIteratorProvider xFlatPI;
   private XComponent xComponent; 
 
+  private XComponentContext xContext;
+  
   /** Document ID. The document IDs can be used 
    * for storing the document-level state (e.g., for
    * document-level spelling consistency).
@@ -110,6 +122,7 @@ public class Main extends WeakBase implements XJobExecutor, XServiceInfo, XGramm
 
   public Main(final XComponentContext xCompContext) {
     try {
+      xContext = xCompContext;
       final XMultiComponentFactory xMCF = xCompContext.getServiceManager();
       final Object desktop = xMCF.createInstanceWithContext("com.sun.star.frame.Desktop", xCompContext);
       final XDesktop xDesktop = (XDesktop) UnoRuntime.queryInterface(XDesktop.class, desktop);      
@@ -504,7 +517,40 @@ public class Main extends WeakBase implements XJobExecutor, XServiceInfo, XGramm
         //try out the new XFlatParagraph interface...
         final TextToCheck textToCheck = getText();
         checkText(textToCheck);
-      } else if (sEvent.equals("configure")) {
+      } else if (sEvent.equals("test_new_win")) {
+//TODO: make this a separate config dialog class        
+        XMultiComponentFactory xMCF = xContext.getServiceManager();      
+//      get PackageInformationProvider from ComponentContext
+     final XNameAccess xNameAccess = (XNameAccess) UnoRuntime.queryInterface(
+        XNameAccess.class, xContext);
+     Object oPIP = xNameAccess.getByName("/singletons/com.sun.star.deployment.PackageInformationProvider");
+     XPackageInformationProvider xPIP = (XPackageInformationProvider) UnoRuntime.queryInterface(
+        XPackageInformationProvider.class, oPIP);
+//      get the url of the directory extension installed
+     final String sPackageURL = 
+         xPIP.getPackageLocation("org.openoffice.languagetool.oxt");
+     final String sDialogURL = sPackageURL + "/Options.xdl";
+
+//      dialog provider to make a dialog
+     Object oDialogProvider = xMCF.createInstanceWithContext(
+        "com.sun.star.awt.DialogProvider", xContext);
+     XDialogProvider xDialogProv = (XDialogProvider) UnoRuntime.queryInterface(
+        XDialogProvider.class, oDialogProvider);
+     XDialog xDialog = xDialogProv.createDialog(sDialogURL);
+     XControlContainer xDlgContainer = (XControlContainer) UnoRuntime.queryInterface(XControlContainer.class, xDialog);
+     XControl xListControl = xDlgContainer.getControl("LanguageList");
+     XListBox xListBox = (XListBox) UnoRuntime.queryInterface(XListBox.class, xListControl);
+     for (short i = 0; i < Language.LANGUAGES.length - 1; i++) {
+       xListBox.addItem(
+         Language.LANGUAGES[i].getTranslatedName(MESSAGES), i);
+     }
+     XButton xOKButton = (XButton) UnoRuntime.queryInterface(XButton.class, xDlgContainer.getControl("OK_Button"));
+     xOKButton.setLabel(StringTools.getOOoLabel(MESSAGES.getString("guiOKButton")));
+     XButton xCancelButton = (XButton) UnoRuntime.queryInterface(XButton.class, xDlgContainer.getControl("Cancel_Button"));
+     xCancelButton.setLabel(StringTools.getOOoLabel(MESSAGES.getString("guiCancelButton")));
+     short nResult = xDialog.execute();
+               
+      } else if (sEvent.equals("configure")) {                
         runOptionsDialog();
       } else if (sEvent.equals("about")) {
         final AboutDialogThread aboutthread = new AboutDialogThread(MESSAGES);
@@ -638,7 +684,7 @@ public class Main extends WeakBase implements XJobExecutor, XServiceInfo, XGramm
       fw.write(e.toString() + "\r\n");
       final StackTraceElement[] el = e.getStackTrace();
       for (final StackTraceElement element : el) {
-        fw.write(element.toString()+ "\r\n");
+        fw.write(element.toString() + "\r\n");
       }
       fw.close();
     } catch (final IOException e1) {
@@ -756,5 +802,4 @@ class TextToCheck {
     this.paragraphs = paragraphs;
     this.isSelection = isSelection;
   }
-   
-}
+}  

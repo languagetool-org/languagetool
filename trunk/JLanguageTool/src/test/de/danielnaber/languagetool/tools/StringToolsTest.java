@@ -96,6 +96,11 @@ public class StringToolsTest extends TestCase {
     assertEquals("Bits & Pieces", StringTools.getLabel("Bits && Pieces"));
   }
   
+  public void testGetOOoLabel() {    
+    assertEquals("This is a ~Label", StringTools.getOOoLabel("This is a &Label"));
+    assertEquals("Bits & Pieces", StringTools.getLabel("Bits && Pieces"));
+  }
+  
   public void testGetMnemonic() {
     assertEquals('F', StringTools.getMnemonic("&File"));
     assertEquals('O', StringTools.getMnemonic("&OK"));

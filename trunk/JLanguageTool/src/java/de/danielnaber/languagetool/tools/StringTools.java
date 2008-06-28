@@ -353,6 +353,17 @@ public final class StringTools {
   }
   
   /**
+   * Returns the UI element string with mnemonics encoded
+   * in OpenOffice.org convention (using "~").  
+   * @param label Label to convert
+   * @return String UI element with ~ replacing &.
+   */
+  public static String getOOoLabel(final String label) {
+    final String noAmpersand = label.replaceAll("&([^&])", "~$1");   
+    return noAmpersand.replaceAll("&&", "&");
+  }
+  
+  /**
    * Returns mnemonic of a UI element.
    * @param label String Label of the UI element
    * @return @char Mnemonic of the UI element, or
