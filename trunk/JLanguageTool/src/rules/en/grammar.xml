@@ -7,7 +7,7 @@ title="Easy editing stylesheet" ?>
 English Grammar and Typo Rules for LanguageTool
 See tagset.txt for the meaning of the POS tags
 Copyright (C) 2001-2007 Daniel Naber (http://www.danielnaber.de)
-$Id: grammar.xml,v 1.66 2008-06-27 23:12:24 milek_pl Exp $
+$Id: grammar.xml,v 1.67 2008-06-28 11:46:11 milek_pl Exp $
 -->
 <rules lang="en">
   <!-- ====================================================================== -->
@@ -33,6 +33,15 @@ $Id: grammar.xml,v 1.66 2008-06-27 23:12:24 milek_pl Exp $
       <message>Did you mean <suggestion>back and forth</suggestion>?</message>
       <example correction="back and forth" type="incorrect">I've been texting <marker>back in forth</marker> with him for the past 3 days.</example>
       <example type="correct">I've been texting back and forth with him for the past 3 days</example>
+    </rule>
+    <rule id="BOB_WIRE" name="'bob/barb wire' (barbed wire)">
+      <pattern>
+        <token regexp="yes">bob|barb</token>
+        <token>wire</token>
+      </pattern>
+      <message>Did you mean <suggestion>barbed wire</suggestion>?</message>
+      <example correction="barbed wire" type="incorrect">Building a <marker>bob wire</marker> fence</example>
+      <example type="correct">Building a barbed wire fence</example>
     </rule>
     <rule id="BYE_THE_WAY" name="Possible typo: 'bye the way (by the way)'">
       <pattern>
@@ -3358,6 +3367,73 @@ $Id: grammar.xml,v 1.66 2008-06-27 23:12:24 milek_pl Exp $
     </rulegroup>
   </category>
   <category name="Mistaken Phrases">
+    <rule id="EARLY_ADAPTER" name="'early adapter' (early adopter)">
+      <pattern>
+        <token>early</token>
+        <token>adapter</token>
+      </pattern>
+      <message>Did you mean <suggestion>early adopter</suggestion> (=someone who takes something early on)?</message>
+      <example correction="early adopter" type="incorrect">DualCore PC is available for purchase for selected companies in the <marker>early adapter</marker> program.</example>
+      <example type="correct">DualCore PC is available for purchase for selected companies in the <marker>early adopter</marker> program.</example>
+    </rule>
+    <rule id="FAR_BE_IT_FOR_ME" name="'far be it for me' (far be it from me)">
+      <pattern>
+        <token>far</token>
+        <token>be</token>
+        <token>it</token>
+        <token>for</token>
+        <token>me</token>
+      </pattern>
+      <message>Did you mean <suggestion>far be it from me</suggestion> (=may this possibility be far away from me)?</message>
+      <example correction="Far be it from me" type="incorrect"><marker>Far be it for me</marker> to say that you can’t.</example>
+      <example type="correct">Far be it from me to say that you can’t.</example>
+    </rule>
+    <rule id="MONEY_IS_NO_OPTION" name="'money is no option' (money is no object)">
+      <pattern>
+        <token>money</token>
+        <token>is</token>
+        <token>no</token>
+        <token>option</token>
+      </pattern>
+      <message>Did you mean <suggestion>money is no object</suggestion> (=money is no obstacle, cost what it may)?</message>
+      <example correction="Money is no object" type="incorrect"><marker>Money is no option</marker> when are you rich.</example>
+      <example type="correct">Money is no object when are you rich.</example>
+    </rule>
+    <rule id="NIP_IT_IN_THE_BUTT" name="'nip it in the butt' (nip it in the budd)">
+      <pattern mark_from="0">
+        <token>nip</token>
+        <token>it</token>
+        <token>in</token>
+        <token>the</token>
+        <token>butt</token>
+      </pattern>
+      <message>Did you mean <suggestion>nip it in the bud</suggestion> (=stop it from flowering completely)?</message>
+      <example correction="nip it in the bud" type="incorrect">We'd like to <marker>nip it in the butt</marker> right here.</example>
+      <example type="correct">We'd like to nip it in the bud right here.</example>
+    </rule>
+    <rule id="NOW_AND_DAYS" name="'now and days' (nowadays)">
+      <pattern>
+        <token>now</token>
+        <token>and</token>
+        <token>days</token>
+      </pattern>
+      <message>Did you mean <suggestion>nowadays</suggestion>?</message>
+      <example correction="nowadays" type="incorrect">Money is becoming pretty tight <marker>now and days</marker>.</example>
+      <example type="correct">Money is becoming pretty tight nowadays.</example>
+    </rule>
+    <rule id="THE_PROOF_IS_IN_THE_PUDDING" name="'the proof is in the pudding' (the proof of the pudding is in the eating)">
+      <pattern>
+        <token>the</token>
+        <token>proof</token>
+        <token>is</token>
+        <token>in</token>
+        <token>the</token>
+        <token>pudding</token>
+      </pattern>
+      <message>If you don't want to look for proofs hidden in your pudding, you probably meant <suggestion>the proof of the pudding is in the eating</suggestion>.</message>
+      <example correction="The proof of the pudding is in the eating" type="incorrect"><marker>The Proof Is In The Pudding</marker></example>
+      <example type="correct">The proof of the pudding is in the eating.</example>
+    </rule>
     <rule id="WHIP_CREAM" name="'whip cream' (whipped cream)">
       <pattern mark_from="1">
         <token postag="DT|JJ.*|VBZ|VBD" postag_regexp="yes"/>
@@ -4087,6 +4163,17 @@ $Id: grammar.xml,v 1.66 2008-06-27 23:12:24 milek_pl Exp $
       <message>This phrase is redundant. Use simply <suggestion>\2</suggestion>.</message>
       <example correction="opinion" type="incorrect">In my <marker>personal opinion</marker>, canaries are quite tasty.</example>
       <example type="correct">In my opinion, canaries are quite tasty.</example>
+    </rule>
+    <rule id="POINT_BEING_IS_THAT" name="Redundant phrase: 'point being is that' (point is that/point being that)">
+      <pattern>
+        <token>point</token>
+        <token>being</token>
+        <token>is</token>
+        <token>that</token>
+      </pattern>
+      <message>This phrase is redundant. Did you mean <suggestion>\1 \3 \4</suggestion> or <suggestion>\1 \2 \4</suggestion>?</message>
+      <example correction="point is that|point being that" type="incorrect">The <marker>point being is that</marker> Russia and Japan weren't even at war.</example>
+      <example type="correct">The point is that Russia and Japan weren't even at war</example>
     </rule>
     <rule default="off" id="REASON_WHY" name="Redundant phrase: 'reason why (reason)'">
       <pattern mark_from="1">
