@@ -7,13 +7,45 @@ title="Easy editing stylesheet" ?>
 English Grammar and Typo Rules for LanguageTool
 See tagset.txt for the meaning of the POS tags
 Copyright (C) 2001-2007 Daniel Naber (http://www.danielnaber.de)
-$Id: grammar.xml,v 1.67 2008-06-28 11:46:11 milek_pl Exp $
+$Id: grammar.xml,v 1.68 2008-06-29 22:59:21 milek_pl Exp $
 -->
 <rules lang="en">
   <!-- ====================================================================== -->
   <!-- Possible typos -->
   <!-- ====================================================================== -->
   <category name="Possible Typo">
+    <rule id="ALL_BE_IT" name="'all be it' (albeit)">
+      <pattern>
+        <token>all</token>
+        <token>be</token>
+        <token>it</token>
+      </pattern>
+      <message>Did you mean <suggestion>albeit</suggestion> (=although)?</message>
+      <example correction="albeit" type="incorrect">The good news is there are several redeeming factors to (<marker>all be it</marker> barely).</example>
+      <example type="correct">The good news is there are several redeeming factors to (albeit barely)</example>
+    </rule>
+    <rule id="ALL_FOR_NOT" name="'all for not' (all for naught)">
+      <pattern mark_to="-1">
+        <token>all</token>
+        <token>for</token>
+        <token regexp="yes">not|knot</token>
+        <token><exception postag="VBG"/></token>
+      </pattern>
+      <message>Did you mean <suggestion>all for naught</suggestion> (=all for nothing)?</message>
+      <example type="correct">Sorry all for not being in the chat.</example>
+      <example correction="all for naught" type="incorrect">My farmer pants were <marker>all for not</marker>...</example>
+    </rule>
+    <rule id="ANOTHER_WORDS" name="'another words' (in other words)">
+      <pattern mark_to="-1">
+        <token postag="SENT_START"/>
+        <token>another</token>
+        <token>words</token>
+        <token>,</token>
+      </pattern>
+      <message>Did you mean <suggestion>in other words</suggestion>?</message>
+      <example correction="In other words" type="incorrect"><marker>Another words</marker>, he is an ideal husband.</example>
+      <example type="correct">In other words, he is an ideal husband.</example>
+    </rule>
     <rule id="BACK_AND_FOURTH" name="Possible typo: 'back and fourth (back and forth)'">
       <pattern>
         <token>back</token>
@@ -3032,16 +3064,6 @@ $Id: grammar.xml,v 1.67 2008-06-28 11:46:11 milek_pl Exp $
   <!-- Miscellaneous -->
   <!-- ====================================================================== -->
   <category name="Miscellaneous">
-    <rule id="EVER_SO_OFTEN" name="Misused phrase: 'ever so often (every so often)'">
-      <pattern>
-        <token>ever</token>
-        <token>so</token>
-        <token>often</token>
-      </pattern>
-      <message>This phrase is non-standard in most writing. Did you mean <suggestion>every \2 \3</suggestion>?</message>
-      <example correction="Every so often" type="incorrect"><marker>Ever so often</marker>, we put down the books, and go sailing!</example>
-      <example type="correct">Every so often, we put down the books, and go sailing! </example>
-    </rule>
     <rule id="ALSO_SENT_END" name="'also' at the end of the sentence">
       <pattern mark_to="-1">
         <token>also</token>
@@ -3366,7 +3388,49 @@ $Id: grammar.xml,v 1.67 2008-06-28 11:46:11 milek_pl Exp $
       </rule>
     </rulegroup>
   </category>
-  <category name="Mistaken Phrases">
+  <category name="Nonstandard Phrases">
+    <rule id="ALL_AND_ALL" name="'all and all' (all in all)">
+      <pattern>
+        <token><exception postag="IN" scope="previous"/>all</token>
+        <token>and</token>
+        <token>all</token>
+      </pattern>
+      <message>This phrase is nonstandard. Did you mean <suggestion>all in all</suggestion> (=after all, nevertheless)?</message>
+      <example type="correct">One for all and all for one!</example>
+      <example correction="All in all" type="incorrect"><marker>All and all</marker> it’s just another brick in the… toilet?</example>
+    </rule>
+    <rule id="ALL_OF_THE_SUDDEN" name="'all of the sudden' (all of a sudden)">
+      <pattern>
+        <token>all</token>
+        <token>of</token>
+        <token>the</token>
+        <token>sudden</token>
+      </pattern>
+      <message>This phrase is nonstandard. Did you mean <suggestion>all of a sudden</suggestion>?</message>
+      <example correction="all of a sudden" type="incorrect">Why would a man <marker>all of the sudden</marker> send flowers?</example>
+      <example type="correct">Why would anyone all of a sudden send flowers?</example>
+    </rule>
+    <rule id="ALONG_THE_SAME_VEIN" name="'along the same vein' (along the same line, in the same vein)">
+      <pattern>
+        <token>along</token>
+        <token>the</token>
+        <token>same</token>
+        <token>vein</token>
+      </pattern>
+      <message>This phrase is nonstandard. Use <suggestion>in the same vein</suggestion> or <suggestion>along the same line</suggestion>.</message>
+      <example correction="in the same vein|along the same line" type="incorrect">I've been working <marker>along the same vein</marker>.</example>
+      <example type="correct">I've been working in the same vein.</example>
+    </rule>
+    <rule id="EVER_SO_OFTEN" name="Misused phrase: 'ever so often (every so often)'">
+      <pattern>
+        <token>ever</token>
+        <token>so</token>
+        <token>often</token>
+      </pattern>
+      <message>This phrase is non-standard in most writing. Did you mean <suggestion>every \2 \3</suggestion>?</message>
+      <example correction="Every so often" type="incorrect"><marker>Ever so often</marker>, we put down the books, and go sailing!</example>
+      <example type="correct">Every so often, we put down the books, and go sailing! </example>
+    </rule>
     <rule id="EARLY_ADAPTER" name="'early adapter' (early adopter)">
       <pattern>
         <token>early</token>
@@ -3603,6 +3667,15 @@ $Id: grammar.xml,v 1.67 2008-06-28 11:46:11 milek_pl Exp $
         <example type="correct">It's 5 P.M.</example>
       </rule>
     </rulegroup>
+    <rule default="off" id="AND_ALSO" name="Redundant phrase: 'and also' (and/also)">
+      <pattern>
+        <token>and</token>
+        <token>also</token>
+      </pattern>
+      <message>This phrase is redundant. Use simply <suggestion>and</suggestion> or <suggestion>also</suggestion>.</message>
+      <example correction="and|also" type="incorrect">Typical English Food <marker>and also</marker> Welsh and Scottish too</example>
+      <example type="correct">Typical English Food, and Welsh and Scottish too</example>
+    </rule>
     <rule id="AND_ETC" name="Redundant phrase: 'and etc. (etc.)'">
       <pattern>
         <token>and</token>
