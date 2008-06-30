@@ -7,7 +7,7 @@ title="Easy editing stylesheet" ?>
 English Grammar and Typo Rules for LanguageTool
 See tagset.txt for the meaning of the POS tags
 Copyright (C) 2001-2007 Daniel Naber (http://www.danielnaber.de)
-$Id: grammar.xml,v 1.68 2008-06-29 22:59:21 milek_pl Exp $
+$Id: grammar.xml,v 1.69 2008-06-30 08:05:28 milek_pl Exp $
 -->
 <rules lang="en">
   <!-- ====================================================================== -->
@@ -111,6 +111,15 @@ $Id: grammar.xml,v 1.68 2008-06-29 22:59:21 milek_pl Exp $
       <message>This word is usually spelt together: <suggestion>\1\2</suggestion>.</message>
       <example correction="eyelids" type="incorrect">Calcium deposits on <marker>eye lids</marker></example>
       <example type="correct">Calcium deposits on eyelids</example>
+    </rule>
+    <rule id="FOR_SELL" name="'for sell' (for sale)">
+      <pattern>
+        <token>for</token>
+        <token>sell</token>
+      </pattern>
+      <message>Did you mean <suggestion>for sale</suggestion>?</message>
+      <example correction="for sale" type="incorrect">Current Michigan homes <marker>for sell</marker></example>
+      <example type="correct">Current Michigan homes for sale</example>
     </rule>
     <rule id="THERE_EXITS" name="Possible typo: 'There exits' (There exists)">
       <pattern mark_from="1">
