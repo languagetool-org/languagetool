@@ -8,7 +8,7 @@ title="Easy editing stylesheet" ?>
 A Russian rule file for LanguageTool
 Copyright (C) 2005 Daniel Naber (http://www.danielnaber.de)
 Copyright (C) 2008 Yakov Reztsov
-$Id: grammar.xml,v 1.4 2008-05-26 20:51:28 milek_pl Exp $
+$Id: grammar.xml,v 1.5 2008-07-06 13:48:20 milek_pl Exp $
 -->
 <rules lang="ru">
     <category name="Пунктуация">
@@ -346,5 +346,83 @@ $Id: grammar.xml,v 1.4 2008-05-26 20:51:28 milek_pl Exp $
             <example type="correct">Газета „Правда”.</example>
             <example correction="„|”" type="incorrect">Газета <marker>“</marker>Правда”.</example>
         </rule>
+    </category>    
+    <category name="Грамматика">
+        <rulegroup default="on"  id="V_K_S" name="Беглая гласная в предлогах: в, к, с, без, из ...">
+            <rule>  
+                <pattern>
+                    <token>во</token>
+                    <token  regexp="yes">[аеёиоуыэюяьън].*</token>
+                </pattern>
+                <message>Неправильная форма предлога. Буква "о" не нужна. Должно быть: <suggestion>в \2</suggestion>.</message>
+                <example type="correct">Мы видели её в окне.</example>
+                <example type="incorrect">Мы видели её <marker>во окне</marker>.</example>
+            </rule>
+            <rule>  
+                <pattern>
+                    <token>ко</token>
+                    <token  regexp="yes">[аеёиоуыэюяьън].*</token>
+                </pattern>
+                <message>Неправильная форма предлога. Буква "о" не нужна. Должно быть: <suggestion>к \2</suggestion>.</message>
+                <example type="correct">Мы успели к обеду.</example>
+                <example type="incorrect">Мы успели <marker>ко обеду</marker>.</example>
+            </rule>
+            <rule>  
+                <pattern>
+                    <token>cо</token>
+                    <token regexp="yes">[аеёиоуыэюяьън].*|собой</token>
+                </pattern>
+                <message>Неправильная форма предлога. Буква "о" не нужна. Должно быть: <suggestion>c \2</suggestion>.</message>
+                <example type="correct">Иван взял сумку с собой.</example>
+                <example type="incorrect">Иван взял сумку <marker>cо собой</marker>.</example>
+            </rule> 
+            <rule>  
+                <pattern>
+                    <token>безо</token>
+                    <token  regexp="yes">[аеёиоуыэюяьън].*|четверти</token>
+                </pattern>
+                <message>Неправильная форма предлога. Буква "о" не нужна. Должно быть: <suggestion>без \2</suggestion>.</message>
+                <example type="correct">Он пришёл в библиотеку без четверти двенадцать.</example>
+                <example type="incorrect">Он пришёл в библиотеку <marker>безо четверти</marker> двенадцать.</example>
+            </rule> 
+            <rule>
+                <pattern>
+                    <token>изо</token>
+                    <token  regexp="yes">[аеёиоуыэюяьън].*|дома</token>
+                </pattern>
+                <message>Неправильная форма предлога. Буква "о" не нужна. Должно быть: <suggestion>из \2</suggestion>.</message>
+                <example type="correct">Мы вышли из дома.</example>
+                <example type="incorrect">Мы вышли <marker>изо дома</marker>.</example>
+            </rule> 
+        </rulegroup>
+    </category>    
+    <category name="Стиль">
+        <rule default="on"  id="OPREDELENIA" name="Избыточные придаточные определения">
+            <pattern>
+                <token  skip="-1" regexp="yes">который|которого|которому|
+                    которого|которому|котором|которая|которой|которую|которые|которых|
+                    которыми|которое|которого|которому|которым|котором|чей|чьего|чьему|
+                чьим|чья|чьей|чью|чьей|чье|чьё|чьем|чьём|чьи</token>
+                <token  regexp="yes">который|которого|которому|которого|которому|
+                    котором|которая|которой|которую|которые|которых|которыми|которое|
+                    которого|которому|которым|котором|чей|чьего|чьему|чьим|чья|чьей|
+                чью|чьей|чье|чьё|чьем|чьём|чьи</token>
+            </pattern>
+            <message>Избыточные определения. В правильно составленном предложении не должно быть больше одного придаточного определения.</message>
+            <example type="correct">Они пошли к реке, по которой плавала лодка.</example>
+            <example type="incorrect">Они пошли к реке, по <marker>которой плавала лодка, которая</marker> была окрашена в белый цвет.</example>
+        </rule>
+        <!-- >rulegroup default="off" name="Благозвучность" id="BLAGOZVUCHNOST">
+            <rule>
+                <pattern>
+                    <token regexp="yes">.*[йцкнгшщзхфвпрлджчсмтб][йцкнгшщзхфвпрлджчсмтб]</token>
+                    <token regexp="yes">[йцкнгшщзхфвпрлджчсмтб][йцкнгшщзхфвпрлджчсмтб].*</token>
+                </pattern>
+                <message>Сложно произнести подряд 4 согласных звука :<suggestion>\1 \2</suggestion></message>
+                <example type="correct">Гимнаст активно тренировался.</example>
+                <example correction="Гимнаст активно тренировался." type="incorrect"> <marker>Гимнаст тренировался</marker>.</example>
+            </rule>
+            
+        </rulegroup  -->
     </category>    
 </rules>
