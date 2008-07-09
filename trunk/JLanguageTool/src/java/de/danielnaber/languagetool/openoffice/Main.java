@@ -38,7 +38,9 @@ import com.sun.star.awt.XListBox;
 import com.sun.star.awt.XControlContainer;
 import com.sun.star.awt.XButton;
 import com.sun.star.awt.XWindow;
+import com.sun.star.awt.XControlModel;
 import com.sun.star.awt.XWindowPeer;
+import com.sun.star.awt.tree.*;
 import com.sun.star.frame.XDesktop;
 import com.sun.star.frame.XModel;
 import com.sun.star.lang.IllegalArgumentException;
@@ -53,9 +55,10 @@ import com.sun.star.lib.uno.helper.WeakBase;
 import com.sun.star.linguistic2.GrammarCheckingResult;
 import com.sun.star.linguistic2.SingleGrammarError;
 import com.sun.star.linguistic2.XGrammarChecker;
+import com.sun.star.linguistic2.XLinguServiceEventBroadcaster;
+import com.sun.star.linguistic2.XLinguServiceEventListener;
 import com.sun.star.registry.XRegistryKey;
 import com.sun.star.task.XJobExecutor;
-import com.sun.star.text.XFlatParagraph;
 import com.sun.star.text.XFlatParagraphIteratorProvider;
 import com.sun.star.text.XTextDocument;
 import com.sun.star.text.XTextViewCursor;
@@ -81,13 +84,17 @@ import de.danielnaber.languagetool.rules.Rule;
 import de.danielnaber.languagetool.rules.RuleMatch;
 import de.danielnaber.languagetool.tools.StringTools;
 
-public class Main extends WeakBase implements XJobExecutor, XServiceInfo, XGrammarChecker {
+public class Main extends WeakBase implements 
+XJobExecutor, XServiceInfo, XGrammarChecker,
+XLinguServiceEventBroadcaster {
 
   private Configuration config;
   private JLanguageTool langTool; 
   private Language docLanguage;
-  
+
   private XTextViewCursor xViewCursor;
+
+  private List <XLinguServiceEventListener> xEventListeners;
 
   /** Service name required by the OOo API && our own name.
    * 
@@ -102,7 +109,7 @@ public class Main extends WeakBase implements XJobExecutor, XServiceInfo, XGramm
 
 
   private static final ResourceBundle MESSAGES = JLanguageTool.getMessageBundle();
-  
+
   private File homeDir;
 
   //TODO: remove as soon as the spelling window is used for grammar check
@@ -112,7 +119,7 @@ public class Main extends WeakBase implements XJobExecutor, XServiceInfo, XGramm
   private XComponent xComponent; 
 
   private XComponentContext xContext;
-  
+
   /** Document ID. The document IDs can be used 
    * for storing the document-level state (e.g., for
    * document-level spelling consistency).
@@ -133,6 +140,7 @@ public class Main extends WeakBase implements XJobExecutor, XServiceInfo, XGramm
             xComponent);
       homeDir = getHomeDir();
       config = new Configuration(homeDir, CONFIG_FILE);
+      xEventListeners = new ArrayList<XLinguServiceEventListener>();
     } catch (final Throwable e) {
       writeError(e);
       e.printStackTrace();
@@ -161,7 +169,7 @@ public class Main extends WeakBase implements XJobExecutor, XServiceInfo, XGramm
       if (!langIsSupported) {
         // FIXME: i18n
         JOptionPane.showMessageDialog(null, "Error: Sorry, the document language '" +charLocale.Language+ 
-            "' is not supported by LanguageTool.");
+        "' is not supported by LanguageTool.");
         return null;
       }
       //checkTables();
@@ -172,40 +180,42 @@ public class Main extends WeakBase implements XJobExecutor, XServiceInfo, XGramm
     }
     return Language.getLanguageForShortName(charLocale.Language);
   }
-  
+
   /** Runs the grammar checker on paragraph text.
    * @param docID int - document ID
-   * @param xPara XFlatParagraph - text to check
    * @param paraText - paragraph text
    * @param locale Locale - the text Locale  
    * @param startOfSentencePos int start of sentence position
    * @param suggEndOfSentencePos int end of sentence position
+   * @param aLanguagePortions - lengths of language portions with a given locale
+   * @param aLanguagePortionsLocales - locales of language portions
    * @return GrammarCheckingResult containing the results of the check.
    * @throws IllegalArgumentException (not really, LT simply returns
    * the GrammarCheckingResult with the values supplied)
    */
   public final GrammarCheckingResult doGrammarChecking(final int docID,  
-      final XFlatParagraph xPara, final String paraText, final Locale locale, 
-      final int startOfSentencePos, final int suggEndOfSentencePos) 
+      final String paraText, final Locale locale, 
+      final int startOfSentencePos, final int suggEndOfSentencePos,
+      final int[] aLanguagePortions, 
+      final Locale[] aLanguagePortionsLocales) 
   throws IllegalArgumentException {    
     final GrammarCheckingResult paRes = new GrammarCheckingResult();
-    paRes.nEndOfSentencePos = suggEndOfSentencePos - startOfSentencePos;
-    paRes.xFlatParagraph = xPara;
+    paRes.nEndOfSentencePos = suggEndOfSentencePos - startOfSentencePos;    
     paRes.xGrammarChecker = this;
     paRes.aLocale = locale;                    
     paRes.nDocumentId = docID;    
     paRes.aText = paraText;
-        
+
     if (paraText != null) {
       paRes.nEndOfSentencePos = paraText.length();
     } else {
       return paRes;
     }
 
-//TODO: process different language fragments in a paragraph 
-//    according to their language (currently assumed = locale)
-//needs XFlatParagraph to implement getLanguagePortions (currently dummy)     
-    
+//  TODO: process different language fragments in a paragraph 
+//  according to their language (currently assumed = locale)
+//  note: this is not yet implemented in the API     
+
     if (hasLocale(locale)) {
       //caching the instance of LT
       if (!Language.getLanguageForShortName(locale.Language).equals(docLanguage)
@@ -299,65 +309,6 @@ public class Main extends WeakBase implements XJobExecutor, XServiceInfo, XGramm
     // TODO Auto-generated method stub
   }
 
-  /**
-   * Return the end of the current sentence. As LanguageTool tokenizes the text
-   * according to its internal rules, and doesn't depend on the XBreakIterator
-   * from OOo, we simply return the end of the paragraph.
-   * @param docID - the document ID
-   * @param para - the XFlatParagraph in which the text is
-   * @param paraText - paragraph text
-   * @param locale - the text locale
-   * @param startOfSentence - the position of the sentence start from the
-   * beginning of the paragraph text in characters
-   * @param suggestedEndOfSentencePos - the position, counted in the same way,
-   * suggested as the end of sentence
-   * Note: LT ignores almost all these values.
-   * @return int - the position of the end of sentence in the current 
-   * paragraph, in characters.
-   */  
-  public final int getEndOfSentencePos(final int docID, 
-      final XFlatParagraph para, 
-      final String paraText, final Locale locale, 
-      final int startOfSentence, final int suggestedEndOfSentencePos) {
-    if (paraText != null) {
-      return paraText.length();
-    } else {
-      return -1;
-    }
-  }  
-  /**
-   * Return the position of beginning of the current sentence. 
-   * As LanguageTool tokenizes the text according to its internal rules, 
-   * and doesn't depend on the XBreakIterator from OOo, we simply return 
-   * the beginning of the current paragraph.
-   * @param docID - the document ID
-   * @param para - the XFlatParagraph in which the text is
-   * @param paraText - paragraph text
-   * @param locale - the text locale
-   * @param nPosInSentence - the position in the sentence from which we return
-   * the beginning of the paragraph text in characters
-   * @param suggestedEndOfSentencePos - the position, counted in the same way,
-   * suggested as the end of sentence
-   * Note: LT ignores almost all these values.
-   * @return int - the position of the end of sentence in the current 
-   * paragraph, in characters.
-   */    
-  public final int getStartOfSentencePos(final int docID, 
-      final XFlatParagraph para, final String paraText, 
-      final Locale locale, final int nPosInSentence,
-      final int suggestedEndOfSentencePos) {
-    return 0;
-  }
-
-  /** This will be removed from the API
-   * as soon the generic spell-grammar window is used.
-   * 
-   * @return false - doesn't really matter
-   */
-  public final boolean hasCheckingDialog() {
-    return false;
-  }
-
   /** LT has an options dialog box,
    * so we return true.
    * @return true
@@ -374,30 +325,13 @@ public class Main extends WeakBase implements XJobExecutor, XServiceInfo, XGramm
     return false;
   }
 
-  /** 
-   * We don't support backtracking to previous paragraphs,
-   * so we say "no" here.
-   * @return false - LT doesn't require previous text.
-   */
-  public final boolean requiresPreviousText() {
-    return false;
-  }
-
-  /**
-   * NOTE: This method will probably be removed from the API.
-   * @param arg0 - docID
-   */
-  public void runCheckingDialog(final int arg0) {
-    // TODO Auto-generated method stub
-  }
-
   /** Runs LT options dialog box.
    **/
   public final void runOptionsDialog() {
     final Language lang = getLanguage();
     if (lang == null) {
       return;
-    }
+    }    
     final ConfigThread configThread = new ConfigThread(lang, config);
     configThread.start();
     while (true) {
@@ -518,40 +452,65 @@ public class Main extends WeakBase implements XJobExecutor, XServiceInfo, XGramm
         final TextToCheck textToCheck = getText();
         checkText(textToCheck);
       } else if (sEvent.equals("test_new_win")) {
-//TODO: make this a separate config dialog class        
+//      TODO: make this a separate config dialog class        
         XMultiComponentFactory xMCF = xContext.getServiceManager();      
 //      get PackageInformationProvider from ComponentContext
-     final XNameAccess xNameAccess = (XNameAccess) UnoRuntime.queryInterface(
-        XNameAccess.class, xContext);
-     Object oPIP = xNameAccess.getByName("/singletons/com.sun.star.deployment.PackageInformationProvider");
-     XPackageInformationProvider xPIP = (XPackageInformationProvider) UnoRuntime.queryInterface(
-        XPackageInformationProvider.class, oPIP);
+        final XNameAccess xNameAccess = (XNameAccess) UnoRuntime.queryInterface(
+            XNameAccess.class, xContext);
+        Object oPIP = xNameAccess.getByName("/singletons/com.sun.star.deployment.PackageInformationProvider");
+        XPackageInformationProvider xPIP = (XPackageInformationProvider) UnoRuntime.queryInterface(
+            XPackageInformationProvider.class, oPIP);
 //      get the url of the directory extension installed
-     final String sPackageURL = 
-         xPIP.getPackageLocation("org.openoffice.languagetool.oxt");
-     final String sDialogURL = sPackageURL + "/Options.xdl";
+        final String sPackageURL = 
+          xPIP.getPackageLocation("org.openoffice.languagetool.oxt");
+        final String sDialogURL = sPackageURL + "/Options.xdl";
 
 //      dialog provider to make a dialog
-     Object oDialogProvider = xMCF.createInstanceWithContext(
-        "com.sun.star.awt.DialogProvider", xContext);
-     XDialogProvider xDialogProv = (XDialogProvider) UnoRuntime.queryInterface(
-        XDialogProvider.class, oDialogProvider);
-     XDialog xDialog = xDialogProv.createDialog(sDialogURL);
-     XControlContainer xDlgContainer = (XControlContainer) UnoRuntime.queryInterface(XControlContainer.class, xDialog);
-     XControl xListControl = xDlgContainer.getControl("LanguageList");
-     XListBox xListBox = (XListBox) UnoRuntime.queryInterface(XListBox.class, xListControl);
-     for (short i = 0; i < Language.LANGUAGES.length - 1; i++) {
-       xListBox.addItem(
-         Language.LANGUAGES[i].getTranslatedName(MESSAGES), i);
-     }
-     XButton xOKButton = (XButton) UnoRuntime.queryInterface(XButton.class, xDlgContainer.getControl("OK_Button"));
-     xOKButton.setLabel(StringTools.getOOoLabel(MESSAGES.getString("guiOKButton")));
-     XButton xCancelButton = (XButton) UnoRuntime.queryInterface(XButton.class, xDlgContainer.getControl("Cancel_Button"));
-     xCancelButton.setLabel(StringTools.getOOoLabel(MESSAGES.getString("guiCancelButton")));
-     short nResult = xDialog.execute();
-               
+        Object oDialogProvider = xMCF.createInstanceWithContext(
+            "com.sun.star.awt.DialogProvider", xContext);
+        XDialogProvider xDialogProv = (XDialogProvider) UnoRuntime.queryInterface(
+            XDialogProvider.class, oDialogProvider);
+        XDialog xDialog = xDialogProv.createDialog(sDialogURL);
+        XControlContainer xDlgContainer = (XControlContainer) UnoRuntime.queryInterface(XControlContainer.class, xDialog);
+        XControl xListControl = xDlgContainer.getControl("LanguageList");
+        XListBox xListBox = (XListBox) UnoRuntime.queryInterface(XListBox.class, xListControl);
+        for (short i = 0; i < Language.LANGUAGES.length - 1; i++) {
+          xListBox.addItem(
+              Language.LANGUAGES[i].getTranslatedName(MESSAGES), i);
+        }
+        XButton xOKButton = (XButton) UnoRuntime.queryInterface(XButton.class, xDlgContainer.getControl("OK_Button"));
+        xOKButton.setLabel(StringTools.getOOoLabel(MESSAGES.getString("guiOKButton")));
+        XButton xCancelButton = (XButton) UnoRuntime.queryInterface(XButton.class, xDlgContainer.getControl("Cancel_Button"));
+        xCancelButton.setLabel(StringTools.getOOoLabel(MESSAGES.getString("guiCancelButton")));
+
+        XControl xControlTree = xDlgContainer.getControl("Rules");
+        XControlModel xTreeModel = xControlTree.getModel();
+
+        Object xTreeData = xMCF.createInstanceWithContext(
+            "com.sun.star.awt.tree.MutableTreeDataModel", xContext);
+        XMutableTreeDataModel mxTreeDataModel = (XMutableTreeDataModel) UnoRuntime.queryInterface(
+            XMutableTreeDataModel.class, xTreeData);
+
+        XMutableTreeNode xNode = mxTreeDataModel.createNode("Rules", false);
+
+        xNode.appendChild(mxTreeDataModel.createNode("Misc", false));
+        xNode.appendChild(mxTreeDataModel.createNode("Punctuation", false));
+
+        mxTreeDataModel.setRoot(xNode);
+
+        XPropertySet xTreeModelProperty = (XPropertySet) UnoRuntime.queryInterface(
+            XPropertySet.class, xTreeModel);
+        xTreeModelProperty.setPropertyValue("DataModel", mxTreeDataModel);
+
+        xNode.setDataValue("test2");
+        xNode.setExpandedGraphicURL(sPackageURL + "triangle_down.png");
+        xNode.setCollapsedGraphicURL(sPackageURL + "triangle_right.png");
+
+        short nResult = xDialog.execute();
+
       } else if (sEvent.equals("configure")) {                
         runOptionsDialog();
+        resetDocument();
       } else if (sEvent.equals("about")) {
         final AboutDialogThread aboutthread = new AboutDialogThread(MESSAGES);
         aboutthread.start();
@@ -560,6 +519,27 @@ public class Main extends WeakBase implements XJobExecutor, XServiceInfo, XGramm
       }        
     } catch (final Throwable e) {
       showError(e);
+    }
+  }
+
+  /**
+   * Inform listener (grammar checking iterator)
+   * that options have changed and the doc should be rechecked.
+   *
+   */
+//FIXME: this doesn't work now because too many instances of the service
+  //are created... 
+  public final void resetDocument() {
+    if (!xEventListeners.isEmpty()) {
+      for (final XLinguServiceEventListener xEvLis : xEventListeners) {
+        if (xEvLis != null) {
+          final com.sun.star.linguistic2.LinguServiceEvent 
+          xEvent = new com.sun.star.linguistic2.LinguServiceEvent();
+          xEvent.nEvent = 
+            com.sun.star.linguistic2.LinguServiceEventFlags.GRAMMAR_CHECK_AGAIN;
+          xEvLis.processLinguServiceEvent(xEvent);
+        }
+      }
     }
   }
 
@@ -699,14 +679,15 @@ public class Main extends WeakBase implements XJobExecutor, XServiceInfo, XGramm
     }
     return new File(homeDir);
   }
-  
-//TODO: remove this method when spell-checking dialog window is available 
+
+//TODO: remove this method when spell-checking dialog window is available
+  //and bug-free :-/
   static String getParagraphContent(Object para) throws NoSuchElementException, WrappedTargetException, UnknownPropertyException {
     if (para == null) {
       return null;
     }
     com.sun.star.container.XEnumerationAccess xPortionAccess = (com.sun.star.container.XEnumerationAccess) UnoRuntime
-        .queryInterface(com.sun.star.container.XEnumerationAccess.class, para);
+    .queryInterface(com.sun.star.container.XEnumerationAccess.class, para);
     if (xPortionAccess == null) {
       System.err.println("xPortionAccess is null");
       return null;
@@ -736,7 +717,7 @@ public class Main extends WeakBase implements XJobExecutor, XServiceInfo, XGramm
     AboutDialogThread(final ResourceBundle messages) {
       this.messages = messages;
     }
-    
+
     public void run() {
       XModel model = (XModel)UnoRuntime.queryInterface(XModel.class, xComponent);
       XWindow parentWindow = model.getCurrentController().getFrame().getContainerWindow();
@@ -746,7 +727,41 @@ public class Main extends WeakBase implements XJobExecutor, XServiceInfo, XGramm
       about.show();
     }
   }
-  
+
+  /**
+   * Add a listener that allow re-checking the document after
+   * changing the options in the configuration dialog box.
+   * @param xLinEvLis - the listener to be added
+   * @return true if listener is non-null and has been added, false otherwise.
+   */
+  public final boolean addLinguServiceEventListener(
+      final XLinguServiceEventListener xLinEvLis) {
+    if (xLinEvLis != null) {
+      xEventListeners.add(xLinEvLis);
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  /** Remove a listener from the event listeners list.
+   * @param xLinEvLis - the listener to be removed
+   * @return true if listener is non-null and has been removed, false otherwise.
+   */
+  public final boolean removeLinguServiceEventListener(
+      final XLinguServiceEventListener xLinEvLis) {
+    if (xLinEvLis != null) {
+      if (xEventListeners.contains(xLinEvLis)) {
+        xEventListeners.remove(xLinEvLis);
+        return true;
+      } else { 
+        return false;
+      }
+    } else {
+      return false;
+    }
+  }
+
 }
 
 //TODO: remove these classes step by step, they're becoming obsolete
@@ -782,7 +797,7 @@ class ResultDialogThread extends Thread {
     this.xViewCursor = xViewCursor;
     this.textTocheck = textTocheck;
   }
-  
+
   public void run() {
     OOoDialog dialog;
     if (xViewCursor == null)
@@ -791,13 +806,13 @@ class ResultDialogThread extends Thread {
       dialog = new OOoDialog(configuration, rules, xTextDoc, checkedParagraphs, xViewCursor, textTocheck);
     dialog.show();
   }
-  
+
 }
 class TextToCheck {
-  
+
   List<String> paragraphs;
   boolean isSelection;
-  
+
   TextToCheck(final List<String> paragraphs, final boolean isSelection) {
     this.paragraphs = paragraphs;
     this.isSelection = isSelection;

@@ -40,7 +40,7 @@ class ConfigThread extends Thread {
     cfgDialog.setDisabledRules(config.getDisabledRuleIds());
     cfgDialog.setEnabledRules(config.getEnabledRuleIds());
     cfgDialog.setDisabledCategories(config.getDisabledCategoryNames());
-    cfgDialog.setMotherTongue(config.getMotherTongue());        
+    cfgDialog.setMotherTongue(config.getMotherTongue());    
   }
   
   public boolean done() {
