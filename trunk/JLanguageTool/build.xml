@@ -402,8 +402,33 @@
   <target name="ooo-internal" depends="clean,init,build,ooo-build">
   	<copy file="${resource.dir}/TrayIcon.png" todir="${dist.dir}/resource/" />
   	<filter filtersFile="build.properties"/>
+  	
+
+  	<!-- prepare properties file automatically -->
+	<javac encoding="${encoding}"
+      srcdir="${src.dir}/dev"
+	  includes="de/danielnaber/languagetool/dev/PrintLocales.java"
+      destdir="${build.classes}"
+      target="${target}"
+  	  debug="${debug}">
+	</javac>
+  	
+  	<jar
+  		jarfile="${dist.dir}/printlocales.jar"
+		basedir="${build.classes}"
+		includes="de/danielnaber/languagetool/dev/**">
+  		<manifest>
+		<attribute name="Main-Class" value="de.danielnaber.languagetool.dev.PrintLocales" />
+		<attribute name="Class-Path" value="./ ./LanguageTool.uno.jar"/>
+	  	</manifest>
+  	</jar>
+  	
+	<java jar="${dist.dir}/printlocales.jar"
+		fork="true"/>
+  	
+  	<filter filtersFile="ooolocales.properties"/>
   	<copy filtering="true" todir="${dist.dir}/">
-	  	<fileset dir="openoffice/" includes="description.xml,Addons.xcu,Options.xdl,META-INF/**" />
+	  	<fileset dir="openoffice/" includes="description.xml,*.xcu,Options.xdl,META-INF/**" />
 	</copy>
     <copy todir="${dist.dir}/">
         <fileset dir="openoffice/" includes="images/**" />
