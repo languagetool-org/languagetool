@@ -119,6 +119,8 @@ XLinguServiceEventBroadcaster {
   private XComponent xComponent; 
 
   private XComponentContext xContext;
+  
+  private long configTimeStamp = 0;
 
   /** Document ID. The document IDs can be used 
    * for storing the document-level state (e.g., for
@@ -140,6 +142,8 @@ XLinguServiceEventBroadcaster {
             xComponent);
       homeDir = getHomeDir();
       config = new Configuration(homeDir, CONFIG_FILE);
+      final File f = new File(homeDir, CONFIG_FILE);
+      configTimeStamp = f.lastModified();
       xEventListeners = new ArrayList<XLinguServiceEventListener>();
     } catch (final Throwable e) {
       writeError(e);
@@ -216,6 +220,18 @@ XLinguServiceEventBroadcaster {
 //  according to their language (currently assumed = locale)
 //  note: this is not yet implemented in the API     
 
+    try {
+    final File f = new File(homeDir, CONFIG_FILE);
+    if (configTimeStamp != f.lastModified()) {
+      configTimeStamp = f.lastModified();
+      config = new Configuration(homeDir, CONFIG_FILE);
+      langTool = null;
+      resetDocument();
+    }
+    } catch (final Exception exception) {
+      showError(exception);
+    }
+    
     if (hasLocale(locale)) {
       //caching the instance of LT
       if (!Language.getLanguageForShortName(locale.Language).equals(docLanguage)
@@ -232,6 +248,7 @@ XLinguServiceEventBroadcaster {
           showError(exception);
         }
       }
+            
       if (config.getDisabledRuleIds() != null) {
         for (final String id : config.getDisabledRuleIds()) {                    
           langTool.disableRule(id);
@@ -242,7 +259,7 @@ XLinguServiceEventBroadcaster {
         for (final String categoryName : disabledCategories) {          
           langTool.disableCategory(categoryName);
         }
-      }
+      }      
       try {        
         final List<RuleMatch> ruleMatches = langTool.check(paraText);
         if (ruleMatches.size() > 0) {          
@@ -527,8 +544,7 @@ XLinguServiceEventBroadcaster {
    * that options have changed and the doc should be rechecked.
    *
    */
-//FIXME: this doesn't work now because too many instances of the service
-  //are created... 
+//FIXME: this is called only in longer docs or on text modify... 
   public final void resetDocument() {
     if (!xEventListeners.isEmpty()) {
       for (final XLinguServiceEventListener xEvLis : xEventListeners) {
