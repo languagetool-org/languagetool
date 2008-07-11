@@ -49,7 +49,6 @@ import com.sun.star.lang.XComponent;
 import com.sun.star.lang.XMultiComponentFactory;
 import com.sun.star.lang.XServiceInfo;
 import com.sun.star.lang.XSingleComponentFactory;
-import com.sun.star.text.XTextCursor;
 import com.sun.star.lib.uno.helper.Factory;
 import com.sun.star.lib.uno.helper.WeakBase;
 import com.sun.star.linguistic2.GrammarCheckingResult;
@@ -74,6 +73,7 @@ import com.sun.star.container.XNameAccess;
 import com.sun.star.deployment.XPackageInformationProvider;
 import com.sun.star.awt.XDialogProvider;
 import com.sun.star.awt.XDialog;
+import com.sun.star.text.XTextViewCursorSupplier;
 
 
 import de.danielnaber.languagetool.JLanguageTool;
@@ -151,17 +151,44 @@ XLinguServiceEventBroadcaster {
     }
   }
 
+  public void changeContext(final XComponentContext xCompContext) {
+    try {
+    xContext = xCompContext;
+    final XMultiComponentFactory xMCF = xCompContext.getServiceManager();
+    final Object desktop = xMCF.createInstanceWithContext("com.sun.star.frame.Desktop", xCompContext);
+    final XDesktop xDesktop = (XDesktop) UnoRuntime.queryInterface(XDesktop.class, desktop);      
+    xComponent = xDesktop.getCurrentComponent();
+    xTextDoc = (XTextDocument) UnoRuntime.queryInterface(XTextDocument.class, xComponent);
+    xFlatPI = 
+      (XFlatParagraphIteratorProvider) UnoRuntime.queryInterface(XFlatParagraphIteratorProvider.class,
+          xComponent);
+    } catch (final Throwable e) {
+      writeError(e);
+      e.printStackTrace();
+    }
+  }
+  
+  /**
+   * Checks the language under the cursor. Used for opening the
+   * configuration dialog. 
+   * @return Language - the language under the visible cursor.
+   */
   private Language getLanguage() {
     if (xTextDoc == null)
       return Language.ENGLISH; // for testing with local main() method only
     Locale charLocale;
-    try {
-      // just look at the first position in the document and assume that this character's
-      // language is the language of the whole document:
-      XTextCursor textCursor = xTextDoc.getText().createTextCursor();
-      textCursor.gotoStart(false);
-      XPropertySet xCursorProps = (XPropertySet) UnoRuntime.queryInterface(XPropertySet.class,
-          textCursor);
+    try {     
+      final XModel model = 
+        (XModel) UnoRuntime.queryInterface(XModel.class, xComponent);
+      final XTextViewCursorSupplier 
+      xViewCursorSupplier = (XTextViewCursorSupplier) 
+      UnoRuntime.queryInterface(XTextViewCursorSupplier.class, 
+          model.getCurrentController());
+      final XTextViewCursor xCursor = 
+        xViewCursorSupplier.getViewCursor();
+      final XPropertySet xCursorProps = (XPropertySet) 
+      UnoRuntime.queryInterface(XPropertySet.class,
+          xCursor);
       charLocale = (Locale) xCursorProps.getPropertyValue("CharLocale");
       boolean langIsSupported = false;
       for (int i = 0; i < Language.LANGUAGES.length; i++) {
@@ -176,7 +203,6 @@ XLinguServiceEventBroadcaster {
         "' is not supported by LanguageTool.");
         return null;
       }
-      //checkTables();
     } catch (UnknownPropertyException e) {
       throw new RuntimeException(e);
     } catch (WrappedTargetException e) {
@@ -222,11 +248,10 @@ XLinguServiceEventBroadcaster {
 
     try {
     final File f = new File(homeDir, CONFIG_FILE);
-    if (configTimeStamp != f.lastModified()) {
+    if (configTimeStamp != f.lastModified() || config == null) {
       configTimeStamp = f.lastModified();
       config = new Configuration(homeDir, CONFIG_FILE);
       langTool = null;
-      resetDocument();
     }
     } catch (final Exception exception) {
       showError(exception);
@@ -448,13 +473,13 @@ XLinguServiceEventBroadcaster {
   }
 
   public static XSingleComponentFactory __getComponentFactory(final String sImplName) {
-    XSingleComponentFactory xFactory = null;
+    SingletonFactory xFactory = null;
     if (sImplName.equals(Main.class.getName())) {
-      xFactory = Factory.createComponentFactory(Main.class, Main.getServiceNames());
+      xFactory = new SingletonFactory(); //Factory.createComponentFactory(Main.class, Main.getServiceNames());
     }
     return xFactory;
   }
-
+  
   public static boolean __writeRegistryServiceInfo(final XRegistryKey regKey) {
     return Factory.writeRegistryServiceInfo(Main.class.getName(), Main.getServiceNames(), regKey);
   }
@@ -834,3 +859,28 @@ class TextToCheck {
     this.isSelection = isSelection;
   }
 }  
+
+class SingletonFactory implements XSingleComponentFactory {
+
+  private Object instance = null;
+  
+  public Object createInstanceWithArgumentsAndContext(Object[] arg0, XComponentContext arg1) throws com.sun.star.uno.Exception {
+    if (instance == null) {
+      instance = new de.danielnaber.languagetool.openoffice.Main(arg1);
+    } else {
+      de.danielnaber.languagetool.openoffice.Main x = (de.danielnaber.languagetool.openoffice.Main) instance;
+      x.changeContext(arg1);
+    }
+    return instance;
+  }
+
+  public Object createInstanceWithContext(XComponentContext arg0) throws com.sun.star.uno.Exception {  
+    if (instance == null) {
+      instance = new de.danielnaber.languagetool.openoffice.Main(arg0);
+    } else {
+      de.danielnaber.languagetool.openoffice.Main x = (de.danielnaber.languagetool.openoffice.Main) instance;
+      x.changeContext(arg0);
+    }
+    return instance;
+  }
+}
