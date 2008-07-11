@@ -21,6 +21,7 @@ package de.danielnaber.languagetool.dev;
 import java.util.Properties;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.File;
 
 import de.danielnaber.languagetool.Language;
 
@@ -52,8 +53,11 @@ public class PrintLocales {
         }
       }
     }
+    //change attribute to writable as the property file is in the repo
+    final File f = new File("ooolocales.properties");
+    f.setWritable(true);
     final Properties propLoc = new Properties();
     propLoc.setProperty("countryvariants", locales);
-    propLoc.store(new FileOutputStream("ooolocales.properties"), "Locales");
+    propLoc.store(new FileOutputStream("ooolocales.properties"), "Locales");    
   }
 }
