@@ -1,66 +1,181 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE rules SYSTEM "../rules.dtd">
 <?xml-stylesheet type="text/xsl" href="../print.xsl" ?>
 <?xml-stylesheet type="text/css" href="../rules.css" 
 title="Easy editing stylesheet" ?>
-
 <rules lang="sv">
   <!-- ====================================================================== -->
   <!-- Särskrivningar -->
   <!-- ====================================================================== -->
-
-  <category name="Särskrivningar">
-    <rule id="ALLT_IHOP" name="Särskrivning 'allt ihop (alltihop)'">
+  <category name="Särskrivning rekomenderas">
+    <rule id="efter-hand" name="Särskrivning 'efterhand (efter hand)'">
       <pattern>
-        <token>allt</token>
-        <token>ihop</token>
+        <token>efterhand</token>
       </pattern>
-      <message>Felaktig särskrivning. Menade du <suggestion>alltihop</suggestion>?</message>
-      <example correction="alltihop" type="incorrect">Det visade sig att <marker>allt ihop</marker> blev särskrivet.</example>
-      <example type="correct">Det visade sig att <marker>alltihop</marker> blev särskrivet.</example>
-    </rule>
-	<rule id="ATER_IGEN" name="Särskrivning 'åter igen (återigen)'">
-		<pattern>
-			<token>åter</token>
-			<token>igen</token>
-      </pattern>
-		<message>Särskrivning. Menade du <suggestion>återigen</suggestion>?</message>
-		<example correction="återigen" type="incorrect">Det visade sig att <marker>åter igen</marker> blev ordet särskrivet.</example>
-		<example type="correct">Det visade sig <marker>återigen</marker> att det särskrivna ordet blev rättat.</example>
-    </rule>
-	  <rule id="E_POST" name="Eventuellt fel 'e post (e-post)'">
-      <pattern>
-        <token regexp="yes">e</token>
-        <token regexp="yes">post|brev|faktura</token>
-      </pattern>
-      <message>Dessa ord binds oftast ihop med bindesträck: <suggestion>\1-\2</suggestion>.</message>
-      <example type="correct">Du har fått <marker>e-post</marker>.</example>
-      <example correction="e-post" type="incorrect">Du har fått <marker>e post</marker>.</example>
+      <message> Felaktig sammanskrivning. Menade du <suggestion>efter hand</suggestion>?</message>
+      <example correction="efter hand" type="incorrect">Det visade sig <marker>efterhand</marker> att orden borde särskrivas.</example>
+      <example type="correct">Det visade sig <marker>efter hand</marker> att orden borde särskrivas.</example>
     </rule>
   </category>
+  <!-- ====================================================================== -->
+  <!-- Punkter efter förkortningar -->
+  <!-- ====================================================================== -->
   <category name="punkter efter förkortningar">
-	<rule id="M_FL" name="Förkortningen skrivs normalt med punkter (m.fl.)">
-        <pattern>
-          <token>m</token>
-          <token>fl</token>
-        </pattern>
-        <message>Denna förkortning skrivs i regel med punkter:<suggestion>m.fl.</suggestion>.</message>
-        <example correction="m\.fl\." type="correct">Vi tar med oss Maria, Jens, Sara <marker>m.fl.</marker> och åker till Jönköping.</example>
-        <example type="incorrect">Vi tar med oss Maria, Jens, Sara <marker>m fl</marker> och åker till Jönköping.</example>
+    <rule id="M_FL" name="Förkortningen skrivs normalt med punkter (m.fl.)">
+      <pattern>
+        <token>m</token>
+        <token>fl</token>
+      </pattern>
+      <message> Denna förkortning skrivs i regel med punkter: <suggestion>m.fl.</suggestion> . </message>
+      <example correction="" type="correct">Vi tar med oss Maria, Jens, Sara <marker>m.fl.</marker> och åker till Jönköping.</example>
+      <example correction="m.fl." type="incorrect">Vi tar med oss Maria, Jens, Sara <marker>m fl</marker> och åker till Jönköping.</example>
     </rule>
-
-<!--Maybe implement someting like this later, but have it turned off by default
-
-	<rule id="DUBBELT_OCH" name="Samma ord återkommer i meningen, det ger ofta bättre flyt att substituera ordet.">
-        <pattern mark_from="2">
- 	<token regexp="yes" skip="-1">och|ni|till<exception scope="next">,</exception></token>
- 	<token><match no="0"/></token>
-	</pattern>
-        <message>Samma ord återkommer i meningen, det ger ofta bättre flyt genom att substituera ordet.</message>
-        <example type="correct"> \0 \1 \2 </example>
-        <example type="incorrect">Samma ord återkommer i meningen, det ger ofta bättre flyt att substituera ordet.</example>
+    <rule default="off" id="T_EX" name="Förkortningen skrivs normalt med punkter (t.ex.)">
+      <pattern>
+        <token>t</token>
+        <token>ex</token>
+      </pattern>
+      <message> Denna förkortning skrivs i regel med punkter: <suggestion>t.ex.</suggestion> . </message>
+      <example correction="t\.ex\." type="correct"> Vi tar <marker>t.ex.</marker> fem myror och fyra elefanter. </example>
+      <example type="incorrect"> Vi tar <marker>t ex</marker> fem myror och fyra elefanter. </example>
     </rule>
-  -->
-  
+    <rule default="off" id="TEX" name="Förkortningen skrivs normalt med punkter (t.ex.)">
+      <pattern>
+        <token>tex</token>
+      </pattern>
+      <message> Denna förkortning skrivs i regel med punkter: <suggestion>m.fl.</suggestion> . </message>
+      <example correction="t\.ex\." type="correct"> Vi tar <marker>t.ex.</marker> fem myror och fyra elefanter. </example>
+      <example type="incorrect"> Vi tar <marker>tex</marker> fem myror och fyra elefanter. </example>
+    </rule>
   </category>
+  <!-- ====================================================================== -->
+  <!-- Grammatik -->
+  <!-- ====================================================================== -->
+  <category name="Grammar">
+    <rule id="JJ.OCH_n-ord" name="Rätt böjning på adjektivet">
+      <pattern>
+        <token>ett</token>
+        <token postag="JJ:P." postag_regexp="yes">
+          <exception postag="JJ:PN"/>
+        </token>
+        <!-- All adjectives exept the ones in neuter -->
+        <token postag="NN:OF:S.*" postag_regexp="yes"/>
+      </pattern>
+      <message> Adjektivet är böjt i positiv utrum (\2) och borde då föregås av ordet <suggestion>"en"</suggestion> istället för "ett" alternativt böjas i positiv neutrum. </message>
+      <example correction="en \2 \3" type="correct"> Det var <marker>en mörk kväll</marker> . </example>
+      <example type="incorrect"> Det var <marker>ett mörk kväll</marker> . </example>
+    </rule>
+    <rule id="JJ.OCH_t-ord" name="Rätt böjning på adjektivet">
+      <pattern>
+        <token>en</token>
+        <token postag="JJ:P." postag_regexp="yes">
+          <exception postag="JJ:PU"/>
+        </token>
+        <token postag="NN:OF:S.*" postag_regexp="yes"/>
+      </pattern>
+      <message> Adjektivet "\2" är böjt i positiv neutrum och borde då föregås av ordet <suggestion>"ett"</suggestion> istället för "en" alternativt böjas i positiv utrum. </message>
+      <example correction="ett \2 \3" type="correct"> Det var <marker>ett mörkt rum</marker> . </example>
+      <example type="incorrect"> Det var <marker>en mörkt rum</marker> . </example>
+    </rule>
+    <!-- Ett försök att fånga upp anföringsverb som ska föregås av ett kommatecken -->
+    <!-- rule id="KommaInnanAnfoeringsverb" name="Komma innan anföringsverb">
+      <pattern>
+        <token>
+          <exception>,|vad|visst</exception>
+        </token>
+        <token regexp="yes">sade|sa|menade|viskade|skrek</token>
+        <token postag="PM"/>
+      </pattern>
+      <message>Kommatecken ska sättas ut innan anföringsverb (i detta fall innan \2).</message>
+      <example correction=", /2 /3" type="correct"> Det var finfint <marker>, sade Johan</marker> . </example>
+    </rule  -->
+    <rule id="EnKlubbaTill" name="Klumpiga ordföljder 1">
+      <pattern>
+        <token regexp="yes">en|ett</token>
+        <token>till</token>
+        <token postag="NN.*" postag_regexp="yes"/>
+      </pattern>
+      <message>Denna ordföljd är ofta otydlig, försök med att flytta "till" efter substantivet eller byt ut det mot ytterligare.</message>
+      <example correction="" type="correct">Det är nog bäst att du får <marker>en klubba till</marker>.</example>
+      <example type="incorrect">Det är nog bäst att du får <marker>en till klubba</marker>.</example>
+    </rule>
+  </category>
+  <!-- ====================================================================== -->
+  <!-- Felaktiga sammansättningar som Hunspell godkänner... -->
+  <!-- ====================================================================== -->
+  <category name="Compound_problems">
+    <rule id="OVERRENS" name="Över_rens">
+      <pattern>
+        <token>överrens</token>
+      </pattern>
+      <message>Du menar sannolikt "överens".</message>
+      <example correction="överens" type="correct"> Flickorna kom <marker>överens</marker> . </example>
+      <example type="incorrect"> Flickorna kom <marker>överrens</marker> .. </example>
+    </rule>
+    <rule id="MASERA" name="mas_era">
+      <pattern>
+        <token>masera</token>
+      </pattern>
+      <message>Du menar sannolikt "massera" om du inte skriver om masarnas era förstås.</message>
+      <example correction="överens" type="correct"> Flickorna kunde <marker>massera</marker> varandra. </example>
+      <example type="incorrect"> Flickorna kunde <marker>masera</marker> varandra. </example>
+    </rule>
+  </category>
+  <!-- ====================================================================== -->
+  <!-- Ord som hör ihop -->
+  <!-- ====================================================================== -->
+  <category name="Ord som hor ihop">
+    <rule id="AD" name="ad ...">
+      <pattern>
+        <token>ad</token>
+        <token regexp="yes">
+          <exception regexp="yes">hoc|notam|acta</exception>
+        </token>
+      </pattern>
+      <message>Detta ord brukar sällan stå ensamt på svenska menade du <suggestion>ad hoc</suggestion>, <suggestion>ad acta</suggestion> eller <suggestion>ad notam</suggestion>?</message>
+      <example correction="ad hoc|ad acta|ad notam" type="incorrect">
+        <marker>ad foobar</marker>
+      </example>
+      <example type="correct">ad acta</example>
+    </rule>
+    <rule id="LOS" name="los ...">
+      <pattern mark_to="-1">
+        <token>los</token>
+        <token regexp="yes">
+          <exception regexp="yes">angeles|lobos</exception>
+        </token>
+      </pattern>
+      <message>Menar du "<suggestion>loss</suggestion>" som i släpp taget om, eller är det en del av ett namn.</message>
+      <example type="correct">Los Angeles</example>
+      <example correction="Loss" type="incorrect"><marker>Los</marker> Foobar</example>
+    </rule>
+  </category>
+  <!-- ====================================================================== -->
+  <!-- Syntax -->
+  <!-- ====================================================================== -->
+  <!-- category name="Syntax">
+    <rule id="Forkortning" name="Böjning av förkortningar\...">
+      <pattern>
+        <token regexp="yes">^(\p{Lu}{2}+[i]*\p{Lu}+[\p{L}&amp;&amp;[^\p{Lu}]]{1,4}+)</token>
+      </pattern>
+      <message> Förkortningar som böjs binds ihop med ett kolon: <suggestion>
+          <match no="1" regexp_match="^(\p{Lu}{2}+[i]*\p{Lu}+)([\p{L}&amp;&amp;[^\p{Lu}]]{1,4}+)" regexp_replace="$1:$2"/>
+        </suggestion> </message>
+    </rule>
+    <rule id="Ordningstal" name="Ordningstal">
+      <pattern>
+        <token regexp="yes">^(1a|2a|[\d]*[1-2]e)</token>
+      </pattern>
+      <message> Siffror med ändelser binds ihop med ett kolon: <suggestion>
+          <match no="1" regexp_match="^(1|2|[\d]*[12])(a|e)" regexp_replace="$1:$2"/>
+        </suggestion> </message>
+    </rule>
+    <rule id="Ordningstal2" name="Ordningstal2">
+      <pattern>
+        <token regexp="yes">^([3-90][ae]|[\d]*[3-90][ae])</token>
+      </pattern>
+      <message> Siffror med ändelser binds ihop med ett kolon: <suggestion>
+          <match no="1" regexp_match="^([3-90]|[\d]*[3-90])([ae])" regexp_replace="$1:$2"/>
+        </suggestion> </message>
+    </rule>
+  </category  -->
 </rules>

@@ -1,5 +1,5 @@
 /* LanguageTool, a natural language style checker 
- * Copyright (C) 2006 Daniel Naber (http://www.danielnaber.de)
+ * Copyright (C) 2005 Daniel Naber (http://www.danielnaber.de)
  * 
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -16,18 +16,16 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
  */
-package de.danielnaber.languagetool.tagging.sv;
+package de.danielnaber.languagetool.rules.sv;
 
-import morfologik.stemmers.Lametyzator;
-import de.danielnaber.languagetool.tagging.BaseTagger;
+import de.danielnaber.languagetool.rules.Rule;
 
-/** Swedish Part-of-speech tagger.
- * Based on DSSO. Will be expanded upon.
+/**
+ * Abstract base class for Swedish rules.
+ * 
+ * @author Marcin Miłkowski
+ *
  */
-public class SwedishTagger extends BaseTagger {
+public abstract class SwedishRule extends Rule {
 
-  public void setFileName() {
-    System.setProperty(Lametyzator.PROPERTY_NAME_LAMETYZATOR_DICTIONARY, 
-        "/resource/sv/swedish.dict");    
-  }
-} 
+}
