@@ -174,8 +174,9 @@ XLinguServiceEventBroadcaster {
    * @return Language - the language under the visible cursor.
    */
   private Language getLanguage() {
-    if (xTextDoc == null)
+    if (xTextDoc == null) {
       return Language.ENGLISH; // for testing with local main() method only
+    }
     Locale charLocale;
     try {     
       final XModel model = 
@@ -191,8 +192,8 @@ XLinguServiceEventBroadcaster {
           xCursor);
       charLocale = (Locale) xCursorProps.getPropertyValue("CharLocale");
       boolean langIsSupported = false;
-      for (int i = 0; i < Language.LANGUAGES.length; i++) {
-        if (Language.LANGUAGES[i].getShortName().equals(charLocale.Language)) {
+      for (Language element : Language.LANGUAGES) {
+        if (element.getShortName().equals(charLocale.Language)) {
           langIsSupported = true;
           break;
         }
@@ -203,9 +204,9 @@ XLinguServiceEventBroadcaster {
         "' is not supported by LanguageTool.");
         return null;
       }
-    } catch (UnknownPropertyException e) {
+    } catch (final UnknownPropertyException e) {
       throw new RuntimeException(e);
-    } catch (WrappedTargetException e) {
+    } catch (final WrappedTargetException e) {
       throw new RuntimeException(e);
     }
     return Language.getLanguageForShortName(charLocale.Language);
@@ -378,6 +379,7 @@ XLinguServiceEventBroadcaster {
     configThread.start();
     while (true) {
       if (configThread.done()) {
+        resetDocument();
         break;
       }
       try {
@@ -495,12 +497,12 @@ XLinguServiceEventBroadcaster {
         checkText(textToCheck);
       } else if (sEvent.equals("test_new_win")) {
 //      TODO: make this a separate config dialog class        
-        XMultiComponentFactory xMCF = xContext.getServiceManager();      
+        final XMultiComponentFactory xMCF = xContext.getServiceManager();      
 //      get PackageInformationProvider from ComponentContext
         final XNameAccess xNameAccess = (XNameAccess) UnoRuntime.queryInterface(
             XNameAccess.class, xContext);
-        Object oPIP = xNameAccess.getByName("/singletons/com.sun.star.deployment.PackageInformationProvider");
-        XPackageInformationProvider xPIP = (XPackageInformationProvider) UnoRuntime.queryInterface(
+        final Object oPIP = xNameAccess.getByName("/singletons/com.sun.star.deployment.PackageInformationProvider");
+        final XPackageInformationProvider xPIP = (XPackageInformationProvider) UnoRuntime.queryInterface(
             XPackageInformationProvider.class, oPIP);
 //      get the url of the directory extension installed
         final String sPackageURL = 
@@ -508,39 +510,39 @@ XLinguServiceEventBroadcaster {
         final String sDialogURL = sPackageURL + "/Options.xdl";
 
 //      dialog provider to make a dialog
-        Object oDialogProvider = xMCF.createInstanceWithContext(
+        final Object oDialogProvider = xMCF.createInstanceWithContext(
             "com.sun.star.awt.DialogProvider", xContext);
-        XDialogProvider xDialogProv = (XDialogProvider) UnoRuntime.queryInterface(
+        final XDialogProvider xDialogProv = (XDialogProvider) UnoRuntime.queryInterface(
             XDialogProvider.class, oDialogProvider);
-        XDialog xDialog = xDialogProv.createDialog(sDialogURL);
-        XControlContainer xDlgContainer = (XControlContainer) UnoRuntime.queryInterface(XControlContainer.class, xDialog);
-        XControl xListControl = xDlgContainer.getControl("LanguageList");
-        XListBox xListBox = (XListBox) UnoRuntime.queryInterface(XListBox.class, xListControl);
+        final XDialog xDialog = xDialogProv.createDialog(sDialogURL);
+        final XControlContainer xDlgContainer = (XControlContainer) UnoRuntime.queryInterface(XControlContainer.class, xDialog);
+        final XControl xListControl = xDlgContainer.getControl("LanguageList");
+        final XListBox xListBox = (XListBox) UnoRuntime.queryInterface(XListBox.class, xListControl);
         for (short i = 0; i < Language.LANGUAGES.length - 1; i++) {
           xListBox.addItem(
               Language.LANGUAGES[i].getTranslatedName(MESSAGES), i);
         }
-        XButton xOKButton = (XButton) UnoRuntime.queryInterface(XButton.class, xDlgContainer.getControl("OK_Button"));
+        final XButton xOKButton = (XButton) UnoRuntime.queryInterface(XButton.class, xDlgContainer.getControl("OK_Button"));
         xOKButton.setLabel(StringTools.getOOoLabel(MESSAGES.getString("guiOKButton")));
-        XButton xCancelButton = (XButton) UnoRuntime.queryInterface(XButton.class, xDlgContainer.getControl("Cancel_Button"));
+        final XButton xCancelButton = (XButton) UnoRuntime.queryInterface(XButton.class, xDlgContainer.getControl("Cancel_Button"));
         xCancelButton.setLabel(StringTools.getOOoLabel(MESSAGES.getString("guiCancelButton")));
 
-        XControl xControlTree = xDlgContainer.getControl("Rules");
-        XControlModel xTreeModel = xControlTree.getModel();
+        final XControl xControlTree = xDlgContainer.getControl("Rules");
+        final XControlModel xTreeModel = xControlTree.getModel();
 
-        Object xTreeData = xMCF.createInstanceWithContext(
+        final Object xTreeData = xMCF.createInstanceWithContext(
             "com.sun.star.awt.tree.MutableTreeDataModel", xContext);
-        XMutableTreeDataModel mxTreeDataModel = (XMutableTreeDataModel) UnoRuntime.queryInterface(
+        final XMutableTreeDataModel mxTreeDataModel = (XMutableTreeDataModel) UnoRuntime.queryInterface(
             XMutableTreeDataModel.class, xTreeData);
 
-        XMutableTreeNode xNode = mxTreeDataModel.createNode("Rules", false);
+        final XMutableTreeNode xNode = mxTreeDataModel.createNode("Rules", false);
 
         xNode.appendChild(mxTreeDataModel.createNode("Misc", false));
         xNode.appendChild(mxTreeDataModel.createNode("Punctuation", false));
 
         mxTreeDataModel.setRoot(xNode);
 
-        XPropertySet xTreeModelProperty = (XPropertySet) UnoRuntime.queryInterface(
+        final XPropertySet xTreeModelProperty = (XPropertySet) UnoRuntime.queryInterface(
             XPropertySet.class, xTreeModel);
         xTreeModelProperty.setPropertyValue("DataModel", mxTreeDataModel);
 
@@ -548,11 +550,10 @@ XLinguServiceEventBroadcaster {
         xNode.setExpandedGraphicURL(sPackageURL + "triangle_down.png");
         xNode.setCollapsedGraphicURL(sPackageURL + "triangle_right.png");
 
-        short nResult = xDialog.execute();
+        final short nResult = xDialog.execute();
 
       } else if (sEvent.equals("configure")) {                
-        runOptionsDialog();
-        resetDocument();
+        runOptionsDialog();        
       } else if (sEvent.equals("about")) {
         final AboutDialogThread aboutthread = new AboutDialogThread(MESSAGES);
         aboutthread.start();
@@ -569,7 +570,6 @@ XLinguServiceEventBroadcaster {
    * that options have changed and the doc should be rechecked.
    *
    */
-//FIXME: this is called only in longer docs or on text modify... 
   public final void resetDocument() {
     if (!xEventListeners.isEmpty()) {
       for (final XLinguServiceEventListener xEvLis : xEventListeners) {
@@ -723,28 +723,28 @@ XLinguServiceEventBroadcaster {
 
 //TODO: remove this method when spell-checking dialog window is available
   //and bug-free :-/
-  static String getParagraphContent(Object para) throws NoSuchElementException, WrappedTargetException, UnknownPropertyException {
+  static String getParagraphContent(final Object para) throws NoSuchElementException, WrappedTargetException, UnknownPropertyException {
     if (para == null) {
       return null;
     }
-    com.sun.star.container.XEnumerationAccess xPortionAccess = (com.sun.star.container.XEnumerationAccess) UnoRuntime
+    final com.sun.star.container.XEnumerationAccess xPortionAccess = (com.sun.star.container.XEnumerationAccess) UnoRuntime
     .queryInterface(com.sun.star.container.XEnumerationAccess.class, para);
     if (xPortionAccess == null) {
       System.err.println("xPortionAccess is null");
       return null;
     }
-    StringBuilder sb = new StringBuilder();
-    for (XEnumeration portionEnum = xPortionAccess.createEnumeration(); portionEnum.hasMoreElements();) {
-      Object textPortion = portionEnum.nextElement();
-      XPropertySet textProps = (XPropertySet) UnoRuntime.queryInterface(XPropertySet.class, textPortion);
-      String type = (String)textProps.getPropertyValue("TextPortionType");
+    final StringBuilder sb = new StringBuilder();
+    for (final XEnumeration portionEnum = xPortionAccess.createEnumeration(); portionEnum.hasMoreElements();) {
+      final Object textPortion = portionEnum.nextElement();
+      final XPropertySet textProps = (XPropertySet) UnoRuntime.queryInterface(XPropertySet.class, textPortion);
+      final String type = (String)textProps.getPropertyValue("TextPortionType");
       if ("Footnote".equals(type) || "DocumentIndexMark".equals(type)) {
         // a footnote reference appears as one character in the text. we don't use a whitespace
         // because we don't want to trigger the "no whitespace before comma" rule in this case:
         // my footnoteÂ¹, foo bar
         sb.append("1");
       } else {
-        XTextRange xtr = (XTextRange) UnoRuntime.queryInterface(XTextRange.class, textPortion);
+        final XTextRange xtr = (XTextRange) UnoRuntime.queryInterface(XTextRange.class, textPortion);
         sb.append(xtr.getString());
       }
     }
@@ -759,10 +759,11 @@ XLinguServiceEventBroadcaster {
       this.messages = messages;
     }
 
+    @Override
     public void run() {
-      XModel model = (XModel)UnoRuntime.queryInterface(XModel.class, xComponent);
-      XWindow parentWindow = model.getCurrentController().getFrame().getContainerWindow();
-      XWindowPeer parentWindowPeer = (XWindowPeer) UnoRuntime.queryInterface(XWindowPeer.class, parentWindow);
+      final XModel model = (XModel)UnoRuntime.queryInterface(XModel.class, xComponent);
+      final XWindow parentWindow = model.getCurrentController().getFrame().getContainerWindow();
+      final XWindowPeer parentWindowPeer = (XWindowPeer) UnoRuntime.queryInterface(XWindowPeer.class, parentWindow);
       final OOoAboutDialog about = 
         new OOoAboutDialog(messages, parentWindowPeer);
       about.show();
@@ -814,6 +815,7 @@ class DialogThread extends Thread {
     this.text = text;
   }
 
+  @Override
   public void run() {
     JOptionPane.showMessageDialog(null, text);
   }
@@ -839,12 +841,14 @@ class ResultDialogThread extends Thread {
     this.textTocheck = textTocheck;
   }
 
+  @Override
   public void run() {
     OOoDialog dialog;
-    if (xViewCursor == null)
+    if (xViewCursor == null) {
       dialog = new OOoDialog(configuration, rules, xTextDoc, checkedParagraphs);
-    else
+    } else {
       dialog = new OOoDialog(configuration, rules, xTextDoc, checkedParagraphs, xViewCursor, textTocheck);
+    }
     dialog.show();
   }
 
@@ -864,21 +868,21 @@ class SingletonFactory implements XSingleComponentFactory {
 
   private Object instance = null;
   
-  public Object createInstanceWithArgumentsAndContext(Object[] arg0, XComponentContext arg1) throws com.sun.star.uno.Exception {
+  public Object createInstanceWithArgumentsAndContext(final Object[] arg0, final XComponentContext arg1) throws com.sun.star.uno.Exception {
     if (instance == null) {
       instance = new de.danielnaber.languagetool.openoffice.Main(arg1);
     } else {
-      de.danielnaber.languagetool.openoffice.Main x = (de.danielnaber.languagetool.openoffice.Main) instance;
+      final de.danielnaber.languagetool.openoffice.Main x = (de.danielnaber.languagetool.openoffice.Main) instance;
       x.changeContext(arg1);
     }
     return instance;
   }
 
-  public Object createInstanceWithContext(XComponentContext arg0) throws com.sun.star.uno.Exception {  
+  public Object createInstanceWithContext(final XComponentContext arg0) throws com.sun.star.uno.Exception {  
     if (instance == null) {
       instance = new de.danielnaber.languagetool.openoffice.Main(arg0);
     } else {
-      de.danielnaber.languagetool.openoffice.Main x = (de.danielnaber.languagetool.openoffice.Main) instance;
+      final de.danielnaber.languagetool.openoffice.Main x = (de.danielnaber.languagetool.openoffice.Main) instance;
       x.changeContext(arg0);
     }
     return instance;
