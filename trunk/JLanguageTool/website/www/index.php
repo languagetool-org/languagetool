@@ -29,7 +29,8 @@ the <?=show_link("Changelog", "download/CHANGES.txt", 0) ?> for details.</p>
 <p><strong>Download:</strong><br />
 <strong><?=show_link("LanguageTool 0.9.2", "download/LanguageTool-0.9.2.oxt", 0) ?></strong>, 9&nbsp;MB,
 requires <?=show_link("Java", "http://www.java.com/en/download/manual.jsp", 1)?>&nbsp;5.0
-or later</p>
+or later -- NOTE: this version currently doesn't work with OpenOffice.org 3.0 beta -- we're working
+on a fix</p>
 
 <!-- -->
 <p><strong>Try LanguageTool via Java WebStart:</strong><br />
