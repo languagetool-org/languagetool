@@ -32,7 +32,7 @@ Usage:
   java -jar LanguageTool.jar <filename>
 
 Known bugs:
- -OpenOffice.org integration:
+ -OpenOffice.org integration (only when using "Check Text" dialog):
    -doesn't work correctly with documents that contain revisions
    -doesn't check table content
    -getParagraphContent() iterates differently than OOoDialog.showError() so
