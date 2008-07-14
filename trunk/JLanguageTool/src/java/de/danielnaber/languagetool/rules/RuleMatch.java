@@ -84,7 +84,7 @@ public class RuleMatch implements Comparable<RuleMatch> {
   /**
    * Set the line number in which the match occurs.
    */
-  public void setLine(int fromLine) {
+  public void setLine(final int fromLine) {
     this.fromLine = fromLine;
   }
 
@@ -98,7 +98,7 @@ public class RuleMatch implements Comparable<RuleMatch> {
   /**
    * Set the line number in which the match ends.
    */
-  public void setEndLine(int endLine) {
+  public void setEndLine(final int endLine) {
     this.endLine = endLine;
   }
 
@@ -112,7 +112,7 @@ public class RuleMatch implements Comparable<RuleMatch> {
   /**
    * Set the column number in which the match occurs.
    */
-  public void setColumn(int column) {
+  public void setColumn(final int column) {
     this.column = column;
   }
 
@@ -126,7 +126,7 @@ public class RuleMatch implements Comparable<RuleMatch> {
   /**
    * Set the column number in which the match ends.
    */
-  public void setEndColumn(int endColumn) {
+  public void setEndColumn(final int endColumn) {
     this.endColumn = endColumn;
   }
 
@@ -140,7 +140,7 @@ public class RuleMatch implements Comparable<RuleMatch> {
   /**
    * Set the character offset at which the match occurs.
    */
-  public void setOffset(int offset) {
+  public void setOffset(final int offset) {
     this.offset = offset;
   }
 
@@ -178,7 +178,7 @@ public class RuleMatch implements Comparable<RuleMatch> {
   public void setSuggestedReplacement(String repl) {
     if (repl == null)
       throw new NullPointerException("replacement might be empty but not null");
-    List<String> fixes = new ArrayList<String>();
+    final List<String> fixes = new ArrayList<String>();
     fixes.add(repl);
     setSuggestedReplacements(fixes);
   }

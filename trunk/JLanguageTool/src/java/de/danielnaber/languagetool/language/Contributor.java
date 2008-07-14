@@ -25,7 +25,7 @@ package de.danielnaber.languagetool.language;
  */
 public class Contributor {
 
-  private String name;
+  private final String name;
   private String remark;
   private String url;
 
@@ -48,7 +48,7 @@ public class Contributor {
     return remark;
   }
 
-  public void setRemark(String remark) {
+  public void setRemark(final String remark) {
     this.remark = remark;
   }
 
@@ -56,7 +56,7 @@ public class Contributor {
     return url;
   }
 
-  public void setUrl(String url) {
+  public void setUrl(final String url) {
     this.url = url;
   }
 
