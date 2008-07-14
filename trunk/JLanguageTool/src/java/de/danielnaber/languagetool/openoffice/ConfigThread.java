@@ -29,24 +29,22 @@ class ConfigThread extends Thread {
 
   private Language docLanguage;
   private Configuration config;
-  private boolean done = false;
+  private de.danielnaber.languagetool.openoffice.Main mainThread = null;
   
   private ConfigurationDialog cfgDialog;
   
-  ConfigThread(final Language docLanguage, final Configuration config) {
+  ConfigThread(final Language docLanguage, final Configuration config,
+      final de.danielnaber.languagetool.openoffice.Main main) {
     this.docLanguage = docLanguage;
-    this.config = config;      
+    this.config = config;
+    mainThread = main; 
     cfgDialog = new ConfigurationDialog(null, true);
     cfgDialog.setDisabledRules(config.getDisabledRuleIds());
     cfgDialog.setEnabledRules(config.getEnabledRuleIds());
     cfgDialog.setDisabledCategories(config.getDisabledCategoryNames());
     cfgDialog.setMotherTongue(config.getMotherTongue());    
   }
-  
-  public boolean done() {
-    return done || cfgDialog.isClosed();
-  }
-  
+    
   public Set<String> getDisabledRuleIds() {
     return cfgDialog.getDisabledRuleIds();
   }  
@@ -62,8 +60,10 @@ class ConfigThread extends Thread {
       config.setDisabledCategoryNames(cfgDialog.getDisabledCategoryNames());
       config.setMotherTongue(cfgDialog.getMotherTongue());
       config.saveConfiguration();
+      if (mainThread != null) {
+        mainThread.resetDocument();
+      }
     } catch (Throwable e) {
-      done = true;
       Main.showError(e);
     }
   }

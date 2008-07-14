@@ -95,6 +95,12 @@ XLinguServiceEventBroadcaster {
   private XTextViewCursor xViewCursor;
 
   private List <XLinguServiceEventListener> xEventListeners;
+  
+  /**
+   * Make another instance of JLanguageTool
+   * and assign it to langTool if true.
+   */
+  private boolean recheck = false;
 
   /** Service name required by the OOo API && our own name.
    * 
@@ -110,8 +116,6 @@ XLinguServiceEventBroadcaster {
 
   private static final ResourceBundle MESSAGES = JLanguageTool.getMessageBundle();
 
-  private File homeDir;
-
   //TODO: remove as soon as the spelling window is used for grammar check
   private XTextDocument xTextDoc;
 
@@ -120,8 +124,6 @@ XLinguServiceEventBroadcaster {
 
   private XComponentContext xContext;
   
-  private long configTimeStamp = 0;
-
   /** Document ID. The document IDs can be used 
    * for storing the document-level state (e.g., for
    * document-level spelling consistency).
@@ -140,10 +142,8 @@ XLinguServiceEventBroadcaster {
       xFlatPI = 
         (XFlatParagraphIteratorProvider) UnoRuntime.queryInterface(XFlatParagraphIteratorProvider.class,
             xComponent);
-      homeDir = getHomeDir();
+      final File homeDir = getHomeDir();
       config = new Configuration(homeDir, CONFIG_FILE);
-      final File f = new File(homeDir, CONFIG_FILE);
-      configTimeStamp = f.lastModified();
       xEventListeners = new ArrayList<XLinguServiceEventListener>();
     } catch (final Throwable e) {
       writeError(e);
@@ -237,31 +237,21 @@ XLinguServiceEventBroadcaster {
     paRes.nDocumentId = docID;    
     paRes.aText = paraText;
 
-    if (paraText != null) {
-      paRes.nEndOfSentencePos = paraText.length();
-    } else {
+    if (paraText == null) {
       return paRes;
+    } else {
+      paRes.nEndOfSentencePos = paraText.length();
     }
 
 //  TODO: process different language fragments in a paragraph 
 //  according to their language (currently assumed = locale)
 //  note: this is not yet implemented in the API     
-
-    try {
-    final File f = new File(homeDir, CONFIG_FILE);
-    if (configTimeStamp != f.lastModified() || config == null) {
-      configTimeStamp = f.lastModified();
-      config = new Configuration(homeDir, CONFIG_FILE);
-      langTool = null;
-    }
-    } catch (final Exception exception) {
-      showError(exception);
-    }
-    
+        
     if (hasLocale(locale)) {
       //caching the instance of LT
       if (!Language.getLanguageForShortName(locale.Language).equals(docLanguage)
-          || langTool == null) {
+          || langTool == null
+          || recheck) {
         docLanguage = Language.getLanguageForShortName(locale.Language);
         if (docLanguage == null) {
           return paRes;
@@ -270,6 +260,7 @@ XLinguServiceEventBroadcaster {
           langTool = new JLanguageTool(docLanguage, config.getMotherTongue());
           langTool.activateDefaultPatternRules();
           langTool.activateDefaultFalseFriendRules();
+          recheck = false;
         } catch (final Exception exception) {
           showError(exception);
         }
@@ -288,12 +279,11 @@ XLinguServiceEventBroadcaster {
       }      
       try {        
         final List<RuleMatch> ruleMatches = langTool.check(paraText);
-        if (ruleMatches.size() > 0) {          
+        if (!ruleMatches.isEmpty()) {          
           final SingleGrammarError[] errorArray = new SingleGrammarError[ruleMatches.size()];;
           int i = 0;
           for (final RuleMatch myRuleMatch : ruleMatches) {
-            errorArray[i] = createOOoError(
-                locale, myRuleMatch);
+            errorArray[i] = createOOoError(locale, myRuleMatch);
             i++;
           }
           paRes.aGrammarErrors = errorArray;
@@ -370,24 +360,13 @@ XLinguServiceEventBroadcaster {
 
   /** Runs LT options dialog box.
    **/
-  public final void runOptionsDialog() {
+  public final void runOptionsDialog() {        
     final Language lang = getLanguage();
     if (lang == null) {
       return;
     }    
-    final ConfigThread configThread = new ConfigThread(lang, config);
+    final ConfigThread configThread = new ConfigThread(lang, config, this);
     configThread.start();
-    while (true) {
-      if (configThread.done()) {
-        resetDocument();
-        break;
-      }
-      try {
-        Thread.sleep(100);
-      } catch (final InterruptedException e) {
-        break;
-      }
-    }
   }
 
   /**
@@ -581,6 +560,7 @@ XLinguServiceEventBroadcaster {
           xEvLis.processLinguServiceEvent(xEvent);
         }
       }
+      recheck = true;
     }
   }
 
@@ -610,7 +590,7 @@ XLinguServiceEventBroadcaster {
 
     final List<CheckedParagraph> checkedParagraphs = checkerThread.getRuleMatches();
     // TODO: why must these be wrapped in threads to avoid focus problems?
-    if (checkedParagraphs.size() == 0) {
+    if (checkedParagraphs.isEmpty()) {
       String msg;
       final String translatedLangName = MESSAGES.getString(docLanguage.getShortName());
       if (textToCheck.isSelection) {
@@ -657,15 +637,15 @@ XLinguServiceEventBroadcaster {
       }
       while (true) {
         xParaEnum = xParaAccess.getNextPara();
-        if (xParaEnum != null) {
+        if (xParaEnum == null) {
+          break;           
+        } else {
           paraString = xParaEnum.getText();
           if (paraString == null) {
             paragraphs.add("");
           } else {
             paragraphs.add(paraString);
-          } 
-        } else {
-          break;
+          }
         }
       }        
     } catch (final Exception e) {
@@ -778,11 +758,11 @@ XLinguServiceEventBroadcaster {
    */
   public final boolean addLinguServiceEventListener(
       final XLinguServiceEventListener xLinEvLis) {
-    if (xLinEvLis != null) {
-      xEventListeners.add(xLinEvLis);
-      return true;
-    } else {
+    if (xLinEvLis == null) {
       return false;
+    } else {
+      xEventListeners.add(xLinEvLis);
+      return true;      
     }
   }
 
@@ -792,15 +772,16 @@ XLinguServiceEventBroadcaster {
    */
   public final boolean removeLinguServiceEventListener(
       final XLinguServiceEventListener xLinEvLis) {
-    if (xLinEvLis != null) {
+    if (xLinEvLis == null) {
+      return false;
+    } else {
       if (xEventListeners.contains(xLinEvLis)) {
         xEventListeners.remove(xLinEvLis);
         return true;
       } else { 
         return false;
       }
-    } else {
-      return false;
+      
     }
   }
 
@@ -864,8 +845,14 @@ class TextToCheck {
   }
 }  
 
+/**
+ * This class is a factory that creates only a single instance,
+ * or a singleton, of the Main class. Used for performance 
+ * reasons and to allow various parts of code to interact.
+ *
+ */
 class SingletonFactory implements XSingleComponentFactory {
-
+  
   private Object instance = null;
   
   public Object createInstanceWithArgumentsAndContext(final Object[] arg0, final XComponentContext arg1) throws com.sun.star.uno.Exception {

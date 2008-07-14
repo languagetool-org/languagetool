@@ -98,8 +98,6 @@ public class ConfigurationDialog implements ActionListener {
   private Frame owner = null;
   private boolean insideOOo;
   
-  private boolean isClosed = true;
-  
   public ConfigurationDialog(Frame owner, boolean insideOOo) {
     this.owner = owner;
     this.insideOOo = insideOOo;
@@ -121,7 +119,6 @@ public class ConfigurationDialog implements ActionListener {
     ActionListener actionListener = new ActionListener() {
       @SuppressWarnings("unused")
       public void actionPerformed(ActionEvent actionEvent) {
-        isClosed = true;
         dialog.setVisible(false); 
       }
     };
@@ -318,7 +315,6 @@ public class ConfigurationDialog implements ActionListener {
     
     dialog.pack();
     dialog.setSize(500, 500);
-    isClosed = false;
     // center on screen:
     Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
     Dimension frameSize = dialog.getSize();
@@ -335,10 +331,6 @@ public class ConfigurationDialog implements ActionListener {
       }
     }
     return motherTongues.toArray();
-  }
-
-  public boolean isClosed() {
-    return isClosed;
   }
   
   public void actionPerformed(ActionEvent e) {
@@ -381,10 +373,8 @@ public class ConfigurationDialog implements ActionListener {
         serverMode = serverCheckbox.isSelected();
         serverPort = Integer.parseInt(serverPortField.getText());
       }
-      isClosed = true;
       dialog.setVisible(false);
     } else if (e.getSource() == cancelButton) {
-      isClosed = true;
       dialog.setVisible(false);
     } 
   }
