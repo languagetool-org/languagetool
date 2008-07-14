@@ -150,6 +150,15 @@ License:
  The Dutch data are based on Alpino parser for Dutch by Gertjan van 
  Noord and is released on LGPL license. Alpino is available at 
  http://www.let.rug.nl/~vannoord/alp/Alpino/.
+
+ Swedish:
+ The Swedish data are based on DSSO. The Initial Developer of the Original Code is Göran Andersson.
+ Contributor(s):
+   Tom Westerberg <tweg@welho.com>
+   Niklas Johansson <sleeping.pillow@gmail.com>
+ The Swedish Dictionary may be used under the terms of the GNU Lesser General Public License Version 2.1 or later 
+ (the "LGPL"). 
+ http://dsso.se
  
  French:
  The French data for part-of-speech tagging are based on InDICO, created 
