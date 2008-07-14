@@ -95,6 +95,7 @@ public class PolishSentenceTokenizer extends SentenceTokenizer {
    * @param lineBreakParagraphs if <code>true</code>, single lines breaks are assumed to end a paragraph,
    *  with <code>false</code>, only two ore more consecutive line breaks end a paragraph
    */
+  @Override
   public final void setSingleLineBreaksMarksParagraph(final boolean lineBreakParagraphs) {
     if (lineBreakParagraphs) {
       paragraph = paragraphByLineBreak;
@@ -103,6 +104,7 @@ public class PolishSentenceTokenizer extends SentenceTokenizer {
     }
   }
 
+  @Override
   public final List<String> tokenize(String s) {
     s = firstSentenceSplitting(s);
     s = removeFalseEndOfSentence(s);
@@ -177,21 +179,6 @@ public class PolishSentenceTokenizer extends SentenceTokenizer {
     // z.B. "Das hier ist ein(!) Satz."
       s = s.replaceAll("\\(([!?]+)\\) " + EOS, "($1) ");
     return s;
-  }
-
-  /**
-   * Treat some more special cases that make up a sentence boundary. Insert the special break
-   * character at these positions.
-   
-  private String splitUnsplitStuff(String s) {
-    // e.g. "x5. bla..." -- not sure, leaving commented out:
-    // text = re.compile("(\D\d+)(%s)(\s+)" % self.P, re.DOTALL).sub("\\1\\2%s\\3" % self.EOS, text)
-    // Not sure about this one, leaving out four now:
-    // text = re.compile("(%s\s)(\s*\()" % self.PAP, re.DOTALL).sub("\\1%s\\2" % self.EOS, text)
-    // Split e.g.: He won't. #Really.
-    //s = repair1.matcher(s).replaceAll("$1" + EOS + "$2");
-    return s;
-  }
-  */
+  } 
 
 }

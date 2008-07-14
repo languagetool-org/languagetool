@@ -95,8 +95,8 @@ public class SentenceTokenizer implements Tokenizer {
    * Create a sentence tokenizer that uses the built-in abbreviations.
    */
   public SentenceTokenizer() {
-    for (int i = 0; i < ABBREV_LIST.length; i++) {
-      abbreviations.add(ABBREV_LIST[i]);
+    for (String element : ABBREV_LIST) {
+      abbreviations.add(element);
     }
     setSingleLineBreaksMarksParagraph(false);
   }
@@ -107,8 +107,8 @@ public class SentenceTokenizer implements Tokenizer {
    */
   public SentenceTokenizer(final String[] abbrevList) {
     this();
-    for (int i = 0; i < abbrevList.length; i++) {
-      abbreviations.add(abbrevList[i]);
+    for (String element : abbrevList) {
+      abbreviations.add(element);
     }
   }
 
@@ -116,11 +116,12 @@ public class SentenceTokenizer implements Tokenizer {
    * @param lineBreakParagraphs if <code>true</code>, single lines breaks are assumed to end a paragraph,
    *  with <code>false</code>, only two ore more consecutive line breaks end a paragraph
    */
-  public void setSingleLineBreaksMarksParagraph(boolean lineBreakParagraphs) {
-    if (lineBreakParagraphs)
+  public void setSingleLineBreaksMarksParagraph(final boolean lineBreakParagraphs) {
+    if (lineBreakParagraphs) {
       paragraph = paragraphByLineBreak;
-    else
+    } else {
       paragraph = paragraphByTwoLineBreaks;
+    }
   }
     
   /**
@@ -131,7 +132,7 @@ public class SentenceTokenizer implements Tokenizer {
     s = removeFalseEndOfSentence(s);
     s = splitUnsplitStuff(s);
     stringTokenizer = new StringTokenizer(s, EOS);
-    List<String> l = new ArrayList<String>();
+    final List<String> l = new ArrayList<String>();
     while (stringTokenizer.hasMoreTokens()) {
       final String sentence = stringTokenizer.nextToken();
       l.add(sentence);
@@ -174,8 +175,9 @@ public class SentenceTokenizer implements Tokenizer {
     s = abbrev5.matcher(s).replaceAll("$1");
 
     // Don't split at abbreviations:
-    for (String abbrev : abbreviations) {
-      Pattern pattern = Pattern.compile("(\\b" + abbrev + PAP + "\\s)" + EOS);
+    for (final String abbrev : abbreviations) {
+      final Pattern pattern = 
+        Pattern.compile("(\\b" + abbrev + PAP + "\\s)" + EOS);
       s = pattern.matcher(s).replaceAll("$1");
     }
     // Don't break after quote unless there's a capital letter:
@@ -198,8 +200,8 @@ public class SentenceTokenizer implements Tokenizer {
 
     // "13. Dezember" etc. -> keine Satzgrenze:
     if (monthNames != null) {
-      for (int i = 0; i < monthNames.length; i++) {
-        s = s.replaceAll("(\\d+\\.) " + EOS + "(" + monthNames[i] + ")", "$1 $2");
+      for (String element : monthNames) {
+        s = s.replaceAll("(\\d+\\.) " + EOS + "(" + element + ")", "$1 $2");
       }
     }
 
@@ -233,8 +235,8 @@ public class SentenceTokenizer implements Tokenizer {
     return s;
   }
   
-  public static void main(String[] args) {
-    SentenceTokenizer st = new GermanSentenceTokenizer();
+  public static void main(final String[] args) {
+    final SentenceTokenizer st = new GermanSentenceTokenizer();
     st.tokenize("Er sagte (...) und");
   }
 
