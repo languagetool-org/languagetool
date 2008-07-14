@@ -17,6 +17,17 @@ title="Easy editing stylesheet" ?>
       <example type="correct">Det visade sig <marker>efter hand</marker> att orden borde särskrivas.</example>
     </rule>
   </category>
+  <category name="Sammanskrivning rekomenderas">
+    <rule id="ALLT_MER" name="Allt mer bör ej särskrivas">
+      <pattern>
+        <token>allt</token>
+        <token>mer</token>
+      </pattern>
+      <message>Enligt tt-språket och svenska språknämnden bör ordet "alltmer" ej särskrivas.</message>
+      <example type="incorrect">Det blir <marker>allt mer</marker> vanligt att folk särskriver.</example>
+      <example correction="\1\2" type="correct">Det blir <marker>alltmer</marker> vanligt att folk särskriver.</example>
+    </rule>
+  </category>
   <!-- ====================================================================== -->
   <!-- Punkter efter förkortningar -->
   <!-- ====================================================================== -->
@@ -51,7 +62,7 @@ title="Easy editing stylesheet" ?>
   <!-- ====================================================================== -->
   <!-- Grammatik -->
   <!-- ====================================================================== -->
-  <category name="Grammar">
+  <category name="Grammatik">
     <rule id="JJ.OCH_n-ord" name="Rätt böjning på adjektivet">
       <pattern>
         <token>ett</token>
@@ -78,17 +89,16 @@ title="Easy editing stylesheet" ?>
       <example type="incorrect"> Det var <marker>en mörkt rum</marker> . </example>
     </rule>
     <!-- Ett försök att fånga upp anföringsverb som ska föregås av ett kommatecken -->
-    <!-- rule id="KommaInnanAnfoeringsverb" name="Komma innan anföringsverb">
-      <pattern>
-        <token>
-          <exception>,|vad|visst</exception>
-        </token>
-        <token regexp="yes">sade|sa|menade|viskade|skrek</token>
-        <token postag="PM"/>
+    <rule id="KommaInnanAnfoeringsverb" name="Komma innan anföringsverb">
+      <pattern mark_from="1">
+        <token><exception regexp="yes">,|vad|visst</exception></token>
+        <token regexp="yes">sade|sa|menade|viskade|skrek|frågade</token>
+        <token postag="PM:.*" postag_regexp="yes"/>
       </pattern>
-      <message>Kommatecken ska sättas ut innan anföringsverb (i detta fall innan \2).</message>
-      <example correction=", /2 /3" type="correct"> Det var finfint <marker>, sade Johan</marker> . </example>
-    </rule  -->
+      <message>Kommatecken ska sättas ut innan anföringsverb.</message>
+      <example correction=", /2 /3" type="correct">Det var finfint <marker>, sade Johan</marker>.</example>
+      <example type="incorrect">Det var finfint <marker>sade Johan</marker>.</example>
+    </rule>
     <rule id="EnKlubbaTill" name="Klumpiga ordföljder 1">
       <pattern>
         <token regexp="yes">en|ett</token>
@@ -119,6 +129,18 @@ title="Easy editing stylesheet" ?>
       <message>Du menar sannolikt "massera" om du inte skriver om masarnas era förstås.</message>
       <example correction="överens" type="correct"> Flickorna kunde <marker>massera</marker> varandra. </example>
       <example type="incorrect"> Flickorna kunde <marker>masera</marker> varandra. </example>
+    </rule>
+  </category>
+  <category name="Ord som ofta förväxlas">
+    <rule id="mottoVSmatto" name="Motto vs. måtto">
+      <pattern>
+        <token>i</token>
+        <token regexp="yes">möjligaste|så</token>
+        <token>motto</token>
+      </pattern>
+      <message>I dessa uttryck används ordet måtto (från måtta) och inte motto (som betyder ung. slagord)</message>
+      <example type="correct">Alla hinder bör <marker>i möjligaste måtto</marker> undanröjas.</example>
+      <example type="incorrect">Alla hinder bör <marker>i möjligaste motto</marker> undanröjas.</example>
     </rule>
   </category>
   <!-- ====================================================================== -->
@@ -153,30 +175,30 @@ title="Easy editing stylesheet" ?>
   <!-- ====================================================================== -->
   <!-- Syntax -->
   <!-- ====================================================================== -->
-  <!-- category name="Syntax">
+  <category name="Syntax">
     <rule id="Forkortning" name="Böjning av förkortningar\...">
       <pattern>
         <token regexp="yes">^(\p{Lu}{2}+[i]*\p{Lu}+[\p{L}&amp;&amp;[^\p{Lu}]]{1,4}+)</token>
       </pattern>
-      <message> Förkortningar som böjs binds ihop med ett kolon: <suggestion>
-          <match no="1" regexp_match="^(\p{Lu}{2}+[i]*\p{Lu}+)([\p{L}&amp;&amp;[^\p{Lu}]]{1,4}+)" regexp_replace="$1:$2"/>
-        </suggestion> </message>
+      <message>Förkortningar som böjs binds ihop med ett kolon: <suggestion><match no="1" regexp_match="^(\p{Lu}{2}+[i]*\p{Lu}+)([\p{L}&amp;&amp;[^\p{Lu}]]{1,4}+)" regexp_replace="$1:$2"/></suggestion> </message>
+      <example type="correct">Med det nya API:s fördelar, kan du hitta nya lösningar.</example>
+      <example type="incorrect">Med det nya <marker>APIs</marker> fördelar, kan du hitta nya lösningar.</example>
     </rule>
     <rule id="Ordningstal" name="Ordningstal">
       <pattern>
         <token regexp="yes">^(1a|2a|[\d]*[1-2]e)</token>
       </pattern>
-      <message> Siffror med ändelser binds ihop med ett kolon: <suggestion>
-          <match no="1" regexp_match="^(1|2|[\d]*[12])(a|e)" regexp_replace="$1:$2"/>
-        </suggestion> </message>
+      <message>Siffror med ändelser binds ihop med ett kolon: <suggestion><match no="1" regexp_match="^(1|2|[\d]*[12])(a|e)" regexp_replace="$1:$2"/></suggestion></message>
+      <example type="correct">Hon kom på 2:a plats</example>
+      <example type="incorrect">Hon kom på <marker>2a</marker> plats</example>
     </rule>
     <rule id="Ordningstal2" name="Ordningstal2">
       <pattern>
-        <token regexp="yes">^([3-90][ae]|[\d]*[3-90][ae])</token>
+        <token regexp="yes">^([3-90][ae]|[\d]*[3-90][e]|[^1]*[012][a|e])</token>
       </pattern>
-      <message> Siffror med ändelser binds ihop med ett kolon: <suggestion>
-          <match no="1" regexp_match="^([3-90]|[\d]*[3-90])([ae])" regexp_replace="$1:$2"/>
-        </suggestion> </message>
+      <message>Siffror med ändelser binds ihop med ett kolon: <suggestion><match no="1" regexp_match="^([3-90]|[\d]*[3-90])([ae])" regexp_replace="$1:$2"/></suggestion></message>
+      <example type="correct">Han kom på 5:e plats</example>
+      <example type="incorrect">Han kom på <marker>5e</marker> plats</example>
     </rule>
-  </category  -->
+  </category>
 </rules>
