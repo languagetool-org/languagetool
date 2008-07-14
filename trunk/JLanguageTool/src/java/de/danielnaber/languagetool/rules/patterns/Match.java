@@ -299,7 +299,7 @@ public class Match {
         }
       }
       if (pPosRegexMatch != null & posTagReplace != null) {
-        if (posTags.size() == 0) {
+        if (posTags.isEmpty()) {
           posTags.add(targetPosTag);
         }
         targetPosTag = "";

@@ -499,7 +499,7 @@ public class PatternRule extends Rule {
   private boolean matchConvertsCase() {
     boolean convertsCase = false;
     if (suggestionMatches != null) {          
-      if (suggestionMatches.size() > 0) {
+      if (!suggestionMatches.isEmpty()) {
         final int sugStart = message.indexOf(suggTag) + suggTag.length();
         convertsCase = ((suggestionMatches.get(0).convertsCase()
             && message.charAt(sugStart) == '\\'));

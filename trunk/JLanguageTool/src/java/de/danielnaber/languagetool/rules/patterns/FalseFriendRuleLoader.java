@@ -284,7 +284,7 @@ class FalseFriendRuleHandler extends XMLRuleHandler {
 	  if (qName.equals("rule")) {
 		  if (language == textLanguage && translationLanguage != null && translationLanguage == motherTongue
           && language != motherTongue
-          && translations.size() > 0) {
+          && !translations.isEmpty()) {
 			  formatter.applyPattern(messages.getString("false_friend_hint"));
 			  final Object[] messageArguments = {
 					  elements.toString().replace('|', '/'),
@@ -306,7 +306,7 @@ class FalseFriendRuleHandler extends XMLRuleHandler {
 			  rules.add(rule);
 		  }
 		  
-      if (suggestions.size() > 0) {
+      if (!suggestions.isEmpty()) {
         final List<String> l = new ArrayList<String>(suggestions);
         suggestionMap.put(id, l);
         suggestions.clear();
