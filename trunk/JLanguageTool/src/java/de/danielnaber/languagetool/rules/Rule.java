@@ -110,13 +110,12 @@ public abstract class Rule {
    * Whether this rule can be used for text in the given language.
    */
   public boolean supportsLanguage(final Language language) {
-    Language[] languages = Language.LANGUAGES;
-    for (int i = 0; i < languages.length; i++) {
-      Set<String> relevantIDs = language.getRelevantRuleIDs();
-      if (relevantIDs != null && relevantIDs.contains(getId()))
-        return true;
+    Set<String> relevantIDs = language.getRelevantRuleIDs();
+    if (relevantIDs != null && relevantIDs.contains(getId())) {
+      return true;
+    } else {
+      return false;
     }
-    return false;
   }
 
   /**
