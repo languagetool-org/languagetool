@@ -59,6 +59,14 @@ public class WhitespaceRuleTest extends TestCase {
       assertEquals(13, matches[1].getToPos());
       assertEquals(17, matches[2].getFromPos());
       assertEquals(20, matches[2].getToPos());
+      
+      langTool = new JLanguageTool(Language.POLISH);
+      // correct sentences:
+      matches = rule.match(langTool.getAnalyzedSentence("To jest test."));
+      assertEquals(0, matches.length);
+      matches = rule.match(langTool.getAnalyzedSentence("To jest   test."));
+      assertEquals(1, matches.length);
+      
     }
 
     
