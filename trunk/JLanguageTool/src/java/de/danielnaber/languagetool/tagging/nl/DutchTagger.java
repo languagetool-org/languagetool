@@ -22,7 +22,7 @@ import morfologik.stemmers.Lametyzator;
 import de.danielnaber.languagetool.tagging.BaseTagger;
 
 /**
- * Dutch tagger
+ * Dutch tagger.
  * 
  * @author Marcin Milkowski
  */

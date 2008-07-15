@@ -63,7 +63,7 @@ public class ManualTagger {
       plainResult.add(lookedUpTerm.baseform);
       plainResult.add(lookedUpTerm.postags);
     }
-    if (plainResult.size() == 0)
+    if (plainResult.isEmpty())
       return null;
     return plainResult.toArray(new String[]{});
   }

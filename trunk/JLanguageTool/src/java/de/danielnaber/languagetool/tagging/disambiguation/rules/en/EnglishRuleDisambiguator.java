@@ -9,7 +9,6 @@ import org.xml.sax.SAXException;
 
 import de.danielnaber.languagetool.AnalyzedSentence;
 import de.danielnaber.languagetool.Language;
-import de.danielnaber.languagetool.rules.patterns.PatternRule;
 import de.danielnaber.languagetool.tagging.disambiguation.rules.DisambiguationPatternRule;
 import de.danielnaber.languagetool.tagging.disambiguation.rules.DisambiguationRuleLoader;
 import de.danielnaber.languagetool.tagging.disambiguation.rules.RuleDisambiguator;
@@ -19,8 +18,7 @@ public class EnglishRuleDisambiguator extends RuleDisambiguator {
 
   static final String DISAMB_FILE = "disambiguation.xml";
   private List<DisambiguationPatternRule> disambiguationRules = null;
-  private Language language;
-  
+
   /**
    * Load disambiguation rules from an XML file. Use {@link #addRule} to add
    * these rules to the checking process.
@@ -31,10 +29,11 @@ public class EnglishRuleDisambiguator extends RuleDisambiguator {
    * @return a List of {@link PatternRule} objects
    */
   private List<DisambiguationPatternRule> loadPatternRules(final String filename) throws ParserConfigurationException, SAXException, IOException {
-    DisambiguationRuleLoader ruleLoader = new DisambiguationRuleLoader();    
+    final DisambiguationRuleLoader ruleLoader = new DisambiguationRuleLoader();    
     return ruleLoader.getRules(Tools.getStream(filename));
   }
-  
+
+  @Override
   public final AnalyzedSentence disambiguate(final AnalyzedSentence input) throws IOException {
     AnalyzedSentence sentence = input;
     try {
@@ -43,21 +42,13 @@ public class EnglishRuleDisambiguator extends RuleDisambiguator {
           "/resource/en/" + DISAMB_FILE;
         disambiguationRules = loadPatternRules(defaultPatternFilename);
       }
-      if (language == null) {
-        language = Language.ENGLISH;
-      }
-      for (DisambiguationPatternRule dr : disambiguationRules) {
+      for (final DisambiguationPatternRule dr : disambiguationRules) {
         sentence = dr.replace(sentence);
       }
-
-    /*  if (!input.toString().equals(sentence.toString())) {
-        System.err.println("INPUT:" + input.toString());
-        System.err.println("OUTPUT:" + sentence.toString());
-      } */   
-    } catch (ParserConfigurationException e) {
+    } catch (final ParserConfigurationException e) {
       throw new RuntimeException("Problems with parsing disambiguation file: " 
-          + language.getShortName() + "/" + DISAMB_FILE + e.getMessage(), e);
-    } catch (SAXException e) {
+          + Language.ENGLISH.getShortName() + "/" + DISAMB_FILE + e.getMessage(), e);
+    } catch (final SAXException e) {
       throw new RuntimeException("Problems with parsing disambiguation file: " 
           + e.getMessage(), e);
     }

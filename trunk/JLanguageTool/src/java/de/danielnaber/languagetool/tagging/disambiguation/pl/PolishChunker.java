@@ -1,6 +1,7 @@
 package de.danielnaber.languagetool.tagging.disambiguation.pl;
 
 import java.util.HashMap;
+import java.util.Map;
 
 import de.danielnaber.languagetool.AnalyzedSentence;
 import de.danielnaber.languagetool.AnalyzedToken;
@@ -14,9 +15,9 @@ import de.danielnaber.languagetool.tagging.disambiguation.Disambiguator;
  */
   public class PolishChunker implements Disambiguator {
     
-    private HashMap <String, String> mStartSpace;
-    private HashMap <String, String> mStartNoSpace;
-    private HashMap <String, String> mFull;
+    private Map <String, String> mStartSpace;
+    private Map <String, String> mStartNoSpace;
+    private Map <String, String> mFull;
 
     /**
      * Simple formatted static string with multiword tokens.

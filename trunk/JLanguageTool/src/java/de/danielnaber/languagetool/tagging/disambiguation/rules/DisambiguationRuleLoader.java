@@ -49,9 +49,9 @@ public class DisambiguationRuleLoader extends DefaultHandler {
   }
 
   public final List<DisambiguationPatternRule> getRules(final InputStream file) throws ParserConfigurationException, SAXException, IOException {
-    DisambiguationRuleHandler handler = new DisambiguationRuleHandler();
-    SAXParserFactory factory = SAXParserFactory.newInstance();
-    SAXParser saxParser = factory.newSAXParser();
+    final DisambiguationRuleHandler handler = new DisambiguationRuleHandler();
+    final SAXParserFactory factory = SAXParserFactory.newInstance();
+    final SAXParser saxParser = factory.newSAXParser();
     saxParser.parse(file, handler);
     rules = handler.getRules();      
     return rules;
@@ -109,13 +109,15 @@ class DisambiguationRuleHandler extends XMLRuleHandler {
   // SAX DocumentHandler methods
   //===========================================================
 
+  @Override
   @SuppressWarnings("unused")
-  public void startElement(String namespaceURI, String lName, String qName, Attributes attrs) throws SAXException {
+  public void startElement(final String namespaceURI, final String lName, final String qName, final Attributes attrs) throws SAXException {
     if (qName.equals("rule")) {      
       id = attrs.getValue("id");
       name = attrs.getValue("name");
-      if (inRuleGroup && id == null)
+      if (inRuleGroup && id == null) {
         id = ruleGroupId;
+      }
       if (inRuleGroup && name == null) {
         name = ruleGroupName;
       }
@@ -232,10 +234,11 @@ class DisambiguationRuleHandler extends XMLRuleHandler {
     }
   }
 
+  @Override
   @SuppressWarnings("unused")
-  public void endElement(String namespaceURI, String sName, String qName) {
+  public void endElement(final String namespaceURI, final String sName, final String qName) {
     if (qName.equals("rule")) {        
-      DisambiguationPatternRule rule = new DisambiguationPatternRule(id, name, 
+      final DisambiguationPatternRule rule = new DisambiguationPatternRule(id, name, 
           language, elementList, disambiguatedPOS, posSelector);
       rule.setStartPositionCorrection(positionCorrection);      
       rules.add(rule);      
@@ -329,6 +332,7 @@ class DisambiguationRuleHandler extends XMLRuleHandler {
     exceptionValidPrev = false;
   }
   
+  @Override
   public final void characters(final char[] buf, final int offset, final int len) {
     final String s = new String(buf, offset, len);
     if (inException) {

@@ -86,8 +86,7 @@ public class CzechSentenceTokenizer extends SentenceTokenizer {
       "sest|seš|sign|sl|srv|stol|sv|šk|šk.ro|špan|tab|t.č|tis|tj|tř|tzv|univ|uspoř|vol|" +
       "vl.jm|vs|vyd|vyobr|zal|zejm|zkr|zprac|zvl|n.p"
       + "|" + titles_list;
-
-  private StringTokenizer stringTokenizer = null;
+  
 
   /**
    * Create a sentence tokenizer.
@@ -111,7 +110,8 @@ public class CzechSentenceTokenizer extends SentenceTokenizer {
     s = firstSentenceSplitting(s);
     s = removeFalseEndOfSentence(s);
     s = splitUnsplitStuff(s);
-    stringTokenizer = new StringTokenizer(s, EOS);
+    final StringTokenizer stringTokenizer = 
+      new StringTokenizer(s, EOS);
     List<String> l = new ArrayList<String>();
     while (stringTokenizer.hasMoreTokens()) {
       String sentence = stringTokenizer.nextToken();

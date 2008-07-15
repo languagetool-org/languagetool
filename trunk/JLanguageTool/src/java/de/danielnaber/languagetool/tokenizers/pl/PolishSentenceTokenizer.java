@@ -82,8 +82,6 @@ public class PolishSentenceTokenizer extends SentenceTokenizer {
   private static final Pattern ENDABREVLIST_PATTERN 
     = Pattern.compile("(?iu)(\\b(" + ENDABBREVLIST + ")"+ PAP + "\\s)" + EOS +"(\\p{Ll})");
   
-  //private StringTokenizer stringTokenizer = null;
-
   /**
    * Create a sentence tokenizer.
    */

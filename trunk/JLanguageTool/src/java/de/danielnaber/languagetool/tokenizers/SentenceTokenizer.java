@@ -82,8 +82,7 @@ public class SentenceTokenizer implements Tokenizer {
       "cf", "Inc"
   };
 
-  private static Set<String> abbreviations = new HashSet<String>();
-  private StringTokenizer stringTokenizer = null;
+  private static Set<String> abbreviations = new HashSet<String>();  
 
   /**
    * Month names like "Dezember" that should not be considered a sentence
@@ -131,7 +130,8 @@ public class SentenceTokenizer implements Tokenizer {
     s = firstSentenceSplitting(s);
     s = removeFalseEndOfSentence(s);
     s = splitUnsplitStuff(s);
-    stringTokenizer = new StringTokenizer(s, EOS);
+    final StringTokenizer stringTokenizer = 
+      new StringTokenizer(s, EOS);
     final List<String> l = new ArrayList<String>();
     while (stringTokenizer.hasMoreTokens()) {
       final String sentence = stringTokenizer.nextToken();

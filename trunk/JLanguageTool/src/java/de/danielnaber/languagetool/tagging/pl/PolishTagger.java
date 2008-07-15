@@ -39,24 +39,26 @@ public class PolishTagger extends BaseTagger {
 	private static final String RESOURCE_FILENAME = "/resource/pl/polish.dict"; 
 	private Lametyzator morfologik = null; 
 
+  @Override
   public void setFileName() {
     System.setProperty(Lametyzator.PROPERTY_NAME_LAMETYZATOR_DICTIONARY, 
         RESOURCE_FILENAME);    
   }
 
+  @Override
   public final List<AnalyzedTokenReadings> tag(final List<String> sentenceTokens) throws IOException {
     String[] taggerTokens;
     
-	List<AnalyzedTokenReadings> tokenReadings = new ArrayList<AnalyzedTokenReadings>();
+	final List<AnalyzedTokenReadings> tokenReadings = new ArrayList<AnalyzedTokenReadings>();
     int pos = 0;
     //caching Lametyzator instance - lazy init
-	if (morfologik == null){
+	if (morfologik == null) {
      setFileName();
 	   morfologik = new Lametyzator();
 	}
 	
-    for (String word : sentenceTokens) {
-      List<AnalyzedToken> l = new ArrayList<AnalyzedToken>();      
+    for (final String word : sentenceTokens) {
+      final List<AnalyzedToken> l = new ArrayList<AnalyzedToken>();      
       String[] lowerTaggerTokens = null;
         taggerTokens = morfologik.stemAndForm(word);
         if (!word.equals(word.toLowerCase())) {
@@ -72,7 +74,7 @@ public class PolishTagger extends BaseTagger {
             final String lemma = taggerTokens[i];
             final String[] tagsArr = taggerTokens[i + 1].split("\\+");
 
-            for (String currTag : tagsArr) {
+            for (final String currTag : tagsArr) {
               l.add(new AnalyzedToken(word, currTag, lemma));
             }
             i = i + 2;
@@ -87,7 +89,7 @@ public class PolishTagger extends BaseTagger {
            final String lemma = lowerTaggerTokens[i];
            final String[] tagsArr = lowerTaggerTokens[i + 1].split("\\+");
 
-           for (String currTag : tagsArr) {
+           for (final String currTag : tagsArr) {
              l.add(new AnalyzedToken(word, currTag, lemma));
            }
            i = i + 2;
@@ -98,7 +100,7 @@ public class PolishTagger extends BaseTagger {
             l.add(new AnalyzedToken(word, null, pos));                       
     }
       pos += word.length();
-      tokenReadings.add(new AnalyzedTokenReadings((AnalyzedToken[]) l.toArray(new AnalyzedToken[l.size()])));
+      tokenReadings.add(new AnalyzedTokenReadings(l.toArray(new AnalyzedToken[l.size()])));
    }
     
     return tokenReadings;

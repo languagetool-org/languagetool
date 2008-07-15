@@ -38,16 +38,18 @@ public class CzechTagger extends BaseTagger {
 
   private Lametyzator morfologik = null;
 
+  @Override
   public void setFileName() {
     System.setProperty(Lametyzator.PROPERTY_NAME_LAMETYZATOR_DICTIONARY, 
         RESOURCE_FILENAME);    
   }
   
+  @Override
   public final List<AnalyzedTokenReadings> tag(final List<String> sentenceTokens)
       throws IOException {
     String[] taggerTokens;
 
-    List<AnalyzedTokenReadings> tokenReadings = new ArrayList<AnalyzedTokenReadings>();
+    final List<AnalyzedTokenReadings> tokenReadings = new ArrayList<AnalyzedTokenReadings>();
     int pos = 0;
     //caching Lametyzator instance - lazy init
     if (morfologik == null) {
@@ -55,8 +57,8 @@ public class CzechTagger extends BaseTagger {
       morfologik = new Lametyzator();
     }
 
-    for (String word : sentenceTokens) {
-      List<AnalyzedToken> l = new ArrayList<AnalyzedToken>();
+    for (final String word : sentenceTokens) {
+      final List<AnalyzedToken> l = new ArrayList<AnalyzedToken>();
       String[] lowerTaggerTokens = null;
       taggerTokens = morfologik.stemAndForm(word);
       if (!word.equals(word.toLowerCase())) {
@@ -79,11 +81,12 @@ public class CzechTagger extends BaseTagger {
           // If there are multiple tags, they behave as one, i.e. they
           // are connected
           // on one line with '+' character
-          String lemma = taggerTokens[i];
-          String[] tagsArr = taggerTokens[i + 1].split("\\+");
+          final String lemma = taggerTokens[i];
+          final String[] tagsArr = taggerTokens[i + 1].split("\\+");
 
-          for (String currTag : tagsArr)
+          for (final String currTag : tagsArr) {
             l.add(new AnalyzedToken(word, currTag, lemma));
+          }
 
           i += 2;
         }
@@ -94,11 +97,12 @@ public class CzechTagger extends BaseTagger {
         int i = 0;
         while (i < lowerTaggerTokens.length) {
           // Czech POS tags again
-          String lemma = lowerTaggerTokens[i];
-          String[] tagsArr = lowerTaggerTokens[i + 1].split("\\+");
+          final String lemma = lowerTaggerTokens[i];
+          final String[] tagsArr = lowerTaggerTokens[i + 1].split("\\+");
 
-          for (String currTag : tagsArr)
+          for (final String currTag : tagsArr) {
             l.add(new AnalyzedToken(word, currTag, lemma));
+          }
 
           i += 2;
         }
@@ -109,7 +113,7 @@ public class CzechTagger extends BaseTagger {
       }
       pos += word.length();
       tokenReadings
-          .add(new AnalyzedTokenReadings((AnalyzedToken[]) l.toArray(new AnalyzedToken[0])));
+          .add(new AnalyzedTokenReadings(l.toArray(new AnalyzedToken[l.size()])));
     }
 
     return tokenReadings;
