@@ -51,7 +51,7 @@ class Main {
   private boolean apiFormat = false;
   
   /* maximum file size to read in a single read */
-  private static int MAXFILESIZE = 64000;
+  private final static int MAXFILESIZE = 64000;
 
   Main(boolean verbose, Language language, Language motherTongue) throws IOException, 
       ParserConfigurationException, SAXException {
