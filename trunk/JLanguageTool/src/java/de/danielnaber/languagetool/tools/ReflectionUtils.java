@@ -58,7 +58,7 @@ public class ReflectionUtils {
       Enumeration<URL> resources_ = classLoader.getResources(packagePath);
 
       Set<URL> uniqResources = new HashSet<URL>();
-      for (; resources_.hasMoreElements();) {
+      while (resources_.hasMoreElements()) {
         URL resource = resources_.nextElement();
           uniqResources.add(resource);
       }
@@ -67,11 +67,6 @@ public class ReflectionUtils {
          //System.err.println("trying resource: " + resource);
         // jars and directories are treated differently
         if (resource.getProtocol().startsWith("jar")) {        
-          // The LanguageTool ZIP contains two JARs with the core classes,
-          // so ignore one of them to avoid rule duplication:          
-          if (resource.getPath().contains("LanguageTool.uno.jar")) {
-            continue;
-          }
           findClassesInJar(packageName, classNameRegEx, subdirLevel, classExtends,
               interfaceImplements, foundClasses, resource);
         } else {
@@ -83,7 +78,7 @@ public class ReflectionUtils {
       throw new ClassNotFoundException("Loading rules failed: " + ex.getMessage(), ex);
     }
 
-    return foundClasses.toArray(new Class[0]);
+    return foundClasses.toArray(new Class[foundClasses.size()]);
   }
 
   private static void findClassesInDirectory(ClassLoader classLoader, String packageName, 
