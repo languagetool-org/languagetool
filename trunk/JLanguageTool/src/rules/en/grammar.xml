@@ -7,7 +7,7 @@ title="Easy editing stylesheet" ?>
 English Grammar and Typo Rules for LanguageTool
 See tagset.txt for the meaning of the POS tags
 Copyright (C) 2001-2007 Daniel Naber (http://www.danielnaber.de)
-$Id: grammar.xml,v 1.69 2008-06-30 08:05:28 milek_pl Exp $
+$Id: grammar.xml,v 1.70 2008-07-15 23:11:09 milek_pl Exp $
 -->
 <rules lang="en">
   <!-- ====================================================================== -->
@@ -247,6 +247,18 @@ $Id: grammar.xml,v 1.69 2008-06-30 08:05:28 milek_pl Exp $
       <example correction="for all intents and purposes" type="incorrect">Well, not all of it, but <marker>for all intensive purposes</marker>, I read it.</example>
       <example type="correct">Well, not all of it, but for all intents and purposes, I read it.</example>
     </rule>
+    <rulegroup id="HOUR_OUR" name="Possible typo: 'half an our (half an hour)'">
+      <rule>
+        <pattern mark_from="2">
+          <token>half</token>
+          <token>an</token>
+          <token>our</token>
+        </pattern>
+        <message>Did you mean <suggestion>hour</suggestion> (=60 minutes)?</message>
+        <example correction="hour" type="incorrect">It happened half an <marker>our</marker> ago.</example>
+        <example type="correct">It happened half an <marker>hour</marker> ago.</example>
+      </rule>
+    </rulegroup>
     <rule id="ONE_IN_THE_SAME" name="Possible typo 'one in the same (one and the same)'">
       <pattern>
         <token>one</token>
@@ -255,8 +267,8 @@ $Id: grammar.xml,v 1.69 2008-06-30 08:05:28 milek_pl Exp $
         <token>same</token>
       </pattern>
       <message>Possible typo. Did you mean <suggestion>one and the same</suggestion>?</message>
-      <example correction="one and the same" type="incorrect">Our town is a place where neighbors and friends are <marker>one in the same</marker>.</example>
-      <example type="correct">Our town is a place where neighbors and friends are one and the same.</example>
+      <example correction="one and the same" type="incorrect">Our town is a place where neighbours and friends are <marker>one in the same</marker>.</example>
+      <example type="correct">Our town is a place where neighbours and friends are one and the same.</example>
     </rule>
     <rule id="PER_SE" name="Possible typo: 'per say (per se)'">
       <pattern>
