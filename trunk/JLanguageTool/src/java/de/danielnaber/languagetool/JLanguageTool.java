@@ -89,9 +89,7 @@ public final class JLanguageTool {
   private PrintStream printStream = null;
   
   private int sentenceCount = 0;
-  
-  private ResourceBundle messages = null;
-  
+    
   private boolean listUnknownWords = false;
   private Set<String> unknownWords = null;
 
@@ -122,7 +120,7 @@ public final class JLanguageTool {
     }
     this.language = language;
     this.motherTongue = motherTongue;
-    messages = getMessageBundle(language);
+    final ResourceBundle messages = getMessageBundle(language);
     final Rule[] allBuiltinRules = getAllBuiltinRules(language, messages);
     for (final Rule element : allBuiltinRules) {
       if (element.supportsLanguage(language)) {
@@ -206,7 +204,7 @@ public final class JLanguageTool {
       throw new RuntimeException("Failed to load rules: " + e.getMessage(), e);
     }
     //	System.err.println("Loaded " + rules.size() + " rules");
-    return rules.toArray(new Rule[0]);
+    return rules.toArray(new Rule[rules.size()]);
   }
   
   /**
@@ -458,18 +456,17 @@ public final class JLanguageTool {
     
     //removing false positives in paragraph-level rules
     for (final Rule rule : allRules) {
-      if (rule.isParagraphBackTrack()) {
-        if (rule.getMatches() != null) {
+      if (rule.isParagraphBackTrack()
+          && (rule.getMatches() != null)) {
         final List <RuleMatch> rm = rule.getMatches();           
-          for (final RuleMatch r : rm) {
-            if (rule.isInRemoved(r)) {
-              ruleMatches.remove(r);
-            }
+        for (final RuleMatch r : rm) {
+          if (rule.isInRemoved(r)) {
+            ruleMatches.remove(r);
           }
-       }
-     }          
+        }       
+      }          
     }
-    
+
     return ruleMatches;
   }
   
@@ -535,34 +532,34 @@ public final class JLanguageTool {
     int lastToken = toArrayCount - 1;
     //make SENT_END appear at last not whitespace token
     for (int i = 0; i < toArrayCount - 1; i++) {
-     if (!tokenArray[lastToken - i].isWhitespace()) {
+      if (!tokenArray[lastToken - i].isWhitespace()) {
         lastToken -= i;
         break;
-     }
+      }
     }
     final AnalyzedToken sentenceEnd = 
       new AnalyzedToken(tokenArray[lastToken].getToken(), 
           SENTENCE_END_TAGNAME,
           tokenArray[lastToken].getAnalyzedToken(0).getLemma(),
           tokenArray[lastToken].getAnalyzedToken(0).getStartPos());
-        tokenArray[lastToken].addReading(sentenceEnd);
-        
-    if (tokenArray.length == 2) {
-    if (tokenArray[0].isSentStart() 
+    tokenArray[lastToken].addReading(sentenceEnd);
+
+    if (tokenArray.length == 2 
+        && (tokenArray[0].isSentStart()) 
         && tokenArray[1].getToken().equals("\n")) {
       final AnalyzedToken paragraphEnd =
-      new AnalyzedToken(tokenArray[lastToken].getToken(),
-          PARAGRAPH_END_TAGNAME,
-          tokenArray[lastToken].getAnalyzedToken(0).getLemma(),
-          tokenArray[lastToken].getAnalyzedToken(0).getStartPos());
+        new AnalyzedToken(tokenArray[lastToken].getToken(),
+            PARAGRAPH_END_TAGNAME,
+            tokenArray[lastToken].getAnalyzedToken(0).getLemma(),
+            tokenArray[lastToken].getAnalyzedToken(0).getStartPos());
       tokenArray[lastToken].addReading(paragraphEnd);        
-      }
     }
-    
+
+
     AnalyzedSentence finalSentence = new AnalyzedSentence(tokenArray);
     // disambiguate assigned tags            
     finalSentence = disambiguator.disambiguate(finalSentence);
-      
+
     return finalSentence;
   }
   
