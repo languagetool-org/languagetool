@@ -111,11 +111,7 @@ public abstract class Rule {
    */
   public boolean supportsLanguage(final Language language) {
     Set<String> relevantIDs = language.getRelevantRuleIDs();
-    if (relevantIDs != null && relevantIDs.contains(getId())) {
-      return true;
-    } else {
-      return false;
-    }
+    return (relevantIDs != null && relevantIDs.contains(getId()));    
   }
 
   /**
@@ -158,7 +154,8 @@ public abstract class Rule {
   }
 
   protected RuleMatch[] toRuleMatchArray(final List<RuleMatch> ruleMatches) {
-    return (RuleMatch[])ruleMatches.toArray(new RuleMatch[0]);
+    return (RuleMatch[]) 
+    ruleMatches.toArray(new RuleMatch[ruleMatches.size()]);
   }
   
   public boolean isParagraphBackTrack() {
