@@ -74,8 +74,6 @@ public abstract class Language {
   
   public final static Language DEMO = new Demo();
   
-  private static String[] COUNTRIES;
-  
   private static List<Language> externalLanguages = new ArrayList<Language>();
   
   /**
@@ -92,7 +90,7 @@ public abstract class Language {
   public static Language[] REAL_LANGUAGES = new Language[LANGUAGES.length-1];
   static {
     int i = 0;
-    for (Language lang : LANGUAGES) {
+    for (final Language lang : LANGUAGES) {
       if (lang != DEMO) {
         REAL_LANGUAGES[i] = lang;
         i++;
@@ -191,10 +189,10 @@ public abstract class Language {
    * Get the name of the language translated to the current locale,
    * if available. Otherwise, get the untranslated name.
    */
-  public String getTranslatedName(ResourceBundle messages) {
+  public String getTranslatedName(final ResourceBundle messages) {
     try {
       return messages.getString(getShortName());
-    } catch (MissingResourceException e) {
+    } catch (final MissingResourceException e) {
       return getName();
     }
   }
@@ -206,11 +204,10 @@ public abstract class Language {
    */
   public static void reInit(final List<Language> languages) {
     LANGUAGES = new Language[BUILTIN_LANGUAGES.length + languages.size()];
-    int i = 0;
-    for (; i < BUILTIN_LANGUAGES.length; i++) {
-      LANGUAGES[i] = BUILTIN_LANGUAGES[i];
-    }
-    for (Language lang : languages) {
+    int i = BUILTIN_LANGUAGES.length;    
+    System.arraycopy(BUILTIN_LANGUAGES, 0, 
+        LANGUAGES, 0, BUILTIN_LANGUAGES.length);   
+    for (final Language lang : languages) {
       LANGUAGES[i++] = lang;
     }
     externalLanguages = languages;
@@ -231,11 +228,12 @@ public abstract class Language {
    */
   public static Language getLanguageForShortName(final String shortLanguageCode) {
     StringTools.assureSet(shortLanguageCode, "shortLanguageCode");
-    if (shortLanguageCode.length() != "xx".length())
+    if (shortLanguageCode.length() != "xx".length()) {
       throw new IllegalArgumentException("'" + shortLanguageCode + "' isn't a two-character code");
-    for (int i = 0; i < Language.LANGUAGES.length; i++) {
-      if (shortLanguageCode.equals(Language.LANGUAGES[i].getShortName())) {
-        return Language.LANGUAGES[i];
+    }
+    for (Language element : Language.LANGUAGES) {
+      if (shortLanguageCode.equals(element.getShortName())) {
+        return element;
       }
     }
     return null;
@@ -248,14 +246,15 @@ public abstract class Language {
    * @return a Language object or <code>null</code>
    */
   public static Language getLanguageForName(final String languageName) {
-    for (int i = 0; i < Language.LANGUAGES.length; i++) {
-      if (languageName.equals(Language.LANGUAGES[i].getName())) {
-        return Language.LANGUAGES[i];
+    for (Language element : Language.LANGUAGES) {
+      if (languageName.equals(element.getName())) {
+        return element;
       }
     }
     return null;
   }  
   
+  @Override
   public String toString() {
     return getName();
   }

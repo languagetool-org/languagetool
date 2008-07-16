@@ -33,7 +33,7 @@ public class French extends Language {
   private Tagger tagger = new FrenchTagger();
   private Disambiguator disambiguator = new FrenchRuleDisambiguator();
 
-  private static String[] countries = {"FR", "", "BE", "CH", "CA", 
+  private static final String[] COUNTRIES = {"FR", "", "BE", "CH", "CA", 
     "LU", "MC", "CM", "CI", "HI", "ML", "SN", "CD", "MA", "RE"
   };
   
@@ -50,7 +50,7 @@ public class French extends Language {
   }
   
   public String[] getCountryVariants() {
-    return countries;
+    return COUNTRIES;
   }
 
 

@@ -33,7 +33,7 @@ public class Czech extends Language {
   private Tagger tagger = new CzechTagger();
   private SentenceTokenizer sentenceTokenizer = new CzechSentenceTokenizer();
 
-  private static String[] COUNTRIES = {"PL"};
+  private static final String[] COUNTRIES = {"CZ"};
   
   public Locale getLocale() {
     return new Locale(getShortName());

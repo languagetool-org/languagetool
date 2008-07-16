@@ -36,7 +36,7 @@ public class Dutch extends Language {
   private SentenceTokenizer sentenceTokenizer = new DutchSentenceTokenizer();
   private Synthesizer synthesizer = new DutchSynthesizer();
   
-  private static String[] COUNTRIES = {"NL"}; 
+  private static final String[] COUNTRIES = {"NL"}; 
   
   public Locale getLocale() {
     return new Locale(getShortName());

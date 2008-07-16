@@ -51,7 +51,7 @@ public final class Tools {
   }
 
   /**
-   * Check the gicen text and print results to System.out.
+   * Check the given text and print results to System.out.
    * @param contents a text to check (may be more than one sentence)
    * @param lt
    * @param apiFormat whether to print the result in a simple XML format
@@ -84,7 +84,7 @@ public final class Tools {
         msg = msg.replaceAll("</suggestion>", "'");
         System.out.println("Message: " + msg);
         List<String> repl = match.getSuggestedReplacements();
-        if (repl.size() > 0)
+        if (!repl.isEmpty())
           System.out.println("Suggestion: " + StringTools.listToString(repl, "; "));
         System.out.println(StringTools.getContext(match.getFromPos(), match.getToPos(), 
             contents, contextSize));
