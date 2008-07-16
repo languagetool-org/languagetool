@@ -430,7 +430,62 @@ XLinguServiceEventBroadcaster {
     }
     return false;
   }
+  
 
+  /**
+   * Add a listener that allow re-checking the document after
+   * changing the options in the configuration dialog box.
+   * @param xLinEvLis - the listener to be added
+   * @return true if listener is non-null and has been added, false otherwise.
+   */
+  public final boolean addLinguServiceEventListener(
+      final XLinguServiceEventListener xLinEvLis) {
+    if (xLinEvLis == null) {
+      return false;
+    } else {
+      xEventListeners.add(xLinEvLis);
+      return true;      
+    }
+  }
+
+  /** Remove a listener from the event listeners list.
+   * @param xLinEvLis - the listener to be removed
+   * @return true if listener is non-null and has been removed, false otherwise.
+   */
+  public final boolean removeLinguServiceEventListener(
+      final XLinguServiceEventListener xLinEvLis) {
+    if (xLinEvLis == null) {
+      return false;
+    } else {
+      if (xEventListeners.contains(xLinEvLis)) {
+        xEventListeners.remove(xLinEvLis);
+        return true;
+      } else { 
+        return false;
+      }
+      
+    }
+  }
+
+  /**
+   * Inform listener (grammar checking iterator)
+   * that options have changed and the doc should be rechecked.
+   *
+   */
+  public final void resetDocument() {
+    if (!xEventListeners.isEmpty()) {
+      for (final XLinguServiceEventListener xEvLis : xEventListeners) {
+        if (xEvLis != null) {
+          final com.sun.star.linguistic2.LinguServiceEvent 
+          xEvent = new com.sun.star.linguistic2.LinguServiceEvent();
+          xEvent.nEvent = 
+            com.sun.star.linguistic2.LinguServiceEventFlags.GRAMMAR_CHECK_AGAIN;
+          xEvLis.processLinguServiceEvent(xEvent);
+        }
+      }
+      recheck = true;
+    }
+  }
 
   public String[] getSupportedServiceNames() {
     return getServiceNames();
@@ -541,26 +596,6 @@ XLinguServiceEventBroadcaster {
       }        
     } catch (final Throwable e) {
       showError(e);
-    }
-  }
-
-  /**
-   * Inform listener (grammar checking iterator)
-   * that options have changed and the doc should be rechecked.
-   *
-   */
-  public final void resetDocument() {
-    if (!xEventListeners.isEmpty()) {
-      for (final XLinguServiceEventListener xEvLis : xEventListeners) {
-        if (xEvLis != null) {
-          final com.sun.star.linguistic2.LinguServiceEvent 
-          xEvent = new com.sun.star.linguistic2.LinguServiceEvent();
-          xEvent.nEvent = 
-            com.sun.star.linguistic2.LinguServiceEventFlags.GRAMMAR_CHECK_AGAIN;
-          xEvLis.processLinguServiceEvent(xEvent);
-        }
-      }
-      recheck = true;
     }
   }
 
@@ -750,40 +785,6 @@ XLinguServiceEventBroadcaster {
     }
   }
 
-  /**
-   * Add a listener that allow re-checking the document after
-   * changing the options in the configuration dialog box.
-   * @param xLinEvLis - the listener to be added
-   * @return true if listener is non-null and has been added, false otherwise.
-   */
-  public final boolean addLinguServiceEventListener(
-      final XLinguServiceEventListener xLinEvLis) {
-    if (xLinEvLis == null) {
-      return false;
-    } else {
-      xEventListeners.add(xLinEvLis);
-      return true;      
-    }
-  }
-
-  /** Remove a listener from the event listeners list.
-   * @param xLinEvLis - the listener to be removed
-   * @return true if listener is non-null and has been removed, false otherwise.
-   */
-  public final boolean removeLinguServiceEventListener(
-      final XLinguServiceEventListener xLinEvLis) {
-    if (xLinEvLis == null) {
-      return false;
-    } else {
-      if (xEventListeners.contains(xLinEvLis)) {
-        xEventListeners.remove(xLinEvLis);
-        return true;
-      } else { 
-        return false;
-      }
-      
-    }
-  }
 
 }
 
@@ -845,33 +846,3 @@ class TextToCheck {
   }
 }  
 
-/**
- * This class is a factory that creates only a single instance,
- * or a singleton, of the Main class. Used for performance 
- * reasons and to allow various parts of code to interact.
- *
- */
-class SingletonFactory implements XSingleComponentFactory {
-  
-  private Object instance = null;
-  
-  public Object createInstanceWithArgumentsAndContext(final Object[] arg0, final XComponentContext arg1) throws com.sun.star.uno.Exception {
-    if (instance == null) {
-      instance = new de.danielnaber.languagetool.openoffice.Main(arg1);
-    } else {
-      final de.danielnaber.languagetool.openoffice.Main x = (de.danielnaber.languagetool.openoffice.Main) instance;
-      x.changeContext(arg1);
-    }
-    return instance;
-  }
-
-  public Object createInstanceWithContext(final XComponentContext arg0) throws com.sun.star.uno.Exception {  
-    if (instance == null) {
-      instance = new de.danielnaber.languagetool.openoffice.Main(arg0);
-    } else {
-      final de.danielnaber.languagetool.openoffice.Main x = (de.danielnaber.languagetool.openoffice.Main) instance;
-      x.changeContext(arg0);
-    }
-    return instance;
-  }
-}
