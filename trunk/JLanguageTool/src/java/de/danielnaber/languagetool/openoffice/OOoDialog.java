@@ -261,6 +261,8 @@ public class OOoDialog implements ActionListener {
     // Try to fix the problem that the window appears in the
     // background for some people:
     dialog.toFront();
+    //stay on top
+    dialog.setAlwaysOnTop(true);
     // FIXME: close via "X" in the window must behave like close via "close" button
   }
   

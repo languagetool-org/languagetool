@@ -29,9 +29,9 @@ class ProgressDialog extends JDialog implements ProgressInformation {
 
   private JProgressBar progressBar = null;
   
-  ProgressDialog(ResourceBundle messages) {
+  ProgressDialog(final ResourceBundle messages) {
     setTitle(messages.getString("guiProgressWindowTitle"));
-    JPanel progressPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+    final JPanel progressPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
     progressBar = new JProgressBar();
     progressPanel.add(progressBar);
     setContentPane(progressPanel);
@@ -40,13 +40,14 @@ class ProgressDialog extends JDialog implements ProgressInformation {
     OOoDialog.centerDialog(this);
     setVisible(true);
     setModal(true);
+    setAlwaysOnTop(true);
   }
 
   public void setMaxProgress(final int maxVal) {
     progressBar.setMaximum(maxVal);
   }
 
-  public void setProgress(int progress) {
+  public void setProgress(final int progress) {
     progressBar.setValue(progress);
   }
 

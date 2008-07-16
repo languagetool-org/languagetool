@@ -323,7 +323,7 @@ XLinguServiceEventBroadcaster {
   /**
    * Called when the document check is finished.
    * @param oldDocID - the ID of the document already checked
-   * @throws IllegalArgumentException in case arg0 is not a 
+   * @throws IllegalArgumentException in case oldDocID is not a 
    * valid myDocID.
    */
   public void endDocument(final int oldDocID) throws IllegalArgumentException {
@@ -420,11 +420,11 @@ XLinguServiceEventBroadcaster {
 
   /** @return true if LT supports
    * the language of a given locale.
-   * @param arg0 The Locale to check.
+   * @param locale The Locale to check.
    */
-  public final boolean hasLocale(final Locale arg0) {    
+  public final boolean hasLocale(final Locale locale) {    
     for (final Language element : Language.LANGUAGES) {
-      if (element.getShortName().equals(arg0.Language)) {
+      if (element.getShortName().equals(locale.Language)) {
         return true;
       }
     }
@@ -637,7 +637,8 @@ XLinguServiceEventBroadcaster {
       dt.start();
       // TODO: display number of active rules etc?
     } else {
-      ResultDialogThread dialog;            
+      ResultDialogThread dialog;
+      xTextDoc = (XTextDocument) UnoRuntime.queryInterface(XTextDocument.class, xComponent);
       if (textToCheck.isSelection) {
         dialog = new ResultDialogThread(config,
             checkerThread.getLanguageTool().getAllRules(),
@@ -649,41 +650,54 @@ XLinguServiceEventBroadcaster {
       }
       dialog.start();
     }
-  }  
+  }
 
-  private TextToCheck getText() throws IllegalArgumentException {
-    if (xFlatPI == null) {
-      return new TextToCheck(new ArrayList<String>(), false);
-    }
-    final com.sun.star.text.XFlatParagraphIterator xParaAccess = 
-      xFlatPI.getFlatParagraphIterator(com.sun.star.text.TextMarkupType.GRAMMAR, false);
+  //TODO: remove as soon the native OOo dialog is flawless
+  @Deprecated
+  private TextToCheck getText() {
+    com.sun.star.container.XEnumerationAccess xParaAccess = (com.sun.star.container.XEnumerationAccess) UnoRuntime
+        .queryInterface(com.sun.star.container.XEnumerationAccess.class, xTextDoc.getText());
     if (xParaAccess == null) {
       System.err.println("xParaAccess == null");
       return new TextToCheck(new ArrayList<String>(), false);
-    }        
-    final List<String> paragraphs = new ArrayList<String>();
+    }
+    
+    XModel xModel = (XModel)UnoRuntime.queryInterface(XModel.class, xTextDoc);
+    if (xModel == null) {
+      // FIXME: i18n
+      DialogThread dt = new DialogThread("Sorry, only text documents are supported");
+      dt.start();
+      return null;
+    }    
+    XTextViewCursorSupplier xViewCursorSupplier = 
+      (XTextViewCursorSupplier)UnoRuntime.queryInterface(XTextViewCursorSupplier.class, 
+          xModel.getCurrentController()); 
+    xViewCursor = xViewCursorSupplier.getViewCursor();
+    String textToCheck = xViewCursor.getString();     // user's current selection
+    if (textToCheck.equals("")) {     // no selection = check complete text
+      //System.err.println("check complete text");
+    } else {
+      //System.err.println("check selected text");
+      List<String> l = new ArrayList<String>();
+      // FIXME: if footnotes with a number greater than "9" occur in the selected text
+      // they mess up the error marking in OOoDialog because they appear as "10" etc.
+      // but the code assumes we need to use goRight() once per character...
+      l.add(textToCheck);
+      return new TextToCheck(l, true);
+    }
+    
+    List<String> paragraphs = new ArrayList<String>();
     try {
-      com.sun.star.text.XFlatParagraph xParaEnum = xParaAccess.getFirstPara();        
-      String paraString = xParaEnum.getText();
-      if (paraString == null) {
-        paragraphs.add("");
-      } else {
-        paragraphs.add(paraString);
-      }
-      while (true) {
-        xParaEnum = xParaAccess.getNextPara();
-        if (xParaEnum == null) {
-          break;           
+      for (com.sun.star.container.XEnumeration xParaEnum = xParaAccess.createEnumeration(); xParaEnum.hasMoreElements();) {
+        Object para = xParaEnum.nextElement();
+        String paraString = getParagraphContent(para);
+        if (paraString == null) {
+          paragraphs.add("");
         } else {
-          paraString = xParaEnum.getText();
-          if (paraString == null) {
-            paragraphs.add("");
-          } else {
-            paragraphs.add(paraString);
-          }
+          paragraphs.add(paraString);
         }
-      }        
-    } catch (final Exception e) {
+      }
+    } catch (Exception e) {
       throw new RuntimeException(e);
     }
     return new TextToCheck(paragraphs, false);

@@ -84,6 +84,7 @@ class ReplaceTextDialog implements ActionListener {
     OOoDialog.centerDialog(dialog);
     dialog.setModal(true);
     dialog.setVisible(true);
+    dialog.setAlwaysOnTop(true);
   }
 
   public void actionPerformed(ActionEvent event) {
