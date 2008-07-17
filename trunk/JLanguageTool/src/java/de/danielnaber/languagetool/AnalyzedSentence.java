@@ -64,9 +64,9 @@ public class AnalyzedSentence {
     if (nonBlankTokens == null) {
       int whCounter = 0;
       int nonWhCounter = 0;
-      int[] mapping = new int[tokens.length + 1];
-	    List <AnalyzedTokenReadings> l = new ArrayList<AnalyzedTokenReadings>();
-	    for (AnalyzedTokenReadings token : tokens) {        
+      final int[] mapping = new int[tokens.length + 1];
+	    final List <AnalyzedTokenReadings> l = new ArrayList<AnalyzedTokenReadings>();
+	    for (final AnalyzedTokenReadings token : tokens) {        
 	      if (!token.isWhitespace() || token.isSentStart() || token.isSentEnd() || token.isParaEnd()) {
             l.add(token);            
             mapping[nonWhCounter] = whCounter;
@@ -74,7 +74,7 @@ public class AnalyzedSentence {
 	      }
         whCounter++;
 	    }
-	    nonBlankTokens = (AnalyzedTokenReadings[]) l.toArray(new AnalyzedTokenReadings[l.size()]);
+	    nonBlankTokens = l.toArray(new AnalyzedTokenReadings[l.size()]);
       whPositions = mapping.clone();
 	  }  
     return nonBlankTokens.clone();
@@ -93,34 +93,35 @@ public class AnalyzedSentence {
     return whPositions[nonWhPosition];
   }
   
+  @Override
   public final String toString() {
-    StringBuilder sb = new StringBuilder();
-    for (int i = 0; i < tokens.length; i++) {
-      if (!"".equals(tokens[i].token.trim())) {
-        sb.append(tokens[i].token);
+    final StringBuilder sb = new StringBuilder();
+    for (final AnalyzedTokenReadings element : tokens) {
+      if (!"".equals(element.token.trim())) {
+        sb.append(element.token);
         sb.append("[");
       }
-      for (int j = 0; j < tokens[i].getReadingsLength(); j++) {
-        String posTag = tokens[i].getAnalyzedToken(j).getPOSTag();
+      for (int j = 0; j < element.getReadingsLength(); j++) {
+        final String posTag = element.getAnalyzedToken(j).getPOSTag();
         if (JLanguageTool.SENTENCE_START_TAGNAME.equals(posTag)) {
           sb.append("<S>");
         } else if (JLanguageTool.SENTENCE_END_TAGNAME.equals(posTag)) {
           sb.append("</S>");
-        } else if (tokens[i].getAnalyzedToken(j) != null
+        } else if (element.getAnalyzedToken(j) != null
             && posTag == null
-            && !(tokens[i] instanceof AnalyzedGermanTokenReadings)) {
+            && !(element instanceof AnalyzedGermanTokenReadings)) {
           // FIXME: don't depend on AnalyzedGermanTokenReadings here
-          sb.append(tokens[i].getAnalyzedToken(j).getToken());
+          sb.append(element.getAnalyzedToken(j).getToken());
         } else {
-          if (!"".equals(tokens[i].token.trim())) {
-            sb.append(tokens[i].getAnalyzedToken(j));
-            if (j < tokens[i].getReadingsLength() - 1) {
+          if (!"".equals(element.token.trim())) {
+            sb.append(element.getAnalyzedToken(j));
+            if (j < element.getReadingsLength() - 1) {
               sb.append(",");
             }
           }
         }
       }
-      if (!"".equals(tokens[i].token.trim())) {
+      if (!"".equals(element.token.trim())) {
         sb.append("]");
       } else {
         sb.append(" ");
