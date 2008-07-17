@@ -34,105 +34,114 @@ import de.danielnaber.languagetool.tools.StringTools;
 public class AnalyzedTokenReadings {
 
   protected AnalyzedToken[] anTokReadings;
-	protected int startPos;
-	protected String token; 
-	
-	public AnalyzedTokenReadings(final AnalyzedToken[] r) {
-		anTokReadings = r.clone();
-		token = anTokReadings[0].getToken();
-		this.startPos = anTokReadings[0].getStartPos();
-	}
-	
-	public AnalyzedTokenReadings(final AnalyzedToken at) {
-		anTokReadings = new AnalyzedToken[1];
-		anTokReadings[0] = at;
-		token = anTokReadings[0].getToken();
-		startPos = at.getStartPos();
-	}
-  
+  protected int startPos;
+  protected String token; 
+
+  private boolean isWhitespace;
+  private boolean isSentEnd;
+  private boolean isParaEnd;
+
+  public AnalyzedTokenReadings(final AnalyzedToken[] r) {
+    anTokReadings = r.clone();		
+    this.startPos = anTokReadings[0].getStartPos();
+    init();
+  }
+
+    public AnalyzedTokenReadings(final AnalyzedToken at) {
+    anTokReadings = new AnalyzedToken[1];
+    anTokReadings[0] = at;		
+    startPos = at.getStartPos();
+    init();
+  }
+
+    private void init() {
+      token = anTokReadings[0].getToken();
+      isWhitespace = StringTools.isWhitespace(token);
+      isParaEnd = false;
+      for (final AnalyzedToken reading : anTokReadings) {
+        if (reading.posTag != null) {
+          isParaEnd |= reading.posTag.equals(JLanguageTool.PARAGRAPH_END_TAGNAME);
+          if (isParaEnd) {
+            break;
+          }
+        }
+      }
+      isSentEnd = false;
+      for (final AnalyzedToken reading : anTokReadings) {
+        if (reading.posTag != null) {
+          isSentEnd |= reading.posTag.equals(JLanguageTool.SENTENCE_END_TAGNAME);
+          if (isSentEnd) {
+            break;
+          }
+        }
+      }
+    }
+
+
   public final List<AnalyzedToken> getReadings() {
     return Arrays.asList(anTokReadings);
   }
 
   public final AnalyzedToken getAnalyzedToken(final int i) {
-		return anTokReadings[i];
-	}
+    return anTokReadings[i];
+  }
 
   public final void addReading(final AnalyzedToken tok) {
     final ArrayList <AnalyzedToken> l = new ArrayList <AnalyzedToken>(); 
-        
+
     for (int i = 0; i < anTokReadings.length - 1; i++) {
-     l.add(anTokReadings[i]);     
+      l.add(anTokReadings[i]);     
     }
-        
+
     if (anTokReadings[anTokReadings.length - 1].getPOSTag() != null) {
       l.add(anTokReadings[anTokReadings.length - 1]);
     }
-    
+
     l.add(tok);
-    
+
     anTokReadings = l.toArray(new AnalyzedToken[l.size()]);
   }
-  
+
   public final int getReadingsLength() {
     return anTokReadings.length;
   }
-  
+
   public final boolean isWhitespace() {
-    return StringTools.isWhitespace(token);    
+    return isWhitespace;
   }
-  
-  
+
   public final boolean isSentStart() {
     //helper method added after profiling
-   boolean isSE = false;
-   if (anTokReadings[0].posTag != null) {
-     isSE = anTokReadings[0].posTag.equals(JLanguageTool.SENTENCE_START_TAGNAME);
-   }
-   return isSE;
+    boolean isSE = false;
+    if (anTokReadings[0].posTag != null) {
+      isSE = anTokReadings[0].posTag.equals(JLanguageTool.SENTENCE_START_TAGNAME);
+    }
+    return isSE;
   }
-  
+
   /**
    * @return true when the token is a last token in a paragraph. 
    */   
   public final boolean isParaEnd() {
-   boolean isPE = false;
-   for (final AnalyzedToken reading : anTokReadings) {
-     if (reading.posTag != null) {
-      isPE |= reading.posTag.equals(JLanguageTool.PARAGRAPH_END_TAGNAME);
-      if (isPE) {
-        return isPE;
-      }
-     }
-   }
-   return isPE;
+    return isParaEnd;
   }
-  
+
   /**
    * @return true when the token is a last token in a sentence. 
    */   
-  public final boolean isSentEnd() {
-   boolean isSE = false;
-   for (final AnalyzedToken reading : anTokReadings) {
-     if (reading.posTag != null) {
-      isSE |= reading.posTag.equals(JLanguageTool.SENTENCE_END_TAGNAME);
-      if (isSE) {
-        return isSE;
-      }
-     }
-   }
-   return isSE;
+  public final boolean isSentEnd() {   
+    return isSentEnd;
   }
-  
-  
+
+
   public final int getStartPos() {
-		return startPos;
-	}
-	
-	public final String getToken(){
-		return token;
-	}
-	
+    return startPos;
+  }
+
+  public final String getToken(){
+    return token;
+  }
+
   @Override
   public String toString() {
     final StringBuilder sb = new StringBuilder();
@@ -141,5 +150,5 @@ public class AnalyzedTokenReadings {
     }
     return sb.toString();
   }
-	
+
 }

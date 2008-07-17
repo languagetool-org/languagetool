@@ -390,6 +390,9 @@ public final class StringTools {
    * @return true if the string is whitespace-only.
    */
   public static boolean isWhitespace(final String str) {
+    if ("\u0002".equals(str)) { //footnote number in OOo
+      return false;
+    }
     final String trimStr = str.trim();
     if (("").equals(trimStr)) {
       return true;
