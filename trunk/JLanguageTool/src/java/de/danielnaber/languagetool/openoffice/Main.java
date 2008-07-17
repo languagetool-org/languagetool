@@ -58,7 +58,6 @@ import com.sun.star.linguistic2.XLinguServiceEventBroadcaster;
 import com.sun.star.linguistic2.XLinguServiceEventListener;
 import com.sun.star.registry.XRegistryKey;
 import com.sun.star.task.XJobExecutor;
-import com.sun.star.text.XFlatParagraphIteratorProvider;
 import com.sun.star.text.XTextDocument;
 import com.sun.star.text.XTextViewCursor;
 import com.sun.star.uno.UnoRuntime;
@@ -95,7 +94,7 @@ XLinguServiceEventBroadcaster {
   private XTextViewCursor xViewCursor;
 
   private List <XLinguServiceEventListener> xEventListeners;
-  
+
   /**
    * Make another instance of JLanguageTool
    * and assign it to langTool if true.
@@ -119,11 +118,10 @@ XLinguServiceEventBroadcaster {
   //TODO: remove as soon as the spelling window is used for grammar check
   private XTextDocument xTextDoc;
 
-  private com.sun.star.text.XFlatParagraphIteratorProvider xFlatPI;
   private XComponent xComponent; 
 
   private XComponentContext xContext;
-  
+
   /** Document ID. The document IDs can be used 
    * for storing the document-level state (e.g., for
    * document-level spelling consistency).
@@ -139,9 +137,6 @@ XLinguServiceEventBroadcaster {
       final XDesktop xDesktop = (XDesktop) UnoRuntime.queryInterface(XDesktop.class, desktop);      
       xComponent = xDesktop.getCurrentComponent();
       xTextDoc = (XTextDocument) UnoRuntime.queryInterface(XTextDocument.class, xComponent);
-      xFlatPI = 
-        (XFlatParagraphIteratorProvider) UnoRuntime.queryInterface(XFlatParagraphIteratorProvider.class,
-            xComponent);
       final File homeDir = getHomeDir();
       config = new Configuration(homeDir, CONFIG_FILE);
       xEventListeners = new ArrayList<XLinguServiceEventListener>();
@@ -153,31 +148,29 @@ XLinguServiceEventBroadcaster {
 
   public void changeContext(final XComponentContext xCompContext) {
     try {
-    xContext = xCompContext;
-    final XMultiComponentFactory xMCF = xCompContext.getServiceManager();
-    final Object desktop = xMCF.createInstanceWithContext("com.sun.star.frame.Desktop", xCompContext);
-    final XDesktop xDesktop = (XDesktop) UnoRuntime.queryInterface(XDesktop.class, desktop);      
-    xComponent = xDesktop.getCurrentComponent();
-    xTextDoc = (XTextDocument) UnoRuntime.queryInterface(XTextDocument.class, xComponent);
-    xFlatPI = 
-      (XFlatParagraphIteratorProvider) UnoRuntime.queryInterface(XFlatParagraphIteratorProvider.class,
-          xComponent);
+      xContext = xCompContext;
+      final XMultiComponentFactory xMCF = xCompContext.getServiceManager();
+      final Object desktop = xMCF.createInstanceWithContext("com.sun.star.frame.Desktop", xCompContext);
+      final XDesktop xDesktop = (XDesktop) UnoRuntime.queryInterface(XDesktop.class, desktop);      
+      xComponent = xDesktop.getCurrentComponent();
+      xTextDoc = (XTextDocument) UnoRuntime.queryInterface(XTextDocument.class, xComponent);
     } catch (final Throwable e) {
       writeError(e);
       e.printStackTrace();
     }
   }
-  
+
   /**
    * Checks the language under the cursor. Used for opening the
    * configuration dialog. 
    * @return Language - the language under the visible cursor.
    */
   private Language getLanguage() {
-    if (xTextDoc == null) {
+    if (xComponent == null) {
       return Language.ENGLISH; // for testing with local main() method only
     }
     Locale charLocale;
+    XPropertySet xCursorProps;
     try {     
       final XModel model = 
         (XModel) UnoRuntime.queryInterface(XModel.class, xComponent);
@@ -187,10 +180,24 @@ XLinguServiceEventBroadcaster {
           model.getCurrentController());
       final XTextViewCursor xCursor = 
         xViewCursorSupplier.getViewCursor();
-      final XPropertySet xCursorProps = (XPropertySet) 
-      UnoRuntime.queryInterface(XPropertySet.class,
-          xCursor);
-      charLocale = (Locale) xCursorProps.getPropertyValue("CharLocale");
+      if (xCursor.isCollapsed()) { //no text selection
+        xCursorProps = (XPropertySet) 
+        UnoRuntime.queryInterface(XPropertySet.class,
+            xCursor);        
+      } else { //text is selected, need to create another cursor  
+              //as multiple languages can occur here - we care only 
+              //about character under the cursor, which might be wrong
+              //but it applies only to the checking dialog to be removed 
+        xCursorProps = (XPropertySet) 
+        UnoRuntime.queryInterface(XPropertySet.class,
+            xCursor.getText().
+            createTextCursorByRange(xCursor.getStart()));              
+      }
+      final Object obj = xCursorProps.getPropertyValue("CharLocale");
+      if (obj == null) {
+        return Language.ENGLISH; // fallback
+      } 
+      charLocale = (Locale) obj; 
       boolean langIsSupported = false;
       for (Language element : Language.LANGUAGES) {
         if (element.getShortName().equals(charLocale.Language)) {
@@ -246,7 +253,7 @@ XLinguServiceEventBroadcaster {
 //  TODO: process different language fragments in a paragraph 
 //  according to their language (currently assumed = locale)
 //  note: this is not yet implemented in the API     
-        
+
     if (hasLocale(locale)) {
       //caching the instance of LT
       if (!Language.getLanguageForShortName(locale.Language).equals(docLanguage)
@@ -265,7 +272,7 @@ XLinguServiceEventBroadcaster {
           showError(exception);
         }
       }
-            
+
       if (config.getDisabledRuleIds() != null) {
         for (final String id : config.getDisabledRuleIds()) {                    
           langTool.disableRule(id);
@@ -300,8 +307,8 @@ XLinguServiceEventBroadcaster {
    * @param myMatch ruleMatch - LT rule match
    * @return SingleGrammarError - object for OOo checker integration
    */
-  private SingleGrammarError createOOoError(
-      final Locale locale, final RuleMatch myMatch) {
+  private SingleGrammarError createOOoError(final Locale locale, 
+      final RuleMatch myMatch) {
     final SingleGrammarError aError = new SingleGrammarError();
     aError.nErrorType = com.sun.star.text.TextMarkupType.GRAMMAR;    
     //  the API currently has no support for formatting text in comments 
@@ -430,7 +437,7 @@ XLinguServiceEventBroadcaster {
     }
     return false;
   }
-  
+
 
   /**
    * Add a listener that allow re-checking the document after
@@ -463,7 +470,7 @@ XLinguServiceEventBroadcaster {
       } else { 
         return false;
       }
-      
+
     }
   }
 
@@ -515,7 +522,7 @@ XLinguServiceEventBroadcaster {
     }
     return xFactory;
   }
-  
+
   public static boolean __writeRegistryServiceInfo(final XRegistryKey regKey) {
     return Factory.writeRegistryServiceInfo(Main.class.getName(), Main.getServiceNames(), regKey);
   }
@@ -656,12 +663,12 @@ XLinguServiceEventBroadcaster {
   @Deprecated
   private TextToCheck getText() {
     com.sun.star.container.XEnumerationAccess xParaAccess = (com.sun.star.container.XEnumerationAccess) UnoRuntime
-        .queryInterface(com.sun.star.container.XEnumerationAccess.class, xTextDoc.getText());
+    .queryInterface(com.sun.star.container.XEnumerationAccess.class, xTextDoc.getText());
     if (xParaAccess == null) {
       System.err.println("xParaAccess == null");
       return new TextToCheck(new ArrayList<String>(), false);
     }
-    
+
     XModel xModel = (XModel)UnoRuntime.queryInterface(XModel.class, xTextDoc);
     if (xModel == null) {
       // FIXME: i18n
@@ -685,7 +692,7 @@ XLinguServiceEventBroadcaster {
       l.add(textToCheck);
       return new TextToCheck(l, true);
     }
-    
+
     List<String> paragraphs = new ArrayList<String>();
     try {
       for (com.sun.star.container.XEnumeration xParaEnum = xParaAccess.createEnumeration(); xParaEnum.hasMoreElements();) {
