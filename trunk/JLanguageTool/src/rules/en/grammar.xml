@@ -7,7 +7,7 @@ title="Easy editing stylesheet" ?>
 English Grammar and Typo Rules for LanguageTool
 See tagset.txt for the meaning of the POS tags
 Copyright (C) 2001-2007 Daniel Naber (http://www.danielnaber.de)
-$Id: grammar.xml,v 1.70 2008-07-15 23:11:09 milek_pl Exp $
+$Id: grammar.xml,v 1.71 2008-07-18 08:47:59 milek_pl Exp $
 -->
 <rules lang="en">
   <!-- ====================================================================== -->
@@ -1084,18 +1084,35 @@ $Id: grammar.xml,v 1.70 2008-07-15 23:11:09 milek_pl Exp $
       <example type="correct">I <marker>can't</marker> view pdf files in Explorer.</example>
       <example type="incorrect">I <marker>cant</marker> view pdf files in Explorer.</example>
     </rule>
-    <rule id="LETS_LET" name="Possible typo: 'let's/lets'">
-      <pattern mark_to="-1">
-        <token>let</token>
-        <token>'</token>
-        <token>s</token>
-        <token><exception postag="VB|RB?" postag_regexp="yes"/></token>
-      </pattern>
-      <message>Possible typo. Did you mean <suggestion>\1s</suggestion> or <suggestion>\1</suggestion>?</message>
-      <example correction="lets|let" type="incorrect">It <marker>let's</marker> you quickly search for the product.</example>
-      <example type="correct">Let's go home!</example>
-      <example type="correct">It lets you quickly search for the product,</example>
-    </rule>
+    <rulegroup id="LETS_LET" name="Possible typo: 'let's/lets'">
+      <rule>
+        <pattern mark_to="-1">
+          <token>let</token>
+          <token>'</token>
+          <token>s</token>
+          <token><exception postag="VB|RB?" postag_regexp="yes"/><exception>all</exception></token>
+        </pattern>
+        <message>Possible typo. Did you mean <suggestion>\1s</suggestion> or <suggestion>\1</suggestion>?</message>
+        <example correction="lets|let" type="incorrect">It <marker>let's</marker> you quickly search for the product.</example>
+        <example type="correct">Let's go home!</example>
+        <example type="correct">Let's all go home!</example>
+        <example type="correct">It lets you quickly search for the product,</example>
+      </rule>
+      <rule>
+        <pattern mark_to="-2">
+          <token>let</token>
+          <token>'</token>
+          <token>s</token>
+          <token>all</token>
+          <token><exception postag="VB|RB?" postag_regexp="yes"/></token>
+        </pattern>
+        <message>Possible typo. Did you mean <suggestion>\1s</suggestion> or <suggestion>\1</suggestion>?</message>
+        <example correction="lets|let" type="incorrect">The system <marker>let's</marker> all students enter the building.</example>
+        <example type="correct">Let's go home!</example>
+        <example type="correct">Let's all go home!</example>
+        <example type="correct">It lets you quickly search for the product,</example>
+      </rule>
+    </rulegroup>
     <rulegroup id="IT_IS" name="Possible typo 'its/it's'">
       <rule>
         <!-- TODO: "its of", "its to" -->
@@ -3097,13 +3114,14 @@ $Id: grammar.xml,v 1.70 2008-07-15 23:11:09 milek_pl Exp $
     <rule id="THE_EXACTLY_THE" name="Duplicated 'the' surrounding an adverb">
       <pattern>
         <token>the</token>
-        <token postag="RB"/>
+        <token postag="RB"><exception>way</exception></token>
         <token>the</token>
       </pattern>
       <message>Duplicated 'the' in the phrase: '\1 \2 \3'. Did you mean <suggestion>\2 \3</suggestion>?</message>
       <example type="correct">It is exactly the same thing.</example>
       <example correction="really the" type="incorrect">That’s <marker>the really the</marker> point of these songs.</example>
       <example correction="exactly the" type="incorrect">It is <marker>the exactly the</marker> same thing.</example>
+      <example type="correct">This is the way the music dies.</example>
     </rule>
     <rule id="DT_DT" name="Two consecutive articles, e.g. 'the a'">
       <pattern mark_from="1">
