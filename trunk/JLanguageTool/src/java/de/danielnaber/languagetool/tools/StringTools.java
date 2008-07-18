@@ -390,7 +390,8 @@ public final class StringTools {
    * @return true if the string is whitespace-only.
    */
   public static boolean isWhitespace(final String str) {
-    if ("\u0002".equals(str)) { //footnote number in OOo
+    if ("\u0002".equals(str) // unbreakable field, e.g. a footnote number in OOo
+        || "\u0001".equals(str)) { //breakable field in OOo
       return false;
     }
     final String trimStr = str.trim();
