@@ -6,7 +6,7 @@ title="Easy editing stylesheet" ?>
 <!--
 Polish Grammar and Typo Rules for LanguageTool
 Copyright (C) 2006-2007 Marcin Miłkowski
-$Id: grammar.xml,v 1.134 2008-07-15 23:11:09 milek_pl Exp $
+$Id: grammar.xml,v 1.135 2008-07-18 12:24:04 milek_pl Exp $
 -->
 <rules lang="pl">
   <phrases>
@@ -1914,25 +1914,27 @@ Powinno być: <suggestion>\2, \3 \4</suggestion>.</message>
       <pattern mark_from="3" mark_to="-1">
         <token><exception postag="SENT_START"/></token>
         <token><exception regexp="yes">\p{Punct}</exception></token>
-        <token/>
+        <token><exception postag="subst:ger:.*" postag_regexp="yes"/></token>
         <token>się</token>
         <token postag="SENT_END"/>
       </pattern>
       <message>Zaimek „się” nie powinien znajdować się na końcu zdania.</message>
       <example type="incorrect">Wędrował sam po lesie i o mało nie zgubił <marker>się</marker>.</example>
+      <example type="correct">Z funkcji semiotycznych istotne jest odnoszenie się.</example>
       <example type="correct">Nie bój się.</example>
     </rule>
   </category>
   <category name="Błędy składniowe">
     <rule id="NIE_JAKIKOLWIEK" name="„nie” + „jakikolwiek” (żaden)">
       <pattern mark_from="2">
-        <token skip="-1"><exception regexp="yes" scope="next">\p{Punct}</exception><exception inflected="yes" scope="next">żaden</exception>nie</token>
-        <token postag="verb:.*|pcon:imperf|pant:perf|pred" postag_regexp="yes" skip="-1"><exception regexp="yes" scope="next">\p{Punct}</exception><exception inflected="yes" scope="next">żaden</exception></token>
+        <token>nie</token>
+        <token postag="verb:.*|pcon:imperf|pant:perf|pred" postag_regexp="yes" skip="-1"><exception inflected="yes" regexp="yes">wszystek|każdy</exception><exception inflected="yes" scope="next">żaden</exception><exception regexp="yes" scope="next">\p{Punct}</exception></token>
         <token inflected="yes">jakikolwiek</token>
       </pattern>
       <message>Po przeczeniu należy użyć wyrazu: <suggestion><match no="3" postag="adj.*" postag_regexp="yes">żaden</match></suggestion>.</message>
       <example correction="żaden" type="incorrect">Nagrody i wyróżnienia nie podlegają wymianie na <marker>jakikolwiek</marker> ekwiwalent.</example>
       <example type="correct">Nagrody i wyróżnienia nie podlegają wymianie na żaden ekwiwalent.</example>
+      <example type="correct">Nie wszystkie zastrzeżenia mają jakiekolwiek znaczenie.</example>
     </rule>
     <rule id="DWADZIESCIA_DWAJ" name="„dwadzieścia dwaj uczniowie” (dwudziestu dwóch uczniów)">
       <pattern>
