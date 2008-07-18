@@ -35,58 +35,62 @@ import de.danielnaber.languagetool.Language;
 public class WordRepeatRule extends Rule {
 
   private Language language = null;
-  
+
   public WordRepeatRule(final ResourceBundle messages, final Language language) {
     super(messages);
     super.setCategory(new Category(messages.getString("category_misc")));
     this.language = language;
   }
-  
+
+  @Override
   public String getId() {
     return "WORD_REPEAT_RULE";
   }
 
+  @Override
   public String getDescription() {
     return messages.getString("desc_repetition");
   }
 
+  @Override
   public RuleMatch[] match(final AnalyzedSentence text) {
-    List<RuleMatch> ruleMatches = new ArrayList<RuleMatch>();
-    AnalyzedTokenReadings[] tokens = text.getTokensWithoutWhitespace();
+    final List<RuleMatch> ruleMatches = new ArrayList<RuleMatch>();
+    final AnalyzedTokenReadings[] tokens = text.getTokensWithoutWhitespace();
     String prevToken = "";
     String prevPrevToken = "";
     //note: we start from token 1
     //token no. 0 is guaranteed to be SENT_START
     for (int i = 1; i < tokens.length; i++) {
-      String token = tokens[i].getToken();
-        // avoid "..." etc. to be matched:
-        boolean isWord = true;
-        if (token.length() == 1) {
-          char c = token.charAt(0);
-          if (!Character.isLetter(c)) {
-            isWord = false;
-          }
+      final String token = tokens[i].getToken();
+      // avoid "..." etc. to be matched:
+      boolean isWord = true;
+      if (token.length() == 1) {
+        final char c = token.charAt(0);
+        if (!Character.isLetter(c)) {
+          isWord = false;
         }
-        boolean germanException = false;
-        // Don't mark error for cases like:
-        // "wie Honda und Samsung, die die Bezahlung ihrer Firmenchefs..."
-        if (prevPrevToken.equals(",") && language.equals(Language.GERMAN)) {
-          germanException = true;
-        }
-        if (isWord && prevToken.toLowerCase().equals(token.toLowerCase()) && !germanException) {
-          String msg = messages.getString("repetition");
-          int prevPos = tokens[i - 1].getStartPos();
-          int pos = tokens[i].getStartPos();
-          RuleMatch ruleMatch = new RuleMatch(this, prevPos, pos+prevToken.length(), msg);
-          ruleMatch.setSuggestedReplacement(prevToken);
-          ruleMatches.add(ruleMatch);
-        }
-        prevPrevToken = prevToken;
-        prevToken = token;
+      }
+      boolean germanException = false;
+      // Don't mark error for cases like:
+      // "wie Honda und Samsung, die die Bezahlung ihrer Firmenchefs..."
+      if (prevPrevToken.equals(",") && language.equals(Language.GERMAN)) {
+        germanException = true;
+      }
+      if (isWord && prevToken.toLowerCase().equals(token.toLowerCase()) && !germanException) {
+        final String msg = messages.getString("repetition");
+        final int prevPos = tokens[i - 1].getStartPos();
+        final int pos = tokens[i].getStartPos();
+        final RuleMatch ruleMatch = new RuleMatch(this, prevPos, pos+prevToken.length(), msg);
+        ruleMatch.setSuggestedReplacement(prevToken);
+        ruleMatches.add(ruleMatch);
+      }
+      prevPrevToken = prevToken;
+      prevToken = token;
     }
     return toRuleMatchArray(ruleMatches);
   }
 
+  @Override
   public void reset() {
     // nothing
   }
