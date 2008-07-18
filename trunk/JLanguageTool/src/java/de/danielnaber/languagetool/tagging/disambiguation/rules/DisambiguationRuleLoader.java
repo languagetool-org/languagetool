@@ -190,8 +190,6 @@ class DisambiguationRuleHandler extends XMLRuleHandler {
       inDisamb = true;
       disambiguatedPOS = attrs.getValue("postag");      
     } else if (qName.equals("match")) {
-      inMatch = true;
-      match = new StringBuffer();      
       Match.CaseConversion caseConv = Match.CaseConversion.NONE; 
       if (attrs.getValue("case_conversion") != null) {
         caseConv = Match.CaseConversion.toCase(

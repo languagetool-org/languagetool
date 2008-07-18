@@ -37,19 +37,19 @@ import de.danielnaber.languagetool.rules.patterns.Match;
  */
 public class DisambiguationPatternRule {
 
-  private String id;
+  private final String id;
 
-  private Language language;
-  private String description;
+  private final Language language;
+  private final String description;
 
   private int startPositionCorrection = 0;
   private int endPositionCorrection = 0;
 
-  private List<Element> patternElements;
+  private final List<Element> patternElements;
 
-  private String disambiguatedPOS;
+  private final String disambiguatedPOS;
 
-  private Match matchToken;
+  private final Match matchToken;
 
   /**
    * @param id Id of the Rule
@@ -170,11 +170,10 @@ public class DisambiguationPatternRule {
 
           for (int l = 0; l < numberOfReadings; l++) {
             final AnalyzedToken matchToken = tokens[m].getAnalyzedToken(l);
-            if (prevSkipNext > 0 && prevElement != null) {
-              if (prevElement.scopeNextExceptionMatch(matchToken)) {
-                exceptionMatched = true;
-                prevMatched = true;
-              }
+            if (prevSkipNext > 0 && prevElement != null
+                && prevElement.scopeNextExceptionMatch(matchToken)) {
+              exceptionMatched = true;
+              prevMatched = true;              
             }
             if (elem.referenceElement()
                 && (firstMatchToken + elem.getMatch().getTokenRef() 
@@ -190,7 +189,7 @@ public class DisambiguationPatternRule {
                     && (firstMatchToken + andElement.getMatch().getTokenRef() 
                         < tokens.length)) {
                   andElement.getMatch().setToken(tokens[firstMatchToken 
-                                                        + andElement.getMatch().getTokenRef()]);
+                                      + andElement.getMatch().getTokenRef()]);
                   andElement.getMatch().setSynthesizer(language.getSynthesizer());
                   andElement.compile();
                 }                               
@@ -288,11 +287,11 @@ public class DisambiguationPatternRule {
         if (matchToken == null) {
           String lemma = "";
           for (int l = 0; l < numRead; l++) {
-            if (whTokens[fromPos].getAnalyzedToken(l).getPOSTag() != null) {
-              if (whTokens[fromPos].getAnalyzedToken(l).getPOSTag().equals(disambiguatedPOS)
-                  && (whTokens[fromPos].getAnalyzedToken(l).getLemma() != null)) {
-                lemma = whTokens[fromPos].getAnalyzedToken(l).getLemma();
-              }            
+            if (whTokens[fromPos].getAnalyzedToken(l).getPOSTag() != null 
+                && (whTokens[fromPos].getAnalyzedToken(l).getPOSTag().
+                    equals(disambiguatedPOS)
+                    && (whTokens[fromPos].getAnalyzedToken(l).getLemma() != null))) {
+              lemma = whTokens[fromPos].getAnalyzedToken(l).getLemma();                          
             } 
           }
           if (("").equals(lemma)) {

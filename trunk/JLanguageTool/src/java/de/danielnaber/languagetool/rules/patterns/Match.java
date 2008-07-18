@@ -266,7 +266,7 @@ public class Match {
   // on the other hand, many POS tags = too many suggestions?
   public final String getTargetPosTag() {   
     String targetPosTag = posTag;
-    List <String> posTags = new ArrayList <String> ();
+    final List <String> posTags = new ArrayList <String> ();
     if (staticLemma) {
       final int numRead = matchedToken.getReadingsLength();
       for (int i = 0; i < numRead; i++) {
