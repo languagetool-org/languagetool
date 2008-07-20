@@ -381,7 +381,7 @@ public class Match {
    * @return true if match converts the case of the token.
    */
   public boolean convertsCase() {
-    return (caseConversionType != CaseConversion.NONE);
+    return (!caseConversionType.equals(CaseConversion.NONE));
   }
   
   public final AnalyzedTokenReadings filterReadings(

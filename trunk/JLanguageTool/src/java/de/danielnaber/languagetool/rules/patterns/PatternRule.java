@@ -115,7 +115,7 @@ public class PatternRule extends Rule {
         loopCnt++;
       } else {
         curName = e.getPhraseName();
-        if (prevName.equals(curName) || prevName.equals("")) {
+        if (prevName.equals(curName) || ("").equals(prevName)) {
           cnt++;
           useList = true;
         } else {
@@ -126,7 +126,7 @@ public class PatternRule extends Rule {
         }
         prevName = curName;
         loopCnt++;
-        if (loopCnt == patternElements.size() && !prevName.equals("")) {
+        if (loopCnt == patternElements.size() && !("").equals(prevName)) {
           elementNo.add(cnt);
         }
       }
@@ -408,9 +408,9 @@ public class PatternRule extends Rule {
         }
         if (allElementsMatch) {                              
           matchingTokens++;
-          lastMatchToken = matchPos; // nextPos;          
+          lastMatchToken = matchPos;          
           if (firstMatchToken == -1) {
-            firstMatchToken = matchPos; // nextPos;
+            firstMatchToken = matchPos;
           }
           skipShiftTotal += skipShift;         
         } else {

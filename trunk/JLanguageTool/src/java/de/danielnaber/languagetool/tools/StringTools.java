@@ -50,7 +50,7 @@ public final class StringTools {
     if (s == null) {
       throw new NullPointerException(varName + " cannot be null");
     }
-    if (s.trim().equals("")) {
+    if ((("").equals(s.trim()))) {
       throw new IllegalArgumentException(varName + " cannot be empty or whitespace only");
     }
   }
@@ -102,10 +102,7 @@ public final class StringTools {
    * (ignoring characters for which no upper-/lowercase distinction exists).
    */
   public static boolean isAllUppercase(final String str) {
-    if (str.toUpperCase().equals(str)) {
-      return true;
-    }
-    return false;
+    return str.equals(str.toUpperCase());
   }
   
   /**

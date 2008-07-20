@@ -452,19 +452,18 @@ public class Element {
    * 
    */
   final boolean matchPosToken(final AnalyzedToken token) {
-    
     if (token.getPOSTag() == null) {
-      if (!posRegExp) {
-        if (UNKNOWN_TAG.equals(posToken)) {
-              return true;
-        }
-      } else {
+      if (posRegExp) {
         if (mPos == null) {
           mPos = pPos.matcher(UNKNOWN_TAG);
         } else {
           mPos.reset(UNKNOWN_TAG);
         }
         return mPos.matches();
+      } else {
+        if (UNKNOWN_TAG.equals(posToken)) {
+          return true;
+        }
       }        
     }
     // if no POS set
@@ -473,15 +472,17 @@ public class Element {
       return true;
     }
     boolean match = false;
-    if (!posRegExp) {
-      match = posToken.equals(token.getPOSTag());              
-    } else if (token.getPOSTag() != null) {
-      if (mPos == null) {
-        mPos = pPos.matcher(token.getPOSTag());
-      } else {
-        mPos.reset(token.getPOSTag());
-      }
-      match = mPos.matches();                     
+    if (posRegExp) {
+      if (token.getPOSTag() != null) {
+        if (mPos == null) {
+          mPos = pPos.matcher(token.getPOSTag());
+        } else {
+          mPos.reset(token.getPOSTag());
+        }
+        match = mPos.matches();                     
+      }              
+    } else {
+      match = posToken.equals(token.getPOSTag());
     }
     return match;
   }
