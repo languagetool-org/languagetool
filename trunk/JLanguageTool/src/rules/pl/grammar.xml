@@ -6,7 +6,7 @@ title="Easy editing stylesheet" ?>
 <!--
 Polish Grammar and Typo Rules for LanguageTool
 Copyright (C) 2006-2007 Marcin Miłkowski
-$Id: grammar.xml,v 1.135 2008-07-18 12:24:04 milek_pl Exp $
+$Id: grammar.xml,v 1.136 2008-07-22 19:15:59 milek_pl Exp $
 -->
 <rules lang="pl">
   <phrases>
@@ -877,7 +877,7 @@ $Id: grammar.xml,v 1.135 2008-07-18 12:24:04 milek_pl Exp $
         <pattern mark_from="3" mark_to="0">
           <token>tak</token>
           <token skip="-1">jak</token>
-          <token>tak<exception regexp="yes" scope="previous">[\p{Punct}–—„«»…]|bądź|czy|ani|lub|albo|oraz|i</exception></token>
+          <token>tak<exception postag="conj" regexp="yes" scope="previous">[\p{Punct}–—„«»…]|bądź|czy|ani|lub|albo|oraz|i</exception></token>
         </pattern>
         <message>Prawdopodobny brak przecinka. Powinno być: <suggestion>, tak</suggestion>.</message>
         <example type="correct">Tak jak poprzednio, tak i teraz w pełni zamieszkuję pustkę.</example>
