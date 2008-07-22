@@ -76,6 +76,7 @@ public class CaseRule extends GermanRule {
   
   private static final Set<String> exceptions = new HashSet<String>();
   static {
+    exceptions.add("Wichtiges");
     exceptions.add("Dr");
     exceptions.add("Prof");
     exceptions.add("Mr");
