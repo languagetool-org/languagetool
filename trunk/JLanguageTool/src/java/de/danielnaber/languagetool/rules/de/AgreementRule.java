@@ -138,9 +138,14 @@ public class AgreementRule extends GermanRule {
         String prevToken = tokens[i-1].getToken().toLowerCase();
         if ((prevToken.equals("der") || prevToken.equals("die") || prevToken.equals("das"))
             && tokens[i].getToken().equals("eine")) {
-          // TODO: "der eine Polizist" -> nicht ingorieren, sondern "der polizist" checken
+          // TODO: "der eine Polizist" -> nicht ignorieren, sondern "der polizist" checken
           ignore = true;
         }
+      }
+      
+      // avoid false alaram on "nichts Gutes":
+      if (analyzedToken.getToken().equals("nichts")) {
+        ignore = true;
       }
 
       if ((analyzedToken.hasReadingOfType(POSType.DETERMINER) || isRelevantPronomen) && !ignore) {
@@ -159,14 +164,16 @@ public class AgreementRule extends GermanRule {
             // e.g. "deren komisches Geschenke" isn't yet detected as incorrect
             RuleMatch ruleMatch = checkDetAdjNounAgreement((AnalyzedGermanTokenReadings)tokens[i],
                 nextToken, (AnalyzedGermanTokenReadings)tokens[i+2]);
-            if (ruleMatch != null)
+            if (ruleMatch != null) {
               ruleMatches.add(ruleMatch);
+            }
           }
         } else if (nextToken.hasReadingOfType(POSType.NOMEN)) {
           RuleMatch ruleMatch = checkDetNounAgreement((AnalyzedGermanTokenReadings)tokens[i],
               (AnalyzedGermanTokenReadings)tokens[i+1]);
-          if (ruleMatch != null)
+          if (ruleMatch != null) {
             ruleMatches.add(ruleMatch);
+          }
         }
       }
      
