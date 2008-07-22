@@ -106,20 +106,18 @@ public class Element {
   /** String ID of the phrase the element is in. **/
   private String phraseName = null; 
 
+  /** This var is used to determine if calling {@link #matchStringToken()} 
+   * makes sense. This method takes most time so it's best reduce 
+   * the number of its calls.
+   **/
+  private boolean testString;
   
   public Element(final String token, final boolean caseSensitive, final boolean regExp,
       final boolean inflected) {
-    this.stringToken = token;
     this.caseSensitive = caseSensitive;
     this.stringRegExp = regExp;
     this.inflected = inflected;
-    if (!"".equals(stringToken) && stringRegExp) {
-      regToken = stringToken;
-      if (!caseSensitive) {
-        regToken = CASE_INSENSITIVE + stringToken;
-      }
-      p = Pattern.compile(regToken);
-    }
+    setStringElement(token);
   }
 
   /**
@@ -129,20 +127,7 @@ public class Element {
    * @return True if token matches, false otherwise.
    */
   public final boolean match(final AnalyzedToken token) {
-    // this var is used to determine
-    // if calling matchStringToken
-    // has any sense - this method takes
-    // most time so it's best reduce the
-    // number it's being called
-    boolean testString = true;
-    if (stringToken == null) {
-      testString = false;
-    } else {
-    if (("").equals(stringToken)) {
-      testString = false;
-      }
-    }
-    boolean matched;
+    boolean matched = false;
     if (testString) {
       matched = (matchStringToken(token) != negation) 
           && (matchPosToken(token) != posNegation);
@@ -365,6 +350,14 @@ public class Element {
   
   public final void setStringElement(final String token) {
     this.stringToken = token;
+    testString= true;
+    if (this.stringToken == null) {
+      testString= false;
+    } else {
+    if (this.stringToken.length()==0) {
+      testString= false;
+      }
+    }    
     if (!"".equals(stringToken) && stringRegExp) {
       regToken = stringToken;
       if (!caseSensitive) {
@@ -452,6 +445,11 @@ public class Element {
    * 
    */
   final boolean matchPosToken(final AnalyzedToken token) {
+    // if no POS set
+    // defaulting to true
+    if (posToken == null) {
+      return true;
+    }
     if (token.getPOSTag() == null) {
       if (posRegExp) {
         if (mPos == null) {
@@ -466,21 +464,14 @@ public class Element {
         }
       }        
     }
-    // if no POS set
-    // defaulting to true
-    if (posToken == null) {
-      return true;
-    }
     boolean match = false;
     if (posRegExp) {
-      if (token.getPOSTag() != null) {
         if (mPos == null) {
           mPos = pPos.matcher(token.getPOSTag());
         } else {
           mPos.reset(token.getPOSTag());
         }
         match = mPos.matches();                     
-      }              
     } else {
       match = posToken.equals(token.getPOSTag());
     }
@@ -505,13 +496,7 @@ public class Element {
       testToken = token.getToken();
     }
 
-    if (!stringRegExp) {
-      if (caseSensitive) {
-        return stringToken.equals(testToken);
-      } else {
-        return stringToken.equalsIgnoreCase(testToken);
-      }
-    } else {
+    if (stringRegExp) {
       if (token.getToken() != null) {
         if (m == null) {
           m = p.matcher(testToken);
@@ -520,6 +505,12 @@ public class Element {
         }
         return m.matches();
       }
+    } else {      
+      if (caseSensitive) {
+        return stringToken.equals(testToken);
+      } else {
+        return stringToken.equalsIgnoreCase(testToken);
+      }      
     }
 
     return false;
@@ -599,20 +590,7 @@ public class Element {
     if ("".equals(referenceString)) {
       referenceString = stringToken;
     }
-    final boolean setsPos = tokenReference.setsPos(); 
-    if (!setsPos) {
-    stringToken = referenceString.replace("\\"  
-        + tokenReference.getTokenRef(), 
-        tokenReference.toTokenString());
-    }
-    if (!"".equals(stringToken) && stringRegExp) {
-      regToken = stringToken;
-      if (!caseSensitive) {
-        regToken = CASE_INSENSITIVE + stringToken;
-      }
-      p = Pattern.compile(regToken);
-    }
-    if (setsPos) {
+    if (tokenReference.setsPos()) {
       final String posReference = tokenReference.getTargetPosTag();
       if (posReference != null) {
         if (mPos != null) {
@@ -620,9 +598,13 @@ public class Element {
         }
       setPosElement(posReference, tokenReference.posRegExp(), negation);
       }
-      stringToken = referenceString.replace("\\"  
-          + tokenReference.getTokenRef(), "");
+      setStringElement(referenceString.replace("\\"  
+          + tokenReference.getTokenRef(), ""));
       inflected = true;      
+    } else {
+      setStringElement(referenceString.replace("\\"  
+          + tokenReference.getTokenRef(), 
+          tokenReference.toTokenString()));      
     }
   }
   

@@ -446,8 +446,6 @@ public class PatternRule extends Rule {
         if (endPositionCorrection < 0) {
           int l = 0;
           while (l > endPositionCorrection) {
-            int test = matchingTokens + l - 1;
-            test = tokenPositions[test];
             correctedEndPos -= tokenPositions[matchingTokens + l - 1];
             l--;
           }

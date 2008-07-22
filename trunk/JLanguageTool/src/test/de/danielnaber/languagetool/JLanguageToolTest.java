@@ -22,9 +22,6 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
-import com.sun.star.lang.Locale;
-
-
 import junit.framework.TestCase;
 import de.danielnaber.languagetool.rules.RuleMatch;
 import de.danielnaber.languagetool.rules.patterns.PatternRule;

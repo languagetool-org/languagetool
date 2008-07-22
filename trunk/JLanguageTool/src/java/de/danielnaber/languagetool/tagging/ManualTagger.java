@@ -24,78 +24,86 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
 /**
- * A tagger that reads the POS information from a plain (UTF-8) text file.
- * This makes it possible for the user to edit the text file to let the system
- * know about new words or missing readings in the *.dict file.
- *
- * <p>File Format: <tt>fullform baseform postags</tt> (tab separated)
+ * A tagger that reads the POS information from a plain (UTF-8) text file. This
+ * makes it possible for the user to edit the text file to let the system know
+ * about new words or missing readings in the *.dict file.
+ * 
+ * <p>
+ * File Format: <tt>fullform baseform postags</tt> (tab separated)
  * 
  * @author Daniel Naber
  */
 public class ManualTagger {
 
   private Map<String, List<LookedUpTerm>> mapping = null;
-  
-  public ManualTagger(InputStream file) throws IOException {
+
+  public ManualTagger(final InputStream file) throws IOException {
     mapping = loadMapping(file, "utf8");
   }
-  
+
   /**
    * Look up a word's baseform and POS information.
    * 
    * @param term
-   * @return an array with the baseform (at psoitino 0, 2, ...) and the
-   *  POS information (at psoitino 1, 3, ...) or <code>null</code> if
-   *  the word is unknown
+   * @return an array with the baseform (at psoitino 0, 2, ...) and the POS
+   *         information (at psoitino 1, 3, ...) or <code>null</code> if the
+   *         word is unknown
    */
   public String[] lookup(final String term) {
-    List<LookedUpTerm> l = mapping.get(term);
-    if (l == null)
+    final List<LookedUpTerm> l = mapping.get(term);
+    if (l == null) {
       return null;
-    List<String> plainResult = new ArrayList<String>();
-    for (Iterator iter = l.iterator(); iter.hasNext();) {
-      LookedUpTerm lookedUpTerm = (LookedUpTerm) iter.next();
+    }
+    final List<String> plainResult = new ArrayList<String>();
+    for (final Object element : l) {
+      final LookedUpTerm lookedUpTerm = (LookedUpTerm) element;
       plainResult.add(lookedUpTerm.baseform);
       plainResult.add(lookedUpTerm.postags);
     }
-    if (plainResult.isEmpty())
+    if (plainResult.isEmpty()) {
       return null;
+    }
     return plainResult.toArray(new String[]{});
   }
-  
-  private Map<String, List<LookedUpTerm>> loadMapping(final InputStream file, final String encoding) throws IOException {
-    Map<String, List<LookedUpTerm>> map = new HashMap<String, List<LookedUpTerm>>();
+
+  private Map<String, List<LookedUpTerm>> loadMapping(final InputStream file,
+      final String encoding) throws IOException {
+    final Map<String, List<LookedUpTerm>> map = new HashMap<String, List<LookedUpTerm>>();
     InputStreamReader isr = null;
-    BufferedReader br = null;   
-    try {    
+    BufferedReader br = null;
+    try {
       isr = new InputStreamReader(file, encoding);
       br = new BufferedReader(isr);
       String line;
       while ((line = br.readLine()) != null) {
-        if (line.startsWith("#"))
+        if (line.startsWith("#")) {
           continue;
-        String[] parts = line.split("\t");
+        }
+        final String[] parts = line.split("\t");
         if (parts.length != 3) {
           throw new IOException("Unknown format in " + file + ": " + line);
         }
         if (map.containsKey(parts[0])) {
-          List<LookedUpTerm> l = map.get(parts[0]);
+          final List<LookedUpTerm> l = map.get(parts[0]);
           l.add(new LookedUpTerm(parts[1], parts[2]));
           map.put(parts[0], l);
         } else {
-          List<LookedUpTerm> l = new ArrayList<LookedUpTerm>();
+          final List<LookedUpTerm> l = new ArrayList<LookedUpTerm>();
           l.add(new LookedUpTerm(parts[1], parts[2]));
           map.put(parts[0], l);
         }
       }
     } finally {
-      if (br != null) br.close();
-      if (isr != null) isr.close();
+      if (br != null) {
+        br.close();
+      }
+      if (isr != null) {
+        isr.close();
+      }
     }
     return map;
   }
@@ -103,13 +111,13 @@ public class ManualTagger {
 }
 
 class LookedUpTerm {
-  
+
   String baseform;
   String postags;
-  
-  LookedUpTerm(String baseform, String postags) {
+
+  LookedUpTerm(final String baseform, final String postags) {
     this.baseform = baseform;
     this.postags = postags;
   }
-  
+
 }
