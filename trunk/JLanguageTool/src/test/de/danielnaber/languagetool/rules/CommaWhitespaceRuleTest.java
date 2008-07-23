@@ -64,6 +64,8 @@ public class CommaWhitespaceRuleTest extends TestCase {
     assertEquals(6, matches[0].getToPos());
     assertEquals(11, matches[1].getFromPos());
     assertEquals(13, matches[1].getToPos());
+    matches = rule.match(langTool.getAnalyzedSentence("This is a test with a OOo footnote\u0002, which is denoted by 0x2 in the text."));
+    assertEquals(0, matches.length);
   }
   
 }

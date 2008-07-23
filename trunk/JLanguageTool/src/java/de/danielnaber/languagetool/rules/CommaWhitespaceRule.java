@@ -26,7 +26,7 @@ import de.danielnaber.languagetool.AnalyzedSentence;
 import de.danielnaber.languagetool.AnalyzedTokenReadings;
 
 /**
- * A rule that matches commas and closing parenthesis preceeded by whitespace
+ * A rule that matches commas and closing parenthesis preceded by whitespace
  * and opening parenthesis followed by whitespace.
  *  
  * @author Daniel Naber
@@ -54,29 +54,32 @@ public class CommaWhitespaceRule extends Rule {
     List<RuleMatch> ruleMatches = new ArrayList<RuleMatch>();
     final AnalyzedTokenReadings[] tokens = text.getTokens();
     String prevToken = "";
+    boolean prevWhite = false;
     int pos = 0;
+    int prevLen = 0;
     for (int i = 0; i < tokens.length; i++) {
     		final String token = tokens[i].getToken();
-    		pos += token.length();
+    		final boolean isWhite = tokens[i].isWhitespace();
+    		pos += token.length();    		
     		String msg = null;
     		int fixLen = 0;
         String suggestionText = null;
-    		if (token.trim().equals("") && prevToken.trim().equals("(")) {
+    		if (isWhite && prevToken.trim().equals("(")) {
     			msg = messages.getString("no_space_after");
           suggestionText = "(";
           fixLen = 1;
-    		} else if (token.trim().equals(")") && prevToken.trim().equals("")) {
+    		} else if (token.trim().equals(")") && prevWhite) {
     			msg = messages.getString("no_space_before");
           suggestionText = ")";
           fixLen = 1;
-    		} else if (prevToken.trim().equals(",") && !token.trim().equals("") &&
+    		} else if (prevToken.trim().equals(",") && !isWhite &&
                 !token.equals("'") && !token.equals("&quot")&& !token.equals("”") && !token.equals("’") &&
                 !token.equals("\"") && !token.equals("“") &&
                 !token.matches(".*\\d.*") && !token.equals("-")) {
                   			msg = messages.getString("missing_space_after_comma");
 
           suggestionText = ", ";
-    		} else if (token.trim().equals(",") && prevToken.trim().equals("")) {
+    		} else if (token.trim().equals(",") && prevWhite) {
     			msg = messages.getString("space_after_comma");
           suggestionText = ",";
     			fixLen = 1;
@@ -85,7 +88,7 @@ public class CommaWhitespaceRule extends Rule {
     			final int fromPos = tokens[i - 1].getStartPos();
     			final int toPos = 
             tokens[i - 1].getStartPos()
-            + fixLen + prevToken.length();
+            + fixLen + prevLen;
     			final RuleMatch ruleMatch = 
             new RuleMatch(this, fromPos, toPos, msg);
           if (suggestionText != null)
@@ -93,6 +96,8 @@ public class CommaWhitespaceRule extends Rule {
     			ruleMatches.add(ruleMatch);
     		}
     		prevToken = token;
+    		prevWhite = isWhite;
+    		prevLen = token.length();
     	}
     
     return toRuleMatchArray(ruleMatches);
