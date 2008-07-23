@@ -188,6 +188,7 @@ public class Element {
     return andGroupMatched;
   }
   
+     
   public final void setupAndGroup() {
     if (andGroupSet) {
     andGroupCheck = new boolean[andGroupList.size() + 1];
@@ -210,6 +211,18 @@ public class Element {
   }
   
   /**
+   * This method checks AND-group and the token.
+   * Introduced to for clarity.
+   * @param token Token to match
+   * @return True if matched.
+   */
+  public final boolean completeMatch(final AnalyzedToken token) {
+    //note: do not use "||" here, we need full evaluation, no short-circuiting
+    return match(token) | andGroupMatch(token);
+  }
+  
+  
+  /**
    * Enables testing multiple conditions specified by
    * multiple element exceptions.
    * 
@@ -229,6 +242,18 @@ public class Element {
       }
     }
     return andGroupExceptionMatched;
+  }
+  
+  /**
+   * This method checks exceptions both in AND-group and the token.
+   * Introduced to for clarity.
+   * @param token Token to match
+   * @return True if matched.
+   */
+  public final boolean completeExceptionMatch(final AnalyzedToken token) {
+    //note: short-circuiting possible
+    return exceptionMatch(token) 
+        || andGroupExceptionMatch(token);
   }
   
   public final void setAndGroupElement(final Element andToken) {

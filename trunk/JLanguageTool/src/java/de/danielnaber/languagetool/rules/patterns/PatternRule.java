@@ -356,15 +356,13 @@ public class PatternRule extends Rule {
                 elem.setupAndGroup();
               }
             }
-                        
-            //note: do not use "||" here, we need full evaluation, no short-circuiting
-            thisMatched |= elem.match(matchToken) | elem.andGroupMatch(matchToken);            
+                                    
+            thisMatched |= elem.completeMatch(matchToken);            
             
             if (l + 1 == numberOfReadings && elem.hasAndGroup()) {
               thisMatched &= elem.checkAndGroup(thisMatched);
             }                
-            exceptionMatched |= (elem.exceptionMatch(matchToken) 
-                  || elem.andGroupExceptionMatch(matchToken));
+            exceptionMatched |= elem.completeExceptionMatch(matchToken);
             if (!exceptionMatched && elem.hasPreviousException() && m > 0) {
               final int numReadings = tokens[m - 1].getReadingsLength();
               for (int p = 0; p < numReadings; p++) {             
