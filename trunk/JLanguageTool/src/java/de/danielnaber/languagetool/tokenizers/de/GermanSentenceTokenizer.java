@@ -47,7 +47,7 @@ public class GermanSentenceTokenizer extends SentenceTokenizer {
     "rd", "reg", "resp", "Rhld", "rit", "Sa", "südl", "Br",
     "sel", "sen", "Sept", "Sing", "sign", "So", "sog", "Sp", "St",
     "St", "St", "Std", "stacc", "Str", "stud", "Subst", "sva", "svw",
-    "sZ", "Temp", "trans", "Tsd", "übertr", "übl", "ff", "ugs", "univ",
+    "sZ", "Tel", "Temp", "trans", "Tsd", "übertr", "übl", "ff", "ugs", "univ",
     "urspr", "usw", "vgl", "Vol", "vorm", "vorm", "Vp", "Vs",
     "vs", "wg", "Hd", "Ztr", "zus", "Zus", "zzt", "zz", "Zz", "Zt",
     "Min", "bzgl"};
