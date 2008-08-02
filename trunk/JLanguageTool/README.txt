@@ -52,7 +52,7 @@ Known bugs:
    
 TODO:
  -see http://papyr.com/hypertextbooks/grammar/gramchek.htm
- -German: triebhemmende gets decomposed to triebhemm + ende
+ -Make the command-line tool work with STDIN
  -update languagetool.xml.update automatically (i.e. replace @version@)
  -add more redundancy rules, see e.g.
   http://grammar.about.com/od/words/a/redundancies.htm?p=1
