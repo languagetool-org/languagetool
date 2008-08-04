@@ -23,7 +23,9 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import de.danielnaber.languagetool.AnalyzedToken;
+import de.danielnaber.languagetool.AnalyzedTokenReadings;
 import de.danielnaber.languagetool.JLanguageTool;
+import de.danielnaber.languagetool.synthesis.Synthesizer;
 
 /**
  * A part of a pattern.
@@ -126,13 +128,13 @@ public class Element {
    * @param token @AnalyzedToken to check matching against
    * @return True if token matches, false otherwise.
    */
-  public final boolean match(final AnalyzedToken token) {
+  public final boolean isMatched(final AnalyzedToken token) {
     boolean matched = false;
     if (testString) {
-      matched = (matchStringToken(token) != negation) 
-          && (matchPosToken(token) != posNegation);
+      matched = (isStringTokenMatched(token) != negation) 
+          && (isPosTokenMatched(token) != posNegation);
     } else {
-      matched = (!negation) && (matchPosToken(token) != posNegation);
+      matched = (!negation) && (isPosTokenMatched(token) != posNegation);
     }
     
     if (andGroupSet) {
@@ -147,12 +149,12 @@ public class Element {
    * @param token @AnalyzedToken to check matching against
    * @return True if any of the exceptions matches (logical disjunction).
    */
-  public final boolean exceptionMatch(final AnalyzedToken token) {
+  public final boolean isExceptionMatched(final AnalyzedToken token) {
     boolean exceptionMatched = false;
     if (exceptionSet) {
       for (final Element testException : exceptionList) {
         if (!testException.exceptionValidNext) {
-          exceptionMatched |= testException.match(token);
+          exceptionMatched |= testException.isMatched(token);
         }
         if (exceptionMatched) {
           break;
@@ -167,18 +169,18 @@ public class Element {
    * different elements. Doesn't test exceptions.
    * 
    * Works as logical AND operator only if preceded
-   * with setupAndGroup(), and followed by checkAndGroup().
+   * with {@link #setupAndGroup()}, and followed by {@link #checkAndGroup(boolean)}.
    * 
    * @param token AnalyzedToken - the token checked. 
    * @return true if any condition is met, false otherwise.
    */
-  public final boolean andGroupMatch(final AnalyzedToken token) {
+  public final boolean isAndGroupMatched(final AnalyzedToken token) {
     boolean andGroupMatched = false;
     if (andGroupSet) {
       for (int i = 0; i < andGroupList.size(); i++) {
         if (!andGroupCheck[i + 1]) {
         final Element testAndGroup = andGroupList.get(i);
-        if (testAndGroup.match(token)) {
+        if (testAndGroup.isMatched(token)) {
           andGroupMatched = true;
           andGroupCheck[i + 1] = true;
         }
@@ -216,9 +218,9 @@ public class Element {
    * @param token Token to match
    * @return True if matched.
    */
-  public final boolean completeMatch(final AnalyzedToken token) {
+  public final boolean isMatchedCompletely(final AnalyzedToken token) {
     //note: do not use "||" here, we need full evaluation, no short-circuiting
-    return match(token) | andGroupMatch(token);
+    return isMatched(token) | isAndGroupMatched(token);
   }
   
   
@@ -231,11 +233,11 @@ public class Element {
    * @param token AnalyzedToken - the token checked for exceptions. 
    * @return true if all conditions are met, false otherwise.
    */
-  public final boolean andGroupExceptionMatch(final AnalyzedToken token) {
+  public final boolean isAndExceptionGroupMatched(final AnalyzedToken token) {
     boolean andGroupExceptionMatched = false;
     if (andGroupSet) {
       for (final Element testAndGroup : andGroupList) {
-        andGroupExceptionMatched |= testAndGroup.exceptionMatch(token);
+        andGroupExceptionMatched |= testAndGroup.isExceptionMatched(token);
         if (andGroupExceptionMatched) {
           return andGroupExceptionMatched;
         }
@@ -250,10 +252,10 @@ public class Element {
    * @param token Token to match
    * @return True if matched.
    */
-  public final boolean completeExceptionMatch(final AnalyzedToken token) {
+  public final boolean isExceptionMatchedCompletely(final AnalyzedToken token) {
     //note: short-circuiting possible
-    return exceptionMatch(token) 
-        || andGroupExceptionMatch(token);
+    return isExceptionMatched(token) 
+        || isAndExceptionGroupMatched(token);
   }
   
   public final void setAndGroupElement(final Element andToken) {
@@ -292,12 +294,12 @@ public class Element {
    * @param token @AnalyzedToken to check matching against.
    * @return True if any of the exceptions matches.
    */
-  public final boolean scopeNextExceptionMatch(final AnalyzedToken token) {
+  public final boolean isMatchedByScopeNextException(final AnalyzedToken token) {
     boolean exceptionMatched = false;
     if (exceptionSet) {      
       for (final Element testException : exceptionList) {
         if (testException.exceptionValidNext) {
-          exceptionMatched |= testException.match(token);
+          exceptionMatched |= testException.isMatched(token);
         }
         if (exceptionMatched) {
           break;
@@ -313,12 +315,12 @@ public class Element {
    * @param token @AnalyzedToken to check matching against.
    * @return True if any of the exceptions matches.
    */
-  public final boolean scopePreviousExceptionMatch(final AnalyzedToken token) {
+  public final boolean isMatchedByScopePreviousException(final AnalyzedToken token) {
     boolean exceptionMatched = false;
     if (exceptionValidPrevious) {      
       for (final Element testException : previousExceptionList) {
         if (!testException.exceptionValidNext) {
-          exceptionMatched |= testException.match(token);
+          exceptionMatched |= testException.isMatched(token);
         }
         if (exceptionMatched) {
           break;
@@ -469,7 +471,7 @@ public class Element {
    * Special value UNKNOWN_TAG matches null POS tags.
    * 
    */
-  final boolean matchPosToken(final AnalyzedToken token) {
+  final boolean isPosTokenMatched(final AnalyzedToken token) {
     // if no POS set
     // defaulting to true
     if (posToken == null) {
@@ -508,7 +510,7 @@ public class Element {
    * @param token @AnalyzedToken to match against.
    * @return True if matches.
    */
-  final boolean matchStringToken(final AnalyzedToken token) {
+  final boolean isStringTokenMatched(final AnalyzedToken token) {
     String testToken = null;
     // enables using words with lemmas and without lemmas
     // in the same regexp with inflected="yes"
@@ -588,7 +590,7 @@ public class Element {
    * 
    * @return true when this element refers to another token.
    */
-  public final boolean referenceElement() {
+  public final boolean isReferenceElement() {
     return containsMatches;
   }
   
@@ -609,9 +611,16 @@ public class Element {
    * Prepare Element for matching by formatting its string token
    * and POS (if the Element is supposed to refer to some other
    * token).
+   * @param token @AnalyzedTokenReadings - the token 
+   * synth @Syntesizer - the language synthesizer
    *
    */
-  public final void compile() {
+  public final void compile(final AnalyzedTokenReadings token,
+      final Synthesizer synth) {
+    
+    tokenReference.setToken(token);
+    tokenReference.setSynthesizer(synth);
+    
     if ("".equals(referenceString)) {
       referenceString = stringToken;
     }

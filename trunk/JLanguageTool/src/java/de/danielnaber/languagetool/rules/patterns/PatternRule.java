@@ -42,17 +42,17 @@ public class PatternRule extends Rule {
   private String subId;   // because there can be more than one rule in a rule group
 
   private static Language language;
-  
+
   private static final String SUGG_TAG = "<suggestion>";
-  
+
   private String description;
   private String message;
 
   private int startPositionCorrection = 0;
   private int endPositionCorrection = 0;
- 
+
   private List<Element> patternElements;
-  
+
   /** Formatted suggestion elements. **/  
   private List<Match> suggestionMatches;
 
@@ -61,18 +61,18 @@ public class PatternRule extends Rule {
    * in case of matches or skipping).
    */
   private List<Integer> elementNo;
-  
+
   /** 
    * This property is used for short-circuiting
    * evaluation of the elementNo list order.
    */
   private boolean useList = false;
-  
+
   /** Marks whether the rule is a member of a 
    * disjunctive set (in case of OR operation on phraserefs). 
    **/
   private boolean isMemberOfDisjunctiveSet = false;
-  
+
   /**
    * @param id Id of the Rule
    * @param language Language of the Rule
@@ -80,7 +80,7 @@ public class PatternRule extends Rule {
    * @param description Description to be shown (name)
    * @param message Message to be displayed to the user
    */
-  
+
   PatternRule(final String id, final Language language, final List<Element> elements, final String description,
       final String message) {
     if (id == null) {
@@ -100,7 +100,7 @@ public class PatternRule extends Rule {
     this.description = description;
     this.message = message;
     this.patternElements = new ArrayList<Element>(elements); // copy elements
-    
+
     this.elementNo = new ArrayList <Integer>();
     String prevName = "";
     String curName = "";
@@ -138,7 +138,7 @@ public class PatternRule extends Rule {
     this(id, language, elements, description, message);
     this.isMemberOfDisjunctiveSet = isMember;    
   }  
-  
+
   @Override
   public final String getId() {
     return id;
@@ -170,12 +170,12 @@ public class PatternRule extends Rule {
   public final boolean isWithComplexPhrase() {
     return isMemberOfDisjunctiveSet;
   }
-  
+
   /** Reset complex status - used for testing. **/
   public final void notComplexPhrase() {
     isMemberOfDisjunctiveSet = false;
   }
-  
+
   @Override
   public final String toString() {
     return id + ":" + patternElements + ":" + description;
@@ -254,7 +254,7 @@ public class PatternRule extends Rule {
   public final void setMessage(final String message) {
     this.message = message;
   }
-  
+
   public final void setStartPositionCorrection(final int startPositionCorrection) {
     this.startPositionCorrection = startPositionCorrection;
   }  
@@ -262,15 +262,15 @@ public class PatternRule extends Rule {
   public final void setEndPositionCorrection(final int endPositionCorrection) {
     this.endPositionCorrection = endPositionCorrection;
   }
-  
-  
+
+
   @Override
   public final RuleMatch[] match(final AnalyzedSentence text) throws IOException {
-            
+
     final List<RuleMatch> ruleMatches = new ArrayList<RuleMatch>();    
     final AnalyzedTokenReadings[] tokens = text.getTokensWithoutWhitespace();
     final int[] tokenPositions = new int[tokens.length + 1 ];
-    
+
     int tokenPos = 0;
     int prevSkipNext = 0;
     int skipNext = 0;
@@ -328,118 +328,110 @@ public class PatternRule extends Rule {
           for (int l = 0; l < numberOfReadings; l++) {
             final AnalyzedToken matchToken = tokens[m].getAnalyzedToken(l);
             if (prevSkipNext > 0 && prevElement != null
-              && prevElement.scopeNextExceptionMatch(matchToken)) {
-                exceptionMatched = true;
-                prevMatched = true;              
+                && prevElement.isMatchedByScopeNextException(matchToken)) {
+              exceptionMatched = true;
+              prevMatched = true;              
             }
-            if (elem.referenceElement()
-              && (firstMatchToken + elem.getMatch().getTokenRef() 
-                  < tokens.length)) {
-                elem.getMatch().setToken(tokens[firstMatchToken 
-                                       + elem.getMatch().getTokenRef()]);
-                elem.getMatch().setSynthesizer(language.getSynthesizer());
-                elem.compile();
-              }            
-            
+            if (elem.isReferenceElement()
+                && (firstMatchToken + elem.getMatch().getTokenRef() 
+                    < tokens.length)) {
+              elem.compile(tokens[firstMatchToken + 
+                                  elem.getMatch().getTokenRef()],
+                                  language.getSynthesizer());
+            }            
+
             if (elem.hasAndGroup()) {
               for (final Element andElement : elem.getAndGroup()) {
-                if (andElement.referenceElement()
-                 && (firstMatchToken + andElement.getMatch().getTokenRef() 
-                    < tokens.length)) {
-                  andElement.getMatch().setToken(tokens[firstMatchToken 
-                                         + andElement.getMatch().getTokenRef()]);
-                  andElement.getMatch().setSynthesizer(language.getSynthesizer());
-                  andElement.compile();
+                if (andElement.isReferenceElement()
+                    && (firstMatchToken + andElement.getMatch().getTokenRef() 
+                        < tokens.length)) {
+                  andElement.compile(tokens[firstMatchToken 
+                                            + andElement.getMatch().getTokenRef()],
+                                            language.getSynthesizer());
                 }                
-               }              
+              }              
               if (l == 0) { 
                 elem.setupAndGroup();
               }
             }
-                                    
-            thisMatched |= elem.completeMatch(matchToken);            
-            
+
+            thisMatched |= elem.isMatchedCompletely(matchToken);            
+
             if (l + 1 == numberOfReadings && elem.hasAndGroup()) {
               thisMatched &= elem.checkAndGroup(thisMatched);
             }                
-            exceptionMatched |= elem.completeExceptionMatch(matchToken);
-            if (!exceptionMatched && elem.hasPreviousException() && m > 0) {
+            exceptionMatched |= elem.isExceptionMatchedCompletely(matchToken);
+            if (!exceptionMatched && m > 0 && elem.hasPreviousException()) {
               final int numReadings = tokens[m - 1].getReadingsLength();
               for (int p = 0; p < numReadings; p++) {             
-              exceptionMatched |= 
-                elem.scopePreviousExceptionMatch(
-                    tokens[m - 1].getAnalyzedToken(p));
+                exceptionMatched |= 
+                  elem.isMatchedByScopePreviousException(
+                      tokens[m - 1].getAnalyzedToken(p));
+              }
             }
-            }
-            
+
             // Logical OR (cannot be AND):
-            if (!(thisMatched || exceptionMatched)) {
-              matched |= false;
-            } else {
-              matched = true;
-              matchPos = m;
-              skipShift = matchPos - nextPos;              
-              tokenPositions[matchingTokens] = skipShift + 1;              
-            }
-            skipMatch = (skipMatch || matched) && !exceptionMatched;
+              if (thisMatched || exceptionMatched) {
+                matched = true;
+                matchPos = m;
+                skipShift = matchPos - nextPos;              
+                tokenPositions[matchingTokens] = skipShift + 1;
+              } else {
+                matched |= false;                            
+              }
+              skipMatch = (skipMatch || matched) && !exceptionMatched;
           }
-          
+
           //disallow exceptions that should match only current tokens          
           if (!(thisMatched || prevMatched)) {
             exceptionMatched = false;
+            skipMatch = false;
           }
-                    
+
           if (skipMatch) {
             break;
           }
-          
-        }
-        //disallow exceptions that should match only current tokens        
-        if (!(thisMatched || prevMatched)) {
-          skipMatch = false;
+
         }
         allElementsMatch = skipMatch;
         if (skipMatch) {
           prevSkipNext = skipNext;
-        } else {
-          prevSkipNext = 0;
-        }
-        if (allElementsMatch) {                              
           matchingTokens++;
           lastMatchToken = matchPos;          
           if (firstMatchToken == -1) {
             firstMatchToken = matchPos;
           }
-          skipShiftTotal += skipShift;         
+          skipShiftTotal += skipShift;
         } else {
+          prevSkipNext = 0;
           skipShiftTotal = 0;
           break;
-        }
+        }        
       }
-      
+
       tokenPos++;
-      
+
       if (firstMatchToken + matchingTokens >= tokens.length) {
         matchingTokens = tokens.length - firstMatchToken;
       }
-      
+
       if (firstMatchToken + skipShiftTotal + matchingTokens > tokens.length) {
         allElementsMatch = false;
       }
-      
+
       if (allElementsMatch) {
-              
+
         final String errMessage = formatMatches(tokens,
             tokenPositions, firstMatchToken, message);
-                
+
         int correctedStPos = 0;
         if (startPositionCorrection > 0) {        
-        for (int l = 0; l <= startPositionCorrection; l++) {
-          correctedStPos +=  tokenPositions[l];
-        }
-        correctedStPos--;
+          for (int l = 0; l <= startPositionCorrection; l++) {
+            correctedStPos +=  tokenPositions[l];
+          }
+          correctedStPos--;
         }        
-        
+
         int correctedEndPos = 0;
         if (endPositionCorrection < 0) {
           int l = 0;
@@ -447,13 +439,13 @@ public class PatternRule extends Rule {
             correctedEndPos -= tokenPositions[matchingTokens + l - 1];
             l--;
           }
-          }         
-        
+        }         
+
         AnalyzedTokenReadings firstMatchTokenObj = tokens[firstMatchToken + correctedStPos];
         boolean startsWithUppercase = 
           StringTools.startsWithUppercase(firstMatchTokenObj.toString())
           && !matchConvertsCase();
-        
+
         if (firstMatchTokenObj.isSentStart() && tokens.length > firstMatchToken + correctedStPos + 1) {
           // make uppercasing work also at sentence start: 
           firstMatchTokenObj = tokens[firstMatchToken + correctedStPos + 1];
@@ -461,17 +453,17 @@ public class PatternRule extends Rule {
         }
         int fromPos = tokens[firstMatchToken + correctedStPos]
                              .getStartPos();
-//FIXME: this is fishy, assumes that comma should always come before whitespace        
-         if (errMessage.contains(SUGG_TAG + ",") && firstMatchToken + correctedStPos >= 1) {
-            fromPos = tokens[firstMatchToken + correctedStPos - 1].getStartPos() 
-                  + tokens[firstMatchToken + correctedStPos - 1].getToken().length();          
+        //FIXME: this is fishy, assumes that comma should always come before whitespace        
+        if (errMessage.contains(SUGG_TAG + ",") && firstMatchToken + correctedStPos >= 1) {
+          fromPos = tokens[firstMatchToken + correctedStPos - 1].getStartPos() 
+          + tokens[firstMatchToken + correctedStPos - 1].getToken().length();          
         }
-        
+
         final int toPos = tokens[lastMatchToken + correctedEndPos].getStartPos()
         + tokens[lastMatchToken + correctedEndPos].getToken().length();
         if (fromPos < toPos) { //this can happen with some skip="-1" when the last token is not matched
-        final RuleMatch ruleMatch = new RuleMatch(this, fromPos, toPos, errMessage,
-            startsWithUppercase);        
+          final RuleMatch ruleMatch = new RuleMatch(this, fromPos, toPos, errMessage,
+              startsWithUppercase);        
           ruleMatches.add(ruleMatch);        
         }
       } else {
@@ -493,10 +485,10 @@ public class PatternRule extends Rule {
   private boolean matchConvertsCase() {
     boolean convertsCase = false;
     if (suggestionMatches != null          
-      && !suggestionMatches.isEmpty()) {
-        final int sugStart = message.indexOf(SUGG_TAG) + SUGG_TAG.length();
-        convertsCase = ((suggestionMatches.get(0).convertsCase()
-            && message.charAt(sugStart) == '\\'));            
+        && !suggestionMatches.isEmpty()) {
+      final int sugStart = message.indexOf(SUGG_TAG) + SUGG_TAG.length();
+      convertsCase = ((suggestionMatches.get(0).convertsCase()
+          && message.charAt(sugStart) == '\\'));            
     }
     return convertsCase;
   }
@@ -507,7 +499,7 @@ public class PatternRule extends Rule {
     }
     suggestionMatches.add(m);
   }
-   
+
   /**
    * Gets the index of the element indexed by i,
    * adding any offsets because of the phrases in the rule.
@@ -519,12 +511,12 @@ public class PatternRule extends Rule {
       return i;
     }
     int j = 0;    
-      for (int k = 0; k < i; k++) {
-        j += elementNo.get(k); 
+    for (int k = 0; k < i; k++) {
+      j += elementNo.get(k); 
     }
     return j;
   }
-  
+
   /**
    * Returns true when the token in the rule 
    * references a phrase composed of many tokens.
@@ -538,7 +530,7 @@ public class PatternRule extends Rule {
     }
     return elementNo.get(i);
   }
-    
+
   /**
    * Creates a Cartesian product of the arrays stored in the
    * input array.
@@ -572,7 +564,7 @@ public class PatternRule extends Rule {
     return outputList.toArray(new String[outputList.size()]);
   }
 
-  
+
   /**
    * Concatenates the matches, and takes care of 
    * phrases (including inflection using synthesis).
@@ -613,7 +605,7 @@ public class PatternRule extends Rule {
     }    
     return finalMatch;
   }
-  
+
   /** Replace back references generated with &lt;match&gt; and \\1 
    *  in message using Match class, and take care of skipping.   *  
    *  @param toks Array of AnalyzedTokenReadings that were matched against
@@ -621,10 +613,10 @@ public class PatternRule extends Rule {
    *  @param positions Array of relative positions of matched tokens
    *  @param firstMatchTok Position of the first matched token  
    *  @param errorMsg String containing suggestion markup
-  *   @return String Formatted message.
-  *   @throws IOException 
-  *   
-  **/
+   *   @return String Formatted message.
+   *   @throws IOException 
+   *   
+   **/
   private String formatMatches(final AnalyzedTokenReadings[] toks,
       final int[] positions, final int firstMatchTok,
       final String errorMsg) throws IOException {         
@@ -642,7 +634,7 @@ public class PatternRule extends Rule {
     while (errMarker > 0 && numberFollows) {
       final int ind = errorMessage.indexOf("\\"); 
       if (ind > 0) { 
-          if (errorMessage.charAt(ind + 1) >= '1'
+        if (errorMessage.charAt(ind + 1) >= '1'
           && errorMessage.charAt(ind + 1) <= '9') {            
           final int j = errorMessage.charAt(ind + 1) - '1';
           int repTokenPos = 0;
@@ -700,7 +692,7 @@ public class PatternRule extends Rule {
                 newWay = true;
               }
             } else {
-//            FIXME: is this correct? this is how we deal with multiple matches              
+              //            FIXME: is this correct? this is how we deal with multiple matches              
               suggestionMatches.add(suggestionMatches.get(numbersToMatches[j]));
             }
           }
@@ -729,7 +721,7 @@ public class PatternRule extends Rule {
     }  
     return errorMessage;
   }  
-  
+
   @Override
   public void reset() {
     // nothing

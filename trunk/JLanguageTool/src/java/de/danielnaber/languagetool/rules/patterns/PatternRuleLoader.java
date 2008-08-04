@@ -546,7 +546,7 @@ class PatternRuleHandler extends XMLRuleHandler {
     int counter = 0;    
     for (final Element elTest : elList) {
       if (elTest.getPhraseName() != null && counter > 0) {
-        if (elTest.referenceElement()) {
+        if (elTest.isReferenceElement()) {
           final int tokRef = elTest.getMatch().getTokenRef();          
           elTest.getMatch().setTokenRef(
               tokRef + counter - 1);

@@ -171,55 +171,54 @@ public class DisambiguationPatternRule {
           for (int l = 0; l < numberOfReadings; l++) {
             final AnalyzedToken matchToken = tokens[m].getAnalyzedToken(l);
             if (prevSkipNext > 0 && prevElement != null
-                && prevElement.scopeNextExceptionMatch(matchToken)) {
+                && prevElement.isMatchedByScopeNextException(matchToken)) {
               exceptionMatched = true;
               prevMatched = true;              
             }
-            if (elem.referenceElement()
+            if (elem.isReferenceElement()
                 && (firstMatchToken + elem.getMatch().getTokenRef() 
                     < tokens.length)) {
-              elem.getMatch().setToken(tokens[firstMatchToken 
-                                              + elem.getMatch().getTokenRef()]);
-              elem.getMatch().setSynthesizer(language.getSynthesizer());
-              elem.compile();              
+              elem.compile(tokens[firstMatchToken + 
+                                  elem.getMatch().getTokenRef()],
+                                  language.getSynthesizer());
+
             }
             if (elem.hasAndGroup()) {
               for (final Element andElement : elem.getAndGroup()) {
-                if (andElement.referenceElement()
+                if (andElement.isReferenceElement()
                     && (firstMatchToken + andElement.getMatch().getTokenRef() 
                         < tokens.length)) {
-                  andElement.getMatch().setToken(tokens[firstMatchToken 
-                                      + andElement.getMatch().getTokenRef()]);
-                  andElement.getMatch().setSynthesizer(language.getSynthesizer());
-                  andElement.compile();
+                  andElement.compile(tokens[firstMatchToken 
+                                            + andElement.getMatch().getTokenRef()],
+                                            language.getSynthesizer());                  
                 }                               
               }
               if (l == 0) { 
                 elem.setupAndGroup();
               }
             }
-            thisMatched |= elem.completeMatch(matchToken);
+            thisMatched |= elem.isMatchedCompletely(matchToken);
 
             if (l + 1 == numberOfReadings && elem.hasAndGroup()) {
               thisMatched &= elem.checkAndGroup(thisMatched);
             }
 
-            exceptionMatched |= elem.completeExceptionMatch(matchToken);                
+            exceptionMatched |= elem.isExceptionMatchedCompletely(matchToken);                
             if (elem.hasPreviousException() && m > 0) {
               final int numReadings = tokens[m - 1].getReadingsLength();
               for (int p = 0; p < numReadings; p++) {
                 final AnalyzedToken matchExceptionToken = tokens[m - 1].getAnalyzedToken(p);
-                exceptionMatched |= elem.scopePreviousExceptionMatch(matchExceptionToken);
+                exceptionMatched |= elem.isMatchedByScopePreviousException(matchExceptionToken);
               }
             }            
             // Logical OR (cannot be AND):
-            if (!(thisMatched || exceptionMatched)) {
-              matched |= false;
-            } else {
+            if (thisMatched || exceptionMatched) {
               matched = true;
               matchPos = m;
               skipShift = matchPos - nextPos;              
-              tokenPositions[matchingTokens] = skipShift + 1;              
+              tokenPositions[matchingTokens] = skipShift + 1;
+            } else {
+              matched |= false;                            
             }
             skipMatch = (skipMatch || matched) && !exceptionMatched;
           }
@@ -227,6 +226,7 @@ public class DisambiguationPatternRule {
           //disallow exceptions that should match only current tokens          
           if (!(thisMatched || prevMatched)) {
             exceptionMatched = false;
+            skipMatch = false;
           }
 
           if (skipMatch) {
@@ -234,17 +234,9 @@ public class DisambiguationPatternRule {
           }
 
         }
-        //disallow exceptions that should match only current tokens        
-        if (!(thisMatched || prevMatched)) {
-          skipMatch = false;
-        }
         allElementsMatch = skipMatch;
         if (skipMatch) {
           prevSkipNext = skipNext;
-        } else {
-          prevSkipNext = 0;
-        }
-        if (allElementsMatch) {                              
           matchingTokens++;
           //  lastMatchToken = matchPos;           
           if (firstMatchToken == -1) {
@@ -252,9 +244,10 @@ public class DisambiguationPatternRule {
           }
           skipShiftTotal += skipShift;
         } else {
+          prevSkipNext = 0;
           skipShiftTotal = 0;
           break;
-        }
+        }       
       }
 
       tokenPos++;
