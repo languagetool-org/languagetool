@@ -8,7 +8,7 @@ title="Easy editing stylesheet" ?>
 A Russian rule file for LanguageTool
 Copyright (C) 2005 Daniel Naber (http://www.danielnaber.de)
 Copyright (C) 2008 Yakov Reztsov
-$Id: grammar.xml,v 1.6 2008-07-14 19:57:14 milek_pl Exp $
+$Id: grammar.xml,v 1.7 2008-08-04 10:00:19 milek_pl Exp $
 -->
 <rules lang="ru">
     <category name="Пунктуация">
@@ -226,7 +226,7 @@ $Id: grammar.xml,v 1.6 2008-07-14 19:57:14 milek_pl Exp $
             <!--TODO: Detect 2 comma.-->
             <rule>
                 <pattern case_sensitive="yes">
-                    <token negate="yes" regexp="yes">,</token>
+                    <token negate="yes" regexp="yes">,<exception postag="SENT_START"></exception></token>
                     <token regexp="yes">кроме|помимо|вместо|сверх</token>
                 </pattern>
                 <message>Запятая пропущена здесь:<suggestion>\1, \2</suggestion>.</message>
@@ -235,7 +235,7 @@ $Id: grammar.xml,v 1.6 2008-07-14 19:57:14 milek_pl Exp $
             </rule>   
             <rule>
                 <pattern case_sensitive="yes">
-                    <token negate="yes" regexp="yes">,</token>
+                    <token negate="yes" regexp="yes">,<exception postag="SENT_START"></exception></token>
                     <token>за</token>
                     <token>исключением</token>
                 </pattern>
@@ -370,7 +370,7 @@ $Id: grammar.xml,v 1.6 2008-07-14 19:57:14 milek_pl Exp $
             <rule>  
                 <pattern>
                     <token>cо</token>
-                    <token regexp="yes">[аеёиоуыэюяьън].*</token>
+                    <token regexp="yes">[аеёиоуыэюяьънбгдкптфхцч].*</token>
                 </pattern>
                 <message>Неправильная форма предлога. Буква "о" не нужна. Должно быть: <suggestion>c \2</suggestion>.</message>
                 <example type="correct">Иван взял сумку с едой.</example>
@@ -394,6 +394,26 @@ $Id: grammar.xml,v 1.6 2008-07-14 19:57:14 milek_pl Exp $
                 <example type="correct">Из окна выпал пакет.</example>
                 <example type="incorrect"><marker>Изо окна</marker> выпал пакет.</example>
             </rule> 
+        </rulegroup>
+        <rulegroup default="off"  id="S_SO" name="Беглая гласная в предлогах: c, co.">
+            <rule>  
+                <pattern>
+                    <token>с</token>
+                    <token  regexp="yes">[сзшжлрм][йцкнгшщзхфвпрлджчсмтб].*|ль[йцкнгшщзхфвпрлджчсмтб].*</token>
+                </pattern>
+                <message>Неправильная форма предлога. Должно быть: <suggestion>со \2</suggestion>.</message>
+                <example type="correct">Кошка спрыгнула со шкафа.</example>
+                <example type="incorrect">Кошка спрыгнула <marker>с шкафа</marker>.</example>
+            </rule>
+            <rule>  
+                <pattern>
+                    <token>с</token>
+                    <token  regexp="yes">[щв].*</token>
+                </pattern>
+                <message>Неправильная форма предлога. Должно быть: <suggestion>со \2</suggestion>.</message>
+                <example type="correct">Организация начинает работу со вторника.</example>
+                <example type="incorrect">Организация начинает работу <marker>с вторника</marker>.</example>
+            </rule>
         </rulegroup>
     </category>    
     <category name="Стиль">
