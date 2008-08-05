@@ -2,27 +2,36 @@ LanguageTool, a language style checker for English, German, Polish,
 and Dutch with initial support for Spanish, French, and Italian
 Copyright (C) 2005-2008 Daniel Naber (naber at danielnaber de)
 Version ###VERSION###, ###DATE###
-Homepage: http://www.danielnaber.de/languagetool
+Homepage: http://www.languagetool.org
 
 Requirements:
  -Java 1.5 or later
+ -For OpenOffice.org integration, OpenOffice 3.0 beta m26 or later.
+  For older versions of OpenOffice you will need to use 
+  LanguageTool 0.9.2.
 
 Usage:
  -To integrate LanguageTool into OpenOffice.org, you
  can use two methods:
  
  1. Double-click LanguageTool-###VERSION###.oxt. If you
- have OpenOffice.org >2.0.4 integrated into the environment,
- the extension should start installing. Follow the on-screen
- instructions.
+  have OpenOffice.org 3.0 beta integrated into the environment,
+  the extension should start installing. Follow the on-screen
+  instructions.
  
  2. If the above method doesn't work, in OpenOffice.org, 
   call Tools -> Extension Manager -> Add... and browse for the 
   LanguageTool-###VERSION###.oxt file. 
   
-  Open a new document (File -> New ->  Text document) and 
-  you'll have a new menu item "LanguageTool" under the "Tools"
-  menu.
+  Close and restart OpenOffice.org Writer. Type text with an error,
+  e.g. "This is an test." (Make sure the text is set to English.)
+  You should see a blue underline under the word "an". Opening
+  the context menu with the right mouse button offers you a
+  description of the error and a possible correction.
+  
+  Note that there will also be a new menu item "LanguageTool"
+  under the "Tools" menu which you might need to use if 
+  on-the-fly checking doesn't properly work.
   
  -To use the simple demo GUI, first rename the .oxt file
   to zip, then unzip it to a new directory and call:
