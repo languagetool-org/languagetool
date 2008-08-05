@@ -6,7 +6,7 @@ title="Easy editing stylesheet" ?>
 <!--
 Polish Grammar and Typo Rules for LanguageTool
 Copyright (C) 2006-2007 Marcin Miłkowski
-$Id: grammar.xml,v 1.137 2008-07-22 19:26:12 milek_pl Exp $
+$Id: grammar.xml,v 1.138 2008-08-05 18:52:35 milek_pl Exp $
 -->
 <rules lang="pl">
   <phrases>
@@ -1380,6 +1380,42 @@ Powinno być: <suggestion>\2, \3 \4</suggestion>.</message>
       <example type="correct">To jest wyraz „krowa”.</example>
       <example correction="„|”" type="incorrect">To jest wyraz <marker>“</marker>krowa”.</example>
     </rule>
+    <rulegroup id="TZW_CUDZYSLOW" name="Cudzysłów po skrócie „tzw.”">
+      <rule>
+        <pattern mark_from="2">
+          <token>tzw</token>
+          <token>.</token>
+          <token regexp="yes">[„"]</token>
+          <token/>
+        </pattern>
+        <message>Po skrócie „tzw.” nie używa się już cudzysłowu. Poprawnie: <suggestion>\4</suggestion>.</message>
+        <example correction="jednoręki" type="incorrect">To jest tzw. <marker>„jednoręki</marker> bandyta”.</example>
+        <example type="correct">To jest tzw. jednoręki bandyta.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="3">
+          <token>tzw</token>
+          <token>.</token>
+          <token regexp="yes" skip="-1">[„"]</token>
+          <token regexp="yes">["”]</token>
+          <token/>
+        </pattern>
+        <message>Po skrócie „tzw.” nie używa się już cudzysłowu. Poprawnie: <suggestion>\5</suggestion>.</message>
+        <example correction="." type="incorrect">To jest tzw. „jednoręki bandyta<marker>”.</marker></example>
+        <example type="correct">To jest tzw. jednoręki bandyta.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="3">
+          <token>tzw</token>
+          <token>.</token>
+          <token regexp="yes" skip="-1">[„"]</token>
+          <token postag="SENT_END" regexp="yes">[”"]</token>
+        </pattern>
+        <message>Po skrócie „tzw.” nie używa się już cudzysłowu. Poprawnie: <suggestion/>.</message>
+        <example correction="" type="incorrect">Tzw. „jednoręki bandyta<marker>”</marker></example>
+        <example type="correct">Tzw. jednoręki bandyta</example>
+      </rule>
+    </rulegroup>
   </category>
   <category name="Błędy odmiany">
     <rulegroup id="Z_LAM" name="„z łam prasy” (z łamów prasy)">
