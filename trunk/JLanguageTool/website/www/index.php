@@ -2,7 +2,7 @@
 $page = "homepage";
 $title = "LanguageTool";
 $title2 = "Open Source language checker";
-$lastmod = "2008-02-17 19:35:00 CET";
+$lastmod = "2008-08-06 23:35:00 CET";
 include("../include/header.php");
 ?>
 		
@@ -14,23 +14,29 @@ up <em>there/their</em>, <em>no/now</em> etc. It can also detect some
 grammar mistakes. It does not include spell checking. See the <?=show_link("languages", "languages/", 0) ?> 
 page for a list of supported languages.</p>
 
+<p><strong>Update 2008-06-08:</strong> Released version 0.9.3:
+Added support for the new grammar checking API in OpenOffice.org 3.0 beta: displays 
+blue wavy lines for errors automatically and a context menu with suggestions;
+adds initial support for Russian; improves rules for Dutch, English, 
+Polish, Swedish, and German. For a complete list of changes, see
+the <?=show_link("Changelog", "download/CHANGES.txt", 0) ?> for details.</p>
+
 <p><strong>Update June 2008:</strong> Please visit our new
 <?=show_link("LanguageTool Community website", "http://community.languagetool.org", 0) ?>
  that lets you browse all rules for all languages. You can even create 
 new (simple) rules if you're logged in.</p>
 
-<p><strong>Update 2008-02-17:</strong> Released version 0.9.2:
-In OpenOffice.org, LanguageTool is now part of the "Tools" menu. It is now
-distributed as an *.oxt file so you can install it by double-clicking on it.
-Added preliminary support for Swedish. For more changes, see
-the <?=show_link("Changelog", "download/CHANGES.txt", 0) ?> for details.</p>
 
-
-<p><strong>Download:</strong><br />
-<strong><?=show_link("LanguageTool 0.9.2", "download/LanguageTool-0.9.2.oxt", 0) ?></strong>, 9&nbsp;MB,
+<p><strong>Download for OpenOffice.org 3.0 beta (m26 or later):</strong><br />
+<strong><?=show_link("LanguageTool 0.9.3 (for OpenOffice.org 3.0 beta)", "download/LanguageTool-0.9.3.oxt", 0) ?></strong>, 10&nbsp;MB,
 requires <?=show_link("Java", "http://www.java.com/en/download/manual.jsp", 1)?>&nbsp;5.0
-or later -- NOTE: this version currently doesn't work with OpenOffice.org 3.0 beta -- we're working
-on a fix</p>
+or later -- NOTE: this version currently <strong>only</strong> works with OpenOffice.org 3.0 beta m26 or later</p>
+
+
+<p><strong>Download for OpenOffice.org 2.x:</strong><br />
+<strong><?=show_link("LanguageTool 0.9.2 (for OpenOffice.org 2.x)", "download/LanguageTool-0.9.2.oxt", 0) ?></strong>, 9&nbsp;MB,
+requires <?=show_link("Java", "http://www.java.com/en/download/manual.jsp", 1)?>&nbsp;5.0
+or later -- NOTE: this version doesn't work with OpenOffice.org 3.0 beta</p>
 
 <!-- -->
 <p><strong>Try LanguageTool via Java WebStart:</strong><br />
@@ -41,10 +47,13 @@ on a fix</p>
 
 <ul>
 	<li><strong>In OpenOffice.org</strong>:
-	Double click <tt>LanguageTool-0.9.2.oxt</tt> to install it.
+	Double click <tt>LanguageTool-0.9.3.oxt</tt> to install it.
 	If that doesn't work, call <em>Tools -&gt; Extension Manager -&gt; Add...</em>
-	to install it. Open a new window of OpenOffice.org (Ctrl-N)
-	and you'll see a new menu entry "LanguageTool" in the "Tools" menu.</li>
+	to install it. Close OpenOffice.org and re-start it. Type some text
+	with an error (e.g. "This is an test." -- make sure the text language is set
+	to English) and you should see a blue underline (version 0.9.3 only).
+	For version 0.9.2, you'll need to use the "LanguageTool" entries in the "Tools"
+	menu to check a text.</li>
 
 	<li>Also see <?=show_link("Usage", "usage/", 0)?> for using LanguageTool outside of OpenOffice.org.</li>
 </ul>
