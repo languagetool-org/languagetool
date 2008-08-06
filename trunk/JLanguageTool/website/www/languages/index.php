@@ -2,7 +2,7 @@
 $page = "languages";
 $title = "LanguageTool";
 $title2 = "Languages";
-$lastmod = "2007-06-02 15:00:00 CET";
+$lastmod = "2007-08-06 23:00:00 CET";
 include("../../include/header.php");
 ?>
 		
@@ -14,8 +14,8 @@ language is supported.</p>
 
 <!-- Output of RuleOverview.java: -->
 
-<b>Rules in LanguageTool 0.9.3-dev</b><br />
-Date: 2008-03-08<br /><br />
+<b>Rules in LanguageTool 0.9.3</b><br />
+Date: 2008-08-06<br /><br />
 
 <table>
 <tr>
@@ -28,12 +28,14 @@ Date: 2008-03-08<br /><br />
   <th>&nbsp;&nbsp;</th>
   <th align="left">Rule Maintainers</th>
 </tr>
+<!-- 
 <tr><td>Czech</td><td align="right">1 (<a href="http://languagetool.cvs.sourceforge.net/*checkout*/languagetool/JLanguageTool/src/rules/cs/grammar.xml">show</a>)</td><td></td><td align="right">0</td><td></td>
 <td align="right">0</td><td></td><td align="left">Jozef Ličko</td></tr>
-<tr><td>Dutch</td><td align="right">138 (<a href="http://languagetool.cvs.sourceforge.net/*checkout*/languagetool/JLanguageTool/src/rules/nl/grammar.xml">show</a>)</td><td></td><td align="right">0</td><td></td>
+ -->
+<tr><td>Dutch</td><td align="right">142 (<a href="http://languagetool.cvs.sourceforge.net/*checkout*/languagetool/JLanguageTool/src/rules/nl/grammar.xml">show</a>)</td><td></td><td align="right">0</td><td></td>
 <td align="right">0</td><td></td><td align="left"><a href="http://www.opentaal.org">Ruud Baars</a></td></tr>
-<tr><td>English</td><td align="right">256 (<a href="http://languagetool.cvs.sourceforge.net/*checkout*/languagetool/JLanguageTool/src/rules/en/grammar.xml">show</a>)</td><td></td><td align="right">1</td><td></td>
-<td align="right">181</td><td></td><td align="left">Marcin Miłkowski, Daniel Naber</td></tr>
+<tr><td>English</td><td align="right">383 (<a href="http://languagetool.cvs.sourceforge.net/*checkout*/languagetool/JLanguageTool/src/rules/en/grammar.xml">show</a>)</td><td></td><td align="right">1</td><td></td>
+<td align="right">186</td><td></td><td align="left">Marcin Miłkowski, Daniel Naber</td></tr>
 <tr><td>French</td><td align="right">1669 (<a href="http://languagetool.cvs.sourceforge.net/*checkout*/languagetool/JLanguageTool/src/rules/fr/grammar.xml">show</a>)</td><td></td><td align="right">1</td><td></td>
 <td align="right">1</td><td></td><td align="left">Agnes Souque, Hugo Voisard&nbsp;(2006-2007)</td></tr>
 <tr><td>German</td><td align="right">75 (<a href="http://languagetool.cvs.sourceforge.net/*checkout*/languagetool/JLanguageTool/src/rules/de/grammar.xml">show</a>)</td><td></td><td align="right">7</td><td></td>
@@ -42,13 +44,15 @@ Date: 2008-03-08<br /><br />
 <td align="right">0</td><td></td><td align="left"></td></tr>
 <tr><td>Lithuanian</td><td align="right">4 (<a href="http://languagetool.cvs.sourceforge.net/*checkout*/languagetool/JLanguageTool/src/rules/lt/grammar.xml">show</a>)</td><td></td><td align="right">0</td><td></td>
 <td align="right">0</td><td></td><td align="left">Mantas Kriaučiūnas</td></tr>
-<tr><td>Polish</td><td align="right">701 (<a href="http://languagetool.cvs.sourceforge.net/*checkout*/languagetool/JLanguageTool/src/rules/pl/grammar.xml">show</a>)</td><td></td><td align="right">1</td><td></td>
-<td align="right">124</td><td></td><td align="left">Marcin Miłkowski</td></tr>
+<tr><td>Polish</td><td align="right">819 (<a href="http://languagetool.cvs.sourceforge.net/*checkout*/languagetool/JLanguageTool/src/rules/pl/grammar.xml">show</a>)</td><td></td><td align="right">1</td><td></td>
+<td align="right">128</td><td></td><td align="left">Marcin Miłkowski</td></tr>
+<tr><td>Russian</td><td align="right">37 (<a href="http://languagetool.cvs.sourceforge.net/*checkout*/languagetool/JLanguageTool/src/rules/ru/grammar.xml">show</a>)</td><td></td><td align="right">0</td><td></td>
+<td align="right">0</td><td></td><td align="left">Yakov Reztsov</td></tr>
 <tr><td>Slovenian</td><td align="right">5 (<a href="http://languagetool.cvs.sourceforge.net/*checkout*/languagetool/JLanguageTool/src/rules/sl/grammar.xml">show</a>)</td><td></td><td align="right">0</td><td></td>
 <td align="right">0</td><td></td><td align="left">Martin Srebotnjak</td></tr>
 <tr><td>Spanish</td><td align="right">3 (<a href="http://languagetool.cvs.sourceforge.net/*checkout*/languagetool/JLanguageTool/src/rules/es/grammar.xml">show</a>)</td><td></td><td align="right">0</td><td></td>
 <td align="right">1</td><td></td><td align="left"></td></tr>
-<tr><td>Swedish</td><td align="right">4 (<a href="http://languagetool.cvs.sourceforge.net/*checkout*/languagetool/JLanguageTool/src/rules/sv/grammar.xml">show</a>)</td><td></td><td align="right">0</td><td></td>
+<tr><td>Swedish</td><td align="right">17 (<a href="http://languagetool.cvs.sourceforge.net/*checkout*/languagetool/JLanguageTool/src/rules/sv/grammar.xml">show</a>)</td><td></td><td align="right">1</td><td></td>
 <td align="right">0</td><td></td><td align="left">Niklas Johansson</td></tr>
 <tr><td>Ukrainian</td><td align="right">8 (<a href="http://languagetool.cvs.sourceforge.net/*checkout*/languagetool/JLanguageTool/src/rules/uk/grammar.xml">show</a>)</td><td></td><td align="right">1</td><td></td>
 <td align="right">0</td><td></td><td align="left">Andriy Rysin</td></tr>
