@@ -26,7 +26,6 @@ import java.util.ResourceBundle;
 import java.util.Set;
 
 import de.danielnaber.languagetool.language.Contributor;
-import de.danielnaber.languagetool.language.Czech;
 import de.danielnaber.languagetool.language.Demo;
 import de.danielnaber.languagetool.language.Dutch;
 import de.danielnaber.languagetool.language.English;
@@ -35,11 +34,11 @@ import de.danielnaber.languagetool.language.German;
 import de.danielnaber.languagetool.language.Italian;
 import de.danielnaber.languagetool.language.Lithuanian;
 import de.danielnaber.languagetool.language.Polish;
+import de.danielnaber.languagetool.language.Russian;
 import de.danielnaber.languagetool.language.Slovenian;
 import de.danielnaber.languagetool.language.Spanish;
 import de.danielnaber.languagetool.language.Swedish;
 import de.danielnaber.languagetool.language.Ukrainian;
-import de.danielnaber.languagetool.language.Russian;
 import de.danielnaber.languagetool.synthesis.Synthesizer;
 import de.danielnaber.languagetool.tagging.Tagger;
 import de.danielnaber.languagetool.tagging.disambiguation.Disambiguator;
@@ -58,7 +57,7 @@ import de.danielnaber.languagetool.tools.StringTools;
 public abstract class Language {
 
   // NOTE: keep in sync with array below!
-  public final static Language CZECH = new Czech();
+  //public final static Language CZECH = new Czech();
   public final static Language DUTCH = new Dutch();
   public final static Language ENGLISH = new English();
   public final static Language FRENCH = new French();
@@ -80,7 +79,7 @@ public abstract class Language {
    * All languages supported by LanguageTool.
    */
   public static Language[] LANGUAGES = {
-    ENGLISH, GERMAN, POLISH, FRENCH, SPANISH, ITALIAN, DUTCH, LITHUANIAN, UKRAINIAN, RUSSIAN, CZECH, SLOVENIAN, SWEDISH, DEMO
+    ENGLISH, GERMAN, POLISH, FRENCH, SPANISH, ITALIAN, DUTCH, LITHUANIAN, UKRAINIAN, RUSSIAN, SLOVENIAN, SWEDISH, DEMO
     // FIXME: load dynamically from classpath
   };
 
