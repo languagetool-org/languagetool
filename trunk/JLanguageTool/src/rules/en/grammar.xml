@@ -7,7 +7,7 @@ title="Easy editing stylesheet" ?>
 English Grammar and Typo Rules for LanguageTool
 See tagset.txt for the meaning of the POS tags
 Copyright (C) 2001-2007 Daniel Naber (http://www.danielnaber.de)
-$Id: grammar.xml,v 1.71 2008-07-18 08:47:59 milek_pl Exp $
+$Id: grammar.xml,v 1.72 2008-08-07 22:12:55 dnaber Exp $
 -->
 <rules lang="en">
   <!-- ====================================================================== -->
@@ -2044,12 +2044,13 @@ $Id: grammar.xml,v 1.71 2008-07-18 08:47:59 milek_pl Exp $
       <rule>
         <pattern mark_from="1" mark_to="-1">
           <token>on</token>
-          <token postag="NN"><exception postag="CC|UH|DT|WDT|RP|JJ|IN|CD|JJS|JJR|RB.*|VBD|VBN|MD|NNP|NNS" postag_regexp="yes"/><exception regexp="yes">board|display|foot|hand|sale|affidavit|camera|cassette|chat|coach|deposit|diskette|end|file|lease|oath|offer|page|screen|site|strike|target|tour|track</exception></token>
+          <token postag="NN"><exception postag="CC|UH|DT|WDT|RP|JJ|IN|CD|JJS|JJR|RB.*|VBD|VBN|MD|NNP|NNS" postag_regexp="yes"/><exception regexp="yes">board|display|foot|hand|sale|affidavit|camera|cassette|chat|coach|deposit|diskette|end|file|lease|oath|offer|page|screen|site|strike|target|tour|track|how</exception></token>
           <token><exception postag="NN.*" postag_regexp="yes"/></token>
         </pattern>
         <message>The article is missing before the noun: <suggestion><match no="2" postag="+DT"/></suggestion>.</message>
         <example correction="a covenant|the covenant" type="incorrect">ACET would not be able to reclaim tax on <marker>covenant</marker>.</example>
         <example type="correct">Rob Brydon is Keith and Steve Coogan plays Geoff, seen for the first time on screen</example>
+        <example type="correct">There is no science on how we are going to adapt.</example>
       </rule>
       <rule>
         <pattern mark_from="1" mark_to="-1">
