@@ -12,7 +12,7 @@ include("../../include/header.php");
 <td>
 	<a href="art/screenshot_ooo3.png"><img border="0" width="300" height="216" 
 		src="art/screenshot_ooo3_small.png" alt="LanguageTool in OpenOffice.org 3.0" /></a><br />
-		<a href="art/screenshot_ooo.png"><span style="font-size:10px">LanguageTool installed
+		<a href="art/screenshot_ooo3.png"><span style="font-size:10px">LanguageTool installed
 		as an add-on<br/>in OpenOffice.org 3.0 (click to enlarge)</span></a>
 </td>
 </tr>
