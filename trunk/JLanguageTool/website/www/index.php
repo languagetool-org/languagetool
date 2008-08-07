@@ -40,7 +40,7 @@ or later -- NOTE: this version doesn't work with OpenOffice.org 3.0 beta</p>
 
 <!-- -->
 <p><strong>Try LanguageTool via Java WebStart:</strong><br />
-<?=show_link("Start LanguageTool 0.9.2 (9&nbsp;MB)", "webstart/LanguageTool.jnlp", 0) ?></p>
+<?=show_link("Start LanguageTool (10&nbsp;MB)", "webstart/LanguageTool.jnlp", 0) ?></p>
 <!-- -->
 
 <p><strong>Installation and Usage:</strong>
