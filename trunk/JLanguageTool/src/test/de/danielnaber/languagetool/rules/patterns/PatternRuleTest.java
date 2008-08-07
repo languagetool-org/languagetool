@@ -319,7 +319,7 @@ public class PatternRuleTest extends TestCase {
     System.out.println("Running XML pattern tests...");
     prt.setUp();
     final Set<Language> ignoredLanguages = new HashSet<Language>();
-    ignoredLanguages.add(Language.CZECH);   // has no XML rules yet
+    //ignoredLanguages.add(Language.CZECH);   // has no XML rules yet
     prt.testGrammarRulesFromXML(ignoredLanguages, true);
     System.out.println("Tests successful.");
   }
