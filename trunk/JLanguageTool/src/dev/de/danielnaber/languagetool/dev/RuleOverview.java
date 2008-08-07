@@ -113,9 +113,12 @@ public final class RuleOverview {
           }          
           countInRulegroup++;
         }
-        System.out.print("<td align=\"right\">" + (count + countInRulegroup) +
-            " (<a href=\"http://languagetool.cvs.sourceforge.net/*checkout*/languagetool/" +
-            "JLanguageTool/src/rules/" + lang.getShortName() + "/grammar.xml\">show</a>)" + "</td>");
+        System.out.print("<td align=\"right\">" + (count + countInRulegroup) + " (" +
+            "<a href=\"http://languagetool.cvs.sourceforge.net/*checkout*/languagetool/" +
+            "JLanguageTool/src/rules/" + lang.getShortName() + "/grammar.xml\">show</a>/" +
+            "<a href=\"http://community.languagetool.org/rule/list?lang=" +
+            lang.getShortName() + "\">browse</a>" +
+            ")</td>");
       }
       System.out.print("<td></td>");
 
