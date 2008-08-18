@@ -30,6 +30,10 @@ import de.danielnaber.languagetool.tagging.ru.RussianTagger;
 //import de.danielnaber.languagetool.tokenizers.Tokenizer;
 //import de.danielnaber.languagetool.tokenizers.ru.RussianWordTokenizer;
 
+import de.danielnaber.languagetool.tokenizers.SentenceTokenizer;
+import de.danielnaber.languagetool.tokenizers.ru.RussianSentenceTokenizer;
+
+
 public class Russian extends Language {
 
   private static final String[] COUNTRIES = {
@@ -39,6 +43,7 @@ public class Russian extends Language {
   private Tagger tagger = new RussianTagger();
 //  private Tokenizer wordTokenizer = new RussianWordTokenizer();
 //  private Synthesizer synthesizer = new RussianSynthesizer();
+private SentenceTokenizer sentenceTokenizer = new RussianSentenceTokenizer();
 
   public Locale getLocale() {
     return new Locale(getShortName());
@@ -69,6 +74,12 @@ public class Russian extends Language {
 //    return synthesizer;
 //  }
 
+   public SentenceTokenizer getSentenceTokenizer() {
+    return sentenceTokenizer;
+  }
+
+  
+  
   public Contributor[] getMaintainers() {
      return new Contributor[] {new Contributor("Yakov Reztsov")};
   }
