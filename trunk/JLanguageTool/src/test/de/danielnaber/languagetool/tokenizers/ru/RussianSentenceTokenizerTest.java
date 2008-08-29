@@ -79,7 +79,14 @@ public class RussianSentenceTokenizerTest extends TestCase {
     // Missing space after sentence end:
     testSplit(new String[] { "James is from the Ireland!", "He lives in Spain now." });
     // From the Russian abbreviation list:
-    testSplit(new String[] { "Отток капитала из России в период вооруженного конфликта в Грузии составил 7 млрд. долларов, сообщил министр финансов Алексей Кудрин." });    
+    testSplit(new String[] { "Отток капитала из России составил 7 млрд. долларов, сообщил министр финансов Алексей Кудрин." });    
+    testSplit(new String[] { "Журнал издаётся с 1967 г., пользуется большой популярностью в мире." });
+    testSplit(new String[] { "С 2007 г. периодичность выхода газеты – 120 раз в год." });
+    testSplit(new String[] { "Редакция журнала находится в здании по адресу: г. Москва, 110000, улица Мира, д. 1." });
+    testSplit(new String[] { "Все эти вопросы заставляют нас искать ответы в нашей истории 60-80-х гг. прошлого столетия." });
+    testSplit(new String[] { "Более 300 тыс. документов и справочников." });
+    testSplit(new String[] { "Скидки до 50000 руб. на автомобили." });                
+    testSplit(new String[] { "Изготовление визиток любыми тиражами (от 20 шт. до 10 тысяч) в минимальные сроки (от 20 минут)." });  
   }
 
   public final void testSplit(final String[] sentences) {

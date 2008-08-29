@@ -35,7 +35,7 @@ public class RussianSentenceTokenizer extends SentenceTokenizer {
     "млн", "млрд", "наб", "нач", "обл", "обр", "ок", "пер", "ед", "п",
     "пл", "пос", "пр", "просп", "р", "руб", "с", "сб", "св", "см",
     "соч", "ср", "ст", "стр", "т", "тт", "туп", "тыс", "ч", "шт", "экз",
-    "мин", "макс"};
+    "мин", "макс","комн","ул","исп", "км", "дм", "х", "ост" };
 
   // Month names like "Декабрь" that should not be considered a sentence
   // boundary in string like "13. Декабрь".
