@@ -93,6 +93,8 @@ private SentenceTokenizer sentenceTokenizer = new RussianSentenceTokenizer();
     ids.add("WORD_REPEAT_RULE");
     ids.add("WHITESPACE_RULE");    
     // specific to Russian :
+    ids.add("RU_COMPOUNDS");    
+
     return ids;
 	
   }
