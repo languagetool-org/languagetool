@@ -21,31 +21,33 @@
  * but considering exceptions (e.g. abbreviations).
  * 
  * @author Yakov Reztsov 
-*/
-
+ */
 package de.danielnaber.languagetool.tokenizers.ru;
 
 import de.danielnaber.languagetool.tokenizers.SentenceTokenizer;
 
 public class RussianSentenceTokenizer extends SentenceTokenizer {
 
-  private static final String[] ABBREV_LIST = {
-    "м", "мм", "в", "вв", "г", "гг", "гл", "др", "д", "ед",
-    "к", "кв", "кл", "кол", "коп", "куб", "л", "лл", "мл",
-    "млн", "млрд", "наб", "нач", "обл", "обр", "ок", "пер", "ед", "п",
-    "пл", "пос", "пр", "просп", "р", "руб", "с", "сб", "св", "см",
-    "соч", "ср", "ст", "стр", "т", "тт", "туп", "тыс", "ч", "шт", "экз",
-    "мин", "макс","комн","ул","исп", "км", "дм", "х", "ост" };
+    private static final String[] ABBREV_LIST = {
+        "м", "мм", "бульв", "в", "вв", "г", "гг", "га", "гл", "др", "д", "ед", "е",
+        "зам", "и", "к", "кап", "кв", "кл", "кап", "кол", "коп", "куб", "л", "лл",
+        "мл", "лиц", "млн", "млрд", "наб", "нач", "неуд","обл", "обр", "ок", "отл","пер", "ед",
+        "п", "о", "пл", "пос", "пр", "просп", "р", "руб", "с", "сб", "св", "см",
+        "соч", "ср", "ст", "стр", "т", "тт", "тех", "туп", "тыс", "уд", "ч", "чел",
+        "шт", "экз", "мин", "макс", "комн", "ул", "исп", "км", "дм", "х", "хор","ост", "физ",
+        "А", "Б", "В", "Г", "Д", "Е", "Ё", "Ж", "З",
+        "И", "Й", "К", "Л", "М", "Н", "О", "П", "Р",
+        "С", "Т", "У", "Ф", "Х", "Ц", "Ч", "Ш", "Щ",
+        "Э", "Ю", "Я"
+    };
+    // Month names like "Декабрь" that should not be considered a sentence
+    // boundary in string like "13. Декабрь".
+    private static final String[] MONTH_NAMES = {"Январь", "Февраль", "Март", "Апрель", "Май",
+        "Июнь", "Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь"
+    };
 
-  // Month names like "Декабрь" that should not be considered a sentence
-  // boundary in string like "13. Декабрь".
-   
-  private static final String[] MONTH_NAMES = { "Январь", "Февраль", "Март", "Апрель", "Май",
-      "Июнь", "Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь" };
-
-  public RussianSentenceTokenizer() {
-    super(ABBREV_LIST);
-    super.monthNames = MONTH_NAMES;
-  }
- 
+    public RussianSentenceTokenizer() {
+        super(ABBREV_LIST);
+        super.monthNames = MONTH_NAMES;
+    }
 }
