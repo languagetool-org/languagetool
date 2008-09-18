@@ -5,8 +5,8 @@ Copyright (C) 2007 Agnès Souque
 $Id$
 -->
 
-	<!-- ported from Myriam's Gramadoir rules -->
-	
+<!-- ported from Myriam's Gramadoir rules -->
+
 <!--
 RP => Règles Particulières
 RD => Règles par Défaut
@@ -18,6 +18,14 @@ RB => Règles Brutes
 		<rule name="nous">
 			<pattern mark="1">
 				<token postag="R pers .*" postag_regexp="yes"/>
+				<token>nous</token>
+			</pattern>
+			<disambig postag="R pers obj 1 p"/>
+		</rule>
+		<rule name="ce qui nous">
+			<pattern mark="2">
+				<token>ce</token>
+				<token>qui</token>
 				<token>nous</token>
 			</pattern>
 			<disambig postag="R pers obj 1 p"/>
@@ -36,6 +44,14 @@ RB => Règles Brutes
 				<token>vous</token>
 			</pattern>
 			<disambig postag="R pers obj 2 p"/>
+		</rule>
+		<rule name="ce qui vous">
+			<pattern mark="2">
+				<token>ce</token>
+				<token>qui</token>
+				<token>vous</token>
+			</pattern>
+						<disambig postag="R pers obj 2 p"/>
 		</rule>
 		<rule name="R ne vous">
 			<pattern mark="2">
@@ -124,7 +140,7 @@ RB => Règles Brutes
 			</pattern>
 			<disambig postag="R pers suj 2 s"/>
 		</rule>
-		
+
 		<rule name="Nous">
 			<pattern mark="1">
 				<token postag="SENT_START"/>
@@ -135,7 +151,7 @@ RB => Règles Brutes
 		<rule name="nous V/A/R">
 			<pattern mark="0">
 				<token postag="R pers suj 1 p" postag_regexp="yes"/>
-				<token postag="V.*|A|R pers obj .*" postag_regexp="yes"/>					
+				<token postag="V.*|A|R pers obj .*" postag_regexp="yes"/>
 			</pattern>
 			<disambig postag="R pers suj 1 p"/>
 		</rule>
@@ -174,14 +190,14 @@ RB => Règles Brutes
 	</rulegroup>
 
 
-	<rule name ="RP : En + participe présent" id="RP:EN_VPPR">
-		<pattern mark="1">
-			<token>en</token>
-			<token postag="V ppr"/>
-		</pattern>
-		<disambig><match no="1" postag_regexp="yes" postag="V ppr"/></disambig>
-	</rule>
-	
+		<rule name ="RP : En + participe présent" id="RP:EN_VPPR">
+			<pattern mark="1">
+				<token>en</token>
+				<token postag="V ppr"/>
+			</pattern>
+			<disambig><match no="1" postag_regexp="yes" postag="V ppr"/></disambig>
+		</rule>
+
 	<rulegroup name="RP : mon/ton/son" id="RP:MON_TON_SON">
 		<rule name="mon">
 			<pattern mark="0">
@@ -253,24 +269,21 @@ RB => Règles Brutes
 	</rulegroup>
 
 
-	<rule name="RP : Det + Adj ambigu + Nom" id="RP:D_J_AMBIG_N">
-		<pattern mark="1">
-			<token postag="D.*" postag_regexp="yes"/>
-			<token postag="J.*" postag_regexp="yes"/>
-			<token postag="N.*" postag_regexp="yes"/>
-		</pattern>
-		<disambig><match no="2" postag_regexp="yes" postag="J.*"/></disambig>
-	</rule>
-	
-	<rule name="RP : Det + Nom ambigu" id="RP:D_N_AMBIG">
-		<pattern mark="1">
-			<token postag="D.*" postag_regexp="yes"/>
-			<token postag="N.*" postag_regexp="yes"/>
-		</pattern>
-		<disambig><match no="2" postag_regexp="yes" postag="N.*"/></disambig>
-	</rule>
-	
-	
+		<rule name="RP : Det + Adj ambigu + Nom" id="RP:D_J_AMBIG_N">
+			<pattern mark="1">
+				<token postag="D.*" postag_regexp="yes"/>
+				<token postag="J.*" postag_regexp="yes"/>
+				<token postag="N.*" postag_regexp="yes"/>
+			</pattern>
+			<disambig><match no="2" postag_regexp="yes" postag="J.*"/></disambig>
+		</rule>
+		<rule name="RP : Det + Nom ambigu" id="RP:D_N_AMBIG">
+			<pattern mark="1">
+				<token postag="D.*" postag_regexp="yes"/>
+				<token postag="N.*" postag_regexp="yes"/>
+			</pattern>
+			<disambig><match no="2" postag_regexp="yes" postag="N.*"/></disambig>
+		</rule>
 	<rulegroup name="RP : Etre/avoir + participe passé ambigu" id="RP:ÊTRE_AVOIR_VPPA_AMBIG">
 		<rule name="ppa masc sing">
 			<pattern mark="1">
@@ -305,59 +318,45 @@ RB => Règles Brutes
 			<disambig postag="C sub"/>
 		</rule>
 	</rulegroup>
-	
-	
-	<rule name="RP : Indicatif être (suis est sommes)" id="RP:SUIS_EST_SOMMES">
-		<pattern mark="1">
-			<token postag="R pers suj .*|J.*|N.*|A" postag_regexp="yes"/>
-			<token postag="V etre ind pres .*" postag_regexp="yes"/>
-		</pattern>
-		<disambig><match no="2" postag_regexp="yes" postag="V etre ind pres .*"/></disambig>
-	</rule>
-	
-	
-	<rule name="RP : Indicatif avoir (as a ont)" id="RP:AS_A_ONT">
-		<pattern mark="1">
-			<token postag="R pers suj .*|J.*|N.*|A" postag_regexp="yes"/>
-			<token postag="V avoir ind pres .*" postag_regexp="yes"/>
-		</pattern>
-		<disambig><match no="2" postag_regexp="yes" postag="V avoir ind pres .*"/></disambig>
-	</rule>
-
-	
-	<rule name="RP : Être + adj ambigu" id="RP:ETRE_ADJ_AMBIG">
-		<pattern mark="1">
-			<token postag="V etre .*" postag_regexp="yes" skip="2"/>
-			<token postag="J.*" postag_regexp="yes"/>
-		</pattern>
-		<disambig><match no="2" postag_regexp="yes" postag="J.*"/></disambig>
-	</rule>		
-	
-	
-	<rule name="RB : le la les" id="RB:LE_LA_LES">
-		<pattern mark="0">
-			<token postag="D.*" postag_regexp="yes" regexp="yes">l|la|le|les</token>
-		</pattern>
-		<disambig><match no="1" postag_regexp="yes" postag="D.*"/></disambig>
-	</rule>
-	
-
-	<rule name="RB : Préposition" id="RB:PREPOSITION">
-		<pattern mark="0">
-			<token postag="P"/>
-		</pattern>
-		<disambig postag="P"/>
-	</rule>
-
-
-	<rule name="RB : Conjonction de subordination" id="RB:CONJ_SUB">
-		<pattern mark="0">
-			<token postag="C sub"/>
-		</pattern>
-		<disambig postag="C sub"/>
-	</rule>
-
-	
+		<rule name="RP : Indicatif être (suis est sommes)" id="RP:SUIS_EST_SOMMES">
+			<pattern mark="1">
+				<token postag="R pers suj .*|J.*|N.*|A" postag_regexp="yes"/>
+				<token postag="V etre ind pres .*" postag_regexp="yes"/>
+			</pattern>
+			<disambig><match no="2" postag_regexp="yes" postag="V etre ind pres .*"/></disambig>
+		</rule>
+		<rule name="RP : Indicatif avoir (as a ont)" id="RP:AS_A_ONT">
+			<pattern mark="1">
+				<token postag="R pers suj .*|J.*|N.*|A" postag_regexp="yes"/>
+				<token postag="V avoir ind pres .*" postag_regexp="yes"/>
+			</pattern>
+			<disambig><match no="2" postag_regexp="yes" postag="V avoir ind pres .*"/></disambig>
+		</rule>
+		<rule name="RP : Être + adj ambigu" id="RP:ETRE_ADJ_AMBIG">
+			<pattern mark="1">
+				<token postag="V etre .*" postag_regexp="yes" skip="2"/>
+				<token postag="J.*" postag_regexp="yes"/>
+			</pattern>
+			<disambig><match no="2" postag_regexp="yes" postag="J.*"/></disambig>
+		</rule>		
+		<rule name="RB : le la les" id="RB:LE_LA_LES">
+			<pattern mark="0">
+				<token postag="D.*" postag_regexp="yes" regexp="yes">l|la|le|les</token>
+			</pattern>
+			<disambig><match no="1" postag_regexp="yes" postag="D.*"/></disambig>
+		</rule>
+		<rule name="RB : Préposition" id="RB:PREPOSITION">
+			<pattern mark="0">
+				<token postag="P"/>
+			</pattern>
+			<disambig postag="P"/>
+		</rule>
+		<rule name="RB : Conjonction de subordination" id="RB:CONJ_SUB">
+			<pattern mark="0">
+				<token postag="C sub"/>
+			</pattern>
+			<disambig postag="C sub"/>
+		</rule>
 	<rulegroup name="RB : Infinitif" id="RB:INFINITIF">
 		<rule name="infinitif">
 			<pattern mark="0">
@@ -461,87 +460,55 @@ RB => Règles Brutes
 			<disambig  postag="V con pres 1 s"/>
 		</rule>
 	</rulegroup>	
-		
-	
-	
-	<rule name="RD : ambig N/V" id="RD:NOM_VERBE">
-		<pattern mark="0">
-			<and>
-				<token postag="N.*" postag_regexp="yes"/>
-				<token postag="V.*" postag_regexp="yes"/>
-			</and>
-		</pattern>
-		<disambig><match no="1" postag_regexp="yes" postag="N.*"/></disambig>
-	</rule>
-
-	
-	<rule name="RD : ambig J/N" id="RD:ADJ_NOM">
-		<pattern mark="0">
-			<and>
+		<rule name="RD : ambig J/N" id="RD:ADJ_NOM">
+			<pattern mark="0">
+<and>
 				<token postag="J.*" postag_regexp="yes"/>
 				<token postag="N.*" postag_regexp="yes"/>
-			</and>
-		</pattern>
-		<disambig><match no="1" postag_regexp="yes" postag="J.*"/></disambig>
-	</rule>
+</and>
+			</pattern>
+			<disambig><match no="1" postag_regexp="yes" postag="J.*"/></disambig>
+		</rule>
+		<rule name="RB : verbes" id="RB:VERBES">
+			<pattern mark="0">
+				<token postag="V ind .*" postag_regexp="yes"/>
+			</pattern>
+			<disambig><match no="1" postag_regexp="yes" postag="V ind .*"/></disambig>
+		</rule>
 
-	
-	<rule name="RB : noms" id="RB:NOMS">
-		<pattern mark="0">
-			<token postag="N.*" postag_regexp="yes"/>
-		</pattern>
-		<disambig><match no="1" postag_regexp="yes" postag="N.*"/></disambig>
-	</rule>	
+<!-- 	Pour test fausses alertes	
+		<rule name="RB : adjectifs" id="RB:ADJECTIFS">
+			<pattern mark="0">
+				<token postag="J.*" postag_regexp="yes"/>
+			</pattern>
+			<disambig><match no="1" postag_regexp="yes" postag="J.*"/></disambig>
+		</rule>
+-->
 
-	
-	<rule name="RB : verbes" id="RB:VERBES">
-		<pattern mark="0">
-			<token postag="V ind .*" postag_regexp="yes"/>
-		</pattern>
-		<disambig><match no="1" postag_regexp="yes" postag="V ind .*"/></disambig>
-	</rule>
-
-		
-	<rule name="RB : adjectifs" id="RB:ADJECTIFS">
-		<pattern mark="0">
-			<token postag="J.*" postag_regexp="yes"/>
-		</pattern>
-		<disambig><match no="1" postag_regexp="yes" postag="J.*"/></disambig>
-	</rule>
-	
-
-	<rule name="RB : adverbes" id="RB:ADVERBES">
-		<pattern mark="0">
-			<token postag="A"/>
-		</pattern>
-		<disambig postag="A"/>
-	</rule>
-	
-	
-	<rule name="RB : participes passés" id="RB:PPA">
-		<pattern mark="0">
-			<token postag="V ppa .*"/>
-		</pattern>
-		<disambig><match no="1" postag_regexp="yes" postag="V ppa .*"/></disambig>
-	</rule>
-
-
-	<rule name="RB : pronoms relatifs" id="RB:PRO_RELATIFS">
-		<pattern mark="0">
-			<token postag="R rel .*" postag_regexp="yes"/>
-		</pattern>
-		<disambig postag="R rel e sp"/>
-	</rule>
-	
-
-	<rule name="RB : pronoms démonstratifs" id="RB:PRO_DEMONSTRATIFS">
-		<pattern mark="0">
-			<token postag="R dem .*" postag_regexp="yes"/>
-		</pattern>
-		<disambig postag="R dem m s"/>
-	</rule>
-	
-		
+		<rule name="RB : adverbes" id="RB:ADVERBES">
+			<pattern mark="0">
+				<token postag="A"/>
+			</pattern>
+			<disambig postag="A"/>
+		</rule>
+		<rule name="RB : participes passés" id="RB:PPA">
+			<pattern mark="0">
+				<token postag="V ppa .*"/>
+			</pattern>
+			<disambig><match no="1" postag_regexp="yes" postag="V ppa .*"/></disambig>
+		</rule>
+		<rule name="RB : pronoms relatifs" id="RB:PRO_RELATIFS">
+			<pattern mark="0">
+				<token postag="R rel .*" postag_regexp="yes"/>
+			</pattern>
+			<disambig postag="R rel e sp"/>
+		</rule>
+		<rule name="RB : pronoms démonstratifs" id="RB:PRO_DEMONSTRATIFS">
+			<pattern mark="0">
+				<token postag="R dem .*" postag_regexp="yes"/>
+			</pattern>
+			<disambig postag="R dem m s"/>
+		</rule>
 	<rulegroup name="RD : nombres" id="RD:NOMBRES">
 		<rule name="nombres 1">
 			<pattern mark="1">
@@ -558,13 +525,47 @@ RB => Règles Brutes
 			<disambig postag="Y"/>
 		</rule>
 	</rulegroup>
-	
-	
-	<rule name="RP : gens" id="RP:GENS">
-		<pattern mark="0">
-			<token>gens</token>
-		</pattern>
-		<disambig postag="N m p"/>
-	</rule>
-	
+		<rule name="RP : gens" id="RP:GENS">
+			<pattern mark="0">
+				<token>gens</token>
+			</pattern>
+			<disambig postag="N m p"/>
+		</rule>
+		<rule name="RP : plus" id="RP:PLUS">
+			<pattern mark="0">
+				<token>plus</token>
+			</pattern>
+			<disambig postag="A"/>
+		</rule>
+		<rule name="RP : moins" id="RP:MOINS">
+			<pattern mark="0">
+				<token>moins</token>
+			</pattern>
+			<disambig postag="A"/>
+		</rule>
+		<rule name="RP : dix" id="RP:DIX">
+			<pattern mark="0">
+				<token postag="K"/>
+			</pattern>
+			<disambig postag="D e p"/>
+		</rule>
+		<rule name="RP : lettre" id="RP:LETTRE">
+			<pattern mark="0">
+				<token>Lettre</token>
+			</pattern>
+			<disambig postag="N f s"/>
+		</rule>
+		<rule name="RP : pour" id="RP:POUR">
+			<pattern mark="0">
+				<token>pour</token>
+			</pattern>
+			<disambig postag="P"/>
+		</rule>
+		<rule name="RP : sur" id="RP:SUR">
+			<pattern mark="0">
+				<token>sur</token>
+			</pattern>
+			<disambig postag="P"/>
+		</rule>
+
 </rules>

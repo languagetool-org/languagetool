@@ -6,7 +6,7 @@ title="Easy editing stylesheet" ?>
 <!--
 French Grammar and Typo Rules for LanguageTool
 Copyright (C) 2006 Marcin Miłkowski, Agnes Souque, Hugo Voisard & Myriam Lechelt.
-$Id: grammar.xml,v 1.11 2007-12-28 01:15:43 milek_pl Exp $
+$Id: grammar.xml,v 1.12 2008-09-18 19:19:25 milek_pl Exp $
 -->
 <rules lang="fr">
   <phrases>
@@ -364,8 +364,8 @@ though, and has since been slightly modified)-->
         <token>bois</token>
       </pattern>
       <message>«&#160;Planche de bois&#160;» est un pléonasme. Employez <suggestion>planche</suggestion>.</message>
-      <example type="incorrect"><marker>planche de bois</marker></example>
-      <example type="correct"><marker>planche</marker></example>
+      <example type="incorrect">une <marker>planche de bois</marker></example>
+      <example type="correct">une <marker>planche</marker></example>
     </rule>
     <rule id="DEPENSES_SOMPTUAIRES" name="dépenses somptuaires">
       <pattern>
@@ -564,7 +564,7 @@ though, and has since been slightly modified)-->
     <rule id="SE_CE" name="SE au lieu de CE">
       <pattern mark_to="-1">
         <token>se</token>
-        <token postag="N.*|J.*" postag_regexp="yes"/>
+        <token postag="N.*|J.*" postag_regexp="yes"><exception postag="V.*" postag_regexp="yes"/></token>
       </pattern>
       <message>Voulez-vous écrire <suggestion>ce</suggestion>?</message>
       <example type="incorrect"><marker>Se</marker> test montre que ça fonctionne.</example>
@@ -589,7 +589,8 @@ though, and has since been slightly modified)-->
       <example type="correct">Il <marker>m'a</marker> répondu.</example>
       <example type="correct">C'est ma voiture.</example>
     </rule>
-    <rule id="SONT_SON" name="SONT au lieu de SON">
+    <!-- mis en default="off" car cette règle génère des fausses alertes sur toutes les phrases avec un attribut du sujet, etc. -->
+    <rule default="off" id="SONT_SON" name="SONT au lieu de SON">
       <pattern mark_to="-1">
         <token>sont</token>
         <token postag="N.*|J.*" postag_regexp="yes"/>
@@ -625,7 +626,7 @@ though, and has since been slightly modified)-->
     <rule id="CONF_VERBE_NOM" name="Nom au lieu de Verbe">
       <pattern mark_from="1">
         <token postag="R pers suj .*" postag_regexp="yes"/>
-        <token postag="N.*" postag_regexp="yes"/>
+        <token postag="N.*" postag_regexp="yes"><exception negate_pos="yes" postag="N.*" postag_regexp="yes"/></token>
       </pattern>
       <message>Un verbe est attendu après le pronom personnel <suggestion>\1</suggestion>, pas un nom.</message>
       <example type="correct">Je <marker>travaille</marker> tard.</example>
@@ -647,7 +648,7 @@ though, and has since been slightly modified)-->
         <token postag="N.*" postag_regexp="yes"/>
       </pattern>
       <message>Voulez-vous écrire <suggestion>ces</suggestion>, <suggestion>cet</suggestion> ou <suggestion>cette</suggestion> au lieu de '\1'\2'?</message>
-      <example type="incorrect"><marker>C'est</marker> chambre est grande.</example>
+      <example type="incorrect"><marker>C'est</marker> école est grande.</example>
       <example type="correct"><marker>Cette</marker> école est réputée.</example>
     </rule>
     <rule id="EN_TANT_QUE" name="EN TEMPS QUE au lieu de EN TANT QUE">
@@ -663,7 +664,7 @@ though, and has since been slightly modified)-->
     <rule id="ON_ONT" name="ON au lieu de ONT">
       <pattern mark_to="-1">
         <token>ont</token>
-        <token postag="V.*" postag_regexp="yes"><exception postag="V ppa .*" postag_regexp="yes"/></token>
+        <token postag="V.*" postag_regexp="yes"><exception postag="V ppa .*|V etre ppa .*|V avoir ppa .*" postag_regexp="yes"/></token>
       </pattern>
       <message>Voulez-vous écrire <suggestion>on</suggestion> ?</message>
       <example type="correct"><marker>On</marker> a fini.</example>
@@ -698,7 +699,7 @@ though, and has since been slightly modified)-->
       <rule name="masculin suivi du féminin">
         <pattern>
           <token postag="D m .*|J m .*|N m .*" postag_regexp="yes"/>
-          <token postag="J f .*|N f .*" postag_regexp="yes"/>
+          <token postag="J f .*|N f .*" postag_regexp="yes"><exception postag="J m .*|N m .*" postag_regexp="yes"/></token>
         </pattern>
         <message>«&#160;\1&#160;» et «&#160;\2&#160;» ne semblent pas bien accordés en genre</message>
         <example type="correct">le violon</example>
@@ -731,8 +732,8 @@ though, and has since been slightly modified)-->
   <category name="SV">
     <rule id="VCONJ_VCONJ" name="Verbe conjugué suivi d'un verbe conjugué">
       <pattern mark_from="1">
-        <token postag="V .*" postag_regexp="yes" skip="1"><exception inflected="yes" postag="V inf" postag_regexp="yes" regexp="yes">être|paraître|sembler|devenir|demeurer|rester|avoir</exception></token>
-        <token postag="V ppa .*" postag_regexp="yes"/>
+        <token postag="V .*" postag_regexp="yes" skip="1"><exception inflected="yes" postag="V inf|V etre .*|V avoir .*" postag_regexp="yes" regexp="yes">être|paraître|sembler|devenir|demeurer|rester|avoir</exception></token>
+        <token postag="V ppa .*" postag_regexp="yes"><exception inflected="yes" regexp="yes" scope="previous">être|paraître|sembler|devenir|demeurer|rester|avoir</exception></token>
       </pattern>
       <message>L'infinitif est attendu après un verbe conjugué '\1'.</message>
       <example type="correct">Il aime danser</example>
@@ -741,13 +742,32 @@ though, and has since been slightly modified)-->
     <rule id="AUX_VCONJ" name="Auxiliaire suivi d'un verbe conjugué">
       <pattern mark_from="1">
         <token postag="V etre .*|V avoir .*" postag_regexp="yes" skip="1"/>
-        <token postag="V .*" postag_regexp="yes"><exception postag="V ppa .*|V etre ppa .*|V avoir ppa .*" postag_regexp="yes"/></token>
+        <token postag="V .*" postag_regexp="yes"><exception postag="V ppa .*|V etre ppa .*|V avoir ppa .*|V inf.*|V etre inf .*|V avoir inf .*" postag_regexp="yes"/></token>
       </pattern>
       <message>Après l'auxiliaire «&#160;\1&#160;», le verbe devrait être au participe passé</message>
       <example type="correct">Il a signé le contrat</example>
       <example type="correct">Il a reçu ta lettre </example>
-      <example type="incorrect">Il a <marker>signer</marker> le contrat</example>
+      <example type="incorrect">Il a <marker>signez</marker> le contrat</example>
       <example type="incorrect">Il a <marker>reçut</marker> ta lettre</example>
+    </rule>
+    <rule id="AVOIR_INF" name="Auxiliaire avoir suivi d'un verbe à l'infinitif">
+      <pattern mark_from="1">
+        <token postag="V avoir .*" postag_regexp="yes" skip="1"/>
+        <token postag="V inf.*" postag_regexp="yes"><exception postag="N .*" postag_regexp="yes"/></token>
+      </pattern>
+      <message>Après l'auxiliaire «&#160;\1&#160;», le verbe devrait être au participe passé</message>
+      <example type="correct">Il a signé le contrat</example>
+      <example type="incorrect">Il a <marker>signer</marker> le contrat</example>
+    </rule>
+    <rule id="ETRE_INF" name="Auxiliaire être suivi d'un verbe à l'infinitif">
+      <pattern mark_from="1">
+        <token postag="V etre .*" postag_regexp="yes" skip="1"/>
+        <token postag="V inf.*" postag_regexp="yes"><exception scope="previous">de</exception></token>
+      </pattern>
+      <message>Après l'auxiliaire «&#160;\1&#160;», le verbe devrait être au participe passé</message>
+      <example type="correct">Il est arrivé</example>
+      <example type="correct">L'objectif est de réussir</example>
+      <example type="incorrect">Il est <marker>arriver</marker></example>
     </rule>
     <!--FIXME: arrivé is disambiguated to a noun. This is probably wrong...
 
@@ -884,13 +904,22 @@ though, and has since been slightly modified)-->
         <example type="correct">ils travaillent</example>
         <example type="incorrect"><marker>ils travaille</marker></example>
       </rule>
+      <rule name="-ez à la place de -er">
+        <pattern mark_from="1">
+          <token postag="V .* 2 p" postag_regexp="yes"/>
+          <token postag="V .* 2 p" postag_regexp="yes"/>
+        </pattern>
+        <message>Le verbe «&#160;\2&#160;» devrait être à l infinitif</message>
+        <example type="correct">Veuillez <marker>trouver</marker> ci-joint.</example>
+        <example type="incorrect">Veuillez <marker>trouvez</marker> ci-joint.</example>
+      </rule>
     </rulegroup>
     <!-- added by Agnes Souque -->
     <rule id="QUI_VCONJ" name="Verbe conjugué après pronom relatif qui">
       <pattern mark_from="1">
         <token negate_pos="yes" postag="R pers .*|P" postag_regexp="yes"/>
         <token postag="R rel .*" postag_regexp="yes" skip="1">qui</token>
-        <token postag="V .* 1 .*|V .* 2 .*" postag_regexp="yes"/>
+        <token postag="V .* 1 .*|V .* 2 .*" postag_regexp="yes"><exception postag=".*V .* 3.*" postag_regexp="yes"/></token>
       </pattern>
       <message>Le verbe de la relative devrait être à la 3ème personne</message>
       <example type="correct">Les enfants <marker>qui jouent</marker> en bas font du bruit.</example>
@@ -898,6 +927,18 @@ though, and has since been slightly modified)-->
       <example type="incorrect">Les gens <marker>qui étalais</marker> là sont partis.</example>
     </rule>
     <rulegroup id="ACC_SN_V" name="Accord verbe avec groupe nominal">
+      <rule name="test accord pp passé dans une relative">
+        <pattern mark_from="3">
+          <token negate="yes" regexp="yes">plus|moins</token>
+          <token postag="N .* p" postag_regexp="yes"/>
+          <token regexp="yes" skip="-1">que|qu</token>
+          <token postag="V avoir ind.*" postag_regexp="yes" skip="-1"><exception postag="!A" postag_regexp="yes" scope="next"/></token>
+          <token postag="V.*ppa.* s" postag_regexp="yes" skip="1"><exception postag="V inf" postag_regexp="yes" scope="next"/></token>
+        </pattern>
+        <message>Si «&#160;\2&#160;» est l'antécédent du relatif «&#160;\3&#160;», vérifiez l'accord du participe «&#160;\5&#160;».</message>
+        <example type="correct">Les documents qu'ils <marker>ont achetés</marker>.</example>
+        <example type="incorrect">Les documents qu'ils <marker>ont acheté</marker>.</example>
+      </rule>
       <rule name="sujet singulier + verbe pluriel">
         <pattern mark_from="3">
           <token postag="SENT_START"/>
@@ -15947,97 +15988,3 @@ though, and has since been slightly modified)-->
     </rule>
   </category>
 </rules>
-<!---
-Verbs probably missing in the current LT dictionary, forbiding related rules to be implemented and work properly at the moment)
-alunir
-dégrimper
-défrustrer
-débosser
-émotionner
-solutionner
-canter
-anglifier
-antagoniser
-aptchoumer
-apitchoumer
-ad-liber
-adliber
-zipper
-tilter
-avironner
-bâdrer
-canadianiser
-canceller
-reconditionner
-regallairdir
-pensionner
-shouter
-shooter
-driller
-bumper
-watcher
-dealer
-victimiser
-toffer
-tougher
-touer
-spliter
-renforcir
-saper
-ravigorer
-regaillardir
-canceller
-chummer
-briqueller
-abrévier
-abbrévier
-crasher
-écrapoutir
-abrier
-habrier
-abriller
-bitcher
-booster
-distortionner
-choker
-sentencer
-clairer
-clipper
-cliper
-cruiser
-
-discarter
-(cartes) se défausser <br><br> anglicisme
-
-
-dispatcher
-downloader
-digitaliser
-endisquer
-égaler
-extensionner
-faxer
-focuser
-flusher
-flasher
-gricher
-grincher
-impacter
-initialer
-sandwich (une) - genre québécois
-job (une) - genre québécois
-loto (la) - genre québécois
-maller
-nominer
-originer
-performer
-toaster
-pogner
-plugger
--->
-<!--
-Questions I need to ask
-2. How do I tell LT to only take into account a capitalized or non-capitalized word?
-3. What do you think of the missing verb list I have created?
-4. LT doesn't take into account accents to classify words in alphabetical order. Could we add that task to the backlog?
--->
