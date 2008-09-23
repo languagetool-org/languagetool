@@ -46,21 +46,22 @@ import de.danielnaber.languagetool.tools.Tools;
  * @author Daniel Naber
  */
 public class CompoundRule extends SwedishRule {
-
+  //TODO for words with more then one part check if parts of it is compounded.
+  //in env. allt-i-genom+ should match "allt i genom", "allt igenom" as well as "allti genom"
   private static final String FILE_NAME = "/resource/sv/compounds.txt";
-  
+
   private final static int MAX_TERMS = 5;
-  
+
   private Set<String> incorrectCompounds = new HashSet<String>();
   private Set<String> noDashSuggestion = new HashSet<String>();
   private Set<String> onlyDashSuggestion = new HashSet<String>();
-  
+
   public CompoundRule(final ResourceBundle messages) throws IOException {
     if (messages != null)
       super.setCategory(new Category(messages.getString("category_misc")));
     loadCompoundFile(Tools.getStream(FILE_NAME), "UTF-8");
   }
-  
+
   public String getId() {
     return "SV_COMPOUNDS";
   }
@@ -72,7 +73,7 @@ public class CompoundRule extends SwedishRule {
   public RuleMatch[] match(final AnalyzedSentence text) {
     List<RuleMatch> ruleMatches = new ArrayList<RuleMatch>();
     AnalyzedTokenReadings[] tokens = text.getTokensWithoutWhitespace();
-    
+
     RuleMatch prevRuleMatch = null;
     Queue<AnalyzedTokenReadings> prevTokens = new ArrayBlockingQueue<AnalyzedTokenReadings>(MAX_TERMS);
     for (int i = 0; i < tokens.length + MAX_TERMS-1; i++) {
@@ -86,7 +87,7 @@ public class CompoundRule extends SwedishRule {
         addToQueue(token, prevTokens);
         continue;
       }
-      
+
       StringBuilder sb = new StringBuilder();
       int j = 0;
       AnalyzedTokenReadings firstMatchToken = null;
@@ -121,19 +122,22 @@ public class CompoundRule extends SwedishRule {
             repl.add(origStringToCheck.replace(' ', '-'));
             msg = "Dessa ord skrivs samman med bindesträck.";
           }
-          // assume that compounds with more than two parts should always use hyphens:
-          if (!hasAllUppercaseParts(origStringToCheck) && countParts(stringToCheck) <= 2
-              && !onlyDashSuggestion.contains(stringToCheck)) {
+          // Do not assume that compounds with more than two parts should always use hyphens:
+          if (!hasAllUppercaseParts(origStringToCheck) && !onlyDashSuggestion.contains(stringToCheck)) {          
             repl.add(mergeCompound(origStringToCheck));
             msg = "Dessa ord skrivs samman.";
           }
           String[] parts = stringToCheck.split(" ");
-          if (parts.length > 0 && parts[0].length() == 1) {
+          if (parts.length > 0) {
             repl.clear();
             repl.add(origStringToCheck.replace(' ', '-'));
             msg = "Dessa ord skrivs samman med bindesträck.";
           } else if (repl.size() == 0 || repl.size() == 2) {     // == 0 shouldn't happen
+            // did not work as expected so I added repl. explicitly.
             msg = "Dessa ord skrivs samman med eller utan bindesträck.";
+            repl.clear();
+            repl.add(origStringToCheck.replace(' ', '-'));
+            repl.add(mergeCompound(origStringToCheck));
           }
           RuleMatch ruleMatch = new RuleMatch(this, firstMatchToken.getStartPos(), 
               atr.getStartPos() + atr.getToken().length(), msg);
@@ -153,6 +157,12 @@ public class CompoundRule extends SwedishRule {
     return toRuleMatchArray(ruleMatches);
   }
 
+  /**
+   * Replaces dashes with whitespace
+   * e.g. "E-Mail Adresse" -> "E Mail Adresse" so the error can be detected:
+   * @param str
+   * @return str
+   */
   private String normalize(String str) {
     str = str.trim().toLowerCase();
     if (str.indexOf('-') != -1 && str.indexOf(' ') != -1) {
