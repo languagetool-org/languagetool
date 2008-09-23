@@ -39,7 +39,7 @@ If you want to try it out anyway, you can <a href="download/LanguageTool-0.9.3-m
 <p><strong>Download for OpenOffice.org 3.0 beta (m26 or later):</strong><br />
 <strong><?=show_link("LanguageTool 0.9.3 (for OpenOffice.org 3.0 beta)", "download/LanguageTool-0.9.3.oxt", 0) ?></strong>, 10&nbsp;MB,
 requires <?=show_link("Java", "http://www.java.com/en/download/manual.jsp", 1)?>&nbsp;5.0
-or later -- NOTE: this version currently <strong>only</strong> works with OpenOffice.org 3.0 beta m26 or later</p>
+or later. NOTE: this version currently <strong>only</strong> works with OpenOffice.org 3.0 beta m26 or later</p>
  -->
 
 <p><strong>Download for OpenOffice.org 2.x:</strong><br />
