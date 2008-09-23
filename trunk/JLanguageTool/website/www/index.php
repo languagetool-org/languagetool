@@ -2,7 +2,7 @@
 $page = "homepage";
 $title = "LanguageTool";
 $title2 = "Open Source language checker";
-$lastmod = "2008-08-06 23:35:00 CET";
+$lastmod = "2008-09-23 23:35:00 CET";
 include("../include/header.php");
 ?>
 		
@@ -13,6 +13,9 @@ of LanguageTool as a tool to detect errors that a simple spell checker cannot de
 up <em>there/their</em>, <em>no/now</em> etc. It can also detect some
 grammar mistakes. It does not include spell checking. See the <?=show_link("languages", "languages/", 0) ?> 
 page for a list of supported languages.</p>
+
+<p><strong>Update 2008-09-23:</strong> LanguageTool 0.9.3 doesn't work properly due to a bug
+in the OpenOffice.org 3.0 beta versions and release candidates (see below).</p> 
 
 <p><strong>Update 2008-06-08:</strong> Released version 0.9.3:
 Added support for the new grammar checking API in OpenOffice.org 3.0 beta: displays 
@@ -26,12 +29,18 @@ the <?=show_link("Changelog", "download/CHANGES.txt", 0) ?> for details.</p>
  that lets you browse all rules for all languages. You can even create 
 new (simple) rules if you're logged in.</p>
 
-
+<p><strong>Download for OpenOffice.org 3.0 beta (m26 or later):</strong><br />
+Due to a bug in OpenOffice.org (<a href="http://www.openoffice.org/issues/show_bug.cgi?id=93883"
+>Issue 93883</a>), LanguageTool 0.9.3 currently isn't stable, i.e. it's prone to crashes. The bug will hopefully
+be fixed in the final release of OpenOffice.org 3.0.   
+If you want to try it out anyway, you can <a href="download/LanguageTool-0.9.3-may-be-crashing.oxt">download it here</a>.
+</p>
+<!-- 
 <p><strong>Download for OpenOffice.org 3.0 beta (m26 or later):</strong><br />
 <strong><?=show_link("LanguageTool 0.9.3 (for OpenOffice.org 3.0 beta)", "download/LanguageTool-0.9.3.oxt", 0) ?></strong>, 10&nbsp;MB,
 requires <?=show_link("Java", "http://www.java.com/en/download/manual.jsp", 1)?>&nbsp;5.0
 or later -- NOTE: this version currently <strong>only</strong> works with OpenOffice.org 3.0 beta m26 or later</p>
-
+ -->
 
 <p><strong>Download for OpenOffice.org 2.x:</strong><br />
 <strong><?=show_link("LanguageTool 0.9.2 (for OpenOffice.org 2.x)", "download/LanguageTool-0.9.2.oxt", 0) ?></strong>, 9&nbsp;MB,
