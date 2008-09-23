@@ -23,11 +23,11 @@ public class SingletonFactory implements XSingleComponentFactory {
     return createInstanceWithContext(xContext);
   }
 
-  public final synchronized Object createInstanceWithContext(final XComponentContext xContext) throws com.sun.star.uno.Exception {    
-    if (instance == null) {
-      instance = new de.danielnaber.languagetool.openoffice.Main(xContext);
+  public final Object createInstanceWithContext(final XComponentContext xContext) throws com.sun.star.uno.Exception {    
+    if (instance == null) {     
+      instance = new de.danielnaber.languagetool.openoffice.Main(xContext);      
     } else {  
-        instance.changeContext(xContext);      
+      instance.changeContext(xContext);      
     }
     return instance;
   }  

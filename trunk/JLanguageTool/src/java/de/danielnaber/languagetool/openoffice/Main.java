@@ -112,13 +112,7 @@ XLinguServiceEventBroadcaster {
 //use a different name than the stand-alone version to avoid conflicts:
   private static final String CONFIG_FILE = ".languagetool-ooo.cfg";
 
-
   private static final ResourceBundle MESSAGES = JLanguageTool.getMessageBundle();
-
-  //TODO: remove as soon as the spelling window is used for grammar check
-  private XTextDocument xTextDoc;
-
-  private XComponent xComponent; 
 
   private XComponentContext xContext;
 
@@ -131,12 +125,7 @@ XLinguServiceEventBroadcaster {
 
   public Main(final XComponentContext xCompContext) {
     try {
-      xContext = xCompContext;
-      final XMultiComponentFactory xMCF = xCompContext.getServiceManager();
-      final Object desktop = xMCF.createInstanceWithContext("com.sun.star.frame.Desktop", xCompContext);
-      final XDesktop xDesktop = (XDesktop) UnoRuntime.queryInterface(XDesktop.class, desktop);      
-      xComponent = xDesktop.getCurrentComponent();
-      xTextDoc = (XTextDocument) UnoRuntime.queryInterface(XTextDocument.class, xComponent);
+      changeContext(xCompContext);
       final File homeDir = getHomeDir();
       config = new Configuration(homeDir, CONFIG_FILE);
       xEventListeners = new ArrayList<XLinguServiceEventListener>();
@@ -147,18 +136,22 @@ XLinguServiceEventBroadcaster {
   }
 
   public void changeContext(final XComponentContext xCompContext) {
-    try {
-      xContext = xCompContext;
-      final XMultiComponentFactory xMCF = xCompContext.getServiceManager();
-      final Object desktop = xMCF.createInstanceWithContext("com.sun.star.frame.Desktop", xCompContext);
-      final XDesktop xDesktop = (XDesktop) UnoRuntime.queryInterface(XDesktop.class, desktop);      
-      xComponent = xDesktop.getCurrentComponent();
-      xTextDoc = (XTextDocument) UnoRuntime.queryInterface(XTextDocument.class, xComponent);
-    } catch (final Throwable e) {
-      writeError(e);
-      e.printStackTrace();
-    }
+      xContext = xCompContext;          
   }
+  
+  private XComponent getxComponent() {
+    try {
+    final XMultiComponentFactory xMCF = xContext.getServiceManager();
+    final Object desktop = xMCF.createInstanceWithContext("com.sun.star.frame.Desktop", xContext);
+    final XDesktop xDesktop = (XDesktop) UnoRuntime.queryInterface(XDesktop.class, desktop);      
+    final XComponent xComponent = xDesktop.getCurrentComponent();
+    return xComponent;
+   } catch (final Throwable e) {
+    writeError(e);
+    e.printStackTrace();
+    return null;
+   }
+  }  
 
   /**
    * Checks the language under the cursor. Used for opening the
@@ -166,6 +159,7 @@ XLinguServiceEventBroadcaster {
    * @return Language - the language under the visible cursor.
    */
   private Language getLanguage() {
+    final XComponent xComponent = getxComponent(); 
     if (xComponent == null) {
       return Language.ENGLISH; // for testing with local main() method only
     }
@@ -518,7 +512,7 @@ XLinguServiceEventBroadcaster {
   public static XSingleComponentFactory __getComponentFactory(final String sImplName) {
     SingletonFactory xFactory = null;
     if (sImplName.equals(Main.class.getName())) {
-      xFactory = new SingletonFactory(); //Factory.createComponentFactory(Main.class, Main.getServiceNames());
+      xFactory = new SingletonFactory();
     }
     return xFactory;
   }
@@ -644,8 +638,8 @@ XLinguServiceEventBroadcaster {
       dt.start();
       // TODO: display number of active rules etc?
     } else {
-      ResultDialogThread dialog;
-      xTextDoc = (XTextDocument) UnoRuntime.queryInterface(XTextDocument.class, xComponent);
+      ResultDialogThread dialog;      
+      final XTextDocument xTextDoc = (XTextDocument) UnoRuntime.queryInterface(XTextDocument.class, getxComponent());
       if (textToCheck.isSelection) {
         dialog = new ResultDialogThread(config,
             checkerThread.getLanguageTool().getAllRules(),
@@ -662,6 +656,7 @@ XLinguServiceEventBroadcaster {
   //TODO: remove as soon the native OOo dialog is flawless
   @Deprecated
   private TextToCheck getText() {
+    final XTextDocument xTextDoc = (XTextDocument) UnoRuntime.queryInterface(XTextDocument.class, getxComponent());    
     com.sun.star.container.XEnumerationAccess xParaAccess = (com.sun.star.container.XEnumerationAccess) UnoRuntime
     .queryInterface(com.sun.star.container.XEnumerationAccess.class, xTextDoc.getText());
     if (xParaAccess == null) {
@@ -797,7 +792,7 @@ XLinguServiceEventBroadcaster {
 
     @Override
     public void run() {
-      final XModel model = (XModel)UnoRuntime.queryInterface(XModel.class, xComponent);
+      final XModel model = (XModel)UnoRuntime.queryInterface(XModel.class, getxComponent());
       final XWindow parentWindow = model.getCurrentController().getFrame().getContainerWindow();
       final XWindowPeer parentWindowPeer = (XWindowPeer) UnoRuntime.queryInterface(XWindowPeer.class, parentWindow);
       final OOoAboutDialog about = 
