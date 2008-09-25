@@ -37,8 +37,8 @@ title="Easy editing stylesheet" ?>
         <token>m</token>
         <token>fl</token>
       </pattern>
-      <message> Denna förkortning skrivs i regel med punkter: <suggestion>m.fl.</suggestion> . </message>
-      <example correction="" type="correct">Vi tar med oss Maria, Jens, Sara <marker>m.fl.</marker> och åker till Jönköping.</example>
+      <message> Denna förkortning skrivs i regel med punkter: <suggestion>m.fl.</suggestion>. </message>
+      <example type="correct">Vi tar med oss Maria, Jens, Sara <marker>m.fl.</marker> och åker till Jönköping.</example>
       <example correction="m.fl." type="incorrect">Vi tar med oss Maria, Jens, Sara <marker>m fl</marker> och åker till Jönköping.</example>
     </rule>
     <rule default="off" id="T_EX"
@@ -47,18 +47,18 @@ title="Easy editing stylesheet" ?>
         <token>t</token>
         <token>ex</token>
       </pattern>
-      <message> Denna förkortning skrivs i regel med punkter: <suggestion>t.ex.</suggestion> . </message>
-      <example correction="t\.ex\." type="correct"> Vi tar <marker>t.ex.</marker> fem myror och fyra elefanter. </example>
-      <example type="incorrect"> Vi tar <marker>t ex</marker> fem myror och fyra elefanter. </example>
+      <message> Denna förkortning skrivs i regel med punkter: <suggestion>t.ex.</suggestion>. </message>
+      <example type="correct"> Vi tar <marker>t.ex.</marker> fem myror och fyra elefanter. </example>
+      <example correction="t.ex." type="incorrect"> Vi tar <marker>t ex</marker> fem myror och fyra elefanter. </example>
     </rule>
     <rule default="off" id="TEX"
           name="Förkortningen skrivs normalt med punkter (t.ex.)">
       <pattern>
         <token>tex</token>
       </pattern>
-      <message> Denna förkortning skrivs i regel med punkter: <suggestion>m.fl.</suggestion> . </message>
-      <example correction="t\.ex\." type="correct"> Vi tar <marker>t.ex.</marker> fem myror och fyra elefanter. </example>
-      <example type="incorrect"> Vi tar <marker>tex</marker> fem myror och fyra elefanter. </example>
+      <message> Denna förkortning skrivs i regel med punkter: <suggestion>t.ex.</suggestion>. </message>
+      <example type="correct"> Vi tar <marker>t.ex.</marker> fem myror och fyra elefanter. </example>
+      <example correction="t.ex." type="incorrect"> Vi tar <marker>tex</marker> fem myror och fyra elefanter. </example>
     </rule>
   </category>
   <!-- ====================================================================== -->
@@ -74,9 +74,9 @@ title="Easy editing stylesheet" ?>
         <!-- All adjectives exept the ones in neuter -->
         <token postag="NN:OF:S.*" postag_regexp="yes"/>
       </pattern>
-      <message> Adjektivet är böjt i positiv utrum (\2) och borde då föregås av ordet <suggestion>en \2 \3</suggestion> istället för "ett" alternativt böjas i positiv neutrum. </message>
+      <message> Adjektivet är böjt i positiv utrum (\2) och borde då föregås av ordet "en" istället för "ett" alternativt böjas i positiv neutrum. Menade du: <suggestion>en \2 \3</suggestion>.</message>
       <example type="correct"> Det var <marker>en mörk kväll</marker>. </example>
-      <example type="incorrect"> Det var <marker>ett mörk kväll</marker> . </example>
+      <example type="incorrect"> Det var <marker>ett mörk kväll</marker>. </example>
     </rule>
     <rulegroup id="FORRE_INNAN_TITEL" name="Förre innan titel">
       <rule>
@@ -108,9 +108,9 @@ title="Easy editing stylesheet" ?>
         </token>
         <token postag="NN:OF:S.*" postag_regexp="yes"/>
       </pattern>
-      <message> Adjektivet "\2" är böjt i positiv neutrum och borde då föregås av ordet <suggestion>"ett"</suggestion> istället för "en" alternativt böjas i positiv utrum. </message>
-      <example correction="ett \2 \3" type="correct"> Det var <marker>ett mörkt rum</marker> . </example>
-      <example type="incorrect"> Det var <marker>en mörkt rum</marker> . </example>
+      <message> Adjektivet "\2" är böjt i positiv neutrum och borde då föregås av ordet "ett" istället för "en" alternativt böjas i positiv utrum. <suggestion>ett \2 \3</suggestion></message>
+      <example type="correct"> Det var <marker>ett mörkt rum</marker>. </example>
+      <example correction="ett mörkt rum" type="incorrect"> Det var <marker>en mörkt rum</marker>. </example>
     </rule>
     <!-- Ett försök att fånga upp anföringsverb som ska föregås av ett kommatecken -->
     <rule id="KommaInnanAnfoeringsverb" name="Komma innan anföringsverb" default="off">
@@ -129,9 +129,9 @@ title="Easy editing stylesheet" ?>
         <token>till</token>
         <token postag="NN.*" postag_regexp="yes"/>
       </pattern>
-      <message>Denna ordföljd är ofta otydlig, försök med att flytta "till" efter substantivet eller byt ut det mot ytterligare.</message>
-      <example correction="" type="correct">Det är nog bäst att du får <marker>en klubba till</marker>.</example>
-      <example type="incorrect">Det är nog bäst att du får <marker>en till klubba</marker>.</example>
+      <message>Denna ordföljd är ofta otydlig, försök med att flytta "till" efter substantivet eller byt ut det mot ytterligare. Dvs. prova att skriva <suggestion>\1 \3 \2</suggestion>.</message>
+      <example type="correct">Det är nog bäst att du får <marker>en klubba till</marker>.</example>
+      <example correction="en klubba till" type="incorrect">Det är nog bäst att du får <marker>en till klubba</marker>.</example>
     </rule>
   </category>
   <!-- ====================================================================== -->
@@ -142,9 +142,9 @@ title="Easy editing stylesheet" ?>
       <pattern>
         <token>överrens</token>
       </pattern>
-      <message>Du menar sannolikt "överens".</message>
-      <example correction="överens" type="correct"> Flickorna kom <marker>överens</marker> . </example>
-      <example type="incorrect"> Flickorna kom <marker>överrens</marker> .. </example>
+      <message>Du menar sannolikt <suggestion>överens</suggestion>.</message>
+      <example type="correct"> Flickorna kom <marker>överens</marker>. </example>
+      <example correction="överens" type="incorrect"> Flickorna kom <marker>överrens</marker>. </example>
     </rule>
     <rule id="MASERA" name="mas_era">
       <pattern>
