@@ -24,6 +24,7 @@ public class Category {
   
   private int priority;
   private String name;
+  private boolean defaultOff = false;
 
   /**
    * Create a new category with the given name and priority.
@@ -56,5 +57,23 @@ public class Category {
   public String toString() {
     return name + "(prio=" + priority + ")";
   }
+
+  /**
+   * Checks whether the category has been turned off
+   * by default by the category author.
+   * @return True if the category is turned off by
+   * default.
+   */
+  public final boolean isDefaultOff() {
+    return defaultOff;
+  }
+  
+  /**
+   * Turns the category by default off.   
+   **/
+  public final void setDefaultOff() {
+    defaultOff = true;
+  }
+
   
 }

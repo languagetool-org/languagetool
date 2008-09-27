@@ -45,7 +45,7 @@ public abstract class Rule {
    * by default.
    */
   private boolean defaultOff = false;
-
+  
   protected ResourceBundle messages;
 
   /**
@@ -242,5 +242,5 @@ public abstract class Rule {
   public final void setDefaultOff() {
     defaultOff = true;
   }
-  
+
 }

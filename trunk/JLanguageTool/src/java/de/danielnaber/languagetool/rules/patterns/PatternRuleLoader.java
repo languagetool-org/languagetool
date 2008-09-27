@@ -108,6 +108,7 @@ class PatternRuleHandler extends XMLRuleHandler {
   private boolean posRegExp = false;
   
   private boolean defaultOff = false;
+  private boolean defaultOn = false;
   
   private Language language;
   private Category category;
@@ -167,6 +168,11 @@ class PatternRuleHandler extends XMLRuleHandler {
       } else {
         category = new Category(catName);
       }
+      
+      if ("off".equals(attrs.getValue("default"))) {
+        category.setDefaultOff();
+      }
+      
     } else if (qName.equals("rules")) {
       final String languageStr = attrs.getValue("lang");
       language = Language.getLanguageForShortName(languageStr);
@@ -178,6 +184,10 @@ class PatternRuleHandler extends XMLRuleHandler {
       subId++;
       if (!(inRuleGroup && defaultOff)) {
         defaultOff = "off".equals(attrs.getValue("default"));
+      }
+      
+      if (!(inRuleGroup && defaultOn)) {
+        defaultOn = "on".equals(attrs.getValue("default"));
       }
       if (inRuleGroup && id == null) {
         id = ruleGroupId;
@@ -286,6 +296,7 @@ class PatternRuleHandler extends XMLRuleHandler {
       ruleGroupId = attrs.getValue("id");
       ruleGroupDescription = attrs.getValue("name");
       defaultOff = "off".equals(attrs.getValue("default"));
+      defaultOn = "on".equals(attrs.getValue("default"));
       inRuleGroup = true;
     } else if (qName.equals("suggestion") && inMessage) {
       message.append("<suggestion>");
@@ -582,6 +593,11 @@ class PatternRuleHandler extends XMLRuleHandler {
     if (defaultOff) {
       rule.setDefaultOff();
     }
+    
+    if (category.isDefaultOff() && !defaultOn) {
+      rule.setDefaultOff();
+    }
+    
   }
   
   private void phraseElementInit(){

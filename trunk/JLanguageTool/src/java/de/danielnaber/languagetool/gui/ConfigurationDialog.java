@@ -151,6 +151,13 @@ public class ConfigurationDialog implements ActionListener {
         
         if (rule.isDefaultOff()) {
           defaultOffRules.add(rule.getId());
+          if (rule.getCategory().isDefaultOff()) {
+            inactiveCategoryNames.add(rule.getCategory().getName());
+          }
+        } else {
+          if (rule.getCategory().isDefaultOff()) {
+            inactiveCategoryNames.remove(rule.getCategory().getName());
+          }
         }
         
         ActionListener ruleCheckBoxListener = new ActionListener() {
