@@ -35,45 +35,46 @@ public class LanguageBuilder {
   }
 
   /**
-   * Accepts XML files named <tt>rules-xx-language.xml</tt>,
+   * Takes an XML file named <tt>rules-xx-language.xml</tt>,
    * e.g. <tt>rules-de-German.xml</tt> and builds
    * a Language object for that language.
    */
   public static Language makeLanguage(final File file) {
-    if (file!=null) {
-      if (!file.getName().endsWith(".xml"))
-        throw new RuleFilenameException(file);
-      final String[] parts = file.getName().split("-");
-      if (parts.length != 3 || !parts[0].equals("rules") || parts[1].length() != 2)
-        throw new RuleFilenameException(file);
-      
-      Language newLanguage = new Language() {
-        public Locale getLocale() {
-          return new Locale(getShortName());
-        }
-        public Contributor[] getMaintainers() {
-          return null;
-        }
-        public String getShortName() {
-          return parts[1];
-        }
-        public String[] getCountryVariants() {
-          return new String[] {""};
-        }
-        public String getName() {
-          return parts[2].replace(".xml", "");
-        }
-        public Set<String> getRelevantRuleIDs() {
-          return null;
-        }
-        public String getRuleFileName() {
-          return file.getAbsolutePath();
-        }
-      };
-      return newLanguage;
-    } else {
-      return null;
+    if (file == null) {
+      throw new NullPointerException("file argument cannot be null");
     }
+    if (!file.getName().endsWith(".xml")) {
+      throw new RuleFilenameException(file);
+    }
+    final String[] parts = file.getName().split("-");
+    if (parts.length != 3 || !parts[0].equals("rules") || parts[1].length() != 2) {
+      throw new RuleFilenameException(file);
+    }
+    
+    Language newLanguage = new Language() {
+      public Locale getLocale() {
+        return new Locale(getShortName());
+      }
+      public Contributor[] getMaintainers() {
+        return null;
+      }
+      public String getShortName() {
+        return parts[1];
+      }
+      public String[] getCountryVariants() {
+        return new String[] {""};
+      }
+      public String getName() {
+        return parts[2].replace(".xml", "");
+      }
+      public Set<String> getRelevantRuleIDs() {
+        return null;
+      }
+      public String getRuleFileName() {
+        return file.getAbsolutePath();
+      }
+    };
+    return newLanguage;
   }
   
 }
