@@ -168,7 +168,7 @@ public class LanguageManagerDialog implements ActionListener {
   
   static class XMLFileFilter extends FileFilter {
     public boolean accept(final File f) {
-      if (f.getName().toLowerCase().endsWith(".xml"))
+      if (f.getName().toLowerCase().endsWith(".xml") || f.isDirectory())
         return true;
       return false;
     }
