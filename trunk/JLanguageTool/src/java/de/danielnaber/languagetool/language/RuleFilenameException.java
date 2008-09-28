@@ -29,7 +29,9 @@ public class RuleFilenameException extends RuntimeException {
 
   public RuleFilenameException(File file) {
     super("Rule file must be named rules-<xx>-<lang>.xml (<xx> = language code, " +
-        "<lang> = language name), current name: " + file.getName());
+        "<lang> = language name),\n" +
+        "for example: rules-en-English.xml\n" +
+        "Current name: " + file.getName());
   }
   
 }
