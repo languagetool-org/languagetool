@@ -32,7 +32,7 @@ the <?=show_link("Changelog", "download/CHANGES.txt", 0) ?> for details.</p>
  that lets you browse all rules for all languages. You can even create 
 new (simple) rules if you're logged in.</p>
 
-<p><strong>Download for OpenOffice.org 3.0 (<strong>rc3 or later only</strong>):</strong><br />
+<p><strong>Download for OpenOffice.org 3.0 (rc3 or later only):</strong><br />
 <strong><?=show_link("LanguageTool 0.9.4 (for OpenOffice.org 3.0)", "download/LanguageTool-0.9.4.oxt", 0) ?></strong>, 10&nbsp;MB,
 requires <?=show_link("Java", "http://www.java.com/en/download/manual.jsp", 1)?>&nbsp;5.0
 or later. NOTE: this version currently <strong>only</strong> works with OpenOffice.org 3.0rc3 or later</p>
