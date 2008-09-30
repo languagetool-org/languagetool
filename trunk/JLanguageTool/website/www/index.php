@@ -16,7 +16,7 @@ page for a list of supported languages.</p>
 
 <p><strong>Update 2008-09-30:</strong> Released version 0.9.4:
 <ul>
-	<li>Fixed a bug with OpenOffice.org 3.0 integration. <strong>NOTE</strong>: you
+	<li>Fixed a bug with <a href="http://www.openoffice.org">OpenOffice.org</a> 3.0 integration. <strong>NOTE</strong>: you
 		need OpenOffice.org 3.0rc3 or later, earlier versions have bugs that make them crash
 		with LanguageTool</li>
 	<li>Updated rules for French, Swedish, and Russian</li>
