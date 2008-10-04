@@ -6,7 +6,7 @@ title="Easy editing stylesheet" ?>
 <!--
 Polish Grammar and Typo Rules for LanguageTool
 Copyright (C) 2006-2007 Marcin Miłkowski
-$Id: grammar.xml,v 1.138 2008-08-05 18:52:35 milek_pl Exp $
+$Id: grammar.xml,v 1.139 2008-10-04 15:13:36 milek_pl Exp $
 -->
 <rules lang="pl">
   <phrases>
@@ -5104,6 +5104,15 @@ lub <suggestion>\2 na prawach wyłączności</suggestion>.</message>
     </rule>
   </category>
   <category name="Błędy ortograficzne">
+    <rule id="PAR_EXCELLENCE" name="„par excellance” (par excellence)">
+      <pattern>
+        <token>par</token>
+        <token regexp="yes">exce(l|ll)ance|excelence</token>
+      </pattern>
+      <message>Błąd w pisowni. Poprawnie: <suggestion>par excellence</suggestion>.</message>
+      <example correction="par excellence" type="incorrect">Dla judaizmu Biblia ma charakter księgi pedagogicznej <marker>par excellance</marker>.</example>
+      <example type="correct">Dla judaizmu Biblia ma charakter księgi pedagogicznej par excellence.</example>
+    </rule>
     <rulegroup id="NA_PRZOD" name="„na przód” (naprzód)">
       <rule>
         <pattern>
