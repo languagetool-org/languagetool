@@ -6,7 +6,7 @@ title="Easy editing stylesheet" ?>
 <!--
 Polish Grammar and Typo Rules for LanguageTool
 Copyright (C) 2006-2007 Marcin Miłkowski
-$Id: grammar.xml,v 1.139 2008-10-04 15:13:36 milek_pl Exp $
+$Id: grammar.xml,v 1.140 2008-10-04 20:54:15 milek_pl Exp $
 -->
 <rules lang="pl">
   <phrases>
@@ -1418,6 +1418,14 @@ Powinno być: <suggestion>\2, \3 \4</suggestion>.</message>
     </rulegroup>
   </category>
   <category name="Błędy odmiany">
+    <rule id="KULISOW" name="„kulisów” (kulis)">
+      <pattern>
+        <token>kulisów</token>
+      </pattern>
+      <message>Jeśli nie chodzi o azjatyckich tragarzy, tylko o teatr lub tajniki jakichś spraw, należy w dopełniaczu liczby mnogiej napisać: <suggestion>kulis</suggestion> (l. poj. „kulisa”).</message>
+      <example correction="kulis" type="incorrect">Nie znam <marker>kulisów</marker> tej sprawy.</example>
+      <example type="correct">Poseł nie chciał zdradzić kulis negocjacji koalicyjnych.</example>
+    </rule>
     <rulegroup id="Z_LAM" name="„z łam prasy” (z łamów prasy)">
       <rule>
         <pattern mark_from="1" mark_to="-1">
@@ -4733,6 +4741,30 @@ lub <suggestion>\2 na prawach wyłączności</suggestion>.</message>
     </rule>
   </category>
   <category name="Błędy różne">
+    <rulegroup id="NA_POCZ_XX" name="„na początku XX” (na początku XX wieku)">
+      <rule>
+        <pattern mark_to="-1">
+          <token>na</token>
+          <token regexp="yes">początku|końcu</token>
+          <token regexp="yes">[XVI]{1,4}</token>
+          <token negate="yes" regexp="yes">stulecia|wieku|w</token>
+        </pattern>
+        <message>Prawdopodobnie w tym wyrażeniu brakuje wyrazu „wieku”: <suggestion>\1 \2 \3 wieku</suggestion>.</message>
+        <example correction="na początku XX wieku" type="incorrect">Wydarzyło się to <marker>na początku XX</marker>.</example>
+        <example type="correct">Wydarzyło się to na początku XX w.</example>
+      </rule>
+      <rule>
+        <pattern mark_to="-1">
+          <token>u</token>
+          <token regexp="yes">schyłku|końca|zarania</token>
+          <token regexp="yes">[XVI]{1,4}</token>
+          <token negate="yes" regexp="yes">stulecia|wieku|w</token>
+        </pattern>
+        <message>Prawdopodobnie w tym wyrażeniu brakuje wyrazu „wieku”: <suggestion>\1 \2 \3 wieku</suggestion>.</message>
+        <example correction="u zarania XX wieku" type="incorrect">Wydarzyło się to <marker>u zarania XX</marker>.</example>
+        <example type="correct">Wydarzyło się to u schyłku XX w.</example>
+      </rule>
+    </rulegroup>
     <rulegroup id="LICZBA_PROC" name="liczba słownie + „%” (proc.)">
       <rule>
         <pattern mark_from="1" mark_to="-1">
@@ -5104,6 +5136,15 @@ lub <suggestion>\2 na prawach wyłączności</suggestion>.</message>
     </rule>
   </category>
   <category name="Błędy ortograficzne">
+    <rule id="WIEZA_EIFFELA" name="„wieża Eiffela” (wieża Eiffla)">
+      <pattern>
+        <token inflected="yes">wieża</token>
+        <token>Eiffela</token>
+      </pattern>
+      <message>Nieprawidłowa pisownia. Poprawnie: <suggestion>\1 Eiffla</suggestion> (wymowa: Ajfla).</message>
+      <example correction="wieżą Eiffla" type="incorrect">Spędźmy dziką noc pod <marker>wieżą Eiffela</marker>!</example>
+      <example type="correct">W Warszawie nie ma nic, co przypominałoby wieżę Eiffla.</example>
+    </rule>
     <rule id="PAR_EXCELLENCE" name="„par excellance” (par excellence)">
       <pattern>
         <token>par</token>
@@ -5444,7 +5485,7 @@ Znacznie częściej ta forma jest mylona z trybem rozkazującym od „pokazać�
     <rule id="BEZ_POSREDNI" name="„bez pośredni, bez wypadkowy...” (bezpośredni, bezwypadkowy)">
       <pattern>
         <token>bez</token>
-        <token inflected="yes" regexp="yes"><exception postag=".*gen[\.:].*" postag_regexp="yes"/>adresowy|alkoholowy|awaryjny|apelacyjny|barwny|bateryjny|bolesny|cenny|celowy|chmurny|czelny|czynny|dyskusyjny|duszny|imienny|interesowny|listny|mięsny|partyjny|płatny|płciowy|pośredni|radny|robotny|sensowny|silny|sporny|silny|sporny|sprzeczny|użyteczny|wartościowy|warunkowy|wypadkowy|względny|wolny</token>
+        <token inflected="yes" regexp="yes"><exception postag=".*gen[\.:].*" postag_regexp="yes"/>adresowy|alkoholowy|awaryjny|apelacyjny|barwny|bateryjny|bolesny|cenny|celowy|chmurny|czelny|czynny|dyskusyjny|duszny|imienny|interesowny|kompromisowy|listny|mięsny|partyjny|płatny|płciowy|pośredni|radny|robotny|sensowny|silny|sporny|silny|sporny|sprzeczny|użyteczny|wartościowy|warunkowy|wypadkowy|względny|wolny</token>
       </pattern>
       <message>Prawdopodobny błąd ortograficzny. Ten przymiotnik piszemy łącznie: <suggestion>\1\2</suggestion>.</message>
       <example correction="bezwypadkowy" type="incorrect">Mój samochód jest całkowicie <marker>bez wypadkowy</marker>.</example>
@@ -7462,6 +7503,15 @@ Znacznie częściej ta forma jest mylona z trybem rozkazującym od „pokazać�
     </rule>
   </category>
   <category name="Prawdopodobne literówki">
+    <rule id="WSZECH_RZECZY" name="„wszech rzeczy” (wszechrzeczy)">
+      <pattern>
+        <token>wszech</token>
+        <token>rzeczy</token>
+      </pattern>
+      <message>Ten wyraz zwykle pisze się łącznie: <suggestion>\1\2</suggestion>.</message>
+      <example correction="wszechrzeczy" type="incorrect">Człowiek miarą <marker>wszech rzeczy</marker>.</example>
+      <example type="correct">Człowiek miarą wszechrzeczy.</example>
+    </rule>
     <rulegroup id="NIEZGODNOSC_KONCOWEK" name="Niezgodne końcówki rodzaju żeńskiego">
       <rule>
         <pattern mark_from="2" mark_to="0">
