@@ -63,7 +63,7 @@ public class UppercaseSentenceStartRule extends Rule {
     String secondToken = null;
     String thirdToken = null;
     // ignore quote characters:
-    if (tokens.length >= 3 && ("'".equals(firstToken) || "\"".equals(firstToken))) {
+    if (tokens.length >= 3 && ("'".equals(firstToken) || "\"".equals(firstToken) || "„".equals(firstToken))) {
       matchTokenPos = 2;
       secondToken = tokens[matchTokenPos].getAnalyzedToken(0).getToken();
     }

@@ -70,6 +70,7 @@ public class CaseRule extends GermanRule {
     sentenceStartExceptions.add(":");
     sentenceStartExceptions.add("\"");
     sentenceStartExceptions.add("'");
+    sentenceStartExceptions.add("„");
     sentenceStartExceptions.add("«");
     sentenceStartExceptions.add("»");
   }
