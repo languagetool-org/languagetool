@@ -51,9 +51,9 @@ public class AboutDialog {
     final String aboutText = 
       StringTools.getLabel(messages.getString("guiMenuAbout"));
     JOptionPane.showMessageDialog(null, "LanguageTool " + JLanguageTool.VERSION + "\n" + 
-        "Copyright (C) 2005-2007 Daniel Naber\n"+
+        "Copyright (C) 2005-2008 Daniel Naber\n"+
         "This software is licensed under the GNU Lesser General Public License.\n"+
-        "LanguageTool Homepage: http://www.danielnaber.de/languagetool\n\n"+
+        "LanguageTool Homepage: http://www.languagetool.org\n\n"+
         "Maintainers of the language modules:\n"+
         maintainersInfo.toString(),
         aboutText, JOptionPane.INFORMATION_MESSAGE);
