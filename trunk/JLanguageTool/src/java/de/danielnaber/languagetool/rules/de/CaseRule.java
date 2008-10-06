@@ -288,7 +288,8 @@ public class CaseRule extends GermanRule {
           !StringTools.isAllUppercase(token) &&
           !exceptions.contains(token) &&
           token.length() > 1 &&     // length limit = ignore abbreviations
-          !analyzedToken.hasReadingOfType(POSType.PROPER_NOUN) &&
+          (!analyzedToken.hasReadingOfType(POSType.PROPER_NOUN) &&
+           !analyzedToken.isSentenceEnd()) &&
           !isExceptionPhrase(i, tokens)) {
         String msg = "Außer am Satzanfang werden nur Nomen und Eigennamen groß geschrieben";
         RuleMatch ruleMatch = new RuleMatch(this, tokens[i].getStartPos(),
