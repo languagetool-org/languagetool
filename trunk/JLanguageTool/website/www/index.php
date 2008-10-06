@@ -2,7 +2,7 @@
 $page = "homepage";
 $title = "LanguageTool";
 $title2 = "Open Source language checker";
-$lastmod = "2008-09-30 23:35:00 CET";
+$lastmod = "2008-10-06 23:35:00 CET";
 include("../include/header.php");
 ?>
 		
@@ -13,6 +13,16 @@ of LanguageTool as a tool to detect errors that a simple spell checker cannot de
 up <em>there/their</em>, <em>no/now</em> etc. It can also detect some
 grammar mistakes. It does not include spell checking. See the <?=show_link("languages", "languages/", 0) ?> 
 page for a list of supported languages.</p>
+
+<p><strong>Update 2008-10-06:</strong> The LanguageTool maintainer team (Marcin Miłkowski
+and Daniel Naber) just received
+a <a href="http://development.openoffice.org/awardees-2008.html">Gold Award</a> in
+the Sun Microsystems Community Innovation Program! The work honored with this award is
+both the <a href="http://www.openoffice.org">OpenOffice.org</a> integration that is part of
+LanguageTool 0.9.4 (download below) and the <a href="http://community.languagetool.org">Community
+website</a> that lets you browse LanguageTool's error rules and vote whether an error
+message is useful or not.</p>
+
 
 <p><strong>Update 2008-09-30:</strong> Released version 0.9.4:
 <ul>
