@@ -77,6 +77,24 @@ public class AnalyzedGermanTokenReadings extends AnalyzedTokenReadings {
     return false;
   }
 
+  /**
+   * Return true if the analyzed word is a sentence or paragraph end.
+   * @return
+   */
+  public boolean isSentenceEnd() {
+    if (anTokReadings == null) {
+      return false;
+    }
+    for (AnalyzedToken reading : anTokReadings) {
+      if (reading.getPOSTag() != null) {
+        if (reading.getPOSTag().equals("SENT_END") || reading.getPOSTag().equals("PARA_END")) {      
+          return true;
+        }
+      }
+    }
+    return false;
+  }
+
   public boolean hasReading(GermanToken.Kasus kasus) {
     if (anTokReadings == null)
       return false;
