@@ -74,7 +74,7 @@ public final class XMLValidator {
    */
   public final void validate(String filename, String dtdFile, String docType) throws IOException {
     try {
-      String xml = StringTools.readFile(this.getClass().getResourceAsStream(filename));
+      String xml = StringTools.readFile(this.getClass().getResourceAsStream(filename), "utf-8");
       validateInternal(xml, dtdFile, docType);
     } catch (Exception e) {
       IOException ioe = new IOException("Cannot load or parse '"+filename+"'");
