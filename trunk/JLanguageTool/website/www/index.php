@@ -45,7 +45,8 @@ new (simple) rules if you're logged in.</p>
 <p><strong>Download for OpenOffice.org 3.0 (rc3 or later only):</strong><br />
 <strong><?=show_link("LanguageTool 0.9.4 (for OpenOffice.org 3.0)", "download/LanguageTool-0.9.4.oxt", 0) ?></strong>, 10&nbsp;MB,
 requires <?=show_link("Java", "http://www.java.com/en/download/manual.jsp", 1)?>&nbsp;5.0
-or later. NOTE: this version currently <strong>only</strong> works with OpenOffice.org 3.0rc3 or later</p>
+or later. NOTE: this version currently <strong>only works with OpenOffice.org 3.0</strong> or later
+and you need to <strong>restart OpenOffice.org</strong> after installation of this extension</p>
 
 <p><strong>Download for OpenOffice.org 2.x:</strong><br />
 <strong><?=show_link("LanguageTool 0.9.2 (for OpenOffice.org 2.x)", "download/LanguageTool-0.9.2.oxt", 0) ?></strong>, 9&nbsp;MB,
