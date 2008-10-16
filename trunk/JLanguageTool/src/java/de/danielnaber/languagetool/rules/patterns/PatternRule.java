@@ -212,7 +212,7 @@ public class PatternRule extends Rule {
     sb.append("\"");
     // for now, case sensitivity is per pattern, not per element,
     // so just use the setting of the first element:
-    if (patternElements.get(0).getCaseSensitive()) {
+    if (patternElements.size() > 0 && patternElements.get(0).getCaseSensitive()) {
       sb.append(" case_sensitive=\"yes\"");
     }
     sb.append(">\n");
