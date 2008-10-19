@@ -274,7 +274,7 @@ public class CaseRule extends GermanRule {
         analyzedGermanToken2 = tagger.lookup(token.toLowerCase());
       } catch (IOException e) {
         throw new RuntimeException(e);      
-        }
+      }
       if (analyzedToken.getAnalyzedToken(0).getPOSTag() == null && analyzedGermanToken2 == null) {
         continue;
       }
@@ -285,11 +285,11 @@ public class CaseRule extends GermanRule {
       }
       
       if (Character.isUpperCase(token.charAt(0)) && !sentenceStartExceptions.contains(tokens[i-1].getToken()) &&
+          token.length() > 1 &&     // length limit = ignore abbreviations
           !StringTools.isAllUppercase(token) &&
           !exceptions.contains(token) &&
-          token.length() > 1 &&     // length limit = ignore abbreviations
-          (!analyzedToken.hasReadingOfType(POSType.PROPER_NOUN) &&
-           !analyzedToken.isSentenceEnd()) &&
+          !analyzedToken.hasReadingOfType(POSType.PROPER_NOUN) &&
+          !analyzedToken.isSentenceEnd() &&
           !isExceptionPhrase(i, tokens)) {
         String msg = "Außer am Satzanfang werden nur Nomen und Eigennamen groß geschrieben";
         RuleMatch ruleMatch = new RuleMatch(this, tokens[i].getStartPos(),
