@@ -77,6 +77,8 @@ public class CaseRule extends GermanRule {
   
   private static final Set<String> exceptions = new HashSet<String>();
   static {
+    exceptions.add("Toter");
+    exceptions.add("Verantwortlicher");
     exceptions.add("Wichtiges");
     exceptions.add("Dr");
     exceptions.add("Prof");
@@ -166,6 +168,7 @@ public class CaseRule extends GermanRule {
 
   private static final Set<String> substVerbenExceptions = new HashSet<String>();
   static {
+    substVerbenExceptions.add("gehören");
     substVerbenExceptions.add("bedeutet");    // "und das bedeutet..."
     substVerbenExceptions.add("ermöglicht");    // "und das ermöglicht..."
     substVerbenExceptions.add("sollen");
