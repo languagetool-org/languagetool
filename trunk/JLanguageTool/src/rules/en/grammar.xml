@@ -7,7 +7,7 @@ title="Easy editing stylesheet" ?>
 English Grammar and Typo Rules for LanguageTool
 See tagset.txt for the meaning of the POS tags
 Copyright (C) 2001-2007 Daniel Naber (http://www.danielnaber.de)
-$Id: grammar.xml,v 1.73 2008-10-21 23:38:56 milek_pl Exp $
+$Id: grammar.xml,v 1.74 2008-10-21 23:53:59 milek_pl Exp $
 -->
 <rules lang="en">
   <!-- ====================================================================== -->
@@ -1087,6 +1087,16 @@ $Id: grammar.xml,v 1.73 2008-10-21 23:38:56 milek_pl Exp $
     <rulegroup id="LETS_LET" name="Possible typo: 'let's/lets'">
       <rule>
         <pattern mark_to="-1">
+          <token postag="SENT_START"/>
+          <token>Lets</token>
+          <token postag="VB|RB?" postag_regexp="yes"/>
+        </pattern>
+        <message>Possible typo. Did you mean <suggestion>Let's</suggestion>?</message>
+        <example correction="Let's" type="incorrect"><marker>Lets</marker> go home.</example>
+        <example type="correct">It lets you sleep all night.</example>
+      </rule>
+      <rule>
+        <pattern mark_to="-1">
           <token>let</token>
           <token>'</token>
           <token>s</token>
@@ -1282,6 +1292,16 @@ $Id: grammar.xml,v 1.73 2008-10-21 23:38:56 milek_pl Exp $
         <example type="incorrect"><marker>No</marker> is the right time.</example>
       </rule>
     </rulegroup>
+    <rule id="MANGER_MANAGER" name="Possible typo 'manger/manager'">
+      <pattern mark_from="0">
+        <token regexp="yes">lifespan|bank|team|project|marketing|development|area|group|line|business|branch|production|lan|stage|fund|module|office|system|store|football|presentation|file|product|farm|training|package|program|centre|quality|shop|administration|window|city|care|district|player|transport|campaign|caretaker|deputy|hotel|service|station|unit|forest|section|restaurant|club|database|company|case|desktop|investment|catering|site|account|tour|type|beverage|credit|lead|cricket|practice|programme|publicity|test|trainee|colliery|department|engineering|night|plant|floor|theatre|dealing|duty|house|cinema|estate|brand|insurance|nurse|palace|producer/editorial|safety|storage|technology|town|copy|depot|distribution|mill|county|print|bureau|factory|hospital|library|network|research</token>
+        <token>manger</token>
+      </pattern>
+      <message>Did you mean <suggestion>\1 manager</suggestion>?</message>
+      <example correction="project manager" type="incorrect">He's our new <marker>project manger</marker>.</example>
+      <example type="correct">Jesus lies in the manger.</example>
+      <example type="correct">He's our new project manager.</example>
+    </rule>
     <rule id="MODAL_OF" name="Possible typo 'could of/could have'">
       <pattern mark_to="-1">
         <token regexp="yes">could|would|should|might|may|must|will</token>
