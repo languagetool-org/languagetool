@@ -7,7 +7,7 @@ title="Easy editing stylesheet" ?>
 English Grammar and Typo Rules for LanguageTool
 See tagset.txt for the meaning of the POS tags
 Copyright (C) 2001-2007 Daniel Naber (http://www.danielnaber.de)
-$Id: grammar.xml,v 1.72 2008-08-07 22:12:55 dnaber Exp $
+$Id: grammar.xml,v 1.73 2008-10-21 23:38:56 milek_pl Exp $
 -->
 <rules lang="en">
   <!-- ====================================================================== -->
@@ -1223,10 +1223,11 @@ $Id: grammar.xml,v 1.72 2008-08-07 22:12:55 dnaber Exp $
       <rule>
         <pattern mark_from="0" mark_to="-1">
           <token regexp="yes">its</token>
-          <token regexp="yes">(a|the)</token>
+          <token regexp="yes">(a|the|your|her|his|our|their|mine|ours|theirs|yours)</token>
         </pattern>
         <message>Did you mean <suggestion>it's</suggestion> (=<suggestion>it is</suggestion>) instead of 'its' (possessive pronoun)?</message>
         <example type="correct"><marker>It's</marker> a good opportunity.</example>
+        <example correction="It's|It is" type="incorrect"><marker>Its</marker> his uncle.</example>
         <example type="incorrect"><marker>Its</marker> a good opportunity.</example>
         <example type="triggers_error">Currently, there are fifteen records on <marker>its</marker> A list and twenty on its B list.</example>
       </rule>
