@@ -21,6 +21,7 @@ package de.danielnaber.languagetool.tagging.pl;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import morfologik.stemmers.Lametyzator;
 import de.danielnaber.languagetool.AnalyzedToken;
@@ -37,7 +38,8 @@ import de.danielnaber.languagetool.tagging.BaseTagger;
 public class PolishTagger extends BaseTagger {
 
 	private static final String RESOURCE_FILENAME = "/resource/pl/polish.dict"; 
-	private Lametyzator morfologik = null; 
+	private Lametyzator morfologik = null;
+	private Locale plLocale = new Locale("pl");
 
   @Override
   public void setFileName() {
@@ -61,8 +63,8 @@ public class PolishTagger extends BaseTagger {
       final List<AnalyzedToken> l = new ArrayList<AnalyzedToken>();      
       String[] lowerTaggerTokens = null;
         taggerTokens = morfologik.stemAndForm(word);
-        if (!word.equals(word.toLowerCase())) {
-          lowerTaggerTokens = morfologik.stemAndForm(word.toLowerCase());
+        if (!word.equals(word.toLowerCase(plLocale))) {
+          lowerTaggerTokens = morfologik.stemAndForm(word.toLowerCase(plLocale));
         }
                 
     if (taggerTokens != null) {

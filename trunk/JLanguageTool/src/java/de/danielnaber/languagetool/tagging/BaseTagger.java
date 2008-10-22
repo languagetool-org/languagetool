@@ -21,6 +21,7 @@ package de.danielnaber.languagetool.tagging;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import morfologik.stemmers.Lametyzator;
 import de.danielnaber.languagetool.AnalyzedToken;
@@ -33,12 +34,17 @@ import de.danielnaber.languagetool.AnalyzedTokenReadings;
 public abstract class BaseTagger implements Tagger {
 
   private Lametyzator morfologik = null;
+  private Locale conversionLocale = Locale.getDefault();  
 
  /**
   * Set the filename in a JAR, eg. <tt>/resource/fr/french.dict</tt>.
   **/   
   public abstract void setFileName();
 
+  public void setLocale(Locale loc) {
+    conversionLocale = loc;
+  }
+  
   public List<AnalyzedTokenReadings> tag(final List<String> sentenceTokens) throws IOException {
     String[] taggerTokens;
     List<AnalyzedTokenReadings> tokenReadings = new ArrayList<AnalyzedTokenReadings>();
@@ -53,8 +59,8 @@ public abstract class BaseTagger implements Tagger {
       List<AnalyzedToken> l = new ArrayList<AnalyzedToken>();
       String[] lowerTaggerTokens = null;
       taggerTokens = morfologik.stemAndForm(word);
-      if (!word.equals(word.toLowerCase())) {
-        lowerTaggerTokens = morfologik.stemAndForm(word.toLowerCase());
+      if (!word.equals(word.toLowerCase(conversionLocale))) {
+        lowerTaggerTokens = morfologik.stemAndForm(word.toLowerCase(conversionLocale));
       }
 
       if (taggerTokens != null) {
@@ -88,6 +94,7 @@ public abstract class BaseTagger implements Tagger {
 
   }
 
+  
   /* (non-Javadoc)
    * @see de.danielnaber.languagetool.tagging.Tagger#createNullToken(java.lang.String, int)
    */

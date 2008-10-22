@@ -18,6 +18,8 @@
  */
 package de.danielnaber.languagetool.tagging.fr;
 
+import java.util.Locale;
+
 import morfologik.stemmers.Lametyzator;
 import de.danielnaber.languagetool.tagging.BaseTagger;
 
@@ -32,5 +34,10 @@ public class FrenchTagger extends BaseTagger {
   public final void setFileName() {
     System.setProperty(Lametyzator.PROPERTY_NAME_LAMETYZATOR_DICTIONARY, 
         "/resource/fr/french.dict");    
+  }
+  
+  public FrenchTagger() {
+    super();
+    setLocale(Locale.FRENCH);
   }
 }

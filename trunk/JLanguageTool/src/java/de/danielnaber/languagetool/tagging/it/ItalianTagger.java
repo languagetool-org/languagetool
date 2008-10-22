@@ -18,6 +18,8 @@
  */
 package de.danielnaber.languagetool.tagging.it;
 
+import java.util.Locale;
+
 import morfologik.stemmers.Lametyzator;
 import de.danielnaber.languagetool.tagging.BaseTagger;
 
@@ -37,4 +39,9 @@ public class ItalianTagger extends BaseTagger {
         "/resource/it/italian.dict");    
   }
 
+  public ItalianTagger() {
+    super();
+    setLocale(Locale.ITALIAN);
+  }  
+  
 }

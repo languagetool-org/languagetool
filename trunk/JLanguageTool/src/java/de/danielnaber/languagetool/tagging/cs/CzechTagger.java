@@ -21,6 +21,7 @@ package de.danielnaber.languagetool.tagging.cs;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import morfologik.stemmers.Lametyzator;
 import de.danielnaber.languagetool.AnalyzedToken;
@@ -37,7 +38,9 @@ public class CzechTagger extends BaseTagger {
   private static final String RESOURCE_FILENAME = "/resource/cs/czech.dict";
 
   private Lametyzator morfologik = null;
+  private Locale csLocale = new Locale("cs");
 
+  
   @Override
   public void setFileName() {
     System.setProperty(Lametyzator.PROPERTY_NAME_LAMETYZATOR_DICTIONARY, 
@@ -61,8 +64,8 @@ public class CzechTagger extends BaseTagger {
       final List<AnalyzedToken> l = new ArrayList<AnalyzedToken>();
       String[] lowerTaggerTokens = null;
       taggerTokens = morfologik.stemAndForm(word);
-      if (!word.equals(word.toLowerCase())) {
-        lowerTaggerTokens = morfologik.stemAndForm(word.toLowerCase());
+      if (!word.equals(word.toLowerCase(csLocale))) {
+        lowerTaggerTokens = morfologik.stemAndForm(word.toLowerCase(csLocale));
       }
 
       if (taggerTokens != null) {

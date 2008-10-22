@@ -18,6 +18,8 @@
  */
 package de.danielnaber.languagetool.tagging.sv;
 
+import java.util.Locale;
+
 import morfologik.stemmers.Lametyzator;
 import de.danielnaber.languagetool.tagging.BaseTagger;
 
@@ -29,5 +31,10 @@ public class SwedishTagger extends BaseTagger {
   public void setFileName() {
     System.setProperty(Lametyzator.PROPERTY_NAME_LAMETYZATOR_DICTIONARY, 
         "/resource/sv/swedish.dict");    
+  }
+  
+  public SwedishTagger() {
+    super();
+    setLocale(new Locale("sv"));
   }
 } 

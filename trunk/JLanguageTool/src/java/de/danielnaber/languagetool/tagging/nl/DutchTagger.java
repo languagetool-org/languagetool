@@ -18,6 +18,8 @@
  */
 package de.danielnaber.languagetool.tagging.nl;
 
+import java.util.Locale;
+
 import morfologik.stemmers.Lametyzator;
 import de.danielnaber.languagetool.tagging.BaseTagger;
 
@@ -31,5 +33,10 @@ public class DutchTagger extends BaseTagger {
   public final void setFileName() {
     System.setProperty(Lametyzator.PROPERTY_NAME_LAMETYZATOR_DICTIONARY, 
         "/resource/nl/dutch.dict");    
+  }
+  
+  public DutchTagger() {
+    super();
+    setLocale(new Locale("nl"));
   }
 }
