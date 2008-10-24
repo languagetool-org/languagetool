@@ -78,6 +78,7 @@ public class CaseRule extends GermanRule {
   
   private static final Set<String> exceptions = new HashSet<String>();
   static {
+    exceptions.add("Sankt");
     exceptions.add("Toter");
     exceptions.add("Verantwortlicher");
     exceptions.add("Wichtiges");
@@ -245,7 +246,7 @@ public class CaseRule extends GermanRule {
         }
         if (prevTokenIsDas) {
           // e.g. essen -> Essen
-          String newToken = token.substring(0, 1).toUpperCase() + token.substring(1);
+          String newToken = StringTools.uppercaseFirstChar(token);
           try {
             analyzedGermanToken2 = tagger.lookup(newToken);
             //analyzedGermanToken2.hasReadingOfType(GermanToken.POSType.VERB)
@@ -257,7 +258,7 @@ public class CaseRule extends GermanRule {
             RuleMatch ruleMatch = new RuleMatch(this, tokens[i].getStartPos(),
                 tokens[i].getStartPos()+token.length(), msg);
             String word = tokens[i].getToken();
-            String fixedWord = Character.toUpperCase(word.charAt(0)) + word.substring(1);
+            String fixedWord = StringTools.uppercaseFirstChar(word);
             ruleMatch.setSuggestedReplacement(fixedWord);
             ruleMatches.add(ruleMatch);
           }
