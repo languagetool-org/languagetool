@@ -54,8 +54,18 @@ public class CaseRuleTest extends TestCase {
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("Schon Le Monde schrieb das.")).length);
     // unknown word:
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("In Blubberdorf macht man das so.")).length);
-    // used to trigger an erro because of incorrect compound tokenization:
+
+    // sentences that used to trigger an error because of incorrect compound tokenization:
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("Das sind Euroscheine.")).length);
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence("John Stallman isst.")).length);
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Das ist die neue Gesellschafterin hier.")).length);
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Das ist die neue Dienerin hier.")).length);
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Das ist die neue Geigerin hier.")).length);
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Die ersten Gespanne erreichen Köln.")).length);
+    
+    // used to trigger error because of wrong POS tagging:
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Die Schlinge zieht sich zu.")).length);
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Die Schlingen ziehen sich zu.")).length);
     
     // TODO: nach dem Doppelpunkt wird derzeit nicht auf groß/klein getestet:
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("Das ist es: kein Satz.")).length);
