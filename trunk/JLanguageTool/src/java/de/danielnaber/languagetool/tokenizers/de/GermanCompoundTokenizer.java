@@ -35,6 +35,8 @@ public class GermanCompoundTokenizer implements Tokenizer {
   
   public GermanCompoundTokenizer() throws IOException {
     wordSplitter = new GermanWordSplitter(false);
+    wordSplitter.setStrictMode(true); // required for now to make minimum length work
+    wordSplitter.setMinimumWordLength(3);
   }
   
   public List<String> tokenize(String word) {

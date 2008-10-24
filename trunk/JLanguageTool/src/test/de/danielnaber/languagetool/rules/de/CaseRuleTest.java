@@ -54,6 +54,8 @@ public class CaseRuleTest extends TestCase {
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("Schon Le Monde schrieb das.")).length);
     // unknown word:
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("In Blubberdorf macht man das so.")).length);
+    // used to trigger an erro because of incorrect compound tokenization:
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Das sind Euroscheine.")).length);
     
     // TODO: nach dem Doppelpunkt wird derzeit nicht auf groß/klein getestet:
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("Das ist es: kein Satz.")).length);
