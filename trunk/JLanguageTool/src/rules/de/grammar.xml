@@ -8,11 +8,22 @@ title="Easy editing stylesheet" ?>
 German grammar and typo rules for LanguageTool
 See resource/de/tagset.txt for the meaning of the POS tags
 Copyright (C) 2001-2007 Daniel Naber (http://www.danielnaber.de)
-$Id: grammar.xml,v 1.13 2008-06-11 22:10:26 dnaber Exp $
+$Id: grammar.xml,v 1.14 2008-10-25 11:12:01 dnaber Exp $
 -->
 <rules lang="de">
   <category name="Mögliche Tippfehler">
-    <rulegroup id="MUEHLHEIM_A_D_RUHR" name="Tippfehler: Mühlheim(Mülheim) an der Ruhr">
+    <rulegroup id="CONTRA_PRODUKTIV" name="Tippfehler: 'contra produktiv(kontraproduktiv)'">
+      <rule>
+        <pattern>
+          <token>contra</token>
+          <token>produktiv</token>
+        </pattern>
+        <message>Meinten Sie <suggestion>kontraproduktiv</suggestion>?</message>
+        <example type="correct">Das halte ich für <marker>kontraproduktiv</marker>.</example>
+        <example type="incorrect">Das halte ich für <marker>contra produktiv</marker>.</example>
+      </rule>
+    </rulegroup>
+    <rulegroup id="MUEHLHEIM_A_D_RUHR" name="Tippfehler: 'Mühlheim(Mülheim) an der Ruhr'">
       <rule>
         <pattern>
           <token>Mühlheim</token>
