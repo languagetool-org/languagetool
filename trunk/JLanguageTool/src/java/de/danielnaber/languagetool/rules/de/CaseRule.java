@@ -56,7 +56,7 @@ public class CaseRule extends GermanRule {
     nounIndicators.add("das");
     nounIndicators.add("sein");
     //indicator.add("seines");    // TODO: ?
-    nounIndicators.add("ihr");
+    //nounIndicators.add("ihr");    // would cause false alarm e.g. "Auf ihr stehen die Ruinen..."
     nounIndicators.add("mein");
     nounIndicators.add("dein");
     nounIndicators.add("euer");
