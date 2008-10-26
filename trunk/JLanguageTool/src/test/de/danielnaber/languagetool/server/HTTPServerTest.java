@@ -41,10 +41,10 @@ public class HTTPServerTest extends TestCase {
       // one error:
       assertTrue(check(Language.GERMAN, "ein kleiner test").indexOf("UPPERCASE_SENTENCE_START") != -1);
       // two errors:
-      String result = check(Language.GERMAN, "ein kleiner test. Und wieder Erwarten noch was: öäüß.");
+      String result = check(Language.GERMAN, "ein kleiner test. Und wieder Erwarten noch was: \u00f6\u00e4\u00fc\u00df.");
       assertTrue(result.indexOf("UPPERCASE_SENTENCE_START") != -1);
       assertTrue(result.indexOf("WIEDER_WILLEN") != -1);
-      assertTrue(result.indexOf("öäüß") != -1);   // special chars are intact
+      assertTrue(result.indexOf("\u00f6\u00e4\u00fc\u00df") != -1);   // special chars are intact
       XMLValidator validator = new XMLValidator();
       validator.validateXMLString(result, "/resource/api-output.dtd", "matches");
       validator.checkSimpleXMLString(result);
