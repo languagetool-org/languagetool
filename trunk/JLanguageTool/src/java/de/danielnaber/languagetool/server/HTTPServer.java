@@ -125,7 +125,7 @@ public class HTTPServer extends ContentOracle {
         List<RuleMatch> matches = lt.check(text);
         connResponse.setHeaderLine(ProtocolResponseHeader.Content_Type, "text/xml");
         // TODO: how to set the encoding to utf-8 if we can just return a String?
-        connResponse.setHeaderLine(ProtocolResponseHeader.Content_Encoding, System.getProperty("file.encoding"));
+        connResponse.setHeaderLine(ProtocolResponseHeader.Content_Encoding, "UTF-8");
         String response = StringTools.ruleMatchesToXML(matches, text, CONTEXT_SIZE);
         print("Check done in " + (System.currentTimeMillis()-timeStart) + "ms");
         return response;

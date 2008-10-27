@@ -35,7 +35,7 @@ public class HTTPServerTest extends TestCase {
     try {
       server.run();
       // no error:
-      String enc = System.getProperty("file.encoding");
+      String enc = "UTF-8";
       assertEquals("<?xml version=\"1.0\" encoding=\""+enc+"\"?>\n<matches>\n</matches>\n", check(Language.GERMAN, ""));
       assertEquals("<?xml version=\"1.0\" encoding=\""+enc+"\"?>\n<matches>\n</matches>\n", check(Language.GERMAN, "Ein kleiner test"));
       // one error:

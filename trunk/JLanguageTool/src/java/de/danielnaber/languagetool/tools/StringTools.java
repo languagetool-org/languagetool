@@ -199,7 +199,7 @@ public final class StringTools {
     // IMPORTANT: people rely on this format, don't change it!
     //
     final StringBuilder xml = new StringBuilder();
-    xml.append("<?xml version=\"1.0\" encoding=\"" +System.getProperty("file.encoding")+ "\"?>\n");
+    xml.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
     xml.append("<matches>\n");
     int i = 1;
     for (final RuleMatch match : ruleMatches) {
