@@ -244,6 +244,7 @@ XLinguServiceEventBroadcaster {
       paRes.nEndOfSentencePos = paraText.length();
     }
 
+    if (!"".equals(paraText)) { 
 //  TODO: process different language fragments in a paragraph 
 //  according to their language (currently assumed = locale)
 //  note: this is not yet implemented in the API     
@@ -292,7 +293,8 @@ XLinguServiceEventBroadcaster {
       } catch (final IOException exception) {
         showError(exception);
       }      
-    } 
+    }
+    }
     return paRes;    
   }
 
