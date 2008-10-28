@@ -62,12 +62,12 @@ public class WhitespaceRule extends Rule {
     int i = 1;
     while (i < tokens.length) {
       if (tokens[i].isWhitespace() && prevWhite) {
-        final int pos = tokens[i].getStartPos();
+        final int pos = tokens[i -1].getStartPos();
         while (i < tokens.length && tokens[i].isWhitespace()) {
           prevLen += tokens[i].getToken().length();
           i++;
         }
-        final RuleMatch ruleMatch = new RuleMatch(this, prevPos, pos + prevLen - 1, messages
+        final RuleMatch ruleMatch = new RuleMatch(this, prevPos, pos + prevLen, messages
             .getString("whitespace_repetition"));
         ruleMatch.setSuggestedReplacement(" ");
         ruleMatches.add(ruleMatch);
