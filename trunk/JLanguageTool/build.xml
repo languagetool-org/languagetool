@@ -111,10 +111,10 @@
       <formatter type="brief" usefile="false"/>
       <classpath refid="test.classpath"/>
       
-	  <batchtest fork="yes" todir="${dist.dir}/report/tests" unless="testcase" haltonfailure="yes">
+	  <batchtest fork="yes" todir="${dist.dir}/report/tests" unless="testcase" haltonfailure="no">
 		<fileset dir="${src.test.dir}" includes="**/*Test.java" />
 	  </batchtest>
-      <batchtest fork="yes" todir="${dist.dir}/report/tests" if="testcase" haltonfailure="yes">
+      <batchtest fork="yes" todir="${dist.dir}/report/tests" if="testcase" haltonfailure="no">
 		<fileset dir="${src.test.dir}" includes="**/${testcase}.java"/>
 	  </batchtest>		
 		
