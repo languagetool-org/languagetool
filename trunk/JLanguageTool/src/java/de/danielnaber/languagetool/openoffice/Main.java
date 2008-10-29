@@ -310,7 +310,8 @@ XLinguServiceEventBroadcaster {
     //  the API currently has no support for formatting text in comments 
     final String comment =  myMatch.getMessage().
     replaceAll("<suggestion>", "\"").
-    replaceAll("</suggestion>", "\"");     
+    replaceAll("</suggestion>", "\"").
+    replaceAll("([\r]*\n)"," "); //convert line ends to spaces     
     aError.aFullComment = comment;    
     //  we don't support two kinds of comments
     aError.aShortComment = aError.aFullComment; 
