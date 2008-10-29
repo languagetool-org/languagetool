@@ -206,9 +206,11 @@ XLinguServiceEventBroadcaster {
         return null;
       }
     } catch (final UnknownPropertyException e) {
-      throw new RuntimeException(e);
+      showError(e);
+      return null;
     } catch (final WrappedTargetException e) {
-      throw new RuntimeException(e);
+      showError(e);
+      return null;
     }
     return Language.getLanguageForShortName(charLocale.Language);
   }
@@ -711,7 +713,8 @@ XLinguServiceEventBroadcaster {
         }
       }
     } catch (Exception e) {
-      throw new RuntimeException(e);
+      showError(e);
+      return null;
     }
     return new TextToCheck(paragraphs, false);
   }
@@ -759,7 +762,8 @@ XLinguServiceEventBroadcaster {
   private File getHomeDir() {
     final String homeDir = System.getProperty("user.home");
     if (homeDir == null) {
-      throw new RuntimeException("Could not get home directory");
+      RuntimeException ex = new RuntimeException("Could not get home directory");
+      showError(ex);
     }
     return new File(homeDir);
   }
