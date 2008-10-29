@@ -87,6 +87,11 @@ public class PolishSentenceTokenizerTest extends TestCase {
     TestTools.testSplit(new String[] { "He won't\nReally." }, stokenizer2);
     // Missing space after sentence end:
     testSplit(new String[] { "James is from the Ireland!", "He lives in Spain now." });
+    
+    //from user bug reports:
+    testSplit(new String[] { "Temperatura wody w systemie wynosi 30°C.", "W skład obiegu otwartego wchodzi zbiornik i armatura." });
+    testSplit(new String[] { "Zabudowano kolumny o długości 45 m. ", "Woda z ujęcia jest dostarczana do zakładu." });     
+
     // From the abbreviation list:
     testSplit(new String[] { "Ks. Jankowski jest prof. teologii." });    
     testSplit(new String[] { "To wydarzyło się w 1939 r.", "To był burzliwy rok." });

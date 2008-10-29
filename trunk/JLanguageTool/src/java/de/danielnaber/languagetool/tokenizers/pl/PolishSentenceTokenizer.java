@@ -45,8 +45,8 @@ public class PolishSentenceTokenizer extends SentenceTokenizer {
   private static final Pattern punctUpperLower = Pattern.compile("(" + PAP
       + ")([\\p{Lu}][^\\p{Lu}.])");
   private static final Pattern letterPunct = Pattern.compile("(\\s[\\p{L}]" + P + ")");
-  private static final Pattern abbrev1 = Pattern.compile("([^-\\p{L}”][\\p{L}]" + PAP + "\\s)" + EOS);
-  private static final Pattern abbrev2 = Pattern.compile("([^-\\p{L}][\\p{L}]" + P + ")" + EOS);
+  private static final Pattern abbrev1 = Pattern.compile("([^-\\p{L}\\p{S}”][\\p{L}]" + PAP + "\\s)" + EOS);
+  private static final Pattern abbrev2 = Pattern.compile("([^-\\p{L}\\p{S}][\\p{L}]" + P + ")" + EOS);
   //** Lookahead regexp excludes some possible abbrevs here
   private static final Pattern abbrev3 = Pattern.compile("(\\s(?![rwn])[\\p{L}]\\.\\s+)" + EOS +"(\\p{Ll}\\p{Ll}|\\p{Lu}[\\p{Punct}\\p{Lu}])");
   private static final Pattern abbrev4 = Pattern.compile("(\\.\\.\\. )" + EOS + "([\\p{Ll}])");
