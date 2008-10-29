@@ -227,14 +227,23 @@ XLinguServiceEventBroadcaster {
    */
   public final GrammarCheckingResult doGrammarChecking(final int docID, final String paraText,
       final Locale locale, final int startOfSentencePos, final int suggEndOfSentencePos,
-      final int[] aLanguagePortions, final Locale[] aLanguagePortionsLocales)
-      throws IllegalArgumentException {
+      final int[] aLanguagePortions, final Locale[] aLanguagePortionsLocales) {
     final GrammarCheckingResult paRes = new GrammarCheckingResult();
     paRes.nEndOfSentencePos = suggEndOfSentencePos - startOfSentencePos;
     paRes.xGrammarChecker = this;
     paRes.aLocale = locale;
     paRes.nDocumentId = docID;
     paRes.aText = paraText;
+    try {
+      return doGrammarCheckingInternal(paraText, locale, paRes);
+    } catch (Exception ex) {
+      showError(ex);
+      return paRes;
+    }
+  }
+  
+  private final GrammarCheckingResult doGrammarCheckingInternal(final String paraText,
+      final Locale locale, final GrammarCheckingResult paRes) {
 
     if (paraText == null) {
       return paRes;
@@ -720,15 +729,16 @@ XLinguServiceEventBroadcaster {
   }
 
   static void showError(final Throwable e) {
-    String msg = "An error has occured:\n" + e.toString() + "\nStacktrace:\n";
+    String msg = "An error has occured in LanguageTool:\n" + e.toString() + "\nStacktrace:\n";
     final StackTraceElement[] elem = e.getStackTrace();
     for (final StackTraceElement element : elem) {
       msg += element.toString() + "\n";
     }
     final DialogThread dt = new DialogThread(msg);
     dt.start();
-    e.printStackTrace();
-    throw new RuntimeException(e);
+    //e.printStackTrace();
+    // OOo crashes when we throw an Exception :-(
+    //throw new RuntimeException(e);
   }
 
   private void writeError(final Throwable e) {
