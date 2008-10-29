@@ -6,7 +6,7 @@ title="Easy editing stylesheet" ?>
 <!--
 Polish Grammar and Typo Rules for LanguageTool
 Copyright (C) 2006-2007 Marcin Miłkowski
-$Id: grammar.xml,v 1.140 2008-10-04 20:54:15 milek_pl Exp $
+$Id: grammar.xml,v 1.141 2008-10-29 22:42:36 milek_pl Exp $
 -->
 <rules lang="pl">
   <phrases>
@@ -1240,6 +1240,17 @@ $Id: grammar.xml,v 1.140 2008-10-04 20:54:15 milek_pl Exp $
         <example correction=" to" type="incorrect">Każdy urzędnik<marker>, to</marker> podnóżek naszego premiera.</example>
       </rule>
     </rulegroup>
+    <rule id="CHCAC_NIE_CHCAC" name="Zbędny przecinek w zwrocie „chcąc nie chcąc”">
+      <pattern>
+        <token>chcąc</token>
+        <token>,</token>
+        <token>nie</token>
+        <token>chcąc</token>
+      </pattern>
+      <message>Zbędny przecinek. Ten zwrot piszemy bez przecinków: <suggestion>\1 \3 \4</suggestion>.</message>
+      <example correction="Chcąc nie chcąc" type="incorrect"><marker>Chcąc, nie chcąc</marker> poszedłem do lekarza.</example>
+      <example type="correct">Chcąc nie chcąc poszedłem do lekarza.</example>
+    </rule>
     <rulegroup id="PRZECINEK_A" name="Zbędny przecinek przed „a”">
       <rule>
         <pattern mark_from="1" mark_to="-1">
@@ -7501,6 +7512,35 @@ Znacznie częściej ta forma jest mylona z trybem rozkazującym od „pokazać�
       <example correction="benefisową" type="incorrect">Organizujemy imprezę <marker>benefitową</marker>.</example>
       <example type="correct">Benefisowy bal odbył się u hrabiny Ciapciakowej.</example>
     </rule>
+    <rulegroup id="RZUC_GUME" name="„rzuć gumę” (żuć gumę)">
+      <rule>
+        <pattern>
+          <token>rzuć</token>
+          <token>gumę</token>
+        </pattern>
+        <message>Prawdopodobny błąd ortograficzny. Czy chodziło o <suggestion>żuć gumę</suggestion> (a nie rzucać)?</message>
+        <example correction="żuć gumę" type="incorrect">Lubię <marker>rzuć gumę</marker>.</example>
+        <example type="correct">Lubię żuć gumę.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>rzucie</token>
+          <token>gumy</token>
+        </pattern>
+        <message>Błąd ortograficzny. Poprawnie: <suggestion>żucie gumy</suggestion>.</message>
+        <example correction="Żucie gumy" type="incorrect"><marker>Rzucie gumy</marker> jest niegrzeczne.</example>
+        <example type="correct">Żucie gumy jest niegrzeczne.</example>
+      </rule>
+    </rulegroup>
+    <rule id="QUI_BONO" name="„qui bono” (cui bono)">
+      <pattern>
+        <token>qui</token>
+        <token>bono</token>
+      </pattern>
+      <message>Błąd ortograficzny. Poprawnie: <suggestion>cui bono</suggestion> (łac.: w czyim interesie?).</message>
+      <example correction="cui bono" type="incorrect">A ja pytam, <marker>qui bono</marker>?</example>
+      <example type="correct">A ja pytam, cui bono?</example>
+    </rule>
   </category>
   <category name="Prawdopodobne literówki">
     <rule id="WSZECH_RZECZY" name="„wszech rzeczy” (wszechrzeczy)">
@@ -8326,15 +8366,27 @@ Znacznie częściej ta forma jest mylona z trybem rozkazującym od „pokazać�
       <example type="correct">To jest zrobione na chybcika.</example>
       <example correction="na chybcika" type="incorrect">To jest zrobione <marker>chybcika</marker>.</example>
     </rule>
-    <rule id="TYM_BARDZIE" name="„bardzie” (bardziej)">
-      <pattern mark_from="1">
-        <token regexp="yes">tym|coraz|znacznie|jeszcze|wiele|im</token>
-        <token>bardzie</token>
-      </pattern>
-      <message>Prawdopodobna literówka. Czy chodziło o <suggestion>bardziej</suggestion>?</message>
-      <example correction="bardziej" type="incorrect">Im <marker>bardzie</marker> Prosiaczek tam zaglądał, tym bardziej Puchatka tam nie było.</example>
-      <example type="correct">Czytałem artykuł o czeskim bardzie, wybitnym poecie.</example>
-    </rule>
+    <rulegroup id="TYM_BARDZIE" name="„bardzie” (bardziej)">
+      <rule>
+        <pattern mark_from="1">
+          <token regexp="yes">tym|coraz|znacznie|jeszcze|wiele|im</token>
+          <token>bardzie</token>
+        </pattern>
+        <message>Prawdopodobna literówka. Czy chodziło o <suggestion>bardziej</suggestion>?</message>
+        <example correction="bardziej" type="incorrect">Im <marker>bardzie</marker> Prosiaczek tam zaglądał, tym bardziej Puchatka tam nie było.</example>
+        <example type="correct">Czytałem artykuł o czeskim bardzie, wybitnym poecie.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="1" mark_to="-1">
+          <token><exception regexp="yes">tym|coraz|znacznie|jeszcze|wiele|im</exception></token>
+          <token>bardzie</token>
+          <token postag="adv.*|adj.*" postag_regexp="yes"><exception postag="adj:sg:inst.loc:m.n:pos:aff"/></token>
+        </pattern>
+        <message>Prawdopodobna literówka. Czy chodziło o <suggestion>bardziej</suggestion>?</message>
+        <example correction="bardziej" type="incorrect">Obie drużyny postanowiły zagrać <marker>bardzie</marker> ofensywnie.</example>
+        <example type="correct">Mowa o Osjanie, bardzie celtyckim.</example>
+      </rule>
+    </rulegroup>
     <rule id="ZWROTNE_BEZ_SIE" name="czasowniki zwrotne bez „się”">
       <pattern mark_from="1" mark_to="-1">
         <token postag="SENT_START" skip="-1"><exception scope="next">się</exception></token>

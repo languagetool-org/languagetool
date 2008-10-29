@@ -7,7 +7,7 @@ title="Easy editing stylesheet" ?>
 English Grammar and Typo Rules for LanguageTool
 See tagset.txt for the meaning of the POS tags
 Copyright (C) 2001-2007 Daniel Naber (http://www.danielnaber.de)
-$Id: grammar.xml,v 1.74 2008-10-21 23:53:59 milek_pl Exp $
+$Id: grammar.xml,v 1.75 2008-10-29 22:42:36 milek_pl Exp $
 -->
 <rules lang="en">
   <!-- ====================================================================== -->
@@ -3558,6 +3558,15 @@ $Id: grammar.xml,v 1.74 2008-10-21 23:53:59 milek_pl Exp $
       <message>If you don't want to look for proofs hidden in your pudding, you probably meant <suggestion>the proof of the pudding is in the eating</suggestion>.</message>
       <example correction="The proof of the pudding is in the eating" type="incorrect"><marker>The Proof Is In The Pudding</marker></example>
       <example type="correct">The proof of the pudding is in the eating.</example>
+    </rule>
+    <rule id="QUI_BONO" name="'qui bono' (cui bono)">
+      <pattern>
+        <token>qui</token>
+        <token>bono</token>
+      </pattern>
+      <message>Non standard Latin. Did you mean <suggestion>cui bono</suggestion> (=to whose benefit).</message>
+      <example correction="cui bono" type="incorrect">Let me ask: <marker>qui bono</marker>?</example>
+      <example type="correct">Let me ask: cui bono?</example>
     </rule>
     <rule id="WHIP_CREAM" name="'whip cream' (whipped cream)">
       <pattern mark_from="1">
