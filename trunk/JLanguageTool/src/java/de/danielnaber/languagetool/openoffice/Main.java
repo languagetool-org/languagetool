@@ -225,17 +225,15 @@ XLinguServiceEventBroadcaster {
    * @throws IllegalArgumentException (not really, LT simply returns
    * the GrammarCheckingResult with the values supplied)
    */
-  public final GrammarCheckingResult doGrammarChecking(final int docID,  
-      final String paraText, final Locale locale, 
-      final int startOfSentencePos, final int suggEndOfSentencePos,
-      final int[] aLanguagePortions, 
-      final Locale[] aLanguagePortionsLocales) 
-  throws IllegalArgumentException {    
+  public final GrammarCheckingResult doGrammarChecking(final int docID, final String paraText,
+      final Locale locale, final int startOfSentencePos, final int suggEndOfSentencePos,
+      final int[] aLanguagePortions, final Locale[] aLanguagePortionsLocales)
+      throws IllegalArgumentException {
     final GrammarCheckingResult paRes = new GrammarCheckingResult();
-    paRes.nEndOfSentencePos = suggEndOfSentencePos - startOfSentencePos;    
+    paRes.nEndOfSentencePos = suggEndOfSentencePos - startOfSentencePos;
     paRes.xGrammarChecker = this;
-    paRes.aLocale = locale;                    
-    paRes.nDocumentId = docID;    
+    paRes.aLocale = locale;
+    paRes.nDocumentId = docID;
     paRes.aText = paraText;
 
     if (paraText == null) {
@@ -244,61 +242,62 @@ XLinguServiceEventBroadcaster {
       paRes.nEndOfSentencePos = paraText.length();
     }
 
-    if (!"".equals(paraText)) { 
-//  TODO: process different language fragments in a paragraph 
-//  according to their language (currently assumed = locale)
-//  note: this is not yet implemented in the API     
+    if (!"".equals(paraText)) {
+      // TODO: process different language fragments in a paragraph
+      // according to their language (currently assumed = locale)
+      // note: this is not yet implemented in the API
 
-    if (hasLocale(locale)) {
-      //caching the instance of LT
-      if (!Language.getLanguageForShortName(locale.Language).equals(docLanguage)
-          || langTool == null
-          || recheck) {
-        docLanguage = Language.getLanguageForShortName(locale.Language);
-        if (docLanguage == null) {
-          return paRes;
-        }                
+      if (hasLocale(locale)) {
+        // caching the instance of LT
+        if (!Language.getLanguageForShortName(locale.Language).equals(docLanguage)
+            || langTool == null || recheck) {
+          docLanguage = Language.getLanguageForShortName(locale.Language);
+          if (docLanguage == null) {
+            return paRes;
+          }
+          try {
+            langTool = new JLanguageTool(docLanguage, config.getMotherTongue());
+            langTool.activateDefaultPatternRules();
+            langTool.activateDefaultFalseFriendRules();
+            recheck = false;
+          } catch (final Exception exception) {
+            showError(exception);
+          }
+        }
+
+        if (config.getDisabledRuleIds() != null) {
+          for (final String id : config.getDisabledRuleIds()) {
+            langTool.disableRule(id);
+          }
+        }
+        final Set<String> disabledCategories = config.getDisabledCategoryNames();
+        if (disabledCategories != null) {
+          for (final String categoryName : disabledCategories) {
+            langTool.disableCategory(categoryName);
+          }
+        }
         try {
-          langTool = new JLanguageTool(docLanguage, config.getMotherTongue());
-          langTool.activateDefaultPatternRules();
-          langTool.activateDefaultFalseFriendRules();
-          recheck = false;
-        } catch (final Exception exception) {
+          final List<RuleMatch> ruleMatches = langTool.check(paraText);
+          if (!ruleMatches.isEmpty()) {
+            final SingleGrammarError[] errorArray = new SingleGrammarError[ruleMatches.size()];
+            int i = 0;
+            for (final RuleMatch myRuleMatch : ruleMatches) {
+              errorArray[i] = createOOoError(locale, myRuleMatch);
+              i++;
+            }
+            paRes.aGrammarErrors = errorArray;
+          }
+        } catch (final IOException exception) {
           showError(exception);
         }
       }
-
-      if (config.getDisabledRuleIds() != null) {
-        for (final String id : config.getDisabledRuleIds()) {                    
-          langTool.disableRule(id);
-        }
-      }
-      final Set<String> disabledCategories = config.getDisabledCategoryNames();
-      if (disabledCategories != null) {
-        for (final String categoryName : disabledCategories) {          
-          langTool.disableCategory(categoryName);
-        }
-      }      
-      try {        
-        final List<RuleMatch> ruleMatches = langTool.check(paraText);
-        if (!ruleMatches.isEmpty()) {          
-          final SingleGrammarError[] errorArray = new SingleGrammarError[ruleMatches.size()];;
-          int i = 0;
-          for (final RuleMatch myRuleMatch : ruleMatches) {
-            errorArray[i] = createOOoError(locale, myRuleMatch);
-            i++;
-          }
-          paRes.aGrammarErrors = errorArray;
-        }
-      } catch (final IOException exception) {
-        showError(exception);
-      }      
     }
-    }
-    return paRes;    
+    return paRes;
   }
 
-  /** Creates a SingleGrammarError object for use in OOo.
+  /**
+   * Creates a SingleGrammarError object for use in OOo.
+   * 
    * @param locale Locale - the text Locale
    * @param myMatch ruleMatch - LT rule match
    * @return SingleGrammarError - object for OOo checker integration
