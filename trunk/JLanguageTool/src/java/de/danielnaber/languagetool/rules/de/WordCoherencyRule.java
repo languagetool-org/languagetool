@@ -102,8 +102,8 @@ public class WordCoherencyRule extends GermanRule {
         if (shouldNotAppearWord.containsKey(token)) {
           RuleMatch otherMatch = (RuleMatch)shouldNotAppearWord.get(token);
           String otherSpelling = otherMatch.getMessage();
-          String msg = "<b>" +token+ "</b> und <b>" +otherSpelling+
-            "</b> sollten nicht gleichzeitig benutzt werden";
+          String msg = "'" +token+ "' und '" +otherSpelling+
+            "' sollten nicht gleichzeitig benutzt werden";
           RuleMatch ruleMatch = new RuleMatch(this, pos, pos+origToken.length(), msg);
           ruleMatch.setSuggestedReplacement(otherSpelling);
           ruleMatches.add(ruleMatch);
