@@ -40,7 +40,8 @@ public class PolishSentenceTokenizer extends SentenceTokenizer {
   private static final Pattern paragraphByTwoLineBreaks = Pattern.compile("(\\n\\s*\\n[\\t]*)");
   private static final Pattern paragraphByLineBreak = Pattern.compile("(\\n[\\t]*)");
   
-  private static final Pattern punctWhitespace = Pattern.compile("(" + PAP + "\\s)");
+  // add unbreakable field, for example footnote, if it's at the end of the sentence
+  private static final Pattern punctWhitespace = Pattern.compile("(" + PAP + "(\u0002)?\\s)");
   // \p{Lu} = uppercase, with obeying Unicode (\p{Upper} is just US-ASCII!):
   private static final Pattern punctUpperLower = Pattern.compile("(" + PAP
       + ")([\\p{Lu}][^\\p{Lu}.])");
