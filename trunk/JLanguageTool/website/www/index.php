@@ -2,7 +2,7 @@
 $page = "homepage";
 $title = "LanguageTool";
 $title2 = "Open Source language checker";
-$lastmod = "2008-10-06 23:35:00 CET";
+$lastmod = "2008-11-01 23:35:00 CET";
 include("../include/header.php");
 ?>
 		
@@ -73,14 +73,22 @@ or later -- NOTE: this version doesn't work with OpenOffice.org 3.0 beta</p>
 	<li>Also see <?=show_link("Usage", "usage/", 0)?> for using LanguageTool outside of OpenOffice.org.</li>
 </ul>
 
-<p><strong>If installation fails:</strong>
-Make sure <a href="http://www.java.com/en/download/manual.jsp">Java 5.0 or later from Sun Microsystems</a>
-is installed on your system. Java versions which are not from Sun Microsystems may not work.
-Then make sure this version of Java is selected in OpenOffice.org
-(under <em>Tools -&gt; Options -&gt; Java</em>). If LanguageTool doesn't start after
-selecting the version of Java in OpenOffice.org and you see no error message,
+<p><strong>If integration into OpenOffice.org doesn't work:</strong></p>
+
+<ul>
+<li>LanguageTool installation fails if the name of your user account contains
+special characters. The only workaround so far seems to be to use a different
+user account. (Issue <a href="http://qa.openoffice.org/issues/show_bug.cgi?id=95162">95162</a>)</li>
+<li>Did you restart OpenOffice.org after installation of LanguageTool? This is required,
+even if OpenOffice.org doesn't say so. (<a href="http://qa.openoffice.org/issues/show_bug.cgi?id=88692">Issue 88692</a>)</li>
+<li>Make sure <a href="http://www.java.com/en/download/manual.jsp">Java 5.0 or later from Sun Microsystems</a>
+is installed on your system. Java versions which are not from Sun Microsystems may not work.</li>
+<li>Make sure this version of Java is selected in OpenOffice.org
+(under <em>Tools -&gt; Options -&gt; Java</em>).</li>
+<li>If LanguageTool doesn't start and you see no error message, please
 check if the extension is enabled in the Extension manager 
-(under <em>Tools -&gt; Extension Manager</em>).</p>
+(under <em>Tools -&gt; Extension Manager</em>).</li>
+</ul>
 
 <p>The source is available <?=show_link("at Sourceforge", "http://sourceforge.net/projects/languagetool/", 1) ?>
  via CVS</p>
