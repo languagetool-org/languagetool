@@ -1,0 +1,133 @@
+Index: /home/dnaber/workspace/Jaminid/src/com/prolixtech/jaminid/Connection.java
+===================================================================
+--- /home/dnaber/workspace/Jaminid/src/com/prolixtech/jaminid/Connection.java	(revision 13)
++++ /home/dnaber/workspace/Jaminid/src/com/prolixtech/jaminid/Connection.java	(working copy)
+@@ -3,10 +3,13 @@
+ import java.io.IOException;
+ import java.io.InputStream;
+ import java.io.OutputStream;
++import java.io.UnsupportedEncodingException;
+ import java.net.InetAddress;
+ import java.net.Socket;
+ import java.text.SimpleDateFormat;
++import java.util.ArrayList;
+ import java.util.Date;
++import java.util.List;
+ import java.util.Locale;
+ import java.util.Timer;
+ import java.util.TimerTask;
+@@ -82,7 +85,7 @@
+ 
+             CONNECTED:
+             while(true){
+-            StringBuffer requestInputBuffer = new StringBuffer();
++            List<Byte> requestInputBuffer = new ArrayList<Byte>();
+ 
+             int byteIn = -1;
+             int CRLFState = 0;
+@@ -106,7 +109,7 @@
+                 byteIn = socketInput.read();
+                 if (byteIn > 0) {
+ 
+-                    requestInputBuffer.append((char) byteIn);
++                    requestInputBuffer.add((byte)byteIn);
+                     if (doubleCRLFpassed)
+                         bodyCharsParsed++;
+ 
+@@ -142,10 +145,10 @@
+                         if ("\n".charAt(0) == (thischar)) {
+                             CRLFState++;
+                             doubleCRLFpassed = true;
+-                            serviceRequest.addRequestLines(requestInputBuffer
+-                                    .toString());
+-
+-                            requestInputBuffer = new StringBuffer();
++                            String inputString = bytesToString(requestInputBuffer);
++                            serviceRequest.addRequestLines(inputString);
++                            
++                            requestInputBuffer = new ArrayList<Byte>();
+ 
+                             expectedBodySize = serviceRequest.switchToBody();
+                         } else {
+@@ -163,8 +166,9 @@
+                     && bodyCharsParsed < expectedBodySize || doubleCRLFpassed
+                     && byteIn != -1 && socketInput.available() > 0);
+ 
+-            printlog("Request: " + requestInputBuffer.toString());
+-            serviceRequest.addRequestLines(requestInputBuffer.toString());
++            String inputString = bytesToString(requestInputBuffer);
++            printlog("Request: " + inputString);
++            serviceRequest.addRequestLines(inputString);
+ 
+             serviceRequest.switchToCompleted();
+ 
+@@ -242,6 +246,22 @@
+     }
+ 
+     /**
++     * Added dnaber 2007-06-09, to make UTF-8 input work.
++     */
++    private String bytesToString(List<Byte> requestInputBuffer) {
++      Byte[] b = (Byte[])requestInputBuffer.toArray(new Byte[]{});
++      byte[] bytes = new byte[b.length];
++      for (int i = 0; i < b.length; i++) {
++        bytes[i] = b[i];
++      }
++      try {
++        return new String(bytes, "utf-8");
++      } catch (UnsupportedEncodingException e) {
++        throw new RuntimeException(e.toString(), e);
++      }
++    }
++
++    /**
+      * a shortcut method
+      * 
+      * @param message
+@@ -261,7 +281,7 @@
+     protected void sendString(Object string) throws IOException {
+         if (string == null)
+             return;
+-        socketOutput.write((string.toString()).getBytes());
++        socketOutput.write((string.toString()).getBytes("UTF-8"));
+     }
+ 
+     protected void sendString(byte[] bytes) {
+Index: /home/dnaber/workspace/Jaminid/src/com/prolixtech/jaminid/Protocol.java
+===================================================================
+--- /home/dnaber/workspace/Jaminid/src/com/prolixtech/jaminid/Protocol.java	(revision 13)
++++ /home/dnaber/workspace/Jaminid/src/com/prolixtech/jaminid/Protocol.java	(working copy)
+@@ -280,7 +280,7 @@
+         MIME.setProperty(".txt", "text/plain");
+ 
+         
+-        
++        /* dnaber, 2006-09-16
+         try {
+             OutputStream nmim = new FileOutputStream(Protocol.MIMEFILE);  
+             MIME.storeToXML(nmim, "\nJAMINID MIMETYPES\n\nThese are the default MIME types for the jaminid daemon. If you had a modified but invalid MIME file here, it may have been reverted to this.");
+@@ -287,7 +287,8 @@
+         } catch (IOException e) {
+             // TODO Auto-generated catch block
+             e.printStackTrace();
+-        }
++
++        }*/
+ 
+     }
+ 
+Index: /home/dnaber/workspace/Jaminid/src/com/prolixtech/jaminid/Request.java
+===================================================================
+--- /home/dnaber/workspace/Jaminid/src/com/prolixtech/jaminid/Request.java	(revision 13)
++++ /home/dnaber/workspace/Jaminid/src/com/prolixtech/jaminid/Request.java	(working copy)
+@@ -321,8 +321,8 @@
+                 try {
+                     String hex = s.substring(lastIndex + 1, lastIndex + 3);
+                     char hin = (char) hex2int(hex);
+-                    System.out.println(lastIndex + " Hex is " + hex + " or "
+-                            + hin);
++                    //System.out.println(lastIndex + " Hex is " + hex + " or "
++                    //        + hin);
+                     String sBefore = s.substring(0, lastIndex);
+                     String sAfter = s.substring(lastIndex + 3);
+ 
