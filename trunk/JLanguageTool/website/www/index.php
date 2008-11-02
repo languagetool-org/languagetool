@@ -2,7 +2,7 @@
 $page = "homepage";
 $title = "LanguageTool";
 $title2 = "Open Source language checker";
-$lastmod = "2008-11-01 23:35:00 CET";
+$lastmod = "2008-11-02 15:35:00 CET";
 include("../include/header.php");
 ?>
 		
@@ -14,44 +14,40 @@ up <em>there/their</em>, <em>no/now</em> etc. It can also detect some
 grammar mistakes. It does not include spell checking. See the <?=show_link("languages", "languages/", 0) ?> 
 page for a list of supported languages.</p>
 
+<p><strong>Update 2008-11-02:</strong> Released version 0.9.5. Changes include:
+<ul>
+	<li>Updated rules for English and Polish</li>
+	<li>Fixed crashed in with OpenOffice.org integration</li>
+	<li>Fixed some false alarms in the German agreement rule</li>
+</ul>
+
+<p>For a more detailed list of changes, see
+the <?=show_link("Changelog", "download/CHANGES.txt", 0) ?>.</p>
+
 <p><strong>Update 2008-10-06:</strong> The LanguageTool maintainer team (Marcin Miłkowski
 and Daniel Naber) just received
 a <a href="http://development.openoffice.org/awardees-2008.html">Gold Award</a> in
 the Sun Microsystems Community Innovation Program! The work honored with this award is
 both the <a href="http://www.openoffice.org">OpenOffice.org</a> integration that is part of
-LanguageTool 0.9.4 (download below) and the <a href="http://community.languagetool.org">Community
+LanguageTool 0.9.4 or later (download below) and the <a href="http://community.languagetool.org">Community
 website</a> that lets you browse LanguageTool's error rules and vote whether an error
 message is useful or not.</p>
-
-
-<p><strong>Update 2008-09-30:</strong> Released version 0.9.4:
-<ul>
-	<li>Fixed a bug with <a href="http://www.openoffice.org">OpenOffice.org</a> 3.0 integration. <strong>NOTE</strong>: you
-		need OpenOffice.org 3.0rc3 or later, earlier versions have bugs that make them crash
-		with LanguageTool</li>
-	<li>Updated rules for French, Swedish, and Russian</li>
-	<li>Moved LanguageTool button in Openoffice.org next to
-	the "Spelling and Grammar" button</li>
-</ul>
-
-<p>For a slightly more detailed list of changes, see
-the <?=show_link("Changelog", "download/CHANGES.txt", 0) ?> for details.</p>
 
 <p><strong>Update June 2008:</strong> Please visit our new
 <?=show_link("LanguageTool Community website", "http://community.languagetool.org", 0) ?>
  that lets you browse all rules for all languages. You can even create 
 new (simple) rules if you're logged in.</p>
 
-<p><strong>Download for OpenOffice.org 3.0 (rc3 or later only):</strong><br />
-<strong><?=show_link("LanguageTool 0.9.4 (for OpenOffice.org 3.0)", "download/LanguageTool-0.9.4.oxt", 0) ?></strong>, 10&nbsp;MB,
+<p><strong>Download for OpenOffice.org 3.0:</strong><br />
+<strong><?=show_link("LanguageTool 0.9.5 (for OpenOffice.org 3.0)", "download/LanguageTool-0.9.5.oxt", 0) ?></strong>, 10&nbsp;MB,
 requires <?=show_link("Java", "http://www.java.com/en/download/manual.jsp", 1)?>&nbsp;5.0
-or later. NOTE: this version currently <strong>only works with OpenOffice.org 3.0</strong> or later
+or later. NOTE: this version currently <strong>only works with OpenOffice.org 3.0</strong> 
 and you need to <strong>restart OpenOffice.org</strong> after installation of this extension</p>
 
 <p><strong>Download for OpenOffice.org 2.x:</strong><br />
 <strong><?=show_link("LanguageTool 0.9.2 (for OpenOffice.org 2.x)", "download/LanguageTool-0.9.2.oxt", 0) ?></strong>, 9&nbsp;MB,
 requires <?=show_link("Java", "http://www.java.com/en/download/manual.jsp", 1)?>&nbsp;5.0
-or later -- NOTE: this version doesn't work with OpenOffice.org 3.0 beta</p>
+or later. NOTE: this version does not work with OpenOffice.org 3.0</p>
 
 <!-- -->
 <p><strong>Try LanguageTool via Java WebStart:</strong><br />
@@ -62,11 +58,11 @@ or later -- NOTE: this version doesn't work with OpenOffice.org 3.0 beta</p>
 
 <ul>
 	<li><strong>In OpenOffice.org</strong>:
-	Double click <tt>LanguageTool-0.9.4.oxt</tt> to install it.
+	Double click <tt>LanguageTool-0.9.5.oxt</tt> to install it.
 	If that doesn't work, call <em>Tools -&gt; Extension Manager -&gt; Add...</em>
 	to install it. Close OpenOffice.org and re-start it. Type some text
 	with an error (e.g. "This is an test." -- make sure the text language is set
-	to English) and you should see a blue underline (version 0.9.4 only).
+	to English) and you should see a blue underline (version 0.9.5 only).
 	For version 0.9.2, you'll need to use the "LanguageTool" entries in the "Tools"
 	menu to check a text.</li>
 
