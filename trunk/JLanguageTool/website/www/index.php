@@ -17,7 +17,7 @@ page for a list of supported languages.</p>
 <p><strong>Update 2008-11-02:</strong> Released version 0.9.5. Changes include:
 <ul>
 	<li>Updated rules for English and Polish</li>
-	<li>Fixed crashed in with OpenOffice.org integration</li>
+	<li>Fixed crashes with OpenOffice.org integration</li>
 	<li>Fixed some false alarms in the German agreement rule</li>
 </ul>
 
