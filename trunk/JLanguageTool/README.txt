@@ -1,5 +1,6 @@
 LanguageTool, a language style checker for English, German, Polish,
-and Dutch with initial support for Spanish, French, and Italian
+French, and Dutch with initial support for Spanish, Russian, Swedish,
+and Italian
 Copyright (C) 2005-2008 Daniel Naber (naber at danielnaber de)
 Version ###VERSION###, ###DATE###
 Homepage: http://www.languagetool.org
@@ -15,26 +16,28 @@ Usage:
  can use two methods:
  
  1. Double-click LanguageTool-###VERSION###.oxt. If you
-  have OpenOffice.org 3.0 beta integrated into the environment,
+  have OpenOffice.org 3.0 integrated into the environment,
   the extension should start installing. Follow the on-screen
   instructions.
  
- 2. If the above method doesn't work, in OpenOffice.org, 
-  call Tools -> Extension Manager -> Add... and browse for the 
+ 2. If the above method doesn't work call Tools -> Extension 
+  Manager -> Add... in OpenOffice.org and browse for the 
   LanguageTool-###VERSION###.oxt file. 
   
   Close and restart OpenOffice.org Writer. Type text with an error,
-  e.g. "This is an test." (Make sure the text is set to English.)
+  e.g. "This is an test." (Make sure the text language is set to 
+  English.)
   You should see a blue underline under the word "an". Opening
   the context menu with the right mouse button offers you a
-  description of the error and a possible correction.
+  description of the error and, if possible, a correction.
   
   Note that there will also be a new menu item "LanguageTool"
   under the "Tools" menu which you might need to use if 
   on-the-fly checking doesn't properly work.
   
  -To use the simple demo GUI, first rename the .oxt file
-  to zip, then unzip it to a new directory and call:
+  to zip, then unzip it to a new directory and double click on 
+  the LanguageToolGUI.jar file or call
   java -jar LanguageToolGUI.jar
 
  -To check plain text files from the command line:
@@ -118,7 +121,10 @@ TODO:
  	find . -iname "*.java" -exec egrep -H "TODO|FIXME" {} \;
  -...
 
+------------------------------------------------ 
+
 Using LanguageTool from .NET:
+
  Thanks to IKVM (http://www.ikvm.net/) you can easily turn LanguageTool
  into a .NET exe or dll (without the GUI and the OpenOffice.org integration).
  Just adapt these commands to you local path names (this example shows using mono):
@@ -128,6 +134,8 @@ Using LanguageTool from .NET:
  mono /path/to/ikvm/bin/ikvmc.exe -r:/path/to/ikvm/bin/IKVM.GNU.Classpath.dll -r:trove.dll -r:stempelator-nodict-1.0.6.dll LanguageTool.jar
 
  However, the resulting LanguageTool.exe has not been tested much yet.
+
+------------------------------------------------ 
 
 License:
  
@@ -176,6 +184,7 @@ License:
  and manually. It remains LGPL. The following is a copyright notice about DICO.
 
 ------------------------------------------------ 
+
 License ABU
 -=-=-=-=-=-
 Version 1.1, Aout 1999
