@@ -232,8 +232,8 @@ public class Main extends WeakBase implements
       paRes.nDocumentId = docID;
       paRes.aText = paraText;
       return doGrammarCheckingInternal(paraText, locale, paRes);
-    } catch (final Exception ex) {
-      showError(ex);
+    } catch (final Throwable t) {
+      showError(t);
       return paRes;
     }
   }
@@ -265,8 +265,8 @@ public class Main extends WeakBase implements
             langTool.activateDefaultPatternRules();
             langTool.activateDefaultFalseFriendRules();
             recheck = false;
-          } catch (final Exception exception) {
-            showError(exception);
+          } catch (final Throwable t) {
+            showError(t);
           }
         }
 
@@ -292,8 +292,8 @@ public class Main extends WeakBase implements
             }
             paRes.aGrammarErrors = errorArray;
           }
-        } catch (final Exception exception) {
-          showError(exception);
+        } catch (final Throwable t) {
+          showError(t);
         }
       }
     }
@@ -391,8 +391,8 @@ public class Main extends WeakBase implements
       langTool = new JLanguageTool(docLanguage, config.getMotherTongue());
       langTool.activateDefaultPatternRules();
       langTool.activateDefaultFalseFriendRules();
-    } catch (final Exception exception) {
-      showError(exception);    
+    } catch (final Throwable t) {
+      showError(t);
     }
   }
 
@@ -706,8 +706,8 @@ public class Main extends WeakBase implements
           paragraphs.add(paraString);
         }
       }
-    } catch (Exception e) {
-      showError(e);
+    } catch (final Throwable t) {
+      showError(t);
       return null;
     }
     return new TextToCheck(paragraphs, false);
