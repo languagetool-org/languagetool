@@ -84,8 +84,8 @@ import de.danielnaber.languagetool.rules.RuleMatch;
 import de.danielnaber.languagetool.tools.StringTools;
 
 public class Main extends WeakBase implements 
-XJobExecutor, XServiceInfo, XGrammarChecker,
-XLinguServiceEventBroadcaster {
+    XJobExecutor, XServiceInfo, XGrammarChecker,
+    XLinguServiceEventBroadcaster {
 
   private Configuration config;
   private JLanguageTool langTool; 
@@ -101,8 +101,8 @@ XLinguServiceEventBroadcaster {
    */
   private boolean recheck = false;
 
-  /** Service name required by the OOo API && our own name.
-   * 
+  /** 
+   * Service name required by the OOo API && our own name.
    */
   private static final String[] SERVICE_NAMES = {
     "com.sun.star.linguistic2.GrammarChecker",
@@ -129,28 +129,26 @@ XLinguServiceEventBroadcaster {
       final File homeDir = getHomeDir();
       config = new Configuration(homeDir, CONFIG_FILE);
       xEventListeners = new ArrayList<XLinguServiceEventListener>();
-    } catch (final Throwable e) {
-      writeError(e);
-      e.printStackTrace();
+    } catch (final Throwable t) {
+      showError(t);
     }
   }
 
   public void changeContext(final XComponentContext xCompContext) {
-      xContext = xCompContext;          
+    xContext = xCompContext;          
   }
   
   private XComponent getxComponent() {
     try {
-    final XMultiComponentFactory xMCF = xContext.getServiceManager();
-    final Object desktop = xMCF.createInstanceWithContext("com.sun.star.frame.Desktop", xContext);
-    final XDesktop xDesktop = (XDesktop) UnoRuntime.queryInterface(XDesktop.class, desktop);      
-    final XComponent xComponent = xDesktop.getCurrentComponent();
-    return xComponent;
-   } catch (final Throwable e) {
-    writeError(e);
-    e.printStackTrace();
-    return null;
-   }
+      final XMultiComponentFactory xMCF = xContext.getServiceManager();
+      final Object desktop = xMCF.createInstanceWithContext("com.sun.star.frame.Desktop", xContext);
+      final XDesktop xDesktop = (XDesktop) UnoRuntime.queryInterface(XDesktop.class, desktop);
+      final XComponent xComponent = xDesktop.getCurrentComponent();
+      return xComponent;
+    } catch (final Throwable t) {
+      showError(t);
+      return null;
+    }
   }  
 
   /**
@@ -176,8 +174,7 @@ XLinguServiceEventBroadcaster {
         xViewCursorSupplier.getViewCursor();
       if (xCursor.isCollapsed()) { //no text selection
         xCursorProps = (XPropertySet) 
-        UnoRuntime.queryInterface(XPropertySet.class,
-            xCursor);        
+        UnoRuntime.queryInterface(XPropertySet.class, xCursor);        
       } else { //text is selected, need to create another cursor  
               //as multiple languages can occur here - we care only 
               //about character under the cursor, which might be wrong
@@ -202,14 +199,11 @@ XLinguServiceEventBroadcaster {
       if (!langIsSupported) {
         // FIXME: i18n
         JOptionPane.showMessageDialog(null, "Error: Sorry, the document language '" +charLocale.Language+ 
-        "' is not supported by LanguageTool.");
+          "' is not supported by LanguageTool.");
         return null;
       }
-    } catch (final UnknownPropertyException e) {
-      showError(e);
-      return null;
-    } catch (final WrappedTargetException e) {
-      showError(e);
+    } catch (final Throwable t) {
+      showError(t);
       return null;
     }
     return Language.getLanguageForShortName(charLocale.Language);
@@ -231,14 +225,14 @@ XLinguServiceEventBroadcaster {
       final Locale locale, final int startOfSentencePos, final int suggEndOfSentencePos,
       final int[] aLanguagePortions, final Locale[] aLanguagePortionsLocales) {
     final GrammarCheckingResult paRes = new GrammarCheckingResult();
-    paRes.nEndOfSentencePos = suggEndOfSentencePos - startOfSentencePos;
-    paRes.xGrammarChecker = this;
-    paRes.aLocale = locale;
-    paRes.nDocumentId = docID;
-    paRes.aText = paraText;
     try {
+      paRes.nEndOfSentencePos = suggEndOfSentencePos - startOfSentencePos;
+      paRes.xGrammarChecker = this;
+      paRes.aLocale = locale;
+      paRes.nDocumentId = docID;
+      paRes.aText = paraText;
       return doGrammarCheckingInternal(paraText, locale, paRes);
-    } catch (Exception ex) {
+    } catch (final Exception ex) {
       showError(ex);
       return paRes;
     }
@@ -298,7 +292,7 @@ XLinguServiceEventBroadcaster {
             }
             paRes.aGrammarErrors = errorArray;
           }
-        } catch (final IOException exception) {
+        } catch (final Exception exception) {
           showError(exception);
         }
       }
@@ -319,14 +313,14 @@ XLinguServiceEventBroadcaster {
     aError.nErrorType = com.sun.star.text.TextMarkupType.GRAMMAR;    
     //  the API currently has no support for formatting text in comments 
     final String comment =  myMatch.getMessage().
-    replaceAll("<suggestion>", "\"").
-    replaceAll("</suggestion>", "\"").
-    replaceAll("([\r]*\n)"," "); //convert line ends to spaces     
+      replaceAll("<suggestion>", "\"").
+      replaceAll("</suggestion>", "\"").
+      replaceAll("([\r]*\n)"," "); //convert line ends to spaces     
     aError.aFullComment = comment;    
     //  we don't support two kinds of comments
     aError.aShortComment = aError.aFullComment; 
     aError.aSuggestions = myMatch.getSuggestedReplacements()
-    .toArray(new String [myMatch.getSuggestedReplacements().size()]);
+      .toArray(new String [myMatch.getSuggestedReplacements().size()]);
     aError.nErrorLevel = 0; // severity level, we don't use it
     aError.nErrorStart = myMatch.getFromPos();      
     aError.nErrorLength = myMatch.getToPos() - myMatch.getFromPos();
@@ -390,7 +384,7 @@ XLinguServiceEventBroadcaster {
    *  valid document ID.
    **/
   public final void startDocument(final int docID) 
-  throws IllegalArgumentException {    
+      throws IllegalArgumentException {    
     myDocID = docID;
     docLanguage = getLanguage();
     try {
