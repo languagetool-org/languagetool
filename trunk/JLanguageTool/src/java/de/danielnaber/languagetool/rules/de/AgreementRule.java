@@ -331,7 +331,7 @@ public class AgreementRule extends GermanRule {
       if (set.size() > 0) {
         System.err.println("GENUS!");
       }*/
-      String msg = "Fehlende Übereinstimmung (Kongruenz) zwischen Artikel, Adjektiv und " +
+      String msg = "Möglicherweise fehlende Übereinstimmung (Kongruenz) zwischen Artikel, Adjektiv und " +
             "Nomen bezüglich Kasus, Numerus oder Genus. Beispiel: 'mein kleiner Haus' " +
             "statt 'mein kleines Haus'";
       ruleMatch = new RuleMatch(this, token1.getStartPos(), 
