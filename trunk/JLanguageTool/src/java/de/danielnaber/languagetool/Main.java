@@ -75,7 +75,7 @@ class Main {
     for (int i = 0; i < disabledRules.length; i++) {
       lt.disableRule(disabledRules[i]);
     }
-    // disable all rules except those enabled explictly, if any:
+    // disable all rules except those enabled explicitly, if any:
     if (enabledRules.length > 0) {
       Set<String> enabledRuleIDs = new HashSet<String>(Arrays.asList(enabledRules));
       for (Rule rule : lt.getAllRules()) {
