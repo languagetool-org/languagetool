@@ -55,8 +55,18 @@ public class CommaWhitespaceRuleTest extends TestCase {
     assertEquals(2, matches.length);
     matches = rule.match(langTool.getAnalyzedSentence("This ( foo bar) is a test(!)."));
     assertEquals(1, matches.length);
-    matches = rule.match(langTool.getAnalyzedSentence("This (foo bar ) is a test(!)."));
+    matches = rule.match(langTool.getAnalyzedSentence("This (foo bar ) is a test(!)."));      
     assertEquals(1, matches.length);
+    
+    //full stop error:
+    matches = rule.match(langTool.getAnalyzedSentence("This is a sentence with an orphaned full stop ."));
+    assertEquals(1, matches.length);
+    //full stop exception cases:
+    matches = rule.match(langTool.getAnalyzedSentence("This is a sentence with ellipsis ..."));
+    assertEquals(0, matches.length);
+    matches = rule.match(langTool.getAnalyzedSentence("This is a figure: .5 and it's correct."));
+    assertEquals(0, matches.length);
+    
     matches = rule.match(langTool.getAnalyzedSentence("ABB (  z.B. )"));
     // check match positions:
     assertEquals(2, matches.length);

@@ -83,7 +83,17 @@ public class CommaWhitespaceRule extends Rule {
     			msg = messages.getString("space_after_comma");
           suggestionText = ",";
     			fixLen = 1;
-    		}
+    		} else if (token.trim().equals(".") && prevWhite) {    		  
+          msg = messages.getString("no_space_before_dot");
+          suggestionText = ".";
+          fixLen = 1;
+          //exception case for figures such as ".5" and ellipsis 
+          if (i + 1 < tokens.length) {
+            if (tokens[i + 1].getToken().matches("\\d.*|\\.")) {
+              msg = null;
+            }
+          }
+        }
     		if (msg != null) {
     			final int fromPos = tokens[i - 1].getStartPos();
     			final int toPos = 

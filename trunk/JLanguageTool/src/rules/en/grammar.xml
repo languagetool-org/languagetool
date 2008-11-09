@@ -7,7 +7,7 @@ title="Easy editing stylesheet" ?>
 English Grammar and Typo Rules for LanguageTool
 See tagset.txt for the meaning of the POS tags
 Copyright (C) 2001-2007 Daniel Naber (http://www.danielnaber.de)
-$Id: grammar.xml,v 1.75 2008-10-29 22:42:36 milek_pl Exp $
+$Id: grammar.xml,v 1.76 2008-11-09 11:36:34 milek_pl Exp $
 -->
 <rules lang="en">
   <!-- ====================================================================== -->
@@ -34,6 +34,17 @@ $Id: grammar.xml,v 1.75 2008-10-29 22:42:36 milek_pl Exp $
       <message>Did you mean <suggestion>all for naught</suggestion> (=all for nothing)?</message>
       <example type="correct">Sorry all for not being in the chat.</example>
       <example correction="all for naught" type="incorrect">My farmer pants were <marker>all for not</marker>...</example>
+    </rule>
+    <rule id="ALL_OVER_THE_WORD" name="'all over the word (all over the world)">
+      <pattern>
+        <token>all</token>
+        <token>over</token>
+        <token>the</token>
+        <token>word</token>
+      </pattern>
+      <message>Possible typo. Did you mean <suggestion>\1 \2 \3 world</suggestion> (=globally)?</message>
+      <example correction="all over the world" type="incorrect">The company employs over 25 000 people <marker>all over the word</marker>.</example>
+      <example type="correct">The company employs over 25,000 people all over the world.</example>
     </rule>
     <rule id="ANOTHER_WORDS" name="'another words' (in other words)">
       <pattern mark_to="-1">
@@ -129,6 +140,16 @@ $Id: grammar.xml,v 1.75 2008-10-29 22:42:36 milek_pl Exp $
       <message>Possible typo. Did you mean <suggestion>exists</suggestion>?</message>
       <example correction="exists" type="incorrect">There <marker>exits</marker> an α-evaluating homomorphism π.</example>
       <example type="correct">Then there exists an α-evaluating homomorphism π.</example>
+    </rule>
+    <rule id="HE_THE" name="'he (the)'">
+      <pattern>
+        <token postag="IN"/>
+        <token>he</token>
+        <token postag="NN.*" postag_regexp="yes"/>
+      </pattern>
+      <message>Possible typo. Did you mean <suggestion>\1 the \3</suggestion>?</message>
+      <example correction="At the beginning" type="incorrect"><marker>At he beginning</marker>, I was afraid.</example>
+      <example type="correct">At the beginning, I was afraid.</example>
     </rule>
     <rule id="INSURE_THAT" name="Possible typo: 'Insure that' (Ensure that)">
       <pattern mark_to="-1">
@@ -297,6 +318,25 @@ $Id: grammar.xml,v 1.75 2008-10-29 22:42:36 milek_pl Exp $
       <example correction="Somewhat" type="incorrect"><marker>Some what</marker> disappointed</example>
       <example type="correct">Somewhat disappointed</example>
     </rule>
+    <rule id="STAND_ALONE_NN" name="'stand alone (standalone)'">
+      <pattern mark_to="-1">
+        <token>stand</token>
+        <token>alone</token>
+        <token postag="NN:.*|NNS|NN" postag_regexp="yes"/>
+      </pattern>
+      <message>Possible typo. This world is usually written together in this context: <suggestion>\1\2</suggestion>.</message>
+      <example correction="standalone" type="incorrect">This is a <marker>stand alone</marker> computer.</example>
+      <example type="correct">I stand alone at the parking.</example>
+    </rule>
+    <rule id="TEEM_TEAM" name="Possible typo: 'football teem (football team)'">
+      <pattern>
+        <token regexp="yes">management|football|research|project|home|display|youth|cup|development|design|sales|rescue|cricket|production|care|action|hockey|rugby|league|campaign|inspection|support|soccer|mortar|test|specialist|negotiating|relay|buy-out|course|world|health|investigation|planning|school|treasury|inquiry|planting|service|styling|division|improvement|marketing|review|services|ward|policy|work|area|basketball|club|control|dream|hospital|insight|protection|sports|town|baseball|executive|touring|university</token>
+        <token>teem</token>
+      </pattern>
+      <message>Possible typo. Did you mean <suggestion>\1 team</suggestion>?</message>
+      <example correction="football team" type="incorrect">This is my favorite <marker>football teem</marker>.</example>
+      <example type="correct">The gardens teem with with squawking parrots.</example>
+    </rule>
     <rule id="UNDER_WEAR" name="Possible typo: 'under wear (underwear)'">
       <pattern>
         <token>under</token>
@@ -314,6 +354,15 @@ $Id: grammar.xml,v 1.75 2008-10-29 22:42:36 milek_pl Exp $
       <message>Possible typo. Did you mean <suggestion>\1\2</suggestion>?</message>
       <example correction="whereas" type="incorrect">The northern and urban areas of the state do not generally offer sweet tea in the most restaurants, <marker>where as</marker> it is a staple beverage for the southern part ...</example>
       <example type="correct">The northern and urban areas of the state do not generally offer sweet tea in the most restaurants, whereas it is a staple beverage for the southern part ...</example>
+    </rule>
+    <rule id="WITCH_HAUNT" name="Possible typo: 'witch haunt (witch hunt)'">
+      <pattern>
+        <token>witch</token>
+        <token>haunt</token>
+      </pattern>
+      <message>Possible typo. Did you mean <suggestion>\1 hunt</suggestion> (=search for witches)?</message>
+      <example correction="witch hunt" type="incorrect">An anti-Polish <marker>witch haunt</marker></example>
+      <example type="correct">An anti-Polish witch hunt</example>
     </rule>
     <rule id="YOUR_S" name="Possible typo: 'your's (yours)'">
       <pattern>
