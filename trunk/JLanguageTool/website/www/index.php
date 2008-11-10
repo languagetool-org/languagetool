@@ -2,7 +2,7 @@
 $page = "homepage";
 $title = "LanguageTool";
 $title2 = "Open Source language checker";
-$lastmod = "2008-11-08 15:35:00 CET";
+$lastmod = "2008-11-10 21:35:00 CET";
 include("../include/header.php");
 ?>
 		
@@ -77,7 +77,7 @@ or later. NOTE: this version does not work with OpenOffice.org 3.0</p>
 	user account. (Issue <a href="http://qa.openoffice.org/issues/show_bug.cgi?id=95162">95162</a>)</li>
 <li>Opening the spell checking dialog with grammar checking enabled and with a text
 	language not supported by OpenOffice.org causes a crash/freeze (<a href="http://qa.openoffice.org/issues/show_bug.cgi?id=95996">Issue 95996</a>)</li>
-<li>Did you restart OpenOffice.org after installation of LanguageTool? This is required,
+<li>Did you restart OpenOffice.org - including the QuickStarter - after installation of LanguageTool? This is required,
 	even if OpenOffice.org doesn't say so. (<a href="http://qa.openoffice.org/issues/show_bug.cgi?id=88692">Issue 88692</a>)</li>
 <li>Make sure <a href="http://www.java.com/en/download/manual.jsp">Java 5.0 or later from Sun Microsystems</a>
 	is installed on your system. Java versions which are not from Sun Microsystems may not work.</li>
