@@ -7,7 +7,7 @@ title="Easy editing stylesheet" ?>
 English Grammar and Typo Rules for LanguageTool
 See tagset.txt for the meaning of the POS tags
 Copyright (C) 2001-2007 Daniel Naber (http://www.danielnaber.de)
-$Id: grammar.xml,v 1.78 2008-11-10 12:10:41 milek_pl Exp $
+$Id: grammar.xml,v 1.79 2008-11-10 15:48:57 milek_pl Exp $
 -->
 <rules lang="en">
   <!-- ====================================================================== -->
@@ -330,7 +330,7 @@ $Id: grammar.xml,v 1.78 2008-11-10 12:10:41 milek_pl Exp $
     </rule>
     <rule id="TEEM_TEAM" name="football teem (football team)">
       <pattern>
-        <token regexp="yes">management|football|research|project|home|display|youth|cup|development|design|sales|rescue|cricket|production|care|action|hockey|rugby|league|campaign|inspection|support|soccer|mortar|test|specialist|negotiating|relay|buy-out|course|world|health|investigation|planning|school|treasury|inquiry|planting|service|styling|division|improvement|marketing|review|services|ward|policy|work|area|basketball|club|control|dream|hospital|insight|protection|sports|town|baseball|executive|touring|university</token>
+        <token regexp="yes">management|football|research|project|home|display|youth|cup|development|design|sales|rescue|cricket|production|care|action|hockey|rugby|league|campaign|inspection|support|soccer|mortar|test|specialist|negotiating|relay|buy-out|course|world|health|investigation|planning|school|treasury|inquiry|planting|service|styling|division|improvement|marketing|review|services|ward|policy|work|area|basketball|club|control|dream|hospital|insight|protection|sports|town|baseball|executive|touring|university|buyout</token>
         <token>teem</token>
       </pattern>
       <message>Possible typo. Did you mean <suggestion>\1 team</suggestion>?</message>
@@ -665,7 +665,7 @@ $Id: grammar.xml,v 1.78 2008-11-10 12:10:41 milek_pl Exp $
     </rule>
     <rule id="MOTHER_IN_LAW" name="mother in law (mother-in-law)">
       <pattern>
-        <token regexp="yes">mother|sister|brother|father</token>
+        <token regexp="yes">(mother|sister|brother|father|son|relative)s?</token>
         <token>in</token>
         <token>law</token>
       </pattern>
@@ -676,7 +676,7 @@ $Id: grammar.xml,v 1.78 2008-11-10 12:10:41 milek_pl Exp $
     <rulegroup id="MOTHER-IN-LOW" name="mother-in-low (mother-in-law)">
       <rule>
         <pattern>
-          <token regexp="yes">(mother|sister|brother|father)-in-low</token>
+          <token regexp="yes">(mother|sister|brother|father|relative|son)s?-in-low</token>
         </pattern>
         <message>Possible typo. You probably meant: <suggestion><match no="1" regexp_match="(.*)-in-low" regexp_replace="$1-in-law"/></suggestion></message>
         <example type="correct">This is her <marker>mother-in-law</marker>.</example>
@@ -684,7 +684,7 @@ $Id: grammar.xml,v 1.78 2008-11-10 12:10:41 milek_pl Exp $
       </rule>
       <rule>
         <pattern>
-          <token regexp="yes">(mother|sister|brother|father)</token>
+          <token regexp="yes">(mother|sister|brother|father|son|relative)s?</token>
           <token>in</token>
           <token>low</token>
         </pattern>
@@ -1524,6 +1524,15 @@ $Id: grammar.xml,v 1.78 2008-11-10 12:10:41 milek_pl Exp $
         <example type="correct">My computer starts up only <marker>once in a while</marker>.</example>
       </rule>
     </rulegroup>
+    <rule id="ZERO-SUM_GAIN" name="zero-sum gain (zero-sum game)">
+      <pattern>
+        <token>zero-sum</token>
+        <token>gain</token>
+      </pattern>
+      <message>Possible typo. Did you mean <suggestion>\1 game</suggestion>?</message>
+      <example correction="zero-sum game" type="incorrect">It is a <marker>zero-sum gain</marker> when wages are held flat...</example>
+      <example type="correct">It is a zero-sum game when wages are held flat...</example>
+    </rule>
   </category>
   <!-- ====================================================================== -->
   <!-- Grammar -->
@@ -3430,7 +3439,7 @@ $Id: grammar.xml,v 1.78 2008-11-10 12:10:41 milek_pl Exp $
     <rule id="ECONOMICAL_ECONOMIC" name="'econonomical growth' etc. (economic)">
       <pattern mark_to="-1">
         <token>economical</token>
-        <token regexp="yes">growth|development|policy|activity|recovery|reform|policies|crisis|co-operation|problems|conditions|system|reforms|performance|history|climate|indicators|relations|power|situation|community|life|planning|affairs|theory|recession|change|review|factors|aid|benefits|circumstances|decline|sanctions|interests|analysis|strategy|difficulties|integration|issues|efficiency|assistance|position|terms|management|base|programme|digest|environment|union|activities|modelling|structure|success|reasons|sense|changes|forces|order|progress|loss|consequences|prosperity|resources|pressures|commission|depression|systems|miracle|regeneration|structures|trends|blockade|adviser|impact|restructuring|developments|measures|prospects|independence|stability|cooperation|status|support|expansion</token>
+        <token regexp="yes">growth|development|policy|activity|recovery|reform|policies|crisis|cooperation|co-operation|problems|conditions|system|reforms|performance|history|climate|indicators|relations|power|situation|community|life|planning|affairs|theory|recession|change|review|factors|aid|benefits|circumstances|decline|sanctions|interests|analysis|strategy|difficulties|integration|issues|efficiency|assistance|position|terms|management|base|programme|digest|environment|union|activities|modelling|structure|success|reasons|sense|changes|forces|order|progress|loss|consequences|prosperity|resources|pressures|commission|depression|systems|miracle|regeneration|structures|trends|blockade|adviser|impact|restructuring|developments|measures|prospects|independence|stability|cooperation|status|support|expansion</token>
       </pattern>
       <message>Did you mean <suggestion>economic</suggestion> (=connected with economy)?</message>
       <example correction="economic" type="incorrect">This article deals with <marker>economical</marker> development of the Third World.</example>
