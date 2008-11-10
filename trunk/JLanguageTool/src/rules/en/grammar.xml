@@ -7,7 +7,7 @@ title="Easy editing stylesheet" ?>
 English Grammar and Typo Rules for LanguageTool
 See tagset.txt for the meaning of the POS tags
 Copyright (C) 2001-2007 Daniel Naber (http://www.danielnaber.de)
-$Id: grammar.xml,v 1.77 2008-11-09 12:27:23 milek_pl Exp $
+$Id: grammar.xml,v 1.78 2008-11-10 12:10:41 milek_pl Exp $
 -->
 <rules lang="en">
   <!-- ====================================================================== -->
@@ -673,6 +673,26 @@ $Id: grammar.xml,v 1.77 2008-11-09 12:27:23 milek_pl Exp $
       <example type="correct">This is her <marker>mother-in-law</marker>.</example>
       <example correction="mother-in-law" type="incorrect">This is her <marker>mother in law</marker>.</example>
     </rule>
+    <rulegroup id="MOTHER-IN-LOW" name="mother-in-low (mother-in-law)">
+      <rule>
+        <pattern>
+          <token regexp="yes">(mother|sister|brother|father)-in-low</token>
+        </pattern>
+        <message>Possible typo. You probably meant: <suggestion><match no="1" regexp_match="(.*)-in-low" regexp_replace="$1-in-law"/></suggestion></message>
+        <example type="correct">This is her <marker>mother-in-law</marker>.</example>
+        <example correction="mother-in-law" type="incorrect">This is her <marker>mother-in-low</marker>.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">(mother|sister|brother|father)</token>
+          <token>in</token>
+          <token>low</token>
+        </pattern>
+        <message>Possible typos. This word is usually spelled with hyphens: <suggestion>\1-\2-law</suggestion>.</message>
+        <example type="correct">This is her <marker>mother-in-law</marker>.</example>
+        <example correction="mother-in-law" type="incorrect">This is her <marker>mother in low</marker>.</example>
+      </rule>
+    </rulegroup>
     <rule id="SENT_START_THEM" name="'Them (Then)' at sentence start">
       <pattern mark_from="1">
         <token postag="SENT_START"/>
@@ -3212,6 +3232,16 @@ $Id: grammar.xml,v 1.77 2008-11-09 12:27:23 milek_pl Exp $
       <example type="correct"><marker>The</marker> thing is this.</example>
       <example correction="The|The, a" type="incorrect"><marker>The a</marker> thing is this.</example>
       <example type="correct">The Thames was once a much broader river.</example>
+    </rule>
+    <rule id="AN_ANOTHER" name="an another (an / another)">
+      <pattern>
+        <token>an</token>
+        <token>another</token>
+        <token/>
+      </pattern>
+      <message>One of these determiners is redundant in this context. Choose only one: <suggestion><match no="3" postag="+INDT"/></suggestion> or <suggestion><match no="2"/> <match no="3"/></suggestion>.</message>
+      <example correction="a lonely|another lonely" type="incorrect">It's <marker>an another lonely</marker> night.</example>
+      <example type="correct">It's another lonely night.</example>
     </rule>
     <rulegroup id="PHRASE_REPETITION" name="Phrase repetition">
       <!--  from Wikipedia Typos page -->
