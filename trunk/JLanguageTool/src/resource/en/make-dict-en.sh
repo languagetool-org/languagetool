@@ -12,5 +12,5 @@ gawk -f morph_data.awk $TMP_OUTPUT | fsa_ubuild -O -o $OUTPUT
 echo "Output written to $OUTPUT"
 #create synthesis dictionary
 gawk -f synteza.awk $TMP_OUTPUT | gawk -f morph_data.awk | sort -u | fsa_ubuild -O -o $OUTPUT_SYNTH
-gawk -f tags.awk $TMP_OUTPUT |sort -u >english-tags.txt
+gawk -f tags.awk $TMP_OUTPUT |sort -u >english_tags.txt
 echo "Output written to $OUTPUT_SYNTH"
