@@ -2,7 +2,7 @@
 <!--
 English Disambiguation Rules for LanguageTool
 Copyright (C) 2008 Marcin Miłkowski
-$Id: disambiguation.xml,v 1.10 2008-11-13 20:29:18 milek_pl Exp $
+$Id: disambiguation.xml,v 1.11 2008-11-13 21:30:05 milek_pl Exp $
 -->
 
 <rules lang="en">
@@ -141,6 +141,47 @@ $Id: disambiguation.xml,v 1.10 2008-11-13 20:29:18 milek_pl Exp $
 			</and>
 		</pattern>
 		<disambig postag="NNS"/>
+	</rule>
+	
+	<rule name="SENT_START + pronoun + verb/NN -> verb" id="SENT_START_PRP_VB_NN">
+		<pattern mark="3">
+			<token postag="SENT_START"/>
+			<token regexp="yes">I|you|we|they</token>
+			<and>
+			<token postag="NN"/>
+			<token postag="VBP"/>			
+			</and> 
+		</pattern>
+		<disambig postag="VBP"/>
+	</rule> 
+	
+	<rule name="let's" id="LETS1">
+		<pattern mark="0">
+			<token>let</token>
+			<token>'</token>
+			<token>s</token>
+		</pattern>
+		<disambig postag="VBP"/>
+	</rule>
+	
+	<rule name="let's" id="LETS2">
+		<pattern mark="2">
+			<token>let</token>
+			<token>'</token>
+			<token>s</token>
+		</pattern>
+		<disambig postag="PRP"/>
+	</rule>
+	
+	<rule name="determiner + verb/NN -> NN" id="DT_VB_NN">
+		<pattern mark="2">
+			<token postag="DT"><exception postag="PDT"/></token>
+			<and>
+			<token postag="VB"/>
+			<token postag="NN"/>
+			</and>
+		</pattern>
+		<disambig postag="NN"/>
 	</rule>
 
 </rules>
