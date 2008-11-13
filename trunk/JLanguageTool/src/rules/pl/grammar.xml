@@ -6,7 +6,7 @@ title="Easy editing stylesheet" ?>
 <!--
 Polish Grammar and Typo Rules for LanguageTool
 Copyright (C) 2006-2007 Marcin Miłkowski
-$Id: grammar.xml,v 1.142 2008-11-08 22:36:39 milek_pl Exp $
+$Id: grammar.xml,v 1.143 2008-11-13 18:07:16 milek_pl Exp $
 -->
 <rules lang="pl">
   <phrases>
@@ -7581,6 +7581,32 @@ Znacznie częściej ta forma jest mylona z trybem rozkazującym od „pokazać�
     </rule>
   </category>
   <category name="Prawdopodobne literówki">
+    <rule id="OKAZALA_SIE" name="„okazałą się” (okazała się)">
+      <pattern>
+        <token>okazałą</token>
+        <token>się</token>
+      </pattern>
+      <message>Prawdopodobna literówka. Czy chodziło o <suggestion>okazała \2</suggestion>?</message>
+      <example correction="okazała się" type="incorrect">Rzekoma artystka <marker>okazałą się</marker> oszustką.</example>
+      <example type="correct">Rzekoma artystka okazała się oszustką.</example>
+    </rule>
+    <rule id="NIEDAWANA" name="„do niedawana” (do niedawna)">
+      <pattern>
+        <token regexp="yes">do|od</token>
+        <token>niedawana</token>
+      </pattern>
+      <message>Prawdopodobna literówka. Czy chodziło o <suggestion>\1 niedawna</suggestion>?</message>
+      <example correction="Do niedawna" type="incorrect"><marker>Do niedawana</marker> chodziłem w trampkach na przyjęcia.</example>
+      <example type="correct">Do niedawna jadłem fasolkę.</example>
+    </rule>
+    <rule id="GWALTOWANIE" name="„gwałtowanie” (gwałtownie)">
+      <pattern>
+        <token>gwałtowanie</token>
+      </pattern>
+      <message>Prawdopodobna literówka. Czy chodziło o <suggestion>gwałtownie</suggestion> (=raptem, nagle)?</message>
+      <example correction="gwałtownie" type="incorrect">Podniósł się <marker>gwałtowanie</marker> z łóżka.</example>
+      <example type="correct">Podniósł się gwałtownie z łóżka.</example>
+    </rule>
     <rule id="TWIERDZA_ZE" name="„twierdza, że” (twierdzą, że)">
       <pattern mark_to="-2">
         <token>twierdza</token>
