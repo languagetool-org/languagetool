@@ -7,7 +7,7 @@ title="Easy editing stylesheet" ?>
 English Grammar and Typo Rules for LanguageTool
 See tagset.txt for the meaning of the POS tags
 Copyright (C) 2001-2007 Daniel Naber (http://www.danielnaber.de)
-$Id: grammar.xml,v 1.79 2008-11-10 15:48:57 milek_pl Exp $
+$Id: grammar.xml,v 1.80 2008-11-13 18:07:43 milek_pl Exp $
 -->
 <rules lang="en">
   <!-- ====================================================================== -->
@@ -267,6 +267,25 @@ $Id: grammar.xml,v 1.79 2008-11-10 15:48:57 milek_pl Exp $
       <message>Did you mean <suggestion>\1 all intents and purposes</suggestion>?</message>
       <example correction="for all intents and purposes" type="incorrect">Well, not all of it, but <marker>for all intensive purposes</marker>, I read it.</example>
       <example type="correct">Well, not all of it, but for all intents and purposes, I read it.</example>
+    </rule>
+    <rule id="AWAY_FRO" name="away fro (away from)">
+      <pattern>
+        <token>away</token>
+        <token>fro</token>
+      </pattern>
+      <message>Possible typo. Did you mean <suggestion>away from</suggestion>?</message>
+      <example correction="away from" type="incorrect">He is <marker>away fro</marker> the sea.</example>
+      <example type="correct">He is away from the sea.</example>
+    </rule>
+    <rule id="FRO_A_WHILE" name="fro a while (for a while)">
+      <pattern mark_to="-2">
+        <token>fro</token>
+        <token regexp="yes">a|an</token>
+        <token regexp="yes">while|weekend|month|year|hour|minute|second|week</token>
+      </pattern>
+      <message>Possible typo. Did you mean <suggestion>for</suggestion>?</message>
+      <example type="correct">I went there for a weekend.</example>
+      <example correction="for" type="incorrect">I went there <marker>fro</marker> a weekend.</example>
     </rule>
     <rulegroup id="HOUR_OUR" name="half an our (half an hour)">
       <rule>
@@ -1038,6 +1057,25 @@ $Id: grammar.xml,v 1.79 2008-11-10 15:48:57 milek_pl Exp $
       <example type="correct">It's less controversial <marker>than</marker> one would think.</example>
       <example type="incorrect">It's less controversial <marker>then</marker> one would think.</example>
     </rule>
+    <rule id="COMMA_THAN" name="..., than (then)">
+      <pattern mark_from="1">
+        <token><exception postag="JJR" postag_regexp="yes" scope="previous"/>,</token>
+        <token>than</token>
+      </pattern>
+      <message>Possible typo. Did you mean <suggestion>then</suggestion>?</message>
+      <example correction="then" type="incorrect">If we want to eat, <marker>than</marker> we need to get some money.</example>
+      <example type="correct">If we want to eat, <marker>then</marker> we need to get some money.</example>
+    </rule>
+    <rule id="FROM_THAN_ON" name="from than on (from then on)">
+      <pattern>
+        <token>from</token>
+        <token>than</token>
+        <token>on</token>
+      </pattern>
+      <message>Possible typo. Did you mean <suggestion>from then on</suggestion>?</message>
+      <example correction="From then on" type="incorrect"><marker>From than on</marker> I entered a period of dullness, nothing bothered me anymore.</example>
+      <example type="correct">From then on I entered a period of dullness, nothing bothered me anymore.</example>
+    </rule>
     <rule id="AND_THAN" name="and than (then)">
       <pattern mark_from="1">
         <token>and</token>
@@ -1066,6 +1104,29 @@ $Id: grammar.xml,v 1.79 2008-11-10 15:48:57 milek_pl Exp $
         <example type="correct">Are human beings any different from animals?</example>
         <example type="incorrect">Are human beings any different <marker>than</marker> animals?</example>
         <example type="incorrect">Are human beings any different <marker>then</marker> animals?</example>
+      </rule>
+    </rulegroup>
+    <rulegroup id="PEACE_PIECE" name="peace (piece)">
+      <rule>
+        <pattern mark_to="-2">
+          <token>peace</token>
+          <token>of</token>
+          <token regexp="yes">cake|work|information</token>
+        </pattern>
+        <message>Possible typo. Did you mean <suggestion>piece</suggestion>?</message>
+        <example correction="piece" type="incorrect">It's a <marker>peace</marker> of cake!</example>
+        <example type="correct">It's a piece of cake!</example>
+      </rule>
+    </rulegroup>
+    <rulegroup id="QUIET_QUITE" name="quite (quiet)">
+      <rule>
+        <pattern mark_to="-1">
+          <token>quite</token>
+          <token postag="SENT_END"/>
+        </pattern>
+        <message>Possible typo. Did you mean <suggestion>quiet</suggestion>?</message>
+        <example correction="quiet" type="incorrect">Be <marker>quite</marker>!</example>
+        <example type="correct">Be quiet!</example>
       </rule>
     </rulegroup>
     <rule id="OF_CAUSE" name="of cause (course)">
@@ -3464,6 +3525,15 @@ $Id: grammar.xml,v 1.79 2008-11-10 15:48:57 milek_pl Exp $
         <message>Did you mean <suggestion>principal</suggestion> (=main)?</message>
         <example correction="principal" type="incorrect">The <marker>principle</marker> activity of the Foundation is centred on humanitarian aid and charity, especially with regards to children.</example>
         <example type="correct">The principal activity of the Foundation is focused on humanitarian aid and charity.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>school</token>
+          <token>principle</token>
+        </pattern>
+        <message>Possible typo. Did you mean <suggestion>school principal</suggestion> (=head of school)?</message>
+        <example correction="school principal" type="incorrect">Mr Brown is our new <marker>school principle</marker>.</example>
+        <example type="correct">Mr Brown is our new school principal.</example>
       </rule>
     </rulegroup>
     <rule id="ECONOMIC_ECONOMICAL" name="'econonomic car' etc. (economical)">
