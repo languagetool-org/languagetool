@@ -116,7 +116,9 @@ public class StringToolsTest extends TestCase {
     assertEquals(true, StringTools.isWhitespace("\u2002"));
     //non-breaking space is not a whitespace
     assertEquals(false, StringTools.isWhitespace("\u00a0"));
-    assertEquals(false, StringTools.isWhitespace("abc"));    
+    assertEquals(false, StringTools.isWhitespace("abc"));
+    //non-breaking OOo field
+    assertEquals(false, StringTools.isWhitespace("\\u02"));
   }
   
 }

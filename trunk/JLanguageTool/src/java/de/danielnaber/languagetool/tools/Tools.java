@@ -30,6 +30,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 
+import de.danielnaber.languagetool.AnalyzedSentence;
 import de.danielnaber.languagetool.JLanguageTool;
 import de.danielnaber.languagetool.rules.RuleMatch;
 import de.danielnaber.languagetool.rules.patterns.PatternRule;
@@ -42,6 +43,22 @@ public final class Tools {
     // cannot construct, static methods only
   }
 
+  /**
+   * Tags text using the LangugageTool tagger.
+   * 
+   * @param contents Text to tag.
+   * @param lt LanguageTool instance
+   * @throws IOException 
+   */
+  public static void tagText(final String contents, JLanguageTool lt) throws IOException {
+    AnalyzedSentence analyzedText;
+    final List<String> sentences = lt.sentenceTokenize(contents);
+    for (String sentence : sentences) {
+    analyzedText = lt.getAnalyzedSentence(sentence);
+    System.out.println(analyzedText.toString());
+    }
+  }
+  
   public static int checkText(final String contents, JLanguageTool lt) throws IOException {
     return checkText(contents, lt, false, -1);
   }

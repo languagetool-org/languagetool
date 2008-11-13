@@ -443,13 +443,13 @@ public class PatternRule extends Rule {
 
         AnalyzedTokenReadings firstMatchTokenObj = tokens[firstMatchToken + correctedStPos];
         boolean startsWithUppercase = 
-          StringTools.startsWithUppercase(firstMatchTokenObj.toString())
+          StringTools.startsWithUppercase(firstMatchTokenObj.getToken())
           && !matchConvertsCase();
 
         if (firstMatchTokenObj.isSentStart() && tokens.length > firstMatchToken + correctedStPos + 1) {
           // make uppercasing work also at sentence start: 
           firstMatchTokenObj = tokens[firstMatchToken + correctedStPos + 1];
-          startsWithUppercase = StringTools.startsWithUppercase(firstMatchTokenObj.toString());
+          startsWithUppercase = StringTools.startsWithUppercase(firstMatchTokenObj.getToken());
         }
         int fromPos = tokens[firstMatchToken + correctedStPos]
                              .getStartPos();

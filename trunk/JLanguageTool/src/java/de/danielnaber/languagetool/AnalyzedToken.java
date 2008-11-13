@@ -66,7 +66,11 @@ public class AnalyzedToken {
   }
 
   public String toString() {
-    return token + "/" + posTag;
+    if (lemma != null) {
+      return lemma + "/" + posTag;
+    } else {
+      return token + "/" + posTag;
+    }
   }
 
 }

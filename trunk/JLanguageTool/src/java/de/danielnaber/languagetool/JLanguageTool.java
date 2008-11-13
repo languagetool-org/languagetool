@@ -357,6 +357,13 @@ public final class JLanguageTool {
   }
 
   /**
+   *  Returns tokenized sentences.
+   */
+  public List<String> sentenceTokenize(final String text) {
+    return sentenceTokenizer.tokenize(text);
+  }
+  
+  /**
    * The main check method. Tokenizes the text into sentences and matches these
    * sentences against all currently active rules.
    * 
@@ -366,7 +373,7 @@ public final class JLanguageTool {
    */
   public List<RuleMatch> check(final String text) throws IOException {
     sentenceCount = 0;
-    final List<String> sentences = sentenceTokenizer.tokenize(text);
+    final List<String> sentences = sentenceTokenize(text);
     final List<RuleMatch> ruleMatches = new ArrayList<RuleMatch>();
     final List<Rule> allRules = getAllRules();           
     printIfVerbose(allRules.size() + " rules activated for language " + language);

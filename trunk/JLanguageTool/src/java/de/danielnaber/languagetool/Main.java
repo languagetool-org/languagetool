@@ -49,6 +49,7 @@ class Main {
   private JLanguageTool lt = null;
   private boolean verbose = false;
   private boolean apiFormat = false;
+  private boolean taggerOnly = false;
   
   /* maximum file size to read in a single read */
   private final static int MAXFILESIZE = 64000;
@@ -60,14 +61,15 @@ class Main {
 
   Main(boolean verbose, Language language, Language motherTongue, String[] disabledRules,
       String[] enabledRules) throws IOException, SAXException, ParserConfigurationException {
-      this(verbose, language, motherTongue, disabledRules, enabledRules, false);
+      this(verbose, false, language, motherTongue, disabledRules, enabledRules, false);
   }
-
-  Main(boolean verbose, Language language, Language motherTongue, String[] disabledRules,
+    
+  Main(boolean verbose, boolean taggerOnly, Language language, Language motherTongue, String[] disabledRules,
       String[] enabledRules, boolean apiFormat) throws IOException, 
       SAXException, ParserConfigurationException {
     this.verbose = verbose;
     this.apiFormat = apiFormat;
+    this.taggerOnly = taggerOnly;
     lt = new JLanguageTool(language, motherTongue);
     lt.activateDefaultPatternRules();
     lt.activateDefaultFalseFriendRules();
@@ -96,10 +98,14 @@ class Main {
 
   private void runOnFile(final String filename, final String encoding) throws IOException {
     final File file = new File(filename);
-    if (file.length() < MAXFILESIZE) {
+      if (file.length() < MAXFILESIZE) {
       final String text = 
         getFilteredText(filename, encoding);
+        if (!taggerOnly) {
         Tools.checkText(text, lt);
+        } else {
+          Tools.tagText(text, lt);
+        }                
       } else {
         if (verbose)
           lt.setOutput(System.err);
@@ -122,7 +128,11 @@ class Main {
           String line;
           while ((line = br.readLine()) != null) {
             line += "\n";
+            if (!taggerOnly) {
             Tools.checkText(filterXML(line), lt);
+            } else {
+              Tools.tagText(filterXML(line), lt);
+            }
           }
         } finally {
           if (br != null) {
@@ -183,7 +193,7 @@ class Main {
   private static void exitWithUsageMessage() {
     System.out.println("Usage: java de.danielnaber.languagetool.Main " +
             "[-r|--recursive] [-v|--verbose] [-l|--language LANG] [-m|--mothertongue LANG] [-d|--disable RULES] " +
-            "[-e|--enable RULES] [-c|--encoding] [-u|--list-unknown] [-b] <file>");
+            "[-e|--enable RULES] [-c|--encoding] [-u|--list-unknown] [-t|--taggeronly] [-b] <file>");
     System.exit(1);
   }
 
@@ -196,6 +206,7 @@ class Main {
     }
     boolean verbose = false;
     boolean recursive = false;
+    boolean taggerOnly = false;
     boolean singleLineBreakMarksParagraph = false;
     boolean apiFormat = false;
     boolean listUnknown = false;
@@ -210,6 +221,8 @@ class Main {
         exitWithUsageMessage();
       } else if (args[i].equals("-v") || args[i].equals("--verbose")) {
         verbose = true;
+      } else if (args[i].equals("-t") || args[i].equals("--taggeronly")) {
+        taggerOnly = true;
       } else if (args[i].equals("-r") || args[i].equals("--recursive")) {
         recursive = true;
       } else if (args[i].equals("-d") || args[i].equals("--disable")) {
@@ -252,7 +265,7 @@ class Main {
       System.out.println("Expected text language: " + language.getName());
     }
     language.getSentenceTokenizer().setSingleLineBreaksMarksParagraph(singleLineBreakMarksParagraph);
-    Main prg = new Main(verbose, language, motherTongue, disabledRules, enabledRules, apiFormat);
+    Main prg = new Main(verbose, taggerOnly, language, motherTongue, disabledRules, enabledRules, apiFormat);
     prg.setListUnknownWords(listUnknown);
     if (recursive) {
       prg.runRecursive(filename, encoding);

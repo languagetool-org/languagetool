@@ -2,7 +2,7 @@
 <!--
 English Disambiguation Rules for LanguageTool
 Copyright (C) 2008 Marcin Miłkowski
-$Id: disambiguation.xml,v 1.9 2008-11-13 18:13:25 milek_pl Exp $
+$Id: disambiguation.xml,v 1.10 2008-11-13 20:29:18 milek_pl Exp $
 -->
 
 <rules lang="en">
@@ -134,7 +134,7 @@ $Id: disambiguation.xml,v 1.9 2008-11-13 18:13:25 milek_pl Exp $
 	<rule name="preposition + 'this' + verb 3sg/NNS -> nns" id="IN_VBZ_NNS">
 		<pattern mark="3">
 			<token postag="IN"><exception regexp="yes">as|like</exception></token>			
-			<token>this</token>
+			<token regexp="yes">this|these</token>
 			<and>
 			<token postag="NNS"/>
 			<token postag="VBZ"><exception regexp="yes">means|works|shows|leads|takes|lies|goes|stems|gives|makes|does</exception></token>
