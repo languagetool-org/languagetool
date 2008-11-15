@@ -81,6 +81,24 @@ public class AnalyzedTokenReadings {
   public final List<AnalyzedToken> getReadings() {
     return Arrays.asList(anTokReadings);
   }
+  
+  /**
+   * Checks if the token has a particular POS tag.
+   * @param POS POS Tag to check
+   * @return True if it does.
+   */
+  public final boolean hasPosTag(final String POS) {
+    boolean found = false;
+    for (final AnalyzedToken reading: anTokReadings) {
+      if (reading.posTag != null) {
+        found |= POS.equals(reading.posTag);
+        if (found) {
+          break;
+        }
+      }
+    }
+    return found;
+  }
 
   public final AnalyzedToken getAnalyzedToken(final int i) {
     return anTokReadings[i];

@@ -2,7 +2,7 @@
 <!--
 English Disambiguation Rules for LanguageTool
 Copyright (C) 2008 Marcin Miłkowski
-$Id: disambiguation.xml,v 1.12 2008-11-15 17:10:14 milek_pl Exp $
+$Id: disambiguation.xml,v 1.13 2008-11-15 22:52:05 milek_pl Exp $
 -->
 
 <rules lang="en">
@@ -195,4 +195,32 @@ $Id: disambiguation.xml,v 1.12 2008-11-15 17:10:14 milek_pl Exp $
 		<disambig postag="IN"/>
 	</rule>
 
+	<!-- 'an' is part of a proper name here -->
+	<rule name="Qur'an" id="QUARAN">
+		<pattern mark="2">
+		<token>Qur</token>
+		<token>'</token>
+		<token>an</token>
+		</pattern>
+		<disambig postag="NNP"/>
+	</rule>
+	
+	<!-- A is not a determiner but a variable in this context -->
+	<rule name="a and be" id="A_AND_B">
+		<pattern mark="0">
+		<token>a</token>
+		<token>and</token>
+		<token>b</token>
+		</pattern>
+		<disambig postag="NNP"/>
+	</rule>
+	
+	<rule name="A is..." id="A_IS">
+		<pattern case_sensitive="yes" mark="0">
+			<token>A</token>
+			<token>is</token>
+		</pattern>
+		<disambig postag="NNP"/>
+	</rule>
+	
 </rules>

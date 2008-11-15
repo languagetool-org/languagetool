@@ -61,6 +61,12 @@ public class AvsAnRuleTest extends TestCase {
     assertEquals(0, matches.length);
     matches = rule.match(langTool.getAnalyzedSentence("In an un-united Germany..."));
     assertEquals(0, matches.length);
+    
+    //fixed false alarms:
+    matches = rule.match(langTool.getAnalyzedSentence("Here, a and b are supplementary angles."));
+    assertEquals(0, matches.length);
+    matches = rule.match(langTool.getAnalyzedSentence("The Qur'an was translated into Polish."));
+    assertEquals(0, matches.length);
 
     // errors:
     matches = rule.match(langTool.getAnalyzedSentence("It was a hour ago."));

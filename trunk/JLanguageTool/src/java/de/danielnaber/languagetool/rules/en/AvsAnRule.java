@@ -118,8 +118,7 @@ public class AvsAnRule extends EnglishRule {
           }
         }
         //System.err.println(prevToken + " " +token + ", a="+doesRequireA + ", an="+doesRequireAn);
-        //TODO: add exception for 'A and B are cities...'
-        String msg = null;
+        String msg = null;        
         if (prevToken.equalsIgnoreCase("a") && doesRequireAn) {
           String repl = "an";
           if (prevToken.equals("A")) {
@@ -142,7 +141,11 @@ public class AvsAnRule extends EnglishRule {
           final RuleMatch ruleMatch = new RuleMatch(this, prevPos, prevPos+prevToken.length(), msg);
           ruleMatches.add(ruleMatch);
         }
-        prevToken = token;
+        if (tokens[i].hasPosTag("DT")) {
+          prevToken = token;
+        } else {
+          prevToken = "";
+        }
     }
     return toRuleMatchArray(ruleMatches);
   }

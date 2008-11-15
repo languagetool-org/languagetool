@@ -128,6 +128,10 @@ class DisambiguationRuleHandler extends XMLRuleHandler {
       if (attrs.getValue("mark") != null) {
         positionCorrection = Integer.parseInt(attrs.getValue("mark"));
       }
+      if (attrs.getValue("case_sensitive") != null
+          && "yes".equals(attrs.getValue("case_sensitive"))) {
+        caseSensitive = true;
+      }
     } else if (qName.equals("exception")) {
       inException = true;      
       exceptions = new StringBuffer();
