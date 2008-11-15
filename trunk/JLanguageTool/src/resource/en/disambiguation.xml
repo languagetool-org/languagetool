@@ -2,7 +2,7 @@
 <!--
 English Disambiguation Rules for LanguageTool
 Copyright (C) 2008 Marcin Miłkowski
-$Id: disambiguation.xml,v 1.11 2008-11-13 21:30:05 milek_pl Exp $
+$Id: disambiguation.xml,v 1.12 2008-11-15 17:10:14 milek_pl Exp $
 -->
 
 <rules lang="en">
@@ -182,6 +182,17 @@ $Id: disambiguation.xml,v 1.11 2008-11-13 21:30:05 milek_pl Exp $
 			</and>
 		</pattern>
 		<disambig postag="NN"/>
+	</rule>
+	
+	<rule name="IN/NN + PRP$ -> IN" id="IN_NN_PRP">
+		<pattern mark="0">
+		<and>
+		<token postag="IN"><exception>like</exception></token>
+		<token postag="NN"/>				
+		</and>
+		<token postag="PRP$"/>				
+		</pattern>
+		<disambig postag="IN"/>
 	</rule>
 
 </rules>
