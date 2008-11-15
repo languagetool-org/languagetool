@@ -2,7 +2,7 @@
 <!--
 English Disambiguation Rules for LanguageTool
 Copyright (C) 2008 Marcin Miłkowski
-$Id: disambiguation.xml,v 1.13 2008-11-15 22:52:05 milek_pl Exp $
+$Id: disambiguation.xml,v 1.14 2008-11-15 23:07:34 milek_pl Exp $
 -->
 
 <rules lang="en">
@@ -219,6 +219,18 @@ $Id: disambiguation.xml,v 1.13 2008-11-15 22:52:05 milek_pl Exp $
 		<pattern case_sensitive="yes" mark="0">
 			<token>A</token>
 			<token>is</token>
+		</pattern>
+		<disambig postag="NNP"/>
+	</rule>
+	
+	<!-- for Bob Brown etc. --> 
+	<rule name="NNP/VB + NNP -> NNP" id="NNP_VB_NNP">
+		<pattern case_sensitive="yes" mark="0">
+			<and>
+			<token postag="NNP" regexp="yes">\p{Lu}\p{Ll}+</token>
+			<token postag="VB"/>
+			</and>
+			<token postag="NNP" regexp="yes">\p{Lu}\p{Ll}+</token>
 		</pattern>
 		<disambig postag="NNP"/>
 	</rule>
