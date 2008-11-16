@@ -7,7 +7,7 @@ title="Easy editing stylesheet" ?>
 English Grammar and Typo Rules for LanguageTool
 See tagset.txt for the meaning of the POS tags
 Copyright (C) 2001-2007 Daniel Naber (http://www.danielnaber.de)
-$Id: grammar.xml,v 1.82 2008-11-16 12:49:01 milek_pl Exp $
+$Id: grammar.xml,v 1.83 2008-11-16 23:52:56 milek_pl Exp $
 -->
 <rules lang="en">
   <!-- ====================================================================== -->
@@ -77,6 +77,29 @@ $Id: grammar.xml,v 1.82 2008-11-16 12:49:01 milek_pl Exp $
       <example correction="back and forth" type="incorrect">I've been texting <marker>back in forth</marker> with him for the past 3 days.</example>
       <example type="correct">I've been texting back and forth with him for the past 3 days</example>
     </rule>
+    <rulegroup id="BEING_BEGIN" name="being (begin)">
+      <rule>
+        <pattern mark_from="2" mark_to="-2">
+          <token postag="SENT_START"/>
+          <token>To</token>
+          <token>being</token>
+          <token>with</token>
+          <token>,</token>
+        </pattern>
+        <message>Possible typo. Did you mean <suggestion>begin</suggestion>?</message>
+        <example correction="begin" type="incorrect">To <marker>being</marker> with, she is a Russian spy.</example>
+        <example type="correct">To begin with, she's a spy.</example>
+      </rule>
+      <rule>
+        <pattern mark_to="-1">
+          <token>begin</token>
+          <token postag="VBD|VBN" postag_regexp="yes"/>
+        </pattern>
+        <message>Possible typo. Did you mean <suggestion>being</suggestion>?</message>
+        <example correction="being" type="incorrect">I was willing to risk <marker>begin</marker> interrogated  about what I was going to do with the information.</example>
+        <example type="correct">I was willing to risk being interrogated about what I was going to do with the information.</example>
+      </rule>
+    </rulegroup>
     <rule id="BOB_WIRE" name="bob/barb wire (barbed wire)">
       <pattern>
         <token regexp="yes">bob|barb</token>
@@ -132,6 +155,37 @@ $Id: grammar.xml,v 1.82 2008-11-16 12:49:01 milek_pl Exp $
       <example correction="for sale" type="incorrect">Current Michigan homes <marker>for sell</marker></example>
       <example type="correct">Current Michigan homes for sale</example>
     </rule>
+    <rulegroup id="FROM_FORM" name="from (form)">
+      <rule>
+        <pattern>
+          <token>in</token>
+          <token>any</token>
+          <token>from</token>
+        </pattern>
+        <message>Possible typo. Did you mean <suggestion>in any form</suggestion>?</message>
+        <example correction="in any form" type="incorrect">Do not duplicate or redistribute <marker>in any from</marker>.</example>
+        <example type="correct">Do not duplicate or redistribute in any form.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="1" mark_to="-1">
+          <token postag="DT"><exception>the</exception></token>
+          <token>from</token>
+          <token postag="SENT_END"/>
+        </pattern>
+        <message>Possible typo. Did you mean <suggestion>form</suggestion>?</message>
+        <example correction="form" type="incorrect">Fill in this <marker>from</marker>.</example>
+        <example type="correct">Fill in this form.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>the</token>
+          <token>from</token>
+        </pattern>
+        <message>Possible typo. Did you mean <suggestion>the form</suggestion>?</message>
+        <example correction="the form" type="incorrect">Fill in <marker>the from</marker> as shown below.</example>
+        <example type="correct">Fill in the form as shown below.</example>
+      </rule>
+    </rulegroup>
     <rule id="THERE_EXITS" name="there exits (there exists)">
       <pattern mark_from="1">
         <token>there</token>
@@ -712,6 +766,16 @@ $Id: grammar.xml,v 1.82 2008-11-16 12:49:01 milek_pl Exp $
         <example correction="mother-in-law" type="incorrect">This is her <marker>mother in low</marker>.</example>
       </rule>
     </rulegroup>
+    <rule id="IN_THE_PASSED" name="in the passed (in the past)">
+      <pattern>
+        <token>in</token>
+        <token>the</token>
+        <token>passed</token>
+      </pattern>
+      <message>Possible typo. Did you mean <suggestion>in the past</suggestion>?</message>
+      <example correction="in the past" type="incorrect">We succeeded <marker>in the passed</marker>.</example>
+      <example type="correct">In the past, we had a number of successes.</example>
+    </rule>
     <rule id="SENT_START_THEM" name="'Them (Then)' at sentence start">
       <pattern mark_from="1">
         <token postag="SENT_START"/>
@@ -1084,6 +1148,25 @@ $Id: grammar.xml,v 1.82 2008-11-16 12:49:01 milek_pl Exp $
       <message>Did you mean <suggestion>then</suggestion>?</message>
       <example type="correct">How to add equal values and <marker>then</marker> replace them with their sum?</example>
       <example type="incorrect">How to add equal values and <marker>than</marker> replace them with their sum?</example>
+    </rule>
+    <rule id="THAN_INTERJ" name="..., than, ... (then)">
+      <pattern mark_from="1" mark_to="-1">
+        <token>,</token>
+        <token>than</token>
+        <token>,</token>
+      </pattern>
+      <message>Possible typo. Did you mean <suggestion>then</suggestion>?</message>
+      <example correction="then" type="incorrect">The genuinely interesting question, <marker>than</marker>, becomes...</example>
+      <example type="correct">The genuinely interesting question, then, becomes...</example>
+    </rule>
+    <rule id="WHO_THAN" name="who than (then)">
+      <pattern mark_from="1">
+        <token>who</token>
+        <token>than</token>
+      </pattern>
+      <message>Possible typo. Did you mean <suggestion>then</suggestion>?</message>
+      <example correction="then" type="incorrect">Please, who <marker>than</marker> can help!</example>
+      <example type="correct">Please, who then can help?</example>
     </rule>
     <rulegroup id="RATHER_THEN" name="rather/other/different then (than)">
       <rule>
@@ -1585,6 +1668,16 @@ $Id: grammar.xml,v 1.82 2008-11-16 12:49:01 milek_pl Exp $
         <example type="correct">My computer starts up only <marker>once in a while</marker>.</example>
       </rule>
     </rulegroup>
+    <rule id="VERY_MATCH" name="very match (very much)">
+      <pattern mark_from="1">
+        <token>you</token>
+        <token>very</token>
+        <token>match</token>
+      </pattern>
+      <message>Possible typo. Did you mean <suggestion>very much</suggestion>?</message>
+      <example correction="very much" type="incorrect">Thank you <marker>very match</marker>.</example>
+      <example type="correct">Thank you very much.</example>
+    </rule>
     <rule id="ZERO-SUM_GAIN" name="zero-sum gain (zero-sum game)">
       <pattern>
         <token>zero-sum</token>
@@ -3263,6 +3356,17 @@ $Id: grammar.xml,v 1.82 2008-11-16 12:49:01 milek_pl Exp $
   <!-- Miscellaneous -->
   <!-- ====================================================================== -->
   <category name="Miscellaneous">
+    <rule id="CONTRACTED_FORM_NOT" name="shouldn't not (shouldn't)">
+      <pattern>
+        <token regexp="yes">ain|aren|can|couldn|didn|doesn|don|hasn|isn|mightn|mustn|shan|shouldn|weren|won|wouldn</token>
+        <token>'</token>
+        <token>t</token>
+        <token>not</token>
+      </pattern>
+      <message>You used a negation after a negated contracted verb. Did you mean simply <suggestion>\1\2\3</suggestion>?</message>
+      <example correction="shouldn't" type="incorrect">You <marker>shouldn't not</marker> do it!</example>
+      <example type="correct">You shouldn't do it!</example>
+    </rule>
     <rule id="ALSO_SENT_END" name="'also' at the end of the sentence">
       <pattern mark_to="-1">
         <token>also</token>
@@ -3457,6 +3561,35 @@ $Id: grammar.xml,v 1.82 2008-11-16 12:49:01 milek_pl Exp $
      -->
   </category>
   <category name="Commonly Confused Words">
+    <rulegroup id="ACCEPT_EXCEPT" name="accept/except">
+      <rule>
+        <pattern mark_from="1">
+          <token>please</token>
+          <token>except</token>
+        </pattern>
+        <message>Did you mean <suggestion>accept</suggestion>?</message>
+        <example correction="accept" type="incorrect">Please <marker>except</marker> my apologies.</example>
+        <example type="correct">Please accept my apologies.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="1">
+          <token>(</token>
+          <token>accept</token>
+        </pattern>
+        <message>Possible typo. Did you mean <suggestion>except</suggestion>?</message>
+        <example correction="except" type="incorrect">Police found the culprits (<marker>accept</marker> one).</example>
+        <example type="correct">Police found the culprits (<marker>except</marker> one).</example>
+      </rule>
+      <rule>
+        <pattern mark_from="1">
+          <token postag="VBN|VBD" postag_regexp="yes"><exception>did</exception></token>
+          <token>accept</token>
+        </pattern>
+        <message>Possible typo. Did you mean <suggestion>except</suggestion>?</message>
+        <example correction="except" type="incorrect">This is done <marker>accept</marker> for that fact that we still have JBossws 2.0.0 binaries.</example>
+        <example type="correct">This is done except for the fact that we still have JBossws 2.0.0 binaries.</example>
+      </rule>
+    </rulegroup>
     <rulegroup id="AFFECT_EFFECT" name="affect (effect)">
       <rule>
         <pattern mark_from="2">
