@@ -199,11 +199,11 @@ public class AvsAnRule extends EnglishRule {
       }
     }
     if (doesRequireA) {
-      return "a " + word;
+      return "a " + noun;
     } else if (doesRequireAn) {
-      return "an " + word;
+      return "an " + noun;
     } else {
-      return word;
+      return noun;
     }
   }
   

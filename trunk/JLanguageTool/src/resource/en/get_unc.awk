@@ -15,6 +15,10 @@ while ((getline < english_file)  > 0){
 		}
 
 #explicit list U
+lemma["embryogenesis"]="uncount"
+lemma["astrophotography"]="uncount"
+lemma["slumberland"]="uncount"
+lemma["apoptosis"]="uncount"
 lemma["impairment"]="uncount"
 lemma["treachery"]="uncount"
 lemma["sleep"]="uncount"
@@ -7044,6 +7048,12 @@ partly_noncount["ambuscade"]="uncount"
 partly_noncount["cargo"]="uncount"
 partly_noncount["habitat"]="uncount"
 partly_noncount["recess"]="uncount"
+partly_noncount["inhalation"]="uncount"
+partly_noncount["infamy"]="uncount"
+partly_noncount["thickness"]="uncount"
+partly_noncount["dependency"]="uncount"
+partly_noncount["currency"]="uncount"
+partly_noncount["aikido"]="uncount"
 
 #not strictly non-count, but used without article
 #in a phrase 'coast to coast'

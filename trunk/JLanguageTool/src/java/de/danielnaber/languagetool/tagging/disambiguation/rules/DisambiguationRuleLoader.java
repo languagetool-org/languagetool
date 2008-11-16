@@ -242,9 +242,9 @@ class DisambiguationRuleHandler extends XMLRuleHandler {
     if (qName.equals("rule")) {        
       final DisambiguationPatternRule rule = new DisambiguationPatternRule(id, name, 
           language, elementList, disambiguatedPOS, posSelector);
-      rule.setStartPositionCorrection(positionCorrection);      
+      rule.setStartPositionCorrection(positionCorrection);
+      caseSensitive = false;
       rules.add(rule);      
-
       if (elementList != null) {
         elementList.clear();
       }
