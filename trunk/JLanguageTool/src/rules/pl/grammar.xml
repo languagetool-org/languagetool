@@ -6,7 +6,7 @@ title="Easy editing stylesheet" ?>
 <!--
 Polish Grammar and Typo Rules for LanguageTool
 Copyright (C) 2006-2007 Marcin Miłkowski
-$Id: grammar.xml,v 1.143 2008-11-13 18:07:16 milek_pl Exp $
+$Id: grammar.xml,v 1.144 2008-11-19 00:16:05 milek_pl Exp $
 -->
 <rules lang="pl">
   <phrases>
@@ -844,7 +844,7 @@ $Id: grammar.xml,v 1.143 2008-11-13 18:07:16 milek_pl Exp $
     <rule id="WOLACZ_BEZ_PRZECINKA" name="Brak przecinka po wołaczu na początku zdania">
       <pattern mark_from="2">
         <token postag="SENT_START"/>
-        <token postag=".*voc.*" postag_regexp="yes" skip="-1"><exception regexp="yes" scope="next">[,-–—]</exception><exception postag=".*nom.*|conj|pred|verb.*|adv" postag_regexp="yes" scope="current"/></token>
+        <token postag=".*voc.*" postag_regexp="yes" skip="-1"><exception regexp="yes" scope="next">[,-–—]</exception><exception postag=".*nom.*|conj|pred|verb.*|adv:.*" postag_regexp="yes" scope="current"/><exception>kogo</exception></token>
         <token negate_pos="yes" postag=".*voc.*" postag_regexp="yes"/>
       </pattern>
       <message>Prawdopodobnie brak przecinka po rzeczowniku w wołaczu. Powinno być: <suggestion>, \3</suggestion>.</message>
@@ -1146,7 +1146,7 @@ $Id: grammar.xml,v 1.143 2008-11-13 18:07:16 milek_pl Exp $
       <rule>
         <pattern mark_from="2">
           <token postag="SENT_START"/>
-          <token postag="subst:sg:nom.*" postag_regexp="yes" skip="-1"><exception regexp="yes" scope="current">nic|co|jak</exception><exception postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf|pant:perf" postag_regexp="yes"/><exception inflected="yes" regexp="yes" scope="next">[\-—–!\?;\(\):]|kiedy|gdy|który|jaki|że|iż|bo|a|jeśli|jeżeli|aby|żeby|ażeby|zanim|acz|aczkolwiek|albowiem|ale|aleć|aliści|azali|bo|byleby|czyli|czyliż|dlaczego|dopóki|dopóty|gdyż|gdyżby|ilekolwiek|ilekroć|póki|tedy</exception><exception postag="verb:(praet:|pot:|fin:|)sg:ter.*|pcon:imperf|pant:perf" postag_regexp="yes" scope="next"/></token>
+          <token postag="subst:sg:nom.*" postag_regexp="yes" skip="-1"><exception regexp="yes" scope="current">nic|co|jak</exception><exception postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf|pant:perf" postag_regexp="yes"/><exception inflected="yes" regexp="yes" scope="next">[\-—–!\?;\(\):]|kiedy|gdy|który|jaki|że|iż|bo|a|jeśli|jeżeli|aby|żeby|ażeby|zanim|acz|aczkolwiek|albowiem|ale|aleć|aliści|azali|bo|byleby|czyli|czyliż|dlaczego|dopóki|dopóty|gdyż|gdyżby|ilekolwiek|ilekroć|póki|tedy</exception><exception postag="verb:(praet:|pot:|fin:|).*|pcon:imperf|pant:perf" postag_regexp="yes" scope="next"/></token>
           <token>,</token>
           <token postag="verb:(praet:|pot:|fin:|)sg:ter.*" postag_regexp="yes"/>
         </pattern>
@@ -1271,7 +1271,7 @@ $Id: grammar.xml,v 1.143 2008-11-13 18:07:16 milek_pl Exp $
           <token>a</token>
           <token><match no="0"/></token>
         </pattern>
-        <message>Prawdopodobnie zbędny przecinek. Powinno być: <suggestion><match no="1"/> <match no="3"/> <match no="4"/></suggestion></message>
+        <message>Prawdopodobnie zbędny przecinek w konstrukcji typu "taki a taki". Powinno być: <suggestion><match no="1"/> <match no="3"/> <match no="4"/></suggestion></message>
         <example correction="mnożyć a mnożyć" type="incorrect">Przykłady można by <marker>mnożyć, a mnożyć</marker>.</example>
         <example type="correct">Taki a taki lekarz przyjmuje w takich a takich godzinach.</example>
       </rule>
@@ -7581,6 +7581,92 @@ Znacznie częściej ta forma jest mylona z trybem rozkazującym od „pokazać�
     </rule>
   </category>
   <category name="Prawdopodobne literówki">
+    <rule id="PALCOWKA_BANKU" name="„palcówka banku” (placówka banku)">
+      <pattern mark_to="-1">
+        <token inflected="yes" skip="5">palcówka</token>
+        <token inflected="yes" regexp="yes">bank|zagraniczny</token>
+      </pattern>
+      <message>Prawdopodobna literówka. Czy chodziło o <suggestion><match no="1" postag="subst:.*" postag_regexp="yes">placówka</match></suggestion>?</message>
+      <example correction="placówka" type="incorrect">Przy ulicy Lipowej znajduje się <marker>palcówka</marker> znanego holenderskiego banku.</example>
+      <example type="correct">Przy ulicy Lipowej znajduje się <marker>placówka</marker> znanego holenderskiego banku.</example>
+    </rule>
+    <rule id="RZECZ_RZEC" name="rzecz można (rzec można)">
+      <pattern mark_to="-3">
+        <token>rzecz</token>
+        <token>można</token>
+        <token>,</token>
+        <token regexp="yes">że|iż</token>
+      </pattern>
+      <message>Prawdopodobna literówka. Czy chodziło o <suggestion>rzec</suggestion>?</message>
+      <example correction="Rzec" type="incorrect"><marker>Rzecz</marker> można, że poznaję strukturę tworzenia przygodówki od drugiej strony, od podszewki.</example>
+      <example type="correct">Rzec można, że poznaję strukturę tworzenia przygodówki od drugiej strony, od podszewki. </example>
+    </rule>
+    <rulegroup id="RZEC_RZECZ" name="„na rzec” (na rzecz)">
+      <rule>
+        <pattern mark_from="1">
+          <token>na</token>
+          <token>rzec</token>
+        </pattern>
+        <message>Prawdopodobna literówka. Czy chodziło o <suggestion>rzecz</suggestion>?</message>
+        <example correction="rzecz" type="incorrect">Ofiarowałem datek na <marker>rzec</marker> fundacji Putina.</example>
+        <example type="correct">Ofiarowałem datek na rzecz fundacji Putina.</example>
+      </rule>
+    </rulegroup>
+    <rulegroup id="TUM" name="„tum” (tym)">
+      <rule>
+        <pattern mark_from="1">
+          <token regexp="yes">w|na|przy|z|o|po</token>
+          <token>tum</token>
+        </pattern>
+        <message>Prawdopodobna literówka. Czy chodziło o <suggestion>tym</suggestion>?</message>
+        <example correction="tym" type="incorrect">W <marker>tum</marker> wypadku nie ma mowy o łapówce.</example>
+        <example type="correct">W tym wypadku nie ma mowy o łapówce.</example>
+      </rule>
+      <rule>
+        <pattern mark_to="-1">
+          <token>tum</token>
+          <token>razem</token>
+        </pattern>
+        <message>Prawdopodobna literówka. Czy chodziło o <suggestion>tym</suggestion>?</message>
+        <example correction="Tym" type="incorrect"><marker>Tum</marker> razem nie ma mowy o łapówce.</example>
+        <example type="correct">Tym razem nie ma mowy o łapówce</example>
+      </rule>
+    </rulegroup>
+    <rulegroup id="SOWICH" name="„sowich / sowim” (swoich / swoim)">
+      <rule>
+        <pattern>
+          <token>sowim</token>
+        </pattern>
+        <message>Prawdopodobna literówka (rzadka forma przymiotnika „sowi”). Czy chodziło o <suggestion>swoim</suggestion>?</message>
+        <example correction="swoim" type="incorrect">Ona ma wiele płyt w <marker>sowim</marker> dorobku.</example>
+        <example type="correct">Ona ma wiele płyt w swoim dorobku.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>sowich</token>
+        </pattern>
+        <message>Prawdopodobna literówka (rzadka forma przymiotnika „sowi”). Czy chodziło o <suggestion>swoich</suggestion>?</message>
+        <example correction="swoich" type="incorrect">W <marker>sowich</marker> książkach opisał grozę doświadczenia wojennego.</example>
+        <example type="correct">W swoich książkach opisywał grozę doświadczenia wojennego.</example>
+      </rule>
+    </rulegroup>
+    <rule id="ZA_MAZ" name="„za maż” (za mąż)">
+      <pattern>
+        <token>za</token>
+        <token>maż</token>
+      </pattern>
+      <message>Prawdopodobna literówka. Czy chodziło o <suggestion>za mąż</suggestion>?</message>
+      <example correction="za mąż" type="incorrect">Jolanta wyszła <marker>za maż</marker> za Aleksandra.</example>
+      <example type="correct">Jolanta wyszła za mąż za Aleksandra.</example>
+    </rule>
+    <rule id="POPRALI" name="„poprali” (poprali / pobrali)">
+      <pattern>
+        <token>poprali</token>
+      </pattern>
+      <message>Prawdopodobna literówka (ten czasownik jest rzadki w tej formie). Czy chodziło o <suggestion>poparli</suggestion> lub <suggestion>pobrali</suggestion>?</message>
+      <example correction="poparli|pobrali" type="incorrect">Posłowie <marker>poprali</marker> inicjatywę ustawodawczą prezydenta.</example>
+      <example type="correct">Posłowie pobrali zaliczkę.</example>
+    </rule>
     <rule id="OKAZALA_SIE" name="„okazałą się” (okazała się)">
       <pattern>
         <token>okazałą</token>
@@ -7688,14 +7774,6 @@ Znacznie częściej ta forma jest mylona z trybem rozkazującym od „pokazać�
       <message>Prawdopodobna literówka. Czy chodziło o <suggestion><match no="1" regexp_match="(?iu)([Pp]a)(stw.*)" regexp_replace="$1ń$2"/></suggestion>?</message>
       <example correction="Państwo" type="incorrect">Szanowni <marker>Pastwo</marker>!</example>
       <example type="correct">W państwie duńskim źle się dzieje.</example>
-    </rule>
-    <rule id="SOWICH" name="„sowich” (swoich)">
-      <pattern>
-        <token>sowich</token>
-      </pattern>
-      <message>Prawdopodobna literówka. Czy chodziło o <suggestion>swoich</suggestion>?</message>
-      <example correction="swoich" type="incorrect">Nie pierz tutaj <marker>sowich</marker> brudów.</example>
-      <example type="correct">Nie pierz tutaj swoich brudów.</example>
     </rule>
     <rule id="TYKO" name="„tyko” (tylko)">
       <pattern>
