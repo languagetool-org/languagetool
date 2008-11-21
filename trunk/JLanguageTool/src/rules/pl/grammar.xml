@@ -6,7 +6,7 @@ title="Easy editing stylesheet" ?>
 <!--
 Polish Grammar and Typo Rules for LanguageTool
 Copyright (C) 2006-2007 Marcin Miłkowski
-$Id: grammar.xml,v 1.144 2008-11-19 00:16:05 milek_pl Exp $
+$Id: grammar.xml,v 1.145 2008-11-21 20:26:04 milek_pl Exp $
 -->
 <rules lang="pl">
   <phrases>
@@ -956,6 +956,44 @@ $Id: grammar.xml,v 1.144 2008-11-19 00:16:05 milek_pl Exp $
         <example correction="to, krótko mówiąc, bezprzykładna" type="incorrect">Była <marker>to krótko mówiąc bezprzykładna</marker> agresja opcji.</example>
       </rule>
     </rulegroup>
+    <rulegroup id="TAK_CZY_OWAK" name="Brak wydzielenia „tak czy owak/inaczej/siak”">
+      <rule>
+        <pattern>
+          <token postag="SENT_START"/>
+          <token>tak</token>
+          <token>czy</token>
+          <token regexp="yes">owak|siak|inaczej</token>
+          <token negate="yes">,<exception regexp="yes">[\p{Punct}–—„«»…]</exception></token>
+        </pattern>
+        <message>Wyrażenie „\2 \3 \4” wydziela się przecinkami lub myślnikami od reszty zdania. Poprawnie: <suggestion>\2 \3 \4, \5</suggestion>.</message>
+        <example type="correct">Tak czy inaczej, nie ma to sensu.</example>
+        <example correction="Tak czy siak, nie" type="incorrect"><marker>Tak czy siak nie</marker> ma to sensu.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token negate="yes">,<exception regexp="yes">[\p{Punct}–—„«»…]</exception><exception postag="SENT_START"/></token>
+          <token>tak</token>
+          <token>czy</token>
+          <token regexp="yes">owak|siak|inaczej</token>
+          <token negate="yes">,<exception regexp="yes">[\p{Punct}–—„«»…]</exception></token>
+        </pattern>
+        <message>Wyrażenie „\2 \3 \4” wydziela się przecinkami lub myślnikami od reszty zdania. Poprawnie: <suggestion>\1, \2 \3 \4, \5</suggestion>.</message>
+        <example type="correct">Nie ma to, tak czy inaczej, sensu.</example>
+        <example correction="to, tak czy siak, sensu" type="incorrect">Nie ma <marker>to tak czy siak sensu</marker>.</example>
+        <example correction="to, tak czy inaczej, bezprzykładna" type="incorrect">Była <marker>to tak czy inaczej bezprzykładna</marker> agresja opcji.</example>
+      </rule>
+    </rulegroup>
+    <rule id="TAK_PRZECINEK_CZY_OWAK" name="Zbędny przecinek w „tak, czy owak/siak/inaczej”">
+      <pattern>
+        <token>tak</token>
+        <token>,</token>
+        <token>czy</token>
+        <token regexp="yes">owak|siak|inaczej</token>
+      </pattern>
+      <message>Tego wyrażenia nie rozdziela się przecinkami. Poprawnie: <suggestion>\1 \3 \4</suggestion>.</message>
+      <example type="correct">Tak czy inaczej, nie ma to sensu.</example>
+      <example correction="Tak czy siak" type="incorrect"><marker>Tak, czy siak</marker>, nie ma to sensu.</example>
+    </rule>
     <rulegroup id="PRZECINEK_ANI" name="Zbędny przecinek przed „ani”, „albo”, „bądź”, „i”, „lub”, „oraz”">
       <rule>
         <pattern case_sensitive="yes" mark_from="2" mark_to="-1">
@@ -1266,13 +1304,14 @@ $Id: grammar.xml,v 1.144 2008-11-19 00:16:05 milek_pl Exp $
       </rule>
       <rule>
         <pattern>
-          <token/>
+          <token><exception postag="subst:.*" postag_regexp="yes"/></token>
           <token>,</token>
           <token>a</token>
           <token><match no="0"/></token>
         </pattern>
         <message>Prawdopodobnie zbędny przecinek w konstrukcji typu "taki a taki". Powinno być: <suggestion><match no="1"/> <match no="3"/> <match no="4"/></suggestion></message>
         <example correction="mnożyć a mnożyć" type="incorrect">Przykłady można by <marker>mnożyć, a mnożyć</marker>.</example>
+        <example type="correct">Czekałem na autobus, a autobus nie przyjeżdżał.</example>
         <example type="correct">Taki a taki lekarz przyjmuje w takich a takich godzinach.</example>
       </rule>
       <rule>
@@ -5147,6 +5186,16 @@ lub <suggestion>\2 na prawach wyłączności</suggestion>.</message>
     </rule>
   </category>
   <category name="Błędy ortograficzne">
+    <rule id="PO_CHODACH" name="„po chodach” (po schodach)">
+      <pattern mark_from="1">
+        <token regexp="yes">po|na</token>
+        <token>chodach</token>
+      </pattern>
+      <message>Prawdopodobna literówka. Czy chodziło o <suggestion>schodach</suggestion>?</message>
+      <example correction="schodach" type="incorrect">Wchodziłem z trudem po <marker>chodach</marker>.</example>
+      <example type="correct">W chodach pośrednich wykrok kończyn jest dłuższy.</example>
+      <example type="correct">Wchodziłem z trudem po schodach.</example>
+    </rule>
     <rule id="NIEMNIEJ_NIZ" name="„niemniej niż” (nie mniej niż)">
       <pattern mark_to="-1">
         <token>niemniej</token>
