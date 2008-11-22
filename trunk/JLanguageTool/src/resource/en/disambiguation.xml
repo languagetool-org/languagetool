@@ -2,7 +2,7 @@
 	<!--
 		English Disambiguation Rules for LanguageTool Copyright (C) 2008
 		Marcin Miłkowski		
-$Id: disambiguation.xml,v 1.16 2008-11-16 23:52:56 milek_pl Exp $
+$Id: disambiguation.xml,v 1.17 2008-11-22 11:01:07 milek_pl Exp $
 	-->
 <rules lang="en">
 	<rule name="Modal verb + verb/noun -> modal verb + verb" id="MD_VB">
@@ -336,5 +336,14 @@ $Id: disambiguation.xml,v 1.16 2008-11-16 23:52:56 milek_pl Exp $
 			<token>throat</token>
 		</pattern>
 		<disambig postag="NN:UN" />
+	</rule>	
+	<rule name="give sb credit/VB -> NN:UN" id="GIVE_CREDIT">
+		<pattern mark="3">
+			<token inflected="yes">give</token>
+			<token postag="NNP|PRP" postag_regexp="yes"/>
+			<token>credit</token>
+		</pattern>
+		<disambig postag="NN:UN"/>
 	</rule>
+	
 </rules>
