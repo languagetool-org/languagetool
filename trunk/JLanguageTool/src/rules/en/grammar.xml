@@ -7,7 +7,7 @@ title="Easy editing stylesheet" ?>
 English Grammar and Typo Rules for LanguageTool
 See tagset.txt for the meaning of the POS tags
 Copyright (C) 2001-2007 Daniel Naber (http://www.danielnaber.de)
-$Id: grammar.xml,v 1.85 2008-11-22 11:01:07 milek_pl Exp $
+$Id: grammar.xml,v 1.86 2008-11-23 17:07:43 milek_pl Exp $
 -->
 <rules lang="en">
   <!-- ====================================================================== -->
@@ -4682,6 +4682,15 @@ $Id: grammar.xml,v 1.85 2008-11-22 11:01:07 milek_pl Exp $
       <message>This phrase is redundant. Use simply <suggestion>\2</suggestion>.</message>
       <example correction="reason" type="incorrect">The <marker>reason why</marker> I did that is simple.</example>
       <example type="correct">The reason I did that is simple.</example>
+    </rule>
+    <rule id="SO_THEREFORE" name="so therefore (therefore)">
+      <pattern>
+        <token>so</token>
+        <token>therefore</token>
+      </pattern>
+      <message>This phrase is redundant. Use simply <suggestion>\1</suggestion> or <suggestion>\2</suggestion>.</message>
+      <example correction="so|therefore" type="incorrect">I am me, the only me, <marker>so therefore</marker> I am unique, which in turn makes me special :)</example>
+      <example type="correct">I am me, the only me, so I am unique, which in turn makes me special :)</example>
     </rule>
     <rule id="THERAPEUTIC_TREATMENT" name="therapeutic treatment (treatment)">
       <pattern>
