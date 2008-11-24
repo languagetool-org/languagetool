@@ -7,7 +7,7 @@ title="Easy editing stylesheet" ?>
 English Grammar and Typo Rules for LanguageTool
 See tagset.txt for the meaning of the POS tags
 Copyright (C) 2001-2007 Daniel Naber (http://www.danielnaber.de)
-$Id: grammar.xml,v 1.86 2008-11-23 17:07:43 milek_pl Exp $
+$Id: grammar.xml,v 1.87 2008-11-24 00:03:42 milek_pl Exp $
 -->
 <rules lang="en">
   <!-- ====================================================================== -->
@@ -605,16 +605,59 @@ $Id: grammar.xml,v 1.86 2008-11-23 17:07:43 milek_pl Exp $
       <example type="correct">I  <marker>heard</marker> of a new song by Madonna.</example>
       <example type="incorrect">I  <marker>herd</marker> of a new song by Madonna.</example>
     </rule>
-    <rule id="LOOSE_LOSE" name="loose (lose)">
-      <pattern mark_to="-2">
-        <token>loose</token>
-        <token postag="DT"/>
-        <token regexp="yes">key|connection|password</token>
-      </pattern>
-      <message>Did you mean <suggestion>lose</suggestion> (= miss, waste, suffer the loss etc.)?</message>
-      <example type="incorrect">I always <marker>loose</marker> the password.</example>
-      <example type="correct">I always <marker>lose</marker> the password.</example>
-    </rule>
+    <rulegroup id="LOOSE_LOSE" name="loose (lose)">
+      <rule>
+        <pattern mark_to="-2">
+          <token>loose</token>
+          <token postag="DT"/>
+          <token regexp="yes">key|connection|password</token>
+        </pattern>
+        <message>Did you mean <suggestion>lose</suggestion> (= miss, waste, suffer the loss etc.)?</message>
+        <example type="incorrect">I always <marker>loose</marker> the password.</example>
+        <example type="correct">I always <marker>lose</marker> the password.</example>
+      </rule>
+      <rule>
+        <pattern mark_to="-1">
+          <token>loose</token>
+          <token postag="PRP$"/>
+        </pattern>
+        <message>Possible typo. Did you mean <suggestion>lose</suggestion> (= miss, waste, suffer the loss etc.)?</message>
+        <example correction="lose" type="incorrect">Who do I contact if I <marker>loose</marker> my passport?</example>
+        <example type="correct">Who do I contact if I lose my passport?</example>
+      </rule>
+      <rule>
+        <pattern mark_from="1" mark_to="-1">
+          <token>to</token>
+          <token>loose</token>
+          <token negate_pos="yes" postag="PRP$"/>
+        </pattern>
+        <message>Possible typo. Did you mean <suggestion>lose</suggestion> (= miss, waste, suffer the loss etc.)?</message>
+        <example correction="lose" type="incorrect">You don't want to <marker>loose</marker> this job, do you?</example>
+        <example type="correct">You don't want to lose this job, do you?</example>
+      </rule>
+      <rule>
+        <pattern mark_from="1" mark_to="-1">
+          <token postag="MD"/>
+          <token>loose</token>
+          <token negate_pos="yes" postag="PRP$"/>
+        </pattern>
+        <message>Possible typo. Did you mean <suggestion>lose</suggestion> (= miss, waste, suffer the loss etc.)?</message>
+        <example correction="lose" type="incorrect">You can <marker>loose</marker> so much and gain so little.</example>
+        <example type="correct">You can <marker>lose</marker> so much and gain so little.</example>
+      </rule>
+    </rulegroup>
+    <rulegroup id="LOSE_LOOSE" name="lose (loose)">
+      <rule>
+        <pattern>
+          <token>on</token>
+          <token>the</token>
+          <token>lose</token>
+        </pattern>
+        <message>Possible typo. Did you mean <suggestion>on the loose</suggestion> (=at large, free)?</message>
+        <example correction="on the loose" type="incorrect">Spammer <marker>on the lose</marker>?</example>
+        <example type="correct">Spammer on the loose?</example>
+      </rule>
+    </rulegroup>
     <rulegroup id="GIVE_ADVISE" name="give sb advise (advice)">
       <rule>
         <pattern mark_from="2">
