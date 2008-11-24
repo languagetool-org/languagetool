@@ -6,7 +6,7 @@ title="Easy editing stylesheet" ?>
 <!--
 Polish Grammar and Typo Rules for LanguageTool
 Copyright (C) 2006-2007 Marcin Miłkowski
-$Id: grammar.xml,v 1.145 2008-11-21 20:26:04 milek_pl Exp $
+$Id: grammar.xml,v 1.146 2008-11-24 15:38:12 milek_pl Exp $
 -->
 <rules lang="pl">
   <phrases>
@@ -4057,7 +4057,7 @@ lub <suggestion>\2 na prawach wyłączności</suggestion>.</message>
     <rule id="W_WEGRZECH" name="„w Węgrzech, w Białorusi” (na Węgrzech, na Białorusi)">
       <pattern>
         <token>w</token>
-        <token regexp="yes">Węgrzech|Białorusi|Ukrainie|Syberii|Bukowinie|Morawach|Wołoszczyźnie</token>
+        <token regexp="yes">Węgrzech|Białorusi|Ukrainie|Syberii|Bukowinie|Morawach|Wołoszczyźnie|Antarktydzie</token>
       </pattern>
       <message>Z tą nazwą geograficzną używa się przyimka „na”: <suggestion>na \2</suggestion>.</message>
       <example type="correct">Prezydent był z wizytą gospodarską na Białorusi.</example>
@@ -4123,6 +4123,16 @@ lub <suggestion>\2 na prawach wyłączności</suggestion>.</message>
         <message>Niepoprawna forma. Piszemy: <suggestion>na Wołoszczyznę</suggestion>.</message>
         <example type="correct">Jarosław chce pojechać na Wołoszczyznę.</example>
         <example correction="na Wołoszczyznę" type="incorrect">Jarosław chce pojechać <marker>do Wołoszczyzny</marker> z Alikiem.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="1">
+          <token inflected="yes" regexp="yes">jechać|podróżować|pojechać|wyjechać</token>
+          <token>do</token>
+          <token>Antarktydy</token>
+        </pattern>
+        <message>Niepoprawna forma. Piszemy: <suggestion>na Antarktydę</suggestion>.</message>
+        <example type="correct">Jarosław chce pojechać na Antarktydę.</example>
+        <example correction="na Antarktydę" type="incorrect">Jarosław chce pojechać <marker>do Antarktydy</marker> z Alikiem.</example>
       </rule>
     </rulegroup>
     <rule id="PRACOWAC_NA_HALI" name="„pracować, trenować na hali” (w hali)">
@@ -4293,16 +4303,6 @@ lub <suggestion>\2 na prawach wyłączności</suggestion>.</message>
         <example type="correct">Pan premier ma zawsze rację.</example>
       </rule>
     </rulegroup>
-    <rule id="PRZYPRZEC_DO_SCIANY" name="„przyprzeć do ściany” (przyprzeć do muru)">
-      <pattern mark_from="2">
-        <token inflected="yes" skip="4">przyprzeć</token>
-        <token>do</token>
-        <token>ściany</token>
-      </pattern>
-      <message>Prawdopodobnie niepoprawny związek frazeologiczny. Powinno być: <suggestion>muru</suggestion>.</message>
-      <example correction="muru" type="incorrect">Przyparłem go pytaniami do <marker>ściany</marker>.</example>
-      <example type="correct">Przyparłem go pytaniami do muru.</example>
-    </rule>
     <rulegroup id="KONTYNUOWAC_DALEJ" name="„kontynuować, trwać dalej” (kontynuować, trwać)">
       <rule>
         <pattern>
@@ -4631,7 +4631,7 @@ lub <suggestion>\2 na prawach wyłączności</suggestion>.</message>
       </pattern>
       <message>To wyrażenie jest pleonazmem. Mówimy <suggestion>w razie</suggestion> lub <suggestion>w przypadku</suggestion>.</message>
       <example correction="w razie|w przypadku" type="incorrect">Postępowanie <marker>w razie przypadku</marker> niezamierzonego uwolnienia do środowiska</example>
-      <example type="correct">Postępowanie w razie niezamierzonego uwolnienia do. środowiska</example>
+      <example type="correct">Postępowanie w razie niezamierzonego uwolnienia do środowiska</example>
     </rule>
     <rule id="SLABA_GLOWA_DO_ALKOHOLU" name="„słaba głowa do alkoholu”  (słaba głowa)">
       <pattern>
@@ -5186,15 +5186,42 @@ lub <suggestion>\2 na prawach wyłączności</suggestion>.</message>
     </rule>
   </category>
   <category name="Błędy ortograficzne">
-    <rule id="PO_CHODACH" name="„po chodach” (po schodach)">
-      <pattern mark_from="1">
-        <token regexp="yes">po|na</token>
-        <token>chodach</token>
+    <rule id="LEKCE_WAZYC" name="„lekce ważyć” (lekceważyć)">
+      <pattern>
+        <token>lekce</token>
+        <token inflected="yes">ważyć</token>
       </pattern>
-      <message>Prawdopodobna literówka. Czy chodziło o <suggestion>schodach</suggestion>?</message>
-      <example correction="schodach" type="incorrect">Wchodziłem z trudem po <marker>chodach</marker>.</example>
-      <example type="correct">W chodach pośrednich wykrok kończyn jest dłuższy.</example>
-      <example type="correct">Wchodziłem z trudem po schodach.</example>
+      <message>Ten czasownik pisze się łącznie: <suggestion>\1\2</suggestion>.</message>
+      <example correction="lekceważył" type="incorrect">Józek <marker>lekce ważył</marker> polecenia nauczyciela.</example>
+      <example type="correct">Józek lekceważył polecenia nauczyciela.</example>
+    </rule>
+    <rule id="NA_UMYŚLNIE" name="„na umyślnie” (naumyślnie)">
+      <pattern>
+        <token>na</token>
+        <token>umyślnie</token>
+      </pattern>
+      <message>Ten wyraz najczęściej pisze się łącznie: <suggestion>\1\2</suggestion> (=świadomie, z premedytacją).</message>
+      <example correction="naumyślnie" type="incorrect">Józek <marker>na umyślnie</marker> przeszkadzał na lekcji.</example>
+      <example type="correct">Józek naumyślnie przeszkadzał na lekcji.</example>
+    </rule>
+    <rule id="W_PO_SRODKU" name="„w po środku” (pośrodku)">
+      <pattern>
+        <token>w</token>
+        <token>po</token>
+        <token>środku</token>
+      </pattern>
+      <message>Ten wyraz pisze się łącznie i bez „w”: <suggestion>\2\3</suggestion>.</message>
+      <example correction="pośrodku" type="incorrect">Zbudowany jest na wzór rynku w Krakowie: dawne domy dookoła, <marker>w po środku</marker> - duży budynek.</example>
+      <example type="correct">Zbudowany jest na wzór rynku w Krakowie: dawne domy dookoła, pośrodku - duży budynek.</example>
+    </rule>
+    <rule id="PO_NIEWCZASIE" name="„po niewczasie” (poniewczasie)">
+      <pattern>
+        <token>po</token>
+        <token>niewczasie</token>
+      </pattern>
+      <message>Ten wyraz według uchwał językoznawców pisze się łącznie: <suggestion>\1\2</suggestion>.</message>
+      <example correction="poniewczasie" type="incorrect">Dziękuję <marker>po niewczasie</marker>.</example>
+      <example type="correct">Dziękuję poniewczasie.</example>
     </rule>
     <rule id="NIEMNIEJ_NIZ" name="„niemniej niż” (nie mniej niż)">
       <pattern mark_to="-1">
@@ -6337,7 +6364,7 @@ Znacznie częściej ta forma jest mylona z trybem rozkazującym od „pokazać�
         <token>w</token>
         <token>śród</token>
       </pattern>
-      <message>Ten przyimek piszemy łącznie, tj. <suggestion>wśród</suggestion>.</message>
+      <message>Ten przyimek piszemy łącznie: <suggestion>wśród</suggestion>.</message>
       <example correction="wśród" type="incorrect">Jarosław Kaczyński jest najwybitniejszym mężem stanu <marker>w śród</marker> wszystkich Kaczyńskich.</example>
       <example type="correct">Jarosław Kaczyński jest najwybitniejszym mężem stanu wśród wszystkich Kaczyńskich.</example>
     </rule>
@@ -6388,7 +6415,7 @@ Znacznie częściej ta forma jest mylona z trybem rozkazującym od „pokazać�
         <token>o</token>
         <token>prócz</token>
       </pattern>
-      <message>Ten przyimek piszemy łącznie, tj. <suggestion>\1\2</suggestion>.</message>
+      <message>Ten przyimek piszemy łącznie: <suggestion>\1\2</suggestion>.</message>
       <example type="correct">Lubię wszystkich polityków oprócz premiera.</example>
       <example correction="oprócz" type="incorrect">Lubię wszystkich polityków <marker>o prócz</marker> premiera.</example>
     </rule>
@@ -6397,7 +6424,7 @@ Znacznie częściej ta forma jest mylona z trybem rozkazującym od „pokazać�
         <token>na</token>
         <token>wzajem</token>
       </pattern>
-      <message>Ten przyimek piszemy łącznie, tj. <suggestion>nawzajem</suggestion>.</message>
+      <message>Ten przyimek piszemy łącznie: <suggestion>nawzajem</suggestion>.</message>
       <example type="correct">Pomóżmy sobie nawzajem!</example>
       <example correction="nawzajem" type="incorrect">Pomóżmy sobie <marker>na wzajem</marker>!</example>
     </rule>
@@ -6406,7 +6433,7 @@ Znacznie częściej ta forma jest mylona z trybem rozkazującym od „pokazać�
         <token>nie</token>
         <token>omal</token>
       </pattern>
-      <message>Ten wyraz piszemy łącznie, tj. <suggestion>nieomal</suggestion>.</message>
+      <message>Ten wyraz piszemy łącznie: <suggestion>nieomal</suggestion>.</message>
       <example type="correct">Nieomal kupiłem mercedesa za bezcen.</example>
       <example correction="Nieomal" type="incorrect"><marker>Nie omal</marker> kupiłem mercedesa za bezcen.</example>
     </rule>
@@ -6415,7 +6442,7 @@ Znacznie częściej ta forma jest mylona z trybem rozkazującym od „pokazać�
         <token>nie</token>
         <token>opodal</token>
       </pattern>
-      <message>Ten wyraz piszemy łącznie, tj. <suggestion>nieopodal</suggestion>.</message>
+      <message>Ten wyraz piszemy łącznie: <suggestion>nieopodal</suggestion>.</message>
       <example type="correct">Sklep jest nieopodal.</example>
       <example correction="nieopodal" type="incorrect">Sklep jest <marker>nie opodal</marker>.</example>
     </rule>
@@ -6424,7 +6451,7 @@ Znacznie częściej ta forma jest mylona z trybem rozkazującym od „pokazać�
         <token>z</token>
         <token regexp="yes">goła|nów|razu</token>
       </pattern>
-      <message>Ten wyraz piszemy łącznie, tj. <suggestion>\1\2</suggestion>.</message>
+      <message>Ten wyraz piszemy łącznie: <suggestion>\1\2</suggestion>.</message>
       <example type="correct">Przy takim pojmowaniu historii jasne jest, że nie ma tu zgoła miejsca dla wybitnych jednostek, a niewiele go zostaje dla wolności woli.</example>
       <example correction="zgoła" type="incorrect">Przy takim pojmowaniu historii jasnym jest, że nie ma tu <marker>z goła</marker> miejsca dla wybitnych jednostek, a niewiele go zostaje dla wolności woli.</example>
       <example correction="znów" type="incorrect">Premier <marker>z nów</marker> wpłacił pieniądze na konto mamusi.</example>
@@ -6434,7 +6461,7 @@ Znacznie częściej ta forma jest mylona z trybem rozkazującym od „pokazać�
         <token>z</token>
         <token>przed</token>
       </pattern>
-      <message>Ten wyraz piszemy łącznie, tj. <suggestion>sprzed</suggestion>.</message>
+      <message>Ten wyraz piszemy łącznie: <suggestion>sprzed</suggestion>.</message>
       <example type="correct">Uciekł mi autobus sprzed nosa.</example>
       <example correction="sprzed" type="incorrect">Uciekł mi autobus <marker>z przed</marker> nosa.</example>
     </rule>
@@ -6444,7 +6471,7 @@ Znacznie częściej ta forma jest mylona z trybem rozkazującym od „pokazać�
         <token>za</token>
         <token><exception>granicą</exception></token>
       </pattern>
-      <message>Ten wyraz piszemy łącznie, tj. <suggestion>\1\2</suggestion>.</message>
+      <message>Ten wyraz piszemy łącznie: <suggestion>\1\2</suggestion>.</message>
       <example type="correct">Wstrętny ryj wychynął zza rogu.</example>
       <example correction="zza" type="incorrect">Wstrętny ryj wychynął <marker>z za</marker> rogu.</example>
     </rule>
@@ -6453,7 +6480,7 @@ Znacznie częściej ta forma jest mylona z trybem rozkazującym od „pokazać�
         <token>z</token>
         <token>pomiędzy</token>
       </pattern>
-      <message>Ten wyraz piszemy łącznie, tj. <suggestion>spomiędzy</suggestion>.</message>
+      <message>Ten wyraz piszemy łącznie: <suggestion>spomiędzy</suggestion>.</message>
       <example type="correct">Wstrętny ryj wychynął spomiędzy sztachet.</example>
       <example correction="spomiędzy" type="incorrect">Wstrętny ryj wychynął <marker>z pomiędzy</marker> sztachet.</example>
     </rule>
@@ -6463,7 +6490,7 @@ Znacznie częściej ta forma jest mylona z trybem rozkazującym od „pokazać�
         <token>po</token>
         <token regexp="yes">mi[eę]dzy</token>
       </pattern>
-      <message>Ten wyraz piszemy łącznie, tj. <suggestion>spomiędzy</suggestion>.</message>
+      <message>Ten wyraz piszemy łącznie: <suggestion>spomiędzy</suggestion>.</message>
       <example type="correct">Wstrętny ryj wychynął spomiędzy sztachet.</example>
       <example correction="spomiędzy" type="incorrect">Wstrętny ryj wychynął <marker>z po między</marker> sztachet.</example>
     </rule>
@@ -6472,7 +6499,7 @@ Znacznie częściej ta forma jest mylona z trybem rozkazującym od „pokazać�
         <token>tam</token>
         <token>tędy</token>
       </pattern>
-      <message>Ten wyraz piszemy łącznie, tj. <suggestion>\1\2</suggestion>.</message>
+      <message>Ten wyraz piszemy łącznie: <suggestion>\1\2</suggestion>.</message>
       <example type="correct">Poszliśmy tamtędy.</example>
       <example correction="tamtędy" type="incorrect">Poszliśmy <marker>tam tędy</marker>.</example>
     </rule>
@@ -6502,7 +6529,7 @@ Znacznie częściej ta forma jest mylona z trybem rozkazującym od „pokazać�
         <token>nie</token>
         <token>gdzie</token>
       </pattern>
-      <message>Ten wyraz piszemy łącznie, tj. <suggestion>\1\2\3</suggestion>.</message>
+      <message>Ten wyraz piszemy łącznie: <suggestion>\1\2\3</suggestion>.</message>
       <example type="correct">Gdzieniegdzie rośnie trawa.</example>
       <example correction="Gdzieniegdzie" type="incorrect"><marker>Gdzie nie gdzie</marker> rośnie trawa.</example>
     </rule>
@@ -6512,7 +6539,7 @@ Znacznie częściej ta forma jest mylona z trybem rozkazującym od „pokazać�
         <token>nad</token>
         <token>to</token>
       </pattern>
-      <message>Ten wyraz piszemy łącznie, tj. <suggestion>\1\2\3</suggestion>.</message>
+      <message>Ten wyraz piszemy łącznie: <suggestion>\1\2\3</suggestion>.</message>
       <example type="correct">Zanadto się wygłupiasz.</example>
       <example correction="Zanadto" type="incorrect"><marker>Za nad to</marker> się wygłupiasz.</example>
     </rule>
@@ -6521,7 +6548,7 @@ Znacznie częściej ta forma jest mylona z trybem rozkazującym od „pokazać�
         <token>z</token>
         <token>pośród</token>
       </pattern>
-      <message>Ten przyimek piszemy łącznie, tj. <suggestion>spośród</suggestion>.</message>
+      <message>Ten przyimek piszemy łącznie: <suggestion>spośród</suggestion>.</message>
       <example correction="spośród" type="incorrect">Jarosław Kaczyński jest najwybitniejszym mężem stanu <marker>z pośród</marker> wszystkich Kaczyńskich.</example>
       <example type="correct">Jarosław Kaczyński jest najwybitniejszym mężem stanu spośród wszystkich Kaczyńskich.</example>
     </rule>
@@ -7142,7 +7169,7 @@ Znacznie częściej ta forma jest mylona z trybem rozkazującym od „pokazać�
         <token>/</token>
         <token>s</token>
       </pattern>
-      <message>Ten skrót piszemy <suggestion>ds.</suggestion>.</message>
+      <message>Ten skrót piszemy: <suggestion>ds.</suggestion>.</message>
       <example correction="ds." type="incorrect">Pełnomocnik rządu <marker>d/s</marker> miłości narodu do premiera.</example>
       <example type="correct">Pełnomocnik rządu ds. miłości narodu do premiera.</example>
     </rule>
@@ -7630,6 +7657,16 @@ Znacznie częściej ta forma jest mylona z trybem rozkazującym od „pokazać�
     </rule>
   </category>
   <category name="Prawdopodobne literówki">
+    <rule id="PO_CHODACH" name="„po chodach” (po schodach)">
+      <pattern mark_from="1">
+        <token regexp="yes">po|na</token>
+        <token>chodach</token>
+      </pattern>
+      <message>Prawdopodobna literówka. Czy chodziło o <suggestion>schodach</suggestion>?</message>
+      <example correction="schodach" type="incorrect">Wchodziłem z trudem po <marker>chodach</marker>.</example>
+      <example type="correct">W chodach pośrednich wykrok kończyn jest dłuższy.</example>
+      <example type="correct">Wchodziłem z trudem po schodach.</example>
+    </rule>
     <rule id="PALCOWKA_BANKU" name="„palcówka banku” (placówka banku)">
       <pattern mark_to="-1">
         <token inflected="yes" skip="5">palcówka</token>
@@ -7816,7 +7853,7 @@ Znacznie częściej ta forma jest mylona z trybem rozkazującym od „pokazać�
       <example correction="w związku" type="incorrect">Nie mam pieniędzy, a <marker>związku</marker> z tym nie zapłacę ani grosza.</example>
       <example type="correct">Oni pozostają negatywnie nastawieni do związku z ludźmi podejrzanej profesji.</example>
     </rule>
-    <rule id="PASTWO" name="„pastwo/pastwie/pastwa” (państwo/państwie/państwa">
+    <rule id="PASTWO" name="„pastwo/pastwie/pastwa” (państwo/państwie/państwa)">
       <pattern>
         <token regexp="yes">pastwo|pastwie|pastwa</token>
       </pattern>
@@ -8653,6 +8690,26 @@ Znacznie częściej ta forma jest mylona z trybem rozkazującym od „pokazać�
     </rule>
   </category>
   <category name="Błędy frazeologiczne">
+    <rule id="NERWY_NA_POSTRONKU" name="„nerwy na postronku” (nerwy na wodzy)">
+      <pattern>
+        <token regexp="yes">nerwy|nerwów|nerwami|nerwach|nerwom</token>
+        <token>na</token>
+        <token>postronku</token>
+      </pattern>
+      <message>Nieprawidłowy związek frazeologiczny. Poprawnie: <suggestion>\1 na wodzy</suggestion>.</message>
+      <example correction="nerwów na wodzy" type="incorrect">Nie potrafię utrzymać <marker>nerwów na postronku</marker> jak inni.</example>
+      <example type="correct">Nie potrafię utrzymać nerwów na wodzy jak inni.</example>
+    </rule>
+    <rule id="PRZYPRZEC_DO_SCIANY" name="„przyprzeć do ściany” (przyprzeć do muru)">
+      <pattern mark_from="2">
+        <token inflected="yes" skip="4">przyprzeć</token>
+        <token>do</token>
+        <token>ściany</token>
+      </pattern>
+      <message>Prawdopodobnie niepoprawny związek frazeologiczny. Powinno być: <suggestion>muru</suggestion>.</message>
+      <example correction="muru" type="incorrect">Przyparłem go pytaniami do <marker>ściany</marker>.</example>
+      <example type="correct">Przyparłem go pytaniami do muru.</example>
+    </rule>
     <rule id="SERCE_WALI_JAK_MLOT" name="„serce wali jak młot” (serce wali jak młotem)">
       <pattern mark_from="1">
         <token skip="3">serce</token>
