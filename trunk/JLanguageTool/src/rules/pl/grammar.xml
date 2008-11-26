@@ -6,7 +6,7 @@ title="Easy editing stylesheet" ?>
 <!--
 Polish Grammar and Typo Rules for LanguageTool
 Copyright (C) 2006-2007 Marcin Miłkowski
-$Id: grammar.xml,v 1.146 2008-11-24 15:38:12 milek_pl Exp $
+$Id: grammar.xml,v 1.147 2008-11-26 01:04:01 milek_pl Exp $
 -->
 <rules lang="pl">
   <phrases>
@@ -1110,9 +1110,9 @@ $Id: grammar.xml,v 1.146 2008-11-24 15:38:12 milek_pl Exp $
         <example type="correct">Masz bądź co bądź duży majątek.</example>
       </rule>
     </rulegroup>
-    <rulegroup id="BRAK_PRZECINKA_I_KWITA" name="Brak przecinka przed „i kwita” itp.">
+    <rulegroup default="off" id="BRAK_PRZECINKA_I_KWITA" name="Brak przecinka przed „i kwita” itp.">
       <rule>
-        <pattern>
+        <pattern case_sensitive="yes">
           <token><exception postag="SENT_START" postag_regexp="yes"/><exception regexp="yes" scope="current">[\p{Punct}–—„«»…]|a</exception></token>
           <token>i</token>
           <token regexp="yes">to|kwita|już|owszem</token>
@@ -1122,7 +1122,7 @@ $Id: grammar.xml,v 1.146 2008-11-24 15:38:12 milek_pl Exp $
         <example correction="deszcz, i to" type="incorrect">Padał <marker>deszcz i to</marker> obfity.</example>
       </rule>
       <rule>
-        <pattern>
+        <pattern case_sensitive="yes">
           <token><exception postag="SENT_START" postag_regexp="yes"/><exception regexp="yes" scope="current">[\p{Punct}–—„«»…]|a</exception><exception>początek</exception></token>
           <token>i</token>
           <token>koniec</token>
@@ -1132,8 +1132,8 @@ $Id: grammar.xml,v 1.146 2008-11-24 15:38:12 milek_pl Exp $
         <example correction="być, i koniec" type="incorrect">Tak już musi <marker>być i koniec</marker>!</example>
       </rule>
     </rulegroup>
-    <rule id="BRAK_PRZECINKA_I_TAK" name="Brak przecinka przed „i tak”">
-      <pattern mark_to="-1">
+    <rule default="off" id="BRAK_PRZECINKA_I_TAK" name="Brak przecinka przed „i tak”">
+      <pattern case_sensitive="yes" mark_to="-1">
         <token><exception postag="SENT_START|conj" postag_regexp="yes"/><exception regexp="yes">[\p{Punct}–—„«»…]|już|zresztą</exception></token>
         <token>i</token>
         <token>tak</token>
@@ -7404,6 +7404,18 @@ Znacznie częściej ta forma jest mylona z trybem rozkazującym od „pokazać�
         <example correction="Zresztą" type="incorrect"><marker>Z resztą</marker> nikogo to nie obchodziło.</example>
       </rule>
     </rulegroup>
+    <rulegroup id="ZRESZTA_Z_RESZTA" name="zresztą (z resztą)">
+      <rule>
+        <pattern mark_from="1" mark_to="-1">
+          <token regexp="yes">razem|wraz</token>
+          <token>zresztą</token>
+          <token><exception>z</exception></token>
+        </pattern>
+        <message>Prawdopodobny błąd ortograficzny. Powinno być <suggestion>z resztą</suggestion> (=nawiasem mówiąc, notabene).</message>
+        <example type="correct">Poszedłem tam razem z resztą chłopaków.</example>
+        <example correction="z resztą" type="incorrect">Poszedłem tam razem <marker>zresztą</marker> chłopaków.</example>
+      </rule>
+    </rulegroup>
     <rulegroup id="ZA_RAZEM" name="„za razem” (zarazem)">
       <rule>
         <pattern mark_from="1">
@@ -7655,8 +7667,47 @@ Znacznie częściej ta forma jest mylona z trybem rozkazującym od „pokazać�
       <example correction="cui bono" type="incorrect">A ja pytam, <marker>qui bono</marker>?</example>
       <example type="correct">A ja pytam, cui bono?</example>
     </rule>
+    <rulegroup id="PO_POLUDNIU" name="jutro popołudniu (po południu)">
+      <rule>
+        <pattern mark_from="1">
+          <token regexp="yes">wczoraj|jutro|piątek|sobotę|niedzielę|czwartek|środę|wtorek|poniedziałek|dziś|dzisiaj|przedwczoraj|piątej</token>
+          <token>popołudniu</token>
+        </pattern>
+        <message>Prawdopodobny błąd ortograficzny. To wyrażenie pisze się rozdzielnie: <suggestion>po południu</suggestion>.</message>
+        <example correction="po południu" type="incorrect">Spotkajmy się jutro <marker>popołudniu</marker>.</example>
+        <example type="correct">Spotkajmy się jutro po południu.</example>
+      </rule>
+    </rulegroup>
   </category>
   <category name="Prawdopodobne literówki">
+    <rule id="ILOCI" name="iloci (ilości)">
+      <pattern>
+        <token>iloci</token>
+      </pattern>
+      <message>Prawdopodobna literówka. Czy chodziło o <suggestion>ilości</suggestion>?</message>
+      <example correction="ilości" type="incorrect">Mam do sprzedania kłaki w dużej <marker>iloci</marker>.</example>
+      <example type="correct">Mam do sprzedania kłaki w dużej ilości.</example>
+    </rule>
+    <rulegroup id="NADAJ_NADAL" name="nadaj nie (nadal nie)">
+      <rule>
+        <pattern mark_to="-1">
+          <token>nadaj</token>
+          <token regexp="yes">nie|jest|będzie|są|będą</token>
+        </pattern>
+        <message>Prawdopodobna literówka. Czy chodziło o <suggestion>nadal</suggestion> (=w dalszym ciągu)?</message>
+        <example correction="nadal" type="incorrect">Przywróciłam fabryczne ustawienia, ale <marker>nadaj</marker> nie da się uruchomić aplikacji.</example>
+        <example type="correct">Przywróciłam fabryczne ustawienia, ale nadal nie da się uruchomić aplikacji.</example>
+      </rule>
+      <rule>
+        <pattern mark_to="-1">
+          <token>nadaj</token>
+          <token postag="verb:fin:sg:ter:imperf"/>
+        </pattern>
+        <message>Prawdopodobna literówka. Czy chodziło o <suggestion>nadal</suggestion> (=w dalszym ciągu)?</message>
+        <example correction="nadal" type="incorrect">Jeśli przyczyna <marker>nadaj</marker> występuje, zadzwoń do biura obsługi klienta.</example>
+        <example type="correct">Jeśli przyczyna nadal występuje, zadzwoń do biura obsługi klienta.</example>
+      </rule>
+    </rulegroup>
     <rule id="PO_CHODACH" name="„po chodach” (po schodach)">
       <pattern mark_from="1">
         <token regexp="yes">po|na</token>
@@ -7701,7 +7752,7 @@ Znacznie częściej ta forma jest mylona z trybem rozkazującym od „pokazać�
     <rulegroup id="TUM" name="„tum” (tym)">
       <rule>
         <pattern mark_from="1">
-          <token regexp="yes">w|na|przy|z|o|po</token>
+          <token regexp="yes">w|na|przy|z|o|po|pod|nad|poza|za</token>
           <token>tum</token>
         </pattern>
         <message>Prawdopodobna literówka. Czy chodziło o <suggestion>tym</suggestion>?</message>
@@ -7711,7 +7762,7 @@ Znacznie częściej ta forma jest mylona z trybem rozkazującym od „pokazać�
       <rule>
         <pattern mark_to="-1">
           <token>tum</token>
-          <token>razem</token>
+          <token regexp="yes">razem|bardziej|samym</token>
         </pattern>
         <message>Prawdopodobna literówka. Czy chodziło o <suggestion>tym</suggestion>?</message>
         <example correction="Tym" type="incorrect"><marker>Tum</marker> razem nie ma mowy o łapówce.</example>
@@ -7844,7 +7895,7 @@ Znacznie częściej ta forma jest mylona z trybem rozkazującym od „pokazać�
     </rulegroup>
     <rule id="ZWIAZKU_Z_TYM" name="„związku z tym” (w związku z tym)">
       <pattern mark_from="1" mark_to="-2">
-        <token><exception regexp="yes">w|do</exception></token>
+        <token><exception regexp="yes">w|do|żadnego|ma</exception></token>
         <token>związku</token>
         <token>z</token>
         <token postag=".*inst.*" postag_regexp="yes"/>
@@ -7881,7 +7932,7 @@ Znacznie częściej ta forma jest mylona z trybem rozkazującym od „pokazać�
     <rule id="POL_GODZINY" name="„pól godziny” (pół godziny)">
       <pattern>
         <token>pól</token>
-        <token regexp="yes">godziny|roku|wieku|miliona|metra|tysiąca|litra|minuty|godzinie|dnia|boiska|kilometra|żartem|etatu|miliarda|tony|drogi|tygodnia|biedy|serio|świata|sekundy|punktu|tuzina|miesiąca|kroku|ceny|rokiem|meczu|życia</token>
+        <token regexp="yes">godziny|roku|wieku|miliona|metra|tysiąca|litra|minuty|godzinie|dnia|boiska|kilometra|żartem|etatu|miliarda|tony|drogi|tygodnia|biedy|serio|świata|sekundy|punktu|tuzina|miesiąca|kroku|ceny|rokiem|meczu|życia|tonu</token>
       </pattern>
       <message>Prawdopodobna literówka. Czy chodziło o <suggestion>pół \2</suggestion>?</message>
       <example correction="pół godziny" type="incorrect">Czekam tu już <marker>pól godziny</marker>.</example>
@@ -8075,15 +8126,26 @@ Znacznie częściej ta forma jest mylona z trybem rozkazującym od „pokazać�
         <example type="correct">Wakacje tuż, tuż</example>
       </rule>
     </rulegroup>
-    <rule id="TEZ_TEZ" name="Mylenie „tez” z „też”">
-      <pattern mark_from="1">
-        <token regexp="yes">są|co|można|należy|warto|ja|on|ona|my|oni|wy|ty|czy</token>
-        <token>tez</token>
-      </pattern>
-      <message>Prawdopodobna literówka. Czy chodziło o <suggestion>też</suggestion>?</message>
-      <example type="correct">Nie wiadomo, czy Jarosław chce zostać królem, czy też nie.</example>
-      <example correction="też" type="incorrect">Nie wiadomo, czy Jarosław chce zostać królem, czy <marker>tez</marker> nie.</example>
-    </rule>
+    <rulegroup id="TEZ_TEZ" name="tez (też)">
+      <rule>
+        <pattern mark_from="1">
+          <token regexp="yes">są|co|można|należy|warto|ja|on|ona|my|oni|wy|ty|czy|jest|tam</token>
+          <token>tez</token>
+        </pattern>
+        <message>Prawdopodobna literówka. Czy chodziło o <suggestion>też</suggestion>?</message>
+        <example type="correct">Nie wiadomo, czy Jarosław chce zostać królem, czy też nie.</example>
+        <example correction="też" type="incorrect">Nie wiadomo, czy Jarosław chce zostać królem, czy <marker>tez</marker> nie.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="1">
+          <token postag="verb:impt:sg:sec:perf"/>
+          <token>tez</token>
+        </pattern>
+        <message>Prawdopodobna literówka. Czy chodziło o <suggestion>też</suggestion>?</message>
+        <example type="correct">Zobacz też: Kowalski i Nowak 2002.</example>
+        <example correction="też" type="incorrect">Zobacz <marker>tez</marker>: Kowalski i Nowak 2002.</example>
+      </rule>
+    </rulegroup>
     <rule id="POSTANIE" name="„postanie” (powstanie)">
       <pattern mark_from="1">
         <token><exception>nie</exception></token>
