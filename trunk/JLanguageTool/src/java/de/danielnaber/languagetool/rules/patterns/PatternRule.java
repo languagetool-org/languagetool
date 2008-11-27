@@ -47,6 +47,7 @@ public class PatternRule extends Rule {
 
   private String description;
   private String message;
+  private String shortMessage;
 
   private int startPositionCorrection = 0;
   private int endPositionCorrection = 0;
@@ -82,7 +83,7 @@ public class PatternRule extends Rule {
    */
 
   PatternRule(final String id, final Language language, final List<Element> elements, final String description,
-      final String message) {
+      final String message, final String shortMessage) {
     if (id == null) {
       throw new NullPointerException("id cannot be null");
     }
@@ -99,6 +100,7 @@ public class PatternRule extends Rule {
     PatternRule.language = language;
     this.description = description;
     this.message = message;
+    this.shortMessage = shortMessage;
     this.patternElements = new ArrayList<Element>(elements); // copy elements
 
     this.elementNo = new ArrayList <Integer>();
@@ -134,8 +136,8 @@ public class PatternRule extends Rule {
   }
 
   PatternRule(final String id, final Language language, final List<Element> elements, final String description,
-      final String message, final boolean isMember) {    
-    this(id, language, elements, description, message);
+      final String message, final String shortMessage, final boolean isMember) {    
+    this(id, language, elements, description, message, shortMessage);
     this.isMemberOfDisjunctiveSet = isMember;    
   }  
 
@@ -371,15 +373,15 @@ public class PatternRule extends Rule {
             }
 
             // Logical OR (cannot be AND):
-              if (thisMatched || exceptionMatched) {
-                matched = true;
-                matchPos = m;
-                skipShift = matchPos - nextPos;              
-                tokenPositions[matchingTokens] = skipShift + 1;
-              } else {
-                matched |= false;                            
-              }
-              skipMatch = (skipMatch || matched) && !exceptionMatched;
+            if (thisMatched || exceptionMatched) {
+              matched = true;
+              matchPos = m;
+              skipShift = matchPos - nextPos;              
+              tokenPositions[matchingTokens] = skipShift + 1;
+            } else {
+              matched |= false;                            
+            }
+            skipMatch = (skipMatch || matched) && !exceptionMatched;
           }
 
           //disallow exceptions that should match only current tokens          
@@ -463,7 +465,7 @@ public class PatternRule extends Rule {
         + tokens[lastMatchToken + correctedEndPos].getToken().length();
         if (fromPos < toPos) { //this can happen with some skip="-1" when the last token is not matched
           final RuleMatch ruleMatch = new RuleMatch(this, fromPos, toPos, errMessage,
-              startsWithUppercase);        
+              shortMessage, startsWithUppercase);        
           ruleMatches.add(ruleMatch);        
         }
       } else {

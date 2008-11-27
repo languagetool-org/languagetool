@@ -317,8 +317,12 @@ public class Main extends WeakBase implements
       replaceAll("</suggestion>", "\"").
       replaceAll("([\r]*\n)"," "); //convert line ends to spaces     
     aError.aFullComment = comment;    
-    //  we don't support two kinds of comments
-    aError.aShortComment = aError.aFullComment; 
+    //  not all rules have short comments
+    if (myMatch.getShortMessage()!= null ) {
+      aError.aShortComment = myMatch.getShortMessage();
+    } else {
+      aError.aShortComment = aError.aFullComment;
+    }
     aError.aSuggestions = myMatch.getSuggestedReplacements()
       .toArray(new String [myMatch.getSuggestedReplacements().size()]);
     aError.nErrorLevel = 0; // severity level, we don't use it

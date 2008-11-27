@@ -74,7 +74,7 @@ public abstract class AbstractPunctuationCheckRule extends Rule {
 				if (!isPunctsJoinOk(tkns)) {
 					String msg = "bad duplication or combination of punctuation signs";
 					RuleMatch ruleMatch = new RuleMatch(this, tokens[startTokenIdx].getStartPos(), 
-                        tokens[startTokenIdx].getStartPos() + tkns.length(), msg);
+                        tokens[startTokenIdx].getStartPos() + tkns.length(), msg, "Punctuation problem");
 					ruleMatch.setSuggestedReplacement(tkns.substring(0, 1));
 					ruleMatches.add(ruleMatch);
 				}

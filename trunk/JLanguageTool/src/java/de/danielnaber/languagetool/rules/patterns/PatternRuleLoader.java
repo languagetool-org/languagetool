@@ -151,6 +151,10 @@ class PatternRuleHandler extends XMLRuleHandler {
   
   private Match tokenReference = null;
 
+  StringBuffer shortMessage = new StringBuffer();
+  boolean inShortMessage = false;
+  
+  
   // ===========================================================
   // SAX DocumentHandler methods
   // ===========================================================
@@ -291,7 +295,10 @@ class PatternRuleHandler extends XMLRuleHandler {
       }
     } else if (qName.equals("message")) {
       inMessage = true;
-      message = new StringBuffer();
+      message = new StringBuffer(); 
+     }else if (qName.equals("short")) {
+        inShortMessage = true;
+        shortMessage = new StringBuffer();       
     } else if (qName.equals("rulegroup")) {
       ruleGroupId = attrs.getValue("id");
       ruleGroupDescription = attrs.getValue("name");
@@ -375,7 +382,7 @@ class PatternRuleHandler extends XMLRuleHandler {
     if (qName.equals("rule")) {      
       phraseElementInit();
       if (phraseElementList.isEmpty()) {                                       
-        final PatternRule rule = new PatternRule(id, language, elementList, description, message.toString());
+        final PatternRule rule = new PatternRule(id, language, elementList, description, message.toString(), shortMessage.toString());
         prepareRule(rule);        
         rules.add(rule);        
       } else {
@@ -388,7 +395,7 @@ class PatternRuleHandler extends XMLRuleHandler {
         for (final ArrayList < Element > phraseElement : phraseElementList) {
           processElement(phraseElement);
           final PatternRule rule = new PatternRule(id, language, phraseElement, description,
-              message.toString(), phraseElementList.size()>1);      
+              message.toString(), shortMessage.toString(), phraseElementList.size()>1);      
           prepareRule(rule);
           rules.add(rule);              
         }
@@ -477,7 +484,9 @@ class PatternRuleHandler extends XMLRuleHandler {
       incorrectExample = new StringBuffer();
       exampleCorrection = new StringBuffer();
     } else if (qName.equals("message")) {
-      inMessage = false; 
+      inMessage = false;      
+    } else if (qName.equals("short")) {
+      inShortMessage = false; 
     } else if (qName.equals("match")) {
       if (inMessage) {
       suggestionMatches.get(suggestionMatches.size() - 1)
@@ -622,6 +631,8 @@ class PatternRuleHandler extends XMLRuleHandler {
       match.append(s);
     } else if (inMessage) {
       message.append(s);
+    } else if (inShortMessage) {
+      shortMessage.append(s);
     }
   }
 

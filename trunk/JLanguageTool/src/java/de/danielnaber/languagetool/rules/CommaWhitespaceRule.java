@@ -99,6 +99,7 @@ public class CommaWhitespaceRule extends Rule {
     			final int toPos = 
             tokens[i - 1].getStartPos()
             + fixLen + prevLen;
+//TODO: add some good short comment here    			
     			final RuleMatch ruleMatch = 
             new RuleMatch(this, fromPos, toPos, msg);
           if (suggestionText != null)

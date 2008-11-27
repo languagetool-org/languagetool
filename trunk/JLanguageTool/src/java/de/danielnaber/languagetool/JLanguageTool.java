@@ -416,7 +416,8 @@ public final class JLanguageTool {
           final RuleMatch thisMatch = new RuleMatch(element1.getRule(),
               element1.getFromPos() + tokenCount,
               element1.getToPos() + tokenCount,
-              element1.getMessage());
+              element1.getMessage(),
+              element1.getShortMessage());
           thisMatch.setSuggestedReplacements(element1.getSuggestedReplacements());
           final String sentencePartToError = sentence.substring(0, element1.getFromPos());
           final String sentencePartToEndOfError = sentence.substring(0, element1.getToPos());          

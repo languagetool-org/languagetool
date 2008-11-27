@@ -44,13 +44,21 @@ public class RuleMatch implements Comparable<RuleMatch> {
   private int fromPos;
   private int toPos;
   private String message;
+  // for OOo context menu
+  private String shortMessage;
+
   private List<String> suggestedReplacements = new ArrayList<String>();
 
-  // TODO: remove this constructor?
+//TODO: remove this one after all rules get their short comments in place 
   public RuleMatch(Rule rule, int fromPos, int toPos, String message) {
-    this(rule, fromPos, toPos, message, false);
+    this(rule, fromPos, toPos, message, null, false);
   }
   
+  // TODO: remove this constructor?
+  public RuleMatch(Rule rule, int fromPos, int toPos, String message, String shortMessage) {
+    this(rule, fromPos, toPos, message, shortMessage, false);
+  }
+
   /**
    * Creates a RuleMatch object, taking the rule that triggered
    * this match, position of the match and an explanation message.
@@ -60,11 +68,13 @@ public class RuleMatch implements Comparable<RuleMatch> {
    * @param startWithUppercase whether the original text at the position
    *    of the match start with an uppercase character
    */
-  public RuleMatch(Rule rule, int fromPos, int toPos, String message, boolean startWithUppercase) {
+  public RuleMatch(Rule rule, int fromPos, int toPos, String message, String shortMessage, 
+      boolean startWithUppercase) {
     this.rule = rule;
     this.fromPos = fromPos;
     this.toPos = toPos;
     this.message = message;
+    this.shortMessage = shortMessage;
     // extract suggestion from <suggestion>...</suggestion> in message:
     final Matcher matcher = SUGGESTION_PATTERN.matcher(message);
     int pos = 0;
@@ -157,7 +167,7 @@ public class RuleMatch implements Comparable<RuleMatch> {
   public int getFromPos() {
     return fromPos;
   }
-  
+
   /**
    * Position of the end of the error (in characters).
    */
@@ -166,12 +176,20 @@ public class RuleMatch implements Comparable<RuleMatch> {
   }
 
   /**
-   * A short human-readable explanation describing the error.
+   * A human-readable explanation describing the error.
    */
   public String getMessage() {
     return message;
   }  
-  
+
+  /**
+   * A shorter human-readable explanation describing the error.
+   */
+  public String getShortMessage() {
+    return shortMessage;
+  }
+
+
   /**
    * @see #getSuggestedReplacements()
    */
@@ -203,6 +221,7 @@ public class RuleMatch implements Comparable<RuleMatch> {
     return suggestedReplacements;
   }
 
+  @Override
   public String toString() {
     return rule.getId() + ":" + fromPos + "-" + toPos + ":" + message;
   }
@@ -210,7 +229,7 @@ public class RuleMatch implements Comparable<RuleMatch> {
   public int compareTo(RuleMatch other) {
     if (other == null)
       throw new ClassCastException();
-    final RuleMatch otherRule = (RuleMatch) other;
+    final RuleMatch otherRule = other;
     if (getFromPos() < otherRule.getFromPos())
       return -1;
     if (getFromPos() > otherRule.getFromPos())

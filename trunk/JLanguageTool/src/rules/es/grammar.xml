@@ -7,7 +7,7 @@ title="Easy editing stylesheet" ?>
 <!--
 Spanish Grammar and Typo Rules for LanguageTool
 Copyright (C) 2006 Marcin Miłkowski
-$Id: grammar.xml,v 1.5 2007-05-19 19:59:15 milek_pl Exp $
+$Id: grammar.xml,v 1.6 2008-11-27 22:09:10 milek_pl Exp $
 -->
 <rules lang="es">
   <category name="misc">
@@ -16,8 +16,9 @@ $Id: grammar.xml,v 1.5 2007-05-19 19:59:15 milek_pl Exp $
       <pattern case_sensitive="no" mark_from="0">
         <token>de</token>
         <token>gratis</token>
-      </pattern>
+      </pattern>      
       <message>La forma correcta es decir <suggestion>gratis</suggestion>.</message>
+      <short>Forma incorrecta</short>
       <example type="correct">El agua es gratis.</example>
       <example correction="gratis" type="incorrect">El agua es <marker>de gratis</marker>.</example>
     </rule>
@@ -27,8 +28,9 @@ $Id: grammar.xml,v 1.5 2007-05-19 19:59:15 milek_pl Exp $
       <pattern case_sensitive="no">
         <token>ah</token>
         <token postag="VMN0000"/>
-      </pattern>
+      </pattern>      
       <message>Esta palabra se escribe sin h: <suggestion>a \2</suggestion>.</message>
+      <short>Error ortográfico</short>
       <example correction="a hablar" type="incorrect">Voy <marker>ah hablar</marker> con ella.</example>
       <example type="correct">Voy <marker>a hablar</marker> con ella.</example>
     </rule>
@@ -39,6 +41,7 @@ $Id: grammar.xml,v 1.5 2007-05-19 19:59:15 milek_pl Exp $
         <token postag="VMN0000"/>
       </pattern>
       <message>Esta palabra se escribe sin h: <suggestion>\1 a \3</suggestion>.</message>
+      <short>Error ortográfico</short>
       <example correction="Voy a hablar" type="incorrect"><marker>Voy ha hablar</marker> con ella.</example>
       <example type="correct"><marker>Voy a hablar</marker> con ella.</example>
     </rule>

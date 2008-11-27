@@ -75,7 +75,7 @@ public class SimpleReplaceRule extends Rule {
 					String replacement = wrongWords.get(token);
 					String msg = token + " is not valid, use " + replacement;
           int pos = tokens[i].getStartPos(); 
-					RuleMatch potentialRuleMatch = new RuleMatch(this, pos, pos+origToken.length(), msg);
+					RuleMatch potentialRuleMatch = new RuleMatch(this, pos, pos+origToken.length(), msg, "Wrong word");
 					potentialRuleMatch.setSuggestedReplacement(replacement);
 //					shouldNotAppearWord.put(shouldNotAppear, potentialRuleMatch);
 					ruleMatches.add(potentialRuleMatch);

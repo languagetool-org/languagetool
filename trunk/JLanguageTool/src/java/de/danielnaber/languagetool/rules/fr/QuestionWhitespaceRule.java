@@ -147,7 +147,7 @@ public class QuestionWhitespaceRule extends FrenchRule {
                 int fromPos = tokens[i - 1].getStartPos() + fixPos;
                 int toPos = tokens[i - 1].getStartPos() + fixPos 
                   + fixLen + prevToken.length();
-                RuleMatch ruleMatch = new RuleMatch(this, fromPos, toPos, msg);
+                RuleMatch ruleMatch = new RuleMatch(this, fromPos, toPos, msg, "Insérer un espace insécable");
           if (suggestionText != null)
             ruleMatch.setSuggestedReplacement(suggestionText);
                 ruleMatches.add(ruleMatch);

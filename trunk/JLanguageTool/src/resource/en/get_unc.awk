@@ -7054,6 +7054,7 @@ partly_noncount["thickness"]="uncount"
 partly_noncount["dependency"]="uncount"
 partly_noncount["currency"]="uncount"
 partly_noncount["aikido"]="uncount"
+partly_noncount["heresy"]="uncount"
 
 #not strictly non-count, but used without article
 #in a phrase 'coast to coast'

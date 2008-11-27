@@ -176,7 +176,7 @@ public class PolishWordRepeatRule extends PolishRule {
       if (repetition) {
         final String msg = "Powtórzony wyraz w zdaniu";
         final int pos = tokens[i].getStartPos();
-        final RuleMatch ruleMatch = new RuleMatch(this, pos, pos+token.length(), msg);
+        final RuleMatch ruleMatch = new RuleMatch(this, pos, pos+token.length(), msg, "Powtórzenie wyrazu");
         ruleMatch.setSuggestedReplacement(tokens[i].getToken());
         ruleMatches.add(ruleMatch);
         repetition = false;

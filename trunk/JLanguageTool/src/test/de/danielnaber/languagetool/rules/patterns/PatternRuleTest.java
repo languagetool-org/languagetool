@@ -235,6 +235,7 @@ public class PatternRuleTest extends TestCase {
     assertEquals(-1, matches[0].getLine());
     assertEquals("ID1", matches[0].getRule().getId());
     assertTrue(matches[0].getMessage().equals("user visible message"));
+    assertTrue(matches[0].getShortMessage().equals("short comment"));
     matches = pr.match(langTool.getAnalyzedSentence("one one and one: three matches"));
     assertEquals(3, matches.length);
 
@@ -296,7 +297,7 @@ public class PatternRuleTest extends TestCase {
       pos = false;
     }
     final PatternRule rule = new PatternRule("ID1", Language.ENGLISH, elems, "test rule",
-        "user visible message");
+        "user visible message", "short comment");
     return rule;
   }
 

@@ -70,7 +70,7 @@ public class DoublePunctuationRule extends Rule {
         String msg = messages.getString("two_dots");
         @SuppressWarnings("null")
         int fromPos = Math.max(0, matchToken.getStartPos()-1);
-        RuleMatch ruleMatch = new RuleMatch(this, fromPos, matchToken.getStartPos()+1, msg);
+        RuleMatch ruleMatch = new RuleMatch(this, fromPos, matchToken.getStartPos()+1, msg, messages.getString("double_dots_short"));
         ruleMatch.setSuggestedReplacement(".");
         ruleMatches.add(ruleMatch);
         dotCount = 0;
@@ -78,7 +78,7 @@ public class DoublePunctuationRule extends Rule {
         String msg = messages.getString("two_commas");
         @SuppressWarnings("null")
         int fromPos = Math.max(0, matchToken.getStartPos()-1);
-        RuleMatch ruleMatch = new RuleMatch(this, fromPos, matchToken.getStartPos()+1, msg);
+        RuleMatch ruleMatch = new RuleMatch(this, fromPos, matchToken.getStartPos()+1, msg, messages.getString("double_commas_short"));
         // TODO: collides with CommaWhitespaceRule:
         ruleMatch.setSuggestedReplacement(",");
         ruleMatches.add(ruleMatch);

@@ -52,7 +52,7 @@ that should appear as a single rule to the user: -->
 <!-- Whether the rulegroup is switched by default off -->
 <!ATTLIST rulegroup default (off|on) #IMPLIED>
 
-<!ELEMENT rule (pattern,message,example,example+)>
+<!ELEMENT rule (pattern,message,short?,example,example+)>
 <!-- A unique ID for this rule (not required if this rule is inside 
 a rulegroup): -->
 <!ATTLIST rule id ID #IMPLIED>
@@ -130,6 +130,9 @@ i.e., the validity scope of the exception -->
 <!-- Spaces are important for creating suggestions, leave them alone: -->
 <!ATTLIST message
  xml:space (preserve) #FIXED 'preserve'>
+
+<!-- short comment displayed in context menu: -->
+<!ELEMENT short (#PCDATA)>
 
 <!-- The examples are used for the unit test cases. An 'incorrect'
 example is supposed to trigger an error message, in an 'correct'

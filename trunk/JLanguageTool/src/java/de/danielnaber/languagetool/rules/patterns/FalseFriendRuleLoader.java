@@ -296,7 +296,7 @@ class FalseFriendRuleHandler extends XMLRuleHandler {
 			  final PatternRule rule = new PatternRule(id, language, 
             elementList, messages.getString("false_friend_desc") 
             + " " + elements.toString().replace('|', '/'),
-					  description);
+					  description, messages.getString("false_friend"));
 			  rule.setCorrectExamples(correctExamples);
 			  rule.setIncorrectExamples(incorrectExamples);
         rule.setCategory(new Category(messages.getString("category_false_friend")));

@@ -80,7 +80,7 @@ public class WordRepeatRule extends Rule {
         final String msg = messages.getString("repetition");
         final int prevPos = tokens[i - 1].getStartPos();
         final int pos = tokens[i].getStartPos();
-        final RuleMatch ruleMatch = new RuleMatch(this, prevPos, pos+prevToken.length(), msg);
+        final RuleMatch ruleMatch = new RuleMatch(this, prevPos, pos+prevToken.length(), msg, messages.getString("desc_repetition_short"));
         ruleMatch.setSuggestedReplacement(prevToken);
         ruleMatches.add(ruleMatch);
       }

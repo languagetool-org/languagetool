@@ -138,7 +138,7 @@ public class AvsAnRule extends EnglishRule {
         }
         if (msg != null) {
           final int prevPos = tokens[i - 1].getStartPos();
-          final RuleMatch ruleMatch = new RuleMatch(this, prevPos, prevPos+prevToken.length(), msg);
+          final RuleMatch ruleMatch = new RuleMatch(this, prevPos, prevPos+prevToken.length(), msg, "Wrong article");
           ruleMatches.add(ruleMatch);
         }
         if (tokens[i].hasPosTag("DT")) {
