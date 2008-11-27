@@ -3,11 +3,10 @@
 <?xml-stylesheet type="text/xsl" href="../print.xsl" ?>
 <?xml-stylesheet type="text/css" href="../rules.css" 
 title="Easy editing stylesheet" ?>
-
 <!--
 Polish Grammar and Typo Rules for LanguageTool
 Copyright (C) 2006-2007 Marcin Miłkowski
-$Id: grammar.xml,v 1.148 2008-11-27 22:09:09 milek_pl Exp $
+$Id: grammar.xml,v 1.149 2008-11-27 23:56:14 milek_pl Exp $
 -->
 <rules lang="pl">
   <phrases>
@@ -1423,22 +1422,9 @@ $Id: grammar.xml,v 1.148 2008-11-27 22:09:09 milek_pl Exp $
         <example type="correct">Czekałem na autobus, a autobus nie przyjeżdżał.</example>
         <example type="correct">Taki a taki lekarz przyjmuje w takich a takich godzinach.</example>
       </rule>
-      <rule>
-        <pattern>
-          <token>tak</token>
-          <token>,</token>
-          <token>a</token>
-          <token>nie</token>
-          <token>inaczej</token>
-        </pattern>
-        <message>W tym wyrażeniu zgodnie z tradycją nie stawiamy przecinka. Poprawnie: <suggestion>\1 \3 \4 \5</suggestion>.</message>
-        <short>Błąd interpunkcyjny</short>
-        <example correction="tak a nie inaczej" type="incorrect">Należy to zrobić <marker>tak, a nie inaczej</marker>.</example>
-        <example type="correct">Należy to zrobić tak a nie inaczej.</example>
-      </rule>
     </rulegroup>
     <rule id="BRAK_PRZECINKA_A" name="Brak przecinka przed „a” w sensie przeciwstawnym">
-      <pattern case_sensitive="yes" mark_from="1" mark_to="-1">
+      <pattern case_sensitive="yes" mark_from="1">
         <token/>
         <phraseref idref="NIE_INTERPUNKCJA"/>
         <token>a</token>
@@ -1446,13 +1432,12 @@ $Id: grammar.xml,v 1.148 2008-11-27 22:09:09 milek_pl Exp $
           <token regexp="yes">nie|i|to|już|owszem|potem|wreszcie|nawet|zarazem|także|również|przynajmniej|jednocześnie|raczej</token>
           <token negate="yes"><match no="0"/></token>
         </and>
-        <token negate="yes">inaczej</token>
       </pattern>
       <message>Prawdopodobnie brak przecinka, jeśli spójnik „a” nie występuje w sensie łącznym, tylko przeciwstawnym, wynikowym lub przed dopowiedzeniem. 
 Powinno być: <suggestion>\2, \3 \4</suggestion>.</message>
       <short>Błąd interpunkcyjny</short>
       <example type="correct">To a to należy zrobić.</example>
-      <example type="correct">Zrobiłem to tak a nie inaczej.</example>
+      <example correction="tak, a nie" type="incorrect">Zrobiłem to <marker>tak a nie</marker> inaczej.</example>
       <example correction="fascynujący, a zarazem" type="incorrect">Był to spektakl <marker>fascynujący a zarazem</marker> przerażający.</example>
     </rule>
     <rule id="PRZECINEK_OTOZ" name="Zbędny przecinek po „otóż”">
@@ -6018,7 +6003,7 @@ lub <suggestion>\2 na prawach wyłączności</suggestion>.</message>
       <pattern mark_to="-1">
         <token>od</token>
         <token>tak</token>
-        <token negate="yes">zwanych</token>
+        <token><exception postag=".*[:\.]gen[:\.].*" postag_regexp="yes"/></token>
       </pattern>
       <message>Prawdopodobna literówka. Czy chodziło o <suggestion>ot, tak</suggestion> (=od niechcenia)?</message>
       <short>Błąd ortograficzny</short>
@@ -8414,7 +8399,7 @@ Znacznie częściej ta forma jest mylona z trybem rozkazującym od „pokazać�
     </rulegroup>
   </category>
   <category name="Prawdopodobne literówki">
-    <rule id="ILOCI" name="iloci (ilości)">
+    <rule id="ILOCI" name="„iloci” (ilości)">
       <pattern>
         <token>iloci</token>
       </pattern>
@@ -8423,7 +8408,7 @@ Znacznie częściej ta forma jest mylona z trybem rozkazującym od „pokazać�
       <example correction="ilości" type="incorrect">Mam do sprzedania kłaki w dużej <marker>iloci</marker>.</example>
       <example type="correct">Mam do sprzedania kłaki w dużej ilości.</example>
     </rule>
-    <rulegroup id="NADAJ_NADAL" name="nadaj nie (nadal nie)">
+    <rulegroup id="NADAJ_NADAL" name="„nadaj nie” (nadal nie)">
       <rule>
         <pattern mark_to="-1">
           <token>nadaj</token>
@@ -8466,18 +8451,32 @@ Znacznie częściej ta forma jest mylona z trybem rozkazującym od „pokazać�
       <example correction="placówka" type="incorrect">Przy ulicy Lipowej znajduje się <marker>palcówka</marker> znanego holenderskiego banku.</example>
       <example type="correct">Przy ulicy Lipowej znajduje się <marker>placówka</marker> znanego holenderskiego banku.</example>
     </rule>
-    <rule id="RZECZ_RZEC" name="rzecz można (rzec można)">
-      <pattern mark_to="-3">
-        <token>rzecz</token>
-        <token>można</token>
-        <token>,</token>
-        <token regexp="yes">że|iż</token>
-      </pattern>
-      <message>Prawdopodobna literówka. Czy chodziło o <suggestion>rzec</suggestion>?</message>
-      <short>Prawdopodobna literówka</short>
-      <example correction="Rzec" type="incorrect"><marker>Rzecz</marker> można, że poznaję strukturę tworzenia przygodówki od drugiej strony, od podszewki.</example>
-      <example type="correct">Rzec można, że poznaję strukturę tworzenia przygodówki od drugiej strony, od podszewki. </example>
-    </rule>
+    <rulegroup id="RZECZ_RZEC" name="„rzecz można” (rzec można)">
+      <rule>
+        <pattern mark_to="-3">
+          <token>rzecz</token>
+          <token>można</token>
+          <token>,</token>
+          <token regexp="yes">że|iż</token>
+        </pattern>
+        <message>Prawdopodobna literówka. Czy chodziło o <suggestion>rzec</suggestion>?</message>
+        <short>Prawdopodobna literówka</short>
+        <example correction="Rzec" type="incorrect"><marker>Rzecz</marker> można, że poznaję strukturę tworzenia przygodówki od drugiej strony, od podszewki.</example>
+        <example type="correct">Rzec można, że poznaję strukturę tworzenia przygodówki od drugiej strony, od podszewki. </example>
+      </rule>
+      <rule>
+        <pattern mark_from="2" mark_to="-1">
+          <token>by</token>
+          <token>tak</token>
+          <token>rzecz</token>
+          <token regexp="yes">[,\-–—]</token>
+        </pattern>
+        <message>Prawdopodobna literówka. Czy chodziło o <suggestion>rzec</suggestion>?</message>
+        <short>Prawdopodobna literówka</short>
+        <example correction="rzec" type="incorrect">W tej powieści znowu pojawił się - by tak <marker>rzecz</marker> - korzenny upiór, często nawiedzający naszą prozę.</example>
+        <example type="correct">Walka o Polskę (by tak rzecz nazwać) najwyraźniej weszła w kolejny etap.</example>
+      </rule>
+    </rulegroup>
     <rulegroup id="RZEC_RZECZ" name="„na rzec” (na rzecz)">
       <rule>
         <pattern mark_from="1">
@@ -8907,7 +8906,7 @@ Znacznie częściej ta forma jest mylona z trybem rozkazującym od „pokazać�
         <example type="correct">Wakacje tuż, tuż</example>
       </rule>
     </rulegroup>
-    <rulegroup id="TEZ_TEZ" name="tez (też)">
+    <rulegroup id="TEZ_TEZ" name="„tez” (też)">
       <rule>
         <pattern mark_from="1">
           <token regexp="yes">są|co|można|należy|warto|ja|on|ona|my|oni|wy|ty|czy|jest|tam</token>
@@ -9153,16 +9152,29 @@ Znacznie częściej ta forma jest mylona z trybem rozkazującym od „pokazać�
         <example correction="więc" type="incorrect">Przemysław kupił flakon perfum, <marker>wiec</marker> jeśli Ludwik go poprosi, będzie mógł się wyperfumować.</example>
       </rule>
     </rulegroup>
-    <rule id="OTO_CHODZI" name="„oto chodzi/chodziło” (o to...)">
-      <pattern mark_to="-1">
-        <token>oto</token>
-        <token regexp="yes">chodzi|chodziło</token>
-      </pattern>
-      <message>Prawdopodobna literówka, powinno być: <suggestion>o to</suggestion>.</message>
-      <short>Prawdopodobna literówka</short>
-      <example type="correct">O, właśnie o to chodziło.</example>
-      <example correction="o to" type="incorrect">O, właśnie <marker>oto</marker> chodziło.</example>
-    </rule>
+    <rulegroup id="OTO_CHODZI" name="„oto chodzi/chodziło” (o to...)">
+      <rule>
+        <pattern mark_to="-1">
+          <token>oto</token>
+          <token regexp="yes">chodzi|chodziło</token>
+        </pattern>
+        <message>Prawdopodobna literówka, powinno być: <suggestion>o to</suggestion>.</message>
+        <short>Prawdopodobna literówka</short>
+        <example type="correct">O, właśnie o to chodziło.</example>
+        <example correction="o to" type="incorrect">O, właśnie <marker>oto</marker> chodziło.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="1" mark_to="0">
+          <token regexp="yes" skip="1">chodzi|chodziło|tylko|nie</token>
+          <token>oto</token>
+        </pattern>
+        <message>Prawdopodobna literówka, powinno być: <suggestion>o to</suggestion>.</message>
+        <short>Prawdopodobna literówka</short>
+        <example type="correct">O, chodziło właśnie o to.</example>
+        <example correction="o to" type="incorrect">Nie <marker>oto</marker> pytam.</example>
+        <example correction="o to" type="incorrect">O, chodziło właśnie <marker>oto</marker> .</example>
+      </rule>
+    </rulegroup>
     <rule id="NADAL" name="„na dal” (nadal)">
       <pattern>
         <token>na</token>
