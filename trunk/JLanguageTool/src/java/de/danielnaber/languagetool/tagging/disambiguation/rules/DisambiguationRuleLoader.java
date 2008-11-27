@@ -110,7 +110,6 @@ class DisambiguationRuleHandler extends XMLRuleHandler {
   //===========================================================
 
   @Override
-  @SuppressWarnings("unused")
   public void startElement(final String namespaceURI, final String lName, final String qName, final Attributes attrs) throws SAXException {
     if (qName.equals("rule")) {      
       id = attrs.getValue("id");
@@ -237,7 +236,6 @@ class DisambiguationRuleHandler extends XMLRuleHandler {
   }
 
   @Override
-  @SuppressWarnings("unused")
   public void endElement(final String namespaceURI, final String sName, final String qName) {
     if (qName.equals("rule")) {        
       final DisambiguationPatternRule rule = new DisambiguationPatternRule(id, name, 

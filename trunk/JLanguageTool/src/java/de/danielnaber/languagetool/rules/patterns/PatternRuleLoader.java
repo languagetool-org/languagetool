@@ -160,7 +160,6 @@ class PatternRuleHandler extends XMLRuleHandler {
   // ===========================================================
 
   @Override
-  @SuppressWarnings("unused")
   public void startElement(final String namespaceURI, final String lName, final String qName, final Attributes attrs)
       throws SAXException {
     if (qName.equals("category")) {
@@ -376,7 +375,6 @@ class PatternRuleHandler extends XMLRuleHandler {
    
 
   @Override
-  @SuppressWarnings("unused")
   public void endElement(final String namespaceURI, final String sName, final String qName) {
 
     if (qName.equals("rule")) {      
