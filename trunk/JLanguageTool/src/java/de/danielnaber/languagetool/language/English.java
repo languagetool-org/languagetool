@@ -89,6 +89,7 @@ public class English extends Language {
     ids.add("WHITESPACE_RULE");    
     // specific to English:
     ids.add("EN_A_VS_AN");
+    ids.add("EN_COMPOUNDS");
     return ids;
   }
 

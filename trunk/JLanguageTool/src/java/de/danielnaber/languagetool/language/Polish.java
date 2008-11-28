@@ -97,6 +97,7 @@ public class Polish extends Language {
     ids.add("WHITESPACE_RULE");
     // specific to Polish:
     ids.add("PL_WORD_REPEAT");
+    ids.add("PL_COMPOUNDS");
     return ids;
   }
 

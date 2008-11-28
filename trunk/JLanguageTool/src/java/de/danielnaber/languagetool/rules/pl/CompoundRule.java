@@ -16,7 +16,7 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
  */
-package de.danielnaber.languagetool.rules.de;
+package de.danielnaber.languagetool.rules.pl;
 
 import java.io.IOException;
 import java.util.ResourceBundle;
@@ -27,27 +27,29 @@ import de.danielnaber.languagetool.tools.Tools;
 /**
  * Checks that compounds (if in the list) are not written as separate words.
  * 
- * @author Daniel Naber
+ * @author Marcin Miłkowski, based on code by Daniel Naber
  */
+
 public class CompoundRule extends AbstractCompoundRule {
 
-  private static final String FILE_NAME = "/resource/de/compounds.txt";
- 
+  private static final String FILE_NAME = "/resource/pl/compounds.txt";
+    
   public CompoundRule(final ResourceBundle messages) throws IOException {    
     super(messages);
     loadCompoundFile(Tools.getStream(FILE_NAME), "UTF-8");
-    super.setShort("Hyphenation problem");
-    super.setMsg("Dieses Kompositum wird mit Bindestrich geschrieben.", 
-        "Dieses Kompositum wird zusammengeschrieben.", 
-    "Dieses Kompositum wird zusammen oder mit Bindestrich geschrieben.");
+    super.setShort("Brak łącznika lub zbędny łącznik");
+    super.setMsg("Ten wyraz pisze się z łącznikiem.", 
+        "Ten wyraz jest pisany bez łącznika.", 
+        "Ten wyraz pisze się z łącznikiem lub bez niego.");
   }
-
-
+  
   public String getId() {
-    return "DE_COMPOUNDS";
+    return "PL_COMPOUNDS";
   }
 
   public String getDescription() {
-    return "Zusammenschreibung von Komposita, z.B. 'CD-ROM' statt 'CD ROM'";
-  }
+    return "Sprawdza wyrazy z łącznikiem, np. „łapu capu” zamiast „łapu-capu”";
+  }    
+
+  
 }

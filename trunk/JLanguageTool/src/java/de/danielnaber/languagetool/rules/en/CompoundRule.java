@@ -16,7 +16,7 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
  */
-package de.danielnaber.languagetool.rules.de;
+package de.danielnaber.languagetool.rules.en;
 
 import java.io.IOException;
 import java.util.ResourceBundle;
@@ -27,27 +27,29 @@ import de.danielnaber.languagetool.tools.Tools;
 /**
  * Checks that compounds (if in the list) are not written as separate words.
  * 
- * @author Daniel Naber
+ * @author Marcin Miłkowski, based on code by Daniel Naber
  */
+
 public class CompoundRule extends AbstractCompoundRule {
 
-  private static final String FILE_NAME = "/resource/de/compounds.txt";
- 
+  private static final String FILE_NAME = "/resource/en/compounds.txt";
+    
   public CompoundRule(final ResourceBundle messages) throws IOException {    
     super(messages);
     loadCompoundFile(Tools.getStream(FILE_NAME), "UTF-8");
     super.setShort("Hyphenation problem");
-    super.setMsg("Dieses Kompositum wird mit Bindestrich geschrieben.", 
-        "Dieses Kompositum wird zusammengeschrieben.", 
-    "Dieses Kompositum wird zusammen oder mit Bindestrich geschrieben.");
+    super.setMsg("This word is normally spelled with hyphen.", 
+        "This word is normally spelled as one.", 
+        "This expression is normally spelled as one or with hyphen.");
   }
-
-
+  
   public String getId() {
-    return "DE_COMPOUNDS";
+    return "EN_COMPOUNDS";
   }
 
   public String getDescription() {
-    return "Zusammenschreibung von Komposita, z.B. 'CD-ROM' statt 'CD ROM'";
-  }
+    return "Hyphenated words, e.g., 'case-sensitive' instead of 'case sensitive'";
+  }    
+
+  
 }

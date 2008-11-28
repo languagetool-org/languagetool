@@ -16,7 +16,7 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
  */
-package de.danielnaber.languagetool.rules.sv;
+package de.danielnaber.languagetool.rules;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -38,36 +38,44 @@ import de.danielnaber.languagetool.AnalyzedTokenReadings;
 import de.danielnaber.languagetool.rules.Category;
 import de.danielnaber.languagetool.rules.RuleMatch;
 import de.danielnaber.languagetool.tools.StringTools;
-import de.danielnaber.languagetool.tools.Tools;
 
 /**
  * Checks that compounds (if in the list) are not written as separate words.
  * 
- * @author Daniel Naber
+ * @author Daniel Naber & Marcin Miłkowski (refactoring)
  */
-public class CompoundRule extends SwedishRule {
-  //TODO for words with more then one part check if parts of it is compounded.
-  //in env. allt-i-genom+ should match "allt i genom", "allt igenom" as well as "allti genom"
-  private static final String FILE_NAME = "/resource/sv/compounds.txt";
 
-  private final static int MAX_TERMS = 5;
+public abstract class AbstractCompoundRule extends Rule {
+
+  private final static int MAX_TERMS = 5;  
 
   private Set<String> incorrectCompounds = new HashSet<String>();
   private Set<String> noDashSuggestion = new HashSet<String>();
   private Set<String> onlyDashSuggestion = new HashSet<String>();
 
-  public CompoundRule(final ResourceBundle messages) throws IOException {
+  private String withHyphen;
+  private String asOne;
+  private String withHyphenOrNot;
+
+  private String shortDesc;
+
+  public AbstractCompoundRule(final ResourceBundle messages) throws IOException {
     if (messages != null)
-      super.setCategory(new Category(messages.getString("category_misc")));
-    loadCompoundFile(Tools.getStream(FILE_NAME), "UTF-8");
+      super.setCategory(new Category(messages.getString("category_misc")));    
   }
 
-  public String getId() {
-    return "SV_COMPOUNDS";
+  public abstract String getId();    
+
+  public abstract String getDescription();
+
+  public void setShort(final String shortDescription) {
+    shortDesc = shortDescription;
   }
 
-  public String getDescription() {
-    return "Särskrivningar, t.ex. 'cd rom' bör skrivas 'cd-rom'";
+  public void setMsg(final String msg1, final String msg2, final String msg3) {
+    withHyphen = msg1;
+    asOne = msg2;
+    withHyphenOrNot = msg3;
   }
 
   public RuleMatch[] match(final AnalyzedSentence text) {
@@ -113,34 +121,30 @@ public class CompoundRule extends SwedishRule {
       for (int k = stringsToCheck.size()-1; k >= 0; k--) {
         String stringToCheck = stringsToCheck.get(k);
         String origStringToCheck = origStringsToCheck.get(k);
-        //System.err.println("##"+stringtoCheck+"#");
         if (incorrectCompounds.contains(stringToCheck)) {
           AnalyzedTokenReadings atr = stringToToken.get(stringToCheck);
           String msg = null;
           List<String> repl = new ArrayList<String>();
           if (!noDashSuggestion.contains(stringToCheck)) {
             repl.add(origStringToCheck.replace(' ', '-'));
-            msg = "Dessa ord skrivs samman med bindesträck.";
+            msg = withHyphen;
           }
-          // Do not assume that compounds with more than two parts should always use hyphens:
-          if (!hasAllUppercaseParts(origStringToCheck) && !onlyDashSuggestion.contains(stringToCheck)) {          
+          // assume that compounds with more than two parts should always use hyphens:
+          if (!hasAllUppercaseParts(origStringToCheck) && countParts(stringToCheck) <= 2
+              && !onlyDashSuggestion.contains(stringToCheck)) {
             repl.add(mergeCompound(origStringToCheck));
-            msg = "Dessa ord skrivs samman.";
+            msg = asOne;
           }
           String[] parts = stringToCheck.split(" ");
-          if (parts.length > 0) {
+          if (parts.length > 0 && parts[0].length() == 1) {
             repl.clear();
             repl.add(origStringToCheck.replace(' ', '-'));
-            msg = "Dessa ord skrivs samman med bindesträck.";
+            msg = withHyphen;
           } else if (repl.size() == 0 || repl.size() == 2) {     // == 0 shouldn't happen
-            // did not work as expected so I added repl. explicitly.
-            msg = "Dessa ord skrivs samman med eller utan bindesträck.";
-            repl.clear();
-            repl.add(origStringToCheck.replace(' ', '-'));
-            repl.add(mergeCompound(origStringToCheck));
+            msg = withHyphenOrNot;
           }
           RuleMatch ruleMatch = new RuleMatch(this, firstMatchToken.getStartPos(), 
-              atr.getStartPos() + atr.getToken().length(), msg);
+              atr.getStartPos() + atr.getToken().length(), msg, shortDesc);
           // avoid duplicate matches:
           if (prevRuleMatch != null && prevRuleMatch.getFromPos() == ruleMatch.getFromPos()) {
             prevRuleMatch = ruleMatch;
@@ -157,12 +161,6 @@ public class CompoundRule extends SwedishRule {
     return toRuleMatchArray(ruleMatches);
   }
 
-  /**
-   * Replaces dashes with whitespace
-   * e.g. "E-Mail Adresse" -> "E Mail Adresse" so the error can be detected:
-   * @param str
-   * @return str
-   */
   private String normalize(String str) {
     str = str.trim().toLowerCase();
     if (str.indexOf('-') != -1 && str.indexOf(' ') != -1) {
@@ -180,6 +178,11 @@ public class CompoundRule extends SwedishRule {
       }
     }
     return false;
+  }
+
+  private int countParts(String str) {
+    String[] parts = str.split(" ");
+    return parts.length;
   }
 
   private String mergeCompound(String str) {
@@ -202,7 +205,7 @@ public class CompoundRule extends SwedishRule {
     }
   }
 
-  private void loadCompoundFile(final InputStream file, final String encoding) throws IOException {
+  public void loadCompoundFile(final InputStream file, final String encoding) throws IOException {
     InputStreamReader isr = null;
     BufferedReader br = null;   
     try {
@@ -221,9 +224,9 @@ public class CompoundRule extends SwedishRule {
         line = line.replace('-', ' ');
         String[] parts = line.split(" ");
         if (parts.length > MAX_TERMS)
-          throw new IOException("För många ord sammansatta: " + line + ", max antal tillåtna ord: " + MAX_TERMS);
+          throw new IOException("Too many compound parts: " + line + ", maximum allowed: " + MAX_TERMS);
         if (parts.length == 1)
-          throw new IOException("Inget sammansatt ord: " + line);
+          throw new IOException("Not a compound: " + line);
         if (line.endsWith("+")) {
           line = line.substring(0, line.length() - 1);    // cut off "+"
           noDashSuggestion.add(line.toLowerCase());
@@ -243,5 +246,3 @@ public class CompoundRule extends SwedishRule {
   }
 
 }
-
-
