@@ -7,7 +7,7 @@ title="Easy editing stylesheet" ?>
 English Grammar and Typo Rules for LanguageTool
 See tagset.txt for the meaning of the POS tags
 Copyright (C) 2001-2007 Daniel Naber (http://www.danielnaber.de)
-$Id: grammar.xml,v 1.88 2008-11-27 22:09:10 milek_pl Exp $
+$Id: grammar.xml,v 1.89 2008-11-28 02:23:50 milek_pl Exp $
 -->
 <rules lang="en">
   <!-- ====================================================================== -->
@@ -722,7 +722,20 @@ $Id: grammar.xml,v 1.88 2008-11-27 22:09:10 milek_pl Exp $
         <example type="correct">Spammer on the loose?</example>
       </rule>
     </rulegroup>
-    <rulegroup id="GIVE_ADVISE" name="give sb advise (advice)">
+    <rulegroup id="LOSE_LOSS" name="at a lose (at a loss)">
+      <rule>
+        <pattern mark_from="0">
+          <token>at</token>
+          <token>a</token>
+          <token>lose</token>
+        </pattern>
+        <message>Did you mean <suggestion>at a loss</suggestion> (=puzzled, without any idea)?</message>
+        <short>Possible typo</short>
+        <example correction="at a loss" type="incorrect">Feeling <marker>at a lose</marker> and frustrated.</example>
+        <example type="correct">Feeling at a loss and frustrated.</example>
+      </rule>
+    </rulegroup>
+    <rulegroup id="GIVE_ADVISE" name="give/any/of advise (advice)">
       <rule>
         <pattern mark_from="2">
           <token regexp="yes">give|gave|given</token>
@@ -735,16 +748,24 @@ $Id: grammar.xml,v 1.88 2008-11-27 22:09:10 milek_pl Exp $
         <example type="incorrect">Please give me <marker>advise</marker>, I don't know what to do.</example>
       </rule>
       <rule>
-        <pattern mark_from="3">
-          <token regexp="yes">give|gave|given</token>
-          <token postag="PRP"/>
-          <token postag="JJ"/>
+        <pattern mark_from="1">
+          <token postag="DT"/>
           <token>advise</token>
         </pattern>
         <message>Did you mean <suggestion>advice</suggestion> (a noun)?</message>
         <short>Possible typo</short>
-        <example type="correct">Please give me good advice, I don't know what to do.</example>
-        <example type="incorrect">Please give me good <marker>advise</marker>, I don't know what to do.</example>
+        <example correction="advice" type="incorrect">Any <marker>advise</marker> is welcome!</example>
+        <example type="correct">Any advice is welcome.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="1">
+          <token regexp="yes">of|from</token>
+          <token>advise</token>
+        </pattern>
+        <message>Did you mean <suggestion>advice</suggestion> (a noun)?</message>
+        <short>Possible typo</short>
+        <example correction="advice" type="incorrect">What was the best piece of <marker>advise</marker> that you ever got?</example>
+        <example type="correct">What was the best piece of advice that you ever got?</example>
       </rule>
     </rulegroup>
     <rule id="I_WE_ADVICE" name="I/we advice (advise)">
@@ -1888,18 +1909,31 @@ $Id: grammar.xml,v 1.88 2008-11-27 22:09:10 milek_pl Exp $
         <example correction="nothing" type="incorrect">There's <marker>no thing</marker> wrong with this sentence.</example>
       </rule>
     </rulegroup>
-    <rule id="MAY_BE_I" name="may be (maybe)">
-      <pattern mark_to="-1">
-        <token>may</token>
-        <token>be</token>
-        <token postag="PRP"><exception>one</exception></token>
-      </pattern>
-      <message>Did you mean <suggestion>maybe</suggestion> (=perhaps)?</message>
-      <short>Possible typo</short>
-      <example correction="Maybe" type="incorrect"><marker>May be</marker> I don't understand.</example>
-      <example type="correct"><marker>Maybe</marker> I don't understand.</example>
-      <example type="correct">That they all may be one...</example>
-    </rule>
+    <rulegroup id="MAY_BE" name="may be (maybe)">
+      <rule id="MAY_BE_I" name="">
+        <pattern mark_to="-1">
+          <token>may</token>
+          <token>be</token>
+          <token postag="PRP"><exception>one</exception></token>
+        </pattern>
+        <message>Did you mean <suggestion>maybe</suggestion> (=perhaps)?</message>
+        <short>Possible typo</short>
+        <example correction="Maybe" type="incorrect"><marker>May be</marker> I don't understand.</example>
+        <example type="correct"><marker>Maybe</marker> I don't understand.</example>
+        <example type="correct">That they all may be one...</example>
+      </rule>
+      <rule>
+        <pattern mark_from="1">
+          <token>(</token>
+          <token>may</token>
+          <token>be</token>
+        </pattern>
+        <message>Did you mean <suggestion>maybe</suggestion> (=perhaps)?</message>
+        <short>Possible typo</short>
+        <example correction="maybe" type="incorrect">I paid (<marker>may be</marker>) an exorbitant price for this.</example>
+        <example type="correct">I paid (maybe) an exorbitant price.</example>
+      </rule>
+    </rulegroup>
     <rulegroup id="ONCE_AND_A_WHILE" name="once and a while (once in a while)">
       <rule>
         <pattern>
@@ -1951,6 +1985,41 @@ $Id: grammar.xml,v 1.88 2008-11-27 22:09:10 milek_pl Exp $
   <!-- Grammar -->
   <!-- ====================================================================== -->
   <category name="Grammar">
+    <rulegroup id="WAS_BEEN" name="was been (has been)">
+      <rule>
+        <pattern>
+          <token>was</token>
+          <token>been</token>
+        </pattern>
+        <message>Did you mean <suggestion>was</suggestion> or <suggestion>has been</suggestion>?</message>
+        <short>Grammatical problem or typo</short>
+        <example correction="was|has been" type="incorrect">She <marker>was been</marker> here since Monday.</example>
+        <example type="correct">She has been here since Monday.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>was</token>
+          <token>not</token>
+          <token>been</token>
+        </pattern>
+        <message>Did you mean <suggestion>was not</suggestion> or <suggestion>has not been</suggestion>?</message>
+        <short>Grammatical problem or typo</short>
+        <example correction="was not|has not been" type="incorrect">She <marker>was not been</marker> here since Monday.</example>
+        <example type="correct">She has not been here since Monday.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>wasn</token>
+          <token>'</token>
+          <token>t</token>
+          <token>been</token>
+        </pattern>
+        <message>Did you mean <suggestion>wasn't</suggestion> or <suggestion>hasn't been</suggestion>?</message>
+        <short>Grammatical problem or typo</short>
+        <example correction="wasn't|hasn't been" type="incorrect">She <marker>wasn't been</marker> here since Monday.</example>
+        <example type="correct">She hasn't been here since Monday.</example>
+      </rule>
+    </rulegroup>
     <rule id="LETS_DONT" name="let's dont (let's not)">
       <pattern>
         <token>let</token>
