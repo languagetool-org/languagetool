@@ -8,7 +8,7 @@ title="Easy editing stylesheet" ?>
 A Russian rule file for LanguageTool
 Copyright (C) 2005 Daniel Naber (http://www.danielnaber.de)
 Copyright (C) 2008 Yakov Reztsov
-$Id: grammar.xml,v 1.12 2008-11-10 10:14:55 milek_pl Exp $
+$Id: grammar.xml,v 1.13 2008-11-29 17:02:54 milek_pl Exp $
 -->
 <rules lang="ru">
     <category name="Пунктуация">
@@ -19,6 +19,7 @@ $Id: grammar.xml,v 1.12 2008-11-10 10:14:55 milek_pl Exp $
                     <token>пожалуйста</token>
                 </pattern>
                 <message>Нет запятой: <suggestion>\1, \2</suggestion>.</message>
+                <short>Нет запятой.</short>
                 <example type="correct">Закройте дверь, <marker>пожалуйста.</marker></example>
                 <example type="incorrect">Закройте <marker>дверь пожалуйста</marker>.</example>
             </rule>
@@ -29,6 +30,7 @@ $Id: grammar.xml,v 1.12 2008-11-10 10:14:55 milek_pl Exp $
                     <token negate="yes" regexp="yes">[\p{Punct}]</token>
                 </pattern>
                 <message>Нет запятой: <suggestion>\2, \3</suggestion>.</message>
+                <short>Нет запятой.</short>
                 <example type="correct"><marker>Пожалуйста, закройте</marker> дверь.</example>
                 <example type="incorrect"><marker>Пожалуйста закройте</marker> дверь.</example>
             </rule>
@@ -44,6 +46,7 @@ $Id: grammar.xml,v 1.12 2008-11-10 10:14:55 milek_pl Exp $
                     <token negate="yes">,</token>
                 </pattern>
                 <message>Нет запятой: <suggestion>\1, \2 \3, \4</suggestion>.</message>
+                <short>Нет запятой.</short>
                 <example type="correct"><marker>Мы, как правило, ходим</marker> ходим в походы летом.</example>
                 <example type="incorrect" correction="Мы, как правило, ходим"><marker>Мы как правило ходим</marker> в походы летом.</example>
             </rule>  
@@ -57,6 +60,7 @@ $Id: grammar.xml,v 1.12 2008-11-10 10:14:55 milek_pl Exp $
                     <token>,</token>
                 </pattern>
                 <message>Нет запятой: <suggestion>\1, \2 \3\4</suggestion>.</message>
+                <short>Нет запятой.</short>
                 <example type="correct"><marker>Мы, как правило,</marker> ходим в походы летом.</example>
                 <example type="incorrect" correction="Мы, как правило,"><marker>Мы как правило,</marker> ходим в походы летом.</example>
             </rule>  
@@ -69,6 +73,7 @@ $Id: grammar.xml,v 1.12 2008-11-10 10:14:55 milek_pl Exp $
                     <token negate="yes" regexp="yes">[\p{Punct}]</token>
                 </pattern>
                 <message>Нет запятой: <suggestion>\2 \3, \4</suggestion>.</message>
+                <short>Нет запятой.</short>
                 <example type="correct"><marker>Как правило,</marker> мы ходим в походы летом.</example>
                 <example type="incorrect" correction="Как правило, мы"><marker>Как правило мы</marker> ходим в походы летом.</example>
             </rule>         
@@ -82,6 +87,7 @@ $Id: grammar.xml,v 1.12 2008-11-10 10:14:55 milek_pl Exp $
                     <token>и</token>
                 </pattern>
                 <message>Оборот "как и" выделяется запятыми: <suggestion>\1, \2 \3</suggestion>.</message>
+                <short>Оборот "как и" выделяется запятыми.</short>
                 <example type="correct">Мы<marker>, как и наши товарищи,</marker> любим заниматься спортом.</example>
                 <example type="incorrect"><marker>Мы как и</marker> наши товарищи любим заниматься спортом.</example>
             </rule>
@@ -92,6 +98,7 @@ $Id: grammar.xml,v 1.12 2008-11-10 10:14:55 milek_pl Exp $
                     <token>и</token>
                 </pattern>
                 <message>Сложный союз "так же как и": <suggestion>так же \2 \3</suggestion>.</message>
+                <short>Оборот "как и" выделяется запятыми.</short>
                 <example type="correct">Мы, <marker>так же как и</marker> наши товарищи, любим заниматься спортом.</example>
                 <example type="incorrect">Мы, <marker>также как и</marker> наши товарищи, любим заниматься спортом.</example>
             </rule>
@@ -104,6 +111,7 @@ $Id: grammar.xml,v 1.12 2008-11-10 10:14:55 milek_pl Exp $
                     <token negate="yes" regexp="yes">[\p{Punct}]|\)</token>
                 </pattern>
                 <message>Запятая пропущена здесь:<suggestion>\1, \2</suggestion>.</message>
+                <short>Нет запятой.</short>
                 <example type="correct">И растёт ребёнок там не по дням, а по часам.</example>
                 <example type="incorrect">И растёт ребёнок там не по <marker>дням а</marker> по часам.</example>
             </rule>
@@ -113,6 +121,7 @@ $Id: grammar.xml,v 1.12 2008-11-10 10:14:55 milek_pl Exp $
                     <token>но</token>
                 </pattern>
                 <message>Запятая пропущена здесь:<suggestion>\1, \2</suggestion>.</message>
+                <short>Нет запятой.</short>
                 <example type="correct">Она говорила мало, но толково.</example>
                 <example type="incorrect">Она говорила <marker>мало но</marker> толково.</example>
             </rule>
@@ -127,6 +136,7 @@ $Id: grammar.xml,v 1.12 2008-11-10 10:14:55 milek_pl Exp $
                     <token negate="yes">,</token>
                 </pattern>
                 <message>Запятая пропущена здесь:<suggestion>\1, \2, \3</suggestion>.</message>
+                <short>Нет запятой.</short>
                 <example type="correct">Это показалось ему, по-видимому, странным.</example>
                 <example type="incorrect" correction="ему, по-видимому, странным">Это показалось <marker>ему по-видимому странным</marker>.</example>
             </rule>
@@ -140,6 +150,7 @@ $Id: grammar.xml,v 1.12 2008-11-10 10:14:55 milek_pl Exp $
                     <token>,</token>
                 </pattern>
                 <message>Запятая пропущена здесь:<suggestion>\1, \2\3</suggestion>.</message>
+                <short>Нет запятой.</short>
                 <example type="correct">Это показалось <marker>ему, по-видимому,</marker> странным.</example>
                 <example type="incorrect" correction="ему, по-видимому,">Это показалось <marker>ему по-видимому,</marker> странным.</example>
             </rule>
@@ -152,6 +163,7 @@ $Id: grammar.xml,v 1.12 2008-11-10 10:14:55 milek_pl Exp $
                     <token negate="yes" regexp="yes">[\p{Punct}]</token>
                 </pattern>
                 <message>Запятая пропущена здесь:<suggestion>\2, \3</suggestion>.</message>
+                <short>Нет запятой.</short>
                 <example type="correct">По-видимому, это странное явление.</example>
                 <example type="incorrect" correction="По-видимому, это"><marker>По-видимому это</marker> странное явление.</example>
             </rule>
@@ -163,6 +175,7 @@ $Id: grammar.xml,v 1.12 2008-11-10 10:14:55 milek_pl Exp $
                     <token negate="yes">,</token>
                 </pattern>
                 <message>Запятая пропущена здесь:<suggestion>\1, \2, \3</suggestion>.</message>
+                <short>Нет запятой.</short>
                 <example type="correct">Эта работа, во-первых, представляет огромную научную ценность.</example>
                 <example type="incorrect" correction="работа, во-первых, представляет">Эта <marker>работа во-первых представляет</marker> огромную научную ценность.</example>
             </rule>
@@ -174,6 +187,7 @@ $Id: grammar.xml,v 1.12 2008-11-10 10:14:55 milek_pl Exp $
                     <token>,</token>
                 </pattern>
                 <message>Запятая пропущена здесь:<suggestion>\1, \2\3</suggestion>.</message>
+                <short>Нет запятой.</short>
                 <example type="correct">Эта <marker>работа, во-первых,</marker> представляет огромную научную ценность.</example>
                 <example type="incorrect" correction="работа, во-первых,">Эта <marker>работа во-первых,</marker> представляет огромную научную ценность.</example>
             </rule>
@@ -185,6 +199,7 @@ $Id: grammar.xml,v 1.12 2008-11-10 10:14:55 milek_pl Exp $
                     <token negate="yes" regexp="yes">[\p{Punct}]</token>
                 </pattern>
                 <message>Запятая пропущена здесь:<suggestion>\2, \3</suggestion>.</message>
+                <short>Нет запятой.</short>
                 <example type="correct">Во-первых, эта работа представляет огромную научную ценность.</example>
                 <example type="incorrect" correction="Во-первых, эта"><marker>Во-первых эта</marker> работа представляет огромную научную ценность.</example>
             </rule>
@@ -197,6 +212,7 @@ $Id: grammar.xml,v 1.12 2008-11-10 10:14:55 milek_pl Exp $
                     <token negate="yes">,</token>
                 </pattern>
                 <message>Запятая пропущена здесь:<suggestion>\1, \2 \3, \4</suggestion>.</message>
+                <short>Нет запятой.</short>
                 <example type="correct">Эта работа, видишь ли, представляет огромную научную ценность.</example>
                 <example type="incorrect" correction="работа, видишь ли, представляет">Эта <marker>работа видишь ли представляет</marker> огромную научную ценность.</example>
             </rule>
@@ -210,6 +226,7 @@ $Id: grammar.xml,v 1.12 2008-11-10 10:14:55 milek_pl Exp $
                     <token>,</token>
                 </pattern>
                 <message>Запятая пропущена здесь:<suggestion>\1, \2 \3\4</suggestion>.</message>
+                <short>Нет запятой.</short>
                 <example type="correct">Эта <marker>работа, видишь ли,</marker> представляет огромную научную ценность.</example>
                 <example type="incorrect" correction="работа, видишь ли,">Эта <marker>работа видишь ли,</marker> представляет огромную научную ценность.</example>
             </rule>
@@ -222,6 +239,7 @@ $Id: grammar.xml,v 1.12 2008-11-10 10:14:55 milek_pl Exp $
                     <token negate="yes" regexp="yes">,|.</token>
                 </pattern>
                 <message>Запятая пропущена здесь:<suggestion>\2 \3, \4</suggestion>.</message>
+                <short>Нет запятой.</short>
                 <example type="correct">Видишь ли, эта работа представляет огромную научную ценность.</example>
                 <example type="incorrect" correction="Видишь ли, эта"><marker>Видишь ли эта</marker> работа представляет огромную научную ценность.</example>
             </rule>
@@ -236,6 +254,7 @@ $Id: grammar.xml,v 1.12 2008-11-10 10:14:55 milek_pl Exp $
                     <token negate="yes">,</token>
                 </pattern>
                 <message>Запятая пропущена здесь:<suggestion>\1, \2 \3,</suggestion>.</message>
+                <short>Нет запятой.</short>
                 <example type="correct">Мы, к сожалению, не успели на поезд.</example>
                 <example type="incorrect" correction="Мы, к сожалению,"><marker>Мы к сожалению не</marker> успели на поезд.</example>
             </rule>
@@ -249,6 +268,7 @@ $Id: grammar.xml,v 1.12 2008-11-10 10:14:55 milek_pl Exp $
                     <token>,</token>
                 </pattern>
                 <message>Запятая пропущена здесь:<suggestion>\1, \2 \3\4</suggestion>.</message>
+                <short>Нет запятой.</short>
                 <example type="correct">Мы, к сожалению, не успели на поезд.</example>
                 <example type="incorrect" correction="Мы, к сожалению,"><marker>Мы к сожалению,</marker> не успели на поезд.</example>
             </rule>
@@ -260,6 +280,7 @@ $Id: grammar.xml,v 1.12 2008-11-10 10:14:55 milek_pl Exp $
                     <token negate="yes" regexp="yes">[\p{Punct}]</token>
                 </pattern>
                 <message>Запятая пропущена здесь:<suggestion>\2 \3, \4</suggestion>.</message>
+                <short>Нет запятой.</short>
                 <example type="correct">К сожалению, мы не успели на поезд.</example>
                 <example type="incorrect" correction="К сожалению, мы"><marker>К сожалению мы</marker> не успели на поезд.</example>
             </rule>
@@ -272,6 +293,7 @@ $Id: grammar.xml,v 1.12 2008-11-10 10:14:55 milek_pl Exp $
                     <token negate="yes">,</token>
                 </pattern>
                 <message>Запятая пропущена здесь:<suggestion>\1, \2,</suggestion>.</message>
+                <short>Нет запятой.</short>
                 <example type="correct">Эта работа, несомненно, представляет огромную научную ценность.</example>
                 <example type="incorrect" correction="работа, несомненно,">Эта <marker>работа несомненно представляет</marker> огромную научную ценность.</example>
             </rule>
@@ -283,6 +305,7 @@ $Id: grammar.xml,v 1.12 2008-11-10 10:14:55 milek_pl Exp $
                     <token>,</token>
                 </pattern>
                 <message>Запятая пропущена здесь:<suggestion>\1, \2\3</suggestion>.</message>
+                <short>Нет запятой.</short>
                 <example type="correct">Эта работа, несомненно, представляет огромную научную ценность.</example>
                 <example type="incorrect" correction="работа, несомненно,">Эта <marker>работа несомненно,</marker> представляет огромную научную ценность.</example>
             </rule>
@@ -294,6 +317,7 @@ $Id: grammar.xml,v 1.12 2008-11-10 10:14:55 milek_pl Exp $
                     <token negate="yes" regexp="yes">[\p{Punct}]</token>
                 </pattern>
                 <message>Запятая пропущена здесь:<suggestion>\2, \3</suggestion>.</message>
+                <short>Нет запятой.</short>
                 <example type="correct">Несомненно, эта работа представляет огромную научную ценность.</example>
                 <example type="incorrect" correction="Несомненно, эта"><marker>Несомненно эта</marker> работа представляет огромную научную ценность.</example>
             </rule> 
@@ -306,6 +330,7 @@ $Id: grammar.xml,v 1.12 2008-11-10 10:14:55 milek_pl Exp $
                     <token negate="yes">,</token>
                 </pattern>
                 <message>Запятая пропущена здесь:<suggestion>\1, \2 \3,</suggestion>.</message>
+                <short>Нет запятой.</short>
                 <example type="correct">Эта работа, одним словом, представляет огромную научную ценность.</example>
                 <example type="incorrect" correction="работа, одним словом,">Эта <marker>работа одним словом представляет</marker> огромную научную ценность.</example>
             </rule>
@@ -318,6 +343,7 @@ $Id: grammar.xml,v 1.12 2008-11-10 10:14:55 milek_pl Exp $
                     <token>,</token>
                 </pattern>
                 <message>Запятая пропущена здесь:<suggestion>\1, \2 \3\4</suggestion>.</message>
+                <short>Нет запятой.</short>
                 <example type="correct">Эта работа, одним словом, представляет огромную научную ценность.</example>
                 <example type="incorrect" correction="работа, одним словом,">Эта <marker>работа одним словом,</marker> представляет огромную научную ценность.</example>
             </rule>
@@ -330,6 +356,7 @@ $Id: grammar.xml,v 1.12 2008-11-10 10:14:55 milek_pl Exp $
                     <token negate="yes" regexp="yes">[\p{Punct}]</token>
                 </pattern>
                 <message>Запятая пропущена здесь:<suggestion>\2 \3, \4</suggestion>.</message>
+                <short>Нет запятой.</short>
                 <example type="correct">Одним словом, эта работа представляет огромную научную ценность.</example>
                 <example type="incorrect" correction="Одним словом, эта"><marker>Одним словом эта</marker> работа представляет огромную научную ценность.</example>
             </rule>                   
@@ -345,6 +372,7 @@ $Id: grammar.xml,v 1.12 2008-11-10 10:14:55 milek_pl Exp $
                     <token regexp="yes">кроме|помимо|вместо</token>
                 </pattern>
                 <message>Запятая пропущена здесь:<suggestion>\1, \2</suggestion>.</message>
+                <short>Нет запятой.</short>
                 <example type="correct">Около костра, кроме Ивана, грелось ещё пять человек.</example>
                 <example type="incorrect">Около <marker>костра кроме</marker> Ивана грелось ещё пять человек.</example>
             </rule>   
@@ -355,6 +383,7 @@ $Id: grammar.xml,v 1.12 2008-11-10 10:14:55 milek_pl Exp $
                     <token>исключением</token>
                 </pattern>
                 <message>Запятая пропущена здесь:<suggestion>\1, \2 \3</suggestion>.</message>
+                <short>Нет запятой.</short>
                 <example type="correct">В поход, за исключением Ивана, пошло ещё пять человек.</example>
                 <example type="incorrect" correction="поход, за исключением">В <marker>поход за исключением</marker> Ивана пошло ещё пять человек.</example>
             </rule>
@@ -366,6 +395,7 @@ $Id: grammar.xml,v 1.12 2008-11-10 10:14:55 milek_pl Exp $
                 <token>,</token>
             </pattern>
             <message>Запятая должна стоять перед тире. Должно быть: <suggestion>\2 \1</suggestion></message>
+            <short>Запятая - перед тире.</short>
             <example type="correct">Здорово живешь, соседка, - поздоровался Иван.</example>
             <example type="incorrect">Здорово живешь, соседка<marker> -,</marker> поздоровался Иван.</example>
         </rule>
@@ -380,6 +410,7 @@ $Id: grammar.xml,v 1.12 2008-11-10 10:14:55 milek_pl Exp $
                     <token  regexp="yes">попало|угодно</token>
                 </pattern>
                 <message>Запятая не нужна:<suggestion> \2 \3</suggestion>.</message>
+                <short>Запятая не нужна.</short>
                 <example type="correct">Работа была сделана как попало.</example>
                 <example type="incorrect">Работа была сделана<marker>, как попало</marker>.</example>
             </rule>
@@ -394,6 +425,7 @@ $Id: grammar.xml,v 1.12 2008-11-10 10:14:55 milek_pl Exp $
                     <token>как</token>
                 </pattern>
                 <message>Запятая не нужна:<suggestion>\1 \3</suggestion>.</message>
+                <short>Запятая не нужна.</short>
                 <example type="correct">Работа была сделана совсем как попало.</example>
                 <example type="incorrect">Работа была сделана <marker>совсем, как</marker> попало.</example>
             </rule>
@@ -409,6 +441,7 @@ $Id: grammar.xml,v 1.12 2008-11-10 10:14:55 milek_pl Exp $
                     <token  regexp="yes">что|как|чтобы</token>                    
                 </pattern>
                 <message>Запятая не нужна:<suggestion>\1 \2 \4</suggestion>.</message>
+                <short>Запятая не нужна.</short>
                 <example type="correct">Работа была сделана не иначе как полностью.</example>
                 <example type="incorrect">Работа была сделана <marker>не иначе, как</marker> полностью.</example>
             </rule>
@@ -432,6 +465,7 @@ $Id: grammar.xml,v 1.12 2008-11-10 10:14:55 milek_pl Exp $
                     <token  regexp="yes">се|сё</token>                    
                 </pattern>
                 <message>Запятая не нужна:<suggestion>\1 \2 \4 \5</suggestion>.</message>
+                <short>Запятая не нужна.</short>
                 <example type="correct">И то и сё.</example>
                 <example type="incorrect"><marker>И то, и сё</marker>.</example>
             </rule>
@@ -445,6 +479,7 @@ $Id: grammar.xml,v 1.12 2008-11-10 10:14:55 milek_pl Exp $
                     <token  regexp="yes">заря|мясо|мертв|мёртв</token>                    
                 </pattern>
                 <message>Запятая не нужна:<suggestion>\1 \2 \4 \5</suggestion>.</message>
+                <short>Запятая не нужна.</short>
                 <example type="correct">Он проснулся ни свет ни заря</example>
                 <example type="incorrect">Он проснулся <marker>ни свет, ни заря</marker>.</example>
             </rule>
@@ -457,6 +492,7 @@ $Id: grammar.xml,v 1.12 2008-11-10 10:14:55 milek_pl Exp $
                     <token  regexp="yes">сяк|сюда</token>                    
                 </pattern>
                 <message>Запятая не нужна:<suggestion>\1 \2 \4 \5</suggestion>.</message>
+                <short>Запятая не нужна.</short>
                 <example type="correct">И так и сяк.</example>
                 <example type="incorrect"><marker>И так, и сяк</marker>.</example>
             </rule>
@@ -469,6 +505,7 @@ $Id: grammar.xml,v 1.12 2008-11-10 10:14:55 milek_pl Exp $
                 <token>“</token>
             </pattern>
             <message>Кавычки не соответствуют нормам типографики.  Должно быть: <suggestion>„</suggestion>пример<suggestion>”</suggestion>.</message>
+            <short>Неправильные кавычки.</short>
             <example type="correct">Газета „Правда”.</example>
             <example correction="„|”" type="incorrect">Газета <marker>“</marker>Правда”.</example>
         </rule>
@@ -491,6 +528,7 @@ $Id: grammar.xml,v 1.12 2008-11-10 10:14:55 milek_pl Exp $
                     <token  regexp="yes">[аёоуыэюяьън].*</token>
                 </pattern>
                 <message>Неправильная форма предлога. Буква "о" не нужна. Должно быть: <suggestion>в \2</suggestion>.</message>
+                <short>Буква "о" не нужна.</short>
                 <example type="correct">Мы видели её в окне.</example>
                 <example type="incorrect">Мы видели её <marker>во окне</marker>.</example>
             </rule>
@@ -500,6 +538,7 @@ $Id: grammar.xml,v 1.12 2008-11-10 10:14:55 milek_pl Exp $
                     <token  regexp="yes">[аеёиоуыэюяьън].*</token>
                 </pattern>
                 <message>Неправильная форма предлога. Буква "о" не нужна. Должно быть: <suggestion>к \2</suggestion>.</message>
+                <short>Буква "о" не нужна.</short>
                 <example type="correct">Мы успели к обеду.</example>
                 <example type="incorrect">Мы успели <marker>ко обеду</marker>.</example>
             </rule>
@@ -509,6 +548,7 @@ $Id: grammar.xml,v 1.12 2008-11-10 10:14:55 milek_pl Exp $
                     <token regexp="yes">[аеёиоуыэюяьънбгдкптфхцч].*</token>
                 </pattern>
                 <message>Неправильная форма предлога. Буква "о" не нужна. Должно быть: <suggestion>c \2</suggestion>.</message>
+                <short>Буква "о" не нужна.</short>
                 <example type="correct">Иван взял сумку с едой.</example>
                 <example type="incorrect">Иван взял сумку <marker>cо едой</marker>.</example>
             </rule> 
@@ -518,6 +558,7 @@ $Id: grammar.xml,v 1.12 2008-11-10 10:14:55 milek_pl Exp $
                     <token  regexp="yes">[аеёиоуыэюяьън].*</token>
                 </pattern>
                 <message>Неправильная форма предлога. Буква "о" не нужна. Должно быть: <suggestion>без \2</suggestion>.</message>
+                <short>Буква "о" не нужна.</short>
                 <example type="correct">Он убегал без оглядки.</example>
                 <example type="incorrect">Он убегал <marker>безо оглядки</marker>.</example>
             </rule> 
@@ -527,6 +568,7 @@ $Id: grammar.xml,v 1.12 2008-11-10 10:14:55 milek_pl Exp $
                     <token  regexp="yes">[аеёиоуыэюяьън].*</token>
                 </pattern>
                 <message>Неправильная форма предлога. Буква "о" не нужна. Должно быть: <suggestion>из \2</suggestion>.</message>
+                <short>Буква "о" не нужна.</short>
                 <example type="correct">Из окна выпал пакет.</example>
                 <example type="incorrect"><marker>Изо окна</marker> выпал пакет.</example>
             </rule> 
@@ -538,6 +580,7 @@ $Id: grammar.xml,v 1.12 2008-11-10 10:14:55 milek_pl Exp $
                     <token  regexp="yes">[сзшжлрм][йцкнгшщзхфвпрлджчсмтб].*|ль[йцкнгшщзхфвпрлджчсмтб].*</token>
                 </pattern>
                 <message>Неправильная форма предлога. Должно быть: <suggestion>со \2</suggestion>.</message>
+                <short>Неправильная форма предлога.</short>
                 <example type="correct">Кошка спрыгнула со шкафа.</example>
                 <example type="incorrect">Кошка спрыгнула <marker>с шкафа</marker>.</example>
             </rule>
@@ -547,6 +590,7 @@ $Id: grammar.xml,v 1.12 2008-11-10 10:14:55 milek_pl Exp $
                     <token  regexp="yes">[щв].*</token>
                 </pattern>
                 <message>Неправильная форма предлога. Должно быть: <suggestion>со \2</suggestion>.</message>
+                <short>Неправильная форма предлога.</short>
                 <example type="correct">Организация начинает работу со вторника.</example>
                 <example type="incorrect">Организация начинает работу <marker>с вторника</marker>.</example>
             </rule>
@@ -565,6 +609,7 @@ $Id: grammar.xml,v 1.12 2008-11-10 10:14:55 milek_pl Exp $
                 чью|чьей|чье|чьё|чьем|чьём|чьи</token>
             </pattern>
             <message>Избыточные определения. В правильно составленном предложении не должно быть больше одного придаточного определения.</message>
+            <short>Избыточные определения.</short>
             <example type="correct">Они пошли к реке, по которой плавала лодка.</example>
             <example type="incorrect">Они пошли к реке, по <marker>которой плавала лодка, которая</marker> была окрашена в белый цвет.</example>
         </rule>
@@ -575,6 +620,7 @@ $Id: grammar.xml,v 1.12 2008-11-10 10:14:55 milek_pl Exp $
                     <token regexp="yes">[йцкнгшщзхфвпрлджчсмтб][йцкнгшщзхфвпрлджчсмтб].*</token>
                 </pattern>
                 <message>Сложно произнести подряд 4 согласных звука.</message>
+                <short>4 согласных подряд.</short>
                 <example type="correct">Гимнаст активно тренировался.</example>
                 <example type="incorrect"><marker>Гимнаст тренировался</marker>.</example>
             </rule>          
