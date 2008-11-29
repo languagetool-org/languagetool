@@ -6,7 +6,7 @@ title="Easy editing stylesheet" ?>
 <!--
 Polish Grammar and Typo Rules for LanguageTool
 Copyright (C) 2006-2007 Marcin Miłkowski
-$Id: grammar.xml,v 1.150 2008-11-28 23:24:58 milek_pl Exp $
+$Id: grammar.xml,v 1.151 2008-11-29 00:00:48 milek_pl Exp $
 -->
 <rules lang="pl">
   <phrases>
@@ -666,10 +666,11 @@ $Id: grammar.xml,v 1.150 2008-11-28 23:24:58 milek_pl Exp $
     </rulegroup>
     <rulegroup id="BRAK_PRZECINKA_TEN_CO" name="Brak przecinka przed „kto” i „co”">
       <rule>
-        <pattern mark_from="1">
+        <pattern mark_from="1" mark_to="-1">
           <token><exception>,</exception></token>
           <token inflected="yes">ten</token>
           <token inflected="yes" regexp="yes">kto|co<exception postag="&lt;ADV&gt;"/></token>
+          <token><exception regexp="yes">więcej|gorsza</exception></token>
         </pattern>
         <message>Prawdopodobny brak przecinka. Powinno być: <suggestion>\2, \3</suggestion>.</message>
         <short>Błąd interpunkcyjny</short>
@@ -788,7 +789,7 @@ $Id: grammar.xml,v 1.150 2008-11-28 23:24:58 milek_pl Exp $
         <example correction="już naprawdę, o którego|już, naprawdę o którego" type="incorrect">Nie wiedziałem <marker>już naprawdę o którego</marker> w ogóle mu chodziło.</example>
       </rule>
       <rule>
-        <pattern>
+        <pattern mark_to="-1">
           <token negate="yes">,<exception regexp="yes">[\p{Punct}–—„«»…]</exception><exception postag="conj|SENT_START" postag_regexp="yes"/></token>
           <token postag="prep.*" postag_regexp="yes"/>
           <token postag="prep.*" postag_regexp="yes"/>
@@ -798,7 +799,7 @@ $Id: grammar.xml,v 1.150 2008-11-28 23:24:58 milek_pl Exp $
 				postawić tak: <suggestion>\1, \2 \3</suggestion>.</message>
         <short>Błąd interpunkcyjny</short>
         <example type="correct">Nie wiedziałem, odnośnie do którego rozporządzenia zgłosił on uwagę.</example>
-        <example correction="wiedziałem, odnośnie do" type="incorrect">Nie <marker>wiedziałem odnośnie do którego</marker> rozporządzenia zgłosił on uwagę.</example>
+        <example correction="wiedziałem, odnośnie do" type="incorrect">Nie <marker>wiedziałem odnośnie do</marker> którego rozporządzenia zgłosił on uwagę.</example>
       </rule>
       <rule>
         <pattern>
@@ -1064,7 +1065,7 @@ $Id: grammar.xml,v 1.150 2008-11-28 23:24:58 milek_pl Exp $
         <example correction="to, tak czy inaczej, bezprzykładna" type="incorrect">Była <marker>to tak czy inaczej bezprzykładna</marker> agresja opcji.</example>
       </rule>
     </rulegroup>
-    <rule id="TAK_PRZECINEK_CZY_OWAK" name="Zbędny przecinek w „tak, czy owak/siak/inaczej”">
+    <rule id="TAK_PRZECINEK_CZY_OWAK" name="Zbędny przecinek w „tak czy owak/siak/inaczej”">
       <pattern>
         <token>tak</token>
         <token>,</token>
@@ -1416,7 +1417,7 @@ $Id: grammar.xml,v 1.150 2008-11-28 23:24:58 milek_pl Exp $
           <token>a</token>
           <token><match no="0"/></token>
         </pattern>
-        <message>Prawdopodobnie zbędny przecinek w konstrukcji typu "taki a taki". Powinno być: <suggestion><match no="1"/> <match no="3"/> <match no="4"/></suggestion></message>
+        <message>Prawdopodobnie zbędny przecinek w konstrukcji typu "taki a taki". Powinno być: <suggestion><match no="1"/> <match no="3"/> <match no="4"/></suggestion>.</message>
         <short>Błąd interpunkcyjny</short>
         <example correction="mnożyć a mnożyć" type="incorrect">Przykłady można by <marker>mnożyć, a mnożyć</marker>.</example>
         <example type="correct">Czekałem na autobus, a autobus nie przyjeżdżał.</example>
@@ -1460,7 +1461,7 @@ Powinno być: <suggestion>\2, \3 \4</suggestion>.</message>
           <token postag="SENT_END">.</token>
         </pattern>
         <message>To zdanie jest prawdopodobnie pytaniem i powinno kończyć się znakiem zapytania: <suggestion>?</suggestion>.</message>
-        <short>Błąd interpunkcyjny</short>
+        <short>Brak znaku zapytania</short>
         <example type="correct">Czy zatem pożyczysz mi stówkę?</example>
         <example correction="?" type="incorrect">Czy zatem pożyczysz mi stówkę<marker>.</marker></example>
       </rule>
@@ -1471,7 +1472,7 @@ Powinno być: <suggestion>\2, \3 \4</suggestion>.</message>
           <token postag="SENT_END">.</token>
         </pattern>
         <message>To zdanie jest prawdopodobnie pytaniem i powinno kończyć się znakiem zapytania: <suggestion>?</suggestion>.</message>
-        <short>Błąd interpunkcyjny</short>
+        <short>Brak znaku zapytania</short>
         <example type="correct">Dokąd idziesz na wycieczkę?</example>
         <example correction="?" type="incorrect">Dokąd idziesz na wycieczkę<marker>.</marker></example>
       </rule>
@@ -1483,7 +1484,7 @@ Powinno być: <suggestion>\2, \3 \4</suggestion>.</message>
         <token postag="SENT_END"><exception regexp="yes">[\p{Punct}…”]</exception></token>
       </pattern>
       <message>To zdanie nie kończy się kropką ani innym znakiem interpunkcyjnym. Powinno być: <suggestion>\3.</suggestion></message>
-      <short>Błąd interpunkcyjny</short>
+      <short>Zdanie bez kropki</short>
       <example correction="złotych." type="incorrect">Pożycz mi sto <marker>złotych</marker></example>
       <example type="correct">Pożycz mi sto złotych.</example>
       <example type="correct">Pożycz mi sto złotych…</example>
