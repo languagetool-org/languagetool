@@ -7,7 +7,7 @@ title="Easy editing stylesheet" ?>
 English Grammar and Typo Rules for LanguageTool
 See tagset.txt for the meaning of the POS tags
 Copyright (C) 2001-2007 Daniel Naber (http://www.danielnaber.de)
-$Id: grammar.xml,v 1.90 2008-11-28 14:14:26 milek_pl Exp $
+$Id: grammar.xml,v 1.91 2008-11-29 20:44:40 milek_pl Exp $
 -->
 <rules lang="en">
   <!-- ====================================================================== -->
@@ -2168,7 +2168,7 @@ $Id: grammar.xml,v 1.90 2008-11-28 14:14:26 milek_pl Exp $
         <pattern mark_from="2" mark_to="-1">
           <token regexp="yes">has|have|had</token>
           <token postag="RB"><exception>no</exception><exception postag="IN|RP|CC" postag_regexp="yes"/></token>
-          <token postag="VBD|VBP|VB" postag_regexp="yes"><exception postag="VBN|RB" postag_regexp="yes"/></token>
+          <token postag="VBD|VBP|VB" postag_regexp="yes"><exception postag="VBN|RB|JJ" postag_regexp="yes"/></token>
           <token><exception postag="VBG"/></token>
         </pattern>
         <message>Possible agreement error -- use past participle here: <suggestion><match no="3" postag="VBN"/></suggestion>.</message>
@@ -3248,12 +3248,12 @@ $Id: grammar.xml,v 1.90 2008-11-28 14:14:26 milek_pl Exp $
     <rulegroup id="HE_VERB_AGR" name="Agreement error: Non-third person verb with 'he/she'">
       <rule>
         <pattern mark_from="2">
-          <token negate="yes" regexp="yes"><exception inflected="yes" regexp="yes">hear|see</exception>(that|has|will|must|could|can|should|would|does|did|may|might|t|let)</token>
+          <token negate="yes" regexp="yes"><exception inflected="yes" regexp="yes">hear|see</exception>(that|has|will|must|could|can|should|would|does|did|may|might|t|let|was)</token>
           <token regexp="yes">he|she|someone|somebody|nobody|anyone</token>
           <token postag="VB|VBG|VBP" postag_regexp="yes"><exception postag="VBN|VBD|JJ.*|RB|MD" postag_regexp="yes"/></token>
         </pattern>
         <message>The pronoun '<match no="2"/>' must be used with a third-person verb: <suggestion><match no="3" postag="VBZ"/></suggestion>.</message>
-        <short>Grammatical problem</short>
+        <short>Agreement error</short>
         <example type="correct">He <marker>walks</marker> to the building.</example>
         <example correction="walks" type="incorrect">He <marker>walk</marker> to the building.</example>
         <example type="correct">He cannot hear you.</example>
@@ -3262,13 +3262,13 @@ $Id: grammar.xml,v 1.90 2008-11-28 14:14:26 milek_pl Exp $
       </rule>
       <rule>
         <pattern mark_from="3">
-          <token negate="yes" regexp="yes"><exception inflected="yes" regexp="yes">hear|see</exception>(that|has|will|must|could|can|should|would|does|did|may|might|t)</token>
+          <token negate="yes" regexp="yes"><exception inflected="yes" regexp="yes">hear|see</exception>(that|has|will|must|could|can|should|would|does|did|may|might|t|was)</token>
           <token regexp="yes">he|she|someone|somebody|nobody|anyone</token>
           <token postag="RB"/>
           <token postag="VB|VBG|VBP" postag_regexp="yes"><exception postag="VBN|VBD|JJ.*|RB|MD" postag_regexp="yes"/></token>
         </pattern>
         <message>The pronoun '<match no="2"/>' must be used with a third-person verb: <suggestion><match no="4" postag="VBZ"/></suggestion>.</message>
-        <short>Grammatical problem</short>
+        <short>Agreement error</short>
         <example type="correct">He always <marker>walks</marker> to the building.</example>
         <example correction="walks" type="incorrect">He always <marker>walk</marker> to the building.</example>
         <example correction="enters" type="incorrect">Somebody usually <marker>enter</marker> the building.</example>
@@ -3276,13 +3276,13 @@ $Id: grammar.xml,v 1.90 2008-11-28 14:14:26 milek_pl Exp $
       </rule>
       <rule>
         <pattern mark_from="3">
-          <token negate="yes" regexp="yes"><exception inflected="yes" regexp="yes">hear|see</exception>(that|has|will|must|could|can|should|would|does|did|may|might|t|let)</token>
+          <token negate="yes" regexp="yes"><exception inflected="yes" regexp="yes">hear|see</exception>(that|has|will|must|could|can|should|would|does|did|may|might|t|let|was)</token>
           <token regexp="yes">someone|somebody|nobody|anyone</token>
           <token>else</token>
           <token postag="VB|VBG|VBP" postag_regexp="yes"><exception postag="VBN|VBD|JJ.*|RB|MD" postag_regexp="yes"/></token>
         </pattern>
         <message>The pronoun '<match no="2"/>' must be used with a third-person verb: <suggestion><match no="4" postag="VBZ"/></suggestion>.</message>
-        <short>Grammatical problem</short>
+        <short>Agreement error</short>
         <example type="correct">Nobody else <marker>walks</marker> to the building.</example>
         <example correction="walks" type="incorrect">Someone else <marker>walk</marker> to the building.</example>
         <example correction="enters" type="incorrect">Somebody else <marker>enter</marker> the building.</example>
@@ -3290,14 +3290,14 @@ $Id: grammar.xml,v 1.90 2008-11-28 14:14:26 milek_pl Exp $
       </rule>
       <rule>
         <pattern mark_from="4">
-          <token negate="yes" regexp="yes"><exception inflected="yes" regexp="yes">hear|see</exception>(that|has|will|must|could|can|should|would|does|did|may|might|t|let)</token>
+          <token negate="yes" regexp="yes"><exception inflected="yes" regexp="yes">hear|see</exception>(that|has|will|must|could|can|should|would|does|did|may|might|t|let|was)</token>
           <token regexp="yes">someone|somebody|nobody|anyone</token>
           <token>else</token>
           <token postag="RB"/>
           <token postag="VB|VBG|VBP" postag_regexp="yes"><exception postag="VBN|VBD|JJ.*|RB|MD" postag_regexp="yes"/></token>
         </pattern>
         <message>The pronoun '<match no="2"/>' must be used with a third-person verb: <suggestion><match no="5" postag="VBZ"/></suggestion>.</message>
-        <short>Grammatical problem</short>
+        <short>Agreement error</short>
         <example type="correct">Nobody else <marker>walks</marker> to the building.</example>
         <example correction="walks" type="incorrect">Someone else always <marker>walk</marker> to the building.</example>
         <example correction="enters" type="incorrect">Somebody else usually <marker>enter</marker> the building.</example>
