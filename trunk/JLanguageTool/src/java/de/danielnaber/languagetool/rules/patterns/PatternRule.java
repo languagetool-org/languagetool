@@ -468,11 +468,10 @@ public class PatternRule extends Rule {
               shortMessage, startsWithUppercase);        
           ruleMatches.add(ruleMatch);        
         }
-      } else {
+      } 
         firstMatchToken = -1;
         lastMatchToken = -1;
         skipShiftTotal = 0;
-      }
     }
 
     return ruleMatches.toArray(new RuleMatch[ruleMatches.size()]);
