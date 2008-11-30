@@ -151,7 +151,7 @@ RB => Règles Brutes
 		<rule name="nous V/A/R">
 			<pattern mark="0">
 				<token postag="R pers suj 1 p" postag_regexp="yes"/>
-				<token postag="V.*|A|R pers obj .*" postag_regexp="yes"/>
+				<token postag="(V.*)|A|(R pers obj .*)" postag_regexp="yes"/>
 			</pattern>
 			<disambig postag="R pers suj 1 p"/>
 		</rule>
@@ -166,7 +166,7 @@ RB => Règles Brutes
 		<rule name="vous V/A/R">
 			<pattern mark="0">
 				<token postag="R pers suj 2 p" postag_regexp="yes"/>
-				<token postag="V.*|A|R pers obj .*" postag_regexp="yes"/>					
+				<token postag="(V.*)|(A)|(R pers obj .*)" postag_regexp="yes"/>					
 			</pattern>
 			<disambig postag="R pers suj 2 p"/>
 		</rule>
@@ -287,7 +287,7 @@ RB => Règles Brutes
 	<rulegroup name="RP : Etre/avoir + participe passé ambigu" id="RP:ÊTRE_AVOIR_VPPA_AMBIG">
 		<rule name="ppa masc sing">
 			<pattern mark="1">
-				<token postag="V etre .*|V avoir .*" postag_regexp="yes" skip="2"/>
+				<token postag="(V etre .*)|(V avoir .*)" postag_regexp="yes" skip="2"/>
 				<token postag="V ppa .*" postag_regexp="yes"/>
 			</pattern>
 			<disambig><match no="2" postag_regexp="yes" postag="V ppa .*"/></disambig>
@@ -320,14 +320,14 @@ RB => Règles Brutes
 	</rulegroup>
 		<rule name="RP : Indicatif être (suis est sommes)" id="RP:SUIS_EST_SOMMES">
 			<pattern mark="1">
-				<token postag="R pers suj .*|J.*|N.*|A" postag_regexp="yes"/>
+				<token postag="(R pers suj .*)|(J.*)|(N.*)|A" postag_regexp="yes"/>
 				<token postag="V etre ind pres .*" postag_regexp="yes"/>
 			</pattern>
 			<disambig><match no="2" postag_regexp="yes" postag="V etre ind pres .*"/></disambig>
 		</rule>
 		<rule name="RP : Indicatif avoir (as a ont)" id="RP:AS_A_ONT">
 			<pattern mark="1">
-				<token postag="R pers suj .*|J.*|N.*|A" postag_regexp="yes"/>
+				<token postag="(R pers suj .*)|J.*|N.*|A" postag_regexp="yes"/>
 				<token postag="V avoir ind pres .*" postag_regexp="yes"/>
 			</pattern>
 			<disambig><match no="2" postag_regexp="yes" postag="V avoir ind pres .*"/></disambig>
@@ -439,7 +439,7 @@ RB => Règles Brutes
 		
 		<rule name="il V ind pres">
 			<pattern mark="1">
-				<token postag="R pers suj 3 m s|R pers suj 3 f s" postag_regexp="yes" skip="3"/>
+				<token postag="(R pers suj 3 m s)|(R pers suj 3 f s)" postag_regexp="yes" skip="3"/>
 				<token postag="V ind pres 3 s"/>
 			</pattern>
 			<disambig  postag="V ind pres 3 s"/>
