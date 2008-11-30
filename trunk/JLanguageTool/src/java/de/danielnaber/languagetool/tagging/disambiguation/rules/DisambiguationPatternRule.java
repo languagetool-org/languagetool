@@ -170,9 +170,6 @@ public class DisambiguationPatternRule {
 
           for (int l = 0; l < numberOfReadings; l++) {
             final AnalyzedToken matchToken = tokens[m].getAnalyzedToken(l);
-            if (id.equals("UPPER_NNP") && matchToken.getToken().equals("Maxwell")) {
-              System.out.println("gotcha!");
-            }
             if (prevSkipNext > 0 && prevElement != null
                 && prevElement.isMatchedByScopeNextException(matchToken)) {
               exceptionMatched = true;
