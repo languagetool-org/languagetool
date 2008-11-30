@@ -2,7 +2,7 @@
 	<!--
 		English Disambiguation Rules for LanguageTool Copyright (C) 2008
 		Marcin Miłkowski		
-$Id: disambiguation.xml,v 1.17 2008-11-22 11:01:07 milek_pl Exp $
+$Id: disambiguation.xml,v 1.18 2008-11-30 20:15:38 milek_pl Exp $
 	-->
 <rules lang="en">
 	<rule name="Modal verb + verb/noun -> modal verb + verb" id="MD_VB">
@@ -85,6 +85,13 @@ $Id: disambiguation.xml,v 1.17 2008-11-22 11:01:07 milek_pl Exp $
 		</pattern>
 		<disambig><match no="1" postag="VBP" postag_regexp="yes" /></disambig>
 	</rule>
+	<rule name="NNS|EX + are (noun/verb) -> are (verb)" id="NNS_ARE">
+		<pattern mark="1">
+			<token postag_regexp="yes" postag="EX|NNS"/>
+			<token>are</token>
+		</pattern>
+		<disambig><match no="2" postag="VBP" postag_regexp="yes"/></disambig>
+	</rule>	
 	<rule name="his (noun/prep) + noun -> his (prep)" id="HIS_NN_PRP">
 		<pattern mark="0">
 			<token>his</token>
@@ -172,17 +179,7 @@ $Id: disambiguation.xml,v 1.17 2008-11-22 11:01:07 milek_pl Exp $
 		</pattern>
 		<disambig postag="NN" />
 	</rule>
-	<rule name="IN/NN + PRP$ -> IN" id="IN_NN_PRP">
-		<pattern mark="0">
-			<and>
-				<token postag="IN"><exception>like</exception></token>
-				<token postag="NN" />
-			</and>
-			<token postag="PRP$" />
-		</pattern>
-		<disambig postag="IN" />
-	</rule>
-
+	
 	<!-- 'an' is part of a proper name here -->
 	<rule name="Qur'an" id="QUARAN">
 		<pattern mark="2">
@@ -232,6 +229,17 @@ $Id: disambiguation.xml,v 1.17 2008-11-22 11:01:07 milek_pl Exp $
 		</pattern>
 		<disambig postag="NNP" />
 	</rule>
+	<rule name="Uppercase word/NNP|NN -> NNP" id="UPPER_NNP">
+		<pattern case_sensitive="yes" mark="0">
+		<and>
+			<token regexp="yes">\p{Lu}\p{Ll}+<exception scope="previous" postag="SENT_START"/></token>
+			<token inflected="yes" regexp="yes" postag="NNP">\p{Lu}\p{Ll}+</token>
+			<token inflected="yes" regexp="yes" postag_regexp="yes" postag="NN|NN:.*">\p{Ll}+</token>
+		</and>
+		</pattern>
+		<disambig postag="NNP"/>
+	</rule>
+	
 	<rulegroup name="United States" id="USA1">
 		<rule>
 			<pattern mark="0" case_sensitive="yes">
@@ -248,6 +256,17 @@ $Id: disambiguation.xml,v 1.17 2008-11-22 11:01:07 milek_pl Exp $
 			<disambig postag="NNP" />
 		</rule>
 	</rulegroup>
+	
+	<rule name="IN/NN + PRP$ -> IN" id="IN_NN_PRP">
+		<pattern mark="0">
+			<and>
+				<token postag="IN"><exception>like</exception></token>
+				<token postag="NN" />
+			</and>
+			<token postag_regexp="yes" postag="PRP$|NNP" />
+		</pattern>
+		<disambig postag="IN" />
+	</rule>
 	
 	<!-- the known good solution -->
 	<rule name="DT + VBN + JJ -> VBN=JJ" id="DT_VBN_JJ">
@@ -345,5 +364,82 @@ $Id: disambiguation.xml,v 1.17 2008-11-22 11:01:07 milek_pl Exp $
 		</pattern>
 		<disambig postag="NN:UN"/>
 	</rule>
-	
+	<rule name="there + SENT_END -> RB" id="EX_SENT_END_RB">
+		<pattern mark="0">
+			<token postag="EX"/>
+			<token postag_regexp="yes" postag="SENT_END|,|IN|PRP"/>
+		</pattern>
+		<disambig postag="RB"/>
+	</rule>
+	<rulegroup name="EX + was|is... + VB/NN -> NN" id="EX_ARE_NN">
+	<rule>
+		<pattern mark="2">
+			<token postag="EX"/>
+			<token regexp="yes">is|was|are|were</token>
+			<and>
+			<token postag="VB"/>
+			<token postag_regexp="yes" postag="NN.*|JJ.*"/>
+			</and>
+		</pattern>
+		<disambig><match no="3" postag_regexp="yes" postag="NN.*|JJ.*" /></disambig>
+	</rule>
+	<rule>
+		<pattern mark="2">
+			<token postag="EX"/>
+			<token regexp="yes">is|was|are|were</token>
+			<token postag="RB"><exception postag="CC"/></token>
+			<and>
+			<token postag="VB"/>
+			<token postag_regexp="yes" postag="NN.*|JJ.*"/>
+			</and>
+		</pattern>
+		<disambig><match no="3" postag_regexp="yes" postag="NN.*|JJ.*" /></disambig>
+	</rule>
+	<rule>
+		<pattern mark="3">
+			<token postag="EX"/>
+			<token regexp="yes">have|has</token>
+			<token>been</token>
+			<token postag="RB"><exception postag="CC"/></token>
+			<and>
+			<token postag="VB"/>
+			<token postag_regexp="yes" postag="NN.*|JJ.*"/>
+			</and>
+		</pattern>
+		<disambig><match no="3" postag_regexp="yes" postag="NN.*|JJ.*" /></disambig>
+	</rule>	
+	</rulegroup>	
+	<rule name="while (IN/NN/VBP) + PRP -> while/IN" id="WHILE_IN_PRP">
+		<pattern mark="0">
+			<token>while</token>
+			<token postag="PRP"/>
+		</pattern>
+		<disambig postag="IN"/>
+	</rule>
+	<rule name="Web page (noun/verb) -> page (noun)" id="WEB_PAGE">
+		<pattern mark="1">
+		<token>web</token>
+		<token>page</token>
+		</pattern>
+		<disambig postag="NN"/>	
+	</rule>
+	<rule name="DT|JJ + JJ/NN + NN -> JJ" id="DT_JJ_NN_JJ">
+		<pattern mark="1">
+			<token postag_regexp="yes" postag="DT|JJ"/>
+			<and>
+			<token postag="JJ"/>
+			<token postag_regexp="yes" postag="NN.*"/>
+			</and>
+			<token postag_regexp="yes" postag="NN.*"/>
+		</pattern>
+		<disambig><match no="2" postag_regexp="yes" postag="JJ" /></disambig>			
+	</rule>
+	<rule name="till (verb) -> till/IN" id="TILL_IN">
+		<pattern mark="0">
+			<token>till</token>
+			<token postag_regexp="yes" postag="PRP\$|DT"/>
+			<token><exception regexp="yes">soil|land|fields|field</exception></token>
+		</pattern>
+		<disambig postag="IN"/>
+	</rule>
 </rules>

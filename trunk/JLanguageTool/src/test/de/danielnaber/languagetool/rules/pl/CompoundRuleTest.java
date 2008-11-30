@@ -38,7 +38,7 @@ public class CompoundRuleTest extends TestCase {
     rule = new CompoundRule(null);
     // correct sentences:
     check(0, "Nie róbmy nic na łapu-capu.");
-    check(0, "Jedzmy kogiel-mogiel.");
+    check(0, "Jedzmy kogel-mogel.");
     // incorrect sentences:
     check(1, "bim bom", new String[]{"bim-bom"});
   }
