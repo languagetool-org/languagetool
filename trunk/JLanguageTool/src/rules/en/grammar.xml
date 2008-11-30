@@ -7,7 +7,7 @@ title="Easy editing stylesheet" ?>
 English Grammar and Typo Rules for LanguageTool
 See tagset.txt for the meaning of the POS tags
 Copyright (C) 2001-2007 Daniel Naber (http://www.danielnaber.de)
-$Id: grammar.xml,v 1.91 2008-11-29 20:44:40 milek_pl Exp $
+$Id: grammar.xml,v 1.92 2008-11-30 00:12:40 milek_pl Exp $
 -->
 <rules lang="en">
   <!-- ====================================================================== -->
@@ -1141,14 +1141,15 @@ $Id: grammar.xml,v 1.91 2008-11-29 20:44:40 milek_pl Exp $
       <example correction="there" type="incorrect">He noticed that <marker>their</marker> is a new test.</example>
     </rule>
     <rule id="I_A" name="I a/an (I am)">
-      <!-- but: 'Am I an annoyance' -->
+      <!--added exception for: 'Am I an annoyance' -->
       <pattern mark_from="1">
-        <token regexp="yes">I</token>
+        <token><exception scope="previous">am</exception>I</token>
         <token regexp="yes">a|an</token>
       </pattern>
       <message>Did you mean <suggestion>am</suggestion> (first person of "to be")?</message>
       <short>Possible typo</short>
       <example type="correct">I <marker>am</marker> not sure.</example>
+      <example type="correct">Am I An Atheist Or An Agnostic?</example>
       <example correction="am" type="incorrect">I <marker>a</marker> not sure.</example>
     </rule>
     <rule id="I_NEW" name="I/he/we new (knew)">
@@ -2383,13 +2384,14 @@ $Id: grammar.xml,v 1.91 2008-11-29 20:44:40 milek_pl Exp $
       <pattern>
         <token regexp="yes">most|some</token>
         <token>of</token>
-        <token postag="NNS"><exception postag="PRP$"/></token>
+        <token postag="NNS" regexp="yes">\p{Lower}+<exception postag="PRP$"/></token>
       </pattern>
       <message>After '\1 of', you should use 'the' (<suggestion>\1 \2 the \3</suggestion>) or simply say '<suggestion>\1 \3</suggestion>'.</message>
       <short>Grammatical problem</short>
       <example type="correct">Most students do their homework.</example>
       <example type="correct">Some of his students do their homework.</example>
       <example correction="Most of the students|Most students" type="incorrect"><marker>Most of students</marker> do their homework.</example>
+      <example type="correct">Buy a collection of most of Rand's works in a CD-ROM format.</example>
       <example type="correct"><marker>Some of the students</marker> do their homework.</example>
     </rule>
     <!--  needs more and more tweaking; 
