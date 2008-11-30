@@ -131,10 +131,10 @@ public class Element {
   public final boolean isMatched(final AnalyzedToken token) {
     boolean matched = false;
     if (testString) {
-      matched = (isStringTokenMatched(token) != negation) 
-          && (isPosTokenMatched(token) != posNegation);
+      matched = (isStringTokenMatched(token) ^ negation) 
+          && (isPosTokenMatched(token) ^ posNegation);
     } else {
-      matched = (!negation) && (isPosTokenMatched(token) != posNegation);
+      matched = (!negation) && (isPosTokenMatched(token) ^ posNegation);
     }
     
     if (andGroupSet) {
