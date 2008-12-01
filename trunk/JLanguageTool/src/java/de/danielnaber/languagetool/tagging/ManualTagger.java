@@ -49,8 +49,8 @@ public class ManualTagger {
    * Look up a word's baseform and POS information.
    * 
    * @param term
-   * @return an array with the baseform (at psoitino 0, 2, ...) and the POS
-   *         information (at psoitino 1, 3, ...) or <code>null</code> if the
+   * @return an array with the baseform (at position 0, 2, ...) and the POS
+   *         information (at position 1, 3, ...) or <code>null</code> if the
    *         word is unknown
    */
   public String[] lookup(final String term) {

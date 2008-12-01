@@ -171,7 +171,6 @@ public class PolishSynthesizer implements Synthesizer {
     for (int i = 1; i < tags.length; i++) {
       s = s + ":" + tags[i];
       }
-    //s = s + tags[tags.length - 1];
     return s;
     }
     } else {

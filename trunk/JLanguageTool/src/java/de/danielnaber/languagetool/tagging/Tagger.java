@@ -25,7 +25,7 @@ import de.danielnaber.languagetool.AnalyzedToken;
 import de.danielnaber.languagetool.AnalyzedTokenReadings;
 
 /**
- * The part-of-speech tagger interface, whose implementions are usually language-dependent.
+ * The part-of-speech tagger interface, whose implementations are usually language-dependent.
  * 
  * @author Daniel Naber
  */
@@ -39,7 +39,7 @@ public interface Tagger {
    * may implement special cases for the first word of a sentence, which is 
    * usually written with an uppercase letter.
    * 
-   * @param sentenceTokens the text as returned by a WordTokenizer but whithout whitespace tokens. 
+   * @param sentenceTokens the text as returned by a WordTokenizer but without whitespace tokens. 
    */
   public List<AnalyzedTokenReadings> tag(List<String> sentenceTokens) throws IOException;
   

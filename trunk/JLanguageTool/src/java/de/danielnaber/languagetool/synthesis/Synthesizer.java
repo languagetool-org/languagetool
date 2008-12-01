@@ -23,7 +23,7 @@ import java.io.IOException;
 import de.danielnaber.languagetool.AnalyzedToken;
 
 /**
- * Part-of-speech synthesiser interface. Implementations are 
+ * Part-of-speech synthesizer interface. Implementations are 
  * heavily language-dependent.
  * 
  * @author Marcin Miłkowski

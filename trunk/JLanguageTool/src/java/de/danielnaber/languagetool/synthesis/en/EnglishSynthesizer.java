@@ -93,7 +93,7 @@ public class EnglishSynthesizer implements Synthesizer {
     }
   }
   
-  //TODO: avoid code duplicattion with DutchSynthesizer
+  //TODO: avoid code duplication with DutchSynthesizer
   public String[] synthesize(final AnalyzedToken token, final String posTag, final boolean posTagRegExp)
       throws IOException {
     
