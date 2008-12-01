@@ -175,7 +175,7 @@ public class Match {
    * @return
    * @String[] array of strings
    * @throws IOException
-   *           in case of syntesizer-related disk problems.
+   *           in case of synthesizer-related disk problems.
    */
   public final String[] toFinalString() throws IOException {
     String[] formattedString = new String[1];
