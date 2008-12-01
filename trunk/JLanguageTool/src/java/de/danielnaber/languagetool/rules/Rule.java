@@ -28,7 +28,7 @@ import de.danielnaber.languagetool.AnalyzedSentence;
 import de.danielnaber.languagetool.Language;
 
 /**
- * Abstract rule class. A Rule drescribes a language error and can
+ * Abstract rule class. A Rule describes a language error and can
  * test whether a given pre-analyzed text contains that error using the
  * {@link Rule#match} method. 
  *
@@ -49,13 +49,13 @@ public abstract class Rule {
   protected ResourceBundle messages;
 
   /**
-   * Called by language-dependant rules.
+   * Called by language-dependent rules.
    */
   public Rule() {
   }
 
   /**
-   * Called by language-independant rules.
+   * Called by language-independent rules.
    */
   public Rule(final ResourceBundle messages) {
     this.messages = messages;
@@ -80,7 +80,7 @@ public abstract class Rule {
   private List <RuleMatch> removedMatches = null;
   
   /**
-   * Check whether the given text matche this error rule, i.e. whether the
+   * Check whether the given text matches this error rule, i.e. whether the
    * text contains this error.
    * 
    * @param text a pre-analyzed sentence
