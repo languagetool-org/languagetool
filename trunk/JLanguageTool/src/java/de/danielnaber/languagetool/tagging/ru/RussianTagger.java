@@ -24,9 +24,9 @@ import morfologik.stemmers.Lametyzator;
 import de.danielnaber.languagetool.tagging.BaseTagger;
 
 /**  Part-of-speech tagger.
- * Based on part-of-speech lists in Public Domain
+ * Russian dictionary originally developed by www.aot.ru and licensed under LGPL.
  * see readme.txt for details, the POS tagset is
- * described in tagset.txt
+ * described in russian_tags.txt
  * 
  *  */
 public class RussianTagger extends BaseTagger {
