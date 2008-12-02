@@ -649,13 +649,13 @@ public class PatternRule extends Rule {
       if (ind > 0) { 
         if (errorMessage.charAt(ind + 1) >= '1'
           && errorMessage.charAt(ind + 1) <= '9') {
-          int numLen = 0;
-          while (ind + 1 + numLen < errorMessage.length()
-            && errorMessage.charAt(ind + 1 + numLen) >= '0'
-            && errorMessage.charAt(ind + 1 + numLen) <= '9') {
+          int numLen = 1;
+          while (ind + numLen < errorMessage.length()
+            && errorMessage.charAt(ind + numLen) >= '0'
+            && errorMessage.charAt(ind + numLen) <= '9') {
             numLen++;
           }
-          final int j = Integer.parseInt(errorMessage.substring(ind + 1, ind + 1 + numLen)) - 1;
+          final int j = Integer.parseInt(errorMessage.substring(ind + 1, ind + numLen)) - 1;
           int repTokenPos = 0;
           for (int l = 0; l <= j; l++) {
             repTokenPos += positions[l];
@@ -666,7 +666,7 @@ public class PatternRule extends Rule {
               if (suggestionMatches.get(matchCounter) != null) {
                 final String[] matches = concatMatches(matchCounter, j, firstMatchTok + repTokenPos, toks);
                 final String leftSide = errorMessage.substring(0, ind);                                
-                String rightSide = errorMessage.substring(ind + numLen + 1);                
+                String rightSide = errorMessage.substring(ind + numLen);                
                 if (matches.length == 1) {
                   errorMessage = leftSide 
                   + matches[0]
