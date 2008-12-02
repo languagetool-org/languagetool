@@ -385,7 +385,7 @@ public class Element {
       testString= false;
       }
     }    
-    if (!"".equals(stringToken) && stringRegExp) {
+    if (testString && stringRegExp) {
       regToken = stringToken;
       if (!caseSensitive) {
         regToken = CASE_INSENSITIVE + stringToken;
@@ -416,7 +416,7 @@ public class Element {
     if (previousExceptionList == null && scopePrevious) {
       previousExceptionList = new ArrayList <Element>();
     }
-    if (!exceptionSet && !scopePrevious) {
+    if (!(exceptionSet || scopePrevious)) {
       exceptionSet = true;
     }
     if (exceptionSet && !scopePrevious) {
@@ -452,7 +452,7 @@ public class Element {
     if (previousExceptionList == null && scopePrevious) {
       previousExceptionList = new ArrayList <Element>();
     }
-    if (!exceptionSet && !scopePrevious) {
+    if (!(exceptionSet || scopePrevious)) {
       exceptionSet = true;
     }
     if (exceptionSet && !scopePrevious) {
