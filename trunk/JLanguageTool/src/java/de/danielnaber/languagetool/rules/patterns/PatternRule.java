@@ -223,6 +223,18 @@ public class PatternRule extends Rule {
       if (patternElement.getNegation()) {
         sb.append(" negate=\"yes\"");
       }
+      if (patternElement.isRegularExpression()) {
+        sb.append(" regexp=\"yes\"");
+      }
+      if (patternElement.getPOStag()!=null) {
+        sb.append(" postag=\"" + patternElement.getPOStag()+"\"");
+      }
+      if (patternElement.getPOSNegation()) {
+        sb.append(" negate_pos=\"yes\"");
+      }
+      if (patternElement.isInflected()) {
+        sb.append(" inflected=\"yes\"");
+      }
       sb.append(">");
       if (patternElement.getString() != null) {
         sb.append(StringTools.escapeXML(patternElement.getString()));
@@ -618,6 +630,8 @@ public class PatternRule extends Rule {
    *   @throws IOException 
    *   
    **/
+//FIXME: make it work for numbers >9 (\10..\99 at least - ten tokens can 
+  //easily appear in rules
   private String formatMatches(final AnalyzedTokenReadings[] toks,
       final int[] positions, final int firstMatchTok,
       final String errorMsg) throws IOException {         

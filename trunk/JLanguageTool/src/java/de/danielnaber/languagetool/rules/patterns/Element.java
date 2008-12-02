@@ -667,6 +667,37 @@ public class Element {
     return caseSensitive;
   }
   
+  /**
+   * Tests whether the element matches a regular expression.
+   * @since 0.9.6
+   */
+  public final boolean isRegularExpression() {
+    return stringRegExp; 
+  }
+
+  /**
+   * @return the POS of the Element
+   * @since 0.9.6
+   */
+  public final String getPOStag() {
+    return posToken;
+  }
+  
+  /**
+   * Tests whether the POS is negated.
+   * @return true if so.
+   */
+  public final boolean getPOSNegation() {
+    return posNegation; 
+  }
+  
+  /**
+   * Whether the token is inflected.
+   * @return True if so.
+   */
+  public final boolean isInflected() {
+    return inflected;
+  }
   /** 
    * Gets the phrase the element is in.
    * @return String The name of the phrase.
