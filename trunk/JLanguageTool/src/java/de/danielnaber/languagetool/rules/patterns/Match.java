@@ -279,7 +279,7 @@ public class Match {
           }
         }
       }
-      if (pPosRegexMatch != null & posTagReplace != null) {            
+      if (pPosRegexMatch != null && posTagReplace != null) {            
         targetPosTag = pPosRegexMatch.matcher(targetPosTag).
           replaceAll(posTagReplace);  
       }
@@ -298,7 +298,7 @@ public class Match {
           }
         }
       }
-      if (pPosRegexMatch != null & posTagReplace != null) {
+      if (pPosRegexMatch != null && posTagReplace != null) {
         if (posTags.isEmpty()) {
           posTags.add(targetPosTag);
         }
@@ -402,7 +402,7 @@ public class Match {
             if (tst != null) {
               if (pPosRegexMatch.matcher(tst).matches()) {
                 targetPosTag = formattedToken.getAnalyzedToken(i).getPOSTag();
-                if (pPosRegexMatch != null & posTagReplace != null) {            
+                if (pPosRegexMatch != null && posTagReplace != null) {            
                   targetPosTag = pPosRegexMatch.matcher(targetPosTag).
                     replaceAll(posTagReplace);  
                 }
