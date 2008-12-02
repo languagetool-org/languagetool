@@ -2,7 +2,7 @@
 	<!--
 		English Disambiguation Rules for LanguageTool Copyright (C) 2008
 		Marcin Miłkowski		
-$Id: disambiguation.xml,v 1.18 2008-11-30 20:15:38 milek_pl Exp $
+$Id: disambiguation.xml,v 1.19 2008-12-02 20:19:29 milek_pl Exp $
 	-->
 <rules lang="en">
 	<rule name="Modal verb + verb/noun -> modal verb + verb" id="MD_VB">
@@ -216,6 +216,14 @@ $Id: disambiguation.xml,v 1.18 2008-11-30 20:15:38 milek_pl Exp $
 			<token>.</token>
 		</pattern>
 		<disambig postag="NNP" />
+	</rule>
+	<!-- 'a' used as a symbol in some technical notation -->
+	<rule name="A technical" id="A_TECHNICAL">
+		<pattern mark="0">
+			<token>a</token>
+			<token regexp="yes">[/\+\[\]\(\){}\\,!%]</token>
+		</pattern>
+		<disambig postag="SYM"/>
 	</rule>
 	
 	<!-- for Bob Brown etc. -->
@@ -441,5 +449,16 @@ $Id: disambiguation.xml,v 1.18 2008-11-30 20:15:38 milek_pl Exp $
 			<token><exception regexp="yes">soil|land|fields|field</exception></token>
 		</pattern>
 		<disambig postag="IN"/>
+	</rule>
+	<rule name="before/after + NN/VBG + DT" id="before_NN_VBG">
+		<pattern mark="1">
+			<token regexp="yes">before|after</token>
+			<and>
+				<token postag="NN"/>
+				<token postag="VBG"/>
+			</and>
+			<token postag="DT"/>
+		</pattern>
+		<disambig><match no="2" postag="VBG" postag_regexp="yes"/></disambig>
 	</rule>
 </rules>
