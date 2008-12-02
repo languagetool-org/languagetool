@@ -630,8 +630,6 @@ public class PatternRule extends Rule {
    *   @throws IOException 
    *   
    **/
-//FIXME: make it work for numbers >9 (\10..\99 at least - ten tokens can 
-  //easily appear in rules
   private String formatMatches(final AnalyzedTokenReadings[] toks,
       final int[] positions, final int firstMatchTok,
       final String errorMsg) throws IOException {         
@@ -650,8 +648,14 @@ public class PatternRule extends Rule {
       final int ind = errorMessage.indexOf("\\"); 
       if (ind > 0) { 
         if (errorMessage.charAt(ind + 1) >= '1'
-          && errorMessage.charAt(ind + 1) <= '9') {            
-          final int j = errorMessage.charAt(ind + 1) - '1';
+          && errorMessage.charAt(ind + 1) <= '9') {
+          int numLen = 0;
+          while (ind + 1 + numLen < errorMessage.length()
+            && errorMessage.charAt(ind + 1 + numLen) >= '0'
+            && errorMessage.charAt(ind + 1 + numLen) <= '9') {
+            numLen++;
+          }
+          final int j = Integer.parseInt(errorMessage.substring(ind + 1, ind + 1 + numLen)) - 1;
           int repTokenPos = 0;
           for (int l = 0; l <= j; l++) {
             repTokenPos += positions[l];
@@ -662,7 +666,7 @@ public class PatternRule extends Rule {
               if (suggestionMatches.get(matchCounter) != null) {
                 final String[] matches = concatMatches(matchCounter, j, firstMatchTok + repTokenPos, toks);
                 final String leftSide = errorMessage.substring(0, ind);                                
-                String rightSide = errorMessage.substring(ind + 2);                
+                String rightSide = errorMessage.substring(ind + numLen + 1);                
                 if (matches.length == 1) {
                   errorMessage = leftSide 
                   + matches[0]
