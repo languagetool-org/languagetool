@@ -6,7 +6,7 @@ title="Easy editing stylesheet" ?>
 <!--
 Polish Grammar and Typo Rules for LanguageTool
 Copyright (C) 2006-2007 Marcin Miłkowski
-$Id: grammar.xml,v 1.151 2008-11-29 00:00:48 milek_pl Exp $
+$Id: grammar.xml,v 1.152 2008-12-03 23:56:51 milek_pl Exp $
 -->
 <rules lang="pl">
   <phrases>
@@ -100,7 +100,7 @@ $Id: grammar.xml,v 1.151 2008-11-29 00:00:48 milek_pl Exp $
       </rule>
       <rule>
         <pattern>
-          <token inflected="yes" postag="verb:.*(sg|pl).*|verb:irreg|verb:imps.*|pcon:imperf|pant:perf" postag_regexp="yes" regexp="yes" skip="-1">mieć<exception scope="current">miano</exception><exception inflected="yes" regexp="yes" scope="next">[\p{Punct}—–„«»…](?&lt;!\.)|bądź|czy|ani|lub|albo|oraz|i|kiedy|gdy|który|jaki|że|aby|żeby|ażeby|iżby|zanim|dopóki|gdyby|jeśli|jeżeli|dlaczego|którędy</exception><exception postag="&lt;ELLIPSIS&gt;" scope="next"/></token>
+          <token inflected="yes" postag="verb:.*(sg|pl).*|verb:irreg|verb:imps.*|pcon:imperf|pant:perf" postag_regexp="yes" skip="-1">mieć<exception scope="current">miano</exception><exception inflected="yes" regexp="yes" scope="next">[\p{Punct}—–„«»…](?&lt;!\.)|bądź|czy|ani|lub|albo|oraz|i|kiedy|gdy|który|jaki|że|aby|żeby|ażeby|iżby|zanim|dopóki|gdyby|jeśli|jeżeli|dlaczego|którędy</exception><exception postag="&lt;ELLIPSIS&gt;" scope="next"/></token>
           <token postag="pred|verb:.*(sg|pl).*|verb:imps.*|pcon:imperf|pant:perf" postag_regexp="yes" skip="-1"><exception postag="subst:.*|adj.*|ppron.*|adv.*|verb:inf.*|prep.*|qub|indecl|conj" postag_regexp="yes" scope="current"/><exception inflected="yes" scope="current">mieć</exception><exception regexp="yes" scope="current">jedna|może|będ.*</exception></token>
           <phraseref idref="INTERPUNKCJA"/>
         </pattern>
@@ -150,7 +150,7 @@ $Id: grammar.xml,v 1.151 2008-11-29 00:00:48 milek_pl Exp $
     <rule id="MULTISPOJNIKI" name="Brak przecinka przed „a więc”, „a mianowicie”...">
       <pattern>
         <phraseref idref="NIE_INTERPUNKCJA"/>
-        <token regexp="yes">a</token>
+        <token>a</token>
         <token inflected="yes" regexp="yes">więc|mianowicie|przeto|zatem|jednak|choć|chociaż|ponieważ|także|następnie|jeśli|jeżeli|gdyby|gdy|kiedy</token>
       </pattern>
       <message>W tym miejscu stawia się przecinek: <suggestion>\1, \2 \3</suggestion></message>
@@ -175,7 +175,7 @@ $Id: grammar.xml,v 1.151 2008-11-29 00:00:48 milek_pl Exp $
       <rule>
         <pattern>
           <token>tyle</token>
-          <token regexp="yes">tylko</token>
+          <token>tylko</token>
           <token regexp="yes">że|iż</token>
         </pattern>
         <message>Należy postawić przecinek w zależności od intonacji i sensu zdania: <suggestion>\1 \2, \3</suggestion> lub <suggestion>\1, \2 \3</suggestion>.</message>
@@ -248,7 +248,7 @@ $Id: grammar.xml,v 1.151 2008-11-29 00:00:48 milek_pl Exp $
       <rule>
         <pattern mark_from="1">
           <token postag="SENT_START"/>
-          <token regexp="yes">tyle</token>
+          <token>tyle</token>
           <token>,</token>
           <token>że</token>
         </pattern>
@@ -260,7 +260,7 @@ $Id: grammar.xml,v 1.151 2008-11-29 00:00:48 milek_pl Exp $
       <rule>
         <pattern mark_from="1">
           <phraseref idref="INTERPUNKCJA"/>
-          <token regexp="yes">tyle</token>
+          <token>tyle</token>
           <token>,</token>
           <token>że</token>
         </pattern>
@@ -417,9 +417,9 @@ $Id: grammar.xml,v 1.151 2008-11-29 00:00:48 milek_pl Exp $
       <rule>
         <pattern>
           <token><exception postag="SENT_START"/><exception regexp="yes">[\p{Punct}–—„«»…]</exception></token>
-          <token regexp="yes">jeszcze</token>
+          <token>jeszcze</token>
           <token>,</token>
-          <token regexp="yes">zanim</token>
+          <token>zanim</token>
         </pattern>
         <message>Spójników złożonych nie rozdziela się, przecinek stawia się przed nimi: <suggestion>\1, \2 \4</suggestion>. Wyjątkiem mogą być tutaj wtrącenia.</message>
         <short>Błąd interpunkcyjny</short>
@@ -429,9 +429,9 @@ $Id: grammar.xml,v 1.151 2008-11-29 00:00:48 milek_pl Exp $
       <rule>
         <pattern>
           <token postag="SENT_START"/>
-          <token regexp="yes">jeszcze</token>
+          <token>jeszcze</token>
           <token>,</token>
-          <token regexp="yes">zanim</token>
+          <token>zanim</token>
         </pattern>
         <message>Spójników złożonych nie rozdziela się:<suggestion>\2 \4</suggestion>. Wyjątkiem mogą być tutaj wtrącenia.</message>
         <short>Błąd interpunkcyjny</short>
@@ -441,9 +441,9 @@ $Id: grammar.xml,v 1.151 2008-11-29 00:00:48 milek_pl Exp $
       <rule>
         <pattern mark_from="1">
           <phraseref idref="INTERPUNKCJA"/>
-          <token regexp="yes">jeszcze</token>
+          <token>jeszcze</token>
           <token>,</token>
-          <token regexp="yes">zanim</token>
+          <token>zanim</token>
         </pattern>
         <message>Spójników złożonych nie rozdziela się:<suggestion>\2 \4</suggestion>. Wyjątkiem mogą być tutaj wtrącenia.</message>
         <short>Błąd interpunkcyjny</short>
@@ -526,7 +526,7 @@ $Id: grammar.xml,v 1.151 2008-11-29 00:00:48 milek_pl Exp $
       <rule>
         <pattern mark_to="-1">
           <token negate="yes" regexp="yes">[\p{Punct}–—„«»…]|tak|chyba|może|cóż|co|.*kolwiek|próżno|długo<exception postag="SENT_START|conj|pred" postag_regexp="yes"/></token>
-          <token inflected="yes" regexp="yes" skip="-1">by<exception inflected="yes" regexp="yes" scope="next">[\p{Punct}—–„«»…](?&lt;!\.)|bądź|czy|ani|lub|albo|oraz|i|kiedy|gdy|który|jaki|że|iż|bo|gdyż|a|jeśli|jeżeli|gdyby|aby|żeby|ażeby|zanim|dopóki</exception><exception postag="&lt;ELLIPSIS&gt;|verb:praet:.*" postag_regexp="yes" scope="next"/></token>
+          <token inflected="yes" skip="-1">by<exception inflected="yes" regexp="yes" scope="next">[\p{Punct}—–„«»…](?&lt;!\.)|bądź|czy|ani|lub|albo|oraz|i|kiedy|gdy|który|jaki|że|iż|bo|gdyż|a|jeśli|jeżeli|gdyby|aby|żeby|ażeby|zanim|dopóki</exception><exception postag="&lt;ELLIPSIS&gt;|verb:praet:.*" postag_regexp="yes" scope="next"/></token>
           <token postag="verb:inf.*" postag_regexp="yes"/>
         </pattern>
         <message>Przed tym spójnikiem prawdopodobnie należy postawić przecinek: <suggestion>\1, \2</suggestion>.</message>
@@ -538,7 +538,7 @@ $Id: grammar.xml,v 1.151 2008-11-29 00:00:48 milek_pl Exp $
         <pattern mark_to="-1">
           <token negate="yes" regexp="yes">[\p{Punct}–—„«»…]<exception postag="SENT_START|conj|pred" postag_regexp="yes"/></token>
           <token>tak</token>
-          <token inflected="yes" regexp="yes" skip="-1">by<exception inflected="yes" regexp="yes" scope="next">[\p{Punct}—–„«»…](?&lt;!\.)|bądź|czy|ani|lub|albo|oraz|i|kiedy|gdy|który|jaki|że|iż|bo|gdyż|a|jeśli|jeżeli|gdyby|aby|żeby|ażeby|zanim|dopóki</exception><exception postag="&lt;ELLIPSIS&gt;|verb:praet:.*" postag_regexp="yes" scope="next"/></token>
+          <token inflected="yes" skip="-1">by<exception inflected="yes" regexp="yes" scope="next">[\p{Punct}—–„«»…](?&lt;!\.)|bądź|czy|ani|lub|albo|oraz|i|kiedy|gdy|który|jaki|że|iż|bo|gdyż|a|jeśli|jeżeli|gdyby|aby|żeby|ażeby|zanim|dopóki</exception><exception postag="&lt;ELLIPSIS&gt;|verb:praet:.*" postag_regexp="yes" scope="next"/></token>
           <token postag="verb:inf.*" postag_regexp="yes"/>
         </pattern>
         <message>Przed tym spójnikiem prawdopodobnie należy postawić przecinek: <suggestion>\1, \2 \3</suggestion>.</message>
@@ -621,7 +621,7 @@ $Id: grammar.xml,v 1.151 2008-11-29 00:00:48 milek_pl Exp $
       <rule>
         <pattern>
           <token negate="yes" regexp="yes">[\p{Punct}–—„«»…]|do<exception postag="SENT_START|conj" postag_regexp="yes"/></token>
-          <token regexp="yes">póki</token>
+          <token>póki</token>
         </pattern>
         <message>Przed tym spójnikiem stawiamy przecinek: <suggestion>\1, \2</suggestion>.</message>
         <short>Błąd interpunkcyjny</short>
@@ -643,7 +643,7 @@ $Id: grammar.xml,v 1.151 2008-11-29 00:00:48 milek_pl Exp $
       <rule>
         <pattern>
           <token negate="yes" regexp="yes">[\p{Punct}–—„«»…]<exception postag="SENT_START|conj" postag_regexp="yes"/></token>
-          <token regexp="yes">ponieważ</token>
+          <token>ponieważ</token>
         </pattern>
         <message>Przed tym spójnikiem stawiamy przecinek: <suggestion>\1, \2</suggestion>.</message>
         <short>Błąd interpunkcyjny</short>
@@ -1083,7 +1083,7 @@ $Id: grammar.xml,v 1.151 2008-11-29 00:00:48 milek_pl Exp $
           <token postag="SENT_START"/>
           <token skip="-1"><exception scope="next">ani</exception><exception scope="current">Ani</exception></token>
           <token>,</token>
-          <token regexp="yes">ani</token>
+          <token>ani</token>
           <token><exception regexp="yes">nawet|też</exception></token>
         </pattern>
         <message>Prawdopodobnie zbędny przecinek, powinno być: <suggestion> \4</suggestion>.</message>
@@ -1098,7 +1098,7 @@ $Id: grammar.xml,v 1.151 2008-11-29 00:00:48 milek_pl Exp $
           <token postag="SENT_START"/>
           <token skip="-1"><exception scope="next">ni</exception><exception scope="current">Ni</exception></token>
           <token>,</token>
-          <token regexp="yes">ni</token>
+          <token>ni</token>
         </pattern>
         <message>Prawdopodobnie zbędny przecinek, powinno być: <suggestion> \4</suggestion>.</message>
         <short>Błąd interpunkcyjny</short>
@@ -1111,7 +1111,7 @@ $Id: grammar.xml,v 1.151 2008-11-29 00:00:48 milek_pl Exp $
           <token postag="SENT_START"/>
           <token skip="-1"><exception scope="next">albo</exception><exception scope="current">Albo</exception></token>
           <token>,</token>
-          <token regexp="yes">albo</token>
+          <token>albo</token>
           <token><exception regexp="yes">raczej|lepiej</exception></token>
         </pattern>
         <message>Prawdopodobnie zbędny przecinek, powinno być: <suggestion> \4</suggestion>.</message>
@@ -1126,7 +1126,7 @@ $Id: grammar.xml,v 1.151 2008-11-29 00:00:48 milek_pl Exp $
           <token postag="SENT_START"/>
           <token skip="-1"><exception scope="next">i</exception><exception scope="current">I</exception></token>
           <token>,</token>
-          <token regexp="yes">i</token>
+          <token>i</token>
           <token><exception regexp="yes">tak|to|kwita|już|owszem|koniec</exception></token>
         </pattern>
         <message>Prawdopodobnie zbędny przecinek, powinno być: <suggestion> \4</suggestion>.</message>
@@ -1142,7 +1142,7 @@ $Id: grammar.xml,v 1.151 2008-11-29 00:00:48 milek_pl Exp $
           <token postag="SENT_START"/>
           <token skip="-1"><exception scope="next">lub</exception><exception scope="current">Lub</exception></token>
           <token>,</token>
-          <token regexp="yes">lub</token>
+          <token>lub</token>
           <token><exception>raczej</exception></token>
         </pattern>
         <message>Prawdopodobnie zbędny przecinek, powinno być: <suggestion> \4</suggestion>.</message>
@@ -1156,7 +1156,7 @@ $Id: grammar.xml,v 1.151 2008-11-29 00:00:48 milek_pl Exp $
           <token postag="SENT_START"/>
           <token skip="-1"><exception scope="next">oraz</exception><exception scope="current">Oraz</exception></token>
           <token>,</token>
-          <token regexp="yes">oraz</token>
+          <token>oraz</token>
         </pattern>
         <message>Prawdopodobnie zbędny przecinek, powinno być: <suggestion> \4</suggestion>.</message>
         <short>Błąd interpunkcyjny</short>
@@ -1168,7 +1168,7 @@ $Id: grammar.xml,v 1.151 2008-11-29 00:00:48 milek_pl Exp $
           <token postag="SENT_START"/>
           <token skip="-1"><exception scope="next">bądź</exception><exception scope="current">Bądź</exception></token>
           <token>,</token>
-          <token regexp="yes">bądź</token>
+          <token>bądź</token>
         </pattern>
         <message>Prawdopodobnie zbędny przecinek, powinno być: <suggestion> \4</suggestion>.</message>
         <short>Błąd interpunkcyjny</short>
@@ -1191,7 +1191,7 @@ $Id: grammar.xml,v 1.151 2008-11-29 00:00:48 milek_pl Exp $
       </rule>
       <rule>
         <pattern mark_from="2">
-          <token regexp="yes">bądź<exception scope="next">[.…,;–-—„”]</exception></token>
+          <token>bądź<exception scope="next">[.…,;–-—„”]</exception></token>
           <token skip="-1"><exception regexp="yes">,|co</exception><exception scope="next">,</exception></token>
           <token>bądź</token>
         </pattern>
@@ -1905,8 +1905,8 @@ Powinno być: <suggestion>\2, \3 \4</suggestion>.</message>
       </rule>
       <rule>
         <pattern mark_to="-1">
-          <token regexp="yes">Pablo</token>
-          <token inflected="yes" regexp="yes">Picasso<exception postag="subst:sg:nom:m1"/></token>
+          <token>Pablo</token>
+          <token inflected="yes">Picasso<exception postag="subst:sg:nom:m1"/></token>
         </pattern>
         <message>Imię „Pablo” jest odmienne: <suggestion><match no="2" postag="(subst:)(irreg)?(sg:).*(gen|dat|acc|loc|inst|voc).*(:m[1-3]?)" postag_regexp="yes" postag_replace="$1$3.*$4.*m(1)*">Pablo</match></suggestion>.</message>
         <short>Błąd odmiany</short>
@@ -3445,7 +3445,7 @@ lub <suggestion>\2 na prawach wyłączności</suggestion>.</message>
     </rule>
     <rule id="ZDAC_SPRAWOZDANIE" name="„zdać sprawozdanie” (zdać sprawę)">
       <pattern>
-        <token inflected="yes" regexp="yes">zdać<exception postag="subst:ger.*|ppas:.*" postag_regexp="yes"/></token>
+        <token inflected="yes">zdać<exception postag="subst:ger.*|ppas:.*" postag_regexp="yes"/></token>
         <token>sprawozdanie</token>
       </pattern>
       <message>To wyrażenie jest niepoprawną kontaminacją. Poprawnie: <suggestion><match no="1"/> sprawę</suggestion>, 
@@ -4160,7 +4160,7 @@ lub <suggestion>\2 na prawach wyłączności</suggestion>.</message>
     </rule>
     <rule id="CIEZKI_ORZECH" name="„ciężki orzech do zgryzienia” (twardy orzech...)">
       <pattern>
-        <token inflected="yes" regexp="yes">ciężki</token>
+        <token inflected="yes">ciężki</token>
         <token inflected="yes">orzech</token>
         <token>do</token>
         <token>zgryzienia</token>
@@ -4832,7 +4832,7 @@ lub <suggestion>\2 na prawach wyłączności</suggestion>.</message>
     </rule>
     <rule id="KAZDY_WTOREK" name="„każdy wtorek miesiąca”">
       <pattern>
-        <token inflected="yes" regexp="yes">każdy</token>
+        <token inflected="yes">każdy</token>
         <token inflected="yes" regexp="yes">poniedziałek|wtorek|środa|czwartek|piątek|sobota|niedziela</token>
         <token regexp="yes">tygodnia|miesiąca</token>
       </pattern>
@@ -7431,7 +7431,7 @@ Znacznie częściej ta forma jest mylona z trybem rozkazującym od „pokazać�
       </rule>
       <rule>
         <pattern mark_to="-3">
-          <token regexp="yes">dr</token>
+          <token>dr</token>
           <token>.</token>
           <token regexp="yes">hab|wet|med</token>
           <token>.</token>
@@ -7470,7 +7470,7 @@ Znacznie częściej ta forma jest mylona z trybem rozkazującym od „pokazać�
       <rule>
         <pattern case_sensitive="yes" mark_from="1" mark_to="-1">
           <token><exception>.</exception></token>
-          <token regexp="yes">m</token>
+          <token>m</token>
           <token>.</token>
           <token><exception>in</exception></token>
         </pattern>
@@ -7565,7 +7565,7 @@ Znacznie częściej ta forma jest mylona z trybem rozkazującym od „pokazać�
     <rule id="ZA_ROWNO_JAKI" name="„zarówno... jaki” (zarówno... jak i)">
       <pattern mark_from="1" mark_to="0">
         <token regexp="yes" skip="-1">równo|zarówno<exception scope="next">jak</exception></token>
-        <token regexp="yes">jaki</token>
+        <token>jaki</token>
       </pattern>
       <message>To wyrażenie ma poprawną postać: zarówno... <suggestion>jak i</suggestion>.</message>
       <short>Błąd ortograficzny</short>
@@ -7945,7 +7945,7 @@ Znacznie częściej ta forma jest mylona z trybem rozkazującym od „pokazać�
         <pattern mark_to="-1">
           <token>na</token>
           <token>prawdę</token>
-          <token regexp="yes">nie</token>
+          <token>nie</token>
         </pattern>
         <message>Prawdopodobny błąd ortograficzny. Powinno być: <suggestion>naprawdę</suggestion> (=faktycznie, rzeczywiście).</message>
         <short>Błąd ortograficzny</short>
@@ -9554,7 +9554,7 @@ Znacznie częściej ta forma jest mylona z trybem rozkazującym od „pokazać�
     <rule id="ZWROTNE_BEZ_SIE" name="czasowniki zwrotne bez „się”">
       <pattern mark_from="1" mark_to="-1">
         <token postag="SENT_START" skip="-1"><exception scope="next">się</exception></token>
-        <token inflected="yes" postag="refl" postag_regexp="yes" regexp="yes" skip="-1"><exception postag="subst:.*|(ppas|adj|pact).*" postag_regexp="yes" scope="current"/><exception regexp="yes">rozmaicie|śmiał.*</exception><exception scope="next">się</exception></token>
+        <token inflected="yes" postag="refl" postag_regexp="yes" skip="-1"><exception postag="subst:.*|(ppas|adj|pact).*" postag_regexp="yes" scope="current"/><exception regexp="yes">rozmaicie|śmiał.*</exception><exception scope="next">się</exception></token>
         <token postag="SENT_END"/>
       </pattern>
       <message>W tym zdaniu występuje czasownik zwrotny, a brakuje wyrazu „się”; powinno być: <suggestion>\2 się</suggestion> lub <suggestion>się \2</suggestion>.</message>
