@@ -365,9 +365,9 @@ public class Match {
     switch (caseConversionType) {
       case NONE : break;
       case STARTLOWER : token = token.substring(0, 1).toLowerCase() 
-        + formattedToken.getToken().substring(1); break;
+        + token.substring(1); break;
       case STARTUPPER : token = token.substring(0, 1).toUpperCase() 
-        + formattedToken.getToken().substring(1); break;
+        + token.substring(1); break;
       case ALLUPPER : token = token.toUpperCase(); break;
       case ALLLOWER : token = token.toLowerCase(); break;
       default : break;

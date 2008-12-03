@@ -7,7 +7,7 @@ title="Easy editing stylesheet" ?>
 <!--
 A demo rule file for LanguageTool
 Copyright (C) 2005 Daniel Naber (http://www.danielnaber.de)
-$Id: grammar.xml,v 1.10 2008-12-02 15:49:12 milek_pl Exp $
+$Id: grammar.xml,v 1.11 2008-12-03 19:45:15 milek_pl Exp $
 -->
 <rules lang="xx">
   <!-- tests for phrase syntax -->
@@ -217,5 +217,14 @@ $Id: grammar.xml,v 1.10 2008-12-02 15:49:12 milek_pl Exp $
 		<example type="incorrect" correction="10 blahblah"><marker>1 2 3 4 5 6 7 8 9 10</marker>.</example>
     </rule>
     </rulegroup>
+    <rule id="test_match_conv" name="example of case conversion">
+    	<pattern case_sensitive="yes">
+    	<token>new-york</token>
+    	<token>cafe</token>
+    	</pattern>
+    	<message>This name should be uppercase: <suggestion>New <match no="1" regexp_match="[Nn]ew-(.*)" regexp_replace="$1" case_conversion="startupper"/> Cafe</suggestion></message>
+    	<example type="correct">New York Cafe</example>
+    	<example correction="New York Cafe" type="incorrect">This is a new coffeshop in the middle of nowhere called <marker>new-york cafe</marker>.</example> 
+    </rule>
   </category>
 </rules>
