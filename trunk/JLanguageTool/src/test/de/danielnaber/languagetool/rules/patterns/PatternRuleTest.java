@@ -68,7 +68,32 @@ public class PatternRuleTest extends TestCase {
       final JLanguageTool languageTool = new JLanguageTool(lang);
       final String name = "/rules/" + lang.getShortName() + "/grammar.xml";
       final List<PatternRule> rules = ruleLoader.getRules(this.getClass().getResourceAsStream(name), name);
+      warnIfRegexpSyntax(rules, lang);
       testGrammarRulesFromXML(rules, languageTool, lang);
+    }
+  }
+
+//TODO: probably this would be more useful for exceptions
+//instead of adding next methods to PatternRule
+//we can probably validate using XSD and specify regexes straight there
+  private void warnIfRegexpSyntax(final List<PatternRule> rules, 
+      final Language lang) {
+    for (final PatternRule rule : rules) {
+      for (final Element element: rule.getElements()) {
+        if (!element.isRegularExpression()
+            && (element.getString().matches(".*([\\[\\]\\*\\+\\|\\^]|\\(.+\\)|\\[.+\\]|\\{.+\\}).*"))) { 
+          System.err.println("The " + lang.toString() + " rule: " + rule.getId() + " contains element " 
+              + "\"" + element  + "\" that is not marked as regular expression" +
+          " but probably is one.");
+        }
+        if (element.isRegularExpression()
+            && (element.getString()== null
+            || (!element.getString().matches(".*([\\[\\]\\*\\+\\|\\^]|\\(.+\\)|\\[.+\\]|\\{.+\\}).*")))) { 
+          System.err.println("The " + lang.toString() + " rule: " + rule.getId() + " contains element " 
+              + "\"" + element + "\" that is marked as regular expression" +
+          " but probably is not one.");           
+        }
+      }
     }
   }
   

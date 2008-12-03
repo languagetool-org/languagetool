@@ -741,6 +741,13 @@ public class PatternRule extends Rule {
     return errorMessage;
   }  
 
+  /**
+   * For testing only.
+   */
+  public final List<Element> getElements() {
+    return patternElements;
+  }
+  
   @Override
   public void reset() {
     // nothing

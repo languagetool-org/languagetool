@@ -338,7 +338,6 @@ public class Element {
   public final boolean isSentStart() {
     boolean equals = false;
     if (posToken != null) {
-      // not sure if this should be logical AND
       equals = JLanguageTool.SENTENCE_START_TAGNAME.equals(posToken) && posNegation;
     }
     return equals;
