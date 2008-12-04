@@ -1,6 +1,6 @@
 #Script to sort rule matches from LanguageTool
 #Usage: gawk -f stats.awk <file_created_by_LanguageTool>
-#(c) 2008, Marcin Mi³kowski
+#(c) 2008, Marcin Milkowski
 #Licensed on the terms of LGPL 3.0
 
 /[0-9]+\.\)/ {
