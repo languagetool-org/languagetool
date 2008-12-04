@@ -8,10 +8,20 @@ title="Easy editing stylesheet" ?>
 A Russian rule file for LanguageTool
 Copyright (C) 2005 Daniel Naber (http://www.danielnaber.de)
 Copyright (C) 2008 Yakov Reztsov
-$Id: grammar.xml,v 1.14 2008-12-01 20:58:32 milek_pl Exp $
+$Id: grammar.xml,v 1.15 2008-12-04 18:25:47 milek_pl Exp $
 -->
 <rules lang="ru">
     <category name="Пунктуация">
+        <rule default="on"  id="ABREV_DOT" name="Точка после сокращений">
+            <pattern>
+                <token regexp="yes">млн|млрд|тыс|зам|коп|руб|наб|нач|пер|шт|ед|экз|км|дм|см|просп|пр|пос|кв</token>
+                <token negate="yes">.</token>
+            </pattern>
+            <message>Точка должна стоять после сокращений. Должно быть: <suggestion>\1. \2</suggestion></message>
+            <short>Точка после сокращений.</short>
+            <example type="correct">Стоимость работ составила 10 тыс. рублей.</example>
+            <example type="incorrect">Стоимость работ составила 10 <marker>тыс рублей</marker>.</example>
+        </rule>       
         <rulegroup id="POZHALUJSTA" name="«пожалуйста» выделяется запятыми">
             <rule>
                 <pattern case_sensitive="yes" mark_to="0">
@@ -405,7 +415,7 @@ $Id: grammar.xml,v 1.14 2008-12-01 20:58:32 milek_pl Exp $
             --> 
             <rule>
                 <pattern>
-                    <token  regexp="yes">,</token>
+                    <token>,</token>
                     <token  regexp="yes">что|как</token>
                     <token  regexp="yes">попало|угодно</token>
                 </pattern>
@@ -421,7 +431,7 @@ $Id: grammar.xml,v 1.14 2008-12-01 20:58:32 milek_pl Exp $
             <rule>
                 <pattern>
                     <token  regexp="yes">не|совсем|совершенно|почти|именно</token>
-                    <token  regexp="yes">,</token>
+                    <token>,</token>
                     <token>как</token>
                 </pattern>
                 <message>Запятая не нужна:<suggestion>\1 \3</suggestion>.</message>
@@ -437,7 +447,7 @@ $Id: grammar.xml,v 1.14 2008-12-01 20:58:32 milek_pl Exp $
                 <pattern>
                     <token>не</token>
                     <token  regexp="yes">то|иначе|так</token>
-                    <token  regexp="yes">,</token>
+                    <token>,</token>
                     <token  regexp="yes">что|как|чтобы</token>                    
                 </pattern>
                 <message>Запятая не нужна:<suggestion>\1 \2 \4</suggestion>.</message>
