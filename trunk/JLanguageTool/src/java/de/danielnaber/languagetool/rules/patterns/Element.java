@@ -523,7 +523,7 @@ public class Element {
     }
 
     if (stringRegExp) {
-      if (token.getToken() != null) {
+      if (testToken != null) {
         if (m == null) {
           m = p.matcher(testToken);
         } else {
