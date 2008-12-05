@@ -3,7 +3,7 @@
 LANG=POSIX
 TMP_OUTPUT=english.txt
 OUTPUT=english.dict
-OUTPUT_SYNTH=english-synth.dict
+OUTPUT_SYNTH=english_synth.dict
 gawk -f filter_out.awk infl.txt part-of-speech.txt| gawk -f remap.awk >penn.txt 
 #test
 cat penn.txt manually_added.txt |gawk -f get_unc.awk | gawk -f test_dict.awk 

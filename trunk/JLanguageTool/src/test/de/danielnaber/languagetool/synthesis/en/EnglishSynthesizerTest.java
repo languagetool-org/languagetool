@@ -16,7 +16,7 @@ public class EnglishSynthesizerTest extends TestCase {
     assertNull(synth.synthesize(dummyToken("blablabla"), 
         "blablabla"));
     
-    assertEquals("[were, wast, was]", Arrays.toString(synth.synthesize(dummyToken("be"), "VBD")));
+    assertEquals("[was, were]", Arrays.toString(synth.synthesize(dummyToken("be"), "VBD")));
     assertEquals("[presidents]", Arrays.toString(synth.synthesize(dummyToken("president"), "NNS")));
     assertEquals("[tested]", Arrays.toString(synth.synthesize(dummyToken("test"), "VBD")));
     assertEquals("[tested]", Arrays.toString(synth.synthesize(dummyToken("test"), "VBD", false)));
