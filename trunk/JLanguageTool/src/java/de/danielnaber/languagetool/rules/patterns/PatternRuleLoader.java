@@ -318,6 +318,7 @@ class PatternRuleHandler extends XMLRuleHandler {
       defaultOff = "off".equals(attrs.getValue("default"));
       defaultOn = "on".equals(attrs.getValue("default"));
       inRuleGroup = true;
+      subId = 0;
     } else if (qName.equals("suggestion") && inMessage) {
       message.append("<suggestion>");
     } else if (qName.equals("match")) {
@@ -528,8 +529,7 @@ class PatternRuleHandler extends XMLRuleHandler {
       }
       inMatch = false;
     } else if (qName.equals("rulegroup")) {
-      inRuleGroup = false;
-      subId = 0;
+      inRuleGroup = false;      
     } else if (qName.equals("suggestion") && inMessage) {
       message.append("</suggestion>");
     } else if (qName.equals(MARKER) && inCorrectExample) {
@@ -624,7 +624,7 @@ class PatternRuleHandler extends XMLRuleHandler {
     endPositionCorrection = 0;
     rule.setCorrectExamples(correctExamples);
     rule.setIncorrectExamples(incorrectExamples);      
-    rule.setCategory(category);
+    rule.setCategory(category);    
     rule.setSubId(subId + "");
     caseSensitive = false;
     if (suggestionMatches != null) {
