@@ -16,6 +16,21 @@ category:before {
                 remove-value, "yes");	
 }
 
+unification:before{
+	content: "Feature: " 
+	text-field(attribute, feature,
+		columns, 20);
+    font-size: smaller;		
+	display:block;	
+}					
+equivalence:before {
+	content: "Type: " 
+	text-field(attribute, type,
+		columns, 20);
+    font-size: smaller;		
+	display:inline-block;	
+}
+
 phrase:before{
 	content: "Id: " 
 	text-field(attribute, id,
@@ -199,6 +214,23 @@ and:before {
 and:after {
 	content: ")"
 	}
+
+unify:before {
+	content: "unify( \A"
+		"Feature: "  
+	text-field(attribute, feature,
+		columns, 20)
+	"Type: " 
+	text-field(attribute, type,
+		columns, 20);
+    font-size: smaller;		
+	display:inline;	
+}
+
+unify:after {
+	content: ")"	
+	}
+
 
 short:before {
 	content: insert-before-button()

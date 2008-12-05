@@ -7,10 +7,18 @@ title="Easy editing stylesheet" ?>
 <!--
 A demo rule file for LanguageTool
 Copyright (C) 2005 Daniel Naber (http://www.danielnaber.de)
-$Id: grammar.xml,v 1.11 2008-12-03 19:45:15 milek_pl Exp $
+$Id: grammar.xml,v 1.12 2008-12-05 00:36:56 milek_pl Exp $
 -->
 <rules lang="xx">
   <!-- tests for phrase syntax -->
+  <unification feature="case_sensitivity">
+    <equivalence type="startupper">
+      <token regexp="yes">\p{Lu}\p{Ll}+</token>
+    </equivalence>
+    <equivalence type="lowercase">
+      <token regexp="yes">\p{Ll}+</token>
+    </equivalence>
+  </unification>
   <phrases>
     <phrase id="NP">
       <token>trivial</token>
@@ -182,49 +190,61 @@ $Id: grammar.xml,v 1.11 2008-12-03 19:45:15 milek_pl Exp $
       <example type="correct">Steb by step</example>
     </rule>
     <rulegroup id="test_matching_tokens" name="test parseInt conversion1">
-    <rule>
-    	<pattern>
-    		<token>1</token>
-    		<token>2</token>
-    		<token>3</token>
-    		<token>4</token>
-    		<token>5</token>
-    		<token/>
-    		<token>7</token>
-    		<token>8</token>
-    		<token/>    		
-    		<token>10</token>
-		</pattern>
-		<message>I suggest: <suggestion><match no="10"/> blahblah</suggestion>.</message>
-		<example type="correct">blah</example>
-		<example type="incorrect" correction="10 blahblah"><marker>1 2 3 4 5 6 7 8 9 10</marker>.</example>
-    </rule>
-    <rule>
-    	<pattern>
-    		<token>1</token>
-    		<token>2</token>
-    		<token>3</token>
-    		<token>4</token>
-    		<token>5</token>
-    		<token/>
-    		<token>7</token>
-    		<token>8</token>
-    		<token/>    		
-    		<token>10</token>
-		</pattern>
-		<message>I suggest: <suggestion>\10 blahblah</suggestion>.</message>
-		<example type="correct">blah</example>
-		<example type="incorrect" correction="10 blahblah"><marker>1 2 3 4 5 6 7 8 9 10</marker>.</example>
-    </rule>
+      <rule>
+        <pattern>
+          <token>1</token>
+          <token>2</token>
+          <token>3</token>
+          <token>4</token>
+          <token>5</token>
+          <token/>
+          <token>7</token>
+          <token>8</token>
+          <token/>
+          <token>10</token>
+        </pattern>
+        <message>I suggest: <suggestion><match no="10"/> blahblah</suggestion>.</message>
+        <example type="correct">blah</example>
+        <example correction="10 blahblah" type="incorrect"><marker>1 2 3 4 5 6 7 8 9 10</marker>.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>1</token>
+          <token>2</token>
+          <token>3</token>
+          <token>4</token>
+          <token>5</token>
+          <token/>
+          <token>7</token>
+          <token regexp="yes">8</token>
+          <token/>
+          <token>10</token>
+        </pattern>
+        <message>I suggest: <suggestion>\10 blahblah</suggestion>.</message>
+        <example type="correct">blah</example>
+        <example correction="10 blahblah" type="incorrect"><marker>1 2 3 4 5 6 7 8 9 10</marker>.</example>
+      </rule>
     </rulegroup>
     <rule id="test_match_conv" name="example of case conversion">
-    	<pattern case_sensitive="yes">
-    	<token>new-york</token>
-    	<token>cafe</token>
-    	</pattern>
-    	<message>This name should be uppercase: <suggestion>New <match no="1" regexp_match="[Nn]ew-(.*)" regexp_replace="$1" case_conversion="startupper"/> Cafe</suggestion></message>
-    	<example type="correct">New York Cafe</example>
-    	<example correction="New York Cafe" type="incorrect">This is a new coffeshop in the middle of nowhere called <marker>new-york cafe</marker>.</example> 
+      <pattern case_sensitive="yes">
+        <token>new-york</token>
+        <token>cafe</token>
+      </pattern>
+      <message>This name should be uppercase: <suggestion>New <match case_conversion="startupper" no="1" regexp_match="[Nn]ew-(.*)" regexp_replace="$1"/> Cafe</suggestion></message>
+      <example type="correct">New York Cafe</example>
+      <example correction="New York Cafe" type="incorrect">This is a new coffeshop in the middle of nowhere called <marker>new-york cafe</marker>.</example>
+    </rule>
+    <rule id="test_unification" name="Test unification of gender">
+      <pattern case_sensitive="yes" mark_from="1">
+        <token>abc</token>
+        <unify feature="case_sensitivity" type="startupper">
+          <token/>
+          <token>York</token>
+        </unify>
+      </pattern>
+      <message>Warning: \1 \2 \3!</message>
+      <example type="incorrect">abc <marker>New York</marker></example>
+      <example type="correct">abc new York</example>
     </rule>
   </category>
 </rules>

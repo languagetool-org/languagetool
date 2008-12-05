@@ -151,9 +151,15 @@ class PatternRuleHandler extends XMLRuleHandler {
   
   private Match tokenReference = null;
 
-  StringBuffer shortMessage = new StringBuffer();
-  boolean inShortMessage = false;
+  private StringBuffer shortMessage = new StringBuffer();
+  private boolean inShortMessage = false;
   
+  private boolean inUnification = false;
+  private boolean inUnificationDef = false;
+  private boolean uniNegation = false;
+  
+  private String uFeature;
+  private String uType;
   
   // ===========================================================
   // SAX DocumentHandler methods
@@ -218,6 +224,14 @@ class PatternRuleHandler extends XMLRuleHandler {
       }
     } else if (qName.equals("and")) {
       inAndGroup = true;
+    } else if (qName.equals("unify")) {
+        inUnification = true;
+        uFeature=attrs.getValue("feature");
+        uType=attrs.getValue("type");
+        if (attrs.getValue("negate") != null
+            && YES.equals(attrs.getValue("negate"))) {
+          uniNegation = true;
+        }        
     } else if (qName.equals("token")) {
       inToken = true;
       
@@ -370,6 +384,11 @@ class PatternRuleHandler extends XMLRuleHandler {
         }
         lastPhrase = true;
       }                     
+    } else if (qName.equals("unification")) {
+      uFeature = attrs.getValue("feature");
+      inUnificationDef = true;
+    } else if (qName.equals("equivalence") && inUnificationDef) {
+      uType = attrs.getValue("type");
     }
   }
    
@@ -428,14 +447,17 @@ class PatternRuleHandler extends XMLRuleHandler {
     } else if (qName.equals("and")) {
       inAndGroup = false;
       andGroupCounter = 0;
+    }  else if (qName.equals("unify")) {
+        inUnification = false;              
     } else if (qName.equals("token")) {
       if (!exceptionSet || tokenElement == null) {
         tokenElement = new Element(StringTools.trimWhitespace(elements.toString()), caseSensitive, 
             stringRegExp, tokenInflected);
-        tokenElement.setNegation(tokenNegated);
+        tokenElement.setNegation(tokenNegated);        
       } else {
         tokenElement.setStringElement(StringTools.trimWhitespace(elements.toString()));
-      }
+      }      
+            
       if (skipPos != 0) {
         tokenElement.setSkipNext(skipPos);
         skipPos = 0;
@@ -457,6 +479,18 @@ class PatternRuleHandler extends XMLRuleHandler {
       if (inAndGroup) {
         andGroupCounter++;
       }
+      
+      if (inUnification) {
+        tokenElement.setUnification(uFeature, uType);
+        if (uniNegation) {
+          tokenElement.setUniNegation();
+        }
+      }
+      
+      if (inUnificationDef) {
+        language.getUnifier().setEquivalence(uFeature, uType, tokenElement);        
+      }
+      
       resetToken();
     } else if (qName.equals("pattern")) {
       inPattern = false;
@@ -528,7 +562,11 @@ class PatternRuleHandler extends XMLRuleHandler {
       elementList.clear();      
     } else if (qName.equals("phrases") && inPhrases) {
       inPhrases = false;      
-    } 
+    } else if (qName.equals("unification") && inUnificationDef) {
+      inUnificationDef = false;      
+    } else if (qName.equals("unify") && inUnification) {
+      inUnification = false;      
+    }      
   }
 
   private void resetToken() {

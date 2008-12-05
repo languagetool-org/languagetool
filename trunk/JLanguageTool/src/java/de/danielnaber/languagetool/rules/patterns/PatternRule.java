@@ -277,7 +277,8 @@ public class PatternRule extends Rule {
     this.endPositionCorrection = endPositionCorrection;
   }
 
-
+  
+//TODO: divide this lengthy method into shorter ones!
   @Override
   public final RuleMatch[] match(final AnalyzedSentence text) throws IOException {
 
@@ -301,6 +302,8 @@ public class PatternRule extends Rule {
     Element elem = null, prevElement = null;
     final boolean startWithSentStart = patternElements.get(0).isSentStart();
 
+    boolean inUnification = false;
+    
     for (int i = 0; i < tokens.length; i++) {
       boolean allElementsMatch = true;
 
@@ -370,7 +373,26 @@ public class PatternRule extends Rule {
             }
 
             thisMatched |= elem.isMatchedCompletely(matchToken);            
-
+            if (elem.isUnified()) {
+              if (inUnification) {
+                thisMatched &= language.getUnifier().
+                  isSatisfied(matchToken, elem.getUniFeature(), elem.getUniType());
+              } else {
+                thisMatched |= language.getUnifier().
+                isSatisfied(matchToken, elem.getUniFeature(), elem.getUniType());
+                if (elem.getUniNegation()) {
+                  language.getUnifier().setNegation(true);
+                }
+                if (l + 1 == numberOfReadings) {
+                  inUnification = true; 
+                  language.getUnifier().startUnify();
+                }
+              }
+            } else {
+              inUnification = false;
+              language.getUnifier().reset();
+            }
+                        
             if (l + 1 == numberOfReadings && elem.hasAndGroup()) {
               thisMatched &= elem.checkAndGroup(thisMatched);
             }                
@@ -401,7 +423,7 @@ public class PatternRule extends Rule {
             exceptionMatched = false;
             skipMatch = false;
           }
-
+          
           if (skipMatch) {
             break;
           }

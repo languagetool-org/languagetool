@@ -114,6 +114,24 @@ public class Element {
    **/
   private boolean testString;
   
+  /**
+   * Tells if the element is inside the unification, so that
+   * {@link Unifier} tests it. 
+   */
+  private boolean unified = false;
+  private boolean uniNegation = false;
+  
+  private String unificationFeature;
+  private String unificationType;
+  
+  
+  /**
+   * Creates Element that is used to match tokens in the text.
+   * @param token String to be matched
+   * @param caseSensitive True if the check is case-sensitive.
+   * @param regExp True if the check uses regular expressions.
+   * @param inflected True if the check refers to base forms (lemmas).
+   */
   public Element(final String token, final boolean caseSensitive, final boolean regExp,
       final boolean inflected) {
     this.caseSensitive = caseSensitive;
@@ -703,6 +721,32 @@ public class Element {
    */
   public final String getPhraseName() {
     return phraseName;
+  }
+
+  public final boolean isUnified() {
+    return unified;
+  }
+  
+  public final void setUnification(final String feature, final String type) {
+    unificationFeature = feature;
+    unificationType = type;
+    unified = true;
+  }
+  
+  public final String getUniFeature() {
+    return unificationFeature;
+  }
+  
+  public final String getUniType() {
+    return unificationType;
+  }
+  
+  public final void setUniNegation() {
+   uniNegation = true; 
+  }
+  
+  public final boolean getUniNegation() {
+   return uniNegation; 
   }
   
 }

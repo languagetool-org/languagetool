@@ -39,6 +39,7 @@ import de.danielnaber.languagetool.language.Slovenian;
 import de.danielnaber.languagetool.language.Spanish;
 import de.danielnaber.languagetool.language.Swedish;
 import de.danielnaber.languagetool.language.Ukrainian;
+import de.danielnaber.languagetool.rules.patterns.Unifier;
 import de.danielnaber.languagetool.synthesis.Synthesizer;
 import de.danielnaber.languagetool.tagging.Tagger;
 import de.danielnaber.languagetool.tagging.disambiguation.Disambiguator;
@@ -103,6 +104,7 @@ public abstract class Language {
   private final static Tagger DEMO_TAGGER = new DemoTagger();
   private final static SentenceTokenizer SENTENCE_TOKENIZER = new SentenceTokenizer();
   private final static WordTokenizer WORD_TOKENIZER = new WordTokenizer();
+  private final static Unifier MATCH_UNIFIER = new Unifier();
 
   // -------------------------------------------------------------------------
 
@@ -184,6 +186,14 @@ public abstract class Language {
     return null;
   }
 
+  /**
+   * Get this language's feature unifier.
+   * @return Feature unifier for analyzed tokens.
+   */
+  public Unifier getUnifier() {
+    return MATCH_UNIFIER;
+  }
+  
   /**
    * Get the name of the language translated to the current locale,
    * if available. Otherwise, get the untranslated name.
