@@ -50,20 +50,20 @@ class Main {
   private boolean verbose = false;
   private boolean apiFormat = false;
   private boolean taggerOnly = false;
-  
+
   /* maximum file size to read in a single read */
   private final static int MAXFILESIZE = 64000;
 
   Main(boolean verbose, Language language, Language motherTongue) throws IOException, 
-      ParserConfigurationException, SAXException {
+  ParserConfigurationException, SAXException {
     this(verbose, language, motherTongue, new String[0], new String[0]);
   }
 
   Main(boolean verbose, Language language, Language motherTongue, String[] disabledRules,
       String[] enabledRules) throws IOException, SAXException, ParserConfigurationException {
-      this(verbose, false, language, motherTongue, disabledRules, enabledRules, false);
+    this(verbose, false, language, motherTongue, disabledRules, enabledRules, false);
   }
-    
+
   Main(boolean verbose, boolean taggerOnly, Language language, Language motherTongue, String[] disabledRules,
       String[] enabledRules, boolean apiFormat) throws IOException, 
       SAXException, ParserConfigurationException {
@@ -87,7 +87,7 @@ class Main {
       }
     }
   }
-  
+
   private void setListUnknownWords(boolean listUnknownWords) {
     lt.setListUnknownWords(listUnknownWords);
   }
@@ -98,52 +98,52 @@ class Main {
 
   private void runOnFile(final String filename, final String encoding) throws IOException {
     final File file = new File(filename);
-      if (file.length() < MAXFILESIZE) {
+    if (file.length() < MAXFILESIZE) {
       final String text = 
         getFilteredText(filename, encoding);
-        if (!taggerOnly) {
-        Tools.checkText(text, lt);
-        } else {
-          Tools.tagText(text, lt);
-        }                
+      if (!taggerOnly) {
+        Tools.checkText(text, lt, apiFormat);
       } else {
-        if (verbose)
-          lt.setOutput(System.err);
-        if (!apiFormat)
-          System.out.println("Working on " 
-              + filename + "... in a line by line mode");
-        //TODO: change LT default statistics mode to summarize at the end
-        //of processing
-        InputStreamReader isr = null;
-        BufferedReader br = null;
-        try {
-          if (encoding != null) {
-            isr = new InputStreamReader(
-                new FileInputStream(file.getAbsolutePath()), encoding);
-          } else {
-            isr = new InputStreamReader(
-                new FileInputStream(file.getAbsolutePath()));
-          }
-          br = new BufferedReader(isr);
-          String line;
-          while ((line = br.readLine()) != null) {
-            line += "\n";
-            if (!taggerOnly) {
+        Tools.tagText(text, lt);
+      }                
+    } else {
+      if (verbose)
+        lt.setOutput(System.err);
+      if (!apiFormat)
+        System.out.println("Working on " 
+            + filename + "... in a line by line mode");
+      //TODO: change LT default statistics mode to summarize at the end
+      //of processing
+      InputStreamReader isr = null;
+      BufferedReader br = null;
+      try {
+        if (encoding != null) {
+          isr = new InputStreamReader(
+              new FileInputStream(file.getAbsolutePath()), encoding);
+        } else {
+          isr = new InputStreamReader(
+              new FileInputStream(file.getAbsolutePath()));
+        }
+        br = new BufferedReader(isr);
+        String line;
+        while ((line = br.readLine()) != null) {
+          line += "\n";
+          if (!taggerOnly) {
             Tools.checkText(filterXML(line), lt);
-            } else {
-              Tools.tagText(filterXML(line), lt);
-            }
+          } else {
+            Tools.tagText(filterXML(line), lt);
           }
-        } finally {
-          if (br != null) {
-            br.close();
-          }
-          if (isr != null) {
-            isr.close();
-          }
-        }         
-      }        
-    }
+        }
+      } finally {
+        if (br != null) {
+          br.close();
+        }
+        if (isr != null) {
+          isr.close();
+        }
+      }         
+    }        
+  }
 
 
   private void runRecursive(final String filename, final String encoding) throws IOException,
@@ -177,7 +177,7 @@ class Main {
     String fileContents = StringTools.readFile(new FileInputStream(filename), encoding);
     return filterXML(fileContents);
   }
-    
+
   private String filterXML(String s) {    
     Pattern pattern = Pattern.compile("<!--.*?-->", Pattern.DOTALL);
     Matcher matcher = pattern.matcher(s);
@@ -187,13 +187,13 @@ class Main {
     s = matcher.replaceAll(" ");
     return s;
   }
-  
-  
+
+
 
   private static void exitWithUsageMessage() {
     System.out.println("Usage: java de.danielnaber.languagetool.Main " +
-            "[-r|--recursive] [-v|--verbose] [-l|--language LANG] [-m|--mothertongue LANG] [-d|--disable RULES] " +
-            "[-e|--enable RULES] [-c|--encoding] [-u|--list-unknown] [-t|--taggeronly] [-b] <file>");
+        "[-r|--recursive] [-v|--verbose] [-l|--language LANG] [-m|--mothertongue LANG] [-d|--disable RULES] " +
+    "[-e|--enable RULES] [-c|--encoding] [-u|--list-unknown] [-t|--taggeronly] [-b] [--api] <file>");
     System.exit(1);
   }
 
@@ -227,12 +227,12 @@ class Main {
         recursive = true;
       } else if (args[i].equals("-d") || args[i].equals("--disable")) {
         if (enabledRules.length > 0)
-          throw new IllegalArgumentException("You cannot specifiy both enabled and disabled rules");
+          throw new IllegalArgumentException("You cannot specify both enabled and disabled rules");
         String rules = args[++i];
         disabledRules = rules.split(",");
       } else if (args[i].equals("-e") || args[i].equals("--enable")) {
         if (disabledRules.length > 0)
-          throw new IllegalArgumentException("You cannot specifiy both enabled and disabled rules");
+          throw new IllegalArgumentException("You cannot specify both enabled and disabled rules");
         String rules = args[++i];
         enabledRules = rules.split(",");
       } else if (args[i].equals("-l") || args[i].equals("--language")) {
@@ -272,7 +272,7 @@ class Main {
     } else {
       /* String text = prg.getFilteredText(filename, encoding);
       Tools.checkText(text, prg.getJLanguageTool(), apiFormat);
-      */
+       */
       prg.runOnFile(filename, encoding);
       if (listUnknown) {
         System.out.println("Unknown words: " + prg.getJLanguageTool().getUnknownWords());
