@@ -89,16 +89,16 @@ class PatternRuleHandler extends XMLRuleHandler {
   private static final String INFLECTED = "inflected";
   private static final String NEGATE_POS = "negate_pos";
   private static final String MARKER = "marker";
-  
+
   private String id;
   private int subId = 0;
 
   /** Current phrase ID. **/
   String phraseId;
-  
+
   /** ID reference to the phrase. **/
   String phraseIdRef;
-  
+
   private boolean caseSensitive = false;
   private boolean stringRegExp = false;
   private boolean tokenNegated = false;
@@ -106,16 +106,16 @@ class PatternRuleHandler extends XMLRuleHandler {
   private String posToken;
   private boolean posNegation = false;
   private boolean posRegExp = false;
-  
+
   private boolean defaultOff = false;
   private boolean defaultOn = false;
-  
+
   private Language language;
   private Category category;
   private String description;
   private String ruleGroupId;
   private String ruleGroupDescription;
-  
+
   private String exceptionPosToken;
   private boolean exceptionStringRegExp = false;
   private boolean exceptionStringNegation = false;
@@ -125,49 +125,49 @@ class PatternRuleHandler extends XMLRuleHandler {
   private boolean exceptionValidNext = false;
   private boolean exceptionValidPrev = false;
   private boolean exceptionSet = false;
-  
+
   /** true when phraseref is the last element in the rule. **/ 
   private boolean lastPhrase = false;
-  
+
   /** List of elements as specified by tokens. **/ 
   private List < Element > elementList = null;  
-  
+
   /** Phrase store - elementLists keyed by phraseIds. **/
   private HashMap < String, ArrayList < ArrayList < Element > > > phraseMap = null;
-  
+
   /** Logically forking element list, used for including
    * multiple phrases in the current one. **/
   private List < ArrayList < Element > > phraseElementList = null;
-  
+
   private List<Match> suggestionMatches = null;
-  
+
   private int startPositionCorrection = 0;
   private int endPositionCorrection = 0;
   private int skipPos = 0;
-  
+
   private Element tokenElement = null;
-  
+
   private int andGroupCounter = 0;
-  
+
   private Match tokenReference = null;
 
   private StringBuffer shortMessage = new StringBuffer();
   private boolean inShortMessage = false;
-  
+
   private boolean inUnification = false;
   private boolean inUnificationDef = false;
   private boolean uniNegation = false;
-  
+
   private String uFeature;
-  private String uType;
-  
+  private String uType = "";
+
   // ===========================================================
   // SAX DocumentHandler methods
   // ===========================================================
 
   @Override
   public void startElement(final String namespaceURI, final String lName, final String qName, final Attributes attrs)
-      throws SAXException {
+  throws SAXException {
     if (qName.equals("category")) {
       final String catName = attrs.getValue("name");
       final String prioStr = attrs.getValue("priority");
@@ -177,11 +177,11 @@ class PatternRuleHandler extends XMLRuleHandler {
       } else {
         category = new Category(catName);
       }
-      
+
       if ("off".equals(attrs.getValue("default"))) {
         category.setDefaultOff();
       }
-      
+
     } else if (qName.equals("rules")) {
       final String languageStr = attrs.getValue("lang");
       language = Language.getLanguageForShortName(languageStr);
@@ -194,7 +194,7 @@ class PatternRuleHandler extends XMLRuleHandler {
       if (!(inRuleGroup && defaultOff)) {
         defaultOff = "off".equals(attrs.getValue("default"));
       }
-      
+
       if (!(inRuleGroup && defaultOn)) {
         defaultOn = "on".equals(attrs.getValue("default"));
       }
@@ -225,20 +225,24 @@ class PatternRuleHandler extends XMLRuleHandler {
     } else if (qName.equals("and")) {
       inAndGroup = true;
     } else if (qName.equals("unify")) {
-        inUnification = true;
-        uFeature=attrs.getValue("feature");
-        uType=attrs.getValue("type");
-        if (attrs.getValue("negate") != null
-            && YES.equals(attrs.getValue("negate"))) {
-          uniNegation = true;
-        }        
+      inUnification = true;
+      uFeature=attrs.getValue("feature");
+      if (attrs.getValue("type") != null) {
+        uType = attrs.getValue("type");
+      } else {
+        uType = "";
+      }
+      if (attrs.getValue("negate") != null
+          && YES.equals(attrs.getValue("negate"))) {
+        uniNegation = true;
+      }        
     } else if (qName.equals("token")) {
       inToken = true;
-      
+
       if (lastPhrase && elementList != null) {
         elementList.clear();
       }
-      
+
       lastPhrase = false;
       if (attrs.getValue(NEGATE) != null) {
         tokenNegated = YES.equals(attrs.getValue(NEGATE));
@@ -309,9 +313,9 @@ class PatternRuleHandler extends XMLRuleHandler {
     } else if (qName.equals("message")) {
       inMessage = true;
       message = new StringBuffer(); 
-     }else if (qName.equals("short")) {
-        inShortMessage = true;
-        shortMessage = new StringBuffer();       
+    }else if (qName.equals("short")) {
+      inShortMessage = true;
+      shortMessage = new StringBuffer();       
     } else if (qName.equals("rulegroup")) {
       ruleGroupId = attrs.getValue("id");
       ruleGroupDescription = attrs.getValue("name");
@@ -327,7 +331,7 @@ class PatternRuleHandler extends XMLRuleHandler {
       Match.CaseConversion caseConv = Match.CaseConversion.NONE; 
       if (attrs.getValue("case_conversion") != null) {
         caseConv = Match.CaseConversion.toCase(
-              attrs.getValue("case_conversion").toUpperCase());
+            attrs.getValue("case_conversion").toUpperCase());
       }      
       final Match mWorker = new Match(attrs.getValue(POSTAG),
           attrs.getValue("postag_replace"),
@@ -339,23 +343,28 @@ class PatternRuleHandler extends XMLRuleHandler {
         if (suggestionMatches == null) {
           suggestionMatches = new ArrayList<Match>();        
         }        
-      suggestionMatches.add(mWorker);
-      message.append("\\" + attrs.getValue("no"));
+        suggestionMatches.add(mWorker);
+        message.append("\\" + attrs.getValue("no"));
       } else if (inToken && attrs.getValue("no") != null) {
         final int refNumber = Integer.parseInt(attrs.getValue("no"));
-          if (refNumber > elementList.size()) {
-            throw new SAXException(
-                "Only backward references in match elements are possible, tried to specify token " + refNumber);
-          } else {
-            mWorker.setTokenRef(refNumber);
-            tokenReference = mWorker;
-            elements.append("\\" + refNumber);
-          }
+        if (refNumber > elementList.size()) {
+          throw new SAXException(
+              "Only backward references in match elements are possible, tried to specify token " + refNumber);
+        } else {
+          mWorker.setTokenRef(refNumber);
+          tokenReference = mWorker;
+          elements.append("\\" + refNumber);
+        }
       }
     } else if (qName.equals(MARKER) && inCorrectExample) {
       correctExample.append("<marker>");
     } else if (qName.equals(MARKER) && inIncorrectExample) {
-      incorrectExample.append("<marker>");
+      incorrectExample.append("<marker>");      
+    } else if (qName.equals("unification")) {
+      uFeature = attrs.getValue("feature");
+      inUnificationDef = true;
+    } else if (qName.equals("equivalence")) {
+      uType = attrs.getValue("type");          
     } else if (qName.equals("phrases")) {
       inPhrases = true;
     } else if (qName.equals("includephrases")) {
@@ -363,7 +372,6 @@ class PatternRuleHandler extends XMLRuleHandler {
       if (elementList == null) {
         elementList = new ArrayList < Element >();
       }
-          
     } else if (qName.equals("phrase") && inPhrases) {
       phraseId = attrs.getValue("id");      
     } else if (qName.equals("phraseref") 
@@ -385,14 +393,9 @@ class PatternRuleHandler extends XMLRuleHandler {
         }
         lastPhrase = true;
       }                     
-    } else if (qName.equals("unification")) {
-      uFeature = attrs.getValue("feature");
-      inUnificationDef = true;
-    } else if (qName.equals("equivalence") && inUnificationDef) {
-      uType = attrs.getValue("type");
-    }
+    }    
   }
-   
+
 
   @Override
   public void endElement(final String namespaceURI, final String sName, final String qName) {
@@ -449,7 +452,7 @@ class PatternRuleHandler extends XMLRuleHandler {
       inAndGroup = false;
       andGroupCounter = 0;
     }  else if (qName.equals("unify")) {
-        inUnification = false;              
+      inUnification = false;              
     } else if (qName.equals("token")) {
       if (!exceptionSet || tokenElement == null) {
         tokenElement = new Element(StringTools.trimWhitespace(elements.toString()), caseSensitive, 
@@ -458,7 +461,7 @@ class PatternRuleHandler extends XMLRuleHandler {
       } else {
         tokenElement.setStringElement(StringTools.trimWhitespace(elements.toString()));
       }      
-            
+
       if (skipPos != 0) {
         tokenElement.setSkipNext(skipPos);
         skipPos = 0;
@@ -467,11 +470,11 @@ class PatternRuleHandler extends XMLRuleHandler {
         tokenElement.setPosElement(posToken, posRegExp, posNegation);
         posToken = null;
       }
-      
+
       if (tokenReference != null) {
         tokenElement.setMatch(tokenReference);
       }
-      
+
       if (inAndGroup && andGroupCounter > 0) {
         elementList.get(elementList.size() - 1).setAndGroupElement(tokenElement);
       } else {
@@ -480,18 +483,21 @@ class PatternRuleHandler extends XMLRuleHandler {
       if (inAndGroup) {
         andGroupCounter++;
       }
-      
+
       if (inUnification) {
         tokenElement.setUnification(uFeature, uType);
         if (uniNegation) {
           tokenElement.setUniNegation();
         }
       }
-      
+
       if (inUnificationDef) {
-        language.getUnifier().setEquivalence(uFeature, uType, tokenElement);        
+        language.getUnifier().setEquivalence(uFeature, uType, tokenElement);
+        if (elementList != null) {
+          elementList.clear();
+        }
       }
-      
+
       resetToken();
     } else if (qName.equals("pattern")) {
       inPattern = false;
@@ -522,7 +528,7 @@ class PatternRuleHandler extends XMLRuleHandler {
       inShortMessage = false; 
     } else if (qName.equals("match")) {
       if (inMessage) {
-      suggestionMatches.get(suggestionMatches.size() - 1)
+        suggestionMatches.get(suggestionMatches.size() - 1)
         .setLemmaString(match.toString());
       } else if (inToken) {
         tokenReference.setLemmaString(match.toString());
@@ -553,7 +559,7 @@ class PatternRuleHandler extends XMLRuleHandler {
         }
       }     
       phraseMap.put(phraseId, 
-            new ArrayList < ArrayList < Element > >(phraseElementList));
+          new ArrayList < ArrayList < Element > >(phraseElementList));
       if (elementList != null) {
         elementList.clear();
       }
@@ -576,12 +582,12 @@ class PatternRuleHandler extends XMLRuleHandler {
     posRegExp = false;
     inToken = false;
     stringRegExp = false;
-    
+
     resetException();
     exceptionSet = false; 
     tokenReference = null;
   }
-  
+
   private void resetException() {
     exceptionStringNegation = false;
     exceptionStringInflected = false;
@@ -591,7 +597,7 @@ class PatternRuleHandler extends XMLRuleHandler {
     exceptionValidNext = false;
     exceptionValidPrev = false;
   }
-  
+
   /**
    * Calculates the offset of the match reference (if any)
    * in case the match element has been used in the group. 
@@ -610,13 +616,13 @@ class PatternRuleHandler extends XMLRuleHandler {
             elTest.getString().
             replace("\\" + tokRef, "\\" + (tokRef + counter - 1));
           elTest.setStringElement(offsetToken);
-          }        
-        }                           
+        }        
+      }                           
       counter++;
     }
   }
-      
-  
+
+
   private void prepareRule(final PatternRule rule) {
     rule.setStartPositionCorrection(startPositionCorrection);
     rule.setEndPositionCorrection(endPositionCorrection);
@@ -631,27 +637,27 @@ class PatternRuleHandler extends XMLRuleHandler {
       for (final Match m : suggestionMatches) {
         rule.addSuggestionMatch(m);
       }
-    if (phraseElementList.size() <= 1) {
-      suggestionMatches.clear();
-    }
+      if (phraseElementList.size() <= 1) {
+        suggestionMatches.clear();
+      }
     }
     if (defaultOff) {
       rule.setDefaultOff();
     }
-    
+
     if (category.isDefaultOff() && !defaultOn) {
       rule.setDefaultOff();
     }
-    
+
   }
-  
+
   private void phraseElementInit(){
     // lazy init
     if (phraseElementList == null) {
       phraseElementList = new ArrayList < ArrayList < Element > > ();
     }
   }
-  
+
   @Override
   public void characters(final char[] buf, final int offset, final int len) {
     final String s = new String(buf, offset, len);

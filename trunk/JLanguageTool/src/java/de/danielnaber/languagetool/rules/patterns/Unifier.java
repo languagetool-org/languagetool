@@ -43,8 +43,10 @@ public class Unifier {
    * just like negation in Element tokens.
    */
   private boolean negation = false;
-  
+
   private boolean allFeatsIn = false;
+
+  private int tokCnt = -1;
 
   private List<AnalyzedToken> tokSequence;
 
@@ -63,9 +65,9 @@ public class Unifier {
   private Map<String, List<String>> equivalenceFeatures;
 
   /**
-   * Set of matched features in the unified sequence.
+   * Map of sets of matched equivalences in the unified sequence.
    */
-  private Set<String> equivalencesMatched;
+  private List<Map<String, Set<String>>> equivalencesMatched;
 
   public Unifier() {
     clear();
@@ -85,11 +87,11 @@ public class Unifier {
       final Element elem) {
     //lazy init
     if (equivalenceTypes==null) {
-      
+
     }
 
     if (equivalenceFeatures==null) {
-      
+
     }
 
     if (equivalenceTypes.containsKey(feature + ":" + type)) {
@@ -119,58 +121,84 @@ public class Unifier {
     if (allFeatsIn && equivalencesMatched.isEmpty()) {
       return false;
     }            
-
     //Error: no feature given!
     if ("".equals(feature)) {
       return false; //throw exception??
     }
-
-    String indexStr;
-    boolean unified = false;
+    boolean unified = true;
     final String features[] = feature.split(",");
     String types[];    
-
-    for (String feat : features) {
-      if ("".equals(type)) {
-        types = equivalenceFeatures.get(feat).toArray(
-            new String[equivalenceFeatures.get(feat).size()]);
-      } else {
-        types = type.split(",");
-      }
-      for (String t : types) {
-        indexStr = feat + ":" + t;
-        Element testElem = (Element) equivalenceTypes.get(indexStr);
-        if (testElem == null) {
-          return false;
-        }
-        if (!allFeatsIn) {        
-          if (testElem.isMatched(AT)) {                       
-            equivalencesMatched.add(indexStr);
-            if (tokSequence == null) {
-              tokSequence = new ArrayList<AnalyzedToken>();        
-            }
-            tokSequence.add(AT);           
-          }
-          unified |= equivalencesMatched.contains(indexStr); 
+    
+    if (!allFeatsIn) {
+      tokCnt++;
+      if (equivalencesMatched.size() <= tokCnt) {
+        Map<String, Set<String>> mapTemp = 
+          new HashMap<String, Set<String>>();
+        equivalencesMatched.add(mapTemp);
+      }      
+      for (String feat : features) {
+        if ("".equals(type)) {
+          types = equivalenceFeatures.get(feat).toArray(
+              new String[equivalenceFeatures.get(feat).size()]);
         } else {
-          if (equivalencesMatched.contains(indexStr)) {
-            if (testElem.isMatched(AT)) {                       
-              equivalencesMatched.add(indexStr);
-              if (tokSequence == null) {
-                tokSequence = new ArrayList<AnalyzedToken>();        
-              }
-              tokSequence.add(AT);
-            } else {
-              if (equivalencesMatched.contains(indexStr)) {
-                equivalencesMatched.remove(indexStr);
-              }
-            }
-            unified |= equivalencesMatched.contains(indexStr);
-          }
+          types = type.split(",");
         }
+        for (String typename : types) {        
+          Element testElem = equivalenceTypes.get(feat + ":" + typename);
+          if (testElem == null) {
+            return false;
+          }
+          if (testElem.isMatched(AT)) {            
+            if (!equivalencesMatched.get(tokCnt).containsKey(feat)) {
+              Set<String> typeSet = new HashSet<String>();
+              typeSet.add(typename);
+              equivalencesMatched.get(tokCnt).put(feat, typeSet);
+            } else {
+              equivalencesMatched.get(tokCnt).get(feat).add(typename);
+            }                                 
+          }
+        } 
+        unified &= equivalencesMatched.get(tokCnt).containsKey(feat);
+        if (!unified) {
+          break;  
+        }        
       }
+    } else {        
+      unified &= checkNext(AT, features, type);
+    }          
+    return (unified) ^ negation;
+  }
+
+  private boolean checkNext(final AnalyzedToken AT, final String features[],
+      final String type) {      
+    boolean unifiedNext = true;
+    boolean anyFeatUnified = false;
+    String types[];        
+    if (allFeatsIn) {
+      for (int i=0; i<=tokCnt;i++) {
+        boolean allFeatsUnified = true;
+        for (String feat : features) {
+          boolean featUnified = false;
+          if ("".equals(type)) {
+            types = equivalenceFeatures.get(feat).toArray(
+                new String[equivalenceFeatures.get(feat).size()]);
+          } else {
+            types = type.split(",");
+          }
+          for (String typename : types) {                            
+            if (equivalencesMatched.get(i).containsKey(feat)
+                && equivalencesMatched.get(i).get(feat).contains(typename)) {
+              Element testElem = equivalenceTypes.get(feat + ":" + typename);
+              featUnified = featUnified || testElem.isMatched(AT);
+            }        
+          }
+          allFeatsUnified &= featUnified;
+        }
+        anyFeatUnified |= allFeatsUnified;
+      }
+      unifiedNext &= anyFeatUnified;      
     }
-    return unified ^ negation;
+    return unifiedNext;
   }
 
   /**
@@ -180,15 +208,15 @@ public class Unifier {
   public void startUnify() {
     allFeatsIn = true;
   }
-  
+
   public void setNegation(final boolean neg) {
     negation = neg;
   }
-  
+
   public boolean getNegation() {
     return negation;
   }
-  
+
   /**
    * Resets after use of unification. Required.
    */
@@ -198,14 +226,15 @@ public class Unifier {
     }
     allFeatsIn = false;
     negation = false;
+    tokCnt = -1;
   }
 
   public void clear() {
-    equivalencesMatched = new HashSet<String>();
+    equivalencesMatched = new ArrayList<Map<String, Set<String>>>();
     equivalenceTypes = new HashMap<String, Element>();
     equivalenceFeatures = new HashMap<String, List<String>>(); 
   }
-  
+
   /**
    * Gets a filtered token. Call after every
    * full iteration on AnalyzedTokenReadings.

@@ -277,8 +277,8 @@ public class PatternRule extends Rule {
     this.endPositionCorrection = endPositionCorrection;
   }
 
-  
-//TODO: divide this lengthy method into shorter ones!
+
+  //TODO: divide this lengthy method into shorter ones!
   @Override
   public final RuleMatch[] match(final AnalyzedSentence text) throws IOException {
 
@@ -303,7 +303,8 @@ public class PatternRule extends Rule {
     final boolean startWithSentStart = patternElements.get(0).isSentStart();
 
     boolean inUnification = false;
-    
+    boolean uniMatched = false;
+
     for (int i = 0; i < tokens.length; i++) {
       boolean allElementsMatch = true;
 
@@ -373,26 +374,33 @@ public class PatternRule extends Rule {
             }
 
             thisMatched |= elem.isMatchedCompletely(matchToken);            
-            if (elem.isUnified()) {
-              if (inUnification) {
-                thisMatched &= language.getUnifier().
-                  isSatisfied(matchToken, elem.getUniFeature(), elem.getUniType());
-              } else {
-                thisMatched |= language.getUnifier().
+            if (thisMatched && elem.isUnified()) {
+              if (inUnification) {                
+                uniMatched = uniMatched || language.getUnifier().
                 isSatisfied(matchToken, elem.getUniFeature(), elem.getUniType());
+                if (l + 1 == numberOfReadings) {
+                  thisMatched &= uniMatched;
+                }
+              } else {
                 if (elem.getUniNegation()) {
                   language.getUnifier().setNegation(true);
-                }
+                } 
+                thisMatched |= language.getUnifier().
+                isSatisfied(matchToken, elem.getUniFeature(), elem.getUniType());                 
                 if (l + 1 == numberOfReadings) {
-                  inUnification = true; 
+                  inUnification = true;
                   language.getUnifier().startUnify();
+                  uniMatched = false;
                 }
               }
-            } else {
+            } 
+
+            if (!elem.isUnified()) {
               inUnification = false;
+              uniMatched = false;
               language.getUnifier().reset();
             }
-                        
+
             if (l + 1 == numberOfReadings && elem.hasAndGroup()) {
               thisMatched &= elem.checkAndGroup(thisMatched);
             }                
@@ -423,7 +431,7 @@ public class PatternRule extends Rule {
             exceptionMatched = false;
             skipMatch = false;
           }
-          
+
           if (skipMatch) {
             break;
           }
@@ -503,9 +511,9 @@ public class PatternRule extends Rule {
           ruleMatches.add(ruleMatch);        
         }
       } 
-        firstMatchToken = -1;
-        lastMatchToken = -1;
-        skipShiftTotal = 0;
+      firstMatchToken = -1;
+      lastMatchToken = -1;
+      skipShiftTotal = 0;
     }
 
     return ruleMatches.toArray(new RuleMatch[ruleMatches.size()]);
@@ -673,8 +681,8 @@ public class PatternRule extends Rule {
           && errorMessage.charAt(ind + 1) <= '9') {
           int numLen = 1;
           while (ind + numLen < errorMessage.length()
-            && errorMessage.charAt(ind + numLen) >= '0'
-            && errorMessage.charAt(ind + numLen) <= '9') {
+              && errorMessage.charAt(ind + numLen) >= '0'
+                && errorMessage.charAt(ind + numLen) <= '9') {
             numLen++;
           }
           final int j = Integer.parseInt(errorMessage.substring(ind + 1, ind + numLen)) - 1;
@@ -769,7 +777,7 @@ public class PatternRule extends Rule {
   public final List<Element> getElements() {
     return patternElements;
   }
-  
+
   @Override
   public void reset() {
     // nothing

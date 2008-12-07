@@ -71,8 +71,8 @@ public class testUnifier extends TestCase {
   AnalyzedToken sing1 = new AnalyzedToken("mały", "adj:sg:blahblah", "mały");
   AnalyzedToken sing2 = new AnalyzedToken("człowiek", "subst:sg:blahblah", "człowiek");
   boolean satisfied = uni.isSatisfied(sing1, "number", "singular");
-  satisfied &= uni.isSatisfied(sing2, "number", "singular");
   uni.startUnify();
+  satisfied &= uni.isSatisfied(sing2, "number", "singular");  
   assertEquals(true, satisfied);
   uni.reset();
   

@@ -6,9 +6,51 @@ title="Easy editing stylesheet" ?>
 <!--
 Polish Grammar and Typo Rules for LanguageTool
 Copyright (C) 2006-2007 Marcin Miłkowski
-$Id: grammar.xml,v 1.152 2008-12-03 23:56:51 milek_pl Exp $
+$Id: grammar.xml,v 1.153 2008-12-07 00:47:52 milek_pl Exp $
 -->
 <rules lang="pl">
+  <unification feature="number">
+    <equivalence type="sg">
+      <token postag=".*:sg:.*" postag_regexp="yes"/>
+    </equivalence>
+    <equivalence type="pl">
+      <token postag=".*:(pl|pltant):.*" postag_regexp="yes"/>
+    </equivalence>
+  </unification>
+  <unification feature="gender">
+    <equivalence type="f">
+      <token postag=".*[\.:]f([\.:].*)?" postag_regexp="yes"/>
+    </equivalence>
+    <equivalence type="m">
+      <token postag=".*[\.:]m[1-4]?([\.:].*)?" postag_regexp="yes"/>
+    </equivalence>
+    <equivalence type="n">
+      <token postag=".*[\.:]n([\.:].*)?" postag_regexp="yes"/>
+    </equivalence>
+  </unification>
+  <unification feature="case">
+    <equivalence type="nom">
+      <token postag=".*[\.:]nom[\.:].*" postag_regexp="yes"/>
+    </equivalence>
+    <equivalence type="gen">
+      <token postag=".*[\.:]gen[\.:].*" postag_regexp="yes"/>
+    </equivalence>
+    <equivalence type="dat">
+      <token postag=".*[\.:]dat[\.:].*" postag_regexp="yes"/>
+    </equivalence>
+    <equivalence type="acc">
+      <token postag=".*[\.:]acc[\.:].*" postag_regexp="yes"/>
+    </equivalence>
+    <equivalence type="inst">
+      <token postag=".*[\.:]inst[\.:].*" postag_regexp="yes"/>
+    </equivalence>
+    <equivalence type="loc">
+      <token postag=".*[\.:]loc[\.:].*" postag_regexp="yes"/>
+    </equivalence>
+    <equivalence type="voc">
+      <token postag=".*[\.:]voc[\.:].*" postag_regexp="yes"/>
+    </equivalence>
+  </unification>
   <phrases>
     <phrase id="INTERPUNKCJA">
       <token regexp="yes">[\p{Punct}–—„«»…]|bądź|czy|ani|lub|albo|oraz|i</token>
@@ -5621,12 +5663,15 @@ lub <suggestion>\2 na prawach wyłączności</suggestion>.</message>
     </rule>
     <rule id="TLUMACZENIE_PRZYSIEGLE" name="„tłumaczenie przysięgłe (tłumaczenie uwierzytelnione)">
       <pattern>
-        <token inflected="yes">tłumaczenie</token>
-        <token inflected="yes" postag=".*:n:.*" postag_regexp="yes">przysięgły</token>
+        <unify feature="number,gender,case">
+          <token inflected="yes">tłumaczenie</token>
+          <token inflected="yes">przysięgły</token>
+        </unify>
       </pattern>
       <message>To niepoprawny termin. Tłumacz jest przysięgły, ale jego tłumaczenie jest uwierzytelnione. Poprawnie więc będzie: <suggestion><match no="1"/> <match no="2" postag_replace="" regexp_match="przysięgł(.*)" regexp_replace="uwierzytelnion$1"/></suggestion>.</message>
       <short>Wyraz modny lub nadużywany</short>
       <example correction="Tłumaczenia uwierzytelnione" type="incorrect"><marker>Tłumaczenia przysięgłe</marker>, tanio!</example>
+      <example type="correct">Sędzia uznał, że pokrętne tłumaczenia przysięgłej były zupełnie nieprzekonujące.</example>
       <example type="correct">Tłumacz przysięgły wykonuje tłumaczenia uwierzytelnione.</example>
     </rule>
     <rule id="KOMUNIKAT_BLEDU" name="„komunikat błędu” (komunikat o błędzie)">
