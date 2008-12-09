@@ -299,6 +299,7 @@ public class PatternRule extends Rule {
     int firstMatchToken = -1;
     int lastMatchToken = -1;
     final int patternSize = patternElements.size();
+    language.getUnifier().reset();
     Element elem = null, prevElement = null;
     final boolean startWithSentStart = patternElements.get(0).isSentStart();
 
@@ -380,6 +381,7 @@ public class PatternRule extends Rule {
                 isSatisfied(matchToken, elem.getUniFeature(), elem.getUniType());
                 if (l + 1 == numberOfReadings) {
                   thisMatched &= uniMatched;
+                  language.getUnifier().startNextToken();
                 }
               } else {
                 if (elem.getUniNegation()) {
@@ -514,6 +516,7 @@ public class PatternRule extends Rule {
       firstMatchToken = -1;
       lastMatchToken = -1;
       skipShiftTotal = 0;
+      language.getUnifier().reset();
     }
 
     return ruleMatches.toArray(new RuleMatch[ruleMatches.size()]);
@@ -780,7 +783,7 @@ public class PatternRule extends Rule {
 
   @Override
   public void reset() {
-    // nothing
+    // nothing    
   }
 
 }
