@@ -8,7 +8,7 @@ title="Easy editing stylesheet" ?>
 A Russian rule file for LanguageTool
 Copyright (C) 2005 Daniel Naber (http://www.danielnaber.de)
 Copyright (C) 2008 Yakov Reztsov
-$Id: grammar.xml,v 1.15 2008-12-04 18:25:47 milek_pl Exp $
+$Id: grammar.xml,v 1.16 2008-12-09 23:50:16 milek_pl Exp $
 -->
 <rules lang="ru">
     <category name="Пунктуация">
@@ -101,17 +101,7 @@ $Id: grammar.xml,v 1.15 2008-12-04 18:25:47 milek_pl Exp $
                 <example type="correct">Мы<marker>, как и наши товарищи,</marker> любим заниматься спортом.</example>
                 <example type="incorrect"><marker>Мы как и</marker> наши товарищи любим заниматься спортом.</example>
             </rule>
-            <rule>
-                <pattern case_sensitive="no">
-                    <token regexp="yes">также</token>
-                    <token>как</token>
-                    <token>и</token>
-                </pattern>
-                <message>Сложный союз "так же как и": <suggestion>так же \2 \3</suggestion>.</message>
-                <short>Оборот "как и" выделяется запятыми.</short>
-                <example type="correct">Мы, <marker>так же как и</marker> наши товарищи, любим заниматься спортом.</example>
-                <example type="incorrect">Мы, <marker>также как и</marker> наши товарищи, любим заниматься спортом.</example>
-            </rule>
+            
         </rulegroup>
         <rulegroup default="on" id="A_NO_DA" name="Союзы 'а, но'">
             <rule>
@@ -646,6 +636,74 @@ $Id: grammar.xml,v 1.15 2008-12-04 18:25:47 milek_pl Exp $
             </rule>
         </rulegroup>       
         
+        <rulegroup default="on"  id="O_P_padeg" name="Предлог “о” и предложный падеж">
+            <rule>  
+                <pattern>
+                    <token  postag="NN:.*:.*:P" postag_regexp="yes"><exception negate_pos="yes" postag="NN:.*:.*:P" postag_regexp="yes"></exception><exception scope="previous">о</exception><exception scope="previous" postag=".*:P" postag_regexp="yes"/></token>
+                </pattern>                
+                <message>Предложный падеж предполагает наличие предлога “о”: <suggestion>о \1</suggestion></message>
+                <short>Пропущен предлог “о”.</short>
+                <example type="correct">Они думали о доме.</example>
+                <example type="incorrect">Они думали <marker>доме</marker>.</example>
+            </rule>
+        </rulegroup>
+        
+        <rulegroup default="on"  id="Kak_budto" name="Сложный союз (частица) “как будто”">
+            <rule>
+                <pattern case_sensitive="no">
+                    <token>какбудто</token>       
+                </pattern>
+                <message>Сложный союз (частица) "как будто" пишется раздельно: <suggestion>как будто</suggestion>.</message>
+                <short>"Как будто" пишется раздельно.</short>
+                <example type="correct"><marker>Как будто</marker> время остановилось.</example>
+                <example type="incorrect"><marker>Какбудто</marker> время остановилось.</example>               
+            </rule>
+        </rulegroup>        
+        
+        <rulegroup default="on"  id="Vo_chto_by_to_ni_stalo" name="“Во что бы то ни стало”">
+            <rule>
+                <pattern case_sensitive="no">
+                    <token>во</token>
+                    <token>чтобы</token>
+                    <token>то</token>
+                    <token regexp="yes">ни|не</token>
+                    <token>стало</token>
+                </pattern>
+                <message>Пишется раздельно: <suggestion>во что бы то ни стало</suggestion>.</message>
+                <short>Пишется раздельно: “во что бы то ни стало”.</short>
+                <example type="correct">Мы должны попасть домой <marker>во что бы то ни стало</marker>.</example>
+                <example type="incorrect">Мы должны попасть домой <marker>во чтобы то ни стало</marker>.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="no">
+                    <token>во</token>
+                    <token>что</token>
+                    <token>бы</token>
+                    <token>то</token>
+                    <token>не</token>
+                    <token>стало</token>
+                </pattern>
+                <message>Пишется раздельно: <suggestion>во что бы то ни стало</suggestion>.</message>
+                <short>Пишется раздельно: “во что бы то ни стало”.</short>
+                <example type="correct">Мы должны попасть домой <marker>во что бы то ни стало</marker>.</example>
+                <example type="incorrect">Мы должны попасть домой <marker>во что бы то не стало</marker>.</example>
+            </rule>
+            
+        </rulegroup>  
+        
+        <rulegroup default="on"  id="Tak_je_kak_i" name="Сложный союз “так же как и”">
+            <rule>
+                <pattern case_sensitive="no">
+                    <token>также</token>
+                    <token>как</token>
+                    <token>и</token>
+                </pattern>
+                <message>Сложный союз: <suggestion>так же \2 \3</suggestion>.</message>
+                <short>Сложный союз "так же как и".</short>
+                <example type="correct">Мы, <marker>так же как и</marker> наши товарищи, любим заниматься спортом.</example>
+                <example type="incorrect">Мы, <marker>также как и</marker> наши товарищи, любим заниматься спортом.</example>
+            </rule>
+        </rulegroup>
         <rulegroup default="on"  id="V_K_S" name="Беглая гласная в предлогах: в, к, с, без, из ...">
             <rule>  
                 <pattern>
