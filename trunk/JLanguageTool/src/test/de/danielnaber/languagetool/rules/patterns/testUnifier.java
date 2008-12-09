@@ -1,5 +1,7 @@
 package de.danielnaber.languagetool.rules.patterns;
 
+import java.util.Arrays;
+
 import junit.framework.TestCase;
 import de.danielnaber.languagetool.AnalyzedToken;
 
@@ -121,11 +123,13 @@ public class testUnifier extends TestCase {
   Element plElement = new Element("", false, false, false);
   plElement.setPosElement(".*[\\.:]pl:.*", true, false);
   uni.setEquivalence("number", "plural", plElement);
+  
   Element femElement = new Element("", false, false, false);
-  femElement.setPosElement(".*[\\.:]f:.*", true, false);
+  femElement.setPosElement(".*[\\.:]f", true, false);
   uni.setEquivalence("gender", "feminine", femElement);
+  
   Element mascElement = new Element("", false, false, false);
-  femElement.setPosElement(".*[\\.:]m:.*", true, false);
+  mascElement.setPosElement(".*[\\.:]m", true, false);
   uni.setEquivalence("gender", "masculine", mascElement);
   
   AnalyzedToken sing1 = new AnalyzedToken("mały", "adj:sg:blahblah:m", "mały");
@@ -138,8 +142,45 @@ public class testUnifier extends TestCase {
   satisfied |= uni.isSatisfied(sing1b, "number,gender", "");
   uni.startUnify();
   satisfied &= uni.isSatisfied(sing2, "number,gender", "");
+  uni.startNextToken();
   assertEquals(true, satisfied);
+  assertEquals("[mały/adj:sg:blahblah:m, człowiek/subst:sg:blahblah:m]", Arrays.toString(uni.getUnifiedTokens()));
   uni.reset();    
+  }
+  
+  // checks if all tokens share the same set of 
+  // features to be unified
+  public void testMultiplefeats() {
+  Unifier uni = new Unifier();
+  Element sgElement = new Element("", false, false, false);
+  sgElement.setPosElement(".*[\\.:]sg:.*", true, false);
+  uni.setEquivalence("number", "singular", sgElement);
+  Element plElement = new Element("", false, false, false);
+  plElement.setPosElement(".*[\\.:]pl:.*", true, false);
+  uni.setEquivalence("number", "plural", plElement);
+  Element femElement = new Element("", false, false, false);
+  femElement.setPosElement(".*[\\.:]f:.*", true, false);
+  uni.setEquivalence("gender", "feminine", femElement);
+  Element mascElement = new Element("", false, false, false);
+  femElement.setPosElement(".*[\\.:]m:.*", true, false);
+  uni.setEquivalence("gender", "masculine", mascElement);
+  
+  AnalyzedToken sing1 = new AnalyzedToken("mały", "adj:sg:blahblah:m", "mały");
+  AnalyzedToken sing1a = new AnalyzedToken("mały", "adj:pl:blahblah:f", "mały");
+  AnalyzedToken sing1b = new AnalyzedToken("mały", "adj:pl:blahblah:f", "mały");
+  AnalyzedToken sing2 = new AnalyzedToken("zgarbiony", "adj:pl:blahblah:f", "człowiek");
+  AnalyzedToken sing3 = new AnalyzedToken("człowiek", "subst:sg:blahblah:m", "człowiek");
+  
+  boolean satisfied = uni.isSatisfied(sing1, "number,gender", "");
+  satisfied |= uni.isSatisfied(sing1a, "number,gender", "");
+  satisfied |= uni.isSatisfied(sing1b, "number,gender", "");
+  uni.startUnify();
+  satisfied &= uni.isSatisfied(sing2, "number,gender", "");
+  uni.startNextToken();
+  satisfied &= uni.isSatisfied(sing3, "number,gender", "");
+  uni.startNextToken();
+  assertEquals(false, satisfied);  
+  uni.reset();
   }
   
 }
