@@ -180,6 +180,7 @@ public class Match {
   public final String[] toFinalString() throws IOException {
     String[] formattedString = new String[1];
     if (formattedToken != null) {
+      final int readingCount = formattedToken.getReadingsLength();
       formattedString[0] = formattedToken.getToken();
       if (pRegexMatch != null) {
         formattedString[0] = pRegexMatch.matcher(formattedString[0]).replaceAll(regexReplace);
@@ -189,7 +190,6 @@ public class Match {
         if (synthesizer == null) {
           formattedString[0] = formattedToken.getToken();
         } else if (postagRegexp) {
-          final int readingCount = formattedToken.getReadingsLength();
           final TreeSet<String> wordForms = new TreeSet<String>();
           boolean oneForm = false;
           for (int k = 0; k < readingCount; k++) {
@@ -233,8 +233,7 @@ public class Match {
           } else {
             formattedString[0] = formattedToken.getToken();
           }
-        } else {
-          final int readingCount = formattedToken.getReadingsLength();
+        } else {          
           final TreeSet<String> wordForms = new TreeSet<String>();
           for (int i = 0; i < readingCount; i++) {
             final String[] possibleWordForms = synthesizer.synthesize(formattedToken
