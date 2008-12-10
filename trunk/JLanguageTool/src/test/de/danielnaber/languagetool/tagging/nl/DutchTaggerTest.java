@@ -35,8 +35,8 @@ public class DutchTaggerTest extends TestCase {
   }
 
   public void testTagger() throws IOException {
-    TestTools.myAssert("Dit is een Nederlandse zin om het programma'tje te testen.", "Dit/[null]null is/[zijn]VB3 een/[null]null Nederlandse/[Nederlandse]NN1f zin/[zin]NN1d|zin/[zinnen]VB1 om/[null]null het/[null]null programma/[programma]NN1d|programma/[programma]NN1h tje/[null]null te/[null]null testen/[testen]VBi", tokenizer, tagger);        
-    TestTools.myAssert("zwijnden","zwijnden/[null]null", tokenizer, tagger);        
+    TestTools.myAssert("Dit is een Nederlandse zin om het programma'tje te testen.", "Dit/[dit]DTh is/[zijn]VB3 een/[een]NM|een/[een]NN1d|een/[DTe]|een/[NM1] Nederlandse/[Nederlandse]NN1f zin/[zin]NN1d|zin/[zinnen]VB1 om/[om]PRom het/[het]DTh programma/[programma]NN1d|programma/[programma]NN1h tje/[null]null te/[te]PRte testen/[testen]VBi|testen/[test]NN2", tokenizer, tagger);        
+    TestTools.myAssert("zwijnden","zwijnden/[zwijnen]VBh", tokenizer, tagger);        
   }
 
 }

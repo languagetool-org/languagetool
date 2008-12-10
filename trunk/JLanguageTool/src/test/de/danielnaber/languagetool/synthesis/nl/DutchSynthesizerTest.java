@@ -20,7 +20,7 @@ public class DutchSynthesizerTest extends TestCase {
     assertEquals("[Afro-Surinamers]", Arrays.toString(synth.synthesize(dummyToken("Afro-Surinamer"), "NN2")));
     //with regular expressions
     assertEquals("[doorgeseind]", Arrays.toString(synth.synthesize(dummyToken("doorseinen"), "VBp", true)));    
-    assertEquals("[doorseint, doorseinen, doorgeseind]", Arrays.toString(synth.synthesize(dummyToken("doorseinen"), "VB.*", true)));
+    assertEquals("[doorsein, doorseint, doorseinden, doorseinde, doorseinen, doorgeseind, doorgeseinde]", Arrays.toString(synth.synthesize(dummyToken("doorseinen"), "VB.*", true)));
   }
 
 }
