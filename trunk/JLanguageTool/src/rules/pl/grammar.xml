@@ -6,7 +6,7 @@ title="Easy editing stylesheet" ?>
 <!--
 Polish Grammar and Typo Rules for LanguageTool
 Copyright (C) 2006-2007 Marcin Miłkowski
-$Id: grammar.xml,v 1.154 2008-12-09 23:27:51 milek_pl Exp $
+$Id: grammar.xml,v 1.155 2008-12-10 00:01:42 milek_pl Exp $
 -->
 <rules lang="pl">
   <unification feature="number">
@@ -98,7 +98,7 @@ $Id: grammar.xml,v 1.154 2008-12-09 23:27:51 milek_pl Exp $
         <example type="correct">Tak to bywa... ludzie się zmieniają.</example>
         <example type="incorrect"><marker>Zzuwszy buty Marek zatruł atmosferę na sali.</marker></example>
         <example type="incorrect">Chociaż <marker>kupiłem wino chciałem też pić wodę.</marker></example>
-      </rule>      
+      </rule>
       <rule>
         <pattern>
           <token postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf|pant:perf" postag_regexp="yes" skip="-1"><exception postag="subst:.*|adj.*|ppron.*|verb:inf.*|verb:bedzie.*|adv:comp|prep.*|qub|indecl|adv.*|conj|&lt;/TO_(ZNACZY|JEST)&gt;|verb:winien.*" postag_regexp="yes" scope="current"/><exception regexp="yes" scope="current">może|jedna</exception><exception inflected="yes" regexp="yes" scope="next">[\p{Punct}—–„«»…](?&lt;!\.)|aby|acz|aczkolwiek|albo|albowiem|ale|aleć|aliści|ani|azali|ażeby|bo|byleby|bądź|czy|czyli|czyliż|dlaczego|dopóki|dopóty|gdy|gdyby|gdyż|gdyżby|i|ilekolwiek|ilekroć|iż|iżby|jaki|jeśli|jeżeli|kiedy|który|którędy|lecz|lub|oraz|ponieważ|póki|wszelako|zanim|że|żeby</exception><exception postag="&lt;ELLIPSIS&gt;" scope="next"/></token>
@@ -122,7 +122,7 @@ $Id: grammar.xml,v 1.154 2008-12-09 23:27:51 milek_pl Exp $
       <rule>
         <pattern>
           <token postag="verb:winien.*" postag_regexp="yes"/>
-          <token skip="-1"><exception scope="current" regexp="yes">był|była|byłem|byłaś|byłeś|byli|były|byliśmy|byliście</exception><exception inflected="yes" regexp="yes" scope="next">[\p{Punct}—–„«»…](?&lt;!\.)|aby|acz|aczkolwiek|albo|albowiem|ale|aleć|aliści|ani|azali|ażeby|bo|byleby|bądź|czy|czyli|czyliż|dlaczego|dopóki|dopóty|gdy|gdyby|gdyż|gdyżby|i|ilekolwiek|ilekroć|iż|iżby|jaki|jeśli|jeżeli|kiedy|który|którędy|lecz|lub|oraz|ponieważ|póki|wszelako|zanim|że|żeby</exception><exception postag="&lt;ELLIPSIS&gt;" scope="next"/></token>
+          <token skip="-1"><exception regexp="yes" scope="current">był|była|byłem|byłaś|byłeś|byli|były|byliśmy|byliście</exception><exception inflected="yes" regexp="yes" scope="next">[\p{Punct}—–„«»…](?&lt;!\.)|aby|acz|aczkolwiek|albo|albowiem|ale|aleć|aliści|ani|azali|ażeby|bo|byleby|bądź|czy|czyli|czyliż|dlaczego|dopóki|dopóty|gdy|gdyby|gdyż|gdyżby|i|ilekolwiek|ilekroć|iż|iżby|jaki|jeśli|jeżeli|kiedy|który|którędy|lecz|lub|oraz|ponieważ|póki|wszelako|zanim|że|żeby</exception><exception postag="&lt;ELLIPSIS&gt;" scope="next"/></token>
           <token postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf|pant:perf" postag_regexp="yes" skip="-1"><exception postag="subst:.*|adj.*|ppron.*|verb:inf.*|verb:bedzie.*|adv:comp|prep.*|qub|indecl|adv.*|conj" postag_regexp="yes" scope="current"/><exception regexp="yes" scope="current">może|jedna</exception></token>
           <phraseref idref="INTERPUNKCJA"/>
         </pattern>
@@ -672,8 +672,19 @@ $Id: grammar.xml,v 1.154 2008-12-09 23:27:51 milek_pl Exp $
     <rulegroup id="BRAK_PRZECINKA_GDY" name="Brak przecinka przed „gdy” i „kiedy”">
       <rule>
         <pattern>
+          <token negate="yes" regexp="yes">,|od|chyba|dopiero|podczas|nawet|potem|więc|teraz|właśnie|wtedy|zwłaszcza|szczególnie|że|czasie|czasach|wypadku|przypadku|razie|przecież|rzadko<exception postag="SENT_START|conj" postag_regexp="yes"/><exception regexp="yes">[\p{Punct}–—„«»…]</exception></token>
+          <token>kiedy</token>
+        </pattern>
+        <message>Przed tym spójnikiem stawiamy przecinek: <suggestion>\1, \2</suggestion>.</message>
+        <short>Błąd interpunkcyjny</short>
+        <example type="correct">W sumie rzadko kiedy tam bywam.</example>
+        <example type="correct">Przemysław wstąpił do domu, kiedy poczuł brak Przemysławki.</example>
+        <example correction="domu, kiedy" type="incorrect">Przemysław wstąpił do <marker>domu kiedy</marker> poczuł brak Przemysławki.</example>
+      </rule>
+      <rule>
+        <pattern>
           <token negate="yes" regexp="yes">,|od|chyba|dopiero|podczas|nawet|potem|więc|teraz|właśnie|wtedy|zwłaszcza|szczególnie|że|czasie|czasach|wypadku|przypadku|razie|przecież<exception postag="SENT_START|conj" postag_regexp="yes"/><exception regexp="yes">[\p{Punct}–—„«»…]</exception></token>
-          <token regexp="yes">gdy|kiedy</token>
+          <token>gdy</token>
         </pattern>
         <message>Przed tym spójnikiem stawiamy przecinek: <suggestion>\1, \2</suggestion>.</message>
         <short>Błąd interpunkcyjny</short>
@@ -2993,7 +3004,7 @@ Powinno być: <suggestion>\2, \3 \4</suggestion>.</message>
       <pattern>
         <token inflected="yes" regexp="yes">opatrzyć|opatrywać</token>
         <token regexp="yes">w|we</token>
-        <phraseref idref="ACC_NOM"/>        
+        <phraseref idref="ACC_NOM"/>
       </pattern>
       <message>Ten czasownik nie jest używany z przyimkiem „w”. Poprawnie <suggestion><match no="1" postag="(.*):(im)?perf" postag_regexp="no" postag_replace="$1:perf">zaopatrzyć</match> <match no="2"/> <match no="3"/></suggestion> lub <suggestion><match no="1"/> <match no="3" postag="(.*)(sg|pl):.*:(m.?|n|f).*" postag_regexp="yes" postag_replace="$1$2.*inst.*[\\.:]$3.*"/></suggestion>.</message>
       <short>Błąd składniowy</short>
