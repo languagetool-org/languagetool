@@ -26,6 +26,7 @@ import de.danielnaber.languagetool.tagging.disambiguation.Disambiguator;
 
       private static final String TOKEN_DEFINITIONS = 
         "...|ELLIPSIS\n" 
+        + "bez mała|ADV\n"
         + "to znaczy|TO_ZNACZY\nTo znaczy|TO_ZNACZY\n" 
         + "to jest|TO_JEST\nTo jest|TO_JEST\n" 
         + "z uwagi na|PREP:ACC\n" 
