@@ -3,14 +3,19 @@
 #(c) 2008, Marcin Milkowski
 #Licensed on the terms of LGPL 3.0
 
-/[0-9]+\.\)/ {
+/^[0-9]+\.\)/ {
 gsub(/^.*ID: /,"")
 rule_cnt[$0]++
 current_rule=$0
 rulematch=1
+linecnt=0
 }
-/^$/ {current_rule=""}
-/^(Message: |Suggestion: |\.\.\.)/ {
+/^(Message: |Suggestion:)/ {
+comments[current_rule]= comments[current_rule] "\n" $0
+linecnt++
+}
+!/^($|Message: |Suggestion:|Time:)/ && !/ \^/ {
+if (linecnt>0) 
 comments[current_rule]= comments[current_rule] "\n" $0
 }
 /^ / && / \^/ {
