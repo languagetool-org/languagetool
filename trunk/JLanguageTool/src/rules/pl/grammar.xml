@@ -6,7 +6,7 @@ title="Easy editing stylesheet" ?>
 <!--
 Polish Grammar and Typo Rules for LanguageTool
 Copyright (C) 2006-2007 Marcin Miłkowski
-$Id: grammar.xml,v 1.157 2008-12-12 00:53:41 milek_pl Exp $
+$Id: grammar.xml,v 1.158 2008-12-12 20:16:24 milek_pl Exp $
 -->
 <rules lang="pl">
   <unification feature="number">
@@ -2762,7 +2762,7 @@ Powinno być: <suggestion>\2, \3 \4</suggestion>.</message>
       <rule>
         <pattern mark_from="1">
           <token postag="prep:gen"/>
-          <token postag="subst:.*" postag_regexp="yes"><exception postag=".*gen.*|.*irreg.*|conj|adv.*" postag_regexp="yes"/><exception regexp="yes">.*um</exception><exception postag="&lt;/ADV&gt;"/></token>
+          <token postag="subst:.*" postag_regexp="yes"><exception postag=".*gen.*|.*irreg.*|conj|adv.*" postag_regexp="yes"/><exception regexp="yes">.*um</exception><exception postag="&lt;/?ADV&gt;" postag_regexp="yes"/></token>
         </pattern>
         <message>Przyimek „\1” jest używany z dopełniaczem.</message>
         <short>Błąd składniowy</short>
@@ -2774,7 +2774,7 @@ Powinno być: <suggestion>\2, \3 \4</suggestion>.</message>
       <rule>
         <pattern mark_from="1">
           <token postag="prep:dat"/>
-          <token postag="subst:.*" postag_regexp="yes"><exception postag=".*dat.*|.*irreg.*|conj|adv.*" postag_regexp="yes"/><exception regexp="yes">.*um</exception><exception postag="&lt;/ADV&gt;"/></token>
+          <token postag="subst:.*" postag_regexp="yes"><exception postag=".*dat.*|.*irreg.*|conj|adv.*" postag_regexp="yes"/><exception regexp="yes">.*um</exception><exception postag="&lt;/?ADV&gt;" postag_regexp="yes"/></token>
         </pattern>
         <message>Przyimek „\1” jest używany z celownikiem.</message>
         <short>Błąd składniowy</short>
@@ -2794,10 +2794,11 @@ Powinno być: <suggestion>\2, \3 \4</suggestion>.</message>
       <rule>
         <pattern mark_from="1">
           <token postag="prep:loc"><exception regexp="yes">na|w</exception></token>
-          <token postag="subst:.*" postag_regexp="yes"><exception postag=".*loc.*|.*irreg.*|conj|adv.*" postag_regexp="yes"/><exception regexp="yes">.*um</exception><exception postag="&lt;/ADV&gt;"/></token>
+          <token postag="subst:.*" postag_regexp="yes"><exception postag=".*loc.*|.*irreg.*|conj|adv.*" postag_regexp="yes"/><exception regexp="yes">.*um</exception><exception postag="&lt;/?ADV&gt;" postag_regexp="yes"/></token>
         </pattern>
         <message>Przyimek „\1” jest używany z miejscownikiem.</message>
         <short>Błąd składniowy</short>
+        <example type="correct">Mamy zysk już przy co najmniej 1-procentowej inflacji.</example>
         <example type="correct">Byłem przy grobie Mickiewicza.</example>
         <example type="incorrect">Byłem przy <marker>grobem</marker> Mickiewicza.</example>
         <example type="correct">Ma na myśli na przykład Józia.</example>
@@ -2816,12 +2817,14 @@ Powinno być: <suggestion>\2, \3 \4</suggestion>.</message>
       </rule>
     </rulegroup>
     <rule id="WIEKSZY_JAK" name="„większy/lepszy jak” (większy/lepszy od/niż)">
-      <pattern mark_from="1">
+      <pattern mark_from="1" mark_to="-1">
         <token postag="adj.*:comp" postag_regexp="yes"><exception inflected="yes" scope="previous">nie|nic</exception></token>
         <token>jak</token>
+        <token><exception regexp="yes">gdyby|również</exception></token>
       </pattern>
       <message>Mówimy „\1 <suggestion>od</suggestion>”, „\1 <suggestion>niż</suggestion>”.</message>
       <short>Błąd składniowy</short>
+      <example type="correct">Wydawało się, że ten dłuższy jak gdyby zwisa na gałęzi.</example>
       <example type="correct">Ten nowy dysk jest większy od starego.</example>
       <example type="correct">Ten nowy dysk jest lepszy od starego.</example>
       <example correction="od|niż" type="incorrect">Ten nowy dysk jest większy <marker>jak</marker> stary.</example>
@@ -4679,6 +4682,17 @@ lub <suggestion>\2 na prawach wyłączności</suggestion>.</message>
     </rule>
   </category>
   <category name="Pleonazmy">
+    <rule id="ZDAZYC_NA_CZAS" name="„zdążyć na czas” (zdążyć)">
+      <pattern>
+        <token inflected="yes">zdążyć</token>
+        <token>na</token>
+        <token>czas</token>
+      </pattern>
+      <message>To pleonazm. Wystarczy: <suggestion>\1</suggestion>.</message>
+      <short>Pleonazm</short>
+      <example correction="Zdążyłem" type="incorrect"><marker>Zdążyłem na czas</marker> wrócić i kupiłem pomarańcze.</example>
+      <example type="correct">Zdążyłem wrócić i kupiłem pomarańcze.</example>
+    </rule>
     <rule id="WLASNA_AUTOPSJA" name="„własna autopsja” (autopsja)">
       <pattern>
         <token inflected="yes" postag="adj:sg:.*:f.*:pos:aff" postag_regexp="yes" regexp="yes">własny|osobisty</token>
@@ -8830,13 +8844,14 @@ Znacznie częściej ta forma jest mylona z trybem rozkazującym od „pokazać�
     </rulegroup>
     <rule id="ZWIAZKU_Z_TYM" name="„związku z tym” (w związku z tym)">
       <pattern mark_from="1" mark_to="-2">
-        <token><exception scope="previous">w</exception><exception regexp="yes">w|do|żadnego|ma|bez|przy</exception></token>
+        <token><exception regexp="yes" scope="previous">w|do|żadnego|ma|bez|przy</exception><exception regexp="yes">w|do|żadnego|ma|bez|przy</exception></token>
         <token>związku</token>
         <token>z</token>
         <token postag=".*inst.*" postag_regexp="yes"/>
       </pattern>
       <message>Prawdopodobna literówka. Czy chodziło o <suggestion>w związku</suggestion>?</message>
       <short>Prawdopodobna literówka</short>
+      <example type="correct">Nie ma to żadnego związku z tym, o czym mówiliśmy.</example>
       <example correction="w związku" type="incorrect">Nie mam pieniędzy, a <marker>związku</marker> z tym nie zapłacę ani grosza.</example>
       <example type="correct">Oni pozostają negatywnie nastawieni do związku z ludźmi podejrzanej profesji.</example>
     </rule>
