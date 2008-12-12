@@ -426,7 +426,7 @@ public class Element {
         new Element("", this.caseSensitive, regExp, false);
     posException.setPosElement(posToken, regExp, negation);
     posException.exceptionValidNext = scopeNext;
-    exceptionValidPrevious = scopePrevious;
+    exceptionValidPrevious |= scopePrevious;
     if (exceptionList == null && !scopePrevious) {
       exceptionList = new ArrayList<Element>();
     }
@@ -462,7 +462,7 @@ public class Element {
           token, this.caseSensitive, regExp, inflected);
     stringException.setNegation(negation);
     stringException.exceptionValidNext = scopeNext;
-    exceptionValidPrevious = scopePrevious;
+    exceptionValidPrevious |= scopePrevious;
     if (exceptionList == null && !scopePrevious) {
       exceptionList = new ArrayList<Element>();
     }
