@@ -19,6 +19,10 @@
 package de.danielnaber.languagetool;
 
 import java.io.IOException;
+import java.util.HashSet;
+import java.util.Set;
+
+import de.danielnaber.languagetool.rules.patterns.PatternRuleTest;
 
 import junit.framework.TestCase;
 
@@ -51,4 +55,15 @@ public class ValidateXMLTest extends TestCase {
     // }
   }
 
+  /**
+   * Validate XML files, as a help for people developing rules that are not programmers.
+   */
+  public static void main(final String[] args) throws IOException {
+    final ValidateXMLTest prt = new ValidateXMLTest();
+    System.out.println("Validating XML grammar files ...");  
+    prt.testPatternFile();
+    prt.testFalseFriendsXML();
+    prt.testDisambiguationRuleFile();
+    System.out.println("Validation tests successful.");
+  }
 }
