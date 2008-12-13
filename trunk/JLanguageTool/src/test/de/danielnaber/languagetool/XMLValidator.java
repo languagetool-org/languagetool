@@ -110,10 +110,16 @@ public final class XMLValidator {
 class ErrorHandler extends DefaultHandler {
   
   public void warning (SAXParseException e) throws SAXException {
+    System.err.println(e.getMessage()
+        + " Problem found at line " + e.getLineNumber() 
+        + ", column " + e.getColumnNumber() + ".");    
     throw e;
   }
   
   public void error (SAXParseException e) throws SAXException {
+    System.err.println(e.getMessage()
+        + " Problem found at line " + e.getLineNumber() 
+        + ", column " + e.getColumnNumber() + ".");
     throw e;
   }
 
