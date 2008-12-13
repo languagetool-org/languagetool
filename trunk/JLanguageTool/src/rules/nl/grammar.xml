@@ -5,7 +5,7 @@
 <!--
 Dutch Grammar and Typo Rules for LanguageTool
 Copyright (C) 2006,2007,2008 R. J. Baars (ruud.baars@opentaal.org)
-$Id: grammar.xml,v 1.12 2008-12-10 22:14:58 milek_pl Exp $
+$Id: grammar.xml,v 1.13 2008-12-13 13:13:04 milek_pl Exp $
 -->
 <!-- TODO LIST
 * werkwoordvormen
@@ -15,21 +15,8 @@ $Id: grammar.xml,v 1.12 2008-12-10 22:14:58 milek_pl Exp $
 -->
 <rules lang="nl">
    <category name="Ouderwetse uitdrukkingen melden">
-      <rulegroup id="HOOFDLETTERS" name="Hoofdletters of niet">
-         <rule id="ID225_OK">
-            <pattern case_sensitive="yes">
-               <token regexp="yes">CAO|PC|DVD|CD|LED|IC|GSM</token>
-            </pattern>
-            <message>Juist is <suggestion><match no="1" case_conversion ="alllower"/></suggestion></message>
-            <short>Schrijfwijze</short>
-            <example type="incorrect">Een personal computer is een <marker>PC</marker>.</example>
-            <example type="correct">Ik brand een <marker>dvd</marker>.</example>
-         </rule>
-      </rulegroup>
-   </category>
-   <category name="Ouderwetse uitdrukkingen melden">
       <rulegroup id="TEN" name="Ten ...">
-         <rule id="ID001_OK">
+         <rule id="ID001">
          <!-- ten + ... waarvoor geen suggestie is -->
          <!-- ten aanzien=263 -->
             <pattern>
@@ -42,7 +29,7 @@ $Id: grammar.xml,v 1.12 2008-12-10 22:14:58 milek_pl Exp $
             <example type="correct">Dat is <marker>goed</marker>.</example>
          </rule>
          <!-- ten opzichte=340 -->
-         <rule id="ID003">
+         <rule id="ID002">
             <pattern>
                <token>ten</token>
                <token>opzichte</token>
@@ -53,28 +40,28 @@ $Id: grammar.xml,v 1.12 2008-12-10 22:14:58 milek_pl Exp $
             <example type="incorrect">Het is rot <marker>ten opzichte van</marker> gisteren.</example>
             <example type="correct">Het is rot <marker>vergeleken met</marker> gisteren.</example>
          </rule>
-         <rule id="ID004">
+         <rule id="ID003">
             <pattern>
                <token negate="yes">ten</token>
-               <token regexp="yes">besluite|gevolge|laste|onrechte|slotte|tijde|dienste|voordele|dele|gunste|dage|gehore|nadele|strijde|overvloede|bate|huize|bedrage|faveure|belope|tonele|grave|departemente|detrimente</token>
+               <token regexp="yes">besluite|gevolge|laste|onrechte|slotte|dienste|voordele|dele|gunste|dage|gehore|nadele|strijde|overvloede|bate|huize|bedrage|faveure|belope|tonele|grave|departemente|detrimente</token>
             </pattern>
             <message>Verwacht werd <suggestion>ten \1</suggestion> of \2 is een typefout.</message>
             <short>Typefout?</short>
             <example type="incorrect"><marker>Wij besluite</marker> het.</example>
             <example type="correct"><marker>Ten besluite</marker> zeg ik dat.</example>
          </rule>
-         <rule id="ID001">
+         <rule id="ID004">
             <pattern>
                <token negate="yes">ten</token>
                <token>koste</token>
                <token negate="yes">wat</token>
             </pattern>
-            <message>Verwacht werd <suggestion>ten \2</suggestion>, <suggestion>\2 wat</suggestion>  of <suggestion>kosten</suggestion>.</message>
+            <message>Verwacht werd <suggestion>ten \2</suggestion>, <suggestion>\2 wat</suggestion>, <suggestion>kostte</suggestion> of <suggestion>kosten</suggestion>.</message>
             <short>Typefout?</short>
             <example type="incorrect">Dit zijn <marker>de koste van</marker> de aankoop.</example>
             <example type="correct">Dit gaat <marker>ten koste van</marker> ons.</example>
          </rule>
-         <rule id="ID020">
+         <rule id="ID005">
          <!-- ten behoeve;223 -->
             <pattern>
                <token>ten</token>
@@ -192,7 +179,7 @@ $Id: grammar.xml,v 1.12 2008-12-10 22:14:58 milek_pl Exp $
          
       </rulegroup>
       <rulegroup id="TER" name="Ter ...">
-         <rule id="ID002_OK">
+         <rule id="ID006">
          <!-- ter=288 -->
          <!-- ten + ... waarvoor geen suggestie is -->
             <pattern case_sensitive="yes">
@@ -314,7 +301,7 @@ $Id: grammar.xml,v 1.12 2008-12-10 22:14:58 milek_pl Exp $
          
       </rulegroup>
       <rulegroup id="DEN" name="Den ...">
-         <rule id="ID003_OK">
+         <rule id="ID007">
             <pattern case_sensitive="yes" mark_to="-1">
                <token>den</token>
                <token negate="yes" regexp="yes">^[A-Z].*</token>
@@ -326,7 +313,7 @@ $Id: grammar.xml,v 1.12 2008-12-10 22:14:58 milek_pl Exp $
          </rule>
       </rulegroup>
       <rulegroup id="DER" name="Der ...">
-         <rule id="ID126_OK">
+         <rule id="ID008">
             <pattern mark_to="-1" mark_from="2" case_sensitive="yes">
                <token negate="yes">her</token>
                <token negate="yes">en</token>
@@ -338,7 +325,7 @@ $Id: grammar.xml,v 1.12 2008-12-10 22:14:58 milek_pl Exp $
             <example type="incorrect">De gang <marker>der</marker> dingen.</example>
             <example type="correct">De gang <marker>van de</marker> dingen.</example>
          </rule>
-         <rule id="ID069">
+         <rule id="ID009">
             <pattern>
                <token>her</token>
                <token>en</token>
@@ -351,7 +338,7 @@ $Id: grammar.xml,v 1.12 2008-12-10 22:14:58 milek_pl Exp $
          </rule>
       </rulegroup>
       <rulegroup id="DES" name="Des ...">
-         <rule id="ID005_OK">
+         <rule id="ID010">
             <pattern case_sensitive="yes">
                <token>des</token>
                <token negate="yes" regexp="yes">^[A-Z].*|te|morgens|avonds|middags</token>
@@ -361,7 +348,7 @@ $Id: grammar.xml,v 1.12 2008-12-10 22:14:58 milek_pl Exp $
             <example type="incorrect">Lakei <marker>des konings</marker>.</example>
             <example type="correct">Lakei <marker>van de koning</marker>.</example>
          </rule>
-         <rule id="ID002">
+         <rule id="ID011">
             <pattern>
                <token>des</token>
                <token regexp="yes">morgens|avonds|middags</token>
@@ -373,7 +360,7 @@ $Id: grammar.xml,v 1.12 2008-12-10 22:14:58 milek_pl Exp $
          </rule>
       </rulegroup>
       <rulegroup id="OUDERWETS" name="Ouderwetse woorden">
-         <rule id="ID147">
+         <rule id="ID012">
             <pattern>
                <token>teneinde</token>
             </pattern>
@@ -382,7 +369,7 @@ $Id: grammar.xml,v 1.12 2008-12-10 22:14:58 milek_pl Exp $
             <example type="incorrect">Ik doe dit <marker>teneinde</marker> te corrigeren.</example>
             <example type="correct">Ik doe dit <marker>om</marker> te corrigeren.</example>
          </rule>
-         <rule id="ID555">
+         <rule id="ID013">
             <pattern case_sensitive="yes" mark_from="1">
                <token negate="yes">onder</token>
                <token>ede</token>
@@ -392,7 +379,7 @@ $Id: grammar.xml,v 1.12 2008-12-10 22:14:58 milek_pl Exp $
             <example type="incorrect">Hij woont in <marker>ede</marker>.</example>
             <example type="correct">Hij staat onder <marker>ede</marker>.</example>
          </rule>
-         <rule id="ID128">
+         <rule id="ID014">
             <pattern>
                <token negate="yes">ten</token>
                <token>onrechte</token>
@@ -402,7 +389,7 @@ $Id: grammar.xml,v 1.12 2008-12-10 22:14:58 milek_pl Exp $
             <example type="incorrect">Het is <marker>te onrechte</marker> gemeld.</example>
             <example type="correct">Het is <marker>ten onrechte</marker> gemeld.</example>
          </rule>
-         <rule id="ID129">
+         <rule id="ID015">
             <pattern>
                <token negate="yes">ten</token>
                <token>laste</token>
@@ -412,7 +399,7 @@ $Id: grammar.xml,v 1.12 2008-12-10 22:14:58 milek_pl Exp $
             <example type="incorrect">Ik draag <marker>de laste</marker>.</example>
             <example type="correct">het komt <marker>ten laste</marker> van mij.</example>
          </rule>
-         <rule id="ID006_OK">
+         <rule id="ID016">
             <pattern case_sensitive="yes">
                <token regexp="yes">aangehaalder|aanschijns|aanschouwen|aanstoots|algemenen|aller|bedrage|beginne|believe|belope|berde|berge|besluite|bestemder|beurze|bewijze|bloede|bloedens|burele|dage|definitieven|dele|departemente|detrimente|dezer|dezes|dienste|eenre|eeuwigen|eigener|elfder|enenmale|eniger|ere|faveure|fine|gedachtenis|gelde|gelegener|gemoede|gepasten|glorie|goeden|goeder|grave|gronde|gunste|haars|harent|harer|heil|helle|hove|huidigen|huize|huizes|hunnen|hunnent|hunner|huns|ingevolge|kerke|koelen|kostelozen|kwader|lande|langen|laste|laste|leste|male|mans|mijnent|mijner|mijns|mijns|moede|monde|naaste|nadele|nagedachtenis|nauwste|nutte|onheils|onverrichter|onzen|onzent|onzer|onzes|ore|overstaan|overvloede|paleize|parkette|persoonlijken|plekkepleziere|prijze|principale|reke|ruste|slotte|snede|stade|stede|stelligste|strengste|strijde|tale|terdege|ternauwernood|tersluiks|terzake|terzelfder|terzijde|tezelfdertijd|toendertijd|tonele|tweeden|uitzonderlijken|ure|uwen|uwent|uwer|uws|vaderlands|velde|verderve|vertrouwelijken|vervelens|vervolge|verzoeke|voordele|voorlopigen|wiens|wille|zelfder|ziele|zijnen|zijnent|zijner|zijns</token>
             </pattern>
@@ -421,17 +408,17 @@ $Id: grammar.xml,v 1.12 2008-12-10 22:14:58 milek_pl Exp $
             <example type="incorrect">Met <marker>algemenen</marker> is ouderwets.</example>
             <example type="correct"><marker>Het kan</marker> is moderner.</example>
          </rule>
-         <rule id="ID217">
+         <rule id="ID017">
             <pattern>
                <token negate="yes">ter</token>
                <token>perse</token>
             </pattern>
-            <message>Bedoelt u <suggestion>ter /2</suggestion> of <suggestion>\1 per se</suggestion>?.</message>
+            <message>Bedoelt u <suggestion>ter \2</suggestion> of <suggestion>\1 per se</suggestion>?.</message>
             <short>ter perse of per se</short>
             <example type="incorrect">Ik <marker>wil perse</marker> een fout maken.</example>
             <example type="correct">Ik wil het <marker>per se</marker> goed doen.</example>
          </rule>
-         <rule id="ID133">
+         <rule id="ID018">
             <pattern>
                <token negate="yes">van</token>
                <token>harte</token>
@@ -441,7 +428,7 @@ $Id: grammar.xml,v 1.12 2008-12-10 22:14:58 milek_pl Exp $
             <example type="incorrect">Ik doe het <marker>met harte</marker>.</example>
             <example type="correct">Ik doe het <marker>van harte</marker>.</example>
          </rule>
-         <rule id="ID194">
+         <rule id="ID019">
             <pattern>
                <token negate="yes">uit</token>
                <token>hoofde</token>
@@ -451,7 +438,7 @@ $Id: grammar.xml,v 1.12 2008-12-10 22:14:58 milek_pl Exp $
             <example type="incorrect">Ik doe het <marker>met hoofde</marker> van mijn rol.</example>
             <example type="correct">Ik doe het <marker>uit hoofde</marker> van mijn rol.</example>
          </rule>
-         <rule id="ID193_OK">
+         <rule id="ID020">
             <pattern mark_from="1" mark_to="-1">
                <token negate="yes">ik</token>
                <token>dien</token>
@@ -462,10 +449,10 @@ $Id: grammar.xml,v 1.12 2008-12-10 22:14:58 milek_pl Exp $
             <example type="incorrect">Met <marker>dien</marker> verstande gaat het.</example>
             <example type="correct">Ik <marker>dien</marker> het uit.</example>
          </rule>
-         <rule id="ID007">
+         <rule id="ID021">
             <pattern>
                <token>ten</token>
-               <token regexp="yes">dode|gehore|geleide|geschenke|grave|gronde|gunste|hove|huize|kantore|kwade|nadele|name|nutte|onrechte|opzichte|overvloede|paleize|parkette|pleziere|principale|rechte|slotte|verderve|vervolge|verzoeke|voordele</token>
+               <token regexp="yes">dode|gehore|geleide|geschenke|grave|gronde|gunste|hove|huize|kantore|kwade|nadele|name|nutte|onrechte|overvloede|paleize|parkette|pleziere|principale|rechte|slotte|verderve|vervolge|verzoeke|voordele</token>
             </pattern>
             <message>Ouderwets.</message>
             <short>Ouderwets</short>
@@ -474,7 +461,7 @@ $Id: grammar.xml,v 1.12 2008-12-10 22:14:58 milek_pl Exp $
          </rule>
       </rulegroup>
       <rulegroup id="OUDERWETS_OK" name="Ouderwetse (goede) uitdrukkingen melden">
-         <rule id="ID008">
+         <rule id="ID022">
             <pattern case_sensitive="yes">
                <token>gene</token>
                <token>zijde</token>
@@ -484,7 +471,7 @@ $Id: grammar.xml,v 1.12 2008-12-10 22:14:58 milek_pl Exp $
             <example type="incorrect">Hij gaat naar <marker>gene zijde</marker>.</example>
             <example type="correct">Hij gaat <marker>dood</marker>.</example>
          </rule>
-         <rule id="ID009">
+         <rule id="ID023">
             <pattern>
                <token>dier</token>
                <token>voege</token>
@@ -494,7 +481,7 @@ $Id: grammar.xml,v 1.12 2008-12-10 22:14:58 milek_pl Exp $
             <example type="incorrect">In <marker>dier voege</marker>.</example>
             <example type="correct">Op <marker>die manier</marker>.</example>
          </rule>
-         <rule id="ID010">
+         <rule id="ID024">
             <pattern>
                <token>dien</token>
                <token>verstande</token>
@@ -504,7 +491,7 @@ $Id: grammar.xml,v 1.12 2008-12-10 22:14:58 milek_pl Exp $
             <example type="incorrect">Met <marker>dien verstande</marker>.</example>
             <example type="correct">Met <marker>als toelichting</marker>.</example>
          </rule>
-         <rule id="ID011">
+         <rule id="ID025">
             <pattern>
                <token/>
                <token>voorbedachten</token>
@@ -519,7 +506,7 @@ $Id: grammar.xml,v 1.12 2008-12-10 22:14:58 milek_pl Exp $
    </category>
    <category name="Ouderwetse uitdrukkingen corrigeren">
       <rulegroup id="OUD" name="Ouderwetse uitdrukkingen corrigeren">
-         <rule id="ID012">
+         <rule id="ID026">
             <pattern>
                <token>gene</token>
                <token negate="yes">zijde</token>
@@ -529,7 +516,7 @@ $Id: grammar.xml,v 1.12 2008-12-10 22:14:58 milek_pl Exp $
             <example type="incorrect">In <marker>gene geval</marker>.</example>
             <example type="correct">Aan <marker>gene zijde</marker>.</example>
          </rule>
-         <rule id="ID013">
+         <rule id="ID027">
             <pattern>
                <token negate="yes" regexp="yes">ten|allen|genen|ten</token>
                <token>dele</token>
@@ -539,7 +526,7 @@ $Id: grammar.xml,v 1.12 2008-12-10 22:14:58 milek_pl Exp $
             <example type="incorrect">In <marker>veel dele</marker>.</example>
             <example type="correct">In <marker>genen dele</marker>.</example>
          </rule>
-         <rule id="ID014">
+         <rule id="ID028">
             <pattern>
                <token negate="yes">groten</token>
                <token>getale</token>
@@ -549,7 +536,7 @@ $Id: grammar.xml,v 1.12 2008-12-10 22:14:58 milek_pl Exp $
             <example type="incorrect">In <marker>grote getale</marker>.</example>
             <example type="correct">In <marker>groten getale</marker>.</example>
          </rule>
-         <rule id="ID015">
+         <rule id="ID029">
             <pattern>
                <token negate="yes">koelen</token>
                <token>bloede</token>
@@ -559,7 +546,7 @@ $Id: grammar.xml,v 1.12 2008-12-10 22:14:58 milek_pl Exp $
             <example type="incorrect">In <marker>koel bloede</marker>.</example>
             <example type="correct">Kan <marker>koelen bloede</marker>.</example>
          </rule>
-         <rule id="ID016">
+         <rule id="ID030">
             <pattern>
                <token>dezer</token>
                <token negate="yes" regexp="yes">dagen|gelegenheid|zake</token>
@@ -569,7 +556,7 @@ $Id: grammar.xml,v 1.12 2008-12-10 22:14:58 milek_pl Exp $
             <example type="incorrect">In <marker>dezer dage</marker>.</example>
             <example type="correct">Te <marker>dezer gelegenheid</marker>.</example>
          </rule>
-         <rule id="ID017">
+         <rule id="ID031">
             <pattern>
                <token negate="yes">dier</token>
                <token>voege</token>
@@ -579,7 +566,7 @@ $Id: grammar.xml,v 1.12 2008-12-10 22:14:58 milek_pl Exp $
             <example type="incorrect">In <marker>die voege</marker>.</example>
             <example type="correct">In <marker>dier voege</marker>.</example>
          </rule>
-         <rule id="ID018">
+         <rule id="ID032">
             <pattern>
                <token negate="yes">te</token>
                <token>dezer</token>
@@ -590,7 +577,7 @@ $Id: grammar.xml,v 1.12 2008-12-10 22:14:58 milek_pl Exp $
             <example type="incorrect"><marker>Ter dezer zake</marker>.</example>
             <example type="correct"><marker>Te dezer zake</marker>.</example>
          </rule>
-         <rule id="ID019">
+         <rule id="ID033">
             <pattern>
                <token>aller</token>
                <token negate="yes" regexp="yes">lippen|mond|naam</token>
@@ -600,7 +587,7 @@ $Id: grammar.xml,v 1.12 2008-12-10 22:14:58 milek_pl Exp $
             <example type="incorrect">In <marker>aller geval</marker>.</example>
             <example type="correct">In <marker>aller naam</marker> zeg ik dat.</example>
          </rule>
-         <rule id="ID021">
+         <rule id="ID034">
             <pattern>
                <token negate="yes">den</token>
                <token regexp="yes">lande|beginne</token>
@@ -610,7 +597,7 @@ $Id: grammar.xml,v 1.12 2008-12-10 22:14:58 milek_pl Exp $
             <example type="incorrect"><marker>Wij lande</marker> gelukkig.</example>
             <example type="correct">In <marker>den lande</marker> verblijven.</example>
          </rule>
-         <rule id="ID022">
+         <rule id="ID035">
             <pattern>
                <token negate="yes">te</token>
                <token regexp="yes">berde|berge|gelde</token>
@@ -620,17 +607,17 @@ $Id: grammar.xml,v 1.12 2008-12-10 22:14:58 milek_pl Exp $
             <example type="incorrect">In <marker>de berge</marker>.</example>
             <example type="correct">Mijn haren rijzen <marker>te berge</marker>.</example>
          </rule>
-         <rule id="ID023">
+         <rule id="ID036">
             <pattern>
                <token negate="yes">in</token>
-               <token regexp="yes">feite|gemoede|rechte|voege</token>
+               <token regexp="yes">feite|gemoede|voege</token>
             </pattern>
             <message>Verwacht werd <suggestion>in \2</suggestion> of \2 is een typefout.</message>
             <short>Ouderwets</short>
             <example type="incorrect">Het zijn <marker>de feite</marker>.</example>
             <example type="correct">Het is <marker>in feite</marker> fout.</example>
          </rule>
-         <rule id="ID024">
+         <rule id="ID037">
             <pattern>
                <token negate="yes" regexp="yes">bestemder|gelegener|aangehaalder|bevoegder|juister|zelfder|ter</token>
                <token>plaatse</token>
@@ -640,7 +627,7 @@ $Id: grammar.xml,v 1.12 2008-12-10 22:14:58 milek_pl Exp $
             <example type="incorrect">Het is niet <marker>te plaatse</marker>.</example>
             <example type="correct">Hij is niet <marker>ter plaatse</marker>.</example>
          </rule>
-         <rule id="ID025">
+         <rule id="ID038">
             <pattern>
                <token negate="yes" regexp="yes">bestemder|gelegener|elfder|goeder|kwader</token>
                <token>ure</token>
@@ -650,7 +637,7 @@ $Id: grammar.xml,v 1.12 2008-12-10 22:14:58 milek_pl Exp $
             <example type="incorrect">Het duurt <marker>geen ure</marker>.</example>
             <example type="correct">Het is niet te <marker>bestemder ure</marker>.</example>
          </rule>
-         <rule id="ID026">
+         <rule id="ID039">
             <pattern>
                <token negate="yes" regexp="yes">ter|dier|dezer</token>
                <token>zake</token>
@@ -660,7 +647,7 @@ $Id: grammar.xml,v 1.12 2008-12-10 22:14:58 milek_pl Exp $
             <example type="incorrect">Het zijn niet <marker>mijn zake</marker>.</example>
             <example type="correct">Het doet <marker>ter zake</marker>.</example>
          </rule>
-         <rule id="ID027">
+         <rule id="ID040">
             <pattern>
                <token negate="yes">des</token>
                <token>huizes</token>
@@ -670,7 +657,7 @@ $Id: grammar.xml,v 1.12 2008-12-10 22:14:58 milek_pl Exp $
             <example type="incorrect">Het is <marker>van huizes</marker>.</example>
             <example type="correct">Hij is de heer <marker>des huizes</marker>.</example>
          </rule>
-         <rule id="ID028">
+         <rule id="ID041">
             <pattern>
                <token/>
                <token negate="yes">allen</token>
@@ -681,7 +668,7 @@ $Id: grammar.xml,v 1.12 2008-12-10 22:14:58 milek_pl Exp $
             <example type="incorrect"><marker>In alle gevalle</marker> fout.</example>
             <example type="correct"><marker>In allen gevalle</marker> goed.</example>
          </rule>
-         <rule id="ID029">
+         <rule id="ID042">
             <pattern>
                <token/>
                <token negate="yes">voorbedachten</token>
@@ -692,7 +679,7 @@ $Id: grammar.xml,v 1.12 2008-12-10 22:14:58 milek_pl Exp $
             <example type="incorrect"><marker>Met voorbedachte rade</marker> vermoord.</example>
             <example type="correct"><marker>Met voorbedachten rade</marker> goed.</example>
          </rule>
-         <rule id="ID030">
+         <rule id="ID043">
             <pattern>
                <token negate="yes">ten</token>
                <token regexp="yes">gehore|geleide|geschenke|grave|gronde|gunste|hove|kantore|nadele|nutte|onrechte|opzichte|overvloede|paleize|parkette|pleziere|principale|slotte|verderve|vervolge|verzoeke|voordele</token>
@@ -702,7 +689,7 @@ $Id: grammar.xml,v 1.12 2008-12-10 22:14:58 milek_pl Exp $
             <example type="incorrect">Het is <marker>te geschenke</marker> gegeven.</example>
             <example type="correct">Het is <marker>cadeau</marker>gegeven.</example>
          </rule>
-         <rule id="ID218">
+         <rule id="ID044">
             <pattern mark_from="1">
                <token negate="yes" regexp="yes">ten|met</token>
                <token>name</token>
@@ -712,7 +699,7 @@ $Id: grammar.xml,v 1.12 2008-12-10 22:14:58 milek_pl Exp $
             <example type="incorrect">Het zijn twee <marker>name</marker>.</example>
             <example type="correct">Het is met <marker>name</marker> verdacht.</example>
          </rule>
-         <rule id="ID031">
+         <rule id="ID045">
             <pattern>
                <token negate="yes" regexp="yes">ten|goeden|kwaden</token>
                <token>huize</token>
@@ -726,70 +713,70 @@ $Id: grammar.xml,v 1.12 2008-12-10 22:14:58 milek_pl Exp $
    </category>
    <category name="Alternatieven voor leenwoorden suggereren">
       <rulegroup id="LEENW" name="Leenwoorden">
-         <rule id="ID032">
+         <rule id="ID046">
             <pattern>
                <token inflected="yes">updaten</token>
             </pattern>
-            <message>Engels. Suggesties:<suggestion>opwaarderen</suggestion>, <suggestion>bijwerken</suggestion>, <suggestion>bijwerken</suggestion>.</message>
+            <message>Engels. Suggesties: <suggestion><match no="1" postag="VB.*" postag_regexp="yes" >opwaarderen</match></suggestion>, <suggestion><match no="1" postag="VB.*" postag_regexp="yes" >bijwerken</match></suggestion>.</message>
             <short>Leenwoord</short>
             <example type="incorrect">Je moet niet <marker>updaten</marker>.</example>
             <example type="correct">Je moet <marker>bijwerken</marker>.</example>
          </rule>
-         <rule id="ID033">
+         <rule id="ID047">
             <pattern>
                <token inflected="yes">crashen</token>
             </pattern>
-            <message>Engels. Suggesties:<suggestion>neerstorten</suggestion>, <suggestion>instorten</suggestion>, <suggestion>defect raken</suggestion>, <suggestion>botsen</suggestion>.</message>
+            <message>Engels. Suggesties: neerstorten, instorten, defect raken, botsen, vastlopen.</message>
             <short>Leenwoord</short>
             <example type="incorrect">Je moet niet <marker>crashen</marker>.</example>
             <example type="correct">Je moet <marker>instorten</marker>.</example>
          </rule>
-         <rule id="ID034">
+         <rule id="ID048">
             <pattern>
                <token inflected="yes">checken</token>
             </pattern>
-            <message>Engels. Suggesties:<suggestion>nakijken</suggestion>, <suggestion>nagaan</suggestion>, <suggestion>controleren</suggestion>.</message>
+            <message>Engels. Suggesties: nakijken, nagaan, controleren.</message>
             <short>Leenwoord</short>
             <example type="incorrect">Je moet niet <marker>checken</marker>.</example>
             <example type="correct">Je moet <marker>controleren</marker>.</example>
          </rule>
-         <rule id="ID035">
+         <rule id="ID049">
             <pattern>
                <token>bullshit</token>
             </pattern>
-            <message>Engelse volkstaal. Suggesties:<suggestion>onzin</suggestion>, <suggestion>lariekoek</suggestion>.</message>
+            <message>Engelse volkstaal. Suggesties: <suggestion>onzin</suggestion>, <suggestion>lariekoek</suggestion>.</message>
             <short>Leenwoord</short>
             <example type="incorrect">Het is <marker>bullshit</marker>.</example>
             <example type="correct">Het is <marker>onzin</marker>.</example>
          </rule>
-         <rule id="ID036">
+         <rule id="ID050">
             <pattern>
                <token inflected="yes">föhn</token>
             </pattern>
-            <message>Duits. Suggesties: <suggestion>haardroger</suggestion>.</message>
+            <message>Duits. Suggesties: <suggestion><match no="1" postag="NN.*" postag_regexp="yes" >haardroger</match></suggestion>.</message>
             <short>Leenwoord</short>
             <example type="incorrect">Gebruik de <marker>föhn</marker>.</example>
             <example type="correct">Gebruik de <marker>haardroger</marker>.</example>
          </rule>
-         <rule id="ID037">
+         <rule id="ID051">
             <pattern>
                <token inflected="yes">image</token>
             </pattern>
-            <message>Engels. Suggesties: <suggestion>imago</suggestion>, <suggestion>afbeelding</suggestion>.</message>
+            <message>Engels. Suggesties: <suggestion>imago</suggestion>, <match no="1" postag="NN.*" postag_regexp="yes" >afbeelding</match>.</message>
             <short>Leenwoord</short>
             <example type="incorrect">Het is mijn <marker>image</marker>.</example>
             <example type="correct">Het is mijn <marker>imago</marker>.</example>
          </rule>
-         <rule id="ID038">
+         <rule id="ID052">
             <pattern>
                <token inflected="yes">manager</token>
             </pattern>
-            <message>Engels. Probeer het met <suggestion>bedrijfsleider</suggestion>.</message>
+            <message>Engels. Probeer het met <suggestion><match no="1" postag="NN.*" postag_regexp="yes" >bedrijfsleider</match></suggestion>.</message>
             <short>Leenwoord</short>
             <example type="incorrect">Raadpleeg de <marker>manager</marker>.</example>
             <example type="correct">Raadpleeg de <marker>bedrijfsleider</marker>.</example>
          </rule>
-         <rule id="ID039">
+         <rule id="ID053">
             <pattern>
                <token>management</token>
             </pattern>
@@ -798,34 +785,34 @@ $Id: grammar.xml,v 1.12 2008-12-10 22:14:58 milek_pl Exp $
             <example type="incorrect">Verzorg het <marker>management</marker>.</example>
             <example type="correct">Verzorg het <marker>beheer</marker>.</example>
          </rule>
-         <rule id="ID040">
+         <rule id="ID054">
             <pattern>
                <token inflected="yes">accountant</token>
             </pattern>
-            <message>Engels. Suggesties: <suggestion>boekhouder</suggestion>.</message>
+            <message>Engels. Suggesties: <suggestion><match no="1" postag="NN.*" postag_regexp="yes" >boekhouder</match></suggestion>.</message>
             <short>Leenwoord</short>
             <example type="incorrect">Gebruik de <marker>accountant</marker>.</example>
             <example type="correct">Gebruik de <marker>boekhouder</marker>.</example>
          </rule>
-         <rule id="ID041">
+         <rule id="ID055">
             <pattern>
                <token inflected="yes">commercial</token>
             </pattern>
-            <message>Engels. Suggesties: <suggestion>reclame</suggestion>, <suggestion>reclameboodschap</suggestion>.</message>
+            <message>Engels. Suggesties: <suggestion><match no="1" postag="NN.*" postag_regexp="yes" >reclame</match></suggestion>, <suggestion><match no="1" postag="NN.*" postag_regexp="yes" >reclameboodschap</match></suggestion>.</message>
             <short>Leenwoord</short>
             <example type="incorrect">Gebruik de <marker>commercial</marker>.</example>
             <example type="correct">Gebruik de <marker>reclameboodschap</marker>.</example>
          </rule>
-         <rule id="ID042">
+         <rule id="ID056">
             <pattern>
                <token inflected="yes">break</token>
             </pattern>
-            <message>Engels. <suggestion>pauze</suggestion>.</message>
+            <message>Engels. <suggestion><match no="1" postag="NN.*" postag_regexp="yes" >pauze</match></suggestion>.</message>
             <short>Leenwoord</short>
             <example type="incorrect">Gebruik de <marker>break</marker>.</example>
             <example type="correct">Gebruik de <marker>pauze</marker>.</example>
          </rule>
-         <rule id="ID043">
+         <rule id="ID057">
             <pattern>
                <token regexp="yes">multiplechoice.*</token>
             </pattern>
@@ -834,7 +821,7 @@ $Id: grammar.xml,v 1.12 2008-12-10 22:14:58 milek_pl Exp $
             <example type="incorrect">Gebruik de <marker>multiplechoicevraag</marker>.</example>
             <example type="correct">Gebruik de <marker>meerkeuzevraag</marker>.</example>
          </rule>
-         <rule id="ID044">
+         <rule id="ID058">
             <pattern>
                <token inflected="yes">babysit</token>
             </pattern>
@@ -843,17 +830,17 @@ $Id: grammar.xml,v 1.12 2008-12-10 22:14:58 milek_pl Exp $
             <example type="incorrect">Zoek de <marker>babysit</marker>.</example>
             <example type="correct">Zoek de <marker>oppas</marker>.</example>
          </rule>
-         <rule id="ID045">
-            <pattern>
+         <rule id="ID059">
+            <pattern case_sensitive="yes">
                <token inflected="yes">magazine</token>
             </pattern>
-            <message>Leenwoord. <suggestion>tijdschrift</suggestion>.</message>
+            <message>Leenwoord. <suggestion><match no="1" postag="NN.*" postag_regexp="yes" >tijdschrift</match></suggestion>.</message>
             <short>Leenwoord</short>
             <example type="incorrect">Gebruik het <marker>magazine</marker>.</example>
             <example type="correct">Gebruik het <marker>tijdschrift</marker>.</example>
          </rule>
-         <rule id="ID046">
-            <pattern>
+         <rule id="ID060">
+            <pattern case_sensitive="yes">
                <token>design</token>
             </pattern>
             <message>Engels. <suggestion>ontwerp</suggestion>.</message>
@@ -861,34 +848,34 @@ $Id: grammar.xml,v 1.12 2008-12-10 22:14:58 milek_pl Exp $
             <example type="incorrect">Gebruik het <marker>design</marker>.</example>
             <example type="correct">Gebruik het <marker>ontwerp</marker>.</example>
          </rule>
-         <rule id="ID047">
+         <rule id="ID061">
             <pattern>
                <token inflected="yes">password</token>
             </pattern>
-            <message>Leenwoord. <suggestion>wachtwoord</suggestion>.</message>
+            <message>Leenwoord. <suggestion><match no="1" postag="NN.*" postag_regexp="yes" >wachtwoord</match></suggestion>.</message>
             <short>Leenwoord</short>
             <example type="incorrect">Gebruik het <marker>password</marker>.</example>
             <example type="correct">Gebruik het <marker>wachtwoord</marker>.</example>
          </rule>
-         <rule id="ID048_OK">
+         <rule id="ID062">
             <pattern>
                <token inflected="yes">reporter</token>
             </pattern>
-            <message>Engels. <suggestion>verslaggever</suggestion>.</message>
+            <message>Engels. <suggestion><match no="1" postag="NN.*" postag_regexp="yes" >verslaggever</match></suggestion>.</message>
             <short>Leenwoord</short>
             <example type="incorrect">Gebruik de <marker>reporter</marker>.</example>
             <example type="correct">Gebruik de <marker>verslaggever</marker>.</example>
          </rule>
-         <rule id="ID049">
+         <rule id="ID063">
             <pattern>
                <token inflected="yes">eyecatcher</token>
             </pattern>
-            <message>Engels. <suggestion>blikvanger</suggestion>.</message>
+            <message>Engels. <suggestion><match no="1" postag="NN.*" postag_regexp="yes" >blikvanger</match></suggestion>.</message>
             <short>Leenwoord</short>
             <example type="incorrect">Gebruik de <marker>eyecatcher</marker>.</example>
             <example type="correct">Gebruik de <marker>blikvanger</marker>.</example>
          </rule>
-         <rule id="ID050">
+         <rule id="ID064">
             <pattern>
                <token inflected="yes">celebrity</token>
             </pattern>
@@ -897,16 +884,16 @@ $Id: grammar.xml,v 1.12 2008-12-10 22:14:58 milek_pl Exp $
             <example type="incorrect">Gebruik de <marker>celebrity</marker>.</example>
             <example type="correct">Gebruik de <marker>beroemdheid</marker>.</example>
          </rule>
-         <rule id="ID051">
+         <rule id="ID065">
             <pattern>
                <token inflected="yes">meeting</token>
             </pattern>
-            <message>Engels. <suggestion>vergadering</suggestion>.</message>
+            <message>Engels. <suggestion><match no="1" postag="NN.*" postag_regexp="yes" >vergadering</match></suggestion> of <suggestion><match no="1" postag="NN.*" postag_regexp="yes" >bijeenkomst</match></suggestion>.</message>
             <short>Leenwoord</short>
             <example type="incorrect">Gebruik de <marker>meeting</marker>.</example>
             <example type="correct">Gebruik de <marker>vergadering</marker>.</example>
          </rule>
-         <rule id="ID052">
+         <rule id="ID066">
             <pattern>
                <token>feedback</token>
             </pattern>
@@ -915,7 +902,7 @@ $Id: grammar.xml,v 1.12 2008-12-10 22:14:58 milek_pl Exp $
             <example type="incorrect">Gebruik de <marker>feedback</marker>.</example>
             <example type="correct">Gebruik de <marker>terugkoppeling</marker>.</example>
          </rule>
-         <rule id="ID053">
+         <rule id="ID067">
             <pattern>
                <token>sale</token>
             </pattern>
@@ -924,7 +911,7 @@ $Id: grammar.xml,v 1.12 2008-12-10 22:14:58 milek_pl Exp $
             <example type="incorrect">Gebruik de <marker>sale</marker>.</example>
             <example type="correct">Gebruik de <marker>uitverkoop</marker>.</example>
          </rule>
-         <rule id="ID054">
+         <rule id="ID068">
             <pattern>
                <token>royalty</token>
             </pattern>
@@ -933,43 +920,43 @@ $Id: grammar.xml,v 1.12 2008-12-10 22:14:58 milek_pl Exp $
             <example type="incorrect">Er staat <marker>royalty</marker> in het blad.</example>
             <example type="correct">In het blad staan <marker>leden van het koninklijk huis</marker>.</example>
          </rule>
-         <rule id="ID055">
+         <rule id="ID069">
             <pattern>
                <token regexp="yes">match.*</token>
             </pattern>
-            <message>Engels. Beter zijn: koppelaar, overeenkomst, wedstrijd en hn vormen</message>
+            <message>Engels. Beter zijn: koppelaar, overeenkomst, wedstrijd en hun vormen</message>
             <short>Leenwoord</short>
             <example type="incorrect">Gebruik de <marker>matchmaker</marker>.</example>
             <example type="correct">Gebruik de <marker>koppelaar</marker>.</example>
          </rule>
-         <rule id="ID056">
+         <rule id="ID070">
             <pattern>
                <token inflected="yes">statement</token>
             </pattern>
-            <message>Engels. <suggestion>verklaring</suggestion>, <suggestion>uitspraak</suggestion>.</message>
+            <message>Engels. <suggestion><match no="1" postag="NN.*" postag_regexp="yes" >verklaring</match></suggestion>, <suggestion><match no="1" postag="NN.*" postag_regexp="yes" >uitspraak</match></suggestion>.</message>
             <short>Leenwoord</short>
             <example type="incorrect">Gebruik de <marker>statement</marker>.</example>
             <example type="correct">Gebruik de <marker>uitspraak</marker>.</example>
          </rule>
-         <rule id="ID057">
+         <rule id="ID071">
             <pattern>
                <token inflected="yes">bodyguard</token>
             </pattern>
-            <message>Engels leenwoord. <suggestion>lijfwacht</suggestion>.</message>
+            <message>Engels leenwoord. <suggestion><match no="1" postag="NN.*" postag_regexp="yes" >lijfwacht</match></suggestion>.</message>
             <short>Leenwoord</short>
             <example type="incorrect">Gebruik de <marker>bodyguard</marker>.</example>
             <example type="correct">Gebruik de <marker>lijfwacht</marker>.</example>
          </rule>
-         <rule id="ID058">
+         <rule id="ID072">
             <pattern>
                <token inflected="yes">talkshow</token>
             </pattern>
-            <message>Engels. <suggestion>praatprogramma</suggestion>.</message>
+            <message>Engels. <suggestion><match no="1" postag="NN.*" postag_regexp="yes" >praatprogramma</match></suggestion>.</message>
             <short>Leenwoord</short>
             <example type="incorrect">Gebruik de <marker>talkshow</marker>.</example>
             <example type="correct">Gebruik het <marker>praatprogramma</marker>.</example>
          </rule>
-         <rule id="ID059">
+         <rule id="ID073">
             <pattern>
                <token inflected="yes">airconditioning</token>
             </pattern>
@@ -978,7 +965,7 @@ $Id: grammar.xml,v 1.12 2008-12-10 22:14:58 milek_pl Exp $
             <example type="incorrect">Gebruik de <marker>airconditioning</marker>.</example>
             <example type="correct">Gebruik de <marker>klimaatregeling</marker>.</example>
          </rule>
-         <rule id="ID062">
+         <rule id="ID074">
             <pattern>
                <token inflected="yes">weekend</token>
             </pattern>
@@ -987,7 +974,7 @@ $Id: grammar.xml,v 1.12 2008-12-10 22:14:58 milek_pl Exp $
             <example type="incorrect">Gebruik het <marker>weekend</marker>.</example>
             <example type="correct">Gebruik het <marker>weekeinde</marker>.</example>
          </rule>
-         <rule id="ID064">
+         <rule id="ID075">
             <pattern>
                <token inflected="yes">hovercraft</token>
             </pattern>
@@ -996,7 +983,7 @@ $Id: grammar.xml,v 1.12 2008-12-10 22:14:58 milek_pl Exp $
             <example type="incorrect">Gebruik de <marker>hovercraft</marker>.</example>
             <example type="correct">Gebruik het <marker>luchtkussenvaartuig</marker>.</example>
          </rule>
-         <rule id="ID065">
+         <rule id="ID076">
             <pattern>
                <token>cruisecontrol</token>
             </pattern>
@@ -1007,7 +994,7 @@ $Id: grammar.xml,v 1.12 2008-12-10 22:14:58 milek_pl Exp $
          </rule>
       </rulegroup>
       <rulegroup id="TAALPURISME" name="Leenwoorden vervangen door bedachte woorden" default="off">
-         <rule id="ID063">
+         <rule id="ID077">
             <pattern>
                <token inflected="yes">e-mail</token>
             </pattern>
@@ -1016,16 +1003,16 @@ $Id: grammar.xml,v 1.12 2008-12-10 22:14:58 milek_pl Exp $
             <example type="incorrect">Gebruik de <marker>e-mail</marker>.</example>
             <example type="correct">Gebruik de <marker>e-post</marker>.</example>
          </rule>
-         <rule id="ID066">
+         <rule id="ID078">
             <pattern>
                <token inflected="yes">website</token>
             </pattern>
-            <message>Leenwoord. <suggestion>webstek</suggestion>.</message>
+            <message>Leenwoord. <suggestion><match no="1" postag="NN.*" postag_regexp="yes" >webstek</match></suggestion>.</message>
             <short>Leenwoord</short>
             <example type="incorrect">Gebruik de <marker>website</marker>.</example>
             <example type="correct">Gebruik de <marker>webstek</marker>.</example>
          </rule>
-         <rule id="ID067">
+         <rule id="ID079">
             <pattern>
                <token inflected="yes">airbag</token>
             </pattern>
@@ -1034,7 +1021,7 @@ $Id: grammar.xml,v 1.12 2008-12-10 22:14:58 milek_pl Exp $
             <example type="incorrect">Gebruik de <marker>airbag</marker>.</example>
             <example type="correct">Gebruik het <marker>luchtkussen</marker>.</example>
          </rule>
-         <rule id="ID068">
+         <rule id="ID080">
             <pattern>
                <token>intensive</token>
                <token>care</token>
@@ -1046,10 +1033,9 @@ $Id: grammar.xml,v 1.12 2008-12-10 22:14:58 milek_pl Exp $
          </rule>
       </rulegroup>
    </category>
-   
    <category name="Punten en komma's, interpunctie">
       <rulegroup id="EN_KOMMA" name="En, gevolgd door komma">
-         <rule id="ID069_OK">
+         <rule id="ID081">
             <pattern>
                <token>, </token>
                <token>en</token>
@@ -1061,7 +1047,7 @@ $Id: grammar.xml,v 1.12 2008-12-10 22:14:58 milek_pl Exp $
          </rule>
       </rulegroup>
       <rulegroup id="IJ_HOOFDLETTER" name="IJ als hoofdletter en niet Ij">
-         <rule id="ID070">
+         <rule id="ID082">
             <pattern case_sensitive="yes">
                <token regexp="yes">Ij.*</token>
             </pattern>
@@ -1071,33 +1057,8 @@ $Id: grammar.xml,v 1.12 2008-12-10 22:14:58 milek_pl Exp $
             <example type="correct">Schrijf altijd <marker>IJsland</marker>.</example>
          </rule>
       </rulegroup>
-      <!--  DISABLED BECAUSE OF # OF FALSE POSTIVES -
-      <rulegroup id="DE_NAAM" name="De met hoofdletter als eigennaam">
-         <rule id="ID071">
-            <pattern case_sensitive="yes">
-               <token>de</token>
-               <token regexp="yes">telegraaf|tijd|stijl|standaard|limburger</token>
-            </pattern>
-            <message>Wanneer u hier het blad bedoelt, dan is <suggestion><match no="1" case_conversion ="startupper"/> <match no="2" case_conversion ="startupper"/></suggestion> correct.</message>
-            <short>Hoofdletter?</short>
-            <example type="correct">Ik lees <marker>De Standaard</marker>.</example>
-            <example type="incorrect">Ik lees <marker>de standaard</marker>.</example>
-         </rule>
-         
-         <rule id="ID072">
-            <pattern case_sensitive="yes" mark_from="1">
-               <token>het</token>
-               <token>algemeen</token>
-               <token>Dagblad</token>
-            </pattern>
-            <message>Wanneer u hier het blad bedoelt, dan is <suggestion><match no="1" case_conversion ="startupper"/> <match no="2" case_conversion ="startupper"/></suggestion> correct.</message>
-            <short>Hoofdletter?</short>
-            <example type="correct">Ik lees het <marker>Algemeen Dagblad</marker>.</example>
-            <example type="incorrect">Ik lees het <marker>algemeen Dagblad</marker>.</example>
-         </rule>
-         -->
       <rulegroup id="TITELS" name="Titels">
-         <rule id="ID073_OK">
+         <rule id="ID083">
             <pattern case_sensitive="yes" mark_from="1">
                <token><exception postag="SENT_START"/></token>
                <token regexp="yes">Prinses|Prins|Koning|Koningin|Graaf|Hertog|Minister|Staatssecretaris</token>
@@ -1111,7 +1072,7 @@ $Id: grammar.xml,v 1.12 2008-12-10 22:14:58 milek_pl Exp $
    </category>
    <category name="Aardrijkskundige begrippen">
       <rulegroup id="GEO_HOOFDL" name="Hoofdletter of niet? Maas of maas, geul of Geul">
-         <rule id="ID074">
+         <rule id="ID084">
             <pattern case_sensitive="yes" mark_from="1">
                <token regexp="yes">de|den</token>
                <token regexp="yes">dommel|geeuw|gein|geul|gulp|kale|lek|liede|linde|maas|noord|raam|roer|rotte|vecht|voer|worm</token>
@@ -1122,42 +1083,47 @@ $Id: grammar.xml,v 1.12 2008-12-10 22:14:58 milek_pl Exp $
             <example type="incorrect">Daar ligt de <marker>lek</marker>.</example>
          </rule>
       </rulegroup>
+      
       <rulegroup id="GEO_HOOFDL2" name="Hoofdletter of niet? De Bilt etc">
-         <rule id="ID075">
+         <rule id="ID085">
             <pattern case_sensitive="yes">
                <token>de</token>
                <token regexp="yes">Baarsjes|Bilt|Klinge|Meern|Moeren|Ronde|Wolden</token>
             </pattern>
-            <message>Wanneer u het aardrijkskundige begrip bedoelt, dan is <suggestion><match no="1" case_conversion ="startupper"/> <match no="2"/></suggestion> correct.</message>
+            <message>Wanneer u de plaats bedoelt, dan is <suggestion><match no="1" case_conversion ="startupper"/> <match no="2"/></suggestion> correct.</message>
             <short>Hoofdletter?</short>
             <example type="correct">Daar ligt <marker>De Bilt</marker>.</example>
             <example type="incorrect">Daar ligt <marker>de Bilt</marker>.</example>
          </rule>
       </rulegroup>
       <rulegroup id="GOLF_VAN" name="Golf van Bengalen etc">
-         <rule id="ID076">
+      <!--
+         <rule id="ID086">
             <pattern case_sensitive="yes">
                <token regexp="yes">golf|bocht|baai|kanaal|(hoog|laag)land|nauw|meer|plateau|straat|zee|land|landengte|vallei|vlakte|bekken</token>
                <token>van</token>
                <token regexp="yes">[A-Z].+</token>
             </pattern>
-            <message>Wanneer u het aardrijkskundig begrip bedoelt, dan is <suggestion><match no="1" case_conversion ="startupper"/> <match no="2"/> <match no="3" case_conversion ="startupper"/></suggestion> correct.</message>
+            <message>Is het niet <suggestion><match no="1" case_conversion ="startupper"/> <match no="2"/> <match no="3" case_conversion ="startupper"/></suggestion>?</message>
             <short>Hoofdletter?</short>
             <example type="incorrect">De <marker>golf van Amman</marker>.</example>
             <example type="correct">De <marker>Golf van Amman</marker>.</example>
          </rule>
-         <rule id="ID077">
+         -->
+         <!--
+         <rule id="ID087">
             <pattern case_sensitive="yes">
                <token><exception>-</exception></token>
                <token regexp="yes">[A-Z].+</token>
                <token regexp="yes">(hoog|laag)(vlakte|land.*|te|ten)|alpen|archipel|bekken|bergland|binnenzee|bocht|eilanden|hoogten|kanaal|kustvlakte|gebergte|rug|schiereiland|woestijn|woud</token>
             </pattern>
-            <message>Wanneer u het aardrijkskundige begrip bedoelt, dan is <suggestion><match no="2"/> <match no="3" case_conversion ="startupper"/></suggestion> correct.</message>
+            <message>Is het niet <suggestion><match no="2"/> <match no="3" case_conversion ="startupper"/></suggestion>?.</message>
             <short>Hoofdletter?</short>
             <example type="incorrect"><marker>Het Belgisch laagland</marker>.</example>
             <example type="correct"><marker>De Schotse Hooglanden</marker>.</example>
          </rule>
-         <rule id="ID078">
+         -->
+         <rule id="ID088">
             <pattern case_sensitive="yes">
                <token>straat</token>
                <token regexp="yes">[A-Z].+</token>
@@ -1169,7 +1135,7 @@ $Id: grammar.xml,v 1.12 2008-12-10 22:14:58 milek_pl Exp $
          </rule>
       </rulegroup>
       <rulegroup id="T_PLAATS" name="'t Plaats">
-         <rule id="ID079">
+         <rule id="ID089">
             <pattern mark_from="2" case_sensitive="yes">
                <token>'</token>
                <token>t</token>
@@ -1182,7 +1148,7 @@ $Id: grammar.xml,v 1.12 2008-12-10 22:14:58 milek_pl Exp $
          </rule>
       </rulegroup>
       <rulegroup id="AAN_DE" name="Plaats aan de of aan den">
-         <rule id="ID080">
+         <rule id="ID090">
             <pattern>
                <token regexp="yes">Alphen|Capelle|Egmond|Koudekerk|Krimpen|Nieuwerkerk|Ouderkerk</token>
                <token>aan</token>
@@ -1194,7 +1160,7 @@ $Id: grammar.xml,v 1.12 2008-12-10 22:14:58 milek_pl Exp $
             <example type="correct"><marker>Krimpen aan den IJssel</marker>.</example>
             <example type="incorrect"><marker>Krimpen aan de IJssel</marker>.</example>
          </rule>
-         <rule id="ID081">
+         <rule id="ID091">
             <pattern mark_from="2" mark_to="-1">
                <token regexp="yes">Berg|Horst|Katwijk|Koog|Krimpen|Loenen|Millingen|Nes|Ouderkerk|Valkenburg</token>
                <token>aan</token>
@@ -1206,7 +1172,7 @@ $Id: grammar.xml,v 1.12 2008-12-10 22:14:58 milek_pl Exp $
             <example type="correct">Valkenburg aan <marker>de</marker> Maas.</example>
             <example type="incorrect">Valkenburg aan <marker>den</marker> Maas.</example>
          </rule>
-         <rule id="ID082">
+         <rule id="ID092">
             <pattern mark_from="2" case_sensitive="yes">
                <token regexp="yes">[A-Z].+</token>
                <token>aan</token>
@@ -1219,7 +1185,7 @@ $Id: grammar.xml,v 1.12 2008-12-10 22:14:58 milek_pl Exp $
          </rule>
       </rulegroup>
       <rulegroup id="MIDDELLANDSE_ZEE" name="Middellandse Zee">
-         <rule id="ID083">
+         <rule id="ID093">
             <pattern case_sensitive="yes">
                <token regexp="yes">dode|caraïbische|caribische|arabische|andamanse|middellandse|adriatische|Egeïsche|Gele|Ierse|Ionische|Japanse|Kaspische|Keltische|Ligurische|Molukse|Noorse|Oost-Chinese|Oost-Siberische|Rode|Tyrreense|Witte|Zuid-Chinese|Zwarte</token>
                <token regexp="yes">[z|Z]ee.*</token>
@@ -1229,7 +1195,7 @@ $Id: grammar.xml,v 1.12 2008-12-10 22:14:58 milek_pl Exp $
             <example type="incorrect">Lekker baden in de <marker>middellandse zee</marker>.</example>
             <example type="correct">Lekker baden in de <marker>Middellandse Zee</marker>.</example>
          </rule>
-         <rule id="ID084">
+         <rule id="ID094">
             <pattern case_sensitive="yes">
                <token regexp="yes">gele|rode|witte|zwarte</token>
                <token regexp="yes">(r|R)ivier.*</token>
@@ -1239,7 +1205,7 @@ $Id: grammar.xml,v 1.12 2008-12-10 22:14:58 milek_pl Exp $
             <example type="incorrect">Lekker baden in de <marker>gele rivier</marker>.</example>
             <example type="correct">Lekker baden in de <marker>Gele Rivier</marker>.</example>
          </rule>
-         <rule id="ID085">
+         <rule id="ID095">
             <pattern case_sensitive="yes">
                <token regexp="yes">Gele|Rode|Witte|Zwarte</token>
                <token regexp="yes">rivier.*</token>
@@ -1249,7 +1215,7 @@ $Id: grammar.xml,v 1.12 2008-12-10 22:14:58 milek_pl Exp $
             <example type="incorrect">Lekker baden in de <marker>Gele rivier</marker>.</example>
             <example type="correct">Lekker baden in de <marker>Gele Rivier</marker>.</example>
          </rule>
-         <rule id="ID086">
+         <rule id="ID096">
             <pattern>
                <token regexp="yes">(dode|caraïbische|caribische|arabische|andamanse|middellandse|adriatische|Egeïsche|Gele|Ierse|Ionische|Japanse|Kaspische|Keltische|Ligurische|Molukse|Noorse|Oost-Chinese|Oost-Siberische|Rode|Tyrreense|Witte|Zuid-Chinese|Zwarte)-zee.*</token>
             </pattern>
@@ -1259,23 +1225,22 @@ $Id: grammar.xml,v 1.12 2008-12-10 22:14:58 milek_pl Exp $
             <example type="correct">Dit is het <marker>Middellandse Zeegebied</marker>.</example>
          </rule>
       </rulegroup>
-      <rulegroup id="PLAATSEN_KOPPEL" name="Plaatsen waar koppelteken in hoort">
-         <rule id="ID087">
-            <pattern case_sensitive="yes">
-               <token regexp="yes">[A-Z][a-z].+<exception postag="SENT_START"/></token>
-               <token regexp="yes">Buiten|Haven|Hout|Stad|Noord|Zuidoost|Binnen|West|Compascuum|Dorp|Oost|Vesting|Zuid|Midden|Eind|Centrum</token>
-            </pattern>
-            <message>Als dit een Nederlandse plaats is, dan is <suggestion><match no="1" case_conversion ="startupper"/>-<match no="2" case_conversion ="startupper"/></suggestion> correct.</message>
-            <short>Koppelteken?</short>
-            <example type="correct">Ik woon in <marker>Almere-Haven</marker>.</example>
-            <example type="incorrect">Ik woon in <marker>Almere Haven</marker>.</example>
-         </rule>
-      </rulegroup>
    </category>
    <category name="Mogelijke typefouten">
+      <rulegroup id="HOOFDLETTERS" name="Hoofdletters of niet">
+         <rule id="ID097">
+            <pattern case_sensitive="yes">
+               <token regexp="yes">CAO|PC|DVD|CD|LED|IC|GSM</token>
+            </pattern>
+            <message>Juist is <suggestion><match no="1" case_conversion ="alllower"/></suggestion></message>
+            <short>Schrijfwijze</short>
+            <example type="incorrect">Een personal computer is een <marker>PC</marker>.</example>
+            <example type="correct">Ik brand een <marker>dvd</marker>.</example>
+         </rule>
+      </rulegroup>
       <rulegroup id="GROTE_KANS" name="Grote kans op typefout">
-         <rule id="ID088">
-            <pattern>
+         <rule id="ID098">
+            <pattern case_sensitive="yes">
                <token regexp="yes">asem|beden|beried|beschikker|bissers|bogey|bombarde|brammen|brandwonde|casseerde|censoren|codificaties|complets|conus|daarzonder|doordien|dopers|doteren|doteren|dreg|eest|eindde|exclave|exclusies|factoor|fantaste|flatus|forst|franke|gagel|galon|gameten|gecasseerd|gegeeld|gejijd|gemierd|genaakt|geradeerd|gereld|gerokte|geruid|getopt|gewerd|gieken|gording|grazer|groende|gronding|hevels|hinten|hippen|hommer|huif|inclusies|ingeland|ingelanden|jukken|kabaai|kali|keggen|kemels|keuters|kina|kissen|kliefde|kof|koteren|krakken|kregel|krikkel|krimi|lala|leis|leper|lij|loding|loefde|lota|lues|luien|mandement|mandementen|marches|mata|maté|morzel|moveren|munter|nadir|neet|nevens|officie|ontroofd|ooitje|opalen|optrede|ouwel|paapse|paas|pakker|pander|patente|pimpel|prefs|raffia|raio|raio|rakel|ratte|regale|rekel|rekkers|rekwest|responsie|robber|rost|royaliteit|rune|sater|schamp|schoenmaken|schoring|secessie|sloor|sofist|solde|spijl|spore|stag|stagen|steef|stevens|stilten|stoefen|stolpen|stommen|stonde|tactiel|talon|talon|teerder|tergen|testeren|testes|tets|tonale|tonder|topte|treeft|trens|uitmalen|universale|vadem|vake|valer|vees|velling|verenen|verklaarder|verschotten|verwachter|verweking|verzwonden|vlaken|vleten|vlok|volte|voord|voteren|vroed|wartels|weger|wegers|weggen|wem|wetering|woeling|worgen|zaling|zeetje|zieden|zijg|zinker|zoele|zoor|zorglijk|zwartte</token>
             </pattern>
             <message>Hoewel het woord correct is, is er een grote kans op een typefout omdat er slechts weinig verschil is met een veelgebruikt woord.</message>
@@ -1285,7 +1250,7 @@ $Id: grammar.xml,v 1.12 2008-12-10 22:14:58 milek_pl Exp $
          </rule>
       </rulegroup>
       <rulegroup id="EINDE_E" name="Eindigt op e">
-         <rule id="ID089_OK">
+         <rule id="ID099">
             <pattern>
                <token regexp="yes">danse|machte|nachte|moge|node|passe|erve|luide|wade|heffe|kruide|stapele|denke|laaie|rekke|bedenke|beruste|melde|schrobbe|motte|rille|wonde|krabbe|wikke|stalle|vergelijke|helpe|huwelijke|make|plante|diene|gebruike|klokke|lakke|morse|kante|hoppe|voege|weide|wrake|neme|proeve|schouwe|belope|pare|rouwe|krimpe|spreke|geve|stele|bloede|glundere|rijde|bonze|grieve|volharde|geniete|wende|raadplege|sloffe|breide|gerieve|dele|bedrage|dage|grave|lande|gronde|perse|bewijze|strijde|eigene|lijve|kunne|gelieve|leve|ruste|vreze</token>
             </pattern>
@@ -1294,7 +1259,7 @@ $Id: grammar.xml,v 1.12 2008-12-10 22:14:58 milek_pl Exp $
             <example type="incorrect"><marker>Moge</marker> het nuttig zijn..</example>
             <example type="correct">Ik <marker>hoop</marker> dat het nuttig is.</example>
          </rule>
-         <rule id="ID090">
+         <rule id="ID100">
             <pattern mark_from="1">
                <token negate="yes" regexp="yes">de|het|een|geen</token>
                <token regexp="yes">luwe|veile|begrote|verpachte|bare|wake|spore|winde|trede</token>
@@ -1306,7 +1271,7 @@ $Id: grammar.xml,v 1.12 2008-12-10 22:14:58 milek_pl Exp $
          </rule>
       </rulegroup>
       <rulegroup id="EMAIL" name="Email vs e-mail">
-         <rule id="ID091">
+         <rule id="ID101">
             <pattern mark_from="1">
                <token regexp="yes">de|een|geen</token>
                <token>email</token>
@@ -1318,7 +1283,7 @@ $Id: grammar.xml,v 1.12 2008-12-10 22:14:58 milek_pl Exp $
          </rule>
       </rulegroup>
       <rulegroup id="SLIB" name="slibben vs slippen">
-         <rule id="ID092">
+         <rule id="ID102">
             <pattern mark_to="-1">
                <token regexp="yes">slippen|slipt|slipte|slipten</token>
                <token>dicht</token>
@@ -1330,7 +1295,7 @@ $Id: grammar.xml,v 1.12 2008-12-10 22:14:58 milek_pl Exp $
          </rule>
       </rulegroup>
       <rulegroup id="LIDWOORD_LIDWOORD" name="Dubbel Lidwoord">
-         <rule id="ID093">
+         <rule id="ID103">
             <pattern>
                <token>de</token>
                <token>het</token>
@@ -1342,7 +1307,7 @@ $Id: grammar.xml,v 1.12 2008-12-10 22:14:58 milek_pl Exp $
          </rule>
       </rulegroup>
       <rulegroup id="DEN_HAAG_ETC" name="Plaatsnamen met 's">
-         <rule id="ID094">
+         <rule id="ID104">
             <pattern>
                <token>'</token>
                <token>s</token>
@@ -1353,7 +1318,7 @@ $Id: grammar.xml,v 1.12 2008-12-10 22:14:58 milek_pl Exp $
             <example type="incorrect">Ik ga naar <marker>'s Gravenmeer</marker>.</example>
             <example type="correct">Ik ga naar <marker>Den Bosch</marker>.</example>
          </rule>
-         <rule id="ID095">
+         <rule id="ID105">
             <pattern>
                <token>'</token>
                <token>s</token>
@@ -1364,7 +1329,7 @@ $Id: grammar.xml,v 1.12 2008-12-10 22:14:58 milek_pl Exp $
             <example type="incorrect">Ik ga naar <marker>'s Gravenhage</marker>.</example>
             <example type="correct">Ik ga naar <marker>Den Haag</marker>.</example>
          </rule>
-         <rule id="ID096">
+         <rule id="ID106">
             <pattern>
                <token>'</token>
                <token>s</token>
@@ -1377,10 +1342,10 @@ $Id: grammar.xml,v 1.12 2008-12-10 22:14:58 milek_pl Exp $
          </rule>
       </rulegroup>
       <rulegroup id="MEERVOUDS" name="Meervoud met 's">
-         <rule id="ID097">
+         <rule id="ID107">
          <!-- letterwoorden moeten hier uitgezonderd worden -->
-            <pattern case_sensitive="yes" mark_to="-1">
-               <token postag="NN1.*" postag_regexp="yes"><exception regexp="yes">.*[u]$|.*[a]$|.*[o]$|.*[i]$|.*[y]$|.*ie$</exception><exception regexp="yes">abc|cd|dvd|pc|tv|ngo|gsm|pak|lcd|[a-zA-Z0-9]</exception></token>
+            <pattern mark_to="-1" case_sensitive="yes">
+               <token postag="NN1.*" postag_regexp="yes"><exception regexp="yes">.*([A-Zéuaoiy])$</exception><exception regexp="yes">abc|cd|dvd|pc|tv|ngo|gsm|pak|lcd|.*[A-Z0-9]$</exception></token>
                <token>'</token>
                <token>s</token>
                <token><exception regexp="yes">avonds|middags|ochtends|nachts</exception></token>
@@ -1394,7 +1359,7 @@ $Id: grammar.xml,v 1.12 2008-12-10 22:14:58 milek_pl Exp $
    </category>
    <category name="Woordgroepen">
       <rulegroup id="DATUM" name="Dag in samenstelling">
-         <rule id="ID098">
+         <rule id="ID108">
             <pattern>
                <token regexp="yes">[0-9]{1,2}-(dollar|euro|gulden|pond|januari|februari|maart|april|mei|juni|juli|augustus|september|oktober|november|december).+</token>
             </pattern>
@@ -1405,7 +1370,7 @@ $Id: grammar.xml,v 1.12 2008-12-10 22:14:58 milek_pl Exp $
          </rule>
       </rulegroup>
       <rulegroup id="IN_SPE" name="In spe">
-         <rule id="ID099">
+         <rule id="ID109">
             <pattern>
                <token negate="yes">in</token>
                <token>spe</token>
@@ -1417,7 +1382,7 @@ $Id: grammar.xml,v 1.12 2008-12-10 22:14:58 milek_pl Exp $
          </rule>
       </rulegroup>
       <rulegroup id="NOTA_BENE" name="Nota bene">
-         <rule id="ID100">
+         <rule id="ID110">
             <pattern>
                <token negate="yes">nota</token>
                <token>bene</token>
@@ -1429,7 +1394,7 @@ $Id: grammar.xml,v 1.12 2008-12-10 22:14:58 milek_pl Exp $
          </rule>
       </rulegroup>
       <rulegroup id="AD_HOC" name="Ad hoc">
-         <rule id="ID101">
+         <rule id="ID111">
             <pattern>
                <token negate="yes">ad</token>
                <token>hoc</token>
@@ -1439,7 +1404,7 @@ $Id: grammar.xml,v 1.12 2008-12-10 22:14:58 milek_pl Exp $
             <example type="incorrect">Dat is wel erg <marker>at hoc</marker>.</example>
             <example type="correct">Dat is wel erg <marker>ad hoc</marker>.</example>
          </rule>
-         <rule id="ID102">
+         <rule id="ID112">
             <pattern>
                <token>ad</token>
                <token>hok</token>
@@ -1449,7 +1414,7 @@ $Id: grammar.xml,v 1.12 2008-12-10 22:14:58 milek_pl Exp $
             <example type="incorrect">Dat is wel erg <marker>ad hok</marker>.</example>
             <example type="correct">Dat is wel erg <marker>ad hoc</marker>.</example>
          </rule>
-         <rule id="ID103">
+         <rule id="ID113">
             <pattern>
                <token>ad</token>
                <token regexp="yes">hoc.+</token>
@@ -1461,7 +1426,7 @@ $Id: grammar.xml,v 1.12 2008-12-10 22:14:58 milek_pl Exp $
          </rule>
       </rulegroup>
       <rulegroup id="AAN_DEN_LIJVE" name="Aan den lijve">
-         <rule id="ID104">
+         <rule id="ID114">
             <pattern mark_from="1">
                <token negate="yes">den</token>
                <token>lijve</token>
@@ -1473,7 +1438,7 @@ $Id: grammar.xml,v 1.12 2008-12-10 22:14:58 milek_pl Exp $
          </rule>
       </rulegroup>
       <rulegroup id="VAST_OF_FOUT" name="Vaste uitdrukking of typefout">
-         <rule id="ID105">
+         <rule id="ID115">
             <pattern mark_from="1">
                <token negate="yes">en</token>
                <token regexp="yes">outs|zopie|dijn|tegens|zijd|wetens|schrijve</token>
@@ -1483,7 +1448,7 @@ $Id: grammar.xml,v 1.12 2008-12-10 22:14:58 milek_pl Exp $
             <example type="incorrect">Koek of <marker>zopie</marker>.</example>
             <example type="correct">Koek en <marker>zopie</marker>.</example>
          </rule>
-         <rule id="ID106">
+         <rule id="ID116">
             <pattern mark_to="-1">
                <token regexp="yes">ins|willens|voors</token>
                <token negate="yes">en</token>
@@ -1495,7 +1460,7 @@ $Id: grammar.xml,v 1.12 2008-12-10 22:14:58 milek_pl Exp $
          </rule>
       </rulegroup>
       <rulegroup id="AD_REM" name="Ad rem">
-         <rule id="ID107">
+         <rule id="ID117">
             <pattern>
                <token>at</token>
                <token>rem</token>
@@ -1507,8 +1472,8 @@ $Id: grammar.xml,v 1.12 2008-12-10 22:14:58 milek_pl Exp $
          </rule>
       </rulegroup>
       <rulegroup id="A_ETC" name="A capella, priori of vista">
-         <rule id="ID108">
-            <pattern>
+         <rule id="ID118">
+            <pattern case_sensitive="yes">
                <token negate="yes">a</token>
                <token regexp="yes">capella|priori|vista|posteriori</token>
             </pattern>
@@ -1517,7 +1482,7 @@ $Id: grammar.xml,v 1.12 2008-12-10 22:14:58 milek_pl Exp $
             <example type="incorrect">Zij zongen <marker>à capella</marker>.</example>
             <example type="correct">Zij zongen <marker>a capella</marker>.</example>
          </rule>
-         <rule id="ID109">
+         <rule id="ID119">
             <pattern>
                <token regexp="yes">a|à</token>
                <token regexp="yes">(capella|priori|vista|posteriori).+</token>
@@ -1529,7 +1494,7 @@ $Id: grammar.xml,v 1.12 2008-12-10 22:14:58 milek_pl Exp $
          </rule>
       </rulegroup>
       <rulegroup id="A_CHARGE" name="A l(de)charge">
-         <rule id="ID110">
+         <rule id="ID120">
             <pattern>
                <token>a</token>
                <token regexp="yes">charge|decharge|contrecoeur|propos</token>
@@ -1541,7 +1506,7 @@ $Id: grammar.xml,v 1.12 2008-12-10 22:14:58 milek_pl Exp $
          </rule>
       </rulegroup>
       <rulegroup id="A_LA_CARTE" name="A la carte, minute">
-         <rule id="ID111">
+         <rule id="ID121">
             <pattern>
                <token negate="yes">à</token>
                <token>la</token>
@@ -1552,7 +1517,7 @@ $Id: grammar.xml,v 1.12 2008-12-10 22:14:58 milek_pl Exp $
             <example type="incorrect">Je eet daar <marker>a la carte</marker>.</example>
             <example type="correct">Je eet daar <marker>à la carte</marker>.</example>
          </rule>
-         <rule id="ID112">
+         <rule id="ID122">
             <pattern>
                <token regexp="yes">à|a</token>
                <token>la</token>
@@ -1565,7 +1530,7 @@ $Id: grammar.xml,v 1.12 2008-12-10 22:14:58 milek_pl Exp $
          </rule>
       </rulegroup>
       <rulegroup id="FULL_COLOUR" name="Full colour">
-         <rule id="ID113">
+         <rule id="ID123">
             <pattern>
                <token>full</token>
                <token>color</token>
@@ -1577,7 +1542,7 @@ $Id: grammar.xml,v 1.12 2008-12-10 22:14:58 milek_pl Exp $
          </rule>
       </rulegroup>
       <rulegroup id="TWEEDE_KAMER" name="Tweede en Eerste Kamer">
-         <rule id="ID114">
+         <rule id="ID124">
             <pattern case_sensitive="yes">
                <token regexp="yes">tweede|eerste</token>
                <token regexp="yes">kamer.*</token>
@@ -1587,7 +1552,7 @@ $Id: grammar.xml,v 1.12 2008-12-10 22:14:58 milek_pl Exp $
             <example type="correct">De <marker>Eerste Kamer</marker> vergadert vandaag.</example>
             <example type="incorrect">De <marker>tweede kamer</marker> vergadert morgen.</example>
          </rule>
-         <rule id="ID115">
+         <rule id="ID125">
             <pattern case_sensitive="no">
                <token regexp="yes">tweede-kamer.*</token>
             </pattern>
@@ -1596,7 +1561,7 @@ $Id: grammar.xml,v 1.12 2008-12-10 22:14:58 milek_pl Exp $
             <example type="correct">Ik heb hier een <marker>Tweede Kamerstuk</marker>.</example>
             <example type="incorrect">Dit <marker>Tweede-Kamerstuk</marker> is gevoelig materiaal.</example>
          </rule>
-         <rule id="ID116">
+         <rule id="ID126">
             <pattern case_sensitive="no">
                <token regexp="yes">eerste-kamer.+</token>
             </pattern>
@@ -1607,7 +1572,7 @@ $Id: grammar.xml,v 1.12 2008-12-10 22:14:58 milek_pl Exp $
          </rule>
       </rulegroup>
       <rulegroup id="RODE_KRUIS" name="Rode Kruis">
-         <rule id="ID117">
+         <rule id="ID127">
             <pattern case_sensitive="yes">
                <token>rode</token>
                <token regexp="yes">kruis.*</token>
@@ -1617,7 +1582,7 @@ $Id: grammar.xml,v 1.12 2008-12-10 22:14:58 milek_pl Exp $
             <example type="correct">Dit is <marker>Rode Kruis</marker>.</example>
             <example type="incorrect">Het <marker>rode kruis</marker> helpt.</example>
          </rule>
-         <rule id="ID118">
+         <rule id="ID128">
             <pattern>
                <token regexp="yes">rode[-]kruis.*</token>
             </pattern>
@@ -1628,7 +1593,7 @@ $Id: grammar.xml,v 1.12 2008-12-10 22:14:58 milek_pl Exp $
          </rule>
       </rulegroup>
       <rulegroup id="COMME_IL_FAUT" name="Comme il faut">
-         <rule id="ID119">
+         <rule id="ID129">
             <pattern>
                <token/>
                <token negate="yes">il</token>
@@ -1639,7 +1604,7 @@ $Id: grammar.xml,v 1.12 2008-12-10 22:14:58 milek_pl Exp $
             <example type="incorrect">Dit <marker>is erg faut</marker>.</example>
             <example type="correct">Dat is niet <marker>comme il faut</marker>.</example>
          </rule>
-         <rule id="ID120">
+         <rule id="ID130">
             <pattern>
                <token>comme</token>
                <token>il</token>
@@ -1652,7 +1617,7 @@ $Id: grammar.xml,v 1.12 2008-12-10 22:14:58 milek_pl Exp $
          </rule>
       </rulegroup>
       <rulegroup id="AVONDS" name="'s avonds">
-         <rule id="ID121">
+         <rule id="ID131">
             <pattern>
                <token/>
                <token negate="yes">s</token>
@@ -1663,7 +1628,7 @@ $Id: grammar.xml,v 1.12 2008-12-10 22:14:58 milek_pl Exp $
             <example type="incorrect">Dit <marker>kan niet avonds</marker>.</example>
             <example type="correct">Dit kan niet <marker>'s avonds</marker>.</example>
          </rule>
-         <rule id="ID122">
+         <rule id="ID132">
             <pattern>
                <token negate="yes">'</token>
                <token>s</token>
@@ -1676,7 +1641,7 @@ $Id: grammar.xml,v 1.12 2008-12-10 22:14:58 milek_pl Exp $
          </rule>
       </rulegroup>
       <rulegroup id="AU_BAIN_MARIE" name="Au bain-marie">
-         <rule id="ID123">
+         <rule id="ID133">
             <pattern>
                <token>au</token>
                <token>bain</token>
@@ -1691,7 +1656,7 @@ $Id: grammar.xml,v 1.12 2008-12-10 22:14:58 milek_pl Exp $
    </category>
    <category name="Ambtelijk of formeel">
       <rulegroup id="FORMEEL" name="Ouderwets">
-         <rule id="ID124_OK">
+         <rule id="ID134">
             <pattern>
                <token regexp="yes">thans|danwel|zulks|voorts|derhalve|desalniettemin|evenwel|mede|dewelke|nimmer|immer|hunner|onzer|nevens|alsmede|alsook</token>
             </pattern>
@@ -1700,7 +1665,7 @@ $Id: grammar.xml,v 1.12 2008-12-10 22:14:58 milek_pl Exp $
             <example type="incorrect">Ik zie hem <marker>nimmer</marker>.</example>
             <example type="correct">Ik zie haar <marker>nooit</marker>.</example>
          </rule>
-         <rule id="ID125">
+         <rule id="ID135">
             <pattern>
                <token>terzake</token>
             </pattern>
@@ -1711,7 +1676,7 @@ $Id: grammar.xml,v 1.12 2008-12-10 22:14:58 milek_pl Exp $
          </rule>
       </rulegroup>
       <rulegroup id="TER_ZAKE_VAN" name="Ter zake van">
-         <rule id="ID127">
+         <rule id="ID136">
             <pattern>
                <token>ter</token>
                <token>zake</token>
@@ -1724,7 +1689,7 @@ $Id: grammar.xml,v 1.12 2008-12-10 22:14:58 milek_pl Exp $
          </rule>
       </rulegroup>
       <rulegroup id="U_OF_U" name="U of u">
-         <rule id="ID128_OK">
+         <rule id="ID137">
             <pattern case_sensitive="yes" mark_from="1" mark_to="-1">
                <token negate="yes">.<exception postag="SENT_START"/></token>
                <token>U</token>
@@ -1737,7 +1702,7 @@ $Id: grammar.xml,v 1.12 2008-12-10 22:14:58 milek_pl Exp $
          </rule>
       </rulegroup>
       <rulegroup id="VAAG" name="Vaag taalgebruik">
-         <rule id="ID129_OK">
+         <rule id="ID138">
             <pattern>
                <token regexp="yes">dingen|alles|ergens|ooit|wellicht|misschien</token>
             </pattern>
@@ -1748,7 +1713,7 @@ $Id: grammar.xml,v 1.12 2008-12-10 22:14:58 milek_pl Exp $
          </rule>
       </rulegroup>
       <rulegroup id="DUBBELE_ONTKENNING" name="Dubbele ontkenning">
-         <rule id="ID130_OK">
+         <rule id="ID139">
             <pattern>
                <token regexp="yes" skip="5">niet|nooit|geen|nergens|niet-.+</token>
                <token regexp="yes">niet|nooit|geen|nergens|niet-.+</token>
@@ -1760,7 +1725,7 @@ $Id: grammar.xml,v 1.12 2008-12-10 22:14:58 milek_pl Exp $
          </rule>
       </rulegroup>
       <rulegroup id="TIJDE" name="te allen tijde, ten tijde">
-         <rule id="ID191">
+         <rule id="ID140">
             <pattern mark_from="1" mark_to="-1">
                <token>ten</token>
                <token>tijden</token>
@@ -1771,7 +1736,7 @@ $Id: grammar.xml,v 1.12 2008-12-10 22:14:58 milek_pl Exp $
             <example type="incorrect">Dit is ten <marker>tijden</marker> van de fout.</example>
             <example type="correct">Dit is ten <marker>tijde</marker> van de fout.</example>
          </rule>
-         <rule id="ID192">
+         <rule id="ID141">
             <pattern>
                <token>ten</token>
                <token regexp="yes">alle|allen</token>
@@ -1782,7 +1747,7 @@ $Id: grammar.xml,v 1.12 2008-12-10 22:14:58 milek_pl Exp $
             <example type="incorrect">Dit is <marker>ten alle tijden</marker> fout.</example>
             <example type="correct">Dit is <marker>te allen tijde</marker> in orde.</example>
          </rule>
-         <rule id="ID132">
+         <rule id="ID142">
             <pattern>
                <token>te</token>
                <token>alle</token>
@@ -1797,7 +1762,7 @@ $Id: grammar.xml,v 1.12 2008-12-10 22:14:58 milek_pl Exp $
    </category>
    <category name="Zinsconstructies">
       <rulegroup id="BEGIN_EN" name="Zin begint met voegwoord.">
-         <rule id="ID133_OK">
+         <rule id="ID143">
             <pattern>
                <token postag="SENT_START"/>
                <token regexp="yes">en|of|maar</token>
@@ -1811,7 +1776,7 @@ $Id: grammar.xml,v 1.12 2008-12-10 22:14:58 milek_pl Exp $
    </category>
    <category name="Gewoon, maar fout taalgebruik">
       <rulegroup id="GEEN_EEN" name="Geen een(s)">
-         <rule id="ID134">
+         <rule id="ID144">
             <pattern>
                <token>geen</token>
                <token>een</token>
@@ -1821,7 +1786,7 @@ $Id: grammar.xml,v 1.12 2008-12-10 22:14:58 milek_pl Exp $
             <example type="incorrect">Ik heb er <marker>geen een</marker>.</example>
             <example type="correct">Ik heb er <marker>niet een</marker>.</example>
          </rule>
-         <rule id="ID135_OK">
+         <rule id="ID145">
             <pattern>
                <token>geen</token>
                <token>eens</token>
@@ -1833,7 +1798,7 @@ $Id: grammar.xml,v 1.12 2008-12-10 22:14:58 milek_pl Exp $
          </rule>
       </rulegroup>
       <rulegroup id="VEELS_TE" name="Veels te">
-         <rule id="ID136_OK">
+         <rule id="ID146">
             <pattern>
                <token>veels</token>
                <token>te</token>
@@ -1845,7 +1810,7 @@ $Id: grammar.xml,v 1.12 2008-12-10 22:14:58 milek_pl Exp $
          </rule>
       </rulegroup>
       <rulegroup id="DOOR_DE_WAR" name="Door de war">
-         <rule id="ID137_OK">
+         <rule id="ID147">
             <pattern mark_to="-2">
                <token>door</token>
                <token>de</token>
@@ -1858,7 +1823,7 @@ $Id: grammar.xml,v 1.12 2008-12-10 22:14:58 milek_pl Exp $
          </rule>
       </rulegroup>
       <rulegroup id="JE_EIGEN" name="Eigen i.p.v zelf">
-         <rule id="ID138">
+         <rule id="ID148">
             <pattern mark_to="-1">
                <token/>
                <token>eigen</token>
@@ -1871,7 +1836,7 @@ $Id: grammar.xml,v 1.12 2008-12-10 22:14:58 milek_pl Exp $
          </rule>
       </rulegroup>
       <rulegroup id="TIJDNOTATIE" name="Tijdnotatie">
-         <rule id="ID139">
+         <rule id="ID149">
             <pattern>
                <token regexp="yes">[0-9]{1,2}u\d\d</token>
             </pattern>
@@ -1880,7 +1845,7 @@ $Id: grammar.xml,v 1.12 2008-12-10 22:14:58 milek_pl Exp $
             <example type="incorrect">Hij komt <marker>8u30</marker>.</example>
             <example type="correct">Hij komt <marker>8.30</marker> uur.</example>
          </rule>
-         <rule id="ID140">
+         <rule id="ID150">
             <pattern>
                <token regexp="yes">[0-9]{1,2}u</token>
                <token>.</token>
@@ -1891,7 +1856,7 @@ $Id: grammar.xml,v 1.12 2008-12-10 22:14:58 milek_pl Exp $
             <example type="incorrect">Hij komt <marker>8u.30</marker>.</example>
             <example type="correct">Hij komt <marker>8.30</marker> uur.</example>
          </rule>
-         <rule id="ID141">
+         <rule id="ID151">
             <pattern>
                <token regexp="yes">[0-9]{1,2}h[0-9]{2}</token>
             </pattern>
@@ -1902,7 +1867,7 @@ $Id: grammar.xml,v 1.12 2008-12-10 22:14:58 milek_pl Exp $
          </rule>
       </rulegroup>
       <rulegroup id="GETALLEN" name="Schrijfwijze van getallen">
-         <rule id="ID142">
+         <rule id="ID152">
             <pattern>
                <token regexp="yes">.+duizend.*(een|twee|drie|vier|vijf|zes|zeven|acht|negen|tien|twin|der|veer|honderd).*</token>
             </pattern>
@@ -1911,7 +1876,7 @@ $Id: grammar.xml,v 1.12 2008-12-10 22:14:58 milek_pl Exp $
             <example type="incorrect">Er was <marker>vijfduizendvierhonderdeenentwintig</marker> man aanwezig.</example>
             <example type="correct">Er was <marker>vijfduizend</marker> vierhonderdeenentwintig man aanwezig.</example>
          </rule>
-         <rule id="ID143">
+         <rule id="ID153">
             <pattern>
                <token regexp="yes">.*(m|b|tr)ilj(oen|ard)(een|twee|drie|vier|vijf|zes|zeven|acht|negen|tien|twin|der|veer|honderd|duizend).*</token>
             </pattern>
@@ -1920,7 +1885,7 @@ $Id: grammar.xml,v 1.12 2008-12-10 22:14:58 milek_pl Exp $
             <example type="incorrect">De regering begrootte drie <marker>miljoenvijfhonderdduidend</marker>.</example>
             <example type="correct">De regering begrootte drie <marker>miljoen</marker> vijfhonderdduidend.</example>
          </rule>
-         <rule id="ID144">
+         <rule id="ID154">
             <pattern>
                <token regexp="yes">.*(m|b|tr)ilj(oen|ard).*(een|twee|drie|vier|vijf|zes|zeven|acht|negen|tien|tig|honderd|duizend).*</token>
             </pattern>
@@ -1929,7 +1894,7 @@ $Id: grammar.xml,v 1.12 2008-12-10 22:14:58 milek_pl Exp $
             <example type="incorrect">De regering begrootte drie <marker>miljoenvijfhonderdduizend</marker>.</example>
             <example type="correct">De regering begrootte drie <marker>miljoen</marker> vijfhonderdduizend.</example>
          </rule>
-         <rule id="ID145">
+         <rule id="ID155">
             <pattern>
                <token regexp="yes">.*(een|twee|drie|vier|vijf|zes|zeven|acht|negen|tien|tig|honderd|duizend).*(m|b|tr)ilj(oen|ard)</token>
             </pattern>
@@ -1938,7 +1903,7 @@ $Id: grammar.xml,v 1.12 2008-12-10 22:14:58 milek_pl Exp $
             <example type="incorrect">De regering begrootte <marker>driemiljoen</marker> vijfhonderdduizend.</example>
             <example type="correct">De regering begrootte drie <marker>miljoen</marker> vijfhonderdduizend.</example>
          </rule>
-         <rule id="ID146">
+         <rule id="ID156">
             <pattern>
                <token regexp="yes">.*(b|tr)ilj(oen|ard).*</token>
             </pattern>
@@ -1948,32 +1913,21 @@ $Id: grammar.xml,v 1.12 2008-12-10 22:14:58 milek_pl Exp $
             <example type="correct">De regering begrootte 3000 <marker>miljoen</marker>.</example>
          </rule>
       </rulegroup>
-      <rulegroup id="BREUKEN" name="Breuken">
-         <rule id="ID149">
-            <pattern>
-               <token regexp="yes">(een|twee|drie|vier|vijf|zes|zeven|acht|negen|.*tien|elf|twaalf)(twee|der|vier|vijf|zes|zeven|acht|negen|.*tien|elf|twaalf)de</token>
-            </pattern>
-            <message>Breuken worden met een spatie tussen teller en noemer geschreven.</message>
-            <short>Breuk? Dan spatie.</short>
-            <example type="incorrect"><marker>Eenderde</marker> is fout.</example>
-            <example type="correct"><marker>Een derde</marker> is beter.</example>
-         </rule>
-      </rulegroup>
+      
       <rulegroup id="EX" name="Ex- vs ex ">
-         <rule id="ID150">
+         <rule id="ID157">
             <pattern>
                <token>ex</token>
-               <token negate="yes" regexp="yes">aequo|cathedra|dividend|libris|tempor.*|voto|ante</token>
+               <token postag="NN.*" postag_regexp="yes"><exception regexp="yes">heeft</exception></token>
             </pattern>
             <message>Bedoelt u: <suggestion>ex-\2</suggestion>?</message>
             <short>ex-</short>
             <example type="incorrect">Een <marker>ex medewerker</marker>.</example>
-            <example type="correct">Een <marker>ex voto</marker> is goed.</example>
             <example type="correct">Een <marker>ex-medewerker</marker> is goed.</example>
          </rule>
       </rulegroup>
       <rulegroup id="NAAR_VERLUID" name="Naar verluidt">
-         <rule id="ID151">
+         <rule id="ID158">
             <pattern mark_from="1" mark_to="-1">
                <token>naar</token>
                <token>verluid</token>
@@ -1986,17 +1940,18 @@ $Id: grammar.xml,v 1.12 2008-12-10 22:14:58 milek_pl Exp $
          </rule>
       </rulegroup>
       <rulegroup id="JOU_JOUW" name="Jou i.p.v. jouw">
-         <rule id="ID152">
-            <pattern>
+         <rule id="ID159">
+            <pattern mark_from="1">
+               <token negate="yes">volgens</token>
                <token>jou</token>
-               <token postag="NN.*" postag_regexp="yes"/>
+               <token postag="NN.*" postag_regexp="yes"><exception postag="VB.*" postag_regexp="yes"/><exception regexp="yes">een|voor|iets</exception></token>
             </pattern>
             <message>Bedoelt u misschien <suggestion>jouw</suggestion>?</message>
             <short>jouw?</short>
-            <example type="incorrect">Is dit <marker>jou huis</marker>?</example>
-            <example type="correct">Is dit <marker>jouw huis</marker>?</example>
+            <example type="incorrect">Is dit <marker>jou deur</marker>?</example>
+            <example type="correct">Is dit <marker>jouw deur</marker>?</example>
          </rule>
-         <rule id="ID153">
+         <rule id="ID160">
             <pattern>
                <token>jouw</token>
                <token postag="SENT_END"/>
@@ -2006,7 +1961,7 @@ $Id: grammar.xml,v 1.12 2008-12-10 22:14:58 milek_pl Exp $
             <example type="incorrect">Is dit van <marker>jouw?</marker></example>
             <example type="correct">Is dit van <marker>jou?</marker></example>
          </rule>
-         <rule id="ID154">
+         <rule id="ID161">
             <pattern>
                <token>jouw</token>
                <token regexp="yes">en|of</token>
@@ -2018,7 +1973,7 @@ $Id: grammar.xml,v 1.12 2008-12-10 22:14:58 milek_pl Exp $
          </rule>
       </rulegroup>
       <rulegroup id="EIGEN_GE" name="Eigengemaakt etc">
-         <rule id="ID155">
+         <rule id="ID162">
             <pattern>
                <token regexp="yes">eigenge.+</token>
             </pattern>
@@ -2029,7 +1984,7 @@ $Id: grammar.xml,v 1.12 2008-12-10 22:14:58 milek_pl Exp $
          </rule>
       </rulegroup>
       <rulegroup id="KOST_DUUR" name="Kost duur">
-         <rule id="ID156">
+         <rule id="ID163">
             <pattern>
                <token skip="10">kost</token>
                <token>duur</token>
@@ -2039,7 +1994,7 @@ $Id: grammar.xml,v 1.12 2008-12-10 22:14:58 milek_pl Exp $
             <example type="incorrect">Die auto <marker>kost duur</marker>.</example>
             <example type="correct">Die auto <marker>kost veel</marker>.</example>
          </rule>
-         <rule id="ID157">
+         <rule id="ID164">
             <pattern>
                <token skip="10">duur</token>
                <token>kost</token>
@@ -2051,7 +2006,7 @@ $Id: grammar.xml,v 1.12 2008-12-10 22:14:58 milek_pl Exp $
          </rule>
       </rulegroup>
       <rulegroup id="KAN_KUN" name="Kan en kun">
-         <rule id="ID158_OK">
+         <rule id="ID165">
             <pattern mark_from="1">
                <token negate="yes" regexp="yes">ik|hij|zij|het</token>
                <token>kan</token>
@@ -2062,7 +2017,7 @@ $Id: grammar.xml,v 1.12 2008-12-10 22:14:58 milek_pl Exp $
             <example type="correct"><marker>Kun je</marker> het even doen voor mij?.</example>
             <example type="incorrect"><marker>Kan je</marker> het even doen voor mij?</example>
          </rule>
-         <rule id="ID159">
+         <rule id="ID166">
             <pattern mark_from="1">
                <token negate="yes" regexp="yes">ik|hij|zij|het</token>
                <token>kan</token>
@@ -2073,7 +2028,7 @@ $Id: grammar.xml,v 1.12 2008-12-10 22:14:58 milek_pl Exp $
             <example type="correct"><marker>Kunt u</marker> het even doen voor mij?.</example>
             <example type="incorrect"><marker>Kan u</marker> het even doen voor mij?</example>
          </rule>
-         <rule id="ID160">
+         <rule id="ID167">
             <pattern mark_to="-1">
                <token regexp="yes">je|u</token>
                <token>kan</token>
@@ -2086,39 +2041,39 @@ $Id: grammar.xml,v 1.12 2008-12-10 22:14:58 milek_pl Exp $
          </rule>
       </rulegroup>
       <rulegroup id="ZAL_ZUL" name="Zal en zul">
-         <rule id="ID161">
+         <rule id="ID168">
             <pattern>
                <token>zal</token>
                <token regexp="yes">je|jij</token>
             </pattern>
-            <message>Netter is <suggestion>zul \2</suggestion>?</message>
+            <message>Netter is <suggestion>zul \2</suggestion>.</message>
             <short>Zul</short>
             <example type="correct"><marker>Zul je</marker> het even doen voor mij?.</example>
             <example type="incorrect"><marker>Zal je</marker> het even doen voor mij?</example>
          </rule>
-         <rule id="ID162">
+         <rule id="ID169">
             <pattern>
                <token>zal</token>
                <token>u</token>
             </pattern>
-            <message>Bedoelt u <suggestion>zult u</suggestion>?</message>
+            <message>Bedoelt u <suggestion>zult u</suggestion>.</message>
             <short>Zult</short>
             <example type="correct"><marker>Zult u</marker> het even doen voor mij?.</example>
             <example type="incorrect"><marker>Zal u</marker> het even doen voor mij?</example>
          </rule>
-         <rule id="ID163">
+         <rule id="ID170">
             <pattern>
                <token regexp="yes">je|u</token>
                <token>zal</token>
             </pattern>
-            <message>Netter is <suggestion>\1 zult</suggestion>?</message>
+            <message>Netter is <suggestion>\1 zult</suggestion>.</message>
             <short>Zult</short>
             <example type="correct"><marker>U zult</marker> dat toch wel even doen voor mij?.</example>
             <example type="incorrect"><marker>U zal</marker> dat toch wel even doen voor mij?</example>
          </rule>
       </rulegroup>
       <rulegroup id="X_DUBBEL" name="X-Dubbel">
-         <rule id="ID164">
+         <rule id="ID171">
             <pattern>
                <token>dubbel</token>
                <token>zo</token>
@@ -2128,7 +2083,7 @@ $Id: grammar.xml,v 1.12 2008-12-10 22:14:58 milek_pl Exp $
             <example type="correct">Dit is <marker>twee keer</marker> zo duur.</example>
             <example type="incorrect">Dit is <marker>dubbel zo</marker> duur.</example>
          </rule>
-         <rule id="ID165">
+         <rule id="ID172">
             <pattern>
                <token regexp="yes">(drie|vier)dubbel</token>
             </pattern>
@@ -2139,7 +2094,7 @@ $Id: grammar.xml,v 1.12 2008-12-10 22:14:58 milek_pl Exp $
          </rule>
       </rulegroup>
       <rulegroup id="ALS_ZIJNDE" name="Als zijnde">
-         <rule id="ID166">
+         <rule id="ID173">
             <pattern>
                <token>als</token>
                <token/>
@@ -2152,7 +2107,7 @@ $Id: grammar.xml,v 1.12 2008-12-10 22:14:58 milek_pl Exp $
          </rule>
       </rulegroup>
       <rulegroup id="BESEF_ME" name="Besef me">
-         <rule id="ID167">
+         <rule id="ID174">
             <pattern>
                <token>besef</token>
                <token>me</token>
@@ -2163,7 +2118,7 @@ $Id: grammar.xml,v 1.12 2008-12-10 22:14:58 milek_pl Exp $
             <example type="incorrect">Ik <marker>besef me dat</marker> dit fout is.</example>
             <example type="correct">Ik <marker>besef dat</marker> het anders moet.</example>
          </rule>
-         <rule id="ID168">
+         <rule id="ID175">
             <pattern>
                <token>beseft</token>
                <token>zich</token>
@@ -2176,7 +2131,7 @@ $Id: grammar.xml,v 1.12 2008-12-10 22:14:58 milek_pl Exp $
          </rule>
       </rulegroup>
       <rulegroup id="IRRITEER_ME" name="Irriteer me">
-         <rule id="ID169">
+         <rule id="ID176">
             <pattern>
                <token>irriteer</token>
                <token>me</token>
@@ -2187,7 +2142,7 @@ $Id: grammar.xml,v 1.12 2008-12-10 22:14:58 milek_pl Exp $
             <example type="incorrect">Ik <marker>irriteer me aan</marker> deze fout.</example>
             <example type="correct">Ik <marker>erger me aan</marker> deze fout.</example>
          </rule>
-         <rule id="ID170">
+         <rule id="ID177">
             <pattern>
                <token>irriteert</token>
                <token>zich</token>
@@ -2200,9 +2155,9 @@ $Id: grammar.xml,v 1.12 2008-12-10 22:14:58 milek_pl Exp $
          </rule>
       </rulegroup>
       <rulegroup id="GROTER_ALS" name="Groter als">
-         <rule id="ID171">
+         <rule id="ID178">
             <pattern>
-               <token postag="AJcn|AJce" postag_regexp="yes"/>
+               <token postag="AJcn"><exception negate_pos="yes" postag="AJcn"/><exception regexp="yes">echter|verder</exception></token>
                <token>als</token>
             </pattern>
             <message>Als dit een vergelijking is, dan is juist: <suggestion>\1 dan</suggestion></message>
@@ -2210,7 +2165,17 @@ $Id: grammar.xml,v 1.12 2008-12-10 22:14:58 milek_pl Exp $
             <example type="incorrect">Jan is <marker>lelijker als</marker> Kees.</example>
             <example type="correct">Jan is <marker>lelijker dan</marker> Kees.</example>
          </rule>
-         <rule id="ID172">
+         <rule id="ID179">
+            <pattern>
+               <token postag="AJce"><exception negate_pos="yes" postag="AJce"/></token>
+               <token>als</token>
+            </pattern>
+            <message>Als dit een vergelijking is, dan is juist: <suggestion>\1 dan</suggestion></message>
+            <short>Slordig</short>
+            <example type="incorrect">Het is een <marker>grotere als</marker> Kees.</example>
+            <example type="correct">Het is een <marker>grotere dan</marker> Kees.</example>
+         </rule>
+         <rule id="ID180">
             <pattern>
                <token regexp="yes">even|zo</token>
                <token postag="AJn|AJe" postag_regexp="yes"/>
@@ -2221,7 +2186,7 @@ $Id: grammar.xml,v 1.12 2008-12-10 22:14:58 milek_pl Exp $
             <example type="incorrect">Jan is net <marker>zo groot dan</marker> Kees.</example>
             <example type="correct">Jan is net<marker>zo klein als</marker> Kees.</example>
          </rule>
-         <rule id="ID173">
+         <rule id="ID181">
             <pattern>
                <token>evenveel</token>
                <token>dan</token>
@@ -2231,7 +2196,7 @@ $Id: grammar.xml,v 1.12 2008-12-10 22:14:58 milek_pl Exp $
             <example type="incorrect">Vijf is <marker>evenveel dan</marker> twee plus drie.</example>
             <example type="correct">Vier is <marker>eenveel als</marker> twee plus twee.</example>
          </rule>
-         <rule id="ID174">
+         <rule id="ID182">
             <pattern>
                <token regexp="yes">als|dan</token>
                <token regexp="yes">mij|hem|jou</token>
@@ -2243,7 +2208,7 @@ $Id: grammar.xml,v 1.12 2008-12-10 22:14:58 milek_pl Exp $
          </rule>
       </rulegroup>
       <rulegroup id="DAN_MIJ" name="Dan mij/hem/haar/hun">
-         <rule id="ID175">
+         <rule id="ID183">
             <pattern mark_from="1" mark_to="-1">
                <token>dan</token>
                <token regexp="yes">haar|hun|hen|mij|hem</token>
@@ -2256,7 +2221,7 @@ $Id: grammar.xml,v 1.12 2008-12-10 22:14:58 milek_pl Exp $
          </rule>
       </rulegroup>
       <rulegroup id="DE_EERSTE_INSTANTIE" name="De eerste instantie">
-         <rule id="ID176">
+         <rule id="ID184">
             <pattern>
                <token>in</token>
                <token>de</token>
@@ -2270,7 +2235,7 @@ $Id: grammar.xml,v 1.12 2008-12-10 22:14:58 milek_pl Exp $
          </rule>
       </rulegroup>
       <rulegroup id="HAASTJE_REPJE" name="Haastje-repje">
-         <rule id="ID177">
+         <rule id="ID185">
             <pattern>
                <token>haasje-repje</token>
             </pattern>
@@ -2279,7 +2244,7 @@ $Id: grammar.xml,v 1.12 2008-12-10 22:14:58 milek_pl Exp $
             <example type="incorrect"><marker>Haasje-repje</marker> ging hij weg.</example>
             <example type="correct"><marker>Haastje-repje</marker> ging hij weg.</example>
          </rule>
-         <rule id="ID178">
+         <rule id="ID186">
             <pattern>
                <token regexp="yes">haasje|haastje</token>
                <token>repje</token>
@@ -2291,7 +2256,7 @@ $Id: grammar.xml,v 1.12 2008-12-10 22:14:58 milek_pl Exp $
          </rule>
       </rulegroup>
       <rulegroup id="MANKEER_NIETS" name="Mankeert niets">
-         <rule id="ID179">
+         <rule id="ID187">
             <pattern>
                <token>ik</token>
                <token>mankeer</token>
@@ -2302,7 +2267,7 @@ $Id: grammar.xml,v 1.12 2008-12-10 22:14:58 milek_pl Exp $
             <example type="incorrect"><marker>Ik mankeer wat</marker>.</example>
             <example type="correct"><marker>Mij mankeert niets</marker>.</example>
          </rule>
-         <rule id="ID180">
+         <rule id="ID188">
             <pattern>
                <token>jij</token>
                <token>mankeert</token>
@@ -2313,7 +2278,7 @@ $Id: grammar.xml,v 1.12 2008-12-10 22:14:58 milek_pl Exp $
             <example type="incorrect"><marker>Jij mankeert wat</marker>.</example>
             <example type="correct"><marker>Jou mankeert niets</marker>.</example>
          </rule>
-         <rule id="ID181">
+         <rule id="ID189">
             <pattern>
                <token>hij</token>
                <token>mankeert</token>
@@ -2326,7 +2291,7 @@ $Id: grammar.xml,v 1.12 2008-12-10 22:14:58 milek_pl Exp $
          </rule>
       </rulegroup>
       <rulegroup id="WAT_SCHETST" name="Wat schetst mijn verbazing">
-         <rule id="ID182">
+         <rule id="ID190">
             <pattern>
                <token>wat</token>
                <token>schetst</token>
@@ -2340,7 +2305,7 @@ $Id: grammar.xml,v 1.12 2008-12-10 22:14:58 milek_pl Exp $
          </rule>
       </rulegroup>
       <rulegroup id="OEKRAINE" name="Oekraine">
-         <rule id="ID183">
+         <rule id="ID191">
             <pattern>
                <token>de</token>
                <token regexp="yes">Oekra(ï|i)ne</token>
@@ -2352,7 +2317,7 @@ $Id: grammar.xml,v 1.12 2008-12-10 22:14:58 milek_pl Exp $
          </rule>
       </rulegroup>
       <rulegroup id="CORDON_BLEU" name="Cordon Blue">
-         <rule id="ID184">
+         <rule id="ID192">
             <pattern>
                <token>cordon</token>
                <token>blue</token>
@@ -2364,10 +2329,10 @@ $Id: grammar.xml,v 1.12 2008-12-10 22:14:58 milek_pl Exp $
          </rule>
       </rulegroup>
       <rulegroup id="WOU" name="Wilden ipv wouden">
-         <rule id="ID185">
+         <rule id="ID193">
             <pattern>
-               <token regexp="yes">ik|je|jij|hij|wij</token>
-               <token regexp="yes">wou.*</token>
+               <token regexp="yes">ik|je|jij|hij|wij|zij</token>
+               <token regexp="yes">wou|wouden</token>
             </pattern>
             <message>Netter is: <suggestion>wilde</suggestion>, <suggestion>wilden</suggestion>.</message>
             <short>Spreektaal</short>
@@ -2378,7 +2343,7 @@ $Id: grammar.xml,v 1.12 2008-12-10 22:14:58 milek_pl Exp $
    </category>
    <category name="Woord-verwarring">
       <rulegroup id="PIJLER" name="Peiler i.p.v. pijler">
-         <rule id="ID196">
+         <rule id="ID194">
             <pattern>
                <token>peiler</token>
             </pattern>
@@ -2389,7 +2354,7 @@ $Id: grammar.xml,v 1.12 2008-12-10 22:14:58 milek_pl Exp $
          </rule>
       </rulegroup>
       <rulegroup id="OP_PIJL" name="Op pijl i.p.v. op peil">
-         <rule id="ID223">
+         <rule id="ID195">
             <pattern mark_from="1">
                <token>op</token>
                <token>pijl</token>
@@ -2401,7 +2366,7 @@ $Id: grammar.xml,v 1.12 2008-12-10 22:14:58 milek_pl Exp $
          </rule>
       </rulegroup>
       <rulegroup id="HOUW_VAN" name="Houw van i.p.v. hou van">
-         <rule id="ID224">
+         <rule id="ID196">
             <pattern mark_to="-1">
                <token>houw</token>
                <token>van</token>
@@ -2480,7 +2445,7 @@ $Id: grammar.xml,v 1.12 2008-12-10 22:14:58 milek_pl Exp $
             <example type="incorrect">Dat is <marker>'m</marker>.</example>
             <example type="correct">Dat is <marker>het</marker> dan.</example>
          </rule>
-         <rule id="ID131">
+         <rule id="ID203">
             <pattern mark_from="1">
                <token negate="yes">d</token>
                <token>'</token>
@@ -2491,18 +2456,18 @@ $Id: grammar.xml,v 1.12 2008-12-10 22:14:58 milek_pl Exp $
             <example type="incorrect">Dat is <marker>'r</marker> auto.</example>
             <example type="correct">Dat is <marker>haar</marker> auto.</example>
          </rule>
-         <rule id="ID005">
+         <rule id="ID204">
             <pattern>
                <token>d</token>
                <token>'</token>
                <token>r</token>
             </pattern>
-            <message>Netter en leesbaarder is voluit schrijven, dus <suggestion>er</suggestion>.</message>
+            <message>Netter en leesbaarder is voluit schrijven, dus <suggestion>er</suggestion> of <suggestion>haar</suggestion>.</message>
             <short>Niet verkorten</short>
             <example type="incorrect">Dat is <marker>d'r</marker> beter voor.</example>
             <example type="correct">Dat is <marker>er</marker> goed voor.</example>
          </rule>
-         <rule id="ID148_OK">
+         <rule id="ID205">
             <pattern mark_from="1">
                <token negate="yes" regexp="yes">zo|z|m</token>
                <token>'</token>
@@ -2513,7 +2478,7 @@ $Id: grammar.xml,v 1.12 2008-12-10 22:14:58 milek_pl Exp $
             <example type="incorrect">Dat is <marker>'n</marker> auto.</example>
             <example type="correct">Dat is <marker>een</marker> auto.</example>
          </rule>
-         <rule id="ID186_OK">
+         <rule id="ID206">
             <pattern mark_to="-1">
                <token>'</token>
                <token>t</token>
@@ -2526,7 +2491,7 @@ $Id: grammar.xml,v 1.12 2008-12-10 22:14:58 milek_pl Exp $
          </rule>
       </rulegroup>
       <rulegroup id="ZO-EVEN" name="Zo-even">
-         <rule id="ID203">
+         <rule id="ID207">
             <pattern>
                <token>zoeven</token>
             </pattern>
@@ -2537,7 +2502,7 @@ $Id: grammar.xml,v 1.12 2008-12-10 22:14:58 milek_pl Exp $
          </rule>
       </rulegroup>
       <rulegroup id="BIJ_BEVEL" name="Bij bevel">
-         <rule id="ID204">
+         <rule id="ID208">
             <pattern>
                <token>bij</token>
                <token>bevel</token>
@@ -2549,18 +2514,18 @@ $Id: grammar.xml,v 1.12 2008-12-10 22:14:58 milek_pl Exp $
          </rule>
       </rulegroup>
       <rulegroup id="EUR" name="EUR in plaats van €">
-         <rule id="ID205">
+         <rule id="ID209">
             <pattern>
                <token>EUR</token>
             </pattern>
-            <message>Gebruik <suggestion>€</suggestion>of <suggestion>euro</suggestion>, behalve in formele monetaire teksten.</message>
+            <message>Gebruik <suggestion>€</suggestion> of <suggestion>euro</suggestion>, behalve in formele monetaire teksten.</message>
             <short>€</short>
             <example type="incorrect">Hij gaf mij <marker>EUR</marker> 5.</example>
             <example type="correct">Hij gaf mij <marker>€</marker> 5.</example>
          </rule>
       </rulegroup>
       <rulegroup id="SPREEKTAAL" name="Spreektaal">
-         <rule id="ID206_OK">
+         <rule id="ID210">
             <pattern>
                <token>meneer</token>
             </pattern>
@@ -2571,20 +2536,20 @@ $Id: grammar.xml,v 1.12 2008-12-10 22:14:58 milek_pl Exp $
          </rule>
       </rulegroup>
       <rulegroup id="JAN_ZN" name="Jan z'n">
-         <rule id="ID207">
+         <rule id="ID211">
             <pattern case_sensitive="yes" mark_to="-1">
                <token regexp="yes">[A-Z].*[a-rt-z]</token>
                <token>z</token>
                <token>'</token>
                <token>n</token>
-               <token/>
+               <token><exception postag="NN2.*|AJ.*" postag_regexp="yes" /></token>
             </pattern>
             <message>Beter is : <suggestion>\1s \5</suggestion>.</message>
             <short>Gebruik bezits-s</short>
             <example type="incorrect"><marker>Jan z'n</marker> auto is kapot.</example>
             <example type="correct"><marker>Jans</marker> auto is kapot.</example>
          </rule>
-         <rule id="ID208">
+         <rule id="ID212">
             <pattern case_sensitive="yes" mark_to="-1">
                <token regexp="yes">[A-Z].*[s]</token>
                <token>z</token>
@@ -2597,7 +2562,7 @@ $Id: grammar.xml,v 1.12 2008-12-10 22:14:58 milek_pl Exp $
             <example type="incorrect"><marker>Koos z'n</marker> auto is kapot.</example>
             <example type="correct"><marker>Koos'</marker> auto is kapot.</example>
          </rule>
-         <rule id="ID209">
+         <rule id="ID213">
             <pattern case_sensitive="yes" mark_to="-1">
                <token regexp="yes">[A-Z].*[a-rt-z]</token>
                <token>d</token>
@@ -2610,7 +2575,7 @@ $Id: grammar.xml,v 1.12 2008-12-10 22:14:58 milek_pl Exp $
             <example type="incorrect"><marker>Monique d'r</marker> auto is kapot.</example>
             <example type="correct"><marker>Moniques</marker> auto is kapot.</example>
          </rule>
-         <rule id="ID210">
+         <rule id="ID214">
             <pattern case_sensitive="yes" mark_to="-1">
                <token regexp="yes">[A-Z].*[s]</token>
                <token>d</token>
@@ -2625,7 +2590,7 @@ $Id: grammar.xml,v 1.12 2008-12-10 22:14:58 milek_pl Exp $
          </rule>
       </rulegroup>
       <rulegroup id="LAAT_ONS" name="Laat ons">
-         <rule id="ID211">
+         <rule id="ID215">
             <pattern>
                <token postag="SENT_START"/>
                <token>Laat</token>
@@ -2638,7 +2603,7 @@ $Id: grammar.xml,v 1.12 2008-12-10 22:14:58 milek_pl Exp $
          </rule>
       </rulegroup>
       <rulegroup id="ZIJN_KWIJT" name="zijn kwijt i.p.v. zijn zoek">
-         <rule id="ID212">
+         <rule id="ID216">
             <pattern>
                <token skip="4" regexp="yes">is|ben|was|waren|zijn</token>
                <token>kwijt</token>
@@ -2648,7 +2613,7 @@ $Id: grammar.xml,v 1.12 2008-12-10 22:14:58 milek_pl Exp $
             <example type="incorrect">Mijn auto <marker>is kwijt</marker>.</example>
             <example type="correct">Mijn auto <marker>is zoek</marker>.</example>
          </rule>
-         <rule id="ID213">
+         <rule id="ID217">
             <pattern>
                <token>kwijt</token>
                <token regexp="yes">geweest|is|ben|was|waren|zijn</token>
@@ -2660,7 +2625,7 @@ $Id: grammar.xml,v 1.12 2008-12-10 22:14:58 milek_pl Exp $
          </rule>
       </rulegroup>
       <rulegroup id="ENIGSTE" name="Enigste">
-         <rule id="ID214">
+         <rule id="ID218">
             <pattern mark_to="-1">
                <token regexp="yes">enigst|enigste</token>
                <token negate="yes">kind</token>
@@ -2672,19 +2637,19 @@ $Id: grammar.xml,v 1.12 2008-12-10 22:14:58 milek_pl Exp $
          </rule>
       </rulegroup>
       <rulegroup id="GROEP_ENKELVOUD" name="Een groep doen ipv doet">
-         <rule id="ID215">
+         <rule id="ID219">
             <pattern mark_to="-1">
                <token skip="2" regexp="yes">aantal|bende|berg|blik|bos|bups|colonne|grom|groep|groepje|hoeveelheid|horde|kluit|kluwen|kudde|lading|leger|legioen|menigte|meute|reeks|rij|rijtje|rits|roedel|schare|serie|slag|sleep|soort|stoet|troep|verzameling|zwik|zooi|zootje</token>
                <token postag="NN2.*" postag_regexp="yes"/>
                <token postag="VBi" postag_regexp="yes"/>
-               <token><exception postag="SENT_END"/></token>
+               <token><exception postag="SENT_END"/><exception postag="NN2"/></token>
             </pattern>
             <message>Het is één groep, dus juist is <suggestion><match no="3" postag="VB3"/></suggestion>.</message>
             <short>Een groep is één.</short>
             <example type="incorrect">Een <marker>colonne soldaten vallen</marker> aan.</example>
             <example type="correct">Een <marker>groep soldaten</marker> valt aan.</example>
          </rule>
-         <rule id="ID216">
+         <rule id="ID220">
             <pattern>
                <token skip="2" regexp="yes">aantal|bende|berg|blik|bos|bups|colonne|grom|groep|groepje|hoeveelheid|horde|kluit|kluwen|kudde|lading|leger|legioen|menigte|meute|reeks|rij|rijtje|rits|roedel|schare|serie|slag|sleep|soort|stoet|troep|verzameling|zwik|zooi|zootje</token>
                <token postag="NN2.*" postag_regexp="yes"/>
@@ -2697,7 +2662,7 @@ $Id: grammar.xml,v 1.12 2008-12-10 22:14:58 milek_pl Exp $
          </rule>
       </rulegroup>
       <rulegroup id="BREUKSTREEP" name="Breukstreep vermijden">
-         <rule id="ID217_OK">
+         <rule id="ID221">
             <pattern mark_from="1" mark_to="-1">
                <token><exception regexp="yes">[./]</exception></token>
                <token><exception regexp="yes">[:/]|km|a|.*[0-9]$|en</exception></token>
@@ -2710,46 +2675,46 @@ $Id: grammar.xml,v 1.12 2008-12-10 22:14:58 milek_pl Exp $
             <example type="incorrect">De <marker>man/vrouwverhouding</marker> is ongelijk.</example>
             <example type="correct">De <marker>man-vrouwverhouding</marker> is ongelijk.</example>
          </rule>
-         <rule id="ID187">
+         <rule id="ID222">
             <pattern>
                <token>t</token>
                <token>/</token>
                <token>m</token>
             </pattern>
-            <message><suggestion>tot en met</suggestion>.</message>
+            <message>Schrijf liever: <suggestion>tot en met</suggestion>.</message>
             <short>Vermijd /</short>
             <example type="incorrect">Maat zes <marker>t/m</marker> zeven.</example>
             <example type="correct">Maat zes <marker>tot en met</marker>zeven.</example>
          </rule>
-         <rule id="ID188">
+         <rule id="ID223">
             <pattern>
                <token>v</token>
                <token>/</token>
                <token>h</token>
             </pattern>
-            <message><suggestion>van het</suggestion>.</message>
+            <message>Schrijf liever: <suggestion>van het</suggestion>.</message>
             <short>Vermijd /</short>
             <example type="incorrect">Een <marker>v/h</marker> stel.</example>
             <example type="correct">Een <marker>van het</marker> stel.</example>
          </rule>
-         <rule id="ID189">
+         <rule id="ID224">
             <pattern>
                <token>v</token>
                <token>/</token>
                <token>d</token>
             </pattern>
-            <message><suggestion>van de</suggestion>.</message>
+            <message>Schrijf liever:<suggestion>van de</suggestion>.</message>
             <short>Vermijd /</short>
             <example type="incorrect">Een <marker>v/d</marker> mensen.</example>
             <example type="correct">Een <marker>van de</marker> mensen.</example>
          </rule>
-         <rule id="ID190">
+         <rule id="ID225">
             <pattern>
                <token>p</token>
                <token>/</token>
                <token>a</token>
             </pattern>
-            <message><suggestion>per adres</suggestion>.</message>
+            <message>Schrijf liever: <suggestion>per adres</suggestion>.</message>
             <short>Vermijd /</short>
             <example type="incorrect">Jansen, <marker>p/a</marker> kantoor.</example>
             <example type="correct">Jansen, <marker>per adres</marker> kantoor.</example>
@@ -2758,7 +2723,7 @@ $Id: grammar.xml,v 1.12 2008-12-10 22:14:58 milek_pl Exp $
    </category>
    <category name="Zelfcensuur">
       <rulegroup id="OVERDRIJVING" name="Overdrijving">
-         <rule id="ID218_OK">
+         <rule id="ID226">
             <pattern>
                <token regexp="yes">erg|heel|vreselijk|gigantisch|enorm</token>
             </pattern>
@@ -2769,7 +2734,7 @@ $Id: grammar.xml,v 1.12 2008-12-10 22:14:58 milek_pl Exp $
          </rule>
       </rulegroup>
       <rulegroup id="GROF" name="Grof taalgebruik">
-         <rule id="ID219_OK">
+         <rule id="ID227">
             <pattern>
                <token regexp="yes">.*(lul|kut|kloot|klote|druiloor|zakkenwasser|shit|.*verdom.*).*<exception>bullshit</exception></token>
             </pattern>
@@ -2782,11 +2747,11 @@ $Id: grammar.xml,v 1.12 2008-12-10 22:14:58 milek_pl Exp $
    </category>
    <category name="Werkwoordsvormen">
       <rulegroup id="VBH1_IPV_VBPE" name="Verkeerde vorm">
-         <rule id="ID220">
+         <rule id="ID228">
             <pattern mark_from="1" mark_to="-1">
                <token regexp="yes">de|het|een|geen</token>
-               <token postag="VBh1"><exception postag="AJe|VBpe|NMr" postag_regexp="yes"/><exception>was</exception></token>
-               <token postag_regexp="yes" postag="NN.*"/>
+               <token postag="VBh1" regexp="yes">.*tt.*|.*dd.*</token>
+               <token></token>
             </pattern>
             <message>U bedoelt vast <suggestion><match no="2" postag="VBpe"/></suggestion></message>
             <short>Verkeerde vorm</short>
@@ -2795,10 +2760,10 @@ $Id: grammar.xml,v 1.12 2008-12-10 22:14:58 milek_pl Exp $
          </rule>
       </rulegroup>
       <rulegroup id="VB3_IPV_VBP" name="Verkeerd gebruikte werkwoordsvormen">
-         <rule id="VB3VBP1">
+         <rule id="ID229">
             <pattern mark_from="1" mark_to="-1">
                <token regexp="yes">wij|we|zij</token>
-               <token postag="VB3"><exception postag="VBp"/></token>
+               <token postag="VB3"><exception postag="VBp"/><exception regexp="yes">niet|wel</exception></token>
                <token postag="VBi"/>
             </pattern>
             <message>U bedoelt vast <suggestion><match no="2" postag="VBp"/></suggestion></message>
@@ -2806,42 +2771,45 @@ $Id: grammar.xml,v 1.12 2008-12-10 22:14:58 milek_pl Exp $
             <example type="incorrect">Dit is wat wij <marker>beheert</marker> hebben.</example>
             <example type="correct">Dit is wat wij <marker>beheerd</marker> hebben.</example>
          </rule>
-         <rule id="VB3VBP2">
+         <!--
+         <rule id="ID230">
             <pattern mark_from="1" mark_to="-1">
                <token regexp="yes">hij|zij</token>
-               <token postag="VB3"><exception postag="VBp"/></token>
-               <token postag="VB3"><exception regexp="yes">niet|wel</exception></token>
+               <token postag="VB3"><exception postag="VBp"/><exception regexp="yes">niet|wel|echt</exception></token>
+               <token postag="VB3"><exception regexp="yes">niet|wel|echt</exception></token>
             </pattern>
             <message>U bedoelt vast <suggestion><match no="2" postag="VBp"/></suggestion></message>
             <short>Verkeerde vorm</short>
             <example type="incorrect">Dit is wat hij <marker>beheert</marker> heeft.</example>
             <example type="correct">Dit is wat hij <marker>beheerd</marker> heeft.</example>
          </rule>
-         <rule id="IK_X">
+         -->
+         <rule id="ID231">
             <pattern mark_from="2">
-               <token><exception postag="VB.*" postag_regexp="yes"/></token>
+               <token><exception postag="VB.*" postag_regexp="yes"/><exception regexp="yes">wat|en|of|het</exception></token>
                <token>ik</token>
-               <token postag="VB(3|i|h)" postag_regexp="yes"><exception postag="VB1" postag_regexp="yes"/><exception>kan</exception></token>
+               <token postag="VB3" postag_regexp="yes"><exception postag="VB1|VBh1|VBp" postag_regexp="yes"/><exception regexp="yes">kan|wou|wezen</exception></token>
             </pattern>
-            <message>U bedoelt vast <suggestion><match no="2" postag="VB1"/></suggestion></message>
+            <message>U bedoelt vast <suggestion><match no="3" postag="VB1"/></suggestion></message>
             <short>Verkeerde vorm</short>
             <example type="incorrect">Ik <marker>gaat</marker> door.</example>
             <example type="correct">Ik <marker>loop</marker> verder.</example>
          </rule>
-         <rule id="JIJ_X">
-            <pattern mark_from="1">
+         <rule id="ID232">
+            <pattern mark_from="1" mark_to="-1">
                <token regexp="yes">jij|hij</token>
-               <token postag="VB(1|h)" postag_regexp="yes"><exception postag="VB3|AJ.*|VBp" postag_regexp="yes"/><exception regexp="yes">in|veel|jou</exception></token>
+               <token postag="VB1" postag_regexp="yes"><exception postag="VB3|AJ.*|VBp|VBi" postag_regexp="yes"/><exception regexp="yes">in|veel|jou|wel|weer|maar|deel|pas|was|mijn|jouw|geld|vier</exception></token>
+               <token><exception postag_regexp="yes" postag="VB3|VBh1"></exception></token>
             </pattern>
             <message>U bedoelt vast <suggestion><match no="2" postag="VB3"/></suggestion></message>
             <short>Verkeerde vorm</short>
             <example type="incorrect">Jij <marker>loop</marker> door.</example>
             <example type="correct">Hij <marker>loopt</marker> verder.</example>
          </rule>
-         <rule id="WIJ_X">
+         <rule id="ID233">
             <pattern mark_from="1">
                <token regexp="yes">wij|we</token>
-               <token postag="VB(3|h)" postag_regexp="yes"><exception postag="VB(i|h|p)" postag_regexp="yes"/><exception regexp="yes">niet|uit|net</exception></token>
+               <token postag="VB(3|h)" postag_regexp="yes"><exception postag="VB(i|p|h)|AJ.*" postag_regexp="yes"/><exception regexp="yes">niet|uit|net</exception></token>
             </pattern>
             <message>U bedoelt vast <suggestion><match no="2" postag="VBi"/></suggestion> of <suggestion><match no="2" postag="VBh"/></suggestion></message>
             <short>Verkeerde vorm</short>
@@ -2851,8 +2819,8 @@ $Id: grammar.xml,v 1.12 2008-12-10 22:14:58 milek_pl Exp $
       </rulegroup>
    </category>
    <category name="Verplicht koppelteken">
-      <rulegroup id="_JARIG" name="-jarig of  jarige">
-         <rule id="ID221">
+      <rulegroup id="XX_JARIG" name="-jarig of  jarige">
+         <rule id="ID234">
             <pattern>
                <token regexp="yes">[0-9]{1,3}</token>
                <token regexp="yes">jarig|jarige|jarigen</token>
@@ -2866,7 +2834,7 @@ $Id: grammar.xml,v 1.12 2008-12-10 22:14:58 milek_pl Exp $
    </category>
    <category name="Toepassing van het en de">
       <rulegroup id="DE_HET" name="De en het">
-         <rule id="ID222">
+         <rule id="ID235">
             <pattern mark_to="-1">
                <token>die</token>
                <token postag="NN1r"/>
@@ -2876,7 +2844,7 @@ $Id: grammar.xml,v 1.12 2008-12-10 22:14:58 milek_pl Exp $
             <example type="incorrect">Kijk eens naar <marker>die</marker> fietsje.</example>
             <example type="correct">Kijk eens naar <marker>dat</marker> fietsje.</example>
          </rule>
-         <rule id="ID195">
+         <rule id="ID236">
             <pattern mark_from="3">
                <token negate="yes" regexp="yes">als|wanneer</token>
                <token regexp="yes">het|een|geen</token>
