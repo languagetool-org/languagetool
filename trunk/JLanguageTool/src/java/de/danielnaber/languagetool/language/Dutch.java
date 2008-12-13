@@ -26,6 +26,8 @@ import de.danielnaber.languagetool.Language;
 import de.danielnaber.languagetool.synthesis.Synthesizer;
 import de.danielnaber.languagetool.synthesis.nl.DutchSynthesizer;
 import de.danielnaber.languagetool.tagging.Tagger;
+import de.danielnaber.languagetool.tagging.disambiguation.Disambiguator;
+import de.danielnaber.languagetool.tagging.disambiguation.rules.nl.DutchRuleDisambiguator;
 import de.danielnaber.languagetool.tagging.nl.DutchTagger;
 import de.danielnaber.languagetool.tokenizers.SentenceTokenizer;
 import de.danielnaber.languagetool.tokenizers.nl.DutchSentenceTokenizer;
@@ -35,6 +37,7 @@ public class Dutch extends Language {
   private Tagger tagger = new DutchTagger();
   private SentenceTokenizer sentenceTokenizer = new DutchSentenceTokenizer();
   private Synthesizer synthesizer = new DutchSynthesizer();
+  private Disambiguator disambiguator = new DutchRuleDisambiguator();
   
   private static final String[] COUNTRIES = {"NL"}; 
   
@@ -66,6 +69,10 @@ public class Dutch extends Language {
     return sentenceTokenizer;
   }
 
+  final public Disambiguator getDisambiguator() {
+    return disambiguator;
+  }
+  
   public Contributor[] getMaintainers() {
     Contributor contributor = new Contributor("Ruud Baars");
     contributor.setUrl("http://www.opentaal.org");
