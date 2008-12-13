@@ -103,6 +103,8 @@ public class PolishSentenceTokenizerTest extends TestCase {
     testSplit(new String[] {"Mam już 20 mln. buraków."});
     //ellipsis
     testSplit(new String[] { "Rytmem tej wiecznie przemijającej światowej egzystencji […] rytmem mesjańskiej natury jest szczęście." });
+    //sic!
+    testSplit(new String[] { "W gazecie napisali, że pasy (sic!) pogryzły człowieka." });
   }
 
   public final void testSplit(final String[] sentences) {
