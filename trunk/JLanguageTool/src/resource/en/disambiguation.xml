@@ -2,7 +2,7 @@
 	<!--
 		English Disambiguation Rules for LanguageTool Copyright (C) 2008
 		Marcin Miłkowski		
-$Id: disambiguation.xml,v 1.19 2008-12-02 20:19:29 milek_pl Exp $
+$Id: disambiguation.xml,v 1.20 2008-12-15 00:36:00 milek_pl Exp $
 	-->
 <rules lang="en">
 	<rule name="Modal verb + verb/noun -> modal verb + verb" id="MD_VB">
@@ -26,6 +26,7 @@ $Id: disambiguation.xml,v 1.19 2008-12-02 20:19:29 milek_pl Exp $
 		</pattern>
 		<disambig postag="VB" />
 	</rule>
+	<!-- 
 	<rule name="have as verb/noun + past participle -> have/modal" id="HAVE_VBN">
 		<pattern mark="0">
 			<token>have</token>
@@ -33,6 +34,21 @@ $Id: disambiguation.xml,v 1.19 2008-12-02 20:19:29 milek_pl Exp $
 		</pattern>
 		<disambig><match no="1" postag_regexp="yes" postag="MD" /></disambig>
 	</rule>
+	<rule name="have as verb/noun + not -> have/modal" id="HAVE_NOT">
+		<pattern mark="0">
+			<token>have</token>
+			<token>not</token>
+		</pattern>
+		<disambig><match no="1" postag_regexp="yes" postag="MD" /></disambig>
+	</rule>
+	 -->
+	 <rule name="no determiner + have as verb/noun ->have/verb" id="NODT_HAVE">
+	 	<pattern mark="1">
+	 		<token><exception postag_regexp="yes" postag="PRP\$|DT"/></token>
+	 		<token>have</token>
+	 	</pattern>
+	 	<disambig><match no="1" postag_regexp="yes" postag="VB" /></disambig>
+	 </rule>
 	<rulegroup name="well + past participle -> well + adjective"
 		id="WELL_VBN">
 		<rule>
@@ -102,9 +118,16 @@ $Id: disambiguation.xml,v 1.19 2008-12-02 20:19:29 milek_pl Exp $
 	<rule name="how (noun/adv) + determiner -> how (adv)" id="HOW_NN_WRB">
 		<pattern mark="0">
 			<token>how</token>
-			<token postag="DT" />
+			<token postag_regexp="yes" postag="DT|PRP|TO" />
 		</pattern>
 		<disambig postag="WRB" />
+	</rule>
+	<rule name="if (noun/adv) + determiner -> if (conj)" id="IF_NN_CC">
+		<pattern mark="0">
+			<token>if</token>
+			<token postag_regexp="yes" postag="DT|PRP" />
+		</pattern>
+		<disambig postag="CC" />
 	</rule>
 	<rule name="los + proper name -> los (proper name)" id="LOS_NNP">
 		<pattern mark="0">
@@ -174,7 +197,7 @@ $Id: disambiguation.xml,v 1.19 2008-12-02 20:19:29 milek_pl Exp $
 			<token postag="DT"><exception postag="PDT" /></token>
 			<and>
 				<token postag="VB" />
-				<token postag="NN" />
+				<token postag="NN" ><exception postag="JJ"/></token>
 			</and>
 		</pattern>
 		<disambig postag="NN" />
@@ -221,7 +244,7 @@ $Id: disambiguation.xml,v 1.19 2008-12-02 20:19:29 milek_pl Exp $
 	<rule name="A technical" id="A_TECHNICAL">
 		<pattern mark="0">
 			<token>a</token>
-			<token regexp="yes">[/\+\[\]\(\){}\\,!%]</token>
+			<token regexp="yes">[/\+\[\]\(\){}\\,!%&amp;]</token>
 		</pattern>
 		<disambig postag="SYM"/>
 	</rule>
@@ -323,7 +346,7 @@ $Id: disambiguation.xml,v 1.19 2008-12-02 20:19:29 milek_pl Exp $
 				<token>from</token>
 				<token postag="NN" />
 				<token>to</token>
-				<token><match no="1" /></token>
+				<token postag_regexp="yes" postag="NN.*"/>
 			</pattern>
 			<disambig postag="NN:UN" />
 		</rule>
@@ -332,7 +355,7 @@ $Id: disambiguation.xml,v 1.19 2008-12-02 20:19:29 milek_pl Exp $
 				<token>from</token>
 				<token postag="NN:UN" />
 				<token>to</token>
-				<token><match no="1" /></token>
+				<token postag="NN"/>
 			</pattern>
 			<disambig postag="NN:UN" />
 		</rule>
@@ -449,16 +472,174 @@ $Id: disambiguation.xml,v 1.19 2008-12-02 20:19:29 milek_pl Exp $
 			<token><exception regexp="yes">soil|land|fields|field</exception></token>
 		</pattern>
 		<disambig postag="IN"/>
-	</rule>
-	<rule name="before/after + NN/VBG + DT" id="before_NN_VBG">
+	</rule>	
+	<rule name="IN + NN/VBG + DT" id="before_NN_VBG">
 		<pattern mark="1">
-			<token regexp="yes">before|after</token>
+			<token postag="IN"/>
 			<and>
 				<token postag="NN"/>
 				<token postag="VBG"/>
 			</and>
-			<token postag="DT"/>
+			<token postag_regexp="yes" postag="DT|PRP|IN|JJ.*"/>
 		</pattern>
 		<disambig><match no="2" postag="VBG" postag_regexp="yes"/></disambig>
+	</rule>
+	<rule name="be + NN/VBG + DT" id="be_NN_VBG">
+		<pattern mark="1">
+			<token inflected="yes">be</token>
+			<and>
+				<token postag="NN"/>
+				<token postag="VBG"/>
+			</and>			
+		</pattern>
+		<disambig><match no="2" postag="VBG" postag_regexp="yes"/></disambig>
+	</rule>
+	<rule name="without having (NN/VBG) + VBN ->VBG" id="without_having_NN_VBG">
+		<pattern mark="1">
+			<token regexp="yes">before|after|while|from|without</token>
+			<and>
+				<token postag="NN"/>
+				<token postag="VBG">having</token>
+			</and>			
+		</pattern>
+		<disambig><match no="2" postag="VBG" postag_regexp="yes"/></disambig>
+	</rule>
+	<rule name="are + VBG/NN -> VBG" id="ARE_VBG_NN">
+		<pattern mark="2">
+			<token>'</token>
+			<token>re</token>
+			<token postag="VBG"/>
+		</pattern>
+		<disambig><match no="3" postag="VBG" postag_regexp="yes"/></disambig>
+	</rule>
+	<rule name="Abbrevs" id="SEN_GEN_NNP">
+		<pattern mark="0">
+			<token regexp="yes">Gen|Sen|Prof</token>
+			<token>.</token>
+			<token postag="NNP"/>
+		</pattern>
+		<disambig postag="NNP"/>
+	</rule>
+	<rulegroup name="off/in season(NN) -> NN:UN" id="SEASON">
+	<rule>
+		<pattern mark="1">
+			<token regexp="yes">off|in</token>
+			<token>season</token>
+		</pattern>
+		<disambig postag="NN:UN"/>
+	</rule>
+	<rule>
+		<pattern mark="2">
+			<token>out</token>
+			<token>of</token>
+			<token>season</token>
+		</pattern>
+		<disambig postag="NN:UN"/>
+	</rule>
+	</rulegroup>
+	<rulegroup name="coast to coast (NN:UN)" id="COAST_TO_COAST">
+		<rule>
+			<pattern mark="0">
+				<token>coast</token>
+				<token>to</token>
+				<token>coast</token>
+			</pattern>
+			<disambig postag="NN:UN"/>
+		</rule>
+		<rule>
+			<pattern mark="2">
+				<token>coast</token>
+				<token>to</token>
+				<token>coast</token>
+			</pattern>
+			<disambig postag="NN:UN"/>
+		</rule>
+	</rulegroup>
+	<rule name="about + figure -> about (RB)" id="ABOUT_NN_RB">
+		<pattern mark="0">
+			<token>about</token>
+			<token regexp="yes">one\-(third|fourth|fifth|sixth|seventh|eighth|ninth|sixteenth|hundredth|thousandth|millionth|trillionth|quadrillionth|quintillionth)</token>
+		</pattern>
+		<disambig postag="RB"/>
+	</rule>
+	<rulegroup name="face to face" id="FACE_TO_FACE">
+	<rule>
+		<pattern mark="0">
+			<token>face</token>
+			<token>to</token>
+			<token>face</token>
+		</pattern>
+		<disambig postag="NN:UN"/>
+	</rule>
+	<rule>
+		<pattern mark="2">
+			<token>face</token>
+			<token>to</token>
+			<token>face</token>
+		</pattern>
+		<disambig postag="NN:UN"/>
+	</rule>
+	</rulegroup>
+	<rulegroup name="arm in arm" id="ARM_IN_ARM">
+	<rule>
+		<pattern mark="0">
+			<token>arm</token>
+			<token>in</token>
+			<token>arm</token>
+		</pattern>
+		<disambig postag="NN:UN"/>
+	</rule>
+	<rule>
+		<pattern mark="2">
+			<token>arm</token>
+			<token>in</token>
+			<token>arm</token>
+		</pattern>
+		<disambig postag="NN:UN"/>
+	</rule>
+	</rulegroup>
+	<rule name="old hat" id="OLD_HAT">
+		<pattern mark="1">
+			<token>old</token>
+			<token>hat</token>
+		</pattern>
+		<disambig postag="NN:UN"/>
+	</rule>
+	<rule name="worth + VBG/NN -> VBG" id="WORTH_VBG_NN">
+		<pattern mark="1">
+			<token>worth</token>
+			<and>
+				<token postag="NN"/>
+				<token postag="VBG"/>
+			</and>
+		</pattern>
+		<disambig><match no="2" postag_regexp="yes" postag="VBG"/></disambig>
+	</rule>
+	<rule name="NO/DT/NN/NNP + NN|JJ -> NO/DT" id="IN_NO_DT">
+		<pattern mark="0">			
+			<token>no</token>
+			<token postag_regexp="yes" postag="NN|JJ.*"/>
+		</pattern>
+		<disambig postag="DT"/>
+	</rule>
+	<rule name="PRP + VBZ/NNS -> VBZ" id="PRP_VBZ">
+		<pattern mark="1">
+			<token regexp="yes">it|he|she</token>
+			<and>
+				<token postag="VBZ"/>
+				<token postag_regexp="yes" postag="NN.*"/>
+			</and>
+		</pattern>
+		<disambig><match no="2" postag="VBZ" postag_regexp="yes"/></disambig>
+	</rule>
+	<rule name="PRP + MD/NN -> MD" id="PRP_MD">
+		<pattern mark="1">
+			<token postag="PRP"/>
+			<and>
+				<token postag="MD"/>
+				<token postag_regexp="yes" postag="NN.*"/>
+			</and>
+		</pattern>
+		<disambig><match no="2" postag="MD" postag_regexp="yes"/></disambig>
 	</rule>
 </rules>

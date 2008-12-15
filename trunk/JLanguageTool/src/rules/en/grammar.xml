@@ -7,7 +7,7 @@ title="Easy editing stylesheet" ?>
 English Grammar and Typo Rules for LanguageTool
 See tagset.txt for the meaning of the POS tags
 Copyright (C) 2001-2007 Daniel Naber (http://www.danielnaber.de)
-$Id: grammar.xml,v 1.95 2008-12-05 22:35:54 milek_pl Exp $
+$Id: grammar.xml,v 1.96 2008-12-15 00:36:00 milek_pl Exp $
 -->
 <rules lang="en">
   <!-- ====================================================================== -->
@@ -215,7 +215,7 @@ $Id: grammar.xml,v 1.95 2008-12-05 22:35:54 milek_pl Exp $
     </rule>
     <rule id="HE_THE" name="he (the)">
       <pattern>
-        <token postag="IN"/>
+        <token postag="IN"><exception regexp="yes">as|while|before|until|ago|than|after</exception></token>
         <token>he</token>
         <token postag="NN.*" postag_regexp="yes"/>
       </pattern>
@@ -1274,7 +1274,7 @@ $Id: grammar.xml,v 1.95 2008-12-05 22:35:54 milek_pl Exp $
       <rule>
         <pattern mark_from="2" mark_to="-1">
           <token><exception postag="CC"/></token>
-          <token><exception postag="WP"/><exception>there</exception></token>
+          <token><exception postag="WP"/><exception regexp="yes">there|they|we|you</exception></token>
           <token>were</token>
           <token postag="VB|VBP|PRP" postag_regexp="yes"><exception postag="JJ|VBN|IN" postag_regexp="yes"/></token>
         </pattern>
@@ -2523,7 +2523,7 @@ $Id: grammar.xml,v 1.95 2008-12-05 22:35:54 milek_pl Exp $
       <!-- and now "an experienced soldier" -->
       <rule>
         <pattern mark_from="1" mark_to="-1">
-          <token><exception postag="PRP.*|NN.*|DT|JJ.*|RB.*|CC|IN|VBG|WRB|WDT|WP\$" postag_regexp="yes"/><exception regexp="yes">have|has|had|s|\"|\'|[0-9].*|,|\(|\[</exception></token>
+          <token><exception postag="PRP.*|NN.*|DT|JJ.*|RB.*|CC|IN|VBG|WRB|WDT|WP\$|WP" postag_regexp="yes"/><exception regexp="yes">have|has|had|s|\"|\'|[0-9].*|,|\(|\[</exception></token>
           <token postag="VBN|JJ" postag_regexp="yes" regexp="yes"><exception>else</exception><exception postag="VB|RP|WRB|RB|CD|IN|CC|MD|NNP|DT" postag_regexp="yes"/></token>
           <token postag="NN"><exception postag="CC|DT|RB|RP|JJ|IN|CD|JJR|RBS|VBD|VBN|MD|NNS|NNPS|NNP|WRB" postag_regexp="yes"/><exception>are</exception></token>
           <token><exception postag="NN.*" postag_regexp="yes"/></token>
@@ -2578,7 +2578,7 @@ $Id: grammar.xml,v 1.95 2008-12-05 22:35:54 milek_pl Exp $
           <token/>
           <token regexp="yes">[Bb]y</token>
           <and>
-            <token postag="NN"><exception postag="CC|UH|DT|WDT|RB|RP|JJ|IN|CD|JJS|JJR|RBS|VBD|VBN|MD|NNP|NNS|WDT|VBG" postag_regexp="yes"/><exception regexp="yes">bit|word|step|way|example|dint|crook|hook|hand|machine|word|cheque|accident|day|means|mistake|name|train|rail|railway|coach|bus|boat|automobile|helicopter|taxi|ambulance|plane|airplane|foot|section|article|page|road|letter|phone|telephone|mail|storm|arrangement|satellite|decree|year-end|lot|profession|district|week|eye|covenant|fiat</exception></token>
+            <token postag="NN"><exception postag="CC|UH|DT|WDT|RB|RP|JJ|IN|CD|JJS|JJR|RBS|VBD|VBN|MD|NNP|NNS|WDT|VBG" postag_regexp="yes"/><exception regexp="yes">bit|word|step|way|example|dint|crook|hook|hand|machine|word|cheque|accident|day|means|mistake|name|train|rail|railway|coach|bus|boat|automobile|helicopter|taxi|ambulance|plane|airplane|foot|section|article|page|road|letter|phone|telephone|mail|storm|arrangement|satellite|decree|year-end|lot|profession|district|week|eye|covenant|fiat|ship|car|jowl|tramway</exception></token>
             <token negate="yes"><match no="0"/></token>
           </and>
           <token><exception postag="NN.*" postag_regexp="yes"/><exception>free</exception></token>
@@ -2632,7 +2632,7 @@ $Id: grammar.xml,v 1.95 2008-12-05 22:35:54 milek_pl Exp $
           <token regexp="yes">day|week</token>
           <token>in</token>
           <and>
-            <token postag="NN"><exception postag="VBG|DT|WDT|RP|JJ|IN|CD|JJS|JJR|RBS|VBD|VBN|MD|NNP|NNS" postag_regexp="yes"/><exception regexp="yes">fact|hand|paperback|person|retrospect|studio|summary|mood|name|turn|deed|word|outlook|favor|phase|reply|chorus|quest|series|answer|league</exception></token>
+            <token postag="NN"><exception postag="VBG|DT|WDT|RP|JJ|IN|CD|JJS|JJR|RBS|VBD|VBN|MD|NNP|NNS" postag_regexp="yes"/><exception regexp="yes">fact|hand|paperback|person|retrospect|studio|summary|mood|name|turn|deed|word|outlook|favor|phase|reply|chorus|quest|series|answer|league|contradistinction|absentia|harness</exception></token>
             <token negate="yes"><match no="0"/></token>
           </and>
           <token><exception postag="NN.*|JJ" postag_regexp="yes"/><exception regexp="yes">\d+</exception></token>
@@ -3337,7 +3337,7 @@ $Id: grammar.xml,v 1.95 2008-12-05 22:35:54 milek_pl Exp $
       <rule>
         <pattern mark_from="2" mark_to="-1">
           <token><exception regexp="yes">(that|has|will|must|could|can|should|would|does|did|may|might|t|let)</exception><exception inflected="yes" regexp="yes">hear|see</exception><exception postag="CC|IN|DT|MD" postag_regexp="yes"/></token>
-          <token postag="NNP" regexp="yes">.{2,}<exception postag="JJ|CC|RP|DT|PRP\$|NNPS|NNS" postag_regexp="yes"/></token>
+          <token postag="NNP" regexp="yes">.{2,}<exception postag="JJ|CC|RP|DT|PRP\$|NNPS|NNS|IN|RB|WRB" postag_regexp="yes"/></token>
           <token postag="VB|VBP" postag_regexp="yes" regexp="yes">\p{Lower}+<exception postag="VBN|VBD|JJ|IN|MD" postag_regexp="yes"/></token>
           <token postag="IN|DT" postag_regexp="yes"/>
         </pattern>
@@ -3348,6 +3348,7 @@ $Id: grammar.xml,v 1.95 2008-12-05 22:35:54 milek_pl Exp $
         <example type="correct">Guiness <marker>walked</marker> to the building.</example>
         <example type="correct">Roosevelt and Hoover speak each other's lines.</example>
         <example type="correct">Boys are at higher risk for autism than girls.</example>
+        <example type="correct">In reply, he said he was too old for this.</example>
         <example type="correct">I can see Bill looking through the window.</example>
       </rule>
     </rulegroup>
