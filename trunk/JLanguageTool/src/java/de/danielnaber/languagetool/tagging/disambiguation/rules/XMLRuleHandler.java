@@ -29,15 +29,12 @@ class XMLRuleHandler extends DefaultHandler {
 
   List<DisambiguationPatternRule> rules = new ArrayList<DisambiguationPatternRule>();
 
-  StringBuffer correctExample = new StringBuffer();
-  StringBuffer incorrectExample = new StringBuffer();
   StringBuffer elements = null;
   StringBuffer exceptions = null;    
 
   boolean inPattern = false;
-  boolean inCorrectExample = false;
-  boolean inIncorrectExample = false;
   boolean inDisamb = false;
+  boolean inMatch = false;
   boolean inRuleGroup = false;
   boolean inToken= false;
   boolean inException = false;
