@@ -8,9 +8,9 @@ title="Easy editing stylesheet" ?>
 A Russian rule file for LanguageTool
 Copyright (C) 2005 Daniel Naber (http://www.danielnaber.de)
 Copyright (C) 2008 Yakov Reztsov
-$Id: grammar.xml,v 1.16 2008-12-09 23:50:16 milek_pl Exp $
+$Id: grammar.xml,v 1.17 2008-12-15 00:40:53 milek_pl Exp $
 -->
-<rules lang="ru">
+<rules lang="ru"> 
     <category name="Пунктуация">
         <rule default="on"  id="ABREV_DOT" name="Точка после сокращений">
             <pattern>
@@ -636,13 +636,13 @@ $Id: grammar.xml,v 1.16 2008-12-09 23:50:16 milek_pl Exp $
             </rule>
         </rulegroup>       
         
-        <rulegroup default="on"  id="O_P_padeg" name="Предлог “о” и предложный падеж">
+        <rulegroup default="on"  id="O_P_padeg" name="Предлоги и предложный падеж">
             <rule>  
                 <pattern>
-                    <token  postag="NN:.*:.*:P" postag_regexp="yes"><exception negate_pos="yes" postag="NN:.*:.*:P" postag_regexp="yes"></exception><exception scope="previous">о</exception><exception scope="previous" postag=".*:P" postag_regexp="yes"/></token>
+                    <token  postag="NN:.*:.*:P" postag_regexp="yes"><exception negate_pos="yes" postag="NN:.*:.*:P" postag_regexp="yes"></exception><exception regexp="yes" scope="previous">о|обо|об|в|во|при|по|на|и|,</exception><exception scope="previous" postag=".*:P" postag_regexp="yes"/></token>
                 </pattern>                
-                <message>Предложный падеж предполагает наличие предлога “о”: <suggestion>о \1</suggestion></message>
-                <short>Пропущен предлог “о”.</short>
+                <message>Предложный падеж предполагает наличие предлога (о – обо – об; в – во; при; по; на): <suggestion>о \1</suggestion></message>
+                <short>Пропущен предлог.</short>
                 <example type="correct">Они думали о доме.</example>
                 <example type="incorrect">Они думали <marker>доме</marker>.</example>
             </rule>
@@ -820,6 +820,6 @@ $Id: grammar.xml,v 1.16 2008-12-09 23:50:16 milek_pl Exp $
                 <example type="incorrect"><marker>Гимнаст тренировался</marker>.</example>
             </rule>          
         </rulegroup>
-    </category>    
+    </category>  
 </rules>
 
