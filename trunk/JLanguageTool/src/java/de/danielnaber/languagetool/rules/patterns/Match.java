@@ -150,7 +150,7 @@ public class Match {
     if (lemmaString != null) {
       if (!lemmaString.equals("")) {
         formattedToken = new AnalyzedTokenReadings(
-            new AnalyzedToken(lemmaString, null, lemmaString));
+            new AnalyzedToken(lemmaString, posTag, lemmaString));
         staticLemma = true;
         postagRegexp = true;
         if (postagRegexp && posTag != null) {
@@ -382,11 +382,16 @@ public class Match {
   public boolean convertsCase() {
     return (!caseConversionType.equals(CaseConversion.NONE));
   }
-  
+
   public final AnalyzedTokenReadings filterReadings(
       final AnalyzedTokenReadings tokenToFilter) {    
     final ArrayList <AnalyzedToken> l = new ArrayList <AnalyzedToken>();
-    if (formattedToken != null) {
+    if (formattedToken != null) {      
+      if (staticLemma) {
+        formattedToken = new AnalyzedTokenReadings(
+            new AnalyzedToken(matchedToken.getToken(), posTag, 
+                formattedToken.getToken(), matchedToken.getStartPos()));
+      }
       String token = formattedToken.getToken();
       if (pRegexMatch != null) {          
         token = pRegexMatch.matcher(token).replaceAll(regexReplace);

@@ -2,7 +2,7 @@
 	<!--
 		English Disambiguation Rules for LanguageTool Copyright (C) 2008
 		Marcin Miłkowski		
-$Id: disambiguation.xml,v 1.20 2008-12-15 00:36:00 milek_pl Exp $
+$Id: disambiguation.xml,v 1.21 2008-12-16 01:10:56 milek_pl Exp $
 	-->
 <rules lang="en">
 	<rule name="Modal verb + verb/noun -> modal verb + verb" id="MD_VB">
@@ -44,7 +44,7 @@ $Id: disambiguation.xml,v 1.20 2008-12-15 00:36:00 milek_pl Exp $
 	 -->
 	 <rule name="no determiner + have as verb/noun ->have/verb" id="NODT_HAVE">
 	 	<pattern mark="1">
-	 		<token><exception postag_regexp="yes" postag="PRP\$|DT"/></token>
+	 		<token><exception postag_regexp="yes" postag="PRP\$"/><exception regexp="yes">the|a</exception></token>
 	 		<token>have</token>
 	 	</pattern>
 	 	<disambig><match no="1" postag_regexp="yes" postag="VB" /></disambig>
@@ -94,10 +94,10 @@ $Id: disambiguation.xml,v 1.20 2008-12-15 00:36:00 milek_pl Exp $
 		</pattern>
 		<disambig><match no="3" postag="VBP" postag_regexp="yes" /></disambig>
 	</rule>
-	<rule name="are (noun/verb)  + adjective/gerund -> are (verb)" id="ARE_JJ_VBG">
+	<rule name="are (noun/verb)  + adjective/gerund/preposition -> are (verb)" id="ARE_JJ_VBG">
 		<pattern mark="0">
 			<token>are</token>
-			<token postag="JJ.*|VBG" postag_regexp="yes" />
+			<token postag="JJ.*|VBG|IN" postag_regexp="yes" />
 		</pattern>
 		<disambig><match no="1" postag="VBP" postag_regexp="yes" /></disambig>
 	</rule>
@@ -115,10 +115,10 @@ $Id: disambiguation.xml,v 1.20 2008-12-15 00:36:00 milek_pl Exp $
 		</pattern>
 		<disambig><match no="1" postag="PRP\$" postag_regexp="yes" /></disambig>
 	</rule>
-	<rule name="how (noun/adv) + determiner -> how (adv)" id="HOW_NN_WRB">
-		<pattern mark="0">
-			<token>how</token>
-			<token postag_regexp="yes" postag="DT|PRP|TO" />
+	<rule name="no determiner + how (noun/adv) -> how (adv)" id="HOW_WRB">
+		<pattern mark="1">
+			<token><exception postag_regexp="yes" postag="PRP\$|DT"/></token>
+			<token>how</token>			
 		</pattern>
 		<disambig postag="WRB" />
 	</rule>
@@ -197,7 +197,7 @@ $Id: disambiguation.xml,v 1.20 2008-12-15 00:36:00 milek_pl Exp $
 			<token postag="DT"><exception postag="PDT" /></token>
 			<and>
 				<token postag="VB" />
-				<token postag="NN" ><exception postag="JJ"/></token>
+				<token postag="NN" ><exception postag_regexp="yes" postag="JJ|NNS"/></token>
 			</and>
 		</pattern>
 		<disambig postag="NN" />
@@ -443,7 +443,7 @@ $Id: disambiguation.xml,v 1.20 2008-12-15 00:36:00 milek_pl Exp $
 	<rule name="while (IN/NN/VBP) + PRP -> while/IN" id="WHILE_IN_PRP">
 		<pattern mark="0">
 			<token>while</token>
-			<token postag="PRP"/>
+			<token postag_regexp="yes" postag="PRP|VBG"/>
 		</pattern>
 		<disambig postag="IN"/>
 	</rule>
@@ -458,7 +458,7 @@ $Id: disambiguation.xml,v 1.20 2008-12-15 00:36:00 milek_pl Exp $
 		<pattern mark="1">
 			<token postag_regexp="yes" postag="DT|JJ"/>
 			<and>
-			<token postag="JJ"/>
+			<token postag="JJ"><exception postag_regexp="yes" negate_pos="yes" postag="JJ|NN.*"/></token>
 			<token postag_regexp="yes" postag="NN.*"/>
 			</and>
 			<token postag_regexp="yes" postag="NN.*"/>
@@ -494,7 +494,7 @@ $Id: disambiguation.xml,v 1.20 2008-12-15 00:36:00 milek_pl Exp $
 		</pattern>
 		<disambig><match no="2" postag="VBG" postag_regexp="yes"/></disambig>
 	</rule>
-	<rule name="without having (NN/VBG) + VBN ->VBG" id="without_having_NN_VBG">
+	<rule name="without having (NN/VBG)->VBG" id="without_kk_NN_VBG">
 		<pattern mark="1">
 			<token regexp="yes">before|after|while|from|without</token>
 			<and>
@@ -504,6 +504,16 @@ $Id: disambiguation.xml,v 1.20 2008-12-15 00:36:00 milek_pl Exp $
 		</pattern>
 		<disambig><match no="2" postag="VBG" postag_regexp="yes"/></disambig>
 	</rule>
+	<rule name="having (NN/VBG) + VBN ->VBG" id="HAVING_VBN">
+		<pattern mark="0">			
+			<and>
+				<token postag="NN"/>
+				<token postag="VBG">having</token>
+			</and>			
+			<token postag="VBN"/>
+		</pattern>
+		<disambig><match no="1" postag="VBG" postag_regexp="yes"/></disambig>
+	</rule>
 	<rule name="are + VBG/NN -> VBG" id="ARE_VBG_NN">
 		<pattern mark="2">
 			<token>'</token>
@@ -511,6 +521,14 @@ $Id: disambiguation.xml,v 1.20 2008-12-15 00:36:00 milek_pl Exp $
 			<token postag="VBG"/>
 		</pattern>
 		<disambig><match no="3" postag="VBG" postag_regexp="yes"/></disambig>
+	</rule>
+	<rule name="Don't|do|don/vb ->don't/vb" id="DONT_VB">
+		<pattern mark="0">
+			<token>don</token>
+			<token>'</token>
+			<token>t</token>
+		</pattern>
+		<disambig><match no="1" postag="VBP">do</match></disambig>
 	</rule>
 	<rule name="Abbrevs" id="SEN_GEN_NNP">
 		<pattern mark="0">
@@ -558,7 +576,7 @@ $Id: disambiguation.xml,v 1.20 2008-12-15 00:36:00 milek_pl Exp $
 	<rule name="about + figure -> about (RB)" id="ABOUT_NN_RB">
 		<pattern mark="0">
 			<token>about</token>
-			<token regexp="yes">one\-(third|fourth|fifth|sixth|seventh|eighth|ninth|sixteenth|hundredth|thousandth|millionth|trillionth|quadrillionth|quintillionth)</token>
+			<token regexp="yes">one\-(third|fourth|fifth|sixth|seventh|eighth|ninth|sixteenth|hundredth|thousandth|millionth|trillionth|quadrillionth|quintillionth|half)</token>
 		</pattern>
 		<disambig postag="RB"/>
 	</rule>
@@ -605,6 +623,13 @@ $Id: disambiguation.xml,v 1.20 2008-12-15 00:36:00 milek_pl Exp $
 		</pattern>
 		<disambig postag="NN:UN"/>
 	</rule>
+	<rule name="Figure|Table|Appendix 1 -> NNP" id="figure_1_NNP">
+		<pattern mark="0">
+			<token regexp="yes">figure|table|appendix|chapter|part|fig|section|picture|lemma</token>
+			<token regexp="yes">\d(\.\d){1,3}|[A-Z]</token>
+		</pattern>
+		<disambig postag="NNP"/>
+	</rule>
 	<rule name="worth + VBG/NN -> VBG" id="WORTH_VBG_NN">
 		<pattern mark="1">
 			<token>worth</token>
@@ -641,5 +666,12 @@ $Id: disambiguation.xml,v 1.20 2008-12-15 00:36:00 milek_pl Exp $
 			</and>
 		</pattern>
 		<disambig><match no="2" postag="MD" postag_regexp="yes"/></disambig>
+	</rule>
+	<rule name="Simple gazetteer/proper name rule" id="gazetteer">
+		<pattern mark="0" case_sensitive="yes">
+			<token regexp="yes">Lake|Fort|Lieutenant</token>
+			<token regexp="yes">\p{Lu}\p{Ll}+</token>
+		</pattern>
+		<disambig postag="NNP"/>
 	</rule>
 </rules>

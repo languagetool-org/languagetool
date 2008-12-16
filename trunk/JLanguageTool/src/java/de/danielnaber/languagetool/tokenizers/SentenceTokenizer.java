@@ -77,10 +77,10 @@ public class SentenceTokenizer implements Tokenizer {
   private static final String[] ABBREV_LIST = {
       // English -- but these work globally for all languages:
       "Mr", "Mrs", "No", "pp", "St", "no", 
-      "Sr", "Bros", "etc", "vs", "esp", "Fig", "fig", "Jan", "Feb", "Mar", "Apr", "Jun", "Jul",
+      "Sr", "Jr", "Bros", "etc", "vs", "esp", "Fig", "fig", "Jan", "Feb", "Mar", "Apr", "Jun", "Jul",
       "Aug", "Sep", "Sept", "Oct", "Okt", "Nov", "Dec", "Ph.D", "PhD",
       "al",  // in "et al."
-      "cf", "Inc", "Ms", "Gen", "Sen", "Prof"
+      "cf", "Inc", "Ms", "Gen", "Sen", "Prof", "Corp", "Co"
   };
 
   private static Set<String> abbreviations = new HashSet<String>();  

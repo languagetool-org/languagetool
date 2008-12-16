@@ -10,19 +10,24 @@ english_file="english.txt"; #created file
 while ((getline < english_file)  > 0){ 
 		if (tabela[$1]=="uncount")
 			lemma[$2]="uncount"
-		if ($3=="VBG")
+		if ($3=="VBG") 
 			gerund[$1]="uncount"
 		}
 uncountables="uncountable.txt" #uncountable nouns
 while ((getline < uncountables)  > 0)
-	if ($0!~/^#/  && $0!="") 
+	if ($0!~/^#/  && $0!="") {
+		if ($0~/ /) 
+			print "Entry " $0 " contains a space. Exiting."; exit(1)
 		lemma[$0]="uncount"
+		}
 
 partlycountable = "partlycountable.txt" #partly uncountable nouns
 while ((getline < partlycountable )  > 0)
-	if ($0!~/^#/ && $0!="") 
+	if ($0!~/^#/ && $0!="") {
+		if ($0~/ /) 
+			print "Entry " $0 " contains a space. Exiting."; exit(1)
 		partly_noncount[$0]="uncount"
-
+		}		
 
 #title
 partly_noncount["sri"]="uncount"
