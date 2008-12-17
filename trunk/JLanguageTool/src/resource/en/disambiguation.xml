@@ -2,7 +2,7 @@
 	<!--
 		English Disambiguation Rules for LanguageTool Copyright (C) 2008
 		Marcin Miłkowski		
-$Id: disambiguation.xml,v 1.21 2008-12-16 01:10:56 milek_pl Exp $
+$Id: disambiguation.xml,v 1.22 2008-12-17 00:52:06 milek_pl Exp $
 	-->
 <rules lang="en">
 	<rule name="Modal verb + verb/noun -> modal verb + verb" id="MD_VB">
@@ -197,7 +197,7 @@ $Id: disambiguation.xml,v 1.21 2008-12-16 01:10:56 milek_pl Exp $
 			<token postag="DT"><exception postag="PDT" /></token>
 			<and>
 				<token postag="VB" />
-				<token postag="NN" ><exception postag_regexp="yes" postag="JJ|NNS"/></token>
+				<token postag="NN" ><exception negate_pos="yes" postag="VB|NN" postag_regexp="yes"/></token>
 			</and>
 		</pattern>
 		<disambig postag="NN" />
@@ -576,7 +576,7 @@ $Id: disambiguation.xml,v 1.21 2008-12-16 01:10:56 milek_pl Exp $
 	<rule name="about + figure -> about (RB)" id="ABOUT_NN_RB">
 		<pattern mark="0">
 			<token>about</token>
-			<token regexp="yes">one\-(third|fourth|fifth|sixth|seventh|eighth|ninth|sixteenth|hundredth|thousandth|millionth|trillionth|quadrillionth|quintillionth|half)</token>
+			<token regexp="yes">one\-(third|fourth|fifth|sixth|seventh|eighth|ninth|tenth|sixteenth|hundredth|thousandth|millionth|trillionth|quadrillionth|quintillionth|half)</token>
 		</pattern>
 		<disambig postag="RB"/>
 	</rule>
@@ -625,8 +625,8 @@ $Id: disambiguation.xml,v 1.21 2008-12-16 01:10:56 milek_pl Exp $
 	</rule>
 	<rule name="Figure|Table|Appendix 1 -> NNP" id="figure_1_NNP">
 		<pattern mark="0">
-			<token regexp="yes">figure|table|appendix|chapter|part|fig|section|picture|lemma</token>
-			<token regexp="yes">\d(\.\d){1,3}|[A-Z]</token>
+			<token regexp="yes">figure|table|appendix|chapter|part|fig|section|picture|lemma|column|row</token>
+			<token regexp="yes">\d([\.\-]\d)*|[A-Z]</token>
 		</pattern>
 		<disambig postag="NNP"/>
 	</rule>
@@ -671,6 +671,14 @@ $Id: disambiguation.xml,v 1.21 2008-12-16 01:10:56 milek_pl Exp $
 		<pattern mark="0" case_sensitive="yes">
 			<token regexp="yes">Lake|Fort|Lieutenant</token>
 			<token regexp="yes">\p{Lu}\p{Ll}+</token>
+		</pattern>
+		<disambig postag="NNP"/>
+	</rule>
+	<rule name="candidate|nomination for NN -> NNP" id="candidate_NNP">
+		<pattern mark="2">
+			<token regexp="yes" inflected="yes">candidate|nomination</token>
+			<token>for</token>
+			<token postag="NN"><exception postag="NNP"/></token>
 		</pattern>
 		<disambig postag="NNP"/>
 	</rule>
