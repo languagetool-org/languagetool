@@ -68,7 +68,7 @@ public abstract class BaseTagger implements Tagger {
         while (i < taggerTokens.length) {
           //Lametyzator returns data as String[]
           //first lemma, then annotations
-          l.add(new AnalyzedToken(word, taggerTokens[i + 1], taggerTokens[i]));
+          l.add(new AnalyzedToken(word, taggerTokens[i + 1], taggerTokens[i], pos));
           i = i + 2;
         }
       }
@@ -77,7 +77,7 @@ public abstract class BaseTagger implements Tagger {
         while (i < lowerTaggerTokens.length) {
           //Lametyzator returns data as String[]
           //first lemma, then annotations
-          l.add(new AnalyzedToken(word, lowerTaggerTokens[i + 1], lowerTaggerTokens[i]));
+          l.add(new AnalyzedToken(word, lowerTaggerTokens[i + 1], lowerTaggerTokens[i], pos));
           i = i + 2;
         }
       }

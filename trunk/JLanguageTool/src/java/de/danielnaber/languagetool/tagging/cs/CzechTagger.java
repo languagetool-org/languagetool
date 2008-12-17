@@ -88,7 +88,7 @@ public class CzechTagger extends BaseTagger {
           final String[] tagsArr = taggerTokens[i + 1].split("\\+");
 
           for (final String currTag : tagsArr) {
-            l.add(new AnalyzedToken(word, currTag, lemma));
+            l.add(new AnalyzedToken(word, currTag, lemma, pos));
           }
 
           i += 2;
@@ -104,7 +104,7 @@ public class CzechTagger extends BaseTagger {
           final String[] tagsArr = lowerTaggerTokens[i + 1].split("\\+");
 
           for (final String currTag : tagsArr) {
-            l.add(new AnalyzedToken(word, currTag, lemma));
+            l.add(new AnalyzedToken(word, currTag, lemma, pos));
           }
 
           i += 2;
