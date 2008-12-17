@@ -190,7 +190,8 @@ class PatternRuleHandler extends XMLRuleHandler {
       }
     } else if (qName.equals("rule")) {
       id = attrs.getValue("id");
-      subId++;
+      if (inRuleGroup)
+        subId++;
       if (!(inRuleGroup && defaultOff)) {
         defaultOff = "off".equals(attrs.getValue("default"));
       }
@@ -630,8 +631,11 @@ class PatternRuleHandler extends XMLRuleHandler {
     endPositionCorrection = 0;
     rule.setCorrectExamples(correctExamples);
     rule.setIncorrectExamples(incorrectExamples);      
-    rule.setCategory(category);    
-    rule.setSubId(subId + "");
+    rule.setCategory(category);
+    if (inRuleGroup)
+      rule.setSubId(subId + "");
+    else
+      rule.setSubId("1");
     caseSensitive = false;
     if (suggestionMatches != null) {
       for (final Match m : suggestionMatches) {
