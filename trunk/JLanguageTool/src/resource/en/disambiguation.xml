@@ -2,7 +2,7 @@
 	<!--
 		English Disambiguation Rules for LanguageTool Copyright (C) 2008
 		Marcin Miłkowski		
-$Id: disambiguation.xml,v 1.22 2008-12-17 00:52:06 milek_pl Exp $
+$Id: disambiguation.xml,v 1.23 2008-12-17 19:56:48 milek_pl Exp $
 	-->
 <rules lang="en">
 	<rule name="Modal verb + verb/noun -> modal verb + verb" id="MD_VB">
@@ -122,6 +122,13 @@ $Id: disambiguation.xml,v 1.22 2008-12-17 00:52:06 milek_pl Exp $
 		</pattern>
 		<disambig postag="WRB" />
 	</rule>
+	<rule name="no determiner + but (noun/conj) -> but (conj)" id="BUT_CC">
+		<pattern mark="1">
+			<token><exception regexp="yes">a|the</exception></token>
+			<token>but</token>			
+		</pattern>
+		<disambig postag="CC" />
+	</rule>	
 	<rule name="if (noun/adv) + determiner -> if (conj)" id="IF_NN_CC">
 		<pattern mark="0">
 			<token>if</token>
@@ -267,6 +274,77 @@ $Id: disambiguation.xml,v 1.22 2008-12-17 00:52:06 milek_pl Exp $
 			<token inflected="yes" regexp="yes" postag="NNP">\p{Lu}\p{Ll}+</token>
 			<token inflected="yes" regexp="yes" postag_regexp="yes" postag="NN|NN:.*">\p{Ll}+</token>
 		</and>
+		</pattern>
+		<disambig postag="NNP"/>
+	</rule>
+	
+	<rulegroup name="initial -> NNP" id="initial_NNP">
+	<rule>
+		<pattern case_sensitive="yes" mark="0">
+		<token regexp="yes">\p{Lu}$<exception scope="previous" postag="SENT_START"/></token>
+		<token>.</token>
+		<token postag="NNP"/>
+		</pattern>
+		<disambig postag="NNP"/>	
+	</rule>
+	<rule>
+		<pattern case_sensitive="yes" mark="0">
+		<token regexp="yes">\p{Lu}$<exception scope="previous" postag="SENT_START"/></token>
+		<token>.</token>
+		<token regexp="yes">\p{Lu}$<exception scope="previous" postag="SENT_START"/></token>
+		<token>.</token>
+		<token postag="NNP"/>
+		</pattern>
+		<disambig postag="NNP"/>	
+	</rule>		
+	</rulegroup>
+	
+	<rule name="President Brown -> NNP" id="title_NNP">
+		<pattern mark="0" case_sensitive="yes">
+			<token regexp="yes">(?iu)president|captain|sergeant|general|madame|engineer|minister|chair|deputy|representative|manager|secretary|professor|bishop|attorney|vicar|treasurer|commander|archbishop|editor|principal|dean|sheriff|lieutenant|commander</token>
+			<token regexp="yes">\p{Lu}\p{Ll}+|\p{Lu}$</token>
+		</pattern>
+		<disambig postag="NNP"/>
+	</rule>
+
+	<rule name="Abbrevs" id="SEN_GEN_NNP">
+		<pattern mark="0">
+			<token regexp="yes">Gen|Sen|Prof|Atty|Gov</token>
+			<token>.</token>
+			<token postag="NNP"/>
+		</pattern>
+		<disambig postag="NNP"/>
+	</rule>
+	
+	<rule name="elected|appointed + role -> NN:UN" id="elected_NN:UN">
+		<pattern mark="1">
+			<token regexp="yes">elected|appointed|ordained</token>
+			<token postag="NN"><exception negate_pos="yes" postag="NN"></exception></token>
+		</pattern>
+		<disambig postag="NN:UN"/>
+	</rule>
+	
+	<rule name="Simple gazetteer/proper name rule" id="gazetteer">
+		<pattern mark="0" case_sensitive="yes">
+			<token regexp="yes">Lake|Fort|Port|Mount</token>
+			<token regexp="yes">\p{Lu}\p{Ll}+</token>
+		</pattern>
+		<disambig postag="NNP"/>
+	</rule>
+	
+	<rule name="street names" id="Street">
+		<pattern mark="0" case_sensitive="yes">			
+			<token regexp="yes">\p{Lu}\p{Ll}+</token>
+			<token regexp="yes">Street|Avenue|Boulevard</token>
+		</pattern>
+		<disambig postag="NNP"/>
+	</rule>
+	
+	<rule name="candidate|nomination for NN -> NNP" id="candidate_NNP">
+		<pattern mark="2">
+			<token regexp="yes" inflected="yes">candidate|nomination|election</token>
+			<token>for</token>
+			<token postag="NN"><exception negate_pos="yes" postag="NN"/></token>
 		</pattern>
 		<disambig postag="NNP"/>
 	</rule>
@@ -530,14 +608,6 @@ $Id: disambiguation.xml,v 1.22 2008-12-17 00:52:06 milek_pl Exp $
 		</pattern>
 		<disambig><match no="1" postag="VBP">do</match></disambig>
 	</rule>
-	<rule name="Abbrevs" id="SEN_GEN_NNP">
-		<pattern mark="0">
-			<token regexp="yes">Gen|Sen|Prof</token>
-			<token>.</token>
-			<token postag="NNP"/>
-		</pattern>
-		<disambig postag="NNP"/>
-	</rule>
 	<rulegroup name="off/in season(NN) -> NN:UN" id="SEASON">
 	<rule>
 		<pattern mark="1">
@@ -625,8 +695,8 @@ $Id: disambiguation.xml,v 1.22 2008-12-17 00:52:06 milek_pl Exp $
 	</rule>
 	<rule name="Figure|Table|Appendix 1 -> NNP" id="figure_1_NNP">
 		<pattern mark="0">
-			<token regexp="yes">figure|table|appendix|chapter|part|fig|section|picture|lemma|column|row</token>
-			<token regexp="yes">\d([\.\-]\d)*|[A-Z]</token>
+			<token regexp="yes">figure|table|appendix|chapter|part|fig|section|picture|lemma|column|row|fraction</token>
+			<token regexp="yes">\d+([\.\-]\d+)*|[A-Z]</token>
 		</pattern>
 		<disambig postag="NNP"/>
 	</rule>
@@ -667,19 +737,5 @@ $Id: disambiguation.xml,v 1.22 2008-12-17 00:52:06 milek_pl Exp $
 		</pattern>
 		<disambig><match no="2" postag="MD" postag_regexp="yes"/></disambig>
 	</rule>
-	<rule name="Simple gazetteer/proper name rule" id="gazetteer">
-		<pattern mark="0" case_sensitive="yes">
-			<token regexp="yes">Lake|Fort|Lieutenant</token>
-			<token regexp="yes">\p{Lu}\p{Ll}+</token>
-		</pattern>
-		<disambig postag="NNP"/>
-	</rule>
-	<rule name="candidate|nomination for NN -> NNP" id="candidate_NNP">
-		<pattern mark="2">
-			<token regexp="yes" inflected="yes">candidate|nomination</token>
-			<token>for</token>
-			<token postag="NN"><exception postag="NNP"/></token>
-		</pattern>
-		<disambig postag="NNP"/>
-	</rule>
+
 </rules>
