@@ -27,7 +27,7 @@ import de.danielnaber.languagetool.synthesis.Synthesizer;
 import de.danielnaber.languagetool.synthesis.pl.PolishSynthesizer;
 import de.danielnaber.languagetool.tagging.Tagger;
 import de.danielnaber.languagetool.tagging.disambiguation.Disambiguator;
-import de.danielnaber.languagetool.tagging.disambiguation.pl.PolishChunker;
+import de.danielnaber.languagetool.tagging.disambiguation.pl.PolishHybridDisambiguator;
 import de.danielnaber.languagetool.tagging.pl.PolishTagger;
 import de.danielnaber.languagetool.tokenizers.SentenceTokenizer;
 import de.danielnaber.languagetool.tokenizers.pl.PolishSentenceTokenizer;
@@ -36,7 +36,7 @@ public class Polish extends Language {
 
   private Tagger tagger = new PolishTagger();
   private SentenceTokenizer sentenceTokenizer = new PolishSentenceTokenizer();
-  private Disambiguator disambiguator = new PolishChunker();
+  private Disambiguator disambiguator = new PolishHybridDisambiguator();
   private Synthesizer synthesizer = new PolishSynthesizer();
   
   private static final String[] COUNTRIES = {"PL"}; 
