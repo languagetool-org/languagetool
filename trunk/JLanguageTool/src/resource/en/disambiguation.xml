@@ -2,7 +2,7 @@
 	<!--
 		English Disambiguation Rules for LanguageTool Copyright (C) 2008
 		Marcin Miłkowski		
-$Id: disambiguation.xml,v 1.24 2008-12-18 01:16:50 milek_pl Exp $
+$Id: disambiguation.xml,v 1.25 2008-12-18 19:27:37 milek_pl Exp $
 	-->
 <rules lang="en">
 	<rule name="Modal verb + verb/noun -> modal verb + verb" id="MD_VB">
@@ -262,6 +262,14 @@ $Id: disambiguation.xml,v 1.24 2008-12-18 01:16:50 milek_pl Exp $
 			<token spacebefore="yes" regexp="yes">"|'</token>
 			<token spacebefore="no">a</token>
 			<token spacebefore="no" regexp="yes">"|'</token>
+		</pattern>
+		<disambig postag="NNP"/>
+	</rule>
+	
+	<rule name="'A' before 'and' and 'or'" id="A_AND_OR">
+		<pattern mark="0">
+			<token>a</token>
+			<token regexp="yes">and|or</token> <!--  add 'is'? -->
 		</pattern>
 		<disambig postag="NNP"/>
 	</rule>
