@@ -21,8 +21,7 @@ Note for grammar rules:
 <!ELEMENT rules (unification*,phrases?,category*)>
 <!ATTLIST rules lang %Languages; #REQUIRED>
 
-
-<!-- phrase definitions -->
+<!-- unification declarations -->
 <!ELEMENT unification (equivalence)+>
 <!-- unification feature ID -->
 <!ATTLIST unification feature ID #REQUIRED>
@@ -182,7 +181,7 @@ of the error marker using mark_from/mark_to (see above): -->
 replacement of the text marked as an error. The test cases use this
 text to replace the text between the 'marker' tags and then re-check
 the text. The example with the incorrect text replace by this text
-may not produde an error anymore, otherwise the test case fails: -->
+may not produce an error anymore, otherwise the test case fails: -->
 <!ELEMENT suggestion (#PCDATA|match)*>
 
 <!-- Refers to matched elements of the pattern. Can be used in
@@ -208,5 +207,5 @@ case, start with upper case, all letters upper case, all letters lower case -->
 <!ATTLIST match case_conversion (startlower|startupper|allupper|alllower) #IMPLIED>
 <!-- Optional attribute: defines if the match element should 
 format a matched part of speech tag. Makes sense only inside 
-the token element for refering to previous POS tags -->
+the token element for referring to previous POS tags -->
 <!ATTLIST match setpos (yes|no) "no">
