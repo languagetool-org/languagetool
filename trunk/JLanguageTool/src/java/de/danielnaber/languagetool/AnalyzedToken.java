@@ -29,6 +29,8 @@ public class AnalyzedToken {
   protected String posTag;
   private int startPos;
   private String lemma;
+
+  private boolean isWhitespaceBefore = false;
   
   public AnalyzedToken(final String token, final String posTag, final int startPos) {
     this.token = token;
@@ -64,6 +66,15 @@ public class AnalyzedToken {
   public final int getStartPos() {
     return startPos;
   }
+  
+  public void setWhitespaceBefore(final boolean isWhite) {
+    isWhitespaceBefore = isWhite;
+  }
+  
+  public boolean isWhitespaceBefore(){
+    return isWhitespaceBefore;
+  }
+  
 
   public String toString() {
     if (lemma != null) {

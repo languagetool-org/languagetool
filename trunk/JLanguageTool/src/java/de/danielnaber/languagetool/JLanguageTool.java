@@ -523,6 +523,10 @@ public final class JLanguageTool {
   public AnalyzedSentence getAnalyzedSentence(final String sentence) throws IOException {
     final List<String> tokens = wordTokenizer.tokenize(sentence);    
     final List<AnalyzedTokenReadings> aTokens = tagger.tag(tokens);
+    int numTokens = aTokens.size();
+    for (int i = 1; i < numTokens; i++) {      
+        aTokens.get(i).setWhitespaceBefore(aTokens.get(i - 1).isWhitespace());      
+    }
     final AnalyzedTokenReadings[] tokenArray = new AnalyzedTokenReadings[tokens.size() + 1];
     final AnalyzedToken[] startTokenArray = new AnalyzedToken[1];  
     int toArrayCount = 0;

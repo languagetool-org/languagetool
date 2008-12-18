@@ -40,6 +40,8 @@ public class AnalyzedTokenReadings {
   private boolean isWhitespace;
   private boolean isSentEnd;
   private boolean isParaEnd;
+  
+  private boolean isWhitespaceBefore = false;
 
   public AnalyzedTokenReadings(final AnalyzedToken[] r) {
     anTokReadings = r.clone();		
@@ -160,6 +162,17 @@ public class AnalyzedTokenReadings {
     return token;
   }
 
+  public void setWhitespaceBefore(final boolean isWhite) {
+    isWhitespaceBefore = isWhite;
+    for (AnalyzedToken aTok : anTokReadings) {
+      aTok.setWhitespaceBefore(isWhite);
+    }
+  }
+  
+  public boolean isWhitespaceBefore(){
+    return isWhitespaceBefore;
+  }
+  
   @Override
   public String toString() {
     final StringBuilder sb = new StringBuilder();

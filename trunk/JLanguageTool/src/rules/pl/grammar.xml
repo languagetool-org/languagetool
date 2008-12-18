@@ -6,7 +6,7 @@ title="Easy editing stylesheet" ?>
 <!--
 Polish Grammar and Typo Rules for LanguageTool
 Copyright (C) 2006-2007 Marcin Miłkowski
-$Id: grammar.xml,v 1.159 2008-12-17 19:56:49 milek_pl Exp $
+$Id: grammar.xml,v 1.160 2008-12-18 01:16:50 milek_pl Exp $
 -->
 <rules lang="pl">
   <unification feature="number">
@@ -1647,15 +1647,26 @@ Powinno być: <suggestion>\2, \3 \4</suggestion>.</message>
       <example correction="[...]" type="incorrect">„prawdziwe arcydzieło <marker>(...)</marker> o wprost ogromnej teoretycznej doniosłości</example>
       <example type="correct">„prawdziwe arcydzieło [...] o wprost ogromnej teoretycznej doniosłości</example>
     </rule>
-    <rule id="CUDZYSLOW_OTWIERAJACY" name="“ → „">
-      <pattern>
-        <token>“</token>
-      </pattern>
-      <message>Cudzysłów niezgodny z polskimi normami typograficznymi. Poprawnie: <suggestion>„</suggestion> lub <suggestion>”</suggestion> (jeśli użyto na końcu wyrazu).</message>
-      <short>Błąd typograficzny</short>
-      <example type="correct">To jest wyraz „krowa”.</example>
-      <example correction="„|”" type="incorrect">To jest wyraz <marker>“</marker>krowa”.</example>
-    </rule>
+    <rulegroup id="CUDZYSLOW_OTWIERAJACY" name="“ → „">
+      <rule>
+        <pattern>
+          <token spacebefore="yes">“</token>
+        </pattern>
+        <message>Cudzysłów niezgodny z polskimi normami typograficznymi. Poprawnie: <suggestion>„</suggestion>.</message>
+        <short>Błąd typograficzny</short>
+        <example type="correct">To jest wyraz „krowa”.</example>
+        <example correction="„" type="incorrect">To jest wyraz <marker>“</marker>krowa”.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token spacebefore="no">“</token>
+        </pattern>
+        <message>Cudzysłów niezgodny z polskimi normami typograficznymi. Poprawnie: <suggestion>”</suggestion>.</message>
+        <short>Błąd typograficzny</short>
+        <example type="correct">To jest wyraz „krowa”.</example>
+        <example correction="”" type="incorrect">To jest wyraz „krowa<marker>“</marker>.</example>
+      </rule>
+    </rulegroup>
     <rulegroup id="TZW_CUDZYSLOW" name="Cudzysłów po skrócie „tzw.”">
       <rule>
         <pattern mark_from="2">

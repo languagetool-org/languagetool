@@ -2,7 +2,7 @@
 	<!--
 		English Disambiguation Rules for LanguageTool Copyright (C) 2008
 		Marcin Miłkowski		
-$Id: disambiguation.xml,v 1.23 2008-12-17 19:56:48 milek_pl Exp $
+$Id: disambiguation.xml,v 1.24 2008-12-18 01:16:50 milek_pl Exp $
 	-->
 <rules lang="en">
 	<rule name="Modal verb + verb/noun -> modal verb + verb" id="MD_VB">
@@ -254,6 +254,16 @@ $Id: disambiguation.xml,v 1.23 2008-12-17 19:56:48 milek_pl Exp $
 			<token regexp="yes">[/\+\[\]\(\){}\\,!%&amp;]</token>
 		</pattern>
 		<disambig postag="SYM"/>
+	</rule>
+	
+	<!--  "A" mentioned only as a letter -->
+	<rule name="A mentioned (and not used)" id="A_MENTION">
+		<pattern mark="1">
+			<token spacebefore="yes" regexp="yes">"|'</token>
+			<token spacebefore="no">a</token>
+			<token spacebefore="no" regexp="yes">"|'</token>
+		</pattern>
+		<disambig postag="NNP"/>
 	</rule>
 	
 	<!-- for Bob Brown etc. -->

@@ -46,6 +46,9 @@ public class Element {
   private boolean stringRegExp = false;
   private boolean inflected = false;
 
+  private boolean ignoreWhitespace = true;
+  private boolean whitespaceBefore = false;
+  
   /**
    * List of exceptions that are valid for 
    * the current token and / or some next
@@ -150,7 +153,8 @@ public class Element {
     boolean matched = false;
     if (testString) {
       matched = (isStringTokenMatched(token) ^ negation) 
-          && (isPosTokenMatched(token) ^ posNegation);
+          && (isPosTokenMatched(token) ^ posNegation)
+          && (ignoreWhitespace || isWhitespaceBefore(token));
     } else {
       matched = (!negation) && (isPosTokenMatched(token) ^ posNegation);
     }
@@ -747,6 +751,21 @@ public class Element {
   
   public final boolean getUniNegation() {
    return uniNegation; 
+  }
+
+  public void setWhitespaceBefore(final boolean isWhite) {
+    whitespaceBefore = isWhite;
+    ignoreWhitespace = false;
+  }
+  
+  public void setExceptionSpaceBefore(final boolean isWhite) {
+    if (exceptionList != null) {
+      exceptionList.get(exceptionList.size()).setWhitespaceBefore(isWhite);
+    }
+  }
+  
+  public boolean isWhitespaceBefore(final AnalyzedToken token){
+    return (whitespaceBefore == token.isWhitespaceBefore());
   }
   
 }

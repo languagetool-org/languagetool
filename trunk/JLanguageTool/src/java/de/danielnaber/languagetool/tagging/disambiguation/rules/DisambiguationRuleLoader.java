@@ -66,6 +66,8 @@ class DisambiguationRuleHandler extends XMLRuleHandler {
   private boolean tokenNegated = false;
   private boolean tokenInflected = false;
   private boolean posNegation = false;
+  private boolean tokenSpaceBefore = false;
+  private boolean tokenSpaceBeforeSet = false;
 
   private String posToken;
 
@@ -78,6 +80,8 @@ class DisambiguationRuleHandler extends XMLRuleHandler {
   private boolean exceptionValidNext = false;
   private boolean exceptionValidPrev = false;
   private boolean exceptionSet = false;
+  private boolean exceptionSpaceBefore = false;
+  private boolean exceptionSpaceBeforeSet = false;
 
   private List<Element> elementList = null;
   private boolean posRegExp = false; 
@@ -158,7 +162,10 @@ class DisambiguationRuleHandler extends XMLRuleHandler {
       if (attrs.getValue("regexp") != null) {
         exceptionStringRegExp = attrs.getValue("regexp").equals("yes");
       }
-
+      if (attrs.getValue("spacebefore") != null) {
+        exceptionSpaceBefore = "yes".equals(attrs.getValue("spacebefore"));
+        exceptionSpaceBeforeSet = !"ignore".equals(attrs.getValue("spacebefore"));
+      }
     } else if (qName.equals("and")) {
       inAndGroup = true;
     } else if (qName.equals("token")) {
@@ -189,7 +196,11 @@ class DisambiguationRuleHandler extends XMLRuleHandler {
       if (attrs.getValue("regexp") != null) {
         stringRegExp = attrs.getValue("regexp").equals("yes");
       }
-
+      if (attrs.getValue("spacebefore") != null) {
+        tokenSpaceBefore = "yes".equals(attrs.getValue("spacebefore"));
+        tokenSpaceBeforeSet = !"ignore".equals(attrs.getValue("spacebefore"));
+      }
+      
     }  else if (qName.equals("disambig")) {
       inDisamb = true;
       disambiguatedPOS = attrs.getValue("postag");      
@@ -268,6 +279,9 @@ class DisambiguationRuleHandler extends XMLRuleHandler {
             exceptionPosNegation, exceptionValidNext, exceptionValidPrev);
         exceptionPosToken = null;
       }
+      if (exceptionSpaceBeforeSet) {
+        tokenElement.setExceptionSpaceBefore(exceptionSpaceBefore);        
+      }      
       resetException();
     } else if (qName.equals("and")) {
       inAndGroup = false;
@@ -301,8 +315,10 @@ class DisambiguationRuleHandler extends XMLRuleHandler {
       if (inAndGroup) {
         andGroupCounter++;
       }
+      if (tokenSpaceBeforeSet) {
+        tokenElement.setWhitespaceBefore(tokenSpaceBefore);
+      }
       resetToken();
-
     } else if (qName.equals("pattern")) {
       inPattern = false;
     } else if (qName.equals("match")) {
@@ -326,6 +342,8 @@ class DisambiguationRuleHandler extends XMLRuleHandler {
     posRegExp = false;
     inToken = false;
     stringRegExp = false;
+    tokenSpaceBefore = false;
+    tokenSpaceBeforeSet = false;
 
     resetException();
     exceptionSet = false;
@@ -340,6 +358,8 @@ class DisambiguationRuleHandler extends XMLRuleHandler {
     exceptionStringRegExp = false;
     exceptionValidNext = false;
     exceptionValidPrev = false;
+    exceptionSpaceBefore = false;
+    exceptionSpaceBeforeSet = false;
   }
 
   @Override

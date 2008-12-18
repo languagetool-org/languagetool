@@ -103,6 +103,8 @@ class PatternRuleHandler extends XMLRuleHandler {
   private boolean stringRegExp = false;
   private boolean tokenNegated = false;
   private boolean tokenInflected = false;
+  private boolean tokenSpaceBefore = false;
+  private boolean tokenSpaceBeforeSet = false;
   private String posToken;
   private boolean posNegation = false;
   private boolean posRegExp = false;
@@ -125,6 +127,8 @@ class PatternRuleHandler extends XMLRuleHandler {
   private boolean exceptionValidNext = false;
   private boolean exceptionValidPrev = false;
   private boolean exceptionSet = false;
+  private boolean exceptionSpaceBefore = false;
+  private boolean exceptionSpaceBeforeSet = false;
 
   /** true when phraseref is the last element in the rule. **/ 
   private boolean lastPhrase = false;
@@ -270,7 +274,12 @@ class PatternRuleHandler extends XMLRuleHandler {
       }
       if (attrs.getValue(REGEXP) != null) {
         stringRegExp = YES.equals(attrs.getValue(REGEXP));
-      }            
+      }
+      
+      if (attrs.getValue("spacebefore") != null) {
+        tokenSpaceBefore = YES.equals(attrs.getValue("spacebefore"));
+        tokenSpaceBeforeSet = !"ignore".equals(attrs.getValue("spacebefore"));
+      }
 
     } else if (qName.equals("exception")) {
       inException = true;      
@@ -298,6 +307,10 @@ class PatternRuleHandler extends XMLRuleHandler {
       }
       if (attrs.getValue(REGEXP) != null) {
         exceptionStringRegExp = YES.equals(attrs.getValue(REGEXP));
+      }
+      if (attrs.getValue("spacebefore") != null) {
+        exceptionSpaceBefore = YES.equals(attrs.getValue("spacebefore"));
+        exceptionSpaceBeforeSet = !"ignore".equals(attrs.getValue("spacebefore"));
       }
     } else if (qName.equals("example") 
         && attrs.getValue("type").equals("correct")) {
@@ -448,6 +461,9 @@ class PatternRuleHandler extends XMLRuleHandler {
             exceptionPosNegation, exceptionValidNext, exceptionValidPrev);
         exceptionPosToken = null;
       }
+      if (exceptionSpaceBeforeSet) {
+        tokenElement.setExceptionSpaceBefore(exceptionSpaceBefore);
+      }
       resetException();      
     } else if (qName.equals("and")) {
       inAndGroup = false;
@@ -498,7 +514,9 @@ class PatternRuleHandler extends XMLRuleHandler {
           elementList.clear();
         }
       }
-
+      if (tokenSpaceBeforeSet) {
+        tokenElement.setWhitespaceBefore(tokenSpaceBefore);
+      }
       resetToken();
     } else if (qName.equals("pattern")) {
       inPattern = false;
@@ -583,6 +601,8 @@ class PatternRuleHandler extends XMLRuleHandler {
     posRegExp = false;
     inToken = false;
     stringRegExp = false;
+    tokenSpaceBefore = false;
+    tokenSpaceBeforeSet = false;
 
     resetException();
     exceptionSet = false; 
@@ -597,6 +617,8 @@ class PatternRuleHandler extends XMLRuleHandler {
     exceptionStringRegExp = false;
     exceptionValidNext = false;
     exceptionValidPrev = false;
+    exceptionSpaceBefore = false;
+    exceptionSpaceBeforeSet = false;
   }
 
   /**

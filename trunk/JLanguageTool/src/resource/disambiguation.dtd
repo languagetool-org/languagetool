@@ -59,6 +59,9 @@ before and vice versa:-->
 <!ATTLIST token negate_pos (yes|no) "no">
 <!-- Maximum number of tags to skip before the match is found: -->
 <!ATTLIST token skip CDATA #IMPLIED>
+<!-- Is the token preceded with a whitespace? -->
+<!ATTLIST token spacebefore (yes|no) "no">
+
 
 <!-- Exception element -->
 <!ELEMENT exception (#PCDATA)>
@@ -73,7 +76,9 @@ before and vice versa:-->
 <!-- Whether the string in 'postag' is a regular expression: -->
 <!ATTLIST exception postag_regexp (yes|no) "no">
 <!-- Whether the postag match should be negated: -->
-<!ATTLIST exception negate_pos (yes|no) "no">
+<!ATTLIST exception negate_pos (yes|no|ignore) "ignore">
+<!-- Is the exception token preceded with a whitespace? -->
+<!ATTLIST exception spacebefore (yes|no|ignore) "ignore">
 
 <!-- defines if the exception should apply to skipped tokens
 i.e., the validity scope of the exception: -->
