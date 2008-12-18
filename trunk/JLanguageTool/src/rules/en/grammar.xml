@@ -7,7 +7,7 @@ title="Easy editing stylesheet" ?>
 English Grammar and Typo Rules for LanguageTool
 See tagset.txt for the meaning of the POS tags
 Copyright (C) 2001-2007 Daniel Naber (http://www.danielnaber.de)
-$Id: grammar.xml,v 1.100 2008-12-17 23:02:36 milek_pl Exp $
+$Id: grammar.xml,v 1.101 2008-12-18 19:27:16 milek_pl Exp $
 -->
 <rules lang="en">
   <!-- ====================================================================== -->
@@ -1180,7 +1180,7 @@ $Id: grammar.xml,v 1.100 2008-12-17 23:02:36 milek_pl Exp $
     </rule>
     <rule id="NUT_NOT" name="nut (not)">
       <pattern mark_to="-1">
-        <token regexp="yes">nut</token>
+        <token>nut</token>
         <token postag="(RB|JJ|NN|NN:.*)" postag_regexp="yes"><exception inflected="yes" regexp="yes">case|tree|job|butter|mixture|flour|bread|oil|shell|cracker|allergy|cake</exception></token>
       </pattern>
       <message>Did you mean <suggestion>not</suggestion>?</message>
@@ -1452,8 +1452,8 @@ $Id: grammar.xml,v 1.100 2008-12-17 23:02:36 milek_pl Exp $
     </rulegroup>
     <rule id="OF_CAUSE" name="of cause (course)">
       <pattern mark_to="-1">
-        <token regexp="yes">of</token>
-        <token regexp="yes">cause</token>
+        <token>of</token>
+        <token>cause</token>
         <token negate="yes" regexp="yes">(and|to)</token>
       </pattern>
       <message>Did you mean <suggestion>of course</suggestion> (=naturally)?</message>
@@ -1704,7 +1704,7 @@ $Id: grammar.xml,v 1.100 2008-12-17 23:02:36 milek_pl Exp $
       -->
       <rule>
         <pattern mark_from="0" mark_to="-1">
-          <token regexp="yes">its</token>
+          <token>its</token>
           <token regexp="yes">(a|the|your|her|his|our|their|mine|ours|theirs|yours)</token>
         </pattern>
         <message>Did you mean <suggestion>it's</suggestion> (=<suggestion>it is</suggestion>) instead of 'its' (possessive pronoun)?</message>
@@ -1750,7 +1750,7 @@ $Id: grammar.xml,v 1.100 2008-12-17 23:02:36 milek_pl Exp $
       <rule>
         <!-- TODO: "no the", "no of" -->
         <pattern mark_to="-1">
-          <token regexp="yes">no</token>
+          <token>no</token>
           <token postag="CC|DT|IN|MD|NP|RP|WDT|WP|WRB" postag_regexp="yes"><exception regexp="yes">such|for</exception><exception postag="JJR|NN.*" postag_regexp="yes"/></token>
         </pattern>
         <message>Did you mean <suggestion>now</suggestion> (=at this moment) instead of 'no' (negation)?</message>
@@ -1821,7 +1821,7 @@ $Id: grammar.xml,v 1.100 2008-12-17 23:02:36 milek_pl Exp $
       <rule>
         <pattern mark_from="2" mark_to="-2">
           <token><exception postag="PRP$"/></token>
-          <token postag="DT|JJ.*" postag_regexp="yes" regexp="yes"><exception postag="CD"/></token>
+          <token postag="DT|JJ.*" postag_regexp="yes"><exception postag="CD"/></token>
           <token postag="NNS|NNPS" postag_regexp="yes" regexp="yes">.[^']*s<exception>his</exception><exception postag="VBZ|RB|IN|JJ|NN:.*|NN|NNP" postag_regexp="yes"/></token>
           <token postag="NN|NN:.*" postag_regexp="yes" regexp="yes">.{2,}<exception regexp="yes">today|yesterday|tomorrow|now|in|are</exception><exception postag="VBG|VB|VBP|VBD|VBN|VBG|RB|MD|IN|JJ.*|CC|PRP|NNP.*" postag_regexp="yes"/></token>
           <token><exception regexp="yes">\p{Punct}</exception></token>
@@ -1841,7 +1841,7 @@ $Id: grammar.xml,v 1.100 2008-12-17 23:02:36 milek_pl Exp $
       <rule>
         <pattern mark_from="2" mark_to="-2">
           <token><exception postag="PRP$"/></token>
-          <token postag="DT|JJ.*" postag_regexp="yes" regexp="yes"><exception postag="CD"/></token>
+          <token postag="DT|JJ.*" postag_regexp="yes"><exception postag="CD"/></token>
           <token postag="NNS|NNPS" postag_regexp="yes" regexp="yes">.[^']*s<exception>his</exception><exception postag="VBZ|RB|IN|JJ|NN:.*|NN|NNP" postag_regexp="yes"/></token>
           <token postag="NN|NN:.*" postag_regexp="yes" regexp="yes">.{2,}<exception regexp="yes">today|yesterday|tomorrow|now|in</exception><exception postag="RB|MD|IN|JJ.*|CC|VBP|VBG" postag_regexp="yes"/></token>
           <token regexp="yes">\p{Punct}</token>
@@ -1860,10 +1860,10 @@ $Id: grammar.xml,v 1.100 2008-12-17 23:02:36 milek_pl Exp $
       <rule>
         <pattern mark_from="1" mark_to="-1">
           <token><exception postag="DT|JJ.*" postag_regexp="yes"/></token>
-          <token postag="NN|NN:UN" postag_regexp="yes" regexp="yes"><exception postag="VB"/></token>
+          <token postag="NN|NN:UN" postag_regexp="yes"><exception postag="VB"/></token>
           <token regexp="yes">'|’</token>
           <token>s</token>
-          <token postag="VBD|VBP" postag_regexp="yes" regexp="yes"><exception postag="NN.*|JJ.*" postag_regexp="yes"/><exception>got</exception></token>
+          <token postag="VBD|VBP" postag_regexp="yes"><exception postag="NN.*|JJ.*" postag_regexp="yes"/><exception>got</exception></token>
         </pattern>
         <message>Probably you need to use a plural form here: <suggestion>\2\4</suggestion>.</message>
         <short>Possible typo</short>
@@ -1873,10 +1873,10 @@ $Id: grammar.xml,v 1.100 2008-12-17 23:02:36 milek_pl Exp $
       </rule>
       <rule>
         <pattern mark_to="-1">
-          <token postag="NN|NN:.*|NNP" postag_regexp="yes" regexp="yes"><exception postag="RB"/></token>
+          <token postag="NN|NN:.*|NNP" postag_regexp="yes"><exception postag="RB"/></token>
           <token regexp="yes">'|’</token>
           <token>s</token>
-          <token postag="WRB" postag_regexp="yes" regexp="yes"/>
+          <token postag="WRB" postag_regexp="yes"/>
         </pattern>
         <message>Probably you need to use a plural form here: <suggestion>\1\3</suggestion>.</message>
         <short>Possible typo</short>
@@ -2282,7 +2282,7 @@ $Id: grammar.xml,v 1.100 2008-12-17 23:02:36 milek_pl Exp $
       <rule>
         <pattern mark_from="2">
           <token postag="SENT_START"/>
-          <token regexp="yes">You</token>
+          <token>You</token>
           <token regexp="yes">am|is|was|has</token>
         </pattern>
         <message>Use second person verb with 'you': <suggestion>are</suggestion> or <suggestion>were</suggestion>.</message>
@@ -2306,7 +2306,7 @@ $Id: grammar.xml,v 1.100 2008-12-17 23:02:36 milek_pl Exp $
       <rule>
         <pattern mark_from="2">
           <token postag="SENT_START"/>
-          <token regexp="yes">We</token>
+          <token>We</token>
           <token regexp="yes">am|is|was|has</token>
         </pattern>
         <message>Use first person plural verb with 'we': <suggestion>are</suggestion>, 
@@ -2318,7 +2318,7 @@ $Id: grammar.xml,v 1.100 2008-12-17 23:02:36 milek_pl Exp $
       <rule>
         <pattern mark_from="2">
           <token postag="SENT_START"/>
-          <token regexp="yes">They</token>
+          <token>They</token>
           <token regexp="yes">am|is|was|has</token>
         </pattern>
         <message>Use third-person plural verb with 'they': <suggestion>are</suggestion>, 
@@ -2347,7 +2347,7 @@ $Id: grammar.xml,v 1.100 2008-12-17 23:02:36 milek_pl Exp $
     <!-- currently doesn't fail test case :)  -->
     <rule id="TO_NON_BASE" name="'to' + non-base form">
       <pattern mark_from="1">
-        <token regexp="yes">to</token>
+        <token>to</token>
         <token postag="VBZ"><exception>is</exception><exception postag="NNS|NNP|NNPS" postag_regexp="yes"/></token>
       </pattern>
       <message>You might need to use the base form of the verb here: <suggestion><match no="2" postag="VBP"/></suggestion>.</message>
@@ -2359,7 +2359,7 @@ $Id: grammar.xml,v 1.100 2008-12-17 23:02:36 milek_pl Exp $
     <rule id="MANY_FEW_UNCOUNTABLE" name="'many/few' + uncountable noun, e.g. 'many (much) food'">
       <!-- fixme: more uncountable nouns   -->
       <pattern mark_from="1" mark_to="-2">
-        <token regexp="yes">as</token>
+        <token>as</token>
         <token regexp="yes">many|few</token>
         <token postag="NN:U" postag_regexp="yes"/>
         <!--      <token regexp="yes">air|money|software|cattle|knowledge|sand|furniture|meat|food|news|success|water|freedom|maturity|intelligence|life|information</token>
@@ -2534,7 +2534,7 @@ $Id: grammar.xml,v 1.100 2008-12-17 23:02:36 milek_pl Exp $
       <rule>
         <pattern mark_from="1" mark_to="-1">
           <token><exception postag="PRP.*|NN.*|DT|JJ.*|RB.*|CC|IN|VBG|WRB|WDT|WP\$|WP" postag_regexp="yes"/><exception regexp="yes">have|has|had|s|\"|\'|[0-9].*|,|\(|\[</exception></token>
-          <token postag="VBN|JJ" postag_regexp="yes" regexp="yes"><exception>else</exception><exception postag="VB|RP|WRB|RB|CD|IN|CC|MD|NNP|DT" postag_regexp="yes"/></token>
+          <token postag="VBN|JJ" postag_regexp="yes"><exception>else</exception><exception postag="VB|RP|WRB|RB|CD|IN|CC|MD|NNP|DT" postag_regexp="yes"/></token>
           <token postag="NN"><exception postag="CC|DT|RB|RP|JJ|IN|CD|JJR|RBS|VBD|VBN|MD|NNS|NNPS|NNP|WRB" postag_regexp="yes"/><exception>are</exception></token>
           <token><exception postag="NN.*" postag_regexp="yes"/></token>
         </pattern>
@@ -2886,7 +2886,7 @@ $Id: grammar.xml,v 1.100 2008-12-17 23:02:36 milek_pl Exp $
           <token><exception regexp="yes">couldn|can</exception></token>
           <token><exception regexp="yes">'|could</exception></token>
           <token><exception regexp="yes">t|cannot|not</exception></token>
-          <token inflected="yes" regexp="yes">help</token>
+          <token inflected="yes">help</token>
           <token postag="VBG"/>
         </pattern>
         <message>The verb 'help' is used with infinitive: <suggestion>to <match no="5" postag="VB"/></suggestion>
@@ -2900,7 +2900,7 @@ $Id: grammar.xml,v 1.100 2008-12-17 23:02:36 milek_pl Exp $
         <pattern mark_from="4">
           <token postag="SENT_START"/>
           <token><exception>cannot</exception></token>
-          <token inflected="yes" regexp="yes">help</token>
+          <token inflected="yes">help</token>
           <token postag="VBG"/>
         </pattern>
         <message>The verb 'help' is used with infinitive: <suggestion>to <match no="5" postag="VB"/></suggestion>
@@ -2913,7 +2913,7 @@ $Id: grammar.xml,v 1.100 2008-12-17 23:02:36 milek_pl Exp $
         <pattern mark_from="4">
           <token postag="SENT_START"/>
           <token><exception>cannot</exception></token>
-          <token inflected="yes" regexp="yes">help</token>
+          <token inflected="yes">help</token>
           <token>not</token>
           <token postag="VBG"/>
         </pattern>
@@ -2927,7 +2927,7 @@ $Id: grammar.xml,v 1.100 2008-12-17 23:02:36 milek_pl Exp $
           <token><exception regexp="yes">couldn|can</exception></token>
           <token><exception regexp="yes">'|could</exception></token>
           <token><exception regexp="yes">t|cannot|not</exception></token>
-          <token inflected="yes" regexp="yes">help</token>
+          <token inflected="yes">help</token>
           <token>not</token>
           <token postag="VBG"/>
         </pattern>
@@ -2940,7 +2940,7 @@ $Id: grammar.xml,v 1.100 2008-12-17 23:02:36 milek_pl Exp $
         <pattern mark_from="5">
           <token postag="SENT_START"/>
           <token><exception>cannot</exception></token>
-          <token inflected="yes" regexp="yes">help</token>
+          <token inflected="yes">help</token>
           <token postag="PRP"/>
           <token postag="VBG"/>
         </pattern>
@@ -2955,7 +2955,7 @@ $Id: grammar.xml,v 1.100 2008-12-17 23:02:36 milek_pl Exp $
           <token><exception regexp="yes">couldn|can</exception></token>
           <token><exception regexp="yes">'|could</exception></token>
           <token><exception regexp="yes">t|cannot|not</exception></token>
-          <token inflected="yes" regexp="yes">help</token>
+          <token inflected="yes">help</token>
           <token postag="PRP"/>
           <token postag="VBG"/>
         </pattern>
@@ -2969,7 +2969,7 @@ $Id: grammar.xml,v 1.100 2008-12-17 23:02:36 milek_pl Exp $
         <pattern mark_from="6">
           <token postag="SENT_START"/>
           <token><exception>cannot</exception></token>
-          <token inflected="yes" regexp="yes">help</token>
+          <token inflected="yes">help</token>
           <token postag="PRP"/>
           <token>not</token>
           <token postag="VBG"/>
@@ -2984,7 +2984,7 @@ $Id: grammar.xml,v 1.100 2008-12-17 23:02:36 milek_pl Exp $
           <token><exception regexp="yes">couldn|can</exception></token>
           <token><exception regexp="yes">'|could</exception></token>
           <token><exception regexp="yes">t|cannot|not</exception></token>
-          <token inflected="yes" regexp="yes">help</token>
+          <token inflected="yes">help</token>
           <token postag="PRP"/>
           <token>not</token>
           <token postag="VBG"/>
@@ -3158,7 +3158,7 @@ $Id: grammar.xml,v 1.100 2008-12-17 23:02:36 milek_pl Exp $
    -->
     <rule id="AS_ADJ_AS" name="Comparison with 'as'">
       <pattern mark_from="2">
-        <token regexp="yes">as</token>
+        <token>as</token>
         <token postag="JJ|RB" postag_regexp="yes"><exception>other</exception></token>
         <token regexp="yes">like|than|then</token>
       </pattern>
@@ -3189,7 +3189,7 @@ $Id: grammar.xml,v 1.100 2008-12-17 23:02:36 milek_pl Exp $
       <rule>
         <pattern mark_from="1" mark_to="-1">
           <token regexp="yes">more|less</token>
-          <token regexp="yes">as</token>
+          <token>as</token>
           <token><exception regexp="yes">to|if|follows|early|much|though</exception></token>
         </pattern>
         <message>Comparison requires <suggestion>than</suggestion>, not 'then' nor 'as'.</message>
@@ -3201,7 +3201,7 @@ $Id: grammar.xml,v 1.100 2008-12-17 23:02:36 milek_pl Exp $
       <rule>
         <pattern mark_from="1">
           <token regexp="yes">more|less</token>
-          <token regexp="yes">then</token>
+          <token>then</token>
         </pattern>
         <message>Comparison requires <suggestion>than</suggestion>, not 'then' nor 'as'.</message>
         <short>Grammatical problem</short>
@@ -3708,7 +3708,7 @@ $Id: grammar.xml,v 1.100 2008-12-17 23:02:36 milek_pl Exp $
     </rule>
     <rule id="CD_NN" name="Possible agreement error: numeral + singular countable noun">
       <pattern mark_to="-1">
-        <token postag="CD" regexp="yes"><exception regexp="yes">one|thou|zero</exception></token>
+        <token postag="CD"><exception regexp="yes">one|thou|zero</exception></token>
         <token postag="NN:UN|NN" postag_regexp="yes"><exception postag="NN:U|NNS|NNPS|JJ.*|IN" postag_regexp="yes"/><exception>will</exception></token>
         <token><exception postag="NN.*" postag_regexp="yes"/><exception>'</exception></token>
       </pattern>
@@ -3737,7 +3737,7 @@ $Id: grammar.xml,v 1.100 2008-12-17 23:02:36 milek_pl Exp $
     <rulegroup id="MANY_NN_U" name="Possible agreement error: 'many/several/few' + uncountable noun">
       <rule>
         <pattern mark_to="-1">
-          <token regexp="yes">many</token>
+          <token>many</token>
           <token postag="NN:U" postag_regexp="yes"><exception postag="NN:UN|NN|NNP|NNS|NNPS|JJ.*" postag_regexp="yes"/></token>
           <token><exception postag="NNS|NNPS|CC" postag_regexp="yes"/><exception>'</exception></token>
         </pattern>
@@ -3751,7 +3751,7 @@ $Id: grammar.xml,v 1.100 2008-12-17 23:02:36 milek_pl Exp $
       </rule>
       <rule>
         <pattern mark_to="-3">
-          <token regexp="yes">many</token>
+          <token>many</token>
           <token postag="NN:U" postag_regexp="yes"><exception postag="NN:UN|NN|NNP|NNS|NNPS|JJ.*" postag_regexp="yes"/></token>
           <token postag="CC"/>
           <token><exception postag="NNS|NNPS" postag_regexp="yes"/></token>
@@ -3764,7 +3764,7 @@ $Id: grammar.xml,v 1.100 2008-12-17 23:02:36 milek_pl Exp $
       </rule>
       <rule>
         <pattern mark_to="-1">
-          <token regexp="yes">few</token>
+          <token>few</token>
           <token postag="NN:U" postag_regexp="yes"><exception postag="NN:UN|NN|NNP|NNS|NNPS|JJ.*" postag_regexp="yes"/></token>
           <token><exception postag="NNS|NNPS" postag_regexp="yes"/><exception>'</exception></token>
         </pattern>
@@ -3776,7 +3776,7 @@ $Id: grammar.xml,v 1.100 2008-12-17 23:02:36 milek_pl Exp $
       </rule>
       <rule>
         <pattern mark_to="-3">
-          <token regexp="yes">few</token>
+          <token>few</token>
           <token postag="NN:U" postag_regexp="yes"><exception postag="NN:UN|NN|NNP|NNS|NNPS|JJ.*" postag_regexp="yes"/></token>
           <token postag="CC"/>
           <token><exception postag="NNS|NNPS" postag_regexp="yes"/></token>
@@ -3790,7 +3790,7 @@ $Id: grammar.xml,v 1.100 2008-12-17 23:02:36 milek_pl Exp $
       </rule>
       <rule>
         <pattern mark_to="-1">
-          <token regexp="yes">several</token>
+          <token>several</token>
           <token postag="NN:U" postag_regexp="yes"><exception postag="NN:UN|NN|NNP|NNS|NNPS|JJ.*" postag_regexp="yes"/></token>
           <token><exception postag="NNS|NNPS" postag_regexp="yes"/><exception>'</exception></token>
         </pattern>
@@ -3802,7 +3802,7 @@ $Id: grammar.xml,v 1.100 2008-12-17 23:02:36 milek_pl Exp $
       </rule>
       <rule>
         <pattern mark_to="-3">
-          <token regexp="yes">several</token>
+          <token>several</token>
           <token postag="NN:U" postag_regexp="yes"><exception postag="NN:UN|NN|NNP|NNS|NNPS|JJ.*" postag_regexp="yes"/></token>
           <token postag="CC"/>
           <token><exception postag="NNS|NNPS" postag_regexp="yes"/></token>
