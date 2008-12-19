@@ -5,10 +5,19 @@ Agnès Souque, 2007
 This DTD defines a format for disambiguation rules
 -->
 
-<!ENTITY % Languages "(en|de|pl|fr|es|it|nl|lt|ru|uk|cs|xx)">
+<!ENTITY % Languages "(en|de|pl|fr|es|it|nl|lt|uk|ru|cs|sl|sv|xx)">
 
-<!ELEMENT rules (rule|rulegroup)*>
+<!ELEMENT rules (unification*|rule|rulegroup)*>
 <!ATTLIST rules lang %Languages; #REQUIRED>
+
+<!-- unification declarations -->
+<!ELEMENT unification (equivalence)+>
+<!-- unification feature ID -->
+<!ATTLIST unification feature ID #REQUIRED>
+
+<!-- equivalences between features -->
+<!ELEMENT equivalence (token)>
+<!ATTLIST equivalence type ID #REQUIRED>
 
 <!-- Use the rulegroup element to group similar 'rule' elements
 that should appear as a single rule to the user: -->
@@ -25,9 +34,18 @@ a rulegroup): -->
 <!-- A short description displayed to the user in the configuration dialog: -->
 <!ATTLIST rule name CDATA #IMPLIED>
 
-<!ELEMENT pattern (token|and)*>
-<!-- The position of the ambiguous token in the pattern. mark_from="0" refers to the first token, etc: -->
+<!ELEMENT pattern (token|and|unify)*>
+<!-- The position of the ambiguous token in the pattern. 
+mark_from="0" refers to the first token. Note: "mark" is 
+used only for selecting a single token and excludes using
+mark_from & mark_to -->
 <!ATTLIST pattern mark CDATA #REQUIRED>
+
+<!-- Position of a sequence to be disambiguated. These
+attributes exclude the usage of "mark" --> 
+<!ATTLIST pattern mark_from CDATA #IMPLIED>
+<!ATTLIST pattern mark_to CDATA #IMPLIED>
+
 <!-- Whether rules should match case-sensitively ('yes' means: 
 "FOO" doesn't match "foo") -->
 <!ATTLIST pattern case_sensitive (yes|no) #IMPLIED>
@@ -36,6 +54,12 @@ a rulegroup): -->
 <!-- Enables logical AND between token elements. -->
 <!ELEMENT and (token+)>
 
+<!-- Enables unifying tokens -->
+<!ELEMENT unify (and|token+)>
+<!ATTLIST unify feature CDATA #REQUIRED>
+<!ATTLIST unify type CDATA #IMPLIED>
+<!-- Enables matching tokens that are not in agreement easily -->
+<!ATTLIST unify negate (yes|no) "no">
 
 <!-- token element - tokens matched by rules, could be specified as regular expressions,
 regexp="yes"; postag contains any POS tags. POS tags can be specified as regular
@@ -87,8 +111,8 @@ i.e., the validity scope of the exception: -->
 <!-- disambig is used to give the correct tag to the ambiguous word -->
 <!ELEMENT disambig (match*)>
 <!ATTLIST disambig postag CDATA #IMPLIED>
-<!--TODO: add attribute added=yes|no, default=no, that will allow
-adding another reading; this would be useful for marking chunks -->
+<!-- possible actions on tokens matched -->
+<!ATTLIST disambig action (add|filter|remove|replace|unify) "replace">
 
 <!-- Refers to matched elements of the pattern. Can be used in
 suggestions and in references in the pattern. -->

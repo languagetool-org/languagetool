@@ -99,6 +99,8 @@ class DisambiguationRuleHandler extends XMLRuleHandler {
   private String disambiguatedPOS;
 
   private int positionCorrection = 0;
+  private int endPositionCorrection = 0;
+  private boolean singleTokenCorrection = true;
 
   private int andGroupCounter = 0;
 
@@ -106,6 +108,15 @@ class DisambiguationRuleHandler extends XMLRuleHandler {
 
   private Match posSelector = null;
 
+  private boolean inUnification = false;
+  private boolean inUnificationDef = false;
+  private boolean uniNegation = false;
+
+  private String uFeature;
+  private String uType = "";
+  
+  private DisambiguationPatternRule.DisambiguatorAction disambigAction; 
+  
   public DisambiguationRuleHandler() {    
   }    
 
@@ -129,8 +140,25 @@ class DisambiguationRuleHandler extends XMLRuleHandler {
       language = Language.getLanguageForShortName(attrs.getValue("lang"));
     } else if (qName.equals("pattern")) {
       inPattern = true;
+      if (attrs.getValue("mark") != null
+          && (attrs.getValue("mark_from") != null)) {
+        throw new SAXException("You cannot use both mark and mark_from attributes.");
+      }
+      if (attrs.getValue("mark") != null
+          && (attrs.getValue("mark_to") != null)) {
+        throw new SAXException("You cannot use both mark and mark_to attributes.");
+      }
       if (attrs.getValue("mark") != null) {
         positionCorrection = Integer.parseInt(attrs.getValue("mark"));
+      }
+      if (attrs.getValue("mark_from") != null) {
+        positionCorrection = Integer.parseInt(attrs.getValue("mark_from"));
+      }
+      if (attrs.getValue("mark_to") != null) {
+        endPositionCorrection = Integer.parseInt(attrs.getValue("mark_to"));
+        singleTokenCorrection = false;
+      } else {
+        singleTokenCorrection = true;
       }
       if (attrs.getValue("case_sensitive") != null
           && "yes".equals(attrs.getValue("case_sensitive"))) {
@@ -168,6 +196,18 @@ class DisambiguationRuleHandler extends XMLRuleHandler {
       }
     } else if (qName.equals("and")) {
       inAndGroup = true;
+    } else if (qName.equals("unify")) {
+      inUnification = true;
+      uFeature=attrs.getValue("feature");
+      if (attrs.getValue("type") != null) {
+        uType = attrs.getValue("type");
+      } else {
+        uType = "";
+      }
+      if (attrs.getValue("negate") != null
+          && "yes".equals(attrs.getValue("negate"))) {
+        uniNegation = true;
+      }             
     } else if (qName.equals("token")) {
       inToken = true;
       if (attrs.getValue("negate") != null) {
@@ -203,7 +243,15 @@ class DisambiguationRuleHandler extends XMLRuleHandler {
       
     }  else if (qName.equals("disambig")) {
       inDisamb = true;
-      disambiguatedPOS = attrs.getValue("postag");      
+      disambiguatedPOS = attrs.getValue("postag");
+      if (attrs.getValue("action") != null) {
+        disambigAction = DisambiguationPatternRule.DisambiguatorAction.toAction(
+            attrs.getValue("action").toUpperCase());
+      } else {
+        //default mode:
+        disambigAction = DisambiguationPatternRule.DisambiguatorAction.
+          toAction("REPLACE");
+      }
     } else if (qName.equals("match")) {
       inMatch = true;
       match = new StringBuffer();
@@ -246,15 +294,26 @@ class DisambiguationRuleHandler extends XMLRuleHandler {
       ruleGroupId = attrs.getValue("id");
       ruleGroupName = attrs.getValue("name");
       inRuleGroup = true;
+    } else if (qName.equals("unification")) {
+      uFeature = attrs.getValue("feature");
+      inUnificationDef = true;
+    } else if (qName.equals("equivalence")) {
+      uType = attrs.getValue("type");          
     }
   }
 
   @Override
   public void endElement(final String namespaceURI, final String sName, final String qName) {
-    if (qName.equals("rule")) {        
+    if (qName.equals("rule")) {
+//FIXME: add some checks for element list length if the
+// action = unify (mark_from + mark_to should select only
+// a unifying sequence
       final DisambiguationPatternRule rule = new DisambiguationPatternRule(id, name, 
-          language, elementList, disambiguatedPOS, posSelector);
+          language, elementList, disambiguatedPOS, posSelector, disambigAction);
       rule.setStartPositionCorrection(positionCorrection);
+      if (!singleTokenCorrection) {
+        rule.setEndPositionCorrection(endPositionCorrection);
+      }
       caseSensitive = false;
       rules.add(rule);      
       if (elementList != null) {
@@ -286,6 +345,8 @@ class DisambiguationRuleHandler extends XMLRuleHandler {
     } else if (qName.equals("and")) {
       inAndGroup = false;
       andGroupCounter = 0;
+    }  else if (qName.equals("unify")) {
+      inUnification = false;              
     } else if (qName.equals("token")) {
       if (!exceptionSet || tokenElement == null) {
         tokenElement = new Element(elements.toString(), caseSensitive, 
@@ -315,6 +376,18 @@ class DisambiguationRuleHandler extends XMLRuleHandler {
       if (inAndGroup) {
         andGroupCounter++;
       }
+      if (inUnification) {
+        tokenElement.setUnification(uFeature, uType);
+        if (uniNegation) {
+          tokenElement.setUniNegation();
+        }
+      }
+      if (inUnificationDef) {
+        language.getUnifier().setEquivalence(uFeature, uType, tokenElement);
+        if (elementList != null) {
+          elementList.clear();
+        }
+      }      
       if (tokenSpaceBeforeSet) {
         tokenElement.setWhitespaceBefore(tokenSpaceBefore);
       }
@@ -332,7 +405,11 @@ class DisambiguationRuleHandler extends XMLRuleHandler {
       inDisamb = false;
     } else if (qName.equals("rulegroup")) {
       inRuleGroup = false;
-    }
+    } else if (qName.equals("unification") && inUnificationDef) {
+      inUnificationDef = false;      
+    } else if (qName.equals("unify") && inUnification) {
+      inUnification = false;      
+    } 
   }
 
   private void resetToken() {

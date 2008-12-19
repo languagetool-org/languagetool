@@ -517,6 +517,8 @@ public class PatternRule extends Rule {
       lastMatchToken = -1;
       skipShiftTotal = 0;
       language.getUnifier().reset();
+      inUnification = false;
+      uniMatched = false;
     }
 
     return ruleMatches.toArray(new RuleMatch[ruleMatches.size()]);

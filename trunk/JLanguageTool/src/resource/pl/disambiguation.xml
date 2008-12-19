@@ -1,14 +1,98 @@
 <?xml version="1.0" encoding="utf-8"?>
 	<!--
 		Disambiguation Rules for LanguageTool Copyright (C) 2008				
-$Id: disambiguation.xml,v 1.1 2008-12-18 19:58:39 milek_pl Exp $
-	-->
+$Id: disambiguation.xml,v 1.2 2008-12-19 01:21:34 milek_pl Exp $
+	-->	
 <rules lang="pl">
+  <unification feature="number">
+    <equivalence type="sg">
+      <token postag=".*:sg:.*" postag_regexp="yes"/>
+    </equivalence>
+    <equivalence type="pl">
+      <token postag=".*:(pl|pltant):.*" postag_regexp="yes"/>
+    </equivalence>
+  </unification>
+  <unification feature="gender">
+    <equivalence type="f">
+      <token postag=".*[\.:]f([\.:].*)?" postag_regexp="yes"/>
+    </equivalence>
+    <equivalence type="m">
+      <token postag=".*[\.:]m[1-4]?([\.:].*)?" postag_regexp="yes"/>
+    </equivalence>
+    <equivalence type="n">
+      <token postag=".*[\.:]n([\.:].*)?" postag_regexp="yes"/>
+    </equivalence>
+  </unification>
+  <unification feature="case">
+    <equivalence type="nom">
+      <token postag=".*[\.:]nom[\.:].*" postag_regexp="yes"/>
+    </equivalence>
+    <equivalence type="gen">
+      <token postag=".*[\.:]gen[\.:].*" postag_regexp="yes"/>
+    </equivalence>
+    <equivalence type="dat">
+      <token postag=".*[\.:]dat[\.:].*" postag_regexp="yes"/>
+    </equivalence>
+    <equivalence type="acc">
+      <token postag=".*[\.:]acc[\.:].*" postag_regexp="yes"/>
+    </equivalence>
+    <equivalence type="inst">
+      <token postag=".*[\.:]inst[\.:].*" postag_regexp="yes"/>
+    </equivalence>
+    <equivalence type="loc">
+      <token postag=".*[\.:]loc[\.:].*" postag_regexp="yes"/>
+    </equivalence>
+    <equivalence type="voc">
+      <token postag=".*[\.:]voc[\.:].*" postag_regexp="yes"/>
+    </equivalence>
+  </unification>
 	<rule name="opisany powyżej" id="opisany_powyzej">
 		<pattern mark="1">
-			<token inflected="yes" regexp="yes">pisać|opisać|przedstawić|przedstawiać|podać|zamieścić</token>
+			<token inflected="yes" regexp="yes">pisać|opisać|przedstawić|przedstawiać|podać|zamieścić|wymienić</token>
 			<token regexp="yes">powyżej|poniżej</token>
 		</pattern>
 		<disambig postag="adv:pos:aff"/>
-	</rule>	
+	</rule>
+	<rulegroup name="przeszło|ponad + liczba -> kublik" id="przeszlo">
+		<rule>
+			<pattern mark="0">
+			<token regexp="yes">przeszło|ponad</token>
+			<token postag="num.*" postag_regexp="yes"/>
+			</pattern>
+			<disambig postag="qub"/>
+		</rule>
+		<rule>
+			<pattern mark="0">
+			<token regexp="yes">przeszło|ponad</token>
+			<token inflected="yes" regexp="yes">.+letni</token>
+			</pattern>
+			<disambig postag="qub"/>
+		</rule>
+		<rule>
+			<pattern mark="0">
+			<token regexp="yes">przeszło|ponad</token>
+			<token inflected="yes" regexp="yes">^(pięć|sześć|siedem|osiem|dziewięć|dziesięć|jedenaście|dwanaście|trzynaście|czternaście|piętnaście|szesnaście|siedemnaście|osiemnaście|dziewiętnaście|dwadzieścia|trzydzieści|czterdzieści|pięćdziesiąt|sześćdziesiąt|siedemdziesiąt|osiemdziesiąt|dziewięćdziesiąt|sto|dwieście|trzysta|czterysta|pięćset|sześćset|siedemset|osiemset|dziewięćset|tysiąc|milion|miliard|bilion)</token>
+			</pattern>
+			<disambig postag="qub"/>
+		</rule>
+	</rulegroup>
+	<rule name="prawie/subst -> kublik" id="prawie">
+		<pattern mark="1">
+			<token><exception postag="prep.*inst" postag_regexp="yes"/></token>
+			<token>prawie</token>
+		</pattern>
+		<disambig postag="qub"/>
+	</rule>
+	
+	<!-- very greedy rule: just for testing unification 
+	<rule name="unifikacja przymiotnika z rzeczownikiem" id="unify_adj_subst">
+		<pattern mark_from="0" mark_to="0">
+		<unify feature="number,gender,case">
+          <token postag="adj.*" postag_regexp="yes"/>
+          <token postag="subst.*" postag_regexp="yes"/>
+        </unify>
+        </pattern>
+        <disambig action="unify"/>
+	</rule>
+	-->	
 </rules>

@@ -37,6 +37,24 @@ import de.danielnaber.languagetool.rules.patterns.Match;
  */
 public class DisambiguationPatternRule {
 
+  /** Possible disambiguator actions. **/
+  public enum DisambiguatorAction { 
+    ADD, FILTER, REMOVE, REPLACE, UNIFY; 
+
+    /** Converts string to the constant enum.
+     * @param str String value to be converted.
+     * @return DisambiguatorAction enum.
+     */
+    public static DisambiguatorAction toAction(final String str) {    
+      try {
+        return valueOf(str);
+      } catch (final Exception ex) {
+        return REPLACE;
+      }  
+    }
+  };
+
+  
   private final String id;
 
   private final Language language;
@@ -49,19 +67,23 @@ public class DisambiguationPatternRule {
 
   private final String disambiguatedPOS;
 
-  private final Match matchToken;
+  private final Match matchToken;  
 
+  private DisambiguatorAction disAction;
+  
   /**
    * @param id Id of the Rule
    * @param language Language of the Rule
    * @param elements Element (token) list
    * @param description Description to be shown (name)
+   * @param disambiguatorAction - the action to be executed on found token(s),
+   * one of the following: add, filter, remove, replace, unify.
    * 
    */
 
   DisambiguationPatternRule(final String id, final String description,
       final Language language, final List<Element> elements, final String disamb,
-      final Match posSelect) {
+      final Match posSelect, final DisambiguatorAction disambAction) {
     if (id == null) {
       throw new NullPointerException("id cannot be null");
     }
@@ -74,7 +96,7 @@ public class DisambiguationPatternRule {
     if (description == null) {
       throw new NullPointerException("description cannot be null");
     }
-    if (disamb == null && posSelect == null) {
+    if (disamb == null && posSelect == null && disambAction != DisambiguatorAction.UNIFY) {
       throw new NullPointerException("disambiguated POS cannot be null");
     }
     this.id = id;
@@ -83,6 +105,7 @@ public class DisambiguationPatternRule {
     this.patternElements = new ArrayList<Element>(elements); // copy elements
     this.disambiguatedPOS = disamb;
     this.matchToken = posSelect;
+    this.disAction = disambAction;
   }
 
   public final String getId() {
@@ -124,11 +147,15 @@ public class DisambiguationPatternRule {
     int skipShiftTotal = 0;
 
     int firstMatchToken = -1;
-    //int lastMatchToken = -1;
+    int lastMatchToken = -1;
     final int patternSize = patternElements.size();
     Element elem = null, prevElement = null;
     final boolean startWithSentStart = patternElements.get(0).isSentStart();
 
+    boolean inUnification = false;
+    boolean uniMatched = false;
+    AnalyzedTokenReadings[] unifiedTokens = null;
+    
     for (int i = 0; i < tokens.length; i++) {
       boolean allElementsMatch = true;
 
@@ -198,7 +225,37 @@ public class DisambiguationPatternRule {
               }
             }
             thisMatched |= elem.isMatchedCompletely(matchToken);
-
+            if (thisMatched && elem.isUnified()) {
+              if (inUnification) {                
+                uniMatched = uniMatched || language.getUnifier().
+                isSatisfied(matchToken, elem.getUniFeature(), elem.getUniType());
+                if (l + 1 == numberOfReadings) {
+                  thisMatched &= uniMatched;
+                  language.getUnifier().startNextToken();
+                  if (uniMatched) {
+                    unifiedTokens = 
+                      language.getUnifier().getUnifiedTokens();
+                  }
+                }                
+              } else {
+                if (elem.getUniNegation()) {
+                  language.getUnifier().setNegation(true);
+                } 
+                thisMatched |= language.getUnifier().
+                isSatisfied(matchToken, elem.getUniFeature(), elem.getUniType());                 
+                if (l + 1 == numberOfReadings) {
+                  inUnification = true;
+                  language.getUnifier().startUnify();
+                  uniMatched = false;
+                }
+              }
+            } 
+            
+            if (!elem.isUnified()) {              
+              inUnification = false;
+              uniMatched = false;
+              language.getUnifier().reset();
+            }
             if (l + 1 == numberOfReadings && elem.hasAndGroup()) {
               thisMatched &= elem.checkAndGroup(thisMatched);
             }
@@ -238,7 +295,7 @@ public class DisambiguationPatternRule {
         if (skipMatch) {
           prevSkipNext = skipNext;
           matchingTokens++;
-          //  lastMatchToken = matchPos;           
+          lastMatchToken = matchPos;           
           if (firstMatchToken == -1) {
             firstMatchToken = matchPos; 
           }
@@ -271,8 +328,22 @@ public class DisambiguationPatternRule {
         }         
 
         final int fromPos = text.getOriginalPosition(firstMatchToken + correctedStPos);
-        //int toPos = lastMatchToken + correctedEndPos;
+        int toPos = lastMatchToken + correctedEndPos;
         final int numRead = whTokens[fromPos].getReadingsLength();
+        switch (disAction) {
+          case UNIFY : {
+            if (unifiedTokens != null) {
+            if (unifiedTokens.length == matchingTokens - startPositionCorrection + endPositionCorrection) {
+              for (i = 0; i < unifiedTokens.length; i++) {
+               whTokens[text.getOriginalPosition(firstMatchToken + correctedStPos + i)] = unifiedTokens[i]; 
+              }
+             unifiedTokens = null;
+            }
+            }
+            break;
+          }        
+          case REPLACE:
+          default: {        
         if (matchToken == null) {
           String lemma = "";
           for (int l = 0; l < numRead; l++) {
@@ -296,10 +367,16 @@ public class DisambiguationPatternRule {
           matchToken.setToken(whTokens[fromPos]);
           whTokens[fromPos] = matchToken.filterReadings(whTokens[fromPos]);
         }
-      } 
+        }
+          
+      }
+      }
         firstMatchToken = -1;
-        //lastMatchToken = -1;
-        skipShiftTotal = 0;      
+        lastMatchToken = -1;
+        skipShiftTotal = 0;
+        language.getUnifier().reset();
+        inUnification = false;
+        uniMatched = false;
     }
 
     return new AnalyzedSentence(whTokens);

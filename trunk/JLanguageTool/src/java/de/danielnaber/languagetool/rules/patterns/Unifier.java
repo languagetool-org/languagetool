@@ -80,6 +80,12 @@ public class Unifier {
    * For checking the current token.
    */
   private List<Boolean> tmpFeaturesFound;
+  
+  /**
+   * internal flag for checking whether the first
+   * token in tokSequence has to be yet unified
+   */
+  private boolean firstUnified = false;
 
   public Unifier() {
     clear();
@@ -167,7 +173,7 @@ public class Unifier {
         }        
       }
       if (unified) {
-        if (tokCnt == 0) {
+        if (tokCnt == 0 || tokSequence.isEmpty()) {
           tokSequence.add(new AnalyzedTokenReadings(AT));
         } else {
           tokSequence.get(0).addReading(AT);
@@ -260,6 +266,7 @@ public class Unifier {
     tmpFeaturesFound.clear();
     tokSequence.clear();
     readingsCounter = 1;
+    firstUnified = false;
   }
 
   public void clear() {
@@ -278,6 +285,7 @@ public class Unifier {
    * tested.
    */
   public AnalyzedTokenReadings[] getUnifiedTokens() {
+    if (!firstUnified) {
     AnalyzedTokenReadings tmpATR;
     int first = -1;
     for (int i = 0; i <= tokCnt; i++) {
@@ -288,6 +296,8 @@ public class Unifier {
     if (first == -1) {
       return null;
     }
+    //FIXME: why this happens??
+    if (first < tokSequence.get(0).getReadingsLength()) {
     tmpATR = new AnalyzedTokenReadings(
         tokSequence.get(0).getAnalyzedToken(first));           
     for (int i = first + 1; i <= tokCnt; i++) {
@@ -295,9 +305,15 @@ public class Unifier {
         tmpATR.addReading(tokSequence.get(0).getAnalyzedToken(i));          
       }
     }
+    //List<AnalyzedTokenReadings> tempSeq = new ArrayList<AnalyzedTokenReadings>(tokSequence);
+    //tempSeq.set(0, tmpATR);
     tokSequence.set(0, tmpATR);
+    }
+    firstUnified = true;
+    }
     AnalyzedTokenReadings[] atr = 
-      tokSequence.toArray(new AnalyzedTokenReadings[tokSequence.size()]);          
+      //tempSeq.toArray(new AnalyzedTokenReadings[tempSeq.size()]);          
+      tokSequence.toArray(new AnalyzedTokenReadings[tokSequence.size()]);
     return atr;
   } 
 
