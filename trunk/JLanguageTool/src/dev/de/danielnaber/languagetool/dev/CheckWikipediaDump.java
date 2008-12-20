@@ -188,8 +188,8 @@ class WikiDumpHandler extends DefaultHandler {
   public void endElement(String namespaceURI, String sName, String qName) {
     if (qName.equals("title")) {
       title = text.toString();
+      text = new StringBuilder();
     } else if (qName.equals("text")) {
-      inText = false;
       //System.err.println(text.length() + " " + text.substring(0, Math.min(50, text.length())));
       String textToCheck = textFilter.filter(text.toString());
       //System.out.println(textToCheck);
@@ -217,8 +217,16 @@ class WikiDumpHandler extends DefaultHandler {
       }
       text = new StringBuilder();
     }
+    inText = false;
   }
 
+  public void characters(char buf[], int offset, int len) {
+    String s = new String(buf, offset, len);
+    if (inText) {
+      text.append(s);
+    }
+  }
+  
   private void saveResultToDatabase(List<RuleMatch> ruleMatches,
       String text, Language language) throws SQLException {
     String sql = "INSERT INTO corpus_match " +
@@ -239,13 +247,6 @@ class WikiDumpHandler extends DefaultHandler {
     }
   }
 
-  public void characters(char buf[], int offset, int len) {
-    String s = new String(buf, offset, len);
-    if (inText) {
-      text.append(s);
-    }
-  }
-  
 }
 
 class WikipediaTextFilter implements TextFilter {
