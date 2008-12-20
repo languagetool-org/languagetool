@@ -28,7 +28,6 @@ import de.danielnaber.languagetool.AnalyzedTokenReadings;
 import de.danielnaber.languagetool.Language;
 import de.danielnaber.languagetool.rules.patterns.Element;
 import de.danielnaber.languagetool.rules.patterns.Match;
-import de.danielnaber.languagetool.rules.patterns.Match.CaseConversion;
 
 /**
  * A Rule that describes a pattern of words or part-of-speech tags used

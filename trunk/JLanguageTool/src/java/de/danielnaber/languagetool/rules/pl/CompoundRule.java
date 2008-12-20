@@ -39,7 +39,7 @@ public class CompoundRule extends AbstractCompoundRule {
     loadCompoundFile(Tools.getStream(FILE_NAME), "UTF-8");
     super.setShort("Brak łącznika lub zbędny łącznik");
     super.setMsg("Ten wyraz pisze się z łącznikiem.", 
-        "Ten wyraz jest pisany bez łącznika.", 
+        "Ten wyraz pisze się razem (bez spacji ani łącznika).", 
         "Ten wyraz pisze się z łącznikiem lub bez niego.");
   }
   
