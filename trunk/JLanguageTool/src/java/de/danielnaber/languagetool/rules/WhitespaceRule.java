@@ -61,7 +61,7 @@ public class WhitespaceRule extends Rule {
     //token no. 0 is guaranteed to be SENT_START
     int i = 1;
     while (i < tokens.length) {
-      if (tokens[i].isWhitespace() && prevWhite) {
+      if (tokens[i].isWhitespace() && prevWhite && !tokens[i -1].isLinebreak()) {
         final int pos = tokens[i -1].getStartPos();
         while (i < tokens.length && tokens[i].isWhitespace()) {
           prevLen += tokens[i].getToken().length();

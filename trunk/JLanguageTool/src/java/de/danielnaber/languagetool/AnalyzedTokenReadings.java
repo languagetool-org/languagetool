@@ -38,6 +38,7 @@ public class AnalyzedTokenReadings {
   protected String token; 
 
   private boolean isWhitespace;
+  private boolean isLinebreak;
   private boolean isSentEnd;
   private boolean isParaEnd;
 
@@ -59,6 +60,7 @@ public class AnalyzedTokenReadings {
   private void init() {
     token = anTokReadings[0].getToken();
     isWhitespace = StringTools.isWhitespace(token);
+    isLinebreak = token.equals("\n") || token.equals("\r\n") || token.equals("\r") || token.equals("\n\r");
     isParaEnd = false;
     for (final AnalyzedToken reading : anTokReadings) {
       if (reading.posTag != null) {
@@ -141,6 +143,14 @@ public class AnalyzedTokenReadings {
     return isWhitespace;
   }
 
+  /**
+   * Returns true if the token equals \n, \r\n \n\r or \r\n.
+   * @return
+   */
+  public boolean isLinebreak() {
+    return isLinebreak;
+  }    
+
   public final boolean isSentStart() {
     //helper method added after profiling
     boolean isSE = false;
@@ -191,6 +201,6 @@ public class AnalyzedTokenReadings {
       sb.append(element);
     }
     return sb.toString();
-  }    
+  }
 
 }
