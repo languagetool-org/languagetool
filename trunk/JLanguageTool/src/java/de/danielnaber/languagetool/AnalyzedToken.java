@@ -83,5 +83,18 @@ public class AnalyzedToken {
       return token + "/" + posTag;
     }
   }
+  
+  public boolean equals(java.lang.Object object) {
+    if (!(object instanceof AnalyzedToken)) {
+     return false; 
+    } else {
+      AnalyzedToken otherToken = (AnalyzedToken) object;
+      return (otherToken.getToken().equals(token)
+          && otherToken.getPOSTag().equals(posTag)
+          && otherToken.getLemma().equals(lemma)
+          && otherToken.getStartPos() == startPos
+          && otherToken.isWhitespaceBefore() == isWhitespaceBefore);
+    }
+  }
 
 }

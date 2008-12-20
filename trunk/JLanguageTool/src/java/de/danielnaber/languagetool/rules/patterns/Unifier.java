@@ -230,7 +230,7 @@ public class Unifier {
    * Call after every complete token (AnalyzedTokenReadings) checked.
    */
   public void startNextToken() {
-    featuresFound = (ArrayList<Boolean>) ((ArrayList) tmpFeaturesFound).clone();
+    featuresFound = new ArrayList<Boolean>(tmpFeaturesFound);
     readingsCounter++;
   }
 
@@ -243,7 +243,7 @@ public class Unifier {
     for (int i = 0; i <= tokCnt; i++) {
       featuresFound.add(true);
     }
-    tmpFeaturesFound = (List<Boolean>) ((ArrayList) featuresFound).clone();
+    tmpFeaturesFound = new ArrayList<Boolean>(featuresFound);
   }
 
   public void setNegation(final boolean neg) {

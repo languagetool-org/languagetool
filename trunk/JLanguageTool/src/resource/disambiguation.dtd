@@ -39,7 +39,7 @@ a rulegroup): -->
 mark_from="0" refers to the first token. Note: "mark" is 
 used only for selecting a single token and excludes using
 mark_from & mark_to -->
-<!ATTLIST pattern mark CDATA #REQUIRED>
+<!ATTLIST pattern mark CDATA #IMPLIED>
 
 <!-- Position of a sequence to be disambiguated. These
 attributes exclude the usage of "mark" --> 
@@ -109,7 +109,7 @@ i.e., the validity scope of the exception: -->
 <!ATTLIST exception scope (current|next|previous) "current">
 
 <!-- disambig is used to give the correct tag to the ambiguous word -->
-<!ELEMENT disambig (match*)>
+<!ELEMENT disambig (match*|wd*)>
 <!ATTLIST disambig postag CDATA #IMPLIED>
 <!-- possible actions on tokens matched -->
 <!ATTLIST disambig action (add|filter|remove|replace|unify) "replace">
@@ -135,3 +135,10 @@ that the original POS tag is defined by the 'postag' attribute.-->
 <!-- Optional attribute: how to change the case of the token: start with lower 
 case, start with upper case, all letters upper case, all letters lower case -->
 <!ATTLIST match case_conversion (startlower|startupper|allupper|alllower) #IMPLIED>
+
+<!-- used to add new interpretations -->
+<!ELEMENT wd (#PCDATA)>
+<!-- Lemma (base form) of the word -->
+<!ATTLIST wd lemma CDATA #IMPLIED>
+<!-- POS tag of the word -->
+<!ATTLIST wd pos CDATA #IMPLIED>

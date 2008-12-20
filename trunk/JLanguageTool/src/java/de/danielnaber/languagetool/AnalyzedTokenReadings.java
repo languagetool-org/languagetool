@@ -40,7 +40,7 @@ public class AnalyzedTokenReadings {
   private boolean isWhitespace;
   private boolean isSentEnd;
   private boolean isParaEnd;
-  
+
   private boolean isWhitespaceBefore = false;
 
   public AnalyzedTokenReadings(final AnalyzedToken[] r) {
@@ -49,41 +49,41 @@ public class AnalyzedTokenReadings {
     init();
   }
 
-    public AnalyzedTokenReadings(final AnalyzedToken at) {
+  public AnalyzedTokenReadings(final AnalyzedToken at) {
     anTokReadings = new AnalyzedToken[1];
     anTokReadings[0] = at;		
     startPos = at.getStartPos();
     init();
   }
 
-    private void init() {
-      token = anTokReadings[0].getToken();
-      isWhitespace = StringTools.isWhitespace(token);
-      isParaEnd = false;
-      for (final AnalyzedToken reading : anTokReadings) {
-        if (reading.posTag != null) {
-          isParaEnd |= reading.posTag.equals(JLanguageTool.PARAGRAPH_END_TAGNAME);
-          if (isParaEnd) {
-            break;
-          }
-        }
-      }
-      isSentEnd = false;
-      for (final AnalyzedToken reading : anTokReadings) {
-        if (reading.posTag != null) {
-          isSentEnd |= reading.posTag.equals(JLanguageTool.SENTENCE_END_TAGNAME);
-          if (isSentEnd) {
-            break;
-          }
+  private void init() {
+    token = anTokReadings[0].getToken();
+    isWhitespace = StringTools.isWhitespace(token);
+    isParaEnd = false;
+    for (final AnalyzedToken reading : anTokReadings) {
+      if (reading.posTag != null) {
+        isParaEnd |= reading.posTag.equals(JLanguageTool.PARAGRAPH_END_TAGNAME);
+        if (isParaEnd) {
+          break;
         }
       }
     }
+    isSentEnd = false;
+    for (final AnalyzedToken reading : anTokReadings) {
+      if (reading.posTag != null) {
+        isSentEnd |= reading.posTag.equals(JLanguageTool.SENTENCE_END_TAGNAME);
+        if (isSentEnd) {
+          break;
+        }
+      }
+    }
+  }
 
 
   public final List<AnalyzedToken> getReadings() {
     return Arrays.asList(anTokReadings);
   }
-  
+
   /**
    * Checks if the token has a particular POS tag.
    * @param POS POS Tag to check
@@ -119,6 +119,17 @@ public class AnalyzedTokenReadings {
 
     l.add(tok);
 
+    anTokReadings = l.toArray(new AnalyzedToken[l.size()]);
+  }
+
+  public final void removeReading(final AnalyzedToken tok) {
+    final ArrayList <AnalyzedToken> l = new ArrayList <AnalyzedToken>();
+    AnalyzedToken tmpTok = new AnalyzedToken(tok.getToken(), tok.getPOSTag(), tok.getLemma(), startPos);
+    tmpTok.setWhitespaceBefore(isWhitespaceBefore);
+    for (int i = 0; i < anTokReadings.length; i++) {
+      if (!anTokReadings[i].equals(tmpTok))
+        l.add(anTokReadings[i]);     
+    }
     anTokReadings = l.toArray(new AnalyzedToken[l.size()]);
   }
 
@@ -168,11 +179,11 @@ public class AnalyzedTokenReadings {
       aTok.setWhitespaceBefore(isWhite);
     }
   }
-  
+
   public boolean isWhitespaceBefore(){
     return isWhitespaceBefore;
   }
-  
+
   @Override
   public String toString() {
     final StringBuilder sb = new StringBuilder();
@@ -180,6 +191,6 @@ public class AnalyzedTokenReadings {
       sb.append(element);
     }
     return sb.toString();
-  }
+  }    
 
 }
