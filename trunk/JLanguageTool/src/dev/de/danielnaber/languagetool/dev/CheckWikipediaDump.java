@@ -255,7 +255,6 @@ class WikipediaTextFilter implements TextFilter {
     WikiModel wikiModel = new WikiModel("${image}", "${title}");
     s = wikiModel.render(s);
     //System.out.println("0####"+s);
-    s = s.replaceAll("\n", " ");
     s = s.replaceAll("\\{\\{.*?\\}\\}", "");
     s = s.replaceAll("</p>", "\n\n");
     s = s.replaceAll("</dt>", "\n\n");
@@ -263,9 +262,10 @@ class WikipediaTextFilter implements TextFilter {
     s = s.replaceAll("</h\\d>", "\n\n");
     s = s.replaceAll("<a href=\"http://[a-zA-Z-]+\\.wikipedia\\.org/wiki/.*?\">.*?</a>", "");
     s = s.replaceAll("<.*?>", "");
-    s = s.replaceAll("\n\n+", "\n\n");
+    s = s.replaceAll("\n\n*", "\n\n");    // single line break isn't detected as paragraph in LT by default
     s = StringEscapeUtils.unescapeHtml(s);
-    //System.out.println("1####"+s);
+    //System.out.println("1############################################\n"+s);
+    //System.out.println("/############################################"+s);
     return s;
   }
 
