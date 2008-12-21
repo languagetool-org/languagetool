@@ -6,7 +6,7 @@ title="Easy editing stylesheet" ?>
 <!--
 Polish Grammar and Typo Rules for LanguageTool
 Copyright (C) 2006-2007 Marcin Miłkowski
-$Id: grammar.xml,v 1.161 2008-12-20 02:04:15 milek_pl Exp $
+$Id: grammar.xml,v 1.162 2008-12-21 00:36:59 milek_pl Exp $
 -->
 <rules lang="pl">
   <unification feature="number">
@@ -1647,7 +1647,7 @@ Powinno być: <suggestion>\2, \3 \4</suggestion>.</message>
       <example correction="[...]" type="incorrect">„prawdziwe arcydzieło <marker>(...)</marker> o wprost ogromnej teoretycznej doniosłości</example>
       <example type="correct">„prawdziwe arcydzieło [...] o wprost ogromnej teoretycznej doniosłości</example>
     </rule>
-    <rulegroup id="CUDZYSLOW_OTWIERAJACY" name="“ → „">
+    <rulegroup id="CUDZYSLOW_OTWIERAJACY" name="Zmiana cudzysłowu angielskiego na polski">
       <rule>
         <pattern>
           <token spacebefore="yes">“</token>
@@ -1665,6 +1665,38 @@ Powinno być: <suggestion>\2, \3 \4</suggestion>.</message>
         <short>Błąd typograficzny</short>
         <example type="correct">To jest wyraz „krowa”.</example>
         <example correction="”" type="incorrect">To jest wyraz „krowa<marker>“</marker>.</example>
+      </rule>
+    </rulegroup>
+    <rulegroup id="CUDZYSLOW_DRUKARSKI" name="Zmiana cudzysłowu komputerowego (&quot;) na drukarskie">
+      <rule>
+        <pattern mark_from="1">
+          <token regexp="yes" spacebefore="yes">[\[\(]</token>
+          <token spacebefore="no">"</token>
+        </pattern>
+        <message>W tym miejscu powinien być drukarski cudzysłów otwierający: <suggestion>„</suggestion>.</message>
+        <short>Nieprawidłowy cudzysłów</short>
+        <example correction="„" type="incorrect">To jest coś (<marker>"</marker>test").</example>
+        <example type="correct">To jest coś („test”).</example>
+      </rule>
+      <rule>
+        <pattern mark_from="1" mark_to="-1">
+          <token regexp="yes">.*\p{L}</token>
+          <token spacebefore="no">"</token>
+          <token spacebefore="yes"/>
+        </pattern>
+        <message>W tym miejscu powinien być drukarski cudzysłów zamykający: <suggestion>”</suggestion>.</message>
+        <short>Nieprawidłowy cudzysłów</short>
+        <example correction="”" type="incorrect">To jest coś ("test<marker>"</marker>).</example>
+        <example type="correct">To jest coś („test”).</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token spacebefore="yes">"</token>
+        </pattern>
+        <message>W tym miejscu powinien być drukarski cudzysłów otwierający: <suggestion>„</suggestion>.</message>
+        <short>Nieprawidłowy cudzysłów</short>
+        <example correction="„" type="incorrect">To jest <marker>"</marker>test".</example>
+        <example type="correct">To jest „test”.</example>
       </rule>
     </rulegroup>
     <rulegroup id="TZW_CUDZYSLOW" name="Cudzysłów po skrócie „tzw.”">
@@ -5086,10 +5118,10 @@ lub <suggestion>\2 na prawach wyłączności</suggestion>.</message>
     </rule>
     <rule id="WOLNY_WAKAT" name="„wolny wakat” (wakat)">
       <pattern>
-      	<unify feature="number,gender,case">
-        <token inflected="yes">wolny</token>
-        <token inflected="yes" regexp="yes">wakat|vacat</token>
-       	</unify>
+        <unify feature="number,gender,case">
+          <token inflected="yes">wolny</token>
+          <token inflected="yes" regexp="yes">wakat|vacat</token>
+        </unify>
       </pattern>
       <message>To wyrażenie to pleonazm. Wystarczy powiedzieć <suggestion>\2</suggestion>.</message>
       <short>Pleonazm</short>
@@ -7651,8 +7683,18 @@ Znacznie częściej ta forma jest mylona z trybem rozkazującym od „pokazać�
         <example correction="nr 2" type="incorrect">Oto samochód <marker>nr. 2</marker>.</example>
       </rule>
       <rule>
+        <pattern mark_from="1">
+          <token regexp="yes">\d+</token>
+          <token spacebefore="yes">gr</token>
+          <token>.<exception postag="SENT_END"/></token>
+        </pattern>
+        <message>Ten skrót piszemy bez kropki: <suggestion>gr</suggestion>.</message>
+        <example correction="gr" type="incorrect">Ten palmtop waży 100 <marker>gr.</marker>, jest więc bardzo lekki.</example>
+        <example type="correct"> Apollo (gr. Apollon, zwany też Phoibos "Jaśniejący")</example>
+      </rule>
+      <rule>
         <pattern>
-          <token regexp="yes">dl|ml|dag|ha|cm|dm|zł|gr|kg|mln|mld|min|npl|pkt|pg|tg|cos|cosec|sec|sin|rkm|wg</token>
+          <token regexp="yes">dl|ml|dag|ha|cm|dm|zł|kg|mln|mld|min|npl|pkt|pg|tg|cos|cosec|sec|sin|rkm|wg</token>
           <token>.<exception postag="SENT_END"/></token>
         </pattern>
         <message>Ten skrót piszemy bez kropki: <suggestion>\1</suggestion>. </message>
