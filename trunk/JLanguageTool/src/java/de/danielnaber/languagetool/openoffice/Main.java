@@ -51,9 +51,9 @@ import com.sun.star.lang.XServiceInfo;
 import com.sun.star.lang.XSingleComponentFactory;
 import com.sun.star.lib.uno.helper.Factory;
 import com.sun.star.lib.uno.helper.WeakBase;
-import com.sun.star.linguistic2.GrammarCheckingResult;
-import com.sun.star.linguistic2.SingleGrammarError;
-import com.sun.star.linguistic2.XGrammarChecker;
+import com.sun.star.linguistic2.ProofreadingResult;
+import com.sun.star.linguistic2.SingleProofreadingError;
+import com.sun.star.linguistic2.XProofreader;
 import com.sun.star.linguistic2.XLinguServiceEventBroadcaster;
 import com.sun.star.linguistic2.XLinguServiceEventListener;
 import com.sun.star.registry.XRegistryKey;
@@ -62,6 +62,7 @@ import com.sun.star.text.XTextDocument;
 import com.sun.star.text.XTextViewCursor;
 import com.sun.star.uno.UnoRuntime;
 import com.sun.star.uno.XComponentContext;
+import com.sun.star.beans.PropertyValue;
 import com.sun.star.beans.UnknownPropertyException;
 import com.sun.star.beans.XPropertySet;
 import com.sun.star.container.NoSuchElementException;
@@ -84,7 +85,7 @@ import de.danielnaber.languagetool.rules.RuleMatch;
 import de.danielnaber.languagetool.tools.StringTools;
 
 public class Main extends WeakBase implements 
-    XJobExecutor, XServiceInfo, XGrammarChecker,
+    XJobExecutor, XServiceInfo, XProofreader,
     XLinguServiceEventBroadcaster {
 
   private Configuration config;
@@ -105,7 +106,7 @@ public class Main extends WeakBase implements
    * Service name required by the OOo API && our own name.
    */
   private static final String[] SERVICE_NAMES = {
-    "com.sun.star.linguistic2.GrammarChecker",
+    "com.sun.star.linguistic2.Proofreader",
     "de.danielnaber.languagetool.openoffice.Main"
   };
 
@@ -217,20 +218,29 @@ public class Main extends WeakBase implements
    * @param suggEndOfSentencePos int end of sentence position
    * @param aLanguagePortions - lengths of language portions with a given locale
    * @param aLanguagePortionsLocales - locales of language portions
-   * @return GrammarCheckingResult containing the results of the check.
+   * @return ProofreadingResult containing the results of the check.
    * @throws IllegalArgumentException (not really, LT simply returns
-   * the GrammarCheckingResult with the values supplied)
+   * the ProofreadingResult with the values supplied)
    */
-  public final GrammarCheckingResult doGrammarChecking(final int docID, final String paraText,
-      final Locale locale, final int startOfSentencePos, final int suggEndOfSentencePos,
-      final int[] aLanguagePortions, final Locale[] aLanguagePortionsLocales) {
-    final GrammarCheckingResult paRes = new GrammarCheckingResult();
+  /*
+  @Override
+  public ProofreadingResult doProofreading(String arg0, String arg1,
+      Locale arg2, int arg3, int arg4, PropertyValue[] arg5)
+      throws IllegalArgumentException {
+    // TODO Auto-generated method stub
+    return null;
+  } */
+  public final ProofreadingResult doProofreading(final String docID, final String paraText,
+      final Locale locale, final int startOfSentencePos, final int nSuggestedBehindEndOfSentencePosition,
+      PropertyValue[] arg5) {
+    final ProofreadingResult paRes = new ProofreadingResult();
     try {
-      paRes.nEndOfSentencePos = suggEndOfSentencePos - startOfSentencePos;
-      paRes.xGrammarChecker = this;
+      //.nEndOfSentencePos 
+      paRes.nBehindEndOfSentencePosition = nSuggestedBehindEndOfSentencePosition - startOfSentencePos;// paraText.length(); //suggEndOfSentencePos - startOfSentencePos;
+      paRes.xProofreader = this;
       paRes.aLocale = locale;
-      paRes.nDocumentId = docID;
-      paRes.aText = paraText;
+      paRes.aDocumentIdentifier = docID;
+      paRes.aText = paraText;      
       return doGrammarCheckingInternal(paraText, locale, paRes);
     } catch (final Throwable t) {
       showError(t);
@@ -238,13 +248,14 @@ public class Main extends WeakBase implements
     }
   }
   
-  private final GrammarCheckingResult doGrammarCheckingInternal(final String paraText,
-      final Locale locale, final GrammarCheckingResult paRes) {
+  private final ProofreadingResult doGrammarCheckingInternal(final String paraText,
+      final Locale locale, final ProofreadingResult paRes) {
 
     if (paraText == null) {
       return paRes;
     } else {
-      paRes.nEndOfSentencePos = paraText.length();
+      //.nEndOfSentencePos
+      paRes.nBehindEndOfSentencePosition = paraText.length();
     }
 
     if (!"".equals(paraText)) {
@@ -284,13 +295,13 @@ public class Main extends WeakBase implements
         try {
           final List<RuleMatch> ruleMatches = langTool.check(paraText);
           if (!ruleMatches.isEmpty()) {
-            final SingleGrammarError[] errorArray = new SingleGrammarError[ruleMatches.size()];
+            final SingleProofreadingError[] errorArray = new SingleProofreadingError[ruleMatches.size()];
             int i = 0;
             for (final RuleMatch myRuleMatch : ruleMatches) {
               errorArray[i] = createOOoError(locale, myRuleMatch);
               i++;
             }
-            paRes.aGrammarErrors = errorArray;
+            paRes.aErrors = errorArray;
           }
         } catch (final Throwable t) {
           showError(t);
@@ -307,10 +318,10 @@ public class Main extends WeakBase implements
    * @param myMatch ruleMatch - LT rule match
    * @return SingleGrammarError - object for OOo checker integration
    */
-  private SingleGrammarError createOOoError(final Locale locale, 
+  private SingleProofreadingError createOOoError(final Locale locale, 
       final RuleMatch myMatch) {
-    final SingleGrammarError aError = new SingleGrammarError();
-    aError.nErrorType = com.sun.star.text.TextMarkupType.GRAMMAR;    
+    final SingleProofreadingError aError = new SingleProofreadingError();
+    aError.nErrorType = com.sun.star.text.TextMarkupType.PROOFREADING;    
     //  the API currently has no support for formatting text in comments 
     final String comment =  myMatch.getMessage().
       replaceAll("<suggestion>", "\"").
@@ -324,11 +335,11 @@ public class Main extends WeakBase implements
       aError.aShortComment = aError.aFullComment;
     }
     aError.aSuggestions = myMatch.getSuggestedReplacements()
-      .toArray(new String [myMatch.getSuggestedReplacements().size()]);
-    aError.nErrorLevel = 0; // severity level, we don't use it
+      .toArray(new String [myMatch.getSuggestedReplacements().size()]);    
     aError.nErrorStart = myMatch.getFromPos();      
     aError.nErrorLength = myMatch.getToPos() - myMatch.getFromPos();
-    aError.aNewLocale = locale;
+    //aError.aNewLocale = locale;
+    aError.aRuleIdentifier = myMatch.getRule().getId();
     return aError;
   }
 
@@ -491,7 +502,7 @@ public class Main extends WeakBase implements
           final com.sun.star.linguistic2.LinguServiceEvent 
           xEvent = new com.sun.star.linguistic2.LinguServiceEvent();
           xEvent.nEvent = 
-            com.sun.star.linguistic2.LinguServiceEventFlags.GRAMMAR_CHECK_AGAIN;
+            com.sun.star.linguistic2.LinguServiceEventFlags.PROOFREAD_AGAIN;
           xEvLis.processLinguServiceEvent(xEvent);
         }
       }
@@ -813,6 +824,19 @@ public class Main extends WeakBase implements
         new OOoAboutDialog(messages, parentWindowPeer);
       about.show();
     }
+  }  
+
+  @Override
+  public void ignoreRule(String arg0, Locale arg1)
+      throws IllegalArgumentException {
+    // TODO Auto-generated method stub
+    
+  }
+
+  @Override
+  public void resetIgnoreRules() {
+    // TODO Auto-generated method stub
+    
   }
 
 
