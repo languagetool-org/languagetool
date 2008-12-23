@@ -38,16 +38,30 @@ message is useful or not.</p>
  that lets you browse all rules for all languages. You can even create 
 new (simple) rules if you're logged in.</p>
 
-<p><strong>Download for OpenOffice.org 3.0:</strong><br />
-<strong><?=show_link("LanguageTool 0.9.5 (for OpenOffice.org 3.0)", "download/LanguageTool-0.9.5.oxt", 0) ?></strong>, 10&nbsp;MB,
-requires <?=show_link("Java", "http://www.java.com/en/download/manual.jsp", 1)?>&nbsp;5.0
-or later. NOTE: this version currently <strong>only works with OpenOffice.org 3.0</strong> 
-and you need to <strong>restart OpenOffice.org</strong> after installation of this extension</p>
+<div class="outerDownloadSection">
+<strong>Download for OpenOffice.org 3.0.0:</strong><br />
+<div class="downloadSection">
+	<p class="warning">
+	This version works only with OpenOffice.org 3.0.0, NOT with 3.0.1 or its beta releases.
+	Also, you must de-install
+	LanguageTool 0.9.5 before upgrading to OpenOffice.org 3.0.1 because of compatibility
+	issues. A version of LanguageTool for OpenOffice.org 3.0.1 will soon be released.
+	</p>
+	<p><strong><?=show_link("LanguageTool 0.9.5 (for OpenOffice.org 3.0)", "download/LanguageTool-0.9.5.oxt", 0) ?></strong>, 10&nbsp;MB,
+	requires <?=show_link("Java", "http://www.java.com/en/download/manual.jsp", 1)?>&nbsp;5.0
+	or later. NOTE: this version currently <strong>only works with OpenOffice.org 3.0.0</strong> 
+	and you need to <strong>restart OpenOffice.org</strong> after installation of this extension</p>
+</div>
+</div>
 
-<p><strong>Download for OpenOffice.org 2.x:</strong><br />
-<strong><?=show_link("LanguageTool 0.9.2 (for OpenOffice.org 2.x)", "download/LanguageTool-0.9.2.oxt", 0) ?></strong>, 9&nbsp;MB,
-requires <?=show_link("Java", "http://www.java.com/en/download/manual.jsp", 1)?>&nbsp;5.0
-or later. NOTE: this version does not work with OpenOffice.org 3.0</p>
+<div class="outerDownloadSection">
+<strong>Download for OpenOffice.org 2.x:</strong><br />
+<div class="downloadSection">
+	<p><strong><?=show_link("LanguageTool 0.9.2 (for OpenOffice.org 2.x)", "download/LanguageTool-0.9.2.oxt", 0) ?></strong>, 9&nbsp;MB,
+	requires <?=show_link("Java", "http://www.java.com/en/download/manual.jsp", 1)?>&nbsp;5.0
+	or later. NOTE: this version does not work with OpenOffice.org 3.0</p>
+</div>
+</div>
 
 <!-- -->
 <p><strong>Try LanguageTool via Java WebStart:</strong><br />
