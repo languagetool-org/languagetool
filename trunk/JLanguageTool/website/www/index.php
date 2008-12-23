@@ -47,7 +47,7 @@ new (simple) rules if you're logged in.</p>
 	LanguageTool 0.9.5 before upgrading to OpenOffice.org 3.0.1 because of compatibility
 	issues. A version of LanguageTool for OpenOffice.org 3.0.1 will soon be released.
 	</p>
-	<p><strong><?=show_link("LanguageTool 0.9.5 (for OpenOffice.org 3.0)", "download/LanguageTool-0.9.5.oxt", 0) ?></strong>, 10&nbsp;MB,
+	<p><strong><?=show_link("LanguageTool 0.9.5 (for OpenOffice.org 3.0.0)", "download/LanguageTool-0.9.5.oxt", 0) ?></strong>, 10&nbsp;MB,
 	requires <?=show_link("Java", "http://www.java.com/en/download/manual.jsp", 1)?>&nbsp;5.0
 	or later. NOTE: this version currently <strong>only works with OpenOffice.org 3.0.0</strong> 
 	and you need to <strong>restart OpenOffice.org</strong> after installation of this extension</p>
