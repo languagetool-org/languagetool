@@ -24,27 +24,39 @@ package de.danielnaber.languagetool.openoffice;
  * @author Marcin Miłkowski
  */
 import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.HashSet;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.Set;
 
 import javax.swing.JOptionPane;
 
-import com.sun.star.awt.XControl;
-import com.sun.star.awt.XListBox;
-import com.sun.star.awt.XControlContainer;
 import com.sun.star.awt.XButton;
-import com.sun.star.awt.XWindow;
+import com.sun.star.awt.XControl;
+import com.sun.star.awt.XControlContainer;
 import com.sun.star.awt.XControlModel;
+import com.sun.star.awt.XDialog;
+import com.sun.star.awt.XDialogProvider;
+import com.sun.star.awt.XListBox;
+import com.sun.star.awt.XWindow;
 import com.sun.star.awt.XWindowPeer;
-import com.sun.star.awt.tree.*;
+import com.sun.star.awt.tree.XMutableTreeDataModel;
+import com.sun.star.awt.tree.XMutableTreeNode;
+import com.sun.star.beans.PropertyValue;
+import com.sun.star.beans.UnknownPropertyException;
+import com.sun.star.beans.XPropertySet;
+import com.sun.star.container.NoSuchElementException;
+import com.sun.star.container.XEnumeration;
+import com.sun.star.container.XNameAccess;
+import com.sun.star.deployment.XPackageInformationProvider;
 import com.sun.star.frame.XDesktop;
 import com.sun.star.frame.XModel;
 import com.sun.star.lang.IllegalArgumentException;
 import com.sun.star.lang.Locale;
+import com.sun.star.lang.WrappedTargetException;
 import com.sun.star.lang.XComponent;
 import com.sun.star.lang.XMultiComponentFactory;
 import com.sun.star.lang.XServiceInfo;
@@ -53,28 +65,17 @@ import com.sun.star.lib.uno.helper.Factory;
 import com.sun.star.lib.uno.helper.WeakBase;
 import com.sun.star.linguistic2.ProofreadingResult;
 import com.sun.star.linguistic2.SingleProofreadingError;
-import com.sun.star.linguistic2.XProofreader;
 import com.sun.star.linguistic2.XLinguServiceEventBroadcaster;
 import com.sun.star.linguistic2.XLinguServiceEventListener;
+import com.sun.star.linguistic2.XProofreader;
 import com.sun.star.registry.XRegistryKey;
 import com.sun.star.task.XJobExecutor;
 import com.sun.star.text.XTextDocument;
+import com.sun.star.text.XTextRange;
 import com.sun.star.text.XTextViewCursor;
+import com.sun.star.text.XTextViewCursorSupplier;
 import com.sun.star.uno.UnoRuntime;
 import com.sun.star.uno.XComponentContext;
-import com.sun.star.beans.PropertyValue;
-import com.sun.star.beans.UnknownPropertyException;
-import com.sun.star.beans.XPropertySet;
-import com.sun.star.container.NoSuchElementException;
-import com.sun.star.container.XEnumeration;
-import com.sun.star.lang.WrappedTargetException;
-import com.sun.star.text.XTextRange;
-import com.sun.star.container.XNameAccess;
-import com.sun.star.deployment.XPackageInformationProvider;
-import com.sun.star.awt.XDialogProvider;
-import com.sun.star.awt.XDialog;
-import com.sun.star.text.XTextViewCursorSupplier;
-
 
 import de.danielnaber.languagetool.JLanguageTool;
 import de.danielnaber.languagetool.Language;
@@ -116,13 +117,6 @@ public class Main extends WeakBase implements
   private static final ResourceBundle MESSAGES = JLanguageTool.getMessageBundle();
 
   private XComponentContext xContext;
-
-  /** Document ID. The document IDs can be used 
-   * for storing the document-level state (e.g., for
-   * document-level spelling consistency).
-   * 
-   */
-  private int myDocID = -1;
 
   public Main(final XComponentContext xCompContext) {
     try {
@@ -254,7 +248,6 @@ public class Main extends WeakBase implements
     if (paraText == null) {
       return paRes;
     } else {
-      //.nEndOfSentencePos
       paRes.nBehindEndOfSentencePosition = paraText.length();
     }
 
@@ -301,6 +294,7 @@ public class Main extends WeakBase implements
               errorArray[i] = createOOoError(locale, myRuleMatch);
               i++;
             }
+            Arrays.sort(errorArray, new ErrorPositionComparator());
             paRes.aErrors = errorArray;
           }
         } catch (final Throwable t) {
@@ -338,41 +332,10 @@ public class Main extends WeakBase implements
       .toArray(new String [myMatch.getSuggestedReplacements().size()]);    
     aError.nErrorStart = myMatch.getFromPos();      
     aError.nErrorLength = myMatch.getToPos() - myMatch.getFromPos();
-    //aError.aNewLocale = locale;
     aError.aRuleIdentifier = myMatch.getRule().getId();
     return aError;
   }
-
-  /**
-   * Called when the document check is finished.
-   * @param oldDocID - the ID of the document already checked
-   * @throws IllegalArgumentException in case oldDocID is not a 
-   * valid myDocID.
-   */
-  public void endDocument(final int oldDocID) throws IllegalArgumentException {
-    if (myDocID == oldDocID) {
-      myDocID = -1;
-    }
-  }
-
-  /**
-   * Called to clear the paragraph state. Not used yet in our implementation.
-   * 
-   * @param docID - the ID of the document already checked
-   *  valid myDocID.
-   */
-  public void endParagraph(final int docID) {
-    // TODO Auto-generated method stub
-  }
-
-  /** LT has an options dialog box,
-   * so we return true.
-   * @return true
-   * */
-  public final boolean hasOptionsDialog() {
-    return true;
-  }
-
+ 
   /** LT does not support spell-checking,
    * so we return false.
    * @return false
@@ -390,36 +353,6 @@ public class Main extends WeakBase implements
     }    
     final ConfigThread configThread = new ConfigThread(lang, config, this);
     configThread.start();
-  }
-
-  /**
-   * Called to setup the doc state via ID.
-   * @param docID - the doc ID
-   * @throws IllegalArgumentException in case docID is not a 
-   *  valid document ID.
-   **/
-  public final void startDocument(final int docID) 
-      throws IllegalArgumentException {    
-    myDocID = docID;
-    docLanguage = getLanguage();
-    try {
-      langTool = new JLanguageTool(docLanguage, config.getMotherTongue());
-      langTool.activateDefaultPatternRules();
-      langTool.activateDefaultFalseFriendRules();
-    } catch (final Throwable t) {
-      showError(t);
-    }
-  }
-
-  /**
-   * Called to setup the paragraph state in a doc with some ID.
-   * Not yet implemented (probably will be implemented in the future).
-   * @param docID - the doc ID
-   * @throws IllegalArgumentException in case docID is not a 
-   *  valid myDocID.
-   **/
-  public void startParagraph(final int docID) throws IllegalArgumentException {
-    // TODO Auto-generated method stub
   }
 
   /**
@@ -753,21 +686,6 @@ public class Main extends WeakBase implements
     //throw new RuntimeException(e);
   }
 
-  private void writeError(final Throwable e) {
-    FileWriter fw;
-    try {
-      fw = new FileWriter("languagetool.log");
-      fw.write(e.toString() + "\r\n");
-      final StackTraceElement[] el = e.getStackTrace();
-      for (final StackTraceElement element : el) {
-        fw.write(element.toString() + "\r\n");
-      }
-      fw.close();
-    } catch (final IOException e1) {
-      e1.printStackTrace();
-    }
-  }
-
   private File getHomeDir() {
     final String homeDir = System.getProperty("user.home");
     if (homeDir == null) {
@@ -827,19 +745,47 @@ public class Main extends WeakBase implements
   }  
 
   @Override
-  public void ignoreRule(String arg0, Locale arg1)
+  public void ignoreRule(String ruleId, Locale locale)
       throws IllegalArgumentException {
-    // TODO Auto-generated method stub
-    
+//TODO: config should be locale-dependent    
+    Set<String> disabledRules = config.getDisabledRuleIds();
+    if (disabledRules == null) {
+        disabledRules = new HashSet<String>();
+    }
+     disabledRules.add(ruleId);
+    config.setDisabledRuleIds(disabledRules);
+    try {
+    config.saveConfiguration();
+    } catch (final Throwable t) {
+      showError(t);
+    }
+    recheck = true;           
   }
 
   @Override
   public void resetIgnoreRules() {
-    // TODO Auto-generated method stub
-    
+    config.setDisabledRuleIds(new HashSet<String>());    
   }
 
 
+}
+
+/**
+ * A simple comparator for sorting errors by their position.
+ *
+ */
+class ErrorPositionComparator implements Comparator{
+
+  public int compare(Object match1, Object match2){
+    int error1pos = ((SingleProofreadingError) match1).nErrorStart;
+    int error2pos = ((SingleProofreadingError) match2).nErrorStart;
+    if( error1pos > error2pos )
+      return 1;
+    else if( error1pos < error2pos )
+      return -1;
+    else
+      return 0;
+  }
 }
 
 //TODO: remove these classes step by step, they're becoming obsolete
