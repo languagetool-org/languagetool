@@ -27,38 +27,28 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.Set;
 
 import javax.swing.JOptionPane;
 
-import com.sun.star.awt.XButton;
-import com.sun.star.awt.XControl;
-import com.sun.star.awt.XControlContainer;
-import com.sun.star.awt.XControlModel;
-import com.sun.star.awt.XDialog;
-import com.sun.star.awt.XDialogProvider;
-import com.sun.star.awt.XListBox;
 import com.sun.star.awt.XWindow;
 import com.sun.star.awt.XWindowPeer;
-import com.sun.star.awt.tree.XMutableTreeDataModel;
-import com.sun.star.awt.tree.XMutableTreeNode;
 import com.sun.star.beans.PropertyValue;
-import com.sun.star.beans.UnknownPropertyException;
 import com.sun.star.beans.XPropertySet;
-import com.sun.star.container.NoSuchElementException;
-import com.sun.star.container.XEnumeration;
-import com.sun.star.container.XNameAccess;
-import com.sun.star.deployment.XPackageInformationProvider;
 import com.sun.star.frame.XDesktop;
+import com.sun.star.frame.XDispatchHelper;
+import com.sun.star.frame.XDispatchProvider;
 import com.sun.star.frame.XModel;
 import com.sun.star.lang.IllegalArgumentException;
 import com.sun.star.lang.Locale;
-import com.sun.star.lang.WrappedTargetException;
 import com.sun.star.lang.XComponent;
 import com.sun.star.lang.XMultiComponentFactory;
+import com.sun.star.lang.XServiceDisplayName;
 import com.sun.star.lang.XServiceInfo;
 import com.sun.star.lang.XSingleComponentFactory;
 import com.sun.star.lib.uno.helper.Factory;
@@ -70,8 +60,6 @@ import com.sun.star.linguistic2.XLinguServiceEventListener;
 import com.sun.star.linguistic2.XProofreader;
 import com.sun.star.registry.XRegistryKey;
 import com.sun.star.task.XJobExecutor;
-import com.sun.star.text.XTextDocument;
-import com.sun.star.text.XTextRange;
 import com.sun.star.text.XTextViewCursor;
 import com.sun.star.text.XTextViewCursorSupplier;
 import com.sun.star.uno.UnoRuntime;
@@ -80,20 +68,15 @@ import com.sun.star.uno.XComponentContext;
 import de.danielnaber.languagetool.JLanguageTool;
 import de.danielnaber.languagetool.Language;
 import de.danielnaber.languagetool.gui.Configuration;
-import de.danielnaber.languagetool.gui.Tools;
-import de.danielnaber.languagetool.rules.Rule;
 import de.danielnaber.languagetool.rules.RuleMatch;
-import de.danielnaber.languagetool.tools.StringTools;
 
 public class Main extends WeakBase implements 
-    XJobExecutor, XServiceInfo, XProofreader,
-    XLinguServiceEventBroadcaster {
+    XJobExecutor, XServiceDisplayName, XServiceInfo, 
+    XProofreader, XLinguServiceEventBroadcaster {
 
   private Configuration config;
   private JLanguageTool langTool; 
-  private Language docLanguage;
-
-  private XTextViewCursor xViewCursor;
+  private Language docLanguage; 
 
   private List <XLinguServiceEventListener> xEventListeners;
 
@@ -205,28 +188,19 @@ public class Main extends WeakBase implements
   }
 
   /** Runs the grammar checker on paragraph text.
-   * @param docID int - document ID
-   * @param paraText - paragraph text
+   * @param String docID - document ID
+   * @param String paraText - paragraph text
    * @param locale Locale - the text Locale  
-   * @param startOfSentencePos int start of sentence position
-   * @param suggEndOfSentencePos int end of sentence position
-   * @param aLanguagePortions - lengths of language portions with a given locale
-   * @param aLanguagePortionsLocales - locales of language portions
-   * @return ProofreadingResult containing the results of the check.
+   * @param int startOfSentencePos start of sentence position
+   * @param int nSuggestedBehindEndOfSentencePosition end of sentence position
+   * @param PropertyValue[] props - properties 
+   * @return ProofreadingResult containing the results of the check.   * 
    * @throws IllegalArgumentException (not really, LT simply returns
    * the ProofreadingResult with the values supplied)
    */
-  /*
-  @Override
-  public ProofreadingResult doProofreading(String arg0, String arg1,
-      Locale arg2, int arg3, int arg4, PropertyValue[] arg5)
-      throws IllegalArgumentException {
-    // TODO Auto-generated method stub
-    return null;
-  } */
   public final ProofreadingResult doProofreading(final String docID, final String paraText,
       final Locale locale, final int startOfSentencePos, final int nSuggestedBehindEndOfSentencePosition,
-      PropertyValue[] arg5) {
+      PropertyValue[] props) {
     final ProofreadingResult paRes = new ProofreadingResult();
     try {
       //.nEndOfSentencePos 
@@ -234,7 +208,8 @@ public class Main extends WeakBase implements
       paRes.xProofreader = this;
       paRes.aLocale = locale;
       paRes.aDocumentIdentifier = docID;
-      paRes.aText = paraText;      
+      paRes.aText = paraText;
+      paRes.aProperties = props;
       return doGrammarCheckingInternal(paraText, locale, paRes);
     } catch (final Throwable t) {
       showError(t);
@@ -482,66 +457,51 @@ public class Main extends WeakBase implements
     }
     try {
       if (sEvent.equals("execute")) {
-        //try out the new XFlatParagraph interface...
-        final TextToCheck textToCheck = getText();
-        checkText(textToCheck);
-      } else if (sEvent.equals("test_new_win")) {
-//      TODO: make this a separate config dialog class        
-        final XMultiComponentFactory xMCF = xContext.getServiceManager();      
-//      get PackageInformationProvider from ComponentContext
-        final XNameAccess xNameAccess = (XNameAccess) UnoRuntime.queryInterface(
-            XNameAccess.class, xContext);
-        final Object oPIP = xNameAccess.getByName("/singletons/com.sun.star.deployment.PackageInformationProvider");
-        final XPackageInformationProvider xPIP = (XPackageInformationProvider) UnoRuntime.queryInterface(
-            XPackageInformationProvider.class, oPIP);
-//      get the url of the directory extension installed
-        final String sPackageURL = 
-          xPIP.getPackageLocation("org.openoffice.languagetool.oxt");
-        final String sDialogURL = sPackageURL + "/Options.xdl";
+        //FIXME: run OOo dialog only with grammar        
+        // 1) save the state of the Hunspell Spellchecker service
+        // (or any other spellchecker) if it's enabled
+        // 2) run .uno:SpellingAndGrammarDialog
+        // 3) reset the state of the spellchecker service
+        // Now 3) is too fast, we need to synchronize on the
+        //dispatcher...
+        final XMultiComponentFactory xMCF = xContext.getServiceManager();
+        Object aObj = xMCF.createInstanceWithContext(
+            "com.sun.star.linguistic2.LinguServiceManager", xContext);
+        com.sun.star.linguistic2.XLinguServiceManager mxLinguSvcMgr = (com.sun.star.linguistic2.XLinguServiceManager) 
+          UnoRuntime.queryInterface(com.sun.star.linguistic2.XLinguServiceManager.class, aObj);        
+        if (mxLinguSvcMgr != null) {
+          Map<Locale, String[]> previousServices = new HashMap<Locale, String[]>();
+          Locale[] locales = this.getLocales(); 
+          for (Locale loc: locales) {
+            String[] spServices = mxLinguSvcMgr.getConfiguredServices("com.sun.star.linguistic2.SpellChecker", loc);
+            if (spServices != null) {
+              previousServices.put(loc, spServices);
+              System.err.println(loc.toString() + " " + Arrays.toString(spServices));
+              mxLinguSvcMgr.setConfiguredServices("com.sun.star.linguistic2.SpellChecker", loc, new String[0]);
+            }
+          }          
+          com.sun.star.lang.XMultiServiceFactory xMultiServiceManager = 
+            (com.sun.star.lang.XMultiServiceFactory)UnoRuntime.queryInterface(
+                com.sun.star.lang.XMultiServiceFactory.class, 
+                xContext.getServiceManager() );
+          XModel xModel = (XModel)UnoRuntime.queryInterface(XModel.class, getxComponent());          
+          com.sun.star.frame.XFrame xFrame = xModel.getCurrentController().getFrame( );
+          
+          Object objDispatchHelper = xMultiServiceManager.createInstance("com.sun.star.frame.DispatchHelper");
 
-//      dialog provider to make a dialog
-        final Object oDialogProvider = xMCF.createInstanceWithContext(
-            "com.sun.star.awt.DialogProvider", xContext);
-        final XDialogProvider xDialogProv = (XDialogProvider) UnoRuntime.queryInterface(
-            XDialogProvider.class, oDialogProvider);
-        final XDialog xDialog = xDialogProv.createDialog(sDialogURL);
-        final XControlContainer xDlgContainer = (XControlContainer) UnoRuntime.queryInterface(XControlContainer.class, xDialog);
-        final XControl xListControl = xDlgContainer.getControl("LanguageList");
-        final XListBox xListBox = (XListBox) UnoRuntime.queryInterface(XListBox.class, xListControl);
-        for (short i = 0; i < Language.LANGUAGES.length - 1; i++) {
-          xListBox.addItem(
-              Language.LANGUAGES[i].getTranslatedName(MESSAGES), i);
+          XDispatchHelper xDispatchHelper = (XDispatchHelper)UnoRuntime.queryInterface( XDispatchHelper.class, objDispatchHelper );
+          XDispatchProvider xDispatchProvider = (XDispatchProvider)UnoRuntime.queryInterface( XDispatchProvider.class, xFrame );                     
+          UnoRuntime.queryInterface(com.sun.star.frame.XDispatchProvider.class, xFrame);          
+          xDispatchHelper.executeDispatch(xDispatchProvider, ".uno:SpellingAndGrammarDialog", 
+              "", 0, new PropertyValue[0]);
+//FIXME: executeDispatch() returns immediately, we should know when it finishes...          
+          for (Locale loc: locales) {
+            if (previousServices.get(loc) != null)
+            mxLinguSvcMgr.setConfiguredServices("com.sun.star.linguistic2.SpellChecker", loc,
+                previousServices.get(loc));
+          }
         }
-        final XButton xOKButton = (XButton) UnoRuntime.queryInterface(XButton.class, xDlgContainer.getControl("OK_Button"));
-        xOKButton.setLabel(StringTools.getOOoLabel(MESSAGES.getString("guiOKButton")));
-        final XButton xCancelButton = (XButton) UnoRuntime.queryInterface(XButton.class, xDlgContainer.getControl("Cancel_Button"));
-        xCancelButton.setLabel(StringTools.getOOoLabel(MESSAGES.getString("guiCancelButton")));
-
-        final XControl xControlTree = xDlgContainer.getControl("Rules");
-        final XControlModel xTreeModel = xControlTree.getModel();
-
-        final Object xTreeData = xMCF.createInstanceWithContext(
-            "com.sun.star.awt.tree.MutableTreeDataModel", xContext);
-        final XMutableTreeDataModel mxTreeDataModel = (XMutableTreeDataModel) UnoRuntime.queryInterface(
-            XMutableTreeDataModel.class, xTreeData);
-
-        final XMutableTreeNode xNode = mxTreeDataModel.createNode("Rules", false);
-
-        xNode.appendChild(mxTreeDataModel.createNode("Misc", false));
-        xNode.appendChild(mxTreeDataModel.createNode("Punctuation", false));
-
-        mxTreeDataModel.setRoot(xNode);
-
-        final XPropertySet xTreeModelProperty = (XPropertySet) UnoRuntime.queryInterface(
-            XPropertySet.class, xTreeModel);
-        xTreeModelProperty.setPropertyValue("DataModel", mxTreeDataModel);
-
-        xNode.setDataValue("test2");
-        xNode.setExpandedGraphicURL(sPackageURL + "triangle_down.png");
-        xNode.setCollapsedGraphicURL(sPackageURL + "triangle_right.png");
-
-        final short nResult = xDialog.execute();
-
+        
       } else if (sEvent.equals("configure")) {                
         runOptionsDialog();        
       } else if (sEvent.equals("about")) {
@@ -554,113 +514,6 @@ public class Main extends WeakBase implements
       showError(e);
     }
   }
-
-  private void checkText(final TextToCheck textToCheck) {
-    if (textToCheck == null) {      
-      return;
-    }
-    final Language docLanguage = getLanguage();
-    if (docLanguage == null) {
-      return;
-    }
-    final ProgressDialog progressDialog = new ProgressDialog(MESSAGES);
-    final CheckerThread checkerThread = new CheckerThread(textToCheck.paragraphs, docLanguage, config, 
-        progressDialog);
-    checkerThread.start();
-    while (true) {
-      if (checkerThread.done()) {
-        break;
-      }
-      try {
-        Thread.sleep(100);
-      } catch (final InterruptedException e) {
-        // nothing
-      }
-    }
-    progressDialog.close();
-
-    final List<CheckedParagraph> checkedParagraphs = checkerThread.getRuleMatches();
-    // TODO: why must these be wrapped in threads to avoid focus problems?
-    if (checkedParagraphs.isEmpty()) {
-      String msg;
-      final String translatedLangName = MESSAGES.getString(docLanguage.getShortName());
-      if (textToCheck.isSelection) {
-        msg = Tools.makeTexti18n(MESSAGES, "guiNoErrorsFoundSelectedText", new String[] {translatedLangName});  
-      } else {
-        msg = Tools.makeTexti18n(MESSAGES, "guiNoErrorsFound", new String[] {translatedLangName});  
-      }
-      final DialogThread dt = new DialogThread(msg);
-      dt.start();
-      // TODO: display number of active rules etc?
-    } else {
-      ResultDialogThread dialog;      
-      final XTextDocument xTextDoc = (XTextDocument) UnoRuntime.queryInterface(XTextDocument.class, getxComponent());
-      if (textToCheck.isSelection) {
-        dialog = new ResultDialogThread(config,
-            checkerThread.getLanguageTool().getAllRules(),
-            xTextDoc, checkedParagraphs, xViewCursor, textToCheck);
-      } else {
-        dialog = new ResultDialogThread(config,
-            checkerThread.getLanguageTool().getAllRules(),
-            xTextDoc, checkedParagraphs, null, null);
-      }
-      dialog.start();
-    }
-  }
-
-  //TODO: remove as soon the native OOo dialog is flawless
-  @Deprecated
-  private TextToCheck getText() {
-    final XTextDocument xTextDoc = (XTextDocument) UnoRuntime.queryInterface(XTextDocument.class, getxComponent());    
-    com.sun.star.container.XEnumerationAccess xParaAccess = (com.sun.star.container.XEnumerationAccess) UnoRuntime
-    .queryInterface(com.sun.star.container.XEnumerationAccess.class, xTextDoc.getText());
-    if (xParaAccess == null) {
-      System.err.println("xParaAccess == null");
-      return new TextToCheck(new ArrayList<String>(), false);
-    }
-
-    XModel xModel = (XModel)UnoRuntime.queryInterface(XModel.class, xTextDoc);
-    if (xModel == null) {
-      // FIXME: i18n
-      DialogThread dt = new DialogThread("Sorry, only text documents are supported");
-      dt.start();
-      return null;
-    }    
-    XTextViewCursorSupplier xViewCursorSupplier = 
-      (XTextViewCursorSupplier)UnoRuntime.queryInterface(XTextViewCursorSupplier.class, 
-          xModel.getCurrentController()); 
-    xViewCursor = xViewCursorSupplier.getViewCursor();
-    String textToCheck = xViewCursor.getString();     // user's current selection
-    if (textToCheck.equals("")) {     // no selection = check complete text
-      //System.err.println("check complete text");
-    } else {
-      //System.err.println("check selected text");
-      List<String> l = new ArrayList<String>();
-      // FIXME: if footnotes with a number greater than "9" occur in the selected text
-      // they mess up the error marking in OOoDialog because they appear as "10" etc.
-      // but the code assumes we need to use goRight() once per character...
-      l.add(textToCheck);
-      return new TextToCheck(l, true);
-    }
-
-    List<String> paragraphs = new ArrayList<String>();
-    try {
-      for (com.sun.star.container.XEnumeration xParaEnum = xParaAccess.createEnumeration(); xParaEnum.hasMoreElements();) {
-        Object para = xParaEnum.nextElement();
-        String paraString = getParagraphContent(para);
-        if (paraString == null) {
-          paragraphs.add("");
-        } else {
-          paragraphs.add(paraString);
-        }
-      }
-    } catch (final Throwable t) {
-      showError(t);
-      return null;
-    }
-    return new TextToCheck(paragraphs, false);
-  }
-
 
   private boolean javaVersionOkay() {
     final String version = System.getProperty("java.version");
@@ -693,36 +546,6 @@ public class Main extends WeakBase implements
       showError(ex);
     }
     return new File(homeDir);
-  }
-
-//TODO: remove this method when spell-checking dialog window is available
-  //and bug-free :-/
-  static String getParagraphContent(final Object para) throws NoSuchElementException, WrappedTargetException, UnknownPropertyException {
-    if (para == null) {
-      return null;
-    }
-    final com.sun.star.container.XEnumerationAccess xPortionAccess = (com.sun.star.container.XEnumerationAccess) UnoRuntime
-    .queryInterface(com.sun.star.container.XEnumerationAccess.class, para);
-    if (xPortionAccess == null) {
-      System.err.println("xPortionAccess is null");
-      return null;
-    }
-    final StringBuilder sb = new StringBuilder();
-    for (final XEnumeration portionEnum = xPortionAccess.createEnumeration(); portionEnum.hasMoreElements();) {
-      final Object textPortion = portionEnum.nextElement();
-      final XPropertySet textProps = (XPropertySet) UnoRuntime.queryInterface(XPropertySet.class, textPortion);
-      final String type = (String)textProps.getPropertyValue("TextPortionType");
-      if ("Footnote".equals(type) || "DocumentIndexMark".equals(type)) {
-        // a footnote reference appears as one character in the text. we don't use a whitespace
-        // because we don't want to trigger the "no whitespace before comma" rule in this case:
-        // my footnoteÂ¹, foo bar
-        sb.append("1");
-      } else {
-        final XTextRange xtr = (XTextRange) UnoRuntime.queryInterface(XTextRange.class, textPortion);
-        sb.append(xtr.getString());
-      }
-    }
-    return sb.toString();
   }
 
   class AboutDialogThread extends Thread {
@@ -764,7 +587,18 @@ public class Main extends WeakBase implements
 
   @Override
   public void resetIgnoreRules() {
-    config.setDisabledRuleIds(new HashSet<String>());    
+    config.setDisabledRuleIds(new HashSet<String>());
+    try {
+      config.saveConfiguration();
+      } catch (final Throwable t) {
+        showError(t);
+      }
+    recheck = true;      
+  }
+
+  @Override
+  public String getServiceDisplayName(Locale locale) {    
+    return "LanguageTool";
   }
 
 
@@ -774,11 +608,11 @@ public class Main extends WeakBase implements
  * A simple comparator for sorting errors by their position.
  *
  */
-class ErrorPositionComparator implements Comparator{
+class ErrorPositionComparator implements Comparator<SingleProofreadingError>{
 
-  public int compare(Object match1, Object match2){
-    int error1pos = ((SingleProofreadingError) match1).nErrorStart;
-    int error2pos = ((SingleProofreadingError) match2).nErrorStart;
+  public int compare(SingleProofreadingError match1, SingleProofreadingError match2){
+    int error1pos = match1.nErrorStart;
+    int error2pos = match2.nErrorStart;
     if( error1pos > error2pos )
       return 1;
     else if( error1pos < error2pos )
@@ -787,8 +621,6 @@ class ErrorPositionComparator implements Comparator{
       return 0;
   }
 }
-
-//TODO: remove these classes step by step, they're becoming obsolete
 
 class DialogThread extends Thread {
   private String text;
@@ -802,47 +634,5 @@ class DialogThread extends Thread {
     JOptionPane.showMessageDialog(null, text);
   }
 }
-
-class ResultDialogThread extends Thread {
-
-  private Configuration configuration;
-  private List<Rule> rules;
-  private XTextDocument xTextDoc;
-  private List<CheckedParagraph> checkedParagraphs;
-  private XTextViewCursor xViewCursor;
-  private TextToCheck textTocheck;
-
-  ResultDialogThread(final Configuration configuration, final List<Rule> rules, final XTextDocument xTextDoc,
-      final List<CheckedParagraph> checkedParagraphs, final XTextViewCursor xViewCursor,
-      final TextToCheck textTocheck) {
-    this.configuration = configuration;
-    this.rules = rules;
-    this.xTextDoc = xTextDoc;
-    this.checkedParagraphs = checkedParagraphs;
-    this.xViewCursor = xViewCursor;
-    this.textTocheck = textTocheck;
-  }
-
-  @Override
-  public void run() {
-    OOoDialog dialog;
-    if (xViewCursor == null) {
-      dialog = new OOoDialog(configuration, rules, xTextDoc, checkedParagraphs);
-    } else {
-      dialog = new OOoDialog(configuration, rules, xTextDoc, checkedParagraphs, xViewCursor, textTocheck);
-    }
-    dialog.show();
-  }
-
-}
-class TextToCheck {
-
-  List<String> paragraphs;
-  boolean isSelection;
-
-  TextToCheck(final List<String> paragraphs, final boolean isSelection) {
-    this.paragraphs = paragraphs;
-    this.isSelection = isSelection;
-  }
-}  
+  
 
