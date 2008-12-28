@@ -132,7 +132,7 @@ public class AnalyzedGermanTokenReadings extends AnalyzedTokenReadings {
     if (anTokReadings == null)
       return super.getAnalyzedToken(0).getToken() + "[?]";
     else {
-      StringBuffer sb = new StringBuffer(super.getAnalyzedToken(0).getToken());
+      StringBuilder sb = new StringBuilder(super.getAnalyzedToken(0).getToken());
       Set<String> printed = new HashSet<String>();
       sb.append("[");
       for (AnalyzedToken reading : anTokReadings) {

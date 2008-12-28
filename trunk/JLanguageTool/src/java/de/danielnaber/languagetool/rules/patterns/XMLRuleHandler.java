@@ -31,13 +31,13 @@ class XMLRuleHandler extends DefaultHandler {
 
   List<PatternRule> rules = new ArrayList<PatternRule>();
 
-  StringBuffer correctExample = new StringBuffer();
-  StringBuffer incorrectExample = new StringBuffer();
-  StringBuffer exampleCorrection = new StringBuffer();
-  StringBuffer message = new StringBuffer();
-  StringBuffer match = new StringBuffer();
-  StringBuffer elements = null;
-  StringBuffer exceptions = null;
+  StringBuilder correctExample = new StringBuilder();
+  StringBuilder incorrectExample = new StringBuilder();
+  StringBuilder exampleCorrection = new StringBuilder();
+  StringBuilder message = new StringBuilder();
+  StringBuilder match = new StringBuilder();
+  StringBuilder elements = null;
+  StringBuilder exceptions = null;
   
   List<String> correctExamples = new ArrayList<String>();
   List<IncorrectExample> incorrectExamples = new ArrayList<IncorrectExample>();

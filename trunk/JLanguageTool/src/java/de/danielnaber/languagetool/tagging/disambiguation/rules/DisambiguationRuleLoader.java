@@ -96,9 +96,9 @@ class DisambiguationRuleHandler extends XMLRuleHandler {
   private Language language;  
   private String ruleGroupId;
   private String ruleGroupName;
-  private StringBuffer disamb = new StringBuffer();
-  private StringBuffer match = new StringBuffer();
-  private StringBuffer wd = new StringBuffer();
+  private StringBuilder disamb = new StringBuilder();
+  private StringBuilder match = new StringBuilder();
+  private StringBuilder wd = new StringBuilder();
 
   private boolean inWord = false;
 
@@ -190,7 +190,7 @@ class DisambiguationRuleHandler extends XMLRuleHandler {
       }
     } else if (qName.equals("exception")) {
       inException = true;      
-      exceptions = new StringBuffer();
+      exceptions = new StringBuilder();
 
       if (attrs.getValue("negate") != null) {
         exceptionStringNegation = attrs.getValue("negate").equals("yes");
@@ -244,7 +244,7 @@ class DisambiguationRuleHandler extends XMLRuleHandler {
       if (attrs.getValue("skip") != null) {
         skipPos = Integer.parseInt(attrs.getValue("skip"));
       }
-      elements = new StringBuffer();
+      elements = new StringBuilder();
       if (elementList == null) {
         elementList = new ArrayList<Element>();
       }
@@ -277,10 +277,10 @@ class DisambiguationRuleHandler extends XMLRuleHandler {
         disambigAction = DisambiguationPatternRule.DisambiguatorAction.
         toAction("REPLACE");
       }
-      disamb = new StringBuffer();
+      disamb = new StringBuilder();
     } else if (qName.equals("match")) {
       inMatch = true;
-      match = new StringBuffer();
+      match = new StringBuilder();
       Match.CaseConversion caseConv = Match.CaseConversion.NONE; 
       if (attrs.getValue("case_conversion") != null) {
         caseConv = Match.CaseConversion.toCase(
@@ -331,7 +331,7 @@ class DisambiguationRuleHandler extends XMLRuleHandler {
       wdLemma = attrs.getValue("lemma");
       wdPos = attrs.getValue("pos");
       inWord = true;
-      wd = new StringBuffer();
+      wd = new StringBuilder();
     }
   }
 

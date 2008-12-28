@@ -6,7 +6,7 @@ title="Easy editing stylesheet" ?>
 <!--
 Polish Grammar and Typo Rules for LanguageTool
 Copyright (C) 2006-2007 Marcin Miłkowski
-$Id: grammar.xml,v 1.162 2008-12-21 00:36:59 milek_pl Exp $
+$Id: grammar.xml,v 1.163 2008-12-28 22:48:12 milek_pl Exp $
 -->
 <rules lang="pl">
   <unification feature="number">
@@ -5866,6 +5866,106 @@ lub <suggestion>\2 na prawach wyłączności</suggestion>.</message>
       <example type="correct">W razie braku ubezpieczenia poszkodowany nie może liczyć na pomoc państwa.</example>
     </rule>
   </category>
+  <category name="Pisownia małą i wielką literą">
+    <rule id="JEZYK_POLSKI" name="Pisownia nazw języków wielką literą">
+      <pattern case_sensitive="yes" mark_from="1">
+        <token inflected="yes">język</token>
+        <token regexp="yes">(Angielski|Polski|Rosyjski|Niemiecki|Francuski|Hiszpański|Łaciński|Grecki|Turecki|Albański|Kataloński|Ukraiński|Czeski|Słowacki|Szwedzki|Niderlandzki|Chiński|Norweski|Litewski|Łotewski|Estoński|Rumuński|Bułgarski|Włoski|Flamandzki|Portugalski|Kastylijski|Fiński|Duński|Indonezyjski|Hebrajski|Koreański|Serbski|Chorwacki|Słoweński|Arabski|Węgierski|Wietnamski|Newarski|Perski|Tajski|Galicyjski|Malajski|Bośniacki|Luksemburski|Macedoński|Gruziński|Islandzki|Walijski|Serbsko-chorwacki).*</token>
+      </pattern>
+      <message>Nazwy języków piszemy małą literą: <suggestion><match case_conversion="alllower" no="2"/></suggestion>.</message>
+      <short>Błąd pisowni wielką i małą literą</short>
+      <example correction="katalońskim" type="incorrect">To piękna książka w języku <marker>Katalońskim</marker>.</example>
+      <example type="correct">Dbaj o wymowę w języku polskim.</example>
+    </rule>
+    <rule id="WOJ_MAZOWIECKIE" name="„województwo Mazowieckie” (województwo mazowieckie)">
+      <pattern case_sensitive="yes" mark_from="1">
+        <token inflected="yes">województwo</token>
+        <token inflected="yes" regexp="yes">\p{Lu}\p{Ll}.*ki.*</token>
+      </pattern>
+      <message>Nazwy województw piszemy małą literą: <suggestion><match case_conversion="alllower" no="2"/></suggestion>.</message>
+      <short>Błąd pisowni wielką i małą literą</short>
+      <example correction="warmińsko-mazurskie" type="incorrect">Piękne jest zwłaszcza województwo <marker>Warmińsko-Mazurskie</marker>.</example>
+      <example type="correct">Mieszkam w województwie mazowieckim.</example>
+    </rule>
+    <rule id="WOLNA_AMERYKANKA" name="„wolna Amerykanka” (wolna amerykanka)">
+      <pattern case_sensitive="yes">
+        <unify feature="number,gender,case">
+          <token inflected="yes">wolny</token>
+          <token inflected="yes">Amerykanka</token>
+        </unify>
+      </pattern>
+      <message>Powinno być: <suggestion><match no="1"/> <match case_conversion="alllower" no="2"/></suggestion> (=walka zapaśnicza w stylu wolnoamerykańskim; jeśli chodzi o mieszkanki Ameryki, to oczywiście wielką literą).</message>
+      <short>Prawdopodobny błąd pisowni wielką i małą literą</short>
+      <example correction="wolna amerykanka" type="incorrect">Przetargi w Małkini to istna <marker>wolna Amerykanka</marker>.</example>
+      <example type="correct">Przetargi w Małkini to istna wolna amerykanka.</example>
+    </rule>
+    <rule id="PO_POLSKU" name="„po Polsku” (po polsku)">
+      <pattern case_sensitive="yes" mark_from="1">
+        <token>po</token>
+        <token postag="adjp" regexp="yes">\p{Lu}\p{Ll}.*</token>
+      </pattern>
+      <message>Prawdopodobny błąd ortograficzny. Nazwy języków piszemy małą literą. Powinno być: <suggestion><match case_conversion="alllower" no="2"/></suggestion>.</message>
+      <short>Błąd pisowni wielką i małą literą</short>
+      <example correction="angielsku" type="incorrect">Czy mówisz po <marker>Angielsku</marker>?</example>
+      <example type="correct">Świetnie piszę po polsku.</example>
+    </rule>
+    <rulegroup id="AL_UJAZDOWSKIE" name="„aleje Ujazdowskie” (Aleje Ujazdowskie)">
+      <rule>
+        <pattern case_sensitive="yes">
+          <token>al</token>
+          <token>.</token>
+          <token postag="adj.*" postag_regexp="yes" regexp="yes">\p{Lu}\p{Ll}.*</token>
+        </pattern>
+        <message>W wypadku takich adresów pierwszy wyraz również piszemy wielką literą. Poprawnie: <suggestion><match case_conversion="startupper" no="1"/>. <match no="3"/></suggestion>.</message>
+        <short>Błąd pisowni wielką i małą literą</short>
+        <example correction="Al. Ujazdowskie" type="incorrect">Kancelaria mieści się w Warszawie, pod adresem <marker>al. Ujazdowskie</marker> 123412.</example>
+        <example type="correct">Kancelaria mieści się w Warszawie, pod adresem Al. Ujazdowskie 12133.</example>
+      </rule>
+      <rule>
+        <pattern case_sensitive="yes">
+          <token>aleje</token>
+          <token postag="adj.*" postag_regexp="yes" regexp="yes">\p{Lu}\p{Ll}.*</token>
+        </pattern>
+        <message>W wypadku takich adresów pierwszy wyraz również piszemy wielką literą. Poprawnie: <suggestion><match case_conversion="startupper" no="1"/> <match no="2"/></suggestion>.</message>
+        <short>Błąd pisowni wielką i małą literą</short>
+        <example correction="Aleje Jerozolimskie" type="incorrect">Jedną z piękniejszych ulic w Warszawie są <marker>aleje Jerozolimskie</marker>.</example>
+        <example type="correct">Przy Alejach Jerozolimskich jest piękna, sztuczna palma.</example>
+      </rule>
+    </rulegroup>
+    <rulegroup id="REPREZENTANT_POLSKI" name="„reprezentant polski” (reprezentant Polski)">
+      <rule>
+        <pattern case_sensitive="yes">
+          <token inflected="yes">reprezentant</token>
+          <token inflected="yes"><exception>Polski</exception>polski</token>
+        </pattern>
+        <message>Prawdopodobnie błędna forma i pisownia. Powinno być: <suggestion>\1 Polski</suggestion>.</message>
+        <short>Błąd ortograficzny</short>
+        <example correction="reprezentant Polski" type="incorrect">Małysz to najlepszy <marker>reprezentant polski</marker>.</example>
+        <example type="correct">Małysz to najlepszy reprezentant Polski.</example>
+      </rule>
+      <rule>
+        <pattern case_sensitive="yes">
+          <token inflected="yes"><exception>Polski</exception>polski</token>
+          <token inflected="yes">reprezentant</token>
+        </pattern>
+        <message>Prawdopodobnie błędna forma i pisownia. Powinno być: <suggestion>\2 Polski</suggestion>.</message>
+        <short>Błąd pisowni wielką i małą literą</short>
+        <example correction="reprezentantem Polski" type="incorrect">Wiadomo, że on jest najlepszym <marker>polskim reprezentantem</marker>.</example>
+        <example type="correct">Wiadomo, że on jest najlepszym reprezentantem Polski.</example>
+      </rule>
+    </rulegroup>
+    <rule id="SZKOLA_NR" name="„Szkoła Podstawowa/Liceum Ogólnokształcące Nr” (Szkoła Podstawowa nr)">
+      <pattern case_sensitive="yes">
+        <token regexp="yes">Szko.*|Lice.*</token>
+        <token regexp="yes">Podstawow.*|Ogólnokształcąc.*</token>
+        <token>Nr</token>
+      </pattern>
+      <message>Błąd ortograficzny; poprawnie: <suggestion>\1 \2 nr</suggestion>.</message>
+      <short>Błąd pisowni wielką i małą literą</short>
+      <example type="correct"><marker>Szkoła Podstawowa nr</marker> 41</example>
+      <example correction="Szkoła Podstawowa nr" type="incorrect"><marker>Szkoła Podstawowa Nr</marker> 41</example>
+    </rule>
+  </category>
   <category name="Błędy ortograficzne">
     <rule id="LEKCE_WAZYC" name="„lekce ważyć” (lekceważyć)">
       <pattern>
@@ -5994,38 +6094,6 @@ lub <suggestion>\2 na prawach wyłączności</suggestion>.</message>
         <example type="correct">Uczyniliśmy wielki krok naprzód.</example>
       </rule>
     </rulegroup>
-    <rule id="JEZYK_POLSKI" name="Pisownia nazw języków wielką literą">
-      <pattern case_sensitive="yes" mark_from="1">
-        <token inflected="yes">język</token>
-        <token regexp="yes">(Angielski|Polski|Rosyjski|Niemiecki|Francuski|Hiszpański|Łaciński|Grecki|Turecki|Albański|Kataloński|Ukraiński|Czeski|Słowacki|Szwedzki|Niderlandzki|Chiński|Norweski|Litewski|Łotewski|Estoński|Rumuński|Bułgarski|Włoski|Flamandzki|Portugalski|Kastylijski|Fiński|Duński|Indonezyjski|Hebrajski|Koreański|Serbski|Chorwacki|Słoweński|Arabski|Węgierski|Wietnamski|Newarski|Perski|Tajski|Galicyjski|Malajski|Bośniacki|Luksemburski|Macedoński|Gruziński|Islandzki|Walijski|Serbsko-chorwacki).*</token>
-      </pattern>
-      <message>Nazwy języków piszemy małą literą: <suggestion><match case_conversion="alllower" no="2"/></suggestion>.</message>
-      <short>Błąd ortograficzny</short>
-      <example correction="katalońskim" type="incorrect">To piękna książka w języku <marker>Katalońskim</marker>.</example>
-      <example type="correct">Dbaj o wymowę w języku polskim.</example>
-    </rule>
-    <rule id="WOJ_MAZOWIECKIE" name="„województwo Mazowieckie” (województwo mazowieckie)">
-      <pattern case_sensitive="yes" mark_from="1">
-        <token inflected="yes">województwo</token>
-        <token inflected="yes" regexp="yes">\p{Lu}\p{Ll}.*ki.*</token>
-      </pattern>
-      <message>Nazwy województw piszemy małą literą: <suggestion><match case_conversion="alllower" no="2"/></suggestion>.</message>
-      <short>Błąd ortograficzny</short>
-      <example correction="warmińsko-mazurskie" type="incorrect">Piękne jest zwłaszcza województwo <marker>Warmińsko-Mazurskie</marker>.</example>
-      <example type="correct">Mieszkam w województwie mazowieckim.</example>
-    </rule>
-    <rule id="WOLNA_AMERYKANKA" name="„wolna Amerykanka” (wolna amerykanka)">
-      <pattern case_sensitive="yes">
-        <unify feature="number,gender,case">
-          <token inflected="yes">wolny</token>
-          <token inflected="yes">Amerykanka</token>
-        </unify>
-      </pattern>
-      <message>Powinno być: <suggestion><match no="1"/> <match case_conversion="alllower" no="2"/></suggestion> (=walka zapaśnicza w stylu wolnoamerykańskim; jeśli chodzi o mieszkanki Ameryki, to oczywiście wielką literą).</message>
-      <short>Prawdopodobny błąd ortograficzny</short>
-      <example correction="wolna amerykanka" type="incorrect">Przetargi w Małkini to istna <marker>wolna Amerykanka</marker>.</example>
-      <example type="correct">Przetargi w Małkini to istna wolna amerykanka.</example>
-    </rule>
     <rulegroup id="TAM_TEN" name="„tam to dziecko” (tamto dziecko)">
       <rule>
         <pattern>
@@ -6138,61 +6206,6 @@ lub <suggestion>\2 na prawach wyłączności</suggestion>.</message>
       <example correction="wywieść" type="incorrect">Ten cwany prawnik zdołał <marker>wywieźć</marker> to uprawnienie z ustawy zasadniczej.</example>
       <example type="correct">Potrafię wywieść to z całkowicie pewnych przesłanek.</example>
     </rule>
-    <rule id="PO_POLSKU" name="„po Polsku” (po polsku)">
-      <pattern case_sensitive="yes" mark_from="1">
-        <token>po</token>
-        <token postag="adjp" regexp="yes">\p{Lu}\p{Ll}.*</token>
-      </pattern>
-      <message>Prawdopodobny błąd ortograficzny. Nazwy języków piszemy małą literą. Powinno być: <suggestion><match case_conversion="alllower" no="2"/></suggestion>.</message>
-      <short>Błąd ortograficzny</short>
-      <example correction="angielsku" type="incorrect">Czy mówisz po <marker>Angielsku</marker>?</example>
-      <example type="correct">Świetnie piszę po polsku.</example>
-    </rule>
-    <rulegroup id="AL_UJAZDOWSKIE" name="„aleje Ujazdowskie” (Aleje Ujazdowskie)">
-      <rule>
-        <pattern case_sensitive="yes">
-          <token>al</token>
-          <token>.</token>
-          <token postag="adj.*" postag_regexp="yes" regexp="yes">\p{Lu}\p{Ll}.*</token>
-        </pattern>
-        <message>W wypadku takich adresów pierwszy wyraz również piszemy wielką literą. Poprawnie: <suggestion><match case_conversion="startupper" no="1"/>. <match no="3"/></suggestion>.</message>
-        <short>Błąd ortograficzny</short>
-        <example correction="Al. Ujazdowskie" type="incorrect">Kancelaria mieści się w Warszawie, pod adresem <marker>al. Ujazdowskie</marker> 123412.</example>
-        <example type="correct">Kancelaria mieści się w Warszawie, pod adresem Al. Ujazdowskie 12133.</example>
-      </rule>
-      <rule>
-        <pattern case_sensitive="yes">
-          <token>aleje</token>
-          <token postag="adj.*" postag_regexp="yes" regexp="yes">\p{Lu}\p{Ll}.*</token>
-        </pattern>
-        <message>W wypadku takich adresów pierwszy wyraz również piszemy wielką literą. Poprawnie: <suggestion><match case_conversion="startupper" no="1"/> <match no="2"/></suggestion>.</message>
-        <short>Błąd ortograficzny</short>
-        <example correction="Aleje Jerozolimskie" type="incorrect">Jedną z piękniejszych ulic w Warszawie są <marker>aleje Jerozolimskie</marker>.</example>
-        <example type="correct">Przy Alejach Jerozolimskich jest piękna, sztuczna palma.</example>
-      </rule>
-    </rulegroup>
-    <rulegroup id="REPREZENTANT_POLSKI" name="„reprezentant polski” (reprezentant Polski)">
-      <rule>
-        <pattern case_sensitive="yes">
-          <token inflected="yes">reprezentant</token>
-          <token inflected="yes"><exception>Polski</exception>polski</token>
-        </pattern>
-        <message>Prawdopodobnie błędna forma i pisownia. Powinno być: <suggestion>\1 Polski</suggestion>.</message>
-        <short>Błąd ortograficzny</short>
-        <example correction="reprezentant Polski" type="incorrect">Małysz to najlepszy <marker>reprezentant polski</marker>.</example>
-        <example type="correct">Małysz to najlepszy reprezentant Polski.</example>
-      </rule>
-      <rule>
-        <pattern case_sensitive="yes">
-          <token inflected="yes"><exception>Polski</exception>polski</token>
-          <token inflected="yes">reprezentant</token>
-        </pattern>
-        <message>Prawdopodobnie błędna forma i pisownia. Powinno być: <suggestion>\2 Polski</suggestion>.</message>
-        <short>Błąd ortograficzny</short>
-        <example correction="reprezentantem Polski" type="incorrect">Wiadomo, że on jest najlepszym <marker>polskim reprezentantem</marker>.</example>
-        <example type="correct">Wiadomo, że on jest najlepszym reprezentantem Polski.</example>
-      </rule>
-    </rulegroup>
     <rule id="BY_NAJMNIEJ_NIE" name="„by najmniej” (bynajmniej)">
       <pattern mark_to="-1">
         <token>by</token>
@@ -8444,17 +8457,6 @@ Znacznie częściej ta forma jest mylona z trybem rozkazującym od „pokazać�
         <example correction="Zazwyczaj" type="incorrect"><marker>Za zwyczaj</marker> maluję kredkami.</example>
       </rule>
     </rulegroup>
-    <rule id="SZKOLA_NR" name="„Szkoła Podstawowa/Liceum Ogólnokształcące Nr” (Szkoła Podstawowa nr)">
-      <pattern case_sensitive="yes">
-        <token regexp="yes">Szko.*|Lice.*</token>
-        <token regexp="yes">Podstawow.*|Ogólnokształcąc.*</token>
-        <token>Nr</token>
-      </pattern>
-      <message>Błąd ortograficzny; poprawnie: <suggestion>\1 \2 nr</suggestion>.</message>
-      <short>Błąd ortograficzny</short>
-      <example type="correct"><marker>Szkoła Podstawowa nr</marker> 41</example>
-      <example correction="Szkoła Podstawowa nr" type="incorrect"><marker>Szkoła Podstawowa Nr</marker> 41</example>
-    </rule>
     <rule id="RABY_ROMBY" name="„rąby” (romby)">
       <pattern>
         <token>rąby</token>

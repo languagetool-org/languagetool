@@ -155,7 +155,7 @@ class PatternRuleHandler extends XMLRuleHandler {
 
   private Match tokenReference = null;
 
-  private StringBuffer shortMessage = new StringBuffer();
+  private StringBuilder shortMessage = new StringBuilder();
   private boolean inShortMessage = false;
 
   private boolean inUnification = false;
@@ -258,7 +258,7 @@ class PatternRuleHandler extends XMLRuleHandler {
       if (attrs.getValue("skip") != null) {
         skipPos = Integer.parseInt(attrs.getValue("skip"));
       }
-      elements = new StringBuffer();
+      elements = new StringBuilder();
       if (elementList == null) {
         elementList = new ArrayList<Element>();
       }
@@ -283,7 +283,7 @@ class PatternRuleHandler extends XMLRuleHandler {
 
     } else if (qName.equals("exception")) {
       inException = true;      
-      exceptions = new StringBuffer();
+      exceptions = new StringBuilder();
       resetException();
 
       if (attrs.getValue(NEGATE) != null) {
@@ -315,21 +315,21 @@ class PatternRuleHandler extends XMLRuleHandler {
     } else if (qName.equals("example") 
         && attrs.getValue("type").equals("correct")) {
       inCorrectExample = true;
-      correctExample = new StringBuffer();
+      correctExample = new StringBuilder();
     } else if (qName.equals("example") 
         && attrs.getValue("type").equals("incorrect")) {
       inIncorrectExample = true;
-      incorrectExample = new StringBuffer();
-      exampleCorrection = new StringBuffer();
+      incorrectExample = new StringBuilder();
+      exampleCorrection = new StringBuilder();
       if (attrs.getValue("correction") != null) {
         exampleCorrection.append(attrs.getValue("correction"));
       }
     } else if (qName.equals("message")) {
       inMessage = true;
-      message = new StringBuffer(); 
+      message = new StringBuilder(); 
     }else if (qName.equals("short")) {
       inShortMessage = true;
-      shortMessage = new StringBuffer();       
+      shortMessage = new StringBuilder();       
     } else if (qName.equals("rulegroup")) {
       ruleGroupId = attrs.getValue("id");
       ruleGroupDescription = attrs.getValue("name");
@@ -341,7 +341,7 @@ class PatternRuleHandler extends XMLRuleHandler {
       message.append("<suggestion>");
     } else if (qName.equals("match")) {
       inMatch = true;
-      match = new StringBuffer();      
+      match = new StringBuilder();      
       Match.CaseConversion caseConv = Match.CaseConversion.NONE; 
       if (attrs.getValue("case_conversion") != null) {
         caseConv = Match.CaseConversion.toCase(
@@ -538,9 +538,9 @@ class PatternRuleHandler extends XMLRuleHandler {
       }
       inCorrectExample = false;
       inIncorrectExample = false;
-      correctExample = new StringBuffer();
-      incorrectExample = new StringBuffer();
-      exampleCorrection = new StringBuffer();
+      correctExample = new StringBuilder();
+      incorrectExample = new StringBuilder();
+      exampleCorrection = new StringBuilder();
     } else if (qName.equals("message")) {
       inMessage = false;      
     } else if (qName.equals("short")) {

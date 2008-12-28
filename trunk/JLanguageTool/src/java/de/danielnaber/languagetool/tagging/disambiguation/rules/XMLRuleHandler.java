@@ -29,8 +29,8 @@ class XMLRuleHandler extends DefaultHandler {
 
   List<DisambiguationPatternRule> rules = new ArrayList<DisambiguationPatternRule>();
 
-  StringBuffer elements = null;
-  StringBuffer exceptions = null;    
+  StringBuilder elements = null;
+  StringBuilder exceptions = null;    
 
   boolean inPattern = false;
   boolean inDisamb = false;

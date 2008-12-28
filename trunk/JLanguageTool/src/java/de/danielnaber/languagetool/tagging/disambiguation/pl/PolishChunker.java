@@ -148,7 +148,7 @@ import de.danielnaber.languagetool.tagging.disambiguation.Disambiguator;
 
       for (int i = 0; i < anTokens.length; i++) {
         final String tok = output[i].getToken();          
-        final StringBuffer tokens = new StringBuffer();
+        final StringBuilder tokens = new StringBuilder();
 
         int finalLen = 0;
         if (mStartSpace.containsKey(tok)) {

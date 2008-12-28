@@ -194,7 +194,7 @@ class FalseFriendRuleHandler extends XMLRuleHandler {
 		  }
 	  } else if (qName.equals("exception")) {
 	    	inException = true;	    	
-	    	exceptions = new StringBuffer();
+	    	exceptions = new StringBuilder();
 	    	
 	    	if (attrs.getValue("negate") != null) {
 		 		exceptionStringNegation=attrs.getValue("negate").equals("yes");
@@ -230,7 +230,7 @@ class FalseFriendRuleHandler extends XMLRuleHandler {
 		  if (attrs.getValue("skip") != null) {
 			  skipPos = Integer.parseInt(attrs.getValue("skip"));
 		  }
-		  elements = new StringBuffer();
+		  elements = new StringBuilder();
 		  if (elementList == null) {
 			  elementList = new ArrayList<Element>();
 		  }
@@ -264,13 +264,13 @@ class FalseFriendRuleHandler extends XMLRuleHandler {
       }
 	  } else if (qName.equals("example") && attrs.getValue("type").equals("correct")) {
 		  inCorrectExample = true;
-		  correctExample = new StringBuffer();
+		  correctExample = new StringBuilder();
 	  } else if (qName.equals("example") && attrs.getValue("type").equals("incorrect")) {
 		  inIncorrectExample = true;
-		  incorrectExample = new StringBuffer();
+		  incorrectExample = new StringBuilder();
 	  } else if (qName.equals("message")) {
 		  inMessage = true;
-		  message = new StringBuffer();
+		  message = new StringBuilder();
 	  } else if (qName.equals("rulegroup")) {
 		  ruleGroupId = attrs.getValue("id");
 		  inRuleGroup = true;
@@ -388,8 +388,8 @@ class FalseFriendRuleHandler extends XMLRuleHandler {
 		  }
 		  inCorrectExample = false;
 		  inIncorrectExample = false;
-		  correctExample = new StringBuffer();
-		  incorrectExample = new StringBuffer();
+		  correctExample = new StringBuilder();
+		  incorrectExample = new StringBuilder();
 	  } else if (qName.equals("message")) {
 		  inMessage = false;
 	  } else if (qName.equals("rulegroup")) {
