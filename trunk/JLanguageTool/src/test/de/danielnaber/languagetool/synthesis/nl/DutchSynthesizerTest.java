@@ -18,6 +18,7 @@ public class DutchSynthesizerTest extends TestCase {
     
     assertEquals("[zwommen]", Arrays.toString(synth.synthesize(dummyToken("zwemmen"), "VBh")));
     assertEquals("[Afro-Surinamers]", Arrays.toString(synth.synthesize(dummyToken("Afro-Surinamer"), "NN2")));
+    assertEquals("[hebt, heeft]", Arrays.toString(synth.synthesize(dummyToken("hebben"), "VB3", true)));
     //with regular expressions
     assertEquals("[doorgeseind]", Arrays.toString(synth.synthesize(dummyToken("doorseinen"), "VBp", true)));    
     assertEquals("[doorsein, doorseint, doorseinden, doorseinde, doorseinen, doorgeseind, doorgeseinde]", Arrays.toString(synth.synthesize(dummyToken("doorseinen"), "VB.*", true)));
