@@ -19,10 +19,6 @@
 package de.danielnaber.languagetool;
 
 import java.io.IOException;
-import java.util.HashSet;
-import java.util.Set;
-
-import de.danielnaber.languagetool.rules.patterns.PatternRuleTest;
 
 import junit.framework.TestCase;
 
