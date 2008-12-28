@@ -162,7 +162,6 @@ public class DisambiguationPatternRule {
     int skipShiftTotal = 0;
 
     int firstMatchToken = -1;
-    int lastMatchToken = -1;
     final int patternSize = patternElements.size();
     Element elem = null, prevElement = null;
     final boolean startWithSentStart = patternElements.get(0).isSentStart();
@@ -309,8 +308,7 @@ public class DisambiguationPatternRule {
         allElementsMatch = skipMatch;
         if (skipMatch) {
           prevSkipNext = skipNext;
-          matchingTokens++;
-          lastMatchToken = matchPos;           
+          matchingTokens++;                    
           if (firstMatchToken == -1) {
             firstMatchToken = matchPos; 
           }
@@ -421,8 +419,7 @@ public class DisambiguationPatternRule {
 
         }
       }
-      firstMatchToken = -1;
-      lastMatchToken = -1;
+      firstMatchToken = -1;      
       skipShiftTotal = 0;
       language.getUnifier().reset();
       inUnification = false;
