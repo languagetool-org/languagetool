@@ -7,9 +7,10 @@ Homepage: http://www.languagetool.org
 
 Requirements:
  -Java 1.5 or later
- -For OpenOffice.org integration, OpenOffice 3.0 beta m26 or later.
+ -For OpenOffice.org integration, OpenOffice 3.0.1 RC1 or later.
   For older versions of OpenOffice you will need to use 
-  LanguageTool 0.9.2.
+  LanguageTool 0.9.2. Note: for OpenOffice 3.0.0, you should use 
+  only LanguageTool 0.9.5 (earlier versions can lead to a crash).
 
 Usage:
  -To integrate LanguageTool into OpenOffice.org, you
@@ -33,7 +34,16 @@ Usage:
   
   Note that there will also be a new menu item "LanguageTool"
   under the "Tools" menu which you might need to use if 
-  on-the-fly checking doesn't properly work.
+  on-the-fly checking doesn't properly work. If the native
+  spelling and grammar dialog doesn't check grammar, make
+  sure that the check box "Check Grammar" is checked in it
+  (if the window closes because of no mistakes in the document,
+  simply make any spelling mistake to make it open for a longer
+  time, and check the box). Check also if LanguageTool is visible
+  under "Grammar" in Tools > Options > Language Settings > Spelling
+  for your language. Note: you can disable the grammar check without
+  uninstalling LanguageTool simply by clearing the check box next to
+  LanguageTool in the same dialog.
   
  -To use the simple demo GUI, first rename the .oxt file
   to zip, then unzip it to a new directory and double click on 
@@ -44,20 +54,8 @@ Usage:
   java -jar LanguageTool.jar <filename>
 
 Known bugs:
- -OpenOffice.org integration (only when using "Check Text" dialog):
+ -OpenOffice.org integration:
    -doesn't work correctly with documents that contain revisions
-   -doesn't check table content
-   -getParagraphContent() iterates differently than OOoDialog.showError() so
-    that there's an offset when showing the errors in documents with tables,
-    i.e., the wrong text is marked
-   -LanguageTool gets confused when the text is changed while the LanguageTool 
-    dialog is open
-   -changing options only takes effect on next check
-   -some errors trigger two rules at the same position, this makes the "Change text"
-    button work wrong
-   -Checking of selected text sometimes throws java.lang.reflect.UndeclaredThrowableException
-    at $Proxy17.gotoRange(Unknown Source)
-   -usability: pressing Esc too long will close both dialogs, should close only one
  -general:
    -for some rules there may be a lot of false alarms, i.e., LanguageTool complains
     about text which is actually correct
@@ -84,7 +82,6 @@ TODO:
  -make the dist-src work (= compile out of the box)
  -add a layer to use the simple XML so the LanguageTool GUIs can use An Gramadoir?
  -load (language-specific) abbreviations from an external file
- -OpenOffice.org: make the dialog modal
  -stand-alone GUI: mark errors in upper part of window
  -Auto-reload rules if file timestamp has changed?
  -enable style registers and/or rule classes
@@ -95,9 +92,6 @@ TODO:
   sound (like 'an MSc').
  -add a simple sentence/word complexity test like that: http://www.ooomacros.org/user.php#111318 
  -German rule: Vergleichs vs Vergleiches etc -> only one variant per document should be used
- -add unification to the XML rules in two steps:
- 	-create XML definitions of unification rules based on
- 	POS regular expression transformations
  -create abstract SentenceRule and TextRule classes to get rid of reset() method?
  -check if there's a nice design that lets us extend PatternRule and PatternRuleLoader
   to make them more powerful, but without having all features in these classes
@@ -114,7 +108,6 @@ TODO:
  -German:
  	"*Ich kaufe den Hund einen Knochen" (den -> dem), aber:
  	"*Ich kaufe dem Hund." (dem -> den)
- -see if it's feasible to use native AWT library in OOo or configuration dialogs
  -see if it's feasible to check bitexts (especially looking for false friends),
   for example for checking translation files in xliff format
  -see "TODO" / "FIXME" in the source:
@@ -167,6 +160,11 @@ License:
  The Dutch data are based on Alpino parser for Dutch by Gertjan van 
  Noord and is released on LGPL license. Alpino is available at 
  http://www.let.rug.nl/~vannoord/alp/Alpino/.
+
+ Russian:
+ Russian dictionary originally developed by www.aot.ru and licensed under LGPL.
+ http://www.aot.ru/download.php file rus-src-morph.tar.gz
+ It was partially converted to fsa format in 2008 by Yakov.  
 
  Swedish:
  The Swedish data are based on DSSO. The Initial Developer of the Original Code is Göran Andersson.

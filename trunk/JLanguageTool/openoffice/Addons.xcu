@@ -22,7 +22,7 @@
               <node oor:name="Submenu">
                 <node oor:name="M1" oor:op="replace">
                   <prop oor:name="URL" oor:type="xs:string">
-                    <value>service:de.danielnaber.languagetool.openoffice.Main?execute</value>
+                    <value>.uno:SpellingAndGrammarDialog</value>
                   </prop>
                   <prop oor:name="Title" oor:type="xs:string">
                     <value/>
@@ -41,8 +41,28 @@
                   <prop oor:name="Context" oor:type="xs:string">
                     <value>com.sun.star.text.TextDocument</value>
                   </prop>
-                </node>
+                </node>        
                 <node oor:name="M2" oor:op="replace">
+                  <prop oor:name="URL" oor:type="xs:string">
+                    <value>.uno:RecheckDocument</value>
+                  </prop>
+                  <prop oor:name="Title" oor:type="xs:string">
+                    <value/>
+                    <value xml:lang="en-US">Recheck Document</value>
+                    <value xml:lang="de-DE">Text erneut prüfen</value>
+                    <value xml:lang="pl-PL">Sprawdź dokument ponownie</value>
+                    <value xml:lang="nl-NL">Document opnieuw controleren</value>
+                    <value xml:lang="fr-FR">Revérifier le document</value>
+                    <value xml:lang="ru-RU">Перепроверить документ</value>
+                  </prop>
+                  <prop oor:name="Target" oor:type="xs:string">
+                    <value>_self</value>
+                  </prop>
+                  <prop oor:name="Context" oor:type="xs:string">
+                    <value>com.sun.star.text.TextDocument</value>
+                  </prop>
+                </node>
+                <node oor:name="M3" oor:op="replace">
                   <prop oor:name="URL" oor:type="xs:string">
                     <value>service:de.danielnaber.languagetool.openoffice.Main?configure</value>
                   </prop>
@@ -64,7 +84,7 @@
                     <value>com.sun.star.text.TextDocument</value>
                   </prop>
                 </node>
-                <node oor:name="M3" oor:op="replace">
+                <node oor:name="M4" oor:op="replace">
                   <prop oor:name="URL" oor:type="xs:string">
                     <value>service:de.danielnaber.languagetool.openoffice.Main?about</value>
                   </prop>
@@ -86,69 +106,6 @@
           </node>
         </node>
       </node>
-    </node>
-    <node oor:name="OfficeToolbarMerging">
-      <node oor:name="de.danielnaber.languagetool.openoffice.Main" oor:op="replace">
-        <node oor:name="m1" oor:op="replace">
-          <prop oor:name="MergeToolBar">
-            <value>standardbar</value>
-          </prop>
-          <prop oor:name="MergePoint">
-            <value>.uno:SpellingAndGrammarDialog</value>
-          </prop>
-          <prop oor:name="MergeCommand">
-            <value>AddAfter</value>
-          </prop>
-          <prop oor:name="MergeFallback">
-            <value>AddLast</value>
-          </prop>
-          <prop oor:name="MergeContext">
-            <value/>
-          </prop>
-          <node oor:name="ToolBarItems">
-            <node oor:name="B1" oor:op="replace">
-              <prop oor:name="URL" oor:type="xs:string">
-                <value>service:de.danielnaber.languagetool.openoffice.Main?execute</value>
-              </prop>
-              <prop oor:name="ImageIdentifier" oor:type="xs:string">
-                <value/>
-              </prop>
-              <prop oor:name="Title" oor:type="xs:string">
-                <value/>
-                <value xml:lang="en-US">Check Text</value>
-                <value xml:lang="de-DE">Text prüfen</value>
-                <value xml:lang="pl-PL">Sprawdź tekst</value>
-                <value xml:lang="lt-LT">Tikrinti tekstą</value>
-                <value xml:lang="nl-NL">Grammaticacontrole</value>
-                <value xml:lang="fr-FR">Vérifier le texte</value>
-                <value xml:lang="sl-SI">Preveri skladnjo</value>
-                <value xml:lang="ru-RU">Проверка грамматики</value>
-              </prop>
-              <prop oor:name="Target" oor:type="xs:string">
-                <value>_self</value>
-              </prop>
-              <prop oor:name="Context" oor:type="xs:string">
-                <value>com.sun.star.text.TextDocument</value>
-              </prop>
-            </node>
-          </node>
-        </node>
-      </node>
-    </node>
-    <node oor:name="Images">
-      <node oor:name="de.danielnaber.languagetool.openoffice.Main.image1" oor:op="replace">
-        <prop oor:name="URL">
-          <value>service:de.danielnaber.languagetool.openoffice.Main?execute</value>
-        </prop>
-        <node oor:name="UserDefinedImages">
-          <prop oor:name="ImageSmallURL" oor:type="xs:string">
-            <value>%origin%/images/LanguageToolSmall.png</value>
-          </prop>
-          <prop oor:name="ImageBigURL" oor:type="xs:string">
-            <value>%origin%/images/LanguageToolBig.png</value>
-          </prop>
-        </node>
-      </node>
-    </node>
+    </node>        
   </node>
 </oor:component-data>

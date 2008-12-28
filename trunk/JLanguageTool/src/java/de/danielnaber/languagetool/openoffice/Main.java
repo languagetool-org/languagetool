@@ -27,10 +27,8 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.Set;
 
@@ -41,8 +39,6 @@ import com.sun.star.awt.XWindowPeer;
 import com.sun.star.beans.PropertyValue;
 import com.sun.star.beans.XPropertySet;
 import com.sun.star.frame.XDesktop;
-import com.sun.star.frame.XDispatchHelper;
-import com.sun.star.frame.XDispatchProvider;
 import com.sun.star.frame.XModel;
 import com.sun.star.lang.IllegalArgumentException;
 import com.sun.star.lang.Locale;
@@ -77,6 +73,15 @@ public class Main extends WeakBase implements
   private Configuration config;
   private JLanguageTool langTool; 
   private Language docLanguage; 
+  
+  /*
+   * Rules disabled using the config dialog
+   * box rather than Spelling dialog box or
+   * the context menu.
+   */
+  private Set<String> disabledRules = null;
+  
+  private Set<String> disabledRulesUI = null;
 
   private List <XLinguServiceEventListener> xEventListeners;
 
@@ -106,6 +111,11 @@ public class Main extends WeakBase implements
       changeContext(xCompContext);
       final File homeDir = getHomeDir();
       config = new Configuration(homeDir, CONFIG_FILE);
+      disabledRules = config.getDisabledRuleIds();
+      if (disabledRules == null) {
+          disabledRules = new HashSet<String>();
+      }
+      disabledRulesUI = new HashSet<String>(disabledRules);
       xEventListeners = new ArrayList<XLinguServiceEventListener>();
     } catch (final Throwable t) {
       showError(t);
@@ -203,7 +213,6 @@ public class Main extends WeakBase implements
       PropertyValue[] props) {
     final ProofreadingResult paRes = new ProofreadingResult();
     try {
-      //.nEndOfSentencePos 
       paRes.nBehindEndOfSentencePosition = nSuggestedBehindEndOfSentencePosition - startOfSentencePos;// paraText.length(); //suggEndOfSentencePos - startOfSentencePos;
       paRes.xProofreader = this;
       paRes.aLocale = locale;
@@ -308,6 +317,7 @@ public class Main extends WeakBase implements
     aError.nErrorStart = myMatch.getFromPos();      
     aError.nErrorLength = myMatch.getToPos() - myMatch.getFromPos();
     aError.aRuleIdentifier = myMatch.getRule().getId();
+    aError.aProperties = new PropertyValue[0];
     return aError;
   }
  
@@ -415,6 +425,10 @@ public class Main extends WeakBase implements
         }
       }
       recheck = true;
+      disabledRules = config.getDisabledRuleIds();
+      if (disabledRules == null) {
+          disabledRules = new HashSet<String>();
+      }
     }
   }
 
@@ -456,53 +470,7 @@ public class Main extends WeakBase implements
       return;
     }
     try {
-      if (sEvent.equals("execute")) {
-        //FIXME: run OOo dialog only with grammar        
-        // 1) save the state of the Hunspell Spellchecker service
-        // (or any other spellchecker) if it's enabled
-        // 2) run .uno:SpellingAndGrammarDialog
-        // 3) reset the state of the spellchecker service
-        // Now 3) is too fast, we need to synchronize on the
-        //dispatcher...
-        final XMultiComponentFactory xMCF = xContext.getServiceManager();
-        Object aObj = xMCF.createInstanceWithContext(
-            "com.sun.star.linguistic2.LinguServiceManager", xContext);
-        com.sun.star.linguistic2.XLinguServiceManager mxLinguSvcMgr = (com.sun.star.linguistic2.XLinguServiceManager) 
-          UnoRuntime.queryInterface(com.sun.star.linguistic2.XLinguServiceManager.class, aObj);        
-        if (mxLinguSvcMgr != null) {
-          Map<Locale, String[]> previousServices = new HashMap<Locale, String[]>();
-          Locale[] locales = this.getLocales(); 
-          for (Locale loc: locales) {
-            String[] spServices = mxLinguSvcMgr.getConfiguredServices("com.sun.star.linguistic2.SpellChecker", loc);
-            if (spServices != null) {
-              previousServices.put(loc, spServices);
-              System.err.println(loc.toString() + " " + Arrays.toString(spServices));
-              mxLinguSvcMgr.setConfiguredServices("com.sun.star.linguistic2.SpellChecker", loc, new String[0]);
-            }
-          }          
-          com.sun.star.lang.XMultiServiceFactory xMultiServiceManager = 
-            (com.sun.star.lang.XMultiServiceFactory)UnoRuntime.queryInterface(
-                com.sun.star.lang.XMultiServiceFactory.class, 
-                xContext.getServiceManager() );
-          XModel xModel = (XModel)UnoRuntime.queryInterface(XModel.class, getxComponent());          
-          com.sun.star.frame.XFrame xFrame = xModel.getCurrentController().getFrame( );
-          
-          Object objDispatchHelper = xMultiServiceManager.createInstance("com.sun.star.frame.DispatchHelper");
-
-          XDispatchHelper xDispatchHelper = (XDispatchHelper)UnoRuntime.queryInterface( XDispatchHelper.class, objDispatchHelper );
-          XDispatchProvider xDispatchProvider = (XDispatchProvider)UnoRuntime.queryInterface( XDispatchProvider.class, xFrame );                     
-          UnoRuntime.queryInterface(com.sun.star.frame.XDispatchProvider.class, xFrame);          
-          xDispatchHelper.executeDispatch(xDispatchProvider, ".uno:SpellingAndGrammarDialog", 
-              "", 0, new PropertyValue[0]);
-//FIXME: executeDispatch() returns immediately, we should know when it finishes...          
-          for (Locale loc: locales) {
-            if (previousServices.get(loc) != null)
-            mxLinguSvcMgr.setConfiguredServices("com.sun.star.linguistic2.SpellChecker", loc,
-                previousServices.get(loc));
-          }
-        }
-        
-      } else if (sEvent.equals("configure")) {                
+      if (sEvent.equals("configure")) {                
         runOptionsDialog();        
       } else if (sEvent.equals("about")) {
         final AboutDialogThread aboutthread = new AboutDialogThread(MESSAGES);
@@ -571,12 +539,8 @@ public class Main extends WeakBase implements
   public void ignoreRule(String ruleId, Locale locale)
       throws IllegalArgumentException {
 //TODO: config should be locale-dependent    
-    Set<String> disabledRules = config.getDisabledRuleIds();
-    if (disabledRules == null) {
-        disabledRules = new HashSet<String>();
-    }
-     disabledRules.add(ruleId);
-    config.setDisabledRuleIds(disabledRules);
+    disabledRulesUI.add(ruleId);
+    config.setDisabledRuleIds(disabledRulesUI);
     try {
     config.saveConfiguration();
     } catch (final Throwable t) {
@@ -585,9 +549,16 @@ public class Main extends WeakBase implements
     recheck = true;           
   }
 
-  @Override
+  /**
+   * Called on rechecking the document - resets
+   * the ignore status for rules that was set
+   * in the spelling dialog box or in the context menu.
+   * 
+   * The rules disabled in the config dialog box are
+   * left as intact.
+   */
   public void resetIgnoreRules() {
-    config.setDisabledRuleIds(new HashSet<String>());
+    config.setDisabledRuleIds(disabledRules);
     try {
       config.saveConfiguration();
       } catch (final Throwable t) {
@@ -618,7 +589,7 @@ class ErrorPositionComparator implements Comparator<SingleProofreadingError>{
     else if( error1pos < error2pos )
       return -1;
     else
-      return 0;
+      return ((Integer)(match1.aSuggestions.length)).compareTo(match2.aSuggestions.length);
   }
 }
 
