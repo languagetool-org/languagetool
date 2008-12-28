@@ -24,6 +24,7 @@ import java.lang.reflect.Modifier;
 import java.net.JarURLConnection;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Enumeration;
@@ -57,13 +58,14 @@ public class ReflectionUtils {
       String packagePath = packageName.replace('.', '/');
       Enumeration<URL> resources_ = classLoader.getResources(packagePath);
 
-      Set<URL> uniqResources = new HashSet<URL>();
+      Set<URI> uniqResources = new HashSet<URI>();
       while (resources_.hasMoreElements()) {
-        URL resource = resources_.nextElement();
+        URI resource = resources_.nextElement().toURI();
           uniqResources.add(resource);
       }
 
-      for (URL resource : uniqResources) {
+      for (URI res : uniqResources) {
+        URL resource = res.toURL();
          //System.err.println("trying resource: " + resource);
         // jars and directories are treated differently
         if (resource.getProtocol().startsWith("jar")) {        
