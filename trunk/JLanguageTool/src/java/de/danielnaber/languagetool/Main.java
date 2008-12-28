@@ -19,6 +19,7 @@
 package de.danielnaber.languagetool;
 
 import java.io.BufferedReader;
+import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -119,10 +120,13 @@ class Main {
       try {
         if (encoding != null) {
           isr = new InputStreamReader(
-              new FileInputStream(file.getAbsolutePath()), encoding);
+              new BufferedInputStream(
+                  new FileInputStream(file.getAbsolutePath())), 
+                  encoding);
         } else {
           isr = new InputStreamReader(
-              new FileInputStream(file.getAbsolutePath()));
+              new BufferedInputStream(
+                  new FileInputStream(file.getAbsolutePath())));
         }
         br = new BufferedReader(isr);
         String line;
