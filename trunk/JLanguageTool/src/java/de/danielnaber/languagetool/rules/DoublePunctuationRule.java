@@ -47,13 +47,13 @@ public class DoublePunctuationRule extends Rule {
   }
 
   public RuleMatch[] match(final AnalyzedSentence text) {
-    List<RuleMatch> ruleMatches = new ArrayList<RuleMatch>();
-    AnalyzedTokenReadings[] tokens = text.getTokens();
+    final List<RuleMatch> ruleMatches = new ArrayList<RuleMatch>();
+    final AnalyzedTokenReadings[] tokens = text.getTokens();
     AnalyzedToken matchToken = null;
     int dotCount = 0;
     int commaCount = 0;
     for (int i = 0; i < tokens.length; i++) {
-      String token = tokens[i].getToken();
+      final String token = tokens[i].getToken();
       String nextToken = null;
       if (i < tokens.length-1)
         nextToken = tokens[i+1].getToken();
@@ -67,18 +67,18 @@ public class DoublePunctuationRule extends Rule {
         matchToken = tokens[i].getAnalyzedToken(0);
       }
       if (dotCount == 2 && !".".equals(nextToken)) {
-        String msg = messages.getString("two_dots");
+        final String msg = messages.getString("two_dots");
         @SuppressWarnings("null")
-        int fromPos = Math.max(0, matchToken.getStartPos()-1);
-        RuleMatch ruleMatch = new RuleMatch(this, fromPos, matchToken.getStartPos()+1, msg, messages.getString("double_dots_short"));
+        final int fromPos = Math.max(0, matchToken.getStartPos()-1);
+        final RuleMatch ruleMatch = new RuleMatch(this, fromPos, matchToken.getStartPos()+1, msg, messages.getString("double_dots_short"));
         ruleMatch.setSuggestedReplacement(".");
         ruleMatches.add(ruleMatch);
         dotCount = 0;
       } else if (commaCount == 2 && !",".equals(nextToken)) {
-        String msg = messages.getString("two_commas");
+        final String msg = messages.getString("two_commas");
         @SuppressWarnings("null")
-        int fromPos = Math.max(0, matchToken.getStartPos()-1);
-        RuleMatch ruleMatch = new RuleMatch(this, fromPos, matchToken.getStartPos()+1, msg, messages.getString("double_commas_short"));
+        final int fromPos = Math.max(0, matchToken.getStartPos()-1);
+        final RuleMatch ruleMatch = new RuleMatch(this, fromPos, matchToken.getStartPos()+1, msg, messages.getString("double_commas_short"));
         // TODO: collides with CommaWhitespaceRule:
         ruleMatch.setSuggestedReplacement(",");
         ruleMatches.add(ruleMatch);

@@ -31,7 +31,7 @@ import de.danielnaber.languagetool.tagging.disambiguation.Disambiguator;
  * @author Marcin Miłkowski
  *
  */
-public abstract class RuleDisambiguator implements Disambiguator {
+public abstract class AbstractRuleDisambiguator implements Disambiguator {
         
   public abstract AnalyzedSentence disambiguate(final AnalyzedSentence input) throws IOException; 
 

@@ -76,14 +76,13 @@ public class UnpairedQuotesBracketsRule extends Rule {
   
   private boolean reachedEndOfParagraph = false;
   
-  private Language ruleLang;
+  final private Language ruleLang;
   
   public UnpairedQuotesBracketsRule(final ResourceBundle messages, final Language language) {
     super(messages);
     super.setCategory(new Category(messages.getString("category_misc")));
    
     setParagraphBackTrack(true);
-    
     if (language.equals(Language.POLISH)) {
       startSymbols = PL_START_SYMBOLS;
       endSymbols = PL_END_SYMBOLS;
@@ -180,10 +179,9 @@ public class UnpairedQuotesBracketsRule extends Rule {
         if ((precededByWhitespace || followedByWhitespace)
             && i > 1
             && ruleLang.equals(Language.ENGLISH)
-            && token.trim().equals("\"")) {          
-          if (tokens[i - 1].getToken().matches("[\\d]+")) {
-            noException = false;
-          }
+            && token.trim().equals("\"")          
+            && tokens[i - 1].getToken().matches("[\\d]+")) {
+            noException = false;          
           }
         
         // Exception for English plural saxon genetive
@@ -192,11 +190,10 @@ public class UnpairedQuotesBracketsRule extends Rule {
             && ruleLang.equals(Language.ENGLISH) 
             && token.trim().equals("'")
             && i > 1
-            && noException) {
-          if (tokens[i - 1].getToken().charAt(
-                  tokens[i - 1].getToken().length() - 1) == 's') {
-            noException = false;
-          }
+            && noException
+            && (tokens[i - 1].getToken().charAt(
+                  tokens[i - 1].getToken().length() - 1) == 's')) {
+            noException = false;          
           }
                
       if (noException 

@@ -34,7 +34,7 @@ import de.danielnaber.languagetool.Language;
  */
 public class UppercaseSentenceStartRule extends Rule {
 
-  private Language language = null;
+  final private Language language;
   
   public UppercaseSentenceStartRule(final ResourceBundle messages, final Language language) {
     super(messages);
@@ -51,15 +51,15 @@ public class UppercaseSentenceStartRule extends Rule {
   }
 
   public RuleMatch[] match(final AnalyzedSentence text) {
-    List<RuleMatch> ruleMatches = new ArrayList<RuleMatch>();
-    AnalyzedTokenReadings[] tokens = text.getTokensWithoutWhitespace();
+    final List<RuleMatch> ruleMatches = new ArrayList<RuleMatch>();
+    final AnalyzedTokenReadings[] tokens = text.getTokensWithoutWhitespace();
     if (tokens.length < 2)
       return toRuleMatchArray(ruleMatches);
     //the case should be the same in all readings
     //discarding the rest of the possible lemmas and POS tags
     int matchTokenPos = 1;
-    AnalyzedToken token = tokens[matchTokenPos].getAnalyzedToken(0);        // 0 is the artifical sentence start token
-    String firstToken = token.getToken();
+    final AnalyzedToken token = tokens[matchTokenPos].getAnalyzedToken(0);        // 0 is the artifical sentence start token
+    final String firstToken = token.getToken();
     String secondToken = null;
     String thirdToken = null;
     // ignore quote characters:
@@ -67,7 +67,7 @@ public class UppercaseSentenceStartRule extends Rule {
       matchTokenPos = 2;
       secondToken = tokens[matchTokenPos].getAnalyzedToken(0).getToken();
     }
-    String firstDutchToken = dutchSpecialCase(firstToken, secondToken, tokens);
+    final String firstDutchToken = dutchSpecialCase(firstToken, secondToken, tokens);
     if (firstDutchToken != null) {
       thirdToken = firstDutchToken;
       matchTokenPos = 3;
@@ -79,23 +79,21 @@ public class UppercaseSentenceStartRule extends Rule {
     else if (secondToken != null)
       checkToken = secondToken;
     
-    char firstChar = checkToken.charAt(0);
+    final char firstChar = checkToken.charAt(0);
     if (Character.isLowerCase(firstChar)) {
-      String msg = messages.getString("incorrect_case");
-      RuleMatch ruleMatch = new RuleMatch(this, tokens[matchTokenPos].getStartPos(), 
-          tokens[matchTokenPos].getStartPos()+tokens[matchTokenPos].getToken().length(), msg);
+      final RuleMatch ruleMatch = new RuleMatch(this, tokens[matchTokenPos].getStartPos(), 
+          tokens[matchTokenPos].getStartPos()+tokens[matchTokenPos].getToken().length(), messages.getString("incorrect_case"));
       ruleMatch.setSuggestedReplacement(Character.toUpperCase(firstChar) +  checkToken.substring(1));
       ruleMatches.add(ruleMatch);
     }
     return toRuleMatchArray(ruleMatches);
   }
 
-  private String dutchSpecialCase(String firstToken, String secondToken, AnalyzedTokenReadings[] tokens) {
+  private String dutchSpecialCase(final String firstToken, final String secondToken, final AnalyzedTokenReadings[] tokens) {
     if (language != Language.DUTCH)
-      return null;
+      return null;    
     if (tokens.length >= 3 && firstToken.equals("'") && secondToken.matches("k|m|n|r|s|t")) {
-      firstToken = tokens[3].getAnalyzedToken(0).getToken();
-      return firstToken;
+      return tokens[3].getAnalyzedToken(0).getToken();      
     }
     return null;
   }

@@ -142,7 +142,7 @@ public class Unifier {
     if (!allFeatsIn) {
       tokCnt++;
       if (equivalencesMatched.size() <= tokCnt) {
-        Map<String, Set<String>> mapTemp = 
+        final Map<String, Set<String>> mapTemp = 
           new HashMap<String, Set<String>>();
         equivalencesMatched.add(mapTemp);
       }      
@@ -154,13 +154,13 @@ public class Unifier {
           types = type.split(",");
         }
         for (String typename : types) {        
-          Element testElem = equivalenceTypes.get(feat + ":" + typename);
+          final Element testElem = equivalenceTypes.get(feat + ":" + typename);
           if (testElem == null) {
             return false;
           }
           if (testElem.isMatched(AT)) {            
             if (!equivalencesMatched.get(tokCnt).containsKey(feat)) {
-              Set<String> typeSet = new HashSet<String>();
+              final Set<String> typeSet = new HashSet<String>();
               typeSet.add(typename);
               equivalencesMatched.get(tokCnt).put(feat, typeSet);
             } else {
@@ -206,7 +206,7 @@ public class Unifier {
             if (featuresFound.get(i)
                 && equivalencesMatched.get(i).containsKey(feat)
                 && equivalencesMatched.get(i).get(feat).contains(typename)) {
-              Element testElem = equivalenceTypes.get(feat + ":" + typename);
+              final Element testElem = equivalenceTypes.get(feat + ":" + typename);
               featUnified = featUnified || testElem.isMatched(AT);
             }        
           }
@@ -270,7 +270,7 @@ public class Unifier {
     firstUnified = false;
   }
 
-  public void clear() {
+  public final void clear() {
     equivalencesMatched = new ArrayList<Map<String, Set<String>>>();
     equivalenceTypes = new HashMap<String, Element>();
     equivalenceFeatures = new HashMap<String, List<String>>();
@@ -310,7 +310,7 @@ public class Unifier {
     }
     firstUnified = true;
     }
-    AnalyzedTokenReadings[] atr = 
+    final AnalyzedTokenReadings[] atr = 
       tokSequence.toArray(new AnalyzedTokenReadings[tokSequence.size()]);
     return atr;
   } 

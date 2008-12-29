@@ -27,18 +27,18 @@ import org.xml.sax.helpers.DefaultHandler;
 
 class XMLRuleHandler extends DefaultHandler {
 
-  List<DisambiguationPatternRule> rules = new ArrayList<DisambiguationPatternRule>();
+  final List<DisambiguationPatternRule> rules = new ArrayList<DisambiguationPatternRule>();
 
-  StringBuilder elements = null;
-  StringBuilder exceptions = null;    
+  StringBuilder elements;
+  StringBuilder exceptions;    
 
-  boolean inPattern = false;
-  boolean inDisamb = false;
-  boolean inMatch = false;
-  boolean inRuleGroup = false;
-  boolean inToken= false;
-  boolean inException = false;
-  boolean inAndGroup = false;
+  boolean inPattern;
+  boolean inDisamb;
+  boolean inMatch;
+  boolean inRuleGroup;
+  boolean inToken;
+  boolean inException;
+  boolean inAndGroup;
   
   List<DisambiguationPatternRule> getRules() {
     return rules;

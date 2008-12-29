@@ -50,7 +50,7 @@ public final class StringTools {
     if (s == null) {
       throw new NullPointerException(varName + " cannot be null");
     }
-    if ((isEmpty(s.trim()))) {
+    if (isEmpty(s.trim())) {
       throw new IllegalArgumentException(varName + " cannot be empty or whitespace only");
     }
   }
@@ -201,7 +201,7 @@ public final class StringTools {
     final StringBuilder xml = new StringBuilder();
     xml.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
     xml.append("<matches>\n");
-    int i = 1;
+    // int i = 1;
     for (final RuleMatch match : ruleMatches) {
       xml.append("<error" +
           " fromy=\"" + match.getLine() + "\"" + 
@@ -225,17 +225,15 @@ public final class StringTools {
       xml.append(" contextoffset=\"" +contextOffset+ "\"");
       xml.append(" errorlength=\"" +(match.getToPos()-match.getFromPos())+ "\"");
       xml.append("/>\n");
-      i++;
+      //i++;
     }
     xml.append("</matches>\n");
     return xml.toString();
   }
 
-  private static String escapeXMLForAPIOutput(String s) {
-    s = escapeXML(s);
+  private static String escapeXMLForAPIOutput(final String s) {    
     // this is simplified XML, i.e. put the "<error>" in one line: 
-    s = s.replaceAll("[\n\r]", " ");
-    return s;
+    return escapeXML(s).replaceAll("[\n\r]", " ");    
   }
   
   public static String listToString(final List<String> l, final String delimiter) {
@@ -254,8 +252,8 @@ public final class StringTools {
     return getContext(fromPos, toPos, fileContents, DEFAULT_CONTEXT_SIZE);
   }
   
-  public static String getContext(final int fromPos, final int toPos, String fileContents, final int contextSize) {
-    fileContents = fileContents.replace('\n', ' ');
+  public static String getContext(final int fromPos, final int toPos, final String contents, final int contextSize) {
+    final String fileContents = contents.replace('\n', ' ');
     // calculate context region:
     int startContent = fromPos - contextSize;
     String prefix = "...";
@@ -418,7 +416,7 @@ public final class StringTools {
    * @param str String to check
    * @return true if string is empty OR null
    */
-  public static boolean isEmpty(String str) {
+  public static boolean isEmpty(final String str) {
     return str == null || str.length() == 0;
     }
 }

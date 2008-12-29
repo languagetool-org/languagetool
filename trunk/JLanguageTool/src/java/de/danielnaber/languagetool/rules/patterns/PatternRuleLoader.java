@@ -22,6 +22,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.List;
 
 import javax.xml.parsers.SAXParser;
@@ -45,12 +46,12 @@ import de.danielnaber.languagetool.tools.Tools;
  */
 public class PatternRuleLoader extends DefaultHandler {
 
-  private List<PatternRule> rules;
-
   public PatternRuleLoader() {
+    super();
   }
 
   public final List<PatternRule> getRules(final InputStream is, final String filename) throws IOException {
+    List<PatternRule> rules;
     try {
       final PatternRuleHandler handler = new PatternRuleHandler();
       final SAXParserFactory factory = SAXParserFactory.newInstance();
@@ -90,15 +91,18 @@ class PatternRuleHandler extends XMLRuleHandler {
   private static final String INFLECTED = "inflected";
   private static final String NEGATE_POS = "negate_pos";
   private static final String MARKER = "marker";
+  private static final String DEFAULT = "default";
+  private static final String TYPE = "type";
+  private static final String SPACEBEFORE = "spacebefore";
 
   private String id;
   private int subId = 0;
 
   /** Current phrase ID. **/
-  String phraseId;
+  private String phraseId;
 
   /** ID reference to the phrase. **/
-  String phraseIdRef;
+  private String phraseIdRef;
 
   private boolean caseSensitive = false;
   private boolean stringRegExp = false;
@@ -138,7 +142,7 @@ class PatternRuleHandler extends XMLRuleHandler {
   private List < Element > elementList = null;  
 
   /** Phrase store - elementLists keyed by phraseIds. **/
-  private HashMap < String, ArrayList < ArrayList < Element > > > phraseMap = null;
+  private Map < String, List < List < Element > > > phraseMap = null;
 
   /** Logically forking element list, used for including
    * multiple phrases in the current one. **/
@@ -173,7 +177,7 @@ class PatternRuleHandler extends XMLRuleHandler {
   // ===========================================================
 
   @Override
-  public void setDocumentLocator(Locator locator) {
+  public void setDocumentLocator(final Locator locator) {
     pLocator = locator;
     super.setDocumentLocator(locator);
   }
@@ -191,7 +195,7 @@ class PatternRuleHandler extends XMLRuleHandler {
         category = new Category(catName);
       }
 
-      if ("off".equals(attrs.getValue("default"))) {
+      if ("off".equals(attrs.getValue(DEFAULT))) {
         category.setDefaultOff();
       }
 
@@ -206,11 +210,11 @@ class PatternRuleHandler extends XMLRuleHandler {
       if (inRuleGroup)
         subId++;
       if (!(inRuleGroup && defaultOff)) {
-        defaultOff = "off".equals(attrs.getValue("default"));
+        defaultOff = "off".equals(attrs.getValue(DEFAULT));
       }
 
       if (!(inRuleGroup && defaultOn)) {
-        defaultOn = "on".equals(attrs.getValue("default"));
+        defaultOn = "on".equals(attrs.getValue(DEFAULT));
       }
       if (inRuleGroup && id == null) {
         id = ruleGroupId;
@@ -241,8 +245,8 @@ class PatternRuleHandler extends XMLRuleHandler {
     } else if (qName.equals("unify")) {
       inUnification = true;
       uFeature=attrs.getValue("feature");
-      if (attrs.getValue("type") != null) {
-        uType = attrs.getValue("type");
+      if (attrs.getValue(TYPE) != null) {
+        uType = attrs.getValue(TYPE);
       } else {
         uType = "";
       }
@@ -285,9 +289,9 @@ class PatternRuleHandler extends XMLRuleHandler {
         stringRegExp = YES.equals(attrs.getValue(REGEXP));
       }
       
-      if (attrs.getValue("spacebefore") != null) {
-        tokenSpaceBefore = YES.equals(attrs.getValue("spacebefore"));
-        tokenSpaceBeforeSet = !"ignore".equals(attrs.getValue("spacebefore"));
+      if (attrs.getValue(SPACEBEFORE) != null) {
+        tokenSpaceBefore = YES.equals(attrs.getValue(SPACEBEFORE));
+        tokenSpaceBeforeSet = "ignore".equals(attrs.getValue(SPACEBEFORE)) ^ true;
       }
 
     } else if (qName.equals("exception")) {
@@ -317,16 +321,16 @@ class PatternRuleHandler extends XMLRuleHandler {
       if (attrs.getValue(REGEXP) != null) {
         exceptionStringRegExp = YES.equals(attrs.getValue(REGEXP));
       }
-      if (attrs.getValue("spacebefore") != null) {
-        exceptionSpaceBefore = YES.equals(attrs.getValue("spacebefore"));
-        exceptionSpaceBeforeSet = !"ignore".equals(attrs.getValue("spacebefore"));
+      if (attrs.getValue(SPACEBEFORE) != null) {
+        exceptionSpaceBefore = YES.equals(attrs.getValue(SPACEBEFORE));
+        exceptionSpaceBeforeSet = "ignore".equals(attrs.getValue(SPACEBEFORE)) ^ true;
       }
     } else if (qName.equals("example") 
-        && attrs.getValue("type").equals("correct")) {
+        && attrs.getValue(TYPE).equals("correct")) {
       inCorrectExample = true;
       correctExample = new StringBuilder();
     } else if (qName.equals("example") 
-        && attrs.getValue("type").equals("incorrect")) {
+        && attrs.getValue(TYPE).equals("incorrect")) {
       inIncorrectExample = true;
       incorrectExample = new StringBuilder();
       exampleCorrection = new StringBuilder();
@@ -342,8 +346,8 @@ class PatternRuleHandler extends XMLRuleHandler {
     } else if (qName.equals("rulegroup")) {
       ruleGroupId = attrs.getValue("id");
       ruleGroupDescription = attrs.getValue("name");
-      defaultOff = "off".equals(attrs.getValue("default"));
-      defaultOn = "on".equals(attrs.getValue("default"));
+      defaultOff = "off".equals(attrs.getValue(DEFAULT));
+      defaultOn = "on".equals(attrs.getValue(DEFAULT));
       inRuleGroup = true;
       subId = 0;
     } else if (qName.equals("suggestion") && inMessage) {
@@ -397,7 +401,7 @@ class PatternRuleHandler extends XMLRuleHandler {
       uFeature = attrs.getValue("feature");
       inUnificationDef = true;
     } else if (qName.equals("equivalence")) {
-      uType = attrs.getValue("type");          
+      uType = attrs.getValue(TYPE);          
     } else if (qName.equals("phrases")) {
       inPhrases = true;
     } else if (qName.equals("includephrases")) {
@@ -411,7 +415,7 @@ class PatternRuleHandler extends XMLRuleHandler {
         && (attrs.getValue("idref") != null)) {
       phraseIdRef = attrs.getValue("idref");
       if (phraseMap.containsKey(phraseIdRef)) {                            
-        for (final ArrayList < Element > curPhrEl : phraseMap.get(phraseIdRef)) {
+        for (final List < Element > curPhrEl : phraseMap.get(phraseIdRef)) {
           for (final Element e : curPhrEl) {
             e.setPhraseName(phraseIdRef);
           }
@@ -547,7 +551,7 @@ class PatternRuleHandler extends XMLRuleHandler {
         correctExamples.add(correctExample.toString());
       } else if (inIncorrectExample) {
         IncorrectExample example = null;
-        String[] corrections = exampleCorrection.toString().split("\\|");
+        final String[] corrections = exampleCorrection.toString().split("\\|");
         if (corrections.length > 0 && corrections[0].length() > 0) {
           example = new IncorrectExample(incorrectExample.toString(), corrections);
         } else {
@@ -583,7 +587,7 @@ class PatternRuleHandler extends XMLRuleHandler {
     } else if (qName.equals("phrase") && inPhrases) {      
       // lazy init
       if (phraseMap == null) {
-        phraseMap = new HashMap < String, ArrayList < ArrayList < Element > > > ();
+        phraseMap = new HashMap < String, List < List < Element > > > ();
       }      
       phraseElementInit();
 
@@ -597,7 +601,7 @@ class PatternRuleHandler extends XMLRuleHandler {
         }
       }     
       phraseMap.put(phraseId, 
-          new ArrayList < ArrayList < Element > >(phraseElementList));
+          new ArrayList < List < Element > >(phraseElementList));
       if (elementList != null) {
         elementList.clear();
       }
@@ -646,7 +650,7 @@ class PatternRuleHandler extends XMLRuleHandler {
    * @param elList Element list where the match element was used. 
    * It is directly changed.
    */
-  private void processElement(ArrayList < Element > elList) {
+  private void processElement(final List < Element > elList) {
     int counter = 0;    
     for (final Element elTest : elList) {
       if (elTest.getPhraseName() != null && counter > 0) {

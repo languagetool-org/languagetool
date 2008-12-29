@@ -19,6 +19,7 @@
 package de.danielnaber.languagetool.rules.patterns;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -38,66 +39,66 @@ public class Element {
   private String stringToken;
   private String posToken;
   private String regToken;
-  private boolean posRegExp = false;  
+  private boolean posRegExp;  
 
-  private boolean negation = false;
-  private boolean posNegation = false;
+  private boolean negation;
+  private boolean posNegation;
   
-  private boolean caseSensitive = false;
-  private boolean stringRegExp = false;
-  private boolean inflected = false;
+  final private boolean caseSensitive;
+  final private boolean stringRegExp;
+  private boolean inflected;
 
-  private boolean ignoreWhitespace = true;
-  private boolean whitespaceBefore = false;
+  private boolean testWhitespace;
+  private boolean whitespaceBefore;
   
   /**
    * List of exceptions that are valid for 
    * the current token and / or some next
    * tokens.
    */
-  private ArrayList<Element> exceptionList;
+  private List<Element> exceptionList;
   
   /**
    * True if scope=="next".
    */
-  private boolean exceptionValidNext = false;
+  private boolean exceptionValidNext;
   
   /** 
    * True if any exception with a scope=="current"
    * or scope=="next" is set for the element.
    */
-  private boolean exceptionSet = false;
+  private boolean exceptionSet;
   
   /**
    * True if attribute scope=="previous".
    */
-  private boolean exceptionValidPrevious = false;
+  private boolean exceptionValidPrevious;
   
   /**
    * List of exceptions that are valid for 
    * a previous token.
    */
-  private ArrayList<Element> previousExceptionList;
+  private List<Element> previousExceptionList;
   
-  private ArrayList<Element> andGroupList;  
-  private boolean andGroupSet = false;  
+  private List<Element> andGroupList;  
+  private boolean andGroupSet;  
   private boolean[] andGroupCheck;
 
-  private int skip = 0;
+  private int skip;
   
-  private Pattern p = null;
-  private Pattern pPos = null;
+  private Pattern p;
+  private Pattern pPos;
   
-  private Matcher m = null;
-  private Matcher mPos = null;
+  private Matcher m;
+  private Matcher mPos;
     
   /** The reference to another element in the pattern. **/
-  private Match tokenReference = null;
+  private Match tokenReference;
   
   /** True when the element stores a formatted reference
    * to another element of the pattern.
    */
-  private boolean containsMatches = false;
+  private boolean containsMatches;
   
   /** Matches only tokens without any POS tag. **/
   private static final String UNKNOWN_TAG = "UNKNOWN";
@@ -107,7 +108,7 @@ public class Element {
    */
   private static final String CASE_INSENSITIVE = "(?iu)";
   
-  private String referenceString = "";
+  private String referenceString;
 
   /** String ID of the phrase the element is in. **/
   private String phraseName; 
@@ -155,7 +156,7 @@ public class Element {
     if (testString) {
       matched = (isStringTokenMatched(token) ^ negation) 
           && (isPosTokenMatched(token) ^ posNegation)
-          && (ignoreWhitespace || isWhitespaceBefore(token));
+          && (!testWhitespace || isWhitespaceBefore(token));
     } else {
       matched = (!negation) && (isPosTokenMatched(token) ^ posNegation);
     }
@@ -307,7 +308,7 @@ public class Element {
    * operator.
    * @return List of Elements.
    */
-  public final ArrayList<Element> getAndGroup() {
+  public final List<Element> getAndGroup() {
     return andGroupList;
   }
   
@@ -368,20 +369,21 @@ public class Element {
   
   @Override
   public final String toString() {
-    String negate = "";
-    String tokString = stringToken;
-    if (phraseName != null) {
-    tokString += " {" + phraseName + "}";
-    }
-    
+    final StringBuilder sb = new StringBuilder();
     if (negation) {
-      negate = "!"; 
+      sb.append("!");
     }
+    sb.append(stringToken);
+    if (phraseName != null) {      
+      sb.append(" {");
+      sb.append(phraseName);
+      sb.append("}");
+      }   
     if (posToken != null) {
-      return negate + tokString + "/" + posToken;
-    } else {
-      return negate + tokString;
+      sb.append("/");
+      sb.append(posToken);
     }
+    return sb.toString();
   }
 
   public final void setPosElement(final String posToken, final boolean regExp, final boolean negation) {
@@ -489,7 +491,7 @@ public class Element {
    * Special value UNKNOWN_TAG matches null POS tags.
    * 
    */
-  final boolean isPosTokenMatched(final AnalyzedToken token) {
+  final private boolean isPosTokenMatched(final AnalyzedToken token) {
     // if no POS set
     // defaulting to true
     if (posToken == null) {
@@ -528,7 +530,7 @@ public class Element {
    * @param token @AnalyzedToken to match against.
    * @return True if matches.
    */
-  final boolean isStringTokenMatched(final AnalyzedToken token) {
+  final private boolean isStringTokenMatched(final AnalyzedToken token) {
     String testToken = null;
     // enables using words with lemmas and without lemmas
     // in the same regexp with inflected="yes"
@@ -752,7 +754,7 @@ public class Element {
 
   public void setWhitespaceBefore(final boolean isWhite) {
     whitespaceBefore = isWhite;
-    ignoreWhitespace = false;
+    testWhitespace = true;
   }
   
   public void setExceptionSpaceBefore(final boolean isWhite) {
@@ -763,6 +765,6 @@ public class Element {
   
   public boolean isWhitespaceBefore(final AnalyzedToken token){
     return (whitespaceBefore == token.isWhitespaceBefore());
-  }
+  }    
   
 }

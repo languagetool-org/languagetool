@@ -51,47 +51,46 @@ public class CommaWhitespaceRule extends Rule {
   }
   
   public RuleMatch[] match(final AnalyzedSentence text) {
-    List<RuleMatch> ruleMatches = new ArrayList<RuleMatch>();
+    final List<RuleMatch> ruleMatches = new ArrayList<RuleMatch>();
     final AnalyzedTokenReadings[] tokens = text.getTokens();
     String prevToken = "";
     boolean prevWhite = false;
     int pos = 0;
     int prevLen = 0;
     for (int i = 0; i < tokens.length; i++) {
-    		final String token = tokens[i].getToken();
+    		final String token = tokens[i].getToken().trim();
     		final boolean isWhite = tokens[i].isWhitespace();
     		pos += token.length();    		
     		String msg = null;
     		int fixLen = 0;
         String suggestionText = null;
-    		if (isWhite && prevToken.trim().equals("(")) {
+    		if (isWhite && prevToken.equals("(")) {
     			msg = messages.getString("no_space_after");
           suggestionText = "(";
           fixLen = 1;
-    		} else if (token.trim().equals(")") && prevWhite) {
+    		} else if (token.equals(")") && prevWhite) {
     			msg = messages.getString("no_space_before");
           suggestionText = ")";
           fixLen = 1;
-    		} else if (prevToken.trim().equals(",") && !isWhite &&
+    		} else if (prevToken.equals(",") && !isWhite &&
                 !token.equals("'") && !token.equals("&quot")&& !token.equals("”") && !token.equals("’") &&
                 !token.equals("\"") && !token.equals("“") &&
                 !token.matches(".*\\d.*") && !token.equals("-")) {
                   			msg = messages.getString("missing_space_after_comma");
 
           suggestionText = ", ";
-    		} else if (token.trim().equals(",") && prevWhite) {
+    		} else if (token.equals(",") && prevWhite) {
     			msg = messages.getString("space_after_comma");
           suggestionText = ",";
     			fixLen = 1;
-    		} else if (token.trim().equals(".") && prevWhite) {    		  
+    		} else if (token.equals(".") && prevWhite) {    		  
           msg = messages.getString("no_space_before_dot");
           suggestionText = ".";
           fixLen = 1;
           //exception case for figures such as ".5" and ellipsis 
-          if (i + 1 < tokens.length) {
-            if (tokens[i + 1].getToken().matches("\\d.*|\\.")) {
-              msg = null;
-            }
+          if (i + 1 < tokens.length 
+              && tokens[i + 1].getToken().matches("\\d.*|\\.")) {
+              msg = null;            
           }
         }
     		if (msg != null) {
@@ -108,7 +107,7 @@ public class CommaWhitespaceRule extends Rule {
     		}
     		prevToken = token;
     		prevWhite = isWhite;
-    		prevLen = token.length();
+    		prevLen = tokens[i].getToken().length();
     	}
     
     return toRuleMatchArray(ruleMatches);

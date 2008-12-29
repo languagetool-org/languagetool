@@ -40,25 +40,24 @@ import de.danielnaber.languagetool.tagging.disambiguation.rules.DisambiguationPa
 import de.danielnaber.languagetool.tools.StringTools;
 
 /**
- * Loads {@link DisambiguationPatternRule}s from a 
- * disambiguation rules XML file.
+ * Loads {@link DisambiguationPatternRule}s from a disambiguation rules XML
+ * file.
  * 
  * @author Marcin Miłkowski
  */
 public class DisambiguationRuleLoader extends DefaultHandler {
 
-  private List<DisambiguationPatternRule> rules;
-
   public DisambiguationRuleLoader() {
+    super();
   }
 
-  public final List<DisambiguationPatternRule> getRules(final InputStream file) throws ParserConfigurationException, SAXException, IOException {
+  public final List<DisambiguationPatternRule> getRules(final InputStream file)
+      throws ParserConfigurationException, SAXException, IOException {
     final DisambiguationRuleHandler handler = new DisambiguationRuleHandler();
     final SAXParserFactory factory = SAXParserFactory.newInstance();
     final SAXParser saxParser = factory.newSAXParser();
     saxParser.parse(file, handler);
-    rules = handler.getRules();      
-    return rules;
+    return handler.getRules();
   }
 
 }
@@ -88,13 +87,13 @@ class DisambiguationRuleHandler extends XMLRuleHandler {
   private boolean exceptionSpaceBeforeSet = false;
 
   private List<Element> elementList = null;
-  private boolean posRegExp = false; 
+  private boolean posRegExp = false;
   private int skipPos = 0;
   private Element tokenElement = null;
 
   private String id;
   private String name;
-  private Language language;  
+  private Language language;
   private String ruleGroupId;
   private String ruleGroupName;
   private StringBuilder disamb = new StringBuilder();
@@ -128,28 +127,27 @@ class DisambiguationRuleHandler extends XMLRuleHandler {
   private String wdLemma;
   private String wdPos;
 
-  private Locator dLocator;  
+  private Locator dLocator;
 
-  private DisambiguationPatternRule.DisambiguatorAction disambigAction; 
+  private DisambiguationPatternRule.DisambiguatorAction disambigAction;
 
-  public DisambiguationRuleHandler() {    
-  }    
+  public DisambiguationRuleHandler() {
+  }
 
-
-  //===========================================================
+  // ===========================================================
   // SAX DocumentHandler methods
-  //===========================================================
+  // ===========================================================
 
   @Override
-  public void setDocumentLocator(Locator locator) {
+  public void setDocumentLocator(final Locator locator) {
     dLocator = locator;
     super.setDocumentLocator(locator);
   }
 
-
   @Override
-  public void startElement(final String namespaceURI, final String lName, final String qName, final Attributes attrs) throws SAXException {
-    if (qName.equals("rule")) {      
+  public void startElement(final String namespaceURI, final String lName,
+      final String qName, final Attributes attrs) throws SAXException {
+    if (qName.equals("rule")) {
       id = attrs.getValue("id");
       name = attrs.getValue("name");
       if (inRuleGroup && id == null) {
@@ -164,13 +162,16 @@ class DisambiguationRuleHandler extends XMLRuleHandler {
       inPattern = true;
       if (attrs.getValue("mark") != null
           && (attrs.getValue("mark_from") != null)) {
-        throw new SAXException("You cannot use both mark and mark_from attributes." +
-            "\n Line: " + dLocator.getLineNumber() + ", column: " + dLocator.getColumnNumber() + ".");
+        throw new SAXException(
+            "You cannot use both mark and mark_from attributes." + "\n Line: "
+                + dLocator.getLineNumber() + ", column: "
+                + dLocator.getColumnNumber() + ".");
       }
-      if (attrs.getValue("mark") != null
-          && (attrs.getValue("mark_to") != null)) {
-        throw new SAXException("You cannot use both mark and mark_to attributes." +
-            "\n Line: " + dLocator.getLineNumber() + ", column: " + dLocator.getColumnNumber() + ".");
+      if (attrs.getValue("mark") != null && (attrs.getValue("mark_to") != null)) {
+        throw new SAXException(
+            "You cannot use both mark and mark_to attributes." + "\n Line: "
+                + dLocator.getLineNumber() + ", column: "
+                + dLocator.getColumnNumber() + ".");
       }
 
       if (attrs.getValue("mark") != null) {
@@ -190,7 +191,7 @@ class DisambiguationRuleHandler extends XMLRuleHandler {
         caseSensitive = true;
       }
     } else if (qName.equals("exception")) {
-      inException = true;      
+      inException = true;
       exceptions = new StringBuilder();
 
       if (attrs.getValue("negate") != null) {
@@ -217,13 +218,14 @@ class DisambiguationRuleHandler extends XMLRuleHandler {
       }
       if (attrs.getValue("spacebefore") != null) {
         exceptionSpaceBefore = "yes".equals(attrs.getValue("spacebefore"));
-        exceptionSpaceBeforeSet = !"ignore".equals(attrs.getValue("spacebefore"));
+        exceptionSpaceBeforeSet = "ignore"
+            .equals(attrs.getValue("spacebefore")) ^ true;
       }
     } else if (qName.equals("and")) {
       inAndGroup = true;
     } else if (qName.equals("unify")) {
       inUnification = true;
-      uFeature=attrs.getValue("feature");
+      uFeature = attrs.getValue("feature");
       if (attrs.getValue("type") != null) {
         uType = attrs.getValue("type");
       } else {
@@ -255,7 +257,7 @@ class DisambiguationRuleHandler extends XMLRuleHandler {
           posRegExp = attrs.getValue("postag_regexp").equals("yes");
         }
         if (attrs.getValue("negate_pos") != null) {
-          posNegation = (attrs.getValue("negate_pos").equals("yes"));
+          posNegation = attrs.getValue("negate_pos").equals("yes");
         }
 
       }
@@ -264,42 +266,44 @@ class DisambiguationRuleHandler extends XMLRuleHandler {
       }
       if (attrs.getValue("spacebefore") != null) {
         tokenSpaceBefore = "yes".equals(attrs.getValue("spacebefore"));
-        tokenSpaceBeforeSet = !"ignore".equals(attrs.getValue("spacebefore"));
+        tokenSpaceBeforeSet = "ignore".equals(attrs.getValue("spacebefore")) ^ true;
       }
 
-    }  else if (qName.equals("disambig")) {
+    } else if (qName.equals("disambig")) {
       inDisamb = true;
       disambiguatedPOS = attrs.getValue("postag");
       if (attrs.getValue("action") != null) {
-        disambigAction = DisambiguationPatternRule.DisambiguatorAction.toAction(
-            attrs.getValue("action").toUpperCase());
+        disambigAction = DisambiguationPatternRule.DisambiguatorAction
+            .toAction(attrs.getValue("action").toUpperCase());
       } else {
-        //default mode:
-        disambigAction = DisambiguationPatternRule.DisambiguatorAction.
-        toAction("REPLACE");
+        // default mode:
+        disambigAction = DisambiguationPatternRule.DisambiguatorAction
+            .toAction("REPLACE");
       }
       disamb = new StringBuilder();
     } else if (qName.equals("match")) {
       inMatch = true;
       match = new StringBuilder();
-      Match.CaseConversion caseConv = Match.CaseConversion.NONE; 
+      Match.CaseConversion caseConv = Match.CaseConversion.NONE;
       if (attrs.getValue("case_conversion") != null) {
-        caseConv = Match.CaseConversion.toCase(
-            attrs.getValue("case_conversion").toUpperCase());
-      }      
-      final Match mWorker = new Match(attrs.getValue("postag"),
-          attrs.getValue("postag_replace"),
-          "yes".equals(attrs.getValue("postag_regexp")),
-          attrs.getValue("regexp_match"), 
-          attrs.getValue("regexp_replace"), caseConv,
-          "yes".equals(attrs.getValue("setpos")));
+        caseConv = Match.CaseConversion.toCase(attrs
+            .getValue("case_conversion").toUpperCase());
+      }
+      final Match mWorker = new Match(attrs.getValue("postag"), attrs
+          .getValue("postag_replace"), "yes".equals(attrs
+          .getValue("postag_regexp")), attrs.getValue("regexp_match"), attrs
+          .getValue("regexp_replace"), caseConv, "yes".equals(attrs
+          .getValue("setpos")));
       if (inDisamb) {
         if (attrs.getValue("no") != null) {
           final int refNumber = Integer.parseInt(attrs.getValue("no"));
           if (refNumber > elementList.size()) {
             throw new SAXException(
-                "Only backward references in match elements are possible, tried to specify token " + refNumber +
-                "\n Line: " + dLocator.getLineNumber() + ", column: " + dLocator.getColumnNumber() + ".");
+                "Only backward references in match elements are possible, tried to specify token "
+                    + refNumber
+                    + "\n Line: "
+                    + dLocator.getLineNumber()
+                    + ", column: " + dLocator.getColumnNumber() + ".");
           } else {
             mWorker.setTokenRef(refNumber);
             posSelector = mWorker;
@@ -310,8 +314,11 @@ class DisambiguationRuleHandler extends XMLRuleHandler {
           final int refNumber = Integer.parseInt(attrs.getValue("no"));
           if (refNumber > elementList.size()) {
             throw new SAXException(
-                "Only backward references in match elements are possible, tried to specify token " + refNumber +
-                "\n Line: " + dLocator.getLineNumber() + ", column: " + dLocator.getColumnNumber() + ".");
+                "Only backward references in match elements are possible, tried to specify token "
+                    + refNumber
+                    + "\n Line: "
+                    + dLocator.getLineNumber()
+                    + ", column: " + dLocator.getColumnNumber() + ".");
           } else {
             mWorker.setTokenRef(refNumber);
             tokenReference = mWorker;
@@ -327,7 +334,7 @@ class DisambiguationRuleHandler extends XMLRuleHandler {
       uFeature = attrs.getValue("feature");
       inUnificationDef = true;
     } else if (qName.equals("equivalence")) {
-      uType = attrs.getValue("type");          
+      uType = attrs.getValue("type");
     } else if (qName.equals("wd")) {
       wdLemma = attrs.getValue("lemma");
       wdPos = attrs.getValue("pos");
@@ -337,10 +344,12 @@ class DisambiguationRuleHandler extends XMLRuleHandler {
   }
 
   @Override
-  public void endElement(final String namespaceURI, final String sName, final String qName) throws SAXException {
+  public void endElement(final String namespaceURI, final String sName,
+      final String qName) throws SAXException {
     if (qName.equals("rule")) {
-      final DisambiguationPatternRule rule = new DisambiguationPatternRule(id, name, 
-          language, elementList, disambiguatedPOS, posSelector, disambigAction);
+      final DisambiguationPatternRule rule = new DisambiguationPatternRule(id,
+          name, language, elementList, disambiguatedPOS, posSelector,
+          disambigAction);
       rule.setStartPositionCorrection(positionCorrection);
       if (!singleTokenCorrection) {
         rule.setEndPositionCorrection(endPositionCorrection);
@@ -349,63 +358,69 @@ class DisambiguationRuleHandler extends XMLRuleHandler {
         if (disambigAction == DisambiguatorAction.ADD
             || disambigAction == DisambiguatorAction.REMOVE) {
           if (newWdList.size() != (elementList.size() - positionCorrection + endPositionCorrection)) {
-            throw new SAXException("Rule error. The number of interpretations specified with wd: "+ newWdList.size() +" must be equal to the number of matched tokens." 
-                + "\n Line: " + dLocator.getLineNumber() + ", column: " + dLocator.getColumnNumber() + ".");
+            throw new SAXException(
+                "Rule error. The number of interpretations specified with wd: "
+                    + newWdList.size()
+                    + " must be equal to the number of matched tokens."
+                    + "\n Line: " + dLocator.getLineNumber() + ", column: "
+                    + dLocator.getColumnNumber() + ".");
           }
-          rule.setNewInterpretations(newWdList.toArray((new AnalyzedToken[newWdList.size()])));
+          rule.setNewInterpretations(newWdList
+              .toArray(new AnalyzedToken[newWdList.size()]));
         }
         newWdList.clear();
       }
       caseSensitive = false;
-      rules.add(rule);      
+      rules.add(rule);
       if (elementList != null) {
-        if (disambigAction == DisambiguatorAction.UNIFY) {
-          if ((elementList.size() - positionCorrection + endPositionCorrection) != uniCounter) {
-            throw new SAXException("Rule error. The number unified tokens: "+ uniCounter +" must be equal to the number of matched tokens."
-                + "\n Line: " + dLocator.getLineNumber() + ", column: " + dLocator.getColumnNumber() + ".");
-          }
+        if (disambigAction == DisambiguatorAction.UNIFY
+            && (elementList.size() - positionCorrection + endPositionCorrection) != uniCounter) {
+          throw new SAXException("Rule error. The number unified tokens: "
+              + uniCounter + " must be equal to the number of matched tokens."
+              + "\n Line: " + dLocator.getLineNumber() + ", column: "
+              + dLocator.getColumnNumber() + ".");
         }
-        if (!singleTokenCorrection &&
-            (disambigAction == DisambiguatorAction.FILTER
-            || disambigAction == DisambiguatorAction.REPLACE)) {
-          if ((elementList.size() - positionCorrection + endPositionCorrection) > 1) {
-            throw new SAXException("Rule error. Cannot replace or filter more than one token at a time."
-                + "\n Line: " + dLocator.getLineNumber() + ", column: " + dLocator.getColumnNumber() + ".");
-          }
+        if ((!singleTokenCorrection && (disambigAction == DisambiguatorAction.FILTER || disambigAction == DisambiguatorAction.REPLACE))
+            && ((elementList.size() - positionCorrection + endPositionCorrection) > 1)) {
+          throw new SAXException(
+              "Rule error. Cannot replace or filter more than one token at a time."
+                  + "\n Line: " + dLocator.getLineNumber() + ", column: "
+                  + dLocator.getColumnNumber() + ".");
         }
+
         elementList.clear();
       }
-      posSelector = null;      
-    } else if (qName.equals("exception")) {     
+      posSelector = null;
+    } else if (qName.equals("exception")) {
       inException = false;
       if (!exceptionSet) {
-        tokenElement = new Element(elements.toString(), 
-            caseSensitive, stringRegExp, tokenInflected);
+        tokenElement = new Element(elements.toString(), caseSensitive,
+            stringRegExp, tokenInflected);
         exceptionSet = true;
       }
       tokenElement.setNegation(tokenNegated);
       if (!StringTools.isEmpty(exceptions.toString())) {
-        tokenElement.setStringException(exceptions.toString(), exceptionStringRegExp, 
-            exceptionStringInflected, exceptionStringNegation, 
-            exceptionValidNext, exceptionValidPrev);
-      }              
+        tokenElement.setStringException(exceptions.toString(),
+            exceptionStringRegExp, exceptionStringInflected,
+            exceptionStringNegation, exceptionValidNext, exceptionValidPrev);
+      }
       if (exceptionPosToken != null) {
-        tokenElement.setPosException(exceptionPosToken, exceptionPosRegExp, 
+        tokenElement.setPosException(exceptionPosToken, exceptionPosRegExp,
             exceptionPosNegation, exceptionValidNext, exceptionValidPrev);
         exceptionPosToken = null;
       }
       if (exceptionSpaceBeforeSet) {
-        tokenElement.setExceptionSpaceBefore(exceptionSpaceBefore);        
-      }      
+        tokenElement.setExceptionSpaceBefore(exceptionSpaceBefore);
+      }
       resetException();
     } else if (qName.equals("and")) {
       inAndGroup = false;
       andGroupCounter = 0;
-    }  else if (qName.equals("unify")) {
-      inUnification = false;              
+    } else if (qName.equals("unify")) {
+      inUnification = false;
     } else if (qName.equals("token")) {
       if (!exceptionSet || tokenElement == null) {
-        tokenElement = new Element(elements.toString(), caseSensitive, 
+        tokenElement = new Element(elements.toString(), caseSensitive,
             stringRegExp, tokenInflected);
         tokenElement.setNegation(tokenNegated);
       } else {
@@ -425,7 +440,8 @@ class DisambiguationRuleHandler extends XMLRuleHandler {
       }
 
       if (inAndGroup && andGroupCounter > 0) {
-        elementList.get(elementList.size() - 1).setAndGroupElement(tokenElement);
+        elementList.get(elementList.size() - 1)
+            .setAndGroupElement(tokenElement);
       } else {
         elementList.add(tokenElement);
       }
@@ -433,7 +449,7 @@ class DisambiguationRuleHandler extends XMLRuleHandler {
         andGroupCounter++;
       }
       if (inUnification) {
-        tokenElement.setUnification(uFeature, uType);        
+        tokenElement.setUnification(uFeature, uType);
         if (uniNegation) {
           tokenElement.setUniNegation();
         }
@@ -444,7 +460,7 @@ class DisambiguationRuleHandler extends XMLRuleHandler {
         if (elementList != null) {
           elementList.clear();
         }
-      }      
+      }
       if (tokenSpaceBeforeSet) {
         tokenElement.setWhitespaceBefore(tokenSpaceBefore);
       }
@@ -463,9 +479,9 @@ class DisambiguationRuleHandler extends XMLRuleHandler {
     } else if (qName.equals("rulegroup")) {
       inRuleGroup = false;
     } else if (qName.equals("unification") && inUnificationDef) {
-      inUnificationDef = false;      
+      inUnificationDef = false;
     } else if (qName.equals("unify") && inUnification) {
-      inUnification = false;      
+      inUnification = false;
     } else if (qName.equals("wd")) {
       addNewWord(wd.toString(), wdLemma, wdPos);
       inWord = false;
@@ -499,8 +515,9 @@ class DisambiguationRuleHandler extends XMLRuleHandler {
     exceptionSpaceBeforeSet = false;
   }
 
-  private void addNewWord(final String word, final String lemma, final String pos) {
-    AnalyzedToken newWd = new AnalyzedToken(word, pos, lemma);
+  private void addNewWord(final String word, final String lemma,
+      final String pos) {
+    final AnalyzedToken newWd = new AnalyzedToken(word, pos, lemma);
     if (newWdList == null) {
       newWdList = new ArrayList<AnalyzedToken>();
     }
@@ -513,14 +530,14 @@ class DisambiguationRuleHandler extends XMLRuleHandler {
     if (inException) {
       exceptions.append(s);
     } else if (inToken && inPattern) {
-      elements.append(s);    
+      elements.append(s);
     } else if (inMatch) {
       match.append(s);
     } else if (inWord) {
-      wd.append(s);      
+      wd.append(s);
     } else if (inDisamb) {
       disamb.append(s);
-    } 
+    }
   }
 
 }

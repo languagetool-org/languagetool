@@ -25,69 +25,69 @@ import java.util.ResourceBundle;
 import de.danielnaber.languagetool.AnalyzedSentence;
 import de.danielnaber.languagetool.AnalyzedTokenReadings;
 
-/** A rule that matches "..", "::", "-," but not "...", "!..", "?!!", ",-" etc.
+/**
+ * A rule that matches "..", "::", "-," but not "...", "!..", "?!!", ",-" etc.
  * Languages will have to subclass it and override <code>isPunctsJoinOk()</code>
- * and <code>isPuctuation()</code>
- * to provide language-specific checking
+ * and <code>isPuctuation()</code> to provide language-specific checking
  * 
  * @author Andriy Rysin
  */
 public abstract class AbstractPunctuationCheckRule extends Rule {
 
-	public AbstractPunctuationCheckRule (final ResourceBundle messages) {
-		super(messages);
-		super.setCategory(new Category(messages.getString("category_misc")));
-	}
+  public AbstractPunctuationCheckRule(final ResourceBundle messages) {
+    super(messages);
+    super.setCategory(new Category(messages.getString("category_misc")));
+  }
 
-	public String getId() {
-		return "PUNCTUATION_GENERIC_CHECK";
-	}
+  public String getId() {
+    return "PUNCTUATION_GENERIC_CHECK";
+  }
 
-	public String getDescription() {
-		return "Use of unusual combination of punctuation characters";
-	}
+  public String getDescription() {
+    return "Use of unusual combination of punctuation characters";
+  }
 
-	protected abstract boolean isPunctsJoinOk(String tkns);
+  protected abstract boolean isPunctsJoinOk(String tkns);
 
-	protected abstract boolean isPunctuation(String token);
-	
-	public RuleMatch[] match(final AnalyzedSentence text) {
-		List<RuleMatch> ruleMatches = new ArrayList<RuleMatch>();
-		AnalyzedTokenReadings[] tokens = text.getTokens();
+  protected abstract boolean isPunctuation(String token);
 
-        int startTokenIdx = -1;
-		String tkns = "";
-		for (int i = 0; i < tokens.length; i++) {
-			String tokenStr = tokens[i].getToken();
-			
-			if (isPunctuation(tokenStr)) {
-				tkns += tokenStr;
-                
-                if( startTokenIdx == -1 )
-                  startTokenIdx = i;
-                
-				if (i < tokens.length - 1)
-					continue;
-			}
+  public RuleMatch[] match(final AnalyzedSentence text) {
+    final List<RuleMatch> ruleMatches = new ArrayList<RuleMatch>();
+    final AnalyzedTokenReadings[] tokens = text.getTokens();
 
-			if (tkns.length() >= 2) {
-				if (!isPunctsJoinOk(tkns)) {
-					String msg = "bad duplication or combination of punctuation signs";
-					RuleMatch ruleMatch = new RuleMatch(this, tokens[startTokenIdx].getStartPos(), 
-                        tokens[startTokenIdx].getStartPos() + tkns.length(), msg, "Punctuation problem");
-					ruleMatch.setSuggestedReplacement(tkns.substring(0, 1));
-					ruleMatches.add(ruleMatch);
-				}
-			}
-			tkns = "";
-            startTokenIdx = -1;
-		}
+    int startTokenIdx = -1;
+    String tkns = "";
+    for (int i = 0; i < tokens.length; i++) {
+      final String tokenStr = tokens[i].getToken();
 
-		return toRuleMatchArray(ruleMatches);
-	}
+      if (isPunctuation(tokenStr)) {
+        tkns += tokenStr;
 
-	public void reset() {
-		// nothing
-	}
+        if (startTokenIdx == -1)
+          startTokenIdx = i;
+
+        if (i < tokens.length - 1)
+          continue;
+      }
+
+      if (tkns.length() >= 2 && !isPunctsJoinOk(tkns)) {
+        final String msg = "bad duplication or combination of punctuation signs";
+        RuleMatch ruleMatch = new RuleMatch(this, tokens[startTokenIdx]
+            .getStartPos(),
+            tokens[startTokenIdx].getStartPos() + tkns.length(), msg,
+            "Punctuation problem");
+        ruleMatch.setSuggestedReplacement(tkns.substring(0, 1));
+        ruleMatches.add(ruleMatch);
+      }
+      tkns = "";
+      startTokenIdx = -1;
+    }
+
+    return toRuleMatchArray(ruleMatches);
+  }
+
+  public void reset() {
+    // nothing
+  }
 
 }

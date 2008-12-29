@@ -36,20 +36,19 @@ import de.danielnaber.languagetool.tools.StringTools;
  */
 public class Tools {
 
-  public static final String WINDOW_ICON_FILE = 
-    "/resource/TrayIcon.png";
-  
-  
-  private static final int DEFAULT_CONTEXT_SIZE = 40;   // characters
+  public static final String WINDOW_ICON_FILE = "/resource/TrayIcon.png";
+
+  private static final int DEFAULT_CONTEXT_SIZE = 40; // characters
   private static final String MARKER_START = "<b><font color=\"red\">";
   private static final String MARKER_END = "</font></b>";
 
   private Tools() {
     // no constructor
   }
-  
-  public static String makeTexti18n(ResourceBundle messages, String key, Object[] messageArguments) {
-    MessageFormat formatter = new MessageFormat("");
+
+  public static String makeTexti18n(final ResourceBundle messages, final String key,
+      final Object[] messageArguments) {
+    final MessageFormat formatter = new MessageFormat("");
     formatter.applyPattern(messages.getString(key));
     return formatter.format(messageArguments);
   }
@@ -58,46 +57,56 @@ public class Tools {
    * Get the default context (40 characters) of the given text range,
    * highlighting the range with HTML.
    */
-  public static String getContext(int fromPos, int toPos, String text) {
+  public static String getContext(final int fromPos, final int toPos, final String text) {
     return getContext(fromPos, toPos, text, DEFAULT_CONTEXT_SIZE);
   }
 
   /**
-   * Get the context (<code>contextSize</code> characters) of the given text range,
-   * highlighting the range with HTML code.
+   * Get the context (<code>contextSize</code> characters) of the given text
+   * range, highlighting the range with HTML code.
    */
-  public static String getContext(int fromPos, int toPos, String fileContents, int contextSize) {
-    return getContext(fromPos, toPos, fileContents, contextSize, MARKER_START, MARKER_END, true);
+  public static String getContext(final int fromPos, final int toPos, final String fileContents,
+      int contextSize) {
+    return getContext(fromPos, toPos, fileContents, contextSize, MARKER_START,
+        MARKER_END, true);
   }
 
   /**
-   * Get the context (<code>contextSize</code> characters) of the given text range,
-   * highlighting the range with the given marker strings, not escaping HTML.
+   * Get the context (<code>contextSize</code> characters) of the given text
+   * range, highlighting the range with the given marker strings, not escaping
+   * HTML.
    */
-  public static final String getContext(final int fromPos, final int toPos, 
+  public static final String getContext(final int fromPos, final int toPos,
       final String fileContents, final int contextSize,
       final String markerStart, final String markerEnd) {
-    return getContext(fromPos, toPos, fileContents, contextSize, markerStart, 
+    return getContext(fromPos, toPos, fileContents, contextSize, markerStart,
         markerEnd, false);
   }
   /**
-   * Get the context (<code>contextSize</code> characters) of the given text range,
-   * highlighting the range with the given marker strings.
+   * Get the context (<code>contextSize</code> characters) of the given text
+   * range, highlighting the range with the given marker strings.
    * 
-   * @param fromPos the start position of the error in characters
-   * @param endPos the end position of the error in characters
-   * @param text the text from which the context should be taken
-   * @param contextSize the size of the context in characters
-   * @param markerStart the string used to mark the beginning of the error
-   * @param markerEnd the string used to mark the end of the error
-   * @param escapeHTML whether HTML/XML characters should be escaped
+   * @param fromPos
+   *          the start position of the error in characters
+   * @param endPos
+   *          the end position of the error in characters
+   * @param text
+   *          the text from which the context should be taken
+   * @param contextSize
+   *          the size of the context in characters
+   * @param markerStart
+   *          the string used to mark the beginning of the error
+   * @param markerEnd
+   *          the string used to mark the end of the error
+   * @param escapeHTML
+   *          whether HTML/XML characters should be escaped
    */
-  public static final String getContext(final int fromPos, final int toPos, 
-      String text, final int contextSize,
-      final String markerStart, final String markerEnd, final boolean escapeHTML) {
+  public static final String getContext(final int fromPos, final int toPos,
+      String text, final int contextSize, final String markerStart,
+      final String markerEnd, final boolean escapeHTML) {
     text = text.replace('\n', ' ');
     // calculate context region:
-    int startContent = fromPos - contextSize;    
+    int startContent = fromPos - contextSize;
     String prefix = "...";
     String postfix = "...";
     String markerPrefix = "   ";
@@ -107,53 +116,56 @@ public class Tools {
       startContent = 0;
     }
     int endContent = toPos + contextSize;
-    int fileLen = text.length();
+    final int fileLen = text.length();
     if (endContent > fileLen) {
       postfix = "";
       endContent = fileLen;
     }
     // make "^" marker. inefficient but robust implementation:
-    StringBuilder marker = new StringBuilder();
-    int totalLen = fileLen + prefix.length();
+    final StringBuilder marker = new StringBuilder();
+    final int totalLen = fileLen + prefix.length();
     for (int i = 0; i < totalLen; i++) {
-      if (i >= fromPos && i < toPos)
+      if (i >= fromPos && i < toPos) {
         marker.append("^");
-      else
+      } else {
         marker.append(" ");
+      }
     }
     // now build context string plus marker:
-    StringBuilder sb = new StringBuilder();
+    final StringBuilder sb = new StringBuilder();
     sb.append(prefix);
     sb.append(text.substring(startContent, endContent));
-    String markerStr = markerPrefix + marker.substring(startContent, endContent);
+    final String markerStr = markerPrefix
+        + marker.substring(startContent, endContent);
     sb.append(postfix);
-    int startMark = markerStr.indexOf('^');
-    int endMark = markerStr.lastIndexOf('^');
+    final int startMark = markerStr.indexOf('^');
+    final int endMark = markerStr.lastIndexOf('^');
     String result = sb.toString();
     if (escapeHTML) {
       result = StringTools.escapeHTML(result.substring(0, startMark))
-        + markerStart 
-        + StringTools.escapeHTML(result.substring(startMark, endMark+1))
-        + markerEnd 
-        + StringTools.escapeHTML(result.substring(endMark+1));
+          + markerStart
+          + StringTools.escapeHTML(result.substring(startMark, endMark + 1))
+          + markerEnd + StringTools.escapeHTML(result.substring(endMark + 1));
     } else {
-      result = result.substring(0, startMark) + markerStart + 
-      result.substring(startMark, endMark+1) + markerEnd + result.substring(endMark+1);
+      result = result.substring(0, startMark) + markerStart
+          + result.substring(startMark, endMark + 1) + markerEnd
+          + result.substring(endMark + 1);
     }
     return result;
   }
 
   /**
-   * Show a file chooser dialog and return the file selected by the user
-   * or <code>null</code>.
+   * Show a file chooser dialog and return the file selected by the user or
+   * <code>null</code>.
    */
-  static File openFileDialog(Frame frame, FileFilter fileFilter) {
-    JFileChooser jfc = new JFileChooser();
+  static File openFileDialog(final Frame frame, final FileFilter fileFilter) {
+    final JFileChooser jfc = new JFileChooser();
     jfc.setFileFilter(fileFilter);
     jfc.showOpenDialog(frame);
-    File file = jfc.getSelectedFile();
-    if (file == null)   // user cancelled
+    final File file = jfc.getSelectedFile();
+    if (file == null) {
       return null;
+    }
     return file;
   }
 
@@ -161,17 +173,21 @@ public class Tools {
    * Show the exception (with stacktrace) in a dialog and print it to STDERR.
    */
   static void showError(final Exception e) {
-    String msg = de.danielnaber.languagetool.tools.Tools.getFullStackTrace(e);
-    JOptionPane.showMessageDialog(null, msg, "Error", JOptionPane.ERROR_MESSAGE);
+    final String msg = de.danielnaber.languagetool.tools.Tools
+        .getFullStackTrace(e);
+    JOptionPane
+        .showMessageDialog(null, msg, "Error", JOptionPane.ERROR_MESSAGE);
     e.printStackTrace();
   }
 
   /**
-   * Show the exception (message without stacktrace) in a dialog and print it to STDERR.
+   * Show the exception (message without stacktrace) in a dialog and print it to
+   * STDERR.
    */
   static void showErrorMessage(final Exception e) {
-    String msg = e.getMessage();
-    JOptionPane.showMessageDialog(null, msg, "Error", JOptionPane.ERROR_MESSAGE);
+    final String msg = e.getMessage();
+    JOptionPane
+        .showMessageDialog(null, msg, "Error", JOptionPane.ERROR_MESSAGE);
     e.printStackTrace();
   }
 

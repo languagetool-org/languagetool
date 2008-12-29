@@ -32,11 +32,11 @@ public class IncorrectExample {
   private String example;
   private List<String> corrections;
 
-  public IncorrectExample(String example) {
+  public IncorrectExample(final String example) {
     this.example = example;
   }
 
-  public IncorrectExample(String example, String[] corrections) {
+  public IncorrectExample(final String example, final String[] corrections) {
     this(example);
     this.corrections = Arrays.asList(corrections);
   }

@@ -31,50 +31,51 @@ import de.danielnaber.languagetool.synthesis.Synthesizer;
 import de.danielnaber.languagetool.tools.StringTools;
 
 /**
- * Reference to a matched token in a pattern,
- * can be formatted and used for matching & suggestions.
+ * Reference to a matched token in a pattern, can be formatted and used for
+ * matching & suggestions.
  * 
  * @author Marcin Miłkowski
  */
 public class Match {
 
   /** Possible string case conversions. **/
-  public enum CaseConversion { 
-    NONE, STARTLOWER, STARTUPPER, ALLLOWER, ALLUPPER; 
+  public enum CaseConversion {
+    NONE, STARTLOWER, STARTUPPER, ALLLOWER, ALLUPPER;
 
-    /** Converts string to the constant enum.
-     * @param str String value to be converted.
+    /**
+     * Converts string to the constant enum.
+     * 
+     * @param str
+     *          String value to be converted.
      * @return CaseConversion enum.
      */
-    public static CaseConversion toCase(final String str) {    
+    public static CaseConversion toCase(final String str) {
       try {
         return valueOf(str);
       } catch (final Exception ex) {
         return NONE;
-      }  
+      }
     }
   };
 
   private String posTag;
   private boolean postagRegexp;
-  private String regexReplace;
-  private String posTagReplace;
-  private CaseConversion caseConversionType;
+  final private String regexReplace;
+  final private String posTagReplace;
+  final private CaseConversion caseConversionType;
 
   /**
-   * True if this match element formats a statically
-   * defined lemma which is enclosed by the element, 
-   * e.g., <tt>&lt;match...&gt;word&lt;/word&gt;</tt>.
+   * True if this match element formats a statically defined lemma which is
+   * enclosed by the element, e.g., <tt>&lt;match...&gt;word&lt;/word&gt;</tt>.
    */
   private boolean staticLemma;
 
   /**
-   * True if this match element is used for formatting
-   * POS token.
+   * True if this match element is used for formatting POS token.
    */
-  private boolean setPos;
+  final private boolean setPos;
 
-  private AnalyzedTokenReadings formattedToken;  
+  private AnalyzedTokenReadings formattedToken;
   private AnalyzedTokenReadings matchedToken;
 
   private int tokenRef;
@@ -83,17 +84,15 @@ public class Match {
   private Synthesizer synthesizer;
 
   /** Pattern used to define parts of the matched token. **/
-  private Pattern pRegexMatch;  
+  private Pattern pRegexMatch;
 
   /** Pattern used to define parts of the matched POS token. **/
-  private Pattern pPosRegexMatch;     
+  private Pattern pPosRegexMatch;
 
   public Match(final String posTag, final String posTagReplace,
-      final boolean postagRegexp,      
-      final String regexMatch,
-      final String regexReplace,      
-      final CaseConversion caseConversionType,
-      final boolean setPOS)  {
+      final boolean postagRegexp, final String regexMatch,
+      final String regexReplace, final CaseConversion caseConversionType,
+      final boolean setPOS) {
     this.posTag = posTag;
     this.postagRegexp = postagRegexp;
     this.caseConversionType = caseConversionType;
@@ -105,15 +104,16 @@ public class Match {
       pPosRegexMatch = Pattern.compile(posTag);
     }
 
-    this.regexReplace = regexReplace;  
+    this.regexReplace = regexReplace;
     this.posTagReplace = posTagReplace;
     setPos = setPOS;
   }
 
   /**
-   * Sets the token that will be formatted or otherwise
-   * used in the class.
-   * @param token @AnalyzedTokenReadings
+   * Sets the token that will be formatted or otherwise used in the class.
+   * 
+   * @param token
+   *          @AnalyzedTokenReadings
    * 
    */
   public final void setToken(final AnalyzedTokenReadings token) {
@@ -125,8 +125,8 @@ public class Match {
   }
 
   /**
-   * Checks if the Match element is used for 
-   * setting the part of speech Element.
+   * Checks if the Match element is used for setting the part of speech Element.
+   * 
    * @return True if Match sets POS.
    */
   public final boolean setsPos() {
@@ -134,8 +134,8 @@ public class Match {
   }
 
   /**
-   * Checks if the Match element uses regexp-based
-   * form of the POS tag.
+   * Checks if the Match element uses regexp-based form of the POS tag.
+   * 
    * @return True if regexp is used in POS.
    */
   public final boolean posRegExp() {
@@ -143,30 +143,34 @@ public class Match {
   }
 
   /**
-   * Sets a base form (lemma) that will be formatted, or
-   * synthesized, using the specified POS regular expressions.
-   * @param lemmaString @String that specifies the base form.
+   * Sets a base form (lemma) that will be formatted, or synthesized, using the
+   * specified POS regular expressions.
+   * 
+   * @param lemmaString
+   *          @String that specifies the base form.
    */
-  public final void setLemmaString(final String lemmaString) {    
+  public final void setLemmaString(final String lemmaString) {
     if (!StringTools.isEmpty(lemmaString)) {
-      formattedToken = new AnalyzedTokenReadings(
-          new AnalyzedToken(lemmaString, posTag, lemmaString));
+      formattedToken = new AnalyzedTokenReadings(new AnalyzedToken(lemmaString,
+          posTag, lemmaString));
       staticLemma = true;
       postagRegexp = true;
       if (postagRegexp && posTag != null) {
         pPosRegexMatch = Pattern.compile(posTag);
       }
-    }    
+    }
   }
 
   /**
-   * Sets a synthesizer used for grammatical synthesis
-   * of forms based on formatted POS values.
-   * @param synth @Synthesizer class.
+   * Sets a synthesizer used for grammatical synthesis of forms based on
+   * formatted POS values.
+   * 
+   * @param synth
+   *          @Synthesizer class.
    */
   public final void setSynthesizer(final Synthesizer synth) {
     synthesizer = synth;
-  }    
+  }
 
   /**
    * Gets all strings formatted using the match element.
@@ -182,7 +186,8 @@ public class Match {
       final int readingCount = formattedToken.getReadingsLength();
       formattedString[0] = formattedToken.getToken();
       if (pRegexMatch != null) {
-        formattedString[0] = pRegexMatch.matcher(formattedString[0]).replaceAll(regexReplace);
+        formattedString[0] = pRegexMatch.matcher(formattedString[0])
+            .replaceAll(regexReplace);
       }
       formattedString[0] = convertCase(formattedString[0]);
       if (posTag != null) {
@@ -193,7 +198,8 @@ public class Match {
           boolean oneForm = false;
           for (int k = 0; k < readingCount; k++) {
             if (formattedToken.getAnalyzedToken(k).getLemma() == null) {
-              final String posUnique = formattedToken.getAnalyzedToken(k).getPOSTag();
+              final String posUnique = formattedToken.getAnalyzedToken(k)
+                  .getPOSTag();
               if (posUnique == null) {
                 wordForms.add(formattedToken.getToken());
                 oneForm = true;
@@ -214,8 +220,8 @@ public class Match {
           final String targetPosTag = getTargetPosTag();
           if (!oneForm) {
             for (int i = 0; i < readingCount; i++) {
-              final String[] possibleWordForms = synthesizer.synthesize(formattedToken
-                  .getAnalyzedToken(i), targetPosTag, true);
+              final String[] possibleWordForms = synthesizer.synthesize(
+                  formattedToken.getAnalyzedToken(i), targetPosTag, true);
               if (possibleWordForms != null) {
                 for (final String form : possibleWordForms) {
                   wordForms.add(form);
@@ -232,11 +238,11 @@ public class Match {
           } else {
             formattedString[0] = formattedToken.getToken();
           }
-        } else {          
+        } else {
           final TreeSet<String> wordForms = new TreeSet<String>();
           for (int i = 0; i < readingCount; i++) {
-            final String[] possibleWordForms = synthesizer.synthesize(formattedToken
-                .getAnalyzedToken(i), posTag);
+            final String[] possibleWordForms = synthesizer.synthesize(
+                formattedToken.getAnalyzedToken(i), posTag);
             if (possibleWordForms != null) {
               for (final String form : possibleWordForms) {
                 wordForms.add(form);
@@ -262,9 +268,9 @@ public class Match {
    */
   // FIXME: gets only the first POS tag that matches, this can be wrong
   // on the other hand, many POS tags = too many suggestions?
-  public final String getTargetPosTag() {   
+  public final String getTargetPosTag() {
     String targetPosTag = posTag;
-    final List <String> posTags = new ArrayList <String> ();
+    final List<String> posTags = new ArrayList<String>();
     if (staticLemma) {
       final int numRead = matchedToken.getReadingsLength();
       for (int i = 0; i < numRead; i++) {
@@ -272,26 +278,26 @@ public class Match {
         if (tst != null) {
           if (pPosRegexMatch.matcher(tst).matches()) {
             targetPosTag = matchedToken.getAnalyzedToken(i).getPOSTag();
-            //break;
+            // break;
             posTags.add(targetPosTag);
           }
         }
       }
-      if (pPosRegexMatch != null && posTagReplace != null) {            
-        targetPosTag = pPosRegexMatch.matcher(targetPosTag).
-        replaceAll(posTagReplace);  
+      if (pPosRegexMatch != null && posTagReplace != null) {
+        targetPosTag = pPosRegexMatch.matcher(targetPosTag).replaceAll(
+            posTagReplace);
       }
       if (targetPosTag.indexOf('?') > 0) {
         targetPosTag = targetPosTag.replaceAll("\\?", "\\\\?");
       }
-    } else {     
+    } else {
       final int numRead = formattedToken.getReadingsLength();
       for (int i = 0; i < numRead; i++) {
-        final String tst = formattedToken.getAnalyzedToken(i).getPOSTag();       
+        final String tst = formattedToken.getAnalyzedToken(i).getPOSTag();
         if (tst != null) {
           if (pPosRegexMatch.matcher(tst).matches()) {
             targetPosTag = formattedToken.getAnalyzedToken(i).getPOSTag();
-            //break;
+            // break;
             posTags.add(targetPosTag);
           }
         }
@@ -299,31 +305,37 @@ public class Match {
       if (pPosRegexMatch != null && posTagReplace != null) {
         if (posTags.isEmpty()) {
           posTags.add(targetPosTag);
-        }
-        targetPosTag = "";
+        }        
+        final StringBuilder sb = new StringBuilder();
+        final int posTagLen = posTags.size();
+        int l = 0;
         for (String lposTag : posTags) {
+          l++;
           lposTag = pPosRegexMatch.matcher(lposTag).replaceAll(posTagReplace);
           if (setPos) {
             lposTag = synthesizer.getPosTagCorrection(lposTag);
           }
-          targetPosTag = lposTag + "|" + targetPosTag;
+          sb.append(lposTag);
+          if (l < posTagLen) {
+            sb.append("|");
+          }
         }
-        targetPosTag = targetPosTag.replaceAll("\\|$", "");
+        targetPosTag = sb.toString();
       }
     }
     return targetPosTag;
   }
 
   /**
-   * Method for getting the formatted match as a single string.
-   * In case of multiple matches, it joins them using a regular
-   * expression operator "|".
+   * Method for getting the formatted match as a single string. In case of
+   * multiple matches, it joins them using a regular expression operator "|".
+   * 
    * @return Formatted string of the matched token.
    */
   public final String toTokenString() {
-    final StringBuilder output = new StringBuilder(); 
+    final StringBuilder output = new StringBuilder();
     try {
-      final String[] stringToFormat = toFinalString();    
+      final String[] stringToFormat = toFinalString();
       for (int i = 0; i < stringToFormat.length; i++) {
         output.append(stringToFormat[i]);
         if (i + 1 < stringToFormat.length) {
@@ -331,14 +343,16 @@ public class Match {
         }
       }
     } catch (final IOException e) {
-      throw new RuntimeException(e.getMessage());
+      throw new RuntimeException(e.getMessage(), e.getCause());
     }
     return output.toString();
   }
 
   /**
    * Sets the token number referenced by the match.
-   * @param i Token number.
+   * 
+   * @param i
+   *          Token number.
    */
   public final void setTokenRef(final int i) {
     tokenRef = i;
@@ -346,6 +360,7 @@ public class Match {
 
   /**
    * Gets the token number referenced by the match.
+   * 
    * @return int - token number.
    */
   public final int getTokenRef() {
@@ -353,29 +368,38 @@ public class Match {
   }
 
   /**
-   * Converts case of the string token according to
-   * match element attributes.
-   * @param s @String Token to be converted. 
+   * Converts case of the string token according to match element attributes.
+   * 
+   * @param s
+   *          @String Token to be converted.
    * @return @String Converted string.
    */
   private String convertCase(final String s) {
     String token = s;
     switch (caseConversionType) {
-      case NONE : break;
-      case STARTLOWER : token = token.substring(0, 1).toLowerCase() 
-      + token.substring(1); break;
-      case STARTUPPER : token = token.substring(0, 1).toUpperCase() 
-      + token.substring(1); break;
-      case ALLUPPER : token = token.toUpperCase(); break;
-      case ALLLOWER : token = token.toLowerCase(); break;
-      default : break;
+      case NONE :
+        break;
+      case STARTLOWER :
+        token = token.substring(0, 1).toLowerCase() + token.substring(1);
+        break;
+      case STARTUPPER :
+        token = token.substring(0, 1).toUpperCase() + token.substring(1);
+        break;
+      case ALLUPPER :
+        token = token.toUpperCase();
+        break;
+      case ALLLOWER :
+        token = token.toLowerCase();
+        break;
+      default :
+        break;
     }
     return token;
   }
 
   /**
-   * Used to let LT know that it should change the case 
-   * of the match.
+   * Used to let LT know that it should change the case of the match.
+   * 
    * @return true if match converts the case of the token.
    */
   public boolean convertsCase() {
@@ -383,69 +407,47 @@ public class Match {
   }
 
   public final AnalyzedTokenReadings filterReadings(
-      final AnalyzedTokenReadings tokenToFilter) {    
-    final ArrayList <AnalyzedToken> l = new ArrayList <AnalyzedToken>();
-    if (formattedToken != null) {      
+      final AnalyzedTokenReadings tokenToFilter) {
+    final ArrayList<AnalyzedToken> l = new ArrayList<AnalyzedToken>();
+    if (formattedToken != null) {
       if (staticLemma) {
-        formattedToken = new AnalyzedTokenReadings(
-            new AnalyzedToken(matchedToken.getToken(), posTag, 
-                formattedToken.getToken(), matchedToken.getStartPos()));
+        formattedToken = new AnalyzedTokenReadings(new AnalyzedToken(
+            matchedToken.getToken(), posTag, formattedToken.getToken(),
+            matchedToken.getStartPos()));
       }
       String token = formattedToken.getToken();
-      if (pRegexMatch != null) {          
+      if (pRegexMatch != null) {
         token = pRegexMatch.matcher(token).replaceAll(regexReplace);
-      }        
+      }
       token = convertCase(token);
       if (posTag != null) {
-        final int numRead = formattedToken.getReadingsLength();      
-        if (postagRegexp) {            
-          String targetPosTag = posTag;                      
+        final int numRead = formattedToken.getReadingsLength();
+        if (postagRegexp) {
+          String targetPosTag = posTag;
           for (int i = 0; i < numRead; i++) {
             final String tst = formattedToken.getAnalyzedToken(i).getPOSTag();
             if (tst != null) {
               if (pPosRegexMatch.matcher(tst).matches()) {
                 targetPosTag = formattedToken.getAnalyzedToken(i).getPOSTag();
-                if (pPosRegexMatch != null && posTagReplace != null) {            
-                  targetPosTag = pPosRegexMatch.matcher(targetPosTag).
-                  replaceAll(posTagReplace);  
+                if (pPosRegexMatch != null && posTagReplace != null) {
+                  targetPosTag = pPosRegexMatch.matcher(targetPosTag)
+                      .replaceAll(posTagReplace);
                 }
-                l.add(new AnalyzedToken(token, targetPosTag,
-                    formattedToken.getAnalyzedToken(i).getLemma(),
-                    formattedToken.getStartPos()));                  
+                l.add(new AnalyzedToken(token, targetPosTag, formattedToken
+                    .getAnalyzedToken(i).getLemma(), formattedToken
+                    .getStartPos()));
               }
             }
           }
           if (l.isEmpty()) {
-            String lemma = "";
-            for (int j = 0; j < numRead; j++) {
-              if (formattedToken.getAnalyzedToken(j).getPOSTag() != null) {
-                if (formattedToken.getAnalyzedToken(j).getPOSTag().equals(posTag)
-                    && (formattedToken.getAnalyzedToken(j).getLemma() != null)) {
-                  lemma = formattedToken.getAnalyzedToken(j).getLemma();
-                }                
-                if (StringTools.isEmpty(lemma)) {
-                  lemma = formattedToken.getAnalyzedToken(0).getLemma();
-                }
-                l.add(new AnalyzedToken(token, posTag, lemma,
-                    formattedToken.getStartPos()));
-              }
-            }               
+            for (AnalyzedToken anaTok : getNewToken(numRead, token)) {
+              l.add(anaTok);
+            }
           }
         } else {
-          String lemma = "";
-          for (int j = 0; j < numRead; j++) {
-            if (formattedToken.getAnalyzedToken(j).getPOSTag() != null) {
-              if (formattedToken.getAnalyzedToken(j).getPOSTag().equals(posTag) 
-                  && (formattedToken.getAnalyzedToken(j).getLemma() != null)) {
-                lemma = formattedToken.getAnalyzedToken(j).getLemma();
-              }              
-              if (StringTools.isEmpty(lemma)) {
-                lemma = formattedToken.getAnalyzedToken(0).getLemma();
-              }
-              l.add(new AnalyzedToken(token, posTag, lemma,
-                  formattedToken.getStartPos()));
-            }
-          }  
+          for (AnalyzedToken anaTok : getNewToken(numRead, token)) {
+            l.add(anaTok);
+          }
         }
       }
     }
@@ -454,6 +456,25 @@ public class Match {
     } else {
       return new AnalyzedTokenReadings(l.toArray(new AnalyzedToken[l.size()]));
     }
+  }
+
+  private AnalyzedToken[] getNewToken(final int numRead, final String token) {
+    final List<AnalyzedToken> list = new ArrayList<AnalyzedToken>();
+    String lemma = "";
+    for (int j = 0; j < numRead; j++) {
+      if (formattedToken.getAnalyzedToken(j).getPOSTag() != null) {
+        if (formattedToken.getAnalyzedToken(j).getPOSTag().equals(posTag)
+            && (formattedToken.getAnalyzedToken(j).getLemma() != null)) {
+          lemma = formattedToken.getAnalyzedToken(j).getLemma();
+        }
+        if (StringTools.isEmpty(lemma)) {
+          lemma = formattedToken.getAnalyzedToken(0).getLemma();
+        }
+        list.add(new AnalyzedToken(token, posTag, lemma, formattedToken
+            .getStartPos()));
+      }
+    }
+    return list.toArray(new AnalyzedToken[list.size()]);
   }
 
 }

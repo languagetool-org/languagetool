@@ -49,12 +49,11 @@ import de.danielnaber.languagetool.tools.Tools;
  */
 public class FalseFriendRuleLoader extends DefaultHandler {
 
-  private List<PatternRule> rules;
-
   public FalseFriendRuleLoader() {
   }
 
   public final List<PatternRule> getRules(final InputStream file, final Language textLanguage, final Language motherTongue) throws ParserConfigurationException, SAXException, IOException {
+    List<PatternRule> rules;
     final FalseFriendRuleHandler handler = new FalseFriendRuleHandler(textLanguage, motherTongue);
     final SAXParserFactory factory = SAXParserFactory.newInstance();
     final SAXParser saxParser = factory.newSAXParser();
@@ -114,32 +113,32 @@ class FalseFriendRuleHandler extends XMLRuleHandler {
   private MessageFormat formatter; 
   
   private Language textLanguage; 
-  private Language motherTongue;
+  final private Language motherTongue;
   
-  private boolean caseSensitive = false;
-  private boolean regExpression = false;
-  private boolean tokenNegated = false;
-  private boolean tokenInflected = false;
-  private boolean posNegation = false;
+  private boolean caseSensitive;
+  private boolean regExpression;
+  private boolean tokenNegated;
+  private boolean tokenInflected;
+  private boolean posNegation;
   
-  private boolean defaultOff = false;
+  private boolean defaultOff;
   
   private String posToken;
   
   private String exceptionPosToken;
-  private boolean exceptionStringRegExp = false;
-  private boolean exceptionStringNegation = false;
-  private boolean exceptionStringInflected = false;
-  private boolean exceptionPosNegation = false;
-  private boolean exceptionPosRegExp = false;
-  private boolean exceptionValidNext = false;
-  private boolean exceptionValidPrev = false;
-  private boolean exceptionSet = false;
+  private boolean exceptionStringRegExp;
+  private boolean exceptionStringNegation;
+  private boolean exceptionStringInflected;
+  private boolean exceptionPosNegation;
+  private boolean exceptionPosRegExp;
+  private boolean exceptionValidNext;
+  private boolean exceptionValidPrev;
+  private boolean exceptionSet;
   
-  private List<Element> elementList = null;
-  private boolean regular = false; 
-  private int skipPos = 0;
-  private Element stringElement = null;
+  private List<Element> elementList;
+  private boolean regular; 
+  private int skipPos;
+  private Element stringElement;
   
   private String id;
   private Language language;
@@ -152,7 +151,7 @@ class FalseFriendRuleHandler extends XMLRuleHandler {
   // rule ID -> list of translations:
   private Map<String,List<String>> suggestionMap = new HashMap<String,List<String>>();
   
-  private boolean inTranslation = false;
+  private boolean inTranslation;
   
   public FalseFriendRuleHandler(final Language textLanguage, final Language motherTongue) {
     messages = ResourceBundle.getBundle("de.danielnaber.languagetool.MessagesBundle",
@@ -163,7 +162,7 @@ class FalseFriendRuleHandler extends XMLRuleHandler {
     this.motherTongue = motherTongue;
   }
   
-  Map<String,List<String>> getSuggestionMap() {
+  public Map<String,List<String>> getSuggestionMap() {
     return suggestionMap;
   }
 
@@ -241,7 +240,7 @@ class FalseFriendRuleHandler extends XMLRuleHandler {
 				  regular = attrs.getValue("postag_regexp").equals("yes");
 			  }
 			  if (attrs.getValue("negate_pos") != null) {
-				  posNegation = (attrs.getValue("negate_pos").equals("yes"));
+				  posNegation = attrs.getValue("negate_pos").equals("yes");
 			  }
 			  
 			  if (elementList == null) { //lazy init

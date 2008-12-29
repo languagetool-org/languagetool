@@ -22,9 +22,9 @@ import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Modifier;
 import java.net.JarURLConnection;
+import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
-import java.net.URI;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Enumeration;
@@ -36,77 +36,99 @@ import java.util.jar.JarFile;
 
 public class ReflectionUtils {
 
+  private ReflectionUtils() {
+    // a static singleton class
+  }
+
   /**
-   * @param classLoader Classloader to use for loading classes
-   * @param packageName Package name to check classes in
-   * @param classNameRegEx If not null limit class names to this regexp. This parameter 
-   *  is checked before class is loaded so use it to improve performance by skipping loading extra classes
-   * @param subdirLevel If more than 0 all subdirectories/subpackages up to <code>dirLevel</code> will be
-   *  traversed This parameter is checked before class is loaded - use it to improve
-   *  performance by skipping loading extra classes
-   * @param classExtends If not null return only classes which extend this class
-   * @param interfaceImplements If not null return only classes which implement this interface
+   * @param classLoader
+   *          Classloader to use for loading classes
+   * @param packageName
+   *          Package name to check classes in
+   * @param classNameRegEx
+   *          If not null limit class names to this regexp. This parameter is
+   *          checked before class is loaded so use it to improve performance by
+   *          skipping loading extra classes
+   * @param subdirLevel
+   *          If more than 0 all subdirectories/subpackages up to
+   *          <code>dirLevel</code> will be traversed This parameter is checked
+   *          before class is loaded - use it to improve performance by skipping
+   *          loading extra classes
+   * @param classExtends
+   *          If not null return only classes which extend this class
+   * @param interfaceImplements
+   *          If not null return only classes which implement this interface
    * @return Returns all classes inside given package
    * @throws ClassNotFoundException
    */
-  public static Class[] findClasses(ClassLoader classLoader, String packageName,
-      String classNameRegEx, int subdirLevel, Class classExtends, Class interfaceImplements)
-      throws ClassNotFoundException {
-    List<Class> foundClasses = new ArrayList<Class>();
+  public static Class[] findClasses(final ClassLoader classLoader,
+      final String packageName, final String classNameRegEx,
+      final int subdirLevel, final Class classExtends,
+      final Class interfaceImplements) throws ClassNotFoundException {
+    final List<Class> foundClasses = new ArrayList<Class>();
 
     try {
-      String packagePath = packageName.replace('.', '/');
-      Enumeration<URL> resources_ = classLoader.getResources(packagePath);
+      final String packagePath = packageName.replace('.', '/');
+      final Enumeration<URL> resources_ = classLoader.getResources(packagePath);
 
-      Set<URI> uniqResources = new HashSet<URI>();
+      final Set<URI> uniqResources = new HashSet<URI>();
       while (resources_.hasMoreElements()) {
-        URI resource = resources_.nextElement().toURI();
-          uniqResources.add(resource);
+        final URI resource = resources_.nextElement().toURI();
+        uniqResources.add(resource);
       }
 
-      for (URI res : uniqResources) {
-        URL resource = res.toURL();
-         //System.err.println("trying resource: " + resource);
+      for (final URI res : uniqResources) {
+        final URL resource = res.toURL();
+        // System.err.println("trying resource: " + resource);
         // jars and directories are treated differently
-        if (resource.getProtocol().startsWith("jar")) {        
-          findClassesInJar(packageName, classNameRegEx, subdirLevel, classExtends,
-              interfaceImplements, foundClasses, resource);
-        } else {
-          findClassesInDirectory(classLoader, packageName, classNameRegEx, subdirLevel,
+        if (resource.getProtocol().startsWith("jar")) {
+          findClassesInJar(packageName, classNameRegEx, subdirLevel,
               classExtends, interfaceImplements, foundClasses, resource);
+        } else {
+          findClassesInDirectory(classLoader, packageName, classNameRegEx,
+              subdirLevel, classExtends, interfaceImplements, foundClasses,
+              resource);
         }
       }
-    } catch (Exception ex) {
-      throw new ClassNotFoundException("Loading rules failed: " + ex.getMessage(), ex);
+    } catch (final Exception ex) {
+      throw new ClassNotFoundException("Loading rules failed: "
+          + ex.getMessage(), ex);
     }
 
     return foundClasses.toArray(new Class[foundClasses.size()]);
   }
 
-  private static void findClassesInDirectory(ClassLoader classLoader, String packageName, 
-      String classNameRegEx, int subdirLevel, Class classExtends, Class interfaceImplements,
-      List<Class> foundClasses, URL resource) throws URISyntaxException, Exception, ClassNotFoundException {
-    File directory = new File(resource.toURI());
+  private static void findClassesInDirectory(final ClassLoader classLoader,
+      final String packageName, final String classNameRegEx,
+      final int subdirLevel, final Class classExtends,
+      final Class interfaceImplements, final List<Class> foundClasses,
+      final URL resource) throws URISyntaxException, Exception,
+      ClassNotFoundException {
+    final File directory = new File(resource.toURI());
 
     if (!directory.exists() && !directory.isDirectory()) {
-      throw new Exception("directory does not exist: " + directory.getAbsolutePath());
+      throw new Exception("directory does not exist: "
+          + directory.getAbsolutePath());
     }
 
     // read classes
-    for (File file : directory.listFiles()) {
+    for (final File file : directory.listFiles()) {
       if (file.isFile() && file.getName().endsWith(".class")) {
-        String classShortNm = file.getName().substring(0, file.getName().lastIndexOf('.'));
+        final String classShortNm = file.getName().substring(0,
+            file.getName().lastIndexOf('.'));
         if (classNameRegEx == null || classShortNm.matches(classNameRegEx)) {
-          Class clazz = Class.forName(packageName + "." + classShortNm);
+          final Class clazz = Class.forName(packageName + "." + classShortNm);
 
-          if (!isMaterial(clazz))
+          if (!isMaterial(clazz)) {
             continue;
+          }
 
-          if (classExtends == null || isExtending(clazz, classExtends.getName())) {
-            if (interfaceImplements == null || isImplementing(clazz, interfaceImplements)) {
-              foundClasses.add(clazz);
-              // System.err.println("Added rule from dir: " + classShortNm);
-            }
+          if (classExtends == null
+              || isExtending(clazz, classExtends.getName())
+              && interfaceImplements == null
+              || isImplementing(clazz, interfaceImplements)) {
+            foundClasses.add(clazz);
+            // System.err.println("Added rule from dir: " + classShortNm);
           }
         }
       }
@@ -114,61 +136,69 @@ public class ReflectionUtils {
 
     // then subdirectories if we're traversing
     if (subdirLevel > 0) {
-      for (File dir : directory.listFiles()) {
+      for (final File dir : directory.listFiles()) {
         if (dir.isDirectory()) {
-          Class[] subLevelClasses = findClasses(classLoader, packageName + "."
-              + dir.getName(), classNameRegEx, subdirLevel - 1, classExtends,
-              interfaceImplements);
+          final Class[] subLevelClasses = findClasses(classLoader, packageName
+              + "." + dir.getName(), classNameRegEx, subdirLevel - 1,
+              classExtends, interfaceImplements);
           foundClasses.addAll(Arrays.asList(subLevelClasses));
         }
       }
     }
   }
 
-  private static void findClassesInJar(String packageName, String classNameRegEx, 
-      int subdirLevel, Class classExtends, Class interfaceImplements, List<Class> foundClasses,
-      URL resource) throws IOException, URISyntaxException, ClassNotFoundException {
-    JarURLConnection conn = (JarURLConnection) resource.openConnection();
-    JarFile currentFile = conn.getJarFile(); //new JarFile(new File(resource.toURI()));
+  private static void findClassesInJar(final String packageName,
+      final String classNameRegEx, final int subdirLevel,
+      final Class classExtends, final Class interfaceImplements,
+      final List<Class> foundClasses, final URL resource) throws IOException,
+      URISyntaxException, ClassNotFoundException {
+    final JarURLConnection conn = (JarURLConnection) resource.openConnection();
+    final JarFile currentFile = conn.getJarFile(); // new JarFile(new
+    // File(resource.toURI()));
     // jars are flat containers:
-    for (Enumeration<JarEntry> e = currentFile.entries(); e.hasMoreElements();) {
-      JarEntry current = (JarEntry) e.nextElement();
-      String name = current.getName();
+    for (final Enumeration<JarEntry> e = currentFile.entries(); e
+        .hasMoreElements();) {
+      final JarEntry current = e.nextElement();
+      final String name = current.getName();
       // System.err.println("jar entry: " + name);
 
       if (name.endsWith(".class")) {
-        String classNm = name.replaceAll("/", ".").replace(".class", "");
-        int pointIdx = classNm.lastIndexOf('.');
-        String classShortNm = pointIdx == -1 ? classNm : classNm.substring(pointIdx + 1);
+        final String classNm = name.replaceAll("/", ".").replace(".class", "");
+        final int pointIdx = classNm.lastIndexOf('.');
+        final String classShortNm = pointIdx == -1 ? classNm : classNm
+            .substring(pointIdx + 1);
 
         if (classNm.startsWith(packageName)
             && (classNameRegEx == null || classShortNm.matches(classNameRegEx))) {
-          String subName = classNm.substring(packageName.length() + 1);
+          final String subName = classNm.substring(packageName.length() + 1);
 
-          if (countOccurences(subName, '.') > subdirLevel)
+          if (countOccurences(subName, '.') > subdirLevel) {
             continue;
-
-          Class clazz = Class.forName(classNm);
-          if(foundClasses.contains(clazz)) {
-            throw new RuntimeException("Duplicate class definition:\n" + clazz.getName() +
-                ", found in\n" + currentFile.getName());
           }
 
-          if (!isMaterial(clazz))
-            continue;
+          final Class clazz = Class.forName(classNm);
+          if (foundClasses.contains(clazz)) {
+            throw new RuntimeException("Duplicate class definition:\n"
+                + clazz.getName() + ", found in\n" + currentFile.getName());
+          }
 
-          if (classExtends == null || isExtending(clazz, classExtends.getName())) {
-            if (interfaceImplements == null || isImplementing(clazz, interfaceImplements)) {
-              foundClasses.add(clazz);
-              // System.err.println("Added class from jar: " + name);
-            }
+          if (!isMaterial(clazz)) {
+            continue;
+          }
+
+          if (classExtends == null
+              || isExtending(clazz, classExtends.getName())
+              && interfaceImplements == null
+              || isImplementing(clazz, interfaceImplements)) {
+            foundClasses.add(clazz);
+            // System.err.println("Added class from jar: " + name);
           }
         }
       }
     }
   }
 
-  private static int countOccurences(String str, char ch) {
+  private static int countOccurences(final String str, final char ch) {
     int i = 0;
     int pos = str.indexOf(ch, 0);
     while (pos != -1) {
@@ -178,9 +208,9 @@ public class ReflectionUtils {
     return i;
   }
 
-  private static boolean isMaterial(Class clazz) {
-    int mod = clazz.getModifiers();
-    return (!Modifier.isAbstract(mod) && !Modifier.isInterface(mod));
+  private static boolean isMaterial(final Class clazz) {
+    final int mod = clazz.getModifiers();
+    return !Modifier.isAbstract(mod) && !Modifier.isInterface(mod);
   }
 
   /**
@@ -188,18 +218,20 @@ public class ReflectionUtils {
    * @param superclassName
    * @return Returns true if class1 extends
    */
-  private static boolean isExtending(Class class1, String superclassName) {
+  private static boolean isExtending(final Class class1,
+      final String superclassName) {
     Class superclass1 = class1.getSuperclass();
     while (superclass1 != null) {
-      if (superclassName.equals(superclass1.getName()))
+      if (superclassName.equals(superclass1.getName())) {
         return true;
+      }
       superclass1 = superclass1.getSuperclass();
     }
     return false;
   }
 
-  private static boolean isImplementing(Class clazz, Class interfaze) {
+  private static boolean isImplementing(final Class clazz, final Class interfaze) {
     return Arrays.asList(clazz.getInterfaces()).contains(interfaze);
   }
-  
+
 }

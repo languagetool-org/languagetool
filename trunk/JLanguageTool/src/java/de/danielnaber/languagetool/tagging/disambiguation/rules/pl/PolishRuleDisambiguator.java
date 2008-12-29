@@ -29,12 +29,12 @@ import de.danielnaber.languagetool.AnalyzedSentence;
 import de.danielnaber.languagetool.Language;
 import de.danielnaber.languagetool.tagging.disambiguation.rules.DisambiguationPatternRule;
 import de.danielnaber.languagetool.tagging.disambiguation.rules.DisambiguationRuleLoader;
-import de.danielnaber.languagetool.tagging.disambiguation.rules.RuleDisambiguator;
+import de.danielnaber.languagetool.tagging.disambiguation.rules.AbstractRuleDisambiguator;
 import de.danielnaber.languagetool.tools.Tools;
 
-public class PolishRuleDisambiguator extends RuleDisambiguator {
+public class PolishRuleDisambiguator extends AbstractRuleDisambiguator {
 
-  static final String DISAMB_FILE = "disambiguation.xml";
+  private static final String DISAMB_FILE = "disambiguation.xml";
   private List<DisambiguationPatternRule> disambiguationRules = null;
 
   /**
