@@ -121,4 +121,9 @@ public class StringToolsTest extends TestCase {
     assertEquals(false, StringTools.isWhitespace("\\u02"));
   }
   
+  public void testIsNumber() {
+    assertEquals(true, StringTools.isNumber('3'));
+    assertEquals(false, StringTools.isNumber('a'));      
+  }
+  
 }

@@ -117,7 +117,7 @@ public class PatternRule extends Rule {
         loopCnt++;
       } else {
         curName = e.getPhraseName();
-        if (prevName.equals(curName) || ("").equals(prevName)) {
+        if (prevName.equals(curName) || "".equals(prevName)) {
           cnt++;
           useList = true;
         } else {
@@ -128,7 +128,7 @@ public class PatternRule extends Rule {
         }
         prevName = curName;
         loopCnt++;
-        if (loopCnt == patternElements.size() && !("").equals(prevName)) {
+        if (loopCnt == patternElements.size() && !"".equals(prevName)) {
           elementNo.add(cnt);
         }
       }
@@ -676,18 +676,15 @@ public class PatternRule extends Rule {
     int errMarker = errorMessage.indexOf('\\');
     boolean numberFollows = false;
     if (errMarker > 0 && errMarker < errLen - 1) {
-      numberFollows = errorMessage.charAt(errMarker + 1) >= '1'
-        && errorMessage.charAt(errMarker + 1) <= '9';
+      numberFollows = StringTools.isNumber(errorMessage.charAt(errMarker + 1));
     }
     while (errMarker > 0 && numberFollows) {
-      final int ind = errorMessage.indexOf("\\"); 
+      final int ind = errorMessage.indexOf('\\'); 
       if (ind > 0) { 
-        if (errorMessage.charAt(ind + 1) >= '1'
-          && errorMessage.charAt(ind + 1) <= '9') {
+        if (StringTools.isNumber(errorMessage.charAt(ind + 1))) {
           int numLen = 1;
           while (ind + numLen < errorMessage.length()
-              && errorMessage.charAt(ind + numLen) >= '0'
-                && errorMessage.charAt(ind + numLen) <= '9') {
+              && StringTools.isNumber(errorMessage.charAt(ind + numLen))) {
             numLen++;
           }
           final int j = Integer.parseInt(errorMessage.substring(ind + 1, ind + numLen)) - 1;
@@ -759,8 +756,7 @@ public class PatternRule extends Rule {
             numberFollows = false;
             errLen = errorMessage.length();
             if (errMarker > 0 && errMarker < errLen - 1) {
-              numberFollows = errorMessage.charAt(errMarker + 1) >= '1'
-                && errorMessage.charAt(errMarker + 1) <= '9';
+              numberFollows = StringTools.isNumber(errorMessage.charAt(errMarker + 1));
             }
           }
         }
@@ -769,8 +765,7 @@ public class PatternRule extends Rule {
       numberFollows = false;
       errLen = errorMessage.length();
       if (errMarker > 0 && errMarker < errLen - 1) {
-        numberFollows = errorMessage.charAt(errMarker + 1) >= '1'
-          && errorMessage.charAt(errMarker + 1) <= '9';
+        numberFollows = StringTools.isNumber(errorMessage.charAt(errMarker + 1));
       }
     }  
     return errorMessage;

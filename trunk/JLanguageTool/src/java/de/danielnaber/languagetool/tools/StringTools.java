@@ -402,6 +402,16 @@ public final class StringTools {
       }
     }    
   }
+  
+  /**
+   * 
+   * @param ch Character to check
+   * @return True if the character is a number (decimal digit).
+   */
+  public static boolean isNumber(final char ch) {
+    return ch >= '1' && ch <= '9';
+  }
+  
 }
   
  
