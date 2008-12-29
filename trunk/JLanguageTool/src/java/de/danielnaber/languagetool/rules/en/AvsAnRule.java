@@ -89,7 +89,7 @@ public class AvsAnRule extends EnglishRule {
         }
         //html entities!
         token = token.replaceAll("&quot|&amp|&lt|&gt|[^a-zA-Z0-9\\.']", "");         // e.g. >>an "industry party"<<
-        if (token.length() == 0) {
+        if (StringTools.isEmpty(token)) {
           continue;
         }
         final char tokenFirstChar = token.charAt(0);
@@ -171,7 +171,7 @@ public class AvsAnRule extends EnglishRule {
     }
     //html entities!
     word = word.replaceAll("&quot|&amp|&lt|&gt|[^a-zA-Z0-9]", "");         // e.g. >>an "industry party"<<
-    if (word.length() == 0) {
+    if (StringTools.isEmpty(word)) {
       return word;
     }
     final char tokenFirstChar = word.charAt(0);

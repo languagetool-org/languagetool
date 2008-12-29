@@ -28,6 +28,7 @@ import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
 import org.xml.sax.Attributes;
+import org.xml.sax.Locator;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
@@ -165,10 +166,18 @@ class PatternRuleHandler extends XMLRuleHandler {
   private String uFeature;
   private String uType = "";
 
+  private Locator pLocator;
+  
   // ===========================================================
   // SAX DocumentHandler methods
   // ===========================================================
 
+  @Override
+  public void setDocumentLocator(Locator locator) {
+    pLocator = locator;
+    super.setDocumentLocator(locator);
+  }
+  
   @Override
   public void startElement(final String namespaceURI, final String lName, final String qName, final Attributes attrs)
   throws SAXException {
@@ -359,11 +368,21 @@ class PatternRuleHandler extends XMLRuleHandler {
         }        
         suggestionMatches.add(mWorker);
         message.append("\\" + attrs.getValue("no"));
+        if (StringTools.isEmpty(attrs.getValue("no"))) {
+          throw new SAXException(
+              "References cannot be empty: " +
+              "\n Line: " + pLocator.getLineNumber() + ", column: " + pLocator.getColumnNumber() + ".");
+        } else if (Integer.parseInt(attrs.getValue("no")) < 1) {
+          throw new SAXException(
+              "References must be larger than 0: " + attrs.getValue("no") +
+              "\n Line: " + pLocator.getLineNumber() + ", column: " + pLocator.getColumnNumber() + ".");
+        }
       } else if (inToken && attrs.getValue("no") != null) {
-        final int refNumber = Integer.parseInt(attrs.getValue("no"));
+        final int refNumber = Integer.parseInt(attrs.getValue("no"));        
         if (refNumber > elementList.size()) {
           throw new SAXException(
-              "Only backward references in match elements are possible, tried to specify token " + refNumber);
+              "Only backward references in match elements are possible, tried to specify token " + refNumber +
+              "\n Line: " + pLocator.getLineNumber() + ", column: " + pLocator.getColumnNumber() + ".");
         } else {
           mWorker.setTokenRef(refNumber);
           tokenReference = mWorker;
@@ -451,7 +470,7 @@ class PatternRuleHandler extends XMLRuleHandler {
         exceptionSet = true;
       }
       tokenElement.setNegation(tokenNegated);
-      if (!"".equals(exceptions.toString())) {
+      if (!StringTools.isEmpty(exceptions.toString())) {
         tokenElement.setStringException(StringTools.trimWhitespace(exceptions.toString()), 
             exceptionStringRegExp, exceptionStringInflected, exceptionStringNegation, 
             exceptionValidNext, exceptionValidPrev);

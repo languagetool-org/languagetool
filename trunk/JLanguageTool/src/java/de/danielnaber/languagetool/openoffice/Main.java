@@ -65,6 +65,7 @@ import de.danielnaber.languagetool.JLanguageTool;
 import de.danielnaber.languagetool.Language;
 import de.danielnaber.languagetool.gui.Configuration;
 import de.danielnaber.languagetool.rules.RuleMatch;
+import de.danielnaber.languagetool.tools.StringTools;
 
 public class Main extends WeakBase implements 
     XJobExecutor, XServiceDisplayName, XServiceInfo, 
@@ -235,7 +236,7 @@ public class Main extends WeakBase implements
       paRes.nBehindEndOfSentencePosition = paraText.length();
     }
 
-    if (!"".equals(paraText)) {
+    if (!StringTools.isEmpty(paraText)) {
       // TODO: process different language fragments in a paragraph
       // according to their language (currently assumed = locale)
       // note: this is not yet implemented in the API

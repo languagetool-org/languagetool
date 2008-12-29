@@ -37,6 +37,7 @@ import de.danielnaber.languagetool.AnalyzedToken;
 import de.danielnaber.languagetool.rules.patterns.Element;
 import de.danielnaber.languagetool.rules.patterns.Match;
 import de.danielnaber.languagetool.tagging.disambiguation.rules.DisambiguationPatternRule.DisambiguatorAction;
+import de.danielnaber.languagetool.tools.StringTools;
 
 /**
  * Loads {@link DisambiguationPatternRule}s from a 
@@ -383,7 +384,7 @@ class DisambiguationRuleHandler extends XMLRuleHandler {
         exceptionSet = true;
       }
       tokenElement.setNegation(tokenNegated);
-      if (!exceptions.toString().equals("")) {
+      if (!StringTools.isEmpty(exceptions.toString())) {
         tokenElement.setStringException(exceptions.toString(), exceptionStringRegExp, 
             exceptionStringInflected, exceptionStringNegation, 
             exceptionValidNext, exceptionValidPrev);

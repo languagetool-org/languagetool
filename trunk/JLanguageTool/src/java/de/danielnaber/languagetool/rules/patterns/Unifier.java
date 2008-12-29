@@ -28,6 +28,7 @@ import java.util.HashSet;
 
 import de.danielnaber.languagetool.AnalyzedToken;
 import de.danielnaber.languagetool.AnalyzedTokenReadings;
+import de.danielnaber.languagetool.tools.StringTools;
 
 
 /**
@@ -42,9 +43,9 @@ public class Unifier {
    * Negates the meaning of unification
    * just like negation in Element tokens.
    */
-  private boolean negation = false;
+  private boolean negation;
 
-  private boolean allFeatsIn = false;
+  private boolean allFeatsIn;
 
   private int tokCnt = -1;
 
@@ -85,7 +86,7 @@ public class Unifier {
    * internal flag for checking whether the first
    * token in tokSequence has to be yet unified
    */
-  private boolean firstUnified = false;
+  private boolean firstUnified;
 
   public Unifier() {
     clear();
@@ -131,7 +132,7 @@ public class Unifier {
       return false;
     }            
     //Error: no feature given!
-    if ("".equals(feature)) {
+    if (StringTools.isEmpty(feature)) {
       return false; //throw exception??
     }
     boolean unified = true;
@@ -146,7 +147,7 @@ public class Unifier {
         equivalencesMatched.add(mapTemp);
       }      
       for (String feat : features) {
-        if ("".equals(type)) {
+        if (StringTools.isEmpty(type)) {
           types = equivalenceFeatures.get(feat).toArray(
               new String[equivalenceFeatures.get(feat).size()]);
         } else {
@@ -195,7 +196,7 @@ public class Unifier {
         boolean allFeatsUnified = true;
         for (String feat : features) {
           boolean featUnified = false;
-          if ("".equals(type)) {
+          if (StringTools.isEmpty(type)) {
             types = equivalenceFeatures.get(feat).toArray(
                 new String[equivalenceFeatures.get(feat).size()]);
           } else {

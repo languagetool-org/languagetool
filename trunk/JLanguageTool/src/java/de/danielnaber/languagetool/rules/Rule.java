@@ -89,7 +89,7 @@ public abstract class Rule {
   //public abstract RuleMatch[] match(AnalyzedSentence text);
   
   /**
-   * Check whether the given text matche this error rule, i.e. whether the
+   * Check whether the given text matches this error rule, i.e. whether the
    * text contains this error.
    * 
    * @param text a pre-analyzed sentence

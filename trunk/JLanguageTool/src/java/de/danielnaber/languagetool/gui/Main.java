@@ -463,7 +463,7 @@ public final class Main implements ActionListener {
   }
 
   private void checkTextAndDisplayResults(final JLanguageTool langTool, final Language lang) {
-    if (textArea.getText().trim().equals("")) {
+    if (StringTools.isEmpty(textArea.getText().trim())) {
       textArea.setText(messages.getString("enterText2"));
     } else {
       StringBuilder sb = new StringBuilder();

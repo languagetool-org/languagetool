@@ -26,6 +26,7 @@ import de.danielnaber.languagetool.AnalyzedToken;
 import de.danielnaber.languagetool.AnalyzedTokenReadings;
 import de.danielnaber.languagetool.JLanguageTool;
 import de.danielnaber.languagetool.synthesis.Synthesizer;
+import de.danielnaber.languagetool.tools.StringTools;
 
 /**
  * A part of a pattern.
@@ -109,7 +110,7 @@ public class Element {
   private String referenceString = "";
 
   /** String ID of the phrase the element is in. **/
-  private String phraseName = null; 
+  private String phraseName; 
 
   /** This var is used to determine if calling {@link #matchStringToken()} 
    * makes sense. This method takes most time so it's best reduce 
@@ -121,8 +122,8 @@ public class Element {
    * Tells if the element is inside the unification, so that
    * {@link Unifier} tests it. 
    */
-  private boolean unified = false;
-  private boolean uniNegation = false;
+  private boolean unified;
+  private boolean uniNegation;
   
   private String unificationFeature;
   private String unificationType;
@@ -399,12 +400,8 @@ public class Element {
   public final void setStringElement(final String token) {
     this.stringToken = token;
     testString= true;
-    if (this.stringToken == null) {
-      testString= false;
-    } else {
-    if (this.stringToken.length()==0) {
-      testString= false;
-      }
+    if (StringTools.isEmpty(stringToken)) {
+      testString= false;    
     }    
     if (testString && stringRegExp) {
       regToken = stringToken;
@@ -642,7 +639,7 @@ public class Element {
     tokenReference.setToken(token);
     tokenReference.setSynthesizer(synth);
     
-    if ("".equals(referenceString)) {
+    if (StringTools.isEmpty(referenceString)) {
       referenceString = stringToken;
     }
     if (tokenReference.setsPos()) {

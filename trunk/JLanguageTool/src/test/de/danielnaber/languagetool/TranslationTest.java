@@ -28,6 +28,8 @@ import java.util.List;
 import java.util.Properties;
 import java.util.Set;
 
+import de.danielnaber.languagetool.tools.StringTools;
+
 import junit.framework.TestCase;
 
 /**
@@ -77,7 +79,7 @@ public class TranslationTest extends TestCase {
       List<String> lines = loadFile(file);
       for (String line : lines) {
         line = line.trim();
-        if (line.startsWith("#") || line.equals(""))
+        if (line.startsWith("#") || StringTools.isEmpty(line))
           continue;
         String[] parts = line.split("=");
         if (parts.length < 2) {

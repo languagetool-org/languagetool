@@ -117,7 +117,7 @@ public class PatternRule extends Rule {
         loopCnt++;
       } else {
         curName = e.getPhraseName();
-        if (prevName.equals(curName) || "".equals(prevName)) {
+        if (prevName.equals(curName) || StringTools.isEmpty(prevName)) {
           cnt++;
           useList = true;
         } else {
@@ -128,7 +128,7 @@ public class PatternRule extends Rule {
         }
         prevName = curName;
         loopCnt++;
-        if (loopCnt == patternElements.size() && !"".equals(prevName)) {
+        if (loopCnt == patternElements.size() && !StringTools.isEmpty(prevName)) {
           elementNo.add(cnt);
         }
       }
@@ -676,15 +676,15 @@ public class PatternRule extends Rule {
     int errMarker = errorMessage.indexOf('\\');
     boolean numberFollows = false;
     if (errMarker > 0 && errMarker < errLen - 1) {
-      numberFollows = StringTools.isNumber(errorMessage.charAt(errMarker + 1));
+      numberFollows = StringTools.isPositiveNumber(errorMessage.charAt(errMarker + 1));
     }
     while (errMarker > 0 && numberFollows) {
       final int ind = errorMessage.indexOf('\\'); 
       if (ind > 0) { 
-        if (StringTools.isNumber(errorMessage.charAt(ind + 1))) {
+        if (StringTools.isPositiveNumber(errorMessage.charAt(ind + 1))) {
           int numLen = 1;
           while (ind + numLen < errorMessage.length()
-              && StringTools.isNumber(errorMessage.charAt(ind + numLen))) {
+              && StringTools.isPositiveNumber(errorMessage.charAt(ind + numLen))) {
             numLen++;
           }
           final int j = Integer.parseInt(errorMessage.substring(ind + 1, ind + numLen)) - 1;
@@ -710,7 +710,7 @@ public class PatternRule extends Rule {
                   if (sPos > 0) {
                     suggestionLeft = leftSide.substring(sPos +SUGG_TAG.length());
                   }
-                  if ("".equals(suggestionLeft)) {
+                  if (StringTools.isEmpty(suggestionLeft)) {
                     errorMessage = leftSide;
                   } else {
                     errorMessage = leftSide.substring(0, leftSide.lastIndexOf(SUGG_TAG))
@@ -720,7 +720,7 @@ public class PatternRule extends Rule {
                   if (rPos > 0) {
                     suggestionRight = rightSide.substring(0, rPos);
                   }
-                  if (!"".equals(suggestionRight)) {
+                  if (!StringTools.isEmpty(suggestionRight)) {
                     rightSide = rightSide.substring(rightSide.indexOf("</suggestion>"));
                   }
                   final int lastLeftSugEnd = leftSide.indexOf("</suggestion>");
@@ -756,7 +756,7 @@ public class PatternRule extends Rule {
             numberFollows = false;
             errLen = errorMessage.length();
             if (errMarker > 0 && errMarker < errLen - 1) {
-              numberFollows = StringTools.isNumber(errorMessage.charAt(errMarker + 1));
+              numberFollows = StringTools.isPositiveNumber(errorMessage.charAt(errMarker + 1));
             }
           }
         }
@@ -765,7 +765,7 @@ public class PatternRule extends Rule {
       numberFollows = false;
       errLen = errorMessage.length();
       if (errMarker > 0 && errMarker < errLen - 1) {
-        numberFollows = StringTools.isNumber(errorMessage.charAt(errMarker + 1));
+        numberFollows = StringTools.isPositiveNumber(errorMessage.charAt(errMarker + 1));
       }
     }  
     return errorMessage;

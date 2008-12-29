@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import de.danielnaber.languagetool.tagging.de.AnalyzedGermanTokenReadings;
+import de.danielnaber.languagetool.tools.StringTools;
 
 /**
  * A sentence that has been tokenized and analyzed.
@@ -97,7 +98,7 @@ public class AnalyzedSentence {
   public final String toString() {
     final StringBuilder sb = new StringBuilder();
     for (final AnalyzedTokenReadings element : tokens) {
-      if (!"".equals(element.token.trim())) {
+      if (!StringTools.isEmpty(element.token.trim())) {
         sb.append(element.token);
         sb.append("[");
       }
@@ -113,7 +114,7 @@ public class AnalyzedSentence {
           // FIXME: don't depend on AnalyzedGermanTokenReadings here
           sb.append(element.getAnalyzedToken(j).getToken());
         } else {
-          if (!"".equals(element.token.trim())) {
+          if (!StringTools.isEmpty(element.token.trim())) {
             sb.append(element.getAnalyzedToken(j));
             if (j < element.getReadingsLength() - 1) {
               sb.append(",");
@@ -121,7 +122,7 @@ public class AnalyzedSentence {
           }
         }
       }
-      if (!"".equals(element.token.trim())) {
+      if (!StringTools.isEmpty(element.token.trim())) {
         sb.append("]");
       } else {
         sb.append(" ");

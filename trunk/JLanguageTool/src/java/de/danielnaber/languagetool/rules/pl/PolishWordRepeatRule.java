@@ -29,6 +29,7 @@ import de.danielnaber.languagetool.AnalyzedSentence;
 import de.danielnaber.languagetool.AnalyzedTokenReadings;
 import de.danielnaber.languagetool.rules.Category;
 import de.danielnaber.languagetool.rules.RuleMatch;
+import de.danielnaber.languagetool.tools.StringTools;
 
 /**
  * @author Marcin Miłkowski
@@ -112,7 +113,7 @@ public class PolishWordRepeatRule extends PolishRule {
       for (int k = 0; k < readingsLen; k++) {
         final String posTag = tokens[i].getAnalyzedToken(k).getPOSTag();
         if (posTag != null) {
-          if (posTag.equals("")) {
+          if (StringTools.isEmpty(posTag)) {
             isWord = false;
             break;
           }

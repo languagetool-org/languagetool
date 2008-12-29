@@ -155,7 +155,7 @@ public final class RuleOverview {
         StringBuilder maintainerInfo = new StringBuilder();
         if (lang.getMaintainers() != null) {
           for (Contributor contributor : lang.getMaintainers()) {
-            if (!maintainerInfo. toString().equals("")) {
+            if (!StringTools.isEmpty(maintainerInfo. toString())) {
               maintainerInfo.append(", ");
             }
             if (contributor.getUrl() != null) {

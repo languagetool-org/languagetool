@@ -50,7 +50,7 @@ public final class StringTools {
     if (s == null) {
       throw new NullPointerException(varName + " cannot be null");
     }
-    if ((("").equals(s.trim()))) {
+    if ((isEmpty(s.trim()))) {
       throw new IllegalArgumentException(varName + " cannot be empty or whitespace only");
     }
   }
@@ -109,7 +109,7 @@ public final class StringTools {
    * Whether the first character of <code>str</code> is an uppercase character.
    */
   public static boolean startsWithUppercase(final String str) {
-    if (str.length() == 0) {
+    if (isEmpty(str)) {
       return false;
     }
     final char firstChar = str.charAt(0);
@@ -124,7 +124,7 @@ public final class StringTools {
    * uppercase character.
    */
   public static String uppercaseFirstChar(final String str) {
-    if (str.length() == 0) {
+    if (isEmpty(str)) {
       return str;
     }
     final char firstChar = str.charAt(0);
@@ -392,7 +392,7 @@ public final class StringTools {
       return false;
     }
     final String trimStr = str.trim();
-    if (("").equals(trimStr)) {
+    if (isEmpty(trimStr)) {
       return true;
     } else {
       if (trimStr.length() == 1) {
@@ -406,12 +406,21 @@ public final class StringTools {
   /**
    * 
    * @param ch Character to check
-   * @return True if the character is a number (decimal digit).
+   * @return True if the character is a positive number 
+   * (decimal digit from 1 to 9).
    */
-  public static boolean isNumber(final char ch) {
+  public static boolean isPositiveNumber(final char ch) {
     return ch >= '1' && ch <= '9';
   }
   
+  /**
+   * Helper method to replace calls to "".equals()
+   * @param str String to check
+   * @return true if string is empty OR null
+   */
+  public static boolean isEmpty(String str) {
+    return str == null || str.length() == 0;
+    }
 }
   
  

@@ -28,6 +28,7 @@ import de.danielnaber.languagetool.AnalyzedToken;
 import de.danielnaber.languagetool.AnalyzedTokenReadings;
 import de.danielnaber.languagetool.JLanguageTool;
 import de.danielnaber.languagetool.synthesis.Synthesizer;
+import de.danielnaber.languagetool.tools.StringTools;
 
 /**
  * Reference to a matched token in a pattern,
@@ -54,38 +55,38 @@ public class Match {
     }
   };
 
-  private String posTag = null;
-  private boolean postagRegexp = false;
+  private String posTag;
+  private boolean postagRegexp;
   private String regexReplace;
   private String posTagReplace;
   private CaseConversion caseConversionType;
-  
+
   /**
    * True if this match element formats a statically
    * defined lemma which is enclosed by the element, 
    * e.g., <tt>&lt;match...&gt;word&lt;/word&gt;</tt>.
    */
-  private boolean staticLemma = false;
-  
+  private boolean staticLemma;
+
   /**
    * True if this match element is used for formatting
    * POS token.
    */
-  private boolean setPos = false;
+  private boolean setPos;
 
   private AnalyzedTokenReadings formattedToken;  
   private AnalyzedTokenReadings matchedToken;
 
-  private int tokenRef = 0;
+  private int tokenRef;
 
   /** Word form generator for POS tags. **/
   private Synthesizer synthesizer;
 
   /** Pattern used to define parts of the matched token. **/
-  private Pattern pRegexMatch = null;  
+  private Pattern pRegexMatch;  
 
   /** Pattern used to define parts of the matched POS token. **/
-  private Pattern pPosRegexMatch = null;     
+  private Pattern pPosRegexMatch;     
 
   public Match(final String posTag, final String posTagReplace,
       final boolean postagRegexp,      
@@ -131,7 +132,7 @@ public class Match {
   public final boolean setsPos() {
     return setPos;
   }
-  
+
   /**
    * Checks if the Match element uses regexp-based
    * form of the POS tag.
@@ -140,24 +141,22 @@ public class Match {
   public final boolean posRegExp() {
     return postagRegexp;
   }
-  
+
   /**
    * Sets a base form (lemma) that will be formatted, or
    * synthesized, using the specified POS regular expressions.
    * @param lemmaString @String that specifies the base form.
    */
-  public final void setLemmaString(final String lemmaString) {
-    if (lemmaString != null) {
-      if (!lemmaString.equals("")) {
-        formattedToken = new AnalyzedTokenReadings(
-            new AnalyzedToken(lemmaString, posTag, lemmaString));
-        staticLemma = true;
-        postagRegexp = true;
-        if (postagRegexp && posTag != null) {
-          pPosRegexMatch = Pattern.compile(posTag);
-        }
+  public final void setLemmaString(final String lemmaString) {    
+    if (!StringTools.isEmpty(lemmaString)) {
+      formattedToken = new AnalyzedTokenReadings(
+          new AnalyzedToken(lemmaString, posTag, lemmaString));
+      staticLemma = true;
+      postagRegexp = true;
+      if (postagRegexp && posTag != null) {
+        pPosRegexMatch = Pattern.compile(posTag);
       }
-    }
+    }    
   }
 
   /**
@@ -280,7 +279,7 @@ public class Match {
       }
       if (pPosRegexMatch != null && posTagReplace != null) {            
         targetPosTag = pPosRegexMatch.matcher(targetPosTag).
-          replaceAll(posTagReplace);  
+        replaceAll(posTagReplace);  
       }
       if (targetPosTag.indexOf('?') > 0) {
         targetPosTag = targetPosTag.replaceAll("\\?", "\\\\?");
@@ -314,7 +313,7 @@ public class Match {
     }
     return targetPosTag;
   }
-  
+
   /**
    * Method for getting the formatted match as a single string.
    * In case of multiple matches, it joins them using a regular
@@ -364,16 +363,16 @@ public class Match {
     switch (caseConversionType) {
       case NONE : break;
       case STARTLOWER : token = token.substring(0, 1).toLowerCase() 
-        + token.substring(1); break;
+      + token.substring(1); break;
       case STARTUPPER : token = token.substring(0, 1).toUpperCase() 
-        + token.substring(1); break;
+      + token.substring(1); break;
       case ALLUPPER : token = token.toUpperCase(); break;
       case ALLLOWER : token = token.toLowerCase(); break;
       default : break;
     }
     return token;
   }
-  
+
   /**
    * Used to let LT know that it should change the case 
    * of the match.
@@ -408,7 +407,7 @@ public class Match {
                 targetPosTag = formattedToken.getAnalyzedToken(i).getPOSTag();
                 if (pPosRegexMatch != null && posTagReplace != null) {            
                   targetPosTag = pPosRegexMatch.matcher(targetPosTag).
-                    replaceAll(posTagReplace);  
+                  replaceAll(posTagReplace);  
                 }
                 l.add(new AnalyzedToken(token, targetPosTag,
                     formattedToken.getAnalyzedToken(i).getLemma(),
@@ -422,9 +421,9 @@ public class Match {
               if (formattedToken.getAnalyzedToken(j).getPOSTag() != null) {
                 if (formattedToken.getAnalyzedToken(j).getPOSTag().equals(posTag)
                     && (formattedToken.getAnalyzedToken(j).getLemma() != null)) {
-                    lemma = formattedToken.getAnalyzedToken(j).getLemma();
-                  }                
-                if ("".equals(lemma)) {
+                  lemma = formattedToken.getAnalyzedToken(j).getLemma();
+                }                
+                if (StringTools.isEmpty(lemma)) {
                   lemma = formattedToken.getAnalyzedToken(0).getLemma();
                 }
                 l.add(new AnalyzedToken(token, posTag, lemma,
@@ -437,10 +436,10 @@ public class Match {
           for (int j = 0; j < numRead; j++) {
             if (formattedToken.getAnalyzedToken(j).getPOSTag() != null) {
               if (formattedToken.getAnalyzedToken(j).getPOSTag().equals(posTag) 
-                && (formattedToken.getAnalyzedToken(j).getLemma() != null)) {
-                  lemma = formattedToken.getAnalyzedToken(j).getLemma();
-                }              
-              if ("".equals(lemma)) {
+                  && (formattedToken.getAnalyzedToken(j).getLemma() != null)) {
+                lemma = formattedToken.getAnalyzedToken(j).getLemma();
+              }              
+              if (StringTools.isEmpty(lemma)) {
                 lemma = formattedToken.getAnalyzedToken(0).getLemma();
               }
               l.add(new AnalyzedToken(token, posTag, lemma,

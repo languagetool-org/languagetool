@@ -102,7 +102,7 @@ public class HTTPServer extends ContentOracle {
     long timeStart = System.currentTimeMillis();
     String text = null;
     try {
-      if ("".equals(connRequest.getLocation())) {
+      if (StringTools.isEmpty(connRequest.getLocation())) {
         connResponse.setStatus(403);
         throw new RuntimeException("Error: Access to " + connRequest.getLocation() + " denied");
       }

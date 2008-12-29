@@ -121,9 +121,16 @@ public class StringToolsTest extends TestCase {
     assertEquals(false, StringTools.isWhitespace("\\u02"));
   }
   
-  public void testIsNumber() {
-    assertEquals(true, StringTools.isNumber('3'));
-    assertEquals(false, StringTools.isNumber('a'));      
+  public void testIsPositiveNumber() {
+    assertEquals(true, StringTools.isPositiveNumber('3'));
+    assertEquals(false, StringTools.isPositiveNumber('a'));      
   }
+  
+  public void testIsEmpty() {
+    assertEquals(true, StringTools.isEmpty(""));
+    assertEquals(true, StringTools.isEmpty(null));
+    assertEquals(false, StringTools.isEmpty("a"));      
+  }
+
   
 }

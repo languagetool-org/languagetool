@@ -94,7 +94,7 @@ public class GermanTagger implements Tagger {
         tagWord(taggerTokens, word, l);
       } else {
         // word not known, try to decompose it and use the last part for POS tagging:
-        if (!word.trim().equals("")) {
+        if (!StringTools.isEmpty(word.trim())) {
           List<String> compoundParts = compoundTokenizer.tokenize(word);
           if (compoundParts.size() <= 1) {
             l.add(new AnalyzedGermanToken(word, null, pos));

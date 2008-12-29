@@ -18,6 +18,7 @@
  */
 package de.danielnaber.languagetool.tools;
 
+import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -140,7 +141,7 @@ public final class Tools {
     // try file path:
     File f = new File(resourcePath);
     if (f.exists() && f.isFile() && f.canRead()) {
-      return new FileInputStream(f);
+      return new BufferedInputStream(new FileInputStream(f));
     } else
       throw new IOException("Could not open input stream from URL/resource/file: " + f.getAbsolutePath());
   }

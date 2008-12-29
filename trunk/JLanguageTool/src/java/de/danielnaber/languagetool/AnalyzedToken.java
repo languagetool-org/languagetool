@@ -77,11 +77,15 @@ public class AnalyzedToken {
   
 
   public String toString() {
+    StringBuilder sb = new StringBuilder();
     if (lemma != null) {
-      return lemma + "/" + posTag;
+      sb.append(lemma);
     } else {
-      return token + "/" + posTag;
+      sb.append(token);
     }
+    sb.append("/");
+    sb.append(posTag);
+    return sb.toString();
   }
   
   public boolean equals(java.lang.Object object) {
