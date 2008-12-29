@@ -64,7 +64,7 @@ public class OOoAboutDialog {
     final XMessageBox box = messageBoxFactory.createMessageBox(
         winPeer, messageBoxRectangle, "infobox", 0, aboutText,         
         "LanguageTool " + JLanguageTool.VERSION + "\n" 
-        + "Copyright (C) 2005-2007 Daniel Naber\n" 
+        + "Copyright (C) 2005-2009 Daniel Naber\n" 
         + "This software is licensed under the GNU Lesser General Public License.\n"
         + "LanguageTool Homepage: http://www.danielnaber.de/languagetool\n\n"
         + "Maintainers of the language modules:\n" 
