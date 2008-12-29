@@ -6,7 +6,7 @@ title="Easy editing stylesheet" ?>
 <!--
 Polish Grammar and Typo Rules for LanguageTool
 Copyright (C) 2006-2007 Marcin Miłkowski
-$Id: grammar.xml,v 1.163 2008-12-28 22:48:12 milek_pl Exp $
+$Id: grammar.xml,v 1.164 2008-12-29 00:12:32 milek_pl Exp $
 -->
 <rules lang="pl">
   <unification feature="number">
@@ -80,25 +80,6 @@ $Id: grammar.xml,v 1.163 2008-12-28 22:48:12 milek_pl Exp $
   </phrases>
   <category name="Błędy interpunkcyjne">
     <rulegroup id="ZDANIA_ZLOZONE" name="Brak przecinka w zdaniu złożonym">
-      <rule>
-        <pattern>
-          <token postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf|pant:perf" postag_regexp="yes" skip="-1"><exception postag="subst:.*|adj.*|ppron.*|verb:inf.*|verb:bedzie.*|adv:comp|prep.*|qub|indecl|adv.*|conj|&lt;/TO_(ZNACZY|JEST)&gt;|verb:winien.*" postag_regexp="yes" scope="current"/><exception regexp="yes" scope="current">może|jedna</exception><exception inflected="yes" regexp="yes" scope="next">[\p{Punct}—–„«»…]+(?&lt;!\.)|aby|acz|aczkolwiek|albo|albowiem|ale|aleć|aliści|ani|azali|ażeby|bo|byleby|bądź|czy|czyli|czyliż|dlaczego|dopóki|dopóty|gdy|gdyby|gdyż|gdyżby|i|ilekolwiek|ilekroć|iż|iżby|jaki|jeśli|jeżeli|kiedy|który|którędy|lecz|lub|oraz|ponieważ|póki|wszelako|zanim|że|żeby</exception><exception postag="&lt;ELLIPSIS&gt;" scope="next"/></token>
-          <token postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf|pant:perf" postag_regexp="yes" skip="-1"><exception postag="subst:.*|adj.*|ppron.*|verb:inf.*|verb:bedzie.*|adv:comp|prep.*|qub|indecl|adv.*|conj" postag_regexp="yes" scope="current"/><exception regexp="yes" scope="current">może|jedna</exception></token>
-          <phraseref idref="INTERPUNKCJA"/>
-        </pattern>
-        <message>W tym zdaniu złożonym brakuje przecinka lub spójnika między jednym zdaniem a drugim.</message>
-        <short>Błąd interpunkcyjny</short>
-        <example type="correct">Kupiłem wino, chciałem też pić wodę.</example>
-        <example type="incorrect"><marker>Kupiłem wino chciałem też pić wodę.</marker></example>
-        <example type="incorrect">Pokład <marker>szorowano by nie zostały ślady krwi.</marker></example>
-        <example type="correct">Rozstanie się bywa trudne.</example>
-        <example type="correct">Wyjechał z kraju, to znaczy zerwał wszystkie stosunki z rodziną.</example>
-        <example type="correct">Chociaż kupiłem wino, chciałem też pić wodę.</example>
-        <example type="correct">Marek będzie pomagał Jurkowi odrabiać lekcje za Romana.</example>
-        <example type="correct">Tak to bywa... ludzie się zmieniają.</example>
-        <example type="incorrect"><marker>Zzuwszy buty Marek zatruł atmosferę na sali.</marker></example>
-        <example type="incorrect">Chociaż <marker>kupiłem wino chciałem też pić wodę.</marker></example>
-      </rule>
       <rule>
         <pattern>
           <token postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf|pant:perf" postag_regexp="yes" skip="-1"><exception postag="subst:.*|adj.*|ppron.*|verb:inf.*|verb:bedzie.*|adv:comp|prep.*|qub|indecl|adv.*|conj|&lt;/TO_(ZNACZY|JEST)&gt;|verb:winien.*" postag_regexp="yes" scope="current"/><exception regexp="yes" scope="current">może|jedna</exception><exception inflected="yes" regexp="yes" scope="next">[\p{Punct}—–„«»…]+(?&lt;!\.)|aby|acz|aczkolwiek|albo|albowiem|ale|aleć|aliści|ani|azali|ażeby|bo|byleby|bądź|czy|czyli|czyliż|dlaczego|dopóki|dopóty|gdy|gdyby|gdyż|gdyżby|i|ilekolwiek|ilekroć|iż|iżby|jaki|jeśli|jeżeli|kiedy|który|którędy|lecz|lub|oraz|ponieważ|póki|wszelako|zanim|że|żeby</exception><exception postag="&lt;ELLIPSIS&gt;" scope="next"/></token>
@@ -984,11 +965,10 @@ $Id: grammar.xml,v 1.163 2008-12-28 22:48:12 milek_pl Exp $
       <rule>
         <pattern mark_to="-1">
           <token negate="yes">,<exception regexp="yes">[\p{Punct}–—„«»…]+</exception><exception postag="conj|adv.*|prep.*|SENT_START" postag_regexp="yes"/></token>
-          <token postag="&lt;PREP:.*&gt;" postag_regexp="yes" skip="4"><exception scope="next">,</exception></token>
+          <token postag="&lt;PREP:.*&gt;" postag_regexp="yes" skip="4"><exception scope="next">,</exception><exception>odnośnie</exception></token>
           <token inflected="yes" regexp="yes">który|jaki</token>
         </pattern>
-        <message>Brak przecinka w tym fragmencie zdania. Przecinek prawdopodobnie należy
-				postawić tak: <suggestion>\1, \2</suggestion>.</message>
+        <message>Brak przecinka w tym fragmencie zdania. Przecinek prawdopodobnie należy postawić tak: <suggestion>\1, \2</suggestion>.</message>
         <short>Błąd interpunkcyjny</short>
         <example type="correct">Istnieją dwa <marker>powody, z</marker> uwagi na które może on tak myśleć.</example>
         <example correction="powody, z" type="incorrect">Istnieją dwa <marker>powody z</marker> uwagi na które może on tak myśleć.</example>
@@ -1364,15 +1344,17 @@ $Id: grammar.xml,v 1.163 2008-12-28 22:48:12 milek_pl Exp $
     </rule>
     <rulegroup id="PRZECINEK_POROWNANIE" name="Zbędny przecinek przed „jak” i „niż”">
       <rule>
-        <pattern mark_from="1" mark_to="-1">
+        <pattern mark_from="1" mark_to="-2">
           <token postag="SENT_START" skip="-1"><exception regexp="yes" scope="next">równie|zarówno|tak</exception></token>
           <token>,</token>
-          <token regexp="yes" skip="-1"><exception postag="verb:.*|pcon:imperf|pant:perf|pred" postag_regexp="yes" scope="next"/>jak|niż|jakby|niczym|niby</token>
+          <token regexp="yes">jak|niż|jakby|niczym|niby</token>
+          <token skip="-1"><exception postag="verb:.*|pcon:imperf|pant:perf|pred" postag_regexp="yes" scope="next"/><exception>i|również|też</exception></token>
           <token postag="SENT_END"/>
         </pattern>
         <message>Prawdopodobnie zbędny przecinek. Powinno być: <suggestion> \3</suggestion>.</message>
         <short>Błąd interpunkcyjny</short>
         <example correction=" jak" type="incorrect">On jest zdrów<marker>, jak</marker> rydz.</example>
+        <example type="correct">Spotkałem tam wiele osób: Hanię, Jarosława, Ludwika oraz Heńka, jak również innych, których imion nie pamiętam.</example>
         <example type="correct">On jest zdrów jak rydz.</example>
       </rule>
     </rulegroup>
@@ -9801,6 +9783,15 @@ Znacznie częściej ta forma jest mylona z trybem rozkazującym od „pokazać�
         <example type="correct">Mowa o Osjanie, bardzie celtyckim.</example>
       </rule>
     </rulegroup>
+    <rule id="BARDO" name="„bardo” (bardzo)">
+      <pattern>
+        <token>bardo</token>
+      </pattern>
+      <message>Prawdopodobna literówka. Czy chodziło o <suggestion>bardzo</suggestion>?</message>
+      <short>Prawdopodobna literówka</short>
+      <example correction="Bardzo" type="incorrect"><marker>Bardo</marker> się martwię.</example>
+      <example type="correct">Bardzo się martwię.</example>
+    </rule>
     <rule id="ZWROTNE_BEZ_SIE" name="czasowniki zwrotne bez „się”">
       <pattern mark_from="1" mark_to="-1">
         <token postag="SENT_START" skip="-1"><exception scope="next">się</exception></token>
