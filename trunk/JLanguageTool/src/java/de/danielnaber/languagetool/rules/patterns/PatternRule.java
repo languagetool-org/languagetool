@@ -728,15 +728,19 @@ public class PatternRule extends Rule {
                   }
                   final int lastLeftSugEnd = leftSide.indexOf("</suggestion>");
                   final int lastLeftSugStart = leftSide.lastIndexOf(SUGG_TAG);
+                  StringBuilder sb = new StringBuilder();
+                  sb.append(errorMessage);
                   for (int z = 0; z < matches.length; z++) {
-                    errorMessage += suggestionLeft
-                    + matches[z] 
-                    + suggestionRight;
-                    if ((z < matches.length -1)&& lastLeftSugEnd < lastLeftSugStart) {                      
-                        errorMessage += "</suggestion>, " + SUGG_TAG;                      
+                    sb.append(suggestionLeft);
+                    sb.append(matches[z]); 
+                    sb.append(suggestionRight);
+                    if ((z < matches.length -1) && lastLeftSugEnd < lastLeftSugStart) {                      
+                      sb.append("</suggestion>, ");
+                      sb.append(SUGG_TAG);                      
                     }
                   }
-                  errorMessage += rightSide;                                    
+                  sb.append(rightSide);
+                  errorMessage = sb.toString();                                    
                 }
                 matchCounter++;                
                 newWay = true;
