@@ -305,14 +305,11 @@ public class Unifier {
         tmpATR.addReading(tokSequence.get(0).getAnalyzedToken(i));          
       }
     }
-    //List<AnalyzedTokenReadings> tempSeq = new ArrayList<AnalyzedTokenReadings>(tokSequence);
-    //tempSeq.set(0, tmpATR);
     tokSequence.set(0, tmpATR);
     }
     firstUnified = true;
     }
     AnalyzedTokenReadings[] atr = 
-      //tempSeq.toArray(new AnalyzedTokenReadings[tempSeq.size()]);          
       tokSequence.toArray(new AnalyzedTokenReadings[tokSequence.size()]);
     return atr;
   } 
