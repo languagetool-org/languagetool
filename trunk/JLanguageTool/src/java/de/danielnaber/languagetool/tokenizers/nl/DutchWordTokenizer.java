@@ -26,27 +26,28 @@ import de.danielnaber.languagetool.tokenizers.WordTokenizer;
 
 public class DutchWordTokenizer extends WordTokenizer {
 
-	public DutchWordTokenizer() {
-	  }
-	
-	/**
-	 * Tokenizes just like WordTokenizer with the exception
-	 * for words such as "oma's" that contains an apostrophe
-	 * in their middle.
-	 * @param  text - Text to tokenize
-	 * @return List of tokens.
-	 * 
-	 *  Note: a special string ##NL_APOS## is used to 
-	 *  replace apostrophe during tokenizing.
-	 */
-	public List<String> tokenize(final String text) {
-//TODO: find a cleaner implementation, this is a hack		
-		final List<String> tokenList = super.tokenize(
-				text.replaceAll("([\\p{L}])'([\\p{L}])", "$1##NL_APOS##$2"));
-		String[] tokens = tokenList.toArray(new String[tokenList.size()]);
-		for (int i = 0; i < tokens.length; i++) {
-			tokens[i] = tokens[i].replace("##NL_APOS##", "'");
-		}
-		return Arrays.asList(tokens);
-	}
+  public DutchWordTokenizer() {
+  }
+
+  /**
+   * Tokenizes just like WordTokenizer with the exception for words such as
+   * "oma's" that contains an apostrophe in their middle.
+   * 
+   * @param text
+   *          - Text to tokenize
+   * @return List of tokens.
+   * 
+   *         Note: a special string ##NL_APOS## is used to replace apostrophe
+   *         during tokenizing.
+   */
+  public List<String> tokenize(final String text) {
+    // TODO: find a cleaner implementation, this is a hack
+    final List<String> tokenList = super.tokenize(text.replaceAll(
+        "([\\p{L}])'([\\p{L}])", "$1##NL_APOS##$2"));
+    String[] tokens = tokenList.toArray(new String[tokenList.size()]);
+    for (int i = 0; i < tokens.length; i++) {
+      tokens[i] = tokens[i].replace("##NL_APOS##", "'");
+    }
+    return Arrays.asList(tokens);
+  }
 }
