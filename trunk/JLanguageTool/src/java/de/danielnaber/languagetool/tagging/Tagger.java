@@ -21,7 +21,6 @@ package de.danielnaber.languagetool.tagging;
 import java.io.IOException;
 import java.util.List;
 
-import de.danielnaber.languagetool.AnalyzedToken;
 import de.danielnaber.languagetool.AnalyzedTokenReadings;
 
 /**

@@ -111,7 +111,7 @@ public abstract class Rule {
    */
   public boolean supportsLanguage(final Language language) {
     Set<String> relevantIDs = language.getRelevantRuleIDs();
-    return (relevantIDs != null && relevantIDs.contains(getId()));    
+    return relevantIDs != null && relevantIDs.contains(getId());    
   }
 
   /**

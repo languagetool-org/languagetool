@@ -59,20 +59,20 @@ public abstract class Language {
 
   // NOTE: keep in sync with array below!
   //public final static Language CZECH = new Czech();
-  public final static Language DUTCH = new Dutch();
-  public final static Language ENGLISH = new English();
-  public final static Language FRENCH = new French();
-  public final static Language GERMAN = new German();
-  public final static Language ITALIAN = new Italian();
-  public final static Language LITHUANIAN = new Lithuanian();
-  public final static Language POLISH = new Polish();
-  public final static Language SLOVENIAN = new Slovenian();
-  public final static Language SPANISH = new Spanish();
-  public final static Language SWEDISH = new Swedish();
-  public final static Language UKRAINIAN = new Ukrainian();
-  public final static Language RUSSIAN = new Russian();
+  public static final Language DUTCH = new Dutch();
+  public static final Language ENGLISH = new English();
+  public static final Language FRENCH = new French();
+  public static final Language GERMAN = new German();
+  public static final Language ITALIAN = new Italian();
+  public static final Language LITHUANIAN = new Lithuanian();
+  public static final Language POLISH = new Polish();
+  public static final Language SLOVENIAN = new Slovenian();
+  public static final Language SPANISH = new Spanish();
+  public static final Language SWEDISH = new Swedish();
+  public static final Language UKRAINIAN = new Ukrainian();
+  public static final Language RUSSIAN = new Russian();
   
-  public final static Language DEMO = new Demo();
+  public static final Language DEMO = new Demo();
   
   private static List<Language> externalLanguages = new ArrayList<Language>();
   

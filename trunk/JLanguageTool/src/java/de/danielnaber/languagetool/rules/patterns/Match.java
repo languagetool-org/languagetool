@@ -343,7 +343,7 @@ public class Match {
         }
       }
     } catch (final IOException e) {
-      throw new RuntimeException(e.getMessage(), e.getCause());
+      throw new RuntimeException(e.getCause());
     }
     return output.toString();
   }

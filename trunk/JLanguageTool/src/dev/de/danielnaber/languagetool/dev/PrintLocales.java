@@ -24,6 +24,7 @@ import java.io.IOException;
 import java.io.File;
 
 import de.danielnaber.languagetool.Language;
+import de.danielnaber.languagetool.tools.StringTools;
 
 /** Used for creating ooolocales.properties file that
  *  defines a property that is needed to build
@@ -45,7 +46,7 @@ public class PrintLocales {
     for (final Language element : Language.LANGUAGES) {
       if (!element.equals(Language.DEMO)) {
         for (final String variant : element.getCountryVariants()) {
-          if (!("").equals(locales)) {
+          if (!StringTools.isEmpty(locales)) {
             locales = locales + " "  + element.getShortName() + "-" + variant;
           } else {
             locales = element.getShortName() + "-" + variant;

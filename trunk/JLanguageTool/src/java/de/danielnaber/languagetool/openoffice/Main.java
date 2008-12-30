@@ -517,7 +517,7 @@ public class Main extends WeakBase implements
     return new File(homeDir);
   }
 
-  class AboutDialogThread extends Thread {
+  private class AboutDialogThread extends Thread {
 
     private ResourceBundle messages;
 

@@ -29,13 +29,13 @@ import de.danielnaber.languagetool.tools.StringTools;
 
 public class AboutDialog {
 
-  private ResourceBundle messages = null;
+  private final ResourceBundle messages;
   
-  public AboutDialog(ResourceBundle messages) {
+  public AboutDialog(final ResourceBundle messages) {
     this.messages = messages;
   }
   
-  public void show() {
+  public final void show() {
     final StringBuilder maintainersInfo = new StringBuilder();
     for (Language lang : Language.LANGUAGES) {
       if (lang != Language.DEMO) {
@@ -50,13 +50,12 @@ public class AboutDialog {
     }
     final String aboutText = 
       StringTools.getLabel(messages.getString("guiMenuAbout"));
-    JOptionPane.showMessageDialog(null, "LanguageTool " + JLanguageTool.VERSION + "\n" + 
-        "Copyright (C) 2005-2009 Daniel Naber\n"+
-        "This software is licensed under the GNU Lesser General Public License.\n"+
-        "LanguageTool Homepage: http://www.languagetool.org\n\n"+
-        "Maintainers of the language modules:\n"+
-        maintainersInfo.toString(),
+    JOptionPane.showMessageDialog(null, "LanguageTool " + JLanguageTool.VERSION + "\n" 
+        + "Copyright (C) 2005-2009 Daniel Naber\n" 
+        + "This software is licensed under the GNU Lesser General Public License.\n"
+        + "LanguageTool Homepage: http://www.languagetool.org\n\n"
+        + "Maintainers of the language modules:\n"
+        + maintainersInfo.toString(),
         aboutText, JOptionPane.INFORMATION_MESSAGE);
   }
-  
 }

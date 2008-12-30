@@ -535,7 +535,7 @@ public final class JLanguageTool {
     tokenArray[toArrayCount++] = new AnalyzedTokenReadings(startTokenArray);
     int startPos = 0;
     for (final AnalyzedTokenReadings posTag : aTokens) {
-      posTag.startPos = startPos;
+      posTag.setStartPos(startPos);
       tokenArray[toArrayCount++] = posTag;
       startPos += posTag.getToken().length();
     }

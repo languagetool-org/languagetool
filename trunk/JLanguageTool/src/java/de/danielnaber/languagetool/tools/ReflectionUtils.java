@@ -34,7 +34,7 @@ import java.util.Set;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
-public class ReflectionUtils {
+public final class ReflectionUtils {
 
   private ReflectionUtils() {
     // a static singleton class

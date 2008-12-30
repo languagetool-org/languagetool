@@ -45,11 +45,11 @@ import de.danielnaber.languagetool.tools.StringTools;
 
 public abstract class AbstractCompoundRule extends Rule {
 
-  private final static int MAX_TERMS = 5;  
+  private static final int MAX_TERMS = 5;  
 
-  final private Set<String> incorrectCompounds = new HashSet<String>();
-  final private Set<String> noDashSuggestion = new HashSet<String>();
-  final private Set<String> onlyDashSuggestion = new HashSet<String>();
+  private final Set<String> incorrectCompounds = new HashSet<String>();
+  private final Set<String> noDashSuggestion = new HashSet<String>();
+  private final Set<String> onlyDashSuggestion = new HashSet<String>();
 
   private String withHyphen;
   private String asOne;

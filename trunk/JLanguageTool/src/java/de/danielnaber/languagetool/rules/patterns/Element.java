@@ -26,7 +26,6 @@ import java.util.regex.Pattern;
 import de.danielnaber.languagetool.AnalyzedToken;
 import de.danielnaber.languagetool.AnalyzedTokenReadings;
 import de.danielnaber.languagetool.JLanguageTool;
-import de.danielnaber.languagetool.Language;
 import de.danielnaber.languagetool.synthesis.Synthesizer;
 import de.danielnaber.languagetool.tools.StringTools;
 
@@ -492,7 +491,7 @@ public class Element {
    * Special value UNKNOWN_TAG matches null POS tags.
    * 
    */
-  final private boolean isPosTokenMatched(final AnalyzedToken token) {
+  private boolean isPosTokenMatched(final AnalyzedToken token) {
     // if no POS set
     // defaulting to true
     if (posToken == null) {
@@ -531,7 +530,7 @@ public class Element {
    * @param token @AnalyzedToken to match against.
    * @return True if matches.
    */
-  final private boolean isStringTokenMatched(final AnalyzedToken token) {
+  private boolean isStringTokenMatched(final AnalyzedToken token) {
     String testToken = null;
     // enables using words with lemmas and without lemmas
     // in the same regexp with inflected="yes"
@@ -633,7 +632,7 @@ public class Element {
    * and POS (if the Element is supposed to refer to some other
    * token).
    * @param token @AnalyzedTokenReadings - the token 
-   * synth @Syntesizer - the language synthesizer
+   * @param synth @Syntesizer - the language synthesizer
    *
    */
   public final void compile(final AnalyzedTokenReadings token,

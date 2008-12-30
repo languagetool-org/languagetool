@@ -7,7 +7,7 @@ import junit.framework.TestCase;
 import de.danielnaber.languagetool.AnalyzedToken;
 
 public class PolishSynthesizerTest extends TestCase {
-  private final AnalyzedToken dummyToken(String tokenStr) {
+  private AnalyzedToken dummyToken(String tokenStr) {
     return new AnalyzedToken(tokenStr, tokenStr, tokenStr);
   }
 

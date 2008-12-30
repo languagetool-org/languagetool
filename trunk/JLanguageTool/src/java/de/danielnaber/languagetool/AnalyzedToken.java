@@ -26,7 +26,7 @@ package de.danielnaber.languagetool;
 public class AnalyzedToken {
 
   private String token;
-  protected String posTag;
+  private String posTag;
   private int startPos;
   private String lemma;
 

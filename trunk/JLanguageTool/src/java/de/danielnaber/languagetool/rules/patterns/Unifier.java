@@ -102,7 +102,7 @@ public class Unifier {
    * for example plural, first person, genitive.
    * @param elem Element specifying the equivalence.
    */
-  public void setEquivalence(final String feature, final String type,
+  public final void setEquivalence(final String feature, final String type,
       final Element elem) {
     if (equivalenceTypes.containsKey(feature + ":" + type)) {
       // shouldn't happen, the throw exception?
@@ -120,12 +120,12 @@ public class Unifier {
 
   /**
    * Tests if a token has shared features with other tokens.
-   * @param AT - token to be tested
+   * @param aToken - token to be tested
    * @param feature - feature to be tested
    * @param type - type of equivalence relation for the feature
    * @return true if the token shares this type of feature with other tokens
    */
-  public boolean isSatisfied(final AnalyzedToken AT, final String feature,
+  public final boolean isSatisfied(final AnalyzedToken aToken, final String feature,
       final String type) {
 
     if (allFeatsIn && equivalencesMatched.isEmpty()) {
@@ -136,8 +136,8 @@ public class Unifier {
       return false; //throw exception??
     }
     boolean unified = true;
-    final String features[] = feature.split(",");
-    String types[];    
+    final String[] features = feature.split(",");
+    String[] types;    
 
     if (!allFeatsIn) {
       tokCnt++;
@@ -158,7 +158,7 @@ public class Unifier {
           if (testElem == null) {
             return false;
           }
-          if (testElem.isMatched(AT)) {            
+          if (testElem.isMatched(aToken)) {            
             if (!equivalencesMatched.get(tokCnt).containsKey(feat)) {
               final Set<String> typeSet = new HashSet<String>();
               typeSet.add(typename);
@@ -175,22 +175,22 @@ public class Unifier {
       }
       if (unified) {
         if (tokCnt == 0 || tokSequence.isEmpty()) {
-          tokSequence.add(new AnalyzedTokenReadings(AT));
+          tokSequence.add(new AnalyzedTokenReadings(aToken));
         } else {
-          tokSequence.get(0).addReading(AT);
+          tokSequence.get(0).addReading(aToken);
         }    
       }
     } else {        
-      unified &= checkNext(AT, features, type);
+      unified &= checkNext(aToken, features, type);
     }          
-    return (unified) ^ negation;
+    return unified ^ negation;
   }
 
   private boolean checkNext(final AnalyzedToken AT, final String features[],
       final String type) {      
     boolean unifiedNext = true;
     boolean anyFeatUnified = false;
-    String types[];        
+    String[] types;
     if (allFeatsIn) {
       for (int i = 0; i <= tokCnt; i++) {      
         boolean allFeatsUnified = true;
@@ -230,7 +230,7 @@ public class Unifier {
   /**
    * Call after every complete token (AnalyzedTokenReadings) checked.
    */
-  public void startNextToken() {
+  public final void startNextToken() {
     featuresFound = new ArrayList<Boolean>(tmpFeaturesFound);
     readingsCounter++;
   }
@@ -239,7 +239,7 @@ public class Unifier {
    * Starts testing only those equivalences
    * that were previously matched.
    */
-  public void startUnify() {
+  public final void startUnify() {
     allFeatsIn = true;
     for (int i = 0; i <= tokCnt; i++) {
       featuresFound.add(true);
@@ -247,18 +247,18 @@ public class Unifier {
     tmpFeaturesFound = new ArrayList<Boolean>(featuresFound);
   }
 
-  public void setNegation(final boolean neg) {
+  public final void setNegation(final boolean neg) {
     negation = neg;
   }
 
-  public boolean getNegation() {
+  public final boolean getNegation() {
     return negation;
   }
 
   /**
    * Resets after use of unification. Required.
    */
-  public void reset() {
+  public final void reset() {
     equivalencesMatched.clear();
     allFeatsIn = false;
     negation = false;
@@ -285,7 +285,7 @@ public class Unifier {
    * equivalence relation defined for features
    * tested.
    */
-  public AnalyzedTokenReadings[] getUnifiedTokens() {
+  public final AnalyzedTokenReadings[] getUnifiedTokens() {
     if (!firstUnified) {
     AnalyzedTokenReadings tmpATR;
     int first = -1;

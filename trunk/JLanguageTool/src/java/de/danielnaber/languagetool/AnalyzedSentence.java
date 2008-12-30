@@ -22,7 +22,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import de.danielnaber.languagetool.tagging.de.AnalyzedGermanTokenReadings;
-import de.danielnaber.languagetool.tools.StringTools;
 
 /**
  * A sentence that has been tokenized and analyzed.
@@ -66,7 +65,7 @@ public class AnalyzedSentence {
       int whCounter = 0;
       int nonWhCounter = 0;
       final int[] mapping = new int[tokens.length + 1];
-	    final List <AnalyzedTokenReadings> l = new ArrayList<AnalyzedTokenReadings>();
+	    final List<AnalyzedTokenReadings> l = new ArrayList<AnalyzedTokenReadings>();
 	    for (final AnalyzedTokenReadings token : tokens) {        
 	      if (!token.isWhitespace() || token.isSentStart() || token.isSentEnd() || token.isParaEnd()) {
             l.add(token);            
@@ -98,8 +97,8 @@ public class AnalyzedSentence {
   public final String toString() {
     final StringBuilder sb = new StringBuilder();
     for (final AnalyzedTokenReadings element : tokens) {
-      if (!StringTools.isEmpty(element.token.trim())) {
-        sb.append(element.token);
+      if (!element.isWhitespace()) {
+        sb.append(element.getToken());
         sb.append("[");
       }
       for (int j = 0; j < element.getReadingsLength(); j++) {
@@ -114,7 +113,7 @@ public class AnalyzedSentence {
           // FIXME: don't depend on AnalyzedGermanTokenReadings here
           sb.append(element.getAnalyzedToken(j).getToken());
         } else {
-          if (!StringTools.isEmpty(element.token.trim())) {
+          if (!element.isWhitespace()) {
             sb.append(element.getAnalyzedToken(j));
             if (j < element.getReadingsLength() - 1) {
               sb.append(",");
@@ -122,7 +121,7 @@ public class AnalyzedSentence {
           }
         }
       }
-      if (!StringTools.isEmpty(element.token.trim())) {
+      if (!element.isWhitespace()) {
         sb.append("]");
       } else {
         sb.append(" ");

@@ -77,7 +77,7 @@ public class AgreementRule extends GermanRule {
   };
 
   
-  private final static Set<String> REL_PRONOUN = new HashSet<String>();
+  private static final Set<String> REL_PRONOUN = new HashSet<String>();
   static {
     REL_PRONOUN.add("der");
     REL_PRONOUN.add("die");
@@ -93,7 +93,7 @@ public class AgreementRule extends GermanRule {
     REL_PRONOUN.add("welches");
   }
 
-  private final static Set<String> PREPOSITIONS = new HashSet<String>();
+  private static final Set<String> PREPOSITIONS = new HashSet<String>();
   static {
     PREPOSITIONS.add("in");
     PREPOSITIONS.add("auf");

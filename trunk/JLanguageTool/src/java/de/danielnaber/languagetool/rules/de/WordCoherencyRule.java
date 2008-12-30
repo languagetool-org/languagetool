@@ -81,7 +81,7 @@ public class WordCoherencyRule extends GermanRule {
     	//defaulting to the first element because the
     	//general German lemmatizer is not (yet) there
       String token = tokens[i].getToken();
-      if (token.trim().equals("")) {
+      if (tokens[i].isWhitespace()) {
         // ignore
       } else {
         String origToken = token;

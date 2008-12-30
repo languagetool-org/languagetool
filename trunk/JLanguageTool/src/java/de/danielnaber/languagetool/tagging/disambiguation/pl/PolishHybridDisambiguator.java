@@ -42,7 +42,7 @@ public class PolishHybridDisambiguator implements Disambiguator {
    * (2) a rule-based disambiguator.
    */
   @Override
-  public AnalyzedSentence disambiguate(AnalyzedSentence input)
+  public final AnalyzedSentence disambiguate(AnalyzedSentence input)
   throws IOException {
     return disambiguator.disambiguate
     ((chunker.disambiguate(input)));

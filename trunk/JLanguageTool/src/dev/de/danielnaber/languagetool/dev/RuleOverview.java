@@ -147,7 +147,7 @@ public final class RuleOverview {
           }          
           count++;
         }
-        System.out.print("<td align=\"right\">" + (count) +
+        System.out.print("<td align=\"right\">" + count +
           "</td>");
 
         // maintainer information:

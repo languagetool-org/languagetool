@@ -42,7 +42,7 @@ public class PolishTagger extends BaseTagger {
 	private Locale plLocale = new Locale("pl");
 
   @Override
-  public void setFileName() {
+  public final void setFileName() {
     System.setProperty(Lametyzator.PROPERTY_NAME_LAMETYZATOR_DICTIONARY, 
         RESOURCE_FILENAME);    
   }

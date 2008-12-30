@@ -114,7 +114,7 @@ public final class TestTools {
         AnalyzedTokenReadings posTag = null;
         if (isWord(tokenStr)) {
           posTag = (AnalyzedTokenReadings) aTokens.get(noWhitespaceCount);
-          posTag.startPos = startPos;
+          posTag.setStartPos(startPos);
           noWhitespaceCount++;
         } else {
           posTag = (AnalyzedTokenReadings) tagger.createNullToken(tokenStr, startPos);
