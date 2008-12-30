@@ -156,7 +156,7 @@ public class DisambiguationPatternRule {
   }
 
   public final AnalyzedSentence replace(final AnalyzedSentence text)
-  throws IOException {
+      throws IOException {
 
     final AnalyzedTokenReadings[] tokens = text.getTokensWithoutWhitespace();
     AnalyzedTokenReadings[] whTokens = text.getTokens();
@@ -171,16 +171,14 @@ public class DisambiguationPatternRule {
     // of tokens skipped - used to avoid
     // that nextPos gets back to unmatched tokens...
     int skipShiftTotal = 0;
-
     int firstMatchToken = -1;
     final int patternSize = patternElements.size();
     Element elem = null, prevElement = null;
     final boolean startWithSentStart = patternElements.get(0).isSentStart();
-
+    language.getUnifier().reset();
     boolean inUnification = false;
     boolean uniMatched = false;
     AnalyzedTokenReadings[] unifiedTokens = null;
-
     for (int i = 0; i < tokens.length; i++) {
       boolean allElementsMatch = true;
       // stop processing early
@@ -188,7 +186,6 @@ public class DisambiguationPatternRule {
         allElementsMatch = false;
         break;
       }
-
       int matchingTokens = 0;
       for (int k = 0; (k < patternSize); k++) {
         if (elem != null) {
@@ -209,7 +206,6 @@ public class DisambiguationPatternRule {
         for (int m = nextPos; m <= nextPos + prevSkipNext; m++) {
           boolean matched = false;
           final int numberOfReadings = tokens[m].getReadingsLength();
-
           for (int l = 0; l < numberOfReadings; l++) {
             final AnalyzedToken matchToken = tokens[m].getAnalyzedToken(l);
             if (prevSkipNext > 0 && prevElement != null
@@ -217,19 +213,13 @@ public class DisambiguationPatternRule {
               exceptionMatched = true;
               prevMatched = true;
             }
-            if (elem.isReferenceElement()
-                && (firstMatchToken + elem.getMatch().getTokenRef() < tokens.length)) {
-              elem.compile(tokens[firstMatchToken
-                                  + elem.getMatch().getTokenRef()], language.getSynthesizer());
-
+            if (elem.isReferenceElement()) {
+              setupRef(firstMatchToken, elem, tokens);                
             }
             if (elem.hasAndGroup()) {
-              for (final Element andElement : elem.getAndGroup()) {
-                if (andElement.isReferenceElement()
-                    && (firstMatchToken + andElement.getMatch().getTokenRef() < tokens.length)) {
-                  andElement.compile(tokens[firstMatchToken
-                                            + andElement.getMatch().getTokenRef()], language
-                                            .getSynthesizer());
+              for (final Element andElement : elem.getAndGroup()) {                
+                if (andElement.isReferenceElement()) {
+                    setupRef(firstMatchToken, andElement, tokens);                
                 }
               }
               if (l == 0) {
@@ -240,8 +230,8 @@ public class DisambiguationPatternRule {
             if (thisMatched && elem.isUnified()) {
               if (inUnification) {
                 uniMatched = uniMatched
-                || language.getUnifier().isSatisfied(matchToken,
-                    elem.getUniFeature(), elem.getUniType());
+                    || language.getUnifier().isSatisfied(matchToken,
+                        elem.getUniFeature(), elem.getUniType());
                 if (l + 1 == numberOfReadings) {
                   thisMatched &= uniMatched;
                   language.getUnifier().startNextToken();
@@ -277,9 +267,9 @@ public class DisambiguationPatternRule {
               final int numReadings = tokens[m - 1].getReadingsLength();
               for (int p = 0; p < numReadings; p++) {
                 final AnalyzedToken matchExceptionToken = tokens[m - 1]
-                                                                 .getAnalyzedToken(p);
+                    .getAnalyzedToken(p);
                 exceptionMatched |= elem
-                .isMatchedByScopePreviousException(matchExceptionToken);
+                    .isMatchedByScopePreviousException(matchExceptionToken);
               }
             }
             // Logical OR (cannot be AND):
@@ -321,7 +311,7 @@ public class DisambiguationPatternRule {
       tokenPos++;
       if (allElementsMatch) {
         whTokens = executeAction(text, whTokens, unifiedTokens,
-            firstMatchToken, matchingTokens, tokenPositions);        
+            firstMatchToken, matchingTokens, tokenPositions);
       }
       unifiedTokens = null;
       firstMatchToken = -1;
@@ -334,9 +324,18 @@ public class DisambiguationPatternRule {
     return new AnalyzedSentence(whTokens);
   }
 
+  private void setupRef(final int firstMatchToken, final Element elem,
+      final AnalyzedTokenReadings[] tokens) {
+    final int refPos = firstMatchToken + elem.getMatch().getTokenRef();
+    if (refPos < tokens.length) {
+      elem.compile(tokens[refPos], language.getSynthesizer());
+    }
+  }
+
   private AnalyzedTokenReadings[] executeAction(final AnalyzedSentence text,
-      final AnalyzedTokenReadings[] whiteTokens, final AnalyzedTokenReadings[] unifiedTokens, 
-      final int firstMatchToken, final int matchingTokens, final int[] tokenPositions) {
+      final AnalyzedTokenReadings[] whiteTokens,
+      final AnalyzedTokenReadings[] unifiedTokens, final int firstMatchToken,
+      final int matchingTokens, final int[] tokenPositions) {
     AnalyzedTokenReadings[] whTokens = new AnalyzedTokenReadings[whiteTokens.length];
     whTokens = whiteTokens.clone();
     int correctedStPos = 0;
@@ -366,7 +365,7 @@ public class DisambiguationPatternRule {
             for (int i = 0; i < unifiedTokens.length; i++) {
               whTokens[text.getOriginalPosition(firstMatchToken
                   + correctedStPos + i)] = unifiedTokens[i];
-            }            
+            }
           }
         }
         break;
@@ -413,7 +412,7 @@ public class DisambiguationPatternRule {
               if (whTokens[fromPos].getAnalyzedToken(l).getPOSTag() != null
                   && (whTokens[fromPos].getAnalyzedToken(l).getPOSTag().equals(
                       disambiguatedPOS) && (whTokens[fromPos].getAnalyzedToken(
-                          l).getLemma() != null))) {
+                      l).getLemma() != null))) {
                 lemma = whTokens[fromPos].getAnalyzedToken(l).getLemma();
               }
             }

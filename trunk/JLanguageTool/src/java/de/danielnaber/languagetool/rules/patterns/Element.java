@@ -26,6 +26,7 @@ import java.util.regex.Pattern;
 import de.danielnaber.languagetool.AnalyzedToken;
 import de.danielnaber.languagetool.AnalyzedTokenReadings;
 import de.danielnaber.languagetool.JLanguageTool;
+import de.danielnaber.languagetool.Language;
 import de.danielnaber.languagetool.synthesis.Synthesizer;
 import de.danielnaber.languagetool.tools.StringTools;
 
@@ -765,6 +766,5 @@ public class Element {
   
   public boolean isWhitespaceBefore(final AnalyzedToken token){
     return (whitespaceBefore == token.isWhitespaceBefore());
-  }    
-  
+  }  
 }

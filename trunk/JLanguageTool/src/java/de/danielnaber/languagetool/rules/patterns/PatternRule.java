@@ -293,7 +293,7 @@ public class PatternRule extends Rule {
   // TODO: divide this lengthy method into shorter ones!
   @Override
   public final RuleMatch[] match(final AnalyzedSentence text)
-  throws IOException {
+      throws IOException {
     final List<RuleMatch> ruleMatches = new ArrayList<RuleMatch>();
     final AnalyzedTokenReadings[] tokens = text.getTokensWithoutWhitespace();
     final int[] tokenPositions = new int[tokens.length + 1];
@@ -352,18 +352,13 @@ public class PatternRule extends Rule {
               exceptionMatched = true;
               prevMatched = true;
             }
-            if (elem.isReferenceElement()
-                && (firstMatchToken + elem.getMatch().getTokenRef() < tokens.length)) {
-              elem.compile(tokens[firstMatchToken
-                                  + elem.getMatch().getTokenRef()], language.getSynthesizer());
+            if (elem.isReferenceElement()) {
+              setupRef(firstMatchToken, elem, tokens);
             }
             if (elem.hasAndGroup()) {
               for (final Element andElement : elem.getAndGroup()) {
-                if (andElement.isReferenceElement()
-                    && (firstMatchToken + andElement.getMatch().getTokenRef() < tokens.length)) {
-                  andElement.compile(tokens[firstMatchToken
-                                            + andElement.getMatch().getTokenRef()], language
-                                            .getSynthesizer());
+                if (andElement.isReferenceElement()) {
+                  setupRef(firstMatchToken, andElement, tokens);
                 }
               }
               if (l == 0) {
@@ -374,8 +369,8 @@ public class PatternRule extends Rule {
             if (thisMatched && elem.isUnified()) {
               if (inUnification) {
                 uniMatched = uniMatched
-                || language.getUnifier().isSatisfied(matchToken,
-                    elem.getUniFeature(), elem.getUniType());
+                    || language.getUnifier().isSatisfied(matchToken,
+                        elem.getUniFeature(), elem.getUniType());
                 if (lastReading) {
                   thisMatched &= uniMatched;
                   language.getUnifier().startNextToken();
@@ -406,8 +401,8 @@ public class PatternRule extends Rule {
               final int numReadings = tokens[m - 1].getReadingsLength();
               for (int p = 0; p < numReadings; p++) {
                 exceptionMatched |= elem
-                .isMatchedByScopePreviousException(tokens[m - 1]
-                                                          .getAnalyzedToken(p));
+                    .isMatchedByScopePreviousException(tokens[m - 1]
+                        .getAnalyzedToken(p));
               }
             }
             // Logical OR (cannot be AND):
@@ -469,6 +464,14 @@ public class PatternRule extends Rule {
     return ruleMatches.toArray(new RuleMatch[ruleMatches.size()]);
   }
 
+  private void setupRef(final int firstMatchToken, final Element elem,
+      final AnalyzedTokenReadings[] tokens) {
+    final int refPos = firstMatchToken + elem.getMatch().getTokenRef();
+    if (refPos < tokens.length) {
+      elem.compile(tokens[refPos], language.getSynthesizer());
+    }
+  }
+
   private RuleMatch createRuleMatch(final int[] tokenPositions,
       final AnalyzedTokenReadings[] tokens, final int firstMatchToken,
       final int lastMatchToken, final int matchingTokens) throws IOException {
@@ -490,10 +493,10 @@ public class PatternRule extends Rule {
       }
     }
     AnalyzedTokenReadings firstMatchTokenObj = tokens[firstMatchToken
-                                                      + correctedStPos];
+        + correctedStPos];
     boolean startsWithUppercase = StringTools
-    .startsWithUppercase(firstMatchTokenObj.getToken())
-    && !matchConvertsCase();
+        .startsWithUppercase(firstMatchTokenObj.getToken())
+        && !matchConvertsCase();
 
     if (firstMatchTokenObj.isSentStart()
         && tokens.length > firstMatchToken + correctedStPos + 1) {
@@ -508,11 +511,11 @@ public class PatternRule extends Rule {
     if (errMessage.contains(SUGG_TAG + ",")
         && firstMatchToken + correctedStPos >= 1) {
       fromPos = tokens[firstMatchToken + correctedStPos - 1].getStartPos()
-      + tokens[firstMatchToken + correctedStPos - 1].getToken().length();
+          + tokens[firstMatchToken + correctedStPos - 1].getToken().length();
     }
 
     final int toPos = tokens[lastMatchToken + correctedEndPos].getStartPos()
-    + tokens[lastMatchToken + correctedEndPos].getToken().length();
+        + tokens[lastMatchToken + correctedEndPos].getToken().length();
     if (fromPos < toPos) { // this can happen with some skip="-1" when the last
       // token is not matched
       final RuleMatch ruleMatch = new RuleMatch(this, fromPos, toPos,
@@ -635,7 +638,7 @@ public class PatternRule extends Rule {
    */
   private String[] concatMatches(final int start, final int index,
       final int tokenIndex, final AnalyzedTokenReadings[] tokens)
-  throws IOException {
+      throws IOException {
     String[] finalMatch = null;
     if (suggestionMatches.get(start) != null) {
       final int len = phraseLen(index);
@@ -648,7 +651,7 @@ public class PatternRule extends Rule {
         for (int i = 0; i < len; i++) {
           suggestionMatches.get(start).setToken(tokens[tokenIndex - 1 + i]);
           suggestionMatches.get(start)
-          .setSynthesizer(language.getSynthesizer());
+              .setSynthesizer(language.getSynthesizer());
           matchList.add(suggestionMatches.get(start).toFinalString());
         }
         return combineLists(matchList.toArray(new String[matchList.size()][]),
@@ -677,7 +680,7 @@ public class PatternRule extends Rule {
    **/
   private String formatMatches(final AnalyzedTokenReadings[] toks,
       final int[] positions, final int firstMatchTok, final String errorMsg)
-  throws IOException {
+      throws IOException {
     String errorMessage = errorMsg;
     int matchCounter = 0;
     final int[] numbersToMatches = new int[errorMsg.length()];
@@ -758,7 +761,7 @@ public class PatternRule extends Rule {
       errorMessage = leftSide;
     } else {
       errorMessage = leftSide.substring(0, leftSide.lastIndexOf(SUGG_TAG))
-      + SUGG_TAG;
+          + SUGG_TAG;
     }
     final int rPos = rightSide.indexOf("</suggestion>");
     if (rPos > 0) {
