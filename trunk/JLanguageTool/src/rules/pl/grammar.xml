@@ -6,7 +6,7 @@ title="Easy editing stylesheet" ?>
 <!--
 Polish Grammar and Typo Rules for LanguageTool
 Copyright (C) 2006-2007 Marcin Miłkowski
-$Id: grammar.xml,v 1.164 2008-12-29 00:12:32 milek_pl Exp $
+$Id: grammar.xml,v 1.165 2008-12-30 01:48:52 milek_pl Exp $
 -->
 <rules lang="pl">
   <unification feature="number">
@@ -1348,7 +1348,7 @@ $Id: grammar.xml,v 1.164 2008-12-29 00:12:32 milek_pl Exp $
           <token postag="SENT_START" skip="-1"><exception regexp="yes" scope="next">równie|zarówno|tak</exception></token>
           <token>,</token>
           <token regexp="yes">jak|niż|jakby|niczym|niby</token>
-          <token skip="-1"><exception postag="verb:.*|pcon:imperf|pant:perf|pred" postag_regexp="yes" scope="next"/><exception>i|również|też</exception></token>
+          <token skip="-1"><exception postag="verb:.*|pcon:imperf|pant:perf|pred" postag_regexp="yes" scope="current"/><exception postag="verb:.*|pcon:imperf|pant:perf|pred" postag_regexp="yes" scope="next"/><exception regexp="yes">i|również|też</exception></token>
           <token postag="SENT_END"/>
         </pattern>
         <message>Prawdopodobnie zbędny przecinek. Powinno być: <suggestion> \3</suggestion>.</message>
@@ -5311,20 +5311,21 @@ lub <suggestion>\2 na prawach wyłączności</suggestion>.</message>
       <rule>
         <pattern>
           <token>ze</token>
-          <token negate="yes" regexp="yes">[wszśźżWSZŚŹŻ].+|[SRrr]z[wftśsrłndwpgklzcbmżń].+|trz.+|dw.+|Lwowa|mną|mnie|snu<exception regexp="yes">[\"„]</exception><exception postag="UNKNOWN"/></token>
+          <token negate="yes" regexp="yes">[wszśźżWSZŚŹŻ].+|[SRrr]z[wftśsrłndwpgklzcbmżń].+|trz.+|dw.+|Lwowa|mną|mnie|snu|łzami<exception regexp="yes">[\"„]</exception><exception postag="UNKNOWN"/></token>
         </pattern>
         <message>Prawdopodobnie ten przyimek należy zapisać tak: <suggestion>z \2</suggestion>.</message>
         <short>Błąd fonetyczny</short>
         <example type="correct">Ludwik ma kochankę z Łodzi.</example>
         <example type="correct">Dostaniesz ze trzy tysiące premii za ten donos.</example>
         <example type="correct">Nawet Horacy drwił ze "szkodliwego hazardu".</example>
+        <example type="correct">Żegnaliśmy go ze łzami.</example>
         <example correction="z Łodzi" type="incorrect">Ludwik ma kochankę <marker>ze Łodzi</marker>.</example>
       </rule>
       <rule>
         <pattern>
           <token>ze</token>
           <token regexp="yes">[\"„]</token>
-          <token negate="yes" regexp="yes">[wszśźżWSZŚŹŻ].+|[SRrr]z[wftśsrłndwpgklzcbmżń].+|Lwowa|mną|mnie|snu<exception regexp="yes">[\"„]</exception><exception postag="UNKNOWN"/></token>
+          <token negate="yes" regexp="yes">[wszśźżWSZŚŹŻ].+|[SRrr]z[wftśsrłndwpgklzcbmżń].+|Lwowa|mną|mnie|snu|łzami<exception regexp="yes">[\"„]</exception><exception postag="UNKNOWN"/></token>
         </pattern>
         <message>Prawdopodobnie ten przyimek należy zapisać tak: <suggestion>z \2\3</suggestion>.</message>
         <short>Błąd fonetyczny</short>
@@ -5896,21 +5897,25 @@ lub <suggestion>\2 na prawach wyłączności</suggestion>.</message>
         <pattern case_sensitive="yes">
           <token>al</token>
           <token>.</token>
-          <token postag="adj.*" postag_regexp="yes" regexp="yes">\p{Lu}\p{Ll}.*</token>
+          <token postag="adj.*" postag_regexp="yes" regexp="yes"><exception regexp="yes">.*(go|ej)</exception>\p{Lu}\p{Ll}.*</token>
         </pattern>
         <message>W wypadku takich adresów pierwszy wyraz również piszemy wielką literą. Poprawnie: <suggestion><match case_conversion="startupper" no="1"/>. <match no="3"/></suggestion>.</message>
         <short>Błąd pisowni wielką i małą literą</short>
+        <example type="correct">Mieszkam przy al. Świerczewskiego.</example>
         <example correction="Al. Ujazdowskie" type="incorrect">Kancelaria mieści się w Warszawie, pod adresem <marker>al. Ujazdowskie</marker> 123412.</example>
         <example type="correct">Kancelaria mieści się w Warszawie, pod adresem Al. Ujazdowskie 12133.</example>
       </rule>
       <rule>
         <pattern case_sensitive="yes">
-          <token>aleje</token>
-          <token postag="adj.*" postag_regexp="yes" regexp="yes">\p{Lu}\p{Ll}.*</token>
+          <unify feature="gender,number,case">
+            <token>aleje</token>
+            <token postag="adj.*" postag_regexp="yes" regexp="yes">\p{Lu}\p{Ll}.*</token>
+          </unify>
         </pattern>
         <message>W wypadku takich adresów pierwszy wyraz również piszemy wielką literą. Poprawnie: <suggestion><match case_conversion="startupper" no="1"/> <match no="2"/></suggestion>.</message>
         <short>Błąd pisowni wielką i małą literą</short>
         <example correction="Aleje Jerozolimskie" type="incorrect">Jedną z piękniejszych ulic w Warszawie są <marker>aleje Jerozolimskie</marker>.</example>
+        <example type="correct">Mieszkam przy Alejach Świerczewskiego.</example>
         <example type="correct">Przy Alejach Jerozolimskich jest piękna, sztuczna palma.</example>
       </rule>
     </rulegroup>
