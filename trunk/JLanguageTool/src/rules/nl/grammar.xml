@@ -5,7 +5,7 @@
 <!--
 Dutch Grammar and Typo Rules for LanguageTool
 Copyright (C) 2006,2007,2008 R. J. Baars (ruud.baars@opentaal.org)
-$Id: grammar.xml,v 1.14 2008-12-20 22:21:56 milek_pl Exp $
+$Id: grammar.xml,v 1.15 2008-12-30 22:26:15 milek_pl Exp $
 -->
 <!-- TODO LIST
 * werkwoordvormen
@@ -887,9 +887,7 @@ $Id: grammar.xml,v 1.14 2008-12-20 22:21:56 milek_pl Exp $
          </rule>
          <rule id="ID068b">
             <pattern>
-               <token>royalty</token>
-			   <token>'</token>
-			   <token>s</token>
+               <token>royalty's</token>			   
             </pattern>
             <message>Engels. <suggestion>rechten</suggestion>, <suggestion>inkomsten</suggestion>.</message>
             <short>Leenwoord</short>
@@ -1320,14 +1318,13 @@ $Id: grammar.xml,v 1.14 2008-12-20 22:21:56 milek_pl Exp $
             <example type="correct">Ik ga naar <marker>Den Bosch</marker>.</example>
          </rule>
       </rulegroup>
-      <rulegroup id="MEERVOUDS" name="Meervoud met 's">
+      <!--
+      <rulegroup id="MEERVOUDS" name="Meervoud met 's">         
          <rule id="ID107_OK">
-         <!-- letterwoorden moeten hier uitgezonderd worden -->
+          letterwoorden moeten hier uitgezonderd worden 
             <pattern mark_to="-1" case_sensitive="yes">
                <token postag="NN1.*" postag_regexp="yes"><exception regexp="yes">.*([A-Zéuaoiy])$</exception><exception regexp="yes">abc|cd|dvd|pc|tv|ngo|gsm|pak|lcd|wc|dj|fte|vzw|.*[A-Z0-9]$</exception></token>
-               <token>'</token>
-               <token>s</token>
-               <token><exception regexp="yes">avonds|middags|ochtends|nachts|morgens</exception></token>
+               <token regexp="yes">.*'s<exception regexp="yes">avonds|middags|ochtends|nachts|morgens</exception></token>
             </pattern>
             <message>Alleen bij een sterke eindklank wordt het meervoud met een apostrof geschreven. Probeer eens <suggestion>\1s</suggestion>.</message>
             <short>' overbodig</short>
@@ -1335,6 +1332,7 @@ $Id: grammar.xml,v 1.14 2008-12-20 22:21:56 milek_pl Exp $
             <example type="correct">Hij deed het heel goed in bepaalde <marker>scènes</marker>.</example>
          </rule>
       </rulegroup>
+      -->
    </category>
    <category name="Woordgroepen">
       <rulegroup id="DATUM" name="Dag in samenstelling">
@@ -2438,9 +2436,7 @@ $Id: grammar.xml,v 1.14 2008-12-20 22:21:56 milek_pl Exp $
          </rule>
          <rule id="ID204_OK">
             <pattern>
-               <token>d</token>
-               <token>'</token>
-               <token>r</token>
+               <token>d'r</token>
             </pattern>
             <message>Netter en leesbaarder is voluit schrijven, dus <suggestion>er</suggestion> of <suggestion>haar</suggestion>.</message>
             <short>Niet verkorten</short>
@@ -2518,9 +2514,7 @@ $Id: grammar.xml,v 1.14 2008-12-20 22:21:56 milek_pl Exp $
       <rulegroup id="ZN" name="Niet z'n maar zijn, d'r maar haar">
          <rule id="ID212_OK">
             <pattern>
-               <token>z</token>
-               <token>'</token>
-               <token>n</token>
+               <token>z'n</token>
             </pattern>
             <message>Beter is : <suggestion>zijn</suggestion>.</message>
             <short>Gebruik s</short>
@@ -2529,9 +2523,7 @@ $Id: grammar.xml,v 1.14 2008-12-20 22:21:56 milek_pl Exp $
          </rule>
          <rule id="ID213">
             <pattern>
-               <token>d</token>
-               <token>'</token>
-               <token>r</token>
+               <token>d'r</token>
             </pattern>
             <message>Beter is : <suggestion>haar</suggestion>.</message>
             <short>Gebruik 'haar' of bezitsvorm</short>

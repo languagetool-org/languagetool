@@ -1,5 +1,3 @@
-package de.danielnaber.languagetool.rules;
-
 /* LanguageTool, a natural language style checker 
  * Copyright (C) 2005 Daniel Naber (http://www.danielnaber.de)
  * 
@@ -18,6 +16,9 @@ package de.danielnaber.languagetool.rules;
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
  */
+
+package de.danielnaber.languagetool.rules;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;

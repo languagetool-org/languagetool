@@ -1,15 +1,5 @@
-package de.danielnaber.languagetool.tagging.disambiguation.pl;
-
-import java.io.IOException;
-
-import junit.framework.TestCase;
-import de.danielnaber.languagetool.TestTools;
-import de.danielnaber.languagetool.tagging.pl.PolishTagger;
-import de.danielnaber.languagetool.tokenizers.WordTokenizer;
-import de.danielnaber.languagetool.tokenizers.pl.PolishSentenceTokenizer;
-
 /* LanguageTool, a natural language style checker 
- * Copyright (C) 2006 Daniel Naber (http://www.danielnaber.de)
+ * Copyright (C) 2005 Daniel Naber (http://www.danielnaber.de)
  * 
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -27,6 +17,15 @@ import de.danielnaber.languagetool.tokenizers.pl.PolishSentenceTokenizer;
  * USA
  */
 
+package de.danielnaber.languagetool.tagging.disambiguation.pl;
+
+import java.io.IOException;
+
+import junit.framework.TestCase;
+import de.danielnaber.languagetool.TestTools;
+import de.danielnaber.languagetool.tagging.pl.PolishTagger;
+import de.danielnaber.languagetool.tokenizers.WordTokenizer;
+import de.danielnaber.languagetool.tokenizers.pl.PolishSentenceTokenizer;
 
 public class PolishChunkerTest extends TestCase {
       

@@ -17,20 +17,21 @@
  * USA
  */
 
-package de.danielnaber.languagetool;
+package de.danielnaber.languagetool.tokenizers.nl;
 
 import junit.framework.TestCase;
 
-public class AnalyzedTokenTest extends TestCase {
+import java.util.List;
 
-  public void testToString() {
-  AnalyzedToken testToken = new AnalyzedToken("word", "POS", "lemma");
-  assertEquals("lemma/POS", testToken.toString());
-  assertEquals("lemma", testToken.getLemma());
-  testToken = new AnalyzedToken("word", "POS", 0);
-  assertEquals("word/POS", testToken.toString());
-  assertEquals(null, testToken.getLemma());
-  assertEquals("word", testToken.getToken());
+public class DutchWordTokenizerTest extends TestCase {
+
+  public void testTokenize() {
+    DutchWordTokenizer w = new DutchWordTokenizer();
+    List <String> testList = w.tokenize("This is\u00A0a test");
+    assertEquals(testList.size(), 7);
+    assertEquals("[This,  , is, \u00A0, a,  , test]", testList.toString());
+    testList = w.tokenize("Bla bla oma's bla bla 'test");
+    assertEquals(testList.size(), 12);
+    assertEquals("[Bla,  , bla,  , oma's,  , bla,  , bla,  , ', test]", testList.toString());
   }
-  
 }
