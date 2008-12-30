@@ -43,7 +43,7 @@ public class PatternRule extends Rule {
   private String subId; // because there can be more than one rule in a rule
   // group
 
-  private static Language language;
+  private final Language language;
 
   private static final String SUGG_TAG = "<suggestion>";
 
@@ -107,7 +107,7 @@ public class PatternRule extends Rule {
       throw new NullPointerException("description cannot be null");
     }
     this.id = id;
-    PatternRule.language = language;
+    this.language = language;
     this.description = description;
     this.message = message;
     this.shortMessage = shortMessage;
@@ -595,14 +595,14 @@ public class PatternRule extends Rule {
    * @return Combined array of @String.
    */
   private static String[] combineLists(final String[][] input,
-      final String[] output, final int r) {
+      final String[] output, final int r, final Language lang) {
     final List<String> outputList = new ArrayList<String>();
     if (r == input.length) {
       final StringBuilder sb = new StringBuilder();
       for (int k = 0; k < output.length; k++) {
         sb.append(output[k]);
         if (k < output.length - 1) {
-          sb.append(StringTools.addSpace(output[k + 1], language));
+          sb.append(StringTools.addSpace(output[k + 1], lang));
         }
       }
       outputList.add(sb.toString());
@@ -610,7 +610,7 @@ public class PatternRule extends Rule {
       for (int c = 0; c < input[r].length; c++) {
         output[r] = input[r][c];
         String[] sList;
-        sList = combineLists(input, output, r + 1);
+        sList = combineLists(input, output, r + 1, lang);
         for (final String s : sList) {
           outputList.add(s);
         }
@@ -655,7 +655,7 @@ public class PatternRule extends Rule {
           matchList.add(suggestionMatches.get(start).toFinalString());
         }
         return combineLists(matchList.toArray(new String[matchList.size()][]),
-            new String[matchList.size()], 0);
+            new String[matchList.size()], 0, language);
       }
     }
     return finalMatch;

@@ -87,18 +87,48 @@ public class AnalyzedToken {
     sb.append(posTag);
     return sb.toString();
   }
-  
-  public boolean equals(java.lang.Object object) {
-    if (!(object instanceof AnalyzedToken)) {
-     return false; 
-    } else {
-      AnalyzedToken otherToken = (AnalyzedToken) object;
-      return (otherToken.getToken().equals(token)
-          && otherToken.getPOSTag().equals(posTag)
-          && otherToken.getLemma().equals(lemma)
-          && otherToken.getStartPos() == startPos
-          && otherToken.isWhitespaceBefore() == isWhitespaceBefore);
-    }
+
+  @Override
+  public int hashCode() {
+    final int prime = 31;
+    int result = 1;
+    result = prime * result + (isWhitespaceBefore ? 1231 : 1237);
+    result = prime * result + ((lemma == null) ? 0 : lemma.hashCode());
+    result = prime * result + ((posTag == null) ? 0 : posTag.hashCode());
+    result = prime * result + startPos;
+    result = prime * result + ((token == null) ? 0 : token.hashCode());
+    return result;
   }
 
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj)
+      return true;
+    if (obj == null)
+      return false;
+    if (getClass() != obj.getClass())
+      return false;
+    AnalyzedToken other = (AnalyzedToken) obj;
+    if (isWhitespaceBefore != other.isWhitespaceBefore)
+      return false;
+    if (lemma == null) {
+      if (other.lemma != null)
+        return false;
+    } else if (!lemma.equals(other.lemma))
+      return false;
+    if (posTag == null) {
+      if (other.posTag != null)
+        return false;
+    } else if (!posTag.equals(other.posTag))
+      return false;
+    if (startPos != other.startPos)
+      return false;
+    if (token == null) {
+      if (other.token != null)
+        return false;
+    } else if (!token.equals(other.token))
+      return false;
+    return true;
+  }
+    
 }

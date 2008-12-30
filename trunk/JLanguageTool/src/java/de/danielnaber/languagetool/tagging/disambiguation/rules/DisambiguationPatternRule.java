@@ -152,7 +152,7 @@ public class DisambiguationPatternRule {
    *          mark/mark_from & mark_to attributes (>1).
    */
   public final void setNewInterpretations(final AnalyzedToken[] newReadings) {
-    newTokenReadings = newReadings;
+    newTokenReadings = newReadings.clone();
   }
 
   public final AnalyzedSentence replace(final AnalyzedSentence text)
@@ -335,9 +335,8 @@ public class DisambiguationPatternRule {
   private AnalyzedTokenReadings[] executeAction(final AnalyzedSentence text,
       final AnalyzedTokenReadings[] whiteTokens,
       final AnalyzedTokenReadings[] unifiedTokens, final int firstMatchToken,
-      final int matchingTokens, final int[] tokenPositions) {
-    AnalyzedTokenReadings[] whTokens = new AnalyzedTokenReadings[whiteTokens.length];
-    whTokens = whiteTokens.clone();
+      final int matchingTokens, final int[] tokenPositions) {    
+    AnalyzedTokenReadings[] whTokens = whiteTokens.clone();
     int correctedStPos = 0;
     if (startPositionCorrection > 0) {
       for (int l = 0; l <= startPositionCorrection; l++) {

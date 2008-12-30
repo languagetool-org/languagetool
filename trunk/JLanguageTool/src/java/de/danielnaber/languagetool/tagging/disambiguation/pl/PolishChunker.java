@@ -141,10 +141,7 @@ import de.danielnaber.languagetool.tagging.disambiguation.Disambiguator;
       lazyInit();
 
       final AnalyzedTokenReadings[] anTokens = input.getTokens();
-      AnalyzedTokenReadings[] output = 
-        new AnalyzedTokenReadings[anTokens.length];
-
-      output = anTokens;        
+      AnalyzedTokenReadings[] output = anTokens;        
 
       for (int i = 0; i < anTokens.length; i++) {
         final String tok = output[i].getToken();          

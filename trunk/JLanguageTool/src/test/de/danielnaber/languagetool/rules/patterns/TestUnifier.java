@@ -5,7 +5,7 @@ import java.util.Arrays;
 import junit.framework.TestCase;
 import de.danielnaber.languagetool.AnalyzedToken;
 
-public class testUnifier extends TestCase {
+public class TestUnifier extends TestCase {
 
   // trivial unification = test if the character case is the same
   public void testUnificationCase() {

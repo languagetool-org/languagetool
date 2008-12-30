@@ -75,21 +75,21 @@ class DisambiguationRuleHandler extends XMLRuleHandler {
   private String posToken;
 
   private String exceptionPosToken;
-  private boolean exceptionStringRegExp = false;
-  private boolean exceptionStringNegation = false;
-  private boolean exceptionStringInflected = false;
-  private boolean exceptionPosNegation = false;
-  private boolean exceptionPosRegExp = false;
-  private boolean exceptionValidNext = false;
-  private boolean exceptionValidPrev = false;
-  private boolean exceptionSet = false;
-  private boolean exceptionSpaceBefore = false;
-  private boolean exceptionSpaceBeforeSet = false;
+  private boolean exceptionStringRegExp;
+  private boolean exceptionStringNegation;
+  private boolean exceptionStringInflected;
+  private boolean exceptionPosNegation;
+  private boolean exceptionPosRegExp;
+  private boolean exceptionValidNext;
+  private boolean exceptionValidPrev;
+  private boolean exceptionSet;
+  private boolean exceptionSpaceBefore;
+  private boolean exceptionSpaceBeforeSet;
 
-  private List<Element> elementList = null;
-  private boolean posRegExp = false;
-  private int skipPos = 0;
-  private Element tokenElement = null;
+  private List<Element> elementList;
+  private boolean posRegExp;
+  private int skipPos;
+  private Element tokenElement;
 
   private String id;
   private String name;
@@ -100,28 +100,28 @@ class DisambiguationRuleHandler extends XMLRuleHandler {
   private StringBuilder match = new StringBuilder();
   private StringBuilder wd = new StringBuilder();
 
-  private boolean inWord = false;
+  private boolean inWord;
 
   private String disambiguatedPOS;
 
-  private int positionCorrection = 0;
-  private int endPositionCorrection = 0;
-  private boolean singleTokenCorrection = true;
+  private int positionCorrection;
+  private int endPositionCorrection;
+  private boolean singleTokenCorrection;
 
-  private int andGroupCounter = 0;
+  private int andGroupCounter;
 
-  private Match tokenReference = null;
+  private Match tokenReference;
 
-  private Match posSelector = null;
+  private Match posSelector;
 
-  private boolean inUnification = false;
-  private boolean inUnificationDef = false;
-  private boolean uniNegation = false;
+  private boolean inUnification;
+  private boolean inUnificationDef;
+  private boolean uniNegation;
 
   private String uFeature;
   private String uType = "";
 
-  private int uniCounter = 0;
+  private int uniCounter;
 
   private List<AnalyzedToken> newWdList;
   private String wdLemma;
@@ -132,6 +132,7 @@ class DisambiguationRuleHandler extends XMLRuleHandler {
   private DisambiguationPatternRule.DisambiguatorAction disambigAction;
 
   public DisambiguationRuleHandler() {
+    elementList = new ArrayList<Element>();
   }
 
   // ===========================================================
@@ -247,10 +248,7 @@ class DisambiguationRuleHandler extends XMLRuleHandler {
       if (attrs.getValue("skip") != null) {
         skipPos = Integer.parseInt(attrs.getValue("skip"));
       }
-      elements = new StringBuilder();
-      if (elementList == null) {
-        elementList = new ArrayList<Element>();
-      }
+      elements = new StringBuilder();      
       if (attrs.getValue("postag") != null) {
         posToken = attrs.getValue("postag");
         if (attrs.getValue("postag_regexp") != null) {
@@ -371,8 +369,7 @@ class DisambiguationRuleHandler extends XMLRuleHandler {
         newWdList.clear();
       }
       caseSensitive = false;
-      rules.add(rule);
-      if (elementList != null) {
+      rules.add(rule);      
         if (disambigAction == DisambiguatorAction.UNIFY
             && (elementList.size() - positionCorrection + endPositionCorrection) != uniCounter) {
           throw new SAXException("Rule error. The number unified tokens: "
@@ -387,9 +384,7 @@ class DisambiguationRuleHandler extends XMLRuleHandler {
                   + "\n Line: " + dLocator.getLineNumber() + ", column: "
                   + dLocator.getColumnNumber() + ".");
         }
-
-        elementList.clear();
-      }
+        elementList.clear();      
       posSelector = null;
     } else if (qName.equals("exception")) {
       inException = false;
@@ -457,9 +452,7 @@ class DisambiguationRuleHandler extends XMLRuleHandler {
       }
       if (inUnificationDef) {
         language.getUnifier().setEquivalence(uFeature, uType, tokenElement);
-        if (elementList != null) {
-          elementList.clear();
-        }
+        elementList.clear();        
       }
       if (tokenSpaceBeforeSet) {
         tokenElement.setWhitespaceBefore(tokenSpaceBefore);
