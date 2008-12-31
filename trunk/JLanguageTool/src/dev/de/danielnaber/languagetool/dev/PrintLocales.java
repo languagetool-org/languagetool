@@ -33,7 +33,7 @@ import de.danielnaber.languagetool.tools.StringTools;
  * @author Marcin Miłkowski
  *
  */
-public class PrintLocales {
+public final class PrintLocales {
 
 
   public static void main(final String[] args) throws IOException{
