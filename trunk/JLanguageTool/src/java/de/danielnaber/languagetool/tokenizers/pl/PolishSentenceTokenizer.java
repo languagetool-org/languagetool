@@ -55,7 +55,7 @@ public class PolishSentenceTokenizer extends SentenceTokenizer {
   // Check out the private methods for comments and examples about these
   // regular expressions:
 
-  private Pattern paragraph = null;
+  private Pattern paragraph;
   private static final Pattern paragraphByTwoLineBreaks = Pattern.compile("(\\n\\s*\\n[\\t]*)");
   private static final Pattern paragraphByLineBreak = Pattern.compile("(\\n[\\t]*)");
   
@@ -123,11 +123,10 @@ public class PolishSentenceTokenizer extends SentenceTokenizer {
   }
 
   @Override
-  public final List<String> tokenize(String s) {
-    s = firstSentenceSplitting(s);
-    s = removeFalseEndOfSentence(s);
-    //s = splitUnsplitStuff(s);
-    final StringTokenizer stringTokenizer = new StringTokenizer(s, EOS);
+  public final List<String> tokenize(final String s) {
+    final StringTokenizer stringTokenizer = new StringTokenizer(
+        removeFalseEndOfSentence(
+            firstSentenceSplitting(s)), EOS);
     final List<String> l = new ArrayList<String>();
     while (stringTokenizer.hasMoreTokens()) {
       final String sentence = stringTokenizer.nextToken();
@@ -139,7 +138,8 @@ public class PolishSentenceTokenizer extends SentenceTokenizer {
   /**
    * Add a special break character at all places with typical sentence delimiters.
    */
-  private String firstSentenceSplitting(String s) {
+  private String firstSentenceSplitting(final String str) {
+    String s = str;
     // Double new-line means a new sentence:
     s = paragraph.matcher(s).replaceAll("$1" + EOS);
     // Punctuation followed by whitespace means a new sentence:
@@ -156,7 +156,8 @@ public class PolishSentenceTokenizer extends SentenceTokenizer {
    * Repair some positions that don't require a split, i.e. remove the special break character at
    * those positions.
    */
-  private String removeFalseEndOfSentence(String s) {
+  private String removeFalseEndOfSentence(final String str) {
+    String s = str;
     // Don't split at e.g. "U. S. A.":
     s = abbrev1.matcher(s).replaceAll("$1");
     // Don't split at e.g. "U.S.A.":    

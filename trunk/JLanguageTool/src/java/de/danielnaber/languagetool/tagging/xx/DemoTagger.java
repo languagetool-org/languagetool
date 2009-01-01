@@ -49,7 +49,7 @@ public class DemoTagger implements Tagger {
       // in the next line instead of null:
       l.add(new AnalyzedToken(word, null, pos));
       pos += word.length();
-      tokenReadings.add(new AnalyzedTokenReadings((AnalyzedToken[])l.toArray(new AnalyzedToken[0])));
+      tokenReadings.add(new AnalyzedTokenReadings(l.toArray(new AnalyzedToken[0])));
     }
     return tokenReadings;
   }

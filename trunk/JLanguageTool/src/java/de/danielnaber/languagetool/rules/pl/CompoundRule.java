@@ -30,7 +30,7 @@ import de.danielnaber.languagetool.tools.Tools;
  * @author Marcin Miłkowski, based on code by Daniel Naber
  */
 
-public class CompoundRule extends AbstractCompoundRule {
+public final class CompoundRule extends AbstractCompoundRule {
 
   private static final String FILE_NAME = "/resource/pl/compounds.txt";
     
@@ -43,11 +43,11 @@ public class CompoundRule extends AbstractCompoundRule {
         "Ten wyraz pisze się z łącznikiem lub bez niego.");
   }
   
-  public String getId() {
+  public final String getId() {
     return "PL_COMPOUNDS";
   }
 
-  public String getDescription() {
+  public final String getDescription() {
     return "Sprawdza wyrazy z łącznikiem, np. „łapu capu” zamiast „łapu-capu”";
   }    
 

@@ -97,7 +97,7 @@ public final class Tools {
       System.out.print(xml);
     } else {
       int i = 1;
-      for (final RuleMatch match: ruleMatches) {        
+      for (final RuleMatch match : ruleMatches) {
         String output = i + ".) Line " + (match.getLine() + 1) + ", column "
             + match.getColumn() + ", Rule ID: " + match.getRule().getId();
         if (match.getRule() instanceof PatternRule) {
@@ -153,11 +153,10 @@ public final class Tools {
     final File f = new File(resourcePath);
     if (f.exists() && f.isFile() && f.canRead()) {
       return new BufferedInputStream(new FileInputStream(f));
-    } else {
-      throw new IOException(
-          "Could not open input stream from URL/resource/file: "
-              + f.getAbsolutePath());
     }
+    throw new IOException(
+        "Could not open input stream from URL/resource/file: "
+            + f.getAbsolutePath());
   }
 
   /**

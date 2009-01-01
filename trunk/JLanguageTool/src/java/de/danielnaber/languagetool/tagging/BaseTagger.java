@@ -87,7 +87,7 @@ public abstract class BaseTagger implements Tagger {
       }
       pos += word.length();
       tokenReadings
-          .add(new AnalyzedTokenReadings((AnalyzedToken[]) l.toArray(new AnalyzedToken[l.size()])));
+          .add(new AnalyzedTokenReadings(l.toArray(new AnalyzedToken[l.size()])));
     }
 
     return tokenReadings;

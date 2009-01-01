@@ -115,7 +115,7 @@ public class PatternRuleTest extends TestCase {
       for (IncorrectExample origBadExample : badSentences) {
         // enable indentation use
         String origBadSentence = origBadExample.getExample().replaceAll("[\\n\\t]+", "");
-        List<String> suggestedCorrection = origBadExample.getCorrections();
+        final List<String> suggestedCorrection = origBadExample.getCorrections();
         final int expectedMatchStart = origBadSentence.indexOf("<marker>");
         final int expectedMatchEnd = origBadSentence.indexOf("</marker>") - "<marker>".length();
         if (expectedMatchStart == -1 || expectedMatchEnd == -1) {

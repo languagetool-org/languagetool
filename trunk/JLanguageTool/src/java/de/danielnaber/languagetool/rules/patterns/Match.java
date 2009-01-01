@@ -113,7 +113,7 @@ public class Match {
    * Sets the token that will be formatted or otherwise used in the class.
    * 
    * @param token
-   *          @AnalyzedTokenReadings
+   * @AnalyzedTokenReadings
    * 
    */
   public final void setToken(final AnalyzedTokenReadings token) {
@@ -147,7 +147,7 @@ public class Match {
    * specified POS regular expressions.
    * 
    * @param lemmaString
-   *          @String that specifies the base form.
+   * @String that specifies the base form.
    */
   public final void setLemmaString(final String lemmaString) {
     if (!StringTools.isEmpty(lemmaString)) {
@@ -166,7 +166,7 @@ public class Match {
    * formatted POS values.
    * 
    * @param synth
-   *          @Synthesizer class.
+   * @Synthesizer class.
    */
   public final void setSynthesizer(final Synthesizer synth) {
     synthesizer = synth;
@@ -229,14 +229,10 @@ public class Match {
               }
             }
           }
-          if (wordForms != null) {
-            if (wordForms.isEmpty()) {
-              formattedString[0] = "(" + formattedToken.getToken() + ")";
-            } else {
-              formattedString = wordForms.toArray(new String[wordForms.size()]);
-            }
+          if (wordForms.isEmpty()) {
+            formattedString[0] = "(" + formattedToken.getToken() + ")";
           } else {
-            formattedString[0] = formattedToken.getToken();
+            formattedString = wordForms.toArray(new String[wordForms.size()]);
           }
         } else {
           final TreeSet<String> wordForms = new TreeSet<String>();
@@ -249,11 +245,7 @@ public class Match {
               }
             }
           }
-          if (wordForms == null) {
-            formattedString[0] = formattedToken.getToken();
-          } else {
-            formattedString = wordForms.toArray(new String[wordForms.size()]);
-          }
+          formattedString = wordForms.toArray(new String[wordForms.size()]);
         }
       }
     }
@@ -305,7 +297,7 @@ public class Match {
       if (pPosRegexMatch != null && posTagReplace != null) {
         if (posTags.isEmpty()) {
           posTags.add(targetPosTag);
-        }        
+        }
         final StringBuilder sb = new StringBuilder();
         final int posTagLen = posTags.size();
         int l = 0;
@@ -371,28 +363,28 @@ public class Match {
    * Converts case of the string token according to match element attributes.
    * 
    * @param s
-   *          @String Token to be converted.
+   * @String Token to be converted.
    * @return @String Converted string.
    */
   private String convertCase(final String s) {
     String token = s;
     switch (caseConversionType) {
-      case NONE :
-        break;
-      case STARTLOWER :
-        token = token.substring(0, 1).toLowerCase() + token.substring(1);
-        break;
-      case STARTUPPER :
-        token = token.substring(0, 1).toUpperCase() + token.substring(1);
-        break;
-      case ALLUPPER :
-        token = token.toUpperCase();
-        break;
-      case ALLLOWER :
-        token = token.toLowerCase();
-        break;
-      default :
-        break;
+    case NONE:
+      break;
+    case STARTLOWER:
+      token = token.substring(0, 1).toLowerCase() + token.substring(1);
+      break;
+    case STARTUPPER:
+      token = token.substring(0, 1).toUpperCase() + token.substring(1);
+      break;
+    case ALLUPPER:
+      token = token.toUpperCase();
+      break;
+    case ALLLOWER:
+      token = token.toLowerCase();
+      break;
+    default:
+      break;
     }
     return token;
   }
@@ -453,9 +445,8 @@ public class Match {
     }
     if (l.isEmpty()) {
       return formattedToken;
-    } else {
-      return new AnalyzedTokenReadings(l.toArray(new AnalyzedToken[l.size()]));
     }
+    return new AnalyzedTokenReadings(l.toArray(new AnalyzedToken[l.size()]));
   }
 
   private AnalyzedToken[] getNewToken(final int numRead, final String token) {

@@ -42,32 +42,35 @@ import de.danielnaber.languagetool.tools.Tools;
 
 /**
  * The command line tool to check plain text files.
- *
+ * 
  * @author Daniel Naber
  */
 class Main {
 
-  private JLanguageTool lt = null;
-  private boolean verbose = false;
-  private boolean apiFormat = false;
-  private boolean taggerOnly = false;
+  private JLanguageTool lt;
+  private boolean verbose;
+  private boolean apiFormat;
+  private boolean taggerOnly;
 
   /* maximum file size to read in a single read */
   private final static int MAXFILESIZE = 64000;
 
-  Main(boolean verbose, Language language, Language motherTongue) throws IOException, 
-  ParserConfigurationException, SAXException {
+  Main(boolean verbose, Language language, Language motherTongue)
+      throws IOException, ParserConfigurationException, SAXException {
     this(verbose, language, motherTongue, new String[0], new String[0]);
   }
 
-  Main(boolean verbose, Language language, Language motherTongue, String[] disabledRules,
-      String[] enabledRules) throws IOException, SAXException, ParserConfigurationException {
-    this(verbose, false, language, motherTongue, disabledRules, enabledRules, false);
+  Main(boolean verbose, Language language, Language motherTongue,
+      String[] disabledRules, String[] enabledRules) throws IOException,
+      SAXException, ParserConfigurationException {
+    this(verbose, false, language, motherTongue, disabledRules, enabledRules,
+        false);
   }
 
-  Main(boolean verbose, boolean taggerOnly, Language language, Language motherTongue, String[] disabledRules,
-      String[] enabledRules, boolean apiFormat) throws IOException, 
-      SAXException, ParserConfigurationException {
+  Main(boolean verbose, boolean taggerOnly, Language language,
+      Language motherTongue, String[] disabledRules, String[] enabledRules,
+      boolean apiFormat) throws IOException, SAXException,
+      ParserConfigurationException {
     this.verbose = verbose;
     this.apiFormat = apiFormat;
     this.taggerOnly = taggerOnly;
@@ -80,7 +83,8 @@ class Main {
     }
     // disable all rules except those enabled explicitly, if any:
     if (enabledRules.length > 0) {
-      Set<String> enabledRuleIDs = new HashSet<String>(Arrays.asList(enabledRules));
+      Set<String> enabledRuleIDs = new HashSet<String>(Arrays
+          .asList(enabledRules));
       for (Rule rule : lt.getAllRules()) {
         if (!enabledRuleIDs.contains(rule.getId())) {
           lt.disableRule(rule.getId());
@@ -97,43 +101,40 @@ class Main {
     return lt;
   }
 
-  private void runOnFile(final String filename, final String encoding) throws IOException {
+  private void runOnFile(final String filename, final String encoding)
+      throws IOException {
     final File file = new File(filename);
     if (file.length() < MAXFILESIZE) {
-      final String text = 
-        getFilteredText(filename, encoding);
+      final String text = getFilteredText(filename, encoding);
       if (!taggerOnly) {
         Tools.checkText(text, lt, apiFormat);
       } else {
         Tools.tagText(text, lt);
-      }                
+      }
     } else {
       if (verbose)
         lt.setOutput(System.err);
       if (!apiFormat)
-        System.out.println("Working on " 
-            + filename + "... in a line by line mode");
-      //TODO: change LT default statistics mode to summarize at the end
-      //of processing
+        System.out.println("Working on " + filename
+            + "... in a line by line mode");
+      // TODO: change LT default statistics mode to summarize at the end
+      // of processing
       InputStreamReader isr = null;
       BufferedReader br = null;
       try {
         if (encoding != null) {
-          isr = new InputStreamReader(
-              new BufferedInputStream(
-                  new FileInputStream(file.getAbsolutePath())), 
-                  encoding);
+          isr = new InputStreamReader(new BufferedInputStream(
+              new FileInputStream(file.getAbsolutePath())), encoding);
         } else {
-          isr = new InputStreamReader(
-              new BufferedInputStream(
-                  new FileInputStream(file.getAbsolutePath())));
+          isr = new InputStreamReader(new BufferedInputStream(
+              new FileInputStream(file.getAbsolutePath())));
         }
         br = new BufferedReader(isr);
         String line;
         while ((line = br.readLine()) != null) {
           line += "\n";
           if (!taggerOnly) {
-            Tools.checkText(filterXML(line), lt);
+            Tools.checkText(filterXML(line), lt, apiFormat);
           } else {
             Tools.tagText(filterXML(line), lt);
           }
@@ -145,44 +146,46 @@ class Main {
         if (isr != null) {
           isr.close();
         }
-      }         
-    }        
+      }
+    }
   }
 
-
-  private void runRecursive(final String filename, final String encoding) throws IOException,
-  ParserConfigurationException, SAXException {
+  private void runRecursive(final String filename, final String encoding)
+      throws IOException, ParserConfigurationException, SAXException {
     final File dir = new File(filename);
     if (!dir.isDirectory()) {
-      throw new IllegalArgumentException(dir.getAbsolutePath() + " is not a directory, cannot use recursion");
+      throw new IllegalArgumentException(dir.getAbsolutePath()
+          + " is not a directory, cannot use recursion");
     }
     final File[] files = dir.listFiles();
     for (int i = 0; i < files.length; i++) {
       if (files[i].isDirectory()) {
         runRecursive(files[i].getAbsolutePath(), encoding);
-      } else {        
+      } else {
         runOnFile(files[i].getAbsolutePath(), encoding);
       }
     }
   }
 
   /**
-   * Loads filename, filter out XML and check the result. Note that the XML filtering
-   * can lead to incorrect positions in the list of matching rules.
+   * Loads filename, filter out XML and check the result. Note that the XML
+   * filtering can lead to incorrect positions in the list of matching rules.
    * 
    * @param filename
    * @throws IOException
    */
-  private String getFilteredText(final String filename, final String encoding) throws IOException {
+  private String getFilteredText(final String filename, final String encoding)
+      throws IOException {
     if (verbose)
       lt.setOutput(System.err);
     if (!apiFormat)
       System.out.println("Working on " + filename + "...");
-    String fileContents = StringTools.readFile(new FileInputStream(filename), encoding);
+    String fileContents = StringTools.readFile(new FileInputStream(filename),
+        encoding);
     return filterXML(fileContents);
   }
 
-  private String filterXML(String s) {    
+  private String filterXML(String s) {
     Pattern pattern = Pattern.compile("<!--.*?-->", Pattern.DOTALL);
     Matcher matcher = pattern.matcher(s);
     s = matcher.replaceAll(" ");
@@ -192,19 +195,19 @@ class Main {
     return s;
   }
 
-
-
   private static void exitWithUsageMessage() {
-    System.out.println("Usage: java de.danielnaber.languagetool.Main " +
-        "[-r|--recursive] [-v|--verbose] [-l|--language LANG] [-m|--mothertongue LANG] [-d|--disable RULES] " +
-    "[-e|--enable RULES] [-c|--encoding] [-u|--list-unknown] [-t|--taggeronly] [-b] [--api] <file>");
+    System.out
+        .println("Usage: java de.danielnaber.languagetool.Main "
+            + "[-r|--recursive] [-v|--verbose] [-l|--language LANG] [-m|--mothertongue LANG] [-d|--disable RULES] "
+            + "[-e|--enable RULES] [-c|--encoding] [-u|--list-unknown] [-t|--taggeronly] [-b] [--api] <file>");
     System.exit(1);
   }
 
   /**
    * Command line tool to check plain text files.
    */
-  public static void main(String[] args) throws IOException, ParserConfigurationException, SAXException {
+  public static void main(String[] args) throws IOException,
+      ParserConfigurationException, SAXException {
     if (args.length < 1 || args.length > 9) {
       exitWithUsageMessage();
     }
@@ -221,7 +224,8 @@ class Main {
     String[] disabledRules = new String[0];
     String[] enabledRules = new String[0];
     for (int i = 0; i < args.length; i++) {
-      if (args[i].equals("-h") || args[i].equals("-help") || args[i].equals("--help")) {
+      if (args[i].equals("-h") || args[i].equals("-help")
+          || args[i].equals("--help")) {
         exitWithUsageMessage();
       } else if (args[i].equals("-v") || args[i].equals("--verbose")) {
         verbose = true;
@@ -231,12 +235,14 @@ class Main {
         recursive = true;
       } else if (args[i].equals("-d") || args[i].equals("--disable")) {
         if (enabledRules.length > 0)
-          throw new IllegalArgumentException("You cannot specify both enabled and disabled rules");
+          throw new IllegalArgumentException(
+              "You cannot specify both enabled and disabled rules");
         String rules = args[++i];
         disabledRules = rules.split(",");
       } else if (args[i].equals("-e") || args[i].equals("--enable")) {
         if (disabledRules.length > 0)
-          throw new IllegalArgumentException("You cannot specify both enabled and disabled rules");
+          throw new IllegalArgumentException(
+              "You cannot specify both enabled and disabled rules");
         String rules = args[++i];
         enabledRules = rules.split(",");
       } else if (args[i].equals("-l") || args[i].equals("--language")) {
@@ -268,18 +274,22 @@ class Main {
     } else if (!apiFormat) {
       System.out.println("Expected text language: " + language.getName());
     }
-    language.getSentenceTokenizer().setSingleLineBreaksMarksParagraph(singleLineBreakMarksParagraph);
-    Main prg = new Main(verbose, taggerOnly, language, motherTongue, disabledRules, enabledRules, apiFormat);
+    language.getSentenceTokenizer().setSingleLineBreaksMarksParagraph(
+        singleLineBreakMarksParagraph);
+    Main prg = new Main(verbose, taggerOnly, language, motherTongue,
+        disabledRules, enabledRules, apiFormat);
     prg.setListUnknownWords(listUnknown);
     if (recursive) {
       prg.runRecursive(filename, encoding);
     } else {
-      /* String text = prg.getFilteredText(filename, encoding);
-      Tools.checkText(text, prg.getJLanguageTool(), apiFormat);
+      /*
+       * String text = prg.getFilteredText(filename, encoding);
+       * Tools.checkText(text, prg.getJLanguageTool(), apiFormat);
        */
       prg.runOnFile(filename, encoding);
       if (listUnknown) {
-        System.out.println("Unknown words: " + prg.getJLanguageTool().getUnknownWords());
+        System.out.println("Unknown words: "
+            + prg.getJLanguageTool().getUnknownWords());
       }
     }
   }
@@ -295,10 +305,11 @@ class Main {
         language = tmpLang;
         foundLanguage = true;
         break;
-      }          
+      }
     }
     if (!foundLanguage) {
-      System.out.println("Unknown language '" + lang + "'. Supported languages are: " + supportedLanguages);
+      System.out.println("Unknown language '" + lang
+          + "'. Supported languages are: " + supportedLanguages);
       exitWithUsageMessage();
     }
     return language;

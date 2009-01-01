@@ -47,15 +47,15 @@ import de.danielnaber.languagetool.language.LanguageBuilder;
 
 public class LanguageManagerDialog implements ActionListener {
 
-  private JDialog dialog = null;
+  private JDialog dialog;
   
-  private JList list = null; 
-  private JButton addButton = null;
-  private JButton removeButton = null;
-  private JButton closeButton = null;
+  private JList list; 
+  private JButton addButton;
+  private JButton removeButton;
+  private JButton closeButton;
   private List<File> ruleFiles = new ArrayList<File>();
   
-  private Frame owner = null;
+  private Frame owner;
   //private ResourceBundle messages = null;
   
   public LanguageManagerDialog(Frame owner, List<Language> languages) {

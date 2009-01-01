@@ -36,22 +36,22 @@ class XMLRuleHandler extends DefaultHandler {
   StringBuilder exampleCorrection = new StringBuilder();
   StringBuilder message = new StringBuilder();
   StringBuilder match = new StringBuilder();
-  StringBuilder elements = null;
-  StringBuilder exceptions = null;
+  StringBuilder elements;
+  StringBuilder exceptions;
   
   List<String> correctExamples = new ArrayList<String>();
   List<IncorrectExample> incorrectExamples = new ArrayList<IncorrectExample>();
 
-  boolean inPattern = false;
-  boolean inCorrectExample = false;
-  boolean inIncorrectExample = false;
-  boolean inMessage = false;
-  boolean inMatch = false;
-  boolean inRuleGroup = false;
-  boolean inToken = false;
-  boolean inException = false;
-  boolean inPhrases = false;
-  boolean inAndGroup = false;
+  boolean inPattern;
+  boolean inCorrectExample;
+  boolean inIncorrectExample;
+  boolean inMessage;
+  boolean inMatch;
+  boolean inRuleGroup;
+  boolean inToken;
+  boolean inException;
+  boolean inPhrases;
+  boolean inAndGroup;
   
   List<PatternRule> getRules() {
     return rules;

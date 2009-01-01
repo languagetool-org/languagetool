@@ -24,7 +24,7 @@ public class Category {
   
   private int priority;
   private String name;
-  private boolean defaultOff = false;
+  private boolean defaultOff;
 
   /**
    * Create a new category with the given name and priority.

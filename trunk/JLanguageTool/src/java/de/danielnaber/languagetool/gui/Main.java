@@ -95,21 +95,21 @@ public final class Main implements ActionListener {
   private static final String SYSTEM_TRAY_TOOLTIP = "LanguageTool";
   private static final String CONFIG_FILE = ".languagetool.cfg";
 
-  private Configuration config = null;
+  private Configuration config;
 
-  private JFrame frame = null;
-  private JTextArea textArea = null;
-  private JTextPane resultArea = null;
-  private JComboBox langBox = null;
+  private JFrame frame;
+  private JTextArea textArea;
+  private JTextPane resultArea;
+  private JComboBox langBox;
 
-  private HTTPServer httpServer = null;
+  private HTTPServer httpServer;
 
   private final Map<Language, ConfigurationDialog> configDialogs = new HashMap<Language, ConfigurationDialog>();
 
   // whether clicking on the window close button hides to system tray:
-  private boolean trayMode = false;
+  private boolean trayMode;
 
-  private boolean isInTray = false;
+  private boolean isInTray;
 
   private Main() throws IOException {
     config = new Configuration(new File(System.getProperty("user.home")),
@@ -369,7 +369,11 @@ public final class Main implements ActionListener {
       }
     } catch (final Exception ex) {
       ex.printStackTrace();
+      if (data != null) {
       s = data.toString();
+      } else {
+        s = "";
+      }
     }
     return s;
   }
@@ -624,12 +628,12 @@ public final class Main implements ActionListener {
   class TrayActionListener implements ActionListener, MouseListener {
 
     // for Java 1.5 / Jdic:
-    public void actionPerformed(@SuppressWarnings("unused") ActionEvent e) {
+    public void actionPerformed(ActionEvent e) {
       handleClick();
     }
 
     // Java 1.6:
-    public void mouseClicked(@SuppressWarnings("unused") MouseEvent e) {
+    public void mouseClicked(MouseEvent e) {
       handleClick();
     }
 
@@ -644,34 +648,34 @@ public final class Main implements ActionListener {
       }
     }
 
-    public void mouseEntered(@SuppressWarnings("unused") MouseEvent e) {
+    public void mouseEntered(MouseEvent e) {
     }
-    public void mouseExited(@SuppressWarnings("unused") MouseEvent e) {
+    public void mouseExited(MouseEvent e) {
     }
-    public void mousePressed(@SuppressWarnings("unused") MouseEvent e) {
+    public void mousePressed(MouseEvent e) {
     }
-    public void mouseReleased(@SuppressWarnings("unused") MouseEvent e) {
+    public void mouseReleased(MouseEvent e) {
     }
 
   }
 
   class CloseListener implements WindowListener {
 
-    public void windowClosing(@SuppressWarnings("unused") WindowEvent e) {
+    public void windowClosing(WindowEvent e) {
       quitOrHide();
     }
 
-    public void windowActivated(@SuppressWarnings("unused") WindowEvent e) {
+    public void windowActivated(WindowEvent e) {
     }
-    public void windowClosed(@SuppressWarnings("unused") WindowEvent e) {
+    public void windowClosed(WindowEvent e) {
     }
-    public void windowDeactivated(@SuppressWarnings("unused") WindowEvent e) {
+    public void windowDeactivated(WindowEvent e) {
     }
-    public void windowDeiconified(@SuppressWarnings("unused") WindowEvent e) {
+    public void windowDeiconified(WindowEvent e) {
     }
-    public void windowIconified(@SuppressWarnings("unused") WindowEvent e) {
+    public void windowIconified(WindowEvent e) {
     }
-    public void windowOpened(@SuppressWarnings("unused") WindowEvent e) {
+    public void windowOpened(WindowEvent e) {
     }
 
   }

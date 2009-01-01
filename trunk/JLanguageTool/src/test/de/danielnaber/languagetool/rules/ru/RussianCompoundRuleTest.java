@@ -76,8 +76,8 @@ public class RussianCompoundRuleTest extends TestCase {
           ", expected " + expSuggestions.length,
           expSuggestions.length, ruleMatch.getSuggestedReplacements().size());
       int i = 0;
-      for (Iterator iter = ruleMatch.getSuggestedReplacements().iterator(); iter.hasNext();) {
-        String suggestion = (String) iter.next();
+      for (Iterator<String> iter = ruleMatch.getSuggestedReplacements().iterator(); iter.hasNext();) {
+        String suggestion = iter.next();
         //System.err.println(">>"+suggestion);
         assertEquals(expSuggestions[i], suggestion);
         i++;

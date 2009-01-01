@@ -78,7 +78,7 @@ public class FalseFriendRuleLoader extends DefaultHandler {
   private String formatSuggestions(final List<String> l) {
     final StringBuilder sb = new StringBuilder();
     for (final Iterator<String> iter = l.iterator(); iter.hasNext();) {
-      final String s = (String) iter.next();
+      final String s = iter.next();
       sb.append("<suggestion>");
       sb.append(s);
       sb.append("</suggestion>");
@@ -172,7 +172,6 @@ class FalseFriendRuleHandler extends XMLRuleHandler {
   //===========================================================
 
   @Override
-  @SuppressWarnings("unused")
   public void startElement(final String namespaceURI, final String lName, final String qName, final Attributes attrs) throws SAXException {
 	  if (qName.equals("rule")) {
 		  translations = new ArrayList<StringBuilder>();
@@ -279,7 +278,6 @@ class FalseFriendRuleHandler extends XMLRuleHandler {
   }
 
   @Override
-  @SuppressWarnings("unused")
   public void endElement(final String namespaceURI, final String sName, final String qName) {
 	  if (qName.equals("rule")) {
 		  if (language == textLanguage && translationLanguage != null && translationLanguage == motherTongue

@@ -30,7 +30,7 @@ public class AnalyzedToken {
   private int startPos;
   private String lemma;
 
-  private boolean isWhitespaceBefore = false;
+  private boolean isWhitespaceBefore;
   
   public AnalyzedToken(final String token, final String posTag, final int startPos) {
     this.token = token;
@@ -44,7 +44,7 @@ public class AnalyzedToken {
     this.lemma = lemma;
   }
 
-  public AnalyzedToken(final String token, final String posTag, final String lemma, int startPos) {
+  public AnalyzedToken(final String token, final String posTag, final String lemma, final int startPos) {
     this.token = token;
     this.posTag = posTag;
     this.lemma = lemma;
@@ -67,17 +67,17 @@ public class AnalyzedToken {
     return startPos;
   }
   
-  public void setWhitespaceBefore(final boolean isWhite) {
+  public final void setWhitespaceBefore(final boolean isWhite) {
     isWhitespaceBefore = isWhite;
   }
   
-  public boolean isWhitespaceBefore(){
+  public final boolean isWhitespaceBefore(){
     return isWhitespaceBefore;
   }
   
 
   public String toString() {
-    StringBuilder sb = new StringBuilder();
+    final StringBuilder sb = new StringBuilder();
     if (lemma != null) {
       sb.append(lemma);
     } else {
@@ -89,7 +89,7 @@ public class AnalyzedToken {
   }
 
   @Override
-  public int hashCode() {
+  public final int hashCode() {
     final int prime = 31;
     int result = 1;
     result = prime * result + (isWhitespaceBefore ? 1231 : 1237);
@@ -101,33 +101,44 @@ public class AnalyzedToken {
   }
 
   @Override
-  public boolean equals(Object obj) {
-    if (this == obj)
+  public final boolean equals(final Object obj) {
+    if (this == obj) {
       return true;
-    if (obj == null)
+    }
+    if (obj == null) {
       return false;
-    if (getClass() != obj.getClass())
+    }
+    if (getClass() != obj.getClass()) {
       return false;
-    AnalyzedToken other = (AnalyzedToken) obj;
-    if (isWhitespaceBefore != other.isWhitespaceBefore)
+    }
+    final AnalyzedToken other = (AnalyzedToken) obj;
+    if (isWhitespaceBefore != other.isWhitespaceBefore) {
       return false;
+    }
     if (lemma == null) {
-      if (other.lemma != null)
+      if (other.lemma != null) {
         return false;
-    } else if (!lemma.equals(other.lemma))
+      }
+    } else if (!lemma.equals(other.lemma)) {
       return false;
+    }
     if (posTag == null) {
-      if (other.posTag != null)
+      if (other.posTag != null) {
         return false;
-    } else if (!posTag.equals(other.posTag))
+      }
+    } else if (!posTag.equals(other.posTag)) {
       return false;
-    if (startPos != other.startPos)
+    }
+    if (startPos != other.startPos) {
       return false;
+    }
     if (token == null) {
-      if (other.token != null)
+      if (other.token != null) {
         return false;
-    } else if (!token.equals(other.token))
+      }
+    } else if (!token.equals(other.token)) {
       return false;
+    }
     return true;
   }
     

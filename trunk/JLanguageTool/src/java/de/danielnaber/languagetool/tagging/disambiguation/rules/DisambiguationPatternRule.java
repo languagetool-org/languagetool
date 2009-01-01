@@ -63,8 +63,8 @@ public class DisambiguationPatternRule {
   private final Language language;
   private final String description;
 
-  private int startPositionCorrection = 0;
-  private int endPositionCorrection = 0;
+  private int startPositionCorrection;
+  private int endPositionCorrection;
 
   private final List<Element> patternElements;
 

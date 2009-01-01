@@ -31,101 +31,104 @@ import de.danielnaber.languagetool.synthesis.Synthesizer;
 import de.danielnaber.languagetool.synthesis.SynthesizerTools;
 import de.danielnaber.languagetool.tools.Tools;
 
-/** English word form synthesizer. <br/>
- * Based on part-of-speech lists in Public Domain.
- * See readme.txt for details, the POS tagset is
- * described in tagset.txt.
+/**
+ * English word form synthesizer. <br/>
+ * Based on part-of-speech lists in Public Domain. See readme.txt for details,
+ * the POS tagset is described in tagset.txt.
  * 
  * There are to special additions:
  * <ol>
- *  <li>+DT - tag that adds "a" or "an" (according to the
- *  way the word is pronounced) and "the"</li>
- *  <li>+INDT - a tag that adds only "a" or "an"</li>
- *  </ol>
+ * <li>+DT - tag that adds "a" or "an" (according to the way the word is
+ * pronounced) and "the"</li>
+ * <li>+INDT - a tag that adds only "a" or "an"</li>
+ * </ol>
  * 
  * @author Marcin Miłkowski
  */
 
-
 public class EnglishSynthesizer implements Synthesizer {
 
   private static final String RESOURCE_FILENAME = "/resource/en/english_synth.dict";
-  
+
   private static final String TAGS_FILE_NAME = "/resource/en/english_tags.txt";
-  
-  /** A special tag to add determiners. **/   
+
+  /** A special tag to add determiners. **/
   private static final String ADD_DETERMINER = "+DT";
 
-  /** A special tag to add only indefinite articles. **/   
+  /** A special tag to add only indefinite articles. **/
   private static final String ADD_IND_DETERMINER = "+INDT";
-  
-  private Lametyzator synthesizer = null;
 
-  private ArrayList<String> possibleTags = null;
-  
+  private Lametyzator synthesizer;
+
+  private ArrayList<String> possibleTags;
+
   private void setFileName() {
-    System.setProperty(Lametyzator.PROPERTY_NAME_LAMETYZATOR_DICTIONARY, 
-        RESOURCE_FILENAME);    
+    System.setProperty(Lametyzator.PROPERTY_NAME_LAMETYZATOR_DICTIONARY,
+        RESOURCE_FILENAME);
   }
+
   /**
-   * Get a form of a given AnalyzedToken, where the
-   * form is defined by a part-of-speech tag.
-   * @param token AnalyzedToken to be inflected.
-   * @param posTag A desired part-of-speech tag.
+   * Get a form of a given AnalyzedToken, where the form is defined by a
+   * part-of-speech tag.
+   * 
+   * @param token
+   *          AnalyzedToken to be inflected.
+   * @param posTag
+   *          A desired part-of-speech tag.
    * @return String value - inflected word.
    */
-  public String[] synthesize(final AnalyzedToken token, final String posTag) throws IOException {
+  public String[] synthesize(final AnalyzedToken token, final String posTag)
+      throws IOException {
     if (ADD_DETERMINER.equals(posTag)) {
       final AvsAnRule rule = new AvsAnRule(null);
-      return new String[] {rule.suggestAorAn(token.getToken()), "the " + token.getToken()};
-    } else if (ADD_IND_DETERMINER.equals(posTag)) { 
+      return new String[] { rule.suggestAorAn(token.getToken()),
+          "the " + token.getToken() };
+    } else if (ADD_IND_DETERMINER.equals(posTag)) {
       final AvsAnRule rule = new AvsAnRule(null);
-      return new String[] {rule.suggestAorAn(token.getToken())};
+      return new String[] { rule.suggestAorAn(token.getToken()) };
     } else {
       if (synthesizer == null) {
         setFileName();
-        synthesizer = 
-          new Lametyzator();
+        synthesizer = new Lametyzator();
       }
       String[] wordForms = null;
       wordForms = synthesizer.stem(token.getLemma() + "|" + posTag);
       return wordForms;
     }
   }
-  
-  //TODO: avoid code duplication with DutchSynthesizer
-  public String[] synthesize(final AnalyzedToken token, final String posTag, final boolean posTagRegExp)
-      throws IOException {
-    
+
+  // TODO: avoid code duplication with DutchSynthesizer
+  public String[] synthesize(final AnalyzedToken token, final String posTag,
+      final boolean posTagRegExp) throws IOException {
+
     if (posTagRegExp) {
-    if (possibleTags == null) {
-      possibleTags = SynthesizerTools.loadWords(Tools.getStream(TAGS_FILE_NAME));
-    }
-    if (synthesizer == null) {
-      setFileName();
-      synthesizer = 
-        new Lametyzator();
-    }    
-    final Pattern p = Pattern.compile(posTag);
-    final ArrayList<String> results = new ArrayList<String>();
-    for (final String tag : possibleTags) {
-      final Matcher m = p.matcher(tag);
+      if (possibleTags == null) {
+        possibleTags = SynthesizerTools.loadWords(Tools
+            .getStream(TAGS_FILE_NAME));
+      }
+      if (synthesizer == null) {
+        setFileName();
+        synthesizer = new Lametyzator();
+      }
+      final Pattern p = Pattern.compile(posTag);
+      final ArrayList<String> results = new ArrayList<String>();
+      for (final String tag : possibleTags) {
+        final Matcher m = p.matcher(tag);
         if (m.matches()) {
           String[] wordForms = null;
           wordForms = synthesizer.stem(token.getLemma() + "|" + tag);
           if (wordForms != null) {
             results.addAll(Arrays.asList(wordForms));
           }
+        }
       }
+      return results.toArray(new String[results.size()]);
     }
-       return results.toArray(new String[results.size()]);    
-    } else {
-      return synthesize(token, posTag);
-    }    
+    return synthesize(token, posTag);
   }
 
   public String getPosTagCorrection(final String posTag) {
     return posTag;
   }
-    
+
 }

@@ -69,7 +69,7 @@ public final class TestTools {
     List<AnalyzedTokenReadings> output = tagger.tag(noWhitespaceTokens);
     StringBuffer outputStr = new StringBuffer();
     for (Iterator<AnalyzedTokenReadings> iter = output.iterator(); iter.hasNext();) {
-      AnalyzedTokenReadings token = (AnalyzedTokenReadings) iter.next();
+      AnalyzedTokenReadings token = iter.next();
       int readingsNumber = token.getReadingsLength();
       for (int j = 0; j < readingsNumber; j++) {
         outputStr.append(token.getAnalyzedToken(j).getToken());
@@ -113,7 +113,7 @@ public final class TestTools {
       for (String tokenStr : tokens) {
         AnalyzedTokenReadings posTag = null;
         if (isWord(tokenStr)) {
-          posTag = (AnalyzedTokenReadings) aTokens.get(noWhitespaceCount);
+          posTag = aTokens.get(noWhitespaceCount);
           posTag.setStartPos(startPos);
           noWhitespaceCount++;
         } else {
@@ -130,7 +130,7 @@ public final class TestTools {
       AnalyzedTokenReadings[] output = finalSentence.getTokens();
 
       for (int i = 0; i < output.length; i++) {
-        AnalyzedTokenReadings token = (AnalyzedTokenReadings) output[i];
+        AnalyzedTokenReadings token = output[i];
         int readingsNumber = token.getReadingsLength();
         for (int j = 0; j < readingsNumber; j++) {
           outputStr.append(token.getAnalyzedToken(j).getToken());

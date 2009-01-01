@@ -20,6 +20,11 @@ package de.danielnaber.languagetool.gui;
 
 public class MissingJdicException extends RuntimeException {
 
+  /**
+   * 
+   */
+  private static final long serialVersionUID = 8822404582351420654L;
+
   public MissingJdicException(Throwable throwable) {
     super("TrayIcon class not found. Please unzip " +
         "'standalone-libs.zip' in your LanguageTool installation directory.", throwable);

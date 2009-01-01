@@ -30,40 +30,40 @@ import de.danielnaber.languagetool.AnalyzedToken;
 import de.danielnaber.languagetool.AnalyzedTokenReadings;
 import de.danielnaber.languagetool.tools.StringTools;
 
-
 /**
  * Implements unification of features over tokens.
  * 
  * @author Marcin Milkowski
- *
+ * 
  */
 public class Unifier {
 
+  private static final String FEATURE_TYPE_SEPARATOR = ":";
+
+  private static final String FEATURE_SEPARATOR = ",";
+
   /*
-   * Negates the meaning of unification
-   * just like negation in Element tokens.
+   * Negates the meaning of unification just like negation in Element tokens.
    */
   private boolean negation;
 
   private boolean allFeatsIn;
 
-  private int tokCnt = -1;
+  private int tokCnt;
 
-  private int readingsCounter = 1;
+  private int readingsCounter;
 
   private List<AnalyzedTokenReadings> tokSequence;
 
   /**
-   * A Map for storing the equivalence types for
-   * features. Features are specified as Strings,
-   * and map into types defined as maps from Strings
-   * to Elements.
+   * A Map for storing the equivalence types for features. Features are
+   * specified as Strings, and map into types defined as maps from Strings to
+   * Elements.
    */
   private Map<String, Element> equivalenceTypes;
 
   /**
-   * A Map that stores all possible equivalence types
-   * listed for features. 
+   * A Map that stores all possible equivalence types listed for features.
    */
   private Map<String, List<String>> equivalenceFeatures;
 
@@ -81,33 +81,43 @@ public class Unifier {
    * For checking the current token.
    */
   private List<Boolean> tmpFeaturesFound;
-  
+
   /**
-   * internal flag for checking whether the first
-   * token in tokSequence has to be yet unified
+   * Internal flag for checking whether the first token in tokSequence has to be
+   * yet unified.
    */
   private boolean firstUnified;
 
   public Unifier() {
-    clear();
+    tokCnt = -1;
+    readingsCounter = 1;
+    equivalencesMatched = new ArrayList<Map<String, Set<String>>>();
+    equivalenceTypes = new HashMap<String, Element>();
+    equivalenceFeatures = new HashMap<String, List<String>>();
+    featuresFound = new ArrayList<Boolean>();
+    tmpFeaturesFound = new ArrayList<Boolean>();
+    tokSequence = new ArrayList<AnalyzedTokenReadings>();
   }
 
   /**
-   * Prepares equivalence types for features to be tested.
-   * All equivalence types are given as {@link Elements}.
-   * They create an equivalence set (with abstraction).
-   * @param feature Feature to be tested, like
-   * gender, grammatical case or number. 
-   * @param type Type of equivalence for the feature,
-   * for example plural, first person, genitive.
-   * @param elem Element specifying the equivalence.
+   * Prepares equivalence types for features to be tested. All equivalence types
+   * are given as {@link Elements}. They create an equivalence set (with
+   * abstraction).
+   * 
+   * @param feature
+   *          Feature to be tested, like gender, grammatical case or number.
+   * @param type
+   *          Type of equivalence for the feature, for example plural, first
+   *          person, genitive.
+   * @param elem
+   *          Element specifying the equivalence.
    */
   public final void setEquivalence(final String feature, final String type,
       final Element elem) {
-    if (equivalenceTypes.containsKey(feature + ":" + type)) {
-      // shouldn't happen, the throw exception?
-    }        
-    equivalenceTypes.put(feature + ":" + type, elem);
+    if (equivalenceTypes.containsKey(feature + FEATURE_TYPE_SEPARATOR + type)) {
+      return;
+    }
+    equivalenceTypes.put(feature + FEATURE_TYPE_SEPARATOR + type, elem);
     List<String> lTypes;
     if (equivalenceFeatures.containsKey(feature)) {
       lTypes = equivalenceFeatures.get(feature);
@@ -120,97 +130,101 @@ public class Unifier {
 
   /**
    * Tests if a token has shared features with other tokens.
-   * @param aToken - token to be tested
-   * @param feature - feature to be tested
-   * @param type - type of equivalence relation for the feature
+   * 
+   * @param aToken
+   *          - token to be tested
+   * @param feature
+   *          - feature to be tested
+   * @param type
+   *          - type of equivalence relation for the feature
    * @return true if the token shares this type of feature with other tokens
    */
-  public final boolean isSatisfied(final AnalyzedToken aToken, final String feature,
-      final String type) {
+  public final boolean isSatisfied(final AnalyzedToken aToken,
+      final String feature, final String type) {
 
     if (allFeatsIn && equivalencesMatched.isEmpty()) {
       return false;
-    }            
-    //Error: no feature given!
+    }
+    // Error: no feature given!
     if (StringTools.isEmpty(feature)) {
-      return false; //throw exception??
+      return false; // throw exception??
     }
     boolean unified = true;
-    final String[] features = feature.split(",");
-    String[] types;    
+    final String[] features = feature.trim().split(FEATURE_SEPARATOR);
+    String[] types;
 
     if (!allFeatsIn) {
       tokCnt++;
       if (equivalencesMatched.size() <= tokCnt) {
-        final Map<String, Set<String>> mapTemp = 
-          new HashMap<String, Set<String>>();
+        final Map<String, Set<String>> mapTemp = new HashMap<String, Set<String>>();
         equivalencesMatched.add(mapTemp);
-      }      
-      for (String feat : features) {
+      }
+      for (final String feat : features) {
         if (StringTools.isEmpty(type)) {
           types = equivalenceFeatures.get(feat).toArray(
               new String[equivalenceFeatures.get(feat).size()]);
         } else {
-          types = type.split(",");
+          types = type.split(FEATURE_SEPARATOR);
         }
-        for (String typename : types) {        
-          final Element testElem = equivalenceTypes.get(feat + ":" + typename);
+        for (final String typename : types) {
+          final Element testElem = equivalenceTypes.get(feat + FEATURE_TYPE_SEPARATOR + typename);
           if (testElem == null) {
             return false;
           }
-          if (testElem.isMatched(aToken)) {            
+          if (testElem.isMatched(aToken)) {
             if (!equivalencesMatched.get(tokCnt).containsKey(feat)) {
               final Set<String> typeSet = new HashSet<String>();
               typeSet.add(typename);
               equivalencesMatched.get(tokCnt).put(feat, typeSet);
             } else {
               equivalencesMatched.get(tokCnt).get(feat).add(typename);
-            }            
+            }
           }
-        } 
+        }
         unified &= equivalencesMatched.get(tokCnt).containsKey(feat);
-        if (!unified) {           
-          break;  
-        }        
+        if (!unified) {
+          break;
+        }
       }
       if (unified) {
         if (tokCnt == 0 || tokSequence.isEmpty()) {
           tokSequence.add(new AnalyzedTokenReadings(aToken));
         } else {
           tokSequence.get(0).addReading(aToken);
-        }    
+        }
       }
-    } else {        
+    } else {
       unified &= checkNext(aToken, features, type);
-    }          
+    }
     return unified ^ negation;
   }
 
-  private boolean checkNext(final AnalyzedToken AT, final String features[],
-      final String type) {      
+  private boolean checkNext(final AnalyzedToken AT, final String[] features,
+      final String type) {
     boolean unifiedNext = true;
     boolean anyFeatUnified = false;
     String[] types;
     if (allFeatsIn) {
-      for (int i = 0; i <= tokCnt; i++) {      
+      for (int i = 0; i <= tokCnt; i++) {
         boolean allFeatsUnified = true;
-        for (String feat : features) {
+        for (final String feat : features) {
           boolean featUnified = false;
           if (StringTools.isEmpty(type)) {
             types = equivalenceFeatures.get(feat).toArray(
                 new String[equivalenceFeatures.get(feat).size()]);
           } else {
-            types = type.split(",");
+            types = type.split(FEATURE_SEPARATOR);
           }
-          for (String typename : types) {                            
+          for (final String typename : types) {
             if (featuresFound.get(i)
                 && equivalencesMatched.get(i).containsKey(feat)
                 && equivalencesMatched.get(i).get(feat).contains(typename)) {
-              final Element testElem = equivalenceTypes.get(feat + ":" + typename);
+              final Element testElem = equivalenceTypes.get(feat + FEATURE_TYPE_SEPARATOR
+                  + typename);
               featUnified = featUnified || testElem.isMatched(AT);
-            }        
+            }
           }
-          allFeatsUnified &= featUnified;          
+          allFeatsUnified &= featUnified;
         }
         tmpFeaturesFound.set(i, allFeatsUnified);
         anyFeatUnified |= allFeatsUnified;
@@ -221,7 +235,7 @@ public class Unifier {
           tokSequence.add(new AnalyzedTokenReadings(AT));
         } else {
           tokSequence.get(readingsCounter).addReading(AT);
-        }          
+        }
       }
     }
     return unifiedNext;
@@ -236,8 +250,7 @@ public class Unifier {
   }
 
   /**
-   * Starts testing only those equivalences
-   * that were previously matched.
+   * Starts testing only those equivalences that were previously matched.
    */
   public final void startUnify() {
     allFeatsIn = true;
@@ -270,49 +283,40 @@ public class Unifier {
     firstUnified = false;
   }
 
-  public final void clear() {
-    equivalencesMatched = new ArrayList<Map<String, Set<String>>>();
-    equivalenceTypes = new HashMap<String, Element>();
-    equivalenceFeatures = new HashMap<String, List<String>>();
-    featuresFound = new ArrayList<Boolean>();
-    tmpFeaturesFound = new ArrayList<Boolean>();
-    tokSequence = new ArrayList<AnalyzedTokenReadings>();    
-  }
-
   /**
-   * Gets a full sequence of filtered tokens. 
-   * @return Array of AnalyzedTokenReadings that match 
-   * equivalence relation defined for features
-   * tested.
+   * Gets a full sequence of filtered tokens.
+   * 
+   * @return Array of AnalyzedTokenReadings that match equivalence relation
+   *         defined for features tested.
    */
   public final AnalyzedTokenReadings[] getUnifiedTokens() {
     if (!firstUnified) {
-    AnalyzedTokenReadings tmpATR;
-    int first = -1;
-    for (int i = 0; i <= tokCnt; i++) {
-      if (tmpFeaturesFound.get(i)) {
-        first = i;
+      AnalyzedTokenReadings tmpATR;
+      int first = -1;
+      for (int i = 0; i <= tokCnt; i++) {
+        if (tmpFeaturesFound.get(i)) {
+          first = i;
+        }
       }
-    }
-    if (first == -1) {
-      return null;
-    }
-    //FIXME: why this happens??
-    if (first < tokSequence.get(0).getReadingsLength()) {
-    tmpATR = new AnalyzedTokenReadings(
-        tokSequence.get(0).getAnalyzedToken(first));           
-    for (int i = first + 1; i <= tokCnt; i++) {
-      if (tmpFeaturesFound.get(i)) {      
-        tmpATR.addReading(tokSequence.get(0).getAnalyzedToken(i));          
+      if (first == -1) {
+        return null;
       }
+      // FIXME: why this happens??
+      if (first < tokSequence.get(0).getReadingsLength()) {
+        tmpATR = new AnalyzedTokenReadings(tokSequence.get(0).getAnalyzedToken(
+            first));
+        for (int i = first + 1; i <= tokCnt; i++) {
+          if (tmpFeaturesFound.get(i)) {
+            tmpATR.addReading(tokSequence.get(0).getAnalyzedToken(i));
+          }
+        }
+        tokSequence.set(0, tmpATR);
+      }
+      firstUnified = true;
     }
-    tokSequence.set(0, tmpATR);
-    }
-    firstUnified = true;
-    }
-    final AnalyzedTokenReadings[] atr = 
-      tokSequence.toArray(new AnalyzedTokenReadings[tokSequence.size()]);
+    final AnalyzedTokenReadings[] atr = tokSequence
+        .toArray(new AnalyzedTokenReadings[tokSequence.size()]);
     return atr;
-  } 
+  }
 
 }

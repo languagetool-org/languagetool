@@ -51,26 +51,31 @@ public final class StringTools {
       throw new NullPointerException(varName + " cannot be null");
     }
     if (isEmpty(s.trim())) {
-      throw new IllegalArgumentException(varName + " cannot be empty or whitespace only");
+      throw new IllegalArgumentException(varName
+          + " cannot be empty or whitespace only");
     }
   }
-  
+
   /**
    * Read a file's content.
    */
   public static String readFile(final InputStream file) throws IOException {
     return readFile(file, null);
   }
-  
+
   /**
    * Read the text file using the given encoding.
    * 
-   * @param file InputStream to a file to be read
-   * @param encoding the file's character encoding (e.g. <code>iso-8859-1</code>)
-   * @return a string with the file's content, lines separated by <code>\n</code>
+   * @param file
+   *          InputStream to a file to be read
+   * @param encoding
+   *          the file's character encoding (e.g. <code>iso-8859-1</code>)
+   * @return a string with the file's content, lines separated by
+   *         <code>\n</code>
    * @throws IOException
    */
-  public static String readFile(final InputStream file, final String encoding) throws IOException {
+  public static String readFile(final InputStream file, final String encoding)
+      throws IOException {
     InputStreamReader isr = null;
     BufferedReader br = null;
     final StringBuilder sb = new StringBuilder();
@@ -104,7 +109,7 @@ public final class StringTools {
   public static boolean isAllUppercase(final String str) {
     return str.equals(str.toUpperCase());
   }
-  
+
   /**
    * Whether the first character of <code>str</code> is an uppercase character.
    */
@@ -120,7 +125,7 @@ public final class StringTools {
   }
 
   /**
-   * Return <code>str</code> modified so that its first character is now an 
+   * Return <code>str</code> modified so that its first character is now an
    * uppercase character.
    */
   public static String uppercaseFirstChar(final String str) {
@@ -130,11 +135,10 @@ public final class StringTools {
     final char firstChar = str.charAt(0);
     if (str.length() == 1) {
       return str.toUpperCase();
-    } else {
-      return Character.toUpperCase(firstChar) + str.substring(1);
     }
+    return Character.toUpperCase(firstChar) + str.substring(1);
   }
-  
+
   public static String readerToString(final Reader reader) throws IOException {
     final StringBuilder sb = new StringBuilder();
     int readbytes = 0;
@@ -169,32 +173,45 @@ public final class StringTools {
    * Escapes these characters: less than, bigger than, quote, ampersand.
    */
   public static String escapeHTML(final String s) {
-    //this version is much faster
-    //than using s.replaceAll        
+    // this version is much faster
+    // than using s.replaceAll
     final StringBuilder sb = new StringBuilder();
     final int n = s.length();
     for (int i = 0; i < n; i++) {
-       final char c = s.charAt(i);
-       switch (c) {
-         case '<': sb.append("&lt;"); break;
-         case '>': sb.append("&gt;"); break;
-         case '&': sb.append("&amp;"); break;
-         case '"': sb.append("&quot;"); break;
-         
-         default:  sb.append(c); break;
-       }
+      final char c = s.charAt(i);
+      switch (c) {
+      case '<':
+        sb.append("&lt;");
+        break;
+      case '>':
+        sb.append("&gt;");
+        break;
+      case '&':
+        sb.append("&amp;");
+        break;
+      case '"':
+        sb.append("&quot;");
+        break;
+
+      default:
+        sb.append(c);
+        break;
+      }
     }
-    return sb.toString();    
+    return sb.toString();
   }
-  
+
   /**
    * Get an XML representation of the given rule matches.
-   *
-   * @param text the original text that was checked, used to get the context of the matches
-   * @param contextSize the desired context size in characters
+   * 
+   * @param text
+   *          the original text that was checked, used to get the context of the
+   *          matches
+   * @param contextSize
+   *          the desired context size in characters
    */
-  public static String ruleMatchesToXML(final List<RuleMatch> ruleMatches, final String text,
-      final int contextSize) {
+  public static String ruleMatchesToXML(final List<RuleMatch> ruleMatches,
+      final String text, final int contextSize) {
     //
     // IMPORTANT: people rely on this format, don't change it!
     //
@@ -203,43 +220,42 @@ public final class StringTools {
     xml.append("<matches>\n");
     // int i = 1;
     for (final RuleMatch match : ruleMatches) {
-      xml.append("<error" +
-          " fromy=\"" + match.getLine() + "\"" + 
-          " fromx=\"" + match.getColumn() + "\"" +
-          " toy=\"" + match.getEndLine() + "\"" +
-          " tox=\"" + match.getEndColumn() + "\"" +
-          " ruleId=\"" +match.getRule().getId()+ "\"" 
-          );
+      xml.append("<error" + " fromy=\"" + match.getLine() + "\"" + " fromx=\""
+          + match.getColumn() + "\"" + " toy=\"" + match.getEndLine() + "\""
+          + " tox=\"" + match.getEndColumn() + "\"" + " ruleId=\""
+          + match.getRule().getId() + "\"");
       final String msg = match.getMessage().replaceAll("</?suggestion>", "'");
-      xml.append(" msg=\"" + escapeXMLForAPIOutput(msg)+ "\"");
+      xml.append(" msg=\"" + escapeXMLForAPIOutput(msg) + "\"");
       final String START_MARKER = "__languagetool_start_marker";
       String context = Tools.getContext(match.getFromPos(), match.getToPos(),
           text, contextSize, START_MARKER, "", true);
-      xml.append(" replacements=\"" + 
-          escapeXMLForAPIOutput(listToString(match.getSuggestedReplacements(), "#")) + "\"");
+      xml.append(" replacements=\""
+          + escapeXMLForAPIOutput(listToString(
+              match.getSuggestedReplacements(), "#")) + "\"");
       // get position of error in context and remove artificial marker again:
       final int contextOffset = context.indexOf(START_MARKER);
       context = context.replaceFirst(START_MARKER, "");
       context = context.replaceAll("[\n\r]", " ");
-      xml.append(" context=\"" +context+ "\"");
-      xml.append(" contextoffset=\"" +contextOffset+ "\"");
-      xml.append(" errorlength=\"" +(match.getToPos()-match.getFromPos())+ "\"");
+      xml.append(" context=\"" + context + "\"");
+      xml.append(" contextoffset=\"" + contextOffset + "\"");
+      xml.append(" errorlength=\"" + (match.getToPos() - match.getFromPos())
+          + "\"");
       xml.append("/>\n");
-      //i++;
+      // i++;
     }
     xml.append("</matches>\n");
     return xml.toString();
   }
 
-  private static String escapeXMLForAPIOutput(final String s) {    
-    // this is simplified XML, i.e. put the "<error>" in one line: 
-    return escapeXML(s).replaceAll("[\n\r]", " ");    
+  private static String escapeXMLForAPIOutput(final String s) {
+    // this is simplified XML, i.e. put the "<error>" in one line:
+    return escapeXML(s).replaceAll("[\n\r]", " ");
   }
-  
+
   public static String listToString(final List<String> l, final String delimiter) {
     final StringBuilder sb = new StringBuilder();
     for (final Iterator<String> iter = l.iterator(); iter.hasNext();) {
-      final String str = (String) iter.next();
+      final String str = iter.next();
       sb.append(str);
       if (iter.hasNext()) {
         sb.append(delimiter);
@@ -248,11 +264,13 @@ public final class StringTools {
     return sb.toString();
   }
 
-  public static String getContext(final int fromPos, final int toPos, final String fileContents) {
+  public static String getContext(final int fromPos, final int toPos,
+      final String fileContents) {
     return getContext(fromPos, toPos, fileContents, DEFAULT_CONTEXT_SIZE);
   }
-  
-  public static String getContext(final int fromPos, final int toPos, final String contents, final int contextSize) {
+
+  public static String getContext(final int fromPos, final int toPos,
+      final String contents, final int contextSize) {
     final String fileContents = contents.replace('\n', ' ');
     // calculate context region:
     int startContent = fromPos - contextSize;
@@ -289,10 +307,11 @@ public final class StringTools {
   }
 
   /**
-   * Filters any whitespace characters. Useful for
-   * trimming the contents of token elements that
-   * cannot possibly contain any spaces.
-   * @param str String to be filtered.
+   * Filters any whitespace characters. Useful for trimming the contents of
+   * token elements that cannot possibly contain any spaces.
+   * 
+   * @param str
+   *          String to be filtered.
    * @return Filtered string.
    */
   public static String trimWhitespace(final String str) {
@@ -304,121 +323,127 @@ public final class StringTools {
       }
     }
     return filter.toString();
-  }  
-  
+  }
+
   /**
    * Adds spaces before words that are not punctuation.
-   * @param word Word to add the space before.
-   * @param language Language of the word (to check 
-   * typography conventions). Currently French 
-   * convention of not adding spaces only before '.' and
-   * '.' is implemented; other languages assume that before
-   * ,.;:!? no spaces should be added.
+   * 
+   * @param word
+   *          Word to add the space before.
+   * @param language
+   *          Language of the word (to check typography conventions). Currently
+   *          French convention of not adding spaces only before '.' and '.' is
+   *          implemented; other languages assume that before ,.;:!? no spaces
+   *          should be added.
    * @return String containing a space or an empty string.
    */
   public static String addSpace(final String word, final Language language) {
-    String space = " ";  
+    String space = " ";
     final int len = word.length();
-    if (len == 1) {      
+    if (len == 1) {
       final char c = word.charAt(0);
       if (Language.FRENCH.equals(language)) {
         if (c == '.' || c == ',') {
           space = "";
         }
       } else {
-        if (c == '.' || c == ','
-          || c == ';' || c == ':'
-            || c == '?' || c == '!') {
+        if (c == '.' || c == ',' || c == ';' || c == ':' || c == '?'
+            || c == '!') {
           space = "";
-        } 
+        }
       }
     }
     return space;
   }
-  
+
   /**
-   * Returns translation of the UI element without the
-   * control character "&". To have "&" in the UI, use "&&".
-   * @param label Label to convert.
+   * Returns translation of the UI element without the control character "&". To
+   * have "&" in the UI, use "&&".
+   * 
+   * @param label
+   *          Label to convert.
    * @return String UI element string without mnemonics.
    */
   public static String getLabel(final String label) {
-   final String noAmpersand = label.replaceAll("&([^&])", "$1");   
-   return noAmpersand.replaceAll("&&", "&"); 
+    final String noAmpersand = label.replaceAll("&([^&])", "$1");
+    return noAmpersand.replaceAll("&&", "&");
   }
-  
+
   /**
-   * Returns the UI element string with mnemonics encoded
-   * in OpenOffice.org convention (using "~").  
-   * @param label Label to convert
+   * Returns the UI element string with mnemonics encoded in OpenOffice.org
+   * convention (using "~").
+   * 
+   * @param label
+   *          Label to convert
    * @return String UI element with ~ replacing &.
    */
   public static String getOOoLabel(final String label) {
-    final String noAmpersand = label.replaceAll("&([^&])", "~$1");   
+    final String noAmpersand = label.replaceAll("&([^&])", "~$1");
     return noAmpersand.replaceAll("&&", "&");
   }
-  
+
   /**
    * Returns mnemonic of a UI element.
-   * @param label String Label of the UI element
-   * @return @char Mnemonic of the UI element, or
-   * \u0000 in case of no mnemonic set. 
+   * 
+   * @param label
+   *          String Label of the UI element
+   * @return @char Mnemonic of the UI element, or \u0000 in case of no mnemonic
+   *         set.
    */
   public static char getMnemonic(final String label) {
     int mnemonicPos = label.indexOf('&');
-    while (mnemonicPos != -1 
-        && mnemonicPos == label.indexOf("&&")
+    while (mnemonicPos != -1 && mnemonicPos == label.indexOf("&&")
         && mnemonicPos < label.length()) {
       mnemonicPos = label.indexOf('&', mnemonicPos + 2);
     }
     if (mnemonicPos == -1 || mnemonicPos == label.length()) {
       return '\u0000';
-    } else {
-      return label.charAt(mnemonicPos + 1);
     }
+    return label.charAt(mnemonicPos + 1);
   }
-  
+
   /**
-   * Checks if a string contains only whitespace, including
-   * all Unicode whitespace.
-   * @param str String to check
+   * Checks if a string contains only whitespace, including all Unicode
+   * whitespace.
+   * 
+   * @param str
+   *          String to check
    * @return true if the string is whitespace-only.
    */
   public static boolean isWhitespace(final String str) {
     if ("\u0002".equals(str) // unbreakable field, e.g. a footnote number in OOo
-        || "\u0001".equals(str)) { //breakable field in OOo
+        || "\u0001".equals(str)) { // breakable field in OOo
       return false;
     }
     final String trimStr = str.trim();
     if (isEmpty(trimStr)) {
       return true;
-    } else {
-      if (trimStr.length() == 1) {
-        return java.lang.Character.isWhitespace(trimStr.charAt(0));
-      } else {
-        return false;
-      }
-    }    
+    }
+    if (trimStr.length() == 1) {
+      return java.lang.Character.isWhitespace(trimStr.charAt(0));
+    }
+    return false;
   }
-  
+
   /**
    * 
-   * @param ch Character to check
-   * @return True if the character is a positive number 
-   * (decimal digit from 1 to 9).
+   * @param ch
+   *          Character to check
+   * @return True if the character is a positive number (decimal digit from 1 to
+   *         9).
    */
   public static boolean isPositiveNumber(final char ch) {
     return ch >= '1' && ch <= '9';
   }
-  
+
   /**
    * Helper method to replace calls to "".equals()
-   * @param str String to check
+   * 
+   * @param str
+   *          String to check
    * @return true if string is empty OR null
    */
   public static boolean isEmpty(final String str) {
     return str == null || str.length() == 0;
-    }
+  }
 }
-  
- 

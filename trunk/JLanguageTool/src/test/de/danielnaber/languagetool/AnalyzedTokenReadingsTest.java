@@ -1,4 +1,4 @@
-/* LanguageTool, a natural language style checker
+/* LanguageTool, a natural language style checker 
  * Copyright (C) 2005 Daniel Naber (http://www.danielnaber.de)
  * 
  * This library is free software; you can redistribute it and/or
@@ -17,15 +17,20 @@
  * USA
  */
 
-package de.danielnaber.languagetool.rules.fr;
+package de.danielnaber.languagetool;
 
-import de.danielnaber.languagetool.rules.Rule;
+import junit.framework.TestCase;
 
-/**
- * Abstract base class for French rules.
- * 
- * @author Marcin Milkowski
- */
-public abstract class FrenchRule extends Rule {
-  
+public class AnalyzedTokenReadingsTest extends TestCase {
+
+  public void testNewTags() {
+    AnalyzedTokenReadings testanaTokRead = new AnalyzedTokenReadings(new AnalyzedToken("word", "POS", "lemma"));
+    assertEquals(false, testanaTokRead.isLinebreak());
+    assertEquals(false, testanaTokRead.isSentEnd());
+    assertEquals(false, testanaTokRead.isParaEnd());
+    assertEquals(false, testanaTokRead.isSentStart());
+    testanaTokRead.setSentEnd();
+    assertEquals(false, testanaTokRead.isSentStart());
+    assertEquals(true, testanaTokRead.isSentEnd());    
+  }
 }

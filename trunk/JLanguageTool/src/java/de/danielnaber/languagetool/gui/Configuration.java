@@ -47,13 +47,13 @@ public class Configuration {
   private static final String SERVER_RUN_CONFIG_KEY = "serverMode";
   private static final String SERVER_PORT_CONFIG_KEY = "serverPort";
 
-  private File configFile = null;
+  private File configFile;
 
   private Set<String> disabledRuleIds = new HashSet<String>();
   private Set<String> enabledRuleIds = new HashSet<String>();
   private Set<String> disabledCategoryNames = new HashSet<String>();
   private Language motherTongue;
-  private boolean runServer = false;
+  private boolean runServer;
   private int serverPort = HTTPServer.DEFAULT_PORT;
 
   public Configuration(final File baseDir, final String filename)

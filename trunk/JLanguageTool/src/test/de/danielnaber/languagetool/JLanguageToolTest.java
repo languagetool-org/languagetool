@@ -83,9 +83,12 @@ public class JLanguageToolTest extends TestCase {
     for (PatternRule patternRule : rules) {
       tool.addRule(patternRule);
     }
+    tool.setListUnknownWords(true);
     // German rule has no effect with English error:
     matches = tool.check("I can give you more a detailed description");
     assertEquals(0, matches.size());
+    //test unknown words listing
+    assertEquals("[I, can, detailed, give, more, you]", tool.getUnknownWords().toString());    
   }
 
   public void testDutch() throws IOException {
@@ -124,7 +127,11 @@ public class JLanguageToolTest extends TestCase {
     assertEquals(1, matches.size());
     // Polish rule has no effect with English error:
     matches = tool.check("I can give you more a detailed description");
-    assertEquals(0, matches.size());      
+    assertEquals(0, matches.size());
+    tool.setListUnknownWords(true);
+    matches = tool.check("This is not a Polish text.");
+    assertEquals("[Polish, This, is, text]", tool.getUnknownWords().toString());
+    
   }
 	  
   public void testCountLines() {
@@ -134,4 +141,12 @@ public class JLanguageToolTest extends TestCase {
     assertEquals(4, JLanguageTool.countLineBreaks("\nZweite\nDritte\n\n"));
   }
 
+  public void testAnalyzedSentence() throws IOException {
+    final JLanguageTool tool = new JLanguageTool(Language.ENGLISH);
+    //test soft-hyphen ignoring:
+    assertEquals("<S> This[this/DT,this/PDT]  is[be/VBZ]  a[a/DT]  test­ed[tested/JJ,test/VBD,test/VBN,test­ed]  sentence[sentence/NN,sentence/VB,sentence/VBP].[./.,</S>]", tool.getAnalyzedSentence("This is a test\u00aded sentence.").toString());
+    //test paragraph ends adding
+    assertEquals("<S> </S><P/> ", tool.getAnalyzedSentence("\n").toString());
+  }
+    
 }

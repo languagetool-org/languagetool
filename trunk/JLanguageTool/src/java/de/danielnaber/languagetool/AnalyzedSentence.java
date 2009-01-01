@@ -103,10 +103,12 @@ public class AnalyzedSentence {
       }
       for (int j = 0; j < element.getReadingsLength(); j++) {
         final String posTag = element.getAnalyzedToken(j).getPOSTag();
-        if (JLanguageTool.SENTENCE_START_TAGNAME.equals(posTag)) {
+        if (element.isSentStart()) {
           sb.append("<S>");
-        } else if (JLanguageTool.SENTENCE_END_TAGNAME.equals(posTag)) {
-          sb.append("</S>");
+        } else if (JLanguageTool.SENTENCE_END_TAGNAME.equals((element.getAnalyzedToken(j).getPOSTag()))) {
+          sb.append("</S>");                    
+        } else if (JLanguageTool.PARAGRAPH_END_TAGNAME.equals((element.getAnalyzedToken(j).getPOSTag()))) {
+          sb.append("<P/>"); 
         } else if (element.getAnalyzedToken(j) != null
             && posTag == null
             && !(element instanceof AnalyzedGermanTokenReadings)) {

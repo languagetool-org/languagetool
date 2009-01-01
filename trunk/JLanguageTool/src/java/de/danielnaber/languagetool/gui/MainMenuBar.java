@@ -34,7 +34,13 @@ import de.danielnaber.languagetool.tools.StringTools;
 
 class MainMenuBar extends JMenuBar implements ActionListener {
 
-  private ResourceBundle messages = null;
+
+  /**
+   * 
+   */
+  private static final long serialVersionUID = -7160998682243081767L;
+
+  private ResourceBundle messages;
   
   // File:
   private String openText;
@@ -46,9 +52,9 @@ class MainMenuBar extends JMenuBar implements ActionListener {
   // Help:
   private String aboutText;
 
-  private Main prg = null;
-  private JMenu fileMenu = null;
-  private JMenu helpMenu = null;
+  private Main prg;
+  private JMenu fileMenu;
+  private JMenu helpMenu;
   
   MainMenuBar(Main prg, ResourceBundle messages) {
     this.prg = prg;

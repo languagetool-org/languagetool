@@ -47,17 +47,17 @@ public class PolishSynthesizer implements Synthesizer {
   private static final String COMP_TAG = "comp";
   private static final String SUP_TAG = "sup";
 
-  private Lametyzator synthesizer = null;
+  private Lametyzator synthesizer;
 
-  private ArrayList<String> possibleTags = null;
+  private ArrayList<String> possibleTags;
 
   private void setFileName() {
     System.setProperty(Lametyzator.PROPERTY_NAME_LAMETYZATOR_DICTIONARY,
         RESOURCE_FILENAME);
   }
 
-  public String[] synthesize(final AnalyzedToken token, final String posTag)
-  throws IOException {
+  public final String[] synthesize(final AnalyzedToken token,
+      final String posTag) throws IOException {
     if (posTag == null) {
       return null;
     }
@@ -68,21 +68,21 @@ public class PolishSynthesizer implements Synthesizer {
     boolean isNegated = false;
     if (token.getPOSTag() != null) {
       isNegated = posTag.indexOf(NEGATION_TAG) > 0
-      || token.getPOSTag().indexOf(NEGATION_TAG) > 0
-      && !(posTag.indexOf(COMP_TAG) > 0) && !(posTag.indexOf(SUP_TAG) > 0);
+          || token.getPOSTag().indexOf(NEGATION_TAG) > 0
+          && !(posTag.indexOf(COMP_TAG) > 0) && !(posTag.indexOf(SUP_TAG) > 0);
     }
     if (posTag.indexOf('+') > 0) {
       return synthesize(token, posTag, true);
-    } else {
-      return getWordForms(token, posTag, isNegated);
     }
+    return getWordForms(token, posTag, isNegated);
   }
 
-  public String[] synthesize(final AnalyzedToken token, String posTag,
+  public final String[] synthesize(final AnalyzedToken token, final String pos,
       final boolean posTagRegExp) throws IOException {
-    if (posTag == null) {
+    if (pos == null) {
       return null;
     }
+    String posTag = pos;
     if (posTagRegExp) {
       if (possibleTags == null) {
         possibleTags = SynthesizerTools.loadWords(Tools
@@ -97,9 +97,9 @@ public class PolishSynthesizer implements Synthesizer {
       boolean isNegated = false;
       if (token.getPOSTag() != null) {
         isNegated = posTag.indexOf(NEGATION_TAG) > 0
-        || token.getPOSTag().indexOf(NEGATION_TAG) > 0
-        && !(posTag.indexOf(COMP_TAG) > 0)
-        && !(posTag.indexOf(SUP_TAG) > 0);
+            || token.getPOSTag().indexOf(NEGATION_TAG) > 0
+            && !(posTag.indexOf(COMP_TAG) > 0)
+            && !(posTag.indexOf(SUP_TAG) > 0);
       }
 
       if (isNegated) {
@@ -112,19 +112,18 @@ public class PolishSynthesizer implements Synthesizer {
       for (final String tag : possibleTags) {
         final Matcher m = p.matcher(tag);
         if (m.matches()) {
-          String[] wordForms = getWordForms(token, tag, isNegated);
+          final String[] wordForms = getWordForms(token, tag, isNegated);
           if (wordForms != null) {
             results.addAll(Arrays.asList(wordForms));
           }
         }
       }
       return results.toArray(new String[results.size()]);
-    } else {
-      return synthesize(token, posTag);
     }
+    return synthesize(token, posTag);
   }
 
-  public String getPosTagCorrection(final String posTag) {
+  public final String getPosTagCorrection(final String posTag) {
     if (posTag.contains(".")) {
       final String[] tags = posTag.split(":");
       int pos = -1;
@@ -136,16 +135,16 @@ public class PolishSynthesizer implements Synthesizer {
       }
       if (pos == -1) {
         return posTag;
-      } else {
-        String s = tags[0];
-        for (int i = 1; i < tags.length; i++) {
-          s = s + ":" + tags[i];
-        }
-        return s;
       }
-    } else {
-      return posTag;
+      final StringBuilder sb = new StringBuilder();
+      sb.append(tags[0]);
+      for (int i = 1; i < tags.length; i++) {
+        sb.append(":");
+        sb.append(tags[i]);
+      }
+      return sb.toString();
     }
+    return posTag;
   }
 
   private String[] getWordForms(final AnalyzedToken token, final String posTag,

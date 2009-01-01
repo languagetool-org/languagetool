@@ -36,8 +36,8 @@ import de.danielnaber.languagetool.rules.RuleMatch;
 import de.danielnaber.languagetool.tools.StringTools;
 
 /**
- * A small embedded HTTP server that checks text. Returns XML, prints
- * debugging to stdout/stderr.
+ * A small embedded HTTP server that checks text. Returns XML, prints debugging
+ * to stdout/stderr.
  * 
  * @author Daniel Naber
  */
@@ -47,18 +47,18 @@ public class HTTPServer extends ContentOracle {
    * The default port on which the server is running (8081).
    */
   public static final int DEFAULT_PORT = 8081;
-  
-  private static final int CONTEXT_SIZE = 40;   // characters
+
+  private static final int CONTEXT_SIZE = 40; // characters
 
   private Daemon daemon;
   private int port = DEFAULT_PORT;
-  private boolean verbose = false;
-  
+  private boolean verbose;
+
   private static final Set<String> allowedIPs = new HashSet<String>();
   static {
     // accept only requests from localhost.
     // TODO: find a cleaner solution
-    allowedIPs.add("/0:0:0:0:0:0:0:1");   // Suse Linux IPv6 stuff
+    allowedIPs.add("/0:0:0:0:0:0:0:1"); // Suse Linux IPv6 stuff
     allowedIPs.add("/127.0.0.1");
   }
 
@@ -77,8 +77,10 @@ public class HTTPServer extends ContentOracle {
 
   /**
    * Prepare a server on the given port - use run() to start it.
-   * @param verbose if true, the text to check will be displayed in case 
-   * of exceptions (default: false)
+   * 
+   * @param verbose
+   *          if true, the text to check will be displayed in case of exceptions
+   *          (default: false)
    */
   public HTTPServer(int port, boolean verbose) {
     this.port = port;
@@ -91,11 +93,12 @@ public class HTTPServer extends ContentOracle {
   public void run() {
     System.out.println("Starting server on port " + port + "...");
     daemon = new Daemon(port, this);
-    if (daemon.isRunning()) 
+    if (daemon.isRunning())
       System.out.println("Server started");
     else
-      throw new PortBindingException("LanguageTool server could not be started " +
-          "on port " + port + ", maybe something else is running on that port already?");
+      throw new PortBindingException(
+          "LanguageTool server could not be started " + "on port " + port
+              + ", maybe something else is running on that port already?");
   }
 
   public String demultiplex(Request connRequest, Response connResponse) {
@@ -104,7 +107,8 @@ public class HTTPServer extends ContentOracle {
     try {
       if (StringTools.isEmpty(connRequest.getLocation())) {
         connResponse.setStatus(403);
-        throw new RuntimeException("Error: Access to " + connRequest.getLocation() + " denied");
+        throw new RuntimeException("Error: Access to "
+            + connRequest.getLocation() + " denied");
       }
       if (allowedIPs.contains(connRequest.getIPAddressString())) {
         String langParam = connRequest.getParamOrNull("language");
@@ -112,7 +116,8 @@ public class HTTPServer extends ContentOracle {
           throw new IllegalArgumentException("Missing 'language' parameter");
         Language lang = Language.getLanguageForShortName(langParam);
         if (lang == null)
-          throw new IllegalArgumentException("Unknown language '" +langParam+ "'");
+          throw new IllegalArgumentException("Unknown language '" + langParam
+              + "'");
         // TODO: create only once per language?!
         // TODO: how to take options from the client?
         JLanguageTool lt = new JLanguageTool(lang);
@@ -121,18 +126,24 @@ public class HTTPServer extends ContentOracle {
         text = connRequest.getParamOrNull("text");
         if (text == null)
           throw new IllegalArgumentException("Missing 'text' parameter");
-        print("Checking " + text.length() + " characters of text, language " + langParam);
+        print("Checking " + text.length() + " characters of text, language "
+            + langParam);
         List<RuleMatch> matches = lt.check(text);
-        connResponse.setHeaderLine(ProtocolResponseHeader.Content_Type, "text/xml");
-        // TODO: how to set the encoding to utf-8 if we can just return a String?
-        connResponse.setHeaderLine(ProtocolResponseHeader.Content_Encoding, "UTF-8");
-        String response = StringTools.ruleMatchesToXML(matches, text, CONTEXT_SIZE);
-        print("Check done in " + (System.currentTimeMillis()-timeStart) + "ms");
+        connResponse.setHeaderLine(ProtocolResponseHeader.Content_Type,
+            "text/xml");
+        // TODO: how to set the encoding to utf-8 if we can just return a
+        // String?
+        connResponse.setHeaderLine(ProtocolResponseHeader.Content_Encoding,
+            "UTF-8");
+        String response = StringTools.ruleMatchesToXML(matches, text,
+            CONTEXT_SIZE);
+        print("Check done in " + (System.currentTimeMillis() - timeStart)
+            + "ms");
         return response;
-      } else {
-        connResponse.setStatus(403);
-        throw new RuntimeException("Error: Access from " + connRequest.getIPAddressString() + " denied");
       }
+      connResponse.setStatus(403);
+      throw new RuntimeException("Error: Access from "
+          + connRequest.getIPAddressString() + " denied");
     } catch (Exception e) {
       if (verbose)
         print("Exceptions was caused by this text: " + text);
@@ -151,7 +162,7 @@ public class HTTPServer extends ContentOracle {
     SimpleDateFormat sdf = new SimpleDateFormat();
     return sdf.format(new Date());
   }
-  
+
   /**
    * Stop the server process.
    */
@@ -167,8 +178,8 @@ public class HTTPServer extends ContentOracle {
   }
 
   /**
-   * Start the server from command line.
-   * Usage: <tt>HTTPServer [-v|--verbose] [-p|--port port]</tt>
+   * Start the server from command line. Usage:
+   * <tt>HTTPServer [-v|--verbose] [-p|--port port]</tt>
    */
   public static void main(String[] args) {
     if (args.length > 3) {

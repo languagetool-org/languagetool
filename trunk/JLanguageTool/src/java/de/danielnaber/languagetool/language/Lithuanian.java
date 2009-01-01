@@ -28,7 +28,7 @@ import de.danielnaber.languagetool.tagging.xx.DemoTagger;
 
 public class Lithuanian extends Language {
   
-  public static final String[] COUNTRIES = {
+  private static final String[] COUNTRIES = {
     "LT"
   };
 

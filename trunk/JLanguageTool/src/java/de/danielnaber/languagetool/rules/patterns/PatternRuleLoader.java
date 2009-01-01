@@ -100,7 +100,7 @@ class PatternRuleHandler extends XMLRuleHandler {
   private static final String SPACEBEFORE = "spacebefore";
 
   private String id;
-  private int subId = 0;
+  private int subId;
 
   /** Current phrase ID. **/
   private String phraseId;
@@ -108,18 +108,18 @@ class PatternRuleHandler extends XMLRuleHandler {
   /** ID reference to the phrase. **/
   private String phraseIdRef;
 
-  private boolean caseSensitive = false;
-  private boolean stringRegExp = false;
-  private boolean tokenNegated = false;
-  private boolean tokenInflected = false;
-  private boolean tokenSpaceBefore = false;
-  private boolean tokenSpaceBeforeSet = false;
+  private boolean caseSensitive;
+  private boolean stringRegExp;
+  private boolean tokenNegated;
+  private boolean tokenInflected;
+  private boolean tokenSpaceBefore;
+  private boolean tokenSpaceBeforeSet;
   private String posToken;
-  private boolean posNegation = false;
-  private boolean posRegExp = false;
+  private boolean posNegation;
+  private boolean posRegExp;
 
-  private boolean defaultOff = false;
-  private boolean defaultOn = false;
+  private boolean defaultOff;
+  private boolean defaultOn;
 
   private Language language;
   private Category category;
@@ -396,11 +396,10 @@ class PatternRuleHandler extends XMLRuleHandler {
                   + "\n Line: "
                   + pLocator.getLineNumber()
                   + ", column: " + pLocator.getColumnNumber() + ".");
-        } else {
-          mWorker.setTokenRef(refNumber);
-          tokenReference = mWorker;
-          elements.append("\\" + refNumber);
         }
+        mWorker.setTokenRef(refNumber);
+        tokenReference = mWorker;
+        elements.append("\\" + refNumber);
       }
     } else if (qName.equals(MARKER) && inCorrectExample) {
       correctExample.append("<marker>");

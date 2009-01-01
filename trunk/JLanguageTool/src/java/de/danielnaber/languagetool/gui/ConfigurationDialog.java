@@ -68,11 +68,11 @@ public class ConfigurationDialog implements ActionListener {
 
   private static final String NO_MOTHER_TONGUE = "---";
 
-  private JButton okButton = null;
-  private JButton cancelButton = null;
+  private JButton okButton;
+  private JButton cancelButton;
 
-  private ResourceBundle messages = null;
-  private JDialog dialog = null;
+  private ResourceBundle messages;
+  private JDialog dialog;
 
   private JComboBox motherTongueBox;
 
@@ -92,10 +92,10 @@ public class ConfigurationDialog implements ActionListener {
   private final List<JCheckBox> categoryCheckBoxes = new ArrayList<JCheckBox>();
   private final List<String> checkBoxesCategoryNames = new ArrayList<String>();
   private Language motherTongue;
-  private boolean serverMode = false;
+  private boolean serverMode;
   private int serverPort;
 
-  private Frame owner = null;
+  private Frame owner;
   private final boolean insideOOo;
 
   public ConfigurationDialog(Frame owner, boolean insideOOo) {
@@ -117,7 +117,6 @@ public class ConfigurationDialog implements ActionListener {
     // close dialog when user presses Escape key:
     final KeyStroke stroke = KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0);
     final ActionListener actionListener = new ActionListener() {
-      @SuppressWarnings("unused")
       public void actionPerformed(ActionEvent actionEvent) {
         dialog.setVisible(false);
       }
@@ -137,7 +136,7 @@ public class ConfigurationDialog implements ActionListener {
     String prevCategory = null;
     for (final Rule rule : rules) {
       // avoid displaying rules from rule groups more than once:
-      if (prevID == null || prevID != null && !prevID.equals(rule.getId())) {
+      if (prevID == null || !rule.getId().equals(prevID)) {
         cons.gridy = row;
         final JCheckBox checkBox = new JCheckBox(rule.getDescription());
         if (inactiveRuleIds != null
@@ -440,10 +439,9 @@ public class ConfigurationDialog implements ActionListener {
     for (final Language element : Language.LANGUAGES) {
       if (NO_MOTHER_TONGUE.equals(languageName)) {
         return Language.DEMO;
-      } else {
-        if (languageName.equals(messages.getString(element.getShortName()))) {
-          return element;
-        }
+      }
+      if (languageName.equals(messages.getString(element.getShortName()))) {
+        return element;
       }
     }
     return null;
@@ -488,19 +486,17 @@ public class ConfigurationDialog implements ActionListener {
 
 class CategoryComparator implements Comparator<Rule> {
 
-  public int compare(Rule r1, Rule r2) {
+  public int compare(final Rule r1, final Rule r2) {
     final boolean hasCat = r1.getCategory() != null && r2.getCategory() != null;
     if (hasCat) {
       final int res = r1.getCategory().getName().compareTo(
           r2.getCategory().getName());
       if (res == 0) {
         return r1.getDescription().compareToIgnoreCase(r2.getDescription());
-      } else {
-        return res;
       }
-    } else {
-      return r1.getDescription().compareToIgnoreCase(r2.getDescription());
+      return res;
     }
+    return r1.getDescription().compareToIgnoreCase(r2.getDescription());
   }
 
 }

@@ -39,13 +39,16 @@ import de.danielnaber.languagetool.tools.StringTools;
  */
 public class PatternRule extends Rule {
 
+  private static final String SUGG_TAG = "<suggestion>";
+  private static final String END_SUGG_TAG = "</suggestion>";
+  
   private String id;
   private String subId; // because there can be more than one rule in a rule
   // group
 
   private final Language language;
 
-  private static final String SUGG_TAG = "<suggestion>";
+  
 
   private String description;
   private String message;
@@ -325,7 +328,7 @@ public class PatternRule extends Rule {
         break;
       }
       int matchingTokens = 0;
-      for (int k = 0; (k < patternSize); k++) {
+      for (int k = 0; k < patternSize; k++) {
         if (elem != null) {
           prevElement = elem;
         }
@@ -521,9 +524,8 @@ public class PatternRule extends Rule {
       final RuleMatch ruleMatch = new RuleMatch(this, fromPos, toPos,
           errMessage, shortMessage, startsWithUppercase);
       return ruleMatch;
-    } else { // failed to create any rule match...
-      return null;
-    }
+    }  // failed to create any rule match...
+    return null;    
   }
 
   /**
@@ -536,8 +538,8 @@ public class PatternRule extends Rule {
     boolean convertsCase = false;
     if (suggestionMatches != null && !suggestionMatches.isEmpty()) {
       final int sugStart = message.indexOf(SUGG_TAG) + SUGG_TAG.length();
-      convertsCase = (suggestionMatches.get(0).convertsCase() && message
-          .charAt(sugStart) == '\\');
+      convertsCase = suggestionMatches.get(0).convertsCase() && message
+          .charAt(sugStart) == '\\';
     }
     return convertsCase;
   }
@@ -592,6 +594,8 @@ public class PatternRule extends Rule {
    *          Work array of strings.
    * @param r
    *          Starting parameter (use 0 to get all combinations).
+   * @param lang
+   *          Text language for adding spaces in some languages.
    * @return Combined array of @String.
    */
   private static String[] combineLists(final String[][] input,
@@ -747,7 +751,7 @@ public class PatternRule extends Rule {
     return errorMessage;
   }
 
-  private String formatMultipleSynthesis(final String[] matches,
+  private static String formatMultipleSynthesis(final String[] matches,
       final String leftSide, final String rightSide) {
     String errorMessage = "";
     String suggestionLeft = "";
@@ -763,14 +767,14 @@ public class PatternRule extends Rule {
       errorMessage = leftSide.substring(0, leftSide.lastIndexOf(SUGG_TAG))
           + SUGG_TAG;
     }
-    final int rPos = rightSide.indexOf("</suggestion>");
+    final int rPos = rightSide.indexOf(END_SUGG_TAG);
     if (rPos > 0) {
       suggestionRight = rightSide.substring(0, rPos);
     }
     if (!StringTools.isEmpty(suggestionRight)) {
-      rightSideNew = rightSide.substring(rightSide.indexOf("</suggestion>"));
+      rightSideNew = rightSide.substring(rightSide.indexOf(END_SUGG_TAG));
     }
-    final int lastLeftSugEnd = leftSide.indexOf("</suggestion>");
+    final int lastLeftSugEnd = leftSide.indexOf(END_SUGG_TAG);
     final int lastLeftSugStart = leftSide.lastIndexOf(SUGG_TAG);
     final StringBuilder sb = new StringBuilder();
     sb.append(errorMessage);
@@ -779,7 +783,8 @@ public class PatternRule extends Rule {
       sb.append(matches[z]);
       sb.append(suggestionRight);
       if ((z < matches.length - 1) && lastLeftSugEnd < lastLeftSugStart) {
-        sb.append("</suggestion>, ");
+        sb.append(END_SUGG_TAG);
+        sb.append(", ");
         sb.append(SUGG_TAG);
       }
     }

@@ -100,7 +100,7 @@ public class WordCoherencyRule extends GermanRule {
           }
         }
         if (shouldNotAppearWord.containsKey(token)) {
-          RuleMatch otherMatch = (RuleMatch)shouldNotAppearWord.get(token);
+          RuleMatch otherMatch = shouldNotAppearWord.get(token);
           String otherSpelling = otherMatch.getMessage();
           String msg = "'" +token+ "' und '" +otherSpelling+
             "' sollten nicht gleichzeitig benutzt werden";
@@ -108,7 +108,7 @@ public class WordCoherencyRule extends GermanRule {
           ruleMatch.setSuggestedReplacement(otherSpelling);
           ruleMatches.add(ruleMatch);
         } else if (relevantWords.containsKey(token)) {
-          String shouldNotAppear = (String)relevantWords.get(token);
+          String shouldNotAppear = relevantWords.get(token);
           // only used to display this spelling variation if the other one really occurs:
           String msg = token;
           RuleMatch potentialRuleMatch = new RuleMatch(this, pos, pos+origToken.length(), msg);

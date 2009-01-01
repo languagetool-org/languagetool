@@ -100,11 +100,11 @@ public abstract class Language {
 
   private static final Language[] BUILTIN_LANGUAGES = LANGUAGES;
 
-  private final static Disambiguator DEMO_DISAMBIGUATOR = new DemoDisambiguator();
-  private final static Tagger DEMO_TAGGER = new DemoTagger();
-  private final static SentenceTokenizer SENTENCE_TOKENIZER = new SentenceTokenizer();
-  private final static WordTokenizer WORD_TOKENIZER = new WordTokenizer();
-  private final static Unifier MATCH_UNIFIER = new Unifier();
+  private static final Disambiguator DEMO_DISAMBIGUATOR = new DemoDisambiguator();
+  private static final Tagger DEMO_TAGGER = new DemoTagger();
+  private static final SentenceTokenizer SENTENCE_TOKENIZER = new SentenceTokenizer();
+  private static final WordTokenizer WORD_TOKENIZER = new WordTokenizer();
+  private static final Unifier MATCH_UNIFIER = new Unifier();
 
   // -------------------------------------------------------------------------
 
@@ -198,7 +198,7 @@ public abstract class Language {
    * Get the name of the language translated to the current locale,
    * if available. Otherwise, get the untranslated name.
    */
-  public String getTranslatedName(final ResourceBundle messages) {
+  public final String getTranslatedName(final ResourceBundle messages) {
     try {
       return messages.getString(getShortName());
     } catch (final MissingResourceException e) {
@@ -264,7 +264,7 @@ public abstract class Language {
   }  
   
   @Override
-  public String toString() {
+  public final String toString() {
     return getName();
   }
   

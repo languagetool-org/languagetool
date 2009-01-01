@@ -1,4 +1,4 @@
-/* LanguageTool, a natural language style checker 
+/* LanguageTool, a natural language style checker
  * Copyright (C) 2005 Daniel Naber (http://www.danielnaber.de)
  * 
  * This library is free software; you can redistribute it and/or
@@ -29,11 +29,10 @@ public class PolishSentenceTokenizerTest extends TestCase {
   private SentenceTokenizer stokenizer = new PolishSentenceTokenizer();
   // accept only \n\n as paragraph:
   private SentenceTokenizer stokenizer2 = new PolishSentenceTokenizer();
-  
-  
+
   public final void setUp() {
-    stokenizer.setSingleLineBreaksMarksParagraph(true);  
-    stokenizer2.setSingleLineBreaksMarksParagraph(false);  
+    stokenizer.setSingleLineBreaksMarksParagraph(true);
+    stokenizer2.setSingleLineBreaksMarksParagraph(false);
   }
 
   public final void testTokenize() {
@@ -67,7 +66,7 @@ public class PolishSentenceTokenizerTest extends TestCase {
     testSplit(new String[] { "Das hier ist ein(???) Satz." });
     testSplit(new String[] { "Das hier ist ein(???) Satz." });
 
-    testSplit(new String[] { "„Prezydent jest niemądry”. ",  "Tak wyszło." });
+    testSplit(new String[] { "„Prezydent jest niemądry”. ", "Tak wyszło." });
     testSplit(new String[] { "„Prezydent jest niemądry”, powiedział premier" });
 
     // TODO: derzeit unterscheiden wir nicht, ob nach dem Doppelpunkt ein
@@ -77,20 +76,24 @@ public class PolishSentenceTokenizerTest extends TestCase {
 
     // incomplete sentences, need to work for on-thy-fly checking of texts:
     testSplit(new String[] { "Here's a" });
-    testSplit(new String[] { "Here's a sentence. ", "And here's one that's not comp" });
+    testSplit(new String[] { "Here's a sentence. ",
+        "And here's one that's not comp" });
 
     // Tests taken from LanguageTool's SentenceSplitterTest.py:
     testSplit(new String[] { "This is a sentence. " });
     testSplit(new String[] { "This is a sentence. ", "And this is another one." });
     testSplit(new String[] { "This is a sentence.", "Isn't it?", "Yes, it is." });
-    
+
     testSplit(new String[] { "Don't split strings like U. S. A. either." });
-    testSplit(new String[] { "Don't split... ", "Well you know. ", "Here comes more text." });
-    testSplit(new String[] { "Don't split... well you know. ", "Here comes more text." });
+    testSplit(new String[] { "Don't split... ", "Well you know. ",
+        "Here comes more text." });
+    testSplit(new String[] { "Don't split... well you know. ",
+        "Here comes more text." });
     testSplit(new String[] { "The \".\" should not be a delimiter in quotes." });
     testSplit(new String[] { "\"Here he comes!\" she said." });
     testSplit(new String[] { "\"Here he comes!\", she said." });
-    testSplit(new String[] { "\"Here he comes.\" ", "But this is another sentence." });
+    testSplit(new String[] { "\"Here he comes.\" ",
+        "But this is another sentence." });
     testSplit(new String[] { "\"Here he comes!\". ", "That's what he said." });
     testSplit(new String[] { "The sentence ends here. ", "(Another sentence.)" });
     // known to fail:
@@ -100,29 +103,37 @@ public class PolishSentenceTokenizerTest extends TestCase {
     testSplit(new String[] { "He won't say No.", "Not really." });
     testSplit(new String[] { "This is it: a test." });
     // one/two returns = paragraph = new sentence:
-    TestTools.testSplit(new String[] { "He won't\n\n", "Really." }, stokenizer2);
+    TestTools
+        .testSplit(new String[] { "He won't\n\n", "Really." }, stokenizer2);
     TestTools.testSplit(new String[] { "He won't\n", "Really." }, stokenizer);
-    TestTools.testSplit(new String[] { "He won't\n\n", "Really." }, stokenizer2);
+    TestTools
+        .testSplit(new String[] { "He won't\n\n", "Really." }, stokenizer2);
     TestTools.testSplit(new String[] { "He won't\nReally." }, stokenizer2);
     // Missing space after sentence end:
-    testSplit(new String[] { "James is from the Ireland!", "He lives in Spain now." });
-    
-    //from user bug reports:
-    testSplit(new String[] { "Temperatura wody w systemie wynosi 30°C.", "W skład obiegu otwartego wchodzi zbiornik i armatura." });
-    testSplit(new String[] { "Zabudowano kolumny o długości 45 m. ", "Woda z ujęcia jest dostarczana do zakładu." });     
+    testSplit(new String[] { "James is from the Ireland!",
+        "He lives in Spain now." });
+
+    // from user bug reports:
+    testSplit(new String[] { "Temperatura wody w systemie wynosi 30°C.",
+        "W skład obiegu otwartego wchodzi zbiornik i armatura." });
+    testSplit(new String[] { "Zabudowano kolumny o długości 45 m. ",
+        "Woda z ujęcia jest dostarczana do zakładu." });
 
     // From the abbreviation list:
-    testSplit(new String[] { "Ks. Jankowski jest prof. teologii." });    
-    testSplit(new String[] { "To wydarzyło się w 1939 r.", "To był burzliwy rok." });
+    testSplit(new String[] { "Ks. Jankowski jest prof. teologii." });
+    testSplit(new String[] { "To wydarzyło się w 1939 r.",
+        "To był burzliwy rok." });
     testSplit(new String[] { "Prezydent jest popierany przez 20 proc. społeczeństwa." });
-    testSplit(new String[] { "Moje wystąpienie ma na celu zmobilizowanie zarządu partii do działań, które umożliwią uzyskanie 40 proc.", "Nie widzę dziś na scenie politycznej formacji, która lepiej by łączyła różne poglądy" });
-    testSplit(new String[] {"To jest zmienna A.", "Zaś to jest zmienna B."});
-    //SKROTY_BEZ_KROPKI in ENDABREVLIST
-    testSplit(new String[] {"Mam już 20 mln.", "To powinno mi wystarczyć"});
-    testSplit(new String[] {"Mam już 20 mln. buraków."});
-    //ellipsis
+    testSplit(new String[] {
+        "Moje wystąpienie ma na celu zmobilizowanie zarządu partii do działań, które umożliwią uzyskanie 40 proc.",
+        "Nie widzę dziś na scenie politycznej formacji, która lepiej by łączyła różne poglądy" });
+    testSplit(new String[] { "To jest zmienna A.", "Zaś to jest zmienna B." });
+    // SKROTY_BEZ_KROPKI in ENDABREVLIST
+    testSplit(new String[] { "Mam już 20 mln.", "To powinno mi wystarczyć" });
+    testSplit(new String[] { "Mam już 20 mln. buraków." });
+    // ellipsis
     testSplit(new String[] { "Rytmem tej wiecznie przemijającej światowej egzystencji […] rytmem mesjańskiej natury jest szczęście." });
-    //sic!
+    // sic!
     testSplit(new String[] { "W gazecie napisali, że pasy (sic!) pogryzły człowieka." });
   }
 

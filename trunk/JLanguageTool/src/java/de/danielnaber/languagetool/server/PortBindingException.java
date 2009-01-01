@@ -20,6 +20,11 @@ package de.danielnaber.languagetool.server;
 
 public class PortBindingException extends RuntimeException {
 
+  /**
+   * 
+   */
+  private static final long serialVersionUID = -8416700513887041339L;
+
   PortBindingException(String message) {
     super(message);
   }

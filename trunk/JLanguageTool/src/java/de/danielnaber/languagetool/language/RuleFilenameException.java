@@ -27,6 +27,11 @@ import java.io.File;
  */
 public class RuleFilenameException extends RuntimeException {
 
+  /**
+   * 
+   */
+  private static final long serialVersionUID = 6642163394764392897L;
+
   public RuleFilenameException(File file) {
     super("Rule file must be named rules-<xx>-<lang>.xml (<xx> = language code, " +
         "<lang> = language name),\n" +

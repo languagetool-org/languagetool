@@ -29,7 +29,7 @@ class ConfigThread extends Thread {
 
   private Language docLanguage;
   private Configuration config;
-  private de.danielnaber.languagetool.openoffice.Main mainThread = null;
+  private de.danielnaber.languagetool.openoffice.Main mainThread;
   
   private ConfigurationDialog cfgDialog;
   

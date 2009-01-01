@@ -46,7 +46,7 @@ public class SentenceTokenizer implements Tokenizer {
   // Check out the private methods for comments and examples about these
   // regular expressions:
 
-  private Pattern paragraph = null;
+  private Pattern paragraph;
   private static final Pattern paragraphByTwoLineBreaks = Pattern.compile("(\\n\\s*\\n)");
   private static final Pattern paragraphByLineBreak = Pattern.compile("(\\n)");
 
