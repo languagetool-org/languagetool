@@ -188,9 +188,7 @@ public class DisambiguationPatternRule {
       }
       int matchingTokens = 0;
       for (int k = 0; k < patternSize; k++) {
-        if (elem != null) {
-          prevElement = elem;
-        }
+        prevElement = elem;
         elem = patternElements.get(k);
         skipNext = elem.getSkipNext();
         final int nextPos = tokenPos + k + skipShiftTotal;
@@ -214,12 +212,12 @@ public class DisambiguationPatternRule {
               prevMatched = true;
             }
             if (elem.isReferenceElement()) {
-              setupRef(firstMatchToken, elem, tokens);                
+              setupRef(firstMatchToken, elem, tokens);
             }
             if (elem.hasAndGroup()) {
-              for (final Element andElement : elem.getAndGroup()) {                
+              for (final Element andElement : elem.getAndGroup()) {
                 if (andElement.isReferenceElement()) {
-                    setupRef(firstMatchToken, andElement, tokens);                
+                  setupRef(firstMatchToken, andElement, tokens);
                 }
               }
               if (l == 0) {
@@ -253,7 +251,7 @@ public class DisambiguationPatternRule {
               }
             }
 
-            if (!elem.isUnified()) {
+            if (!elem.isUnified() && inUnification) {
               inUnification = false;
               uniMatched = false;
               language.getUnifier().reset();
@@ -278,8 +276,6 @@ public class DisambiguationPatternRule {
               matchPos = m;
               skipShift = matchPos - nextPos;
               tokenPositions[matchingTokens] = skipShift + 1;
-            } else {
-              matched |= false;
             }
             skipMatch = (skipMatch || matched) && !exceptionMatched;
           }
@@ -335,7 +331,7 @@ public class DisambiguationPatternRule {
   private AnalyzedTokenReadings[] executeAction(final AnalyzedSentence text,
       final AnalyzedTokenReadings[] whiteTokens,
       final AnalyzedTokenReadings[] unifiedTokens, final int firstMatchToken,
-      final int matchingTokens, final int[] tokenPositions) {    
+      final int matchingTokens, final int[] tokenPositions) {
     AnalyzedTokenReadings[] whTokens = whiteTokens.clone();
     int correctedStPos = 0;
     if (startPositionCorrection > 0) {
@@ -357,69 +353,74 @@ public class DisambiguationPatternRule {
     final int numRead = whTokens[fromPos].getReadingsLength();
     boolean filtered = false;
     switch (disAction) {
-      case UNIFY : if (unifiedTokens != null) {
-			  if (unifiedTokens.length == matchingTokens - startPositionCorrection
-			      + endPositionCorrection) {
-			    for (int i = 0; i < unifiedTokens.length; i++) {
-			      whTokens[text.getOriginalPosition(firstMatchToken
-			          + correctedStPos + i)] = unifiedTokens[i];
-			    }
-			  }
-			}
-			break;
-		case REMOVE : if (newTokenReadings != null) {
-			  if (newTokenReadings.length == matchingTokens
-			      - startPositionCorrection + endPositionCorrection) {
-			    for (int i = 0; i < newTokenReadings.length; i++) {
-			      whTokens[text.getOriginalPosition(firstMatchToken
-			          + correctedStPos + i)].removeReading(newTokenReadings[i]);
-			    }
-			  }
-			}
-			break;
-		case ADD : if (newTokenReadings != null) {
-			  if (newTokenReadings.length == matchingTokens
-			      - startPositionCorrection + endPositionCorrection) {
-			    for (int i = 0; i < newTokenReadings.length; i++) {
-			      whTokens[text.getOriginalPosition(firstMatchToken
-			          + correctedStPos + i)].addReading(newTokenReadings[i]);
-			    }
-			  }
-			}
-			break;
-		case FILTER : if (matchElement == null) { // same as REPLACE if using <match>
-			  final Match tmpMatchToken = new Match(disambiguatedPOS, null, true,
-			      disambiguatedPOS, null, Match.CaseConversion.NONE, false);
-			  tmpMatchToken.setToken(whTokens[fromPos]);
-			  whTokens[fromPos] = tmpMatchToken.filterReadings(whTokens[fromPos]);
-			  filtered = true;
-			}
-		case REPLACE :
-      default : if (!filtered) {
-			  if (matchElement == null) {
-			    String lemma = "";
-			    for (int l = 0; l < numRead; l++) {
-			      if (whTokens[fromPos].getAnalyzedToken(l).getPOSTag() != null
-			          && (whTokens[fromPos].getAnalyzedToken(l).getPOSTag().equals(
-			              disambiguatedPOS) && (whTokens[fromPos].getAnalyzedToken(
-			              l).getLemma() != null))) {
-			        lemma = whTokens[fromPos].getAnalyzedToken(l).getLemma();
-			      }
-			    }
-			    if (StringTools.isEmpty(lemma)) {
-			      lemma = whTokens[fromPos].getAnalyzedToken(0).getLemma();
-			    }
+    case UNIFY:
+      if (unifiedTokens != null) {
+        if (unifiedTokens.length == matchingTokens - startPositionCorrection
+            + endPositionCorrection) {
+          for (int i = 0; i < unifiedTokens.length; i++) {
+            whTokens[text.getOriginalPosition(firstMatchToken + correctedStPos
+                + i)] = unifiedTokens[i];
+          }
+        }
+      }
+      break;
+    case REMOVE:
+      if (newTokenReadings != null) {
+        if (newTokenReadings.length == matchingTokens - startPositionCorrection
+            + endPositionCorrection) {
+          for (int i = 0; i < newTokenReadings.length; i++) {
+            whTokens[text.getOriginalPosition(firstMatchToken + correctedStPos
+                + i)].removeReading(newTokenReadings[i]);
+          }
+        }
+      }
+      break;
+    case ADD:
+      if (newTokenReadings != null) {
+        if (newTokenReadings.length == matchingTokens - startPositionCorrection
+            + endPositionCorrection) {
+          for (int i = 0; i < newTokenReadings.length; i++) {
+            whTokens[text.getOriginalPosition(firstMatchToken + correctedStPos
+                + i)].addReading(newTokenReadings[i]);
+          }
+        }
+      }
+      break;
+    case FILTER:
+      if (matchElement == null) { // same as REPLACE if using <match>
+        final Match tmpMatchToken = new Match(disambiguatedPOS, null, true,
+            disambiguatedPOS, null, Match.CaseConversion.NONE, false);
+        tmpMatchToken.setToken(whTokens[fromPos]);
+        whTokens[fromPos] = tmpMatchToken.filterReadings(whTokens[fromPos]);
+        filtered = true;
+      }
+    case REPLACE:
+    default:
+      if (!filtered) {
+        if (matchElement == null) {
+          String lemma = "";
+          for (int l = 0; l < numRead; l++) {
+            if (whTokens[fromPos].getAnalyzedToken(l).getPOSTag() != null
+                && (whTokens[fromPos].getAnalyzedToken(l).getPOSTag().equals(
+                    disambiguatedPOS) && (whTokens[fromPos].getAnalyzedToken(l)
+                    .getLemma() != null))) {
+              lemma = whTokens[fromPos].getAnalyzedToken(l).getLemma();
+            }
+          }
+          if (StringTools.isEmpty(lemma)) {
+            lemma = whTokens[fromPos].getAnalyzedToken(0).getLemma();
+          }
 
-			    final AnalyzedTokenReadings toReplace = new AnalyzedTokenReadings(
-			        new AnalyzedToken(whTokens[fromPos].getToken(),
-			            disambiguatedPOS, lemma, whTokens[fromPos].getStartPos()));
-			    whTokens[fromPos] = toReplace;
-			  } else {
-			    // using the match element
-			    matchElement.setToken(whTokens[fromPos]);
-			    whTokens[fromPos] = matchElement.filterReadings(whTokens[fromPos]);
-			  }
-			}
+          final AnalyzedTokenReadings toReplace = new AnalyzedTokenReadings(
+              new AnalyzedToken(whTokens[fromPos].getToken(), disambiguatedPOS,
+                  lemma, whTokens[fromPos].getStartPos()));
+          whTokens[fromPos] = toReplace;
+        } else {
+          // using the match element
+          matchElement.setToken(whTokens[fromPos]);
+          whTokens[fromPos] = matchElement.filterReadings(whTokens[fromPos]);
+        }
+      }
     }
     return whTokens;
   }

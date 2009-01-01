@@ -328,10 +328,8 @@ public class PatternRule extends Rule {
         break;
       }
       int matchingTokens = 0;
-      for (int k = 0; k < patternSize; k++) {
-        if (elem != null) {
-          prevElement = elem;
-        }
+      for (int k = 0; k < patternSize; k++) {        
+        prevElement = elem;        
         elem = patternElements.get(k);
         skipNext = translateElementNo(elem.getSkipNext());
         final int nextPos = tokenPos + k + skipShiftTotal;
@@ -391,7 +389,7 @@ public class PatternRule extends Rule {
                 }
               }
             }
-            if (!elem.isUnified()) {
+            if (!elem.isUnified() && inUnification) {
               inUnification = false;
               uniMatched = false;
               language.getUnifier().reset();
@@ -414,8 +412,6 @@ public class PatternRule extends Rule {
               matchPos = m;
               skipShift = matchPos - nextPos;
               tokenPositions[matchingTokens] = skipShift + 1;
-            } else {
-              matched |= false;
             }
             skipMatch = (skipMatch || matched) && !exceptionMatched;
           }
