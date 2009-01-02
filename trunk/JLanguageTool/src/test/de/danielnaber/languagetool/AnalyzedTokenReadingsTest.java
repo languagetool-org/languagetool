@@ -31,6 +31,19 @@ public class AnalyzedTokenReadingsTest extends TestCase {
     assertEquals(false, testanaTokRead.isSentStart());
     testanaTokRead.setSentEnd();
     assertEquals(false, testanaTokRead.isSentStart());
-    assertEquals(true, testanaTokRead.isSentEnd());    
+    assertEquals(true, testanaTokRead.isSentEnd());
+    //test SEND_END or PARA_END added without directly via addReading
+    //which is possible e.g. in rule disambiguator 
+    testanaTokRead = new AnalyzedTokenReadings(new AnalyzedToken("word", null, "lemma"));    
+    testanaTokRead.addReading(new AnalyzedToken("word", "SENT_END", null));
+    assertEquals(true, testanaTokRead.isSentEnd());
+    assertEquals(false, testanaTokRead.isParaEnd());
+    testanaTokRead.addReading(new AnalyzedToken("word", "PARA_END", null));
+    assertEquals(true, testanaTokRead.isParaEnd());
+    assertEquals(false, testanaTokRead.isSentStart());
+    //but you can't add SENT_START to a non-empty token
+    //and get isSentStart == true
+    testanaTokRead.addReading(new AnalyzedToken("word", "SENT_START", null));
+    assertEquals(false, testanaTokRead.isSentStart());
   }
 }

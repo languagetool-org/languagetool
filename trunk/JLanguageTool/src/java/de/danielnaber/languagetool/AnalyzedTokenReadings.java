@@ -65,6 +65,8 @@ public class AnalyzedTokenReadings {
         || "\r".equals(token) || "\n\r".equals(token);
     isSentStart = JLanguageTool.SENTENCE_START_TAGNAME.equals(anTokReadings[0]
         .getPOSTag());
+    isParaEnd = hasPosTag(JLanguageTool.PARAGRAPH_END_TAGNAME);
+    isSentEnd = hasPosTag(JLanguageTool.SENTENCE_END_TAGNAME);
   }
 
   public final List<AnalyzedToken> getReadings() {
@@ -108,6 +110,8 @@ public class AnalyzedTokenReadings {
     if (tok.getToken().length() > token.length()) { //in case a longer token is added
       token = tok.getToken();
     }
+    isParaEnd = hasPosTag(JLanguageTool.PARAGRAPH_END_TAGNAME);
+    isSentEnd = hasPosTag(JLanguageTool.SENTENCE_END_TAGNAME);
   }
 
   public final void removeReading(final AnalyzedToken tok) {
@@ -158,8 +162,7 @@ public class AnalyzedTokenReadings {
     final AnalyzedToken paragraphEnd = new AnalyzedToken(getToken(),
         JLanguageTool.PARAGRAPH_END_TAGNAME, getAnalyzedToken(0).getLemma(),
         getAnalyzedToken(0).getStartPos());
-    addReading(paragraphEnd);
-    isParaEnd = true;
+    addReading(paragraphEnd);    
     return;
   }
 
@@ -177,8 +180,7 @@ public class AnalyzedTokenReadings {
     final AnalyzedToken sentenceEnd = new AnalyzedToken(getToken(),
         JLanguageTool.SENTENCE_END_TAGNAME, getAnalyzedToken(0).getLemma(),
         getAnalyzedToken(0).getStartPos());
-    addReading(sentenceEnd);
-    isSentEnd = true;
+    addReading(sentenceEnd);    
     return;
   }
 
