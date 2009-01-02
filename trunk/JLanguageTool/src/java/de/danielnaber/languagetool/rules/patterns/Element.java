@@ -352,7 +352,7 @@ public class Element {
    * @AnalyzedToken to check matching against.
    * @return True if any of the exceptions matches.
    */
-  public final boolean isMatchedByScopePreviousException(
+  public final boolean isMatchedByPreviousException(
       final AnalyzedToken token) {
     boolean exceptionMatched = false;
     if (exceptionValidPrevious) {
@@ -791,7 +791,7 @@ public class Element {
     uniNegation = true;
   }
 
-  public final boolean getUniNegation() {
+  public final boolean isUniNegated() {
     return uniNegation;
   }
 

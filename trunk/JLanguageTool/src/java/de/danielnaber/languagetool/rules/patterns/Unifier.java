@@ -88,6 +88,10 @@ public class Unifier {
    */
   private boolean firstUnified;
 
+  private boolean inUnification;
+  private boolean uniMatched;
+  AnalyzedTokenReadings[] unifiedTokens;
+
   public Unifier() {
     tokCnt = -1;
     readingsCounter = 1;
@@ -167,7 +171,8 @@ public class Unifier {
           types = type.split(FEATURE_SEPARATOR);
         }
         for (final String typename : types) {
-          final Element testElem = equivalenceTypes.get(feat + FEATURE_TYPE_SEPARATOR + typename);
+          final Element testElem = equivalenceTypes.get(feat
+              + FEATURE_TYPE_SEPARATOR + typename);
           if (testElem == null) {
             return false;
           }
@@ -219,8 +224,8 @@ public class Unifier {
             if (featuresFound.get(i)
                 && equivalencesMatched.get(i).containsKey(feat)
                 && equivalencesMatched.get(i).get(feat).contains(typename)) {
-              final Element testElem = equivalenceTypes.get(feat + FEATURE_TYPE_SEPARATOR
-                  + typename);
+              final Element testElem = equivalenceTypes.get(feat
+                  + FEATURE_TYPE_SEPARATOR + typename);
               featUnified = featUnified || testElem.isMatched(AT);
             }
           }
@@ -281,6 +286,8 @@ public class Unifier {
     tokSequence.clear();
     readingsCounter = 1;
     firstUnified = false;
+    uniMatched = false;
+    inUnification = false;
   }
 
   /**
@@ -319,4 +326,47 @@ public class Unifier {
     return atr;
   }
 
+  /**
+   * Tests if the token sequence is unified.
+   * @param matchToken
+   *        AnalazydToken token to unify
+   * @param feature
+   *        String: feature to unify over
+   * @param type
+   *        String: value types of the feature 
+   * @param isUniNegated
+   *        if true, then return negated result
+   * @param lastReading
+   *        true when the matchToken is the last
+   *        reading in the AnalyzedReadings 
+   * @return
+   */
+  public boolean isUnified(final AnalyzedToken matchToken,
+      final String feature, final String type, boolean isUniNegated,
+      boolean lastReading) {
+    if (inUnification) {
+      uniMatched = uniMatched || isSatisfied(matchToken, feature, type);
+      if (lastReading) {
+        startNextToken();
+        unifiedTokens = getUnifiedTokens();
+      }
+      return uniMatched;
+    }
+    if (isUniNegated) {
+      setNegation(true);
+    }
+    isSatisfied(matchToken, feature, type);
+    if (lastReading) {
+      inUnification = true;
+      uniMatched = false;
+      startUnify();
+    }
+    return true;
+  }
+
+  public AnalyzedTokenReadings[] getFinalUnified() {
+    if (inUnification) 
+      return unifiedTokens;
+    return null;
+  }
 }

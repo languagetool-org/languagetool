@@ -176,8 +176,7 @@ public class DisambiguationPatternRule {
     Element elem = null, prevElement = null;
     final boolean startWithSentStart = patternElements.get(0).isSentStart();
     language.getUnifier().reset();
-    boolean inUnification = false;
-    boolean uniMatched = false;
+    
     AnalyzedTokenReadings[] unifiedTokens = null;
     for (int i = 0; i < tokens.length; i++) {
       boolean allElementsMatch = true;
@@ -205,6 +204,7 @@ public class DisambiguationPatternRule {
           boolean matched = false;
           final int numberOfReadings = tokens[m].getReadingsLength();
           for (int l = 0; l < numberOfReadings; l++) {
+            final boolean lastReading = l + 1 == numberOfReadings;
             final AnalyzedToken matchToken = tokens[m].getAnalyzedToken(l);
             if (prevSkipNext > 0 && prevElement != null
                 && prevElement.isMatchedByScopeNextException(matchToken)) {
@@ -225,37 +225,17 @@ public class DisambiguationPatternRule {
               }
             }
             thisMatched |= elem.isMatchedCompletely(matchToken);
-            if (thisMatched && elem.isUnified()) {
-              if (inUnification) {
-                uniMatched = uniMatched
-                    || language.getUnifier().isSatisfied(matchToken,
-                        elem.getUniFeature(), elem.getUniType());
-                if (l + 1 == numberOfReadings) {
-                  thisMatched &= uniMatched;
-                  language.getUnifier().startNextToken();
-                  if (uniMatched) {
-                    unifiedTokens = language.getUnifier().getUnifiedTokens();
-                  }
-                }
-              } else {
-                if (elem.getUniNegation()) {
-                  language.getUnifier().setNegation(true);
-                }
-                thisMatched |= language.getUnifier().isSatisfied(matchToken,
-                    elem.getUniFeature(), elem.getUniType());
-                if (l + 1 == numberOfReadings) {
-                  inUnification = true;
-                  language.getUnifier().startUnify();
-                  uniMatched = false;
-                }
+            if (thisMatched && elem.isUnified()) {                           
+              thisMatched &= language.getUnifier().isUnified(matchToken,
+                  elem.getUniFeature(), elem.getUniType(), elem.isUniNegated(),
+                  lastReading);
+              if (thisMatched) {
+                unifiedTokens = language.getUnifier().getFinalUnified();
               }
             }
-
-            if (!elem.isUnified() && inUnification) {
-              inUnification = false;
-              uniMatched = false;
-              language.getUnifier().reset();
-            }
+            if (!elem.isUnified()) {                                              
+              language.getUnifier().reset();              
+            } 
             if (l + 1 == numberOfReadings && elem.hasAndGroup()) {
               thisMatched &= elem.checkAndGroup(thisMatched);
             }
@@ -267,7 +247,7 @@ public class DisambiguationPatternRule {
                 final AnalyzedToken matchExceptionToken = tokens[m - 1]
                     .getAnalyzedToken(p);
                 exceptionMatched |= elem
-                    .isMatchedByScopePreviousException(matchExceptionToken);
+                    .isMatchedByPreviousException(matchExceptionToken);
               }
             }
             // Logical OR (cannot be AND):
@@ -313,8 +293,6 @@ public class DisambiguationPatternRule {
       firstMatchToken = -1;
       skipShiftTotal = 0;
       language.getUnifier().reset();
-      inUnification = false;
-      uniMatched = false;
     }
 
     return new AnalyzedSentence(whTokens);

@@ -41,14 +41,12 @@ public class PatternRule extends Rule {
 
   private static final String SUGG_TAG = "<suggestion>";
   private static final String END_SUGG_TAG = "</suggestion>";
-  
+
   private String id;
   private String subId; // because there can be more than one rule in a rule
   // group
 
   private final Language language;
-
-  
 
   private String description;
   private String message;
@@ -315,9 +313,6 @@ public class PatternRule extends Rule {
     Element elem = null, prevElement = null;
     final boolean sentStart = patternElements.get(0).isSentStart();
     language.getUnifier().reset();
-    boolean inUnification = false;
-    boolean uniMatched = false;
-
     for (int i = 0; i < tokens.length; i++) {
       boolean allElementsMatch = true;
       // stop processing if rule is longer than the sentence
@@ -328,8 +323,8 @@ public class PatternRule extends Rule {
         break;
       }
       int matchingTokens = 0;
-      for (int k = 0; k < patternSize; k++) {        
-        prevElement = elem;        
+      for (int k = 0; k < patternSize; k++) {
+        prevElement = elem;
         elem = patternElements.get(k);
         skipNext = translateElementNo(elem.getSkipNext());
         final int nextPos = tokenPos + k + skipShiftTotal;
@@ -368,30 +363,11 @@ public class PatternRule extends Rule {
             }
             thisMatched |= elem.isMatchedCompletely(matchToken);
             if (thisMatched && elem.isUnified()) {
-              if (inUnification) {
-                uniMatched = uniMatched
-                    || language.getUnifier().isSatisfied(matchToken,
-                        elem.getUniFeature(), elem.getUniType());
-                if (lastReading) {
-                  thisMatched &= uniMatched;
-                  language.getUnifier().startNextToken();
-                }
-              } else {
-                if (elem.getUniNegation()) {
-                  language.getUnifier().setNegation(true);
-                }
-                thisMatched |= language.getUnifier().isSatisfied(matchToken,
-                    elem.getUniFeature(), elem.getUniType());
-                if (lastReading) {
-                  inUnification = true;
-                  uniMatched = false;
-                  language.getUnifier().startUnify();
-                }
-              }
+              thisMatched &= language.getUnifier().isUnified(matchToken,
+                  elem.getUniFeature(), elem.getUniType(), elem.isUniNegated(),
+                  lastReading);
             }
-            if (!elem.isUnified() && inUnification) {
-              inUnification = false;
-              uniMatched = false;
+            if (!elem.isUnified()) {
               language.getUnifier().reset();
             }
             if (lastReading && elem.hasAndGroup()) {
@@ -402,7 +378,7 @@ public class PatternRule extends Rule {
               final int numReadings = tokens[m - 1].getReadingsLength();
               for (int p = 0; p < numReadings; p++) {
                 exceptionMatched |= elem
-                    .isMatchedByScopePreviousException(tokens[m - 1]
+                    .isMatchedByPreviousException(tokens[m - 1]
                         .getAnalyzedToken(p));
               }
             }
@@ -457,8 +433,6 @@ public class PatternRule extends Rule {
       lastMatchToken = -1;
       skipShiftTotal = 0;
       language.getUnifier().reset();
-      inUnification = false;
-      uniMatched = false;
     }
     return ruleMatches.toArray(new RuleMatch[ruleMatches.size()]);
   }
@@ -520,8 +494,8 @@ public class PatternRule extends Rule {
       final RuleMatch ruleMatch = new RuleMatch(this, fromPos, toPos,
           errMessage, shortMessage, startsWithUppercase);
       return ruleMatch;
-    }  // failed to create any rule match...
-    return null;    
+    } // failed to create any rule match...
+    return null;
   }
 
   /**
@@ -534,8 +508,8 @@ public class PatternRule extends Rule {
     boolean convertsCase = false;
     if (suggestionMatches != null && !suggestionMatches.isEmpty()) {
       final int sugStart = message.indexOf(SUGG_TAG) + SUGG_TAG.length();
-      convertsCase = suggestionMatches.get(0).convertsCase() && message
-          .charAt(sugStart) == '\\';
+      convertsCase = suggestionMatches.get(0).convertsCase()
+          && message.charAt(sugStart) == '\\';
     }
     return convertsCase;
   }
