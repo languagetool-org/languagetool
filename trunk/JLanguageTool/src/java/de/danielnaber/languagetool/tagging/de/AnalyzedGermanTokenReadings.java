@@ -26,6 +26,7 @@ import java.util.Set;
 import de.danielnaber.languagetool.AnalyzedToken;
 import de.danielnaber.languagetool.AnalyzedTokenReadings;
 import de.danielnaber.languagetool.tagging.de.GermanToken.POSType;
+import de.danielnaber.languagetool.JLanguageTool;
 
 /**
  * All possible readings of an analyzed German word.
@@ -50,7 +51,7 @@ public class AnalyzedGermanTokenReadings extends AnalyzedTokenReadings {
     List<AnalyzedGermanToken> l = new ArrayList<AnalyzedGermanToken>();
     for (AnalyzedToken reading : anTokReadings) {
       if (reading.getPOSTag() != null) {
-        if (!reading.getPOSTag().equals("SENT_END") && !reading.getPOSTag().equals("PARA_END")) {
+        if (!reading.getPOSTag().equals(JLanguageTool.SENTENCE_END_TAGNAME) && !reading.getPOSTag().equals(JLanguageTool.PARAGRAPH_END_TAGNAME)) {
           l.add((AnalyzedGermanToken)reading);
         }
       } else {
@@ -66,7 +67,7 @@ public class AnalyzedGermanTokenReadings extends AnalyzedTokenReadings {
       return false;
     for (AnalyzedToken reading : anTokReadings) {
       if (reading.getPOSTag() != null) {
-        if (reading.getPOSTag().equals("SENT_END") || reading.getPOSTag().equals("PARA_END")) {      
+        if (reading.getPOSTag().equals(JLanguageTool.SENTENCE_END_TAGNAME) || reading.getPOSTag().equals(JLanguageTool.PARAGRAPH_END_TAGNAME)) {      
           return false;
         }
       }
@@ -87,7 +88,7 @@ public class AnalyzedGermanTokenReadings extends AnalyzedTokenReadings {
     }
     for (AnalyzedToken reading : anTokReadings) {
       if (reading.getPOSTag() != null) {
-        if (reading.getPOSTag().equals("SENT_END") || reading.getPOSTag().equals("PARA_END")) {      
+        if (reading.getPOSTag().equals(JLanguageTool.SENTENCE_END_TAGNAME) || reading.getPOSTag().equals(JLanguageTool.PARAGRAPH_END_TAGNAME)) {      
           return true;
         }
       }
