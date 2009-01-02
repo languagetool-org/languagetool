@@ -101,7 +101,7 @@ class Main {
     return lt;
   }
 
-  private void runOnFile(final String filename, final String encoding)
+  private void runOnFile(final String filename, final String encoding, boolean listUnknownWords)
       throws IOException {
     final File file = new File(filename);
     if (file.length() < MAXFILESIZE) {
@@ -111,16 +111,22 @@ class Main {
       } else {
         Tools.tagText(text, lt);
       }
+      if (listUnknownWords) {
+        System.out.println("Unknown words: "
+            + lt.getUnknownWords());
+      }
     } else {
       if (verbose)
         lt.setOutput(System.err);
       if (!apiFormat)
         System.out.println("Working on " + filename
-            + "... in a line by line mode");
+            + "... in a buffered mode (100 lines)");
       // TODO: change LT default statistics mode to summarize at the end
       // of processing
       InputStreamReader isr = null;
       BufferedReader br = null;
+      int counter = 0;
+      StringBuffer sb = new StringBuffer();
       try {
         if (encoding != null) {
           isr = new InputStreamReader(new BufferedInputStream(
@@ -130,16 +136,37 @@ class Main {
               new FileInputStream(file.getAbsolutePath())));
         }
         br = new BufferedReader(isr);
-        String line;
+        String line;               
         while ((line = br.readLine()) != null) {
-          line += "\n";
-          if (!taggerOnly) {
-            Tools.checkText(filterXML(line), lt, apiFormat);
-          } else {
-            Tools.tagText(filterXML(line), lt);
+          sb.append(line);
+          sb.append("\n");
+          counter++;
+          if (counter == 100) {            
+          if (!taggerOnly) {            
+            Tools.checkText(filterXML(sb.toString()), lt, apiFormat);            
+          } else {            
+            Tools.tagText(filterXML(sb.toString()), lt);            
+          }
+          if (listUnknownWords) {
+            System.out.println("Unknown words: "
+                + lt.getUnknownWords());
+          }
+          sb = new StringBuffer();
+          counter = 0;
           }
         }
       } finally {
+        if (counter > 0) {          
+          if (!taggerOnly) {            
+            Tools.checkText(filterXML(sb.toString()), lt, apiFormat);            
+          } else {            
+            Tools.tagText(filterXML(sb.toString()), lt);            
+          }
+          if (listUnknownWords) {
+            System.out.println("Unknown words: "
+                + lt.getUnknownWords());
+          }
+        }
         if (br != null) {
           br.close();
         }
@@ -162,7 +189,7 @@ class Main {
       if (files[i].isDirectory()) {
         runRecursive(files[i].getAbsolutePath(), encoding);
       } else {
-        runOnFile(files[i].getAbsolutePath(), encoding);
+        runOnFile(files[i].getAbsolutePath(), encoding, false);
       }
     }
   }
@@ -286,11 +313,7 @@ class Main {
        * String text = prg.getFilteredText(filename, encoding);
        * Tools.checkText(text, prg.getJLanguageTool(), apiFormat);
        */
-      prg.runOnFile(filename, encoding);
-      if (listUnknown) {
-        System.out.println("Unknown words: "
-            + prg.getJLanguageTool().getUnknownWords());
-      }
+      prg.runOnFile(filename, encoding, listUnknown);      
     }
   }
 
