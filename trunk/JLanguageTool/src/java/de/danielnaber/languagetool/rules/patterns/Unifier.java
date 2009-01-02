@@ -353,7 +353,6 @@ public class Unifier {
       uniMatched |= isSatisfied(matchToken, feature, type);
       uniAllMatched = uniMatched;
       if (lastReading) {
-        uniAllMatched &= uniMatched;
         startNextToken();
         unifiedTokens = getUnifiedTokens();
         uniMatched = false;
