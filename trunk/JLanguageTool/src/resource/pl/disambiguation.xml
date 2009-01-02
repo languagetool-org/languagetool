@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 	<!--
 		Disambiguation Rules for LanguageTool Copyright (C) 2008				
-$Id: disambiguation.xml,v 1.3 2008-12-20 02:04:15 milek_pl Exp $
+$Id: disambiguation.xml,v 1.4 2009-01-02 01:42:43 milek_pl Exp $
 	-->	
 <rules lang="pl">
   <unification feature="number">
@@ -95,7 +95,7 @@ $Id: disambiguation.xml,v 1.3 2008-12-20 02:04:15 milek_pl Exp $
 		<pattern mark_from="0" mark_to="0">
 		<unify feature="number,gender,case">
           <token postag="adj.*" postag_regexp="yes"><exception negate_pos="yes" postag_regexp="yes" postag="adj.*"/></token>
-          <token postag="subst.*" postag_regexp="yes"><exception negate_pos="yes" postag_regexp="yes" postag="subst.*"/></token>
+          <token postag="subst.*" postag_regexp="yes"><exception negate_pos="yes" postag_regexp="yes" postag="subst.*"/><exception postag="subst:irreg"/></token>
         </unify>
         </pattern>
         <disambig action="unify"/>
@@ -113,6 +113,33 @@ $Id: disambiguation.xml,v 1.3 2008-12-20 02:04:15 milek_pl Exp $
 			<token>sporo</token>
 		</pattern>
 		<disambig action="filter" postag="adv:pos:aff"/>
-	</rule>	
+	</rule>
+	
+	<rule name="nie na początku zdania" id="NIE_ADAMP">
+		<pattern mark="1">
+			<token postag="SENT_START"/>
+			<token>nie</token>
+		</pattern>
+		<disambig postag="qub"/>
+	</rule>
+	
+	<rulegroup name="chcąc nie chcąc" id="chcac-nie-chcac">
+		<rule>
+			<pattern mark="0">
+				<token skip="1">chcąc</token>
+				<token>nie<exception scope="previous" regexp="yes" negate="yes">,|chcąc</exception></token>
+				<token>chcąc</token>
+			</pattern>
+			<disambig postag="qub"/>
+		</rule>
+		<rule>
+			<pattern mark="2">
+				<token skip="1">chcąc</token>
+				<token>nie<exception scope="previous" regexp="yes" negate="yes">,|chcąc</exception></token>
+				<token>chcąc</token>
+			</pattern>
+			<disambig postag="qub"/>
+		</rule>
+	</rulegroup>
 	
 </rules>
