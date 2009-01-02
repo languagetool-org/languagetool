@@ -93,6 +93,9 @@ public class Unifier {
   private boolean uniAllMatched;
   AnalyzedTokenReadings[] unifiedTokens;
 
+  /**
+   * Instantiates the unifier. 
+   */
   public Unifier() {
     tokCnt = -1;
     readingsCounter = 1;
@@ -305,8 +308,8 @@ public class Unifier {
     if (!firstUnified) {
       AnalyzedTokenReadings tmpATR;
       int first = 0;
-      tmpFeaturesFound.add(true); //Bentley's search idea      
-      while (!tmpFeaturesFound.get(first)){
+      tmpFeaturesFound.add(true); // Bentley's search idea
+      while (!tmpFeaturesFound.get(first)) {
         first++;
       }
       if (first == tmpFeaturesFound.size()) {
@@ -333,22 +336,23 @@ public class Unifier {
 
   /**
    * Tests if the token sequence is unified.
+   * 
    * @param matchToken
-   *        AnalazydToken token to unify
+   *          AnalazydToken token to unify
    * @param feature
-   *        String: feature to unify over
+   *          String: feature to unify over
    * @param type
-   *        String: value types of the feature 
+   *          String: value types of the feature
    * @param isUniNegated
-   *        if true, then return negated result
+   *          if true, then return negated result
    * @param lastReading
-   *        true when the matchToken is the last
-   *        reading in the AnalyzedReadings 
-   * @return
+   *          true when the matchToken is the last reading in the
+   *          AnalyzedReadings
+   * @return True if the tokens in the sequence are unified.
    */
-  public boolean isUnified(final AnalyzedToken matchToken,
-      final String feature, final String type, boolean isUniNegated,
-      boolean lastReading) {
+  public final boolean isUnified(final AnalyzedToken matchToken,
+      final String feature, final String type, final boolean isUniNegated,
+      final boolean lastReading) {
     if (inUnification) {
       uniMatched |= isSatisfied(matchToken, feature, type);
       uniAllMatched = uniMatched;
@@ -371,9 +375,17 @@ public class Unifier {
     return true;
   }
 
-  public AnalyzedTokenReadings[] getFinalUnified() {
-    if (inUnification) 
+  /**
+   * Used for getting a unified sequence in case when simple test method 
+   * {@link #isUnified} was
+   * used.
+   * 
+   * @return An array of {@link AnalyzedTokenReadings}
+   */
+  public final AnalyzedTokenReadings[] getFinalUnified() {
+    if (inUnification) {
       return unifiedTokens;
+    }
     return null;
   }
 }
