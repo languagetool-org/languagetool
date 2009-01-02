@@ -55,8 +55,7 @@ Usage:
 
 Known bugs:
  -OpenOffice.org integration:
-   -doesn't work correctly with documents that contain revisions
-   -doesn't work correctly with words that have manual hyphenation marks
+   -doesn't work correctly with documents that contain revisions   
  -general:
    -for some rules there may be a lot of false alarms, i.e., LanguageTool complains
     about text which is actually correct
