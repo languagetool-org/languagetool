@@ -177,7 +177,7 @@ class Main {
     }
   }
 
-  private void runRecursive(final String filename, final String encoding)
+  private void runRecursive(final String filename, final String encoding, boolean listUnknown)
       throws IOException, ParserConfigurationException, SAXException {
     final File dir = new File(filename);
     if (!dir.isDirectory()) {
@@ -187,9 +187,9 @@ class Main {
     final File[] files = dir.listFiles();
     for (int i = 0; i < files.length; i++) {
       if (files[i].isDirectory()) {
-        runRecursive(files[i].getAbsolutePath(), encoding);
+        runRecursive(files[i].getAbsolutePath(), encoding, listUnknown);
       } else {
-        runOnFile(files[i].getAbsolutePath(), encoding, false);
+        runOnFile(files[i].getAbsolutePath(), encoding, listUnknown);
       }
     }
   }
@@ -307,7 +307,7 @@ class Main {
         disabledRules, enabledRules, apiFormat);
     prg.setListUnknownWords(listUnknown);
     if (recursive) {
-      prg.runRecursive(filename, encoding);
+      prg.runRecursive(filename, encoding, listUnknown);
     } else {
       /*
        * String text = prg.getFilteredText(filename, encoding);
