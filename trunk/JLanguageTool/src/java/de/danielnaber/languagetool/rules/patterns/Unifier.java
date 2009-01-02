@@ -90,6 +90,7 @@ public class Unifier {
 
   private boolean inUnification;
   private boolean uniMatched;
+  private boolean uniAllMatched;
   AnalyzedTokenReadings[] unifiedTokens;
 
   public Unifier() {
@@ -287,6 +288,7 @@ public class Unifier {
     readingsCounter = 1;
     firstUnified = false;
     uniMatched = false;
+    uniAllMatched = false;
     inUnification = false;
   }
 
@@ -297,15 +299,18 @@ public class Unifier {
    *         defined for features tested.
    */
   public final AnalyzedTokenReadings[] getUnifiedTokens() {
+    if (tokSequence.isEmpty()) {
+      return null;
+    }
     if (!firstUnified) {
       AnalyzedTokenReadings tmpATR;
-      int first = -1;
-      for (int i = 0; i <= tokCnt; i++) {
-        if (tmpFeaturesFound.get(i)) {
-          first = i;
-        }
+      int first = 0;
+      tmpFeaturesFound.add(true); //Bentley's search idea      
+      while (!tmpFeaturesFound.get(first)){
+        first++;
       }
-      if (first == -1) {
+      if (first == tmpFeaturesFound.size()) {
+        tmpFeaturesFound.remove(first);
         return null;
       }
       // FIXME: why this happens??
@@ -345,12 +350,15 @@ public class Unifier {
       final String feature, final String type, boolean isUniNegated,
       boolean lastReading) {
     if (inUnification) {
-      uniMatched = uniMatched || isSatisfied(matchToken, feature, type);
+      uniMatched |= isSatisfied(matchToken, feature, type);
+      uniAllMatched = uniMatched;
       if (lastReading) {
+        uniAllMatched &= uniMatched;
         startNextToken();
         unifiedTokens = getUnifiedTokens();
+        uniMatched = false;
       }
-      return uniMatched;
+      return uniAllMatched;
     }
     if (isUniNegated) {
       setNegation(true);

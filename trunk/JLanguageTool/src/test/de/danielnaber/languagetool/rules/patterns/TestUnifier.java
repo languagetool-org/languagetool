@@ -178,16 +178,19 @@ public class TestUnifier extends TestCase {
   plElement.setPosElement(".*[\\.:]pl:.*", true, false);
   uni.setEquivalence("number", "plural", plElement);
   Element femElement = new Element("", false, false, false);
-  femElement.setPosElement(".*[\\.:]f:.*", true, false);
+  femElement.setPosElement(".*[\\.:]f([\\.:].*)?", true, false);
   uni.setEquivalence("gender", "feminine", femElement);
   Element mascElement = new Element("", false, false, false);
-  femElement.setPosElement(".*[\\.:]m:.*", true, false);
+  mascElement.setPosElement(".*[\\.:]m([\\.:].*)?", true, false);
   uni.setEquivalence("gender", "masculine", mascElement);
+  Element neutElement = new Element("", false, false, false);
+  neutElement.setPosElement(".*[\\.:]n([\\.:].*)?", true, false);
+  uni.setEquivalence("gender", "neutral", neutElement);  
   
   AnalyzedToken sing1 = new AnalyzedToken("mały", "adj:sg:blahblah:m", "mały");
   AnalyzedToken sing1a = new AnalyzedToken("mały", "adj:pl:blahblah:f", "mały");
   AnalyzedToken sing1b = new AnalyzedToken("mały", "adj:pl:blahblah:f", "mały");
-  AnalyzedToken sing2 = new AnalyzedToken("zgarbiony", "adj:pl:blahblah:f", "człowiek");
+  AnalyzedToken sing2 = new AnalyzedToken("zgarbiony", "adj:pl:blahblah:f", "zgarbiony");
   AnalyzedToken sing3 = new AnalyzedToken("człowiek", "subst:sg:blahblah:m", "człowiek");
   
   boolean satisfied = uni.isSatisfied(sing1, "number,gender", "");
@@ -200,6 +203,29 @@ public class TestUnifier extends TestCase {
   uni.startNextToken();
   assertEquals(false, satisfied);  
   uni.reset();
+  
+  //now test the simplified interface
+  satisfied = true; //this must be true to start with...
+  satisfied &= uni.isUnified(sing1, "number,gender", "", false, false);
+  satisfied &= uni.isUnified(sing1a, "number,gender", "", false, false);
+  satisfied &= uni.isUnified(sing1b, "number,gender", "", false, true);
+  satisfied &= uni.isUnified(sing2, "number,gender", "", false, true);
+  satisfied &= uni.isUnified(sing3, "number,gender", "", false, true);
+  assertEquals(false, satisfied);
+  uni.reset();
+  
+  sing1a = new AnalyzedToken("osobiste", "adj:pl:nom.acc.voc:f.n.m2.m3:pos:aff", "osobisty");
+  sing1b = new AnalyzedToken("osobiste", "adj:sg:nom.acc.voc:n:pos:aff", "osobisty");
+  sing2 = new AnalyzedToken("godło", "subst:sg:nom.acc.voc:n", "godło");
+  
+  satisfied = true;
+  satisfied &= uni.isUnified(sing1a, "number,gender", "", false, false);
+  satisfied &= uni.isUnified(sing1b, "number,gender", "", false, true);
+  satisfied &= uni.isUnified(sing2, "number,gender", "", false, true);
+  assertEquals(true, satisfied);
+  assertEquals("[osobisty/adj:sg:nom.acc.voc:n:pos:aff, godło/subst:sg:nom.acc.voc:n]", Arrays.toString(uni.getFinalUnified()));
+  uni.reset();
   }
+    
   
 }
