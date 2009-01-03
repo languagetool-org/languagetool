@@ -613,8 +613,7 @@ public final class JLanguageTool {
 
     tokenArray[lastToken].setSentEnd();
 
-    if (tokenArray.length == 2 && (tokenArray[0].isSentStart())
-        && tokenArray[1].isLinebreak()) {
+    if (tokenArray.length == lastToken + 1 && tokenArray[lastToken].isLinebreak()) {
       tokenArray[lastToken].setParaEnd();
     }
 

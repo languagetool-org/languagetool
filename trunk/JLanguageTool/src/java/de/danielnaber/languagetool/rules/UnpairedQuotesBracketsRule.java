@@ -22,6 +22,7 @@ package de.danielnaber.languagetool.rules;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.regex.Pattern;
 
 import de.danielnaber.languagetool.AnalyzedSentence;
 import de.danielnaber.languagetool.AnalyzedToken;
@@ -88,6 +89,13 @@ public class UnpairedQuotesBracketsRule extends Rule {
   private boolean reachedEndOfParagraph;
 
   private final Language ruleLang;
+
+  private static final Pattern PUNCTUATION = Pattern.compile("\\p{Punct}");
+  private static final Pattern PUNCTUATION_NO_DOT = Pattern
+      .compile("\\p{Punct}(?<!\\.)");
+  private static final Pattern NUMBER = Pattern.compile("\\d+");
+  private static final Pattern NUMERALS = Pattern
+      .compile("(?i)\\d{1,2}?[a-z']*|M*(D?C{0,3}|C[DM])(L?X{0,3}|X[LC])(V?I{0,3}|I[VX])$");
 
   public UnpairedQuotesBracketsRule(final ResourceBundle messages,
       final Language language) {
@@ -163,13 +171,13 @@ public class UnpairedQuotesBracketsRule extends Rule {
         boolean precededByWhitespace = true;
         if (startSymbols[j].equals(endSymbols[j])) {
           precededByWhitespace = tokens[i].isWhitespaceBefore()
-              || tokens[i - 1].getToken().matches("\\p{Punct}(?<!\\.)");
+              || PUNCTUATION_NO_DOT.matcher(tokens[i - 1].getToken()).matches();
         }
 
         boolean followedByWhitespace = true;
         if (i < tokens.length - 1 && startSymbols[j].equals(endSymbols[j])) {
           followedByWhitespace = tokens[i + 1].isWhitespace()
-              || tokens[i + 1].getToken().matches("\\p{Punct}");
+              || PUNCTUATION.matcher(tokens[i + 1].getToken()).matches();
         }
 
         if (followedByWhitespace && precededByWhitespace) {
@@ -186,23 +194,24 @@ public class UnpairedQuotesBracketsRule extends Rule {
 
         boolean noException = true;
 
-        // exception for English inches, e.g., 20"
-        if ((precededByWhitespace || followedByWhitespace) && i > 1
-            && ruleLang.equals(Language.ENGLISH) && token.equals("\"")
-            && tokens[i - 1].getToken().matches("[\\d]+")) {
-          noException = false;
-        }
+        if (ruleLang.equals(Language.ENGLISH) && i > 1) {
 
-        // Exception for English plural saxon genetive
-        // TODO: add POS checking
-        if ((precededByWhitespace || followedByWhitespace)
-            && ruleLang.equals(Language.ENGLISH)
-            && "'".equals(token)
-            && i > 1
-            && noException
-            && (tokens[i - 1].getToken().charAt(
-                tokens[i - 1].getToken().length() - 1) == 's')) {
-          noException = false;
+          // exception for English inches, e.g., 20"
+          if ((precededByWhitespace || followedByWhitespace)
+              && "\"".equals(token)
+              && NUMBER.matcher(tokens[i - 1].getToken()).matches()) {
+            noException = false;
+          }
+
+          // Exception for English plural saxon genetive
+          if ((precededByWhitespace || followedByWhitespace)
+              && "'".equals(token)
+              && noException
+              && (tokens[i - 1].getToken().charAt(
+                  tokens[i - 1].getToken().length() - 1) == 's')
+              && (tokens[i - 1].hasPosTag("NNS") || tokens[i - 1].hasPosTag("NNPS"))) {
+            noException = false;
+          }
         }
 
         if (noException && precededByWhitespace
@@ -212,10 +221,9 @@ public class UnpairedQuotesBracketsRule extends Rule {
         } else if (noException && followedByWhitespace
             && token.equals(endSymbols[j])) {
           if (i > 1 && endSymbols[j].equals(")") && symbolCounter[j] == 0) {
-            // exception for bulletting: 1), 2), 3)...,
+            // exception for bullets: 1), 2), 3)...,
             // II), 2') and 1a).
-            if (!(tokens[i - 1].getToken()
-                .matches("(?i)\\d{1,2}?[a-z']*|M*(D?C{0,3}|C[DM])(L?X{0,3}|X[LC])(V?I{0,3}|I[VX])$"))) {
+            if (!NUMERALS.matcher(tokens[i - 1].getToken()).matches()) {
               symbolCounter[j]--;
               pos = i;
             }
@@ -228,19 +236,9 @@ public class UnpairedQuotesBracketsRule extends Rule {
 
       for (int i = 0; i < symbolCounter.length; i++) {
         if (symbolCounter[i] != 0) {
-          if (ruleMatchArray[i] != 0) {
-            if (isInMatches(ruleMatchArray[i] - 1)) {
-              setAsDeleted(ruleMatchArray[i] - 1);
-              ruleMatchArray[i] = 0;
-            } else {
-              ruleMatchIndex++;
-              ruleMatchArray[i] = ruleMatchIndex;
-              matchToken = tokens[pos].getAnalyzedToken(0);
-              final RuleMatch ruleMatch = new RuleMatch(this, matchToken
-                  .getStartPos(), matchToken.getStartPos() + 1, messages
-                  .getString("unpaired_brackets"));
-              ruleMatches.add(ruleMatch);
-            }
+          if (ruleMatchArray[i] != 0 && isInMatches(ruleMatchArray[i] - 1)) {
+            setAsDeleted(ruleMatchArray[i] - 1);
+            ruleMatchArray[i] = 0;
           } else {
             ruleMatchIndex++;
             ruleMatchArray[i] = ruleMatchIndex;
