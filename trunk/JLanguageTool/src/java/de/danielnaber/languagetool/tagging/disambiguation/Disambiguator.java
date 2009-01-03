@@ -25,24 +25,26 @@ import de.danielnaber.languagetool.AnalyzedSentence;
 /**
  * Disambiguator interface. Particular implementations are language-dependent.
  * 
- * <p>The POS tagger might assign multiple tags to the token. 
+ * <p>
+ * The POS tagger might assign multiple tags to the token.
  * 
- * The goal is to filter out the incorrect tags 
- * and leave ideally only one per token.
+ * The goal is to filter out the incorrect tags and leave ideally only one per
+ * token.
  * 
  * @author Jozef Licko
  */
 public interface Disambiguator {
 
-	/**
-	 * If possible, filters out the wrong POS tags.
-	 * 
-	 * @param input The sentence with already tagged words. The words 
-     * are expected to have multiple tags.
-	 * @return Analyzed sentence, where each word 
-     * has only one (possibly the most correct) tag.
-	 * @throws IOException */	 
-	AnalyzedSentence disambiguate(AnalyzedSentence input) 
-      throws IOException;
-	
+  /**
+   * If possible, filters out the wrong POS tags.
+   * 
+   * @param input
+   *          The sentence with already tagged words. The words are expected to
+   *          have multiple tags.
+   * @return Analyzed sentence, where each word has only one (possibly the most
+   *         correct) tag.
+   * @throws IOException
+   */
+  AnalyzedSentence disambiguate(AnalyzedSentence input) throws IOException;
+
 }

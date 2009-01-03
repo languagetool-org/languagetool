@@ -54,7 +54,7 @@ public class WordCoherencyRule extends GermanRule {
   private Map<String, String> relevantWords;        // e.g. "aufwendig -> aufwändig"
   private Map<String, RuleMatch> shouldNotAppearWord = new HashMap<String, RuleMatch>();  // e.g. aufwändig -> RuleMatch of aufwendig
 
-  private GermanLemmatizer germanLemmatizer = null;
+  private GermanLemmatizer germanLemmatizer;
   
   public WordCoherencyRule(ResourceBundle messages) throws IOException {
     if (messages != null)

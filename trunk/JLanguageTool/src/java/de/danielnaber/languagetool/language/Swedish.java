@@ -28,39 +28,39 @@ import de.danielnaber.languagetool.tagging.sv.SwedishTagger;
 
 public class Swedish extends Language {
 
-  private final static String[] COUNTRIES = {
+  private static final String[] COUNTRIES = {
     "SE", "FI"
   };
   
   private Tagger tagger = new SwedishTagger();
 
-  public Locale getLocale() {
+  public final Locale getLocale() {
     return new Locale(getShortName());
   }
 
-  public String getName() {
+  public final String getName() {
     return "Swedish";
   }
 
-  public String getShortName() {
+  public final String getShortName() {
     return "sv";
   }
 
   @Override
-  public String[] getCountryVariants() {
+  public final String[] getCountryVariants() {
     return COUNTRIES;
   }
   
-  public Tagger getTagger() {
+  public final Tagger getTagger() {
     return tagger;
   }
 
-  public Contributor[] getMaintainers() {
+  public final Contributor[] getMaintainers() {
     return new Contributor[] {new Contributor("Niklas Johansson")};
   }
 
-  public Set<String> getRelevantRuleIDs() {
-    Set<String> ids = new HashSet<String>();
+  public final Set<String> getRelevantRuleIDs() {
+    final Set<String> ids = new HashSet<String>();
     ids.add("COMMA_PARENTHESIS_WHITESPACE");
     ids.add("DOUBLE_PUNCTUATION");
     ids.add("UNPAIRED_BRACKETS");

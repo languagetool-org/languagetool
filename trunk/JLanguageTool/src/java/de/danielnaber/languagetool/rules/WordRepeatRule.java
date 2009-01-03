@@ -34,7 +34,7 @@ import de.danielnaber.languagetool.Language;
  */
 public class WordRepeatRule extends Rule {
 
-  private Language language = null;
+  private Language language;
 
   public WordRepeatRule(final ResourceBundle messages, final Language language) {
     super(messages);

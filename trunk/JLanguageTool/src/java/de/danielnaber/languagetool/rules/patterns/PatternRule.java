@@ -76,7 +76,7 @@ public class PatternRule extends Rule {
    * Marks whether the rule is a member of a disjunctive set (in case of OR
    * operation on phraserefs).
    **/
-  private boolean isMemberOfDisjunctiveSet = false;
+  private boolean isMemberOfDisjunctiveSet;
 
   /**
    * @param id

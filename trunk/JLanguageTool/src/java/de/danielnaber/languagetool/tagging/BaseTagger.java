@@ -33,7 +33,7 @@ import de.danielnaber.languagetool.AnalyzedTokenReadings;
  */
 public abstract class BaseTagger implements Tagger {
 
-  private Lametyzator morfologik = null;
+  private Lametyzator morfologik;
   private Locale conversionLocale = Locale.getDefault();  
 
  /**
@@ -56,7 +56,7 @@ public abstract class BaseTagger implements Tagger {
     }
 
     for (String word : sentenceTokens) {
-      List<AnalyzedToken> l = new ArrayList<AnalyzedToken>();
+      final List<AnalyzedToken> l = new ArrayList<AnalyzedToken>();
       String[] lowerTaggerTokens = null;
       taggerTokens = morfologik.stemAndForm(word);
       if (!word.equals(word.toLowerCase(conversionLocale))) {

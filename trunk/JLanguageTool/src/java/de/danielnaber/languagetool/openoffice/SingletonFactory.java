@@ -31,7 +31,7 @@ import com.sun.star.uno.XComponentContext;
  */
 public class SingletonFactory implements XSingleComponentFactory {
 
-  private transient de.danielnaber.languagetool.openoffice.Main instance = null;
+  private transient de.danielnaber.languagetool.openoffice.Main instance;
 
   public final Object createInstanceWithArgumentsAndContext(final Object[] arguments, 
       final XComponentContext xContext) throws com.sun.star.uno.Exception {    

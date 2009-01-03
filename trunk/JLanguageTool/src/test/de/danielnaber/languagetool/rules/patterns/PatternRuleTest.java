@@ -39,7 +39,7 @@ import de.danielnaber.languagetool.rules.RuleMatch;
  */
 public class PatternRuleTest extends TestCase {
 
-  private static JLanguageTool langTool = null;
+  private static JLanguageTool langTool;
   
   @Override
   public void setUp() throws IOException {

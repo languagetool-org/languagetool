@@ -34,7 +34,7 @@ import de.danielnaber.languagetool.Language;
  */
 public class UppercaseSentenceStartRule extends Rule {
 
-  final private Language language;
+  private final Language language;
   
   public UppercaseSentenceStartRule(final ResourceBundle messages, final Language language) {
     super(messages);
@@ -42,19 +42,20 @@ public class UppercaseSentenceStartRule extends Rule {
     this.language = language;
   }
 
-  public String getId() {
+  public final String getId() {
     return "UPPERCASE_SENTENCE_START";
   }
 
-  public String getDescription() {
+  public final String getDescription() {
     return messages.getString("desc_uppercase_sentence");
   }
 
-  public RuleMatch[] match(final AnalyzedSentence text) {
+  public final RuleMatch[] match(final AnalyzedSentence text) {
     final List<RuleMatch> ruleMatches = new ArrayList<RuleMatch>();
     final AnalyzedTokenReadings[] tokens = text.getTokensWithoutWhitespace();
-    if (tokens.length < 2)
+    if (tokens.length < 2) {
       return toRuleMatchArray(ruleMatches);
+    }
     //the case should be the same in all readings
     //discarding the rest of the possible lemmas and POS tags
     int matchTokenPos = 1;
@@ -74,10 +75,11 @@ public class UppercaseSentenceStartRule extends Rule {
     }
 
     String checkToken = firstToken;
-    if (thirdToken != null)
+    if (thirdToken != null) {
       checkToken = thirdToken;
-    else if (secondToken != null)
+    } else if (secondToken != null) {
       checkToken = secondToken;
+    }
     
     final char firstChar = checkToken.charAt(0);
     if (Character.isLowerCase(firstChar)) {
@@ -90,8 +92,9 @@ public class UppercaseSentenceStartRule extends Rule {
   }
 
   private String dutchSpecialCase(final String firstToken, final String secondToken, final AnalyzedTokenReadings[] tokens) {
-    if (language != Language.DUTCH)
-      return null;    
+    if (language != Language.DUTCH) {
+      return null;
+    }    
     if (tokens.length >= 3 && firstToken.equals("'") && secondToken.matches("k|m|n|r|s|t")) {
       return tokens[3].getAnalyzedToken(0).getToken();      
     }

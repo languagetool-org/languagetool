@@ -60,9 +60,9 @@ public class Match {
 
   private String posTag;
   private boolean postagRegexp;
-  final private String regexReplace;
-  final private String posTagReplace;
-  final private CaseConversion caseConversionType;
+  private final String regexReplace;
+  private final String posTagReplace;
+  private final CaseConversion caseConversionType;
 
   /**
    * True if this match element formats a statically defined lemma which is
@@ -73,7 +73,7 @@ public class Match {
   /**
    * True if this match element is used for formatting POS token.
    */
-  final private boolean setPos;
+  private final boolean setPos;
 
   private AnalyzedTokenReadings formattedToken;
   private AnalyzedTokenReadings matchedToken;
@@ -394,8 +394,8 @@ public class Match {
    * 
    * @return true if match converts the case of the token.
    */
-  public boolean convertsCase() {
-    return (!caseConversionType.equals(CaseConversion.NONE));
+  public final boolean convertsCase() {
+    return caseConversionType.equals(CaseConversion.NONE) ^ true;
   }
 
   public final AnalyzedTokenReadings filterReadings(

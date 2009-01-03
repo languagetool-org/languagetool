@@ -39,48 +39,48 @@ public class English extends Language {
   private Synthesizer synthesizer = new EnglishSynthesizer();
   private Disambiguator disambiguator = new EnglishRuleDisambiguator();
 
-  private static String[] COUNTRIES = {"GB", "US", "AU", "CA" };
+  private static final String[] COUNTRIES = {"GB", "US", "AU", "CA" };
   
-  public Locale getLocale() {
+  public final Locale getLocale() {
     return new Locale(getShortName());
   }
 
-  public String getName() {
+  public final String getName() {
     return "English";
   }
 
-  public String getShortName() {
+  public final String getShortName() {
     return "en";
   }
 
-  public String[] getCountryVariants() {
+  public final String[] getCountryVariants() {
     return COUNTRIES;
   }
   
-  public Tagger getTagger() {
+  public final Tagger getTagger() {
     return tagger;
   }
 
-  public Tokenizer getWordTokenizer() {
+  public final Tokenizer getWordTokenizer() {
     return wordTokenizer;
   }
 
-  public Synthesizer getSynthesizer() {
+  public final Synthesizer getSynthesizer() {
     return synthesizer;
   }
   
-  final public Disambiguator getDisambiguator() {
+  public final Disambiguator getDisambiguator() {
     return disambiguator;
   }
 
   
-  public Contributor[] getMaintainers() {
+  public final Contributor[] getMaintainers() {
     return new Contributor[] {new Contributor("Marcin Miłkowski"),
         new Contributor("Daniel Naber")};
   }
 
-  public Set<String> getRelevantRuleIDs() {
-    Set<String> ids = new HashSet<String>();
+  public final Set<String> getRelevantRuleIDs() {
+    final Set<String> ids = new HashSet<String>();
     ids.add("COMMA_PARENTHESIS_WHITESPACE");
     ids.add("DOUBLE_PUNCTUATION");
     ids.add("UNPAIRED_BRACKETS");

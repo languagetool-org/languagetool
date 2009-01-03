@@ -40,9 +40,9 @@ public class GermanTagger implements Tagger {
   private static final String DICT_FILENAME = "/resource/de/german.dict";
   private static final String USER_DICT_FILENAME = "/resource/de/added.txt";
 
-  private static Lametyzator morfologik = null;
-  private static ManualTagger manualTagger = null;
-  private static GermanCompoundTokenizer compoundTokenizer = null;
+  private static Lametyzator morfologik;
+  private static ManualTagger manualTagger;
+  private static GermanCompoundTokenizer compoundTokenizer;
   
   public GermanTagger() {
   }

@@ -44,8 +44,8 @@ public class Element {
   private boolean negation;
   private boolean posNegation;
 
-  final private boolean caseSensitive;
-  final private boolean stringRegExp;
+  private final boolean caseSensitive;
+  private final boolean stringRegExp;
   private boolean inflected;
 
   private boolean testWhitespace;
@@ -795,18 +795,18 @@ public class Element {
     return uniNegation;
   }
 
-  public void setWhitespaceBefore(final boolean isWhite) {
+  public final void setWhitespaceBefore(final boolean isWhite) {
     whitespaceBefore = isWhite;
     testWhitespace = true;
   }
 
-  public void setExceptionSpaceBefore(final boolean isWhite) {
+  public final void setExceptionSpaceBefore(final boolean isWhite) {
     if (exceptionList != null) {
       exceptionList.get(exceptionList.size()).setWhitespaceBefore(isWhite);
     }
   }
 
-  public boolean isWhitespaceBefore(final AnalyzedToken token) {
-    return (whitespaceBefore == token.isWhitespaceBefore());
+  public final boolean isWhitespaceBefore(final AnalyzedToken token) {
+    return whitespaceBefore == token.isWhitespaceBefore();
   }
 }

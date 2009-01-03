@@ -37,7 +37,7 @@ public class CzechTagger extends BaseTagger {
 
   private static final String RESOURCE_FILENAME = "/resource/cs/czech.dict";
 
-  private Lametyzator morfologik = null;
+  private Lametyzator morfologik;
   private Locale csLocale = new Locale("cs");
 
   

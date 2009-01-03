@@ -22,21 +22,22 @@ import de.danielnaber.languagetool.tokenizers.SentenceTokenizer;
 
 public class DutchSentenceTokenizer extends SentenceTokenizer {
 
-  private static final String[] ABBREV_LIST = {
-  	"W", "bijv", "nl", "prof", "ca", "mr", "blz", "vnl", "voorz", "drs",
-  	"ing", "ds", "dr", "Mgr", "r.-k", "red", "jl", "zgn", "enz",
-  	"evt", "jr", "zg", "nr", "mw", "ll", "ir", "fr", "mln", "afd", "dhr",
-  	"mevr", "excl", "cum", "dd", "Br", "gem", "cie", "arr", "verg", "vlg",
-  	"bep", "onbep", "Ph", "nov", "Ned", "div", "pag", "dir", "geh", "jhr",
-  	"Stct", "afz", "incl", "vgl", "vs", "etc", "j", "resp", "St", "Z" };
+  private static final String[] ABBREV_LIST = { "W", "bijv", "nl", "prof",
+      "ca", "mr", "blz", "vnl", "voorz", "drs", "ing", "ds", "dr", "Mgr",
+      "r.-k", "red", "jl", "zgn", "enz", "evt", "jr", "zg", "nr", "mw", "ll",
+      "ir", "fr", "mln", "afd", "dhr", "mevr", "excl", "cum", "dd", "Br",
+      "gem", "cie", "arr", "verg", "vlg", "bep", "onbep", "Ph", "nov", "Ned",
+      "div", "pag", "dir", "geh", "jhr", "Stct", "afz", "incl", "vgl", "vs",
+      "etc", "j", "resp", "St", "Z" };
 
   // De maanden van het jaar
-  private static final String[] MONTH_NAMES = { "Januari", "Februari", "Maart", "April", "Mei",
-      "Juni", "Juli", "Augustus", "September", "Oktober", "November", "December" };
+  private static final String[] MONTH_NAMES = { "Januari", "Februari", "Maart",
+      "April", "Mei", "Juni", "Juli", "Augustus", "September", "Oktober",
+      "November", "December" };
 
   public DutchSentenceTokenizer() {
     super(ABBREV_LIST);
     super.monthNames = MONTH_NAMES;
   }
- 
+
 }

@@ -26,31 +26,30 @@ import de.danielnaber.languagetool.AnalyzedSentence;
 import de.danielnaber.languagetool.AnalyzedTokenReadings;
 
 /**
- * A rule that matches commas and closing parenthesis preceded by whitespace
- * and opening parenthesis followed by whitespace.
- *  
+ * A rule that matches commas and closing parenthesis preceded by whitespace and
+ * opening parenthesis followed by whitespace.
+ * 
  * @author Daniel Naber
  */
 
-//TODO: add logic to check missing whitespace before ([{
-//and after )}]
-
+// TODO: add logic to check missing whitespace before ([{
+// and after )}]
 public class CommaWhitespaceRule extends Rule {
 
   public CommaWhitespaceRule(final ResourceBundle messages) {
     super(messages);
     super.setCategory(new Category(messages.getString("category_misc")));
   }
-  
-  public String getId() {
+
+  public final String getId() {
     return "COMMA_PARENTHESIS_WHITESPACE";
   }
 
-  public String getDescription() {
+  public final String getDescription() {
     return messages.getString("desc_comma_whitespace");
   }
-  
-  public RuleMatch[] match(final AnalyzedSentence text) {
+
+  public final RuleMatch[] match(final AnalyzedSentence text) {
     final List<RuleMatch> ruleMatches = new ArrayList<RuleMatch>();
     final AnalyzedTokenReadings[] tokens = text.getTokens();
     String prevToken = "";
@@ -58,58 +57,56 @@ public class CommaWhitespaceRule extends Rule {
     int pos = 0;
     int prevLen = 0;
     for (int i = 0; i < tokens.length; i++) {
-    		final String token = tokens[i].getToken().trim();
-    		final boolean isWhite = tokens[i].isWhitespace();
-    		pos += token.length();    		
-    		String msg = null;
-    		int fixLen = 0;
-        String suggestionText = null;
-    		if (isWhite && prevToken.equals("(")) {
-    			msg = messages.getString("no_space_after");
-          suggestionText = "(";
-          fixLen = 1;
-    		} else if (token.equals(")") && prevWhite) {
-    			msg = messages.getString("no_space_before");
-          suggestionText = ")";
-          fixLen = 1;
-    		} else if (prevToken.equals(",") && !isWhite &&
-                !token.equals("'") && !token.equals("&quot")&& !token.equals("”") && !token.equals("’") &&
-                !token.equals("\"") && !token.equals("“") &&
-                !token.matches(".*\\d.*") && !token.equals("-")) {
-                  			msg = messages.getString("missing_space_after_comma");
+      final String token = tokens[i].getToken().trim();
+      final boolean isWhite = tokens[i].isWhitespace();
+      pos += token.length();
+      String msg = null;
+      int fixLen = 0;
+      String suggestionText = null;
+      if (isWhite && prevToken.equals("(")) {
+        msg = messages.getString("no_space_after");
+        suggestionText = "(";
+        fixLen = 1;
+      } else if (token.equals(")") && prevWhite) {
+        msg = messages.getString("no_space_before");
+        suggestionText = ")";
+        fixLen = 1;
+      } else if (prevToken.equals(",") && !isWhite && !token.equals("'")
+          && !token.equals("&quot") && !token.equals("”") && !token.equals("’")
+          && !token.equals("\"") && !token.equals("“")
+          && !token.matches(".*\\d.*") && !token.equals("-")) {
+        msg = messages.getString("missing_space_after_comma");
 
-          suggestionText = ", ";
-    		} else if (token.equals(",") && prevWhite) {
-    			msg = messages.getString("space_after_comma");
-          suggestionText = ",";
-    			fixLen = 1;
-    		} else if (token.equals(".") && prevWhite) {    		  
-          msg = messages.getString("no_space_before_dot");
-          suggestionText = ".";
-          fixLen = 1;
-          //exception case for figures such as ".5" and ellipsis 
-          if (i + 1 < tokens.length 
-              && tokens[i + 1].getToken().matches("\\d.*|\\.")) {
-              msg = null;            
-          }
+        suggestionText = ", ";
+      } else if (token.equals(",") && prevWhite) {
+        msg = messages.getString("space_after_comma");
+        suggestionText = ",";
+        fixLen = 1;
+      } else if (token.equals(".") && prevWhite) {
+        msg = messages.getString("no_space_before_dot");
+        suggestionText = ".";
+        fixLen = 1;
+        // exception case for figures such as ".5" and ellipsis
+        if (i + 1 < tokens.length
+            && tokens[i + 1].getToken().matches("\\d.*|\\.")) {
+          msg = null;
         }
-    		if (msg != null) {
-    			final int fromPos = tokens[i - 1].getStartPos();
-    			final int toPos = 
-            tokens[i - 1].getStartPos()
-            + fixLen + prevLen;
-//TODO: add some good short comment here    			
-    			final RuleMatch ruleMatch = 
-            new RuleMatch(this, fromPos, toPos, msg);
-          if (suggestionText != null)
-            ruleMatch.setSuggestedReplacement(suggestionText);
-    			ruleMatches.add(ruleMatch);
-    		}
-    		prevToken = token;
-    		prevWhite = isWhite;
-    		prevLen = tokens[i].getToken().length();
-    	}
-    
+      }
+      if (msg != null) {
+        final int fromPos = tokens[i - 1].getStartPos();
+        final int toPos = tokens[i - 1].getStartPos() + fixLen + prevLen;
+        // TODO: add some good short comment here
+        final RuleMatch ruleMatch = new RuleMatch(this, fromPos, toPos, msg);
+        if (suggestionText != null) {
+          ruleMatch.setSuggestedReplacement(suggestionText);
+        }
+        ruleMatches.add(ruleMatch);
+      }
+      prevToken = token;
+      prevWhite = isWhite;
+      prevLen = tokens[i].getToken().length();
+    }
+
     return toRuleMatchArray(ruleMatches);
   }
 

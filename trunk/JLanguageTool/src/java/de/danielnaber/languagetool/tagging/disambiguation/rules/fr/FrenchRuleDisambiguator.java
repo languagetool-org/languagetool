@@ -36,7 +36,7 @@ import de.danielnaber.languagetool.tools.Tools;
 public class FrenchRuleDisambiguator extends AbstractRuleDisambiguator {
 
   private static final String DISAMB_FILE = "disambiguation.xml";
-  private List<DisambiguationPatternRule> disambiguationRules = null;
+  private List<DisambiguationPatternRule> disambiguationRules;
   
   /**
    * Load disambiguation rules from an XML file. Use {@link #addRule} to add

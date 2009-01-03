@@ -89,7 +89,7 @@ public class SentenceTokenizer implements Tokenizer {
    * Month names like "Dezember" that should not be considered a sentence
    * boundary in string like "13. Dezember".
    */
-  protected String[] monthNames = null;
+  protected String[] monthNames;
   
   /**
    * Create a sentence tokenizer that uses the built-in abbreviations.

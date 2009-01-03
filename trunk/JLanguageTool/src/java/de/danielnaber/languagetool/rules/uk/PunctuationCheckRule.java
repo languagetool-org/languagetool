@@ -30,36 +30,47 @@ import de.danielnaber.languagetool.rules.AbstractPunctuationCheckRule;
  */
 public class PunctuationCheckRule extends AbstractPunctuationCheckRule {
 
-	public PunctuationCheckRule(final ResourceBundle messages) {
-		super(messages);
-//		super.setCategory(new Category(messages.getString("category_misc")));
-	}
+  public PunctuationCheckRule(final ResourceBundle messages) {
+    super(messages);
+    // super.setCategory(new Category(messages.getString("category_misc")));
+  }
 
-//	private boolean isTripleOk(String token) {
-//		return token.matches("^[.!?]$");
-//	}
+  // private boolean isTripleOk(String token) {
+  // return token.matches("^[.!?]$");
+  // }
 
-	/* (non-Javadoc)
-	 * @see de.danielnaber.languagetool.rules.AbstractPunctuationCheckRule#isPunctsJoinOk(java.lang.String)
-	 */
-	protected boolean isPunctsJoinOk(String tkns) {
-		return // we ignore duplicated spaces - too many errors
-			tkns.matches("([,:] | *- |,- | ) *")	// internal puctuation
-			|| tkns.matches("([.!?]|!!!|\\?\\?\\?|\\?!!|!\\.\\.|\\?\\.\\.|\\.\\.\\.) *");
-	}
+  /*
+   * (non-Javadoc)
+   * 
+   * @see
+   * de.danielnaber.languagetool.rules.AbstractPunctuationCheckRule#isPunctsJoinOk
+   * (java.lang.String)
+   */
+  protected final boolean isPunctsJoinOk(final String tkns) {
+    return // we ignore duplicated spaces - too many errors
+    tkns.matches("([,:] | *- |,- | ) *") // internal puctuation
+        || tkns
+            .matches("([.!?]|!!!|\\?\\?\\?|\\?!!|!\\.\\.|\\?\\.\\.|\\.\\.\\.) *");
+  }
 
-	/* (non-Javadoc)
-	 * @see de.danielnaber.languagetool.rules.AbstractPunctuationCheckRule#isPunctuation(java.lang.String)
-	 */
-	protected boolean isPunctuation(String token) {
-		return token.matches("^[.,!?: -]$");
-	}
-	
-	/* (non-Javadoc)
-	 * @see de.danielnaber.languagetool.rules.AbstractPunctuationCheckRule#reset()
-	 */
-	public void reset() {
-		// nothing
-	}
+  /*
+   * (non-Javadoc)
+   * 
+   * @see
+   * de.danielnaber.languagetool.rules.AbstractPunctuationCheckRule#isPunctuation
+   * (java.lang.String)
+   */
+  protected final boolean isPunctuation(final String token) {
+    return token.matches("^[.,!?: -]$");
+  }
+
+  /*
+   * (non-Javadoc)
+   * 
+   * @see de.danielnaber.languagetool.rules.AbstractPunctuationCheckRule#reset()
+   */
+  public void reset() {
+    // nothing
+  }
 
 }

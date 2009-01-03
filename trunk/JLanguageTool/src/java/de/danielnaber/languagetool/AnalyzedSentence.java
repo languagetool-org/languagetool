@@ -31,59 +31,62 @@ import de.danielnaber.languagetool.tagging.de.AnalyzedGermanTokenReadings;
 public class AnalyzedSentence {
 
   private AnalyzedTokenReadings[] tokens;
-  
+
   private AnalyzedTokenReadings[] nonBlankTokens;
-  
-  /** Array mapping positions of tokens
-   * as returned with getTokensWithoutWhitespace()
-   * to the internal tokens array.
+
+  /**
+   * Array mapping positions of tokens as returned with
+   * getTokensWithoutWhitespace() to the internal tokens array.
    */
   private int[] whPositions;
-  
+
   /**
-   * Sets {@link AnalyzedTokenReadings}. 
-   * Whitespace is also a token.
+   * Sets {@link AnalyzedTokenReadings}. Whitespace is also a token.
    */
   public AnalyzedSentence(final AnalyzedTokenReadings[] tokens) {
     this.tokens = tokens.clone();
   }
 
   /**
-   * Returns the {@link AnalyzedTokenReadings} of the analyzed text. 
-   * Whitespace is also a token.
+   * Returns the {@link AnalyzedTokenReadings} of the analyzed text. Whitespace
+   * is also a token.
    */
   public final AnalyzedTokenReadings[] getTokens() {
     return tokens.clone();
   }
 
   /**
-   * Returns the {@link AnalyzedTokenReadings} of the analyzed text, with whitespace tokens removed
-   * but with the artificial <code>SENT_START</code> token included.
+   * Returns the {@link AnalyzedTokenReadings} of the analyzed text, with
+   * whitespace tokens removed but with the artificial <code>SENT_START</code>
+   * token included.
    */
-  public final AnalyzedTokenReadings[] getTokensWithoutWhitespace() {        
+  public final AnalyzedTokenReadings[] getTokensWithoutWhitespace() {
     if (nonBlankTokens == null) {
       int whCounter = 0;
       int nonWhCounter = 0;
       final int[] mapping = new int[tokens.length + 1];
-	    final List<AnalyzedTokenReadings> l = new ArrayList<AnalyzedTokenReadings>();
-	    for (final AnalyzedTokenReadings token : tokens) {        
-	      if (!token.isWhitespace() || token.isSentStart() || token.isSentEnd() || token.isParaEnd()) {
-            l.add(token);            
-            mapping[nonWhCounter] = whCounter;
-            nonWhCounter++;
-	      }
+      final List<AnalyzedTokenReadings> l = new ArrayList<AnalyzedTokenReadings>();
+      for (final AnalyzedTokenReadings token : tokens) {
+        if (!token.isWhitespace() || token.isSentStart() || token.isSentEnd()
+            || token.isParaEnd()) {
+          l.add(token);
+          mapping[nonWhCounter] = whCounter;
+          nonWhCounter++;
+        }
         whCounter++;
-	    }
-	    nonBlankTokens = l.toArray(new AnalyzedTokenReadings[l.size()]);
+      }
+      nonBlankTokens = l.toArray(new AnalyzedTokenReadings[l.size()]);
       whPositions = mapping.clone();
-	  }  
+    }
     return nonBlankTokens.clone();
   }
-  
+
   /**
-   * Get a position of a non-whitespace token in the 
-   * original sentence with whitespace. 
-   * @param nonWhPosition Position of a non-whitespace token
+   * Get a position of a non-whitespace token in the original sentence with
+   * whitespace.
+   * 
+   * @param nonWhPosition
+   *          Position of a non-whitespace token
    * @return int position in the original sentence.
    */
   public final int getOriginalPosition(final int nonWhPosition) {
@@ -92,7 +95,7 @@ public class AnalyzedSentence {
     }
     return whPositions[nonWhPosition];
   }
-  
+
   @Override
   public final String toString() {
     final StringBuilder sb = new StringBuilder();
@@ -105,12 +108,13 @@ public class AnalyzedSentence {
         final String posTag = element.getAnalyzedToken(j).getPOSTag();
         if (element.isSentStart()) {
           sb.append("<S>");
-        } else if (JLanguageTool.SENTENCE_END_TAGNAME.equals((element.getAnalyzedToken(j).getPOSTag()))) {
-          sb.append("</S>");                    
-        } else if (JLanguageTool.PARAGRAPH_END_TAGNAME.equals((element.getAnalyzedToken(j).getPOSTag()))) {
-          sb.append("<P/>"); 
-        } else if (element.getAnalyzedToken(j) != null
-            && posTag == null
+        } else if (JLanguageTool.SENTENCE_END_TAGNAME.equals(element
+            .getAnalyzedToken(j).getPOSTag())) {
+          sb.append("</S>");
+        } else if (JLanguageTool.PARAGRAPH_END_TAGNAME.equals(element
+            .getAnalyzedToken(j).getPOSTag())) {
+          sb.append("<P/>");
+        } else if (element.getAnalyzedToken(j) != null && posTag == null
             && !(element instanceof AnalyzedGermanTokenReadings)) {
           // FIXME: don't depend on AnalyzedGermanTokenReadings here
           sb.append(element.getAnalyzedToken(j).getToken());

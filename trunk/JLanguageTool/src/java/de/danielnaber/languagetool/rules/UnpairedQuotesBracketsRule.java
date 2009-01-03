@@ -87,7 +87,7 @@ public class UnpairedQuotesBracketsRule extends Rule {
 
   private boolean reachedEndOfParagraph;
 
-  final private Language ruleLang;
+  private final Language ruleLang;
 
   public UnpairedQuotesBracketsRule(final ResourceBundle messages,
       final Language language) {
@@ -146,8 +146,8 @@ public class UnpairedQuotesBracketsRule extends Rule {
   }
 
   public final RuleMatch[] match(final AnalyzedSentence text) {
-    List<RuleMatch> ruleMatches = new ArrayList<RuleMatch>();
-    AnalyzedTokenReadings[] tokens = text.getTokens();
+    final List<RuleMatch> ruleMatches = new ArrayList<RuleMatch>();
+    final AnalyzedTokenReadings[] tokens = text.getTokens();
     AnalyzedToken matchToken = null;
 
     if (reachedEndOfParagraph) {

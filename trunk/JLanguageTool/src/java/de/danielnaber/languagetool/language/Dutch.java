@@ -44,50 +44,50 @@ public class Dutch extends Language {
 
   private static final String[] COUNTRIES = { "NL" };
 
-  public Locale getLocale() {
+  public final Locale getLocale() {
     return new Locale(getShortName());
   }
 
-  public String getName() {
+  public final String getName() {
     return "Dutch";
   }
 
-  public String getShortName() {
+  public final String getShortName() {
     return "nl";
   }
 
-  public String[] getCountryVariants() {
+  public final String[] getCountryVariants() {
     return COUNTRIES;
   }
 
-  public Tagger getTagger() {
+  public final Tagger getTagger() {
     return tagger;
   }
 
-  public Synthesizer getSynthesizer() {
+  public final Synthesizer getSynthesizer() {
     return synthesizer;
   }
 
-  public SentenceTokenizer getSentenceTokenizer() {
+  public final SentenceTokenizer getSentenceTokenizer() {
     return sentenceTokenizer;
   }
 
-  public Tokenizer getWordTokenizer() {
+  public final Tokenizer getWordTokenizer() {
     return wdTokenizer;
   }
 
-  final public Disambiguator getDisambiguator() {
+  public final Disambiguator getDisambiguator() {
     return disambiguator;
   }
 
-  public Contributor[] getMaintainers() {
-    Contributor contributor = new Contributor("Ruud Baars");
+  public final Contributor[] getMaintainers() {
+    final Contributor contributor = new Contributor("Ruud Baars");
     contributor.setUrl("http://www.opentaal.org");
     return new Contributor[] { contributor };
   }
 
-  public Set<String> getRelevantRuleIDs() {
-    Set<String> ids = new HashSet<String>();
+  public final Set<String> getRelevantRuleIDs() {
+    final Set<String> ids = new HashSet<String>();
     ids.add("COMMA_PARENTHESIS_WHITESPACE");
     ids.add("DOUBLE_PUNCTUATION");
     ids.add("UNPAIRED_BRACKETS");
