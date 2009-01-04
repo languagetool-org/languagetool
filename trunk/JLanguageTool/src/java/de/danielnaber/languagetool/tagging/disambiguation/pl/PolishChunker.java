@@ -44,39 +44,20 @@ public class PolishChunker implements Disambiguator {
    */
 
   private static final String TOKEN_DEFINITIONS = "...|ELLIPSIS\n"
-    + "bez mała|ADV\n" 
-    + "to znaczy|TO_ZNACZY\nTo znaczy|TO_ZNACZY\n"
-    + "to jest|TO_JEST\nTo jest|TO_JEST\n" 
-    + "z uwagi na|PREP:ACC\n"
-    + "ze względu na|PREP:ACC\n" 
-    + "bez względu na|PREP:ACC\n"
-    + "w oparciu o|PREP:ACC\n" 
-    + "w związku z|PREP:INST\n"
-    + "w zgodzie z|PREP:INST\n" 
-    + "zgodnie z|PREP:INST\n"
-    + "w porównaniu z|PREP:INST\n" 
-    + "odnośnie do|PREP:GEN\n"
-    + "za pomocą|PREP:GEN\n" 
-    + "na mocy|PREP:GEN\n"
-    + "na podstawie|PREP:GEN\n" 
-    + "w braku|PREP:GEN\n" 
-    + "w razie|PREP:GEN\n"
-    + "w odniesieniu do|PREP:GEN\n" 
-    + "w stosunku do|PREP:GEN\n"
-    + "w relacji do|PREP:GEN\n" 
-    + "a także|CONJ\n" 
-    + "na co dzień|ADV\n"
-    + "co najmniej|ADV\n" 
-    + "co najwyżej|ADV\n" 
-    + "co nieco|ADV\n"
-    + "mimo wszystko|ADV\nMimo wszystko|ADV\n" 
-    + "do czysta|ADV\n"
-    + "do cna|ADV\n" 
-    + "do naga|ADV\n" 
-    + "do niedawna|ADV\nDo niedawna|ADV\n"
-    + "do równa|ADV\n" 
-    + "do syta|ADV\n" 
-    + "do żywa|ADV\n"
+    + "bez mała|ADV\n" + "to znaczy|TO_ZNACZY\nTo znaczy|TO_ZNACZY\n"
+    + "to jest|TO_JEST\nTo jest|TO_JEST\n" + "z uwagi na|PREP:ACC\n"
+    + "ze względu na|PREP:ACC\n" + "bez względu na|PREP:ACC\n"
+    + "w oparciu o|PREP:ACC\n" + "w związku z|PREP:INST\n"
+    + "w zgodzie z|PREP:INST\n" + "zgodnie z|PREP:INST\n"
+    + "w porównaniu z|PREP:INST\n" + "odnośnie do|PREP:GEN\n"
+    + "za pomocą|PREP:GEN\n" + "na mocy|PREP:GEN\n"
+    + "na podstawie|PREP:GEN\n" + "w braku|PREP:GEN\n" + "w razie|PREP:GEN\n"
+    + "w odniesieniu do|PREP:GEN\n" + "w stosunku do|PREP:GEN\n"
+    + "w relacji do|PREP:GEN\n" + "a także|CONJ\n" + "na co dzień|ADV\n"
+    + "co najmniej|ADV\n" + "co najwyżej|ADV\n" + "co nieco|ADV\n"
+    + "mimo wszystko|ADV\nMimo wszystko|ADV\n" + "do czysta|ADV\n"
+    + "do cna|ADV\n" + "do naga|ADV\n" + "do niedawna|ADV\nDo niedawna|ADV\n"
+    + "do równa|ADV\n" + "do syta|ADV\n" + "do żywa|ADV\n"
     + "od nowa|ADV\nOd nowa|ADV\n";
 
   /*
@@ -175,25 +156,25 @@ public class PolishChunker implements Disambiguator {
 
       if (mStartNoSpace.containsKey(tok)) {
         final int len = Integer.parseInt(mStartNoSpace.get(tok));
-        if (i + len < anTokens.length) {
+        if (i + len <= anTokens.length) {
           for (int j = i; j < i + len; j++) {
             tokens.append(anTokens[j].getToken());
             if (mFull.containsKey(tokens.toString())) {
               final AnalyzedToken tokenStart = new AnalyzedToken(tok, "<"
                   + mFull.get(tokens.toString()) + ">", tokens.toString());
               output[i].addReading(tokenStart);
-              final AnalyzedToken tokenEnd = new AnalyzedToken(anTokens[i + len
-                                                                        - 1].getToken(), "</" + mFull.get(tokens.toString()) + ">",
-                                                                        tokens.toString());
+              final AnalyzedToken tokenEnd = new AnalyzedToken(anTokens
+                  [i + len - 1].getToken(), 
+                  "</" + mFull.get(tokens.toString()) + ">",
+                  tokens.toString());
               output[i + len - 1].addReading(tokenEnd);
             }
           }
         }
-
       }
     }
 
     return new AnalyzedSentence(output);
   }
-
+  
 }
