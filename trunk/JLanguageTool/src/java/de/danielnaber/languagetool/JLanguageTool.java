@@ -617,11 +617,8 @@ public final class JLanguageTool {
       tokenArray[lastToken].setParaEnd();
     }
 
-    AnalyzedSentence finalSentence = new AnalyzedSentence(tokenArray);
-    // disambiguate assigned tags
-    finalSentence = disambiguator.disambiguate(finalSentence);
-
-    return finalSentence;
+    // disambiguate assigned tags & return
+    return disambiguator.disambiguate(new AnalyzedSentence(tokenArray));
   }
 
   /**
