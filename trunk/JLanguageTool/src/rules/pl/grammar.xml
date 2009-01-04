@@ -6,7 +6,7 @@ title="Easy editing stylesheet" ?>
 <!--
 Polish Grammar and Typo Rules for LanguageTool
 Copyright (C) 2006-2007 Marcin Miłkowski
-$Id: grammar.xml,v 1.167 2009-01-02 01:42:43 milek_pl Exp $
+$Id: grammar.xml,v 1.168 2009-01-04 01:58:21 milek_pl Exp $
 -->
 <rules lang="pl">
   <unification feature="number">
@@ -1294,10 +1294,11 @@ $Id: grammar.xml,v 1.167 2009-01-02 01:42:43 milek_pl Exp $
       <rule>
         <pattern mark_from="2">
           <token regexp="yes" skip="-1">ani|ni|lub|albo|czy|oraz<exception regexp="yes" scope="next">[\(…,;–\-—„”]</exception></token>
-          <token><exception regexp="yes" scope="previous">[…,;–\-—„”]</exception><match no="0"/></token>
+          <token><exception regexp="yes" scope="previous">[…,;–\-—„”]+|bądź|i</exception><match no="0"/></token>
         </pattern>
         <message>Prawdopodobnie brakuje przecinka. Powinno być: <suggestion>, \3</suggestion>.</message>
         <short>Błąd interpunkcyjny</short>
+        <example type="correct">Spytał, czy się dobrze czuję i czy mam lekarstwa.</example>
         <example type="correct">Nie kupiłem gruszek ani jabłek.</example>
         <example correction=", ani" type="incorrect">Ani prośby<marker> ani</marker> groźby, nie przekonają nas, że czarne jest czarne, a białe jest białe.</example>
         <example type="correct">Nie kupiłem ani gruszek, ani jabłek.</example>
@@ -2826,18 +2827,15 @@ Powinno być: <suggestion>\2, \3 \4</suggestion>.</message>
       <example type="correct">A nie widziałeś tam jakichś dziewczyn?</example>
       <example correction="jakichś" type="incorrect">A nie widziałeś tam <marker>jakiś</marker> dziewczyn?</example>
     </rule>
-    <!--		FIXME: this requires that all POS tags are matched;
-	current rule syntax doesn't allow that and uses only OR logic
-	this creates many false alarms on alternative POS readings
-	-->
+    <!---->
     <rulegroup id="PREP_CASUS" name="Przyimki z nieodpowiednimi przypadkami">
       <rule>
         <pattern mark_from="1">
-          <token postag="prep:gen"/>
+          <token postag="prep:gen"><exception>doń</exception></token>
           <token postag="subst:.*" postag_regexp="yes"><exception postag=".*gen.*|.*irreg.*|conj|adv.*" postag_regexp="yes"/><exception regexp="yes">.*um</exception><exception postag="&lt;/?ADV&gt;" postag_regexp="yes"/></token>
         </pattern>
         <message>Przyimek „\1” jest używany z dopełniaczem.</message>
-        <short>Błąd składniowy</short>
+        <short>Przyimek wymaga dopełniacza</short>
         <example type="correct">Poszliśmy bez niego.</example>
         <example type="incorrect">Poszliśmy bez <marker>pieniądze</marker>.</example>
         <example type="incorrect">Język jest dla <marker>filozofem</marker> tylko topornym narzędziem.</example>
@@ -2849,7 +2847,7 @@ Powinno być: <suggestion>\2, \3 \4</suggestion>.</message>
           <token postag="subst:.*" postag_regexp="yes"><exception postag=".*dat.*|.*irreg.*|conj|adv.*" postag_regexp="yes"/><exception regexp="yes">.*um</exception><exception postag="&lt;/?ADV&gt;" postag_regexp="yes"/></token>
         </pattern>
         <message>Przyimek „\1” jest używany z celownikiem.</message>
-        <short>Błąd składniowy</short>
+        <short>Przyimek wymaga celownika</short>
         <example type="correct">Dzięki tym wysiłkom wszystko się udało.</example>
         <example type="incorrect">Dzięki <marker>wysiłki</marker> wszystko się udało.</example>
       </rule>
@@ -2859,7 +2857,7 @@ Powinno być: <suggestion>\2, \3 \4</suggestion>.</message>
           <token postag="subst:.*" postag_regexp="yes"><exception postag=".*nom.*|.*irreg.*|conj|adv.*" postag_regexp="yes"/><exception regexp="yes">.*um</exception><exception postag="&lt;/ADV&gt;"/></token>
         </pattern>
         <message>Przyimek „\1” jest używany z mianownikiem.</message>
-        <short>Błąd składniowy</short>
+        <short>Przyimek wymaga mianownika</short>
         <example type="correct">Czekamy na pojedynek premier kontra wicepremier.</example>
         <example type="incorrect">Czekamy na pojedynek premier kontra <marker>wicepremierowi</marker>.</example>
       </rule>
@@ -2869,7 +2867,7 @@ Powinno być: <suggestion>\2, \3 \4</suggestion>.</message>
           <token postag="subst:.*" postag_regexp="yes"><exception postag=".*loc.*|.*irreg.*|conj|adv.*" postag_regexp="yes"/><exception regexp="yes">.*um</exception><exception postag="&lt;/?ADV&gt;" postag_regexp="yes"/></token>
         </pattern>
         <message>Przyimek „\1” jest używany z miejscownikiem.</message>
-        <short>Błąd składniowy</short>
+        <short>Przyimek wymaga miejscownika</short>
         <example type="correct">Mamy zysk już przy co najmniej 1-procentowej inflacji.</example>
         <example type="correct">Byłem przy grobie Mickiewicza.</example>
         <example type="incorrect">Byłem przy <marker>grobem</marker> Mickiewicza.</example>
@@ -2877,14 +2875,15 @@ Powinno być: <suggestion>\2, \3 \4</suggestion>.</message>
       </rule>
       <rule>
         <pattern mark_from="1">
-          <token postag="prep:acc"/>
+          <token postag="prep:acc"><exception>przezeń</exception></token>
           <token postag="subst:.*" postag_regexp="yes"><!--dodany mianownik z powodu błędu w słowniku--><exception postag=".*acc.*|.*irreg.*|conj|.*nom.*|adv.*" postag_regexp="yes"/><exception regexp="yes">.*um</exception></token>
         </pattern>
         <message>Przyimek „\1” jest używany z biernikiem.</message>
-        <short>Błąd składniowy</short>
+        <short>Przyimek wymaga biernika</short>
         <example type="correct">To wszystko przez kurę.</example>
         <example type="correct">To wszystko przez prowizorium budżetowe.</example>
         <example type="incorrect">To wszystko przez <marker>pryszczami</marker>.</example>
+        <example type="correct">Nie przejmował się niezawinionymi przezeń winami.</example>
         <example type="correct">On mówił przez <marker>nos</marker>.</example>
       </rule>
     </rulegroup>
@@ -3296,11 +3295,12 @@ lub <suggestion>\2 na prawach wyłączności</suggestion>.</message>
     <rule id="WIECEJ_LUBIC" name="„więcej lubić” (bardziej lubić, woleć)">
       <pattern>
         <token>więcej</token>
-        <token inflected="yes">lubić</token>
+        <token inflected="yes">lubić<exception>lub</exception></token>
       </pattern>
       <message>Niepoprawny związek wyrazów. Poprawnie: <suggestion>bardziej <match no="2"/></suggestion> lub <suggestion><match no="2" postag="verb.*|pcon.*|pant.*" postag_regexp="yes">woleć</match></suggestion>.</message>
       <short>Błąd leksykalny</short>
       <example correction="Bardziej lubię|Wolę" type="incorrect"><marker>Więcej lubię</marker> orędzia naszych polityków od oglądania piłki nożnej.</example>
+      <example type="correct">Można wlać tu więcej lub mniej wody.</example>
       <example type="correct">Lech woli zupę pomidorową.</example>
     </rule>
     <rule id="INFORMACJE_SENSYTYWNE" name="„informacje sensytywne” (informacje poufne)">
@@ -4051,7 +4051,7 @@ lub <suggestion>\2 na prawach wyłączności</suggestion>.</message>
         <token>ze</token>
         <token>stanowiska</token>
       </pattern>
-      <message>Prawdopodobnie użyto niewłaściwego czasownika (wyrażenie jest niepoprawnym rusycyzmem). Powinno być: <suggestion><match no="1" postag="verb.*|ppas.*">usunąć</match></suggestion> lub <suggestion><match no="1" postag="verb.*|ppas.*">zwolnić</match></suggestion>.</message>
+      <message>Prawdopodobnie użyto niewłaściwego czasownika (wyrażenie jest niepoprawnym rusycyzmem). Powinno być: <suggestion><match no="1" postag=".*">usunąć</match></suggestion> lub <suggestion><match no="1" postag=".*">zwolnić</match></suggestion>.</message>
       <short>Błąd leksykalny</short>
       <example correction="usunęli|zwolnili" type="incorrect">Straty Vietcongu były tak duże, że komuniści <marker>zdjęli</marker> Vo ze stanowiska.</example>
       <example type="correct">Straty Vietcongu były tak duże, że komuniści zdecydowali się <marker>usunąć</marker> Vo ze stanowiska.</example>
@@ -6309,19 +6309,20 @@ Znacznie częściej ta forma jest mylona z trybem rozkazującym od „pokazać�
     <rulegroup id="WIEZY_WIERZY" name="„wieży w” (wierzy)">
       <rule>
         <pattern mark_to="-2">
-          <token regexp="yes"><exception>nie</exception>wieży|wieżę</token>
+          <token regexp="yes"><exception scope="previous">nie</exception>wieży|wieżę|wieżą</token>
           <token>w</token>
           <token regexp="yes">Boga|możliwość|miłość|siebie|sukces|skuteczność|awans|swoje|zwycięstwo|swój|swoją|ciebie|zapewnienia|cuda|te|istnienie|takie|duchy</token>
         </pattern>
         <message>Prawdopodobny błąd ortograficzny. Czy chodziło o <suggestion><match no="1" regexp_match="([Ww])ież(.*)" regexp_replace="$1ierz$2"/></suggestion> (formę czasownika „wierzyć”)?</message>
         <short>Błąd ortograficzny</short>
+        <example correction="wierzą" type="incorrect">Oni <marker>wieżą</marker> w zwycięstwo.</example>
         <example correction="Wierzę" type="incorrect"><marker>Wieżę</marker> w cuda.</example>
         <example type="correct">Wierzę w cuda.</example>
       </rule>
       <rule>
         <pattern mark_from="1" mark_to="0">
           <token>nie</token>
-          <token regexp="yes">wieży|wieżę</token>
+          <token regexp="yes">wieży|wieżę|wieżą</token>
         </pattern>
         <message>Prawdopodobny błąd ortograficzny. Czy chodziło o <suggestion><match no="2" regexp_match="([Ww])ież(.*)" regexp_replace="$1ierz$2"/></suggestion> (formę czasownika „wierzyć”)?</message>
         <short>Błąd ortograficzny</short>
