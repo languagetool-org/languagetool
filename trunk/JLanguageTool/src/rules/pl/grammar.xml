@@ -6,7 +6,7 @@ title="Easy editing stylesheet" ?>
 <!--
 Polish Grammar and Typo Rules for LanguageTool
 Copyright (C) 2006-2007 Marcin Miłkowski
-$Id: grammar.xml,v 1.168 2009-01-04 01:58:21 milek_pl Exp $
+$Id: grammar.xml,v 1.169 2009-01-05 01:08:44 milek_pl Exp $
 -->
 <rules lang="pl">
   <unification feature="number">
@@ -56,7 +56,10 @@ $Id: grammar.xml,v 1.168 2009-01-04 01:58:21 milek_pl Exp $
       <token regexp="yes">[\p{Punct}–—„«»…]+|bądź|czy|ani|lub|albo|oraz|i</token>
     </phrase>
     <phrase id="NIE_INTERPUNKCJA">
-      <token><exception postag="SENT_START" postag_regexp="yes"/><exception regexp="yes">[\p{Punct}\-–—„«»…’]+|tyle|i|lub|albo|ani|oraz|bądź|czy</exception></token>
+      <token><exception postag="SENT_START" postag_regexp="yes"/><exception regexp="yes">[\p{Punct}\-–—„«»…’]+|tyle|i|lub|albo|ani|oraz|bądź|czy|a</exception></token>
+    </phrase>
+    <phrase id="NIE_SPOJNIK_PRZECINKOWY">
+      <token><exception inflected="yes" regexp="yes">acz|aczkolwiek|albowiem|ale|aleć|aliści|azali|bo|byleby|czyli|czyliż|dopóki|gdyż|gdyżby|ilekolwiek|ilekroć|lecz|którędy|dopóty|póki|dlaczego|ponieważ|zanim|który|jaki|co|kto|że|iż|jak|nawiasem|a|jeśli|jeżeli|gdyby|gdy|kiedy|jeśliby|jeżeliby|żeby|aby|ażeby|iżby|zamiast</exception></token>
     </phrase>
     <phrase id="ACC_NOM_1">
       <token postag=".*acc.*|.*nom.*" postag_regexp="yes"><exception postag=".*inst.*|.*loc.*" postag_regexp="yes"/></token>
@@ -714,7 +717,7 @@ $Id: grammar.xml,v 1.168 2009-01-04 01:58:21 milek_pl Exp $
       <rule>
         <pattern>
           <token negate="yes" regexp="yes">[\p{Punct}–—„«»…]+<exception postag="SENT_START|conj" postag_regexp="yes"/></token>
-          <token regexp="yes">acz|aczkolwiek|albowiem|ale|aleć|aliści|azali|bo|byleby|czyli|czyliż|dopóki|gdyż|gdyżby|ilekolwiek|ilekroć|lecz|którędy|wszelako</token>
+          <token regexp="yes">acz|aczkolwiek|albowiem|ale|aleć|aliści|azali|bo|byleby|czyli|czyliż|dopóki|gdyż|gdyżby|ilekolwiek|ilekroć|lecz|którędy</token>
         </pattern>
         <message>Przed tym spójnikiem stawiamy przecinek: <suggestion>\1, \2</suggestion>.</message>
         <short>Błąd interpunkcyjny</short>
@@ -735,25 +738,30 @@ $Id: grammar.xml,v 1.168 2009-01-04 01:58:21 milek_pl Exp $
         <example correction="piwo, dopóty" type="incorrect">Dopóki nie chadzał na <marker>piwo dopóty</marker> nie zapijał się na umór.</example>
       </rule>
       <rule>
-        <pattern>
+        <pattern mark_to="-1">
           <token negate="yes" regexp="yes">[\p{Punct}–—„«»…]+|do<exception postag="SENT_START|conj" postag_regexp="yes"/></token>
           <token>póki</token>
+          <token><exception>czas</exception></token>
         </pattern>
         <message>Przed tym spójnikiem stawiamy przecinek: <suggestion>\1, \2</suggestion>.</message>
         <short>Błąd interpunkcyjny</short>
         <example type="correct">Nie odezwę się do ciebie, póki nie oddasz mi forsy.</example>
         <example correction="ciebie, póki" type="incorrect">Nie odezwę się do <marker>ciebie póki</marker> nie oddasz mi forsy.</example>
+        <example type="correct">A pewnie, lata lecą, używać póki czas.</example>
         <example type="correct">Nie zrobię tego, do póki nie zapłacisz całej sumy.</example>
       </rule>
       <rule>
-        <pattern>
-          <token negate="yes" regexp="yes">[\p{Punct}–—„«»…]+<exception postag="SENT_START|conj" postag_regexp="yes"/></token>
+        <pattern mark_to="-1">
+          <token negate="yes" regexp="yes">[\p{Punct}–—„«»…]+|niby<exception postag="SENT_START|conj" postag_regexp="yes"/></token>
           <token>dlaczego</token>
+          <token><exception regexp="yes">[\p{Punct}–\-—…]+</exception></token>
         </pattern>
         <message>Przed tym spójnikiem stawiamy przecinek: <suggestion>\1, \2</suggestion>.</message>
         <short>Błąd interpunkcyjny</short>
         <example type="correct">Nikt nie pytał premiera, dlaczego zwariował.</example>
+        <example type="correct">Nie wiedział nawet dlaczego.</example>
         <example correction="premiera, dlaczego" type="incorrect">Nikt nie pytał <marker>premiera dlaczego</marker> zwariował.</example>
+        <example type="correct">A niby dlaczego miałbym pominąć?</example>
         <example type="correct">Możesz sobie mówić, że jesteś normalny, tylko dlaczego chcesz rządzić krajem?</example>
       </rule>
       <rule>
@@ -911,8 +919,7 @@ $Id: grammar.xml,v 1.168 2009-01-04 01:58:21 milek_pl Exp $
           <token postag="prep.*" postag_regexp="yes"/>
           <token inflected="yes" regexp="yes">który|jaki</token>
         </pattern>
-        <message>Brak przecinka w tym fragmencie zdania. Przecinek prawdopodobnie należy
-				postawić tak: <suggestion>\1, \2 \3</suggestion>.</message>
+        <message>Brak przecinka w tym fragmencie zdania. Przecinek prawdopodobnie należy postawić tak: <suggestion>\1, \2 \3</suggestion>.</message>
         <short>Błąd interpunkcyjny</short>
         <example type="correct">Nie wiedziałem, odnośnie do którego rozporządzenia zgłosił on uwagę.</example>
         <example correction="wiedziałem, odnośnie do" type="incorrect">Nie <marker>wiedziałem odnośnie do</marker> którego rozporządzenia zgłosił on uwagę.</example>
@@ -923,8 +930,7 @@ $Id: grammar.xml,v 1.168 2009-01-04 01:58:21 milek_pl Exp $
           <token postag="prep.*" postag_regexp="yes"><exception postag="&lt;/PREP:.*&gt;" postag_regexp="yes"/></token>
           <token inflected="yes" regexp="yes">który|jaki</token>
         </pattern>
-        <message>Brak przecinka w tym fragmencie zdania. Przecinek prawdopodobnie należy
-				postawić tak: <suggestion>\1, \2 \3</suggestion>.</message>
+        <message>Brak przecinka w tym fragmencie zdania. Przecinek prawdopodobnie należy postawić tak: <suggestion>\1, \2 \3</suggestion>.</message>
         <short>Błąd interpunkcyjny</short>
         <example type="correct">Nie wiedziałem, do którego rozporządzenia zgłosił on uwagę.</example>
         <example type="correct">Istnieją dwa powody, z uwagi na które może on tak myśleć.</example>
@@ -963,8 +969,7 @@ $Id: grammar.xml,v 1.168 2009-01-04 01:58:21 milek_pl Exp $
           <token postag="subst.*" postag_regexp="yes"><exception regexp="yes">[\p{Punct}–—„«»…]+|mało|rzadko</exception><exception postag="conj|adv.*|prep.*|SENT_START|&lt;/CONJ&gt;|&lt;/PREP:.+&gt;" postag_regexp="yes"/></token>
           <token inflected="yes" regexp="yes">który|jaki</token>
         </pattern>
-        <message>Brak przecinka i błędny szyk w tym fragmencie zdania. Przecinek prawdopodobnie należy
-				postawić tak: <suggestion>\1, \2 \4 \3</suggestion>.</message>
+        <message>Brak przecinka i błędny szyk w tym fragmencie zdania. Przecinek prawdopodobnie należy postawić tak: <suggestion>\1, \2 \4 \3</suggestion>.</message>
         <short>Błąd interpunkcyjny</short>
         <example type="correct">To Marek, którego Jurek nienawidzi.</example>
         <example type="correct">Mało który spełnia warunki formalne.</example>
@@ -978,8 +983,7 @@ $Id: grammar.xml,v 1.168 2009-01-04 01:58:21 milek_pl Exp $
           <token postag="subst.*" postag_regexp="yes"><exception regexp="yes">[\p{Punct}–—„«»…]+|mało|rzadko</exception><exception postag="conj|adv.*|prep.*|SENT_START|&lt;/CONJ&gt;|&lt;/PREP:.+&gt;" postag_regexp="yes"/></token>
           <token inflected="yes" regexp="yes">który|jaki</token>
         </pattern>
-        <message>Brak przecinka w tym fragmencie zdania. Przecinek prawdopodobnie należy
-				postawić tak: <suggestion>\3, \4</suggestion>.</message>
+        <message>Brak przecinka w tym fragmencie zdania. Przecinek prawdopodobnie należy postawić tak: <suggestion>\3, \4</suggestion>.</message>
         <short>Błąd interpunkcyjny</short>
         <example type="correct">To Marek, którego Jurek nienawidzi.</example>
         <example type="correct">Mało który spełnia warunki formalne.</example>
@@ -987,9 +991,10 @@ $Id: grammar.xml,v 1.168 2009-01-04 01:58:21 milek_pl Exp $
         <example correction="zamieszaniu, jakie" type="incorrect">Poinformowaliśmy także o <marker>zamieszaniu jakie</marker> powstało</example>
       </rule>
       <rule>
-        <pattern mark_to="-1">
+        <pattern mark_to="-2">
           <token negate="yes">,<exception regexp="yes">[\p{Punct}–—„«»…]+</exception><exception postag="conj|adv.*|prep.*|SENT_START" postag_regexp="yes"/></token>
           <token postag="&lt;PREP:.*&gt;" postag_regexp="yes" skip="4"><exception scope="next">,</exception><exception>odnośnie</exception></token>
+          <token postag="&lt;/PREP:.*" postag_regexp="yes"/>
           <token inflected="yes" regexp="yes">który|jaki</token>
         </pattern>
         <message>Brak przecinka w tym fragmencie zdania. Przecinek prawdopodobnie należy postawić tak: <suggestion>\1, \2</suggestion>.</message>
@@ -1294,7 +1299,7 @@ $Id: grammar.xml,v 1.168 2009-01-04 01:58:21 milek_pl Exp $
       <rule>
         <pattern mark_from="2">
           <token regexp="yes" skip="-1">ani|ni|lub|albo|czy|oraz<exception regexp="yes" scope="next">[\(…,;–\-—„”]</exception></token>
-          <token><exception regexp="yes" scope="previous">[…,;–\-—„”]+|bądź|i</exception><match no="0"/></token>
+          <token><exception regexp="yes" scope="previous">[\.\?!…,;–\-—„”]+|bądź|i</exception><match no="0"/></token>
         </pattern>
         <message>Prawdopodobnie brakuje przecinka. Powinno być: <suggestion>, \3</suggestion>.</message>
         <short>Błąd interpunkcyjny</short>
@@ -1593,12 +1598,47 @@ Powinno być: <suggestion>\2, \3 \4</suggestion>.</message>
       <example type="correct">Polubiłem cię, z tym że musisz się wykazać, mordując karawaniarza.</example>
       <example correction="z tym że" type="incorrect">Polubiłem cię <marker>z tym, że</marker> musisz się wykazać, mordując karawaniarza.</example>
     </rule>
+    <rule id="W_PRZYPADKU_PRZECINEK" name="Zbędny przecinek po „w przypadku” na początku zdania">
+      <pattern mark_from="2">
+        <token postag="SENT_START"/>
+        <token skip="2"><exception negate_pos="yes" postag="(adj):sg:inst.loc:m.n:pos|subst:sg:gen.loc.voc:m3|subst:sg:loc.voc:m3" postag_regexp="yes" scope="next"/>W</token>
+        <token regexp="yes">przypadku|razie</token>
+        <token>,</token>
+        <phraseref idref="NIE_SPOJNIK_PRZECINKOWY"/>
+      </pattern>
+      <message>Prawdopodobnie zbędny przecinek. Poprawnie: <suggestion>\3 \5</suggestion>.</message>
+      <example correction="przypadku miałem" type="incorrect">W tym <marker>przypadku, miałem</marker> rację.</example>
+      <example type="correct">W tym przypadku, który już opisałem, miałem rację.</example>
+    </rule>
+    <rule id="POZA_TYM" name="Zbędny przecinek po „poza tym” na początku zdania">
+      <pattern mark_from="2">
+        <token postag="SENT_START"/>
+        <token>poza</token>
+        <token>tym</token>
+        <token>,</token>
+        <phraseref idref="NIE_SPOJNIK_PRZECINKOWY"/>
+      </pattern>
+      <message>Prawdopodobnie zbędny przecinek. Poprawnie: <suggestion>\3 \5</suggestion>.</message>
+      <example correction="tym miałem" type="incorrect">Poza <marker>tym, miałem</marker> rację.</example>
+      <example type="correct">Poza tym, jak już mówiłem, miałem rację.</example>
+    </rule>
+    <rule id="DODATKOWO" name="Zbędny przecinek po „dodatkowo” na początku zdania">
+      <pattern mark_from="1">
+        <token postag="SENT_START"/>
+        <token>Dodatkowo</token>        
+        <token>,</token>
+        <phraseref idref="NIE_SPOJNIK_PRZECINKOWY"/>
+      </pattern>
+      <message>Prawdopodobnie zbędny przecinek. Poprawnie: <suggestion>\2 \4</suggestion>.</message>
+      <example correction="Dodatkowo miałem" type="incorrect"><marker>Dodatkowo, miałem</marker> rację.</example>
+      <example type="correct">Dodatkowo, jak już mówiłem, miałem rację.</example>
+    </rule>
     <rulegroup id="BRAK_ZNAKU_ZAPYTANIA" name="Brak pytajnika na końcu pytania">
       <rule>
         <pattern mark_from="2">
           <token postag="SENT_START"/>
           <token skip="-1"><exception scope="next">?</exception>Czy</token>
-          <token postag="SENT_END">.</token>
+          <token postag="SENT_END"><exception postag="&lt;/ELLIPSIS&gt;"/>.</token>
         </pattern>
         <message>To zdanie jest prawdopodobnie pytaniem i powinno kończyć się znakiem zapytania: <suggestion>?</suggestion>.</message>
         <short>Brak znaku zapytania</short>
@@ -1610,7 +1650,7 @@ Powinno być: <suggestion>\2, \3 \4</suggestion>.</message>
         <pattern mark_from="2">
           <token postag="SENT_START"/>
           <token regexp="yes" skip="-1">Czemu|Czego|Dlaczego|Dlaczegóż|Dokąd|Dokądże<exception regexp="yes" scope="next">[,?]</exception></token>
-          <token postag="SENT_END">.</token>
+          <token postag="SENT_END"><exception postag="&lt;/ELLIPSIS&gt;"/>.</token>
         </pattern>
         <message>To zdanie jest prawdopodobnie pytaniem i powinno kończyć się znakiem zapytania: <suggestion>?</suggestion>.</message>
         <short>Brak znaku zapytania</short>
@@ -1971,8 +2011,10 @@ Powinno być: <suggestion>\2, \3 \4</suggestion>.</message>
       </rule>
       <rule>
         <pattern mark_from="2">
+        <unify feature="number,gender,case">
           <token inflected="yes">szkoła</token>
           <token postag="adj:sg:.*:f.*" postag_regexp="yes"/>
+        </unify>
           <token>imieniem</token>
         </pattern>
         <message>Mówi się „<suggestion>imienia</suggestion>”.</message>
@@ -2008,10 +2050,10 @@ Powinno być: <suggestion>\2, \3 \4</suggestion>.</message>
           <token inflected="yes" regexp="yes">^(pięć|sześć|siedem|osiem|dziewięć|dziesięć|jedenaście|dwanaście|trzynaście|czternaście|piętnaście|szesnaście|siedemnaście|osiemnaście|dziewiętnaście|dwadzieścia|trzydzieści|czterdzieści|pięćdziesiąt|sześćdziesiąt|siedemdziesiąt|osiemdziesiąt|dziewięćdziesiąt|sto|dwieście|trzysta|czterysta|pięćset|sześćset|siedemset|osiemset|dziewięćset|tysiąc|milion|miliard|bilion)</token>
           <token regexp="yes">^(wat|gram|amper|kilowat|kilogram|kiloamper|wolt|kilowolt|złoty|kilometr|metr|centymetr)</token>
         </pattern>
-        <message>Nazwy jednostek miary odmienia się. W tym wypadku powinny być w dopełniaczu:
-				<suggestion><match no="2" postag="subst:pl:gen.*" postag_regexp="yes"/></suggestion>.</message>
+        <message>Nazwy jednostek miary odmienia się. W tym wypadku powinny być w dopełniaczu: <suggestion><match no="2" postag="subst:pl:gen.*:m.*" postag_regexp="yes"/></suggestion>.</message>
         <short>Błąd odmiany</short>
         <example type="correct">Ludwik kupił sto gramów szyneczki.</example>
+        <example correction="woltów" type="incorrect">Do zasilania wystarczy dziesięć <marker>wolt</marker>.</example>
         <example correction="gramów" type="incorrect">Ludwik kupił sto <marker>gram</marker> szyneczki.</example>
       </rule>
       <rule>
@@ -2020,7 +2062,7 @@ Powinno być: <suggestion>\2, \3 \4</suggestion>.</message>
           <token regexp="yes">^(wat|gram|amper|kilowat|kilogram|kiloamper|wolt|kilowolt|złoty|kilometr|metr|centymetr)</token>
         </pattern>
         <message>Nazwy jednostek miary odmienia się. W tym wypadku powinny być w mianowniku liczby mnogiej:
-				<suggestion><match no="2" postag="subst:pl:nom.*" postag_regexp="yes"/></suggestion>.</message>
+				<suggestion><match no="2" postag="subst:pl:nom.*:m.*" postag_regexp="yes"/></suggestion>.</message>
         <short>Błąd odmiany</short>
         <example type="correct">Ludwik kupił sto gramów szyneczki.</example>
         <example correction="kilogramy" type="incorrect">Ludwik kupił dwa <marker>kilogram</marker> szyneczki.</example>
@@ -2029,7 +2071,7 @@ Powinno być: <suggestion>\2, \3 \4</suggestion>.</message>
     <rule id="JEDNE_DZIECKO" name="„te”, „jedne”, „tamte” + rzeczownik r. nijakiego w l.poj.">
       <pattern mark_to="-1">
         <token postag="adj:pl:nom\.acc.*" postag_regexp="yes"><exception postag="adj:sg:nom.*|verb.+" postag_regexp="yes"/></token>
-        <token postag="subst:sg:nom.acc.*:n" postag_regexp="yes"><exception postag="(subst|adj):pl:nom\.acc.*:(n|m3).*" postag_regexp="yes"/></token>
+        <token postag="subst:sg:nom.acc.*:n" postag_regexp="yes"><exception postag="(subst|adj):pl:nom\.acc.*:(n|f|m3).*" postag_regexp="yes"/></token>
       </pattern>
       <message>Ten przymiotnik lub zaimek jest w liczbie mnogiej. Prawdopodobnie należy użyć liczby pojedynczej: <suggestion><match no="1" postag="adj:sg:nom.*[\.:]n[1-2]?[^o].*" postag_regexp="yes"/></suggestion>.</message>
       <short>Błąd odmiany</short>
@@ -2109,16 +2151,28 @@ Powinno być: <suggestion>\2, \3 \4</suggestion>.</message>
         <example correction="Pabla" type="incorrect">Uwielbiam rzeźbę <marker>Pablo</marker> Picassa.</example>
       </rule>
     </rulegroup>
-    <rule id="TA_KSIAZKA" name="„tą” jako biernik (tę)">
-      <pattern mark_to="-1">
-        <token>tą</token>
-        <token postag="subst:sg:acc:f"/>
-      </pattern>
-      <message>W bierniku zaimek „ta” ma formę <suggestion>tę</suggestion>.</message>
-      <short>Błąd odmiany</short>
-      <example type="correct">Kupiłem tę książkę za parę groszy.</example>
-      <example correction="tę" type="incorrect">Kupiłem <marker>tą</marker> książkę za parę groszy.</example>
-    </rule>
+    <rulegroup id="TA_KSIAZKA" name="„tą” jako biernik (tę)">
+      <rule>
+        <pattern mark_to="-1">
+          <token>tą</token>
+          <token postag="subst:sg:acc:f"/>
+        </pattern>
+        <message>W bierniku zaimek „ta” ma formę <suggestion>tę</suggestion>.</message>
+        <short>Błąd odmiany</short>
+        <example type="correct">Kupiłem tę książkę za parę groszy.</example>
+        <example correction="tę" type="incorrect">Kupiłem <marker>tą</marker> książkę za parę groszy.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>tą</token>
+          <token postag="subst:pl:nom.acc.voc:f" regexp="yes">.+e<exception postag="subst:sg:.*acc.*:f" postag_regexp="yes"/></token>
+        </pattern>
+        <message>Prawdopodobna literówka i błąd odmiany. W bierniku zaimek „ta” ma formę „tę”. Poprawnie: <suggestion>tę <match no="2" postag="subst:sg:.*acc.*:f" postag_regexp="yes"/></suggestion> lub (jeśli chodziło o liczbę mnogą): <suggestion>te <match no="2"/></suggestion>.</message>
+        <short>Błąd odmiany i literówka</short>
+        <example type="correct">Kupiłem tę informację za parę groszy.</example>
+        <example correction="tę informację|te informacje" type="incorrect">Kupiłem <marker>tą informacje</marker> za parę groszy.</example>
+      </rule>
+    </rulegroup>
     <rule id="KOSCIAMI" name="„kościami” (kośćmi)">
       <pattern mark_from="2">
         <token inflected="yes" negate="yes" regexp="yes">poczciwy|uczciwy</token>
@@ -2440,7 +2494,7 @@ Powinno być: <suggestion>\2, \3 \4</suggestion>.</message>
       <example correction="instrukcję podrabiania" type="incorrect">Sprzedam <marker>instrukcję na podrabianie</marker> banknotów.</example>
       <example type="correct">Sprzedam instrukcję podrabiania fałszywych banknotów.</example>
     </rule>
-    <rule id="NIE_A" name="„nie..., a...” (nie..., lecz)">
+    <rule default="off" id="NIE_A" name="„nie..., a...” (nie..., lecz)">
       <pattern mark_from="1" mark_to="-2">
         <token skip="5"><exception scope="next">między</exception>nie</token>
         <token><exception scope="previous">;</exception>a</token>
@@ -2786,7 +2840,7 @@ Powinno być: <suggestion>\2, \3 \4</suggestion>.</message>
       <!-- FIXME: podpowiedź nie uwzględnia odmiany -->
       <pattern mark_from="3">
         <token negate="yes" skip="1">przez</token>
-        <token inflected="yes" skip="5">rozumieć<exception scope="next">przez</exception></token>
+        <token inflected="yes" skip="5">rozumieć<exception regexp="yes" scope="next">przez|,</exception></token>
         <token>pod</token>
       </pattern>
       <message>Mówimy rozumieć coś <suggestion>przez</suggestion> coś.</message>
@@ -2827,11 +2881,10 @@ Powinno być: <suggestion>\2, \3 \4</suggestion>.</message>
       <example type="correct">A nie widziałeś tam jakichś dziewczyn?</example>
       <example correction="jakichś" type="incorrect">A nie widziałeś tam <marker>jakiś</marker> dziewczyn?</example>
     </rule>
-    <!---->
     <rulegroup id="PREP_CASUS" name="Przyimki z nieodpowiednimi przypadkami">
       <rule>
         <pattern mark_from="1">
-          <token postag="prep:gen"><exception>doń</exception></token>
+          <token postag="prep:gen"><exception regexp="yes">doń|zamiast</exception></token>
           <token postag="subst:.*" postag_regexp="yes"><exception postag=".*gen.*|.*irreg.*|conj|adv.*" postag_regexp="yes"/><exception regexp="yes">.*um</exception><exception postag="&lt;/?ADV&gt;" postag_regexp="yes"/></token>
         </pattern>
         <message>Przyimek „\1” jest używany z dopełniaczem.</message>
@@ -2839,6 +2892,7 @@ Powinno być: <suggestion>\2, \3 \4</suggestion>.</message>
         <example type="correct">Poszliśmy bez niego.</example>
         <example type="incorrect">Poszliśmy bez <marker>pieniądze</marker>.</example>
         <example type="incorrect">Język jest dla <marker>filozofem</marker> tylko topornym narzędziem.</example>
+        <example type="correct">Tu jest obok chałupa.</example>
         <example type="incorrect">Przyszedł wreszcie sam do <marker>kierowniczka</marker>.</example>
       </rule>
       <rule>
@@ -3184,8 +3238,10 @@ Powinno być: <suggestion>\2, \3 \4</suggestion>.</message>
   <category name="Błędy leksykalne">
     <rule id="JEZYK_HOLENDERSKI" name="„język holenderski” (język niderlandzki)">
       <pattern mark_from="1">
+      <unify feature="number,gender,case">
         <token inflected="yes">język</token>
         <token>holenderski</token>
+      </unify>
       </pattern>
       <message>To określenie jest bardzo potoczne. Ściślej należy napisać: <suggestion><match no="2" postag="adj.*" postag_regexp="yes">niderlandzki</match></suggestion>.</message>
       <short>Błąd leksykalny</short>
@@ -3194,8 +3250,10 @@ Powinno być: <suggestion>\2, \3 \4</suggestion>.</message>
     </rule>
     <rule id="SZEROKI_ODBIORCA" name="„szeroki odbiorca” (masowy odbiorca)">
       <pattern>
-        <token inflected="yes" postag="adj:(sg|pl):.*:.*m.*:.*" postag_regexp="yes">szeroki</token>
+      <unify feature="number,gender,case">
+        <token inflected="yes">szeroki</token>
         <token inflected="yes">odbiorca</token>
+      </unify>
       </pattern>
       <message>Niepoprawne wyrażenie. Poprawnie: <suggestion><match no="1" postag="adj.*">masowy</match> <match no="2"/></suggestion>.</message>
       <short>Błąd leksykalny</short>
@@ -3224,8 +3282,10 @@ Powinno być: <suggestion>\2, \3 \4</suggestion>.</message>
     </rule>
     <rule id="KONDYCJA_FINANSOWA" name="„kondycja finansowa” (sytuacja finansowa)">
       <pattern>
+      <unify feature="number,gender,case">
         <token inflected="yes">kondycja</token>
-        <token inflected="yes" postag="adj:sg:.*:f.*" postag_regexp="yes">finansowy</token>
+        <token inflected="yes">finansowy</token>
+      </unify>
       </pattern>
       <message>Niepoprawna kalka z angielskiego. Lepiej: <suggestion><match no="1" postag="subst.*" postag_regexp="yes">sytuacja</match> <match no="2"/></suggestion>.</message>
       <short>Błąd leksykalny</short>
@@ -3234,8 +3294,10 @@ Powinno być: <suggestion>\2, \3 \4</suggestion>.</message>
     </rule>
     <rule id="DRUGI_NAJWIEKSZY" name="„drugi największy” (drugi co do wielkości)">
       <pattern>
+      <unify feature="number,gender,case">
         <token inflected="yes" regexp="yes">drugi|trzeci|czwarty|piąty|szósty</token>
         <token inflected="yes">największy</token>
+      </unify>
       </pattern>
       <message>Niepoprawne wyrażenie (kalka z niemieckiego lub angielskiego). Poprawnie: <suggestion>\1 co do wielkości</suggestion>.</message>
       <short>Błąd leksykalny</short>
@@ -3244,8 +3306,10 @@ Powinno być: <suggestion>\2, \3 \4</suggestion>.</message>
     </rule>
     <rule id="MAPA_DROGOWA" name="„mapa drogowa” (harmonogram, plan działań)">
       <pattern>
+      <unify feature="number,gender,case">
         <token inflected="yes">mapa</token>
-        <token inflected="yes" postag="adj:sg:.*:f.*" postag_regexp="yes">drogowy</token>
+        <token inflected="yes">drogowy</token>
+      </unify>
       </pattern>
       <message>To wyrażenie jest częstą i niepoprawną kalką z języka angielskiego (jeśli nie jest użyte dosłownie). Poprawnie: <suggestion>plan działań</suggestion>, <suggestion>harmonogram</suggestion>.</message>
       <short>Błąd leksykalny</short>
@@ -3263,8 +3327,10 @@ Powinno być: <suggestion>\2, \3 \4</suggestion>.</message>
     </rule>
     <rule id="EKSKLUZYWNY_WYWIAD" name="„ekskluzywny wywiad” (wywiad na wyłączność)">
       <pattern>
-        <token inflected="yes" postag="adj:(sg|pl):.*:.*m.*:.*" postag_regexp="yes">ekskluzywny</token>
+      <unify feature="number,gender,case">
+        <token inflected="yes">ekskluzywny</token>
         <token inflected="yes">wywiad</token>
+      </unify>
       </pattern>
       <message>Kalka z angielskiego. „Ekskluzywny” znaczy po polsku „luksusowy”; należy napisać: <suggestion>\2 na wyłączność</suggestion> 
 lub <suggestion>\2 na prawach wyłączności</suggestion>.</message>
@@ -3305,8 +3371,10 @@ lub <suggestion>\2 na prawach wyłączności</suggestion>.</message>
     </rule>
     <rule id="INFORMACJE_SENSYTYWNE" name="„informacje sensytywne” (informacje poufne)">
       <pattern>
+      <unify feature="number,gender,case">
         <token inflected="yes" regexp="yes">informacja|dana</token>
         <token inflected="yes">sensytywny</token>
+      </unify>
       </pattern>
       <message>To wyrażenie jest niepoprawną kalką z języka angielskiego. Poprawnie:<suggestion><match no="1"/> <match no="2" postag="adj.*" postag_regexp="yes">poufny</match></suggestion> lub <suggestion><match no="1"/> o szczególnym znaczeniu</suggestion>.</message>
       <short>Błąd leksykalny</short>
@@ -3315,8 +3383,10 @@ lub <suggestion>\2 na prawach wyłączności</suggestion>.</message>
     </rule>
     <rule id="INFORMACJE_WRAZLIWE" name="„informacje wrażliwe” (informacje poufne)">
       <pattern>
+      <unify feature="number,gender,case">
         <token inflected="yes" regexp="yes">informacja|dana</token>
         <token inflected="yes">wrażliwy</token>
+       </unify>
       </pattern>
       <message>To wyrażenie jest niepoprawną kalką z języka angielskiego. Poprawnie:<suggestion><match no="1"/> <match no="2" postag="adj.*" postag_regexp="yes">poufny</match></suggestion> lub <suggestion><match no="1"/> o szczególnym znaczeniu</suggestion>.</message>
       <short>Błąd leksykalny</short>
@@ -3462,8 +3532,7 @@ lub <suggestion>\2 na prawach wyłączności</suggestion>.</message>
       <pattern>
         <token inflected="yes" postag="pact.*" postag_regexp="yes">potrafić</token>
       </pattern>
-      <message>Czasownik „potrafić” nie ma imiesłowu czynnego. Poprawnie:
-			<suggestion><match no="1" postag="pact.*">umieć</match></suggestion>.</message>
+      <message>Czasownik „potrafić” nie ma imiesłowu czynnego. Poprawnie: <suggestion><match no="1" postag="pact.*">umieć</match></suggestion>.</message>
       <short>Błąd leksykalny</short>
       <example correction="umiejący" type="incorrect">Skuteczny obserwator <marker>potrafiący</marker> wyciągać wnioski.</example>
       <example type="correct">Skuteczny obserwator umiejący wyciągać wnioski.</example>
@@ -3474,8 +3543,7 @@ lub <suggestion>\2 na prawach wyłączności</suggestion>.</message>
           <token inflected="yes" postag="verb.*" postag_regexp="yes">posiadać</token>
           <token regexp="yes">brodę|wąsy|bilet|wymiary|klimatyzację|rekord|inicjatywę|prawo|uprawnienie|kwalifikacje|informacje|wykształcenie|dziecko|umiejętność|przewagę|znaczenie|sens|słuszność|możliwość|możliwości|doświadczenie|przewagę|koncepcję|znajomość</token>
         </pattern>
-        <message>Niepoprawne jest łączenie czasownika „posiadać” z nazwami rzeczy drobnych. Poprawnie: 
-			<suggestion><match no="1" postag="(verb)(:fin)?(.*):(\?perf|perf|imperf)" postag_replace="$1$2$3:$4|$1:fin$3:imperf">mieć</match></suggestion>.</message>
+        <message>Niepoprawne jest łączenie czasownika „posiadać” z nazwami rzeczy drobnych. Poprawnie: <suggestion><match no="1" postag="(verb)(:fin)?(.*):(\?perf|perf|imperf)" postag_replace="$1$2$3:$4|$1:fin$3:imperf">mieć</match></suggestion>.</message>
         <short>Błąd leksykalny</short>
         <example correction="ma" type="incorrect">Wzrostu około 175 cm, włosy ciemne, <marker>posiada</marker> brodę i wąsy.</example>
         <example type="correct">Wzrostu około 175 cm, włosy ciemne, <marker>ma</marker> brodę i wąsy.</example>
@@ -3488,8 +3556,7 @@ lub <suggestion>\2 na prawach wyłączności</suggestion>.</message>
           <token>w</token>
           <token>posiadaniu</token>
         </pattern>
-        <message>Wyrażenie niepoprawne. Poprawnie: <suggestion><match no="1" postag="(verb)(:fin)?(.*):(\?perf|perf|imperf)" postag_replace="$1$2$3:$4|$1:fin$3:imperf">mieć</match></suggestion>, 
-			<suggestion><match no="1" postag="(verb)(.*):(\?perf|perf|imperf)" postag_replace="$1$2:$3|$1$2:\?perf">posiadać</match></suggestion>.</message>
+        <message>Wyrażenie niepoprawne. Poprawnie: <suggestion><match no="1" postag="(verb)(:fin)?(.*):(\?perf|perf|imperf)|(subst:ger.*)|(pact.*)" postag_regexp="yes" postag_replace="($1$2$3:$4|$1:fin$3:imperf)*$5$6">mieć</match></suggestion>, <suggestion><match no="1" postag="(verb)(.*):(\?perf|perf|imperf)|(subst:ger.*|pact.*)" postag_replace="($1$2:$3|$1$2:\?perf)*$4">posiadać</match></suggestion>.</message>
         <short>Błąd leksykalny</short>
         <example correction="mam|posiadam" type="incorrect">Nie <marker>jestem w posiadaniu</marker> tego obrazu.</example>
         <example type="correct">Nie mam tego obrazu.</example>
@@ -3744,8 +3811,10 @@ lub <suggestion>\2 na prawach wyłączności</suggestion>.</message>
     </rule>
     <rule id="TANIA_CENA" name="„tania cena” (niska cena)">
       <pattern mark_to="-1">
-        <token inflected="yes" postag="adj.*[:\.]f[:\.].*" postag_regexp="yes">tani</token>
+      <unify feature="number,gender,case">
+        <token inflected="yes">tani</token>
         <token inflected="yes">cena</token>
+      </unify>
       </pattern>
       <message>Ceny nie mogą być tanie. Poprawnie: <suggestion><match no="1" postag="adj.*">niski</match></suggestion>.</message>
       <short>Błąd leksykalny</short>
@@ -3754,8 +3823,10 @@ lub <suggestion>\2 na prawach wyłączności</suggestion>.</message>
     </rule>
     <rule id="DROGA_CENA" name="„droga cena” (wysoka cena)">
       <pattern mark_to="-1">
-        <token inflected="yes" postag="adj.*[:\.]f[:\.].*" postag_regexp="yes">drogi</token>
+      <unify feature="number,gender,case">
+        <token inflected="yes">drogi</token>
         <token inflected="yes">cena</token>
+      </unify>
       </pattern>
       <message>Ceny nie mogą być drogie. Poprawnie: <suggestion><match no="1" postag="adj.*">wysoki</match></suggestion>.</message>
       <short>Błąd leksykalny</short>
@@ -3881,13 +3952,14 @@ lub <suggestion>\2 na prawach wyłączności</suggestion>.</message>
     <rule id="CZEKAC_ZA" name="„czekać za” (na)">
       <!--  FIXME: podpowiedź nie uwzględnia złożonych grup nominalnych -->
       <pattern mark_from="1">
-        <token inflected="yes" skip="4">czekać<exception scope="next">na</exception></token>
+        <token inflected="yes" skip="4">czekać<exception regexp="yes" scope="next">na|\p{Punct}</exception></token>
         <token>za</token>
         <token postag=".*inst.*" postag_regexp="yes"/>
       </pattern>
       <message>Nie mówimy „czekać za czymś”. Poprawnie: <suggestion>na <match no="3" postag="(.*)(sg|pl).*inst.*" postag_regexp="yes" postag_replace="$1$2.*acc.*"/></suggestion>.</message>
       <short>Błąd leksykalny</short>
       <example type="correct">Czekałem dwie godziny na pociąg.</example>
+      <example type="correct">O, już czeka, już się czai za węgłem!</example>
       <example correction="na pociąg" type="incorrect">Czekałem dwie godziny <marker>za pociągiem</marker>.</example>
       <example type="correct">Czekałem godzinę na pociąg za granicę.</example>
     </rule>
@@ -4216,8 +4288,10 @@ lub <suggestion>\2 na prawach wyłączności</suggestion>.</message>
     </rule>
     <rule id="WYSOKA_FORMA" name="„wysoka forma” (dobra forma, doskonała forma)">
       <pattern>
-        <token inflected="yes" postag="adj:sg:.*:f.*:pos:aff" postag_regexp="yes">wysoki</token>
-        <token inflected="yes"><match no="0" postag="adj:sg:(.*):f.*" postag_regexp="yes" postag_replace="subst:sg:$1:f" setpos="yes">forma</match></token>
+      <unify feature="number,gender,case">
+        <token inflected="yes">wysoki</token>
+        <token inflected="yes">forma</token>
+      </unify>
       </pattern>
       <message>Nie mówi się „wysoka forma”, lecz <suggestion><match no="1" postag="adj.*">dobry</match> <match no="2"/></suggestion>, <suggestion><match no="1" postag="adj.*">doskonały</match> <match no="2"/></suggestion>.</message>
       <short>Błąd leksykalny</short>
@@ -4240,8 +4314,10 @@ lub <suggestion>\2 na prawach wyłączności</suggestion>.</message>
     </rule>
     <rule id="WYSOKA_FREKWENCJA" name="„wysoka/niska frekwencja” (duża/mała)">
       <pattern>
-        <token inflected="yes" postag="adj:sg:.*:f.*:pos:aff" postag_regexp="yes" regexp="yes">wysoki|niski</token>
-        <token inflected="yes"><match no="0" postag="adj:sg:(.*):f.*" postag_regexp="yes" postag_replace="subst:sg:$1:f" setpos="yes">frekwencja</match></token>
+        <unify feature="number,gender,case">      
+        <token inflected="yes" regexp="yes">wysoki|niski</token>        
+        <token inflected="yes">frekwencja</token>
+        </unify>
       </pattern>
       <message>Nie mówi się „wysoka frekwencja” czy „niska frekwencja”, tylko <suggestion><match no="1" postag="adj.*">duży</match> <match no="2"/></suggestion> i <suggestion><match no="1" postag="adj.*">mały</match> <match no="2"/></suggestion>.</message>
       <short>Błąd leksykalny</short>
@@ -4359,8 +4435,10 @@ lub <suggestion>\2 na prawach wyłączności</suggestion>.</message>
     </rule>
     <rule id="CIEZKI_ORZECH" name="„ciężki orzech do zgryzienia” (twardy orzech...)">
       <pattern>
+      <unify feature="number,gender,case">
         <token inflected="yes">ciężki</token>
         <token inflected="yes">orzech</token>
+      </unify>
         <token>do</token>
         <token>zgryzienia</token>
       </pattern>
@@ -4568,8 +4646,10 @@ lub <suggestion>\2 na prawach wyłączności</suggestion>.</message>
     </rule>
     <rule id="JEZYK_MACIERZYSTY" name="„język macierzysty” (język ojczysty)">
       <pattern>
+      <unify feature="number,gender,case">
         <token inflected="yes">język</token>
-        <token inflected="yes" postag="adj.*[\.:]m.*" postag_regexp="yes">macierzysty</token>
+        <token inflected="yes">macierzysty</token>
+      </unify>
       </pattern>
       <message>To niepoprawne wyrażenie. Poprawnie: <suggestion><match no="1"/> <match no="2" postag="adj.*">ojczysty</match></suggestion>.</message>
       <short>Błąd leksykalny</short>
@@ -4767,8 +4847,10 @@ lub <suggestion>\2 na prawach wyłączności</suggestion>.</message>
     </rule>
     <rule id="WLASNA_AUTOPSJA" name="„własna autopsja” (autopsja)">
       <pattern>
-        <token inflected="yes" postag="adj:sg:.*:f.*:pos:aff" postag_regexp="yes" regexp="yes">własny|osobisty</token>
-        <token inflected="yes"><match no="0" postag="adj:sg:(.*):f.*" postag_regexp="yes" postag_replace="subst:sg($1)f" setpos="yes">autopsja</match></token>
+      <unify feature="number,gender,case">
+        <token inflected="yes" regexp="yes">własny|osobisty</token>
+        <token inflected="yes">autopsja</token>
+       </unify>
       </pattern>
       <message>To pleonazm. Wystarczy powiedzieć <suggestion>\2</suggestion>.</message>
       <short>Pleonazm</short>
@@ -4942,8 +5024,10 @@ lub <suggestion>\2 na prawach wyłączności</suggestion>.</message>
     <rulegroup id="FAKT_AUTENTYCZNY" name="„fakt autentyczny/konkretny” (fakt)">
       <rule>
         <pattern>
+        <unify feature="number,gender,case">
           <token inflected="yes">fakt</token>
-          <token inflected="yes" postag="adj:(sg|pl):.*:.*m.*:.*" postag_regexp="yes" regexp="yes">autentyczny|konkretny</token>
+          <token inflected="yes" regexp="yes">autentyczny|konkretny</token>
+        </unify>
         </pattern>
         <message>To wyrażenie to pleonazm. Każdy fakt jest autentyczny i konkretny. Wystarczy napisać <suggestion>\1</suggestion>.</message>
         <short>Pleonazm</short>
@@ -4953,8 +5037,10 @@ lub <suggestion>\2 na prawach wyłączności</suggestion>.</message>
       </rule>
       <rule>
         <pattern>
-          <token inflected="yes" postag="adj:(sg|pl):.*:.*m.*:.*" postag_regexp="yes" regexp="yes">autentyczny|konkretny</token>
+        <unify feature="number,gender,case">
+          <token inflected="yes" regexp="yes">autentyczny|konkretny</token>
           <token inflected="yes">fakt</token>
+       	</unify>
         </pattern>
         <message>To wyrażenie to pleonazm. Każdy fakt jest autentyczny i konkretny. Wystarczy napisać <suggestion>\2</suggestion>.</message>
         <short>Pleonazm</short>
@@ -4966,8 +5052,10 @@ lub <suggestion>\2 na prawach wyłączności</suggestion>.</message>
     <rule id="DLUGI_UPLYW" name="„długi upływ czasu” (długi czas)">
       <!-- FIXME: brak odmiany "czas" w wypadku, gdy "długi" jest odmienione -->
       <pattern>
-        <token inflected="yes" postag="adj:(sg|pl):.*:.*m.*:(pos:aff|neg)" postag_regexp="yes">długi</token>
+      <unify feature="number,gender,case">
+        <token inflected="yes">długi</token>
         <token inflected="yes">upływ</token>
+      </unify>
         <token>czasu</token>
       </pattern>
       <message>Wyrażenie „długi upływ czasu” to pleonazm. Lepiej powiedzieć: <suggestion>długi czas</suggestion>.</message>
@@ -4989,8 +5077,10 @@ lub <suggestion>\2 na prawach wyłączności</suggestion>.</message>
     </rule>
     <rule id="PRZYCHYLNA_AKCEPTACJA" name="„przychylna akceptacja” (akceptacja)">
       <pattern>
-        <token inflected="yes" postag="adj:.*:(f|f.n.*):pos:aff" postag_regexp="yes">przychylny</token>
+      <unify feature="number,gender,case">
+        <token inflected="yes">przychylny</token>
         <token inflected="yes">akceptacja</token>
+      </unify>
       </pattern>
       <message>To wyrażenie to pleonazm. Wystarczy powiedzieć: <suggestion>\2</suggestion>.</message>
       <short>Pleonazm</short>
@@ -5033,8 +5123,10 @@ lub <suggestion>\2 na prawach wyłączności</suggestion>.</message>
     </rule>
     <rule id="AURA_POGODOWA" name="„aura pogodowa” (aura)">
       <pattern>
-        <token inflected="yes">aura</token>
-        <token inflected="yes" postag="adj:sg:.*:f:pos:aff" postag_regexp="yes">pogodowy</token>
+        <unify feature="number,gender,case">
+          <token inflected="yes">aura</token>
+          <token inflected="yes">pogodowy</token>
+        </unify>
       </pattern>
       <message>Wyrażenie „aura pogodowa” jest pleonazmem: wystarczy <suggestion><match no="1"/></suggestion> albo <suggestion><match no="1" postag="subst.*">pogoda</match></suggestion>.</message>
       <short>Pleonazm</short>
@@ -5044,8 +5136,10 @@ lub <suggestion>\2 na prawach wyłączności</suggestion>.</message>
     </rule>
     <rule id="KAZDY_WTOREK" name="„każdy wtorek miesiąca”">
       <pattern>
+      <unify feature="number,gender,case">
         <token inflected="yes">każdy</token>
         <token inflected="yes" regexp="yes">poniedziałek|wtorek|środa|czwartek|piątek|sobota|niedziela</token>
+      </unify>
         <token regexp="yes">tygodnia|miesiąca</token>
       </pattern>
       <message>Wyrażenia typu „każdy wtorek miesiąca” są pleonastyczne. Wystarczy powiedzieć <suggestion>\1 \2</suggestion>.</message>
@@ -5097,8 +5191,10 @@ lub <suggestion>\2 na prawach wyłączności</suggestion>.</message>
     </rule>
     <rule id="WZAJEMNA_WYMIANA" name="„wzajemna wymiana, współpraca” (wymiana, współpraca)">
       <pattern>
-        <token inflected="yes" postag="adj:.*:(f|f.n.*):pos:aff" postag_regexp="yes">wzajemny</token>
+      <unify feature="number,gender,case">
+        <token inflected="yes">wzajemny</token>
         <token inflected="yes" regexp="yes">wymiana|współpraca|kooperacja</token>
+      </unify>
       </pattern>
       <message>To wyrażenie to pleonazm. Wystarczy powiedzieć <suggestion>\2</suggestion>.</message>
       <short>Pleonazm</short>
@@ -5107,8 +5203,10 @@ lub <suggestion>\2 na prawach wyłączności</suggestion>.</message>
     </rule>
     <rule id="WZAJEMNE_WSPOLDZIALANIE" name="„wzajemne współdziałanie” (współdziałanie)">
       <pattern>
-        <token inflected="yes" postag="adj:sg:.*:pos:aff" postag_regexp="yes">wzajemny</token>
+      <unify feature="number,gender,case">
+        <token inflected="yes">wzajemny</token>
         <token inflected="yes" postag="subst:ger.*" postag_regexp="yes">współdziałać</token>
+       </unify>
       </pattern>
       <message>To wyrażenie to pleonazm. Wystarczy powiedzieć <suggestion>\2</suggestion>.</message>
       <short>Pleonazm</short>
@@ -5117,8 +5215,10 @@ lub <suggestion>\2 na prawach wyłączności</suggestion>.</message>
     </rule>
     <rule id="AUTENTYCZNE_REALIA" name="„autentyczne realia” (realia)">
       <pattern>
+      <unify feature="number,gender,case">
         <token inflected="yes">autentyczny</token>
         <token inflected="yes">realia</token>
+      </unify>
       </pattern>
       <message>To wyrażenie to pleonazm. Wystarczy powiedzieć <suggestion>\2</suggestion>.</message>
       <short>Pleonazm</short>
@@ -5127,8 +5227,10 @@ lub <suggestion>\2 na prawach wyłączności</suggestion>.</message>
     </rule>
     <rule id="CALKOWITE_FIASKO" name="„całkowite” (fiasko)">
       <pattern>
-        <token inflected="yes" postag="adj:sg:.*:pos:aff" postag_regexp="yes" regexp="yes">całkowity|kompletny|zupełny</token>
+      <unify feature="number,gender,case">
+        <token inflected="yes" regexp="yes">całkowity|kompletny|zupełny</token>
         <token inflected="yes">fiasko</token>
+      </unify>
       </pattern>
       <message>To wyrażenie to pleonazm. Wystarczy powiedzieć <suggestion>\2</suggestion>.</message>
       <short>Pleonazm</short>
@@ -5137,8 +5239,10 @@ lub <suggestion>\2 na prawach wyłączności</suggestion>.</message>
     </rule>
     <rule id="PELNY_KOMPLET" name="„pełny komplet” (komplet)">
       <pattern>
-        <token inflected="yes" postag="adj:(sg|pl):.*:.*m.*:pos:aff" postag_regexp="yes">pełny</token>
+      <unify feature="number,gender,case">
+        <token inflected="yes">pełny</token>
         <token inflected="yes">komplet</token>
+       </unify>
       </pattern>
       <message>To wyrażenie to pleonazm. Wystarczy powiedzieć <suggestion>\2</suggestion>.</message>
       <short>Pleonazm</short>
@@ -5159,8 +5263,10 @@ lub <suggestion>\2 na prawach wyłączności</suggestion>.</message>
     </rule>
     <rule id="SKLAD_SUROWCOWY" name="„skład surowcowy” (skład)">
       <pattern>
+      <unify feature="number,gender,case">
         <token inflected="yes">skład</token>
-        <token inflected="yes" postag="adj:(sg|pl):.*:.*m.*:pos:aff" postag_regexp="yes">surowcowy</token>
+        <token inflected="yes">surowcowy</token>
+      </unify>
       </pattern>
       <message>To wyrażenie to pleonazm. Wystarczy powiedzieć <suggestion>\1</suggestion>.</message>
       <short>Pleonazm</short>
@@ -5169,8 +5275,10 @@ lub <suggestion>\2 na prawach wyłączności</suggestion>.</message>
     </rule>
     <rule id="DZIEN_DZISIEJSZY" name="„dzień dzisiejszy” (dzisiaj)">
       <pattern>
+      <unify feature="number,gender,case">
         <token inflected="yes">dzień</token>
-        <token inflected="yes" postag="adj:sg.*:.*m.*:pos:aff" postag_regexp="yes">dzisiejszy</token>
+        <token inflected="yes">dzisiejszy</token>
+       </unify>
       </pattern>
       <message>To wyrażenie to pleonazm. Wystarczy powiedzieć <suggestion>dzisiaj</suggestion> lub <suggestion>dziś</suggestion>.</message>
       <short>Pleonazm</short>
@@ -5179,8 +5287,10 @@ lub <suggestion>\2 na prawach wyłączności</suggestion>.</message>
     </rule>
     <rule id="DZIEN_JUTRZEJSZY" name="„dzień jutrzejszy” (jutro)">
       <pattern>
+      <unify feature="number,gender,case">
         <token inflected="yes">dzień</token>
-        <token inflected="yes" postag="adj:sg.*:.*m.*:pos:aff" postag_regexp="yes">jutrzejszy</token>
+        <token inflected="yes">jutrzejszy</token>
+      </unify>
       </pattern>
       <message>To wyrażenie to pleonazm. Wystarczy powiedzieć <suggestion>jutro</suggestion>.</message>
       <short>Pleonazm</short>
@@ -5189,8 +5299,10 @@ lub <suggestion>\2 na prawach wyłączności</suggestion>.</message>
     </rule>
     <rule id="DZIEN_WCZORAJSZY" name="„dzień wczorajszy” (wczoraj)">
       <pattern>
+      	<unify feature="number,gender,case">
         <token inflected="yes">dzień</token>
-        <token inflected="yes" postag="adj:sg.*:.*m.*:pos:aff" postag_regexp="yes">wczorajszy</token>
+        <token inflected="yes">wczorajszy</token>
+        </unify>
       </pattern>
       <message>To wyrażenie to pleonazm. Wystarczy powiedzieć <suggestion>wczoraj</suggestion>.</message>
       <short>Pleonazm</short>
@@ -5231,8 +5343,10 @@ lub <suggestion>\2 na prawach wyłączności</suggestion>.</message>
     </rule>
     <rule id="FALSZYWY_MIRAZ" name="„fałszywy/złudny/zwodniczy miraż” (miraż)">
       <pattern>
-        <token inflected="yes" postag="adj:(sg|pl):.*:.*m.*:.*" postag_regexp="yes" regexp="yes">złudny|zwodniczy|fałszywy</token>
+      <unify feature="number,gender,case">
+        <token inflected="yes" regexp="yes">złudny|zwodniczy|fałszywy</token>
         <token inflected="yes">miraż</token>
+      </unify>
       </pattern>
       <message>To wyrażenie to pleonazm. Wystarczy powiedzieć <suggestion>\2</suggestion>.</message>
       <short>Pleonazm</short>
@@ -5241,8 +5355,10 @@ lub <suggestion>\2 na prawach wyłączności</suggestion>.</message>
     </rule>
     <rule id="WZAJEMNE_ANTAGONIZMY" name="„wzajemne antagonizmy” (antagonizmy)">
       <pattern>
-        <token inflected="yes" postag="adj.*m.*" postag_regexp="yes">wzajemny</token>
+      <unify feature="number,gender,case">
+        <token inflected="yes">wzajemny</token>
         <token inflected="yes">antagonizm</token>
+      </unify>
       </pattern>
       <message>To wyrażenie to pleonazm. Wystarczy powiedzieć <suggestion>\2</suggestion>.</message>
       <short>Pleonazm</short>
@@ -5262,8 +5378,10 @@ lub <suggestion>\2 na prawach wyłączności</suggestion>.</message>
     </rule>
     <rule id="SLABA_GLOWA_DO_ALKOHOLU" name="„słaba głowa do alkoholu”  (słaba głowa)">
       <pattern>
-        <token inflected="yes" postag="adj:.*:(f|f.n.*):pos:aff" postag_regexp="yes">słaby</token>
+      <unify feature="number,gender,case">
+        <token inflected="yes">słaby</token>
         <token inflected="yes">głowa</token>
+      </unify>
         <token>do</token>
         <token>alkoholu</token>
       </pattern>
@@ -5679,8 +5797,10 @@ lub <suggestion>\2 na prawach wyłączności</suggestion>.</message>
     </rule>
     <rule id="WACHLARZ_CZEGO" name="„szeroki wachlarz” (wiele)">
       <pattern mark_to="-1">
-        <token inflected="yes" postag="adj:sg.*:.*m.*:pos:aff" postag_regexp="yes" regexp="yes">szeroki|bogaty</token>
+      <unify feature="number,gender,case">
+        <token inflected="yes" regexp="yes">szeroki|bogaty</token>
         <token inflected="yes">wachlarz</token>
+      </unify>
         <token postag=".*gen.*" postag_regexp="yes"/>
       </pattern>
       <message>To wyrażenie jest rozwlekłe i niezalecane. Lepiej po prostu: <suggestion>wiele</suggestion>.</message>
@@ -5690,8 +5810,10 @@ lub <suggestion>\2 na prawach wyłączności</suggestion>.</message>
     </rule>
     <rule id="CALY_SZEREG" name="„cały szereg” (wiele)">
       <pattern>
-        <token inflected="yes" postag="adj:sg.*:.*m.*:pos:aff" postag_regexp="yes">cały</token>
+      <unify feature="number,gender,case">
+        <token inflected="yes">cały</token>
         <token inflected="yes">szereg</token>
+      </unify>
       </pattern>
       <message>To nadużywane wyrażenie. Lepiej: <suggestion>wiele</suggestion>, <suggestion>mnóstwo</suggestion>, <suggestion>bardzo wiele</suggestion>.</message>
       <short>Wyraz modny lub nadużywany</short>
@@ -7710,7 +7832,7 @@ Znacznie częściej ta forma jest mylona z trybem rozkazującym od „pokazać�
           <token postag=".*nom.*" postag_regexp="yes"/>
         </pattern>
         <message>Ten skrót piszemy bez kropki: <suggestion>\1 \3</suggestion>. </message>
-        <short>Błąd ortograficzny</short>
+        <short>Zbędna kropka</short>
         <example type="correct">Mgr Kowalski napisał dwa donosy.</example>
         <example correction="Mgr Kowalski" type="incorrect"><marker>Mgr. Kowalski</marker> napisał dwa donosy.</example>
         <example type="correct">To samodzielna praca mgr. Kowalskiego.</example>
@@ -7724,7 +7846,7 @@ Znacznie częściej ta forma jest mylona z trybem rozkazującym od „pokazać�
           <token postag=".*nom.*" postag_regexp="yes"/>
         </pattern>
         <message>Ten skrót piszemy bez kropki: <suggestion>\1</suggestion>. </message>
-        <short>Błąd ortograficzny</short>
+        <short>Zbędna kropka</short>
         <example type="correct">Dr hab. Kowalski napisał dwa donosy.</example>
         <example correction="Dr" type="incorrect"><marker>Dr.</marker> hab. Kowalski napisał dwa donosy.</example>
         <example type="correct">To samodzielna praca dr. hab. Kowalskiego.</example>
@@ -7737,7 +7859,7 @@ Znacznie częściej ta forma jest mylona z trybem rozkazującym od „pokazać�
           <token regexp="yes">\d+</token>
         </pattern>
         <message>Ten skrót piszemy bez kropki: <suggestion>\2 \4</suggestion>. </message>
-        <short>Błąd ortograficzny</short>
+        <short>Zbędna kropka</short>
         <example type="correct">On mieszka pod nr. 2.</example>
         <example type="correct">Oto samochód nr 2.</example>
         <example correction="nr 2" type="incorrect">Oto samochód <marker>nr. 2</marker>.</example>
@@ -7745,20 +7867,23 @@ Znacznie częściej ta forma jest mylona z trybem rozkazującym od „pokazać�
       <rule>
         <pattern mark_from="1">
           <token regexp="yes">\d+</token>
-          <token spacebefore="yes">gr</token>
+          <token regexp="yes" spacebefore="yes">gr|ha</token>
           <token>.<exception postag="SENT_END"/></token>
         </pattern>
-        <message>Ten skrót piszemy bez kropki: <suggestion>gr</suggestion>.</message>
+        <message>Ten skrót piszemy bez kropki: <suggestion>\2</suggestion>.</message>
+        <short>Zbędna kropka</short>
+        <example correction="ha" type="incorrect">Kupiłem działkę wielkości 5 <marker>ha.</marker> na Mazurach.</example>
+        <example type="correct">Ha, ha, ha!</example>
         <example correction="gr" type="incorrect">Ten palmtop waży 100 <marker>gr.</marker>, jest więc bardzo lekki.</example>
         <example type="correct"> Apollo (gr. Apollon, zwany też Phoibos "Jaśniejący")</example>
       </rule>
       <rule>
         <pattern>
-          <token regexp="yes">dl|ml|dag|ha|cm|dm|zł|kg|mln|mld|min|npl|pkt|pg|tg|cos|cosec|sec|sin|rkm|wg</token>
+          <token regexp="yes">dl|ml|dag|cm|dm|zł|kg|mln|mld|min|npl|pkt|pg|tg|cos|cosec|sec|sin|rkm|wg</token>
           <token>.<exception postag="SENT_END"/></token>
         </pattern>
         <message>Ten skrót piszemy bez kropki: <suggestion>\1</suggestion>. </message>
-        <short>Błąd ortograficzny</short>
+        <short>Zbędna kropka</short>
         <example type="correct">Brakuje nam 3 mln złotych.</example>
         <example type="correct">Wczoraj wygrałem 10 mld.</example>
         <example correction="mln" type="incorrect">Brakuje nam 3 <marker>mln.</marker> złotych.</example>
@@ -7771,7 +7896,7 @@ Znacznie częściej ta forma jest mylona z trybem rozkazującym od „pokazać�
           <token><exception>in</exception></token>
         </pattern>
         <message>Ten skrót piszemy bez kropki: <suggestion>\2</suggestion>. </message>
-        <short>Błąd ortograficzny</short>
+        <short>Zbędna kropka</short>
         <example type="correct">Wiemy to m.in. z pamiętników Edgara.</example>
         <example type="correct">Wczoraj przebiegłem 1000 m.</example>
         <example correction="m" type="incorrect">Brakuje nam 3 <marker>m.</marker> tkaniny.</example>
@@ -9472,11 +9597,12 @@ Znacznie częściej ta forma jest mylona z trybem rozkazującym od „pokazać�
       </rule>
       <rule>
         <pattern mark_from="1" mark_to="0">
-          <token regexp="yes" skip="1">chodzi|chodziło|tylko|nie</token>
+          <token regexp="yes" skip="1"><exception inflected="yes" scope="next">ten</exception>chodzi|chodziło|tylko|nie</token>
           <token>oto</token>
         </pattern>
         <message>Prawdopodobna literówka, powinno być: <suggestion>o to</suggestion>.</message>
         <short>Prawdopodobna literówka</short>
+        <example type="correct">Kieruję tym oto szmatławym pisemkiem dla kretynów.</example>
         <example type="correct">O, chodziło właśnie o to.</example>
         <example correction="o to" type="incorrect">Nie <marker>oto</marker> pytam.</example>
         <example correction="o to" type="incorrect">O, chodziło właśnie <marker>oto</marker> .</example>
@@ -9815,16 +9941,27 @@ Znacznie częściej ta forma jest mylona z trybem rozkazującym od „pokazać�
         <example correction="powodu" type="incorrect">Nie ma go z tego <marker>powody</marker>, że ma grypę.</example>
       </rule>
     </rulegroup>
-    <rule id="NA_PRZEKOR" name="„chybcika, przekór” (na chybcika, na przekór) itd.">
-      <pattern mark_from="1">
-        <token><exception regexp="yes">na|\"|któr.*</exception></token>
-        <token regexp="yes">^(bakier|chybcika|płask|przekór|odchodne|odchodnym|czele|odczepne|odczepnego|odjezdne|odjezdnym|odwyrtkę|opak|oścież|piechotkę|podorędziu|przedzie|roścież|rozcież|schwał|spytki|ścieżaj|udry|umór|wyjezdne|wyjezdnym|wynos|wyrost|wznak|zabój)</token>
-      </pattern>
-      <message>Prawdopodobna literówka; powinno być: <suggestion>na \2</suggestion>.</message>
-      <short>Prawdopodobna literówka</short>
-      <example type="correct">To jest zrobione na chybcika.</example>
-      <example correction="na chybcika" type="incorrect">To jest zrobione <marker>chybcika</marker>.</example>
-    </rule>
+    <rulegroup id="NA_PRZEKOR" name="„chybcika, przekór” (na chybcika, na przekór) itd.">
+      <rule>
+        <pattern mark_from="1">
+          <token><exception regexp="yes">na|\"|któr.*</exception></token>
+          <token regexp="yes">^(bakier|chybcika|płask|przekór|odchodne|odchodnym|odczepne|odczepnego|odjezdne|odjezdnym|odwyrtkę|opak|oścież|piechotkę|podorędziu|przedzie|roścież|rozcież|schwał|spytki|ścieżaj|udry|umór|wyjezdne|wyjezdnym|wynos|wyrost|wznak|zabój)</token>
+        </pattern>
+        <message>Prawdopodobna literówka; powinno być: <suggestion>na \2</suggestion>.</message>
+        <short>Prawdopodobna literówka</short>
+        <example type="correct">To jest zrobione na chybcika.</example>
+        <example correction="na chybcika" type="incorrect">To jest zrobione <marker>chybcika</marker>.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="1">
+          <token regexp="yes">czele<exception regexp="yes" scope="previous">na|jej|ich|jego|której|których|którego</exception></token>
+        </pattern>
+        <message>Prawdopodobna literówka; powinno być: <suggestion>na \2</suggestion>.</message>
+        <short>Prawdopodobna literówka</short>
+        <example type="correct">On stanął na jego czele.</example>
+        <example correction="na czele" type="incorrect">On stanął <marker>czele</marker>.</example>
+      </rule>
+    </rulegroup>
     <rulegroup id="TYM_BARDZIE" name="„bardzie” (bardziej)">
       <rule>
         <pattern mark_from="1">
@@ -9926,6 +10063,16 @@ Znacznie częściej ta forma jest mylona z trybem rozkazującym od „pokazać�
       <example correction="jestem" type="incorrect">Nie <marker>jetem</marker> z tego zadowolony.</example>
       <example type="correct">Leciałem jumbo jetem.</example>
     </rule>
+    <rule id="TE_INFORMACJE" name="„tę informacje” (tę informację)">
+      <pattern>
+        <token>tę</token>
+        <token postag="subst:pl:nom.acc.voc:f" regexp="yes">.+e<exception postag="subst:sg:.*acc.*:f" postag_regexp="yes"/></token>
+      </pattern>
+      <message>Prawdopodobna literówka. Czy chodziło o <suggestion><match no="1"/> <match no="2" postag="subst:sg:.*acc.*:f" postag_regexp="yes"/></suggestion>, czy o <suggestion>te <match no="2"/></suggestion>?</message>
+      <short>Prawdopodobna literówka</short>
+      <example correction="tę informację|te informacje" type="incorrect">Podaj mi <marker>tę informacje</marker>.</example>
+      <example type="correct">Podaj mi te informacje.</example>
+    </rule>
   </category>
   <category name="Błędy frazeologiczne">
     <rule id="NERWY_NA_POSTRONKU" name="„nerwy na postronku” (nerwy na wodzy)">
@@ -10000,8 +10147,10 @@ Znacznie częściej ta forma jest mylona z trybem rozkazującym od „pokazać�
     </rule>
     <rule id="INNA_STRONA_MEDALU" name="„inna strona medalu” (druga strona)">
       <pattern>
-        <token inflected="yes" postag="adj:.*:f.*:pos" postag_regexp="yes">inny</token>
+      <unify feature="number,gender,case">
+        <token inflected="yes">inny</token>
         <token inflected="yes">strona</token>
+      </unify>
         <token>medalu</token>
       </pattern>
       <message>To wyrażenie jest niepoprawne. Poprawnie: <suggestion><match no="1" postag="adj(.*)" postag_replace="adj$1:aff">odwrotny</match> <match no="2"/> <match no="3"/></suggestion> lub <suggestion><match no="1" postag="adj(.*)" postag_replace="adj$1:aff">drugi</match> <match no="2"/> <match no="3"/></suggestion>.</message>

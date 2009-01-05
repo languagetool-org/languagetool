@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 	<!--
 		Disambiguation Rules for LanguageTool Copyright (C) 2008				
-$Id: disambiguation.xml,v 1.4 2009-01-02 01:42:43 milek_pl Exp $
+$Id: disambiguation.xml,v 1.5 2009-01-05 01:08:44 milek_pl Exp $
 	-->	
 <rules lang="pl">
   <unification feature="number">
@@ -90,6 +90,17 @@ $Id: disambiguation.xml,v 1.4 2009-01-02 01:42:43 milek_pl Exp $
 		<disambig action="add"><wd lemma="po ciemku" pos="adjp">ciemku</wd></disambig>		
 	</rule>
 	
+	<rule name="tym" id="tym">
+		<pattern mark="0">
+			<unify feature="gender,number,case">
+			<token>tym</token>
+			<token postag_regexp="yes" postag="subst:sg.*"/>
+			</unify>
+		</pattern>
+		<disambig action="unify"/>
+	</rule>
+	
+	
 	<!-- now not that greedy :) --> 
 	<rule name="unifikacja przymiotnika z rzeczownikiem" id="unify_adj_subst">
 		<pattern mark_from="0" mark_to="0">
@@ -142,4 +153,39 @@ $Id: disambiguation.xml,v 1.4 2009-01-02 01:42:43 milek_pl Exp $
 		</rule>
 	</rulegroup>
 	
+	<rule name="nawiasem mówiąc" id="nawiasem-mowiac">
+		<pattern mark="1">
+			<token regexp="yes">nawiasem|krótko|prawdę|ściśle</token>
+          	<token>mówiąc</token>
+        </pattern>
+        <disambig postag="qub"/>
+	</rule>
+	
+	<rule name="oklep" id="na-oklep">
+	<pattern mark="1">
+		<token>na</token>
+		<token>oklep</token>	
+	</pattern>
+	<disambig postag="qub">
+	</disambig>
+	</rule>
+	
+	<rule name="obok, dookoła, wewnątrz -> adv" id="obok">
+	<pattern mark="0">
+		<token regexp="yes">obok|dookoła|wewnątrz</token>
+		<token postag="subst:.*" postag_regexp="yes"><exception postag="subst:.*gen.*" postag_regexp="yes"/></token>
+	</pattern>
+	<disambig postag="adv:pos"/>
+	</rule>
+	
+	<rulegroup name="mam -> subst" id="mam">
+		<rule>
+			<pattern mark="1">
+				<token postag="prep:.*gen.*" postag_regexp="yes"/>
+				<token>mam</token>
+			</pattern>
+			<disambig action="filter"><match no="2" postag="subst:pl:.*" postag_regexp="yes"/></disambig>
+		</rule>
+	</rulegroup>
+		
 </rules>
