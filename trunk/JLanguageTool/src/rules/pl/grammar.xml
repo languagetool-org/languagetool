@@ -6,7 +6,7 @@ title="Easy editing stylesheet" ?>
 <!--
 Polish Grammar and Typo Rules for LanguageTool
 Copyright (C) 2006-2007 Marcin Miłkowski
-$Id: grammar.xml,v 1.169 2009-01-05 01:08:44 milek_pl Exp $
+$Id: grammar.xml,v 1.170 2009-01-05 19:23:50 milek_pl Exp $
 -->
 <rules lang="pl">
   <unification feature="number">
@@ -1625,7 +1625,7 @@ Powinno być: <suggestion>\2, \3 \4</suggestion>.</message>
     <rule id="DODATKOWO" name="Zbędny przecinek po „dodatkowo” na początku zdania">
       <pattern mark_from="1">
         <token postag="SENT_START"/>
-        <token>Dodatkowo</token>        
+        <token>Dodatkowo</token>
         <token>,</token>
         <phraseref idref="NIE_SPOJNIK_PRZECINKOWY"/>
       </pattern>
@@ -2011,10 +2011,10 @@ Powinno być: <suggestion>\2, \3 \4</suggestion>.</message>
       </rule>
       <rule>
         <pattern mark_from="2">
-        <unify feature="number,gender,case">
-          <token inflected="yes">szkoła</token>
-          <token postag="adj:sg:.*:f.*" postag_regexp="yes"/>
-        </unify>
+          <unify feature="number,gender,case">
+            <token inflected="yes">szkoła</token>
+            <token postag="adj:sg:.*:f.*" postag_regexp="yes"/>
+          </unify>
           <token>imieniem</token>
         </pattern>
         <message>Mówi się „<suggestion>imienia</suggestion>”.</message>
@@ -3238,10 +3238,10 @@ Powinno być: <suggestion>\2, \3 \4</suggestion>.</message>
   <category name="Błędy leksykalne">
     <rule id="JEZYK_HOLENDERSKI" name="„język holenderski” (język niderlandzki)">
       <pattern mark_from="1">
-      <unify feature="number,gender,case">
-        <token inflected="yes">język</token>
-        <token>holenderski</token>
-      </unify>
+        <unify feature="number,gender,case">
+          <token inflected="yes">język</token>
+          <token>holenderski</token>
+        </unify>
       </pattern>
       <message>To określenie jest bardzo potoczne. Ściślej należy napisać: <suggestion><match no="2" postag="adj.*" postag_regexp="yes">niderlandzki</match></suggestion>.</message>
       <short>Błąd leksykalny</short>
@@ -3250,10 +3250,10 @@ Powinno być: <suggestion>\2, \3 \4</suggestion>.</message>
     </rule>
     <rule id="SZEROKI_ODBIORCA" name="„szeroki odbiorca” (masowy odbiorca)">
       <pattern>
-      <unify feature="number,gender,case">
-        <token inflected="yes">szeroki</token>
-        <token inflected="yes">odbiorca</token>
-      </unify>
+        <unify feature="number,gender,case">
+          <token inflected="yes">szeroki</token>
+          <token inflected="yes">odbiorca</token>
+        </unify>
       </pattern>
       <message>Niepoprawne wyrażenie. Poprawnie: <suggestion><match no="1" postag="adj.*">masowy</match> <match no="2"/></suggestion>.</message>
       <short>Błąd leksykalny</short>
@@ -3282,10 +3282,10 @@ Powinno być: <suggestion>\2, \3 \4</suggestion>.</message>
     </rule>
     <rule id="KONDYCJA_FINANSOWA" name="„kondycja finansowa” (sytuacja finansowa)">
       <pattern>
-      <unify feature="number,gender,case">
-        <token inflected="yes">kondycja</token>
-        <token inflected="yes">finansowy</token>
-      </unify>
+        <unify feature="number,gender,case">
+          <token inflected="yes">kondycja</token>
+          <token inflected="yes">finansowy</token>
+        </unify>
       </pattern>
       <message>Niepoprawna kalka z angielskiego. Lepiej: <suggestion><match no="1" postag="subst.*" postag_regexp="yes">sytuacja</match> <match no="2"/></suggestion>.</message>
       <short>Błąd leksykalny</short>
@@ -3294,10 +3294,10 @@ Powinno być: <suggestion>\2, \3 \4</suggestion>.</message>
     </rule>
     <rule id="DRUGI_NAJWIEKSZY" name="„drugi największy” (drugi co do wielkości)">
       <pattern>
-      <unify feature="number,gender,case">
-        <token inflected="yes" regexp="yes">drugi|trzeci|czwarty|piąty|szósty</token>
-        <token inflected="yes">największy</token>
-      </unify>
+        <unify feature="number,gender,case">
+          <token inflected="yes" regexp="yes">drugi|trzeci|czwarty|piąty|szósty</token>
+          <token inflected="yes">największy</token>
+        </unify>
       </pattern>
       <message>Niepoprawne wyrażenie (kalka z niemieckiego lub angielskiego). Poprawnie: <suggestion>\1 co do wielkości</suggestion>.</message>
       <short>Błąd leksykalny</short>
@@ -3306,10 +3306,10 @@ Powinno być: <suggestion>\2, \3 \4</suggestion>.</message>
     </rule>
     <rule id="MAPA_DROGOWA" name="„mapa drogowa” (harmonogram, plan działań)">
       <pattern>
-      <unify feature="number,gender,case">
-        <token inflected="yes">mapa</token>
-        <token inflected="yes">drogowy</token>
-      </unify>
+        <unify feature="number,gender,case">
+          <token inflected="yes">mapa</token>
+          <token inflected="yes">drogowy</token>
+        </unify>
       </pattern>
       <message>To wyrażenie jest częstą i niepoprawną kalką z języka angielskiego (jeśli nie jest użyte dosłownie). Poprawnie: <suggestion>plan działań</suggestion>, <suggestion>harmonogram</suggestion>.</message>
       <short>Błąd leksykalny</short>
@@ -3327,10 +3327,10 @@ Powinno być: <suggestion>\2, \3 \4</suggestion>.</message>
     </rule>
     <rule id="EKSKLUZYWNY_WYWIAD" name="„ekskluzywny wywiad” (wywiad na wyłączność)">
       <pattern>
-      <unify feature="number,gender,case">
-        <token inflected="yes">ekskluzywny</token>
-        <token inflected="yes">wywiad</token>
-      </unify>
+        <unify feature="number,gender,case">
+          <token inflected="yes">ekskluzywny</token>
+          <token inflected="yes">wywiad</token>
+        </unify>
       </pattern>
       <message>Kalka z angielskiego. „Ekskluzywny” znaczy po polsku „luksusowy”; należy napisać: <suggestion>\2 na wyłączność</suggestion> 
 lub <suggestion>\2 na prawach wyłączności</suggestion>.</message>
@@ -3371,10 +3371,10 @@ lub <suggestion>\2 na prawach wyłączności</suggestion>.</message>
     </rule>
     <rule id="INFORMACJE_SENSYTYWNE" name="„informacje sensytywne” (informacje poufne)">
       <pattern>
-      <unify feature="number,gender,case">
-        <token inflected="yes" regexp="yes">informacja|dana</token>
-        <token inflected="yes">sensytywny</token>
-      </unify>
+        <unify feature="number,gender,case">
+          <token inflected="yes" regexp="yes">informacja|dana</token>
+          <token inflected="yes">sensytywny</token>
+        </unify>
       </pattern>
       <message>To wyrażenie jest niepoprawną kalką z języka angielskiego. Poprawnie:<suggestion><match no="1"/> <match no="2" postag="adj.*" postag_regexp="yes">poufny</match></suggestion> lub <suggestion><match no="1"/> o szczególnym znaczeniu</suggestion>.</message>
       <short>Błąd leksykalny</short>
@@ -3383,10 +3383,10 @@ lub <suggestion>\2 na prawach wyłączności</suggestion>.</message>
     </rule>
     <rule id="INFORMACJE_WRAZLIWE" name="„informacje wrażliwe” (informacje poufne)">
       <pattern>
-      <unify feature="number,gender,case">
-        <token inflected="yes" regexp="yes">informacja|dana</token>
-        <token inflected="yes">wrażliwy</token>
-       </unify>
+        <unify feature="number,gender,case">
+          <token inflected="yes" regexp="yes">informacja|dana</token>
+          <token inflected="yes">wrażliwy</token>
+        </unify>
       </pattern>
       <message>To wyrażenie jest niepoprawną kalką z języka angielskiego. Poprawnie:<suggestion><match no="1"/> <match no="2" postag="adj.*" postag_regexp="yes">poufny</match></suggestion> lub <suggestion><match no="1"/> o szczególnym znaczeniu</suggestion>.</message>
       <short>Błąd leksykalny</short>
@@ -3811,10 +3811,10 @@ lub <suggestion>\2 na prawach wyłączności</suggestion>.</message>
     </rule>
     <rule id="TANIA_CENA" name="„tania cena” (niska cena)">
       <pattern mark_to="-1">
-      <unify feature="number,gender,case">
-        <token inflected="yes">tani</token>
-        <token inflected="yes">cena</token>
-      </unify>
+        <unify feature="number,gender,case">
+          <token inflected="yes">tani</token>
+          <token inflected="yes">cena</token>
+        </unify>
       </pattern>
       <message>Ceny nie mogą być tanie. Poprawnie: <suggestion><match no="1" postag="adj.*">niski</match></suggestion>.</message>
       <short>Błąd leksykalny</short>
@@ -3823,10 +3823,10 @@ lub <suggestion>\2 na prawach wyłączności</suggestion>.</message>
     </rule>
     <rule id="DROGA_CENA" name="„droga cena” (wysoka cena)">
       <pattern mark_to="-1">
-      <unify feature="number,gender,case">
-        <token inflected="yes">drogi</token>
-        <token inflected="yes">cena</token>
-      </unify>
+        <unify feature="number,gender,case">
+          <token inflected="yes">drogi</token>
+          <token inflected="yes">cena</token>
+        </unify>
       </pattern>
       <message>Ceny nie mogą być drogie. Poprawnie: <suggestion><match no="1" postag="adj.*">wysoki</match></suggestion>.</message>
       <short>Błąd leksykalny</short>
@@ -4288,10 +4288,10 @@ lub <suggestion>\2 na prawach wyłączności</suggestion>.</message>
     </rule>
     <rule id="WYSOKA_FORMA" name="„wysoka forma” (dobra forma, doskonała forma)">
       <pattern>
-      <unify feature="number,gender,case">
-        <token inflected="yes">wysoki</token>
-        <token inflected="yes">forma</token>
-      </unify>
+        <unify feature="number,gender,case">
+          <token inflected="yes">wysoki</token>
+          <token inflected="yes">forma</token>
+        </unify>
       </pattern>
       <message>Nie mówi się „wysoka forma”, lecz <suggestion><match no="1" postag="adj.*">dobry</match> <match no="2"/></suggestion>, <suggestion><match no="1" postag="adj.*">doskonały</match> <match no="2"/></suggestion>.</message>
       <short>Błąd leksykalny</short>
@@ -4314,9 +4314,9 @@ lub <suggestion>\2 na prawach wyłączności</suggestion>.</message>
     </rule>
     <rule id="WYSOKA_FREKWENCJA" name="„wysoka/niska frekwencja” (duża/mała)">
       <pattern>
-        <unify feature="number,gender,case">      
-        <token inflected="yes" regexp="yes">wysoki|niski</token>        
-        <token inflected="yes">frekwencja</token>
+        <unify feature="number,gender,case">
+          <token inflected="yes" regexp="yes">wysoki|niski</token>
+          <token inflected="yes">frekwencja</token>
         </unify>
       </pattern>
       <message>Nie mówi się „wysoka frekwencja” czy „niska frekwencja”, tylko <suggestion><match no="1" postag="adj.*">duży</match> <match no="2"/></suggestion> i <suggestion><match no="1" postag="adj.*">mały</match> <match no="2"/></suggestion>.</message>
@@ -4435,10 +4435,10 @@ lub <suggestion>\2 na prawach wyłączności</suggestion>.</message>
     </rule>
     <rule id="CIEZKI_ORZECH" name="„ciężki orzech do zgryzienia” (twardy orzech...)">
       <pattern>
-      <unify feature="number,gender,case">
-        <token inflected="yes">ciężki</token>
-        <token inflected="yes">orzech</token>
-      </unify>
+        <unify feature="number,gender,case">
+          <token inflected="yes">ciężki</token>
+          <token inflected="yes">orzech</token>
+        </unify>
         <token>do</token>
         <token>zgryzienia</token>
       </pattern>
@@ -4646,10 +4646,10 @@ lub <suggestion>\2 na prawach wyłączności</suggestion>.</message>
     </rule>
     <rule id="JEZYK_MACIERZYSTY" name="„język macierzysty” (język ojczysty)">
       <pattern>
-      <unify feature="number,gender,case">
-        <token inflected="yes">język</token>
-        <token inflected="yes">macierzysty</token>
-      </unify>
+        <unify feature="number,gender,case">
+          <token inflected="yes">język</token>
+          <token inflected="yes">macierzysty</token>
+        </unify>
       </pattern>
       <message>To niepoprawne wyrażenie. Poprawnie: <suggestion><match no="1"/> <match no="2" postag="adj.*">ojczysty</match></suggestion>.</message>
       <short>Błąd leksykalny</short>
@@ -4847,10 +4847,10 @@ lub <suggestion>\2 na prawach wyłączności</suggestion>.</message>
     </rule>
     <rule id="WLASNA_AUTOPSJA" name="„własna autopsja” (autopsja)">
       <pattern>
-      <unify feature="number,gender,case">
-        <token inflected="yes" regexp="yes">własny|osobisty</token>
-        <token inflected="yes">autopsja</token>
-       </unify>
+        <unify feature="number,gender,case">
+          <token inflected="yes" regexp="yes">własny|osobisty</token>
+          <token inflected="yes">autopsja</token>
+        </unify>
       </pattern>
       <message>To pleonazm. Wystarczy powiedzieć <suggestion>\2</suggestion>.</message>
       <short>Pleonazm</short>
@@ -5024,10 +5024,10 @@ lub <suggestion>\2 na prawach wyłączności</suggestion>.</message>
     <rulegroup id="FAKT_AUTENTYCZNY" name="„fakt autentyczny/konkretny” (fakt)">
       <rule>
         <pattern>
-        <unify feature="number,gender,case">
-          <token inflected="yes">fakt</token>
-          <token inflected="yes" regexp="yes">autentyczny|konkretny</token>
-        </unify>
+          <unify feature="number,gender,case">
+            <token inflected="yes">fakt</token>
+            <token inflected="yes" regexp="yes">autentyczny|konkretny</token>
+          </unify>
         </pattern>
         <message>To wyrażenie to pleonazm. Każdy fakt jest autentyczny i konkretny. Wystarczy napisać <suggestion>\1</suggestion>.</message>
         <short>Pleonazm</short>
@@ -5037,10 +5037,10 @@ lub <suggestion>\2 na prawach wyłączności</suggestion>.</message>
       </rule>
       <rule>
         <pattern>
-        <unify feature="number,gender,case">
-          <token inflected="yes" regexp="yes">autentyczny|konkretny</token>
-          <token inflected="yes">fakt</token>
-       	</unify>
+          <unify feature="number,gender,case">
+            <token inflected="yes" regexp="yes">autentyczny|konkretny</token>
+            <token inflected="yes">fakt</token>
+          </unify>
         </pattern>
         <message>To wyrażenie to pleonazm. Każdy fakt jest autentyczny i konkretny. Wystarczy napisać <suggestion>\2</suggestion>.</message>
         <short>Pleonazm</short>
@@ -5052,10 +5052,10 @@ lub <suggestion>\2 na prawach wyłączności</suggestion>.</message>
     <rule id="DLUGI_UPLYW" name="„długi upływ czasu” (długi czas)">
       <!-- FIXME: brak odmiany "czas" w wypadku, gdy "długi" jest odmienione -->
       <pattern>
-      <unify feature="number,gender,case">
-        <token inflected="yes">długi</token>
-        <token inflected="yes">upływ</token>
-      </unify>
+        <unify feature="number,gender,case">
+          <token inflected="yes">długi</token>
+          <token inflected="yes">upływ</token>
+        </unify>
         <token>czasu</token>
       </pattern>
       <message>Wyrażenie „długi upływ czasu” to pleonazm. Lepiej powiedzieć: <suggestion>długi czas</suggestion>.</message>
@@ -5077,10 +5077,10 @@ lub <suggestion>\2 na prawach wyłączności</suggestion>.</message>
     </rule>
     <rule id="PRZYCHYLNA_AKCEPTACJA" name="„przychylna akceptacja” (akceptacja)">
       <pattern>
-      <unify feature="number,gender,case">
-        <token inflected="yes">przychylny</token>
-        <token inflected="yes">akceptacja</token>
-      </unify>
+        <unify feature="number,gender,case">
+          <token inflected="yes">przychylny</token>
+          <token inflected="yes">akceptacja</token>
+        </unify>
       </pattern>
       <message>To wyrażenie to pleonazm. Wystarczy powiedzieć: <suggestion>\2</suggestion>.</message>
       <short>Pleonazm</short>
@@ -5136,10 +5136,10 @@ lub <suggestion>\2 na prawach wyłączności</suggestion>.</message>
     </rule>
     <rule id="KAZDY_WTOREK" name="„każdy wtorek miesiąca”">
       <pattern>
-      <unify feature="number,gender,case">
-        <token inflected="yes">każdy</token>
-        <token inflected="yes" regexp="yes">poniedziałek|wtorek|środa|czwartek|piątek|sobota|niedziela</token>
-      </unify>
+        <unify feature="number,gender,case">
+          <token inflected="yes">każdy</token>
+          <token inflected="yes" regexp="yes">poniedziałek|wtorek|środa|czwartek|piątek|sobota|niedziela</token>
+        </unify>
         <token regexp="yes">tygodnia|miesiąca</token>
       </pattern>
       <message>Wyrażenia typu „każdy wtorek miesiąca” są pleonastyczne. Wystarczy powiedzieć <suggestion>\1 \2</suggestion>.</message>
@@ -5191,10 +5191,10 @@ lub <suggestion>\2 na prawach wyłączności</suggestion>.</message>
     </rule>
     <rule id="WZAJEMNA_WYMIANA" name="„wzajemna wymiana, współpraca” (wymiana, współpraca)">
       <pattern>
-      <unify feature="number,gender,case">
-        <token inflected="yes">wzajemny</token>
-        <token inflected="yes" regexp="yes">wymiana|współpraca|kooperacja</token>
-      </unify>
+        <unify feature="number,gender,case">
+          <token inflected="yes">wzajemny</token>
+          <token inflected="yes" regexp="yes">wymiana|współpraca|kooperacja</token>
+        </unify>
       </pattern>
       <message>To wyrażenie to pleonazm. Wystarczy powiedzieć <suggestion>\2</suggestion>.</message>
       <short>Pleonazm</short>
@@ -5203,10 +5203,10 @@ lub <suggestion>\2 na prawach wyłączności</suggestion>.</message>
     </rule>
     <rule id="WZAJEMNE_WSPOLDZIALANIE" name="„wzajemne współdziałanie” (współdziałanie)">
       <pattern>
-      <unify feature="number,gender,case">
-        <token inflected="yes">wzajemny</token>
-        <token inflected="yes" postag="subst:ger.*" postag_regexp="yes">współdziałać</token>
-       </unify>
+        <unify feature="number,gender,case">
+          <token inflected="yes">wzajemny</token>
+          <token inflected="yes" postag="subst:ger.*" postag_regexp="yes">współdziałać</token>
+        </unify>
       </pattern>
       <message>To wyrażenie to pleonazm. Wystarczy powiedzieć <suggestion>\2</suggestion>.</message>
       <short>Pleonazm</short>
@@ -5215,10 +5215,10 @@ lub <suggestion>\2 na prawach wyłączności</suggestion>.</message>
     </rule>
     <rule id="AUTENTYCZNE_REALIA" name="„autentyczne realia” (realia)">
       <pattern>
-      <unify feature="number,gender,case">
-        <token inflected="yes">autentyczny</token>
-        <token inflected="yes">realia</token>
-      </unify>
+        <unify feature="number,gender,case">
+          <token inflected="yes">autentyczny</token>
+          <token inflected="yes">realia</token>
+        </unify>
       </pattern>
       <message>To wyrażenie to pleonazm. Wystarczy powiedzieć <suggestion>\2</suggestion>.</message>
       <short>Pleonazm</short>
@@ -5227,10 +5227,10 @@ lub <suggestion>\2 na prawach wyłączności</suggestion>.</message>
     </rule>
     <rule id="CALKOWITE_FIASKO" name="„całkowite” (fiasko)">
       <pattern>
-      <unify feature="number,gender,case">
-        <token inflected="yes" regexp="yes">całkowity|kompletny|zupełny</token>
-        <token inflected="yes">fiasko</token>
-      </unify>
+        <unify feature="number,gender,case">
+          <token inflected="yes" regexp="yes">całkowity|kompletny|zupełny</token>
+          <token inflected="yes">fiasko</token>
+        </unify>
       </pattern>
       <message>To wyrażenie to pleonazm. Wystarczy powiedzieć <suggestion>\2</suggestion>.</message>
       <short>Pleonazm</short>
@@ -5239,10 +5239,10 @@ lub <suggestion>\2 na prawach wyłączności</suggestion>.</message>
     </rule>
     <rule id="PELNY_KOMPLET" name="„pełny komplet” (komplet)">
       <pattern>
-      <unify feature="number,gender,case">
-        <token inflected="yes">pełny</token>
-        <token inflected="yes">komplet</token>
-       </unify>
+        <unify feature="number,gender,case">
+          <token inflected="yes">pełny</token>
+          <token inflected="yes">komplet</token>
+        </unify>
       </pattern>
       <message>To wyrażenie to pleonazm. Wystarczy powiedzieć <suggestion>\2</suggestion>.</message>
       <short>Pleonazm</short>
@@ -5263,10 +5263,10 @@ lub <suggestion>\2 na prawach wyłączności</suggestion>.</message>
     </rule>
     <rule id="SKLAD_SUROWCOWY" name="„skład surowcowy” (skład)">
       <pattern>
-      <unify feature="number,gender,case">
-        <token inflected="yes">skład</token>
-        <token inflected="yes">surowcowy</token>
-      </unify>
+        <unify feature="number,gender,case">
+          <token inflected="yes">skład</token>
+          <token inflected="yes">surowcowy</token>
+        </unify>
       </pattern>
       <message>To wyrażenie to pleonazm. Wystarczy powiedzieć <suggestion>\1</suggestion>.</message>
       <short>Pleonazm</short>
@@ -5275,10 +5275,10 @@ lub <suggestion>\2 na prawach wyłączności</suggestion>.</message>
     </rule>
     <rule id="DZIEN_DZISIEJSZY" name="„dzień dzisiejszy” (dzisiaj)">
       <pattern>
-      <unify feature="number,gender,case">
-        <token inflected="yes">dzień</token>
-        <token inflected="yes">dzisiejszy</token>
-       </unify>
+        <unify feature="number,gender,case">
+          <token inflected="yes">dzień</token>
+          <token inflected="yes">dzisiejszy</token>
+        </unify>
       </pattern>
       <message>To wyrażenie to pleonazm. Wystarczy powiedzieć <suggestion>dzisiaj</suggestion> lub <suggestion>dziś</suggestion>.</message>
       <short>Pleonazm</short>
@@ -5287,10 +5287,10 @@ lub <suggestion>\2 na prawach wyłączności</suggestion>.</message>
     </rule>
     <rule id="DZIEN_JUTRZEJSZY" name="„dzień jutrzejszy” (jutro)">
       <pattern>
-      <unify feature="number,gender,case">
-        <token inflected="yes">dzień</token>
-        <token inflected="yes">jutrzejszy</token>
-      </unify>
+        <unify feature="number,gender,case">
+          <token inflected="yes">dzień</token>
+          <token inflected="yes">jutrzejszy</token>
+        </unify>
       </pattern>
       <message>To wyrażenie to pleonazm. Wystarczy powiedzieć <suggestion>jutro</suggestion>.</message>
       <short>Pleonazm</short>
@@ -5299,9 +5299,9 @@ lub <suggestion>\2 na prawach wyłączności</suggestion>.</message>
     </rule>
     <rule id="DZIEN_WCZORAJSZY" name="„dzień wczorajszy” (wczoraj)">
       <pattern>
-      	<unify feature="number,gender,case">
-        <token inflected="yes">dzień</token>
-        <token inflected="yes">wczorajszy</token>
+        <unify feature="number,gender,case">
+          <token inflected="yes">dzień</token>
+          <token inflected="yes">wczorajszy</token>
         </unify>
       </pattern>
       <message>To wyrażenie to pleonazm. Wystarczy powiedzieć <suggestion>wczoraj</suggestion>.</message>
@@ -5343,10 +5343,10 @@ lub <suggestion>\2 na prawach wyłączności</suggestion>.</message>
     </rule>
     <rule id="FALSZYWY_MIRAZ" name="„fałszywy/złudny/zwodniczy miraż” (miraż)">
       <pattern>
-      <unify feature="number,gender,case">
-        <token inflected="yes" regexp="yes">złudny|zwodniczy|fałszywy</token>
-        <token inflected="yes">miraż</token>
-      </unify>
+        <unify feature="number,gender,case">
+          <token inflected="yes" regexp="yes">złudny|zwodniczy|fałszywy</token>
+          <token inflected="yes">miraż</token>
+        </unify>
       </pattern>
       <message>To wyrażenie to pleonazm. Wystarczy powiedzieć <suggestion>\2</suggestion>.</message>
       <short>Pleonazm</short>
@@ -5355,10 +5355,10 @@ lub <suggestion>\2 na prawach wyłączności</suggestion>.</message>
     </rule>
     <rule id="WZAJEMNE_ANTAGONIZMY" name="„wzajemne antagonizmy” (antagonizmy)">
       <pattern>
-      <unify feature="number,gender,case">
-        <token inflected="yes">wzajemny</token>
-        <token inflected="yes">antagonizm</token>
-      </unify>
+        <unify feature="number,gender,case">
+          <token inflected="yes">wzajemny</token>
+          <token inflected="yes">antagonizm</token>
+        </unify>
       </pattern>
       <message>To wyrażenie to pleonazm. Wystarczy powiedzieć <suggestion>\2</suggestion>.</message>
       <short>Pleonazm</short>
@@ -5378,10 +5378,10 @@ lub <suggestion>\2 na prawach wyłączności</suggestion>.</message>
     </rule>
     <rule id="SLABA_GLOWA_DO_ALKOHOLU" name="„słaba głowa do alkoholu”  (słaba głowa)">
       <pattern>
-      <unify feature="number,gender,case">
-        <token inflected="yes">słaby</token>
-        <token inflected="yes">głowa</token>
-      </unify>
+        <unify feature="number,gender,case">
+          <token inflected="yes">słaby</token>
+          <token inflected="yes">głowa</token>
+        </unify>
         <token>do</token>
         <token>alkoholu</token>
       </pattern>
@@ -5797,10 +5797,10 @@ lub <suggestion>\2 na prawach wyłączności</suggestion>.</message>
     </rule>
     <rule id="WACHLARZ_CZEGO" name="„szeroki wachlarz” (wiele)">
       <pattern mark_to="-1">
-      <unify feature="number,gender,case">
-        <token inflected="yes" regexp="yes">szeroki|bogaty</token>
-        <token inflected="yes">wachlarz</token>
-      </unify>
+        <unify feature="number,gender,case">
+          <token inflected="yes" regexp="yes">szeroki|bogaty</token>
+          <token inflected="yes">wachlarz</token>
+        </unify>
         <token postag=".*gen.*" postag_regexp="yes"/>
       </pattern>
       <message>To wyrażenie jest rozwlekłe i niezalecane. Lepiej po prostu: <suggestion>wiele</suggestion>.</message>
@@ -5810,10 +5810,10 @@ lub <suggestion>\2 na prawach wyłączności</suggestion>.</message>
     </rule>
     <rule id="CALY_SZEREG" name="„cały szereg” (wiele)">
       <pattern>
-      <unify feature="number,gender,case">
-        <token inflected="yes">cały</token>
-        <token inflected="yes">szereg</token>
-      </unify>
+        <unify feature="number,gender,case">
+          <token inflected="yes">cały</token>
+          <token inflected="yes">szereg</token>
+        </unify>
       </pattern>
       <message>To nadużywane wyrażenie. Lepiej: <suggestion>wiele</suggestion>, <suggestion>mnóstwo</suggestion>, <suggestion>bardzo wiele</suggestion>.</message>
       <short>Wyraz modny lub nadużywany</short>
@@ -7906,7 +7906,7 @@ Znacznie częściej ta forma jest mylona z trybem rozkazującym od „pokazać�
     <rulegroup id="SKROTY_Z_KROPKA" name="Pisownia skrótów np., inż.">
       <rule>
         <pattern mark_to="-1">
-          <token regexp="yes">^(np|inż|ds|cdn|dł|dn|egz|dyr|godz|ibid|hr|itd|itp|kard|kom|kpr|kpt|ks|wiceadm|ww|woj|wsch|wys|zach|zał)</token>
+          <token regexp="yes">np|inż|ds|cdn|dł|dn|egz|dyr|godz|ibid|hr|itd|itp|kard|kom|kpr|kpt|ks|tys|wiceadm|ww|woj|wsch|wys|zach|zał</token>
           <token negate="yes">.</token>
         </pattern>
         <message>Ten skrót piszemy z kropką: <suggestion>\1.</suggestion>.</message>
@@ -10147,10 +10147,10 @@ Znacznie częściej ta forma jest mylona z trybem rozkazującym od „pokazać�
     </rule>
     <rule id="INNA_STRONA_MEDALU" name="„inna strona medalu” (druga strona)">
       <pattern>
-      <unify feature="number,gender,case">
-        <token inflected="yes">inny</token>
-        <token inflected="yes">strona</token>
-      </unify>
+        <unify feature="number,gender,case">
+          <token inflected="yes">inny</token>
+          <token inflected="yes">strona</token>
+        </unify>
         <token>medalu</token>
       </pattern>
       <message>To wyrażenie jest niepoprawne. Poprawnie: <suggestion><match no="1" postag="adj(.*)" postag_replace="adj$1:aff">odwrotny</match> <match no="2"/> <match no="3"/></suggestion> lub <suggestion><match no="1" postag="adj(.*)" postag_replace="adj$1:aff">drugi</match> <match no="2"/> <match no="3"/></suggestion>.</message>
