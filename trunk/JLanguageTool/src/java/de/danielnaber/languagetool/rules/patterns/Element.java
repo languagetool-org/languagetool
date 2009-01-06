@@ -550,6 +550,10 @@ public class Element {
     } else {
       match = posToken.equals(token.getPOSTag());
     }
+    if (!match && UNKNOWN_TAG.equals(posToken)) { //these are helper tags, ignore them
+      match = JLanguageTool.SENTENCE_END_TAGNAME.equals(token.getPOSTag()) 
+        || JLanguageTool.PARAGRAPH_END_TAGNAME.equals(token.getPOSTag());
+    }
     return match;
   }
 
