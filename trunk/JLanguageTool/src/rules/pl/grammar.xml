@@ -6,7 +6,7 @@ title="Easy editing stylesheet" ?>
 <!--
 Polish Grammar and Typo Rules for LanguageTool
 Copyright (C) 2006-2007 Marcin Miłkowski
-$Id: grammar.xml,v 1.170 2009-01-05 19:23:50 milek_pl Exp $
+$Id: grammar.xml,v 1.171 2009-01-06 20:45:03 milek_pl Exp $
 -->
 <rules lang="pl">
   <unification feature="number">
@@ -1743,7 +1743,7 @@ Powinno być: <suggestion>\2, \3 \4</suggestion>.</message>
           <token regexp="yes" spacebefore="yes">[\[\(]</token>
           <token spacebefore="no">"</token>
         </pattern>
-        <message>W tym miejscu powinien być drukarski cudzysłów otwierający: <suggestion>„</suggestion>.</message>
+        <message>W tym miejscu powinien być typograficzny cudzysłów otwierający: <suggestion>„</suggestion>.</message>
         <short>Nieprawidłowy cudzysłów</short>
         <example correction="„" type="incorrect">To jest coś (<marker>"</marker>test").</example>
         <example type="correct">To jest coś („test”).</example>
@@ -1754,7 +1754,7 @@ Powinno być: <suggestion>\2, \3 \4</suggestion>.</message>
           <token spacebefore="no">"</token>
           <token spacebefore="yes"/>
         </pattern>
-        <message>W tym miejscu powinien być drukarski cudzysłów zamykający: <suggestion>”</suggestion>.</message>
+        <message>W tym miejscu powinien być typograficzny cudzysłów zamykający: <suggestion>”</suggestion>.</message>
         <short>Nieprawidłowy cudzysłów</short>
         <example correction="”" type="incorrect">To jest coś ("test<marker>"</marker>).</example>
         <example type="correct">To jest coś („test”).</example>
@@ -1763,7 +1763,7 @@ Powinno być: <suggestion>\2, \3 \4</suggestion>.</message>
         <pattern>
           <token spacebefore="yes">"</token>
         </pattern>
-        <message>W tym miejscu powinien być drukarski cudzysłów otwierający: <suggestion>„</suggestion>.</message>
+        <message>W tym miejscu powinien być typograficzny cudzysłów otwierający: <suggestion>„</suggestion>.</message>
         <short>Nieprawidłowy cudzysłów</short>
         <example correction="„" type="incorrect">To jest <marker>"</marker>test".</example>
         <example type="correct">To jest „test”.</example>
@@ -1808,6 +1808,15 @@ Powinno być: <suggestion>\2, \3 \4</suggestion>.</message>
         <example type="correct">Tzw. jednoręki bandyta</example>
       </rule>
     </rulegroup>
+    <rule id="ZBIEG_NAWIASÓW" name="Zbieg nawiasów">
+      <pattern>
+        <token>)</token>
+        <token spacebefore="yes">(</token>
+      </pattern>
+      <message>W wypadku zbiegu dwóch nawiasów zwykle się je łączy, a treść rozdziela się średnikiem: <suggestion>; </suggestion>.</message>
+      <example correction="; " type="incorrect">Poszedłem do sklepu (za rogiem<marker>) (</marker>bo chleba nie miałem).</example>
+      <example type="correct">Poszedłem do sklepu (za rogiem; bo chleba nie miałem).</example>
+    </rule>
   </category>
   <category name="Błędy odmiany">
     <rule id="KULISOW" name="„kulisów” (kulis)">
@@ -4944,10 +4953,10 @@ lub <suggestion>\2 na prawach wyłączności</suggestion>.</message>
         <token inflected="yes">adres</token>
         <token>zamieszkania</token>
       </pattern>
-      <message>To niepoprawne wyrażenie. Mówimy albo po prostu <suggestion>\1</suggestion>, albo <suggestion>miejsce zamieszkania</suggestion>.</message>
+      <message>To niepoprawne wyrażenie. Mówimy albo po prostu <suggestion>\1</suggestion>, albo <suggestion>miejsce zamieszkania</suggestion>. Czasem też używa się go w sensie <suggestion>\1 do korespondencji</suggestion> (w odróżnieniu od adresu zameldowania).</message>
       <short>Pleonazm</short>
       <example type="correct">Wpisz adres w rubryce 1.</example>
-      <example correction="adres|miejsce zamieszkania" type="incorrect">Wpisz <marker>adres zamieszkania</marker> w rubryce 1.</example>
+      <example correction="adres|miejsce zamieszkania|adres do korespondencji" type="incorrect">Wpisz <marker>adres zamieszkania</marker> w rubryce 1.</example>
     </rule>
     <rulegroup id="MIEC_SLUSZNA_RACJE" name="„mieć słuszną rację” (mieć rację)">
       <rule>
@@ -7926,6 +7935,17 @@ Znacznie częściej ta forma jest mylona z trybem rozkazującym od „pokazać�
         <example type="correct">Zapłodnienie in vitro pomaga wielu kobietom.</example>
         <example type="correct">Substancje diagnostyczne in vitro i in vivo</example>
         <example correction="in." type="incorrect">M.<marker>in</marker> Kowalski napisał dwa donosy.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">dr|mgr|mjr|bp|płk</token>
+          <token postag="(subst|adj).*" postag_regexp="yes"><exception postag=".*nom.*" postag_regexp="yes"/></token>
+        </pattern>
+        <message>Ten skrót z rzeczownikiem w przypadku zależnym piszemy z kropką: <suggestion>\1. \2</suggestion>. </message>
+        <short>Brak kropki</short>
+        <example type="correct">Dr Kowalski przyjmuje w środy.</example>
+        <example correction="dr. Kowalskiemu" type="incorrect">Dzięki <marker>dr Kowalskiemu</marker> rozwiązaliśmy zagadkę morderstwa.</example>
+        <example type="correct">To samodzielna praca dr. Kowalskiego.</example>
       </rule>
     </rulegroup>
     <rule id="POD_KONTEM" name="„pod kontem czegoś” (pod kątem)">
