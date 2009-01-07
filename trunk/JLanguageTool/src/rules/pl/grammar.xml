@@ -6,7 +6,7 @@ title="Easy editing stylesheet" ?>
 <!--
 Polish Grammar and Typo Rules for LanguageTool
 Copyright (C) 2006-2007 Marcin Miłkowski
-$Id: grammar.xml,v 1.171 2009-01-06 20:45:03 milek_pl Exp $
+$Id: grammar.xml,v 1.172 2009-01-07 00:12:41 milek_pl Exp $
 -->
 <rules lang="pl">
   <unification feature="number">
@@ -587,12 +587,24 @@ $Id: grammar.xml,v 1.171 2009-01-06 20:45:03 milek_pl Exp $
         <pattern>
           <token negate="yes" regexp="yes">[\p{Punct}–—„«»…]+<exception postag="SENT_START|conj" postag_regexp="yes"/></token>
           <token inflected="yes" regexp="yes">a|ale|lecz|który|jaki|zwłaszcza|jak|szczególnie|że|nawet|więc|jednak</token>
-          <token inflected="yes" regexp="yes">jeśli|jeżeli|gdyby|jeżeliby|jeśliby|zanim</token>
+          <token inflected="yes" regexp="yes">jeśli|jeżeli|jeżeliby|jeśliby|zanim</token>
         </pattern>
         <message>Przecinek stawiamy przed całym spójnikiem złożonym: <suggestion>\1, \2 \3</suggestion>.</message>
         <short>Błąd interpunkcyjny</short>
         <example type="correct">Zrobię omleta, nawet jeśli nie poprosisz.</example>
         <example correction="omleta, nawet jeśli" type="incorrect">Zrobię <marker>omleta nawet jeśli</marker> nie poprosisz.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token negate="yes" regexp="yes">[\p{Punct}–—„«»…]+<exception postag="SENT_START|conj" postag_regexp="yes"/></token>
+          <token inflected="yes" regexp="yes">a|ale|lecz|który|jaki|zwłaszcza|szczególnie|że|nawet|więc|jednak</token>
+          <token inflected="yes">gdyby</token>
+        </pattern>
+        <message>Przecinek stawiamy przed całym spójnikiem złożonym: <suggestion>\1, \2 \3</suggestion>.</message>
+        <short>Błąd interpunkcyjny</short>
+        <example type="correct">Jednolita gromadka jak gdyby się rozdzieliła.</example>
+        <example type="correct">Zrobię omleta, nawet jeśli nie poprosisz.</example>
+        <example correction="omleta, nawet gdybyś" type="incorrect">Zrobię <marker>omleta nawet gdybyś</marker> nie poprosił.</example>
       </rule>
     </rulegroup>
     <rulegroup id="BRAK_PRZECINKA_ZEBY" name="Brak przecinka przed „żeby”, „aby”, „ażeby”, „iżby”">
@@ -679,20 +691,23 @@ $Id: grammar.xml,v 1.171 2009-01-06 20:45:03 milek_pl Exp $
     </rulegroup>
     <rulegroup id="BRAK_PRZECINKA_GDY" name="Brak przecinka przed „gdy” i „kiedy”">
       <rule>
-        <pattern>
-          <token negate="yes" regexp="yes">,|od|chyba|dopiero|podczas|nawet|potem|więc|teraz|właśnie|wtedy|zwłaszcza|szczególnie|że|czasie|czasach|wypadku|przypadku|razie|przecież|rzadko<exception postag="SENT_START|conj" postag_regexp="yes"/><exception regexp="yes">[\p{Punct}–—„«»…]+</exception></token>
+        <pattern mark_to="-1">
+          <token negate="yes" regexp="yes">,|od|chyba|dopiero|podczas|nawet|potem|więc|teraz|właśnie|wtedy|zwłaszcza|szczególnie|że|czasie|czasach|czasu|chwili|wypadku|przypadku|razie|przecież|rzadko|mało<exception postag="SENT_START|conj" postag_regexp="yes"/><exception regexp="yes">[\p{Punct}–—„«»…]+</exception></token>
           <token>kiedy</token>
+          <token><exception regexp="yes">[\p{Punct}–\-—…]+|niekiedy|indziej</exception></token>
         </pattern>
         <message>Przed tym spójnikiem stawiamy przecinek: <suggestion>\1, \2</suggestion>.</message>
         <short>Błąd interpunkcyjny</short>
+        <example type="correct">Przenosiny kiedy?</example>
         <example type="correct">W sumie rzadko kiedy tam bywam.</example>
         <example type="correct">Przemysław wstąpił do domu, kiedy poczuł brak Przemysławki.</example>
         <example correction="domu, kiedy" type="incorrect">Przemysław wstąpił do <marker>domu kiedy</marker> poczuł brak Przemysławki.</example>
       </rule>
       <rule>
-        <pattern>
+        <pattern mark_to="-1">
           <token negate="yes" regexp="yes">,|od|chyba|dopiero|podczas|nawet|potem|więc|teraz|właśnie|wtedy|zwłaszcza|szczególnie|że|czasie|czasach|wypadku|przypadku|razie|przecież<exception postag="SENT_START|conj" postag_regexp="yes"/><exception regexp="yes">[\p{Punct}–—„«»…]+</exception></token>
           <token>gdy</token>
+          <token><exception regexp="yes">[\p{Punct}–\-—…]+</exception></token>
         </pattern>
         <message>Przed tym spójnikiem stawiamy przecinek: <suggestion>\1, \2</suggestion>.</message>
         <short>Błąd interpunkcyjny</short>
@@ -852,12 +867,13 @@ $Id: grammar.xml,v 1.171 2009-01-06 20:45:03 milek_pl Exp $
           <token negate="yes">,<exception regexp="yes">[\p{Punct}–—„«»…]+</exception><exception postag="conj|SENT_START" postag_regexp="yes"/></token>
           <token postag="prep:.*" postag_regexp="yes"><exception postag="&lt;/?ADV&gt;|&lt;/?PREP.*&gt;" postag_regexp="yes"/><exception regexp="yes">za|o</exception></token>
           <token inflected="yes">co<exception postag="&lt;/?ADV&gt;|&lt;/?PREP.*&gt;" postag_regexp="yes"/></token>
-          <token><exception postag="SENT_END"/></token>
+          <token><exception regexp="yes">[\p{Punct}–\-—…]+</exception><exception postag="SENT_END"/></token>
         </pattern>
         <message>Prawdopodobnie brak przecinka. Powinno być: <suggestion><match no="1"/>, <match no="2"/></suggestion>.</message>
         <short>Błąd interpunkcyjny</short>
         <example type="correct">Nie wiadomo, w związku z czym zabrał głos.</example>
         <example type="correct">Łaciny używano na co dzień.</example>
+        <example type="correct">A wyda na co?...</example>
         <example type="correct">Naprawdę nie masz za co dziękować.</example>
         <example correction="Oto, do" type="incorrect"><marker>Oto do</marker> czego doprowadziły rządy ludzi niespełna rozumu.</example>
       </rule>
@@ -866,7 +882,7 @@ $Id: grammar.xml,v 1.171 2009-01-06 20:45:03 milek_pl Exp $
           <token negate="yes">,<exception regexp="yes">[\p{Punct}–—„«»…]+</exception><exception postag="conj|SENT_START" postag_regexp="yes"/><exception inflected="yes" regexp="yes">mieć|być</exception></token>
           <token regexp="yes">za|o<exception postag="&lt;/?ADV&gt;|&lt;/?PREP.*&gt;" postag_regexp="yes"/></token>
           <token inflected="yes">co<exception postag="&lt;/?ADV&gt;|&lt;/?PREP.*&gt;" postag_regexp="yes"/></token>
-          <token><exception postag="SENT_END"/><exception postag="verb:inf.*" postag_regexp="yes"/></token>
+          <token><exception regexp="yes">[\p{Punct}–\-—…]+</exception><exception postag="SENT_END"/><exception postag="verb:inf.*" postag_regexp="yes"/></token>
         </pattern>
         <message>Prawdopodobnie brak przecinka. Powinno być: <suggestion><match no="1"/>, <match no="2"/></suggestion>.</message>
         <short>Błąd interpunkcyjny</short>
@@ -925,22 +941,25 @@ $Id: grammar.xml,v 1.171 2009-01-06 20:45:03 milek_pl Exp $
         <example correction="wiedziałem, odnośnie do" type="incorrect">Nie <marker>wiedziałem odnośnie do</marker> którego rozporządzenia zgłosił on uwagę.</example>
       </rule>
       <rule>
-        <pattern>
+        <pattern mark_to="-1">
           <token negate="yes">,<exception regexp="yes">[\p{Punct}–—„«»…]+</exception><exception postag="conj|adv.*|prep.*|SENT_START" postag_regexp="yes"/></token>
           <token postag="prep.*" postag_regexp="yes"><exception postag="&lt;/PREP:.*&gt;" postag_regexp="yes"/></token>
           <token inflected="yes" regexp="yes">który|jaki</token>
+          <token><exception regexp="yes">[\p{Punct}–\-—…]+</exception></token>
         </pattern>
         <message>Brak przecinka w tym fragmencie zdania. Przecinek prawdopodobnie należy postawić tak: <suggestion>\1, \2 \3</suggestion>.</message>
         <short>Błąd interpunkcyjny</short>
+        <example type="correct">A wy to nie poślecie z wódką do której?</example>
         <example type="correct">Nie wiedziałem, do którego rozporządzenia zgłosił on uwagę.</example>
         <example type="correct">Istnieją dwa powody, z uwagi na które może on tak myśleć.</example>
         <example correction="wiedziałem, do którego" type="incorrect">Nie <marker>wiedziałem do którego</marker> rozporządzenia zgłosił on uwagę.</example>
       </rule>
       <rule>
-        <pattern mark_from="1">
+        <pattern mark_from="1" mark_to="-1">
           <token><exception postag="prep.*" postag_regexp="yes"/></token>
           <token negate="yes">,<exception regexp="yes">[\p{Punct}–—„«»…]+|mało|rzadko</exception><exception postag="conj|adv.*|prep.*|SENT_START|&lt;/CONJ&gt;|&lt;/PREP:.+&gt;|subst.*" postag_regexp="yes"/></token>
           <token inflected="yes" regexp="yes">który|jaki</token>
+          <token><exception regexp="yes">[\p{Punct}–\-—…]+</exception></token>
         </pattern>
         <message>Brak przecinka w tym fragmencie zdania. Przecinek prawdopodobnie należy postawić tak: <suggestion>\2, \3</suggestion>.</message>
         <short>Błąd interpunkcyjny</short>
@@ -950,10 +969,11 @@ $Id: grammar.xml,v 1.171 2009-01-06 20:45:03 milek_pl Exp $
         <example correction="kamienny, którego" type="incorrect">To węgiel <marker>kamienny którego</marker> Jurek nienawidzi.</example>
       </rule>
       <rule>
-        <pattern mark_from="1">
+        <pattern mark_from="1" mark_to="-1">
           <token><exception postag="prep.*" postag_regexp="yes"/></token>
           <token postag="subst.*" postag_regexp="yes"><exception regexp="yes">[\p{Punct}–—„«»…]+|mało|rzadko</exception><exception postag="conj|adv.*|prep.*|SENT_START|&lt;/CONJ&gt;|&lt;/PREP:.+&gt;" postag_regexp="yes"/></token>
           <token inflected="yes" regexp="yes">który|jaki</token>
+          <token><exception regexp="yes">[\p{Punct}–\-—…]+</exception></token>
         </pattern>
         <message>Brak przecinka w tym fragmencie zdania. Przecinek prawdopodobnie należy postawić tak: <suggestion>\2, \3</suggestion>.</message>
         <short>Błąd interpunkcyjny</short>
@@ -5408,6 +5428,28 @@ lub <suggestion>\2 na prawach wyłączności</suggestion>.</message>
       <example correction="moralny|etyczny" type="incorrect">Papież zostawił nam ogromny obowiązek <marker>moralno-etyczny</marker>.</example>
       <example type="correct">Encykliki nie mogą uzasadniać nakazów moralnych.</example>
     </rule>
+    <rulegroup id="I_LUB" name="„i/lub” (lub)">
+      <rule>
+        <pattern>
+          <token>i</token>
+          <token>/</token>
+          <token>lub</token>
+        </pattern>
+        <message>Ten spójnik jest pleonazmem, gdyż jest logicznie równoważny po prostu spójnikowi <suggestion>lub</suggestion> (w sensie alternatywy niewykluczającej). Obydwa łączone przez niego człony mogą być zarazem prawdziwe.</message>
+        <example correction="lub" type="incorrect">Jesteś debilem <marker>i/lub</marker> kretynem.</example>
+        <example type="correct">Jesteś debilem lub kretynem.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>lub</token>
+          <token>/</token>
+          <token>i</token>
+        </pattern>
+        <message>Ten spójnik jest pleonazmem, gdyż jest logicznie równoważny po prostu spójnikowi <suggestion>lub</suggestion> (w sensie alternatywy niewykluczającej). Obydwa łączone przez niego człony mogą być zarazem prawdziwe.</message>
+        <example correction="lub" type="incorrect">Jesteś debilem <marker>lub/i</marker> kretynem.</example>
+        <example type="correct">Jesteś debilem lub kretynem.</example>
+      </rule>
+    </rulegroup>
   </category>
   <category name="Błędy fonetyczne">
     <rulegroup id="W_WE" name="„w” przed „f/w…” i spółgłoską (we)">
@@ -5563,23 +5605,24 @@ lub <suggestion>\2 na prawach wyłączności</suggestion>.</message>
   <category name="Błędy różne">
     <rulegroup id="NA_POCZ_XX" name="„na początku XX” (na początku XX wieku)">
       <rule>
-        <pattern mark_to="-1">
-          <token>na</token>
-          <token regexp="yes">początku|końcu</token>
+        <pattern case_sensitive="yes" mark_to="-1">
+          <token regexp="yes">(?iu)na</token>
+          <token regexp="yes">(?iu)początku|końcu</token>
           <token regexp="yes">[XVI]{1,4}</token>
-          <token negate="yes" regexp="yes">stulecia|wieku|w</token>
+          <token negate="yes" regexp="yes">(?iu)stulecia|wieku|w</token>
         </pattern>
         <message>Prawdopodobnie w tym wyrażeniu brakuje wyrazu „wieku”: <suggestion>\1 \2 \3 wieku</suggestion>.</message>
         <short>Zjedzony wyraz</short>
         <example correction="na początku XX wieku" type="incorrect">Wydarzyło się to <marker>na początku XX</marker>.</example>
+        <example type="correct">Zrobiłem to na początku i nie żałuję.</example>
         <example type="correct">Wydarzyło się to na początku XX w.</example>
       </rule>
       <rule>
-        <pattern mark_to="-1">
-          <token>u</token>
-          <token regexp="yes">schyłku|końca|zarania</token>
+        <pattern case_sensitive="yes" mark_to="-1">
+          <token regexp="yes">[Uu]</token>
+          <token regexp="yes">(?iu)schyłku|końca|zarania</token>
           <token regexp="yes">[XVI]{1,4}</token>
-          <token negate="yes" regexp="yes">stulecia|wieku|w</token>
+          <token negate="yes" regexp="yes">(?iu)stulecia|wieku|w</token>
         </pattern>
         <message>Prawdopodobnie w tym wyrażeniu brakuje wyrazu „wieku”: <suggestion>\1 \2 \3 wieku</suggestion>.</message>
         <short>Zjedzony wyraz</short>
@@ -6804,9 +6847,7 @@ Znacznie częściej ta forma jest mylona z trybem rozkazującym od „pokazać�
       <pattern>
         <token regexp="yes">^(\p{Lu}{2}+[i]*\p{Lu}+[\p{L}&amp;&amp;[^\p{Lu}]]{1,4}+)<exception regexp="yes">GKKFicie|JCMości|JCMością|JCWysokości|JCWysokością|JKMości|JKMością|JKWysokości|JKWysokością|PZKol|PZMocie|PZMot|SJPDor|WPan|WPani|WPaństwo|BCh|COr|CSSp|GHz|MHz|MKOl|PKOl|UWr|REDakcj.*|KPCh</exception></token>
       </pattern>
-      <message>Prawdopodobny błąd zapisu odmiany; skrótowce odmieniamy z dywizem:
-				<suggestion><match no="1" regexp_match="^(\p{Lu}{2}+[i]*\p{Lu}+)([\p{L}&amp;&amp;[^\p{Lu}]]{1,4}+)" regexp_replace="$1-$2"/></suggestion>
-			</message>
+      <message>Prawdopodobny błąd zapisu odmiany; skrótowce odmieniamy z dywizem:<suggestion><match no="1" regexp_match="^(\p{Lu}{2}+[i]*\p{Lu}+)([\p{L}&amp;&amp;[^\p{Lu}]]{1,4}+)" regexp_replace="$1-$2"/></suggestion>.</message>
       <short>Błąd ortograficzny</short>
       <example type="correct">Ludwik dostał kilkaset SMS-ów z pogróżkami od Przemysława.</example>
       <example correction="SMS-ów" type="incorrect">Ludwik dostał kilkaset <marker>SMSów</marker> z pogróżkami od Przemysława.</example>
@@ -6815,13 +6856,14 @@ Znacznie częściej ta forma jest mylona z trybem rozkazującym od „pokazać�
     <rule id="SKROTOWCE_Z_APOSTROFEM" name="Skrótowce z apostrofem w przypadkach zależnych">
       <pattern>
         <token regexp="yes">^\p{Lu}{2}+[i]*\p{Lu}+</token>
-        <token>'</token>
-        <token regexp="yes">[\p{L}&amp;&amp;[^\p{Lu}]]{1,4}+</token>
+        <token spacebefore="no">'</token>
+        <token regexp="yes" spacebefore="no">[\p{L}&amp;&amp;[^\p{Lu}]]{1,4}+</token>
       </pattern>
       <message>Prawdopodobny błąd zapisu odmiany; skrótowce odmieniamy z dywizem: <suggestion>\1-\3</suggestion>.</message>
       <short>Błąd ortograficzny</short>
       <example type="correct">Ludwik dostał kilkaset SMS-ów z pogróżkami od Przemysława.</example>
       <example correction="SMS-ów" type="incorrect">Ludwik dostał kilkaset <marker>SMS'ów</marker> z pogróżkami od Przemysława.</example>
+      <example type="correct">Zagrał zbyt głośno Stayin' Alive.</example>
       <example type="correct">Nasze radio nadaje na częstotliwości 102 MHz.</example>
     </rule>
     <rule id="IMIONA_Z_APOSTROFAMI" name="Niepotrzebne apostrofy w formach odmiennych">
@@ -8080,7 +8122,7 @@ Znacznie częściej ta forma jest mylona z trybem rozkazującym od „pokazać�
       <pattern>
         <token postag="UNKNOWN" regexp="yes">hyper.*</token>
       </pattern>
-      <message>Przedrostek „hiper” piszemy przez „i”. Poprawnie: <suggestion><match no="1" regexp_match="hyper(.*)" regexp_replace="hiper$1"/></suggestion>.</message>
+      <message>Przedrostek „hiper” piszemy przez „i”. Poprawnie: <suggestion><match no="1" regexp_match="(?iu)hyper(.*)" regexp_replace="hiper$1"/></suggestion>.</message>
       <short>Błąd ortograficzny</short>
       <example correction="hiperodnośniki" type="incorrect">W tym tekście są liczne <marker>hyperodnośniki</marker>.</example>
       <example type="correct">Księżycem Saturna jest Hyperion.</example>
@@ -8090,7 +8132,7 @@ Znacznie częściej ta forma jest mylona z trybem rozkazującym od „pokazać�
         <pattern>
           <token postag="UNKNOWN" regexp="yes">hypo.*</token>
         </pattern>
-        <message>Przedrostek „hipo” piszemy przez „i”. Poprawnie: <suggestion><match no="1" regexp_match="hypo(.*)" regexp_replace="hipo$1"/></suggestion>.</message>
+        <message>Przedrostek „hipo” piszemy przez „i”. Poprawnie: <suggestion><match no="1" regexp_match="(?iu)hypo(.*)" regexp_replace="hipo$1"/></suggestion>.</message>
         <short>Błąd ortograficzny</short>
         <example correction="hipochondrykiem" type="incorrect">On jest <marker>hypochondrykiem</marker>.</example>
         <example type="correct">Jakie przemyślne hypokaustum!</example>
@@ -8099,7 +8141,7 @@ Znacznie częściej ta forma jest mylona z trybem rozkazującym od „pokazać�
         <pattern>
           <token inflected="yes">hypoalergiczny</token>
         </pattern>
-        <message>Przedrostek „hipo” piszemy przez „i”. Poprawnie: <suggestion><match no="1" regexp_match="hypo(.*)" regexp_replace="hipo$1"/></suggestion>.</message>
+        <message>Przedrostek „hipo” piszemy przez „i”. Poprawnie: <suggestion><match no="1" regexp_match="(?iu)hypo(.*)" regexp_replace="hipo$1"/></suggestion>.</message>
         <short>Błąd ortograficzny</short>
         <example correction="hipoalergiczny" type="incorrect">To świetny krem <marker>hypoalergiczny</marker>.</example>
         <example type="correct">To świetny krem hipoalergiczny.</example>
@@ -8109,8 +8151,7 @@ Znacznie częściej ta forma jest mylona z trybem rozkazującym od „pokazać�
       <pattern>
         <token regexp="yes"><exception>nad-ja</exception>^(neo|post|pre|anty|arcy|eks|bez|beze|ekstra|hiper|infra|kontr|maksi|midi|między|mini|nad|nade|około|ponad|post|pro|przeciw|pseudo|super|śród|ultra|wice|wokół|wokoło)[-–]\p{Ll}+</token>
       </pattern>
-      <message>Ten wyraz piszemy bez łącznika:
-				<suggestion><match no="1" regexp_match="(?iu)^(neo|post|pre|anty|arcy|eks|bez|beze|ekstra|hiper|infra|kontr|maksi|midi|między|mini|nad|nade|około|ponad|post|pro|przeciw|pseudo|super|śród|ultra|wice|wokół|wokoło)[-–](.*)" regexp_replace="$1$2"/></suggestion>.</message>
+      <message>Ten wyraz piszemy bez łącznika: <suggestion><match no="1" regexp_match="(?iu)^(neo|post|pre|anty|arcy|eks|bez|beze|ekstra|hiper|infra|kontr|maksi|midi|między|mini|nad|nade|około|ponad|post|pro|przeciw|pseudo|super|śród|ultra|wice|wokół|wokoło)[-–](.*)" regexp_replace="$1$2"/></suggestion>.</message>
       <short>Błąd ortograficzny</short>
       <example type="correct">Tym prądem intelektualnym jest postmodernizm.</example>
       <example type="correct">Spotkał się Polak z anty-Polakiem</example>
