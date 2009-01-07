@@ -6,7 +6,7 @@ title="Easy editing stylesheet" ?>
 <!--
 Polish Grammar and Typo Rules for LanguageTool
 Copyright (C) 2006-2007 Marcin Miłkowski
-$Id: grammar.xml,v 1.172 2009-01-07 00:12:41 milek_pl Exp $
+$Id: grammar.xml,v 1.173 2009-01-07 17:21:15 milek_pl Exp $
 -->
 <rules lang="pl">
   <unification feature="number">
@@ -1839,6 +1839,16 @@ Powinno być: <suggestion>\2, \3 \4</suggestion>.</message>
     </rule>
   </category>
   <category name="Błędy odmiany">
+    <rule id="POL_GODZIN" name="„pół godzin” (pół godziny)">
+      <pattern mark_from="1">
+        <token>pół</token>
+        <token>godzin</token>
+      </pattern>
+      <message>Niepoprawna odmiana. Powinno być: <suggestion>godziny</suggestion>.</message>
+      <short>Błędna odmiana</short>
+      <example correction="godziny" type="incorrect">Mimo to czas przejazdu skraca się z 4 i pół do 3 i pół <marker>godzin</marker>.</example>
+      <example type="correct">Mimo to czas przejazdu skraca się z czterech i pół do trzech i pół godziny.</example>
+    </rule>
     <rule id="KULISOW" name="„kulisów” (kulis)">
       <pattern>
         <token>kulisów</token>
