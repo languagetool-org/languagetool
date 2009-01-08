@@ -349,7 +349,7 @@ public class Element {
    * exception had scope == "previous").
    * 
    * @param token
-   * @AnalyzedToken to check matching against.
+   *    {@link AnalyzedToken} to check matching against.
    * @return True if any of the exceptions matches.
    */
   public final boolean isMatchedByPreviousException(
