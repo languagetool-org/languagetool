@@ -107,7 +107,7 @@ public class PolishSynthesizer implements Synthesizer {
       }
 
       final Pattern p = Pattern.compile(posTag.replace('+', '|').replaceAll(
-          "m[1-5]", "m[1-5]?"));
+          "m[1-3]", "m[1-3]?"));
 
       for (final String tag : possibleTags) {
         final Matcher m = p.matcher(tag);
