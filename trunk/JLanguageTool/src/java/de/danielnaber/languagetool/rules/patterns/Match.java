@@ -270,7 +270,6 @@ public class Match {
         if (tst != null) {
           if (pPosRegexMatch.matcher(tst).matches()) {
             targetPosTag = matchedToken.getAnalyzedToken(i).getPOSTag();
-            // break;
             posTags.add(targetPosTag);
           }
         }
@@ -279,9 +278,6 @@ public class Match {
         targetPosTag = pPosRegexMatch.matcher(targetPosTag).replaceAll(
             posTagReplace);
       }
-      if (targetPosTag.indexOf('?') > 0) {
-        targetPosTag = targetPosTag.replaceAll("\\?", "\\\\?");
-      }
     } else {
       final int numRead = formattedToken.getReadingsLength();
       for (int i = 0; i < numRead; i++) {
@@ -289,7 +285,6 @@ public class Match {
         if (tst != null) {
           if (pPosRegexMatch.matcher(tst).matches()) {
             targetPosTag = formattedToken.getAnalyzedToken(i).getPOSTag();
-            // break;
             posTags.add(targetPosTag);
           }
         }
