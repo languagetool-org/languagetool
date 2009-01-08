@@ -6,7 +6,7 @@ title="Easy editing stylesheet" ?>
 <!--
 Polish Grammar and Typo Rules for LanguageTool
 Copyright (C) 2006-2007 Marcin Miłkowski
-$Id: grammar.xml,v 1.173 2009-01-07 17:21:15 milek_pl Exp $
+$Id: grammar.xml,v 1.174 2009-01-08 21:34:08 milek_pl Exp $
 -->
 <rules lang="pl">
   <unification feature="number">
@@ -1837,6 +1837,28 @@ Powinno być: <suggestion>\2, \3 \4</suggestion>.</message>
       <example correction="; " type="incorrect">Poszedłem do sklepu (za rogiem<marker>) (</marker>bo chleba nie miałem).</example>
       <example type="correct">Poszedłem do sklepu (za rogiem; bo chleba nie miałem).</example>
     </rule>
+    <rule id="KROPKA_W_NAWIASIE" name="Kropka w nawiasie">
+      <pattern mark_from="1">
+        <token><exception regexp="yes">proc|r|itd|itp|cdn|jw|n.e|w|nn|n</exception></token>
+        <token spacebefore="no">.</token>
+        <token spacebefore="no">)</token>
+      </pattern>
+      <message>Kropka kończąca zdanie powinna znajdować się za nawiasem (uwaga: dawniejsze reguły nakazywały stawiać kropkę przed nawiasem, jeśli w nawiasie znajdowało się całe zdanie; te reguły są dziś nieaktualne). Poprawnie: <suggestion>).</suggestion></message>
+      <short>Błędne umiejscowienie kropki</short>
+      <example correction=")." type="incorrect">(Całe zdanie jest w nawiasie<marker>.)</marker></example>
+      <example type="correct">(Całe zdanie jest w nawiasie).</example>
+    </rule>
+    <rule id="KROPKA_W_CUDZYSLOWIE" name="Kropka w cudzysłowie">
+      <pattern mark_from="1">
+        <token><exception regexp="yes">proc|r|itd|itp|cdn|jw|n.e|w|nn|n</exception></token>
+        <token spacebefore="no">.</token>
+        <token spacebefore="no">”</token>
+      </pattern>
+      <message>Kropka kończąca zdanie powinna znajdować się po cudzysłowie: <suggestion>”.</suggestion></message>
+      <short>Błędne umiejscowienie kropki</short>
+      <example correction="”." type="incorrect">„Całe zdanie jest w cudzysłowie<marker>.”</marker></example>
+      <example type="correct">„Całe zdanie jest w nawiasie”.</example>
+    </rule>
   </category>
   <category name="Błędy odmiany">
     <rule id="POL_GODZIN" name="„pół godzin” (pół godziny)">
@@ -3275,6 +3297,18 @@ Powinno być: <suggestion>\2, \3 \4</suggestion>.</message>
     </rule>
   </category>
   <category name="Błędy leksykalne">
+    <rule id="WIEKSZA_POLOWA" name="„większa połowa” (większa część)">
+      <pattern>
+        <unify feature="gender,number,case">
+          <token inflected="yes">większy</token>
+          <token inflected="yes">połowa</token>
+        </unify>
+      </pattern>
+      <message>W niepotocznych kontekstach to wyrażenie wiele osób uważa za rażące. Lepiej: <suggestion><match no="1"/> <match no="2" postag="subst:(sg|pl):(nom)?[.\:]?(acc:|acc.)?(gen.*)?(dat\.loc:)?(inst:)?(dat:)?(loc:)?(voc:)?f" postag_regexp="yes" postag_replace="subst:$1:($2.acc:)*(nom.$3)*($4)*(gen\\\.$5)*($6)*($7)*($8)*($9)*f">część</match></suggestion>.</message>
+      <short>Błąd leksykalny</short>
+      <example correction="większą część" type="incorrect">Dostałeś <marker>większą połowę</marker> sernika!</example>
+      <example type="correct">Dostałeś większą część sernika!</example>
+    </rule>
     <rule id="JEZYK_HOLENDERSKI" name="„język holenderski” (język niderlandzki)">
       <pattern mark_from="1">
         <unify feature="number,gender,case">
