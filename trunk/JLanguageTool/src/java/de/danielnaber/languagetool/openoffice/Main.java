@@ -33,6 +33,7 @@ import java.util.ResourceBundle;
 import java.util.Set;
 
 import javax.swing.JOptionPane;
+import javax.swing.UIManager;
 
 import com.sun.star.awt.XWindow;
 import com.sun.star.awt.XWindowPeer;
@@ -508,6 +509,13 @@ public class Main extends WeakBase implements XJobExecutor,
               + version);
       dt.start();
       return false;
+    }
+    if ("1.6.0_10".equals(version))   { //no newer version has it
+      try {
+      UIManager.setLookAndFeel("com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel");
+      } catch (Exception ex) {
+        // Well, what can we do...
+      }
     }
     return true;
   }

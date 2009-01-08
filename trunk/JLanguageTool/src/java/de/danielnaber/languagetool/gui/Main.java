@@ -61,6 +61,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextPane;
+import javax.swing.UIManager;
 import javax.swing.WindowConstants;
 import javax.swing.filechooser.FileFilter;
 import javax.xml.parsers.ParserConfigurationException;
@@ -118,8 +119,16 @@ public final class Main implements ActionListener {
     maybeStartServer();
   }
 
-  private void createGUI() {
+  private void createGUI() {    
     frame = new JFrame("LanguageTool " + JLanguageTool.VERSION);
+    final String version = System.getProperty("java.version");
+    if ("1.6.0_10".equals(version))   { //no newer version has it
+      try {
+      UIManager.setLookAndFeel("com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel");
+      } catch (Exception ex) {
+        // Well, what can we do...
+      }
+    }
     frame.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
     frame.addWindowListener(new CloseListener());
     frame.setIconImage(new ImageIcon(this.getClass().getResource(
