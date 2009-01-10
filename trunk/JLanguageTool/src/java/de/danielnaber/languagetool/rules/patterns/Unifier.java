@@ -158,7 +158,7 @@ public class Unifier {
       return false; // throw exception??
     }
     boolean unified = true;
-    final String[] features = feature.trim().split(FEATURE_SEPARATOR);
+    final String[] features = StringTools.trimWhitespace(feature).split(FEATURE_SEPARATOR);
     String[] types;
 
     if (!allFeatsIn) {

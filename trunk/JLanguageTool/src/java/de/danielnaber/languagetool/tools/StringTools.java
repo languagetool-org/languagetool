@@ -346,7 +346,7 @@ public final class StringTools {
         if (c == '.' || c == ',') {
           space = "";
         }
-      } else {
+      } else {        
         if (c == '.' || c == ',' || c == ';' || c == ':' || c == '?'
             || c == '!') {
           space = "";
@@ -364,9 +364,9 @@ public final class StringTools {
    *          Label to convert.
    * @return String UI element string without mnemonics.
    */
-  public static String getLabel(final String label) {
-    final String noAmpersand = label.replaceAll("&([^&])", "$1");
-    return noAmpersand.replaceAll("&&", "&");
+  public static String getLabel(final String label) {    
+    return label.replaceAll("&([^&])", "$1").
+      replaceAll("&&", "&");
   }
 
   /**
@@ -377,9 +377,9 @@ public final class StringTools {
    *          Label to convert
    * @return String UI element with ~ replacing &.
    */
-  public static String getOOoLabel(final String label) {
-    final String noAmpersand = label.replaceAll("&([^&])", "~$1");
-    return noAmpersand.replaceAll("&&", "&");
+  public static String getOOoLabel(final String label) {    
+    return label.replaceAll("&([^&])", "~$1").
+      replaceAll("&&", "&");
   }
 
   /**
@@ -437,7 +437,7 @@ public final class StringTools {
   }
 
   /**
-   * Helper method to replace calls to "".equals()
+   * Helper method to replace calls to "".equals().
    * 
    * @param str
    *          String to check
