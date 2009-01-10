@@ -6,7 +6,7 @@ title="Easy editing stylesheet" ?>
 <!--
 Polish Grammar and Typo Rules for LanguageTool
 Copyright (C) 2006-2007 Marcin Miłkowski
-$Id: grammar.xml,v 1.174 2009-01-08 21:34:08 milek_pl Exp $
+$Id: grammar.xml,v 1.175 2009-01-10 18:38:00 milek_pl Exp $
 -->
 <rules lang="pl">
   <unification feature="number">
@@ -1838,26 +1838,31 @@ Powinno być: <suggestion>\2, \3 \4</suggestion>.</message>
       <example type="correct">Poszedłem do sklepu (za rogiem; bo chleba nie miałem).</example>
     </rule>
     <rule id="KROPKA_W_NAWIASIE" name="Kropka w nawiasie">
-      <pattern mark_from="1">
-        <token><exception regexp="yes">proc|r|itd|itp|cdn|jw|n.e|w|nn|n</exception></token>
-        <token spacebefore="no">.</token>
+      <pattern mark_from="2">
+        <token><exception>(</exception></token>
+        <token spacebefore="no"><exception regexp="yes">proc|r|itd|itp|cdn|jw|n.e|w|nn|n</exception></token>
+        <token spacebefore="no"><exception postag="&lt;/ELLIPSIS&gt;"/>.</token>
         <token spacebefore="no">)</token>
       </pattern>
       <message>Kropka kończąca zdanie powinna znajdować się za nawiasem (uwaga: dawniejsze reguły nakazywały stawiać kropkę przed nawiasem, jeśli w nawiasie znajdowało się całe zdanie; te reguły są dziś nieaktualne). Poprawnie: <suggestion>).</suggestion></message>
       <short>Błędne umiejscowienie kropki</short>
       <example correction=")." type="incorrect">(Całe zdanie jest w nawiasie<marker>.)</marker></example>
+      <example type="correct">Jest na to wiele przykładów (herbata, mleko, woda...).</example>
       <example type="correct">(Całe zdanie jest w nawiasie).</example>
+      <example type="correct">Sienkiewicz, Henryk (red.)</example>
     </rule>
     <rule id="KROPKA_W_CUDZYSLOWIE" name="Kropka w cudzysłowie">
-      <pattern mark_from="1">
+      <pattern mark_from="2">
+        <token><exception>„</exception></token>
         <token><exception regexp="yes">proc|r|itd|itp|cdn|jw|n.e|w|nn|n</exception></token>
-        <token spacebefore="no">.</token>
+        <token spacebefore="no"><exception postag="&lt;/ELLIPSIS&gt;"/>.</token>
         <token spacebefore="no">”</token>
       </pattern>
       <message>Kropka kończąca zdanie powinna znajdować się po cudzysłowie: <suggestion>”.</suggestion></message>
       <short>Błędne umiejscowienie kropki</short>
       <example correction="”." type="incorrect">„Całe zdanie jest w cudzysłowie<marker>.”</marker></example>
       <example type="correct">„Całe zdanie jest w nawiasie”.</example>
+      <example type="correct">Skrót „gr.”</example>
     </rule>
   </category>
   <category name="Błędy odmiany">
@@ -3040,14 +3045,16 @@ Powinno być: <suggestion>\2, \3 \4</suggestion>.</message>
       <example correction="było napisane" type="incorrect">W gazecie <marker>pisało</marker>, że w Polsce rośnie szczurosałata.</example>
     </rule>
     <rule id="TAM_PISZE" name="„tam pisze” (tam było napisane)">
-      <pattern mark_from="1" mark_to="-1">
-        <token regexp="yes" skip="3">tam|tutaj|gdzie|gdzieś</token>
+      <pattern mark_from="2" mark_to="-1">
+        <token><exception>się</exception></token>
+        <token regexp="yes" skip="3"><exception scope="next">się</exception>tam|tutaj|gdzie|gdzieś</token>
         <token regexp="yes" skip="1">pisze|pisało|stoi|stało</token>
         <token>że</token>
       </pattern>
       <message>Mówimy <suggestion>było napisane</suggestion>, a nie „pisze”.</message>
       <short>Błąd składniowy</short>
       <example type="correct">Tam było napisane, że w Polsce rośnie szczurosałata.</example>
+      <example type="correct">Zwykle się tam pisało, że projekt ma doniosłe znaczenie…</example>
       <example correction="było napisane" type="incorrect">Tam <marker>pisało</marker>, że w Polsce rośnie szczurosałata.</example>
     </rule>
     <rule id="NIE_TYLE_CO" name="„nie tyle... co” (nie tyle..., ile)">
