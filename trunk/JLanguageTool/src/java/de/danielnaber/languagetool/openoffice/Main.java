@@ -235,7 +235,7 @@ public class Main extends WeakBase implements XJobExecutor,
     }
   }
 
-  private final ProofreadingResult doGrammarCheckingInternal(
+  synchronized private final ProofreadingResult doGrammarCheckingInternal(
       final String paraText, final Locale locale, final ProofreadingResult paRes) {
 
     if (paraText == null) {

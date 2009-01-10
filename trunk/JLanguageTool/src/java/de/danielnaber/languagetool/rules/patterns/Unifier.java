@@ -163,7 +163,7 @@ public class Unifier {
 
     if (!allFeatsIn) {
       tokCnt++;
-      if (equivalencesMatched.size() <= tokCnt) {
+      while (equivalencesMatched.size() <= tokCnt) {
         final Map<String, Set<String>> mapTemp = new HashMap<String, Set<String>>();
         equivalencesMatched.add(mapTemp);
       }
@@ -312,8 +312,8 @@ public class Unifier {
       while (!tmpFeaturesFound.get(first)) {
         first++;
       }
-      if (first == tmpFeaturesFound.size()) {
-        tmpFeaturesFound.remove(first);
+      tmpFeaturesFound.remove(tmpFeaturesFound.size() - 1);
+      if (first >= tmpFeaturesFound.size()) {        
         return null;
       }
       // FIXME: why this happens??
