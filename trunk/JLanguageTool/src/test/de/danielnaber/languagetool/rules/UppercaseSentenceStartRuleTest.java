@@ -82,4 +82,14 @@ public class UppercaseSentenceStartRuleTest extends TestCase {
     assertEquals(1, matches.size());
   }
   
+  public void testPolishSpecialCases() throws IOException {
+    JLanguageTool langTool = new JLanguageTool(Language.POLISH);
+    List<RuleMatch> matches;
+    
+    matches = langTool.check("Zdanie.");
+    assertEquals(0, matches.size());
+    matches = langTool.check("To jest lista punktowana:\npunkt pierwszy,\npunkt drugi,\npunkt trzeci.");
+    assertEquals(0, matches.size());
+  }
+  
 }
