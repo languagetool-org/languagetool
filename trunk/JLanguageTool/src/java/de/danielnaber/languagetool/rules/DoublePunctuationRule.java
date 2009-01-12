@@ -23,7 +23,6 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 import de.danielnaber.languagetool.AnalyzedSentence;
-import de.danielnaber.languagetool.AnalyzedToken;
 import de.danielnaber.languagetool.AnalyzedTokenReadings;
 
 /**
@@ -38,58 +37,59 @@ public class DoublePunctuationRule extends Rule {
     super.setCategory(new Category(messages.getString("category_misc")));
   }
 
-  public String getId() {
+  public final String getId() {
     return "DOUBLE_PUNCTUATION";
   }
 
-  public String getDescription() {
+  public final String getDescription() {
     return messages.getString("desc_double_punct");
   }
 
-  public RuleMatch[] match(final AnalyzedSentence text) {
+  public final RuleMatch[] match(final AnalyzedSentence text) {
     final List<RuleMatch> ruleMatches = new ArrayList<RuleMatch>();
     final AnalyzedTokenReadings[] tokens = text.getTokens();
-    AnalyzedToken matchToken = null;
+    int startPos = 0;
     int dotCount = 0;
     int commaCount = 0;
     for (int i = 0; i < tokens.length; i++) {
-      final String token = tokens[i].getToken();
+      final String token = tokens[i].getToken().trim();
       String nextToken = null;
-      if (i < tokens.length-1)
-        nextToken = tokens[i+1].getToken();
-      if (token.trim().equals(".")) {
+      if (i < tokens.length - 1) {
+        nextToken = tokens[i + 1].getToken();
+      }
+      if (".".equals(token)) {
         dotCount++;
         commaCount = 0;
-        matchToken = tokens[i].getAnalyzedToken(0);
-      } else if (token.trim().equals(",")) {
+        startPos = tokens[i].getStartPos();
+      } else if (",".equals(token)) {
         commaCount++;
         dotCount = 0;
-        matchToken = tokens[i].getAnalyzedToken(0);
+        startPos = tokens[i].getStartPos();
       }
       if (dotCount == 2 && !".".equals(nextToken)) {
         final String msg = messages.getString("two_dots");
-        @SuppressWarnings("null")
-        final int fromPos = Math.max(0, matchToken.getStartPos()-1);
-        final RuleMatch ruleMatch = new RuleMatch(this, fromPos, matchToken.getStartPos()+1, msg, messages.getString("double_dots_short"));
+        final int fromPos = Math.max(0, startPos - 1);
+        final RuleMatch ruleMatch = new RuleMatch(this, fromPos, startPos + 1,
+            msg, messages.getString("double_dots_short"));
         ruleMatch.setSuggestedReplacement(".");
         ruleMatches.add(ruleMatch);
         dotCount = 0;
       } else if (commaCount == 2 && !",".equals(nextToken)) {
         final String msg = messages.getString("two_commas");
-        @SuppressWarnings("null")
-        final int fromPos = Math.max(0, matchToken.getStartPos()-1);
-        final RuleMatch ruleMatch = new RuleMatch(this, fromPos, matchToken.getStartPos()+1, msg, messages.getString("double_commas_short"));
-        // TODO: collides with CommaWhitespaceRule:
+        final int fromPos = Math.max(0, startPos);
+        final RuleMatch ruleMatch = new RuleMatch(this, fromPos, startPos + 1,
+            msg, messages.getString("double_commas_short"));
+//TODO: collides with CommaWhitespaceRule:
         ruleMatch.setSuggestedReplacement(",");
         ruleMatches.add(ruleMatch);
         commaCount = 0;
       }
-      if (!token.trim().equals(".") && !token.trim().equals(",")) {
+      if (!".".equals(token) && !",".equals(token)) {
         dotCount = 0;
         commaCount = 0;
       }
     }
-  
+
     return toRuleMatchArray(ruleMatches);
   }
 
