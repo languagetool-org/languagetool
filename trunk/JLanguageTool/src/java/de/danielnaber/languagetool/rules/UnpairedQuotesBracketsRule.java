@@ -156,7 +156,6 @@ public class UnpairedQuotesBracketsRule extends Rule {
   public final RuleMatch[] match(final AnalyzedSentence text) {
     final List<RuleMatch> ruleMatches = new ArrayList<RuleMatch>();
     final AnalyzedTokenReadings[] tokens = text.getTokens();
-    AnalyzedToken matchToken = null;
 
     if (reachedEndOfParagraph) {
       reset();
@@ -242,10 +241,9 @@ public class UnpairedQuotesBracketsRule extends Rule {
           } else {
             ruleMatchIndex++;
             ruleMatchArray[i] = ruleMatchIndex;
-            matchToken = tokens[pos].getAnalyzedToken(0);
-            final RuleMatch ruleMatch = new RuleMatch(this, matchToken
-                .getStartPos(), matchToken.getStartPos() + 1, messages
-                .getString("unpaired_brackets"));
+            final int startPos = tokens[pos].getStartPos();
+            final RuleMatch ruleMatch = new RuleMatch(this, startPos, 
+                startPos + 1, messages.getString("unpaired_brackets"));
             ruleMatches.add(ruleMatch);
           }
 
