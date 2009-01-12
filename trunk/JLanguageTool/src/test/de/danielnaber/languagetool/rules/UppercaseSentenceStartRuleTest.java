@@ -88,7 +88,7 @@ public class UppercaseSentenceStartRuleTest extends TestCase {
     
     matches = langTool.check("Zdanie.");
     assertEquals(0, matches.size());
-    matches = langTool.check("To jest lista punktowana:\npunkt pierwszy,\npunkt drugi,\npunkt trzeci.");
+    matches = langTool.check("To jest lista punktowana:\n\npunkt pierwszy,\n\npunkt drugi,\n\npunkt trzeci.");
     assertEquals(0, matches.size());
   }
   
