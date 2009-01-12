@@ -59,13 +59,8 @@ public class UppercaseSentenceStartRule extends Rule {
     if (tokens.length < 2) {
       return toRuleMatchArray(ruleMatches);
     }
-    // the case should be the same in all readings
-    // discarding the rest of the possible lemmas and POS tags
-    int matchTokenPos = 1;
-    final AnalyzedToken token = tokens[matchTokenPos].getAnalyzedToken(0); // 0
-    // =
-    // SENT_START
-    final String firstToken = token.getToken();
+    int matchTokenPos = 1; // 0 = SENT_START
+    final String firstToken = tokens[matchTokenPos].getToken();
     String secondToken = null;
     String thirdToken = null;
     // ignore quote characters:
@@ -73,7 +68,7 @@ public class UppercaseSentenceStartRule extends Rule {
         && ("'".equals(firstToken) || "\"".equals(firstToken) || "„"
             .equals(firstToken))) {
       matchTokenPos = 2;
-      secondToken = tokens[matchTokenPos].getAnalyzedToken(0).getToken();
+      secondToken = tokens[matchTokenPos].getToken();
     }
     final String firstDutchToken = dutchSpecialCase(firstToken, secondToken,
         tokens);
@@ -89,30 +84,24 @@ public class UppercaseSentenceStartRule extends Rule {
       checkToken = secondToken;
     }
 
-    final String chklastToken = tokens[tokens.length - 1].getAnalyzedToken(0)
-    .getToken();
+    final String chklastToken = tokens[tokens.length - 1].getToken();
 
     boolean noException = false;
-
-    if ((language == Language.RUSSIAN)
+    //fix for lists; note - this will not always work for the last point in OOo,
+    //as OOo might serve paragraphs in any order.
+    if ((language == Language.RUSSIAN || language == Language.POLISH)
         && (";".equals(lastPragraphString) || ";".equals(chklastToken)
-            || ",".equals(lastPragraphString) || ",".equals(chklastToken))) {
-      noException = true;
-    }
-    if ((language == Language.POLISH)
-        && (";".equals(lastPragraphString) || ";".equals(chklastToken)
-            || ":".equals(lastPragraphString) || ":".equals(chklastToken)
             || ",".equals(lastPragraphString) || ",".equals(chklastToken))) {
       noException = true;
     }
     lastPragraphString = chklastToken;
 
     final char firstChar = checkToken.charAt(0);
-    if (Character.isLowerCase(firstChar) && (noException != true)) {
+    if (Character.isLowerCase(firstChar) && (!noException)) {
       final RuleMatch ruleMatch = new RuleMatch(this, tokens[matchTokenPos]
-                .getStartPos(), tokens[matchTokenPos].getStartPos()
-                + tokens[matchTokenPos].getToken().length(), messages
-                .getString("incorrect_case"));
+          .getStartPos(), tokens[matchTokenPos].getStartPos()
+          + tokens[matchTokenPos].getToken().length(), messages
+          .getString("incorrect_case"));
       ruleMatch.setSuggestedReplacement(Character.toUpperCase(firstChar)
           + checkToken.substring(1));
       ruleMatches.add(ruleMatch);
@@ -127,7 +116,7 @@ public class UppercaseSentenceStartRule extends Rule {
     }
     if (tokens.length >= 3 && firstToken.equals("'")
         && secondToken.matches("k|m|n|r|s|t")) {
-      return tokens[3].getAnalyzedToken(0).getToken();
+      return tokens[3].getToken();
     }
     return null;
   }
