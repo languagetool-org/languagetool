@@ -6,7 +6,7 @@ title="Easy editing stylesheet" ?>
 <!--
 Polish Grammar and Typo Rules for LanguageTool
 Copyright (C) 2006-2007 Marcin Miłkowski
-$Id: grammar.xml,v 1.175 2009-01-10 18:38:00 milek_pl Exp $
+$Id: grammar.xml,v 1.176 2009-01-13 18:44:44 milek_pl Exp $
 -->
 <rules lang="pl">
   <unification feature="number">
@@ -6682,11 +6682,12 @@ Znacznie częściej ta forma jest mylona z trybem rozkazującym od „pokazać�
     </rule>
     <rule id="PRZECIAGNIJ-I-UPUSC" name="Wyrażenia pisane z wieloma łącznikami">
       <pattern>
-        <token regexp="yes">\p{L}{2,}-\p{L}+-.*</token>
+        <token regexp="yes"><exception regexp="yes">staro-cerkiewno-słowiańs.*|staro-wysoko-niemiec.*</exception>\p{L}{2,}-\p{L}+-.*</token>
       </pattern>
-      <message>Prawdopodobnie to wyrażenie jest kalką z języka obcego. W języku polskim nie łączy się wielu wyrazów łącznikiem w celu uzyskania jednego wyrazu. Poprawnie: <suggestion><match no="1" regexp_match="\-" regexp_replace=" "/></suggestion>.</message>
+      <message>Prawdopodobnie to wyrażenie jest kalką z języka obcego. W języku polskim zwykle nie łączy się wielu wyrazów łącznikiem w celu uzyskania jednego wyrazu. Poprawnie: <suggestion><match no="1" regexp_match="\-" regexp_replace=" "/></suggestion>.</message>
       <short>Błąd ortograficzny</short>
       <example correction="przeciągnij i upuść" type="incorrect">Wśród innych aplikacji tego typu wyróżnia się m.in. łatwością obsługi (posiada pełne wsparcie dla technologii <marker>przeciągnij-i-upuść</marker>).</example>
+      <example type="correct">Nazwa staro-cerkiewno-słowiański jako przymiotnik złożony składający się z dwóch lub więcej członów równorzędnych znaczeniowo powinna być pisana zawsze z łącznikiem.</example>
       <example type="correct">Wśród innych aplikacji tego typu wyróżnia się m.in. łatwością obsługi (w pełni obsługuje metodę „przeciągnij i upuść”).</example>
     </rule>
     <rule id="DWU_I_POL_PRZYMIOTNIK" name="Błędna pisownia rozłączna przymiotników typu „dwuipółkrotny”">

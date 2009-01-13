@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 	<!--
 		Disambiguation Rules for LanguageTool Copyright (C) 2008				
-$Id: disambiguation.xml,v 1.6 2009-01-07 00:12:41 milek_pl Exp $
+$Id: disambiguation.xml,v 1.7 2009-01-13 18:44:43 milek_pl Exp $
 	-->	
 <rules lang="pl">
   <unification feature="number">
@@ -206,5 +206,13 @@ $Id: disambiguation.xml,v 1.6 2009-01-07 00:12:41 milek_pl Exp $
 			<disambig action="filter"><match no="2" postag="subst:pl:.*" postag_regexp="yes"/></disambig>
 		</rule>
 	</rulegroup>
+	
+	<rule name="dr, mgr + . => qub" id="dr_mgr_kropka">
+		<pattern mark="0">
+		 <token regexp="yes">dr|mgr|nr|kmdr|kmdt|arcybp|bp|abp</token>
+		 <token>.</token>
+		</pattern>
+		<disambig postag="qub"/>
+	</rule>
 		
 </rules>
