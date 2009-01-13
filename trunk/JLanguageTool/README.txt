@@ -61,6 +61,8 @@ Known bugs:
     about text which is actually correct
    
 TODO:
+ -see if java.text.RuleBasedBreakIterator would be better for sentence and 
+  word tokenization than the current scheme (especially check performance)
  -see http://papyr.com/hypertextbooks/grammar/gramchek.htm
  -Make the command-line tool work with STDIN
  -update languagetool.xml.update automatically (i.e. replace @version@)
