@@ -164,8 +164,7 @@ public class Unifier {
     if (!allFeatsIn) {
       tokCnt++;
       while (equivalencesMatched.size() <= tokCnt) {
-        final Map<String, Set<String>> mapTemp = new HashMap<String, Set<String>>();
-        equivalencesMatched.add(mapTemp);
+        equivalencesMatched.add(new HashMap<String, Set<String>>());
       }
       for (final String feat : features) {
         if (StringTools.isEmpty(type)) {
