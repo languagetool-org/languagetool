@@ -679,7 +679,7 @@ class PatternRuleHandler extends XMLRuleHandler {
     rule.setIncorrectExamples(incorrectExamples);
     rule.setCategory(category);
     if (inRuleGroup)
-      rule.setSubId(subId + "");
+      rule.setSubId(Integer.toString(subId));
     else
       rule.setSubId("1");
     caseSensitive = false;
