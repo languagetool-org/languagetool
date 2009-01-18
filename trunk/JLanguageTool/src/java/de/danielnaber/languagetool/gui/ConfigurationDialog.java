@@ -261,7 +261,7 @@ public class ConfigurationDialog implements ActionListener {
           .getString("guiRunOnPort")));
       serverCheckbox.setSelected(serverMode);
       portPanel.add(serverCheckbox, cons);
-      serverPortField = new JTextField(serverPort + "");
+      serverPortField = new JTextField(Integer.toString(serverPort));
       serverPortField.setEnabled(serverCheckbox.isSelected());
       // TODO: without this the box is just a few pixels small, but why??:
       serverPortField.setMinimumSize(new Dimension(200, 15));
