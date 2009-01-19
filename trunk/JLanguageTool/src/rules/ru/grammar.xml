@@ -8,7 +8,7 @@ title="Easy editing stylesheet" ?>
 A Russian rule file for LanguageTool
 Copyright (C) 2005 Daniel Naber (http://www.danielnaber.de)
 Copyright (C) 2008 Yakov Reztsov
-$Id: grammar.xml,v 1.18 2008-12-23 21:22:21 milek_pl Exp $
+$Id: grammar.xml,v 1.19 2009-01-19 20:49:40 milek_pl Exp $
 -->
 <rules lang="ru">
     <category name="Пунктуация">
@@ -652,7 +652,7 @@ $Id: grammar.xml,v 1.18 2008-12-23 21:22:21 milek_pl Exp $
             <rule>  
                 <pattern>
                     <!--           ADJ:!PL   NN:.*:Sin    -->
-                    <token  postag="ADJ:.*:.*" postag_regexp="yes"><exception negate_pos="yes" postag="ADJ:.*:.*" postag_regexp="yes"></exception><exception postag="ADJ:PL:.*" postag_regexp="yes"></exception></token>
+                    <token  postag="ADJ:.*:.*" postag_regexp="yes"><exception negate_pos="yes" postag="ADJ:.*:.*" postag_regexp="yes"></exception><exception postag="ADJ:PL:.*" postag_regexp="yes"></exception><exception regexp="yes" scope="previous">и|или|но|да</exception></token>
                     <token  postag="NN:.*:.*:.*" postag_regexp="yes"><exception postag="NN:.*:Sin:.*" postag_regexp="yes"></exception><exception negate_pos="yes" postag="NN:.*:.*:.*" postag_regexp="yes"/></token>                   
                 </pattern>
                 
@@ -669,12 +669,13 @@ $Id: grammar.xml,v 1.18 2008-12-23 21:22:21 milek_pl Exp $
         <rulegroup default="on"  id="O_P_padeg" name="Предлоги и предложный падеж">
             <rule>  
                 <pattern>
+                    <token><exception regexp="yes" scope="previous">о|обо|об|в|во|при|по|на|и|или|но|да|«|[\p{Punct}]|[\p{Digit}]*</exception></token>
                     <token  postag="NN:.*:.*:P" postag_regexp="yes"><exception negate_pos="yes" postag="NN:.*:.*:P" postag_regexp="yes"></exception><exception regexp="yes" scope="previous">о|обо|об|в|во|при|по|на|и|или|но|да|«|[\p{Punct}]|[\p{Digit}]*</exception><exception scope="previous" postag=".*:P" postag_regexp="yes"/></token>
                 </pattern>                
-                <message>Предложный падеж предполагает наличие предлога (о – обо – об; в – во; при; по; на): <suggestion>о \1</suggestion></message>
+                <message>Предложный падеж предполагает наличие предлога (о – обо – об; в – во; при; по; на): <suggestion>\1 о \2</suggestion></message>
                 <short>Пропущен предлог.</short>
                 <example type="correct">Они думали о доме.</example>
-                <example type="incorrect">Они думали <marker>доме</marker>.</example>
+                <example type="incorrect">Они <marker>думали доме</marker>.</example>
             </rule>
         </rulegroup>
         
@@ -854,7 +855,7 @@ $Id: grammar.xml,v 1.18 2008-12-23 21:22:21 milek_pl Exp $
     </category>
     
     <category name="Заглавные буквы">
-       
+        
         <rule default="on"  id="Cap_Letters_Name" name="Имя">
             <pattern case_sensitive="yes">
                 <token  postag="NNN:.*" postag_regexp="yes"><exception regexp="yes">\p{Lu}.*</exception><exception>e</exception><exception  negate_pos="yes" postag="NNN:.*" postag_regexp="yes"/></token>
