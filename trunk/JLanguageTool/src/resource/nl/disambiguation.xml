@@ -1,7 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
-	<!--
-		Disambiguation Rules for LanguageTool Copyright (C) 2008				
-$Id: disambiguation.xml,v 1.1 2008-12-13 10:57:01 milek_pl Exp $
+<!--
+Disambiguation Rules for LanguageTool Copyright (C) 2008				
+$Id: disambiguation.xml,v 1.2 2009-01-19 22:05:20 milek_pl Exp $
 	-->
 <rules lang="nl">	
+	<!-- disambiguation for words used with HET as well as DE' -->
+	<rule name="DE_EN_HET1" id="DE_EN_HET1">
+	    <pattern mark="2">
+	        <token>het</token>
+	        <and>
+	            <token postag="NN1h"/>
+	            <token postag="NN1[dmf]|NN1" postag_regexp="yes"/>
+	        </and>
+	    </pattern>
+	    <disambig postag="NN1h" />
+	</rule>
+	<rule name="DE_EN_HET2" id="DE_EN_HET2">
+	    <pattern mark="2">
+	        <token>de</token>
+	        <and>
+	            <token postag="NN1h"/>
+	            <token postag="NN1[dmf]|NN1" postag_regexp="yes"/>
+	        </and>
+	    </pattern>
+	    <disambig postag="NN1d" />
+	</rule>
+
 </rules>
