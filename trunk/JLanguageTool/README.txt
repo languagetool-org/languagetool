@@ -1,7 +1,7 @@
 LanguageTool, a language style checker for English, German, Polish,
 French, and Dutch with initial support for Spanish, Russian, Swedish,
 and Italian
-Copyright (C) 2005-2008 Daniel Naber (naber at danielnaber de)
+Copyright (C) 2005-2009 Daniel Naber (naber at danielnaber de)
 Version ###VERSION###, ###DATE###
 Homepage: http://www.languagetool.org
 
@@ -17,7 +17,7 @@ Usage:
  can use two methods:
  
  1. Double-click LanguageTool-###VERSION###.oxt. If you
-  have OpenOffice.org 3.0 integrated into the environment,
+  have OpenOffice.org 3.0.1 integrated into the environment,
   the extension should start installing. Follow the on-screen
   instructions.
  

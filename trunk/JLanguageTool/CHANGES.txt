@@ -1,18 +1,24 @@
 LanguageTool Change Log
 
-0.9.6 (xxxx-xx-xx)
+0.9.6 (2009-01-21)
 
  -Support for new Proofreading API in OpenOffice 3.0.1. The
   non-native dialog box used for checking the text in LT was
   removed as it duplicated the native function and was buggy
-  (see for example sf bug #1943695). 
-  Removed the redundant toolbar button. Added a new menu 
-  command "Recheck document" that starts a new check and resets
-  the rules set as ignored during the previous check (the rules
-  disabled in the configuration dialog are not enabled on recheck).   
+  (see for example sf bug #1943695).
+   
+ -The toolbar button became redundant and was removed. A new 
+  menu command "Recheck document" was added to start a new check 
+  and reset the rules set as ignored during the previous check 
+  (the rules disabled in the configuration dialog are not 
+  enabled on recheck).   
 
  -Added possibility to specify feature unification (introduced
   in XML files but the implemented mechanism is general). 
+
+ -Added new features to the rule disambiguator, such as unification,
+  filtering, deleting and adding interpretations. Fixed some 
+  small bugs.
 
  -Added a tagger dictionary for Russian (thanks to Yakov).
 
@@ -27,37 +33,33 @@ LanguageTool Change Log
   This means that you can use LanguageTool as a standalone
   tagger for testing or for building a corpus. 
 
- -The scripts testrules.bat and testrules.sh are now also testing
-  the validity of XML files, including false friends, rules and
-  disambiguator rules.
-
- -Added new features to the rule disambiguator, such as unification,
-  filtering, deleting and adding interpretations. Fixed some 
-  small bugs.
-
  -The rule that checks for whitespace surrounding punctuation 
   marks now detects an orphaned full stop as requested by OOo
   users (http://www.openoffice.org/issues/show_bug.cgi?id=93931). 
 
- -Added new English, Dutch, Polish and Russian rules. Fixed false 
-  alarms for many English rules (including 'a vs. an' rule) based 
-  on the community.languagetool.org user votes and sourceforge.net 
-  tracker reports (#2319686, #2319670, #2381522). Fixed false alarms
-  for many Dutch (thanks to R.J. Baars) and Polish rules.
-  
  -Added a possibility to check if there is a whitespace before a
   token in XML rules (simply specify attribute spacebefore="yes";
   possible values are also "no" and "ignore". "ignore" is the 
   default.)
- 
+
+ -Added new English, Dutch, Polish and Russian rules. Fixed false 
+  alarms for many English rules (including 'a vs. an' rule) based 
+  on the community.languagetool.org user votes and sourceforge.net 
+  tracker reports (#2319686, #2319670, #2381522). Fixed false 
+  alarms for many Dutch (thanks to R.J. Baars) and Polish rules.
+   
  -Massive corrections and additions to the English tagger lexicon. Added 
   a lot of new disambiguation rules for English.
-  
- -Corrections to the Polish tagger and synthesizer lexicon. Added Polish
-  rule-based disambiguator.
  
  -Massive corrections to the Dutch tagger and synthesizer lexicon (thanks
   to R.J. Baars).
+  
+ -Corrections to the Polish tagger and synthesizer lexicon. Added 
+  rule-based disambiguator for Polish.
+
+ -The scripts testrules.bat and testrules.sh are now also testing
+  the validity of XML files, including false friends, rules and
+  disambiguator rules.
  
  -Fixed problems with uppercase sentence start rule with lists for Russian
   and Polish (thanks to Yakov Reztsov).
