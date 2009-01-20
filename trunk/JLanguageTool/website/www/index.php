@@ -2,7 +2,7 @@
 $page = "homepage";
 $title = "LanguageTool";
 $title2 = "Open Source language checker";
-$lastmod = "2008-11-10 21:35:00 CET";
+$lastmod = "2009-01-12 23:39:00 CET";
 include("../include/header.php");
 ?>
 		
@@ -14,11 +14,14 @@ up <em>there/their</em>, <em>no/now</em> etc. It can also detect some
 grammar mistakes. It does not include spell checking. See the <?=show_link("languages", "languages/", 0) ?> 
 page for a list of supported languages.</p>
 
-<p><strong>Update 2008-11-02:</strong> Released version 0.9.5. Changes include:
+<p><strong>Update 2009-01-21:</strong> Released version 0.9.6. Changes include:
 <ul>
-	<li>Updated rules for English and Polish</li>
-	<li>Fixed crashes with OpenOffice.org integration</li>
-	<li>Fixed some false alarms in the German agreement rule</li>
+	<li>Better integration with OpenOffice.org (native checking dialog)</li>
+	<li>Massive corrections to English, Polish, and Dutch rules</li>
+	<li>New dictionary for Russian</li>
+	<li>More features for rule developers, such as a better
+	rule-based disambiguator and attribute unification</li>
+	<li>Fixed a lot of bugs</li>
 </ul>
 
 <p>For a more detailed list of changes, see
@@ -39,13 +42,26 @@ message is useful or not.</p>
 new (simple) rules if you're logged in.</p>
 
 <div class="outerDownloadSection">
+<strong>Download for OpenOffice.org 3.0.1:</strong><br />
+<div class="downloadSection">
+	<p class="warning">
+	This version works only with OpenOffice.org 3.0.1, NOT with 3.0.0.
+	Also, you must de-install
+	LanguageTool 0.9.5 before upgrading to OpenOffice.org 3.0.1 because of compatibility
+	issues.
+	</p>
+	<p><strong><?=show_link("LanguageTool 0.9.6 (for OpenOffice.org 3.0.0)", "download/LanguageTool-0.9.6.oxt", 0) ?></strong>, 12&nbsp;MB,
+	requires <?=show_link("Java", "http://www.java.com/en/download/manual.jsp", 1)?>&nbsp;5.0
+	or later. NOTE: this version <strong>only works with OpenOffice.org 3.0.1 or later</strong> 
+	and you need to <strong>restart OpenOffice.org</strong> after installation of this extension</p>
+</div>
 <strong>Download for OpenOffice.org 3.0.0:</strong><br />
 <div class="downloadSection">
 	<p class="warning">
 	This version works only with OpenOffice.org 3.0.0, NOT with 3.0.1 or its beta releases.
 	Also, you must de-install
 	LanguageTool 0.9.5 before upgrading to OpenOffice.org 3.0.1 because of compatibility
-	issues. A version of LanguageTool for OpenOffice.org 3.0.1 will soon be released.
+	issues.
 	</p>
 	<p><strong><?=show_link("LanguageTool 0.9.5 (for OpenOffice.org 3.0.0)", "download/LanguageTool-0.9.5.oxt", 0) ?></strong>, 10&nbsp;MB,
 	requires <?=show_link("Java", "http://www.java.com/en/download/manual.jsp", 1)?>&nbsp;5.0
