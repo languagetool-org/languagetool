@@ -5,7 +5,7 @@
 <!--
 Dutch Grammar and Typo Rules for LanguageTool
 Copyright (C) 2006,2007,2008 R. J. Baars (ruud.baars@opentaal.org)
-$Id: grammar.xml,v 1.16 2009-01-19 22:05:21 milek_pl Exp $
+$Id: grammar.xml,v 1.17 2009-01-20 21:41:40 milek_pl Exp $
 -->
 <!-- TODO LIST
 * werkwoordvormen
@@ -1521,6 +1521,28 @@ $Id: grammar.xml,v 1.16 2009-01-19 22:05:21 milek_pl Exp $
             <short>make-up</short>
             <example type="incorrect">Zij draagt <marker>make up</marker>.</example>
             <example type="correct">Zij draagt <marker>make-up</marker>.</example>
+         </rule>
+      </rulegroup>
+      <rulegroup id="SPATIE_TEVEEL" name="Spatie overbodig">
+         <rule id="ID211">
+            <pattern>
+               <token>een</token>
+               <token>ieder</token>
+            </pattern>
+            <message>Juist is <suggestion>\1\2</suggestion></message>
+            <short>eenieder</short>
+            <example type="incorrect"><marker>Een ieder</marker> gaat mee.</example>
+            <example type="correct"><marker>Eenieder</marker> gaat mee.</example>
+         </rule>
+         <rule id="ID214">
+            <pattern>
+               <token>bij</token>
+               <token>voorbeeld</token>
+            </pattern>
+            <message>Juist is <suggestion>\1\2</suggestion></message>
+            <short>eenieder</short>
+            <example type="incorrect"><marker>Bij voorbeeld</marker> dit is fout.</example>
+            <example type="correct"><marker>Bijvoorbeeld</marker> dit is goed.</example>
          </rule>
       </rulegroup>
       
