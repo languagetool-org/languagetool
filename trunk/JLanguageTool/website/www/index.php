@@ -2,7 +2,7 @@
 $page = "homepage";
 $title = "LanguageTool";
 $title2 = "Open Source language checker";
-$lastmod = "2009-01-12 23:39:00 CET";
+$lastmod = "2009-01-21 23:39:00 CET";
 include("../include/header.php");
 ?>
 		
@@ -50,11 +50,14 @@ new (simple) rules if you're logged in.</p>
 	LanguageTool 0.9.5 before upgrading to OpenOffice.org 3.0.1 because of compatibility
 	issues.
 	</p>
-	<p><strong><?=show_link("LanguageTool 0.9.6 (for OpenOffice.org 3.0.0)", "download/LanguageTool-0.9.6.oxt", 0) ?></strong>, 12&nbsp;MB,
+	<p><strong><?=show_link("LanguageTool 0.9.6 (for OpenOffice.org 3.0.1)", "download/LanguageTool-0.9.6.oxt", 0) ?></strong>, 12&nbsp;MB,
 	requires <?=show_link("Java", "http://www.java.com/en/download/manual.jsp", 1)?>&nbsp;5.0
 	or later. NOTE: this version <strong>only works with OpenOffice.org 3.0.1 or later</strong> 
 	and you need to <strong>restart OpenOffice.org</strong> after installation of this extension</p>
 </div>
+</div>
+
+<div class="outerDownloadSection">
 <strong>Download for OpenOffice.org 3.0.0:</strong><br />
 <div class="downloadSection">
 	<p class="warning">
@@ -88,11 +91,11 @@ new (simple) rules if you're logged in.</p>
 
 <ul>
 	<li><strong>In OpenOffice.org</strong>:
-	Double click <tt>LanguageTool-0.9.5.oxt</tt> to install it.
+	Double click <tt>LanguageTool-0.9.6.oxt</tt> to install it.
 	If that doesn't work, call <em>Tools -&gt; Extension Manager -&gt; Add...</em>
 	to install it. Close OpenOffice.org and re-start it. Type some text
 	with an error (e.g. "This is an test." -- make sure the text language is set
-	to English) and you should see a blue underline (version 0.9.5 only).
+	to English) and you should see a blue underline (version 0.9.5 or later only).
 	For version 0.9.2, you'll need to use the "LanguageTool" entries in the "Tools"
 	menu to check a text.</li>
 
