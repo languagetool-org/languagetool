@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 	<!--
 		Disambiguation Rules for LanguageTool Copyright (C) 2008				
-$Id: disambiguation.xml,v 1.7 2009-01-13 18:44:43 milek_pl Exp $
+$Id: disambiguation.xml,v 1.8 2009-01-25 13:30:56 milek_pl Exp $
 	-->	
 <rules lang="pl">
   <unification feature="number">
@@ -207,6 +207,14 @@ $Id: disambiguation.xml,v 1.7 2009-01-13 18:44:43 milek_pl Exp $
 		</rule>
 	</rulegroup>
 	
+	<rule name="miał + inf -> verb" id="mial">
+		<pattern mark="0">
+			<token>miał</token>
+			<token postag_regexp="yes" postag="verb:inf.*"/>
+		</pattern>
+		<disambig action="filter" postag="verb.*"/>
+	</rule>
+	
 	<rule name="dr, mgr + . => qub" id="dr_mgr_kropka">
 		<pattern mark="0">
 		 <token regexp="yes">dr|mgr|nr|kmdr|kmdt|arcybp|bp|abp</token>
@@ -214,5 +222,17 @@ $Id: disambiguation.xml,v 1.7 2009-01-13 18:44:43 milek_pl Exp $
 		</pattern>
 		<disambig postag="qub"/>
 	</rule>
+	
+	<rule name="prep + czasownik -> ~ czasownik" id="prep_verb">
+		<pattern mark="1">		
+			<token regexp="yes">w|do|z|na</token>
+			<and>
+			<token postag="verb.*" postag_regexp="yes"/>
+			<token postag="adj.*|adv.*|subst.*" postag_regexp="yes"/>
+			</and>			
+		</pattern>
+		<disambig action="filter" postag="adj.*|adv.*|subst.*"/>
+	</rule>
+
 		
 </rules>
