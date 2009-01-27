@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 	<!--
 		Disambiguation Rules for LanguageTool Copyright (C) 2008				
-$Id: disambiguation.xml,v 1.8 2009-01-25 13:30:56 milek_pl Exp $
+$Id: disambiguation.xml,v 1.9 2009-01-27 23:26:19 milek_pl Exp $
 	-->	
 <rules lang="pl">
   <unification feature="number">
@@ -234,5 +234,44 @@ $Id: disambiguation.xml,v 1.8 2009-01-25 13:30:56 milek_pl Exp $
 		<disambig action="filter" postag="adj.*|adv.*|subst.*"/>
 	</rule>
 
+	<rulegroup name="lecz" id="lecz">
+		<rule>
+			<pattern mark="0">
+				<token>lecz</token>
+				<token>się</token>
+				<token>sam</token>
+				<token regexp="yes">[\.!,-—…]+</token>
+			</pattern>
+			<disambig action="filter" postag="verb:impt.*"/>
+		</rule>
+		<rule>
+			<pattern mark="1">
+			<token>,</token>
+			<token>lecz</token>
+			</pattern>
+			<disambig postag="conj"/>
+		</rule>
+	</rulegroup>
+	
+	<rulegroup name="rzadkie rzeczowniki" id="subst">
+		<rule>
+			<pattern mark="0">
+				<token regexp="yes">taka|taką</token>
+			</pattern>
+			<disambig action="filter" postag="adj.*"/>
+		</rule>
+		<rule>
+			<pattern mark="0">
+				<token regexp="yes">kłamie|czekał</token>
+			</pattern>
+			<disambig action="filter" postag="verb.*"/>
+		</rule>
+		<rule>
+			<pattern mark="0">
+				<token>nic</token>
+			</pattern>
+			<disambig action="remove"><wd lemma="nica" pos="subst:pl:gen:f">nic</wd></disambig>
+		</rule>
+	</rulegroup>
 		
 </rules>
