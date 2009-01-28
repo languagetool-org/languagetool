@@ -2,7 +2,7 @@
 $page = "homepage";
 $title = "LanguageTool";
 $title2 = "Open Source language checker";
-$lastmod = "2009-01-21 23:39:00 CET";
+$lastmod = "2009-01-28 23:39:00 CET";
 include("../include/header.php");
 ?>
 		
@@ -47,8 +47,9 @@ new (simple) rules if you're logged in.</p>
 	<p class="warning">
 	This version works only with OpenOffice.org 3.0.1, NOT with 3.0.0.
 	Also, you must de-install
-	LanguageTool 0.9.5 before upgrading to OpenOffice.org 3.0.1 because of compatibility
-	issues.
+	LanguageTool 0.9.5 <strong>before</strong> upgrading to OpenOffice.org 3.0.1 because of compatibility
+	issues (check <a href="http://languagetool.wikidot.com/removing-languagetool-0-9-5-from-openoffice-3-0-1">this
+	page</a> if you forgot to do so).
 	</p>
 	<p><strong><?=show_link("LanguageTool 0.9.6 (for OpenOffice.org 3.0.1)", "download/LanguageTool-0.9.6.oxt", 0) ?></strong>, 12&nbsp;MB,
 	requires <?=show_link("Java", "http://www.java.com/en/download/manual.jsp", 1)?>&nbsp;5.0
@@ -63,8 +64,9 @@ new (simple) rules if you're logged in.</p>
 	<p class="warning">
 	This version works only with OpenOffice.org 3.0.0, NOT with 3.0.1 or its beta releases.
 	Also, you must de-install
-	LanguageTool 0.9.5 before upgrading to OpenOffice.org 3.0.1 because of compatibility
-	issues.
+	LanguageTool 0.9.5 <strong>before</strong> upgrading to OpenOffice.org 3.0.1 because of compatibility
+	issues (check <a href="http://languagetool.wikidot.com/removing-languagetool-0-9-5-from-openoffice-3-0-1">this
+	page</a> if you forgot to do so).
 	</p>
 	<p><strong><?=show_link("LanguageTool 0.9.5 (for OpenOffice.org 3.0.0)", "download/LanguageTool-0.9.5.oxt", 0) ?></strong>, 10&nbsp;MB,
 	requires <?=show_link("Java", "http://www.java.com/en/download/manual.jsp", 1)?>&nbsp;5.0
