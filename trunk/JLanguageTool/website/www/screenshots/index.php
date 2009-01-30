@@ -10,6 +10,16 @@ include("../../include/header.php");
 <tr><td>&nbsp;</td></tr>
 <tr>
 <td>
+	<a href="art/screenshot_ooo3_pl.png"><img border="0" width="320" height="235" 
+		src="art/screenshot_ooo3_pl_small.png" alt="LanguageTool in Polish OpenOffice.org 3.0" /></a><br />
+		<a href="art/screenshot_ooo3_pl.png"><span style="font-size:10px">LanguageTool installed
+		as an add-on<br/>in Polish OpenOffice.org 3.0.1 (click to enlarge)</span></a>
+</td>
+</tr>
+<tr><td>&nbsp;</td></tr>
+<tr><td>&nbsp;</td></tr>
+<tr>
+<td>
 	<a href="art/screenshot_ooo3.png"><img border="0" width="300" height="216" 
 		src="art/screenshot_ooo3_small.png" alt="LanguageTool in OpenOffice.org 3.0" /></a><br />
 		<a href="art/screenshot_ooo3.png"><span style="font-size:10px">LanguageTool installed
