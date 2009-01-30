@@ -14,8 +14,8 @@ language is supported.</p>
 
 <!-- Output of RuleOverview.java: -->
 
-<b>Rules in LanguageTool 0.9.6</b><br />
-Date: 2009-01-20<br /><br />
+<b>Rules in LanguageTool 0.9.7-dev</b><br />
+Date: 2009-01-30<br /><br />
 
 <table>
 <tr>
