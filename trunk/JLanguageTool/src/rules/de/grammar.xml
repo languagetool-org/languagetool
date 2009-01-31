@@ -8,10 +8,22 @@ title="Easy editing stylesheet" ?>
 German grammar and typo rules for LanguageTool
 See resource/de/tagset.txt for the meaning of the POS tags
 Copyright (C) 2001-2007 Daniel Naber (http://www.danielnaber.de)
-$Id: grammar.xml,v 1.16 2009-01-31 16:52:41 dnaber Exp $
+$Id: grammar.xml,v 1.17 2009-01-31 20:28:38 dnaber Exp $
 -->
 <rules lang="de">
   <category name="Mögliche Tippfehler">
+    <rulegroup id="SO_WIE_SO" name="Tippfehler: 'so wie so(sowieso)'">
+      <rule>
+        <pattern>
+          <token>so</token>
+          <token>wie</token>
+          <token>so</token>
+        </pattern>
+        <message>Meinten Sie <suggestion>sowieso</suggestion>?</message>
+        <example type="correct">Das halte ich <marker>sowieso</marker> für schlecht.</example>
+        <example type="incorrect">Das halte ich <marker>so wie so</marker> für schlecht.</example>
+      </rule>
+    </rulegroup>
     <rulegroup id="CONTRA_PRODUKTIV" name="Tippfehler: 'contra produktiv(kontraproduktiv)'">
       <rule>
         <pattern>
