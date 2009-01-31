@@ -8,7 +8,7 @@ title="Easy editing stylesheet" ?>
 German grammar and typo rules for LanguageTool
 See resource/de/tagset.txt for the meaning of the POS tags
 Copyright (C) 2001-2007 Daniel Naber (http://www.danielnaber.de)
-$Id: grammar.xml,v 1.15 2009-01-31 16:47:13 dnaber Exp $
+$Id: grammar.xml,v 1.16 2009-01-31 16:52:41 dnaber Exp $
 -->
 <rules lang="de">
   <category name="Mögliche Tippfehler">
@@ -482,11 +482,12 @@ $Id: grammar.xml,v 1.15 2009-01-31 16:47:13 dnaber Exp $
       <example type="incorrect">Da würde ich auch <marker>Bescheids</marker> geben.</example>
     </rule>
     <rule id="WIEDER_WILLEN" name="Möglicher Tippfehler 'wieder(wider) Willen/Erwarten'">
-      <pattern mark_to="-1">
+      <pattern mark_to="-1" case_sensitive="yes">
         <token>wieder</token>
         <token regexp="yes">Willen|Erwarten</token>
       </pattern>
       <message>Meinten Sie <suggestion>wider</suggestion> (wider = gegen, wieder = nochmals)?</message>
+      <example type="correct">Und <marker>wieder</marker> erwarten wir Probleme.</example>
       <example type="correct">Wunschwitz wird zum Aufständler und Rebellen <marker>wider</marker> Willen.</example>
       <example type="incorrect">Wunschwitz wird zum Aufständler und Rebellen <marker>wieder</marker> Willen.</example>
     </rule>
