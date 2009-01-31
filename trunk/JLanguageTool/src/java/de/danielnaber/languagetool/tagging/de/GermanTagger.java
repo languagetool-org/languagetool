@@ -23,6 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import morfologik.stemmers.Lametyzator;
+import de.danielnaber.languagetool.AnalyzedToken;
 import de.danielnaber.languagetool.AnalyzedTokenReadings;
 import de.danielnaber.languagetool.tagging.ManualTagger;
 import de.danielnaber.languagetool.tagging.Tagger;
@@ -62,6 +63,7 @@ public class GermanTagger implements Tagger {
         DICT_FILENAME);    
   }
   
+  @Override
   public List<AnalyzedTokenReadings> tag(final List<String> sentenceTokens) throws IOException {
     return tag(sentenceTokens, true);
   }
@@ -147,10 +149,16 @@ public class GermanTagger implements Tagger {
     }
   }
   
+  @Override
   public final Object createNullToken(final String token, final int startPos) {
     return new AnalyzedGermanTokenReadings(new AnalyzedGermanToken(token, null, startPos));
   }
 
+  @Override
+  public AnalyzedToken createToken(String token, String posTag, int startPos) {
+    return new AnalyzedGermanToken(token, posTag, startPos);
+  }
+  
   /**
    * Test only
    */

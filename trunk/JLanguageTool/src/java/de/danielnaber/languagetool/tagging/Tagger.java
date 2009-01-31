@@ -21,6 +21,7 @@ package de.danielnaber.languagetool.tagging;
 import java.io.IOException;
 import java.util.List;
 
+import de.danielnaber.languagetool.AnalyzedToken;
 import de.danielnaber.languagetool.AnalyzedTokenReadings;
 
 /**
@@ -47,5 +48,10 @@ public interface Tagger {
    * as the POS tag for this token.
    */
   public Object createNullToken(String token, int startPos);
+
+  /**
+   * Create a token specific to the laguage of the implementing class.
+   */
+  public AnalyzedToken createToken(String token, String posTag, int startPos);
     
 }

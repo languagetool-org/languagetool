@@ -47,6 +47,7 @@ public class UkrainianMyspellTagger implements Tagger {
   // private Lametyzator morfologik = null;
   private HashMap<String, String[]> wordsToPos;
 
+  @Override
   public final List<AnalyzedTokenReadings> tag(final List<String> sentenceTokens)
       throws IOException {
 
@@ -141,8 +142,14 @@ public class UkrainianMyspellTagger implements Tagger {
     return tokenReadings;
   }
 
+  @Override
   public final Object createNullToken(final String token, final int startPos) {
     return new AnalyzedTokenReadings(new AnalyzedToken(token, null, startPos));
+  }
+
+  @Override
+  public AnalyzedToken createToken(String token, String posTag, int startPos) {
+    return new AnalyzedToken(token, posTag, startPos);
   }
 
 }

@@ -44,7 +44,8 @@ public abstract class BaseTagger implements Tagger {
   public void setLocale(Locale loc) {
     conversionLocale = loc;
   }
-  
+
+  @Override
   public List<AnalyzedTokenReadings> tag(final List<String> sentenceTokens) throws IOException {
     String[] taggerTokens;
     List<AnalyzedTokenReadings> tokenReadings = new ArrayList<AnalyzedTokenReadings>();
@@ -98,8 +99,14 @@ public abstract class BaseTagger implements Tagger {
   /* (non-Javadoc)
    * @see de.danielnaber.languagetool.tagging.Tagger#createNullToken(java.lang.String, int)
    */
+  @Override
   public final Object createNullToken(final String token, final int startPos) {
     return new AnalyzedTokenReadings(new AnalyzedToken(token, null, startPos));
+  }
+  
+  @Override
+  public AnalyzedToken createToken(String token, String posTag, int startPos) {
+    return new AnalyzedToken(token, posTag, startPos);
   }
 
 }
