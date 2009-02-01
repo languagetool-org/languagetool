@@ -5,7 +5,7 @@
 <!--
 Dutch Grammar and Typo Rules for LanguageTool
 Copyright (C) 2006,2007,2008 R. J. Baars (ruud.baars@opentaal.org)
-$Id: grammar.xml,v 1.17 2009-01-20 21:41:40 milek_pl Exp $
+$Id: grammar.xml,v 1.18 2009-02-01 09:49:43 milek_pl Exp $
 -->
 <!-- TODO LIST
 * werkwoordvormen
@@ -871,6 +871,20 @@ $Id: grammar.xml,v 1.17 2009-01-20 21:41:40 milek_pl Exp $
       </rulegroup>
    </category>
    <category name="Punten en komma's, interpunctie">
+      <rulegroup id="SYMBOOL" name="Symbool vooraan zin, geen hoofdletter">
+         <rule id="ID239">
+            <pattern case_sensitive="yes">
+               <token postag="SENT_START"/>
+               <token negate="yes" regexp="yes">^[a-z'].*</token>
+               <token regexp="yes">^[A-Z][a-z]</token>
+            </pattern>
+            <message>Wanneer de zin met een getal of symbool begint, krijgt het 1e echte woord geen hoofdletter.</message>
+            <short>Geen hoofdletter</short>
+            <example type="incorrect"><marker>900 Is</marker> een verkeerd begin.</example>
+            <example type="correct"><marker>= is</marker> een goed begin.</example>
+         </rule>
+      </rulegroup>
+      
       <rulegroup id="EN_KOMMA" name="En, gevolgd door komma">
          <rule id="ID081_OK">
             <pattern>
@@ -1196,7 +1210,7 @@ $Id: grammar.xml,v 1.17 2009-01-20 21:41:40 milek_pl Exp $
       <rulegroup id="LETTERW" name="Letterwoorden met achtervoegsel, zonder aanhalingsteken">
          <rule id="ID183">
             <pattern case_sensitive="yes">
-               <token regexp="yes">[A-Z]{1,9}(tje|tjes|s|er|ers|ertje|ertjes)$</token>
+               <token regexp="yes">[A-Z]{2,9}(tje|tjes|s|er|ers|ertje|ertjes)$</token>
             </pattern>
             <message>Tussen een hoofdletterwoord en het achtervoegsel hoort een apostrof (bijv. AOW'er) .</message>
             <short>' mist</short>
