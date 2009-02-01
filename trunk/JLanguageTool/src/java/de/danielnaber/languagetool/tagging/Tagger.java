@@ -47,7 +47,7 @@ public interface Tagger {
    * Create the AnalyzedToken used for whitespace and other non-words. Use <code>null</code>
    * as the POS tag for this token.
    */
-  public Object createNullToken(String token, int startPos);
+  public AnalyzedTokenReadings createNullToken(String token, int startPos);
 
   /**
    * Create a token specific to the laguage of the implementing class.

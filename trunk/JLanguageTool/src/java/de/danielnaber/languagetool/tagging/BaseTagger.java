@@ -100,7 +100,7 @@ public abstract class BaseTagger implements Tagger {
    * @see de.danielnaber.languagetool.tagging.Tagger#createNullToken(java.lang.String, int)
    */
   @Override
-  public final Object createNullToken(final String token, final int startPos) {
+  public final AnalyzedTokenReadings createNullToken(final String token, final int startPos) {
     return new AnalyzedTokenReadings(new AnalyzedToken(token, null, startPos));
   }
   

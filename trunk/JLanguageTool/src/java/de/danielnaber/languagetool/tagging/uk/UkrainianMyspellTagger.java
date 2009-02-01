@@ -143,7 +143,7 @@ public class UkrainianMyspellTagger implements Tagger {
   }
 
   @Override
-  public final Object createNullToken(final String token, final int startPos) {
+  public final AnalyzedTokenReadings createNullToken(final String token, final int startPos) {
     return new AnalyzedTokenReadings(new AnalyzedToken(token, null, startPos));
   }
 

@@ -150,7 +150,7 @@ public class GermanTagger implements Tagger {
   }
   
   @Override
-  public final Object createNullToken(final String token, final int startPos) {
+  public final AnalyzedGermanTokenReadings createNullToken(final String token, final int startPos) {
     return new AnalyzedGermanTokenReadings(new AnalyzedGermanToken(token, null, startPos));
   }
 

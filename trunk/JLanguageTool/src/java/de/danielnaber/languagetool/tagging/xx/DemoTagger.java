@@ -56,7 +56,7 @@ public class DemoTagger implements Tagger {
   }
 
   @Override
-  public Object createNullToken(String token, int startPos) {
+  public AnalyzedTokenReadings createNullToken(String token, int startPos) {
 	  return new AnalyzedTokenReadings(new AnalyzedToken(token, null, startPos));
   }
 
