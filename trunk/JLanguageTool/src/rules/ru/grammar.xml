@@ -8,7 +8,7 @@ title="Easy editing stylesheet" ?>
 A Russian rule file for LanguageTool
 Copyright (C) 2005 Daniel Naber (http://www.danielnaber.de)
 Copyright (C) 2008 Yakov Reztsov
-$Id: grammar.xml,v 1.19 2009-01-19 20:49:40 milek_pl Exp $
+$Id: grammar.xml,v 1.20 2009-02-02 16:29:59 milek_pl Exp $
 -->
 <rules lang="ru">
     <category name="Пунктуация">
@@ -436,7 +436,7 @@ $Id: grammar.xml,v 1.19 2009-01-19 20:49:40 milek_pl Exp $
             <rule>
                 <pattern>
                     <token>не</token>
-                    <token  regexp="yes">то|иначе|так</token>
+                    <token  regexp="yes">то|иначе</token>
                     <token>,</token>
                     <token  regexp="yes">что|как|чтобы</token>                    
                 </pattern>
@@ -445,6 +445,19 @@ $Id: grammar.xml,v 1.19 2009-01-19 20:49:40 milek_pl Exp $
                 <example type="correct">Работа была сделана не иначе как полностью.</example>
                 <example type="incorrect">Работа была сделана <marker>не иначе, как</marker> полностью.</example>
             </rule>
+            <rule>
+                <pattern>
+                    <token>не</token>
+                    <token>так</token>
+                    <token>,</token>
+                    <token>чтобы</token>                    
+                </pattern>
+                <message>Запятая не нужна:<suggestion>\1 \2 \4</suggestion>.</message>
+                <short>Запятая не нужна.</short>
+                <example type="correct">Работа была сделана не так чтобы полностью.</example>
+                <example type="incorrect">Работа была сделана <marker>не так, чтобы</marker> полностью.</example>
+            </rule>            
+            
         </rulegroup>
         <rulegroup default="on" id="I_TO_I_SE" name="Цельные выражения: ни рыба ни мясо, ...">
             <!-- Запятая не ставится в цельных выражениях:
@@ -815,12 +828,12 @@ $Id: grammar.xml,v 1.19 2009-01-19 20:49:40 milek_pl Exp $
         <rulegroup default="on"  id="talk" name="Разговорные слова">
             <rule>  
                 <pattern>
-                    <token  postag=".*:Talk" postag_regexp="yes"></token>
+                    <token  postag=".*:Talk" postag_regexp="yes"><exception negate_pos="yes" postag=".*:Talk" postag_regexp="yes"></exception></token>
                 </pattern>
                 <message>Разговорная форма слова.</message>
                 <short>Разговорная форма слова.</short>
-                <example type="correct">Иванович</example>
-                <example type="incorrect"><marker>Иваныч</marker></example>
+                <example type="correct">Иван Иванович</example>
+                <example type="incorrect">Иван <marker>Иваныч</marker>.</example>
             </rule>
         </rulegroup>
         
