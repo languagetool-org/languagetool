@@ -5,7 +5,7 @@
 <!--
 Dutch Grammar and Typo Rules for LanguageTool
 Copyright (C) 2006,2007,2008 R. J. Baars (ruud.baars@opentaal.org)
-$Id: grammar.xml,v 1.18 2009-02-01 09:49:43 milek_pl Exp $
+$Id: grammar.xml,v 1.19 2009-02-05 19:58:52 milek_pl Exp $
 -->
 <!-- TODO LIST
 * werkwoordvormen
@@ -1183,7 +1183,7 @@ $Id: grammar.xml,v 1.18 2009-02-01 09:49:43 milek_pl Exp $
             <example type="incorrect">Ik ga naar <marker>'s Gravenhage</marker>.</example>
             <example type="correct">Ik ga naar <marker>Den Haag</marker>.</example>
          </rule>
-         <rule id="ID106_OK">
+         <rule id="TA0198_OK">
             <pattern>
                <token>'</token>
                <token>s</token>
@@ -1558,6 +1558,16 @@ $Id: grammar.xml,v 1.18 2009-02-01 09:49:43 milek_pl Exp $
             <example type="incorrect"><marker>Bij voorbeeld</marker> dit is fout.</example>
             <example type="correct"><marker>Bijvoorbeeld</marker> dit is goed.</example>
          </rule>
+         <rule id="TA0195">
+            <pattern>
+               <token>decennia</token>
+               <token>lang</token>
+            </pattern>
+            <message>Juist is <suggestion>\1\2</suggestion></message>
+            <short>decennialang</short>
+            <example type="incorrect"><marker>Decennia lang</marker> is fout.</example>
+            <example type="correct"><marker>Decennialang</marker> is goed.</example>
+         </rule>
       </rulegroup>
       
       <rulegroup id="KOPPELTEKEN" name="Koppelteken verplicht">
@@ -1796,6 +1806,15 @@ $Id: grammar.xml,v 1.18 2009-02-01 09:49:43 milek_pl Exp $
             <example type="incorrect">Er was <marker>vijfduizendvierhonderdeenentwintig</marker> man aanwezig.</example>
             <example type="correct">Er was <marker>vijfduizend</marker> vierhonderdeenentwintig man aanwezig.</example>
          </rule>
+         <rule id="ID106">
+            <pattern>
+               <token regexp="yes">[0-9]|[1-9][0-9]|[1-9]0|[1-9][0-9]00|[1-9]00</token>
+            </pattern>
+            <message>Ronde getallen worden in tekst bij voorkeur in letters geschreven</message>
+            <short>Uitschrijven</short>
+            <example type="incorrect">Er was <marker>100</marker> man aanwezig.</example>
+            <example type="correct">Er was <marker>honderd</marker> man aanwezig.</example>
+         </rule>
          <rule id="ID153">
             <pattern>
                <token regexp="yes">.*(m|b|tr)ilj(oen|ard)(een|twee|drie|vier|vijf|zes|zeven|acht|negen|tien|twin|der|veer|honderd|duizend).*</token>
@@ -1831,6 +1850,37 @@ $Id: grammar.xml,v 1.18 2009-02-01 09:49:43 milek_pl Exp $
             <short>Cijfers graag</short>
             <example type="incorrect">De regering begrootte 3 <marker>biljoen</marker>.</example>
             <example type="correct">De regering begrootte 3000 <marker>miljoen</marker>.</example>
+         </rule>
+         <rule id="TA0001a">
+            <pattern>
+               <token regexp="yes">^[1-9]$</token>
+               <token regexp="yes">[.]</token>
+               <token regexp="yes">^[0-9]{3}$</token>
+            </pattern>
+            <message>Geen punt bij getallen met 4 cijfers, tenzij in berekening.</message>
+            <short>Geen punt</short>
+            <example type="incorrect">Getallen als <marker>1.234</marker> schrijf je zonder punt.</example>
+            <example type="correct">Getallen als <marker>1234</marker> schrijf je zonder punt.</example>
+         </rule>
+         <rule id="TA0001b">
+            <pattern>
+               <token regexp="yes">^[1-9][0-9]{0,2}$</token>
+               <token regexp="yes">[.]</token>
+               <token regexp="yes">^([0-9]{1,2}|[0-9]{4,6})$</token>
+            </pattern>
+            <message>Een groepering per 3 cijfers is normaal. Het decimaalteken is een komma.</message>
+            <short>Groeperen per 3</short>
+            <example type="incorrect">Getallen als <marker>1.23</marker> schrijf je zonder punt.</example>
+            <example type="correct">Getallen als <marker>1234</marker> schrijf je zonder punt.</example>
+         </rule>
+         <rule id="TA0002">
+            <pattern>
+               <token regexp="yes">^[1-9][0-9]{0,1}(de|ste)$</token>
+            </pattern>
+            <message>De geadviseerde schrijfwijze is met een e, als in 13e.</message>
+            <short>13e</short>
+            <example type="incorrect">Rangtelwoorden als <marker>13de</marker> schrijf je anders.</example>
+            <example type="correct">Dit is de <marker>12e</marker> fout al.</example>
          </rule>
       </rulegroup>
       
@@ -2525,7 +2575,7 @@ $Id: grammar.xml,v 1.18 2009-02-01 09:49:43 milek_pl Exp $
          </rule>
          <rule id="ID220_OK">
             <pattern>
-               <token skip="2" regexp="yes">aantal|bende|berg|blik|bos|bups|colonne|grom|groep|groepje|hoeveelheid|horde|kluit|kluwen|kudde|lading|leger|legioen|menigte|meute|reeks|rij|rijtje|rits|roedel|schare|serie|slag|sleep|soort|stoet|troep|verzameling|zwik|zooi|zootje</token>
+               <token skip="2" regexp="yes">bende|berg|blik|bos|bups|colonne|grom|groep|groepje|hoeveelheid|horde|kluit|kluwen|kudde|lading|leger|legioen|menigte|meute|reeks|rij|rijtje|rits|roedel|schare|serie|slag|sleep|soort|stoet|troep|verzameling|zwik|zooi|zootje</token>
                <token postag="NN2.*" postag_regexp="yes"/>
                <token postag="VBh" postag_regexp="yes"/>
             </pattern>
@@ -2533,6 +2583,18 @@ $Id: grammar.xml,v 1.18 2009-02-01 09:49:43 milek_pl Exp $
             <short>Een groep is één.</short>
             <example type="incorrect">Een <marker>colonne soldaten vielen</marker> aan.</example>
             <example type="correct">Een <marker>groep soldaten</marker> viel aan.</example>
+         </rule>
+         <rule id="TA0016">
+            <pattern>
+               <token>het</token>
+               <token>aantal</token>
+               <token postag="NN2.*" postag_regexp="yes"/>
+               <token postag="VBh" postag_regexp="yes"/>
+            </pattern>
+            <message>Het aantal is één groep, dus juist is <suggestion><match no="4" postag="VBh1"/></suggestion>.</message>
+            <short>Geem meervoud.</short>
+            <example type="incorrect"><marker>Het aantal soldaten vielen</marker> aan.</example>
+            <example type="correct"><marker>Het aantal soldaten</marker> viel aan.</example>
          </rule>
       </rulegroup>
       <rulegroup id="BREUKSTREEP" name="Breukstreep vermijden">
@@ -2595,6 +2657,83 @@ $Id: grammar.xml,v 1.18 2009-02-01 09:49:43 milek_pl Exp $
          </rule>
       </rulegroup>
    </category>
+   <category name="Getallen">
+      <rulegroup id="A_AD" name="Geen ad maar á">
+         <rule id="TA0021">
+            <pattern>
+               <token>ad</token>
+               <token regexp="yes">€|EUR</token>
+               <token regexp="yes">^[0-9][1-9]{0,6}</token>
+               <token>per</token>
+            </pattern>
+            <message>De prijs per stuk wordt aangegeven met:<suggestion>á</suggestion></message>
+            <short>á</short>
+            <example type="incorrect">Het is <marker>ad € 15 per</marker> stuk of niet.</example>
+            <example type="correct">Het is <marker>á € 20 per</marker> stuk toch niet duur?</example>
+         </rule>
+      </rulegroup>
+   </category>
+   <category name="Afkortingen corrigeren">
+      <rulegroup id="AD" name="Geen ad. maar ad">
+         <rule id="TA0022a">
+            <pattern case_sensitive="yes">
+               <token>ad</token>
+               <token>.</token>
+            </pattern>
+            <message>Dit is geen afkorting: <suggestion>ad</suggestion></message>
+            <short>Geen afkorting</short>
+            <example type="incorrect">Ik wil <marker>ad.</marker> punt 5 nog iets zeggen.</example>
+            <example type="correct">Ik wil <marker>ad</marker> punt 5 nog iets zeggen.</example>
+         </rule>
+         <rule id="TA0022b">
+            <pattern>
+               <token postag="SENT_START"/>
+               <token>Ad</token>
+               <token>.</token>
+            </pattern>
+            <message>Dit is geen afkorting: <suggestion>ad</suggestion></message>
+            <short>Geen afkorting</short>
+            <example type="incorrect"><marker>Ad.</marker> punt 5 wil ik nog iets zeggen.</example>
+            <example type="correct"><marker>Ad</marker> punt 5 wil ik nog iets zeggen.</example>
+         </rule>
+         <rule id="TA0170">
+            <pattern>
+               <token regexp="yes">mm|cm|km|mg|kg|h|kW|mW</token>
+               <token>.</token>
+            </pattern>
+            <message>Dit is geen afkorting maar een eenheid: <suggestion>\1</suggestion></message>
+            <short>Geen afkorting</short>
+            <example type="incorrect">Het is 15 <marker>mm.</marker> dik.</example>
+            <example type="correct">Het is 15 <marker>mm</marker> dik.</example>
+         </rule>
+         <rule id="TA0219">
+            <pattern mark_to="-1">
+               <token regexp="yes">dr|drs|ing|ir|lic|mr|prof</token>
+               <token negate="yes">.</token>
+            </pattern>
+            <message>Vergeet de punt niet in <suggestion>\1.</suggestion></message>
+            <short>Punt</short>
+            <example type="incorrect"><marker>Dr</marker> Janssen is fout.</example>
+            <example type="correct"><marker>Dr.</marker> Janssen is goed.</example>
+         </rule>
+      </rulegroup>
+      
+   </category>
+   <category name="Eigennamen">
+      <rulegroup id="AFD" name="Afdelingsnamen">
+         <rule id="TA0028">
+            <pattern case_sensitive="yes" mark_to="-1">
+               <token regexp="yes">Afdeling|Dienst|Bureau|Sectie</token>
+               <token regexp="yes">[A-Z][a-z].*</token>
+            </pattern>
+            <message>Als \1 geen deel uitmaakt van de naam, dan is juist:<suggestion><match no="1" case_conversion ="startlower"/></suggestion></message>
+            <short>Geen hoofdletter</short>
+            <example type="incorrect">De <marker>Afdeling</marker> Beheer kan het.</example>
+            <example type="correct">De <marker>afdeling</marker> Beheer kan het.</example>
+         </rule>
+      </rulegroup>
+   </category>
+   
    <category name="Zelfcensuur">
       <rulegroup id="OVERDRIJVING" name="Overdrijving">
          <rule id="ID226_OK">
