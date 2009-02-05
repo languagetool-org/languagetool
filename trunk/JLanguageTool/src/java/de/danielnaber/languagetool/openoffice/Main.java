@@ -319,7 +319,7 @@ public class Main extends WeakBase implements XJobExecutor,
         .replaceAll("([\r]*\n)", " "); // convert line ends to spaces
     aError.aFullComment = comment;
     // not all rules have short comments
-    if (myMatch.getShortMessage() != null) {
+    if (!StringTools.isEmpty(myMatch.getShortMessage())) {
       aError.aShortComment = myMatch.getShortMessage();
     } else {
       aError.aShortComment = aError.aFullComment;
