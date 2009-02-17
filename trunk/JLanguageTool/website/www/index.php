@@ -2,7 +2,7 @@
 $page = "homepage";
 $title = "LanguageTool";
 $title2 = "Open Source language checker";
-$lastmod = "2009-01-28 23:39:00 CET";
+$lastmod = "2009-02-17 22:39:00 CET";
 include("../include/header.php");
 ?>
 		
@@ -121,6 +121,10 @@ new (simple) rules if you're logged in.</p>
 <li>If LanguageTool doesn't start and you see no error message, please
 	check if the extension is enabled in the Extension manager 
 	(under <em>Tools -&gt; Extension Manager</em>).</li>
+<li>On Ubuntu, when you get an error message during installation, you might need to
+	install the <tt>openoffice.org-java-common</tt> package. See
+	<a href="http://nancib.wordpress.com/2008/05/03/fixing-the-openofficeorg-grammar-glitch-in-ubuntu-hardy/">this blog posting</a>
+	for details.</li>
 </ul>
 
 <p>The source is available <?=show_link("at Sourceforge", "http://sourceforge.net/projects/languagetool/", 1) ?>
