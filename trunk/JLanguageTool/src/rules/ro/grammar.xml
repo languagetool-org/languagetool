@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE rules SYSTEM "../rules.dtd">
+<?xml-stylesheet type="text/xsl" href="../print.xsl" 
+title="Pretty print" ?>
+<?xml-stylesheet type="text/css" href="../rules.css" 
+title="Easy editing stylesheet" ?>
+	<!--
+		Romanian Grammar and Typo Rules for LanguageTool Copyright (C) 2009
+		Ionuț Păduraru
+	-->
+<rules lang="ro">
+
+	<category name="Greșeli gramaticale">
+		<rulegroup name="Care/pe care" id="CARE__PE_CARE">
+			<rule>
+				<pattern mark_from="1" mark_to="-1">
+					<token postag="Sfs3aac000" />
+					<token>care</token>
+					<token>ți-am</token>
+				</pattern>
+				<message>În acest context formularea corectă este <suggestion>pe care</suggestion>.</message>
+				<example type="correct">cartea <marker>pe care</marker> ți-am dat-o.</example>
+				<example type="incorrect">cartea <marker>care</marker> ți-am dat-o.</example>
+			</rule>
+		</rulegroup>
+		<rulegroup name="Acord" id="ACORD_SUBSTANTIV">
+			<rule>
+				<pattern mark_from="0" mark_to="-1">
+					<token>un</token>
+					<token postag="Sfs3anc000" />
+				</pattern>
+				<message>Pentru substantivele de gen feminin se folosește <suggestion>o</suggestion>.</message>
+				<short>Greșeală gramaticală</short>
+				<example type="correct"><marker>O</marker> masă</example>
+				<example type="incorrect"><marker>Un</marker> masă</example>
+			</rule>
+			<rule>
+				<pattern mark_from="2">
+					<token>această</token>
+					<token postag="Sfs3aac000" />
+				</pattern>
+				<message>Folosire incorectă a substantivului feminin articulat. "Această" cere substantiv nearticulat.</message>
+				<short>Greșeală gramaticală</short>
+				<example type="correct">Această <marker>carte</marker> este a mea.</example>
+				<example type="incorrect">Această <marker>cartea</marker> este a mea.</example>
+			</rule>
+		</rulegroup>
+	</category>
+</rules>
