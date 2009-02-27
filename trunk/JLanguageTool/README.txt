@@ -1,6 +1,6 @@
 LanguageTool, a language style checker for English, German, Polish,
-French, and Dutch with initial support for Spanish, Russian, Swedish,
-and Italian
+French, and Dutch with initial support for Romanian, Spanish, Russian, 
+Swedish, and Italian
 Copyright (C) 2005-2009 Daniel Naber (naber at danielnaber de)
 Version ###VERSION###, ###DATE###
 Homepage: http://www.languagetool.org
