@@ -34,6 +34,7 @@ import de.danielnaber.languagetool.language.German;
 import de.danielnaber.languagetool.language.Italian;
 import de.danielnaber.languagetool.language.Lithuanian;
 import de.danielnaber.languagetool.language.Polish;
+import de.danielnaber.languagetool.language.Romanian;
 import de.danielnaber.languagetool.language.Russian;
 import de.danielnaber.languagetool.language.Slovenian;
 import de.danielnaber.languagetool.language.Spanish;
@@ -71,6 +72,7 @@ public abstract class Language {
   public static final Language SWEDISH = new Swedish();
   public static final Language UKRAINIAN = new Ukrainian();
   public static final Language RUSSIAN = new Russian();
+  public static final Language ROMANIAN = new Romanian();
   
   public static final Language DEMO = new Demo();
   
@@ -80,7 +82,7 @@ public abstract class Language {
    * All languages supported by LanguageTool.
    */
   public static Language[] LANGUAGES = {
-    ENGLISH, GERMAN, POLISH, FRENCH, SPANISH, ITALIAN, DUTCH, LITHUANIAN, UKRAINIAN, RUSSIAN, SLOVENIAN, SWEDISH, DEMO
+    ENGLISH, GERMAN, POLISH, FRENCH, SPANISH, ITALIAN, DUTCH, LITHUANIAN, UKRAINIAN, RUSSIAN, SLOVENIAN, SWEDISH, ROMANIAN, DEMO
     // FIXME: load dynamically from classpath
   };
 
