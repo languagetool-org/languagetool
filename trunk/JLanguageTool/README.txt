@@ -142,6 +142,7 @@ License:
  German:
  The German data for part-of-speech tagging is taken from Morphy
  (http://www.wolfganglezius.de/doku.php?id=public:cl:morphy)
+ under Creative Commons Attribution-Share Alike 3.0
 
  Polish:
  The Polish data for part-of-speech tagging is from Morfologik project,
