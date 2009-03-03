@@ -2,7 +2,7 @@
 $page = "homepage";
 $title = "LanguageTool";
 $title2 = "Open Source language checker";
-$lastmod = "2009-02-17 22:39:00 CET";
+$lastmod = "2009-03-03 23:15:00 CET";
 include("../include/header.php");
 ?>
 		
@@ -14,32 +14,18 @@ up <em>there/their</em>, <em>no/now</em> etc. It can also detect some
 grammar mistakes. It does not include spell checking. See the <?=show_link("languages", "languages/", 0) ?> 
 page for a list of supported languages.</p>
 
-<p><strong>Update 2009-01-21:</strong> Released version 0.9.6. Changes include:
+<p><strong>Update 2009-03-23:</strong> Released version 0.9.7. Changes include:
 <ul>
-	<li>Better integration with OpenOffice.org (native checking dialog)</li>
-	<li>Massive corrections to English, Polish, and Dutch rules</li>
-	<li>New dictionary for Russian</li>
-	<li>More features for rule developers, such as a better
-	rule-based disambiguator and attribute unification</li>
-	<li>Fixed a lot of bugs</li>
+	<li>Small rule updates for Dutch, English, Polish, Russian, and German</li>
+	<li>Preliminary support for Romanian (thanks to Ionuţ Păduraru)</li>
+	<li>OpenOffice.org integration: fixed a ClassCastException crash that occurred with non-English
+		texts that contain soft-hyphens.</li>
+	<li>OpenOffice.org integration: fixed bug with no errors visible in context menu for some 
+		languages, for example French. </li>
 </ul>
 
 <p>For a more detailed list of changes, see
 the <?=show_link("Changelog", "download/CHANGES.txt", 0) ?>.</p>
-
-<p><strong>Update 2008-10-06:</strong> The LanguageTool maintainer team (Marcin Miłkowski
-and Daniel Naber) just received
-a <a href="http://development.openoffice.org/awardees-2008.html">Gold Award</a> in
-the Sun Microsystems Community Innovation Program! The work honored with this award is
-both the <a href="http://www.openoffice.org">OpenOffice.org</a> integration that is part of
-LanguageTool 0.9.4 or later (download below) and the <a href="http://community.languagetool.org">Community
-website</a> that lets you browse LanguageTool's error rules and vote whether an error
-message is useful or not.</p>
-
-<p><strong>Update June 2008:</strong> Please visit our new
-<?=show_link("LanguageTool Community website", "http://community.languagetool.org", 0) ?>
- that lets you browse all rules for all languages. You can even create 
-new (simple) rules if you're logged in.</p>
 
 <div class="outerDownloadSection">
 <strong>Download for OpenOffice.org 3.0.1:</strong><br />
@@ -51,7 +37,7 @@ new (simple) rules if you're logged in.</p>
 	issues (check <a href="http://languagetool.wikidot.com/removing-languagetool-0-9-5-from-openoffice-3-0-1">this
 	page</a> if you forgot to do so).
 	</p>
-	<p><strong><?=show_link("LanguageTool 0.9.6 (for OpenOffice.org 3.0.1)", "download/LanguageTool-0.9.6.oxt", 0) ?></strong>, 12&nbsp;MB,
+	<p><strong><?=show_link("LanguageTool 0.9.7 (for OpenOffice.org 3.0.1)", "download/LanguageTool-0.9.7.oxt", 0) ?></strong>, 12&nbsp;MB,
 	requires <?=show_link("Java", "http://www.java.com/en/download/manual.jsp", 1)?>&nbsp;5.0
 	or later. NOTE: this version <strong>only works with OpenOffice.org 3.0.1 or later</strong> 
 	and you need to <strong>restart OpenOffice.org</strong> after installation of this extension</p>
@@ -86,14 +72,14 @@ new (simple) rules if you're logged in.</p>
 
 <!-- -->
 <p><strong>Try LanguageTool via Java WebStart:</strong><br />
-<?=show_link("Start LanguageTool (10&nbsp;MB)", "webstart/LanguageTool.jnlp", 0) ?></p>
+<?=show_link("Start LanguageTool (12&nbsp;MB)", "webstart/LanguageTool.jnlp", 0) ?></p>
 <!-- -->
 
 <p><strong>Installation and Usage:</strong>
 
 <ul>
 	<li><strong>In OpenOffice.org</strong>:
-	Double click <tt>LanguageTool-0.9.6.oxt</tt> to install it.
+	Double click <tt>LanguageTool-0.9.7.oxt</tt> to install it.
 	If that doesn't work, call <em>Tools -&gt; Extension Manager -&gt; Add...</em>
 	to install it. Close OpenOffice.org and re-start it. Type some text
 	with an error (e.g. "This is an test." -- make sure the text language is set
