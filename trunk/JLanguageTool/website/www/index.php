@@ -14,7 +14,7 @@ up <em>there/their</em>, <em>no/now</em> etc. It can also detect some
 grammar mistakes. It does not include spell checking. See the <?=show_link("languages", "languages/", 0) ?> 
 page for a list of supported languages.</p>
 
-<p><strong>Update 2009-03-23:</strong> Released version 0.9.7. Changes include:
+<p><strong>Update 2009-03-03:</strong> Released version 0.9.7. Changes include:
 <ul>
 	<li>Small rule updates for Dutch, English, Polish, Russian, and German</li>
 	<li>Preliminary support for Romanian (thanks to Ionuţ Păduraru)</li>
