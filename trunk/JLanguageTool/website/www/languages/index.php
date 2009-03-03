@@ -2,7 +2,7 @@
 $page = "languages";
 $title = "LanguageTool";
 $title2 = "Languages";
-$lastmod = "2008-11-02 20:00:00 CET";
+$lastmod = "2008-03-03 23:00:00 CET";
 include("../../include/header.php");
 ?>
 		
