@@ -7,7 +7,7 @@ title="Easy editing stylesheet" ?>
 <!--
 Italian Grammar and Typo Rules for LanguageTool
 Copyright (C) 2006 Marcin Miłkowski
-$Id: grammar.xml,v 1.3 2007-05-19 17:32:01 milek_pl Exp $
+$Id: grammar.xml,v 1.4 2009-03-11 21:07:56 dnaber Exp $
 -->
 <rules lang="it">
 
@@ -28,7 +28,7 @@ $Id: grammar.xml,v 1.3 2007-05-19 17:32:01 milek_pl Exp $
 			  <token>più</token>
 			  <token>molto</token>
 		  </pattern>
-		  <message>E' un errore creare il comparativo di maggioranza degli avverbi molto e poco. Se escrive <suggestion>di più</suggestion>.</message>
+		  <message>E' un errore creare il comparativo di maggioranza degli avverbi molto e poco. Si scrive <suggestion>di più</suggestion>.</message>
 		  <example type="incorrect">Il calcio mi piace, ma il motociclismo mi piace <marker>più molto</marker>.</example>
 		  <example type="correct">Il calcio mi piace, ma il motociclismo mi piace di più.</example>
 	  </rule>
@@ -38,13 +38,59 @@ $Id: grammar.xml,v 1.3 2007-05-19 17:32:01 milek_pl Exp $
 			  <token>più</token>
 			  <token>poco</token>
 		  </pattern>
-		  <message>E' un errore creare il comparativo di maggioranza degli avverbi molto e poco. Se escrive <suggestion>meno</suggestion>.</message>
+		  <message>E' un errore creare il comparativo di maggioranza degli avverbi molto e poco. Si scrive <suggestion>meno</suggestion>.</message>
 		  <example type="incorrect">Stasera abbiamo ballato <marker>più poco</marker> del solito.</example>
 		  <example type="correct">Stasera abbiamo ballato meno del solito.</example>
 	  </rule>  
-	  
   </category>
-	
+
+  <category name="Pleonasmi">
+	  <rule id="A_ME_MI" name="«a me mi» (mi)">
+		  <pattern>
+			  <token>a</token>
+			  <token regexp="yes">me|noi</token>
+			  <token regexp="yes">mi|ci</token>
+		  </pattern>
+		  <message>Si tratta di una ripetizione. Meglio scegliere una delle due forme: <suggestion>a me</suggestion> <suggestion>a noi</suggestion>oppure <suggestion>mi</suggestion> <suggestion>ci</suggestion>.</message>
+		  <example type="incorrect"><marker>A me mi</marker> piace il gelato.</example>
+		  <example type="correct">Mi piace il gelato.</example>
+	  </rule>
+
+	  <rule id="A_TE_TI" name="«a te ti» (ti)">
+		  <pattern>
+			  <token>a</token>
+			  <token regexp="yes">te|voi</token>
+			  <token regexp="yes">ti|vi</token>
+		  </pattern>
+		  <message>Si tratta di una ripetizione. Meglio scegliere una delle due forme: <suggestion>a te</suggestion> <suggestion>a voi</suggestion>oppure <suggestion>ti</suggestion> <suggestion>vi</suggestion>.</message>
+		  <example type="incorrect"><marker>A te ti</marker> pare strano.</example>
+		  <example type="correct">Ti pare strano.</example>
+	  </rule>
+
+	  <rule id="A_LUI_GLI" name="«a lui gli» (gli)">
+		  <pattern>
+			  <token>a</token>
+			  <token regexp="yes">lui|lei</token>
+			  <token regexp="yes">gli|le</token>
+		  </pattern>
+		  <message>Si tratta di una ripetizione. Meglio scegliere una delle due forme: <suggestion>a te</suggestion> <suggestion>a lei</suggestion> oppure <suggestion>gli</suggestion>.</message>
+		  <example type="incorrect"><marker>A lui gli</marker> faceva comodo.</example>
+		  <example type="correct">Gli faceva comodo.</example>
+	  </rule>
+
+	  <rule id="A_LORO_GLI" name="«a loro gli» (gli)">
+		  <pattern>
+			  <token>a</token>
+			  <token>loro</token>
+			  <token>gli</token>
+		  </pattern>
+		  <message>Si tratta di una ripetizione. Meglio scegliere una delle due forme: <suggestion>a loro</suggestion> oppure <suggestion>gli</suggestion>.</message>
+		  <example type="incorrect"><marker>A loro gli</marker> tornava utile.</example>
+		  <example type="correct">Gli tornava utile.</example>
+	  </rule>
+
+  </category>	
+
   <category name="Accenti">
 	  <rule name="da (dà)" id="DA_DA_ACCENTO">
 		<pattern mark_from="1">
