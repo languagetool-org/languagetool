@@ -51,8 +51,20 @@ public abstract class RomanianTaggerTestAbs extends TestCase {
 	 * @see junit.framework.TestCase#setUp()
 	 */
 	public void setUp() {
-		tagger = new RomanianTagger();
+		tagger = createTagger();
 		tokenizer = new WordTokenizer();
+	}
+
+	/**
+	 * 
+	 * @author Ionuț Păduraru
+	 * @since 08.03.2009 22:09:01
+	 * @return
+	 */
+	protected RomanianTagger createTagger() {
+		// override this if you need need another dictionary (a disctionary
+		// based on another file)
+		return new RomanianTagger();
 	}
 
 	/**
@@ -60,7 +72,8 @@ public abstract class RomanianTaggerTestAbs extends TestCase {
 	 * 
 	 * @author Ionuț Păduraru
 	 * @since 20.02.2009 19:17:54
-	 * @param inflected - input word, inflected form
+	 * @param inflected
+	 *            - input word, inflected form
 	 * @param lemma
 	 *            expected lemma
 	 * @param posTag

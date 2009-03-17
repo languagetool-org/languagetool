@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+	<!--
+		Romania Disambiguation Rules for LanguageTool Copyright (C) 2009
+		Ionuț Păduraru		
+	-->
+<rules lang="ro">
+	<rule name="Verb(este/V0s3000izb) + o + verb/subst -> Verb + o + subst" id="VERB_o_SUBST">
+		 <!-- este o masa -->
+		 <pattern mark="2">
+			<token postag="V0s3000izb" />
+			<token>o</token>
+			<and>
+			<token postag="Sfs3anc000" />
+			<or>
+				<token postag="Sfs3aac000" />
+				<token postag="V0s3000is0" />
+				<token postag="V0s3000ii0" />
+				<token postag="V000000f00" />
+			</or>
+			</and>
+		</pattern>
+		<disambig postag="V0s3000izb" />
+	</rule>
+	
+
+</rules>

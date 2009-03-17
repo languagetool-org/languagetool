@@ -66,5 +66,11 @@ public class RomanianWordTokenizerTest extends TestCase {
     assertEquals(testList.size(), 7);
     assertEquals("[zicea,  , „, merge,  , bine, ”]",
         testList.toString());
+    
+    //ți-am
+    testList = w.tokenize("ți-am");
+    assertEquals(testList.size(), 3);
+    assertEquals("[ți, -, am]",
+        testList.toString());
 }
 }

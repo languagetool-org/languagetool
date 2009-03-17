@@ -23,8 +23,14 @@ import java.util.Locale;
 import java.util.Set;
 
 import de.danielnaber.languagetool.Language;
+import de.danielnaber.languagetool.synthesis.Synthesizer;
+import de.danielnaber.languagetool.synthesis.ro.RomanianSynthesizer;
 import de.danielnaber.languagetool.tagging.Tagger;
+import de.danielnaber.languagetool.tagging.disambiguation.Disambiguator;
+import de.danielnaber.languagetool.tagging.disambiguation.rules.ro.RomanianRuleDisambiguator;
 import de.danielnaber.languagetool.tagging.ro.RomanianTagger;
+import de.danielnaber.languagetool.tokenizers.Tokenizer;
+import de.danielnaber.languagetool.tokenizers.ro.RomanianWordTokenizer;
 
 /**
  * 
@@ -33,51 +39,63 @@ import de.danielnaber.languagetool.tagging.ro.RomanianTagger;
  */
 public class Romanian extends Language {
 
-  private static final String[] COUNTRIES = {
-    "RO"
-  };
-  
-  private Tagger tagger = new RomanianTagger();
+	private static final String[] COUNTRIES = { "RO" };
 
-  public Locale getLocale() {
-    return new Locale(getShortName());
-  }
+	private Tagger tagger = new RomanianTagger();
+	private Synthesizer synthesizer = new RomanianSynthesizer();
+	private Disambiguator disambiguator = new RomanianRuleDisambiguator();
+	private Tokenizer wdTokenizer = new RomanianWordTokenizer();
 
-  public String getName() {
-    return "Română";
-  }
+	public Locale getLocale() {
+		return new Locale(getShortName());
+	}
 
-  public String getShortName() {
-    return "ro";
-  }
+	public String getName() {
+		return "Română";
+	}
 
-  @Override
-  public String[] getCountryVariants() {
-    return COUNTRIES;
-  }
-  
-  public Tagger getTagger() {
-    return tagger;
-  }
-  
-  public Contributor[] getMaintainers() {
-    Contributor contributor = new Contributor("Ionuț Păduraru");
-    contributor.setUrl("http://www.archeus.ro");
-	return new Contributor[] {contributor};
-  }
+	public String getShortName() {
+		return "ro";
+	}
 
-  public Set<String> getRelevantRuleIDs() {
-    Set<String> ids = new HashSet<String>();
-    ids.add("COMMA_PARENTHESIS_WHITESPACE");
-    ids.add("DOUBLE_PUNCTUATION");
-    ids.add("UPPERCASE_SENTENCE_START");
-    ids.add("WHITESPACE_RULE");
-    ids.add("UNPAIRED_BRACKETS");
-    ids.add("UPPERCASE_SENTENCE_START");
-    ids.add("WORD_REPEAT_RULE");
-    // specific to romanian: none so far 
+	@Override
+	public String[] getCountryVariants() {
+		return COUNTRIES;
+	}
 
-    return ids;
-  }
+	public Tagger getTagger() {
+		return tagger;
+	}
 
+	public Contributor[] getMaintainers() {
+		Contributor contributor = new Contributor("Ionuț Păduraru");
+		contributor.setUrl("http://www.archeus.ro");
+		return new Contributor[] { contributor };
+	}
+
+	public Set<String> getRelevantRuleIDs() {
+		Set<String> ids = new HashSet<String>();
+		ids.add("COMMA_PARENTHESIS_WHITESPACE");
+		ids.add("DOUBLE_PUNCTUATION");
+		ids.add("UPPERCASE_SENTENCE_START");
+		ids.add("WHITESPACE_RULE");
+		ids.add("UNPAIRED_BRACKETS");
+		ids.add("UPPERCASE_SENTENCE_START");
+		ids.add("WORD_REPEAT_RULE");
+		// specific to romanian: none so far
+
+		return ids;
+	}
+
+	public final Synthesizer getSynthesizer() {
+		return synthesizer;
+	}
+
+	public final Disambiguator getDisambiguator() {
+		return disambiguator;
+	}
+
+	public final Tokenizer getWordTokenizer() {
+		return wdTokenizer;
+	}
 }

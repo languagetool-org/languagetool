@@ -29,7 +29,17 @@ import de.danielnaber.languagetool.AnalyzedTokenReadings;
 import de.danielnaber.languagetool.tagging.BaseTagger;
 
 /**
- * Romanian Part-of-speech tagger
+ * Romanian Part-of-speech tagger <br/>
+ * <b>Note</b> about fsa dictionary: current fsa dictionary was <i>bilt with no
+ * diacritics</i>: all diacritics are replaced with digits. From the user point
+ * of view (the user who writex xml rule) this is not visible, the tagger will
+ * return the corect form (with diacritics). All this process is necesary to
+ * avoid a posible bug on fsa dictionary access (or some place esle): a correct
+ * dictionary (with diacritics) can only be used correctly from command line
+ * ('fsa_morph' from fsa package), when used from java some words are not
+ * corectly returned. <br/>
+ * This workaround will be removed once the fsa problem is resolved. <br/>
+ * Same workaround is used on <code>RomanianSynthesizer</code>.
  * 
  * @author Ionuț Păduraru
  */
@@ -39,6 +49,8 @@ public class RomanianTagger extends BaseTagger {
 
 	private Lametyzator morfologik;
 	private static Locale roLocale = new Locale("ro");
+
+	private boolean fixDiacritics = true;
 
 	public void setFileName() {
 		System.setProperty(Lametyzator.PROPERTY_NAME_LAMETYZATOR_DICTIONARY,
@@ -72,15 +84,16 @@ public class RomanianTagger extends BaseTagger {
 
 		for (final String word : sentenceTokens) {
 			final List<AnalyzedToken> l = new ArrayList<AnalyzedToken>();
-			// word in the dictionary contain no dacritics: all
+			// word in the dictionary contain no diacritics: all
 			// diacritics are replaced with 1,2,etc
-			taggerTokens = morfologik.stemAndForm(hideDiacritics(word.toLowerCase()));
+			taggerTokens = morfologik.stemAndForm(_hideDiacritics(word
+					.toLowerCase()));
 			if (taggerTokens != null) {
 				int i = 0;
 				while (i < taggerTokens.length) {
-					// word in the dictionary contain no dacritics: all
+					// word in the dictionary contain no diacritics: all
 					// diacritics are replaced with 1,2,etc
-					final String lemma = revealDiacritics(taggerTokens[i]);
+					final String lemma = _revealDiacritics(taggerTokens[i]);
 					final String[] tagsArr = taggerTokens[i + 1].split("\\+");
 
 					for (final String currTag : tagsArr) {
@@ -119,7 +132,8 @@ public class RomanianTagger extends BaseTagger {
 	}
 
 	/**
-	 * Replace all digits with diacritics (the fsa dictionary was build this way)
+	 * Replace all digits with diacritics (the fsa dictionary was build this
+	 * way)
 	 * 
 	 * @author Ionuț Păduraru
 	 * @since 24.02.2009 22:14:38
@@ -158,7 +172,8 @@ public class RomanianTagger extends BaseTagger {
 	}
 
 	/**
-	 * Replace all diacritics with digits (the fsa dictionary was build this way).
+	 * Replace all diacritics with digits (the fsa dictionary was build this
+	 * way).
 	 * 
 	 * @author Ionuț Păduraru
 	 * @since 24.02.2009 22:16:07
@@ -194,5 +209,53 @@ public class RomanianTagger extends BaseTagger {
 			res[i] = c;
 		}
 		return new String(res);
+	}
+
+	/**
+	 * Replace all digits with diacritics (the fsa dictionary was build this
+	 * way). Depends on <code>isFixDiacritics</code> and uses the static method
+	 * <code>revealDiacritics</code>.
+	 * 
+	 * @author Ionuț Păduraru
+	 * @since 14.03.2009 21:34:43
+	 * @param s
+	 * @return
+	 */
+	public String _revealDiacritics(String s) {
+		if (isFixDiacritics())
+			return revealDiacritics(s);
+		return s;
+	}
+
+	/**
+	 * Replace all diacritics with digits (the fsa dictionary was build this
+	 * way). Depends on <code>isFixDiacritics</code> and uses the static method
+	 * <code>hideDiacritics</code>.
+	 * 
+	 * @author Ionuț Păduraru
+	 * @since 14.03.2009 21:35:58
+	 * @param s
+	 * @return
+	 */
+	private String _hideDiacritics(String s) {
+		if (isFixDiacritics())
+			return hideDiacritics(s);
+		return s;
+	}
+
+	/**
+	 * A flag to indicate preprocessing of diacritics. See note about the fsa
+	 * dictionary at the beginning of this file.
+	 * 
+	 * @author Ionuț Păduraru
+	 * @since 14.03.2009 21:36:49
+	 * @return
+	 */
+	public boolean isFixDiacritics() {
+		return fixDiacritics;
+	}
+
+	public void setFixDiacritics(boolean fixDiacritics) {
+		this.fixDiacritics = fixDiacritics;
 	}
 }
