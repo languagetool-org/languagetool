@@ -51,7 +51,7 @@ public class Romanian extends Language {
 	}
 
 	public String getName() {
-		return "Română";
+		return "Romanian";
 	}
 
 	public String getShortName() {
