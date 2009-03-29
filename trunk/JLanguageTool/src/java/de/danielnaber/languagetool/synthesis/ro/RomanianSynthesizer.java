@@ -28,16 +28,10 @@ import morfologik.stemmers.Lametyzator;
 import de.danielnaber.languagetool.AnalyzedToken;
 import de.danielnaber.languagetool.synthesis.Synthesizer;
 import de.danielnaber.languagetool.synthesis.SynthesizerTools;
-import de.danielnaber.languagetool.tagging.ro.RomanianTagger;
 import de.danielnaber.languagetool.tools.Tools;
 
 /**
  * Romanian word form synthesizer. <br/>
- * 
- * Based on resources from www.archeus.ro
- * 
- * See note about the fsa dictionary at the beginning of
- * <code>RomanianTagger</code> file.
  * 
  * @author Ionuț Păduraru
  */
@@ -51,8 +45,6 @@ public class RomanianSynthesizer implements Synthesizer {
 	private Lametyzator synthesizer;
 
 	private ArrayList<String> possibleTags;
-
-	private boolean fixDiacritics = true;
 
 	private void setFileName() {
 		System.setProperty(Lametyzator.PROPERTY_NAME_LAMETYZATOR_DICTIONARY,
@@ -75,11 +67,7 @@ public class RomanianSynthesizer implements Synthesizer {
 			setFileName();
 			synthesizer = new Lametyzator();
 		}
-		String[] wordForms = null;
-		wordForms = synthesizer.stem(_hideDiacritics(token.getLemma()) + "|"
-				+ posTag);
-		wordForms = _revealDiacritics(wordForms);
-		return wordForms;
+		return synthesizer.stem(token.getLemma() + "|" + posTag);
 	}
 
 	// TODO: avoid code duplication with DutchSynthesizer
@@ -101,16 +89,13 @@ public class RomanianSynthesizer implements Synthesizer {
 				final Matcher m = p.matcher(tag);
 				if (m.matches()) {
 					String[] wordForms = null;
-					wordForms = synthesizer.stem(_hideDiacritics(token
-							.getLemma())
-							+ "|" + tag);
+					wordForms = synthesizer.stem(token.getLemma() + "|" + tag);
 					if (wordForms != null) {
 						results.addAll(Arrays.asList(wordForms));
 					}
 				}
 			}
-			String[] res = results.toArray(new String[results.size()]);
-			return _revealDiacritics(res);
+			return results.toArray(new String[results.size()]);
 		}
 		return synthesize(token, posTag);
 	}
@@ -119,61 +104,4 @@ public class RomanianSynthesizer implements Synthesizer {
 		return posTag;
 	}
 
-	public String _revealDiacritics(String s) {
-		if (isFixDiacritics())
-			return RomanianTagger.revealDiacritics(s);
-		return s;
-	}
-
-	/**
-	 * Replace all digits with diacritics (the fsa dictionary was build this
-	 * way). Depends on <code>isFixDiacritics</code> and uses the static method
-	 * <code>RomanianTagger.revealDiacritics</code>.
-	 * 
-	 * @author Ionuț Păduraru
-	 * @since 08.03.2009 21:50:19
-	 * @param wordForms
-	 * @return
-	 */
-	private String[] _revealDiacritics(String[] wordForms) {
-		if ((null == wordForms) || (!isFixDiacritics()))
-			return wordForms;
-		String[] res = new String[wordForms.length];
-		for (int i = 0; i < wordForms.length; i++) {
-			res[i] = _revealDiacritics(wordForms[i]);
-		}
-		return res;
-	}
-
-	/**
-	 * Replace all diacritics with digits (the fsa dictionary was build this
-	 * way). Depends on <code>isFixDiacritics</code> and uses the static method
-	 * <code>RomanianTagger.hideDiacritics</code>.
-	 * 
-	 * @author Ionuț Păduraru
-	 * @since 08.03.2009 21:45:40
-	 * @param s
-	 * @return
-	 */
-	private String _hideDiacritics(String s) {
-		if (isFixDiacritics())
-			return RomanianTagger.hideDiacritics(s);
-		return s;
-	}
-
-	/**
-	 * A flag to indicate preprocessing of diacritics. See note about the fsa
-	 * dictionary at the beginning of this file.
-	 * 
-	 * @author Ionuț Păduraru
-	 * @since 08.03.2009 21:51:17
-	 * @return
-	 */
-	public boolean isFixDiacritics() {
-		return fixDiacritics;
-	}
-
-	public void setFixDiacritics(boolean fixDiacritics) {
-		this.fixDiacritics = fixDiacritics;
-	}
 }
