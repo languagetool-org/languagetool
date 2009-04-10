@@ -6,7 +6,7 @@ title="Easy editing stylesheet" ?>
 <!--
 Polish Grammar and Typo Rules for LanguageTool
 Copyright (C) 2006-2007 Marcin Miłkowski
-$Id: grammar.xml,v 1.178 2009-03-19 20:40:19 milek_pl Exp $
+$Id: grammar.xml,v 1.179 2009-04-10 17:07:04 milek_pl Exp $
 -->
 <rules lang="pl">
   <unification feature="number">
@@ -10186,6 +10186,56 @@ Znacznie częściej ta forma jest mylona z trybem rozkazującym od „pokazać�
       <example correction="tę informację|te informacje" type="incorrect">Podaj mi <marker>tę informacje</marker>.</example>
       <example type="correct">Podaj mi te informacje.</example>
     </rule>
+    <rule id="UNIWERSYTET_W_HARVARDZIE" name="„Uniwersytet w Harvardzie” (Uniwersytet Harvarda)">
+      <pattern mark_from="1">
+        <token inflected="yes">uniwersytet</token>
+        <token>w</token>
+        <token regexp="yes">Har[wv]ardzie</token>
+      </pattern>
+      <message>Prawdopodobna literówka. Powinno być: <suggestion>Harvarda</suggestion> (to nazwisko, a nie miejscowość).</message>
+      <example correction="Harvarda" type="incorrect">Józef Tkaczuk jest absolwentem Uniwersytetu <marker>w Harwardzie</marker>.</example>
+      <example type="correct">Uniwersytet Harvarda jest znakomitą uczelnią.</example>
+    </rule>
+    <rule id="Z_DANIA_NA_DZIEN" name="„Z dania na dzień” (z dnia na dzień)">
+      <pattern mark_from="1" mark_to="-2">
+        <token>z</token>
+        <token>dania</token>
+        <token>na</token>
+        <token>dzień</token>
+      </pattern>
+      <message>Prawdopodobna literówka. Powinno być: <suggestion>dnia</suggestion>.</message>
+      <example type="correct">Nie lubię tego dania.</example>
+      <example correction="dnia" type="incorrect">Politycy żyją z <marker>dania</marker> na dzień.</example>
+    </rule>
+    <rulegroup id="RANGE" name="range (rangę)">
+      <rule>
+        <pattern case_sensitive="yes" mark_to="-1">
+          <token>range</token>
+          <token><exception inflected="yes">rover</exception></token>
+        </pattern>
+        <message>Prawdopodobna literówka. Czy chodziło o <suggestion>rangę</suggestion>?</message>
+        <example type="correct">Kupiłem sobie pięknego range rovera.</example>
+        <example correction="rangę" type="incorrect">Ta sprawa ma naprawdę wysoką <marker>range</marker>.</example>
+      </rule>
+      <rule>
+        <pattern case_sensitive="yes" mark_to="0">
+          <token postag="SENT_END">range</token>
+        </pattern>
+        <message>Prawdopodobna literówka. Czy chodziło o <suggestion>rangę</suggestion>?</message>
+        <example type="correct">Futbol ma dziś większą rangę</example>
+        <example correction="rangę" type="incorrect">Futbol ma większą <marker>range</marker></example>
+      </rule>
+      <rule>
+        <pattern case_sensitive="yes" mark_from="1" mark_to="-1">
+          <token><exception regexp="yes">Park|Mesabi|Front</exception></token>
+          <token>Range</token>
+          <token><exception inflected="yes">Rover</exception></token>
+        </pattern>
+        <message>Prawdopodobna literówka. Czy chodziło o <suggestion>Rangę</suggestion>?</message>
+        <example type="correct">Range Rover to świetna marka.</example>
+        <example correction="Rangę" type="incorrect">Od lat prenumeruję „<marker>Range</marker> Polskiego Oręża”.</example>
+      </rule>
+    </rulegroup>
   </category>
   <category name="Błędy frazeologiczne">
     <rule id="NERWY_NA_POSTRONKU" name="„nerwy na postronku” (nerwy na wodzy)">
