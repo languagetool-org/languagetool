@@ -55,7 +55,8 @@ Usage:
 
 Known bugs:
  -OpenOffice.org integration:
-   -doesn't work correctly with documents that contain revisions   
+   -doesn't work correctly with documents that contain revisions
+   -has false alarms for unpaired brackets rule   
  -general:
    -for some rules there may be a lot of false alarms, i.e., LanguageTool complains
     about text which is actually correct
@@ -64,7 +65,6 @@ TODO:
  -see if java.text.RuleBasedBreakIterator would be better for sentence and 
   word tokenization than the current scheme (especially check performance)
  -see http://papyr.com/hypertextbooks/grammar/gramchek.htm
- -Make the command-line tool work with STDIN
  -update languagetool.xml.update automatically (i.e. replace @version@)
  -add more redundancy rules, see e.g.
   http://grammar.about.com/od/words/a/redundancies.htm?p=1

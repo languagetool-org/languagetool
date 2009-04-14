@@ -69,8 +69,8 @@ import de.danielnaber.languagetool.rules.RuleMatch;
 import de.danielnaber.languagetool.tools.StringTools;
 
 public class Main extends WeakBase implements XJobExecutor,
-    XServiceDisplayName, XServiceInfo, XProofreader,
-    XLinguServiceEventBroadcaster {
+XServiceDisplayName, XServiceInfo, XProofreader,
+XLinguServiceEventBroadcaster {
 
   private Configuration config;
   private JLanguageTool langTool;
@@ -91,18 +91,20 @@ public class Main extends WeakBase implements XJobExecutor,
    */
   private boolean recheck;
 
+  private List<RuleMatch> prevRuleMatches;
+
   /**
    * Service name required by the OOo API && our own name.
    */
   private static final String[] SERVICE_NAMES = {
-      "com.sun.star.linguistic2.Proofreader",
-      "de.danielnaber.languagetool.openoffice.Main" };
+    "com.sun.star.linguistic2.Proofreader",
+  "de.danielnaber.languagetool.openoffice.Main" };
 
   // use a different name than the stand-alone version to avoid conflicts:
   private static final String CONFIG_FILE = ".languagetool-ooo.cfg";
 
   private static final ResourceBundle MESSAGES = JLanguageTool
-      .getMessageBundle();
+  .getMessageBundle();
 
   private XComponentContext xContext;
 
@@ -158,8 +160,8 @@ public class Main extends WeakBase implements XJobExecutor,
       final XModel model = (XModel) UnoRuntime.queryInterface(XModel.class,
           xComponent);
       final XTextViewCursorSupplier xViewCursorSupplier = (XTextViewCursorSupplier) UnoRuntime
-          .queryInterface(XTextViewCursorSupplier.class, model
-              .getCurrentController());
+      .queryInterface(XTextViewCursorSupplier.class, model
+          .getCurrentController());
       final XTextViewCursor xCursor = xViewCursorSupplier.getViewCursor();
       if (xCursor.isCollapsed()) { // no text selection
         xCursorProps = (XPropertySet) UnoRuntime.queryInterface(
@@ -188,7 +190,7 @@ public class Main extends WeakBase implements XJobExecutor,
         // FIXME: i18n
         JOptionPane.showMessageDialog(null,
             "Error: Sorry, the document language '" + charLocale.Language
-                + "' is not supported by LanguageTool.");
+            + "' is not supported by LanguageTool.");
         return null;
       }
     } catch (final Throwable t) {
@@ -221,8 +223,8 @@ public class Main extends WeakBase implements XJobExecutor,
       final int nSuggestedBehindEndOfSentencePosition, PropertyValue[] props) {
     final ProofreadingResult paRes = new ProofreadingResult();
     try {
-      paRes.nBehindEndOfSentencePosition = nSuggestedBehindEndOfSentencePosition
-          - startOfSentencePos;
+      paRes.nBehindEndOfSentencePosition = nSuggestedBehindEndOfSentencePosition;
+      paRes.nStartOfSentencePosition = startOfSentencePos;
       paRes.xProofreader = this;
       paRes.aLocale = locale;
       paRes.aDocumentIdentifier = docID;
@@ -237,11 +239,6 @@ public class Main extends WeakBase implements XJobExecutor,
 
   synchronized private final ProofreadingResult doGrammarCheckingInternal(
       final String paraText, final Locale locale, final ProofreadingResult paRes) {
-
-    if (paraText == null) {
-      return paRes;
-    }
-    paRes.nBehindEndOfSentencePosition = paraText.length();
 
     if (!StringTools.isEmpty(paraText)) {
       // TODO: process different language fragments in a paragraph
@@ -273,27 +270,40 @@ public class Main extends WeakBase implements XJobExecutor,
           }
         }
         final Set<String> disabledCategories = config
-            .getDisabledCategoryNames();
+        .getDisabledCategoryNames();
         if (disabledCategories != null) {
           for (final String categoryName : disabledCategories) {
             langTool.disableCategory(categoryName);
           }
         }
         try {
-          final List<RuleMatch> ruleMatches = langTool.check(paraText);
-          if (!ruleMatches.isEmpty()) {
-            final SingleProofreadingError[] errorArray = new SingleProofreadingError[ruleMatches
-                .size()];
-            int i = 0;
-            for (final RuleMatch myRuleMatch : ruleMatches) {
-              errorArray[i] = createOOoError(locale, myRuleMatch);
-              i++;
+//FIXME: preliminary attempt at sentence-level tokenization
+          // works with different languages, doesn't work with unpaired brackets :(
+          int index = paraText.length();
+          if (paRes.nBehindEndOfSentencePosition < paraText.length()) {
+            index = paRes.nBehindEndOfSentencePosition - paRes.nStartOfNextSentencePosition;
+          }
+          final List<String> sentences = langTool.sentenceTokenize(paraText.substring(paRes.nStartOfSentencePosition, index));
+          // paRes.nBehindEndOfSentencePosition = paRes.nBehindEndOfSentencePosition + sentences.get(0).length();
+          paRes.nStartOfNextSentencePosition = paRes.nBehindEndOfSentencePosition + 1;
+          if (!sentences.isEmpty()) {
+            final List<RuleMatch> ruleMatches = langTool.check(sentences.get(0));
+            prevRuleMatches = ruleMatches;
+            if (!ruleMatches.isEmpty()) {
+              final SingleProofreadingError[] errorArray = 
+                new SingleProofreadingError[ruleMatches.size()];
+              int i = 0;
+              for (final RuleMatch myRuleMatch : ruleMatches) {
+                errorArray[i] = createOOoError(locale, myRuleMatch, paRes.nStartOfSentencePosition);
+                i++;
+              }
+              Arrays.sort(errorArray, new ErrorPositionComparator());
+              paRes.aErrors = errorArray;
             }
-            Arrays.sort(errorArray, new ErrorPositionComparator());
-            paRes.aErrors = errorArray;
           }
         } catch (final Throwable t) {
           showError(t);
+          paRes.nBehindEndOfSentencePosition = paraText.length();
         }
       }
     }
@@ -310,13 +320,13 @@ public class Main extends WeakBase implements XJobExecutor,
    * @return SingleGrammarError - object for OOo checker integration
    */
   private SingleProofreadingError createOOoError(final Locale locale,
-      final RuleMatch myMatch) {
+      final RuleMatch myMatch, final int startIndex) {
     final SingleProofreadingError aError = new SingleProofreadingError();
     aError.nErrorType = com.sun.star.text.TextMarkupType.PROOFREADING;
     // the API currently has no support for formatting text in comments
     final String comment = myMatch.getMessage()
-        .replaceAll("<suggestion>", "\"").replaceAll("</suggestion>", "\"")
-        .replaceAll("([\r]*\n)", " "); // convert line ends to spaces
+    .replaceAll("<suggestion>", "\"").replaceAll("</suggestion>", "\"")
+    .replaceAll("([\r]*\n)", " "); // convert line ends to spaces
     aError.aFullComment = comment;
     // not all rules have short comments
     if (!StringTools.isEmpty(myMatch.getShortMessage())) {
@@ -326,7 +336,7 @@ public class Main extends WeakBase implements XJobExecutor,
     }
     aError.aSuggestions = myMatch.getSuggestedReplacements().toArray(
         new String[myMatch.getSuggestedReplacements().size()]);
-    aError.nErrorStart = myMatch.getFromPos();
+    aError.nErrorStart = myMatch.getFromPos() + startIndex;
     aError.nErrorLength = myMatch.getToPos() - myMatch.getFromPos();
     aError.aRuleIdentifier = myMatch.getRule().getId();
     aError.aProperties = new PropertyValue[0];
@@ -506,13 +516,13 @@ public class Main extends WeakBase implements XJobExecutor,
             .startsWith("1.4"))) {
       final DialogThread dt = new DialogThread(
           "Error: LanguageTool requires Java 1.5 or later. Current version: "
-              + version);
+          + version);
       dt.start();
       return false;
     }
     if ("1.6.0_10".equals(version))   { //no newer version has it
       try {
-      UIManager.setLookAndFeel("com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel");
+        UIManager.setLookAndFeel("com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel");
       } catch (Exception ex) {
         // Well, what can we do...
       }
@@ -522,7 +532,7 @@ public class Main extends WeakBase implements XJobExecutor,
 
   static void showError(final Throwable e) {
     String msg = "An error has occured in LanguageTool:\n" + e.toString()
-        + "\nStacktrace:\n";
+    + "\nStacktrace:\n";
     final StackTraceElement[] elem = e.getStackTrace();
     for (final StackTraceElement element : elem) {
       msg += element.toString() + "\n";
@@ -556,9 +566,9 @@ public class Main extends WeakBase implements XJobExecutor,
       final XModel model = (XModel) UnoRuntime.queryInterface(XModel.class,
           getxComponent());
       final XWindow parentWindow = model.getCurrentController().getFrame()
-          .getContainerWindow();
+      .getContainerWindow();
       final XWindowPeer parentWindowPeer = (XWindowPeer) UnoRuntime
-          .queryInterface(XWindowPeer.class, parentWindow);
+      .queryInterface(XWindowPeer.class, parentWindow);
       final OOoAboutDialog about = new OOoAboutDialog(messages,
           parentWindowPeer);
       about.show();
@@ -567,7 +577,7 @@ public class Main extends WeakBase implements XJobExecutor,
 
   @Override
   public void ignoreRule(String ruleId, Locale locale)
-      throws IllegalArgumentException {
+  throws IllegalArgumentException {
     // TODO: config should be locale-dependent
     disabledRulesUI.add(ruleId);
     config.setDisabledRuleIds(disabledRulesUI);
@@ -618,7 +628,7 @@ class ErrorPositionComparator implements Comparator<SingleProofreadingError> {
       return -1;
     else
       return ((Integer) (match1.aSuggestions.length))
-          .compareTo(match2.aSuggestions.length);
+      .compareTo(match2.aSuggestions.length);
   }
 }
 

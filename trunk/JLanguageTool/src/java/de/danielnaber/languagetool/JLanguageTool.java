@@ -403,7 +403,8 @@ public final class JLanguageTool {
    * sentences against all currently active rules.
    * 
    * @param text
-   *          the text to check
+   *          the text to check  
+ 
    * @return a List of {@link RuleMatch} objects
    * @throws IOException
    */
@@ -624,7 +625,6 @@ public final class JLanguageTool {
   /**
    * Get all rules for the current language that are built-in or that have been
    * added using {@link #addRule}.
-   * 
    * @return a List of {@link Rule} objects
    */
   public List<Rule> getAllRules() {
@@ -633,9 +633,10 @@ public final class JLanguageTool {
     rules.addAll(userRules);
     // Some rules have an internal state so they can do checks over sentence
     // boundaries. These need to be reset so the checks don't suddenly
-    // work on different texts with the same data:
+    // work on different texts with the same data. However, it could be useful
+    // to keep the state information if we're checking a continuous text.    
     for (final Rule rule : rules) {
-      rule.reset();
+      rule.reset();    
     }
     return rules;
   }

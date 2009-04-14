@@ -34,6 +34,7 @@ import de.danielnaber.languagetool.AnalyzedSentence;
 import de.danielnaber.languagetool.JLanguageTool;
 import de.danielnaber.languagetool.rules.RuleMatch;
 import de.danielnaber.languagetool.rules.patterns.PatternRule;
+import de.danielnaber.languagetool.tools.StringTools.XmlPrintMode;
 
 public final class Tools {
 
@@ -53,7 +54,7 @@ public final class Tools {
    * @throws IOException
    */
   public static void tagText(final String contents, final JLanguageTool lt)
-      throws IOException {
+  throws IOException {
     AnalyzedSentence analyzedText;
     final List<String> sentences = lt.sentenceTokenize(contents);
     for (final String sentence : sentences) {
@@ -63,13 +64,18 @@ public final class Tools {
   }
 
   public static int checkText(final String contents, final JLanguageTool lt)
-      throws IOException {
-    return checkText(contents, lt, false, -1);
+  throws IOException {
+    return checkText(contents, lt, false, -1, 0, 0, StringTools.XmlPrintMode.NORMAL_XML);
+  }
+  
+  public static int checkText(final String contents, final JLanguageTool lt, final int lineOffset)
+  throws IOException {
+    return checkText(contents, lt, false, -1, lineOffset, 0, StringTools.XmlPrintMode.NORMAL_XML);
   }
 
   public static int checkText(final String contents, final JLanguageTool lt,
-      final boolean apiFormat) throws IOException {
-    return checkText(contents, lt, apiFormat, -1);
+      final boolean apiFormat, final int lineOffset) throws IOException {
+    return checkText(contents, lt, apiFormat, -1, lineOffset, 0, StringTools.XmlPrintMode.NORMAL_XML);
   }
 
   /**
@@ -82,24 +88,36 @@ public final class Tools {
    *          whether to print the result in a simple XML format
    * @param contextSize
    *          error text context size: -1 for default
+   * @param lineOffset 
+   *          line number offset to be added to line numbers in matches
+   * @param prevMatches
+   *          number of previously matched rules
+   * @param xmlMode
+   *          mode of xml printout for simple xml output
    * @throws IOException
    */
   public static int checkText(final String contents, final JLanguageTool lt,
-      final boolean apiFormat, int contextSize) throws IOException {
+      final boolean apiFormat, int contextSize, final int lineOffset, 
+      int prevMatches, XmlPrintMode xmlMode) throws IOException {
     if (contextSize == -1) {
       contextSize = DEFAULT_CONTEXT_SIZE;
     }
     final long startTime = System.currentTimeMillis();
     final List<RuleMatch> ruleMatches = lt.check(contents);
+    // adjust line numbers
+    for (RuleMatch r : ruleMatches) {
+      r.setLine(r.getLine() + lineOffset);
+      r.setEndLine(r.getEndLine() + lineOffset);
+    }
     if (apiFormat) {
       final String xml = StringTools.ruleMatchesToXML(ruleMatches, contents,
-          contextSize);
+          contextSize, xmlMode);
       System.out.print(xml);
     } else {
       int i = 1;
       for (final RuleMatch match : ruleMatches) {
-        String output = i + ".) Line " + (match.getLine() + 1) + ", column "
-            + match.getColumn() + ", Rule ID: " + match.getRule().getId();
+        String output = i + prevMatches + ".) Line " + (match.getLine() + 1) + ", column "
+        + match.getColumn() + ", Rule ID: " + match.getRule().getId();
         if (match.getRule() instanceof PatternRule) {
           final PatternRule pRule = (PatternRule) match.getRule();
           output += "[" + pRule.getSubId() + "]";
@@ -122,25 +140,29 @@ public final class Tools {
         i++;
       }
     }
-    final long endTime = System.currentTimeMillis();
-    final long time = endTime - startTime;
-    final float timeInSeconds = time / 1000.0f;
-    final float sentencesPerSecond = lt.getSentenceCount() / timeInSeconds;
-    if (apiFormat) {
-      System.out.println("<!--");
-    }
-    System.out.printf(Locale.ENGLISH,
-        "Time: %dms for %d sentences (%.1f sentences/sec)", time, lt
-            .getSentenceCount(), sentencesPerSecond);
-    System.out.println();
-    if (apiFormat) {
-      System.out.println("-->");
+
+    //display stats if it's not in a buffered mode
+    if (xmlMode==StringTools.XmlPrintMode.NORMAL_XML) {
+      final long endTime = System.currentTimeMillis();
+      final long time = endTime - startTime;
+      final float timeInSeconds = time / 1000.0f;
+      final float sentencesPerSecond = lt.getSentenceCount() / timeInSeconds;
+      if (apiFormat) {
+        System.out.println("<!--");
+      }
+      System.out.printf(Locale.ENGLISH,
+          "Time: %dms for %d sentences (%.1f sentences/sec)", time, lt
+          .getSentenceCount(), sentencesPerSecond);
+      System.out.println();
+      if (apiFormat) {
+        System.out.println("-->");
+      }
     }
     return ruleMatches.size();
   }
 
   public static InputStream getInputStream(final String resourcePath)
-      throws IOException {
+  throws IOException {
     try {
       // try the URL first:
       final URL url = new URL(resourcePath);
@@ -156,7 +178,7 @@ public final class Tools {
     }
     throw new IOException(
         "Could not open input stream from URL/resource/file: "
-            + f.getAbsolutePath());
+        + f.getAbsolutePath());
   }
 
   /**

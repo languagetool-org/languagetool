@@ -26,11 +26,11 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Locale;
 import java.util.Set;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import javax.xml.parsers.ParserConfigurationException;
 
@@ -56,7 +56,7 @@ class Main {
   private static final int MAXFILESIZE = 64000;
 
   Main(final boolean verbose, final Language language, final Language motherTongue)
-      throws IOException, ParserConfigurationException, SAXException {
+  throws IOException, ParserConfigurationException, SAXException {
     this(verbose, language, motherTongue, new String[0], new String[0]);
   }
 
@@ -103,11 +103,15 @@ class Main {
 
   private void runOnFile(final String filename, final String encoding,
       final boolean listUnknownWords) throws IOException {
-    final File file = new File(filename);
-    if (file.length() < MAXFILESIZE) {
+    boolean oneTime = false;
+    if (!"-".equals(filename)) {
+      final File file = new File(filename);
+      oneTime = file.length() < MAXFILESIZE;
+    }    
+    if (oneTime) {
       final String text = getFilteredText(filename, encoding);
       if (!taggerOnly) {
-        Tools.checkText(text, lt, apiFormat);
+        Tools.checkText(text, lt, apiFormat, 0);
       } else {
         Tools.tagText(text, lt);
       }
@@ -119,53 +123,82 @@ class Main {
         lt.setOutput(System.err);
       }
       if (!apiFormat) {
-        System.out.println("Working on " + filename
-            + "... in a buffered mode (100 lines)");
-      }
-      // TODO: change LT default statistics mode to summarize at the end
-      // of processing
-      InputStreamReader isr = null;
-      BufferedReader br = null;
-      int counter = 0;
-      StringBuffer sb = new StringBuffer();
-      try {
-        if (encoding != null) {
-          isr = new InputStreamReader(new BufferedInputStream(
-              new FileInputStream(file.getAbsolutePath())), encoding);
+        if (!"-".equals(filename)) {
+          System.out.println("Working on " + filename
+              + "... in a line mode");
         } else {
-          isr = new InputStreamReader(new BufferedInputStream(
-              new FileInputStream(file.getAbsolutePath())));
+          System.out.println("Working on STDIN in a line mode.");
+        }
+      }
+      InputStreamReader isr = null;
+      BufferedReader br = null;      
+      int lineOffset = 0;
+      int matches = 0;
+      long sentences = 0;
+      List<String> unknownWords = new ArrayList<String>();
+      StringBuffer sb = new StringBuffer();
+      final long startTime = System.currentTimeMillis();
+      try {
+        if (!"-".equals(filename)) {
+          final File file = new File(filename);
+          if (encoding != null) {
+            isr = new InputStreamReader(new BufferedInputStream(
+                new FileInputStream(file.getAbsolutePath())), encoding);
+          } else {
+            isr = new InputStreamReader(new BufferedInputStream(
+                new FileInputStream(file.getAbsolutePath())));
+          } 
+        } else {
+          if (encoding != null) {
+            isr = new InputStreamReader(new BufferedInputStream(
+                System.in), encoding);
+          } else {
+            isr = new InputStreamReader(new BufferedInputStream(
+                System.in));
+          }
         }
         br = new BufferedReader(isr);
         String line;
         while ((line = br.readLine()) != null) {
           sb.append(line);
           sb.append("\n");
-          counter++;
-          if (counter == 100) {
-            if (!taggerOnly) {
-              Tools.checkText(filterXML(sb.toString()), lt, apiFormat);
-            } else {
-              Tools.tagText(filterXML(sb.toString()), lt);
-            }
-            if (listUnknownWords) {
-              System.out.println("Unknown words: " + lt.getUnknownWords());
-            }
-            sb = new StringBuffer();
-            counter = 0;
-          }
-        }
-      } finally {
-        if (counter > 0) {
           if (!taggerOnly) {
-            Tools.checkText(filterXML(sb.toString()), lt, apiFormat);
+            if (matches == 0) {
+              matches += Tools.checkText(StringTools.filterXML(sb.toString()), lt, apiFormat, -1, lineOffset, matches, StringTools.XmlPrintMode.START_XML);                
+            } else {
+              matches += Tools.checkText(StringTools.filterXML(sb.toString()), lt, apiFormat, -1, lineOffset, matches, StringTools.XmlPrintMode.CONTINUE_XML);  
+            }
+            sentences += lt.getSentenceCount();
           } else {
-            Tools.tagText(filterXML(sb.toString()), lt);
+            Tools.tagText(StringTools.filterXML(sb.toString()), lt);
           }
           if (listUnknownWords && !taggerOnly) {
-            System.out.println("Unknown words: " + lt.getUnknownWords());
+            for (String word : lt.getUnknownWords())
+              if (!unknownWords.contains(word)) {
+                unknownWords.add(word);
+              }                            
           }
+          sb = new StringBuffer();
+          lineOffset++;
         }
+      } finally {
+
+        final long endTime = System.currentTimeMillis();
+        final long time = endTime - startTime;
+        final float timeInSeconds = time / 1000.0f;
+        final float sentencesPerSecond = sentences / timeInSeconds;
+        if (apiFormat) {
+          System.out.println("<!--");
+        }
+        System.out.printf(Locale.ENGLISH,
+            "Time: %dms for %d sentences (%.1f sentences/sec)", time, sentences, sentencesPerSecond);
+        System.out.println();        
+        Collections.sort(unknownWords);
+        System.out.println("Unknown words: " + unknownWords);
+        if (apiFormat) {
+          System.out.println("-->");
+        }        
+
         if (br != null) {
           br.close();
         }
@@ -202,7 +235,7 @@ class Main {
    * @throws IOException
    */
   private String getFilteredText(final String filename, final String encoding)
-      throws IOException {
+  throws IOException {
     if (verbose) {
       lt.setOutput(System.err);
     }
@@ -211,25 +244,16 @@ class Main {
     }
     final String fileContents = StringTools.readFile(new FileInputStream(filename),
         encoding);
-    return filterXML(fileContents);
+    return StringTools.filterXML(fileContents);
   }
 
-  private String filterXML(final String str) {
-    String s = str;
-    Pattern pattern = Pattern.compile("<!--.*?-->", Pattern.DOTALL);
-    Matcher matcher = pattern.matcher(s);
-    s = matcher.replaceAll(" ");
-    pattern = Pattern.compile("<.*?>", Pattern.DOTALL);
-    matcher = pattern.matcher(s);
-    s = matcher.replaceAll(" ");
-    return s;
-  }
+
 
   private static void exitWithUsageMessage() {
     System.out
-        .println("Usage: java de.danielnaber.languagetool.Main "
-            + "[-r|--recursive] [-v|--verbose] [-l|--language LANG] [-m|--mothertongue LANG] [-d|--disable RULES] "
-            + "[-e|--enable RULES] [-c|--encoding] [-u|--list-unknown] [-t|--taggeronly] [-b] [--api] <file>");
+    .println("Usage: java de.danielnaber.languagetool.Main "
+        + "[-r|--recursive] [-v|--verbose] [-l|--language LANG] [-m|--mothertongue LANG] [-d|--disable RULES] "
+        + "[-e|--enable RULES] [-c|--encoding] [-u|--list-unknown] [-t|--taggeronly] [-b] [--api] <file>");
     System.exit(1);
   }
 
@@ -237,7 +261,7 @@ class Main {
    * Command line tool to check plain text files.
    */
   public static void main(final String[] args) throws IOException,
-      ParserConfigurationException, SAXException {
+  ParserConfigurationException, SAXException {
     if (args.length < 1 || args.length > 9) {
       exitWithUsageMessage();
     }
@@ -263,7 +287,7 @@ class Main {
         taggerOnly = true;
         if (listUnknown) {
           throw new IllegalArgumentException(
-          "You cannot list unknown words when tagging only.");
+              "You cannot list unknown words when tagging only.");
         }
       } else if (args[i].equals("-r") || args[i].equals("--recursive")) {
         recursive = true;
@@ -291,7 +315,7 @@ class Main {
         listUnknown = true;
         if (taggerOnly) {
           throw new IllegalArgumentException(
-          "You cannot list unknown words when tagging only.");
+              "You cannot list unknown words when tagging only.");
         }
       } else if (args[i].equals("-b")) {
         singleLineBreakMarksParagraph = true;
@@ -305,7 +329,7 @@ class Main {
       }
     }
     if (filename == null) {
-      exitWithUsageMessage();
+      filename = "-";
     }
     if (language == null) {
       if (!apiFormat) {

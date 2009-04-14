@@ -1,5 +1,5 @@
 /* LanguageTool, a natural language style checker 
- * Copyright (C) 2005 Daniel Naber (http://www.danielnaber.de)
+ * Copyright (C) 2009 Daniel Naber (http://www.danielnaber.de)
  * 
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -28,7 +28,9 @@ import de.danielnaber.languagetool.AnalyzedSentence;
 import de.danielnaber.languagetool.AnalyzedTokenReadings;
 import de.danielnaber.languagetool.Language;
 
-/** Rule that finds unpaired quotes, brackets etc. **/
+/** Rule that finds unpaired quotes, brackets etc. 
+ * @author Marcin Miłkowski
+ * **/
 public class UnpairedQuotesBracketsRule extends Rule {
 
   /**
@@ -42,37 +44,37 @@ public class UnpairedQuotesBracketsRule extends Rule {
   private final String[] endSymbols;
 
   private static final String[] EN_START_SYMBOLS = { "[", "(", "{", "“", "\"",
-      "'" };
+  "'" };
   private static final String[] EN_END_SYMBOLS = { "]", ")", "}", "”", "\"",
-      "'" };
+  "'" };
 
   private static final String[] PL_START_SYMBOLS = { "[", "(", "{", "„", "»",
-      "\"" };
+  "\"" };
   private static final String[] PL_END_SYMBOLS = { "]", ")", "}", "”", "«",
-      "\"" };
+  "\"" };
 
   private static final String[] FR_START_SYMBOLS = { "[", "(", "{", "»", "‘" };
   private static final String[] FR_END_SYMBOLS = { "]", ")", "}", "«", "’" };
 
   private static final String[] DE_START_SYMBOLS = { "[", "(", "{", "„", "»",
-      "‘" };
+  "‘" };
   private static final String[] DE_END_SYMBOLS = { "]", ")", "}", "“", "«", "’" };
 
   private static final String[] ES_START_SYMBOLS = { "[", "(", "{", "“", "«",
-      "¿", "¡" };
+    "¿", "¡" };
   private static final String[] ES_END_SYMBOLS = { "]", ")", "}", "”", "»",
-      "?", "!" };
+    "?", "!" };
 
   private static final String[] UK_START_SYMBOLS = { "[", "(", "{", "„", "«" };
   private static final String[] UK_END_SYMBOLS = { "]", ")", "}", "“", "»" };
 
   private static final String[] RU_START_SYMBOLS = { "[", "(", "{", "„", "«",
-      "\"", "'" };
+    "\"", "'" };
   private static final String[] RU_END_SYMBOLS = { "]", ")", "}", "“", "»",
-      "\"", "'" };
+    "\"", "'" };
 
   private static final String[] NL_START_SYMBOLS = { "[", "(", "{", "„", "“",
-      "‘" };
+  "‘" };
   private static final String[] NL_END_SYMBOLS = { "]", ")", "}", "”", "”", "’" };
 
   private static final String[] IT_START_SYMBOLS = { "[", "(", "{", "»", "‘" };
@@ -91,10 +93,10 @@ public class UnpairedQuotesBracketsRule extends Rule {
 
   private static final Pattern PUNCTUATION = Pattern.compile("\\p{Punct}");
   private static final Pattern PUNCTUATION_NO_DOT = Pattern
-      .compile("\\p{Punct}(?<!\\.)");
+  .compile("\\p{Punct}(?<!\\.)");
   private static final Pattern NUMBER = Pattern.compile("\\d+");
   private static final Pattern NUMERALS = Pattern
-      .compile("(?i)\\d{1,2}?[a-z']*|M*(D?C{0,3}|C[DM])(L?X{0,3}|X[LC])(V?I{0,3}|I[VX])$");
+  .compile("(?i)\\d{1,2}?[a-z']*|M*(D?C{0,3}|C[DM])(L?X{0,3}|X[LC])(V?I{0,3}|I[VX])$");
 
   public UnpairedQuotesBracketsRule(final ResourceBundle messages,
       final Language language) {
@@ -169,13 +171,13 @@ public class UnpairedQuotesBracketsRule extends Rule {
         boolean precededByWhitespace = true;
         if (startSymbols[j].equals(endSymbols[j])) {
           precededByWhitespace = tokens[i].isWhitespaceBefore()
-              || PUNCTUATION_NO_DOT.matcher(tokens[i - 1].getToken()).matches();
+          || PUNCTUATION_NO_DOT.matcher(tokens[i - 1].getToken()).matches();
         }
 
         boolean followedByWhitespace = true;
         if (i < tokens.length - 1 && startSymbols[j].equals(endSymbols[j])) {
           followedByWhitespace = tokens[i + 1].isWhitespace()
-              || PUNCTUATION.matcher(tokens[i + 1].getToken()).matches();
+          || PUNCTUATION.matcher(tokens[i + 1].getToken()).matches();
         }
 
         if (followedByWhitespace && precededByWhitespace) {
@@ -207,7 +209,7 @@ public class UnpairedQuotesBracketsRule extends Rule {
               && noException
               && (tokens[i - 1].getToken().charAt(
                   tokens[i - 1].getToken().length() - 1) == 's')
-              && (tokens[i - 1].hasPosTag("NNS") || tokens[i - 1].hasPosTag("NNPS"))) {
+                  && (tokens[i - 1].hasPosTag("NNS") || tokens[i - 1].hasPosTag("NNPS"))) {
             noException = false;
           }
         }
@@ -246,7 +248,7 @@ public class UnpairedQuotesBracketsRule extends Rule {
             ruleMatches.add(ruleMatch);
           }
 
-          symbolCounter[i] = 0;
+         symbolCounter[i] = 0;
 
         }
       }

@@ -23,6 +23,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
+import java.util.regex.Pattern;
 import java.util.Iterator;
 import java.util.List;
 
@@ -37,7 +38,21 @@ import de.danielnaber.languagetool.rules.RuleMatch;
  */
 public final class StringTools {
 
-  private static final int DEFAULT_CONTEXT_SIZE = 25;
+  private static final int DEFAULT_CONTEXT_SIZE = 25;  
+  
+  // constants for printing XML rule matches    
+  public enum XmlPrintMode {
+    NORMAL_XML, //Normally output the rule matches by starting and
+     // ending the XML output on every call.
+    START_XML, //Start XML output by printing the preamble and the
+    // start of the root element.
+    END_XML, //End XML output by closing the root element.
+    CONTINUE_XML // Simply continue rule match output.
+  } 
+  
+  private static final Pattern XML_COMMENT_PATTERN = Pattern.compile("<!--.*?-->", Pattern.DOTALL);
+  private static final Pattern XML_PATTERN = Pattern.compile("<.*?>", Pattern.DOTALL);
+  
 
   private StringTools() {
     // only static stuff
@@ -209,16 +224,34 @@ public final class StringTools {
    *          matches
    * @param contextSize
    *          the desired context size in characters
+   * @deprecated Use {@link #ruleMatchesToXML(List<RuleMatch>,String,int,XmlPrintMode)} instead
    */
   public static String ruleMatchesToXML(final List<RuleMatch> ruleMatches,
       final String text, final int contextSize) {
+        return ruleMatchesToXML(ruleMatches, text, contextSize, XmlPrintMode.NORMAL_XML);
+      }
+
+  /**
+   * Get an XML representation of the given rule matches.
+   * @param text
+   *          the original text that was checked, used to get the context of the
+   *          matches
+   * @param contextSize
+   *          the desired context size in characters
+   * @param xmlMode TODO
+   */
+  public static String ruleMatchesToXML(final List<RuleMatch> ruleMatches,
+      final String text, final int contextSize, XmlPrintMode xmlMode) {
     //
     // IMPORTANT: people rely on this format, don't change it!
     //
     final StringBuilder xml = new StringBuilder();
-    xml.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
-    xml.append("<matches>\n");
-    // int i = 1;
+    
+    if (xmlMode == XmlPrintMode.NORMAL_XML || xmlMode == XmlPrintMode.START_XML) {
+      xml.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
+      xml.append("<matches>\n");
+    }
+
     for (final RuleMatch match : ruleMatches) {
       xml.append("<error" + " fromy=\"" + match.getLine() + "\"" + " fromx=\""
           + match.getColumn() + "\"" + " toy=\"" + match.getEndLine() + "\""
@@ -241,9 +274,10 @@ public final class StringTools {
       xml.append(" errorlength=\"" + (match.getToPos() - match.getFromPos())
           + "\"");
       xml.append("/>\n");
-      // i++;
     }
-    xml.append("</matches>\n");
+    if (xmlMode == XmlPrintMode.END_XML || xmlMode == XmlPrintMode.NORMAL_XML) {
+      xml.append("</matches>\n");
+    }
     return xml.toString();
   }
 
@@ -445,5 +479,17 @@ public final class StringTools {
    */
   public static boolean isEmpty(final String str) {
     return str == null || str.length() == 0;
+  }
+  
+  /**
+   * Simple XML filtering routing
+   * @param str XML string to be filtered.
+   * @return Filtered string without XML tags.
+   */
+  public static String filterXML(final String str) {
+    String s = str;       
+    s = XML_COMMENT_PATTERN.matcher(s).replaceAll(" ");        
+    s = XML_PATTERN.matcher(s).replaceAll(" ");
+    return s;
   }
 }

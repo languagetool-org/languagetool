@@ -85,15 +85,6 @@ public abstract class Rule {
    *          a pre-analyzed sentence
    * @return an array of RuleMatch object for each match.
    */
-  // public abstract RuleMatch[] match(AnalyzedSentence text);
-  /**
-   * Check whether the given text matches this error rule, i.e. whether the text
-   * contains this error.
-   * 
-   * @param text
-   *          a pre-analyzed sentence
-   * @return an array of RuleMatch object for each match.
-   */
   public abstract RuleMatch[] match(AnalyzedSentence text) throws IOException;
 
   /**

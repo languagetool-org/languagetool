@@ -136,7 +136,7 @@ public class HTTPServer extends ContentOracle {
         connResponse.setHeaderLine(ProtocolResponseHeader.Content_Encoding,
             "UTF-8");
         String response = StringTools.ruleMatchesToXML(matches, text,
-            CONTEXT_SIZE);
+            CONTEXT_SIZE, StringTools.XmlPrintMode.NORMAL_XML);
         print("Check done in " + (System.currentTimeMillis() - timeStart)
             + "ms");
         return response;
