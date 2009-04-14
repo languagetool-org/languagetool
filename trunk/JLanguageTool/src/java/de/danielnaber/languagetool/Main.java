@@ -55,20 +55,23 @@ class Main {
   /* maximum file size to read in a single read */
   private static final int MAXFILESIZE = 64000;
 
-  Main(final boolean verbose, final Language language, final Language motherTongue)
-  throws IOException, ParserConfigurationException, SAXException {
+  Main(final boolean verbose, final Language language,
+      final Language motherTongue) throws IOException,
+      ParserConfigurationException, SAXException {
     this(verbose, language, motherTongue, new String[0], new String[0]);
   }
 
-  Main(final boolean verbose, final Language language, final Language motherTongue,
-      final String[] disabledRules, final String[] enabledRules) throws IOException,
-      SAXException, ParserConfigurationException {
+  Main(final boolean verbose, final Language language,
+      final Language motherTongue, final String[] disabledRules,
+      final String[] enabledRules) throws IOException, SAXException,
+      ParserConfigurationException {
     this(verbose, false, language, motherTongue, disabledRules, enabledRules,
         false);
   }
 
-  Main(final boolean verbose, final boolean taggerOnly, final Language language,
-      final Language motherTongue, final String[] disabledRules, final String[] enabledRules,
+  Main(final boolean verbose, final boolean taggerOnly,
+      final Language language, final Language motherTongue,
+      final String[] disabledRules, final String[] enabledRules,
       final boolean apiFormat) throws IOException, SAXException,
       ParserConfigurationException {
     this.verbose = verbose;
@@ -78,14 +81,14 @@ class Main {
     lt.activateDefaultPatternRules();
     lt.activateDefaultFalseFriendRules();
     // disable rules that are disabled explicitly:
-    for (final String disabledRule: disabledRules) {
+    for (final String disabledRule : disabledRules) {
       lt.disableRule(disabledRule);
     }
     // disable all rules except those enabled explicitly, if any:
     if (enabledRules.length > 0) {
       final Set<String> enabledRuleIDs = new HashSet<String>(Arrays
           .asList(enabledRules));
-      for (String ruleName: enabledRuleIDs) {
+      for (String ruleName : enabledRuleIDs) {
         lt.enableDefaultOffRule(ruleName);
         lt.enableRule(ruleName);
       }
@@ -111,7 +114,7 @@ class Main {
     if (!"-".equals(filename)) {
       final File file = new File(filename);
       oneTime = file.length() < MAXFILESIZE;
-    }    
+    }
     if (oneTime) {
       final String text = getFilteredText(filename, encoding);
       if (!taggerOnly) {
@@ -128,14 +131,13 @@ class Main {
       }
       if (!apiFormat) {
         if (!"-".equals(filename)) {
-          System.out.println("Working on " + filename
-              + "... in a line mode");
+          System.out.println("Working on " + filename + "... in a line mode");
         } else {
           System.out.println("Working on STDIN in a line mode.");
         }
       }
       InputStreamReader isr = null;
-      BufferedReader br = null;      
+      BufferedReader br = null;
       int lineOffset = 0;
       int matches = 0;
       long sentences = 0;
@@ -151,14 +153,13 @@ class Main {
           } else {
             isr = new InputStreamReader(new BufferedInputStream(
                 new FileInputStream(file.getAbsolutePath())));
-          } 
+          }
         } else {
           if (encoding != null) {
-            isr = new InputStreamReader(new BufferedInputStream(
-                System.in), encoding);
+            isr = new InputStreamReader(new BufferedInputStream(System.in),
+                encoding);
           } else {
-            isr = new InputStreamReader(new BufferedInputStream(
-                System.in));
+            isr = new InputStreamReader(new BufferedInputStream(System.in));
           }
         }
         br = new BufferedReader(isr);
@@ -168,9 +169,13 @@ class Main {
           sb.append("\n");
           if (!taggerOnly) {
             if (matches == 0) {
-              matches += Tools.checkText(StringTools.filterXML(sb.toString()), lt, apiFormat, -1, lineOffset, matches, StringTools.XmlPrintMode.START_XML);                
+              matches += Tools.checkText(StringTools.filterXML(sb.toString()),
+                  lt, apiFormat, -1, lineOffset, matches,
+                  StringTools.XmlPrintMode.START_XML);
             } else {
-              matches += Tools.checkText(StringTools.filterXML(sb.toString()), lt, apiFormat, -1, lineOffset, matches, StringTools.XmlPrintMode.CONTINUE_XML);  
+              matches += Tools.checkText(StringTools.filterXML(sb.toString()),
+                  lt, apiFormat, -1, lineOffset, matches,
+                  StringTools.XmlPrintMode.CONTINUE_XML);
             }
             sentences += lt.getSentenceCount();
           } else {
@@ -180,7 +185,7 @@ class Main {
             for (String word : lt.getUnknownWords())
               if (!unknownWords.contains(word)) {
                 unknownWords.add(word);
-              }                            
+              }
           }
           sb = new StringBuffer();
           lineOffset++;
@@ -195,13 +200,14 @@ class Main {
           System.out.println("<!--");
         }
         System.out.printf(Locale.ENGLISH,
-            "Time: %dms for %d sentences (%.1f sentences/sec)", time, sentences, sentencesPerSecond);
-        System.out.println();        
+            "Time: %dms for %d sentences (%.1f sentences/sec)", time,
+            sentences, sentencesPerSecond);
+        System.out.println();
         Collections.sort(unknownWords);
         System.out.println("Unknown words: " + unknownWords);
         if (apiFormat) {
           System.out.println("-->");
-        }        
+        }
 
         if (br != null) {
           br.close();
@@ -214,15 +220,15 @@ class Main {
   }
 
   private void runRecursive(final String filename, final String encoding,
-      final boolean listUnknown) throws IOException, ParserConfigurationException,
-      SAXException {
+      final boolean listUnknown) throws IOException,
+      ParserConfigurationException, SAXException {
     final File dir = new File(filename);
     if (!dir.isDirectory()) {
       throw new IllegalArgumentException(dir.getAbsolutePath()
           + " is not a directory, cannot use recursion");
     }
     final File[] files = dir.listFiles();
-    for (final File file: files) {
+    for (final File file : files) {
       if (file.isDirectory()) {
         runRecursive(file.getAbsolutePath(), encoding, listUnknown);
       } else {
@@ -246,12 +252,10 @@ class Main {
     if (!apiFormat) {
       System.out.println("Working on " + filename + "...");
     }
-    final String fileContents = StringTools.readFile(new FileInputStream(filename),
-        encoding);
+    final String fileContents = StringTools.readFile(new FileInputStream(
+        filename), encoding);
     return StringTools.filterXML(fileContents);
   }
-
-
 
   private static void exitWithUsageMessage() {
     System.out
@@ -291,21 +295,21 @@ class Main {
         taggerOnly = true;
         if (listUnknown) {
           throw new IllegalArgumentException(
-              "You cannot list unknown words when tagging only.");
+          "You cannot list unknown words when tagging only.");
         }
       } else if (args[i].equals("-r") || args[i].equals("--recursive")) {
         recursive = true;
       } else if (args[i].equals("-d") || args[i].equals("--disable")) {
         if (enabledRules.length > 0) {
           throw new IllegalArgumentException(
-              "You cannot specify both enabled and disabled rules");
+          "You cannot specify both enabled and disabled rules");
         }
         final String rules = args[++i];
         disabledRules = rules.split(",");
       } else if (args[i].equals("-e") || args[i].equals("--enable")) {
         if (disabledRules.length > 0) {
           throw new IllegalArgumentException(
-              "You cannot specify both enabled and disabled rules");
+          "You cannot specify both enabled and disabled rules");
         }
         final String rules = args[++i];
         enabledRules = rules.split(",");
@@ -319,7 +323,7 @@ class Main {
         listUnknown = true;
         if (taggerOnly) {
           throw new IllegalArgumentException(
-              "You cannot list unknown words when tagging only.");
+          "You cannot list unknown words when tagging only.");
         }
       } else if (args[i].equals("-b")) {
         singleLineBreakMarksParagraph = true;
@@ -351,10 +355,6 @@ class Main {
     if (recursive) {
       prg.runRecursive(filename, encoding, listUnknown);
     } else {
-      /*
-       * String text = prg.getFilteredText(filename, encoding);
-       * Tools.checkText(text, prg.getJLanguageTool(), apiFormat);
-       */
       prg.runOnFile(filename, encoding, listUnknown);
     }
   }
@@ -363,7 +363,7 @@ class Main {
     Language language = null;
     boolean foundLanguage = false;
     final List<String> supportedLanguages = new ArrayList<String>();
-    for (final Language tmpLang : Language.LANGUAGES) {      
+    for (final Language tmpLang : Language.LANGUAGES) {
       supportedLanguages.add(tmpLang.getShortName());
       if (lang.equals(tmpLang.getShortName())) {
         language = tmpLang;
