@@ -387,8 +387,9 @@ public final class JLanguageTool {
    *          the id of the rule to enable
    */
   public void enableRule(final String ruleId) {
-    // TODO: check if such a rule exists
-    disabledRules.remove(ruleId);
+    if (disabledRules.contains(ruleId)) {
+      disabledRules.remove(ruleId);
+    }
   }
 
   /**

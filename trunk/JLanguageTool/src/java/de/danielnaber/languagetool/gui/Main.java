@@ -481,6 +481,13 @@ public final class Main implements ActionListener {
           langTool.disableCategory(categoryName);
         }
       }
+      final Set<String> enabledRules = configDialog.getEnabledRuleIds();
+      if (enabledRules != null) {
+      for (String ruleName: enabledRules) {
+        langTool.enableDefaultOffRule(ruleName);
+        langTool.enableRule(ruleName);
+      }
+      }
     } catch (final IOException ioe) {
       throw new RuntimeException(ioe);
     } catch (final ParserConfigurationException ex) {

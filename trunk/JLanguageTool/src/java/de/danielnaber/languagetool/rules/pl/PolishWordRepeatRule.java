@@ -34,35 +34,31 @@ import de.danielnaber.languagetool.tools.StringTools;
 /**
  * @author Marcin Miłkowski
  * 
- * Rule for detecting same words in the sentence
- * but not just in a row 
- *
+ *         Rule for detecting same words in the sentence but not just in a row
+ * 
  */
 public class PolishWordRepeatRule extends PolishRule {
-  
+
   /**
    * Excluded dictionary words.
    */
-  private static final Pattern EXC_WORDS 
-  = Pattern.compile("nie|tuż|aż|to|siebie|być|ani|ni|albo|" +
-      "lub|czy|bądź|jako|zł|np|coraz" +
-      "|bardzo|bardziej|proc|ten|jak|mln|tys|swój|mój|" +
-       "twój|nasz|wasz|i|zbyt");
+  private static final Pattern EXC_WORDS = Pattern
+      .compile("nie|tuż|aż|to|siebie|być|ani|ni|albo|"
+          + "lub|czy|bądź|jako|zł|np|coraz"
+          + "|bardzo|bardziej|proc|ten|jak|mln|tys|swój|mój|"
+          + "twój|nasz|wasz|i|zbyt");
 
   /**
    * Excluded part of speech classes.
    */
-  private static final Pattern EXC_POS 
-  = Pattern.compile("prep:.*|ppron.*");
+  private static final Pattern EXC_POS = Pattern.compile("prep:.*|ppron.*");
 
   /**
-   * Excluded non-words (special symbols,
-   * Roman numerals etc.
+   * Excluded non-words (special symbols, Roman numerals etc.
    */
-  private static final Pattern EXC_NONWORDS 
-  = Pattern.compile("&quot|&gt|&lt|&amp|[0-9].*|" +
-  "M*(D?C{0,3}|C[DM])(L?X{0,3}|X[LC])(V?I{0,3}|I[VX])$");
-
+  private static final Pattern EXC_NONWORDS = Pattern
+      .compile("&quot|&gt|&lt|&amp|[0-9].*|"
+          + "M*(D?C{0,3}|C[DM])(L?X{0,3}|X[LC])(V?I{0,3}|I[VX])$");
 
   public PolishWordRepeatRule(final ResourceBundle messages) {
     if (messages != null) {
@@ -71,7 +67,9 @@ public class PolishWordRepeatRule extends PolishRule {
     setDefaultOff();
   }
 
-  /* (non-Javadoc)
+  /*
+   * (non-Javadoc)
+   * 
    * @see de.danielnaber.languagetool.rules.Rule#getId()
    */
   @Override
@@ -79,7 +77,9 @@ public class PolishWordRepeatRule extends PolishRule {
     return "PL_WORD_REPEAT";
   }
 
-  /* (non-Javadoc)
+  /*
+   * (non-Javadoc)
+   * 
    * @see de.danielnaber.languagetool.rules.Rule#getDescription()
    */
   @Override
@@ -87,18 +87,17 @@ public class PolishWordRepeatRule extends PolishRule {
     return "Powtórzenia wyrazów w zdaniu (monotonia stylistyczna)";
   }
 
-
-  /* Tests if any word form is repeated in the sentence.
-   * 
+  /*
+   * Tests if any word form is repeated in the sentence.
    */
   @Override
   public final RuleMatch[] match(final AnalyzedSentence text) {
     final List<RuleMatch> ruleMatches = new ArrayList<RuleMatch>();
     final AnalyzedTokenReadings[] tokens = text.getTokensWithoutWhitespace();
     boolean repetition = false;
-    final TreeSet <String> inflectedWords = new TreeSet<String>();
-    String prevLemma, curLemma;	    
-    //start from real token, 0 = SENT_START  
+    final TreeSet<String> inflectedWords = new TreeSet<String>();
+    String prevLemma, curLemma;
+    // start from real token, 0 = SENT_START
     for (int i = 1; i < tokens.length; i++) {
       final String token = tokens[i].getToken();
       // avoid "..." etc. to be matched:
@@ -117,7 +116,7 @@ public class PolishWordRepeatRule extends PolishRule {
             isWord = false;
             break;
           }
-          //FIXME: too many false alarms here:     
+          // FIXME: too many false alarms here:
           final String lemma = tokens[i].getAnalyzedToken(k).getLemma();
           if (lemma == null) {
             hasLemma = false;
@@ -133,7 +132,7 @@ public class PolishWordRepeatRule extends PolishRule {
           if (m2.matches()) {
             isWord = false;
             break;
-          }          
+          }
         } else {
           hasLemma = false;
         }
@@ -148,17 +147,17 @@ public class PolishWordRepeatRule extends PolishRule {
       prevLemma = "";
       if (isWord) {
         boolean notSentEnd = false;
-        for (int j = 0; j < readingsLen; j++) {          
-          final String pos = tokens[i].getAnalyzedToken(j).getPOSTag();            
+        for (int j = 0; j < readingsLen; j++) {
+          final String pos = tokens[i].getAnalyzedToken(j).getPOSTag();
           if (pos != null) {
             notSentEnd |= "SENT_END".equals(pos);
-            }            
-          if (hasLemma) {            
-            curLemma = tokens[i].getAnalyzedToken(j).getLemma();            
+          }
+          if (hasLemma) {
+            curLemma = tokens[i].getAnalyzedToken(j).getLemma();
             if (!prevLemma.equals(curLemma) && !notSentEnd) {
               if (inflectedWords.contains(curLemma)) {
                 repetition = true;
-              } else {	        			   	           
+              } else {
                 inflectedWords.add(tokens[i].getAnalyzedToken(j).getLemma());
               }
             }
@@ -167,7 +166,7 @@ public class PolishWordRepeatRule extends PolishRule {
             if (inflectedWords.contains(tokens[i].getToken()) && !notSentEnd) {
               repetition = true;
             } else {
-              inflectedWords.add(tokens[i].getToken());                               
+              inflectedWords.add(tokens[i].getToken());
             }
           }
 
@@ -177,7 +176,8 @@ public class PolishWordRepeatRule extends PolishRule {
       if (repetition) {
         final String msg = "Powtórzony wyraz w zdaniu";
         final int pos = tokens[i].getStartPos();
-        final RuleMatch ruleMatch = new RuleMatch(this, pos, pos+token.length(), msg, "Powtórzenie wyrazu");
+        final RuleMatch ruleMatch = new RuleMatch(this, pos, pos
+            + token.length(), msg, "Powtórzenie wyrazu");
         ruleMatch.setSuggestedReplacement(tokens[i].getToken());
         ruleMatches.add(ruleMatch);
         repetition = false;
@@ -187,8 +187,9 @@ public class PolishWordRepeatRule extends PolishRule {
     return toRuleMatchArray(ruleMatches);
   }
 
-
-  /* (non-Javadoc)
+  /*
+   * (non-Javadoc)
+   * 
    * @see de.danielnaber.languagetool.rules.Rule#reset()
    */
   @Override

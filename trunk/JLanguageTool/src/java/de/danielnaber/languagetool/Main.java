@@ -85,6 +85,10 @@ class Main {
     if (enabledRules.length > 0) {
       final Set<String> enabledRuleIDs = new HashSet<String>(Arrays
           .asList(enabledRules));
+      for (String ruleName: enabledRuleIDs) {
+        lt.enableDefaultOffRule(ruleName);
+        lt.enableRule(ruleName);
+      }
       for (Rule rule : lt.getAllRules()) {
         if (!enabledRuleIDs.contains(rule.getId())) {
           lt.disableRule(rule.getId());
