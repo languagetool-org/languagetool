@@ -91,8 +91,6 @@ XLinguServiceEventBroadcaster {
    */
   private boolean recheck;
 
-  private List<RuleMatch> prevRuleMatches;
-
   /**
    * Service name required by the OOo API && our own name.
    */
@@ -287,8 +285,7 @@ XLinguServiceEventBroadcaster {
           // paRes.nBehindEndOfSentencePosition = paRes.nBehindEndOfSentencePosition + sentences.get(0).length();
           paRes.nStartOfNextSentencePosition = paRes.nBehindEndOfSentencePosition + 1;
           if (!sentences.isEmpty()) {
-            final List<RuleMatch> ruleMatches = langTool.check(sentences.get(0));
-            prevRuleMatches = ruleMatches;
+            final List<RuleMatch> ruleMatches = langTool.check(sentences.get(0));            
             if (!ruleMatches.isEmpty()) {
               final SingleProofreadingError[] errorArray = 
                 new SingleProofreadingError[ruleMatches.size()];
