@@ -105,6 +105,15 @@ public class AvsAnRuleTest extends TestCase {
     matches = rule.match(langTool.getAnalyzedSentence("A. R.J. Turgot"));
     assertEquals(0, matches.length);
     
+    //mixed case as dictionary-based exception
+    matches = rule.match(langTool.getAnalyzedSentence("Anyone for an MSc?"));
+    assertEquals(0, matches.length);
+    matches = rule.match(langTool.getAnalyzedSentence("Anyone for a MSc?"));
+    assertEquals(1, matches.length);
+    //mixed case from general case
+    matches = rule.match(langTool.getAnalyzedSentence("Anyone for an XMR-based writer?"));
+    assertEquals(0, matches.length);
+    
     //Test on apostrophes    
     matches = rule.match(langTool.getAnalyzedSentence("Its name in English is a[1] (), plural A's, As, as, or a's."));
     assertEquals(0, matches.length);    

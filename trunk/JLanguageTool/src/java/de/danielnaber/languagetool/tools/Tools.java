@@ -38,7 +38,7 @@ import de.danielnaber.languagetool.tools.StringTools.XmlPrintMode;
 
 public final class Tools {
 
-  private static final int DEFAULT_CONTEXT_SIZE = 25;
+  private static final int DEFAULT_CONTEXT_SIZE = 45;
 
   private Tools() {
     // cannot construct, static methods only

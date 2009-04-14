@@ -26,6 +26,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.TreeSet;
+import java.util.regex.Pattern;
 
 import de.danielnaber.languagetool.AnalyzedSentence;
 import de.danielnaber.languagetool.AnalyzedTokenReadings;
@@ -51,6 +52,8 @@ public class AvsAnRule extends EnglishRule {
 
   private TreeSet<String> requiresA;
   private TreeSet<String> requiresAn;
+  
+  private static final Pattern VOWEL_ACRONYM = Pattern.compile("[AEFHILMNOSRX][A-Z]*");
   
   public AvsAnRule(final ResourceBundle messages) throws IOException {
     if (messages != null) {
@@ -106,8 +109,8 @@ public class AvsAnRule extends EnglishRule {
         }
                 
         if (!isException) {
-          if (StringTools.isAllUppercase(token)) {
-            // we don't know how all-uppercase words (often abbreviations) are pronounced, 
+          if (StringTools.isAllUppercase(token) || StringTools.isMixedCase(token)) {
+            // we don't know how all-uppercase and mixed case words (often abbreviations) are pronounced, 
             // so never complain about these:
             doesRequireAn = false;
             doesRequireA = false;
@@ -187,7 +190,7 @@ public class AvsAnRule extends EnglishRule {
       doesRequireAn = true;
     }
     if (!isException) {
-      if (StringTools.isAllUppercase(word)) {
+      if (StringTools.isAllUppercase(word) || StringTools.isMixedCase(word)) {
         // we don't know how all-uppercase words (often abbreviations) are pronounced, 
         // so never complain about these:
         doesRequireAn = false;

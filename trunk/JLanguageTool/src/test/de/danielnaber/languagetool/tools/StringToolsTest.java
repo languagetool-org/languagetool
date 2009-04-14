@@ -63,6 +63,31 @@ public class StringToolsTest extends TestCase {
     assertFalse(StringTools.isAllUppercase("a"));
     assertFalse(StringTools.isAllUppercase("abc"));
   }
+  
+  public void testIsMixedCase() {
+    assertTrue(StringTools.isMixedCase("AbC"));
+    assertTrue(StringTools.isMixedCase("MixedCase"));
+    assertTrue(StringTools.isMixedCase("iPod"));
+    assertTrue(StringTools.isMixedCase("AbCdE"));
+    
+    assertFalse(StringTools.isMixedCase(""));
+    assertFalse(StringTools.isMixedCase("ABC"));
+    assertFalse(StringTools.isMixedCase("abc"));
+    assertFalse(StringTools.isMixedCase("!"));
+    assertFalse(StringTools.isMixedCase("Word"));
+  }
+  
+  public void testIsCapitalizedWord() {
+    assertTrue(StringTools.isCapitalizedWord("Abc"));
+    assertTrue(StringTools.isCapitalizedWord("Uppercase"));
+    assertTrue(StringTools.isCapitalizedWord("Ipod"));    
+    
+    assertFalse(StringTools.isCapitalizedWord(""));
+    assertFalse(StringTools.isCapitalizedWord("ABC"));
+    assertFalse(StringTools.isCapitalizedWord("abc"));
+    assertFalse(StringTools.isCapitalizedWord("!"));
+    assertFalse(StringTools.isCapitalizedWord("wOrD"));
+  }
 
   public void testStartsWithUppercase() {
     assertTrue(StringTools.startsWithUppercase("A"));

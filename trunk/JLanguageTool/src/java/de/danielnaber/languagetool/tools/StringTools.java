@@ -126,6 +126,30 @@ public final class StringTools {
   }
 
   /**
+   * @param str - input str
+   * Returns true if str is MixedCase.
+   */
+  public static boolean isMixedCase(final String str) {
+    return !isAllUppercase(str)
+    && !isCapitalizedWord(str)
+    && !str.equals(str.toLowerCase());
+  }
+  
+  /**
+   * @param str - input string
+   */
+  public static boolean isCapitalizedWord(final String str) {
+    if (isEmpty(str)) {
+      return false;
+    }
+    final char firstChar = str.charAt(0);
+    if (Character.isUpperCase(firstChar)) {
+      return str.substring(1).equals(str.substring(1).toLowerCase());
+    }
+    return false;
+  }
+  
+  /**
    * Whether the first character of <code>str</code> is an uppercase character.
    */
   public static boolean startsWithUppercase(final String str) {

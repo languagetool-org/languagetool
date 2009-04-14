@@ -90,7 +90,7 @@ TODO:
  -clean up rule descriptions so that they coherently contain the error or the rule
   (e.g., "did + baseform" vs. "did + non-baseform")
  -add more rules, especially agreement stuff 
- -fix AvsAnRule: use 'an' before an abbreviation that begins with a vowel
+ -fix AvsAnRule: use 'an' before any abbreviation that begins with a vowel
   sound (like 'an MSc').
  -add a simple sentence/word complexity test like that: http://www.ooomacros.org/user.php#111318 
  -German rule: Vergleichs vs Vergleiches etc -> only one variant per document should be used
