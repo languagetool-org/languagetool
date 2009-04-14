@@ -68,13 +68,6 @@ TODO:
  -update languagetool.xml.update automatically (i.e. replace @version@)
  -add more redundancy rules, see e.g.
   http://grammar.about.com/od/words/a/redundancies.htm?p=1
- -feedback from http://extensions.services.openoffice.org/project/languagetool:
-  1) It does not seem to understand global multi-user installs. If you 
-   install from root it it pushed to all users, however when you try and
-   customize your own settings it's trying to write into the global settings
-   area and fails. Settings should go into $HOME
-  2) The [ Close ] button fails to close the UI and requires the "X" of the 
-   window manager
  -use hunspell via jni, see http://tkltrans.sourceforge.net/spell.htm and
   http://tkltrans.sourceforge.net/magyar/huncheck.tar.gz
  -finish "Add language..." work
