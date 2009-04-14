@@ -50,6 +50,7 @@ import org.xml.sax.helpers.DefaultHandler;
 import de.danielnaber.languagetool.JLanguageTool;
 import de.danielnaber.languagetool.Language;
 import de.danielnaber.languagetool.TextFilter;
+import de.danielnaber.languagetool.dev.tools.RomanianDiacriticsModifier;
 import de.danielnaber.languagetool.gui.Tools;
 import de.danielnaber.languagetool.rules.RuleMatch;
 
@@ -115,7 +116,7 @@ public class CheckWikipediaDump {
     Date dumpDate = getDumpDate(file);
     System.out.println("Dump date: " + dumpDate + ", language: " + language);
     WikiDumpHandler handler = new WikiDumpHandler(lt, maxArticles, dumpDate,
-        language, propFile);
+        language, propFile, lang); 
     SAXParserFactory factory = SAXParserFactory.newInstance();
     SAXParser saxParser = factory.newSAXParser();
     saxParser.parse(file, handler);
@@ -139,7 +140,7 @@ public class CheckWikipediaDump {
 
 class WikiDumpHandler extends DefaultHandler {
 
-  private static final int CONTEXT_SIZE = 50;
+  private static final int CONTEXT_SIZE = 50; 
   private static final String MARKER_START = "<err>";
   private static final String MARKER_END = "</err>";
   private static final String LANG_MARKER = "XX";
@@ -159,17 +160,20 @@ class WikiDumpHandler extends DefaultHandler {
   private Date dumpDate;
   private String langCode;
   private String title;
+  private Language lang;
 
   //===========================================================
   // SAX DocumentHandler methods
   //===========================================================
 
   WikiDumpHandler(JLanguageTool lt, int maxArticles, Date dumpDate,
-      String langCode, File propertiesFile) throws IOException {
-    this.lt = lt;
+      String langCode, File propertiesFile, Language lang) throws IOException {
+	this.lang = lang;
+	this.lt = lt;
     this.maxArticles = maxArticles;
     this.dumpDate = dumpDate;
     this.langCode = langCode;
+    initTextFilter();
     try {
       Properties dbProperties = new Properties();
       dbProperties.load(new FileInputStream(propertiesFile));
@@ -186,6 +190,23 @@ class WikiDumpHandler extends DefaultHandler {
     }
   }
   
+  /*
+   * initialize textFilter field 
+   */
+  private void initTextFilter() {
+    if (Language.ROMANIAN == lang)
+      textFilter = new WikipediaTextFilter() {
+        @Override
+        public String filter(String arg0) {
+    	  final String tmp = super.filter(arg0);  
+    	  // diacritics correction (comma-bellow instead of sedilla for ș and ț)
+          return RomanianDiacriticsModifier.correctDiacritrics(tmp);
+		}
+      };
+    else
+      textFilter = new WikipediaTextFilter();
+  }
+
   private String getProperty(Properties prop, String key) {
     String value = prop.getProperty(key);
     if (value == null) {
