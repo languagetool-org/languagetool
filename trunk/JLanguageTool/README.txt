@@ -125,10 +125,12 @@ Using LanguageTool from .NET:
  Just adapt these commands to you local path names (this example shows using mono):
 
  export MONO_PATH=/path/to/ikvm/bin
- mono /path/to/ikvm/bin/ikvmc.exe -target:library -r:/path/to/ikvm/bin/IKVM.GNU.Classpath.dll libs/stempelator-nodict-1.0.6.jar
- mono /path/to/ikvm/bin/ikvmc.exe -r:/path/to/ikvm/bin/IKVM.GNU.Classpath.dll -r:trove.dll -r:stempelator-nodict-1.0.6.dll LanguageTool.jar
+ mono /path/to/ikvm/bin/ikvmc.exe -target:library -r:/path/to/ikvm/bin/IKVM.GNU.Classpath.dll libs/morfologik-stemming-nodict-1.1.14.jar
+ mono /path/to/ikvm/bin/ikvmc.exe -target:library -r:/path/to/ikvm/bin/IKVM.GNU.Classpath.dll libs/jWordSplitter.jar
+ mono /path/to/ikvm/bin/ikvmc.exe -r:/path/to/ikvm/bin/IKVM.GNU.Classpath.dll -r:morfologik-stemming-nodict-1.1.14.dll -r:jWordSplitter.dll LanguageTool.jar
 
- However, the resulting LanguageTool.exe has not been tested much yet.
+ However, the resulting LanguageTool.exe has not been tested much yet. You can expect
+ problems with resource loading (path names are not recognized properly).
 
 ------------------------------------------------ 
 
