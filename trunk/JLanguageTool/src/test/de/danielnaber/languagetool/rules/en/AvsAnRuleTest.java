@@ -125,7 +125,7 @@ public class AvsAnRuleTest extends TestCase {
     assertEquals("a university", rule.suggestAorAn("university"));
     assertEquals("an hour", rule.suggestAorAn("hour"));
     assertEquals("an all-terrain", rule.suggestAorAn("all-terrain"));    
-    assertEquals("UNESCO", rule.suggestAorAn("UNESCO"));
+    assertEquals("a UNESCO", rule.suggestAorAn("UNESCO"));
     
   }
 }
