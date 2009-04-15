@@ -6,7 +6,7 @@ title="Easy editing stylesheet" ?>
 <!--
 Polish Grammar and Typo Rules for LanguageTool
 Copyright (C) 2006-2007 Marcin Miłkowski
-$Id: grammar.xml,v 1.179 2009-04-10 17:07:04 milek_pl Exp $
+$Id: grammar.xml,v 1.180 2009-04-15 19:26:02 milek_pl Exp $
 -->
 <rules lang="pl">
   <unification feature="number">
@@ -3567,12 +3567,13 @@ lub <suggestion>\2 na prawach wyłączności</suggestion>.</message>
     <rulegroup id="UBRAC_ZALOZYC" name="„ubrać/założyć futro, golf, kapelusz” (włożyć...)">
       <rule>
         <pattern>
-          <token inflected="yes" regexp="yes" skip="2"><exception scope="next">się</exception>ubierać|ubrać</token>
+          <token inflected="yes" postag="verb.*|pact.*" postag_regexp="yes" regexp="yes" skip="2"><exception regexp="yes" scope="next">się|w</exception>ubierać|ubrać</token>
           <token regexp="yes">futro|golf|sukienkę|kapelusz|płaszcz|sukienkę|garnitur|buty</token>
         </pattern>
         <message>Prawdopodobnie użyto błędnego czasownika. Powinno być: <suggestion><match no="1" postag="verb(.*):(im)?perf" postag_replace="verb$1:perf">włożyć</match> <match no="2"/></suggestion>.</message>
         <short>Błąd leksykalny</short>
         <example correction="włożył golf" type="incorrect">Przemysław znowu <marker>ubrał golf</marker>.</example>
+        <example type="correct">Doda była ubrana w sukienkę.</example>
         <example type="correct">Przemysław znowu ubrał się w golf.</example>
       </rule>
       <rule>
