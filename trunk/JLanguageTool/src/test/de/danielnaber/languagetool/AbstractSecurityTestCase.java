@@ -71,5 +71,10 @@ public class AbstractSecurityTestCase extends TestCase {
   protected void tearDown() throws Exception {
      System.setSecurityManager(null); 
      super.tearDown();
-  }   
+  }
+  
+  //get rid of JUnit warning for this helper class
+  public void testSomething() {
+  }
+
 }

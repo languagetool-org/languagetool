@@ -225,5 +225,19 @@ public class MainTest extends AbstractSecurityTestCase {
     }
   }
   
+  public void testNoListUnknown()  throws URISyntaxException, IOException, ParserConfigurationException, SAXException {
+    try {
+      final URL url = this.getClass().getResource("test-en.txt");
+      final URI uri = new URI (url.toString());
+      String[] args = new String[] {"-l", "pl", uri.getPath()};
+      Main.main(args);
+      String output = new String(this.out.toByteArray());
+      assertTrue(output.indexOf("Expected text language: Polish") == 0);
+      assertTrue(output.indexOf("Unknown words: [This, is]") == -1);
+    }
+    catch (ExitException e) {             
+      assertEquals("Exit status", 1, e.status);
+    }
+  }
 
 }
