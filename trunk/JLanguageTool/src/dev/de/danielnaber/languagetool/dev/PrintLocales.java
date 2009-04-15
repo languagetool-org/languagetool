@@ -45,11 +45,19 @@ public final class PrintLocales {
     String locales = "";
     for (final Language element : Language.LANGUAGES) {
       if (!element.equals(Language.DEMO)) {
+        String var;
         for (final String variant : element.getCountryVariants()) {
-          if (!StringTools.isEmpty(locales)) {
-            locales = locales + " "  + element.getShortName() + "-" + variant;
+          
+          if (StringTools.isEmpty(variant)) {
+            var = "";
           } else {
-            locales = element.getShortName() + "-" + variant;
+            var = "-" + variant;
+          }
+          
+          if (!StringTools.isEmpty(locales)) {
+            locales = locales + " "  + element.getShortName() + var;
+          } else {
+            locales = element.getShortName() + var;
           }
         }
       }
