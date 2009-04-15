@@ -203,8 +203,10 @@ class Main {
             "Time: %dms for %d sentences (%.1f sentences/sec)", time,
             sentences, sentencesPerSecond);
         System.out.println();
-        Collections.sort(unknownWords);
-        System.out.println("Unknown words: " + unknownWords);
+        if (listUnknownWords) {
+          Collections.sort(unknownWords);
+          System.out.println("Unknown words: " + unknownWords);
+        }
         if (apiFormat) {
           System.out.println("-->");
         }
