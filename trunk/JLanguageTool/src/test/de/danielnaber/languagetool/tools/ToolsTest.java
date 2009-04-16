@@ -1,0 +1,78 @@
+package de.danielnaber.languagetool.tools;
+
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.PrintStream;
+
+import javax.xml.parsers.ParserConfigurationException;
+
+import org.xml.sax.SAXException;
+
+import junit.framework.TestCase;
+import de.danielnaber.languagetool.JLanguageTool;
+import de.danielnaber.languagetool.Language;
+
+public class ToolsTest extends TestCase {
+
+  private ByteArrayOutputStream out;
+  private ByteArrayOutputStream err;
+  private PrintStream stdout;
+  private PrintStream stderr;
+
+  public void setUp() throws Exception {
+    super.setUp();
+    this.stdout = System.out;
+    this.stderr = System.err;
+    this.out = new ByteArrayOutputStream();
+    this.err = new ByteArrayOutputStream();      
+    System.setOut(new PrintStream(this.out));
+    System.setErr(new PrintStream(this.err));
+  }
+
+  public void tearDown() throws Exception {
+    super.tearDown();
+    System.setOut(this.stdout);
+    System.setErr(this.stderr);
+  }
+
+  public void testCheck() throws IOException, ParserConfigurationException, SAXException {
+    final JLanguageTool tool = new JLanguageTool(Language.POLISH);
+    tool.activateDefaultPatternRules();
+    tool.activateDefaultFalseFriendRules();
+ 
+    int matches = Tools.checkText("To jest całkowicie prawidłowe zdanie.", tool);
+    String output = new String(this.out.toByteArray());
+    assertTrue(output.indexOf("Time:") == 0);
+    assertEquals(0, matches);
+
+    matches = Tools.checkText("To jest jest problem.", tool);
+    output = new String(this.out.toByteArray());
+    assertTrue(output.indexOf("Rule ID: WORD_REPEAT_RULE") != -1);
+    assertEquals(1, matches);
+  }
+
+  public void testCorrect() throws IOException, ParserConfigurationException, SAXException {
+    JLanguageTool tool = new JLanguageTool(Language.POLISH);
+    tool.activateDefaultPatternRules();
+    tool.activateDefaultFalseFriendRules();
+
+    String correct = Tools.correctText("To jest całkowicie prawidłowe zdanie.", tool);
+    assertEquals("To jest całkowicie prawidłowe zdanie.", correct);
+    correct = Tools.correctText("To jest jest problem.", tool);
+    assertEquals("To jest problem.", correct);
+
+    // more sentences, need to apply more suggestions > 1 in subsequent sentences
+    correct = Tools.correctText("To jest jest problem. Ale to już już nie jest problem.", tool);
+    assertEquals("To jest problem. Ale to już nie jest problem.", correct);
+    correct = Tools.correctText("To jest jest problem. Ale to już już nie jest problem. Tak sie nie robi. W tym zdaniu brakuje przecinka bo go zapomniałem.", tool);
+    assertEquals("To jest problem. Ale to już nie jest problem. Tak się nie robi. W tym zdaniu brakuje przecinka, bo go zapomniałem.", correct);
+    
+    //now English
+    tool = new JLanguageTool(Language.ENGLISH);
+    tool.activateDefaultPatternRules();
+    tool.activateDefaultFalseFriendRules();
+
+    assertEquals("This is a test.", Tools.correctText("This is an test.", tool));
+
+  }
+}

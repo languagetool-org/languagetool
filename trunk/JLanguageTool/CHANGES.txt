@@ -2,8 +2,15 @@ LanguageTool Change Log
 
 0.9.8 (xx-yy-zzz)
 
- -Fixed a bug that disallowed using rules that were turned off by
-  default.
+ -New mode of operation on command-line: you can apply suggestions
+  automatically by supplying "--apply" switch (or "-a" for short).
+  LanguageTool will then output a text with suggestions applied,
+  while suppressing all other text (you can, however, still get
+  verbose output on STDERR). This way LanguageTool may be used to 
+  automatically edit a text (to clean a corpus before some other
+  operations, for example).  Note: only the first suggestion is 
+  applied in the automatic mode, so make sure that the first
+  suggestion is the best one. 
 
  -The command-line tool works now with STDIN. STDIN is activated
   anytime a filename is not specified or if you specified "-"
@@ -21,6 +28,9 @@ LanguageTool Change Log
   Romanian (thanks to Ionuț Păduraru)
   
  -New rules for Italian and Italian message translation by Paolo Bianchini
+
+ -Fixed a bug that disallowed using rules that were turned off by
+  default.
  
 0.9.7 (2009-03-03)
 

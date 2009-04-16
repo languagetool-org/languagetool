@@ -51,32 +51,20 @@ class Main {
   private boolean verbose;
   private boolean apiFormat;
   private boolean taggerOnly;
+  private boolean applySuggestions;
 
   /* maximum file size to read in a single read */
   private static final int MAXFILESIZE = 64000;
 
-  Main(final boolean verbose, final Language language,
-      final Language motherTongue) throws IOException,
-      ParserConfigurationException, SAXException {
-    this(verbose, language, motherTongue, new String[0], new String[0]);
-  }
-
-  Main(final boolean verbose, final Language language,
-      final Language motherTongue, final String[] disabledRules,
-      final String[] enabledRules) throws IOException, SAXException,
-      ParserConfigurationException {
-    this(verbose, false, language, motherTongue, disabledRules, enabledRules,
-        false);
-  }
-
   Main(final boolean verbose, final boolean taggerOnly,
       final Language language, final Language motherTongue,
       final String[] disabledRules, final String[] enabledRules,
-      final boolean apiFormat) throws IOException, SAXException,
+      final boolean apiFormat, boolean applySuggestions) throws IOException, SAXException,
       ParserConfigurationException {
     this.verbose = verbose;
     this.apiFormat = apiFormat;
     this.taggerOnly = taggerOnly;
+    this.applySuggestions = applySuggestions;
     lt = new JLanguageTool(language, motherTongue);
     lt.activateDefaultPatternRules();
     lt.activateDefaultFalseFriendRules();
@@ -117,7 +105,9 @@ class Main {
     }
     if (oneTime) {
       final String text = getFilteredText(filename, encoding);
-      if (!taggerOnly) {
+      if (applySuggestions) {
+        System.out.print(Tools.correctText(text, lt));
+      } else if (!taggerOnly) {
         Tools.checkText(text, lt, apiFormat, 0);
       } else {
         Tools.tagText(text, lt);
@@ -129,7 +119,7 @@ class Main {
       if (verbose) {
         lt.setOutput(System.err);
       }
-      if (!apiFormat) {
+      if (!apiFormat && !applySuggestions) {
         if (!"-".equals(filename)) {
           System.out.println("Working on " + filename + "... in a line mode");
         } else {
@@ -167,7 +157,9 @@ class Main {
         while ((line = br.readLine()) != null) {
           sb.append(line);
           sb.append("\n");
-          if (!taggerOnly) {
+          if (applySuggestions) {
+            System.out.print(Tools.correctText(StringTools.filterXML(sb.toString()), lt));
+          } else if (!taggerOnly) {
             if (matches == 0) {
               matches += Tools.checkText(StringTools.filterXML(sb.toString()),
                   lt, apiFormat, -1, lineOffset, matches,
@@ -191,26 +183,26 @@ class Main {
           lineOffset++;
         }
       } finally {
-
-        final long endTime = System.currentTimeMillis();
-        final long time = endTime - startTime;
-        final float timeInSeconds = time / 1000.0f;
-        final float sentencesPerSecond = sentences / timeInSeconds;
-        if (apiFormat) {
-          System.out.println("<!--");
+        if (!applySuggestions) {
+          final long endTime = System.currentTimeMillis();
+          final long time = endTime - startTime;
+          final float timeInSeconds = time / 1000.0f;
+          final float sentencesPerSecond = sentences / timeInSeconds;
+          if (apiFormat) {
+            System.out.println("<!--");
+          }
+          System.out.printf(Locale.ENGLISH,
+              "Time: %dms for %d sentences (%.1f sentences/sec)", time,
+              sentences, sentencesPerSecond);
+          System.out.println();
+          if (listUnknownWords) {
+            Collections.sort(unknownWords);
+            System.out.println("Unknown words: " + unknownWords);
+          }
+          if (apiFormat) {
+            System.out.println("-->");
+          }
         }
-        System.out.printf(Locale.ENGLISH,
-            "Time: %dms for %d sentences (%.1f sentences/sec)", time,
-            sentences, sentencesPerSecond);
-        System.out.println();
-        if (listUnknownWords) {
-          Collections.sort(unknownWords);
-          System.out.println("Unknown words: " + unknownWords);
-        }
-        if (apiFormat) {
-          System.out.println("-->");
-        }
-
         if (br != null) {
           br.close();
         }
@@ -251,7 +243,7 @@ class Main {
     if (verbose) {
       lt.setOutput(System.err);
     }
-    if (!apiFormat) {
+    if (!apiFormat && !applySuggestions) {
       System.out.println("Working on " + filename + "...");
     }
     final String fileContents = StringTools.readFile(new FileInputStream(
@@ -263,7 +255,7 @@ class Main {
     System.out
     .println("Usage: java de.danielnaber.languagetool.Main "
         + "[-r|--recursive] [-v|--verbose] [-l|--language LANG] [-m|--mothertongue LANG] [-d|--disable RULES] "
-        + "[-e|--enable RULES] [-c|--encoding] [-u|--list-unknown] [-t|--taggeronly] [-b] [--api] <file>");
+        + "[-e|--enable RULES] [-c|--encoding] [-u|--list-unknown] [-t|--taggeronly] [-b] [--api] [-a|--apply] <file>");
     System.exit(1);
   }
 
@@ -281,6 +273,7 @@ class Main {
     boolean singleLineBreakMarksParagraph = false;
     boolean apiFormat = false;
     boolean listUnknown = false;
+    boolean applySuggestions = false;
     Language language = null;
     Language motherTongue = null;
     String encoding = null;
@@ -298,6 +291,10 @@ class Main {
         if (listUnknown) {
           throw new IllegalArgumentException(
           "You cannot list unknown words when tagging only.");
+        }
+        if (applySuggestions) {
+          throw new IllegalArgumentException(
+          "You cannot apply suggestions when tagging only.");        
         }
       } else if (args[i].equals("-r") || args[i].equals("--recursive")) {
         recursive = true;
@@ -333,6 +330,20 @@ class Main {
         filename = args[i];
       } else if (args[i].equals("--api")) {
         apiFormat = true;
+        if (applySuggestions) {
+          throw new IllegalArgumentException(
+          "API format makes no sense for automatic application of suggestions.");
+        }
+      } else if (args[i].equals("-a") || args[i].equals("--apply")) {
+        applySuggestions = true;
+        if (taggerOnly) {
+          throw new IllegalArgumentException(
+          "You cannot apply suggestions when tagging only.");
+        }
+        if (apiFormat) {
+          throw new IllegalArgumentException(
+          "API format makes no sense for automatic application of suggestions.");
+        }
       } else {
         System.err.println("Unknown option: " + args[i]);
         exitWithUsageMessage();
@@ -346,13 +357,13 @@ class Main {
         System.err.println("No language specified, using English");
       }
       language = Language.ENGLISH;
-    } else if (!apiFormat) {
+    } else if (!apiFormat && !applySuggestions) {
       System.out.println("Expected text language: " + language.getName());
     }
     language.getSentenceTokenizer().setSingleLineBreaksMarksParagraph(
         singleLineBreakMarksParagraph);
     final Main prg = new Main(verbose, taggerOnly, language, motherTongue,
-        disabledRules, enabledRules, apiFormat);
+        disabledRules, enabledRules, apiFormat, applySuggestions);
     prg.setListUnknownWords(listUnknown);
     if (recursive) {
       prg.runRecursive(filename, encoding, listUnknown);

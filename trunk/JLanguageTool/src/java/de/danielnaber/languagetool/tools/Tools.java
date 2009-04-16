@@ -28,6 +28,7 @@ import java.io.StringWriter;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.List;
+import java.util.ArrayList;
 import java.util.Locale;
 
 import de.danielnaber.languagetool.AnalyzedSentence;
@@ -67,7 +68,7 @@ public final class Tools {
   throws IOException {
     return checkText(contents, lt, false, -1, 0, 0, StringTools.XmlPrintMode.NORMAL_XML);
   }
-  
+
   public static int checkText(final String contents, final JLanguageTool lt, final int lineOffset)
   throws IOException {
     return checkText(contents, lt, false, -1, lineOffset, 0, StringTools.XmlPrintMode.NORMAL_XML);
@@ -84,21 +85,24 @@ public final class Tools {
    * @param contents
    *          a text to check (may be more than one sentence)
    * @param lt
+   *        Initialized LanguageTool
    * @param apiFormat
    *          whether to print the result in a simple XML format
    * @param contextSize
    *          error text context size: -1 for default
-   * @param lineOffset 
+   * @param lineOffset
    *          line number offset to be added to line numbers in matches
    * @param prevMatches
    *          number of previously matched rules
    * @param xmlMode
    *          mode of xml printout for simple xml output
+   * @return
+   *      Number of rule matches to the input text.
    * @throws IOException
    */
   public static int checkText(final String contents, final JLanguageTool lt,
       final boolean apiFormat, int contextSize, final int lineOffset, 
-      int prevMatches, XmlPrintMode xmlMode) throws IOException {
+      final int prevMatches, final XmlPrintMode xmlMode) throws IOException {
     if (contextSize == -1) {
       contextSize = DEFAULT_CONTEXT_SIZE;
     }
@@ -142,7 +146,7 @@ public final class Tools {
     }
 
     //display stats if it's not in a buffered mode
-    if (xmlMode==StringTools.XmlPrintMode.NORMAL_XML) {
+    if (xmlMode == StringTools.XmlPrintMode.NORMAL_XML) {
       final long endTime = System.currentTimeMillis();
       final long time = endTime - startTime;
       final float timeInSeconds = time / 1000.0f;
@@ -159,6 +163,50 @@ public final class Tools {
       }
     }
     return ruleMatches.size();
+  }
+
+  /**
+   *  Automatically applies suggestions to the text.
+   *  Note: if there is more than one suggestion, always the first
+   *  one is applied, and others ignored silently.
+   *
+   *  @param
+   *    contents - String to be corrected
+   *  @param
+   *    lt - Initialized LanguageTool object
+   *  @return
+   *    Corrected text as String.
+   */
+  public static String correctText(final String contents, final JLanguageTool lt) throws IOException {
+    final List<RuleMatch> ruleMatches = lt.check(contents);
+    if (!ruleMatches.isEmpty()) {
+      final StringBuilder sb = new StringBuilder(contents);
+      //build error list:
+      List<String> errors = new ArrayList<String>();
+      for (RuleMatch rm : ruleMatches) {
+        final List<String> replacements = rm.getSuggestedReplacements();
+        if (!replacements.isEmpty()) {
+          errors.add(sb.substring(rm.getFromPos(), rm.getToPos()));
+        }
+      }
+      int offset = 0;
+      int counter = 0;
+      for (RuleMatch rm : ruleMatches) {
+        final List<String> replacements = rm.getSuggestedReplacements();
+        if (!replacements.isEmpty()) {
+          //make sure the error hasn't been already corrected:
+          if (errors.get(counter).equals(sb.substring(rm.getFromPos() - offset, rm.getToPos() - offset))) {
+            sb.replace(rm.getFromPos() - offset,
+                rm.getToPos() - offset, replacements.get(0));
+            offset += (rm.getToPos() - rm.getFromPos())
+            - replacements.get(0).length();
+          }
+          counter++;
+        }
+      }
+      return sb.toString();
+    }
+    return contents;
   }
 
   public static InputStream getInputStream(final String resourcePath)
