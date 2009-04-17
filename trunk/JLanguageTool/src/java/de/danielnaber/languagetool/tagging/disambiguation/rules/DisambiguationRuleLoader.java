@@ -152,6 +152,8 @@ class DisambiguationRuleHandler extends XMLRuleHandler {
   private String uType = "";
 
   private int uniCounter;
+  
+  private int tokenCounter;
 
   private List<AnalyzedToken> newWdList;
   private String wdLemma;
@@ -212,6 +214,13 @@ class DisambiguationRuleHandler extends XMLRuleHandler {
       }
       if (attrs.getValue(MARK_TO) != null) {
         endPositionCorrection = Integer.parseInt(attrs.getValue(MARK_TO));
+        if (endPositionCorrection > 0) {
+          throw new SAXException("End position correction (mark_to=" 
+              + endPositionCorrection
+              + ") cannot be larger than 0: " + "\n Line: "
+              + dLocator.getLineNumber() + ", column: "
+              + dLocator.getColumnNumber() + ".");
+        }        
         singleTokenCorrection = false;
       } else {
         singleTokenCorrection = true;
@@ -293,7 +302,9 @@ class DisambiguationRuleHandler extends XMLRuleHandler {
         tokenSpaceBefore = YES.equals(attrs.getValue(SPACEBEFORE));
         tokenSpaceBeforeSet = IGNORE.equals(attrs.getValue(SPACEBEFORE)) ^ true;
       }
-
+      if (!inAndGroup) {
+        tokenCounter++;
+      }
     } else if (qName.equals(DISAMBIG)) {
       inDisamb = true;
       disambiguatedPOS = attrs.getValue(POSTAG);
@@ -436,6 +447,7 @@ class DisambiguationRuleHandler extends XMLRuleHandler {
     } else if (qName.equals(AND)) {
       inAndGroup = false;
       andGroupCounter = 0;
+      tokenCounter++;            
     } else if (qName.equals(UNIFY)) {
       inUnification = false;
     } else if (qName.equals(TOKEN)) {
@@ -485,6 +497,19 @@ class DisambiguationRuleHandler extends XMLRuleHandler {
       resetToken();
     } else if (qName.equals(PATTERN)) {
       inPattern = false;
+      if (positionCorrection >= tokenCounter) {
+        throw new SAXException(
+            "Attemp to mark a token no. ("+ positionCorrection +") that is outside the pattern (" + tokenCounter + "). Pattern elements are numbered starting from 0!" + "\n Line: "
+                + dLocator.getLineNumber() + ", column: "
+                + dLocator.getColumnNumber() + ".");
+      }
+      if (tokenCounter - endPositionCorrection < 0 ) {
+        throw new SAXException(
+            "Attemp to mark a token no. ("+ endPositionCorrection +") that is outside the pattern (" + tokenCounter + "). Pattern elements are numbered starting from 0!" + "\n Line: "
+                + dLocator.getLineNumber() + ", column: "
+                + dLocator.getColumnNumber() + ".");
+      }
+      tokenCounter = 0;
     } else if (qName.equals(MATCH)) {
       if (inDisamb) {
         posSelector.setLemmaString(match.toString());

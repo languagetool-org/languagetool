@@ -6,7 +6,7 @@ title="Easy editing stylesheet" ?>
 <!--
 Polish Grammar and Typo Rules for LanguageTool
 Copyright (C) 2006-2007 Marcin Miłkowski
-$Id: grammar.xml,v 1.181 2009-04-17 11:14:05 milek_pl Exp $
+$Id: grammar.xml,v 1.182 2009-04-17 22:06:41 milek_pl Exp $
 -->
 <rules lang="pl">
   <unification feature="number">
@@ -1086,7 +1086,7 @@ $Id: grammar.xml,v 1.181 2009-04-17 11:14:05 milek_pl Exp $
         <example correction=", jak" type="incorrect">Widać, żeś równie szlachetny<marker> jak</marker> odważny.</example>
       </rule>
       <rule>
-        <pattern mark_from="3" mark_to="0">
+        <pattern mark_from="2" mark_to="0">
           <token>tak</token>
           <token skip="-1">jak</token>
           <token>tak<exception regexp="yes" scope="previous">[\p{Punct}–—„«»…]+|bądź|czy</exception><exception postag="conj" scope="previous"/></token>
@@ -1317,7 +1317,7 @@ $Id: grammar.xml,v 1.181 2009-04-17 11:14:05 milek_pl Exp $
     </rulegroup>
     <rulegroup id="BRAK_PRZECINKA_ANI" name="Brak przecinka przed powtórzonym „ani”, „albo”, „bądź”, „i”, „lub”, „oraz”">
       <rule>
-        <pattern mark_from="2">
+        <pattern mark_from="1">
           <token regexp="yes" skip="-1">ani|ni|lub|albo|czy|oraz<exception regexp="yes" scope="next">[\(…,;–\-—„”]</exception></token>
           <token><exception regexp="yes" scope="previous">[\.\?!…,;–\-—„”]+|bądź|i</exception><match no="0"/></token>
         </pattern>
@@ -2904,7 +2904,7 @@ Powinno być: <suggestion>\2, \3 \4</suggestion>.</message>
     </rule>
     <rule id="ROZUMIEC_POD" name="Błąd związku rzędu: „rozumieć coś pod czymś” (przez coś)">
       <!-- FIXME: podpowiedź nie uwzględnia odmiany -->
-      <pattern mark_from="3">
+      <pattern mark_from="2">
         <token negate="yes" skip="1">przez</token>
         <token inflected="yes" skip="5">rozumieć<exception regexp="yes" scope="next">przez|,</exception></token>
         <token>pod</token>
@@ -3278,7 +3278,7 @@ Powinno być: <suggestion>\2, \3 \4</suggestion>.</message>
       <example correction="Im" type="incorrect"><marker>Czym</marker> większa, tym lepiej.</example>
     </rule>
     <rule id="TYM_BARDZIEJ_PONIEWAZ" name="„tym bardziej... ponieważ” (tym bardziej... że)">
-      <pattern mark_from="3">
+      <pattern mark_from="2">
         <token>tym</token>
         <token skip="-1">bardziej<exception regexp="yes" scope="next">że|iż</exception></token>
         <token>ponieważ</token>
@@ -10097,7 +10097,7 @@ Znacznie częściej ta forma jest mylona z trybem rozkazującym od „pokazać�
         <example correction="na chybcika" type="incorrect">To jest zrobione <marker>chybcika</marker>.</example>
       </rule>
       <rule>
-        <pattern mark_from="1">
+        <pattern>
           <token regexp="yes">czele<exception regexp="yes" scope="previous">na|jej|ich|jego|której|których|którego</exception></token>
         </pattern>
         <message>Prawdopodobna literówka; powinno być: <suggestion>na \2</suggestion>.</message>

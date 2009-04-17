@@ -163,6 +163,8 @@ class PatternRuleHandler extends XMLRuleHandler {
   private Element tokenElement;
 
   private int andGroupCounter;
+  
+  private int tokenCounter;
 
   private Match tokenReference;
 
@@ -245,6 +247,12 @@ class PatternRuleHandler extends XMLRuleHandler {
       }
       if (attrs.getValue("mark_to") != null) {
         endPositionCorrection = Integer.parseInt(attrs.getValue("mark_to"));
+        if (endPositionCorrection > 0) {
+          throw new SAXException("End position correction (mark_to="+ endPositionCorrection
+              + ") cannot be larger than 0: " + "\n Line: "
+              + pLocator.getLineNumber() + ", column: "
+              + pLocator.getColumnNumber() + ".");
+        }
       }
       if (attrs.getValue("case_sensitive") != null
           && YES.equals(attrs.getValue("case_sensitive"))) {
@@ -301,6 +309,9 @@ class PatternRuleHandler extends XMLRuleHandler {
         tokenSpaceBeforeSet = "ignore".equals(attrs.getValue(SPACEBEFORE)) ^ true;
       }
 
+     if (!inAndGroup) {
+       tokenCounter++;
+     }
     } else if (qName.equals("exception")) {
       inException = true;
       exceptions = new StringBuilder();
@@ -435,12 +446,12 @@ class PatternRuleHandler extends XMLRuleHandler {
         }
         lastPhrase = true;
       }
-    }
+    }    
   }
 
   @Override
   public void endElement(final String namespaceURI, final String sName,
-      final String qName) {
+      final String qName) throws SAXException {
 
     if (qName.equals("rule")) {
       phraseElementInit();
@@ -495,6 +506,7 @@ class PatternRuleHandler extends XMLRuleHandler {
     } else if (qName.equals("and")) {
       inAndGroup = false;
       andGroupCounter = 0;
+      tokenCounter++;
     } else if (qName.equals("unify")) {
       inUnification = false;
     } else if (qName.equals("token")) {
@@ -550,6 +562,14 @@ class PatternRuleHandler extends XMLRuleHandler {
       if (lastPhrase) {
         elementList.clear();
       }
+      if (phraseElementList == null || phraseElementList.isEmpty()) {
+        checkPositions(0);
+      } else {
+        for (List<Element> elements : phraseElementList) {
+          checkPositions(elements.size());
+        }
+      }
+      tokenCounter = 0;
     } else if (qName.equals("example")) {
       if (inCorrectExample) {
         correctExamples.add(correctExample.toString());
@@ -617,6 +637,21 @@ class PatternRuleHandler extends XMLRuleHandler {
     } else if (qName.equals("unify") && inUnification) {
       inUnification = false;
     }
+  }
+  
+  private void checkPositions(final int add) throws SAXException {
+    if (startPositionCorrection >= tokenCounter + add) {
+      throw new SAXException(
+          "Attemp to mark a token no. ("+ startPositionCorrection +") that is outside the pattern (" + tokenCounter + "). Pattern elements are numbered starting from 0!" + "\n Line: "
+              + pLocator.getLineNumber() + ", column: "
+              + pLocator.getColumnNumber() + ".");
+    }
+    if (tokenCounter +add - endPositionCorrection < 0) {
+      throw new SAXException(
+          "Attemp to mark a token no. ("+ endPositionCorrection +") that is outside the pattern (" + tokenCounter + " elements). End positions should be negative but not larger than the token count!" + "\n Line: "
+              + pLocator.getLineNumber() + ", column: "
+              + pLocator.getColumnNumber() + ".");
+    } 
   }
 
   private void resetToken() {

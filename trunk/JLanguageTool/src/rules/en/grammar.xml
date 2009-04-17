@@ -7,7 +7,7 @@ title="Easy editing stylesheet" ?>
 English Grammar and Typo Rules for LanguageTool
 See tagset.txt for the meaning of the POS tags
 Copyright (C) 2001-2007 Daniel Naber (http://www.danielnaber.de)
-$Id: grammar.xml,v 1.102 2009-04-17 11:14:05 milek_pl Exp $
+$Id: grammar.xml,v 1.103 2009-04-17 22:06:41 milek_pl Exp $
 -->
 <rules lang="en">
   <!-- ====================================================================== -->
@@ -2897,14 +2897,14 @@ $Id: grammar.xml,v 1.102 2009-04-17 11:14:05 milek_pl Exp $
         <example correction="to carry|carry" type="incorrect">All he did was to help <marker>carrying</marker> the bags.</example>
       </rule>
       <rule>
-        <pattern mark_from="4">
+        <pattern mark_from="3">
           <token postag="SENT_START"/>
           <token><exception>cannot</exception></token>
           <token inflected="yes">help</token>
           <token postag="VBG"/>
         </pattern>
         <message>The verb 'help' is used with infinitive: <suggestion>to <match no="5" postag="VB"/></suggestion>
-      	or <suggestion><match no="5" postag="VB"/></suggestion>.</message>
+      	or <suggestion><match no="4" postag="VB"/></suggestion>.</message>
         <short>Grammatical problem</short>
         <example type="correct">He helped to carry the bags.</example>
         <example correction="to carry|carry" type="incorrect">He helped <marker>carrying</marker> the bags.</example>
@@ -2937,7 +2937,7 @@ $Id: grammar.xml,v 1.102 2009-04-17 11:14:05 milek_pl Exp $
         <example correction="to carry" type="incorrect">All he did was to help not <marker>carrying</marker> the bags.</example>
       </rule>
       <rule>
-        <pattern mark_from="5">
+        <pattern mark_from="4">
           <token postag="SENT_START"/>
           <token><exception>cannot</exception></token>
           <token inflected="yes">help</token>
@@ -2945,13 +2945,13 @@ $Id: grammar.xml,v 1.102 2009-04-17 11:14:05 milek_pl Exp $
           <token postag="VBG"/>
         </pattern>
         <message>The verb 'help' is used with infinitive: <suggestion>to <match no="6" postag="VB"/></suggestion>
-      	or <suggestion><match no="6" postag="VB"/></suggestion>.</message>
+      	or <suggestion><match no="5" postag="VB"/></suggestion>.</message>
         <short>Grammatical problem</short>
         <example type="correct">He helped us to get on the bus.</example>
         <example correction="to get|get" type="incorrect">He helped us <marker>getting</marker> on the bus.</example>
       </rule>
       <rule>
-        <pattern mark_from="6">
+        <pattern mark_from="5">
           <token><exception regexp="yes">couldn|can</exception></token>
           <token><exception regexp="yes">'|could</exception></token>
           <token><exception regexp="yes">t|cannot|not</exception></token>
@@ -2966,7 +2966,7 @@ $Id: grammar.xml,v 1.102 2009-04-17 11:14:05 milek_pl Exp $
         <example correction="to get|get" type="incorrect">All he did was to help us <marker>getting</marker> on the bus.</example>
       </rule>
       <rule>
-        <pattern mark_from="6">
+        <pattern mark_from="5">
           <token postag="SENT_START"/>
           <token><exception>cannot</exception></token>
           <token inflected="yes">help</token>
@@ -2974,13 +2974,13 @@ $Id: grammar.xml,v 1.102 2009-04-17 11:14:05 milek_pl Exp $
           <token>not</token>
           <token postag="VBG"/>
         </pattern>
-        <message>The verb 'help' is used with infinitive: <suggestion>to <match no="7" postag="VB"/></suggestion>.</message>
+        <message>The verb 'help' is used with infinitive: <suggestion>to <match no="6" postag="VB"/></suggestion>.</message>
         <short>Grammatical problem</short>
         <example type="correct">He helped us not to stay calm.</example>
         <example correction="to stay" type="incorrect">He helped us not <marker>staying</marker> calm.</example>
       </rule>
       <rule>
-        <pattern mark_from="7">
+        <pattern mark_from="6">
           <token><exception regexp="yes">couldn|can</exception></token>
           <token><exception regexp="yes">'|could</exception></token>
           <token><exception regexp="yes">t|cannot|not</exception></token>
@@ -2989,7 +2989,7 @@ $Id: grammar.xml,v 1.102 2009-04-17 11:14:05 milek_pl Exp $
           <token>not</token>
           <token postag="VBG"/>
         </pattern>
-        <message>The verb 'help' is used with infinitive: <suggestion>to <match no="8" postag="VB"/></suggestion>.</message>
+        <message>The verb 'help' is used with infinitive: <suggestion>to <match no="7" postag="VB"/></suggestion>.</message>
         <short>Grammatical problem</short>
         <example type="correct">All he did was to help us not to stay calm.</example>
         <example correction="to stay" type="incorrect">All he did was to help us not <marker>staying</marker> calm.</example>
