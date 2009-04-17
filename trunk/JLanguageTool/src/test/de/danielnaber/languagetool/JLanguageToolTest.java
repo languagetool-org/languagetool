@@ -143,7 +143,7 @@ public class JLanguageToolTest extends TestCase {
   public void testAnalyzedSentence() throws IOException {
     final JLanguageTool tool = new JLanguageTool(Language.ENGLISH);
     //test soft-hyphen ignoring:
-    assertEquals("<S> This[this/DT,this/PDT]  is[be/VBZ]  a[a/DT]  test­ed[tested/JJ,test/VBD,test/VBN,test­ed]  sentence[sentence/NN,sentence/VB,sentence/VBP].[./.,</S>]", tool.getAnalyzedSentence("This is a test\u00aded sentence.").toString());
+    assertEquals("<S> This[this/DT]  is[be/VBZ]  a[a/DT]  test­ed[tested/JJ,test/VBD,test/VBN,test­ed]  sentence[sentence/NN,sentence/VB,sentence/VBP].[./.,</S>]", tool.getAnalyzedSentence("This is a test\u00aded sentence.").toString());
     //test paragraph ends adding
     assertEquals("<S> </S><P/> ", tool.getAnalyzedSentence("\n").toString());
   }    
