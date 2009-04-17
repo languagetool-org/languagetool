@@ -27,6 +27,7 @@ import morfologik.stemmers.Lametyzator;
 import de.danielnaber.languagetool.AnalyzedToken;
 import de.danielnaber.languagetool.AnalyzedTokenReadings;
 import de.danielnaber.languagetool.tagging.BaseTagger;
+import de.danielnaber.languagetool.tools.StringTools;
 
 /**
  * Czech POS tagger based on FSA morphological dictionaries.
@@ -40,13 +41,12 @@ public class CzechTagger extends BaseTagger {
   private Lametyzator morfologik;
   private Locale csLocale = new Locale("cs");
 
-  
   @Override
   public void setFileName() {
-    System.setProperty(Lametyzator.PROPERTY_NAME_LAMETYZATOR_DICTIONARY, 
-        RESOURCE_FILENAME);    
+    System.setProperty(Lametyzator.PROPERTY_NAME_LAMETYZATOR_DICTIONARY,
+        RESOURCE_FILENAME);
   }
-  
+
   @Override
   public final List<AnalyzedTokenReadings> tag(final List<String> sentenceTokens)
       throws IOException {
@@ -54,7 +54,7 @@ public class CzechTagger extends BaseTagger {
 
     final List<AnalyzedTokenReadings> tokenReadings = new ArrayList<AnalyzedTokenReadings>();
     int pos = 0;
-    //caching Lametyzator instance - lazy init
+    // caching Lametyzator instance - lazy init
     if (morfologik == null) {
       setFileName();
       morfologik = new Lametyzator();
@@ -68,59 +68,53 @@ public class CzechTagger extends BaseTagger {
         lowerTaggerTokens = morfologik.stemAndForm(word.toLowerCase(csLocale));
       }
 
-      if (taggerTokens != null) {
-        // Lametyzator returns data as String[]
-        // first lemma, then annotations
-        /*
-         if(taggerTokens.length > 2) {
-           for (String currStr : taggerTokens)
-           System.out.print(currStr + " ");
-         System.out.println();
-         }
-         */        
-        int i = 0;
-        while (i < taggerTokens.length) {
-          // Czech POS tags:
-          // If there are multiple tags, they behave as one, i.e. they
-          // are connected
-          // on one line with '+' character
-          final String lemma = taggerTokens[i];
-          final String[] tagsArr = taggerTokens[i + 1].split("\\+");
+      // normal case
+      addTokens(word, taggerTokens, l, pos);
 
-          for (final String currTag : tagsArr) {
-            l.add(new AnalyzedToken(word, currTag, lemma, pos));
-          }
+      // lowercase
+      addTokens(word, lowerTaggerTokens, l, pos);
 
-          i += 2;
-        }
-      }
-
-      if (lowerTaggerTokens != null) {
-        
-        int i = 0;
-        while (i < lowerTaggerTokens.length) {
-          // Czech POS tags again
-          final String lemma = lowerTaggerTokens[i];
-          final String[] tagsArr = lowerTaggerTokens[i + 1].split("\\+");
-
-          for (final String currTag : tagsArr) {
-            l.add(new AnalyzedToken(word, currTag, lemma, pos));
-          }
-
-          i += 2;
-        }
-      }
-
+      // uppercase
       if (lowerTaggerTokens == null && taggerTokens == null) {
-        l.add(new AnalyzedToken(word, null, pos));
+        if (word.equals(word.toLowerCase(csLocale))) {
+          String[] upperTaggerTokens = null;
+          upperTaggerTokens = morfologik.stemAndForm(StringTools
+              .uppercaseFirstChar(word));
+          if (upperTaggerTokens != null) {
+            addTokens(word, upperTaggerTokens, l, pos);
+          } else {
+            l.add(new AnalyzedToken(word, null, pos));
+          }
+        } else {
+          l.add(new AnalyzedToken(word, null, pos));
+        }
       }
       pos += word.length();
-      tokenReadings
-          .add(new AnalyzedTokenReadings(l.toArray(new AnalyzedToken[l.size()])));
+      tokenReadings.add(new AnalyzedTokenReadings(l.toArray(new AnalyzedToken[l
+          .size()])));
     }
 
     return tokenReadings;
 
+  }
+
+  private void addTokens(final String word, final String[] taggedTokens,
+      final List<AnalyzedToken> l, final int pos) {
+    if (taggedTokens != null) {
+      int i = 0;
+      while (i < taggedTokens.length) {
+        // Lametyzator returns data as String[]
+        // first lemma, then annotations
+        // use Jozef's idea
+        final String lemma = taggedTokens[i];
+        final String[] tagsArr = taggedTokens[i + 1].split("\\+");
+
+        for (final String currTag : tagsArr) {
+          l.add(new AnalyzedToken(word, currTag, lemma, pos));
+        }
+        i = i + 2;
+      }
+    }
   }
 
 }

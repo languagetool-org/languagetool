@@ -6,7 +6,7 @@ title="Easy editing stylesheet" ?>
 <!--
 Polish Grammar and Typo Rules for LanguageTool
 Copyright (C) 2006-2007 Marcin Miłkowski
-$Id: grammar.xml,v 1.180 2009-04-15 19:26:02 milek_pl Exp $
+$Id: grammar.xml,v 1.181 2009-04-17 11:14:05 milek_pl Exp $
 -->
 <rules lang="pl">
   <unification feature="number">
@@ -6237,6 +6237,36 @@ lub <suggestion>\2 na prawach wyłączności</suggestion>.</message>
       <example type="correct">Nie wiedziałem, że jesteś takim nocnym markiem.</example>
       <example correction="nocnym markiem" type="incorrect">Nie wiedziałem, że jesteś takim <marker>nocnym Markiem</marker>.</example>
     </rule>
+    <rule id="TRZECI_SWIAT" name="„trzeci świat” (Trzeci Świat)">
+      <pattern case_sensitive="yes">
+        <unify feature="gender,case,number">
+        <and>
+          <token inflected="yes">trzeci</token>
+          <token regexp="yes">trzec.*</token>
+        </and>
+        <and>
+          <token regexp="yes">świ.*</token>
+          <token inflected="yes">świat</token>
+        </and>
+        </unify>
+      </pattern>
+      <message>To wyrażenie pisze się wielkimi literami: <suggestion><match case_conversion="startupper" no="1"/> <match case_conversion="startupper" no="2"/></suggestion> (=kraje rozwijające się).</message>
+      <example correction="Trzeciego Świata" type="incorrect">Spotkaliśmy się z przedstawicielami <marker>trzeciego świata</marker>.</example>
+      <example type="correct">Spotkaliśmy się z przedstawicielami Trzeciego Świata.</example>
+    </rule>
+    <rulegroup default="off" id="PL_CAPITALIZE" name="Poprawianie wyrazów małymi literami („kraków”)">
+      <rule>
+        <pattern case_sensitive="yes">
+          <and>
+            <token inflected="yes" regexp="yes">\p{Lu}\p{Ll}+</token>
+            <token regexp="yes">\p{Ll}+</token>
+          </and>
+        </pattern>
+        <message>Wyraz \1 powinien być napisany wielką literą: <suggestion><match case_conversion="startupper" no="1"/></suggestion>.</message>
+        <example correction="Krakowie" type="incorrect">Mieszkam w <marker>krakowie</marker>.</example>
+        <example type="correct">Mieszkam w Krakowie.</example>
+      </rule>
+    </rulegroup>
   </category>
   <category name="Błędy ortograficzne">
     <rule id="LEKCE_WAZYC" name="„lekce ważyć” (lekceważyć)">

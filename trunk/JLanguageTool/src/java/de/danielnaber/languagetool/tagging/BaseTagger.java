@@ -26,19 +26,21 @@ import java.util.Locale;
 import morfologik.stemmers.Lametyzator;
 import de.danielnaber.languagetool.AnalyzedToken;
 import de.danielnaber.languagetool.AnalyzedTokenReadings;
+import de.danielnaber.languagetool.tools.StringTools;
 
-/** Base tagger using Lametyzator.
+/**
+ * Base tagger using Lametyzator.
  * 
  * @author Marcin Milkowski
  */
 public abstract class BaseTagger implements Tagger {
 
   private Lametyzator morfologik;
-  private Locale conversionLocale = Locale.getDefault();  
+  private Locale conversionLocale = Locale.getDefault();
 
- /**
-  * Set the filename in a JAR, eg. <tt>/resource/fr/french.dict</tt>.
-  **/   
+  /**
+   * Set the filename in a JAR, eg. <tt>/resource/fr/french.dict</tt>.
+   **/
   public abstract void setFileName();
 
   public void setLocale(Locale loc) {
@@ -46,11 +48,12 @@ public abstract class BaseTagger implements Tagger {
   }
 
   @Override
-  public List<AnalyzedTokenReadings> tag(final List<String> sentenceTokens) throws IOException {
+  public List<AnalyzedTokenReadings> tag(final List<String> sentenceTokens)
+      throws IOException {
     String[] taggerTokens;
     List<AnalyzedTokenReadings> tokenReadings = new ArrayList<AnalyzedTokenReadings>();
     int pos = 0;
-    //caching Lametyzator instance - lazy init
+    // caching Lametyzator instance - lazy init
     if (morfologik == null) {
       setFileName();
       morfologik = new Lametyzator();
@@ -61,49 +64,68 @@ public abstract class BaseTagger implements Tagger {
       String[] lowerTaggerTokens = null;
       taggerTokens = morfologik.stemAndForm(word);
       if (!word.equals(word.toLowerCase(conversionLocale))) {
-        lowerTaggerTokens = morfologik.stemAndForm(word.toLowerCase(conversionLocale));
+        lowerTaggerTokens = morfologik.stemAndForm(word
+            .toLowerCase(conversionLocale));
       }
 
-      if (taggerTokens != null) {
-        int i = 0;
-        while (i < taggerTokens.length) {
-          //Lametyzator returns data as String[]
-          //first lemma, then annotations
-          l.add(new AnalyzedToken(word, taggerTokens[i + 1], taggerTokens[i], pos));
-          i = i + 2;
-        }
-      }
-      if (lowerTaggerTokens != null) {
-        int i = 0;
-        while (i < lowerTaggerTokens.length) {
-          //Lametyzator returns data as String[]
-          //first lemma, then annotations
-          l.add(new AnalyzedToken(word, lowerTaggerTokens[i + 1], lowerTaggerTokens[i], pos));
-          i = i + 2;
-        }
-      }
+      //normal case
+      addTokens(word, taggerTokens, l, pos);
+      
+      //lowercase
+      addTokens(word, lowerTaggerTokens, l, pos);
 
+      //uppercase
       if (lowerTaggerTokens == null && taggerTokens == null) {
-        l.add(new AnalyzedToken(word, null, pos));
+        if (word.equals(word.toLowerCase(conversionLocale))) {
+          String[] upperTaggerTokens = null;
+          upperTaggerTokens = morfologik.stemAndForm(StringTools
+              .uppercaseFirstChar(word));
+          if (upperTaggerTokens != null) {
+            addTokens(word, upperTaggerTokens, l, pos);
+          } else {
+            l.add(new AnalyzedToken(word, null, pos));
+          }
+        } else {
+          l.add(new AnalyzedToken(word, null, pos));
+        }
       }
+      
       pos += word.length();
-      tokenReadings
-          .add(new AnalyzedTokenReadings(l.toArray(new AnalyzedToken[l.size()])));
+      tokenReadings.add(new AnalyzedTokenReadings(l.toArray(new AnalyzedToken[l
+          .size()])));
     }
 
     return tokenReadings;
 
   }
 
-  
-  /* (non-Javadoc)
-   * @see de.danielnaber.languagetool.tagging.Tagger#createNullToken(java.lang.String, int)
+  private void addTokens(final String word, final String[] taggedTokens,
+      final List<AnalyzedToken> l, final int pos) {
+    if (taggedTokens != null) {
+      int i = 0;
+      while (i < taggedTokens.length) {
+        // Lametyzator returns data as String[]
+        // first lemma, then annotations
+        l.add(new AnalyzedToken(word, taggedTokens[i + 1], taggedTokens[i],
+                pos));
+        i = i + 2;
+      }
+    }
+  }
+
+  /*
+   * (non-Javadoc)
+   * 
+   * @see
+   * de.danielnaber.languagetool.tagging.Tagger#createNullToken(java.lang.String
+   * , int)
    */
   @Override
-  public final AnalyzedTokenReadings createNullToken(final String token, final int startPos) {
+  public final AnalyzedTokenReadings createNullToken(final String token,
+      final int startPos) {
     return new AnalyzedTokenReadings(new AnalyzedToken(token, null, startPos));
   }
-  
+
   @Override
   public AnalyzedToken createToken(String token, String posTag, int startPos) {
     return new AnalyzedToken(token, posTag, startPos);

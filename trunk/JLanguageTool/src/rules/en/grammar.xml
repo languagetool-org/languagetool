@@ -7,7 +7,7 @@ title="Easy editing stylesheet" ?>
 English Grammar and Typo Rules for LanguageTool
 See tagset.txt for the meaning of the POS tags
 Copyright (C) 2001-2007 Daniel Naber (http://www.danielnaber.de)
-$Id: grammar.xml,v 1.101 2008-12-18 19:27:16 milek_pl Exp $
+$Id: grammar.xml,v 1.102 2009-04-17 11:14:05 milek_pl Exp $
 -->
 <rules lang="en">
   <!-- ====================================================================== -->
@@ -5334,5 +5334,57 @@ $Id: grammar.xml,v 1.101 2008-12-18 19:27:16 milek_pl Exp $
       <example type="incorrect">The <marker>security protection software</marker> we offer is the state-of-the art achievement.</example>
       <example type="correct">The security software we offer is the state-of-the art achievement.</example>
     </rule>
+  </category>
+  <category name="CAPITALIZATION">
+    <rulegroup default="off" id="EN_CAPITALIZE" name="Capitalize lowercase words ('i am')">
+      <rule>
+        <pattern case_sensitive="yes">
+          <and>
+            <token inflected="yes" regexp="yes">[A-Z][a-z]+</token>
+            <token regexp="yes">[a-z]+</token>
+          </and>
+        </pattern>
+        <message>The word \1 probably should be uppercase: <suggestion><match case_conversion="startupper" no="1"/></suggestion>.</message>
+        <example correction="Susan" type="incorrect">My name is <marker>susan</marker>.</example>
+        <example type="correct">My name is Susan.</example>
+      </rule>
+      <rule>
+        <pattern case_sensitive="yes">
+          <token>i</token>
+        </pattern>
+        <message>This should be written in uppercase: <suggestion>I</suggestion>.</message>
+        <example correction="I" type="incorrect">Who do you think <marker>i</marker> am?</example>
+        <example type="correct">Who do you think I am?</example>
+      </rule>
+      <rule>
+        <pattern case_sensitive="yes" mark_from="2">
+          <token skip="0">"</token>
+          <and>
+            <token inflected="yes" regexp="yes">[A-Z][a-z]+</token>
+            <token regexp="yes">[a-z]+</token>
+          </and>
+          <token postag="NN" regexp="yes">[a-z]+</token>
+        </pattern>
+        <message>The word \3 should probably be written in uppercase: <suggestion><match case_conversion="startupper" no="3"/></suggestion>.</message>
+        <example correction="Monthly" type="incorrect">This is a story from "atlantic <marker>monthly</marker>".</example>
+        <example type="correct">This is a story from "The Atlantic Monthly".</example>
+      </rule>
+      <rule>
+        <pattern case_sensitive="yes">
+          <token postag="UNKNOWN" regexp="yes">[a-z]+</token>
+        </pattern>
+        <message>The word \1 should probably be uppercase:<suggestion><match case_conversion="startupper" no="1"/></suggestion>.</message>
+        <example correction="Sobol" type="incorrect">Eve <marker>sobol</marker>, Indiana</example>
+        <example type="correct">Eve Sobol, Indiana</example>
+      </rule>
+      <rule>
+        <pattern case_sensitive="yes">
+          <token postag="NNP" regexp="yes">[a-z]+</token>
+        </pattern>
+        <message>The word \1 should probably be uppercase: <suggestion><match case_conversion="startupper" no="1"/></suggestion>.</message>
+        <example correction="Susan" type="incorrect">This is <marker>susan</marker>.</example>
+        <example type="correct">This is Susan.</example>
+      </rule>
+    </rulegroup>
   </category>
 </rules>

@@ -115,10 +115,12 @@ class Main {
       if (listUnknownWords) {
         System.out.println("Unknown words: " + lt.getUnknownWords());
       }
-    } else {
+    } else {      
       if (verbose) {
         lt.setOutput(System.err);
       }
+      //TODO: check how easy it would be to implement paragraph detection 
+      //and send whole paragraphs - right now we get as if -b switch was used...
       if (!apiFormat && !applySuggestions) {
         if (!"-".equals(filename)) {
           System.out.println("Working on " + filename + "... in a line mode");

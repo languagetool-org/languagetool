@@ -27,6 +27,7 @@ import morfologik.stemmers.Lametyzator;
 import de.danielnaber.languagetool.AnalyzedToken;
 import de.danielnaber.languagetool.AnalyzedTokenReadings;
 import de.danielnaber.languagetool.tagging.BaseTagger;
+import de.danielnaber.languagetool.tools.StringTools;
 
 /**
  * Polish POS tagger based on FSA morphological dictionaries.
@@ -66,41 +67,29 @@ public class PolishTagger extends BaseTagger {
       if (!word.equals(word.toLowerCase(plLocale))) {
         lowerTaggerTokens = morfologik.stemAndForm(word.toLowerCase(plLocale));
       }
+    
+      //normal case
+      addTokens(word, taggerTokens, l, pos);
+      
+      //lowercase
+      addTokens(word, lowerTaggerTokens, l, pos);
 
-      if (taggerTokens != null) {
-        int i = 0;
-        while (i < taggerTokens.length) {
-          // Lametyzator returns data as String[]
-          // first lemma, then annotations
-          // use Jozef's idea
-          final String lemma = taggerTokens[i];
-          final String[] tagsArr = taggerTokens[i + 1].split("\\+");
-
-          for (final String currTag : tagsArr) {
-            l.add(new AnalyzedToken(word, currTag, lemma, pos));
-          }
-          i = i + 2;
-        }
-      }
-      if (lowerTaggerTokens != null) {
-        int i = 0;
-        while (i < lowerTaggerTokens.length) {
-          // Lametyzator returns data as String[]
-          // first lemma, then annotations
-          // use Jozef's idea
-          final String lemma = lowerTaggerTokens[i];
-          final String[] tagsArr = lowerTaggerTokens[i + 1].split("\\+");
-
-          for (final String currTag : tagsArr) {
-            l.add(new AnalyzedToken(word, currTag, lemma, pos));
-          }
-          i = i + 2;
-        }
-      }
-
+      //uppercase
       if (lowerTaggerTokens == null && taggerTokens == null) {
-        l.add(new AnalyzedToken(word, null, pos));
-      }
+        if (word.equals(word.toLowerCase(plLocale))) {
+          String[] upperTaggerTokens = null;
+          upperTaggerTokens = morfologik.stemAndForm(StringTools
+              .uppercaseFirstChar(word));
+          if (upperTaggerTokens != null) {
+            addTokens(word, upperTaggerTokens, l, pos);
+          } else {
+            l.add(new AnalyzedToken(word, null, pos));
+          }
+        } else {
+          l.add(new AnalyzedToken(word, null, pos));
+        }
+      }      
+      
       pos += word.length();
       tokenReadings.add(new AnalyzedTokenReadings(l.toArray(new AnalyzedToken[l
           .size()])));
@@ -110,4 +99,24 @@ public class PolishTagger extends BaseTagger {
 
   }
 
+  private void addTokens(final String word, final String[] taggedTokens,
+      final List<AnalyzedToken> l, final int pos) {
+    if (taggedTokens != null) {
+      int i = 0;
+      while (i < taggedTokens.length) {
+        // Lametyzator returns data as String[]
+        // first lemma, then annotations
+        // use Jozef's idea
+        final String lemma = taggedTokens[i];
+        final String[] tagsArr = taggedTokens[i + 1].split("\\+");
+
+        for (final String currTag : tagsArr) {
+          l.add(new AnalyzedToken(word, currTag, lemma, pos));
+        }
+        i = i + 2;
+      }
+    }
+  }
+
+  
 }

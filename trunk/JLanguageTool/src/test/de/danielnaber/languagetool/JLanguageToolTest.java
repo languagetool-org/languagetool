@@ -130,7 +130,7 @@ public class JLanguageToolTest extends TestCase {
     assertEquals(0, matches.size());
     tool.setListUnknownWords(true);
     matches = tool.check("This is not a Polish text.");
-    assertEquals("[Polish, This, is, text]", tool.getUnknownWords().toString());    
+    assertEquals("[Polish, This, is]", tool.getUnknownWords().toString());    
   }
 	  
   public void testCountLines() {
