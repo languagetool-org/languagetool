@@ -105,7 +105,7 @@ public class MainTest extends AbstractSecurityTestCase {
       assertTrue(output.indexOf("Expected text language: English") == 0);
       assertTrue(output.indexOf("1.) Line 1, column 8, Rule ID: EN_A_VS_AN") != -1);
       String tagText = new String(this.err.toByteArray());
-      assertTrue(tagText.indexOf("<S> This[this/DT,this/PDT]  is[be/VBZ]  an[a/DT]  test[test/JJ,test/NN,test/VB,test/VBP].[./.,</S>]") != -1);
+      assertTrue(tagText.indexOf("<S> This[this/DT,this/PDT]  is[be/VBZ]  an[a/DT]  test[test/NN].[./.,</S>]") != -1);
     }
     catch (ExitException e) {                
       assertEquals("Exit status", 1, e.status);
@@ -253,7 +253,7 @@ public class MainTest extends AbstractSecurityTestCase {
       Main.main(args);
       String output = new String(this.out.toByteArray());
       assertTrue(output.indexOf("Expected text language: English") == 0);
-      assertTrue(output.indexOf("<S> This[this/DT,this/PDT]  is[be/VBZ]  an[a/DT]  test[test/JJ,test/NN,test/VB,test/VBP].[./.,</S>]") != -1);
+      assertTrue(output.indexOf("<S> This[this/DT,this/PDT]  is[be/VBZ]  an[a/DT]  test[test/NN].[./.,</S>]") != -1);
     }
     catch (ExitException e) {             
       assertEquals("Exit status", 1, e.status);

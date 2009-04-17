@@ -2,7 +2,7 @@
 	<!--
 		English Disambiguation Rules for LanguageTool Copyright (C) 2008
 		Marcin Miłkowski		
-$Id: disambiguation.xml,v 1.26 2008-12-21 01:25:12 milek_pl Exp $
+$Id: disambiguation.xml,v 1.27 2009-04-17 12:16:51 milek_pl Exp $
 	-->
 <rules lang="en">
 	<rule name="Modal verb + verb/noun -> modal verb + verb" id="MD_VB">
@@ -200,12 +200,23 @@ $Id: disambiguation.xml,v 1.26 2008-12-21 01:25:12 milek_pl Exp $
 		</rule>
 	</rulegroup>
 	<rule name="determiner + verb/NN -> NN" id="DT_VB_NN">
-		<pattern mark="2">
+		<pattern mark="1">
 			<token postag="DT"><exception postag="PDT" /></token>
 			<and>
 				<token postag="VB" />
 				<token postag="NN" ><exception negate_pos="yes" postag="VB|NN" postag_regexp="yes"/></token>
 			</and>
+		</pattern>
+		<disambig postag="NN" />
+	</rule>
+	<rule name="determiner + verb/NN -> NN (2)" id="DT_VB_NN_SENTEND">
+		<pattern mark="1">
+			<token postag="DT"><exception postag="PDT" /></token>
+			<and>
+				<token postag="VB" />
+				<token postag="NN" />
+			</and>
+			<token postag="SENT_END"/>
 		</pattern>
 		<disambig postag="NN" />
 	</rule>
@@ -618,6 +629,14 @@ $Id: disambiguation.xml,v 1.26 2008-12-21 01:25:12 milek_pl Exp $
 		</pattern>
 		<disambig><match no="3" postag="VBG" postag_regexp="yes"/></disambig>
 	</rule>
+	<rule name="I'm -> VBP" id="AM_VBP">
+		<pattern mark="2">
+			<token>I</token>
+			<token>'</token>
+			<token>m</token>			
+		</pattern>
+		<disambig action="add"><wd lemma="be" pos="VBP">m</wd></disambig>
+	</rule>	
 	<rule name="Don't|do|don/vb ->don't/vb" id="DONT_VB">
 		<pattern mark="0">
 			<token>don</token>
