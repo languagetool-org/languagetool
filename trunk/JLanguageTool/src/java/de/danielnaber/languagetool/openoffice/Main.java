@@ -92,6 +92,14 @@ public class Main extends WeakBase implements XJobExecutor,
   private boolean recheck;
 
   /**
+   * Sentence tokenization-related members.
+   */
+
+  private String currentPara;
+  private List<String> tokenizedSentences;
+  private int position;
+
+  /**
    * Service name required by the OOo API && our own name.
    */
   private static final String[] SERVICE_NAMES = {
@@ -221,7 +229,6 @@ public class Main extends WeakBase implements XJobExecutor,
       final int nSuggestedBehindEndOfSentencePosition, PropertyValue[] props) {
     final ProofreadingResult paRes = new ProofreadingResult();
     try {
-      paRes.nBehindEndOfSentencePosition = nSuggestedBehindEndOfSentencePosition;
       paRes.nStartOfSentencePosition = startOfSentencePos;
       paRes.xProofreader = this;
       paRes.aLocale = locale;
@@ -239,9 +246,6 @@ public class Main extends WeakBase implements XJobExecutor,
       final String paraText, final Locale locale, final ProofreadingResult paRes) {
 
     if (!StringTools.isEmpty(paraText)) {
-      // TODO: process different language fragments in a paragraph
-      // according to their language (currently assumed = locale)
-      // note: this is not yet implemented in the API
 
       if (hasLocale(locale)) {
         // caching the instance of LT
@@ -283,21 +287,16 @@ public class Main extends WeakBase implements XJobExecutor,
         }
         try {
           // FIXME: preliminary attempt at sentence-level tokenization
-          // works with different languages, doesn't work with unpaired brackets
+          // works with different languages, doesn't work with unpaired
+          // brackets
           // :(
-          int index = paraText.length();
-          if (paRes.nBehindEndOfSentencePosition < paraText.length()) {
-            index = paRes.nBehindEndOfSentencePosition
-                - paRes.nStartOfNextSentencePosition;
-          }
-          final List<String> sentences = langTool.sentenceTokenize(paraText
-              .substring(paRes.nStartOfSentencePosition, index));
-          // paRes.nBehindEndOfSentencePosition =
-          // paRes.nBehindEndOfSentencePosition + sentences.get(0).length();
-          paRes.nStartOfNextSentencePosition = paRes.nBehindEndOfSentencePosition + 1;
-          if (!sentences.isEmpty()) {
-            final List<RuleMatch> ruleMatches = langTool
-                .check(sentences.get(0));
+          String sentence = getSentence(paraText,
+              paRes.nStartOfSentencePosition);
+          if (!StringTools.isEmpty(sentence)) {
+            final List<RuleMatch> ruleMatches = langTool.check(sentence);
+            paRes.nStartOfSentencePosition = position;
+            paRes.nStartOfNextSentencePosition = position + sentence.length();
+            paRes.nBehindEndOfSentencePosition = position + sentence.length();
             if (!ruleMatches.isEmpty()) {
               final SingleProofreadingError[] errorArray = new SingleProofreadingError[ruleMatches
                   .size()];
@@ -318,6 +317,29 @@ public class Main extends WeakBase implements XJobExecutor,
       }
     }
     return paRes;
+  }
+
+  synchronized private final String getSentence(final String paraText,
+      final int startPos) {
+    if (paraText.equals(currentPara) && tokenizedSentences != null) {
+      int i = 0;
+      int index = 0;
+      while (index < startPos && i < tokenizedSentences.size()) {
+        index += tokenizedSentences.get(i++).length();
+      }
+      position = index;
+      if (i < tokenizedSentences.size()) {
+        return tokenizedSentences.get(i);
+      }
+      return "";
+    }
+    currentPara = paraText;
+    tokenizedSentences = langTool.sentenceTokenize(paraText);
+    position = 0;
+    if (!tokenizedSentences.isEmpty()) {
+      return tokenizedSentences.get(0);
+    }
+    return "";
   }
 
   /**
