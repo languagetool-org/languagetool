@@ -7,7 +7,7 @@ Version ###VERSION###, ###DATE###
 Homepage: http://www.languagetool.org
 
 Requirements:
- -Java 1.5 or later
+ -Java 1.5 or later (Sun Java or IcedTea; GIJ is not supported)
  -For OpenOffice.org integration, OpenOffice 3.0.1 RC1 or later.
   For older versions of OpenOffice you will need to use 
   LanguageTool 0.9.2. Note: for OpenOffice 3.0.0, you should use 
