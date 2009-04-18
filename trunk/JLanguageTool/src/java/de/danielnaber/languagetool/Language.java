@@ -150,7 +150,7 @@ public abstract class Language {
    * Get the location of the rule file.
    */
   public String getRuleFileName() {
-    return "/rules/" +getShortName()+ "/grammar.xml";
+    return JLanguageTool.RULES_DIR +getShortName()+ "/" + JLanguageTool.PATTERN_FILE;
   }
 
   /**
@@ -215,9 +215,9 @@ public abstract class Language {
    */
   public static void reInit(final List<Language> languages) {
     LANGUAGES = new Language[BUILTIN_LANGUAGES.length + languages.size()];
-    int i = BUILTIN_LANGUAGES.length;    
-    System.arraycopy(BUILTIN_LANGUAGES, 0, 
-        LANGUAGES, 0, BUILTIN_LANGUAGES.length);   
+    int i = BUILTIN_LANGUAGES.length;
+    System.arraycopy(BUILTIN_LANGUAGES, 0,
+        LANGUAGES, 0, BUILTIN_LANGUAGES.length);
     for (final Language lang : languages) {
       LANGUAGES[i++] = lang;
     }
