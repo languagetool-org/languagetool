@@ -177,7 +177,42 @@ public class MainTest extends AbstractSecurityTestCase {
     catch (ExitException e) {                
       assertEquals("Exit status", 1, e.status);
     }
+  }
+  
+  //test line mode vs. para mode
+  //first line mode
+  public void testEnglishLineMode() throws IOException, ParserConfigurationException, SAXException {    
+    try {
+      final String test = "This is what I mean\nand you know it.";
+      final byte[] b = test.getBytes();
+      System.setIn(new ByteArrayInputStream(b));
+      String[] args = new String[] {"-l", "en", "-a", "-b", "-"};
+
+      Main.main(args);
+      String output = new String(this.out.toByteArray());
+      assertEquals("This is what I mean\nAnd you know it.\n", output);            
+    }
+    catch (ExitException e) {                
+      assertEquals("Exit status", 1, e.status);
+    }
   }  
+
+  //first line mode
+  public void testEnglishParaMode() throws IOException, ParserConfigurationException, SAXException {    
+    try {
+      final String test = "This is what I mean\nand you know it.";
+      final byte[] b = test.getBytes();
+      System.setIn(new ByteArrayInputStream(b));
+      String[] args = new String[] {"-l", "en", "-a", "-"};
+
+      Main.main(args);
+      String output = new String(this.out.toByteArray());
+      assertEquals("This is what I mean\nand you know it.\n", output);            
+    }
+    catch (ExitException e) {                
+      assertEquals("Exit status", 1, e.status);
+    }
+  }    
   
   public void testPolishStdInDefaultOff() throws IOException, ParserConfigurationException, SAXException {
     try {
@@ -189,7 +224,7 @@ public class MainTest extends AbstractSecurityTestCase {
       Main.main(args);
       String output = new String(this.out.toByteArray());
       assertTrue(output.indexOf("Expected text language: Polish") == 0);
-      assertTrue(output.indexOf("Working on STDIN in a line mode") != -1);
+      assertTrue(output.indexOf("Working on STDIN...") != -1);
       assertTrue(output.indexOf("1.) Line 1, column 30, Rule ID: PL_WORD_REPEAT") != -1);      
     }
     catch (ExitException e) {                

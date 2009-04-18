@@ -59,8 +59,8 @@ class Main {
   Main(final boolean verbose, final boolean taggerOnly,
       final Language language, final Language motherTongue,
       final String[] disabledRules, final String[] enabledRules,
-      final boolean apiFormat, boolean applySuggestions) throws IOException, SAXException,
-      ParserConfigurationException {
+      final boolean apiFormat, boolean applySuggestions) throws IOException,
+      SAXException, ParserConfigurationException {
     this.verbose = verbose;
     this.apiFormat = apiFormat;
     this.taggerOnly = taggerOnly;
@@ -115,17 +115,15 @@ class Main {
       if (listUnknownWords) {
         System.out.println("Unknown words: " + lt.getUnknownWords());
       }
-    } else {      
+    } else {
       if (verbose) {
         lt.setOutput(System.err);
       }
-      //TODO: check how easy it would be to implement paragraph detection 
-      //and send whole paragraphs - right now we get as if -b switch was used...
       if (!apiFormat && !applySuggestions) {
         if (!"-".equals(filename)) {
-          System.out.println("Working on " + filename + "... in a line mode");
+          System.out.println("Working on " + filename + "...");
         } else {
-          System.out.println("Working on STDIN in a line mode.");
+          System.out.println("Working on STDIN...");
         }
       }
       InputStreamReader isr = null;
@@ -134,7 +132,7 @@ class Main {
       int matches = 0;
       long sentences = 0;
       List<String> unknownWords = new ArrayList<String>();
-      StringBuffer sb = new StringBuffer();
+      StringBuilder sb = new StringBuilder();
       final long startTime = System.currentTimeMillis();
       try {
         if (!"-".equals(filename)) {
@@ -159,32 +157,45 @@ class Main {
         while ((line = br.readLine()) != null) {
           sb.append(line);
           sb.append("\n");
-          if (applySuggestions) {
-            System.out.print(Tools.correctText(StringTools.filterXML(sb.toString()), lt));
-          } else if (!taggerOnly) {
-            if (matches == 0) {
-              matches += Tools.checkText(StringTools.filterXML(sb.toString()),
-                  lt, apiFormat, -1, lineOffset, matches,
-                  StringTools.XmlPrintMode.START_XML);
-            } else {
-              matches += Tools.checkText(StringTools.filterXML(sb.toString()),
-                  lt, apiFormat, -1, lineOffset, matches,
-                  StringTools.XmlPrintMode.CONTINUE_XML);
-            }
+          if (lt.getLanguage().getSentenceTokenizer()
+              .singleLineBreaksMarksPara()) {
+            matches = handleLine(matches, lineOffset, sb);
             sentences += lt.getSentenceCount();
+            if (listUnknownWords && !taggerOnly) {
+              for (String word : lt.getUnknownWords())
+                if (!unknownWords.contains(word)) {
+                  unknownWords.add(word);
+                }
+            }
+            sb = new StringBuilder();
           } else {
-            Tools.tagText(StringTools.filterXML(sb.toString()), lt);
+            if ("".equals(line) || sb.length() >= MAXFILESIZE) {
+              matches = handleLine(matches, lineOffset, sb);
+              sentences += lt.getSentenceCount();
+              if (listUnknownWords && !taggerOnly) {
+                for (String word : lt.getUnknownWords())
+                  if (!unknownWords.contains(word)) {
+                    unknownWords.add(word);
+                  }
+              }
+              sb = new StringBuilder();
+            }
           }
+          lineOffset++;
+        }
+      } finally {
+
+        if (sb.length() > 0) {
+          matches = handleLine(matches, lineOffset - 1, sb);
+          sentences += lt.getSentenceCount();
           if (listUnknownWords && !taggerOnly) {
             for (String word : lt.getUnknownWords())
               if (!unknownWords.contains(word)) {
                 unknownWords.add(word);
               }
           }
-          sb = new StringBuffer();
-          lineOffset++;
         }
-      } finally {
+
         if (!applySuggestions) {
           final long endTime = System.currentTimeMillis();
           final long time = endTime - startTime;
@@ -215,6 +226,28 @@ class Main {
     }
   }
 
+  private int handleLine(final int matchNo, final int lineOffset,
+      final StringBuilder sb) throws IOException {
+    int matches = matchNo;
+    if (applySuggestions) {
+      System.out.print(Tools.correctText(StringTools.filterXML(sb.toString()),
+          lt));
+    } else if (!taggerOnly) {
+      if (matches == 0) {
+        matches += Tools.checkText(StringTools.filterXML(sb.toString()), lt,
+            apiFormat, -1, lineOffset, matches,
+            StringTools.XmlPrintMode.START_XML);
+      } else {
+        matches += Tools.checkText(StringTools.filterXML(sb.toString()), lt,
+            apiFormat, -1, lineOffset, matches,
+            StringTools.XmlPrintMode.CONTINUE_XML);
+      }
+    } else {
+      Tools.tagText(StringTools.filterXML(sb.toString()), lt);
+    }
+    return matches;
+  }
+
   private void runRecursive(final String filename, final String encoding,
       final boolean listUnknown) throws IOException,
       ParserConfigurationException, SAXException {
@@ -241,7 +274,7 @@ class Main {
    * @throws IOException
    */
   private String getFilteredText(final String filename, final String encoding)
-  throws IOException {
+      throws IOException {
     if (verbose) {
       lt.setOutput(System.err);
     }
@@ -255,9 +288,9 @@ class Main {
 
   private static void exitWithUsageMessage() {
     System.out
-    .println("Usage: java de.danielnaber.languagetool.Main "
-        + "[-r|--recursive] [-v|--verbose] [-l|--language LANG] [-m|--mothertongue LANG] [-d|--disable RULES] "
-        + "[-e|--enable RULES] [-c|--encoding] [-u|--list-unknown] [-t|--taggeronly] [-b] [--api] [-a|--apply] <file>");
+        .println("Usage: java de.danielnaber.languagetool.Main "
+            + "[-r|--recursive] [-v|--verbose] [-l|--language LANG] [-m|--mothertongue LANG] [-d|--disable RULES] "
+            + "[-e|--enable RULES] [-c|--encoding] [-u|--list-unknown] [-t|--taggeronly] [-b] [--api] [-a|--apply] <file>");
     System.exit(1);
   }
 
@@ -265,7 +298,7 @@ class Main {
    * Command line tool to check plain text files.
    */
   public static void main(final String[] args) throws IOException,
-  ParserConfigurationException, SAXException {
+      ParserConfigurationException, SAXException {
     if (args.length < 1 || args.length > 9) {
       exitWithUsageMessage();
     }
@@ -292,25 +325,25 @@ class Main {
         taggerOnly = true;
         if (listUnknown) {
           throw new IllegalArgumentException(
-          "You cannot list unknown words when tagging only.");
+              "You cannot list unknown words when tagging only.");
         }
         if (applySuggestions) {
           throw new IllegalArgumentException(
-          "You cannot apply suggestions when tagging only.");        
+              "You cannot apply suggestions when tagging only.");
         }
       } else if (args[i].equals("-r") || args[i].equals("--recursive")) {
         recursive = true;
       } else if (args[i].equals("-d") || args[i].equals("--disable")) {
         if (enabledRules.length > 0) {
           throw new IllegalArgumentException(
-          "You cannot specify both enabled and disabled rules");
+              "You cannot specify both enabled and disabled rules");
         }
         final String rules = args[++i];
         disabledRules = rules.split(",");
       } else if (args[i].equals("-e") || args[i].equals("--enable")) {
         if (disabledRules.length > 0) {
           throw new IllegalArgumentException(
-          "You cannot specify both enabled and disabled rules");
+              "You cannot specify both enabled and disabled rules");
         }
         final String rules = args[++i];
         enabledRules = rules.split(",");
@@ -324,7 +357,7 @@ class Main {
         listUnknown = true;
         if (taggerOnly) {
           throw new IllegalArgumentException(
-          "You cannot list unknown words when tagging only.");
+              "You cannot list unknown words when tagging only.");
         }
       } else if (args[i].equals("-b")) {
         singleLineBreakMarksParagraph = true;
@@ -334,17 +367,17 @@ class Main {
         apiFormat = true;
         if (applySuggestions) {
           throw new IllegalArgumentException(
-          "API format makes no sense for automatic application of suggestions.");
+              "API format makes no sense for automatic application of suggestions.");
         }
       } else if (args[i].equals("-a") || args[i].equals("--apply")) {
         applySuggestions = true;
         if (taggerOnly) {
           throw new IllegalArgumentException(
-          "You cannot apply suggestions when tagging only.");
+              "You cannot apply suggestions when tagging only.");
         }
         if (apiFormat) {
           throw new IllegalArgumentException(
-          "API format makes no sense for automatic application of suggestions.");
+              "API format makes no sense for automatic application of suggestions.");
         }
       } else {
         System.err.println("Unknown option: " + args[i]);

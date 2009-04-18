@@ -123,7 +123,11 @@ public class SentenceTokenizer implements Tokenizer {
       paragraph = paragraphByTwoLineBreaks;
     }
   }
-    
+  
+  public boolean singleLineBreaksMarksPara() {
+    return paragraph == paragraphByLineBreak;
+  }
+
   /**
    * Tokenize the given string to sentences.
    */
