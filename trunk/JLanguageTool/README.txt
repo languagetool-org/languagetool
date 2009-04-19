@@ -57,7 +57,6 @@ Usage:
 Known bugs:
  -OpenOffice.org integration:
    -doesn't work correctly with documents that contain revisions
-   -has false alarms for unpaired brackets rule   
  -general:
    -for some rules there may be a lot of false alarms, i.e., LanguageTool complains
     about text which is actually correct

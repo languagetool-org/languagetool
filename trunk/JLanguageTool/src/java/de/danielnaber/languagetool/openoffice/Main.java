@@ -76,6 +76,8 @@ public class Main extends WeakBase implements XJobExecutor,
   private JLanguageTool langTool;
   private Language docLanguage;
 
+  private String docID;
+
   /*
    * Rules disabled using the config dialog box rather than Spelling dialog box
    * or the context menu.
@@ -98,6 +100,7 @@ public class Main extends WeakBase implements XJobExecutor,
   private String currentPara;
   private List<String> tokenizedSentences;
   private int position;
+  private List<RuleMatch> paragraphMatches;
 
   /**
    * Service name required by the OOo API && our own name.
@@ -130,7 +133,7 @@ public class Main extends WeakBase implements XJobExecutor,
     }
   }
 
-  public void changeContext(final XComponentContext xCompContext) {
+  public final void changeContext(final XComponentContext xCompContext) {
     xContext = xCompContext;
   }
 
@@ -226,7 +229,8 @@ public class Main extends WeakBase implements XJobExecutor,
    */
   public final ProofreadingResult doProofreading(final String docID,
       final String paraText, final Locale locale, final int startOfSentencePos,
-      final int nSuggestedBehindEndOfSentencePosition, PropertyValue[] props) {
+      final int nSuggestedBehindEndOfSentencePosition,
+      final PropertyValue[] props) {
     final ProofreadingResult paRes = new ProofreadingResult();
     try {
       paRes.nStartOfSentencePosition = startOfSentencePos;
@@ -286,28 +290,47 @@ public class Main extends WeakBase implements XJobExecutor,
           }
         }
         try {
-          // FIXME: preliminary attempt at sentence-level tokenization
-          // works with different languages, doesn't work with unpaired
-          // brackets
-          // :(
           String sentence = getSentence(paraText,
               paRes.nStartOfSentencePosition);
+          paRes.nStartOfSentencePosition = position;
+          paRes.nStartOfNextSentencePosition = position + sentence.length();
+          paRes.nBehindEndOfSentencePosition = paRes.nStartOfNextSentencePosition;
           if (!StringTools.isEmpty(sentence)) {
-            final List<RuleMatch> ruleMatches = langTool.check(sentence);
-            paRes.nStartOfSentencePosition = position;
-            paRes.nStartOfNextSentencePosition = position + sentence.length();
-            paRes.nBehindEndOfSentencePosition = position + sentence.length();
+            final List<RuleMatch> ruleMatches = langTool.check(sentence, false,
+                JLanguageTool.paragraphHandling.ONLYNONPARA);
+            final SingleProofreadingError[] pErrors = checkParaRules(paraText,
+                locale, paRes.nStartOfSentencePosition,
+                paRes.nStartOfNextSentencePosition, paRes.aDocumentIdentifier);
+            int pErrorCount = 0;
+            if (pErrors != null) {
+              pErrorCount = pErrors.length;
+            }
             if (!ruleMatches.isEmpty()) {
               final SingleProofreadingError[] errorArray = new SingleProofreadingError[ruleMatches
-                  .size()];
+                  .size()
+                  + pErrorCount];
               int i = 0;
               for (final RuleMatch myRuleMatch : ruleMatches) {
                 errorArray[i] = createOOoError(locale, myRuleMatch,
                     paRes.nStartOfSentencePosition);
                 i++;
               }
+              // add para matches
+              if (pErrors != null) {
+                for (SingleProofreadingError paraError : pErrors) {
+                  if (paraError != null) {
+                    errorArray[i] = paraError;
+                    i++;
+                  }
+                }
+              }
               Arrays.sort(errorArray, new ErrorPositionComparator());
               paRes.aErrors = errorArray;
+
+            } else {
+              if (pErrors != null) {
+                paRes.aErrors = pErrors;
+              }
             }
           }
         } catch (final Throwable t) {
@@ -323,12 +346,16 @@ public class Main extends WeakBase implements XJobExecutor,
       final int startPos) {
     if (paraText.equals(currentPara) && tokenizedSentences != null) {
       int i = 0;
-      int index = 0;
+      int index = -1;
       while (index < startPos && i < tokenizedSentences.size()) {
-        index += tokenizedSentences.get(i++).length();
+        index += tokenizedSentences.get(i).length();
+        if (index < startPos) {
+          i++;
+        }
       }
-      position = index;
+      position = index + 1;
       if (i < tokenizedSentences.size()) {
+        position -= tokenizedSentences.get(i).length();
         return tokenizedSentences.get(i);
       }
       return "";
@@ -340,6 +367,40 @@ public class Main extends WeakBase implements XJobExecutor,
       return tokenizedSentences.get(0);
     }
     return "";
+  }
+
+  synchronized private final SingleProofreadingError[] checkParaRules(
+      final String paraText, final Locale locale, final int startPos,
+      final int endPos, String docID) {
+    if (startPos == 0) {
+      try {
+        paragraphMatches = langTool.check(paraText, false,
+            JLanguageTool.paragraphHandling.ONLYPARA);
+        this.docID = docID;
+      } catch (final Throwable t) {
+        showError(t);
+      }
+    }
+    if (paragraphMatches != null && !paragraphMatches.isEmpty()
+        && docID.equals(this.docID)) {
+      final SingleProofreadingError[] errorArray = new SingleProofreadingError[paragraphMatches
+          .size()];
+      int i = 0;
+      for (final RuleMatch myRuleMatch : paragraphMatches) {
+        final int startErrPos = myRuleMatch.getFromPos();
+        final int endErrPos = myRuleMatch.getToPos();
+        if (startErrPos >= startPos && startErrPos < endPos
+            && endErrPos >= startPos && endErrPos < endPos) {
+          errorArray[i] = createOOoError(locale, myRuleMatch, 0);
+          i++;
+        }
+      }
+      Arrays.sort(errorArray, new ErrorPositionComparator());
+      if (i > 0) {
+        return errorArray;
+      }
+    }
+    return null;
   }
 
   /**
@@ -653,8 +714,8 @@ class ErrorPositionComparator implements Comparator<SingleProofreadingError> {
 
   public int compare(SingleProofreadingError match1,
       SingleProofreadingError match2) {
-    int error1pos = match1.nErrorStart;
-    int error2pos = match2.nErrorStart;
+    final int error1pos = match1.nErrorStart;
+    final int error2pos = match2.nErrorStart;
     if (error1pos > error2pos)
       return 1;
     else if (error1pos < error2pos)

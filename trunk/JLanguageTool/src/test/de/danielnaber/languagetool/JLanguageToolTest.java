@@ -23,6 +23,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import junit.framework.TestCase;
+import de.danielnaber.languagetool.JLanguageTool.paragraphHandling;
 import de.danielnaber.languagetool.rules.RuleMatch;
 import de.danielnaber.languagetool.rules.patterns.PatternRule;
 
@@ -139,13 +140,41 @@ public class JLanguageToolTest extends TestCase {
     assertEquals(2, JLanguageTool.countLineBreaks("\nZweite\nDritte"));
     assertEquals(4, JLanguageTool.countLineBreaks("\nZweite\nDritte\n\n"));
   }
-
+  
+  
   public void testAnalyzedSentence() throws IOException {
     final JLanguageTool tool = new JLanguageTool(Language.ENGLISH);
     //test soft-hyphen ignoring:
     assertEquals("<S> This[this/DT]  is[be/VBZ]  a[a/DT]  test­ed[tested/JJ,test/VBD,test/VBN,test­ed]  sentence[sentence/NN,sentence/VB,sentence/VBP].[./.,</S>]", tool.getAnalyzedSentence("This is a test\u00aded sentence.").toString());
     //test paragraph ends adding
     assertEquals("<S> </S><P/> ", tool.getAnalyzedSentence("\n").toString());
-  }    
+  }  
+  
+  public void testParaRules() throws IOException {
+    final JLanguageTool tool = new JLanguageTool(Language.ENGLISH);
+    
+    //run normally
+    List<RuleMatch> matches = tool.check("(This is an quote.\n It ends in the second sentence.");
+    assertEquals(2, matches.size());
+    assertEquals(2, tool.getSentenceCount());
+    
+    //run in a sentence-only mode
+    matches = tool.check("(This is an quote.\n It ends in the second sentence.", false, paragraphHandling.ONLYNONPARA);
+    assertEquals(1, matches.size());
+    assertEquals("EN_A_VS_AN", matches.get(0).getRule().getId());
+    assertEquals(1, tool.getSentenceCount());
+    
+    //run in a paragraph mode - single sentence
+    matches = tool.check("(This is an quote.\n It ends in the second sentence.", false, paragraphHandling.ONLYPARA);
+    assertEquals(1, matches.size());
+    assertEquals("UNPAIRED_BRACKETS", matches.get(0).getRule().getId());
+    assertEquals(1, tool.getSentenceCount());
+    
+    //run in a paragraph mode - many sentences
+    matches = tool.check("(This is an quote.\n It ends in the second sentence.", true, paragraphHandling.ONLYPARA);
+    assertEquals(1, matches.size());
+    assertEquals("UNPAIRED_BRACKETS", matches.get(0).getRule().getId());
+    assertEquals(2, tool.getSentenceCount());
+  }  
     
 }

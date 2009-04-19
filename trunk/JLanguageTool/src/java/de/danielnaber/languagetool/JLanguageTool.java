@@ -100,6 +100,24 @@ public final class JLanguageTool {
   private boolean listUnknownWords;
   private Set<String> unknownWords;
 
+  /**
+   * Constants for correct paragraph-rule handling. 
+   */
+  public static enum paragraphHandling {
+    /**
+     * Handle normally - all kinds of rules run.
+     */
+    NORMAL,
+    /**
+     * Run only paragraph-level rules.
+     */
+    ONLYPARA,
+    /**
+     * Run only sentence-level rules.
+     */
+    ONLYNONPARA
+  }
+  
   // just for testing:
   /*
    * private Rule[] allBuiltinRules = new Rule[] { new
@@ -405,13 +423,38 @@ public final class JLanguageTool {
    * 
    * @param text
    *          the text to check  
- 
    * @return a List of {@link RuleMatch} objects
    * @throws IOException
    */
   public List<RuleMatch> check(final String text) throws IOException {
+    return check(text, true, paragraphHandling.NORMAL);
+  }
+  
+  
+  /**
+   * The main check method. Tokenizes the text into sentences and matches these
+   * sentences against all currently active rules.
+   * 
+   * @param text
+   *          the text to check  
+   * @param tokenizeText
+   *          If true, then the text is tokenized into sentences. 
+   *          Otherwise, it is assumed it's already tokenized.
+   * @param paraMode
+   *          Uses paragraph-level rules only if true.
+ 
+   * @return a List of {@link RuleMatch} objects
+   * @throws IOException
+   */
+  public List<RuleMatch> check(final String text, boolean tokenizeText, final paragraphHandling paraMode) throws IOException {
     sentenceCount = 0;
-    final List<String> sentences = sentenceTokenize(text);
+    List<String> sentences;
+    if (tokenizeText) { 
+      sentences = sentenceTokenize(text);
+    } else {
+      sentences = new ArrayList<String>();
+      sentences.add(text);
+    }
     final List<RuleMatch> ruleMatches = new ArrayList<RuleMatch>();
     final List<Rule> allRules = getAllRules();
     printIfVerbose(allRules.size() + " rules activated for language "
@@ -441,6 +484,23 @@ public final class JLanguageTool {
 
         if (disabledCategories.contains(rule.getCategory().getName())) {
           continue;
+        }
+        
+        switch (paraMode) {
+        case ONLYNONPARA: {
+          if (rule.isParagraphBackTrack()) {
+            continue;
+          } 
+          break;
+        }
+        case ONLYPARA: {
+          if (!rule.isParagraphBackTrack()) {
+            continue;
+          }
+         break;
+        }
+        case NORMAL:
+        default:
         }
 
         final RuleMatch[] thisMatches = rule.match(analyzedText);
@@ -499,6 +559,7 @@ public final class JLanguageTool {
       }
     }
 
+    if (!paraMode.equals(paragraphHandling.ONLYNONPARA)) {
     // removing false positives in paragraph-level rules
     for (final Rule rule : allRules) {
       if (rule.isParagraphBackTrack() && (rule.getMatches() != null)) {
@@ -509,6 +570,7 @@ public final class JLanguageTool {
           }
         }
       }
+    }
     }
 
     return ruleMatches;
