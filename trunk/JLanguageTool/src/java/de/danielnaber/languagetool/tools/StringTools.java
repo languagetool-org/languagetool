@@ -40,16 +40,30 @@ public final class StringTools {
 
   private static final int DEFAULT_CONTEXT_SIZE = 25;  
   
-  // constants for printing XML rule matches    
-  public enum XmlPrintMode {
-    NORMAL_XML, //Normally output the rule matches by starting and
-     // ending the XML output on every call.
-    START_XML, //Start XML output by printing the preamble and the
-    // start of the root element.
-    END_XML, //End XML output by closing the root element.
-    CONTINUE_XML // Simply continue rule match output.
-  } 
-  
+  /**
+  * Constants for printing XML rule matches.
+  */
+  public static enum XmlPrintMode {
+    /**
+     * Normally output the rule matches by starting and
+     * ending the XML output on every call.
+     */
+    NORMAL_XML,
+    /**
+     * Start XML output by printing the preamble and the
+     * start of the root element.
+     */
+    START_XML,
+    /**
+     * End XML output by closing the root element.
+     */
+    END_XML,
+    /**
+     * Simply continue rule match output.
+     */
+    CONTINUE_XML
+  }
+
   private static final Pattern XML_COMMENT_PATTERN = Pattern.compile("<!--.*?-->", Pattern.DOTALL);
   private static final Pattern XML_PATTERN = Pattern.compile("<.*?>", Pattern.DOTALL);
   
