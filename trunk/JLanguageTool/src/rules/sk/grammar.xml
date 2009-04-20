@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE rules SYSTEM "../rules.dtd">
+<?xml-stylesheet type="text/xsl" href="../print.xsl" ?>
+<?xml-stylesheet type="text/css" href="../rules.css"
+title="Easy editing stylesheet" ?>
+<!--
+Slovak Grammar and Typo Rules for LanguageTool
+Copyright (C) 2009 Zdenko Podobný (http://www.sk-spell.sk.cx/)
+$Id: grammar.xml,v 1.1 2009-04-20 20:34:05 milek_pl Exp $
+-->
+
+<rules lang="sk">
+
+  <category name="Typografia">
+	<rulegroup id="POCITACOVE_UVODZOVKY" name="Zameňte počítačové úvodzovky (&quot;) za slovenské">
+	  <rule>
+		<pattern mark_from="1">
+		  <token regexp="yes" spacebefore="yes">[\[\(]</token>
+		  <token spacebefore="no">"</token>
+		</pattern>
+		<message>Na tomto mieste by mali byť dolné (uvádzacie) úvodzovky: <suggestion>„</suggestion>.</message>
+		<short>Typografická chyba</short>
+		<example correction="„" type="incorrect">Toto je (<marker>"</marker>test").</example>
+		<example type="correct">Toto je („test“).</example>
+	  </rule>
+
+	  <rule>
+		<pattern mark_from="1" mark_to="-1">
+		  <token regexp="yes">.*\p{L}</token>
+		  <token spacebefore="no">"</token>
+		  <token spacebefore="yes"/>
+		</pattern>
+		<message>Na tomto mieste by mali byť horné (ukončovacie) úvodzovky: <suggestion>“</suggestion>.</message>
+		<short>Typografická chyba</short>
+		<example correction="“" type="incorrect">Toto je("test<marker>"</marker>).</example>
+		<example type="correct">Toto je („test“).</example>
+	  </rule>
+
+	  <rule>
+		<pattern>
+		  <token spacebefore="yes">"</token>
+		</pattern>
+		<message>Na tomto mieste by mali byť dolné (uvádzacie) úvodzovky: <suggestion>„</suggestion>.</message>
+		<short>Typografická chyba</short>
+		<example correction="„" type="incorrect">Toto je <marker>"</marker>test".</example>
+		<example type="correct">To jest „test“.</example>
+	  </rule>
+	</rulegroup>
+
+	<!--TODO  pred/za spojovníkom nemá byť medzera, reg exp mi nefunguje...-->
+	<rulegroup id="POMLCKA_SPOJOVNIK_1" name="Zameňte spojovník pomlčkou_1">
+	  <rule>
+		<pattern>
+		  <token>-</token>
+		</pattern>
+		<message>Podľa pravidiel slovenského pravopisu spojovník nemá byť oddelený medzerou. Použite namiesto neho pomlčku (<suggestion>–</suggestion>), alebo odstráňte medzery.</message>
+		<short>Typografická chyba</short>
+		<example type="incorrect" correction="–">Toto je test <marker>-</marker> alebo aj nie.</example>
+		<example type="correct">Toto je test – alebo aj nie.</example>
+	  </rule>
+	</rulegroup>
+
+	<rulegroup id="POMLCKA_SPOJOVNIK_2" name="Zameňte spojovník pomlčkou 2">
+	  <rule>
+		<pattern mark_from="0">
+		  <token regexp="yes">(-)(\D.*)</token> <!-- pozor na záporné čísla -->
+		</pattern>
+		<message>Podľa pravidiel slovenského pravopisu spojovník nemá byť oddelený medzerou. Použite namiesto neho pomlčku a medzeru (<suggestion><match no="1" regexp_match="(-)(\D.*)" regexp_replace="– $2"/></suggestion>), alebo odstráňte úvodnú medzeru.</message>
+		<short>Typografická chyba</short>
+		<example type="incorrect">Toto je test <marker>-alebo</marker> aj nie.</example>
+		<example type="correct">Toto je test – alebo aj nie.</example>
+	  </rule>
+	</rulegroup>
+
+	<rulegroup id="POMLCKA_SPOJOVNIK_3" name="Zameňte spojovník pomlčkou 3">
+	  <rule>
+		<pattern>
+		  <token regexp="yes">(.*\S)(-)</token> <!-- napr. povedal- nepovedal; -->
+		</pattern>
+		<message>Podľa pravidiel slovenského pravopisu spojovník nemá byť oddelený medzerou. Použite namiesto neho medzeru a pomlčku (<suggestion><match no="1" regexp_match="(.*\S)(-)" regexp_replace="$1 –"/></suggestion>) alebo odstráňte medzeru po spojovníku.</message>
+		<short>Typografická chyba</short>
+		<example type="incorrect">Toto je <marker>test-</marker> alebo aj nie.</example>
+		<example type="correct">Toto je test – alebo aj nie.</example>
+	  </rule>
+	</rulegroup>
+
+	<rulegroup id="SPOJOVNIK_POMLCKA" name="Zameňte pomlčku spojovníkom">
+	  <rule>
+		<pattern mark_from="0">
+		  <token regexp="yes">(.*\S)([–—])(\S*)</token>
+		</pattern>
+		<message>Nahraďte pomlčku spojovníkom: <match no="1" regexp_match="(.*)([–—])(.*)" regexp_replace="$1-$3"/>
+	</message>
+		<short>Typografická chyba</short>
+		<example type="incorrect"><marker>Rakúsko–uhorská</marker> monarchia zanikla 11. novembra 1918.</example>
+		<example type="correct">Rakúsko-uhorská monarchia zanikla 11. novembra 1918 podpísaním abdikácie cisára Karola I.</example>
+	   </rule>
+	</rulegroup>
+
+	<rulegroup id="TRIBODKY" name="Zameňte tribodky trojbodkou">
+	  <rule>
+		<pattern mark_from="0">
+		<token>.</token>
+		<token>.</token>
+		<token>.</token>
+		</pattern>
+		<message>Na tomto mieste by mal byť znak trojbodky: <suggestion>…</suggestion>.</message>
+		<short>Typografická chyba</short>
+		<example type="incorrect" correction="…">Toto je test<marker>...</marker></example>
+		<example type="correct">Toto je test…</example>
+	  </rule>
+	</rulegroup>
+<!--
+za čiarkou má byť medzera
+viacnásobné whitespace...
+-->	</category>
+
+  <category name="Predložky">
+	<rulegroup id="S_SO" name="Zameňte „s“ za „so“">
+	  <rule>
+		<pattern mark_to="-1">
+		<token>s</token>
+		<token regexp="yes"><exception regexp="yes">.</exception>(s.*)|(š.*)|(z.*)|(ž.*)</token>
+		</pattern>
+		<message>Na tomto mieste by mala byť predložka „<suggestion>so</suggestion>“.</message>
+		<short>Gramatická chyba</short>
+		<example type="incorrect" correction="so">Toto je test <marker>s</marker> štýlom.</example>
+		<example type="correct">Toto je test so štýlom.</example>
+	  </rule>
+	</rulegroup>
+	<rulegroup id="SO_S" name="Zameňte „so“ za „s“">
+	  <rule>
+		<pattern mark_to="-1">
+		<token>so</token>
+		<token regexp="yes" negate="yes"><exception regexp="yes">mnou|“</exception>(s.*)|(š.*)|(z.*)|(ž.*)</token>
+		</pattern>
+		<message>Na tomto mieste by mala byť predložka „<suggestion>s</suggestion>“.</message>
+		<short>Gramatická chyba</short>
+		<example type="incorrect" correction="s">Toto je test <marker>so</marker> ohľadom na štýl.</example>
+		<example type="correct">Toto je test s ohľadom na štýl.</example>
+	  </rule>
+	</rulegroup>
+
+	<rulegroup id="Z_ZO" name="Zameňte „z“ za „zo“">
+	  <rule>
+		<pattern mark_to="-1">
+		<token>z</token>
+		<token regexp="yes">(s.*)|(š.*)|(z.*)|(ž.*)</token>
+		</pattern>
+		<message>Na tomto mieste by mala byť predložka „<suggestion>zo</suggestion>“.</message>
+		<short>Gramatická chyba</short>
+		<example type="incorrect" correction="zo">Pomaly prechádza <marker>z</marker> štýlu do štýlu.</example>
+		<example type="correct">Pomaly prechádza zo štýlu do štýlu.</example>
+	  </rule>
+	</rulegroup>
+	<rulegroup id="ZO_Z" name="Zameňte „zo“ za „z“">
+	  <rule>
+		<pattern mark_to="-1">
+		<token>zo</token>
+		<token regexp="yes" negate="yes"><exception regexp="yes">mňa|za|“</exception>(s.*)|(š.*)|(z.*)|(ž.*)</token>
+		</pattern>
+		<message>Na tomto mieste by mala byť predložka „<suggestion>z</suggestion>“.</message>
+		<short>Gramatická chyba</short>
+		<example type="incorrect" correction="z">Čo <marker>zo</marker> teba zostalo?</example>
+		<example type="correct">Čo z teba zostalo?</example>
+	  </rule>
+	</rulegroup>
+	<rulegroup id="K_TOMU" name="Zameňte „k tomu“ za „na to“">
+	<!-- http://www.civil.gov.sk/archiv/casopis/2005/6/0621ho.htm -->
+	  <rule>
+		<pattern mark_from="1">
+		<token>vzhľadom</token>
+		<token>k</token>
+		<token>tomu</token>
+		</pattern>
+		<message>Správne má byť „<suggestion>na to</suggestion>“.</message>
+		<short>Gramatická chyba</short>
+		<example type="incorrect" correction="na to">Vzhľadom <marker>k tomu</marker>, že…</example>
+		<example type="correct">Vzhľadom na to, že…</example>
+	  </rule>
+	</rulegroup>
+  </category>
+
+</rules>
