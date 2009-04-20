@@ -56,7 +56,8 @@ public class Italian extends Language {
   }
 
   public Contributor[] getMaintainers() {
-    return null;
+    final Contributor contributor = new Contributor("Paolo Bianchini");
+    return new Contributor[] { contributor };
   }
 
   public Set<String> getRelevantRuleIDs() {
