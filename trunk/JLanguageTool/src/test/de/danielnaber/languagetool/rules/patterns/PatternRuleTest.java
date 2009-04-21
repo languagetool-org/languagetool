@@ -336,6 +336,16 @@ public class PatternRuleTest extends TestCase {
     matches = pr.match(langTool.getAnalyzedSentence("One word."));
     assertEquals(1, matches.length);
   }
+  
+  /* TODO: add convenience methods for testing private methods
+  public void testformatMultipleSynthesis() {
+    final String[] suggArray = {"blah blah", "foo bar"};
+    assertEquals("This is how you should write: <suggestion>blah blah, foo bar</suggestion>.",
+        
+        PatternRule.formatMultipleSynthesis(suggArray, "This is how you should write: <suggestion>", "</suggestion>."))
+    
+  }
+  */
 
   /**
    * Test XML patterns, as a help for people developing rules that are not programmers.

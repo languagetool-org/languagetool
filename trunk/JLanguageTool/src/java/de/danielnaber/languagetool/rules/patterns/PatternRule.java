@@ -508,7 +508,11 @@ public class PatternRule extends Rule {
     boolean convertsCase = false;
     if (suggestionMatches != null && !suggestionMatches.isEmpty()) {
       final int sugStart = message.indexOf(SUGG_TAG) + SUGG_TAG.length();
-      convertsCase = suggestionMatches.get(0).convertsCase()
+      int i = 0;
+      while (i <= suggestionMatches.size() && suggestionMatches.get(i).isInMessageOnly()) {
+        i++;
+      }
+      convertsCase = suggestionMatches.get(i).convertsCase()
           && message.charAt(sugStart) == '\\';
     }
     return convertsCase;

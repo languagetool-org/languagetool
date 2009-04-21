@@ -388,7 +388,8 @@ class PatternRuleHandler extends XMLRuleHandler {
           suggestionMatches = new ArrayList<Match>();
         }
         suggestionMatches.add(mWorker);
-        message.append("\\" + attrs.getValue("no"));
+        //add incorrect XML character for simplicity
+        message.append("&\\" + attrs.getValue("no"));
         if (StringTools.isEmpty(attrs.getValue("no"))) {
           throw new SAXException("References cannot be empty: " + "\n Line: "
               + pLocator.getLineNumber() + ", column: "
@@ -590,6 +591,7 @@ class PatternRuleHandler extends XMLRuleHandler {
       incorrectExample = new StringBuilder();
       exampleCorrection = new StringBuilder();
     } else if (qName.equals("message")) {
+      suggestionMatches = addLegacyMatches();
       inMessage = false;
     } else if (qName.equals("short")) {
       inShortMessage = false;
@@ -743,6 +745,43 @@ class PatternRuleHandler extends XMLRuleHandler {
     }
   }
 
+  /**
+   * Adds Match objects for all references to tokens
+   * (including '\1' and the like). 
+   */
+  private List<Match> addLegacyMatches() {
+    if (suggestionMatches == null || suggestionMatches.isEmpty()) {
+      return null;
+    }
+    List<Match> sugMatch = new ArrayList<Match>();
+    final String messageStr = message.toString();
+    int pos = 0;
+    int ind = 0;
+    int matchCounter = 0;
+    while (pos != -1) {
+      pos = messageStr.indexOf('\\', ind + 1);
+      if (pos != -1 && messageStr.length() > pos) {
+        if (Character.isDigit(messageStr.charAt(pos + 1))) {
+          if (pos == 1 || messageStr.charAt(pos - 1) != '&') {
+            final Match mWorker = new Match(null, null, false, null, 
+                null, Match.CaseConversion.NONE, false);
+            mWorker.setInMessageOnly(true);
+            sugMatch.add(mWorker);
+          } else if (messageStr.charAt(pos - 1) == '&') { // real suggestion marker
+            sugMatch.add(suggestionMatches.get(matchCounter));
+            message.deleteCharAt(pos - 1 - matchCounter);
+            matchCounter++;
+          }
+        }
+      }
+      ind = pos;
+    }
+    if (sugMatch.isEmpty()) {
+      return suggestionMatches;
+    }
+    return sugMatch;
+  }
+  
   @Override
   public void characters(final char[] buf, final int offset, final int len) {
     final String s = new String(buf, offset, len);

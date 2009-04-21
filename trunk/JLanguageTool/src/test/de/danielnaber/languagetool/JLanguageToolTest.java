@@ -102,6 +102,10 @@ public class JLanguageToolTest extends TestCase {
     for (PatternRule patternRule : rules) {
       tool.addRule(patternRule);
     }
+    //test uppercasing rule:
+    matches = tool.check("De Afdeling Beheer kan het");
+    assertEquals(1, matches.size());
+    assertEquals("Als Afdeling geen deel uitmaakt van de naam, dan is juist:<suggestion>afdeling</suggestion>", matches.get(0).getMessage());
     // Dutch rule has no effect with English error:
     matches = tool.check("I can give you more a detailed description");
     assertEquals(0, matches.size());

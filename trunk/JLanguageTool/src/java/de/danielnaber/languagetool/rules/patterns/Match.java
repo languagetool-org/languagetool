@@ -88,6 +88,11 @@ public class Match {
 
   /** Pattern used to define parts of the matched POS token. **/
   private Pattern pPosRegexMatch;
+  
+  /**
+   * True when the match is not in the suggestion.
+   */
+  private boolean inMessageOnly;
 
   public Match(final String posTag, final String posTagReplace,
       final boolean postagRegexp, final String regexMatch,
@@ -461,6 +466,20 @@ public class Match {
       }
     }
     return list.toArray(new AnalyzedToken[list.size()]);
+  }
+
+  /**
+   * @param inMessageOnly the inMessageOnly to set
+   */
+  public void setInMessageOnly(boolean inMessageOnly) {
+    this.inMessageOnly = inMessageOnly;
+  }
+
+  /**
+   * @return the inMessageOnly
+   */
+  public boolean isInMessageOnly() {
+    return inMessageOnly;
   }
 
 }
