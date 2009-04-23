@@ -389,7 +389,7 @@ class PatternRuleHandler extends XMLRuleHandler {
         }
         suggestionMatches.add(mWorker);
         //add incorrect XML character for simplicity
-        message.append("&\\" + attrs.getValue("no"));
+        message.append("\u0001\\" + attrs.getValue("no"));
         if (StringTools.isEmpty(attrs.getValue("no"))) {
           throw new SAXException("References cannot be empty: " + "\n Line: "
               + pLocator.getLineNumber() + ", column: "
@@ -762,12 +762,12 @@ class PatternRuleHandler extends XMLRuleHandler {
       pos = messageStr.indexOf('\\', ind + 1);
       if (pos != -1 && messageStr.length() > pos) {
         if (Character.isDigit(messageStr.charAt(pos + 1))) {
-          if (pos == 1 || messageStr.charAt(pos - 1) != '&') {
+          if (pos == 1 || messageStr.charAt(pos - 1) != '\u0001') {
             final Match mWorker = new Match(null, null, false, null, 
                 null, Match.CaseConversion.NONE, false);
             mWorker.setInMessageOnly(true);
             sugMatch.add(mWorker);
-          } else if (messageStr.charAt(pos - 1) == '&') { // real suggestion marker
+          } else if (messageStr.charAt(pos - 1) == '\u0001') { // real suggestion marker
             sugMatch.add(suggestionMatches.get(matchCounter));
             message.deleteCharAt(pos - 1 - matchCounter);
             matchCounter++;
