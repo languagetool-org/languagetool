@@ -47,7 +47,7 @@ public class DisambiguationRuleTest extends TestCase {
     }
   }
 
-  public void testGrammarRulesFromXML() throws IOException,
+  public void testDisambiguationRulesFromXML() throws IOException,
       ParserConfigurationException, SAXException {
     testDisambiguationRulesFromXML(null, false);
   }
