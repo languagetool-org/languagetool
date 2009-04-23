@@ -19,6 +19,7 @@
 package de.danielnaber.languagetool;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import de.danielnaber.languagetool.tagging.de.AnalyzedGermanTokenReadings;
@@ -29,6 +30,34 @@ import de.danielnaber.languagetool.tagging.de.AnalyzedGermanTokenReadings;
  * @author Daniel Naber
  */
 public class AnalyzedSentence {
+
+  @Override
+  public int hashCode() {
+    final int prime = 31;
+    int result = 1;
+    result = prime * result + Arrays.hashCode(nonBlankTokens);
+    result = prime * result + Arrays.hashCode(tokens);
+    result = prime * result + Arrays.hashCode(whPositions);
+    return result;
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj)
+      return true;
+    if (obj == null)
+      return false;
+    if (getClass() != obj.getClass())
+      return false;
+    AnalyzedSentence other = (AnalyzedSentence) obj;
+    if (!Arrays.equals(nonBlankTokens, other.nonBlankTokens))
+      return false;
+    if (!Arrays.equals(tokens, other.tokens))
+      return false;
+    if (!Arrays.equals(whPositions, other.whPositions))
+      return false;
+    return true;
+  }
 
   private AnalyzedTokenReadings[] tokens;
 
@@ -46,6 +75,13 @@ public class AnalyzedSentence {
   public AnalyzedSentence(final AnalyzedTokenReadings[] tokens) {
     this.tokens = tokens.clone();
   }
+  
+  public AnalyzedSentence(final AnalyzedTokenReadings[] tokens, final 
+      int[] whPositions) {
+    this.tokens = tokens.clone();
+    this.setWhPositions(whPositions.clone());
+    getTokensWithoutWhitespace();
+  } 
 
   /**
    * Returns the {@link AnalyzedTokenReadings} of the analyzed text. Whitespace
@@ -61,7 +97,7 @@ public class AnalyzedSentence {
    * token included.
    */
   public final AnalyzedTokenReadings[] getTokensWithoutWhitespace() {
-    if (nonBlankTokens == null) {
+    if (getNonBlankTokens() == null) {
       int whCounter = 0;
       int nonWhCounter = 0;
       final int[] mapping = new int[tokens.length + 1];
@@ -75,10 +111,10 @@ public class AnalyzedSentence {
         }
         whCounter++;
       }
-      nonBlankTokens = l.toArray(new AnalyzedTokenReadings[l.size()]);
-      whPositions = mapping.clone();
+      setNonBlankTokens(l.toArray(new AnalyzedTokenReadings[l.size()]));
+      setWhPositions(mapping.clone());
     }
-    return nonBlankTokens.clone();
+    return getNonBlankTokens().clone();
   }
 
   /**
@@ -90,10 +126,10 @@ public class AnalyzedSentence {
    * @return int position in the original sentence.
    */
   public final int getOriginalPosition(final int nonWhPosition) {
-    if (nonBlankTokens == null) {
+    if (getNonBlankTokens() == null) {
       getTokensWithoutWhitespace();
     }
-    return whPositions[nonWhPosition];
+    return getWhPositions()[nonWhPosition];
   }
 
   @Override
@@ -137,4 +173,32 @@ public class AnalyzedSentence {
     return sb.toString();
   }
 
+  /**
+   * @param whPositions the whPositions to set
+   */
+  public void setWhPositions(int[] whPositions) {
+    this.whPositions = whPositions;
+  }
+
+  /**
+   * @return the whPositions
+   */
+  public int[] getWhPositions() {
+    return whPositions;
+  }
+
+  /**
+   * @param nonBlankTokens the nonBlankTokens to set
+   */
+  public void setNonBlankTokens(AnalyzedTokenReadings[] nonBlankTokens) {
+    this.nonBlankTokens = nonBlankTokens;
+  }
+
+  /**
+   * @return the nonBlankTokens
+   */
+  public AnalyzedTokenReadings[] getNonBlankTokens() {
+    return nonBlankTokens;
+  }
+  
 }

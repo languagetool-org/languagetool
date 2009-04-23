@@ -75,6 +75,10 @@ public class DisambiguationPatternRule {
   private final DisambiguatorAction disAction;
 
   private AnalyzedToken[] newTokenReadings;
+  
+  private List<DisambiguatedExample> examples;
+  
+  private List<String> untouchedExamples;
 
   /**
    * @param id
@@ -85,7 +89,7 @@ public class DisambiguationPatternRule {
    *          Element (token) list
    * @param description
    *          Description to be shown (name)
-   * @param disambiguatorAction
+   * @param disambAction
    *          - the action to be executed on found token(s), one of the
    *          following: add, filter, remove, replace, unify.
    * 
@@ -295,7 +299,7 @@ public class DisambiguationPatternRule {
       language.getUnifier().reset();
     }
 
-    return new AnalyzedSentence(whTokens);
+    return new AnalyzedSentence(whTokens, text.getWhPositions());
   }
 
   private void setupRef(final int firstMatchToken, final Element elem,
@@ -401,6 +405,34 @@ public class DisambiguationPatternRule {
       }
     }
     return whTokens;
+  }
+
+  /**
+   * @param examples the examples to set
+   */
+  public void setExamples(List<DisambiguatedExample> examples) {
+    this.examples = examples;
+  }
+
+  /**
+   * @return the examples
+   */
+  public List<DisambiguatedExample> getExamples() {
+    return examples;
+  }
+
+  /**
+   * @param untouchedExamples the untouchedExamples to set
+   */
+  public void setUntouchedExamples(List<String> untouchedExamples) {
+    this.untouchedExamples = untouchedExamples;
+  }
+
+  /**
+   * @return the untouchedExamples
+   */
+  public List<String> getUntouchedExamples() {
+    return untouchedExamples;
   }
 
 }

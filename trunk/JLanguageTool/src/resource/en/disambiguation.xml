@@ -2,7 +2,7 @@
 	<!--
 		English Disambiguation Rules for LanguageTool Copyright (C) 2008
 		Marcin Miłkowski		
-$Id: disambiguation.xml,v 1.30 2009-04-22 21:42:43 milek_pl Exp $
+$Id: disambiguation.xml,v 1.31 2009-04-23 17:58:02 milek_pl Exp $
 	-->
 <rules lang="en">
 	<rule name="Modal verb + verb/noun -> modal verb + verb" id="MD_VB">
@@ -107,7 +107,14 @@ $Id: disambiguation.xml,v 1.30 2009-04-22 21:42:43 milek_pl Exp $
 			<token>are</token>
 		</pattern>
 		<disambig><match no="2" postag="VBP" postag_regexp="yes"/></disambig>
-	</rule>	
+	</rule>
+	<rule name="are + we|you -> are (verb)" id="ARE_PRP">
+		<pattern mark="0">
+		<token>are</token>
+		<token regexp="yes">you|we|they</token>
+		</pattern>
+		<disambig postag="VBP"/>		
+	</rule> 	
 	<rule name="his (noun/prep) + noun -> his (prep)" id="HIS_NN_PRP">
 		<pattern mark="0">
 			<token>his</token>
@@ -306,6 +313,15 @@ $Id: disambiguation.xml,v 1.30 2009-04-22 21:42:43 milek_pl Exp $
 		</pattern>
 		<disambig postag="NNP"/>
 	</rule>
+	<rule name="NNP + Uppercase NN -> NNP" id="UPPER_NN_NNP">
+		<pattern case_sensitive="yes" mark="1">
+			<token inflected="yes" regexp="yes" postag="NNP">\p{Lu}\p{Ll}+</token>
+			<token regexp="yes" postag="NN">\p{Lu}\p{Ll}+</token>
+		</pattern>
+		<disambig postag="NNP"/>
+		<example type="ambiguous" inputform="City[city/NN,city/JJ,&lt;/S&gt;]" outputform="City[city/NNP]">Kansas <marker>City</marker></example>
+		<example type="untouched">Los Angeles</example>
+	</rule>
 	
 	<rulegroup name="initial -> NNP" id="initial_NNP">
 	<rule>
@@ -391,7 +407,7 @@ $Id: disambiguation.xml,v 1.30 2009-04-22 21:42:43 milek_pl Exp $
 				<token>United</token>
 				<token>States</token>
 			</pattern>
-			<disambig postag="NNP" />
+			<disambig postag="NNPS" />
 		</rule>
 	</rulegroup>
 	
@@ -645,6 +661,14 @@ $Id: disambiguation.xml,v 1.30 2009-04-22 21:42:43 milek_pl Exp $
 		</pattern>
 		<disambig><match no="1" postag="VBP">do</match></disambig>
 	</rule>
+	<rule name="'s -> be/vbz" id="POS_BE_VBZ">
+		<pattern mark="2">
+			<token postag_regexp="yes" postag="WP|PRP"/>
+			<token>'</token>
+			<token>s</token>
+		</pattern>
+		<disambig><match no="3" postag="VBZ">be</match></disambig>
+	</rule>
 	<rulegroup name="off/in season(NN) -> NN:UN" id="SEASON">
 	<rule>
 		<pattern mark="1">
@@ -783,6 +807,8 @@ $Id: disambiguation.xml,v 1.30 2009-04-22 21:42:43 milek_pl Exp $
 			<token><exception postag_regexp="yes" postag="DT|PRP\$"/></token>
 		</pattern>
 		<disambig postag="DT"/>
+		<example type="ambiguous" inputform="All[all/JJ,all/NN:U,all/PDT,all/DT]" outputform="All[all/DT]"><marker>All</marker> students are happy.</example>
+		<example type="untouched">All the people.</example>
 	</rule>
 	<rule name="PDT/DT -> PDT" id="PDT_PDT">
 		<pattern mark="0">
@@ -792,7 +818,32 @@ $Id: disambiguation.xml,v 1.30 2009-04-22 21:42:43 milek_pl Exp $
 			</and>
 			<token postag_regexp="yes" postag="DT|PRP\$"/>
 		</pattern>
-		<disambig postag="PDT"/>	
+		<disambig postag="PDT"/>
+		<example type="ambiguous" inputform="All[all/JJ,all/NN:U,all/PDT,all/DT]" outputform="All[all/PDT]"><marker>All</marker> the people are happy.</example>
+		<example type="untouched">All students are happy.</example>			
 	</rule>
-
+	<rule name="WDT/WP ->WDT" id="WP_WDT">
+		<pattern mark="0">
+			<and>
+			<token postag="WP"/>
+			<token postag="WDT"/>
+			</and>
+			<token postag_regexp="yes" postag="NN|NN:UN"/>
+		</pattern>
+		<disambig postag="WDT"/>
+		<example type="ambiguous" inputform="What[what/WDT,what/WP,what/UH]" outputform="What[what/WDT]"><marker>What</marker> kind of bread is this?</example>
+		<example type="untouched">What are you doing?</example>		
+	</rule>
+	<rule name="WDT/WP ->WP" id="WDT_WP">
+		<pattern mark="0">
+			<and>
+			<token postag="WP"/>
+			<token postag="WDT"/>
+			</and>
+			<token><exception postag_regexp="yes" postag="NN|NN:UN"/></token>
+		</pattern>
+		<disambig postag="WP"/>
+		<example type="ambiguous" inputform="What[what/WDT,what/WP,what/UH]" outputform="What[what/WP]"><marker>What</marker> are you doing?</example>
+		<example type="untouched">What kind of bread is this?</example>				
+	</rule>		
 </rules>

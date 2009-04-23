@@ -27,7 +27,7 @@ that should appear as a single rule to the user: -->
 <!-- A short description of the words disambiguated by this rule: -->
 <!ATTLIST rulegroup name CDATA #IMPLIED>
 
-<!ELEMENT rule (pattern,disambig)>
+<!ELEMENT rule (pattern,disambig,example?,example?)>
 <!-- A unique ID for this rule (not required if this rule is inside 
 a rulegroup): -->
 <!ATTLIST rule id ID #IMPLIED>
@@ -142,3 +142,18 @@ case, start with upper case, all letters upper case, all letters lower case -->
 <!ATTLIST wd lemma CDATA #IMPLIED>
 <!-- POS tag of the word -->
 <!ATTLIST wd pos CDATA #IMPLIED>
+
+<!-- The examples are used for the unit test cases. An 'ambiguous'
+example is supposed to be processed to get at least one of the forms specified 
+as 'disambiguated' forms (but not all ambiguous forms).  -->
+<!ELEMENT example (#PCDATA|marker)*>
+<!-- used to specify the example that are processed and those
+that shouldn't change at all --> 
+<!ATTLIST example type (untouched|ambiguous) #REQUIRED>
+<!-- used to specify ambiguous word forms in "word[lemma1/POS1,lemma2/POS2]" format. -->
+<!ATTLIST example inputform CDATA #IMPLIED>
+<!-- used to specify disambiguated word forms in "word[lemma1/POS1,lemma2/POS2]" format. -->
+<!ATTLIST example outputform CDATA #IMPLIED>
+
+<!-- marks the processed token in a sentence -->
+<!ELEMENT marker (#PCDATA)>

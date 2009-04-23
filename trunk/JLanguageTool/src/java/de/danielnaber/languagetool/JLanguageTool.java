@@ -619,12 +619,28 @@ public final class JLanguageTool {
   }
 
   /**
-   * Tokenizes the given <code>sentence</code> into words and analyzes it.
+   * Tokenizes the given <code>sentence</code> into words and analyzes it,
+   * and then disambiguates POS tags.
    * 
    * @throws IOException
    */
   public AnalyzedSentence getAnalyzedSentence(final String sentence)
       throws IOException {
+    // disambiguate assigned tags & return
+    return disambiguator.disambiguate(getRawAnalyzedSentence(sentence));
+  }
+
+  /**
+   * Tokenizes the given <code>sentence</code> into words and analyzes it.
+   * 
+   * @since 0.9.8
+   * @param sentence
+   *        Sentence to be analyzed 
+   * @return
+   *        AnalyzedSentence
+   * @throws IOException
+   */
+  public AnalyzedSentence getRawAnalyzedSentence(final String sentence) throws IOException {
     final List<String> tokens = wordTokenizer.tokenize(sentence);
     final Map<Integer, String> softHyphenTokens = new HashMap<Integer, String>();
 
@@ -680,11 +696,9 @@ public final class JLanguageTool {
     if (tokenArray.length == lastToken + 1 && tokenArray[lastToken].isLinebreak()) {
       tokenArray[lastToken].setParaEnd();
     }
-
-    // disambiguate assigned tags & return
-    return disambiguator.disambiguate(new AnalyzedSentence(tokenArray));
+    return new AnalyzedSentence(tokenArray);
   }
-
+  
   /**
    * Get all rules for the current language that are built-in or that have been
    * added using {@link #addRule}.

@@ -33,6 +33,55 @@ import de.danielnaber.languagetool.tools.StringTools;
  */
 public class AnalyzedTokenReadings {
 
+  @Override
+  public int hashCode() {
+    final int prime = 31;
+    int result = 1;
+    result = prime * result + Arrays.hashCode(anTokReadings);
+    result = prime * result + (isLinebreak ? 1231 : 1237);
+    result = prime * result + (isParaEnd ? 1231 : 1237);
+    result = prime * result + (isSentEnd ? 1231 : 1237);
+    result = prime * result + (isSentStart ? 1231 : 1237);
+    result = prime * result + (isWhitespace ? 1231 : 1237);
+    result = prime * result + (isWhitespaceBefore ? 1231 : 1237);
+    result = prime * result + startPos;
+    result = prime * result + ((token == null) ? 0 : token.hashCode());
+    return result;
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj)
+      return true;
+    if (obj == null)
+      return false;
+    if (getClass() != obj.getClass())
+      return false;
+    AnalyzedTokenReadings other = (AnalyzedTokenReadings) obj;
+    if (!Arrays.equals(anTokReadings, other.anTokReadings))
+      return false;
+    if (isLinebreak != other.isLinebreak)
+      return false;
+    if (isParaEnd != other.isParaEnd)
+      return false;
+    if (isSentEnd != other.isSentEnd)
+      return false;
+    if (isSentStart != other.isSentStart)
+      return false;
+    if (isWhitespace != other.isWhitespace)
+      return false;
+    if (isWhitespaceBefore != other.isWhitespaceBefore)
+      return false;
+    if (startPos != other.startPos)
+      return false;
+    if (token == null) {
+      if (other.token != null)
+        return false;
+    } else if (!token.equals(other.token))
+      return false;
+    return true;
+  }
+
   protected AnalyzedToken[] anTokReadings;
   private int startPos;
   private String token;

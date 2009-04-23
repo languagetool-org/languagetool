@@ -129,6 +129,7 @@ class DisambiguationRuleHandler extends XMLRuleHandler {
   private StringBuilder disamb = new StringBuilder();
   private StringBuilder match = new StringBuilder();
   private StringBuilder wd = new StringBuilder();
+  private StringBuilder example = new StringBuilder();
 
   private boolean inWord;
 
@@ -159,6 +160,13 @@ class DisambiguationRuleHandler extends XMLRuleHandler {
   private String wdLemma;
   private String wdPos;
 
+  private boolean inExample;
+  private boolean untouched;
+  private List<String> untouchedExamples;
+  private List<DisambiguatedExample> disambExamples;
+  private String input;
+  private String output;
+  
   private Locator dLocator;
 
   private DisambiguationPatternRule.DisambiguatorAction disambigAction;
@@ -374,6 +382,22 @@ class DisambiguationRuleHandler extends XMLRuleHandler {
       wdPos = attrs.getValue("pos");
       inWord = true;
       wd = new StringBuilder();
+    } else if (qName.equals("example")) {
+      inExample = true;
+      if (untouchedExamples == null) {
+        untouchedExamples = new ArrayList<String>();
+      }
+      if (disambExamples == null) {
+        disambExamples = new ArrayList<DisambiguatedExample>();
+      }
+      untouched = attrs.getValue("type").equals("untouched");
+      if (attrs.getValue("type").equals("ambiguous")) {
+        input = attrs.getValue("inputform");
+        output = attrs.getValue("outputform");
+      }
+      example = new StringBuilder();
+    } else if (qName.equals("marker")) {
+      example.append("<marker>");
     }
   }
 
@@ -405,6 +429,12 @@ class DisambiguationRuleHandler extends XMLRuleHandler {
         newWdList.clear();
       }
       caseSensitive = false;
+      if (disambExamples != null) {
+        rule.setExamples(disambExamples);
+      }
+      if (untouchedExamples != null) {
+        rule.setUntouchedExamples(untouchedExamples);
+      }
       rules.add(rule);
       if (disambigAction == DisambiguatorAction.UNIFY
           && (elementList.size() - positionCorrection + endPositionCorrection) != uniCounter) {
@@ -422,6 +452,8 @@ class DisambiguationRuleHandler extends XMLRuleHandler {
       }
       elementList.clear();
       posSelector = null;
+      disambExamples = null;
+      untouchedExamples = null;
     } else if (qName.equals(EXCEPTION)) {
       inException = false;
       if (!exceptionSet) {
@@ -528,6 +560,15 @@ class DisambiguationRuleHandler extends XMLRuleHandler {
     } else if (qName.equals(WD)) {
       addNewWord(wd.toString(), wdLemma, wdPos);
       inWord = false;
+    } else if (qName.equals("example")) {
+      inExample = false;
+      if (untouched) {
+        untouchedExamples.add(example.toString());
+      } else {
+        disambExamples.add(new DisambiguatedExample(example.toString(), input, output));
+      }
+    } else if (qName.equals("marker")) {
+      example.append("</marker>");
     }
   }
 
@@ -580,6 +621,8 @@ class DisambiguationRuleHandler extends XMLRuleHandler {
       wd.append(s);
     } else if (inDisamb) {
       disamb.append(s);
+    } else if (inExample) {
+      example.append(s);
     }
   }
 
