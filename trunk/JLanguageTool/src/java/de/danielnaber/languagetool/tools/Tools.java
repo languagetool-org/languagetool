@@ -46,7 +46,7 @@ public final class Tools {
   }
 
   /**
-   * Tags text using the LangugageTool tagger.
+   * Tags text using the LanguageTool tagger.
    * 
    * @param contents
    *          Text to tag.
