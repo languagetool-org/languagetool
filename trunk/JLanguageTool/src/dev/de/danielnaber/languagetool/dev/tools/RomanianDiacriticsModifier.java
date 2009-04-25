@@ -75,7 +75,6 @@ public final class RomanianDiacriticsModifier {
 	 * @author Ionuț Păduraru
 	 * @since 14.04.2009 12:33:39
 	 * @param s
-	 * @return
 	 */
 	public static synchronized String correctDiacritrics(String s) {
 		if (null == s)
