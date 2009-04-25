@@ -7,25 +7,25 @@ Internal documentation on how to make a LanguageTool release
 -update CHANGES files
 -update README file (e.g. list of supported languages)
 -make sure there are no local changes left that are not committed
+-run "ant test"
 -run "ant"
 -run "ant jnlp" (note you need keystore.ks with the certificate to do this;
 	for security reasons it is not in the repository)
 -test command line application, OOo integration, web-start, and stand-alone version
  with at least these test sentences: 
-    Seit 10 Jahre.
-    I've got allot of questions to you.
-    El agua es de gratis.
-    Je voudrais ajouter en plus quelque chose.
-    Ovviamente... è tutto a gratis!
-    Dit is goed, en niet foutief.
-    Kupiłem wino chciałem też pić wodę.
-    Запитайте, будь ласка у водія.
--run "ant test"
+    I've got allot of questions to you. (en)
+    Seit 10 Jahre. (de)
+    El agua es de gratis. (es)
+    Je voudrais ajouter en plus quelque chose. (fr)
+    Ovviamente... è tutto a gratis! (it)
+    Dit is goed, en niet foutief. (nl)
+    Kupiłem wino chciałem też pić wodę. (pl)
+    Стоимость работ составила 10 тыс рублей. (ru)
 -upload to the server:
     -dist/*.oxt to "download"
-    -api/* to "development" (run "ant javadoc")
     -README.txt, CHANGES.txt, en.odt, de.odt to "download"
     -dist/web/ to www/webstart/web/ (resulting from "ant jnlp")
+    -run "ant javadoc" and upload dist/docs/api/* to "development"
 -update website
     -index.php (remember to also set $lastmod)
     -languages/index.php (run de.danielnaber.languagetool.dev.RuleOverview,
