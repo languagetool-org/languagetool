@@ -46,6 +46,7 @@
   	<path refid="common.classpath"/>
     <pathelement location="${ext.junit.lib}"/>
     <pathelement location="${dist.dir}/${final.name}.jar"/>
+  	<pathelement location="${dist.dir}/LanguageTool.uno.jar"/>
     <pathelement path="${java.class.path}"/>
   </path>
 
@@ -78,8 +79,8 @@
   <!-- TEST -->
   <!-- ================================================================== -->
 
-  <target name="test" depends="clean,init,build" description="Runs unit tests">
-
+  <target name="test" depends="clean,init,build,ooo-build" description="Runs unit tests">
+  	
 	<mkdir dir="${junit.classes.dir}"/>
 	<mkdir dir="${dist.dir}/report/tests"/>
 
@@ -91,7 +92,7 @@
 		debug="${debug}">
 			<classpath refid="junit.classpath"/>
    	</javac>
-
+  	
 	<!-- make sure that no classes where left in the build directory, clean it up -->
 	<delete dir="${build.dir}"/>
 	
