@@ -82,6 +82,7 @@ public class DisambiguationRuleTest extends TestCase {
       final List<DisambiguationPatternRule> rules,
       final JLanguageTool languageTool, final Language lang) throws IOException {
     for (final DisambiguationPatternRule rule : rules) {
+      final String id = rule.getId();
       if (rule.getUntouchedExamples() != null) {
         final List<String> goodSentences = rule.getUntouchedExamples();
         for (String goodSentence : goodSentences) {
@@ -90,9 +91,10 @@ public class DisambiguationRuleTest extends TestCase {
           goodSentence = cleanXML(goodSentence);
 
           assertTrue(goodSentence.trim().length() > 0);
-          final AnalyzedSentence sent = disambiguateUntil(rules, rule.getId(),
+          final AnalyzedSentence sent = disambiguateUntil(rules, id,
               languageTool.getRawAnalyzedSentence(goodSentence));
-          assertEquals(sent, rule.replace(sent));
+          assertTrue("The untouched example for rule " + id + "was touched!",
+              sent.equals(rule.replace(sent)));
         }
       }
       final List<DisambiguatedExample> examples = rule.getExamples();
@@ -100,6 +102,8 @@ public class DisambiguationRuleTest extends TestCase {
         for (final DisambiguatedExample example : examples) {
 
           final String outputForms = example.getDisambiguated();
+          assertTrue("No input form found for: " + id, outputForms != null);
+          assertTrue(outputForms.trim().length() > 0);
           final int expectedMatchStart = example.getExample().indexOf(
               "<marker>");
           final int expectedMatchEnd = example.getExample()
@@ -111,13 +115,24 @@ public class DisambiguationRuleTest extends TestCase {
                 + rule);
           }
           final String inputForms = example.getAmbiguous();
+          assertTrue("No input form found for: " + id, inputForms != null);
           assertTrue(inputForms.trim().length() > 0);
-          assertNotSame(outputForms, inputForms);
-          final AnalyzedSentence sent = disambiguateUntil(rules, rule.getId(),
+          assertTrue("Input and output forms for rule " + id + "are the same!",
+              !outputForms.equals(inputForms));
+          final AnalyzedSentence cleanInput = languageTool
+              .getRawAnalyzedSentence(cleanXML(example.getExample()));
+          final AnalyzedSentence sent = disambiguateUntil(rules, id,
               languageTool
                   .getRawAnalyzedSentence(cleanXML(example.getExample())));
-          final AnalyzedSentence disambiguatedSent = rule.replace(sent);
-          assertNotSame(sent, disambiguatedSent);
+          final AnalyzedSentence disambiguatedSent = rule
+              .replace(disambiguateUntil(rules, id, languageTool
+                  .getRawAnalyzedSentence(cleanXML(example.getExample()))));
+          assertTrue(
+              "Disambiguated sentence is equal to the non-disambiguated sentence for rule :"
+                  + id, !cleanInput.equals(disambiguatedSent));
+          assertTrue(
+              "Disambiguated sentence is equal to the input sentence for rule :"
+                  + id, !sent.equals(disambiguatedSent));
           String reading = "";
           for (final AnalyzedTokenReadings readings : sent.getTokens()) {
             if (readings.isSentStart() && inputForms.indexOf("<S>") == -1) {
@@ -126,14 +141,16 @@ public class DisambiguationRuleTest extends TestCase {
             if (readings.getStartPos() == expectedMatchStart) {
               final AnalyzedTokenReadings r[] = { readings };
               reading = new AnalyzedSentence(r).toString();
-              assertTrue(readings.getStartPos() == expectedMatchStart
-                  && readings.getStartPos() + readings.getToken().length() == expectedMatchEnd);
+              assertTrue(
+                  "Wrong marker position in the example for the rule " + id,
+                  readings.getStartPos() == expectedMatchStart
+                      && readings.getStartPos() + readings.getToken().length() == expectedMatchEnd);
               break;
             }
           }
-          assertTrue("The input form for the rule " + rule.getId()
-              + " in the example: " + example.toString()
-              + " is different than expected (" + reading + ").", reading
+          assertTrue("The input form for the rule " + id + " in the example: "
+              + example.toString() + " is different than expected (expected "
+              + inputForms + " but got " + reading + ").", reading
               .equals(inputForms));
           for (final AnalyzedTokenReadings readings : disambiguatedSent
               .getTokens()) {
@@ -148,9 +165,9 @@ public class DisambiguationRuleTest extends TestCase {
               break;
             }
           }
-          assertTrue("The output form for the rule " + rule.getId()
-              + " in the example: " + example.toString()
-              + " is different than expected (" + reading + ").", reading
+          assertTrue("The output form for the rule " + id + " in the example: "
+              + example.toString() + " is different than expected (expected "
+              + outputForms + " but got " + reading + ").", reading
               .equals(outputForms));
         }
       }
@@ -158,7 +175,7 @@ public class DisambiguationRuleTest extends TestCase {
   }
 
   // useful for testing the rule cascade
-  private AnalyzedSentence disambiguateUntil(
+  private static AnalyzedSentence disambiguateUntil(
       final List<DisambiguationPatternRule> rules, final String ruleID,
       final AnalyzedSentence sentence) throws IOException {
     AnalyzedSentence disambiguated = sentence;
@@ -171,7 +188,7 @@ public class DisambiguationRuleTest extends TestCase {
     return disambiguated;
   }
 
-  private String cleanXML(final String str) {
+  private static String cleanXML(final String str) {
     return str.replaceAll("<.*?>", "");
   }
 

@@ -6,7 +6,7 @@ title="Easy editing stylesheet" ?>
 <!--
 Polish Grammar and Typo Rules for LanguageTool
 Copyright (C) 2006-2007 Marcin Miłkowski
-$Id: grammar.xml,v 1.182 2009-04-17 22:06:41 milek_pl Exp $
+$Id: grammar.xml,v 1.183 2009-04-25 16:28:50 milek_pl Exp $
 -->
 <rules lang="pl">
   <unification feature="number">
@@ -1693,6 +1693,24 @@ Powinno być: <suggestion>\2, \3 \4</suggestion>.</message>
     </rule>
   </category>
   <category name="Błędy typograficzne">
+    <rule id="MNOZENIE" name="Znak mnożenia „x” (×)">
+      <pattern>
+        <token regexp="yes">\d+x\d+</token>
+      </pattern>
+      <message>Ten znak mnożenia lepiej zastąpić typograficznym: <suggestion><match no="1" postag_replace="" regexp_match="(\d+)x(\d+)" regexp_replace="$1×$2"/></suggestion>.</message>
+      <example correction="800×600" type="incorrect">Rozdzielczość ekranu <marker>800x600</marker></example>
+      <example type="correct">Rozdzielczość ekranu 800×600</example>
+    </rule>
+    <rule default="off" id="PL_ELLIPSIS" name="„...” (…)">
+      <pattern>
+        <token spacebefore="ignore">.</token>
+        <token spacebefore="no">.</token>
+        <token spacebefore="no">.</token>
+      </pattern>
+      <message>Ten trzykropek lepiej zastąpić znakiem typograficznym: <suggestion>…</suggestion>.</message>
+      <example type="correct">To jest ważne – o ile mi wiadomo.</example>
+      <example correction="…" type="incorrect">To jest ważne<marker>...</marker> o ile mi wiadomo.</example>
+    </rule>
     <rule id="LACZNIK_MYSLNIK" name="„--” (—)">
       <pattern>
         <token>--</token>
@@ -6240,14 +6258,14 @@ lub <suggestion>\2 na prawach wyłączności</suggestion>.</message>
     <rule id="TRZECI_SWIAT" name="„trzeci świat” (Trzeci Świat)">
       <pattern case_sensitive="yes">
         <unify feature="gender,case,number">
-        <and>
-          <token inflected="yes">trzeci</token>
-          <token regexp="yes">trzec.*</token>
-        </and>
-        <and>
-          <token regexp="yes">świ.*</token>
-          <token inflected="yes">świat</token>
-        </and>
+          <and>
+            <token inflected="yes">trzeci</token>
+            <token regexp="yes">trzec.*</token>
+          </and>
+          <and>
+            <token regexp="yes">świ.*</token>
+            <token inflected="yes">świat</token>
+          </and>
         </unify>
       </pattern>
       <message>To wyrażenie pisze się wielkimi literami: <suggestion><match case_conversion="startupper" no="1"/> <match case_conversion="startupper" no="2"/></suggestion> (=kraje rozwijające się).</message>

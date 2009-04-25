@@ -2,7 +2,7 @@
 	<!--
 		English Disambiguation Rules for LanguageTool Copyright (C) 2008
 		Marcin Miłkowski		
-$Id: disambiguation.xml,v 1.31 2009-04-23 17:58:02 milek_pl Exp $
+$Id: disambiguation.xml,v 1.32 2009-04-25 16:28:50 milek_pl Exp $
 	-->
 <rules lang="en">
 	<rule name="Modal verb + verb/noun -> modal verb + verb" id="MD_VB">
@@ -187,6 +187,15 @@ $Id: disambiguation.xml,v 1.31 2009-04-23 17:58:02 milek_pl Exp $
 			</and>
 		</pattern>
 		<disambig postag="VBP" />
+	</rule>
+	<rule name="t -> contraction (not/RB)" id="T_NOT">
+		<pattern mark="1">
+		<token>'</token>
+		<token>t</token>
+		</pattern>
+		<disambig action="add"><wd lemma="not" pos="RB">t</wd></disambig>
+		<example type="untouched">I cannot do it.</example>
+		<example type="ambiguous" inputform="t[t]" outputform="t[not/RB]">I can'<marker>t</marker> do it.</example>
 	</rule>
 	<rulegroup name="let's" id="LETS1">
 		<rule>
@@ -807,7 +816,7 @@ $Id: disambiguation.xml,v 1.31 2009-04-23 17:58:02 milek_pl Exp $
 			<token><exception postag_regexp="yes" postag="DT|PRP\$"/></token>
 		</pattern>
 		<disambig postag="DT"/>
-		<example type="ambiguous" inputform="All[all/JJ,all/NN:U,all/PDT,all/DT]" outputform="All[all/DT]"><marker>All</marker> students are happy.</example>
+		<example type="ambiguous" inputform="All[all/JJ,all/NN:U,all/DT,all/PDT]" outputform="All[all/DT]"><marker>All</marker> students are happy.</example>
 		<example type="untouched">All the people.</example>
 	</rule>
 	<rule name="PDT/DT -> PDT" id="PDT_PDT">
@@ -819,7 +828,7 @@ $Id: disambiguation.xml,v 1.31 2009-04-23 17:58:02 milek_pl Exp $
 			<token postag_regexp="yes" postag="DT|PRP\$"/>
 		</pattern>
 		<disambig postag="PDT"/>
-		<example type="ambiguous" inputform="All[all/JJ,all/NN:U,all/PDT,all/DT]" outputform="All[all/PDT]"><marker>All</marker> the people are happy.</example>
+		<example type="ambiguous" inputform="All[all/JJ,all/NN:U,all/DT,all/PDT]" outputform="All[all/PDT]"><marker>All</marker> the people are happy.</example>
 		<example type="untouched">All students are happy.</example>			
 	</rule>
 	<rule name="WDT/WP ->WDT" id="WP_WDT">
@@ -845,5 +854,62 @@ $Id: disambiguation.xml,v 1.31 2009-04-23 17:58:02 milek_pl Exp $
 		<disambig postag="WP"/>
 		<example type="ambiguous" inputform="What[what/WDT,what/WP,what/UH]" outputform="What[what/WP]"><marker>What</marker> are you doing?</example>
 		<example type="untouched">What kind of bread is this?</example>				
-	</rule>		
+	</rule>
+	<rulegroup name="Quotation marks" id="QUOT">
+		<rule>
+			<pattern mark="1">
+			<token postag="SENT_START"/>			
+			<token>&quot;</token>			
+			</pattern>
+			<disambig postag="``"/>
+			<example type="untouched">Example 'a'</example>
+			<example type="untouched">Example "a</example>
+			<example type="ambiguous" inputform="&quot;[&quot;/'',&quot;/``]" outputform="&quot;[&quot;/``]"><marker>"</marker>A test.</example>
+		</rule>
+		<rule>
+			<pattern mark="0">
+			<and>
+			<token postag="``" spacebefore="no">&quot;</token>
+			<token postag="''" spacebefore="no">&quot;</token>
+			</and>
+			</pattern>
+			<disambig postag="''"/>
+			<example type="untouched">Example 'a'</example>
+			<example type="untouched">Example "a</example>
+			<example type="ambiguous" inputform="&quot;[&quot;/'',&quot;/``]" outputform="&quot;[&quot;/'']">A "test<marker>"</marker>.</example>
+		</rule>
+		<rule>
+			<pattern mark="0">
+			<and>
+			<token postag="''" spacebefore="yes">&quot;</token>
+			<token postag="``" spacebefore="yes">&quot;</token>
+			</and>
+			</pattern>
+			<disambig postag="``"/>
+			<example type="untouched">Example 'a'</example>
+			<example type="untouched">Example a"</example>
+			<example type="ambiguous" inputform="&quot;[&quot;/'',&quot;/``]" outputform="&quot;[&quot;/``]">A <marker>"</marker>test".</example>
+		</rule>
+		</rulegroup>
+	<rulegroup name="All but" id="all_but_rb">
+	<rule>
+		<pattern mark="0">
+		<token>all</token>
+		<token regexp="yes">but|right</token>
+		</pattern>
+		<disambig postag="RB"/>
+		<example type="untouched">All the students are happy.</example>
+		<example type="ambiguous" inputform="All[all/DT]" outputform="All[all/RB]"><marker>All</marker> but one!</example>
+		<example type="ambiguous" inputform="All[all/DT]" outputform="All[all/RB]"><marker>All</marker> right!</example>
+	</rule>
+	<rule>
+		<pattern mark="1">
+		<token>all</token>
+		<token>but</token>
+		</pattern>
+		<disambig postag="RB"/>
+		<example type="untouched">All the students are happy.</example>
+		<example type="ambiguous" inputform="but[but/CC]" outputform="but[but/RB]">All <marker>but</marker> one!</example>
+	</rule>
+	</rulegroup>			
 </rules>

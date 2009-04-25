@@ -60,7 +60,7 @@ public class EnglishRuleDisambiguatorTest extends TestCase {
         "/[null]SENT_START He/[he]PRP  /[null]null is/[be]VBZ  /[null]null well/[well]RB  /[null]null known/[known]JJ ./[null]null", 
         tokenizer, sentenceTokenizer, tagger, disambiguator);
     TestTools.myAssert("He is well known.",
-        "/[null]SENT_START He/[he]PRP  /[null]null is/[be]VBZ  /[null]null well/[well]UH|well/[well]NN|well/[well]RB|well/[well]VB|well/[well]VBP  /[null]null known/[known]NN|known/[know]VBN ./[null]null", 
+        "/[null]SENT_START He/[he]PRP  /[null]null is/[be]VBZ  /[null]null well/[well]NN|well/[well]RB|well/[well]VB|well/[well]VBP|well/[well]UH  /[null]null known/[known]NN|known/[know]VBN ./[null]null", 
         tokenizer, sentenceTokenizer, tagger, disamb2);
     
   }

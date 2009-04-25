@@ -7,7 +7,7 @@ title="Easy editing stylesheet" ?>
 English Grammar and Typo Rules for LanguageTool
 See tagset.txt for the meaning of the POS tags
 Copyright (C) 2001-2007 Daniel Naber (http://www.danielnaber.de)
-$Id: grammar.xml,v 1.104 2009-04-17 23:11:39 milek_pl Exp $
+$Id: grammar.xml,v 1.105 2009-04-25 16:28:50 milek_pl Exp $
 -->
 <rules lang="en">
   <!-- ====================================================================== -->
@@ -1910,7 +1910,7 @@ $Id: grammar.xml,v 1.104 2009-04-17 23:11:39 milek_pl Exp $
       </rule>
     </rulegroup>
     <rulegroup id="MAY_BE" name="may be (maybe)">
-      <rule id="MAY_BE_I" name="">
+      <rule id="MAY_BE_I">
         <pattern mark_to="-1">
           <token>may</token>
           <token>be</token>
@@ -3845,6 +3845,17 @@ $Id: grammar.xml,v 1.104 2009-04-17 23:11:39 milek_pl Exp $
   <!-- Miscellaneous -->
   <!-- ====================================================================== -->
   <category name="Miscellaneous">
+    <rule default="off" id="ELLIPSIS" name="smart ellipsis (…)">
+      <pattern>
+        <token>.</token>
+        <token>.</token>
+        <token>.</token>
+      </pattern>
+      <message>Use typographical ellipsis character here instead: <suggestion>…</suggestion>.</message>
+      <example correction="…" type="incorrect">This is important <marker>. . .</marker> as far as I know.</example>
+      <example type="correct">This is important – as far as I know.</example>
+      <example correction="…" type="incorrect">This is important<marker>...</marker> as far as I know.</example>
+    </rule>
     <rule id="CONTRACTED_FORM_NOT" name="shouldn't not (shouldn't)">
       <pattern>
         <token regexp="yes">ain|aren|can|couldn|didn|doesn|don|hasn|isn|mightn|mustn|shan|shouldn|weren|won|wouldn</token>
@@ -5335,7 +5346,7 @@ $Id: grammar.xml,v 1.104 2009-04-17 23:11:39 milek_pl Exp $
       <example type="correct">The security software we offer is the state-of-the art achievement.</example>
     </rule>
   </category>
-  <category name="CAPITALIZATION">
+  <category name="Capitalization">
     <rulegroup default="off" id="EN_CAPITALIZE" name="Capitalize lowercase words ('i am')">
       <rule>
         <pattern case_sensitive="yes">

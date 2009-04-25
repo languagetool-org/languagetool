@@ -72,14 +72,14 @@ public class AnalyzedSentence {
   /**
    * Sets {@link AnalyzedTokenReadings}. Whitespace is also a token.
    */
-  public AnalyzedSentence(final AnalyzedTokenReadings[] tokens) {
-    this.tokens = tokens.clone();
+  public AnalyzedSentence(final AnalyzedTokenReadings[] tokens) {    
+    this.tokens = tokens;
   }
   
   public AnalyzedSentence(final AnalyzedTokenReadings[] tokens, final 
       int[] whPositions) {
-    this.tokens = tokens.clone();
-    this.setWhPositions(whPositions.clone());
+    this.tokens = tokens;
+    this.setWhPositions(whPositions);
     getTokensWithoutWhitespace();
   } 
 
@@ -88,7 +88,7 @@ public class AnalyzedSentence {
    * is also a token.
    */
   public final AnalyzedTokenReadings[] getTokens() {
-    return tokens.clone();
+    return tokens;
   }
 
   /**
@@ -97,7 +97,7 @@ public class AnalyzedSentence {
    * token included.
    */
   public final AnalyzedTokenReadings[] getTokensWithoutWhitespace() {
-    if (getNonBlankTokens() == null) {
+    if (nonBlankTokens == null) {
       int whCounter = 0;
       int nonWhCounter = 0;
       final int[] mapping = new int[tokens.length + 1];
@@ -114,7 +114,7 @@ public class AnalyzedSentence {
       setNonBlankTokens(l.toArray(new AnalyzedTokenReadings[l.size()]));
       setWhPositions(mapping.clone());
     }
-    return getNonBlankTokens().clone();
+    return nonBlankTokens.clone();
   }
 
   /**
@@ -126,7 +126,7 @@ public class AnalyzedSentence {
    * @return int position in the original sentence.
    */
   public final int getOriginalPosition(final int nonWhPosition) {
-    if (getNonBlankTokens() == null) {
+    if (nonBlankTokens == null) {
       getTokensWithoutWhitespace();
     }
     return getWhPositions()[nonWhPosition];
@@ -192,13 +192,6 @@ public class AnalyzedSentence {
    */
   public void setNonBlankTokens(AnalyzedTokenReadings[] nonBlankTokens) {
     this.nonBlankTokens = nonBlankTokens;
-  }
-
-  /**
-   * @return the nonBlankTokens
-   */
-  public AnalyzedTokenReadings[] getNonBlankTokens() {
-    return nonBlankTokens;
-  }
+  } 
   
 }

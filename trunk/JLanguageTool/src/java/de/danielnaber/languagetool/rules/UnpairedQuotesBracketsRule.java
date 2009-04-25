@@ -156,7 +156,7 @@ public class UnpairedQuotesBracketsRule extends Rule {
 
   public final RuleMatch[] match(final AnalyzedSentence text) {
     final List<RuleMatch> ruleMatches = new ArrayList<RuleMatch>();
-    final AnalyzedTokenReadings[] tokens = text.getTokens();
+    final AnalyzedTokenReadings[] tokens = text.getTokensWithoutWhitespace();
 
     if (reachedEndOfParagraph) {
       reset();
