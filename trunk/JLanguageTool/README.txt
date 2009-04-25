@@ -1,6 +1,6 @@
 LanguageTool, a proof-reading tool for English, German, Polish,
 French, Dutch, Russian, Romanian, and Italian with initial support 
-for Spanish and Swedish
+for Slovak, Spanish, and Swedish
 
 Copyright (C) 2005-2009 Daniel Naber (naber at danielnaber de)
 Version ###VERSION###, ###DATE###
@@ -8,10 +8,11 @@ Homepage: http://www.languagetool.org
 
 Requirements:
  -Java 1.5 or later (Sun Java or IcedTea; GIJ is not supported)
- -For OpenOffice.org integration, OpenOffice 3.0.1 RC1 or later.
+ -For OpenOffice.org integration, OpenOffice 3.0.1 or later.
   For older versions of OpenOffice you will need to use 
   LanguageTool 0.9.2. Note: for OpenOffice 3.0.0, you should use 
-  only LanguageTool 0.9.5 (earlier versions can lead to a crash).
+  only LanguageTool 0.9.5 or later (earlier versions can lead to 
+  a crash).
 
 Usage:
  -To integrate LanguageTool into OpenOffice.org, you
