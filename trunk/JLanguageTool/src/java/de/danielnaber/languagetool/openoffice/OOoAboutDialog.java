@@ -75,7 +75,7 @@ public class OOoAboutDialog {
                 + "\n"
                 + "Copyright (C) 2005-2009 Daniel Naber\n"
                 + "This software is licensed under the GNU Lesser General Public License.\n"
-                + "LanguageTool Homepage: http://www.danielnaber.de/languagetool\n\n"
+                + "LanguageTool Homepage: http://www.languagetool.org/\n\n"
                 + "Maintainers of the language modules:\n"
                 + maintainersInfo.toString());
     box.execute();
