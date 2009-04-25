@@ -39,6 +39,8 @@ import org.xml.sax.SAXException;
  */
 public class MainTest extends AbstractSecurityTestCase {
 
+  private static final String ENGLISH_TEST_FILE = "test-en.txt";
+  
   private ByteArrayOutputStream out;
   private ByteArrayOutputStream err;
   private PrintStream stdout;
@@ -80,12 +82,14 @@ public class MainTest extends AbstractSecurityTestCase {
 
   public void testEnglishFile() throws URISyntaxException, IOException, ParserConfigurationException, SAXException {
     try {
-      final URL url = this.getClass().getResource("test-en.txt");
+      final URL url = this.getClass().getResource(ENGLISH_TEST_FILE);
+      //System.err.println("###"+url);
       final URI uri = new URI (url.toString());
       String[] args = new String[] {"-l", "en", uri.getPath()};
 
       Main.main(args);
       String output = new String(this.out.toByteArray());
+      //System.out.println("#>"+output);
       assertTrue(output.indexOf("Expected text language: English") == 0);
       assertTrue(output.indexOf("1.) Line 1, column 8, Rule ID: EN_A_VS_AN") != -1);  
     }
@@ -96,7 +100,7 @@ public class MainTest extends AbstractSecurityTestCase {
   
   public void testEnglishFileVerbose() throws URISyntaxException, IOException, ParserConfigurationException, SAXException {
     try {
-      final URL url = this.getClass().getResource("test-en.txt");
+      final URL url = this.getClass().getResource(ENGLISH_TEST_FILE);
       final URI uri = new URI (url.toString());
       String[] args = new String[] {"-l", "en", "-v", uri.getPath()};
 
@@ -114,7 +118,7 @@ public class MainTest extends AbstractSecurityTestCase {
   
   public void testEnglishFileApplySuggestions() throws URISyntaxException, IOException, ParserConfigurationException, SAXException {
     try {
-      final URL url = this.getClass().getResource("test-en.txt");
+      final URL url = this.getClass().getResource(ENGLISH_TEST_FILE);
       final URI uri = new URI (url.toString());
       String[] args = new String[] {"-l", "en", "--apply", uri.getPath()};
 
@@ -234,7 +238,7 @@ public class MainTest extends AbstractSecurityTestCase {
   
   public void testEnglishFileRuleDisabled() throws URISyntaxException, IOException, ParserConfigurationException, SAXException {
     try {
-      final URL url = this.getClass().getResource("test-en.txt");
+      final URL url = this.getClass().getResource(ENGLISH_TEST_FILE);
       final URI uri = new URI (url.toString());
       String[] args = new String[] {"-l", "en", "-d", "EN_A_VS_AN", uri.getPath()};
 
@@ -250,7 +254,7 @@ public class MainTest extends AbstractSecurityTestCase {
 
   public void testEnglishFileRuleEnabled() throws URISyntaxException, IOException, ParserConfigurationException, SAXException {
     try {
-      final URL url = this.getClass().getResource("test-en.txt");
+      final URL url = this.getClass().getResource(ENGLISH_TEST_FILE);
       final URI uri = new URI (url.toString());
       String[] args = new String[] {"-l", "en", "-e", "EN_A_VS_AN", uri.getPath()};
 
@@ -266,7 +270,7 @@ public class MainTest extends AbstractSecurityTestCase {
   
   public void testEnglishFileAPI() throws URISyntaxException, IOException, ParserConfigurationException, SAXException {
     try {
-      final URL url = this.getClass().getResource("test-en.txt");
+      final URL url = this.getClass().getResource(ENGLISH_TEST_FILE);
       final URI uri = new URI (url.toString());
       String[] args = new String[] {"-l", "en", "--api", uri.getPath()};
 
@@ -282,7 +286,7 @@ public class MainTest extends AbstractSecurityTestCase {
   
   public void testEnglishTagger()  throws URISyntaxException, IOException, ParserConfigurationException, SAXException {
     try {
-      final URL url = this.getClass().getResource("test-en.txt");
+      final URL url = this.getClass().getResource(ENGLISH_TEST_FILE);
       final URI uri = new URI (url.toString());
       String[] args = new String[] {"-l", "en", "--taggeronly", uri.getPath()};
       Main.main(args);
@@ -297,7 +301,7 @@ public class MainTest extends AbstractSecurityTestCase {
 
   public void testListUnknown()  throws URISyntaxException, IOException, ParserConfigurationException, SAXException {
     try {
-      final URL url = this.getClass().getResource("test-en.txt");
+      final URL url = this.getClass().getResource(ENGLISH_TEST_FILE);
       final URI uri = new URI (url.toString());
       String[] args = new String[] {"-l", "pl", "-u", uri.getPath()};
       Main.main(args);
@@ -312,7 +316,7 @@ public class MainTest extends AbstractSecurityTestCase {
   
   public void testNoListUnknown()  throws URISyntaxException, IOException, ParserConfigurationException, SAXException {
     try {
-      final URL url = this.getClass().getResource("test-en.txt");
+      final URL url = this.getClass().getResource(ENGLISH_TEST_FILE);
       final URI uri = new URI (url.toString());
       String[] args = new String[] {"-l", "pl", uri.getPath()};
       Main.main(args);
