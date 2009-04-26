@@ -68,7 +68,7 @@ import de.danielnaber.languagetool.tools.ReflectionUtils;
 public final class JLanguageTool {
 
   public static final String VERSION = "0.9.9-dev"; // keep in sync with
-                                                    // build.xml!
+                                                    // build.properties!
 
   public static final String RULES_DIR = "/rules";
   public static final String PATTERN_FILE = "grammar.xml";
