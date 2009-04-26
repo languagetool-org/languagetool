@@ -6,7 +6,7 @@ title="Easy editing stylesheet" ?>
 <!--
 Polish Grammar and Typo Rules for LanguageTool
 Copyright (C) 2006-2007 Marcin Miłkowski
-$Id: grammar.xml,v 1.183 2009-04-25 16:28:50 milek_pl Exp $
+$Id: grammar.xml,v 1.184 2009-04-26 12:21:44 milek_pl Exp $
 -->
 <rules lang="pl">
   <unification feature="number">
@@ -4051,9 +4051,9 @@ lub <suggestion>\2 na prawach wyłączności</suggestion>.</message>
     <rule id="CZEKAC_ZA" name="„czekać za” (na)">
       <!--  FIXME: podpowiedź nie uwzględnia złożonych grup nominalnych -->
       <pattern mark_from="1">
-        <token inflected="yes" skip="4">czekać<exception regexp="yes" scope="next">na|\p{Punct}</exception></token>
+        <token inflected="yes" skip="4">czekać<exception regexp="yes" scope="next">na|\p{Punct}</exception><exception postag="verb.*" postag_regexp="yes" scope="next"/></token>
         <token>za</token>
-        <token postag=".*inst.*" postag_regexp="yes"/>
+        <token postag=".*inst.*" postag_regexp="yes"><exception postag="siebie.*" postag_regexp="yes"/></token>
       </pattern>
       <message>Nie mówimy „czekać za czymś”. Poprawnie: <suggestion>na <match no="3" postag="(.*)(sg|pl).*inst.*" postag_regexp="yes" postag_replace="$1$2.*acc.*"/></suggestion>.</message>
       <short>Błąd leksykalny</short>
@@ -10116,7 +10116,7 @@ Znacznie częściej ta forma jest mylona z trybem rozkazującym od „pokazać�
       </rule>
       <rule>
         <pattern>
-          <token regexp="yes">czele<exception regexp="yes" scope="previous">na|jej|ich|jego|której|których|którego</exception></token>
+          <token>czele<exception regexp="yes" scope="previous">na|jej|ich|jego|której|których|którego</exception></token>
         </pattern>
         <message>Prawdopodobna literówka; powinno być: <suggestion>na \2</suggestion>.</message>
         <short>Prawdopodobna literówka</short>
