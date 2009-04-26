@@ -248,7 +248,7 @@ public class PatternRule extends Rule {
       }
       if (patternElement.isInflected()) {
         sb.append(" inflected=\"yes\"");
-      }
+      }      
       sb.append(">");
       if (patternElement.getString() != null) {
         sb.append(StringTools.escapeXML(patternElement.getString()));
@@ -351,36 +351,17 @@ public class PatternRule extends Rule {
             if (elem.isReferenceElement()) {
               setupRef(firstMatchToken, elem, tokens);
             }
-            if (elem.hasAndGroup()) {
-              for (final Element andElement : elem.getAndGroup()) {
-                if (andElement.isReferenceElement()) {
-                  setupRef(firstMatchToken, andElement, tokens);
-                }
-              }
-              if (l == 0) {
-                elem.setupAndGroup();
-              }
-            }
+            setupAndGroup(l, firstMatchToken, elem, tokens);
             thisMatched |= elem.isMatchedCompletely(matchToken);
-            if (thisMatched && elem.isUnified()) {
-              thisMatched &= language.getUnifier().isUnified(matchToken,
-                  elem.getUniFeature(), elem.getUniType(), elem.isUniNegated(),
-                  lastReading);
-            }
-            if (!elem.isUnified()) {
-              language.getUnifier().reset();
-            }
+            thisMatched &= testUnification(thisMatched, lastReading, 
+                matchToken, elem);
             if (lastReading && elem.hasAndGroup()) {
               thisMatched &= elem.checkAndGroup(thisMatched);
             }
             exceptionMatched |= elem.isExceptionMatchedCompletely(matchToken);
             if (!exceptionMatched && m > 0 && elem.hasPreviousException()) {
-              final int numReadings = tokens[m - 1].getReadingsLength();
-              for (int p = 0; p < numReadings; p++) {
-                exceptionMatched |= elem
-                    .isMatchedByPreviousException(tokens[m - 1]
-                        .getAnalyzedToken(p));
-              }
+              exceptionMatched |= elem.
+                isMatchedByPreviousException(tokens[m - 1]);
             }
             // Logical OR (cannot be AND):
             if (thisMatched || exceptionMatched) {
@@ -437,6 +418,34 @@ public class PatternRule extends Rule {
     return ruleMatches.toArray(new RuleMatch[ruleMatches.size()]);
   }
 
+  private boolean testUnification(final boolean matched, final boolean lastReading,
+      final AnalyzedToken matchToken, final Element elem) {
+    boolean thisMatched = matched;
+    if (matched && elem.isUnified()) {
+      thisMatched &= language.getUnifier().isUnified(matchToken,
+          elem.getUniFeature(), elem.getUniType(), elem.isUniNegated(),
+          lastReading);
+    }
+    if (!elem.isUnified()) {
+      language.getUnifier().reset();
+    }
+    return thisMatched;
+  }
+
+  private void setupAndGroup(final int readNo, final int firstMatchToken, final Element elem,
+      final AnalyzedTokenReadings[] tokens) {
+    if (elem.hasAndGroup()) {
+      for (final Element andElement : elem.getAndGroup()) {
+        if (andElement.isReferenceElement()) {
+          setupRef(firstMatchToken, andElement, tokens);
+        }
+      }
+      if (readNo == 0) {
+        elem.setupAndGroup();
+      }
+    } 
+  }
+  
   private void setupRef(final int firstMatchToken, final Element elem,
       final AnalyzedTokenReadings[] tokens) {
     final int refPos = firstMatchToken + elem.getMatch().getTokenRef();

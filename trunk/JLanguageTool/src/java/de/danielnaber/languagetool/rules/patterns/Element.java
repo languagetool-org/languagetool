@@ -367,7 +367,29 @@ public class Element {
     }
     return exceptionMatched;
   }
-
+  
+  /**
+   * Checks whether an exception for a previous token matches all
+   * readings of a given token (in case the exception had 
+   * scope == "previous").
+   * 
+   * @param token
+   *    {@link AnalyzedTokenReadings} to check matching against.
+   * @return true if any of the exceptions matches.
+   */
+  public final boolean isMatchedByPreviousException(
+      final AnalyzedTokenReadings prevToken) {
+  final int numReadings = prevToken.getReadingsLength();
+  boolean matched = false;
+  for (int p = 0; p < numReadings; p++) {
+    matched |=  isMatchedByPreviousException(prevToken.getAnalyzedToken(p));
+    if (matched) {
+      break;
+    }   
+  }
+  return matched;
+  }
+  
   /**
    * Checks if the token is a SENT_START.
    * 
