@@ -397,6 +397,7 @@ public class PatternRule extends Rule {
         }
       }
       tokenPos++;
+      //FIXME: this might be probably removed
       if (firstMatchToken + matchingTokens >= tokens.length) {
         matchingTokens = tokens.length - firstMatchToken;
       }
