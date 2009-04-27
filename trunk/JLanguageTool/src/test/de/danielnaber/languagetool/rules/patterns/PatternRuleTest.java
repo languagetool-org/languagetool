@@ -26,6 +26,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
+import java.util.regex.Pattern;
 
 import junit.framework.TestCase;
 import de.danielnaber.languagetool.AnalyzedSentence;
@@ -43,6 +44,9 @@ public class PatternRuleTest extends TestCase {
 
   private static JLanguageTool langTool;
 
+  private static final Pattern PROBABLE_REGEX = Pattern.compile(".*([\\[\\]\\*\\+\\|\\^]|\\(.+\\)|\\[.+\\]|\\{.+\\}).*");
+
+  
   @Override
   public void setUp() throws IOException {
     if (langTool == null) {
@@ -84,16 +88,16 @@ public class PatternRuleTest extends TestCase {
     for (final PatternRule rule : rules) {
       for (final Element element : rule.getElements()) {
         if (!element.isRegularExpression()
-            && (element.getString()
-                .matches(".*([\\[\\]\\*\\+\\|\\^]|\\(.+\\)|\\[.+\\]|\\{.+\\}).*"))) {
+            && (PROBABLE_REGEX.matcher(element.getString())
+                .matches())) {
           System.err.println("The " + lang.toString() + " rule: "
               + rule.getId() + " contains element " + "\"" + element
               + "\" that is not marked as regular expression"
               + " but probably is one.");
         }
         if (element.isRegularExpression()
-            && (element.getString() == null || (!element.getString().matches(
-                ".*([\\[\\]\\*\\+\\|\\^]|\\(.+\\)|\\[.+\\]|\\{.+\\}).*")))) {
+            && (element.getString() == null || (!PROBABLE_REGEX.matcher(element.getString())
+                .matches()))) {
           System.err.println("The " + lang.toString() + " rule: "
               + rule.getId() + " contains element " + "\"" + element
               + "\" that is marked as regular expression"

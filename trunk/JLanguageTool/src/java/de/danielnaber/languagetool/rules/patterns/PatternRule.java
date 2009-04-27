@@ -77,6 +77,7 @@ public class PatternRule extends Rule {
    * operation on phraserefs).
    **/
   private boolean isMemberOfDisjunctiveSet;
+  private boolean prevMatched;
 
   /**
    * @param id
@@ -248,7 +249,7 @@ public class PatternRule extends Rule {
       }
       if (patternElement.isInflected()) {
         sb.append(" inflected=\"yes\"");
-      }      
+      }
       sb.append(">");
       if (patternElement.getString() != null) {
         sb.append(StringTools.escapeXML(patternElement.getString()));
@@ -291,27 +292,15 @@ public class PatternRule extends Rule {
     this.endPosCorr = endPositionCorrection;
   }
 
-  // TODO: divide this lengthy method into shorter ones!
   @Override
   public final RuleMatch[] match(final AnalyzedSentence text)
       throws IOException {
     final List<RuleMatch> ruleMatches = new ArrayList<RuleMatch>();
     final AnalyzedTokenReadings[] tokens = text.getTokensWithoutWhitespace();
     final int[] tokenPositions = new int[tokens.length + 1];
-    int prevSkipNext = 0;
-    int skipNext = 0;
-    int matchPos = 0;
-    int skipShift = 0;
-    // this variable keeps the total number
-    // of tokens skipped - used to avoid
-    // that nextPos gets back to unmatched tokens...
-    int skipShiftTotal = 0;
-    int firstMatchToken = -1;
-    int lastMatchToken = -1;
     final int patternSize = patternElements.size();
-    Element elem = null, prevElement = null;
+    Element elem = null;
     final boolean sentStart = patternElements.get(0).isSentStart();
-    language.getUnifier().reset();
     for (int i = 0; i < tokens.length; i++) {
       // stop processing if rule is longer than the sentence
       // or stop looking for sent_start
@@ -319,70 +308,49 @@ public class PatternRule extends Rule {
         break;
       }
       boolean allElementsMatch = false;
+      int firstMatchToken = -1;
+      int lastMatchToken = -1;
       int matchingTokens = 0;
+      int prevSkipNext = 0;
+      // this variable keeps the total number
+      // of tokens skipped
+      int skipShiftTotal = 0;
+      language.getUnifier().reset();
       for (int k = 0; k < patternSize; k++) {
-        prevElement = elem;
+        final Element prevElement = elem;
         elem = patternElements.get(k);
-        skipNext = translateElementNo(elem.getSkipNext());
+        setupRef(firstMatchToken, elem, tokens);
+        final int skipNext = translateElementNo(elem.getSkipNext());
         final int nextPos = i + k + skipShiftTotal;
         if (nextPos >= tokens.length) {
           allElementsMatch = false;
           break;
         }
-        boolean thisMatched = false, prevMatched = false;
-        boolean exceptionMatched = false;
+        prevMatched = false;
         if (prevSkipNext + nextPos >= tokens.length || prevSkipNext < 0) { // SENT_END?
           prevSkipNext = tokens.length - (nextPos + 1);
         }
         for (int m = nextPos; m <= nextPos + prevSkipNext; m++) {
-          final int numberOfReadings = tokens[m].getReadingsLength();
-          for (int l = 0; l < numberOfReadings; l++) {
-            final boolean lastReading = l + 1 == numberOfReadings;
-            final AnalyzedToken matchToken = tokens[m].getAnalyzedToken(l);
-            prevMatched |= prevSkipNext > 0 && prevElement != null
-                && prevElement.isMatchedByScopeNextException(matchToken);
-            if (elem.isReferenceElement()) {
-              setupRef(firstMatchToken, elem, tokens);
-            }
-            setupAndGroup(l, firstMatchToken, elem, tokens);
-            thisMatched |= elem.isMatchedCompletely(matchToken);
-            thisMatched &= testUnification(thisMatched, lastReading, 
-                matchToken, elem);
-            if (lastReading) {
-              thisMatched &= elem.checkAndGroup(thisMatched);
-            }
-            exceptionMatched |= elem.isExceptionMatchedCompletely(matchToken);
-            if (!exceptionMatched && m > 0 && elem.hasPreviousException()) {
-              exceptionMatched |= elem.
-                isMatchedByPreviousException(tokens[m - 1]);
-            }
-            if (thisMatched) {
-              matchPos = m;
-              skipShift = matchPos - nextPos;
-              tokenPositions[matchingTokens] = skipShift + 1;
-            }
-            allElementsMatch = (allElementsMatch || thisMatched) && !(exceptionMatched || prevMatched);
-          }
-          // disallow exceptions that should match only current tokens
-          exceptionMatched &= thisMatched;
-          allElementsMatch &= thisMatched;
+          allElementsMatch = testAllReadings(tokens, elem, prevElement, m,
+              firstMatchToken, prevSkipNext);
           if (allElementsMatch) {
+            lastMatchToken = m;
+            final int skipShift = lastMatchToken - nextPos;
+            tokenPositions[matchingTokens] = skipShift + 1;
+            prevSkipNext = skipNext;
+            matchingTokens++;
+            skipShiftTotal += skipShift;
+            if (firstMatchToken == -1) {
+              firstMatchToken = lastMatchToken;
+            }
             break;
           }
         }
-        if (allElementsMatch) {
-          prevSkipNext = skipNext;
-          matchingTokens++;
-          lastMatchToken = matchPos;
-          if (firstMatchToken == -1) {
-            firstMatchToken = matchPos;
-          }
-          skipShiftTotal += skipShift;
-        } else {
+        if (!allElementsMatch) {
           break;
         }
       }
-      //FIXME: this might be probably removed
+      // FIXME: this might be probably removed
       if (firstMatchToken + matchingTokens >= tokens.length) {
         matchingTokens = tokens.length - firstMatchToken;
       }
@@ -396,17 +364,36 @@ public class PatternRule extends Rule {
           ruleMatches.add(rM);
         }
       }
-      firstMatchToken = -1;
-      lastMatchToken = -1;
-      skipShiftTotal = 0;
-      prevSkipNext = 0;
-      language.getUnifier().reset();
     }
     return ruleMatches.toArray(new RuleMatch[ruleMatches.size()]);
   }
 
-  private boolean testUnification(final boolean matched, final boolean lastReading,
-      final AnalyzedToken matchToken, final Element elem) {
+  private boolean testAllReadings(final AnalyzedTokenReadings[] tokens,
+      final Element elem, final Element prevElement, final int tokenNo,
+      final int firstMatchToken, final int prevSkipNext) {
+    boolean exceptionMatched = false;
+    boolean thisMatched = false;
+    final int numberOfReadings = tokens[tokenNo].getReadingsLength();
+    for (int l = 0; l < numberOfReadings; l++) {
+      final AnalyzedToken matchToken = tokens[tokenNo].getAnalyzedToken(l);
+      prevMatched |= prevSkipNext > 0 && prevElement != null
+          && prevElement.isMatchedByScopeNextException(matchToken);
+      setupAndGroup(l, firstMatchToken, elem, tokens);
+      thisMatched |= elem.isMatchedCompletely(matchToken);
+      thisMatched &= testUnificationAndGroups(thisMatched,
+          l + 1 == numberOfReadings, matchToken, elem);
+      exceptionMatched |= elem.isExceptionMatchedCompletely(matchToken);
+    }
+    if (!exceptionMatched && tokenNo > 0 && elem.hasPreviousException()) {
+      exceptionMatched |= elem
+          .isMatchedByPreviousException(tokens[tokenNo - 1]);
+    }
+    return thisMatched && !(exceptionMatched || prevMatched);
+  }
+
+  private boolean testUnificationAndGroups(final boolean matched,
+      final boolean lastReading, final AnalyzedToken matchToken,
+      final Element elem) {
     boolean thisMatched = matched;
     if (matched && elem.isUnified()) {
       thisMatched &= language.getUnifier().isUnified(matchToken,
@@ -416,11 +403,14 @@ public class PatternRule extends Rule {
     if (!elem.isUnified()) {
       language.getUnifier().reset();
     }
+    if (lastReading) {
+      thisMatched &= elem.checkAndGroup(thisMatched);
+    }
     return thisMatched;
   }
 
-  private void setupAndGroup(final int readNo, final int firstMatchToken, final Element elem,
-      final AnalyzedTokenReadings[] tokens) {
+  private void setupAndGroup(final int readNo, final int firstMatchToken,
+      final Element elem, final AnalyzedTokenReadings[] tokens) {
     if (elem.hasAndGroup()) {
       for (final Element andElement : elem.getAndGroup()) {
         if (andElement.isReferenceElement()) {
@@ -430,14 +420,16 @@ public class PatternRule extends Rule {
       if (readNo == 0) {
         elem.setupAndGroup();
       }
-    } 
+    }
   }
-  
+
   private void setupRef(final int firstMatchToken, final Element elem,
       final AnalyzedTokenReadings[] tokens) {
-    final int refPos = firstMatchToken + elem.getMatch().getTokenRef();
-    if (refPos < tokens.length) {
-      elem.compile(tokens[refPos], language.getSynthesizer());
+    if (elem.isReferenceElement()) {
+      final int refPos = firstMatchToken + elem.getMatch().getTokenRef();
+      if (refPos < tokens.length) {
+        elem.compile(tokens[refPos], language.getSynthesizer());
+      }
     }
   }
 
@@ -505,7 +497,8 @@ public class PatternRule extends Rule {
     if (suggestionMatches != null && !suggestionMatches.isEmpty()) {
       final int sugStart = message.indexOf(SUGG_TAG) + SUGG_TAG.length();
       int i = 0;
-      while (i <= suggestionMatches.size() && suggestionMatches.get(i).isInMessageOnly()) {
+      while (i <= suggestionMatches.size()
+          && suggestionMatches.get(i).isInMessageOnly()) {
         i++;
       }
       convertsCase = suggestionMatches.get(i).convertsCase()
