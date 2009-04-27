@@ -298,7 +298,6 @@ public class PatternRule extends Rule {
     final List<RuleMatch> ruleMatches = new ArrayList<RuleMatch>();
     final AnalyzedTokenReadings[] tokens = text.getTokensWithoutWhitespace();
     final int[] tokenPositions = new int[tokens.length + 1];
-    int tokenPos = 0;
     int prevSkipNext = 0;
     int skipNext = 0;
     int matchPos = 0;
@@ -314,40 +313,34 @@ public class PatternRule extends Rule {
     final boolean sentStart = patternElements.get(0).isSentStart();
     language.getUnifier().reset();
     for (int i = 0; i < tokens.length; i++) {
-      boolean allElementsMatch = true;
       // stop processing if rule is longer than the sentence
-      // or stop looking for sent_start - it will never match any token except
-      // the first
+      // or stop looking for sent_start
       if (patternSize + i > tokens.length || sentStart && i > 0) {
-        allElementsMatch = false;
         break;
       }
+      boolean allElementsMatch = false;
       int matchingTokens = 0;
       for (int k = 0; k < patternSize; k++) {
         prevElement = elem;
         elem = patternElements.get(k);
         skipNext = translateElementNo(elem.getSkipNext());
-        final int nextPos = tokenPos + k + skipShiftTotal;
+        final int nextPos = i + k + skipShiftTotal;
         if (nextPos >= tokens.length) {
           allElementsMatch = false;
           break;
         }
-        boolean skipMatch = false, thisMatched = false, prevMatched = false;
+        boolean thisMatched = false, prevMatched = false;
         boolean exceptionMatched = false;
         if (prevSkipNext + nextPos >= tokens.length || prevSkipNext < 0) { // SENT_END?
           prevSkipNext = tokens.length - (nextPos + 1);
         }
         for (int m = nextPos; m <= nextPos + prevSkipNext; m++) {
-          boolean matched = false;
           final int numberOfReadings = tokens[m].getReadingsLength();
           for (int l = 0; l < numberOfReadings; l++) {
             final boolean lastReading = l + 1 == numberOfReadings;
             final AnalyzedToken matchToken = tokens[m].getAnalyzedToken(l);
-            if (prevSkipNext > 0 && prevElement != null
-                && prevElement.isMatchedByScopeNextException(matchToken)) {
-              exceptionMatched = true;
-              prevMatched = true;
-            }
+            prevMatched |= prevSkipNext > 0 && prevElement != null
+                && prevElement.isMatchedByScopeNextException(matchToken);
             if (elem.isReferenceElement()) {
               setupRef(firstMatchToken, elem, tokens);
             }
@@ -355,7 +348,7 @@ public class PatternRule extends Rule {
             thisMatched |= elem.isMatchedCompletely(matchToken);
             thisMatched &= testUnification(thisMatched, lastReading, 
                 matchToken, elem);
-            if (lastReading && elem.hasAndGroup()) {
+            if (lastReading) {
               thisMatched &= elem.checkAndGroup(thisMatched);
             }
             exceptionMatched |= elem.isExceptionMatchedCompletely(matchToken);
@@ -363,26 +356,21 @@ public class PatternRule extends Rule {
               exceptionMatched |= elem.
                 isMatchedByPreviousException(tokens[m - 1]);
             }
-            // Logical OR (cannot be AND):
-            if (thisMatched || exceptionMatched) {
-              matched = true;
+            if (thisMatched) {
               matchPos = m;
               skipShift = matchPos - nextPos;
               tokenPositions[matchingTokens] = skipShift + 1;
             }
-            skipMatch = (skipMatch || matched) && !exceptionMatched;
+            allElementsMatch = (allElementsMatch || thisMatched) && !(exceptionMatched || prevMatched);
           }
           // disallow exceptions that should match only current tokens
-          if (!(thisMatched || prevMatched)) {
-            exceptionMatched = false;
-            skipMatch = false;
-          }
-          if (skipMatch) {
+          exceptionMatched &= thisMatched;
+          allElementsMatch &= thisMatched;
+          if (allElementsMatch) {
             break;
           }
         }
-        allElementsMatch = skipMatch;
-        if (skipMatch) {
+        if (allElementsMatch) {
           prevSkipNext = skipNext;
           matchingTokens++;
           lastMatchToken = matchPos;
@@ -391,12 +379,9 @@ public class PatternRule extends Rule {
           }
           skipShiftTotal += skipShift;
         } else {
-          prevSkipNext = 0;
-          skipShiftTotal = 0;
           break;
         }
       }
-      tokenPos++;
       //FIXME: this might be probably removed
       if (firstMatchToken + matchingTokens >= tokens.length) {
         matchingTokens = tokens.length - firstMatchToken;
@@ -414,6 +399,7 @@ public class PatternRule extends Rule {
       firstMatchToken = -1;
       lastMatchToken = -1;
       skipShiftTotal = 0;
+      prevSkipNext = 0;
       language.getUnifier().reset();
     }
     return ruleMatches.toArray(new RuleMatch[ruleMatches.size()]);
