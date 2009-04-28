@@ -63,8 +63,8 @@ Known bugs:
     about text which is actually correct
    
 TODO:
- -see if java.text.RuleBasedBreakIterator would be better for sentence and 
-  word tokenization than the current scheme (especially check performance)
+ -see if java.text.RuleBasedBreakIterator would be better for word 
+  tokenization than the current scheme (especially check performance)
  -see http://papyr.com/hypertextbooks/grammar/gramchek.htm
  -update languagetool.xml.update automatically (i.e. replace @version@)
  -add more redundancy rules, see e.g.

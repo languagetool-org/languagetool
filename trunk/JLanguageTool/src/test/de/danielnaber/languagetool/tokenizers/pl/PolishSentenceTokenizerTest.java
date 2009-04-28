@@ -22,13 +22,14 @@ package de.danielnaber.languagetool.tokenizers.pl;
 import junit.framework.TestCase;
 import de.danielnaber.languagetool.TestTools;
 import de.danielnaber.languagetool.tokenizers.SentenceTokenizer;
+import de.danielnaber.languagetool.tokenizers.SRXSentenceTokenizer;
 
 public class PolishSentenceTokenizerTest extends TestCase {
 
   // accept \n as paragraph:
-  private SentenceTokenizer stokenizer = new PolishSentenceTokenizer();
+  private SentenceTokenizer stokenizer = new SRXSentenceTokenizer("pl");
   // accept only \n\n as paragraph:
-  private SentenceTokenizer stokenizer2 = new PolishSentenceTokenizer();
+  private SentenceTokenizer stokenizer2 = new SRXSentenceTokenizer("pl");
 
   public final void setUp() {
     stokenizer.setSingleLineBreaksMarksParagraph(true);
@@ -36,6 +37,9 @@ public class PolishSentenceTokenizerTest extends TestCase {
   }
 
   public final void testTokenize() {
+    
+    testSplit(new String[] { "This is a sentence. " });
+    
     // NOTE: sentences here need to end with a space character so they
     // have correct whitespace when appended:
     testSplit(new String[] { "Dies ist ein Satz." });
@@ -43,15 +47,14 @@ public class PolishSentenceTokenizerTest extends TestCase {
     testSplit(new String[] { "Ein Satz! ", "Noch einer." });
     testSplit(new String[] { "Ein Satz... ", "Noch einer." });
     testSplit(new String[] { "Unter http://www.test.de gibt es eine Website." });
-    testSplit(new String[] { "Das Schreiben ist auf den 3.10. datiert." });
-    testSplit(new String[] { "Das Schreiben ist auf den 31.1. datiert." });
-    testSplit(new String[] { "Das Schreiben ist auf den 3.10.2000 datiert." });
+    testSplit(new String[] { "To się wydarzyło 3.10.2000 i mam na to dowody." });
 
+    testSplit(new String[] { "To było 13.12 - nikt nie zapomni tego przemówienia." });    
     testSplit(new String[] { "Heute ist der 13.12.2004." });
-    testSplit(new String[] { "Dziś jest 13. rocznica powstania wąchockiego." });
-    testSplit(new String[] { "To jest 1. wydanie." });
-    testSplit(new String[] { "Es geht am 24.09. los." });
     testSplit(new String[] { "To jest np. ten debil spod jedynki." });
+    testSplit(new String[] { "To jest 1. wydanie." });
+    testSplit(new String[] { "Dziś jest 13. rocznica powstania wąchockiego." });    
+ 
     testSplit(new String[] { "Das in Punkt 3.9.1 genannte Verhalten." });
 
     testSplit(new String[] { "To jest tzw. premier." });
@@ -85,6 +88,7 @@ public class PolishSentenceTokenizerTest extends TestCase {
     testSplit(new String[] { "This is a sentence.", "Isn't it?", "Yes, it is." });
 
     testSplit(new String[] { "Don't split strings like U. S. A. either." });
+    testSplit(new String[] { "Don't split strings like U.S.A. either." });
     testSplit(new String[] { "Don't split... ", "Well you know. ",
         "Here comes more text." });
     testSplit(new String[] { "Don't split... well you know. ",
@@ -135,10 +139,12 @@ public class PolishSentenceTokenizerTest extends TestCase {
     testSplit(new String[] { "Rytmem tej wiecznie przemijającej światowej egzystencji […] rytmem mesjańskiej natury jest szczęście." });
     // sic!
     testSplit(new String[] { "W gazecie napisali, że pasy (sic!) pogryzły człowieka." });
+    // Numbers with dots.
+    testSplit(new String[] { "Mam w magazynie dwie skrzynie LMD20. ", "Jestem żołnierzem i wiem, jak można ich użyć"});
   }
 
   public final void testSplit(final String[] sentences) {
-    TestTools.testSplit(sentences, stokenizer);
+    TestTools.testSplit(sentences, stokenizer2);
   }
 
 }
