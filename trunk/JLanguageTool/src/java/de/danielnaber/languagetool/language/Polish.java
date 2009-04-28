@@ -30,19 +30,15 @@ import de.danielnaber.languagetool.tagging.disambiguation.Disambiguator;
 import de.danielnaber.languagetool.tagging.disambiguation.pl.PolishHybridDisambiguator;
 import de.danielnaber.languagetool.tagging.pl.PolishTagger;
 import de.danielnaber.languagetool.tokenizers.SentenceTokenizer;
-//import de.danielnaber.languagetool.tokenizers.pl.PolishSentenceTokenizer;
-import de.danielnaber.languagetool.tokenizers.SRXSentenceTokenizer;
+import de.danielnaber.languagetool.tokenizers.pl.PolishSentenceTokenizer;
+// import de.danielnaber.languagetool.tokenizers.SRXSentenceTokenizer;
 
 public class Polish extends Language {
-  
+
   private Tagger tagger = new PolishTagger();
-  private SentenceTokenizer sentenceTokenizer; 
+  private SentenceTokenizer sentenceTokenizer = new PolishSentenceTokenizer(); // new SRXSentenceTokenizer("pl"); //
   private Disambiguator disambiguator = new PolishHybridDisambiguator();
   private Synthesizer synthesizer = new PolishSynthesizer();
-
-  public Polish() {
-    sentenceTokenizer = new SRXSentenceTokenizer("pl"); //new PolishSentenceTokenizer(); 
-  }
   
   private static final String[] COUNTRIES = {"PL"}; 
   

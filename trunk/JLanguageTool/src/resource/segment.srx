@@ -1,19 +1,16 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
+<srx version="2.0" xmlns="http://www.lisa.org/srx20" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.lisa.org/srx20 srx20.xsd">
 
-<srx version="2.0" xsi:schemaLocation="http://www.lisa.org/srx20 srx20.xsd"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.lisa.org/srx20">
-
-	<header segmentsubflows="yes" cascade="yes">
-		<formathandle type="start" include="no" />
-		<formathandle type="end" include="yes" />
-		<formathandle type="isolated" include="yes" />
+	<header cascade="yes" segmentsubflows="yes">
+		<formathandle include="no" type="start"/>
+		<formathandle include="yes" type="end"/>
+		<formathandle include="yes" type="isolated"/>
 	</header>
 
 	<body>
 
 		<languagerules>
-
-			<languagerule languagerulename="Polish">
+<languagerule languagerulename="Polish">
 
 				<rule break="no">
 					<beforebreak>\badw\.\s</beforebreak>
@@ -668,7 +665,7 @@
 					<beforebreak>\b[Pp]rzyp\.\s</beforebreak>
 					<afterbreak>.</afterbreak>
 				</rule>
-				<!--  EOS abbreviations -->
+				<!--   EOS abbreviations  -->
 				<rule break="no">
 					<beforebreak>\bproc\.\s</beforebreak>
 					<afterbreak>\p{Ll}</afterbreak>
@@ -701,7 +698,7 @@
 					<beforebreak>\bnn\.\s</beforebreak>
 					<afterbreak>\p{Ll}</afterbreak>
 				</rule>
-				<!--  EOS abbreviations for SKROTY_BEZ_KROPKI -->
+				<!--   EOS abbreviations for SKROTY_BEZ_KROPKI  -->
 				<rule break="no">
 					<beforebreak>\b[dm]l\.\s</beforebreak>
 					<afterbreak>\p{Ll}</afterbreak>
@@ -762,24 +759,24 @@
 					<beforebreak>\brkm\.\s</beforebreak>
 					<afterbreak>\p{Ll}</afterbreak>
 				</rule>				
-				<!--  liczebniki porządkowe -->
+				<!--   liczebniki porządkowe  -->
 				<rule break="no">
 					<beforebreak>\b\d+\.\s</beforebreak>
 					<afterbreak>\p{Ll}|\p{Lu}{2,}</afterbreak>
 				</rule>
-				<!-- daty dzienne 
+				<!--  daty dzienne 
 				<rule break="no">
 					<beforebreak>\d{1,2}\.\d{1,2}</beforebreak>
 					<afterbreak>.</afterbreak>
 				</rule>
-				-->
-				<!--  U. S. A. -->
+				 -->
+				<!--   U. S. A.  -->
 				<rule break="no">
 					<beforebreak>[^-\p{L}\p{S}\p{N}”]\p{L}\.\s</beforebreak>
 					<afterbreak>\p{L}\.\s</afterbreak>
 				</rule>
 				
-				<!--  U.S.A. #1 (abbrev2) -->	
+				<!--   U.S.A. #1 (abbrev2)  -->	
 				<rule break="no">
 					<beforebreak>[^-\p{L}\p{S}\p{N}]\p{L}\.</beforebreak>
 					<afterbreak>\p{L}\.</afterbreak>
@@ -789,18 +786,18 @@
 					<afterbreak>\p{Ll}</afterbreak>
 				</rule>
 								
-				<!--  single letters at EOS -->
+				<!--   single letters at EOS  -->
 				<rule break="no">			
 					<beforebreak>\s(?![rwn])\p{L}\.\s+</beforebreak>
 					<afterbreak>\p{Ll}\p{Ll}|\p{Lu}[\p{Punct}\p{Lu}]</afterbreak>
 				</rule>				
 				 
-				<!--  abbrev5 - "This is what she said!", I replied. -->		
+				<!--   abbrev5 - "This is what she said!", I replied.  -->		
 				<rule break="no">
 					<beforebreak>['"„][\.!?…]['"”]\s</beforebreak>
 					<afterbreak>.</afterbreak>
 				</rule>
-				<!--  abbrev6 - Jacek potwierdzi: "To powiedział!" i zmrużył oczy. -->
+				<!--   abbrev6 - Jacek potwierdzi: "To powiedział!" i zmrużył oczy.  -->
 				<rule break="no">
 					<beforebreak>["”']\s*</beforebreak>
 					<afterbreak>\s*\p{Ll}</afterbreak>
@@ -809,12 +806,12 @@
 					<beforebreak>[!?]+\) </beforebreak>
 					<afterbreak>\p{Ll}</afterbreak>
 				</rule>
-				<!--  I did it (!) again. -->	
+				<!--   I did it (!) again.  -->	
 				<rule break="no">
 					<beforebreak>[\p{Ps}][!?]+[\p{Pe}] </beforebreak>
 					<afterbreak>.</afterbreak>
 				</rule>
-				<!--  abbrev4: This is a... test -->
+				<!--   abbrev4: This is a... test  -->
 				<rule break="no">
 					<beforebreak>[\[\(]*\.\.\.[\]\)]* </beforebreak>
 					<afterbreak>\p{Ll}</afterbreak>
@@ -824,7 +821,7 @@
 					<afterbreak>\p{Ll}</afterbreak>
 				</rule>
 				
-				<!-- PAP  -->
+				<!--  PAP   -->
 				<rule break="yes">
 					<beforebreak>[\.!?…]['»\"”\)\]\}]?\u0002?\s</beforebreak>
 					<afterbreak>.</afterbreak>									
@@ -840,46 +837,45 @@
 				
 			</languagerule>
 
-			<languagerule languagerulename="English">
-				<rule break="no">
-					<beforebreak>\bMr\.\s</beforebreak>
-					<afterbreak>.</afterbreak>
-				</rule>
-			</languagerule>
+<languagerule languagerulename="English">
+<rule break="no">
+<beforebreak>\bMr\.\s</beforebreak>
+<afterbreak>.</afterbreak></rule>
+<rule>
+<beforebreak>[\.!?…]['»\"”\)\]\}]?\u0002?\s</beforebreak>
+<afterbreak>.</afterbreak></rule>
+</languagerule>
 
-			<languagerule languagerulename="ByLineBreak">
-				<rule break="yes">
-					<beforebreak>\n</beforebreak>
-					<afterbreak>.</afterbreak>
-				</rule>
-			</languagerule>
-
-			<languagerule languagerulename="ByTwoLineBreaks">
-				<rule break="yes">
-					<beforebreak>\n\s*\n[\t]*</beforebreak>
-					<afterbreak>.</afterbreak>
-				</rule>
-			</languagerule>
-
-			<languagerule languagerulename="Default">
-				<!--  Unicode paragraph end mark -->
+<languagerule languagerulename="Default">
+				<!--   Unicode paragraph end mark  -->
 				<rule break="yes">
 					<beforebreak>\u2029</beforebreak>
 					<afterbreak>.</afterbreak>
 				</rule>				
 			</languagerule>
 
-		</languagerules>
+<languagerule languagerulename="ByLineBreak">
+				<rule break="yes">
+					<beforebreak>\n</beforebreak>
+					<afterbreak>.</afterbreak>
+				</rule>
+			</languagerule>
+
+<languagerule languagerulename="ByTwoLineBreaks">
+				<rule break="yes">
+					<beforebreak>\n\s*\n[\t]*</beforebreak>
+					<afterbreak>.</afterbreak>
+				</rule>
+			</languagerule>
+</languagerules>
 
 		<maprules>
-			<languagemap languagepattern="(PL|pl).*"
-				languagerulename="Polish" />
-			<languagemap languagepattern="(EN|en).*"
-				languagerulename="English" />
-			<languagemap languagepattern=".*" languagerulename="Default" />
-			<languagemap languagepattern="[a-z]{2}_one" languagerulename="ByLineBreak" />
-			<languagemap languagepattern="[a-z]{2}_two" languagerulename="ByTwoLineBreaks" />
-		</maprules>
+<languagemap languagepattern="(PL|pl).*" languagerulename="Polish"/>
+<languagemap languagepattern="(EN|en).*" languagerulename="English"/>
+<languagemap languagepattern=".*" languagerulename="Default"/>
+<languagemap languagepattern="[a-z]{2}_one" languagerulename="ByLineBreak"/>
+<languagemap languagepattern="[a-z]{2}_two" languagerulename="ByTwoLineBreaks"/>
+</maprules>
 
 	</body>
 

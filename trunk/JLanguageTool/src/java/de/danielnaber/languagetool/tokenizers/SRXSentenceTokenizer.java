@@ -29,7 +29,7 @@ import net.sourceforge.segment.TextIterator;
 import net.sourceforge.segment.srx.SrxDocument;
 import net.sourceforge.segment.srx.SrxParser;
 import net.sourceforge.segment.srx.SrxTextIterator;
-import net.sourceforge.segment.srx.io.SrxAnyParser;
+import net.sourceforge.segment.srx.io.Srx2Parser;
 
 import de.danielnaber.languagetool.tools.Tools;
 
@@ -54,7 +54,7 @@ public class SRXSentenceTokenizer extends SentenceTokenizer {
     try {
       srxReader = new BufferedReader(new InputStreamReader(Tools
           .getStream(RULES), "utf-8"));
-      SrxParser srxParser = new SrxAnyParser();
+      SrxParser srxParser = new Srx2Parser();
       document = srxParser.parse(srxReader);
     } catch (UnsupportedEncodingException e) {
       // TODO Auto-generated catch block
