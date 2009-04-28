@@ -26,6 +26,12 @@ public class MainTest extends TestCase {
     assertEquals("1", paRes.aDocumentIdentifier);
     assertEquals(23, paRes.nStartOfNextSentencePosition);
     assertEquals(0, paRes.nStartOfSentencePosition);
+    //that was causing NPE but not anymore:
+    String testString2 = "To jest „nowy problem”. A to inny jeszcze( „problem. Co jest „?"; 
+    paRes = prog.doProofreading("1", testString2, plLoc, 0, testString2.length(), prop);
+    assertEquals("1", paRes.aDocumentIdentifier);
+    assertEquals(24, paRes.nStartOfNextSentencePosition);
+    assertEquals(0, paRes.nStartOfSentencePosition);
   }
 
 }
