@@ -383,20 +383,19 @@ public class Main extends WeakBase implements XJobExecutor,
     }
     if (paragraphMatches != null && !paragraphMatches.isEmpty()
         && docID.equals(this.docID)) {
-      final SingleProofreadingError[] errorArray = new SingleProofreadingError[paragraphMatches
-          .size()];
-      int i = 0;
+      final List<SingleProofreadingError> errorList = new ArrayList<SingleProofreadingError>(
+          paragraphMatches.size());
       for (final RuleMatch myRuleMatch : paragraphMatches) {
         final int startErrPos = myRuleMatch.getFromPos();
         final int endErrPos = myRuleMatch.getToPos();
         if (startErrPos >= startPos && startErrPos < endPos
             && endErrPos >= startPos && endErrPos < endPos) {
-          errorArray[i] = createOOoError(locale, myRuleMatch, 0);
-          i++;
+          errorList.add(createOOoError(locale, myRuleMatch, 0));
         }
       }
-      Arrays.sort(errorArray, new ErrorPositionComparator());
-      if (i > 0) {
+      if (!errorList.isEmpty()) {
+        SingleProofreadingError[] errorArray = errorList.toArray(new SingleProofreadingError[errorList.size()]);
+        Arrays.sort(errorArray, new ErrorPositionComparator());
         return errorArray;
       }
     }
