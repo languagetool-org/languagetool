@@ -95,8 +95,6 @@ the <?=show_link("Changelog", "download/CHANGES.txt", 0) ?>.</p>
 <li>LanguageTool installation fails if the name of your user account contains
 	special characters. The only workaround so far seems to be to use a different
 	user account. (Issue <a href="http://qa.openoffice.org/issues/show_bug.cgi?id=95162">95162</a>)</li>
-<li>Opening the spell checking dialog with grammar checking enabled and with a text
-	language not supported by OpenOffice.org causes a crash/freeze (<a href="http://qa.openoffice.org/issues/show_bug.cgi?id=95996">Issue 95996</a>)</li>
 <li>Did you restart OpenOffice.org - including the QuickStarter - after installation of LanguageTool? This is required,
 	even if OpenOffice.org doesn't say so. (<a href="http://qa.openoffice.org/issues/show_bug.cgi?id=88692">Issue 88692</a>)</li>
 <li>Make sure <a href="http://www.java.com/en/download/manual.jsp">Java 5.0 or later from Sun Microsystems</a>
