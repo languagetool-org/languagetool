@@ -119,16 +119,21 @@ public final class Main implements ActionListener {
     maybeStartServer();
   }
 
-  private void createGUI() {    
+  private void createGUI() {
     frame = new JFrame("LanguageTool " + JLanguageTool.VERSION);
-    final String version = System.getProperty("java.version");
-    if ("1.6.0_10".equals(version))   { //no newer version has it
-      try {
-      UIManager.setLookAndFeel("com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel");
-      } catch (Exception ex) {
-        // Well, what can we do...
+
+    try {
+      for (UIManager.LookAndFeelInfo info : UIManager
+          .getInstalledLookAndFeels()) {
+        if ("Nimbus".equals(info.getName())) {
+          UIManager.setLookAndFeel(info.getClassName());
+          break;
+        }
       }
+    } catch (Exception ex) {
+      // Well, what can we do...
     }
+
     frame.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
     frame.addWindowListener(new CloseListener());
     frame.setIconImage(new ImageIcon(this.getClass().getResource(
@@ -257,7 +262,7 @@ public final class Main implements ActionListener {
   void hideToTray() {
     final String version = System.getProperty("java.version");
     if (!isInTray && version.startsWith("1.5")) { // we don't run under <= 1.4,
-                                                  // so we don't check for that
+      // so we don't check for that
       TrayIcon trayIcon = null;
       try {
         trayIcon = new TrayIcon(SYSTEM_TRAY_ICON);
@@ -327,7 +332,7 @@ public final class Main implements ActionListener {
     final List<Rule> rules = langTool.getAllRules();
     final ConfigurationDialog configDialog = getCurrentConfigDialog();
     configDialog.show(rules); // this blocks until OK/Cancel is clicked in the
-                              // dialog
+    // dialog
     config.setDisabledRuleIds(configDialog.getDisabledRuleIds());
     config.setEnabledRuleIds(configDialog.getEnabledRuleIds());
     config.setDisabledCategoryNames(configDialog.getDisabledCategoryNames());
@@ -379,7 +384,7 @@ public final class Main implements ActionListener {
     } catch (final Exception ex) {
       ex.printStackTrace();
       if (data != null) {
-      s = data.toString();
+        s = data.toString();
       } else {
         s = "";
       }
@@ -483,10 +488,10 @@ public final class Main implements ActionListener {
       }
       final Set<String> enabledRules = configDialog.getEnabledRuleIds();
       if (enabledRules != null) {
-      for (String ruleName: enabledRules) {
-        langTool.enableDefaultOffRule(ruleName);
-        langTool.enableRule(ruleName);
-      }
+        for (String ruleName : enabledRules) {
+          langTool.enableDefaultOffRule(ruleName);
+          langTool.enableRule(ruleName);
+        }
       }
     } catch (final IOException ioe) {
       throw new RuntimeException(ioe);
@@ -505,7 +510,7 @@ public final class Main implements ActionListener {
     } else {
       final StringBuilder sb = new StringBuilder();
       final String startChecktext = Tools.makeTexti18n(messages,
-          "startChecking", new Object[]{lang.getTranslatedName(messages)});
+          "startChecking", new Object[] { lang.getTranslatedName(messages) });
       resultArea.setText(HTML_FONT_START + startChecktext + "<br>\n"
           + HTML_FONT_END);
       resultArea.repaint(); // FIXME: why doesn't this work?
@@ -524,7 +529,7 @@ public final class Main implements ActionListener {
         ex.printStackTrace();
       }
       final String checkDone = Tools.makeTexti18n(messages, "checkDone",
-          new Object[]{Integer.valueOf(matches)});
+          new Object[] { Integer.valueOf(matches) });
       sb.append(checkDone + "<br>\n");
       resultArea.setText(HTML_FONT_START + sb.toString() + HTML_FONT_END);
       resultArea.setCaretPosition(0);
@@ -539,9 +544,9 @@ public final class Main implements ActionListener {
     int i = 0;
     for (final RuleMatch match : ruleMatches) {
       final String output = Tools.makeTexti18n(messages, "result1",
-          new Object[]{Integer.valueOf(i + 1),
+          new Object[] { Integer.valueOf(i + 1),
               Integer.valueOf(match.getLine() + 1),
-              Integer.valueOf(match.getColumn())});
+              Integer.valueOf(match.getColumn()) });
       sb.append(output);
       String msg = match.getMessage();
       msg = msg.replaceAll("<suggestion>", "<b>");
@@ -563,9 +568,9 @@ public final class Main implements ActionListener {
       i++;
     }
     final long endTime = System.currentTimeMillis();
-    sb.append(Tools.makeTexti18n(messages, "resultTime", new Object[]{
+    sb.append(Tools.makeTexti18n(messages, "resultTime", new Object[] {
         Long.valueOf(endTime - startTime),
-        Long.valueOf(endTime - startTimeMatching)}));
+        Long.valueOf(endTime - startTimeMatching) }));
     return ruleMatches.size();
   }
 
@@ -666,10 +671,13 @@ public final class Main implements ActionListener {
 
     public void mouseEntered(MouseEvent e) {
     }
+
     public void mouseExited(MouseEvent e) {
     }
+
     public void mousePressed(MouseEvent e) {
     }
+
     public void mouseReleased(MouseEvent e) {
     }
 
@@ -683,14 +691,19 @@ public final class Main implements ActionListener {
 
     public void windowActivated(WindowEvent e) {
     }
+
     public void windowClosed(WindowEvent e) {
     }
+
     public void windowDeactivated(WindowEvent e) {
     }
+
     public void windowDeiconified(WindowEvent e) {
     }
+
     public void windowIconified(WindowEvent e) {
     }
+
     public void windowOpened(WindowEvent e) {
     }
 

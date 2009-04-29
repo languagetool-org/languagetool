@@ -612,14 +612,18 @@ public class Main extends WeakBase implements XJobExecutor,
       dt.start();
       return false;
     }
-    if ("1.6.0_10".equals(version)) { // no newer version has it
-      try {
-        UIManager
-            .setLookAndFeel("com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel");
-      } catch (Exception ex) {
-        // Well, what can we do...
+    try {
+      for (UIManager.LookAndFeelInfo info : UIManager
+          .getInstalledLookAndFeels()) {
+        if ("Nimbus".equals(info.getName())) {
+          UIManager.setLookAndFeel(info.getClassName());
+          break;
+        }
       }
+    } catch (Exception ex) {
+      // Well, what can we do...
     }
+    
     return true;
   }
 
