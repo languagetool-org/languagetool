@@ -51,11 +51,12 @@ public class SRXSentenceTokenizer extends SentenceTokenizer {
   public SRXSentenceTokenizer(final String language) {
     this.language = language;
 
-    try {
+    try {      
       srxReader = new BufferedReader(new InputStreamReader(Tools
-          .getStream(RULES), "utf-8"));
+          .getStream(RULES), "utf-8"));      
       SrxParser srxParser = new Srx2Parser();
       document = srxParser.parse(srxReader);
+      
     } catch (UnsupportedEncodingException e) {
       // TODO Auto-generated catch block
       e.printStackTrace();
