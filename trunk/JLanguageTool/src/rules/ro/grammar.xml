@@ -2642,6 +2642,157 @@ title="Easy editing stylesheet" ?>
 			<example type="correct"><marker>Genunchiul piciorului</marker> din față trebuie să cadă în dreptul degetelor de la picior.</example>
 		</rule>
 	</category>
+	<category name="CACOFONIE">
+		<rule id="CACOFONIE__CA" name="cacofonie: ...ca ca...">
+			<pattern case_sensitive="yes">
+				<token regexp="yes">.*ca|Ca|.*cî|.*că|Că|.*co<exception regexp="yes">Biserica|biserica|aortică</exception></token>
+				<token regexp="yes">ca.*|câ.*|că.*|co.*<exception regexp="yes">C.*</exception></token>
+			</pattern>
+			<message>Cacofonie: încercați să evitați astfel de formulări.</message>
+			<short>Cacofonie</short>
+			<example type="correct"><marker>Mica cetate</marker> este foarte frumoasă.</example>
+			<!--  <example type="incorrect"><marker>Biserica care</marker> se află după deal este nouă.</example>  -->
+			<example type="correct"><marker>Biserica catolică</marker> este foarte răspândită.</example>
+			<example type="incorrect"><marker>Mica carte</marker> este foarte frumoasă.</example>
+			<example type="incorrect"><marker>Mica cămilă</marker> este foarte frumoasă.</example>
+			<example type="incorrect">Această <marker>mică camilă</marker> este foarte frumoasă.</example>
+			<example type="incorrect">Aceasta este o <marker>politică care</marker> enervează electoratul.</example>
+			<example type="incorrect">Regret <marker>că colegii</marker> mei nu sunt de acord.</example>
+			<example type="correct">Regret că nu sunt de acord <marker>colegii mei</marker>. </example>
+			<example type="incorrect">De data asta <marker>pleca către</marker> exterior.</example>
+			<example type="incorrect"><marker>Ca consilier</marker> are noi responsabilități.</example>
+			<example type="correct">A studiat opera lui Ion <marker>Luca Caragiale</marker></example>
+		</rule>
+		<rule id="CACOFONIE__CU_RU" name="cacofonie: ...cu ru...">
+			<pattern>
+				<token regexp="yes">.*cu</token> 
+				<token regexp="yes">ru.*</token>
+			</pattern>
+			<message>Cacofonie: încercați să evitați astfel de formulări.</message>
+			<short>Cacofonie</short>
+			<example type="incorrect">Am venit <marker>cu rugămintea</marker> de a-mi motiva absențele. </example>
+			<example type="correct">Am venit <marker>cu o rugăminte</marker> de a-mi motiva absențele. </example>
+		</rule>
+		<rule id="CACOFONIE__CU_CU" name="cacofonie: ...cu cu...">
+			<pattern>
+				<token regexp="yes">.*cu</token> 
+				<token regexp="yes">cu.*</token>
+			</pattern>
+			<message>Cacofonie: încercați să evitați astfel de formulări.</message>
+			<short>Cacofonie</short>
+			<example type="incorrect">Mă privește <marker>cu curiozitate</marker>.</example>
+			<example type="correct">Mă privește <marker>cu vădită curiozitate</marker>.</example>
+		</rule>
+		<rule id="CACOFONIE__CI_CI" name="cacofonie: ...ci ci...">
+			<pattern>
+				<token regexp="yes">.*ci|.*ca</token> 
+				<token regexp="yes">ci.*</token>
+			</pattern>
+			<message>Cacofonie: încercați să evitați astfel de formulări.</message>
+			<short>Cacofonie</short>
+			<example type="incorrect">Nu a fost el <marker>ci cineva</marker> din afară.</example>
+			<example type="correct">Nu a fost el <marker>ci o persoană</marker> din afară.</example>
+			<example type="incorrect">Trebuie <marker>ca cineva</marker> să răspundă.</example>
+		</rule>
+		<rule id="CACOFONIE__LA" name="cacofonie: ...la la...">
+			<pattern>
+				<token regexp="yes">.*la</token>
+				<token regexp="yes">la.*</token>
+			</pattern>
+			<message>Cacofonie: încercați să evitați astfel de formulări.</message>
+			<short>Cacofonie</short>
+			<example type="incorrect">Astăzi facem ora de chimie <marker>la laborator</marker>.</example>
+			<example type="correct">Astăzi facem ora de chimie <marker>în laborator</marker>.</example>
+		</rule>
+		<rule id="CACOFONIE__VA" name="cacofonie: ...va va...">
+			<pattern>
+				<token regexp="yes">.*va</token>
+				<token regexp="yes">va.*</token>
+			</pattern>
+			<message>Cacofonie: încercați să evitați astfel de formulări.</message>
+			<short>Cacofonie</short>
+			<example type="incorrect"><marker>Undeva valea</marker> se îngusta.</example>
+			<example type="correct"><marker>Undeva se îngusta valea</marker>.</example>
+		</rule>
+		<rule id="CACOFONIE__PUL_A" name="cacofonie: ...pul a...">
+			<pattern>
+				<token regexp="yes">.*pul</token>
+				<token regexp="yes">a.*</token>
+			</pattern>
+			<message>Cacofonie: încercați să evitați astfel de formulări.</message>
+			<short>Cacofonie</short>
+			<example type="incorrect">Cu <marker>timpul a</marker> înțeles  toate problemele.</example>
+			<example type="correct"><marker>In timp, a</marker> înțeles toate problemele.</example>
+			<example type="incorrect">În <marker>timpul acesta</marker> vorbea profesorul.</example>
+			<example type="correct"><marker>În acest timp</marker>, vorbea profesorul.</example>
+			<example type="incorrect"><marker>Tipul acela</marker> nu-mi place.</example>
+			<example type="correct"><marker>Acel tip</marker> nu-mi place.</example>
+		</rule>
+		<rule id="CACOFONIE__TA_TA" name="cacofonie: ...ta ta...">
+			<pattern>
+				<token regexp="yes">.*ta</token>
+				<token regexp="yes">ta.*</token>
+			</pattern>
+			<message>Cacofonie: încercați să evitați astfel de formulări.</message>
+			<short>Cacofonie</short>
+			<example type="incorrect"><marker>Fata ta</marker> nu este aici.</example>
+			<example type="correct">A <marker>ta fată</marker> nu este aici.</example>
+		</rule>
+		<rulegroup id="CACOFONIE__MA_MA" name="cacofonie: ...ma ma...">
+			<rule>
+				<pattern>
+					<token regexp="yes">.*ma</token>
+					<token regexp="yes">ma.*</token>
+				</pattern>
+				<message>Cacofonie: încercați să evitați astfel de formulări.</message>
+				<short>Cacofonie</short>
+				<example type="incorrect">A plecat și <marker>ultima mașină</marker>.</example>
+				<example type="correct">A plecat și <marker>ultima dintre mașini</marker>.</example>
+			</rule>
+			<rule>
+				<pattern>
+					<token regexp="yes">.*mă</token>
+					<token regexp="yes">mă.*</token>
+				</pattern>
+				<message>Cacofonie: încercați să evitați astfel de formulări.</message>
+				<short>Cacofonie</short>
+				<example type="incorrect">A luat o <marker>ultimă măsură</marker>.</example>
+				<example type="correct">A luat <marker>încă o măsură, ultima</marker>.</example>
+			</rule>
+		</rulegroup>
+		<rule id="CACOFONIE__DE" name="cacofonie: ...de de...">
+			<pattern>
+				<token regexp="yes">.*de</token>
+				<token regexp="yes">de.*</token>
+			</pattern>
+			<message>Cacofonie: încercați să evitați astfel de formulări.</message>
+			<short>Cacofonie</short>
+			<example type="incorrect">Știu <marker>unde depune</marker> Maria cererea.</example>
+			<example type="correct">Știu <marker>unde Maria depune</marker> cererea.</example>
+		</rule>
+		<rulegroup  id="CACOFONIE__BA" name="cacofonie: ...bă bă...">
+			<rule>
+				<pattern>
+					<token regexp="yes">.*bă</token>
+					<token regexp="yes">bă.*</token>
+				</pattern>
+				<message>Cacofonie: încercați să evitați astfel de formulări.</message>
+				<short>Cacofonie</short>
+				<example type="incorrect">O <marker>babă bătea</marker> cânepa.</example>
+				<example type="correct">O <marker>babă</marker> cânepa bătea.</example>
+			</rule>
+			<rule>
+				<pattern>
+					<token regexp="yes">.*ba</token>
+					<token regexp="yes">ba.*</token>
+				</pattern>
+				<message>Cacofonie: încercați să evitați astfel de formulări.</message>
+				<short>Cacofonie</short>
+				<example type="incorrect"><marker>Roaba bate</marker> pisica.</example>
+				<example type="correct"><marker>Roaba aceea bate</marker> pisica.</example>
+			</rule>
+		</rulegroup>
+	</category>
 
 	<category name="Acordul încrucișat">
 		<rulegroup id="AL_CARUI_PRIETENUL__CAINE" name="(Sms) + al cărui + (Sms)">
