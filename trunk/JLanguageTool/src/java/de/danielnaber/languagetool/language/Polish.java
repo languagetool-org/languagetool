@@ -18,8 +18,6 @@
  */
 package de.danielnaber.languagetool.language;
 
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.util.HashSet;
 import java.util.Locale;
 import java.util.Set;
@@ -38,20 +36,12 @@ import de.danielnaber.languagetool.tokenizers.SRXSentenceTokenizer;
 public class Polish extends Language {
 
   private final Tagger tagger = new PolishTagger();
-  private SentenceTokenizer sentenceTokenizer;  
+  private final SentenceTokenizer sentenceTokenizer = new SRXSentenceTokenizer("pl"); // new PolishSentenceTokenizer(); //;  
   private final Disambiguator disambiguator = new PolishHybridDisambiguator();
   private final Synthesizer synthesizer = new PolishSynthesizer();
   
   private static final String[] COUNTRIES = {"PL"}; 
-  
-  public Polish() {    
-    try {
-      sentenceTokenizer = new SRXSentenceTokenizer("pl"); // new PolishSentenceTokenizer(); //
-    } catch (Throwable t){
-      //
-    }
-  }
-  
+    
   @Override
   public Locale getLocale() {
     return new Locale(getShortName());
