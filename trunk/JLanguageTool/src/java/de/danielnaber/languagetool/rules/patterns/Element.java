@@ -693,9 +693,9 @@ public class Element {
    * Element is supposed to refer to some other token).
    * 
    * @param token
-   * @AnalyzedTokenReadings - the token
+   *  the token specified as {@link #AnalyzedTokenReadings} 
    * @param synth
-   * @Syntesizer - the language synthesizer
+   *  the language synthesizer ({@link #Syntesizer}) 
    * 
    */
   public final void compile(final AnalyzedTokenReadings token,
