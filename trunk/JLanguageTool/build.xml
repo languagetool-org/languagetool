@@ -2,647 +2,525 @@
 
 <project name="LanguageTool" default="dist" basedir=".">
 
-<tstamp>
-  <format property="date" pattern="yyyy-MM-dd"/>
-</tstamp>
-	
-  <property file="build.properties"/>
+	<tstamp>
+		<format property="date" pattern="yyyy-MM-dd" />
+	</tstamp>
 
-  <property name="javadoctitle" value="LanguageTool API ${version}"/>
+	<property file="build.properties" />
 
-  <taskdef classpath="${ext.cobertura.lib}" resource="tasks.properties"/>
+	<property name="javadoctitle" value="LanguageTool API ${version}" />
 
-  <path id="common.classpath">
-    <pathelement location="${ext.stempelator.lib}"/>
-    <pathelement location="${ext.jdic.lib}"/>
-    <pathelement location="${ext.jaminid.lib}"/>
-    <pathelement location="${ext.jwordsplitter.lib}"/>
-  	<pathelement location="${ext.logging.lib}"/>
-  	<pathelement location="${ext.loomchild.util.lib}"/>
-  	<pathelement location="${ext.segment.lib}"/>
-  	<!-- -->
-    <pathelement location="${ext.ooo.juh.lib}"/>
-    <pathelement location="${ext.ooo.unoil.lib}"/>
-    <pathelement location="${ext.ooo.ridl.lib}"/>
-    <pathelement location="${ext.ooo.jurt.lib}"/>
-	<!-- -->
-    <pathelement location="${dist.dir}/resource"/>
-    <pathelement location="${dist.dir}/rules"/>
-  </path>
+	<taskdef classpath="${ext.cobertura.lib}" resource="tasks.properties" />
 
-  <path id="classpath">
-  	<path refid="common.classpath"/>
-    <pathelement location="${build.classes}"/>
-  </path>
-
-  <path id="ooo.classpath">
-    <path refid="common.classpath"/>
-    <pathelement location="${ext.ooo.juh.lib}"/>
-    <pathelement location="${ext.ooo.unoil.lib}"/>
-    <pathelement location="${ext.ooo.ridl.lib}"/>
-    <pathelement location="${ext.ooo.jurt.lib}"/>
-    <pathelement location="${dist.dir}/${final.name}.jar"/>
-    <pathelement path="${java.class.path}"/>
-  </path>
-
-  <path id="junit.classpath">
-  	<path refid="common.classpath"/>
-    <pathelement location="${ext.junit.lib}"/>
-    <pathelement location="${dist.dir}/${final.name}.jar"/>
-  	<pathelement location="${dist.dir}/LanguageTool.uno.jar"/>
-    <pathelement path="${java.class.path}"/>
-  </path>
- 
-	
-  <!-- ================================================================== -->
-  <!-- CLEAN -->
-  <!-- ================================================================== -->
-  <target name="clean">
-    <delete dir="${test.dir}"/>
-    <delete dir="${build.dir}"/>
-    <delete dir="${dist.dir}"/>
-    <delete dir="${junit.classes.dir}"/>
-  </target>
-
-  <!-- ================================================================== -->
-  <!-- Prepares the build & dist directory -->
-  <!-- ================================================================== -->
-  <target name="init">
-  	<echo>${ant.version}</echo>
-    <mkdir dir="${build.dir}"/>
-    <mkdir dir="${build.classes}"/>
-    <mkdir dir="${build.meta-inf}"/>
-    <mkdir dir="${dist.dir}"/>
-    <mkdir dir="${dist.dir}/linux"/>
-    <mkdir dir="${dist.dir}/windows"/>
-    <mkdir dir="${dist.dir}/sunos"/>
-    <mkdir dir="${dist.dir}/mac"/>
-  </target>
-
-  <!-- ================================================================== -->
-  <!-- TEST -->
-  <!-- ================================================================== -->
-
-  <target name="test" depends="clean,init,build,ooo-build" description="Runs unit tests">
-  	
-	<mkdir dir="${junit.classes.dir}"/>
-	<mkdir dir="${dist.dir}/report/tests"/>
-
-	<javac encoding="${encoding}"
-		srcdir="${src.test.dir}"
-		includes="**/*Test.java"
-		destdir="${junit.classes.dir}"
-		target="${target}"
-		debug="${debug}">
-			<classpath refid="junit.classpath"/>
-   	</javac>
-  	
-	<!-- make sure that no classes where left in the build directory, clean it up -->
-	<delete dir="${build.dir}"/>
-	
-	<path id="test.classpath">
-		<pathelement location="${src.dir}"/>
-		<pathelement location="${ext.junit.lib}"/>
-		<pathelement location="${junit.classes.dir}"/>
-		<pathelement location="${dist.dir}/LanguageTool.uno.jar"/>
-		<pathelement location="${src.test.dir}"/>
-	  	<path refid="common.classpath"/>
+	<path id="common.classpath">
+		<pathelement location="${ext.stempelator.lib}" />
+		<pathelement location="${ext.jdic.lib}" />
+		<pathelement location="${ext.jaminid.lib}" />
+		<pathelement location="${ext.jwordsplitter.lib}" />
+		<pathelement location="${ext.logging.lib}" />
+		<pathelement location="${ext.loomchild.util.lib}" />
+		<pathelement location="${ext.segment.lib}" />
+		<!-- -->
+		<pathelement location="${ext.ooo.juh.lib}" />
+		<pathelement location="${ext.ooo.unoil.lib}" />
+		<pathelement location="${ext.ooo.ridl.lib}" />
+		<pathelement location="${ext.ooo.jurt.lib}" />
+		<!-- -->
+		<pathelement location="${dist.dir}/resource" />
+		<pathelement location="${dist.dir}/rules" />
 	</path>
-	
-  	<junit printsummary="true"
-           failureproperty="tests.failed"
-           showoutput="true" maxmemory="128M"
-           fork="yes" forkmode="once" haltonfailure="false">
-	  
-      <formatter type="brief" usefile="false"/>
-      <classpath refid="test.classpath"/>
-      
-	  <batchtest fork="yes" todir="${dist.dir}/report/tests" unless="testcase" haltonfailure="no">
-		<fileset dir="${src.test.dir}" includes="**/*Test.java" />
-	  </batchtest>
-      <batchtest fork="yes" todir="${dist.dir}/report/tests" if="testcase" haltonfailure="no">
-		<fileset dir="${src.test.dir}" includes="**/${testcase}.java"/>
-	  </batchtest>		
-		
-	</junit>
 
-    <fail if="tests.failed">Tests failed!</fail>
+	<path id="classpath">
+		<path refid="common.classpath" />
+		<pathelement location="${build.classes}" />
+	</path>
 
-  </target>
+	<path id="ooo.classpath">
+		<path refid="common.classpath" />
+		<pathelement location="${ext.ooo.juh.lib}" />
+		<pathelement location="${ext.ooo.unoil.lib}" />
+		<pathelement location="${ext.ooo.ridl.lib}" />
+		<pathelement location="${ext.ooo.jurt.lib}" />
+		<pathelement location="${dist.dir}/${final.name}.jar" />
+		<pathelement path="${java.class.path}" />
+	</path>
 
-  <!-- ================================================================== -->
+	<path id="junit.classpath">
+		<path refid="common.classpath" />
+		<pathelement location="${ext.junit.lib}" />
+		<pathelement location="${dist.dir}/${final.name}.jar" />
+		<pathelement location="${dist.dir}/LanguageTool.uno.jar" />
+		<pathelement path="${java.class.path}" />
+	</path>
 
-  <target name="test-coverage" depends="clean,init,dist" description="Checks unit test coverage">
-  	
-  	<echo>##### NOTE: log4j needs to be added to CLASSPATH manually! #####</echo>
 
-	<mkdir dir="${junit.classes.dir}"/>
-	<mkdir dir="${dist.dir}/report/tests"/>
+	<!-- ================================================================== -->
+	<!-- CLEAN -->
+	<!-- ================================================================== -->
+	<target name="clean">
+		<delete dir="${test.dir}" />
+		<delete dir="${build.dir}" />
+		<delete dir="${dist.dir}" />
+		<delete dir="${junit.classes.dir}" />
+	</target>
 
-	<javac encoding="${encoding}"
-		srcdir="${src.test.dir}"
-		includes="**/*Test.java"
-		destdir="${junit.classes.dir}"
-		target="${target}"
-		debug="${debug}">
-			<classpath refid="junit.classpath"/>
-   	</javac>
-	<javac encoding="${encoding}"
-		srcdir="${src.java.dir}"
-		includes="**/*.java"
-		destdir="${junit.classes.dir}"
-		target="${target}"
-		debug="${debug}">
-			<classpath refid="junit.classpath"/>
-   	</javac>
-  	<copy todir="${junit.classes.dir}/de/danielnaber/languagetool/">
-	  	<fileset dir="${src.java.dir}/de/danielnaber/languagetool/">
-	  		<include name="*.properties" />
-	  	</fileset>
-	</copy>
+	<!-- ================================================================== -->
+	<!-- Prepares the build & dist directory -->
+	<!-- ================================================================== -->
+	<target name="init">
+		<echo>${ant.version}</echo>
+		<mkdir dir="${build.dir}" />
+		<mkdir dir="${build.classes}" />
+		<mkdir dir="${build.meta-inf}" />
+		<mkdir dir="${dist.dir}" />
+		<mkdir dir="${dist.dir}/linux" />
+		<mkdir dir="${dist.dir}/windows" />
+		<mkdir dir="${dist.dir}/sunos" />
+		<mkdir dir="${dist.dir}/mac" />
+	</target>
 
-	<!-- make sure that no classes where left in the build directory, clean it up -->
-	<delete dir="${build.dir}"/>
-	
-	<path id="test.classpath">
-	  	<path refid="classpath"/>
-		<pathelement location="${ext.junit.lib}"/>
-		<pathelement location="${ext.cobertura.lib}"/>
-		<pathelement location="${ext.jakarta-oro.lib}"/>
-		<pathelement location="${ext.asm.lib}"/>
-		<pathelement location="${ext.getopt.lib}"/>
-		<pathelement location="${ext.ccl.lib}"/>
-		<pathelement location="${ext.javancss.lib}"/>
-		<pathelement location="${ext.log4j.lib}"/>
-		<pathelement location="${junit.instrumented-classes.dir}"/>
-		<pathelement location="${junit.classes.dir}"/>
-	</path>	
-	
-	<cobertura-instrument todir="${junit.instrumented-classes.dir}">
-		<classpath refid="test.classpath"/>
-	    <fileset dir="${junit.classes.dir}">
-    	    <include name="**/*.class"/>
-	    </fileset>
-	</cobertura-instrument>
+	<!-- ================================================================== -->
+	<!-- TEST -->
+	<!-- ================================================================== -->
 
-  	<junit printsummary="true"
-           errorproperty="tests.failed"
-           showoutput="true"
-           fork="yes" forkmode="once">
-	  
-      <formatter type="brief" usefile="true"/>
-      <formatter type="xml"/>
-      <classpath refid="test.classpath"/>
-      
-	  <batchtest fork="yes" todir="${dist.dir}/report/tests" unless="testcase" haltonfailure="no">
-		<fileset dir="${src.test.dir}" includes="**/*Test.java" />
-	  </batchtest>
-      <batchtest fork="yes" todir="${dist.dir}/report/tests" if="testcase" haltonfailure="yes">
-		<fileset dir="${src.test.dir}" includes="**/${testcase}.java"/>
-	  </batchtest>		
-		
-	</junit>
+	<target name="test" depends="clean,init,build,ooo-build" description="Runs unit tests">
 
-	<cobertura-report srcdir="${src.java.dir}" destdir="${dist.dir}/coverage">
-		<classpath refid="test.classpath"/>
-	</cobertura-report>
-    <echo>
+		<mkdir dir="${junit.classes.dir}" />
+		<mkdir dir="${dist.dir}/report/tests" />
+
+		<javac encoding="${encoding}" srcdir="${src.test.dir}" includes="**/*Test.java" destdir="${junit.classes.dir}" target="${target}" debug="${debug}">
+			<classpath refid="junit.classpath" />
+		</javac>
+
+		<!-- make sure that no classes where left in the build directory, clean it up -->
+		<delete dir="${build.dir}" />
+
+		<path id="test.classpath">
+			<pathelement location="${src.dir}" />
+			<pathelement location="${ext.junit.lib}" />
+			<pathelement location="${junit.classes.dir}" />
+			<pathelement location="${dist.dir}/LanguageTool.uno.jar" />
+			<pathelement location="${src.test.dir}" />
+			<path refid="common.classpath" />
+		</path>
+
+		<junit printsummary="true" failureproperty="tests.failed" showoutput="true" maxmemory="128M" fork="yes" forkmode="once" haltonfailure="false">
+
+			<formatter type="brief" usefile="false" />
+			<classpath refid="test.classpath" />
+
+			<batchtest fork="yes" todir="${dist.dir}/report/tests" unless="testcase" haltonfailure="no">
+				<fileset dir="${src.test.dir}" includes="**/*Test.java" />
+			</batchtest>
+			<batchtest fork="yes" todir="${dist.dir}/report/tests" if="testcase" haltonfailure="no">
+				<fileset dir="${src.test.dir}" includes="**/${testcase}.java" />
+			</batchtest>
+
+		</junit>
+
+		<fail if="tests.failed">Tests failed!</fail>
+
+	</target>
+
+	<!-- ================================================================== -->
+
+	<target name="test-coverage" depends="clean,init,dist" description="Checks unit test coverage">
+
+		<echo>##### NOTE: log4j needs to be added to CLASSPATH manually! #####</echo>
+
+		<mkdir dir="${junit.classes.dir}" />
+		<mkdir dir="${dist.dir}/report/tests" />
+
+		<javac encoding="${encoding}" srcdir="${src.test.dir}" includes="**/*Test.java" destdir="${junit.classes.dir}" target="${target}" debug="${debug}">
+			<classpath refid="junit.classpath" />
+		</javac>
+		<javac encoding="${encoding}" srcdir="${src.java.dir}" includes="**/*.java" destdir="${junit.classes.dir}" target="${target}" debug="${debug}">
+			<classpath refid="junit.classpath" />
+		</javac>
+		<copy todir="${junit.classes.dir}/de/danielnaber/languagetool/">
+			<fileset dir="${src.java.dir}/de/danielnaber/languagetool/">
+				<include name="*.properties" />
+			</fileset>
+		</copy>
+
+		<!-- make sure that no classes where left in the build directory, clean it up -->
+		<delete dir="${build.dir}" />
+
+		<path id="test.classpath">
+			<path refid="classpath" />
+			<pathelement location="${ext.junit.lib}" />
+			<pathelement location="${ext.cobertura.lib}" />
+			<pathelement location="${ext.jakarta-oro.lib}" />
+			<pathelement location="${ext.asm.lib}" />
+			<pathelement location="${ext.getopt.lib}" />
+			<pathelement location="${ext.ccl.lib}" />
+			<pathelement location="${ext.javancss.lib}" />
+			<pathelement location="${ext.log4j.lib}" />
+			<pathelement location="${junit.instrumented-classes.dir}" />
+			<pathelement location="${junit.classes.dir}" />
+		</path>
+
+		<cobertura-instrument todir="${junit.instrumented-classes.dir}">
+			<classpath refid="test.classpath" />
+			<fileset dir="${junit.classes.dir}">
+				<include name="**/*.class" />
+			</fileset>
+		</cobertura-instrument>
+
+		<junit printsummary="true" errorproperty="tests.failed" showoutput="true" fork="yes" forkmode="once">
+
+			<formatter type="brief" usefile="true" />
+			<formatter type="xml" />
+			<classpath refid="test.classpath" />
+
+			<batchtest fork="yes" todir="${dist.dir}/report/tests" unless="testcase" haltonfailure="no">
+				<fileset dir="${src.test.dir}" includes="**/*Test.java" />
+			</batchtest>
+			<batchtest fork="yes" todir="${dist.dir}/report/tests" if="testcase" haltonfailure="yes">
+				<fileset dir="${src.test.dir}" includes="**/${testcase}.java" />
+			</batchtest>
+
+		</junit>
+
+		<cobertura-report srcdir="${src.java.dir}" destdir="${dist.dir}/coverage">
+			<classpath refid="test.classpath" />
+		</cobertura-report>
+		<echo>
 		coverage information can now be found in dist/coverage/index.html
     </echo>
 
-    <fail if="tests.failed">Tests failed!</fail>
+		<fail if="tests.failed">Tests failed!</fail>
 
-  </target>
+	</target>
 
-  <!-- ================================================================== -->
+	<!-- ================================================================== -->
 
-  <target name="test-report" depends="" description="Creates unit test report">
-    <junitreport todir="${dist.dir}/report">
-      <fileset dir="${dist.dir}/report/tests">
-        <include name="TEST-*.xml"/>
-      </fileset>
-      <report format="frames" todir="${dist.dir}/report"/>
-    </junitreport>
-    <echo>
+	<target name="test-report" depends="" description="Creates unit test report">
+		<junitreport todir="${dist.dir}/report">
+			<fileset dir="${dist.dir}/report/tests">
+				<include name="TEST-*.xml" />
+			</fileset>
+			<report format="frames" todir="${dist.dir}/report" />
+		</junitreport>
+		<echo>
     	test report can now be found in dist/report/index.html
     </echo>
-    <fail message="tests failed" if="junit.failed"/>
-  </target>
+		<fail message="tests failed" if="junit.failed" />
+	</target>
 
-  <!-- ================================================================== -->
-  <!-- C O M P I L E                                        																		  -->
-  <!-- ================================================================== -->
-  <target name="compile">  	  	
-  	
-  	<mkdir dir="${build.classes}" />
-  	
-  	<javac encoding="${encoding}"
-      srcdir="${src.java.dir}"
-      includes="de/danielnaber/**/*.java"
-  	  excludes="de/danielnaber/languagetool/dev/*.java,de/danielnaber/languagetool/openoffice/*.java"
-      destdir="${build.classes}"
-      target="${target}"
-	  debug="${debug}">
-      <classpath refid="classpath"/>
-    </javac>
-  	<javac encoding="${encoding}"
-      srcdir="${src.test.dir}"
-      includes="de/danielnaber/languagetool/rules/patterns/PatternRuleTest.java
+	<!-- ================================================================== -->
+	<!-- C O M P I L E                                        																		  -->
+	<!-- ================================================================== -->
+	<target name="compile">
+
+		<mkdir dir="${build.classes}" />
+
+		<javac encoding="${encoding}" srcdir="${src.java.dir}" includes="de/danielnaber/**/*.java" excludes="de/danielnaber/languagetool/dev/*.java,de/danielnaber/languagetool/openoffice/*.java" destdir="${build.classes}" target="${target}" debug="${debug}">
+			<classpath refid="classpath" />
+		</javac>
+		<javac encoding="${encoding}" srcdir="${src.test.dir}" includes="de/danielnaber/languagetool/rules/patterns/PatternRuleTest.java
   		de/danielnaber/languagetool/ValidateXMLTest.java
-  		de/danielnaber/languagetool/XMLValidator.java"
-      destdir="${build.classes}"
-      target="${target}"
-	  debug="${debug}">
-      <classpath refid="classpath"/>
-    </javac>
+  		de/danielnaber/languagetool/XMLValidator.java" destdir="${build.classes}" target="${target}" debug="${debug}">
+			<classpath refid="classpath" />
+		</javac>
 
-  </target>
+	</target>
 
-  <!-- ================================================================== -->
-  <!-- BUILD -->
-  <!-- ================================================================== -->
-  <target name="build" depends="compile">
+	<!-- ================================================================== -->
+	<!-- BUILD -->
+	<!-- ================================================================== -->
+	<target name="build" depends="compile">
 
-  	<copy todir="${build.classes}/de/danielnaber/languagetool/">
-	  	<fileset dir="${src.java.dir}/de/danielnaber/languagetool/">
-	  		<include name="*.properties" />
-	  	</fileset>
-	</copy>
-
-	<jar
-		jarfile="${dist.dir}/${final.name}.jar"
-		basedir="${build.classes}"
-		excludes="**/*.java">
-		<manifest>
-			<attribute name="Main-Class" value="de.danielnaber.languagetool.Main" />
-			<attribute name="Class-Path" value="./ ./rules ./resource ./${stempelator.lib} ./jWordSplitter.jar ./${segment.lib} ./${loomchild.util.lib} ./${logging.lib}"/>
-			<attribute name="Implementation-Version" value="${version}" />
-			<attribute name="Implementation-Date" value="${date}" />
-		</manifest>
-	</jar>
-
-	<jar
-		jarfile="${dist.dir}/${final.name.gui}.jar"
-		basedir="${build.classes}"
-		includes="de/danielnaber/languagetool/gui/*.class">
-		<manifest>
-			<attribute name="Main-Class" value="de.danielnaber.languagetool.gui.Main" />
-			<attribute name="Class-Path" value="./LanguageTool.jar ./ ./resource ./rules ./${stempelator.lib}  ./jdic.jar ./jaminid.jar ./jWordSplitter.jar ./${segment.lib} ./${loomchild.util.lib} ./${logging.lib}" />
-			<attribute name="Implementation-Version" value="${version}" />
-			<attribute name="Implementation-Date" value="${date}" />
-		</manifest>
-	</jar>
-
-  </target>
- 
-  <!-- ================================================================== -->
-  <!-- JAVADOC -->
-  <!-- ================================================================== -->
-  <target name="javadoc" depends="compile">
-  	<javadoc
-           destdir="${dist.javadocs}"
-           author="true"
-           version="true"
-           use="true"
-           access="public"
-           noqualifier="all"
-  		   encoding="${encoding}"
-           windowtitle="${javadoctitle}">
-
-		<classpath>
-			<pathelement location="${build.classes}"/>
-			<fileset dir="${ext.dir}">
-				<include name="*.jar" />
+		<copy todir="${build.classes}/de/danielnaber/languagetool/">
+			<fileset dir="${src.java.dir}/de/danielnaber/languagetool/">
+				<include name="*.properties" />
 			</fileset>
-	 	</classpath>
-	
-		<fileset dir="${src.java.dir}" defaultexcludes="no">
-			<include name="**/*.java" />
-		</fileset>
-	
-		<doctitle><![CDATA[<h1>${javadoctitle}</h1>]]></doctitle>
-		<bottom><![CDATA[<i>Copyright &#169; 2005-2009 <a href="http://www.danielnaber.de" target="_top">Daniel Naber</a></i>]]></bottom>
-		<link offline="true" href="http://java.sun.com/products/jdk/1.4/docs/api/" packagelistLoc="/tmp"/>
-  	</javadoc>
-  	<echo>javadoc output can now be found in dist/docs/api/index.html</echo>
-  </target>
+		</copy>
 
-  <!-- ================================================================== -->
-  <!-- OpenOffice.org compile -->
-  <!-- ================================================================== -->
-  <target name="ooo-compile">
-  	<javac encoding="${encoding}"
-      srcdir="${src.java.dir}"
-	  includes="**/*.java"
-	  excludes="de/danielnaber/languagetool/dev/*.java"
-      destdir="${build.classes}"
-      target="${target}"
-  	  debug="${debug}">
-      <classpath refid="ooo.classpath"/>
-    </javac>
-  	<copy todir="${build.classes}/de/danielnaber/languagetool/">
-	  	<fileset dir="${src.java.dir}/de/danielnaber/languagetool/">
-	  		<include name="*.properties" />
-	  	</fileset>
-	</copy>
-  </target>
+		<jar jarfile="${dist.dir}/${final.name}.jar" basedir="${build.classes}" excludes="**/*.java">
+			<manifest>
+				<attribute name="Main-Class" value="de.danielnaber.languagetool.Main" />
+				<attribute name="Class-Path" value="./ ./rules ./resource ./${stempelator.lib} ./jWordSplitter.jar ./${segment.lib} ./${loomchild.util.lib} ./${logging.lib}" />
+				<attribute name="Implementation-Version" value="${version}" />
+				<attribute name="Implementation-Date" value="${date}" />
+			</manifest>
+		</jar>
 
-  <!-- ================================================================== -->
-  <!-- OpenOffice.org compile -->
-  <!-- ================================================================== -->
-  <target name="ooo-build" depends="ooo-compile">
-  	<jar
-		jarfile="${dist.dir}/LanguageTool.uno.jar"
-		basedir="${build.classes}"
-		includes="de/danielnaber/languagetool/**/*.class,de/danielnaber/languagetool/**/*.properties">
-  		<manifest>
-	  		<attribute name="RegistrationClassName" value="de.danielnaber.languagetool.openoffice.Main" />
-			<attribute name="Implementation-Version" value="${version}" />
-			<attribute name="Implementation-Date" value="${date}" />
-			<attribute name="Class-Path" value=". ./rules ./resource ./${stempelator.lib} ./jWordSplitter.jar ./${segment.lib} ./${loomchild.util.lib} ./${logging.lib}" />
-			<attribute name="Uno-Type-Path" value="" />
-  		</manifest>
-	</jar>
-  </target>
+		<jar jarfile="${dist.dir}/${final.name.gui}.jar" basedir="${build.classes}" includes="de/danielnaber/languagetool/gui/*.class">
+			<manifest>
+				<attribute name="Main-Class" value="de.danielnaber.languagetool.gui.Main" />
+				<attribute name="Class-Path" value="./LanguageTool.jar ./ ./resource ./rules ./${stempelator.lib}  ./jdic.jar ./jaminid.jar ./jWordSplitter.jar ./${segment.lib} ./${loomchild.util.lib} ./${logging.lib}" />
+				<attribute name="Implementation-Version" value="${version}" />
+				<attribute name="Implementation-Date" value="${date}" />
+			</manifest>
+		</jar>
 
-  <!-- ================================================================== -->
-  <!-- DIST-SRC -->
-  <!-- ================================================================== -->
-  <target name="dist-src" depends="ooo-internal" description="Like dist, but includes source code">
-  	<antcall target="javadoc"></antcall>
-  	<copy file="build.xml" todir="${dist.dir}" />
-  	<copy file="build.properties" todir="${dist.dir}" />
-  	<copy file="openoffice/Addons.xcu" todir="${dist.dir}/openoffice" />
-  	<filter filtersFile="build.properties"/>
-  	<copy filtering="true" todir="${dist.dir}/openoffice/META-INF">
-	  	<fileset dir="openoffice/META-INF" excludes="CVS" />
-	</copy>
-  	<copy todir="${dist.dir}/openoffice/images">
-	  	<fileset dir="openoffice/images" excludes="CVS" />
-	</copy>
-  	<copy todir="${dist.dir}/src">
-	  	<fileset dir="src" excludes="CVS,resource/**,rules/**,scripts/**" />
-	</copy>
-  	<copy file="openoffice/description.xml" todir="${dist.dir}/openoffice/" filtering="true"/>  	
-  	<zip compress="yes" destfile="${dist.dir}/LanguageTool-${version}-src.zip"
-  		basedir="${dist.dir}"
-  		includes="**" excludes="turn.sh,deploy.sh,undeploy.sh,jdic.jar,linux/**,windows/**,sunos/**,mac/**" />
-  </target>
+	</target>
 
-  <!-- ================================================================== -->
-  <!-- LanguageTool including OpenOffice.org integration -->
-  <!-- ================================================================== -->
-	
-  <target name="dist" depends="ooo-internal" description="Builds one ZIP for both OpenOffice.org and stand-alone use">
-  	<zip compress="yes" destfile="${dist.dir}/LanguageTool-${version}.oxt"
-  		basedir="${dist.dir}"
-  		includes="**"
-  		excludes="deploy.sh,undeploy.sh,turn.sh,jdic.jar,printlocales.jar,linux/**,windows/**,sunos/**,mac/**" />
-  </target>
+	<!-- ================================================================== -->
+	<!-- JAVADOC -->
+	<!-- ================================================================== -->
+	<target name="javadoc" depends="compile">
+		<javadoc destdir="${dist.javadocs}" author="true" version="true" use="true" access="public" noqualifier="all" encoding="${encoding}" windowtitle="${javadoctitle}">
 
-  <target name="fast" depends="ooo-internal" description="like dist, but without ZIP compression (for development only)">
-  	<zip compress="no" destfile="${dist.dir}/LanguageTool-${version}.oxt"
-  		basedir="${dist.dir}"
-  		includes="**" 
-  		excludes="deploy.sh,undeploy.sh,turn.sh,jdic.jar,printlocales.jar,linux/**,windows/**,sunos/**,mac/**" />
-  </target>
+			<classpath>
+				<pathelement location="${build.classes}" />
+				<fileset dir="${ext.dir}">
+					<include name="*.jar" />
+				</fileset>
+			</classpath>
 
-  <target name="ooo-internal" depends="clean,init,build,ooo-build">
-  	<copy file="${resource.dir}/TrayIcon.png" todir="${dist.dir}/resource/" />
-  	<filter filtersFile="build.properties"/>
-  	
-		
-	<copy file="./README.txt" todir="${dist.dir}" />
-	<copy file="./CHANGES.txt" todir="${dist.dir}" />
-	<copy file="./COPYING.txt" todir="${dist.dir}" />
-  	<replace file="${dist.dir}/README.txt" token="###VERSION###" value="${version}"></replace>
-  	<replace file="${dist.dir}/README.txt" token="###DATE###" value="${date}"></replace>
-  	<copy file="${ext.dir}/LGPL.txt" todir="${dist.dir}" />
-  	<copy file="${ext.dir}/Morfologik-nodict-license.txt" tofile="${dist.dir}/Morfologik-license.txt" />
-  	<copy file="${ext.dir}/CPL.txt" tofile="${dist.dir}/junit-license.txt" />
-  	<copy file="${ext.dir}/Apache-License.txt" tofile="${dist.dir}/jWordSplitter-license.txt" />
-  	<copy file="${ext.dir}/segment-license.txt" tofile="${dist.dir}/segment-license.txt" />
-  	
-	<filter filtersFile="build.properties"/>
-  	<copy file="${ext.dir}/README" tofile="${dist.dir}/README-license.txt" 
-  	filtering="true"/>
-  		
-	<copy file="${ext.stempelator.lib}" todir="${dist.dir}" />
-	<copy file="${ext.jdic.lib}" todir="${dist.dir}" />
-	<copy file="${ext.jaminid.lib}" todir="${dist.dir}" />
-	<copy file="${ext.jwordsplitter.lib}" todir="${dist.dir}" />
-  	<copy file="${ext.segment.lib}" todir="${dist.dir}" />
-  	<copy file="${ext.loomchild.util.lib}" todir="${dist.dir}" />
-  	<copy file="${ext.logging.lib}" todir="${dist.dir}" />
-	<copy file="${ext.junit.lib}" todir="${dist.dir}" />
+			<fileset dir="${src.java.dir}" defaultexcludes="no">
+				<include name="**/*.java" />
+			</fileset>
 
- 	<copy todir="${dist.dir}/linux">
- 		  	<fileset dir="${ext.dir}/linux"/>
-	</copy>
- 	<copy todir="${dist.dir}/windows">
-   		  	<fileset dir="${ext.dir}/windows"/>
- 	</copy>
- 	<copy todir="${dist.dir}/sunos">
-   		  	<fileset dir="${ext.dir}/sunos"/>
- 	</copy>
- 	<copy todir="${dist.dir}/mac">
-   		  	<fileset dir="${ext.dir}/mac"/>
- 	</copy>
-  	<zip compress="yes" destfile="${dist.dir}/standalone-libs.zip"
-  	  basedir="${dist.dir}"
-  	  includes="jdic.jar,linux/**,windows/**,sunos/**,mac/**" />
+			<doctitle>
+				<![CDATA[<h1>${javadoctitle}</h1>]]></doctitle>
+		<bottom>
+			<![CDATA[<i>Copyright &#169; 2005-2009 <a href="http://www.danielnaber.de" target="_top">Daniel Naber</a>
+		</i>]]></bottom>
+	<link offline="true" href="http://java.sun.com/products/jdk/1.4/docs/api/" packagelistLoc="/tmp" />
+</javadoc>
+<echo>javadoc output can now be found in dist/docs/api/index.html</echo>
+</target>
 
- 	<copy file="${src.scripts.dir}/testrules.sh" todir="${dist.dir}" />
- 	<copy file="${src.scripts.dir}/testrules.bat" todir="${dist.dir}" />
+<!-- ================================================================== -->
+<!-- OpenOffice.org compile -->
+<!-- ================================================================== -->
+<target name="ooo-compile">
+<javac encoding="${encoding}" srcdir="${src.java.dir}" includes="**/*.java" excludes="de/danielnaber/languagetool/dev/*.java" destdir="${build.classes}" target="${target}" debug="${debug}">
+	<classpath refid="ooo.classpath" />
+</javac>
+<copy todir="${build.classes}/de/danielnaber/languagetool/">
+	<fileset dir="${src.java.dir}/de/danielnaber/languagetool/">
+		<include name="*.properties" />
+	</fileset>
+</copy>
+</target>
 
- 	<copy file="${resource.dir}/api-output.dtd" todir="${dist.dir}/resource" />
-  	<copy file="${resource.dir}/disambiguation.dtd" todir="${dist.dir}/resource" />
-  	<copy file="${resource.dir}/segment.srx" todir="${dist.dir}/resource" />
- 	<copy file="${resource.dir}/en/tagset.txt" todir="${dist.dir}/resource/en" />
-	<copy file="${resource.dir}/en/english.dict" todir="${dist.dir}/resource/en" />
-	<copy file="${resource.dir}/en/english.info" todir="${dist.dir}/resource/en" />
-	<copy file="${resource.dir}/en/english_synth.dict" todir="${dist.dir}/resource/en" />  	
-	<copy file="${resource.dir}/en/english_synth.info" todir="${dist.dir}/resource/en" />  	
-  	<copy file="${resource.dir}/en/english_tags.txt" todir="${dist.dir}/resource/en" />
-  	<copy file="${resource.dir}/en/disambiguation.xml" todir="${dist.dir}/resource/en" />
-  	<copy file="${resource.dir}/en/compounds.txt" todir="${dist.dir}/resource/en" />
-  	<copy file="${resource.dir}/it/italian.dict" todir="${dist.dir}/resource/it" />
-  	<copy file="${resource.dir}/it/italian.info" todir="${dist.dir}/resource/it" />
-  	<copy file="${resource.dir}/it/readme-morph-it.txt" todir="${dist.dir}/resource/it" />
- 	<copy file="${resource.dir}/fr/french.dict" todir="${dist.dir}/resource/fr" />
- 	<copy file="${resource.dir}/fr/french.info" todir="${dist.dir}/resource/fr" />
-  	<copy file="${resource.dir}/fr/readme.txt" todir="${dist.dir}/resource/fr" />
- 	<copy file="${resource.dir}/fr/disambiguation.xml" todir="${dist.dir}/resource/fr" />
-	<copy file="${resource.dir}/es/spanish.dict" todir="${dist.dir}/resource/es" />
-	<copy file="${resource.dir}/es/spanish.info" todir="${dist.dir}/resource/es" />
-  	<copy file="${resource.dir}/es/etiquetas-eagles.txt" todir="${dist.dir}/resource/es" />  	
-	<copy file="${resource.dir}/de/german.dict" todir="${dist.dir}/resource/de" />
-	<copy file="${resource.dir}/de/german.info" todir="${dist.dir}/resource/de" />
-  	<copy file="${resource.dir}/de/compounds.txt" todir="${dist.dir}/resource/de" />
-	<copy file="${resource.dir}/de/added.txt" todir="${dist.dir}/resource/de" />
-	<copy file="${resource.dir}/pl/polish.dict" todir="${dist.dir}/resource/pl" />
-	<copy file="${resource.dir}/pl/polish.info" todir="${dist.dir}/resource/pl" />
-  	<copy file="${resource.dir}/pl/polish_synth.dict" todir="${dist.dir}/resource/pl" />
-  	<copy file="${resource.dir}/pl/polish_synth.info" todir="${dist.dir}/resource/pl" />
-  	<copy file="${resource.dir}/pl/polish_tags.txt" todir="${dist.dir}/resource/pl" />
-  	<copy file="${resource.dir}/pl/compounds.txt" todir="${dist.dir}/resource/pl" />
-  	<copy file="${resource.dir}/pl/disambiguation.xml" todir="${dist.dir}/resource/pl" />
-	<copy file="${resource.dir}/nl/dutch.dict" todir="${dist.dir}/resource/nl" />
-	<copy file="${resource.dir}/nl/dutch.info" todir="${dist.dir}/resource/nl" />
-	<copy file="${resource.dir}/nl/dutch_synth.dict" todir="${dist.dir}/resource/nl" />
-	<copy file="${resource.dir}/nl/dutch_synth.info" todir="${dist.dir}/resource/nl" />
-	<copy file="${resource.dir}/nl/dutch_tags.txt" todir="${dist.dir}/resource/nl" />
-  	<copy file="${resource.dir}/nl/disambiguation.xml" todir="${dist.dir}/resource/nl" />
- 	<copy file="${resource.dir}/sv/swedish.info" todir="${dist.dir}/resource/sv" />
-	<copy file="${resource.dir}/sv/swedish.dict" todir="${dist.dir}/resource/sv" />
-  	<copy file="${resource.dir}/sv/compounds.txt" todir="${dist.dir}/resource/sv" />
-  	<copy file="${resource.dir}/uk/ukrainian.dict" todir="${dist.dir}/resource/uk" />
-	<copy file="${resource.dir}/ru/russian.dict" todir="${dist.dir}/resource/ru" />
-	<copy file="${resource.dir}/ru/russian.info" todir="${dist.dir}/resource/ru" />
-	<copy file="${resource.dir}/ru/russian_tags.txt" todir="${dist.dir}/resource/ru" />
-	<copy file="${resource.dir}/ru/compounds_ru.txt" todir="${dist.dir}/resource/ru" />
-	<copy file="${resource.dir}/ro/romanian.dict" todir="${dist.dir}/resource/ro" />
-  	<copy file="${resource.dir}/ro/romanian.info" todir="${dist.dir}/resource/ro" />
-	<copy file="${resource.dir}/ro/romanian_synth.dict" todir="${dist.dir}/resource/ro" />  	
-	<copy file="${resource.dir}/ro/romanian_synth.info" todir="${dist.dir}/resource/ro" />
-  	<copy file="${resource.dir}/ro/romanian_tags.txt" todir="${dist.dir}/resource/ro" />
-  	<copy file="${resource.dir}/ro/disambiguation.xml" todir="${dist.dir}/resource/ro" />
-  	<copy file="${resource.dir}/sk/slovak.dict" todir="${dist.dir}/resource/sk" />  	
-	<copy file="${resource.dir}/sk/compounds.txt" todir="${dist.dir}/resource/sk" />
-  	<copy file="${resource.dir}/xx/dummy.dict" tofile="${dist.dir}/resource/cs/czech.dict" />
-  	
-  	<!-- prepare properties file automatically -->
-	<javac encoding="${encoding}"
-      srcdir="${src.dir}/dev"
-	  includes="de/danielnaber/languagetool/dev/PrintLocales.java"
-      destdir="${build.classes}"
-      target="${target}"
-  	  debug="${debug}">
-	</javac>
-  	
-  	<jar
-  		jarfile="${dist.dir}/printlocales.jar"
-		basedir="${build.classes}"
-		includes="de/danielnaber/languagetool/dev/**">
-  		<manifest>
+<!-- ================================================================== -->
+<!-- OpenOffice.org compile -->
+<!-- ================================================================== -->
+<target name="ooo-build" depends="ooo-compile">
+<jar jarfile="${dist.dir}/LanguageTool.uno.jar" basedir="${build.classes}" includes="de/danielnaber/languagetool/**/*.class,de/danielnaber/languagetool/**/*.properties">
+	<manifest>
+		<attribute name="RegistrationClassName" value="de.danielnaber.languagetool.openoffice.Main" />
+		<attribute name="Implementation-Version" value="${version}" />
+		<attribute name="Implementation-Date" value="${date}" />
+		<attribute name="Class-Path" value=". ./rules ./resource ./${stempelator.lib} ./jWordSplitter.jar ./${segment.lib} ./${loomchild.util.lib} ./${logging.lib}" />
+		<attribute name="Uno-Type-Path" value="" />
+	</manifest>
+</jar>
+</target>
+
+<!-- ================================================================== -->
+<!-- DIST-SRC -->
+<!-- ================================================================== -->
+<target name="dist-src" depends="ooo-internal" description="Like dist, but includes source code">
+<antcall target="javadoc">
+</antcall>
+<copy file="build.xml" todir="${dist.dir}" />
+<copy file="build.properties" todir="${dist.dir}" />
+<copy file="openoffice/Addons.xcu" todir="${dist.dir}/openoffice" />
+<filter filtersFile="build.properties" />
+<copy filtering="true" todir="${dist.dir}/openoffice/META-INF">
+	<fileset dir="openoffice/META-INF" excludes="CVS" />
+</copy>
+<copy todir="${dist.dir}/openoffice/images">
+	<fileset dir="openoffice/images" excludes="CVS" />
+</copy>
+<copy todir="${dist.dir}/src">
+	<fileset dir="src" excludes="CVS,resource/**,rules/**,scripts/**" />
+</copy>
+<copy file="openoffice/description.xml" todir="${dist.dir}/openoffice/" filtering="true" />
+<zip compress="yes" destfile="${dist.dir}/LanguageTool-${version}-src.zip" basedir="${dist.dir}" includes="**" excludes="turn.sh,deploy.sh,undeploy.sh,jdic.jar,linux/**,windows/**,sunos/**,mac/**" />
+</target>
+
+<!-- ================================================================== -->
+<!-- LanguageTool including OpenOffice.org integration -->
+<!-- ================================================================== -->
+
+<target name="dist" depends="ooo-internal" description="Builds one ZIP for both OpenOffice.org and stand-alone use">
+<zip compress="yes" destfile="${dist.dir}/LanguageTool-${version}.oxt" basedir="${dist.dir}" includes="**" excludes="deploy.sh,undeploy.sh,turn.sh,jdic.jar,printlocales.jar,linux/**,windows/**,sunos/**,mac/**" />
+</target>
+
+<target name="fast" depends="ooo-internal" description="like dist, but without ZIP compression (for development only)">
+<zip compress="no" destfile="${dist.dir}/LanguageTool-${version}.oxt" basedir="${dist.dir}" includes="**" excludes="deploy.sh,undeploy.sh,turn.sh,jdic.jar,printlocales.jar,linux/**,windows/**,sunos/**,mac/**" />
+</target>
+
+<target name="ooo-internal" depends="clean,init,build,ooo-build">
+<copy file="${resource.dir}/TrayIcon.png" todir="${dist.dir}/resource/" />
+<filter filtersFile="build.properties" />
+
+
+<copy file="./README.txt" todir="${dist.dir}" />
+<copy file="./CHANGES.txt" todir="${dist.dir}" />
+<copy file="./COPYING.txt" todir="${dist.dir}" />
+<replace file="${dist.dir}/README.txt" token="###VERSION###" value="${version}">
+</replace>
+<replace file="${dist.dir}/README.txt" token="###DATE###" value="${date}">
+</replace>
+<copy file="${ext.dir}/LGPL.txt" todir="${dist.dir}" />
+<copy file="${ext.dir}/Morfologik-nodict-license.txt" tofile="${dist.dir}/Morfologik-license.txt" />
+<copy file="${ext.dir}/CPL.txt" tofile="${dist.dir}/junit-license.txt" />
+<copy file="${ext.dir}/Apache-License.txt" tofile="${dist.dir}/jWordSplitter-license.txt" />
+<copy file="${ext.dir}/segment-license.txt" tofile="${dist.dir}/segment-license.txt" />
+
+<filter filtersFile="build.properties" />
+<copy file="${ext.dir}/README" tofile="${dist.dir}/README-license.txt" filtering="true" />
+
+<copy file="${ext.stempelator.lib}" todir="${dist.dir}" />
+<copy file="${ext.jdic.lib}" todir="${dist.dir}" />
+<copy file="${ext.jaminid.lib}" todir="${dist.dir}" />
+<copy file="${ext.jwordsplitter.lib}" todir="${dist.dir}" />
+<copy file="${ext.segment.lib}" todir="${dist.dir}" />
+<copy file="${ext.loomchild.util.lib}" todir="${dist.dir}" />
+<copy file="${ext.logging.lib}" todir="${dist.dir}" />
+<copy file="${ext.junit.lib}" todir="${dist.dir}" />
+
+<copy todir="${dist.dir}/linux">
+	<fileset dir="${ext.dir}/linux" />
+</copy>
+<copy todir="${dist.dir}/windows">
+	<fileset dir="${ext.dir}/windows" />
+</copy>
+<copy todir="${dist.dir}/sunos">
+	<fileset dir="${ext.dir}/sunos" />
+</copy>
+<copy todir="${dist.dir}/mac">
+	<fileset dir="${ext.dir}/mac" />
+</copy>
+<zip compress="yes" destfile="${dist.dir}/standalone-libs.zip" basedir="${dist.dir}" includes="jdic.jar,linux/**,windows/**,sunos/**,mac/**" />
+
+<copy file="${src.scripts.dir}/testrules.sh" todir="${dist.dir}" />
+<copy file="${src.scripts.dir}/testrules.bat" todir="${dist.dir}" />
+
+<copy file="${resource.dir}/api-output.dtd" todir="${dist.dir}/resource" />
+<copy file="${resource.dir}/disambiguation.dtd" todir="${dist.dir}/resource" />
+<copy file="${resource.dir}/segment.srx" todir="${dist.dir}/resource" />
+<copy file="${resource.dir}/en/tagset.txt" todir="${dist.dir}/resource/en" />
+<copy file="${resource.dir}/en/english.dict" todir="${dist.dir}/resource/en" />
+<copy file="${resource.dir}/en/english.info" todir="${dist.dir}/resource/en" />
+<copy file="${resource.dir}/en/english_synth.dict" todir="${dist.dir}/resource/en" />
+<copy file="${resource.dir}/en/english_synth.info" todir="${dist.dir}/resource/en" />
+<copy file="${resource.dir}/en/english_tags.txt" todir="${dist.dir}/resource/en" />
+<copy file="${resource.dir}/en/disambiguation.xml" todir="${dist.dir}/resource/en" />
+<copy file="${resource.dir}/en/compounds.txt" todir="${dist.dir}/resource/en" />
+<copy file="${resource.dir}/it/italian.dict" todir="${dist.dir}/resource/it" />
+<copy file="${resource.dir}/it/italian.info" todir="${dist.dir}/resource/it" />
+<copy file="${resource.dir}/it/readme-morph-it.txt" todir="${dist.dir}/resource/it" />
+<copy file="${resource.dir}/fr/french.dict" todir="${dist.dir}/resource/fr" />
+<copy file="${resource.dir}/fr/french.info" todir="${dist.dir}/resource/fr" />
+<copy file="${resource.dir}/fr/readme.txt" todir="${dist.dir}/resource/fr" />
+<copy file="${resource.dir}/fr/disambiguation.xml" todir="${dist.dir}/resource/fr" />
+<copy file="${resource.dir}/es/spanish.dict" todir="${dist.dir}/resource/es" />
+<copy file="${resource.dir}/es/spanish.info" todir="${dist.dir}/resource/es" />
+<copy file="${resource.dir}/es/etiquetas-eagles.txt" todir="${dist.dir}/resource/es" />
+<copy file="${resource.dir}/de/german.dict" todir="${dist.dir}/resource/de" />
+<copy file="${resource.dir}/de/german.info" todir="${dist.dir}/resource/de" />
+<copy file="${resource.dir}/de/compounds.txt" todir="${dist.dir}/resource/de" />
+<copy file="${resource.dir}/de/added.txt" todir="${dist.dir}/resource/de" />
+<copy file="${resource.dir}/pl/polish.dict" todir="${dist.dir}/resource/pl" />
+<copy file="${resource.dir}/pl/polish.info" todir="${dist.dir}/resource/pl" />
+<copy file="${resource.dir}/pl/polish_synth.dict" todir="${dist.dir}/resource/pl" />
+<copy file="${resource.dir}/pl/polish_synth.info" todir="${dist.dir}/resource/pl" />
+<copy file="${resource.dir}/pl/polish_tags.txt" todir="${dist.dir}/resource/pl" />
+<copy file="${resource.dir}/pl/compounds.txt" todir="${dist.dir}/resource/pl" />
+<copy file="${resource.dir}/pl/disambiguation.xml" todir="${dist.dir}/resource/pl" />
+<copy file="${resource.dir}/nl/dutch.dict" todir="${dist.dir}/resource/nl" />
+<copy file="${resource.dir}/nl/dutch.info" todir="${dist.dir}/resource/nl" />
+<copy file="${resource.dir}/nl/dutch_synth.dict" todir="${dist.dir}/resource/nl" />
+<copy file="${resource.dir}/nl/dutch_synth.info" todir="${dist.dir}/resource/nl" />
+<copy file="${resource.dir}/nl/dutch_tags.txt" todir="${dist.dir}/resource/nl" />
+<copy file="${resource.dir}/nl/disambiguation.xml" todir="${dist.dir}/resource/nl" />
+<copy file="${resource.dir}/sv/swedish.info" todir="${dist.dir}/resource/sv" />
+<copy file="${resource.dir}/sv/swedish.dict" todir="${dist.dir}/resource/sv" />
+<copy file="${resource.dir}/sv/compounds.txt" todir="${dist.dir}/resource/sv" />
+<copy file="${resource.dir}/uk/ukrainian.dict" todir="${dist.dir}/resource/uk" />
+<copy file="${resource.dir}/ru/russian.dict" todir="${dist.dir}/resource/ru" />
+<copy file="${resource.dir}/ru/russian.info" todir="${dist.dir}/resource/ru" />
+<copy file="${resource.dir}/ru/russian_tags.txt" todir="${dist.dir}/resource/ru" />
+<copy file="${resource.dir}/ru/compounds_ru.txt" todir="${dist.dir}/resource/ru" />
+<copy file="${resource.dir}/ro/romanian.dict" todir="${dist.dir}/resource/ro" />
+<copy file="${resource.dir}/ro/romanian.info" todir="${dist.dir}/resource/ro" />
+<copy file="${resource.dir}/ro/romanian_synth.dict" todir="${dist.dir}/resource/ro" />
+<copy file="${resource.dir}/ro/romanian_synth.info" todir="${dist.dir}/resource/ro" />
+<copy file="${resource.dir}/ro/romanian_tags.txt" todir="${dist.dir}/resource/ro" />
+<copy file="${resource.dir}/ro/disambiguation.xml" todir="${dist.dir}/resource/ro" />
+<copy file="${resource.dir}/sk/slovak.dict" todir="${dist.dir}/resource/sk" />
+<copy file="${resource.dir}/sk/compounds.txt" todir="${dist.dir}/resource/sk" />
+<copy file="${resource.dir}/xx/dummy.dict" tofile="${dist.dir}/resource/cs/czech.dict" />
+
+<!-- prepare properties file automatically -->
+<javac encoding="${encoding}" srcdir="${src.dir}/dev" includes="de/danielnaber/languagetool/dev/PrintLocales.java" destdir="${build.classes}" target="${target}" debug="${debug}">
+</javac>
+
+<jar jarfile="${dist.dir}/printlocales.jar" basedir="${build.classes}" includes="de/danielnaber/languagetool/dev/**">
+	<manifest>
 		<attribute name="Main-Class" value="de.danielnaber.languagetool.dev.PrintLocales" />
-		<attribute name="Class-Path" value="./ ./LanguageTool.uno.jar ./${segment.lib} ./${loomchild.util.lib} ./${logging.lib}"/>
-	  	</manifest>
-  	</jar>
-  	
-	<java jar="${dist.dir}/printlocales.jar"
-		fork="true"/>
-  	
-  	<filter filtersFile="ooolocales.properties"/>
-  	<copy filtering="true" todir="${dist.dir}/">
-	  	<fileset dir="openoffice/" includes="description.xml,*.xcu,Options.xdl,META-INF/**" />
-	</copy>
-    <copy todir="${dist.dir}/">
-        <fileset dir="openoffice/" includes="images/**" />
-    </copy>
-  	<copy todir="${dist.dir}/rules">
-	  	<fileset dir="src/rules" excludes="CVS" />
-	</copy>  	
-  	
-  </target>
+		<attribute name="Class-Path" value="./ ./LanguageTool.uno.jar ./${segment.lib} ./${loomchild.util.lib} ./${logging.lib}" />
+	</manifest>
+</jar>
 
-  <target name="dict-de" description="Build the German tagger dictionary from Morphy data">
-  	<exec executable="${resource.dir}/de/make-dict-de.sh" />
-  </target>
+<java jar="${dist.dir}/printlocales.jar" fork="true" />
+
+<filter filtersFile="ooolocales.properties" />
+<copy filtering="true" todir="${dist.dir}/">
+	<fileset dir="openoffice/" includes="description.xml,*.xcu,Options.xdl,META-INF/**" />
+</copy>
+<copy todir="${dist.dir}/">
+	<fileset dir="openoffice/" includes="images/**" />
+</copy>
+<copy todir="${dist.dir}/rules">
+	<fileset dir="src/rules" excludes="CVS" />
+</copy>
+
+</target>
+
+<target name="dict-de" description="Build the German tagger dictionary from Morphy data">
+<exec executable="${resource.dir}/de/make-dict-de.sh" />
+</target>
+
+<target name="jnlp" depends="ooo-internal" description="Builds JNLP distribution file">
+<mkdir dir="${dist.dir}/web" />
+<mkdir dir="${dist.dir}/web/linux" />
+<mkdir dir="${dist.dir}/web/windows" />
+<mkdir dir="${dist.dir}/web/sunos" />
+
+<filter filtersFile="build.properties" />
+<copy file="./LanguageTool.jnlp" todir="${dist.dir}/web" filtering="true" />
+<jar compress="yes" basedir="${dist.dir}" destfile="${dist.dir}/web/resource.jar" includes="resource/**" />
+<jar compress="yes" basedir="${dist.dir}" destfile="${dist.dir}/web/rules.jar" includes="rules/**" />
+
+<copy file="${dist.dir}/LanguageToolGUI.jar" todir="${dist.dir}/web/" />
+<copy file="${dist.dir}/LanguageTool.jar" todir="${dist.dir}/web/" />
+<copy file="${ext.stempelator.lib}" todir="${dist.dir}/web/" />
+<copy file="${ext.jaminid.lib}" todir="${dist.dir}/web/" />
+<copy file="${ext.jwordsplitter.lib}" todir="${dist.dir}/web/" />
+<copy file="${ext.jdic.lib}" todir="${dist.dir}/web/" />	
+<copy file="${ext.segment.lib}" todir="${dist.dir}/web/" />
+<copy file="${ext.loomchild.util.lib}" todir="${dist.dir}/web/" />
+<copy file="${ext.logging.lib}" todir="${dist.dir}/web/" />
+
+<copy file="${dist.dir}/linux/jdic_stub.jar" todir="${dist.dir}/web/linux" />
+<jar compress="yes" basedir="${dist.dir}/linux/x86" destfile="${dist.dir}/web/linux/jdic-native.jar" includes="**" />
+
+<copy file="${dist.dir}/sunos/jdic_stub.jar" todir="${dist.dir}/web/sunos" />
+<jar compress="yes" basedir="${dist.dir}/sunos/x86" destfile="${dist.dir}/web/sunos/jdic-x86.jar" includes="**" />
+<jar compress="yes" basedir="${dist.dir}/sunos/sparc" destfile="${dist.dir}/web/sunos/jdic-sparc.jar" includes="**" />
+
+<copy file="${dist.dir}/windows/jdic_stub.jar" todir="${dist.dir}/web/windows" />
+<jar compress="yes" basedir="${dist.dir}/windows/x86" destfile="${dist.dir}/web/windows/jdic-native.jar" includes="**" />
+
+<copy file="${dist.dir}/mac/jdic_stub.jar" todir="${dist.dir}/web/mac" />
+<jar compress="yes" basedir="${dist.dir}/mac/ppc" destfile="${dist.dir}/web/mac/jdic-native.jar" includes="**" />
+
+<signjar keystore="./keystore.ks" keypass="blabla" storepass="blabla" alias="myalias">
+  <path>
+    <fileset dir="${dist.dir}/web" includes="**/*.jar" />
+  </path>
+</signjar>	
 	
-	<target name="jnlp" depends="ooo-internal" description="Builds JNLP distribution file">
-    <mkdir dir="${dist.dir}/web"/>
-		<mkdir dir="${dist.dir}/web/linux"/>
-		<mkdir dir="${dist.dir}/web/windows"/>
-		<mkdir dir="${dist.dir}/web/sunos"/>
-		
-		<filter filtersFile="build.properties"/>
-		<copy file="./LanguageTool.jnlp" todir="${dist.dir}/web" 
-		filtering="true"/>
-	  <jar compress="yes" basedir="${dist.dir}" destfile="${dist.dir}/web/resource.jar"
-	  	includes="resource/**" />
-	  <jar compress="yes" basedir="${dist.dir}" destfile="${dist.dir}/web/rules.jar"
-	  	includes="rules/**" />
-	  <signjar jar="${dist.dir}/web/resource.jar"
-	  	lazy="true" keystore="./keystore.ks" keypass="blabla" 
-	  	storepass="blabla" alias="myalias"/>
-	  <signjar jar="${dist.dir}/web/rules.jar"
-	  	lazy="true" keystore="./keystore.ks" keypass="blabla" 
-	  	storepass="blabla" alias="myalias"/>
-	 	
-		<copy file="${dist.dir}/LanguageToolGUI.jar" todir="${dist.dir}/web/" />
-	  <signjar jar="${dist.dir}/web/LanguageToolGUI.jar"
-	  	lazy="true" keystore="./keystore.ks" keypass="blabla" 
-	  	storepass="blabla" alias="myalias"/>
-		<copy file="${dist.dir}/LanguageTool.jar" todir="${dist.dir}/web/" />
-		  <signjar jar="${dist.dir}/web/LanguageTool.jar"
-		  	lazy="true" keystore="./keystore.ks" keypass="blabla" 
-		  	storepass="blabla" alias="myalias"/>
-		<copy file="${ext.stempelator.lib}" todir="${dist.dir}/web/" />
-	  <signjar jar="${dist.dir}/web/${stempelator.lib}"
-	  	lazy="true" keystore="./keystore.ks" keypass="blabla" 
-	  	storepass="blabla" alias="myalias"/>
-		<copy file="${ext.jaminid.lib}" todir="${dist.dir}/web/" />
-		<signjar jar="${dist.dir}/web/jaminid.jar"
-			  	lazy="true" keystore="./keystore.ks" keypass="blabla" 
-			  	storepass="blabla" alias="myalias"/>
-		<copy file="${ext.jwordsplitter.lib}" todir="${dist.dir}/web/" />
-		<signjar jar="${dist.dir}/web/jWordSplitter.jar"
-			  	lazy="true" keystore="./keystore.ks" keypass="blabla" 
-			  	storepass="blabla" alias="myalias"/>
-		<copy file="${ext.jdic.lib}" todir="${dist.dir}/web/" />
-		<signjar jar="${dist.dir}/web/jdic.jar"
-			  	lazy="true" keystore="./keystore.ks" keypass="blabla" 
-			  	storepass="blabla" alias="myalias"/>
+</target>
 
-		<copy file="${dist.dir}/linux/jdic_stub.jar" todir="${dist.dir}/web/linux" />
-		<signjar jar="${dist.dir}/web/linux/jdic_stub.jar"
-			  	lazy="true" keystore="./keystore.ks" keypass="blabla" 
-			  	storepass="blabla" alias="myalias"/>
-	  <jar compress="yes" basedir="${dist.dir}/linux/x86" destfile="${dist.dir}/web/linux/jdic-native.jar"
-	  	includes="**" />
-		<signjar jar="${dist.dir}/web/linux/jdic-native.jar"
-			  	lazy="true" keystore="./keystore.ks" keypass="blabla" 
-			  	storepass="blabla" alias="myalias"/>
-
-		<copy file="${dist.dir}/sunos/jdic_stub.jar" todir="${dist.dir}/web/sunos" />
-		<signjar jar="${dist.dir}/web/sunos/jdic_stub.jar"
-				  	lazy="true" keystore="./keystore.ks" keypass="blabla" 
-				  	storepass="blabla" alias="myalias"/>
-	  <jar compress="yes" basedir="${dist.dir}/sunos/x86" destfile="${dist.dir}/web/sunos/jdic-x86.jar"
-		  	includes="**" />
-		<signjar jar="${dist.dir}/web/sunos/jdic-x86.jar"
-				  	lazy="true" keystore="./keystore.ks" keypass="blabla" 
-				  	storepass="blabla" alias="myalias"/>
-	  <jar compress="yes" basedir="${dist.dir}/sunos/sparc" destfile="${dist.dir}/web/sunos/jdic-sparc.jar"
-	  	includes="**" />
-		<signjar jar="${dist.dir}/web/sunos/jdic-sparc.jar"
-			  	lazy="true" keystore="./keystore.ks" keypass="blabla" 
-			  	storepass="blabla" alias="myalias"/>
-
-		<copy file="${dist.dir}/windows/jdic_stub.jar" todir="${dist.dir}/web/windows" />
-		<signjar jar="${dist.dir}/web/windows/jdic_stub.jar"
-			  	lazy="true" keystore="./keystore.ks" keypass="blabla" 
-			  	storepass="blabla" alias="myalias"/>	 
-		<jar compress="yes" basedir="${dist.dir}/windows/x86" 
-	  	destfile="${dist.dir}/web/windows/jdic-native.jar"
-	  	includes="**" />
-		<signjar jar="${dist.dir}/web/windows/jdic-native.jar"
-			  	lazy="true" keystore="./keystore.ks" keypass="blabla" 
-			  	storepass="blabla" alias="myalias"/>
-		
-		<copy file="${dist.dir}/mac/jdic_stub.jar" todir="${dist.dir}/web/mac" />
-				<signjar jar="${dist.dir}/web/mac/jdic_stub.jar"
-					  	lazy="true" keystore="./keystore.ks" keypass="blabla" 
-					  	storepass="blabla" alias="myalias"/>	 
-				<jar compress="yes" basedir="${dist.dir}/mac/ppc" 
-			  	destfile="${dist.dir}/web/mac/jdic-native.jar"
-			  	includes="**" />
-				<signjar jar="${dist.dir}/web/mac/jdic-native.jar"
-					  	lazy="true" keystore="./keystore.ks" keypass="blabla" 
-					  	storepass="blabla" alias="myalias"/>
-		
-
-  </target>
-	
 </project>
