@@ -19,6 +19,10 @@
 package de.danielnaber.languagetool.tools;
 
 import junit.framework.TestCase;
+import java.util.ArrayList;
+import java.util.List;
+
+import de.danielnaber.languagetool.Language;
 
 /**
  * @author Daniel Naber
@@ -116,6 +120,16 @@ public class StringToolsTest extends TestCase {
     assertEquals("...s is a test sent...\n        ^^^^^^     ", result);
   }
   
+  public void testAddSpace() {
+    assertEquals(" ", StringTools.addSpace("word", Language.ENGLISH));
+    assertEquals("", StringTools.addSpace(",", Language.ENGLISH));
+    assertEquals("", StringTools.addSpace(",", Language.FRENCH));
+    assertEquals("", StringTools.addSpace(",", Language.ENGLISH));
+    assertEquals(" ", StringTools.addSpace(":", Language.FRENCH));
+    assertEquals("", StringTools.addSpace(",", Language.ENGLISH));
+    assertEquals(" ", StringTools.addSpace(";", Language.FRENCH));    
+  }
+  
   public void testGetLabel() {    
     assertEquals("This is a Label", StringTools.getLabel("This is a &Label"));
     assertEquals("Bits & Pieces", StringTools.getLabel("Bits && Pieces"));
@@ -135,15 +149,25 @@ public class StringToolsTest extends TestCase {
       StringTools.getMnemonic("File && String &Operations"));
   }
   
+  public void testListToString() {
+    final List<String> list = new ArrayList<String>();
+    list.add("foo");
+    list.add("bar");
+    list.add(",");
+    assertEquals("foo,bar,,", StringTools.listToString(list, ","));
+    assertEquals("foo\tbar\t,", StringTools.listToString(list, "\t"));
+  }
+  
   public void testIsWhitespace() {
     assertEquals(true, StringTools.isWhitespace("  "));
     assertEquals(true, StringTools.isWhitespace("\t"));
-    assertEquals(true, StringTools.isWhitespace("\u2002"));
+    assertEquals(true, StringTools.isWhitespace("\u2002"));    
     //non-breaking space is not a whitespace
     assertEquals(false, StringTools.isWhitespace("\u00a0"));
     assertEquals(false, StringTools.isWhitespace("abc"));
     //non-breaking OOo field
     assertEquals(false, StringTools.isWhitespace("\\u02"));
+    assertEquals(false, StringTools.isWhitespace("\u0001"));
   }
   
   public void testIsPositiveNumber() {

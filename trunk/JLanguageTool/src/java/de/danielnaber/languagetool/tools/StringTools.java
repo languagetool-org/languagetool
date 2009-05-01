@@ -401,10 +401,10 @@ public final class StringTools {
    * Adds spaces before words that are not punctuation.
    * 
    * @param word
-   *          Word to add the space before.
+   *          Word to add the preceding space.
    * @param language
    *          Language of the word (to check typography conventions). Currently
-   *          French convention of not adding spaces only before '.' and '.' is
+   *          French convention of not adding spaces only before '.' and ',' is
    *          implemented; other languages assume that before ,.;:!? no spaces
    *          should be added.
    * @return String containing a space or an empty string.
@@ -418,7 +418,7 @@ public final class StringTools {
         if (c == '.' || c == ',') {
           space = "";
         }
-      } else {        
+      } else {
         if (c == '.' || c == ',' || c == ';' || c == ':' || c == '?'
             || c == '!') {
           space = "";
@@ -436,7 +436,7 @@ public final class StringTools {
    *          Label to convert.
    * @return String UI element string without mnemonics.
    */
-  public static String getLabel(final String label) {    
+  public static String getLabel(final String label) {
     return label.replaceAll("&([^&])", "$1").
       replaceAll("&&", "&");
   }
@@ -449,7 +449,7 @@ public final class StringTools {
    *          Label to convert
    * @return String UI element with ~ replacing &.
    */
-  public static String getOOoLabel(final String label) {    
+  public static String getOOoLabel(final String label) {
     return label.replaceAll("&([^&])", "~$1").
       replaceAll("&&", "&");
   }
