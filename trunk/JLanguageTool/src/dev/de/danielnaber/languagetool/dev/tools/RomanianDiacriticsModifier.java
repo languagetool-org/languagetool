@@ -24,8 +24,8 @@ public final class RomanianDiacriticsModifier {
 	 * @author Ionuț Păduraru
 	 * @since 14.04.2009 12:32:29
 	 */
-	private static void initCharMap() {
-		if (null == cCorrectDiacritics) {
+	private synchronized static void initCharMap() {
+		if (cCorrectDiacritics == null) {
 			replacementBuff = new char[REPLACEMENT_BUFF_SIZE];
 			cCorrectDiacritics = new char[Character.MAX_VALUE
 					- Character.MIN_VALUE];
