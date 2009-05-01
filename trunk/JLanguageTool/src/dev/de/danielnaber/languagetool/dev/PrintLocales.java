@@ -20,53 +20,78 @@ package de.danielnaber.languagetool.dev;
 
 import java.util.Properties;
 import java.io.FileOutputStream;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.File;
 
 import de.danielnaber.languagetool.Language;
 import de.danielnaber.languagetool.tools.StringTools;
 
-/** Used for creating ooolocales.properties file that
- *  defines a property that is needed to build
- *  Linguistic.xcu. Run internally by the ant build.
- *  
+/**
+ * Used for creating ooolocales.properties file that defines a property that is
+ * needed to build Linguistic.xcu. Run internally by the ant build.
+ * 
  * @author Marcin Miłkowski
- *
+ * 
  */
 public final class PrintLocales {
 
+  final static String FILENAME = "ooolocales.properties";
 
-  public static void main(final String[] args) throws IOException{
+  public static void main(final String[] args) throws IOException {
     final PrintLocales prg = new PrintLocales();
     prg.run();
   }
 
-  private void run() throws IOException { 
+  private void run() throws IOException {
     String locales = "";
     for (final Language element : Language.LANGUAGES) {
       if (!element.equals(Language.DEMO)) {
         String var;
         for (final String variant : element.getCountryVariants()) {
-          
+
           if (StringTools.isEmpty(variant)) {
             var = "";
           } else {
             var = "-" + variant;
           }
-          
+
           if (!StringTools.isEmpty(locales)) {
-            locales = locales + " "  + element.getShortName() + var;
+            locales = locales + " " + element.getShortName() + var;
           } else {
             locales = element.getShortName() + var;
           }
         }
       }
     }
-    //change attribute to writable as the property file is in the repo
-    final File f = new File("ooolocales.properties");
-    f.setWritable(true);
-    final Properties propLoc = new Properties();
-    propLoc.setProperty("countryvariants", locales);
-    propLoc.store(new FileOutputStream("ooolocales.properties"), "Locales");    
+    // change attribute to writable as the property file is in the repo
+    final Properties checkPropLoc = new Properties();
+    FileInputStream fIn = null;
+    try {
+      fIn = new FileInputStream(FILENAME);
+      checkPropLoc.load(fIn);
+    } finally {
+      if (fIn != null)
+        fIn.close();
+    }
+    final String oldLocales = checkPropLoc.getProperty("countryvariants");
+    if (!locales.equals(oldLocales)) {
+      final File f = new File("ooolocales.properties");
+      f.setWritable(true);
+      final Properties propLoc = new Properties();
+      propLoc.setProperty("countryvariants", locales);
+      FileOutputStream fOut = null;
+      try {
+        fOut = new FileOutputStream(FILENAME);
+        propLoc.store(fOut, "Locales");
+      } finally {
+        if (fOut != null) {
+          fOut.close();
+        } else {
+          System.err.println("Cannot save new locales!");
+          System.exit(1);
+        }
+      }
+    }
   }
 }
