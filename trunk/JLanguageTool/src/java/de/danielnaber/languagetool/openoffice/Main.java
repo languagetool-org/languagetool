@@ -249,9 +249,8 @@ public class Main extends WeakBase implements XJobExecutor,
   synchronized private final ProofreadingResult doGrammarCheckingInternal(
       final String paraText, final Locale locale, final ProofreadingResult paRes) {
 
-    if (!StringTools.isEmpty(paraText)) {
-
-      if (hasLocale(locale)) {
+    if (!StringTools.isEmpty(paraText)
+        && hasLocale(locale)) {
         // caching the instance of LT
         if (!Language.getLanguageForShortName(locale.Language).equals(
             docLanguage)
@@ -311,8 +310,7 @@ public class Main extends WeakBase implements XJobExecutor,
                   + pErrorCount];
               int i = 0;
               for (final RuleMatch myRuleMatch : ruleMatches) {
-                errorArray[i] = createOOoError(locale, myRuleMatch,
-                    paRes.nStartOfSentencePosition);
+                errorArray[i] = createOOoError(myRuleMatch, paRes.nStartOfSentencePosition);
                 i++;
               }
               // add para matches
@@ -336,8 +334,7 @@ public class Main extends WeakBase implements XJobExecutor,
         } catch (final Throwable t) {
           showError(t);
           paRes.nBehindEndOfSentencePosition = paraText.length();
-        }
-      }
+       }      
     }
     return paRes;
   }
@@ -371,7 +368,7 @@ public class Main extends WeakBase implements XJobExecutor,
 
   synchronized private final SingleProofreadingError[] checkParaRules(
       final String paraText, final Locale locale, final int startPos,
-      final int endPos, String docID) {
+      final int endPos, final String docID) {
     if (startPos == 0) {
       try {
         paragraphMatches = langTool.check(paraText, false,
@@ -390,11 +387,11 @@ public class Main extends WeakBase implements XJobExecutor,
         final int endErrPos = myRuleMatch.getToPos();
         if (startErrPos >= startPos && startErrPos < endPos
             && endErrPos >= startPos && endErrPos < endPos) {
-          errorList.add(createOOoError(locale, myRuleMatch, 0));
+          errorList.add(createOOoError(myRuleMatch, 0));
         }
       }
       if (!errorList.isEmpty()) {
-        SingleProofreadingError[] errorArray = errorList.toArray(new SingleProofreadingError[errorList.size()]);
+        final SingleProofreadingError[] errorArray = errorList.toArray(new SingleProofreadingError[errorList.size()]);
         Arrays.sort(errorArray, new ErrorPositionComparator());
         return errorArray;
       }
@@ -404,15 +401,13 @@ public class Main extends WeakBase implements XJobExecutor,
 
   /**
    * Creates a SingleGrammarError object for use in OOo.
-   * 
-   * @param locale
-   *          Locale - the text Locale
    * @param myMatch
    *          ruleMatch - LT rule match
+   * 
    * @return SingleGrammarError - object for OOo checker integration
    */
-  private SingleProofreadingError createOOoError(final Locale locale,
-      final RuleMatch myMatch, final int startIndex) {
+  private SingleProofreadingError createOOoError(final RuleMatch myMatch,
+      final int startIndex) {
     final SingleProofreadingError aError = new SingleProofreadingError();
     aError.nErrorType = com.sun.star.text.TextMarkupType.PROOFREADING;
     // the API currently has no support for formatting text in comments
@@ -587,9 +582,9 @@ public class Main extends WeakBase implements XJobExecutor,
       return;
     }
     try {
-      if (sEvent.equals("configure")) {
+      if ("configure".equals(sEvent)) {
         runOptionsDialog();
-      } else if (sEvent.equals("about")) {
+      } else if ("about".equals(sEvent)) {
         final AboutDialogThread aboutthread = new AboutDialogThread(MESSAGES);
         aboutthread.start();
       } else {
@@ -673,7 +668,7 @@ public class Main extends WeakBase implements XJobExecutor,
   }
 
   @Override
-  public void ignoreRule(String ruleId, Locale locale)
+  public void ignoreRule(final String ruleId, final Locale locale)
       throws IllegalArgumentException {
     // TODO: config should be locale-dependent
     disabledRulesUI.add(ruleId);
@@ -715,8 +710,8 @@ public class Main extends WeakBase implements XJobExecutor,
  */
 class ErrorPositionComparator implements Comparator<SingleProofreadingError> {
 
-  public int compare(SingleProofreadingError match1,
-      SingleProofreadingError match2) {
+  public int compare(final SingleProofreadingError match1,
+      final SingleProofreadingError match2) {
     final int error1pos = match1.nErrorStart;
     final int error2pos = match2.nErrorStart;
     if (error1pos > error2pos)
@@ -730,7 +725,7 @@ class ErrorPositionComparator implements Comparator<SingleProofreadingError> {
 }
 
 class DialogThread extends Thread {
-  private String text;
+  final private String text;
 
   DialogThread(final String text) {
     this.text = text;

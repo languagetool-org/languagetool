@@ -40,35 +40,30 @@ import de.danielnaber.languagetool.tools.Tools;
  */
 public class SRXSentenceTokenizer extends SentenceTokenizer {
 
-  BufferedReader srxReader;
-  SrxDocument document;
-  String language;
-  String parCode;
+  private BufferedReader srxReader;
+  private final SrxDocument document;
+  private final String language;
+  private String parCode;
 
   public static final String RULES = "/resource/segment.srx";
 
   public SRXSentenceTokenizer(final String language) {
     this.language = language;
-
     try {
       srxReader = new BufferedReader(new InputStreamReader(Tools
-          .getStream(RULES), "utf-8"));
-      final SrxParser srxParser = new Srx2Parser();
-      document = srxParser.parse(srxReader);
-    } catch (final UnsupportedEncodingException e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
-    } catch (final IOException e) {
+          .getStream(RULES), "utf-8"));    
+    } catch (IOException e) {
       // TODO Auto-generated catch block
       e.printStackTrace();
     }
+    final SrxParser srxParser = new Srx2Parser();
+    document = srxParser.parse(srxReader);
     setSingleLineBreaksMarksParagraph(false);
   }
 
   @Override
-  public List<String> tokenize(final String text) {
+  public final List<String> tokenize(final String text) {
     final List<String> segments = new ArrayList<String>();
-
     final TextIterator textIterator = new SrxTextIterator(document, language
         + parCode, text);
     while (textIterator.hasNext()) {
@@ -77,7 +72,7 @@ public class SRXSentenceTokenizer extends SentenceTokenizer {
     return segments;
   }
 
-  public boolean singleLineBreaksMarksPara() {
+  public final boolean singleLineBreaksMarksPara() {
     return "_one".equals(parCode);
   }
 
@@ -87,7 +82,7 @@ public class SRXSentenceTokenizer extends SentenceTokenizer {
    *          paragraph, with <code>false</code>, only two ore more consecutive
    *          line breaks end a paragraph
    */
-  public void setSingleLineBreaksMarksParagraph(
+  public final void setSingleLineBreaksMarksParagraph(
       final boolean lineBreakParagraphs) {
     if (lineBreakParagraphs) {
       parCode = "_one";
@@ -96,11 +91,11 @@ public class SRXSentenceTokenizer extends SentenceTokenizer {
     }
   }
 
-  protected void finalize() throws Throwable {
-    super.finalize();
+  protected final void finalize() throws Throwable {
     if (srxReader != null) {
       srxReader.close();
     }
+    super.finalize();
   }
 
 }

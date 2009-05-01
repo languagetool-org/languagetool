@@ -67,7 +67,7 @@ public class RomanianRuleDisambiguator extends AbstractRuleDisambiguator {
       }
     } catch (final ParserConfigurationException e) {
       throw new RuntimeException("Problems with parsing disambiguation file: " 
-          + Language.ENGLISH.getShortName() + "/" + DISAMB_FILE + e.getMessage(), e);
+          + Language.ROMANIAN.getShortName() + "/" + DISAMB_FILE + e.getMessage(), e);
     } catch (final SAXException e) {
       throw new RuntimeException("Problems with parsing disambiguation file: " 
           + e.getMessage(), e);

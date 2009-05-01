@@ -121,13 +121,7 @@ public class PatternRule extends Rule {
     int cnt = 0;
     int loopCnt = 0;
     for (final Element e : patternElements) {
-      if (!e.isPartOfPhrase()) {
-        if (cnt > 0) {
-          elementNo.add(cnt);
-        }
-        elementNo.add(1);
-        loopCnt++;
-      } else {
+      if (e.isPartOfPhrase()) {
         curName = e.getPhraseName();
         if (prevName.equals(curName) || StringTools.isEmpty(prevName)) {
           cnt++;
@@ -143,7 +137,13 @@ public class PatternRule extends Rule {
         if (loopCnt == patternElements.size() && !StringTools.isEmpty(prevName)) {
           elementNo.add(cnt);
         }
-      }
+      } else {
+        if (cnt > 0) {
+          elementNo.add(cnt);
+        }
+        elementNo.add(1);
+        loopCnt++;
+      }      
     }
   }
 
@@ -370,7 +370,7 @@ public class PatternRule extends Rule {
 
   private boolean testAllReadings(final AnalyzedTokenReadings[] tokens,
       final Element elem, final Element prevElement, final int tokenNo,
-      final int firstMatchToken, final int prevSkipNext) {
+      final int firstMatchToken, final int prevSkipNext) throws IOException {
     boolean exceptionMatched = false;
     boolean thisMatched = false;
     final int numberOfReadings = tokens[tokenNo].getReadingsLength();
@@ -410,7 +410,7 @@ public class PatternRule extends Rule {
   }
 
   private void setupAndGroup(final int readNo, final int firstMatchToken,
-      final Element elem, final AnalyzedTokenReadings[] tokens) {
+      final Element elem, final AnalyzedTokenReadings[] tokens) throws IOException {
     if (elem.hasAndGroup()) {
       for (final Element andElement : elem.getAndGroup()) {
         if (andElement.isReferenceElement()) {
@@ -424,7 +424,7 @@ public class PatternRule extends Rule {
   }
 
   private void setupRef(final int firstMatchToken, final Element elem,
-      final AnalyzedTokenReadings[] tokens) {
+      final AnalyzedTokenReadings[] tokens) throws IOException {
     if (elem.isReferenceElement()) {
       final int refPos = firstMatchToken + elem.getMatch().getTokenRef();
       if (refPos < tokens.length) {

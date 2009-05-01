@@ -41,7 +41,7 @@ public class RomanianTagger extends BaseTagger {
 	private Lametyzator morfologik;
 	private static Locale roLocale = new Locale("ro");
 
-	public void setFileName() {
+	public final void setFileName() {
 		System.setProperty(Lametyzator.PROPERTY_NAME_LAMETYZATOR_DICTIONARY,
 				RESOURCE_FILENAME);
 	}
@@ -98,22 +98,6 @@ public class RomanianTagger extends BaseTagger {
 
 		return tokenReadings;
 
-	}
-
-	public static boolean isWord(String token) {
-		for (int i = 0; i < token.length(); i++) {
-			char c = token.charAt(i);
-			if (Character.isLetter(c) || Character.isDigit(c))
-				return true;
-		}
-		return false;
-	}
-
-	public static RomanianTagger getInstance() {
-		if (null == instance) {
-			instance = new RomanianTagger();
-		}
-		return instance;
 	}
 
 }

@@ -18,6 +18,7 @@
  */
 package de.danielnaber.languagetool.rules.patterns;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -698,7 +699,7 @@ public class Element {
    * 
    */
   public final void compile(final AnalyzedTokenReadings token,
-      final Synthesizer synth) {
+      final Synthesizer synth) throws IOException {
 
     tokenReference.setToken(token);
     tokenReference.setSynthesizer(synth);

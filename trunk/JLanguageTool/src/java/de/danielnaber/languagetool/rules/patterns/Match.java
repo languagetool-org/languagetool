@@ -58,7 +58,7 @@ public class Match {
     }
   };
 
-  private String posTag;
+  private final String posTag;
   private boolean postagRegexp;
   private final String regexReplace;
   private final String posTagReplace;
@@ -88,7 +88,7 @@ public class Match {
 
   /** Pattern used to define parts of the matched POS token. **/
   private Pattern pPosRegexMatch;
-  
+
   /**
    * True when the match is not in the suggestion.
    */
@@ -122,10 +122,10 @@ public class Match {
    * 
    */
   public final void setToken(final AnalyzedTokenReadings token) {
-    if (!staticLemma) {
-      formattedToken = token;
-    } else {
+    if (staticLemma) {
       matchedToken = token;
+    } else {
+      formattedToken = token;
     }
   }
 
@@ -272,11 +272,9 @@ public class Match {
       final int numRead = matchedToken.getReadingsLength();
       for (int i = 0; i < numRead; i++) {
         final String tst = matchedToken.getAnalyzedToken(i).getPOSTag();
-        if (tst != null) {
-          if (pPosRegexMatch.matcher(tst).matches()) {
-            targetPosTag = matchedToken.getAnalyzedToken(i).getPOSTag();
-            posTags.add(targetPosTag);
-          }
+        if (tst != null && pPosRegexMatch.matcher(tst).matches()) {
+          targetPosTag = matchedToken.getAnalyzedToken(i).getPOSTag();
+          posTags.add(targetPosTag);
         }
       }
       if (pPosRegexMatch != null && posTagReplace != null) {
@@ -287,11 +285,9 @@ public class Match {
       final int numRead = formattedToken.getReadingsLength();
       for (int i = 0; i < numRead; i++) {
         final String tst = formattedToken.getAnalyzedToken(i).getPOSTag();
-        if (tst != null) {
-          if (pPosRegexMatch.matcher(tst).matches()) {
-            targetPosTag = formattedToken.getAnalyzedToken(i).getPOSTag();
-            posTags.add(targetPosTag);
-          }
+        if (tst != null && pPosRegexMatch.matcher(tst).matches()) {
+          targetPosTag = formattedToken.getAnalyzedToken(i).getPOSTag();
+          posTags.add(targetPosTag);
         }
       }
       if (pPosRegexMatch != null && posTagReplace != null) {
@@ -324,18 +320,14 @@ public class Match {
    * 
    * @return Formatted string of the matched token.
    */
-  public final String toTokenString() {
+  public final String toTokenString() throws IOException {
     final StringBuilder output = new StringBuilder();
-    try {
-      final String[] stringToFormat = toFinalString();
-      for (int i = 0; i < stringToFormat.length; i++) {
-        output.append(stringToFormat[i]);
-        if (i + 1 < stringToFormat.length) {
-          output.append("|");
-        }
+    final String[] stringToFormat = toFinalString();
+    for (int i = 0; i < stringToFormat.length; i++) {
+      output.append(stringToFormat[i]);
+      if (i + 1 < stringToFormat.length) {
+        output.append("|");
       }
-    } catch (final IOException e) {
-      throw new RuntimeException(e.getCause());
     }
     return output.toString();
   }
@@ -418,26 +410,25 @@ public class Match {
           String targetPosTag = posTag;
           for (int i = 0; i < numRead; i++) {
             final String tst = formattedToken.getAnalyzedToken(i).getPOSTag();
-            if (tst != null) {
-              if (pPosRegexMatch.matcher(tst).matches()) {
-                targetPosTag = formattedToken.getAnalyzedToken(i).getPOSTag();
-                if (posTagReplace != null) {
-                  targetPosTag = pPosRegexMatch.matcher(targetPosTag)
-                      .replaceAll(posTagReplace);
-                }
-                l.add(new AnalyzedToken(token, targetPosTag, formattedToken
-                    .getAnalyzedToken(i).getLemma(), formattedToken
-                    .getStartPos()));
+            if (tst != null && pPosRegexMatch.matcher(tst).matches()) {
+              targetPosTag = formattedToken.getAnalyzedToken(i).getPOSTag();
+              if (posTagReplace != null) {
+                targetPosTag = pPosRegexMatch.matcher(targetPosTag).replaceAll(
+                    posTagReplace);
               }
+              l
+                  .add(new AnalyzedToken(token, targetPosTag, formattedToken
+                      .getAnalyzedToken(i).getLemma(), formattedToken
+                      .getStartPos()));
             }
           }
           if (l.isEmpty()) {
-            for (AnalyzedToken anaTok : getNewToken(numRead, token)) {
+            for (final AnalyzedToken anaTok : getNewToken(numRead, token)) {
               l.add(anaTok);
             }
           }
         } else {
-          for (AnalyzedToken anaTok : getNewToken(numRead, token)) {
+          for (final AnalyzedToken anaTok : getNewToken(numRead, token)) {
             l.add(anaTok);
           }
         }
@@ -469,9 +460,10 @@ public class Match {
   }
 
   /**
-   * @param inMessageOnly the inMessageOnly to set
+   * @param inMessageOnly
+   *          the inMessageOnly to set
    */
-  public void setInMessageOnly(boolean inMessageOnly) {
+  public void setInMessageOnly(final boolean inMessageOnly) {
     this.inMessageOnly = inMessageOnly;
   }
 

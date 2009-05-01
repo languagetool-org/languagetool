@@ -237,7 +237,7 @@ public class DisambiguationPatternRule {
 
   private boolean testAllReadings(final AnalyzedTokenReadings[] tokens,
       final Element elem, final Element prevElement, final int tokenNo,
-      final int firstMatchToken, final int prevSkipNext) {
+      final int firstMatchToken, final int prevSkipNext) throws IOException {
     boolean exceptionMatched = false;
     boolean thisMatched = false;
     final int numberOfReadings = tokens[tokenNo].getReadingsLength();
@@ -259,7 +259,7 @@ public class DisambiguationPatternRule {
   }
 
   private void setupAndGroup(final int readNo, final int firstMatchToken,
-      final Element elem, final AnalyzedTokenReadings[] tokens) {
+      final Element elem, final AnalyzedTokenReadings[] tokens) throws IOException {
     if (elem.hasAndGroup()) {
       for (final Element andElement : elem.getAndGroup()) {
         if (andElement.isReferenceElement()) {
@@ -294,7 +294,7 @@ public class DisambiguationPatternRule {
   }
 
   private void setupRef(final int firstMatchToken, final Element elem,
-      final AnalyzedTokenReadings[] tokens) {
+      final AnalyzedTokenReadings[] tokens) throws IOException {
     if (elem.isReferenceElement()) {
       final int refPos = firstMatchToken + elem.getMatch().getTokenRef();
       if (refPos < tokens.length) {

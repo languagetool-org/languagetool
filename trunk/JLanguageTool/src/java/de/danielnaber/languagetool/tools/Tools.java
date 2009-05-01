@@ -182,7 +182,7 @@ public final class Tools {
     if (!ruleMatches.isEmpty()) {
       final StringBuilder sb = new StringBuilder(contents);
       //build error list:
-      List<String> errors = new ArrayList<String>();
+      final List<String> errors = new ArrayList<String>();
       for (RuleMatch rm : ruleMatches) {
         final List<String> replacements = rm.getSuggestedReplacements();
         if (!replacements.isEmpty()) {
