@@ -60,6 +60,7 @@ the <?=show_link("Changelog", "download/CHANGES.txt", 0) ?>.</p>
 </div>
 </div>
 
+<!-- 
 <div class="outerDownloadSection">
 <strong>Download for OpenOffice.org 2.x:</strong><br />
 <div class="downloadSection">
@@ -68,7 +69,8 @@ the <?=show_link("Changelog", "download/CHANGES.txt", 0) ?>.</p>
 	or later. NOTE: this version does not work with OpenOffice.org 3.0</p>
 </div>
 </div>
-
+ -->
+ 
 <!-- -->
 <p><strong>Try LanguageTool via Java WebStart:</strong><br />
 <?=show_link("Start LanguageTool (13&nbsp;MB)", "webstart/LanguageTool.jnlp", 0) ?></p>
