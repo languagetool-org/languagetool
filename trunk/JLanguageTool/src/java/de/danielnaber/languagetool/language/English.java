@@ -29,6 +29,8 @@ import de.danielnaber.languagetool.tagging.Tagger;
 import de.danielnaber.languagetool.tagging.disambiguation.Disambiguator;
 import de.danielnaber.languagetool.tagging.disambiguation.rules.en.EnglishRuleDisambiguator;
 import de.danielnaber.languagetool.tagging.en.EnglishTagger;
+import de.danielnaber.languagetool.tokenizers.SRXSentenceTokenizer;
+import de.danielnaber.languagetool.tokenizers.SentenceTokenizer;
 import de.danielnaber.languagetool.tokenizers.Tokenizer;
 import de.danielnaber.languagetool.tokenizers.en.EnglishWordTokenizer;
 
@@ -36,6 +38,7 @@ public class English extends Language {
 
   private Tagger tagger = new EnglishTagger();
   private Tokenizer wordTokenizer = new EnglishWordTokenizer();
+  private SentenceTokenizer sentenceTokenizer = new SRXSentenceTokenizer("en"); 
   private Synthesizer synthesizer = new EnglishSynthesizer();
   private Disambiguator disambiguator = new EnglishRuleDisambiguator();
 
@@ -45,6 +48,10 @@ public class English extends Language {
     return new Locale(getShortName());
   }
 
+  public final SentenceTokenizer getSentenceTokenizer() {
+    return sentenceTokenizer;
+  }
+  
   public final String getName() {
     return "English";
   }
