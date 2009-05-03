@@ -40,6 +40,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.Reader;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
@@ -212,16 +214,21 @@ public final class Main implements ActionListener {
   }
 
   private void populateLanguageBox() {
-    langBox.removeAllItems();
+    List<String> toSort = new ArrayList<String>();
+    langBox.removeAllItems();    
     for (final Language lang : Language.LANGUAGES) {
       if (lang != Language.DEMO) {
         try {
-          langBox.addItem(messages.getString(lang.getShortName()));
+          toSort.add(messages.getString(lang.getShortName()));
         } catch (final MissingResourceException e) {
           // can happen with external rules:
-          langBox.addItem(lang.getName());
+          toSort.add(lang.getName());
         }
       }
+    }
+    Collections.sort(toSort);
+    for (final String lng : toSort) {
+      langBox.addItem(lng);
     }
   }
 
