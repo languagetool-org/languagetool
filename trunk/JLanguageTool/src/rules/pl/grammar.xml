@@ -6,7 +6,7 @@ title="Easy editing stylesheet" ?>
 <!--
 Polish Grammar and Typo Rules for LanguageTool
 Copyright (C) 2006-2007 Marcin Miłkowski
-$Id: grammar.xml,v 1.184 2009-04-26 12:21:44 milek_pl Exp $
+$Id: grammar.xml,v 1.185 2009-05-03 20:19:49 milek_pl Exp $
 -->
 <rules lang="pl">
   <unification feature="number">
@@ -1683,12 +1683,13 @@ Powinno być: <suggestion>\2, \3 \4</suggestion>.</message>
       <pattern mark_from="2">
         <token postag="SENT_START" skip="-1"/>
         <token postag="verb:.*(sg|pl).*|verb:imps.*|verb:irreg|pred" postag_regexp="yes" skip="-1"/>
-        <token postag="SENT_END"><exception regexp="yes">[\p{Punct}…”]</exception></token>
+        <token postag="SENT_END"><exception regexp="yes">[\p{Punct}…”]</exception><exception scope="previous">.</exception></token>
       </pattern>
       <message>To zdanie nie kończy się kropką ani innym znakiem interpunkcyjnym. Powinno być: <suggestion>\3.</suggestion></message>
       <short>Zdanie bez kropki</short>
       <example correction="złotych." type="incorrect">Pożycz mi sto <marker>złotych</marker></example>
       <example type="correct">Pożycz mi sto złotych.</example>
+      <example type="correct">To jest zdanie z „cytatem na końcu i przypisem”.</example>
       <example type="correct">Pożycz mi sto złotych…</example>
     </rule>
   </category>
@@ -1805,6 +1806,26 @@ Powinno być: <suggestion>\2, \3 \4</suggestion>.</message>
         <short>Nieprawidłowy cudzysłów</short>
         <example correction="„" type="incorrect">To jest <marker>"</marker>test".</example>
         <example type="correct">To jest „test”.</example>
+      </rule>
+      <rule>
+        <pattern case_sensitive="no">
+          <token postag="SENT_START"/>
+          <token spacebefore="no">"</token>
+        </pattern>
+        <message>W tym miejscu powinien być typograficzny cudzysłów otwierający: <suggestion>„</suggestion>.</message>
+        <short>Nieprawidłowy cudzysłów</short>
+        <example correction="„" type="incorrect"><marker>"</marker>Test".</example>
+        <example type="correct">„Test”.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="1" mark_to="0">
+          <token regexp="yes">.*\p{L}</token>
+          <token postag="SENT_END" spacebefore="no">"</token>
+        </pattern>
+        <message>W tym miejscu powinien być typograficzny cudzysłów zamykający: <suggestion>”</suggestion>.</message>
+        <short>Nieprawidłowy cudzysłów</short>
+        <example correction="”" type="incorrect">"Test<marker>"</marker></example>
+        <example type="correct">„Test”</example>
       </rule>
     </rulegroup>
     <rulegroup id="TZW_CUDZYSLOW" name="Cudzysłów po skrócie „tzw.”">
@@ -5673,6 +5694,20 @@ lub <suggestion>\2 na prawach wyłączności</suggestion>.</message>
     </rule>
   </category>
   <category name="Błędy różne">
+    <rulegroup id="PL_DWA_WYRAZY" name="Powtórzenie dwóch wyrazów („dla niego dla niego”)">
+      <rule>
+        <pattern>
+          <token negate_pos="yes" postag="SENT_START" regexp="yes">\p{L}+</token>
+          <token regexp="yes">\p{L}+</token>
+          <token><match no="0"/></token>
+          <token><match no="1"/></token>
+        </pattern>
+        <message>Te dwa wyrazy się powtarzają. Prawdopodobnie wystarczy zostawić tylko <suggestion>\1 \2</suggestion> albo rozdzielić oba wystąpienia przecinkiem: <suggestion>\1 \2, \3 \4</suggestion>.</message>
+        <short>Powtórzone wyrażenie</short>
+        <example correction="do niego|do niego, do niego" type="incorrect">Idź <marker>do niego do niego</marker>.</example>
+        <example type="correct">Idź do niego.</example>
+      </rule>
+    </rulegroup>
     <rulegroup id="NA_POCZ_XX" name="„na początku XX” (na początku XX wieku)">
       <rule>
         <pattern case_sensitive="yes" mark_to="-1">

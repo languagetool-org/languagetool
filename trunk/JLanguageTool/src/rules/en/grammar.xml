@@ -7,7 +7,7 @@ title="Easy editing stylesheet" ?>
 English Grammar and Typo Rules for LanguageTool
 See tagset.txt for the meaning of the POS tags
 Copyright (C) 2001-2007 Daniel Naber (http://www.danielnaber.de)
-$Id: grammar.xml,v 1.106 2009-05-01 21:12:53 milek_pl Exp $
+$Id: grammar.xml,v 1.107 2009-05-03 20:19:49 milek_pl Exp $
 -->
 <rules lang="en">
   <!-- ====================================================================== -->
@@ -4022,6 +4022,29 @@ $Id: grammar.xml,v 1.106 2009-05-01 21:12:53 milek_pl Exp $
   <!-- Miscellaneous -->
   <!-- ====================================================================== -->
   <category name="Miscellaneous">
+    <rulegroup id="EN_QUOTES" name="smart quotes (“”)">
+      <rule>
+        <pattern>
+          <token postag="``"/>
+        </pattern>
+        <message>Use a smart opening quote here: <suggestion>“</suggestion>.</message>
+        <short>Use smart quotes</short>
+        <example correction="“" type="incorrect">This is a (<marker>"</marker>test").</example>
+        <example correction="“" type="incorrect"><marker>"</marker>Test"!</example>
+        <example type="correct">“Test”!</example>
+        <example correction="“" type="incorrect">This is another <marker>"</marker>test".</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token postag="''"/>
+        </pattern>
+        <message>Use a smart closing quote here: <suggestion>”</suggestion>.</message>
+        <example correction="”" type="incorrect">This is a ("test<marker>"</marker>)</example>
+        <example correction="”" type="incorrect">Use a quote "here<marker>"</marker> to say something.</example>
+        <example correction="”" type="incorrect">This is another "test<marker>"</marker>.</example>
+        <example type="correct">“Test”!</example>
+      </rule>
+    </rulegroup>
     <rule default="off" id="ELLIPSIS" name="smart ellipsis (…)">
       <pattern>
         <token>.</token>
@@ -4100,42 +4123,23 @@ $Id: grammar.xml,v 1.106 2009-05-01 21:12:53 milek_pl Exp $
       <example correction="a lonely|another lonely" type="incorrect">It's <marker>an another lonely</marker> night.</example>
       <example type="correct">It's another lonely night.</example>
     </rule>
-    <rulegroup id="PHRASE_REPETITION" name="Phrase repetition">
-      <!--  from Wikipedia Typos page -->
+    <rulegroup id="PHRASE_REPETITION" name="Repetition of two words ('at the at the')">
+      <!--  made more general-->
       <rule>
         <pattern>
-          <token>at</token>
-          <token>the</token>
-          <token>at</token>
-          <token>the</token>
+          <token negate_pos="yes" postag="SENT_START" regexp="yes"><exception>and</exception>\p{L}+</token>
+          <token regexp="yes"><exception>and</exception>\p{L}+</token>
+          <token><match no="0"/></token>
+          <token><match no="1"/></token>
         </pattern>
         <message>This phrase is duplicated. You should probably leave only <suggestion>\1 \2</suggestion>.</message>
         <short>Duplicated phrase</short>
         <example correction="at the" type="incorrect">Hepatology <marker>at the at the</marker> turn of centuries.</example>
         <example type="correct">Hepatology <marker>at the</marker> turn of centuries.</example>
-      </rule>
-      <rule>
-        <pattern>
-          <token>on</token>
-          <token>the</token>
-          <token>on</token>
-          <token>the</token>
-        </pattern>
-        <message>This phrase is duplicated. You should probably leave only <suggestion>\1 \2</suggestion>.</message>
-        <short>Duplicated phrase</short>
         <example type="incorrect">Again he returned to the study and placed the lamp <marker>on the on the</marker> table</example>
         <example type="correct">Again he returned to the study and placed the lamp <marker>on the</marker> table</example>
-      </rule>
-      <rule>
-        <pattern>
-          <token>from</token>
-          <token>the</token>
-          <token>from</token>
-          <token>the</token>
-        </pattern>
-        <message>This phrase is duplicated. You should probably leave only <suggestion>\1 \2</suggestion>.</message>
-        <short>Duplicated phrase</short>
         <example type="incorrect">A handicapped accessible shuttle bus is available <marker>from the from the</marker> Purdue University parking lot.</example>
+        <example type="correct">All we wanted to do was to stand very quietly and look and look and look.</example>
         <example type="correct">A handicapped accessible shuttle bus is available <marker>from the</marker> Purdue University parking lot.</example>
       </rule>
     </rulegroup>
