@@ -43,6 +43,8 @@ public class CommaWhitespaceRuleTest extends TestCase {
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("&quot;This is it,&quot; he said.")).length);
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("Das kostet €2,45.")).length);
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("Das kostet 50,- Euro")).length);
+    //test OpenOffice field codes:
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence("In his book,\u0002 Einstein proved this to be true.")).length);
     
     // errors:
     matches = rule.match(langTool.getAnalyzedSentence("This,is a test sentence."));

@@ -93,7 +93,7 @@ public class AnalyzedTokenReadings {
   private boolean isParaEnd;
 
   private boolean isWhitespaceBefore;
-
+  
   public AnalyzedTokenReadings(final AnalyzedToken[] r) {
     anTokReadings = r.clone();
     this.startPos = anTokReadings[0].getStartPos();
@@ -183,7 +183,7 @@ public class AnalyzedTokenReadings {
   public final boolean isWhitespace() {
     return isWhitespace;
   }
-
+  
   /**
    * Returns true if the token equals \n, \r\n \n\r or \r\n.
    * 
@@ -220,6 +220,14 @@ public class AnalyzedTokenReadings {
    */
   public final boolean isSentEnd() {
     return isSentEnd;
+  }
+  
+  /**
+   * @since 0.9.9
+   * @return true if the token is OpenOffice field code.
+   */
+  public final boolean isFieldCode() {
+    return "\u0001".equals(token) || "\u0002".equals(token);
   }
 
   /**

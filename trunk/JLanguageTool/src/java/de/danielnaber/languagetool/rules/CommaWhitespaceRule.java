@@ -58,7 +58,8 @@ public class CommaWhitespaceRule extends Rule {
     int prevLen = 0;
     for (int i = 0; i < tokens.length; i++) {
       final String token = tokens[i].getToken().trim();
-      final boolean isWhite = tokens[i].isWhitespace();
+      final boolean isWhite = tokens[i].isWhitespace() 
+          || tokens[i].isFieldCode();
       pos += token.length();
       String msg = null;
       int fixLen = 0;
