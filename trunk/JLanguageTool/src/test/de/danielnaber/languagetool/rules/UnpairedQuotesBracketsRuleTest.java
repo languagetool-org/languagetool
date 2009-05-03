@@ -191,4 +191,80 @@ public class UnpairedQuotesBracketsRuleTest extends TestCase {
     assertEquals(1, matches.length);
   }
 
+  public void testRuleRomanian() throws IOException {
+	    UnpairedQuotesBracketsRule rule = new UnpairedQuotesBracketsRule(TestTools
+	        .getEnglishMessages(), Language.ROMANIAN);
+	    RuleMatch[] matches;
+	    JLanguageTool langTool = new JLanguageTool(Language.ROMANIAN);
+	    // correct sentences:
+	    matches = rule.match(langTool
+	        .getAnalyzedSentence("A fost plecat (pentru puțin timp)."));
+	    assertEquals(0, matches.length);
+	    // correct sentences:
+	    matches = rule.match(langTool
+	        .getAnalyzedSentence("Nu's de prin locurile astea."));
+	    assertEquals(0, matches.length);
+	    // FIXME: implement cross-bracket matching
+//	    // incorrect sentences:
+//	    matches = rule
+//	        .match(langTool
+//	            .getAnalyzedSentence("A fost )plecat( pentru (puțin timp)."));
+//	    assertEquals(2, matches.length);
+	    // FIXME: implement cross-bracket matching
+//	    // incorrect sentences:
+//	    matches = rule
+//	        .match(langTool
+//	            .getAnalyzedSentence("A fost {plecat) pentru (puțin timp}."));
+//	    assertEquals(2, matches.length);
+	    // correct sentences:
+	    matches = rule.match(langTool
+	        .getAnalyzedSentence("A fost plecat pentru „puțin timp”."));
+	    assertEquals(0, matches.length);
+	    // correct sentences:
+	    matches = rule
+	        .match(langTool
+	            .getAnalyzedSentence("A fost plecat „pentru... puțin timp”."));
+	    assertEquals(0, matches.length);
+	    // correct sentences:
+	    matches = rule
+	        .match(langTool
+	            .getAnalyzedSentence("A fost plecat „pentru... «puțin» timp”."));
+	    assertEquals(0, matches.length);
+	    // correct sentences ( " is _not_ a Romanian symbol - just 
+	    // ignore it, the correct form is [„] (start quote) and [”] (end quote) 
+	    matches = rule
+	        .match(langTool
+	            .getAnalyzedSentence("A fost plecat \"pentru puțin timp."));
+	    assertEquals(0, matches.length);
+	    // incorrect sentences:
+	    matches = rule.match(langTool
+	        .getAnalyzedSentence("A fost plecat „pentru... puțin timp."));
+	    assertEquals(1, matches.length);
+	    // incorrect sentences:
+	    matches = rule
+	        .match(langTool
+	            .getAnalyzedSentence("A fost plecat «puțin."));
+	    assertEquals(1, matches.length);
+	    // incorrect sentences:
+	    matches = rule
+	        .match(langTool
+	            .getAnalyzedSentence("A fost plecat „pentru «puțin timp”."));
+	    assertEquals(1, matches.length);
+	    // incorrect sentences:
+	    matches = rule
+	        .match(langTool
+	            .getAnalyzedSentence("A fost plecat „pentru puțin» timp”."));
+	    assertEquals(1, matches.length);
+	    // incorrect sentences:
+	    matches = rule
+	        .match(langTool
+	            .getAnalyzedSentence("A fost plecat „pentru... puțin» timp”."));
+	    assertEquals(1, matches.length);
+	    // FIXME: implement cross-bracket matching 
+//	    // incorrect sentences:
+//	    matches = rule
+//	        .match(langTool
+//	            .getAnalyzedSentence("A fost plecat „pentru... «puțin” timp»."));
+//	    assertEquals(1, matches.length);
+	  }
 }
