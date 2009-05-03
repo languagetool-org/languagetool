@@ -191,7 +191,7 @@ public class UnpairedQuotesBracketsRule extends Rule {
 
         boolean followedByWhitespace = true;
         if (i < tokens.length - 1 && startSymbols[j].equals(endSymbols[j])) {
-          followedByWhitespace = tokens[i + 1].isWhitespace()
+          followedByWhitespace = tokens[i + 1].isWhitespaceBefore()
           || PUNCTUATION.matcher(tokens[i + 1].getToken()).matches();
         }
 

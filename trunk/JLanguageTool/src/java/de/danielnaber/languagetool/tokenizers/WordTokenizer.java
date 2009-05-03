@@ -23,7 +23,7 @@ import java.util.List;
 import java.util.StringTokenizer;
 
 /**
- * Tokenizes a sentence into words. 
+ * Tokenizes a sentence into words.
  * Punctuation and whitespace gets its own token.
  * 
  * @author Daniel Naber
