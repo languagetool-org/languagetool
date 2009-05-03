@@ -51,7 +51,7 @@ public class Element {
 
   private boolean testWhitespace;
   private boolean whitespaceBefore;
-
+  
   /**
    * List of exceptions that are valid for the current token and / or some next
    * tokens.
@@ -148,7 +148,7 @@ public class Element {
     this.caseSensitive = caseSensitive;
     this.stringRegExp = regExp;
     this.inflected = inflected;
-    setStringElement(token);
+    setStringElement(token);    
   }
 
   /**
@@ -394,15 +394,15 @@ public class Element {
   /**
    * Checks if the token is a SENT_START.
    * 
-   * @return True if the token starts the sentence.
+   * @return 
+   * True if the element starts the sentence and
+   * the element hasn't been set to have negated
+   * POS token.
+   * 
    */
-  public final boolean isSentStart() {
-    boolean equals = false;
-    if (posToken != null) {
-      equals = JLanguageTool.SENTENCE_START_TAGNAME.equals(posToken)
-          && posNegation;
-    }
-    return equals;
+  public final boolean isSentStart() {    
+    return JLanguageTool.SENTENCE_START_TAGNAME.equals(posToken)
+    && !posNegation;
   }
 
   @Override
@@ -431,7 +431,7 @@ public class Element {
     posRegExp = regExp;
     if (posRegExp) {
       pPos = Pattern.compile(posToken);
-    }
+    }            
   }
 
   public final String getString() {
@@ -584,7 +584,7 @@ public class Element {
    * Tests whether the string token element matches a given token.
    * 
    * @param token
-   * @AnalyzedToken to match against.
+   * {@link #AnalyzedToken} to match against.
    * @return True if matches.
    */
   private boolean isStringTokenMatched(final AnalyzedToken token) {
@@ -621,7 +621,7 @@ public class Element {
   /**
    * Gets the exception scope length.
    * 
-   * @return @int Scope length.
+   * @return Scope length.
    */
   public final int getSkipNext() {
     return skip;
@@ -631,7 +631,7 @@ public class Element {
    * Sets the exception scope length.
    * 
    * @param i
-   * @int Exception scope length.
+   *  Exception scope length.
    */
   public final void setSkipNext(final int i) {
     skip = i;
