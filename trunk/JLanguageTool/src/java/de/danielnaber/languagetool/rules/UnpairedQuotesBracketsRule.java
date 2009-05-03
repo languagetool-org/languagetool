@@ -21,6 +21,7 @@ package de.danielnaber.languagetool.rules;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Stack;
 import java.util.ResourceBundle;
 import java.util.regex.Pattern;
 
@@ -28,7 +29,9 @@ import de.danielnaber.languagetool.AnalyzedSentence;
 import de.danielnaber.languagetool.AnalyzedTokenReadings;
 import de.danielnaber.languagetool.Language;
 
-/** Rule that finds unpaired quotes, brackets etc. 
+/**
+ * Rule that finds unpaired quotes, brackets etc.
+ * 
  * @author Marcin Miłkowski
  * **/
 public class UnpairedQuotesBracketsRule extends Rule {
@@ -44,55 +47,56 @@ public class UnpairedQuotesBracketsRule extends Rule {
   private final String[] endSymbols;
 
   private static final String[] EN_START_SYMBOLS = { "[", "(", "{", "“", "\"",
-  "'" };
+      "'" };
   private static final String[] EN_END_SYMBOLS = { "]", ")", "}", "”", "\"",
-  "'" };
+      "'" };
 
   private static final String[] PL_START_SYMBOLS = { "[", "(", "{", "„", "»",
-  "\"" };
+      "\"" };
   private static final String[] PL_END_SYMBOLS = { "]", ")", "}", "”", "«",
-  "\"" };
-  
-  private static final String[] SK_START_SYMBOLS = { "[", "(", "{", "„", "»",
-  "\"" };
-  private static final String[] SK_END_SYMBOLS = { "]", ")", "}", "“", "«",
-  "\"" };
+      "\"" };
 
-  private static final String[] RO_START_SYMBOLS = { "[", "(", "{", "„", "»"};
-  private static final String[] RO_END_SYMBOLS = { "]", ")", "}", "”", "«" };
+  private static final String[] SK_START_SYMBOLS = { "[", "(", "{", "„", "»",
+      "\"" };
+  private static final String[] SK_END_SYMBOLS = { "]", ")", "}", "“", "«",
+      "\"" };
+
+  private static final String[] RO_START_SYMBOLS = { "[", "(", "{", "„", "«" };
+  private static final String[] RO_END_SYMBOLS = { "]", ")", "}", "”", "»" };
 
   private static final String[] FR_START_SYMBOLS = { "[", "(", "{", "»", "‘" };
   private static final String[] FR_END_SYMBOLS = { "]", ")", "}", "«", "’" };
 
   private static final String[] DE_START_SYMBOLS = { "[", "(", "{", "„", "»",
-  "‘" };
+      "‘" };
   private static final String[] DE_END_SYMBOLS = { "]", ")", "}", "“", "«", "’" };
 
   private static final String[] ES_START_SYMBOLS = { "[", "(", "{", "“", "«",
-    "¿", "¡" };
+      "¿", "¡" };
   private static final String[] ES_END_SYMBOLS = { "]", ")", "}", "”", "»",
-    "?", "!" };
+      "?", "!" };
 
   private static final String[] UK_START_SYMBOLS = { "[", "(", "{", "„", "«" };
   private static final String[] UK_END_SYMBOLS = { "]", ")", "}", "“", "»" };
 
   private static final String[] RU_START_SYMBOLS = { "[", "(", "{", "„", "«",
-    "\"", "'" };
+      "\"", "'" };
   private static final String[] RU_END_SYMBOLS = { "]", ")", "}", "“", "»",
-    "\"", "'" };
+      "\"", "'" };
 
   private static final String[] NL_START_SYMBOLS = { "[", "(", "{", "„", "“",
-  "‘" };
+      "‘" };
   private static final String[] NL_END_SYMBOLS = { "]", ")", "}", "”", "”", "’" };
 
   private static final String[] IT_START_SYMBOLS = { "[", "(", "{", "»", "‘" };
   private static final String[] IT_END_SYMBOLS = { "]", ")", "}", "«", "’" };
 
   /**
-   * The counter used for pairing symbols.
+   * The stack for pairing symbols.
    */
-  private int[] symbolCounter;
+  private Stack<String> symbolStack = new Stack<String>();
 
+  //TODO: make this a stack as well
   private int[] ruleMatchArray;
 
   private boolean reachedEndOfParagraph;
@@ -101,10 +105,11 @@ public class UnpairedQuotesBracketsRule extends Rule {
 
   private static final Pattern PUNCTUATION = Pattern.compile("\\p{Punct}");
   private static final Pattern PUNCTUATION_NO_DOT = Pattern
-  .compile("[\\p{Punct}&&[^\\.]]");
+      .compile("[\\p{Punct}&&[^\\.]]");
   private static final Pattern NUMBER = Pattern.compile("\\d+");
   private static final Pattern NUMERALS = Pattern
-  .compile("(?i)\\d{1,2}?[a-z']*|M*(D?C{0,3}|C[DM])(L?X{0,3}|X[LC])(V?I{0,3}|I[VX])$");
+      .compile("(?i)\\d{1,2}?[a-z']*|M*(D?C{0,3}|C[DM])(L?X{0,3}|X[LC])(V?I{0,3}|I[VX])$");
+  private int ruleMatchIndex;
 
   public UnpairedQuotesBracketsRule(final ResourceBundle messages,
       final Language language) {
@@ -143,18 +148,16 @@ public class UnpairedQuotesBracketsRule extends Rule {
       startSymbols = IT_START_SYMBOLS;
       endSymbols = IT_END_SYMBOLS;
     } else if (language.equals(Language.ROMANIAN)) {
-        startSymbols = RO_START_SYMBOLS;
-        endSymbols = RO_END_SYMBOLS;
-      } else {
+      startSymbols = RO_START_SYMBOLS;
+      endSymbols = RO_END_SYMBOLS;
+    } else {
       startSymbols = START_SYMBOLS;
       endSymbols = END_SYMBOLS;
     }
 
-    symbolCounter = new int[startSymbols.length];
     ruleMatchArray = new int[startSymbols.length];
 
     for (int i = 0; i < startSymbols.length; i++) {
-      symbolCounter[i] = 0;
       ruleMatchArray[i] = 0;
     }
     ruleLang = language;
@@ -168,6 +171,7 @@ public class UnpairedQuotesBracketsRule extends Rule {
     return messages.getString("desc_unpaired_brackets");
   }
 
+  //FIXME: I am too long.
   public final RuleMatch[] match(final AnalyzedSentence text) {
     final List<RuleMatch> ruleMatches = new ArrayList<RuleMatch>();
     final AnalyzedTokenReadings[] tokens = text.getTokensWithoutWhitespace();
@@ -176,30 +180,31 @@ public class UnpairedQuotesBracketsRule extends Rule {
       reset();
     }
 
-    int ruleMatchIndex = getMatchesIndex();
+    ruleMatchIndex = getMatchesIndex();
 
-    int pos = 0;
+//TODO: invert the order of loops
+    
     for (int j = 0; j < startSymbols.length; j++) {
       for (int i = 1; i < tokens.length; i++) {
         final String token = tokens[i].getToken().trim();
         boolean precededByWhitespace = true;
         if (startSymbols[j].equals(endSymbols[j])) {
           precededByWhitespace = tokens[i - 1].isSentStart()
-          || tokens[i].isWhitespaceBefore()
-          || PUNCTUATION_NO_DOT.matcher(tokens[i - 1].getToken()).matches();
+              || tokens[i].isWhitespaceBefore()
+              || PUNCTUATION_NO_DOT.matcher(tokens[i - 1].getToken()).matches();
         }
 
         boolean followedByWhitespace = true;
         if (i < tokens.length - 1 && startSymbols[j].equals(endSymbols[j])) {
           followedByWhitespace = tokens[i + 1].isWhitespaceBefore()
-          || PUNCTUATION.matcher(tokens[i + 1].getToken()).matches();
+              || PUNCTUATION.matcher(tokens[i + 1].getToken()).matches();
         }
 
         if (followedByWhitespace && precededByWhitespace) {
           if (i == tokens.length) {
             precededByWhitespace = false;
           } else if (startSymbols[j].equals(endSymbols[j])) {
-            if (symbolCounter[j] > 0) {
+            if (!symbolStack.isEmpty()) {
               precededByWhitespace = false;
             } else {
               followedByWhitespace = false;
@@ -224,51 +229,58 @@ public class UnpairedQuotesBracketsRule extends Rule {
               && noException
               && (tokens[i - 1].getToken().charAt(
                   tokens[i - 1].getToken().length() - 1) == 's')
-                  && (tokens[i - 1].hasPosTag("NNS") || tokens[i - 1].hasPosTag("NNPS"))) {
+              && (tokens[i - 1].hasPosTag("NNS") || tokens[i - 1]
+                  .hasPosTag("NNPS"))) {
             noException = false;
           }
         }
 
         if (noException && precededByWhitespace
             && token.equals(startSymbols[j])) {
-          symbolCounter[j]++;
-          pos = i;
+          symbolStack.push(startSymbols[j] + i);
         } else if (noException && followedByWhitespace
             && token.equals(endSymbols[j])) {
-          if (i > 1 && endSymbols[j].equals(")") && symbolCounter[j] == 0) {
+          if (i > 1 && endSymbols[j].equals(")")) {
             // exception for bullets: 1), 2), 3)...,
             // II), 2') and 1a).
             if (!NUMERALS.matcher(tokens[i - 1].getToken()).matches()) {
-              symbolCounter[j]--;
-              pos = i;
+              if (!symbolStack.isEmpty()) {
+                if (symbolStack.peek().startsWith(startSymbols[j])) {
+                  symbolStack.pop();
+                } else {
+                  symbolStack.push(endSymbols[j] + i);
+                }
+              } else {
+                symbolStack.push(endSymbols[j] + i);
+              }
             }
           } else {
-            symbolCounter[j]--;
-            pos = i;
+            if (!symbolStack.isEmpty()) {
+              if (symbolStack.peek().startsWith(startSymbols[j])) {
+                symbolStack.pop();
+              } else {
+                symbolStack.push(endSymbols[j] + i);
+              }
+            } else {
+              symbolStack.push(endSymbols[j] + i);
+            }
           }
         }
-      }
-
-      for (int i = 0; i < symbolCounter.length; i++) {
-        if (symbolCounter[i] != 0) {
-          if (ruleMatchArray[i] != 0 && isInMatches(ruleMatchArray[i] - 1)) {
-            setAsDeleted(ruleMatchArray[i] - 1);
-            ruleMatchArray[i] = 0;
-          } else {
-            ruleMatchIndex++;
-            ruleMatchArray[i] = ruleMatchIndex;
-            final int startPos = tokens[pos].getStartPos();
-            final RuleMatch ruleMatch = new RuleMatch(this, startPos, 
-                startPos + 1, messages.getString("unpaired_brackets"));
-            ruleMatches.add(ruleMatch);
-          }
-
-         symbolCounter[i] = 0;
-
-        }
-      }
     }
-
+    
+    for (final String sym : symbolStack) {
+        final int num = Integer.decode(sym.substring(1));
+        final int symbolNum = findSymbolNum(sym.substring(0, 1));
+        if (symbolNum >= 0) {
+        RuleMatch rMatch = createMatch(tokens[num].getStartPos(), symbolNum);
+        if (rMatch != null) {
+          ruleMatches.add(rMatch);
+        }
+        }
+      }
+    symbolStack.clear();    
+    ruleMatchIndex = 0;
+    }
     if (tokens[tokens.length - 1].isParaEnd()) {
       reachedEndOfParagraph = true;
     }
@@ -276,15 +288,42 @@ public class UnpairedQuotesBracketsRule extends Rule {
     return toRuleMatchArray(ruleMatches);
   }
 
+  private RuleMatch createMatch(final int startPos, final int i) {
+    if (ruleMatchArray[i] != 0 && isInMatches(ruleMatchArray[i] - 1)) {
+      setAsDeleted(ruleMatchArray[i] - 1);
+      ruleMatchArray[i] = 0;
+    } else {
+      ruleMatchIndex++;
+      ruleMatchArray[i] = ruleMatchIndex;
+      return new RuleMatch(this, startPos, startPos + 1, messages
+          .getString("unpaired_brackets"));
+    }
+    return null;
+  }
+  
+  private int findSymbolNum(final String ch) {    
+    for (int i  = 0 ; i < startSymbols.length; i++) {
+      if (ch.equals(startSymbols[i])) {
+        return i;
+      }
+    }
+    for (int i  = 0 ; i < endSymbols.length; i++) {
+      if (ch.equals(endSymbols[i])) {
+        return i;
+      }
+    }
+    return -1;
+  }
+
   /**
    * Reset the state information for the rule, including paragraph-level
    * information.
    */
   public final void reset() {
-    for (int i = 0; i < symbolCounter.length; i++) {
-      symbolCounter[i] = 0;
+    for (int i = 0; i < startSymbols.length; i++) {
       ruleMatchArray[i] = 0;
     }
+    symbolStack.clear();    
     if (!reachedEndOfParagraph) {
       clearMatches();
     }

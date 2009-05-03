@@ -209,18 +209,16 @@ public class UnpairedQuotesBracketsRuleTest extends TestCase {
     matches = rule.match(langTool
         .getAnalyzedSentence("Nu's de prin locurile astea."));
     assertEquals(0, matches.length);
-    // FIXME: implement cross-bracket matching
-    // // incorrect sentences:
-    // matches = rule
-    // .match(langTool
-    // .getAnalyzedSentence("A fost )plecat( pentru (puțin timp)."));
-    // assertEquals(2, matches.length);
-    // FIXME: implement cross-bracket matching
-    // // incorrect sentences:
-    // matches = rule
-    // .match(langTool
-    // .getAnalyzedSentence("A fost {plecat) pentru (puțin timp}."));
-    // assertEquals(2, matches.length);
+    // cross-bracket matching
+    // incorrect sentences:
+    matches = rule.match(langTool
+        .getAnalyzedSentence("A fost )plecat( pentru (puțin timp)."));
+    assertEquals(2, matches.length); 
+    // cross-bracket matching
+    // incorrect sentences:
+    matches = rule.match(langTool
+        .getAnalyzedSentence("A fost {plecat) pentru (puțin timp}."));
+    assertEquals(2, matches.length); 
     // correct sentences:
     matches = rule.match(langTool
         .getAnalyzedSentence("A fost plecat pentru „puțin timp”."));
