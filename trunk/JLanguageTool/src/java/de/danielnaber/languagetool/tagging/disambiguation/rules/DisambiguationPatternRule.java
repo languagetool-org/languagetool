@@ -168,7 +168,7 @@ public class DisambiguationPatternRule {
    * @param text
    *      {@link #AnalyzedSentence} Sentence to be disambiguated.
    * @return
-   *      {@link #AnalyzedSentence} 
+   *      {@link #AnalyzedSentence}
    *      Disambiguated sentence (might be unchanged).
    * @throws IOException
    */
@@ -178,15 +178,11 @@ public class DisambiguationPatternRule {
     AnalyzedTokenReadings[] whTokens = text.getTokens();
     final int[] tokenPositions = new int[tokens.length + 1];
     final int patternSize = patternElements.size();
+    final int limit = Math.max(0, tokens.length - patternSize + 1);
     Element elem = null;
-    final boolean startWithSentStart = patternElements.get(0).isSentStart();
-    for (int i = 0; i < tokens.length; i++) {
-      boolean allElementsMatch = true;
-      // stop processing early
-      if (patternSize + i > tokens.length || startWithSentStart && i > 0) {
-        allElementsMatch = false;
-        break;
-      }
+    final boolean sentStart = patternElements.get(0).isSentStart();
+    for (int i = 0; i < limit && !(sentStart && i > 0); i++) {
+      boolean allElementsMatch = false;
       unifiedTokens = null;
       int matchingTokens = 0;
       int skipShiftTotal = 0;
@@ -198,11 +194,7 @@ public class DisambiguationPatternRule {
         elem = patternElements.get(k);
         setupRef(firstMatchToken, elem, tokens);
         final int skipNext = elem.getSkipNext();
-        final int nextPos = i + k + skipShiftTotal;
-        if (nextPos >= tokens.length) {
-          allElementsMatch = false;
-          break;
-        }
+        final int nextPos = i + k + skipShiftTotal;        
         prevMatched = false;
         if (prevSkipNext + nextPos >= tokens.length || prevSkipNext < 0) { // SENT_END?
           prevSkipNext = tokens.length - (nextPos + 1);
