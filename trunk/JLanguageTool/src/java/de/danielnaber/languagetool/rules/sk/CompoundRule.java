@@ -48,7 +48,7 @@ public final class CompoundRule extends AbstractCompoundRule {
   }
 
   public final String getDescription() {
-    return "Slová so spojovníkom napr. „česko-slovenský” namiesto „„česko slovenský”";
+    return "Slová so spojovníkom napr. použite „česko-slovenský” namiesto „česko slovenský”";
   }    
 
   

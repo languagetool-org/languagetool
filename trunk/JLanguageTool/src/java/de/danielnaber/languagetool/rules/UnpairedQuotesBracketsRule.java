@@ -52,6 +52,11 @@ public class UnpairedQuotesBracketsRule extends Rule {
   "\"" };
   private static final String[] PL_END_SYMBOLS = { "]", ")", "}", "”", "«",
   "\"" };
+  
+  private static final String[] SK_START_SYMBOLS = { "[", "(", "{", "„", "»",
+  "\"" };
+  private static final String[] SK_END_SYMBOLS = { "]", ")", "}", "“", "«",
+  "\"" };
 
   private static final String[] FR_START_SYMBOLS = { "[", "(", "{", "»", "‘" };
   private static final String[] FR_END_SYMBOLS = { "]", ")", "}", "«", "’" };
@@ -107,6 +112,9 @@ public class UnpairedQuotesBracketsRule extends Rule {
     if (language.equals(Language.POLISH)) {
       startSymbols = PL_START_SYMBOLS;
       endSymbols = PL_END_SYMBOLS;
+    } else if (language.equals(Language.SLOVAK)) {
+      startSymbols = SK_START_SYMBOLS;
+      endSymbols = SK_END_SYMBOLS;
     } else if (language.equals(Language.FRENCH)) {
       startSymbols = FR_START_SYMBOLS;
       endSymbols = FR_END_SYMBOLS;
