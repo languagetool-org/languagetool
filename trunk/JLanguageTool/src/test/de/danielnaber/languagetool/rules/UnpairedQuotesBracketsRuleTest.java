@@ -36,7 +36,7 @@ public class UnpairedQuotesBracketsRuleTest extends TestCase {
     // correct sentences:
     matches = rule.match(langTool
         .getAnalyzedSentence("(This is a test sentence)."));
-    assertEquals(0, matches.length);
+    assertEquals(0, matches.length);    
     matches = rule
         .match(langTool.getAnalyzedSentence("This is a word 'test'."));
     assertEquals(0, matches.length);
@@ -58,6 +58,9 @@ public class UnpairedQuotesBracketsRuleTest extends TestCase {
             .getAnalyzedSentence("This is what he said: \"We believe in freedom. This is what we do.\""));
     assertEquals(0, matches.length);
     matches = rule.match(langTool.getAnalyzedSentence("(([20] [20] [20]))"));
+    assertEquals(0, matches.length);
+    //test for a case that created a false alarm after disambiguation
+    matches = rule.match(langTool.getAnalyzedSentence("This is a \"special test\", right?"));
     assertEquals(0, matches.length);
     // numerical bullets
     matches = rule.match(langTool

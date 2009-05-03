@@ -153,12 +153,14 @@ public class AnalyzedTokenReadings {
     }
     if (anTokReadings[anTokReadings.length - 1].getPOSTag() != null) {
       l.add(anTokReadings[anTokReadings.length - 1]);
-    }
-    l.add(tok);
+    }    
+    l.add(tok);    
     anTokReadings = l.toArray(new AnalyzedToken[l.size()]);
     if (tok.getToken().length() > token.length()) { //in case a longer token is added
       token = tok.getToken();
     }
+    anTokReadings[anTokReadings.length - 1].
+      setWhitespaceBefore(isWhitespaceBefore);
     isParaEnd = hasPosTag(JLanguageTool.PARAGRAPH_END_TAGNAME);
     isSentEnd = hasPosTag(JLanguageTool.SENTENCE_END_TAGNAME);
   }

@@ -318,6 +318,7 @@ public class DisambiguationPatternRule {
     final int fromPos = text.getOriginalPosition(firstMatchToken
         + correctedStPos);
     final int numRead = whTokens[fromPos].getReadingsLength();
+    final boolean spaceBefore = whTokens[fromPos].isWhitespaceBefore();
     boolean filtered = false;
     switch (disAction) {
     case UNIFY:
@@ -358,7 +359,7 @@ public class DisambiguationPatternRule {
         final Match tmpMatchToken = new Match(disambiguatedPOS, null, true,
             disambiguatedPOS, null, Match.CaseConversion.NONE, false);
         tmpMatchToken.setToken(whTokens[fromPos]);
-        whTokens[fromPos] = tmpMatchToken.filterReadings(whTokens[fromPos]);
+        whTokens[fromPos] = tmpMatchToken.filterReadings();        
         filtered = true;
       }
     case REPLACE:
@@ -382,10 +383,12 @@ public class DisambiguationPatternRule {
               new AnalyzedToken(whTokens[fromPos].getToken(), disambiguatedPOS,
                   lemma, whTokens[fromPos].getStartPos()));
           whTokens[fromPos] = toReplace;
+          whTokens[fromPos].setWhitespaceBefore(spaceBefore);
         } else {
           // using the match element
           matchElement.setToken(whTokens[fromPos]);
-          whTokens[fromPos] = matchElement.filterReadings(whTokens[fromPos]);
+          whTokens[fromPos] = matchElement.filterReadings();
+          whTokens[fromPos].setWhitespaceBefore(spaceBefore);
         }
       }
     }

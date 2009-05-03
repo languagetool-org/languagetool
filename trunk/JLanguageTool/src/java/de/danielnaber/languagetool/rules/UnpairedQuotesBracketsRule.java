@@ -98,7 +98,7 @@ public class UnpairedQuotesBracketsRule extends Rule {
 
   private static final Pattern PUNCTUATION = Pattern.compile("\\p{Punct}");
   private static final Pattern PUNCTUATION_NO_DOT = Pattern
-  .compile("\\p{Punct}(?<!\\.)");
+  .compile("[\\p{Punct}&&[^\\.]]");
   private static final Pattern NUMBER = Pattern.compile("\\d+");
   private static final Pattern NUMERALS = Pattern
   .compile("(?i)\\d{1,2}?[a-z']*|M*(D?C{0,3}|C[DM])(L?X{0,3}|X[LC])(V?I{0,3}|I[VX])$");
@@ -178,7 +178,8 @@ public class UnpairedQuotesBracketsRule extends Rule {
         final String token = tokens[i].getToken().trim();
         boolean precededByWhitespace = true;
         if (startSymbols[j].equals(endSymbols[j])) {
-          precededByWhitespace = tokens[i].isWhitespaceBefore()
+          precededByWhitespace = tokens[i - 1].isSentStart()
+          || tokens[i].isWhitespaceBefore()
           || PUNCTUATION_NO_DOT.matcher(tokens[i - 1].getToken()).matches();
         }
 

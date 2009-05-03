@@ -390,14 +390,14 @@ public class Match {
     return caseConversionType.equals(CaseConversion.NONE) ^ true;
   }
 
-  public final AnalyzedTokenReadings filterReadings(
-      final AnalyzedTokenReadings tokenToFilter) {
+  public final AnalyzedTokenReadings filterReadings() {
     final ArrayList<AnalyzedToken> l = new ArrayList<AnalyzedToken>();
     if (formattedToken != null) {
       if (staticLemma) {
         formattedToken = new AnalyzedTokenReadings(new AnalyzedToken(
             matchedToken.getToken(), posTag, formattedToken.getToken(),
             matchedToken.getStartPos()));
+        formattedToken.setWhitespaceBefore(matchedToken.isWhitespaceBefore());
       }
       String token = formattedToken.getToken();
       if (pRegexMatch != null) {
@@ -420,11 +420,12 @@ public class Match {
                   .add(new AnalyzedToken(token, targetPosTag, formattedToken
                       .getAnalyzedToken(i).getLemma(), formattedToken
                       .getStartPos()));
+              l.get(l.size() - 1).setWhitespaceBefore(formattedToken.isWhitespaceBefore());
             }
           }
           if (l.isEmpty()) {
             for (final AnalyzedToken anaTok : getNewToken(numRead, token)) {
-              l.add(anaTok);
+              l.add(anaTok);              
             }
           }
         } else {
@@ -454,6 +455,8 @@ public class Match {
         }
         list.add(new AnalyzedToken(token, posTag, lemma, formattedToken
             .getStartPos()));
+        list.get(list.size() - 1).
+          setWhitespaceBefore(formattedToken.isWhitespaceBefore());
       }
     }
     return list.toArray(new AnalyzedToken[list.size()]);

@@ -181,4 +181,20 @@ public class JLanguageToolTest extends TestCase {
     assertEquals(2, tool.getSentenceCount());
   }  
     
+  public void testWhitespace() throws IOException {
+    final JLanguageTool tool = new JLanguageTool(Language.ENGLISH);
+    final AnalyzedSentence raw = tool.getRawAnalyzedSentence("Let's do a \"test\", do you understand?");
+    final AnalyzedSentence cooked = tool.getAnalyzedSentence("Let's do a \"test\", do you understand?");
+    //test if there was a change
+    assertFalse(raw.equals(cooked));
+    //see if nothing has been deleted
+    assertEquals(raw.getTokens().length, cooked.getTokens().length);
+    int i = 0;
+    for (final AnalyzedTokenReadings atr : raw.getTokens()) {
+      assertEquals(atr.isWhitespaceBefore(), 
+          cooked.getTokens()[i].isWhitespaceBefore());
+      i++;
+    }
+  }
+  
 }
