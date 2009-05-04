@@ -188,7 +188,7 @@ public abstract class Rule {
     if (previousMatches == null) {
       return false;
     }
-    if (previousMatches.size() >= i) {
+    if (previousMatches.size() > i) {
       return previousMatches.get(i) != null;
     }
     return false;
