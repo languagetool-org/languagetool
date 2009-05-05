@@ -2,7 +2,7 @@
 <!--
 		English Disambiguation Rules for LanguageTool Copyright (C) 2008
 		Marcin Miłkowski		
-$Id: disambiguation.xml,v 1.34 2009-05-05 00:21:09 milek_pl Exp $
+$Id: disambiguation.xml,v 1.35 2009-05-05 20:46:45 milek_pl Exp $
 	-->
 <rules lang="en">
 	<rule name="Modal verb + verb/noun -> modal verb + verb" id="MD_VB">
@@ -944,12 +944,13 @@ $Id: disambiguation.xml,v 1.34 2009-05-05 00:21:09 milek_pl Exp $
 	</rule>
 	<rule> <!--  add to Texas' or Armenians' -->
 		<pattern mark_from="1" mark_to="-1">
-		<token postag_regexp="yes" postag="NN.*" regexp="yes">.*s</token>
+		<token postag_regexp="yes" postag="NN.*" regexp="yes">.*s<exception scope="previous">'</exception></token>
 		<token spacebefore="no" regexp="yes">['’]</token>
 		<token><exception>s</exception></token>
 		</pattern>
 		<disambig action="add"><wd lemma="'" pos="POS">'</wd></disambig>
 		<example type="untouched">This is Bill's house.</example>
+		<example type="untouched">This is how 'unconscious' knowledge is posited.</example>
 		<example type="untouched">Let's go!</example>
 		<example type="ambiguous" inputform="'[']" outputform="'['/POS]">I hate Texas<marker>'</marker> big cities!</example>
 	</rule>
