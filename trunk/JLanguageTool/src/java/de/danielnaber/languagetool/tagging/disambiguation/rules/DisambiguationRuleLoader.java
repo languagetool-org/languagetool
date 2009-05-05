@@ -419,7 +419,7 @@ class DisambiguationRuleHandler extends XMLRuleHandler {
             throw new SAXException(
                 "Rule error. The number of interpretations specified with wd: "
                     + newWdList.size()
-                    + " must be equal to the number of matched tokens."
+                    + " must be equal to the number of matched tokens (" + (elementList.size() - positionCorrection + endPositionCorrection) + ")" 
                     + "\n Line: " + dLocator.getLineNumber() + ", column: "
                     + dLocator.getColumnNumber() + ".");
           }
@@ -428,7 +428,7 @@ class DisambiguationRuleHandler extends XMLRuleHandler {
         }
         newWdList.clear();
       }
-      caseSensitive = false;
+      caseSensitive = false;      
       if (disambExamples != null) {
         rule.setExamples(disambExamples);
       }
@@ -584,7 +584,7 @@ class DisambiguationRuleHandler extends XMLRuleHandler {
 
     resetException();
     exceptionSet = false;
-    tokenReference = null;
+    tokenReference = null;    
   }
 
   private void resetException() {

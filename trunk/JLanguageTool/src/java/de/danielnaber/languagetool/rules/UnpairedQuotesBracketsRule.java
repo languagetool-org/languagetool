@@ -21,13 +21,13 @@ package de.danielnaber.languagetool.rules;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Stack;
 import java.util.ResourceBundle;
 import java.util.regex.Pattern;
 
 import de.danielnaber.languagetool.AnalyzedSentence;
 import de.danielnaber.languagetool.AnalyzedTokenReadings;
 import de.danielnaber.languagetool.Language;
+import de.danielnaber.languagetool.tools.UnsyncStack;
 
 /**
  * Rule that finds unpaired quotes, brackets etc.
@@ -94,12 +94,14 @@ public class UnpairedQuotesBracketsRule extends Rule {
   /**
    * The stack for pairing symbols.
    */
-  private Stack<String> symbolStack = new Stack<String>();
+  private final UnsyncStack<SymbolLocator> symbolStack = new UnsyncStack<SymbolLocator>();
 
-  //TODO: make this a stack as well
-  private int[] ruleMatchArray;
+  /**
+   * Stack of rule matches.
+   */
+  private final UnsyncStack<RuleMatchLocator> ruleMatchStack = new UnsyncStack<RuleMatchLocator>();
 
-  private boolean reachedEndOfParagraph;
+  private boolean endOfParagraph;
 
   private final Language ruleLang;
 
@@ -110,6 +112,7 @@ public class UnpairedQuotesBracketsRule extends Rule {
   private static final Pattern NUMERALS = Pattern
       .compile("(?i)\\d{1,2}?[a-z']*|M*(D?C{0,3}|C[DM])(L?X{0,3}|X[LC])(V?I{0,3}|I[VX])$");
   private int ruleMatchIndex;
+  private List<RuleMatch> ruleMatches;
 
   public UnpairedQuotesBracketsRule(final ResourceBundle messages,
       final Language language) {
@@ -155,11 +158,6 @@ public class UnpairedQuotesBracketsRule extends Rule {
       endSymbols = END_SYMBOLS;
     }
 
-    ruleMatchArray = new int[startSymbols.length];
-
-    for (int i = 0; i < startSymbols.length; i++) {
-      ruleMatchArray[i] = 0;
-    }
     ruleLang = language;
   }
 
@@ -171,143 +169,165 @@ public class UnpairedQuotesBracketsRule extends Rule {
     return messages.getString("desc_unpaired_brackets");
   }
 
-  //FIXME: I am too long.
+// TODO: make this a generic rule, and extend for every language
+//find a way to easily specify exceptions (abstract method similar
+//  to isEnglishException?)
   public final RuleMatch[] match(final AnalyzedSentence text) {
-    final List<RuleMatch> ruleMatches = new ArrayList<RuleMatch>();
+    ruleMatches = new ArrayList<RuleMatch>();
     final AnalyzedTokenReadings[] tokens = text.getTokensWithoutWhitespace();
 
-    if (reachedEndOfParagraph) {
+    if (endOfParagraph) {
       reset();
     }
 
     ruleMatchIndex = getMatchesIndex();
 
-//TODO: invert the order of loops
-    
-    for (int j = 0; j < startSymbols.length; j++) {
-      for (int i = 1; i < tokens.length; i++) {
+    for (int i = 1; i < tokens.length; i++) {
+      for (int j = 0; j < startSymbols.length; j++) {
+
         final String token = tokens[i].getToken().trim();
-        boolean precededByWhitespace = true;
-        if (startSymbols[j].equals(endSymbols[j])) {
-          precededByWhitespace = tokens[i - 1].isSentStart()
-              || tokens[i].isWhitespaceBefore()
-              || PUNCTUATION_NO_DOT.matcher(tokens[i - 1].getToken()).matches();
-        }
+        if (token.equals(startSymbols[j]) || token.equals(endSymbols[j])) {
+          boolean precededByWhitespace = true;
+          if (startSymbols[j].equals(endSymbols[j])) {
+            precededByWhitespace = tokens[i - 1].isSentStart()
+                || tokens[i].isWhitespaceBefore()
+                || PUNCTUATION_NO_DOT.matcher(tokens[i - 1].getToken())
+                    .matches();
+          }
 
-        boolean followedByWhitespace = true;
-        if (i < tokens.length - 1 && startSymbols[j].equals(endSymbols[j])) {
-          followedByWhitespace = tokens[i + 1].isWhitespaceBefore()
-              || PUNCTUATION.matcher(tokens[i + 1].getToken()).matches();
-        }
+          boolean followedByWhitespace = true;
+          if (i < tokens.length - 1 && startSymbols[j].equals(endSymbols[j])) {
+            followedByWhitespace = tokens[i + 1].isWhitespaceBefore()
+                || PUNCTUATION.matcher(tokens[i + 1].getToken()).matches();
+          }
 
-        if (followedByWhitespace && precededByWhitespace) {
-          if (i == tokens.length) {
-            precededByWhitespace = false;
-          } else if (startSymbols[j].equals(endSymbols[j])) {
-            if (!symbolStack.isEmpty()) {
+          if (followedByWhitespace && precededByWhitespace) {
+            if (i == tokens.length) {
               precededByWhitespace = false;
-            } else {
-              followedByWhitespace = false;
+            } else if (startSymbols[j].equals(endSymbols[j])) {
+              if (symbolStack.empty()) {
+                followedByWhitespace = false;
+              } else {
+                precededByWhitespace = false;
+                
+              }
             }
           }
-        }
 
-        boolean noException = true;
+          boolean noException = true;
 
-        if (ruleLang.equals(Language.ENGLISH) && i > 1) {
-
-          // exception for English inches, e.g., 20"
-          if ((precededByWhitespace || followedByWhitespace)
-              && "\"".equals(token)
-              && NUMBER.matcher(tokens[i - 1].getToken()).matches()) {
-            noException = false;
+          if (ruleLang.equals(Language.ENGLISH) && i > 1) {
+            noException = isEnglishException(token, tokens, i,
+                precededByWhitespace, followedByWhitespace);
           }
 
-          // Exception for English plural saxon genetive
-          if ((precededByWhitespace || followedByWhitespace)
-              && "'".equals(token)
-              && noException
-              && (tokens[i - 1].getToken().charAt(
-                  tokens[i - 1].getToken().length() - 1) == 's')
-              && (tokens[i - 1].hasPosTag("NNS") || tokens[i - 1]
-                  .hasPosTag("NNPS"))) {
-            noException = false;
-          }
-        }
+          if (noException && precededByWhitespace
+              && token.equals(startSymbols[j])) {
+            symbolStack.push(new SymbolLocator(startSymbols[j], i));
+          } else if (noException && followedByWhitespace
+              && token.equals(endSymbols[j])) {
+            if (i > 1 && endSymbols[j].equals(")")) {
+              // exception for bullets: 1), 2), 3)...,
+              // II), 2') and 1a).
+              if ((NUMERALS.matcher(tokens[i - 1].getToken()).matches() && !(!symbolStack
+                  .empty() && "(".equals(symbolStack.peek().symbol)))) {
+                noException = false;
+              }
+            }
 
-        if (noException && precededByWhitespace
-            && token.equals(startSymbols[j])) {
-          symbolStack.push(startSymbols[j] + i);
-        } else if (noException && followedByWhitespace
-            && token.equals(endSymbols[j])) {
-          if (i > 1 && endSymbols[j].equals(")")) {
-            // exception for bullets: 1), 2), 3)...,
-            // II), 2') and 1a).
-            if (!NUMERALS.matcher(tokens[i - 1].getToken()).matches()) {
-              if (!symbolStack.isEmpty()) {
-                if (symbolStack.peek().startsWith(startSymbols[j])) {
+            if (noException)
+              if (symbolStack.isEmpty()) {
+                symbolStack.push(new SymbolLocator(endSymbols[j], i));
+              } else {
+                if (symbolStack.peek().symbol.equals(startSymbols[j])) {
                   symbolStack.pop();
                 } else {
-                  symbolStack.push(endSymbols[j] + i);
-                }
-              } else {
-                symbolStack.push(endSymbols[j] + i);
+                  symbolStack.push(new SymbolLocator(endSymbols[j], i));
+                }                
               }
-            }
-          } else {
-            if (!symbolStack.isEmpty()) {
-              if (symbolStack.peek().startsWith(startSymbols[j])) {
-                symbolStack.pop();
-              } else {
-                symbolStack.push(endSymbols[j] + i);
-              }
-            } else {
-              symbolStack.push(endSymbols[j] + i);
-            }
           }
         }
-    }
-    
-    for (final String sym : symbolStack) {
-        final int num = Integer.decode(sym.substring(1));
-        final int symbolNum = findSymbolNum(sym.substring(0, 1));
-        if (symbolNum >= 0) {
-        RuleMatch rMatch = createMatch(tokens[num].getStartPos(), symbolNum);
-        if (rMatch != null) {
-          ruleMatches.add(rMatch);
-        }
-        }
       }
-    symbolStack.clear();    
-    ruleMatchIndex = 0;
     }
+    for (final SymbolLocator sLoc : symbolStack) {
+      final RuleMatch rMatch = createMatch(tokens[sLoc.index].getStartPos(),
+          sLoc.symbol);
+      if (rMatch != null) {
+        ruleMatches.add(rMatch);
+      }
+    }
+    symbolStack.clear();
     if (tokens[tokens.length - 1].isParaEnd()) {
-      reachedEndOfParagraph = true;
+      endOfParagraph = true;
     }
 
     return toRuleMatchArray(ruleMatches);
   }
 
-  private RuleMatch createMatch(final int startPos, final int i) {
-    if (ruleMatchArray[i] != 0 && isInMatches(ruleMatchArray[i] - 1)) {
-      setAsDeleted(ruleMatchArray[i] - 1);
-      ruleMatchArray[i] = 0;
-    } else {
-      ruleMatchIndex++;
-      ruleMatchArray[i] = ruleMatchIndex;
-      return new RuleMatch(this, startPos, startPos + 1, messages
-          .getString("unpaired_brackets"));
-    }
-    return null;
-  }
-  
-  private int findSymbolNum(final String ch) {    
-    for (int i  = 0 ; i < startSymbols.length; i++) {
-      if (ch.equals(startSymbols[i])) {
-        return i;
+  private boolean isEnglishException(final String token,
+      final AnalyzedTokenReadings[] tokens, final int i, final boolean precSpace,
+      final boolean follSpace) {  
+//TODO: add an', o', 'till, 'tain't, 'cept, 'fore in the disambiguator
+//and mark up as contractions somehow
+// add exception for dates like '52    
+    
+    if (!precSpace && follSpace) {
+      // exception for English inches, e.g., 20"
+      if ("\"".equals(token)
+          && NUMBER.matcher(tokens[i - 1].getToken()).matches()) {
+        return false;
+      }
+      // Exception for English plural Saxon genetive
+      // current disambiguation scheme is a bit too greedy
+      // for adjectives
+      if ("'".equals(token) && tokens[i].hasPosTag("POS")) {
+        return false;
+      }
+      // puttin' on the Ritz
+      if ("'".equals(token) && tokens[i - 1].hasPosTag("VBG")
+          && tokens[i - 1].getToken().endsWith("in")) {
+        return false;
       }
     }
-    for (int i  = 0 ; i < endSymbols.length; i++) {
+    if (precSpace && !follSpace) {
+      // hold 'em!
+      if ("'".equals(token) && i < tokens.length
+          && "em".equals(tokens[i + 1].getToken())) {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  private RuleMatch createMatch(final int startPos, final String symbol) {
+    if (!ruleMatchStack.empty()) {
+      final int index = findSymbolNum(symbol);
+      if (index >= 0) {
+        final RuleMatchLocator rLoc = ruleMatchStack.peek();
+        if (rLoc.symbol.equals(startSymbols[index])) {
+          if (ruleMatches.size() > rLoc.myIndex) {
+            ruleMatches.remove(rLoc.myIndex);
+            ruleMatchStack.pop();
+            return null;
+            // if (ruleMatches.get(rLoc.myIndex).getFromPos())
+          }
+          if (isInMatches(rLoc.index)) {
+            setAsDeleted(rLoc.index);
+            ruleMatchStack.pop();
+            return null;
+          }
+        }
+      }
+    }
+    ruleMatchStack.push(new RuleMatchLocator(symbol, ruleMatchIndex,
+        ruleMatches.size()));
+    ruleMatchIndex++;
+    return new RuleMatch(this, startPos, startPos + symbol.length(), messages
+        .getString("unpaired_brackets"));
+  }
+
+  private int findSymbolNum(final String ch) {
+    for (int i = 0; i < endSymbols.length; i++) {
       if (ch.equals(endSymbols[i])) {
         return i;
       }
@@ -320,14 +340,31 @@ public class UnpairedQuotesBracketsRule extends Rule {
    * information.
    */
   public final void reset() {
-    for (int i = 0; i < startSymbols.length; i++) {
-      ruleMatchArray[i] = 0;
-    }
-    symbolStack.clear();    
-    if (!reachedEndOfParagraph) {
+    ruleMatchStack.clear();
+    symbolStack.clear();
+    if (!endOfParagraph) {
       clearMatches();
     }
-    reachedEndOfParagraph = false;
+    endOfParagraph = false;
   }
 
+}
+
+class SymbolLocator {
+  public String symbol;
+  public int index;
+
+  SymbolLocator(final String sym, final int ind) {
+    symbol = sym;
+    index = ind;
+  }
+}
+
+class RuleMatchLocator extends SymbolLocator {
+  public int myIndex;
+
+  RuleMatchLocator(final String sym, final int ind, final int myInd) {
+    super(sym, ind);
+    myIndex = myInd;
+  }
 }

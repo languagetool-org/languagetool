@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-	<!--
+<!--
 		English Disambiguation Rules for LanguageTool Copyright (C) 2008
 		Marcin Miłkowski		
-$Id: disambiguation.xml,v 1.33 2009-05-03 20:19:49 milek_pl Exp $
+$Id: disambiguation.xml,v 1.34 2009-05-05 00:21:09 milek_pl Exp $
 	-->
 <rules lang="en">
 	<rule name="Modal verb + verb/noun -> modal verb + verb" id="MD_VB">
@@ -905,9 +905,64 @@ $Id: disambiguation.xml,v 1.33 2009-05-03 20:19:49 milek_pl Exp $
 			<example type="untouched">Example "a</example>
 			<example type="untouched">Example a"</example>
 			<example type="ambiguous" inputform="&quot;[&quot;/'',&quot;/``]" outputform="&quot;[&quot;/``]">A (<marker>"</marker>test".</example>
-		</rule>
-		
+		</rule>		
 		</rulegroup>
+	
+	<rulegroup name="Add possessive ending" id="POS_ADD">
+	<rule>  <!--	probably verb "is": now add to some -->
+		<pattern mark_from="2" mark_to="0">
+		<token><exception postag_regexp="yes" postag="NN.*"/></token>
+		<token spacebefore="no" regexp="yes">['’]</token>
+		<token spacebefore="no" >s</token>
+		</pattern>
+		<disambig action="add"><wd lemma="be" pos="VBZ">s</wd></disambig>
+		<example type="untouched">This is Bill's house.</example>
+		<example type="untouched">Let's go!</example>
+		<example type="ambiguous" inputform="s[s/POS]" outputform="s[s/POS,be/VBZ]">Where'<marker>s</marker> Bill?</example>
+	</rule>
+	<!--  remove POS where it doesn't occur after the noun-->	
+	<rule name="Remove possesive ending" id="POS_REMOVE">
+	<!--  probably verb "is":remove -->
+		<pattern mark="2">
+		<token><exception postag_regexp="yes" postag="NN.*"/></token>
+		<token spacebefore="no" regexp="yes">['’]</token>
+		<token spacebefore="no" postag="POS">s</token>
+		</pattern>
+		<disambig action="remove"><wd lemma="s" pos="POS">s</wd></disambig>
+		<example type="untouched">This is Bill's house.</example>
+		<example type="ambiguous" inputform="s[s/POS,be/VBZ]" outputform="s[be/VBZ]">Where'<marker>s</marker> Bill?</example>
+	</rule>	
+	<rule> <!--  add to Bill's -->
+		<pattern mark_from="1" mark_to="-1">
+		<token postag_regexp="yes" postag="NN.*"/>
+		<token spacebefore="no" regexp="yes">['’]</token>
+		<token spacebefore="no">s</token>
+		</pattern>
+		<disambig action="add"><wd lemma="'" pos="POS">'</wd></disambig>
+		<example type="ambiguous" inputform="'[']" outputform="'['/POS]">This is Bill<marker>'</marker>s house.</example>
+		<example type="untouched">Let's go!</example>				
+	</rule>
+	<rule> <!--  add to Texas' or Armenians' -->
+		<pattern mark_from="1" mark_to="-1">
+		<token postag_regexp="yes" postag="NN.*" regexp="yes">.*s</token>
+		<token spacebefore="no" regexp="yes">['’]</token>
+		<token><exception>s</exception></token>
+		</pattern>
+		<disambig action="add"><wd lemma="'" pos="POS">'</wd></disambig>
+		<example type="untouched">This is Bill's house.</example>
+		<example type="untouched">Let's go!</example>
+		<example type="ambiguous" inputform="'[']" outputform="'['/POS]">I hate Texas<marker>'</marker> big cities!</example>
+	</rule>
+	</rulegroup>
+	<rule name="Goin'" id="VBG_IN">
+		<pattern mark="0">
+		<token regexp="yes" postag="UNKNOWN">.*in</token>
+		<token spacebefore="no">'</token>
+		</pattern>
+		<disambig postag="VBG"/>
+		<example type="untouched">I'm in N.Y.</example>
+		<example type="ambiguous" inputform="Puttin[Puttin]" outputform="Puttin[Puttin/VBG]"><marker>Puttin</marker>' on the Ritz!</example>
+	</rule>
 	<rulegroup name="All but" id="all_but_rb">
 	<rule>
 		<pattern mark="0">

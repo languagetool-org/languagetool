@@ -68,11 +68,32 @@ public class UnpairedQuotesBracketsRuleTest extends TestCase {
         .getAnalyzedSentence("We discussed this in Chapter 1)."));
     assertEquals(0, matches.length);
     matches = rule.match(langTool
+        .getAnalyzedSentence("The jury recommended that: (1) Four additional deputies be employed."));
+    assertEquals(0, matches.length);
+    matches = rule.match(langTool
         .getAnalyzedSentence("We discussed this in section 1a)."));
     assertEquals(0, matches.length);
     matches = rule.match(langTool
         .getAnalyzedSentence("We discussed this in section iv)."));
     assertEquals(0, matches.length);
+
+    //inches exception shouldn't match " here:
+    matches = rule.match(langTool
+        .getAnalyzedSentence("In addition, the government would pay a $1,000 \"cost of education\" grant to the schools."));
+    assertEquals(0, matches.length);
+
+    matches = rule.match(langTool
+        .getAnalyzedSentence("Paradise lost to the alleged water needs of Texas' big cities Thursday."));
+    assertEquals(0, matches.length);
+
+    matches = rule.match(langTool
+        .getAnalyzedSentence("Kill 'em all!"));
+    assertEquals(0, matches.length);
+
+    matches = rule.match(langTool
+        .getAnalyzedSentence("Puttin' on the Ritz"));
+    assertEquals(0, matches.length);    
+    
     // incorrect sentences:
     matches = rule.match(langTool
         .getAnalyzedSentence("(This is a test sentence."));
@@ -218,7 +239,7 @@ public class UnpairedQuotesBracketsRuleTest extends TestCase {
     // incorrect sentences:
     matches = rule.match(langTool
         .getAnalyzedSentence("A fost {plecat) pentru (puțin timp}."));
-    assertEquals(2, matches.length); 
+    assertEquals(4, matches.length); 
     // correct sentences:
     matches = rule.match(langTool
         .getAnalyzedSentence("A fost plecat pentru „puțin timp”."));
@@ -246,20 +267,20 @@ public class UnpairedQuotesBracketsRuleTest extends TestCase {
     // incorrect sentences:
     matches = rule.match(langTool
         .getAnalyzedSentence("A fost plecat „pentru «puțin timp”."));
-    assertEquals(1, matches.length);
+    assertEquals(3, matches.length);
     // incorrect sentences:
     matches = rule.match(langTool
         .getAnalyzedSentence("A fost plecat „pentru puțin» timp”."));
-    assertEquals(1, matches.length);
+    assertEquals(3, matches.length);
     // incorrect sentences:
     matches = rule.match(langTool
         .getAnalyzedSentence("A fost plecat „pentru... puțin» timp”."));
-    assertEquals(1, matches.length);
-    // FIXME: implement cross-bracket matching
-    // // incorrect sentences:
-    // matches = rule
-    // .match(langTool
-    // .getAnalyzedSentence("A fost plecat „pentru... «puțin” timp»."));
-    // assertEquals(1, matches.length);
+    assertEquals(3, matches.length);
+    // cross-bracket matching
+    // incorrect sentences:
+    matches = rule
+    .match(langTool
+    .getAnalyzedSentence("A fost plecat „pentru... «puțin” timp»."));
+    assertEquals(4, matches.length);
   }
 }
