@@ -584,7 +584,7 @@ public class Element {
    * Tests whether the string token element matches a given token.
    * 
    * @param token
-   * {@link #AnalyzedToken} to match against.
+   *        {@link #AnalyzedToken} to match against.
    * @return True if matches.
    */
   private boolean isStringTokenMatched(final AnalyzedToken token) {

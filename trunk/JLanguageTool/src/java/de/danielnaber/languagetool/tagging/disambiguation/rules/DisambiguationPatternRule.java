@@ -28,6 +28,7 @@ import de.danielnaber.languagetool.AnalyzedTokenReadings;
 import de.danielnaber.languagetool.Language;
 import de.danielnaber.languagetool.rules.patterns.Element;
 import de.danielnaber.languagetool.rules.patterns.Match;
+import de.danielnaber.languagetool.rules.patterns.Unifier;
 import de.danielnaber.languagetool.tools.StringTools;
 
 /**
@@ -84,6 +85,10 @@ public class DisambiguationPatternRule {
 
   private AnalyzedTokenReadings[] unifiedTokens;
 
+  private final Unifier unifier;
+
+  private final boolean testUnification;
+
   /**
    * @param id
    *          Id of the Rule
@@ -128,6 +133,17 @@ public class DisambiguationPatternRule {
     this.disambiguatedPOS = disamb;
     this.matchElement = posSelect;
     this.disAction = disambAction;
+    this.unifier = language.getUnifier();
+    testUnification = initUnifier();
+  }
+
+  private boolean initUnifier() {
+    for (final Element elem : patternElements) {
+      if (elem.isUnified()) {
+        return true;
+      }
+    }
+    return false;
   }
 
   public final String getId() {
@@ -152,7 +168,7 @@ public class DisambiguationPatternRule {
   }
 
   /**
-   * Used to add new interpretations
+   * Used to add new interpretations.
    * 
    * @param newReadings
    *          An array of AnalyzedTokens. The length of the array should be the
@@ -165,11 +181,11 @@ public class DisambiguationPatternRule {
 
   /**
    * Performs disambiguation on the source sentence.
+   * 
    * @param text
-   *      {@link #AnalyzedSentence} Sentence to be disambiguated.
-   * @return
-   *      {@link #AnalyzedSentence}
-   *      Disambiguated sentence (might be unchanged).
+   *          {@link #AnalyzedSentence} Sentence to be disambiguated.
+   * @return {@link #AnalyzedSentence} Disambiguated sentence (might be
+   *         unchanged).
    * @throws IOException
    */
   public final AnalyzedSentence replace(final AnalyzedSentence text)
@@ -188,13 +204,15 @@ public class DisambiguationPatternRule {
       int skipShiftTotal = 0;
       int firstMatchToken = -1;
       int prevSkipNext = 0;
-      language.getUnifier().reset();
+      if (testUnification) {
+        unifier.reset();
+      }
       for (int k = 0; k < patternSize; k++) {
         final Element prevElement = elem;
         elem = patternElements.get(k);
         setupRef(firstMatchToken, elem, tokens);
         final int skipNext = elem.getSkipNext();
-        final int nextPos = i + k + skipShiftTotal;        
+        final int nextPos = i + k + skipShiftTotal;
         prevMatched = false;
         if (prevSkipNext + nextPos >= tokens.length || prevSkipNext < 0) { // SENT_END?
           prevSkipNext = tokens.length - (nextPos + 1);
@@ -251,7 +269,8 @@ public class DisambiguationPatternRule {
   }
 
   private void setupAndGroup(final int readNo, final int firstMatchToken,
-      final Element elem, final AnalyzedTokenReadings[] tokens) throws IOException {
+      final Element elem, final AnalyzedTokenReadings[] tokens)
+      throws IOException {
     if (elem.hasAndGroup()) {
       for (final Element andElement : elem.getAndGroup()) {
         if (andElement.isReferenceElement()) {
@@ -268,16 +287,17 @@ public class DisambiguationPatternRule {
       final boolean lastReading, final AnalyzedToken matchToken,
       final Element elem) {
     boolean thisMatched = matched;
-    if (matched && elem.isUnified()) {
-      thisMatched &= language.getUnifier().isUnified(matchToken,
-          elem.getUniFeature(), elem.getUniType(), elem.isUniNegated(),
-          lastReading);
-    }
-    if (thisMatched) {
-      unifiedTokens = language.getUnifier().getFinalUnified();
-    }
-    if (!elem.isUnified()) {
-      language.getUnifier().reset();
+    if (testUnification) {
+      if (matched && elem.isUnified()) {
+        thisMatched &= unifier.isUnified(matchToken, elem.getUniFeature(), elem
+            .getUniType(), elem.isUniNegated(), lastReading);
+      }
+      if (thisMatched) {
+        unifiedTokens = unifier.getFinalUnified();
+      }
+      if (!elem.isUnified()) {
+        unifier.reset();
+      }
     }
     if (lastReading) {
       thisMatched &= elem.checkAndGroup(thisMatched);
@@ -359,7 +379,7 @@ public class DisambiguationPatternRule {
         final Match tmpMatchToken = new Match(disambiguatedPOS, null, true,
             disambiguatedPOS, null, Match.CaseConversion.NONE, false);
         tmpMatchToken.setToken(whTokens[fromPos]);
-        whTokens[fromPos] = tmpMatchToken.filterReadings();        
+        whTokens[fromPos] = tmpMatchToken.filterReadings();
         filtered = true;
       }
     case REPLACE:

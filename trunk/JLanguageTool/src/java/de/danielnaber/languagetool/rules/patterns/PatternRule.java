@@ -79,6 +79,10 @@ public class PatternRule extends Rule {
   private boolean isMemberOfDisjunctiveSet;
   private boolean prevMatched;
 
+  private final Unifier unifier;
+
+  private final boolean testUnification;
+
   /**
    * @param id
    *          Id of the Rule
@@ -114,7 +118,6 @@ public class PatternRule extends Rule {
     this.message = message;
     this.shortMessage = shortMessage;
     this.patternElements = new ArrayList<Element>(elements); // copy elements
-
     this.elementNo = new ArrayList<Integer>();
     String prevName = "";
     String curName = "";
@@ -143,8 +146,19 @@ public class PatternRule extends Rule {
         }
         elementNo.add(1);
         loopCnt++;
-      }      
+      }
     }
+    unifier = language.getUnifier();
+    testUnification = initUnifier();
+  }
+
+  private boolean initUnifier() {
+    for (final Element elem : patternElements) {
+      if (elem.isUnified()) {
+        return true;
+      }
+    }
+    return false;
   }
 
   PatternRule(final String id, final Language language,
@@ -311,7 +325,9 @@ public class PatternRule extends Rule {
       // this variable keeps the total number
       // of tokens skipped
       int skipShiftTotal = 0;
-      language.getUnifier().reset();
+      if (testUnification) {
+        unifier.reset();
+      }
       for (int k = 0; k < patternSize; k++) {
         final Element prevElement = elem;
         elem = patternElements.get(k);
@@ -381,13 +397,14 @@ public class PatternRule extends Rule {
       final boolean lastReading, final AnalyzedToken matchToken,
       final Element elem) {
     boolean thisMatched = matched;
-    if (matched && elem.isUnified()) {
-      thisMatched &= language.getUnifier().isUnified(matchToken,
-          elem.getUniFeature(), elem.getUniType(), elem.isUniNegated(),
-          lastReading);
-    }
-    if (!elem.isUnified()) {
-      language.getUnifier().reset();
+    if (testUnification) {
+      if (matched && elem.isUnified()) {
+        thisMatched &= unifier.isUnified(matchToken, elem.getUniFeature(), elem
+            .getUniType(), elem.isUniNegated(), lastReading);
+      }
+      if (!elem.isUnified()) {
+        unifier.reset();
+      }
     }
     if (lastReading) {
       thisMatched &= elem.checkAndGroup(thisMatched);
@@ -396,7 +413,8 @@ public class PatternRule extends Rule {
   }
 
   private void setupAndGroup(final int readNo, final int firstMatchToken,
-      final Element elem, final AnalyzedTokenReadings[] tokens) throws IOException {
+      final Element elem, final AnalyzedTokenReadings[] tokens)
+      throws IOException {
     if (elem.hasAndGroup()) {
       for (final Element andElement : elem.getAndGroup()) {
         if (andElement.isReferenceElement()) {
