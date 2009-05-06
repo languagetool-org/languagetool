@@ -38,8 +38,6 @@ import de.danielnaber.languagetool.tools.StringTools;
  */
 public class Unifier {
 
-  private static final String FEATURE_TYPE_SEPARATOR = ":";
-
   private static final String FEATURE_SEPARATOR = ",";
 
   /*
@@ -60,7 +58,7 @@ public class Unifier {
    * specified as Strings, and map into types defined as maps from Strings to
    * Elements.
    */
-  private Map<String, Element> equivalenceTypes;
+  private Map<EquivalenceTypeLocator, Element> equivalenceTypes;
 
   /**
    * A Map that stores all possible equivalence types listed for features.
@@ -91,7 +89,7 @@ public class Unifier {
   private boolean inUnification;
   private boolean uniMatched;
   private boolean uniAllMatched;
-  AnalyzedTokenReadings[] unifiedTokens;
+  private AnalyzedTokenReadings[] unifiedTokens;
 
   /**
    * Instantiates the unifier.
@@ -100,7 +98,7 @@ public class Unifier {
     tokCnt = -1;
     readingsCounter = 1;
     equivalencesMatched = new ArrayList<Map<String, Set<String>>>();
-    equivalenceTypes = new HashMap<String, Element>();
+    equivalenceTypes = new HashMap<EquivalenceTypeLocator, Element>();
     equivalenceFeatures = new HashMap<String, List<String>>();
     featuresFound = new ArrayList<Boolean>();
     tmpFeaturesFound = new ArrayList<Boolean>();
@@ -122,10 +120,10 @@ public class Unifier {
    */
   public final void setEquivalence(final String feature, final String type,
       final Element elem) {
-    if (equivalenceTypes.containsKey(feature + FEATURE_TYPE_SEPARATOR + type)) {
+    if (equivalenceTypes.containsKey(new EquivalenceTypeLocator(feature, type))) {
       return;
     }
-    equivalenceTypes.put(feature + FEATURE_TYPE_SEPARATOR + type, elem);
+    equivalenceTypes.put(new EquivalenceTypeLocator(feature, type), elem);
     List<String> lTypes;
     if (equivalenceFeatures.containsKey(feature)) {
       lTypes = equivalenceFeatures.get(feature);
@@ -170,8 +168,8 @@ public class Unifier {
       for (final String feat : features) {
         types = getTypes(feat, type);
         for (final String typename : types) {
-          final Element testElem = equivalenceTypes.get(feat
-              + FEATURE_TYPE_SEPARATOR + typename);
+          final Element testElem = equivalenceTypes.get(
+              new EquivalenceTypeLocator(feat, typename));
           if (testElem == null) {
             return false;
           }
@@ -203,7 +201,7 @@ public class Unifier {
     return unified ^ negation;
   }
 
-  private boolean checkNext(final AnalyzedToken AT, final String[] features,
+  private boolean checkNext(final AnalyzedToken aToken, final String[] features,
       final String type) {
     boolean unifiedNext = true;
     boolean anyFeatUnified = false;
@@ -218,9 +216,9 @@ public class Unifier {
             if (featuresFound.get(i)
                 && equivalencesMatched.get(i).containsKey(feat)
                 && equivalencesMatched.get(i).get(feat).contains(typename)) {
-              final Element testElem = equivalenceTypes.get(feat
-                  + FEATURE_TYPE_SEPARATOR + typename);
-              featUnified = featUnified || testElem.isMatched(AT);
+              final Element testElem = equivalenceTypes.get(
+                      new EquivalenceTypeLocator(feat, typename));
+              featUnified = featUnified || testElem.isMatched(aToken);
             }
           }
           allFeatsUnified &= featUnified;
@@ -231,9 +229,9 @@ public class Unifier {
       unifiedNext &= anyFeatUnified;
       if (unifiedNext) {
         if (tokSequence.size() == readingsCounter) {
-          tokSequence.add(new AnalyzedTokenReadings(AT));
+          tokSequence.add(new AnalyzedTokenReadings(aToken));
         } else {
-          tokSequence.get(readingsCounter).addReading(AT);
+          tokSequence.get(readingsCounter).addReading(aToken);
         }
       }
     }
@@ -384,5 +382,44 @@ public class Unifier {
       return unifiedTokens;
     }
     return null;
+  }
+}
+
+
+class EquivalenceTypeLocator {
+  @Override
+  public int hashCode() {
+    final int prime = 31;
+    int result = 1;
+    result = prime * result + ((feature == null) ? 0 : feature.hashCode());
+    result = prime * result + ((type == null) ? 0 : type.hashCode());
+    return result;
+  }
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj)
+      return true;
+    if (obj == null)
+      return false;
+    if (getClass() != obj.getClass())
+      return false;
+    EquivalenceTypeLocator other = (EquivalenceTypeLocator) obj;
+    if (feature == null) {
+      if (other.feature != null)
+        return false;
+    } else if (!feature.equals(other.feature))
+      return false;
+    if (type == null) {
+      if (other.type != null)
+        return false;
+    } else if (!type.equals(other.type))
+      return false;
+    return true;
+  }
+  private final String feature;
+  private final String type;
+  EquivalenceTypeLocator(final String feature, final String type) {
+    this.feature = feature;
+    this.type = type;
   }
 }
