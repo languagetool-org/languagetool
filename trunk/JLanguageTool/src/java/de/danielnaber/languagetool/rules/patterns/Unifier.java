@@ -94,7 +94,7 @@ public class Unifier {
   AnalyzedTokenReadings[] unifiedTokens;
 
   /**
-   * Instantiates the unifier. 
+   * Instantiates the unifier.
    */
   public Unifier() {
     tokCnt = -1;
@@ -158,7 +158,8 @@ public class Unifier {
       return false; // throw exception??
     }
     boolean unified = true;
-    final String[] features = StringTools.trimWhitespace(feature).split(FEATURE_SEPARATOR);
+    final String[] features = StringTools.trimWhitespace(feature).split(
+        FEATURE_SEPARATOR);
     String[] types;
 
     if (!allFeatsIn) {
@@ -167,12 +168,7 @@ public class Unifier {
         equivalencesMatched.add(new HashMap<String, Set<String>>());
       }
       for (final String feat : features) {
-        if (StringTools.isEmpty(type)) {
-          types = equivalenceFeatures.get(feat).toArray(
-              new String[equivalenceFeatures.get(feat).size()]);
-        } else {
-          types = type.split(FEATURE_SEPARATOR);
-        }
+        types = getTypes(feat, type);
         for (final String typename : types) {
           final Element testElem = equivalenceTypes.get(feat
               + FEATURE_TYPE_SEPARATOR + typename);
@@ -217,12 +213,7 @@ public class Unifier {
         boolean allFeatsUnified = true;
         for (final String feat : features) {
           boolean featUnified = false;
-          if (StringTools.isEmpty(type)) {
-            types = equivalenceFeatures.get(feat).toArray(
-                new String[equivalenceFeatures.get(feat).size()]);
-          } else {
-            types = type.split(FEATURE_SEPARATOR);
-          }
+          types = getTypes(feat, type);
           for (final String typename : types) {
             if (featuresFound.get(i)
                 && equivalencesMatched.get(i).containsKey(feat)
@@ -247,6 +238,14 @@ public class Unifier {
       }
     }
     return unifiedNext;
+  }
+
+  private String[] getTypes(final String feat, final String type) {
+    if (StringTools.isEmpty(type)) {
+      return equivalenceFeatures.get(feat).toArray(
+          new String[equivalenceFeatures.get(feat).size()]);
+    }
+    return type.split(FEATURE_SEPARATOR);
   }
 
   /**
@@ -312,7 +311,7 @@ public class Unifier {
         first++;
       }
       tmpFeaturesFound.remove(tmpFeaturesFound.size() - 1);
-      if (first >= tmpFeaturesFound.size()) {        
+      if (first >= tmpFeaturesFound.size()) {
         return null;
       }
       // FIXME: why this happens??
@@ -375,9 +374,8 @@ public class Unifier {
   }
 
   /**
-   * Used for getting a unified sequence in case when simple test method 
-   * {@link #isUnified} was
-   * used.
+   * Used for getting a unified sequence in case when simple test method
+   * {@link #isUnified} was used.
    * 
    * @return An array of {@link AnalyzedTokenReadings}
    */
