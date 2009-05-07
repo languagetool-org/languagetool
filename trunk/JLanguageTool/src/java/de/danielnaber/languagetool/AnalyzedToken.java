@@ -30,25 +30,37 @@ public class AnalyzedToken {
   private int startPos;
   private String lemma;
 
+  /**
+   * used only for matching with Elements
+   */
+  private String tokenInflected;
+
   private boolean isWhitespaceBefore;
-  
-  public AnalyzedToken(final String token, final String posTag, final int startPos) {
-    this.token = token;
-    this.posTag = posTag;
-    this.startPos = startPos;
-  }
-  
-  public AnalyzedToken(final String token, final String posTag, final String lemma) {
-    this.token = token;
-    this.posTag = posTag;
-    this.lemma = lemma;
+
+  public AnalyzedToken(final String token, final String posTag,
+      final int startPos) {
+    this(token, posTag, null, startPos);
   }
 
-  public AnalyzedToken(final String token, final String posTag, final String lemma, final int startPos) {
+  public AnalyzedToken(final String token, final String posTag,
+      final String lemma) {
+    this(token, posTag, lemma, 0);
+  }
+
+  public AnalyzedToken(final String token, final String posTag,
+      final String lemma, final int startPos) {
+    if (token == null) {
+      throw new NullPointerException("Token cannot be null!");
+    }
     this.token = token;
     this.posTag = posTag;
     this.lemma = lemma;
     this.startPos = startPos;
+    if (lemma == null) {
+      tokenInflected = token;
+    } else {
+      tokenInflected = lemma;
+    }
   }
 
   public final String getToken() {
@@ -60,21 +72,24 @@ public class AnalyzedToken {
   }
 
   public final String getLemma() {
-	  return lemma;
+    return lemma;
   }
   
+  public final String getTokenInflected() {
+    return tokenInflected;
+  }
+
   public final int getStartPos() {
     return startPos;
   }
-  
+
   public final void setWhitespaceBefore(final boolean isWhite) {
     isWhitespaceBefore = isWhite;
   }
-  
-  public final boolean isWhitespaceBefore(){
+
+  public final boolean isWhitespaceBefore() {
     return isWhitespaceBefore;
   }
-  
 
   public String toString() {
     final StringBuilder sb = new StringBuilder();
@@ -141,5 +156,5 @@ public class AnalyzedToken {
     }
     return true;
   }
-    
+
 }

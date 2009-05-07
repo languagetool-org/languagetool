@@ -51,7 +51,7 @@ public class Element {
 
   private boolean testWhitespace;
   private boolean whitespaceBefore;
-  
+
   /**
    * List of exceptions that are valid for the current token and / or some next
    * tokens.
@@ -148,7 +148,7 @@ public class Element {
     this.caseSensitive = caseSensitive;
     this.stringRegExp = regExp;
     this.inflected = inflected;
-    setStringElement(token);    
+    setStringElement(token);
   }
 
   /**
@@ -350,11 +350,10 @@ public class Element {
    * exception had scope == "previous").
    * 
    * @param token
-   *    {@link AnalyzedToken} to check matching against.
+   *          {@link AnalyzedToken} to check matching against.
    * @return True if any of the exceptions matches.
    */
-  public final boolean isMatchedByPreviousException(
-      final AnalyzedToken token) {
+  public final boolean isMatchedByPreviousException(final AnalyzedToken token) {
     boolean exceptionMatched = false;
     if (exceptionValidPrevious) {
       for (final Element testException : previousExceptionList) {
@@ -368,41 +367,38 @@ public class Element {
     }
     return exceptionMatched;
   }
-  
+
   /**
-   * Checks whether an exception for a previous token matches all
-   * readings of a given token (in case the exception had 
-   * scope == "previous").
+   * Checks whether an exception for a previous token matches all readings of a
+   * given token (in case the exception had scope == "previous").
    * 
    * @param token
-   *    {@link AnalyzedTokenReadings} to check matching against.
+   *          {@link AnalyzedTokenReadings} to check matching against.
    * @return true if any of the exceptions matches.
    */
   public final boolean isMatchedByPreviousException(
       final AnalyzedTokenReadings prevToken) {
-  final int numReadings = prevToken.getReadingsLength();
-  boolean matched = false;
-  for (int p = 0; p < numReadings; p++) {
-    matched |=  isMatchedByPreviousException(prevToken.getAnalyzedToken(p));
-    if (matched) {
-      break;
-    }   
+    final int numReadings = prevToken.getReadingsLength();
+    boolean matched = false;
+    for (int i = 0; i < numReadings; i++) {
+      matched |= isMatchedByPreviousException(prevToken.getAnalyzedToken(i));
+      if (matched) {
+        break;
+      }
+    }
+    return matched;
   }
-  return matched;
-  }
-  
+
   /**
    * Checks if the token is a SENT_START.
    * 
-   * @return 
-   * True if the element starts the sentence and
-   * the element hasn't been set to have negated
-   * POS token.
+   * @return True if the element starts the sentence and the element hasn't been
+   *         set to have negated POS token.
    * 
    */
-  public final boolean isSentStart() {    
+  public final boolean isSentStart() {
     return JLanguageTool.SENTENCE_START_TAGNAME.equals(posToken)
-    && !posNegation;
+        && !posNegation;
   }
 
   @Override
@@ -431,7 +427,7 @@ public class Element {
     posRegExp = regExp;
     if (posRegExp) {
       pPos = Pattern.compile(posToken);
-    }            
+    }
   }
 
   public final String getString() {
@@ -573,9 +569,10 @@ public class Element {
     } else {
       match = posToken.equals(token.getPOSTag());
     }
-    if (!match && UNKNOWN_TAG.equals(posToken)) { //these are helper tags, ignore them
-      match = JLanguageTool.SENTENCE_END_TAGNAME.equals(token.getPOSTag()) 
-        || JLanguageTool.PARAGRAPH_END_TAGNAME.equals(token.getPOSTag());
+    if (!match && UNKNOWN_TAG.equals(posToken)) { // these are helper tags,
+                                                  // ignore them
+      match = JLanguageTool.SENTENCE_END_TAGNAME.equals(token.getPOSTag())
+          || JLanguageTool.PARAGRAPH_END_TAGNAME.equals(token.getPOSTag());
     }
     return match;
   }
@@ -584,38 +581,32 @@ public class Element {
    * Tests whether the string token element matches a given token.
    * 
    * @param token
-   *        {@link #AnalyzedToken} to match against.
+   *          {@link #AnalyzedToken} to match against.
    * @return True if matches.
    */
   private boolean isStringTokenMatched(final AnalyzedToken token) {
-    String testToken = null;
+    final String testToken = getTestToken(token);
+    if (stringRegExp) {
+      if (m == null) {
+        m = p.matcher(testToken);
+      } else {
+        m.reset(testToken);
+      }
+      return m.matches();
+    }
+    if (caseSensitive) {
+      return stringToken.equals(testToken);
+    }
+    return stringToken.equalsIgnoreCase(testToken);
+  }
+
+  private String getTestToken(final AnalyzedToken token) {
     // enables using words with lemmas and without lemmas
     // in the same regexp with inflected="yes"
     if (inflected) {
-      testToken = token.getLemma();
-      if (testToken == null) {
-        testToken = token.getToken();
-      }
-    } else {
-      testToken = token.getToken();
+      return token.getTokenInflected();
     }
-
-    if (stringRegExp) {
-      if (testToken != null) {
-        if (m == null) {
-          m = p.matcher(testToken);
-        } else {
-          m.reset(testToken);
-        }
-        return m.matches();
-      }
-    } else {
-      if (caseSensitive) {
-        return stringToken.equals(testToken);
-      }
-      return stringToken.equalsIgnoreCase(testToken);
-    }
-    return false;
+    return token.getToken();
   }
 
   /**
@@ -631,7 +622,7 @@ public class Element {
    * Sets the exception scope length.
    * 
    * @param i
-   *  Exception scope length.
+   *          Exception scope length.
    */
   public final void setSkipNext(final int i) {
     skip = i;
@@ -693,9 +684,9 @@ public class Element {
    * Element is supposed to refer to some other token).
    * 
    * @param token
-   *  the token specified as {@link #AnalyzedTokenReadings} 
+   *          the token specified as {@link #AnalyzedTokenReadings}
    * @param synth
-   *  the language synthesizer ({@link #Syntesizer}) 
+   *          the language synthesizer ({@link #Syntesizer})
    * 
    */
   public final void compile(final AnalyzedTokenReadings token,
