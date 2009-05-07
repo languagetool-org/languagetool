@@ -36,7 +36,6 @@ import de.danielnaber.languagetool.tagging.BaseTagger;
 public class RomanianTagger extends BaseTagger {
 
 	private String RESOURCE_FILENAME = "/resource/ro/romanian.dict";
-	private static RomanianTagger instance = null;
 
 	private Lametyzator morfologik;
 	private static Locale roLocale = new Locale("ro");
