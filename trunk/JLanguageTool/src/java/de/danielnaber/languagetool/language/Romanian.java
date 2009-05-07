@@ -29,6 +29,8 @@ import de.danielnaber.languagetool.tagging.Tagger;
 import de.danielnaber.languagetool.tagging.disambiguation.Disambiguator;
 import de.danielnaber.languagetool.tagging.disambiguation.rules.ro.RomanianRuleDisambiguator;
 import de.danielnaber.languagetool.tagging.ro.RomanianTagger;
+import de.danielnaber.languagetool.tokenizers.SRXSentenceTokenizer;
+import de.danielnaber.languagetool.tokenizers.SentenceTokenizer;
 import de.danielnaber.languagetool.tokenizers.Tokenizer;
 import de.danielnaber.languagetool.tokenizers.ro.RomanianWordTokenizer;
 
@@ -45,6 +47,7 @@ public class Romanian extends Language {
 	private Synthesizer synthesizer = new RomanianSynthesizer();
 	private Disambiguator disambiguator = new RomanianRuleDisambiguator();
 	private Tokenizer wdTokenizer = new RomanianWordTokenizer();
+    private SentenceTokenizer sentenceTokenizer = new SRXSentenceTokenizer("ro"); 
 
 	public Locale getLocale() {
 		return new Locale(getShortName());
@@ -97,5 +100,9 @@ public class Romanian extends Language {
 
 	public final Tokenizer getWordTokenizer() {
 		return wdTokenizer;
+	}
+
+	public SentenceTokenizer getSentenceTokenizer() {
+		return sentenceTokenizer;
 	}
 }

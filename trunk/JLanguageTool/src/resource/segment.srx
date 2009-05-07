@@ -991,6 +991,59 @@ It [really!] works. This is e.g. Mr. Smith, who talks slowly... And this is anot
 <afterbreak>\p{Lu}\p{Ll}</afterbreak>
 </rule>
 </languagerule>
+<languagerule languagerulename="Romanian">
+<rule break="no">
+<beforebreak>\b\d+\.\s</beforebreak>
+<afterbreak>\p{Ll}|\p{Lu}{2,}</afterbreak></rule>
+<rule break="no">
+<beforebreak>["”']\s*</beforebreak>
+<afterbreak>\s*\p{Ll}</afterbreak></rule>
+<rule break="no">
+<beforebreak>['"„][\.!?…]['"”]\s</beforebreak></rule>
+<rule break="no">
+<beforebreak>\b\p{L}\.\s</beforebreak>
+<afterbreak>\p{L}\.\s</afterbreak></rule>
+<rule break="no">
+<beforebreak>\b\p{L}\.</beforebreak>
+<afterbreak>\p{L}\.</afterbreak></rule>
+<rule break="no">
+<beforebreak>[\.\s]\p{L}{1,2}\.\s</beforebreak>
+<afterbreak>[\p{N}\p{Ll}]</afterbreak></rule>
+<rule break="no">
+<beforebreak>[!?]+\p{Pe} </beforebreak>
+<afterbreak>\p{Ll}</afterbreak></rule>
+<rule break="no">
+<beforebreak>[\p{Ps}][!?]+[\p{Pe}] </beforebreak>
+<afterbreak>.</afterbreak></rule>
+<rule break="no">
+<beforebreak>[\[\(]*\.\.\.[\]\)]* </beforebreak>
+<afterbreak>[^\p{Lu}]</afterbreak></rule>
+<rule>
+<beforebreak>\b(etc|șamd)\.\s</beforebreak>
+<afterbreak>[A-Z]</afterbreak></rule>
+<rule break="no">
+<beforebreak>\bdpdv\.\s</beforebreak></rule>
+<rule break="no">
+<beforebreak>\b(etc|șamd)\.\s</beforebreak></rule>
+<rule break="no">
+<beforebreak>\b([Dd]l|[Dd]-na|[Dd]vs|[Pp]t)\.\s</beforebreak></rule>
+<rule break="no">
+<beforebreak>\b([Dd]l|[Dd]-na|[Dd]vs|[Pp]t)\.\s[A-Z]\.\s</beforebreak></rule>
+<rule break="no">
+<beforebreak>[\[\(]*\.\.\.[\]\)]* </beforebreak>
+<afterbreak>\p{Ll}</afterbreak></rule>
+<rule break="no">
+<beforebreak>[\[\(]*…[\]\)]* </beforebreak>
+<afterbreak>\p{Ll}</afterbreak></rule>
+<rule>
+<beforebreak>[\.!?…]['"\p{Pe}\p{Pf}\u0002]*\s</beforebreak></rule>
+<rule>
+<beforebreak>[\.!?…]['»"”\p{Pe}]*</beforebreak>
+<afterbreak>\p{Lu}[^\p{Lu}]</afterbreak></rule>
+<rule>
+<beforebreak>\s\p{L}[\.!?…]\s</beforebreak>
+<afterbreak>\p{Lu}\p{Ll}</afterbreak></rule>
+</languagerule>
 <languagerule languagerulename="Default">
 <rule break="yes">
 <beforebreak>\u2029</beforebreak>
@@ -1013,6 +1066,7 @@ It [really!] works. This is e.g. Mr. Smith, who talks slowly... And this is anot
 <maprules>
 <languagemap languagepattern="(PL|pl).*" languagerulename="Polish"></languagemap>
 <languagemap languagepattern="(EN|en).*" languagerulename="English"></languagemap>
+<languagemap languagepattern="(RO|ro).*" languagerulename="Romanian"></languagemap>
 <languagemap languagepattern=".*" languagerulename="Default"></languagemap>
 <languagemap languagepattern="[a-z]{2}_one" languagerulename="ByLineBreak"></languagemap>
 <languagemap languagepattern="[a-z]{2}_two" languagerulename="ByTwoLineBreaks"></languagemap>
