@@ -257,6 +257,52 @@ title="Easy editing stylesheet" ?>
 			</rule>
 		</rulegroup>
 	</category>
+	<category name="Ghilimele">
+		<rule id="GHILIMELE_DUBLE_INCEPUT" name="Ghilimele duble la început de propoziție: [&quot;] în loc de [„]">
+			<pattern case_sensitive="no">
+				<token postag="SENT_START"/>
+				<token spacebefore="no">"</token>
+			</pattern>
+			<message>Pentru limba română se folosește simbolul <suggestion>„</suggestion>.</message>
+			<short>Ghilimele românești.</short>
+			<example correction="„" type="incorrect"><marker>"</marker>Un test".</example>
+			<example type="correct">„Test”.</example>
+		</rule>
+		<rule id="GHILIMELE_DUBLE_SFARSIT" name="Ghilimele duble la sfârșit de propoziție: [&quot;] în loc de [”]">	
+			<pattern mark_from="1" mark_to="0">
+				<token regexp="yes">.*(\p{L}|.)</token>
+				<token postag="SENT_END" spacebefore="no">"</token>
+			</pattern>
+			<message>Pentru limba română se folosește simbolul <suggestion>”</suggestion>.</message>
+			<short>Ghilimele românești.</short>
+			<example correction="”" type="incorrect">"Un test<marker>"</marker></example>
+			<example correction="”" type="incorrect">"Un test<marker>"</marker>.</example>
+			<example correction="”" type="incorrect">"Un test.<marker>"</marker></example>
+			<example type="correct">„Test”</example>
+		</rule>
+		<rule id="GHILIMELE_DUBLE_INTERIOR_INCEPUT" name="Citat în citat (deschidere): [&lt;&lt;] în loc de «">
+			<pattern>
+				<token>&lt;</token>
+				<token>&lt;</token>
+			</pattern>
+			<message>Pentru limba română se folosește simbolul <suggestion>«</suggestion>.</message>
+			<short>Ghilimele românești.</short>
+			<example correction="«" type="incorrect">Un <marker>&lt;&lt;</marker>test».</example>
+			<example correction="«" type="incorrect"><marker>&lt;&lt;</marker>un test».</example>
+			<example type="correct">Un «test».</example>
+		</rule>
+		<rule id="GHILIMELE_DUBLE_INTERIOR_SFARSIT" name="Citat în citat (închidere): [&gt;&gt;] în loc de »">
+			<pattern>
+				<token>&gt;</token>
+				<token>&gt;</token>
+			</pattern>
+			<message>Pentru limba română se folosește simbolul <suggestion>»</suggestion>.</message>
+			<short>Ghilimele românești.</short>
+			<example correction="»" type="incorrect">Un «test<marker>&gt;&gt;</marker> oarecare.</example>
+			<example correction="»" type="incorrect">„Un «test<marker>&gt;&gt;</marker> oarecare.”</example>
+      		<example type="correct">Un «test» oarecare.</example>
+		</rule>
+	</category>
 
 	<category name="Greșeli de exprimare">
 
