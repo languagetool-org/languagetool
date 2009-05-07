@@ -93,11 +93,7 @@ public class AnalyzedToken {
 
   public String toString() {
     final StringBuilder sb = new StringBuilder();
-    if (lemma != null) {
-      sb.append(lemma);
-    } else {
-      sb.append(token);
-    }
+    sb.append(tokenInflected);    
     sb.append("/");
     sb.append(posTag);
     return sb.toString();
