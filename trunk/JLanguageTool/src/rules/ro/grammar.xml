@@ -77,6 +77,7 @@ title="Easy editing stylesheet" ?>
 				<example type="correct">Un nivel mai scăzut <marker>al TVA</marker>-ului.</example>
 			</rule>
 	</rulegroup>
+
 	<rulegroup id="LITERE_INVERSATE_SI_CE_UNDE" name="și ce unde - și de unde">
 			<rule>
 				<pattern>
@@ -331,27 +332,6 @@ title="Easy editing stylesheet" ?>
 		</rulegroup>
 
 
-		<rulegroup id="CARE__ESTE" name="Care este">
-			<rule name="care este">
-				<pattern mark_from="1" mark_to="-1">
-					<token>care</token>
-					<token>este</token>
-					<token postag_regexp="yes" postag="Amp3an0000|Afp3an0000"><exception postag="Afs3an0000"></exception> </token>
-				</pattern>
-
-				<message>Ați dorit să scrieți <suggestion>sunt</suggestion> \3?</message>
-				<example type="incorrect">Care <marker>este</marker> deștepți.</example>
-				<example type="correct">Care <marker>sunt</marker> deștepți.</example>
-
-				<example type="incorrect">Care <marker>este</marker> deștepte.</example>
-				<example type="correct">Care <marker>sunt</marker> deștepte.</example>
-				<example type="correct">Care <marker>este</marker> folositoare.</example>
-				<example type="correct">Singura care <marker>este</marker> muritoare.</example>
-				<example type="correct">Singura care <marker>este</marker> aproape.</example>
-				<example type="correct">Într-o țară care <marker>este</marker> anti-religioasă.</example>			
-				
-			</rule>
-		</rulegroup>
 		<rule id="SA_VORBESTE" name="să 'vorbește'">
 				<pattern mark_from="1" mark_to="0">
 					<token>să</token>
@@ -802,6 +782,14 @@ title="Easy editing stylesheet" ?>
 			<example type="correct"><marker>Este frumos</marker> colorat.</example>
 			<example type="correct">Sunt frumos colorat.</example>
 			<example type="incorrect" correction="Sunt frumoși|Este frumos"><marker>Este frumoși</marker> colorați.</example>
+			<example type="incorrect" correction="sunt deștepți|este deștept">Care <marker>este deștepți</marker>.</example>
+			<example type="correct">Care <marker>sunt deștepți </marker>.</example>
+			<example type="incorrect" correction="sunt deștepte|este deșteaptă">Care <marker>este deștepte</marker>.</example>
+			<example type="correct">Care <marker>sunt deștepte</marker>.</example>
+			<example type="correct">Care <marker>este folositoare</marker>.</example>
+			<example type="correct">Singura care <marker>este muritoare</marker>.</example>
+			<example type="correct">Singura care <marker>este aproape</marker>.</example>
+			<example type="correct">Într-o țară care <marker>este anti-religioasă</marker>.</example>			
 		</rule>
 	</category>
 	<category name="Greșeli gramaticale - acordul după caz">
@@ -3871,5 +3859,31 @@ title="Easy editing stylesheet" ?>
 				<example type="correct">Prietenele <marker>ale căror</marker> cărți îmi plac e aici.</example>
 			</rule>
 		</rulegroup>
+	</category>
+	<category name="Repetiții">
+		<rule id="ETC_ETC" name="etc. etc.">
+			<pattern>
+				<token>etc</token>
+				<token>.</token>
+				<token>etc</token>
+				<token>.</token>
+			</pattern>
+			<message>Ați dorit să scrieți <suggestion>\1\2</suggestion> sau <suggestion>\1\2, \3\4</suggestion>?</message>
+			<short>Greșeală de exprimare</short>
+			<example type="incorrect" correction="etc.|etc., etc.">A spus <marker>etc. etc.</marker></example>
+			<example type="correct">A spus <marker>etc.</marker></example>
+		</rule>
+		<rule id="SAMD_SAMD" name="șamd. șamd.">
+			<pattern>
+				<token>șamd</token>
+				<token>.</token>
+				<token>șamd</token>
+				<token>.</token>
+			</pattern>
+			<message>Ați dorit să scrieți <suggestion>\1\2</suggestion>?</message>
+			<short>Greșeală de exprimare</short>
+			<example type="incorrect" correction="șamd.">A spus <marker>șamd. șamd.</marker></example>
+			<example type="correct">A spus <marker>șamd.</marker></example>
+		</rule>
 	</category>
 </rules>
