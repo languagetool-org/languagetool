@@ -18,7 +18,6 @@
  */
 package de.danielnaber.languagetool.openoffice;
 
-import java.util.Arrays;
 import java.util.ResourceBundle;
 
 import com.sun.star.awt.Rectangle;
@@ -42,27 +41,12 @@ public class OOoAboutDialog {
     winPeer = parentWindowPeer;
   }
 
-  public void show() {
-    final StringBuilder maintainersInfo = new StringBuilder();
-    for (final Language lang : Language.LANGUAGES) {
-      if (lang != Language.DEMO) {
-        if (lang.getMaintainers() != null) {
-          final String m = Arrays.toString(lang.getMaintainers());
-          maintainersInfo.append(messages.getString(lang.getShortName()));
-          maintainersInfo.append(" – ");
-          maintainersInfo.append(m);
-          maintainersInfo.append("\n");
-        }
-      }
-    }
+  public void show() {        
     final String aboutText = StringTools.getLabel(messages
         .getString("guiMenuAbout"));
-
     final XMessageBoxFactory messageBoxFactory = (XMessageBoxFactory) UnoRuntime
         .queryInterface(XMessageBoxFactory.class, winPeer.getToolkit());
-
     final Rectangle messageBoxRectangle = new Rectangle();
-
     final XMessageBox box = messageBoxFactory
         .createMessageBox(
             winPeer,
@@ -77,7 +61,7 @@ public class OOoAboutDialog {
                 + "This software is licensed under the GNU Lesser General Public License.\n"
                 + "LanguageTool Homepage: http://www.languagetool.org/\n\n"
                 + "Maintainers of the language modules:\n"
-                + maintainersInfo.toString());
+                + Language.getAllMaintainers(messages));
     box.execute();
   }
 }

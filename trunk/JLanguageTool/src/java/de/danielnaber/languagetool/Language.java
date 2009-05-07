@@ -19,6 +19,8 @@
 package de.danielnaber.languagetool;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 import java.util.MissingResourceException;
@@ -274,4 +276,31 @@ public abstract class Language {
     return getName();
   }
   
+  /**
+   * Get sorted info about all maintainers.
+   * @since 0.9.9
+   * @param messages
+   *        {{@link ResourceBundle} language bundle to translate
+   *        the info
+   * @return
+   *        A sorted list of maintainers.
+   */
+  public static String getAllMaintainers(final ResourceBundle messages) {
+    final StringBuilder maintainersInfo = new StringBuilder();
+    final List<String> toSort = new ArrayList<String>();
+    for (final Language lang : Language.LANGUAGES) {
+      if (lang != Language.DEMO) {
+        if (lang.getMaintainers() != null) {
+          toSort.add(messages.getString(lang.getShortName()) +
+              "-" + Arrays.toString(lang.getMaintainers()));
+        }
+      }            
+    }    
+    Collections.sort(toSort);
+    for (final String lElem : toSort) {    
+      maintainersInfo.append(lElem);    
+      maintainersInfo.append("\n");
+    }
+    return maintainersInfo.toString();
+  }
 }

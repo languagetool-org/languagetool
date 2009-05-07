@@ -18,7 +18,6 @@
  */
 package de.danielnaber.languagetool.gui;
 
-import java.util.Arrays;
 import java.util.ResourceBundle;
 
 import javax.swing.JOptionPane;
@@ -35,19 +34,7 @@ public class AboutDialog {
     this.messages = messages;
   }
   
-  public final void show() {
-    final StringBuilder maintainersInfo = new StringBuilder();
-    for (Language lang : Language.LANGUAGES) {
-      if (lang != Language.DEMO) {
-        if (lang.getMaintainers() != null) {
-          final String m = Arrays.toString(lang.getMaintainers());
-          maintainersInfo.append(messages.getString(lang.getShortName()));
-          maintainersInfo.append(" – ");
-          maintainersInfo.append(m);
-          maintainersInfo.append("\n");
-        }
-      }
-    }
+  public final void show() {    
     final String aboutText = 
       StringTools.getLabel(messages.getString("guiMenuAbout"));
     JOptionPane.showMessageDialog(null, "LanguageTool " + JLanguageTool.VERSION + "\n" 
@@ -55,7 +42,7 @@ public class AboutDialog {
         + "This software is licensed under the GNU Lesser General Public License.\n"
         + "LanguageTool Homepage: http://www.languagetool.org\n\n"
         + "Maintainers of the language modules:\n"
-        + maintainersInfo.toString(),
+        + Language.getAllMaintainers(messages),
         aboutText, JOptionPane.INFORMATION_MESSAGE);
   }
 }
