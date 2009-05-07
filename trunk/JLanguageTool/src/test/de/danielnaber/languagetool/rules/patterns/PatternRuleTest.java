@@ -237,8 +237,8 @@ public class PatternRuleTest extends TestCase {
     }
   }
 
-  private String cleanXML(final String str) {
-    return str.replaceAll("<.*?>", "");
+  protected String cleanXML(final String str) {
+    return str.replaceAll("<([^<].*?)>", "");
   }
 
   private boolean match(final Rule rule, final String sentence,
