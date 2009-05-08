@@ -279,7 +279,6 @@ title="Easy editing stylesheet" ?>
 			<example correction="”" type="incorrect">"Un test.<marker>"</marker></example>
 			<!-- this for Romanian this is not a correct sentence, the dot must be inside quotes, as above
 			 <example correction="”" type="incorrect">"Un test<marker>"</marker>.</example> -->
-			<example correction="”" type="incorrect">"Un test.<marker>"</marker></example>
 			<example type="correct">„Test”</example>
 		</rule>
 		<rule id="GHILIMELE_DUBLE_INTERIOR_INCEPUT" name="Citat în citat (deschidere): [&lt;&lt;] în loc de «">
@@ -3082,6 +3081,185 @@ title="Easy editing stylesheet" ?>
 			<example type="incorrect" correction="blazonului">El nu a arătat respectul cuvenit <marker>blazonului de noblețe</marker> vechile materiale.</example>
 			<example type="correct">El nu a arătat respectul cuvenit <marker>blazonului</marker> vechile materiale.</example>
 		</rule>    
+		<rule id="A_RELUA_DIN_NOU" name="a relua din nou">
+			<pattern>
+				<token inflected="yes">relua</token>
+				<token>din</token>
+				<token>nou</token>
+			</pattern>
+			<message>Ați dorit să scrieți <suggestion>\1</suggestion>?</message>
+			<short>Pleonasm</short>
+			<example type="incorrect" correction="reluat">El a <marker>reluat din nou</marker> aceeași temă.</example>
+			<example type="incorrect" correction="reluând">A plictisit auditoriul <marker>reluând din nou</marker> aceeași temă.</example>
+			<example type="incorrect" correction="reluase">Până să-l opresc, <marker>reluase din nou</marker> aceeași idee.</example>
+			<example type="correct">El a <marker>reluat</marker> aceeași temă.</example>
+		</rule>
+		<rulegroup id="ATAC_AGRESIV" name="atac agresiv">
+			<rule>
+				<pattern>
+					<token>atac</token>
+					<token>agresiv</token>
+				</pattern>
+				<message>Ați dorit să scrieți <suggestion>\1</suggestion>?</message>
+				<short>Pleonasm</short>
+				<example type="incorrect" correction="atac">El m-a învățat cum să încep un <marker>atac agresiv</marker>.</example>
+				<example type="correct">El m-a învățat cum să încep un <marker>atac</marker>.</example>
+			</rule>
+			<rule>
+				<pattern>
+					<token>agresiv</token>
+					<token>atac</token>
+				</pattern>
+				<message>Ați dorit să scrieți <suggestion>\2</suggestion>?</message>
+				<short>Pleonasm</short>
+				<example type="incorrect" correction="atac">El m-a învățat cum să încep un <marker>agresiv atac</marker>.</example>
+				<example type="correct">El m-a învățat cum să încep un <marker>atac</marker>.</example>
+			</rule>
+		</rulegroup>
+		<rule id="A_PRECIZA_CU_EXACTITATE" name="a preciza cu exactitate">
+			<pattern>
+				<token inflected="yes">preciza</token>
+				<token>cu</token>
+				<token>exactitate</token>
+			</pattern>
+			<message>Ați dorit să scrieți <suggestion>\1</suggestion>?</message>
+			<short>Pleonasm</short>
+			<example type="incorrect" correction="preciza">El <marker>preciza cu exactitate</marker> problemele apărute.</example>
+			<example type="incorrect" correction="precizase">El <marker>precizase cu exactitate</marker> problemele apărute.</example>
+			<example type="incorrect" correction="precizând">El m-a impresionat plăcut <marker>precizând cu exactitate</marker> problemele apărute.</example>
+			<example type="incorrect" correction="preciza">Se vor <marker>preciza cu exactitate</marker> intervalele orare.</example>
+			<example type="correct">El <marker>preciza</marker> problemele apărute.</example>
+		</rule>
+		<rule id="NUMEROASE_POLITRAUMATISME" name="numeroase politraumatisme">
+			<pattern>
+				<token regexp="yes">numeroase|numeros</token>
+				<token regexp="yes">politraumatisme|politraumatism</token>
+			</pattern>
+			<message>Ați dorit să scrieți <suggestion>politraumatism</suggestion>?</message>
+			<short>Pleonasm</short>
+			<example type="incorrect" correction="politraumatism">Cinci răniţi sunt internaţi cu <marker>numeroase politraumatisme</marker>.</example>
+			<example type="correct">Cinci răniţi sunt internaţi cu <marker>politraumatism</marker>.</example>
+		</rule>
+		<rulegroup id="A_REPETA_INCA_O_DATA" name="a repeta încă o dată">
+			<rule>
+				<pattern>
+					<token inflected="yes">repeta</token>
+					<token>încă</token>
+					<token>o</token>
+					<token>dată</token>
+				</pattern>
+				<message>Ați dorit să scrieți <suggestion>\1</suggestion>?</message>
+				<short>Pleonasm</short>
+				<example type="incorrect" correction="repetat">A <marker>repetat încă o dată</marker> poezia.</example>
+				<example type="correct">A <marker>repetat</marker> poezia.</example>
+			</rule>
+			<rule>
+				<pattern>
+					<token inflected="yes">repeta</token>
+					<token>încă</token>
+					<token>odată</token>
+				</pattern>
+				<message>Ați dorit să scrieți <suggestion>\1</suggestion>?</message>
+				<short>Pleonasm</short>
+				<example type="incorrect" correction="repetat">A <marker>repetat încă odată</marker> poezia.</example>
+				<example type="correct">A <marker>repetat</marker> poezia.</example>
+			</rule>
+		</rulegroup>
+		<rule id="A_RAMANE_IN_CONTINUARE" name="a rămâne în continuare">
+			<!-- ""330.000 google matches :( -->
+			<pattern>
+				<token inflected="yes">rămâne</token>
+				<token>în</token>
+				<token>continuare</token>
+			</pattern>
+			<message>Ați dorit să scrieți <suggestion>\1</suggestion>?</message>
+			<short>Pleonasm</short>
+			<example type="incorrect" correction="rămas">A <marker>rămas în continuare</marker> acolo.</example>
+			<example type="correct">A <marker>rămas</marker> acolo.</example>
+		</rule>
+		<rule id="A_URMA_IN_CONTINUARE" name="a urma în continuare">
+			<pattern>
+				<token inflected="yes">urma</token>
+				<token>în</token>
+				<token>continuare</token>
+			</pattern>
+			<message>Ați dorit să scrieți <suggestion>\1</suggestion>?</message>
+			<short>Pleonasm</short>
+			<example type="incorrect" correction="urmat">A <marker>urmat în continuare</marker> o prezentare a produsului.</example>
+			<example type="correct">A <marker>urmat</marker> o prezentare a produsului.</example>
+		</rule>
+		<rule id="A_POPOSI_PENTRU_ODIHNA" name="poposi pentru odihnă">
+			<pattern>
+				<token inflected="yes">poposi</token>
+				<token>pentru</token>
+				<token>odihnă</token>
+			</pattern>
+			<message>Ați dorit să scrieți <suggestion>\1</suggestion>?</message>
+			<short>Pleonasm</short>
+			<example type="incorrect" correction="poposi">Apoi el <marker>poposi pentru odihnă</marker> la han.</example>
+			<example type="correct">Apoi el <marker>poposi</marker> la han.</example>
+		</rule>
+		<rulegroup id="PERSUASIUNE_CONVINGATOARE" name="persuasiune convingătoare">
+			<rule>
+				<pattern mark_from="1">
+					<token><exception>o</exception></token>
+					<token inflected="yes">persuasiune</token>
+					<token>convingătoare</token>
+				</pattern>
+				<message>Ați dorit să scrieți <suggestion>\2</suggestion>?</message>
+				<short>Pleonasm</short>
+				<example type="incorrect" correction="persuasiune">S-a exprimat cu <marker>persuasiune convingătoare</marker>.</example>
+				<example type="incorrect" correction="persuasiunea">S-a exprimat cu <marker>persuasiunea convingătoare</marker> care îl caracterizează.</example>
+				<example type="correct">S-a exprimat cu <marker>persuasiune</marker>.</example>
+			</rule>
+			<rule>
+				<pattern>
+					<token>o</token>
+					<token>persuasiune</token>
+					<token>convingătoare</token>
+				</pattern>
+				<message>Ați dorit să scrieți <suggestion>\2</suggestion>?</message>
+				<short>Pleonasm</short>
+				<example type="incorrect" correction="persuasiune">S-a exprimat cu <marker>o persuasiune convingătoare</marker>.</example>
+				<example type="correct">S-a exprimat cu <marker>persuasiune</marker>.</example>
+			</rule>
+		</rulegroup>
+		<rule id="DAINUI_PERMANENT" name="a dăinui permanent">
+			<pattern>
+				<token inflected="yes">dăinui</token>
+				<token>permanent</token>
+			</pattern>
+			<message>Ați dorit să scrieți <suggestion>\1</suggestion>?</message>
+			<short>Pleonasm</short>
+			<example type="incorrect" correction="dăinui">Amintirea sa va <marker>dăinui permanent</marker>.</example>
+			<example type="correct">Amintirea sa va <marker>dăinui</marker>.</example>
+		</rule>
+		<rule id="A_CONTINE_IN_CUPRINS" name="a conţine în cuprins">
+			<pattern>
+				<token inflected="yes">conține</token>
+				<token>în</token>
+				<token>cuprins</token>
+			</pattern>
+			<message>Ați dorit să scrieți <suggestion><match no="1"></match></suggestion> sau <suggestion><match 
+				no="1" postag="(.*)" postag_regexp="yes">cuprinde</match></suggestion>?</message>
+			<short>Pleonasm</short>
+			<example type="incorrect" correction="conținea|cuprindea">Cartea <marker>conținea în cuprins</marker> multe capitole.</example>
+			<example type="incorrect" correction="conține|cuprinde">Cartea va <marker>conține în cuprins</marker> multe capitole.</example>
+			<example type="correct">Cartea <marker>conținea</marker> multe capitole.</example>
+			<example type="correct">Cartea <marker>cuprindea</marker> multe capitole.</example>
+		</rule>	
+		<rule id="A_CONLUCRA_IMPREUNA" name="a conlucra împreună">
+			<pattern>
+				<token inflected="yes">conlucra</token>
+				<token>împreună</token>
+			</pattern>
+			<message>Ați dorit să scrieți <suggestion><match no="1"></match></suggestion> sau <suggestion><match 
+				no="1" postag="(.*)" postag_regexp="yes">lucra</match> <match no="2"></match></suggestion>?</message>
+			<short>Pleonasm</short>
+			<example type="incorrect" correction="conlucrat|lucrat împreună">Ei au <marker>conlucrat împreună</marker> la acel proiect.</example>
+			<example type="correct">Ei au <marker>conlucrat</marker> la acel proiect.</example>
+			<example type="correct">Ei au <marker>lucrat împreună</marker> la acel proiect.</example>
+		</rule>
 	</category>
 	
 	<category name="Cacofonie">
