@@ -809,7 +809,7 @@ It [really!] works. This is e.g. Mr. Smith, who talks slowly... And this is anot
 <afterbreak></afterbreak>
 </rule>
 <rule break="yes">
-<beforebreak>[\.!?…]['"\p{Pe}\p{Pf}\u0002]*\s</beforebreak>
+<beforebreak>[\.!?…]['"\p{Pe}[\u00BB\u2019\u201D\u203A]\u0002]*\s</beforebreak>
 <afterbreak></afterbreak>
 </rule>
 <rule break="yes">
@@ -979,11 +979,11 @@ It [really!] works. This is e.g. Mr. Smith, who talks slowly... And this is anot
 <afterbreak></afterbreak>
 </rule>
 <rule break="yes">
-<beforebreak>[\.!?…][\p{Pf}"'\p{Pe}\u0002]*\s</beforebreak>
+<beforebreak>[\.!?…][\u00BB\u2019\u201D\u203A"'\p{Pe}\u0002]*\s</beforebreak>
 <afterbreak></afterbreak>
 </rule>
 <rule break="yes">
-<beforebreak>[\.!?…]['"\p{Pf}\p{Pe}\u0002]*</beforebreak>
+<beforebreak>[\.!?…]['"\u00BB\u2019\u201D\u203A\p{Pe}\u0002]*</beforebreak>
 <afterbreak>\p{Lu}[^\p{Lu}]</afterbreak>
 </rule>
 <rule break="yes">
@@ -994,55 +994,80 @@ It [really!] works. This is e.g. Mr. Smith, who talks slowly... And this is anot
 <languagerule languagerulename="Romanian">
 <rule break="no">
 <beforebreak>\b\d+\.\s</beforebreak>
-<afterbreak>\p{Ll}|\p{Lu}{2,}</afterbreak></rule>
+<afterbreak>\p{Ll}|\p{Lu}{2,}</afterbreak>
+</rule>
 <rule break="no">
 <beforebreak>["”']\s*</beforebreak>
-<afterbreak>\s*\p{Ll}</afterbreak></rule>
+<afterbreak>\s*\p{Ll}</afterbreak>
+</rule>
 <rule break="no">
-<beforebreak>['"„][\.!?…]['"”]\s</beforebreak></rule>
+<beforebreak>['"„][\.!?…]['"”]\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
 <rule break="no">
 <beforebreak>\b\p{L}\.\s</beforebreak>
-<afterbreak>\p{L}\.\s</afterbreak></rule>
+<afterbreak>\p{L}\.\s</afterbreak>
+</rule>
 <rule break="no">
 <beforebreak>\b\p{L}\.</beforebreak>
-<afterbreak>\p{L}\.</afterbreak></rule>
+<afterbreak>\p{L}\.</afterbreak>
+</rule>
 <rule break="no">
 <beforebreak>[\.\s]\p{L}{1,2}\.\s</beforebreak>
-<afterbreak>[\p{N}\p{Ll}]</afterbreak></rule>
+<afterbreak>[\p{N}\p{Ll}]</afterbreak>
+</rule>
 <rule break="no">
 <beforebreak>[!?]+\p{Pe} </beforebreak>
-<afterbreak>\p{Ll}</afterbreak></rule>
+<afterbreak>\p{Ll}</afterbreak>
+</rule>
 <rule break="no">
 <beforebreak>[\p{Ps}][!?]+[\p{Pe}] </beforebreak>
-<afterbreak>.</afterbreak></rule>
+<afterbreak>.</afterbreak>
+</rule>
 <rule break="no">
 <beforebreak>[\[\(]*\.\.\.[\]\)]* </beforebreak>
-<afterbreak>[^\p{Lu}]</afterbreak></rule>
-<rule>
+<afterbreak>[^\p{Lu}]</afterbreak>
+</rule>
+<rule break="yes">
 <beforebreak>\b(etc|șamd)\.\s</beforebreak>
-<afterbreak>[A-Z]</afterbreak></rule>
+<afterbreak>[A-Z]</afterbreak>
+</rule>
 <rule break="no">
-<beforebreak>\bdpdv\.\s</beforebreak></rule>
+<beforebreak>\bdpdv\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
 <rule break="no">
-<beforebreak>\b(etc|șamd)\.\s</beforebreak></rule>
+<beforebreak>\b(etc|șamd)\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
 <rule break="no">
-<beforebreak>\b([Dd]l|[Dd]-na|[Dd]vs|[Pp]t)\.\s</beforebreak></rule>
+<beforebreak>\b([Dd]l|[Dd]-na|[Dd]vs|[Pp]t)\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
 <rule break="no">
-<beforebreak>\b([Dd]l|[Dd]-na|[Dd]vs|[Pp]t)\.\s[A-Z]\.\s</beforebreak></rule>
+<beforebreak>\b([Dd]l|[Dd]-na|[Dd]vs|[Pp]t)\.\s[A-Z]\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
 <rule break="no">
 <beforebreak>[\[\(]*\.\.\.[\]\)]* </beforebreak>
-<afterbreak>\p{Ll}</afterbreak></rule>
+<afterbreak>\p{Ll}</afterbreak>
+</rule>
 <rule break="no">
 <beforebreak>[\[\(]*…[\]\)]* </beforebreak>
-<afterbreak>\p{Ll}</afterbreak></rule>
-<rule>
-<beforebreak>[\.!?…]['"\p{Pe}\p{Pf}\u0002]*\s</beforebreak></rule>
-<rule>
+<afterbreak>\p{Ll}</afterbreak>
+</rule>
+<rule break="yes">
+<beforebreak>[\.!?…]['"\u00BB\u2019\u201D\u203A\p{Pf}\u0002]*\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="yes">
 <beforebreak>[\.!?…]['»"”\p{Pe}]*</beforebreak>
-<afterbreak>\p{Lu}[^\p{Lu}]</afterbreak></rule>
-<rule>
+<afterbreak>\p{Lu}[^\p{Lu}]</afterbreak>
+</rule>
+<rule break="yes">
 <beforebreak>\s\p{L}[\.!?…]\s</beforebreak>
-<afterbreak>\p{Lu}\p{Ll}</afterbreak></rule>
+<afterbreak>\p{Lu}\p{Ll}</afterbreak>
+</rule>
 </languagerule>
 <languagerule languagerulename="Default">
 <rule break="yes">
