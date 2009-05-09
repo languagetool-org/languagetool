@@ -291,7 +291,8 @@ that's not the case, start LanguageTool with <tt>java -Duser.language=xx -jar La
 Adding a new language requires some programming. You should check out
 the "JLanguageTool" module from CVS (see the <a href="http://sourceforge.net/cvs/?group_id=110216">sourceforge 
 help</a>). As not all files are in CVS because of their size, you also need files from the 
-LanguageTool ZIP file:</p>
+LanguageTool OXT file (which is a ZIP file with a different extension and a description for
+OpenOffice.org Extension Manager):</p>
 
 <ol>
 	<li>Unzip standalone-libs.zip and then copy all <tt>*.jar</tt> files to the subdirectory 
@@ -302,7 +303,7 @@ LanguageTool ZIP file:</p>
 	<li>Create a directory <tt>libs/ooo</tt> and copy these files from your OpenOffice.org
 	installation to that directory (they are in <tt>program/classes</tt>):
 	<tt>juh.jar</tt>, <tt>jurt.jar</tt>, <tt>ridl.jar</tt>, and <tt>unoil.jar</tt></li>
-	<li>Call <tt>ant</tt> and copy the other missing files from the ZIP, if the
+	<li>Call <tt>ant</tt> and copy the other missing files from the OXT, if the
 	compiler complains.</li>
 </ol>
 
@@ -324,7 +325,7 @@ You will also need to add the short name of your language to <tt>rules.dtd</tt>.
 and its rules, based on the "example" elements of each rule.</p>
 
 <p>To add part-of-speech tags, please have a look at <tt>resource/en/make-dict-en.sh</tt>
-(note: this file is only in CVS, not in the released ZIP). First try to make it work 
+(note: this file is only in CVS, not in the released OXT). First try to make it work 
 for English. You need the
 <?=show_link("fsa", "http://www.eti.pg.gda.pl/katedry/kiw/pracownicy/Jan.Daciuk/personal/fsa.html", 1) ?> 
 package. Install it and add its installation directory to your PATH. Once it works for English,
