@@ -36,8 +36,6 @@ import de.danielnaber.languagetool.tools.StringTools;
  */
 public class Tools {
 
-  public static final String WINDOW_ICON_FILE = "/resource/TrayIcon.png";
-
   private static final int DEFAULT_CONTEXT_SIZE = 40; // characters
   private static final String MARKER_START = "<b><font color=\"red\">";
   private static final String MARKER_END = "</font></b>";
