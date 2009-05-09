@@ -240,7 +240,7 @@
 		<jar jarfile="${dist.dir}/${final.name}.jar" basedir="${build.classes}" excludes="**/*.java">
 			<manifest>
 				<attribute name="Main-Class" value="de.danielnaber.languagetool.Main" />
-				<attribute name="Class-Path" value="./ ./rules ./resource ./${stempelator.lib} ./jWordSplitter.jar ./${segment.lib} ./${loomchild.util.lib} ./${logging.lib}" />
+				<attribute name="Class-Path" value="./ ./rules ./resource ./${stempelator.lib} ./jWordSplitter.jar ./${segment.lib} ./${loomchild.util.lib} ./${logging.lib} ${jaxb.classpath}" />
 				<attribute name="Implementation-Version" value="${version}" />
 				<attribute name="Implementation-Date" value="${date}" />
 			</manifest>
@@ -249,7 +249,7 @@
 		<jar jarfile="${dist.dir}/${final.name.gui}.jar" basedir="${build.classes}" includes="de/danielnaber/languagetool/gui/*.class">
 			<manifest>
 				<attribute name="Main-Class" value="de.danielnaber.languagetool.gui.Main" />
-				<attribute name="Class-Path" value="./LanguageTool.jar ./ ./resource ./rules ./${stempelator.lib}  ./jdic.jar ./jaminid.jar ./jWordSplitter.jar ./${segment.lib} ./${loomchild.util.lib} ./${logging.lib}" />
+				<attribute name="Class-Path" value="./LanguageTool.jar ./ ./resource ./rules ./${stempelator.lib}  ./jdic.jar ./jaminid.jar ./jWordSplitter.jar ./${segment.lib} ./${loomchild.util.lib} ./${logging.lib} ${jaxb.classpath}" />
 				<attribute name="Implementation-Version" value="${version}" />
 				<attribute name="Implementation-Date" value="${date}" />
 			</manifest>
@@ -307,7 +307,7 @@
 		<attribute name="RegistrationClassName" value="de.danielnaber.languagetool.openoffice.Main" />
 		<attribute name="Implementation-Version" value="${version}" />
 		<attribute name="Implementation-Date" value="${date}" />
-		<attribute name="Class-Path" value=". ./rules ./resource ./${stempelator.lib} ./jWordSplitter.jar ./${segment.lib} ./${loomchild.util.lib} ./${logging.lib}" />
+		<attribute name="Class-Path" value=". ./rules ./resource ./${stempelator.lib} ./jWordSplitter.jar ./${segment.lib} ./${loomchild.util.lib} ./${logging.lib} ${jaxb.classpath}" />
 		<attribute name="Uno-Type-Path" value="" />
 	</manifest>
 </jar>
@@ -377,6 +377,12 @@
 <copy file="${ext.loomchild.util.lib}" todir="${dist.dir}" />
 <copy file="${ext.logging.lib}" todir="${dist.dir}" />
 <copy file="${ext.junit.lib}" todir="${dist.dir}" />
+<!-- JAXB jars for Java 1.5 -->	
+<copy file="${ext.jaxb-api.lib}" todir="${dist.dir}" />
+<copy file="${ext.jaxb-impl.lib}" todir="${dist.dir}" />
+<copy file="${ext.jsr.lib}" todir="${dist.dir}" />
+<copy file="${ext.activation.lib}" todir="${dist.dir}" />
+
 
 <copy todir="${dist.dir}/linux">
 	<fileset dir="${ext.dir}/linux" />
@@ -462,6 +468,8 @@
 	</manifest>
 </jar>
 
+<chmod file="ooolocales.properties" perm="+w"/>
+
 <java jar="${dist.dir}/printlocales.jar" fork="true" />
 
 <filter filtersFile="ooolocales.properties" />
@@ -492,29 +500,19 @@
 <jar compress="yes" basedir="${dist.dir}" destfile="${dist.dir}/web/resource.jar" includes="resource/**" />
 <jar compress="yes" basedir="${dist.dir}" destfile="${dist.dir}/web/rules.jar" includes="rules/**" />
 
-<copy file="${dist.dir}/LanguageToolGUI.jar" todir="${dist.dir}/web/" />
-<copy file="${dist.dir}/LanguageTool.jar" todir="${dist.dir}/web/" />
-<copy file="${ext.stempelator.lib}" todir="${dist.dir}/web/" />
-<copy file="${ext.jaminid.lib}" todir="${dist.dir}/web/" />
-<copy file="${ext.jwordsplitter.lib}" todir="${dist.dir}/web/" />
-<copy file="${ext.jdic.lib}" todir="${dist.dir}/web/" />	
-<copy file="${ext.segment.lib}" todir="${dist.dir}/web/" />
-<copy file="${ext.loomchild.util.lib}" todir="${dist.dir}/web/" />
-<copy file="${ext.logging.lib}" todir="${dist.dir}/web/" />
-
-<copy file="${dist.dir}/linux/jdic_stub.jar" todir="${dist.dir}/web/linux" />
+<copy todir="${dist.dir}/web/">
+	<fileset dir="${dist.dir}" casesensitive="yes">
+	  <include name="**/*.jar" />
+	  <exclude name="**/printlocales.jar"/>
+	</fileset>
+</copy>
+	
 <jar compress="yes" basedir="${dist.dir}/linux/x86" destfile="${dist.dir}/web/linux/jdic-native.jar" includes="**" />
-
-<copy file="${dist.dir}/sunos/jdic_stub.jar" todir="${dist.dir}/web/sunos" />
 <jar compress="yes" basedir="${dist.dir}/sunos/x86" destfile="${dist.dir}/web/sunos/jdic-x86.jar" includes="**" />
 <jar compress="yes" basedir="${dist.dir}/sunos/sparc" destfile="${dist.dir}/web/sunos/jdic-sparc.jar" includes="**" />
-
-<copy file="${dist.dir}/windows/jdic_stub.jar" todir="${dist.dir}/web/windows" />
 <jar compress="yes" basedir="${dist.dir}/windows/x86" destfile="${dist.dir}/web/windows/jdic-native.jar" includes="**" />
-
-<copy file="${dist.dir}/mac/jdic_stub.jar" todir="${dist.dir}/web/mac" />
 <jar compress="yes" basedir="${dist.dir}/mac/ppc" destfile="${dist.dir}/web/mac/jdic-native.jar" includes="**" />
-
+	
 <signjar keystore="./keystore.ks" keypass="blabla" storepass="blabla" alias="myalias">
   <path>
     <fileset dir="${dist.dir}/web" includes="**/*.jar" />

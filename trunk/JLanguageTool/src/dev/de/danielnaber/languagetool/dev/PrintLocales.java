@@ -77,7 +77,6 @@ public final class PrintLocales {
     final String oldLocales = checkPropLoc.getProperty("countryvariants");
     if (!locales.equals(oldLocales)) {
       final File f = new File("ooolocales.properties");
-      f.setWritable(true);
       final Properties propLoc = new Properties();
       propLoc.setProperty("countryvariants", locales);
       FileOutputStream fOut = null;
