@@ -7,7 +7,7 @@ title="Easy editing stylesheet" ?>
 English Grammar and Typo Rules for LanguageTool
 See tagset.txt for the meaning of the POS tags
 Copyright (C) 2001-2007 Daniel Naber (http://www.danielnaber.de)
-$Id: grammar.xml,v 1.107 2009-05-03 20:19:49 milek_pl Exp $
+$Id: grammar.xml,v 1.108 2009-05-10 22:50:11 milek_pl Exp $
 -->
 <rules lang="en">
   <!-- ====================================================================== -->
@@ -789,6 +789,16 @@ $Id: grammar.xml,v 1.107 2009-05-03 20:19:49 milek_pl Exp $
         <short>Possible typo</short>
         <example correction="advice" type="incorrect">What was the best piece of <marker>advise</marker> that you ever got?</example>
         <example type="correct">What was the best piece of advice that you ever got?</example>
+      </rule>
+      <rule>
+        <pattern mark_from="1">
+          <token postag="MD"/>
+          <token>advice</token>
+        </pattern>
+        <message>Did you mean <suggestion>advise</suggestion> (a verb)?</message>
+        <short>Possible typo</short>
+        <example correction="advise" type="incorrect">I must <marker>advice</marker> you to go.</example>
+        <example type="correct">I cannot advise you anything.</example>
       </rule>
     </rulegroup>
     <rule id="I_WE_ADVICE" name="I/we advice (advise)">
@@ -4101,15 +4111,15 @@ $Id: grammar.xml,v 1.107 2009-05-03 20:19:49 milek_pl Exp $
       the the, a a nor an an... 
       -->
         <token><exception postag="VB.*" postag_regexp="yes"/></token>
-        <token regexp="yes">a|an|the|this</token>
-        <token postag="DT" regexp="yes">a|an|the|this</token>
+        <token regexp="yes" skip="1">a|an|the|this</token>
+        <token postag="DT" regexp="yes"><exception negate="yes" regexp="yes" scope="previous">['"“]|a|an|the|this</exception>a|an|the|this</token>
         <token><exception regexp="yes">'|\.</exception></token>
       </pattern>
-      <message>Maybe you need to remove the second determiner so that only <suggestion>\2</suggestion> is left.
-    Or add a comma between them: <suggestion>\2, \3</suggestion>.</message>
+      <message>Maybe you need to remove the second determiner so that only <suggestion>\2</suggestion> is left. Or add a comma between them: <suggestion>\2, \3</suggestion>.</message>
       <short>Two consecutive articles</short>
       <example type="correct"><marker>The</marker> thing is this.</example>
       <example correction="The|The, a" type="incorrect"><marker>The a</marker> thing is this.</example>
+      <example correction="The|The, an" type="incorrect"><marker>The 'an</marker> international movie' is interesting.</example>
       <example type="correct">The Thames was once a much broader river.</example>
     </rule>
     <rule id="AN_ANOTHER" name="an another (an / another)">
