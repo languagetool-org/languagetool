@@ -83,5 +83,10 @@ public class RomanianWordTokenizerTest extends TestCase {
     assertEquals(testList.size(), 9);
     assertEquals("[zicea,  , <, <, merge,  , bine, >, >]",
         testList.toString());
+    // test for "%"  
+    testList = w.tokenize("avea 15% apă");
+    assertEquals(testList.size(), 6);
+    assertEquals("[avea,  , 15, %,  , apă]",
+        testList.toString());
   }
 }

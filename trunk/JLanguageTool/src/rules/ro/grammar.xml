@@ -1223,23 +1223,34 @@ title="Easy editing stylesheet" ?>
 				<example type="incorrect" correction="superior" reason="pleonasm">El este <marker>destul de superior</marker>.</example>
 				<example type="correct">El este <marker>superior</marker>.</example>
 			</rule>
-			<rule id="O_PERIOADA_DE_TIMP" name="o perioadă de timp">
-				<pattern>
-					<token>o</token>
-					<token>perioadă</token>
-
-					<token>de</token>
-					<token>timp</token>
-				</pattern>
-				<message>Ați vrut să scrieți <suggestion>o perioadă</suggestion> sau <suggestion>un timp</suggestion>?</message>
-				<short>Pleonasm</short>
-
-				<example type="incorrect" correction="o perioadă|un timp" reason="pleonasm">A plecat pentru <marker>o perioadă de timp</marker>.</example>
-				<example type="correct">A plecat pentru <marker>un timp</marker>.</example>
-				<example type="correct">A plecat pentru <marker>o perioadă</marker>.</example>
-			</rule>
-
-			<rulegroup id="PROTAGONIST_PRINCIPAL" name="protagonist principal">
+			<rulegroup id="O_PERIOADA_DE_TIMP" name="o perioadă de timp">
+				<rule>
+					<pattern>
+						<token>o</token>
+						<token>perioadă</token>
+						<token>de</token>
+						<token>timp</token>
+					</pattern>
+					<message>Ați vrut să scrieți <suggestion>o perioadă</suggestion> sau <suggestion>un timp</suggestion>?</message>
+					<short>Pleonasm</short>
+					<example type="incorrect" correction="o perioadă|un timp" reason="pleonasm">A plecat pentru <marker>o perioadă de timp</marker>.</example>
+					<example type="correct">A plecat pentru <marker>un timp</marker>.</example>
+					<example type="correct">A plecat pentru <marker>o perioadă</marker>.</example>
+				</rule>
+				<rule>
+					<pattern mark_from="1">
+						<token><exception>o</exception></token>
+						<token>perioadă</token>
+						<token>de</token>
+						<token>timp</token>
+					</pattern>
+					<message>Ați vrut să scrieți <suggestion>perioadă</suggestion>?</message>
+					<short>Pleonasm</short>
+					<example type="incorrect" correction="perioadă" reason="pleonasm">El este plecat în această <marker>perioadă de timp</marker>.</example>
+					<example type="correct">El este plecat în această <marker>perioadă</marker>.</example>
+				</rule>
+			</rulegroup>			
+		<rulegroup id="PROTAGONIST_PRINCIPAL" name="protagonist principal">
 <!--			protagonist principal-->
 <!--				<rule id="PROTAGONIST_PRINCIPAL_AL" name="protagonist principal al...">-->
 				<rule name="protagonist principal al...">
@@ -2656,7 +2667,7 @@ title="Easy editing stylesheet" ?>
 		<rulegroup id="PROCENT_LA_SUTA" name="un procent de x la sută">
 			<rule>
 				<pattern>
-					<token>procent</token>
+					<token regexp="yes">procent|procentaj</token>
 					<token>la</token>
 					<token>sută</token>
 				</pattern>
@@ -2668,8 +2679,8 @@ title="Easy editing stylesheet" ?>
 			<rule>  
 				<pattern mark_from="1">
 					<token negate="yes">-</token>
-					<token>un</token>
-					<token>procent</token>
+					<token regexp="yes">un|în</token>
+					<token regexp="yes">procent|procentaj</token>
 					<token>de</token>
 					<token regexp="yes">([0-9])*</token>
 					<token>la</token>
@@ -2678,13 +2689,14 @@ title="Easy editing stylesheet" ?>
 				<message>Ați vrut să scrieți <suggestion>\5 \6 \7</suggestion>?</message>
 				<short>Pleonasm</short>
 				<example type="incorrect" correction="12 la sută">Are <marker>un procent de 12 la sută</marker> zahăr.</example>
+				<example type="incorrect" correction="12 la sută">Este <marker>în procent de 12 la sută</marker> zahăr.</example>
 				<example type="correct"> <marker>12 la sută</marker> zahăr.</example>
 			</rule>
 			<rule>  
 				<pattern mark_from="1">
 					<token negate="yes">-</token>
-					<token>un</token>
-					<token>procent</token>
+					<token regexp="yes">un|în</token>
+					<token regexp="yes">procent|procentaj</token>
 					<token>de</token>
 					<token postag="M.*" postag_regexp="yes"></token>
 					<token>la</token>
@@ -2700,7 +2712,7 @@ title="Easy editing stylesheet" ?>
 					<token>într</token>
 					<token >-</token>
 					<token>un</token>
-					<token>procent</token>
+					<token regexp="yes">procent|procentaj</token>
 					<token>de</token>
 					<token regexp="yes">([0-9])*</token>
 					<token>la</token>
@@ -2716,7 +2728,7 @@ title="Easy editing stylesheet" ?>
 					<token>într</token>
 					<token >-</token>
 					<token>un</token>
-					<token>procent</token>
+					<token regexp="yes">procent|procentaj</token>
 					<token>de</token>
 					<token postag="M.*" postag_regexp="yes"></token>
 					<token>la</token>
@@ -2730,57 +2742,32 @@ title="Easy editing stylesheet" ?>
 			<rule> 
 				<pattern mark_from="1">
 					<token negate="yes">-</token>
-					<token>un</token>
-					<token>procent</token>
+					<token regexp="yes">un|în</token>
+					<token regexp="yes">procent|procentaj</token>
 					<token>de</token>
-					<token regexp="yes">([0-9])*%</token>
+					<token regexp="yes">([0-9])*</token>
+					<token spacebefore="ignore">%</token>
 				</pattern>
-				<message>Ați vrut să scrieți <suggestion>\5</suggestion>?</message>
+				<message>Ați vrut să scrieți <suggestion>\5\6</suggestion>?</message>
 				<short>Pleonasm</short>
 				<example type="incorrect" correction="12%">Are <marker>un procent de 12%</marker> zahăr.</example>
 				<example type="correct">Are <marker>12%</marker> zahăr.</example>
-			</rule>
-			<rule> 
-				<pattern mark_from="1">
-					<token negate="yes">-</token>
-					<token>un</token>
-					<token>procent</token>
-					<token>de</token>
-					<token regexp="yes">([0-9])*</token>
-					<token>,</token>
-					<token regexp="yes">([0-9])*%</token>
-				</pattern>
-				<message>Ați vrut să scrieți <suggestion>\5\6\7</suggestion>?</message>
-				<short>Pleonasm</short>
-				<example type="incorrect" correction="12,3%">Are <marker>un procent de 12,3%</marker> zahăr.</example>
-				<example type="correct">Are <marker>12,3%</marker> zahăr.</example>
-			</rule>
-			<rule> 
-				<pattern mark_from="1">
-					<token negate="yes">-</token>
-					<token>un</token>
-					<token>procent</token>
-					<token>de</token>
-					<token regexp="yes">([0-9])*</token>
-					<token>%</token>
-				</pattern>
-				<message>Ați vrut să scrieți <suggestion>\5 \6</suggestion>?</message>
-				<short>Pleonasm</short>
-				<example type="incorrect" correction="12 %">Are <marker>un procent de 12 %</marker> zahăr.</example>
+				<example type="incorrect" correction="12%">Are <marker>un procent de 12 %</marker> zahăr.</example>
 				<example type="correct">Are <marker>12 %</marker> zahăr.</example>
 			</rule>
 			<rule> 
 				<pattern mark_from="1">
 					<token negate="yes">-</token>
-					<token>un</token>
-					<token>procent</token>
+					<token regexp="yes">un|în</token>
+					<token regexp="yes">procent|procentaj</token>
 					<token>de</token>
 					<token postag="M.*" postag_regexp="yes"></token>
-					<token>%</token>
+					<token spacebefore="ignore">%</token>
 				</pattern>
-				<message>Ați vrut să scrieți <suggestion>\5 \6</suggestion>?</message>
+				<message>Ați vrut să scrieți <suggestion>\5 la sută</suggestion>?</message>
 				<short>Pleonasm</short>
-				<example type="incorrect" correction="zece %">Are <marker>un procent de zece %</marker> zahăr.</example>
+				<example type="incorrect" correction="zece la sută">Are <marker>un procent de zece %</marker> zahăr.</example>
+				<example type="incorrect" correction="zece la sută">Are <marker>un procent de zece%</marker> zahăr.</example>
 				<example type="correct">Are <marker>zece %</marker> zahăr.</example>
 			</rule>
 			<rule> 
@@ -2788,12 +2775,15 @@ title="Easy editing stylesheet" ?>
 					<token>într</token>
 					<token>-</token>
 					<token>un</token>
-					<token>procent</token>
+					<token regexp="yes">procent|procentaj</token>
 					<token>de</token>
-					<token regexp="yes">([0-9])*%</token>
+					<token regexp="yes">([0-9])*</token>
+					<token spacebefore="ignore">%</token>
 				</pattern>
-				<message>Ați vrut să scrieți <suggestion>\5 \6</suggestion>?</message>
+				<message>Ați vrut să scrieți <suggestion>\5 \6\7</suggestion>?</message>
 				<short>Pleonasm</short>
+				<example type="incorrect" correction="de 12%">Concentrația de zahăr este <marker>într-un procent de 12 %</marker>.</example>
+				<example type="correct">Concentrația de zahăr este <marker>de 12 %</marker>.</example>
 				<example type="incorrect" correction="de 12%">Concentrația de zahăr este <marker>într-un procent de 12%</marker>.</example>
 				<example type="correct">Concentrația de zahăr este <marker>de 12%</marker>.</example>
 			</rule>
@@ -2802,27 +2792,12 @@ title="Easy editing stylesheet" ?>
 					<token>într</token>
 					<token>-</token>
 					<token>un</token>
-					<token>procent</token>
-					<token>de</token>
-					<token regexp="yes">([0-9])*</token>
-					<token>%</token>
-				</pattern>
-				<message>Ați vrut să scrieți <suggestion>\5 \6 \7</suggestion>?</message>
-				<short>Pleonasm</short>
-				<example type="incorrect" correction="de 12 %">Concentrația de zahăr este <marker>într-un procent de 12 %</marker>.</example>
-				<example type="correct">Concentrația de zahăr este <marker>de 12 %</marker>.</example>
-			</rule>
-			<rule> 
-				<pattern>
-					<token>într</token>
-					<token>-</token>
-					<token>un</token>
-					<token>procent</token>
+					<token regexp="yes">procent|procentaj</token>
 					<token>de</token>
 					<token regexp="yes">([0-9])*</token>
 					<token>,</token>
 					<token regexp="yes">([0-9])*</token>
-					<token>%</token>
+					<token spacebefore="ignore">%</token>
 				</pattern>
 				<message>Ați vrut să scrieți <suggestion>\5 \6\7\8 \9</suggestion>?</message>
 				<short>Pleonasm</short>
@@ -2830,35 +2805,66 @@ title="Easy editing stylesheet" ?>
 				<example type="correct">Concentrația de zahăr este <marker>de 12,2 %</marker>.</example>
 			</rule>
 			<rule> 
-				<pattern>
-					<token>într</token>
-					<token>-</token>
+				<pattern mark_from="1">
+					<token><exception>-</exception></token>
 					<token>un</token>
-					<token>procent</token>
+					<token regexp="yes">procent|procentaj</token>
 					<token>de</token>
 					<token regexp="yes">([0-9])*</token>
 					<token>,</token>
-					<token regexp="yes">([0-9])*%</token>
+					<token regexp="yes">([0-9])*</token>
+					<token spacebefore="ignore">%</token>
 				</pattern>
-				<message>Ați vrut să scrieți <suggestion>\5 \6\7\8</suggestion>?</message>
+				<message>Ați vrut să scrieți <suggestion>\5\6\7\8</suggestion>?</message>
 				<short>Pleonasm</short>
-				<example type="incorrect" correction="de 12,2%">Concentrația de zahăr este <marker>într-un procent de 12,2%</marker>.</example>
-				<example type="correct">Concentrația de zahăr este <marker>de 12,2%</marker>.</example>
+				<example type="incorrect" correction="12,3%">Are <marker>un procent de 12,3%</marker> zahăr.</example>
+				<example type="incorrect" correction="12,3%">Are <marker>un procent de 12,3 %</marker> zahăr.</example>
+				<example type="correct">Are <marker>12,3%</marker> zahăr.</example>
 			</rule>
 			<rule> 
 				<pattern>
 					<token>într</token>
 					<token>-</token>
 					<token>un</token>
-					<token>procent</token>
+					<token regexp="yes">procent|procentaj</token>
 					<token>de</token>
 					<token postag="M.*" postag_regexp="yes"></token>
 					<token>%</token>
 				</pattern>
-				<message>Ați vrut să scrieți <suggestion>\5 \6 \7</suggestion>?</message>
+				<message>Ați vrut să scrieți <suggestion>\5 \6 la sută</suggestion>?</message>
 				<short>Pleonasm</short>
-				<example type="incorrect" correction="de zece %">Concentrația de zahăr este <marker>într-un procent de zece %</marker>.</example>
+				<example type="incorrect" correction="de zece la sută">Concentrația de zahăr este <marker>într-un procent de zece %</marker>.</example>
 				<example type="correct">Concentrația de zahăr este <marker>de zece %</marker>.</example>
+			</rule>
+			<rule> 
+				<pattern mark_from="1">
+					<token><exception regexp="yes">un|în</exception></token>
+					<token regexp="yes">procent|procentaj</token>
+					<token>de</token>
+					<token postag="M.*" postag_regexp="yes"></token>
+					<token spacebefore="ignore">%</token>
+				</pattern>
+				<message>Ați vrut să scrieți <suggestion>\4 la sută</suggestion>?</message>
+				<short>Pleonasm</short>
+				<example type="incorrect" correction="Zece la sută"><marker>Procent de zece %</marker>.</example>
+				<example type="incorrect" correction="zece la sută">Acel <marker>procent de zece %</marker> nu este semnificativ.</example>
+				<example type="correct"><marker>Zece %</marker>.</example>
+			</rule>
+			<rule> 
+				<pattern mark_from="1">
+					<token><exception regexp="yes">un|în</exception></token>
+					<token regexp="yes">procent|procentaj</token>
+					<token>de</token>
+					<token regexp="yes">([0-9])*</token>
+					<token>,</token>
+					<token regexp="yes">([0-9])*</token>
+					<token spacebefore="ignore">%</token>
+				</pattern>
+				<message>Ați vrut să scrieți <suggestion>\4\5\6\7</suggestion>?</message>
+				<short>Pleonasm</short>
+				<example type="incorrect" correction="12,2%">Concentrația de zahăr este <marker>procent de 12,2%</marker>.</example>
+				<example type="incorrect" correction="12,2%">Concentrația de zahăr este <marker>procent de 12,2 %</marker>.</example>
+				<example type="correct">Concentrația de zahăr este <marker>de 12,2%</marker>.</example>
 			</rule>
 		</rulegroup>
 		<rule id="GENUNCHIUL_PICIORULUI" name="genunchiul piciorului">
