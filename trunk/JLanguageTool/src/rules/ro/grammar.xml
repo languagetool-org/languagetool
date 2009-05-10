@@ -3695,6 +3695,188 @@ title="Easy editing stylesheet" ?>
 			<example type="incorrect" correction="încorsetată">Se simte rău deoarece a fost <marker>încorsetată rigid</marker>.</example>
 			<example type="correct">Se simte rău din cauza <marker>încorsetării</marker>.</example>
 		</rule>
+		<rule id="DESCHIDEREA_VERNISAJULUI" name="deschiderea vernisajului">
+			<pattern>
+				<token inflected="yes">deschidere</token>
+				<token inflected="yes">vernisaj</token>
+			</pattern>
+			<message>vernisaj = este ceremonia de deschiderea a unei expoziţii. Ați dorit să scrieți <suggestion><match 
+					no="1" postag="Sf(.*)" postag_replace="Sn$1">vernisaj</match></suggestion>?</message>
+			<short>Pleonasm</short>
+			<example type="incorrect" correction="vernisajul">A participat la <marker>deschiderea vernisajului</marker> de la sala Dales.</example>
+			<example type="incorrect" correction="vernisajului">S-au întâlnit cu ocazia <marker>deschiderii vernisajului</marker> de la sala Dales.</example>
+			<example type="correct" >A participat la <marker>vernisajul</marker> de la sala Dales.</example>
+			<example type="correct" >S-au întâlnit cu ocazia <marker>vernisajului</marker> de la sala Dales.</example>
+		</rule>
+		<rulegroup id="ADICA_CU_ALTE___" name="adică, cu alte cuvinte">
+			<rule>
+				<pattern>
+					<token>adică</token>
+					<token>,</token>
+					<token>cu</token>
+					<token>alte</token>
+					<token>cuvinte</token>
+				</pattern>
+				<message>Ați dorit să scrieți <suggestion>adică</suggestion> sau <suggestion>cu alte cuvinte</suggestion>?</message>
+				<short>Pleonasm</short>
+				<example type="incorrect" correction="adică|cu alte cuvinte">Este pregătit, <marker>adică, cu alte cuvinte</marker> te poate ajuta</example>
+				<example type="correct">Este pregătit, <marker>adică</marker> te poate ajuta</example>
+			</rule>
+			<rule>
+				<pattern>
+					<token>adică</token>
+					<token>cu</token>
+					<token>alte</token>
+					<token>cuvinte</token>
+				</pattern>
+				<message>Ați dorit să scrieți <suggestion>adică</suggestion> sau <suggestion>cu alte cuvinte</suggestion>?</message>
+				<short>Pleonasm</short>
+				<example type="incorrect" correction="adică|cu alte cuvinte">Este pregătit, <marker>adică cu alte cuvinte</marker> te poate ajuta.</example>
+				<example type="correct">Este pregătit, <marker>adică</marker> te poate ajuta.</example>
+			</rule>
+		</rulegroup>
+		<rule id="PREFERA_MAI_BINE" name="a prefera mai bine">
+			<pattern>
+				<token inflected="yes">prefera</token>
+				<token>mai</token>
+				<token>bine</token>
+			</pattern>
+			<message>Ați dorit să scrieți <suggestion>\1</suggestion>?</message>
+			<short>Pleonasm</short>
+			<example type="incorrect" correction="prefer">Eu <marker>prefer mai bine</marker> să rămân.</example>
+			<example type="incorrect" correction="preferând">Au plecat, <marker>preferând mai bine</marker> să nu vadă ce se întâmplă.</example>
+			<example type="correct">Eu <marker>prefer</marker> să rămân.</example>
+		</rule>
+		<rule id="DIRECT_PE_SLEAU" name="direct pe șleau">
+			<pattern>
+				<token>direct</token>
+				<token>pe</token>
+				<token>șleau</token>
+			</pattern>
+			<message>Ați dorit să scrieți <suggestion>\1</suggestion> sau <suggestion>pe șleau</suggestion>?</message>
+			<short>Pleonasm</short>
+			<example type="incorrect" correction="direct|pe șleau">Le-a spus <marker>direct pe șleau</marker> tot ce avea de spus.</example>
+			<example type="correct">Le-a spus <marker>pe șleau</marker> tot ce avea de spus.</example>
+		</rule>
+		<rule id="POATE_FI_POSIBIL" name="poate fi posibil">
+			<pattern>
+				<token>poate</token>
+				<token>fi</token>
+				<token inflected="yes">posibil</token>
+			</pattern>
+			<message>Ați dorit să scrieți <suggestion>este <match no="3"></match></suggestion> sau <suggestion>poate fi <match 
+					no="3" postag="A(.*)" postag_replace="A$1">realizat</match></suggestion>?</message>
+			<short>Pleonasm</short>
+			<example type="incorrect" correction="este posibil|poate fi realizat">Așa ceva nu <marker>poate fi posibil</marker>.</example>
+			<example type="incorrect" correction="este posibilă|poate fi realizată">Aceasta nu <marker>poate fi posibilă</marker>.</example>
+			<example type="correct">Așa ceva nu <marker>este posibil</marker>.</example>
+		</rule>
+		<rule id="POATE_FI_ADMISIBIL" name="poate fi admisibil">
+			<pattern>
+				<token>poate</token>
+				<token>fi</token>
+				<token inflected="yes">admisibil</token>
+			</pattern>
+			<message>Ați dorit să scrieți <suggestion>este <match no="3"></match></suggestion> sau <suggestion>poate fi <match 
+					no="3" postag="A(.*)" postag_replace="A$1">admis</match></suggestion>?</message>
+			<short>Pleonasm</short>
+			<example type="incorrect" correction="este admisibil|poate fi admis">Așa ceva nu <marker>poate fi admisibil</marker>.</example>
+			<example type="incorrect" correction="este admisibilă|poate fi admisă">Aceasta nu <marker>poate fi admisibilă</marker>.</example>
+			<example type="correct">Așa ceva nu <marker>este admisibil</marker>.</example>
+		</rule>
+		<rule id="PRIN_PRISMA_PUNCTULUI___" name="prin prisma punctului meu de vedere">
+			<pattern>
+				<token>prin</token>
+				<token>prisma</token>
+				<token>punctului</token>
+				<token></token>
+				<token>de</token>
+				<token>vedere</token>				
+			</pattern>
+			<message>Ați dorit să scrieți <suggestion>din punctul \4 \5 \6</suggestion>?</message>
+			<short>Pleonasm</short>
+			<example type="incorrect" correction="din punctul meu de vedere">Am prezentat lucrurile <marker>prin prisma punctului meu de vedere</marker>.</example>
+			<example type="correct">Am prezentat lucrurile <marker>din punctul meu de vedere</marker>.</example>
+		</rule>
+		<rule id="EXCLUSIV_NUMAI" name="exclusiv numai">
+			<pattern>
+				<token>exclusiv</token>
+				<token regexp="yes">numai|doar</token>				
+			</pattern>
+			<message>Ați dorit să scrieți <suggestion>\1</suggestion> sau <suggestion>\2</suggestion>?</message>
+			<short>Pleonasm</short>
+			<example type="incorrect" correction="exclusiv|numai">Am primit <marker>exclusiv numai</marker> rebuturi.</example>
+			<example type="correct">Am primit <marker>numai</marker> rebuturi.</example>
+		</rule>
+		<rule id="SUBSTITUIT_IN_LOCUL" name="substituit în locul">
+			<pattern>
+				<token inflected="yes">substitui</token>
+				<token>în</token>
+				<token>locul</token>				
+			</pattern>
+			<message>Ați dorit să scrieți <suggestion>\1</suggestion>?</message>
+			<short>Pleonasm</short>
+			<example type="incorrect" correction="substituit">X poate fi <marker>substituit în locul</marker> lui Y.</example>
+			<example type="incorrect" correction="substitui">X nu se poate <marker>substitui în locul</marker> lui Y.</example>
+			<example type="correct">X poate fi <marker>substituit</marker> lui Y.</example>
+		</rule>
+		<rule id="COTIDIANA_DE_ZI_CU_ZI" name="cotidiană de zi cu zi">
+			<pattern>
+				<token inflected="yes">cotidian</token>
+				<token>de</token>
+				<token>zi</token>
+				<token regexp="yes">cu|de</token>
+				<token>zi</token>				
+			</pattern>
+			<message>Ați dorit să scrieți <suggestion>\1</suggestion> sau <suggestion>\2 \3 \4 \5</suggestion>?</message>
+			<short>Pleonasm</short>
+			<example type="incorrect" correction="cotidiană|de zi cu zi">Activitatea <marker>cotidiană de zi cu zi</marker> este plictisitoare.</example>
+			<example type="correct">Activitatea <marker>de zi cu zi</marker> este plictisitoare.</example>
+			<example type="correct">Activitatea <marker>cotidiană</marker> este plictisitoare.</example>
+		</rule>
+		<rule id="COTIDIAN_ZILNIC" name="cotidian zilnic">
+			<pattern>
+				<token inflected="yes">cotidian</token>
+				<token inflected="yes">zilnic</token>			
+			</pattern>
+			<message>Ați dorit să scrieți <suggestion>\1</suggestion> sau <suggestion>\2</suggestion>?</message>
+			<short>Pleonasm</short>
+			<example type="incorrect" correction="cotidiană|zilnică">Activitatea <marker>cotidiană zilnică</marker> este plictisitoare.</example>
+			<example type="correct">Activitatea <marker>cotidiană</marker> este plictisitoare.</example>
+		</rule>
+		<rule id="INFATISARE_CU_ASPECT" name="înfățișare cu aspect">
+			<pattern>
+				<token inflected="yes">înfățișare</token>
+				<token>cu</token>
+				<token>aspect</token>			
+			</pattern>
+			<message>Cuvintele «înfățișare» și «aspect» sunt sinonime.</message>
+			<short>Pleonasm</short>
+			<example type="incorrect">Avea o <marker>înfățișare cu aspect</marker> neîngrijit.</example>
+			<example type="correct">Avea o <marker>aspect</marker> neîngrijit.</example>
+		</rule>
+		<rule id="LA_FEL_CA" name="la fel ca">
+			<pattern>
+				<token>la</token>
+				<token>fel</token>
+				<token>ca</token>			
+			</pattern>
+			<message>Ați dorit să scrieți <suggestion>\1 \2 cu</suggestion> sau <suggestion>\3</suggestion>?</message>
+			<short>Pleonasm</short>
+			<example type="incorrect" correction="la fel cu|ca">Avea o căciulă <marker>la fel ca</marker> a mea.</example>
+			<example type="correct">Avea o căciulă <marker>ca</marker> a mea.</example>
+		</rule>
+		<rule id="PENTRU_CA_SA" name="pentru ca să">
+			<pattern>
+				<token>pentru</token>
+				<token>ca</token>
+				<token>să</token>			
+			</pattern>
+			<message>Ați dorit să scrieți <suggestion>\2 \3</suggestion>?</message>
+			<short>Pleonasm</short>
+			<example type="incorrect" correction="ca să">A plecat <marker>pentru ca să</marker> îl anunțe.</example>
+			<example type="correct">A plecat <marker>ca să</marker> îl anunțe.</example>
+		</rule>
 	</category>
 	
 	<category name="Cacofonie">
