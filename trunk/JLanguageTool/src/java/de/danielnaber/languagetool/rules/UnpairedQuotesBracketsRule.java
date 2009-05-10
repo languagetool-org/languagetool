@@ -185,7 +185,7 @@ public class UnpairedQuotesBracketsRule extends Rule {
     for (int i = 1; i < tokens.length; i++) {
       for (int j = 0; j < startSymbols.length; j++) {
 
-        final String token = tokens[i].getToken().trim();
+        final String token = tokens[i].getToken();
         if (token.equals(startSymbols[j]) || token.equals(endSymbols[j])) {
           boolean precededByWhitespace = true;
           if (startSymbols[j].equals(endSymbols[j])) {
