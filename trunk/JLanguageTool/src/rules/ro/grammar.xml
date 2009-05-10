@@ -2423,16 +2423,21 @@ title="Easy editing stylesheet" ?>
 		<rule id="A_COMEMORA_MEMORIA" name="a comemora memoria"> 
 			<pattern>
 				<token inflected="yes">comemora</token>
-				<token>memoria</token>
+				<token regexp="yes">memoria|amintirea</token>
 				<token></token>
 			</pattern>
-			<message>Ați vrut să scrieți <suggestion><match no="1"/> <match no="3" postag="(....)ga(....)" postag_regexp="yes"
-				postag_replace="$1aa$2"></match></suggestion>?</message>
+			<message>Ați vrut să scrieți <suggestion><match no="1"/> <match no="3" postag="(....)ga(....)|N(.*)" postag_regexp="yes"
+				postag_replace="$1aa$2|N.*"></match></suggestion>?</message>
 			<short>Pleonasm</short>
 			<example type="incorrect" correction="comemora înaintașii">Elevii s-au adunat pentru a <marker>comemora memoria înaintașilor</marker>.</example>
 			<example type="incorrect" correction="comemora eroii">Elevii s-au adunat pentru a <marker>comemora memoria eroilor</marker>.</example>
 			<example type="incorrect" correction="comemora primul">Elevii s-au adunat pentru a <marker>comemora memoria primului</marker> conducător.</example>
 			<example type="correct">Elevii s-au adunat pentru a <marker>comemora eroii</marker>.</example>
+			<example type="incorrect" correction="comemora înaintașii">Elevii s-au adunat pentru a <marker>comemora amintirea înaintașilor</marker>.</example>
+			<example type="incorrect" correction="comemora eroii">Elevii s-au adunat pentru a <marker>comemora amintirea eroilor</marker>.</example>
+			<example type="incorrect" correction="comemora primul">Elevii s-au adunat pentru a <marker>comemora amintirea primului</marker> conducător.</example>
+			<example type="incorrect" correction="comemora sa">Elevii s-au adunat pentru a <marker>comemora amintirea sa</marker>.</example>
+			<example type="incorrect" correction="comemora iubitul">Elevii s-au adunat pentru a <marker>comemora amintirea iubitului</marker> coleg.</example>
 		</rule>
 		<rulegroup id="APROXIMATIV_CAM" name="aproximativ cam">
 		  	 <rule> 
@@ -3586,6 +3591,19 @@ title="Easy editing stylesheet" ?>
 			<example type="incorrect" correction="chiar ele|ele însele">Au intervenit <marker>chiar ele însele</marker>.</example>
 			<example type="correct">A intervenit <marker>chiar el</marker>.</example>
 		</rule> 	
+		<rule id="EL_INSUSI_IN_PERSOANA" name="el însuși în persoană">
+			<pattern>
+				<token regexp="yes">el|ea|ele|ei</token>
+				<token regexp="yes">însuși|înseși|însele</token>
+				<token>în</token>
+				<token>persoană</token> 
+			</pattern>
+			<message>Ați dorit să scrieți <suggestion>\1 \2</suggestion> sau <suggestion>\1 \3 \4</suggestion>?</message>
+			<short>Pleonasm</short>
+			<example type="incorrect" correction="el însuși|el în persoană">A intervenit <marker>el însuși în persoană</marker>.</example>
+			<example type="incorrect" correction="ele însele|ele în persoană">Au intervenit <marker>ele însele în persoană</marker>.</example>
+			<example type="correct">A intervenit <marker>chiar el</marker>.</example>
+		</rule>
 		<rule id="A_RETURNA_INAPOI" name="a returna înapoi">
 			<pattern>
 				<token inflected="yes">returna</token>
@@ -3856,15 +3874,30 @@ title="Easy editing stylesheet" ?>
 			<example type="correct">Avea o <marker>aspect</marker> neîngrijit.</example>
 		</rule>
 		<rule id="LA_FEL_CA" name="la fel ca">
-			<pattern>
+			<pattern mark_to="-1">
 				<token>la</token>
 				<token>fel</token>
 				<token>ca</token>			
+				<token><exception regexp="yes">în|-</exception></token>
 			</pattern>
-			<message>Ați dorit să scrieți <suggestion>\1 \2 cu</suggestion> sau <suggestion>\3</suggestion>?</message>
+			<message>Ați dorit să scrieți <suggestion>\3</suggestion> sau <suggestion>\1 \2 cu</suggestion>?</message>
 			<short>Pleonasm</short>
-			<example type="incorrect" correction="la fel cu|ca">Avea o căciulă <marker>la fel ca</marker> a mea.</example>
+			<example type="incorrect" correction="ca|la fel cu">Avea o căciulă <marker>la fel ca</marker> a mea.</example>
 			<example type="correct">Avea o căciulă <marker>ca</marker> a mea.</example>
+			<example type="correct">Avea o căciulă <marker>la fel cu</marker> a mea.</example>
+			<example type="correct">Este <marker>la fel ca în</marker> Marea Britanie</example>
+			<example type="correct">Este <marker>la fel ca-n</marker> Marea Britanie</example>
+		</rule>
+		<rule id="IDENTIC_LA_FEL" name="identic la fel">
+			<pattern>
+				<token>identic</token>
+				<token>la</token>
+				<token>fel</token>
+			</pattern>
+			<message>Ați dorit să scrieți <suggestion>\2 \3</suggestion>?</message>
+			<short>Pleonasm</short>
+			<example type="incorrect" correction="la fel">Avea o căciulă <marker>identic la fel</marker> cu a mea.</example>
+			<example type="correct">Avea o căciulă <marker>la fel</marker> cu a mea.</example>
 		</rule>
 		<rule id="PENTRU_CA_SA" name="pentru ca să">
 			<pattern>
@@ -3877,7 +3910,235 @@ title="Easy editing stylesheet" ?>
 			<example type="incorrect" correction="ca să">A plecat <marker>pentru ca să</marker> îl anunțe.</example>
 			<example type="correct">A plecat <marker>ca să</marker> îl anunțe.</example>
 		</rule>
-	</category>
+		<rule id="EXEMPLE_ILUSTRATIVE" name="exemple ilustrative">
+			<pattern>
+				<token inflected="yes">exemplu</token>
+				<token inflected="yes">ilustrativ</token>
+			</pattern>
+			<message>Ați dorit să scrieți <suggestion>\1</suggestion>?</message>
+			<short>Pleonasm</short>
+			<example type="incorrect" correction="exemple">Acestea sunt doar câteva <marker>exemple ilustrative</marker>.</example>
+			<example type="incorrect" correction="exemplu">Acesta este doar un <marker>exemplu ilustrativ</marker>.</example>
+			<example type="correct">Acestea sunt doar câteva <marker>exemple</marker>.</example>
+		</rule>
+		<rule id="ILUSTRAT_CU_EXEMPLE" name="ilustrat cu exemple">
+			<pattern>
+				<token inflected="yes">ilustra</token>
+				<token regexp="yes">cu|prin</token>
+				<token inflected="yes">exemplu</token>
+			</pattern>
+			<message>Ați dorit să scrieți <suggestion><match no="1" postag=".*">exemplifica</match></suggestion>?</message>
+			<short>Pleonasm</short>
+			<example type="incorrect" correction="exemplificat">A <marker>ilustrat prin exemple</marker> ceea ce avea de spus.</example>
+			<example type="incorrect" correction="exemplific">Doresc să <marker>ilustrez cu exemple</marker> ceea ce am de spus.</example>
+			<example type="correct">Doresc să <marker>exemplific</marker> ceea ce am de spus.</example>
+		</rule>
+		<rule id="ACORD_COMUN" name="acord comun">
+			<pattern>
+				<token inflected="yes">acord</token>
+				<token>comun</token>
+			</pattern>
+			<message>Ați dorit să scrieți <suggestion>\1</suggestion>?</message>
+			<short>Pleonasm</short>
+			<example type="incorrect" correction="acord">Au ajuns la un <marker>acord comun</marker>.</example>
+			<example type="incorrect" correction="acordului">Pe baza <marker>acordului comun</marker>...</example>
+			<example type="correct">Au ajuns la un <marker>acord</marker>.</example>
+		</rule> 
+		<rule id="PUBELE_DE_GUNOI" name="pubele de gunoi">
+			<pattern>
+				<token inflected="yes">pubelă</token>
+				<token>de</token>
+				<token inflected="yes">gunoi</token>
+			</pattern>
+			<message>Ați dorit să scrieți <suggestion>\1</suggestion>?</message>
+			<short>Pleonasm</short>
+			<example type="incorrect" correction="pubele">Au adus alte <marker>pubele de gunoi</marker>.</example>
+			<example type="incorrect" correction="pubelă">Au adus altă <marker>pubelă de gunoi</marker>.</example>
+			<example type="incorrect" correction="pubelelor">A mers pe uma <marker>pubelelor de gunoi</marker>.</example>
+			<example type="correct">Au adus alte <marker>pubele</marker>.</example>
+		</rule> 
+		<rule id="PAUZA_TEMPORARA" name="pauză temporară">
+			<pattern>
+				<token inflected="yes">pauză</token>
+				<token>temporară</token>
+			</pattern>
+			<message>Ați dorit să scrieți <suggestion>\1</suggestion>?</message>
+			<short>Pleonasm</short>
+			<example type="incorrect" correction="pauză">Au făcut o <marker>pauză temporară</marker>.</example>
+			<example type="incorrect" correction="pauze">Au făcut multe <marker>pauze temporară</marker>.</example>
+			<example type="correct">Au făcut multe <marker>pauze</marker>.</example>
+		</rule>
+		<rule id="IMPARTIT_IN_TREI_TRIMESTERE" name="împărțit în trei trimestre">
+			<pattern>
+				<token inflected="yes">împărți</token>
+				<token>în</token>
+				<token>trei</token>
+				<token>trimestre</token>
+			</pattern>
+			<message>Ați dorit să scrieți <suggestion>\1 \2 \4</suggestion>?</message>
+			<short>Pleonasm</short>
+			<example type="incorrect" correction="împărțit în trimestre">Anul școlar a fost <marker>împărțit în trei trimestre</marker>.</example>
+			<example type="incorrect" correction="împărțite în trimestre">Perioadele a fost <marker>împărțite în trei trimestre</marker>.</example>
+			<example type="correct">Anul școlar a fost <marker>împărțit în trimestre</marker>.</example>
+		</rule>
+		<rule id="IMPARTIT_IN_DOUA_SEMESTRE" name="împărțit în două semestre">
+			<pattern>
+				<token inflected="yes">împărți</token>
+				<token>în</token>
+				<token>două</token>
+				<token>semestre</token>
+			</pattern>
+			<message>Ați dorit să scrieți <suggestion>\1 \2 \4</suggestion>?</message>
+			<short>Pleonasm</short>
+			<example type="incorrect" correction="împărțit în semestre">Anul școlar a fost <marker>împărțit în două semestre</marker>.</example>
+			<example type="incorrect" correction="împărțite în semestre">Perioadele a fost <marker>împărțite în două semestre</marker>.</example>
+			<example type="correct">Anul școlar a fost <marker>împărțit două semestre</marker>.</example>
+		</rule>
+		<rule id="CREDE_IN_SINEA_LUI" name="crede în sinea lui">
+			<pattern>
+				<token inflected="yes">crede</token>
+				<token>în</token>
+				<token>sinea</token>
+				<token  regexp="yes">mea|ei|lor|lui|ei|noastră|noastră</token>
+			</pattern>
+			<message>Ați dorit să scrieți <suggestion>\1</suggestion>?</message>
+			<short>Pleonasm</short>
+			<example type="incorrect" correction="crezut">El a <marker>crezut în sinea lui</marker> că este bine.</example>
+			<example type="incorrect" correction="credeam">Eu <marker>credeam în sinea lui</marker> că este bine.</example>
+			<example type="correct">Eu <marker>credeam</marker> că este bine.</example>
+		</rule>
+		<rule id="COBAI_DE_EXPERIENTA" name="cobai de experiență">
+			<pattern>
+				<token inflected="yes">cobai</token>
+				<token>de</token>
+				<token regexp="yes">experiență|experiențe</token>
+			</pattern>
+			<message>Ați dorit să scrieți <suggestion>\1</suggestion>?</message>
+			<short>Pleonasm</short>
+			<example type="incorrect" correction="cobai">Acest hamster este doar un <marker>cobai de experiență</marker>.</example>
+			<example type="incorrect" correction="cobaii">A folosit <marker>cobaii de experiență</marker>.</example>
+			<example type="correct">Acest hamster este doar un <marker>cobai</marker>.</example>
+		</rule>
+		<rule id="INTOARCE_TE_INAPOI" name="întoarce-te înapoi">
+			<pattern>
+				<token inflected="yes" postag_regexp="yes" postag="V.*m..">întoarce</token>
+				<token>-</token>
+				<token postag_regexp="yes" postag="N.*"></token>
+				<token>înapoi</token>
+			</pattern>
+			<message>Ați dorit să scrieți <suggestion>\1\2\3</suggestion>?</message>
+			<short>Pleonasm</short>
+			<example type="incorrect" correction="întoarce-te">Hei, <marker>întoarce-te înapoi</marker>!</example>
+			<example type="incorrect" correction="întoarceți-vă">Hei, <marker>întoarceți-vă înapoi</marker>!</example>
+			<example type="correct">Hei, <marker>întoarce-te</marker>!</example>
+		</rule>
+		<rule id="ADAUGA_UN_SPOR" name="a adăuga un spor">
+			<pattern>
+				<token inflected="yes">adăuga</token>
+				<token>un</token>
+				<token>spor</token>
+			</pattern>
+			<message>Ați dorit să scrieți <suggestion><match no="1" postag=".*">spori</match></suggestion>?</message>
+			<short>Pleonasm</short>
+			<example type="incorrect" correction="sporit">El a <marker>adăugat un spor</marker>.</example>
+			<example type="correct">El a <marker>sporit</marker> valoarea cărții.</example>
+		</rule>
+		<rule id="RAMAI_SI_NU_PLECA" name="rămâi și nu pleca">
+			<pattern>
+				<token>rămâi</token>
+				<token>și</token>
+				<token>nu</token>
+				<token>pleca</token>
+			</pattern>
+			<message>Ați dorit să scrieți <suggestion>\1</suggestion> sau <suggestion>\3 \4</suggestion>?</message>
+			<short>Pleonasm</short>
+			<example type="incorrect" correction="Rămâi|Nu pleca"><marker>Rămâi și nu pleca</marker>!</example>
+			<example type="correct"><marker>Rămâi</marker>!</example>
+		</rule>
+		<rule id="A_CONLOCUI_LAOLALTA" name="a conlocui laolaltă/împreună">
+			<pattern>
+				<token inflected="yes">conlocui</token>
+				<token regexp="yes">împreună|laolaltă</token>
+			</pattern>
+			<message>Ați dorit să scrieți <suggestion><match no="1"/></suggestion> sau <suggestion><match 
+				no="1" postag=".*">locui</match> <match no="2"/></suggestion>?</message>
+			<short>Pleonasm</short>
+			<example type="incorrect" correction="conlocuiesc|locuiesc laolaltă">Ei <marker>conlocuiesc laolaltă</marker> cu multe alte persoane.</example>
+			<example type="correct">Ei <marker>locuiesc laolaltă</marker> cu multe alte persoane.</example>
+		</rule>
+		<rule id="LIMITA_NUMAI_LA" name="a se limita numai la">
+			<pattern>
+				<token inflected="yes">limita</token>
+				<token regexp="yes">numai|doar</token>
+				<token>la</token>
+			</pattern>
+			<message>Ați dorit să scrieți <suggestion>\1 \3</suggestion>?</message>
+			<short>Pleonasm</short>
+			<example type="incorrect" correction="limitează la">La <marker>limitează numai la</marker> câteva noțiuni.</example>
+			<example type="correct">La <marker>limitează la</marker> câteva noțiuni.</example>
+		</rule>
+		<rule id="ECRANIZA_UN_FILM" name="a ecraniza un film">
+			<pattern>
+				<token regexp="yes">ecraniza|ecranizat|ecranizeze|ecranizez</token>
+				<token>un</token>
+				<token>film</token>
+			</pattern>
+			<message>Pleonasm. ECRANIZA = A turna un film...</message>
+			<short>Pleonasm</short>
+			<example type="incorrect">A <marker>ecranizat un film</marker> nou.</example>
+			<example type="correct">A <marker>turnat un film</marker> nou.</example>
+		</rule>
+		<rule id="GOALE_SI_FARA_SENS" name="goale și fără sens">
+			<pattern>
+				<token inflected="yes">gol</token>
+				<token>și</token>
+				<token>fără</token>
+				<token>sens</token>
+			</pattern>
+			<message>Ați dorit să scrieți <suggestion>\1</suggestion> sau <suggestion>\3 \4</suggestion>?</message>
+			<short>Pleonasm</short>
+			<example type="incorrect" correction="goale|fără sens">A inșirat fraze <marker>goale și fără sens</marker>.</example>
+			<example type="incorrect" correction="goală|fără sens">Fraza părea <marker>goală și fără sens</marker>.</example>
+			<example type="correct">A inșirat fraze <marker>fără sens</marker>.</example>
+		</rule>  
+		<rule id="ATENTIE_SI_CONCENTRARE" name="atenție și concentrare">
+			<pattern>
+				<token>atenție</token>
+				<token>și</token>
+				<token>concentrare</token>
+			</pattern>
+			<message>Ați dorit să scrieți <suggestion>\1</suggestion> sau <suggestion>\3</suggestion>?</message>
+			<short>Pleonasm</short>
+			<example type="incorrect" correction="atenție|concentrare">Examenul necesită multă <marker>atenție și concentrare</marker>.</example>
+			<example type="correct">Examenul necesită multă <marker>concentrare</marker>.</example>
+		</rule>  	 
+		<rulegroup  id="RECULEGERE_SI_MEDITATIE" name="reculegere și meditație"> 
+			<rule>
+				<pattern>
+					<token>reculegere</token>
+					<token>și</token>
+					<token>meditație</token>
+				</pattern>
+				<message>Ați dorit să scrieți <suggestion>\1</suggestion> sau <suggestion>\3</suggestion>?</message>
+				<short>Pleonasm</short>
+				<example type="incorrect" correction="reculegere|meditație">Acolo era un loc de <marker>reculegere și meditație</marker>.</example>
+				<example type="correct">Acolo era un loc de <marker>reculegere</marker>.</example>
+			</rule>  		
+			<rule>
+				<pattern>
+					<token>de</token>
+					<token>reculegere</token>
+					<token>și</token>
+					<token>de</token>
+					<token>meditație</token>
+				</pattern>
+				<message>Ați dorit să scrieți <suggestion>\1 \2</suggestion> sau <suggestion>\4 \5</suggestion>?</message>
+				<short>Pleonasm</short>
+				<example type="incorrect" correction="de reculegere|de meditație">Acolo era un loc <marker>de reculegere și de meditație</marker>.</example>
+				<example type="correct">Acolo era un loc de <marker>de reculegere</marker>.</example>
+			</rule>  		
+		 </rulegroup> 
+	</category>  
 	
 	<category name="Cacofonie">
 		<rule id="CACOFONIE__CA" name="cacofonie: ...ca ca...">
