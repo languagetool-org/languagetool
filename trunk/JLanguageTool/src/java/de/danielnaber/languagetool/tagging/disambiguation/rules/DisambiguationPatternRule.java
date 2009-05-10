@@ -210,8 +210,7 @@ public class DisambiguationPatternRule {
       for (int k = 0; k < patternSize; k++) {
         final Element prevElement = elem;
         elem = patternElements.get(k);
-        setupRef(firstMatchToken, elem, tokens);
-        final int skipNext = elem.getSkipNext();
+        setupRef(firstMatchToken, elem, tokens);        
         final int nextPos = i + k + skipShiftTotal;
         prevMatched = false;
         if (prevSkipNext + nextPos >= tokens.length || prevSkipNext < 0) { // SENT_END?
@@ -223,7 +222,7 @@ public class DisambiguationPatternRule {
           if (allElementsMatch) {
             final int skipShift = m - nextPos;
             tokenPositions[matchingTokens] = skipShift + 1;
-            prevSkipNext = skipNext;
+            prevSkipNext = elem.getSkipNext();
             matchingTokens++;
             skipShiftTotal += skipShift;
             if (firstMatchToken == -1) {
@@ -236,7 +235,7 @@ public class DisambiguationPatternRule {
           break;
         }
       }
-      if (allElementsMatch) {
+      if (allElementsMatch && matchingTokens == patternSize) {
         whTokens = executeAction(text, whTokens, unifiedTokens,
             firstMatchToken, matchingTokens, tokenPositions);
       }

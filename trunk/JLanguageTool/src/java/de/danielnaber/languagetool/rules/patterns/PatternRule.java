@@ -332,7 +332,6 @@ public class PatternRule extends Rule {
         final Element prevElement = elem;
         elem = patternElements.get(k);
         setupRef(firstMatchToken, elem, tokens);
-        final int skipNext = translateElementNo(elem.getSkipNext());
         final int nextPos = i + k + skipShiftTotal;
         prevMatched = false;
         if (prevSkipNext + nextPos >= tokens.length || prevSkipNext < 0) { // SENT_END?
@@ -345,7 +344,7 @@ public class PatternRule extends Rule {
             lastMatchToken = m;
             final int skipShift = lastMatchToken - nextPos;
             tokenPositions[matchingTokens] = skipShift + 1;
-            prevSkipNext = skipNext;
+            prevSkipNext = translateElementNo(elem.getSkipNext());
             matchingTokens++;
             skipShiftTotal += skipShift;
             if (firstMatchToken == -1) {
@@ -359,7 +358,7 @@ public class PatternRule extends Rule {
         }
       }
 
-      if (allElementsMatch) {
+      if (allElementsMatch && matchingTokens == patternSize) {
         final RuleMatch rM = createRuleMatch(tokenPositions, tokens,
             firstMatchToken, lastMatchToken, matchingTokens);
         if (rM != null) {
