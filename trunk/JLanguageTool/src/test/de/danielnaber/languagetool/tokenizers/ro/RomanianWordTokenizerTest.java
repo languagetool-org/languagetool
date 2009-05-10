@@ -88,5 +88,10 @@ public class RomanianWordTokenizerTest extends TestCase {
     assertEquals(testList.size(), 6);
     assertEquals("[avea,  , 15, %,  , apă]",
         testList.toString());
+    // test for "°"  
+    testList = w.tokenize("are 30°C");
+    assertEquals(testList.size(), 5);
+    assertEquals("[are,  , 30, °, C]",
+        testList.toString());
   }
 }
