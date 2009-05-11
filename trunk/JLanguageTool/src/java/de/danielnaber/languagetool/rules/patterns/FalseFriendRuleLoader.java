@@ -317,12 +317,7 @@ class FalseFriendRuleHandler extends XMLRuleHandler {
         }
         rules.add(rule);
       }
-
-      if (!suggestions.isEmpty()) {
-        final List<String> l = new ArrayList<String>(suggestions);
-        suggestionMap.put(id, l);
-        suggestions.clear();
-      }
+      
       if (elementList != null) {
         elementList.clear();
       }
@@ -407,6 +402,11 @@ class FalseFriendRuleHandler extends XMLRuleHandler {
     } else if (qName.equals("message")) {
       inMessage = false;
     } else if (qName.equals("rulegroup")) {
+      if (!suggestions.isEmpty()) {
+        final List<String> l = new ArrayList<String>(suggestions);
+        suggestionMap.put(id, l);
+        suggestions.clear();
+      }
       inRuleGroup = false;
     }
   }

@@ -57,13 +57,31 @@ public class FalseFriendRuleTest extends TestCase {
     langTool.activateDefaultFalseFriendRules();
     assertErrors(1, "This is an absurd.", langTool);
     assertErrors(0, "This is absurdity.", langTool);
+    assertSuggestions(0, "This is absurdity.", langTool);
     assertErrors(1, "I have to speak to my advocate.", langTool);
+    assertSuggestions(3, "My brother is politic.", langTool);
   }
   
   private void assertErrors(int errorCount, String s, JLanguageTool langTool) throws IOException {
     List<RuleMatch> matches = langTool.check(s);
     //System.err.println(matches);
     assertEquals(errorCount, matches.size());
+  }
+  
+  private void assertSuggestions(final int suggestionCount, final String s, final JLanguageTool langTool) throws IOException {
+    final List<RuleMatch> matches = langTool.check(s);
+    int suggFound = 0;
+    for (final RuleMatch match : matches) {
+      int pos = 0;
+      while (pos != -1) {
+        pos = match.getMessage().indexOf("<suggestion>", pos + 1);
+        suggFound ++;
+      }       
+    }
+    if (suggFound > 0) {
+      suggFound--;
+    }
+    assertEquals(suggestionCount, suggFound);
   }
   
 }
