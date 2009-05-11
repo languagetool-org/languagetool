@@ -179,17 +179,24 @@ public final class StringTools {
 
   /**
    * Return <code>str</code> modified so that its first character is now an
-   * uppercase character.
+   * uppercase character. If <code>str</code> starts with non-alphabetic
+   * characters, such as quotes or parentheses, the first character is 
+   * determined as the first alphabetic character.
    */
   public static String uppercaseFirstChar(final String str) {
     if (isEmpty(str)) {
       return str;
     }
-    final char firstChar = str.charAt(0);
     if (str.length() == 1) {
       return str.toUpperCase();
     }
-    return Character.toUpperCase(firstChar) + str.substring(1);
+    int pos = 0;
+    final int len = str.length() - 1;
+    while (!Character.isLetterOrDigit(str.charAt(pos)) && len > pos) {
+      pos++;
+    }
+    final char firstChar = str.charAt(pos);    
+    return str.substring(0, pos) + Character.toUpperCase(firstChar) + str.substring(pos + 1);
   }
 
   public static String readerToString(final Reader reader) throws IOException {

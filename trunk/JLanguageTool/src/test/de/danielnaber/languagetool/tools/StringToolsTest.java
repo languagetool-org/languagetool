@@ -107,6 +107,10 @@ public class StringToolsTest extends TestCase {
     assertEquals("A", StringTools.uppercaseFirstChar("A"));
     assertEquals("Öäü", StringTools.uppercaseFirstChar("öäü"));
     assertEquals("ßa", StringTools.uppercaseFirstChar("ßa"));
+    assertEquals("'Test'", StringTools.uppercaseFirstChar("'test'"));
+    assertEquals("''Test", StringTools.uppercaseFirstChar("''test"));
+    assertEquals("''T", StringTools.uppercaseFirstChar("''t"));
+    assertEquals("'''", StringTools.uppercaseFirstChar("'''"));
   }
 
   public void testEscapeXMLandHTML() {
