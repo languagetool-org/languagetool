@@ -113,6 +113,92 @@ title="Easy editing stylesheet" ?>
 		</rulegroup>
 	</category>
 	<category name="Diverse">
+		<rulegroup id="SPUS_CA_SA_L_ASTEPT" name="a spus ca să-l aștept">
+			<rule> 
+		        <pattern>
+		          <token regexp="yes">a|au</token>
+		          <token>spus</token>
+		          <token>ca</token>
+		          <token>să</token>
+		          <token>-</token>
+		          <token></token>
+		         </pattern>
+		        <message>Ați dorit să scrieți <suggestion>\1 \2 \4\5\6</suggestion>?</message>
+		        <short>Greșeală de exprimare</short>
+		        <example type="incorrect" correction="a spus să-l">El <marker>a spus ca să-l</marker> aștept.</example>
+		        <example type="incorrect" correction="au spus să-i">Ei <marker>au spus ca să-i</marker> aștept.</example>
+		        <example type="correct">El <marker>a spus să-l</marker> aștept.</example>
+		     </rule>
+			<rule> 
+		        <pattern>
+		          <token regexp="yes">a|au</token>
+		          <token>spus</token>
+		          <token>ca</token>
+		          <token>să</token>
+		          <token regexp="yes">îl|le|l|îi</token>
+		         </pattern>
+		        <message>Ați dorit să scrieți <suggestion>\1 \2 \4 \5</suggestion>?</message>
+		        <short>Greșeală de exprimare</short>
+		        <example type="incorrect" correction="a spus să îl">El <marker>a spus ca să îl</marker> aștept.</example>
+		        <example type="incorrect" correction="au spus să îi">Ei <marker>au spus ca să îi</marker> aștept.</example>
+		        <example type="correct">El <marker>a spus să îl</marker> aștept.</example>
+		     </rule>
+		</rulegroup>
+		<rule id="CREIAM" name="creiam/creiai/creia/creiați/creiau"> 
+	        <pattern>
+	          <token regexp="yes">crei(am|ai|a|ați|au|ez|ezi|ăm|ați|eze|ai|ași|arăm|arăți|asem|aseși|ase|aserăm|aserăți|aseră)</token>
+	         </pattern>
+	        <message>Ați dorit să scrieți <suggestion><match no="1" regexp_match="(cre)i(.*)" regexp_replace="$1$2"></match></suggestion>?</message>
+	        <example type="incorrect" correction="cream">Eu <marker>creiam</marker> ceva.</example>
+	        <example type="incorrect" correction="creai">Tu <marker>creiai</marker> ceva.</example>
+	        <example type="incorrect" correction="crea">El/Ea <marker>creia</marker> ceva.</example>
+	        <example type="incorrect" correction="cream">Noi <marker>creiam</marker> ceva.</example>
+	        <example type="incorrect" correction="creați">Voi <marker>creiați</marker> ceva.</example>
+	        <example type="incorrect" correction="creaserăm">Noi <marker>creiaserăm</marker> ceva.</example>
+	        <example type="incorrect" correction="creau">Voi <marker>creiau</marker> ceva.</example>
+	        <example type="correct">Noi <marker>cream</marker> ceva.</example>
+	     </rule>
+	 	<rule id="CREEM_CREAM" name="creem - creăm"> 
+	        <pattern>
+	          <token>creem</token>
+	         </pattern>
+	        <message>Ați dorit să scrieți <suggestion>creăm</suggestion>?</message>
+	        <example type="incorrect" correction="creăm">Acum noi <marker>creem</marker> prototipul mașinii.</example>
+	        <example type="correct">Acum noi <marker>creăm</marker> prototipul mașinii.</example>
+	     </rule>
+		<rule id="CREAZA_CREEAZA" name="crează - creează"> 
+	        <pattern>
+	          <token>crează</token>
+	         </pattern>
+	        <message>Ați dorit să scrieți <suggestion>creează</suggestion>?</message>
+	        <example type="incorrect" correction="creează">Acum el <marker>crează</marker> prototipul mașinii.</example>
+	        <example type="correct">Acum el <marker>creează</marker> prototipul mașinii.</example>
+	     </rule>
+	     <rule id="CREEATA_CREATA" name="creeată - creată"> 
+	        <pattern>
+	          <token>creeată</token>
+	         </pattern>
+	        <message>Ați dorit să scrieți <suggestion>creată</suggestion>?</message>
+	        <example type="incorrect" correction="creată">Opera a fost <marker>creeată</marker> cu mult timp în urmă.</example>
+	        <example type="correct">Opera a fost<marker>creată</marker> cu mult timp în urmă.</example>
+	     </rule>
+	     <rule id="CREEAT_CREAT" name="creeat - creat"> 
+	        <pattern>
+	          <token>creeat</token>
+	         </pattern>
+	        <message>Ați dorit să scrieți <suggestion>creat</suggestion>?</message>
+	        <example type="incorrect" correction="creat">Opusul a fost <marker>creeat</marker> cu mult timp în urmă.</example>
+	        <example type="correct">Opusul a fost<marker>creat</marker> cu mult timp în urmă.</example>
+	     </rule>
+	     <rule id="REFERIT_DESPRE" name="referit despre"> 
+	        <pattern>
+	          <token>referit</token>
+	          <token>despre</token>
+	         </pattern>
+	        <message>Ați dorit să scrieți <suggestion>referit la</suggestion> sau <suggestion>referit la modul cum</suggestion> sau <suggestion>referit la modul în care</suggestion>?</message>
+	        <example type="incorrect" correction="referit la|referit la modul cum|referit la modul în care">M-am <marker>referit despre</marker> cum au jucat ei.</example>
+	        <example type="correct">M-am <marker>referit la</marker> cum au jucat ei.</example>
+	     </rule>
 		<rule id="AS_AVEA" name="as avea - aș avea (avea, vrea, dori, putea)"> 
 	        <pattern>
 	          <token>as</token>
@@ -589,7 +675,7 @@ title="Easy editing stylesheet" ?>
 					<token postag_regexp="yes" postag="A(...)aa(.*)"></token>
 				</pattern>
 				<message>Folosire incorectă a adjectivului articulat. "\1 \2" cere adjectiv nearticulat: <suggestion><match no="1"
-				/> <match no="2"/> <match
+				/> <match no="2"/> <match 
 					no="3" postag_regexp="yes" postag="A(...)aa(.*)"  postag_replace="A$1an$2"/></suggestion>.</message>
 				<short>Greșeală gramaticală</short>
 				<example type="incorrect" correction="cea mai nouă">Această deltă este <marker>cea mai noua</marker> din lume.</example>
@@ -743,7 +829,34 @@ title="Easy editing stylesheet" ?>
 				<example type="incorrect" correction="distribuția presiunii">Legată de <marker>distribuția de presiunii</marker> din fluid.</example>
 				<example type="incorrect" correction="industria sticlăriei">Materia primă în <marker>industria de sticlăriei</marker> este aceasta.</example>
 			</rule>
-
+		<rule id="DAT_FIIND__FEM_PLURAL" name="dat fiind + (subst fem plural) = date fiind + (subst fem plural)">
+			<pattern>
+				<token>dat</token>
+				<token>fiind</token>
+				<token postag="Sfp..a....|Dfp3a0d000" postag_regexp="yes"><exception postag="Sfs..a....|Dfs3a0d000" postag_regexp="yes"></exception></token>
+			</pattern>
+			<message>Ați dorit să scrieți <suggestion>date fiind \3</suggestion>?</message>
+			<short>Dezacord gramatical</short>
+			<example type="incorrect" correction="Date fiind performanțele"><marker>Dat fiind performanțele</marker> sale, a fost admis.</example>
+			<example type="incorrect" correction="Date fiind aceste"><marker>Dat fiind aceste</marker> performanțe, a fost admis.</example>
+			<example type="correct"><marker>Dat fiind performanța</marker> sale, a fost admis.</example>
+			<example type="correct"><marker>Dat fiind curajul</marker> sale, a fost admis.</example>
+			<example type="correct"><marker>Date fiind performanțele</marker> sale, a fost admis.</example>
+		</rule>
+		<rule id="DAT_FIIND__MASC_PLURAL" name="dat fiind + (subst masc plural) = dați fiind + (subst masc plural)">
+			<pattern>
+				<token>dat</token>
+				<token>fiind</token>
+				<token postag="S[m|n]p..a...." postag_regexp="yes"><exception postag="S[m|n]s..a...." postag_regexp="yes"></exception></token>
+			</pattern>
+			<message>Ați dorit să scrieți <suggestion>dați fiind \3</suggestion>?</message>
+			<short>Dezacord gramatical</short>
+			<example type="incorrect" correction="Dați fiind anii"><marker>Dat fiind anii</marker> săi, a fost admis.</example>
+			<example type="correct"><marker>Dat fiind anul</marker> său fructuos, a fost admis.</example>
+			<example type="correct"><marker>Dat fiind în</marker> judecată, a fost supărat.</example>
+			<example type="correct"><marker>Dat fiind curajul</marker> sale, a fost admis.</example>
+			<example type="correct"><marker>Dați fiind anii</marker> săi, a fost admis.</example>
+		</rule>
 	</category>
 	<category name="Greșeli gramaticale - acord adjectiv" >
 			<rule id="O_ADJ_ART_TERMINAT_IN_A" name="o + (adj fem art) - o + (adj fem neart)">
@@ -845,6 +958,23 @@ title="Easy editing stylesheet" ?>
 			<example type="correct">Singura care <marker>este muritoare</marker>.</example>
 			<example type="correct">Singura care <marker>este aproape</marker>.</example>
 			<example type="correct">Într-o țară care <marker>este anti-religioasă</marker>.</example>			
+		</rule>
+		<rule id="CE_X_SI_CE_Y_SE_STIU" name="ce faci și ce vorbești se știu [se știe]">
+			<pattern mark_from="5">
+				<token>ce</token>
+				<token postag="V0..000iz0" postag_regexp="yes"></token>
+				<token>și</token>
+				<token>ce</token>
+				<token postag="V0..000iz0" postag_regexp="yes"></token>
+				<token>se</token>
+				<token>știu</token>
+			</pattern>
+			<message>Ați dorit să scrieți <suggestion>se știe</suggestion>.</message>
+			<short>Greșeală gramaticală</short>
+			<example type="incorrect" correction="se știe">Ce faci și ce vorbești <marker>se știu</marker>.</example>
+			<example type="incorrect" correction="se știe">Ce faceți și ce vorbiți <marker>se știu</marker>.</example>
+			<example type="incorrect" correction="se știe">Ce facem și ce vorbim <marker>se știu</marker>.</example>
+			<example type="correct">Ce faci și ce vorbești <marker>se știe</marker>.</example>
 		</rule>
 	</category>
 	<category name="Greșeli gramaticale - acordul după caz">
@@ -4115,6 +4245,17 @@ title="Easy editing stylesheet" ?>
 		<rulegroup  id="RECULEGERE_SI_MEDITATIE" name="reculegere și meditație"> 
 			<rule>
 				<pattern>
+					<token>meditație</token>
+					<token>și</token>
+					<token>reculegere</token>
+				</pattern>
+				<message>Ați dorit să scrieți <suggestion>\1</suggestion> sau <suggestion>\3</suggestion>?</message>
+				<short>Pleonasm</short>
+				<example type="incorrect" correction="meditație|reculegere">Acolo era un loc de <marker>meditație și reculegere</marker>.</example>
+				<example type="correct">Acolo era un loc de <marker>reculegere</marker>.</example>
+			</rule>  		
+			<rule>
+				<pattern>
 					<token>reculegere</token>
 					<token>și</token>
 					<token>meditație</token>
@@ -4135,6 +4276,19 @@ title="Easy editing stylesheet" ?>
 				<message>Ați dorit să scrieți <suggestion>\1 \2</suggestion> sau <suggestion>\4 \5</suggestion>?</message>
 				<short>Pleonasm</short>
 				<example type="incorrect" correction="de reculegere|de meditație">Acolo era un loc <marker>de reculegere și de meditație</marker>.</example>
+				<example type="correct">Acolo era un loc de <marker>de reculegere</marker>.</example>
+			</rule>  		
+			<rule>
+				<pattern>
+					<token>de</token>
+					<token>meditație</token>
+					<token>și</token>
+					<token>de</token>
+					<token>reculegere</token>
+				</pattern>
+				<message>Ați dorit să scrieți <suggestion>\1 \2</suggestion> sau <suggestion>\4 \5</suggestion>?</message>
+				<short>Pleonasm</short>
+				<example type="incorrect" correction="de meditație|de reculegere">Acolo era un loc <marker>de meditație și de reculegere</marker>.</example>
 				<example type="correct">Acolo era un loc de <marker>de reculegere</marker>.</example>
 			</rule>  		
 		 </rulegroup> 
