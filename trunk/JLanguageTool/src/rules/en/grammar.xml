@@ -7,7 +7,7 @@ title="Easy editing stylesheet" ?>
 English Grammar and Typo Rules for LanguageTool
 See tagset.txt for the meaning of the POS tags
 Copyright (C) 2001-2007 Daniel Naber (http://www.danielnaber.de)
-$Id: grammar.xml,v 1.108 2009-05-10 22:50:11 milek_pl Exp $
+$Id: grammar.xml,v 1.109 2009-05-11 22:35:50 milek_pl Exp $
 -->
 <rules lang="en">
   <!-- ====================================================================== -->
@@ -2437,11 +2437,11 @@ $Id: grammar.xml,v 1.108 2009-05-10 22:50:11 milek_pl Exp $
     <rule id="A_UNCOUNTABLE" name="Articles: a + uncountable noun">
       <pattern mark_to="-1">
         <token regexp="yes">a|an</token>
-        <token regexp="yes">accommodation|advice|access|baggage|bread|equipment|garbage|luggage|money|cattle|knowledge|sand|furniture|meat|food|news|pasta|progress|research|water|freedom|maturity|intelligence|travel|pollution|traffic</token>
+        <token regexp="yes">accommodation|advice|access|baggage|bread|damage|equipment|garbage|luggage|money|cattle|knowledge|sand|furniture|meat|food|news|pasta|progress|research|water|freedom|maturity|intelligence|travel|pollution|traffic</token>
         <token postag="RP|VBZ|IN|SENT_END" postag_regexp="yes"/>
       </pattern>
       <message>Uncountable nouns are usually not used with an indefinite article. Use simply <suggestion>\2</suggestion>.</message>
-      <short>Uncountable noun without an article</short>
+      <short>Uncountable noun with an article</short>
       <example type="correct"><marker>The information</marker> in your files is correct.</example>
       <example type="correct"><marker>An intelligence</marker> service is known to be corrupt here.</example>
       <example correction="Accommodation" type="incorrect"><marker>An accommodation</marker> is too expensive.</example>
@@ -4027,12 +4027,63 @@ $Id: grammar.xml,v 1.108 2009-05-10 22:50:11 milek_pl Exp $
         <example type="correct">Some people think Afroamericans are inferior to them.</example>
       </rule>
     </rulegroup>
+    <rule id="TODAY_MORNING" name="Wrong phrase: 'today morning' (this morning)">
+      <pattern>
+        <token>today</token>
+        <token regexp="yes">morning|afternoon|evening</token>
+      </pattern>
+      <message>This is a non-standard collocation. Normally, <suggestion>this \2</suggestion> is used.</message>
+      <short>Wrong collocation</short>
+      <example correction="this evening" type="incorrect">I'm going home <marker>today evening</marker>.</example>
+      <example type="correct">I'm going homo this evening.</example>
+    </rule>
+    <rule id="YESTERDAY_NIGHT" name="Wrong phrase: 'yesterday night' (last night)">
+      <pattern>
+        <token>yesterday</token>
+        <token>night</token>
+      </pattern>
+      <message>This is a non-standard collocation. Normally, <suggestion>last night</suggestion> is used.</message>
+      <short>Wrong collocation</short>
+      <example correction="last night" type="incorrect">I was there <marker>yesterday night</marker>.</example>
+      <example type="correct">I was there last night.</example>
+    </rule>
+    <rule id="TODAY_NIGHT" name="Wrong phrase: 'today night' (tonight)">
+      <pattern>
+        <token>today</token>
+        <token>night</token>
+      </pattern>
+      <message>This is a non-standard collocation. Normally, <suggestion>tonight</suggestion> is used instead.</message>
+      <short>Wrong collocation</short>
+      <example correction="tonight" type="incorrect">I'm going fishing <marker>today night</marker>.</example>
+      <example type="correct">I'm going fishing tonight.</example>
+    </rule>
   </category>
   <!-- ====================================================================== -->
   <!-- Miscellaneous -->
   <!-- ====================================================================== -->
   <category name="Miscellaneous">
-    <rulegroup id="EN_QUOTES" name="smart quotes (“”)">
+    <rulegroup id="CURRENCY" name="Position of currency symbols: '100$' ($100)">
+      <rule>
+        <pattern>
+          <token regexp="yes">\d+[$€£¥\u8371]</token>
+        </pattern>
+        <message>The currency mark is usually put at the beginning of the number: <suggestion><match no="1" regexp_match="(\d+)([$€£¥\u8371])" regexp_replace="$2$1"/></suggestion>.</message>
+        <short>Put currency at the beginning</short>
+        <example correction="$100" type="incorrect">You owe me <marker>100$</marker>.</example>
+        <example type="correct">You owe me $100.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">\d+</token>
+          <token regexp="yes">[$€£¥\u8371]</token>
+        </pattern>
+        <message>The currency mark is usually put at the beginning of the number: <suggestion>\2\1</suggestion>.</message>
+        <short>Put currency at the beginning</short>
+        <example correction="$100" type="incorrect">You owe me <marker>100 $</marker>.</example>
+        <example type="correct">You owe me $100.</example>
+      </rule>
+    </rulegroup>
+    <rulegroup id="EN_QUOTES" name="Smart quotes (“”)">
       <rule>
         <pattern>
           <token postag="``"/>
@@ -4055,7 +4106,7 @@ $Id: grammar.xml,v 1.108 2009-05-10 22:50:11 milek_pl Exp $
         <example type="correct">“Test”!</example>
       </rule>
     </rulegroup>
-    <rule default="off" id="ELLIPSIS" name="smart ellipsis (…)">
+    <rule default="off" id="ELLIPSIS" name="Smart ellipsis (…)">
       <pattern>
         <token>.</token>
         <token>.</token>
@@ -4101,27 +4152,45 @@ $Id: grammar.xml,v 1.108 2009-05-10 22:50:11 milek_pl Exp $
       <example correction="exactly the" type="incorrect">It is <marker>the exactly the</marker> same thing.</example>
       <example type="correct">This is the way the music dies.</example>
     </rule>
-    <rule id="DT_DT" name="Two consecutive articles, e.g. 'the a'">
-      <pattern mark_from="1" mark_to="-1">
-        <!--
-        <token postag="DT"><exception regexp="yes">all|half|both|this|each|that|them|these|those|such|neither</exception></token>
-        <token postag="DT"><exception regexp="yes">much|many</exception></token>
-      it's easier to be explicit about the, an, a than to file exceptions...
-      it could be written as several rules in a rulegroup so that it wouldn't match
-      the the, a a nor an an... 
-      -->
-        <token><exception postag="VB.*" postag_regexp="yes"/></token>
-        <token regexp="yes" skip="1">a|an|the|this</token>
-        <token postag="DT" regexp="yes"><exception negate="yes" regexp="yes" scope="previous">['"“]|a|an|the|this</exception>a|an|the|this</token>
-        <token><exception regexp="yes">'|\.</exception></token>
-      </pattern>
-      <message>Maybe you need to remove the second determiner so that only <suggestion>\2</suggestion> is left. Or add a comma between them: <suggestion>\2, \3</suggestion>.</message>
-      <short>Two consecutive articles</short>
-      <example type="correct"><marker>The</marker> thing is this.</example>
-      <example correction="The|The, a" type="incorrect"><marker>The a</marker> thing is this.</example>
-      <example correction="The|The, an" type="incorrect"><marker>The 'an</marker> international movie' is interesting.</example>
-      <example type="correct">The Thames was once a much broader river.</example>
-    </rule>
+    <rulegroup id="DT_DT" name="Two consecutive articles, e.g. 'the a'">
+      <rule>
+        <pattern mark_from="1" mark_to="-1">
+          <token><exception postag="VB.*" postag_regexp="yes"/></token>
+          <token regexp="yes">a|an|the</token>
+          <token postag="DT" regexp="yes">a|an|the</token>
+          <token><exception regexp="yes">'|\.</exception></token>
+        </pattern>
+        <message>Maybe you need to remove the second determiner so that only <suggestion>\2</suggestion> is left.</message>
+        <short>Two consecutive articles</short>
+        <example type="correct"><marker>The</marker> thing is this.</example>
+        <example correction="The" type="incorrect"><marker>The a</marker> thing is this.</example>
+        <example type="correct">The Thames was once a much broader river.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="0" mark_to="-1">
+          <token postag="DT" regexp="yes">a|an|the</token>
+          <token>this</token>
+          <token><exception regexp="yes">'|\.</exception></token>
+        </pattern>
+        <message>Maybe you need to remove the second determiner so that only <suggestion>\1</suggestion> or <suggestion>\2</suggestion> is left.</message>
+        <short>Two consecutive articles</short>
+        <example correction="a|this" type="incorrect">I like <marker>a this</marker> dog.</example>
+        <example type="correct">I like this dog.</example>
+        <example correction="the|this" type="incorrect">This is <marker>the this</marker> idea I was talking about!</example>
+      </rule>
+      <rule>
+        <pattern mark_from="0" mark_to="-1">
+          <token regexp="yes">a|an|the</token>
+          <token regexp="yes" spacebefore="yes">['"“]</token>
+          <token postag="DT" regexp="yes" spacebefore="no">a|an|the</token>
+          <token><exception regexp="yes">'|\.</exception></token>
+        </pattern>
+        <message>Maybe you need to remove the second determiner so that only <suggestion>\1</suggestion> or <suggestion>\2\3</suggestion> is left.</message>
+        <short>Two consecutive articles</short>
+        <example correction="The|'An" type="incorrect"><marker>The 'an</marker> international movie' is interesting.</example>
+        <example type="correct">The Thames was once a much broader river.</example>
+      </rule>
+    </rulegroup>
     <rule id="AN_ANOTHER" name="an another (an / another)">
       <pattern>
         <token>an</token>
