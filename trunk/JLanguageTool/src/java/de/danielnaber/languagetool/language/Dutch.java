@@ -42,7 +42,7 @@ public class Dutch extends Language {
   private Disambiguator disambiguator = new DutchRuleDisambiguator();
   private Tokenizer wdTokenizer = new DutchWordTokenizer();
 
-  private static final String[] COUNTRIES = { "NL" };
+  private static final String[] COUNTRIES = { "NL", "BE" };
 
   public final Locale getLocale() {
     return new Locale(getShortName());
