@@ -7,7 +7,7 @@ title="Easy editing stylesheet" ?>
 English Grammar and Typo Rules for LanguageTool
 See tagset.txt for the meaning of the POS tags
 Copyright (C) 2001-2007 Daniel Naber (http://www.danielnaber.de)
-$Id: grammar.xml,v 1.109 2009-05-11 22:35:50 milek_pl Exp $
+$Id: grammar.xml,v 1.110 2009-05-12 22:47:23 milek_pl Exp $
 -->
 <rules lang="en">
   <!-- ====================================================================== -->
@@ -4686,6 +4686,16 @@ $Id: grammar.xml,v 1.109 2009-05-11 22:35:50 milek_pl Exp $
       <short>Nonstandard phrase</short>
       <example correction="regarding|with regard to" type="incorrect">Please be aware of the following changes <marker>in regards to</marker> this program.</example>
       <example type="correct">Please be aware of the following changes in this program.</example>
+    </rule>
+    <rule id="VERY_KNOWN" name="very known (very well-known, well-known)">
+      <pattern>
+        <token>very</token>
+        <token>known</token>
+      </pattern>
+      <message>Incorrect phrase. Use <suggestion>very well-known</suggestion> or <suggestion>well-known</suggestion> instead.</message>
+      <short>Incorrect phrase</short>
+      <example correction="very well-known|well-known" type="incorrect">He is a <marker>very known</marker> actor.</example>
+      <example type="correct">He is a well-known actor.</example>
     </rule>
   </category>
   <category name="Slang">
