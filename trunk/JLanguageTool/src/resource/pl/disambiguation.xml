@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 	<!--
 		Disambiguation Rules for LanguageTool Copyright (C) 2008				
-$Id: disambiguation.xml,v 1.9 2009-01-27 23:26:19 milek_pl Exp $
+$Id: disambiguation.xml,v 1.10 2009-05-12 12:50:34 milek_pl Exp $
 	-->	
 <rules lang="pl">
   <unification feature="number">
@@ -272,6 +272,32 @@ $Id: disambiguation.xml,v 1.9 2009-01-27 23:26:19 milek_pl Exp $
 			</pattern>
 			<disambig action="remove"><wd lemma="nica" pos="subst:pl:gen:f">nic</wd></disambig>
 		</rule>
+	</rulegroup>
+	
+	<rulegroup name="winny/winien -> przymiotnik" id="winien">
+		<rule>
+			<pattern mark="0">
+			<unify feature="number"> 
+			<token postag="verb:winien.*" postag_regexp="yes" regexp="yes">win.*</token>
+			<token inflected="yes" postag="verb:.*" postag_regexp="yes">być</token>		
+			</unify>
+			</pattern>
+			<disambig action="filter" postag="adj.*"/>
+			<example type="untouched">Powinien był pójść do lekarza.</example>
+			<example type="ambiguous" inputform="Winni[winny/adj:pl:nom.voc:m1:pos,winny/adj:pl:nom.voc:m1:pos:aff,winien/verb:winien:pl:ter:m1:imperf]" outputform="Winni[winny/adj:pl:nom.voc:m1:pos,winny/adj:pl:nom.voc:m1:pos:aff]"><marker>Winni</marker> są już ukarani.</example>
+		</rule>
+		<rule>
+			<pattern mark="1">
+			<unify feature="number"> 			
+			<token inflected="yes" postag="verb:.*" postag_regexp="yes">być</token>
+			<token postag="verb:winien.*" postag_regexp="yes" regexp="yes">win.*</token>		
+			</unify>
+			</pattern>
+			<disambig action="filter" postag="adj.*"/>
+			<example type="untouched">Powinien był pójść do lekarza.</example>
+			<example type="untouched">Każdy winien przestrzegać prawa!</example>
+			<example type="ambiguous" inputform="winni[winny/adj:pl:nom.voc:m1:pos,winny/adj:pl:nom.voc:m1:pos:aff,winien/verb:winien:pl:ter:m1:imperf]" outputform="winni[winny/adj:pl:nom.voc:m1:pos,winny/adj:pl:nom.voc:m1:pos:aff]">To oni są <marker>winni</marker>!</example>
+		</rule>		
 	</rulegroup>
 		
 </rules>

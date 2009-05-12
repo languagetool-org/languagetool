@@ -6,7 +6,7 @@ title="Easy editing stylesheet" ?>
 <!--
 Polish Grammar and Typo Rules for LanguageTool
 Copyright (C) 2006-2007 Marcin Miłkowski
-$Id: grammar.xml,v 1.185 2009-05-03 20:19:49 milek_pl Exp $
+$Id: grammar.xml,v 1.186 2009-05-12 12:50:34 milek_pl Exp $
 -->
 <rules lang="pl">
   <unification feature="number">
@@ -85,7 +85,7 @@ $Id: grammar.xml,v 1.185 2009-05-03 20:19:49 milek_pl Exp $
     <rulegroup id="ZDANIA_ZLOZONE" name="Brak przecinka w zdaniu złożonym">
       <rule>
         <pattern>
-          <token postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf|pant:perf" postag_regexp="yes" skip="-1"><exception postag="subst:.*|adj.*|ppron.*|verb:inf.*|verb:bedzie.*|adv:comp|prep.*|qub|indecl|adv.*|conj|&lt;/TO_(ZNACZY|JEST)&gt;|verb:winien.*" postag_regexp="yes" scope="current"/><exception regexp="yes" scope="current">może|jedna</exception><exception inflected="yes" regexp="yes" scope="next">[\p{Punct}—–„«»…]+(?&lt;!\.)|aby|acz|aczkolwiek|albo|albowiem|ale|aleć|aliści|ani|azali|ażeby|bo|byleby|bądź|czy|czyli|czyliż|dlaczego|dopóki|dopóty|gdy|gdyby|gdyż|gdyżby|i|ilekolwiek|ilekroć|iż|iżby|jaki|jeśli|jeżeli|kiedy|który|którędy|lecz|lub|oraz|ponieważ|póki|wszelako|zanim|że|żeby</exception><exception postag="&lt;ELLIPSIS&gt;" scope="next"/></token>
+          <token postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf|pant:perf" postag_regexp="yes" skip="-1"><exception postag="subst:.*|adj.*|ppron.*|verb:inf.*|verb:bedzie.*|adv:comp|prep.*|qub|indecl|adv.*|conj|&lt;/TO_(ZNACZY|JEST)&gt;|verb:winien.*" postag_regexp="yes" scope="current"/><exception regexp="yes" scope="current">może|jedna</exception><exception inflected="yes" regexp="yes" scope="next">[\p{Punct}—–„«»…&amp;&amp;[^!\.]]+|aby|acz|aczkolwiek|albo|albowiem|ale|aleć|aliści|ani|azali|ażeby|bo|byleby|bądź|czy|czyli|czyliż|dlaczego|dopóki|dopóty|gdy|gdyby|gdyż|gdyżby|i|ilekolwiek|ilekroć|iż|iżby|jaki|jeśli|jeżeli|kiedy|który|którędy|lecz|lub|oraz|ponieważ|póki|wszelako|zanim|że|żeby</exception><exception postag="&lt;ELLIPSIS&gt;" scope="next"/></token>
           <token postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf|pant:perf" postag_regexp="yes" skip="-1"><exception postag="subst:.*|adj.*|ppron.*|verb:inf.*|verb:bedzie.*|adv:comp|prep.*|qub|indecl|adv.*|conj" postag_regexp="yes" scope="current"/><exception regexp="yes" scope="current">może|jedna</exception></token>
           <phraseref idref="INTERPUNKCJA"/>
         </pattern>
@@ -106,20 +106,21 @@ $Id: grammar.xml,v 1.185 2009-05-03 20:19:49 milek_pl Exp $
       <rule>
         <pattern>
           <token postag="verb:winien.*" postag_regexp="yes"/>
-          <token skip="-1"><exception regexp="yes" scope="current">był|była|byłem|byłaś|byłeś|byli|były|byliśmy|byliście</exception><exception inflected="yes" regexp="yes" scope="next">[\p{Punct}—–„«»…]+(?&lt;!\.)|aby|acz|aczkolwiek|albo|albowiem|ale|aleć|aliści|ani|azali|ażeby|bo|byleby|bądź|czy|czyli|czyliż|dlaczego|dopóki|dopóty|gdy|gdyby|gdyż|gdyżby|i|ilekolwiek|ilekroć|iż|iżby|jaki|jeśli|jeżeli|kiedy|który|którędy|lecz|lub|oraz|ponieważ|póki|wszelako|zanim|że|żeby</exception><exception postag="&lt;ELLIPSIS&gt;" scope="next"/></token>
+          <token skip="-1"><exception regexp="yes" scope="current">był|była|byłem|byłaś|byłeś|byli|były|byliśmy|byliście</exception><exception inflected="yes" regexp="yes" scope="current">[\p{Punct}—–„«»…&amp;&amp;[^!\.]]+|aby|acz|aczkolwiek|albo|albowiem|ale|aleć|aliści|ani|azali|ażeby|bo|byleby|bądź|czy|czyli|czyliż|dlaczego|dopóki|dopóty|gdy|gdyby|gdyż|gdyżby|i|ilekolwiek|ilekroć|iż|iżby|jaki|jeśli|jeżeli|kiedy|który|którędy|lecz|lub|oraz|ponieważ|póki|wszelako|zanim|że|żeby</exception><exception inflected="yes" regexp="yes" scope="next">[\p{Punct}—–„«»…&amp;&amp;[^!\.]]+|aby|acz|aczkolwiek|albo|albowiem|ale|aleć|aliści|ani|azali|ażeby|bo|byleby|bądź|czy|czyli|czyliż|dlaczego|dopóki|dopóty|gdy|gdyby|gdyż|gdyżby|i|ilekolwiek|ilekroć|iż|iżby|jaki|jeśli|jeżeli|kiedy|który|którędy|lecz|lub|oraz|ponieważ|póki|wszelako|zanim|że|żeby</exception><exception postag="&lt;ELLIPSIS&gt;" scope="next"/></token>
           <token postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf|pant:perf" postag_regexp="yes" skip="-1"><exception postag="subst:.*|adj.*|ppron.*|verb:inf.*|verb:bedzie.*|adv:comp|prep.*|qub|indecl|adv.*|conj" postag_regexp="yes" scope="current"/><exception regexp="yes" scope="current">może|jedna</exception></token>
           <phraseref idref="INTERPUNKCJA"/>
         </pattern>
         <message>W tym zdaniu złożonym brakuje przecinka lub spójnika między jednym zdaniem a drugim.</message>
         <short>Błąd interpunkcyjny</short>
         <example type="incorrect">Zdanie człowieka, który <marker>powinien szorować gary nie liczy się w naszej organizacji.</marker></example>
+        <example type="correct">Co z tego, że powinien, nic nie zrobił!</example>
         <example type="correct">Bank powinien był już wtedy interweniować.</example>
       </rule>
       <!--powinien + exception: powinien był-->
       <rule>
         <pattern>
           <token postag="verb:winien.*" postag_regexp="yes"/>
-          <token regexp="yes" skip="-1">był|była|byłem|byłaś|byłeś|byli|były|byliśmy|byliście<exception inflected="yes" regexp="yes" scope="next">[\p{Punct}—–„«»…]+(?&lt;!\.)|aby|acz|aczkolwiek|albo|albowiem|ale|aleć|aliści|ani|azali|ażeby|bo|byleby|bądź|czy|czyli|czyliż|dlaczego|dopóki|dopóty|gdy|gdyby|gdyż|gdyżby|i|ilekolwiek|ilekroć|iż|iżby|jaki|jeśli|jeżeli|kiedy|który|którędy|lecz|lub|oraz|ponieważ|póki|wszelako|zanim|że|żeby</exception><exception postag="&lt;ELLIPSIS&gt;" scope="next"/></token>
+          <token regexp="yes" skip="-1">był|była|byłem|byłaś|byłeś|byli|były|byliśmy|byliście<exception inflected="yes" regexp="yes" scope="next">[\p{Punct}—–„«»…&amp;&amp;[^!\.]]+|aby|acz|aczkolwiek|albo|albowiem|ale|aleć|aliści|ani|azali|ażeby|bo|byleby|bądź|czy|czyli|czyliż|dlaczego|dopóki|dopóty|gdy|gdyby|gdyż|gdyżby|i|ilekolwiek|ilekroć|iż|iżby|jaki|jeśli|jeżeli|kiedy|który|którędy|lecz|lub|oraz|ponieważ|póki|wszelako|zanim|że|żeby</exception><exception postag="&lt;ELLIPSIS&gt;" scope="next"/></token>
           <token postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf|pant:perf" postag_regexp="yes" skip="-1"><exception postag="subst:.*|adj.*|ppron.*|verb:inf.*|verb:bedzie.*|adv:comp|prep.*|qub|indecl|adv.*|conj" postag_regexp="yes" scope="current"/><exception regexp="yes" scope="current">może|jedna</exception></token>
           <phraseref idref="INTERPUNKCJA"/>
         </pattern>
@@ -130,7 +131,7 @@ $Id: grammar.xml,v 1.185 2009-05-03 20:19:49 milek_pl Exp $
       </rule>
       <rule>
         <pattern>
-          <token postag="pred" postag_regexp="yes" skip="-1"><exception postag="subst:.*|adj.*|ppron.*|verb:inf.*|verb:bedzie.*|adv:.*|prep.*|qub|indecl|conj|&lt;/TO_(ZNACZY|JEST)&gt;" postag_regexp="yes" scope="current"/><exception regexp="yes" scope="current">może|jedna</exception><exception inflected="yes" regexp="yes" scope="next">[\p{Punct}—–„«»…]+(?&lt;!\.)|aby|acz|aczkolwiek|albo|albowiem|ale|aleć|aliści|ani|azali|ażeby|bo|byleby|bądź|czy|czyli|czyliż|dlaczego|dopóki|dopóty|gdy|gdyby|gdyż|gdyżby|i|ilekolwiek|ilekroć|iż|iżby|jaki|jeśli|jeżeli|kiedy|który|którędy|lecz|lub|oraz|ponieważ|póki|wszelako|zanim|że|żeby</exception><exception postag="&lt;ELLIPSIS&gt;" scope="next"/></token>
+          <token postag="pred" postag_regexp="yes" skip="-1"><exception postag="subst:.*|adj.*|ppron.*|verb:inf.*|verb:bedzie.*|adv:.*|prep.*|qub|indecl|conj|&lt;/TO_(ZNACZY|JEST)&gt;" postag_regexp="yes" scope="current"/><exception regexp="yes" scope="current">może|jedna</exception><exception inflected="yes" regexp="yes" scope="next">[\p{Punct}—–„«»…&amp;&amp;[^!\.]]+|aby|acz|aczkolwiek|albo|albowiem|ale|aleć|aliści|ani|azali|ażeby|bo|byleby|bądź|czy|czyli|czyliż|dlaczego|dopóki|dopóty|gdy|gdyby|gdyż|gdyżby|i|ilekolwiek|ilekroć|iż|iżby|jaki|jeśli|jeżeli|kiedy|który|którędy|lecz|lub|oraz|ponieważ|póki|wszelako|zanim|że|żeby</exception><exception postag="&lt;ELLIPSIS&gt;" scope="next"/></token>
           <token postag="pred|verb:.*(sg|pl).*|verb:imps.*|pcon:imperf|pant:perf" postag_regexp="yes" skip="-1"><exception postag="subst:.*|adj.[\.:][mn\.:].*|ppron.*|verb:inf.*|verb:bedzie.*|adv:comp|prep.*|qub|indecl|conj" postag_regexp="yes" scope="current"/><exception regexp="yes" scope="current">może|jedna|było|byłoby</exception></token>
           <phraseref idref="INTERPUNKCJA"/>
         </pattern>
@@ -144,7 +145,7 @@ $Id: grammar.xml,v 1.185 2009-05-03 20:19:49 milek_pl Exp $
       </rule>
       <rule>
         <pattern>
-          <token postag="verb:bedzie.*|pcon:imperf" postag_regexp="yes" regexp="yes" skip="-1">będ.*<exception inflected="yes" regexp="yes" scope="next">[\p{Punct}—–„«»…]+(?&lt;!\.)|aby|acz|aczkolwiek|albo|albowiem|ale|aleć|aliści|ani|azali|ażeby|bo|byleby|bądź|czy|czyli|czyliż|dlaczego|dopóki|dopóty|gdy|gdyby|gdyż|gdyżby|i|ilekolwiek|ilekroć|iż|iżby|jaki|jeśli|jeżeli|kiedy|który|którędy|lecz|lub|oraz|ponieważ|póki|wszelako|zanim|że|żeby</exception><exception postag="&lt;ELLIPSIS&gt;" scope="next"/></token>
+          <token postag="verb:bedzie.*|pcon:imperf" postag_regexp="yes" regexp="yes" skip="-1">będ.*<exception inflected="yes" regexp="yes" scope="next">[\p{Punct}—–„«»…&amp;&amp;[^!\.]]+|aby|acz|aczkolwiek|albo|albowiem|ale|aleć|aliści|ani|azali|ażeby|bo|byleby|bądź|czy|czyli|czyliż|dlaczego|dopóki|dopóty|gdy|gdyby|gdyż|gdyżby|i|ilekolwiek|ilekroć|iż|iżby|jaki|jeśli|jeżeli|kiedy|który|którędy|lecz|lub|oraz|ponieważ|póki|wszelako|zanim|że|żeby</exception><exception postag="&lt;ELLIPSIS&gt;" scope="next"/></token>
           <token postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf|pant:perf" postag_regexp="yes" skip="-1"><exception postag="subst:.*|adj.*|ppron.*|verb:inf.*|adv:.*|prep.*|qub|indecl|conj|verb:praet.*" postag_regexp="yes" scope="current"/><exception regexp="yes" scope="current">jedna|może</exception></token>
           <phraseref idref="INTERPUNKCJA"/>
         </pattern>
@@ -158,7 +159,7 @@ $Id: grammar.xml,v 1.185 2009-05-03 20:19:49 milek_pl Exp $
       </rule>
       <rule>
         <pattern>
-          <token postag="pred|verb:.*(sg|pl).*|verb:imps.*|pcon:imperf|pant:perf" postag_regexp="yes" skip="-1"><exception postag="subst:.*|adj.*|ppron.*|adv:.*|prep.*|qub|indecl|conj|verb:praet.*|verb:inf.*|&lt;/TO_(ZNACZY|JEST)&gt;" postag_regexp="yes" scope="current"/><exception regexp="yes" scope="current">jedna|może|trzeba|można|wolno</exception><exception inflected="yes" regexp="yes" scope="next">[\p{Punct}—–„«»…]+(?&lt;!\.)|aby|acz|aczkolwiek|albo|albowiem|ale|aleć|aliści|ani|azali|ażeby|bo|byleby|bądź|czy|czyli|czyliż|dlaczego|dopóki|dopóty|gdy|gdyby|gdyż|gdyżby|i|ilekolwiek|ilekroć|iż|iżby|jaki|jeśli|jeżeli|kiedy|który|którędy|lecz|lub|oraz|ponieważ|póki|wszelako|zanim|że|żeby</exception><exception postag="&lt;ELLIPSIS&gt;" scope="next"/></token>
+          <token postag="pred|verb:.*(sg|pl).*|verb:imps.*|pcon:imperf|pant:perf" postag_regexp="yes" skip="-1"><exception postag="subst:.*|adj.*|ppron.*|adv:.*|prep.*|qub|indecl|conj|verb:praet.*|verb:inf.*|&lt;/TO_(ZNACZY|JEST)&gt;" postag_regexp="yes" scope="current"/><exception regexp="yes" scope="current">jedna|może|trzeba|można|wolno</exception><exception inflected="yes" regexp="yes" scope="next">[\p{Punct}—–„«»…&amp;&amp;[^!\.]]+|aby|acz|aczkolwiek|albo|albowiem|ale|aleć|aliści|ani|azali|ażeby|bo|byleby|bądź|czy|czyli|czyliż|dlaczego|dopóki|dopóty|gdy|gdyby|gdyż|gdyżby|i|ilekolwiek|ilekroć|iż|iżby|jaki|jeśli|jeżeli|kiedy|który|którędy|lecz|lub|oraz|ponieważ|póki|wszelako|zanim|że|żeby</exception><exception postag="&lt;ELLIPSIS&gt;" scope="next"/></token>
           <token postag="verb:bedzie.*|pcon:imperf" postag_regexp="yes" regexp="yes" skip="-1">będ.*</token>
           <phraseref idref="INTERPUNKCJA"/>
         </pattern>
@@ -171,7 +172,7 @@ $Id: grammar.xml,v 1.185 2009-05-03 20:19:49 milek_pl Exp $
       </rule>
       <rule>
         <pattern>
-          <token inflected="yes" postag="verb:.*(sg|pl).*|verb:irreg|verb:imps.*|pcon:imperf|pant:perf" postag_regexp="yes" skip="-1">mieć<exception scope="current">miano</exception><exception inflected="yes" regexp="yes" scope="next">[\p{Punct}—–„«»…]+(?&lt;!\.)|aby|acz|aczkolwiek|albo|albowiem|ale|aleć|aliści|ani|azali|ażeby|bo|byleby|bądź|czy|czyli|czyliż|dlaczego|dopóki|dopóty|gdy|gdyby|gdyż|gdyżby|i|ilekolwiek|ilekroć|iż|iżby|jaki|jeśli|jeżeli|kiedy|który|którędy|lecz|lub|oraz|ponieważ|póki|wszelako|zanim|że|żeby</exception><exception postag="&lt;ELLIPSIS&gt;" scope="next"/></token>
+          <token inflected="yes" postag="verb:.*(sg|pl).*|verb:irreg|verb:imps.*|pcon:imperf|pant:perf" postag_regexp="yes" skip="-1">mieć<exception scope="current">miano</exception><exception inflected="yes" regexp="yes" scope="next">[\p{Punct}—–„«»…&amp;&amp;[^!\.]]+|aby|acz|aczkolwiek|albo|albowiem|ale|aleć|aliści|ani|azali|ażeby|bo|byleby|bądź|czy|czyli|czyliż|dlaczego|dopóki|dopóty|gdy|gdyby|gdyż|gdyżby|i|ilekolwiek|ilekroć|iż|iżby|jaki|jeśli|jeżeli|kiedy|który|którędy|lecz|lub|oraz|ponieważ|póki|wszelako|zanim|że|żeby</exception><exception postag="&lt;ELLIPSIS&gt;" scope="next"/></token>
           <token postag="pred|verb:.*(sg|pl).*|verb:imps.*|pcon:imperf|pant:perf" postag_regexp="yes" skip="-1"><exception postag="subst:.*|adj.*|ppron.*|adv.*|verb:inf.*|prep.*|qub|indecl|conj" postag_regexp="yes" scope="current"/><exception inflected="yes" scope="current">mieć</exception><exception regexp="yes" scope="current">jedna|może|będ.*</exception></token>
           <phraseref idref="INTERPUNKCJA"/>
         </pattern>
@@ -183,7 +184,7 @@ $Id: grammar.xml,v 1.185 2009-05-03 20:19:49 milek_pl Exp $
       </rule>
       <rule>
         <pattern>
-          <token postag="pred|verb:.*(sg|pl).*|verb:imps.*|pcon:imperf|pant:perf" postag_regexp="yes" skip="-1"><exception postag="subst:.*|adj.*|ppron.*|verb:inf.*|adv:.*|conj|prep.*|qub|indecl|adv.*" postag_regexp="yes" scope="current"/><exception regexp="yes" scope="current">może|jedna|będ.*</exception><exception inflected="yes" regexp="yes" scope="next">[\p{Punct}—–„«»…]+(?&lt;!\.)|aby|acz|aczkolwiek|albo|albowiem|ale|aleć|aliści|ani|azali|ażeby|bo|byleby|bądź|czy|czyli|czyliż|dlaczego|dopóki|dopóty|gdy|gdyby|gdyż|gdyżby|i|ilekolwiek|ilekroć|iż|iżby|jaki|jeśli|jeżeli|kiedy|który|którędy|lecz|lub|oraz|ponieważ|póki|wszelako|zanim|że|żeby</exception><exception inflected="yes" scope="current">mieć</exception><exception postag="&lt;ELLIPSIS&gt;" scope="next"/></token>
+          <token postag="pred|verb:.*(sg|pl).*|verb:imps.*|pcon:imperf|pant:perf" postag_regexp="yes" skip="-1"><exception postag="subst:.*|adj.*|ppron.*|verb:inf.*|adv:.*|conj|prep.*|qub|indecl|adv.*" postag_regexp="yes" scope="current"/><exception regexp="yes" scope="current">może|jedna|będ.*</exception><exception inflected="yes" regexp="yes" scope="next">[\p{Punct}—–„«»…&amp;&amp;[^!\.]]+|aby|acz|aczkolwiek|albo|albowiem|ale|aleć|aliści|ani|azali|ażeby|bo|byleby|bądź|czy|czyli|czyliż|dlaczego|dopóki|dopóty|gdy|gdyby|gdyż|gdyżby|i|ilekolwiek|ilekroć|iż|iżby|jaki|jeśli|jeżeli|kiedy|który|którędy|lecz|lub|oraz|ponieważ|póki|wszelako|zanim|że|żeby</exception><exception inflected="yes" scope="current">mieć</exception><exception postag="&lt;ELLIPSIS&gt;" scope="next"/></token>
           <token inflected="yes" postag="verb:.*(sg|pl).*|verb:imps.*|verb:irreg|pcon:imperf|pant:perf" postag_regexp="yes" skip="-1">mieć<exception scope="current">miano</exception></token>
           <phraseref idref="INTERPUNKCJA"/>
         </pattern>
@@ -195,8 +196,8 @@ $Id: grammar.xml,v 1.185 2009-05-03 20:19:49 milek_pl Exp $
       </rule>
       <rule>
         <pattern>
-          <token skip="-1">może<exception inflected="yes" regexp="yes" scope="next">[\p{Punct}—–„«»…]+(?&lt;!\.)|aby|acz|aczkolwiek|albo|albowiem|ale|aleć|aliści|ani|azali|ażeby|bo|byleby|bądź|czy|czyli|czyliż|dlaczego|dopóki|dopóty|gdy|gdyby|gdyż|gdyżby|i|ilekolwiek|ilekroć|iż|iżby|jaki|jeśli|jeżeli|kiedy|który|którędy|lecz|lub|oraz|ponieważ|póki|wszelako|zanim|że|żeby</exception><exception postag="&lt;ELLIPSIS&gt;|verb:(pot|fin|bedzie|praet):(sg|pl).*|verb:imps.*|pcon:imperf|pant:perf" postag_regexp="yes" scope="next"/></token>
-          <token postag="verb:inf.*" postag_regexp="yes" skip="-1"><exception inflected="yes" regexp="yes" scope="next">[\p{Punct}—–„«»…]+(?&lt;!\.)|aby|acz|aczkolwiek|albo|albowiem|ale|aleć|aliści|ani|azali|ażeby|bo|byleby|bądź|czy|czyli|czyliż|dlaczego|dopóki|dopóty|gdy|gdyby|gdyż|gdyżby|i|ilekolwiek|ilekroć|iż|iżby|jaki|jeśli|jeżeli|kiedy|który|którędy|lecz|lub|oraz|ponieważ|póki|wszelako|zanim|że|żeby</exception><exception postag="&lt;ELLIPSIS&gt;" postag_regexp="yes" scope="next"/></token>
+          <token skip="-1">może<exception inflected="yes" regexp="yes" scope="next">[\p{Punct}—–„«»…&amp;&amp;[^!\.]]+|aby|acz|aczkolwiek|albo|albowiem|ale|aleć|aliści|ani|azali|ażeby|bo|byleby|bądź|czy|czyli|czyliż|dlaczego|dopóki|dopóty|gdy|gdyby|gdyż|gdyżby|i|ilekolwiek|ilekroć|iż|iżby|jaki|jeśli|jeżeli|kiedy|który|którędy|lecz|lub|oraz|ponieważ|póki|wszelako|zanim|że|żeby</exception><exception postag="&lt;ELLIPSIS&gt;|verb:(pot|fin|bedzie|praet):(sg|pl).*|verb:imps.*|pcon:imperf|pant:perf" postag_regexp="yes" scope="next"/></token>
+          <token postag="verb:inf.*" postag_regexp="yes" skip="-1"><exception inflected="yes" regexp="yes" scope="next">[\p{Punct}—–„«»…&amp;&amp;[^!\.]]+|aby|acz|aczkolwiek|albo|albowiem|ale|aleć|aliści|ani|azali|ażeby|bo|byleby|bądź|czy|czyli|czyliż|dlaczego|dopóki|dopóty|gdy|gdyby|gdyż|gdyżby|i|ilekolwiek|ilekroć|iż|iżby|jaki|jeśli|jeżeli|kiedy|który|którędy|lecz|lub|oraz|ponieważ|póki|wszelako|zanim|że|żeby</exception><exception postag="&lt;ELLIPSIS&gt;" postag_regexp="yes" scope="next"/></token>
           <token postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf|pant:perf" postag_regexp="yes" skip="-1"><exception postag="subst:.*|adj.*|ppron.*|verb:inf.*|verb:bedzie.*|conj|prep.*|qub|indecl|adv.*" postag_regexp="yes" scope="current"/><exception regexp="yes" scope="current">może|jedna</exception></token>
           <phraseref idref="INTERPUNKCJA"/>
         </pattern>
@@ -207,8 +208,8 @@ $Id: grammar.xml,v 1.185 2009-05-03 20:19:49 milek_pl Exp $
       </rule>
       <rule>
         <pattern>
-          <token postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf|pant:perf" postag_regexp="yes" skip="-1"><exception postag="subst:.*|adj.*|ppron.*|verb:inf.*|verb:bedzie.*|conj|prep.*|qub|indecl|adv.*" postag_regexp="yes" scope="current"/><exception regexp="yes" scope="current">może|jedna</exception><exception inflected="yes" regexp="yes" scope="next">[\p{Punct}—–„«»…]+(?&lt;!\.)|aby|acz|aczkolwiek|albo|albowiem|ale|aleć|aliści|ani|azali|ażeby|bo|byleby|bądź|czy|czyli|czyliż|dlaczego|dopóki|dopóty|gdy|gdyby|gdyż|gdyżby|i|ilekolwiek|ilekroć|iż|iżby|jaki|jeśli|jeżeli|kiedy|który|którędy|lecz|lub|oraz|ponieważ|póki|wszelako|zanim|że|żeby</exception><exception postag="&lt;ELLIPSIS&gt;" postag_regexp="yes" scope="next"/></token>
-          <token skip="-1">może<exception inflected="yes" regexp="yes" scope="next">[\p{Punct}—–„«»…]+(?&lt;!\.)|aby|acz|aczkolwiek|albo|albowiem|ale|aleć|aliści|ani|azali|ażeby|bo|byleby|bądź|czy|czyli|czyliż|dlaczego|dopóki|dopóty|gdy|gdyby|gdyż|gdyżby|i|ilekolwiek|ilekroć|iż|iżby|jaki|jeśli|jeżeli|kiedy|który|którędy|lecz|lub|oraz|ponieważ|póki|wszelako|zanim|że|żeby</exception><exception postag="&lt;ELLIPSIS&gt;|verb:(pot|fin|bedzie|praet):(sg|pl).*|verb:imps.*|pcon:imperf|pant:perf" postag_regexp="no" scope="next"/></token>
+          <token postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf|pant:perf" postag_regexp="yes" skip="-1"><exception postag="subst:.*|adj.*|ppron.*|verb:inf.*|verb:bedzie.*|conj|prep.*|qub|indecl|adv.*" postag_regexp="yes" scope="current"/><exception regexp="yes" scope="current">może|jedna</exception><exception inflected="yes" regexp="yes" scope="next">[\p{Punct}—–„«»…&amp;&amp;[^!\.]]+|aby|acz|aczkolwiek|albo|albowiem|ale|aleć|aliści|ani|azali|ażeby|bo|byleby|bądź|czy|czyli|czyliż|dlaczego|dopóki|dopóty|gdy|gdyby|gdyż|gdyżby|i|ilekolwiek|ilekroć|iż|iżby|jaki|jeśli|jeżeli|kiedy|który|którędy|lecz|lub|oraz|ponieważ|póki|wszelako|zanim|że|żeby</exception><exception postag="&lt;ELLIPSIS&gt;" postag_regexp="yes" scope="next"/></token>
+          <token skip="-1">może<exception inflected="yes" regexp="yes" scope="next">[\p{Punct}—–„«»…&amp;&amp;[^!\.]]+|aby|acz|aczkolwiek|albo|albowiem|ale|aleć|aliści|ani|azali|ażeby|bo|byleby|bądź|czy|czyli|czyliż|dlaczego|dopóki|dopóty|gdy|gdyby|gdyż|gdyżby|i|ilekolwiek|ilekroć|iż|iżby|jaki|jeśli|jeżeli|kiedy|który|którędy|lecz|lub|oraz|ponieważ|póki|wszelako|zanim|że|żeby</exception><exception postag="&lt;ELLIPSIS&gt;|verb:(pot|fin|bedzie|praet):(sg|pl).*|verb:imps.*|pcon:imperf|pant:perf" postag_regexp="no" scope="next"/></token>
           <token postag="verb:inf.*" postag_regexp="yes" skip="-1"/>
           <phraseref idref="INTERPUNKCJA"/>
         </pattern>
