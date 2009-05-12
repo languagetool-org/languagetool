@@ -20,6 +20,7 @@ package de.danielnaber.languagetool.rules.patterns;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -187,7 +188,7 @@ public class Element {
     if (exceptionSet) {
       for (final Element testException : exceptionList) {
         if (!testException.exceptionValidNext) {
-          exceptionMatched |= testException.isMatched(token);
+          exceptionMatched = exceptionMatched || testException.isMatched(token);
         }
         if (exceptionMatched) {
           break;
@@ -227,9 +228,7 @@ public class Element {
   public final void setupAndGroup() {
     if (andGroupSet) {
       andGroupCheck = new boolean[andGroupList.size() + 1];
-      for (int i = 0; i < andGroupList.size(); i++) {
-        andGroupCheck[i] = false;
-      }
+      Arrays.fill(andGroupCheck, false);
     }
   }
 
@@ -255,16 +254,14 @@ public class Element {
    * @return true if all conditions are met, false otherwise.
    */
   public final boolean isAndExceptionGroupMatched(final AnalyzedToken token) {
-    boolean andGroupExceptionMatched = false;
     if (andGroupSet) {
       for (final Element testAndGroup : andGroupList) {
-        andGroupExceptionMatched |= testAndGroup.isExceptionMatched(token);
-        if (andGroupExceptionMatched) {
-          return andGroupExceptionMatched;
+        if (testAndGroup.isExceptionMatched(token)) {
+          return true;
         }
       }
     }
-    return andGroupExceptionMatched;
+    return false;
   }
 
   /**
@@ -323,7 +320,7 @@ public class Element {
     if (exceptionSet) {
       for (final Element testException : exceptionList) {
         if (testException.exceptionValidNext) {
-          exceptionMatched |= testException.isMatched(token);
+          exceptionMatched = exceptionMatched || testException.isMatched(token);
         }
         if (exceptionMatched) {
           break;
@@ -342,18 +339,16 @@ public class Element {
    * @return True if any of the exceptions matches.
    */
   public final boolean isMatchedByPreviousException(final AnalyzedToken token) {
-    boolean exceptionMatched = false;
     if (exceptionValidPrevious) {
       for (final Element testException : previousExceptionList) {
         if (!testException.exceptionValidNext) {
-          exceptionMatched |= testException.isMatched(token);
-        }
-        if (exceptionMatched) {
-          break;
+          if (testException.isMatched(token)) {
+            return true;
+          }
         }
       }
     }
-    return exceptionMatched;
+    return false;
   }
 
   /**
@@ -367,14 +362,12 @@ public class Element {
   public final boolean isMatchedByPreviousException(
       final AnalyzedTokenReadings prevToken) {
     final int numReadings = prevToken.getReadingsLength();
-    boolean matched = false;
     for (int i = 0; i < numReadings; i++) {
-      matched |= isMatchedByPreviousException(prevToken.getAnalyzedToken(i));
-      if (matched) {
-        break;
+      if (isMatchedByPreviousException(prevToken.getAnalyzedToken(i))) {
+        return true;
       }
     }
-    return matched;
+    return false;
   }
 
   /**
@@ -458,22 +451,7 @@ public class Element {
         false);
     posException.setPosElement(posToken, regExp, negation);
     posException.exceptionValidNext = scopeNext;
-    exceptionValidPrevious |= scopePrevious;
-    if (exceptionList == null && !scopePrevious) {
-      exceptionList = new ArrayList<Element>();
-    }
-    if (previousExceptionList == null && scopePrevious) {
-      previousExceptionList = new ArrayList<Element>();
-    }
-    if (!(exceptionSet || scopePrevious)) {
-      exceptionSet = true;
-    }
-    if (exceptionSet && !scopePrevious) {
-      exceptionList.add(posException);
-    }
-    if (scopePrevious) {
-      previousExceptionList.add(posException);
-    }
+    setException(posException, scopePrevious);
   }
 
   /**
@@ -499,6 +477,10 @@ public class Element {
         regExp, inflected);
     stringException.setNegation(negation);
     stringException.exceptionValidNext = scopeNext;
+    setException(stringException, scopePrevious);
+  }
+
+  private void setException(final Element elem, final boolean scopePrevious) {
     exceptionValidPrevious |= scopePrevious;
     if (exceptionList == null && !scopePrevious) {
       exceptionList = new ArrayList<Element>();
@@ -506,14 +488,15 @@ public class Element {
     if (previousExceptionList == null && scopePrevious) {
       previousExceptionList = new ArrayList<Element>();
     }
-    if (!(exceptionSet || scopePrevious)) {
-      exceptionSet = true;
-    }
-    if (exceptionSet && !scopePrevious) {
-      exceptionList.add(stringException);
-    }
     if (scopePrevious) {
-      previousExceptionList.add(stringException);
+      previousExceptionList.add(elem);
+    } else {
+      if (!exceptionSet) {
+        exceptionSet = true;
+      }
+      if (exceptionSet) {
+        exceptionList.add(elem);
+      }
     }
   }
 
@@ -558,7 +541,7 @@ public class Element {
       match = posToken.equals(token.getPOSTag());
     }
     if (!match && UNKNOWN_TAG.equals(posToken)) { // these are helper tags,
-                                                  // ignore them
+      // ignore them
       match = JLanguageTool.SENTENCE_END_TAGNAME.equals(token.getPOSTag())
           || JLanguageTool.PARAGRAPH_END_TAGNAME.equals(token.getPOSTag());
     }
