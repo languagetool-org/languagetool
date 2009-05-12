@@ -377,16 +377,16 @@ public class PatternRule extends Rule {
     final int numberOfReadings = tokens[tokenNo].getReadingsLength();
     for (int l = 0; l < numberOfReadings; l++) {
       final AnalyzedToken matchToken = tokens[tokenNo].getAnalyzedToken(l);
-      prevMatched |= prevSkipNext > 0 && prevElement != null
+      prevMatched = prevMatched || prevSkipNext > 0 && prevElement != null
           && prevElement.isMatchedByScopeNextException(matchToken);
       setupAndGroup(l, firstMatchToken, elem, tokens);
-      thisMatched |= elem.isMatchedCompletely(matchToken);
+      thisMatched = thisMatched || elem.isMatched(matchToken);
       thisMatched &= testUnificationAndGroups(thisMatched,
           l + 1 == numberOfReadings, matchToken, elem);
-      exceptionMatched |= elem.isExceptionMatchedCompletely(matchToken);
+      exceptionMatched = exceptionMatched || elem.isExceptionMatchedCompletely(matchToken);
     }
-    if (!exceptionMatched && tokenNo > 0 && elem.hasPreviousException()) {
-      exceptionMatched |= elem
+    if (tokenNo > 0 && elem.hasPreviousException()) {
+      exceptionMatched = exceptionMatched || elem
           .isMatchedByPreviousException(tokens[tokenNo - 1]);
     }
     return thisMatched && !(exceptionMatched || prevMatched);
@@ -405,8 +405,11 @@ public class PatternRule extends Rule {
         unifier.reset();
       }
     }
+    if (elem.hasAndGroup()) {
+      elem.isAndGroupMatched(matchToken);
     if (lastReading) {
       thisMatched &= elem.checkAndGroup(thisMatched);
+    }    
     }
     return thisMatched;
   }

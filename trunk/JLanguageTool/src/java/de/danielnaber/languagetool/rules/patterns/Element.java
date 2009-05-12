@@ -245,18 +245,6 @@ public class Element {
   }
 
   /**
-   * This method checks AND-group and the token. Introduced to for clarity.
-   * 
-   * @param token
-   *          Token to match
-   * @return True if matched.
-   */
-  public final boolean isMatchedCompletely(final AnalyzedToken token) {
-    // note: do not use "||" here, we need full evaluation, no short-circuiting
-    return isMatched(token) | isAndGroupMatched(token);
-  }
-
-  /**
    * Enables testing multiple conditions specified by multiple element
    * exceptions.
    * 
