@@ -104,7 +104,6 @@ public class PolishSentenceTokenizerTest extends TestCase {
     // testSplit(new String[]{"He won't. ", "Really."});
     testSplit(new String[] { "He won't go. ", "Really." });
     testSplit(new String[] { "He won't say no.", "Not really." });
-    testSplit(new String[] { "He won't say No.", "Not really." });
     testSplit(new String[] { "This is it: a test." });
     // one/two returns = paragraph = new sentence:
     TestTools
@@ -122,7 +121,10 @@ public class PolishSentenceTokenizerTest extends TestCase {
         "W skład obiegu otwartego wchodzi zbiornik i armatura." });
     testSplit(new String[] { "Zabudowano kolumny o długości 45 m. ",
         "Woda z ujęcia jest dostarczana do zakładu." });
-
+    
+    // two-letter initials:
+    testSplit(new String[] { "Najlepszym polskim reżyserem był St. Różewicz. ", "Chodzi o brata wielkiego poety." });
+    
     // From the abbreviation list:
     testSplit(new String[] { "Ks. Jankowski jest prof. teologii." });
     testSplit(new String[] { "To wydarzyło się w 1939 r.",
