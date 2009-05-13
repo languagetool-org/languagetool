@@ -76,8 +76,7 @@ TODO:
  -check if some rules from xml-copy-editor.sourceforge.net are useful for us
   (see its source in the xmlcopyeditor-1.0.9.5/src/rulesets directory)
  -make the dist-src work (= compile out of the box)
- -add a layer to use the simple XML so the LanguageTool GUIs can use An Gramadoir?
- -load (language-specific) abbreviations from an external file
+ -add a layer to use the simple XML so the LanguageTool GUIs can use An Gramadoir? 
  -stand-alone GUI: mark errors in upper part of window
  -Auto-reload rules if file timestamp has changed?
  -enable style registers and/or rule classes
