@@ -350,6 +350,66 @@ title="Easy editing stylesheet" ?>
 				<!-- <example type="correct">Are în structura <marker>sa țesut</marker> adipos.</example>  -->
 			</rule>
 		</rulegroup>
+		<rule id="DINTRODATA" name="dintrodată - dintr-odată/ dintr-o dată">
+			<pattern>
+				<token>dintrodată</token>
+			</pattern>
+			<message>Ați dorit să scrieți <suggestion>dintr-odată</suggestion> (loc. adv.) sau <suggestion>dintr-o dată</suggestion> (prop.)?</message>
+			<short>Greșeală de scriere</short>
+			<example type="incorrect" correction="dintr-odată|dintr-o dată">A plecat <marker>dintrodată</marker>.</example>
+			<example type="correct">A plecat <marker>dintr-odată</marker>.</example>
+		</rule>
+		<rule id="VASAZICA" name="va să zică - vasăzică">
+			<pattern>
+				<token>va</token>
+				<token>să</token>
+				<token>zică</token>
+			</pattern>
+			<message>Ați dorit să scrieți <suggestion>vasăzică</suggestion> (conj. adv.)?</message>
+			<short>Greșeală de scriere</short>
+			<example type="incorrect" correction="Vasăzică"><marker>Va să zică</marker> a plecat...</example>
+			<example type="correct"><marker>Vasăzică</marker> a plecat...</example>
+		</rule>
+		<rule id="AZINOAPTE" name="azinoapte - azi-noapte">
+			<pattern>
+				<token>azinoapte</token>
+			</pattern>
+			<message>Ați dorit să scrieți <suggestion>azi-noapte</suggestion>?</message>
+			<short>Greșeală de scriere</short>
+			<example type="incorrect" correction="azi-noapte">A venit <marker>azinoapte</marker>, pe la trei.</example>
+			<example type="correct">A venit <marker>azi-noapte</marker>, pe la trei.</example>
+		</rule>
+		<rule id="DINTRADINS" name="dintradins - dintr-adins">
+			<pattern>
+				<token>dintradins</token>
+			</pattern>
+			<message>Ați dorit să scrieți <suggestion>dintr-adins</suggestion>?</message>
+			<short>Greșeală de scriere</short>
+			<example type="incorrect" correction="dintr-adins">Sunt sigur că a făcut <marker>dintradins</marker>.</example>
+			<example type="correct">Sunt sigur că a făcut <marker>dintr-adins</marker>.</example>
+		</rule>
+		<rule id="ASUPRA_CE" name="asupra ce - asupra a ce">
+			<pattern>
+				<token>asupra</token>
+				<token>ce</token>
+			</pattern>
+			<message>Ați dorit să scrieți <suggestion>\1 a \3</suggestion>?</message>
+			<short>Greșeală de scriere</short>
+			<example type="incorrect" correction="asupra a ce">Nu sunt dubii <marker>asupra ce</marker> va face.</example>
+			<example type="incorrect" correction="asupra a ce">Nu știu <marker>asupra ce</marker> elemente vrei să te oprești.</example>
+			<example type="correct">Nu sunt dubii <marker>asupra a ce</marker> va face.</example>
+		</rule>
+		<rule id="BUNA_STARE" name="bună-stare - bunăstare">
+			<pattern>
+				<token>bună</token>
+				<token>-</token>
+				<token>stare</token>
+			</pattern>
+			<message>Ați dorit să scrieți <suggestion>bunăstare</suggestion>?</message>
+			<short>Greșeală de scriere</short>
+			<example type="incorrect" correction="bunăstare">A arătat <marker>bună-stare</marker>.</example>
+			<example type="correct">A arătat <marker>bunăstare</marker>.</example>
+		</rule>
 	</category>
 	<category name="Ghilimele">
 		<rule id="GHILIMELE_DUBLE_INCEPUT" name="Ghilimele duble la început de propoziție: [&quot;] în loc de [„]">
@@ -857,6 +917,61 @@ title="Easy editing stylesheet" ?>
 			<example type="correct"><marker>Dat fiind curajul</marker> sale, a fost admis.</example>
 			<example type="correct"><marker>Dați fiind anii</marker> săi, a fost admis.</example>
 		</rule>
+		<rule id="NISTE_COPIII" name="niște + (subst art) Ex: niște copiii">
+			<pattern>
+				<token regexp="yes">niște|câțiva</token>
+				<token postag="Smp3aac000"><exception postag="S.p3anc000" postag_regexp="yes"></exception></token>
+			</pattern>
+			<message>Ați vrut să folosiți forma nearticulată<suggestion><match no="1"/> <match
+				no="2" postag="Smp3anc000"/></suggestion>?</message>
+			<short>Dezacord</short>
+			<!-- aici "copili" este declinarea pentru copil cu sensul de lăstar --> 
+			<example type="incorrect" correction="niște copii|niște copili">Au venit <marker>niște copiii</marker>.</example>
+			<example type="incorrect" correction="niște geamgii">Au venit <marker>niște geamgiii</marker>.</example>
+			<example type="incorrect" correction="niște abagii">Au venit <marker>niște abagiii</marker>.</example>
+			<example type="incorrect" correction="câțiva copii|câțiva copili">Au venit <marker>câțiva copiii</marker>.</example>
+			<example type="correct">Au venit <marker>niște copii</marker>.</example>
+			<example type="correct">Au cumpărat <marker>niște copili</marker>.</example>
+			<example type="correct">Au venit <marker>niște abagii</marker>.</example>
+			<example type="correct">A primit moștenire <marker>niște moșii</marker>.</example>
+			<example type="correct">Doctorul a făcut <marker>niște operații</marker>.</example>
+			<example type="correct">Au văzut schimbările ca pe <marker>niște erezii</marker>.</example>
+			<example type="correct">Are <marker>niște principii</marker> foarte solide.</example>
+			
+		</rule>
+		<rule id="TOTI_COPII" name="toți + (subst neart) Ex: toți copii">
+			<pattern>
+				<token>toți</token>
+				<token postag="Smp3anc000"><exception postag="Smp3aac000"></exception></token>
+			</pattern>
+			<message>Ați vrut să folosiți forma articulată<suggestion><match no="1"/> <match
+				no="2" postag="Smp3aac000"/></suggestion>?</message>
+			<short>Dezacord</short>
+			<!-- aici "copili" este declinarea pentru copil cu sensul de lăstar --> 
+			<example type="incorrect" correction="toți copiii|toți copilii">Au venit <marker>toți copii</marker>.</example>
+			<example type="incorrect" correction="toți abagiii">Au venit <marker>toți abagii</marker>.</example>
+			<example type="correct">Sunt <marker>toți frumoși</marker>.</example>
+			<example type="correct">Sunt <marker>toți duși</marker> de acasă.</example>
+			<example type="correct">Au venit <marker>toți copiii</marker>.</example>
+			<example type="correct">Au cumpărat <marker>toți copilii</marker>.</example>
+			<example type="correct">Au venit <marker>toți abagiii</marker>.</example>
+		</rule>
+		<rule id="HARNICII_MEMBRII" name="toți + (subst neart) Ex: toți copii">
+			<pattern case_sensitive="yes">
+				<token postag="Amp3aa0000"></token>
+				<token postag="Smp3aac000"><exception postag="Smp3anc000|Sf.*" postag_regexp="yes"
+					></exception><exception regexp="yes">[A-Z].*</exception></token>
+			</pattern>
+			<message>Ați vrut să folosiți forma nearticulată<suggestion><match no="1"/> <match
+				no="2" postag="Smp3anc000"/></suggestion>?</message>
+			<short>Dezacord</short>
+			<example type="incorrect" correction="harnicii membri">Au venit și <marker>harnicii membrii</marker> ai colectivului.</example>
+			<example type="correct">Înființarea <marker>noii Episcopii</marker> a Giurgiului...</example>
+			<example type="correct">Dețineau suveranitatea asupra <marker>întregii Germanii</marker>.</example>
+			<example type="correct">Au venit și <marker>harnicii membri</marker> ai colectivului.</example>
+			<example type="correct">în cuprinsul <marker>vechii Dacii</marker>.</example>
+			<example type="correct">Își protejează <marker>propriile soții</marker> și copiii</example>
+		</rule>
 	</category>
 	<category name="Greșeli gramaticale - acord adjectiv" >
 			<rule id="O_ADJ_ART_TERMINAT_IN_A" name="o + (adj fem art) - o + (adj fem neart)">
@@ -893,7 +1008,23 @@ title="Easy editing stylesheet" ?>
 				<example type="correct">Este un <marker>brav</marker> soldat.</example>
 				<example type="correct">Un <marker>video</marker> cu lungimea de 7 minute.</example>				
 				<example type="correct" reason="Caliciu suplimentar care înveleste anumite flori">este alcătuit dintr-un <marker>calicul</marker>.</example>
-			</rule>	
+			</rule>
+			<rule id="EXCESIVI_DE_SCUMPI" name="(adj pl) de (adj pl) - (adj sg) de (adj pl). Ex: excesivi de scumpi">
+				<pattern mark_from="1">
+					<token><exception>mai</exception></token>
+					<token inflected="yes" regexp="yes" postag="A.p3an0000" postag_regexp="yes">excesiv|nespus|abuziv|extraordinar|exagerat|exorbitant|bolnăvicios|grozav<exception postag_regexp="yes" postag="A.s3an0000|V.*p.."></exception></token>
+					<token>de</token>
+					<token postag="A.p3an0000" postag_regexp="yes"></token>
+				</pattern>
+				<message>Dezacord gramatical: ați vrut să scrieți <suggestion><match
+					no="2" postag="A(.)p3an0000" postag_regexp="yes" postag_replace="Ams3an0000" /> <match no="3"/> <match no="4"/></suggestion>?</message>
+				<short>Dezacord</short>
+				<example type="incorrect" correction="excesiv de scumpi">Acești pepeni sunt <marker>excesivi de scumpi</marker>.</example>
+				<example type="incorrect" correction="excesiv de scumpe">Aceste cărți sunt <marker>excesive de scumpe</marker>.</example>
+				<example type="incorrect" correction="grozav de scumpe">Aceste cărți sunt <marker>grozave de scumpe</marker>.</example>
+				<example type="incorrect" correction="grozav de frumoase">Aceste cărți sunt <marker>grozave de frumoase</marker>.</example>
+				<example type="correct">Acești pepeni sunt <marker>excesiv de scumpi</marker>.</example>
+			</rule>
 	</category>
 	<category name="Greșeli gramaticale - acord predicat">
 		<rulegroup id="SE_POT_VB" name="se pot + (verb)">
@@ -3832,6 +3963,29 @@ title="Easy editing stylesheet" ?>
 			<example type="incorrect" correction="survolează casele">Avionul <marker>survolează peste casele</marker> orașului.</example>
 			<example type="correct">Avionul <marker>survolează munții</marker>.</example>
 		</rule>
+		<rule id="SERVOLEAZA_PRIN_AER" name="survolează prin aer">
+			<pattern>
+				<token inflected="yes">survola</token>
+				<token>prin</token>
+				<token>aer</token>
+			</pattern>
+			<message>Ați dorit să scrieți <suggestion>\1</suggestion>?</message>
+			<short>Pleonasm</short>
+			<example type="incorrect" correction="survolează">Avionul <marker>survolează prin aer</marker>.</example>
+			<example type="incorrect" correction="survola">Avionul <marker>survola prin aer</marker>.</example>
+			<example type="correct">Avionul <marker>survolează</marker>.</example>
+		</rule>
+		<rule id="APOI_A_URMAT" name="apoi a urmat">
+			<pattern>
+				<token>apoi</token>
+				<token>a</token>
+				<token>urmat</token>
+			</pattern>
+			<message>Pleonasm. Ați dorit să scrieți <suggestion>\2 \3</suggestion>?</message>
+			<short>Pleonasm</short>
+			<example type="incorrect" correction="A urmat"><marker>Apoi a urmat</marker> o mică petrecere.</example>
+			<example type="correct"><marker>A urmat</marker> o mică petrecere.</example>
+		</rule>
 		<rule id="INCORSETARE_RIGIDA" name="încorsetare rigidă">
 			<pattern>
 				<token inflected="yes" regexp="yes">încorseta|încorsetare</token>
@@ -4148,6 +4302,28 @@ title="Easy editing stylesheet" ?>
 			<example type="incorrect" correction="cobai">Acest hamster este doar un <marker>cobai de experiență</marker>.</example>
 			<example type="incorrect" correction="cobaii">A folosit <marker>cobaii de experiență</marker>.</example>
 			<example type="correct">Acest hamster este doar un <marker>cobai</marker>.</example>
+		</rule>
+		<rule id="EXPERIENTA_TRECUTA" name="experiență trecută/anterioară">
+			<pattern>
+				<token inflected="yes">experiență</token>
+				<token regexp="yes" inflected="yes">trecut|anterior</token>
+			</pattern>
+			<message>Ați dorit să scrieți <suggestion>experință</suggestion>?</message>
+			<short>Pleonasm</short>
+			<example type="incorrect" correction="experință">Știu toate acestea din <marker>experiențele trecute</marker>.</example>
+			<example type="correct"><marker>Experința trecută</marker> pe cartea de muncă.</example>
+			<example type="correct">Știu toate acestea din <marker>experință</marker>.</example>
+		</rule>
+		<rule id="CA_DREPT_RASPLATA" name="ca drept răsplată">
+			<pattern>
+				<token>ca</token>
+				<token>drept</token>
+				<token>răsplată</token>
+			</pattern>
+			<message>Ați dorit să scrieți <suggestion>\1 \3</suggestion> sau <suggestion>\2 \3</suggestion>?</message>
+			<short>Pleonasm</short>
+			<example type="incorrect" correction="ca răsplată|drept răsplată">I-a oferit <marker>ca drept răsplată</marker> o carte.</example>
+			<example type="correct">I-a oferit <marker>drept răsplată</marker> o carte.</example>
 		</rule>
 		<rule id="INTOARCE_TE_INAPOI" name="întoarce-te înapoi">
 			<pattern>
@@ -4466,11 +4642,12 @@ title="Easy editing stylesheet" ?>
 					<token postag_regexp="yes" postag="Sms3..c000"><exception postag_regexp="yes" postag="Sfs3..c000"></exception></token>
 					<token regexp="yes">al|a|ai|ale<exception>al</exception></token>
 					<token>cărui</token>
-					<token postag="Sms3anc000"><exception postag="Sfs3anc000"></exception></token>
+					<token postag="S(m|n)s3anc000" postag_regexp="yes"><exception postag="Sfs3anc000"></exception></token>
 				</pattern>
 				<message>Dezacord. Ați vrut să scrieți <suggestion>al cărui</suggestion>?</message>
 				<short>Dezacord</short>
 				<example type="incorrect" correction="al cărui">Prietenul <marker>a cărui</marker> câine nu mușcă e aici.</example>
+				<example type="incorrect" correction="al cărui">Prietenul <marker>a cărui</marker> băț este nou e aici.</example>
 				<example type="correct">Prietenul <marker>al cărui</marker> câine nu mușcă e aici.</example>
 			</rule>
 			<rule>
@@ -4479,11 +4656,12 @@ title="Easy editing stylesheet" ?>
 					<token postag_regexp="yes" postag="Sms3..c000"><exception postag_regexp="yes" postag="Sfs3..c000"></exception></token>
 					<token>al</token>
 					<token regexp="yes">cărui|căror|cărei<exception>cărui</exception></token>
-					<token postag="Sms3anc000"><exception postag="Sfs3anc000"></exception></token>
+					<token postag="S(m|n)s3anc000" postag_regexp="yes"><exception postag="Sfs3anc000"></exception></token>
 				</pattern>
 				<message>Dezacord. Ați vrut să scrieți <suggestion>al cărui</suggestion>?</message>
 				<short>Dezacord</short>
 				<example type="incorrect" correction="al cărui">Prietenul <marker>al cărei</marker> câine nu mușcă e aici.</example>
+				<example type="incorrect" correction="al cărui">Prietenul <marker>al cărei</marker> băț e roșu e aici.</example>
 				<example type="correct">Prietenul <marker>al cărui</marker> câine nu mușcă e aici.</example>
 			</rule>
 			<rule>
@@ -4492,11 +4670,12 @@ title="Easy editing stylesheet" ?>
 					<token postag="Sms3..c000" postag_regexp="yes" ><exception postag="Sfs3..c000" postag_regexp="yes" ></exception></token>
 					<token regexp="yes">al|a|ai|ale<exception>al</exception></token>
 					<token regexp="yes">cărui|căror|cărei<exception>cărui</exception></token>
-					<token postag="Sms3anc000"><exception postag="Sfs3anc000"></exception></token>
+					<token postag="S(m|n)s3anc000" postag_regexp="yes"><exception postag="Sfs3anc000"></exception></token>
 				</pattern>
 				<message>Dezacord. Ați vrut să scrieți <suggestion>al cărui</suggestion>?</message>
 				<short>Dezacord</short>
 				<example type="incorrect" correction="al cărui">Prietenul <marker>ai cărei</marker> câine nu mușcă e aici.</example>
+				<example type="incorrect" correction="al cărui">Prietenul <marker>ai cărei</marker> băț e roșu e aici.</example>
 				<example type="correct">Prietenul <marker>al cărui</marker> câine nu mușcă e aici.</example>
 			</rule>
 		</rulegroup>
@@ -4517,7 +4696,7 @@ title="Easy editing stylesheet" ?>
 			<rule>
 				<pattern mark_from="2" mark_to="-1">
 					<token><exception regexp="yes">din|de</exception></token>
-					<token postag="Sms3..c000"  postag_regexp="yes"><exception postag="Sfs3..c000"  postag_regexp="yes"></exception></token>
+					<token postag="Sms3..c000"  postag_regexp="yes"><exception postag="Sfs3..c000|P.*"  postag_regexp="yes"></exception></token>
 					<token>a</token>
 					<token regexp="yes">cărui|căror|cărei<exception>cărui</exception></token>
 					<token postag="Sfs3anc000"><exception postag="Sms3anc000"></exception></token>
@@ -4530,7 +4709,7 @@ title="Easy editing stylesheet" ?>
 			<rule>
 				<pattern mark_from="2" mark_to="-1">
 					<token><exception regexp="yes">din|de</exception></token>
-					<token postag="Sms3..c000"  postag_regexp="yes"><exception postag="Sfs3..c000"  postag_regexp="yes"></exception></token>
+					<token postag="Sms3..c000"  postag_regexp="yes"><exception postag="Sfs3..c000|P.*"  postag_regexp="yes"></exception></token>
 					<token regexp="yes">al|a|ai|ale<exception>a</exception></token>
 					<token regexp="yes">cărui|căror|cărei<exception>cărui</exception></token>
 					<token postag="Sfs3anc000"><exception postag="Sms3anc000"></exception></token>
@@ -4545,7 +4724,7 @@ title="Easy editing stylesheet" ?>
 			<rule>
 				<pattern mark_from="2" mark_to="-1">
 					<token><exception regexp="yes">din|de</exception></token>
-					<token postag="Sms3..c000"  postag_regexp="yes"><exception postag="Sfs3..c000"  postag_regexp="yes"></exception></token>
+					<token postag="Sms3..c000"  postag_regexp="yes"><exception postag="Sfs3..c000|P.*"  postag_regexp="yes"></exception></token>
 					<token regexp="yes">al|a|ai|ale<exception>ai</exception></token>
 					<token>cărui</token>
 					<token postag="Smp3anc000"><exception postag="Sfp3anc000"></exception></token>
@@ -4558,7 +4737,7 @@ title="Easy editing stylesheet" ?>
 			<rule>
 				<pattern mark_from="2" mark_to="-1">
 					<token><exception regexp="yes">din|de</exception></token>
-					<token postag="Sms3..c000"  postag_regexp="yes"><exception postag="Sfs3..c000"  postag_regexp="yes"></exception></token>
+					<token postag="Sms3..c000"  postag_regexp="yes"><exception postag="Sfs3..c000|P.*"  postag_regexp="yes"></exception></token>
 					<token>ai</token>
 					<token regexp="yes">cărui|căror|cărei<exception>cărui</exception></token>
 					<token postag="Smp3anc000"><exception postag="Sfp3anc000"></exception></token>
@@ -4571,7 +4750,7 @@ title="Easy editing stylesheet" ?>
 			<rule>
 				<pattern mark_from="2" mark_to="-1">
 					<token><exception regexp="yes">din|de</exception></token>
-					<token postag="Sms3..c000"  postag_regexp="yes"><exception postag="Sfs3..c000"  postag_regexp="yes"></exception></token>
+					<token postag="Sms3..c000"  postag_regexp="yes"><exception postag="Sfs3..c000|P.*"  postag_regexp="yes"></exception></token>
 					<token regexp="yes">al|a|ai|ale<exception>ai</exception></token>
 					<token regexp="yes">cărui|căror|cărei<exception>cărui</exception></token>
 					<token postag="Smp3anc000"><exception postag="Sfp3anc000"></exception></token>
@@ -4587,7 +4766,7 @@ title="Easy editing stylesheet" ?>
 			<rule>
 				<pattern mark_from="2" mark_to="-1">
 					<token><exception regexp="yes">din|de</exception></token>
-					<token postag="Sms3..c000"  postag_regexp="yes"><exception postag="Sfs3..c000"  postag_regexp="yes"></exception></token>
+					<token postag="Sms3..c000"  postag_regexp="yes"><exception postag="Sfs3..c000|P.*"  postag_regexp="yes"></exception></token>
 					<token regexp="yes">al|a|ai|ale<exception>ale</exception></token>
 					<token>cărui</token>
 					<token postag="Sfp3anc000"><exception postag="Smp3anc000"></exception></token>
@@ -4600,7 +4779,7 @@ title="Easy editing stylesheet" ?>
 			<rule>
 				<pattern mark_from="2" mark_to="-1">
 					<token><exception regexp="yes">din|de</exception></token>
-					<token postag="Sms3..c000"  postag_regexp="yes"><exception postag="Sfs3..c000"  postag_regexp="yes"></exception></token>
+					<token postag="Sms3..c000"  postag_regexp="yes"><exception postag="Sfs3..c000|P.*"  postag_regexp="yes"></exception></token>
 					<token>ale</token>
 					<token regexp="yes">cărui|căror|cărei<exception>cărui</exception></token>
 					<token postag="Sfp3anc000"><exception postag="Smp3anc000"></exception></token>
@@ -4613,7 +4792,7 @@ title="Easy editing stylesheet" ?>
 			<rule>
 				<pattern mark_from="2" mark_to="-1">
 					<token><exception regexp="yes">din|de</exception></token>
-					<token postag="Sms3..c000"  postag_regexp="yes"><exception postag="Sfs3..c000"  postag_regexp="yes"></exception></token>
+					<token postag="Sms3..c000"  postag_regexp="yes"><exception postag="Sfs3..c000|P.*"  postag_regexp="yes"></exception></token>
 					<token regexp="yes">al|a|ai|ale<exception>a</exception></token>
 					<token regexp="yes">cărui|căror|cărei<exception>cărui</exception></token>
 					<token postag="Sfp3anc000"><exception postag="Smp3anc000"></exception></token>
@@ -4631,11 +4810,12 @@ title="Easy editing stylesheet" ?>
 					<token postag="Sfs3..c000"  postag_regexp="yes"><exception postag="Sms3..c000"  postag_regexp="yes"></exception></token>
 					<token regexp="yes">al|a|ai|ale<exception>al</exception></token>
 					<token>cărei</token>
-					<token postag="Sms3anc000"><exception postag="Sfs3anc000"></exception></token>
+					<token postag="S[m|n]s3anc000" postag_regexp="yes"><exception postag="Sfs3anc000"></exception></token>
 				</pattern>
 				<message>Dezacord. Ați vrut să scrieți <suggestion>al cărei</suggestion>?</message>
 				<short>Dezacord</short>
 				<example type="incorrect" correction="al cărei">Prietena <marker>a cărei</marker> câine nu mușcă e aici.</example>
+				<example type="incorrect" correction="al cărei">Prietena <marker>a cărei</marker> popor...</example>
 				<example type="correct">Prietena <marker>al cărei</marker> câine nu mușcă e aici.</example>
 			</rule>
 			<rule>
@@ -4644,11 +4824,12 @@ title="Easy editing stylesheet" ?>
 					<token postag="Sfs3..c000"  postag_regexp="yes"><exception postag="Sms3..c000"  postag_regexp="yes"></exception></token>
 					<token>al</token>
 					<token regexp="yes">cărui|căror|cărei<exception>cărei</exception></token>
-					<token postag="Sms3anc000"><exception postag="Sfs3anc000"></exception></token>
+					<token postag="S[m|n]s3anc000" postag_regexp="yes"><exception postag="Sfs3anc000"></exception></token>
 				</pattern>
 				<message>Dezacord. Ați vrut să scrieți <suggestion>al cărei</suggestion>?</message>
 				<short>Dezacord</short>
 				<example type="incorrect" correction="al cărei">Prietena <marker>al cărui</marker> câine nu mușcă e aici.</example>
+				<example type="incorrect" correction="al cărei">Prietena <marker>al cărui</marker> popor...</example>
 				<example type="correct">Prietena <marker>al cărei</marker> câine nu mușcă e aici.</example>
 			</rule>
 			<rule>
@@ -4657,11 +4838,13 @@ title="Easy editing stylesheet" ?>
 					<token postag="Sfs3..c000"  postag_regexp="yes"><exception postag="Sms3..c000"  postag_regexp="yes"></exception></token>
 					<token regexp="yes">al|a|ai|ale<exception>al</exception></token>
 					<token regexp="yes">cărui|căror|cărei<exception>cărei</exception></token>
-					<token postag="Sms3anc000"><exception postag="Sfs3anc000"></exception></token>
+					<token postag="S[m|n]s3anc000" postag_regexp="yes"><exception postag="Sfs3anc000"></exception></token>
 				</pattern>
 				<message>Dezacord. Ați vrut să scrieți <suggestion>al cărei</suggestion>?</message>
 				<short>Dezacord</short>
 				<example type="incorrect" correction="al cărei">Prietena <marker>a cărui</marker> câine nu mușcă e aici.</example>
+				<example type="incorrect" correction="al cărei">Prietena <marker>a cărui</marker> popor...</example>
+				<example type="incorrect" correction="al cărei">Țara <marker>a cărui</marker> popor..</example>
 				<example type="correct">Prietena <marker>al cărei</marker> câine nu mușcă e aici.</example>
 			</rule>
 		</rulegroup>
@@ -4795,11 +4978,12 @@ title="Easy editing stylesheet" ?>
 					<token postag="Smp3..c000"  postag_regexp="yes"></token>
 					<token regexp="yes">al|a|ai|ale<exception>al</exception></token>
 					<token>căror</token>
-					<token postag="Sms3anc000"><exception postag="Sfs3anc000"></exception></token>
+					<token postag="S[m|n]s3anc000" postag_regexp="yes"><exception postag="Sfs3anc000"></exception></token>
 				</pattern>
 				<message>Dezacord. Ați vrut să scrieți <suggestion>al căror</suggestion>?</message>
 				<short>Dezacord</short>
 				<example type="incorrect" correction="al căror">Prietenii <marker>a căror</marker> câine nu mușcă e aici.</example>
+				<example type="incorrect" correction="al căror">Prietenii <marker>a căror</marker> popor...</example>
 				<example type="correct">Prietenii <marker>al căror</marker> câine nu mușcă e aici.</example>
 			</rule>
 			<rule>
@@ -4808,11 +4992,12 @@ title="Easy editing stylesheet" ?>
 					<token postag="Smp3..c000"  postag_regexp="yes"></token>
 					<token>al</token>
 					<token regexp="yes">cărui|căror|cărei<exception>căror</exception></token>
-					<token postag="Sms3anc000"><exception postag="Sfs3anc000"></exception></token>
+					<token postag="S[m|n]s3anc000" postag_regexp="yes"><exception postag="Sfs3anc000"></exception></token>
 				</pattern>
 				<message>Dezacord. Ați vrut să scrieți <suggestion>al căror</suggestion>?</message>
 				<short>Dezacord</short>
 				<example type="incorrect" correction="al căror">Prietenii <marker>al cărei</marker> câine nu mușcă e aici.</example>
+				<example type="incorrect" correction="al căror">Prietenii <marker>al cărei</marker> popor...</example>
 				<example type="correct">Prietenii <marker>al căror</marker> câine nu mușcă e aici.</example>
 			</rule>
 			<rule>
@@ -4821,11 +5006,12 @@ title="Easy editing stylesheet" ?>
 					<token postag="Smp3..c000"  postag_regexp="yes"></token>
 					<token regexp="yes">al|a|ai|ale<exception>al</exception></token>
 					<token regexp="yes">cărui|căror|cărei<exception>căror</exception></token>
-					<token postag="Sms3anc000"><exception postag="Sfs3anc000"></exception></token>
+					<token postag="S[m|n]s3anc000" postag_regexp="yes"><exception postag="Sfs3anc000"></exception></token>
 				</pattern>
 				<message>Dezacord. Ați vrut să scrieți <suggestion>al căror</suggestion>?</message>
 				<short>Dezacord</short>
 				<example type="incorrect" correction="al căror">Prietenii <marker>ai cărei</marker> câine nu mușcă e aici.</example>
+				<example type="incorrect" correction="al căror">Prietenii <marker>ai cărei</marker> popor.. nu mușcă e aici.</example>
 				<example type="correct">Prietenii <marker>al căror</marker> câine nu mușcă e aici.</example>
 			</rule>
 		</rulegroup>
@@ -5001,11 +5187,12 @@ title="Easy editing stylesheet" ?>
 					<token postag="Sfp3..c000"  postag_regexp="yes"><exception postag="Smp3..c000"  postag_regexp="yes"></exception></token>
 					<token regexp="yes">al|a|ai|ale<exception>al</exception></token>
 					<token>căror</token>
-					<token postag="Sms3anc000"><exception postag="Sfs3anc000"></exception></token>
+					<token postag="S[m|n]s3anc000" postag_regexp="yes"><exception postag="Sfs3anc000"></exception></token>
 				</pattern>
 				<message>Dezacord. Ați vrut să scrieți <suggestion>al căror</suggestion>?</message>
 				<short>Dezacord</short>
 				<example type="incorrect" correction="al căror">Prietenele <marker>a căror</marker> câine nu mușcă e aici.</example>
+				<example type="incorrect" correction="al căror">Prietenele <marker>a căror</marker> popor...</example>
 				<example type="correct">Prietenele <marker>al căror</marker> câine nu mușcă e aici.</example>
 			</rule>
 			<rule>
@@ -5014,11 +5201,12 @@ title="Easy editing stylesheet" ?>
 					<token postag="Sfp3..c000"  postag_regexp="yes"><exception postag="Smp3..c000"  postag_regexp="yes"></exception></token>
 					<token>al</token>
 					<token regexp="yes">cărui|căror|cărei<exception>căror</exception></token>
-					<token postag="Sms3anc000"><exception postag="Sfs3anc000"></exception></token>
+					<token postag="S[m|n]s3anc000" postag_regexp="yes"><exception postag="Sfs3anc000"></exception></token>
 				</pattern>
 				<message>Dezacord. Ați vrut să scrieți <suggestion>al căror</suggestion>?</message>
 				<short>Dezacord</short>
 				<example type="incorrect" correction="al căror">Prietenele <marker>al cărui</marker> câine nu mușcă e aici.</example>
+				<example type="incorrect" correction="al căror">Prietenele <marker>al cărui</marker> popor...</example>
 				<example type="correct">Prietenele <marker>al căror</marker> câine nu mușcă e aici.</example>
 			</rule>
 			<rule>
@@ -5027,11 +5215,12 @@ title="Easy editing stylesheet" ?>
 					<token postag="Sfp3..c000"  postag_regexp="yes"><exception postag="Smp3..c000"  postag_regexp="yes"></exception></token>
 					<token regexp="yes">al|a|ai|ale<exception>al</exception></token>
 					<token regexp="yes">cărui|căror|cărei<exception>căror</exception></token>
-					<token postag="Sms3anc000"><exception postag="Sfs3anc000"></exception></token>
+					<token postag="S[m|n]s3anc000" postag_regexp="yes"><exception postag="Sfs3anc000"></exception></token>
 				</pattern>
 				<message>Dezacord. Ați vrut să scrieți <suggestion>al căror</suggestion>?</message>
 				<short>Dezacord</short>
 				<example type="incorrect" correction="al căror">Prietenele <marker>a cărui</marker> câine nu mușcă e aici.</example>
+				<example type="incorrect" correction="al căror">Prietenele <marker>a cărui</marker> popor...</example>
 				<example type="correct">Prietenele <marker>al căror</marker> câine nu mușcă e aici.</example>
 			</rule>
 		</rulegroup>
