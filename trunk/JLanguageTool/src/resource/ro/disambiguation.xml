@@ -36,5 +36,14 @@
 		</pattern>
 		<disambig><match no="2"  postag="N000a0l000" postag_regexp="yes"/></disambig>
 	</rule>
-
+	<rule name="vom participa la - verb indicativ imperfect" id="VOM_PARTICIPA_LA">
+		<pattern mark="1"> 
+			<token postag="V.*ivv" postag_regexp="yes"><exception>voi</exception></token>
+			<!-- mai puțin "voi", este prea general, vezi "pentru voi culege el aceste flori" -->
+			<and>
+				<token postag="V000000f00"></token>
+			</and>			
+		</pattern>
+		<disambig><match no="2" postag="V000000f00" postag_regexp="yes"/></disambig>
+	</rule>
 </rules>
