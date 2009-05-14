@@ -136,6 +136,10 @@ public class RomanianSentenceTokenizerTest extends TestCase {
 	    testSplit(new String[] { "Are mere, pere, etc. ", "Nu are alune." });
 	    // ş.a. - şi altele
 	    testSplit(new String[] { "Are mere, pere, ș.a. dar nu are alune." });
+	    // M.Ap.N. - Ministerul Apărării Nationale
+	    // there are 2 rules for this in segment.srx. Can this be done with only one rule?
+	    testSplit(new String[] { "A fost și la M.Ap.N. dar nu l-au primit. " });
+	    testSplit(new String[] { "A fost și la M.Ap.N. ", "Nu l-au primit. " });
 
 	    // sic!
 	    testSplit(new String[] { "Apo' da' tulai (sic!) că mult mai e de mers." });
