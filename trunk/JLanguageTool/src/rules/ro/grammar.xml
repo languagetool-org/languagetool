@@ -618,20 +618,67 @@ title="Easy editing stylesheet" ?>
 
 				<example type="correct">Mi-ar <marker>plăcea</marker> să vii.</example>
 			</rule>
-			<rule id="SE_MERITA" name="se merită">
-				<pattern>
-					<token>se</token>
-					<token inflected="yes">merita</token>
-
-				</pattern>
-				<message>"Se merită" este greșit, formularea corectă este <suggestion>\2</suggestion></message>
-				<short>"Se merită" este greșit.</short>
-				<example type="incorrect" correction="merită">Cred că <marker>se merită</marker> să... </example>
-				<example type="incorrect" correction="meritau">Cred că <marker>se meritau</marker> făcuți... </example>
-
-				<example type="correct">Cred că <marker>merită</marker> să...</example>
-			</rule>
-
+			<rulegroup  id="SE_MERITA" name="se merită, se riscă">
+				<rule>
+					<pattern>
+						<token>se</token>
+						<token inflected="yes" regexp="yes">merita|risca</token>
+					</pattern>
+					<message>"Se \2" este greșit, formularea corectă este <suggestion>\2</suggestion></message>
+					<short>Greșeală de exprimare.</short>
+					<example type="incorrect" correction="merită">Cred că <marker>se merită</marker> să... </example>
+					<example type="incorrect" correction="meritau">Cred că <marker>se meritau</marker> făcuți... </example>
+					<example type="incorrect" correction="riscă">Nu <marker>se riscă</marker> stând târziu.</example>
+					<example type="correct">Nu <marker>riscă</marker> stând târziu.</example>
+					<example type="correct">Cred că <marker>merită</marker> să...</example>
+				</rule>
+				<rule>
+					<pattern>
+						<token>m</token>
+						<token>-</token>
+						<token>aș</token>
+						<token>risca</token>
+					</pattern>
+					<message>Ați vrut să scrieți <suggestion>\3 \4</suggestion></message>
+					<short>Greșeală de exprimare.</short>
+					<example type="incorrect" correction="aș risca">Nu <marker>m-aș risca</marker>.</example>
+					<example type="correct">Nu <marker>aș risca</marker>.</example>
+				</rule>
+				<rule>
+					<pattern>
+						<token>s</token>
+						<token>-</token>
+						<token>ar</token>
+						<token regexp="yes">risca|merita</token>
+					</pattern>
+					<message>Ați vrut să scrieți <suggestion>\3 \4</suggestion></message>
+					<short>Greșeală de exprimare.</short>
+					<example type="incorrect" correction="ar risca">Zice că nu <marker>s-ar risca</marker>.</example>
+					<example type="incorrect" correction="ar merita">Zice că nu <marker>s-ar merita</marker> să mai stăm.</example>
+					<example type="correct">Zice că nu <marker>ar risca</marker>.</example>
+				</rule>
+				<rule>
+					<pattern>
+						<token>mă</token>
+						<token>risc</token>
+					</pattern>
+					<message>Ați vrut să scrieți <suggestion>\2</suggestion></message>
+					<short>Greșeală de exprimare.</short>
+					<example type="incorrect" correction="risc">Nu <marker>mă risc</marker>.</example>
+					<example type="correct">Nu <marker>risc</marker>.</example>
+				</rule>
+				<rule>
+					<pattern>
+						<token>te</token>
+						<token>riști</token>
+					</pattern>
+					<message>Ați vrut să scrieți <suggestion>\2</suggestion></message>
+					<short>Greșeală de exprimare.</short>
+					<example type="incorrect" correction="riști">Nu <marker>te riști</marker>.</example>
+					<example type="incorrect" correction="Riști"><marker>Te riști</marker>?</example>
+					<example type="correct">Nu <marker>riști</marker>.</example>
+				</rule>
+			</rulegroup>
 			<rulegroup id="DECAT_ATAT" name="decât atât">
 				<rule name="decât atât">
 					<pattern mark_from="3" mark_to="0">
@@ -719,7 +766,6 @@ title="Easy editing stylesheet" ?>
 				</pattern>
 				<message>Folosire incorectă a substantivului feminin articulat . "o" cere substantiv nearticulat: <suggestion><match
 					no="3" postag="Sfs3anc000" /></suggestion>.</message>
-
 				<short>Greșeală gramaticală</short>
 				<example type="correct">Evoluția pe care a avut-o <marker>regula</marker> aceasta.</example>
 				<example type="correct">El o <marker>ia</marker> de mână.</example>
@@ -956,7 +1002,7 @@ title="Easy editing stylesheet" ?>
 			<example type="correct">Au cumpărat <marker>toți copilii</marker>.</example>
 			<example type="correct">Au venit <marker>toți abagiii</marker>.</example>
 		</rule>
-		<rule id="HARNICII_MEMBRII" name="toți + (subst neart) Ex: toți copii">
+		<rule id="HARNICII_MEMBRII" name="(adj pl art) + (subst pl art) - (adj pl art) + (subst pl neart). Ex: harnicii membrii">
 			<pattern case_sensitive="yes">
 				<token postag="Amp3aa0000"></token>
 				<token postag="Smp3aac000"><exception postag="Smp3anc000|Sf.*" postag_regexp="yes"
@@ -4162,7 +4208,7 @@ title="Easy editing stylesheet" ?>
 				<token>la</token>
 				<token>fel</token>
 				<token>ca</token>			
-				<token><exception regexp="yes">în|-</exception></token>
+				<token><exception regexp="yes">și|în|-</exception></token>
 			</pattern>
 			<message>Ați dorit să scrieți <suggestion>\3</suggestion> sau <suggestion>\1 \2 cu</suggestion>?</message>
 			<short>Pleonasm</short>
@@ -4171,6 +4217,18 @@ title="Easy editing stylesheet" ?>
 			<example type="correct">Avea o căciulă <marker>la fel cu</marker> a mea.</example>
 			<example type="correct">Este <marker>la fel ca în</marker> Marea Britanie</example>
 			<example type="correct">Este <marker>la fel ca-n</marker> Marea Britanie</example>
+		</rule>
+		<rule id="LA_FEL_CA_SI" name="la fel ca și">
+			<pattern>
+				<token>la</token>
+				<token>fel</token>
+				<token>ca</token>			
+				<token>și</token>
+			</pattern>
+			<message>Ați dorit să scrieți <suggestion>\3 \4</suggestion> sau <suggestion>\1 \2 cu</suggestion>?</message>
+			<short>Pleonasm</short>
+			<example type="incorrect" correction="ca și|la fel cu">Marte, <marker>la fel ca și</marker> Venus, este format din...</example>
+			<example type="correct">Marte, <marker>ca și</marker> Venus, este format din...</example>
 		</rule>
 		<rule id="IDENTIC_LA_FEL" name="identic la fel">
 			<pattern>
@@ -5011,7 +5069,7 @@ title="Easy editing stylesheet" ?>
 				<message>Dezacord. Ați vrut să scrieți <suggestion>al căror</suggestion>?</message>
 				<short>Dezacord</short>
 				<example type="incorrect" correction="al căror">Prietenii <marker>ai cărei</marker> câine nu mușcă e aici.</example>
-				<example type="incorrect" correction="al căror">Prietenii <marker>ai cărei</marker> popor.. nu mușcă e aici.</example>
+				<example type="incorrect" correction="al căror">Prietenii <marker>ai cărei</marker> popor...</example>
 				<example type="correct">Prietenii <marker>al căror</marker> câine nu mușcă e aici.</example>
 			</rule>
 		</rulegroup>
