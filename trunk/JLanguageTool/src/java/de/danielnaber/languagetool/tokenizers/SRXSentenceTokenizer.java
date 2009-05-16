@@ -44,7 +44,7 @@ public class SRXSentenceTokenizer extends SentenceTokenizer {
   private final String language;
   private String parCode;
 
-  public static final String RULES = "/resource/segment.srx";
+  static final String RULES = "/resource/segment.srx";
 
   public SRXSentenceTokenizer(final String language) {
     this.language = language;

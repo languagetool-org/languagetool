@@ -38,7 +38,6 @@ import de.danielnaber.languagetool.tagging.Tagger;
  */
 public class DemoTagger implements Tagger {
 
-  @Override
   public List<AnalyzedTokenReadings> tag(List<String> sentenceTokens) {
 
     List<AnalyzedTokenReadings> tokenReadings = new ArrayList<AnalyzedTokenReadings>();
@@ -55,12 +54,10 @@ public class DemoTagger implements Tagger {
     return tokenReadings;
   }
 
-  @Override
   public AnalyzedTokenReadings createNullToken(String token, int startPos) {
 	  return new AnalyzedTokenReadings(new AnalyzedToken(token, null, startPos));
   }
 
-  @Override
   public AnalyzedToken createToken(String token, String posTag, int startPos) {
     return new AnalyzedToken(token, posTag, startPos);
   }

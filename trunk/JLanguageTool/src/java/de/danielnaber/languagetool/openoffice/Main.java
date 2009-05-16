@@ -667,7 +667,6 @@ public class Main extends WeakBase implements XJobExecutor,
     }
   }
 
-  @Override
   public void ignoreRule(final String ruleId, final Locale locale)
       throws IllegalArgumentException {
     // TODO: config should be locale-dependent
@@ -696,8 +695,7 @@ public class Main extends WeakBase implements XJobExecutor,
     }
     recheck = true;
   }
-
-  @Override
+  
   public String getServiceDisplayName(Locale locale) {
     return "LanguageTool";
   }

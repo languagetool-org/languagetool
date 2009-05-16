@@ -62,8 +62,7 @@ public class GermanTagger implements Tagger {
     System.setProperty(Lametyzator.PROPERTY_NAME_LAMETYZATOR_DICTIONARY, 
         DICT_FILENAME);    
   }
-  
-  @Override
+    
   public List<AnalyzedTokenReadings> tag(final List<String> sentenceTokens) throws IOException {
     return tag(sentenceTokens, true);
   }
@@ -148,13 +147,11 @@ public class GermanTagger implements Tagger {
       return posTagsFromUserDict;
     }
   }
-  
-  @Override
+    
   public final AnalyzedGermanTokenReadings createNullToken(final String token, final int startPos) {
     return new AnalyzedGermanTokenReadings(new AnalyzedGermanToken(token, null, startPos));
   }
 
-  @Override
   public AnalyzedToken createToken(String token, String posTag, int startPos) {
     return new AnalyzedGermanToken(token, posTag, startPos);
   }
