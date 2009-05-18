@@ -291,7 +291,7 @@ public class UnpairedQuotesBracketsRule extends Rule {
     }
     if (precSpace && !follSpace) {
       // hold 'em!
-      if ("'".equals(token) && i < tokens.length
+      if ("'".equals(token) && i + 1 < tokens.length
           && "em".equals(tokens[i + 1].getToken())) {
         return false;
       }
