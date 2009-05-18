@@ -199,23 +199,9 @@ public class UnpairedQuotesBracketsRule extends Rule {
           if (i < tokens.length - 1 && startSymbols[j].equals(endSymbols[j])) {
             followedByWhitespace = tokens[i + 1].isWhitespaceBefore()
                 || PUNCTUATION.matcher(tokens[i + 1].getToken()).matches();
-          }
-
-          if (followedByWhitespace && precededByWhitespace) {
-            if (i == tokens.length) {
-              precededByWhitespace = false;
-            } else if (startSymbols[j].equals(endSymbols[j])) {
-              if (symbolStack.empty()) {
-                followedByWhitespace = false;
-              } else {
-                precededByWhitespace = false;
-                
-              }
-            }
-          }
+          }         
 
           boolean noException = true;
-
           if (ruleLang.equals(Language.ENGLISH) && i > 1) {
             noException = isEnglishException(token, tokens, i,
                 precededByWhitespace, followedByWhitespace);
