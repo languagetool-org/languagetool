@@ -61,6 +61,10 @@ Known bugs:
  -general:
    -for some rules there may be a lot of false alarms, i.e., LanguageTool complains
     about text which is actually correct
+ -Java 1.5:
+  - you cannot display the configuration dialog box due to the bug
+  present in GridBagLayout that limits the number of items displayed;
+  the languages affected are currently French and Polish.
    
 TODO:
  -see if java.text.RuleBasedBreakIterator would be better for word 
