@@ -8,7 +8,7 @@ title="Easy editing stylesheet" ?>
 German grammar and typo rules for LanguageTool
 See resource/de/tagset.txt for the meaning of the POS tags
 Copyright (C) 2001-2007 Daniel Naber (http://www.danielnaber.de)
-$Id: grammar.xml,v 1.18 2009-05-02 12:27:44 dnaber Exp $
+$Id: grammar.xml,v 1.19 2009-05-18 21:33:45 dnaber Exp $
 -->
 <rules lang="de">
   <category name="Mögliche Tippfehler">
@@ -607,6 +607,17 @@ $Id: grammar.xml,v 1.18 2009-05-02 12:27:44 dnaber Exp $
       <example type="correct">Das ist jenseits von <marker>Gut und Böse</marker>.</example>
       <example type="incorrect">Das ist jenseits von <marker>gut und böse</marker>.</example>
     </rule>
+    <rulegroup id="GENUEGE" name="Groß-/Kleinschreibung: 'zur genüge(Genüge)'">
+      <rule>
+        <pattern case_sensitive="yes">
+          <token>zur</token>
+          <token>genüge</token>
+        </pattern>
+        <message>In <suggestion>zur Genüge</suggestion> wird 'Genüge' groß geschrieben.</message>
+        <example type="correct">Das hat sich <marker>zur Genüge</marker> gezeigt.</example>
+        <example type="incorrect">Das hat sich <marker>zur genüge</marker> gezeigt.</example>
+      </rule>
+    </rulegroup>
     <rule id="WENN_UND_ABER" name="Groß-/Kleinschreibung: 'ohne wenn(Wenn) und aber(Aber)'">
       <pattern case_sensitive="yes" mark_from="1">
         <token regexp="yes">[Oo]hne</token>
