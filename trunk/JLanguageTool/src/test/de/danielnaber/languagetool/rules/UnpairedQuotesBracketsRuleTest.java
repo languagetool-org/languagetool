@@ -99,9 +99,20 @@ public class UnpairedQuotesBracketsRuleTest extends TestCase {
         .getAnalyzedSentence("(This is a test sentence."));
     assertEquals(1, matches.length);
     
+    //tests for Edward's bug
     matches = rule.match(langTool
         .getAnalyzedSentence("This is a test with an apostrophe &'."));
     assertEquals(1, matches.length);
+    matches = rule.match(langTool
+        .getAnalyzedSentence("&'"));
+    assertEquals(1, matches.length);
+    matches = rule.match(langTool
+        .getAnalyzedSentence("!'"));
+    assertEquals(1, matches.length);
+    matches = rule.match(langTool
+        .getAnalyzedSentence("What?'"));
+    assertEquals(1, matches.length);
+    //
     matches = rule.match(langTool
         .getAnalyzedSentence("(This is a test” sentence."));
     assertEquals(2, matches.length);
