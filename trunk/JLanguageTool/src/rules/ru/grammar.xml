@@ -8,7 +8,7 @@ title="Easy editing stylesheet" ?>
 A Russian rule file for LanguageTool
 Copyright (C) 2005 Daniel Naber (http://www.danielnaber.de)
 Copyright (C) 2008-2009 Yakov Reztsov
-$Id: grammar.xml,v 1.21 2009-02-28 21:19:47 milek_pl Exp $
+$Id: grammar.xml,v 1.22 2009-05-21 10:02:48 milek_pl Exp $
 -->
 <rules lang="ru">
     <category name="Пунктуация">
@@ -653,7 +653,7 @@ $Id: grammar.xml,v 1.21 2009-02-28 21:19:47 milek_pl Exp $
             <rule>  
                 <pattern>
                     <!--           ADJ:PL   NN:.*:PL    -->
-                    <token  postag="ADJ:PL:.*" postag_regexp="yes"><exception negate_pos="yes" postag="ADJ:PL:.*" postag_regexp="yes"></exception></token>
+                    <token  postag="ADJ:PL:.*" postag_regexp="yes"><exception negate_pos="yes" postag="ADJ:PL:.*" postag_regexp="yes"></exception> <exception scope="previous" postag="NumC:.*|Num:.*" postag_regexp="yes"></exception><exception scope="previous" regexp="yes">[\p{Digit}]*</exception>  </token>
                     <token  postag="NN:.*:.*:.*" postag_regexp="yes"><exception postag="NN:.*:PL:.*" postag_regexp="yes"></exception><exception negate_pos="yes" postag="NN:.*:.*:.*" postag_regexp="yes"/></token>                   
                 </pattern>
                 
@@ -682,7 +682,7 @@ $Id: grammar.xml,v 1.21 2009-02-28 21:19:47 milek_pl Exp $
         <rulegroup default="on"  id="O_P_padeg" name="Предлоги и предложный падеж">
             <rule>  
                 <pattern>
-                    <token><exception regexp="yes" scope="previous">о|обо|об|в|во|при|по|на|и|или|но|да|«|[\p{Punct}]|[\p{Digit}]*</exception></token>
+                    <token><exception regexp="yes" scope="previous">о|обо|об|в|во|при|по|на|и|или|но|да|«|[\p{Punct}]|[\p{Digit}]*</exception><exception  postag="PNN:.*" postag_regexp="yes"/></token>
                     <token  postag="NN:.*:.*:P" postag_regexp="yes"><exception negate_pos="yes" postag="NN:.*:.*:P" postag_regexp="yes"></exception><exception regexp="yes" scope="previous">же|о|обо|об|в|во|при|по|на|и|или|но|да|«|[\p{Punct}]|[\p{Digit}]*</exception><exception scope="previous" postag=".*:P" postag_regexp="yes"/><exception scope="previous"  postag="NN:.*:.*:T" postag_regexp="yes"/></token>
                 </pattern>                
                 <message>Предложный падеж предполагает наличие предлога (о – обо – об; в – во; при; по; на): <suggestion>\1 о \2</suggestion>, <suggestion>\1 об \2</suggestion>, <suggestion>\1 обо \2</suggestion>, <suggestion>\1 в \2</suggestion>, <suggestion>\1 во \2</suggestion>, <suggestion>\1 при \2</suggestion>, <suggestion>\1 по \2</suggestion>, <suggestion>\1 на \2</suggestion>.</message>
