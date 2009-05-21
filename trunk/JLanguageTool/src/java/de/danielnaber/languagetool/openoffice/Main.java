@@ -455,19 +455,24 @@ public class Main extends WeakBase implements XJobExecutor,
    * @return An array of Locales supported by LT.
    */
   public final Locale[] getLocales() {
-    int dims = 0;
-    for (final Language element : Language.LANGUAGES) {
-      dims += element.getCountryVariants().length;
-    }
-    final Locale[] aLocales = new Locale[dims];
-    int cnt = 0;
-    for (final Language element : Language.LANGUAGES) {
-      for (final String variant : element.getCountryVariants()) {
-        aLocales[cnt] = new Locale(element.getShortName(), variant, "");
-        cnt++;
+    try {
+      int dims = 0;
+      for (final Language element : Language.LANGUAGES) {
+        dims += element.getCountryVariants().length;
       }
+      final Locale[] aLocales = new Locale[dims];
+      int cnt = 0;
+      for (final Language element : Language.LANGUAGES) {
+        for (final String variant : element.getCountryVariants()) {
+          aLocales[cnt] = new Locale(element.getShortName(), variant, "");
+          cnt++;
+        }
+      }
+      return aLocales;
+    } catch (final Throwable t) {
+      showError(t);
+      return new Locale[0];
     }
-    return aLocales;
   }
 
   /**
@@ -476,10 +481,14 @@ public class Main extends WeakBase implements XJobExecutor,
    *          The Locale to check.
    */
   public final boolean hasLocale(final Locale locale) {
-    for (final Language element : Language.LANGUAGES) {
-      if (element.getShortName().equals(locale.Language)) {
-        return true;
+    try {
+      for (final Language element : Language.LANGUAGES) {
+        if (element.getShortName().equals(locale.Language)) {
+          return true;
+        }
       }
+    } catch (final Throwable t) {
+      showError(t);    
     }
     return false;
   }
