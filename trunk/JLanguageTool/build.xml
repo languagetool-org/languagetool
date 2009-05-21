@@ -332,7 +332,7 @@
 <copy todir="${dist.dir}/src">
 	<fileset dir="src" excludes="CVS,resource/**,rules/**,scripts/**" />
 </copy>
-<copy file="openoffice/description.xml" todir="${dist.dir}/openoffice/" filtering="true" />
+<copy file="openoffice/description.xml" todir="${dist.dir}/openoffice/" filtering="true" encoding="${encoding}" />
 <zip compress="yes" destfile="${dist.dir}/LanguageTool-${version}-src.zip" basedir="${dist.dir}" includes="**" excludes="turn.sh,deploy.sh,undeploy.sh,jdic.jar,linux/**,windows/**,sunos/**,mac/**" />
 </target>
 
@@ -367,7 +367,7 @@
 <copy file="${ext.dir}/segment-license.txt" tofile="${dist.dir}/segment-license.txt" />
 
 <filter filtersFile="build.properties" />
-<copy file="${ext.dir}/README" tofile="${dist.dir}/README-license.txt" filtering="true" />
+<copy file="${ext.dir}/README" tofile="${dist.dir}/README-license.txt" filtering="true" encoding="${encoding}" />
 
 <copy file="${ext.stempelator.lib}" todir="${dist.dir}" />
 <copy file="${ext.jdic.lib}" todir="${dist.dir}" />
@@ -473,7 +473,7 @@
 <java jar="${dist.dir}/printlocales.jar" fork="true" />
 
 <filter filtersFile="ooolocales.properties" />
-<copy filtering="true" todir="${dist.dir}/">
+<copy filtering="true" encoding="${encoding}" todir="${dist.dir}/">
 	<fileset dir="openoffice/" includes="description.xml,*.xcu,Options.xdl,META-INF/**" />
 </copy>
 <copy todir="${dist.dir}/">
