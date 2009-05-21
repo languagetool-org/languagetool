@@ -25,8 +25,12 @@ import java.util.Set;
 import de.danielnaber.languagetool.Language;
 import de.danielnaber.languagetool.tagging.Tagger;
 import de.danielnaber.languagetool.tagging.xx.DemoTagger;
+import de.danielnaber.languagetool.tokenizers.SentenceTokenizer;
+import de.danielnaber.languagetool.tokenizers.sk.SlovakSentenceTokenizer;
 
 public class Slovak extends Language {
+  
+  private SentenceTokenizer sentenceTokenizer = new SlovakSentenceTokenizer();
   
   private static final String[] COUNTRIES = {
     "SK"
@@ -53,6 +57,10 @@ public class Slovak extends Language {
     return new DemoTagger();
   }
 
+  public SentenceTokenizer getSentenceTokenizer() {
+    return sentenceTokenizer;
+  }
+  
   public Contributor[] getMaintainers() {
 	Contributor contributor = new Contributor("Zdenko Podobný");
 	contributor.setUrl("http://sk-spell.sk.cx");
