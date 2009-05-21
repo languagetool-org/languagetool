@@ -19,7 +19,7 @@ page for a list of supported languages.</p>
 	<li>Fixed a NullPointerException that could appear when using
   paragraph-level rules (<a href="https://sourceforge.net/tracker/?func=detail&aid=2787814&group_id=110216&atid=655717">#2787814</a>)</li>
 	<li>Initial support for Icelandic</li>
-	<li>More English, Dutch, Polish and Romanian grammar rules</li>
+	<li>More Dutch, English, Polish, Romanian and Slovenian grammar rules</li>
 	<li>Fixed some bugs with pairing brackets</li>
 	<li>Added sentence tokenizer that uses <a href="http://www.lisa.org/fileadmin/standards/srx20.html">SRX</a> format for 
   specifying end-of-sentence breaks</li>
