@@ -67,7 +67,7 @@ import de.danielnaber.languagetool.tools.ReflectionUtils;
  */
 public final class JLanguageTool {
 
-  public static final String VERSION = "0.9.9-dev"; // keep in sync with
+  public static final String VERSION = "0.9.9"; // keep in sync with
                                                     // build.properties!
 
   public static final String RULES_DIR = "/rules";
