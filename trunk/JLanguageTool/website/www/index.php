@@ -17,7 +17,7 @@ page for a list of supported languages.</p>
 <p><strong>Update 2009-05-22:</strong> Released version 0.9.9. Changes include:
 <ul>
 	<li>Fixed a NullPointerException that could appear when using
-  paragraph-level rules (<a href="https://sourceforge.net/tracker/?func=detail&aid=2787814&group_id=110216&atid=655717">#2787814</a>)</li>
+  paragraph-level rules (<a href="https://sourceforge.net/tracker/?func=detail&amp;aid=2787814&amp;group_id=110216&amp;atid=655717">#2787814</a>)</li>
 	<li>Initial support for Icelandic</li>
 	<li>More Dutch, English, Polish, Romanian and Slovenian grammar rules</li>
 	<li>Fixed some bugs with pairing brackets</li>
