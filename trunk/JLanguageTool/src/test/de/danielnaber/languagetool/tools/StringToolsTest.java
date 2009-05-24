@@ -185,5 +185,11 @@ public class StringToolsTest extends TestCase {
     assertEquals(false, StringTools.isEmpty("a"));      
   }
 
+  public void testFilterXML() {
+    assertEquals("test", StringTools.filterXML("test"));
+    assertEquals("<<test>>", StringTools.filterXML("<<test>>"));
+    assertEquals("test", StringTools.filterXML("<b>test</b>"));
+    assertEquals("A sentence with a test", StringTools.filterXML("A sentence with a <em>test</em>"));
+  }
   
 }

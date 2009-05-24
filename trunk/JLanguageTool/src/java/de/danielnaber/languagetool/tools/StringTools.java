@@ -65,7 +65,7 @@ public final class StringTools {
   }
 
   private static final Pattern XML_COMMENT_PATTERN = Pattern.compile("<!--.*?-->", Pattern.DOTALL);
-  private static final Pattern XML_PATTERN = Pattern.compile("<.*?>", Pattern.DOTALL);
+  private static final Pattern XML_PATTERN = Pattern.compile("(?<!<)<[^<>]+>", Pattern.DOTALL);
   
 
   private StringTools() {
@@ -534,7 +534,7 @@ public final class StringTools {
   public static String filterXML(final String str) {
     String s = str;       
     s = XML_COMMENT_PATTERN.matcher(s).replaceAll(" ");        
-    s = XML_PATTERN.matcher(s).replaceAll(" ");
+    s = XML_PATTERN.matcher(s).replaceAll("");
     return s;
   }
 }
