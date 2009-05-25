@@ -6,7 +6,7 @@ title="Easy editing stylesheet" ?>
 <!--
 Polish Grammar and Typo Rules for LanguageTool
 Copyright (C) 2006-2007 Marcin Miłkowski
-$Id: grammar.xml,v 1.186 2009-05-12 12:50:34 milek_pl Exp $
+$Id: grammar.xml,v 1.187 2009-05-25 00:30:15 milek_pl Exp $
 -->
 <rules lang="pl">
   <unification feature="number">
@@ -1700,6 +1700,7 @@ Powinno być: <suggestion>\2, \3 \4</suggestion>.</message>
         <token regexp="yes">\d+x\d+</token>
       </pattern>
       <message>Ten znak mnożenia lepiej zastąpić typograficznym: <suggestion><match no="1" postag_replace="" regexp_match="(\d+)x(\d+)" regexp_replace="$1×$2"/></suggestion>.</message>
+      <short>Błąd typograficzny</short>
       <example correction="800×600" type="incorrect">Rozdzielczość ekranu <marker>800x600</marker></example>
       <example type="correct">Rozdzielczość ekranu 800×600</example>
     </rule>
@@ -1710,9 +1711,54 @@ Powinno być: <suggestion>\2, \3 \4</suggestion>.</message>
         <token spacebefore="no">.</token>
       </pattern>
       <message>Ten trzykropek lepiej zastąpić znakiem typograficznym: <suggestion>…</suggestion>.</message>
+      <short>Błąd typograficzny</short>
       <example type="correct">To jest ważne – o ile mi wiadomo.</example>
       <example correction="…" type="incorrect">To jest ważne<marker>...</marker> o ile mi wiadomo.</example>
     </rule>
+    <rulegroup id="ZAGNIEZDZONE_CUDZYSLOWY" name="Cytat w cudzysłowie">
+      <rule>
+        <pattern mark_from="1">
+          <token skip="-1">„<exception scope="next">”</exception></token>
+          <token>„</token>
+        </pattern>
+        <message>Początek cytatu wewnątrz innego cytatu zwykle wyróżnia się cudzysłowem ostrokątnym niemieckim: <suggestion>»</suggestion>.</message>
+        <short>Błąd typograficzny</short>
+        <example correction="»" type="incorrect">To jest jak wiadomo „cytat <marker>„</marker>w cytacie”, który jest długi”.</example>
+        <example type="correct">To jest „cytat »w cytacie«, który jest długi”.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="2">
+          <token skip="-1">„<exception scope="next">”</exception></token>
+          <token skip="-1"><exception scope="next">«</exception>„</token>
+          <token>”</token>
+        </pattern>
+        <message>Koniec cytatu w cytacie zwykle wyróżnia się cudzysłowem ostrokątnym niemieckim: <suggestion>«</suggestion>.</message>
+        <example correction="«" type="incorrect">To jest jak wiadomo „cytat „w cytacie<marker>”</marker>, który jest długi”.</example>
+        <example type="correct">To jest „cytat »w cytacie«, który jest długi”.</example>
+      </rule>
+    </rulegroup>
+    <rulegroup id="PL_GUILLEMET" name="„&gt;&gt;” i „&lt;&lt;” (» i «)">
+      <rule>
+        <pattern>
+          <token spacebefore="ignore">&lt;</token>
+          <token spacebefore="no">&lt;</token>
+        </pattern>
+        <message>Czy chodziło o cudzysłów ostrokątny <suggestion>«</suggestion>?</message>
+        <short>Błąd typograficzny</short>
+        <example correction="«" type="incorrect">Jak pisze Jan Kowalski: „to jest &gt;&gt;ładna krowa<marker>&lt;&lt;</marker>”</example>
+        <example type="correct">Jak pisze Jan Kowalski: „to jest »ładna krowa«”.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>&gt;</token>
+          <token spacebefore="no">&gt;</token>
+        </pattern>
+        <message>Czy chodziło o cudzysłów ostrokątny <suggestion>»</suggestion>?</message>
+        <short>Błąd typograficzny</short>
+        <example correction="»" type="incorrect">Jak pisze Jan Kowalski: „to jest <marker>&gt;&gt;</marker>ładna krowa&lt;&lt;”.</example>
+        <example type="correct">Jak pisze Jan Kowalski: „to jest »ładna krowa«”.</example>
+      </rule>
+    </rulegroup>
     <rule id="LACZNIK_MYSLNIK" name="„--” (—)">
       <pattern>
         <token>--</token>
@@ -1906,6 +1952,15 @@ Powinno być: <suggestion>\2, \3 \4</suggestion>.</message>
     </rule>
   </category>
   <category name="Błędy odmiany">
+    <rule id="ZAKOPANYM" name="„Zakopanym” (Zakopanem)">
+      <pattern case_sensitive="yes">
+        <token>Zakopanym</token>
+      </pattern>
+      <message>Prawdopodobny błąd odmiany. Powinno być: <suggestion>Zakopanem</suggestion> (=mieście).</message>
+      <short>Błędna odmiana</short>
+      <example correction="Zakopanem" type="incorrect">Byłem ostatnio w <marker>Zakopanym</marker>.</example>
+      <example type="correct">Byłem ostatnio w Zakopanem.</example>
+    </rule>
     <rule id="POL_GODZIN" name="„pół godzin” (pół godziny)">
       <pattern mark_from="1">
         <token>pół</token>
@@ -3344,6 +3399,43 @@ Powinno być: <suggestion>\2, \3 \4</suggestion>.</message>
     </rule>
   </category>
   <category name="Błędy leksykalne">
+    <rule id="CIENKA_IRONIA" name="„cienka ironia” (subtelna ironia)">
+      <pattern mark_to="-1">
+        <unify feature="gender,number,case">
+          <token inflected="yes">cienki</token>
+          <token inflected="yes">ironia</token>
+        </unify>
+      </pattern>
+      <message>Rusycyzm. Poprawnie: <suggestion><match no="1" postag="adj.*" postag_regexp="yes">subtelny</match></suggestion>.</message>
+      <short>Rusycyzm</short>
+      <example correction="subtelną" type="incorrect">Żarty Przemysława skrzą się <marker>cienką</marker> ironią.</example>
+      <example type="correct">Przemysław ma subtelny dowcip.</example>
+    </rule>
+    <rule id="CIENKI_DOWCIP" name="„cienki dowcip” (subtelny dowcip)">
+      <pattern mark_to="-1">
+        <unify feature="gender,number,case">
+          <token inflected="yes">cienki</token>
+          <token inflected="yes">dowcip</token>
+        </unify>
+      </pattern>
+      <message>Rusycyzm. Poprawnie: <suggestion><match no="1" postag="adj.*" postag_regexp="yes">subtelny</match></suggestion>.</message>
+      <short>Rusycyzm</short>
+      <example correction="subtelny" type="incorrect">Przemysław ma <marker>cienki</marker> dowcip.</example>
+      <example type="correct">Przemysław II Cienki ironią nie grzeszył.</example>
+    </rule>
+    <rule id="DOSTEPNA_CENA" name="„dostępna cena” (przystępna cena)">
+      <pattern mark_to="-1">
+        <unify feature="gender,number,case">
+          <token inflected="yes">dostępny</token>
+          <token inflected="yes">cena</token>
+        </unify>
+      </pattern>
+      <message>Niepoprawne wyrażenie. Poprawnie: <suggestion><match no="1" regexp_match="[Dd]o(.*)" regexp_replace="przy$1"/></suggestion>.</message>
+      <short>Błąd leksykalny</short>
+      <example correction="Przystępna" type="incorrect"><marker>Dostępna</marker> cena, łatwość obsługi i estetyczne opakowanie to atuty nowego produktu firmy Ziutex.</example>
+      <example type="correct">Produkt dostępny ceną nie odstrasza.</example>
+      <example type="correct">Przystępna cena jest atutem.</example>
+    </rule>
     <rule id="WIEKSZA_POLOWA" name="„większa połowa” (większa część)">
       <pattern>
         <unify feature="gender,number,case">
@@ -6323,6 +6415,86 @@ lub <suggestion>\2 na prawach wyłączności</suggestion>.</message>
     </rulegroup>
   </category>
   <category name="Błędy ortograficzne">
+    <rulegroup id="MONOTONNIE_MONOTONIĘ" name="„popaść w monotonnie” (monotonię)">
+      <rule>
+        <pattern mark_from="2">
+          <token inflected="yes" regexp="yes">popadać|popaść|wpaść|wpadać</token>
+          <token>w</token>
+          <token>monotonnie</token>
+        </pattern>
+        <message>Prawdopodobny błąd ortograficzny. Czy chodziło o <suggestion>monotonię</suggestion> (=formę wyrazu „monotonia”)?</message>
+        <short>Prawdopodobny błąd ortograficzny</short>
+        <example correction="monotonię" type="incorrect">Futbol popada w <marker>monotonnie</marker>.</example>
+        <example type="correct">Futbol popada w monotonię.</example>
+      </rule>
+    </rulegroup>
+    <rulegroup id="KAZAC_KARAC" name="„karze” (każe)">
+      <rule>
+        <pattern mark_from="2">
+          <token><exception postag="prep:.*loc.*" postag_regexp="yes"/></token>
+          <token>jej</token>
+          <token>karze</token>
+        </pattern>
+        <message>Prawdopodobny błąd ortograficzny. Czy chodziło o <suggestion>każe</suggestion> (=forma czasownika „kazać”)?</message>
+        <short>Prawdopodobny błąd ortograficzny</short>
+        <example correction="każe" type="incorrect">Ale on jej <marker>karze</marker> to zrobić!</example>
+        <example type="correct">Rozmawiałem o jej karze z adwokatem.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="1">
+          <token regexp="yes">mi|mu</token>
+          <token regexp="yes">karzesz|karze</token>
+        </pattern>
+        <message>Prawdopodobny błąd ortograficzny. Czy chodziło o <suggestion><match no="2" regexp_match="karz(.*)" regexp_replace="każ$1"/></suggestion> (forma czasownika „kazać”)?</message>
+        <short>Prawdopodobny błąd ortograficzny</short>
+        <example correction="każesz" type="incorrect">Co mu <marker>karzesz</marker> zrobić?</example>
+        <example type="correct">Co mu każesz zrobić?</example>
+      </rule>
+      <rule>
+        <pattern mark_from="1">
+          <token>jej</token>
+          <token>karzesz</token>
+        </pattern>
+        <message>Prawdopodobny błąd ortograficzny. Czy chodziło o <suggestion><match no="2" regexp_match="karz(.*)" regexp_replace="każ$1"/></suggestion> (forma czasownika „kazać”)?</message>
+        <short>Prawdopodobny błąd ortograficzny</short>
+        <example correction="każesz" type="incorrect">Co jej <marker>karzesz</marker> zrobić?</example>
+        <example type="correct">Co jej każesz zrobić?</example>
+      </rule>
+    </rulegroup>
+    <rulegroup id="PULKI_POLKI" name="„wyższej pułki” (półki)">
+      <rule>
+        <pattern mark_from="1">
+          <token postag="adj:sg:gen.dat.loc:f.*" postag_regexp="yes"/>
+          <token>pułki</token>
+        </pattern>
+        <message>Prawdopodobny błąd ortograficzny. Czy chodziło o <suggestion>półki</suggestion> (=forma wyrazu „półka”)?</message>
+        <example correction="półki" type="incorrect">To samochód z niskiej <marker>pułki</marker>.</example>
+        <example type="correct">To samochód z wyższej półki.</example>
+      </rule>
+    </rulegroup>
+    <rulegroup id="ZA_W_CZASU" name="„za w czasu” (zawczasu)">
+      <rule>
+        <pattern>
+          <token>za</token>
+          <token>w</token>
+          <token>czasu</token>
+        </pattern>
+        <message>Ten wyraz pisze się łącznie: <suggestion>\1\2\3</suggestion>.</message>
+        <short>Błąd ortograficzny</short>
+        <example correction="zawczasu" type="incorrect">Aby nie dopuścić do awansów, firmy wyrzucają dobrych pracowników <marker>za w czasu</marker>.</example>
+        <example type="correct">Aby nie dopuścić do awansów, firmy wyrzucają dobrych pracowników zawczasu.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>za</token>
+          <token>wczasu</token>
+        </pattern>
+        <message>Ten wyraz pisze się łącznie: <suggestion>\1\2</suggestion>.</message>
+        <short>Błąd ortograficzny</short>
+        <example correction="zawczasu" type="incorrect">Aby nie dopuścić do awansów, firmy wyrzucają dobrych pracowników <marker>za wczasu</marker>.</example>
+        <example type="correct">Aby nie dopuścić do awansów, firmy wyrzucają dobrych pracowników <marker>zawczasu</marker>.</example>
+      </rule>
+    </rulegroup>
     <rule id="LEKCE_WAZYC" name="„lekce ważyć” (lekceważyć)">
       <pattern>
         <token>lekce</token>
@@ -9020,11 +9192,25 @@ Znacznie częściej ta forma jest mylona z trybem rozkazującym od „pokazać�
     </rulegroup>
   </category>
   <category name="Prawdopodobne literówki">
+    <rulegroup id="SWICIE" name="„na całym świcie” (na całym świecie)">
+      <rule>
+        <pattern mark_from="2">
+          <token>na</token>
+          <token>całym</token>
+          <token>świcie</token>
+        </pattern>
+        <message>Czy chodziło o <suggestion>świecie</suggestion>?</message>
+        <short>Literówka</short>
+        <example correction="świecie" type="incorrect">Zdobywamy trofea na całym <marker>świcie</marker>.</example>
+        <example type="correct">Zdobywamy trofea na całym świecie.</example>
+      </rule>
+    </rulegroup>
     <rule id="SZYBO" name="„szybo” (szybko)">
       <pattern>
         <token>szybo</token>
       </pattern>
       <message>Prawdopodobna literówka, jeśli ktoś nie mówi do szyb :) Czy chodziło o <suggestion>szybko</suggestion>?</message>
+      <short>Prawdopodobna literówka</short>
       <example correction="szybko" type="incorrect">Jechałem <marker>szybo</marker> do domu.</example>
       <example type="correct">Jechałem szybko do domu.</example>
     </rule>
@@ -10323,6 +10509,15 @@ Znacznie częściej ta forma jest mylona z trybem rozkazującym od „pokazać�
     </rulegroup>
   </category>
   <category name="Błędy frazeologiczne">
+    <rule id="KONSTRUKCJA_CEPU" name="„konstrukcja cepu” (konstrukcja cepa)">
+      <pattern mark_from="1">
+        <token inflected="yes">konstrukcja</token>
+        <token>cepu</token>
+      </pattern>
+      <message>W tym wyrażeniu wyraz „cep” odmienia się inaczej: <suggestion>cepa</suggestion>.</message>
+      <example correction="cepa" type="incorrect">To jest proste jak konstrukcja <marker>cepu</marker>.</example>
+      <example type="correct">To proste jak konstrukcja <marker>cepa</marker>.</example>
+    </rule>
     <rule id="NERWY_NA_POSTRONKU" name="„nerwy na postronku” (nerwy na wodzy)">
       <pattern>
         <token regexp="yes">nerwy|nerwów|nerwami|nerwach|nerwom</token>
