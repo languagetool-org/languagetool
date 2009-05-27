@@ -74,7 +74,7 @@ the <?=show_link("Changelog", "download/CHANGES.txt", 0) ?>.</p>
  -->
  
 <!-- -->
-<p><strong>Try LanguageTool via Java WebStart:</strong><br />
+<p><strong>Try LanguageTool via Java WebStart:</strong> (requires Java 1.6_04 or later)<br />
 <?=show_link("Start LanguageTool (13&nbsp;MB)", "webstart/LanguageTool.jnlp", 0) ?></p>
 <!-- -->
 
