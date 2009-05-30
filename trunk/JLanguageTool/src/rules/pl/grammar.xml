@@ -6,7 +6,7 @@ title="Easy editing stylesheet" ?>
 <!--
 Polish Grammar and Typo Rules for LanguageTool
 Copyright (C) 2006-2007 Marcin Miłkowski
-$Id: grammar.xml,v 1.188 2009-05-25 17:04:01 milek_pl Exp $
+$Id: grammar.xml,v 1.189 2009-05-30 13:13:52 milek_pl Exp $
 -->
 <rules lang="pl">
   <unification feature="number">
@@ -1828,7 +1828,7 @@ $Id: grammar.xml,v 1.188 2009-05-25 17:04:01 milek_pl Exp $
           <token negate="yes">,<exception regexp="yes">[\p{Punct}–—„«»…]+</exception></token>
         </pattern>
 
-        <message>Wyrażenie „\1 \2” wydziela się przecinkami lub myślnikami od reszty zdania. Poprawnie: <suggestion>\1, \2 \3, \4</suggestion>.</message>
+        <message>Wyrażenie „\2 \3” wydziela się przecinkami lub myślnikami od reszty zdania. Poprawnie: <suggestion>\1, \2 \3, \4</suggestion>.</message>
 
         <short>Błąd interpunkcyjny</short>
 
@@ -2970,7 +2970,7 @@ Powinno być: <suggestion>\2, \3 \4</suggestion>.</message>
     <rulegroup id="CUDZYSLOW_DRUKARSKI" name="Zmiana cudzysłowu komputerowego (&quot;) na drukarskie">
       <rule>
         <pattern mark_from="1">
-          <token regexp="yes" spacebefore="yes">[\[\(]</token>
+          <token regexp="yes" spacebefore="ignore">[\[\({]</token>
 
           <token spacebefore="no">"</token>
         </pattern>
@@ -2986,7 +2986,7 @@ Powinno być: <suggestion>\2, \3 \4</suggestion>.</message>
 
       <rule>
         <pattern mark_from="1" mark_to="-1">
-          <token regexp="yes">.*\p{L}</token>
+          <token><exception regexp="yes">[\[\({]</exception><exception postag="SENT_START"></exception></token>
 
           <token spacebefore="no">"</token>
 
@@ -3034,7 +3034,7 @@ Powinno być: <suggestion>\2, \3 \4</suggestion>.</message>
 
       <rule>
         <pattern mark_from="1" mark_to="0">
-          <token regexp="yes">.*\p{L}</token>
+          <token><exception regexp="yes">[\[\({]</exception><exception postag="SENT_START"></exception></token>
 
           <token postag="SENT_END" spacebefore="no">"</token>
         </pattern>
@@ -3044,6 +3044,8 @@ Powinno być: <suggestion>\2, \3 \4</suggestion>.</message>
         <short>Nieprawidłowy cudzysłów</short>
 
         <example correction="”" type="incorrect">"Test<marker>"</marker></example>
+
+        <example correction="”" type="incorrect">"Witaj Moskwo!<marker>"</marker></example>
 
         <example type="correct">„Test”</example>
       </rule>
@@ -4758,7 +4760,7 @@ Powinno być: <suggestion>\2, \3 \4</suggestion>.</message>
 
         <token>bardziej</token>
 
-        <token inflected="yes" regexp="yes">^(akumulacyjny|ambicyjny|ambiwalentny|ankietowy|anomalny|ateistyczny|audiencjonalny|audiencyjny|autochtoniczny|autochtoński|bajoński|bezdenny|bezimienny|bezprodukcyjny|bezproduktywny|bezpyłowy|bezpylny|bezustanny|bezwietrzny|bilateralny|bledziutki|bombowy|braterski|chwytny|dekoratorski|długoletni|długowiekowy|dodatkowy|dopingowy|dostateczny|drugorzędny|dwoisty|dwuletni|dwuroczny|dyplomatyczny|dyplomowany|dyskrecjonalny|dyżurny|dzisiejszy|ekstranowoczesny|ekstremalny|ewentualny|fenomenalny|finalny|gadulski|generalny|genetyczny|gigantyczny|goły|gotowy|hipoalergiczny|humanistyczny|identyczny|iluzyjny|innowierczy|inny|intelektualny|intensyfikacyjny|introspekcyjny|introspektywny|istny|jazzowy|jazzrockowy|jednaki|jednakowy|jednoczesny|jednomyślny|jedyny|kapitalny|klasycystyczny|kochaneńki|kompilacyjny|kompilatorski|komplementarny|konceptualny|kontrastowy|kopiasty|krańcowy|kulturowy|leciuchny|leciutki|lekuchny|letni|ludyczny|maksymalistyczny|maksymalny|martwy|mikroskopijny|możebny|nadmierny|nagi|nagminny|neutralny|niebiański|niebotyczny|niebyły|niebywały|niedaleki|niedawny|niedosięgły|niedościgły|niedozwolony|nienawykły|nieprzywykły|nieoceniony|niepamiętny|niepisany|niepodległy|nieporównany|nieporuszony|nieprawdopodobny|nieproszony|niesamowity|niespożyty|niestrudzony|nieustraszony|nieutulony|niewinny|niewyczerpany|niewytłumaczalny|niewzruszony|niezamącony|niezaprzeczalny|niezawodny|niezbity|niezgorszy|niezmącony|niezrównany|nijaki|obecny|obłąkany|obojętny|oddzielny|odmienny|odrębny|odwieczny|ogromny|optymalny|patentowy|pełnowartościowy|permanentny|piekielny|pierworodny|pierwszoplanowy|pierwszorzędny|pitny|podległy|pokrewny|pomniejszy|pośredni|potencjalny|praworęczny|propedeutyczny|przeciwstawny|przedwczesny|przedwieczny|przenośny|przeświadczony|przewoźny|przyciężki|przydługi|przykrótki|przysłowiowy|pusty|racjonalizacyjny|racjonalizatorski|realny|równoległy|równorzędny|rutyniarski|rutynowany|skonany|standardowy|sukcesywny|sytuowany|średni|świecki|totalny|ubożuchny|ubożutki|wart|wieczny|wielowiekowy|winien|własny|wspólny|wszechmogący|wszechmocny|wszechwiedzący|wszystkowiedzący|wszyściutki|wszyściuteńki|wszyściuchny|wyborowy|wyjątkowy|wzajemny|zależny|zawisły|zdradziecki|zdrowotny|zupełny|zwierzchni|żądny)<exception postag="adv.*" postag_regexp="yes"></exception><exception>martwi</exception></token>
+        <token inflected="yes" regexp="yes">^(akumulacyjny|ambicyjny|ambiwalentny|ankietowy|anomalny|ateistyczny|audiencjonalny|audiencyjny|autochtoniczny|autochtoński|bajoński|bezdenny|bezimienny|bezprodukcyjny|bezproduktywny|bezpyłowy|bezpylny|bezustanny|bezwietrzny|bilateralny|bledziutki|bombowy|braterski|chwytny|dekoratorski|długoletni|długowiekowy|dodatkowy|dopingowy|dostateczny|drugorzędny|dwoisty|dwuletni|dwuroczny|dyplomatyczny|dyplomowany|dyskrecjonalny|dyżurny|dzisiejszy|ekstranowoczesny|ekstremalny|ewentualny|fenomenalny|finalny|gadulski|generalny|genetyczny|gigantyczny|goły|gotowy|hipoalergiczny|humanistyczny|identyczny|iluzyjny|innowierczy|inny|intelektualny|intensyfikacyjny|introspekcyjny|introspektywny|istny|jazzowy|jazzrockowy|jednaki|jednakowy|jednoczesny|jednomyślny|jedyny|kapitalny|klasycystyczny|kochaneńki|kompilacyjny|kompilatorski|komplementarny|konceptualny|kontrastowy|kopiasty|krańcowy|kulturowy|leciuchny|leciutki|lekuchny|letni|ludyczny|maksymalistyczny|maksymalny|martwy|mikroskopijny|możebny|nadmierny|nagi|nagminny|neutralny|niebiański|niebotyczny|niebyły|niebywały|niedaleki|niedawny|niedosięgły|niedościgły|niedozwolony|nienawykły|nieprzywykły|nieoceniony|niepamiętny|niepisany|niepodległy|nieporównany|nieporuszony|nieprawdopodobny|nieproszony|niesamowity|niespożyty|niestrudzony|nieustraszony|nieutulony|niewinny|niewyczerpany|niewytłumaczalny|niewzruszony|niezamącony|niezaprzeczalny|niezawodny|niezbity|niezgorszy|niezmącony|niezrównany|nijaki|obecny|obłąkany|obojętny|oddzielny|odmienny|odrębny|odwieczny|ogromny|optymalny|patentowy|pełnowartościowy|permanentny|piekielny|pierworodny|pierwszoplanowy|pierwszorzędny|pitny|podległy|pokrewny|pomniejszy|pośredni|potencjalny|praworęczny|propedeutyczny|przeciwstawny|przedwczesny|przedwieczny|przenośny|przeświadczony|przewoźny|przyciężki|przydługi|przykrótki|przysłowiowy|pusty|racjonalizacyjny|racjonalizatorski|równoległy|równorzędny|rutyniarski|rutynowany|skonany|standardowy|sukcesywny|sytuowany|średni|świecki|totalny|ubożuchny|ubożutki|wart|wieczny|wielowiekowy|winien|własny|wspólny|wszechmogący|wszechmocny|wszechwiedzący|wszystkowiedzący|wszyściutki|wszyściuteńki|wszyściuchny|wyborowy|wyjątkowy|wzajemny|zależny|zawisły|zdradziecki|zdrowotny|zupełny|zwierzchni|żądny)<exception postag="adv.*" postag_regexp="yes"></exception><exception>martwi</exception></token>
       </pattern>
 
       <message>Ten przymiotnik nie może być stopniowany. Poprawnie: <suggestion>\3</suggestion>.</message>
@@ -4776,7 +4778,7 @@ Powinno być: <suggestion>\2, \3 \4</suggestion>.</message>
       <pattern>
         <token>najbardziej</token>
 
-        <token inflected="yes" regexp="yes">^(akumulacyjny|ambicyjny|ambiwalentny|ankietowy|anomalny|ateistyczny|audiencjonalny|audiencyjny|autochtoniczny|autochtoński|bajoński|bezdenny|bezimienny|bezprodukcyjny|bezproduktywny|bezpyłowy|bezpylny|bezustanny|bezwietrzny|bilateralny|bledziutki|bombowy|braterski|chwytny|dekoratorski|długoletni|długowiekowy|dodatkowy|dopingowy|dostateczny|drugorzędny|dwoisty|dwuletni|dwuroczny|dyplomatyczny|dyplomowany|dyskrecjonalny|dyżurny|dzisiejszy|ekstranowoczesny|ekstremalny|ewentualny|fenomenalny|finalny|gadulski|generalny|genetyczny|gigantyczny|goły|gotowy|hipoalergiczny|humanistyczny|identyczny|iluzyjny|innowierczy|inny|intelektualny|intensyfikacyjny|introspekcyjny|introspektywny|istny|jazzowy|jazzrockowy|jednaki|jednakowy|jednoczesny|jednomyślny|jedyny|kapitalny|klasycystyczny|kochaneńki|kompilacyjny|kompilatorski|komplementarny|konceptualny|kontrastowy|kopiasty|krańcowy|kulturowy|leciuchny|leciutki|lekuchny|letni|ludyczny|maksymalistyczny|maksymalny|martwy|mikroskopijny|możebny|nadmierny|nagi|nagminny|neutralny|niebiański|niebotyczny|niebyły|niebywały|niedaleki|niedawny|niedosięgły|niedościgły|niedozwolony|nienawykły|nieprzywykły|nieoceniony|niepamiętny|niepisany|niepodległy|nieporównany|nieporuszony|nieprawdopodobny|nieproszony|niesamowity|niespożyty|niestrudzony|nieustraszony|nieutulony|niewinny|niewyczerpany|niewytłumaczalny|niewzruszony|niezamącony|niezaprzeczalny|niezawodny|niezbity|niezgorszy|niezmącony|niezrównany|nijaki|obecny|obłąkany|obojętny|oddzielny|odmienny|odrębny|odwieczny|ogromny|optymalny|patentowy|pełnowartościowy|permanentny|piekielny|pierworodny|pierwszoplanowy|pierwszorzędny|pitny|podległy|pokrewny|pomniejszy|pośredni|potencjalny|praworęczny|propedeutyczny|przeciwstawny|przedwczesny|przedwieczny|przenośny|przeświadczony|przewoźny|przyciężki|przydługi|przykrótki|przysłowiowy|pusty|racjonalizacyjny|racjonalizatorski|realny|równoległy|równorzędny|rutyniarski|rutynowany|skonany|standardowy|sukcesywny|sytuowany|średni|świecki|totalny|ubożuchny|ubożutki|wart|wieczny|wielowiekowy|winien|własny|wspólny|wszechmogący|wszechmocny|wszechwiedzący|wszystkowiedzący|wszyściutki|wszyściuteńki|wszyściuchny|wyborowy|wyjątkowy|wzajemny|zależny|zawisły|zdradziecki|zdrowotny|zupełny|zwierzchni|żądny)<exception postag="adv.*" postag_regexp="yes"></exception><exception>martwi</exception></token>
+        <token inflected="yes" regexp="yes">^(akumulacyjny|ambicyjny|ambiwalentny|ankietowy|anomalny|ateistyczny|audiencjonalny|audiencyjny|autochtoniczny|autochtoński|bajoński|bezdenny|bezimienny|bezprodukcyjny|bezproduktywny|bezpyłowy|bezpylny|bezustanny|bezwietrzny|bilateralny|bledziutki|bombowy|braterski|chwytny|dekoratorski|długoletni|długowiekowy|dodatkowy|dopingowy|dostateczny|drugorzędny|dwoisty|dwuletni|dwuroczny|dyplomatyczny|dyplomowany|dyskrecjonalny|dyżurny|dzisiejszy|ekstranowoczesny|ekstremalny|ewentualny|fenomenalny|finalny|gadulski|generalny|genetyczny|gigantyczny|goły|gotowy|hipoalergiczny|humanistyczny|identyczny|iluzyjny|innowierczy|inny|intelektualny|intensyfikacyjny|introspekcyjny|introspektywny|istny|jazzowy|jazzrockowy|jednaki|jednakowy|jednoczesny|jednomyślny|jedyny|kapitalny|klasycystyczny|kochaneńki|kompilacyjny|kompilatorski|komplementarny|konceptualny|kontrastowy|kopiasty|krańcowy|kulturowy|leciuchny|leciutki|lekuchny|letni|ludyczny|maksymalistyczny|maksymalny|martwy|mikroskopijny|możebny|nadmierny|nagi|nagminny|neutralny|niebiański|niebotyczny|niebyły|niebywały|niedaleki|niedawny|niedosięgły|niedościgły|niedozwolony|nienawykły|nieprzywykły|nieoceniony|niepamiętny|niepisany|niepodległy|nieporównany|nieporuszony|nieprawdopodobny|nieproszony|niesamowity|niespożyty|niestrudzony|nieustraszony|nieutulony|niewinny|niewyczerpany|niewytłumaczalny|niewzruszony|niezamącony|niezaprzeczalny|niezawodny|niezbity|niezgorszy|niezmącony|niezrównany|nijaki|obecny|obłąkany|obojętny|oddzielny|odmienny|odrębny|odwieczny|ogromny|optymalny|patentowy|pełnowartościowy|permanentny|piekielny|pierworodny|pierwszoplanowy|pierwszorzędny|pitny|podległy|pokrewny|pomniejszy|pośredni|potencjalny|praworęczny|propedeutyczny|przeciwstawny|przedwczesny|przedwieczny|przenośny|przeświadczony|przewoźny|przyciężki|przydługi|przykrótki|przysłowiowy|pusty|racjonalizacyjny|racjonalizatorski|równoległy|równorzędny|rutyniarski|rutynowany|skonany|standardowy|sukcesywny|sytuowany|średni|świecki|totalny|ubożuchny|ubożutki|wart|wieczny|wielowiekowy|winien|własny|wspólny|wszechmogący|wszechmocny|wszechwiedzący|wszystkowiedzący|wszyściutki|wszyściuteńki|wszyściuchny|wyborowy|wyjątkowy|wzajemny|zależny|zawisły|zdradziecki|zdrowotny|zupełny|zwierzchni|żądny)<exception postag="adv.*" postag_regexp="yes"></exception><exception>martwi</exception></token>
       </pattern>
 
       <message>Ten przymiotnik nie może być stopniowany. Poprawnie: <suggestion>\2</suggestion>.</message>
