@@ -7,15 +7,15 @@ title="Easy editing stylesheet" ?>
 <!--
 Italian Grammar and Typo Rules for LanguageTool
 Copyright (C) 2006 Marcin Miłkowski
-$Id: grammar.xml,v 1.5 2009-03-24 14:20:43 dnaber Exp $
+$Id: grammar.xml,v 1.6 2009-06-01 19:48:13 dnaber Exp $
 -->
 
 <!-- 
 ================================================================================
  Italian Grammar and Style Rules for Italian
  Paolo Bianchini
- Date: 
- Ver:
+ Date: 1/6/2009
+ Ver:  0.1
 ================================================================================
  Categorie delle regole
     gruppi delle regole
@@ -38,7 +38,7 @@ $Id: grammar.xml,v 1.5 2009-03-24 14:20:43 dnaber Exp $
 
  Grammatica - Frase				GR_05		
    altri elementi				GR_05_001	to do
-   struttura					GR_05_002  	to do
+   struttura					GR_05_002  	add more
 
  Grammatica - Maisucole				GR_06		
    uso corretto					GR_06_001	not needed?
@@ -98,7 +98,7 @@ Grammatica - Punteggiatura			GR_09
 			<rule>
 				<pattern >
 					<token regexp="yes">il|lo|i|gli|le</token>
-					<token postag="NOUN-F.s" postag_regexp="yes"><exception postag="NOUN-F.p" postag_regexp="yes"/></token>
+					<token postag="NOUN-F.s" postag_regexp="yes"><exception postag="(NOUN-F.p)|(NOUN-M.s)" postag_regexp="yes"/></token>
 				</pattern>
 				<message>L'articolo non concorda: <suggestion>la <match no="2" /></suggestion>.</message>
 				<example type="incorrect">Vidi <marker>il mucca</marker> pascolare nel campo.</example>
@@ -118,7 +118,7 @@ Grammatica - Punteggiatura			GR_09
 			<rule>
 				<pattern >
 					<token regexp="yes">un|uno</token>
-					<token postag="NOUN-F.s" postag_regexp="yes"><exception postag="NOUN-F.p" postag_regexp="yes"/></token>
+					<token postag="NOUN-F.s" postag_regexp="yes"><exception postag="(NOUN-F.p)|(NOUN-M.s)" postag_regexp="yes"/></token>
 				</pattern>
 				<message>L'articolo non concorda: <suggestion>una <match no="2" /></suggestion>.</message>
 				<example type="incorrect">Vidi <marker>un mucca</marker> pascolare nel campo.</example>
@@ -128,7 +128,7 @@ Grammatica - Punteggiatura			GR_09
 			<rule>
 				<pattern >
 					<token regexp="yes">lo|la|i|gli|le</token>
-					<token postag="NOUN-M.s" postag_regexp="yes" regexp="yes">[bcdfghlmnpqrstv][aeiou].*|[bcdfglmnqrtv][bcdfglmnpqrtv].*<exception postag="NOUN-M.p" postag_regexp="yes"/></token>
+					<token postag="NOUN-M.s" postag_regexp="yes" regexp="yes">[bcdfghlmnpqrstv][aeiou].*|[bcdfglmnqrtv][bcdfglmnpqrtv].*<exception postag="(NOUN-M.p)|(NOUN-F.s)" postag_regexp="yes"/></token>
 				</pattern>
 				<message>L'articolo non concorda: <suggestion>il <match no="2" /></suggestion>.</message>
 				<example type="incorrect">Quanto costa <marker>lo vino</marker>?</example>
@@ -148,7 +148,7 @@ Grammatica - Punteggiatura			GR_09
 			<rule>
 				<pattern >
 					<token regexp="yes">uno|una</token>
-					<token postag="NOUN-M.s" postag_regexp="yes" regexp="yes">[bcdfghlmnpqrstv][aeiou].*|[bcdfghlmnqrtv][bcdfghlmnpqrtv].*<exception postag="NOUN-M.p" postag_regexp="yes"/></token>
+					<token postag="NOUN-M.s" postag_regexp="yes" regexp="yes">[bcdfghlmnpqrstv][aeiou].*|[bcdfghlmnqrtv][bcdfghlmnpqrtv].*<exception postag="(NOUN-M.p)|(NOUN-F.s)" postag_regexp="yes"/></token>
 				</pattern>
 				<message>L'articolo non concorda: <suggestion>un <match no="2" /></suggestion>.</message>
 				<example type="incorrect">Mi insegni <marker>uno trucco</marker>?</example>
@@ -267,9 +267,19 @@ Grammatica - Punteggiatura			GR_09
 	<!-- GRAMMATICA FRASE - GR_05 -->
 	<category name="Grammatica - Frase"> 
 <!-- TO DO	<rulegroup name="altri elementi" id="GR_05_001">
-		</rulegroup>
-		<rulegroup name="struttura" id="GR_05_002">
 		</rulegroup> -->
+		<rulegroup name="struttura" id="GR_05_002">
+			<!-- non iniziare la frase con una congiunzione -->
+			<rule>
+				<pattern>
+					<token postag="SENT_START" />
+					<token postag="CON" />
+				</pattern>
+				<message>Si consiglia di non iniziare una frase con una congiunzione.</message>
+				<example type="incorrect"><marker>E</marker> non si capisce il perchè di tanta paura.</example>
+				<example type="correct">Non si capisce il perchè di tanta paura.</example>
+			</rule>
+		</rulegroup>
 	</category>
 
 	<!-- GRAMMATICA MAIUSCOLE - GR_06 -->
@@ -543,7 +553,8 @@ Grammatica - Punteggiatura			GR_09
 			<rule name="Indicativo Passato">
 				<pattern>
 					<token skip="-1" postag="VER.ind.pas.*.*" postag_regexp="yes"/>
-					<token skip="-1" regexp="yes">e|o|ma</token>
+					<token skip="-1" postag="CON" />
+					<!-- <token skip="-1" regexp="yes">e|o|ma</token> -->
 					<token postag="(VER.ind.imp.*.*)|(VER.ind.fut.*.*)|(VER.ind.pres.*.*)" postag_regexp="yes"><exception scope="previous" postag="(ART-F.*)|(ART-M.*)" postag_regexp="yes"/></token>
 				</pattern>
 				<message>Controllare il tempo dei verbi utilizzati nella frase.</message>
@@ -733,7 +744,7 @@ Grammatica - Punteggiatura			GR_09
 				<pattern>
 					<token>budget</token>
 				</pattern>
-				<message><suggestion>bilancio</suggestion><suggestion>bilancio di previsione</suggestion><suggestion>stanziamento</suggestion></message>
+				<message><suggestion>bilancio</suggestion> <suggestion>bilancio di previsione</suggestion> <suggestion>stanziamento</suggestion></message>
 				<example type="incorrect"><marker>budget</marker></example>
 				<example type="correct"><marker>bilancio</marker></example>
 			</rule>
@@ -742,7 +753,7 @@ Grammatica - Punteggiatura			GR_09
 				<pattern>
 					<token>input</token>
 				</pattern>
-				<message><suggestion>ingresso</suggestion><suggestion>entrata</suggestion><suggestion>immissione</suggestion></message>
+				<message><suggestion>ingresso</suggestion> <suggestion>entrata</suggestion> <suggestion>immissione</suggestion></message>
 				<example type="incorrect"><marker>input</marker></example>
 				<example type="correct"><marker>ingresso</marker></example>
 			</rule>
@@ -751,7 +762,7 @@ Grammatica - Punteggiatura			GR_09
 				<pattern>
 					<token>output</token>
 				</pattern>
-				<message><suggestion>uscita</suggestion><suggestion>prodotto</suggestion><suggestion>produzione</suggestion></message>
+				<message><suggestion>uscita</suggestion> <suggestion>prodotto</suggestion> <suggestion>produzione</suggestion></message>
 				<example type="incorrect"><marker>output</marker></example>
 				<example type="correct"><marker>uscita</marker></example>
 			</rule>
@@ -764,6 +775,7 @@ Grammatica - Punteggiatura			GR_09
 				<example type="incorrect"><marker>penalty</marker></example>
 				<example type="correct"><marker>rigore</marker></example>
 			</rule>
+			<!-- show -->			
 			<rule>
 				<pattern>
 					<token>show</token>
@@ -772,6 +784,16 @@ Grammatica - Punteggiatura			GR_09
 				<example type="incorrect"><marker>show</marker></example>
 				<example type="correct"><marker>spettacolo</marker></example>
 			</rule>
+			<!-- trend -->			
+			<rule>
+				<pattern>
+					<token>trend</token>
+				</pattern>
+				<message><suggestion>tendenza</suggestion> <suggestion>orientamento</suggestion> <suggestion>corso</suggestion> <suggestion>evoluzione</suggestion></message>
+				<example type="incorrect"><marker>trend</marker></example>
+				<example type="correct"><marker>tendenza</marker></example>
+			</rule>
+
 		</rulegroup>
 <!-- TO DO	<rulegroup name="uso errato" id="ST_01_006">
 		</rulegroup> -->
@@ -871,7 +893,7 @@ Grammatica - Punteggiatura			GR_09
 		<rulegroup name="ripetizioni" id="ST_03_002">
 			<rule>
 				<pattern>
-					<token skip="-1" regexp="yes">[qwertyuiopasdfghjklzxcvbnm].*</token>
+					<token skip="-1" regexp="yes">[qwertyuiopasdfghjklzxcvbnm].*<exception postag="ART.*|CON" postag_regexp="yes"/></token>
 					<token><match no="0" /></token>
 				</pattern>
 				<message>Si consiglia di rivedere la frase al fine di elimare la ripetizione della parola: <match no="1" />.</message>
