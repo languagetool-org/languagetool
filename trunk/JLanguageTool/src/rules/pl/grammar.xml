@@ -6,7 +6,7 @@ title="Easy editing stylesheet" ?>
 <!--
 Polish Grammar and Typo Rules for LanguageTool
 Copyright (C) 2006-2007 Marcin Miłkowski
-$Id: grammar.xml,v 1.189 2009-05-30 13:13:52 milek_pl Exp $
+$Id: grammar.xml,v 1.190 2009-06-11 20:03:43 milek_pl Exp $
 -->
 <rules lang="pl">
   <unification feature="number">
@@ -344,7 +344,7 @@ $Id: grammar.xml,v 1.189 2009-05-30 13:13:52 milek_pl Exp $
 
         <token>a</token>
 
-        <token inflected="yes" regexp="yes">więc|mianowicie|przeto|zatem|jednak|choć|chociaż|ponieważ|także|następnie|jeśli|jeżeli|gdyby|gdy|kiedy</token>
+        <token inflected="yes" regexp="yes">więc|mianowicie|przeto|zatem|jednak|choć|chociaż|ponieważ|także|również|następnie|jeśli|jeżeli|gdyby|gdy|kiedy|zarazem|raczej|potem|nawet|przynajmniej|jednocześnie|raczej</token>
       </pattern>
 
       <message>W tym miejscu stawia się przecinek: <suggestion>\1, \2 \3</suggestion></message>
@@ -2565,7 +2565,7 @@ $Id: grammar.xml,v 1.189 2009-05-30 13:13:52 milek_pl Exp $
         <token>a</token>
 
         <and>
-          <token regexp="yes">nie|i|to|już|owszem|potem|wreszcie|nawet|zarazem|także|również|przynajmniej|jednocześnie|raczej</token>
+          <token regexp="yes">nie|i|to|już|owszem|wreszcie</token>
 
           <token negate="yes"><match no="0"></match></token>
         </and>
@@ -2580,7 +2580,7 @@ Powinno być: <suggestion>\2, \3 \4</suggestion>.</message>
 
       <example correction="tak, a nie" type="incorrect">Zrobiłem to <marker>tak a nie</marker> inaczej.</example>
 
-      <example correction="fascynujący, a zarazem" type="incorrect">Był to spektakl <marker>fascynujący a zarazem</marker> przerażający.</example>
+      <example correction="fascynujący, a to" type="incorrect">Był to spektakl <marker>fascynujący a to</marker> z powodu gry aktorów.</example>
     </rule>
 
     <rule id="PRZECINEK_OTOZ" name="Zbędny przecinek po „otóż”">
@@ -6953,21 +6953,39 @@ lub <suggestion>\2 na prawach wyłączności</suggestion>.</message>
       <example type="correct">Czekałem godzinę na pociąg za granicę.</example>
     </rule>
 
-    <rule id="W_PRZEDZIE" name="„w przedzie” (na przodzie)">
-      <pattern>
-        <token>w</token>
+    <rulegroup id="W_PRZEDZIE" name="„w przedzie” (na przodzie)">
+      <rule>
+        <pattern>
+          <token>w</token>
 
-        <token>przedzie</token>
-      </pattern>
+          <token>przedzie</token>
+        </pattern>
 
-      <message>Mówimy <suggestion>na przodzie</suggestion>, <suggestion>w przodzie</suggestion>.</message>
+        <message>Mówimy <suggestion>na przodzie</suggestion>, <suggestion>w przodzie</suggestion>.</message>
 
-      <short>Błąd leksykalny</short>
+        <short>Błąd leksykalny</short>
 
-      <example type="correct">Pierwszy sekretarz stał na przodzie pochodu pierwszomajowego.</example>
+        <example type="correct">Pierwszy sekretarz stał na przodzie pochodu pierwszomajowego.</example>
 
-      <example correction="na przodzie|w przodzie" type="incorrect">Pierwszy sekretarz stał <marker>w przedzie</marker> pochodu pierwszomajowego.</example>
-    </rule>
+        <example correction="na przodzie|w przodzie" type="incorrect">Pierwszy sekretarz stał <marker>w przedzie</marker> pochodu pierwszomajowego.</example>
+      </rule>
+
+      <rule>
+        <pattern mark_from="1">
+          <token><exception regexp="yes">na|któr.*|w</exception></token>
+
+          <token>przedzie</token>
+        </pattern>
+
+        <message>Mówimy <suggestion>na przodzie</suggestion>, <suggestion>w przodzie</suggestion>.</message>
+
+        <short>Błąd leksykalny</short>
+
+        <example type="correct">Pierwszy sekretarz stał na przodzie pochodu pierwszomajowego.</example>
+
+        <example correction="na przodzie|w przodzie" type="incorrect">Pierwszy sekretarz stał <marker>przedzie</marker> pochodu pierwszomajowego.</example>
+      </rule>
+    </rulegroup>
 
     <rule id="W_SLAD_ZA" name="„w ślad za” (w następstwie)">
       <!-- FIXME: dostosować przypadki i zbudować różne 
@@ -9389,7 +9407,7 @@ lub <suggestion>\2 na prawach wyłączności</suggestion>.</message>
         <pattern>
           <token>ze</token>
 
-          <token negate="yes" regexp="yes">[wszśźżWSZŚŹŻ].+|[SRrr]z[wftśsrłndwpgklzcbmżń].+|trz.+|dw.+|Lwowa|mną|mnie|snu|łzami<exception regexp="yes">[\"„]</exception><exception postag="UNKNOWN"></exception></token>
+          <token negate="yes" regexp="yes">[wszśźżWSZŚŹŻ].+|[SRrr]z[wftśsrłndwpgklzcbmżń].+|trz.+|dw.+|Lwowa|mną|mnie|snu|łzami|czter.+<exception regexp="yes">[\"„]</exception><exception postag="UNKNOWN"></exception></token>
         </pattern>
 
         <message>Prawdopodobnie ten przyimek należy zapisać tak: <suggestion>z \2</suggestion>.</message>
@@ -9397,6 +9415,8 @@ lub <suggestion>\2 na prawach wyłączności</suggestion>.</message>
         <short>Błąd fonetyczny</short>
 
         <example type="correct">Ludwik ma kochankę z Łodzi.</example>
+
+        <example type="correct">Mam ze czterdzieści takich samochodów jak Bond.</example>
 
         <example type="correct">Dostaniesz ze trzy tysiące premii za ten donos.</example>
 
@@ -15530,12 +15550,14 @@ Znacznie częściej ta forma jest mylona z trybem rozkazującym od „pokazać�
       <pattern>
         <token>kilu</token>
 
-        <token postag="subst:pl:loc.*|(adj|ppas):pl.*loc.*" postag_regexp="yes"></token>
+        <token postag="subst:pl:loc.*|(adj|ppas):pl.*loc.*|subst:pl:.*gen.*" postag_regexp="yes"></token>
       </pattern>
 
       <message>Prawdopodobna literówka. Czy chodziło o <suggestion>kilku \2</suggestion>?</message>
 
       <short>Prawdopodobna literówka</short>
+
+      <example correction="kilku lat" type="incorrect">Było tak od <marker>kilu lat</marker>.</example>
 
       <example correction="kilku miejscach" type="incorrect">W <marker>kilu miejscach</marker> miałem wątpliwości.</example>
 
@@ -16789,7 +16811,7 @@ Znacznie częściej ta forma jest mylona z trybem rozkazującym od „pokazać�
         <pattern mark_from="1">
           <token><exception regexp="yes">na|\"|któr.*</exception></token>
 
-          <token regexp="yes">^(bakier|chybcika|płask|przekór|odchodne|odchodnym|odczepne|odczepnego|odjezdne|odjezdnym|odwyrtkę|opak|oścież|piechotkę|podorędziu|przedzie|roścież|rozcież|schwał|spytki|ścieżaj|udry|umór|wyjezdne|wyjezdnym|wynos|wyrost|wznak|zabój)</token>
+          <token regexp="yes">^(bakier|chybcika|płask|przekór|odchodne|odchodnym|odczepne|odczepnego|odjezdne|odjezdnym|odwyrtkę|opak|oścież|piechotkę|podorędziu|roścież|rozcież|schwał|spytki|ścieżaj|udry|umór|wyjezdne|wyjezdnym|wynos|wyrost|wznak|zabój)</token>
         </pattern>
 
         <message>Prawdopodobna literówka; powinno być: <suggestion>na \2</suggestion>.</message>
@@ -16847,6 +16869,26 @@ Znacznie częściej ta forma jest mylona z trybem rozkazującym od „pokazać�
         <short>Prawdopodobna literówka</short>
 
         <example correction="bardziej" type="incorrect">Obie drużyny postanowiły zagrać <marker>bardzie</marker> ofensywnie.</example>
+
+        <example type="correct">Mowa o Osjanie, bardzie celtyckim.</example>
+      </rule>
+
+      <rule>
+        <pattern mark_from="1" mark_to="-1">
+          <token><exception regexp="yes">tym|coraz|znacznie|jeszcze|wiele|im</exception><exception postag="adj:sg:inst.loc:m.n:pos:aff"></exception></token>
+
+          <token>bardzie</token>
+
+          <token><exception postag="adj.*|adv.*" postag_regexp="yes"></exception></token>
+        </pattern>
+
+        <message>Prawdopodobna literówka. Czy chodziło o <suggestion>bardziej</suggestion>?</message>
+
+        <short>Prawdopodobna literówka</short>
+
+        <example correction="bardziej" type="incorrect">Partia ma mniej koncentrować się na walce z korupcją, a <marker>bardzie</marker> - właśnie na edukacji.</example>
+
+        <example type="correct">Mowa o Osjanie, celtyckim bardzie.</example>
 
         <example type="correct">Mowa o Osjanie, bardzie celtyckim.</example>
       </rule>
