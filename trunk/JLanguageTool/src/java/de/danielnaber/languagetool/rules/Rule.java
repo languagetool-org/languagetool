@@ -88,8 +88,8 @@ public abstract class Rule {
   public abstract RuleMatch[] match(AnalyzedSentence text) throws IOException;
 
   /**
-   * If a rule keeps it state over more than the check of one sentence, this
-   * must be implemented so the internal state it reset. It will be called
+   * If a rule keeps its state over more than the check of one sentence, this
+   * must be implemented so the internal state is reset. It will be called
    * before a new text is going to be checked.
    */
   public abstract void reset();
