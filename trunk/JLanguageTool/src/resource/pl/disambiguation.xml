@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 	<!--
 		Disambiguation Rules for LanguageTool Copyright (C) 2008				
-$Id: disambiguation.xml,v 1.10 2009-05-12 12:50:34 milek_pl Exp $
+$Id: disambiguation.xml,v 1.11 2009-06-12 23:32:40 milek_pl Exp $
 	-->	
 <rules lang="pl">
   <unification feature="number">
@@ -91,7 +91,7 @@ $Id: disambiguation.xml,v 1.10 2009-05-12 12:50:34 milek_pl Exp $
 	</rule>
 	
 	<rule name="tym" id="tym">
-		<pattern mark="0">
+		<pattern mark_from="0" mark_to="0">
 			<unify feature="gender,number,case">
 			<token>tym</token>
 			<token postag_regexp="yes" postag="subst:sg.*"/>
@@ -300,4 +300,26 @@ $Id: disambiguation.xml,v 1.10 2009-05-12 12:50:34 milek_pl Exp $
 		</rule>		
 	</rulegroup>
 		
+	<rulegroup name="zdarzył w sensie niezwrotnym" id="LOS_ZDARZYL">
+	<rule>
+		<pattern mark="1">
+		<token regexp="yes" skip="-1">los|przypadek<exception scope="next" regexp="yes">się|,</exception></token>
+		<token>zdarzył</token>
+		</pattern>
+		<disambig action="remove"><wd lemma="zdarzyć" pos="refl">zdarzył</wd></disambig>
+		<example type="untouched">To nie przypadek, że ten wypadek zdarzył się tu.</example>
+		<example type="ambiguous" inputform="zdarzył[zdarzyć/refl,zdarzyć/verb:praet:sg:ter:m:perf]" outputform="zdarzył[zdarzyć/verb:praet:sg:ter:m:perf]">Los tak <marker>zdarzył</marker>, mój panie.</example>
+	</rule>
+	<rule id="LOS2">
+		<pattern mark="0">		
+		<token skip="-1">zdarzył</token>
+		<token regexp="yes">los|przypadek</token>		
+		</pattern>
+		<disambig action="remove"><wd lemma="zdarzyć" pos="refl">zdarzył</wd></disambig>
+		<example type="untouched">To nie przypadek, że ten wypadek zdarzył się tu.</example>
+		<example type="ambiguous" inputform="zdarzył[zdarzyć/refl,zdarzyć/verb:praet:sg:ter:m:perf]" outputform="zdarzył[zdarzyć/verb:praet:sg:ter:m:perf]">Tak <marker>zdarzył</marker> los, mój panie.</example>
+	</rule>
+	
+	</rulegroup>
+	
 </rules>

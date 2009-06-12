@@ -411,13 +411,16 @@ class DisambiguationRuleHandler extends XMLRuleHandler {
       rule.setStartPositionCorrection(positionCorrection);
       if (!singleTokenCorrection) {
         rule.setEndPositionCorrection(endPositionCorrection);
+      } else {
+        endPositionCorrection = 1 - (elementList.size() - positionCorrection);
+        rule.setEndPositionCorrection(endPositionCorrection);
       }
       if (newWdList != null) {
         if (disambigAction == DisambiguatorAction.ADD
             || disambigAction == DisambiguatorAction.REMOVE) {
           if (newWdList.size() != (elementList.size() - positionCorrection + endPositionCorrection)) {
             throw new SAXException(
-                "Rule error. The number of interpretations specified with wd: "
+                language.getName() + " rule error. The number of interpretations specified with wd: "
                     + newWdList.size()
                     + " must be equal to the number of matched tokens (" + (elementList.size() - positionCorrection + endPositionCorrection) + ")" 
                     + "\n Line: " + dLocator.getLineNumber() + ", column: "
@@ -438,7 +441,7 @@ class DisambiguationRuleHandler extends XMLRuleHandler {
       rules.add(rule);
       if (disambigAction == DisambiguatorAction.UNIFY
           && (elementList.size() - positionCorrection + endPositionCorrection) != uniCounter) {
-        throw new SAXException("Rule error. The number unified tokens: "
+        throw new SAXException(language.getName() + " rule error. The number unified tokens: "
             + uniCounter + " must be equal to the number of matched tokens."
             + "\n Line: " + dLocator.getLineNumber() + ", column: "
             + dLocator.getColumnNumber() + ".");
@@ -446,7 +449,7 @@ class DisambiguationRuleHandler extends XMLRuleHandler {
       if ((!singleTokenCorrection && (disambigAction == DisambiguatorAction.FILTER || disambigAction == DisambiguatorAction.REPLACE))
           && ((elementList.size() - positionCorrection + endPositionCorrection) > 1)) {
         throw new SAXException(
-            "Rule error. Cannot replace or filter more than one token at a time."
+            language.getName() + " rule error. Cannot replace or filter more than one token at a time."
                 + "\n Line: " + dLocator.getLineNumber() + ", column: "
                 + dLocator.getColumnNumber() + ".");
       }

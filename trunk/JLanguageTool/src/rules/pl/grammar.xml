@@ -6,7 +6,7 @@ title="Easy editing stylesheet" ?>
 <!--
 Polish Grammar and Typo Rules for LanguageTool
 Copyright (C) 2006-2007 Marcin Miłkowski
-$Id: grammar.xml,v 1.190 2009-06-11 20:03:43 milek_pl Exp $
+$Id: grammar.xml,v 1.191 2009-06-12 23:32:40 milek_pl Exp $
 -->
 <rules lang="pl">
   <unification feature="number">
@@ -1722,7 +1722,7 @@ $Id: grammar.xml,v 1.190 2009-06-11 20:03:43 milek_pl Exp $
 
     <rule id="JAK_I" name="Brak przecinka przed „jak i”">
       <pattern>
-        <token><exception postag="SENT_START" postag_regexp="yes"></exception><exception regexp="yes">[\p{Punct}–—„«»…]+|tyle|i|lub|albo|ani|oraz|bądź|czy|tak</exception></token>
+        <token><exception postag="SENT_START" postag_regexp="yes"></exception><exception regexp="yes">[\p{Punct}–—„«»…]+|tyle|i|lub|albo|ani|oraz|bądź|czy|tak|podobnie</exception></token>
 
         <token>jak</token>
 
@@ -1732,6 +1732,8 @@ $Id: grammar.xml,v 1.190 2009-06-11 20:03:43 milek_pl Exp $
       <message>Tu prawdopodobnie brakuje przecinka. Powinno być: <suggestion>\1, \2 \3</suggestion>.</message>
 
       <short>Błąd interpunkcyjny</short>
+
+      <example type="correct">To jest podejrzany typ, podobnie jak inni w tej dzielnicy.</example>
 
       <example type="correct">Lubię zarówno Lecha, jak i Jarosława.</example>
 
@@ -2743,27 +2745,51 @@ Powinno być: <suggestion>\2, \3 \4</suggestion>.</message>
       </rule>
     </rulegroup>
 
-    <rule id="BRAK_KROPKI" name="Brak kropki na końcu zdania">
-      <pattern mark_from="2">
-        <token postag="SENT_START" skip="-1"></token>
+    <rulegroup id="BRAK_KROPKI" name="Brak kropki na końcu zdania">
+      <rule>
+        <pattern mark_from="2">
+          <token postag="SENT_START" skip="-1"></token>
 
-        <token postag="verb:.*(sg|pl).*|verb:imps.*|verb:irreg|pred" postag_regexp="yes" skip="-1"></token>
+          <token postag="verb:.*(sg|pl).*|verb:imps.*|verb:irreg|pred" postag_regexp="yes" skip="-1"></token>
 
-        <token postag="SENT_END"><exception regexp="yes">[\p{Punct}…”]</exception><exception scope="previous">.</exception></token>
-      </pattern>
+          <token postag="SENT_END"><exception regexp="yes">[?\.!,:;…”]</exception><exception scope="previous">.</exception></token>
+        </pattern>
 
-      <message>To zdanie nie kończy się kropką ani innym znakiem interpunkcyjnym. Powinno być: <suggestion>\3.</suggestion></message>
+        <message>To zdanie nie kończy się kropką ani innym znakiem interpunkcyjnym. Powinno być: <suggestion>\3.</suggestion></message>
 
-      <short>Zdanie bez kropki</short>
+        <short>Zdanie bez kropki</short>
 
-      <example correction="złotych." type="incorrect">Pożycz mi sto <marker>złotych</marker></example>
+        <example correction="złotych." type="incorrect">Pożycz mi sto <marker>złotych</marker></example>
 
-      <example type="correct">Pożycz mi sto złotych.</example>
+        <example type="correct">Pożycz mi sto złotych.</example>
 
-      <example type="correct">To jest zdanie z „cytatem na końcu i przypisem”.</example>
+        <example type="correct">To jest zdanie z „cytatem na końcu i przypisem”.</example>
 
-      <example type="correct">Pożycz mi sto złotych…</example>
-    </rule>
+        <example type="correct">Pożycz mi sto złotych…</example>
+      </rule>
+
+      <rule>
+        <pattern mark_from="2">
+          <token postag="SENT_START" skip="-1"></token>
+
+          <token postag="verb:.*(sg|pl).*|verb:imps.*|verb:irreg|pred" postag_regexp="yes" skip="-1"></token>
+
+          <token postag="SENT_END"><exception scope="previous">.</exception>,</token>
+        </pattern>
+
+        <message>To zdanie kończy się przecinkiem. Prawdopodobnie powinno być: <suggestion>.</suggestion></message>
+
+        <short>Zdanie bez kropki</short>
+
+        <example correction="." type="incorrect">Pożycz mi sto złotych<marker>,</marker></example>
+
+        <example type="correct">Pożycz mi sto złotych.</example>
+
+        <example type="correct">To jest zdanie z „cytatem na końcu i przypisem”.</example>
+
+        <example type="correct">Pożycz mi sto złotych…</example>
+      </rule>
+    </rulegroup>
   </category>
 
   <category name="Błędy typograficzne">
@@ -12448,17 +12474,18 @@ Znacznie częściej ta forma jest mylona z trybem rozkazującym od „pokazać�
     <rulegroup id="LICZEBNIKI" name="Liczebniki porządkowe z końcówkami przypadków">
       <rule>
         <pattern>
-          <token regexp="yes">^(\d+)-([mt]*y|[w]*si|[w]*szy|[w]*sze|[w]*szym[i]*|[w]*si|tym|tymi|ci|a|ce|ch|cia|cie|ciej|cim|cioletnią|ciu|ego|ej|ga|gi|gie|gim|go|im|ki|krotnie|któregoś|leci.*|ma|me|miu|stoletniego|stu|sza|[tm]*a|[mt]*e|[tm]*ego|[mt]*ej|to|[mt]*[i]*oletni.*|[mt]*u|[mt]*ą|[mt]*ych|[mt]*e)</token>
+          <token regexp="yes">^(\d+)-([mt]*y|[w]*si|[w]*szy|[w]*sze|[w]*szym[i]*|[w]*si|tym|tymi|ci|a|ce|ch|cia|cie|ciej|cim|cioletnią|ciu|ego|ej|ga|gi|gie|gim|go|im|ki|krotnie|któregoś|ma|me|miu|stoletniego|stu|sza|[tm]*a|[mt]*e|[tm]*ego|[mt]*ej|to|[mt]*[i]*oletni.*|[mt]*u|[mt]*ą|[mt]*ych|[mt]*e)</token>
         </pattern>
 
-        <message>Liczebniki porządkowe zapisujemy nie z końcówkami przypadków, tylko z kropką: 
-				<suggestion><match no="1" regexp_match="(\d+)-(.*)" regexp_replace="$1"></match>.</suggestion>.</message>
+        <message>Liczebniki porządkowe zapisujemy nie z końcówkami przypadków, tylko z kropką: <suggestion><match no="1" regexp_match="(\d+)-(.*)" regexp_replace="$1"></match>.</suggestion>.</message>
 
         <short>Błąd ortograficzny</short>
 
         <example type="correct">Ten system jest 32-bitowy.</example>
 
         <example correction="5." type="incorrect">To już <marker>5-ty</marker> raz!</example>
+
+        <example type="correct">20-lecie międzywojenne było okresem pełnym intryg politycznych.</example>
 
         <example correction="1." type="incorrect">To już <marker>1-wszy</marker> raz!</example>
 
