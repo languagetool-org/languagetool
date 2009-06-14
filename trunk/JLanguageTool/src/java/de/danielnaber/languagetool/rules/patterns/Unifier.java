@@ -40,9 +40,10 @@ public class Unifier {
 
   private static final String FEATURE_SEPARATOR = ",";
 
+//TODO: add a possibility to negate some features but not all
   /**
    * Negates the meaning of unification just like negation in Element tokens.
-   */
+   */  
   private boolean negation;
 
   private boolean allFeatsIn;
