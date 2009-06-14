@@ -6,7 +6,7 @@ title="Easy editing stylesheet" ?>
 <!--
 Polish Grammar and Typo Rules for LanguageTool
 Copyright (C) 2006-2007 Marcin Miłkowski
-$Id: grammar.xml,v 1.191 2009-06-12 23:32:40 milek_pl Exp $
+$Id: grammar.xml,v 1.192 2009-06-14 00:56:57 milek_pl Exp $
 -->
 <rules lang="pl">
   <unification feature="number">
@@ -421,7 +421,7 @@ $Id: grammar.xml,v 1.191 2009-06-12 23:32:40 milek_pl Exp $
         <pattern>
           <token><exception postag="SENT_START"></exception><exception regexp="yes">[\p{Punct}–—„«»…]+</exception></token>
 
-          <token regexp="yes">ile|jako|oraz|szczególnie|zwłaszcza|pomimo|mimo|ledwie|niby|prawie|ledwo</token>
+          <token regexp="yes">ile|jako|oraz|szczególnie|zwłaszcza|pomimo|mimo|ledwie|niby|prawie|ledwo|chyba</token>
 
           <token>,</token>
 
@@ -441,7 +441,7 @@ $Id: grammar.xml,v 1.191 2009-06-12 23:32:40 milek_pl Exp $
         <pattern mark_from="1">
           <token postag="SENT_START"></token>
 
-          <token regexp="yes">ile|jako|oraz|szczególnie|tylko|zwłaszcza|pomimo|mimo|ledwie|niby|prawie|ledwo</token>
+          <token regexp="yes">ile|jako|oraz|szczególnie|tylko|zwłaszcza|pomimo|mimo|ledwie|niby|prawie|ledwo|chyba</token>
 
           <token>,</token>
 
@@ -461,7 +461,7 @@ $Id: grammar.xml,v 1.191 2009-06-12 23:32:40 milek_pl Exp $
         <pattern mark_from="1">
           <phraseref idref="INTERPUNKCJA" />
 
-          <token regexp="yes">ile|jako|oraz|szczególnie|tylko|zwłaszcza|pomimo|mimo|ledwie|niby|prawie|ledwo</token>
+          <token regexp="yes">ile|jako|oraz|szczególnie|tylko|zwłaszcza|pomimo|mimo|ledwie|niby|prawie|ledwo|chyba</token>
 
           <token>,</token>
 
@@ -2752,7 +2752,7 @@ Powinno być: <suggestion>\2, \3 \4</suggestion>.</message>
 
           <token postag="verb:.*(sg|pl).*|verb:imps.*|verb:irreg|pred" postag_regexp="yes" skip="-1"></token>
 
-          <token postag="SENT_END"><exception regexp="yes">[?\.!,:;…”]</exception><exception scope="previous">.</exception></token>
+          <token postag="SENT_END"><exception regexp="yes">[?\.!,:;…”\02]</exception><exception scope="previous">.</exception></token>
         </pattern>
 
         <message>To zdanie nie kończy się kropką ani innym znakiem interpunkcyjnym. Powinno być: <suggestion>\3.</suggestion></message>
@@ -2823,6 +2823,22 @@ Powinno być: <suggestion>\2, \3 \4</suggestion>.</message>
       <example type="correct">To jest ważne – o ile mi wiadomo.</example>
 
       <example correction="…" type="incorrect">To jest ważne<marker>...</marker> o ile mi wiadomo.</example>
+    </rule>
+
+    <rule id="PL_ELLIPSIS_DOT" name="Zbędna kropka po trzykropku">
+      <pattern>
+        <token>…</token>
+
+        <token>.</token>
+      </pattern>
+
+      <message>Zbędna kropka po trzykropku. Wystarczy <suggestion>\1</suggestion>.</message>
+
+      <short>Zbędna kropka</short>
+
+      <example correction="…" type="incorrect">To jest problem<marker>….</marker></example>
+
+      <example type="correct">To jest problem…</example>
     </rule>
 
     <rulegroup id="ZAGNIEZDZONE_CUDZYSLOWY" name="Cytat w cudzysłowie">
@@ -9558,6 +9574,48 @@ lub <suggestion>\2 na prawach wyłączności</suggestion>.</message>
   </category>
 
   <category name="Błędy różne">
+    <rulegroup default="off" id="RYMY" name="Rymujące się wyrazy">
+      <rule>
+        <pattern case_sensitive="no">
+          <token regexp="yes">.*([aeuóiyęą][^aeuóiyęą]+[aeuóiyęą]+[^aeuóiyęą]*)</token>
+
+          <and>
+            <token negate="yes"><match no="0"></match></token>
+
+            <token regexp="yes"><match no="0" regexp_match=".*([aeuóiyęą][^aeuóiyęą]+[aeuóiyęą]+[^aeuóiyęą]*)" regexp_replace=".*$1"></match></token>
+          </and>
+        </pattern>
+
+        <message>Te dwa wyrazy (\1 \2) się rymują.</message>
+
+        <short>Niezamierzony rym</short>
+
+        <example type="incorrect">Tu <marker>wylądowały oddziały</marker>.</example>
+
+        <example type="correct">Drugi drugi jest krótki.</example>
+
+        <example type="correct">Nie ma trwałej wartości.</example>
+      </rule>
+
+      <rule>
+        <pattern case_sensitive="no">
+          <token regexp="yes">.*ości</token>
+
+          <token regexp="yes">.*ości</token>
+        </pattern>
+
+        <message>Te dwa wyrazy (\1 \2) się rymują.</message>
+
+        <short>Niezamierzony rym</short>
+
+        <example type="incorrect">Nie doceniasz <marker>wartości miłości</marker>.</example>
+
+        <example type="correct">Drugi drugi jest krótki.</example>
+
+        <example type="correct">Nie ma trwałej wartości.</example>
+      </rule>
+    </rulegroup>
+
     <rulegroup id="PL_DWA_WYRAZY" name="Powtórzenie dwóch wyrazów („dla niego dla niego”)">
       <rule>
         <pattern>
@@ -17143,6 +17201,22 @@ Znacznie częściej ta forma jest mylona z trybem rozkazującym od „pokazać�
   </category>
 
   <category name="Błędy frazeologiczne">
+    <rule id="JEZYCZEK_UWAGI" name="„języczek uwagi” (języczek u wagi)">
+      <pattern>
+        <token inflected="yes">języczek</token>
+
+        <token>uwagi</token>
+      </pattern>
+
+      <message>Nieprawidłowa postać związku frazeologicznego. Powinno być: <suggestion>\1 u wagi</suggestion>.</message>
+
+      <short>Błąd frazeologiczny</short>
+
+      <example correction="języczkiem u wagi" type="incorrect">Partia księgowych stała się <marker>języczkiem uwagi</marker>.</example>
+
+      <example type="correct">Partia księgowych to istny języczek u wagi.</example>
+    </rule>
+
     <rule id="KONSTRUKCJA_CEPU" name="„konstrukcja cepu” (konstrukcja cepa)">
       <pattern mark_from="1">
         <token inflected="yes">konstrukcja</token>
@@ -17151,6 +17225,8 @@ Znacznie częściej ta forma jest mylona z trybem rozkazującym od „pokazać�
       </pattern>
 
       <message>W tym wyrażeniu wyraz „cep” odmienia się inaczej: <suggestion>cepa</suggestion>.</message>
+
+      <short>Błąd frazeologiczny</short>
 
       <example correction="cepa" type="incorrect">To jest proste jak konstrukcja <marker>cepu</marker>.</example>
 

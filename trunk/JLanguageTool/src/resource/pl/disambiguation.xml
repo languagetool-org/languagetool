@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 	<!--
 		Disambiguation Rules for LanguageTool Copyright (C) 2008				
-$Id: disambiguation.xml,v 1.11 2009-06-12 23:32:40 milek_pl Exp $
+$Id: disambiguation.xml,v 1.12 2009-06-14 00:56:57 milek_pl Exp $
 	-->	
 <rules lang="pl">
   <unification feature="number">
@@ -319,7 +319,38 @@ $Id: disambiguation.xml,v 1.11 2009-06-12 23:32:40 milek_pl Exp $
 		<example type="untouched">To nie przypadek, że ten wypadek zdarzył się tu.</example>
 		<example type="ambiguous" inputform="zdarzył[zdarzyć/refl,zdarzyć/verb:praet:sg:ter:m:perf]" outputform="zdarzył[zdarzyć/verb:praet:sg:ter:m:perf]">Tak <marker>zdarzył</marker> los, mój panie.</example>
 	</rule>
-	
 	</rulegroup>
+	
+	<rulegroup name="co (i) rusz" id="CO_RUSZ">
+		<rule>
+			<pattern mark="1">
+				<token>co</token>
+				<token>rusz</token>
+			</pattern>
+			<disambig postag="qub"/>
+			<example type="untouched">Rusz tylko tę książkę!</example>
+			<example type="ambiguous" inputform="rusz[ruszyć/verb:impt:sg:sec:perf]" outputform="rusz[ruszyć/qub]">Co <marker>rusz</marker> pyta o godzinę.</example>
+		</rule>	
+		<rule>
+			<pattern mark="2">
+				<token>co</token>
+				<token>i</token>
+				<token>rusz</token>
+			</pattern>
+			<disambig postag="qub"/>
+			<example type="untouched">Rusz tylko tę książkę!</example>
+			<example type="ambiguous" inputform="rusz[ruszyć/verb:impt:sg:sec:perf]" outputform="rusz[ruszyć/qub]">Co i <marker>rusz</marker> pyta o godzinę.</example>
+		</rule>				
+	</rulegroup>
+	
+	<rule name="skrótowce jako nieodmienne" id="SKROTOWCE_IRREG">
+		<pattern mark="1">
+		<token postag="prep:.*" postag_regexp="yes"/>
+		<token regexp="yes">^(\p{Lu}{2}+[i]*\p{Lu}{1,4}+)</token>
+		</pattern>
+		<disambig postag="subst:irreg"/>
+		<example type="untouched">ONZ wystosowała pismo do redakcji Przeglądu Wędkarskiego.</example>
+		<example type="ambiguous" inputform="ONZ[ONZ/subst:sg:nom.acc:m3]" outputform="ONZ[ONZ/subst:irreg]">Do <marker>ONZ</marker> dotarło pismo z redakcji Przeglądu Wędkarskiego.</example>
+	</rule>
 	
 </rules>
