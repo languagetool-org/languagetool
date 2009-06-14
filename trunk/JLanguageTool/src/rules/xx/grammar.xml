@@ -7,7 +7,7 @@ title="Easy editing stylesheet" ?>
 <!--
 A demo rule file for LanguageTool
 Copyright (C) 2005 Daniel Naber (http://www.danielnaber.de)
-$Id: grammar.xml,v 1.13 2008-12-12 17:06:58 milek_pl Exp $
+$Id: grammar.xml,v 1.14 2009-06-14 12:25:13 milek_pl Exp $
 -->
 <rules lang="xx">
   <!-- tests for phrase syntax -->
@@ -240,7 +240,7 @@ $Id: grammar.xml,v 1.13 2008-12-12 17:06:58 milek_pl Exp $
       <example type="correct">New York Cafe</example>
       <example correction="New York Cafe" type="incorrect">This is a new coffeshop in the middle of nowhere called <marker>new-york cafe</marker>.</example>
     </rule>
-    <rule id="test_unification" name="Test unification of gender">
+    <rule id="test_unification" name="Test unification of character case">
       <pattern case_sensitive="yes" mark_from="1">
         <token>abc</token>
         <unify feature="case_sensitivity" type="startupper">
@@ -251,6 +251,19 @@ $Id: grammar.xml,v 1.13 2008-12-12 17:06:58 milek_pl Exp $
       <message>Warning: \1 \2 \3!</message>
       <example type="incorrect">abc <marker>New York</marker></example>
       <example type="correct">abc new York</example>
+    </rule>
+    <rule id="test_unification_negate" name="Test negated unification of character case">
+      <pattern case_sensitive="yes" mark_from="1">
+        <token>abc</token>
+        <unify negate="yes" feature="case_sensitivity" type="startupper">        
+          <token/>
+          <token regexp="yes">[yY]ork</token>
+        </unify>
+      </pattern>
+      <message>Warning: \1 \2 \3!</message>
+      <example type="incorrect">abc <marker>new York</marker></example>
+      <example type="incorrect">abc <marker>New york</marker></example>
+      <example type="correct">abc New York</example>
     </rule>
     <rule id="test_unification_phrase" name="Test unification of characters' case via phrase">
       <pattern case_sensitive="yes" mark_from="1">
