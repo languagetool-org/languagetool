@@ -426,7 +426,9 @@ public class Element {
       if (!caseSensitive) {
         regToken = CASE_INSENSITIVE + stringToken;
       }
-      p = Pattern.compile(regToken);
+      if (!"\\0".equals(token)) {
+        p = Pattern.compile(regToken);
+      }
     }
   }
 
@@ -663,6 +665,8 @@ public class Element {
   public final void compile(final AnalyzedTokenReadings token,
       final Synthesizer synth) throws IOException {
 
+    m = null;
+    p = null;
     tokenReference.setToken(token);
     tokenReference.setSynthesizer(synth);
 
