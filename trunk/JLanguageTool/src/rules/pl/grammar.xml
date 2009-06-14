@@ -6,7 +6,7 @@ title="Easy editing stylesheet" ?>
 <!--
 Polish Grammar and Typo Rules for LanguageTool
 Copyright (C) 2006-2007 Marcin Miłkowski
-$Id: grammar.xml,v 1.192 2009-06-14 00:56:57 milek_pl Exp $
+$Id: grammar.xml,v 1.193 2009-06-14 14:57:02 milek_pl Exp $
 -->
 <rules lang="pl">
   <unification feature="number">
@@ -10603,6 +10603,62 @@ lub <suggestion>\2 na prawach wyłączności</suggestion>.</message>
 
       <example type="correct">Spotkaliśmy się z przedstawicielami Trzeciego Świata.</example>
     </rule>
+
+    <rulegroup id="MORZE_BALTYCKIE" name="morze bałtyckie (Morze Bałtyckie)">
+      <rule name="">
+        <pattern case_sensitive="yes">
+          <unify feature="gender,case,number">
+            <and>
+              <token inflected="yes">morze</token>
+
+              <token regexp="yes">Mo.*</token>
+            </and>
+
+            <and>
+              <token inflected="yes" regexp="yes">bałtycki|egejski|czerwony|śródziemny|czarny</token>
+
+              <token regexp="yes">\p{Ll}+</token>
+            </and>
+          </unify>
+        </pattern>
+
+        <message>Błędna pisownia. Powinno być: <suggestion><match case_conversion="startupper" no="1"></match> <match case_conversion="startupper" no="2"></match></suggestion>.</message>
+
+        <short>Błędne użycie małych i wielkich liter</short>
+
+        <example correction="Morza Bałtyckiego" type="incorrect">Polska ma dostęp do <marker>Morza bałtyckiego</marker>.</example>
+
+        <example type="correct">Uwielbiam cywilizację basenu Morza Śródziemnego.</example>
+
+        <example type="correct">Widziałem nad tamtym morzem bałtyckie rybitwy.</example>
+      </rule>
+
+      <rule name="">
+        <pattern case_sensitive="yes">
+          <unify feature="gender,case,number">
+            <and>
+              <token inflected="yes">morze</token>
+
+              <token regexp="yes">mo.*</token>
+            </and>
+
+            <token inflected="yes" regexp="yes">bałtycki|egejski|czerwony|śródziemny|czarny</token>
+          </unify>
+        </pattern>
+
+        <message>Błędna pisownia. Powinno być: <suggestion><match case_conversion="startupper" no="1"></match> <match case_conversion="startupper" no="2"></match></suggestion>.</message>
+
+        <short>Błędne użycie małych i wielkich liter</short>
+
+        <example correction="Morza Bałtyckiego" type="incorrect">Polska ma dostęp do <marker>morza Bałtyckiego</marker>.</example>
+
+        <example correction="Morza Bałtyckiego" type="incorrect">Polska ma dostęp do <marker>morza bałtyckiego</marker>.</example>
+
+        <example type="correct">Uwielbiam cywilizację basenu Morza Śródziemnego.</example>
+
+        <example type="correct">Widziałem nad tamtym morzem bałtyckie rybitwy.</example>
+      </rule>
+    </rulegroup>
 
     <rulegroup default="off" id="PL_CAPITALIZE" name="Poprawianie wyrazów małymi literami („kraków”)">
       <rule>
