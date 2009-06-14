@@ -254,10 +254,7 @@ class PatternRuleHandler extends XMLRuleHandler {
               + pLocator.getColumnNumber() + ".");
         }
       }
-      if (attrs.getValue("case_sensitive") != null
-          && YES.equals(attrs.getValue("case_sensitive"))) {
-        caseSensitive = true;
-      }
+      caseSensitive = YES.equals(attrs.getValue("case_sensitive"));     
     } else if (qName.equals("and")) {
       inAndGroup = true;
     } else if (qName.equals("unify")) {
@@ -268,10 +265,7 @@ class PatternRuleHandler extends XMLRuleHandler {
       } else {
         uType = "";
       }
-      if (attrs.getValue("negate") != null
-          && YES.equals(attrs.getValue("negate"))) {
-        uniNegation = true;
-      }
+      uniNegation = YES.equals(attrs.getValue("negate"));
     } else if (qName.equals("token")) {
       inToken = true;
 
@@ -280,12 +274,8 @@ class PatternRuleHandler extends XMLRuleHandler {
       }
 
       lastPhrase = false;
-      if (attrs.getValue(NEGATE) != null) {
-        tokenNegated = YES.equals(attrs.getValue(NEGATE));
-      }
-      if (attrs.getValue(INFLECTED) != null) {
-        tokenInflected = YES.equals(attrs.getValue(INFLECTED));
-      }
+      tokenNegated = YES.equals(attrs.getValue(NEGATE));
+      tokenInflected = YES.equals(attrs.getValue(INFLECTED));      
       if (attrs.getValue("skip") != null) {
         skipPos = Integer.parseInt(attrs.getValue("skip"));
       }
@@ -293,17 +283,11 @@ class PatternRuleHandler extends XMLRuleHandler {
       // POSElement creation
       if (attrs.getValue(POSTAG) != null) {
         posToken = attrs.getValue(POSTAG);
-        if (attrs.getValue(POSTAG_REGEXP) != null) {
-          posRegExp = YES.equals(attrs.getValue(POSTAG_REGEXP));
-        }
-        if (attrs.getValue(NEGATE_POS) != null) {
-          posNegation = YES.equals(attrs.getValue(NEGATE_POS));
-        }
+        posRegExp = YES.equals(attrs.getValue(POSTAG_REGEXP));
+        posNegation = YES.equals(attrs.getValue(NEGATE_POS));       
       }
-      if (attrs.getValue(REGEXP) != null) {
-        stringRegExp = YES.equals(attrs.getValue(REGEXP));
-      }
-
+      stringRegExp = YES.equals(attrs.getValue(REGEXP));
+      
       if (attrs.getValue(SPACEBEFORE) != null) {
         tokenSpaceBefore = YES.equals(attrs.getValue(SPACEBEFORE));
         tokenSpaceBeforeSet = "ignore".equals(attrs.getValue(SPACEBEFORE)) ^ true;
@@ -317,28 +301,17 @@ class PatternRuleHandler extends XMLRuleHandler {
       exceptions = new StringBuilder();
       resetException();
 
-      if (attrs.getValue(NEGATE) != null) {
-        exceptionStringNegation = YES.equals(attrs.getValue(NEGATE));
-      }
-      if (attrs.getValue("scope") != null) {
-        exceptionValidNext = attrs.getValue("scope").equals("next");
-        exceptionValidPrev = attrs.getValue("scope").equals("previous");
-      }
-      if (attrs.getValue(INFLECTED) != null) {
-        exceptionStringInflected = YES.equals(attrs.getValue(INFLECTED));
-      }
+      exceptionStringNegation = YES.equals(attrs.getValue(NEGATE));      
+      exceptionValidNext = "next".equals(attrs.getValue("scope"));
+      exceptionValidPrev = "previous".equals(attrs.getValue("scope"));      
+      exceptionStringInflected = YES.equals(attrs.getValue(INFLECTED));
+      
       if (attrs.getValue(POSTAG) != null) {
         exceptionPosToken = attrs.getValue(POSTAG);
-        if (attrs.getValue(POSTAG_REGEXP) != null) {
-          exceptionPosRegExp = YES.equals(attrs.getValue(POSTAG_REGEXP));
-        }
-        if (attrs.getValue(NEGATE_POS) != null) {
-          exceptionPosNegation = YES.equals(attrs.getValue(NEGATE_POS));
-        }
+        exceptionPosRegExp = YES.equals(attrs.getValue(POSTAG_REGEXP));
+        exceptionPosNegation = YES.equals(attrs.getValue(NEGATE_POS));        
       }
-      if (attrs.getValue(REGEXP) != null) {
-        exceptionStringRegExp = YES.equals(attrs.getValue(REGEXP));
-      }
+      exceptionStringRegExp = YES.equals(attrs.getValue(REGEXP));
       if (attrs.getValue(SPACEBEFORE) != null) {
         exceptionSpaceBefore = YES.equals(attrs.getValue(SPACEBEFORE));
         exceptionSpaceBeforeSet = "ignore".equals(attrs.getValue(SPACEBEFORE)) ^ true;
@@ -657,12 +630,9 @@ class PatternRuleHandler extends XMLRuleHandler {
   }
 
   private void resetToken() {
-    tokenNegated = false;
-    tokenInflected = false;
     posNegation = false;
     posRegExp = false;
     inToken = false;
-    stringRegExp = false;
     tokenSpaceBefore = false;
     tokenSpaceBeforeSet = false;
 
