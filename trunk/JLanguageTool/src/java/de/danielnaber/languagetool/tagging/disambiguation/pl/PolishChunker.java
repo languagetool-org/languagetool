@@ -50,6 +50,7 @@ public class PolishChunker implements Disambiguator {
     + "w oparciu o|PREP:ACC\n" + "w związku z|PREP:INST\n"
     + "w zgodzie z|PREP:INST\n" + "zgodnie z|PREP:INST\n"
     + "w odróżnieniu od|PREP:GEN\n"
+    + "w zamian za|PREP:ACC\n"
     + "w zależności od|PREP:GEN\n"    
     + "w porównaniu z|PREP:INST\n" 
     + "odnośnie do|PREP:GEN\n"
