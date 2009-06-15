@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 	<!--
 		Disambiguation Rules for LanguageTool Copyright (C) 2008				
-$Id: disambiguation.xml,v 1.12 2009-06-14 00:56:57 milek_pl Exp $
+$Id: disambiguation.xml,v 1.13 2009-06-15 22:26:30 milek_pl Exp $
 	-->	
 <rules lang="pl">
   <unification feature="number">
@@ -20,7 +20,7 @@ $Id: disambiguation.xml,v 1.12 2009-06-14 00:56:57 milek_pl Exp $
       <token postag=".*[\.:]m[1-4]?([\.:].*)?" postag_regexp="yes"/>
     </equivalence>
     <equivalence type="n">
-      <token postag=".*[\.:]n([\.:].*)?" postag_regexp="yes"/>
+      <token postag=".*[\.:]n[1-2]?([\.:].*)?" postag_regexp="yes"/>
     </equivalence>
   </unification>
   <unification feature="case">
@@ -102,7 +102,8 @@ $Id: disambiguation.xml,v 1.12 2009-06-14 00:56:57 milek_pl Exp $
 	
 	
 	<!-- now not that greedy :) --> 
-	<rule name="unifikacja przymiotnika z rzeczownikiem" id="unify_adj_subst">
+	<rulegroup name="unifikacja przymiotnika z rzeczownikiem" id="unify_adj_subst">
+	<rule>
 		<pattern mark_from="0" mark_to="0">
 		<unify feature="number,gender,case">
           <token postag="adj.*" postag_regexp="yes"><exception negate_pos="yes" postag_regexp="yes" postag="adj.*"/></token>
@@ -111,6 +112,35 @@ $Id: disambiguation.xml,v 1.12 2009-06-14 00:56:57 milek_pl Exp $
         </pattern>
         <disambig action="unify"/>
 	</rule>
+	<rule>
+		<pattern mark_from="0" mark_to="0">
+		<unify feature="number,gender,case">          
+          <token postag="subst.*" postag_regexp="yes"><exception negate_pos="yes" postag_regexp="yes" postag="subst.*"/><exception postag="subst:irreg"/></token>
+          <token postag="adj.*" postag_regexp="yes"><exception negate_pos="yes" postag_regexp="yes" postag="adj.*"/></token>
+        </unify>
+        </pattern>
+        <disambig action="unify"/>
+	</rule>
+	<rule>
+		<pattern mark_from="0" mark_to="0">
+		<unify feature="number,gender,case">
+          <token postag="pact.*" postag_regexp="yes"><exception negate_pos="yes" postag_regexp="yes" postag="pact.*"/></token>
+          <token postag="subst.*" postag_regexp="yes"><exception negate_pos="yes" postag_regexp="yes" postag="subst.*"/><exception postag="subst:irreg"/></token>
+        </unify>
+        </pattern>
+        <disambig action="unify"/>
+	</rule>
+	<rule>
+		<pattern mark_from="0" mark_to="0">
+		<unify feature="number,gender,case">          
+          <token postag="subst.*" postag_regexp="yes"><exception negate_pos="yes" postag_regexp="yes" postag="subst.*"/><exception postag="subst:irreg"/></token>
+          <token postag="pact.*" postag_regexp="yes"><exception negate_pos="yes" postag_regexp="yes" postag="pact.*"/></token>
+        </unify>
+        </pattern>
+        <disambig action="unify"/>
+	</rule>
+	
+	</rulegroup>
 	
 	<rule name="mają to nie maić" id="MAJA_MAIC">
 		<pattern mark="0">
@@ -346,11 +376,121 @@ $Id: disambiguation.xml,v 1.12 2009-06-14 00:56:57 milek_pl Exp $
 	<rule name="skrótowce jako nieodmienne" id="SKROTOWCE_IRREG">
 		<pattern mark="1">
 		<token postag="prep:.*" postag_regexp="yes"/>
-		<token regexp="yes">^(\p{Lu}{2}+[i]*\p{Lu}{1,4}+)</token>
+		<token regexp="yes">\p{Lu}+[i]*\p{Lu}{1,4}+</token>
 		</pattern>
 		<disambig postag="subst:irreg"/>
 		<example type="untouched">ONZ wystosowała pismo do redakcji Przeglądu Wędkarskiego.</example>
 		<example type="ambiguous" inputform="ONZ[ONZ/subst:sg:nom.acc:m3]" outputform="ONZ[ONZ/subst:irreg]">Do <marker>ONZ</marker> dotarło pismo z redakcji Przeglądu Wędkarskiego.</example>
+	</rule>
+	
+	<rule name="wiodący w sensie właściwym" id="WIADACY_ADJ">
+	<pattern mark="1">
+		<unify feature="gender,number,case">
+			<token skip="5" regexp="yes" inflected="yes">trasa|szlak|droga|trakt</token>
+			<token inflected="yes" postag="pact.*" postag_regexp="yes">wieść</token>
+		</unify>
+	</pattern>
+	<disambig action="replace"><match no="1" postag_regexp="yes" postag="pact(.*)" postag_replace="adj$1"/></disambig>
+	<example type="untouched">Tematem wiodącym tej książki są grzyby.</example>
+	<example type="ambiguous" inputform="wiodącą[wieść/pact:sg:acc.inst:f:aff]" outputform="wiodącą[wieść/adj:sg:acc.inst:f:aff]">Szedłem drogą <marker>wiodącą</marker> w stronę wioski.</example>
+	</rule>
+	
+	<rulegroup name="co innego" id="CO_INNEGO">
+		<rule>
+			<pattern mark="0">
+				<token>co</token>
+				<token>innego</token>
+			</pattern>
+			<disambig action="add"><wd lemma="co" pos="co_innego">co</wd></disambig>
+			<example type="untouched">To było coś innego.</example>
+			<example type="ambiguous" inputform="co[co/prep:nom.acc.gen,co/subst:sg:nom.acc:n2,ca/subst:sg:voc:m1]" outputform="co[co/prep:nom.acc.gen,co/subst:sg:nom.acc:n2,ca/subst:sg:voc:m1,co/co_innego]">To było <marker>co</marker> innego.</example>
+		</rule>
+		<rule>
+			<pattern mark="0">
+				<token>czym</token>
+				<token>innym</token>
+			</pattern>
+			<disambig action="add"><wd lemma="co" pos="czym_innym">czym</wd></disambig>
+			<example type="untouched">To było coś innego.</example>
+			<example type="ambiguous" inputform="czym[co/subst:sg:inst.loc:n2]" outputform="czym[co/subst:sg:inst.loc:n2,co/czym_innym]">Mowa o <marker>czym</marker> innym.</example>
+		</rule>
+	</rulegroup> 
+	
+	<rulegroup name="To co...? -> conj" id="TO_CO">
+	<rule>
+		<pattern mark="1">
+		<token postag="SENT_START"/>
+		<token>to</token>
+		<token skip="-1" regexp="yes">co|kto</token>
+		<token postag="SENT_END">?</token>
+		</pattern>
+		<disambig postag="conj"/>
+		<example type="untouched">To co zrobiłeś jest chamstwem.</example>
+		<example type="ambiguous" inputform="To[to/conj,ten/adj:sg:nom.acc.voc:n:pos]" outputform="To[to/conj]"><marker>To</marker> co mam zrobić?</example>
+	</rule>	
+	<rule>
+		<pattern mark="2">
+		<token postag="SENT_START"/>
+		<token>no</token>
+		<token>to</token>
+		<token skip="-1" regexp="yes">co|kto</token>
+		<token postag="SENT_END">?</token>
+		</pattern>
+		<disambig postag="conj"/>
+		<example type="untouched">To co zrobiłeś jest chamstwem.</example>
+		<example type="ambiguous" inputform="to[to/conj,ten/adj:sg:nom.acc.voc:n:pos]" outputform="to[to/conj]">No <marker>to</marker> co mam zrobić?</example>
+	</rule>
+	<rule>
+		<pattern mark="1">
+		<token postag="SENT_START"/>
+		<token>to</token>
+		<token skip="-1" regexp="yes">co|kto</token>
+		<token>?</token>
+		<token>.</token>
+		<token>.</token>
+		<token postag="SENT_END">.</token>
+		</pattern>
+		<disambig postag="conj"/>
+		<example type="untouched">To co zrobiłeś jest chamstwem.</example>
+		<example type="ambiguous" inputform="To[to/conj,ten/adj:sg:nom.acc.voc:n:pos]" outputform="To[to/conj]"><marker>To</marker> co mam zrobić?...</example>
+	</rule>	
+	<rule>
+		<pattern mark="2">
+		<token postag="SENT_START"/>
+		<token>no</token>
+		<token>to</token>
+		<token skip="-1" regexp="yes">co|kto</token>
+		<token>?</token>
+		<token>.</token>
+		<token>.</token>
+		<token postag="SENT_END">.</token>
+		</pattern>
+		<disambig postag="conj"/>
+		<example type="untouched">To co zrobiłeś jest chamstwem.</example>
+		<example type="ambiguous" inputform="to[to/conj,ten/adj:sg:nom.acc.voc:n:pos]" outputform="to[to/conj]">No <marker>to</marker> co mam zrobić?...</example>
+	</rule>
+	</rulegroup>
+
+	<rule name="Oznaczenie przyimka za wymaganego przez czasownik" id="ZA_DEP">
+		<pattern mark="1">
+			<token skip="5" regexp="yes" inflected="yes">uważać|dziękować|przepraszać|uchodzić|przeprosić|uznać|uznawać|odpowiadać<exception scope="next" regexp="yes">[\p{Punct}—–„«»…&amp;&amp;[^\.]]+</exception></token>
+			<token>za<exception postag="&lt;/PREP:ACC&gt;"></exception></token>		
+		</pattern>
+		<disambig action="add"><wd lemma="za" pos="DEP">za</wd></disambig>
+		<example type="untouched">Potrwa to za pewne kilka dni.</example>
+		<example type="ambiguous" inputform="za[za/prep:gen.acc.inst]" outputform="za[za/prep:gen.acc.inst,za/DEP]">Chciałbym przeprosić <marker>za</marker> pewne nieporozumienie.</example>  
+	</rule>		
+	
+	<rule name="pewny + rzeczownik" id="PEWNE_UNIFY">
+		<pattern mark_from="0" mark_to="0">
+		<unify feature="number,gender,case">
+          <token>pewne</token>
+          <token postag="subst.*" postag_regexp="yes"><exception negate_pos="yes" postag_regexp="yes" postag="subst.*"/><exception postag="subst:irreg"/></token>
+        </unify>
+        </pattern>
+        <disambig action="unify"/>
+        <example type="untouched">Za pewne tak uważam.</example>
+        <example type="ambiguous" inputform="pewne[pewny/adj:pl:nom.acc.voc:f.n.m2.m3:pos:aff,pewny/adj:sg:nom.acc.voc:n:pos:aff,pewien/qub]" outputform="pewne[pewny/adj:pl:nom.acc.voc:f.n.m2.m3:pos:aff]">Za <marker>pewne</marker> kwoty można kupić nawet krowę.</example>
 	</rule>
 	
 </rules>
