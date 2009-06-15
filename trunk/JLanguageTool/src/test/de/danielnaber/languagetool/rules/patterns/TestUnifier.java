@@ -225,6 +225,23 @@ public class TestUnifier extends TestCase {
   assertEquals(true, satisfied);
   assertEquals("[osobisty/adj:sg:nom.acc.voc:n:pos:aff, godło/subst:sg:nom.acc.voc:n]", Arrays.toString(uni.getFinalUnified()));
   uni.reset();
+  
+  //now test a case when the last reading doesn't match at all
+  
+  sing1a = new AnalyzedToken("osobiste", "adj:pl:nom.acc.voc:f.n.m2.m3:pos:aff", "osobisty");
+  sing1b = new AnalyzedToken("osobiste", "adj:sg:nom.acc.voc:n:pos:aff", "osobisty");
+  AnalyzedToken sing2a = new AnalyzedToken("godło", "subst:sg:nom.acc.voc:n", "godło");
+  AnalyzedToken sing2b = new AnalyzedToken("godło", "indecl", "godło");
+  
+  satisfied = true;
+  satisfied &= uni.isUnified(sing1a, "number,gender", "", false, false);
+  satisfied &= uni.isUnified(sing1b, "number,gender", "", false, true);
+  satisfied &= uni.isUnified(sing2a, "number,gender", "", false, false);
+  satisfied &= uni.isUnified(sing2b, "number,gender", "", false, true);
+  assertEquals(true, satisfied);
+  assertEquals("[osobisty/adj:sg:nom.acc.voc:n:pos:aff, godło/subst:sg:nom.acc.voc:n]", Arrays.toString(uni.getFinalUnified()));
+  uni.reset();
+  
   }
     
   

@@ -40,7 +40,7 @@ public class Unifier {
 
   private static final String FEATURE_SEPARATOR = ",";
 
-//TODO: add a possibility to negate some features but not all
+  //TODO: add a possibility to negate some features but not all
   /**
    * Negates the meaning of unification just like negation in Element tokens.
    */  
@@ -170,7 +170,7 @@ public class Unifier {
         types = getTypes(feat, type);
         for (final String typename : types) {
           final Element testElem = equivalenceTypes
-              .get(new EquivalenceTypeLocator(feat, typename));
+          .get(new EquivalenceTypeLocator(feat, typename));
           if (testElem == null) {
             return false;
           }
@@ -205,8 +205,9 @@ public class Unifier {
   private boolean checkNext(final AnalyzedToken aToken,
       final String[] features, final String type) {
     boolean unifiedNext = true;
-    boolean anyFeatUnified = false;
+    boolean anyFeatUnified = false;    
     String[] types;
+    ArrayList<Boolean> tokenFeaturesFound = new ArrayList<Boolean>(tmpFeaturesFound);
     if (allFeatsIn) {
       for (int i = 0; i <= tokCnt; i++) {
         boolean allFeatsUnified = true;
@@ -218,13 +219,13 @@ public class Unifier {
                 && equivalencesMatched.get(i).containsKey(feat)
                 && equivalencesMatched.get(i).get(feat).contains(typename)) {
               final Element testElem = equivalenceTypes
-                  .get(new EquivalenceTypeLocator(feat, typename));
+              .get(new EquivalenceTypeLocator(feat, typename));
               featUnified = featUnified || testElem.isMatched(aToken);
             }
           }
           allFeatsUnified &= featUnified;
         }
-        tmpFeaturesFound.set(i, allFeatsUnified);
+        tokenFeaturesFound.set(i, allFeatsUnified);
         anyFeatUnified |= allFeatsUnified;
       }
       unifiedNext &= anyFeatUnified;
@@ -234,6 +235,7 @@ public class Unifier {
         } else {
           tokSequence.get(readingsCounter).addReading(aToken);
         }
+        tmpFeaturesFound = tokenFeaturesFound;
       }
     }
     return unifiedNext;
@@ -251,7 +253,7 @@ public class Unifier {
    * Call after every complete token (AnalyzedTokenReadings) checked.
    */
   public final void startNextToken() {
-    featuresFound = new ArrayList<Boolean>(tmpFeaturesFound);
+    featuresFound = new ArrayList<Boolean>(tmpFeaturesFound);    
     readingsCounter++;
   }
 
@@ -262,7 +264,7 @@ public class Unifier {
     allFeatsIn = true;
     for (int i = 0; i <= tokCnt; i++) {
       featuresFound.add(true);
-    }
+    } 
     tmpFeaturesFound = new ArrayList<Boolean>(featuresFound);
   }
 
@@ -314,10 +316,11 @@ public class Unifier {
         return null;
       }
       // FIXME: why this happens??
-      if (first < tokSequence.get(0).getReadingsLength()) {
+      int numRead = tokSequence.get(0).getReadingsLength(); 
+      if (first < numRead) {
         tmpATR = new AnalyzedTokenReadings(tokSequence.get(0).getAnalyzedToken(
             first));
-        for (int i = first + 1; i <= tokCnt; i++) {
+        for (int i = first + 1; i <= Math.min(numRead - 1, tokCnt); i++) {
           if (tmpFeaturesFound.get(i)) {
             tmpATR.addReading(tokSequence.get(0).getAnalyzedToken(i));
           }
@@ -327,7 +330,7 @@ public class Unifier {
       firstUnified = true;
     }
     final AnalyzedTokenReadings[] atr = tokSequence
-        .toArray(new AnalyzedTokenReadings[tokSequence.size()]);
+    .toArray(new AnalyzedTokenReadings[tokSequence.size()]);
     return atr;
   }
 
@@ -335,7 +338,7 @@ public class Unifier {
    * Tests if the token sequence is unified.
    * 
    * @param matchToken
-   *          AnalazydToken token to unify
+   *          AnalyzedToken token to unify
    * @param feature
    *          String: feature to unify over
    * @param type
@@ -350,7 +353,7 @@ public class Unifier {
   public final boolean isUnified(final AnalyzedToken matchToken,
       final String feature, final String type, final boolean isUniNegated,
       final boolean lastReading) {
-    if (inUnification) {
+    if (inUnification) {      
       uniMatched |= isSatisfied(matchToken, feature, type);
       uniAllMatched = uniMatched;
       if (lastReading) {
