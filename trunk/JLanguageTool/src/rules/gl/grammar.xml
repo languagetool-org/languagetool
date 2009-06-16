@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE rules SYSTEM "../rules.dtd">
+<?xml-stylesheet type="text/xsl" href="../print.xsl" title="Pretty print" ?>
+<?xml-stylesheet type="text/css" href="../rules.css" title="Easy editing stylesheet" ?>
+<!--
+  Galician Grammar and Typo Rules for LanguageTool
+  created by Susana Sotelo Docío
+-->
+<rules lang="gl">
+  <category name="misc">
+    <rulegroup id="syntax" name="sintaxe">
+    <rule>
+      <pattern>
+        <token inflected="yes">ir</token>
+        <token>a</token>
+        <token postag="VINF" />
+      </pattern>
+      <message>A perifrase IR + INF construese en galego sen preposicion: <suggestion>\1 \3</suggestion></message>
+      <short>Forma incorrecta</short>
+      <example type="incorrect"><marker>ir a saltar</marker> con ela.</example>
+      <example type="correct"><marker>ir saltar</marker> con ela.</example>
+    </rule>
+    <rule>
+      <pattern>
+        <token inflected="yes">aportar</token>
+      </pattern>
+      <message>Posíbel castelanismo: o verbo aportar significa en galego "chegar a porto". A forma correcta en galego é "achegar"</message>
+      <short>Forma incorrecta</short>
+      <example type="incorrect">Eu tamén quero <marker>aportar</marker> algo ao proxecto.</example>
+      <example type="correct">Eu tamén quero <marker>achegar</marker> algo ao proxecto.</example>
+    </rule>
+    <rule>
+      <pattern>
+        <token>en</token>
+        <token>seguida</token>
+      </pattern>
+      <message>As formas 'en' e 'seguida' forman en galego unha locución que se escrebe unida. Quería vostede dicir <suggestion>\1\2</suggestion>?</message>
+      <example type="incorrect">Deuse conta <marker>en seguida</marker>.</example>
+      <example type="correct">Deuse conta <marker>enseguida</marker>.</example>
+    </rule>
+    </rulegroup>
+  </category>
+</rules>
