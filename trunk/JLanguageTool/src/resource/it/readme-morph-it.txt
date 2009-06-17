@@ -4,8 +4,8 @@
        A free morphological lexicon for the Italian Language
 ===================================================================
 
-                         version 0.4.7
-                         March 08 2007
+                         version 0.4.8
+                         February 23 2009
 
 *******************************************************************
                 THIS README IS NOT REALLY UP TO DATE
@@ -15,7 +15,7 @@
                 (BUT I WOULDN'T COUNT ON THAT...)
 *******************************************************************
 
-                     Copyright (c) 2004-2007
+                     Copyright (c) 2004-2009
               Marco Baroni  (marco.baroni@unitn.it)
               Eros Zanchetta (eros@sslmit.unibo.it)
 
