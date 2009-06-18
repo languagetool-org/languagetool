@@ -6,7 +6,7 @@ title="Easy editing stylesheet" ?>
 <!--
 Polish Grammar and Typo Rules for LanguageTool
 Copyright (C) 2006-2007 Marcin Miłkowski
-$Id: grammar.xml,v 1.194 2009-06-15 22:26:30 milek_pl Exp $
+$Id: grammar.xml,v 1.195 2009-06-18 16:52:23 milek_pl Exp $
 -->
 <rules lang="pl">
   <unification feature="number">
@@ -1173,7 +1173,7 @@ $Id: grammar.xml,v 1.194 2009-06-15 22:26:30 milek_pl Exp $
     <rulegroup id="BRAK_PRZECINKA_SPOJNIK_PROSTY" name="Brak przecinka przed spójnikami prostymi (acz, aczkolwiek, choć...)">
       <rule>
         <pattern>
-          <token negate="yes" regexp="yes">[\p{Punct}–—„«»…]+<exception postag="SENT_START|conj" postag_regexp="yes"></exception></token>
+          <token negate="yes" regexp="yes">[\p{Punct}–—„«»…]+<exception postag="SENT_START|conj" postag_regexp="yes"></exception><exception>no</exception></token>
 
           <token regexp="yes">acz|aczkolwiek|albowiem|ale|aleć|aliści|azali|bo|byleby|czyli|czyliż|dopóki|gdyż|gdyżby|ilekolwiek|ilekroć|lecz|którędy</token>
         </pattern>
@@ -1185,6 +1185,8 @@ $Id: grammar.xml,v 1.194 2009-06-15 22:26:30 milek_pl Exp $
         <example type="correct">Lubię cię, ale musisz mi oddać pieniądze.</example>
 
         <example correction="cię, lecz" type="incorrect">Lubię <marker>cię lecz</marker> musisz mi oddać pieniądze.</example>
+
+        <example type="correct">No ale zapytałeś o „dać dyla”.</example>
 
         <example correction="cię, ale" type="incorrect">Lubię <marker>cię ale</marker> musisz mi oddać pieniądze.</example>
       </rule>
@@ -2075,7 +2077,7 @@ $Id: grammar.xml,v 1.194 2009-06-15 22:26:30 milek_pl Exp $
 
           <token>i</token>
 
-          <token><exception regexp="yes">tak|to|kwita|już|owszem|koniec</exception></token>
+          <token><exception regexp="yes">tak|to|kwita|już|owszem|koniec|tyle</exception></token>
         </pattern>
 
         <message>Prawdopodobnie zbędny przecinek, powinno być: <suggestion> \4</suggestion>.</message>
@@ -15236,7 +15238,7 @@ Znacznie częściej ta forma jest mylona z trybem rozkazującym od „pokazać�
       <example type="correct">A ja pytam, cui bono?</example>
     </rule>
 
-    <rulegroup id="PO_POLUDNIU" name="jutro popołudniu (po południu)">
+    <rulegroup id="PO_POLUDNIU" name="„jutro popołudniu” (po południu)">
       <rule>
         <pattern mark_from="1">
           <token regexp="yes">wczoraj|jutro|piątek|sobotę|niedzielę|czwartek|środę|wtorek|poniedziałek|dziś|dzisiaj|przedwczoraj|piątej</token>
@@ -15253,6 +15255,20 @@ Znacznie częściej ta forma jest mylona z trybem rozkazującym od „pokazać�
         <example type="correct">Spotkajmy się jutro po południu.</example>
       </rule>
     </rulegroup>
+
+    <rule id="NIELUBI" name="„nielubi” (nie lubi)">
+      <pattern>
+        <token>nielubi</token>
+      </pattern>
+
+      <message>Prawdopodobny błąd ortograficzny. Czy chodziło o <suggestion>nie lubi</suggestion> (formę czasownika „lubić”)?</message>
+
+      <short>Błąd ortograficzny</short>
+
+      <example correction="nie lubi" type="incorrect">Nikt nas <marker>nielubi</marker>.</example>
+
+      <example type="correct">Nikt nas nie lubi.</example>
+    </rule>
   </category>
 
   <category name="Prawdopodobne literówki">
@@ -17017,7 +17033,7 @@ Znacznie częściej ta forma jest mylona z trybem rozkazującym od „pokazać�
         <pattern mark_to="-1">
           <token>ze</token>
 
-          <token postag="verb.*" postag_regexp="yes"><exception postag="verb:irreg|subst.*" postag_regexp="yes"></exception></token>
+          <token postag="verb.*" postag_regexp="yes"><exception postag="verb:irreg|subst.*|adj.*inst.*" postag_regexp="yes"></exception></token>
         </pattern>
 
         <message>Prawdopodobna literówka. Czy chodziło o <suggestion>że</suggestion>?</message>
@@ -17025,6 +17041,8 @@ Znacznie częściej ta forma jest mylona z trybem rozkazującym od „pokazać�
         <short>Prawdopodobna literówka</short>
 
         <example type="correct">Premier poinformował ministrów, że chce iść na spacer.</example>
+
+        <example type="correct">Wraca do życia ze świeżą otwartością i werwą.</example>
 
         <example type="correct">Tak często dzieje się ze zbitymi jajkami.</example>
 
