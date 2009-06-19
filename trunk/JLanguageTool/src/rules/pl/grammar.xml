@@ -6,7 +6,7 @@ title="Easy editing stylesheet" ?>
 <!--
 Polish Grammar and Typo Rules for LanguageTool
 Copyright (C) 2006-2007 Marcin Miłkowski
-$Id: grammar.xml,v 1.195 2009-06-18 16:52:23 milek_pl Exp $
+$Id: grammar.xml,v 1.196 2009-06-19 19:41:50 milek_pl Exp $
 -->
 <rules lang="pl">
   <unification feature="number">
@@ -2537,7 +2537,7 @@ $Id: grammar.xml,v 1.195 2009-06-18 16:52:23 milek_pl Exp $
 
           <token>a</token>
 
-          <token><exception inflected="yes" regexp="yes">nie|więc|mianowicie|przeto|zatem|jednak|choć|chociaż|ponieważ|także|następnie|jeśli|jeżeli|gdyby|gdy|kiedy</exception></token>
+          <token postag=".*inst.*|subst:irreg" postag_regexp="yes"><exception inflected="yes" regexp="yes">nie|więc|mianowicie|przeto|zatem|jednak|choć|chociaż|ponieważ|także|następnie|jeśli|jeżeli|gdyby|gdy|kiedy</exception></token>
         </pattern>
 
         <message>W tym miejscu przecinek jest prawdopodobnie zbędny. Powinno być: <suggestion> a</suggestion>.</message>
@@ -2545,6 +2545,8 @@ $Id: grammar.xml,v 1.195 2009-06-18 16:52:23 milek_pl Exp $
         <short>Błąd interpunkcyjny</short>
 
         <example type="correct">Nie ma żadnej różnicy między Pawłem a Gawłem.</example>
+
+        <example type="correct">Istniał konflikt między Gierejem i firmą King &amp; King, a na przełomie lat 2002/2003 nieporozumienia w zarządzie.</example>
 
         <example type="correct">Pośród filozofów dwudziestowiecznych do Kanta nawiązywali w koncepcjach politycznych oraz etycznych między innymi Habermas oraz Rawls, a autentyczne odrodzenie jego myśli miało miejsce w pracach neokantystów: Cohena, Natorpa, Hartmanna i Cassirera.</example>
 
@@ -3195,7 +3197,7 @@ Powinno być: <suggestion>\2, \3 \4</suggestion>.</message>
 
         <token spacebefore="no"><exception postag="&lt;/ELLIPSIS&gt;"></exception>.</token>
 
-        <token spacebefore="no">)</token>
+        <token postag="SENT_END" spacebefore="no">)</token>
       </pattern>
 
       <message>Kropka kończąca zdanie powinna znajdować się za nawiasem (uwaga: dawniejsze reguły nakazywały stawiać kropkę przed nawiasem, jeśli w nawiasie znajdowało się całe zdanie; te reguły są dziś nieaktualne). Poprawnie: <suggestion>).</suggestion></message>
@@ -3207,6 +3209,8 @@ Powinno być: <suggestion>\2, \3 \4</suggestion>.</message>
       <example type="correct">Jest na to wiele przykładów (herbata, mleko, woda...).</example>
 
       <example type="correct">(Całe zdanie jest w nawiasie).</example>
+
+      <example type="correct">Po zakończeniu jego kadencji (pod koniec maja br.) zamierzam ubiegać się o wybór do zarządu.</example>
 
       <example type="correct">Sienkiewicz, Henryk (red.)</example>
     </rule>
@@ -17057,7 +17061,7 @@ Znacznie częściej ta forma jest mylona z trybem rozkazującym od „pokazać�
 
           <token>ze</token>
 
-          <token><exception postag=".*gen[\.:].*|.*inst[\.:].*" postag_regexp="yes"></exception></token>
+          <token><exception postag=".*gen[\.:].*|.*inst[\.:].*" postag_regexp="yes"></exception><exception postag="verb.*" postag_regexp="yes"></exception></token>
         </pattern>
 
         <message>Prawdopodobna literówka. Czy chodziło o <suggestion>że</suggestion>?</message>
@@ -17066,7 +17070,7 @@ Znacznie częściej ta forma jest mylona z trybem rozkazującym od „pokazać�
 
         <example type="correct">Premier poinformował, że chce iść na spacer.</example>
 
-        <example correction="że" type="incorrect">Premier poinformował, <marker>ze</marker> chce iść na spacer.</example>
+        <example correction="że" type="incorrect">Premier poinformował, <marker>ze</marker> trzeba siać, siać, siać.</example>
       </rule>
     </rulegroup>
 
@@ -17435,6 +17439,26 @@ Znacznie częściej ta forma jest mylona z trybem rozkazującym od „pokazać�
 
       <example type="correct">Znaczną część wojska Amerykanie stracili w Iraku.</example>
     </rule>
+
+    <rulegroup id="ZE_WZGLEDU" name="„że względu” (ze wględu)">
+      <rule>
+        <pattern mark_to="-1">
+          <token>że</token>
+
+          <token>względu</token>
+
+          <token>na</token>
+        </pattern>
+
+        <message>Prawdopodobna literówka. Czy chodziło o <suggestion>ze względu</suggestion>?</message>
+
+        <short>Prawdopodobna literówka</short>
+
+        <example correction="ze względu" type="incorrect">W tym roku Fundusz, <marker>że względu</marker> na zmienioną ustawę, która weszła w życie pierwszego października, robi dwa bilanse.</example>
+
+        <example type="correct">W tym roku Fundusz ze względu na zmienioną ustawę, która weszła w życie pierwszego października, robi dwa bilanse.</example>
+      </rule>
+    </rulegroup>
   </category>
 
   <category name="Błędy frazeologiczne">
