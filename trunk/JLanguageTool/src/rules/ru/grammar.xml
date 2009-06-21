@@ -8,7 +8,7 @@ title="Easy editing stylesheet" ?>
 A Russian rule file for LanguageTool
 Copyright (C) 2005 Daniel Naber (http://www.danielnaber.de)
 Copyright (C) 2008-2009 Yakov Reztsov
-$Id: grammar.xml,v 1.22 2009-05-21 10:02:48 milek_pl Exp $
+$Id: grammar.xml,v 1.23 2009-06-21 19:38:06 yakovru Exp $
 -->
 <rules lang="ru">
     <category name="Пунктуация">
@@ -73,6 +73,19 @@ $Id: grammar.xml,v 1.22 2009-05-21 10:02:48 milek_pl Exp $
                 <short>Нет запятой.</short>
                 <example type="correct"><marker>Мы, как правило,</marker> ходим в походы летом.</example>
                 <example type="incorrect" correction="Мы, как правило,"><marker>Мы как правило,</marker> ходим в походы летом.</example>
+            </rule>  
+            
+            <rule>
+                <pattern case_sensitive="yes"  mark_from="1"  mark_to="-1">
+                    <token>,<exception postag="SENT_START"></exception></token>
+                    <token>как</token>
+                    <token regexp="yes">обычно|всегда|правило|исключение|нарочно|сейчас</token>
+                    <token negate="yes" regexp="yes">[\p{Punct}]|-|—</token>
+                </pattern>
+                <message>Нет запятой: <suggestion>\2 \3,</suggestion></message>
+                <short>Нет запятой.</short>
+                <example type="correct">Мы, <marker>как правило,</marker> ходим в походы летом.</example>
+                <example type="incorrect">Мы, <marker>как правило</marker> ходим в походы летом.</example>
             </rule>  
             
             <rule>
@@ -156,6 +169,21 @@ $Id: grammar.xml,v 1.22 2009-05-21 10:02:48 milek_pl Exp $
             </rule>
             
             
+            
+            <rule>
+                <pattern case_sensitive="yes" mark_from="1" mark_to="-1">
+                    <token>,<exception postag="SENT_START"></exception></token>
+                    <token regexp="yes">по-видимому|по-моему|по-твоему|впрочем</token>
+                    <token negate = "yes" regexp="yes">[\p{Punct}]|-|—</token>
+                </pattern>
+                <message>Запятая пропущена здесь:<suggestion>\2,</suggestion>.</message>
+                <short>Нет запятой.</short>
+                <example type="correct">Это показалось ему, <marker>по-видимому,</marker> странным.</example>
+                <example type="incorrect">Это показалось ему, <marker>по-видимому</marker> странным.</example>
+            </rule>
+            
+            
+            
             <rule>
                 <pattern case_sensitive="yes">
                     <token  postag="SENT_START"></token>
@@ -191,6 +219,21 @@ $Id: grammar.xml,v 1.22 2009-05-21 10:02:48 milek_pl Exp $
                 <example type="correct">Эта <marker>работа, во-первых,</marker> представляет огромную научную ценность.</example>
                 <example type="incorrect" correction="работа, во-первых,">Эта <marker>работа во-первых,</marker> представляет огромную научную ценность.</example>
             </rule>
+            
+            
+            <rule>
+                <pattern case_sensitive="yes" mark_from="1" mark_to="-1">
+                    <token>,<exception postag="SENT_START"></exception></token>
+                    <token regexp="yes">итак|следовательно|во-первых|во-вторых|в-третьих|в-четвертых|в-пятых</token>
+                    <token negate = "yes"  regexp="yes">[\p{Punct}]|-|—</token>
+                </pattern>
+                <message>Запятая пропущена здесь:<suggestion>\2,</suggestion>.</message>
+                <short>Нет запятой.</short>
+                <example type="correct">Эта работа, <marker>во-первых,</marker> представляет огромную научную ценность.</example>
+                <example type="incorrect">Эта работа, <marker>во-первых</marker> представляет огромную научную ценность.</example>
+            </rule>
+            
+            
             
             <rule>
                 <pattern case_sensitive="yes">
@@ -230,6 +273,24 @@ $Id: grammar.xml,v 1.22 2009-05-21 10:02:48 milek_pl Exp $
                 <example type="correct">Эта <marker>работа, видишь ли,</marker> представляет огромную научную ценность.</example>
                 <example type="incorrect" correction="работа, видишь ли,">Эта <marker>работа видишь ли,</marker> представляет огромную научную ценность.</example>
             </rule>
+            
+            
+            
+            <rule>
+                <pattern case_sensitive="yes" mark_from="1" mark_to="-1">
+                    <token>,<exception postag="SENT_START"></exception></token>
+                    <token regexp="yes">видишь|понимаешь</token>
+                    <token>ли</token>
+                    <token negate = "yes"   regexp="yes">[\p{Punct}]|-|—</token>
+                </pattern>
+                <message>Запятая пропущена здесь:<suggestion>\2 \3,</suggestion>.</message>
+                <short>Нет запятой.</short>
+                <example type="correct">Эта работа, <marker>видишь ли,</marker> представляет огромную научную ценность.</example>
+                <example type="incorrect">Эта работа, <marker>видишь ли</marker> представляет огромную научную ценность.</example>
+            </rule>
+            
+            
+            
             
             <rule> 
                 <pattern case_sensitive="yes">
@@ -272,6 +333,28 @@ $Id: grammar.xml,v 1.22 2009-05-21 10:02:48 milek_pl Exp $
                 <example type="correct">Мы, к сожалению, не успели на поезд.</example>
                 <example type="incorrect" correction="Мы, к сожалению,"><marker>Мы к сожалению,</marker> не успели на поезд.</example>
             </rule>
+            
+            
+            
+            <rule>
+                <pattern case_sensitive="yes" mark_from="1" mark_to="-1">
+                    <token>,<exception postag="SENT_START"></exception></token>
+                    <token>к</token>
+                    <token regexp="yes">счастью|несчастью|радости|ужасу|сожалению</token>
+                    <token negate = "yes"  regexp="yes">[\p{Punct}]|-|—</token>
+                </pattern>
+                <message>Запятая пропущена здесь:<suggestion>\2 \3,</suggestion>.</message>
+                <short>Нет запятой.</short>
+                <example type="correct">Мы, <marker>к сожалению,</marker> не успели на поезд.</example>
+                <example type="incorrect">Мы, <marker>к сожалению</marker> не успели на поезд.</example>
+            </rule>
+            
+            
+            
+            
+            
+            
+            
             <rule>        
                 <pattern case_sensitive="yes">
                     <token  postag="SENT_START"></token>
@@ -310,6 +393,24 @@ $Id: grammar.xml,v 1.22 2009-05-21 10:02:48 milek_pl Exp $
                 <example type="incorrect" correction="работа, несомненно,">Эта <marker>работа несомненно,</marker> представляет огромную научную ценность.</example>
             </rule>
             
+            
+            <rule>
+                <pattern case_sensitive="yes" mark_from="1" mark_to="-1">
+                    <token>,<exception postag="SENT_START"></exception></token>
+                    <token regexp="yes">конечно|несомненно|вероятно|кажется</token>
+                    <token negate = "yes"  regexp="yes">[\p{Punct}]|-|—</token>
+                </pattern>
+                <message>Запятая пропущена здесь:<suggestion>\2,</suggestion>.</message>
+                <short>Нет запятой.</short>
+                <example type="correct">Эта работа, <marker>конечно,</marker> представляет огромную научную ценность.</example>
+                <example type="incorrect">Эта работа, <marker>конечно</marker> представляет огромную научную ценность.</example>
+            </rule>
+            
+            
+            
+            
+            
+            
             <rule>
                 <pattern case_sensitive="yes">   
                     <token  postag="SENT_START"></token>
@@ -347,6 +448,25 @@ $Id: grammar.xml,v 1.22 2009-05-21 10:02:48 milek_pl Exp $
                 <example type="correct">Эта работа, одним словом, представляет огромную научную ценность.</example>
                 <example type="incorrect" correction="работа, одним словом,">Эта <marker>работа одним словом,</marker> представляет огромную научную ценность.</example>
             </rule>
+            
+            
+            <rule>
+                <pattern case_sensitive="yes" mark_from="1" mark_to="-1">
+                    <token>,<exception postag="SENT_START"></exception></token>
+                    <token>одним</token>
+                    <token>словом</token>
+                    <token negate = "yes"  regexp="yes">[\p{Punct}]|-|—</token>
+                </pattern>
+                <message>Запятая пропущена здесь:<suggestion>\2 \3,</suggestion>.</message>
+                <short>Нет запятой.</short>
+                <example type="correct">Эта работа, <marker>одним словом,</marker> представляет огромную научную ценность.</example>
+                <example type="incorrect">Эта работа, <marker>одним словом</marker> представляет огромную научную ценность.</example>
+            </rule>
+            
+            
+            
+            
+            
             
             <rule>
                 <pattern case_sensitive="yes">
@@ -681,14 +801,24 @@ $Id: grammar.xml,v 1.22 2009-05-21 10:02:48 milek_pl Exp $
         
         <rulegroup default="on"  id="O_P_padeg" name="Предлоги и предложный падеж">
             <rule>  
-                <pattern>
-                    <token><exception regexp="yes" scope="previous">о|обо|об|в|во|при|по|на|и|или|но|да|«|[\p{Punct}]|[\p{Digit}]*</exception><exception  postag="PNN:.*" postag_regexp="yes"/></token>
-                    <token  postag="NN:.*:.*:P" postag_regexp="yes"><exception negate_pos="yes" postag="NN:.*:.*:P" postag_regexp="yes"></exception><exception regexp="yes" scope="previous">же|о|обо|об|в|во|при|по|на|и|или|но|да|«|[\p{Punct}]|[\p{Digit}]*</exception><exception scope="previous" postag=".*:P" postag_regexp="yes"/><exception scope="previous"  postag="NN:.*:.*:T" postag_regexp="yes"/></token>
+                <pattern mark_from="1">
+                    <token postag="SENT_START" skip ="-1"><exception regexp="yes" scope="next"  >о|обо|об|в|во|при|по|на|и|или|но|да</exception></token>
+                    <token  postag="NN:.*:.*:P" postag_regexp="yes"><exception negate_pos="yes" postag="NN:.*:.*:P" postag_regexp="yes"></exception><exception regexp="yes" scope="previous">«|[\p{Punct}]|[\p{Digit}]*</exception></token>
                 </pattern>                
-                <message>Предложный падеж предполагает наличие предлога (о – обо – об; в – во; при; по; на): <suggestion>\1 о \2</suggestion>, <suggestion>\1 об \2</suggestion>, <suggestion>\1 обо \2</suggestion>, <suggestion>\1 в \2</suggestion>, <suggestion>\1 во \2</suggestion>, <suggestion>\1 при \2</suggestion>, <suggestion>\1 по \2</suggestion>, <suggestion>\1 на \2</suggestion>.</message>
+                <message>Предложный падеж предполагает наличие предлога (о – обо – об; в – во; при; по; на): <suggestion>о \2</suggestion>, <suggestion>об \2</suggestion>, <suggestion>обо \2</suggestion>, <suggestion>в \2</suggestion>, <suggestion>во \2</suggestion>, <suggestion>при \2</suggestion>, <suggestion>по \2</suggestion>, <suggestion>на \2</suggestion>.</message>
                 <short>Пропущен предлог.</short>
                 <example type="correct">Они думали о доме.</example>
-                <example type="incorrect">Они <marker>думали доме</marker>.</example>
+                <example type="incorrect">Они думали <marker>доме</marker>.</example>
+            </rule>
+            <rule>  
+                <pattern mark_from="1">
+                    <token postag="SENT_START"></token>
+                    <token  postag="NN:.*:.*:P" postag_regexp="yes"><exception negate_pos="yes" postag="NN:.*:.*:P" postag_regexp="yes"></exception></token>
+                </pattern>                
+                <message>Предложный падеж предполагает наличие предлога (о – обо – об; в – во; при; по; на): <suggestion>О <match no="2" case_conversion ="startlower"/></suggestion>, <suggestion>Об <match no="2" case_conversion ="startlower"/></suggestion>, <suggestion>Обо <match no="2" case_conversion ="startlower"/></suggestion>, <suggestion>В <match no="2" case_conversion ="startlower"/></suggestion>, <suggestion>Во <match no="2" case_conversion ="startlower"/></suggestion>, <suggestion>При <match no="2" case_conversion ="startlower"/></suggestion>, <suggestion>По <match no="2" case_conversion ="startlower"/></suggestion>, <suggestion>На <match no="2" case_conversion ="startlower"/></suggestion>.</message>
+                <short>Пропущен предлог.</short>
+                <example type="correct">О доме они думали.</example>
+                <example type="incorrect"><marker>Доме</marker> они думали.</example>
             </rule>
         </rulegroup>
         
