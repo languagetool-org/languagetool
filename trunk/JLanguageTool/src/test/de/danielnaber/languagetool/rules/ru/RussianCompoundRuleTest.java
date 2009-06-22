@@ -56,8 +56,8 @@ public class RussianCompoundRuleTest extends TestCase {
     // also detect an error if only some of the hyphens are missing:
     check(1, "Ростов-на Дону", new String[]{"Ростов-на-Дону"});
     // first part is a single character:
-    check(0, "в-третьих");
-    check(1, "в третьих", new String[]{"в-третьих"});
+    check(0, "во-первых");
+    check(1, "во первых", new String[]{"во-первых"});
   }
 
   private void check(int expectedErrors, String text) throws IOException {
