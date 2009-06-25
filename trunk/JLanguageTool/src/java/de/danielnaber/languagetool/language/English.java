@@ -42,7 +42,7 @@ public class English extends Language {
   private Synthesizer synthesizer = new EnglishSynthesizer();
   private Disambiguator disambiguator = new EnglishRuleDisambiguator();
 
-  private static final String[] COUNTRIES = {"GB", "US", "AU", "CA" };
+  private static final String[] COUNTRIES = {"GB", "US", "AU", "CA", "NZ", "ZA" };
   
   public final Locale getLocale() {
     return new Locale(getShortName());
