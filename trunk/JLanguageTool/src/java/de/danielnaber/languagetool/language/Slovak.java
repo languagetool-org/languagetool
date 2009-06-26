@@ -25,12 +25,12 @@ import java.util.Set;
 import de.danielnaber.languagetool.Language;
 import de.danielnaber.languagetool.tagging.Tagger;
 import de.danielnaber.languagetool.tagging.xx.DemoTagger;
+import de.danielnaber.languagetool.tokenizers.SRXSentenceTokenizer;
 import de.danielnaber.languagetool.tokenizers.SentenceTokenizer;
-import de.danielnaber.languagetool.tokenizers.sk.SlovakSentenceTokenizer;
 
 public class Slovak extends Language {
   
-  private SentenceTokenizer sentenceTokenizer = new SlovakSentenceTokenizer();
+  private SentenceTokenizer sentenceTokenizer = new SRXSentenceTokenizer("sk");
   
   private static final String[] COUNTRIES = {
     "SK"
