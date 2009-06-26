@@ -17,8 +17,7 @@
 		<pathelement location="${ext.jdic.lib}" />
 		<pathelement location="${ext.jaminid.lib}" />
 		<pathelement location="${ext.jwordsplitter.lib}" />
-		<pathelement location="${ext.logging.lib}" />
-		<pathelement location="${ext.loomchild.util.lib}" />
+		<pathelement location="${ext.logging.lib}" />		
 		<pathelement location="${ext.segment.lib}" />
 		<!-- -->
 		<pathelement location="${ext.ooo.juh.lib}" />
@@ -267,7 +266,7 @@
 		<jar jarfile="${dist.dir}/${final.name}.jar" basedir="${build.classes}" excludes="**/*.java">
 			<manifest>
 				<attribute name="Main-Class" value="de.danielnaber.languagetool.Main" />
-				<attribute name="Class-Path" value="./ ./rules ./resource ./${stempelator.lib} ./jWordSplitter.jar ./${segment.lib} ./${loomchild.util.lib} ./${logging.lib} ${jaxb.classpath}" />
+				<attribute name="Class-Path" value="./ ./rules ./resource ./${stempelator.lib} ./jWordSplitter.jar ./${segment.lib} ./${logging.lib} ${jaxb.classpath}" />
 				<attribute name="Implementation-Version" value="${version}" />
 				<attribute name="Implementation-Date" value="${date}" />
 			</manifest>
@@ -276,7 +275,7 @@
 		<jar jarfile="${dist.dir}/${final.name.gui}.jar" basedir="${build.classes}" includes="de/danielnaber/languagetool/gui/*.class">
 			<manifest>
 				<attribute name="Main-Class" value="de.danielnaber.languagetool.gui.Main" />
-				<attribute name="Class-Path" value="./LanguageTool.jar ./ ./resource ./rules ./${stempelator.lib}  ./jdic.jar ./jaminid.jar ./jWordSplitter.jar ./${segment.lib} ./${loomchild.util.lib} ./${logging.lib} ${jaxb.classpath}" />
+				<attribute name="Class-Path" value="./LanguageTool.jar ./ ./resource ./rules ./${stempelator.lib}  ./jdic.jar ./jaminid.jar ./jWordSplitter.jar ./${segment.lib} ./${logging.lib} ${jaxb.classpath}" />
 				<attribute name="Implementation-Version" value="${version}" />
 				<attribute name="Implementation-Date" value="${date}" />
 			</manifest>
@@ -334,7 +333,7 @@
 		<attribute name="RegistrationClassName" value="de.danielnaber.languagetool.openoffice.Main" />
 		<attribute name="Implementation-Version" value="${version}" />
 		<attribute name="Implementation-Date" value="${date}" />
-		<attribute name="Class-Path" value=". ./rules ./resource ./${stempelator.lib} ./jWordSplitter.jar ./${segment.lib} ./${loomchild.util.lib} ./${logging.lib} ${jaxb.classpath}" />
+		<attribute name="Class-Path" value=". ./rules ./resource ./${stempelator.lib} ./jWordSplitter.jar ./${segment.lib} ./${logging.lib} ${jaxb.classpath}" />
 		<attribute name="Uno-Type-Path" value="" />
 	</manifest>
 </jar>
@@ -401,7 +400,6 @@
 <copy file="${ext.jaminid.lib}" todir="${dist.dir}" />
 <copy file="${ext.jwordsplitter.lib}" todir="${dist.dir}" />
 <copy file="${ext.segment.lib}" todir="${dist.dir}" />
-<copy file="${ext.loomchild.util.lib}" todir="${dist.dir}" />
 <copy file="${ext.logging.lib}" todir="${dist.dir}" />
 <copy file="${ext.junit.lib}" todir="${dist.dir}" />
 <!-- JAXB jars for Java 1.5 -->	
@@ -495,7 +493,7 @@
 <jar jarfile="${dist.dir}/printlocales.jar" basedir="${build.classes}" includes="de/danielnaber/languagetool/dev/**">
 	<manifest>
 		<attribute name="Main-Class" value="de.danielnaber.languagetool.dev.PrintLocales" />
-		<attribute name="Class-Path" value="./ ./LanguageTool.uno.jar ./${segment.lib} ./${loomchild.util.lib} ./${logging.lib}" />
+		<attribute name="Class-Path" value="./ ./LanguageTool.uno.jar ./${segment.lib} ./${logging.lib}" />
 	</manifest>
 </jar>
 
