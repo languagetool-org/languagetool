@@ -23,14 +23,18 @@ import java.util.Locale;
 import java.util.Set;
 
 import de.danielnaber.languagetool.Language;
+import de.danielnaber.languagetool.synthesis.Synthesizer;
 import de.danielnaber.languagetool.tagging.Tagger;
-import de.danielnaber.languagetool.tagging.xx.DemoTagger;
+import de.danielnaber.languagetool.tagging.sk.SlovakTagger;
+import de.danielnaber.languagetool.synthesis.sk.SlovakSynthesizer;
 import de.danielnaber.languagetool.tokenizers.SRXSentenceTokenizer;
 import de.danielnaber.languagetool.tokenizers.SentenceTokenizer;
 
 public class Slovak extends Language {
   
   private SentenceTokenizer sentenceTokenizer = new SRXSentenceTokenizer("sk");
+  private final Tagger tagger = new SlovakTagger();
+  private final Synthesizer synthesizer = new SlovakSynthesizer(); 
   
   private static final String[] COUNTRIES = {
     "SK"
@@ -54,9 +58,14 @@ public class Slovak extends Language {
   }
 
   public Tagger getTagger() {
-    return new DemoTagger();
+    return tagger;
   }
 
+  @Override
+  public Synthesizer getSynthesizer() {
+    return synthesizer;
+  }
+  
   public SentenceTokenizer getSentenceTokenizer() {
     return sentenceTokenizer;
   }
