@@ -8,13 +8,13 @@ title="Easy editing stylesheet" ?>
 A Russian rule file for LanguageTool
 Copyright (C) 2005 Daniel Naber (http://www.danielnaber.de)
 Copyright (C) 2008-2009 Yakov Reztsov
-$Id: grammar.xml,v 1.24 2009-06-22 17:49:05 yakovru Exp $
+$Id: grammar.xml,v 1.25 2009-06-30 19:03:58 yakovru Exp $
 -->
 <rules lang="ru">
     <category name="Пунктуация">
         <rule default="on"  id="ABREV_DOT" name="Точка после сокращений">
             <pattern>
-                <token regexp="yes">млн|млрд|тыс|зам|коп|руб|наб|нач|пер|шт|ед|экз|км|дм|см|просп|пр|пос|кв</token>
+                <token regexp="yes">млн|млрд|тыс|зам|коп|руб|наб|нач|пер|шт|ед|экз|км|дм|см|мм|просп|пр|пос|кв|тел|исп</token>
                 <token negate="yes" regexp="yes">.|/</token>
             </pattern>
             <message>Точка должна стоять после сокращений. Должно быть: <suggestion>\1. \2</suggestion></message>
@@ -614,75 +614,88 @@ $Id: grammar.xml,v 1.24 2009-06-22 17:49:05 yakovru Exp $
         
         <rulegroup default="on"  id="SoglasovanieP" name="Согласование падежей">
             <rule>  
-                <pattern>
+                <pattern mark_from="1" mark_to="-1">
                     <!--           ADJ:.*:Nom   NN:.*:.*:Nom    -->
+                    <token  postag="SENT_START" skip ="-1"><exception scope="next" postag_regexp="yes" postag="NN:.*:.*:Nom"></exception></token>
                     <token  postag="ADJ:.*:Nom" postag_regexp="yes"><exception negate_pos="yes" postag="ADJ:.*:Nom" postag_regexp="yes"></exception><exception scope="previous" postag_regexp="yes" postag="NN:.*" ></exception></token>
-                    <token  postag="NN:.*:.*:.*" postag_regexp="yes"><exception postag="NN:.*:.*:Nom" postag_regexp="yes"></exception><exception negate_pos="yes" postag="NN:.*:.*:.*" postag_regexp="yes"></exception></token>            
+                    <token  postag="NN:.*:.*:.*" skip ="-1"  postag_regexp="yes"><exception postag="NN:.*:.*:Nom" postag_regexp="yes"></exception><exception scope="next"   postag="NN:.*:.*:Nom" postag_regexp="yes"></exception></token>
+                    <token  regexp="yes">.|;</token>
                 </pattern>
                 <message>Прилагательное не согласуется с существительным по падежу.</message>
-                <short>Грамматическая ошибка.</short>
+                <short>Грамматическая ошибка в согласовании падежей.</short>
                 <example type="correct">Добротная усадьба.</example>
                 <example type="incorrect"><marker>Добротная усадьбе</marker>.</example>
             </rule>
             <rule>  
-                <pattern> 
+                <pattern mark_from="1" mark_to="-1">   
+                    
                     <!--           ADJ:.*:R   NN:.*:.*:R    -->
+                    <token  postag="SENT_START" skip ="-1"><exception scope="next" postag_regexp="yes" postag="NN:.*:.*:R"></exception></token>
                     <token  postag="ADJ:.*:.*" postag_regexp="yes"><exception postag="ADJ:.*:R" postag_regexp="yes"></exception><exception negate_pos="yes" postag="ADJ:.*:.*" postag_regexp="yes"/><exception scope="previous" postag="NN:.*" postag_regexp="yes"></exception></token>
-                    <token  postag="NN:.*:.*:R" postag_regexp="yes"><exception negate_pos="yes" postag="NN:.*:.*:R" postag_regexp="yes"></exception></token>                       
+                    <token  postag="NN:.*:.*:R" skip ="-1" postag_regexp="yes"><exception negate_pos="yes" postag="NN:.*:.*:R" postag_regexp="yes"></exception><exception negate_pos="yes" scope= "next" postag="NN:.*:.*:R" postag_regexp="yes"></exception></token>                       
+                    <token  regexp="yes">.|;</token>
                 </pattern>
                 
                 <message>Прилагательное не согласуется с существительным по падежу.</message>
-                <short>Грамматическая ошибка.</short>
+                <short>Грамматическая ошибка в согласовании падежей.</short>
                 <example type="correct">Нет крепкого сна.</example>
                 <example type="incorrect">Нет <marker>крепкому сна</marker>.</example>
             </rule>
             
             <rule>  
-                <pattern>  
+                <pattern mark_from="1" mark_to="-1">  
                     <!--           ADJ:.*:D   NN:.*:.*:D    -->
+                    <token  postag="SENT_START" skip ="-1"><exception scope="next" postag_regexp="yes" postag="NN:.*:.*:D"></exception></token>
                     <token  postag="ADJ:.*:.*" postag_regexp="yes"><exception postag="ADJ:.*:D" postag_regexp="yes"></exception><exception negate_pos="yes" postag="ADJ:.*:.*" postag_regexp="yes"/><exception scope="previous" postag="NN:.*" postag_regexp="yes"></exception></token>
-                    <token  postag="NN:.*:.*:D" postag_regexp="yes"><exception negate_pos="yes" postag="NN:.*:.*:D" postag_regexp="yes"></exception></token>                        
+                    <token  postag="NN:.*:.*:D" skip = "-1" postag_regexp="yes"><exception negate_pos="yes" postag="NN:.*:.*:D" postag_regexp="yes"></exception><exception negate_pos="yes" scope ="next"  postag="NN:.*:.*:D" postag_regexp="yes"></exception></token>                        
+                    <token  regexp="yes">.|;</token>
                 </pattern>
                 
                 <message>Прилагательное не согласуется с существительным по падежу.</message>
-                <short>Грамматическая ошибка.</short> 
+                <short>Грамматическая ошибка в согласовании падежей.</short> 
                 <example type="correct">Вода стекала по мягкому жёлобу.</example>
                 <example type="incorrect">Вода стекала по <marker>мягкого жёлобу</marker>.</example>
             </rule>
             
             <rule>  
-                <pattern>
+                <pattern mark_from="1" mark_to="-1">
                     <!--           ADJ:.*:V   NN:.*:.*:V    -->
+                    <token  postag="SENT_START" skip ="-1"><exception scope="next" postag_regexp="yes" postag="NN:.*:.*:V"></exception></token>
                     <token  postag="ADJ:.*:.*" postag_regexp="yes"><exception postag="ADJ:.*:V" postag_regexp="yes"></exception><exception negate_pos="yes" postag="ADJ:.*:.*" postag_regexp="yes"/><exception scope="previous" postag_regexp="yes" postag="NN:.*" ></exception></token>
-                    <token  postag="NN:.*:.*:V" postag_regexp="yes"><exception negate_pos="yes" postag="NN:.*:.*:V" postag_regexp="yes"></exception></token>
+                    <token  postag="NN:.*:.*:V" skip="-1" postag_regexp="yes"><exception negate_pos="yes" postag="NN:.*:.*:V" postag_regexp="yes"></exception><exception negate_pos="yes" scope= "next" postag="NN:.*:.*:V" postag_regexp="yes"></exception></token>
+                    <token  regexp="yes">.|;</token>
                 </pattern>
                 
                 <message>Прилагательное не согласуется с существительным по падежу.</message>
-                <short>Грамматическая ошибка.</short>
+                <short>Грамматическая ошибка в согласовании падежей.</short>
                 <example type="correct">Мы увидели бурную реку.</example>
                 <example type="incorrect">Мы увидели <marker>бурной реку</marker>.</example>
             </rule>
             <rule>  
-                <pattern>
+                <pattern mark_from="1" mark_to="-1">
                     <!--           ADJ:.*:T   NN:.*:.*:T    -->
+                    <token  postag="SENT_START" skip ="-1"><exception scope="next" postag_regexp="yes" postag="NN:.*:.*:T"></exception></token>
                     <token  postag="ADJ:.*:.*" postag_regexp="yes"><exception postag="ADJ:.*:T" postag_regexp="yes"></exception><exception negate_pos="yes" postag="ADJ:.*:.*" postag_regexp="yes"/><exception scope="previous" postag="NN:.*" postag_regexp="yes"></exception></token>
-                    <token  postag="NN:.*:.*:T" postag_regexp="yes"><exception negate_pos="yes" postag="NN:.*:.*:T" postag_regexp="yes"></exception></token>
+                    <token  postag="NN:.*:.*:T" skip = "-1" postag_regexp="yes"><exception negate_pos="yes" postag="NN:.*:.*:T" postag_regexp="yes"></exception><exception negate_pos="yes" scope="next" postag="NN:.*:.*:T" postag_regexp="yes"></exception></token>
+                    <token  regexp="yes">.|;</token>
                 </pattern>
                 
                 <message>Прилагательное не согласуется с существительным по падежу.</message>
-                <short>Грамматическая ошибка.</short>
+                <short>Грамматическая ошибка в согласовании падежей.</short>
                 <example type="correct">Они справились с бурной рекой</example>
                 <example type="incorrect">Они справились с <marker>бурную рекой</marker>.</example>
             </rule>
             <rule>  
-                <pattern>
+                <pattern mark_from="1" mark_to="-1">
                     <!--           ADJ:.*:P   NN:.*:.*:P    -->
+                    <token  postag="SENT_START" skip ="-1"><exception scope="next" postag_regexp="yes" postag="NN:.*:.*:P"></exception></token>
                     <token  postag="ADJ:.*:.*" postag_regexp="yes"><exception postag="ADJ:.*:P" postag_regexp="yes"></exception><exception negate_pos="yes" postag="ADJ:.*:.*" postag_regexp="yes"/><exception scope="previous" postag="NN:.*" postag_regexp="yes"></exception></token>
-                    <token  postag="NN:.*:.*:P" postag_regexp="yes"><exception negate_pos="yes" postag="NN:.*:.*:P" postag_regexp="yes"></exception></token>                    
+                    <token  postag="NN:.*:.*:P" skip="-1" postag_regexp="yes"><exception negate_pos="yes" postag="NN:.*:.*:P" postag_regexp="yes"></exception></token>                    
+                    <token  regexp="yes">.|;</token>
                 </pattern>
                 
                 <message>Прилагательное не согласуется с существительным по падежу.</message>
-                <short>Грамматическая ошибка.</short>
+                <short>Грамматическая ошибка в согласовании падежей.</short>
                 <example type="correct">Они думали о родном доме.</example>
                 <example type="incorrect">Они думали о <marker>родного доме</marker>.</example>
             </rule>
@@ -690,65 +703,76 @@ $Id: grammar.xml,v 1.24 2009-06-22 17:49:05 yakovru Exp $
         <rulegroup default="on"  id="SoglasovanieG" name="Согласование слов по роду/числу">
             <rule>  
                 
-                <pattern>
+                <pattern mark_from="1" mark_to="-1">
                     <!--           ADJ:Masc   NN:Masc    -->
+                    <token  postag="SENT_START" skip ="-1"><exception scope="next" postag_regexp="yes" postag="NN:Masc:.*"></exception></token>
                     <token  postag="ADJ:Masc:.*" postag_regexp="yes"><exception negate_pos="yes" postag="ADJ:Masc:.*" postag_regexp="yes"></exception></token>
-                    <token  postag="NN:.*:.*" postag_regexp="yes"><exception postag="NN:Masc:.*" postag_regexp="yes"></exception><exception postag="NN:MascFem:.*" postag_regexp="yes"></exception><exception negate_pos="yes" postag="NN:.*:.*:.*" postag_regexp="yes"/></token>            
+                    <token  postag="NN:.*:.*"  skip="-1" postag_regexp="yes"><exception postag="NN:Masc:.*" postag_regexp="yes"></exception><exception postag="NN:Masc:.*" scope= "next" postag_regexp="yes"></exception><exception postag="NN:MascFem:.*" postag_regexp="yes"></exception><exception negate_pos="yes" postag="NN:.*:.*:.*" postag_regexp="yes"/></token>            
+                    <token  regexp="yes">.|;</token>
                 </pattern>
                 
                 <message>Прилагательное не согласуется с существительным по роду.</message>
-                <short>Грамматическая ошибка.</short>
-                <example type="correct">Добротный дом был построен из кирпича.</example>
-                <example type="incorrect"><marker>Добротный усадьба</marker> был построен из кирпича.</example>
+                <short>Грамматическая ошибка в согласовании по роду.</short>
+                <example type="correct">Добротный дом был построен.</example>
+                <example type="incorrect"><marker>Добротный усадьба</marker> был построен.</example>
             </rule>
             <rule>  
-                <pattern>
+                <pattern mark_from="1" mark_to="-1">
                     <!--           ADJ:Fem   NN:Fem    -->
+                    <token  postag="SENT_START" skip ="-1"><exception scope="next" postag_regexp="yes" postag="NN:Fem:.*"></exception></token>
                     <token  postag="ADJ:Fem:.*" postag_regexp="yes"><exception negate_pos="yes" postag="ADJ:Fem:.*" postag_regexp="yes"></exception></token>
-                    <token  postag="NN:.*:.*" postag_regexp="yes"><exception postag="NN:Fem:.*" postag_regexp="yes"></exception><exception postag="NN:MascFem:.*" postag_regexp="yes"></exception><exception negate_pos="yes" postag="NN:.*:.*:.*" postag_regexp="yes"/></token>                    
+                    <token  postag="NN:.*:.*"  skip="-1" postag_regexp="yes"><exception postag="NN:Fem:.*" postag_regexp="yes"></exception><exception postag="NN:Fem:.*" scope="next"  postag_regexp="yes"></exception><exception postag="NN:MascFem:.*" postag_regexp="yes"></exception><exception negate_pos="yes" postag="NN:.*:.*:.*" postag_regexp="yes"/></token>                    
+                    <token  regexp="yes">.|;</token>
                 </pattern>
                 
                 <message>Прилагательное не согласуется с существительным по роду.</message>
-                <short>Грамматическая ошибка.</short>
+                <short>Грамматическая ошибка в согласовании по роду.</short>
                 <example type="correct">Жирная кошка грелась на солнышке.</example>
                 <example type="incorrect"><marker>Жирная кот</marker> грелась на солнышке.</example>
             </rule>
             <rule>  
-                <pattern>
+                <pattern mark_from="1" mark_to="-1">
                     <!--           ADJ:Neut   NN:Neut    -->
+                    <token  postag="SENT_START" skip ="-1"><exception scope="next" postag_regexp="yes" postag="NN:Neut:.*"></exception></token>
                     <token  postag="ADJ:Neut:.*" postag_regexp="yes"><exception negate_pos="yes" postag="ADJ:Neut:.*" postag_regexp="yes"></exception></token>
-                    <token  postag="NN:.*:.*" postag_regexp="yes"><exception postag="NN:Neut:.*" postag_regexp="yes"></exception><exception negate_pos="yes" postag="NN:.*:.*:.*" postag_regexp="yes"/></token>                   
+                    <token  postag="NN:.*:.*"  skip="-1" postag_regexp="yes"><exception postag="NN:Neut:.*" postag_regexp="yes"></exception><exception postag="NN:Neut:.*" scope="next" postag_regexp="yes"></exception><exception negate_pos="yes" postag="NN:.*:.*:.*" postag_regexp="yes"/></token>                   
+                    <token  regexp="yes">.|;</token>
                 </pattern>
                 
                 <message>Прилагательное не согласуется с существительным по роду.</message>
-                <short>Грамматическая ошибка.</short>
-                <example type="correct">Из окна виднелось зелёное поле.</example>
-                <example type="incorrect">Из окна виднелось <marker>зелёное луг</marker>.</example>
+                <short>Грамматическая ошибка в согласовании по роду.</short>
+                <example type="correct">Вдали виднелось зелёное поле.</example>
+                <example type="incorrect">Вдали виднелось <marker>зелёное луг</marker>.</example>
             </rule>
             
             <rule>  
-                <pattern>
+                <pattern mark_from="1" mark_to="-1">
                     <!--           ADJ:PL   NN:.*:PL    -->
+                    
+                    <token  postag="SENT_START" skip ="-1"><exception scope="next" postag_regexp="yes" postag="NN:.*:PL:.*"></exception></token>
                     <token  postag="ADJ:PL:.*" postag_regexp="yes"><exception negate_pos="yes" postag="ADJ:PL:.*" postag_regexp="yes"></exception> <exception scope="previous" postag="NumC:.*|Num:.*" postag_regexp="yes"></exception><exception scope="previous" regexp="yes">[\p{Digit}]*</exception>  </token>
-                    <token  postag="NN:.*:.*:.*" postag_regexp="yes"><exception postag="NN:.*:PL:.*" postag_regexp="yes"></exception><exception negate_pos="yes" postag="NN:.*:.*:.*" postag_regexp="yes"/></token>                   
+                    <token  postag="NN:.*:.*:.*" skip="-1" postag_regexp="yes"><exception postag="NN:.*:PL:.*" postag_regexp="yes"></exception><exception postag="NN:.*:PL:.*" scope="next" postag_regexp="yes"></exception><exception negate_pos="yes" postag="NN:.*:.*:.*" postag_regexp="yes"/></token>                   
+                    <token  regexp="yes">.|;</token>
                 </pattern>
                 
                 <message>Прилагательное не согласуется с существительным по числу.</message>
-                <short>Грамматическая ошибка.</short>
-                <example type="correct">Из окна виднелись красивые сосны.</example>
-                <example type="incorrect">Из окна виднелись <marker>красивые ёлка</marker>.</example>
+                <short>Грамматическая ошибка в согласовании по числу.</short>
+                <example type="correct">Вдали виднелись красивые сосны.</example>
+                <example type="incorrect">Вдали виднелись <marker>красивые ёлка</marker>.</example>
             </rule>
             <rule>  
-                <pattern>
+                <pattern mark_from="1" mark_to="-1">
                     <!--           ADJ:!PL   NN:.*:Sin    -->
+                    <token  postag="SENT_START" skip ="-1"><exception scope="next" postag_regexp="yes" postag="NN:.*:Sin:.*"></exception></token>
                     <token  postag="ADJ:.*:.*" postag_regexp="yes"><exception negate_pos="yes" postag="ADJ:.*:.*" postag_regexp="yes"></exception><exception postag="ADJ:PL:.*" postag_regexp="yes"></exception><exception regexp="yes" scope="previous">и|или|но|да</exception></token>
-                    <token  postag="NN:.*:.*:.*" postag_regexp="yes"><exception postag="NN:.*:Sin:.*" postag_regexp="yes"></exception><exception negate_pos="yes" postag="NN:.*:.*:.*" postag_regexp="yes"/></token>                   
+                    <token  postag="NN:.*:.*:.*" skip="-1" postag_regexp="yes"><exception postag="NN:.*:Sin:.*" postag_regexp="yes"></exception><exception postag="NN:.*:Sin:.*" scope="next" postag_regexp="yes"></exception><exception negate_pos="yes" postag="NN:.*:.*:.*" postag_regexp="yes"/></token>                   
+                    <token  regexp="yes">.|;</token>
                 </pattern>
                 
                 <message>Прилагательное не согласуется с существительным по числу.</message>
-                <short>Грамматическая ошибка.</short>
-                <example type="correct">Из окна виднелась красивая сосна.</example>
-                <example type="incorrect">Из окна виднелась лесополоса из <marker>красивой сосен</marker>.</example>
+                <short>Грамматическая ошибка в согласовании по числу.</short>
+                <example type="correct">Мебель сделана из красивой сосны.</example>
+                <example type="incorrect">Столы сделаны из <marker>красивой сосен</marker>.</example>
             </rule>
             
             
