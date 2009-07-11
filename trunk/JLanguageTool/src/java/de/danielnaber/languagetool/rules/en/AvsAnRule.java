@@ -26,7 +26,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.TreeSet;
-import java.util.regex.Pattern;
 
 import de.danielnaber.languagetool.AnalyzedSentence;
 import de.danielnaber.languagetool.AnalyzedTokenReadings;
@@ -52,8 +51,6 @@ public class AvsAnRule extends EnglishRule {
 
   private TreeSet<String> requiresA;
   private TreeSet<String> requiresAn;
-  
-  private static final Pattern VOWEL_ACRONYM = Pattern.compile("[AEFHILMNOSRX][A-Z]*");
   
   public AvsAnRule(final ResourceBundle messages) throws IOException {
     if (messages != null) {
@@ -90,8 +87,8 @@ public class AvsAnRule extends EnglishRule {
             !parts[0].equalsIgnoreCase("a")) {  // avoid false alarm on "A-levels are..."
           token = parts[0];
         }
-        //html entities!
-        token = token.replaceAll("&quot|&amp|&lt|&gt|[^a-zA-Z0-9\\.']", "");         // e.g. >>an "industry party"<<
+        // TODO: this may create an offset in the error position:
+        token = token.replaceAll("[^a-zA-Z0-9\\.']", "");         // e.g. >>an "industry party"<<
         if (StringTools.isEmpty(token)) {
           continue;
         }
