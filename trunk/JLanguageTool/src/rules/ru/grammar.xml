@@ -8,7 +8,7 @@ title="Easy editing stylesheet" ?>
 A Russian rule file for LanguageTool
 Copyright (C) 2005 Daniel Naber (http://www.danielnaber.de)
 Copyright (C) 2008-2009 Yakov Reztsov
-$Id: grammar.xml,v 1.26 2009-07-01 19:35:37 yakovru Exp $
+$Id: grammar.xml,v 1.27 2009-07-11 07:00:34 yakovru Exp $
 -->
 <rules lang="ru">
     <category name="Пунктуация">
@@ -801,6 +801,62 @@ $Id: grammar.xml,v 1.26 2009-07-01 19:35:37 yakovru Exp $
                 <example type="incorrect"><marker>Доме</marker> они думали.</example>
             </rule>
         </rulegroup>
+        
+        <rulegroup default="on"  id="Com_Num" name="Собирательные числительные">
+            <rule>  
+                <pattern>
+                    <token regexp= "yes">двое|трое|четверо|пятеро|шестеро|семеро</token>
+                    <token  postag="NN:Fem:.*" postag_regexp="yes"></token>
+                </pattern>                
+                <!--               TODO:  согласовать падежи для коррекции ошибок
+                <message>Собирательные числительные (двое, трое, четверо, пятеро, шестеро, семеро) НЕЛЬЗЯ употреблять с существительными, обозначающими лиц женского пола <suggestion>две \2</suggestion>,<suggestion>три \2</suggestion>,<suggestion>четыре \2</suggestion>,<suggestion>пять \2</suggestion>,<suggestion>шесть \2</suggestion>,<suggestion>семь \2</suggestion>.</message>
+                 -->
+                <message>Собирательные числительные (двое, трое, четверо, пятеро, шестеро, семеро) НЕЛЬЗЯ употреблять с существительными женского рода</message>            
+                <short>Грамматическая ошибка.</short>
+                <example type="correct">Две подруги.</example>
+                <example type="incorrect"><marker>Двое подруг</marker>.</example>
+            </rule>
+            
+        </rulegroup>
+        
+        <rulegroup default="on"  id="Oba_obe" name="Числительные оба/обе">
+            <rule>  
+                <pattern>
+                    <token regexp= "yes">оба|обоих|обоим|обоими</token>
+                    <token  postag="NN:Fem:.*" postag_regexp="yes"></token>
+                </pattern>                
+                <message>Числительное оба (обоих, обоим, обоими) употребляется  только с существительными мужского рода: <suggestion>обе \2</suggestion>,<suggestion>обеих \2</suggestion>,<suggestion>обеим \2</suggestion>,<suggestion>обеими \2</suggestion>.</message>
+                <short>Грамматическая ошибка.</short>
+                <example type="correct">По обеим сторонам.</example>
+                <example type="incorrect">По <marker>обоим сторонам</marker>.</example>
+            </rule>
+            
+            <rule>  
+                <pattern>
+                    <token regexp= "yes">обе|обеих|обеим|обеими</token>
+                    <token  postag="NN:Masc:.*" postag_regexp="yes"></token>
+                </pattern>                
+                <message>Числительное обe (обеих, обеим, обеими) употребляется  только с существительными женского рода: <suggestion>оба \2</suggestion>,<suggestion>обоих \2</suggestion>,<suggestion>обоим \2</suggestion>,<suggestion>обоими \2</suggestion>.</message>
+                <short>Грамматическая ошибка.</short>
+                <example type="correct">На обоих столах.</example>
+                <example type="incorrect">На <marker>обеих столах</marker>.</example>
+            </rule>           
+        </rulegroup>
+        
+        <rulegroup default="on"  id="Pnn_compose_error" name="Ошибки в образовании местоимений">
+            
+            <rule>  
+                <pattern>
+                    <token regexp= "yes">ихний|ихняя|ихнее</token>
+                </pattern>                
+                <message>Правильная форма - <suggestion>их</suggestion>.</message>
+                <short>Правильная форма - "их".</short>
+                <example type="correct">Там находится их дом.</example>
+                <example type="incorrect">Там находится <marker>ихний</marker> дом.</example>
+            </rule>
+            
+        </rulegroup>        
+        
         
         <rulegroup default="on"  id="Kak_budto" name="Сложный союз (частица) “как будто”">
             <rule>
