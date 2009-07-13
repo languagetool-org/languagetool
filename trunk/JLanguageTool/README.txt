@@ -1,6 +1,6 @@
 LanguageTool, a proof-reading tool for English, German, Polish,
 French, Dutch, Russian, Romanian, and Italian with initial support 
-for Icelandic, Slovak, Spanish, and Swedish
+for Galician, Icelandic, Slovak, Spanish, and Swedish
 
 Copyright (C) 2005-2009 Daniel Naber (naber at danielnaber de)
 Version ###VERSION###, ###DATE###
@@ -192,6 +192,10 @@ License:
  by Myriam Lechelt Laurent Godard and released on LGPL terms. The lemmas 
  were added by Marcin Milkowski using original DICO files (in public domain),
  and manually. It remains LGPL. The following is a copyright notice about DICO.
+
+ Galician:
+ The Galician data for part-of-speech tagging were created by Susana Sotelo
+ Docio based on Freeling dictionary and henceforth licensed under GPL.
 
 ------------------------------------------------ 
 

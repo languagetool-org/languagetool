@@ -69,6 +69,8 @@ public class Spanish extends Language {
     ids.add("UPPERCASE_SENTENCE_START");
     ids.add("WORD_REPEAT_RULE");
     ids.add("WHITESPACE_RULE");
+    // specific to Spanish:
+    ids.add("EL_WITH_FEM");
     return ids;
   }
 

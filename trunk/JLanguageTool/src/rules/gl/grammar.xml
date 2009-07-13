@@ -7,20 +7,21 @@
   created by Susana Sotelo Docío
 -->
 <rules lang="gl">
-  <category name="misc">
-    <rulegroup id="syntax" name="sintaxe">
-    <rule>
+  <category name="grammar">
+    <rule id="IR_A_INF" name="ir e infinitivo">
       <pattern>
         <token inflected="yes">ir</token>
         <token>a</token>
-        <token postag="VINF" />
+        <token postag="VMN0000|VSN0000" postag_regexp="yes" />
       </pattern>
-      <message>A perifrase IR + INF construese en galego sen preposicion: <suggestion>\1 \3</suggestion></message>
+      <message>A perífrase formada polo verbo "ir" máis un infinitivo constrúese en galego sen preposición: <suggestion>\1 \3</suggestion></message>
       <short>Forma incorrecta</short>
       <example type="incorrect"><marker>ir a saltar</marker> con ela.</example>
       <example type="correct"><marker>ir saltar</marker> con ela.</example>
     </rule>
-    <rule>
+  </category>
+  <category name="lex">
+    <rule id="APORTAR" name="aportar (achegar)">
       <pattern>
         <token inflected="yes">aportar</token>
       </pattern>
@@ -29,7 +30,9 @@
       <example type="incorrect">Eu tamén quero <marker>aportar</marker> algo ao proxecto.</example>
       <example type="correct">Eu tamén quero <marker>achegar</marker> algo ao proxecto.</example>
     </rule>
-    <rule>
+  </category>
+  <category name="spelling">
+    <rule id="EN_SEGUIDA" name="enseguida">
       <pattern>
         <token>en</token>
         <token>seguida</token>
@@ -38,6 +41,5 @@
       <example type="incorrect">Deuse conta <marker>en seguida</marker>.</example>
       <example type="correct">Deuse conta <marker>enseguida</marker>.</example>
     </rule>
-    </rulegroup>
   </category>
 </rules>
