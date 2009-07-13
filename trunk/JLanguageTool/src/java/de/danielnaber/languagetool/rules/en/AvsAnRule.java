@@ -75,6 +75,7 @@ public class AvsAnRule extends EnglishRule {
     final List<RuleMatch> ruleMatches = new ArrayList<RuleMatch>();
     final AnalyzedTokenReadings[] tokens = text.getTokensWithoutWhitespace();
     String prevToken = "";
+    int skipped = 0;
     //ignoring token 0, i.e., SENT_START
     for (int i = 1; i < tokens.length; i++) {
       String token = tokens[i].getToken();
@@ -87,9 +88,9 @@ public class AvsAnRule extends EnglishRule {
             !parts[0].equalsIgnoreCase("a")) {  // avoid false alarm on "A-levels are..."
           token = parts[0];
         }
-        // TODO: this may create an offset in the error position:
         token = token.replaceAll("[^a-zA-Z0-9\\.']", "");         // e.g. >>an "industry party"<<
         if (StringTools.isEmpty(token)) {
+          skipped++;
           continue;
         }
         final char tokenFirstChar = token.charAt(0);
@@ -137,12 +138,13 @@ public class AvsAnRule extends EnglishRule {
           + "'a university'";
         }
         if (msg != null) {
-          final int prevPos = tokens[i - 1].getStartPos();
+          final int prevPos = tokens[i - skipped - 1].getStartPos();
           final RuleMatch ruleMatch = new RuleMatch(this, prevPos, prevPos+prevToken.length(), msg, "Wrong article");
           ruleMatches.add(ruleMatch);
         }
         if (tokens[i].hasPosTag("DT")) {
           prevToken = token;
+          skipped = 0;
         } else {
           prevToken = "";
         }

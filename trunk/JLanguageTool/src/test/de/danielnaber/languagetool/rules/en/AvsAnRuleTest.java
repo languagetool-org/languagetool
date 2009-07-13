@@ -128,4 +128,40 @@ public class AvsAnRuleTest extends TestCase {
     assertEquals("a UNESCO", rule.suggestAorAn("UNESCO"));
     
   }
+  
+  public void testPositions() throws IOException {
+    AvsAnRule rule = new AvsAnRule(null);
+    RuleMatch[] matches;
+    JLanguageTool langTool = new JLanguageTool(Language.ENGLISH);
+    // no quotes etc.:
+    matches = rule.match(langTool.getAnalyzedSentence("a industry standard."));
+    assertEquals(0, matches[0].getFromPos());
+    assertEquals(1, matches[0].getToPos());
+    
+    // quotes..
+    matches = rule.match(langTool.getAnalyzedSentence("a \"industry standard\"."));
+    assertEquals(0, matches[0].getFromPos());
+    assertEquals(1, matches[0].getToPos());
+    
+    matches = rule.match(langTool.getAnalyzedSentence("a - industry standard\"."));
+    assertEquals(0, matches[0].getFromPos());
+    assertEquals(1, matches[0].getToPos());
+    
+    matches = rule.match(langTool.getAnalyzedSentence("This is a \"industry standard\"."));
+    assertEquals(8, matches[0].getFromPos());
+    assertEquals(9, matches[0].getToPos());
+    
+    matches = rule.match(langTool.getAnalyzedSentence("\"a industry standard\"."));
+    assertEquals(1, matches[0].getFromPos());
+    assertEquals(2, matches[0].getToPos());
+    
+    matches = rule.match(langTool.getAnalyzedSentence("\"Many say this is a industry standard\"."));
+    assertEquals(18, matches[0].getFromPos());
+    assertEquals(19, matches[0].getToPos());
+    
+    matches = rule.match(langTool.getAnalyzedSentence("Like many \"an desperado\" before him, Bart headed south into Mexico."));
+    assertEquals(11, matches[0].getFromPos());
+    assertEquals(13, matches[0].getToPos());
+    
+  }
 }
