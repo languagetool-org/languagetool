@@ -7,7 +7,7 @@ title="Easy editing stylesheet" ?>
 English Grammar and Typo Rules for LanguageTool
 See tagset.txt for the meaning of the POS tags
 Copyright (C) 2001-2007 Daniel Naber (http://www.danielnaber.de)
-$Id: grammar.xml,v 1.111 2009-06-14 14:57:03 milek_pl Exp $
+$Id: grammar.xml,v 1.112 2009-07-14 19:23:53 milek_pl Exp $
 -->
 <rules lang="en">
   <!-- ====================================================================== -->
@@ -9117,6 +9117,22 @@ $Id: grammar.xml,v 1.111 2009-06-14 14:57:03 milek_pl Exp $
   </category>
 
   <category name="Bad style">
+    <rule default="off" id="SENT_START_NUM" name="Number starting a sentence">
+      <pattern>
+        <token postag="SENT_START"></token>
+
+        <token regexp="yes">\d+</token>
+      </pattern>
+
+      <message>Numbers at the start of the sentence should be written as words.</message>
+
+      <short>Number starting a sentence</short>
+
+      <example type="incorrect"><marker>12</marker> soldiers were killed!</example>
+
+      <example type="correct">Twelve soldiers were killed!</example>
+    </rule>
+
     <rule default="off" id="HOPEFULLY" name="Word order: 'Hopefully' starting a sentence">
       <pattern>
         <token postag="SENT_START"></token>
@@ -9153,7 +9169,7 @@ $Id: grammar.xml,v 1.111 2009-06-14 14:57:03 milek_pl Exp $
   </category>
 
   <category name="Capitalization">
-    <rulegroup default="off" id="EN_CAPITALIZE" name="Capitalize lowercase words ('i am')">
+    <rulegroup default="off" id="EN_CAPITALIZE" name="Capitalize lowercase words in ('i am')">
       <rule>
         <pattern case_sensitive="yes">
           <and>
