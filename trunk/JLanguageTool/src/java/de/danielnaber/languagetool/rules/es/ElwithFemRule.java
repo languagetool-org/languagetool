@@ -80,15 +80,14 @@ public class ElwithFemRule extends SpanishRule {
     final List<RuleMatch> ruleMatches = new ArrayList<RuleMatch>();
     final AnalyzedTokenReadings[] tokens = text.getTokensWithoutWhitespace();
     String prevToken = "";
-    int skipped = 0;
+    int prevPos = 0;
     //ignoring token 0, i.e., SENT_START
     for (int i = 1; i < tokens.length; i++) {
       String token = tokens[i].getToken();
         boolean doesRequireEl = false;
 
         token = token.replaceAll("[^a-záéíóúñüA-ZÁÉÍÓÚÑÜ0-9\\.']", "");     // el 'alma'
-        if (StringTools.isEmpty(token)) {
-          skipped++;
+        if (StringTools.isEmpty(token)) {          
           continue;
         }
         if (requiresEl.contains(token.toLowerCase()) || requiresEl.contains(token)) {
@@ -128,14 +127,13 @@ public class ElwithFemRule extends SpanishRule {
           + "'un agua'";
 
 
-        if (repl != null) {
-          final int prevPos = tokens[i - skipped - 1].getStartPos();
+        if (repl != null) {         
           final RuleMatch ruleMatch = new RuleMatch(this, prevPos, prevPos+prevToken.length(), msg, "Art\u00edculo incorrecto");
           ruleMatches.add(ruleMatch);
         }
-        if (tokens[i].hasPosTag("DA0FS0") || tokens[i].hasPosTag("DI0FS0")  ) {
-          skipped = 0;
+        if (tokens[i].hasPosTag("DA0FS0") || tokens[i].hasPosTag("DI0FS0")  ) {          
           prevToken = token;
+          prevPos = tokens[i].getStartPos();
         } else {
           prevToken = "";
         }

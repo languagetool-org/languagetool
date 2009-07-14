@@ -75,7 +75,7 @@ public class AvsAnRule extends EnglishRule {
     final List<RuleMatch> ruleMatches = new ArrayList<RuleMatch>();
     final AnalyzedTokenReadings[] tokens = text.getTokensWithoutWhitespace();
     String prevToken = "";
-    int skipped = 0;
+    int prevPos = 0;
     //ignoring token 0, i.e., SENT_START
     for (int i = 1; i < tokens.length; i++) {
       String token = tokens[i].getToken();
@@ -89,8 +89,7 @@ public class AvsAnRule extends EnglishRule {
           token = parts[0];
         }
         token = token.replaceAll("[^a-zA-Z0-9\\.']", "");         // e.g. >>an "industry party"<<
-        if (StringTools.isEmpty(token)) {
-          skipped++;
+        if (StringTools.isEmpty(token)) {          
           continue;
         }
         final char tokenFirstChar = token.charAt(0);
@@ -137,14 +136,13 @@ public class AvsAnRule extends EnglishRule {
           "word doesn't start with a vowel sound, e.g. 'a sentence', "
           + "'a university'";
         }
-        if (msg != null) {
-          final int prevPos = tokens[i - skipped - 1].getStartPos();
+        if (msg != null) {          
           final RuleMatch ruleMatch = new RuleMatch(this, prevPos, prevPos+prevToken.length(), msg, "Wrong article");
           ruleMatches.add(ruleMatch);
         }
         if (tokens[i].hasPosTag("DT")) {
           prevToken = token;
-          skipped = 0;
+          prevPos = tokens[i].getStartPos();
         } else {
           prevToken = "";
         }
