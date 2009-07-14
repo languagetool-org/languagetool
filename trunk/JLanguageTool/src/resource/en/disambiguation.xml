@@ -2,7 +2,7 @@
 <!--
 		English Disambiguation Rules for LanguageTool Copyright (C) 2008
 		Marcin Miłkowski		
-$Id: disambiguation.xml,v 1.38 2009-07-14 00:25:04 milek_pl Exp $
+$Id: disambiguation.xml,v 1.39 2009-07-14 18:06:47 milek_pl Exp $
 	-->
 <rules lang="en">
 	<rule name="Modal verb + verb/noun -> modal verb + verb" id="MD_VB">
@@ -193,7 +193,7 @@ $Id: disambiguation.xml,v 1.38 2009-07-14 00:25:04 milek_pl Exp $
 	</rule>
 	<rule name="t -> contraction (not/RB)" id="T_NOT">
 		<pattern mark="1">
-		<token>'</token>
+		<token regexp="yes">['’]</token>
 		<token>t</token>
 		</pattern>
 		<disambig action="add"><wd lemma="not" pos="RB">t</wd></disambig>
@@ -204,7 +204,7 @@ $Id: disambiguation.xml,v 1.38 2009-07-14 00:25:04 milek_pl Exp $
 		<rule>
 			<pattern mark="0">
 				<token>let</token>
-				<token>'</token>
+				<token regexp="yes">['’]</token>
 				<token>s</token>
 			</pattern>
 			<disambig postag="VBP" />
@@ -212,7 +212,7 @@ $Id: disambiguation.xml,v 1.38 2009-07-14 00:25:04 milek_pl Exp $
 		<rule>
 			<pattern mark="2">
 				<token>let</token>
-				<token>'</token>
+				<token regexp="yes">['’]</token>
 				<token>s</token>
 			</pattern>
 			<disambig postag="PRP" />
@@ -244,7 +244,7 @@ $Id: disambiguation.xml,v 1.38 2009-07-14 00:25:04 milek_pl Exp $
 	<rule name="Qur'an" id="QUARAN">
 		<pattern mark="2">
 			<token>Qur</token>
-			<token>'</token>
+			<token regexp="yes">['’]</token>
 			<token>an</token>
 		</pattern>
 		<disambig postag="NNP" />
@@ -661,7 +661,7 @@ $Id: disambiguation.xml,v 1.38 2009-07-14 00:25:04 milek_pl Exp $
 	</rule>
 	<rule name="are + VBG/NN -> VBG" id="ARE_VBG_NN">
 		<pattern mark="2">
-			<token>'</token>
+			<token regexp="yes">['’]</token>
 			<token>re</token>
 			<token postag="VBG"/>
 		</pattern>
@@ -670,7 +670,7 @@ $Id: disambiguation.xml,v 1.38 2009-07-14 00:25:04 milek_pl Exp $
 	<rule name="I'm -> VBP" id="AM_VBP">
 		<pattern mark="2">
 			<token>I</token>
-			<token>'</token>
+			<token regexp="yes">['’]</token>
 			<token>m</token>			
 		</pattern>
 		<disambig action="add"><wd lemma="be" pos="VBP">m</wd></disambig>
@@ -678,7 +678,7 @@ $Id: disambiguation.xml,v 1.38 2009-07-14 00:25:04 milek_pl Exp $
 	<rule name="Don't|do|don/vb ->don't/vb" id="DONT_VB">
 		<pattern mark="0">
 			<token>don</token>
-			<token>'</token>
+			<token regexp="yes">['’]</token>
 			<token>t</token>
 		</pattern>
 		<disambig><match no="1" postag="VBP">do</match></disambig>
@@ -686,7 +686,7 @@ $Id: disambiguation.xml,v 1.38 2009-07-14 00:25:04 milek_pl Exp $
 	<rule name="'s -> be/vbz" id="POS_BE_VBZ">
 		<pattern mark="2">
 			<token postag_regexp="yes" postag="WP|PRP"/>
-			<token>'</token>
+			<token regexp="yes">['’]</token>
 			<token>s</token>
 		</pattern>
 		<disambig><match no="3" postag="VBZ">be</match></disambig>
@@ -971,7 +971,7 @@ $Id: disambiguation.xml,v 1.38 2009-07-14 00:25:04 milek_pl Exp $
 	<rule name="Goin'" id="VBG_IN">
 		<pattern mark="0">
 		<token regexp="yes" postag="UNKNOWN">.*in</token>
-		<token spacebefore="no">'</token>
+		<token spacebefore="no" regexp="yes">['’]</token>
 		</pattern>
 		<disambig postag="VBG"/>
 		<example type="untouched">I'm in N.Y.</example>
