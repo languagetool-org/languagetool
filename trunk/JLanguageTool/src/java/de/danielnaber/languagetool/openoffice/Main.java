@@ -632,12 +632,17 @@ public class Main extends WeakBase implements XJobExecutor,
   }
 
   static void showError(final Throwable e) {
-    String msg = "An error has occured in LanguageTool:\n" + e.toString()
+    String metaInfo = "OS: " + System.getProperty("os.name")
+      + " on " + System.getProperty("os.arch") + ", Java version "
+      + System.getProperty("java.vm.version")
+      + " from " + System.getProperty("java.vm.vendor");
+    String msg = "An error has occurred in LanguageTool " + JLanguageTool.VERSION + ":\n" + e.toString()
         + "\nStacktrace:\n";
     final StackTraceElement[] elem = e.getStackTrace();
     for (final StackTraceElement element : elem) {
       msg += element.toString() + "\n";
     }
+    msg += metaInfo;
     final DialogThread dt = new DialogThread(msg);
     dt.start();
     // e.printStackTrace();
