@@ -6,7 +6,7 @@ title="Easy editing stylesheet" ?>
 <!--
 Polish Grammar and Typo Rules for LanguageTool
 Copyright (C) 2006-2007 Marcin Miłkowski
-$Id: grammar.xml,v 1.197 2009-07-17 10:05:55 milek_pl Exp $
+$Id: grammar.xml,v 1.198 2009-07-25 10:34:33 milek_pl Exp $
 -->
 <rules lang="pl">
   <unification feature="number">
@@ -15273,9 +15273,157 @@ Znacznie częściej ta forma jest mylona z trybem rozkazującym od „pokazać�
 
       <example type="correct">Nikt nas nie lubi.</example>
     </rule>
+
+    <rulegroup id="A_LA_CARTE" name="„a'la carte” (à la carte)">
+      <rule>
+        <pattern>
+          <token>a</token>
+
+          <token regexp="yes">['’`]</token>
+
+          <token>la</token>
+        </pattern>
+
+        <message>Czy chodziło o francuskie wyrażenie <suggestion>à la</suggestion> (=w rodzaju, na sposób)?</message>
+
+        <short>Prawdopodobny błąd ortograficzny</short>
+
+        <example correction="à la" type="incorrect">Naleśniki <marker>a'la</marker> Gundel</example>
+
+        <example type="correct">Naleśniki à la Gundel</example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <token regexp="yes">['`’]</token>
+
+          <token>a</token>
+
+          <token>la</token>
+        </pattern>
+
+        <message>Czy chodziło o francuskie wyrażenie <suggestion>à la</suggestion> (=w rodzaju, na sposób)?</message>
+
+        <short>Prawdopodobny błąd ortograficzny</short>
+
+        <example correction="à la" type="incorrect">Naleśniki <marker>’a la</marker> Gundel</example>
+
+        <example type="correct">Naleśniki à la Gundel</example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <token><exception regexp="yes" scope="previous">['`’]</exception>a</token>
+
+          <token>la</token>
+        </pattern>
+
+        <message>Czy chodziło o francuskie wyrażenie <suggestion>à la</suggestion> (=w rodzaju, na sposób)?</message>
+
+        <short>Prawdopodobny błąd ortograficzny</short>
+
+        <example correction="à la" type="incorrect">Naleśniki <marker>a la</marker> Gundel</example>
+
+        <example type="correct">Naleśniki à la Gundel</example>
+      </rule>
+    </rulegroup>
+
+    <rule id="PRZYCIAGAC_JAK_MAGNEZ" name="„przyciągać jak magnez” (magnes)">
+      <pattern mark_from="2">
+        <token inflected="yes" skip="4"><exception inflected="yes">magnes</exception>przyciągać</token>
+
+        <token>jak</token>
+
+        <token>magnez</token>
+      </pattern>
+
+      <message>Prawdopodobny błąd ortograficzny. Czy chodziło o <suggestion>magnes</suggestion>?</message>
+
+      <short>Prawdopodobny błąd ortograficzny</short>
+
+      <example correction="magnes" type="incorrect">Przetargi przyciągają polskich polityków jak <marker>magnez</marker>.</example>
+
+      <example type="correct">Przetargi przyciągają polskich polityków jak magnes.</example>
+    </rule>
+
+    <rule id="W_NIEBO_GLOSY" name="„w niebo głosy” (wniebogłosy)">
+      <pattern mark_from="1">
+        <token inflected="yes" regexp="yes" skip="2">drzeć|krzyczeć|wyć|wrzeszczeć|ryczeć|wydzierać|wydrzeć</token>
+
+        <token>w</token>
+
+        <token>niebo</token>
+
+        <token>głosy</token>
+      </pattern>
+
+      <message>Prawdopodobny błąd ortograficzny. Ten wyraz pisze się łącznie: <suggestion>wniebogłosy</suggestion>.</message>
+
+      <short>Prawdopodobny błąd ortograficzny</short>
+
+      <example correction="wniebogłosy" type="incorrect">Heniek darł się <marker>w niebo głosy</marker>.</example>
+
+      <example type="correct">Zapraszamy na przegląd piosenki religijnej „W niebo głosy”.</example>
+    </rule>
+
+    <rule id="W_TE_I_NA_ZAD" name="„w tę i na zad” (w tę i nazad)">
+      <pattern>
+        <token>w</token>
+
+        <token regexp="yes">t[eę]</token>
+
+        <token>i</token>
+
+        <token>na</token>
+
+        <token>zad</token>
+      </pattern>
+
+      <message>Prawdopodobny błąd ortograficzny. Czy chodziło o <suggestion>w tę i nazad</suggestion>?</message>
+
+      <short>Prawdopodobny błąd ortograficzny</short>
+
+      <example correction="w tę i nazad" type="incorrect">Józek chodził po spacerniaku <marker>w te i na zad</marker>.</example>
+
+      <example type="correct">Józek upadł na zad.</example>
+    </rule>
   </category>
 
   <category name="Prawdopodobne literówki">
+    <rule id="FRAK_SZWAJCARSKI" name="„frak szwajcarski” (frank szwajcarski)">
+      <pattern mark_to="-1">
+        <unify feature="case,gender,number">
+          <token inflected="yes">frak</token>
+
+          <token inflected="yes">szwajcarski</token>
+        </unify>
+      </pattern>
+
+      <message>Prawdopodobna literówka. Czy chodziło o <suggestion><match no="1" regexp_match="fra(.*)" regexp_replace="fran$1"></match></suggestion>?</message>
+
+      <example correction="franka" type="incorrect">Nastąpiła zwyżka kursu <marker>fraka</marker> szwajcarskiego.</example>
+
+      <example type="correct">Podarowaliśmy fraki szwajcarskiej policji.</example>
+    </rule>
+
+    <rule id="OZNACZ_TO_ZE" name="„oznacz to, że” (oznacza to, że)">
+      <pattern mark_to="-2">
+        <token skip="2">oznacz</token>
+
+        <token>,</token>
+
+        <token regexp="yes">że|iż</token>
+      </pattern>
+
+      <message>Prawdopodobna literówka. Czy chodziło o <suggestion>oznacza</suggestion>?</message>
+
+      <short>Prawdopodobna literówka</short>
+
+      <example type="correct">Oznacz ludowi granice dokoła góry.</example>
+
+      <example correction="oznacza" type="incorrect">Nie <marker>oznacz</marker> to jednak, że nie masz racji.</example>
+    </rule>
+
     <rule id="WCIAGU" name="„wciągu” (w ciągu)">
       <pattern>
         <token>wciągu<exception scope="previous">do</exception></token>
@@ -16672,7 +16820,7 @@ Znacznie częściej ta forma jest mylona z trybem rozkazującym od „pokazać�
 
     <rule id="MAJA_MAJA" name="„maja” (mają)">
       <pattern case_sensitive="yes" mark_from="1" mark_to="-1">
-        <token><exception inflected="yes" regexp="yes">^(\d+|pierwszy|drugi|trzeci|czwarty|piąty|szósty|siódmy|ósmy|dziewiąty|dziesiąty|jedenasty|dwunasty|trzynasty|czternasty|piętnasty|szesnasty|siedemnasty|osiemnasty|dziewiętnasty|dwudziesty|trzydziesty|do|od|koniec|początek|tydzień)</exception></token>
+        <token><exception inflected="yes" regexp="yes">^(\d+|pierwszy|drugi|trzeci|czwarty|piąty|szósty|siódmy|ósmy|dziewiąty|dziesiąty|jedenasty|dwunasty|trzynasty|czternasty|piętnasty|szesnasty|siedemnasty|osiemnasty|dziewiętnasty|dwudziesty|trzydziesty|do|od|koniec|początek|tydzień|połowa)</exception></token>
 
         <token>maja</token>
 
@@ -16694,6 +16842,8 @@ Znacznie częściej ta forma jest mylona z trybem rozkazującym od „pokazać�
       <example type="correct">Wydarzenia maja 1968 w Paryżu</example>
 
       <example type="correct">Bronił ideałów maja '68.</example>
+
+      <example type="correct">Było to w połowie maja.</example>
 
       <example correction="mają" type="incorrect">Członkowie partii rządzącej <marker>maja</marker> brudne interesy.</example>
     </rule>
