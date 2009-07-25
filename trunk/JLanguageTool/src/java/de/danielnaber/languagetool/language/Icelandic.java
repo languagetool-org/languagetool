@@ -29,10 +29,13 @@ import java.util.Set;
 import de.danielnaber.languagetool.Language;
 import de.danielnaber.languagetool.tagging.Tagger;
 import de.danielnaber.languagetool.tagging.xx.DemoTagger;
+import de.danielnaber.languagetool.tokenizers.SRXSentenceTokenizer;
+import de.danielnaber.languagetool.tokenizers.SentenceTokenizer;
 
 public class Icelandic extends Language {
 	
 	private Tagger tagger = new DemoTagger();
+	private final SentenceTokenizer sentenceTokenizer = new SRXSentenceTokenizer("is");
 	private static final String[] COUNTRIES = { "IS" };
 	
 	@Override
@@ -58,6 +61,10 @@ public class Icelandic extends Language {
 	public Tagger getTagger() {
 		    return tagger;
 	}
+	
+	public SentenceTokenizer getSentenceTokenizer() {
+    return sentenceTokenizer;
+  }
 
 	@Override
 	public Set<String> getRelevantRuleIDs() {
