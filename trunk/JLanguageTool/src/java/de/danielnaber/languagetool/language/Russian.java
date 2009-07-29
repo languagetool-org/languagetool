@@ -23,8 +23,8 @@ import java.util.Locale;
 import java.util.Set;
 
 import de.danielnaber.languagetool.Language;
-//import de.danielnaber.languagetool.synthesis.Synthesizer;
-//import de.danielnaber.languagetool.synthesis.ru.RussianSynthesizer;
+import de.danielnaber.languagetool.synthesis.Synthesizer;
+import de.danielnaber.languagetool.synthesis.ru.RussianSynthesizer;
 import de.danielnaber.languagetool.tagging.Tagger;
 import de.danielnaber.languagetool.tagging.ru.RussianTagger;
 //import de.danielnaber.languagetool.tokenizers.Tokenizer;
@@ -42,8 +42,8 @@ public class Russian extends Language {
   
   private Tagger tagger = new RussianTagger();
 //  private Tokenizer wordTokenizer = new RussianWordTokenizer();
-//  private Synthesizer synthesizer = new RussianSynthesizer();
-private SentenceTokenizer sentenceTokenizer = new RussianSentenceTokenizer();
+  private Synthesizer synthesizer = new RussianSynthesizer();
+  private SentenceTokenizer sentenceTokenizer = new RussianSentenceTokenizer();
 
   public Locale getLocale() {
     return new Locale(getShortName());
@@ -70,9 +70,9 @@ private SentenceTokenizer sentenceTokenizer = new RussianSentenceTokenizer();
 //    return wordTokenizer;
 //  }
 
-//  public Synthesizer getSynthesizer() {
-//    return synthesizer;
-//  }
+  public Synthesizer getSynthesizer() {
+    return synthesizer;
+  }
 
    public SentenceTokenizer getSentenceTokenizer() {
     return sentenceTokenizer;
