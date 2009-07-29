@@ -163,8 +163,7 @@ public class Element {
     boolean matched = false;
     if (testString) {
       matched = (isStringTokenMatched(token) ^ negation)
-          && (isPosTokenMatched(token) ^ posNegation)
-          && (!testWhitespace || isWhitespaceBefore(token));
+          && (isPosTokenMatched(token) ^ posNegation);
     } else {
       matched = (!negation) && (isPosTokenMatched(token) ^ posNegation);
     }
@@ -173,7 +172,7 @@ public class Element {
       andGroupCheck[0] |= matched;
     }
 
-    return matched;
+    return matched && (!testWhitespace || isWhitespaceBefore(token));
   }
 
   /**
