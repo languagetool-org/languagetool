@@ -8,7 +8,7 @@ title="Easy editing stylesheet" ?>
 A Russian rule file for LanguageTool
 Copyright (C) 2005 Daniel Naber (http://www.danielnaber.de)
 Copyright (C) 2008-2009 Yakov Reztsov
-$Id: grammar.xml,v 1.29 2009-07-17 18:41:34 yakovru Exp $
+$Id: grammar.xml,v 1.30 2009-07-29 16:39:41 yakovru Exp $
 -->
 <rules lang="ru">
     <category name="Пунктуация">
@@ -621,7 +621,9 @@ $Id: grammar.xml,v 1.29 2009-07-17 18:41:34 yakovru Exp $
                     <token  postag="NN:.*:.*:.*" skip ="-1"  postag_regexp="yes"><exception postag="NN:.*:.*:Nom" postag_regexp="yes"></exception><exception scope="next"   postag="NN:.*:.*:Nom" postag_regexp="yes"></exception></token>
                     <token  regexp="yes">.|;</token>
                 </pattern>
-                <message>Прилагательное не согласуется с существительным по падежу.</message>
+                <message>Прилагательное не согласуется с существительным по падежу.
+                    <suggestion><match no="2"></match> <match no="3" postag="NN:.*:.*:Nom" postag_regexp="yes"></match></suggestion>
+                </message>
                 <short>Грамматическая ошибка в согласовании падежей.</short>
                 <example type="correct">Добротная усадьба.</example>
                 <example type="incorrect"><marker>Добротная усадьбе</marker>.</example>
@@ -636,7 +638,9 @@ $Id: grammar.xml,v 1.29 2009-07-17 18:41:34 yakovru Exp $
                     <token  regexp="yes">.|;</token>
                 </pattern>
                 
-                <message>Прилагательное не согласуется с существительным по падежу.</message>
+                <message>Прилагательное не согласуется с существительным по падежу.
+                    <suggestion><match no="2" postag="ADJ:.*:R" postag_regexp="yes"></match> <match no="3"></match></suggestion>
+                </message>
                 <short>Грамматическая ошибка в согласовании падежей.</short>
                 <example type="correct">Нет крепкого сна.</example>
                 <example type="incorrect">Нет <marker>крепкому сна</marker>.</example>
@@ -651,7 +655,9 @@ $Id: grammar.xml,v 1.29 2009-07-17 18:41:34 yakovru Exp $
                     <token  regexp="yes">.|;</token>
                 </pattern>
                 
-                <message>Прилагательное не согласуется с существительным по падежу.</message>
+                <message>Прилагательное не согласуется с существительным по падежу.
+                    <suggestion><match no="2" postag="ADJ:.*:D" postag_regexp="yes"></match> <match no="3"></match></suggestion>
+                </message>
                 <short>Грамматическая ошибка в согласовании падежей.</short> 
                 <example type="correct">Вода стекала по мягкому жёлобу.</example>
                 <example type="incorrect">Вода стекала по <marker>мягкого жёлобу</marker>.</example>
@@ -666,7 +672,9 @@ $Id: grammar.xml,v 1.29 2009-07-17 18:41:34 yakovru Exp $
                     <token  regexp="yes">.|;</token>
                 </pattern>
                 
-                <message>Прилагательное не согласуется с существительным по падежу.</message>
+                <message>Прилагательное не согласуется с существительным по падежу.
+                    <suggestion><match no="2" postag="ADJ:.*:V" postag_regexp="yes"></match> <match no="3"></match></suggestion>
+                </message>
                 <short>Грамматическая ошибка в согласовании падежей.</short>
                 <example type="correct">Мы увидели бурную реку.</example>
                 <example type="incorrect">Мы увидели <marker>бурной реку</marker>.</example>
@@ -680,7 +688,9 @@ $Id: grammar.xml,v 1.29 2009-07-17 18:41:34 yakovru Exp $
                     <token  regexp="yes">.|;</token>
                 </pattern>
                 
-                <message>Прилагательное не согласуется с существительным по падежу.</message>
+                <message>Прилагательное не согласуется с существительным по падежу.
+                    <suggestion><match no="2" postag="ADJ:.*:T" postag_regexp="yes"></match> <match no="3"></match></suggestion>
+                </message>
                 <short>Грамматическая ошибка в согласовании падежей.</short>
                 <example type="correct">Они справились с бурной рекой</example>
                 <example type="incorrect">Они справились с <marker>бурную рекой</marker>.</example>
@@ -694,7 +704,9 @@ $Id: grammar.xml,v 1.29 2009-07-17 18:41:34 yakovru Exp $
                     <token  regexp="yes">.|;</token>
                 </pattern>
                 
-                <message>Прилагательное не согласуется с существительным по падежу.</message>
+                <message>Прилагательное не согласуется с существительным по падежу.
+                    <suggestion><match no="2" postag="ADJ:.*:P" postag_regexp="yes"></match> <match no="3"></match></suggestion>
+                </message>
                 <short>Грамматическая ошибка в согласовании падежей.</short>
                 <example type="correct">Они думали о родном доме.</example>
                 <example type="incorrect">Они думали о <marker>родного доме</marker>.</example>
@@ -713,8 +725,8 @@ $Id: grammar.xml,v 1.29 2009-07-17 18:41:34 yakovru Exp $
                 
                 <message>Прилагательное не согласуется с существительным по роду.</message>
                 <short>Грамматическая ошибка в согласовании по роду.</short>
-                <example type="correct">Добротный дом был построен.</example>
-                <example type="incorrect"><marker>Добротный усадьба</marker> был построен.</example>
+                <example type="correct">Был построен добротный дом.</example>
+                <example type="incorrect">Был построен <marker>добротный усадьба</marker>.</example>
             </rule>
             <rule>  
                 <pattern mark_from="1" mark_to="-1">
@@ -769,7 +781,9 @@ $Id: grammar.xml,v 1.29 2009-07-17 18:41:34 yakovru Exp $
                     <token  regexp="yes">.|;</token>
                 </pattern>
                 
-                <message>Прилагательное не согласуется с существительным по числу.</message>
+                <message>Прилагательное не согласуется с существительным по числу.
+                    <suggestion><match no="2" postag="ADJ:PL:.*" postag_regexp="yes"></match> <match no="3"></match></suggestion>
+                </message>
                 <short>Грамматическая ошибка в согласовании по числу.</short>
                 <example type="correct">Мебель сделана из красивой сосны.</example>
                 <example type="incorrect">Столы сделаны из <marker>красивой сосен</marker>.</example>
@@ -808,13 +822,14 @@ $Id: grammar.xml,v 1.29 2009-07-17 18:41:34 yakovru Exp $
                     <token regexp= "yes">двое|трое|четверо|пятеро|шестеро|семеро</token>
                     <token  postag="NN:Fem:.*" postag_regexp="yes"></token>
                 </pattern>                
-                <!--               TODO:  согласовать падежи для коррекции ошибок
-                <message>Собирательные числительные (двое, трое, четверо, пятеро, шестеро, семеро) НЕЛЬЗЯ употреблять с существительными, обозначающими лиц женского пола <suggestion>две \2</suggestion>,<suggestion>три \2</suggestion>,<suggestion>четыре \2</suggestion>,<suggestion>пять \2</suggestion>,<suggestion>шесть \2</suggestion>,<suggestion>семь \2</suggestion>.</message>
-                 -->
-                <message>Собирательные числительные (двое, трое, четверо, пятеро, шестеро, семеро) НЕЛЬЗЯ употреблять с существительными женского рода</message>            
+                <!--            согласовать падежи для коррекции ошибок - выполнено
+                  -->
+                <message>Собирательные числительные (двое, трое, четверо, пятеро, шестеро, семеро) НЕЛЬЗЯ употреблять с существительными женского рода
+                    <suggestion>две <match no="2"   postag="NN:Fem:PL:Nom"></match></suggestion>,<suggestion>три <match no="2"   postag="NN:Fem:PL:Nom"></match></suggestion>,<suggestion>четыре <match no="2"   postag="NN:Fem:PL:Nom"></match></suggestion>,<suggestion>пять <match no="2"   postag="NN:Fem:PL:Nom"></match></suggestion>,<suggestion>шесть <match no="2"   postag="NN:Fem:PL:Nom"></match></suggestion>,<suggestion>семь <match no="2"   postag="NN:Fem:PL:Nom"></match></suggestion>
+                </message>            
                 <short>Грамматическая ошибка.</short>
-                <example type="correct">Две подруги.</example>
-                <example type="incorrect"><marker>Двое подруг</marker>.</example>
+                <example type="correct">Здесь были две подруги.</example>
+                <example type="incorrect">Здесь были <marker>двое подруг</marker>.</example>
             </rule>
             
         </rulegroup>
