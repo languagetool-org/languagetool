@@ -6,7 +6,7 @@ title="Easy editing stylesheet" ?>
 <!--
 Polish Grammar and Typo Rules for LanguageTool
 Copyright (C) 2006-2007 Marcin Miłkowski
-$Id: grammar.xml,v 1.199 2009-07-30 00:24:25 milek_pl Exp $
+$Id: grammar.xml,v 1.200 2009-07-30 23:51:53 milek_pl Exp $
 -->
 <rules lang="pl">
   <unification feature="number">
@@ -3626,7 +3626,7 @@ Powinno być: <suggestion>\2, \3 \4</suggestion>.</message>
       <pattern mark_from="2">
         <token><exception>(</exception></token>
 
-        <token spacebefore="ignore"><exception regexp="yes">proc|r|itd|itp|cdn|jw|n.e|w|nn|n</exception></token>
+        <token spacebefore="ignore"><exception regexp="yes">proc|r|itd|itp|cdn|jw|n.e|w|nn|n|br</exception></token>
 
         <token spacebefore="no"><exception postag="&lt;/ELLIPSIS&gt;"></exception>.</token>
 
@@ -6379,6 +6379,22 @@ Powinno być: <suggestion>\2, \3 \4</suggestion>.</message>
   </category>
 
   <category name="Błędy leksykalne">
+    <rule id="RZEWNIE_PODOBA" name="„rzewnie podoba” (żywnie podoba)">
+      <pattern>
+        <token>rzewnie</token>
+
+        <token regexp="yes">podoba(:?ło|ć)?</token>
+      </pattern>
+
+      <message>Błąd leksykalny. Mówi się <suggestion>żywnie \2</suggestion> (=robić tak, jak kto chce). Słowo „rzewnie” znaczy „ckliwie” lub „łzawo”, a raczej rzadko mówi się, żeby coś się ckliwie podobało.</message>
+
+      <short>Błąd leksykalny</short>
+
+      <example correction="żywnie podobało" type="incorrect">Mogłem robić, co mi się <marker>rzewnie podobało</marker>.</example>
+
+      <example type="correct">Mogę robić, co mi się żywnie podoba.</example>
+    </rule>
+
     <rule id="SZERSZE_INFORMACJE"
           name="„szersze informacje” (bliższe, dokładne, szczegółowe, treściwe)">
       <pattern mark_to="-1">
