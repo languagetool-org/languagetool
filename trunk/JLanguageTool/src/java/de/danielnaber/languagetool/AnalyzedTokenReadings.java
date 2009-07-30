@@ -104,6 +104,7 @@ public class AnalyzedTokenReadings {
     anTokReadings = new AnalyzedToken[1];
     anTokReadings[0] = at;
     startPos = at.getStartPos();
+    isWhitespaceBefore = at.isWhitespaceBefore();
     init();
   }
 
