@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 	<!--
 		Disambiguation Rules for LanguageTool Copyright (C) 2008				
-$Id: disambiguation.xml,v 1.14 2009-07-25 11:25:46 milek_pl Exp $
+$Id: disambiguation.xml,v 1.15 2009-07-30 00:24:25 milek_pl Exp $
 	-->	
 <rules lang="pl">
   <unification feature="number">
@@ -140,6 +140,18 @@ $Id: disambiguation.xml,v 1.14 2009-07-25 11:25:46 milek_pl Exp $
         <disambig action="unify"/>
 	</rule>	
 	</rulegroup>		
+	
+	<rule name="uzgadniamy dwa przymiotniki" id="ADJ_ADJ_UNIFY">
+	<pattern mark_from="0" mark_to="0">
+		<unify feature="number,gender,case">		
+		<token postag="adj.*|pact.*" postag_regexp="yes"/>
+		<token postag="adj.*|pact.*" postag_regexp="yes"/>
+		</unify>		
+	</pattern>
+	<disambig action="unify"/>
+	<example type="untouched">To jest węgiel kamienny małej wartości</example>
+    <example type="ambiguous" inputform="taki[taki/adj:sg:nom.acc:m3:pos,taki/adj:sg:nom.voc:m1.m2:pos,taka/subst:pl:gen:f,taka/subst:pl:nom.acc.voc:f,taka/subst:sg:gen.dat.loc:f]" outputform="taki[taki/adj:sg:nom.acc:m3:pos,taki/adj:sg:nom.voc:m1.m2:pos]">On wydaje się jakiś <marker>taki</marker> bardziej rozluźniony.</example>
+	</rule>		
 	
 	<rule name="mają to nie maić" id="MAJA_MAIC">
 		<pattern mark="0">
@@ -385,7 +397,7 @@ $Id: disambiguation.xml,v 1.14 2009-07-25 11:25:46 milek_pl Exp $
 	<rule name="wiodący w sensie właściwym" id="WIADACY_ADJ">
 	<pattern mark="1">
 		<unify feature="gender,number,case">
-			<token skip="5" regexp="yes" inflected="yes">trasa|szlak|droga|trakt</token>
+			<token skip="5" regexp="yes" inflected="yes">trasa|szlak|droga|trakt|drogi</token>
 			<token inflected="yes" postag="pact.*" postag_regexp="yes">wieść</token>
 		</unify>
 	</pattern>
