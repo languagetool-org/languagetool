@@ -6,7 +6,7 @@ title="Easy editing stylesheet" ?>
 <!--
 Polish Grammar and Typo Rules for LanguageTool
 Copyright (C) 2006-2007 Marcin Miłkowski
-$Id: grammar.xml,v 1.200 2009-07-30 23:51:53 milek_pl Exp $
+$Id: grammar.xml,v 1.201 2009-07-31 23:13:55 milek_pl Exp $
 -->
 <rules lang="pl">
   <unification feature="number">
@@ -5852,7 +5852,8 @@ Powinno być: <suggestion>\2, \3 \4</suggestion>.</message>
 
     <rule id="WIECEJ_JAK" name="„więcej jak” (więcej od, więcej niż)">
       <pattern mark_from="1">
-        <token postag="adv:comp"><exception scope="previous">nie</exception></token>
+        <token postag="adv:comp"><exception inflected="yes" regexp="yes"
+            scope="previous">nie|nic</exception></token>
 
         <token>jak</token>
       </pattern>
@@ -5862,6 +5863,8 @@ Powinno być: <suggestion>\2, \3 \4</suggestion>.</message>
       <short>Błąd składniowy</short>
 
       <example type="correct">Więcej niż kosmetyk!</example>
+
+      <example type="correct">Nie było to niczym więcej jak prowokacją wiadomych służb.</example>
 
       <example correction="od|niż" type="incorrect">Więcej <marker>jak</marker> Kosmetyk!</example>
 
@@ -7500,43 +7503,123 @@ lub <suggestion>\2 na prawach wyłączności</suggestion>.</message>
       <example correction="za wszelką cenę" type="incorrect">Przemysław chciał zaimponować Jarosławowi <marker>za każdą cenę</marker>.</example>
     </rule>
 
-    <rule id="TANIA_CENA" name="„tania cena” (niska cena)">
-      <pattern mark_to="-1">
-        <unify feature="number,gender,case">
-          <token inflected="yes">tani</token>
+    <rulegroup id="TANIA_CENA" name="„tania cena” (niska cena)">
+      <rule>
+        <pattern mark_to="-1">
+          <unify feature="number,gender,case">
+            <token inflected="yes">tani</token>
 
-          <token inflected="yes">cena</token>
-        </unify>
-      </pattern>
+            <token inflected="yes">cena</token>
+          </unify>
+        </pattern>
 
-      <message>Ceny nie mogą być tanie. Poprawnie: <suggestion><match no="1"
-            postag="adj.*">niski</match></suggestion>.</message>
+        <message>Ceny nie mogą być tanie. Poprawnie: <suggestion><match no="1"
+              postag="adj.*">niski</match></suggestion>.</message>
 
-      <short>Błąd leksykalny</short>
+        <short>Błąd leksykalny</short>
 
-      <example type="correct">W tym roku wszędzie mamy niskie ceny.</example>
+        <example type="correct">W tym roku wszędzie mamy niskie ceny.</example>
 
-      <example correction="niskie" type="incorrect">W tym roku wszędzie mamy <marker>tanie</marker> ceny.</example>
-    </rule>
+        <example correction="niskie" type="incorrect">W tym roku wszędzie mamy <marker>tanie</marker> ceny.</example>
+      </rule>
 
-    <rule id="DROGA_CENA" name="„droga cena” (wysoka cena)">
-      <pattern mark_to="-1">
-        <unify feature="number,gender,case">
-          <token inflected="yes">drogi</token>
+      <rule>
+        <pattern mark_to="-1">
+          <unify feature="number,gender,case">
+            <token inflected="yes">tańszy</token>
 
-          <token inflected="yes">cena</token>
-        </unify>
-      </pattern>
+            <token inflected="yes">cena</token>
+          </unify>
+        </pattern>
 
-      <message>Ceny nie mogą być drogie. Poprawnie: <suggestion><match no="1"
-            postag="adj.*">wysoki</match></suggestion>.</message>
+        <message>Ceny nie mogą być tanie. Poprawnie: <suggestion><match no="1"
+              postag="adj.*">niższy</match></suggestion>.</message>
 
-      <short>Błąd leksykalny</short>
+        <short>Błąd leksykalny</short>
 
-      <example type="correct">W tym roku wszędzie mamy wysokie ceny.</example>
+        <example type="correct">W tym roku wszędzie mamy niskie ceny.</example>
 
-      <example correction="wysokie" type="incorrect">W tym roku wszędzie mamy <marker>drogie</marker> ceny.</example>
-    </rule>
+        <example correction="niższe" type="incorrect">W tym roku wszędzie mamy <marker>tańsze</marker> ceny.</example>
+      </rule>
+
+      <rule>
+        <pattern mark_to="-1">
+          <unify feature="number,gender,case">
+            <token inflected="yes">najtańszy</token>
+
+            <token inflected="yes">cena</token>
+          </unify>
+        </pattern>
+
+        <message>Ceny nie mogą być tanie. Poprawnie: <suggestion><match no="1"
+              postag="adj.*">najniższy</match></suggestion>.</message>
+
+        <short>Błąd leksykalny</short>
+
+        <example type="correct">W tym roku wszędzie mamy niskie ceny.</example>
+
+        <example correction="najniższe" type="incorrect">W tym roku wszędzie mamy <marker>najtańsze</marker> ceny.</example>
+      </rule>
+    </rulegroup>
+
+    <rulegroup id="DROGA_CENA" name="„droga cena” (wysoka cena)">
+      <rule>
+        <pattern mark_to="-1">
+          <unify feature="number,gender,case">
+            <token inflected="yes">drogi</token>
+
+            <token inflected="yes">cena</token>
+          </unify>
+        </pattern>
+
+        <message>Ceny nie mogą być drogie. Poprawnie: <suggestion><match
+              no="1" postag="adj.*">wysoki</match></suggestion>.</message>
+
+        <short>Błąd leksykalny</short>
+
+        <example type="correct">W tym roku wszędzie mamy wysokie ceny.</example>
+
+        <example correction="wysokie" type="incorrect">W tym roku wszędzie mamy <marker>drogie</marker> ceny.</example>
+      </rule>
+
+      <rule>
+        <pattern mark_to="-1">
+          <unify feature="number,gender,case">
+            <token inflected="yes">droższy</token>
+
+            <token inflected="yes">cena</token>
+          </unify>
+        </pattern>
+
+        <message>Ceny nie mogą być drogie. Poprawnie: <suggestion><match
+              no="1" postag="adj.*">wyższy</match></suggestion>.</message>
+
+        <short>Błąd leksykalny</short>
+
+        <example type="correct">W tym roku wszędzie mamy wysokie ceny.</example>
+
+        <example correction="wyższe" type="incorrect">W tym roku wszędzie mamy <marker>droższe</marker> ceny.</example>
+      </rule>
+
+      <rule>
+        <pattern mark_to="-1">
+          <unify feature="number,gender,case">
+            <token inflected="yes">najdroższy</token>
+
+            <token inflected="yes">cena</token>
+          </unify>
+        </pattern>
+
+        <message>Ceny nie mogą być drogie. Poprawnie: <suggestion><match
+              no="1" postag="adj.*">najwyższy</match></suggestion>.</message>
+
+        <short>Błąd leksykalny</short>
+
+        <example type="correct">W tym roku wszędzie mamy wysokie ceny.</example>
+
+        <example correction="najwyższe" type="incorrect">W tym roku wszędzie mamy <marker>najdroższe</marker> ceny.</example>
+      </rule>
+    </rulegroup>
 
     <rulegroup id="KOSZTOWAC_TANIEJ"
                name="„kosztować taniej/drożej” (mniej/więcej)">
@@ -13782,7 +13865,7 @@ Znacznie częściej ta forma jest mylona z trybem rozkazującym od „pokazać�
                name="Liczebniki porządkowe z końcówkami przypadków">
       <rule>
         <pattern>
-          <token regexp="yes">^(\d+)-([mt]*y|[w]*si|[w]*szy|[w]*sze|[w]*szym[i]*|[w]*si|tym|tymi|ci|a|ce|ch|cia|cie|ciej|cim|cioletnią|ciu|ego|ej|ga|gi|gie|gim|go|im|ki|krotnie|któregoś|ma|me|miu|stoletniego|stu|sza|[tm]*a|[mt]*e|[tm]*ego|[mt]*ej|to|[mt]*[i]*oletni.*|[mt]*u|[mt]*ą|[mt]*ych|[mt]*e)</token>
+          <token regexp="yes">\d+-(?:[mt]*y|[w]*si|[w]*szy|[w]*sze|[w]*szym[i]*|[w]*si|tym|tymi|c[ihe]|a|ci[eamu]|ciej|cioletnią|ego|ej|g[ao]|gi|gi[em]|im|ki|(?:sto)?krotnie|które.*|m[ae]|miu|stoletniego|stu|sza|[tm]*a|[mt]*e|[tm]*ego|[mt]*ej|to|[mt]*[i]*oletni.*|[mt]*u|[mt]*ą|[mt]*ych|[mt]*e)</token>
         </pattern>
 
         <message>Liczebniki porządkowe zapisujemy nie z końcówkami przypadków, tylko z kropką: <suggestion><match
@@ -14338,11 +14421,12 @@ Znacznie częściej ta forma jest mylona z trybem rozkazującym od „pokazać�
     <rulegroup id="NIE_RZECZOWNIK"
                name="Rozłączna pisownia „nie” z rzeczownikami i przymiotnikami">
       <rule>
-        <pattern case_sensitive="no" mark_from="0" mark_to="-1">
-          <token>nie<exception regexp="yes" scope="previous">bynajmniej|przez|na|ale|lecz|a|raczej|wcale|jak|jeśli|gdyby|choć|chociaż</exception></token>
+        <pattern case_sensitive="yes" mark_from="0" mark_to="-1">
+          <token>nie<exception regexp="yes" scope="previous">(?iu)bynajmniej|przez|na|ale|lecz|a|raczej|wcale|jak|jeśli|gdyby|choć|chociaż</exception></token>
 
           <token postag=".*:aff|subst:ger.*" postag_regexp="yes"><exception
-              postag="verb.*|pred" postag_regexp="yes"></exception></token>
+              postag="verb.*|pred" postag_regexp="yes"></exception><exception
+              regexp="yes">\p{Lu}.*</exception></token>
 
           <token postag="SENT_END"><exception>,</exception></token>
         </pattern>
@@ -14373,15 +14457,18 @@ Znacznie częściej ta forma jest mylona z trybem rozkazującym od „pokazać�
 
         <example type="correct">Wójt nie zabrania picia wódki w domu.</example>
 
+        <example type="correct">Dlaczego nie Polska?</example>
+
         <example correction="niepalenie" type="incorrect">Prosimy o <marker>nie palenie</marker>.</example>
       </rule>
 
       <rule>
-        <pattern case_sensitive="no" mark_from="0" mark_to="-2">
-          <token>nie<exception regexp="yes" scope="previous">bynajmniej|przez|na|ale|lecz|a|raczej|wcale|jak|jeśli|gdyby|choć|chociaż</exception></token>
+        <pattern case_sensitive="yes" mark_from="0" mark_to="-2">
+          <token>nie<exception regexp="yes" scope="previous">(?iu)bynajmniej|przez|na|ale|lecz|a|raczej|wcale|jak|jeśli|gdyby|choć|chociaż</exception></token>
 
           <token postag=".*:aff|subst:ger.*" postag_regexp="yes"><exception
-              postag="verb.*|pred" postag_regexp="yes"></exception></token>
+              postag="verb.*|pred" postag_regexp="yes"></exception><exception
+              regexp="yes">\p{Lu}.*</exception></token>
 
           <token negate="yes">,</token>
 
@@ -14416,6 +14503,8 @@ Znacznie częściej ta forma jest mylona z trybem rozkazującym od „pokazać�
 
         <example type="correct">Język jest niewłaściwy (nie naukowy, lecz potoczny).</example>
 
+        <example type="correct">Dlaczego nie Polska, ale Ukraina jest ojczyzną najwyższego Słowianina?</example>
+
         <example correction="niepalenie" type="incorrect">Prosimy o <marker>nie palenie</marker> na okręcie.</example>
       </rule>
     </rulegroup>
@@ -14430,8 +14519,7 @@ Znacznie częściej ta forma jest mylona z trybem rozkazującym od „pokazać�
         <token regexp="yes">bym|byście|byśmy|byś|by</token>
       </pattern>
 
-      <message>Cząstki „-bym”, „-byś”, „-by”, „-byśmy”, „-byście” piszemy łącznie z czasownikami w formach osobowych. 
-			  Poprawnie: <suggestion>\1\2</suggestion>.</message>
+      <message>Cząstki „-bym”, „-byś”, „-by”, „-byśmy”, „-byście” piszemy łącznie z czasownikami w formach osobowych. Poprawnie: <suggestion>\1\2</suggestion>.</message>
 
       <short>Błąd ortograficzny</short>
 
