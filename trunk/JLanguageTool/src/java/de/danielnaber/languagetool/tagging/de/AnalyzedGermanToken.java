@@ -38,8 +38,8 @@ public class AnalyzedGermanToken extends AnalyzedToken {
   private Numerus numerus;
   private Genus genus;
 
-  public AnalyzedGermanToken(String token, String posTag, int startPos) {
-    super(token, posTag, startPos);
+  public AnalyzedGermanToken(String token, String posTag) {
+    super(token, posTag, null);
     initFromPOSTagString(posTag);
   }
 

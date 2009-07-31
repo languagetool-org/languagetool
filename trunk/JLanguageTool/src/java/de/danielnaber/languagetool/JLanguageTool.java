@@ -660,7 +660,7 @@ public final class JLanguageTool {
       aTokens.get(i).setStartPos(aTokens.get(i).getStartPos() + posFix);
       if (!softHyphenTokens.isEmpty()) {
         if (softHyphenTokens.get(i) != null) {
-          aTokens.get(i).addReading(tagger.createToken(softHyphenTokens.get(i), null, aTokens.get(i).getStartPos()));
+          aTokens.get(i).addReading(tagger.createToken(softHyphenTokens.get(i), null));
           posFix += softHyphenTokens.get(i).length() - aTokens.get(i).getToken().length();
         }
       }
@@ -671,9 +671,9 @@ public final class JLanguageTool {
     final AnalyzedToken[] startTokenArray = new AnalyzedToken[1];
     int toArrayCount = 0;
     final AnalyzedToken sentenceStartToken = new AnalyzedToken("",
-        SENTENCE_START_TAGNAME, 0);
+        SENTENCE_START_TAGNAME, null);
     startTokenArray[0] = sentenceStartToken;
-    tokenArray[toArrayCount++] = new AnalyzedTokenReadings(startTokenArray);
+    tokenArray[toArrayCount++] = new AnalyzedTokenReadings(startTokenArray, 0);
     int startPos = 0;
     for (final AnalyzedTokenReadings posTag : aTokens) {
       posTag.setStartPos(startPos);

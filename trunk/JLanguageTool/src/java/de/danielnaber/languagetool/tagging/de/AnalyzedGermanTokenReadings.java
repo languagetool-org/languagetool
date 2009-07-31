@@ -35,14 +35,13 @@ import de.danielnaber.languagetool.JLanguageTool;
  */
 public class AnalyzedGermanTokenReadings extends AnalyzedTokenReadings {
 
-  public AnalyzedGermanTokenReadings(AnalyzedGermanToken[] aTokens) {
-	  super(aTokens);
+  public AnalyzedGermanTokenReadings(AnalyzedGermanToken[] aTokens, final int startPos) {
+	  super(aTokens, startPos);	  
+  }    
+   
+  public AnalyzedGermanTokenReadings(AnalyzedGermanToken aToken, final int startPos) {
+    super(aToken, startPos);
   }
-  
-  public AnalyzedGermanTokenReadings(AnalyzedGermanToken aToken) {
-    super(aToken);
-  }
-      
   
   /**
    * @return a list of {@link AnalyzedGermanToken}s.

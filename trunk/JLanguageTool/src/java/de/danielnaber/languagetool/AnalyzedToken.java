@@ -27,7 +27,6 @@ public class AnalyzedToken {
 
   private String token;
   private String posTag;
-  private int startPos;
   private String lemma;
 
   /**
@@ -38,24 +37,13 @@ public class AnalyzedToken {
   private boolean isWhitespaceBefore;
 
   public AnalyzedToken(final String token, final String posTag,
-      final int startPos) {
-    this(token, posTag, null, startPos);
-  }
-
-  public AnalyzedToken(final String token, final String posTag,
       final String lemma) {
-    this(token, posTag, lemma, 0);
-  }
-
-  public AnalyzedToken(final String token, final String posTag,
-      final String lemma, final int startPos) {
     if (token == null) {
       throw new NullPointerException("Token cannot be null!");
     }
     this.token = token;
     this.posTag = posTag;
-    this.lemma = lemma;
-    this.startPos = startPos;
+    this.lemma = lemma;    
     if (lemma == null) {
       tokenInflected = token;
     } else {
@@ -78,11 +66,7 @@ public class AnalyzedToken {
   public final String getTokenInflected() {
     return tokenInflected;
   }
-
-  public final int getStartPos() {
-    return startPos;
-  }
-
+  
   public final void setWhitespaceBefore(final boolean isWhite) {
     isWhitespaceBefore = isWhite;
   }
@@ -105,8 +89,7 @@ public class AnalyzedToken {
     int result = 1;
     result = prime * result + (isWhitespaceBefore ? 1231 : 1237);
     result = prime * result + ((lemma == null) ? 0 : lemma.hashCode());
-    result = prime * result + ((posTag == null) ? 0 : posTag.hashCode());
-    result = prime * result + startPos;
+    result = prime * result + ((posTag == null) ? 0 : posTag.hashCode());    
     result = prime * result + ((token == null) ? 0 : token.hashCode());
     return result;
   }
@@ -139,10 +122,7 @@ public class AnalyzedToken {
       }
     } else if (!posTag.equals(other.posTag)) {
       return false;
-    }
-    if (startPos != other.startPos) {
-      return false;
-    }
+    }    
     if (token == null) {
       if (other.token != null) {
         return false;

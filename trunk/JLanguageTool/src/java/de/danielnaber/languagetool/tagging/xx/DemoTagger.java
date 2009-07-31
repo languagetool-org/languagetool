@@ -47,19 +47,19 @@ public class DemoTagger implements Tagger {
         List<AnalyzedToken> l = new ArrayList<AnalyzedToken>();
       // a real tagger would need to assign a POS tag
       // in the next line instead of null:
-      l.add(new AnalyzedToken(word, null, pos));
+      l.add(new AnalyzedToken(word, null, null));
       pos += word.length();
-      tokenReadings.add(new AnalyzedTokenReadings(l.toArray(new AnalyzedToken[0])));
+      tokenReadings.add(new AnalyzedTokenReadings(l.toArray(new AnalyzedToken[0]), 0));
     }
     return tokenReadings;
   }
 
   public AnalyzedTokenReadings createNullToken(String token, int startPos) {
-	  return new AnalyzedTokenReadings(new AnalyzedToken(token, null, startPos));
+	  return new AnalyzedTokenReadings(new AnalyzedToken(token, null, null), startPos);
   }
 
-  public AnalyzedToken createToken(String token, String posTag, int startPos) {
-    return new AnalyzedToken(token, posTag, startPos);
+  public AnalyzedToken createToken(String token, String posTag) {
+    return new AnalyzedToken(token, posTag, null);
   }
 
 }

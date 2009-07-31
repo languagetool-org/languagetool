@@ -131,23 +131,23 @@ public class UkrainianMyspellTagger implements Tagger {
       }
 
       if (posTags == null && lowerPosTags == null) {
-        analyzedTokens.add(new AnalyzedToken(word, null, pos));
+        analyzedTokens.add(new AnalyzedToken(word, null, null));
       }
-
-      pos += word.length();
+      
       tokenReadings.add(new AnalyzedTokenReadings(analyzedTokens
-          .toArray(new AnalyzedToken[analyzedTokens.size()])));
+          .toArray(new AnalyzedToken[analyzedTokens.size()]), pos));
+      pos += word.length();
     }
 
     return tokenReadings;
   }
 
   public final AnalyzedTokenReadings createNullToken(final String token, final int startPos) {
-    return new AnalyzedTokenReadings(new AnalyzedToken(token, null, startPos));
+    return new AnalyzedTokenReadings(new AnalyzedToken(token, null, null), startPos);
   }
 
-  public AnalyzedToken createToken(String token, String posTag, int startPos) {
-    return new AnalyzedToken(token, posTag, startPos);
+  public AnalyzedToken createToken(String token, String posTag) {
+    return new AnalyzedToken(token, posTag, null);
   }
 
 }

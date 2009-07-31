@@ -117,9 +117,9 @@ public final class TestTools {
       final AnalyzedToken[] startTokenArray = new AnalyzedToken[1];
       int toArrayCount = 0;
       final AnalyzedToken sentenceStartToken = new AnalyzedToken("",
-          "SENT_START", 0);
+          "SENT_START", null);
       startTokenArray[0] = sentenceStartToken;
-      tokenArray[toArrayCount++] = new AnalyzedTokenReadings(startTokenArray);
+      tokenArray[toArrayCount++] = new AnalyzedTokenReadings(startTokenArray, 0);
       int startPos = 0;
       int noWhitespaceCount = 0;
       for (final String tokenStr : tokens) {

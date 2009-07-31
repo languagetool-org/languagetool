@@ -50,8 +50,8 @@ public interface Tagger {
   public AnalyzedTokenReadings createNullToken(String token, int startPos);
 
   /**
-   * Create a token specific to the laguage of the implementing class.
+   * Create a token specific to the language of the implementing class.
    */
-  public AnalyzedToken createToken(String token, String posTag, int startPos);
+  public AnalyzedToken createToken(String token, String posTag);
     
 }

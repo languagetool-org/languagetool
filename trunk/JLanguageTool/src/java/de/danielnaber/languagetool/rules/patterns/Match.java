@@ -157,7 +157,7 @@ public class Match {
   public final void setLemmaString(final String lemmaString) {
     if (!StringTools.isEmpty(lemmaString)) {
       formattedToken = new AnalyzedTokenReadings(new AnalyzedToken(lemmaString,
-          posTag, lemmaString));
+          posTag, lemmaString), 0);
       staticLemma = true;
       postagRegexp = true;
       if (postagRegexp && posTag != null) {
@@ -395,8 +395,8 @@ public class Match {
     if (formattedToken != null) {
       if (staticLemma) {
         formattedToken = new AnalyzedTokenReadings(new AnalyzedToken(
-            matchedToken.getToken(), posTag, formattedToken.getToken(),
-            matchedToken.getStartPos()));
+            matchedToken.getToken(), posTag, formattedToken.getToken()),
+            matchedToken.getStartPos());
         formattedToken.setWhitespaceBefore(matchedToken.isWhitespaceBefore());
       }
       String token = formattedToken.getToken();
@@ -418,8 +418,7 @@ public class Match {
               }
               l
                   .add(new AnalyzedToken(token, targetPosTag, formattedToken
-                      .getAnalyzedToken(i).getLemma(), formattedToken
-                      .getStartPos()));
+                      .getAnalyzedToken(i).getLemma()));
               l.get(l.size() - 1).setWhitespaceBefore(formattedToken.isWhitespaceBefore());
             }
           }
@@ -438,7 +437,7 @@ public class Match {
     if (l.isEmpty()) {
       return formattedToken;
     }
-    return new AnalyzedTokenReadings(l.toArray(new AnalyzedToken[l.size()]));
+    return new AnalyzedTokenReadings(l.toArray(new AnalyzedToken[l.size()]), formattedToken.getStartPos());
   }
 
   private AnalyzedToken[] getNewToken(final int numRead, final String token) {
@@ -453,8 +452,7 @@ public class Match {
         if (StringTools.isEmpty(lemma)) {
           lemma = formattedToken.getAnalyzedToken(0).getLemma();
         }
-        list.add(new AnalyzedToken(token, posTag, lemma, formattedToken
-            .getStartPos()));
+        list.add(new AnalyzedToken(token, posTag, lemma));
         list.get(list.size() - 1).
           setWhitespaceBefore(formattedToken.isWhitespaceBefore());
       }

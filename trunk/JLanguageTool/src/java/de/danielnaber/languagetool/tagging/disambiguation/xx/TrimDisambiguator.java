@@ -43,7 +43,7 @@ public class TrimDisambiguator implements Disambiguator {
         final AnalyzedToken[] firstToken = new AnalyzedToken[1];
         firstToken[0] = anTokens[i].getAnalyzedToken(0);
 
-        output[i] = new AnalyzedTokenReadings(firstToken);
+        output[i] = new AnalyzedTokenReadings(firstToken, 0);
       } else {
         output[i] = anTokens[i];
       }

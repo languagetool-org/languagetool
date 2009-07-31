@@ -246,9 +246,9 @@ public class AgreementRule extends GermanRule {
             nextNextATR != null && nextNextATR.hasReadingOfType(POSType.NOMEN)))) {
           AnalyzedGermanToken[] adjReadings = new AnalyzedGermanToken[ADJ_READINGS.length];
           for (int j = 0; j < ADJ_READINGS.length; j++) {
-            adjReadings[j] = new AnalyzedGermanToken(nextTerm, ADJ_READINGS[j], nextToken.getStartPos());
+            adjReadings[j] = new AnalyzedGermanToken(nextTerm, ADJ_READINGS[j], null);
           }
-          nextToken = new AnalyzedGermanTokenReadings(adjReadings);
+          nextToken = new AnalyzedGermanTokenReadings(adjReadings, nextToken.getStartPos());
         }
       } catch (IOException e) {
         throw new RuntimeException(e);

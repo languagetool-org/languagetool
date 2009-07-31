@@ -86,7 +86,7 @@ public abstract class AbstractCompoundRule extends Rule {
       AnalyzedTokenReadings token = null;
       // we need to extend the token list so we find matches at the end of the original list:
       if (i >= tokens.length)
-        token = new AnalyzedTokenReadings(new AnalyzedToken("", "", prevTokens.peek().getStartPos()));
+        token = new AnalyzedTokenReadings(new AnalyzedToken("", "", null), prevTokens.peek().getStartPos());
       else
         token = tokens[i];
       if (i == 0) {

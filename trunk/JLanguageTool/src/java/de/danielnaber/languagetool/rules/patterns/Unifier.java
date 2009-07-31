@@ -191,7 +191,7 @@ public class Unifier {
       }
       if (unified) {
         if (tokCnt == 0 || tokSequence.isEmpty()) {
-          tokSequence.add(new AnalyzedTokenReadings(aToken));
+          tokSequence.add(new AnalyzedTokenReadings(aToken, 0));
         } else {
           tokSequence.get(0).addReading(aToken);
         }
@@ -231,7 +231,7 @@ public class Unifier {
       unifiedNext &= anyFeatUnified;
       if (unifiedNext) {
         if (tokSequence.size() == readingsCounter) {
-          tokSequence.add(new AnalyzedTokenReadings(aToken));
+          tokSequence.add(new AnalyzedTokenReadings(aToken, 0));
         } else {
           tokSequence.get(readingsCounter).addReading(aToken);
         }
@@ -319,7 +319,7 @@ public class Unifier {
       int numRead = tokSequence.get(0).getReadingsLength(); 
       if (first < numRead) {
         tmpATR = new AnalyzedTokenReadings(tokSequence.get(0).getAnalyzedToken(
-            first));
+            first), 0);
         for (int i = first + 1; i <= Math.min(numRead - 1, tokCnt); i++) {
           if (tmpFeaturesFound.get(i)) {
             tmpATR.addReading(tokSequence.get(0).getAnalyzedToken(i));

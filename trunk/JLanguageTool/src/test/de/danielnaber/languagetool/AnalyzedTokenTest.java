@@ -27,7 +27,7 @@ public class AnalyzedTokenTest extends TestCase {
   AnalyzedToken testToken = new AnalyzedToken("word", "POS", "lemma");
   assertEquals("lemma/POS", testToken.toString());
   assertEquals("lemma", testToken.getLemma());
-  testToken = new AnalyzedToken("word", "POS", 0);
+  testToken = new AnalyzedToken("word", "POS", null);
   assertEquals("word/POS", testToken.toString());
   assertEquals(null, testToken.getLemma());
   assertEquals("word", testToken.getToken());

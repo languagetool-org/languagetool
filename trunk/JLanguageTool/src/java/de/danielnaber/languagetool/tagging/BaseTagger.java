@@ -82,16 +82,15 @@ public abstract class BaseTagger implements Tagger {
           if (upperTaggerTokens != null) {
             addTokens(word, upperTaggerTokens, l, pos);
           } else {
-            l.add(new AnalyzedToken(word, null, pos));
+            l.add(new AnalyzedToken(word, null, null));
           }
         } else {
-          l.add(new AnalyzedToken(word, null, pos));
+          l.add(new AnalyzedToken(word, null, null));
         }
-      }
-      
-      pos += word.length();
+      }          
       tokenReadings.add(new AnalyzedTokenReadings(l.toArray(new AnalyzedToken[l
-          .size()])));
+          .size()]), pos));
+      pos += word.length();
     }
 
     return tokenReadings;
@@ -105,8 +104,7 @@ public abstract class BaseTagger implements Tagger {
       while (i < taggedTokens.length) {
         // Lametyzator returns data as String[]
         // first lemma, then annotations
-        l.add(new AnalyzedToken(word, taggedTokens[i + 1], taggedTokens[i],
-                pos));
+        l.add(new AnalyzedToken(word, taggedTokens[i + 1], taggedTokens[i]));
         i = i + 2;
       }
     }
@@ -121,11 +119,11 @@ public abstract class BaseTagger implements Tagger {
    */  
   public final AnalyzedTokenReadings createNullToken(final String token,
       final int startPos) {
-    return new AnalyzedTokenReadings(new AnalyzedToken(token, null, startPos));
+    return new AnalyzedTokenReadings(new AnalyzedToken(token, null, null), startPos);
   }
 
-  public AnalyzedToken createToken(String token, String posTag, int startPos) {
-    return new AnalyzedToken(token, posTag, startPos);
+  public AnalyzedToken createToken(String token, String posTag) {
+    return new AnalyzedToken(token, posTag, null);
   }
 
 }

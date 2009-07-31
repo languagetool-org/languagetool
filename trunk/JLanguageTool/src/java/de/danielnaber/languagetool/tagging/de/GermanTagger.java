@@ -98,7 +98,7 @@ public class GermanTagger implements Tagger {
         if (!StringTools.isEmpty(word.trim())) {
           List<String> compoundParts = compoundTokenizer.tokenize(word);
           if (compoundParts.size() <= 1) {
-            l.add(new AnalyzedGermanToken(word, null, pos));
+            l.add(new AnalyzedGermanToken(word, null, null));
           } else {
             // last part governs a word's POS:
             String lastPart = compoundParts.get(compoundParts.size()-1);
@@ -109,16 +109,17 @@ public class GermanTagger implements Tagger {
             if (taggerTokens != null) {
               tagWord(taggerTokens, word, l);
             } else {
-              l.add(new AnalyzedGermanToken(word, null, pos));
+              l.add(new AnalyzedGermanToken(word, null, null));
             }
           }
         } else {
-          l.add(new AnalyzedGermanToken(word, null, pos));
+          l.add(new AnalyzedGermanToken(word, null, null));
         }
       }
-      pos += word.length();
+      
       //tokenReadings.add(new AnalyzedGermanToken(new AnalyzedTokenReadings((AnalyzedToken[]) l.toArray(new AnalyzedToken[0]))));
-      tokenReadings.add(new AnalyzedGermanTokenReadings(l.toArray(new AnalyzedGermanToken[l.size()])));
+      tokenReadings.add(new AnalyzedGermanTokenReadings(l.toArray(new AnalyzedGermanToken[l.size()]), pos));
+      pos += word.length();
     }
     return tokenReadings;
   }
@@ -149,11 +150,11 @@ public class GermanTagger implements Tagger {
   }
     
   public final AnalyzedGermanTokenReadings createNullToken(final String token, final int startPos) {
-    return new AnalyzedGermanTokenReadings(new AnalyzedGermanToken(token, null, startPos));
+    return new AnalyzedGermanTokenReadings(new AnalyzedGermanToken(token, null, null), startPos);
   }
 
-  public AnalyzedToken createToken(String token, String posTag, int startPos) {
-    return new AnalyzedGermanToken(token, posTag, startPos);
+  public AnalyzedToken createToken(String token, String posTag) {
+    return new AnalyzedGermanToken(token, posTag);
   }
   
   /**

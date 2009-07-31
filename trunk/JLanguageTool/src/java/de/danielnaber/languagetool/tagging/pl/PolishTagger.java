@@ -83,16 +83,15 @@ public class PolishTagger extends BaseTagger {
           if (upperTaggerTokens != null) {
             addTokens(word, upperTaggerTokens, l, pos);
           } else {
-            l.add(new AnalyzedToken(word, null, pos));
+            l.add(new AnalyzedToken(word, null, null));
           }
         } else {
-          l.add(new AnalyzedToken(word, null, pos));
+          l.add(new AnalyzedToken(word, null, null));
         }
-      }      
-      
-      pos += word.length();
+      }                  
       tokenReadings.add(new AnalyzedTokenReadings(l.toArray(new AnalyzedToken[l
-          .size()])));
+          .size()]), pos));
+      pos += word.length();
     }
 
     return tokenReadings;
@@ -111,7 +110,7 @@ public class PolishTagger extends BaseTagger {
         final String[] tagsArr = taggedTokens[i + 1].split("\\+");
 
         for (final String currTag : tagsArr) {
-          l.add(new AnalyzedToken(word, currTag, lemma, pos));
+          l.add(new AnalyzedToken(word, currTag, lemma));
         }
         i = i + 2;
       }

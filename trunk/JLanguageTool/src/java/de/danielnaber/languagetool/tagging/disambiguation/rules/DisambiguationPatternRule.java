@@ -339,7 +339,7 @@ public class DisambiguationPatternRule {
     }
     final int fromPos = text.getOriginalPosition(firstMatchToken
         + correctedStPos);
-    final int numRead = whTokens[fromPos].getReadingsLength();
+    final int numRead = whTokens[fromPos].getReadingsLength();   
     final boolean spaceBefore = whTokens[fromPos].isWhitespaceBefore();
     boolean filtered = false;
     switch (disAction) {
@@ -348,6 +348,8 @@ public class DisambiguationPatternRule {
         if (unifiedTokens.length == matchingTokens - startPositionCorrection
             + endPositionCorrection) {
           for (int i = 0; i < unifiedTokens.length; i++) {
+            unifiedTokens[i].setStartPos(whTokens[text.getOriginalPosition(firstMatchToken + correctedStPos
+                + i)].getStartPos());
             whTokens[text.getOriginalPosition(firstMatchToken + correctedStPos
                 + i)] = unifiedTokens[i];
           }
@@ -403,7 +405,7 @@ public class DisambiguationPatternRule {
 
           final AnalyzedTokenReadings toReplace = new AnalyzedTokenReadings(
               new AnalyzedToken(whTokens[fromPos].getToken(), disambiguatedPOS,
-                  lemma, whTokens[fromPos].getStartPos()));
+                  lemma), whTokens[fromPos].getStartPos());
           whTokens[fromPos] = toReplace;
           whTokens[fromPos].setWhitespaceBefore(spaceBefore);
         } else {

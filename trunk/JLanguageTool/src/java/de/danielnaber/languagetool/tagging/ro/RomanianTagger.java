@@ -81,18 +81,18 @@ public class RomanianTagger extends BaseTagger {
 					final String[] tagsArr = taggerTokens[i + 1].split("\\+");
 
 					for (final String currTag : tagsArr) {
-						l.add(new AnalyzedToken(word, currTag, lemma, pos));
+						l.add(new AnalyzedToken(word, currTag, lemma));
 					}
 					i = i + 2;
 				}
 			}
 
 			if (taggerTokens == null) {
-				l.add(new AnalyzedToken(word, null, pos));
-			}
-			pos += word.length();
+				l.add(new AnalyzedToken(word, null, null));
+			}			
 			tokenReadings.add(new AnalyzedTokenReadings(l
-					.toArray(new AnalyzedToken[l.size()])));
+					.toArray(new AnalyzedToken[l.size()]), pos));
+			pos += word.length();
 		}
 
 		return tokenReadings;

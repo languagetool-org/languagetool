@@ -94,20 +94,24 @@ public class AnalyzedTokenReadings {
 
   private boolean isWhitespaceBefore;
   
-  public AnalyzedTokenReadings(final AnalyzedToken[] r) {
+  public AnalyzedTokenReadings(final AnalyzedToken[] r, final int startPos) {
     anTokReadings = r.clone();
-    this.startPos = anTokReadings[0].getStartPos();
+    this.startPos = startPos;
     init();
   }
 
-  public AnalyzedTokenReadings(final AnalyzedToken at) {
+  AnalyzedTokenReadings(final AnalyzedToken at) {
     anTokReadings = new AnalyzedToken[1];
-    anTokReadings[0] = at;
-    startPos = at.getStartPos();
+    anTokReadings[0] = at;    
     isWhitespaceBefore = at.isWhitespaceBefore();
     init();
   }
 
+  public AnalyzedTokenReadings(final AnalyzedToken at, final int startPos) {    
+    this(at);    
+    this.startPos = startPos;
+  }
+    
   private void init() {
     token = anTokReadings[0].getToken();
     isWhitespace = StringTools.isWhitespace(token);
@@ -170,7 +174,7 @@ public class AnalyzedTokenReadings {
   public final void removeReading(final AnalyzedToken tok) {
     final ArrayList<AnalyzedToken> l = new ArrayList<AnalyzedToken>();
     final AnalyzedToken tmpTok = new AnalyzedToken(tok.getToken(), tok
-        .getPOSTag(), tok.getLemma(), startPos);
+        .getPOSTag(), tok.getLemma());
     tmpTok.setWhitespaceBefore(isWhitespaceBefore);
     for (int i = 0; i < anTokReadings.length; i++) {
       if (!anTokReadings[i].equals(tmpTok)) {
@@ -213,8 +217,7 @@ public class AnalyzedTokenReadings {
    */
   public void setParaEnd() {
     final AnalyzedToken paragraphEnd = new AnalyzedToken(getToken(),
-        JLanguageTool.PARAGRAPH_END_TAGNAME, getAnalyzedToken(0).getLemma(),
-        getAnalyzedToken(0).getStartPos());
+        JLanguageTool.PARAGRAPH_END_TAGNAME, getAnalyzedToken(0).getLemma());
     addReading(paragraphEnd);    
     return;
   }
@@ -239,8 +242,7 @@ public class AnalyzedTokenReadings {
    */
   public final void setSentEnd() {
     final AnalyzedToken sentenceEnd = new AnalyzedToken(getToken(),
-        JLanguageTool.SENTENCE_END_TAGNAME, getAnalyzedToken(0).getLemma(),
-        getAnalyzedToken(0).getStartPos());
+        JLanguageTool.SENTENCE_END_TAGNAME, getAnalyzedToken(0).getLemma());
     addReading(sentenceEnd);    
     return;
   }
