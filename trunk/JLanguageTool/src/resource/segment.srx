@@ -5,7 +5,8 @@
 <formathandle type="end" include="yes"></formathandle>
 <formathandle type="isolated" include="yes"></formathandle>
 <okpsrx:options oneSegmentIncludesAll="no" trimLeadingWhitespaces="no" trimTrailingWhitespaces="no"></okpsrx:options>
-<okpsrx:sample language="en_two" useMappedRules="no">Po zakończeniu jego kadencji (pod koniec maja br.) zamierzam ubiegać się o wybór do zarządu. (5 tys.) złotych. Tu jest 5 ww. autorów.
+<okpsrx:sample language="en_two" useMappedRules="no">{0>Utopia.&lt;0}
+Po zakończeniu jego kadencji (pod koniec maja br.) zamierzam ubiegać się o wybór do zarządu. (5 tys.) złotych. Tu jest 5 ww. autorów.
 Pochodził z rodziny Roberta E. Po wojnie wyzwolił się. Jerzy W. Urban, doktor psychiatra. Patrz art. 3 ust. 3. To piękne m. st. Warszawa.
 Ik vind dat R. Baars een slechte (!) programmeur is. Als voetballer wordt hij nooit een prof. Maar prof. N.A.W. Th.Ch. Janssen wordt dat wel. Maar of dat zo blijft ... dat weet ik niet. Hij is m.a.w. een beginneling. Ook moet  je rekening houden met af-
 gebroken regels.En soms vergeet je het begin gewoon. "Ik ben gek" zei hij "op voetbal." Of je dat wil horen is niet duidelijk.
@@ -3752,6 +3753,16 @@ It [really!] works. This is e.g. Mr. Smith, who talks slowly... And this is anot
 <languagerule languagerulename="Default">
 <rule break="yes">
 <beforebreak>\u2029</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<!--for smooth interoperability with Anaphraseus translation plugin for OpenOffice.org-->
+<rule break="yes">
+<beforebreak></beforebreak>
+<afterbreak>&lt;0}</afterbreak>
+</rule>
+<!--Anaphraseus segment start marker-->
+<rule break="yes">
+<beforebreak>\{0></beforebreak>
 <afterbreak></afterbreak>
 </rule>
 </languagerule>
