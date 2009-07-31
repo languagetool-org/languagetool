@@ -5,7 +5,7 @@
 <formathandle type="end" include="yes"></formathandle>
 <formathandle type="isolated" include="yes"></formathandle>
 <okpsrx:options oneSegmentIncludesAll="no" trimLeadingWhitespaces="no" trimTrailingWhitespaces="no"></okpsrx:options>
-<okpsrx:sample language="en_two" useMappedRules="no">Po zakończeniu jego kadencji (pod koniec maja br.) zamierzam ubiegać się o wybór do zarządu. (5 tys.) złotych.
+<okpsrx:sample language="en_two" useMappedRules="no">Po zakończeniu jego kadencji (pod koniec maja br.) zamierzam ubiegać się o wybór do zarządu. (5 tys.) złotych. Tu jest 5 ww. autorów.
 Pochodził z rodziny Roberta E. Po wojnie wyzwolił się. Jerzy W. Urban, doktor psychiatra. Patrz art. 3 ust. 3. To piękne m. st. Warszawa.
 Ik vind dat R. Baars een slechte (!) programmeur is. Als voetballer wordt hij nooit een prof. Maar prof. N.A.W. Th.Ch. Janssen wordt dat wel. Maar of dat zo blijft ... dat weet ik niet. Hij is m.a.w. een beginneling. Ook moet  je rekening houden met af-
 gebroken regels.En soms vergeet je het begin gewoon. "Ik ben gek" zei hij "op voetbal." Of je dat wil horen is niet duidelijk.
@@ -781,6 +781,7 @@ It [really!] works. This is e.g. Mr. Smith, who talks slowly... And this is anot
 <beforebreak>\.\p{L}+\.\s</beforebreak>
 <afterbreak>\p{Ll}</afterbreak>
 </rule>
+<!--single lowercase chars at the end of sentence except for r, w, n-->
 <rule break="no">
 <beforebreak>\s[\p{L}&amp;&amp;[^rwn]]\.\s+</beforebreak>
 <afterbreak>\p{Ll}\p{Ll}|\p{Lu}[\p{Punct}\p{Lu}]</afterbreak>
@@ -833,6 +834,11 @@ It [really!] works. This is e.g. Mr. Smith, who talks slowly... And this is anot
 <beforebreak>\bDz\.\s?U\.\s</beforebreak>
 <afterbreak></afterbreak>
 </rule>
+<!--heuristic: no vowels = abbreviation-->
+<rule break="no">
+<beforebreak>[\p{Ll}&amp;&amp;[^aeouiyęąó]][\p{Ll}&amp;&amp;[^aeouiyęąó]]+\.\s</beforebreak>
+<afterbreak>\p{Ll}+</afterbreak>
+</rule>
 <rule break="yes">
 <beforebreak>[\.!?…]['"\p{Pe}\u00BB\u2019\u201D\u203A\u0002]*\s</beforebreak>
 <afterbreak></afterbreak>
@@ -846,178 +852,176 @@ It [really!] works. This is e.g. Mr. Smith, who talks slowly... And this is anot
 <afterbreak>\p{Lu}\p{Ll}</afterbreak>
 </rule>
 </languagerule>
-
-        <languagerule languagerulename="English">
-        <rule break="no">
-        <beforebreak>\b[nN]o\.\s</beforebreak>
-        <afterbreak>\p{N}</afterbreak>
-        </rule>
-        <rule break="no">
-        <beforebreak>\b(pp|[Vv]iz|i\.?\s*e|[Vvol]|[Rr]col|maj|Lt|[Ff]ig|[Ff]igs|[Vv]iz|[Vv]ols|[Aa]pprox|[Ii]ncl|Pres|[Dd]ept|min|max|[Gg]ovt|lb|ft|c\.?\s*f|vs)\.\s</beforebreak>
-        <afterbreak>[^\p{Lu}]|I</afterbreak>
-        </rule>
-        <rule break="no">
-        <beforebreak>\b[Ff]igs?\.\s</beforebreak>
-        <afterbreak>\p{N}</afterbreak>
-        </rule>
-        <rule break="no">
-        <beforebreak>\be\.g\.\s</beforebreak>
-        <afterbreak></afterbreak>
-        </rule>
-        <rule break="no">
-        <beforebreak>\bvs\.\s</beforebreak>
-        <afterbreak></afterbreak>
-        </rule>
-        <rule break="no">
-        <beforebreak>\besp\.\s</beforebreak>
-        <afterbreak></afterbreak>
-        </rule>
-        <rule break="no">
-        <beforebreak>\bJan\.\s</beforebreak>
-        <afterbreak></afterbreak>
-        </rule>
-        <rule break="no">
-        <beforebreak>\bFeb\.\s</beforebreak>
-        <afterbreak></afterbreak>
-        </rule>
-        <rule break="no">
-        <beforebreak>\bMar\.\s</beforebreak>
-        <afterbreak></afterbreak>
-        </rule>
-        <rule break="no">
-        <beforebreak>\bApr\.\s</beforebreak>
-        <afterbreak></afterbreak>
-        </rule>
-        <rule break="no">
-        <beforebreak>\bJun\.\s</beforebreak>
-        <afterbreak></afterbreak>
-        </rule>
-        <rule break="no">
-        <beforebreak>\bJul\.\s</beforebreak>
-        <afterbreak></afterbreak>
-        </rule>
-        <rule break="no">
-        <beforebreak>\bAug\.\s</beforebreak>
-        <afterbreak></afterbreak>
-        </rule>
-        <rule break="no">
-        <beforebreak>\bSept?\.\s</beforebreak>
-        <afterbreak></afterbreak>
-        </rule>
-        <rule break="no">
-        <beforebreak>\bOct\.\s</beforebreak>
-        <afterbreak></afterbreak>
-        </rule>
-        <rule break="no">
-        <beforebreak>\bNov\.\s</beforebreak>
-        <afterbreak></afterbreak>
-        </rule>
-        <rule break="no">
-        <beforebreak>\bDec\.\s</beforebreak>
-        <afterbreak></afterbreak>
-        </rule>
-        <rule break="no">
-        <beforebreak>\bPh\.?D\.\s</beforebreak>
-        <afterbreak></afterbreak>
-        </rule>
-        <rule break="no">
-        <beforebreak>\bet\b\s\bal\.\s</beforebreak>
-        <afterbreak></afterbreak>
-        </rule>
-        <rule break="no">
-        <beforebreak>\b(St|Gen|Hon|Prof|Dr|Mr|Ms|Mrs|[JS]r|Col|Maj|Brig|Sgt|Capt|Cmnd|Sen|Rev|Rep|Revd)\.\s</beforebreak>
-        <afterbreak></afterbreak>
-        </rule>
-        <rule break="no">
-        <beforebreak>\b(St|Gen|Hon|Prof|Dr|Mr|Ms|Mrs|[JS]r|Col|Maj|Brig|Sgt|Capt|Cmnd|Sen|Rev|Rep|Revd)\.\s[A-Z]\.\s</beforebreak>
-        <afterbreak></afterbreak>
-        </rule>
-        <rule break="no">
-        <beforebreak>\bcf\.\s</beforebreak>
-        <afterbreak></afterbreak>
-        </rule>
-        <rule break="no">
-        <beforebreak>\bInc\.\s</beforebreak>
-        <afterbreak></afterbreak>
-        </rule>
-        <rule break="no">
-        <beforebreak>\bCorp\.\s</beforebreak>
-        <afterbreak></afterbreak>
-        </rule>
-        <rule break="no">
-        <beforebreak>\bBros\.\s</beforebreak>
-        <afterbreak></afterbreak>
-        </rule>
-        <rule break="no">
-        <beforebreak>\bDist\.\s</beforebreak>
-        <afterbreak></afterbreak>
-        </rule>
-        <rule break="no">
-        <beforebreak>\bCo\.\s</beforebreak>
-        <afterbreak></afterbreak>
-        </rule>
-        <rule break="no">
-        <beforebreak>[\[\(]*…[\]\)]* </beforebreak>
-        <afterbreak>\p{Ll}</afterbreak>
-        </rule>
-        <rule break="no">
-        <beforebreak>\p{Ps}[!?]+\p{Pe} </beforebreak>
-        <afterbreak></afterbreak>
-        </rule>
-        <rule break="no">
-        <beforebreak>[\.!?…]+\p{Pe} </beforebreak>
-        <afterbreak>\p{Ll}</afterbreak>
-        </rule>
-        <rule break="no">
-        <beforebreak>["”']\s*</beforebreak>
-        <afterbreak>\s*\p{Ll}</afterbreak>
-        </rule>
-        <rule break="no">
-        <beforebreak>['"„][\.!?…]['"”]\s</beforebreak>
-        <afterbreak></afterbreak>
-        </rule>
-        <rule break="no">
-        <beforebreak>\b\p{L}\.\s</beforebreak>
-        <afterbreak>\p{L}\.\s</afterbreak>
-        </rule>
-        <rule break="no">
-        <beforebreak>\b\p{L}\.</beforebreak>
-        <afterbreak>\p{L}\.</afterbreak>
-        </rule>
-        <rule break="no">
-        <beforebreak>[\.\s]\p{L}{1,2}\.\s</beforebreak>
-        <afterbreak>[\p{N}\p{Ll}]</afterbreak>
-        </rule>
-        <rule break="no">
-        <beforebreak>[\[\(]*\.\.\.[\]\)]* </beforebreak>
-        <afterbreak>[^\p{Lu}]</afterbreak>
-        </rule>
-        <rule break="no">
-        <beforebreak>\b\p{Lu}\.\s\p{Lu}\.\s</beforebreak>
-        <afterbreak></afterbreak>
-        </rule>
-        <rule break="no">
-        <beforebreak>\b\p{Lu}\.\p{Lu}\.\s</beforebreak>
-        <afterbreak></afterbreak>
-        </rule>
-        <rule break="no">
-        <beforebreak>[^\.]\s[A-Z]\.\s</beforebreak>
-        <afterbreak></afterbreak>
-        </rule>
-        <rule break="yes">
-        <beforebreak>[\.!?…][\u00BB\u2019\u201D\u203A"'\p{Pe}\u0002]*\s</beforebreak>
-        <afterbreak></afterbreak>
-        </rule>
-        <rule break="yes">
-        <beforebreak>[\.!?…]['"\u00BB\u2019\u201D\u203A\p{Pe}\u0002]*</beforebreak>
-        <afterbreak>\p{Lu}[^\p{Lu}]</afterbreak>
-        </rule>
-        <rule break="yes">
-        <beforebreak>\s\p{L}[\.!?…]\s</beforebreak>
-        <afterbreak>\p{Lu}\p{Ll}</afterbreak>
-        </rule>
-        </languagerule>
-
+<languagerule languagerulename="English">
+<rule break="no">
+<beforebreak>\b[nN]o\.\s</beforebreak>
+<afterbreak>\p{N}</afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\b(pp|[Vv]iz|i\.?\s*e|[Vvol]|[Rr]col|maj|Lt|[Ff]ig|[Ff]igs|[Vv]iz|[Vv]ols|[Aa]pprox|[Ii]ncl|Pres|[Dd]ept|min|max|[Gg]ovt|lb|ft|c\.?\s*f|vs)\.\s</beforebreak>
+<afterbreak>[^\p{Lu}]|I</afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\b[Ff]igs?\.\s</beforebreak>
+<afterbreak>\p{N}</afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\be\.g\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\bvs\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\besp\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\bJan\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\bFeb\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\bMar\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\bApr\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\bJun\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\bJul\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\bAug\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\bSept?\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\bOct\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\bNov\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\bDec\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\bPh\.?D\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\bet\b\s\bal\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\b(St|Gen|Hon|Prof|Dr|Mr|Ms|Mrs|[JS]r|Col|Maj|Brig|Sgt|Capt|Cmnd|Sen|Rev|Rep|Revd)\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\b(St|Gen|Hon|Prof|Dr|Mr|Ms|Mrs|[JS]r|Col|Maj|Brig|Sgt|Capt|Cmnd|Sen|Rev|Rep|Revd)\.\s[A-Z]\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\bcf\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\bInc\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\bCorp\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\bBros\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\bDist\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\bCo\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>[\[\(]*…[\]\)]* </beforebreak>
+<afterbreak>\p{Ll}</afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\p{Ps}[!?]+\p{Pe} </beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>[\.!?…]+\p{Pe} </beforebreak>
+<afterbreak>\p{Ll}</afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>["”']\s*</beforebreak>
+<afterbreak>\s*\p{Ll}</afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>['"„][\.!?…]['"”]\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\b\p{L}\.\s</beforebreak>
+<afterbreak>\p{L}\.\s</afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\b\p{L}\.</beforebreak>
+<afterbreak>\p{L}\.</afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>[\.\s]\p{L}{1,2}\.\s</beforebreak>
+<afterbreak>[\p{N}\p{Ll}]</afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>[\[\(]*\.\.\.[\]\)]* </beforebreak>
+<afterbreak>[^\p{Lu}]</afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\b\p{Lu}\.\s\p{Lu}\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\b\p{Lu}\.\p{Lu}\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>[^\.]\s[A-Z]\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="yes">
+<beforebreak>[\.!?…][\u00BB\u2019\u201D\u203A"'\p{Pe}\u0002]*\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="yes">
+<beforebreak>[\.!?…]['"\u00BB\u2019\u201D\u203A\p{Pe}\u0002]*</beforebreak>
+<afterbreak>\p{Lu}[^\p{Lu}]</afterbreak>
+</rule>
+<rule break="yes">
+<beforebreak>\s\p{L}[\.!?…]\s</beforebreak>
+<afterbreak>\p{Lu}\p{Ll}</afterbreak>
+</rule>
+</languagerule>
 <languagerule languagerulename="Romanian">
 <rule break="no">
 <beforebreak>\b\d+\.\s</beforebreak>
@@ -1104,7 +1108,6 @@ It [really!] works. This is e.g. Mr. Smith, who talks slowly... And this is anot
 <afterbreak>\p{Lu}\p{Ll}</afterbreak>
 </rule>
 </languagerule>
-
 <languagerule languagerulename="Dutch">
 <rule break="no">
 <beforebreak>\b(Afr|Am|Ar|Br|Cie|Comp|Dhr|Dr|Em|Fa|Kon)\.\s</beforebreak>
@@ -2921,872 +2924,831 @@ It [really!] works. This is e.g. Mr. Smith, who talks slowly... And this is anot
 <afterbreak>\p{Lu}\p{Ll}</afterbreak>
 </rule>
 </languagerule>
-
-
-    <languagerule languagerulename="Icelandic">
-
-    <!-- Numbers -->
-    <rule break="no">
-    <beforebreak>\b[nN]o\.\s</beforebreak>
-    <afterbreak>\p{N}</afterbreak>
-    </rule>
-    <rule break="no">
-    <beforebreak>\b[nN][rR]\.\s</beforebreak>
-    <afterbreak>\p{N}</afterbreak>
-    </rule>
-
-    <!-- Date/time stuff  -->
-    <rule break="no">
-    <beforebreak>\b\p{N}+\.\s</beforebreak>
-    <afterbreak>\b(janúar|febrúar|mars|apríl|maí|júní|júlí|ágúst|september|október|nóvember|desember)</afterbreak>
-    </rule>
-    <rule break="no">
-    <beforebreak>\b\p{N}+\.\s</beforebreak>
-    <afterbreak>\b(jan|feb|mar|apr|maí|jún|júl|ágú|sep|sept|okt|nóv|des)</afterbreak>
-    </rule>
-
-    <!-- (final) single char abbreviations x. xxx. xx.x. but not 'íáóæ' -->
-    <rule break="no">
-    <beforebreak>\b[a-z[^íáóæ]]\.\s</beforebreak>
-    <afterbreak></afterbreak>
-    </rule>
-
-    <rule break="no">
-    <beforebreak>\b\p{L}\.</beforebreak>
-    <afterbreak>\p{L}\.</afterbreak>
-    </rule>
-
-
-    <!-- Misc A  -->    
-    <rule break="no">
-    <beforebreak>\bab\.fn\.\s</beforebreak>
-    <afterbreak></afterbreak>
-    </rule>
-    <rule break="no">
-    <beforebreak>\ba\.fn\.\s</beforebreak>
-    <afterbreak></afterbreak>
-    </rule>
-    <rule break="no">
-    <beforebreak>\bafs\.\s</beforebreak>
-    <afterbreak></afterbreak>
-    </rule>
-    <rule break="no">
-    <beforebreak>\bal\.\s</beforebreak>
-    <afterbreak></afterbreak>
-    </rule>
-    <rule break="no">
-    <beforebreak>\balm\.\s</beforebreak>
-    <afterbreak></afterbreak>
-    </rule>
-    <rule break="no">
-    <beforebreak>\balg\.\s</beforebreak>
-    <afterbreak></afterbreak>
-    </rule>
-    <rule break="no">
-    <beforebreak>\bandh\.\s</beforebreak>
-    <afterbreak></afterbreak>
-    </rule>
-    <rule break="no">
-    <beforebreak>\bath\.\s</beforebreak>
-    <afterbreak></afterbreak>
-    </rule>
-    <rule break="no">
-    <beforebreak>\baths\.\s</beforebreak>
-    <afterbreak></afterbreak>
-    </rule>
-    <rule break="no">
-    <beforebreak>\batr\.\s</beforebreak>
-    <afterbreak></afterbreak>
-    </rule>
-    <rule break="no">
-    <beforebreak>\bao\.\s</beforebreak>
-    <afterbreak></afterbreak>
-    </rule>
-    <rule break="no">
-    <beforebreak>\bau\.\s</beforebreak>
-    <afterbreak></afterbreak>
-    </rule>
-    <rule break="no">
-    <beforebreak>\baukaf\.\s</beforebreak>
-    <afterbreak></afterbreak>
-    </rule>
-
-    <!-- Misc Á -->
-    <rule break="no">
-    <beforebreak>\báfn\.\s</beforebreak>
-    <afterbreak></afterbreak>
-    </rule>
-    <rule break="no">
-    <beforebreak>\báhrl\.s\.\s</beforebreak>
-    <afterbreak></afterbreak>
-    </rule>
-    <rule break="no">
-    <beforebreak>\báhrs\.\s</beforebreak>
-    <afterbreak></afterbreak>
-    </rule>
-    <rule break="no">
-    <beforebreak>\bákv\.gr\.\s</beforebreak>
-    <afterbreak></afterbreak>
-    </rule>
-    <rule break="no">
-    <beforebreak>\bákv\.\s</beforebreak>
-    <afterbreak></afterbreak>
-    </rule>
-
-    <!-- Misc B -->
-    <rule break="no">
-    <beforebreak>\bbh\.\s</beforebreak>
-    <afterbreak></afterbreak>
-    </rule>
-    <rule break="no">
-    <beforebreak>\bbls\.\s</beforebreak>
-    <afterbreak></afterbreak>
-    </rule>
-
-    <!-- Misc D -->
-    <rule break="no">
-    <beforebreak>\bdr\.\s</beforebreak>
-    <afterbreak></afterbreak>
-    </rule>
-
-    <!-- Misc E -->
-    <rule break="no">
-    <beforebreak>\be\.Kr\.\s</beforebreak>
-    <afterbreak></afterbreak>
-    </rule>
-    <rule break="no">
-    <beforebreak>\bet\.\s</beforebreak>
-    <afterbreak></afterbreak>
-    </rule>
-    <rule break="no">
-    <beforebreak>\bef\.\s</beforebreak>
-    <afterbreak></afterbreak>
-    </rule>
-    <rule break="no">
-    <beforebreak>\befn\.\s</beforebreak>
-    <afterbreak></afterbreak>
-    </rule>
-    <rule break="no">
-    <beforebreak>\bennfr\.\s</beforebreak>
-    <afterbreak></afterbreak>
-    </rule>
-    <rule break="no">
-    <beforebreak>\beink\.\s</beforebreak>
-    <afterbreak></afterbreak>
-    </rule>
-    <rule break="no">
-    <beforebreak>\bend\.\s</beforebreak>
-    <afterbreak></afterbreak>
-    </rule>
-    <rule break="no">
-    <beforebreak>\be\.st\.\s</beforebreak>
-    <afterbreak></afterbreak>
-    </rule>
-    <rule break="no">
-    <beforebreak>\berl\.\s</beforebreak>
-    <afterbreak></afterbreak>
-    </rule>
-
-    <!-- Misc F -->
-    <rule break="no">
-    <beforebreak>\bfél\.\s</beforebreak>
-    <afterbreak></afterbreak>
-    </rule>
-    <rule break="no">
-    <beforebreak>\bfskj\.\s</beforebreak>
-    <afterbreak></afterbreak>
-    </rule>
-    <rule break="no">
-    <beforebreak>\bfh\.\s</beforebreak>
-    <afterbreak></afterbreak>
-    </rule>
-    <rule break="no">
-    <beforebreak>\bf\.hl\.\s</beforebreak>
-    <afterbreak></afterbreak>
-    </rule>
-    <rule break="no">
-    <beforebreak>\bfísl\.\s</beforebreak>
-    <afterbreak></afterbreak>
-    </rule>
-    <rule break="no">
-    <beforebreak>\b[A-ZÁ-Þ][a-zá-þ]+fj\.\s</beforebreak>
-    <afterbreak></afterbreak>
-    </rule>
-    <rule break="no">
-    <beforebreak>\bfl\.\s</beforebreak>
-    <afterbreak></afterbreak>
-    </rule>
-    <rule break="no">
-    <beforebreak>\bfn\.\s</beforebreak>
-    <afterbreak></afterbreak>
-    </rule>
-    <rule break="no">
-    <beforebreak>\bfo\.\s</beforebreak>
-    <afterbreak></afterbreak>
-    </rule>
-    <rule break="no">
-    <beforebreak>\bforl\.\s</beforebreak>
-    <afterbreak></afterbreak>
-    </rule>
-    <rule break="no">
-    <beforebreak>\bfrb\.\s</beforebreak>
-    <afterbreak></afterbreak>
-    </rule>
-    <rule break="no">
-    <beforebreak>\bfrl\.\s</beforebreak>
-    <afterbreak></afterbreak>
-    </rule>
-    <rule break="no">
-    <beforebreak>\bfrh\.\s</beforebreak>
-    <afterbreak></afterbreak>
-    </rule>
-    <rule break="no">
-    <beforebreak>\bfrt\.\s</beforebreak>
-    <afterbreak></afterbreak>
-    </rule>
-    <rule break="no">
-    <beforebreak>\bfsl\.\s</beforebreak>
-    <afterbreak></afterbreak>
-    </rule>
-    <rule break="no">
-    <beforebreak>\bfsh\.\s</beforebreak>
-    <afterbreak></afterbreak>
-    </rule>
-    <rule break="no">
-    <beforebreak>\bfs\.\s</beforebreak>
-    <afterbreak></afterbreak>
-    </rule>
-    <rule break="no">
-    <beforebreak>\bfsk\.\s</beforebreak>
-    <afterbreak></afterbreak>
-    </rule>
-    <rule break="no">
-    <beforebreak>\bfst\.\s</beforebreak>
-    <afterbreak></afterbreak>
-    </rule>
-    <rule break="no">
-    <beforebreak>\bf\.Kr\.\s</beforebreak>
-    <afterbreak></afterbreak>
-    </rule>
-    <rule break="no">
-    <beforebreak>\bft\.\s</beforebreak>
-    <afterbreak></afterbreak>
-    </rule>
-    <rule break="no">
-    <beforebreak>\bfv\.\s</beforebreak>
-    <afterbreak></afterbreak>
-    </rule>
-    <rule break="no">
-    <beforebreak>\bfyrrn\.\s</beforebreak>
-    <afterbreak></afterbreak>
-    </rule>
-    <rule break="no">
-    <beforebreak>\bfyrrv\.\s</beforebreak>
-    <afterbreak></afterbreak>
-    </rule>
-
-
-    <!-- Misc G -->
-    <rule break="no">
-    <beforebreak>\bgerm\.\s</beforebreak>
-    <afterbreak></afterbreak>
-    </rule>
-    <rule break="no">
-    <beforebreak>\bgm\.\s</beforebreak>
-    <afterbreak></afterbreak>
-    </rule>
-    <rule break="no">
-    <beforebreak>\bgr\.\s</beforebreak>
-    <afterbreak></afterbreak>
-    </rule>
-
-    <!-- Misc H -->
-    <rule break="no">
-    <beforebreak>\bhdl\.\s</beforebreak>
-    <afterbreak></afterbreak>
-    </rule>
-    <rule break="no">
-    <beforebreak>\bhdr\.\s</beforebreak>
-    <afterbreak></afterbreak>
-    </rule>
-    <rule break="no">
-    <beforebreak>\bhf\.\s</beforebreak>
-    <afterbreak></afterbreak>
-    </rule>
-    <rule break="no">
-    <beforebreak>\bhl\.\s</beforebreak>
-    <afterbreak></afterbreak>
-    </rule>
-    <rule break="no">
-    <beforebreak>\bhlsk\.\s</beforebreak>
-    <afterbreak></afterbreak>
-    </rule>
-    <rule break="no">
-    <beforebreak>\bhljsk\.\s</beforebreak>
-    <afterbreak></afterbreak>
-    </rule>
-    <rule break="no">
-    <beforebreak>\bhljv\.\s</beforebreak>
-    <afterbreak></afterbreak>
-    </rule>
-    <rule break="no">
-    <beforebreak>\bhljóðv\.\s</beforebreak>
-    <afterbreak></afterbreak>
-    </rule>
-    <rule break="no">
-    <beforebreak>\bhr\.\s</beforebreak>
-    <afterbreak></afterbreak>
-    </rule>
-    <rule break="no">
-    <beforebreak>\b[A-ZÁ-Þ][a-zá-þ]+hr\.\s</beforebreak>
-    <afterbreak></afterbreak>
-    </rule>
-    <rule break="no">
-    <beforebreak>\bhv\.\s</beforebreak>
-    <afterbreak></afterbreak>
-    </rule>
-    <rule break="no">
-    <beforebreak>\bhvk\.\s</beforebreak>
-    <afterbreak></afterbreak>
-    </rule>
-    <rule break="no">
-    <beforebreak>\bholl\.\s</beforebreak>
-    <afterbreak></afterbreak>
-    </rule>
-    <rule break="no">
-    <beforebreak>\bHos\.\s</beforebreak>
-    <afterbreak></afterbreak>
-    </rule>
-    <rule break="no">
-    <beforebreak>\bhöf\.\s</beforebreak>
-    <afterbreak></afterbreak>
-    </rule>
-    <rule break="no">
-    <beforebreak>\bhk\.\s</beforebreak>
-    <afterbreak></afterbreak>
-    </rule>
-    <rule break="no">
-    <beforebreak>\bhrl\.\s</beforebreak>
-    <afterbreak></afterbreak>
-    </rule>
-
-    <!-- Misc Í -->
-    <rule break="no">
-    <beforebreak>\bísl\.\s</beforebreak>
-    <afterbreak></afterbreak>
-    </rule>
-
-    <!-- Misc K -->
-    <rule break="no">
-    <beforebreak>\bkaf\.\s</beforebreak>
-    <afterbreak></afterbreak>
-    </rule>
-    <rule break="no">
-    <beforebreak>\bkap\.\s</beforebreak>
-    <afterbreak></afterbreak>
-    </rule>
-    <rule break="no">
-    <beforebreak>\bKhöfn\.\s</beforebreak>
-    <afterbreak></afterbreak>
-    </rule>
-    <rule break="no">
-    <beforebreak>\bkk\.\s</beforebreak>
-    <afterbreak></afterbreak>
-    </rule>
-    <rule break="no">
-    <beforebreak>\bkg\.\s</beforebreak>
-    <afterbreak></afterbreak>
-    </rule>
-    <rule break="no">
-    <beforebreak>\bkk\.\s</beforebreak>
-    <afterbreak></afterbreak>
-    </rule>
-    <rule break="no">
-    <beforebreak>\bkm\.\s</beforebreak>
-    <afterbreak></afterbreak>
-    </rule>
-    <rule break="no">
-    <beforebreak>\bkl\.\s</beforebreak>
-    <afterbreak></afterbreak>
-    </rule>
-    <rule break="no">
-    <beforebreak>\bklst\.\s</beforebreak>
-    <afterbreak></afterbreak>
-    </rule>
-    <rule break="no">
-    <beforebreak>\bkr\.\s</beforebreak>
-    <afterbreak></afterbreak>
-    </rule>
-    <rule break="no">
-    <beforebreak>\bkt\.\s</beforebreak>
-    <afterbreak></afterbreak>
-    </rule>
-    <rule break="no">
-    <beforebreak>\bkgúrsk\.\s</beforebreak>
-    <afterbreak></afterbreak>
-    </rule>
-    <rule break="no">
-    <beforebreak>\bkvk\.\s</beforebreak>
-    <afterbreak></afterbreak>
-    </rule>
-
-    <!-- Misc L -->
-    <rule break="no">
-    <beforebreak>\bleturbr\.\s</beforebreak>
-    <afterbreak></afterbreak>
-    </rule>
-    <rule break="no">
-    <beforebreak>\blh\.\s</beforebreak>
-    <afterbreak></afterbreak>
-    </rule>
-    <rule break="no">
-    <beforebreak>\blh\.nt\.\s</beforebreak>
-    <afterbreak></afterbreak>
-    </rule>
-    <rule break="no">
-    <beforebreak>\blh\.þt\.\s</beforebreak>
-    <afterbreak></afterbreak>
-    </rule>
-    <rule break="no">
-    <beforebreak>\blo\.\s</beforebreak>
-    <afterbreak></afterbreak>
-    </rule>
-    <rule break="no">
-    <beforebreak>\bltr\.\s</beforebreak>
-    <afterbreak></afterbreak>
-    </rule>
-
-    <!-- Misc M -->
-    <rule break="no">
-    <beforebreak>\bmlja\.\s</beforebreak>
-    <afterbreak></afterbreak>
-    </rule>
-    <rule break="no">
-    <beforebreak>\bmljó\.\s</beforebreak>
-    <afterbreak></afterbreak>
-    </rule>
-    <rule break="no">
-    <beforebreak>\bmillj\.\s</beforebreak>
-    <afterbreak></afterbreak>
-    </rule>
-    <rule break="no">
-    <beforebreak>\bmm\.\s</beforebreak>
-    <afterbreak></afterbreak>
-    </rule>
-    <rule break="no">
-    <beforebreak>\bmms\.\s</beforebreak>
-    <afterbreak></afterbreak>
-    </rule>
-    <rule break="no">
-    <beforebreak>\bm\.fl\.\s</beforebreak>
-    <afterbreak></afterbreak>
-    </rule>
-    <rule break="no">
-    <beforebreak>\bmiðm\.\s</beforebreak>
-    <afterbreak></afterbreak>
-    </rule>
-    <rule break="no">
-    <beforebreak>\bmgr\.\s</beforebreak>
-    <afterbreak></afterbreak>
-    </rule>
-    <rule break="no">
-    <beforebreak>\bmst\.\s</beforebreak>
-    <afterbreak></afterbreak>
-    </rule>
-    <rule break="no">
-    <beforebreak>\bmín\.\s</beforebreak>
-    <afterbreak></afterbreak>
-    </rule>
-
-    <!-- Misc N -->
-    <rule break="no">
-    <beforebreak>\bnf\.\s</beforebreak>
-    <afterbreak></afterbreak>
-    </rule>
-    <rule break="no">
-    <beforebreak>\bnh\.\s</beforebreak>
-    <afterbreak></afterbreak>
-    </rule>
-    <rule break="no">
-    <beforebreak>\bnhm\.\s</beforebreak>
-    <afterbreak></afterbreak>
-    </rule>
-    <rule break="no">
-    <beforebreak>\bnl\.\s</beforebreak>
-    <afterbreak></afterbreak>
-    </rule>
-    <rule break="no">
-    <beforebreak>\bnk\.\s</beforebreak>
-    <afterbreak></afterbreak>
-    </rule>
-    <rule break="no">
-    <beforebreak>\bnmgr\.\s</beforebreak>
-    <afterbreak></afterbreak>
-    </rule>
-    <rule break="no">
-    <beforebreak>\bno\.\s</beforebreak>
-    <afterbreak></afterbreak>
-    </rule>
-    <rule break="no">
-    <beforebreak>\bnúv\.\s</beforebreak>
-    <afterbreak></afterbreak>
-    </rule>
-    <rule break="no">
-    <beforebreak>\bnt\.\s</beforebreak>
-    <afterbreak></afterbreak>
-    </rule>
-
-    <!-- Misc O -->
-
-    <rule break="no">
-    <beforebreak>\bo\.áfr\.\s</beforebreak>
-    <afterbreak></afterbreak>
-    </rule>
-    <rule break="no">
-    <beforebreak>\bo\.m\.fl\.\s</beforebreak>
-    <afterbreak></afterbreak>
-    </rule>
-    <rule break="no">
-    <beforebreak>\bohf\.\s</beforebreak>
-    <afterbreak></afterbreak>
-    </rule>
-    <rule break="no">
-    <beforebreak>\bo\.fl\.\s</beforebreak>
-    <afterbreak></afterbreak>
-    </rule>
-    <rule break="no">
-    <beforebreak>\bo\.s\.frv\.\s</beforebreak>
-    <afterbreak></afterbreak>
-    </rule>
-
-    <!-- Misc Ó -->
-    <rule break="no">
-    <beforebreak>\bófn\.\s</beforebreak>
-    <afterbreak></afterbreak>
-    </rule>
-    <rule break="no">
-    <beforebreak>\bób\.\s</beforebreak>
-    <afterbreak></afterbreak>
-    </rule>
-    <rule break="no">
-    <beforebreak>\bóákv\.gr\.\s</beforebreak>
-    <afterbreak></afterbreak>
-    </rule>
-    <rule break="no">
-    <beforebreak>\bóákv\.\s</beforebreak>
-    <afterbreak></afterbreak>
-    </rule>
-
-    <!-- Misc P -->
-    <rule break="no">
-    <beforebreak>\bpfn\.\s</beforebreak>
-    <afterbreak></afterbreak>
-    </rule>
-    <rule break="no">
-    <beforebreak>\bPR\.\s</beforebreak>
-    <afterbreak></afterbreak>
-    </rule>
-    <rule break="no">
-    <beforebreak>\bpr\.\s</beforebreak>
-    <afterbreak></afterbreak>
-    </rule>
-
-    <!-- Misc R -->
-    <rule break="no">
-    <beforebreak>\bRitstj\.\s</beforebreak>
-    <afterbreak></afterbreak>
-    </rule>
-    <rule break="no">
-    <beforebreak>\bRvík\.\s</beforebreak>
-    <afterbreak></afterbreak>
-    </rule>
-    <rule break="no">
-    <beforebreak>\bRvk\.\s</beforebreak>
-    <afterbreak></afterbreak>
-    </rule>
-
-    <!-- Misc S -->
-    <rule break="no">
-    <beforebreak>\bsamb\.\s</beforebreak>
-    <afterbreak></afterbreak>
-    </rule>
-    <rule break="no">
-    <beforebreak>\bsamhlj\.\s</beforebreak>
-    <afterbreak></afterbreak>
-    </rule>
-    <rule break="no">
-    <beforebreak>\bsamn\.\s</beforebreak>
-    <afterbreak></afterbreak>
-    </rule>
-    <rule break="no">
-    <beforebreak>\bsamn\.\s</beforebreak>
-    <afterbreak></afterbreak>
-    </rule>
-    <rule break="no">
-    <beforebreak>\bsbr\.\s</beforebreak>
-    <afterbreak></afterbreak>
-    </rule>
-    <rule break="no">
-    <beforebreak>\bsek\.\s</beforebreak>
-    <afterbreak></afterbreak>
-    </rule>
-    <rule break="no">
-    <beforebreak>\bsérn\.\s</beforebreak>
-    <afterbreak></afterbreak>
-    </rule>
-    <rule break="no">
-    <beforebreak>\bsf\.\s</beforebreak>
-    <afterbreak></afterbreak>
-    </rule>
-    <rule break="no">
-    <beforebreak>\bsfn\.\s</beforebreak>
-    <afterbreak></afterbreak>
-    </rule>
-    <rule break="no">
-    <beforebreak>\bsh\.\s</beforebreak>
-    <afterbreak></afterbreak>
-    </rule>
-    <rule break="no">
-    <beforebreak>\bsfn\.\s</beforebreak>
-    <afterbreak></afterbreak>
-    </rule>
-    <rule break="no">
-    <beforebreak>\bsh\.\s</beforebreak>
-    <afterbreak></afterbreak>
-    </rule>
-    <rule break="no">
-    <beforebreak>\bs\.hl\.\s</beforebreak>
-    <afterbreak></afterbreak>
-    </rule>
-    <rule break="no">
-    <beforebreak>\bsk\.\s</beforebreak>
-    <afterbreak></afterbreak>
-    </rule>
-    <rule break="no">
-    <beforebreak>\bskv\.\s</beforebreak>
-    <afterbreak></afterbreak>
-    </rule>
-    <rule break="no">
-    <beforebreak>\bsl\.\s</beforebreak>
-    <afterbreak></afterbreak>
-    </rule>
-    <rule break="no">
-    <beforebreak>\bsn\.\s</beforebreak>
-    <afterbreak></afterbreak>
-    </rule>
-    <rule break="no">
-    <beforebreak>\bso\.\s</beforebreak>
-    <afterbreak></afterbreak>
-    </rule>
-    <rule break="no">
-    <beforebreak>\bss\.us\.\s</beforebreak>
-    <afterbreak></afterbreak>
-    </rule>
-    <rule break="no">
-    <beforebreak>\bs\.st\.\s</beforebreak>
-    <afterbreak></afterbreak>
-    </rule>
-    <rule break="no">
-    <beforebreak>\bsamþ\.\s</beforebreak>
-    <afterbreak></afterbreak>
-    </rule>
-    <rule break="no">
-    <beforebreak>\bsbr\.\s</beforebreak>
-    <afterbreak></afterbreak>
-    </rule>
-    <rule break="no">
-    <beforebreak>\bshlj\.\s</beforebreak>
-    <afterbreak></afterbreak>
-    </rule>
-    <rule break="no">
-    <beforebreak>\bsign\.\s</beforebreak>
-    <afterbreak></afterbreak>
-    </rule>
-    <rule break="no">
-    <beforebreak>\bskál\.\s</beforebreak>
-    <afterbreak></afterbreak>
-    </rule>
-    <rule break="no">
-    <beforebreak>\bst\.\s</beforebreak>
-    <afterbreak></afterbreak>
-    </rule>
-    <rule break="no">
-    <beforebreak>\bst\.s\.\s</beforebreak>
-    <afterbreak></afterbreak>
-    </rule>
-    <rule break="no">
-    <beforebreak>\bstk\.\s</beforebreak>
-    <afterbreak></afterbreak>
-    </rule>
-    <rule break="no">
-    <beforebreak>\bsþ\.\s</beforebreak>
-    <afterbreak></afterbreak>
-    </rule>
-
-    <!-- Misc T -->
-    <rule break="no">
-    <beforebreak>\bteg\.\s</beforebreak>
-    <afterbreak></afterbreak>
-    </rule>
-    <rule break="no">
-    <beforebreak>\btbl\.\s</beforebreak>
-    <afterbreak></afterbreak>
-    </rule>
-    <rule break="no">
-    <beforebreak>\btfn\.\s</beforebreak>
-    <afterbreak></afterbreak>
-    </rule>
-    <rule break="no">
-    <beforebreak>\btl\.\s</beforebreak>
-    <afterbreak></afterbreak>
-    </rule>
-    <rule break="no">
-    <beforebreak>\btvíhlj\.\s</beforebreak>
-    <afterbreak></afterbreak>
-    </rule>
-    <rule break="no">
-    <beforebreak>\btvt\.\s</beforebreak>
-    <afterbreak></afterbreak>
-    </rule>
-    <rule break="no">
-    <beforebreak>\btill\.\s</beforebreak>
-    <afterbreak></afterbreak>
-    </rule>
-    <rule break="no">
-    <beforebreak>\bto\.\s</beforebreak>
-    <afterbreak></afterbreak>
-    </rule>
-
-    <!-- Misc U -->
-    <rule break="no">
-    <beforebreak>\bumr\.\s</beforebreak>
-    <afterbreak></afterbreak>
-    </rule>
-    <rule break="no">
-    <beforebreak>\buh\.\s</beforebreak>
-    <afterbreak></afterbreak>
-    </rule>
-    <rule break="no">
-    <beforebreak>\bus\.\s</beforebreak>
-    <afterbreak></afterbreak>
-    </rule>
-    <rule break="no">
-    <beforebreak>\buppl\.\s</beforebreak>
-    <afterbreak></afterbreak>
-    </rule>
-
-    <!-- Misc Ú -->
-    <rule break="no">
-    <beforebreak>\bútg\.\s</beforebreak>
-    <afterbreak></afterbreak>
-    </rule>
-
-    <!-- Misc V -->
-    <rule break="no">
-    <beforebreak>\bvb\.\s</beforebreak>
-    <afterbreak></afterbreak>
-    </rule>
-    <rule break="no">
-    <beforebreak>\bVf\.\s</beforebreak>
-    <afterbreak></afterbreak>
-    </rule>
-    <rule break="no">
-    <beforebreak>\bvh\.\s</beforebreak>
-    <afterbreak></afterbreak>
-    </rule>
-    <rule break="no">
-    <beforebreak>\bvkf\.\s</beforebreak>
-    <afterbreak></afterbreak>
-    </rule>
-    <rule break="no">
-    <beforebreak>\bVl\.\s</beforebreak>
-    <afterbreak></afterbreak>
-    </rule>
-    <rule break="no">
-    <beforebreak>\bvl\.\s</beforebreak>
-    <afterbreak></afterbreak>
-    </rule>
-    <rule break="no">
-    <beforebreak>\bvlf\.\s</beforebreak>
-    <afterbreak></afterbreak>
-    </rule>
-    <rule break="no">
-    <beforebreak>\bvmf\.\s</beforebreak>
-    <afterbreak></afterbreak>
-    </rule>
-    <rule break="no">
-    <beforebreak>\b8vo\.\s</beforebreak>
-    <afterbreak></afterbreak>
-    </rule>
-    <rule break="no">
-    <beforebreak>\bvsk\.\s</beforebreak>
-    <afterbreak></afterbreak>
-    </rule>
-    <rule break="no">
-    <beforebreak>\bvth\.\s</beforebreak>
-    <afterbreak></afterbreak>
-    </rule>
-
-    <!-- Misc Þ -->
-
-    <rule break="no">
-    <beforebreak>\bþt\.\s</beforebreak>
-    <afterbreak></afterbreak>
-    </rule>
-    <rule break="no">
-    <beforebreak>\bþf\.\s</beforebreak>
-    <afterbreak></afterbreak>
-    </rule>
-    <rule break="no">
-    <beforebreak>\bþjs\.\s</beforebreak>
-    <afterbreak></afterbreak>
-    </rule>
-    <rule break="no">
-    <beforebreak>\bþgf\.\s</beforebreak>
-    <afterbreak></afterbreak>
-    </rule>
-    <rule break="no">
-    <beforebreak>\bþlt\.\s</beforebreak>
-    <afterbreak></afterbreak>
-    </rule>
-    <rule break="no">
-    <beforebreak>\bþolm\.\s</beforebreak>
-    <afterbreak></afterbreak>
-    </rule>
-    <rule break="no">
-    <beforebreak>\bþm\.\s</beforebreak>
-    <afterbreak></afterbreak>
-    </rule>
-    <rule break="no">
-    <beforebreak>\bþml\.\s</beforebreak>
-    <afterbreak></afterbreak>
-    </rule>
-
-    <rule break="no">
-    <beforebreak>\bþýð\.\s</beforebreak>
-    <afterbreak></afterbreak>
-    </rule>
-
-
-    <!-- Yes breaks -->
-        <rule break="yes">
-        <beforebreak>[\.!?…][\u00BB\u2019\u201D\u203A"'\p{Pe}\u0002]*\s</beforebreak>
-        <afterbreak></afterbreak>
-        </rule>
-        <rule break="yes">
-        <beforebreak>[\.!?…]['"\u00BB\u2019\u201D\u203A\p{Pe}\u0002]*</beforebreak>
-        <afterbreak>\p{Lu}[^\p{Lu}]</afterbreak>
-        </rule>
-        <rule break="yes">
-        <beforebreak>\s\p{L}[\.!?…]\s</beforebreak>
-        <afterbreak>\p{Lu}\p{Ll}</afterbreak>
-        </rule>
-    </languagerule>
-
-
-
-    <!-- End of Icelandic section -->
-
+<languagerule languagerulename="Icelandic">
+<!-- Numbers -->
+<rule break="no">
+<beforebreak>\b[nN]o\.\s</beforebreak>
+<afterbreak>\p{N}</afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\b[nN][rR]\.\s</beforebreak>
+<afterbreak>\p{N}</afterbreak>
+</rule>
+<!-- Date/time stuff  -->
+<rule break="no">
+<beforebreak>\b\p{N}+\.\s</beforebreak>
+<afterbreak>\b(janúar|febrúar|mars|apríl|maí|júní|júlí|ágúst|september|október|nóvember|desember)</afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\b\p{N}+\.\s</beforebreak>
+<afterbreak>\b(jan|feb|mar|apr|maí|jún|júl|ágú|sep|sept|okt|nóv|des)</afterbreak>
+</rule>
+<!-- (final) single char abbreviations x. xxx. xx.x. but not 'íáóæ' -->
+<rule break="no">
+<beforebreak>\b[a-z[^íáóæ]]\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\b\p{L}\.</beforebreak>
+<afterbreak>\p{L}\.</afterbreak>
+</rule>
+<!-- Misc A  -->
+<rule break="no">
+<beforebreak>\bab\.fn\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\ba\.fn\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\bafs\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\bal\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\balm\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\balg\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\bandh\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\bath\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\baths\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\batr\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\bao\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\bau\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\baukaf\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<!-- Misc Á -->
+<rule break="no">
+<beforebreak>\báfn\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\báhrl\.s\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\báhrs\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\bákv\.gr\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\bákv\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<!-- Misc B -->
+<rule break="no">
+<beforebreak>\bbh\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\bbls\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<!-- Misc D -->
+<rule break="no">
+<beforebreak>\bdr\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<!-- Misc E -->
+<rule break="no">
+<beforebreak>\be\.Kr\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\bet\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\bef\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\befn\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\bennfr\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\beink\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\bend\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\be\.st\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\berl\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<!-- Misc F -->
+<rule break="no">
+<beforebreak>\bfél\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\bfskj\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\bfh\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\bf\.hl\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\bfísl\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\b[A-ZÁ-Þ][a-zá-þ]+fj\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\bfl\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\bfn\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\bfo\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\bforl\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\bfrb\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\bfrl\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\bfrh\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\bfrt\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\bfsl\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\bfsh\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\bfs\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\bfsk\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\bfst\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\bf\.Kr\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\bft\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\bfv\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\bfyrrn\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\bfyrrv\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<!-- Misc G -->
+<rule break="no">
+<beforebreak>\bgerm\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\bgm\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\bgr\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<!-- Misc H -->
+<rule break="no">
+<beforebreak>\bhdl\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\bhdr\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\bhf\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\bhl\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\bhlsk\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\bhljsk\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\bhljv\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\bhljóðv\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\bhr\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\b[A-ZÁ-Þ][a-zá-þ]+hr\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\bhv\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\bhvk\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\bholl\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\bHos\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\bhöf\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\bhk\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\bhrl\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<!-- Misc Í -->
+<rule break="no">
+<beforebreak>\bísl\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<!-- Misc K -->
+<rule break="no">
+<beforebreak>\bkaf\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\bkap\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\bKhöfn\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\bkk\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\bkg\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\bkk\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\bkm\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\bkl\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\bklst\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\bkr\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\bkt\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\bkgúrsk\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\bkvk\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<!-- Misc L -->
+<rule break="no">
+<beforebreak>\bleturbr\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\blh\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\blh\.nt\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\blh\.þt\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\blo\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\bltr\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<!-- Misc M -->
+<rule break="no">
+<beforebreak>\bmlja\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\bmljó\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\bmillj\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\bmm\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\bmms\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\bm\.fl\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\bmiðm\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\bmgr\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\bmst\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\bmín\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<!-- Misc N -->
+<rule break="no">
+<beforebreak>\bnf\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\bnh\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\bnhm\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\bnl\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\bnk\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\bnmgr\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\bno\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\bnúv\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\bnt\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<!-- Misc O -->
+<rule break="no">
+<beforebreak>\bo\.áfr\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\bo\.m\.fl\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\bohf\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\bo\.fl\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\bo\.s\.frv\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<!-- Misc Ó -->
+<rule break="no">
+<beforebreak>\bófn\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\bób\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\bóákv\.gr\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\bóákv\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<!-- Misc P -->
+<rule break="no">
+<beforebreak>\bpfn\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\bPR\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\bpr\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<!-- Misc R -->
+<rule break="no">
+<beforebreak>\bRitstj\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\bRvík\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\bRvk\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<!-- Misc S -->
+<rule break="no">
+<beforebreak>\bsamb\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\bsamhlj\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\bsamn\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\bsamn\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\bsbr\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\bsek\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\bsérn\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\bsf\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\bsfn\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\bsh\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\bsfn\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\bsh\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\bs\.hl\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\bsk\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\bskv\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\bsl\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\bsn\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\bso\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\bss\.us\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\bs\.st\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\bsamþ\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\bsbr\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\bshlj\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\bsign\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\bskál\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\bst\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\bst\.s\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\bstk\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\bsþ\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<!-- Misc T -->
+<rule break="no">
+<beforebreak>\bteg\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\btbl\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\btfn\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\btl\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\btvíhlj\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\btvt\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\btill\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\bto\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<!-- Misc U -->
+<rule break="no">
+<beforebreak>\bumr\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\buh\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\bus\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\buppl\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<!-- Misc Ú -->
+<rule break="no">
+<beforebreak>\bútg\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<!-- Misc V -->
+<rule break="no">
+<beforebreak>\bvb\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\bVf\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\bvh\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\bvkf\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\bVl\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\bvl\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\bvlf\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\bvmf\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\b8vo\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\bvsk\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\bvth\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<!-- Misc Þ -->
+<rule break="no">
+<beforebreak>\bþt\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\bþf\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\bþjs\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\bþgf\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\bþlt\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\bþolm\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\bþm\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\bþml\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\bþýð\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<!-- Yes breaks -->
+<rule break="yes">
+<beforebreak>[\.!?…][\u00BB\u2019\u201D\u203A"'\p{Pe}\u0002]*\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="yes">
+<beforebreak>[\.!?…]['"\u00BB\u2019\u201D\u203A\p{Pe}\u0002]*</beforebreak>
+<afterbreak>\p{Lu}[^\p{Lu}]</afterbreak>
+</rule>
+<rule break="yes">
+<beforebreak>\s\p{L}[\.!?…]\s</beforebreak>
+<afterbreak>\p{Lu}\p{Ll}</afterbreak>
+</rule>
+</languagerule>
 <languagerule languagerulename="Default">
 <rule break="yes">
 <beforebreak>\u2029</beforebreak>
