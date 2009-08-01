@@ -6,7 +6,7 @@ title="Easy editing stylesheet" ?>
 <!--
 Polish Grammar and Typo Rules for LanguageTool
 Copyright (C) 2006-2007 Marcin Miłkowski
-$Id: grammar.xml,v 1.201 2009-07-31 23:13:55 milek_pl Exp $
+$Id: grammar.xml,v 1.202 2009-08-01 23:29:41 milek_pl Exp $
 -->
 <rules lang="pl">
   <unification feature="number">
@@ -6288,9 +6288,9 @@ Powinno być: <suggestion>\2, \3 \4</suggestion>.</message>
         <token>ruchem</token>
       </pattern>
 
-      <message>Czasownik „regulować” nie łączy się z narzędnikiem, więc powinno być: 
-				<suggestion><match no="1"></match> ruch</suggestion> lub <suggestion><match
-            no="1" postag="verb:.*perf|pact.*|subst:ger.*">kierować</match> ruchem</suggestion>.</message>
+      <message>Czasownik „regulować” nie łączy się z narzędnikiem, więc powinno być: <suggestion><match
+            no="1"></match> ruch</suggestion> lub <suggestion><match no="1"
+            postag="verb:.*perf|pact.*|subst:ger.*">kierować</match> ruchem</suggestion>.</message>
 
       <short>Błąd składniowy</short>
 
@@ -6315,6 +6315,24 @@ Powinno być: <suggestion>\2, \3 \4</suggestion>.</message>
       <example correction="jak i" type="incorrect">Wiążą się z tym zarówno zyski <marker>i</marker> zalety.</example>
 
       <!-- example type="correct">Wiążą się z tym zarówno zyski i zalety, jak i pewne wady.</example -->
+    </rule>
+
+    <rule id="TAK_DLUGO_DOPOKI" name="„tak długo... dopóki” (dopóty, dopóki)">
+      <pattern mark_to="-1">
+        <token regexp="yes">[jt]ak</token>
+
+        <token skip="-1"><exception scope="next">dopóty</exception>długo</token>
+
+        <token>dopóki</token>
+      </pattern>
+
+      <message>Prawdopodobnie błędny spójnik skorelowany. Powinno być: <suggestion>dopóty</suggestion>.</message>
+
+      <short>Błędny spójnik skorelowany</short>
+
+      <example correction="dopóty" type="incorrect">Człowiek pozostaje <marker>tak długo</marker> mądry, dopóki szuka mądrości.</example>
+
+      <example type="correct">Człowiek pozostaje tak długo w domu, aż zdziadzieje, a przecież jest dopóty mądry, dopóki szuka mądrości.</example>
     </rule>
 
     <rule id="CZYM_TYM" name="„czym... tym” (im... tym)">
@@ -6347,8 +6365,7 @@ Powinno być: <suggestion>\2, \3 \4</suggestion>.</message>
         <token>ponieważ</token>
       </pattern>
 
-      <message>Prawdopodobnie błędnie użyto skorelowanego spójnika „tym bardziej” w zdaniu złożonym. 
-			Powinno być: <suggestion>że</suggestion>.</message>
+      <message>Prawdopodobnie błędnie użyto skorelowanego spójnika „tym bardziej” w zdaniu złożonym. Powinno być: <suggestion>że</suggestion>.</message>
 
       <short>Błąd składniowy</short>
 
@@ -9058,16 +9075,16 @@ lub <suggestion>\2 na prawach wyłączności</suggestion>.</message>
     <rule id="BALSAM_DLA_WLOSOW"
           name="„szampon dla włosów” (szampon do włosów)">
       <pattern>
-        <token inflected="yes" regexp="yes">szampon|balsam|odżywka</token>
+        <token inflected="yes" regexp="yes">szampon|balsam|odżywka|żel|mydło|tonik</token>
 
         <token>dla</token>
 
-        <token>włosów</token>
+        <token regexp="yes">włosów|skóry</token>
       </pattern>
 
       <message>Niepoprawne użycie przyimka „dla”. Mówimy: <suggestion>\1 do włosów</suggestion>.</message>
 
-      <short>Błąd leksykalny</short>
+      <short>Niepoprawne użycie przyimka „dla”</short>
 
       <example type="correct">Antoni napił się znowu szamponu do włosów suchych.</example>
 
@@ -9354,9 +9371,121 @@ lub <suggestion>\2 na prawach wyłączności</suggestion>.</message>
 
       <example type="correct">Zabytek bezpieczny od wody.</example>
     </rule>
+
+    <rule id="DOZNAC_ATAKU" name="„doznać ataku” (mieć atak)">
+      <pattern>
+        <token inflected="yes" regexp="yes">doznać|doznawać</token>
+
+        <token>ataku</token>
+      </pattern>
+
+      <message>Błąd leksykalny. Poprawnie: <suggestion><match no="1"
+            postag=".*" postag_regexp="yes">mieć</match> atak</suggestion>.</message>
+
+      <short>Błąd leksykalny</short>
+
+      <example correction="miał atak" type="incorrect">Ludwik <marker>doznał ataku</marker> padaczki.</example>
+
+      <example type="correct">Ludwik miał atak padaczki.</example>
+    </rule>
   </category>
 
   <category name="Pleonazmy">
+    <rule id="EFEKT_KONCOWY" name="„efekt końcowy” (efekt)">
+      <pattern>
+        <unify feature="case,gender,number">
+          <token inflected="yes" regexp="yes">efekt|wynik|rezultat</token>
+
+          <token inflected="yes">końcowy</token>
+        </unify>
+      </pattern>
+
+      <message>To zwykle pleonazm. Wystarczy: <suggestion>\1</suggestion>.</message>
+
+      <short>Pleonazm</short>
+
+      <example correction="Efektem" type="incorrect"><marker>Efektem końcowym</marker> kryzysu jest głębokie bezrobocie.</example>
+
+      <example type="correct">Efektem kryzysu jest bezrobocie.</example>
+    </rule>
+
+    <rule id="DOBROWOLNY_OCHOTNIK" name="„dobrowolny ochotnik” (ochotnik)">
+      <pattern>
+        <unify feature="case,gender,number">
+          <token inflected="yes">dobrowolny</token>
+
+          <token inflected="yes">ochotnik</token>
+        </unify>
+      </pattern>
+
+      <message>To pleonazm. Wystarczy: <suggestion>\2</suggestion>.</message>
+
+      <short>Pleonazm</short>
+
+      <example correction="ochotnikiem" type="incorrect">Jestem <marker>dobrowolnym ochotnikiem</marker>.</example>
+
+      <example type="correct">Jestem ochotnikiem.</example>
+    </rule>
+
+    <rule id="DEPRAWACJA_MORALNA" name="„deprawacja moralna” (deprawacja)">
+      <pattern>
+        <unify feature="case,gender,number">
+          <token inflected="yes">deprawacja</token>
+
+          <token inflected="yes">moralny</token>
+        </unify>
+      </pattern>
+
+      <message>To pleonazm. Wystarczy: <suggestion>\1</suggestion>.</message>
+
+      <short>Pleonazm</short>
+
+      <example correction="deprawacja" type="incorrect">Jest rzeczą oczywistą, że <marker>deprawacja moralna</marker> i orgie pijackie stwarzają grunt, na którym żerują agentury kontrrewolucyjne.</example>
+
+      <example type="correct">Jest rzeczą oczywistą, że deprawacja i orgie pijackie stwarzają grunt, na którym żerują agentury kontrrewolucyjne.</example>
+    </rule>
+
+    <rulegroup id="CZYNNIE_UPRAWIAC"
+               name="„czynnie uprawiać sport” (uprawiać sport)">
+      <rule>
+        <pattern>
+          <token>czynnie</token>
+
+          <token inflected="yes">uprawiać</token>
+
+          <token>sport</token>
+        </pattern>
+
+        <message>To pleonazm. Wystarczy: <suggestion>\2 \3</suggestion>.</message>
+
+        <short>Pleonazm</short>
+
+        <example correction="uprawia sport" type="incorrect">Józek <marker>czynnie uprawia sport</marker>.</example>
+
+        <example type="correct">Józek uprawia sport.</example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <unify feature="case,gender,number">
+            <token inflected="yes">czynny</token>
+
+            <token inflected="yes" postag="subst:ger:.*" postag_regexp="yes">uprawiać</token>
+          </unify>
+
+          <token>sportu</token>
+        </pattern>
+
+        <message>To pleonazm. Wystarczy: <suggestion>\2 \3</suggestion>.</message>
+
+        <short>Pleonazm</short>
+
+        <example correction="uprawianie sportu" type="incorrect">Józek uwielbia <marker>czynne uprawianie sportu</marker>.</example>
+
+        <example type="correct">Józka nie interesuje uprawianie sportu.</example>
+      </rule>
+    </rulegroup>
+
     <rule id="NOWE_NOWINY" name="„nowe nowiny” (nowiny)">
       <pattern>
         <unify feature="number,gender,case">
