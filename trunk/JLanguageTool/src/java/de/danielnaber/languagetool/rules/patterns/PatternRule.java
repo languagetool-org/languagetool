@@ -23,11 +23,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import de.danielnaber.languagetool.AnalyzedSentence;
-import de.danielnaber.languagetool.AnalyzedToken;
 import de.danielnaber.languagetool.AnalyzedTokenReadings;
 import de.danielnaber.languagetool.Language;
 import de.danielnaber.languagetool.rules.IncorrectExample;
-import de.danielnaber.languagetool.rules.Rule;
 import de.danielnaber.languagetool.rules.RuleMatch;
 import de.danielnaber.languagetool.tools.StringTools;
 
@@ -37,25 +35,16 @@ import de.danielnaber.languagetool.tools.StringTools;
  * 
  * @author Daniel Naber
  */
-public class PatternRule extends Rule {
+public class PatternRule extends AbstractPatternRule {
 
   private static final String SUGG_TAG = "<suggestion>";
   private static final String END_SUGG_TAG = "</suggestion>";
 
-  private String id;
   private String subId; // because there can be more than one rule in a rule
   // group
 
-  private final Language language;
-
-  private String description;
   private String message;
   private String shortMessage;
-
-  private int startPosCorr;
-  private int endPosCorr;
-
-  private List<Element> patternElements;
 
   /** Formatted suggestion elements. **/
   private List<Match> suggestionMatches;
@@ -77,11 +66,6 @@ public class PatternRule extends Rule {
    * operation on phraserefs).
    **/
   private boolean isMemberOfDisjunctiveSet;
-  private boolean prevMatched;
-
-  private final Unifier unifier;
-
-  private final boolean testUnification;
 
   /**
    * @param id
@@ -99,7 +83,7 @@ public class PatternRule extends Rule {
   PatternRule(final String id, final Language language,
       final List<Element> elements, final String description,
       final String message, final String shortMessage) {
-    super();
+    super(id, description, language, elements, false);
     if (id == null) {
       throw new NullPointerException("id cannot be null");
     }
@@ -112,12 +96,9 @@ public class PatternRule extends Rule {
     if (description == null) {
       throw new NullPointerException("description cannot be null");
     }
-    this.id = id;
-    this.language = language;
-    this.description = description;
+
     this.message = message;
     this.shortMessage = shortMessage;
-    this.patternElements = new ArrayList<Element>(elements); // copy elements
     this.elementNo = new ArrayList<Integer>();
     String prevName = "";
     String curName = "";
@@ -147,36 +128,15 @@ public class PatternRule extends Rule {
         elementNo.add(1);
         loopCnt++;
       }
-    }
-    unifier = language.getUnifier();
-    testUnification = initUnifier();
-  }
-
-  private boolean initUnifier() {
-    for (final Element elem : patternElements) {
-      if (elem.isUnified()) {
-        return true;
-      }
-    }
-    return false;
-  }
+    }    
+  }  
 
   PatternRule(final String id, final Language language,
       final List<Element> elements, final String description,
       final String message, final String shortMessage, final boolean isMember) {
     this(id, language, elements, description, message, shortMessage);
     this.isMemberOfDisjunctiveSet = isMember;
-  }
-
-  @Override
-  public final String getId() {
-    return id;
-  }
-
-  @Override
-  public final String getDescription() {
-    return description;
-  }
+  }  
 
   public final String getSubId() {
     return subId;
@@ -205,11 +165,6 @@ public class PatternRule extends Rule {
     isMemberOfDisjunctiveSet = false;
   }
 
-  @Override
-  public final String toString() {
-    return id + ":" + patternElements + ":" + description;
-  }
-
   /**
    * Return the pattern as a string.
    * 
@@ -232,14 +187,14 @@ public class PatternRule extends Rule {
   public final String toXML() {
     final StringBuilder sb = new StringBuilder();
     sb.append("<rule id=\"");
-    sb.append(StringTools.escapeXML(id));
+    sb.append(StringTools.escapeXML(getId()));
     sb.append("\" name=\"");
-    sb.append(StringTools.escapeXML(description));
+    sb.append(StringTools.escapeXML(getDescription()));
     sb.append("\">\n");
     sb.append("<pattern mark_from=\"");
-    sb.append(startPosCorr);
+    sb.append(startPositionCorrection);
     sb.append("\" mark_to=\"");
-    sb.append(endPosCorr);
+    sb.append(endPositionCorrection);
     sb.append("\"");
     // for now, case sensitivity is per pattern, not per element,
     // so just use the setting of the first element:
@@ -298,17 +253,9 @@ public class PatternRule extends Rule {
     this.message = message;
   }
 
-  public final void setStartPositionCorrection(final int startPositionCorrection) {
-    this.startPosCorr = startPositionCorrection;
-  }
-
-  public final void setEndPositionCorrection(final int endPositionCorrection) {
-    this.endPosCorr = endPositionCorrection;
-  }
-
   @Override
   public final RuleMatch[] match(final AnalyzedSentence text)
-      throws IOException {
+  throws IOException {
     final List<RuleMatch> ruleMatches = new ArrayList<RuleMatch>();
     final AnalyzedTokenReadings[] tokens = text.getTokensWithoutWhitespace();
     final int[] tokenPositions = new int[tokens.length + 1];
@@ -369,101 +316,31 @@ public class PatternRule extends Rule {
     return ruleMatches.toArray(new RuleMatch[ruleMatches.size()]);
   }
 
-  private boolean testAllReadings(final AnalyzedTokenReadings[] tokens,
-      final Element elem, final Element prevElement, final int tokenNo,
-      final int firstMatchToken, final int prevSkipNext) throws IOException {
-    boolean exceptionMatched = false;
-    boolean thisMatched = false;
-    final int numberOfReadings = tokens[tokenNo].getReadingsLength();
-    for (int l = 0; l < numberOfReadings; l++) {
-      final AnalyzedToken matchToken = tokens[tokenNo].getAnalyzedToken(l);
-      prevMatched = prevMatched || prevSkipNext > 0 && prevElement != null
-          && prevElement.isMatchedByScopeNextException(matchToken);
-      setupAndGroup(l, firstMatchToken, elem, tokens);
-      thisMatched = thisMatched || elem.isMatched(matchToken);
-      thisMatched &= testUnificationAndGroups(thisMatched,
-          l + 1 == numberOfReadings, matchToken, elem);
-      exceptionMatched = exceptionMatched || elem.isExceptionMatchedCompletely(matchToken);
-    }
-    if (tokenNo > 0 && elem.hasPreviousException()) {
-      exceptionMatched = exceptionMatched || elem
-          .isMatchedByPreviousException(tokens[tokenNo - 1]);
-    }
-    return thisMatched && !(exceptionMatched || prevMatched);
-  }
-
-  private boolean testUnificationAndGroups(final boolean matched,
-      final boolean lastReading, final AnalyzedToken matchToken,
-      final Element elem) {
-    boolean thisMatched = matched;
-    if (testUnification) {
-      if (matched && elem.isUnified()) {
-        thisMatched &= unifier.isUnified(matchToken, elem.getUniFeature(), elem
-            .getUniType(), elem.isUniNegated(), lastReading);
-      }
-      if (!elem.isUnified()) {
-        unifier.reset();
-      }
-    }
-    if (elem.hasAndGroup()) {
-      elem.isAndGroupMatched(matchToken);
-    if (lastReading) {
-      thisMatched &= elem.checkAndGroup(thisMatched);
-    }    
-    }
-    return thisMatched;
-  }
-
-  private void setupAndGroup(final int readNo, final int firstMatchToken,
-      final Element elem, final AnalyzedTokenReadings[] tokens)
-      throws IOException {
-    if (elem.hasAndGroup()) {
-      for (final Element andElement : elem.getAndGroup()) {
-        if (andElement.isReferenceElement()) {
-          setupRef(firstMatchToken, andElement, tokens);
-        }
-      }
-      if (readNo == 0) {
-        elem.setupAndGroup();
-      }
-    }
-  }
-
-  private void setupRef(final int firstMatchToken, final Element elem,
-      final AnalyzedTokenReadings[] tokens) throws IOException {
-    if (elem.isReferenceElement()) {
-      final int refPos = firstMatchToken + elem.getMatch().getTokenRef();
-      if (refPos < tokens.length) {
-        elem.compile(tokens[refPos], language.getSynthesizer());
-      }
-    }
-  }
-
   private RuleMatch createRuleMatch(final int[] tokenPositions,
       final AnalyzedTokenReadings[] tokens, final int firstMatchToken,
       final int lastMatchToken, final int matchingTokens) throws IOException {
     final String errMessage = formatMatches(tokens, tokenPositions,
         firstMatchToken, message);
     int correctedStPos = 0;
-    if (startPosCorr > 0) {
-      for (int l = 0; l <= startPosCorr; l++) {
+    if (startPositionCorrection > 0) {
+      for (int l = 0; l <= startPositionCorrection; l++) {
         correctedStPos += tokenPositions[l];
       }
       correctedStPos--;
     }
     int correctedEndPos = 0;
-    if (endPosCorr < 0) {
+    if (endPositionCorrection < 0) {
       int l = 0;
-      while (l > endPosCorr) {
+      while (l > endPositionCorrection) {
         correctedEndPos -= tokenPositions[matchingTokens + l - 1];
         l--;
       }
     }
     AnalyzedTokenReadings firstMatchTokenObj = tokens[firstMatchToken
-        + correctedStPos];
+                                                      + correctedStPos];
     boolean startsWithUppercase = StringTools
-        .startsWithUppercase(firstMatchTokenObj.getToken())
-        && !matchConvertsCase();
+    .startsWithUppercase(firstMatchTokenObj.getToken())
+    && !matchConvertsCase();
 
     if (firstMatchTokenObj.isSentStart()
         && tokens.length > firstMatchToken + correctedStPos + 1) {
@@ -478,11 +355,11 @@ public class PatternRule extends Rule {
     if (errMessage.contains(SUGG_TAG + ",")
         && firstMatchToken + correctedStPos >= 1) {
       fromPos = tokens[firstMatchToken + correctedStPos - 1].getStartPos()
-          + tokens[firstMatchToken + correctedStPos - 1].getToken().length();
+      + tokens[firstMatchToken + correctedStPos - 1].getToken().length();
     }
 
     final int toPos = tokens[lastMatchToken + correctedEndPos].getStartPos()
-        + tokens[lastMatchToken + correctedEndPos].getToken().length();
+    + tokens[lastMatchToken + correctedEndPos].getToken().length();
     if (fromPos < toPos) { // this can happen with some skip="-1" when the last
       // token is not matched
       final RuleMatch ruleMatch = new RuleMatch(this, fromPos, toPos,
@@ -508,7 +385,7 @@ public class PatternRule extends Rule {
         i++;
       }
       convertsCase = suggestionMatches.get(i).convertsCase()
-          && message.charAt(sugStart) == '\\';
+      && message.charAt(sugStart) == '\\';
     }
     return convertsCase;
   }
@@ -611,7 +488,7 @@ public class PatternRule extends Rule {
    */
   private String[] concatMatches(final int start, final int index,
       final int tokenIndex, final AnalyzedTokenReadings[] tokens)
-      throws IOException {
+  throws IOException {
     String[] finalMatch = null;
     if (suggestionMatches.get(start) != null) {
       final int len = phraseLen(index);
@@ -624,7 +501,7 @@ public class PatternRule extends Rule {
         for (int i = 0; i < len; i++) {
           suggestionMatches.get(start).setToken(tokens[tokenIndex - 1 + i]);
           suggestionMatches.get(start)
-              .setSynthesizer(language.getSynthesizer());
+          .setSynthesizer(language.getSynthesizer());
           matchList.add(suggestionMatches.get(start).toFinalString());
         }
         return combineLists(matchList.toArray(new String[matchList.size()][]),
@@ -653,7 +530,7 @@ public class PatternRule extends Rule {
    **/
   private String formatMatches(final AnalyzedTokenReadings[] toks,
       final int[] positions, final int firstMatchTok, final String errorMsg)
-      throws IOException {
+  throws IOException {
     String errorMessage = errorMsg;
     int matchCounter = 0;
     final int[] numbersToMatches = new int[errorMsg.length()];
@@ -734,7 +611,7 @@ public class PatternRule extends Rule {
       errorMessage = leftSide;
     } else {
       errorMessage = leftSide.substring(0, leftSide.lastIndexOf(SUGG_TAG))
-          + SUGG_TAG;
+      + SUGG_TAG;
     }
     final int rPos = rightSide.indexOf(END_SUGG_TAG);
     if (rPos > 0) {
@@ -766,11 +643,6 @@ public class PatternRule extends Rule {
    */
   public final List<Element> getElements() {
     return patternElements;
-  }
-
-  @Override
-  public void reset() {
-    // nothing
   }
 
 }

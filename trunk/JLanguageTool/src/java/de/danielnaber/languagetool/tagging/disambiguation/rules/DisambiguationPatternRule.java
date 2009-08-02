@@ -19,16 +19,15 @@
 package de.danielnaber.languagetool.tagging.disambiguation.rules;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 import de.danielnaber.languagetool.AnalyzedSentence;
 import de.danielnaber.languagetool.AnalyzedToken;
 import de.danielnaber.languagetool.AnalyzedTokenReadings;
 import de.danielnaber.languagetool.Language;
+import de.danielnaber.languagetool.rules.patterns.AbstractPatternRule;
 import de.danielnaber.languagetool.rules.patterns.Element;
 import de.danielnaber.languagetool.rules.patterns.Match;
-import de.danielnaber.languagetool.rules.patterns.Unifier;
 import de.danielnaber.languagetool.tools.StringTools;
 
 /**
@@ -37,7 +36,7 @@ import de.danielnaber.languagetool.tools.StringTools;
  * 
  * @author Marcin Miłkowski
  */
-public class DisambiguationPatternRule {
+public class DisambiguationPatternRule extends AbstractPatternRule {
 
   /** Possible disambiguator actions. **/
   public enum DisambiguatorAction {
@@ -58,17 +57,7 @@ public class DisambiguationPatternRule {
       }
     }
   };
-
-  private final String id;
-
-  private final Language language;
-  private final String description;
-
-  private int startPositionCorrection;
-  private int endPositionCorrection;
-
-  private final List<Element> patternElements;
-
+  
   private final String disambiguatedPOS;
 
   private final Match matchElement;
@@ -80,14 +69,6 @@ public class DisambiguationPatternRule {
   private List<DisambiguatedExample> examples;
 
   private List<String> untouchedExamples;
-
-  private boolean prevMatched;
-
-  private AnalyzedTokenReadings[] unifiedTokens;
-
-  private final Unifier unifier;
-
-  private final boolean testUnification;
 
   /**
    * @param id
@@ -108,6 +89,7 @@ public class DisambiguationPatternRule {
       final Language language, final List<Element> elements,
       final String disamb, final Match posSelect,
       final DisambiguatorAction disambAction) {
+    super(id, description, language, elements, true);
     if (id == null) {
       throw new NullPointerException("id cannot be null");
     }
@@ -125,48 +107,12 @@ public class DisambiguationPatternRule {
         && disambAction != DisambiguatorAction.ADD
         && disambAction != DisambiguatorAction.REMOVE) {
       throw new NullPointerException("disambiguated POS cannot be null");
-    }
-    this.id = id;
-    this.language = language;
-    this.description = description;
-    this.patternElements = new ArrayList<Element>(elements); // copy elements
+    }    
     this.disambiguatedPOS = disamb;
     this.matchElement = posSelect;
-    this.disAction = disambAction;
-    this.unifier = language.getUnifier();
-    testUnification = initUnifier();
+    this.disAction = disambAction;       
   }
-
-  private boolean initUnifier() {
-    for (final Element elem : patternElements) {
-      if (elem.isUnified()) {
-        return true;
-      }
-    }
-    return false;
-  }
-
-  public final String getId() {
-    return id;
-  }
-
-  public final String getDescription() {
-    return description;
-  }
-
-  @Override
-  public final String toString() {
-    return id + ":" + patternElements + ":" + description;
-  }
-
-  public final void setStartPositionCorrection(final int startPositionCorrection) {
-    this.startPositionCorrection = startPositionCorrection;
-  }
-
-  public final void setEndPositionCorrection(final int endPositionCorrection) {
-    this.endPositionCorrection = endPositionCorrection;
-  }
-
+  
   /**
    * Used to add new interpretations.
    * 
@@ -240,81 +186,7 @@ public class DisambiguationPatternRule {
             firstMatchToken, matchingTokens, tokenPositions);
       }
     }
-
     return new AnalyzedSentence(whTokens, text.getWhPositions());
-  }
-
-  private boolean testAllReadings(final AnalyzedTokenReadings[] tokens,
-      final Element elem, final Element prevElement, final int tokenNo,
-      final int firstMatchToken, final int prevSkipNext) throws IOException {
-    boolean exceptionMatched = false;
-    boolean thisMatched = false;
-    final int numberOfReadings = tokens[tokenNo].getReadingsLength();
-    for (int l = 0; l < numberOfReadings; l++) {
-      final AnalyzedToken matchToken = tokens[tokenNo].getAnalyzedToken(l);
-      prevMatched = prevMatched || prevSkipNext > 0 && prevElement != null
-          && prevElement.isMatchedByScopeNextException(matchToken);
-      setupAndGroup(l, firstMatchToken, elem, tokens);
-      thisMatched = thisMatched || elem.isMatched(matchToken);
-      thisMatched &= testUnificationAndGroups(thisMatched,
-          l + 1 == numberOfReadings, matchToken, elem);
-      exceptionMatched = exceptionMatched || elem.isExceptionMatchedCompletely(matchToken);
-    }
-    if (tokenNo > 0 && elem.hasPreviousException()) {
-      exceptionMatched = exceptionMatched || elem
-          .isMatchedByPreviousException(tokens[tokenNo - 1]);
-    }
-    return thisMatched && !(exceptionMatched || prevMatched);
-  }
-
-  private void setupAndGroup(final int readNo, final int firstMatchToken,
-      final Element elem, final AnalyzedTokenReadings[] tokens)
-      throws IOException {
-    if (elem.hasAndGroup()) {
-      for (final Element andElement : elem.getAndGroup()) {
-        if (andElement.isReferenceElement()) {
-          setupRef(firstMatchToken, andElement, tokens);
-        }
-      }
-      if (readNo == 0) {
-        elem.setupAndGroup();
-      }
-    }
-  }
-
-  private boolean testUnificationAndGroups(final boolean matched,
-      final boolean lastReading, final AnalyzedToken matchToken,
-      final Element elem) {
-    boolean thisMatched = matched;
-    if (testUnification) {
-      if (matched && elem.isUnified()) {
-        thisMatched &= unifier.isUnified(matchToken, elem.getUniFeature(), elem
-            .getUniType(), elem.isUniNegated(), lastReading);
-      }
-      if (thisMatched) {
-        unifiedTokens = unifier.getFinalUnified();
-      }
-      if (!elem.isUnified()) {
-        unifier.reset();
-      }
-    }
-    if (elem.hasAndGroup()) {
-      elem.isAndGroupMatched(matchToken);
-    if (lastReading) {
-      thisMatched &= elem.checkAndGroup(thisMatched);
-    }    
-    }
-    return thisMatched;
-  }
-
-  private void setupRef(final int firstMatchToken, final Element elem,
-      final AnalyzedTokenReadings[] tokens) throws IOException {
-    if (elem.isReferenceElement()) {
-      final int refPos = firstMatchToken + elem.getMatch().getTokenRef();
-      if (refPos < tokens.length) {
-        elem.compile(tokens[refPos], language.getSynthesizer());
-      }
-    }
   }
 
   private AnalyzedTokenReadings[] executeAction(final AnalyzedSentence text,
