@@ -6,7 +6,7 @@ title="Easy editing stylesheet" ?>
 <!--
 Polish Grammar and Typo Rules for LanguageTool
 Copyright (C) 2006-2007 Marcin Miłkowski
-$Id: grammar.xml,v 1.204 2009-08-02 23:33:13 milek_pl Exp $
+$Id: grammar.xml,v 1.205 2009-08-02 23:53:13 milek_pl Exp $
 -->
 <rules lang="pl">
   <unification feature="number">
@@ -3187,7 +3187,7 @@ Powinno być: <suggestion>\2, \3 \4</suggestion>.</message>
           <token regexp="yes">[\)\]\}”]</token>
 
           <token negate_pos="yes" postag="SENT_END" spacebefore="no"><exception
-              regexp="yes">[,;:]</exception></token>
+              regexp="yes">[,;:\)\]\}\.\?!…]</exception></token>
         </pattern>
 
         <message>Brak spacji po tym znaku. Powinno być: <suggestion>\1 </suggestion>.</message>
@@ -3199,6 +3199,8 @@ Powinno być: <suggestion>\2, \3 \4</suggestion>.</message>
         <example type="correct">To jest wiadome (od dawna), więc nie gadaj.</example>
 
         <example type="correct">Ja to wiem (a ty nie) od dawna.</example>
+
+        <example type="correct">To jest („test”).</example>
 
         <example correction=") " type="incorrect">To jest wiadome (od dawna<marker>)</marker>odpowiednim służbom.</example>
       </rule>
