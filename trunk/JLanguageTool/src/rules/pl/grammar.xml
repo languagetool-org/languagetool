@@ -6,7 +6,7 @@ title="Easy editing stylesheet" ?>
 <!--
 Polish Grammar and Typo Rules for LanguageTool
 Copyright (C) 2006-2007 Marcin Miłkowski
-$Id: grammar.xml,v 1.203 2009-08-02 19:12:43 milek_pl Exp $
+$Id: grammar.xml,v 1.204 2009-08-02 23:33:13 milek_pl Exp $
 -->
 <rules lang="pl">
   <unification feature="number">
@@ -4958,7 +4958,7 @@ Powinno być: <suggestion>\2, \3 \4</suggestion>.</message>
   </category>
 
   <category name="Błędy składniowe">
-    <rulegroup id="IMPERF_PERF"
+    <rulegroup default="off" id="IMPERF_PERF"
                name="Czasownik dokonany w użyciu niedokonanym">
       <rule>
         <pattern>
@@ -4978,9 +4978,11 @@ Powinno być: <suggestion>\2, \3 \4</suggestion>.</message>
 
       <rule>
         <pattern>
-          <token inflected="yes" postag="verb:bedzie:.*" postag_regexp="yes">być</token>
+          <token inflected="yes" postag="verb:bedzie:.*" postag_regexp="yes"><exception
+              postag="pred" scope="previous"></exception>być</token>
 
-          <token postag="verb:inf:perf"><exception postag="verb:inf:imperf"></exception></token>
+          <token postag="verb:inf:perf"><exception postag="verb:inf:imperf"></exception><exception
+              inflected="yes" regexp="yes">mieć|spać</exception></token>
         </pattern>
 
         <message>Czasownik \2 ma aspekt dokonany i nie powinien występować w tym miejscu.</message>
@@ -4995,9 +4997,12 @@ Powinno być: <suggestion>\2, \3 \4</suggestion>.</message>
       <rule>
         <pattern>
           <unify feature="number">
-            <token inflected="yes" postag="verb:bedzie:.*" postag_regexp="yes">być</token>
+            <token inflected="yes" postag="verb:bedzie:.*" postag_regexp="yes"><exception
+                postag="pred" scope="previous"></exception>być</token>
 
-            <token postag="verb:praet:.*:ter:.*:perf" postag_regexp="yes"></token>
+            <token postag="verb:praet:.*:ter:.*:perf" postag_regexp="yes"><exception
+                postag="verb:praet:.*:imperf" postag_regexp="yes"></exception><exception
+                inflected="yes" regexp="yes">mieć|spać</exception></token>
           </unify>
         </pattern>
 
