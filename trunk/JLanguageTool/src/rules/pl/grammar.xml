@@ -6,7 +6,7 @@ title="Easy editing stylesheet" ?>
 <!--
 Polish Grammar and Typo Rules for LanguageTool
 Copyright (C) 2006-2007 Marcin Miłkowski
-$Id: grammar.xml,v 1.202 2009-08-01 23:29:41 milek_pl Exp $
+$Id: grammar.xml,v 1.203 2009-08-02 19:12:43 milek_pl Exp $
 -->
 <rules lang="pl">
   <unification feature="number">
@@ -60,6 +60,20 @@ $Id: grammar.xml,v 1.202 2009-08-01 23:29:41 milek_pl Exp $
 
     <equivalence type="voc">
       <token postag=".*[\.:]voc[\.:].*" postag_regexp="yes"></token>
+    </equivalence>
+  </unification>
+
+  <unification feature="person">
+    <equivalence type="pri">
+      <token postag=".*:pri.*"></token>
+    </equivalence>
+
+    <equivalence type="sec">
+      <token postag=".*:sec:.*"></token>
+    </equivalence>
+
+    <equivalence type="tri">
+      <token postag=".*:tri:.*"></token>
     </equivalence>
   </unification>
 
@@ -3672,6 +3686,22 @@ Powinno być: <suggestion>\2, \3 \4</suggestion>.</message>
   </category>
 
   <category name="Błędy odmiany">
+    <rule id="BALI_BALOW" name="„bali maskowych” (balów)">
+      <pattern mark_to="-1">
+        <token>bali</token>
+
+        <token regexp="yes">maskowych|karnawałowych|studniówkowych|sylwestrowych|okolicznościowych|charytatywnych|przebierańców|andrzejkowych|dobroczynnych</token>
+      </pattern>
+
+      <message>Niepoprawna odmiana. Powinno być: <suggestion>balów</suggestion>.</message>
+
+      <short>Błędna odmiana</short>
+
+      <example correction="balów" type="incorrect">Organizacja <marker>bali</marker> sylwestrowych to nasza specjalność.</example>
+
+      <example type="correct">Organizacja balów karnawałowych to nasza specjalność.</example>
+    </rule>
+
     <rulegroup id="DWA_DZIECI" name="„dwa dzieci” (dwoje dzieci)">
       <rule>
         <pattern mark_to="-1">
@@ -4928,6 +4958,59 @@ Powinno być: <suggestion>\2, \3 \4</suggestion>.</message>
   </category>
 
   <category name="Błędy składniowe">
+    <rulegroup id="IMPERF_PERF"
+               name="Czasownik dokonany w użyciu niedokonanym">
+      <rule>
+        <pattern>
+          <token inflected="yes" regexp="yes">zacząć|skończyć</token>
+
+          <token postag="verb:inf:perf"><exception postag="verb:inf:imperf"></exception></token>
+        </pattern>
+
+        <message>Czasownik \2 ma aspekt dokonany i nie powinien występować w tym miejscu.</message>
+
+        <short>Błędny aspekt czasownika</short>
+
+        <example type="incorrect">Co on <marker>zaczął zrobić</marker>?</example>
+
+        <example type="correct">Co on zaczął robić?</example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <token inflected="yes" postag="verb:bedzie:.*" postag_regexp="yes">być</token>
+
+          <token postag="verb:inf:perf"><exception postag="verb:inf:imperf"></exception></token>
+        </pattern>
+
+        <message>Czasownik \2 ma aspekt dokonany i nie powinien występować w tym miejscu.</message>
+
+        <short>Błędny aspekt czasownika</short>
+
+        <example type="incorrect">Co on <marker>będzie zrobić</marker>?</example>
+
+        <example type="correct">Co on będzie robić?</example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <unify feature="number">
+            <token inflected="yes" postag="verb:bedzie:.*" postag_regexp="yes">być</token>
+
+            <token postag="verb:praet:.*:ter:.*:perf" postag_regexp="yes"></token>
+          </unify>
+        </pattern>
+
+        <message>Czasownik \2 ma aspekt dokonany i nie powinien występować w tym miejscu.</message>
+
+        <short>Błędny aspekt czasownika</short>
+
+        <example type="incorrect">Co on <marker>będzie zrobił</marker>?</example>
+
+        <example type="correct">Co on będzie robił?</example>
+      </rule>
+    </rulegroup>
+
     <rule id="NIE_JAKIKOLWIEK" name="„nie” + „jakikolwiek” (żaden)">
       <pattern mark_from="2">
         <token>nie</token>
@@ -6399,6 +6482,27 @@ Powinno być: <suggestion>\2, \3 \4</suggestion>.</message>
   </category>
 
   <category name="Błędy leksykalne">
+    <rule id="BAJONSKIE_CENY"
+          name="„bajońskie ceny/koszty/wydatki” (bajońskie sumy, ogromne ceny...)">
+      <pattern>
+        <unify feature="case,gender,number">
+          <token inflected="yes">bajoński</token>
+
+          <token inflected="yes" regexp="yes">cena|koszt|wydatek|profit</token>
+        </unify>
+      </pattern>
+
+      <message>Błąd leksykalny (bajońskie mogą być tylko sumy). Poprawnie: <suggestion><match
+            no="1" postag="adj.*" postag_regexp="yes">ogromny</match> <match
+            no="2"></match></suggestion>.</message>
+
+      <short>Błąd leksykalny</short>
+
+      <example correction="ogromne ceny" type="incorrect">Ależ to <marker>bajońskie ceny</marker>!</example>
+
+      <example type="correct">Ależ to bajońskie sumy!</example>
+    </rule>
+
     <rule id="RZEWNIE_PODOBA" name="„rzewnie podoba” (żywnie podoba)">
       <pattern>
         <token>rzewnie</token>
@@ -19077,6 +19181,39 @@ Znacznie częściej ta forma jest mylona z trybem rozkazującym od „pokazać�
   </category>
 
   <category name="Błędy frazeologiczne">
+    <rule id="KROPLA_DZIEGCIU" name="„kropla dziegciu” (łyżka dziegciu)">
+      <pattern>
+        <token inflected="yes">kropla</token>
+
+        <token>dziegciu</token>
+      </pattern>
+
+      <message>Błąd frazeologicnny. Mówi się raczej: <suggestion><match no="1"
+            postag="subst.*" postag_regexp="yes">łyżka</match> dziegciu</suggestion> (w beczce miodu).</message>
+
+      <short>Błąd frazeologiczny</short>
+
+      <example correction="łyżką dziegciu" type="incorrect">Okazało się to <marker>kroplą dziegciu</marker> w beczce miodu.</example>
+
+      <example type="correct">Okazało się to łyżką dziegciu w beczce miodu.</example>
+    </rule>
+
+    <rule id="POLKNAC_BAKCYL" name="„połknąć bakcyl” (bakcyla)">
+      <pattern>
+        <token inflected="yes" regexp="yes">połknąć|połykać</token>
+
+        <token>bakcyl</token>
+      </pattern>
+
+      <message>Niepoprawne wyrażenie. Poprawnie: <suggestion>\1 bakcyla</suggestion>.</message>
+
+      <short>Błąd frazeologiczny</short>
+
+      <example correction="Połknąłem bakcyla" type="incorrect"><marker>Połknąłem bakcyl</marker> numizmatyki.</example>
+
+      <example type="correct">Jędrek połknął bakcyla poezji.</example>
+    </rule>
+
     <rule id="JEZYCZEK_UWAGI" name="„języczek uwagi” (języczek u wagi)">
       <pattern>
         <token inflected="yes">języczek</token>
