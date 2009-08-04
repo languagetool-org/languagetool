@@ -183,18 +183,16 @@ public class Element {
    * @return True if any of the exceptions matches (logical disjunction).
    */
   public final boolean isExceptionMatched(final AnalyzedToken token) {
-    boolean exceptionMatched = false;
     if (exceptionSet) {
       for (final Element testException : exceptionList) {
         if (!testException.exceptionValidNext) {
-          exceptionMatched = exceptionMatched || testException.isMatched(token);
-        }
-        if (exceptionMatched) {
-          break;
-        }
+          if (testException.isMatched(token)) {
+            return true;
+          }
+        }                
       }
     }
-    return exceptionMatched;
+    return false;
   }
 
   /**
@@ -205,23 +203,20 @@ public class Element {
    * {@link #setupAndGroup()}, and followed by {@link #checkAndGroup(boolean)}.
    * 
    * @param token
-   *          AnalyzedToken - the token checked.
-   * @return true if any condition is met, false otherwise.
+   *          AnalyzedToken - the token checked. 
    */
-  public final boolean isAndGroupMatched(final AnalyzedToken token) {
-    boolean andGroupMatched = false;
+  public final void addMemberAndGroup(final AnalyzedToken token) {    
     if (andGroupSet) {
       for (int i = 0; i < andGroupList.size(); i++) {
         if (!andGroupCheck[i + 1]) {
           final Element testAndGroup = andGroupList.get(i);
-          if (testAndGroup.isMatched(token)) {
-            andGroupMatched = true;
+          if (testAndGroup.isMatched(token)) {            
             andGroupCheck[i + 1] = true;
           }
         }
       }
     }
-    return andGroupMatched;
+    return;
   }
 
   public final void setupAndGroup() {
@@ -315,18 +310,16 @@ public class Element {
    * @return True if any of the exceptions matches.
    */
   public final boolean isMatchedByScopeNextException(final AnalyzedToken token) {
-    boolean exceptionMatched = false;
     if (exceptionSet) {
       for (final Element testException : exceptionList) {
         if (testException.exceptionValidNext) {
-          exceptionMatched = exceptionMatched || testException.isMatched(token);
-        }
-        if (exceptionMatched) {
-          break;
-        }
+          if (testException.isMatched(token)) {
+            return true;
+          }
+        }        
       }
     }
-    return exceptionMatched;
+    return false;
   }
 
   /**

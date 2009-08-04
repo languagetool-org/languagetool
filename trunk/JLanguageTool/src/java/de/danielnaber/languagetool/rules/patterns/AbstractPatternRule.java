@@ -17,7 +17,6 @@
  * USA
  */
 
-
 package de.danielnaber.languagetool.rules.patterns;
 
 import java.io.IOException;
@@ -59,11 +58,14 @@ public abstract class AbstractPatternRule extends Rule {
   protected boolean prevMatched;
 
   protected final boolean testUnification;
-  
+
   private boolean getUnified;
+  
+  private boolean groupsOrUnification;
 
   protected AnalyzedTokenReadings[] unifiedTokens;  
 
+  protected final boolean sentStart;
 
   public AbstractPatternRule(final String id, 
       final String description,
@@ -76,7 +78,18 @@ public abstract class AbstractPatternRule extends Rule {
     this.language = language;
     this.getUnified = getUnified;
     unifier = language.getUnifier();
-    testUnification = initUnifier();    
+    testUnification = initUnifier();
+    sentStart = patternElements.get(0).isSentStart();    
+    if (!testUnification) {
+      for (Element elem : patternElements) {
+        if (elem.hasAndGroup()) {
+          groupsOrUnification = true;
+          break;
+        }
+      }
+    } else {
+      groupsOrUnification = true;
+    }
   }
 
   private boolean initUnifier() {
@@ -147,28 +160,34 @@ public abstract class AbstractPatternRule extends Rule {
       }
     }
   }  
-  
+
   protected boolean testAllReadings(final AnalyzedTokenReadings[] tokens,
       final Element elem, final Element prevElement, final int tokenNo,
-      final int firstMatchToken, final int prevSkipNext) throws IOException {
-    boolean exceptionMatched = false;
+      final int firstMatchToken, final int prevSkipNext) throws IOException {    
     boolean thisMatched = false;
     final int numberOfReadings = tokens[tokenNo].getReadingsLength();
     for (int l = 0; l < numberOfReadings; l++) {
       final AnalyzedToken matchToken = tokens[tokenNo].getAnalyzedToken(l);
       prevMatched = prevMatched || prevSkipNext > 0 && prevElement != null
-          && prevElement.isMatchedByScopeNextException(matchToken);
+      && prevElement.isMatchedByScopeNextException(matchToken);
       setupAndGroup(l, firstMatchToken, elem, tokens);
       thisMatched = thisMatched || elem.isMatched(matchToken);
-      thisMatched &= testUnificationAndGroups(thisMatched,
+      if (groupsOrUnification) {
+      thisMatched &=  testUnificationAndGroups(thisMatched,
           l + 1 == numberOfReadings, matchToken, elem);
-      exceptionMatched = exceptionMatched || elem.isExceptionMatchedCompletely(matchToken);
+      }
+    }
+    if (thisMatched) {
+      for (int l = 0; l < numberOfReadings; l++) {
+      if (elem.isExceptionMatchedCompletely(tokens[tokenNo].getAnalyzedToken(l)))
+        return false;
+      }
     }
     if (tokenNo > 0 && elem.hasPreviousException()) {
-      exceptionMatched = exceptionMatched || elem
-          .isMatchedByPreviousException(tokens[tokenNo - 1]);
+      if (elem.isMatchedByPreviousException(tokens[tokenNo - 1]))
+        return false;
     }
-    return thisMatched && !(exceptionMatched || prevMatched);
+    return thisMatched && !prevMatched;
   }
 
   protected boolean testUnificationAndGroups(final boolean matched,
@@ -186,13 +205,11 @@ public abstract class AbstractPatternRule extends Rule {
       if (!elem.isUnified()) {
         unifier.reset();
       }
-    }
-    if (elem.hasAndGroup()) {
-      elem.isAndGroupMatched(matchToken);
-    if (lastReading) {
-      thisMatched &= elem.checkAndGroup(thisMatched);
     }    
-    }
+    elem.addMemberAndGroup(matchToken);
+      if (lastReading) {
+        thisMatched &= elem.checkAndGroup(thisMatched);
+     }        
     return thisMatched;
   }
 

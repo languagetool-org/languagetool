@@ -20,9 +20,15 @@
 package de.danielnaber.languagetool.tagging.disambiguation.rules;
 
 import java.io.IOException;
+import java.util.List;
+
+import javax.xml.parsers.ParserConfigurationException;
+
+import org.xml.sax.SAXException;
 
 import de.danielnaber.languagetool.AnalyzedSentence;
 import de.danielnaber.languagetool.tagging.disambiguation.Disambiguator;
+import de.danielnaber.languagetool.tools.Tools;
 
 /**
  * Rule-based disambiguator.
@@ -32,7 +38,25 @@ import de.danielnaber.languagetool.tagging.disambiguation.Disambiguator;
  *
  */
 public abstract class AbstractRuleDisambiguator implements Disambiguator {
-        
+
+  protected static final String DISAMB_FILE = "disambiguation.xml";
+  protected List<DisambiguationPatternRule> disambiguationRules;
+  
   public abstract AnalyzedSentence disambiguate(final AnalyzedSentence input) throws IOException; 
+
+  /**
+   * Load disambiguation rules from an XML file. Use {@link #addRule} to add
+   * these rules to the checking process.
+   * 
+   * @throws ParserConfigurationException
+   * @throws SAXException
+   * @throws IOException
+   * @return a List of {@link PatternRule} objects
+   */
+  protected List<DisambiguationPatternRule> loadPatternRules(final String filename) throws ParserConfigurationException, SAXException, IOException {
+    final DisambiguationRuleLoader ruleLoader = new DisambiguationRuleLoader();    
+    return ruleLoader.getRules(Tools.getStream(filename));
+  }
+
 
 }

@@ -259,11 +259,11 @@ public class PatternRule extends AbstractPatternRule {
     final List<RuleMatch> ruleMatches = new ArrayList<RuleMatch>();
     final AnalyzedTokenReadings[] tokens = text.getTokensWithoutWhitespace();
     final int[] tokenPositions = new int[tokens.length + 1];
-    final int patternSize = patternElements.size();
+    int patternSize = patternElements.size();
     final int limit = Math.max(0, tokens.length - patternSize + 1);
     Element elem = null;
-    final boolean sentStart = patternElements.get(0).isSentStart();
-    for (int i = 0; i < limit && !(sentStart && i > 0); i++) {
+    int i = 0;
+    while (i < limit && !(sentStart && i > 0)) {
       boolean allElementsMatch = false;
       int firstMatchToken = -1;
       int lastMatchToken = -1;
@@ -295,7 +295,7 @@ public class PatternRule extends AbstractPatternRule {
             matchingTokens++;
             skipShiftTotal += skipShift;
             if (firstMatchToken == -1) {
-              firstMatchToken = lastMatchToken;
+              firstMatchToken = lastMatchToken;              
             }
             break;
           }
@@ -312,6 +312,7 @@ public class PatternRule extends AbstractPatternRule {
           ruleMatches.add(rM);
         }
       }
+      i++;
     }
     return ruleMatches.toArray(new RuleMatch[ruleMatches.size()]);
   }

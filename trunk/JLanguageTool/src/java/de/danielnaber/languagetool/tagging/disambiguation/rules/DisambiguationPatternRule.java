@@ -142,7 +142,6 @@ public class DisambiguationPatternRule extends AbstractPatternRule {
     final int patternSize = patternElements.size();
     final int limit = Math.max(0, tokens.length - patternSize + 1);
     Element elem = null;
-    final boolean sentStart = patternElements.get(0).isSentStart();
     for (int i = 0; i < limit && !(sentStart && i > 0); i++) {
       boolean allElementsMatch = false;
       unifiedTokens = null;
