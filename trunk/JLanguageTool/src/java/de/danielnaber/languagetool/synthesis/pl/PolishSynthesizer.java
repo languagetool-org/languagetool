@@ -158,15 +158,13 @@ public class PolishSynthesizer implements Synthesizer {
       if (wordForms != null) {                      
         for (WordData wd : wordForms) {
           forms.add("nie" + wd.getStem().toString());           
-          }
-        }                                      
+        }
+      }                                      
     } else {
-      wordForms = synthesizer.lookup(token.getLemma() + "|" + posTag);
-      if (wordForms != null) {
+      wordForms = synthesizer.lookup(token.getLemma() + "|" + posTag);      
       for (WordData wd : wordForms) {
         forms.add(wd.getStem().toString());
-        }
-      }
+      }      
     }
     return forms;
   }

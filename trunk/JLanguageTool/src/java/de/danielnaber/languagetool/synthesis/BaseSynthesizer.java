@@ -69,11 +69,9 @@ public class BaseSynthesizer implements Synthesizer {
       for (final String tag : possibleTags) {
         final Matcher m = p.matcher(tag);
         if (m.matches()) {
-          List<WordData> wordForms = synthesizer.lookup(token.getLemma() + "|" + tag);
-          if (wordForms != null) {
-            for (WordData wd : wordForms)
-            results.add(wd.getStem().toString());
-          }
+          List<WordData> wordForms = synthesizer.lookup(token.getLemma() + "|" + tag);          
+          for (WordData wd : wordForms)
+            results.add(wd.getStem().toString());          
         }
       }
       return results.toArray(new String[results.size()]);
