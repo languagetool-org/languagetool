@@ -32,8 +32,8 @@ public class SlovakSynthesizerTest extends TestCase {
   }
   public final void testSynthesizeStringString() throws IOException {
     SlovakSynthesizer synth = new SlovakSynthesizer();
-    assertNull(synth.synthesize(dummyToken("blablabla"), 
-        "blablabla"));
+    assertEquals(synth.synthesize(dummyToken("blablabla"), 
+        "blablabla").length, 0);
     
     assertEquals("[časopisu]", Arrays.toString(synth.synthesize(dummyToken("časopis"), "SSis2")));    
     //with regular expressions

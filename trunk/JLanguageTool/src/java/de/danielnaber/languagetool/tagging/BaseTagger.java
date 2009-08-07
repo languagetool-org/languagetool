@@ -19,11 +19,15 @@
 package de.danielnaber.languagetool.tagging;
 
 import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-import morfologik.stemmers.Lametyzator;
+import morfologik.stemming.Dictionary;
+import morfologik.stemming.DictionaryLookup;
+import morfologik.stemming.IStemmer;
+import morfologik.stemming.WordData;
 import de.danielnaber.languagetool.AnalyzedToken;
 import de.danielnaber.languagetool.AnalyzedTokenReadings;
 import de.danielnaber.languagetool.tools.StringTools;
@@ -35,52 +39,54 @@ import de.danielnaber.languagetool.tools.StringTools;
  */
 public abstract class BaseTagger implements Tagger {
 
-  private Lametyzator morfologik;
-  private Locale conversionLocale = Locale.getDefault();
+  private IStemmer morfologik;
+  private Locale conversionLocale = Locale.getDefault();  
 
   /**
-   * Set the filename in a JAR, eg. <tt>/resource/fr/french.dict</tt>.
+   * Get the filename, e.g., <tt>/resource/fr/french.dict</tt>.
    **/
-  public abstract void setFileName();
+  public abstract String getFileName();
 
   public void setLocale(Locale loc) {
     conversionLocale = loc;
   }
-  
+
   public List<AnalyzedTokenReadings> tag(final List<String> sentenceTokens)
-      throws IOException {
-    String[] taggerTokens;
+  throws IOException {    
+    List<AnalyzedToken> taggerTokens;
+    List<AnalyzedToken> lowerTaggerTokens;
+    List<AnalyzedToken> upperTaggerTokens;
     List<AnalyzedTokenReadings> tokenReadings = new ArrayList<AnalyzedTokenReadings>();
     int pos = 0;
-    // caching Lametyzator instance - lazy init
-    if (morfologik == null) {
-      setFileName();
-      morfologik = new Lametyzator();
+    // caching IStemmer instance - lazy init
+    if (morfologik == null) {      
+      final URL url = this.getClass().getResource(getFileName());
+      morfologik = new DictionaryLookup(Dictionary.read(url));
     }
 
     for (String word : sentenceTokens) {
       final List<AnalyzedToken> l = new ArrayList<AnalyzedToken>();
-      String[] lowerTaggerTokens = null;
-      taggerTokens = morfologik.stemAndForm(word);
-      if (!word.equals(word.toLowerCase(conversionLocale))) {
-        lowerTaggerTokens = morfologik.stemAndForm(word
-            .toLowerCase(conversionLocale));
-      }
+      final String lowerWord = word.toLowerCase(conversionLocale);
+      taggerTokens = asAnalyzedTokenList(word, morfologik.lookup(word));
+      lowerTaggerTokens = asAnalyzedTokenList(word, morfologik.lookup(lowerWord));       
+      boolean isLowercase = word.equals(lowerWord);  
 
       //normal case
-      addTokens(word, taggerTokens, l, pos);
-      
-      //lowercase
-      addTokens(word, lowerTaggerTokens, l, pos);
+      addTokens(taggerTokens, l);
+
+      if (!isLowercase) {             
+        //lowercase        
+        addTokens(lowerTaggerTokens, l);
+      }
 
       //uppercase
-      if (lowerTaggerTokens == null && taggerTokens == null) {
-        if (word.equals(word.toLowerCase(conversionLocale))) {
-          String[] upperTaggerTokens = null;
-          upperTaggerTokens = morfologik.stemAndForm(StringTools
-              .uppercaseFirstChar(word));
-          if (upperTaggerTokens != null) {
-            addTokens(word, upperTaggerTokens, l, pos);
+      if (lowerTaggerTokens.isEmpty() && taggerTokens.isEmpty()) {
+        if (isLowercase) {          
+          upperTaggerTokens = asAnalyzedTokenList(word, 
+              morfologik.lookup(StringTools
+                  .uppercaseFirstChar(word)));
+          if (!upperTaggerTokens.isEmpty()) {
+            addTokens(upperTaggerTokens, l);
           } else {
             l.add(new AnalyzedToken(word, null, null));
           }
@@ -88,8 +94,7 @@ public abstract class BaseTagger implements Tagger {
           l.add(new AnalyzedToken(word, null, null));
         }
       }          
-      tokenReadings.add(new AnalyzedTokenReadings(l.toArray(new AnalyzedToken[l
-          .size()]), pos));
+      tokenReadings.add(new AnalyzedTokenReadings(l, pos));
       pos += word.length();
     }
 
@@ -97,18 +102,36 @@ public abstract class BaseTagger implements Tagger {
 
   }
 
-  private void addTokens(final String word, final String[] taggedTokens,
-      final List<AnalyzedToken> l, final int pos) {
+  protected List<AnalyzedToken> asAnalyzedTokenList(final String word, final List<WordData> wdList) {
+    List<AnalyzedToken> aTokenList = new ArrayList<AnalyzedToken>();
+    for (WordData wd : wdList) {
+      aTokenList.add(asAnalyzedToken(word, wd));
+    }
+    return aTokenList;
+  }
+  protected AnalyzedToken asAnalyzedToken(final String word, final WordData wd) {
+    return new AnalyzedToken(
+        word,
+        StringTools.asString(wd.getTag()), 
+        StringTools.asString(wd.getStem()));
+  }
+
+  private void addTokens(final List<AnalyzedToken> taggedTokens,
+      final List<AnalyzedToken> l) {
     if (taggedTokens != null) {
-      int i = 0;
-      while (i < taggedTokens.length) {
-        // Lametyzator returns data as String[]
-        // first lemma, then annotations
-        l.add(new AnalyzedToken(word, taggedTokens[i + 1], taggedTokens[i]));
-        i = i + 2;
+      for (AnalyzedToken at : taggedTokens) {
+        /*
+        if (!StringTools.isEmpty(at.getPOSTag())) {
+          l.add(at);
+        } else {
+          l.add(new AnalyzedToken(at.getToken(), null, null));
+        }
+        */
+        l.add(at);         
       }
     }
   }
+
 
   /*
    * (non-Javadoc)

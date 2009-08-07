@@ -20,7 +20,12 @@ package de.danielnaber.languagetool.tagging.en;
 
 import java.io.IOException;
 
+import morfologik.stemming.Dictionary;
+import morfologik.stemming.DictionaryLookup;
+import morfologik.stemming.WordData;
+
 import junit.framework.TestCase;
+
 import de.danielnaber.languagetool.TestTools;
 import de.danielnaber.languagetool.tokenizers.WordTokenizer;
 
@@ -35,6 +40,15 @@ public class EnglishTaggerTest extends TestCase {
   public void setUp() {
     tagger = new EnglishTagger();
     tokenizer = new WordTokenizer();
+  }
+  
+  public void testDictionary() throws IOException {
+    final Dictionary dictionary = Dictionary.read(
+        this.getClass().getResource(tagger.getFileName()));
+    final DictionaryLookup dl = new DictionaryLookup(dictionary);
+    for (WordData wd : dl) {
+      assertFalse(wd.getTag() == null);
+    }    
   }
 
   public void testTagger() throws IOException {

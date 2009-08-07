@@ -20,7 +20,6 @@ package de.danielnaber.languagetool.tagging.gl;
 
 import java.util.Locale;
 
-import morfologik.stemmers.Lametyzator;
 import de.danielnaber.languagetool.tagging.BaseTagger;
 
 /** Galician Part-of-speech tagger.
@@ -32,9 +31,8 @@ import de.danielnaber.languagetool.tagging.BaseTagger;
  */
 public class GalicianTagger extends BaseTagger {
 
-  public void setFileName() {
-    System.setProperty(Lametyzator.PROPERTY_NAME_LAMETYZATOR_DICTIONARY, 
-        "/resource/gl/galician.dict");    
+  public final String getFileName() {
+    return "/resource/gl/galician.dict";    
   }
   
   public GalicianTagger() {

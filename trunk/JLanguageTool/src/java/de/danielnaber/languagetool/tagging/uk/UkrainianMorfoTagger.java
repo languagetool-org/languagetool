@@ -18,7 +18,6 @@
  */
 package de.danielnaber.languagetool.tagging.uk;
 
-import morfologik.stemmers.Lametyzator;
 import de.danielnaber.languagetool.tagging.BaseTagger;
 
 /** Ukrainian Part-of-speech tagger.
@@ -29,8 +28,7 @@ public class UkrainianMorfoTagger extends BaseTagger {
 
   private static final String RESOURCE_FILENAME = "/resource/uk/ukrainian.dict";
 
-  public void setFileName() {
-    System.setProperty(Lametyzator.PROPERTY_NAME_LAMETYZATOR_DICTIONARY, 
-        RESOURCE_FILENAME);    
+  public final String getFileName() {
+    return RESOURCE_FILENAME;    
   } 
 }

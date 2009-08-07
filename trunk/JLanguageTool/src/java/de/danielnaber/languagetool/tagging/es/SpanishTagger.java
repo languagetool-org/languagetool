@@ -20,7 +20,6 @@ package de.danielnaber.languagetool.tagging.es;
 
 import java.util.Locale;
 
-import morfologik.stemmers.Lametyzator;
 import de.danielnaber.languagetool.tagging.BaseTagger;
 
 /** Spanish Tagger
@@ -32,9 +31,8 @@ import de.danielnaber.languagetool.tagging.BaseTagger;
  */
 public class SpanishTagger extends BaseTagger {
 
-  public final void setFileName() {
-    System.setProperty(Lametyzator.PROPERTY_NAME_LAMETYZATOR_DICTIONARY, 
-        "/resource/es/spanish.dict");    
+  public final String getFileName() {
+    return "/resource/es/spanish.dict";    
   }
   
   public SpanishTagger() {

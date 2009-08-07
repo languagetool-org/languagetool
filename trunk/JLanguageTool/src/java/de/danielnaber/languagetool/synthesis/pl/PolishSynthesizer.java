@@ -19,12 +19,17 @@
 package de.danielnaber.languagetool.synthesis.pl;
 
 import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import morfologik.stemmers.Lametyzator;
+import morfologik.stemming.Dictionary;
+import morfologik.stemming.DictionaryLookup;
+import morfologik.stemming.IStemmer;
+import morfologik.stemming.WordData;
+
 import de.danielnaber.languagetool.AnalyzedToken;
 import de.danielnaber.languagetool.synthesis.Synthesizer;
 import de.danielnaber.languagetool.synthesis.SynthesizerTools;
@@ -47,23 +52,18 @@ public class PolishSynthesizer implements Synthesizer {
   private static final String COMP_TAG = "comp";
   private static final String SUP_TAG = "sup";
 
-  private Lametyzator synthesizer;
+  private IStemmer synthesizer;
 
   private ArrayList<String> possibleTags;
-
-  private void setFileName() {
-    System.setProperty(Lametyzator.PROPERTY_NAME_LAMETYZATOR_DICTIONARY,
-        RESOURCE_FILENAME);
-  }
-
+  
   public final String[] synthesize(final AnalyzedToken token,
       final String posTag) throws IOException {
     if (posTag == null) {
       return null;
     }
     if (synthesizer == null) {
-      setFileName();
-      synthesizer = new Lametyzator();
+      final URL url = this.getClass().getResource(RESOURCE_FILENAME);
+      synthesizer = new DictionaryLookup(Dictionary.read(url));      
     }
     boolean isNegated = false;
     if (token.getPOSTag() != null) {
@@ -74,7 +74,8 @@ public class PolishSynthesizer implements Synthesizer {
     if (posTag.indexOf('+') > 0) {
       return synthesize(token, posTag, true);
     }
-    return getWordForms(token, posTag, isNegated);
+    List<String> forms = getWordForms(token, posTag, isNegated); 
+    return forms.toArray(new String[forms.size()]);
   }
 
   public final String[] synthesize(final AnalyzedToken token, final String pos,
@@ -89,8 +90,8 @@ public class PolishSynthesizer implements Synthesizer {
             .getStream(TAGS_FILE_NAME));
       }
       if (synthesizer == null) {
-        setFileName();
-        synthesizer = new Lametyzator();
+        final URL url = this.getClass().getResource(RESOURCE_FILENAME);
+        synthesizer = new DictionaryLookup(Dictionary.read(url));
       }
       final ArrayList<String> results = new ArrayList<String>();
 
@@ -112,9 +113,9 @@ public class PolishSynthesizer implements Synthesizer {
       for (final String tag : possibleTags) {
         final Matcher m = p.matcher(tag);
         if (m.matches()) {
-          final String[] wordForms = getWordForms(token, tag, isNegated);
+          final List<String> wordForms = getWordForms(token, tag, isNegated);
           if (wordForms != null) {
-            results.addAll(Arrays.asList(wordForms));
+            results.addAll(wordForms);
           }
         }
       }
@@ -147,23 +148,27 @@ public class PolishSynthesizer implements Synthesizer {
     return posTag;
   }
 
-  private String[] getWordForms(final AnalyzedToken token, final String posTag,
+  private List<String> getWordForms(final AnalyzedToken token, final String posTag,
       final boolean isNegated) {
-    String[] wordForms = null;
+    List<String> forms = new ArrayList<String>();
+    List<WordData> wordForms;
     if (isNegated) {
-      wordForms = synthesizer.stem(token.getLemma() + "|"
+      wordForms = synthesizer.lookup(token.getLemma() + "|"
           + posTag.replaceFirst(NEGATION_TAG, POTENTIAL_NEGATION_TAG));
-      if (wordForms != null) {
-        final String[] negForms = wordForms;
-        for (int i = 0; i < wordForms.length; i++) {
-          negForms[i] = "nie" + wordForms[i];
-        }
-        wordForms = negForms;
-      }
+      if (wordForms != null) {                      
+        for (WordData wd : wordForms) {
+          forms.add("nie" + wd.getStem().toString());           
+          }
+        }                                      
     } else {
-      wordForms = synthesizer.stem(token.getLemma() + "|" + posTag);
+      wordForms = synthesizer.lookup(token.getLemma() + "|" + posTag);
+      if (wordForms != null) {
+      for (WordData wd : wordForms) {
+        forms.add(wd.getStem().toString());
+        }
+      }
     }
-    return wordForms;
+    return forms;
   }
 
 }

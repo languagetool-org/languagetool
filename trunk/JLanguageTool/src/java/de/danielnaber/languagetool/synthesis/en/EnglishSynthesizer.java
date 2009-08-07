@@ -19,17 +19,16 @@
 package de.danielnaber.languagetool.synthesis.en;
 
 import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import java.util.List;
 
-import morfologik.stemmers.Lametyzator;
+import morfologik.stemming.Dictionary;
+import morfologik.stemming.DictionaryLookup;
+import morfologik.stemming.WordData;
 import de.danielnaber.languagetool.AnalyzedToken;
 import de.danielnaber.languagetool.rules.en.AvsAnRule;
-import de.danielnaber.languagetool.synthesis.Synthesizer;
-import de.danielnaber.languagetool.synthesis.SynthesizerTools;
-import de.danielnaber.languagetool.tools.Tools;
+import de.danielnaber.languagetool.synthesis.BaseSynthesizer;
 
 /**
  * English word form synthesizer. <br/>
@@ -46,7 +45,7 @@ import de.danielnaber.languagetool.tools.Tools;
  * @author Marcin Miłkowski
  */
 
-public class EnglishSynthesizer implements Synthesizer {
+public class EnglishSynthesizer extends BaseSynthesizer {
 
   private static final String RESOURCE_FILENAME = "/resource/en/english_synth.dict";
 
@@ -57,14 +56,9 @@ public class EnglishSynthesizer implements Synthesizer {
 
   /** A special tag to add only indefinite articles. **/
   private static final String ADD_IND_DETERMINER = "+INDT";
-
-  private Lametyzator synthesizer;
-
-  private ArrayList<String> possibleTags;
-
-  private void setFileName() {
-    System.setProperty(Lametyzator.PROPERTY_NAME_LAMETYZATOR_DICTIONARY,
-        RESOURCE_FILENAME);
+  
+  public EnglishSynthesizer() {
+    super(RESOURCE_FILENAME, TAGS_FILE_NAME);
   }
 
   /**
@@ -88,47 +82,16 @@ public class EnglishSynthesizer implements Synthesizer {
       return new String[] { rule.suggestAorAn(token.getToken()) };
     } else {
       if (synthesizer == null) {
-        setFileName();
-        synthesizer = new Lametyzator();
+        final URL url = this.getClass().getResource(RESOURCE_FILENAME);
+        synthesizer = new DictionaryLookup(Dictionary.read(url));
       }
-      String[] wordForms = null;
-      wordForms = synthesizer.stem(token.getLemma() + "|" + posTag);
-      return wordForms;
+      List<WordData> wordData = synthesizer.lookup(token.getLemma() + "|" + posTag);
+      List<String> wordForms = new ArrayList<String>();      
+      for (WordData wd : wordData) {
+        wordForms.add(wd.getStem().toString());
+      }
+      return wordForms.toArray(new String[wordForms.size()]);
     }
-  }
-
-  // TODO: avoid code duplication with DutchSynthesizer
-  public String[] synthesize(final AnalyzedToken token, final String posTag,
-      final boolean posTagRegExp) throws IOException {
-
-    if (posTagRegExp) {
-      if (possibleTags == null) {
-        possibleTags = SynthesizerTools.loadWords(Tools
-            .getStream(TAGS_FILE_NAME));
-      }
-      if (synthesizer == null) {
-        setFileName();
-        synthesizer = new Lametyzator();
-      }
-      final Pattern p = Pattern.compile(posTag);
-      final ArrayList<String> results = new ArrayList<String>();
-      for (final String tag : possibleTags) {
-        final Matcher m = p.matcher(tag);
-        if (m.matches()) {
-          String[] wordForms = null;
-          wordForms = synthesizer.stem(token.getLemma() + "|" + tag);
-          if (wordForms != null) {
-            results.addAll(Arrays.asList(wordForms));
-          }
-        }
-      }
-      return results.toArray(new String[results.size()]);
-    }
-    return synthesize(token, posTag);
-  }
-
-  public String getPosTagCorrection(final String posTag) {
-    return posTag;
-  }
+  }  
 
 }

@@ -20,6 +20,10 @@ package de.danielnaber.languagetool.tagging.fr;
 
 import java.io.IOException;
 
+import morfologik.stemming.Dictionary;
+import morfologik.stemming.DictionaryLookup;
+import morfologik.stemming.WordData;
+
 import junit.framework.TestCase;
 import de.danielnaber.languagetool.TestTools;
 import de.danielnaber.languagetool.tokenizers.WordTokenizer;
@@ -34,6 +38,17 @@ public class FrenchTaggerTest extends TestCase {
     tokenizer = new WordTokenizer();
   }
 
+  public void testDictionary() throws IOException {
+    final Dictionary dictionary = Dictionary.read(
+        this.getClass().getResource(tagger.getFileName()));
+    final DictionaryLookup dl = new DictionaryLookup(dictionary);
+    for (WordData wd : dl) {
+      if (wd.getTag() == null || wd.getTag().length() == 0) {
+        System.err.println("**** Warning: the word " + wd.getWord() + "/" + wd.getStem() +" lacks a POS tag in the dictionary.");
+      }
+    }    
+  }
+  
   public void testTagger() throws IOException {
     TestTools.myAssert("C'est la vie.", "C/[c]N m sp|C/[c]R dem e s est/[être]V etre ind pres 3 s|est/[est]N m s|est/[est]J e sp la/[le]D f s|la/[la]N m sp|la/[la]R pers obj 3 f s vie/[vie]N f s", tokenizer, tagger);
     TestTools.myAssert("Je ne parle pas français.", "Je/[je]R pers suj 1 s ne/[ne]A parle/[parler]V sub pres 3 s|parle/[parler]V sub pres 1 s|parle/[parler]V imp pres 2 s|parle/[parler]V ind pres 3 s|parle/[parler]V ind pres 1 s pas/[pas]A|pas/[pas]N m sp français/[français]J m sp|français/[français]N m sp", tokenizer, tagger);

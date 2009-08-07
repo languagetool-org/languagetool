@@ -20,6 +20,10 @@ package de.danielnaber.languagetool.tagging.de;
 
 import java.io.IOException;
 
+import morfologik.stemming.Dictionary;
+import morfologik.stemming.DictionaryLookup;
+import morfologik.stemming.WordData;
+
 import junit.framework.TestCase;
 
 /**
@@ -58,4 +62,14 @@ public class GermanTaggerTest extends TestCase {
     assertEquals("Häuserkampfs[SUB:GEN:SIN:MAS]", aToken.toString());
   }
   
+  public void testDictionary() throws IOException {    
+    final Dictionary dictionary = Dictionary.read(
+        this.getClass().getResource("/resource/de/german.dict"));    
+    final DictionaryLookup dl = new DictionaryLookup(dictionary);
+    for (WordData wd : dl) {
+      if (wd.getTag() == null || wd.getTag().length() == 0) {
+        System.err.println("**** Warning: the word " + wd.getWord() + "/" + wd.getStem() +" lacks a POS tag in the dictionary.");
+      }
+    }    
+  }
 }

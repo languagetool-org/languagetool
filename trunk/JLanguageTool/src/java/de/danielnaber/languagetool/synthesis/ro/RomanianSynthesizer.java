@@ -18,17 +18,7 @@
  */
 package de.danielnaber.languagetool.synthesis.ro;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
-import morfologik.stemmers.Lametyzator;
-import de.danielnaber.languagetool.AnalyzedToken;
-import de.danielnaber.languagetool.synthesis.Synthesizer;
-import de.danielnaber.languagetool.synthesis.SynthesizerTools;
-import de.danielnaber.languagetool.tools.Tools;
+import de.danielnaber.languagetool.synthesis.BaseSynthesizer;
 
 /**
  * Romanian word form synthesizer. <br/>
@@ -36,72 +26,13 @@ import de.danielnaber.languagetool.tools.Tools;
  * @author Ionuț Păduraru
  */
 
-public class RomanianSynthesizer implements Synthesizer {
+public class RomanianSynthesizer extends BaseSynthesizer {
 
 	private static final String RESOURCE_FILENAME = "/resource/ro/romanian_synth.dict";
 
 	private static final String TAGS_FILE_NAME = "/resource/ro/romanian_tags.txt";
 
-	private Lametyzator synthesizer;
-
-	private ArrayList<String> possibleTags;
-
-	private void setFileName() {
-		System.setProperty(Lametyzator.PROPERTY_NAME_LAMETYZATOR_DICTIONARY,
-				RESOURCE_FILENAME);
-	}
-
-	/**
-	 * Get a form of a given AnalyzedToken, where the form is defined by a
-	 * part-of-speech tag.
-	 * 
-	 * @param token
-	 *            AnalyzedToken to be inflected.
-	 * @param posTag
-	 *            A desired part-of-speech tag.
-	 * @return String value - inflected word.
-	 */
-	public String[] synthesize(final AnalyzedToken token, final String posTag)
-			throws IOException {
-		if (synthesizer == null) {
-			setFileName();
-			synthesizer = new Lametyzator();
-		}
-		return synthesizer.stem(token.getLemma() + "|" + posTag);
-	}
-
-	// TODO: avoid code duplication with DutchSynthesizer
-	public String[] synthesize(final AnalyzedToken token, final String posTag,
-			final boolean posTagRegExp) throws IOException {
-
-		if (posTagRegExp) {
-			if (possibleTags == null) {
-				possibleTags = SynthesizerTools.loadWords(Tools
-						.getStream(TAGS_FILE_NAME));
-			}
-			if (synthesizer == null) {
-				setFileName();
-				synthesizer = new Lametyzator();
-			}
-			final Pattern p = Pattern.compile(posTag);
-			final ArrayList<String> results = new ArrayList<String>();
-			for (final String tag : possibleTags) {
-				final Matcher m = p.matcher(tag);
-				if (m.matches()) {
-					String[] wordForms = null;
-					wordForms = synthesizer.stem(token.getLemma() + "|" + tag);
-					if (wordForms != null) {
-						results.addAll(Arrays.asList(wordForms));
-					}
-				}
-			}
-			return results.toArray(new String[results.size()]);
-		}
-		return synthesize(token, posTag);
-	}
-
-	public String getPosTagCorrection(final String posTag) {
-		return posTag;
-	}
-
+	public RomanianSynthesizer() {
+    super(RESOURCE_FILENAME, TAGS_FILE_NAME);
+  }
 }

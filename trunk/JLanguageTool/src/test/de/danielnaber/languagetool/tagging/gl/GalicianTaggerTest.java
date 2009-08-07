@@ -20,6 +20,10 @@ package de.danielnaber.languagetool.tagging.gl;
 
 import java.io.IOException;
 
+import morfologik.stemming.Dictionary;
+import morfologik.stemming.DictionaryLookup;
+import morfologik.stemming.WordData;
+
 import junit.framework.TestCase;
 import de.danielnaber.languagetool.TestTools;
 import de.danielnaber.languagetool.tokenizers.WordTokenizer;
@@ -37,6 +41,18 @@ public class GalicianTaggerTest extends TestCase {
     tagger = new GalicianTagger();
     tokenizer = new WordTokenizer();
   }
+  
+  public void testDictionary() throws IOException {
+    final Dictionary dictionary = Dictionary.read(
+        this.getClass().getResource(tagger.getFileName()));
+    final DictionaryLookup dl = new DictionaryLookup(dictionary);
+    for (WordData wd : dl) {
+      if (wd.getTag() == null || wd.getTag().length() == 0) {
+        System.err.println("**** Warning: the word " + wd.getWord() + "/" + wd.getStem() +" lacks a POS tag in the dictionary.");
+      }
+    }    
+  }
+  
   public void testTagger() throws IOException {
     TestTools.myAssert("Todo vai mudar","Todo/[todo]DI0MS0|Todo/[todo]PI0MS000 vai/[ir]VMIP3S0|vai/[ir]VMM02S0 mudar/[mudar]VMN0000|mudar/[mudar]VMN01S0|mudar/[mudar]VMN03S0|mudar/[mudar]VMSF1S0|mudar/[mudar]VMSF3S0", tokenizer, tagger);
   }

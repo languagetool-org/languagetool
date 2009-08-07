@@ -20,6 +20,10 @@ package de.danielnaber.languagetool.tagging.it;
 
 import java.io.IOException;
 
+import morfologik.stemming.Dictionary;
+import morfologik.stemming.DictionaryLookup;
+import morfologik.stemming.WordData;
+
 import junit.framework.TestCase;
 import de.danielnaber.languagetool.TestTools;
 import de.danielnaber.languagetool.tokenizers.WordTokenizer;
@@ -34,6 +38,17 @@ public class ItalianTaggerTest extends TestCase {
     tokenizer = new WordTokenizer();
   }
 
+  public void testDictionary() throws IOException {
+    final Dictionary dictionary = Dictionary.read(
+        this.getClass().getResource(tagger.getFileName()));
+    final DictionaryLookup dl = new DictionaryLookup(dictionary);
+    for (WordData wd : dl) {
+      if (wd.getTag() == null || wd.getTag().length() == 0) {
+        System.err.println("**** Warning: the word " + wd.getWord() + "/" + wd.getStem() +" lacks a POS tag in the dictionary.");
+      }
+    }    
+  }
+  
   public void testTagger() throws IOException {
     TestTools.myAssert("Non c'è linguaggio senza inganno.", "Non/[non]ADV c/[C]NPR è/[essere]AUX:ind+pres+3+s|è/[essere]VER:ind+pres+3+s linguaggio/[linguaggio]NOUN-M:s senza/[senza]CON|senza/[senza]PRE inganno/[inganno]NOUN-M:s|inganno/[ingannare]VER:ind+pres+1+s", tokenizer, tagger);
     TestTools.myAssert("Amo quelli che desiderano l'impossibile.", "Amo/[amare]VER:ind+pres+1+s quelli/[quello]DET-DEMO:m+p|quelli/[quelli]PRO-DEMO-M-P che/[che]DET-WH:m+s|che/[che]DET-WH:m+p|che/[che]DET-WH:f+s|che/[che]DET-WH:f+p|che/[che]CON|che/[che]WH-CHE desiderano/[desiderare]VER:ind+pres+3+p l/[null]null impossibile/[impossibile]ADJ:pos+m+s|impossibile/[impossibile]ADJ:pos+f+s", tokenizer, tagger);

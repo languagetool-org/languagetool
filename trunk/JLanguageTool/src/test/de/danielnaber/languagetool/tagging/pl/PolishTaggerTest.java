@@ -20,6 +20,10 @@ package de.danielnaber.languagetool.tagging.pl;
 
 import java.io.IOException;
 
+import morfologik.stemming.Dictionary;
+import morfologik.stemming.DictionaryLookup;
+import morfologik.stemming.WordData;
+
 import junit.framework.TestCase;
 import de.danielnaber.languagetool.TestTools;
 import de.danielnaber.languagetool.tokenizers.WordTokenizer;
@@ -34,6 +38,17 @@ public class PolishTaggerTest extends TestCase {
 	  tokenizer = new WordTokenizer();
 	}
 
+  public void testDictionary() throws IOException {
+    final Dictionary dictionary = Dictionary.read(
+        this.getClass().getResource(tagger.getFileName()));
+    final DictionaryLookup dl = new DictionaryLookup(dictionary);
+    for (WordData wd : dl) {
+      if (wd.getTag() == null || wd.getTag().length() == 0) {
+        System.err.println("**** Warning: the word " + wd.getWord() + "/" + wd.getStem() +" lacks a POS tag in the dictionary.");
+      }
+    }    
+  }
+	
 	public void testTagger() throws IOException {
 	  TestTools.myAssert("To jest duży dom.", "To/[to]conj|To/[ten]adj:sg:nom.acc.voc:n:pos jest/[być]verb:fin:sg:ter:imperf duży/[duży]adj:sg:nom.acc:m3:pos:aff|duży/[duży]adj:sg:nom.voc:m1.m2:pos:aff dom/[dom]subst:sg:nom.acc:m3", tokenizer, tagger);
     TestTools.myAssert("Krowa pasie się na pastwisku.", "Krowa/[krowa]subst:sg:nom:f pasie/[pas]subst:sg:loc.voc:m3 się/[siebie]qub na/[na]prep:acc.loc pastwisku/[pastwisko]subst:sg:dat.loc:n", tokenizer, tagger);

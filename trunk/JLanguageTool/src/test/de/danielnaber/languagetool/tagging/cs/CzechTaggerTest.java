@@ -20,6 +20,10 @@ package de.danielnaber.languagetool.tagging.cs;
 
 import java.io.IOException;
 
+import morfologik.stemming.Dictionary;
+import morfologik.stemming.DictionaryLookup;
+import morfologik.stemming.WordData;
+
 import junit.framework.TestCase;
 import de.danielnaber.languagetool.TestTools;
 import de.danielnaber.languagetool.tokenizers.WordTokenizer;
@@ -33,6 +37,17 @@ public class CzechTaggerTest extends TestCase {
 	  tagger = new CzechTagger();
 	  tokenizer = new WordTokenizer();
 	}
+	
+/*  public void testDictionary() throws IOException {
+    final Dictionary dictionary = Dictionary.read(
+        this.getClass().getResource(tagger.getFileName()));
+    final DictionaryLookup dl = new DictionaryLookup(dictionary);
+    for (WordData wd : dl) {
+      if (wd.getTag() == null || wd.getTag().length() == 0) {
+        System.err.println("**** Warning: the word " + wd.getWord() + "/" + wd.getStem() +" lacks a POS tag in the dictionary.");
+      }
+    }    
+  }*/
 
 	public void testTagger() throws IOException {
 	  //TestTools.myAssert("Ukončuje větu rozkazovací či zvolací.", "Ukončuje/[ukončovat]k5eAaImIp3nS větu/[věta]k1gFnSc4 rozkazovací/[rozkazovací]k2eAgFnPc1d1 či/[či]k8 zvolací/[zvolací]k2eAgFnPc1d1", tokenizer, tagger);

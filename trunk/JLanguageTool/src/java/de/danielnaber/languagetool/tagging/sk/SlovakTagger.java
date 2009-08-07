@@ -20,7 +20,6 @@ package de.danielnaber.languagetool.tagging.sk;
 
 import java.util.Locale;
 
-import morfologik.stemmers.Lametyzator;
 import de.danielnaber.languagetool.tagging.BaseTagger;
 
 /** Slovak Part-of-speech tagger based on Russian Part-of-speech tagger.
@@ -29,9 +28,8 @@ import de.danielnaber.languagetool.tagging.BaseTagger;
 
 public class SlovakTagger extends BaseTagger {
 
-  public void setFileName() {
-    System.setProperty(Lametyzator.PROPERTY_NAME_LAMETYZATOR_DICTIONARY,
-    "/resource/sk/slovak.dict");
+  public final String getFileName() {
+    return "/resource/sk/slovak.dict";
   }
 
   public SlovakTagger() {

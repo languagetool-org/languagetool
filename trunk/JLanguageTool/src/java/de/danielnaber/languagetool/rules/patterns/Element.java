@@ -31,6 +31,8 @@ import de.danielnaber.languagetool.JLanguageTool;
 import de.danielnaber.languagetool.synthesis.Synthesizer;
 import de.danielnaber.languagetool.tools.StringTools;
 
+import net.sourceforge.segment.util.Util;;
+
 /**
  * A part of a pattern.
  * 

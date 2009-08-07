@@ -39,7 +39,7 @@ public class RomanianSynthesizerTest extends TestCase {
 	 */
 	public final void testSynthesizeStringString() throws IOException {
 		RomanianSynthesizer synth = new RomanianSynthesizer();
-		assertNull(synth.synthesize(dummyToken("blablabla"), "blablabla"));
+		assertEquals(synth.synthesize(dummyToken("blablabla"), "blablabla").length, 0);
 
 		// a alege
 		// forma de infinitiv

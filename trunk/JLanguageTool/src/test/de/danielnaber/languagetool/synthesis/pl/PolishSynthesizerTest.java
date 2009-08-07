@@ -32,7 +32,7 @@ public class PolishSynthesizerTest extends TestCase {
 
   public final void testSynthesizeString() throws IOException {
     PolishSynthesizer synth = new PolishSynthesizer();
-    assertNull(synth.synthesize(dummyToken("blablabla"), "blablabla"));
+    assertEquals(synth.synthesize(dummyToken("blablabla"), "blablabla").length, 0);
     
     assertEquals("[Aaru]", Arrays.toString(synth.synthesize(dummyToken("Aar"), "subst:sg:gen:m3")));
     assertEquals("[Abchazem]", Arrays.toString(synth.synthesize(dummyToken("Abchaz"), "subst:sg:inst:m1")));

@@ -20,7 +20,6 @@ package de.danielnaber.languagetool.tagging.en;
 
 import java.util.Locale;
 
-import morfologik.stemmers.Lametyzator;
 import de.danielnaber.languagetool.tagging.BaseTagger;
 
 /** English Part-of-speech tagger.
@@ -32,9 +31,8 @@ import de.danielnaber.languagetool.tagging.BaseTagger;
  */
 public class EnglishTagger extends BaseTagger {
 
-  public void setFileName() {
-    System.setProperty(Lametyzator.PROPERTY_NAME_LAMETYZATOR_DICTIONARY, 
-        "/resource/en/english.dict");    
+  public final String getFileName() {
+    return "/resource/en/english.dict";    
   }
   
   public EnglishTagger() {

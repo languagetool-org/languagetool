@@ -39,10 +39,10 @@ import de.danielnaber.languagetool.rules.RuleMatch;
 public final class StringTools {
 
   private static final int DEFAULT_CONTEXT_SIZE = 25;  
-  
+
   /**
-  * Constants for printing XML rule matches.
-  */
+   * Constants for printing XML rule matches.
+   */
   public static enum XmlPrintMode {
     /**
      * Normally output the rule matches by starting and
@@ -66,7 +66,7 @@ public final class StringTools {
 
   private static final Pattern XML_COMMENT_PATTERN = Pattern.compile("<!--.*?-->", Pattern.DOTALL);
   private static final Pattern XML_PATTERN = Pattern.compile("(?<!<)<[^<>]+>", Pattern.DOTALL);
-  
+
 
   private StringTools() {
     // only static stuff
@@ -104,7 +104,7 @@ public final class StringTools {
    * @throws IOException
    */
   public static String readFile(final InputStream file, final String encoding)
-      throws IOException {
+  throws IOException {
     InputStreamReader isr = null;
     BufferedReader br = null;
     final StringBuilder sb = new StringBuilder();
@@ -148,7 +148,7 @@ public final class StringTools {
     && !isCapitalizedWord(str)
     && !str.equals(str.toLowerCase());
   }
-  
+
   /**
    * @param str - input string
    */
@@ -162,7 +162,7 @@ public final class StringTools {
     }
     return false;
   }
-  
+
   /**
    * Whether the first character of <code>str</code> is an uppercase character.
    */
@@ -255,7 +255,7 @@ public final class StringTools {
 
       default:
         sb.append(c);
-        break;
+      break;
       }
     }
     return sb.toString();
@@ -273,8 +273,8 @@ public final class StringTools {
    */
   public static String ruleMatchesToXML(final List<RuleMatch> ruleMatches,
       final String text, final int contextSize) {
-        return ruleMatchesToXML(ruleMatches, text, contextSize, XmlPrintMode.NORMAL_XML);
-      }
+    return ruleMatchesToXML(ruleMatches, text, contextSize, XmlPrintMode.NORMAL_XML);
+  }
 
   /**
    * Get an XML representation of the given rule matches.
@@ -291,7 +291,7 @@ public final class StringTools {
     // IMPORTANT: people rely on this format, don't change it!
     //
     final StringBuilder xml = new StringBuilder();
-    
+
     if (xmlMode == XmlPrintMode.NORMAL_XML || xmlMode == XmlPrintMode.START_XML) {
       xml.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
       xml.append("<matches>\n");
@@ -427,7 +427,7 @@ public final class StringTools {
         }
       } else {
         if (c == '.' || c == ',' || c == ';' || c == ':' || c == '?'
-            || c == '!') {
+          || c == '!') {
           space = "";
         }
       }
@@ -445,7 +445,7 @@ public final class StringTools {
    */
   public static String getLabel(final String label) {
     return label.replaceAll("&([^&])", "$1").
-      replaceAll("&&", "&");
+    replaceAll("&&", "&");
   }
 
   /**
@@ -458,7 +458,7 @@ public final class StringTools {
    */
   public static String getOOoLabel(final String label) {
     return label.replaceAll("&([^&])", "~$1").
-      replaceAll("&&", "&");
+    replaceAll("&&", "&");
   }
 
   /**
@@ -525,7 +525,7 @@ public final class StringTools {
   public static boolean isEmpty(final String str) {
     return str == null || str.length() == 0;
   }
-  
+
   /**
    * Simple XML filtering routing
    * @param str XML string to be filtered.
@@ -537,4 +537,11 @@ public final class StringTools {
     s = XML_PATTERN.matcher(s).replaceAll("");
     return s;
   }
+
+  public static String asString(CharSequence s) {
+    if (s == null)
+      return null;
+    return s.toString();
+  }
+
 }

@@ -99,7 +99,13 @@ public class AnalyzedTokenReadings {
     this.startPos = startPos;
     init();
   }
-
+  
+  public AnalyzedTokenReadings(final List<AnalyzedToken> list, final int startPos) {
+    anTokReadings = list.toArray(new AnalyzedToken[list.size()]);
+    this.startPos = startPos;
+    init();
+  }
+    
   AnalyzedTokenReadings(final AnalyzedToken at) {
     anTokReadings = new AnalyzedToken[1];
     anTokReadings[0] = at;    
@@ -112,7 +118,7 @@ public class AnalyzedTokenReadings {
     this.startPos = startPos;
   }
     
-  private void init() {
+  private void init() {    
     token = anTokReadings[0].getToken();
     isWhitespace = StringTools.isWhitespace(token);
     isLinebreak = "\n".equals(token) || "\r\n".equals(token)

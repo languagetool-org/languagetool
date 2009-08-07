@@ -19,11 +19,16 @@
 package de.danielnaber.languagetool.tagging.ro;
 
 import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-import morfologik.stemmers.Lametyzator;
+import morfologik.stemming.Dictionary;
+import morfologik.stemming.DictionaryLookup;
+import morfologik.stemming.IStemmer;
+import morfologik.stemming.WordData;
+
 import de.danielnaber.languagetool.AnalyzedToken;
 import de.danielnaber.languagetool.AnalyzedTokenReadings;
 import de.danielnaber.languagetool.tagging.BaseTagger;
@@ -35,68 +40,62 @@ import de.danielnaber.languagetool.tagging.BaseTagger;
  */
 public class RomanianTagger extends BaseTagger {
 
-	private String RESOURCE_FILENAME = "/resource/ro/romanian.dict";
+  private String RESOURCE_FILENAME = "/resource/ro/romanian.dict";
 
-	private Lametyzator morfologik;
-	private static Locale roLocale = new Locale("ro");
+  private IStemmer morfologik;
+  private static Locale roLocale = new Locale("ro");
 
-	public final void setFileName() {
-		System.setProperty(Lametyzator.PROPERTY_NAME_LAMETYZATOR_DICTIONARY,
-				RESOURCE_FILENAME);
-	}
+  public final String getFileName() {
+    return RESOURCE_FILENAME;
+  }
 
-	public RomanianTagger() {
-		super();
-		setFileName();
-		setLocale(roLocale);
-	}
+  public RomanianTagger() {
+    super();
+    setLocale(roLocale);
+  }
 
-	public RomanianTagger(String fileName) {
-		super();
-		RESOURCE_FILENAME = fileName;
-		setLocale(roLocale);
-	}
+  public RomanianTagger(String fileName) {
+    super();
+    RESOURCE_FILENAME = fileName;
+    setLocale(roLocale);
+  }
 
-	@Override
-	public final List<AnalyzedTokenReadings> tag(
-			final List<String> sentenceTokens) throws IOException {
-		String[] taggerTokens;
+  @Override
+  public final List<AnalyzedTokenReadings> tag(
+      final List<String> sentenceTokens) throws IOException {
+    List<WordData> taggerTokens;
 
-		final List<AnalyzedTokenReadings> tokenReadings = new ArrayList<AnalyzedTokenReadings>();
-		int pos = 0;
-		// caching Lametyzator instance - lazy init
-		if (morfologik == null) {
-			setFileName();
-			morfologik = new Lametyzator();
-		}
+    final List<AnalyzedTokenReadings> tokenReadings = new ArrayList<AnalyzedTokenReadings>();
+    int pos = 0;
+    // caching Lametyzator instance - lazy init
+    if (morfologik == null) {      
+      final URL url = this.getClass().getResource(RESOURCE_FILENAME);
+      morfologik = new DictionaryLookup(Dictionary.read(url));
+    }
 
-		for (final String word : sentenceTokens) {
-			final List<AnalyzedToken> l = new ArrayList<AnalyzedToken>();
-			taggerTokens = morfologik.stemAndForm(word
-					.toLowerCase());
-			if (taggerTokens != null) {
-				int i = 0;
-				while (i < taggerTokens.length) {
-					final String lemma = taggerTokens[i];
-					final String[] tagsArr = taggerTokens[i + 1].split("\\+");
+    for (final String word : sentenceTokens) {
+      final List<AnalyzedToken> l = new ArrayList<AnalyzedToken>();
+      taggerTokens = morfologik.lookup(word.toLowerCase(roLocale));
+      if (taggerTokens != null) {
+        for (WordData wd : taggerTokens) {
+          final String[] tagsArr = wd.getStem().toString().split("\\+");
+          for (final String currTag : tagsArr) {
+            l.add(new AnalyzedToken(word, 
+                wd.getTag().toString(), currTag));
+          }
+        }			
+      }
 
-					for (final String currTag : tagsArr) {
-						l.add(new AnalyzedToken(word, currTag, lemma));
-					}
-					i = i + 2;
-				}
-			}
+      if (taggerTokens == null || taggerTokens.isEmpty()) {
+        l.add(new AnalyzedToken(word, null, null));
+      }			
+      tokenReadings.add(new AnalyzedTokenReadings(l
+          .toArray(new AnalyzedToken[l.size()]), pos));
+      pos += word.length();
+    }
 
-			if (taggerTokens == null) {
-				l.add(new AnalyzedToken(word, null, null));
-			}			
-			tokenReadings.add(new AnalyzedTokenReadings(l
-					.toArray(new AnalyzedToken[l.size()]), pos));
-			pos += word.length();
-		}
+    return tokenReadings;
 
-		return tokenReadings;
-
-	}
+  }
 
 }

@@ -20,7 +20,6 @@ package de.danielnaber.languagetool.tagging.ru;
 
 import java.util.Locale;
 
-import morfologik.stemmers.Lametyzator;
 import de.danielnaber.languagetool.tagging.BaseTagger;
 
 /**  Part-of-speech tagger.
@@ -31,9 +30,8 @@ import de.danielnaber.languagetool.tagging.BaseTagger;
  *  */
 public class RussianTagger extends BaseTagger {
 
-  public void setFileName() {
-    System.setProperty(Lametyzator.PROPERTY_NAME_LAMETYZATOR_DICTIONARY, 
-        "/resource/ru/russian.dict");    
+  public final String getFileName() {
+    return "/resource/ru/russian.dict";    
   }
   
   public RussianTagger() {

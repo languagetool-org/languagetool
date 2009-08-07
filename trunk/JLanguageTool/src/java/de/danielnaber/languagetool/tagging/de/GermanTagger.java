@@ -19,10 +19,15 @@
 package de.danielnaber.languagetool.tagging.de;
 
 import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-import morfologik.stemmers.Lametyzator;
+import morfologik.stemming.Dictionary;
+import morfologik.stemming.DictionaryLookup;
+import morfologik.stemming.IStemmer;
+import morfologik.stemming.WordData;
+
 import de.danielnaber.languagetool.AnalyzedToken;
 import de.danielnaber.languagetool.AnalyzedTokenReadings;
 import de.danielnaber.languagetool.tagging.ManualTagger;
@@ -41,7 +46,7 @@ public class GermanTagger implements Tagger {
   private static final String DICT_FILENAME = "/resource/de/german.dict";
   private static final String USER_DICT_FILENAME = "/resource/de/added.txt";
 
-  private static Lametyzator morfologik;
+  private static IStemmer morfologik;
   private static ManualTagger manualTagger;
   private static GermanCompoundTokenizer compoundTokenizer;
   
@@ -57,11 +62,6 @@ public class GermanTagger implements Tagger {
       return null;
     return atr;
   }
-
-  public void setFileName() {
-    System.setProperty(Lametyzator.PROPERTY_NAME_LAMETYZATOR_DICTIONARY, 
-        DICT_FILENAME);    
-  }
     
   public List<AnalyzedTokenReadings> tag(final List<String> sentenceTokens) throws IOException {
     return tag(sentenceTokens, true);
@@ -73,9 +73,9 @@ public class GermanTagger implements Tagger {
     List<AnalyzedTokenReadings> tokenReadings = new ArrayList<AnalyzedTokenReadings>();
     int pos = 0;
     // caching Lametyzator instance - lazy init
-    if (morfologik == null) {
-      setFileName();
-      morfologik = new Lametyzator();
+    if (morfologik == null) {      
+      final URL url = this.getClass().getResource(DICT_FILENAME);
+      morfologik = new DictionaryLookup(Dictionary.read(url));      
     }
     if (manualTagger == null) {
       manualTagger = new ManualTagger(Tools.getStream(USER_DICT_FILENAME));
@@ -136,14 +136,27 @@ public class GermanTagger implements Tagger {
   
   private String[] lexiconLookup(final String word) {
     String[] posTagsFromUserDict = manualTagger.lookup(word);
-    String[] posTagsFromDict = morfologik.stemAndForm(word);
-    if (posTagsFromUserDict != null && posTagsFromDict != null) {
-      String[] allPosTags = new String[posTagsFromUserDict.length + posTagsFromDict.length];
-      System.arraycopy(posTagsFromDict, 0, allPosTags, 0, posTagsFromDict.length);
-      System.arraycopy(posTagsFromUserDict, 0, allPosTags, posTagsFromDict.length, posTagsFromUserDict.length);
+    List<WordData> posTagsFromDict = morfologik.lookup(word);
+    if (posTagsFromUserDict != null && !posTagsFromDict.isEmpty()) {
+      String[] allPosTags = new String[posTagsFromUserDict.length + posTagsFromDict.size() * 2];
+      //System.arraycopy(posTagsFromDict, 0, allPosTags, 0, posTagsFromDict.size());
+      int i = 0;
+      for (WordData wd : posTagsFromDict) {
+        allPosTags[i] = wd.getStem().toString();
+        allPosTags[i + 1] = wd.getTag().toString();
+        i = i + 2;
+      }
+      System.arraycopy(posTagsFromUserDict, 0, allPosTags, posTagsFromDict.size() * 2, posTagsFromUserDict.length);
       return allPosTags;
-    } else if (posTagsFromUserDict == null && posTagsFromDict != null) {
-      return posTagsFromDict;
+    } else if (posTagsFromUserDict == null && !posTagsFromDict.isEmpty()) {
+      String[] allPosTags = new String[posTagsFromDict.size() * 2];
+      int i = 0;
+      for (WordData wd : posTagsFromDict) {
+        allPosTags[i] = wd.getStem().toString();
+        allPosTags[i + 1] = wd.getTag().toString();
+        i = i + 2;
+      }
+      return allPosTags;
     } else {
       return posTagsFromUserDict;
     }

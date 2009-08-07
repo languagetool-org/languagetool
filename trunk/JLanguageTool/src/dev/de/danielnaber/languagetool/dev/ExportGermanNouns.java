@@ -30,7 +30,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
-import morfologik.fsa.core.FSA;
+import morfologik.fsa.FSA;
 
 /**
  * Export German nouns as a serialized Java HashSet, to be used
@@ -49,7 +49,7 @@ public class ExportGermanNouns {
     FSA fsa = FSA.getInstance(this.getClass().getResourceAsStream(DICT_FILENAME), "iso-8859-1");
     String lastTerm = null;
     Set<String> set = new HashSet<String>();
-    for (Iterator i = fsa.getTraversalHelper().getAllSubsequences( fsa.getStartNode() ); i.hasNext();) {
+    for (Iterator i = fsa.getTraversalHelper().getAllSubsequences(fsa.getRootNode()); i.hasNext();) {
       final byte [] sequence = (byte []) i.next();
       String output = new String(sequence, "iso-8859-1");
       if (output.indexOf("+SUB:") != -1 && output.indexOf(":ADJ") == -1) {

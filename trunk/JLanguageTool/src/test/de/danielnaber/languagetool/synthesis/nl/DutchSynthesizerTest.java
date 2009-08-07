@@ -32,8 +32,8 @@ public class DutchSynthesizerTest extends TestCase {
   }
   public final void testSynthesizeStringString() throws IOException {
     DutchSynthesizer synth = new DutchSynthesizer();
-    assertNull(synth.synthesize(dummyToken("blablabla"), 
-        "blablabla"));
+    assertEquals(synth.synthesize(dummyToken("blablabla"), 
+        "blablabla").length, 0);
     
     assertEquals("[zwommen]", Arrays.toString(synth.synthesize(dummyToken("zwemmen"), "VBh")));
     assertEquals("[Afro-Surinamers]", Arrays.toString(synth.synthesize(dummyToken("Afro-Surinamer"), "NN2")));

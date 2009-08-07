@@ -32,8 +32,8 @@ public class EnglishSynthesizerTest extends TestCase {
   }
   public final void testSynthesizeStringString() throws IOException {
     EnglishSynthesizer synth = new EnglishSynthesizer();
-    assertNull(synth.synthesize(dummyToken("blablabla"), 
-        "blablabla"));
+    assertEquals(synth.synthesize(dummyToken("blablabla"), 
+        "blablabla").length, 0);
     
     assertEquals("[were, was]", Arrays.toString(synth.synthesize(dummyToken("be"), "VBD")));
     assertEquals("[presidents]", Arrays.toString(synth.synthesize(dummyToken("president"), "NNS")));

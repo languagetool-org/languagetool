@@ -19,11 +19,16 @@
 package de.danielnaber.languagetool.tagging.cs;
 
 import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-import morfologik.stemmers.Lametyzator;
+import morfologik.stemming.Dictionary;
+import morfologik.stemming.DictionaryLookup;
+import morfologik.stemming.WordData;
+import morfologik.stemming.IStemmer;
+
 import de.danielnaber.languagetool.AnalyzedToken;
 import de.danielnaber.languagetool.AnalyzedTokenReadings;
 import de.danielnaber.languagetool.tagging.BaseTagger;
@@ -38,83 +43,74 @@ public class CzechTagger extends BaseTagger {
 
   private static final String RESOURCE_FILENAME = "/resource/cs/czech.dict";
 
-  private Lametyzator morfologik;
+  private IStemmer morfologik;
   private Locale csLocale = new Locale("cs");
 
-  @Override
-  public void setFileName() {
-    System.setProperty(Lametyzator.PROPERTY_NAME_LAMETYZATOR_DICTIONARY,
-        RESOURCE_FILENAME);
+  public final String getFileName() {
+    return RESOURCE_FILENAME;
   }
-
+  
   @Override
   public final List<AnalyzedTokenReadings> tag(final List<String> sentenceTokens)
-      throws IOException {
-    String[] taggerTokens;
-
+  throws IOException {
+    List<AnalyzedToken> taggerTokens;
+    List<AnalyzedToken> lowerTaggerTokens;
+    List<AnalyzedToken> upperTaggerTokens;    
     final List<AnalyzedTokenReadings> tokenReadings = new ArrayList<AnalyzedTokenReadings>();
     int pos = 0;
     // caching Lametyzator instance - lazy init
-    if (morfologik == null) {
-      setFileName();
-      morfologik = new Lametyzator();
+    if (morfologik == null) {      
+      final URL url = this.getClass().getResource(RESOURCE_FILENAME);
+      morfologik = new DictionaryLookup(Dictionary.read(url));
     }
 
-    for (final String word : sentenceTokens) {
+    for (String word : sentenceTokens) {
       final List<AnalyzedToken> l = new ArrayList<AnalyzedToken>();
-      String[] lowerTaggerTokens = null;
-      taggerTokens = morfologik.stemAndForm(word);
-      if (!word.equals(word.toLowerCase(csLocale))) {
-        lowerTaggerTokens = morfologik.stemAndForm(word.toLowerCase(csLocale));
+      final String lowerWord = word.toLowerCase(csLocale);
+      taggerTokens = asAnalyzedTokenList(word, morfologik.lookup(word));
+      lowerTaggerTokens = asAnalyzedTokenList(word, morfologik.lookup(lowerWord));       
+      boolean isLowercase = word.equals(lowerWord);  
+
+      //normal case
+      addTokens(taggerTokens, l);
+
+      if (!isLowercase) {             
+        //lowercase        
+        addTokens(lowerTaggerTokens, l);
       }
 
-      // normal case
-      addTokens(word, taggerTokens, l, pos);
-
-      // lowercase
-      addTokens(word, lowerTaggerTokens, l, pos);
-
-      // uppercase
-      if (lowerTaggerTokens == null && taggerTokens == null) {
-        if (word.equals(word.toLowerCase(csLocale))) {
-          String[] upperTaggerTokens = null;
-          upperTaggerTokens = morfologik.stemAndForm(StringTools
-              .uppercaseFirstChar(word));
-          if (upperTaggerTokens != null) {
-            addTokens(word, upperTaggerTokens, l, pos);
+      //uppercase
+      if (lowerTaggerTokens.isEmpty() && taggerTokens.isEmpty()) {
+        if (isLowercase) {          
+          upperTaggerTokens = asAnalyzedTokenList(word, morfologik.lookup(StringTools
+              .uppercaseFirstChar(word)));
+          if (!upperTaggerTokens.isEmpty()) {
+            addTokens(upperTaggerTokens, l);
           } else {
             l.add(new AnalyzedToken(word, null, null));
           }
         } else {
           l.add(new AnalyzedToken(word, null, null));
         }
-      }      
-      tokenReadings.add(new AnalyzedTokenReadings(l.toArray(new AnalyzedToken[l
-          .size()]), pos));
+      }          
+      tokenReadings.add(new AnalyzedTokenReadings(l, pos));
       pos += word.length();
     }
 
     return tokenReadings;
-
   }
 
-  private void addTokens(final String word, final String[] taggedTokens,
-      final List<AnalyzedToken> l, final int pos) {
+  private void addTokens(final List<AnalyzedToken> taggedTokens,
+      final List<AnalyzedToken> l) {
     if (taggedTokens != null) {
-      int i = 0;
-      while (i < taggedTokens.length) {
-        // Lametyzator returns data as String[]
-        // first lemma, then annotations
-        // use Jozef's idea
-        final String lemma = taggedTokens[i];
-        final String[] tagsArr = taggedTokens[i + 1].split("\\+");
-
+      for (AnalyzedToken at : taggedTokens) {
+        final String[] tagsArr = StringTools.asString(at.getPOSTag()).split("\\+");
         for (final String currTag : tagsArr) {
-          l.add(new AnalyzedToken(word, currTag, lemma));
+          l.add(new AnalyzedToken(at.getToken(), currTag,
+              at.getLemma()));
         }
-        i = i + 2;
       }
     }
   }
-
+  
 }
