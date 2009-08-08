@@ -6,7 +6,7 @@ title="Easy editing stylesheet" ?>
 <!--
 Polish Grammar and Typo Rules for LanguageTool
 Copyright (C) 2006-2007 Marcin Miłkowski
-$Id: grammar.xml,v 1.205 2009-08-02 23:53:13 milek_pl Exp $
+$Id: grammar.xml,v 1.206 2009-08-08 20:16:14 milek_pl Exp $
 -->
 <rules lang="pl">
   <unification feature="number">
@@ -3187,7 +3187,7 @@ Powinno być: <suggestion>\2, \3 \4</suggestion>.</message>
           <token regexp="yes">[\)\]\}”]</token>
 
           <token negate_pos="yes" postag="SENT_END" spacebefore="no"><exception
-              regexp="yes">[,;:\)\]\}\.\?!…]</exception></token>
+              regexp="yes">[,;:\)\]\}\.\?!…\u0002\u0001]</exception></token>
         </pattern>
 
         <message>Brak spacji po tym znaku. Powinno być: <suggestion>\1 </suggestion>.</message>
@@ -3205,6 +3205,22 @@ Powinno być: <suggestion>\2, \3 \4</suggestion>.</message>
         <example correction=") " type="incorrect">To jest wiadome (od dawna<marker>)</marker>odpowiednim służbom.</example>
       </rule>
     </rulegroup>
+
+    <rule id="ZBEDNA_SPACJA" name="Zbędna spacja po znaku interpunkcyjnym">
+      <pattern>
+        <token regexp="yes">[„\[]</token>
+
+        <token spacebefore="yes"></token>
+      </pattern>
+
+      <message>Zbędna spacja. Powinno być: <suggestion>\1\2</suggestion>.</message>
+
+      <short>Zbędna spacja</short>
+
+      <example correction="„przykład" type="incorrect">To jest <marker>„ przykład</marker>”.</example>
+
+      <example type="correct">To jest „przykład”.</example>
+    </rule>
 
     <rule id="MNOZENIE" name="Znak mnożenia „x” (×)">
       <pattern>
@@ -3836,7 +3852,7 @@ Powinno być: <suggestion>\2, \3 \4</suggestion>.</message>
 
       <rule>
         <pattern mark_to="-1">
-          <token regexp="yes">(jede|dwa|trzy|czter|pięt|szes|siedem|osiem|dziewięt)naście</token>
+          <token regexp="yes">(?:jede|dwa|trzy|czter|pięt|szes|siedem|osiem|dziewięt)naście</token>
 
           <token postag="subst:pl:acc.gen.nom.voc:n"></token>
         </pattern>
@@ -3869,7 +3885,7 @@ Powinno być: <suggestion>\2, \3 \4</suggestion>.</message>
 
       <rule>
         <pattern mark_to="-1">
-          <token regexp="yes">(trzy|czter)dzieści</token>
+          <token regexp="yes">(?:trzy|czter)dzieści</token>
 
           <token postag="subst:pl:acc.gen.nom.voc:n"></token>
         </pattern>
@@ -3887,7 +3903,7 @@ Powinno być: <suggestion>\2, \3 \4</suggestion>.</message>
 
       <rule>
         <pattern mark_to="-1">
-          <token regexp="yes">(pięć|sześć|siedem|osiem|dziewięć)dziesiąt</token>
+          <token regexp="yes">(?:pięć|sześć|siedem|osiem|dziewięć)dziesiąt</token>
 
           <token postag="subst:pl:acc.gen.nom.voc:n"></token>
         </pattern>
@@ -4316,9 +4332,9 @@ Powinno być: <suggestion>\2, \3 \4</suggestion>.</message>
     <rulegroup id="STO_GRAM" name="„sto gram” (sto gramów) itp.">
       <rule>
         <pattern mark_from="1">
-          <token inflected="yes" regexp="yes">^(pięć|sześć|siedem|osiem|dziewięć|dziesięć|jedenaście|dwanaście|trzynaście|czternaście|piętnaście|szesnaście|siedemnaście|osiemnaście|dziewiętnaście|dwadzieścia|trzydzieści|czterdzieści|pięćdziesiąt|sześćdziesiąt|siedemdziesiąt|osiemdziesiąt|dziewięćdziesiąt|sto|dwieście|trzysta|czterysta|pięćset|sześćset|siedemset|osiemset|dziewięćset|tysiąc|milion|miliard|bilion)</token>
+          <token inflected="yes" regexp="yes">pięć|sześć|siedem|osiem|dziewięć|dziesięć|jedenaście|dwanaście|trzynaście|czternaście|piętnaście|szesnaście|siedemnaście|osiemnaście|dziewiętnaście|dwadzieścia|trzydzieści|czterdzieści|pięćdziesiąt|sześćdziesiąt|siedemdziesiąt|osiemdziesiąt|dziewięćdziesiąt|sto|dwieście|trzysta|czterysta|pięćset|sześćset|siedemset|osiemset|dziewięćset|tysiąc|milion|miliard|bilion</token>
 
-          <token regexp="yes">^(wat|gram|amper|kilowat|kilogram|kiloamper|wolt|kilowolt|złoty|kilometr|metr|centymetr)</token>
+          <token regexp="yes">wat|gram|amper|kilowat|kilogram|kiloamper|wolt|kilowolt|złoty|kilometr|metr|centymetr</token>
         </pattern>
 
         <message>Nazwy jednostek miary odmienia się. W tym wypadku powinny być w dopełniaczu: <suggestion><match
@@ -4335,9 +4351,9 @@ Powinno być: <suggestion>\2, \3 \4</suggestion>.</message>
 
       <rule>
         <pattern mark_from="1">
-          <token inflected="yes" regexp="yes">^(dwa|trzy|cztery)</token>
+          <token inflected="yes" regexp="yes">dwa|trzy|cztery</token>
 
-          <token regexp="yes">^(wat|gram|amper|kilowat|kilogram|kiloamper|wolt|kilowolt|złoty|kilometr|metr|centymetr)</token>
+          <token regexp="yes">wat|gram|amper|kilowat|kilogram|kiloamper|wolt|kilowolt|złoty|kilometr|metr|centymetr</token>
         </pattern>
 
         <message>Nazwy jednostek miary odmienia się. W tym wypadku powinny być w mianowniku liczby mnogiej:<suggestion><match
@@ -5421,7 +5437,7 @@ Powinno być: <suggestion>\2, \3 \4</suggestion>.</message>
 
         <token>bardziej</token>
 
-        <token inflected="yes" regexp="yes">^(akumulacyjny|ambicyjny|ambiwalentny|ankietowy|anomalny|ateistyczny|audiencjonalny|audiencyjny|autochtoniczny|autochtoński|bajoński|bezdenny|bezimienny|bezprodukcyjny|bezproduktywny|bezpyłowy|bezpylny|bezustanny|bezwietrzny|bilateralny|bledziutki|bombowy|braterski|chwytny|dekoratorski|długoletni|długowiekowy|dodatkowy|dopingowy|dostateczny|drugorzędny|dwoisty|dwuletni|dwuroczny|dyplomatyczny|dyplomowany|dyskrecjonalny|dyżurny|dzisiejszy|ekstranowoczesny|ekstremalny|ewentualny|fenomenalny|finalny|gadulski|generalny|genetyczny|gigantyczny|goły|gotowy|hipoalergiczny|humanistyczny|identyczny|iluzyjny|innowierczy|inny|intelektualny|intensyfikacyjny|introspekcyjny|introspektywny|istny|jazzowy|jazzrockowy|jednaki|jednakowy|jednoczesny|jednomyślny|jedyny|kapitalny|klasycystyczny|kochaneńki|kompilacyjny|kompilatorski|komplementarny|konceptualny|kontrastowy|kopiasty|krańcowy|kulturowy|leciuchny|leciutki|lekuchny|letni|ludyczny|maksymalistyczny|maksymalny|martwy|mikroskopijny|możebny|nadmierny|nagi|nagminny|neutralny|niebiański|niebotyczny|niebyły|niebywały|niedaleki|niedawny|niedosięgły|niedościgły|niedozwolony|nienawykły|nieprzywykły|nieoceniony|niepamiętny|niepisany|niepodległy|nieporównany|nieporuszony|nieprawdopodobny|nieproszony|niesamowity|niespożyty|niestrudzony|nieustraszony|nieutulony|niewinny|niewyczerpany|niewytłumaczalny|niewzruszony|niezamącony|niezaprzeczalny|niezawodny|niezbity|niezgorszy|niezmącony|niezrównany|nijaki|obecny|obłąkany|obojętny|oddzielny|odmienny|odrębny|odwieczny|ogromny|optymalny|patentowy|pełnowartościowy|permanentny|piekielny|pierworodny|pierwszoplanowy|pierwszorzędny|pitny|podległy|pokrewny|pomniejszy|pośredni|potencjalny|praworęczny|propedeutyczny|przeciwstawny|przedwczesny|przedwieczny|przenośny|przeświadczony|przewoźny|przyciężki|przydługi|przykrótki|przysłowiowy|pusty|racjonalizacyjny|racjonalizatorski|równoległy|równorzędny|rutyniarski|rutynowany|skonany|standardowy|sukcesywny|sytuowany|średni|świecki|totalny|ubożuchny|ubożutki|wart|wieczny|wielowiekowy|winien|własny|wspólny|wszechmogący|wszechmocny|wszechwiedzący|wszystkowiedzący|wszyściutki|wszyściuteńki|wszyściuchny|wyborowy|wyjątkowy|wzajemny|zależny|zawisły|zdradziecki|zdrowotny|zupełny|zwierzchni|żądny)<exception
+        <token inflected="yes" regexp="yes">akumulacyjny|ambicyjny|ambiwalentny|ankietowy|anomalny|ateistyczny|audiencjonalny|audiencyjny|autochtoniczny|autochtoński|bajoński|bezdenny|bezimienny|bezprodukcyjny|bezproduktywny|bezpyłowy|bezpylny|bezustanny|bezwietrzny|bilateralny|bledziutki|bombowy|braterski|chwytny|dekoratorski|długoletni|długowiekowy|dodatkowy|dopingowy|dostateczny|drugorzędny|dwoisty|dwuletni|dwuroczny|dyplomatyczny|dyplomowany|dyskrecjonalny|dyżurny|dzisiejszy|ekstranowoczesny|ekstremalny|ewentualny|fenomenalny|finalny|gadulski|generalny|genetyczny|gigantyczny|goły|gotowy|hipoalergiczny|humanistyczny|identyczny|iluzyjny|innowierczy|inny|intelektualny|intensyfikacyjny|introspekcyjny|introspektywny|istny|jazzowy|jazzrockowy|jednaki|jednakowy|jednoczesny|jednomyślny|jedyny|kapitalny|klasycystyczny|kochaneńki|kompilacyjny|kompilatorski|komplementarny|konceptualny|kontrastowy|kopiasty|krańcowy|kulturowy|leciuchny|leciutki|lekuchny|letni|ludyczny|maksymalistyczny|maksymalny|martwy|mikroskopijny|możebny|nadmierny|nagi|nagminny|neutralny|niebiański|niebotyczny|niebyły|niebywały|niedaleki|niedawny|niedosięgły|niedościgły|niedozwolony|nienawykły|nieprzywykły|nieoceniony|niepamiętny|niepisany|niepodległy|nieporównany|nieporuszony|nieprawdopodobny|nieproszony|niesamowity|niespożyty|niestrudzony|nieustraszony|nieutulony|niewinny|niewyczerpany|niewytłumaczalny|niewzruszony|niezamącony|niezaprzeczalny|niezawodny|niezbity|niezgorszy|niezmącony|niezrównany|nijaki|obecny|obłąkany|obojętny|oddzielny|odmienny|odrębny|odwieczny|ogromny|optymalny|patentowy|pełnowartościowy|permanentny|piekielny|pierworodny|pierwszoplanowy|pierwszorzędny|pitny|podległy|pokrewny|pomniejszy|pośredni|potencjalny|praworęczny|propedeutyczny|przeciwstawny|przedwczesny|przedwieczny|przenośny|przeświadczony|przewoźny|przyciężki|przydługi|przykrótki|przysłowiowy|pusty|racjonalizacyjny|racjonalizatorski|równoległy|równorzędny|rutyniarski|rutynowany|skonany|standardowy|sukcesywny|sytuowany|średni|świecki|totalny|ubożuchny|ubożutki|wart|wieczny|wielowiekowy|winien|własny|wspólny|wszechmogący|wszechmocny|wszechwiedzący|wszystkowiedzący|wszyściutki|wszyściuteńki|wszyściuchny|wyborowy|wyjątkowy|wzajemny|zależny|zawisły|zdradziecki|zdrowotny|zupełny|zwierzchni|żądny<exception
             postag="adv.*" postag_regexp="yes"></exception><exception>martwi</exception></token>
       </pattern>
 
@@ -5441,7 +5457,7 @@ Powinno być: <suggestion>\2, \3 \4</suggestion>.</message>
       <pattern>
         <token>najbardziej</token>
 
-        <token inflected="yes" regexp="yes">^(akumulacyjny|ambicyjny|ambiwalentny|ankietowy|anomalny|ateistyczny|audiencjonalny|audiencyjny|autochtoniczny|autochtoński|bajoński|bezdenny|bezimienny|bezprodukcyjny|bezproduktywny|bezpyłowy|bezpylny|bezustanny|bezwietrzny|bilateralny|bledziutki|bombowy|braterski|chwytny|dekoratorski|długoletni|długowiekowy|dodatkowy|dopingowy|dostateczny|drugorzędny|dwoisty|dwuletni|dwuroczny|dyplomatyczny|dyplomowany|dyskrecjonalny|dyżurny|dzisiejszy|ekstranowoczesny|ekstremalny|ewentualny|fenomenalny|finalny|gadulski|generalny|genetyczny|gigantyczny|goły|gotowy|hipoalergiczny|humanistyczny|identyczny|iluzyjny|innowierczy|inny|intelektualny|intensyfikacyjny|introspekcyjny|introspektywny|istny|jazzowy|jazzrockowy|jednaki|jednakowy|jednoczesny|jednomyślny|jedyny|kapitalny|klasycystyczny|kochaneńki|kompilacyjny|kompilatorski|komplementarny|konceptualny|kontrastowy|kopiasty|krańcowy|kulturowy|leciuchny|leciutki|lekuchny|letni|ludyczny|maksymalistyczny|maksymalny|martwy|mikroskopijny|możebny|nadmierny|nagi|nagminny|neutralny|niebiański|niebotyczny|niebyły|niebywały|niedaleki|niedawny|niedosięgły|niedościgły|niedozwolony|nienawykły|nieprzywykły|nieoceniony|niepamiętny|niepisany|niepodległy|nieporównany|nieporuszony|nieprawdopodobny|nieproszony|niesamowity|niespożyty|niestrudzony|nieustraszony|nieutulony|niewinny|niewyczerpany|niewytłumaczalny|niewzruszony|niezamącony|niezaprzeczalny|niezawodny|niezbity|niezgorszy|niezmącony|niezrównany|nijaki|obecny|obłąkany|obojętny|oddzielny|odmienny|odrębny|odwieczny|ogromny|optymalny|patentowy|pełnowartościowy|permanentny|piekielny|pierworodny|pierwszoplanowy|pierwszorzędny|pitny|podległy|pokrewny|pomniejszy|pośredni|potencjalny|praworęczny|propedeutyczny|przeciwstawny|przedwczesny|przedwieczny|przenośny|przeświadczony|przewoźny|przyciężki|przydługi|przykrótki|przysłowiowy|pusty|racjonalizacyjny|racjonalizatorski|równoległy|równorzędny|rutyniarski|rutynowany|skonany|standardowy|sukcesywny|sytuowany|średni|świecki|totalny|ubożuchny|ubożutki|wart|wieczny|wielowiekowy|winien|własny|wspólny|wszechmogący|wszechmocny|wszechwiedzący|wszystkowiedzący|wszyściutki|wszyściuteńki|wszyściuchny|wyborowy|wyjątkowy|wzajemny|zależny|zawisły|zdradziecki|zdrowotny|zupełny|zwierzchni|żądny)<exception
+        <token inflected="yes" regexp="yes">akumulacyjny|ambicyjny|ambiwalentny|ankietowy|anomalny|ateistyczny|audiencjonalny|audiencyjny|autochtoniczny|autochtoński|bajoński|bezdenny|bezimienny|bezprodukcyjny|bezproduktywny|bezpyłowy|bezpylny|bezustanny|bezwietrzny|bilateralny|bledziutki|bombowy|braterski|chwytny|dekoratorski|długoletni|długowiekowy|dodatkowy|dopingowy|dostateczny|drugorzędny|dwoisty|dwuletni|dwuroczny|dyplomatyczny|dyplomowany|dyskrecjonalny|dyżurny|dzisiejszy|ekstranowoczesny|ekstremalny|ewentualny|fenomenalny|finalny|gadulski|generalny|genetyczny|gigantyczny|goły|gotowy|hipoalergiczny|humanistyczny|identyczny|iluzyjny|innowierczy|inny|intelektualny|intensyfikacyjny|introspekcyjny|introspektywny|istny|jazzowy|jazzrockowy|jednaki|jednakowy|jednoczesny|jednomyślny|jedyny|kapitalny|klasycystyczny|kochaneńki|kompilacyjny|kompilatorski|komplementarny|konceptualny|kontrastowy|kopiasty|krańcowy|kulturowy|leciuchny|leciutki|lekuchny|letni|ludyczny|maksymalistyczny|maksymalny|martwy|mikroskopijny|możebny|nadmierny|nagi|nagminny|neutralny|niebiański|niebotyczny|niebyły|niebywały|niedaleki|niedawny|niedosięgły|niedościgły|niedozwolony|nienawykły|nieprzywykły|nieoceniony|niepamiętny|niepisany|niepodległy|nieporównany|nieporuszony|nieprawdopodobny|nieproszony|niesamowity|niespożyty|niestrudzony|nieustraszony|nieutulony|niewinny|niewyczerpany|niewytłumaczalny|niewzruszony|niezamącony|niezaprzeczalny|niezawodny|niezbity|niezgorszy|niezmącony|niezrównany|nijaki|obecny|obłąkany|obojętny|oddzielny|odmienny|odrębny|odwieczny|ogromny|optymalny|patentowy|pełnowartościowy|permanentny|piekielny|pierworodny|pierwszoplanowy|pierwszorzędny|pitny|podległy|pokrewny|pomniejszy|pośredni|potencjalny|praworęczny|propedeutyczny|przeciwstawny|przedwczesny|przedwieczny|przenośny|przeświadczony|przewoźny|przyciężki|przydługi|przykrótki|przysłowiowy|pusty|racjonalizacyjny|racjonalizatorski|równoległy|równorzędny|rutyniarski|rutynowany|skonany|standardowy|sukcesywny|sytuowany|średni|świecki|totalny|ubożuchny|ubożutki|wart|wieczny|wielowiekowy|winien|własny|wspólny|wszechmogący|wszechmocny|wszechwiedzący|wszystkowiedzący|wszyściutki|wszyściuteńki|wszyściuchny|wyborowy|wyjątkowy|wzajemny|zależny|zawisły|zdradziecki|zdrowotny|zupełny|zwierzchni|żądny<exception
             postag="adv.*" postag_regexp="yes"></exception><exception>martwi</exception></token>
       </pattern>
 
@@ -5463,7 +5479,7 @@ Powinno być: <suggestion>\2, \3 \4</suggestion>.</message>
 
         <token>bardziej</token>
 
-        <token regexp="yes">^(podobnie|optymalnie|pomału|powoli|równolegle|tymczasowo)</token>
+        <token regexp="yes">podobnie|optymalnie|pomału|powoli|równolegle|tymczasowo</token>
       </pattern>
 
       <message>Ten przysłówek nie może być stopniowany. Poprawnie: <suggestion>\3</suggestion>.</message>
@@ -5480,7 +5496,7 @@ Powinno być: <suggestion>\2, \3 \4</suggestion>.</message>
       <pattern>
         <token>najbardziej</token>
 
-        <token regexp="yes">^(podobnie|optymalnie|pomału|powoli|równolegle|tymczasowo)</token>
+        <token regexp="yes">podobnie|optymalnie|pomału|powoli|równolegle|tymczasowo</token>
       </pattern>
 
       <message>Ten przysłówek nie może być stopniowany. Poprawnie: <suggestion>\2</suggestion>.</message>
@@ -5499,7 +5515,7 @@ Powinno być: <suggestion>\2, \3 \4</suggestion>.</message>
 
         <token>bardziej</token>
 
-        <token inflected="yes" regexp="yes">^(brzydki|cichy|ciekawy|ciężki|daleki|długi|dobry|dokładny|duży|dziwny|głęboki|głośny|gruby|grzeczny|korzystny|koszmarny|lekki|luźny|łagodny|łatwy|miły|młody|mocny|okropny|piękny|potworny|prosty|silny|słaby|stary|trwały|ważny|wąski|wolny|wstrętny|wytrwały|zimny|zły|znaczny)<exception
+        <token inflected="yes" regexp="yes">brzydki|cichy|ciekawy|ciężki|daleki|długi|dobry|dokładny|duży|dziwny|głęboki|głośny|gruby|grzeczny|korzystny|koszmarny|lekki|luźny|łagodny|łatwy|miły|młody|mocny|okropny|piękny|potworny|prosty|silny|słaby|stary|trwały|ważny|wąski|wolny|wstrętny|wytrwały|zimny|zły|znaczny<exception
             postag="adv.*" postag_regexp="yes"></exception></token>
       </pattern>
 
@@ -5525,7 +5541,7 @@ Powinno być: <suggestion>\2, \3 \4</suggestion>.</message>
       <pattern>
         <token>najbardziej</token>
 
-        <token inflected="yes" regexp="yes">^(brzydki|cichy|ciekawy|ciężki|daleki|długi|dobry|dokładny|duży|dziwny|głęboki|głośny|gruby|grzeczny|korzystny|koszmarny|lekki|luźny|łagodny|łatwy|miły|młody|mocny|okropny|piękny|potworny|prosty|silny|słaby|stary|trwały|ważny|wąski|wolny|wstrętny|wytrwały|zimny|zły|znaczny)<exception
+        <token inflected="yes" regexp="yes">brzydki|cichy|ciekawy|ciężki|daleki|długi|dobry|dokładny|duży|dziwny|głęboki|głośny|gruby|grzeczny|korzystny|koszmarny|lekki|luźny|łagodny|łatwy|miły|młody|mocny|okropny|piękny|potworny|prosty|silny|słaby|stary|trwały|ważny|wąski|wolny|wstrętny|wytrwały|zimny|zły|znaczny<exception
             postag="adv.*" postag_regexp="yes"></exception></token>
       </pattern>
 
@@ -5551,7 +5567,7 @@ Powinno być: <suggestion>\2, \3 \4</suggestion>.</message>
 
         <token>bardziej</token>
 
-        <token regexp="yes">^(brzydko|cicho|ciekawie|ciężko|daleko|długo|dobrze|dokładnie|dużo|dziwnie|głęboko|głośno|grubo|grzecznie|korzystnie|koszmarnie|lekko|luźno|łagodnie|łatwo|miło|młodo|mocno|okropnie|pięknie|potwornie|prosto|silnie|słabo|staro|trwale|ważnie|wąsko|wolno|wstrętnie|wytrwale|zimno|źle|strasznie)</token>
+        <token regexp="yes">brzydko|cicho|ciekawie|ciężko|daleko|długo|dobrze|dokładnie|dużo|dziwnie|głęboko|głośno|grubo|grzecznie|korzystnie|koszmarnie|lekko|luźno|łagodnie|łatwo|miło|młodo|mocno|okropnie|pięknie|potwornie|prosto|silnie|słabo|staro|trwale|ważnie|wąsko|wolno|wstrętnie|wytrwale|zimno|źle|strasznie</token>
       </pattern>
 
       <message>Ten przysłówek stopniuje się bez wyrazu „bardziej”.</message>
@@ -5576,7 +5592,7 @@ Powinno być: <suggestion>\2, \3 \4</suggestion>.</message>
       <pattern>
         <token>najbardziej</token>
 
-        <token regexp="yes">^(brzydko|cicho|ciekawie|ciężko|daleko|długo|dobrze|dokładnie|dużo|dziwnie|głęboko|głośno|grubo|grzecznie|korzystnie|koszmarnie|lekko|luźno|łagodnie|łatwo|miło|młodo|mocno|okropnie|pięknie|potwornie|prosto|silnie|słabo|staro|trwale|ważnie|wąsko|wolno|wstrętnie|wytrwale|zimno|źle|strasznie)</token>
+        <token regexp="yes">brzydko|cicho|ciekawie|ciężko|daleko|długo|dobrze|dokładnie|dużo|dziwnie|głęboko|głośno|grubo|grzecznie|korzystnie|koszmarnie|lekko|luźno|łagodnie|łatwo|miło|młodo|mocno|okropnie|pięknie|potwornie|prosto|silnie|słabo|staro|trwale|ważnie|wąsko|wolno|wstrętnie|wytrwale|zimno|źle|strasznie</token>
       </pattern>
 
       <message>Ten przysłówek stopniuje się bez wyrazu „najbardziej”.</message>
@@ -9045,10 +9061,7 @@ lub <suggestion>\2 na prawach wyłączności</suggestion>.</message>
           <token>temacie</token>
         </pattern>
 
-        <message>W większości kontekstów to wyrażenie jest niepoprawne. Lepiej powiedzieć: 
-			<suggestion>na temat</suggestion>, <suggestion>jeśli chodzi o</suggestion>, 
-			<suggestion>w sprawie</suggestion>, <suggestion>w dziedzinie</suggestion>; 
-			<suggestion>w wątku</suggestion> (dyskusji).</message>
+        <message>W większości kontekstów to wyrażenie jest niepoprawne. Lepiej powiedzieć: <suggestion>na temat</suggestion>, <suggestion>jeśli chodzi o</suggestion>, <suggestion>w sprawie</suggestion>, <suggestion>w dziedzinie</suggestion>; <suggestion>w wątku</suggestion> (dyskusji).</message>
 
         <short>Błąd leksykalny</short>
 
@@ -10655,7 +10668,7 @@ lub <suggestion>\2 na prawach wyłączności</suggestion>.</message>
 
           <token regexp="yes">[\"„]</token>
 
-          <token negate="yes" regexp="yes">[WFwf].+|Lwowie|środ(ę|y)|czwart(ek|ki)|dw.+|tr.+|mnie|znaki|drzwiach|krwi|śnie|dnie|mg(le|łach)|łbie|czterech|czwórkę|czworo|are|mszy|łzach|lwowski.+<exception
+          <token negate="yes" regexp="yes">[WFwf].+|Lwowie|środ(?:ę|y)|czwart(ek|ki)|dw.+|tr.+|mnie|znaki|drzwiach|krwi|śnie|dnie|mg(?:le|łach)|łbie|czterech|czwórkę|czworo|are|mszy|łzach|lwowski.+<exception
               regexp="yes">[\"„]</exception><exception postag="UNKNOWN"></exception></token>
         </pattern>
 
@@ -10844,7 +10857,7 @@ lub <suggestion>\2 na prawach wyłączności</suggestion>.</message>
     <rulegroup default="off" id="RYMY" name="Rymujące się wyrazy">
       <rule>
         <pattern case_sensitive="no">
-          <token regexp="yes">.*([aeuóiyęą][^aeuóiyęą]+[aeuóiyęą]+[^aeuóiyęą]*)</token>
+          <token regexp="yes">.*(?:[aeuóiyęą][^aeuóiyęą]+[aeuóiyęą]+[^aeuóiyęą]*)</token>
 
           <and>
             <token negate="yes"><match no="0"></match></token>
@@ -10955,7 +10968,7 @@ lub <suggestion>\2 na prawach wyłączności</suggestion>.</message>
     <rulegroup id="LICZBA_PROC" name="liczba słownie + „%” (proc.)">
       <rule>
         <pattern mark_from="1" mark_to="-1">
-          <token negate="yes" regexp="yes">(±)?\d</token>
+          <token negate="yes" regexp="yes">±?\d</token>
 
           <token>%</token>
 
@@ -10973,7 +10986,7 @@ lub <suggestion>\2 na prawach wyłączności</suggestion>.</message>
 
       <rule>
         <pattern mark_from="1" mark_to="-1">
-          <token negate="yes" regexp="yes">(±)?\d</token>
+          <token negate="yes" regexp="yes">±?\d</token>
 
           <token>%</token>
 
@@ -10991,12 +11004,14 @@ lub <suggestion>\2 na prawach wyłączności</suggestion>.</message>
     </rulegroup>
 
     <rule id="KAZDY_JEDEN" name="„każdy jeden” (każdy)">
-      <!--  FIXME: w drugim token użyć <match no="0" postag="adj.*" - nie ma jeszcze obsługi -->
+      <!--  -->
 
       <pattern>
-        <token inflected="yes">każdy</token>
+        <unify feature="case,gender,number">
+          <token inflected="yes">każdy</token>
 
-        <token>jeden</token>
+          <token inflected="yes">jeden</token>
+        </unify>
       </pattern>
 
       <message>Nie mówi się „\1 \2”. Wystarczy: <suggestion>\1</suggestion>.</message>
@@ -11004,6 +11019,10 @@ lub <suggestion>\2 na prawach wyłączności</suggestion>.</message>
       <short>Pleonazm</short>
 
       <example type="correct">Każdy Polak kocha swojego prezydenta.</example>
+
+      <example type="correct">Ale każdy jedną wódkę wypił!</example>
+
+      <example correction="każdego" type="incorrect">Nie lubię <marker>każdego jednego</marker> łososia.</example>
 
       <example correction="Każdy" type="incorrect"><marker>Każdy jeden</marker> Polak kocha swojego prezydenta.</example>
     </rule>
@@ -11712,7 +11731,7 @@ lub <suggestion>\2 na prawach wyłączności</suggestion>.</message>
       <pattern case_sensitive="yes" mark_from="1">
         <token inflected="yes">język</token>
 
-        <token regexp="yes">(Angielski|Polski|Rosyjski|Niemiecki|Francuski|Hiszpański|Łaciński|Grecki|Turecki|Albański|Kataloński|Ukraiński|Czeski|Słowacki|Szwedzki|Niderlandzki|Chiński|Norweski|Litewski|Łotewski|Estoński|Rumuński|Bułgarski|Włoski|Flamandzki|Portugalski|Kastylijski|Fiński|Duński|Indonezyjski|Hebrajski|Koreański|Serbski|Chorwacki|Słoweński|Arabski|Węgierski|Wietnamski|Newarski|Perski|Tajski|Galicyjski|Malajski|Bośniacki|Luksemburski|Macedoński|Gruziński|Islandzki|Walijski|Serbsko-chorwacki).*</token>
+        <token regexp="yes">(?:Angielski|Polski|Rosyjski|Niemiecki|Francuski|Hiszpański|Łaciński|Grecki|Turecki|Albański|Kataloński|Ukraiński|Czeski|Słowacki|Szwedzki|Niderlandzki|Chiński|Norweski|Litewski|Łotewski|Estoński|Rumuński|Bułgarski|Włoski|Flamandzki|Portugalski|Kastylijski|Fiński|Duński|Indonezyjski|Hebrajski|Koreański|Serbski|Chorwacki|Słoweński|Arabski|Węgierski|Wietnamski|Newarski|Perski|Tajski|Galicyjski|Malajski|Bośniacki|Luksemburski|Macedoński|Gruziński|Islandzki|Walijski|Serbsko-chorwacki).*</token>
       </pattern>
 
       <message>Nazwy języków piszemy małą literą: <suggestion><match
@@ -12936,7 +12955,7 @@ Znacznie częściej ta forma jest mylona z trybem rozkazującym od „pokazać�
     <rule id="DWU_I_POL_PRZYMIOTNIK"
           name="Błędna pisownia rozłączna przymiotników typu „dwuipółkrotny”">
       <pattern>
-        <token regexp="yes">(.*)jedno|dwu|trzy|cztero|pięcio|sześcio|siedmio|ośmio|dziewięcio|dziesięcio|jedenasto|stu|dwustu</token>
+        <token regexp="yes">(?:.*)(?:jedno|dwu|trzy|cztero|pięcio|sześcio|siedmio|ośmio|dziewięcio|dziesięcio|jedenasto|stu|dwustu)</token>
 
         <token>i</token>
 
@@ -13268,7 +13287,7 @@ Znacznie częściej ta forma jest mylona z trybem rozkazującym od „pokazać�
     <rule id="SKROTOWCE_BEZ_DYWIZU"
           name="Skrótowce bez dywizu w przypadkach zależnych">
       <pattern>
-        <token regexp="yes">^(\p{Lu}{2}+[i]*\p{Lu}+[\p{L}&amp;&amp;[^\p{Lu}]]{1,4}+)<exception
+        <token regexp="yes">\p{Lu}{2}+[i]*\p{Lu}+[\p{L}&amp;&amp;[^\p{Lu}]]{1,4}+<exception
             regexp="yes">GKKFicie|JCMości|JCMością|JCWysokości|JCWysokością|JKMości|JKMością|JKWysokości|JKWysokością|PZKol|PZMocie|PZMot|SJPDor|WPan|WPani|WPaństwo|BCh|COr|CSSp|GHz|MHz|MKOl|PKOl|UWr|REDakcj.*|KPCh</exception></token>
       </pattern>
 
@@ -13289,7 +13308,7 @@ Znacznie częściej ta forma jest mylona z trybem rozkazującym od „pokazać�
     <rule id="SKROTOWCE_Z_APOSTROFEM"
           name="Skrótowce z apostrofem w przypadkach zależnych">
       <pattern>
-        <token regexp="yes">^\p{Lu}{2}+[i]*\p{Lu}+</token>
+        <token regexp="yes">\p{Lu}{2}+[i]*\p{Lu}+</token>
 
         <token spacebefore="no">'</token>
 
@@ -13483,7 +13502,7 @@ Znacznie częściej ta forma jest mylona z trybem rozkazującym od „pokazać�
                name="Skrótowy zapis liczb: 10-tka (dziesiątka) itd.">
       <rule>
         <pattern>
-          <token regexp="yes">1-n?(ka|ce|ką|ko|kę|ki|kach|kami|kom|ek)</token>
+          <token regexp="yes">1-n?(?:ka|ce|ką|ko|kę|ki|kach|kami|kom|ek)</token>
         </pattern>
 
         <message>Niepoprawny zapis skrótowy liczby. Rzeczowniki odliczebnikowe zawsze zapisuje się słownie: <suggestion><match
@@ -13499,7 +13518,7 @@ Znacznie częściej ta forma jest mylona z trybem rozkazującym od „pokazać�
 
       <rule>
         <pattern>
-          <token regexp="yes">2-j?(ka|ce|ką|ko|kę|ki|kach|kami|kom|ek)</token>
+          <token regexp="yes">2-j?(?:k[aąoęi]|ce|kach|kami|kom|ek)</token>
         </pattern>
 
         <message>Niepoprawny zapis skrótowy liczby. Rzeczowniki odliczebnikowe zawsze zapisuje się słownie: <suggestion><match
@@ -13515,7 +13534,7 @@ Znacznie częściej ta forma jest mylona z trybem rozkazującym od „pokazać�
 
       <rule>
         <pattern>
-          <token regexp="yes">3-j?(ka|ce|ką|ko|kę|ki|kach|kami|kom|ek)</token>
+          <token regexp="yes">3-j?(?:k[aąoęi]|ce|kach|kami|kom|ek)</token>
         </pattern>
 
         <message>Niepoprawny zapis skrótowy liczby. Rzeczowniki odliczebnikowe zawsze zapisuje się słownie: <suggestion><match
@@ -13531,7 +13550,7 @@ Znacznie częściej ta forma jest mylona z trybem rozkazującym od „pokazać�
 
       <rule>
         <pattern>
-          <token regexp="yes">4-r?(ka|ce|ką|ko|kę|ki|kach|kami|kom|ek)</token>
+          <token regexp="yes">4-r?(?:k[aąoęi]|ce|kach|kami|kom|ek)</token>
         </pattern>
 
         <message>Niepoprawny zapis skrótowy liczby. Rzeczowniki odliczebnikowe zawsze zapisuje się słownie: <suggestion><match
@@ -13547,7 +13566,7 @@ Znacznie częściej ta forma jest mylona z trybem rozkazującym od „pokazać�
 
       <rule>
         <pattern>
-          <token regexp="yes">5-t?(ka|ce|ką|ko|kę|ki|kach|kami|kom|ek)</token>
+          <token regexp="yes">5-t?(?:k[aąoęi]|ce|kach|kami|kom|ek)</token>
         </pattern>
 
         <message>Niepoprawny zapis skrótowy liczby. Rzeczowniki odliczebnikowe zawsze zapisuje się słownie: <suggestion><match
@@ -13563,7 +13582,7 @@ Znacznie częściej ta forma jest mylona z trybem rozkazującym od „pokazać�
 
       <rule>
         <pattern>
-          <token regexp="yes">6-t?(ka|ce|ką|ko|kę|ki|kach|kami|kom|ek)</token>
+          <token regexp="yes">6-t?(?:k[aąoęi]|ce|kach|kami|kom|ek)</token>
         </pattern>
 
         <message>Niepoprawny zapis skrótowy liczby. Rzeczowniki odliczebnikowe zawsze zapisuje się słownie: <suggestion><match
@@ -13579,7 +13598,7 @@ Znacznie częściej ta forma jest mylona z trybem rozkazującym od „pokazać�
 
       <rule>
         <pattern>
-          <token regexp="yes">7-m?(ka|ce|ką|ko|kę|ki|kach|kami|kom|ek)</token>
+          <token regexp="yes">7-m?(?:k[aąoęi]|ce|kach|kami|kom|ek)</token>
         </pattern>
 
         <message>Niepoprawny zapis skrótowy liczby. Rzeczowniki odliczebnikowe zawsze zapisuje się słownie: <suggestion><match
@@ -13595,7 +13614,7 @@ Znacznie częściej ta forma jest mylona z trybem rozkazującym od „pokazać�
 
       <rule>
         <pattern>
-          <token regexp="yes">8-m?(ka|ce|ką|ko|kę|ki|kach|kami|kom|ek)</token>
+          <token regexp="yes">8-m?(?:k[aąoęi]|ce|kach|kami|kom|ek)</token>
         </pattern>
 
         <message>Niepoprawny zapis skrótowy liczby. Rzeczowniki odliczebnikowe zawsze zapisuje się słownie: <suggestion><match
@@ -13611,7 +13630,7 @@ Znacznie częściej ta forma jest mylona z trybem rozkazującym od „pokazać�
 
       <rule>
         <pattern>
-          <token regexp="yes">9-t?(ka|ce|ką|ko|kę|ki|kach|kami|kom|ek)</token>
+          <token regexp="yes">9-t?(?:k[aąoęi]|ce|kach|kami|kom|ek)</token>
         </pattern>
 
         <message>Niepoprawny zapis skrótowy liczby. Rzeczowniki odliczebnikowe zawsze zapisuje się słownie: <suggestion><match
@@ -13627,7 +13646,7 @@ Znacznie częściej ta forma jest mylona z trybem rozkazującym od „pokazać�
 
       <rule>
         <pattern>
-          <token regexp="yes">10-(tka|tce|tką|tko|tkę|tki|tkach|tkami|tkom|tek)</token>
+          <token regexp="yes">10-(?:tk[aoąęi]|tce|tkach|tkami|tkom|tek)</token>
         </pattern>
 
         <message>Niepoprawny zapis skrótowy liczby. Rzeczowniki odliczebnikowe zawsze zapisuje się słownie: <suggestion><match
@@ -13644,7 +13663,7 @@ Znacznie częściej ta forma jest mylona z trybem rozkazującym od „pokazać�
 
       <rule>
         <pattern>
-          <token regexp="yes">11-(tka|tce|tką|tko|tkę|tki|tkach|tkami|tkom|tek)</token>
+          <token regexp="yes">11-(?:tk[aoąęi]|tce|tkach|tkami|tkom|tek)</token>
         </pattern>
 
         <message>Niepoprawny zapis skrótowy liczby. Rzeczowniki odliczebnikowe zawsze zapisuje się słownie: <suggestion><match
@@ -13661,7 +13680,7 @@ Znacznie częściej ta forma jest mylona z trybem rozkazującym od „pokazać�
 
       <rule>
         <pattern>
-          <token regexp="yes">12-(tka|tce|tką|tko|tkę|tki|tkach|tkami|tkom|tek)</token>
+          <token regexp="yes">12-(?:tk[aoąęi]|tce|tkach|tkami|tkom|tek)</token>
         </pattern>
 
         <message>Niepoprawny zapis skrótowy liczby. Rzeczowniki odliczebnikowe zawsze zapisuje się słownie: <suggestion><match
@@ -13678,7 +13697,7 @@ Znacznie częściej ta forma jest mylona z trybem rozkazującym od „pokazać�
 
       <rule>
         <pattern>
-          <token regexp="yes">13-(tka|tce|tką|tko|tkę|tki|tkach|tkami|tkom|tek)</token>
+          <token regexp="yes">13-(?:tk[aoąęi]|tce|tkach|tkami|tkom|tek)</token>
         </pattern>
 
         <message>Niepoprawny zapis skrótowy liczby. Rzeczowniki odliczebnikowe zawsze zapisuje się słownie: <suggestion><match
@@ -13695,7 +13714,7 @@ Znacznie częściej ta forma jest mylona z trybem rozkazującym od „pokazać�
 
       <rule>
         <pattern>
-          <token regexp="yes">14-(tka|tce|tką|tko|tkę|tki|tkach|tkami|tkom|tek)</token>
+          <token regexp="yes">14-(?:tk[aoąęi]|tce|tkach|tkami|tkom|tek)</token>
         </pattern>
 
         <message>Niepoprawny zapis skrótowy liczby. Rzeczowniki odliczebnikowe zawsze zapisuje się słownie: <suggestion><match
@@ -13712,7 +13731,7 @@ Znacznie częściej ta forma jest mylona z trybem rozkazującym od „pokazać�
 
       <rule>
         <pattern>
-          <token regexp="yes">15-(tka|tce|tką|tko|tkę|tki|tkach|tkami|tkom|tek)</token>
+          <token regexp="yes">15-(?:tk[aoąęi]|tce|tkach|tkami|tkom|tek)</token>
         </pattern>
 
         <message>Niepoprawny zapis skrótowy liczby. Rzeczowniki odliczebnikowe zawsze zapisuje się słownie: <suggestion><match
@@ -13729,7 +13748,7 @@ Znacznie częściej ta forma jest mylona z trybem rozkazującym od „pokazać�
 
       <rule>
         <pattern>
-          <token regexp="yes">16-(tka|tce|tką|tko|tkę|tki|tkach|tkami|tkom|tek)</token>
+          <token regexp="yes">16-(?:tk[aoąęi]|tce|tkach|tkami|tkom|tek)</token>
         </pattern>
 
         <message>Niepoprawny zapis skrótowy liczby. Rzeczowniki odliczebnikowe zawsze zapisuje się słownie: <suggestion><match
@@ -13746,7 +13765,7 @@ Znacznie częściej ta forma jest mylona z trybem rozkazującym od „pokazać�
 
       <rule>
         <pattern>
-          <token regexp="yes">17-(tka|tce|tką|tko|tkę|tki|tkach|tkami|tkom|tek)</token>
+          <token regexp="yes">17-(?:tk[aoąęi]|tce|tkach|tkami|tkom|tek)</token>
         </pattern>
 
         <message>Niepoprawny zapis skrótowy liczby. Rzeczowniki odliczebnikowe zawsze zapisuje się słownie: <suggestion><match
@@ -13763,7 +13782,7 @@ Znacznie częściej ta forma jest mylona z trybem rozkazującym od „pokazać�
 
       <rule>
         <pattern>
-          <token regexp="yes">18-(tka|tce|tką|tko|tkę|tki|tkach|tkami|tkom|tek)</token>
+          <token regexp="yes">18-(?:tk[aoąęi]|tce|tkach|tkami|tkom|tek)</token>
         </pattern>
 
         <message>Niepoprawny zapis skrótowy liczby. Rzeczowniki odliczebnikowe zawsze zapisuje się słownie: <suggestion><match
@@ -13780,7 +13799,7 @@ Znacznie częściej ta forma jest mylona z trybem rozkazującym od „pokazać�
 
       <rule>
         <pattern>
-          <token regexp="yes">19-(tka|tce|tką|tko|tkę|tki|tkach|tkami|tkom|tek)</token>
+          <token regexp="yes">19-(?:tk[aoąęi]|tce|tkach|tkami|tkom|tek)</token>
         </pattern>
 
         <message>Niepoprawny zapis skrótowy liczby. Rzeczowniki odliczebnikowe zawsze zapisuje się słownie: <suggestion><match
@@ -13797,7 +13816,7 @@ Znacznie częściej ta forma jest mylona z trybem rozkazującym od „pokazać�
 
       <rule>
         <pattern>
-          <token regexp="yes">20-(tka|tce|tką|tko|tkę|tki|tkach|tkami|tkom|tek)</token>
+          <token regexp="yes">20-(?:tk[aoąęi]|tce|tkach|tkami|tkom|tek)</token>
         </pattern>
 
         <message>Niepoprawny zapis skrótowy liczby. Rzeczowniki odliczebnikowe zawsze zapisuje się słownie: <suggestion><match
@@ -13814,7 +13833,7 @@ Znacznie częściej ta forma jest mylona z trybem rozkazującym od „pokazać�
 
       <rule>
         <pattern>
-          <token regexp="yes">30-(tka|tce|tką|tko|tkę|tki|tkach|tkami|tkom|tek)</token>
+          <token regexp="yes">30-(?:tk[aoąęi]|tce|tkach|tkami|tkom|tek)</token>
         </pattern>
 
         <message>Niepoprawny zapis skrótowy liczby. Rzeczowniki odliczebnikowe zawsze zapisuje się słownie: <suggestion><match
@@ -13831,7 +13850,7 @@ Znacznie częściej ta forma jest mylona z trybem rozkazującym od „pokazać�
 
       <rule>
         <pattern>
-          <token regexp="yes">40-(tka|tce|tką|tko|tkę|tki|tkach|tkami|tkom|tek)</token>
+          <token regexp="yes">40-(?:tk[aoąęi]|tce|tkach|tkami|tkom|tek)</token>
         </pattern>
 
         <message>Niepoprawny zapis skrótowy liczby. Rzeczowniki odliczebnikowe zawsze zapisuje się słownie: <suggestion><match
@@ -13848,7 +13867,7 @@ Znacznie częściej ta forma jest mylona z trybem rozkazującym od „pokazać�
 
       <rule>
         <pattern>
-          <token regexp="yes">50-(tka|tce|tką|tko|tkę|tki|tkach|tkami|tkom|tek)</token>
+          <token regexp="yes">50-(?:tk[aoąęi]|tce|tkach|tkami|tkom|tek)</token>
         </pattern>
 
         <message>Niepoprawny zapis skrótowy liczby. Rzeczowniki odliczebnikowe zawsze zapisuje się słownie: <suggestion><match
@@ -13865,7 +13884,7 @@ Znacznie częściej ta forma jest mylona z trybem rozkazującym od „pokazać�
 
       <rule>
         <pattern>
-          <token regexp="yes">60-(tka|tce|tką|tko|tkę|tki|tkach|tkami|tkom|tek)</token>
+          <token regexp="yes">60-(?:tk[aoąęi]|tce|tkach|tkami|tkom|tek)</token>
         </pattern>
 
         <message>Niepoprawny zapis skrótowy liczby. Rzeczowniki odliczebnikowe zawsze zapisuje się słownie: <suggestion><match
@@ -13882,7 +13901,7 @@ Znacznie częściej ta forma jest mylona z trybem rozkazującym od „pokazać�
 
       <rule>
         <pattern>
-          <token regexp="yes">70-(tka|tce|tką|tko|tkę|tki|tkach|tkami|tkom|tek)</token>
+          <token regexp="yes">70-(?:tk[aoąęi]|tce|tkach|tkami|tkom|tek)</token>
         </pattern>
 
         <message>Niepoprawny zapis skrótowy liczby. Rzeczowniki odliczebnikowe zawsze zapisuje się słownie: <suggestion><match
@@ -13899,7 +13918,7 @@ Znacznie częściej ta forma jest mylona z trybem rozkazującym od „pokazać�
 
       <rule>
         <pattern>
-          <token regexp="yes">80-(tka|tce|tką|tko|tkę|tki|tkach|tkami|tkom|tek)</token>
+          <token regexp="yes">80-(?:tk[aoąęi]|tce|tkach|tkami|tkom|tek)</token>
         </pattern>
 
         <message>Niepoprawny zapis skrótowy liczby. Rzeczowniki odliczebnikowe zawsze zapisuje się słownie: <suggestion><match
@@ -13916,7 +13935,7 @@ Znacznie częściej ta forma jest mylona z trybem rozkazującym od „pokazać�
 
       <rule>
         <pattern>
-          <token regexp="yes">90-(tka|tce|tką|tko|tkę|tki|tkach|tkami|tkom|tek)</token>
+          <token regexp="yes">90-(?:tk[aoąęi]|tce|tkach|tkami|tkom|tek)</token>
         </pattern>
 
         <message>Niepoprawny zapis skrótowy liczby. Rzeczowniki odliczebnikowe zawsze zapisuje się słownie: <suggestion><match
@@ -13933,7 +13952,7 @@ Znacznie częściej ta forma jest mylona z trybem rozkazującym od „pokazać�
 
       <rule>
         <pattern>
-          <token regexp="yes">100-(tka|tce|tką|tko|tkę|tki|tkach|tkami|tkom|tek)</token>
+          <token regexp="yes">100-(?:tk[aoąęi]|tce|tkach|tkami|tkom|tek)</token>
         </pattern>
 
         <message>Niepoprawny zapis skrótowy liczby. Rzeczowniki odliczebnikowe zawsze zapisuje się słownie: <suggestion><match
@@ -13950,7 +13969,7 @@ Znacznie częściej ta forma jest mylona z trybem rozkazującym od „pokazać�
 
       <rule>
         <pattern>
-          <token regexp="yes">200-(tka|tce|tką|tko|tkę|tki|tkach|tkami|tkom|tek)</token>
+          <token regexp="yes">200-(?:tk[aoąęi]|tce|tkach|tkami|tkom|tek)</token>
         </pattern>
 
         <message>Niepoprawny zapis skrótowy liczby. Rzeczowniki odliczebnikowe zawsze zapisuje się słownie: <suggestion><match
@@ -13967,7 +13986,7 @@ Znacznie częściej ta forma jest mylona z trybem rozkazującym od „pokazać�
 
       <rule>
         <pattern>
-          <token regexp="yes">300-(tka|tce|tką|tko|tkę|tki|tkach|tkami|tkom|tek)</token>
+          <token regexp="yes">300-(?:tk[aoąęi]|tce|tkach|tkami|tkom|tek)</token>
         </pattern>
 
         <message>Niepoprawny zapis skrótowy liczby. Rzeczowniki odliczebnikowe zawsze zapisuje się słownie: <suggestion><match
@@ -13984,7 +14003,7 @@ Znacznie częściej ta forma jest mylona z trybem rozkazującym od „pokazać�
 
       <rule>
         <pattern>
-          <token regexp="yes">400-(tka|tce|tką|tko|tkę|tki|tkach|tkami|tkom|tek)</token>
+          <token regexp="yes">400-(?:tk[aoąęi]|tce|tkach|tkami|tkom|tek)</token>
         </pattern>
 
         <message>Niepoprawny zapis skrótowy liczby. Rzeczowniki odliczebnikowe zawsze zapisuje się słownie: <suggestion><match
@@ -14001,7 +14020,7 @@ Znacznie częściej ta forma jest mylona z trybem rozkazującym od „pokazać�
 
       <rule>
         <pattern>
-          <token regexp="yes">500-(tka|tce|tką|tko|tkę|tki|tkach|tkami|tkom|tek)</token>
+          <token regexp="yes">500-(?:tk[aoąęi]|tce|tkach|tkami|tkom|tek)</token>
         </pattern>
 
         <message>Niepoprawny zapis skrótowy liczby. Rzeczowniki odliczebnikowe zawsze zapisuje się słownie: <suggestion><match
@@ -14018,7 +14037,7 @@ Znacznie częściej ta forma jest mylona z trybem rozkazującym od „pokazać�
 
       <rule>
         <pattern>
-          <token regexp="yes">600-(tka|tce|tką|tko|tkę|tki|tkach|tkami|tkom|tek)</token>
+          <token regexp="yes">600-(?:tk[aoąęi]|tce|tkach|tkami|tkom|tek)</token>
         </pattern>
 
         <message>Niepoprawny zapis skrótowy liczby. Rzeczowniki odliczebnikowe zawsze zapisuje się słownie: <suggestion><match
@@ -14035,7 +14054,7 @@ Znacznie częściej ta forma jest mylona z trybem rozkazującym od „pokazać�
 
       <rule>
         <pattern>
-          <token regexp="yes">700-(tka|tce|tką|tko|tkę|tki|tkach|tkami|tkom|tek)</token>
+          <token regexp="yes">700-(?:tk[aoąęi]|tce|tkach|tkami|tkom|tek)</token>
         </pattern>
 
         <message>Niepoprawny zapis skrótowy liczby. Rzeczowniki odliczebnikowe zawsze zapisuje się słownie: <suggestion><match
@@ -14052,7 +14071,7 @@ Znacznie częściej ta forma jest mylona z trybem rozkazującym od „pokazać�
 
       <rule>
         <pattern>
-          <token regexp="yes">800-(tka|tce|tką|tko|tkę|tki|tkach|tkami|tkom|tek)</token>
+          <token regexp="yes">800-(?:tk[aoąęi]|tce|tkach|tkami|tkom|tek)</token>
         </pattern>
 
         <message>Niepoprawny zapis skrótowy liczby. Rzeczowniki odliczebnikowe zawsze zapisuje się słownie: <suggestion><match
@@ -14069,7 +14088,7 @@ Znacznie częściej ta forma jest mylona z trybem rozkazującym od „pokazać�
 
       <rule>
         <pattern>
-          <token regexp="yes">900-(tka|tce|tką|tko|tkę|tki|tkach|tkami|tkom|tek)</token>
+          <token regexp="yes">900-(?:tk[aoąęi]|tce|tkach|tkami|tkom|tek)</token>
         </pattern>
 
         <message>Niepoprawny zapis skrótowy liczby. Rzeczowniki odliczebnikowe zawsze zapisuje się słownie: <suggestion><match
@@ -14086,7 +14105,7 @@ Znacznie częściej ta forma jest mylona z trybem rozkazującym od „pokazać�
 
       <rule>
         <pattern>
-          <token regexp="yes"><exception regexp="yes">(1|2|3|4|5|6|7|8|9|10|11|12|13|14|15|16|17|18|19|20|30|40|50|60|70|80|90|100|200|300|400|500|600|700|800|900)-.*</exception>\d{1,3}-[mtrj]{1,2}?(ka|ce|ką|ko|kę|ki|kach|kami|kom|ek)</token>
+          <token regexp="yes"><exception regexp="yes">(?:1|2|3|4|5|6|7|8|9|10|11|12|13|14|15|16|17|18|19|20|30|40|50|60|70|80|90|100|200|300|400|500|600|700|800|900)-.*</exception>\d{1,3}-[mtrj]{1,2}?(k[aąięo]|ce|kach|kami|kom|ek)</token>
         </pattern>
 
         <message>Niepoprawny zapis skrótowy liczby. Rzeczowniki odliczebnikowe zawsze zapisuje się słownie.</message>
@@ -14126,7 +14145,7 @@ Znacznie częściej ta forma jest mylona z trybem rozkazującym od „pokazać�
 
       <rule>
         <pattern>
-          <token regexp="yes">^(\d+)-([cm]?io|mo|o|[t]?[e]?ro|sto|to|dmio|dno|[w]?u|y|rzy)</token>
+          <token regexp="yes">\d+-(?:[cm]?io|mo|o|[t]?[e]?ro|sto|to|dmio|dno|[w]?u|y|rzy)</token>
 
           <token postag="adj.*" postag_regexp="yes"></token>
         </pattern>
@@ -14148,7 +14167,7 @@ Znacznie częściej ta forma jest mylona z trybem rozkazującym od „pokazać�
 
       <rule>
         <pattern mark_to="-1">
-          <token regexp="yes">^(\d+)-([cm]?io|mo|o|[t]?[e]?ro|sto|to|dmio|dno|[w]?u|y|rzy)</token>
+          <token regexp="yes">\d+-(?:[cm]?io|mo|o|[t]?[e]?ro|sto|to|dmio|dno|[w]?u|y|rzy)</token>
 
           <token postag="conj" postag_regexp="yes"></token>
         </pattern>
@@ -14169,7 +14188,7 @@ Znacznie częściej ta forma jest mylona z trybem rozkazującym od „pokazać�
 
       <rule>
         <pattern mark_to="-1">
-          <token regexp="yes">^(\d+)-([cm]?io|mo|o|[t]?[e]?ro|sto|to|dmio|dno|[w]?u|y|rzy)</token>
+          <token regexp="yes">\d+-(?:[cm]?io|mo|o|[t]?[e]?ro|sto|to|dmio|dno|[w]?u|y|rzy)</token>
 
           <token negate_pos="yes" postag="conj|adj.*" postag_regexp="yes"></token>
         </pattern>
@@ -15205,7 +15224,7 @@ Znacznie częściej ta forma jest mylona z trybem rozkazującym od „pokazać�
 
           <token>in</token>
 
-          <token negate="yes">.<exception regexp="yes">^(absentia|abstracto|aeternum|aqua|blanco|crudo|dubio|effectu|effigie|extenso|extremis|fidem|flagranti|genere|gratiam|gremio|margine|medias|memoriam|minus|octavo|persona|plus|praxi|puncto|saecula|spe|statu|triplo|vitro|vivo|rebus)</exception></token>
+          <token negate="yes">.<exception regexp="yes">absentia|abstracto|aeternum|aqua|blanco|crudo|dubio|effectu|effigie|extenso|extremis|fidem|flagranti|genere|gratiam|gremio|margine|medias|memoriam|minus|octavo|persona|plus|praxi|puncto|saecula|spe|statu|triplo|vitro|vivo|rebus</exception></token>
         </pattern>
 
         <message>Ten skrót piszemy z kropką: <suggestion>\2.</suggestion>.</message>
@@ -15499,7 +15518,7 @@ Znacznie częściej ta forma jest mylona z trybem rozkazującym od „pokazać�
     <rule id="PRZEDROSTKI"
           name="Przedrostki błędnie pisane z łącznikiem: „neo”, „post”, „pre”, „eks”...">
       <pattern>
-        <token regexp="yes"><exception>nad-ja</exception>^(neo|post|pre|anty|arcy|eks|bez|beze|ekstra|hiper|infra|kontr|maksi|midi|między|mini|nad|nade|około|ponad|post|pro|przeciw|pseudo|super|śród|ultra|wice|wokół|wokoło)[-–]\p{Ll}+</token>
+        <token regexp="yes"><exception>nad-ja</exception>(?:neo|post|pre|anty|arcy|eks|bez|beze|ekstra|hiper|infra|kontr|maksi|midi|między|mini|nad|nade|około|ponad|post|pro|przeciw|pseudo|super|śród|ultra|wice|wokół|wokoło)[-–]\p{Ll}+</token>
       </pattern>
 
       <message>Ten wyraz piszemy bez łącznika: <suggestion><match no="1"
@@ -15522,7 +15541,7 @@ Znacznie częściej ta forma jest mylona z trybem rozkazującym od „pokazać�
     <rule id="PRZEDROSTEK_NIBY"
           name="Przedrostki „niby” i „quasi” błędnie pisane bez łącznika">
       <pattern>
-        <token postag="UNKNOWN" regexp="yes">(niby|quasi)[^-–].*</token>
+        <token postag="UNKNOWN" regexp="yes">(?:niby|quasi)[^-–].*</token>
       </pattern>
 
       <message>Tylko utarte terminy fachowe z cząstką „niby” piszemy bez łącznika. Poprawnie: <suggestion><match
@@ -18370,7 +18389,7 @@ Znacznie częściej ta forma jest mylona z trybem rozkazującym od „pokazać�
 
     <rule id="MAJA_MAJA" name="„maja” (mają)">
       <pattern case_sensitive="yes" mark_from="1" mark_to="-1">
-        <token><exception inflected="yes" regexp="yes">^(\d+|pierwszy|drugi|trzeci|czwarty|piąty|szósty|siódmy|ósmy|dziewiąty|dziesiąty|jedenasty|dwunasty|trzynasty|czternasty|piętnasty|szesnasty|siedemnasty|osiemnasty|dziewiętnasty|dwudziesty|trzydziesty|do|od|koniec|początek|tydzień|połowa)</exception></token>
+        <token><exception inflected="yes" regexp="yes">\d+|pierwszy|drugi|trzeci|czwarty|piąty|szósty|siódmy|ósmy|dziewiąty|dziesiąty|jedenasty|dwunasty|trzynasty|czternasty|piętnasty|szesnasty|siedemnasty|osiemnasty|dziewiętnasty|dwudziesty|trzydziesty|do|od|koniec|początek|tydzień|połowa</exception></token>
 
         <token>maja</token>
 
@@ -18836,7 +18855,7 @@ Znacznie częściej ta forma jest mylona z trybem rozkazującym od „pokazać�
         <pattern mark_from="1">
           <token><exception regexp="yes">na|\"|któr.*</exception></token>
 
-          <token regexp="yes">^(bakier|chybcika|płask|przekór|odchodne|odchodnym|odczepne|odczepnego|odjezdne|odjezdnym|odwyrtkę|opak|oścież|piechotkę|podorędziu|roścież|rozcież|schwał|spytki|ścieżaj|udry|umór|wyjezdne|wyjezdnym|wynos|wyrost|wznak|zabój)</token>
+          <token regexp="yes">bakier|chybcika|płask|przekór|odchodne|odchodnym|odczepne|odczepnego|odjezdne|odjezdnym|odwyrtkę|opak|oścież|piechotkę|podorędziu|roścież|rozcież|schwał|spytki|ścieżaj|udry|umór|wyjezdne|wyjezdnym|wynos|wyrost|wznak|zabój</token>
         </pattern>
 
         <message>Prawdopodobna literówka; powinno być: <suggestion>na \2</suggestion>.</message>
