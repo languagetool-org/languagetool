@@ -60,7 +60,7 @@ public abstract class AbstractPatternRule extends Rule {
   protected final boolean testUnification;
 
   private boolean getUnified;
-  
+
   private boolean groupsOrUnification;
 
   protected AnalyzedTokenReadings[] unifiedTokens;  
@@ -136,19 +136,17 @@ public abstract class AbstractPatternRule extends Rule {
   }
 
 
-  protected void setupAndGroup(final int readNo, final int firstMatchToken,
+  protected void setupAndGroup(final int firstMatchToken,
       final Element elem, final AnalyzedTokenReadings[] tokens)
-  throws IOException {
+  throws IOException {    
     if (elem.hasAndGroup()) {
       for (final Element andElement : elem.getAndGroup()) {
         if (andElement.isReferenceElement()) {
           setupRef(firstMatchToken, andElement, tokens);
         }
-      }
-      if (readNo == 0) {
-        elem.setupAndGroup();
-      }
-    }
+      }      
+      elem.setupAndGroup();
+    }    
   }
 
   protected void setupRef(final int firstMatchToken, final Element elem,
@@ -166,28 +164,31 @@ public abstract class AbstractPatternRule extends Rule {
       final int firstMatchToken, final int prevSkipNext) throws IOException {    
     boolean thisMatched = false;
     final int numberOfReadings = tokens[tokenNo].getReadingsLength();
+    setupAndGroup(firstMatchToken, elem, tokens);
     for (int l = 0; l < numberOfReadings; l++) {
       final AnalyzedToken matchToken = tokens[tokenNo].getAnalyzedToken(l);
       prevMatched = prevMatched || prevSkipNext > 0 && prevElement != null
       && prevElement.isMatchedByScopeNextException(matchToken);
-      setupAndGroup(l, firstMatchToken, elem, tokens);
+      if (prevMatched) {
+        return false;
+      }
       thisMatched = thisMatched || elem.isMatched(matchToken);
       if (groupsOrUnification) {
-      thisMatched &=  testUnificationAndGroups(thisMatched,
-          l + 1 == numberOfReadings, matchToken, elem);
+        thisMatched &= testUnificationAndGroups(thisMatched,
+            l + 1 == numberOfReadings, matchToken, elem);
       }
     }
     if (thisMatched) {
       for (int l = 0; l < numberOfReadings; l++) {
-      if (elem.isExceptionMatchedCompletely(tokens[tokenNo].getAnalyzedToken(l)))
-        return false;
+        if (elem.isExceptionMatchedCompletely(tokens[tokenNo].getAnalyzedToken(l)))
+          return false;
+      }    
+      if (tokenNo > 0 && elem.hasPreviousException()) {
+        if (elem.isMatchedByPreviousException(tokens[tokenNo - 1]))
+          return false;
       }
     }
-    if (tokenNo > 0 && elem.hasPreviousException()) {
-      if (elem.isMatchedByPreviousException(tokens[tokenNo - 1]))
-        return false;
-    }
-    return thisMatched && !prevMatched;
+    return thisMatched;
   }
 
   protected boolean testUnificationAndGroups(final boolean matched,
@@ -207,9 +208,9 @@ public abstract class AbstractPatternRule extends Rule {
       }
     }    
     elem.addMemberAndGroup(matchToken);
-      if (lastReading) {
-        thisMatched &= elem.checkAndGroup(thisMatched);
-     }        
+    if (lastReading) {
+      thisMatched &= elem.checkAndGroup(thisMatched);
+    }        
     return thisMatched;
   }
 
