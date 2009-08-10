@@ -161,7 +161,8 @@ public class DisambiguationPatternRule extends AbstractPatternRule {
         if (prevSkipNext + nextPos >= tokens.length || prevSkipNext < 0) { // SENT_END?
           prevSkipNext = tokens.length - (nextPos + 1);
         }
-        for (int m = nextPos; m <= nextPos + prevSkipNext; m++) {
+        final int maxTok = Math.min(nextPos + prevSkipNext, tokens.length - (patternSize - k));
+        for (int m = nextPos; m <= maxTok; m++) {       
           allElementsMatch = testAllReadings(tokens, elem, prevElement, m,
               firstMatchToken, prevSkipNext);
           if (allElementsMatch) {
