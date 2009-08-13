@@ -29,9 +29,9 @@ import de.danielnaber.languagetool.tagging.Tagger;
 import de.danielnaber.languagetool.tagging.ru.RussianTagger;
 //import de.danielnaber.languagetool.tokenizers.Tokenizer;
 //import de.danielnaber.languagetool.tokenizers.ru.RussianWordTokenizer;
-
+import de.danielnaber.languagetool.tokenizers.SRXSentenceTokenizer;  // new Tokenizer 
 import de.danielnaber.languagetool.tokenizers.SentenceTokenizer;
-import de.danielnaber.languagetool.tokenizers.ru.RussianSentenceTokenizer;
+// import de.danielnaber.languagetool.tokenizers.ru.RussianSentenceTokenizer;  // old Tokenizer
 
 
 public class Russian extends Language {
@@ -43,8 +43,8 @@ public class Russian extends Language {
   private Tagger tagger = new RussianTagger();
 //  private Tokenizer wordTokenizer = new RussianWordTokenizer();
   private Synthesizer synthesizer = new RussianSynthesizer();
-  private SentenceTokenizer sentenceTokenizer = new RussianSentenceTokenizer();
-
+//  private SentenceTokenizer sentenceTokenizer = new RussianSentenceTokenizer();   // old Tokenizer
+  private SentenceTokenizer sentenceTokenizer = new SRXSentenceTokenizer("ru"); // new Tokenizer 
   public Locale getLocale() {
     return new Locale(getShortName());
   }
