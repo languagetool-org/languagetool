@@ -3750,6 +3750,69 @@ It [really!] works. This is e.g. Mr. Smith, who talks slowly... And this is anot
 <afterbreak>\p{Lu}\p{Ll}</afterbreak>
 </rule>
 </languagerule>
+<languagerule languagerulename="Russian">
+<!-- single capital char abbreviations А. Б. В. -->
+<rule break="no">
+<beforebreak>\b[А-Я]\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<!-- date/time -->
+<rule break="no">
+<beforebreak>\b[0-9]+(гг|г)\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\b[XVILMC]+(в|вв)\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\b[0-9]+(\.|:)[0-9][0-9]\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\b[0-9]+(\.|:)[0-9][0-9](\.|:)[0-9][0-9]\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<!--Measures  -->
+<rule break="no">
+<beforebreak>\b[0-9]+(м|мм|см|дм|л|км|га|кг|т|г|мг)\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<!-- other abbreviations  -->
+<rule break="no">
+<beforebreak>\b(бульв|в|вв|г|га|гг|гл|гос|д|дм|доп|др|е|ед|ед|зам|и|инд|исп|Исп)\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\b(к|кап|кг|кв|кл|км|кол|комн|коп|куб|л|лиц|лл|м|макс|мг|мин|мл|млн|млрд|мм)\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\b(н|наб|нач|неуд|ном|о|обл|обр|общ|ок|ост|отл|п|пер|перераб|пл|пос|пр|просп|проф)\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\b(р|ред|руб|с|сб|св|см|соч|ср|ст|стр|т|тел|Тел|тех|тт|туп|тыс)\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\b(уд|ул|уч|физ|х|хор|ч|чел|шт|экз|э)\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<!-- break  -->
+<rule break="yes">
+<beforebreak>[\.!?…]['"\u00BB\u2019\u201D\u203A\u0002]*\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="yes">
+<beforebreak>[\.!?…]['»"”\p{Pe}]*</beforebreak>
+<afterbreak>\p{Lu}[^\p{Lu}]</afterbreak>
+</rule>
+<rule break="yes">
+<beforebreak>\s\p{L}[\.!?…]\s</beforebreak>
+<afterbreak>\p{Lu}\p{Ll}</afterbreak>
+</rule>
+</languagerule>
 <languagerule languagerulename="Default">
 <rule break="yes">
 <beforebreak>\u2029</beforebreak>
@@ -3786,6 +3849,7 @@ It [really!] works. This is e.g. Mr. Smith, who talks slowly... And this is anot
 <languagemap languagepattern="(RO|ro).*" languagerulename="Romanian"></languagemap>
 <languagemap languagepattern="(SK|sk).*" languagerulename="Slovak"></languagemap>
 <languagemap languagepattern="(IS|is).*" languagerulename="Icelandic"></languagemap>
+<languagemap languagepattern="(RU|ru).*" languagerulename="Russian"></languagemap>
 <languagemap languagepattern=".*" languagerulename="Default"></languagemap>
 <languagemap languagepattern="[a-z]{2}_one" languagerulename="ByLineBreak"></languagemap>
 <languagemap languagepattern="[a-z]{2}_two" languagerulename="ByTwoLineBreaks"></languagemap>
