@@ -173,6 +173,10 @@ public abstract class AbstractPatternRule extends Rule {
         return false;
       }
       thisMatched = thisMatched || elem.isMatched(matchToken);
+      if (!thisMatched && 
+          l > 0 && !elem.isInflected() && elem.getPOStag() == null) {
+        return false; // the token is the same, we will not get a match
+      }
       if (groupsOrUnification) {
         thisMatched &= testUnificationAndGroups(thisMatched,
             l + 1 == numberOfReadings, matchToken, elem);
