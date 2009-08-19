@@ -26,6 +26,8 @@ import de.danielnaber.languagetool.Language;
 import de.danielnaber.languagetool.synthesis.Synthesizer;
 import de.danielnaber.languagetool.synthesis.ru.RussianSynthesizer;
 import de.danielnaber.languagetool.tagging.Tagger;
+import de.danielnaber.languagetool.tagging.disambiguation.Disambiguator;
+import de.danielnaber.languagetool.tagging.disambiguation.rules.ru.RussianRuleDisambiguator;
 import de.danielnaber.languagetool.tagging.ru.RussianTagger;
 //import de.danielnaber.languagetool.tokenizers.Tokenizer;
 //import de.danielnaber.languagetool.tokenizers.ru.RussianWordTokenizer;
@@ -41,6 +43,8 @@ public class Russian extends Language {
   };
   
   private Tagger tagger = new RussianTagger();
+  private Disambiguator disambiguator = new RussianRuleDisambiguator();
+  
 //  private Tokenizer wordTokenizer = new RussianWordTokenizer();
   private Synthesizer synthesizer = new RussianSynthesizer();
 //  private SentenceTokenizer sentenceTokenizer = new RussianSentenceTokenizer();   // old Tokenizer
@@ -66,6 +70,10 @@ public class Russian extends Language {
     return tagger;
   }
 
+   public Disambiguator getDisambiguator() {
+    return disambiguator;
+  }
+  
 //  public Tokenizer getWordTokenizer() {
 //    return wordTokenizer;
 //  }
