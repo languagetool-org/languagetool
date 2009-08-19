@@ -159,7 +159,10 @@ public class Element {
    * @AnalyzedToken to check matching against
    * @return True if token matches, false otherwise.
    */
-  public final boolean isMatched(final AnalyzedToken token) {
+  public final boolean isMatched(final AnalyzedToken token) {    
+    if (testWhitespace && !isWhitespaceBefore(token)) {
+        return false;
+    }    
     boolean matched = false;
     if (testString) {
       matched = (isStringTokenMatched(token) ^ negation)
@@ -171,8 +174,7 @@ public class Element {
     if (andGroupSet) {
       andGroupCheck[0] |= matched;
     }
-
-    return matched && (!testWhitespace || isWhitespaceBefore(token));
+    return matched;
   }
 
   /**
