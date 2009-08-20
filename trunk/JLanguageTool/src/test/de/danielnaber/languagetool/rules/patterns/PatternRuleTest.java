@@ -44,7 +44,7 @@ public class PatternRuleTest extends TestCase {
 
   private static JLanguageTool langTool;
 
-  private static final Pattern PROBABLE_REGEX = Pattern.compile(".*([\\[\\]\\*\\+\\|\\^]|\\(.+\\)|\\[.+\\]|\\{.+\\}).*");
+  private static final Pattern PROBABLE_REGEX = Pattern.compile("[\\[\\]\\*\\+\\|\\^\\{\\}]|\\\\[^0-9]|\\(.+\\)");
 
   
   @Override
@@ -89,7 +89,7 @@ public class PatternRuleTest extends TestCase {
       for (final Element element : rule.getElements()) {
         if (!element.isRegularExpression()
             && (PROBABLE_REGEX.matcher(element.getString())
-                .matches())) {
+                .find())) {
           System.err.println("The " + lang.toString() + " rule: "
               + rule.getId() + " contains element " + "\"" + element
               + "\" that is not marked as regular expression"
@@ -97,7 +97,7 @@ public class PatternRuleTest extends TestCase {
         }
         if (element.isRegularExpression()
             && (element.getString() == null || (!PROBABLE_REGEX.matcher(element.getString())
-                .matches()))) {
+                .find()))) {
           System.err.println("The " + lang.toString() + " rule: "
               + rule.getId() + " contains element " + "\"" + element
               + "\" that is marked as regular expression"
