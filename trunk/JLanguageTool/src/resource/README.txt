@@ -16,7 +16,10 @@ from fsa:
 gawk -f de_morph_data.awk < export > export.txt
 
 To compile the dictionary into binary form, you will have to use 
-morph_data.awk again. 
+morph_data.awk again, i.e.:
+
+export LANG=C
+gawk -f morph_data.awk export.txt | sort -u | fsa_build -O -o output.dic 
 
 Note: the .dict files are accompanied with .info files that describe the 
 encoding used and if there was infix compression used as well. In the 
