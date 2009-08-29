@@ -1,5 +1,5 @@
 /* ReflectionUtils, helper methods to load classes dynamically 
- * Copyright (C) 2007 Andriy Rysin
+ * Copyright (C) 2007 Andriy Rysin, Marcin Milkowski, Daniel Naber
  * 
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
