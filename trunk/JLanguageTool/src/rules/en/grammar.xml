@@ -7,7 +7,7 @@ title="Easy editing stylesheet" ?>
 English Grammar and Typo Rules for LanguageTool
 See tagset.txt for the meaning of the POS tags
 Copyright (C) 2001-2007 Daniel Naber (http://www.danielnaber.de)
-$Id: grammar.xml,v 1.113 2009-07-14 19:29:19 milek_pl Exp $
+$Id: grammar.xml,v 1.114 2009-08-29 15:50:51 milek_pl Exp $
 -->
 <rules lang="en">
   <!-- ====================================================================== -->
@@ -267,7 +267,8 @@ $Id: grammar.xml,v 1.113 2009-07-14 19:29:19 milek_pl Exp $
       <example type="correct">Chocolate mousse with egg yolk</example>
     </rule>
 
-    <rule id="EYE_BROW" name="eye brow/lash/lid/sight/sore (eyebrow/eyelash/eyelid/eyesight/eyesore)">
+    <rule id="EYE_BROW"
+          name="eye brow/lash/lid/sight/sore (eyebrow/eyelash/eyelid/eyesight/eyesore)">
       <pattern>
         <token>eye</token>
 
@@ -667,7 +668,8 @@ $Id: grammar.xml,v 1.113 2009-07-14 19:29:19 milek_pl Exp $
       </rule>
     </rulegroup>
 
-    <rule id="FOR_ALL_INTENSIVE_PURPOSES" name="for all intensive purposes (for all intents and purposes)">
+    <rule id="FOR_ALL_INTENSIVE_PURPOSES"
+          name="for all intensive purposes (for all intents and purposes)">
       <pattern>
         <token>for</token>
 
@@ -911,7 +913,8 @@ $Id: grammar.xml,v 1.113 2009-07-14 19:29:19 milek_pl Exp $
 
     <rule id="YOURS_APOSTROPHE" name="Possesive pronoun with apostrophe">
       <pattern mark_from="1">
-        <token postag="SENT_START" postag_regexp="yes" skip="-1"><exception scope="next">'</exception></token>
+        <token postag="SENT_START" postag_regexp="yes" skip="-1"><exception
+            scope="next">'</exception></token>
 
         <token postag="PRP$" postag_regexp="yes" regexp="yes">.*s</token>
 
@@ -1553,7 +1556,8 @@ $Id: grammar.xml,v 1.113 2009-07-14 19:29:19 milek_pl Exp $
           <token regexp="yes">(mother|sister|brother|father|relative|son)s?-in-low</token>
         </pattern>
 
-        <message>You probably meant: <suggestion><match no="1" regexp_match="(.*)-in-low" regexp_replace="$1-in-law"></match></suggestion></message>
+        <message>You probably meant: <suggestion><match no="1"
+              regexp_match="(.*)-in-low" regexp_replace="$1-in-law"></match></suggestion></message>
 
         <short>Possible typo</short>
 
@@ -1949,7 +1953,8 @@ $Id: grammar.xml,v 1.113 2009-07-14 19:29:19 milek_pl Exp $
       <pattern mark_to="-1">
         <token>nut</token>
 
-        <token postag="(RB|JJ|NN|NN:.*)" postag_regexp="yes"><exception inflected="yes" regexp="yes">case|tree|job|butter|mixture|flour|bread|oil|shell|cracker|allergy|cake</exception></token>
+        <token postag="(RB|JJ|NN|NN:.*)" postag_regexp="yes"><exception
+            inflected="yes" regexp="yes">case|tree|job|butter|mixture|flour|bread|oil|shell|cracker|allergy|cake</exception></token>
       </pattern>
 
       <message>Did you mean <suggestion>not</suggestion>?</message>
@@ -2106,11 +2111,14 @@ $Id: grammar.xml,v 1.113 2009-07-14 19:29:19 milek_pl Exp $
         <pattern mark_from="2" mark_to="-1">
           <token><exception postag="CC"></exception></token>
 
-          <token><exception postag="WP|NNS|WRB" postag_regexp="yes"></exception><exception regexp="yes">there|they|we|you</exception></token>
+          <token><exception postag="WP|NNS|WRB" postag_regexp="yes"></exception><exception
+              regexp="yes">there|they|we|you</exception></token>
 
           <token>were</token>
 
-          <token postag="VB|VBP|PRP" postag_regexp="yes"><exception postag="JJ|VBN|IN|PRP\$" postag_regexp="yes"></exception><exception regexp="yes">there|they|we|you</exception></token>
+          <token postag="VB|VBP|PRP" postag_regexp="yes"><exception
+              postag="JJ|VBN|IN|PRP\$" postag_regexp="yes"></exception><exception
+              regexp="yes">there|they|we|you</exception></token>
         </pattern>
 
         <message>Did you mean <suggestion>where</suggestion> or <suggestion>we</suggestion>?</message>
@@ -2136,7 +2144,9 @@ $Id: grammar.xml,v 1.113 2009-07-14 19:29:19 milek_pl Exp $
 
           <token>were</token>
 
-          <token postag="VB|VBP" postag_regexp="yes"><exception postag="JJ|VBN" postag_regexp="yes"></exception><exception regexp="yes">there|they|we|you</exception></token>
+          <token postag="VB|VBP" postag_regexp="yes"><exception
+              postag="JJ|VBN" postag_regexp="yes"></exception><exception
+              regexp="yes">there|they|we|you</exception></token>
         </pattern>
 
         <message>Did you mean <suggestion>where</suggestion> or <suggestion>we</suggestion>?</message>
@@ -2559,7 +2569,8 @@ $Id: grammar.xml,v 1.113 2009-07-14 19:29:19 milek_pl Exp $
 
           <token>s</token>
 
-          <token><exception postag="VB|RB?" postag_regexp="yes"></exception><exception regexp="yes">all|just</exception></token>
+          <token><exception postag="VB|RB?" postag_regexp="yes"></exception><exception
+              regexp="yes">all|just</exception></token>
         </pattern>
 
         <message>Did you mean <suggestion>\1s</suggestion> or <suggestion>\1</suggestion>?</message>
@@ -2613,7 +2624,9 @@ $Id: grammar.xml,v 1.113 2009-07-14 19:29:19 milek_pl Exp $
 
           <token>its</token>
 
-          <token postag="(CC|DT|IN|MD|POS|PP|RB|WDT|WP|WRB)" postag_regexp="yes"><exception>many</exception><exception postag="NN.*" postag_regexp="yes"></exception></token>
+          <token postag="(CC|DT|IN|MD|POS|PP|RB|WDT|WP|WRB)"
+                 postag_regexp="yes"><exception>many</exception><exception
+              postag="NN.*" postag_regexp="yes"></exception></token>
 
           <token><exception postag="VBN|JJ" postag_regexp="yes"></exception></token>
         </pattern>
@@ -2853,7 +2866,8 @@ $Id: grammar.xml,v 1.113 2009-07-14 19:29:19 milek_pl Exp $
 
           <token>no</token>
 
-          <token postag="MD|VBD|VBN" postag_regexp="yes"><exception regexp="yes">known|need</exception></token>
+          <token postag="MD|VBD|VBN" postag_regexp="yes"><exception
+              regexp="yes">known|need</exception></token>
 
           <token><exception postag="NN.*|JJ.*" postag_regexp="yes"></exception></token>
         </pattern>
@@ -2875,7 +2889,9 @@ $Id: grammar.xml,v 1.113 2009-07-14 19:29:19 milek_pl Exp $
         <pattern mark_to="-1">
           <token>no</token>
 
-          <token postag="CC|DT|IN|MD|NP|RP|WDT|WP|WRB" postag_regexp="yes"><exception regexp="yes">such|for</exception><exception postag="JJR|NN.*" postag_regexp="yes"></exception></token>
+          <token postag="CC|DT|IN|MD|NP|RP|WDT|WP|WRB" postag_regexp="yes"><exception
+              regexp="yes">such|for</exception><exception postag="JJR|NN.*"
+              postag_regexp="yes"></exception></token>
         </pattern>
 
         <message>Did you mean <suggestion>now</suggestion> (=at this moment) instead of 'no' (negation)?</message>
@@ -2991,15 +3007,21 @@ $Id: grammar.xml,v 1.113 2009-07-14 19:29:19 milek_pl Exp $
 
           <token postag="DT|JJ.*" postag_regexp="yes"><exception postag="CD"></exception></token>
 
-          <token postag="NNS|NNPS" postag_regexp="yes" regexp="yes">.[^']*s<exception>his</exception><exception postag="VBZ|RB|IN|JJ|NN:.*|NN|NNP" postag_regexp="yes"></exception></token>
+          <token postag="NNS|NNPS" postag_regexp="yes" regexp="yes">.[^']*s<exception>his</exception><exception
+              postag="VBZ|RB|IN|JJ|NN:.*|NN|NNP" postag_regexp="yes"></exception></token>
 
-          <token postag="NN|NN:.*" postag_regexp="yes" regexp="yes">.{2,}<exception regexp="yes">today|yesterday|tomorrow|now|in|are</exception><exception postag="VBG|VB|VBP|VBD|VBN|VBG|RB|MD|IN|JJ.*|CC|PRP|NNP.*" postag_regexp="yes"></exception></token>
+          <token postag="NN|NN:.*" postag_regexp="yes" regexp="yes">.{2,}<exception
+              regexp="yes">today|yesterday|tomorrow|now|in|are</exception><exception
+              postag="VBG|VB|VBP|VBD|VBN|VBG|RB|MD|IN|JJ.*|CC|PRP|NNP.*"
+              postag_regexp="yes"></exception></token>
 
           <token><exception regexp="yes">\p{Punct}</exception></token>
         </pattern>
 
-        <message>Possible typo: apostrophe is missing. Did you mean <suggestion><match no="3"></match>'</suggestion> or 
-      	<suggestion><match no="3" postag="NN(P)?S" postag_regexp="yes" postag_replace="NN$1(:U.?)?" setpos="no"></match>'s</suggestion>?</message>
+        <message>Possible typo: apostrophe is missing. Did you mean <suggestion><match
+              no="3"></match>'</suggestion> or 
+      	<suggestion><match no="3" postag="NN(P)?S" postag_regexp="yes"
+              postag_replace="NN$1(:U.?)?" setpos="no"></match>'s</suggestion>?</message>
 
         <short>Possible typo</short>
 
@@ -3026,14 +3048,20 @@ $Id: grammar.xml,v 1.113 2009-07-14 19:29:19 milek_pl Exp $
 
           <token postag="DT|JJ.*" postag_regexp="yes"><exception postag="CD"></exception></token>
 
-          <token postag="NNS|NNPS" postag_regexp="yes" regexp="yes">.[^']*s<exception>his</exception><exception postag="VBZ|RB|IN|JJ|NN:.*|NN|NNP" postag_regexp="yes"></exception></token>
+          <token postag="NNS|NNPS" postag_regexp="yes" regexp="yes">.[^']*s<exception>his</exception><exception
+              postag="VBZ|RB|IN|JJ|NN:.*|NN|NNP" postag_regexp="yes"></exception></token>
 
-          <token postag="NN|NN:.*" postag_regexp="yes" regexp="yes">.{2,}<exception regexp="yes">today|yesterday|tomorrow|now|in</exception><exception postag="RB|MD|IN|JJ.*|CC|VBP|VBG" postag_regexp="yes"></exception></token>
+          <token postag="NN|NN:.*" postag_regexp="yes" regexp="yes">.{2,}<exception
+              regexp="yes">today|yesterday|tomorrow|now|in</exception><exception
+              postag="RB|MD|IN|JJ.*|CC|VBP|VBG" postag_regexp="yes"></exception></token>
 
           <token regexp="yes">\p{Punct}</token>
         </pattern>
 
-        <message>Possible typo: apostrophe is missing. Did you mean <suggestion><match no="3"></match>'</suggestion> or <suggestion><match no="3" postag="NN(P)?S" postag_regexp="yes" postag_replace="NN$1(:U.?)?" setpos="no"></match>'s</suggestion>?</message>
+        <message>Possible typo: apostrophe is missing. Did you mean <suggestion><match
+              no="3"></match>'</suggestion> or <suggestion><match no="3"
+              postag="NN(P)?S" postag_regexp="yes"
+              postag_replace="NN$1(:U.?)?" setpos="no"></match>'s</suggestion>?</message>
 
         <short>Possible typo</short>
 
@@ -3062,7 +3090,8 @@ $Id: grammar.xml,v 1.113 2009-07-14 19:29:19 milek_pl Exp $
 
           <token>s</token>
 
-          <token postag="VBD|VBP" postag_regexp="yes"><exception postag="NN.*|JJ.*" postag_regexp="yes"></exception><exception>got</exception></token>
+          <token postag="VBD|VBP" postag_regexp="yes"><exception
+              postag="NN.*|JJ.*" postag_regexp="yes"></exception><exception>got</exception></token>
         </pattern>
 
         <message>Probably you need to use a plural form here: <suggestion>\2\4</suggestion>.</message>
@@ -3078,7 +3107,8 @@ $Id: grammar.xml,v 1.113 2009-07-14 19:29:19 milek_pl Exp $
 
       <rule>
         <pattern mark_to="-1">
-          <token postag="NN|NN:.*|NNP" postag_regexp="yes"><exception postag="RB"></exception></token>
+          <token postag="NN|NN:.*|NNP" postag_regexp="yes"><exception
+              postag="RB"></exception></token>
 
           <token regexp="yes">'|’</token>
 
@@ -3395,7 +3425,8 @@ $Id: grammar.xml,v 1.113 2009-07-14 19:29:19 milek_pl Exp $
       <example type="correct">All children are happy.</example>
     </rule>
 
-    <rulegroup id="AGREEMENT_SENT_START" name="Possible agreement error: plural noun + singular verb">
+    <rulegroup id="AGREEMENT_SENT_START"
+               name="Possible agreement error: plural noun + singular verb">
       <rule>
         <pattern mark_from="3">
           <token postag="SENT_START"></token>
@@ -3407,7 +3438,8 @@ $Id: grammar.xml,v 1.113 2009-07-14 19:29:19 milek_pl Exp $
           <token postag="VBZ"><exception>is</exception></token>
         </pattern>
 
-        <message>You should probably use <suggestion><match no="4" postag="VBP"></match></suggestion>.</message>
+        <message>You should probably use <suggestion><match no="4"
+              postag="VBP"></match></suggestion>.</message>
 
         <short>Possible agreement error</short>
 
@@ -3433,7 +3465,8 @@ $Id: grammar.xml,v 1.113 2009-07-14 19:29:19 milek_pl Exp $
           <token postag="VBZ"><exception>is</exception></token>
         </pattern>
 
-        <message>You should probably use <suggestion><match no="6" postag="VBP"></match></suggestion>.</message>
+        <message>You should probably use <suggestion><match no="6"
+              postag="VBP"></match></suggestion>.</message>
 
         <short>Possible agreement error</short>
 
@@ -3545,12 +3578,16 @@ $Id: grammar.xml,v 1.113 2009-07-14 19:29:19 milek_pl Exp $
       <pattern mark_to="-1">
         <token regexp="yes">a|an</token>
 
-        <token postag="NNS|NNPS" postag_regexp="yes"><exception postag="NN:.*|NN|VBZ|NNP" postag_regexp="yes"></exception></token>
+        <token postag="NNS|NNPS" postag_regexp="yes"><exception
+            postag="NN:.*|NN|VBZ|NNP" postag_regexp="yes"></exception></token>
 
         <token><exception postag="NN.*" postag_regexp="yes"></exception><exception>'</exception></token>
       </pattern>
 
-      <message>Don't use indefinite articles with plural words. Did you mean <suggestion><match no="1"></match> <match no="2" postag="NN|NN:.*" postag_regexp="yes"></match></suggestion> or simply <suggestion><match no="2"></match></suggestion>?</message>
+      <message>Don't use indefinite articles with plural words. Did you mean <suggestion><match
+            no="1"></match> <match no="2" postag="NN|NN:.*"
+            postag_regexp="yes"></match></suggestion> or simply <suggestion><match
+            no="2"></match></suggestion>?</message>
 
       <short>Possible agreement error</short>
 
@@ -3563,17 +3600,20 @@ $Id: grammar.xml,v 1.113 2009-07-14 19:29:19 milek_pl Exp $
       <example type="correct">There was a children's party at the Joneses yesterday.</example>
     </rule>
 
-    <rulegroup id="HAVE_PART_AGREEMENT" name="Agreement: have + past/present tense">
+    <rulegroup id="HAVE_PART_AGREEMENT"
+               name="Agreement: have + past/present tense">
       <rule>
         <pattern mark_from="1" mark_to="-1">
           <token regexp="yes">has|have|had</token>
 
-          <token postag="VBD|VBP|VB" postag_regexp="yes"><exception postag="VBN|NN:U.*|JJ.*|RB" postag_regexp="yes"></exception></token>
+          <token postag="VBD|VBP|VB" postag_regexp="yes"><exception
+              postag="VBN|NN:U.*|JJ.*|RB" postag_regexp="yes"></exception></token>
 
           <token><exception postag="VBG"></exception></token>
         </pattern>
 
-        <message>Use past participle here: <suggestion><match no="2" postag="VBN"></match></suggestion>.</message>
+        <message>Use past participle here: <suggestion><match no="2"
+              postag="VBN"></match></suggestion>.</message>
 
         <short>Possible agreement error</short>
 
@@ -3600,14 +3640,17 @@ $Id: grammar.xml,v 1.113 2009-07-14 19:29:19 milek_pl Exp $
         <pattern mark_from="2" mark_to="-1">
           <token regexp="yes">has|have|had</token>
 
-          <token postag="RB"><exception>no</exception><exception postag="IN|RP|CC" postag_regexp="yes"></exception></token>
+          <token postag="RB"><exception>no</exception><exception
+              postag="IN|RP|CC" postag_regexp="yes"></exception></token>
 
-          <token postag="VBD|VBP|VB" postag_regexp="yes"><exception postag="VBN|RB|JJ" postag_regexp="yes"></exception></token>
+          <token postag="VBD|VBP|VB" postag_regexp="yes"><exception
+              postag="VBN|RB|JJ" postag_regexp="yes"></exception></token>
 
           <token><exception postag="VBG"></exception></token>
         </pattern>
 
-        <message>Possible agreement error -- use past participle here: <suggestion><match no="3" postag="VBN"></match></suggestion>.</message>
+        <message>Possible agreement error -- use past participle here: <suggestion><match
+              no="3" postag="VBN"></match></suggestion>.</message>
 
         <short>Grammatical problem</short>
 
@@ -3622,12 +3665,14 @@ $Id: grammar.xml,v 1.113 2009-07-14 19:29:19 milek_pl Exp $
         <pattern mark_from="1" mark_to="-1">
           <token regexp="yes">has|have|had</token>
 
-          <token postag="VBD|VBP|VB" postag_regexp="yes"><exception postag="VBN" postag_regexp="yes"></exception></token>
+          <token postag="VBD|VBP|VB" postag_regexp="yes"><exception
+              postag="VBN" postag_regexp="yes"></exception></token>
 
           <token postag="PRP"></token>
         </pattern>
 
-        <message>Possible agreement error – use past participle here: <suggestion><match no="2" postag="VBN"></match></suggestion>.</message>
+        <message>Possible agreement error – use past participle here: <suggestion><match
+              no="2" postag="VBN"></match></suggestion>.</message>
 
         <short>Grammatical problem</short>
 
@@ -3644,10 +3689,12 @@ $Id: grammar.xml,v 1.113 2009-07-14 19:29:19 milek_pl Exp $
 
           <token postag="PRP"></token>
 
-          <token postag="VBD|VBP|VB" postag_regexp="yes"><exception postag="VBN" postag_regexp="yes"></exception></token>
+          <token postag="VBD|VBP|VB" postag_regexp="yes"><exception
+              postag="VBN" postag_regexp="yes"></exception></token>
         </pattern>
 
-        <message>Possible agreement error – use past participle here: <suggestion><match no="4" postag="VBN"></match></suggestion>.</message>
+        <message>Possible agreement error – use past participle here: <suggestion><match
+              no="4" postag="VBN"></match></suggestion>.</message>
 
         <example correction="liked" type="incorrect">Have you <marker>like</marker> her?</example>
 
@@ -3666,10 +3713,12 @@ $Id: grammar.xml,v 1.113 2009-07-14 19:29:19 milek_pl Exp $
 
           <token postag="PRP"></token>
 
-          <token postag="VBD|VBP|VB" postag_regexp="yes"><exception postag="VBN" postag_regexp="yes"></exception></token>
+          <token postag="VBD|VBP|VB" postag_regexp="yes"><exception
+              postag="VBN" postag_regexp="yes"></exception></token>
         </pattern>
 
-        <message>Possible agreement error – use past participle here: <suggestion><match no="5" postag="VBN"></match></suggestion>.</message>
+        <message>Possible agreement error – use past participle here: <suggestion><match
+              no="5" postag="VBN"></match></suggestion>.</message>
 
         <example correction="done" type="incorrect">What have you <marker>did</marker>?</example>
 
@@ -3679,17 +3728,21 @@ $Id: grammar.xml,v 1.113 2009-07-14 19:29:19 milek_pl Exp $
       </rule>
     </rulegroup>
 
-    <rulegroup id="BEEN_PART_AGREEMENT" name="Agreement: 'been' or 'was' + past tense">
+    <rulegroup id="BEEN_PART_AGREEMENT"
+               name="Agreement: 'been' or 'was' + past tense">
       <rule>
         <pattern mark_from="1" mark_to="-1">
           <token regexp="yes">been|was|were|is|are|am</token>
 
-          <token postag="VBD|VBP|VB" postag_regexp="yes"><exception postag="VBN|NN:U.*|JJ.*|RB|IN" postag_regexp="yes"></exception><exception regexp="yes">are|am</exception></token>
+          <token postag="VBD|VBP|VB" postag_regexp="yes"><exception
+              postag="VBN|NN:U.*|JJ.*|RB|IN" postag_regexp="yes"></exception><exception
+              regexp="yes">are|am</exception></token>
 
           <token><exception>'</exception></token>
         </pattern>
 
-        <message>Probably you should use a past participle here: <suggestion><match no="2" postag="VBN"></match></suggestion>.</message>
+        <message>Probably you should use a past participle here: <suggestion><match
+              no="2" postag="VBN"></match></suggestion>.</message>
 
         <short>Possible agreement error</short>
 
@@ -3712,14 +3765,17 @@ $Id: grammar.xml,v 1.113 2009-07-14 19:29:19 milek_pl Exp $
         <pattern mark_from="2" mark_to="-1">
           <token regexp="yes">been|was|were|is|are|am</token>
 
-          <token postag="RB"><exception>in</exception><exception postag="VBN|JJ.*|CC" postag_regexp="yes"></exception></token>
+          <token postag="RB"><exception>in</exception><exception
+              postag="VBN|JJ.*|CC" postag_regexp="yes"></exception></token>
 
-          <token postag="VBD|VBP|VB" postag_regexp="yes"><exception postag="VBN|JJ.*|IN|RB" postag_regexp="yes"></exception></token>
+          <token postag="VBD|VBP|VB" postag_regexp="yes"><exception
+              postag="VBN|JJ.*|IN|RB" postag_regexp="yes"></exception></token>
 
           <token><exception>'</exception></token>
         </pattern>
 
-        <message>Probably you should use a past participle here: <suggestion><match no="3" postag="VBN"></match></suggestion>.</message>
+        <message>Probably you should use a past participle here: <suggestion><match
+              no="3" postag="VBN"></match></suggestion>.</message>
 
         <short>Possible agreement error</short>
 
@@ -3733,16 +3789,20 @@ $Id: grammar.xml,v 1.113 2009-07-14 19:29:19 milek_pl Exp $
       </rule>
     </rulegroup>
 
-    <rulegroup id="MASS_AGREEMENT" name="Agreement: Mass noun + non-third person verb">
+    <rulegroup id="MASS_AGREEMENT"
+               name="Agreement: Mass noun + non-third person verb">
       <rule>
         <pattern mark_from="2" mark_to="-1">
           <token postag="SENT_START"></token>
 
-          <token postag="NN|NN:.*" postag_regexp="yes"><exception regexp="yes">A|In|I|No</exception><exception postag="JJ|MD|NNS|CC|WRB|IN|VB" postag_regexp="yes"></exception></token>
+          <token postag="NN|NN:.*" postag_regexp="yes"><exception regexp="yes">A|In|I|No</exception><exception
+              postag="JJ|MD|NNS|CC|WRB|IN|VB" postag_regexp="yes"></exception></token>
 
-          <token postag="VB|VBP" postag_regexp="yes"><exception postag="VBZ|VBN|VBD|VBG|IN|RB" postag_regexp="yes"></exception></token>
+          <token postag="VB|VBP" postag_regexp="yes"><exception
+              postag="VBZ|VBN|VBD|VBG|IN|RB" postag_regexp="yes"></exception></token>
 
-          <token postag="DT|JJ" postag_regexp="yes"><exception postag="VB.*" postag_regexp="yes"></exception></token>
+          <token postag="DT|JJ" postag_regexp="yes"><exception postag="VB.*"
+              postag_regexp="yes"></exception></token>
         </pattern>
 
         <message>Probably you should use third-person verb forms for singular and mass nouns:
@@ -3765,14 +3825,18 @@ $Id: grammar.xml,v 1.113 2009-07-14 19:29:19 milek_pl Exp $
 
           <token postag="DT"><exception regexp="yes">these|those</exception></token>
 
-          <token postag="NN|NN:.*" postag_regexp="yes"><exception postag="JJ|MD|NNS" postag_regexp="yes"></exception></token>
+          <token postag="NN|NN:.*" postag_regexp="yes"><exception
+              postag="JJ|MD|NNS" postag_regexp="yes"></exception></token>
 
-          <token postag="VB|VBP" postag_regexp="yes"><exception postag="VBZ|VBN|VBD|VBG|JJ" postag_regexp="yes"></exception></token>
+          <token postag="VB|VBP" postag_regexp="yes"><exception
+              postag="VBZ|VBN|VBD|VBG|JJ" postag_regexp="yes"></exception></token>
 
-          <token postag="DT|JJ" postag_regexp="yes"><exception postag="VB.*" postag_regexp="yes"></exception></token>
+          <token postag="DT|JJ" postag_regexp="yes"><exception postag="VB.*"
+              postag_regexp="yes"></exception></token>
         </pattern>
 
-        <message>Possible agreement error - use third-person verb forms for singular and mass nouns: <suggestion><match no="4" postag="VBZ"></match></suggestion>.</message>
+        <message>Possible agreement error - use third-person verb forms for singular and mass nouns: <suggestion><match
+              no="4" postag="VBZ"></match></suggestion>.</message>
 
         <short>Grammatical problem</short>
 
@@ -3788,7 +3852,8 @@ $Id: grammar.xml,v 1.113 2009-07-14 19:29:19 milek_pl Exp $
       </rule>
     </rulegroup>
 
-    <rulegroup id="PERS_PRONOUN_AGREEMENT_SENT_START" name="Agreement: 'I is / you is / ... ' (at sentence start only)">
+    <rulegroup id="PERS_PRONOUN_AGREEMENT_SENT_START"
+               name="Agreement: 'I is / you is / ... ' (at sentence start only)">
       <rule>
         <pattern mark_from="2">
           <token postag="SENT_START"></token>
@@ -3836,7 +3901,8 @@ $Id: grammar.xml,v 1.113 2009-07-14 19:29:19 milek_pl Exp $
           <token regexp="yes">were|have|be|am|are</token>
         </pattern>
 
-        <message>Use third-person verb with '<match no="2"></match>': <suggestion><match no="3" postag="VBZ"></match></suggestion>
+        <message>Use third-person verb with '<match no="2"></match>': <suggestion><match
+              no="3" postag="VBZ"></match></suggestion>
       or <suggestion>was</suggestion>.</message>
 
         <short>Grammatical problem</short>
@@ -3911,10 +3977,12 @@ $Id: grammar.xml,v 1.113 2009-07-14 19:29:19 milek_pl Exp $
       <pattern mark_from="1">
         <token>to</token>
 
-        <token postag="VBZ"><exception>is</exception><exception postag="NNS|NNP|NNPS" postag_regexp="yes"></exception></token>
+        <token postag="VBZ"><exception>is</exception><exception
+            postag="NNS|NNP|NNPS" postag_regexp="yes"></exception></token>
       </pattern>
 
-      <message>You might need to use the base form of the verb here: <suggestion><match no="2" postag="VBP"></match></suggestion>.</message>
+      <message>You might need to use the base form of the verb here: <suggestion><match
+            no="2" postag="VBP"></match></suggestion>.</message>
 
       <short>Grammatical problem</short>
 
@@ -3925,7 +3993,8 @@ $Id: grammar.xml,v 1.113 2009-07-14 19:29:19 milek_pl Exp $
       <example correction="learn" type="incorrect">I was surprised to <marker>learns</marker> this. </example>
     </rule>
 
-    <rule id="MANY_FEW_UNCOUNTABLE" name="'many/few' + uncountable noun, e.g. 'many (much) food'">
+    <rule id="MANY_FEW_UNCOUNTABLE"
+          name="'many/few' + uncountable noun, e.g. 'many (much) food'">
       <!-- fixme: more uncountable nouns   -->
 
       <pattern mark_from="1" mark_to="-2">
@@ -3998,7 +4067,8 @@ $Id: grammar.xml,v 1.113 2009-07-14 19:29:19 milek_pl Exp $
 
       <example type="correct">Some of his students do their homework.</example>
 
-      <example correction="Most of the students|Most students" type="incorrect"><marker>Most of students</marker> do their homework.</example>
+      <example correction="Most of the students|Most students"
+               type="incorrect"><marker>Most of students</marker> do their homework.</example>
 
       <example type="correct">Buy a collection of most of Rand's works in a CD-ROM format.</example>
 
@@ -4010,19 +4080,24 @@ $Id: grammar.xml,v 1.113 2009-07-14 19:29:19 milek_pl Exp $
   it should be more recursive, i.e., there one more rule for all current rules, structured like this: 
   ... NN !NN.*|JJ.*, ... NN JJ !NN.*|JJ.* -->
 
-    <rulegroup id="ARTICLE_MISSING" name="Articles: article missing before a countable noun">
+    <rulegroup id="ARTICLE_MISSING"
+               name="Articles: article missing before a countable noun">
       <rule>
         <pattern mark_from="2" mark_to="-1">
           <token><exception postag="DT|WDT|JJ|NN.*" postag_regexp="yes"></exception></token>
 
-          <token postag="VBP|VBZ" postag_regexp="yes"><exception regexp="yes">do|does|take[s]*|give[s]*|says|go|goes|becomes</exception><exception postag="NN.*|JJ.*" postag_regexp="yes"></exception></token>
+          <token postag="VBP|VBZ" postag_regexp="yes"><exception regexp="yes">do|does|take[s]*|give[s]*|says|go|goes|becomes</exception><exception
+              postag="NN.*|JJ.*" postag_regexp="yes"></exception></token>
 
-          <token postag="NN"><exception postag="DT|RB.*|RP|JJ.*|IN|CC|CD|VBD|VBN|MD|NNP|NNS|NNPS|PRP.*|WRB" postag_regexp="yes"></exception></token>
+          <token postag="NN"><exception
+              postag="DT|RB.*|RP|JJ.*|IN|CC|CD|VBD|VBN|MD|NNP|NNS|NNPS|PRP.*|WRB"
+              postag_regexp="yes"></exception></token>
 
           <token><exception postag="NN.*" postag_regexp="yes"></exception></token>
         </pattern>
 
-        <message>The article is missing before the noun: <suggestion><match no="3" postag="+DT"></match></suggestion>.</message>
+        <message>The article is missing before the noun: <suggestion><match
+              no="3" postag="+DT"></match></suggestion>.</message>
 
         <short>Article missing</short>
 
@@ -4039,12 +4114,15 @@ $Id: grammar.xml,v 1.113 2009-07-14 19:29:19 milek_pl Exp $
 
           <token regexp="yes">do|does</token>
 
-          <token postag="NN"><exception postag="DT|WRB|RB|RP|JJ|IN|CC|CD|JJR|RBS|VBD|VBN|MD|NNP|NNS|VB|VBP" postag_regexp="yes"></exception></token>
+          <token postag="NN"><exception
+              postag="DT|WRB|RB|RP|JJ|IN|CC|CD|JJR|RBS|VBD|VBN|MD|NNP|NNS|VB|VBP"
+              postag_regexp="yes"></exception></token>
 
           <token><exception postag="NN.*" postag_regexp="yes"></exception></token>
         </pattern>
 
-        <message>The article is missing before the noun: <suggestion><match no="3" postag="+DT"></match></suggestion>.</message>
+        <message>The article is missing before the noun: <suggestion><match
+              no="3" postag="+DT"></match></suggestion>.</message>
 
         <short>Article missing</short>
 
@@ -4061,12 +4139,15 @@ $Id: grammar.xml,v 1.113 2009-07-14 19:29:19 milek_pl Exp $
 
           <token regexp="yes">take|takes</token>
 
-          <token postag="NN"><exception regexp="yes">place|charge</exception><exception postag="DT|WRB|RB|RP|JJ|IN|CC|CD|JJR|RBS|VBD|VBN|MD|NNP|NNS" postag_regexp="yes"></exception></token>
+          <token postag="NN"><exception regexp="yes">place|charge</exception><exception
+              postag="DT|WRB|RB|RP|JJ|IN|CC|CD|JJR|RBS|VBD|VBN|MD|NNP|NNS"
+              postag_regexp="yes"></exception></token>
 
           <token><exception postag="NN.*" postag_regexp="yes"></exception></token>
         </pattern>
 
-        <message>The article is missing before the noun: <suggestion><match no="3" postag="+DT"></match></suggestion>.</message>
+        <message>The article is missing before the noun: <suggestion><match
+              no="3" postag="+DT"></match></suggestion>.</message>
 
         <short>Article missing</short>
 
@@ -4083,12 +4164,15 @@ $Id: grammar.xml,v 1.113 2009-07-14 19:29:19 milek_pl Exp $
 
           <token regexp="yes">give|gives</token>
 
-          <token postag="NN"><exception regexp="yes">rise|way|room|vent|rein</exception><exception postag="DT|WRB|RB|RP|JJ|IN|CC|CD|JJR|RBS|VBD|VBN|MD|NNP|NNS" postag_regexp="yes"></exception></token>
+          <token postag="NN"><exception regexp="yes">rise|way|room|vent|rein</exception><exception
+              postag="DT|WRB|RB|RP|JJ|IN|CC|CD|JJR|RBS|VBD|VBN|MD|NNP|NNS"
+              postag_regexp="yes"></exception></token>
 
           <token><exception postag="NN.*" postag_regexp="yes"></exception></token>
         </pattern>
 
-        <message>The article is missing before the noun: <suggestion><match no="3" postag="+DT"></match></suggestion>.</message>
+        <message>The article is missing before the noun: <suggestion><match
+              no="3" postag="+DT"></match></suggestion>.</message>
 
         <short>Article missing</short>
 
@@ -4105,12 +4189,15 @@ $Id: grammar.xml,v 1.113 2009-07-14 19:29:19 milek_pl Exp $
 
           <token regexp="yes">go|goes</token>
 
-          <token postag="NN"><exception regexp="yes">hand</exception><exception postag="DT|WRB|RB|RP|JJ|IN|CC|CD|JJR|RBS|VBD|VBN|MD|NNP|NNS" postag_regexp="yes"></exception></token>
+          <token postag="NN"><exception regexp="yes">hand</exception><exception
+              postag="DT|WRB|RB|RP|JJ|IN|CC|CD|JJR|RBS|VBD|VBN|MD|NNP|NNS"
+              postag_regexp="yes"></exception></token>
 
           <token><exception postag="NN.*" postag_regexp="yes"></exception></token>
         </pattern>
 
-        <message>The article is missing before the noun: <suggestion><match no="3" postag="+DT"></match></suggestion>.</message>
+        <message>The article is missing before the noun: <suggestion><match
+              no="3" postag="+DT"></match></suggestion>.</message>
 
         <short>Article missing</short>
 
@@ -4127,12 +4214,15 @@ $Id: grammar.xml,v 1.113 2009-07-14 19:29:19 milek_pl Exp $
 
           <token regexp="yes">falls|fall</token>
 
-          <token postag="NN"><exception regexp="yes">victim</exception><exception postag="DT|WRB|RB|RP|JJ|IN|CC|CD|JJR|RBS|VBD|VBN|MD|NNP|NNS" postag_regexp="yes"></exception></token>
+          <token postag="NN"><exception regexp="yes">victim</exception><exception
+              postag="DT|WRB|RB|RP|JJ|IN|CC|CD|JJR|RBS|VBD|VBN|MD|NNP|NNS"
+              postag_regexp="yes"></exception></token>
 
           <token><exception postag="NN.*" postag_regexp="yes"></exception></token>
         </pattern>
 
-        <message>The article is missing before the noun: <suggestion><match no="3" postag="+DT"></match></suggestion>.</message>
+        <message>The article is missing before the noun: <suggestion><match
+              no="3" postag="+DT"></match></suggestion>.</message>
 
         <short>Article missing</short>
 
@@ -4149,14 +4239,19 @@ $Id: grammar.xml,v 1.113 2009-07-14 19:29:19 milek_pl Exp $
 
           <token postag="VBP|VBZ" postag_regexp="yes"><exception postag="JJ"></exception></token>
 
-          <token postag="JJ"><exception>else</exception><exception postag="VB|RP|RB|CD|IN|CC|MD|VBD|VBN|VBG|DT|WRB" postag_regexp="yes"></exception></token>
+          <token postag="JJ"><exception>else</exception><exception
+              postag="VB|RP|RB|CD|IN|CC|MD|VBD|VBN|VBG|DT|WRB"
+              postag_regexp="yes"></exception></token>
 
-          <token postag="NN"><exception postag="CC|DT|RB|RP|JJ|IN|CD|JJR|RBS|VBD|VBN|MD|NNS|WRB" postag_regexp="yes"></exception><exception>are</exception></token>
+          <token postag="NN"><exception
+              postag="CC|DT|RB|RP|JJ|IN|CD|JJR|RBS|VBD|VBN|MD|NNS|WRB"
+              postag_regexp="yes"></exception><exception>are</exception></token>
 
           <token><exception postag="NN.*" postag_regexp="yes"></exception></token>
         </pattern>
 
-        <message>The article is missing before the noun: <suggestion><match no="3" postag="+DT"></match> <match no="4"></match></suggestion>.</message>
+        <message>The article is missing before the noun: <suggestion><match
+              no="3" postag="+DT"></match> <match no="4"></match></suggestion>.</message>
 
         <short>Article missing</short>
 
@@ -4173,18 +4268,23 @@ $Id: grammar.xml,v 1.113 2009-07-14 19:29:19 milek_pl Exp $
 
           <token regexp="yes">have|has|had</token>
 
-          <token postag="VBN"><exception postag="VB|RP|WRB|RB|CD|IN|CC|MD" postag_regexp="yes"></exception></token>
+          <token postag="VBN"><exception postag="VB|RP|WRB|RB|CD|IN|CC|MD"
+              postag_regexp="yes"></exception></token>
 
-          <token postag="NN"><exception postag="CC|DT|WDT|RB|RP|JJ|IN|CD|JJR|RBS|VBD|VBN|MD|NNS|NNP" postag_regexp="yes"></exception><exception>are</exception></token>
+          <token postag="NN"><exception
+              postag="CC|DT|WDT|RB|RP|JJ|IN|CD|JJR|RBS|VBD|VBN|MD|NNS|NNP"
+              postag_regexp="yes"></exception><exception>are</exception></token>
 
           <token><exception postag="NN.*" postag_regexp="yes"></exception></token>
         </pattern>
 
-        <message>The article is missing before the noun: <suggestion><match no="3"></match> <match no="4" postag="+DT"></match></suggestion>.</message>
+        <message>The article is missing before the noun: <suggestion><match
+              no="3"></match> <match no="4" postag="+DT"></match></suggestion>.</message>
 
         <short>Article missing</short>
 
-        <example correction="experienced a problem|experienced the problem" type="incorrect">Recently I have <marker>experienced problem</marker>.</example>
+        <example correction="experienced a problem|experienced the problem"
+                 type="incorrect">Recently I have <marker>experienced problem</marker>.</example>
 
         <example type="correct">Recently I have <marker>experienced a problem</marker>.</example>
       </rule>
@@ -4195,20 +4295,27 @@ $Id: grammar.xml,v 1.113 2009-07-14 19:29:19 milek_pl Exp $
 
           <token regexp="yes">have|has|had</token>
 
-          <token postag="VBN"><exception postag="VB|RP|WRB|RB|CD|IN|CC|MD" postag_regexp="yes"></exception></token>
+          <token postag="VBN"><exception postag="VB|RP|WRB|RB|CD|IN|CC|MD"
+              postag_regexp="yes"></exception></token>
 
-          <token postag="JJ"><exception postag="VB|RP|WRB|RB|CD|IN|CC|MD|DT|WDT" postag_regexp="yes"></exception></token>
+          <token postag="JJ"><exception
+              postag="VB|RP|WRB|RB|CD|IN|CC|MD|DT|WDT" postag_regexp="yes"></exception></token>
 
-          <token postag="NN"><exception postag="CC|DT|RB|RP|JJ|IN|CD|JJR|RBS|VBD|VBN|MD|NNS" postag_regexp="yes"></exception><exception>are</exception></token>
+          <token postag="NN"><exception
+              postag="CC|DT|RB|RP|JJ|IN|CD|JJR|RBS|VBD|VBN|MD|NNS"
+              postag_regexp="yes"></exception><exception>are</exception></token>
 
           <token><exception postag="NN.*" postag_regexp="yes"></exception></token>
         </pattern>
 
-        <message>The article is missing before the noun: <suggestion><match no="3"></match> <match no="4" postag="+DT"></match> <match no="5"></match></suggestion>.</message>
+        <message>The article is missing before the noun: <suggestion><match
+              no="3"></match> <match no="4" postag="+DT"></match> <match
+              no="5"></match></suggestion>.</message>
 
         <short>Article missing</short>
 
-        <example correction="experienced a serious problem|experienced the serious problem" type="incorrect">Recently I have <marker>experienced serious problem</marker>.</example>
+        <example correction="experienced a serious problem|experienced the serious problem"
+                 type="incorrect">Recently I have <marker>experienced serious problem</marker>.</example>
 
         <example type="correct">Recently I have <marker>experienced a serious problem</marker>.</example>
       </rule>
@@ -4217,20 +4324,27 @@ $Id: grammar.xml,v 1.113 2009-07-14 19:29:19 milek_pl Exp $
 
       <rule>
         <pattern mark_from="1" mark_to="-1">
-          <token><exception postag="PRP.*|NN.*|DT|JJ.*|RB.*|CC|IN|VBG|WRB|WDT|WP\$|WP" postag_regexp="yes"></exception><exception regexp="yes">have|has|had|s|\"|\'|[0-9].*|,|\(|\[</exception></token>
+          <token><exception
+              postag="PRP.*|NN.*|DT|JJ.*|RB.*|CC|IN|VBG|WRB|WDT|WP\$|WP"
+              postag_regexp="yes"></exception><exception regexp="yes">have|has|had|s|\"|\'|[0-9].*|,|\(|\[</exception></token>
 
-          <token postag="VBN|JJ" postag_regexp="yes"><exception>else</exception><exception postag="VB|RP|WRB|RB|CD|IN|CC|MD|NNP|DT" postag_regexp="yes"></exception></token>
+          <token postag="VBN|JJ" postag_regexp="yes"><exception>else</exception><exception
+              postag="VB|RP|WRB|RB|CD|IN|CC|MD|NNP|DT" postag_regexp="yes"></exception></token>
 
-          <token postag="NN"><exception postag="CC|DT|RB|RP|JJ|IN|CD|JJR|RBS|VBD|VBN|MD|NNS|NNPS|NNP|WRB" postag_regexp="yes"></exception><exception>are</exception></token>
+          <token postag="NN"><exception
+              postag="CC|DT|RB|RP|JJ|IN|CD|JJR|RBS|VBD|VBN|MD|NNS|NNPS|NNP|WRB"
+              postag_regexp="yes"></exception><exception>are</exception></token>
 
           <token><exception postag="NN.*" postag_regexp="yes"></exception></token>
         </pattern>
 
-        <message>The article is missing before the noun: <suggestion><match no="2" postag="+DT"></match> <match no="3"></match></suggestion>.</message>
+        <message>The article is missing before the noun: <suggestion><match
+              no="2" postag="+DT"></match> <match no="3"></match></suggestion>.</message>
 
         <short>Article missing</short>
 
-        <example correction="an experienced soldier|the experienced soldier" type="incorrect">He is <marker>experienced soldier</marker>.</example>
+        <example correction="an experienced soldier|the experienced soldier"
+                 type="incorrect">He is <marker>experienced soldier</marker>.</example>
 
         <example type="correct">He is <marker>an experienced soldier</marker>.</example>
       </rule>
@@ -4239,22 +4353,31 @@ $Id: grammar.xml,v 1.113 2009-07-14 19:29:19 milek_pl Exp $
 
       <rule>
         <pattern mark_from="1" mark_to="-1">
-          <token><exception postag="PRP|NNP|DT|JJ|PRP\$|RB.*|CC|WDT" postag_regexp="yes"></exception><exception regexp="yes">have|has|had|s|\"|\'|[0-9].*|,|\(|\[</exception></token>
+          <token><exception postag="PRP|NNP|DT|JJ|PRP\$|RB.*|CC|WDT"
+              postag_regexp="yes"></exception><exception regexp="yes">have|has|had|s|\"|\'|[0-9].*|,|\(|\[</exception></token>
 
-          <token postag="RB.*" postag_regexp="yes"><exception postag="VB|RP|CD|IN|CC|MD" postag_regexp="yes"></exception><exception regexp="yes">not|only|also</exception></token>
+          <token postag="RB.*" postag_regexp="yes"><exception
+              postag="VB|RP|CD|IN|CC|MD" postag_regexp="yes"></exception><exception
+              regexp="yes">not|only|also</exception></token>
 
-          <token postag="VBN|JJ" postag_regexp="yes"><exception postag="VB|RP.*|RB|CD|IN|CC|MD|DT|WDT" postag_regexp="yes"></exception></token>
+          <token postag="VBN|JJ" postag_regexp="yes"><exception
+              postag="VB|RP.*|RB|CD|IN|CC|MD|DT|WDT" postag_regexp="yes"></exception></token>
 
-          <token postag="NN"><exception postag="WDT|CC|DT|RB|RP|JJ|IN|CD|JJR|RBS|VBD|VBN|MD|NNS" postag_regexp="yes"></exception><exception>are</exception></token>
+          <token postag="NN"><exception
+              postag="WDT|CC|DT|RB|RP|JJ|IN|CD|JJR|RBS|VBD|VBN|MD|NNS"
+              postag_regexp="yes"></exception><exception>are</exception></token>
 
           <token><exception postag="NN.*" postag_regexp="yes"></exception></token>
         </pattern>
 
-        <message>The article is missing before the noun: <suggestion><match no="2" postag="+DT"></match> <match no="3"></match> <match no="4"></match></suggestion>.</message>
+        <message>The article is missing before the noun: <suggestion><match
+              no="2" postag="+DT"></match> <match no="3"></match> <match
+              no="4"></match></suggestion>.</message>
 
         <short>Article missing</short>
 
-        <example correction="an extremely experienced soldier|the extremely experienced soldier" type="incorrect">He is <marker>extremely experienced soldier</marker>.</example>
+        <example correction="an extremely experienced soldier|the extremely experienced soldier"
+                 type="incorrect">He is <marker>extremely experienced soldier</marker>.</example>
 
         <example type="correct">There is only one catch to this idyllic arrengement.</example>
 
@@ -4269,12 +4392,15 @@ $Id: grammar.xml,v 1.113 2009-07-14 19:29:19 milek_pl Exp $
         <pattern mark_from="1" mark_to="-1">
           <token>at</token>
 
-          <token postag="NN"><exception postag="CC|UH|DT|WDT|RP|JJ|IN|CD|JJS|JJR|RBS|VBD|VBN|MD|NNP|NNS" postag_regexp="yes"></exception><exception regexp="yes">anchor|bay|birth|fault|first|hand|home|issue|least|length|liberty|sea|source|stake|table|variance</exception></token>
+          <token postag="NN"><exception
+              postag="CC|UH|DT|WDT|RP|JJ|IN|CD|JJS|JJR|RBS|VBD|VBN|MD|NNP|NNS"
+              postag_regexp="yes"></exception><exception regexp="yes">anchor|bay|birth|fault|first|hand|home|issue|least|length|liberty|sea|source|stake|table|variance</exception></token>
 
           <token><exception postag="NN.*" postag_regexp="yes"></exception></token>
         </pattern>
 
-        <message>The article is missing before the noun: <suggestion><match no="2" postag="+DT"></match></suggestion>.</message>
+        <message>The article is missing before the noun: <suggestion><match
+              no="2" postag="+DT"></match></suggestion>.</message>
 
         <short>Article missing</short>
 
@@ -4287,14 +4413,18 @@ $Id: grammar.xml,v 1.113 2009-07-14 19:29:19 milek_pl Exp $
         <pattern mark_from="1" mark_to="-1">
           <token>at</token>
 
-          <token postag="JJ"><exception postag="VB|WRB|RB.*|CD|IN|DT|WDT" postag_regexp="yes"></exception></token>
+          <token postag="JJ"><exception postag="VB|WRB|RB.*|CD|IN|DT|WDT"
+              postag_regexp="yes"></exception></token>
 
-          <token postag="NN"><exception postag="DT|WDT|RP|JJ|IN|CD|JJR|RBS|VBD|VBN|MD|NNP|NNS|CC" postag_regexp="yes"></exception><exception>glance</exception></token>
+          <token postag="NN"><exception
+              postag="DT|WDT|RP|JJ|IN|CD|JJR|RBS|VBD|VBN|MD|NNP|NNS|CC"
+              postag_regexp="yes"></exception><exception>glance</exception></token>
 
           <token><exception postag="NN.*" postag_regexp="yes"></exception><exception>free</exception></token>
         </pattern>
 
-        <message>The article is missing before the noun: <suggestion><match no="2" postag="+DT"></match> <match no="3"></match></suggestion>.</message>
+        <message>The article is missing before the noun: <suggestion><match
+              no="2" postag="+DT"></match> <match no="3"></match></suggestion>.</message>
 
         <short>Article missing</short>
 
@@ -4310,7 +4440,9 @@ $Id: grammar.xml,v 1.113 2009-07-14 19:29:19 milek_pl Exp $
           <token regexp="yes">[Bb]y</token>
 
           <and>
-            <token postag="NN"><exception postag="CC|UH|DT|WDT|RB|RP|JJ|IN|CD|JJS|JJR|RBS|VBD|VBN|MD|NNP|NNS|WDT|VBG" postag_regexp="yes"></exception><exception regexp="yes">bit|word|step|way|example|dint|crook|hook|hand|machine|word|cheque|accident|day|means|mistake|name|train|rail|railway|coach|bus|boat|automobile|helicopter|taxi|ambulance|plane|airplane|foot|section|article|page|road|letter|phone|telephone|mail|storm|arrangement|satellite|decree|year-end|lot|profession|district|week|eye|covenant|fiat|ship|car|jowl|tramway</exception></token>
+            <token postag="NN"><exception
+                postag="CC|UH|DT|WDT|RB|RP|JJ|IN|CD|JJS|JJR|RBS|VBD|VBN|MD|NNP|NNS|WDT|VBG"
+                postag_regexp="yes"></exception><exception regexp="yes">bit|word|step|way|example|dint|crook|hook|hand|machine|word|cheque|accident|day|means|mistake|name|train|rail|railway|coach|bus|boat|automobile|helicopter|taxi|ambulance|plane|airplane|foot|section|article|page|road|letter|phone|telephone|mail|storm|arrangement|satellite|decree|year-end|lot|profession|district|week|eye|covenant|fiat|ship|car|jowl|tramway</exception></token>
 
             <token negate="yes"><match no="0"></match></token>
           </and>
@@ -4318,7 +4450,8 @@ $Id: grammar.xml,v 1.113 2009-07-14 19:29:19 milek_pl Exp $
           <token><exception postag="NN.*" postag_regexp="yes"></exception><exception>free</exception></token>
         </pattern>
 
-        <message>The article is missing before the noun: <suggestion><match no="3" postag="+DT"></match></suggestion>.</message>
+        <message>The article is missing before the noun: <suggestion><match
+              no="3" postag="+DT"></match></suggestion>.</message>
 
         <short>Article missing</short>
 
@@ -4335,14 +4468,18 @@ $Id: grammar.xml,v 1.113 2009-07-14 19:29:19 milek_pl Exp $
         <pattern mark_from="1" mark_to="-1">
           <token>by</token>
 
-          <token postag="JJ"><exception postag="VB|WRB|RB.*|CD|IN|DT|WDT" postag_regexp="yes"></exception></token>
+          <token postag="JJ"><exception postag="VB|WRB|RB.*|CD|IN|DT|WDT"
+              postag_regexp="yes"></exception></token>
 
-          <token postag="NN"><exception postag="DT|WDT|RP|JJ|IN|CD|JJR|RBS|VBD|VBN|MD|NNP|NNS" postag_regexp="yes"></exception><exception>fiat</exception></token>
+          <token postag="NN"><exception
+              postag="DT|WDT|RP|JJ|IN|CD|JJR|RBS|VBD|VBN|MD|NNP|NNS"
+              postag_regexp="yes"></exception><exception>fiat</exception></token>
 
           <token><exception postag="NN.*" postag_regexp="yes"></exception><exception>free</exception></token>
         </pattern>
 
-        <message>The article is missing before the noun: <suggestion><match no="2" postag="+DT"></match> <match no="3"></match></suggestion>.</message>
+        <message>The article is missing before the noun: <suggestion><match
+              no="2" postag="+DT"></match> <match no="3"></match></suggestion>.</message>
 
         <short>Article missing</short>
 
@@ -4355,12 +4492,15 @@ $Id: grammar.xml,v 1.113 2009-07-14 19:29:19 milek_pl Exp $
         <pattern mark_from="1" mark_to="-1">
           <token>for</token>
 
-          <token postag="NN"><exception postag="UH|CC|VBD|VBG|VBN|DT|WDT|RP|JJ|IN|CD|JJS|JJR|RBS|VBD|MD|NNP|NNS|WRB|PRP\$" postag_regexp="yes"></exception><exception regexp="yes">are|instance|example|sale|word</exception></token>
+          <token postag="NN"><exception
+              postag="UH|CC|VBD|VBG|VBN|DT|WDT|RP|JJ|IN|CD|JJS|JJR|RBS|VBD|MD|NNP|NNS|WRB|PRP\$"
+              postag_regexp="yes"></exception><exception regexp="yes">are|instance|example|sale|word</exception></token>
 
           <token><exception postag="NN.*" postag_regexp="yes"></exception><exception>free</exception></token>
         </pattern>
 
-        <message>The article is missing before the noun: <suggestion><match no="2" postag="+DT"></match></suggestion>.</message>
+        <message>The article is missing before the noun: <suggestion><match
+              no="2" postag="+DT"></match></suggestion>.</message>
 
         <short>Article missing</short>
 
@@ -4375,14 +4515,18 @@ $Id: grammar.xml,v 1.113 2009-07-14 19:29:19 milek_pl Exp $
         <pattern mark_from="1" mark_to="-1">
           <token>for</token>
 
-          <token postag="JJ"><exception postag="VBG|VB|WRB|RB.*|CD|IN|DT|WDT" postag_regexp="yes"></exception></token>
+          <token postag="JJ"><exception postag="VBG|VB|WRB|RB.*|CD|IN|DT|WDT"
+              postag_regexp="yes"></exception></token>
 
-          <token postag="NN"><exception postag="DT|WDT|RP|JJ|IN|CD|JJR|RBS|VBD|VBN|MD|NNP|NNS" postag_regexp="yes"></exception></token>
+          <token postag="NN"><exception
+              postag="DT|WDT|RP|JJ|IN|CD|JJR|RBS|VBD|VBN|MD|NNP|NNS"
+              postag_regexp="yes"></exception></token>
 
           <token><exception postag="NN.*" postag_regexp="yes"></exception><exception>free</exception></token>
         </pattern>
 
-        <message>The article is missing before the noun: <suggestion><match no="2" postag="+DT"></match> <match no="3"></match></suggestion>.</message>
+        <message>The article is missing before the noun: <suggestion><match
+              no="2" postag="+DT"></match> <match no="3"></match></suggestion>.</message>
 
         <short>Article missing</short>
 
@@ -4400,15 +4544,19 @@ $Id: grammar.xml,v 1.113 2009-07-14 19:29:19 milek_pl Exp $
           <token>in</token>
 
           <and>
-            <token postag="NN"><exception postag="VBG|DT|WDT|RP|JJ|IN|CD|JJS|JJR|RBS|VBD|VBN|MD|NNP|NNS" postag_regexp="yes"></exception><exception regexp="yes">fact|hand|paperback|person|retrospect|studio|summary|mood|name|turn|deed|word|outlook|favor|phase|reply|chorus|quest|series|answer|league|contradistinction|absentia|harness</exception></token>
+            <token postag="NN"><exception
+                postag="VBG|DT|WDT|RP|JJ|IN|CD|JJS|JJR|RBS|VBD|VBN|MD|NNP|NNS"
+                postag_regexp="yes"></exception><exception regexp="yes">fact|hand|paperback|person|retrospect|studio|summary|mood|name|turn|deed|word|outlook|favor|phase|reply|chorus|quest|series|answer|league|contradistinction|absentia|harness</exception></token>
 
             <token negate="yes"><match no="0"></match></token>
           </and>
 
-          <token><exception postag="NN.*|JJ" postag_regexp="yes"></exception><exception regexp="yes">\d+</exception></token>
+          <token><exception postag="NN.*|JJ" postag_regexp="yes"></exception><exception
+              regexp="yes">\d+</exception></token>
         </pattern>
 
-        <message>The article is missing before the noun: <suggestion><match no="3" postag="+DT"></match></suggestion>.</message>
+        <message>The article is missing before the noun: <suggestion><match
+              no="3" postag="+DT"></match></suggestion>.</message>
 
         <short>Article missing</short>
 
@@ -4429,12 +4577,16 @@ $Id: grammar.xml,v 1.113 2009-07-14 19:29:19 milek_pl Exp $
 
           <token>in</token>
 
-          <token postag="NN"><exception postag="VBG|DT|WDT|RP|JJ|IN|CD|JJS|JJR|RBS|VBD|VBN|MD|NNP|NNS" postag_regexp="yes"></exception><exception regexp="yes">fact|hand|paperback|person|retrospect|studio|summary|mood|name|turn|deed|word|outlook|favor|phase|reply|chorus|quest|series|answer|league|contradistinction|absentia|harness</exception></token>
+          <token postag="NN"><exception
+              postag="VBG|DT|WDT|RP|JJ|IN|CD|JJS|JJR|RBS|VBD|VBN|MD|NNP|NNS"
+              postag_regexp="yes"></exception><exception regexp="yes">fact|hand|paperback|person|retrospect|studio|summary|mood|name|turn|deed|word|outlook|favor|phase|reply|chorus|quest|series|answer|league|contradistinction|absentia|harness</exception></token>
 
-          <token><exception postag="NN.*|JJ" postag_regexp="yes"></exception><exception regexp="yes">\d+</exception></token>
+          <token><exception postag="NN.*|JJ" postag_regexp="yes"></exception><exception
+              regexp="yes">\d+</exception></token>
         </pattern>
 
-        <message>The article is missing before the noun: <suggestion><match no="3" postag="+DT"></match></suggestion>.</message>
+        <message>The article is missing before the noun: <suggestion><match
+              no="3" postag="+DT"></match></suggestion>.</message>
 
         <short>Article missing</short>
 
@@ -4451,14 +4603,19 @@ $Id: grammar.xml,v 1.113 2009-07-14 19:29:19 milek_pl Exp $
         <pattern mark_from="1" mark_to="-1">
           <token>in</token>
 
-          <token postag="JJ"><exception postag="NNP|VBG|VB|WRB|RB.*|CD|IN|DT|WDT" postag_regexp="yes"></exception></token>
+          <token postag="JJ"><exception
+              postag="NNP|VBG|VB|WRB|RB.*|CD|IN|DT|WDT" postag_regexp="yes"></exception></token>
 
-          <token postag="NN"><exception postag="DT|WDT|RP|JJ.*|IN|CD|RB.*|VBD|VBN|MD|NNP|NNS|NNPS|PRP.*|WRB" postag_regexp="yes"></exception></token>
+          <token postag="NN"><exception
+              postag="DT|WDT|RP|JJ.*|IN|CD|RB.*|VBD|VBN|MD|NNP|NNS|NNPS|PRP.*|WRB"
+              postag_regexp="yes"></exception></token>
 
-          <token><exception postag="NN.*|JJ" postag_regexp="yes"></exception><exception regexp="yes">\d+</exception></token>
+          <token><exception postag="NN.*|JJ" postag_regexp="yes"></exception><exception
+              regexp="yes">\d+</exception></token>
         </pattern>
 
-        <message>The article is missing before the noun: <suggestion><match no="2" postag="+DT"></match> <match no="3"></match></suggestion>.</message>
+        <message>The article is missing before the noun: <suggestion><match
+              no="2" postag="+DT"></match> <match no="3"></match></suggestion>.</message>
 
         <short>Article missing</short>
 
@@ -4475,12 +4632,15 @@ $Id: grammar.xml,v 1.113 2009-07-14 19:29:19 milek_pl Exp $
         <pattern mark_from="1" mark_to="-1">
           <token>on</token>
 
-          <token postag="NN"><exception postag="CC|UH|DT|WDT|RP|JJ|IN|CD|JJS|JJR|RB.*|VBD|VBN|MD|NNP|NNS|WRB" postag_regexp="yes"></exception><exception regexp="yes">board|display|foot|hand|sale|affidavit|camera|cassette|chat|coach|deposit|diskette|end|file|lease|oath|offer|page|screen|site|strike|target|tour|track|exhibit</exception></token>
+          <token postag="NN"><exception
+              postag="CC|UH|DT|WDT|RP|JJ|IN|CD|JJS|JJR|RB.*|VBD|VBN|MD|NNP|NNS|WRB"
+              postag_regexp="yes"></exception><exception regexp="yes">board|display|foot|hand|sale|affidavit|camera|cassette|chat|coach|deposit|diskette|end|file|lease|oath|offer|page|screen|site|strike|target|tour|track|exhibit</exception></token>
 
           <token><exception postag="NN.*" postag_regexp="yes"></exception></token>
         </pattern>
 
-        <message>The article is missing before the noun: <suggestion><match no="2" postag="+DT"></match></suggestion>.</message>
+        <message>The article is missing before the noun: <suggestion><match
+              no="2" postag="+DT"></match></suggestion>.</message>
 
         <short>Article missing</short>
 
@@ -4495,18 +4655,23 @@ $Id: grammar.xml,v 1.113 2009-07-14 19:29:19 milek_pl Exp $
         <pattern mark_from="1" mark_to="-1">
           <token>on</token>
 
-          <token postag="JJ"><exception postag="VBG|VB|WRB|RB.*|CD|IN|DT|WDT|NNP" postag_regexp="yes"></exception></token>
+          <token postag="JJ"><exception
+              postag="VBG|VB|WRB|RB.*|CD|IN|DT|WDT|NNP" postag_regexp="yes"></exception></token>
 
-          <token postag="NN"><exception postag="CC|DT|WDT|RP|JJ.*|IN|CD|RBS|VBD|VBN|MD|NNP|NNS|NNPS" postag_regexp="yes"></exception></token>
+          <token postag="NN"><exception
+              postag="CC|DT|WDT|RP|JJ.*|IN|CD|RBS|VBD|VBN|MD|NNP|NNS|NNPS"
+              postag_regexp="yes"></exception></token>
 
           <token><exception postag="NN.*" postag_regexp="yes"></exception><exception>free</exception></token>
         </pattern>
 
-        <message>The article is missding before the noun: <suggestion><match no="2" postag="+DT"></match> <match no="3"></match></suggestion>.</message>
+        <message>The article is missding before the noun: <suggestion><match
+              no="2" postag="+DT"></match> <match no="3"></match></suggestion>.</message>
 
         <short>Article missing</short>
 
-        <example correction="a previous page|the previous page" type="incorrect">This remark is on <marker>previous page</marker>.</example>
+        <example correction="a previous page|the previous page"
+                 type="incorrect">This remark is on <marker>previous page</marker>.</example>
 
         <example type="correct">This remark is on <marker>the previous page</marker>.</example>
       </rule>
@@ -4522,7 +4687,9 @@ $Id: grammar.xml,v 1.113 2009-07-14 19:29:19 milek_pl Exp $
           <token>after</token>
 
           <and>
-            <token postag="NN"><exception postag="CC|UH|DT|WDT|RP|JJ.*|IN|CD|RB.*|VBD|VBZ|VBN|MD|NNP|NNS|NNPS|PRP.*|WRB" postag_regexp="yes"></exception></token>
+            <token postag="NN"><exception
+                postag="CC|UH|DT|WDT|RP|JJ.*|IN|CD|RB.*|VBD|VBZ|VBN|MD|NNP|NNS|NNPS|PRP.*|WRB"
+                postag_regexp="yes"></exception></token>
 
             <token negate="yes"><match no="1"></match></token>
           </and>
@@ -4530,7 +4697,8 @@ $Id: grammar.xml,v 1.113 2009-07-14 19:29:19 milek_pl Exp $
           <token><exception postag="NN.*" postag_regexp="yes"></exception><exception>free</exception></token>
         </pattern>
 
-        <message>The article is probably missing before the noun: <suggestion><match no="4" postag="+DT"></match></suggestion>.</message>
+        <message>The article is probably missing before the noun: <suggestion><match
+              no="4" postag="+DT"></match></suggestion>.</message>
 
         <short>Article missing</short>
 
@@ -4549,14 +4717,18 @@ $Id: grammar.xml,v 1.113 2009-07-14 19:29:19 milek_pl Exp $
 
           <token><exception postag="VBN|VBD" postag_regexp="yes"></exception></token>
 
-          <token postag="IN"><exception regexp="yes">as|at|by|for|in|on|to|of|following|than|after</exception><exception postag="JJ.*" postag_regexp="yes"></exception></token>
+          <token postag="IN"><exception regexp="yes">as|at|by|for|in|on|to|of|following|than|after</exception><exception
+              postag="JJ.*" postag_regexp="yes"></exception></token>
 
-          <token postag="NN"><exception postag="CC|UH|DT|WDT|RP|JJ.*|IN|CD|RB.*|VBD|VBZ|VBN|MD|NNP|NNS|NNPS|PRP.*|WRB" postag_regexp="yes"></exception></token>
+          <token postag="NN"><exception
+              postag="CC|UH|DT|WDT|RP|JJ.*|IN|CD|RB.*|VBD|VBZ|VBN|MD|NNP|NNS|NNPS|PRP.*|WRB"
+              postag_regexp="yes"></exception></token>
 
           <token><exception postag="NN.*" postag_regexp="yes"></exception><exception>free</exception></token>
         </pattern>
 
-        <message>The article is probably missing before the noun: <suggestion><match no="4" postag="+DT"></match></suggestion>.</message>
+        <message>The article is probably missing before the noun: <suggestion><match
+              no="4" postag="+DT"></match></suggestion>.</message>
 
         <short>Article missing</short>
 
@@ -4571,16 +4743,21 @@ $Id: grammar.xml,v 1.113 2009-07-14 19:29:19 milek_pl Exp $
 
           <token><exception postag="VBN|VBD" postag_regexp="yes"></exception></token>
 
-          <token postag="IN"><exception regexp="yes">as|at|by|for|in|on|to|of|following|re</exception><exception postag="JJ.*" postag_regexp="yes"></exception></token>
+          <token postag="IN"><exception regexp="yes">as|at|by|for|in|on|to|of|following|re</exception><exception
+              postag="JJ.*" postag_regexp="yes"></exception></token>
 
-          <token postag="JJ"><exception postag="VBG|VB|WRB|RB.*|CD|IN|DT|WDT|NNP" postag_regexp="yes"></exception></token>
+          <token postag="JJ"><exception
+              postag="VBG|VB|WRB|RB.*|CD|IN|DT|WDT|NNP" postag_regexp="yes"></exception></token>
 
-          <token postag="NN"><exception postag="CC|DT|WDT|RP|JJ|IN|CD|JJR|RBS|VBD|VBN|MD|NNP|NNS" postag_regexp="yes"></exception></token>
+          <token postag="NN"><exception
+              postag="CC|DT|WDT|RP|JJ|IN|CD|JJR|RBS|VBD|VBN|MD|NNP|NNS"
+              postag_regexp="yes"></exception></token>
 
           <token><exception postag="NN.*" postag_regexp="yes"></exception><exception>free</exception></token>
         </pattern>
 
-        <message>The article is missing before the noun: <suggestion><match no="4" postag="+DT"></match> <match no="5"></match></suggestion>.</message>
+        <message>The article is missing before the noun: <suggestion><match
+              no="4" postag="+DT"></match> <match no="5"></match></suggestion>.</message>
 
         <short>Article missing</short>
 
@@ -4597,14 +4774,18 @@ $Id: grammar.xml,v 1.113 2009-07-14 19:29:19 milek_pl Exp $
 
           <token postag="SENT_START"></token>
 
-          <token postag="IN"><exception regexp="yes">as|at|by|for|in|on|to|of|following</exception><exception postag="JJ.*" postag_regexp="yes"></exception></token>
+          <token postag="IN"><exception regexp="yes">as|at|by|for|in|on|to|of|following</exception><exception
+              postag="JJ.*" postag_regexp="yes"></exception></token>
 
-          <token postag="NN"><exception postag="CC|UH|DT|WDT|RP|JJ.*|IN|CD|RB.*|VBD|VBN|MD|NNP|NNS|NNPS|PRP.*|WRB" postag_regexp="yes"></exception></token>
+          <token postag="NN"><exception
+              postag="CC|UH|DT|WDT|RP|JJ.*|IN|CD|RB.*|VBD|VBN|MD|NNP|NNS|NNPS|PRP.*|WRB"
+              postag_regexp="yes"></exception></token>
 
           <token><exception postag="NN.*|JJ" postag_regexp="yes"></exception></token>
         </pattern>
 
-        <message>The article is missing before the noun: <suggestion><match no="3" postag="+DT"></match></suggestion>.</message>
+        <message>The article is missing before the noun: <suggestion><match
+              no="3" postag="+DT"></match></suggestion>.</message>
 
         <short>Article missing</short>
 
@@ -4619,16 +4800,21 @@ $Id: grammar.xml,v 1.113 2009-07-14 19:29:19 milek_pl Exp $
 
           <token postag="SENT_START"></token>
 
-          <token postag="IN"><exception regexp="yes">as|at|by|for|in|on|to|of|following</exception><exception postag="JJ.*" postag_regexp="yes"></exception></token>
+          <token postag="IN"><exception regexp="yes">as|at|by|for|in|on|to|of|following</exception><exception
+              postag="JJ.*" postag_regexp="yes"></exception></token>
 
-          <token postag="JJ"><exception postag="VBG|VB|WRB|RB.*|CD|IN|DT|WDT|NNP" postag_regexp="yes"></exception></token>
+          <token postag="JJ"><exception
+              postag="VBG|VB|WRB|RB.*|CD|IN|DT|WDT|NNP" postag_regexp="yes"></exception></token>
 
-          <token postag="NN"><exception postag="DT|WDT|RP|JJ|IN|CD|JJR|RBS|VBD|VBN|MD|NNP|NNS" postag_regexp="yes"></exception></token>
+          <token postag="NN"><exception
+              postag="DT|WDT|RP|JJ|IN|CD|JJR|RBS|VBD|VBN|MD|NNP|NNS"
+              postag_regexp="yes"></exception></token>
 
           <token><exception postag="NN.*|JJ" postag_regexp="yes"></exception></token>
         </pattern>
 
-        <message>The article is missing before the noun: <suggestion><match no="3" postag="+DT"></match> <match no="4"></match></suggestion>.</message>
+        <message>The article is missing before the noun: <suggestion><match
+              no="3" postag="+DT"></match> <match no="4"></match></suggestion>.</message>
 
         <short>Article missing</short>
 
@@ -4639,16 +4825,21 @@ $Id: grammar.xml,v 1.113 2009-07-14 19:29:19 milek_pl Exp $
 
       <rule>
         <pattern mark_from="2" mark_to="-1">
-          <token><exception regexp="yes">no|any</exception><exception postag="JJ.*" postag_regexp="yes"></exception></token>
+          <token><exception regexp="yes">no|any</exception><exception
+              postag="JJ.*" postag_regexp="yes"></exception></token>
 
           <token>such</token>
 
-          <token postag="NN"><exception postag="DT|WDT|RP|JJ|IN|CD|JJR|RBS|VBD|VBN|MD|NNP|NNS" postag_regexp="yes"></exception><exception inflected="yes" regexp="yes">be|have</exception></token>
+          <token postag="NN"><exception
+              postag="DT|WDT|RP|JJ|IN|CD|JJR|RBS|VBD|VBN|MD|NNP|NNS"
+              postag_regexp="yes"></exception><exception inflected="yes"
+              regexp="yes">be|have</exception></token>
 
           <token><exception postag="NN.*" postag_regexp="yes"></exception><exception>free</exception></token>
         </pattern>
 
-        <message>The article is missing before the noun: <suggestion><match no="3" postag="+INDT"></match></suggestion>.</message>
+        <message>The article is missing before the noun: <suggestion><match
+              no="3" postag="+INDT"></match></suggestion>.</message>
 
         <short>Article missing</short>
 
@@ -4665,14 +4856,18 @@ $Id: grammar.xml,v 1.113 2009-07-14 19:29:19 milek_pl Exp $
 
           <token>such</token>
 
-          <token postag="JJ"><exception postag="VBG|VB|WRB|RB.*|CD|IN|DT|WDT|NNP" postag_regexp="yes"></exception></token>
+          <token postag="JJ"><exception
+              postag="VBG|VB|WRB|RB.*|CD|IN|DT|WDT|NNP" postag_regexp="yes"></exception></token>
 
-          <token postag="NN"><exception postag="DT|WDT|RP|JJ|IN|CD|JJR|RBS|VBD|VBN|MD|NNP|NNS" postag_regexp="yes"></exception></token>
+          <token postag="NN"><exception
+              postag="DT|WDT|RP|JJ|IN|CD|JJR|RBS|VBD|VBN|MD|NNP|NNS"
+              postag_regexp="yes"></exception></token>
 
           <token><exception postag="NN.*" postag_regexp="yes"></exception><exception>free</exception></token>
         </pattern>
 
-        <message>The article is missing before the noun: <suggestion><match no="3" postag="+INDT"></match> <match no="4"></match></suggestion>.</message>
+        <message>The article is missing before the noun: <suggestion><match
+              no="3" postag="+INDT"></match> <match no="4"></match></suggestion>.</message>
 
         <short>Article missing</short>
 
@@ -4682,7 +4877,8 @@ $Id: grammar.xml,v 1.113 2009-07-14 19:29:19 milek_pl Exp $
       </rule>
     </rulegroup>
 
-    <rulegroup id="AFFORD_VBG" name="'afford', 'choose', 'deserve', 'pretend', 'strive' and 'struggle' used with gerund instead of infinitive">
+    <rulegroup id="AFFORD_VBG"
+               name="'afford', 'choose', 'deserve', 'pretend', 'strive' and 'struggle' used with gerund instead of infinitive">
       <rule>
         <pattern mark_from="1">
           <token inflected="yes" regexp="yes">afford|choose|deserve|pretend|strive|struggle</token>
@@ -4690,7 +4886,8 @@ $Id: grammar.xml,v 1.113 2009-07-14 19:29:19 milek_pl Exp $
           <token postag="VBG"></token>
         </pattern>
 
-        <message>This verb is used with infinitive: <suggestion>to <match no="2" postag="VB"></match></suggestion>.</message>
+        <message>This verb is used with infinitive: <suggestion>to <match
+              no="2" postag="VB"></match></suggestion>.</message>
 
         <short>Grammatical problem</short>
 
@@ -4710,7 +4907,8 @@ $Id: grammar.xml,v 1.113 2009-07-14 19:29:19 milek_pl Exp $
           <token postag="VBG"></token>
         </pattern>
 
-        <message>This verb is used with infinitive: <suggestion>to <match no="3" postag="VB"></match></suggestion>.</message>
+        <message>This verb is used with infinitive: <suggestion>to <match
+              no="3" postag="VB"></match></suggestion>.</message>
 
         <short>Grammatical problem</short>
 
@@ -4720,7 +4918,8 @@ $Id: grammar.xml,v 1.113 2009-07-14 19:29:19 milek_pl Exp $
       </rule>
     </rulegroup>
 
-    <rulegroup id="ADVISE_VBG" name="'advise', 'help' and 'remind' used with gerund instead of infinitive">
+    <rulegroup id="ADVISE_VBG"
+               name="'advise', 'help' and 'remind' used with gerund instead of infinitive">
       <rule>
         <pattern mark_from="1">
           <token inflected="yes" regexp="yes">advise|remind</token>
@@ -4728,7 +4927,8 @@ $Id: grammar.xml,v 1.113 2009-07-14 19:29:19 milek_pl Exp $
           <token postag="VBG"></token>
         </pattern>
 
-        <message>Verbs 'advise' and 'remind' are used with infinitive: <suggestion>to <match no="2" postag="VB"></match></suggestion>.</message>
+        <message>Verbs 'advise' and 'remind' are used with infinitive: <suggestion>to <match
+              no="2" postag="VB"></match></suggestion>.</message>
 
         <short>Grammatical problem</short>
 
@@ -4748,7 +4948,8 @@ $Id: grammar.xml,v 1.113 2009-07-14 19:29:19 milek_pl Exp $
           <token postag="VBG"></token>
         </pattern>
 
-        <message>Verbs 'advise' and 'remind' are used with infinitive: <suggestion>to <match no="3" postag="VB"></match></suggestion>.</message>
+        <message>Verbs 'advise' and 'remind' are used with infinitive: <suggestion>to <match
+              no="3" postag="VB"></match></suggestion>.</message>
 
         <short>Grammatical problem</short>
 
@@ -4766,7 +4967,8 @@ $Id: grammar.xml,v 1.113 2009-07-14 19:29:19 milek_pl Exp $
           <token postag="VBG"></token>
         </pattern>
 
-        <message>Verbs 'advise' and 'remind' are used with infinitive: <suggestion>to <match no="4" postag="VB"></match></suggestion>.</message>
+        <message>Verbs 'advise' and 'remind' are used with infinitive: <suggestion>to <match
+              no="4" postag="VB"></match></suggestion>.</message>
 
         <short>Grammatical problem</short>
 
@@ -4788,7 +4990,8 @@ $Id: grammar.xml,v 1.113 2009-07-14 19:29:19 milek_pl Exp $
           <token postag="VBG"></token>
         </pattern>
 
-        <message>Verbs 'advise' and 'remind' are used with infinitive: <suggestion>to <match no="5" postag="VB"></match></suggestion>.</message>
+        <message>Verbs 'advise' and 'remind' are used with infinitive: <suggestion>to <match
+              no="5" postag="VB"></match></suggestion>.</message>
 
         <short>Grammatical problem</short>
 
@@ -4810,7 +5013,8 @@ $Id: grammar.xml,v 1.113 2009-07-14 19:29:19 milek_pl Exp $
           <token postag="VBG"></token>
         </pattern>
 
-        <message>The verb 'help' is used with infinitive: <suggestion>to <match no="5" postag="VB"></match></suggestion>
+        <message>The verb 'help' is used with infinitive: <suggestion>to <match
+              no="5" postag="VB"></match></suggestion>
       	or <suggestion><match no="5" postag="VB"></match></suggestion>.</message>
 
         <short>Grammatical problem</short>
@@ -4833,7 +5037,8 @@ $Id: grammar.xml,v 1.113 2009-07-14 19:29:19 milek_pl Exp $
           <token postag="VBG"></token>
         </pattern>
 
-        <message>The verb 'help' is used with infinitive: <suggestion>to <match no="5" postag="VB"></match></suggestion>
+        <message>The verb 'help' is used with infinitive: <suggestion>to <match
+              no="5" postag="VB"></match></suggestion>
       	or <suggestion><match no="4" postag="VB"></match></suggestion>.</message>
 
         <short>Grammatical problem</short>
@@ -4856,7 +5061,8 @@ $Id: grammar.xml,v 1.113 2009-07-14 19:29:19 milek_pl Exp $
           <token postag="VBG"></token>
         </pattern>
 
-        <message>The verb 'help' is used with infinitive: <suggestion>to <match no="5" postag="VB"></match></suggestion>.</message>
+        <message>The verb 'help' is used with infinitive: <suggestion>to <match
+              no="5" postag="VB"></match></suggestion>.</message>
 
         <short>Grammatical problem</short>
 
@@ -4880,7 +5086,8 @@ $Id: grammar.xml,v 1.113 2009-07-14 19:29:19 milek_pl Exp $
           <token postag="VBG"></token>
         </pattern>
 
-        <message>The verb 'help' is used with infinitive: <suggestion>to <match no="6" postag="VB"></match></suggestion>.</message>
+        <message>The verb 'help' is used with infinitive: <suggestion>to <match
+              no="6" postag="VB"></match></suggestion>.</message>
 
         <short>Grammatical problem</short>
 
@@ -4902,7 +5109,8 @@ $Id: grammar.xml,v 1.113 2009-07-14 19:29:19 milek_pl Exp $
           <token postag="VBG"></token>
         </pattern>
 
-        <message>The verb 'help' is used with infinitive: <suggestion>to <match no="6" postag="VB"></match></suggestion>
+        <message>The verb 'help' is used with infinitive: <suggestion>to <match
+              no="6" postag="VB"></match></suggestion>
       	or <suggestion><match no="5" postag="VB"></match></suggestion>.</message>
 
         <short>Grammatical problem</short>
@@ -4927,7 +5135,8 @@ $Id: grammar.xml,v 1.113 2009-07-14 19:29:19 milek_pl Exp $
           <token postag="VBG"></token>
         </pattern>
 
-        <message>The verb 'help' is used with infinitive: <suggestion>to <match no="6" postag="VB"></match></suggestion>
+        <message>The verb 'help' is used with infinitive: <suggestion>to <match
+              no="6" postag="VB"></match></suggestion>
       	or <suggestion><match no="6" postag="VB"></match></suggestion>.</message>
 
         <short>Grammatical problem</short>
@@ -4952,7 +5161,8 @@ $Id: grammar.xml,v 1.113 2009-07-14 19:29:19 milek_pl Exp $
           <token postag="VBG"></token>
         </pattern>
 
-        <message>The verb 'help' is used with infinitive: <suggestion>to <match no="6" postag="VB"></match></suggestion>.</message>
+        <message>The verb 'help' is used with infinitive: <suggestion>to <match
+              no="6" postag="VB"></match></suggestion>.</message>
 
         <short>Grammatical problem</short>
 
@@ -4978,7 +5188,8 @@ $Id: grammar.xml,v 1.113 2009-07-14 19:29:19 milek_pl Exp $
           <token postag="VBG"></token>
         </pattern>
 
-        <message>The verb 'help' is used with infinitive: <suggestion>to <match no="7" postag="VB"></match></suggestion>.</message>
+        <message>The verb 'help' is used with infinitive: <suggestion>to <match
+              no="7" postag="VB"></match></suggestion>.</message>
 
         <short>Grammatical problem</short>
 
@@ -4993,7 +5204,8 @@ $Id: grammar.xml,v 1.113 2009-07-14 19:29:19 milek_pl Exp $
         <pattern mark_to="-2">
           <token>this</token>
 
-          <token postag="NNS"><exception postag="VBZ|NN|JJ.*" postag_regexp="yes"></exception></token>
+          <token postag="NNS"><exception postag="VBZ|NN|JJ.*"
+              postag_regexp="yes"></exception></token>
 
           <token><exception postag="NN|NNP|NN:.*" postag_regexp="yes"></exception></token>
         </pattern>
@@ -5013,12 +5225,14 @@ $Id: grammar.xml,v 1.113 2009-07-14 19:29:19 milek_pl Exp $
         <pattern mark_to="-1">
           <token regexp="yes">these|those</token>
 
-          <token postag="NN|NN:.*" postag_regexp="yes"><exception postag="VBZ|VBG|NNS|JJ.*|VBP|MD|CD|RP|DT" postag_regexp="yes"></exception></token>
+          <token postag="NN|NN:.*" postag_regexp="yes"><exception
+              postag="VBZ|VBG|NNS|JJ.*|VBP|MD|CD|RP|DT" postag_regexp="yes"></exception></token>
 
           <token><exception postag="NNS|NNPS" postag_regexp="yes"></exception></token>
         </pattern>
 
-        <message>Did you mean <suggestion>this <match no="2"></match></suggestion>  or <suggestion><match no="1"></match> <match no="2" postag="NNS"></match></suggestion>?</message>
+        <message>Did you mean <suggestion>this <match no="2"></match></suggestion>  or <suggestion><match
+              no="1"></match> <match no="2" postag="NNS"></match></suggestion>?</message>
 
         <short>Grammatical problem</short>
 
@@ -5072,13 +5286,15 @@ $Id: grammar.xml,v 1.113 2009-07-14 19:29:19 milek_pl Exp $
       </rule>
     </rulegroup>
 
-    <rule id="A_MUCH_NN1" name="Superfluous article before 'much', e.g. 'a much work'">
+    <rule id="A_MUCH_NN1"
+          name="Superfluous article before 'much', e.g. 'a much work'">
       <pattern mark_from="0" mark_to="-1">
         <token>a</token>
 
         <token>much</token>
 
-        <token postag="NN|NN:U|NN:UN" postag_regexp="yes"><exception postag="JJR"></exception></token>
+        <token postag="NN|NN:U|NN:UN" postag_regexp="yes"><exception
+            postag="JJR"></exception></token>
       </pattern>
 
       <message>Maybe you should omit the article "a", leaving only <suggestion>much</suggestion>.</message>
@@ -5128,7 +5344,8 @@ $Id: grammar.xml,v 1.113 2009-07-14 19:29:19 milek_pl Exp $
       <example type="correct">When is more better?</example>
     </rule>
 
-    <rule id="THE_SUPERLATIVE" name="No indefinite article ('a'/'an') before superlatives">
+    <rule id="THE_SUPERLATIVE"
+          name="No indefinite article ('a'/'an') before superlatives">
       <pattern mark_from="0" mark_to="-1">
         <token regexp="yes">a|an</token>
 
@@ -5155,10 +5372,13 @@ $Id: grammar.xml,v 1.113 2009-07-14 19:29:19 milek_pl Exp $
 
           <token regexp="yes">did|will|could|can|should|would|does</token>
 
-          <token postag="(VBD|VBG|VBZ)" postag_regexp="yes"><exception postag="VBP|NNP" postag_regexp="yes"></exception><exception inflected="yes">be</exception></token>
+          <token postag="(VBD|VBG|VBZ)" postag_regexp="yes"><exception
+              postag="VBP|NNP" postag_regexp="yes"></exception><exception
+              inflected="yes">be</exception></token>
         </pattern>
 
-        <message>The verb '<match no="3"></match>' requires base form of the verb: <suggestion><match no="4" postag="VB"></match></suggestion>.</message>
+        <message>The verb '<match no="3"></match>' requires base form of the verb: <suggestion><match
+              no="4" postag="VB"></match></suggestion>.</message>
 
         <short>Grammatical problem</short>
 
@@ -5195,10 +5415,12 @@ $Id: grammar.xml,v 1.113 2009-07-14 19:29:19 milek_pl Exp $
 
           <token>not</token>
 
-          <token postag="(VBD|VBG|VBZ)" postag_regexp="yes"><exception postag="VBP"></exception><exception inflected="yes">be</exception></token>
+          <token postag="(VBD|VBG|VBZ)" postag_regexp="yes"><exception
+              postag="VBP"></exception><exception inflected="yes">be</exception></token>
         </pattern>
 
-        <message>The verb '<match no="3"></match>' requires base form of the verb: <suggestion><match no="5" postag="VB"></match></suggestion>.</message>
+        <message>The verb '<match no="3"></match>' requires base form of the verb: <suggestion><match
+              no="5" postag="VB"></match></suggestion>.</message>
 
         <short>Grammatical problem</short>
 
@@ -5219,10 +5441,12 @@ $Id: grammar.xml,v 1.113 2009-07-14 19:29:19 milek_pl Exp $
 
           <token>t</token>
 
-          <token postag="(VBD|VBG|VBZ)" postag_regexp="yes"><exception postag="VBP"></exception><exception inflected="yes">be</exception></token>
+          <token postag="(VBD|VBG|VBZ)" postag_regexp="yes"><exception
+              postag="VBP"></exception><exception inflected="yes">be</exception></token>
         </pattern>
 
-        <message>The verb '<match no="3"></match>'t' requires base form of this verb: <suggestion><match no="6" postag="VB"></match></suggestion>.</message>
+        <message>The verb '<match no="3"></match>'t' requires base form of this verb: <suggestion><match
+              no="6" postag="VB"></match></suggestion>.</message>
 
         <short>Grammatical problem</short>
 
@@ -5288,7 +5512,8 @@ $Id: grammar.xml,v 1.113 2009-07-14 19:29:19 milek_pl Exp $
         <token postag="(VBG|VBZ|VBN|VBD)" postag_regexp="yes"></token>
       </pattern>
 
-      <message>With 'eager to', use the base form of the verb: <suggestion><match no="3" postag="VB"></match></suggestion>.</message>
+      <message>With 'eager to', use the base form of the verb: <suggestion><match
+            no="3" postag="VB"></match></suggestion>.</message>
 
       <short>Grammatical problem</short>
 
@@ -5305,7 +5530,8 @@ $Id: grammar.xml,v 1.113 2009-07-14 19:29:19 milek_pl Exp $
 
     <!-- 106(less..)+319(more...) in complete BNC, all(?) because "...as" -->
 
-    <rulegroup id="COMP_THAN" name="Comparison with 'than', e.g. 'bigger then (than)'">
+    <rulegroup id="COMP_THAN"
+               name="Comparison with 'than', e.g. 'bigger then (than)'">
       <rule>
         <pattern mark_from="1" mark_to="-1">
           <token regexp="yes">more|less</token>
@@ -5377,7 +5603,8 @@ $Id: grammar.xml,v 1.113 2009-07-14 19:29:19 milek_pl Exp $
    </rule>
    -->
 
-    <rule id="MORE_A_JJ" name="Word order: 'more a ...' instead of 'a more ...'">
+    <rule id="MORE_A_JJ"
+          name="Word order: 'more a ...' instead of 'a more ...'">
       <pattern>
         <token>more<exception regexp="yes" scope="previous">no|much</exception></token>
 
@@ -5402,7 +5629,8 @@ $Id: grammar.xml,v 1.113 2009-07-14 19:29:19 milek_pl Exp $
     <!-- this works now, and accounts for subjunctive
   i.e., she recommended that he use his money... -->
 
-    <rulegroup id="NON3PRS_VERB" name="Agreement error: Third person verb with a non-third person pronoun">
+    <rulegroup id="NON3PRS_VERB"
+               name="Agreement error: Third person verb with a non-third person pronoun">
       <rule>
         <pattern mark_from="1">
           <token regexp="yes">I|we|you|they</token>
@@ -5410,7 +5638,8 @@ $Id: grammar.xml,v 1.113 2009-07-14 19:29:19 milek_pl Exp $
           <token postag="VBZ"></token>
         </pattern>
 
-        <message>The pronoun '<match no="1"></match>' must be used with a non-third-person form of a verb: <suggestion><match no="2" postag="VB"></match></suggestion></message>
+        <message>The pronoun '<match no="1"></match>' must be used with a non-third-person form of a verb: <suggestion><match
+              no="2" postag="VB"></match></suggestion></message>
 
         <short>Grammatical problem</short>
 
@@ -5522,17 +5751,21 @@ $Id: grammar.xml,v 1.113 2009-07-14 19:29:19 milek_pl Exp $
       </rule>
     </rulegroup>
 
-    <rulegroup id="HE_VERB_AGR" name="Agreement error: Non-third person verb with 'he/she'">
+    <rulegroup id="HE_VERB_AGR"
+               name="Agreement error: Non-third person verb with 'he/she'">
       <rule>
         <pattern mark_from="2">
-          <token negate="yes" regexp="yes"><exception inflected="yes" regexp="yes">hear|see|insist</exception>(that|has|will|must|could|can|should|would|does|did|is|may|might|t|let|was)</token>
+          <token negate="yes" regexp="yes"><exception inflected="yes"
+              regexp="yes">hear|see|insist</exception>(that|has|will|must|could|can|should|would|does|did|is|may|might|t|let|was)</token>
 
           <token regexp="yes">he|she|someone|somebody|nobody|anyone</token>
 
-          <token postag="VB|VBG|VBP" postag_regexp="yes"><exception postag="VBN|VBD|JJ.*|RB|MD" postag_regexp="yes"></exception></token>
+          <token postag="VB|VBG|VBP" postag_regexp="yes"><exception
+              postag="VBN|VBD|JJ.*|RB|MD" postag_regexp="yes"></exception></token>
         </pattern>
 
-        <message>The pronoun '<match no="2"></match>' must be used with a third-person verb: <suggestion><match no="3" postag="VBZ"></match></suggestion>.</message>
+        <message>The pronoun '<match no="2"></match>' must be used with a third-person verb: <suggestion><match
+              no="3" postag="VBZ"></match></suggestion>.</message>
 
         <short>Agreement error</short>
 
@@ -5551,16 +5784,19 @@ $Id: grammar.xml,v 1.113 2009-07-14 19:29:19 milek_pl Exp $
 
       <rule>
         <pattern mark_from="3">
-          <token negate="yes" regexp="yes"><exception inflected="yes" regexp="yes">hear|see</exception>(that|has|will|must|could|can|should|would|does|did|is|may|might|t|was)</token>
+          <token negate="yes" regexp="yes"><exception inflected="yes"
+              regexp="yes">hear|see</exception>(that|has|will|must|could|can|should|would|does|did|is|may|might|t|was)</token>
 
           <token regexp="yes">he|she|someone|somebody|nobody|anyone</token>
 
           <token postag="RB"></token>
 
-          <token postag="VB|VBG|VBP" postag_regexp="yes"><exception postag="VBN|VBD|JJ.*|RB|MD" postag_regexp="yes"></exception></token>
+          <token postag="VB|VBG|VBP" postag_regexp="yes"><exception
+              postag="VBN|VBD|JJ.*|RB|MD" postag_regexp="yes"></exception></token>
         </pattern>
 
-        <message>The pronoun '<match no="2"></match>' must be used with a third-person verb: <suggestion><match no="4" postag="VBZ"></match></suggestion>.</message>
+        <message>The pronoun '<match no="2"></match>' must be used with a third-person verb: <suggestion><match
+              no="4" postag="VBZ"></match></suggestion>.</message>
 
         <short>Agreement error</short>
 
@@ -5575,16 +5811,19 @@ $Id: grammar.xml,v 1.113 2009-07-14 19:29:19 milek_pl Exp $
 
       <rule>
         <pattern mark_from="3">
-          <token negate="yes" regexp="yes"><exception inflected="yes" regexp="yes">hear|see</exception>(that|has|will|must|could|can|should|would|does|did|is|may|might|t|s|let|was)</token>
+          <token negate="yes" regexp="yes"><exception inflected="yes"
+              regexp="yes">hear|see</exception>(that|has|will|must|could|can|should|would|does|did|is|may|might|t|s|let|was)</token>
 
           <token regexp="yes">someone|somebody|nobody|anyone</token>
 
           <token>else</token>
 
-          <token postag="VB|VBG|VBP" postag_regexp="yes"><exception postag="VBN|VBD|JJ.*|RB|MD" postag_regexp="yes"></exception></token>
+          <token postag="VB|VBG|VBP" postag_regexp="yes"><exception
+              postag="VBN|VBD|JJ.*|RB|MD" postag_regexp="yes"></exception></token>
         </pattern>
 
-        <message>The pronoun '<match no="2"></match>' must be used with a third-person verb: <suggestion><match no="4" postag="VBZ"></match></suggestion>.</message>
+        <message>The pronoun '<match no="2"></match>' must be used with a third-person verb: <suggestion><match
+              no="4" postag="VBZ"></match></suggestion>.</message>
 
         <short>Agreement error</short>
 
@@ -5599,7 +5838,8 @@ $Id: grammar.xml,v 1.113 2009-07-14 19:29:19 milek_pl Exp $
 
       <rule>
         <pattern mark_from="4">
-          <token negate="yes" regexp="yes"><exception inflected="yes" regexp="yes">hear|see</exception>(that|has|will|must|could|can|should|would|does|did|is|may|might|t|let|was)</token>
+          <token negate="yes" regexp="yes"><exception inflected="yes"
+              regexp="yes">hear|see</exception>(that|has|will|must|could|can|should|would|does|did|is|may|might|t|let|was)</token>
 
           <token regexp="yes">someone|somebody|nobody|anyone</token>
 
@@ -5607,10 +5847,12 @@ $Id: grammar.xml,v 1.113 2009-07-14 19:29:19 milek_pl Exp $
 
           <token postag="RB"></token>
 
-          <token postag="VB|VBG|VBP" postag_regexp="yes"><exception postag="VBN|VBD|JJ.*|RB|MD" postag_regexp="yes"></exception></token>
+          <token postag="VB|VBG|VBP" postag_regexp="yes"><exception
+              postag="VBN|VBD|JJ.*|RB|MD" postag_regexp="yes"></exception></token>
         </pattern>
 
-        <message>The pronoun '<match no="2"></match>' must be used with a third-person verb: <suggestion><match no="5" postag="VBZ"></match></suggestion>.</message>
+        <message>The pronoun '<match no="2"></match>' must be used with a third-person verb: <suggestion><match
+              no="5" postag="VBZ"></match></suggestion>.</message>
 
         <short>Agreement error</short>
 
@@ -5636,7 +5878,8 @@ $Id: grammar.xml,v 1.113 2009-07-14 19:29:19 milek_pl Exp $
           <token postag="VBG" postag_regexp="yes"></token>
         </pattern>
 
-        <message>'He' in subjunctive clause must be used base form of the verb: <suggestion><match no="4" postag="VB"></match></suggestion>.</message>
+        <message>'He' in subjunctive clause must be used base form of the verb: <suggestion><match
+              no="4" postag="VB"></match></suggestion>.</message>
 
         <short>Grammatical problem</short>
 
@@ -5651,14 +5894,16 @@ $Id: grammar.xml,v 1.113 2009-07-14 19:29:19 milek_pl Exp $
 
       <rule>
         <pattern mark_from="2">
-          <token postag="VB.*" postag_regexp="yes"><exception regexp="yes">was|is</exception><exception inflected="yes" regexp="yes">hear|see</exception></token>
+          <token postag="VB.*" postag_regexp="yes"><exception regexp="yes">was|is</exception><exception
+              inflected="yes" regexp="yes">hear|see</exception></token>
 
           <token regexp="yes">he|she|someone|somebody|nobody|anyone</token>
 
           <token postag="VBG" postag_regexp="yes"></token>
         </pattern>
 
-        <message>The word '<match no="2"></match>' in subjunctive clause must be used with a base form of a verb: <suggestion><match no="3" postag="VB"></match></suggestion>.</message>
+        <message>The word '<match no="2"></match>' in subjunctive clause must be used with a base form of a verb: <suggestion><match
+              no="3" postag="VB"></match></suggestion>.</message>
 
         <short>Grammatical problem</short>
 
@@ -5675,16 +5920,22 @@ $Id: grammar.xml,v 1.113 2009-07-14 19:29:19 milek_pl Exp $
 
       <rule>
         <pattern mark_from="2" mark_to="-1">
-          <token><exception regexp="yes">(that|has|will|must|could|can|should|would|does|did|is|was|may|might|t|let)</exception><exception inflected="yes" regexp="yes">hear|see</exception><exception postag="CC|IN|DT|MD" postag_regexp="yes"></exception></token>
+          <token><exception regexp="yes">(that|has|will|must|could|can|should|would|does|did|is|was|may|might|t|let)</exception><exception
+              inflected="yes" regexp="yes">hear|see</exception><exception
+              postag="CC|IN|DT|MD" postag_regexp="yes"></exception></token>
 
-          <token postag="NNP" regexp="yes">.{2,}<exception postag="JJ|CC|RP|DT|PRP\$|NNPS|NNS|IN|RB|WRB" postag_regexp="yes"></exception></token>
+          <token postag="NNP" regexp="yes">.{2,}<exception
+              postag="JJ|CC|RP|DT|PRP\$|NNPS|NNS|IN|RB|WRB"
+              postag_regexp="yes"></exception></token>
 
-          <token postag="VB|VBP" postag_regexp="yes" regexp="yes">\p{Lower}+<exception postag="VBN|VBD|JJ|IN|MD" postag_regexp="yes"></exception></token>
+          <token postag="VB|VBP" postag_regexp="yes" regexp="yes">\p{Lower}+<exception
+              postag="VBN|VBD|JJ|IN|MD" postag_regexp="yes"></exception></token>
 
           <token postag="IN|DT" postag_regexp="yes"></token>
         </pattern>
 
-        <message>The proper name in singular (<match no="2"></match>) must be used with a third-person verb: <suggestion><match no="3" postag="VBZ"></match></suggestion>.</message>
+        <message>The proper name in singular (<match no="2"></match>) must be used with a third-person verb: <suggestion><match
+              no="3" postag="VBZ"></match></suggestion>.</message>
 
         <short>Grammatical problem</short>
 
@@ -5712,7 +5963,8 @@ $Id: grammar.xml,v 1.113 2009-07-14 19:29:19 milek_pl Exp $
           <token regexp="yes">he|she|someone|somebody|nobody|anyone</token>
         </pattern>
 
-        <message>The pronoun <match no="3"></match> must be used with <suggestion><match no="2" postag="VBZ"></match></suggestion>.</message>
+        <message>The pronoun <match no="3"></match> must be used with <suggestion><match
+              no="2" postag="VBZ"></match></suggestion>.</message>
 
         <short>Agreement error</short>
 
@@ -5727,10 +5979,13 @@ $Id: grammar.xml,v 1.113 2009-07-14 19:29:19 milek_pl Exp $
 
           <token regexp="yes">Have|Are|Am</token>
 
-          <token postag="NNP" regexp="yes">.{2,}<exception postag="JJ|CC|RP|DT|PRP\$|NNPS|NNS|IN|RB|WRB" postag_regexp="yes"></exception></token>
+          <token postag="NNP" regexp="yes">.{2,}<exception
+              postag="JJ|CC|RP|DT|PRP\$|NNPS|NNS|IN|RB|WRB"
+              postag_regexp="yes"></exception></token>
         </pattern>
 
-        <message>The singular proper name <match no="3"></match> must be used with <suggestion><match no="2" postag="VBZ"></match></suggestion>.</message>
+        <message>The singular proper name <match no="3"></match> must be used with <suggestion><match
+              no="2" postag="VBZ"></match></suggestion>.</message>
 
         <short>Agreement error</short>
 
@@ -5750,7 +6005,8 @@ $Id: grammar.xml,v 1.113 2009-07-14 19:29:19 milek_pl Exp $
           <token regexp="yes">he|she|someone|somebody|nobody|anyone</token>
         </pattern>
 
-        <message>The pronoun <match no="4"></match> must be used with <suggestion><match no="3" postag="VBZ"></match></suggestion>.</message>
+        <message>The pronoun <match no="4"></match> must be used with <suggestion><match
+              no="3" postag="VBZ"></match></suggestion>.</message>
 
         <short>Agreement error</short>
 
@@ -5767,10 +6023,13 @@ $Id: grammar.xml,v 1.113 2009-07-14 19:29:19 milek_pl Exp $
 
           <token regexp="yes">Have|Are|Am</token>
 
-          <token postag="NNP" regexp="yes">.{2,}<exception postag="JJ|CC|RP|DT|PRP\$|NNPS|NNS|IN|RB|WRB" postag_regexp="yes"></exception></token>
+          <token postag="NNP" regexp="yes">.{2,}<exception
+              postag="JJ|CC|RP|DT|PRP\$|NNPS|NNS|IN|RB|WRB"
+              postag_regexp="yes"></exception></token>
         </pattern>
 
-        <message>The singular proper name <match no="4"></match> must be used with <suggestion><match no="3" postag="VBZ"></match></suggestion>.</message>
+        <message>The singular proper name <match no="4"></match> must be used with <suggestion><match
+              no="3" postag="VBZ"></match></suggestion>.</message>
 
         <short>Agreement error</short>
 
@@ -5791,17 +6050,20 @@ $Id: grammar.xml,v 1.113 2009-07-14 19:29:19 milek_pl Exp $
    </rule>
    -->
 
-    <rulegroup id="PRP_PAST_PART" name="Agreement error: past participle without 'have'">
+    <rulegroup id="PRP_PAST_PART"
+               name="Agreement error: past participle without 'have'">
       <rule>
         <pattern mark_from="2">
-          <token postag="SENT_START" skip="-1"><exception inflected="yes" postag="V.*" postag_regexp="yes" scope="next">have|be</exception></token>
+          <token postag="SENT_START" skip="-1"><exception inflected="yes"
+              postag="V.*" postag_regexp="yes" scope="next">have|be</exception></token>
 
           <token postag="PRP"></token>
 
           <token postag="VBN"><exception postag="VBD|VBP" postag_regexp="yes"></exception></token>
         </pattern>
 
-        <message>Possible grammatical error. You used a past participle without using any required verb ('be' or 'have'). Did you mean <suggestion><match no="3" postag="VBD" postag_regexp="yes"></match></suggestion>?</message>
+        <message>Possible grammatical error. You used a past participle without using any required verb ('be' or 'have'). Did you mean <suggestion><match
+              no="3" postag="VBD" postag_regexp="yes"></match></suggestion>?</message>
 
         <example correction="did" type="incorrect">He <marker>done</marker> it.</example>
 
@@ -5839,7 +6101,8 @@ $Id: grammar.xml,v 1.113 2009-07-14 19:29:19 milek_pl Exp $
           <token postag="VB"></token>
         </pattern>
 
-        <message>This is a nonstandard phrase. Use <suggestion><match no="4" postag="VBG"></match></suggestion>.</message>
+        <message>This is a nonstandard phrase. Use <suggestion><match no="4"
+              postag="VBG"></match></suggestion>.</message>
 
         <short>Grammatical problem</short>
 
@@ -5863,7 +6126,8 @@ $Id: grammar.xml,v 1.113 2009-07-14 19:29:19 milek_pl Exp $
           <token postag="VB"></token>
         </pattern>
 
-        <message>This is a nonstandard phrase. Use <suggestion><match no="6" postag="VBG"></match></suggestion>.</message>
+        <message>This is a nonstandard phrase. Use <suggestion><match no="6"
+              postag="VBG"></match></suggestion>.</message>
 
         <short>Grammatical problem</short>
 
@@ -5996,12 +6260,14 @@ $Id: grammar.xml,v 1.113 2009-07-14 19:29:19 milek_pl Exp $
 
           <token>of</token>
 
-          <token postag="NN"><exception postag="NNS|NNPS|NN:U.*" postag_regexp="yes"></exception><exception regexp="yes">dark|wind|rain</exception></token>
+          <token postag="NN"><exception postag="NNS|NNPS|NN:U.*"
+              postag_regexp="yes"></exception><exception regexp="yes">dark|wind|rain</exception></token>
 
           <token><exception postag="JJ.*|NN.*" postag_regexp="yes"></exception></token>
         </pattern>
 
-        <message>The noun should be probably in the plural form: <suggestion><match no="3" postag="NNS|NNPS" postag_regexp="yes"></match></suggestion>.</message>
+        <message>The noun should be probably in the plural form: <suggestion><match
+              no="3" postag="NNS|NNPS" postag_regexp="yes"></match></suggestion>.</message>
 
         <short>Grammatical problem</short>
 
@@ -6016,14 +6282,17 @@ $Id: grammar.xml,v 1.113 2009-07-14 19:29:19 milek_pl Exp $
 
           <token>of</token>
 
-          <token postag="JJ.*" postag_regexp="yes"><exception postag="NNS|NNPS" postag_regexp="yes"></exception></token>
+          <token postag="JJ.*" postag_regexp="yes"><exception
+              postag="NNS|NNPS" postag_regexp="yes"></exception></token>
 
-          <token postag="NN:.*" postag_regexp="yes"><exception postag="NNS|NNPS" postag_regexp="yes"></exception></token>
+          <token postag="NN:.*" postag_regexp="yes"><exception
+              postag="NNS|NNPS" postag_regexp="yes"></exception></token>
 
           <token><exception postag="JJ.*|NN.*" postag_regexp="yes"></exception></token>
         </pattern>
 
-        <message>The noun should be probably in the plural form: <suggestion><match no="4" postag="NNS|NNPS" postag_regexp="yes"></match></suggestion>.</message>
+        <message>The noun should be probably in the plural form: <suggestion><match
+              no="4" postag="NNS|NNPS" postag_regexp="yes"></match></suggestion>.</message>
 
         <short>Grammatical problem</short>
 
@@ -6075,7 +6344,8 @@ $Id: grammar.xml,v 1.113 2009-07-14 19:29:19 milek_pl Exp $
       <example type="correct">Do you need anything?</example>
     </rule>
 
-    <rulegroup id="THERE_S_MANY" name="Possible agreement error 'there's' + plural noun">
+    <rulegroup id="THERE_S_MANY"
+               name="Possible agreement error 'there's' + plural noun">
       <rule>
         <pattern>
           <token>there</token>
@@ -6084,7 +6354,8 @@ $Id: grammar.xml,v 1.113 2009-07-14 19:29:19 milek_pl Exp $
 
           <token>s</token>
 
-          <token postag="NNS|NNPS" postag_regexp="yes"><exception postag="NN:.*|NN|NNP|JJ.*|DT" postag_regexp="yes"></exception></token>
+          <token postag="NNS|NNPS" postag_regexp="yes"><exception
+              postag="NN:.*|NN|NNP|JJ.*|DT" postag_regexp="yes"></exception></token>
         </pattern>
 
         <message>Did you mean <suggestion>\1're \4</suggestion>?</message>
@@ -6104,9 +6375,11 @@ $Id: grammar.xml,v 1.113 2009-07-14 19:29:19 milek_pl Exp $
 
           <token>s</token>
 
-          <token postag="DT|JJ.*" postag_regexp="yes"><exception postag="NN:.*|NN|NNP" postag_regexp="yes"></exception></token>
+          <token postag="DT|JJ.*" postag_regexp="yes"><exception
+              postag="NN:.*|NN|NNP" postag_regexp="yes"></exception></token>
 
-          <token postag="NNS|NNPS" postag_regexp="yes"><exception postag="NN:.*|NN|NNP|DT" postag_regexp="yes"></exception></token>
+          <token postag="NNS|NNPS" postag_regexp="yes"><exception
+              postag="NN:.*|NN|NNP|DT" postag_regexp="yes"></exception></token>
         </pattern>
 
         <message>Did you mean <suggestion>\1're \4 \5</suggestion>?</message>
@@ -6124,7 +6397,8 @@ $Id: grammar.xml,v 1.113 2009-07-14 19:29:19 milek_pl Exp $
 
           <token>is</token>
 
-          <token postag="NNS|NNPS" postag_regexp="yes"><exception postag="NN:.*|NN|NNP|JJ.*|DT" postag_regexp="yes"></exception></token>
+          <token postag="NNS|NNPS" postag_regexp="yes"><exception
+              postag="NN:.*|NN|NNP|JJ.*|DT" postag_regexp="yes"></exception></token>
         </pattern>
 
         <message>Did you mean <suggestion>\1 are \3</suggestion>?</message>
@@ -6142,9 +6416,11 @@ $Id: grammar.xml,v 1.113 2009-07-14 19:29:19 milek_pl Exp $
 
           <token>is</token>
 
-          <token postag="DT|JJ.*" postag_regexp="yes"><exception postag="NN:.*|NN|NNP" postag_regexp="yes"></exception></token>
+          <token postag="DT|JJ.*" postag_regexp="yes"><exception
+              postag="NN:.*|NN|NNP" postag_regexp="yes"></exception></token>
 
-          <token postag="NNS|NNPS" postag_regexp="yes"><exception postag="NN:.*|NN|NNP|DT" postag_regexp="yes"></exception></token>
+          <token postag="NNS|NNPS" postag_regexp="yes"><exception
+              postag="NN:.*|NN|NNP|DT" postag_regexp="yes"></exception></token>
         </pattern>
 
         <message>Did you mean <suggestion>\1 are \3 \4</suggestion>?</message>
@@ -6157,7 +6433,8 @@ $Id: grammar.xml,v 1.113 2009-07-14 19:29:19 milek_pl Exp $
       </rule>
     </rulegroup>
 
-    <rulegroup id="THERE_RE_MANY" name="Possible agreement error 'there're' + singular noun">
+    <rulegroup id="THERE_RE_MANY"
+               name="Possible agreement error 'there're' + singular noun">
       <rule>
         <pattern mark_to="-1">
           <token>there</token>
@@ -6166,12 +6443,14 @@ $Id: grammar.xml,v 1.113 2009-07-14 19:29:19 milek_pl Exp $
 
           <token>re</token>
 
-          <token postag="NN:.*|NN|NNP" postag_regexp="yes"><exception postag="NNS|NNPS|JJ.*|DT" postag_regexp="yes"></exception></token>
+          <token postag="NN:.*|NN|NNP" postag_regexp="yes"><exception
+              postag="NNS|NNPS|JJ.*|DT" postag_regexp="yes"></exception></token>
 
           <token><exception postag="NNS|NNPS" postag_regexp="yes"></exception></token>
         </pattern>
 
-        <message>Did you mean <suggestion><match no="1"></match>'re <match no="4" postag="NNS|NNPS" postag_regexp="yes"></match></suggestion>?</message>
+        <message>Did you mean <suggestion><match no="1"></match>'re <match
+              no="4" postag="NNS|NNPS" postag_regexp="yes"></match></suggestion>?</message>
 
         <short>Possible agreement error</short>
 
@@ -6188,14 +6467,19 @@ $Id: grammar.xml,v 1.113 2009-07-14 19:29:19 milek_pl Exp $
 
           <token>re</token>
 
-          <token postag="DT|JJ.*" postag_regexp="yes"><exception postag="NNS|NNPS" postag_regexp="yes"></exception><exception regexp="yes">a|an</exception></token>
+          <token postag="DT|JJ.*" postag_regexp="yes"><exception
+              postag="NNS|NNPS" postag_regexp="yes"></exception><exception
+              regexp="yes">a|an</exception></token>
 
-          <token postag="NN:.*|NN|NNP" postag_regexp="yes"><exception postag="NNS|NNPS" postag_regexp="yes"></exception></token>
+          <token postag="NN:.*|NN|NNP" postag_regexp="yes"><exception
+              postag="NNS|NNPS" postag_regexp="yes"></exception></token>
 
           <token><exception postag="NNS|NNPS" postag_regexp="yes"></exception></token>
         </pattern>
 
-        <message>Did you mean <suggestion><match no="1"></match>'re <match no="4"></match> <match no="5" postag="NNS|NNPS" postag_regexp="yes"></match></suggestion>?</message>
+        <message>Did you mean <suggestion><match no="1"></match>'re <match
+              no="4"></match> <match no="5" postag="NNS|NNPS"
+              postag_regexp="yes"></match></suggestion>?</message>
 
         <short>Possible agreement error</short>
 
@@ -6214,10 +6498,12 @@ $Id: grammar.xml,v 1.113 2009-07-14 19:29:19 milek_pl Exp $
 
           <token regexp="yes">a|an</token>
 
-          <token postag="NN:.*|NN|NNP" postag_regexp="yes"><exception postag="NNS|NNPS|JJ.*" postag_regexp="yes"></exception></token>
+          <token postag="NN:.*|NN|NNP" postag_regexp="yes"><exception
+              postag="NNS|NNPS|JJ.*" postag_regexp="yes"></exception></token>
         </pattern>
 
-        <message>Did you mean <suggestion><match no="1"></match>'s <match no="4"></match> <match no="5"></match></suggestion>?</message>
+        <message>Did you mean <suggestion><match no="1"></match>'s <match
+              no="4"></match> <match no="5"></match></suggestion>?</message>
 
         <short>Possible agreement error</short>
 
@@ -6232,12 +6518,14 @@ $Id: grammar.xml,v 1.113 2009-07-14 19:29:19 milek_pl Exp $
 
           <token>are</token>
 
-          <token postag="NN:.*|NN|NNP" postag_regexp="yes"><exception postag="NNS|NNPS|JJ.*|DT" postag_regexp="yes"></exception></token>
+          <token postag="NN:.*|NN|NNP" postag_regexp="yes"><exception
+              postag="NNS|NNPS|JJ.*|DT" postag_regexp="yes"></exception></token>
 
           <token><exception postag="NNS|NNPS" postag_regexp="yes"></exception></token>
         </pattern>
 
-        <message>Did you mean <suggestion><match no="1"></match> are <match no="3" postag="NNS|NNPS" postag_regexp="yes"></match></suggestion>?</message>
+        <message>Did you mean <suggestion><match no="1"></match> are <match
+              no="3" postag="NNS|NNPS" postag_regexp="yes"></match></suggestion>?</message>
 
         <short>Possible agreement error</short>
 
@@ -6252,14 +6540,19 @@ $Id: grammar.xml,v 1.113 2009-07-14 19:29:19 milek_pl Exp $
 
           <token>are</token>
 
-          <token postag="DT|JJ.*" postag_regexp="yes"><exception postag="NNS|NNPS" postag_regexp="yes"></exception><exception regexp="yes">a|an</exception></token>
+          <token postag="DT|JJ.*" postag_regexp="yes"><exception
+              postag="NNS|NNPS" postag_regexp="yes"></exception><exception
+              regexp="yes">a|an</exception></token>
 
-          <token postag="NN:.*|NN|NNP" postag_regexp="yes"><exception postag="NNS|NNPS" postag_regexp="yes"></exception></token>
+          <token postag="NN:.*|NN|NNP" postag_regexp="yes"><exception
+              postag="NNS|NNPS" postag_regexp="yes"></exception></token>
 
           <token><exception postag="NNS|NNPS" postag_regexp="yes"></exception></token>
         </pattern>
 
-        <message>Possible agreement error. Did you mean <suggestion><match no="1"></match> are <match no="3"></match> <match no="4" postag="NNS|NNPS" postag_regexp="yes"></match></suggestion>?</message>
+        <message>Possible agreement error. Did you mean <suggestion><match
+              no="1"></match> are <match no="3"></match> <match no="4"
+              postag="NNS|NNPS" postag_regexp="yes"></match></suggestion>?</message>
 
         <short>Grammatical problem</short>
 
@@ -6276,10 +6569,12 @@ $Id: grammar.xml,v 1.113 2009-07-14 19:29:19 milek_pl Exp $
 
           <token regexp="yes">a|an</token>
 
-          <token postag="NN:.*|NN|NNP" postag_regexp="yes"><exception postag="NNS|NNPS|JJ.*" postag_regexp="yes"></exception></token>
+          <token postag="NN:.*|NN|NNP" postag_regexp="yes"><exception
+              postag="NNS|NNPS|JJ.*" postag_regexp="yes"></exception></token>
         </pattern>
 
-        <message>Possible agreement error. Did you mean <suggestion><match no="1"></match> is <match no="3"></match> <match no="4"></match></suggestion>?</message>
+        <message>Possible agreement error. Did you mean <suggestion><match
+              no="1"></match> is <match no="3"></match> <match no="4"></match></suggestion>?</message>
 
         <short>Grammatical problem</short>
 
@@ -6289,7 +6584,8 @@ $Id: grammar.xml,v 1.113 2009-07-14 19:29:19 milek_pl Exp $
       </rule>
     </rulegroup>
 
-    <rule id="A_LOT_OF_NN" name="Possible agreement error: 'a lot/bunch/couple of' + singular countable noun">
+    <rule id="A_LOT_OF_NN"
+          name="Possible agreement error: 'a lot/bunch/couple of' + singular countable noun">
       <pattern mark_to="-1">
         <token>a</token>
 
@@ -6297,12 +6593,15 @@ $Id: grammar.xml,v 1.113 2009-07-14 19:29:19 milek_pl Exp $
 
         <token>of</token>
 
-        <token postag="NN|NNP" postag_regexp="yes"><exception postag="NN:U|NNS|NNPS|JJ.*" postag_regexp="yes"></exception></token>
+        <token postag="NN|NNP" postag_regexp="yes"><exception
+            postag="NN:U|NNS|NNPS|JJ.*" postag_regexp="yes"></exception></token>
 
         <token><exception postag="NNS|NNPS" postag_regexp="yes"></exception><exception>'</exception></token>
       </pattern>
 
-      <message>Possible agreement error. The noun <match no="4"></match> seems to be countable, so probably you should use: <suggestion>a <match no="2"></match> of <match no="4" postag="NNS|NNPS" postag_regexp="yes"></match></suggestion>.</message>
+      <message>Possible agreement error. The noun <match no="4"></match> seems to be countable, so probably you should use: <suggestion>a <match
+            no="2"></match> of <match no="4" postag="NNS|NNPS"
+            postag_regexp="yes"></match></suggestion>.</message>
 
       <short>Grammatical problem</short>
 
@@ -6313,18 +6612,22 @@ $Id: grammar.xml,v 1.113 2009-07-14 19:29:19 milek_pl Exp $
       <example type="correct">I have <marker>a lot of wine</marker>.</example>
     </rule>
 
-    <rule id="LOTS_OF_NN" name="Possible agreement error: 'lots/plenty of' + singular countable noun">
+    <rule id="LOTS_OF_NN"
+          name="Possible agreement error: 'lots/plenty of' + singular countable noun">
       <pattern mark_to="-1">
         <token regexp="yes">lots|plenty</token>
 
         <token>of</token>
 
-        <token postag="NN|NNP" postag_regexp="yes"><exception postag="NN:.*|NNS|NNPS|JJ.*" postag_regexp="yes"></exception></token>
+        <token postag="NN|NNP" postag_regexp="yes"><exception
+            postag="NN:.*|NNS|NNPS|JJ.*" postag_regexp="yes"></exception></token>
 
         <token><exception postag="NNS|NNPS" postag_regexp="yes"></exception><exception>'</exception></token>
       </pattern>
 
-      <message>Possible agreement error. The noun <match no="3"></match> seems to be countable, so probably you should use: <suggestion><match no="1"></match> of <match no="3" postag="NNS|NNPS" postag_regexp="yes"></match></suggestion>.</message>
+      <message>Possible agreement error. The noun <match no="3"></match> seems to be countable, so probably you should use: <suggestion><match
+            no="1"></match> of <match no="3" postag="NNS|NNPS"
+            postag_regexp="yes"></match></suggestion>.</message>
 
       <short>Grammatical problem</short>
 
@@ -6335,16 +6638,20 @@ $Id: grammar.xml,v 1.113 2009-07-14 19:29:19 milek_pl Exp $
       <example type="correct">I have got <marker>lots of wine</marker>.</example>
     </rule>
 
-    <rule id="CD_NN" name="Possible agreement error: numeral + singular countable noun">
+    <rule id="CD_NN"
+          name="Possible agreement error: numeral + singular countable noun">
       <pattern mark_to="-1">
         <token postag="CD"><exception regexp="yes">one|thou|zero</exception></token>
 
-        <token postag="NN:UN|NN" postag_regexp="yes"><exception postag="NN:U|NNS|NNPS|JJ.*|IN" postag_regexp="yes"></exception><exception>will</exception></token>
+        <token postag="NN:UN|NN" postag_regexp="yes"><exception
+            postag="NN:U|NNS|NNPS|JJ.*|IN" postag_regexp="yes"></exception><exception>will</exception></token>
 
         <token><exception postag="NN.*" postag_regexp="yes"></exception><exception>'</exception></token>
       </pattern>
 
-      <message>Possible agreement error. The noun <match no="2"></match> seems to be countable, so probably you should use: <suggestion><match no="1"></match> <match no="2" postag="NNS|NNPS" postag_regexp="yes"></match></suggestion>.</message>
+      <message>Possible agreement error. The noun <match no="2"></match> seems to be countable, so probably you should use: <suggestion><match
+            no="1"></match> <match no="2" postag="NNS|NNPS"
+            postag_regexp="yes"></match></suggestion>.</message>
 
       <short>Grammatical problem</short>
 
@@ -6357,16 +6664,21 @@ $Id: grammar.xml,v 1.113 2009-07-14 19:29:19 milek_pl Exp $
       <example type="correct">I have two book readers in my palmtop.</example>
     </rule>
 
-    <rule id="MANY_NN" name="Possible agreement error: 'many/several/few' + singular countable noun">
+    <rule id="MANY_NN"
+          name="Possible agreement error: 'many/several/few' + singular countable noun">
       <pattern mark_to="-1">
         <token regexp="yes">many|several|few</token>
 
-        <token postag="NN:UN|NN|NNP" postag_regexp="yes"><exception postag="NN:U|NNS|NNPS|JJ.*|MD|CC" postag_regexp="yes"></exception><exception inflected="yes">be</exception></token>
+        <token postag="NN:UN|NN|NNP" postag_regexp="yes"><exception
+            postag="NN:U|NNS|NNPS|JJ.*|MD|CC" postag_regexp="yes"></exception><exception
+            inflected="yes">be</exception></token>
 
         <token><exception postag="NN.*" postag_regexp="yes"></exception><exception>'</exception></token>
       </pattern>
 
-      <message>Possible agreement error. The noun <match no="2"></match> seems to be countable, so probably you should use: <suggestion><match no="1"></match> <match no="2" postag="NNS|NNPS" postag_regexp="yes"></match></suggestion>.</message>
+      <message>Possible agreement error. The noun <match no="2"></match> seems to be countable, so probably you should use: <suggestion><match
+            no="1"></match> <match no="2" postag="NNS|NNPS"
+            postag_regexp="yes"></match></suggestion>.</message>
 
       <short>Grammatical problem</short>
 
@@ -6386,7 +6698,8 @@ $Id: grammar.xml,v 1.113 2009-07-14 19:29:19 milek_pl Exp $
 
           <token postag="JJ"><exception postag="NN.*" postag_regexp="yes"></exception></token>
 
-          <token postag="SENT_END"><exception postag="NN.*" postag_regexp="yes"></exception></token>
+          <token postag="SENT_END"><exception postag="NN.*"
+              postag_regexp="yes"></exception></token>
         </pattern>
 
         <message>Probably a noun is missing in this part of the sentence.</message>
@@ -6413,17 +6726,21 @@ $Id: grammar.xml,v 1.113 2009-07-14 19:29:19 milek_pl Exp $
       </rule>
     </rulegroup>
 
-    <rulegroup id="MANY_NN_U" name="Possible agreement error: 'many/several/few' + uncountable noun">
+    <rulegroup id="MANY_NN_U"
+               name="Possible agreement error: 'many/several/few' + uncountable noun">
       <rule>
         <pattern mark_to="-1">
           <token>many</token>
 
-          <token postag="NN:U" postag_regexp="yes"><exception postag="NN:UN|NN|NNP|NNS|NNPS|JJ.*" postag_regexp="yes"></exception></token>
+          <token postag="NN:U" postag_regexp="yes"><exception
+              postag="NN:UN|NN|NNP|NNS|NNPS|JJ.*" postag_regexp="yes"></exception></token>
 
           <token><exception postag="NNS|NNPS|CC" postag_regexp="yes"></exception><exception>'</exception></token>
         </pattern>
 
-        <message>Possible agreement error. The noun <match no="2"></match> seems to be uncountable, so probably you should use: <suggestion>much <match no="2"></match></suggestion>, <suggestion>a good deal of <match no="2"></match></suggestion>.</message>
+        <message>Possible agreement error. The noun <match no="2"></match> seems to be uncountable, so probably you should use: <suggestion>much <match
+              no="2"></match></suggestion>, <suggestion>a good deal of <match
+              no="2"></match></suggestion>.</message>
 
         <short>Grammatical problem</short>
 
@@ -6438,7 +6755,8 @@ $Id: grammar.xml,v 1.113 2009-07-14 19:29:19 milek_pl Exp $
         <pattern mark_to="-3">
           <token>many</token>
 
-          <token postag="NN:U" postag_regexp="yes"><exception postag="NN:UN|NN|NNP|NNS|NNPS|JJ.*" postag_regexp="yes"></exception></token>
+          <token postag="NN:U" postag_regexp="yes"><exception
+              postag="NN:UN|NN|NNP|NNS|NNPS|JJ.*" postag_regexp="yes"></exception></token>
 
           <token postag="CC"></token>
 
@@ -6447,7 +6765,9 @@ $Id: grammar.xml,v 1.113 2009-07-14 19:29:19 milek_pl Exp $
           <token><exception postag="NNS|NNPS" postag_regexp="yes"></exception></token>
         </pattern>
 
-        <message>Possible agreement error. The noun <match no="2"></match> seems to be uncountable, so probably you should use: <suggestion>much <match no="2"></match></suggestion>, <suggestion>a good deal of <match no="2"></match></suggestion>.</message>
+        <message>Possible agreement error. The noun <match no="2"></match> seems to be uncountable, so probably you should use: <suggestion>much <match
+              no="2"></match></suggestion>, <suggestion>a good deal of <match
+              no="2"></match></suggestion>.</message>
 
         <short>Grammatical problem</short>
 
@@ -6460,12 +6780,14 @@ $Id: grammar.xml,v 1.113 2009-07-14 19:29:19 milek_pl Exp $
         <pattern mark_to="-1">
           <token>few</token>
 
-          <token postag="NN:U" postag_regexp="yes"><exception postag="NN:UN|NN|NNP|NNS|NNPS|JJ.*" postag_regexp="yes"></exception></token>
+          <token postag="NN:U" postag_regexp="yes"><exception
+              postag="NN:UN|NN|NNP|NNS|NNPS|JJ.*" postag_regexp="yes"></exception></token>
 
           <token><exception postag="NNS|NNPS" postag_regexp="yes"></exception><exception>'</exception></token>
         </pattern>
 
-        <message>Possible agreement error. The noun <match no="2"></match> seems to be uncountable, so probably you should use: <suggestion>little <match no="2"></match></suggestion>.</message>
+        <message>Possible agreement error. The noun <match no="2"></match> seems to be uncountable, so probably you should use: <suggestion>little <match
+              no="2"></match></suggestion>.</message>
 
         <short>Grammatical problem</short>
 
@@ -6478,7 +6800,8 @@ $Id: grammar.xml,v 1.113 2009-07-14 19:29:19 milek_pl Exp $
         <pattern mark_to="-3">
           <token>few</token>
 
-          <token postag="NN:U" postag_regexp="yes"><exception postag="NN:UN|NN|NNP|NNS|NNPS|JJ.*" postag_regexp="yes"></exception></token>
+          <token postag="NN:U" postag_regexp="yes"><exception
+              postag="NN:UN|NN|NNP|NNS|NNPS|JJ.*" postag_regexp="yes"></exception></token>
 
           <token postag="CC"></token>
 
@@ -6487,7 +6810,8 @@ $Id: grammar.xml,v 1.113 2009-07-14 19:29:19 milek_pl Exp $
           <token><exception postag="NNS|NNPS" postag_regexp="yes"></exception><exception>'</exception></token>
         </pattern>
 
-        <message>Possible agreement error. The noun <match no="2"></match> seems to be uncountable, so probably you should use: <suggestion>little <match no="2"></match></suggestion>.</message>
+        <message>Possible agreement error. The noun <match no="2"></match> seems to be uncountable, so probably you should use: <suggestion>little <match
+              no="2"></match></suggestion>.</message>
 
         <short>Grammatical problem</short>
 
@@ -6500,12 +6824,14 @@ $Id: grammar.xml,v 1.113 2009-07-14 19:29:19 milek_pl Exp $
         <pattern mark_to="-1">
           <token>several</token>
 
-          <token postag="NN:U" postag_regexp="yes"><exception postag="NN:UN|NN|NNP|NNS|NNPS|JJ.*" postag_regexp="yes"></exception></token>
+          <token postag="NN:U" postag_regexp="yes"><exception
+              postag="NN:UN|NN|NNP|NNS|NNPS|JJ.*" postag_regexp="yes"></exception></token>
 
           <token><exception postag="NNS|NNPS" postag_regexp="yes"></exception><exception>'</exception></token>
         </pattern>
 
-        <message>Possible agreement error. The noun <match no="2"></match> seems to be uncountable, so probably you should use: <suggestion>some <match no="2"></match></suggestion>.</message>
+        <message>Possible agreement error. The noun <match no="2"></match> seems to be uncountable, so probably you should use: <suggestion>some <match
+              no="2"></match></suggestion>.</message>
 
         <short>Grammatical problem</short>
 
@@ -6518,7 +6844,8 @@ $Id: grammar.xml,v 1.113 2009-07-14 19:29:19 milek_pl Exp $
         <pattern mark_to="-3">
           <token>several</token>
 
-          <token postag="NN:U" postag_regexp="yes"><exception postag="NN:UN|NN|NNP|NNS|NNPS|JJ.*" postag_regexp="yes"></exception></token>
+          <token postag="NN:U" postag_regexp="yes"><exception
+              postag="NN:UN|NN|NNP|NNS|NNPS|JJ.*" postag_regexp="yes"></exception></token>
 
           <token postag="CC"></token>
 
@@ -6527,7 +6854,8 @@ $Id: grammar.xml,v 1.113 2009-07-14 19:29:19 milek_pl Exp $
           <token><exception postag="NNS|NNPS" postag_regexp="yes"></exception><exception>'</exception></token>
         </pattern>
 
-        <message>Possible agreement error. The noun <match no="2"></match> seems to be uncountable, so probably you should use: <suggestion>some <match no="2"></match></suggestion>.</message>
+        <message>Possible agreement error. The noun <match no="2"></match> seems to be uncountable, so probably you should use: <suggestion>some <match
+              no="2"></match></suggestion>.</message>
 
         <short>Grammatical problem</short>
 
@@ -6537,17 +6865,20 @@ $Id: grammar.xml,v 1.113 2009-07-14 19:29:19 milek_pl Exp $
       </rule>
     </rulegroup>
 
-    <rulegroup id="NOT_NOTHING" name="Wrong negated forms ('not... nothing' instead 'not... anything')">
+    <rulegroup id="NOT_NOTHING"
+               name="Wrong negated forms ('not... nothing' instead 'not... anything')">
       <rule>
         <pattern mark_from="2">
           <token inflected="yes" regexp="yes"><exception scope="previous">or</exception>not|nobody|nothing|never</token>
 
           <token postag="VB.*" postag_regexp="yes" skip="1"></token>
 
-          <token regexp="yes"><exception negate_pos="yes" postag="PRP|VB.*" postag_regexp="yes" scope="previous"></exception>nothing|nobody|nowhere</token>
+          <token regexp="yes"><exception negate_pos="yes" postag="PRP|VB.*"
+              postag_regexp="yes" scope="previous"></exception>nothing|nobody|nowhere</token>
         </pattern>
 
-        <message>Double negation. You probably should say <suggestion><match no="3" regexp_match="no(.*)" regexp_replace="any$1"></match></suggestion>.</message>
+        <message>Double negation. You probably should say <suggestion><match
+              no="3" regexp_match="no(.*)" regexp_replace="any$1"></match></suggestion>.</message>
 
         <example correction="anything" type="incorrect">Nobody told me <marker>nothing</marker>.</example>
 
@@ -6557,7 +6888,8 @@ $Id: grammar.xml,v 1.113 2009-07-14 19:29:19 milek_pl Exp $
   </category>
 
   <category name="Collocations">
-    <rulegroup id="SUPERIOR_THAN" name="Wrong preposition: 'superior/inferior than' (superior/inferior to)">
+    <rulegroup id="SUPERIOR_THAN"
+               name="Wrong preposition: 'superior/inferior than' (superior/inferior to)">
       <rule>
         <pattern mark_from="1">
           <token regexp="yes"><exception scope="previous">more</exception>superior|inferior</token>
@@ -6593,7 +6925,8 @@ $Id: grammar.xml,v 1.113 2009-07-14 19:29:19 milek_pl Exp $
       </rule>
     </rulegroup>
 
-    <rule id="TODAY_MORNING" name="Wrong phrase: 'today morning' (this morning)">
+    <rule id="TODAY_MORNING"
+          name="Wrong phrase: 'today morning' (this morning)">
       <pattern>
         <token>today</token>
 
@@ -6609,7 +6942,8 @@ $Id: grammar.xml,v 1.113 2009-07-14 19:29:19 milek_pl Exp $
       <example type="correct">I'm going homo this evening.</example>
     </rule>
 
-    <rule id="YESTERDAY_NIGHT" name="Wrong phrase: 'yesterday night' (last night)">
+    <rule id="YESTERDAY_NIGHT"
+          name="Wrong phrase: 'yesterday night' (last night)">
       <pattern>
         <token>yesterday</token>
 
@@ -6649,13 +6983,15 @@ $Id: grammar.xml,v 1.113 2009-07-14 19:29:19 milek_pl Exp $
   <!-- ====================================================================== -->
 
   <category name="Miscellaneous">
-    <rulegroup id="CURRENCY" name="Position of currency symbols: '100$' ($100)">
+    <rulegroup id="CURRENCY"
+               name="Position of currency symbols: '100$' ($100)">
       <rule>
         <pattern>
           <token regexp="yes">\d+[$€£¥\u8371]</token>
         </pattern>
 
-        <message>The currency mark is usually put at the beginning of the number: <suggestion><match no="1" regexp_match="(\d+)([$€£¥\u8371])" regexp_replace="$2$1"></match></suggestion>.</message>
+        <message>The currency mark is usually put at the beginning of the number: <suggestion><match
+              no="1" regexp_match="(\d+)([$€£¥\u8371])" regexp_replace="$2$1"></match></suggestion>.</message>
 
         <short>Put currency at the beginning</short>
 
@@ -6866,7 +7202,9 @@ $Id: grammar.xml,v 1.113 2009-07-14 19:29:19 milek_pl Exp $
         <token></token>
       </pattern>
 
-      <message>One of these determiners is redundant in this context. Choose only one: <suggestion><match no="3" postag="+INDT"></match></suggestion> or <suggestion><match no="2"></match> <match no="3"></match></suggestion>.</message>
+      <message>One of these determiners is redundant in this context. Choose only one: <suggestion><match
+            no="3" postag="+INDT"></match></suggestion> or <suggestion><match
+            no="2"></match> <match no="3"></match></suggestion>.</message>
 
       <short>Redundant determiner</short>
 
@@ -6875,7 +7213,8 @@ $Id: grammar.xml,v 1.113 2009-07-14 19:29:19 milek_pl Exp $
       <example type="correct">It's another lonely night.</example>
     </rule>
 
-    <rulegroup id="PHRASE_REPETITION" name="Repetition of two words ('at the at the')">
+    <rulegroup id="PHRASE_REPETITION"
+               name="Repetition of two words ('at the at the')">
       <!--  made more general-->
 
       <rule>
@@ -7205,7 +7544,8 @@ $Id: grammar.xml,v 1.113 2009-07-14 19:29:19 milek_pl Exp $
       </rule>
     </rulegroup>
 
-    <rule id="ECONOMICAL_ECONOMIC" name="'econonomical growth' etc. (economic)">
+    <rule id="ECONOMICAL_ECONOMIC"
+          name="'econonomical growth' etc. (economic)">
       <pattern mark_to="-1">
         <token>economical</token>
 
@@ -7435,7 +7775,8 @@ $Id: grammar.xml,v 1.113 2009-07-14 19:29:19 milek_pl Exp $
       <example type="correct">Why would anyone all of a sudden send flowers?</example>
     </rule>
 
-    <rule id="ALONG_THE_SAME_VEIN" name="along the same vein (along the same line, in the same vein)">
+    <rule id="ALONG_THE_SAME_VEIN"
+          name="along the same vein (along the same line, in the same vein)">
       <pattern>
         <token>along</token>
 
@@ -7450,12 +7791,14 @@ $Id: grammar.xml,v 1.113 2009-07-14 19:29:19 milek_pl Exp $
 
       <short>Nonstandard phrase</short>
 
-      <example correction="in the same vein|along the same line" type="incorrect">I've been working <marker>along the same vein</marker>.</example>
+      <example correction="in the same vein|along the same line"
+               type="incorrect">I've been working <marker>along the same vein</marker>.</example>
 
       <example type="correct">I've been working in the same vein.</example>
     </rule>
 
-    <rule id="EVER_SO_OFTEN" name="Misused phrase: 'ever so often (every so often)'">
+    <rule id="EVER_SO_OFTEN"
+          name="Misused phrase: 'ever so often (every so often)'">
       <pattern>
         <token>ever</token>
 
@@ -7511,7 +7854,8 @@ $Id: grammar.xml,v 1.113 2009-07-14 19:29:19 milek_pl Exp $
       <example type="correct">Far be it from me to say that you can’t.</example>
     </rule>
 
-    <rule id="MONEY_IS_NO_OPTION" name="money is no option (money is no object)">
+    <rule id="MONEY_IS_NO_OPTION"
+          name="money is no option (money is no object)">
       <pattern>
         <token>money</token>
 
@@ -7531,7 +7875,8 @@ $Id: grammar.xml,v 1.113 2009-07-14 19:29:19 milek_pl Exp $
       <example type="correct">Money is no object when are you rich.</example>
     </rule>
 
-    <rule id="NIP_IT_IN_THE_BUTT" name="nip it in the butt (nip it in the budd)">
+    <rule id="NIP_IT_IN_THE_BUTT"
+          name="nip it in the butt (nip it in the budd)">
       <pattern mark_from="0">
         <token>nip</token>
 
@@ -7571,7 +7916,8 @@ $Id: grammar.xml,v 1.113 2009-07-14 19:29:19 milek_pl Exp $
       <example type="correct">Money is becoming pretty tight nowadays.</example>
     </rule>
 
-    <rule id="THE_PROOF_IS_IN_THE_PUDDING" name="the proof is in the pudding (the proof of the pudding is in the eating)">
+    <rule id="THE_PROOF_IS_IN_THE_PUDDING"
+          name="the proof is in the pudding (the proof of the pudding is in the eating)">
       <pattern>
         <token>the</token>
 
@@ -7590,7 +7936,8 @@ $Id: grammar.xml,v 1.113 2009-07-14 19:29:19 milek_pl Exp $
 
       <short>Nonstandard phrase</short>
 
-      <example correction="The proof of the pudding is in the eating" type="incorrect"><marker>The Proof Is In The Pudding</marker></example>
+      <example correction="The proof of the pudding is in the eating"
+               type="incorrect"><marker>The Proof Is In The Pudding</marker></example>
 
       <example type="correct">The proof of the pudding is in the eating.</example>
     </rule>
@@ -7717,7 +8064,8 @@ $Id: grammar.xml,v 1.113 2009-07-14 19:29:19 milek_pl Exp $
       </rule>
     </rulegroup>
 
-    <rule id="ABSOLUTELY_ESSENTIAL" name="absolutely essential/necessary (essential/necessary)">
+    <rule id="ABSOLUTELY_ESSENTIAL"
+          name="absolutely essential/necessary (essential/necessary)">
       <pattern>
         <token>absolutely</token>
 
@@ -7733,7 +8081,8 @@ $Id: grammar.xml,v 1.113 2009-07-14 19:29:19 milek_pl Exp $
       <example type="correct">This was essential.</example>
     </rule>
 
-    <rule id="ACTUAL_EXPERIENCE" name="actual experience/facts (experience/facts)">
+    <rule id="ACTUAL_EXPERIENCE"
+          name="actual experience/facts (experience/facts)">
       <pattern>
         <token>actual</token>
 
@@ -7749,7 +8098,8 @@ $Id: grammar.xml,v 1.113 2009-07-14 19:29:19 milek_pl Exp $
       <example type="correct">This play is based on facts.</example>
     </rule>
 
-    <rule id="ADVANCE_PLANNING" name="advance planning/preview/reservations/warning (planning/preview/reservations/warning)">
+    <rule id="ADVANCE_PLANNING"
+          name="advance planning/preview/reservations/warning (planning/preview/reservations/warning)">
       <pattern>
         <token>advance</token>
 
@@ -7776,7 +8126,8 @@ $Id: grammar.xml,v 1.113 2009-07-14 19:29:19 milek_pl Exp $
         <token></token>
       </pattern>
 
-      <message>This phrase might be redundant. Use simply <suggestion><match no="1"></match> <match no="4" postag="+INDT"></match></suggestion>.</message>
+      <message>This phrase might be redundant. Use simply <suggestion><match
+            no="1"></match> <match no="4" postag="+INDT"></match></suggestion>.</message>
 
       <short>Redundant phrase</short>
 
@@ -8011,6 +8362,24 @@ $Id: grammar.xml,v 1.113 2009-07-14 19:29:19 milek_pl Exp $
       <example correction="asked" type="incorrect">He <marker>asked the question</marker> whether it's OK to add some rules to LanguageTool.</example>
     </rule>
 
+    <rule id="AS_OF_YET" name="as of yet (yet)">
+      <pattern>
+        <token>as</token>
+
+        <token>of</token>
+
+        <token>yet</token>
+      </pattern>
+
+      <message>Use simply <suggestion>yet</suggestion> or <suggestion>as yet</suggestion>.</message>
+
+      <short>Redundant phrase</short>
+
+      <example correction="yet|as yet" type="incorrect">The report remains unfinished <marker>as of yet</marker>.</example>
+
+      <example type="correct">The report remains unfinished as yet.</example>
+    </rule>
+
     <rule id="ARMED_GUNMAN" name="armed gunman (gunman)">
       <pattern>
         <token>armed</token>
@@ -8027,7 +8396,8 @@ $Id: grammar.xml,v 1.113 2009-07-14 19:29:19 milek_pl Exp $
       <example type="correct">Gunmen are very dangerous in this city.</example>
     </rule>
 
-    <rule id="ASSEMBLE_ATTACH_TOGETHER" name="attach/assemble together (attach/assemble)">
+    <rule id="ASSEMBLE_ATTACH_TOGETHER"
+          name="attach/assemble together (attach/assemble)">
       <pattern mark_to="-1">
         <token inflected="yes" regexp="yes">attach|assemble</token>
 
@@ -8045,7 +8415,8 @@ $Id: grammar.xml,v 1.113 2009-07-14 19:29:19 milek_pl Exp $
       <example type="correct">Reelin molecules assemble to form a large protein complex</example>
     </rule>
 
-    <rule id="AUTOBIOGRAPHY_OF_A_LIFE" name="autobiography of a life (autobiography)">
+    <rule id="AUTOBIOGRAPHY_OF_A_LIFE"
+          name="autobiography of a life (autobiography)">
       <pattern>
         <token>autobiography</token>
 
@@ -8065,7 +8436,8 @@ $Id: grammar.xml,v 1.113 2009-07-14 19:29:19 milek_pl Exp $
       <example type="correct">In this story of a life of courage and love, we get to share in the compelling story of a family’s struggles</example>
     </rule>
 
-    <rule id="BASIC_FUNDAMENTALS" name="basic fundamentals/necessities (fundamentals/necessities)">
+    <rule id="BASIC_FUNDAMENTALS"
+          name="basic fundamentals/necessities (fundamentals/necessities)">
       <pattern>
         <token><exception scope="previous">visual</exception>basic</token>
 
@@ -8211,7 +8583,8 @@ $Id: grammar.xml,v 1.113 2009-07-14 19:29:19 milek_pl Exp $
       <example type="correct">However, most wilderness programs are brief.</example>
     </rule>
 
-    <rule default="off" id="BRIEF_MOMENT" name="brief moment/summary (moment/summary)">
+    <rule default="off" id="BRIEF_MOMENT"
+          name="brief moment/summary (moment/summary)">
       <pattern>
         <token>brief</token>
 
@@ -8297,7 +8670,8 @@ $Id: grammar.xml,v 1.113 2009-07-14 19:29:19 milek_pl Exp $
       <example type="correct">I ordered a <marker>CD </marker>with their software.</example>
     </rule>
 
-    <rule id="CLOSE_SCRUTINY" name="close scrutiny/proximity (scrutiny/proximity)">
+    <rule id="CLOSE_SCRUTINY"
+          name="close scrutiny/proximity (scrutiny/proximity)">
       <pattern>
         <token>close</token>
 
@@ -8313,7 +8687,8 @@ $Id: grammar.xml,v 1.113 2009-07-14 19:29:19 milek_pl Exp $
       <example type="correct">Their manifesto yesterday received the same scrutiny as the other two big parties — and it was an uncomfortable experience.</example>
     </rule>
 
-    <rule id="COMFORTABLE_WITH_VBG" name="comfortable with doing (comfortable doing)">
+    <rule id="COMFORTABLE_WITH_VBG"
+          name="comfortable with doing (comfortable doing)">
       <pattern>
         <token>comfortable</token>
 
@@ -8497,7 +8872,8 @@ $Id: grammar.xml,v 1.113 2009-07-14 19:29:19 milek_pl Exp $
       <example type="correct">This is a fact.</example>
     </rule>
 
-    <rule default="off" id="EXACTLY_THE_SAME" name="exactly the same/identical (the same/identical)">
+    <rule default="off" id="EXACTLY_THE_SAME"
+          name="exactly the same/identical (the same/identical)">
       <pattern>
         <token regexp="yes">exactly|precisely</token>
 
@@ -8515,7 +8891,8 @@ $Id: grammar.xml,v 1.113 2009-07-14 19:29:19 milek_pl Exp $
       <example type="correct">This shoe is the same.</example>
     </rule>
 
-    <rule default="off" id="EXACT_SAME" name="exact same/identical (same/identical)">
+    <rule default="off" id="EXACT_SAME"
+          name="exact same/identical (same/identical)">
       <pattern>
         <token regexp="yes">exact|precise</token>
 
@@ -8565,7 +8942,8 @@ $Id: grammar.xml,v 1.113 2009-07-14 19:29:19 milek_pl Exp $
       <example type="correct">I'm told that he's a celebrity now.</example>
     </rule>
 
-    <rule id="FELLOW_CLASSMATE" name="fellow classmates/co-workers/comrades (classmates/co-workers/comrades)">
+    <rule id="FELLOW_CLASSMATE"
+          name="fellow classmates/co-workers/comrades (classmates/co-workers/comrades)">
       <pattern>
         <token>fellow</token>
 
@@ -8701,7 +9079,8 @@ $Id: grammar.xml,v 1.113 2009-07-14 19:29:19 milek_pl Exp $
       <example type="correct">We opened the door to enter.</example>
     </rule>
 
-    <rule id="INTRODUCE_FOR_THE_FIRST_TIME" name="introduce for the first time (introduce)">
+    <rule id="INTRODUCE_FOR_THE_FIRST_TIME"
+          name="introduce for the first time (introduce)">
       <pattern>
         <token inflected="yes">introduce</token>
 
@@ -8755,7 +9134,8 @@ $Id: grammar.xml,v 1.113 2009-07-14 19:29:19 milek_pl Exp $
       <example type="correct">It was a breakthrough in genetic research.</example>
     </rule>
 
-    <rule id="MAY_COULD_POSSIBLY" name="can/could/may/might possibly (can/could/may/might)">
+    <rule id="MAY_COULD_POSSIBLY"
+          name="can/could/may/might possibly (can/could/may/might)">
       <pattern>
         <token regexp="yes">can|could|may|might</token>
 
@@ -8787,7 +9167,8 @@ $Id: grammar.xml,v 1.113 2009-07-14 19:29:19 milek_pl Exp $
       <example type="correct">Do cats really use telepathy?</example>
     </rule>
 
-    <rule id="MUTUALLY_DEPENDENT_ON_EACH_OTHER" name="mutually dependent on each other (mutually dependent)">
+    <rule id="MUTUALLY_DEPENDENT_ON_EACH_OTHER"
+          name="mutually dependent on each other (mutually dependent)">
       <pattern>
         <token>mutually</token>
 
@@ -8897,7 +9278,8 @@ $Id: grammar.xml,v 1.113 2009-07-14 19:29:19 milek_pl Exp $
       <example type="correct">Computers are just a fad.</example>
     </rule>
 
-    <rule id="PAST_EXPERIENCE_MEMORY" name="past experience/memory (experience/memory)">
+    <rule id="PAST_EXPERIENCE_MEMORY"
+          name="past experience/memory (experience/memory)">
       <pattern>
         <token>past</token>
 
@@ -8931,7 +9313,8 @@ $Id: grammar.xml,v 1.113 2009-07-14 19:29:19 milek_pl Exp $
       <example type="correct">Horses were absent throughout that period.</example>
     </rule>
 
-    <rule id="PERSONAL_OPINION_FRIENDSHIP" name="personal charm/belongings/opinion/friendship (charm/belongings/opinion/belongings)">
+    <rule id="PERSONAL_OPINION_FRIENDSHIP"
+          name="personal charm/belongings/opinion/friendship (charm/belongings/opinion/belongings)">
       <pattern>
         <token>personal</token>
 
@@ -8947,7 +9330,8 @@ $Id: grammar.xml,v 1.113 2009-07-14 19:29:19 milek_pl Exp $
       <example type="correct">In my opinion, canaries are quite tasty.</example>
     </rule>
 
-    <rule id="POINT_BEING_IS_THAT" name="point being is that (point is that/point being that)">
+    <rule id="POINT_BEING_IS_THAT"
+          name="point being is that (point is that/point being that)">
       <pattern>
         <token>point</token>
 
@@ -9133,7 +9517,8 @@ $Id: grammar.xml,v 1.113 2009-07-14 19:29:19 milek_pl Exp $
       <example type="correct">Twelve soldiers were killed!</example>
     </rule>
 
-    <rule default="off" id="HOPEFULLY" name="Word order: 'Hopefully' starting a sentence">
+    <rule default="off" id="HOPEFULLY"
+          name="Word order: 'Hopefully' starting a sentence">
       <pattern>
         <token postag="SENT_START"></token>
 
@@ -9151,11 +9536,20 @@ $Id: grammar.xml,v 1.113 2009-07-14 19:29:19 milek_pl Exp $
 
     <rule id="THREE_NN" name="Readability: Three nouns in a row">
       <pattern>
-        <token postag="NN|NN:.*" postag_regexp="yes" regexp="yes">.{2,}<exception regexp="yes">today|yesterday|tomorrow|now|in|are</exception><exception postag="VBG|VB|VBP|VBD|VBN|VBG|RB|MD|IN|JJ.*|CC|DT" postag_regexp="yes"></exception></token>
+        <token postag="NN|NN:.*" postag_regexp="yes" regexp="yes">.{2,}<exception
+            regexp="yes">today|yesterday|tomorrow|now|in|are</exception><exception
+            postag="VBG|VB|VBP|VBD|VBN|VBG|RB|MD|IN|JJ.*|CC|DT"
+            postag_regexp="yes"></exception></token>
 
-        <token postag="NN|NN:.*" postag_regexp="yes" regexp="yes">.{2,}<exception regexp="yes">today|yesterday|tomorrow|now|in|are</exception><exception postag="VBG|VB|VBP|VBD|VBN|VBG|RB|MD|IN|JJ.*|CC" postag_regexp="yes"></exception></token>
+        <token postag="NN|NN:.*" postag_regexp="yes" regexp="yes">.{2,}<exception
+            regexp="yes">today|yesterday|tomorrow|now|in|are</exception><exception
+            postag="VBG|VB|VBP|VBD|VBN|VBG|RB|MD|IN|JJ.*|CC"
+            postag_regexp="yes"></exception></token>
 
-        <token postag="NN|NN:.*" postag_regexp="yes" regexp="yes">.{2,}<exception regexp="yes">today|yesterday|tomorrow|now|in|are</exception><exception postag="VBG|VB|VBP|VBD|VBN|VBG|RB|MD|IN|JJ.*|CC" postag_regexp="yes"></exception></token>
+        <token postag="NN|NN:.*" postag_regexp="yes" regexp="yes">.{2,}<exception
+            regexp="yes">today|yesterday|tomorrow|now|in|are</exception><exception
+            postag="VBG|VB|VBP|VBD|VBN|VBG|RB|MD|IN|JJ.*|CC"
+            postag_regexp="yes"></exception></token>
       </pattern>
 
       <message>You used three nouns after one another, and this might decrease readability. You might consider rewording the sentence.</message>
@@ -9169,7 +9563,8 @@ $Id: grammar.xml,v 1.113 2009-07-14 19:29:19 milek_pl Exp $
   </category>
 
   <category name="Capitalization">
-    <rulegroup default="off" id="EN_CAPITALIZE" name="Capitalize lowercase words ('i am')">
+    <rulegroup default="off" id="EN_CAPITALIZE"
+               name="Capitalize lowercase words ('i am')">
       <rule>
         <pattern case_sensitive="yes">
           <and>
@@ -9179,7 +9574,8 @@ $Id: grammar.xml,v 1.113 2009-07-14 19:29:19 milek_pl Exp $
           </and>
         </pattern>
 
-        <message>The word \1 probably should be uppercase: <suggestion><match case_conversion="startupper" no="1"></match></suggestion>.</message>
+        <message>The word \1 probably should be uppercase: <suggestion><match
+              case_conversion="startupper" no="1"></match></suggestion>.</message>
 
         <example correction="Susan" type="incorrect">My name is <marker>susan</marker>.</example>
 
@@ -9211,7 +9607,8 @@ $Id: grammar.xml,v 1.113 2009-07-14 19:29:19 milek_pl Exp $
           <token postag="NN" regexp="yes">[a-z]+</token>
         </pattern>
 
-        <message>The word \3 should probably be written in uppercase: <suggestion><match case_conversion="startupper" no="3"></match></suggestion>.</message>
+        <message>The word \3 should probably be written in uppercase: <suggestion><match
+              case_conversion="startupper" no="3"></match></suggestion>.</message>
 
         <example correction="Monthly" type="incorrect">This is a story from "atlantic <marker>monthly</marker>".</example>
 
@@ -9223,7 +9620,8 @@ $Id: grammar.xml,v 1.113 2009-07-14 19:29:19 milek_pl Exp $
           <token postag="UNKNOWN" regexp="yes">[a-z]+</token>
         </pattern>
 
-        <message>The word \1 should probably be uppercase:<suggestion><match case_conversion="startupper" no="1"></match></suggestion>.</message>
+        <message>The word \1 should probably be uppercase:<suggestion><match
+              case_conversion="startupper" no="1"></match></suggestion>.</message>
 
         <example correction="Sobol" type="incorrect">Eve <marker>sobol</marker>, Indiana</example>
 
@@ -9235,7 +9633,8 @@ $Id: grammar.xml,v 1.113 2009-07-14 19:29:19 milek_pl Exp $
           <token postag="NNP" regexp="yes">[a-z]+</token>
         </pattern>
 
-        <message>The word \1 should probably be uppercase: <suggestion><match case_conversion="startupper" no="1"></match></suggestion>.</message>
+        <message>The word \1 should probably be uppercase: <suggestion><match
+              case_conversion="startupper" no="1"></match></suggestion>.</message>
 
         <example correction="Susan" type="incorrect">This is <marker>susan</marker>.</example>
 
