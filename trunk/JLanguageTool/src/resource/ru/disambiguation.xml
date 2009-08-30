@@ -2,20 +2,30 @@
 <!--
 Disambiguation Russian Rules for LanguageTool (www.languagetool.org)
 Copyright (C) 2009 Yakov Reztsov				
-$Id: disambiguation.xml,v 1.1 2009-08-19 18:41:41 yakovru Exp $
+$Id: disambiguation.xml,v 1.2 2009-08-30 19:15:48 yakovru Exp $
 -->
 <rules lang="ru">	
     <!-- disambiguation for nouns' -->
     <rule name="NOUN_V" id="NOUN_V">
         <pattern mark="1">
-            <token regexp="yes" skip="1">в|за|на|под</token>
+            <token regexp="yes" skip="1">в|на</token>
             <and>
                 <token postag="NN:.*:.*:Nom" postag_regexp="yes"/>
-                <token postag="NN:.*:.*:V" postag_regexp="yes"/>
+                <token postag="NN:.*:.*:V" postag_regexp="yes"><exception postag="NN:.*:.*:P" postag_regexp="yes" /></token>
             </and>
         </pattern>
         <disambig><match no="2" postag="NN:.*:.*:V" postag_regexp="yes"/></disambig>
     </rule>
+    <rule name="NOUN_V2" id="NOUN_V2">
+        <pattern mark="1">
+            <token regexp="yes" skip="1">за|под</token>
+            <and>
+                <token postag="NN:.*:.*:Nom" postag_regexp="yes"/>
+                <token postag="NN:.*:.*:V" postag_regexp="yes"><exception postag="NN:.*:.*:T" postag_regexp="yes" /></token>
+            </and>
+        </pattern>
+        <disambig><match no="2" postag="NN:.*:.*:V" postag_regexp="yes"/></disambig>
+    </rule>      
     <rule name="NOUN_R" id="NOUN_R">
         <pattern mark="1">
             <token regexp="yes" skip="1">так|без</token>
@@ -57,7 +67,7 @@ $Id: disambiguation.xml,v 1.1 2009-08-19 18:41:41 yakovru Exp $
         </pattern>
         <disambig><match no="2" postag="ADJ:.*:T" postag_regexp="yes"/></disambig>
     </rule>
-     <rule name="ADJ_V" id="ADJ_V">
+    <rule name="ADJ_V" id="ADJ_V">
         <pattern mark="1">
             <token regexp="yes">в|за|на|под</token>
             <and>
@@ -77,7 +87,7 @@ $Id: disambiguation.xml,v 1.1 2009-08-19 18:41:41 yakovru Exp $
         </pattern>
         <disambig><match no="2" postag="ADJ:.*:R" postag_regexp="yes"/></disambig>
     </rule>
-     <rule name="ADJ_D" id="ADJ_D">
+    <rule name="ADJ_D" id="ADJ_D">
         <pattern mark="1">
             <token>по</token>
             <and>
