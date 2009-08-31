@@ -57,7 +57,6 @@ public class Catalan extends Language {
     ids.add("DOUBLE_PUNCTUATION");
     ids.add("UNPAIRED_BRACKETS");
     ids.add("UPPERCASE_SENTENCE_START");
-    ids.add("WORD_REPEAT_RULE");
     ids.add("WHITESPACE_RULE");
     return ids;
   }
