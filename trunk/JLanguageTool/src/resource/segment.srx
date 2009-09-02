@@ -6,7 +6,7 @@
 <formathandle type="isolated" include="yes"></formathandle>
 <okpsrx:options oneSegmentIncludesAll="no" trimLeadingWhitespaces="no" trimTrailingWhitespaces="no"></okpsrx:options>
 <okpsrx:sample language="en_two" useMappedRules="no">{0>Utopia.&lt;0}
-Po zakończeniu jego kadencji (pod koniec maja br.) zamierzam ubiegać się o wybór do zarządu. (5 tys.) złotych. Tu jest 5 ww. autorów, np. Józek.
+Po zakończeniu jego kadencji (pod koniec maja br.) zamierzam ubiegać się o wybór do zarządu. (5 tys.) złotych. Tu jest 5 ww. autorów, np. Józek. Zrobiłem wiele dobrego itd. Współczynniki załamania. On nie. Określone współczynniki załamania itd.Ten proces prowadzi.
 Pochodził z rodziny Roberta E. Po wojnie wyzwolił się. Jerzy W. Urban, doktor psychiatra. Patrz art. 3 ust. 3. To piękne m. st. Warszawa.
 Ik vind dat R. Baars een slechte (!) programmeur is. Als voetballer wordt hij nooit een prof. Maar prof. N.A.W. Th.Ch. Janssen wordt dat wel. Maar of dat zo blijft ... dat weet ik niet. Hij is m.a.w. een beginneling. Ook moet  je rekening houden met af-
 gebroken regels.En soms vergeet je het begin gewoon. "Ik ben gek" zei hij "op voetbal." Of je dat wil horen is niet duidelijk.
@@ -235,10 +235,6 @@ It [really!] works. This is e.g. Mr. Smith, who talks slowly... And this is anot
 <afterbreak></afterbreak>
 </rule>
 <rule break="no">
-<beforebreak>\betc\.\s</beforebreak>
-<afterbreak></afterbreak>
-</rule>
-<rule break="no">
 <beforebreak>\bew\.\s</beforebreak>
 <afterbreak></afterbreak>
 </rule>
@@ -432,14 +428,6 @@ It [really!] works. This is e.g. Mr. Smith, who talks slowly... And this is anot
 </rule>
 <rule break="no">
 <beforebreak>\bm.in\.\s</beforebreak>
-<afterbreak></afterbreak>
-</rule>
-<rule break="no">
-<beforebreak>\bitd\.\s</beforebreak>
-<afterbreak></afterbreak>
-</rule>
-<rule break="no">
-<beforebreak>\bitp\.\s</beforebreak>
 <afterbreak></afterbreak>
 </rule>
 <rule break="no">
@@ -669,6 +657,15 @@ It [really!] works. This is e.g. Mr. Smith, who talks slowly... And this is anot
 <rule break="no">
 <beforebreak>\b[Pp]rzyp\.\s</beforebreak>
 <afterbreak></afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\betc\.\s</beforebreak>
+<afterbreak>\p{Ll}</afterbreak>
+</rule>
+<!--These can appear at the end of sentence, so watch out for the next letter: it shouldn't be uppercase.-->
+<rule break="no">
+<beforebreak>\bit[dp]\.\s</beforebreak>
+<afterbreak>\p{Ll}</afterbreak>
 </rule>
 <rule break="no">
 <beforebreak>\bproc\.\s</beforebreak>
