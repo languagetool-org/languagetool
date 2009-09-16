@@ -25,8 +25,6 @@ CVS commit messages: <?=show_link("Subscribe/Unsubscribe", "http://lists.sourcef
 a grammar checker for the Irish language<br />
 <?=show_link("CoGrOO", "http://cogroo.incubadora.fapesp.br/portal", 0)?>,
 a Grammar Checker for Portuguese<br />
-<?=show_link("Higgins", "http://www.openthesaurus.de/higgins/", 0)?>,
-a prototype English-language parser<br />
 <?=show_link("GRAC", "http://grac.sourceforge.net/", 0)?>,
 corpus-based grammar checker written in Python<br />
 <?=show_link("Queequeg", "http://queequeg.sourceforge.net/index-e.html", 0)?>,
