@@ -8,10 +8,22 @@ title="Easy editing stylesheet" ?>
 German grammar and typo rules for LanguageTool
 See resource/de/tagset.txt for the meaning of the POS tags
 Copyright (C) 2001-2007 Daniel Naber (http://www.danielnaber.de)
-$Id: grammar.xml,v 1.20 2009-05-18 21:38:54 dnaber Exp $
+$Id: grammar.xml,v 1.21 2009-09-20 11:48:07 dnaber Exp $
 -->
 <rules lang="de">
   <category name="Mögliche Tippfehler">
+    <rulegroup id="ART_UND_WIESE" name="Tippfehler: 'Art und Wiese(Art und Weise)'">
+      <rule>
+        <pattern mark_from="2">
+          <token>Art</token>
+          <token>und</token>
+          <token>Wiese</token>
+        </pattern>
+        <message>Meinten Sie <suggestion>Weise</suggestion>?</message>
+        <example type="correct">Die Art und <marker>Weise</marker> war unerträglich.</example>
+        <example type="incorrect">Die Art und <marker>Wiese</marker> war unerträglich.</example>
+      </rule>
+    </rulegroup>
     <rulegroup id="SO_WIE_SO" name="Tippfehler: 'so wie so(sowieso)'">
       <rule>
         <pattern>
