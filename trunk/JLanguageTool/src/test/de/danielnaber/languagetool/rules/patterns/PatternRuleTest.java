@@ -44,7 +44,7 @@ public class PatternRuleTest extends TestCase {
 
   private static JLanguageTool langTool;
 
-  private static final Pattern PROBABLE_REGEX = Pattern.compile("[\\[\\]\\*\\+\\|\\^\\{\\}]|\\\\[^0-9]|\\(.+\\)");
+  private static final Pattern PROBABLE_REGEX = Pattern.compile("[^\\[\\]\\*\\+\\|\\^\\{\\}\\?][\\[\\]\\*\\+\\|\\^\\{\\}\\?]|\\\\[^0-9]|\\(.+\\)");
 
   
   @Override
