@@ -50,11 +50,6 @@
     </rule>
 
     <rulegroup id="CARA" name="cara a">
-
-      <!-- *cara Noia -->
-      <!-- FIXME: is "cara Noia" correct? -->
-      <!-- FIXED: "de cara a" should be an exception -->
-      <!-- FIXED: should correct "cara novos proxectos" -->
       <rule>
         <pattern case_sensitive="yes" mark_to="-1">
           <token>cara<exception scope="previous" postag="D.*" postag_regexp="yes"/></token>
@@ -108,10 +103,9 @@
         </pattern>
         <message>A preposición 'cara' vai seguida de 'a' en galego. Quería vostede dicir <suggestion>\1 a\2</suggestion>?</message>
         <short>Forma incorrecta</short>
-        <example type="incorrect"> <marker>Cara</marker> os calderíns basculantes.</example>
-        <example type="correct"> <marker>Cara a</marker> os calderíns basculantes.</example>
+        <example type="incorrect">Os independentistas escoceses miran <marker>cara</marker> os verdes e liberais para formar goberno.</example>
+        <example type="correct">Os independentistas escoceses miran <marker>cara aos</marker> verdes e liberais para formar goberno.</example>
       </rule>
-
     </rulegroup>
 
     <rulegroup id="AMBOS" name="ambos, ambas e substantivo; ambos/as os/as e substantivo">
@@ -345,6 +339,26 @@
       <example type="correct">Non houbo ningún <marker>poxador</marker>.</example>
     </rule>
 
+    <rule id="NORABOA" name="noraboa (parabén)">
+      <pattern>
+        <token regexp="yes">noraboas?</token>
+      </pattern>
+      <message>A palabra "<match no="1"/>" é un castelanismo. Empregue no seu sitio <suggestion>parabén</suggestion> ou <suggestion>parabéns</suggestion>.</message>
+      <short>Castelanismo léxico</short>
+      <example type="incorrect">Moi bo traballo, <marker>noraboa</marker>!</example>
+      <example type="correct">Moi bo traballo, <marker>parabéns</marker>!</example>
+    </rule>
+
+    <rule id="DELANTAL" name="delantal (mandil)">
+      <pattern>
+        <token regexp="yes">delanta(l|is|les)</token>
+      </pattern>
+      <message>A palabra "<match no="1"/>" é un castelanismo. Empregue no seu sitio <suggestion>mandil</suggestion> (plural 'mandís').</message>
+      <short>Castelanismo léxico</short>
+      <example type="incorrect">Leva o <marker>delantal</marker> cheo de cotra.</example>
+      <example type="correct">Leva o <marker>mandil</marker> cheo de cotra.</example>
+    </rule>
+
   </category>
 
   <!--
@@ -410,19 +424,19 @@
     </rule>
 
     <rulegroup id="A_DE_EN_CON_O" name="preposición (a, de, en, con) e artigo de topónimo">
-      <!-- Preposicións: a + a,as 
+      <!-- Preposicións: a + a,as -->
       <rule>
-        <pattern case_sensitive="yes" mark_to="-1">
-          <token regexp="yes">a|A|[Dd]e|[Ee]n|[Cc]on</token>
+        <pattern case_sensitive="yes">
+          <token regexp="yes">a|A</token>
           <token regexp="yes">A|As</token>
           <token regexp="yes">[A-ZÁÉÍÓÚ][a-záéíóúüñ]+</token>
         </pattern>
         <message>Algunhas preposicións seguidas de topónimos con artigo determinado contraen con estes. Quería vostede dicir <suggestion><match no="2" regexp_match="A" regexp_replace="á"/> \3</suggestion>?</message>
         <short>Forma incorrecta</short>
-        <example type="incorrect">Casou <marker>en A Ramallosa</marker>.</example>
-        <example type="correct">Casou <marker>na Ramallosa</marker>.</example>
+        <example type="incorrect">Vai tódolos días de Vigo <marker>a A Ramallosa</marker>.</example>
+        <example type="correct">Vai tódolos días de Vigo <marker>á Ramallosa</marker>.</example>
       </rule>
-	-->
+
       <!-- Preposicións: a + o,os -->
       <rule>
         <pattern case_sensitive="yes">
@@ -447,6 +461,8 @@
         <short>Forma incorrecta</short>
         <example type="incorrect">As praias <marker>de O Morrazo</marker>.</example>
         <example type="correct">As praias <marker>do Morrazo</marker>.</example>
+        <example type="incorrect">Casou <marker>en A Ramallosa</marker>.</example>
+        <example type="correct">Casou <marker>na Ramallosa</marker>.</example>
       </rule>
 
     </rulegroup>
