@@ -56,7 +56,7 @@
       <!-- FIXED: "de cara a" should be an exception -->
       <!-- FIXED: should correct "cara novos proxectos" -->
       <rule>
-        <pattern case_sensitive="yes">
+        <pattern case_sensitive="yes" mark_to="-1">
           <token>cara<exception scope="previous" postag="D.*" postag_regexp="yes"/></token>
           <token regexp="yes">[A-ZÁÉÍÓÚ][a-záéíóúüñ].*</token>
         </pattern>
@@ -93,7 +93,7 @@
       <!-- *cara a/as ... -->
       <rule>
         <pattern mark_to="-1">
-          <token>cara<and><exception scope="previous" postag="D.*" postag_regexp="yes"/><exception scope="previous">de</exception></and></token>
+          <token>cara<exception scope="previous" postag="D.*" postag_regexp="yes"/><exception scope="previous">de</exception></token>
           <token regexp="yes">a|as</token>
         </pattern>
         <message>A preposición 'cara' vai seguida de 'a' en galego. Quería vostede dicir <suggestion><match no="1"/> <match no="2" regexp_match="[aA]" regexp_replace="á"/></suggestion>?</message>
@@ -108,15 +108,15 @@
         </pattern>
         <message>A preposición 'cara' vai seguida de 'a' en galego. Quería vostede dicir <suggestion>\1 a\2</suggestion>?</message>
         <short>Forma incorrecta</short>
-        <example type="incorrect"> <marker>Cara</marker> un novo modelo.</example>
-        <example type="correct"> <marker>Cara a</marker> un novo modelo.</example>
+        <example type="incorrect"> <marker>Cara</marker> os calderíns basculantes.</example>
+        <example type="correct"> <marker>Cara a</marker> os calderíns basculantes.</example>
       </rule>
 
     </rulegroup>
 
     <rulegroup id="AMBOS" name="ambos, ambas e substantivo; ambos/as os/as e substantivo">
       <rule>
-        <pattern>
+        <pattern mark_to="-1">
           <token inflected="yes">ambos</token>
           <token regexp="yes">[oa]s</token>
           <token postag="NC.P000" postag_regexp="yes" />
@@ -148,8 +148,8 @@
         </pattern>
         <message>A forma "<match no="1"/>" require polo xeral do artigo determinado cando vai diante dun substantivo. Quería vostede dicir <suggestion><match no="1" regexp_match="(?iu)amb([ao])s" regexp_replace="ámb$1l$1s"/> \2</suggestion>?</message>
         <short>Forma incorrecta</short>
-        <example type="incorrect">Visitou <marker>ambas</marker> cidades este ano.</example>
-        <example type="correct">Visitou <marker>ámbalas</marker> cidades este ano.</example>
+        <example type="incorrect">Visitou <marker>ambas cidades</marker> este ano.</example>
+        <example type="correct">Visitou <marker>ámbalas cidades</marker> este ano.</example>
       </rule>
     </rulegroup>
 
@@ -410,10 +410,10 @@
     </rule>
 
     <rulegroup id="A_DE_EN_CON_O" name="preposición (a, de, en, con) e artigo de topónimo">
-      <!-- Preposicións: a + a,as -->
+      <!-- Preposicións: a + a,as 
       <rule>
         <pattern case_sensitive="yes" mark_to="-1">
-          <token regexp="yes">a|A</token>
+          <token regexp="yes">a|A|[Dd]e|[Ee]n|[Cc]on</token>
           <token regexp="yes">A|As</token>
           <token regexp="yes">[A-ZÁÉÍÓÚ][a-záéíóúüñ]+</token>
         </pattern>
@@ -422,28 +422,28 @@
         <example type="incorrect">Casou <marker>en A Ramallosa</marker>.</example>
         <example type="correct">Casou <marker>na Ramallosa</marker>.</example>
       </rule>
-
+	-->
       <!-- Preposicións: a + o,os -->
       <rule>
-        <pattern case_sensitive="yes" mark_to="-1">
+        <pattern case_sensitive="yes">
           <token regexp="yes">a|A</token>
           <token regexp="yes">O|Os</token>
           <token regexp="yes">[A-ZÁÉÍÓÚ][a-záéíóúüñ]+</token>
         </pattern>
         <message>Algunhas preposicións seguidas de topónimos con artigo determinado contraen con este. Quería vostede dicir <suggestion>\1<match case_conversion="startlower" no="2"/> \3</suggestion>?</message>
         <short>Forma incorrecta</short>
-        <example type="incorrect">Foi mercalo a <marker>O Carballiño</marker>.</example>
+        <example type="incorrect">Foi mercalo <marker>a O Carballiño</marker>.</example>
         <example type="correct">Foi mercalo <marker>ao Carballiño</marker>.</example>
       </rule>
 
       <!-- Preposicións: de, en, con, a + o,os -->
       <rule>
-        <pattern case_sensitive="yes" mark_to="-1">
+        <pattern case_sensitive="yes">
           <token regexp="yes">(?iu)de|con|en</token>
           <token regexp="yes">O|A|Os|As</token>
           <token regexp="yes">[A-ZÁÉÍÓÚ][a-záéíóúüñ]+</token>
         </pattern>
-        <message>Algunhas preposicións seguidas de topónimos con artigo determinado contraen con este. Quería vostede dicir <suggestion><match no="1" regexp_match=".?([dDcCnN]).*" regexp_replace="$1"/><match case_conversion="startlower" no="2"/> \4</suggestion>?</message>
+        <message>Algunhas preposicións seguidas de topónimos con artigo determinado contraen con este. Quería vostede dicir <suggestion><match no="1" regexp_match=".?([dDcCnN]).*" regexp_replace="$1"/><match case_conversion="startlower" no="2"/> \3</suggestion>?</message>
         <short>Forma incorrecta</short>
         <example type="incorrect">As praias <marker>de O Morrazo</marker>.</example>
         <example type="correct">As praias <marker>do Morrazo</marker>.</example>
