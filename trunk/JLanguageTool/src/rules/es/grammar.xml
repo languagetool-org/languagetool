@@ -7,7 +7,7 @@ title="Easy editing stylesheet" ?>
 <!--
 Spanish Grammar and Typo Rules for LanguageTool
 Copyright (C) 2006 Marcin Miłkowski
-$Id: grammar.xml,v 1.6 2008-11-27 22:09:10 milek_pl Exp $
+$Id: grammar.xml,v 1.7 2009-09-21 10:21:28 milek_pl Exp $
 -->
 <rules lang="es">
   <category name="misc">
@@ -44,6 +44,18 @@ $Id: grammar.xml,v 1.6 2008-11-27 22:09:10 milek_pl Exp $
       <short>Error ortográfico</short>
       <example correction="Voy a hablar" type="incorrect"><marker>Voy ha hablar</marker> con ella.</example>
       <example type="correct"><marker>Voy a hablar</marker> con ella.</example>
+    </rule>
+  </category>
+  <category name="ortografia">
+    <rule id="Y_I" name="y Italia">
+      <pattern case_sensitive="no" mark_to="-1">
+        <token>y</token>
+        <token regexp="yes">^h?[ií].*</token>
+      </pattern>
+      <message>Cuando precede a palabras que comienzan por i- (o hi-), la conjunción "y" se transforma en "e": <suggestion>e <match no="2"/></suggestion></message>
+      <short>Error ortográfico.</short>
+      <example correction="e Italia" type="incorrect">Alemania <marker>y Italia</marker> disputarán el torneo.</example>
+      <example type="correct">Alemania <marker>e Italia</marker> disputarán el torneo.</example>
     </rule>
   </category>
 </rules>

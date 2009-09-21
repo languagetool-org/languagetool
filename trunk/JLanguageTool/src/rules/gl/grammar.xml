@@ -7,7 +7,11 @@
   created by Susana Sotelo Docío
 -->
 <rules lang="gl">
-  <category name="grammar">
+
+  <!-- ############################ GRAMMAR RULES ############################ -->
+
+  <category name="Gramática">
+
     <rule id="IR_A_INF" name="ir e infinitivo">
       <pattern>
         <token inflected="yes">ir</token>
@@ -16,30 +20,460 @@
       </pattern>
       <message>A perífrase formada polo verbo "ir" máis un infinitivo constrúese en galego sen preposición: <suggestion>\1 \3</suggestion></message>
       <short>Forma incorrecta</short>
-      <example type="incorrect"><marker>ir a saltar</marker> con ela.</example>
-      <example type="correct"><marker>ir saltar</marker> con ela.</example>
+      <example type="incorrect"><marker>vou a saltar</marker> con ela.</example>
+      <example type="correct"><marker>vou saltar</marker> con ela.</example>
     </rule>
+
+    <!-- # FIXME # it offers VéN as correction when source is uppercase: VEN -->
+    <rule id="VEN_VES" name="vén e vés">
+      <pattern mark_to="-1">
+        <token regexp="yes">ven|ves</token>
+        <token postag="VMN.*|VSN.*|VMP.*|VSP.*|VMG.*|VSG.*" postag_regexp="yes" />
+      </pattern>
+      <message>A palabra "<match no="1" />" seguida dunha forma non temporal adoita ser do verbo "vir" e, polo tanto, leva til diacrítico para diferenciala da forma homónima do verbo "ver". Quería vostede dicir <suggestion><match no="1" regexp_match="(?iu)e" regexp_replace="é"/></suggestion>?</message>
+      <short>Forma incorrecta</short>
+      <example type="incorrect">O neno <marker>ven</marker> saltando polo camiño.</example>
+      <example type="correct">O neno <marker>vén</marker> saltando polo camiño.</example>
+    </rule>
+
+    <rule id="GRAN" name="grande seguido de substantivo">
+      <pattern mark_to="-1">
+        <token>grande</token>
+        <token postag="NC.S000" postag_regexp="yes" regexp="yes">
+          <exception regexp="yes">[aeiouáéíóú].*</exception>
+        </token>
+      </pattern>
+      <message>O adxectivo "grande" vai apocopado cando precede a un substantivo (agás cando este comeza por vogal). Quería vostede dicir <suggestion><match no="1" regexp_match="(?iu)grande" regexp_replace="gran"/></suggestion>?</message>
+      <short>Forma incorrecta</short>
+      <example type="incorrect">Resultou ser un <marker>grande</marker> curso.</example>
+      <example type="correct">Resultou ser un <marker>gran</marker> curso.</example>
+    </rule>
+
+    <rulegroup id="CARA" name="cara a">
+
+      <!-- *cara Noia -->
+      <!-- FIXME: is "cara Noia" correct? -->
+      <!-- FIXED: "de cara a" should be an exception -->
+      <!-- FIXED: should correct "cara novos proxectos" -->
+      <rule>
+        <pattern case_sensitive="yes">
+          <token>cara<exception scope="previous" postag="D.*" postag_regexp="yes"/></token>
+          <token regexp="yes">[A-ZÁÉÍÓÚ][a-záéíóúüñ].*</token>
+        </pattern>
+        <message>A preposición 'cara' vai seguida de 'a' en galego. Quería vostede dicir <suggestion><match no="1"/> a</suggestion>?</message>
+        <short>Forma incorrecta</short>
+        <example type="incorrect">A estrada <marker>cara</marker> Noia.</example>
+        <example type="correct">A estrada <marker>cara a</marker> Noia.</example>
+      </rule>
+
+      <!-- *cara un/algún/ningún/... -->
+      <rule>
+        <pattern mark_to="-1">
+          <token>cara<exception scope="previous" postag="D.*" postag_regexp="yes"/></token>
+          <token postag="D[ID].*" postag_regexp="yes"/>
+        </pattern>
+        <message>A preposición 'cara' vai seguida de 'a' en galego. Quería vostede dicir <suggestion><match no="1"/> a</suggestion>?</message>
+        <short>Forma incorrecta</short>
+        <example type="incorrect"> <marker>Cara</marker> un novo modelo.</example>
+        <example type="correct"> <marker>Cara a</marker> un novo modelo.</example>
+      </rule>
+
+      <!-- *cara + adxectivo/substantivo plural -->
+      <rule>
+        <pattern mark_to="-1">
+          <token>cara<exception scope="previous" postag="D.*" postag_regexp="yes"/></token>
+          <token postag="A...P.|NC.P..." postag_regexp="yes"/>
+        </pattern>
+        <message>A preposición 'cara' vai seguida de 'a' en galego. Quería vostede dicir <suggestion><match no="1"/> a</suggestion>?</message>
+        <short>Forma incorrecta</short>
+        <example type="incorrect"> <marker>Cara</marker> novos retos.</example>
+        <example type="correct"> <marker>Cara a</marker> novos retos.</example>
+      </rule>
+
+      <!-- *cara a/as ... -->
+      <rule>
+        <pattern mark_to="-1">
+          <token>cara<and><exception scope="previous" postag="D.*" postag_regexp="yes"/><exception scope="previous">de</exception></and></token>
+          <token regexp="yes">a|as</token>
+        </pattern>
+        <message>A preposición 'cara' vai seguida de 'a' en galego. Quería vostede dicir <suggestion><match no="1"/> <match no="2" regexp_match="[aA]" regexp_replace="á"/></suggestion>?</message>
+        <short>Forma incorrecta</short>
+        <example type="incorrect"> <marker>Cara</marker> a nova fase.</example>
+        <example type="correct"> <marker>Cara á</marker> nova fase.</example>
+      </rule>
+      <rule>
+        <pattern mark_to="-1">
+          <token>cara<exception scope="previous" postag="D.*" postag_regexp="yes"/></token>
+          <token regexp="yes">o|os</token>
+        </pattern>
+        <message>A preposición 'cara' vai seguida de 'a' en galego. Quería vostede dicir <suggestion>\1 a\2</suggestion>?</message>
+        <short>Forma incorrecta</short>
+        <example type="incorrect"> <marker>Cara</marker> un novo modelo.</example>
+        <example type="correct"> <marker>Cara a</marker> un novo modelo.</example>
+      </rule>
+
+    </rulegroup>
+
+    <rulegroup id="AMBOS" name="ambos, ambas e substantivo; ambos/as os/as e substantivo">
+      <rule>
+        <pattern>
+          <token inflected="yes">ambos</token>
+          <token regexp="yes">[oa]s</token>
+          <token postag="NC.P000" postag_regexp="yes" />
+        </pattern>
+        <message>A forma "<match no="1"/>" contrae co artigo determinado que vai a continuación. Quería vostede dicir <suggestion><match no="1" regexp_match="(?iu)amb([ao])s" regexp_replace="ámb$1l$1s"/></suggestion>?</message>
+        <short>Forma incorrecta</short>
+        <example type="incorrect">Visitou <marker>ambas as</marker> cidades este ano.</example>
+        <example type="correct">Visitou <marker>ámbalas</marker> cidades este ano.</example>
+      </rule>
+
+      <!-- CORRECT: ambos coches; ambas rúas -->
+      <rule>
+        <!-- FIXME
+          First token should be (syntax must be checked):
+
+          <token postag="NC.P000" postag_regexp="yes">
+          <and>
+            <exception postag="NC.*" regexp="yes">[oa]s</exception>
+            <exception negate_pos="yes" postag="NC.P000"/>
+          </and>
+          </token>
+
+        to avoid ambiguity: ambos + NC.P|V.*, a fake noun phrase or a correct subj+verb (ambos can act as a nucleous).
+        -->
+        <pattern>
+          <token inflected="yes">ambos</token>
+          <!-- # HACK to avoid [ao]s as noun (barely used) (FIXME asap) # -->
+          <token postag="NC.P000" postag_regexp="yes"><exception postag="NC.*" regexp="yes">[oa]s</exception></token>
+        </pattern>
+        <message>A forma "<match no="1"/>" require polo xeral do artigo determinado cando vai diante dun substantivo. Quería vostede dicir <suggestion><match no="1" regexp_match="(?iu)amb([ao])s" regexp_replace="ámb$1l$1s"/> \2</suggestion>?</message>
+        <short>Forma incorrecta</short>
+        <example type="incorrect">Visitou <marker>ambas</marker> cidades este ano.</example>
+        <example type="correct">Visitou <marker>ámbalas</marker> cidades este ano.</example>
+      </rule>
+    </rulegroup>
+
   </category>
-  <category name="lex">
+
+  <!-- ############################ LEXICAL RULES ############################ -->
+
+  <category name="Léxico::Homónimos">
+
     <rule id="APORTAR" name="aportar (achegar)">
       <pattern>
         <token inflected="yes">aportar</token>
       </pattern>
-      <message>Posíbel castelanismo: o verbo aportar significa en galego "chegar a porto". A forma correcta en galego é "achegar"</message>
-      <short>Forma incorrecta</short>
+      <message>Posíbel castelanismo: o verbo "aportar" significa en galego "chegar a porto". A forma correcta en galego para o sentido de "proporcionar" ou "presentar" é <suggestion>achegar</suggestion> ou <suggestion>facer unha achega</suggestion>.</message>
+      <short>Posíbel forma incorrecta</short>
       <example type="incorrect">Eu tamén quero <marker>aportar</marker> algo ao proxecto.</example>
       <example type="correct">Eu tamén quero <marker>achegar</marker> algo ao proxecto.</example>
     </rule>
-  </category>
-  <category name="spelling">
-    <rule id="EN_SEGUIDA" name="enseguida">
+
+    <rule id="GRUA" name="grua (guindastre)">
       <pattern>
-        <token>en</token>
+        <token inflected="yes">grúa</token>
+      </pattern>
+      <message>Posíbel castelanismo: o substantivo "grúa" fai referencia a un paxaro. Para denominar ao aparato empregado para mover ou remolcar grandes pesos emprégase preferibelmente <suggestion>guindastre</suggestion> (masculino).</message>
+      <short>Posíbel forma incorrecta</short>
+      <example type="incorrect">A <marker>grúa</marker> levoulle o automóbil.</example>
+      <example type="correct">O <marker>guindastre</marker> levoulle o automóbil.</example>
+    </rule>
+  </category>
+
+  <category name="Léxico::Castelanismos léxicos">
+
+    <rule id="TURNO_TANDA" name="turno, tanda (quenda, vez)">
+      <pattern>
+        <token regexp="yes">turnos?|tandas?</token>
+      </pattern>
+      <message>A palabra "<match no="1"/>" é un castelanismo. Empregue no seu sitio <suggestion>quenda</suggestion> ou <suggestion>vez</suggestion> tendo en conta as diferenzas de xénero.</message>
+      <short>Castelanismo léxico</short>
+      <example type="incorrect">Perdín o meu <marker>turno</marker> na lista de agarda.</example>
+      <example type="correct">Perdín a miña <marker>vez</marker> na lista de agarda.</example>
+      <example type="incorrect">No colexio non hai <marker>turno</marker> de tarde.</example>
+      <example type="correct">No colexio non hai <marker>quenda</marker> de tarde..</example>
+    </rule>
+
+    <rule id="TAZA" name="taza (cunca)">
+      <pattern>
+        <token regexp="yes">tazas?</token>
+      </pattern>
+      <message>A palabra "<match no="1"/>" é un castelanismo. Empregue no seu sitio <suggestion>cunca</suggestion>.</message>
+      <short>Castelanismo léxico</short>
+      <example type="incorrect">Merquei unhas <marker>tazas</marker> para o almorzo.</example>
+      <example type="correct">Merquei unhas <marker>cuncas</marker> para o almorzo.</example>
+    </rule>
+
+    <rule id="TREBOL" name="trébol (trevo)">
+      <pattern>
+        <token regexp="yes">trébol|tréboles</token>
+      </pattern>
+      <message>A palabra "<match no="1"/>" é un castelanismo. Empregue no seu sitio <suggestion>trevo</suggestion>.</message>
+      <short>Castelanismo léxico</short>
+      <example type="incorrect">Atopei un <marker>trébol</marker> de catro follas.</example>
+      <example type="correct">Atopei un <marker>trevo</marker> de catro follas.</example>
+    </rule>
+
+    <rule id="TRINEO" name="trineo (zorra)">
+      <pattern>
+        <token regexp="yes">trineos?</token>
+      </pattern>
+      <message>A palabra "<match no="1"/>" é un castelanismo. Empregue no seu sitio <suggestion>zorra</suggestion>.</message>
+      <short>Castelanismo léxico</short>
+      <example type="incorrect">Rebentaban os renos e atuaban o <marker>trineo</marker> na nevada co peso dos seus bandullos.</example>
+      <example type="correct">Rebentaban os renos e atuaban a <marker>zorra</marker> na nevada co peso dos seus bandullos.</example>
+    </rule>
+
+    <rule id="COLLARIN" name="collarín (colariño)">
+      <pattern>
+        <token regexp="yes">collaríns?</token>
+      </pattern>
+      <message>A palabra "<match no="1"/>" é un castelanismo. Empregue no seu sitio <suggestion>colariño</suggestion>.</message>
+      <short>Castelanismo léxico</short>
+      <example type="incorrect">O médico mandoulle poñer un <marker>collarín</marker>.</example>
+      <example type="correct">O médico mandoulle poñer un <marker>colariño</marker>.</example>
+    </rule>
+
+    <rule id="GRIFO" name="grifo (billa)">
+      <pattern>
+        <token regexp="yes">grifos?</token>
+      </pattern>
+      <message>A palabra "<match no="1"/>" é un castelanismo. Empregue no seu sitio <suggestion>billa</suggestion> (feminino).</message>
+      <short>Castelanismo léxico</short>
+      <example type="incorrect">Non saía auga do <marker>grifo</marker>.</example>
+      <example type="correct">Non saía auga da <marker>billa</marker>.</example>
+    </rule>
+
+    <rule id="ACEITUNA" name="aceituna (oliva)">
+      <pattern>
+        <token regexp="yes">aceitunas?</token>
+      </pattern>
+      <message>A palabra "<match no="1"/>" é un castelanismo. Empregue no seu sitio <suggestion>oliva</suggestion>.</message>
+      <short>Castelanismo léxico</short>
+      <example type="incorrect">Non pode comer <marker>aceitunas</marker>.</example>
+      <example type="correct">Non pode comer <marker>olivas</marker>.</example>
+    </rule>
+
+    <rule id="ACERA" name="acera (beirarrúa)">
+      <pattern>
+        <token regexp="yes">aceras?</token>
+      </pattern>
+      <message>A palabra "<match no="1"/>" é un castelanismo. Empregue no seu sitio <suggestion>beirarrúa</suggestion>.</message>
+      <short>Castelanismo léxico</short>
+      <example type="incorrect">As <marker>aceras</marker> da vila están en mal estado.</example>
+      <example type="correct">As <marker>beirarrúas</marker> da vila están en mal estado.</example>
+    </rule>
+
+    <rule id="ANDAMIO" name="andamio (estada)">
+      <pattern>
+        <token regexp="yes">andamios?</token>
+      </pattern>
+      <message>A palabra "<match no="1"/>" é un castelanismo. Empregue no seu sitio <suggestion>estada</suggestion> (feminino).</message>
+      <short>Castelanismo léxico</short>
+      <example type="incorrect">Un albanel vai vir montar o <marker>andamio</marker> mañá.</example>
+      <example type="correct">Un albanel vai vir montar a <marker>estada</marker> mañá.</example>
+    </rule>
+
+    <rule id="ANDEN" name="andén (plataforma)">
+      <pattern>
+        <token regexp="yes">andéns?</token>
+      </pattern>
+      <message>A palabra "<match no="1"/>" é un castelanismo. Empregue no seu sitio <suggestion>plataforma</suggestion> (feminino).</message>
+      <short>Castelanismo léxico</short>
+      <example type="incorrect">O tren chegará ao <marker>andén</marker> número tres.</example>
+      <example type="correct">O tren chegará á <marker>plataforma</marker> número tres.</example>
+    </rule>
+
+    <rule id="ARCEN" name="arcén (beiravía)">
+      <pattern>
+        <token regexp="yes">arcéns?</token>
+      </pattern>
+      <message>A palabra "<match no="1"/>" é un castelanismo. Empregue no seu sitio <suggestion>beiravía</suggestion> (feminino).</message>
+      <short>Castelanismo léxico</short>
+      <example type="incorrect">Na bicicleta procuro sempre circular polo <marker>arcén</marker>.</example>
+      <example type="correct">Na bicicleta procuro sempre circular pola <marker>beiravía</marker>.</example>
+    </rule>
+
+    <rule id="AUTOPISTA" name="autopista (autoestrada)">
+      <pattern>
+        <token regexp="yes">autopistas?</token>
+      </pattern>
+      <message>A palabra "<match no="1"/>" é un castelanismo. Empregue no seu sitio <suggestion>autoestrada</suggestion>.</message>
+      <short>Castelanismo léxico</short>
+      <example type="incorrect">A construción dunha <marker>autopista</marker> implica un impacto medioambiental severo.</example>
+      <example type="correct">A construción dunha <marker>autoestrada</marker> implica un impacto medioambiental severo.</example>
+    </rule>
+
+    <rule id="CAMILLA" name="camilla (padiola)">
+      <pattern>
+        <token regexp="yes">camillas?</token>
+      </pattern>
+      <message>A palabra "<match no="1"/>" é un castelanismo. Empregue no seu sitio <suggestion>padiola</suggestion>.</message>
+      <short>Castelanismo léxico</short>
+      <example type="incorrect">Tiveron que sacalo do campo nunha <marker>camilla</marker>.</example>
+      <example type="correct">Tiveron que sacalo do campo nunha <marker>padiola</marker>.</example>
+    </rule>
+
+    <rulegroup id="ASEQUIBEL" name="alcanzábel, accesíbel">
+      <rule>
+        <pattern>
+          <token regexp="yes">asequibles?</token>
+        </pattern>
+        <message>A palabra "<match no="1"/>" é un castelanismo. Empregue no seu sitio <suggestion>alcanzable</suggestion> ou <suggestion>accesible</suggestion>.</message>
+        <short>Castelanismo léxico</short>
+        <example type="incorrect">O prezo actual da vivenda non é <marker>asequible</marker> para moita xente no pais.</example>
+        <example type="correct">O prezo actual da vivenda non é <marker>accesible</marker> para moita xente no pais.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">asequíbe(l|is)</token>
+        </pattern>
+        <message>A palabra "<match no="1"/>" é un castelanismo. Empregue no seu sitio <suggestion>alcanzábel</suggestion> ou <suggestion>accesíbel</suggestion>.</message>
+        <short>Castelanismo léxico</short>
+        <example type="incorrect">O prezo actual da vivenda non é <marker>asequíbel</marker> para moita xente no pais.</example>
+        <example type="correct">O prezo actual da vivenda non é <marker>accesíbel</marker> para moita xente no pais.</example>
+      </rule>
+    </rulegroup>
+
+    <rule id="SUBASTADOR" name="subastador (poxador)">
+      <pattern>
+        <token regexp="yes">subastador(a|as|es)?</token>
+      </pattern>
+      <message>A palabra "<match no="1"/>" é un castelanismo. Empregue no seu sitio <suggestion>poxador</suggestion>.</message>
+      <short>Castelanismo léxico</short>
+      <example type="incorrect">Non houbo ningún <marker>subastador</marker>.</example>
+      <example type="correct">Non houbo ningún <marker>poxador</marker>.</example>
+    </rule>
+
+  </category>
+
+  <!--
+  <category name="Léxico">
+    <rule id="PUNTUAL" name="puntual (concreto)">
+      <pattern>
+        <token inflected="yes">puntual</token>
+      </pattern>
+      <message>Posíbel castelanismo: o adxectivo "puntual" significa en galego "que fai algo no seu tempo". A forma correcta en galego para o sentido de "preciso" ou "determinado" é "concreto".</message>
+      <short>Posíbel forma incorrecta</short>
+      <example type="incorrect"> <marker>aportar</marker> algo ao proxecto.</example>
+      <example type="correct">Eu tamén quero <marker>achegar</marker> algo ao proxecto.</example>
+    </rule>
+  </category>
+  -->
+
+  <!-- ############################ SPELLING RULES ############################ -->
+
+  <category name="Ortografía">
+
+    <rule id="EN_DE_SEGUIDA" name="enseguida, deseguida">
+      <pattern>
+        <token regexp="yes">en|de</token>
         <token>seguida</token>
       </pattern>
-      <message>As formas 'en' e 'seguida' forman en galego unha locución que se escrebe unida. Quería vostede dicir <suggestion>\1\2</suggestion>?</message>
+      <message>As formas "<match no="1"/>" e "seguida" forman en galego unha locución que se escrebe unida. Quería vostede dicir <suggestion>\1\2</suggestion>?</message>
       <example type="incorrect">Deuse conta <marker>en seguida</marker>.</example>
       <example type="correct">Deuse conta <marker>enseguida</marker>.</example>
+      <example type="incorrect"><marker>De seguida</marker> nos percatamos das notas que a constitúen.</example>
+      <example type="correct"><marker>Deseguida</marker> nos percatamos das notas que a constitúen.</example>
     </rule>
+
+    <rule id="DE_SEGUIDO_CONTADO" name="deseguido, decontado">
+      <pattern>
+        <token>de</token>
+        <token regexp="yes">seguido|contado</token>
+      </pattern>
+      <message>As formas "de" e "<match no="2"/>" forman en galego unha locución que se escrebe unida. Quería vostede dicir <suggestion>\1\2</suggestion>?</message>
+      <example type="incorrect">A masa mestúrase e <marker>de seguido</marker> envásase en recipientes.</example>
+      <example type="correct">A masa mestúrase e <marker>deseguido</marker> envásase en recipientes.</example>
+      <example type="incorrect">Recoñecera <marker>de contado</marker> os axentes da Stasi.</example>
+      <example type="correct">Recoñecera <marker>decontado</marker> os axentes da Stasi.</example>
+    </rule>
+
+    <rule id="TAL_VEZ" name="talvez">
+      <pattern>
+        <token>tal</token>
+        <token>vez</token>
+      </pattern>
+      <message>As formas "tal" e "vez" escrébense unidas cando forman unha locución. Quería vostede dicir <suggestion>\1\2</suggestion>?</message>
+      <example type="incorrect"><marker>Tal vez</marker> a maneira máis profusa de ser europeo.</example>
+      <example type="correct"><marker>Talvez</marker> a maneira máis profusa de ser europeo.</example>
+    </rule>
+
+    <rule id="A_REO" name="arreo">
+      <pattern>
+        <token>a</token>
+        <token>reo</token>
+      </pattern>
+      <message>As formas 'a' e 'reo' normalmente forman en galego unha locución que se escrebe preferibelmente unida. Quería vostede dicir <suggestion>\1r\2</suggestion>?</message>
+      <example type="incorrect">Traballaron <marker>a reo</marker> no proxecto.</example>
+      <example type="correct">Traballaron <marker>arreo</marker> no proxecto.</example>
+    </rule>
+
+    <rulegroup id="A_DE_EN_CON_O" name="preposición (a, de, en, con) e artigo de topónimo">
+      <!-- Preposicións: a + a,as -->
+      <rule>
+        <pattern case_sensitive="yes" mark_to="-1">
+          <token regexp="yes">a|A</token>
+          <token regexp="yes">A|As</token>
+          <token regexp="yes">[A-ZÁÉÍÓÚ][a-záéíóúüñ]+</token>
+        </pattern>
+        <message>Algunhas preposicións seguidas de topónimos con artigo determinado contraen con estes. Quería vostede dicir <suggestion><match no="2" regexp_match="A" regexp_replace="á"/> \3</suggestion>?</message>
+        <short>Forma incorrecta</short>
+        <example type="incorrect">Casou <marker>en A Ramallosa</marker>.</example>
+        <example type="correct">Casou <marker>na Ramallosa</marker>.</example>
+      </rule>
+
+      <!-- Preposicións: a + o,os -->
+      <rule>
+        <pattern case_sensitive="yes" mark_to="-1">
+          <token regexp="yes">a|A</token>
+          <token regexp="yes">O|Os</token>
+          <token regexp="yes">[A-ZÁÉÍÓÚ][a-záéíóúüñ]+</token>
+        </pattern>
+        <message>Algunhas preposicións seguidas de topónimos con artigo determinado contraen con este. Quería vostede dicir <suggestion>\1<match case_conversion="startlower" no="2"/> \3</suggestion>?</message>
+        <short>Forma incorrecta</short>
+        <example type="incorrect">Foi mercalo a <marker>O Carballiño</marker>.</example>
+        <example type="correct">Foi mercalo <marker>ao Carballiño</marker>.</example>
+      </rule>
+
+      <!-- Preposicións: de, en, con, a + o,os -->
+      <rule>
+        <pattern case_sensitive="yes" mark_to="-1">
+          <token regexp="yes">(?iu)de|con|en</token>
+          <token regexp="yes">O|A|Os|As</token>
+          <token regexp="yes">[A-ZÁÉÍÓÚ][a-záéíóúüñ]+</token>
+        </pattern>
+        <message>Algunhas preposicións seguidas de topónimos con artigo determinado contraen con este. Quería vostede dicir <suggestion><match no="1" regexp_match=".?([dDcCnN]).*" regexp_replace="$1"/><match case_conversion="startlower" no="2"/> \4</suggestion>?</message>
+        <short>Forma incorrecta</short>
+        <example type="incorrect">As praias <marker>de O Morrazo</marker>.</example>
+        <example type="correct">As praias <marker>do Morrazo</marker>.</example>
+      </rule>
+
+    </rulegroup>
+
+    <rule id="A_DE_COTIO" name="acotío, decotío">
+      <pattern>
+        <token regexp="yes">de|a</token>
+        <token>cotío</token>
+      </pattern>
+      <message>Posíbel erro: a locución adverbial "<match no="1"/> cotío" escrébese en galego todo xunto. Quería vostede dicir <suggestion><match no="1"/>cotío</suggestion>?</message>
+      <short>Posíbel forma incorrecta</short>
+      <example type="incorrect">Viaxa a Alemaña <marker>a cotío</marker> por razóns de traballo.</example>
+      <example type="correct">Viaxa a Alemaña <marker>acotío</marker> por razóns de traballo.</example>
+    </rule>
+
+    <rule id="DE_VAGAR_COTE" name="devagar, decote">
+      <pattern>
+        <token>de</token>
+        <token regexp="yes">vagar|cote</token>
+      </pattern>
+      <message>Posíbel erro: a locución adverbial "de <match no="2"/>" escrébese en galego todo xunto. Quería vostede dicir <suggestion>\1\2</suggestion>?</message>
+      <short>Posíbel forma incorrecta</short>
+      <example type="incorrect">Foi andando <marker>de vagar</marker> pola braña.</example>
+      <example type="correct">Foi andando <marker>devagar</marker> pola braña.</example>
+      <example type="incorrect">Vai <marker>de cote</marker> pola braña.</example>
+      <example type="correct">Vai <marker>decote</marker> ao parque.</example>
+    </rule>
+
   </category>
 </rules>
