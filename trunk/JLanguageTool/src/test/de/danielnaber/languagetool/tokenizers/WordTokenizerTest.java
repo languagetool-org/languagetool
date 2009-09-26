@@ -30,5 +30,9 @@ public class WordTokenizerTest extends TestCase {
     List <String> testList = w.tokenize("This is\u00A0a test");
     assertEquals(testList.size(), 7);
     assertEquals("[This,  , is, \u00A0, a,  , test]", testList.toString());
+    testList = w.tokenize("This\rbreaks");
+    assertEquals(3, testList.size());
+    assertEquals("[This, \r, breaks]", testList.toString());
   }
+  
 }
