@@ -184,11 +184,32 @@ public final class StringTools {
    * determined as the first alphabetic character.
    */
   public static String uppercaseFirstChar(final String str) {
+      return changeFirstCharCase(str, true);
+  }
+
+  /**
+   * Return <code>str</code> modified so that its first character is now an
+   * lowercase character. If <code>str</code> starts with non-alphabetic
+   * characters, such as quotes or parentheses, the first character is 
+   * determined as the first alphabetic character.
+   */
+  public static String lowercaseFirstChar(final String str) {
+      return changeFirstCharCase(str, false);
+  }
+
+  /**
+   * Return <code>str</code> modified so that its first character is now an
+   * lowercase or uppercase character, depending on <code>toUpperCase</code>.
+   * If <code>str</code> starts with non-alphabetic
+   * characters, such as quotes or parentheses, the first character is 
+   * determined as the first alphabetic character.
+   */
+  private static String changeFirstCharCase(final String str, final boolean toUpperCase) {
     if (isEmpty(str)) {
       return str;
     }
     if (str.length() == 1) {
-      return str.toUpperCase();
+      return toUpperCase ? str.toUpperCase() : str.toLowerCase();
     }
     int pos = 0;
     final int len = str.length() - 1;
@@ -196,7 +217,9 @@ public final class StringTools {
       pos++;
     }
     final char firstChar = str.charAt(pos);    
-    return str.substring(0, pos) + Character.toUpperCase(firstChar) + str.substring(pos + 1);
+    return str.substring(0, pos) 
+        + (toUpperCase ? Character.toUpperCase(firstChar) : Character.toLowerCase(firstChar))
+        + str.substring(pos + 1);
   }
 
   public static String readerToString(final Reader reader) throws IOException {

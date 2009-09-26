@@ -107,7 +107,7 @@ public class GermanTagger implements Tagger {
             }
             taggerTokens = lexiconLookup(lastPart);
             if (taggerTokens != null) {
-              tagWord(taggerTokens, word, l);
+              tagWord(taggerTokens, word, l, compoundParts);
             } else {
               l.add(new AnalyzedGermanToken(word, null, null));
             }
@@ -125,11 +125,28 @@ public class GermanTagger implements Tagger {
   }
 
   private void tagWord(String[] taggerTokens, String word, List<AnalyzedGermanToken> l) {
+      tagWord(taggerTokens, word, l, null);
+  }
+
+  /**
+   * @param compoundParts all compound parts of the complete word or <code>null</code>,
+   *   if the original input is not a compound
+   */
+  private void tagWord(String[] taggerTokens, String word, List<AnalyzedGermanToken> l,
+          List<String> compoundParts) {
     int i = 0;
     while (i < taggerTokens.length) {
       // Lametyzator returns data as String[]
       // first lemma, then annotations
-      l.add(new AnalyzedGermanToken(word, taggerTokens[i + 1], taggerTokens[i]));
+      if (compoundParts != null) {
+          // was originally a compound word
+          List<String> allButLastPart = compoundParts.subList(0, compoundParts.size() - 1);
+          String lemma = StringTools.listToString(allButLastPart, "")
+              + StringTools.lowercaseFirstChar(taggerTokens[i]);
+          l.add(new AnalyzedGermanToken(word, taggerTokens[i + 1], lemma));
+      } else {
+          l.add(new AnalyzedGermanToken(word, taggerTokens[i + 1], taggerTokens[i]));
+      }
       i = i + 2;
     }
   }

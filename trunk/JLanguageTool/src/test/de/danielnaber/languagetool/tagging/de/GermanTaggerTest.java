@@ -20,11 +20,10 @@ package de.danielnaber.languagetool.tagging.de;
 
 import java.io.IOException;
 
+import junit.framework.TestCase;
 import morfologik.stemming.Dictionary;
 import morfologik.stemming.DictionaryLookup;
 import morfologik.stemming.WordData;
-
-import junit.framework.TestCase;
 
 /**
  * @author Daniel Naber
@@ -35,31 +34,66 @@ public class GermanTaggerTest extends TestCase {
     GermanTagger tagger = new GermanTagger();
     AnalyzedGermanTokenReadings aToken = tagger.lookup("Haus");
     assertEquals("Haus[SUB:AKK:SIN:NEU, SUB:DAT:SIN:NEU, SUB:NOM:SIN:NEU]", aToken.toString());
+    assertEquals("Haus", aToken.getReadings().get(0).getLemma());
+    assertEquals("Haus", aToken.getReadings().get(1).getLemma());
+    assertEquals("Haus", aToken.getReadings().get(2).getLemma());
+    
     aToken = tagger.lookup("Hauses");
     assertEquals("Hauses[SUB:GEN:SIN:NEU]", aToken.toString());
+    assertEquals("Haus", aToken.getReadings().get(0).getLemma());
+    
     aToken = tagger.lookup("hauses");
     assertNull(aToken);
+    
     aToken = tagger.lookup("Groß");
     assertNull(aToken);
+    
     aToken = tagger.lookup("großer");
     assertEquals("großer[ADJ:DAT:SIN:FEM:GRU:SOL, ADJ:GEN:PLU:FEM:GRU:SOL, " +
         "ADJ:GEN:PLU:MAS:GRU:SOL, ADJ:GEN:PLU:NEU:GRU:SOL, " +
         "ADJ:GEN:SIN:FEM:GRU:SOL, ADJ:NOM:SIN:MAS:GRU:IND, ADJ:NOM:SIN:MAS:GRU:SOL]", aToken.toString());
+    assertEquals("groß", aToken.getReadings().get(0).getLemma());
+    
     // from both german.dict and added.txt:
     aToken = tagger.lookup("Interessen");
     assertEquals("Interessen[SUB:DAT:PLU:NEU, SUB:NOM:PLU:NEU, SUB:AKK:PLU:NEU, SUB:GEN:PLU:NEU]",
         aToken.toString());
+    assertEquals("Interesse", aToken.getReadings().get(0).getLemma());
+    assertEquals("Interesse", aToken.getReadings().get(1).getLemma());
+    assertEquals("Interesse", aToken.getReadings().get(2).getLemma());
+    assertEquals("Interesse", aToken.getReadings().get(3).getLemma());
+    
     // words that are not in the dictionary but that are recognized thanks to noun splitting:
     aToken = tagger.lookup("Donaudampfschiff");
     assertEquals("Donaudampfschiff[SUB:AKK:SIN:NEU, SUB:DAT:SIN:NEU, SUB:NOM:SIN:NEU]",
         aToken.toString());
+    assertEquals("Donaudampfschiff", aToken.getReadings().get(0).getLemma());
+    assertEquals("Donaudampfschiff", aToken.getReadings().get(1).getLemma());
+    
     aToken = tagger.lookup("Häuserkämpfe");
     assertEquals("Häuserkämpfe[SUB:AKK:PLU:MAS, SUB:GEN:PLU:MAS, SUB:NOM:PLU:MAS]",
         aToken.toString());
+    assertEquals("Häuserkampf", aToken.getReadings().get(0).getLemma());
+    assertEquals("Häuserkampf", aToken.getReadings().get(1).getLemma());
+    assertEquals("Häuserkampf", aToken.getReadings().get(2).getLemma());
+    
     aToken = tagger.lookup("Häuserkampfes");
     assertEquals("Häuserkampfes[SUB:GEN:SIN:MAS]", aToken.toString());
+    assertEquals("Häuserkampf", aToken.getReadings().get(0).getLemma());
+    
     aToken = tagger.lookup("Häuserkampfs");
     assertEquals("Häuserkampfs[SUB:GEN:SIN:MAS]", aToken.toString());
+    assertEquals("Häuserkampf", aToken.getReadings().get(0).getLemma());
+
+    aToken = tagger.lookup("Lieblingsfarben");
+    assertEquals("Lieblingsfarben[SUB:AKK:PLU:FEM, SUB:DAT:PLU:FEM, SUB:GEN:PLU:FEM, " +
+    		"SUB:NOM:PLU:FEM]", aToken.toString());
+    assertEquals("Lieblingsfarbe", aToken.getReadings().get(0).getLemma());
+
+    aToken = tagger.lookup("Autolieblingsfarben");
+    assertEquals("Autolieblingsfarben[SUB:AKK:PLU:FEM, SUB:DAT:PLU:FEM, SUB:GEN:PLU:FEM, " +
+            "SUB:NOM:PLU:FEM]", aToken.toString());
+    assertEquals("Autolieblingsfarbe", aToken.getReadings().get(0).getLemma());
   }
   
   public void testDictionary() throws IOException {    
@@ -68,8 +102,10 @@ public class GermanTaggerTest extends TestCase {
     final DictionaryLookup dl = new DictionaryLookup(dictionary);
     for (WordData wd : dl) {
       if (wd.getTag() == null || wd.getTag().length() == 0) {
-        System.err.println("**** Warning: the word " + wd.getWord() + "/" + wd.getStem() +" lacks a POS tag in the dictionary.");
+        System.err.println("**** Warning: the word " + wd.getWord() + "/" + wd.getStem()
+                + " lacks a POS tag in the dictionary.");
       }
     }    
   }
+  
 }
