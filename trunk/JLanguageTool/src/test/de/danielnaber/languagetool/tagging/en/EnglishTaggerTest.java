@@ -19,13 +19,14 @@
 package de.danielnaber.languagetool.tagging.en;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
+import junit.framework.TestCase;
 import morfologik.stemming.Dictionary;
 import morfologik.stemming.DictionaryLookup;
 import morfologik.stemming.WordData;
-
-import junit.framework.TestCase;
-
+import de.danielnaber.languagetool.AnalyzedTokenReadings;
 import de.danielnaber.languagetool.TestTools;
 import de.danielnaber.languagetool.tokenizers.WordTokenizer;
 
@@ -58,6 +59,26 @@ public class EnglishTaggerTest extends TestCase {
     TestTools.myAssert("This is a bigger house.", "This/[this]DT|This/[this]PDT is/[be]VBZ a/[a]DT bigger/[big]JJR house/[house]NN|house/[house]VB|house/[house]VBP", tokenizer, tagger);
     TestTools.myAssert("He doesn't believe me.", "He/[he]PRP doesn/[do]VBZ t/[null]null believe/[believe]VB|believe/[believe]VBP me/[I]PRP", tokenizer, tagger);
     TestTools.myAssert("It has become difficult.", "It/[it]PRP has/[have]VBZ become/[become]VB|become/[become]VBN|become/[become]VBP difficult/[difficult]JJ", tokenizer, tagger); 
+  }
+  
+  public void testLemma() throws IOException {
+    EnglishTagger tagger = new EnglishTagger();
+    List<String> words = new ArrayList<String>();
+    words.add("Oliver");
+    words.add("works");
+    List<AnalyzedTokenReadings> aToken = tagger.tag(words);
+    
+    assertEquals(2, aToken.size());
+    assertEquals(3, aToken.get(0).getReadings().size());
+    assertEquals(2, aToken.get(1).getReadings().size());
+
+    assertEquals("Oliver", aToken.get(0).getReadings().get(0).getLemma());
+    // TODO: are the following two correct?
+    assertEquals("oliver", aToken.get(0).getReadings().get(1).getLemma());
+    assertEquals("olive", aToken.get(0).getReadings().get(2).getLemma());
+
+    assertEquals("work", aToken.get(1).getReadings().get(0).getLemma());
+    assertEquals("work", aToken.get(1).getReadings().get(1).getLemma());
   }
 
 }
