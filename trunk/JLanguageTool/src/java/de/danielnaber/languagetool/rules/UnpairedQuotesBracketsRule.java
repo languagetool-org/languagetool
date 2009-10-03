@@ -58,8 +58,8 @@ public class UnpairedQuotesBracketsRule extends Rule {
   private static final String[] RO_START_SYMBOLS = { "[", "(", "{", "„", "«" };
   private static final String[] RO_END_SYMBOLS   = { "]", ")", "}", "”", "»" };
 
-  private static final String[] FR_START_SYMBOLS = { "[", "(", "{", "»", "‘" };
-  private static final String[] FR_END_SYMBOLS   = { "]", ")", "}", "«", "’" };
+  private static final String[] FR_START_SYMBOLS = { "[", "(", "{", "«", /*"‘"*/ };
+  private static final String[] FR_END_SYMBOLS   = { "]", ")", "}", "»", /*"’" used in "d’arm" and many other words */ };
 
   private static final String[] DE_START_SYMBOLS = { "[", "(", "{", "„", "»", "‘" };
   private static final String[] DE_END_SYMBOLS   = { "]", ")", "}", "“", "«", "’" };
