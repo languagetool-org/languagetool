@@ -50,8 +50,10 @@ public class FrenchTaggerTest extends TestCase {
   }
   
   public void testTagger() throws IOException {
-    TestTools.myAssert("C'est la vie.", "C/[c]N m sp|C/[c]R dem e s est/[être]V etre ind pres 3 s|est/[est]N m s|est/[est]J e sp la/[le]D f s|la/[la]N m sp|la/[la]R pers obj 3 f s vie/[vie]N f s", tokenizer, tagger);
-    TestTools.myAssert("Je ne parle pas français.", "Je/[je]R pers suj 1 s ne/[ne]A parle/[parler]V sub pres 3 s|parle/[parler]V sub pres 1 s|parle/[parler]V imp pres 2 s|parle/[parler]V ind pres 3 s|parle/[parler]V ind pres 1 s pas/[pas]A|pas/[pas]N m sp français/[français]J m sp|français/[français]N m sp", tokenizer, tagger);
+    TestTools.myAssert("C'est la vie.",
+        "C/[c]N m sp|C/[c]R dem e s -- est/[est]J e sp|est/[est]N m s|est/[être]V etre ind pres 3 s -- la/[la]N m sp|la/[la]R pers obj 3 f s|la/[le]D f s -- vie/[vie]N f s", tokenizer, tagger);
+    TestTools.myAssert("Je ne parle pas français.",
+        "Je/[je]R pers suj 1 s -- ne/[ne]A -- parle/[parler]V imp pres 2 s|parle/[parler]V ind pres 1 s|parle/[parler]V ind pres 3 s|parle/[parler]V sub pres 1 s|parle/[parler]V sub pres 3 s -- pas/[pas]A|pas/[pas]N m sp -- français/[français]J m sp|français/[français]N m sp", tokenizer, tagger);
     TestTools.myAssert("blablabla","blablabla/[blablabla]N m sp", tokenizer, tagger);
     TestTools.myAssert("non_existing_word","non_existing_word/[null]null", tokenizer, tagger);
   }

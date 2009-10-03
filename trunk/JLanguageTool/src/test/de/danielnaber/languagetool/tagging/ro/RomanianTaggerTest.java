@@ -84,7 +84,7 @@ public class RomanianTaggerTest extends RomanianTaggerTestAbs {
 		TestTools
 				.myAssert(
 						"Cartea este frumoasă.",
-						"Cartea/[carte]Sfs3aac000 este/[fi]V0s3000izb frumoasă/[frumos]Afs3an0000",
+						"Cartea/[carte]Sfs3aac000 -- este/[fi]V0s3000izb -- frumoasă/[frumos]Afs3an0000",
 						getTokenizer(), getTagger());
 	}
 

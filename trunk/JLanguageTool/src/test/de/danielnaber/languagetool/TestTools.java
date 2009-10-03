@@ -22,6 +22,7 @@ import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
@@ -32,6 +33,7 @@ import de.danielnaber.languagetool.tagging.Tagger;
 import de.danielnaber.languagetool.tagging.disambiguation.Disambiguator;
 import de.danielnaber.languagetool.tokenizers.SentenceTokenizer;
 import de.danielnaber.languagetool.tokenizers.Tokenizer;
+import de.danielnaber.languagetool.tools.StringTools;
 
 /**
  * @author Daniel Naber
@@ -77,18 +79,22 @@ public final class TestTools {
         .hasNext();) {
       final AnalyzedTokenReadings token = iter.next();
       final int readingsNumber = token.getReadingsLength();
+      final List<String> readings = new ArrayList<String>();
       for (int j = 0; j < readingsNumber; j++) {
-        outputStr.append(token.getAnalyzedToken(j).getToken());
-        outputStr.append("/[");
-        outputStr.append(token.getAnalyzedToken(j).getLemma());
-        outputStr.append("]");
-        outputStr.append(token.getAnalyzedToken(j).getPOSTag());
-        if (readingsNumber > 1 && j < readingsNumber - 1) {
-          outputStr.append("|");
-        }
+        final StringBuffer readingStr = new StringBuffer();
+        readingStr.append(token.getAnalyzedToken(j).getToken());
+        readingStr.append("/[");
+        readingStr.append(token.getAnalyzedToken(j).getLemma());
+        readingStr.append("]");
+        readingStr.append(token.getAnalyzedToken(j).getPOSTag());
+        readings.add(readingStr.toString());
       }
+      // force some order on the result just for the test case - order may vary
+      // from one version of the lexicon to the next:
+      Collections.sort(readings);
+      outputStr.append(StringTools.listToString(readings, "|"));
       if (iter.hasNext()) {
-        outputStr.append(" ");
+        outputStr.append(" -- ");
       }
     }
     Assert.assertEquals(expected, outputStr.toString());

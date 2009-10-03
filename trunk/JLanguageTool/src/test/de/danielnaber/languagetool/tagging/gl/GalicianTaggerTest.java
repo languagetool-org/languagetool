@@ -54,6 +54,7 @@ public class GalicianTaggerTest extends TestCase {
   }
   
   public void testTagger() throws IOException {
-    TestTools.myAssert("Todo vai mudar","Todo/[todo]DI0MS0|Todo/[todo]PI0MS000 vai/[ir]VMIP3S0|vai/[ir]VMM02S0 mudar/[mudar]VMN0000|mudar/[mudar]VMN01S0|mudar/[mudar]VMN03S0|mudar/[mudar]VMSF1S0|mudar/[mudar]VMSF3S0", tokenizer, tagger);
+    TestTools.myAssert("Todo vai mudar",
+        "Todo/[todo]DI0MS0|Todo/[todo]PI0MS000 -- vai/[ir]VMIP3S0|vai/[ir]VMM02S0 -- mudar/[mudar]VMN0000|mudar/[mudar]VMN01S0|mudar/[mudar]VMN03S0|mudar/[mudar]VMSF1S0|mudar/[mudar]VMSF3S0", tokenizer, tagger);
   }
 }
