@@ -20,10 +20,14 @@ function makeEntry($name, $visName) {
 		<?php
 	} else {
 		$url = $name;
-		if ($name == "homepage") {
-			$url = "/";
+		if ($page == "homepage") {
+			$url = $name;
 		} else {
-			$url = "/".$name;
+			if (substr($name, 0, 7) == "http://") {
+				$url = $name;
+			} else {
+				$url = "../".$name;
+			}
 		}
 		?>
 		<p class="menuitem"><a href="<?php print $url ?>"><? print $visName ?></a></p>
@@ -48,13 +52,14 @@ function makeEntry($name, $visName) {
 	<td width="88"></td>
 	<td width="201" valign="top">
 		<div id="menu">
-			<?php makeEntry("homepage", "Homepage"); ?>
+			<?php makeEntry("", "Homepage"); ?>
 			<?php makeEntry("screenshots", "Screenshots"); ?>
 			<?php makeEntry("demo", "Demo"); ?>
 			<?php makeEntry("languages", "Languages"); ?>
 			<?php makeEntry("usage", "Usage"); ?>
 			<?php makeEntry("development", "Development"); ?>
 			<?php makeEntry("links", "Links &amp; Resources"); ?>
+			<?php makeEntry("http://languagetool.wikidot.com/", "Wiki"); ?>
 		</div>
 	</td>
 	<td class="content">
