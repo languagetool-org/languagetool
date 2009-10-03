@@ -14,6 +14,11 @@ up <em>there/their</em>, <em>no/now</em> etc. It can also detect some
 grammar mistakes. It does not include spell checking. See the <?=show_link("languages", "languages/", 0) ?> 
 page for a list of supported languages.</p>
 
+<p><strong>News 2009-10-04:</strong> The LanguageTool maintainers will be giving a workshop
+about extending LanguageTool at the OpenOffice.org Conference (OOoCon 2009) in Italy on 2009-11-06.
+See <a href="http://conference.services.openoffice.org/index.php/ooocon/2009/paper/view/78">the workshop page</a>
+for more details.</p>
+
 <p><strong>Update 2009-05-22:</strong> Released version 0.9.9. Changes include:
 <ul>
 	<li>Fixed a NullPointerException that could appear when using
