@@ -52,7 +52,7 @@ function makeEntry($name, $visName) {
 	<td width="88"></td>
 	<td width="201" valign="top">
 		<div id="menu">
-			<?php makeEntry("", "Homepage"); ?>
+			<?php makeEntry(".", "Homepage"); ?>
 			<?php makeEntry("screenshots", "Screenshots"); ?>
 			<?php makeEntry("demo", "Demo"); ?>
 			<?php makeEntry("languages", "Languages"); ?>
