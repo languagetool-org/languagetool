@@ -24,6 +24,7 @@ import junit.framework.TestCase;
 import de.danielnaber.languagetool.JLanguageTool;
 import de.danielnaber.languagetool.Language;
 import de.danielnaber.languagetool.TestTools;
+import de.danielnaber.languagetool.rules.de.GermanWordRepeatRule;
 
 /**
  * 
@@ -50,14 +51,18 @@ public class WordRepeatRuleTest extends TestCase {
   }
 
   public void testRuleGerman() throws IOException {
-    WordRepeatRule rule = new WordRepeatRule(TestTools.getEnglishMessages(), Language.GERMAN);
+    WordRepeatRule rule = new GermanWordRepeatRule(TestTools.getEnglishMessages(), Language.GERMAN);
     RuleMatch[] matches;
     JLanguageTool langTool = new JLanguageTool(Language.GERMAN);
     // correct sentences:
     matches = rule.match(langTool.getAnalyzedSentence("Das sind die Sätze, die die testen sollen."));
     assertEquals(0, matches.length);
+    matches = rule.match(langTool.getAnalyzedSentence("Sätze, die die testen."));
+    assertEquals(0, matches.length);
     // incorrect sentences:
     matches = rule.match(langTool.getAnalyzedSentence("Die die Sätze zum testen."));
+    assertEquals(1, matches.length);
+    matches = rule.match(langTool.getAnalyzedSentence("Und die die Sätze zum testen."));
     assertEquals(1, matches.length);
   }
   

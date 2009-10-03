@@ -27,19 +27,28 @@ import de.danielnaber.languagetool.AnalyzedTokenReadings;
 import de.danielnaber.languagetool.Language;
 
 /**
- * Check if a word is repeated twice, e.g. "the the". Knows about an
- * exception for German where "..., die die" is often okay.
+ * Check if a word is repeated twice, e.g. "the the".
  *   
  * @author Daniel Naber
  */
 public class WordRepeatRule extends Rule {
 
-  private Language language;
-
   public WordRepeatRule(final ResourceBundle messages, final Language language) {
     super(messages);
     super.setCategory(new Category(messages.getString("category_misc")));
-    this.language = language;
+  }
+
+  /**
+   * Implement this method to return <code>true</code> if there's
+   * a potential word repetition at the current position should be ignored,
+   * i.e. if no error should be created.
+   * 
+   * @param tokens the tokens of the sentence currently being checked
+   * @param position the current position in the tokens 
+   * @return this implementation always returns false
+   */
+  public boolean ignore(final AnalyzedTokenReadings[] tokens, final int position) {
+    return false;
   }
 
   @Override
@@ -57,7 +66,6 @@ public class WordRepeatRule extends Rule {
     final List<RuleMatch> ruleMatches = new ArrayList<RuleMatch>();
     final AnalyzedTokenReadings[] tokens = text.getTokensWithoutWhitespace();
     String prevToken = "";
-    String prevPrevToken = "";
     //note: we start from token 1
     //token no. 0 is guaranteed to be SENT_START
     for (int i = 1; i < tokens.length; i++) {
@@ -70,21 +78,16 @@ public class WordRepeatRule extends Rule {
           isWord = false;
         }
       }
-      boolean germanException = false;
-      // Don't mark error for cases like:
-      // "wie Honda und Samsung, die die Bezahlung ihrer Firmenchefs..."
-      if (prevPrevToken.equals(",") && language.equals(Language.GERMAN)) {
-        germanException = true;
-      }
-      if (isWord && prevToken.toLowerCase().equals(token.toLowerCase()) && !germanException) {
+      boolean isException = ignore(tokens, i);
+      if (isWord && prevToken.toLowerCase().equals(token.toLowerCase()) && !isException) {
         final String msg = messages.getString("repetition");
         final int prevPos = tokens[i - 1].getStartPos();
         final int pos = tokens[i].getStartPos();
-        final RuleMatch ruleMatch = new RuleMatch(this, prevPos, pos+prevToken.length(), msg, messages.getString("desc_repetition_short"));
+        final RuleMatch ruleMatch = new RuleMatch(this, prevPos, pos+prevToken.length(), msg, 
+            messages.getString("desc_repetition_short"));
         ruleMatch.setSuggestedReplacement(prevToken);
         ruleMatches.add(ruleMatch);
       }
-      prevPrevToken = prevToken;
       prevToken = token;
     }
     return toRuleMatchArray(ruleMatches);
