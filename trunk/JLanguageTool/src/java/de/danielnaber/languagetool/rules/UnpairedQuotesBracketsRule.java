@@ -33,7 +33,7 @@ import de.danielnaber.languagetool.tools.UnsyncStack;
  * Rule that finds unpaired quotes, brackets etc.
  * 
  * @author Marcin Miłkowski
- * **/
+ */
 public class UnpairedQuotesBracketsRule extends Rule {
 
   /**
@@ -41,60 +41,46 @@ public class UnpairedQuotesBracketsRule extends Rule {
    * starting symbols must match exactly the sequence of ending symbols.
    */
   private static final String[] START_SYMBOLS = { "[", "(", "{", "\"", "'" };
-  private static final String[] END_SYMBOLS = { "]", ")", "}", "\"", "'" };
+  private static final String[] END_SYMBOLS   = { "]", ")", "}", "\"", "'" };
 
   private final String[] startSymbols;
   private final String[] endSymbols;
 
-  private static final String[] EN_START_SYMBOLS = { "[", "(", "{", "“", "\"",
-      "'" };
-  private static final String[] EN_END_SYMBOLS = { "]", ")", "}", "”", "\"",
-      "'" };
+  private static final String[] EN_START_SYMBOLS = { "[", "(", "{", "“", "\"", "'" };
+  private static final String[] EN_END_SYMBOLS   = { "]", ")", "}", "”", "\"", "'" };
 
-  private static final String[] PL_START_SYMBOLS = { "[", "(", "{", "„", "»",
-      "\"" };
-  private static final String[] PL_END_SYMBOLS = { "]", ")", "}", "”", "«",
-      "\"" };
+  private static final String[] PL_START_SYMBOLS = { "[", "(", "{", "„", "»", "\"" };
+  private static final String[] PL_END_SYMBOLS   = { "]", ")", "}", "”", "«", "\"" };
 
-  private static final String[] SK_START_SYMBOLS = { "[", "(", "{", "„", "»",
-      "\"" };
-  private static final String[] SK_END_SYMBOLS = { "]", ")", "}", "“", "«",
-      "\"" };
+  private static final String[] SK_START_SYMBOLS = { "[", "(", "{", "„", "»", "\"" };
+  private static final String[] SK_END_SYMBOLS   = { "]", ")", "}", "“", "«", "\"" };
 
   private static final String[] RO_START_SYMBOLS = { "[", "(", "{", "„", "«" };
-  private static final String[] RO_END_SYMBOLS = { "]", ")", "}", "”", "»" };
+  private static final String[] RO_END_SYMBOLS   = { "]", ")", "}", "”", "»" };
 
   private static final String[] FR_START_SYMBOLS = { "[", "(", "{", "»", "‘" };
-  private static final String[] FR_END_SYMBOLS = { "]", ")", "}", "«", "’" };
+  private static final String[] FR_END_SYMBOLS   = { "]", ")", "}", "«", "’" };
 
-  private static final String[] DE_START_SYMBOLS = { "[", "(", "{", "„", "»",
-      "‘" };
-  private static final String[] DE_END_SYMBOLS = { "]", ")", "}", "“", "«", "’" };
+  private static final String[] DE_START_SYMBOLS = { "[", "(", "{", "„", "»", "‘" };
+  private static final String[] DE_END_SYMBOLS   = { "]", ")", "}", "“", "«", "’" };
 
-  private static final String[] GL_START_SYMBOLS = { "[", "(", "{", "“", "«",
-      "‘", "\"", "'" };
-  private static final String[] GL_END_SYMBOLS = { "]", ")", "}", "”", "»",
-      "’", "\"", "'" };
+  private static final String[] GL_START_SYMBOLS = { "[", "(", "{", "“", "«", "‘", "\"", "'" };
+  private static final String[] GL_END_SYMBOLS   = { "]", ")", "}", "”", "»", "’", "\"", "'" };
 
-  private static final String[] ES_START_SYMBOLS = { "[", "(", "{", "“", "«",
-      "¿", "¡" };
-  private static final String[] ES_END_SYMBOLS = { "]", ")", "}", "”", "»",
-      "?", "!" };
+  private static final String[] ES_START_SYMBOLS = { "[", "(", "{", "“", "«", "¿", "¡" };
+  private static final String[] ES_END_SYMBOLS   = { "]", ")", "}", "”", "»", "?", "!" };
 
   private static final String[] UK_START_SYMBOLS = { "[", "(", "{", "„", "«" };
-  private static final String[] UK_END_SYMBOLS = { "]", ")", "}", "“", "»" };
+  private static final String[] UK_END_SYMBOLS   = { "]", ")", "}", "“", "»" };
 
-  private static final String[] RU_START_SYMBOLS = { "[", "(", "{", "„", "«",
-      "\"", "'" };
-  private static final String[] RU_END_SYMBOLS = { "]", ")", "}", "“", "»",
-      "\"", "'" };
+  private static final String[] RU_START_SYMBOLS = { "[", "(", "{", "„", "«", "\"", "'" };
+  private static final String[] RU_END_SYMBOLS   = { "]", ")", "}", "“", "»", "\"", "'" };
 
-  private static final String[] NL_START_SYMBOLS = { "[", "(", "{", "„", "“",
-      "‘" };
-  private static final String[] NL_END_SYMBOLS = { "]", ")", "}", "”", "”", "’" };
+  private static final String[] NL_START_SYMBOLS = { "[", "(", "{", "„", "“", "‘" };
+  private static final String[] NL_END_SYMBOLS   = { "]", ")", "}", "”", "”", "’" };
 
   private static final String[] IT_START_SYMBOLS = { "[", "(", "{", "»", "‘" };
-  private static final String[] IT_END_SYMBOLS = { "]", ")", "}", "«", "’" };
+  private static final String[] IT_END_SYMBOLS   = { "]", ")", "}", "«", "’" };
 
   /**
    * The stack for pairing symbols.
