@@ -94,14 +94,14 @@ public class JLanguageToolTest extends TestCase {
 
   public void testDutch() throws IOException {
     final JLanguageTool tool = new JLanguageTool(Language.DUTCH);
-    List<RuleMatch> matches = tool.check("Een test, die geen fouten mag geven.");
-    assertEquals(0, matches.size());
-    matches = tool.check("Een test test, die een fout moet geven.");
-    assertEquals(1, matches.size());
     final List<PatternRule> rules = tool.loadPatternRules("/rules/nl/grammar.xml");
     for (PatternRule patternRule : rules) {
       tool.addRule(patternRule);
     }
+    List<RuleMatch> matches = tool.check("Een test, die geen fouten mag geven.");
+    assertEquals(0, matches.size());
+    matches = tool.check("Een test test, die een fout moet geven.");
+    assertEquals(1, matches.size());
     //test uppercasing rule:
     matches = tool.check("De Afdeling Beheer kan het");
     assertEquals(1, matches.size());
