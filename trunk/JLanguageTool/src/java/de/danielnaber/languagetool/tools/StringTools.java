@@ -24,6 +24,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.util.regex.Pattern;
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
@@ -354,7 +355,7 @@ public final class StringTools {
     return escapeXML(s).replaceAll("[\n\r]", " ");
   }
 
-  public static String listToString(final List<String> l, final String delimiter) {
+  public static String listToString(final Collection<String> l, final String delimiter) {
     final StringBuilder sb = new StringBuilder();
     for (final Iterator<String> iter = l.iterator(); iter.hasNext();) {
       final String str = iter.next();
