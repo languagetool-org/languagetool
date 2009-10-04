@@ -7,13 +7,12 @@ include("../include/header.php");
 ?>
 		
 <p class="firstpara"><strong>An Open Source language checker for English, French, German, Polish, Dutch, and
-<a href="languages/">other languages</a>.</strong>
+<?=show_link("other languages", "languages/", 0) ?>.</strong>
 This is a rule-based language checker that will find errors for which a rule is defined in its 
 XML configuration files. Rules for more complicated errors can be  written in Java. You can think 
 of LanguageTool as a tool to detect errors that a simple spell checker cannot detect, e.g. mixing
 up <em>there/their</em>, <em>no/now</em> etc. It can also detect some
-grammar mistakes. It does not include spell checking. See the <?=show_link("languages", "languages/", 0) ?> 
-page for a list of supported languages.</p>
+grammar mistakes. It does not include spell checking.</p>
 
 <p><strong>News 2009-10-04:</strong> The LanguageTool maintainers will be giving a workshop
 about extending LanguageTool at the OpenOffice.org Conference (OOoCon 2009) in Italy on 2009-11-06.
@@ -35,10 +34,10 @@ for more details.</p>
 the <?=show_link("Changelog", "download/CHANGES.txt", 0) ?>.</p>
 
 <div class="outerDownloadSection">
-<strong>Download for OpenOffice.org 3.0.1 and 3.1:</strong><br />
+<strong>Download for OpenOffice.org 3.0.1 or later:</strong><br />
 <div class="downloadSection">
 	<p class="warning">
-	This version works only with OpenOffice.org 3.0.1 and 3.1, NOT with 3.0.0.
+	This version works only with OpenOffice.org 3.0.1, 3.1, or later, NOT with 3.0.0.
 	Also, you must de-install
 	LanguageTool 0.9.5 <strong>before</strong> upgrading to OpenOffice.org 3.0.1 because of compatibility
 	issues (check <a href="http://languagetool.wikidot.com/removing-languagetool-0-9-5-from-openoffice-3-0-1">this
