@@ -6,7 +6,7 @@ $lastmod = "2009-10-04 14:50:00 CET";
 include("../include/header.php");
 ?>
 		
-<p class="firstpara"><strong>An Open Source language checker for English, French, German, Polish, Dutch, and
+<p class="firstpara"><strong>An Open Source language checker for English, French, German, Polish, Dutch, Romanian, and
 <?=show_link("other languages", "languages/", 0) ?>.</strong>
 This is a rule-based language checker that will find errors for which a rule is defined in its 
 XML configuration files. Rules for more complicated errors can be  written in Java. You can think 
