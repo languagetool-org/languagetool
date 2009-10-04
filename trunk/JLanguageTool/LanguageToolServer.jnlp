@@ -1,0 +1,48 @@
+<?xml version='1.0' encoding='UTF-8'?>
+
+<!-- This file starts LanguageTool in a server mode. Note: 
+	it will not be visible in any window, so to stop the process,
+	you need to kill the corresponding Java process. 
+	
+	Note: currently, you can call the server only locally.
+	-->
+	
+<jnlp version="@version@"
+	codebase="http://www.languagetool.org/webstart/web/">
+	<information>
+		<title>LanguageTool</title>
+		<vendor>Daniel Naber</vendor>
+		<homepage href="http://www.languagetool.org/" />
+		<icon href="LanguageToolBig.gif" />
+		<offline-allowed />		
+	</information>
+
+
+	<security>
+		<all-permissions />
+	</security>
+
+	<resources>
+		<j2se version="1.5" />
+		<j2se version="1.6+" />
+		<jar href="jaminid.jar" />
+		<jar href="@stempelator.lib@" />
+		<jar href="@segment.lib@" />
+		<jar href="@logging.lib@" />
+		<jar href="@activation.lib@" />
+		<jar href="@jsr.lib@" />
+		<jar href="@jaxb-api.lib@" />
+		<jar href="@jaxb-impl.lib@" />		
+		<jar href="rules.jar" />
+		<jar href="resource.jar" />
+		<jar href="jWordSplitter.jar" />
+		<jar href="LanguageTool.jar" main="true" />		
+	</resources>
+
+	<application-desc main-class="de.danielnaber.languagetool.server.HTTPServer">
+	<argument>-p</argument>
+	<!--  the port number -->
+	<argument>8082</argument>	
+	</application-desc>
+
+</jnlp>
