@@ -15,9 +15,10 @@ up <em>there/their</em>, <em>no/now</em> etc. It can also detect some
 grammar mistakes. It does not include spell checking.</p>
 
 <p><strong>News 2009-10-04:</strong> The LanguageTool maintainers will be giving a workshop
-about extending LanguageTool at the OpenOffice.org Conference (OOoCon 2009) in Italy on 2009-11-06.
-See <a href="http://conference.services.openoffice.org/index.php/ooocon/2009/paper/view/78">the workshop page</a>
-for more details.</p>
+about extending LanguageTool at the <?=show_link("OpenOffice.org Conference",
+"http://conference.services.openoffice.org/index.php/ooocon/2009", 0)?> (OOoCon 2009) in Italy on 2009-11-06.
+See <?=show_link("the workshop page", "http://conference.services.openoffice.org/index.php/ooocon/2009/paper/view/78", 0)?>
+ for more details.</p>
 
 <p><strong>Update 2009-05-22:</strong> Released version 0.9.9. Changes include:
 <ul>
@@ -66,17 +67,6 @@ the <?=show_link("Changelog", "download/CHANGES.txt", 0) ?>.</p>
 	and you need to <strong>restart OpenOffice.org</strong> after installation of this extension</p>
 </div>
 </div>
-
-<!-- 
-<div class="outerDownloadSection">
-<strong>Download for OpenOffice.org 2.x:</strong><br />
-<div class="downloadSection">
-	<p><strong><?=show_link("LanguageTool 0.9.2 (for OpenOffice.org 2.x)", "download/LanguageTool-0.9.2.oxt", 0) ?></strong>, 9&nbsp;MB,
-	requires <?=show_link("Java", "http://www.java.com/en/download/manual.jsp", 1)?>&nbsp;5.0
-	or later. NOTE: this version does not work with OpenOffice.org 3.0</p>
-</div>
-</div>
- -->
  
 <!-- -->
 <p><strong>Try LanguageTool via Java WebStart:</strong> (requires Java 1.6_04 or later)<br />
@@ -90,10 +80,8 @@ the <?=show_link("Changelog", "download/CHANGES.txt", 0) ?>.</p>
 	Double click <tt>LanguageTool-0.9.9.oxt</tt> to install it.
 	If that doesn't work, call <em>Tools -&gt; Extension Manager -&gt; Add...</em>
 	to install it. Close OpenOffice.org and re-start it. Type some text
-	with an error (e.g. "This is an test." -- make sure the text language is set
-	to English) and you should see a blue underline (version 0.9.5 or later only).
-	For version 0.9.2, you'll need to use the "LanguageTool" entries in the "Tools"
-	menu to check a text.</li>
+	with an error (e.g. "This is an test." &ndash; make sure the text language is set
+	to English) and you should see a blue underline.</li>
 
 	<li>Also see <?=show_link("Usage", "usage/", 0)?> for using LanguageTool outside of OpenOffice.org.</li>
 </ul>
