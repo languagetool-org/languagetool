@@ -1,13 +1,13 @@
 <?php
 $page = "languages";
 $title = "LanguageTool";
-$title2 = "Languages";
+$title2 = "Supported Languages";
 $lastmod = "2009-05-22 23:00:00 CET";
 include("../../include/header.php");
 ?>
 		
 <p class="firstpara">LanguageTool supports several languages to a different degree. This page lists the
-number of rules per language to give a very rough indication of how good a
+number of rules per language to give a very rough indication of how well a
 language is supported.</p>
 
 <!--  TODO: link rules link java dir  -->
