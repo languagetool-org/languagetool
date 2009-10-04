@@ -14,7 +14,7 @@ include("help.php");
 
 function makeEntry($name, $visName) {
 	global $page;
-	if ($page == $name) {
+	if ($page == $name || ($name == "." && $page == "homepage")) {
 		?>
 		<p class="activeMenuitem"><? print $visName ?></p>
 		<?php
