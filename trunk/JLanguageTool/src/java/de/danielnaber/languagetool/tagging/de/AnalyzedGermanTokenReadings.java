@@ -22,10 +22,12 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.TreeSet;
 
 import de.danielnaber.languagetool.AnalyzedToken;
 import de.danielnaber.languagetool.AnalyzedTokenReadings;
 import de.danielnaber.languagetool.tagging.de.GermanToken.POSType;
+import de.danielnaber.languagetool.tools.StringTools;
 import de.danielnaber.languagetool.JLanguageTool;
 
 /**
@@ -129,9 +131,9 @@ public class AnalyzedGermanTokenReadings extends AnalyzedTokenReadings {
   }
 
   public String toString() {
-    if (anTokReadings == null)
+    if (anTokReadings == null) {
       return super.getAnalyzedToken(0).getToken() + "[?]";
-    else {
+    } else {
       StringBuilder sb = new StringBuilder(super.getAnalyzedToken(0).getToken());
       Set<String> printed = new HashSet<String>();
       sb.append("[");
@@ -143,6 +145,28 @@ public class AnalyzedGermanTokenReadings extends AnalyzedTokenReadings {
         }
         printed.add(reading.toString());
       }
+      sb.append("]");
+      return sb.toString();
+    }
+  }
+
+  /**
+   * Returns a string representation like {@code toString()}, but sorts
+   * the elements alphabetically.
+   */
+  public String toSortedString() {
+    if (anTokReadings == null) {
+      return super.getAnalyzedToken(0).getToken() + "[?]";
+    } else {
+      StringBuilder sb = new StringBuilder(super.getAnalyzedToken(0).getToken());
+      Set<String> elems = new TreeSet<String>();
+      sb.append("[");
+      for (AnalyzedToken reading : anTokReadings) {
+        if (!elems.contains(reading.toString())) {
+          elems.add(reading.toString());
+        }
+      }
+      sb.append(StringTools.listToString(elems, ", "));
       sb.append("]");
       return sb.toString();
     }

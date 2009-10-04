@@ -33,13 +33,13 @@ public class GermanTaggerTest extends TestCase {
   public void testTagger() throws IOException {
     GermanTagger tagger = new GermanTagger();
     AnalyzedGermanTokenReadings aToken = tagger.lookup("Haus");
-    assertEquals("Haus[SUB:AKK:SIN:NEU, SUB:DAT:SIN:NEU, SUB:NOM:SIN:NEU]", aToken.toString());
+    assertEquals("Haus[SUB:AKK:SIN:NEU, SUB:DAT:SIN:NEU, SUB:NOM:SIN:NEU]", aToken.toSortedString());
     assertEquals("Haus", aToken.getReadings().get(0).getLemma());
     assertEquals("Haus", aToken.getReadings().get(1).getLemma());
     assertEquals("Haus", aToken.getReadings().get(2).getLemma());
     
     aToken = tagger.lookup("Hauses");
-    assertEquals("Hauses[SUB:GEN:SIN:NEU]", aToken.toString());
+    assertEquals("Hauses[SUB:GEN:SIN:NEU]", aToken.toSortedString());
     assertEquals("Haus", aToken.getReadings().get(0).getLemma());
     
     aToken = tagger.lookup("hauses");
@@ -51,13 +51,13 @@ public class GermanTaggerTest extends TestCase {
     aToken = tagger.lookup("großer");
     assertEquals("großer[ADJ:DAT:SIN:FEM:GRU:SOL, ADJ:GEN:PLU:FEM:GRU:SOL, " +
         "ADJ:GEN:PLU:MAS:GRU:SOL, ADJ:GEN:PLU:NEU:GRU:SOL, " +
-        "ADJ:GEN:SIN:FEM:GRU:SOL, ADJ:NOM:SIN:MAS:GRU:IND, ADJ:NOM:SIN:MAS:GRU:SOL]", aToken.toString());
+        "ADJ:GEN:SIN:FEM:GRU:SOL, ADJ:NOM:SIN:MAS:GRU:IND, ADJ:NOM:SIN:MAS:GRU:SOL]", aToken.toSortedString());
     assertEquals("groß", aToken.getReadings().get(0).getLemma());
     
     // from both german.dict and added.txt:
     aToken = tagger.lookup("Interessen");
-    assertEquals("Interessen[SUB:DAT:PLU:NEU, SUB:NOM:PLU:NEU, SUB:AKK:PLU:NEU, SUB:GEN:PLU:NEU]",
-        aToken.toString());
+    assertEquals("Interessen[SUB:AKK:PLU:NEU, SUB:DAT:PLU:NEU, SUB:GEN:PLU:NEU, SUB:NOM:PLU:NEU]",
+        aToken.toSortedString());
     assertEquals("Interesse", aToken.getReadings().get(0).getLemma());
     assertEquals("Interesse", aToken.getReadings().get(1).getLemma());
     assertEquals("Interesse", aToken.getReadings().get(2).getLemma());
@@ -66,34 +66,38 @@ public class GermanTaggerTest extends TestCase {
     // words that are not in the dictionary but that are recognized thanks to noun splitting:
     aToken = tagger.lookup("Donaudampfschiff");
     assertEquals("Donaudampfschiff[SUB:AKK:SIN:NEU, SUB:DAT:SIN:NEU, SUB:NOM:SIN:NEU]",
-        aToken.toString());
+        aToken.toSortedString());
     assertEquals("Donaudampfschiff", aToken.getReadings().get(0).getLemma());
     assertEquals("Donaudampfschiff", aToken.getReadings().get(1).getLemma());
     
     aToken = tagger.lookup("Häuserkämpfe");
     assertEquals("Häuserkämpfe[SUB:AKK:PLU:MAS, SUB:GEN:PLU:MAS, SUB:NOM:PLU:MAS]",
-        aToken.toString());
+        aToken.toSortedString());
     assertEquals("Häuserkampf", aToken.getReadings().get(0).getLemma());
     assertEquals("Häuserkampf", aToken.getReadings().get(1).getLemma());
     assertEquals("Häuserkampf", aToken.getReadings().get(2).getLemma());
     
     aToken = tagger.lookup("Häuserkampfes");
-    assertEquals("Häuserkampfes[SUB:GEN:SIN:MAS]", aToken.toString());
+    assertEquals("Häuserkampfes[SUB:GEN:SIN:MAS]", aToken.toSortedString());
     assertEquals("Häuserkampf", aToken.getReadings().get(0).getLemma());
     
     aToken = tagger.lookup("Häuserkampfs");
-    assertEquals("Häuserkampfs[SUB:GEN:SIN:MAS]", aToken.toString());
+    assertEquals("Häuserkampfs[SUB:GEN:SIN:MAS]", aToken.toSortedString());
     assertEquals("Häuserkampf", aToken.getReadings().get(0).getLemma());
 
     aToken = tagger.lookup("Lieblingsfarben");
     assertEquals("Lieblingsfarben[SUB:AKK:PLU:FEM, SUB:DAT:PLU:FEM, SUB:GEN:PLU:FEM, " +
-    		"SUB:NOM:PLU:FEM]", aToken.toString());
+    		"SUB:NOM:PLU:FEM]", aToken.toSortedString());
     assertEquals("Lieblingsfarbe", aToken.getReadings().get(0).getLemma());
 
     aToken = tagger.lookup("Autolieblingsfarben");
     assertEquals("Autolieblingsfarben[SUB:AKK:PLU:FEM, SUB:DAT:PLU:FEM, SUB:GEN:PLU:FEM, " +
-            "SUB:NOM:PLU:FEM]", aToken.toString());
+            "SUB:NOM:PLU:FEM]", aToken.toSortedString());
     assertEquals("Autolieblingsfarbe", aToken.getReadings().get(0).getLemma());
+
+    aToken = tagger.lookup("übrigbleibst");
+    assertEquals("übrigbleibst[VER:2:SIN:PRÄ:NON:NEB]", aToken.toSortedString());
+    assertEquals("übrigbleiben", aToken.getReadings().get(0).getLemma());
   }
   
   public void testDictionary() throws IOException {    
