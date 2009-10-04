@@ -150,16 +150,20 @@ public final class TestTools {
       for (int i = 0; i < output.length; i++) {
         final AnalyzedTokenReadings token = output[i];
         final int readingsNumber = token.getReadingsLength();
+        final List<String> readings = new ArrayList<String>();
         for (int j = 0; j < readingsNumber; j++) {
-          outputStr.append(token.getAnalyzedToken(j).getToken());
-          outputStr.append("/[");
-          outputStr.append(token.getAnalyzedToken(j).getLemma());
-          outputStr.append("]");
-          outputStr.append(token.getAnalyzedToken(j).getPOSTag());
-          if (readingsNumber > 1 && j < readingsNumber - 1) {
-            outputStr.append("|");
-          }
+          final StringBuffer readingStr = new StringBuffer();
+          readingStr.append(token.getAnalyzedToken(j).getToken());
+          readingStr.append("/[");
+          readingStr.append(token.getAnalyzedToken(j).getLemma());
+          readingStr.append("]");
+          readingStr.append(token.getAnalyzedToken(j).getPOSTag());
+          readings.add(readingStr.toString());
         }
+        // force some order on the result just for the test case - order may vary
+        // from one version of the lexicon to the next:
+        Collections.sort(readings);
+        outputStr.append(StringTools.listToString(readings, "|"));
         if (i < output.length - 1) {
           outputStr.append(" ");
         }

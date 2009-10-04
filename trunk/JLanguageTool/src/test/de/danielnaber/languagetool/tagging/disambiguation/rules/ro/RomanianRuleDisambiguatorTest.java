@@ -43,17 +43,17 @@ public class RomanianRuleDisambiguatorTest extends TestCase {
 		TestTools
 				.myAssert(
 						"este o masă.",
-						"/[null]SENT_START este/[fi]V0s3000izb  /[null]null o/[o]Dfs3a0t000|o/[o]Nfs3a0p00c|o/[o]Sms3anc000|o/[o]I00000o000|o/[vrea]V0s3000iov  /[null]null masă/[masă]Sfs3anc000|masă/[masa]V0s3000is0 ./[null]null",
+						"/[null]SENT_START este/[fi]V0s3000izb  /[null]null o/[o]Dfs3a0t000|o/[o]I00000o000|o/[o]Nfs3a0p00c|o/[o]Sms3anc000|o/[vrea]V0s3000iov  /[null]null masă/[masa]V0s3000is0|masă/[masă]Sfs3anc000 ./[null]null",
 						tokenizer, sentenceTokenizer, tagger, disamb2);
 		TestTools
 				.myAssert(
 						"este o masă.",
-						"/[null]SENT_START este/[fi]V0s3000izb  /[null]null o/[o]Dfs3a0t000|o/[o]Nfs3a0p00c|o/[o]Sms3anc000|o/[o]I00000o000|o/[vrea]V0s3000iov  /[null]null masă/[masă]Sfs3anc000 ./[null]null",
+						"/[null]SENT_START este/[fi]V0s3000izb  /[null]null o/[o]Dfs3a0t000|o/[o]I00000o000|o/[o]Nfs3a0p00c|o/[o]Sms3anc000|o/[vrea]V0s3000iov  /[null]null masă/[masă]Sfs3anc000 ./[null]null",
 						tokenizer, sentenceTokenizer, tagger, disambiguator);
 		TestTools
 				.myAssert(
 						"este o masă",
-						"/[null]SENT_START este/[fi]V0s3000izb  /[null]null o/[o]Dfs3a0t000|o/[o]Nfs3a0p00c|o/[o]Sms3anc000|o/[o]I00000o000|o/[vrea]V0s3000iov  /[null]null masă/[masă]Sfs3anc000",
+						"/[null]SENT_START este/[fi]V0s3000izb  /[null]null o/[o]Dfs3a0t000|o/[o]I00000o000|o/[o]Nfs3a0p00c|o/[o]Sms3anc000|o/[vrea]V0s3000iov  /[null]null masă/[masă]Sfs3anc000",
 						tokenizer, sentenceTokenizer, tagger, disambiguator);
 
 	}
@@ -62,18 +62,18 @@ public class RomanianRuleDisambiguatorTest extends TestCase {
 		TestTools
 				.myAssert(
 						"vom participa la",
-						"/[null]SENT_START vom/[vrea]V0p1000ivv  /[null]null participa/[participa]V000000f00|participa/[participa]V0s3000ii0  /[null]null la/[la]Sms3anc000|la/[la]P000000000",
+						"/[null]SENT_START vom/[vrea]V0p1000ivv  /[null]null participa/[participa]V000000f00|participa/[participa]V0s3000ii0  /[null]null la/[la]P000000000|la/[la]Sms3anc000",
 						tokenizer, sentenceTokenizer, tagger, disamb2);
 		TestTools
 				.myAssert(
 						"vom participa la",
-						"/[null]SENT_START vom/[vrea]V0p1000ivv  /[null]null participa/[participa]V000000f00  /[null]null la/[la]Sms3anc000|la/[la]P000000000",
+						"/[null]SENT_START vom/[vrea]V0p1000ivv  /[null]null participa/[participa]V000000f00  /[null]null la/[la]P000000000|la/[la]Sms3anc000",
 						tokenizer, sentenceTokenizer, tagger, disambiguator);
 
 		TestTools
 				.myAssert(
 						"vom culege",
-						"/[null]SENT_START vom/[vrea]V0p1000ivv  /[null]null culege/[culege]V0s3000iz0|culege/[culege]V0s2000m00|culege/[culege]V000000f00",
+						"/[null]SENT_START vom/[vrea]V0p1000ivv  /[null]null culege/[culege]V000000f00|culege/[culege]V0s2000m00|culege/[culege]V0s3000iz0",
 						tokenizer, sentenceTokenizer, tagger, disamb2);
 		TestTools
 				.myAssert(
