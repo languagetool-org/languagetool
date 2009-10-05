@@ -9,7 +9,7 @@ Catalan Grammar and Typo Rules for LanguageTool
 Copyright (C) 2009 Ricard Roca
 -->
 <rules lang="ca">
-  <category name="locucions errònies">
+  <category name="errors gramaticals">
     <rule id="DE_QUE" name="de que">
       <pattern>
         <token>de</token>
@@ -17,8 +17,292 @@ Copyright (C) 2009 Ricard Roca
       </pattern>
       <message>Cal dir <suggestion>que</suggestion>.</message>
       <short>Expressió incorrecta</short>
-      <example correction="que" type="incorrect">La possibilitat <marker>de que</marker> ho facis</example>
+      <example type="incorrect">La possibilitat <marker>de que</marker> ho facis</example>
       <example type="correct">La possibilitat <marker>que</marker> ho facis</example>
+    </rule>
+    <rule id="EN_QUE" name="en que">
+      <pattern>
+        <token>en</token>
+        <token>que</token>
+      </pattern>
+      <message>Cal dir <suggestion>en què</suggestion>.</message>
+      <short>Expressió incorrecta</short>
+      <example type="incorrect">El lloc <marker>en que</marker> ho van trobar</example>
+      <example type="correct">El lloc <marker>en què</marker> ho van trobar</example>
+    </rule>
+    <rule id="PER_QUE" name="per que">
+      <pattern>
+        <token>per</token>
+        <token>que</token>
+      </pattern>
+      <message>Cal dir <suggestion>per què</suggestion> o <suggestion>perquè</suggestion>.</message>
+      <short>Expressió incorrecta</short>
+      <example type="incorrect">El motiu <marker>per que</marker> ho fan</example>
+      <example type="correct">El motiu <marker>perquè</marker> ho fan</example>
+      <example type="correct"><marker>Per què</marker> ho fan?</example>
+    </rule>
+    <rule id="PER_A_QUE" name="per a que">
+      <pattern>
+        <token>per</token>
+        <token>a</token>
+        <token>que</token>
+      </pattern>
+      <message>Cal dir <suggestion>per a què</suggestion> o <suggestion>perquè</suggestion>.</message>
+      <short>Expressió incorrecta</short>
+      <example type="incorrect">La finalitat <marker>per a que</marker> ho fan</example>
+      <example type="correct">La finalitat <marker>perquè</marker> ho fan</example>
+      <example type="correct"><marker>Per a què</marker> ho fan?</example>
+    </rule>
+    <rulegroup id="HI_HAN" name="hi han">
+    <rule>
+      <pattern>
+        <token>hi</token>
+        <token>han</token>
+      </pattern>
+      <message>Cal dir <suggestion>hi ha</suggestion>.</message>
+      <short>Expressió incorrecta</short>
+      <example type="incorrect">No <marker>hi han</marker> entrades</example>
+      <example type="correct">No <marker>hi ha</marker> entrades</example>
+    </rule>
+    <rule>
+      <pattern>
+        <token>hi</token>
+        <token>havien</token>
+      </pattern>
+      <message>Cal dir <suggestion>hi havia</suggestion>.</message>
+      <short>Expressió incorrecta</short>
+      <example type="incorrect">No <marker>hi havien</marker> entrades</example>
+      <example type="correct">No <marker>hi havia</marker> entrades</example>
+    </rule>
+    <rule>
+      <pattern>
+        <token>hi</token>
+        <token>hauran</token>
+      </pattern>
+      <message>Cal dir <suggestion>hi haurà</suggestion>.</message>
+      <short>Expressió incorrecta</short>
+      <example type="incorrect">No <marker>hi hauran</marker> concerts</example>
+      <example type="correct">No <marker>hi haurà</marker> concerts</example>
+    </rule>
+    </rulegroup>
+    <rule id="HI_HA_QUE" name="hi ha que">
+      <pattern>
+        <token>hi</token>
+        <token>ha</token>
+        <token>que</token>
+      </pattern>
+      <message>Incorrecte quan vol dir <suggestion>cal</suggestion>.</message>
+      <short>Incorrecte quan vol dir ‘cal’</short>
+      <example type="incorrect">No <marker>hi ha que</marker> fer res</example>
+      <example type="correct">No <marker>cal</marker> fer res</example>
+    </rule>
+    <rulegroup id="CONTRACCIONS" name="contraccions">
+    <rule>
+      <pattern>
+        <token>de</token>
+        <token>el</token>
+      </pattern>
+      <message>Cal dir <suggestion>del</suggestion>.</message>
+      <short>Error gramatical</short>
+      <example type="incorrect"><marker>de el</marker> camí</example>
+      <example type="correct"><marker>del</marker> camí</example>
+    </rule>
+    <rule>
+      <pattern>
+        <token>de</token>
+        <token>els</token>
+      </pattern>
+      <message>Cal dir <suggestion>dels</suggestion>.</message>
+      <short>Error gramatical</short>
+      <example type="incorrect"><marker>de els</marker> camins</example>
+      <example type="correct"><marker>dels</marker> camins</example>
+    </rule>
+    <rule>
+      <pattern>
+        <token>per</token>
+        <token>el</token>
+      </pattern>
+      <message>Cal dir <suggestion>pel</suggestion>.</message>
+      <short>Error gramatical</short>
+      <example type="incorrect"><marker>per el</marker> camí</example>
+      <example type="correct"><marker>pel</marker> camí</example>
+    </rule>
+    <rule>
+      <pattern>
+        <token>per</token>
+        <token>els</token>
+      </pattern>
+      <message>Cal dir <suggestion>pels</suggestion>.</message>
+      <short>Error gramatical</short>
+      <example type="incorrect"><marker>per els</marker> camins</example>
+      <example type="correct"><marker>pels</marker> camins</example>
+    </rule>
+    <rule>
+      <pattern>
+        <token>a</token>
+        <token>el</token>
+      </pattern>
+      <message>Cal dir <suggestion>al</suggestion>.</message>
+      <short>Error gramatical</short>
+      <example type="incorrect"><marker>a el</marker> camí</example>
+      <example type="correct"><marker>al</marker> camí</example>
+    </rule>
+    <rule>
+      <pattern>
+        <token>a</token>
+        <token>els</token>
+      </pattern>
+      <message>Cal dir <suggestion>als</suggestion>.</message>
+      <short>Error gramatical</short>
+      <example type="incorrect"><marker>a els</marker> camins</example>
+      <example type="correct"><marker>als</marker> camins</example>
+    </rule>
+    </rulegroup>
+  </category>
+  <category name="errors ortogràfics">
+    <rulegroup id="APOSTROFACIO" name="apostrofació">
+    <rule>
+      <pattern>
+        <token>de</token>
+        <token regexp="yes">[aeiouhàèéíòóú].*</token>
+      </pattern>
+      <message>Cal dir <suggestion>d’<match no="2"></match></suggestion>.</message>
+      <short>Error ortogràfic</short>
+      <example type="incorrect"><marker>de ortografia</marker></example>
+      <example type="correct"><marker>d’ortografia</marker></example>
+    </rule>
+    <rule>
+      <pattern>
+        <token>el</token>
+        <token regexp="yes">[aeiouhàèéíòóú].*</token>
+      </pattern>
+      <message>Cal dir <suggestion>l’<match no="2"></match></suggestion>.</message>
+      <short>Error ortogràfic</short>
+      <example type="incorrect"><marker>el home</marker></example>
+      <example type="correct"><marker>l’home</marker></example>
+    </rule>
+    <rule>
+      <pattern>
+        <token>del</token>
+        <token regexp="yes">[aeiouhàèéíòóú].*</token>
+      </pattern>
+      <message>Cal dir <suggestion>de l’<match no="2"></match></suggestion>.</message>
+      <short>Error ortogràfic</short>
+      <example type="incorrect"><marker>del home</marker></example>
+      <example type="correct"><marker>de l’home</marker></example>
+    </rule>
+    <rule>
+      <pattern>
+        <token>al</token>
+        <token regexp="yes">[aeiouhàèéíòóú].*</token>
+      </pattern>
+      <message>Cal dir <suggestion>a l’<match no="2"></match></suggestion>.</message>
+      <short>Error ortogràfic</short>
+      <example type="incorrect"><marker>al home</marker></example>
+      <example type="correct"><marker>a l’home</marker></example>
+    </rule>
+    <rule>
+      <pattern>
+        <token>pel</token>
+        <token regexp="yes">[aeiouhàèéíòóú].*</token>
+      </pattern>
+      <message>Cal dir <suggestion>per l’<match no="2"></match></suggestion>.</message>
+      <short>Error ortogràfic</short>
+      <example type="incorrect"><marker>pel home</marker></example>
+      <example type="correct"><marker>per l’home</marker></example>
+    </rule>
+    <rule>
+      <pattern>
+        <token>la</token>
+        <token regexp="yes">[aeoàèéíòóú].*<exception>host</exception></token>
+      </pattern>
+      <message>Cal dir <suggestion>l’<match no="2"></match></suggestion>.</message>
+      <short>Error ortogràfic</short>
+      <example type="incorrect"><marker>la ombra</marker></example>
+      <example type="correct"><marker>l’ombra</marker></example>
+    </rule>
+    </rulegroup>
+  </category>
+  <category name="locucions errònies">
+    <rulegroup id="DENCA" name="d’ençà">
+    <rule>
+      <pattern>
+	<token>d</token>
+	<token regexp="yes">'|’</token>
+	<token>ençà</token>
+	<token>el</token>
+      </pattern>
+      <message>Cal dir <suggestion>d’ençà del</suggestion>.</message>
+      <short>Expressió incorrecta</short>
+      <example type="incorrect"><marker>d’ençà el</marker> matí, has millorat</example>
+      <example type="correct"><marker>d’ençà del</marker> matí, has millorat</example>
+    </rule>
+    <rule>
+      <pattern>
+	<token>d</token>
+	<token regexp="yes">'|’</token>
+	<token>ençà</token>
+	<token>els</token>
+      </pattern>
+      <message>Cal dir <suggestion>d’ençà dels</suggestion>.</message>
+      <short>Expressió incorrecta</short>
+      <example type="incorrect"><marker>d’ençà els</marker> medicaments, has millorat</example>
+      <example type="correct"><marker>d’ençà dels</marker> medicaments, has millorat</example>
+    </rule>
+    <rule>
+      <pattern>
+	<token>d</token>
+	<token regexp="yes">'|’</token>
+	<token>ençà</token>
+	<token negate="yes" regexp="yes">d|de</token>
+      </pattern>
+      <message>Cal dir <suggestion>d’ençà de <match no="4" /></suggestion>.</message>
+      <short>Expressió incorrecta</short>
+      <example type="incorrect"><marker>d’ençà la</marker> tornada, has millorat</example>
+      <example type="correct"><marker>d’ençà de</marker> la tornada, has millorat</example>
+    </rule>
+    </rulegroup>
+    <rulegroup id="ESMENT_A" name="esment a">
+    <rule>
+      <pattern>
+	<token>esment</token>
+	<token>a</token>
+      </pattern>
+      <message>Cal dir <suggestion>esment de</suggestion>.</message>
+      <short>Expressió incorrecta</short>
+      <example type="incorrect">fer <marker>esment a</marker> la qüestió</example>
+      <example type="correct">fer <marker>esment de</marker> la qüestió</example>
+    </rule>
+    <rule>
+      <pattern>
+	<token>esment</token>
+	<token>al</token>
+      </pattern>
+      <message>Cal dir <suggestion>esment del</suggestion>.</message>
+      <short>Expressió incorrecta</short>
+      <example type="incorrect">fer <marker>esment al</marker> tema</example>
+      <example type="correct">fer <marker>esment del</marker> tema</example>
+    </rule>
+    <rule>
+      <pattern>
+	<token>esment</token>
+	<token>als</token>
+      </pattern>
+      <message>Cal dir <suggestion>esment dels</suggestion>.</message>
+      <short>Expressió incorrecta</short>
+      <example type="incorrect">fer <marker>esment als</marker> temes</example>
+      <example type="correct">fer <marker>esment dels</marker> temes</example>
+    </rule>
+    </rulegroup>
+    <rule id="TREBALLAR_DUR" name="treballar dur">
+      <pattern>
+	<token regexp="yes">trebal.*</token>
+	<token>dur</token>
+      </pattern>
+      <message>Cal dir <suggestion><match no="1" /> de valent</suggestion>.</message>
+      <short>Expressió incorrecta</short>
+      <example type="incorrect"><marker>treballem dur</marker></example>
+      <example type="correct"><marker>treballem de valent</marker></example>
     </rule>
     <rule id="A_AQUESTES_ALCADES" name="a aquestes alçades/altures">
       <pattern>
@@ -28,7 +312,7 @@ Copyright (C) 2009 Ricard Roca
       </pattern>
       <message>Cal dir <suggestion>a hores d’ara</suggestion>.</message>
       <short>Expressió incorrecta</short>
-      <example type="incorrect" correction="a hores d’ara"><marker>a aquestes alçades</marker> encara no has vingut</example>
+      <example type="incorrect"><marker>a aquestes alçades</marker> encara no has vingut</example>
       <example type="correct"><marker>a hores d’ara</marker> encara no has vingut</example>
     </rule>
     <rule id="A_BEN_SEGUR" name="a ben segur">
@@ -39,20 +323,34 @@ Copyright (C) 2009 Ricard Roca
       </pattern>
       <message>Cal dir <suggestion>ben segur</suggestion>.</message>
       <short>Expressió incorrecta</short>
-      <example type="incorrect" correction="ben segur"><marker>a ben segur</marker> que ho faràs</example>
+      <example type="incorrect"><marker>a ben segur</marker> que ho faràs</example>
       <example type="correct"><marker>ben segur</marker> que ho faràs</example>
     </rule>
-    <rule id="A_CANVI_DE" name="a canvi de">
+    <rulegroup id="A_CANVI_DE" name="a canvi de">
+    <rule>
       <pattern>
 	<token>a</token>
 	<token>canvi</token>
-	<token>de</token> <!-- TODO: de -->
+	<token regexp="yes">de|del|dels</token>
       </pattern>
-      <message>Cal dir <suggestion>en compensació de</suggestion>.</message>
+      <message>Cal dir <suggestion>en compensació <match no="3"/></suggestion>.</message>
       <short>Expressió incorrecta</short>
-      <example type="incorrect" correction="en compensació de">T'ajudaré <marker>a canvi de</marker> menjar</example>
-      <example type="correct">T'ajudaré <marker>en compensació de</marker> menjar</example>
+      <example type="incorrect">T’ajudaré <marker>a canvi de</marker> menjar</example>
+      <example type="correct">T’ajudaré <marker>en compensació de</marker> menjar</example>
     </rule>
+    <rule>
+      <pattern>
+	<token>a</token>
+	<token>canvi</token>
+	<token>d</token>
+	<token regexp="yes">'|’</token>
+      </pattern>
+      <message>Cal dir <suggestion>en compensació d’</suggestion>.</message>
+      <short>Expressió incorrecta</short>
+      <example type="incorrect">T’ajudaré <marker>a canvi d’</marker>allò</example>
+      <example type="correct">T’ajudaré <marker>en compensació d’</marker>allò</example>
+    </rule>
+    </rulegroup>
     <rule id="A_CIÈNCIA_CERTA" name="a ciència certa">
       <pattern>
 	<token>a</token>
@@ -61,20 +359,34 @@ Copyright (C) 2009 Ricard Roca
       </pattern>
       <message>Cal dir <suggestion>de ciència certa</suggestion>.</message>
       <short>Expressió incorrecta</short>
-      <example type="incorrect" correction="de ciència certa">Això ho sap <marker>a ciència certa</marker>.</example>
+      <example type="incorrect">Això ho sap <marker>a ciència certa</marker>.</example>
       <example type="correct">Això ho sap <marker>de ciència certa</marker></example>
     </rule>
-    <rule id="A_COMENÇAMENTS_DE" name="a començaments de">
+    <rulegroup id="A_COMENÇAMENTS_DE" name="a començaments de">
+    <rule>
       <pattern>
 	<token>a</token>
 	<token>començaments</token>
-	<token>de</token> <!-- TODO: de -->
+	<token regexp="yes">de|del|dels</token>
       </pattern>
-      <message>Cal dir <suggestion>al començament de</suggestion>.</message>
+      <message>Cal dir <suggestion>al començament <match no="3"/></suggestion>.</message>
       <short>Expressió incorrecta</short>
-      <example type="incorrect" correction="al començament de"><marker>a començaments de</marker> la primavera</example>
+      <example type="incorrect"><marker>a començaments de</marker> la primavera</example>
       <example type="correct"><marker>al començament de</marker> la primavera</example>
     </rule>
+    <rule>
+      <pattern>
+	<token>a</token>
+	<token>començaments</token>
+	<token>d</token>
+	<token regexp="yes">'|’</token>
+      </pattern>
+      <message>Cal dir <suggestion>al començament d’</suggestion>.</message>
+      <short>Expressió incorrecta</short>
+      <example type="incorrect"><marker>a començaments d’</marker>aquest segle</example>
+      <example type="correct"><marker>al començament d’</marker>aquest segle</example>
+    </rule>
+    </rulegroup>
     <rule id="A_DIARI" name="a diari">
       <pattern>
 	<token>a</token>
@@ -82,20 +394,34 @@ Copyright (C) 2009 Ricard Roca
       </pattern>
       <message>Cal dir <suggestion>cada dia</suggestion>.</message>
       <short>Expressió incorrecta</short>
-      <example type="incorrect" correction="cada dia">em llevo d'hora <marker>a diari</marker>.</example>
-      <example type="correct">em llevo d'hora <marker>cada dia</marker></example>
+      <example type="incorrect">em llevo d’hora <marker>a diari</marker>.</example>
+      <example type="correct">em llevo d’hora <marker>cada dia</marker></example>
     </rule>
-    <rule id="A_ESQUENES_DE" name="a esquenes de">
+    <rulegroup id="A_ESQUENES_DE" name="a esquenes de">
+    <rule>
       <pattern>
 	<token>a</token>
 	<token>esquenes</token>
-	<token>de</token> <!-- TODO: de -->
+	<token regexp="yes">de|del|dels</token>
       </pattern>
-      <message>Cal dir <suggestion>a l’esquena de</suggestion>.</message>
-      <short>Expressió incorrecta</short>
-      <example type="incorrect" correction="a l’esquena de">Això ho has fet <marker>a esquenes de</marker> ton pare</example>
-      <example type="correct">Això ho has fet <marker>a l’esquena de</marker> ton pare.</example>
+      <message>Cal dir <suggestion>a l’esquena <match no="3"/></suggestion>.</message>
+      <short>Expressió incorrecta en sentit figurat</short>
+      <example type="incorrect">Això ho has fet <marker>a esquenes de</marker> ton pare</example>
+      <example type="correct">Això ho has fet <marker>a l’esquena de</marker> ton pare</example>
     </rule>
+    <rule>
+      <pattern>
+	<token>a</token>
+	<token>esquenes</token>
+	<token>d</token>
+	<token regexp="yes">'|’</token>
+      </pattern>
+      <message>Cal dir <suggestion>a l’esquena d’</suggestion>.</message>
+      <short>Expressió incorrecta en sentit figurat</short>
+      <example type="incorrect">Això ho has fet <marker>a esquenes d’</marker>aquesta persona</example>
+      <example type="correct">Això ho has fet <marker>a l’esquena d’</marker>aquesta persona</example>
+    </rule>
+    </rulegroup>
     <rule id="A_FI_DE_COMPTES" name="a fi de comptes">
       <pattern>
 	<token>a</token>
@@ -105,21 +431,35 @@ Copyright (C) 2009 Ricard Roca
       </pattern>
       <message>Cal dir <suggestion>al cap i a la fi</suggestion>.</message>
       <short>Expressió incorrecta</short>
-      <example type="incorrect" correction="al cap i a la fi"><marker>a fi de comptes</marker>, no en traurem res</example>
+      <example type="incorrect"><marker>a fi de comptes</marker>, no en traurem res</example>
       <example type="correct"><marker>al cap i a la fi</marker>, no en traurem res</example>
     </rule>
-    <rule id="A_FINALS_DE" name="a finals de">
+    <rulegroup id="A_FINALS_DE" name="a finals de">
+    <rule>
       <pattern>
 	<token>a</token>
 	<token>finals</token>
-	<token>de</token> <!-- TODO: de -->
+	<token regexp="yes">de|del|dels</token>
       </pattern>
-      <message>Cal dir <suggestion>al final de</suggestion>.</message>
+      <message>Cal dir <suggestion>al final <match no="3"/></suggestion>.</message>
       <short>Expressió incorrecta</short>
-      <example type="incorrect" correction="al final de"><marker>a finals de</marker> la tardor</example>
+      <example type="incorrect"><marker>a finals de</marker> la tardor</example>
       <example type="correct"><marker>al final de</marker> la tardor</example>
     </rule>
-    <rule id="A_LACTUALITAT" name="a/en l'actualitat">
+    <rule>
+      <pattern>
+	<token>a</token>
+	<token>finals</token>
+	<token>d</token>
+	<token regexp="yes">'|’</token>
+      </pattern>
+      <message>Cal dir <suggestion>al final d’</suggestion>.</message>
+      <short>Expressió incorrecta</short>
+      <example type="incorrect"><marker>a finals d’</marker>aquesta tardor</example>
+      <example type="correct"><marker>al final d’</marker>aquesta tardor</example>
+    </rule>
+    </rulegroup>
+    <rule id="A_LACTUALITAT" name="a/en l’actualitat">
       <pattern>
 	<token regexp="yes">a|en</token>
 	<token>l</token>
@@ -128,8 +468,8 @@ Copyright (C) 2009 Ricard Roca
       </pattern>
       <message>Cal dir <suggestion>actualment</suggestion>.</message>
       <short>Expressió incorrecta</short>
-      <example type="incorrect" correction="actualment"><marker>en l’actualitat</marker> l'empresa va bé</example>
-      <example type="correct"><marker>actualment</marker> l'empresa va bé</example>
+      <example type="incorrect"><marker>en l’actualitat</marker> l’empresa va bé</example>
+      <example type="correct"><marker>actualment</marker> l’empresa va bé</example>
     </rule>
     <rule id="A_LIGUAL_QUE" name="a l’igual que">
       <pattern>
@@ -141,10 +481,10 @@ Copyright (C) 2009 Ricard Roca
       </pattern>
       <message>Cal dir <suggestion>igual que</suggestion>.</message>
       <short>Expressió incorrecta</short>
-      <example type="incorrect" correction="igual que"><marker>a l’igual que</marker> tu ho fas, ho faré jo també</example>
+      <example type="incorrect"><marker>a l’igual que</marker> tu ho fas, ho faré jo també</example>
       <example type="correct"><marker>igual que</marker> tu ho fas, ho faré jo també</example>
     </rule>
-    <rule id="A_LOBJECTE_QUE" name="a l'objecte que">
+    <rule id="A_LOBJECTE_QUE" name="a l’objecte que">
       <pattern>
 	<token>a</token>
 	<token>l</token>
@@ -154,7 +494,7 @@ Copyright (C) 2009 Ricard Roca
       </pattern>
       <message>Cal dir <suggestion>amb l’objectiu que</suggestion>.</message>
       <short>Expressió incorrecta</short>
-      <example type="incorrect" correction="amb l’objectiu que">han avisat un notari <marker>a l’objecte que</marker> els arregli el testament</example>
+      <example type="incorrect">han avisat un notari <marker>a l’objecte que</marker> els arregli el testament</example>
       <example type="correct">han avisat un notari <marker>amb l’objectiu que</marker> els arregli el testament</example>
     </rule>
     <rule id="A_MIDA_QUE" name="a mida que">
@@ -165,30 +505,59 @@ Copyright (C) 2009 Ricard Roca
       </pattern>
       <message>Cal dir <suggestion>a mesura que</suggestion>.</message>
       <short>Expressió incorrecta</short>
-      <example type="incorrect" correction="a mesura que"><marker>a mida que</marker> arribeu, seieu</example>
+      <example type="incorrect"><marker>a mida que</marker> arribeu, seieu</example>
       <example type="correct"><marker>a mesura que</marker> arribeu, seieu</example>
     </rule>
-    <rule id="A_MITJANS" name="a mitjans">
+    <rulegroup id="A_MITJANS" name="a mitjans">
+    <rule>
       <pattern>
 	<token>a</token>
 	<token>mitjans</token>
+	<token regexp="yes">de|del|dels</token>
       </pattern>
       <message>Cal dir <suggestion>a mitjan</suggestion>.</message>
       <short>Expressió incorrecta</short>
-      <example type="incorrect" correction="a mitjan"><marker>a mitjans</marker> del segle XX</example>
+      <example type="incorrect"><marker>a mitjans del</marker> segle XX</example>
       <example type="correct"><marker>a mitjan</marker> segle XX</example>
     </rule>
-    <rule id="A_MODE_DE" name="a mode de">
+    <rule>
+      <pattern>
+	<token>a</token>
+	<token>mitjans</token>
+	<token>d</token>
+	<token regexp="yes">'|’</token>
+      </pattern>
+      <message>Cal dir <suggestion>a mitjan</suggestion>.</message>
+      <short>Expressió incorrecta</short>
+      <example type="incorrect"><marker>a mitjans d’</marker>aquest segle</example>
+      <example type="correct"><marker>a mitjan</marker> segle</example>
+    </rule>
+    </rulegroup>
+    <rulegroup id="A_MODE_DE" name="a mode de">
+    <rule>
       <pattern>
 	<token>a</token>
 	<token>mode</token>
-	<token>de</token> <!-- TODO: de -->
+	<token>de</token>
       </pattern>
       <message>Cal dir <suggestion>a manera de</suggestion>.</message>
       <short>Expressió incorrecta</short>
-      <example type="incorrect" correction="a manera de">llegirà un text <marker>a mode de</marker> presentació</example>
+      <example type="incorrect">llegirà un text <marker>a mode de</marker> presentació</example>
       <example type="correct">llegirà un text <marker>a manera de</marker> presentació</example>
     </rule>
+    <rule>
+      <pattern>
+	<token>a</token>
+	<token>mode</token>
+	<token>d</token>
+	<token regexp="yes">'|’</token>
+      </pattern>
+      <message>Cal dir <suggestion>a manera d’</suggestion>.</message>
+      <short>Expressió incorrecta</short>
+      <example type="incorrect">llegirà un text <marker>a mode d’</marker>acabament</example>
+      <example type="correct">llegirà un text <marker>a manera d’</marker>acabament</example>
+    </rule>
+    </rulegroup>
     <rule id="A_NO_SER_QUE" name="a no ser que">
       <pattern>
 	<token>a</token>
@@ -198,8 +567,8 @@ Copyright (C) 2009 Ricard Roca
       </pattern>
       <message>Cal dir <suggestion>tret que</suggestion>.</message>
       <short>Expressió incorrecta</short>
-      <example type="incorrect" correction="tret que"><marker>a no ser que</marker> m'ho demani, no li diré res</example>
-      <example type="correct"><marker>tret que</marker> m'ho demani, no li diré res</example>
+      <example type="incorrect"><marker>a no ser que</marker> m’ho demani, no li diré res</example>
+      <example type="correct"><marker>tret que</marker> m’ho demani, no li diré res</example>
     </rule>
     <rule id="A_PENES_SI" name="a penes si">
       <pattern>
@@ -209,53 +578,82 @@ Copyright (C) 2009 Ricard Roca
       </pattern>
       <message>Cal dir <suggestion>a penes</suggestion>.</message>
       <short>Expressió incorrecta</short>
-      <example type="incorrect" correction="a penes"><marker>a penes si</marker> arribaria</example>
+      <example type="incorrect"><marker>a penes si</marker> arribaria</example>
       <example type="correct"><marker>a penes</marker> arribaria</example>
     </rule>
-    <rule id="A_PRINCIPIS_DE" name="a principis de">
+    <rulegroup id="A_PRINCIPIS_DE" name="a principis de">
+    <rule>
       <pattern>
 	<token>a</token>
 	<token>principis</token>
-	<token>de</token> <!-- TODO: de -->
+	<token>d</token>
+	<token regexp="yes">'|’</token>
       </pattern>
-      <message>Cal dir <suggestion>al principi de</suggestion>.</message>
+      <message>Cal dir <suggestion>al principi d’</suggestion>.</message>
       <short>Expressió incorrecta</short>
-      <example type="incorrect" correction="al principi de"><marker>a principis de</marker> l'estiu</example>
-      <example type="correct"><marker>al principi de</marker> l'estiu</example>
+      <example type="incorrect"><marker>a principis d’</marker>aquest estiu</example>
+      <example type="correct"><marker>al principi d’</marker>aquest estiu</example>
     </rule>
-    <rule id="A_ÚLTIMS_DE" name="a últims de">
+    <rule>
+      <pattern>
+	<token>a</token>
+	<token>principis</token>
+	<token regexp="yes">de|del|dels</token>
+      </pattern>
+      <message>Cal dir <suggestion>al principi <match no="3"/></suggestion>.</message>
+      <short>Expressió incorrecta</short>
+      <example type="incorrect"><marker>a principis de</marker> l’estiu</example>
+      <example type="correct"><marker>al principi de</marker> l’estiu</example>
+    </rule>
+    </rulegroup>
+    <rulegroup id="A_ÚLTIMS_DE" name="a últims de">
+    <rule>
       <pattern>
 	<token>a</token>
 	<token>últims</token>
-	<token>de</token> <!-- TODO: de -->
+	<token regexp="yes">de|del|dels</token>
       </pattern>
-      <message>Cal dir <suggestion>a final de</suggestion>.</message>
+      <message>Cal dir <suggestion>a final <match no="3"/></suggestion>.</message>
       <short>Expressió incorrecta</short>
-      <example type="incorrect" correction="a final de"><marker>a últims de</marker> maig</example>
+      <example type="incorrect"><marker>a últims de</marker> maig</example>
       <example type="correct"><marker>a final de</marker> maig</example>
     </rule>
+    <rule>
+      <pattern>
+	<token>a</token>
+	<token>últims</token>
+	<token>d</token>
+	<token regexp="yes">'|’</token>
+      </pattern>
+      <message>Cal dir <suggestion>a final d’</suggestion>.</message>
+      <short>Expressió incorrecta</short>
+      <example type="incorrect"><marker>a últims d’</marker>agost</example>
+      <example type="correct"><marker>a final d’</marker>agost</example>
+    </rule>
+    </rulegroup>
     <rule id="ACTE_SEGUIT" name="acte seguit">
       <pattern>
 	<token>acte</token>
 	<token>seguit</token>
       </pattern>
-      <message>Cal dir <suggestion>tot seguit</suggestion>.</message>
-      <short>Expressió incorrecta</short>
-      <example type="incorrect" correction="tot seguit"><marker>acte seguit</marker>, va tancar la porta</example>
+      <message>Expressió incorrecta quan vol dir <suggestion>tot seguit</suggestion>.</message>
+      <short>Expressió incorrecta quan vol dir ‘tot seguit’</short>
+      <example type="incorrect"><marker>acte seguit</marker>, va tancar la porta</example>
       <example type="correct"><marker>tot seguit</marker>, va tancar la porta</example>
     </rule>
     <rule id="AL_DIA_SEGÜENT" name="al dia següent">
       <pattern>
-	<token>al</token>
+	<token regexp="yes">al|el</token>
 	<token>dia</token>
 	<token>següent</token>
       </pattern>
       <message>Cal dir <suggestion>l’endemà</suggestion>.</message>
       <short>Expressió incorrecta</short>
-      <example type="incorrect" correction="l’endemà"><marker>al dia següent</marker> em trobava millor</example>
+      <example type="incorrect"><marker>al dia següent</marker> em trobava millor</example>
       <example type="correct"><marker>l’endemà</marker> em trobava millor</example>
     </rule>
-    <rule id="AL_MEU_CÀRREC" name="al meu càrrec">
+    <rulegroup id="POSSESIU_CARREC_FAVOR_PARER" name="possessiu + càrrec/favor/parer">
+    <rule>
       <pattern>
 	<token>al</token>
 	<token>meu</token>
@@ -263,10 +661,10 @@ Copyright (C) 2009 Ricard Roca
       </pattern>
       <message>Cal dir <suggestion>a càrrec meu</suggestion>.</message>
       <short>Expressió incorrecta</short>
-      <example type="incorrect" correction="a càrrec meu">el sopar va <marker>al meu càrrec</marker></example>
+      <example type="incorrect">el sopar va <marker>al meu càrrec</marker></example>
       <example type="correct">el sopar va <marker>a càrrec meu</marker></example>
     </rule>
-    <rule id="AL_MEU_FAVOR" name="al meu favor">
+    <rule>
       <pattern>
 	<token>al</token>
 	<token>meu</token>
@@ -274,10 +672,10 @@ Copyright (C) 2009 Ricard Roca
       </pattern>
       <message>Cal dir <suggestion>a favor meu</suggestion>.</message>
       <short>Expressió incorrecta</short>
-      <example type="incorrect" correction="a favor meu">una transferència <marker>al meu favor</marker></example>
+      <example type="incorrect">una transferència <marker>al meu favor</marker></example>
       <example type="correct">una transferència <marker>a favor meu</marker></example>
     </rule>
-    <rule id="AL_MEU_PARER" name="al meu parer">
+    <rule>
       <pattern>
 	<token>al</token>
 	<token>meu</token>
@@ -285,20 +683,10 @@ Copyright (C) 2009 Ricard Roca
       </pattern>
       <message>Cal dir <suggestion>a parer meu</suggestion>.</message>
       <short>Expressió incorrecta</short>
-      <example type="incorrect" correction="a parer meu"><marker>al meu parer</marker>, això acabarà bé</example>
+      <example type="incorrect"><marker>al meu parer</marker>, això acabarà bé</example>
       <example type="correct"><marker>a parer meu</marker>, això acabarà bé</example>
     </rule>
-    <rule id="AL_RESPECTE" name="al respecte">
-      <pattern>
-	<token>al</token>
-	<token>respecte</token>
-      </pattern>
-      <message>Cal dir <suggestion>pel que fa a això</suggestion>.</message>
-      <short>Expressió incorrecta</short>
-      <example type="incorrect" correction="pel que fa a això">no tinc res a dir <marker>al respecte</marker></example>
-      <example type="correct">no tinc res a dir <marker>pel que fa a això</marker></example>
-    </rule>
-    <rule id="AL_SEU_CÀRREC" name="al seu càrrec">
+    <rule>
       <pattern>
 	<token>al</token>
 	<token>seu</token>
@@ -306,10 +694,10 @@ Copyright (C) 2009 Ricard Roca
       </pattern>
       <message>Cal dir <suggestion>a càrrec seu</suggestion>.</message>
       <short>Expressió incorrecta</short>
-      <example type="incorrect" correction="a càrrec seu">el sopar va <marker>al seu càrrec</marker></example>
+      <example type="incorrect">el sopar va <marker>al seu càrrec</marker></example>
       <example type="correct">el sopar va <marker>a càrrec seu</marker></example>
     </rule>
-    <rule id="AL_SEU_FAVOR" name="al seu favor">
+    <rule>
       <pattern>
 	<token>al</token>
 	<token>seu</token>
@@ -317,10 +705,10 @@ Copyright (C) 2009 Ricard Roca
       </pattern>
       <message>Cal dir <suggestion>a favor seu</suggestion>.</message>
       <short>Expressió incorrecta</short>
-      <example type="incorrect" correction="a favor seu">una transferència <marker>al seu favor</marker></example>
+      <example type="incorrect">una transferència <marker>al seu favor</marker></example>
       <example type="correct">una transferència <marker>a favor seu</marker></example>
     </rule>
-    <rule id="AL_SEU_PARER" name="al seu parer">
+    <rule>
       <pattern>
 	<token>al</token>
 	<token>seu</token>
@@ -328,21 +716,10 @@ Copyright (C) 2009 Ricard Roca
       </pattern>
       <message>Cal dir <suggestion>a parer seu</suggestion>.</message>
       <short>Expressió incorrecta</short>
-      <example type="incorrect" correction="a parer seu"><marker>al seu parer</marker>, això acabarà bé</example>
+      <example type="incorrect"><marker>al seu parer</marker>, això acabarà bé</example>
       <example type="correct"><marker>a parer seu</marker>, això acabarà bé</example>
     </rule>
-    <rule id="AL_TEMPS_QUE" name="al temps que">
-      <pattern>
-	<token>al</token>
-	<token>temps</token>
-	<token>que</token>
-      </pattern>
-      <message>Cal dir <suggestion>alhora que</suggestion>.</message>
-      <short>Expressió incorrecta</short>
-      <example type="incorrect" correction="alhora que"><marker>al temps que</marker> cuino podem xerrar</example>
-      <example type="correct"><marker>alhora que</marker> cuino podem xerrar</example>
-    </rule>
-    <rule id="AL_TEU_CÀRREC" name="al teu càrrec">
+    <rule>
       <pattern>
 	<token>al</token>
 	<token>teu</token>
@@ -350,10 +727,10 @@ Copyright (C) 2009 Ricard Roca
       </pattern>
       <message>Cal dir <suggestion>a càrrec teu</suggestion>.</message>
       <short>Expressió incorrecta</short>
-      <example type="incorrect" correction="a càrrec teu">un sopar <marker>al teu càrrec</marker></example>
+      <example type="incorrect">un sopar <marker>al teu càrrec</marker></example>
       <example type="correct">un sopar <marker>a càrrec teu</marker></example>
     </rule>
-    <rule id="AL_TEU_FAVOR" name="al teu favor">
+    <rule>
       <pattern>
 	<token>al</token>
 	<token>teu</token>
@@ -361,10 +738,10 @@ Copyright (C) 2009 Ricard Roca
       </pattern>
       <message>Cal dir <suggestion>a favor teu</suggestion>.</message>
       <short>Expressió incorrecta</short>
-      <example type="incorrect" correction="a favor teu">una transferència <marker>al teu favor</marker></example>
+      <example type="incorrect">una transferència <marker>al teu favor</marker></example>
       <example type="correct">una transferència <marker>a favor teu</marker></example>
     </rule>
-    <rule id="AL_TEU_PARER" name="al teu parer">
+    <rule>
       <pattern>
 	<token>al</token>
 	<token>teu</token>
@@ -372,8 +749,30 @@ Copyright (C) 2009 Ricard Roca
       </pattern>
       <message>Cal dir <suggestion>a parer teu</suggestion>.</message>
       <short>Expressió incorrecta</short>
-      <example type="incorrect" correction="a parer teu"><marker>al teu parer</marker>, no acabaríem mai</example>
+      <example type="incorrect"><marker>al teu parer</marker>, no acabaríem mai</example>
       <example type="correct"><marker>a parer teu</marker>, no acabaríem mai</example>
+    </rule>
+    </rulegroup>
+    <rule id="AL_RESPECTE" name="al respecte">
+      <pattern>
+	<token>al</token>
+	<token>respecte</token>
+      </pattern>
+      <message>Expressió incorrecta si vol dir <suggestion>pel que fa a això</suggestion>.</message>
+      <short>Expressió incorrecta si vol dir ‘pel que fa a això’</short>
+      <example type="incorrect">no tinc res a dir <marker>al respecte</marker></example>
+      <example type="correct">no tinc res a dir <marker>pel que fa a això</marker></example>
+    </rule>
+    <rule id="AL_TEMPS_QUE" name="al temps que">
+      <pattern>
+	<token>al</token>
+	<token>temps</token>
+	<token>que</token>
+      </pattern>
+      <message>Expressió incorrecta si vol dir <suggestion>alhora que</suggestion>.</message>
+      <short>Expressió incorrecta si vol dir ‘alhora que’</short>
+      <example type="incorrect"><marker>al temps que</marker> cuino podem xerrar</example>
+      <example type="correct"><marker>alhora que</marker> cuino podem xerrar</example>
     </rule>
     <rule id="ALTES_INSTÀNCIES" name="altes instàncies">
       <pattern>
@@ -382,30 +781,57 @@ Copyright (C) 2009 Ricard Roca
       </pattern>
       <message>Cal dir <suggestion>altes institucions</suggestion>.</message>
       <short>Expressió incorrecta</short>
-      <example type="incorrect" correction="altes institucions">és cosa de les <marker>altes instàncies</marker></example>
+      <example type="incorrect">és cosa de les <marker>altes instàncies</marker></example>
       <example type="correct">és cosa de les <marker>altes institucions</marker></example>
     </rule>
-    <rule id="AMB_EXCLUSIÓ_DE" name="amb exclusió de">
+    <rulegroup id="AMB_EXCLUSIÓ_DE" name="amb exclusió de">
+    <rule>
       <pattern>
 	<token>amb</token>
 	<token>exclusió</token>
-	<token>de</token> <!-- TODO: de -->
+	<token regexp="yes">de|del|dels</token>
       </pattern>
-      <message>Cal dir <suggestion>a exclusió de</suggestion>.</message>
+      <message>Cal dir <suggestion>a exclusió <match no="3"/></suggestion>.</message>
       <short>Expressió incorrecta</short>
-      <example type="incorrect" correction="a exclusió de"><marker>amb exclusió de</marker> dues lleis</example>
+      <example type="incorrect"><marker>amb exclusió de</marker> dues lleis</example>
       <example type="correct"><marker>a exclusió de</marker> dues lleis</example>
     </rule>
-    <rule id="ARREL_DE" name="arrel de">
+    <rule>
+      <pattern>
+	<token>amb</token>
+	<token>exclusió</token>
+	<token>d</token>
+	<token regexp="yes">'|’</token>
+      </pattern>
+      <message>Cal dir <suggestion>a exclusió d’</suggestion>.</message>
+      <short>Expressió incorrecta</short>
+      <example type="incorrect"><marker>amb exclusió d’</marker>aquestes lleis</example>
+      <example type="correct"><marker>a exclusió d’</marker>aquestes lleis</example>
+    </rule>
+    </rulegroup>
+    <rulegroup id="ARREL_DE" name="arrel de">
+    <rule>
       <pattern>
 	<token>arrel</token>
-	<token>de</token> <!-- TODO: de -->
+	<token regexp="yes">de|del|dels</token>
       </pattern>
-      <message>Cal dir <suggestion>arran de</suggestion>.</message>
-      <short>Expressió incorrecta quan equival a 'arran de'</short>
-      <example type="incorrect" correction="arran de"><marker>arrel de</marker> la situació, ja no es parlen</example>
+      <message>Expressió incorrecta quan equival a <suggestion>arran <match no="2"/></suggestion>.</message>
+      <short>Expressió incorrecta quan equival a ‘arran de’</short>
+      <example type="incorrect"><marker>arrel de</marker> la situació, ja no es parlen</example>
       <example type="correct"><marker>arran de</marker> la situació, ja no es parlen</example>
     </rule>
+    <rule>
+      <pattern>
+	<token>arrel</token>
+	<token>d</token>
+	<token regexp="yes">'|’</token>
+      </pattern>
+      <message>Expressió incorrecta quan equival a <suggestion>arran d’</suggestion>.</message>
+      <short>Expressió incorrecta quan equival a ‘arran de’</short>
+      <example type="incorrect"><marker>arrel d’</marker>aquesta situació, ja no es parlen</example>
+      <example type="correct"><marker>arran d’</marker>aquesta situació, ja no es parlen</example>
+    </rule>
+    </rulegroup>
     <rule id="ASSUMPTES_ESTRANGERS" name="assumptes estrangers">
       <pattern>
 	<token>assumptes</token>
@@ -413,19 +839,41 @@ Copyright (C) 2009 Ricard Roca
       </pattern>
       <message>Cal dir <suggestion>afers estrangers</suggestion>.</message>
       <short>Expressió incorrecta</short>
-      <example type="incorrect" correction="afers estrangers">Ministeri d'<marker>assumptes estrangers</marker></example>
-      <example type="correct">Ministeri d'<marker>Afers Estrangers</marker></example>
+      <example type="incorrect">Ministeri d’<marker>assumptes estrangers</marker></example>
+      <example type="correct">Ministeri d’<marker>Afers Estrangers</marker></example>
     </rule>
-    <rule id="ATEMPTAT_A" name="atemptat a">
+    <rulegroup id="ATEMPTAT_A" name="atemptat a">
+    <rule>
       <pattern>
 	<token>atemptat</token>
-	<token>a</token> <!-- TODO: a -->
+	<token>a</token>
       </pattern>
       <message>Cal dir <suggestion>atemptat contra</suggestion>.</message>
       <short>Expressió incorrecta</short>
-      <example type="incorrect" correction="atemptat contra"><marker>atemptat a</marker> la reina</example>
+      <example type="incorrect"><marker>atemptat a</marker> la reina</example>
       <example type="correct"><marker>atemptat contra</marker> la reina</example>
     </rule>
+    <rule>
+      <pattern>
+	<token>atemptat</token>
+	<token>als</token>
+      </pattern>
+      <message>Cal dir <suggestion>atemptat contra els</suggestion>.</message>
+      <short>Expressió incorrecta</short>
+      <example type="incorrect"><marker>atemptat als</marker> reis</example>
+      <example type="correct"><marker>atemptat contra els</marker> reis</example>
+    </rule>
+    <rule>
+      <pattern>
+	<token>atemptat</token>
+	<token>al</token>
+      </pattern>
+      <message>Cal dir <suggestion>atemptat contra el</suggestion>.</message>
+      <short>Expressió incorrecta</short>
+      <example type="incorrect"><marker>atemptat al</marker> rei</example>
+      <example type="correct"><marker>atemptat contra el</marker> rei</example>
+    </rule>
+    </rulegroup>
     <rule id="AVUI_PER_AVUI" name="avui per avui">
       <pattern>
 	<token>avui</token>
@@ -434,18 +882,19 @@ Copyright (C) 2009 Ricard Roca
       </pattern>
       <message>Cal dir <suggestion>ara com ara</suggestion>.</message>
       <short>Expressió incorrecta</short>
-      <example type="incorrect" correction="ara com ara"><marker>avui per avui</marker>, encara no està arreglat</example>
+      <example type="incorrect"><marker>avui per avui</marker>, encara no està arreglat</example>
       <example type="correct"><marker>ara com ara</marker>, encara no està arreglat</example>
     </rule>
-    <rule id="BRAÇOS_CREUATS" name="braços creuats">
+    <rule id="DE_BRAÇOS_CREUATS" name="de braços creuats">
       <pattern>
+        <token>de</token>
 	<token>braços</token>
 	<token>creuats</token>
       </pattern>
-      <message>Cal dir <suggestion>braços plegats</suggestion>.</message>
+      <message>Cal dir <suggestion>de braços plegats</suggestion>.</message>
       <short>Expressió incorrecta</short>
-      <example type="incorrect" correction="braços plegats">ja pots esperar de <marker>braços creuats</marker></example>
-      <example type="correct">ja pots esperar de <marker>braços plegats</marker></example>
+      <example type="incorrect">ja pots esperar <marker>de braços creuats</marker></example>
+      <example type="correct">ja pots esperar <marker>de braços plegats</marker></example>
     </rule>
     <rule id="BUSCA_I_CAPTURA" name="busca i captura">
       <pattern>
@@ -455,7 +904,7 @@ Copyright (C) 2009 Ricard Roca
       </pattern>
       <message>Cal dir <suggestion>crida i cerca</suggestion>.</message>
       <short>Expressió incorrecta</short>
-      <example type="incorrect" correction="crida i cerca">el criminal està en <marker>busca i captura</marker></example>
+      <example type="incorrect">el criminal està en <marker>busca i captura</marker></example>
       <example type="correct">el criminal està en <marker>crida i cerca</marker></example>
     </rule>
     <rule id="COBRAMENT_REVERTIT" name="cobrament revertit">
@@ -465,7 +914,7 @@ Copyright (C) 2009 Ricard Roca
       </pattern>
       <message>Cal dir <suggestion>cobrament a destinació</suggestion>.</message>
       <short>Expressió incorrecta</short>
-      <example type="incorrect" correction="cobrament a destinació">una trucada de <marker>cobrament revertit</marker></example>
+      <example type="incorrect">una trucada de <marker>cobrament revertit</marker></example>
       <example type="correct">una trucada de <marker>cobrament a destinació</marker></example>
     </rule>
     <rule id="COM_A_MOLT" name="com a molt">
@@ -476,19 +925,19 @@ Copyright (C) 2009 Ricard Roca
       </pattern>
       <message>Cal dir <suggestion>a tot estirar</suggestion>.</message>
       <short>Expressió incorrecta</short>
-      <example type="incorrect" correction="a tot estirar"><marker>com a molt</marker> te'n donaré tres</example>
-      <example type="correct"><marker>a tot estirar</marker> te'n donaré tres</example>
+      <example type="incorrect"><marker>com a molt</marker> te’n donaré tres</example>
+      <example type="correct"><marker>a tot estirar</marker> te’n donaré tres</example>
     </rule>
     <rule id="COM_PER_A" name="com per a">
       <pattern>
 	<token>com</token>
 	<token>per</token>
-	<token>a</token> <!-- TODO: a -->
+	<token regexp="yes">a|al|als</token>
       </pattern>
-      <message>Cal dir <suggestion>per a</suggestion>.</message>
+      <message>Cal dir <suggestion>per <match no="3"/></suggestion>.</message>
       <short>Expressió incorrecta</short>
-      <example type="incorrect" correction="per a">n'hi ha <marker>com per a</marker> desesperar-se</example>
-      <example type="correct">n'hi ha <marker>per a</marker> desesperar-se</example>
+      <example type="incorrect">n’hi ha <marker>com per a</marker> desesperar-se</example>
+      <example type="correct">n’hi ha <marker>per a</marker> desesperar-se</example>
     </rule>
     <rule id="COM_PERQUÈ" name="com perquè">
       <pattern>
@@ -497,7 +946,7 @@ Copyright (C) 2009 Ricard Roca
       </pattern>
       <message>Cal dir <suggestion>perquè</suggestion>.</message>
       <short>Expressió incorrecta</short>
-      <example type="incorrect" correction="perquè">no tens prou experiència <marker>com perquè</marker> et surti bé</example>
+      <example type="incorrect">no tens prou experiència <marker>com perquè</marker> et surti bé</example>
       <example type="correct">no tens prou experiència <marker>perquè</marker> et surti bé</example>
     </rule>
     <rule id="CONJUNTAMENT_AMB" name="conjuntament amb">
@@ -507,19 +956,41 @@ Copyright (C) 2009 Ricard Roca
       </pattern>
       <message>Cal dir <suggestion>juntament amb</suggestion>.</message>
       <short>Expressió incorrecta</short>
-      <example type="incorrect" correction="juntament amb">l'aprovaran <marker>conjuntament amb</marker> l'altra llei</example>
-      <example type="correct">l'aprovaran <marker>juntament amb</marker> l'altra llei</example>
+      <example type="incorrect">l’aprovaran <marker>conjuntament amb</marker> l’altra llei</example>
+      <example type="correct">l’aprovaran <marker>juntament amb</marker> l’altra llei</example>
     </rule>
-    <rule id="CONTRADICTORI_A" name="contradictori a">
+    <rulegroup id="CONTRADICTORI_A" name="contradictori a">
+    <rule>
       <pattern>
-	<token>contradictori</token> <!-- TODO: gen -->
-	<token>a</token> <!-- TODO: a -->
+	<token regexp="yes">contradictori|contradictòria</token>
+	<token>a</token>
       </pattern>
-      <message>Cal dir <suggestion>contradictori de</suggestion>.</message>
+      <message>Cal dir <suggestion><match no="1"/> de</suggestion>.</message>
       <short>Expressió incorrecta</short>
-      <example type="incorrect" correction="contradictori de">un terme <marker>contradictori a</marker> l'anterior</example>
-      <example type="correct">un terme <marker>contradictori de</marker> l'anterior</example>
+      <example type="incorrect">un terme <marker>contradictori a</marker> l’anterior</example>
+      <example type="correct">un terme <marker>contradictori de</marker> l’anterior</example>
     </rule>
+    <rule>
+      <pattern>
+	<token regexp="yes">contradictori|contradictòria</token>
+	<token>al</token>
+      </pattern>
+      <message>Cal dir <suggestion><match no="1"/> del</suggestion>.</message>
+      <short>Expressió incorrecta</short>
+      <example type="incorrect">un terme <marker>contradictori al</marker> d’abans</example>
+      <example type="correct">un terme <marker>contradictori del</marker> d’abans</example>
+    </rule>
+    <rule>
+      <pattern>
+	<token regexp="yes">contradictori|contradictòria</token>
+	<token>als</token>
+      </pattern>
+      <message>Cal dir <suggestion><match no="1"/> dels</suggestion>.</message>
+      <short>Expressió incorrecta</short>
+      <example type="incorrect">un terme <marker>contradictori als</marker> anteriors</example>
+      <example type="correct">un terme <marker>contradictori dels</marker> anteriors</example>
+    </rule>
+    </rulegroup>
     <rule id="DAQUÍ_QUE" name="d’aquí que">
       <pattern>
 	<token>d</token>
@@ -529,7 +1000,7 @@ Copyright (C) 2009 Ricard Roca
       </pattern>
       <message>Cal dir <suggestion>per això</suggestion>.</message>
       <short>Expressió incorrecta</short>
-      <example type="incorrect" correction="per això">ha estudiat molt: <marker>d’aquí que</marker> hagi tret bones notes</example>
+      <example type="incorrect">ha estudiat molt: <marker>d’aquí que</marker> hagi tret bones notes</example>
       <example type="correct">ha estudiat molt: <marker>per això</marker> ha tret bones notes</example>
     </rule>
     <rule id="DIMMEDIAT" name="d’immediat">
@@ -540,8 +1011,8 @@ Copyright (C) 2009 Ricard Roca
       </pattern>
       <message>Cal dir <suggestion>immediatament</suggestion>.</message>
       <short>Expressió incorrecta</short>
-      <example type="incorrect" correction="immediatament">posa't a fer feina <marker>d’immediat</marker></example>
-      <example type="correct">posa't a fer feina <marker>immediatament</marker></example>
+      <example type="incorrect">posa’t a fer feina <marker>d’immediat</marker></example>
+      <example type="correct">posa’t a fer feina <marker>immediatament</marker></example>
     </rule>
     <rule id="DE_CARA_PER_AMUNT" name="de cara per amunt">
       <pattern>
@@ -552,42 +1023,97 @@ Copyright (C) 2009 Ricard Roca
       </pattern>
       <message>Cal dir <suggestion>de cara enlaire</suggestion>.</message>
       <short>Expressió incorrecta</short>
-      <example type="incorrect" correction="de cara enlaire">aquest exercici s'ha de fer <marker>de cara per amunt</marker></example>
-      <example type="correct">aquest exercici s'ha de fer <marker>de cara enlaire</marker></example>
+      <example type="incorrect">aquest exercici s’ha de fer <marker>de cara per amunt</marker></example>
+      <example type="correct">aquest exercici s’ha de fer <marker>de cara enlaire</marker></example>
     </rule>
-    <rule id="DE_LORDRE_DE" name="de l’ordre de">
+    <rulegroup id="DE_LORDRE_DE" name="de l’ordre de">
+    <rule>
       <pattern>
 	<token>de</token>
 	<token>l</token>
 	<token regexp="yes">'|’</token>
 	<token>ordre</token>
-	<token>de</token> <!-- TODO: de -->
+	<token regexp="yes">de|del|dels</token>
       </pattern>
-      <message>Cal dir <suggestion>a l'entorn de</suggestion>.</message>
-      <short>Expressió incorrecta</short>
-      <example type="incorrect" correction="a l'entorn de">hem guanyat <marker>de l’ordre de</marker> dos milions</example>
-      <example type="correct">hem guanyat <marker>a l'entorn de</marker> dos milions</example>
+      <message>Expressió incorrecta quan equival a <suggestion>a l’entorn <match no="5"/></suggestion>.</message>
+      <short>Expressió incorrecta quan equival a ‘de l’entorn’</short>
+      <example type="incorrect">hem guanyat <marker>de l’ordre de</marker> dos milions</example>
+      <example type="correct">hem guanyat <marker>a l’entorn de</marker> dos milions</example>
     </rule>
-    <rule id="DE_LA_MÀ_DE" name="de la mà de">
+    <rule>
+      <pattern>
+	<token>de</token>
+	<token>l</token>
+	<token regexp="yes">'|’</token>
+	<token>ordre</token>
+	<token>d</token>
+	<token regexp="yes">'|’</token>
+      </pattern>
+      <message>Expressió incorrecta quan equival a <suggestion>a l’entorn d’</suggestion>.</message>
+      <short>Expressió incorrecta quan equival a ‘de l’entorn’</short>
+      <example type="incorrect">hem guanyat <marker>de l’ordre d’</marker>un milió</example>
+      <example type="correct">hem guanyat <marker>a l’entorn d’</marker>un milió</example>
+    </rule>
+    </rulegroup>
+    <rulegroup id="DE_LA_MÀ_DE" name="de la mà de">
+    <rule>
       <pattern>
 	<token>de</token>
 	<token>la</token>
 	<token>mà</token>
-	<token>de</token> <!-- TODO: de -->
+	<token>de</token>
       </pattern>
-      <message>Cal dir <suggestion>donant la mà</suggestion>.</message>
-      <short>Expressió incorrecta quan significa 'donant la mà'</short>
-      <example type="incorrect" correction="donant la mà">heu de caminar <marker>de la mà de</marker> la professora</example>
-      <example type="correct">heu de caminar <marker>donant la mà</marker> a la professora</example>
+      <message>Cal dir <suggestion>donant la mà a</suggestion>.</message>
+      <short>Expressió incorrecta quan significa ‘donant la mà’</short>
+      <example type="incorrect">heu de caminar <marker>de la mà de</marker> la professora</example>
+      <example type="correct">heu de caminar <marker>donant la mà a</marker> la professora</example>
     </rule>
+    <rule>
+      <pattern>
+	<token>de</token>
+	<token>la</token>
+	<token>mà</token>
+	<token>del</token>
+      </pattern>
+      <message>Cal dir <suggestion>donant la mà al</suggestion>.</message>
+      <short>Expressió incorrecta quan significa ‘donant la mà’</short>
+      <example type="incorrect">heu de caminar <marker>de la mà del</marker> professor</example>
+      <example type="correct">heu de caminar <marker>donant la mà al</marker> professor</example>
+    </rule>
+    <rule>
+      <pattern>
+	<token>de</token>
+	<token>la</token>
+	<token>mà</token>
+	<token>dels</token>
+      </pattern>
+      <message>Cal dir <suggestion>donant la mà als</suggestion>.</message>
+      <short>Expressió incorrecta quan significa ‘donant la mà’</short>
+      <example type="incorrect">heu de caminar <marker>de la mà dels</marker> professors</example>
+      <example type="correct">heu de caminar <marker>donant la mà als</marker> professors</example>
+    </rule>
+    <rule>
+      <pattern>
+	<token>de</token>
+	<token>la</token>
+	<token>mà</token>
+	<token>d</token>
+	<token regexp="yes">'|’</token>
+      </pattern>
+      <message>Cal dir <suggestion>donant la mà a</suggestion>.</message>
+      <short>Expressió incorrecta quan significa ‘donant la mà’</short>
+      <example type="incorrect">heu de caminar <marker>de la mà d’</marker>aquesta professora</example>
+      <example type="correct">heu de caminar <marker>donant la mà a</marker> aquesta professora</example>
+    </rule>
+    </rulegroup>
     <rule id="DE_PEU" name="de peu">
       <pattern>
 	<token>de</token>
 	<token>peu</token>
       </pattern>
       <message>Cal dir <suggestion>dret</suggestion>.</message>
-      <short>Expressió incorrecta quan significa 'dret'</short>
-      <example type="incorrect" correction="dret">cansa molt estar tant de temps <marker>de peu</marker></example>
+      <short>Expressió incorrecta quan significa ‘dret’</short>
+      <example type="incorrect">cansa molt estar tant de temps <marker>de peu</marker></example>
       <example type="correct">cansa molt estar tant de temps <marker>dret</marker></example>
     </rule>
     <rule id="DE_TOTES_FORMES" name="de totes formes">
@@ -598,19 +1124,53 @@ Copyright (C) 2009 Ricard Roca
       </pattern>
       <message>Cal dir <suggestion>de totes maneres</suggestion>.</message>
       <short>Expressió incorrecta</short>
-      <example type="incorrect" correction="de totes maneres"><marker>de totes formes</marker>, no hauríem arribat avui</example>
+      <example type="incorrect"><marker>de totes formes</marker>, no hauríem arribat avui</example>
       <example type="correct"><marker>de totes maneres</marker>, no hauríem arribat avui</example>
     </rule>
-    <rule id="DIFERENT_A" name="diferent a">
+    <rulegroup id="DIFERENT_A" name="diferent a">
+    <rule>
       <pattern>
 	<token>diferent</token>
-	<token>a</token> <!-- TODO: a -->
+	<token>al</token>
       </pattern>
-      <message>Cal dir <suggestion>diferent de</suggestion>.</message>
+      <message>Cal dir <suggestion>diferent del</suggestion>.</message>
       <short>Expressió incorrecta</short>
-      <example type="incorrect" correction="diferent de">un resultat <marker>diferent a</marker> l'anterior</example>
-      <example type="correct">un resultat <marker>diferent de</marker> l'anterior</example>
+      <example type="incorrect">un resultat <marker>diferent al</marker> d’abans</example>
+      <example type="correct">un resultat <marker>diferent del</marker> d’abans</example>
     </rule>
+    <rule>
+      <pattern>
+	<token>diferent</token>
+	<token>als</token>
+      </pattern>
+      <message>Cal dir <suggestion>diferent dels</suggestion>.</message>
+      <short>Expressió incorrecta</short>
+      <example type="incorrect">un resultat <marker>diferent als</marker> d’abans</example>
+      <example type="correct">un resultat <marker>diferent dels</marker> d’abans</example>
+    </rule>
+    <rule>
+      <pattern>
+	<token>diferent</token>
+	<token>a</token>
+	<token regexp="yes">[^aeiouhàéèíòóúh].*</token>
+      </pattern>
+      <message>Cal dir <suggestion>diferent de <match no="3"/></suggestion>.</message>
+      <short>Expressió incorrecta</short>
+      <example type="incorrect">un resultat <marker>diferent a mi</marker></example>
+      <example type="correct">un resultat <marker>diferent de mi</marker></example>
+    </rule>
+    <rule>
+      <pattern>
+	<token>diferent</token>
+	<token>a</token>
+	<token regexp="yes">[aeiouhàéèíòóúh].*</token>
+      </pattern>
+      <message>Cal dir <suggestion>diferent d’<match no="3"/></suggestion>.</message>
+      <short>Expressió incorrecta</short>
+      <example type="incorrect">un resultat <marker>diferent a aquest</marker></example>
+      <example type="correct">un resultat <marker>diferent d’aquest</marker></example>
+    </rule>
+    </rulegroup>
     <rule id="DONAT_QUE" name="donat que">
       <pattern>
 	<token>donat</token>
@@ -618,128 +1178,292 @@ Copyright (C) 2009 Ricard Roca
       </pattern>
       <message>Cal dir <suggestion>atès que</suggestion>.</message>
       <short>Expressió incorrecta</short>
-      <example type="incorrect" correction="atès que"><marker>donat que</marker> no has vingut, no t'hem deixat res</example>
-      <example type="correct"><marker>atès que</marker> no has vingut, no t'hem deixat res</example>
+      <example type="incorrect"><marker>donat que</marker> no has vingut, no t’hem deixat res</example>
+      <example type="correct"><marker>atès que</marker> no has vingut, no t’hem deixat res</example>
     </rule>
-    <rule id="EN_ARES_DE" name="en ares de">
+    <rulegroup id="EN_ARES_DE" name="en ares de">
+    <rule>
       <pattern>
 	<token>en</token>
 	<token>ares</token>
-	<token>de</token> <!-- TODO: de -->
+	<token regexp="yes">de|del|dels</token>
       </pattern>
-      <message>Cal dir <suggestion>en nom de</suggestion>.</message>
+      <message>Cal dir <suggestion>en nom <match no="3"/></suggestion>.</message>
       <short>Expressió incorrecta</short>
-      <example type="incorrect" correction="en nom de"><marker>en ares de</marker> la concòrdia</example>
+      <example type="incorrect"><marker>en ares de</marker> la concòrdia</example>
       <example type="correct"><marker>en nom de</marker> la concòrdia</example>
-    </rule>
+     </rule>
+     <rule>
+      <pattern>
+	<token>en</token>
+	<token>ares</token>
+	<token>d</token>
+	<token regexp="yes">'|’</token>
+      </pattern>
+      <message>Cal dir <suggestion>en nom d’</suggestion>.</message>
+      <short>Expressió incorrecta</short>
+      <example type="incorrect"><marker>en ares d’</marker>aquesta amistat</example>
+      <example type="correct"><marker>en nom d’</marker>aquesta amistat</example>
+     </rule>
+    </rulegroup>
     <rule id="EN_ATENCIÓ_A" name="en atenció a">
       <pattern>
 	<token>en</token>
 	<token>atenció</token>
-	<token>a</token> <!-- TODO: a -->
+	<token regexp="yes">a|al|als</token>
       </pattern>
-      <message>Cal dir <suggestion>en consideració a</suggestion>.</message>
+      <message>Cal dir <suggestion>en consideració <match no="3"/></suggestion>.</message>
       <short>Expressió incorrecta</short>
-      <example type="incorrect" correction="en consideració a"><marker>en atenció a</marker> aquest tracte</example>
+      <example type="incorrect"><marker>en atenció a</marker> aquest tracte</example>
       <example type="correct"><marker>en consideració a</marker> aquest tracte</example>
     </rule>
-    <rule id="EN_ATENCIÓ_AL" name="en atenció al">
-      <pattern>
-	<token>en</token>
-	<token>atenció</token>
-	<token>al</token> <!-- TODO: a -->
-      </pattern>
-      <message>Cal dir <suggestion>en consideració al</suggestion>.</message>
-      <short>Expressió incorrecta</short>
-      <example type="incorrect" correction="en consideració al"><marker>en atenció al</marker> tracte rebut</example>
-      <example type="correct"><marker>en consideració al</marker> tracte rebut</example>
-    </rule>
-    <rule id="EN_BASE_A" name="en base a">
+    <rulegroup id="EN_BASE_A" name="en base a">
+    <rule>
       <pattern>
 	<token>en</token>
 	<token>base</token>
-	<token>a</token> <!-- TODO: a -->
+	<token>a</token>
       </pattern>
       <message>Cal dir <suggestion>d’acord amb</suggestion>.</message>
       <short>Expressió incorrecta</short>
-      <example type="incorrect" correction="d’acord amb"><marker>en base a</marker> la sentència</example>
+      <example type="incorrect"><marker>en base a</marker> la sentència</example>
       <example type="correct"><marker>d’acord amb</marker> la sentència</example>
     </rule>
-    <rule id="EN_COMPARACIÓ_AMB" name="en comparació amb">
+    <rule>
+      <pattern>
+	<token>en</token>
+	<token>base</token>
+	<token>al</token>
+      </pattern>
+      <message>Cal dir <suggestion>d’acord amb el</suggestion>.</message>
+      <short>Expressió incorrecta</short>
+      <example type="incorrect"><marker>en base al</marker> jutge</example>
+      <example type="correct"><marker>d’acord amb el</marker> jutge</example>
+    </rule>
+    <rule>
+      <pattern>
+	<token>en</token>
+	<token>base</token>
+	<token>als</token>
+      </pattern>
+      <message>Cal dir <suggestion>d’acord amb els</suggestion>.</message>
+      <short>Expressió incorrecta</short>
+      <example type="incorrect"><marker>en base als</marker> jutge</example>
+      <example type="correct"><marker>d’acord amb els</marker> jutge</example>
+    </rule>
+    </rulegroup>
+    <rulegroup id="EN_COMPARACIÓ_AMB" name="en comparació amb">
+    <rule>
       <pattern>
 	<token>en</token>
 	<token>comparació</token>
 	<token>amb</token>
+	<token>el</token>
       </pattern>
-      <message>Cal dir <suggestion>en comparació de</suggestion>.</message>
+      <message>Cal dir <suggestion>en comparació del</suggestion>.</message>
       <short>Expressió incorrecta</short>
-      <example type="incorrect" correction="en comparació de"><marker>en comparació amb</marker> la meva, la teva casa és més bonica</example>
-      <example type="correct"><marker>en comparació de</marker> la meva, la teva casa és més bonica</example> <!-- TODO: de -->
+      <example type="incorrect"><marker>en comparació amb el</marker> teu, el meu és més bonic</example>
+      <example type="correct"><marker>en comparació del</marker> teu, el meu és més bonic</example>
     </rule>
-    <rule id="EN_DEFECTE_DE" name="en defecte de">
+    <rule>
+      <pattern>
+	<token>en</token>
+	<token>comparació</token>
+	<token>amb</token>
+	<token>els</token>
+      </pattern>
+      <message>Cal dir <suggestion>en comparació dels</suggestion>.</message>
+      <short>Expressió incorrecta</short>
+      <example type="incorrect"><marker>en comparació amb els</marker> teus, el meu és més bonic</example>
+      <example type="correct"><marker>en comparació dels</marker> teus, el meu és més bonic</example>
+    </rule>
+    <rule>
+      <pattern>
+	<token>en</token>
+	<token>comparació</token>
+	<token>amb</token>
+	<token regexp="yes">[aeiouàéèíóòúh].*</token>
+      </pattern>
+      <message>Cal dir <suggestion>en comparació d’<match no="4"/></suggestion>.</message>
+      <short>Expressió incorrecta</short>
+      <example type="incorrect"><marker>en comparació amb aquesta</marker>, la teva casa és més bonica</example>
+      <example type="correct"><marker>en comparació d’aquesta</marker>, la teva casa és més bonica</example>
+    </rule>
+    <rule>
+      <pattern>
+	<token>en</token>
+	<token>comparació</token>
+	<token>amb</token>
+	<token regexp="yes">[^aeiouàéèíóòúh].*</token>
+      </pattern>
+      <message>Cal dir <suggestion>en comparació de <match no="4"/></suggestion>.</message>
+      <short>Expressió incorrecta</short>
+      <example type="incorrect"><marker>en comparació amb l</marker>’altre, el meu és més bonic</example>
+      <example type="correct"><marker>en comparació de l’altre</marker>, el meu és més bonic</example>
+    </rule>
+    </rulegroup>
+    <rulegroup id="EN_DEFECTE_DE" name="en defecte de">
+    <rule>
       <pattern>
 	<token>en</token>
 	<token>defecte</token>
-	<token>de</token> <!-- TODO: de -->
+	<token regexp="yes">de|del|dels</token>
+      </pattern>
+      <message>Cal dir <suggestion>si no hi ha</suggestion>.</message>
+      <short>Expressió incorrecta</short>
+      <example type="incorrect"><marker>en defecte de</marker> llei, cal aplicar la jurisprudència</example>
+      <example type="correct"><marker>si no hi ha</marker> llei, cal aplicar la jurisprudència</example>
+    </rule>
+    <rule>
+      <pattern>
+	<token>en</token>
+	<token>defecte</token>
+	<token>d</token>
+	<token regexp="yes">'|’</token>
       </pattern>
       <message>Cal dir <suggestion>si no n’hi ha</suggestion>.</message>
       <short>Expressió incorrecta</short>
-      <example type="incorrect" correction="si no n’hi ha"><marker>en defecte de</marker> llei, cal aplicar la jurisprudència</example>
-      <example type="correct"><marker>si no n’hi ha</marker> llei, cal aplicar la jurisprudència</example>
+      <example type="incorrect"><marker>en defecte d’</marker>una llei, cal aplicar la jurisprudència</example>
+      <example type="correct"><marker>si no hi ha</marker> una llei, cal aplicar la jurisprudència</example>
     </rule>
-    <rule id="EN_MOTIU_DE" name="en motiu de">
+    </rulegroup>
+    <rulegroup id="EN_MOTIU_DE" name="en motiu de">
+    <rule>
       <pattern>
 	<token>en</token>
 	<token>motiu</token>
-	<token>de</token> <!-- TODO: de -->
+	<token regexp="yes">de|del|dels</token>
       </pattern>
-      <message>Cal dir <suggestion>amb motiu de</suggestion>.</message>
+      <message>Cal dir <suggestion>amb motiu <match no="3" /></suggestion>.</message>
       <short>Expressió incorrecta</short>
-      <example type="incorrect" correction="amb motiu de"><marker>en motiu de</marker> la celebració de l'aniversari</example>
-      <example type="correct"><marker>amb motiu de</marker> la celebració de l'aniversari</example>
+      <example type="incorrect"><marker>en motiu de</marker> la celebració de l’aniversari</example>
+      <example type="correct"><marker>amb motiu de</marker> la celebració de l’aniversari</example>
     </rule>
+    <rule>
+      <pattern>
+	<token>en</token>
+	<token>motiu</token>
+	<token>d</token>
+	<token regexp="yes">'|’</token>
+      </pattern>
+      <message>Cal dir <suggestion>amb motiu d’</suggestion>.</message>
+      <short>Expressió incorrecta</short>
+      <example type="incorrect"><marker>en motiu d’</marker>aquest aniversari</example>
+      <example type="correct"><marker>amb motiu d’</marker>aquest aniversari</example>
+    </rule>
+    </rulegroup>
     <rule id="EN_OCASIONS" name="en ocasions">
       <pattern>
 	<token>en</token>
 	<token>ocasions</token>
       </pattern>
-      <message>Cal dir <suggestion>de vegades</suggestion>.</message>
-      <short>Expressió incorrecta</short>
-      <example type="incorrect" correction="de vegades"><marker>en ocasions</marker> veig fantasmes</example>
+      <message>Expressió incorrecta si equival a <suggestion>de vegades</suggestion>.</message>
+      <short>Expressió incorrecta si equival a ‘de vegades’</short>
+      <example type="incorrect"><marker>en ocasions</marker> veig fantasmes</example>
       <example type="correct"><marker>de vegades</marker> veig fantasmes</example>
     </rule>
-    <rule id="EN_OPOSICIÓ_A" name="en oposició a">
+    <rulegroup id="EN_OPOSICIÓ_A" name="en oposició a">
+    <rule>
       <pattern>
 	<token>en</token>
 	<token>oposició</token>
-	<token>a</token> <!-- TODO: a -->
+	<token>a</token>
       </pattern>
       <message>Cal dir <suggestion>en oposició amb</suggestion>.</message>
       <short>Expressió incorrecta</short>
-      <example type="incorrect" correction="en oposició amb"><marker>en oposició a</marker> la llei A actua la llei B</example>
+      <example type="incorrect"><marker>en oposició a</marker> la llei A actua la llei B</example>
       <example type="correct"><marker>en oposició amb</marker> la llei A actua la llei B</example>
     </rule>
-    <rule id="EN_RELACIÓ_A" name="en relació a">
+    <rule>
+      <pattern>
+	<token>en</token>
+	<token>oposició</token>
+	<token>al</token>
+      </pattern>
+      <message>Cal dir <suggestion>en oposició amb el</suggestion>.</message>
+      <short>Expressió incorrecta</short>
+      <example type="incorrect"><marker>en oposició al</marker> jutge</example>
+      <example type="correct"><marker>en oposició amb el</marker> jutge</example>
+    </rule>
+    <rule>
+      <pattern>
+	<token>en</token>
+	<token>oposició</token>
+	<token>als</token>
+      </pattern>
+      <message>Cal dir <suggestion>en oposició amb els</suggestion>.</message>
+      <short>Expressió incorrecta</short>
+      <example type="incorrect"><marker>en oposició als</marker> jutges</example>
+      <example type="correct"><marker>en oposició amb els</marker> jutges</example>
+    </rule>
+    </rulegroup>
+    <rulegroup id="EN_RELACIÓ_A" name="en relació a">
+    <rule>
       <pattern>
 	<token>en</token>
 	<token>relació</token>
-	<token>a</token> <!-- TODO: a -->
+	<token>a</token>
       </pattern>
       <message>Cal dir <suggestion>en relació amb</suggestion>.</message>
       <short>Expressió incorrecta</short>
-      <example type="incorrect" correction="en relació amb">no vull saber res <marker>en relació a</marker> aquest tema</example>
+      <example type="incorrect">no vull saber res <marker>en relació a</marker> aquest tema</example>
       <example type="correct">no vull sabe res <marker>en relació amb</marker> aquest tema</example>
     </rule>
-    <rule id="ENTORN_A" name="entorn a">
+    <rule>
+      <pattern>
+	<token>en</token>
+	<token>relació</token>
+	<token>al</token>
+      </pattern>
+      <message>Cal dir <suggestion>en relació amb el</suggestion>.</message>
+      <short>Expressió incorrecta</short>
+      <example type="incorrect">no vull saber res <marker>en relació al</marker> tema</example>
+      <example type="correct">no vull sabe res <marker>en relació amb el</marker> tema</example>
+    </rule>
+    <rule>
+      <pattern>
+	<token>en</token>
+	<token>relació</token>
+	<token>als</token>
+      </pattern>
+      <message>Cal dir <suggestion>en relació amb els</suggestion>.</message>
+      <short>Expressió incorrecta</short>
+      <example type="incorrect">no vull saber res <marker>en relació als</marker> temes</example>
+      <example type="correct">no vull sabe res <marker>en relació amb els</marker> temes</example>
+    </rule>
+    </rulegroup>
+    <rulegroup id="ENTORN_A" name="entorn a">
+    <rule>
       <pattern>
 	<token>entorn</token>
-	<token>a</token> <!-- TODO: a -->
+	<token>a</token>
       </pattern>
       <message>Cal dir <suggestion>entorn de</suggestion>.</message>
       <short>Expressió incorrecta</short>
-      <example type="incorrect" correction="entorn de"><marker>entorn a</marker> la botiga hi ha molta gent</example>
+      <example type="incorrect"><marker>entorn a</marker> la botiga hi ha molta gent</example>
       <example type="correct"><marker>entorn de</marker> la botiga hi ha molta gent</example>
     </rule>
+    <rule>
+      <pattern>
+	<token>entorn</token>
+	<token>al</token>
+      </pattern>
+      <message>Cal dir <suggestion>entorn del</suggestion>.</message>
+      <short>Expressió incorrecta</short>
+      <example type="incorrect"><marker>entorn al</marker> mercat hi ha molta gent</example>
+      <example type="correct"><marker>entorn del</marker> mercat hi ha molta gent</example>
+    </rule>
+    <rule>
+      <pattern>
+	<token>entorn</token>
+	<token>als</token>
+      </pattern>
+      <message>Cal dir <suggestion>entorn dels</suggestion>.</message>
+      <short>Expressió incorrecta</short>
+      <example type="incorrect"><marker>entorn als</marker> mercats hi ha molta gent</example>
+      <example type="correct"><marker>entorn dels</marker> mercats hi ha molta gent</example>
+    </rule>
+    </rulegroup>
     <rule id="ENTRE_PARÈNTESI" name="entre parèntesi">
       <pattern>
 	<token>entre</token>
@@ -747,59 +1471,169 @@ Copyright (C) 2009 Ricard Roca
       </pattern>
       <message>Cal dir <suggestion>entre parèntesis</suggestion>.</message>
       <short>Expressió incorrecta</short>
-      <example type="incorrect" correction="entre parèntesis">cal posar-ho <marker>entre parèntesi</marker></example>
+      <example type="incorrect">cal posar-ho <marker>entre parèntesi</marker></example>
       <example type="correct">cal posar-ho <marker>entre parèntesis</marker></example>
     </rule>
-     <rule id="CAS_A" name="cas a">
+    <rulegroup id="CAS_A" name="cas a">
+    <rule>
       <pattern>
 	<token>cas</token>
-	<token>a</token> <!-- TODO: a -->
+	<token>a</token>
       </pattern>
       <message>Cal dir <suggestion>cas de</suggestion>.</message>
-      <short>Fer cas de, no fer cas a</short>
-      <example type="incorrect" correction="cas de">no facis <marker>cas a</marker> la teva cosina</example>
+      <short>Cal dir ‘fer cas de’, no ‘fer cas a’</short>
+      <example type="incorrect">no facis <marker>cas a</marker> la teva cosina</example>
       <example type="correct">no facis <marker>cas de</marker> la teva cosina</example>
-    </rule> 
-    <rule id="FRONT_A" name="front a">
+    </rule>
+    <rule>
+      <pattern>
+	<token>cas</token>
+	<token>al</token>
+      </pattern>
+      <message>Cal dir <suggestion>cas del</suggestion>.</message>
+      <short>Cal dir ‘fer cas de’, no ‘fer cas a’</short>
+      <example type="incorrect">no facis <marker>cas al</marker> pare</example>
+      <example type="correct">no facis <marker>cas del</marker> pare</example>
+    </rule>
+    <rule>
+      <pattern>
+	<token>cas</token>
+	<token>als</token>
+      </pattern>
+      <message>Cal dir <suggestion>cas dels</suggestion>.</message>
+      <short>Cal dir ‘fer cas de’, no ‘fer cas a’</short>
+      <example type="incorrect">no facis <marker>cas als</marker> pares</example>
+      <example type="correct">no facis <marker>cas dels</marker> pares</example>
+    </rule>
+    </rulegroup> 
+    <rulegroup id="FRONT_A" name="front a">
+    <rule>
       <pattern>
 	<token>front</token>
-	<token>a</token> <!-- TODO: a -->
+	<token>a</token>
       </pattern>
       <message>Cal dir <suggestion>enfront de</suggestion>.</message>
       <short>Expressió incorrecta</short>
-      <example type="incorrect" correction="enfront de"><marker>front a</marker> la situació, hem d'actuar ràpidament</example>
-      <example type="correct"><marker>enfront de</marker> la situació, hem d'actuar ràpidament</example> <!-- TODO: de -->
+      <example type="incorrect"><marker>front a</marker> la situació, hem d’actuar ràpidament</example>
+      <example type="correct"><marker>enfront de</marker> la situació, hem d’actuar ràpidament</example>
     </rule>
-    <rule id="GUST_A" name="gust a">
+    <rule>
+      <pattern>
+	<token>front</token>
+	<token>al</token>
+      </pattern>
+      <message>Cal dir <suggestion>enfront del</suggestion>.</message>
+      <short>Expressió incorrecta</short>
+      <example type="incorrect"><marker>front al</marker> problema, hem d’actuar ràpidament</example>
+      <example type="correct"><marker>enfront del</marker> problema, hem d’actuar ràpidament</example>
+    </rule>
+    <rule>
+      <pattern>
+	<token>front</token>
+	<token>als</token>
+      </pattern>
+      <message>Cal dir <suggestion>enfront dels</suggestion>.</message>
+      <short>Expressió incorrecta</short>
+      <example type="incorrect"><marker>front als</marker> problemes, hem d’actuar ràpidament</example>
+      <example type="correct"><marker>enfront dels</marker> problemes, hem d’actuar ràpidament</example>
+    </rule>
+    </rulegroup>
+    <rulegroup id="GUST_A" name="gust a">
+    <rule>
       <pattern>
 	<token>gust</token>
-	<token>a</token> <!-- TODO: a -->
+	<token>a</token>
       </pattern>
-      <message>Cal dir <suggestion>gust de</suggestion>.</message>
-      <short>Expressió incorrecta</short>
-      <example type="incorrect" correction="gust de">fa <marker>gust a</marker> maduixa</example> <!-- TODO: de -->
+      <message>Incorrecte si vol dir <suggestion>gust de</suggestion>.</message>
+      <short>Incorrecte si vol dir ‘gust d’alguna cosa’</short>
+      <example type="incorrect">fa <marker>gust a</marker> maduixa</example>
       <example type="correct">fa <marker>gust de</marker> maduixa</example>
     </rule>
-    <rule id="IGUAL_A" name="igual a">
+    <rule>
+      <pattern>
+	<token>gust</token>
+	<token>al</token>
+      </pattern>
+      <message>>Incorrecte si vol dir <suggestion>gust del</suggestion>.</message>
+      <short>Incorrecte si vol dir ‘gust d’alguna cosa’</short>
+      <example type="incorrect">fa <marker>gust al</marker> caramel</example>
+      <example type="correct">fa <marker>gust del</marker> caramel</example>
+    </rule>
+    <rule>
+      <pattern>
+	<token>gust</token>
+	<token>als</token>
+      </pattern>
+      <message>Incorrecte si vol dir <suggestion>gust dels</suggestion>.</message>
+      <short>Incorrecte si vol dir ‘gust d’alguna cosa’</short>
+      <example type="incorrect">fa <marker>gust als</marker> caramels</example>
+      <example type="correct">fa <marker>gust dels</marker> caramels</example>
+    </rule>
+    </rulegroup>
+    <rulegroup id="IGUAL_A" name="igual a">
+    <rule>
       <pattern>
 	<token>igual</token>
-	<token>a</token> <!-- TODO: a -->
+	<token>a</token>
       </pattern>
       <message>Cal dir <suggestion>igual que</suggestion>.</message>
       <short>Expressió incorrecta</short>
-      <example type="incorrect" correction="igual que">és <marker>igual a</marker> la meva neboda</example>
+      <example type="incorrect">és <marker>igual a</marker> la meva neboda</example>
       <example type="correct">és <marker>igual que</marker> la meva neboda</example>
     </rule>
-    <rule id="MAJOR_A" name="major a">
+    <rule>
       <pattern>
-	<token>major</token>
-	<token>a</token> <!-- TODO: a -->
+	<token>igual</token>
+	<token>al</token>
       </pattern>
-      <message>Cal dir <suggestion>major que</suggestion>.</message>
+      <message>Cal dir <suggestion>igual que el</suggestion>.</message>
       <short>Expressió incorrecta</short>
-      <example type="incorrect" correction="major que">el pes és <marker>major a</marker> l'anterior</example>
-      <example type="correct">el pes és <marker>major que</marker> l'anterior</example>
+      <example type="incorrect">és <marker>igual al</marker> meu nebot</example>
+      <example type="correct">és <marker>igual que el</marker> meu nebot</example>
     </rule>
+    <rule>
+      <pattern>
+	<token>igual</token>
+	<token>als</token>
+      </pattern>
+      <message>Cal dir <suggestion>igual que els</suggestion>.</message>
+      <short>Expressió incorrecta</short>
+      <example type="incorrect">és <marker>igual als</marker> meus nebots</example>
+      <example type="correct">és <marker>igual que els</marker> meus nebots</example>
+    </rule>
+    </rulegroup>
+    <rulegroup id="MAJOR_MENOR_A" name="major/menor a">
+    <rule>
+      <pattern>
+	<token regexp="yes">major|menor|majors|menors</token>
+	<token>a</token>
+      </pattern>
+      <message>Cal dir <suggestion><match no="1" /> que</suggestion>.</message>
+      <short>Expressió incorrecta</short>
+      <example type="incorrect">el pes és <marker>major a</marker> l’anterior</example>
+      <example type="correct">el pes és <marker>major que</marker> l’anterior</example>
+    </rule>
+    <rule>
+      <pattern>
+	<token regexp="yes">major|menor|majors|menors</token>
+	<token>al</token>
+      </pattern>
+      <message>Cal dir <suggestion><match no="1" /> que el</suggestion>.</message>
+      <short>Expressió incorrecta</short>
+      <example type="incorrect">el pes és <marker>major al</marker> d’abans</example>
+      <example type="correct">el pes és <marker>major que el</marker> d’abans</example>
+    </rule>
+    <rule>
+      <pattern>
+	<token regexp="yes">major|menor|majors|menors</token>
+	<token>als</token>
+      </pattern>
+      <message>Cal dir <suggestion><match no="1" /> que els</suggestion>.</message>
+      <short>Expressió incorrecta</short>
+      <example type="incorrect">el pes és <marker>major als</marker> d’abans</example>
+      <example type="correct">el pes és <marker>major que els</marker> d’abans</example>
+    </rule>
+    </rulegroup>
     <rule id="MATÈRIA_GRIS" name="matèria gris">
       <pattern>
 	<token>matèria</token>
@@ -807,39 +1641,31 @@ Copyright (C) 2009 Ricard Roca
       </pattern>
       <message>Cal dir <suggestion>substància grisa</suggestion>.</message>
       <short>Expressió incorrecta</short>
-      <example type="incorrect" correction="substància grisa">la <marker>matèria grisa</marker> del cervell</example>
+      <example type="incorrect">la <marker>matèria grisa</marker> del cervell</example>
       <example type="correct">la <marker>substància grisa</marker> del cervell</example>
     </rule>
-    <rule id="MATÈRIA_PRIMA" name="matèria prima">
+    <rulegroup id="MATÈRIA_PRIMA" name="matèria prima">
+    <rule>
       <pattern>
 	<token>matèria</token>
 	<token>prima</token>
       </pattern>
       <message>Cal dir <suggestion>matèria primera</suggestion>.</message>
       <short>Expressió incorrecta</short>
-      <example type="incorrect" correction="matèria primera">està fet d'una <marker>matèria prima</marker> de qualitat</example>
-      <example type="correct">està fet d'una <marker>matèria primera</marker> de qualitat</example>
+      <example type="incorrect">està fet d’una <marker>matèria prima</marker> de qualitat</example>
+      <example type="correct">està fet d’una <marker>matèria primera</marker> de qualitat</example>
     </rule>
-    <rule id="MATÈRIES_PRIMES" name="matèries primes">
+    <rule>
       <pattern>
 	<token>matèries</token>
 	<token>primes</token>
       </pattern>
       <message>Cal dir <suggestion>matèries primeres</suggestion>.</message>
       <short>Expressió incorrecta</short>
-      <example type="incorrect" correction="matèries primeres">està fet d'unes <marker>matèries primes</marker> de qualitat</example>
-      <example type="correct">està fet d'unes <marker>matèries primeres</marker> de qualitat</example>
+      <example type="incorrect">està fet d’unes <marker>matèries primes</marker> de qualitat</example>
+      <example type="correct">està fet d’unes <marker>matèries primeres</marker> de qualitat</example>
     </rule>
-    <rule id="MENOR_A" name="menor a">
-      <pattern>
-	<token>menor</token>
-	<token>a</token> <!-- TODO: a -->
-      </pattern>
-      <message>Cal dir <suggestion>menor que</suggestion>.</message>
-      <short>Expressió incorrecta</short>
-      <example type="incorrect" correction="menor que">no en trobarem cap <marker>menor a</marker> la teva</example>
-      <example type="correct">no en trobarem cap <marker>menor que</marker> la teva</example>
-    </rule>
+    </rulegroup>
     <rule id="MÉS_VAL" name="més val">
       <pattern>
 	<token>més</token>
@@ -847,7 +1673,7 @@ Copyright (C) 2009 Ricard Roca
       </pattern>
       <message>Cal dir <suggestion>val més</suggestion>.</message>
       <short>Expressió incorrecta</short>
-      <example type="incorrect" correction="val més"><marker>més val</marker> que no ho facis</example>
+      <example type="incorrect"><marker>més val</marker> que no ho facis</example>
       <example type="correct"><marker>val més</marker> que no ho facis</example>
     </rule>
     <rule id="NO_ÉS_DESTRANYAR" name="no és d’estranyar">
@@ -860,7 +1686,7 @@ Copyright (C) 2009 Ricard Roca
       </pattern>
       <message>Cal dir <suggestion>no és estrany</suggestion>.</message>
       <short>Expressió incorrecta</short>
-      <example type="incorrect" correction="no és estrany"><marker>no és d’estranyar</marker> que ocorri això</example>
+      <example type="incorrect"><marker>no és d’estranyar</marker> que ocorri això</example>
       <example type="correct"><marker>no és estrany</marker> que ocorri això</example>
     </rule>
     <rule id="NO_IMPORTA" name="no importa">
@@ -869,8 +1695,8 @@ Copyright (C) 2009 Ricard Roca
 	<token>importa</token>
       </pattern>
       <message>És incorrecte si vol dir <suggestion>és igual</suggestion>.</message>
-      <short>Incorrecte si vol dir 'és igual'</short>
-      <example type="incorrect" correction="és igual"><marker>no importa</marker>, ja vindràs més tard</example>
+      <short>Incorrecte si vol dir ‘és igual’</short>
+      <example type="incorrect"><marker>no importa</marker>, ja vindràs més tard</example>
       <example type="correct"><marker>és igual</marker>, ja vindràs més tard</example>
     </rule>
     <rule id="NO_MASSA" name="no massa">
@@ -880,7 +1706,7 @@ Copyright (C) 2009 Ricard Roca
       </pattern>
       <message>Cal dir <suggestion>no gaire</suggestion>.</message>
       <short>Expressió incorrecta</short>
-      <example type="incorrect" correction="no gaire">hem trobat pomes <marker>no massa</marker> bones</example>
+      <example type="incorrect">hem trobat pomes <marker>no massa</marker> bones</example>
       <example type="correct">hem trobat pomes <marker>no gaire</marker> bones</example>
     </rule>
     <rule id="NO_NOMÉS" name="no només">
@@ -890,19 +1716,41 @@ Copyright (C) 2009 Ricard Roca
       </pattern>
       <message>Cal dir <suggestion>no solament</suggestion>.</message>
       <short>Expressió incorrecta</short>
-      <example type="incorrect" correction="no solament"><marker>no només</marker> vull que te'n vagis...</example>
-      <example type="correct"><marker>no solament</marker> vull que te'n vagis...</example>
+      <example type="incorrect"><marker>no només</marker> vull que te’n vagis...</example>
+      <example type="correct"><marker>no solament</marker> vull que te’n vagis...</example>
     </rule>
-    <rule id="OLOR_A" name="olor a">
+    <rulegroup id="OLOR_A" name="olor a">
+    <rule>
       <pattern>
 	<token>olor</token>
-	<token>a</token> <!-- TODO: a -->
+	<token>a</token>
       </pattern>
       <message>Cal dir <suggestion>olor de</suggestion>.</message>
-      <short>Expressió incorrecta</short> <!-- TODO: de -->
-      <example type="incorrect" correction="olor de">fa <marker>olor a</marker> perfum</example>
+      <short>Expressió incorrecta</short>
+      <example type="incorrect">fa <marker>olor a</marker> perfum</example>
       <example type="correct">fa <marker>olor de</marker> perfum</example>
     </rule>
+    <rule>
+      <pattern>
+	<token>olor</token>
+	<token>al</token>
+      </pattern>
+      <message>Cal dir <suggestion>olor del</suggestion>.</message>
+      <short>Expressió incorrecta</short>
+      <example type="incorrect">fa <marker>olor al</marker> perfum</example>
+      <example type="correct">fa <marker>olor del</marker> perfum</example>
+    </rule>
+    <rule>
+      <pattern>
+	<token>olor</token>
+	<token>als</token>
+      </pattern>
+      <message>Cal dir <suggestion>olor dels</suggestion>.</message>
+      <short>Expressió incorrecta</short>
+      <example type="incorrect">fa <marker>olor als</marker> perfums</example>
+      <example type="correct">fa <marker>olor dels</marker> perfums</example>
+    </rule>
+    </rulegroup>
     <rule id="PAPER_SECANT" name="paper secant">
       <pattern>
 	<token>paper</token>
@@ -910,7 +1758,7 @@ Copyright (C) 2009 Ricard Roca
       </pattern>
       <message>Cal dir <suggestion>paper assecant</suggestion>.</message>
       <short>Expressió incorrecta</short>
-      <example type="incorrect" correction="paper assecant">hem comprat <marker>paper secant</marker></example>
+      <example type="incorrect">hem comprat <marker>paper secant</marker></example>
       <example type="correct">hem comprat <marker>paper assecant</marker></example>
     </rule>
     <rule id="PEL_CONTRARI" name="pel contrari">
@@ -920,30 +1768,31 @@ Copyright (C) 2009 Ricard Roca
       </pattern>
       <message>Cal dir <suggestion>al contrari</suggestion>.</message>
       <short>Expressió incorrecta</short>
-      <example type="incorrect" correction="al contrari"><marker>pel contrari</marker>, aquesta llei no resulta aplicable</example>
+      <example type="incorrect"><marker>pel contrari</marker>, aquesta llei no resulta aplicable</example>
       <example type="correct"><marker>al contrari</marker> , aquesta llei no resulta aplicable</example>
     </rule>
-    <rule id="PEL_MATÍ" name="pel matí">
+    <rulegroup id="PER_TEMPS" name="per + temps">
+    <rule>
       <pattern>
 	<token>pel</token>
 	<token>matí</token>
       </pattern>
       <message>Cal dir <suggestion>al matí</suggestion>.</message>
       <short>Expressió incorrecta</short>
-      <example type="incorrect" correction="al matí"><marker>pel matí</marker> em llevo d'hora</example>
-      <example type="correct"><marker>al matí</marker> em llevo d'hora</example>
+      <example type="incorrect"><marker>pel matí</marker> em llevo d’hora</example>
+      <example type="correct"><marker>al matí</marker> em llevo d’hora</example>
     </rule>
-    <rule id="PER_ANTICIPAT" name="per anticipat">
+    <rule>
       <pattern>
-	<token>per</token>
-	<token>anticipat</token>
+	<token>pels</token>
+	<token>matins</token>
       </pattern>
-      <message>Cal dir <suggestion>per endavant</suggestion>.</message>
+      <message>Cal dir <suggestion>als matins</suggestion>.</message>
       <short>Expressió incorrecta</short>
-      <example type="incorrect" correction="per endavant">cal pagar-ho <marker>per anticipat</marker></example>
-      <example type="correct">cal pagar-ho <marker>per endavant</marker></example>
+      <example type="incorrect"><marker>pels matins</marker> em llevo d’hora</example>
+      <example type="correct"><marker>als matins</marker> em llevo d’hora</example>
     </rule>
-    <rule id="PER_LA_NIT" name="per la nit">
+    <rule>
       <pattern>
 	<token>per</token>
 	<token>la</token>
@@ -951,10 +1800,21 @@ Copyright (C) 2009 Ricard Roca
       </pattern>
       <message>Cal dir <suggestion>a la nit</suggestion>.</message>
       <short>Expressió incorrecta</short>
-      <example type="incorrect" correction="a la nit"><marker>per la nit</marker> tinc son</example>
+      <example type="incorrect"><marker>per la nit</marker> tinc son</example>
       <example type="correct"><marker>a la nit</marker> tinc son</example>
     </rule>
-    <rule id="PER_LA_TARDA" name="per la tarda">
+    <rule>
+      <pattern>
+	<token>per</token>
+	<token>les</token>
+	<token>nits</token>
+      </pattern>
+      <message>Cal dir <suggestion>a les nits</suggestion>.</message>
+      <short>Expressió incorrecta</short>
+      <example type="incorrect"><marker>per les nits</marker> tinc son</example>
+      <example type="correct"><marker>a les nits</marker> tinc son</example>
+    </rule>
+    <rule>
       <pattern>
 	<token>per</token>
 	<token>la</token>
@@ -962,8 +1822,30 @@ Copyright (C) 2009 Ricard Roca
       </pattern>
       <message>Cal dir <suggestion>a la tarda</suggestion>.</message>
       <short>Expressió incorrecta</short>
-      <example type="incorrect" correction="a la tarda"><marker>per la tarda</marker> es pon el sol</example>
+      <example type="incorrect"><marker>per la tarda</marker> es pon el sol</example>
       <example type="correct"><marker>a la tarda</marker> es pon el sol</example>
+    </rule>
+    <rule>
+      <pattern>
+	<token>per</token>
+	<token>les</token>
+	<token>tardes</token>
+      </pattern>
+      <message>Cal dir <suggestion>a les tardes</suggestion>.</message>
+      <short>Expressió incorrecta</short>
+      <example type="incorrect"><marker>per les tardes</marker> es pon el sol</example>
+      <example type="correct"><marker>a les tardes</marker> es pon el sol</example>
+    </rule>
+    </rulegroup>
+    <rule id="PER_ANTICIPAT" name="per anticipat">
+      <pattern>
+	<token>per</token>
+	<token>anticipat</token>
+      </pattern>
+      <message>Cal dir <suggestion>per endavant</suggestion>.</message>
+      <short>Expressió incorrecta</short>
+      <example type="incorrect">cal pagar-ho <marker>per anticipat</marker></example>
+      <example type="correct">cal pagar-ho <marker>per endavant</marker></example>
     </rule>
     <rule id="PER_ÚLTIM" name="per últim">
       <pattern>
@@ -972,11 +1854,11 @@ Copyright (C) 2009 Ricard Roca
       </pattern>
       <message>Cal dir <suggestion>finalment</suggestion>.</message>
       <short>Expressió incorrecta</short>
-      <example type="incorrect" correction="finalment"><marker>per últim</marker>, els precs i preguntes</example>
+      <example type="incorrect"><marker>per últim</marker>, els precs i preguntes</example>
       <example type="correct"><marker>finalment</marker>, els precs i preguntes</example>
     </rule>
     <rule id="POC_A_POC" name="poc a poc">
-      <pattern>
+      <pattern mark_from="1">
         <token negate="yes">a</token>
 	<token>poc</token>
 	<token>a</token>
@@ -984,29 +1866,73 @@ Copyright (C) 2009 Ricard Roca
       </pattern>
       <message>Cal dir <suggestion>a poc a poc</suggestion>.</message>
       <short>Expressió incorrecta</short>
-      <example type="incorrect" correction="a poc a poc"><marker>poc a poc</marker> remuntarem el riu</example>
+      <example type="incorrect"><marker>poc a poc</marker> remuntarem el riu</example>
       <example type="correct"><marker>a poc a poc</marker> remuntarem el riu</example>
     </rule>
-    <rule id="POR_A" name="por a">
+    <rulegroup id="POR_A" name="por a">
+    <rule>
       <pattern>
 	<token>por</token>
-	<token>a</token> <!-- TODO: a -->
+	<token>a</token>
       </pattern>
       <message>Cal dir <suggestion>por de</suggestion>.</message>
       <short>Expressió incorrecta</short>
-      <example type="incorrect" correction="por de">tinc <marker>por a</marker> la soledat</example> <!-- TODO: de -->
+      <example type="incorrect">tinc <marker>por a</marker> la soledat</example>
       <example type="correct">tinc <marker>por de</marker> la soledat</example>
     </rule>
-    <rule id="PUDOR_A" name="pudor a">
+    <rule>
+      <pattern>
+	<token>por</token>
+	<token>al</token>
+      </pattern>
+      <message>Cal dir <suggestion>por del</suggestion>.</message>
+      <short>Expressió incorrecta</short>
+      <example type="incorrect">tinc <marker>por al</marker> fantasma</example>
+      <example type="correct">tinc <marker>por del</marker> fantasma</example>
+    </rule>
+    <rule>
+      <pattern>
+	<token>por</token>
+	<token>als</token>
+      </pattern>
+      <message>Cal dir <suggestion>por dels</suggestion>.</message>
+      <short>Expressió incorrecta</short>
+      <example type="incorrect">tinc <marker>por als</marker> fantasmes</example>
+      <example type="correct">tinc <marker>por dels</marker> fantasmes</example>
+    </rule>
+    </rulegroup>
+    <rulegroup id="PUDOR_A" name="pudor a">
+    <rule>
       <pattern>
 	<token>pudor</token>
-	<token>a</token> <!-- TODO: a -->
+	<token>a</token>
       </pattern>
       <message>Cal dir <suggestion>pudor de</suggestion>.</message>
       <short>Expressió incorrecta</short>
-      <example type="incorrect" correction="pudor de"><marker>pudor a</marker> mort</example>
-      <example type="correct"><marker>pudor de</marker> mort</example> <!-- TODO: de -->
+      <example type="incorrect"><marker>pudor a</marker> mort</example>
+      <example type="correct"><marker>pudor de</marker> mort</example> 
     </rule>
+    <rule>
+      <pattern>
+	<token>pudor</token>
+	<token>al</token>
+      </pattern>
+      <message>Cal dir <suggestion>pudor del</suggestion>.</message>
+      <short>Expressió incorrecta</short>
+      <example type="incorrect"><marker>pudor al</marker> mort</example>
+      <example type="correct"><marker>pudor del</marker> mort</example> 
+    </rule>
+    <rule>
+      <pattern>
+	<token>pudor</token>
+	<token>als</token>
+      </pattern>
+      <message>Cal dir <suggestion>pudor dels</suggestion>.</message>
+      <short>Expressió incorrecta</short>
+      <example type="incorrect"><marker>pudor als</marker> morts</example>
+      <example type="correct"><marker>pudor dels</marker> morts</example> 
+    </rule>
+    </rulegroup>
     <rule id="QUANT_ABANS_MILLOR" name="quant abans millor">
       <pattern>
 	<token>quant</token>
@@ -1015,7 +1941,7 @@ Copyright (C) 2009 Ricard Roca
       </pattern>
       <message>Cal dir <suggestion>com més aviat millor</suggestion>.</message>
       <short>Expressió incorrecta</short>
-      <example type="incorrect" correction="com més aviat millor">cal fer-ho <marker>quant abans millor</marker></example>
+      <example type="incorrect">cal fer-ho <marker>quant abans millor</marker></example>
       <example type="correct">cal fer-ho <marker>com més aviat millor</marker></example>
     </rule>
     <rule id="QUANT_MENYS" name="quant menys">
@@ -1025,7 +1951,7 @@ Copyright (C) 2009 Ricard Roca
       </pattern>
       <message>Cal dir <suggestion>com menys</suggestion>.</message>
       <short>Expressió incorrecta</short>
-      <example type="incorrect" correction="com menys"><marker>quant menys</marker> en portin, millor</example>
+      <example type="incorrect"><marker>quant menys</marker> en portin, millor</example>
       <example type="correct"><marker>com menys</marker> en portin, millor</example>
     </rule>
     <rule id="QUANT_MÉS" name="quant més">
@@ -1035,39 +1961,95 @@ Copyright (C) 2009 Ricard Roca
       </pattern>
       <message>Cal dir <suggestion>com més</suggestion>.</message>
       <short>Expressió incorrecta</short>
-      <example type="incorrect" correction="com més"><marker>quant més</marker> en portin, millor</example>
+      <example type="incorrect"><marker>quant més</marker> en portin, millor</example>
       <example type="correct"><marker>com més</marker> en portin, millor</example>
     </rule>
-    <rule id="REBUIG_A" name="rebuig a">
+    <rulegroup id="REBUIG_A" name="rebuig a">
+    <rule>
       <pattern>
 	<token>rebuig</token>
-	<token>a</token> <!-- TODO: a -->
+	<token>a</token>
       </pattern>
       <message>Cal dir <suggestion>rebuig de</suggestion>.</message>
-      <short>Expressió incorrecta</short> <!-- TODO: de -->
-      <example type="incorrect" correction="rebuig de">tenia <marker>rebuig a</marker> tu</example>
+      <short>Expressió incorrecta</short>
+      <example type="incorrect">tenia <marker>rebuig a</marker> tu</example>
       <example type="correct">tenia <marker>rebuig de</marker> tu</example>
     </rule>
-    <rule id="REPÀS_A" name="repàs a">
+    <rule>
+      <pattern>
+	<token>rebuig</token>
+	<token>al</token>
+      </pattern>
+      <message>Cal dir <suggestion>rebuig del</suggestion>.</message>
+      <short>Expressió incorrecta</short>
+      <example type="incorrect">tenia <marker>rebuig al</marker> passat</example>
+      <example type="correct">tenia <marker>rebuig del</marker> passat</example>
+    </rule>
+    <rule>
+      <pattern>
+	<token>rebuig</token>
+	<token>als</token>
+      </pattern>
+      <message>Cal dir <suggestion>rebuig dels</suggestion>.</message>
+      <short>Expressió incorrecta</short>
+      <example type="incorrect">tenia <marker>rebuig als</marker> antibiòtics</example>
+      <example type="correct">tenia <marker>rebuig dels</marker> antibiòtics</example>
+    </rule>
+    </rulegroup>
+    <rulegroup id="REPÀS_A" name="repàs a">
+    <rule>
       <pattern>
 	<token>repàs</token>
-	<token>a</token> <!-- TODO: a -->
+	<token>a</token>
       </pattern>
       <message>Cal dir <suggestion>repàs de</suggestion>.</message>
       <short>Expressió incorrecta</short>
-      <example type="incorrect" correction="repàs de"><marker>repàs a</marker> les matemàtiques</example> <!-- TODO: de -->
+      <example type="incorrect"><marker>repàs a</marker> les matemàtiques</example>
       <example type="correct"><marker>repàs de</marker> les matemàtiques</example>
     </rule>
-    <rule id="SEMBLA_SER" name="sembla ser">
+    <rule>
+      <pattern>
+	<token>repàs</token>
+	<token>al</token>
+      </pattern>
+      <message>Cal dir <suggestion>repàs del</suggestion>.</message>
+      <short>Expressió incorrecta</short>
+      <example type="incorrect"><marker>repàs al</marker> tema</example>
+      <example type="correct"><marker>repàs del</marker> tema</example>
+    </rule>
+    <rule>
+      <pattern>
+	<token>repàs</token>
+	<token>als</token>
+      </pattern>
+      <message>Cal dir <suggestion>repàs dels</suggestion>.</message>
+      <short>Expressió incorrecta</short>
+      <example type="incorrect"><marker>repàs als</marker> temes</example>
+      <example type="correct"><marker>repàs dels</marker> temes</example>
+    </rule>
+    </rulegroup>
+    <rulegroup id="SEMBLA_SER" name="sembla ser">
+    <rule>
       <pattern>
 	<token>sembla</token>
 	<token>ser</token>
       </pattern>
       <message>Cal dir <suggestion>sembla</suggestion>.</message>
       <short>Expressió incorrecta</short>
-      <example type="incorrect" correction="sembla"><marker>sembla ser</marker> que no arribarem a temps</example>
+      <example type="incorrect"><marker>sembla ser</marker> que no arribarem a temps</example>
       <example type="correct"><marker>sembla</marker> que no arribarem a temps</example>
     </rule>
+    <rule>
+      <pattern>
+	<token>semblava</token>
+	<token>ser</token>
+      </pattern>
+      <message>Cal dir <suggestion>semblava</suggestion>.</message>
+      <short>Expressió incorrecta</short>
+      <example type="incorrect"><marker>semblava ser</marker> que no arribaríem a temps</example>
+      <example type="correct"><marker>semblava</marker> que no arribaríem a temps</example>
+    </rule>
+    </rulegroup>
     <rule id="SEMPRE_I_QUAN" name="sempre i quan">
       <pattern>
 	<token>sempre</token>
@@ -1076,7 +2058,7 @@ Copyright (C) 2009 Ricard Roca
       </pattern>
       <message>Cal dir <suggestion>sempre que</suggestion>.</message>
       <short>Expressió incorrecta</short>
-      <example type="incorrect" correction="sempre que"><marker>sempre i quan</marker> es pagui dins el termini</example>
+      <example type="incorrect"><marker>sempre i quan</marker> es pagui dins el termini</example>
       <example type="correct"><marker>sempre que</marker> es pagui dins el termini</example>
     </rule>
     <rule id="SI_PROCEDEIX" name="si procedeix">
@@ -1086,8 +2068,8 @@ Copyright (C) 2009 Ricard Roca
       </pattern>
       <message>Cal dir <suggestion>si escau</suggestion>.</message>
       <short>Expressió incorrecta</short>
-      <example type="incorrect" correction="si escau"><marker>si procedeix</marker>, s'aplicarà la llei</example>
-      <example type="correct"><marker>si escau</marker>, s'aplicarà la llei</example>
+      <example type="incorrect"><marker>si procedeix</marker>, s’aplicarà la llei</example>
+      <example type="correct"><marker>si escau</marker>, s’aplicarà la llei</example>
     </rule>
     <rule id="TAL_I_COM" name="tal i com">
       <pattern>
@@ -1097,7 +2079,7 @@ Copyright (C) 2009 Ricard Roca
       </pattern>
       <message>Cal dir <suggestion>tal com</suggestion>.</message>
       <short>Expressió incorrecta</short>
-      <example type="incorrect" correction="tal com"><marker>tal i com</marker> vam quedar ahir</example>
+      <example type="incorrect"><marker>tal i com</marker> vam quedar ahir</example>
       <example type="correct"><marker>tal com</marker> vam quedar ahir</example>
     </rule>
     <rule id="TALS_COM" name="tals com">
@@ -1107,20 +2089,43 @@ Copyright (C) 2009 Ricard Roca
       </pattern>
       <message>Cal dir <suggestion>com ara</suggestion>.</message>
       <short>Expressió incorrecta</short>
-      <example type="incorrect" correction="com ara">m'agraden les flors, <marker>tals com</marker> roses i clavells</example>
-      <example type="correct">m'agraden les flors, <marker>com ara</marker> roses i clavells</example>
+      <example type="incorrect">m’agraden les flors, <marker>tals com</marker> roses i clavells</example>
+      <example type="correct">m’agraden les flors, <marker>com ara</marker> roses i clavells</example>
     </rule>
-    <rule id="PROFIT_A" name="profit a">
+    <rulegroup id="PROFIT_A" name="profit a">
+    <rule>
       <pattern>
 	<token>profit</token>
-	<token>a</token> <!-- TODO: a -->
+	<token>a</token>
       </pattern>
       <message>Cal dir <suggestion>profit de</suggestion>.</message>
       <short>Expressió incorrecta</short>
-      <example type="incorrect" correction="profit de">no sabeu treure <marker>profit a</marker> la situació</example>
-      <example type="correct">no sabeu treure <marker>profit de</marker> la situació</example> <!-- TODO: de -->
+      <example type="incorrect">no sabeu treure <marker>profit a</marker> la situació</example>
+      <example type="correct">no sabeu treure <marker>profit de</marker> la situació</example>
     </rule>
-    <rule id="UN_A_UN" name="un a un">
+    <rule>
+      <pattern>
+	<token>profit</token>
+	<token>al</token>
+      </pattern>
+      <message>Cal dir <suggestion>profit del</suggestion>.</message>
+      <short>Expressió incorrecta</short>
+      <example type="incorrect">no sabeu treure <marker>profit al</marker> problema</example>
+      <example type="correct">no sabeu treure <marker>profit del</marker> problema</example>
+    </rule>
+    <rule>
+      <pattern>
+	<token>profit</token>
+	<token>als</token>
+      </pattern>
+      <message>Cal dir <suggestion>profit dels</suggestion>.</message>
+      <short>Expressió incorrecta</short>
+      <example type="incorrect">no sabeu treure <marker>profit als</marker> problemes</example>
+      <example type="correct">no sabeu treure <marker>profit dels</marker> problemes</example>
+    </rule>
+    </rulegroup>
+    <rulegroup id="UN_A_UN" name="un a un">
+    <rule>
       <pattern>
 	<token>un</token>
 	<token>a</token>
@@ -1128,10 +2133,10 @@ Copyright (C) 2009 Ricard Roca
       </pattern>
       <message>Cal dir <suggestion>d’un en un</suggestion>.</message>
       <short>Expressió incorrecta</short>
-      <example type="incorrect" correction="d’un en un">passeu <marker>un a un</marker></example>
+      <example type="incorrect">passeu <marker>un a un</marker></example>
       <example type="correct">passeu <marker>d’un en un</marker></example>
     </rule>
-    <rule id="UNA_A_UNA" name="una a una">
+    <rule>
       <pattern>
 	<token>una</token>
 	<token>a</token>
@@ -1139,10 +2144,12 @@ Copyright (C) 2009 Ricard Roca
       </pattern>
       <message>Cal dir <suggestion>d’una en una</suggestion>.</message>
       <short>Expressió incorrecta</short>
-      <example type="incorrect" correction="d’una en una">passeu <marker>una a una</marker></example>
+      <example type="incorrect">passeu <marker>una a una</marker></example>
       <example type="correct">passeu <marker>d’una en una</marker></example>
     </rule>
-    <rule id="ÚNICA_I_EXCLUSIVAMENT" name="única i exclusivament">
+    </rulegroup>
+    <rulegroup id="ÚNICAMENT_I_EXCLUSIVAMENT" name="únicament i exclusivament">
+    <rule>
       <pattern>
 	<token>única</token>
 	<token>i</token>
@@ -1150,10 +2157,10 @@ Copyright (C) 2009 Ricard Roca
       </pattern>
       <message>Cal dir <suggestion>únicament</suggestion>.</message>
       <short>Expressió incorrecta</short>
-      <example type="incorrect" correction="únicament">s'aplicarà <marker>única i exclusivament</marker> la llei de la demanda</example>
-      <example type="correct">s'aplicarà <marker>únicament</marker> la llei de la demanda</example>
+      <example type="incorrect">s’aplicarà <marker>única i exclusivament</marker> la llei de la demanda</example>
+      <example type="correct">s’aplicarà <marker>únicament</marker> la llei de la demanda</example>
     </rule>
-    <rule id="ÚNICAMENT_I_EXCLUSIVA" name="únicament i exclusiva">
+    <rule>
       <pattern>
 	<token>únicament</token>
 	<token>i</token>
@@ -1161,10 +2168,10 @@ Copyright (C) 2009 Ricard Roca
       </pattern>
       <message>Cal dir <suggestion>únicament</suggestion>.</message>
       <short>Expressió incorrecta</short>
-      <example type="incorrect" correction="únicament">s'aplicarà <marker>únicament i exclusiva</marker> la llei de la demanda</example>
-      <example type="correct">s'aplicarà <marker>únicament</marker> la llei de la demanda</example>
+      <example type="incorrect">s’aplicarà <marker>únicament i exclusiva</marker> la llei de la demanda</example>
+      <example type="correct">s’aplicarà <marker>únicament</marker> la llei de la demanda</example>
     </rule>
-    <rule id="ÚNICAMENT_I_EXCLUSIVAMENT" name="únicament i exclusivament">
+    <rule>
       <pattern>
 	<token>únicament</token>
 	<token>i</token>
@@ -1172,8 +2179,20 @@ Copyright (C) 2009 Ricard Roca
       </pattern>
       <message>Cal dir <suggestion>únicament</suggestion>.</message>
       <short>Expressió incorrecta</short>
-      <example type="incorrect" correction="únicament">s'aplicarà <marker>únicament i exclusivament</marker> la llei de la demanda</example>
-      <example type="correct">s'aplicarà <marker>únicament</marker> la llei de la demanda</example>
+      <example type="incorrect">s’aplicarà <marker>únicament i exclusivament</marker> la llei de la demanda</example>
+      <example type="correct">s’aplicarà <marker>únicament</marker> la llei de la demanda</example>
+    </rule>
+    </rulegroup>
+    <rule id="DE_CARA_A" name="de cara a">
+      <pattern>
+	<token>de</token>
+	<token>cara</token>
+	<token regexp="yes">a|al|als</token>
+      </pattern>
+      <message>Cal dir <suggestion>amb vista <match no="3" /></suggestion> quan equival a aquesta expressió.</message>
+      <short>Expressió incorrecta quan equival a ‘amb vista a’</short>
+      <example type="incorrect">farem això <marker>de cara a</marker> resoldre el problema</example>
+      <example type="correct">farem això <marker>amb vista a</marker> resoldre el problema</example>
     </rule>
   </category>
   <category name="mots solts">
@@ -1182,8 +2201,8 @@ Copyright (C) 2009 Ricard Roca
 	<token>llistat</token>
       </pattern>
       <message>És incorrecte si vol dir <suggestion>llista</suggestion>.</message>
-      <short>És incorrecte si vol dir 'llista'</short>
-      <example type="incorrect" correction="llista">tenim un <marker>llistat</marker> de clients</example>
+      <short>És incorrecte si vol dir ‘llista’</short>
+      <example type="incorrect">tenim un <marker>llistat</marker> de clients</example>
       <example type="correct">tenim una <marker>llista</marker> de clients</example>
     </rule>
     <rule id="MELENA" name="melena">
@@ -1191,8 +2210,8 @@ Copyright (C) 2009 Ricard Roca
 	<token>melena</token>
       </pattern>
       <message>És incorrecte si vol dir <suggestion>cabellera</suggestion>.</message>
-      <short>Incorrecte si vol dir 'cabellera'</short>
-      <example type="incorrect" correction="cabellera">la <marker>melena</marker> al vent</example>
+      <short>Incorrecte si vol dir ‘cabellera’</short>
+      <example type="incorrect">la <marker>melena</marker> al vent</example>
       <example type="correct">la <marker>cabellera</marker> al vent</example>
     </rule>
     <rule id="MODALS" name="modals">
@@ -1200,8 +2219,8 @@ Copyright (C) 2009 Ricard Roca
 	<token>modals</token>
       </pattern>
       <message>És incorrecte si vol dir <suggestion>maneres</suggestion>.</message>
-      <short>Incorrecte si vol dir 'maneres'</short>
-      <example type="incorrect" correction="maneres">no té bons <marker>modals</marker></example>
+      <short>Incorrecte si vol dir ‘maneres’</short>
+      <example type="incorrect">no té bons <marker>modals</marker></example>
       <example type="correct">no té bones <marker>maneres</marker></example>
     </rule>
   </category>
