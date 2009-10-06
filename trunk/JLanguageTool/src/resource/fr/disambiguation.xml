@@ -567,5 +567,16 @@ RB => Règles Brutes
 			</pattern>
 			<disambig postag="P"/>
 		</rule>
-
+		
+		<!--  based on user reports -->
+		
+		<rule name="aura lieu" id="AURA_LIEU">
+		<pattern mark="0">
+			<token>aura</token>
+			<token>lieu</token>
+		</pattern>
+		<disambig action="filter" postag="V.*"/>
+		<example type="ambiguous" inputform="aura[aura/N f s,avoir/V avoir ind futu 3 s]" outputform="aura[avoir/V avoir ind futu 3 s]">La rentrée scolaire <marker>aura</marker> lieu comme prévu la semaine prochaine.</example>
+		<example type="untouched">Mon petit conseil pour une belle aura...</example>
+		</rule>
 </rules>
