@@ -38,6 +38,26 @@ RB => Règles Brutes
 			</pattern>
 			<disambig postag="R pers obj 1 p"/>
 		</rule>
+		<rule name="L'homme nous parle">
+			<pattern mark="1">
+			<token postag="N . s" postag_regexp="yes"/>
+			<token regexp="yes">vous|nous</token>
+			<token postag="V .* 3 s" postag_regexp="yes"/>
+			</pattern>
+			<disambig action="filter" postag="R pers obj .*"/>
+			<example type="ambiguous" inputform="nous[nous/R pers obj 1 p,nous/R pers suj 1 p]" outputform="nous[nous/R pers obj 1 p]">L'homme <marker>nous</marker> parle de sa vie.</example>
+			<example type="untouched">La plupart du temps nous sommes dans le développement d'une expertise...</example>
+		</rule>
+		<rule name="Les études nous ont...">
+			<pattern mark="1">
+           	<token postag="N . p" postag_regexp="yes"/>
+			<token regexp="yes">vous|nous</token>
+			<token postag="V .* 3 p" postag_regexp="yes"/>
+			</pattern>
+			<disambig action="filter" postag="R pers obj .*"/>
+			<example type="ambiguous" inputform="nous[nous/R pers obj 1 p,nous/R pers suj 1 p]" outputform="nous[nous/R pers obj 1 p]">Les études <marker>nous</marker> ont révélé...</example>
+			<example type="untouched">La plupart du temps nous sommes dans le développement d'une expertise...</example>			
+		</rule>
 		<rule name="vous">
 			<pattern mark="1">
 				<token postag="R pers .*" postag_regexp="yes"/>
