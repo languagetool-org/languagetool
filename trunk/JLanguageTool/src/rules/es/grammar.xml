@@ -7,7 +7,7 @@ title="Easy editing stylesheet" ?>
 <!--
 Spanish Grammar and Typo Rules for LanguageTool
 Copyright (C) 2006 Marcin Miłkowski
-$Id: grammar.xml,v 1.8 2009-09-21 10:35:41 milek_pl Exp $
+$Id: grammar.xml,v 1.9 2009-10-06 13:31:32 milek_pl Exp $
 -->
 <rules lang="es">
   <category name="misc">
@@ -27,7 +27,7 @@ $Id: grammar.xml,v 1.8 2009-09-21 10:35:41 milek_pl Exp $
     <rule id="AH_INF" name="ah (a)">
       <pattern case_sensitive="no">
         <token>ah</token>
-        <token postag="VMN0000"/>
+        <token postag="V[ASM]N0000" postag_regexp="yes"/>
       </pattern>      
       <message>Esta palabra se escribe sin h: <suggestion>a \2</suggestion>.</message>
       <short>Error ortográfico</short>
@@ -38,24 +38,60 @@ $Id: grammar.xml,v 1.8 2009-09-21 10:35:41 milek_pl Exp $
       <pattern>
         <token inflected="yes">ir</token>
         <token>ha</token>
-        <token postag="VMN0000"/>
+        <token postag="V[ASM]N0000" postag_regexp="yes"/>
       </pattern>
       <message>Esta palabra se escribe sin h: <suggestion>\1 a \3</suggestion>.</message>
       <short>Error ortográfico</short>
       <example correction="Voy a hablar" type="incorrect"><marker>Voy ha hablar</marker> con ella.</example>
       <example type="correct"><marker>Voy a hablar</marker> con ella.</example>
     </rule>
+    <rule id="VOY_INF" name="ir + infinitivo">
+      <pattern>
+        <token inflected="yes">ir</token>
+        <token postag="V[ASM]N0000" postag_regexp="yes"/>
+      </pattern>
+      <message>La construcción "ir" más infinitivo exige la presencia de la preposición "a": <suggestion>\1 a \2</suggestion>.</message>
+      <example correction="Voy a hablar" type="incorrect"><marker>Voy hablar</marker> con ella.</example>
+      <example type="correct"><marker>Voy a hablar</marker> con ella.</example>
+    </rule>
   </category>
   <category name="ortografia">
-    <rule id="Y_I" name="y Italia">
-      <pattern case_sensitive="no">
-        <token>y</token>
-        <token regexp="yes">^h?[ií].*</token>
-      </pattern>
-      <message>Cuando precede a palabras que comienzan por i- (o hi-), la conjunción "y" se transforma en "e": <suggestion>e <match no="2"/></suggestion></message>
-      <short>Error ortográfico.</short>
-      <example correction="e Italia" type="incorrect">Alemania <marker>y Italia</marker> disputarán el torneo.</example>
-      <example type="correct">Alemania <marker>e Italia</marker> disputarán el torneo.</example>
-    </rule>
+    <rulegroup id="A_COMIDO" name="Tiempos compuestos">
+      <rule>
+        <pattern mark_to="-1">
+          <token regexp="yes">an?</token>
+          <token postag="V[ASM]P00SM" postag_regexp="yes"/>
+        </pattern>
+        <message>El verbo 'haber' lleva hache: <suggestion>h\1</suggestion></message>
+        <short>Error ortográfico.</short>
+        <example correction="han" type="incorrect">Los atletas <marker>an</marker> corrido de forma espectacular.</example>
+        <example type="correct">Los atletas <marker>han</marker> corrido de forma espectacular.</example>
+      </rule>
+    </rulegroup>
+    <rulegroup id="Y_I_O_O" name="y Italia, o Honduras">
+      <rule>
+        <pattern>
+          <token>y<exception scope="previous">¿</exception></token>
+          <token regexp="yes">^h?[ií].*
+            <exception regexp="yes">^h?ih?[aeouáéóú].*</exception>
+          </token>
+        </pattern>
+        <message>Cuando precede a palabras que comienzan por i- (o hi-), la conjunción "y" se transforma en "e": <suggestion>e <match no="2"/></suggestion></message>
+        <short>Error ortográfico.</short>
+        <example correction="e Italia" type="incorrect">Alemania <marker>y Italia</marker> disputarán el torneo.</example>
+        <example type="correct">Alemania <marker>e Italia</marker> disputarán el torneo.</example>
+        <example type="correct">¿<marker>Y Irene</marker>?</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>o</token>
+          <token regexp="yes">^h?[oó].*</token>
+        </pattern>
+        <message>Cuando precede a palabras que comienzan por o- (u ho-), la conjunción "o" se transforma en "u": <suggestion>u <match no="2"/></suggestion></message>
+        <short>Error ortográfico.</short>
+        <example correction="u Honduras" type="incorrect">El torneo lo disputarán Alemania <marker>o Honduras</marker>.</example>
+        <example type="correct">El torneo lo disputarán Alemania <marker>u Honduras</marker>.</example>
+      </rule>
+    </rulegroup>
   </category>
 </rules>
