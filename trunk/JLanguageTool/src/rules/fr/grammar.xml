@@ -6,7 +6,7 @@ title="Easy editing stylesheet" ?>
 <!--
 French Grammar and Typo Rules for LanguageTool
 Copyright (C) 2006 Marcin Miłkowski, Agnes Souque, Hugo Voisard & Myriam Lechelt.
-$Id: grammar.xml,v 1.18 2009-10-06 22:53:48 milek_pl Exp $
+$Id: grammar.xml,v 1.19 2009-10-07 19:19:26 milek_pl Exp $
 -->
 <rules lang="fr">
   <phrases>
@@ -1181,7 +1181,7 @@ though, and has since been slightly modified)-->
 
     <rule id="AVOIR_INF" name="Auxiliaire avoir suivi d'un verbe à l'infinitif">
       <pattern mark_from="1">
-        <token postag="V avoir .*" postag_regexp="yes" skip="1"><exception regexp="yes" scope="next">,|à</exception></token>
+        <token postag="V avoir .*" postag_regexp="yes" skip="1"><exception regexp="yes" scope="next">,|à|beau</exception></token>
 
         <token postag="V inf.*" postag_regexp="yes"><exception postag="N .*" postag_regexp="yes"></exception></token>
       </pattern>
@@ -1191,6 +1191,8 @@ though, and has since been slightly modified)-->
       <example type="correct">Il a signé le contrat</example>
 
       <example type="incorrect">Il a <marker>signer</marker> le contrat</example>
+
+      <example type="correct">Tu as beau pleurer.</example>
 
       <example type="correct">L'unique prix que tu as à payer est de laisser ce monde derrière.</example>
     </rule>
