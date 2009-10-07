@@ -5391,4 +5391,46 @@ title="Easy editing stylesheet" ?>
 			<example type="correct">A spus <marker>șamd.</marker></example>
 		</rule>
 	</category>
+	<category name="Numeral">
+		<rule id="A_CINCIA" name="a cincia - a cincea">
+			<pattern>
+				<token>a</token>
+				<token>cincia</token>
+			</pattern>
+			<message>Ați dorit să scrieți <suggestion>\1 cincea</suggestion>?</message>
+			<short>Folosire greșită a numeralului</short>
+			<example type="incorrect" correction="A cincea"><marker>A cincia</marker> lucrare era a lui.</example>
+			<example type="correct"><marker>A cincea</marker> lucrare era a lui.</example>
+		</rule>
+		<rule id="AL_OPTELEA" name="al optelea - al optulea">
+			<pattern >
+				<token regexp="yes">al|a</token>
+				<token>optelea</token>
+			</pattern>
+			<message>Ați dorit să scrieți <suggestion>al optulea</suggestion>?</message>
+			<short>Folosire greșită a numeralului</short>
+			<example type="incorrect" correction="Al optelea"><marker>A optelea</marker> caiet era a lui.</example>
+			<example type="correct"><marker>Al optulea</marker> caiet era a lui.</example>
+		</rule>
+		<rule id="O_SUTELEA" name="o sutelea - o sutălea">
+			<pattern >
+				<token>o</token>
+				<token>sutelea</token>
+			</pattern>
+			<message>Ați dorit să scrieți <suggestion>\1 sutălea</suggestion>?</message>
+			<short>Folosire greșită a numeralului</short>
+			<example type="incorrect" correction="o sutălea">El era al <marker>o sutelea</marker> pe listă.</example>
+			<example type="correct">El era al<marker>o sutălea</marker> pe listă.</example>
+		</rule>
+		<rule id="DOUA_SUTALEA" name="două sutălea - două sutelea">
+			<pattern>
+				<token postag="D.p(.*)" postag_regexp="yes"></token>
+				<token>sutălea</token>
+			</pattern>
+			<message>Ați dorit să scrieți <suggestion>\1 sutelea</suggestion>?</message>
+			<short>Folosire greșită a numeralului</short>
+			<example type="incorrect" correction="două sutelea">El era al <marker>două sutălea</marker> pe listă.</example>
+			<example type="correct">El era al<marker>două sutelea</marker> pe listă.</example>
+		</rule>
+	</category>
 </rules>
