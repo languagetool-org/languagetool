@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE rules SYSTEM "../rules.dtd" >
+<?xml-stylesheet type="text/xsl" href="../print.xsl" ?>
+<?xml-stylesheet type="text/css" href="../rules.css" 
+title="Easy editing stylesheet" ?>
+<!--
+Danish Grammar and Typo Rules for LanguageTool
+See danish_tags.txt for the meaning of the POS tags
+Copyright (C) 2009 Esben Aaberg, Foreningen for frit tilgængelige sprogværktøjer
+$Id: grammar.xml,v 1.1 2009-10-08 21:46:24 dnaber Exp $
+-->
+<rules lang="da">
+  <!-- ====================================================================== -->
+  <!-- Diverse - Misc -->
+  <!-- ====================================================================== -->
+  <category name="Diverse">
+     <rulegroup id="OrdgentagelseGroup" name="Ordgentagelse">
+        <rule id="Ordgentagelse">
+           <pattern>
+              <token><exception postag="SENT_START"/></token>
+              <token><match no="0"/><exception regexp="yes">.|av|bang|bred|bib|bip|bling|bom|bro|duer|fars|faster|fatter|gak|grynt|ha|he|hej|hi|hip|ho|hopper|hurra|kvier|led|marie|men|mobil|mors|normal|original|piller|rap|ren|ride|sej|smed|så|taget|takker|tik-tak|tog|tut|uniform|vov|øf</exception></token>
+           </pattern>
+           <message>Ordgentagelse: Du har gentaget <suggestion>\1</suggestion>.</message>
+           <short>Ordgentagelse</short>
+           <example type="incorrect">Nu har <marker>jeg jeg</marker> aldrig hørt magen.</example>
+           <example type="correct">Så så drengen en drage.</example>
+           <example type="correct">Han har taget taget af hundehuset.</example>
+           <example type="correct">"Rap rap" sagde anden.</example>
+        </rule>
+     </rulegroup>
+  </category>
+  <!-- ====================================================================== -->
+  <!-- Mulig slåfejl - Possible Typos -->
+  <!-- ====================================================================== -->
+  <category name="Mulige slåfejl">
+    <rule id="bindestreg_og" name="Manglende mellemrum efter bindestreg">
+      <pattern>
+        <token regexp="yes">(.*)-(og|eller)</token>
+      </pattern>
+      <message>Mulig slåfejl manglende mellemrum efter bindestreg: <suggestion><match no="1" regexp_match="(.*)-(og|eller)" regexp_replace="$1- $2"/></suggestion>.</message>
+      <short>Mulig slåfejl</short>
+      <example type="correct">Vi skal på oplevelses- eller badeferie.</example>
+      <example correction="oplevelses- eller" type="incorrect">Vi skal på <marker>oplevelses-eller</marker> badeferie.</example>
+      <example type="correct">De er <marker>hus- og</marker> haveejere.</example>
+      <example correction="hus- og" type="incorrect">De er <marker>hus-og</marker> haveejere.</example>
+    </rule>
+  </category>
+  <!-- ====================================================================== -->
+  <!-- Mulig ordforveksling - Possible word confusion -->
+  <!-- ====================================================================== -->
+  <category name="Mulige ordforveksling">
+  <!-- 
+    <rule id="heder_hedder" name="heder→hedder">
+      <pattern mark_from="1" mark_to="-1"> 
+        <token regexp="yes">I|jeg|du|vi|de|den|det|han|hun|hvad|nu</token>
+        <token>heder</token>
+        <token><exception regexp="yes">på|vil|skal|kan|er|har</exception></token>
+      </pattern>
+      <message>Mente du: <suggestion>hedder</suggestion>=navn eller heder=lyngarealer</message>
+      <short>Mulig slåfejl</short>
+      <example correction="hedder" type="incorrect">Jeg <marker>heder</marker> Jens.</example>
+      <example correction="hedder" type="incorrect">Det <marker>heder</marker> på Sjælland, da det er en ø.</example>
+      <example type="correct">Jeg hedder Jens.</example>
+      <example type="correct">De heder på landet er bevaringsværdige.</example>
+      <example type="correct">Jeg heder vil vandre.</example>
+    </rule>
+     -->
+    <rule id="heder_hedder2" name="heder→hedder Egenavn efter">
+      <pattern mark_from="1" mark_to="-1">
+	<token><exception regexp="yes">de</exception></token> 
+        <token>heder</token>
+        <token postag="pro:.*" postag_regexp="yes"/>
+      </pattern>
+      <message>Mente du: <suggestion>hedder</suggestion>=navn eller heder=lyngarealer</message>
+      <short>Mulig slåfejl</short>
+      <example correction="hedder" type="incorrect">Jeg <marker>heder</marker> Jens.</example>
+      <example type="correct">Jeg hedder Jens.</example>
+      <example type="correct">De heder Jens passer.</example>      
+    </rule>
+    <rule id="heder_hedder3" name="heder→hedder Egenavn før">
+      <pattern mark_from="1">
+	<token postag="pro:nom" postag_regexp="yes"/>
+        <token>heder</token>        
+      </pattern>
+      <message>Mente du: <suggestion>hedder</suggestion>=navn eller heder=lyngarealer</message>
+      <short>Mulig slåfejl</short>
+      <example correction="hedder" type="incorrect">Peder <marker>heder</marker> Sørnsen til efternavn.</example>
+      <example type="correct">Peter hedder Sørnsen til efternavn.</example>
+      <example type="correct">Peters heder er vel plejet.</example>      
+    </rule>
+    <rulegroup id="natural_naturel" name="natural→naturel">
+      <rule>
+        <pattern mark_from="0" mark_to="-1">
+          <token>natural</token>
+          <token regexp="yes">yoghurt|tun|hummer|a38|Aloe|flødeost|soya|tufu|ylette|østers|krabbekød</token>
+        </pattern>
+        <message>Mente du: <suggestion>naturel</suggestion>=i sin naturlige, ubearbejdede, rene form især om mad</message>
+        <short>Mulige ordforveksling</short>
+        <example correction="naturel" type="incorrect">Opskrifter som indeholder <marker>natural</marker> yoghurt.</example>
+        <example type="correct">Tufu naturel restaurationen.</example>
+        <example type="correct">Opskrifter som indeholder naturel yoghurt.</example> 
+      </rule>
+      <rule>
+        <pattern mark_from="1">
+          <token regexp="yes">yoghurt|tun|hummer|contrat|a38|Vera|flødeost|soya|tufu|ylette|østers|krabbekød</token>
+          <token>natural</token>
+        </pattern>
+        <message>Mente du: <suggestion>naturel</suggestion>=i sin naturlige, ubearbejdede, rene form især om mad</message>
+        <short>Mulige ordforveksling</short>
+        <example correction="naturel" type="incorrect">Opskrifter som indeholder Yoghurt <marker>natural</marker>.</example>
+        <example type="correct">Restaurationen byder på både gratineret hummer og hummer naturel.</example>
+        <example type="correct">Opskrifter som indeholder Yoghurt naturel.</example> 
+      </rule>
+    </rulegroup>
+  </category>
+  <!-- ====================================================================== -->
+  <!-- Mulig ordforveksling med sjældent ord - Possible word confusion with rare words -->
+  <!-- ====================================================================== -->
+  <category name="Mulige ordforveksling med sjældent ord">
+    <rule id="standart_standard" name="standart→standard">
+      <pattern mark_from="0"> 
+        <token regexp="yes">.*standart.*</token>
+      </pattern>
+      <message>Mente du: <suggestion><match no="1" regexp_match="(.*)standart(.*)" regexp_replace="$1standard$2"/></suggestion> som standard=niveau, procedure, el. norm eller standart=fane</message>
+      <short>Mulige ordforveksling</short>
+      <example correction="dokumentstandard" type="incorrect">Den der <marker>dokumentstandart</marker> følger vi.</example>
+      <example type="correct">Den der dokumentstandard følger vi.</example>
+    </rule>
+  </category>
+  <!-- ====================================================================== -->
+  <!-- Forkortelser med eller uden punktum - abbreviation -->
+  <!-- ====================================================================== -->
+  <!-- 
+  <category name="Forkortelser med eller uden punktum">
+    <rule id="fx" name="fx.→fx">
+      <pattern mark_from="0" > 
+        <token>fx</token>
+        <token>.</token>
+      </pattern>
+      <message>For eksempel forkortes <suggestion>fx</suggestion> uden punktum eller <suggestion>f.eks.</suggestion></message>      
+      <short>Mulig overflødigt punktum</short>
+      <example correction="fx" type="incorrect">Som <marker>fx.</marker> jern.</example>
+      <example type="correct">Som fx jern.</example>
+      <example type="correct">Som f.eks. jern.</example>
+    </rule>
+  </category>
+   -->
+  <!-- ====================================================================== -->
+  <!-- Grammatik - Grammar -->
+  <!-- ====================================================================== -->
+  <category name="Grammatik">
+    <rule id="adj:ube:sin:utr:pos" name="Tillægsord ental ubestemt i forkert bøjningsform">
+      <pattern mark_from="1" > 
+        <token regexp="yes">et|det</token>
+        <!-- TODO: Make exception for adverbs, when they becomes available in tagger -->
+        <token postag="adj:ube:sin:utr:pos" postag_regexp="yes" regexp="yes">.*[a-s,u-å]<exception postag="sub:.*:neu:.*" postag_regexp="yes" regexp="yes">før</exception></token>
+      </pattern>
+      <message>Ved at der står "\1" skal tilægsord <suggestion>\2t</suggestion> være intetkøn</message>      
+      <short>Muligvis tillægsord i forker form</short>
+      <example correction="syndigt" type="incorrect">Et <marker>syndig</marker> rod.</example>
+      <example correction="ovalt" type="incorrect">Det er et <marker>oval</marker> køkkenbord.</example>
+      <example type="correct">Det er et ret visende eksempel.</example>
+      <example type="correct">Et syndigt rod.</example>
+      <example type="correct">Tidligere var det syndigt at vise sine ankler.</example>
+    </rule>
+  </category>
+</rules>

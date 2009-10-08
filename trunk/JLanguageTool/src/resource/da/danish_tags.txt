@@ -1,0 +1,86 @@
+This is the description of the tags used by the Danish tagger.
+
+Available tags are 3 letter abbreviations of the Latin name when possible.
+
+LanguageTool will tag words by returning one string per reading.
+For example, "slidbane" will be tagged with these strings:
+
+ slidbane	sub:ube:sin:utr:nom
+ slidbanen	sub:bes:sin:utr:nom
+ slidbaner	sub:ube:plu:utr:nom
+ slidbanerne	sub:bes:plu:utr:nom
+ slidbanes	sub:ube:sin:utr:gen
+ slidbanens	sub:bes:sin:utr:gen
+ slidbaners	sub:ube:plu:utr:gen
+ slidbanernes	sub:bes:plu:utr:gen
+
+For example, if you want to have a rule that matches all adjectives use this:
+
+ <token postag_regexp="yes" postag="adj:.*" />
+
+For a rule that matches plural nouns use:
+
+ <token postag_regexp="yes" postag="sub:.*:plu:.*" />
+
+For a rule that matches singular nouns use:
+
+ <token postag_regexp="yes" postag="sub:.*:sin:.*" />
+
+Also try to run LanguageTool on the command line with the -v option,
+it will display how words have been tagged.
+
+The available tags (Tag, Latin name, and Danish name):
+
+Substantiv:
+
+sub	substantiv	navneord
+
+ube	ubestemt
+bes	bestemt
+
+sin	singularis	ental
+plu	pluralis	flertal
+
+utr	utrum   	fælleskøn
+neu	neutrum 	intetkøn
+
+nom	nominativ	navnefald
+gen	genitiv 	ejefald
+
+
+Proprium:
+
+pro	proprium	egenavn
+
+nom	nominativ	navnefald
+gen	genitiv 	ejefald
+
+
+Præposition:
+
+pra	praepositio	præposition	forholdsord
+
+
+Adjektiv:
+Not completly implementet yet.
+
+adj	adjektiv	tillægsord
+
+ube	ubestemt
+bes	bestemt
+
+sin	singularis	ental
+plu	pluralis	flertal
+
+utr	utrum   	fælleskøn	━┳━ Findes kun i adj:ube:sin
+neu	neutrum 	intetkøn	━┛
+
+pos	positiv 	1. grad	grundform
+kom	komparativ	2. grad	højere grad
+sup	superlativ	3. grad	højeste grad
+
+
+More word classes and tags will be added later, it is at work in progress.
+
+
+

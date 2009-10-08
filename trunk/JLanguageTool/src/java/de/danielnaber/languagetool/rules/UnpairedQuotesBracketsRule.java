@@ -82,6 +82,9 @@ public class UnpairedQuotesBracketsRule extends Rule {
   private static final String[] IT_START_SYMBOLS = { "[", "(", "{", "»", "‘" };
   private static final String[] IT_END_SYMBOLS   = { "]", ")", "}", "«", "’" };
 
+  private static final String[] DK_START_SYMBOLS = { "[", "(", "{", "\"", "”" };
+  private static final String[] DK_END_SYMBOLS   = { "]", ")", "}", "\"", "”" };
+
   /**
    * The stack for pairing symbols.
    */
@@ -147,6 +150,9 @@ public class UnpairedQuotesBracketsRule extends Rule {
     } else if (language.equals(Language.ROMANIAN)) {
       startSymbols = RO_START_SYMBOLS;
       endSymbols = RO_END_SYMBOLS;
+    } else if (language.equals(Language.DANISH)) {
+      startSymbols = DK_START_SYMBOLS;
+      endSymbols = DK_END_SYMBOLS;
     } else {
       startSymbols = START_SYMBOLS;
       endSymbols = END_SYMBOLS;
