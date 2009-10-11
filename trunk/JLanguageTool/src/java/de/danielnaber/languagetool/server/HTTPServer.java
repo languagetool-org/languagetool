@@ -18,10 +18,14 @@
  */
 package de.danielnaber.languagetool.server;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import com.prolixtech.jaminid.ContentOracle;
@@ -111,6 +115,10 @@ public class HTTPServer extends ContentOracle {
             + connRequest.getLocation() + " denied");
       }
       if (allowedIPs.contains(connRequest.getIPAddressString())) {
+    	// TODO: temporary fix until jaminid bug is fixed (it seams that non-asci characters are not handled correctly) 
+    	// see https://sourceforge.net/tracker/?func=detail&aid=2876507&group_id=127764&atid=709370
+	    fixRequestParamMap(connRequest);
+	    
         String langParam = connRequest.getParamOrNull("language");
         if (langParam == null)
           throw new IllegalArgumentException("Missing 'language' parameter");
@@ -177,6 +185,46 @@ public class HTTPServer extends ContentOracle {
     System.exit(1);
   }
 
+  /**
+   * Private fix until jaminid bug is fixed (it seams that non-asci characters are not handled correctly) 
+   * see https://sourceforge.net/tracker/?func=detail&aid=2876507&group_id=127764&atid=709370
+   * 
+   * @param connRequest the Request object from jaminid ContentOracle. 
+   * @throws UnsupportedEncodingException If character encoding needs to be consulted, but named character encoding is not supported.
+   */
+  private void fixRequestParamMap(final Request connRequest) throws UnsupportedEncodingException {
+    Map<String, String> paramMap = getParamMap(connRequest);
+    connRequest.getParamMap().clear();
+    connRequest.getParamMap().putAll(paramMap);
+  }
+
+  /**
+   * Private fix until jaminid bug is fixed (it seams that non-asci characters are not handled correctly) 
+   * see https://sourceforge.net/tracker/?func=detail&aid=2876507&group_id=127764&atid=709370
+   * Method to get the requst parameters from the request string. The default implementation can't handle 
+   * the UTF-8 characters (like șțîâ). We just use  URLDecoder.decode() instead of the default unescape private method.   
+   * @param connRequest the Request object from jaminid ContentOracle.
+   * @return the parameters map.
+   * @throws UnsupportedEncodingException If character encoding needs to be consulted, but named character encoding is not supported
+   */
+  private Map<String, String> getParamMap(Request connRequest) throws UnsupportedEncodingException {
+    Map<String, String> paramMap = new HashMap<String, String>();
+      String[] comps = connRequest.getParamString().split("&");
+      for (int i = 0; i < comps.length; i++) {
+        int equalsLoc = comps[i].indexOf("=");
+          if (equalsLoc > 0) {
+            paramMap.put(comps[i].substring(0, equalsLoc),
+              URLDecoder.decode(comps[i].substring(equalsLoc + 1), "UTF-8"));
+            // TODO: Find some way to determine the encoding used on client-side
+            // maybe "Accept-Charset" request header could be used.
+            // UTF-8 will work on most platforms and browsers.
+          } else {
+            paramMap.put(comps[i], "");
+          }
+      }
+      return paramMap;	
+  }
+	
   /**
    * Start the server from command line. Usage:
    * <tt>HTTPServer [-v|--verbose] [-p|--port port]</tt>

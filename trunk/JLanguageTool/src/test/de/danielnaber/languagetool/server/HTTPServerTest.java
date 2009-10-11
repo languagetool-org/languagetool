@@ -20,7 +20,9 @@ package de.danielnaber.languagetool.server;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
 import java.net.URL;
+import java.net.URLDecoder;
 import java.net.URLEncoder;
 
 import junit.framework.TestCase;
@@ -53,6 +55,15 @@ public class HTTPServerTest extends TestCase {
       // make sure XML chars are escaped in the result to avoid invalid XML
       // and XSS attacks:
       assertTrue(check(Language.GERMAN, "bla <script>").indexOf("<script>") == -1);
+      
+      // other tests for special characters
+      String germanSpecialChars = check(Language.GERMAN, "ein kleiner test. Und wieder Erwarten noch was: öäüß öäüß.");
+      assertTrue("Expected special chars, got: '" + germanSpecialChars+ "'", germanSpecialChars.contains("öäüß"));
+      String romanianSpecialChars = check(Language.ROMANIAN, "bla bla șțîâă șțîâă și câteva caractere speciale");
+      assertTrue("Expected special chars, got: '" + romanianSpecialChars+ "'", romanianSpecialChars.contains("șțîâă"));
+      String polishSpecialChars = check(Language.POLISH, "Mówiła długo, żeby tylko mówić mówić długo.");
+      assertTrue("Expected special chars, got: '" + polishSpecialChars+ "'", polishSpecialChars.contains("mówić"));
+      
     } catch (Exception e) {
       throw new RuntimeException(e);
     } finally {
@@ -62,7 +73,7 @@ public class HTTPServerTest extends TestCase {
 
   private String check(Language lang, String text) throws IOException {
     String urlOptions = "/?language=" + lang.getShortName();
-    urlOptions += "&text=" + URLEncoder.encode(text, "latin1");
+    urlOptions += "&text=" + URLEncoder.encode(text, "UTF-8"); // latin1 is not enough for languager like polish, romanian, etc
     URL url = new URL("http://localhost:" + HTTPServer.DEFAULT_PORT + urlOptions);
     InputStream stream = (InputStream)url.getContent();
     String result = StringTools.streamToString(stream);
