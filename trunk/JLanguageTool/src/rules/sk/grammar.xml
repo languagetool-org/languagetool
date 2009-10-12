@@ -6,7 +6,7 @@ title="Easy editing stylesheet" ?>
 <!--
 Slovak Grammar and Typo Rules for LanguageTool
 Copyright (C) 2009 Zdenko Podobný (http://www.sk-spell.sk.cx/)
-$Id: grammar.xml,v 1.2 2009-07-29 21:14:25 milek_pl Exp $
+$Id: grammar.xml,v 1.3 2009-10-12 22:03:40 milek_pl Exp $
 -->
 <rules lang="sk">
   <category name="Typografia">
@@ -81,7 +81,7 @@ $Id: grammar.xml,v 1.2 2009-07-29 21:14:25 milek_pl Exp $
 
     <!--TODO  pred/za spojovníkom nemá byť medzera, reg exp mi nefunguje...-->
 
-    <rulegroup id="POMLCKA_SPOJOVNIK_1" name="Zameňte spojovník pomlčkou_1">
+    <rulegroup id="POMLCKA_SPOJOVNIK_1" name="Zameňte spojovník pomlčkou 1">
       <rule>
         <pattern>
           <token>-</token>
@@ -185,7 +185,7 @@ viacnásobné whitespace...
         <pattern mark_to="-1">
           <token>s</token>
 
-          <token regexp="yes"><exception regexp="yes">.</exception>(s.*)|(š.*)|(z.*)|(ž.*)</token>
+          <token regexp="yes"><exception regexp="yes">.</exception>(s.*)|(š.*)|(z.*)|(ž.*)|(vč.*)|(vs.*)|(vš.*)|(vz.*)|(vž.*)</token>
         </pattern>
 
         <message>Na tomto mieste by mala byť predložka „<suggestion>so</suggestion>“.</message>
@@ -203,7 +203,7 @@ viacnásobné whitespace...
         <pattern mark_to="-1">
           <token>so</token>
 
-          <token negate="yes" regexp="yes"><exception regexp="yes">mnou|“</exception>(s.*)|(š.*)|(z.*)|(ž.*)</token>
+          <token negate="yes" regexp="yes"><exception regexp="yes">mnou</exception>(s.*)|(š.*)|(z.*)|(ž.*)|(vč.*)|(vs.*)|(vš.*)|(vz.*)|(vž.*)</token>
         </pattern>
 
         <message>Na tomto mieste by mala byť predložka „<suggestion>s</suggestion>“.</message>
@@ -220,8 +220,7 @@ viacnásobné whitespace...
       <rule>
         <pattern mark_to="-1">
           <token>z</token>
-
-          <token regexp="yes">(s.*)|(š.*)|(z.*)|(ž.*)</token>
+          <token regexp="yes">(s.*)|(š.*)|(z.*)|(ž.*)|(vč.*)|(vs.*)|(vš.*)|(vz.*)|(vž.*)</token>
         </pattern>
 
         <message>Na tomto mieste by mala byť predložka „<suggestion>zo</suggestion>“.</message>
@@ -239,7 +238,7 @@ viacnásobné whitespace...
         <pattern mark_to="-1">
           <token>zo</token>
 
-          <token negate="yes" regexp="yes"><exception regexp="yes">mňa|za|“</exception>(s.*)|(š.*)|(z.*)|(ž.*)</token>
+          <token negate="yes" regexp="yes"><exception regexp="yes">mňa</exception>(s.*)|(š.*)|(z.*)|(ž.*)|(vč.*)|(vs.*)|(vš.*)|(vz.*)|(vž.*)</token>
         </pattern>
 
         <message>Na tomto mieste by mala byť predložka „<suggestion>z</suggestion>“.</message>
@@ -266,12 +265,53 @@ viacnásobné whitespace...
 
         <message>Správne má byť „<suggestion>na to</suggestion>“.</message>
 
-        <short>Gramatická chyba</short>
+        <short>Štylistická chyba</short>
 
         <example correction="na to" type="incorrect">Vzhľadom <marker>k tomu</marker>, že…</example>
 
         <example type="correct">Vzhľadom na to, že…</example>
       </rule>
     </rulegroup>
-  </category>
+  
+    <rulegroup id="ZA_A_PROTI" name="Zameňte „PRE a proti“ za „ZA a proti“">
+      <!-- http://www.civil.gov.sk/archiv/casopis/2005/6/0621ho.htm -->
+      <rule>
+        <pattern mark_from="0" mark_to="-2">
+          <token>pre</token>
+	  <token regexp="yes">a|i|alebo</token>
+          <token>proti</token>
+        </pattern>
+
+        <message>Správne má byť „<suggestion>za</suggestion>“.</message>
+
+        <short>Gramatická chyba</short>
+
+        <example correction="za" type="incorrect">Musíme zvážiť všetky <marker>pre</marker> a proti…</example>
+        <example type="correct">Musíme zvážiť všetky za a proti…</example>
+      </rule>
+    </rulegroup>
+  
+   </category>
+   
+  <category name="Gramatika">
+   
+      <rulegroup id="PRIDAVNE_MENO_MP1" name="Zameňte „dobrý chlapi“ za „dobrí chlapi“">
+       <rule>
+        <pattern mark_to="-1">
+          <token postag_regexp="yes" postag="AA.*"><exception postag="AAmp1x"></exception></token>
+	  <token postag_regexp="yes" postag="S(S|A|F)mp1"/>
+        </pattern>
+
+	<message>Pravdepodobne nesprávny tvar (\1) prídavného mena pred podstatným menom.
+	Správne by malo byť „<suggestion><match no="1" postag="AAmp1x"></match></suggestion>“.
+	</message>
+
+        <short>Gramatická chyba</short>
+	<example correction="Dobrí" type="incorrect"><marker>Dobrý</marker> chlapci ešte nevymreli…</example>
+	<example type="correct">Dobrí chlapci ešte nevymreli…</example>
+       </rule>
+      </rulegroup>
+
+   </category>
+
 </rules>
