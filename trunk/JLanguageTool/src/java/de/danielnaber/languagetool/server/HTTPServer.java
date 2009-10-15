@@ -208,6 +208,8 @@ public class HTTPServer extends ContentOracle {
    * @throws UnsupportedEncodingException If character encoding needs to be consulted, but named character encoding is not supported
    */
   private Map<String, String> getParamMap(Request connRequest) throws UnsupportedEncodingException {
+    if ((null == connRequest) || (null == connRequest.getParamString()))
+      return new HashMap<String, String>();
     Map<String, String> paramMap = new HashMap<String, String>();
       String[] comps = connRequest.getParamString().split("&");
       for (int i = 0; i < comps.length; i++) {
