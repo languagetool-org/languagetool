@@ -21,6 +21,9 @@ package de.danielnaber.languagetool.server;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -119,6 +122,15 @@ public class HTTPServer extends ContentOracle {
     	// see https://sourceforge.net/tracker/?func=detail&aid=2876507&group_id=127764&atid=709370
 	    fixRequestParamMap(connRequest);
 	    
+	    // return content base on request string.
+	    // Refactror this when the number of known request types gets too big.   
+
+	    // request type: list known languages
+	    if (connRequest.getLocation().endsWith("/Languages")) {
+          return getSupportedLanguagesAsXML();
+	    }
+	    
+	    // request type: grammar checking (default type)
         String langParam = connRequest.getParamOrNull("language");
         if (langParam == null)
           throw new IllegalArgumentException("Missing 'language' parameter");
@@ -225,6 +237,32 @@ public class HTTPServer extends ContentOracle {
           }
       }
       return paramMap;	
+  }
+  
+  /**
+   * Construct an xml string containing all supported languages. <br/>The xml format is:<br/>
+   * &lt;languages&gt;<br/>
+   *	&nbsp;&nbsp;&lt;language name="Catalan" abbr="ca" /&gt;<br/> 
+   *    &nbsp;&nbsp;&lt;language name="Dutch" abbr="nl" /&gt;<br/>
+   *    &nbsp;&nbsp;...<br/>
+   *  &lt;languages&gt;<br/>
+   *  The languages are alphabetically sorted.  
+   * @return an xml string containing all supported languages.
+   */
+  public static String getSupportedLanguagesAsXML() {
+    List<Language> languages = Arrays.asList(Language.REAL_LANGUAGES);
+    Collections.sort(languages, 
+      new Comparator<Language>() {@Override
+        public int compare(Language o1, Language o2) {
+		  return o1.getName().compareTo(o2.getName());
+		}
+      });
+    StringBuilder xmlBuffer = new StringBuilder("<?xml version='1.0' encoding='UTF-8'?>\n<languages>\n");
+    for (Language lang : languages) {
+     xmlBuffer.append(String.format("\t<language name=\"%s\" abbr=\"%s\" /> \n", lang.getName(), lang.getShortName()));
+    }
+    xmlBuffer.append("</languages>\n");
+    return xmlBuffer.toString();
   }
 	
   /**
