@@ -127,6 +127,8 @@ public class HTTPServer extends ContentOracle {
 
 	    // request type: list known languages
 	    if (connRequest.getLocation().endsWith("/Languages")) {
+	      connResponse.setHeaderLine(ProtocolResponseHeader.Content_Type, "text/xml");
+	      connResponse.setHeaderLine(ProtocolResponseHeader.Content_Encoding, "UTF-8");
           return getSupportedLanguagesAsXML();
 	    }
 	    
