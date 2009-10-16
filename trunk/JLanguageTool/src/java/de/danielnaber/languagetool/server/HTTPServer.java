@@ -222,23 +222,32 @@ public class HTTPServer extends ContentOracle {
    * @throws UnsupportedEncodingException If character encoding needs to be consulted, but named character encoding is not supported
    */
   private Map<String, String> getParamMap(Request connRequest) throws UnsupportedEncodingException {
-    if ((null == connRequest) || (null == connRequest.getParamString()))
-      return new HashMap<String, String>();
     Map<String, String> paramMap = new HashMap<String, String>();
-      String[] comps = connRequest.getParamString().split("&");
-      for (int i = 0; i < comps.length; i++) {
-        int equalsLoc = comps[i].indexOf("=");
-          if (equalsLoc > 0) {
-            paramMap.put(comps[i].substring(0, equalsLoc),
-              URLDecoder.decode(comps[i].substring(equalsLoc + 1), "UTF-8"));
-            // TODO: Find some way to determine the encoding used on client-side
-            // maybe "Accept-Charset" request header could be used.
-            // UTF-8 will work on most platforms and browsers.
-          } else {
-            paramMap.put(comps[i], "");
-          }
-      }
-      return paramMap;	
+    if (null == connRequest) 
+      return paramMap;
+    String requestStr = null;
+    if (!StringTools.isEmpty(connRequest.getBody())) {
+     requestStr = connRequest.getBody(); // POST
+    } else {
+      requestStr = connRequest.getParamString(); // GET
+    }
+    if (StringTools.isEmpty(requestStr))
+      return paramMap;
+
+    String[] comps = requestStr.split("&");
+    for (int i = 0; i < comps.length; i++) {
+      int equalsLoc = comps[i].indexOf("=");
+        if (equalsLoc > 0) {
+          paramMap.put(comps[i].substring(0, equalsLoc),
+            URLDecoder.decode(comps[i].substring(equalsLoc + 1), "UTF-8"));
+          // TODO: Find some way to determine the encoding used on client-side
+          // maybe "Accept-Charset" request header could be used.
+          // UTF-8 will work on most platforms and browsers.
+        } else {
+          paramMap.put(comps[i], "");
+        }
+    }
+    return paramMap;	
   }
   
   /**
