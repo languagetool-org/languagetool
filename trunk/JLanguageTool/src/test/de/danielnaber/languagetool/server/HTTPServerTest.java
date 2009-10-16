@@ -20,9 +20,9 @@ package de.danielnaber.languagetool.server;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.UnsupportedEncodingException;
+import java.io.OutputStreamWriter;
 import java.net.URL;
-import java.net.URLDecoder;
+import java.net.URLConnection;
 import java.net.URLEncoder;
 
 import junit.framework.TestCase;
@@ -63,7 +63,13 @@ public class HTTPServerTest extends TestCase {
       assertTrue("Expected special chars, got: '" + romanianSpecialChars+ "'", romanianSpecialChars.contains("șțîâă"));
       String polishSpecialChars = check(Language.POLISH, "Mówiła długo, żeby tylko mówić mówić długo.");
       assertTrue("Expected special chars, got: '" + polishSpecialChars+ "'", polishSpecialChars.contains("mówić"));
-      
+      // test http POST
+      assertTrue(checkByPOST(Language.ROMANIAN, "greșit greșit").indexOf("greșit") != -1);
+      // test supported language listing
+      URL url = new URL("http://localhost:" + HTTPServer.DEFAULT_PORT + "/Languages");
+      String languagesXML = StringTools.streamToString((InputStream)url.getContent());
+      if (!languagesXML.contains("Romanian") || !languagesXML.contains("English"))
+        fail("Error getting supported languages: " + languagesXML);
     } catch (Exception e) {
       throw new RuntimeException(e);
     } finally {
@@ -73,10 +79,26 @@ public class HTTPServerTest extends TestCase {
 
   private String check(Language lang, String text) throws IOException {
     String urlOptions = "/?language=" + lang.getShortName();
-    urlOptions += "&text=" + URLEncoder.encode(text, "UTF-8"); // latin1 is not enough for languager like polish, romanian, etc
+    urlOptions += "&text=" + URLEncoder.encode(text, "UTF-8"); // latin1 is not enough for languages like polish, romanian, etc
     URL url = new URL("http://localhost:" + HTTPServer.DEFAULT_PORT + urlOptions);
     InputStream stream = (InputStream)url.getContent();
     String result = StringTools.streamToString(stream);
+    return result;
+  }
+  
+  /**
+   * Same as {@link #check(Language, String)} but using HTTP POST method instead of GET
+   */
+  private String checkByPOST(Language lang, String text) throws IOException {
+    String postData = "language=" + lang.getShortName();
+    postData += "&text=" + URLEncoder.encode(text, "UTF-8"); // latin1 is not enough for languages like polish, romanian, etc
+    URL url = new URL("http://localhost:" + HTTPServer.DEFAULT_PORT);
+    URLConnection connection = url.openConnection();
+    connection.setDoOutput(true);
+    OutputStreamWriter wr = new OutputStreamWriter(connection.getOutputStream());
+    wr.write(postData);
+    wr.flush();
+    String result = StringTools.streamToString(connection.getInputStream());
     return result;
   }
   
