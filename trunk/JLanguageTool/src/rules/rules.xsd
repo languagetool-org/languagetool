@@ -30,11 +30,11 @@
 
 	<xs:element name="rules">
 		<xs:complexType>
-			<xs:sequence>
-				<xs:element ref="unification" minOccurs="0" maxOccurs="unbounded" />
-				<xs:element ref="phrases" minOccurs="0" />
-				<xs:element ref="category" minOccurs="0" maxOccurs="unbounded" />
-			</xs:sequence>
+			<xs:choice minOccurs="1" maxOccurs="unbounded" >
+				<xs:element ref="unification" />
+				<xs:element ref="phrases"/>
+				<xs:element ref="category"/>
+			</xs:choice>
 			<xs:attribute name="lang" type="xs:language" use="required" />
 		</xs:complexType>
 	</xs:element>
@@ -56,7 +56,7 @@
 	<xs:element name="equivalence">
 		<xs:complexType>
 			<xs:sequence>
-				<xs:element ref="token" minOccurs="1" maxOccurs="unbounded" />
+				<xs:element ref="token"/>
 			</xs:sequence>
 			<xs:attribute name="type" type="xs:ID" use="required" />
 		</xs:complexType>
@@ -184,9 +184,8 @@
 			<xs:sequence>
 				<xs:element ref="pattern" />
 				<xs:element ref="message" />
-				<xs:element ref="short" minOccurs="0" />
-				<xs:element ref="example" />
-				<xs:element ref="example" maxOccurs="unbounded" />
+				<xs:element ref="short" minOccurs="0" />								
+				<xs:element ref="example" minOccurs="2" maxOccurs="unbounded" />
 			</xs:sequence>
 			<xs:attribute name="default" use="optional">
 				<xs:simpleType>
@@ -275,8 +274,7 @@
 
 	<xs:element name="exception">
 		<xs:complexType mixed="true">
-			<xs:attribute name="postag_regexp" type="binaryYesNo"
-				use="optional" default="no" />
+			<xs:attribute name="postag_regexp" type="binaryYesNo" use="optional" default="no" />
 			<xs:attribute name="negate_pos" type="binaryYesNo" use="optional"
 				default="no" />
 			<xs:attribute name="postag" type="xs:string" use="optional" />
@@ -375,8 +373,8 @@
 				<xs:element ref="and" />
 				<xs:element ref="token" />
 			</xs:choice>
-			<xs:attribute name="feature" type="xs:string" use="required" />
-			<xs:attribute name="type" type="xs:string" use="optional" />
+			<xs:attribute name="feature" type="commaSeparated" use="required" />
+			<xs:attribute name="type" type="commaSeparated" use="optional" />
 			<xs:attribute name="negate" type="binaryYesNo" use="optional"
 				default="no" />
 		</xs:complexType>
@@ -395,6 +393,7 @@
 			The attribute triggers_error is not used.
 </xs:documentation>
 	</xs:annotation>
+	
 	<xs:element name="example" xml:space="preserve">
     <xs:complexType mixed="true">
       <xs:choice minOccurs="0" maxOccurs="unbounded">
@@ -437,4 +436,10 @@
 		</xs:restriction>
 	</xs:simpleType>
 
+	<xs:simpleType name="commaSeparated">
+		<xs:restriction base="xs:token">
+			<xs:pattern value="([^,]+)( *, *[^,]+)*"/>					
+		</xs:restriction>
+	</xs:simpleType>
+	
 </xs:schema>
