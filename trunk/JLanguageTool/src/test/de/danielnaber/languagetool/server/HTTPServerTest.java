@@ -70,6 +70,11 @@ public class HTTPServerTest extends TestCase {
       String languagesXML = StringTools.streamToString((InputStream)url.getContent());
       if (!languagesXML.contains("Romanian") || !languagesXML.contains("English"))
         fail("Error getting supported languages: " + languagesXML);
+      // tests for "&" character
+      assertTrue(check(Language.ENGLISH, "Me & you you").contains("&"));
+      // tests for mother tongue (copy from link {@link FalseFriendRuleTest})   
+      assertTrue(check(Language.ENGLISH, Language.GERMAN, "We will berate you").indexOf("BERATE") != -1);
+      assertTrue(check(Language.GERMAN, Language.ENGLISH, "Man sollte ihn nicht so beraten.").indexOf("BERATE") != -1);
     } catch (Exception e) {
       throw new RuntimeException(e);
     } finally {
@@ -78,8 +83,14 @@ public class HTTPServerTest extends TestCase {
   }
 
   private String check(Language lang, String text) throws IOException {
+	  return check(lang, null, text);
+  }
+  
+  private String check(Language lang, Language motherTongue, String text) throws IOException {
     String urlOptions = "/?language=" + lang.getShortName();
     urlOptions += "&text=" + URLEncoder.encode(text, "UTF-8"); // latin1 is not enough for languages like polish, romanian, etc
+    if (null != motherTongue)
+    	urlOptions += "&motherTongue="+motherTongue.getShortName(); 
     URL url = new URL("http://localhost:" + HTTPServer.DEFAULT_PORT + urlOptions);
     InputStream stream = (InputStream)url.getContent();
     String result = StringTools.streamToString(stream);
