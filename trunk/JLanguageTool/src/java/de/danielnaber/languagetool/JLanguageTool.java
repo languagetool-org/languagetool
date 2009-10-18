@@ -461,10 +461,10 @@ public final class JLanguageTool {
         + language);
     int tokenCount = 0;
     int lineCount = 0;
-    int columnCount = 0;
+    int columnCount = 1;
     unknownWords = new HashSet<String>();
     for (final String sentence : sentences) {
-      sentenceCount++;
+      sentenceCount++;      
       AnalyzedSentence analyzedText = getAnalyzedSentence(sentence);
       rememberUnknownWords(analyzedText);
 
@@ -523,7 +523,7 @@ public final class JLanguageTool {
           if (lastLineBreakPos == -1) {
             column = sentencePartToError.length() + columnCount;
           } else {
-            column = sentencePartToError.length() - lastLineBreakPos - 1;
+            column = sentencePartToError.length() - lastLineBreakPos;
           }
           final int lastLineBreakPosInError = sentencePartToEndOfError
               .lastIndexOf('\n');
@@ -550,13 +550,14 @@ public final class JLanguageTool {
       ruleMatches.addAll(sentenceMatches);
       tokenCount += sentence.length();
       lineCount += countLineBreaks(sentence);
-      // calculate matching column:
+      
+      // calculate matching column:      
       final int linebreakPos = sentence.indexOf('\n');
       if (linebreakPos == -1) {
-        columnCount += sentence.length();
-      } else {
-        columnCount = sentence.length() - linebreakPos - 1;
-      }
+        columnCount += sentence.length() -1;
+      } else { 
+        columnCount = 1;
+      } 
     }
 
     if (!paraMode.equals(paragraphHandling.ONLYNONPARA)) {
