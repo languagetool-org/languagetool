@@ -323,8 +323,8 @@ public final class StringTools {
 
     for (final RuleMatch match : ruleMatches) {
       xml.append("<error" + " fromy=\"" + match.getLine() + "\"" + " fromx=\""
-          + match.getColumn() + "\"" + " toy=\"" + match.getEndLine() + "\""
-          + " tox=\"" + match.getEndColumn() + "\"" + " ruleId=\""
+          + (match.getColumn() - 1) + "\"" + " toy=\"" + match.getEndLine() + "\""
+          + " tox=\"" + (match.getEndColumn() - 1) + "\"" + " ruleId=\""
           + match.getRule().getId() + "\"");
       final String msg = match.getMessage().replaceAll("</?suggestion>", "'");
       xml.append(" msg=\"" + escapeXMLForAPIOutput(msg) + "\"");
