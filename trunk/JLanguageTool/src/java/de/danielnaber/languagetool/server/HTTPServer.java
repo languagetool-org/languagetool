@@ -51,6 +51,12 @@ import de.danielnaber.languagetool.tools.StringTools;
 public class HTTPServer extends ContentOracle {
 
   /**
+   * JLanguageTool instances for each language (created and configured on fist use).
+   * Instances are organized by language and mother language.
+   * This is like a tree: first level contain the Languages, next level contains JLanguageTool instances for each mother tongue.
+   */
+  private static Map<Language, Map<Language, JLanguageTool>> instances = new HashMap<Language, Map<Language, JLanguageTool>>();
+  /**
    * The default port on which the server is running (8081).
    */
   public static final int DEFAULT_PORT = 8081;
@@ -140,11 +146,13 @@ public class HTTPServer extends ContentOracle {
         if (lang == null)
           throw new IllegalArgumentException("Unknown language '" + langParam
               + "'");
-        // TODO: create only once per language?!
+        String motherTongueParam = connRequest.getParamOrNull("motherTongue");
+		Language motherTongue = null;
+        if (null != motherTongueParam)
+          motherTongue = Language.getLanguageForShortName(motherTongueParam);
+        JLanguageTool lt = getLanguageToolInstance(lang, motherTongue);
         // TODO: how to take options from the client?
-        JLanguageTool lt = new JLanguageTool(lang);
-        lt.activateDefaultPatternRules();
-        lt.activateDefaultFalseFriendRules();
+        // TODO: customize lt here after reading client options
         text = connRequest.getParamOrNull("text");
         if (text == null)
           throw new IllegalArgumentException("Missing 'text' parameter");
@@ -251,6 +259,36 @@ public class HTTPServer extends ContentOracle {
   }
   
   /**
+   * Find or create a JLanguageTool instance for a specific language and mother tongue.
+   * The instance will be reused. If any customization is required (like disabled rules), 
+   * it will be done after acquiring this instance.
+   * 
+   * @param lang the language to be used.
+   * @param motherTongue the user's mother tongue or <code>null</code>
+   * @return a JLanguageTool instance for a specific language and mother tongue.
+   * @throws Exception when JLanguageTool creation failed
+   */
+  private JLanguageTool getLanguageToolInstance(Language lang, Language motherTongue) 
+          throws Exception {
+    Map<Language, JLanguageTool> languageTools = instances.get(lang);
+    if (null == languageTools) {
+      // first call using this language
+      languageTools = new HashMap<Language, JLanguageTool>();
+      instances.put(lang, languageTools);
+    }
+    JLanguageTool languageTool = languageTools.get(motherTongue);
+    if (null == languageTool) {
+      print("Creating JLanguageTool instance for language " + lang + ((null != motherTongue)?(" and mother tongue " + motherTongue):""));
+      JLanguageTool newLanguageTool = new JLanguageTool(lang, motherTongue);
+      newLanguageTool.activateDefaultPatternRules();
+      newLanguageTool.activateDefaultFalseFriendRules();
+      languageTools.put(motherTongue, newLanguageTool);
+      return newLanguageTool;
+    }
+    return languageTool;
+  }
+
+	/**
    * Construct an xml string containing all supported languages. <br/>The xml format is:<br/>
    * &lt;languages&gt;<br/>
    *	&nbsp;&nbsp;&lt;language name="Catalan" abbr="ca" /&gt;<br/> 
