@@ -361,8 +361,6 @@ class Main {
         }
       } else if (args[i].equals("-b")) {
         singleLineBreakMarksParagraph = true;
-      } else if (i == args.length - 1) {
-        filename = args[i];
       } else if (args[i].equals("--api")) {
         apiFormat = true;
         if (applySuggestions) {
@@ -379,6 +377,8 @@ class Main {
           throw new IllegalArgumentException(
               "API format makes no sense for automatic application of suggestions.");
         }
+      } else if (i == args.length - 1) {
+        filename = args[i];
       } else {
         System.err.println("Unknown option: " + args[i]);
         exitWithUsageMessage();
