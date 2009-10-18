@@ -301,7 +301,7 @@ public class HTTPServer extends ContentOracle {
   public static String getSupportedLanguagesAsXML() {
     List<Language> languages = Arrays.asList(Language.REAL_LANGUAGES);
     Collections.sort(languages, 
-      new Comparator<Language>() {@Override
+      new Comparator<Language>() {
         public int compare(Language o1, Language o2) {
 		  return o1.getName().compareTo(o2.getName());
 		}
