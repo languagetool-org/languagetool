@@ -7,15 +7,15 @@ title="Easy editing stylesheet" ?>
 Danish Grammar and Typo Rules for LanguageTool
 See danish_tags.txt for the meaning of the POS tags
 Copyright (C) 2009 Esben Aaberg, Foreningen for frit tilgængelige sprogværktøjer
-$Id: grammar.xml,v 1.1 2009-10-08 21:46:24 dnaber Exp $
+$Id: grammar.xml,v 1.2 2009-10-18 14:45:35 dnaber Exp $
 -->
 <rules lang="da">
   <!-- ====================================================================== -->
   <!-- Diverse - Misc -->
   <!-- ====================================================================== -->
   <category name="Diverse">
-     <rulegroup id="OrdgentagelseGroup" name="Ordgentagelse">
-        <rule id="Ordgentagelse">
+     <rulegroup id="Ordgentagelse" name="Ordgentagelse">
+        <rule id="Ordgentagelse1">
            <pattern>
               <token><exception postag="SENT_START"/></token>
               <token><match no="0"/><exception regexp="yes">.|av|bang|bred|bib|bip|bling|bom|bro|duer|fars|faster|fatter|gak|grynt|ha|he|hej|hi|hip|ho|hopper|hurra|kvier|led|marie|men|mobil|mors|normal|original|piller|rap|ren|ride|sej|smed|så|taget|takker|tik-tak|tog|tut|uniform|vov|øf</exception></token>
@@ -49,45 +49,136 @@ $Id: grammar.xml,v 1.1 2009-10-08 21:46:24 dnaber Exp $
   <!-- Mulig ordforveksling - Possible word confusion -->
   <!-- ====================================================================== -->
   <category name="Mulige ordforveksling">
-  <!-- 
-    <rule id="heder_hedder" name="heder→hedder">
-      <pattern mark_from="1" mark_to="-1"> 
-        <token regexp="yes">I|jeg|du|vi|de|den|det|han|hun|hvad|nu</token>
-        <token>heder</token>
-        <token><exception regexp="yes">på|vil|skal|kan|er|har</exception></token>
-      </pattern>
-      <message>Mente du: <suggestion>hedder</suggestion>=navn eller heder=lyngarealer</message>
-      <short>Mulig slåfejl</short>
-      <example correction="hedder" type="incorrect">Jeg <marker>heder</marker> Jens.</example>
-      <example correction="hedder" type="incorrect">Det <marker>heder</marker> på Sjælland, da det er en ø.</example>
-      <example type="correct">Jeg hedder Jens.</example>
-      <example type="correct">De heder på landet er bevaringsværdige.</example>
-      <example type="correct">Jeg heder vil vandre.</example>
-    </rule>
-     -->
-    <rule id="heder_hedder2" name="heder→hedder Egenavn efter">
-      <pattern mark_from="1" mark_to="-1">
-	<token><exception regexp="yes">de</exception></token> 
-        <token>heder</token>
-        <token postag="pro:.*" postag_regexp="yes"/>
-      </pattern>
-      <message>Mente du: <suggestion>hedder</suggestion>=navn eller heder=lyngarealer</message>
-      <short>Mulig slåfejl</short>
-      <example correction="hedder" type="incorrect">Jeg <marker>heder</marker> Jens.</example>
-      <example type="correct">Jeg hedder Jens.</example>
-      <example type="correct">De heder Jens passer.</example>      
-    </rule>
-    <rule id="heder_hedder3" name="heder→hedder Egenavn før">
-      <pattern mark_from="1">
-	<token postag="pro:nom" postag_regexp="yes"/>
-        <token>heder</token>        
-      </pattern>
-      <message>Mente du: <suggestion>hedder</suggestion>=navn eller heder=lyngarealer</message>
-      <short>Mulig slåfejl</short>
-      <example correction="hedder" type="incorrect">Peder <marker>heder</marker> Sørnsen til efternavn.</example>
-      <example type="correct">Peter hedder Sørnsen til efternavn.</example>
-      <example type="correct">Peters heder er vel plejet.</example>      
-    </rule>
+    <rulegroup id="bor_bord" name="bor↔bord">
+      <rule>
+        <pattern>
+          <token regexp="yes">(aftens|alter|anretter|arbejds|billard|bridge|cafe|camping|computer|eksamens|frokost|gave|have|jule|kaffe|kage|konference|konsol|køkken|middags|morgen|møde|nadver|nat|omstillings|pusle|pølse|salat|senge|skole|sminke|sofa|spille|spise|stue|stam|styr|sy|tagselv|te|.*tennis|terminal|toilet|udtræks|vindues)(bor)(|et|e|ene|s|ets|e|enes)</token>
+        </pattern>
+        <message>Et bord sidder man ved, et bor laver man huller med: <suggestion><match no="1" regexp_match="(aftens|alter|anretter|arbejds|billard|bridge|cafe|camping|computer|eksamens|frokost|gave|have|jule|kaffe|kage|konference|konsol|køkken|middags|morgen|møde|nadver|nat|omstillings|pusle|pølse|salat|senge|skole|sminke|sofa|spille|spise|stue|stam|styr|sy|tagselv|te|.*tennis|terminal|toilet|udtræks|vindues)(bor)(|et|e|ene|s|ets|e|enes)" regexp_replace="$1$2d$3"/></suggestion>.</message>
+        <short>Mulige ordforveksling - stumt d</short>
+        <example correction="havebordet" type="incorrect">Jeg sætter <marker>haveboret</marker> ud.</example>        
+        <example type="correct">Eleven sidder ved skolebordet.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">(diamant|dril|kaliber|.*luft|.*lufts|næse|slag)(bord)(|et|ene|s|ets|enes)</token>
+        </pattern>
+        <message>Et bord sidder man ved, et bor laver man huller med: <suggestion><match no="1" regexp_match="(diamant|dril|kaliber|.*luft|.*lufts|næse|slag)(bord)(|et|ene|s|ets|enes)" regexp_replace="$1bor$3"/></suggestion>.</message>
+        <short>Mulige ordforveksling - uden stumt d</short>
+        <example correction="slagbor" type="incorrect">Muren bruger et <marker>slagbord</marker> til at lave huller med.</example>        
+        <example type="correct">Vejen bliver brudt op med et trykluftsbor.</example>
+      </rule>
+    </rulegroup>
+    <rulegroup id="heder_hedder" name="heder→hedder">
+      <!-- heder_hedder mønster -->
+      <rule>
+        <pattern mark_from="1" mark_to="-1"> 
+          <token regexp="yes">I|jeg|du|vi|de|den|det|han|hun|hvad|nu</token>
+          <token>heder</token>
+          <token><exception regexp="yes">på|vil|skal|kan|er|har</exception></token>
+        </pattern>
+        <message>Mente du: <suggestion>hedder</suggestion>=navn eller heder=lyngarealer</message>
+        <short>Mulige ordforveksling</short>
+        <example correction="hedder" type="incorrect">Jeg <marker>heder</marker> Jens.</example>        
+        <example type="correct">Jeg hedder Jens.</example>
+        <example type="correct">De heder på landet er bevaringsværdige.</example>
+        <example type="correct">Jeg heder vil vandre.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="1" mark_to="-1"> 
+          <token>det</token>
+          <token>heder</token>
+          <token><exception regexp="yes">vil|skal|kan|er|har</exception></token>
+        </pattern>
+        <message>Mente du: <suggestion>hedder</suggestion>=navn eller heder=lyngarealer</message>
+        <short>Mulige ordforveksling</short>
+        <example correction="hedder" type="incorrect">Det <marker>heder</marker> på Sjælland, da det er en ø.</example>
+        <example type="correct">Det hedder Jens.</example>
+      </rule>
+      <!-- heder_hedder Egenavn efter -->
+      <rule>
+        <pattern mark_from="1" mark_to="-1">
+          <token><exception regexp="yes">de</exception></token> 
+          <token>heder</token>
+          <token postag="pro:.*" postag_regexp="yes"><exception regexp="yes">Jylland|Vestjylland</exception></token>
+        </pattern>
+        <message>Mente du: <suggestion>hedder</suggestion>=navn eller heder=lyngarealer</message>
+        <short>Mulige ordforveksling</short>
+        <example correction="hedder" type="incorrect">Jeg <marker>heder</marker> Jens.</example>
+        <example type="correct">Jeg hedder Jens.</example>
+        <example type="correct">De heder Jens passer.</example>      
+      </rule>
+      <!-- heder_hedder Egenavn før -->
+      <rule>
+        <pattern mark_from="1">
+          <token postag="pro:nom" postag_regexp="yes"/>
+          <token>heder</token>        
+        </pattern>
+        <message>Mente du: <suggestion>hedder</suggestion>=navn eller heder=lyngarealer</message>
+        <short>Mulige ordforveksling</short>
+        <example correction="hedder" type="incorrect">Peder <marker>heder</marker> Sørnsen til efternavn.</example>
+        <example type="correct">Peter hedder Sørnsen til efternavn.</example>
+        <example type="correct">Peters heder er vel plejet.</example>      
+      </rule>
+    </rulegroup>
+    <!-- kunne_kunde -->
+    <rulegroup id="kunne_kunde" name="kunne↔kunde">
+      <rule>
+        <pattern mark_from="0" mark_to="-1">
+          <token>kunne</token>
+          <token regexp="yes">har|købte</token>
+        </pattern>
+        <message>Mente du: <suggestion>kunde</suggestion>=butikskunde eller kunne=kan</message>
+        <short>Mulige ordforveksling - stumt d</short>
+        <example correction="kunde" type="incorrect">En <marker>kunne</marker> har altid ret!</example>        
+        <example type="correct">Som kunde har du fri support.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="1">
+          <token regexp="yes">bliv(|e)</token>
+          <token>kunne</token>
+        </pattern>
+        <message>Mente du: <suggestion>kunde</suggestion>=butikskunde eller kunne=kan</message>
+        <short>Mulige ordforveksling - stumt d</short>
+        <example correction="kunde" type="incorrect">Bliv <marker>kunne</marker> hos os.</example>        
+        <example type="correct">Vil du blive kunde hos os.</example>
+      </rule>
+      <rule>
+        <pattern mark_from="0" mark_to="-1">
+          <token>kunde</token>
+          <token regexp="yes">forstå|stikke|være</token>
+        </pattern>
+        <message>Mente du: <suggestion>kunne</suggestion>=kan eller kunde=butikskunde</message>
+        <short>Mulige ordforveksling - uden stumt d</short>
+        <example correction="kunne" type="incorrect">Kan ske, at vi måske <marker>kunde</marker> stikke hovederne sammen.</example>        
+        <example type="correct">Ville vi kunne forstå Gorm den Gamle?</example>
+      </rule>
+      <rule>
+        <pattern mark_from="1">
+          <token regexp="yes">det|hvornår</token>
+          <token>kunde</token>
+        </pattern>
+        <message>Mente du: <suggestion>kunne</suggestion>=kan eller kunde=butikskunde</message>
+        <short>Mulige ordforveksling - uden stumt d</short>
+        <example correction="kunne" type="incorrect">Det <marker>kunde</marker> bageren ikke vide.</example>
+        <example type="correct">Der skulde rigtignok have været læst, men det kunne han jo ikke nu.</example>
+        <example type="correct">Hvordan bliver vi så kunde?</example>
+        <example type="correct">Hvordan bliver han kunde?</example>
+        <example type="correct">Hvordan bilver vi kunde?</example>
+      </rule>
+      <rule>
+        <pattern mark_from="1" mark_to="-1">
+          <token regexp="yes">han|hun|vi</token>
+          <token>kunde</token>
+          <!-- TODO: Make token postag for verbs, when they becomes available in tagger.  -->
+          <token regexp="yes">ha'|have|ikke|være|købe</token>
+        </pattern>
+        <message>Mente du: <suggestion>kunne</suggestion>=kan eller kunde=butikskunde</message>
+        <short>Mulige ordforveksling - uden stumt d</short>
+        <example correction="kunne" type="incorrect">Han <marker>kunde</marker> ikke komme.</example>
+        <example type="correct">En middag, som vi kunne være bekendt.</example>
+      </rule>
+    </rulegroup>
     <rulegroup id="natural_naturel" name="natural→naturel">
       <rule>
         <pattern mark_from="0" mark_to="-1">
@@ -112,11 +203,30 @@ $Id: grammar.xml,v 1.1 2009-10-08 21:46:24 dnaber Exp $
         <example type="correct">Opskrifter som indeholder Yoghurt naturel.</example> 
       </rule>
     </rulegroup>
+    <rule id="ombord" name="ombord→om bord">
+      <pattern mark_from="0" > 
+        <token>ombord</token>
+      </pattern>
+      <message>Det skal skrives i to ord <suggestion>om bord</suggestion>.</message>      
+      <short>Om bord er i to ord</short>
+      <example correction="om bord" type="incorrect">Kaptajnen gik <marker>ombord</marker> på skibet.</example>
+      <example type="correct">Han havde været om bord på skibet længe.</example>
+    </rule>
   </category>
   <!-- ====================================================================== -->
   <!-- Mulig ordforveksling med sjældent ord - Possible word confusion with rare words -->
   <!-- ====================================================================== -->
   <category name="Mulige ordforveksling med sjældent ord">
+    <rule id="overbord" name="overbord→over bord">
+      <pattern mark_from="0" >
+        <token>overbord</token>
+      </pattern>
+      <message>Et overbord er et bord der kan skubbes hen over et andet bord, hvor man falder <suggestion>over bord</suggestion> på et skib.</message>      
+      <short>Mulige ordforveksling</short>
+      <example correction="over bord" type="incorrect">Kaptajnen faldt <marker>overbord</marker> i den høje sø.</example>
+      <example type="correct">Han kastede resterne over bord, til mågernes fornøjelse.</example>
+      <!-- <example type="correct">Det er et fint overbord, men der er ridser i underbordet.</example> -->
+    </rule>
     <rule id="standart_standard" name="standart→standard">
       <pattern mark_from="0"> 
         <token regexp="yes">.*standart.*</token>
@@ -126,11 +236,20 @@ $Id: grammar.xml,v 1.1 2009-10-08 21:46:24 dnaber Exp $
       <example correction="dokumentstandard" type="incorrect">Den der <marker>dokumentstandart</marker> følger vi.</example>
       <example type="correct">Den der dokumentstandard følger vi.</example>
     </rule>
+    <rule id="vad" name="vad→hvad">
+      <pattern mark_from="1" >
+	<token><exception postag="pro:.*" postag_regexp="yes"/></token>
+        <token>vad</token>
+      </pattern>
+      <message>Vad er et efternavn eller et vadested, mener du <suggestion>hvad</suggestion>.</message>      
+      <short>Mulige ordforveksling</short>
+      <example correction="hvad" type="incorrect">Den er fundet, <marker>vad</marker> så nu.</example>
+      <example type="correct">Hvad end de gjorde, så havde de held med det.</example>
+    </rule>
   </category>
   <!-- ====================================================================== -->
   <!-- Forkortelser med eller uden punktum - abbreviation -->
   <!-- ====================================================================== -->
-  <!-- 
   <category name="Forkortelser med eller uden punktum">
     <rule id="fx" name="fx.→fx">
       <pattern mark_from="0" > 
@@ -139,12 +258,11 @@ $Id: grammar.xml,v 1.1 2009-10-08 21:46:24 dnaber Exp $
       </pattern>
       <message>For eksempel forkortes <suggestion>fx</suggestion> uden punktum eller <suggestion>f.eks.</suggestion></message>      
       <short>Mulig overflødigt punktum</short>
-      <example correction="fx" type="incorrect">Som <marker>fx.</marker> jern.</example>
+      <example correction="fx|f.eks." type="incorrect">Som <marker>fx.</marker> jern.</example>
       <example type="correct">Som fx jern.</example>
       <example type="correct">Som f.eks. jern.</example>
     </rule>
   </category>
-   -->
   <!-- ====================================================================== -->
   <!-- Grammatik - Grammar -->
   <!-- ====================================================================== -->
@@ -152,7 +270,7 @@ $Id: grammar.xml,v 1.1 2009-10-08 21:46:24 dnaber Exp $
     <rule id="adj:ube:sin:utr:pos" name="Tillægsord ental ubestemt i forkert bøjningsform">
       <pattern mark_from="1" > 
         <token regexp="yes">et|det</token>
-        <!-- TODO: Make exception for adverbs, when they becomes available in tagger -->
+        <!-- TODO: Make exception for adverbs, when they becomes available in tagger or analyzes the relationship between adjectives and other parts of speech.  -->
         <token postag="adj:ube:sin:utr:pos" postag_regexp="yes" regexp="yes">.*[a-s,u-å]<exception postag="sub:.*:neu:.*" postag_regexp="yes" regexp="yes">før</exception></token>
       </pattern>
       <message>Ved at der står "\1" skal tilægsord <suggestion>\2t</suggestion> være intetkøn</message>      
