@@ -18,112 +18,33 @@
  */
 package de.danielnaber.languagetool.rules.uk;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 import java.util.ResourceBundle;
 
-import de.danielnaber.languagetool.AnalyzedSentence;
-import de.danielnaber.languagetool.AnalyzedTokenReadings;
-import de.danielnaber.languagetool.rules.Category;
-import de.danielnaber.languagetool.rules.Rule;
-import de.danielnaber.languagetool.rules.RuleMatch;
-import de.danielnaber.languagetool.tools.Tools;
+import de.danielnaber.languagetool.rules.AbstractSimpleReplaceRule;
 
 /**
  * A rule that matches words or phrases which should not be used and suggests
- * correct ones instead. Currently only implemented for Ukrainian. Loads the
- * relevant word from <code>rules/uk/replace.txt</code>.
+ * correct ones instead. 
+ * 
+ * Ukrainian implementations. Loads the
+ * relevant words from <code>rules/uk/replace.txt</code>.
  * 
  * @author Andriy Rysin
  */
-public class SimpleReplaceRule extends Rule {
+public class SimpleReplaceRule extends AbstractSimpleReplaceRule {
 
   private static final String FILE_NAME = "/rules/uk/replace.txt";
-  private static final String FILE_ENCODING = "utf-8";
 
-  private Map<String, String> wrongWords; // e.g. "вреѿті реѿт" -> "зреѿтою"
-
+  public final String getFileName() {
+    return FILE_NAME;
+  }
   public SimpleReplaceRule(final ResourceBundle messages) throws IOException {
-    if (messages != null) {
-      super.setCategory(new Category(messages.getString("category_misc")));
-    }
-    wrongWords = loadWords(Tools.getStream(FILE_NAME));
+    super(messages);
   }
 
   public final String getId() {
     return "UK_SIMPLE_REPLACE";
-  }
-
-  public final String getDescription() {
-    return "Checks for wrong words/phrases";
-  }
-
-  public final RuleMatch[] match(final AnalyzedSentence text) {
-    final List<RuleMatch> ruleMatches = new ArrayList<RuleMatch>();
-    final AnalyzedTokenReadings[] tokens = text.getTokensWithoutWhitespace();
-
-    for (int i = 1; i < tokens.length; i++) {
-      final String token = tokens[i].getToken();
-
-      final String origToken = token;
-      if (wrongWords.containsKey(token)) {
-        final String replacement = wrongWords.get(token);
-        final String msg = token + " is not valid, use " + replacement;
-        final int pos = tokens[i].getStartPos();
-        final RuleMatch potentialRuleMatch = new RuleMatch(this, pos, pos
-            + origToken.length(), msg, "Wrong word");
-        potentialRuleMatch.setSuggestedReplacement(replacement);
-        // shouldNotAppearWord.put(shouldNotAppear, potentialRuleMatch);
-        ruleMatches.add(potentialRuleMatch);
-      }
-    }
-    return toRuleMatchArray(ruleMatches);
-  }
-
-  @Override
-  public void reset() {
-  }
-
-  private Map<String, String> loadWords(final InputStream file) throws IOException {
-    final Map<String, String> map = new HashMap<String, String>();
-    InputStreamReader isr = null;
-    BufferedReader br = null;
-    try {
-      isr = new InputStreamReader(file, FILE_ENCODING);
-      br = new BufferedReader(isr);
-      String line;
-
-      while ((line = br.readLine()) != null) {
-        line = line.trim();
-        if (line.length() < 1) {
-          continue;
-        }
-        if (line.charAt(0) == '#') { // ignore comments
-          continue;
-        }
-        final String[] parts = line.split("=");
-        if (parts.length != 2) {
-          throw new IOException("Format error in file "
-              + this.getClass().getResource(FILE_NAME) + ", line: " + line);
-        }
-        map.put(parts[0], parts[1]);
-      }
-
-    } finally {
-      if (br != null) {
-        br.close();
-      }
-      if (isr != null) {
-        isr.close();
-      }
-    }
-    return map;
   }
 
 }
