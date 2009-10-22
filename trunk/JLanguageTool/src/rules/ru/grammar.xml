@@ -8,7 +8,7 @@ title="Easy editing stylesheet" ?>
 A Russian rule file for LanguageTool
 Copyright (C) 2005 Daniel Naber (http://www.danielnaber.de)
 Copyright (C) 2008-2009 Yakov Reztsov
-$Id: grammar.xml,v 1.33 2009-10-20 14:29:36 yakovru Exp $
+$Id: grammar.xml,v 1.34 2009-10-22 19:14:01 yakovru Exp $
 -->
 <rules lang="ru">
     <category name="Пунктуация">
@@ -831,19 +831,55 @@ $Id: grammar.xml,v 1.33 2009-10-20 14:29:36 yakovru Exp $
         <rulegroup default="on"  id="Com_Num" name="Собирательные числительные">
             <rule>  
                 <pattern>
-                    <token regexp= "yes">двое|трое|четверо|пятеро|шестеро|семеро</token>
+                    <token regexp= "yes">пятеро|шестеро|семеро</token>
                     <token  postag="NN:Fem:.*" postag_regexp="yes"></token>
                 </pattern>                
                 <!--            согласовать падежи для коррекции ошибок - выполнено
                   -->
                 <message>Собирательные числительные (двое, трое, четверо, пятеро, шестеро, семеро) НЕЛЬЗЯ употреблять с существительными женского рода
-                    <suggestion>две <match no="2"   postag="NN:Fem:PL:Nom"></match></suggestion>,<suggestion>три <match no="2"   postag="NN:Fem:PL:Nom"></match></suggestion>,<suggestion>четыре <match no="2"   postag="NN:Fem:PL:Nom"></match></suggestion>,<suggestion>пять <match no="2"   postag="NN:Fem:PL:Nom"></match></suggestion>,<suggestion>шесть <match no="2"   postag="NN:Fem:PL:Nom"></match></suggestion>,<suggestion>семь <match no="2"   postag="NN:Fem:PL:Nom"></match></suggestion>
+                    <suggestion><match no="1"   regexp_match="(пят|шест|сем)еро" regexp_replace="$1ь" ></match> <match no="2"></match></suggestion>
+                </message>            
+                <short>Грамматическая ошибка.</short>
+                <example type="correct">Здесь было семь подруг.</example>
+                <example type="incorrect">Здесь было <marker>семеро подруг</marker>.</example>
+                <example type="incorrect">Здесь было <marker>пятеро подруг</marker>.</example>
+            </rule>
+            <rule>  
+                <pattern>
+                    <token>двое</token>
+                    <token  postag="NN:Fem:.*" postag_regexp="yes"></token>
+                </pattern>                 
+                <message>Собирательные числительные (двое, трое, четверо, пятеро, шестеро, семеро) НЕЛЬЗЯ употреблять с существительными женского рода
+                    <suggestion>две <match no="2"   postag="NN:Fem:PL:Nom"></match></suggestion>
                 </message>            
                 <short>Грамматическая ошибка.</short>
                 <example type="correct">Здесь были две подруги.</example>
                 <example type="incorrect">Здесь были <marker>двое подруг</marker>.</example>
-            </rule>
-            
+            </rule>   
+            <rule>  
+                <pattern>
+                    <token>трое</token>
+                    <token  postag="NN:Fem:.*" postag_regexp="yes"></token>
+                </pattern>                 
+                <message>Собирательные числительные (двое, трое, четверо, пятеро, шестеро, семеро) НЕЛЬЗЯ употреблять с существительными женского рода
+                    <suggestion>три <match no="2"   postag="NN:Fem:PL:Nom"></match></suggestion>
+                </message>            
+                <short>Грамматическая ошибка.</short>
+                <example type="correct">Здесь были три подруги.</example>
+                <example type="incorrect">Здесь были <marker>трое подруг</marker>.</example>
+            </rule>              
+            <rule>  
+                <pattern>
+                    <token>четверо</token>
+                    <token  postag="NN:Fem:.*" postag_regexp="yes"></token>
+                </pattern>                 
+                <message>Собирательные числительные (двое, трое, четверо, пятеро, шестеро, семеро) НЕЛЬЗЯ употреблять с существительными женского рода
+                    <suggestion>четыре <match no="2"   postag="NN:Fem:PL:Nom"></match></suggestion>
+                </message>            
+                <short>Грамматическая ошибка.</short>
+                <example type="correct">Здесь были четыре подруги.</example>
+                <example type="incorrect">Здесь были <marker>четверо подруг</marker>.</example>
+            </rule>   
         </rulegroup>
         
         <rulegroup default="on"  id="Oba_obe" name="Числительные оба/обе">
@@ -1021,7 +1057,7 @@ $Id: grammar.xml,v 1.33 2009-10-20 14:29:36 yakovru Exp $
             <rule>  
                 <pattern>
                     <token>с</token>
-                    <token  regexp="yes">[сзшжлрмщв][йцкнгшщзхфвпрлджчсмтб].*|ль[йцкнгшщзхфвпрлджчсмтб].*</token>
+                    <token  regexp="yes">[сзшжлрмщ][йцкнгшщзхфвпрлджчсмтб].*|ль[йцкнгшщзхфвпрлджчсмтб].*</token>
                 </pattern>
                 <message>Неправильная форма предлога. Должно быть: <suggestion>со \2</suggestion>.</message>
                 <short>Неправильная форма предлога.</short>
