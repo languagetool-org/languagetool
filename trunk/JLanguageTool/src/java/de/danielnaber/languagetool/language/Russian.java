@@ -102,7 +102,7 @@ public class Russian extends Language {
     ids.add("WHITESPACE_RULE");    
     // specific to Russian :
     ids.add("RU_COMPOUNDS");    
-
+    ids.add("RU_SIMPLE_REPLACE");
     return ids;
 	
   }
