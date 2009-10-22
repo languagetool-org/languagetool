@@ -796,4 +796,12 @@ public class Element {
   public final boolean isWhitespaceBefore(final AnalyzedToken token) {
     return whitespaceBefore == token.isWhitespaceBefore();
   }
+  
+  /**
+   * Since 1.0.0
+   * @return A List of Exceptions. Used for testing.
+   */
+  public final List<Element> getExceptionList() {
+    return exceptionList;
+  }
 }

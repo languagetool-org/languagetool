@@ -44,7 +44,7 @@ public class PatternRuleTest extends TestCase {
 
   private static JLanguageTool langTool;
 
-  private static final Pattern PROBABLE_REGEX = Pattern.compile("[^\\[\\]\\*\\+\\|\\^\\{\\}\\?][\\[\\]\\*\\+\\|\\^\\{\\}\\?]|\\\\[^0-9]|\\(.+\\)");
+  private static final Pattern PROBABLE_REGEX = Pattern.compile("[^\\[\\]\\*\\+\\|\\^\\{\\}\\?][\\[\\]\\*\\+\\|\\^\\{\\}\\?]|\\\\[^0-9]|\\(.+\\)|\\..");
 
   
   @Override
@@ -86,27 +86,52 @@ public class PatternRuleTest extends TestCase {
   private void warnIfRegexpSyntax(final List<PatternRule> rules,
       final Language lang) {
     for (final PatternRule rule : rules) {
+      int i = 0;
       for (final Element element : rule.getElements()) {
-        if (!element.isRegularExpression()
-            && (PROBABLE_REGEX.matcher(element.getString())
-                .find())) {
-          System.err.println("The " + lang.toString() + " rule: "
-              + rule.getId() + " contains element " + "\"" + element
-              + "\" that is not marked as regular expression"
-              + " but probably is one.");
+        i++;
+        warnIfElementNotKosher(element, lang, rule.getId());
+        if (element.getExceptionList() != null) {
+        for (final Element exception: element.getExceptionList()) {          
+          warnIfElementNotKosher(exception, lang, rule.getId() 
+              + " (exception in token [" + i + "]:" + element +") ");          
         }
-        if (element.isRegularExpression()
-            && (element.getString() == null || (!PROBABLE_REGEX.matcher(element.getString())
-                .find()))) {
-          System.err.println("The " + lang.toString() + " rule: "
-              + rule.getId() + " contains element " + "\"" + element
-              + "\" that is marked as regular expression"
-              + " but probably is not one.");
         }
       }
     }
   }
 
+  private void warnIfElementNotKosher(final Element element, 
+      final Language lang, final String ruleId) {
+    if (!element.isRegularExpression()
+        && (PROBABLE_REGEX.matcher(element.getString())
+            .find())) {
+      System.err.println("The " + lang.toString() + " rule: "
+          + ruleId + " contains element " + "\"" + element
+          + "\" that is not marked as regular expression"
+          + " but probably is one.");
+    }
+    if (element.isRegularExpression() && "".equals(element.getString())) {
+      System.err.println("The " + lang.toString() + " rule: "
+          + ruleId + " contains en empty string element " + "\"" + element
+          + "\" that is marked as regular expression (don't look at the POS tag, it might be OK).");
+    } else if (element.isRegularExpression()
+        && !PROBABLE_REGEX.matcher(element.getString())
+            .find()) {
+      System.err.println("The " + lang.toString() + " rule: "
+          + ruleId + " contains element " + "\"" + element
+          + "\" that is marked as regular expression"
+          + " but probably is not one."); 
+      }   
+          
+    if (element.isInflected()
+     && "".equals(element.getString())) {
+      System.err.println("The " + lang.toString() + " rule: "
+          + ruleId + " contains element " + "\"" + element
+          + "\" that is marked as inflected"
+          + " but is empty, so the attribute is redundant.");
+    }
+  }
+  
   private void testGrammarRulesFromXML(final List<PatternRule> rules,
       final JLanguageTool languageTool, final Language lang) throws IOException {
     int noSuggestionCount = 0;
