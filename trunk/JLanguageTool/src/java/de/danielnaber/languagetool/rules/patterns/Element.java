@@ -443,7 +443,7 @@ public class Element {
   public final void setPosException(final String posToken,
       final boolean regExp, final boolean negation, final boolean scopeNext,
       final boolean scopePrevious) {
-    final Element posException = new Element("", this.caseSensitive, regExp,
+    final Element posException = new Element("", this.caseSensitive, false,
         false);
     posException.setPosElement(posToken, regExp, negation);
     posException.exceptionValidNext = scopeNext;
